@@ -1,0 +1,37 @@
+﻿using UnityEngine;
+
+public interface IUIInterface 
+{
+	/// <summary>
+	/// ui name
+	/// </summary>
+	/// <value>The name.</value>
+
+	string UIName{get;}
+
+	/// <summary>
+	/// creat ui object
+	/// </summary>
+	/// <param name="UIRoot">User interface root.</param>
+	void CreatUI();
+
+	/// <summary>
+	/// show ui object on screen
+	/// </summary>
+	void ShowUI();
+
+	/// <summary>
+	/// hide ui object
+	/// </summary>
+	void HideUI();
+
+	/// <summary>
+	/// destory ui object
+	/// </summary>
+	void DestoryUI();
+	
+}
+
+public delegate void UICallback(GameObject caller);
+
+public delegate void DataListener(object data);
