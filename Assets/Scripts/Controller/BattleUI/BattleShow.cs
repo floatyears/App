@@ -21,14 +21,15 @@ public class BattleShow : UIBase
 		currentUIDic.Add(bsu.UIName,bsu);
 
 
-		topUI = new DragUI(bsu.topLeft,bsu.topRight,bsu.DragItem);
+		topUI = new DragUI(bsu.TopLeft,bsu.TopRight,bsu.DragItem);
 
 		topUI.ShowData(3);
 
-		downUI = new DragUI(bsu.bottomLeft,bsu.bottomRight,bsu.DragItem);
+		downUI = new DragUI(bsu.BottomLeft,bsu.BottomRight,bsu.DragItem);
 		downUI.ShowData(4);
 
 		UIEventListener listen = UIEventListener.Get(topUI.DragList[0]);
+
 		listen.onClick = ClickQuest;
 	}
 
@@ -53,6 +54,7 @@ public class BattleShow : UIBase
 		topUI.insUIObject.SetActive(b);
 		downUI.insUIObject.SetActive(b);
 	}
+
 	#endregion
 
 	void ClickQuest(GameObject go)

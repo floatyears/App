@@ -3,11 +3,29 @@ using System.Collections;
 
 public class BattleShowUnity : UIBaseUnity 
 {
-	public Transform topLeft;
-	public Transform topRight;
+	private Transform topLeft;
+	public Transform TopLeft
+	{
+		get{return topLeft;}
+	}
 
-	public Transform bottomLeft;
-	public Transform bottomRight;
+	private Transform topRight;
+	public Transform TopRight
+	{
+		get{return topRight;}
+	}
+
+	private Transform bottomLeft;
+	public Transform BottomLeft
+	{
+		get{return bottomLeft;}
+	}
+
+	private Transform bottomRight;
+	public Transform BottomRight
+	{
+		get{return bottomRight;}
+	}
 
 	private GameObject dragItem;
 

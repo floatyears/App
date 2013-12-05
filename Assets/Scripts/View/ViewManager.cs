@@ -16,6 +16,37 @@ public class ViewManager
 			return instance;
 		}
 	}
+	
+	private GameObject mainUIRoot;
+	
+	public GameObject MainUIRoot
+	{
+		get{return mainUIRoot;}
+	}
+	
+	private GameObject parentPanel;
+	
+	public GameObject ParentPanel
+	{
+		get{return parentPanel;}
+	}
+	
+	private UICamera mainUICamera;
+	
+	public UICamera MainUICamera
+	{
+		set{mainUICamera = value;}
+		get{return mainUICamera;}
+	}
+
+	public void Init(GameObject ui)
+	{
+		mainUIRoot = ui;
+		
+		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();
+		
+		parentPanel = mainUIRoot.transform.Find("Camera/Anchor/Panel").gameObject;
+	}
 
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
 

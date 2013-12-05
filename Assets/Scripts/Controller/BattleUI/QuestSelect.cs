@@ -14,7 +14,7 @@ public class QuestSelect : UIBase
 	{
 		GameObject sourceObject = Resources.Load("Prefabs/QuestSelect") as GameObject;
 
-		insUIObject = NGUITools.AddChild(controllerManger.ParentPanel,sourceObject);
+		insUIObject = NGUITools.AddChild(ViewManager.Instance.ParentPanel,sourceObject);
 	}
 
 	public override void ShowUI ()

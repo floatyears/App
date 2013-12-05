@@ -23,31 +23,7 @@ public class ControllerManager
 	}
 	#endregion
 
-	#region member
-	private GameObject mainUIRoot;
-
-	public GameObject MainUIRoot
-	{
-		get{return mainUIRoot;}
-	}
-
-	private GameObject parentPanel;
-
-	public GameObject ParentPanel
-	{
-		get{return parentPanel;}
-	}
-
-	private UICamera mainUICamera;
-
-	public UICamera MainUICamera
-	{
-		set{mainUICamera = value;}
-		get{return mainUICamera;}
-	}
-
 	private IUIInterface currentScene;
-	#endregion
 
 	#region UI object manager
 	private Dictionary<string,IUIInterface> uiDic = new Dictionary<string, IUIInterface>();
@@ -108,15 +84,6 @@ public class ControllerManager
 	}
 	
 	#endregion
-
-	public void Init(GameObject ui)
-	{
-		mainUIRoot = ui;
-
-		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();
-
-		parentPanel = mainUIRoot.transform.Find("Camera/Anchor/Panel").gameObject;
-	}
 
 	public void ChangeScene(SceneEnum sEnum)
 	{

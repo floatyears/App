@@ -59,7 +59,7 @@ public class DragUI : UIBase
 
 		parentContainer = insUIObject.transform.Find("Anchor/Offset").gameObject;
 
-		Camera cam = controllerManger.MainUICamera.GetComponent<Camera>();
+		Camera cam = ViewManager.Instance.MainUICamera.GetComponent<Camera>();
 
 		dragUIViewport.sourceCamera = cam;
 
