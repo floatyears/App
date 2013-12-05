@@ -1,0 +1,10946 @@
+dg收发包数据
+
+## order_quest
+
+```
+request: {"header":{"api_version":"1.0.3","packet_unique_id":16},"quest_id":307,"quest_state":0,"helper_user_id":102974742,"helper_unit":{"id":396,"exp":2140,"level":5,"unique_id":10000036425994,"add_pow":0,"add_def":0,"add_hp":0,"limitbreak_lv":0,"get_time":0},"helper_point_ok":1,"party_current":0,"all_unit_kind":[405,404,403,402,401,400,399,398,396]}
+
+response: {
+"header": {
+"code": 4096,
+"session_id": "opvddcgaj1ae4fevftnraf161cfteu8h",
+"api_version": "1.0.3",
+"packet_unique_id": 16
+},
+"result": {
+"stamina_now": 13,
+"stamina_recover": 1385537144
+}
+}
+```
+
+## make_password:
+
+```
+{"header":{"api_version":"1.0.3","packet_unique_id":25}}
+
+{
+"header": {
+"code": 4096,
+"session_id": "opvddcgaj1ae4fevftnraf161cfteu8h",
+"api_version": "1.0.3",
+"packet_unique_id": 25
+},
+"result": {
+"password": "4zcEGz8j"
+}
+}
+```
+
+
+
+##form_units: (改变编队后退出到主界面)
+
+```
+request:
+{"header":{"api_version":"1.0.3","packet_unique_id":26},"party_assign":[{"unit0_unique_id":20000037208450,"unit1_unique_id":20000033010726,"unit2_unique_id":20000016719832,"unit3_unique_id":20000034219738},{"unit0_unique_id":20000013328842,"unit1_unique_id":20000032992503,"unit2_unique_id":20000034219738,"unit3_unique_id":20000013284654},{"unit0_unique_id":20000037217401,"unit1_unique_id":20000016687772,"unit2_unique_id":20000016719832,"unit3_unique_id":0},{"unit0_unique_id":20000013284654,"unit1_unique_id":20000016687772,"unit2_unique_id":20000016719832,"unit3_unique_id":0},{"unit0_unique_id":20000013284654,"unit1_unique_id":20000013328842,"unit2_unique_id":20000016687772,"unit3_unique_id":20000032992503}],"party_current":2}
+
+response:
+{
+	"header": {
+		"code": 4096,
+		"session_id": "8rg9g9nmdhrs4ili4kl0nt74cspssl5u",
+		"api_version": "1.0.3",
+		"packet_unique_id": 20
+	},
+	"result": {
+		"player": {
+			"unit_list": [{
+				"id": 11,
+				"exp": 34030,
+				"level": 20,
+				"unique_id": 20000013284654,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382587585
+			}, {
+				"id": 129,
+				"exp": 9410,
+				"level": 12,
+				"unique_id": 20000013328842,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382590465
+			}, {
+				"id": 133,
+				"exp": 34652,
+				"level": 20,
+				"unique_id": 20000014146276,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382623828
+			}, {
+				"id": 72,
+				"exp": 531,
+				"level": 4,
+				"unique_id": 20000016687772,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382839187
+			}, {
+				"id": 3,
+				"exp": 78562,
+				"level": 28,
+				"unique_id": 20000016719832,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0,
+				"get_time": 1382842314
+			}, {
+				"id": 49,
+				"exp": 1918,
+				"level": 8,
+				"unique_id": 20000032972480,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384943692
+			}, {
+				"id": 399,
+				"exp": 2993,
+				"level": 10,
+				"unique_id": 20000032992503,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384945358
+			}, {
+				"id": 199,
+				"exp": 3195,
+				"level": 10,
+				"unique_id": 20000033010726,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384946760
+			}, {
+				"id": 381,
+				"exp": 72449,
+				"level": 27,
+				"unique_id": 20000034219738,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385108677
+			}, {
+				"id": 194,
+				"exp": 13,
+				"level": 2,
+				"unique_id": 20000036675386,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385458424
+			}, {
+				"id": 396,
+				"exp": 36000,
+				"level": 14,
+				"unique_id": 20000037208450,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385537691
+			}, {
+				"id": 397,
+				"exp": 14068,
+				"level": 10,
+				"unique_id": 20000037217401,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385538849
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037460188,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561131
+			}, {
+				"id": 394,
+				"exp": 2610,
+				"level": 5,
+				"unique_id": 20000037465566,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561632
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470995,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470996,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 395,
+				"exp": 10327,
+				"level": 9,
+				"unique_id": 20000037492647,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385564514
+			}, {
+				"id": 402,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037501078,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385565446
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037514775,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385567103
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038031587,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385649265
+			}, {
+				"id": 115,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040797,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 91,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040801,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 73,
+				"exp": 19,
+				"level": 2,
+				"unique_id": 20000038065786,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038210352,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695425
+			}, {
+				"id": 54,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038211188,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695553
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000038504823,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385742723
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039053888,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385834581
+			}, {
+				"id": 363,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039358118,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385896527
+			}, {
+				"id": 61,
+				"exp": 13,
+				"level": 2,
+				"unique_id": 20000039404158,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385902990
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039473558,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385913065
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039473559,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385913065
+			}],
+			"unit_party_current": 3,
+			"unit_party_assign": [{
+				"unit0_unique_id": 20000037208450,
+				"unit1_unique_id": 20000013284654,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000034219738
+			}, {
+				"unit0_unique_id": 20000013328842,
+				"unit1_unique_id": 20000037465566,
+				"unit2_unique_id": 20000034219738,
+				"unit3_unique_id": 20000013284654
+			}, {
+				"unit0_unique_id": 20000037492647,
+				"unit1_unique_id": 20000014146276,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000037208450
+			}, {
+				"unit0_unique_id": 20000037217401,
+				"unit1_unique_id": 20000038065786,
+				"unit2_unique_id": 20000038211188,
+				"unit3_unique_id": 20000032972480
+			}, {
+				"unit0_unique_id": 20000013284654,
+				"unit1_unique_id": 20000013328842,
+				"unit2_unique_id": 20000016687772,
+				"unit3_unique_id": 20000034219738
+			}],
+			"user": {
+				"user_id": 101946121,
+				"user_name": "Orca",
+				"user_group": 0
+			},
+			"first_select_num": 3,
+			"rank": 35,
+			"exp": 18416,
+			"review": 1,
+			"pay_total": 0,
+			"pay_month": 0,
+			"have_money": 850678,
+			"have_stone_pay": 0,
+			"have_stone_free": 1,
+			"have_stone": 1,
+			"have_friend_pt": 970,
+			"stamina_now": 35,
+			"stamina_max": 35,
+			"stamina_recover": 1385951425,
+			"total_unit": 40,
+			"total_party": 47,
+			"total_friend": 35,
+			"flag_quest_check": [32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 216, 194, 135, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_quest_clear": [224, 6, 18, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 216, 194, 135, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_tutorial": [255, 254, 71, 0],
+			"flag_unit_check": [80, 4, 68, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 128, 10, 232, 128, 6, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 136, 0, 24, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_unit_get": [14, 14, 0, 16, 0, 184, 250, 187, 171, 171, 170, 168, 0, 0, 8, 0, 34, 0, 0, 0, 0, 128, 161, 0, 134, 3, 219, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 2, 32, 0, 252, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		}
+	}
+}
+```
+
+## login_pack
+
+```
+{"header":{"api_version":"1.0.3","packet_unique_id":38},"get_login":1,"get_friend":1,"get_helper":1,"get_present":0}
+
+{
+"header": {
+"code": 4096,
+"session_id": "o67lmljq7hhgdn45ulpa28nq6jlktfja",
+"api_version": "1.0.3",
+"packet_unique_id": 38
+},
+"result": {
+"result_login_param": {
+"login_bonus": [{
+"type": 0,
+"value": 0,
+"bonus_type": 0
+}],
+"login_total": 18,
+"login_chain": 3,
+"friend_point_now": 350,
+"friend_point_get": 5,
+"friend_help_ct": 1
+},
+"result_friend": {
+"friend": [{
+"user_id": 101802326,
+"user_name": "\u3084\u30fc\u307e\u3060",
+"user_rank": 24,
+"last_play": 1385504219,
+"friend_state": 0,
+"friend_state_update": 1383957288,
+"friend_point": 0,
+"unit": {
+"id": 26,
+"exp": 6241,
+"level": 11,
+"unique_id": 30000012319553,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101890039,
+"user_name": "\u30d0\u30f3\u30c9",
+"user_rank": 18,
+"last_play": 1383041023,
+"friend_state": 1,
+"friend_state_update": 1382612770,
+"friend_point": 0,
+"unit": {
+"id": 139,
+"exp": 34137,
+"level": 14,
+"unique_id": 20000013027765,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101946079,
+"user_name": "\u3066\u3064\u304d\u3093",
+"user_rank": 14,
+"last_play": 1383036082,
+"friend_state": 1,
+"friend_state_update": 1382623989,
+"friend_point": 0,
+"unit": {
+"id": 129,
+"exp": 5499,
+"level": 10,
+"unique_id": 20000013383171,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101898591,
+"user_name": "mayumi",
+"user_rank": 9,
+"last_play": 1382721691,
+"friend_state": 1,
+"friend_state_update": 1382624351,
+"friend_point": 0,
+"unit": {
+"id": 10,
+"exp": 3637,
+"level": 9,
+"unique_id": 40000012884175,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102092238,
+"user_name": "\u3046\u3061\u3046\u3061",
+"user_rank": 18,
+"last_play": 1383140900,
+"friend_state": 1,
+"friend_state_update": 1382625167,
+"friend_point": 0,
+"unit": {
+"id": 199,
+"exp": 1088,
+"level": 6,
+"unique_id": 10000014335561,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102027425,
+"user_name": "eine",
+"user_rank": 58,
+"last_play": 1385539852,
+"friend_state": 1,
+"friend_state_update": 1382625611,
+"friend_point": 0,
+"unit": {
+"id": 139,
+"exp": 883884,
+"level": 50,
+"unique_id": 60000013762538,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101953899,
+"user_name": "\u3084\u3059\u304d\u3061",
+"user_rank": 9,
+"last_play": 1382792934,
+"friend_state": 1,
+"friend_state_update": 1382625909,
+"friend_point": 0,
+"unit": {
+"id": 143,
+"exp": 787,
+"level": 3,
+"unique_id": 40000013159977,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101926280,
+"user_name": "\u3068\u3082\u3079\u3047",
+"user_rank": 10,
+"last_play": 1383586520,
+"friend_state": 1,
+"friend_state_update": 1382626286,
+"friend_point": 0,
+"unit": {
+"id": 143,
+"exp": 4511,
+"level": 6,
+"unique_id": 30000013209846,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102096911,
+"user_name": "\u3076\u3089\u3079\u308a\u30fc",
+"user_rank": 27,
+"last_play": 1384333085,
+"friend_state": 1,
+"friend_state_update": 1382626414,
+"friend_point": 0,
+"unit": {
+"id": 141,
+"exp": 59034,
+"level": 17,
+"unique_id": 60000014136139,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 3,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101895534,
+"user_name": "\u30eb\u30a4\u30ea\u30aa",
+"user_rank": 16,
+"last_play": 1385505895,
+"friend_state": 0,
+"friend_state_update": 1382839223,
+"friend_point": 0,
+"unit": {
+"id": 124,
+"exp": 34386,
+"level": 24,
+"unique_id": 10000015614394,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101229629,
+"user_name": "worldhome",
+"user_rank": 10,
+"last_play": 1385523427,
+"friend_state": 1,
+"friend_state_update": 1382839421,
+"friend_point": 0,
+"unit": {
+"id": 143,
+"exp": 24200,
+"level": 12,
+"unique_id": 60000007004875,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102238874,
+"user_name": "RaveChan",
+"user_rank": 21,
+"last_play": 1383096311,
+"friend_state": 1,
+"friend_state_update": 1382841201,
+"friend_point": 0,
+"unit": {
+"id": 143,
+"exp": 16649,
+"level": 11,
+"unique_id": 30000015758343,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102084340,
+"user_name": "\u3044\u305a\u307f\uff0a\u305d\u3046",
+"user_rank": 10,
+"last_play": 1383142410,
+"friend_state": 1,
+"friend_state_update": 1382842000,
+"friend_point": 0,
+"unit": {
+"id": 10,
+"exp": 592,
+"level": 4,
+"unique_id": 50000013919375,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101959101,
+"user_name": "ryosuke",
+"user_rank": 10,
+"last_play": 1384797984,
+"friend_state": 0,
+"friend_state_update": 1382864612,
+"friend_point": 0,
+"unit": {
+"id": 2,
+"exp": 3525,
+"level": 8,
+"unique_id": 40000016364751,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102229372,
+"user_name": "sana",
+"user_rank": 11,
+"last_play": 1384473808,
+"friend_state": 0,
+"friend_state_update": 1382876933,
+"friend_point": 0,
+"unit": {
+"id": 133,
+"exp": 400,
+"level": 4,
+"unique_id": 50000016598016,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102119540,
+"user_name": "\u307f\u3064",
+"user_rank": 15,
+"last_play": 1384735323,
+"friend_state": 0,
+"friend_state_update": 1382845055,
+"friend_point": 0,
+"unit": {
+"id": 6,
+"exp": 14463,
+"level": 15,
+"unique_id": 30000014574045,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102209890,
+"user_name": "\u3058\u3083\u304c\u3044\u3082",
+"user_rank": 35,
+"last_play": 1385481752,
+"friend_state": 1,
+"friend_state_update": 1382843511,
+"friend_point": 0,
+"unit": {
+"id": 4,
+"exp": 32516,
+"level": 16,
+"unique_id": 50000015004989,
+"add_pow": 4,
+"add_def": 0,
+"add_hp": 2,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102247812,
+"user_name": "\u30aa\u30de\u30c4",
+"user_rank": 9,
+"last_play": 1383039580,
+"friend_state": 1,
+"friend_state_update": 1382843947,
+"friend_point": 0,
+"unit": {
+"id": 129,
+"exp": 593,
+"level": 4,
+"unique_id": 10000015461397,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102615113,
+"user_name": "\u3061\u30fc\u3055\u3093",
+"user_rank": 45,
+"last_play": 1385536724,
+"friend_state": 0,
+"friend_state_update": 1384248277,
+"friend_point": 0,
+"unit": {
+"id": 405,
+"exp": 40730,
+"level": 15,
+"unique_id": 60000032599361,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102708026,
+"user_name": "\u30c0\u30a4\u30b9\u30b1",
+"user_rank": 58,
+"last_play": 1385537803,
+"friend_state": 0,
+"friend_state_update": 1383665536,
+"friend_point": 0,
+"unit": {
+"id": 395,
+"exp": 66769,
+"level": 18,
+"unique_id": 30000025128956,
+"add_pow": 2,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102660695,
+"user_name": "\u5e74\u672b\u8abf\u6574",
+"user_rank": 28,
+"last_play": 1385409445,
+"friend_state": 0,
+"friend_state_update": 1383712329,
+"friend_point": 0,
+"unit": {
+"id": 395,
+"exp": 43390,
+"level": 15,
+"unique_id": 60000025059632,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102712616,
+"user_name": "kazoo",
+"user_rank": 37,
+"last_play": 1384218002,
+"friend_state": 0,
+"friend_state_update": 1383666869,
+"friend_point": 0,
+"unit": {
+"id": 141,
+"exp": 19563,
+"level": 11,
+"unique_id": 30000023093607,
+"add_pow": 5,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102621584,
+"user_name": "shido",
+"user_rank": 15,
+"last_play": 1385143463,
+"friend_state": 0,
+"friend_state_update": 1383734074,
+"friend_point": 0,
+"unit": {
+"id": 2,
+"exp": 11937,
+"level": 13,
+"unique_id": 30000021225062,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101869749,
+"user_name": "\u3072\u3087\u3063\u3068\u3053\u658e",
+"user_rank": 12,
+"last_play": 1385456135,
+"friend_state": 0,
+"friend_state_update": 1383671413,
+"friend_point": 0,
+"unit": {
+"id": 349,
+"exp": 2850,
+"level": 8,
+"unique_id": 40000022847484,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101490482,
+"user_name": "Kazuki",
+"user_rank": 12,
+"last_play": 1383666229,
+"friend_state": 1,
+"friend_state_update": 1383665899,
+"friend_point": 0,
+"unit": {
+"id": 2,
+"exp": 4872,
+"level": 10,
+"unique_id": 30000008689779,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102853471,
+"user_name": "\u3082\u3084\u3057",
+"user_rank": 32,
+"last_play": 1385535517,
+"friend_state": 0,
+"friend_state_update": 1385477585,
+"friend_point": 0,
+"unit": {
+"id": 10,
+"exp": 14463,
+"level": 15,
+"unique_id": 20000026498248,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102775342,
+"user_name": "NobuSh",
+"user_rank": 14,
+"last_play": 1384820412,
+"friend_state": 2,
+"friend_state_update": 1384433251,
+"friend_point": 0,
+"unit": {
+"id": 6,
+"exp": 6101,
+"level": 10,
+"unique_id": 50000024484555,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102914141,
+"user_name": "123",
+"user_rank": 14,
+"last_play": 1384731425,
+"friend_state": 2,
+"friend_state_update": 1384433566,
+"friend_point": 0,
+"unit": {
+"id": 393,
+"exp": 300,
+"level": 3,
+"unique_id": 60000028607603,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102917568,
+"user_name": "shan",
+"user_rank": 18,
+"last_play": 1385377955,
+"friend_state": 2,
+"friend_state_update": 1384435417,
+"friend_point": 0,
+"unit": {
+"id": 394,
+"exp": 0,
+"level": 1,
+"unique_id": 10000029113809,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101528914,
+"user_name": "bbgtest",
+"user_rank": 44,
+"last_play": 1385510238,
+"friend_state": 0,
+"friend_state_update": 1384860868,
+"friend_point": 0,
+"unit": {
+"id": 7,
+"exp": 55655,
+"level": 25,
+"unique_id": 50000009026581,
+"add_pow": 2,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103065717,
+"user_name": "\u3051\u3067\u3043",
+"user_rank": 35,
+"last_play": 1385504731,
+"friend_state": 0,
+"friend_state_update": 1384862384,
+"friend_point": 0,
+"unit": {
+"id": 395,
+"exp": 25352,
+"level": 12,
+"unique_id": 40000036078753,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102939127,
+"user_name": "Rex",
+"user_rank": 14,
+"last_play": 1385380308,
+"friend_state": 2,
+"friend_state_update": 1384862594,
+"friend_point": 0,
+"unit": {
+"id": 2,
+"exp": 2017,
+"level": 7,
+"unique_id": 20000029398819,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103058511,
+"user_name": "\u306e\u3093\u305f",
+"user_rank": 58,
+"last_play": 1385539835,
+"friend_state": 0,
+"friend_state_update": 1384930860,
+"friend_point": 0,
+"unit": {
+"id": 142,
+"exp": 225562,
+"level": 29,
+"unique_id": 40000031762295,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103035730,
+"user_name": "\u30b7\u30f3\u30bf\u30ed\u30fc",
+"user_rank": 12,
+"last_play": 1385218254,
+"friend_state": 0,
+"friend_state_update": 1384948863,
+"friend_point": 0,
+"unit": {
+"id": 6,
+"exp": 1237,
+"level": 6,
+"unique_id": 50000031407311,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102280318,
+"user_name": "LeonHeart",
+"user_rank": 9,
+"last_play": 1385329626,
+"friend_state": 1,
+"friend_state_update": 1384863133,
+"friend_point": 0,
+"unit": {
+"id": 6,
+"exp": 0,
+"level": 1,
+"unique_id": 50000015845671,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103075847,
+"user_name": "KIBA",
+"user_rank": 20,
+"last_play": 1385462566,
+"friend_state": 0,
+"friend_state_update": 1385107977,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 2755,
+"level": 5,
+"unique_id": 60000034262099,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103081478,
+"user_name": "d",
+"user_rank": 39,
+"last_play": 1385509823,
+"friend_state": 0,
+"friend_state_update": 1384931841,
+"friend_point": 0,
+"unit": {
+"id": 405,
+"exp": 73051,
+"level": 19,
+"unique_id": 30000033131186,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 3,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103058584,
+"user_name": "\u30ad\u30ea\u30c8",
+"user_rank": 20,
+"last_play": 1385343570,
+"friend_state": 2,
+"friend_state_update": 1384944102,
+"friend_point": 0,
+"unit": {
+"id": 6,
+"exp": 225,
+"level": 3,
+"unique_id": 50000031950870,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103054928,
+"user_name": "w",
+"user_rank": 14,
+"last_play": 1385092245,
+"friend_state": 2,
+"friend_state_update": 1384944347,
+"friend_point": 0,
+"unit": {
+"id": 6,
+"exp": 1621,
+"level": 6,
+"unique_id": 30000032091850,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103007244,
+"user_name": "\u3082\u3063\u3061",
+"user_rank": 28,
+"last_play": 1385539880,
+"friend_state": 2,
+"friend_state_update": 1384945918,
+"friend_point": 0,
+"unit": {
+"id": 6,
+"exp": 14463,
+"level": 15,
+"unique_id": 10000030676856,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103015093,
+"user_name": "\u307e\u308a",
+"user_rank": 18,
+"last_play": 1385371929,
+"friend_state": 0,
+"friend_state_update": 1385125756,
+"friend_point": 0,
+"unit": {
+"id": 395,
+"exp": 2632,
+"level": 5,
+"unique_id": 20000033079011,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103044880,
+"user_name": "rk2i",
+"user_rank": 13,
+"last_play": 1385331222,
+"friend_state": 0,
+"friend_state_update": 1385107981,
+"friend_point": 0,
+"unit": {
+"id": 143,
+"exp": 500,
+"level": 3,
+"unique_id": 50000031873395,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103054379,
+"user_name": "ROM",
+"user_rank": 30,
+"last_play": 1385535721,
+"friend_state": 0,
+"friend_state_update": 1384947008,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 13206,
+"level": 10,
+"unique_id": 60000033651542,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103016083,
+"user_name": "\u30ab\u30ba\u30ad",
+"user_rank": 27,
+"last_play": 1385521780,
+"friend_state": 1,
+"friend_state_update": 1384946887,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 13570,
+"level": 10,
+"unique_id": 20000032988895,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103086859,
+"user_name": "\u30d2\u30ed\u30c8",
+"user_rank": 21,
+"last_play": 1385497845,
+"friend_state": 0,
+"friend_state_update": 1384948242,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 0,
+"level": 1,
+"unique_id": 20000033729968,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103085217,
+"user_name": "\u30c8\u30de\u30c8",
+"user_rank": 19,
+"last_play": 1385179861,
+"friend_state": 2,
+"friend_state_update": 1384948051,
+"friend_point": 0,
+"unit": {
+"id": 6,
+"exp": 3760,
+"level": 9,
+"unique_id": 40000032425893,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102834299,
+"user_name": "\u30da\u30c3\u30d1\u30fc",
+"user_rank": 11,
+"last_play": 1384947286,
+"friend_state": 1,
+"friend_state_update": 1384948109,
+"friend_point": 0,
+"unit": {
+"id": 163,
+"exp": 1118,
+"level": 4,
+"unique_id": 60000026106733,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 2,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103014666,
+"user_name": "Shun",
+"user_rank": 18,
+"last_play": 1385472166,
+"friend_state": 1,
+"friend_state_update": 1384950681,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 18880,
+"level": 11,
+"unique_id": 10000031488383,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102935850,
+"user_name": "\u305f\u304b\u307f\u3084\u3093",
+"user_rank": 20,
+"last_play": 1385367799,
+"friend_state": 0,
+"friend_state_update": 1384955005,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 33390,
+"level": 14,
+"unique_id": 10000031552618,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103078765,
+"user_name": "\u30a2\u30c8\u30e9\u30b9",
+"user_rank": 16,
+"last_play": 1385534048,
+"friend_state": 0,
+"friend_state_update": 1385107969,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 337,
+"level": 3,
+"unique_id": 20000035521926,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103090808,
+"user_name": "\u30b9\u30e9\u592a\u90ce",
+"user_rank": 19,
+"last_play": 1385416808,
+"friend_state": 1,
+"friend_state_update": 1385108669,
+"friend_point": 0,
+"unit": {
+"id": 6,
+"exp": 4348,
+"level": 9,
+"unique_id": 30000033002437,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103115380,
+"user_name": "\u3060\u3044\u3059\u3051",
+"user_rank": 25,
+"last_play": 1385539586,
+"friend_state": 0,
+"friend_state_update": 1385476748,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 687,
+"level": 3,
+"unique_id": 50000034320072,
+"add_pow": 2,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103072414,
+"user_name": "\u3053\u3086\u305f\u3080",
+"user_rank": 18,
+"last_play": 1385292189,
+"friend_state": 0,
+"friend_state_update": 1385210788,
+"friend_point": 0,
+"unit": {
+"id": 10,
+"exp": 8269,
+"level": 12,
+"unique_id": 50000032259196,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103099814,
+"user_name": "\u308d\u308d\u30fc",
+"user_rank": 30,
+"last_play": 1385527323,
+"friend_state": 2,
+"friend_state_update": 1385198064,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 13667,
+"level": 10,
+"unique_id": 30000035129095,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103002898,
+"user_name": "mabo",
+"user_rank": 16,
+"last_play": 1385474529,
+"friend_state": 1,
+"friend_state_update": 1385368550,
+"friend_point": 0,
+"unit": {
+"id": 10,
+"exp": 2914,
+"level": 8,
+"unique_id": 50000030637213,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103114495,
+"user_name": "\u307e\u3075\u3081\u3084",
+"user_rank": 18,
+"last_play": 1385502068,
+"friend_state": 1,
+"friend_state_update": 1385459131,
+"friend_point": 0,
+"unit": {
+"id": 104,
+"exp": 7110,
+"level": 13,
+"unique_id": 20000033593871,
+"add_pow": 2,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102279997,
+"user_name": "\u3086",
+"user_rank": 17,
+"last_play": 1385537175,
+"friend_state": 1,
+"friend_state_update": 1385459602,
+"friend_point": 0,
+"unit": {
+"id": 2,
+"exp": 4952,
+"level": 10,
+"unique_id": 20000015968631,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103196766,
+"user_name": "JUN",
+"user_rank": 21,
+"last_play": 1385524091,
+"friend_state": 1,
+"friend_state_update": 1385460566,
+"friend_point": 0,
+"unit": {
+"id": 151,
+"exp": 14728,
+"level": 10,
+"unique_id": 10000035738122,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103190122,
+"user_name": "hi64",
+"user_rank": 17,
+"last_play": 1385533756,
+"friend_state": 2,
+"friend_state_update": 1385461144,
+"friend_point": 0,
+"unit": {
+"id": 10,
+"exp": 1122,
+"level": 6,
+"unique_id": 50000035548800,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102974742,
+"user_name": "\u30af\u30e9\u30a6\u30f3",
+"user_rank": 16,
+"last_play": 1385537578,
+"friend_state": 0,
+"friend_state_update": 1385476725,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 2140,
+"level": 5,
+"unique_id": 10000036425994,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103126736,
+"user_name": "\u30af\u30e9\u30ea\u30b9",
+"user_rank": 14,
+"last_play": 1385469377,
+"friend_state": 2,
+"friend_state_update": 1385469144,
+"friend_point": 0,
+"unit": {
+"id": 104,
+"exp": 0,
+"level": 1,
+"unique_id": 30000034262828,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103054428,
+"user_name": "\u30aa\u30f3\u30ec\u30a4",
+"user_rank": 18,
+"last_play": 1385531233,
+"friend_state": 1,
+"friend_state_update": 1385476982,
+"friend_point": 0,
+"unit": {
+"id": 396,
+"exp": 45667,
+"level": 15,
+"unique_id": 10000032394231,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102940204,
+"user_name": "\u306b\u304f\u307e\u3093",
+"user_rank": 18,
+"last_play": 1385509022,
+"friend_state": 2,
+"friend_state_update": 1385477121,
+"friend_point": 0,
+"unit": {
+"id": 10,
+"exp": 14463,
+"level": 15,
+"unique_id": 50000029264771,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103208050,
+"user_name": "hekt",
+"user_rank": 20,
+"last_play": 1385538538,
+"friend_state": 2,
+"friend_state_update": 1385538123,
+"friend_point": 0,
+"unit": {
+"id": 395,
+"exp": 0,
+"level": 1,
+"unique_id": 50000036420865,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}]
+},
+"result_helper": {
+"friend": [{
+"user_id": 103172025,
+"user_name": "\u3058\u3044\u3061\u3083\u3093",
+"user_rank": 17,
+"last_play": 1385540212,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 139,
+"exp": 375,
+"level": 3,
+"unique_id": 40000034873817,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103183623,
+"user_name": "\u30ad\u30e0\u30c1\u574a\u3084",
+"user_rank": 20,
+"last_play": 1385540211,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 2,
+"exp": 6504,
+"level": 11,
+"unique_id": 40000035222940,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103114845,
+"user_name": "\u8061",
+"user_rank": 20,
+"last_play": 1385540208,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 395,
+"exp": 16605,
+"level": 10,
+"unique_id": 40000033828548,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103153239,
+"user_name": "\u30de\u30d6\u30e4\u30fc",
+"user_rank": 23,
+"last_play": 1385540204,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 395,
+"exp": 17450,
+"level": 11,
+"unique_id": 40000035743331,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103175451,
+"user_name": "\u3060\u30fc\u3060",
+"user_rank": 18,
+"last_play": 1385540203,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 7,
+"exp": 0,
+"level": 1,
+"unique_id": 40000034975246,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 2,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103150671,
+"user_name": "\u30b8\u30e3\u30ba",
+"user_rank": 19,
+"last_play": 1385540200,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 10,
+"exp": 12931,
+"level": 14,
+"unique_id": 40000034574819,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103092039,
+"user_name": "\u3042\u3063\u30af\u30f3",
+"user_rank": 22,
+"last_play": 1385540196,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 131,
+"exp": 13175,
+"level": 14,
+"unique_id": 40000032612301,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 100675923,
+"user_name": "\u56db\u56db",
+"user_rank": 19,
+"last_play": 1385540190,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 141,
+"exp": 88084,
+"level": 20,
+"unique_id": 40000003392469,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 2,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103167135,
+"user_name": "\u3084\u3059\u3084\u3059\u30c0\u30a4\u30ca",
+"user_rank": 19,
+"last_play": 1385540185,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 165,
+"exp": 7672,
+"level": 8,
+"unique_id": 40000035053140,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103194399,
+"user_name": "\u967d\u8389",
+"user_rank": 18,
+"last_play": 1385540182,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 6,
+"exp": 14463,
+"level": 15,
+"unique_id": 40000035878624,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101330745,
+"user_name": "backyou",
+"user_rank": 19,
+"last_play": 1385540181,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 393,
+"exp": 1885,
+"level": 5,
+"unique_id": 40000029847978,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101222337,
+"user_name": "\u3064\u304c\u3093",
+"user_rank": 23,
+"last_play": 1385540174,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 102,
+"exp": 34792,
+"level": 20,
+"unique_id": 40000006665268,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103200003,
+"user_name": "\u30df\u30c4\u30eb",
+"user_rank": 22,
+"last_play": 1385540174,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 394,
+"exp": 2472,
+"level": 5,
+"unique_id": 40000036040319,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103202589,
+"user_name": "\u3086\u3046\u306f\u308b",
+"user_rank": 22,
+"last_play": 1385540168,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 395,
+"exp": 16488,
+"level": 10,
+"unique_id": 40000036249330,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103183125,
+"user_name": "\u3057\u3093\u3084",
+"user_rank": 20,
+"last_play": 1385540168,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 395,
+"exp": 1867,
+"level": 5,
+"unique_id": 40000035573102,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103170873,
+"user_name": "\u70c8\u706b",
+"user_rank": 18,
+"last_play": 1385540166,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 2,
+"exp": 11972,
+"level": 13,
+"unique_id": 40000034831046,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103202433,
+"user_name": "\u3072\u3060\u304b",
+"user_rank": 19,
+"last_play": 1385540161,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 167,
+"exp": 15825,
+"level": 10,
+"unique_id": 40000035762556,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103201017,
+"user_name": "3",
+"user_rank": 23,
+"last_play": 1385540156,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 153,
+"exp": 223235,
+"level": 29,
+"unique_id": 40000035711301,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 101769585,
+"user_name": "THE \u30d0\u30d0\u30a1",
+"user_rank": 23,
+"last_play": 1385540152,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 387,
+"exp": 20062,
+"level": 16,
+"unique_id": 40000029783060,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103210227,
+"user_name": "Lite",
+"user_rank": 17,
+"last_play": 1385540148,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 10,
+"exp": 10927,
+"level": 13,
+"unique_id": 40000036009563,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 102917607,
+"user_name": "\u305d\u30fc\u305f",
+"user_rank": 17,
+"last_play": 1385540136,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 395,
+"exp": 29880,
+"level": 13,
+"unique_id": 40000030024495,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103150101,
+"user_name": "\uff0a\u3057\u3093\uff0a",
+"user_rank": 21,
+"last_play": 1385540135,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 396,
+"exp": 2475,
+"level": 5,
+"unique_id": 40000035032705,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103196823,
+"user_name": "\u30d5\u30a7\u30a2\u30ea\u30fc\u30c6\u30a4\u30eb",
+"user_rank": 17,
+"last_play": 1385540213,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 395,
+"exp": 12187,
+"level": 9,
+"unique_id": 40000035679847,
+"add_pow": 2,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103194333,
+"user_name": "\u3061\u3083\u3080",
+"user_rank": 23,
+"last_play": 1385540128,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 6,
+"exp": 7120,
+"level": 11,
+"unique_id": 40000035510742,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}, {
+"user_id": 103198575,
+"user_name": "\u306e\u308a",
+"user_rank": 17,
+"last_play": 1385540126,
+"friend_state": 3,
+"friend_state_update": 0,
+"friend_point": 5,
+"unit": {
+"id": 395,
+"exp": 3690,
+"level": 6,
+"unique_id": 40000036433240,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0
+}
+}]
+}
+}
+}
+
+retire_quest:
+{"header":{"api_version":"1.0.3","packet_unique_id":39},"quest_id":119}
+
+{
+"header": {
+"code": 4096,
+"session_id": "o67lmljq7hhgdn45ulpa28nq6jlktfja",
+"api_version": "1.0.3",
+"packet_unique_id": 39
+},
+"result": {
+"dummy": 0
+}
+}
+
+auth_user
+{"header":{"api_version":"1.0.3","packet_unique_id":40},"terminal":{"platform":1,"name":"asus Nexus 7"},"boot":null,"uuid":"e552f334-0de1-4aeb-83dc-487edc0c3712"}
+
+{
+"header": {
+"code": 4096,
+"session_id": "sk35ebp45q0a20ub72icvplaeeqvq0nu",
+"api_version": "1.0.3",
+"packet_unique_id": 40
+},
+"result": {
+"player": {
+"unit_list": [{
+"id": 10,
+"exp": 14463,
+"level": 15,
+"unique_id": 20000013284654,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1382587585
+}, {
+"id": 129,
+"exp": 9410,
+"level": 12,
+"unique_id": 20000013328842,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1382590465
+}, {
+"id": 133,
+"exp": 34652,
+"level": 20,
+"unique_id": 20000014146276,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1382623828
+}, {
+"id": 72,
+"exp": 531,
+"level": 4,
+"unique_id": 20000016687772,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1382839187
+}, {
+"id": 3,
+"exp": 15562,
+"level": 15,
+"unique_id": 20000016719832,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 1,
+"limitbreak_lv": 0,
+"get_time": 1382842314
+}, {
+"id": 49,
+"exp": 1918,
+"level": 8,
+"unique_id": 20000032972480,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1384943692
+}, {
+"id": 399,
+"exp": 2993,
+"level": 10,
+"unique_id": 20000032992503,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1384945358
+}, {
+"id": 199,
+"exp": 3195,
+"level": 10,
+"unique_id": 20000033010726,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1384946760
+}, {
+"id": 381,
+"exp": 25244,
+"level": 18,
+"unique_id": 20000034219738,
+"add_pow": 1,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385108677
+}, {
+"id": 183,
+"exp": 0,
+"level": 1,
+"unique_id": 20000036040363,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385367184
+}, {
+"id": 201,
+"exp": 13,
+"level": 2,
+"unique_id": 20000036040366,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385367184
+}, {
+"id": 200,
+"exp": 470,
+"level": 5,
+"unique_id": 20000036664365,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385456974
+}, {
+"id": 194,
+"exp": 13,
+"level": 2,
+"unique_id": 20000036675386,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385458424
+}, {
+"id": 201,
+"exp": 13,
+"level": 2,
+"unique_id": 20000036692727,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385460554
+}, {
+"id": 83,
+"exp": 5,
+"level": 2,
+"unique_id": 20000036846468,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385475894
+}, {
+"id": 175,
+"exp": 0,
+"level": 1,
+"unique_id": 20000036853870,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385476561
+}, {
+"id": 47,
+"exp": 13,
+"level": 2,
+"unique_id": 20000036864051,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385477542
+}, {
+"id": 47,
+"exp": 13,
+"level": 2,
+"unique_id": 20000036864052,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385477542
+}, {
+"id": 201,
+"exp": 13,
+"level": 2,
+"unique_id": 20000036864054,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385477542
+}, {
+"id": 65,
+"exp": 0,
+"level": 1,
+"unique_id": 20000036906395,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385481941
+}, {
+"id": 209,
+"exp": 1,
+"level": 1,
+"unique_id": 20000037139462,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385528175
+}, {
+"id": 398,
+"exp": 0,
+"level": 1,
+"unique_id": 20000037208449,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385537691
+}, {
+"id": 396,
+"exp": 24000,
+"level": 12,
+"unique_id": 20000037208450,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385537691
+}, {
+"id": 400,
+"exp": 0,
+"level": 1,
+"unique_id": 20000037217398,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385538849
+}, {
+"id": 398,
+"exp": 0,
+"level": 1,
+"unique_id": 20000037217399,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385538849
+}, {
+"id": 399,
+"exp": 0,
+"level": 1,
+"unique_id": 20000037217400,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385538849
+}, {
+"id": 397,
+"exp": 0,
+"level": 1,
+"unique_id": 20000037217401,
+"add_pow": 0,
+"add_def": 0,
+"add_hp": 0,
+"limitbreak_lv": 0,
+"get_time": 1385538849
+}],
+"unit_party_current": 3,
+"unit_party_assign": [{
+"unit0_unique_id": 20000037208450,
+"unit1_unique_id": 20000033010726,
+"unit2_unique_id": 20000016719832,
+"unit3_unique_id": 20000034219738
+}, {
+"unit0_unique_id": 20000013328842,
+"unit1_unique_id": 20000032992503,
+"unit2_unique_id": 20000034219738,
+"unit3_unique_id": 20000013284654
+}, {
+"unit0_unique_id": 20000037217401,
+"unit1_unique_id": 20000016687772,
+"unit2_unique_id": 20000016719832,
+"unit3_unique_id": 0
+}, {
+"unit0_unique_id": 20000037217401,
+"unit1_unique_id": 0,
+"unit2_unique_id": 0,
+"unit3_unique_id": 20000032972480
+}, {
+"unit0_unique_id": 20000013284654,
+"unit1_unique_id": 20000013328842,
+"unit2_unique_id": 20000016687772,
+"unit3_unique_id": 20000032992503
+}],
+"user": {
+"user_id": 101946121,
+"user_name": "orca",
+"user_group": 0
+},
+"first_select_num": 3,
+"rank": 20,
+"exp": 4565,
+"review": 1,
+"pay_total": 0,
+"pay_month": 0,
+"have_money": 8057,
+"have_stone_pay": 0,
+"have_stone_free": 2,
+"have_stone": 2,
+"have_friend_pt": 350,
+"stamina_now": 21,
+"stamina_max": 26,
+"stamina_recover": 1385539939,
+"total_unit": 35,
+"total_party": 37,
+"total_friend": 30,
+"flag_quest_check": [32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 36, 0, 66, 0, 0, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+"flag_quest_clear": [224, 6, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 36, 0, 2, 0, 0, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+"flag_tutorial": [255, 254, 71, 0],
+"flag_unit_check": [64, 4, 68, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 128, 10, 168, 128, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 136, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+"flag_unit_get": [14, 6, 0, 16, 0, 184, 186, 171, 171, 169, 138, 160, 0, 0, 0, 0, 34, 0, 0, 0, 0, 128, 161, 0, 134, 3, 203, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 240, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+},
+"system": {
+"server_time": 1385540221
+},
+"quest": {
+"quest_id": 119,
+"quest_status": 1,
+"continue_ct": 0
+}
+}
+}
+```
+
+## auth_user
+
+```
+{"header":{"api_version":"1.0.3","packet_unique_id":10},"terminal":{"platform":1,"name":"asus Nexus 7"},"boot":{"scheme":""},"uuid":"e552f334-0de1-4aeb-83dc-487edc0c3712"}
+
+response:
+{
+	"header": {
+		"code": 4096,
+		"session_id": "rcs7kga8pmvvlbtgbf90jnchmqbl9khn",
+		"api_version": "1.0.3",
+		"packet_unique_id": 10
+	},
+	"result": {
+		"player": {
+			"unit_list": [{
+				"id": 10,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 20000013284654,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382587585
+			}, {
+				"id": 129,
+				"exp": 9410,
+				"level": 12,
+				"unique_id": 20000013328842,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382590465
+			}, {
+				"id": 133,
+				"exp": 34652,
+				"level": 20,
+				"unique_id": 20000014146276,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382623828
+			}, {
+				"id": 72,
+				"exp": 531,
+				"level": 4,
+				"unique_id": 20000016687772,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382839187
+			}, {
+				"id": 3,
+				"exp": 78562,
+				"level": 28,
+				"unique_id": 20000016719832,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0,
+				"get_time": 1382842314
+			}, {
+				"id": 49,
+				"exp": 1918,
+				"level": 8,
+				"unique_id": 20000032972480,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384943692
+			}, {
+				"id": 399,
+				"exp": 2993,
+				"level": 10,
+				"unique_id": 20000032992503,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384945358
+			}, {
+				"id": 199,
+				"exp": 3195,
+				"level": 10,
+				"unique_id": 20000033010726,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384946760
+			}, {
+				"id": 381,
+				"exp": 72449,
+				"level": 27,
+				"unique_id": 20000034219738,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385108677
+			}, {
+				"id": 194,
+				"exp": 13,
+				"level": 2,
+				"unique_id": 20000036675386,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385458424
+			}, {
+				"id": 396,
+				"exp": 36000,
+				"level": 14,
+				"unique_id": 20000037208450,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385537691
+			}, {
+				"id": 397,
+				"exp": 10000,
+				"level": 9,
+				"unique_id": 20000037217401,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385538849
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037460188,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561131
+			}, {
+				"id": 394,
+				"exp": 2610,
+				"level": 5,
+				"unique_id": 20000037465566,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561632
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470995,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470996,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 395,
+				"exp": 3690,
+				"level": 6,
+				"unique_id": 20000037492647,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385564514
+			}, {
+				"id": 402,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037501078,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385565446
+			}, {
+				"id": 403,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037501079,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385565446
+			}, {
+				"id": 403,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037513123,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385566900
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037514775,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385567103
+			}, {
+				"id": 212,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000037735221,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385613752
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038031587,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385649265
+			}, {
+				"id": 115,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040797,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 91,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040801,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 61,
+				"exp": 13,
+				"level": 2,
+				"unique_id": 20000038065783,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 214,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000038065785,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 73,
+				"exp": 19,
+				"level": 2,
+				"unique_id": 20000038065786,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 59,
+				"exp": 3195,
+				"level": 10,
+				"unique_id": 20000038092640,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385658959
+			}, {
+				"id": 47,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038092641,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385658959
+			}],
+			"unit_party_current": 0,
+			"unit_party_assign": [{
+				"unit0_unique_id": 20000037208450,
+				"unit1_unique_id": 20000013284654,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000034219738
+			}, {
+				"unit0_unique_id": 20000013328842,
+				"unit1_unique_id": 20000037465566,
+				"unit2_unique_id": 20000034219738,
+				"unit3_unique_id": 20000013284654
+			}, {
+				"unit0_unique_id": 20000037492647,
+				"unit1_unique_id": 20000014146276,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000037208450
+			}, {
+				"unit0_unique_id": 20000037217401,
+				"unit1_unique_id": 0,
+				"unit2_unique_id": 0,
+				"unit3_unique_id": 20000032972480
+			}, {
+				"unit0_unique_id": 20000013284654,
+				"unit1_unique_id": 20000013328842,
+				"unit2_unique_id": 20000016687772,
+				"unit3_unique_id": 20000032992503
+			}],
+			"user": {
+				"user_id": 101946121,
+				"user_name": "orca",
+				"user_group": 0
+			},
+			"first_select_num": 3,
+			"rank": 22,
+			"exp": 6243,
+			"review": 1,
+			"pay_total": 0,
+			"pay_month": 0,
+			"have_money": 8732,
+			"have_stone_pay": 0,
+			"have_stone_free": 0,
+			"have_stone": 0,
+			"have_friend_pt": 880,
+			"stamina_now": 27,
+			"stamina_max": 27,
+			"stamina_recover": 1385688022,
+			"total_unit": 40,
+			"total_party": 37,
+			"total_friend": 31,
+			"flag_quest_check": [32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 0, 66, 128, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_quest_clear": [224, 6, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 0, 2, 128, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_tutorial": [255, 254, 71, 0],
+			"flag_unit_check": [80, 4, 68, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 128, 10, 168, 128, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 136, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_unit_get": [14, 6, 0, 16, 0, 184, 186, 171, 171, 171, 138, 168, 0, 0, 8, 0, 34, 0, 0, 0, 0, 128, 161, 0, 134, 3, 219, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 252, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		},
+		"system": {
+			"server_time": 1385694667
+		},
+		"quest": {
+			"quest_id": 94,
+			"quest_status": 2,
+			"continue_ct": 0
+		}
+	}
+}
+```
+
+## get_master
+
+```
+request:
+{"header":{"api_version":"1.0.3","packet_unique_id":11},"hash":[{"type":11,"hash":""},{"type":40,"hash":""},{"type":41,"hash":""},{"type":42,"hash":""},{"type":43,"hash":""},{"type":44,"hash":""},{"type":20,"hash":""},{"type":45,"hash":""},{"type":46,"hash":""},{"type":30,"hash":""},{"type":31,"hash":""},{"type":23,"hash":""},{"type":22,"hash":""},{"type":24,"hash":""},{"type":25,"hash":""},{"type":73,"hash":""},{"type":74,"hash":""},{"type":32,"hash":""},{"type":60,"hash":""},{"type":61,"hash":""},{"type":21,"hash":""},{"type":10,"hash":""},{"type":71,"hash":""},{"type":70,"hash":""},{"type":72,"hash":""},{"type":80,"hash":""},{"type":81,"hash":""},{"type":82,"hash":""}]}
+
+response:
+{
+	"header": {
+		"code": 4096,
+		"session_id": "rcs7kga8pmvvlbtgbf90jnchmqbl9khn",
+		"api_version": "1.0.3",
+		"packet_unique_id": 11
+	},
+	"result": {
+		"master_array_rank": null,
+		"master_array_default_party": null,
+		"master_array_chara": null,
+		"master_array_chara_evol": null,
+		"master_array_skill_leader": null,
+		"master_array_skill_limitbreak": null,
+		"master_array_skill_active": null,
+		"master_array_skill_passive": null,
+		"master_array_enemy": null,
+		"master_array_enemy_group": null,
+		"master_array_guerrilla_boss": null,
+		"master_array_area": null,
+		"master_array_quest": null,
+		"master_array_quest_floor": null,
+		"master_array_category_pattern": null,
+		"master_array_expect_pattern": null,
+		"master_array_panel": null,
+		"master_array_panel_group": null,
+		"master_array_gacha": null,
+		"master_array_login_total": null,
+		"master_array_login_chain": null,
+		"master_array_login_event": null,
+		"master_array_event": null,
+		"master_array_area_amend": null,
+		"master_array_store_product": null,
+		"master_array_asset_path": [{
+			"fix_id": 0,
+			"name": "[0.9.0]MasterData.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 1,
+			"name": "[0.9.0]Unit_000_009.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 2,
+			"name": "[0.9.0]Unit_010_019.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 3,
+			"name": "[0.9.0]Unit_020_029.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 4,
+			"name": "[0.9.0]Unit_030_039.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 5,
+			"name": "[0.9.0]Unit_040_049.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 6,
+			"name": "[0.9.0]Unit_050_059.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 7,
+			"name": "[0.9.0]Unit_060_069.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 8,
+			"name": "[0.9.0]Unit_070_079.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 9,
+			"name": "[0.9.0]Unit_080_089.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 10,
+			"name": "[0.9.0]Unit_090_099.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 11,
+			"name": "[0.9.0]Unit_100_109.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 12,
+			"name": "[0.9.0]Unit_110_119.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 13,
+			"name": "[0.9.0]Unit_120_129.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 14,
+			"name": "[0.9.0]Unit_130_139.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 15,
+			"name": "[0.9.0]Unit_140_149.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 16,
+			"name": "[0.9.0]Unit_150_159.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 17,
+			"name": "[0.9.0]Unit_160_169.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 18,
+			"name": "[0.9.0]Unit_170_179.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 19,
+			"name": "[0.9.0]Unit_180_189.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 20,
+			"name": "[0.9.0]Unit_190_199.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 21,
+			"name": "[0.9.0]Unit_200_209.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 22,
+			"name": "[0.9.0]Unit_210_219.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 23,
+			"name": "[0.9.0]Unit_220_229.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 24,
+			"name": "[0.9.0]Unit_230_239.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 25,
+			"name": "[0.9.0]Unit_240_249.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 26,
+			"name": "[0.9.0]Unit_250_259.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 27,
+			"name": "[0.9.0]Unit_260_269.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 28,
+			"name": "[0.9.0]Unit_270_279.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 29,
+			"name": "[0.9.0]Unit_280_289.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 30,
+			"name": "[0.9.0]Unit_290_299.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 31,
+			"name": "[0.9.0]Unit_300_309.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 32,
+			"name": "[0.9.0]Unit_310_319.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 33,
+			"name": "[0.9.0]Unit_320_329.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 34,
+			"name": "[0.9.0]Unit_330_339.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 35,
+			"name": "[0.9.0]Unit_340_349.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 36,
+			"name": "[0.9.0]Unit_350_359.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 37,
+			"name": "[0.9.0]Unit_360_369.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 38,
+			"name": "[0.9.0]Unit_370_379.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 39,
+			"name": "[0.9.0]Unit_380_389.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 40,
+			"name": "[0.9.0]Unit_390_399.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 41,
+			"name": "[0.9.0]IconPackPanel.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 42,
+			"name": "[0.9.0]IconPackUnit.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 43,
+			"name": "[0.9.0]IconPackArea.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 44,
+			"name": "[0.9.0]map_0001.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 45,
+			"name": "[0.9.0]map_0008.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 46,
+			"name": "[0.9.0]map_0015.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 47,
+			"name": "[0.9.0]map_0022.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 48,
+			"name": "[0.9.0]map_0029.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 49,
+			"name": "[0.9.0]map_0036.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 50,
+			"name": "[0.9.0]map_1001.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 51,
+			"name": "[0.9.0]map_2001.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 52,
+			"name": "[0.9.0]map_2007.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 53,
+			"name": "[0.9.0]map_3001.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 54,
+			"name": "[0.9.0]map_4001.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 55,
+			"name": "[0.9.0]map_4002.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 56,
+			"name": "[0.9.0]map_4003.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 57,
+			"name": "[0.9.0]map_4009.unity3d",
+			"path": "v0.9.0",
+			"version": 40
+		}, {
+			"fix_id": 58,
+			"name": "[0.9.0]max",
+			"path": "max",
+			"version": 40
+		}, {
+			"fix_id": 59,
+			"name": "[1.0.0]MasterData.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 60,
+			"name": "[1.0.0]Unit_000_009.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 61,
+			"name": "[1.0.0]Unit_010_019.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 62,
+			"name": "[1.0.0]Unit_020_029.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 63,
+			"name": "[1.0.0]Unit_030_039.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 64,
+			"name": "[1.0.0]Unit_040_049.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 65,
+			"name": "[1.0.0]Unit_050_059.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 66,
+			"name": "[1.0.0]Unit_060_069.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 67,
+			"name": "[1.0.0]Unit_070_079.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 68,
+			"name": "[1.0.0]Unit_080_089.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 69,
+			"name": "[1.0.0]Unit_090_099.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 70,
+			"name": "[1.0.0]Unit_100_109.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 71,
+			"name": "[1.0.0]Unit_110_119.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 72,
+			"name": "[1.0.0]Unit_120_129.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 73,
+			"name": "[1.0.0]Unit_130_139.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 74,
+			"name": "[1.0.0]Unit_140_149.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 75,
+			"name": "[1.0.0]Unit_150_159.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 76,
+			"name": "[1.0.0]Unit_160_169.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 77,
+			"name": "[1.0.0]Unit_170_179.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 78,
+			"name": "[1.0.0]Unit_180_189.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 79,
+			"name": "[1.0.0]Unit_190_199.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 80,
+			"name": "[1.0.0]Unit_200_209.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 81,
+			"name": "[1.0.0]Unit_210_219.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 82,
+			"name": "[1.0.0]Unit_220_229.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 83,
+			"name": "[1.0.0]Unit_230_239.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 84,
+			"name": "[1.0.0]Unit_240_249.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 85,
+			"name": "[1.0.0]Unit_250_259.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 86,
+			"name": "[1.0.0]Unit_260_269.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 87,
+			"name": "[1.0.0]Unit_270_279.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 88,
+			"name": "[1.0.0]Unit_280_289.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 89,
+			"name": "[1.0.0]Unit_290_299.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 90,
+			"name": "[1.0.0]Unit_300_309.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 91,
+			"name": "[1.0.0]Unit_310_319.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 92,
+			"name": "[1.0.0]Unit_320_329.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 93,
+			"name": "[1.0.0]Unit_330_339.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 94,
+			"name": "[1.0.0]Unit_340_349.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 95,
+			"name": "[1.0.0]Unit_350_359.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 96,
+			"name": "[1.0.0]Unit_360_369.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 97,
+			"name": "[1.0.0]Unit_370_379.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 98,
+			"name": "[1.0.0]Unit_380_389.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 99,
+			"name": "[1.0.0]Unit_390_399.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 100,
+			"name": "[1.0.0]IconPackPanel.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 101,
+			"name": "[1.0.0]IconPackUnit.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 102,
+			"name": "[1.0.0]IconPackArea.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 103,
+			"name": "[1.0.0]map_0001.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 104,
+			"name": "[1.0.0]map_0008.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 105,
+			"name": "[1.0.0]map_0015.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 106,
+			"name": "[1.0.0]map_0022.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 107,
+			"name": "[1.0.0]map_0029.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 108,
+			"name": "[1.0.0]map_0036.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 109,
+			"name": "[1.0.0]map_1001.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 110,
+			"name": "[1.0.0]map_2001.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 111,
+			"name": "[1.0.0]map_2007.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 112,
+			"name": "[1.0.0]map_3001.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 113,
+			"name": "[1.0.0]map_4001.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 114,
+			"name": "[1.0.0]map_4002.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 115,
+			"name": "[1.0.0]map_4003.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 116,
+			"name": "[1.0.0]map_4009.unity3d",
+			"path": "v1.0.0",
+			"version": 40
+		}, {
+			"fix_id": 117,
+			"name": "[1.0.0]max",
+			"path": "max",
+			"version": 40
+		}, {
+			"fix_id": 118,
+			"name": "[1.0.1]MasterData.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 119,
+			"name": "[1.0.1]Unit_000_009.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 120,
+			"name": "[1.0.1]Unit_010_019.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 121,
+			"name": "[1.0.1]Unit_020_029.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 122,
+			"name": "[1.0.1]Unit_030_039.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 123,
+			"name": "[1.0.1]Unit_040_049.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 124,
+			"name": "[1.0.1]Unit_050_059.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 125,
+			"name": "[1.0.1]Unit_060_069.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 126,
+			"name": "[1.0.1]Unit_070_079.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 127,
+			"name": "[1.0.1]Unit_080_089.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 128,
+			"name": "[1.0.1]Unit_090_099.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 129,
+			"name": "[1.0.1]Unit_100_109.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 130,
+			"name": "[1.0.1]Unit_110_119.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 131,
+			"name": "[1.0.1]Unit_120_129.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 132,
+			"name": "[1.0.1]Unit_130_139.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 133,
+			"name": "[1.0.1]Unit_140_149.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 134,
+			"name": "[1.0.1]Unit_150_159.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 135,
+			"name": "[1.0.1]Unit_160_169.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 136,
+			"name": "[1.0.1]Unit_170_179.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 137,
+			"name": "[1.0.1]Unit_180_189.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 138,
+			"name": "[1.0.1]Unit_190_199.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 139,
+			"name": "[1.0.1]Unit_200_209.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 140,
+			"name": "[1.0.1]Unit_210_219.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 141,
+			"name": "[1.0.1]Unit_220_229.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 142,
+			"name": "[1.0.1]Unit_230_239.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 143,
+			"name": "[1.0.1]Unit_240_249.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 144,
+			"name": "[1.0.1]Unit_250_259.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 145,
+			"name": "[1.0.1]Unit_260_269.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 146,
+			"name": "[1.0.1]Unit_270_279.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 147,
+			"name": "[1.0.1]Unit_280_289.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 148,
+			"name": "[1.0.1]Unit_290_299.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 149,
+			"name": "[1.0.1]Unit_300_309.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 150,
+			"name": "[1.0.1]Unit_310_319.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 151,
+			"name": "[1.0.1]Unit_320_329.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 152,
+			"name": "[1.0.1]Unit_330_339.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 153,
+			"name": "[1.0.1]Unit_340_349.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 154,
+			"name": "[1.0.1]Unit_350_359.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 155,
+			"name": "[1.0.1]Unit_360_369.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 156,
+			"name": "[1.0.1]Unit_370_379.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 157,
+			"name": "[1.0.1]Unit_380_389.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 158,
+			"name": "[1.0.1]Unit_390_399.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 159,
+			"name": "[1.0.1]IconPackPanel.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 160,
+			"name": "[1.0.1]IconPackUnit.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 161,
+			"name": "[1.0.1]IconPackArea.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 162,
+			"name": "[1.0.1]map_0001.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 163,
+			"name": "[1.0.1]map_0008.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 164,
+			"name": "[1.0.1]map_0015.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 165,
+			"name": "[1.0.1]map_0022.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 166,
+			"name": "[1.0.1]map_0029.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 167,
+			"name": "[1.0.1]map_0036.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 168,
+			"name": "[1.0.1]map_1001.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 169,
+			"name": "[1.0.1]map_2001.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 170,
+			"name": "[1.0.1]map_2007.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 171,
+			"name": "[1.0.1]map_3001.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 172,
+			"name": "[1.0.1]map_4001.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 173,
+			"name": "[1.0.1]map_4002.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 174,
+			"name": "[1.0.1]map_4003.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 175,
+			"name": "[1.0.1]map_4009.unity3d",
+			"path": "v1.0.1",
+			"version": 59
+		}, {
+			"fix_id": 176,
+			"name": "[1.0.1]max",
+			"path": "max",
+			"version": 59
+		}, {
+			"fix_id": 177,
+			"name": "[1.0.2]MasterData.unity3d",
+			"path": "v1.0.2",
+			"version": 105
+		}, {
+			"fix_id": 178,
+			"name": "[1.0.2]Unit_000_009.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 179,
+			"name": "[1.0.2]Unit_010_019.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 180,
+			"name": "[1.0.2]Unit_020_029.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 181,
+			"name": "[1.0.2]Unit_030_039.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 182,
+			"name": "[1.0.2]Unit_040_049.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 183,
+			"name": "[1.0.2]Unit_050_059.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 184,
+			"name": "[1.0.2]Unit_060_069.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 185,
+			"name": "[1.0.2]Unit_070_079.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 186,
+			"name": "[1.0.2]Unit_080_089.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 187,
+			"name": "[1.0.2]Unit_090_099.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 188,
+			"name": "[1.0.2]Unit_100_109.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 189,
+			"name": "[1.0.2]Unit_110_119.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 190,
+			"name": "[1.0.2]Unit_120_129.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 191,
+			"name": "[1.0.2]Unit_130_139.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 192,
+			"name": "[1.0.2]Unit_140_149.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 193,
+			"name": "[1.0.2]Unit_150_159.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 194,
+			"name": "[1.0.2]Unit_160_169.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 195,
+			"name": "[1.0.2]Unit_170_179.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 196,
+			"name": "[1.0.2]Unit_180_189.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 197,
+			"name": "[1.0.2]Unit_190_199.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 198,
+			"name": "[1.0.2]Unit_200_209.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 199,
+			"name": "[1.0.2]Unit_210_219.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 200,
+			"name": "[1.0.2]Unit_220_229.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 201,
+			"name": "[1.0.2]Unit_230_239.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 202,
+			"name": "[1.0.2]Unit_240_249.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 203,
+			"name": "[1.0.2]Unit_250_259.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 204,
+			"name": "[1.0.2]Unit_260_269.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 205,
+			"name": "[1.0.2]Unit_270_279.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 206,
+			"name": "[1.0.2]Unit_280_289.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 207,
+			"name": "[1.0.2]Unit_290_299.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 208,
+			"name": "[1.0.2]Unit_300_309.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 209,
+			"name": "[1.0.2]Unit_310_319.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 210,
+			"name": "[1.0.2]Unit_320_329.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 211,
+			"name": "[1.0.2]Unit_330_339.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 212,
+			"name": "[1.0.2]Unit_340_349.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 213,
+			"name": "[1.0.2]Unit_350_359.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 214,
+			"name": "[1.0.2]Unit_360_369.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 215,
+			"name": "[1.0.2]Unit_370_379.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 216,
+			"name": "[1.0.2]Unit_380_389.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 217,
+			"name": "[1.0.2]Unit_390_399.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 218,
+			"name": "[1.0.2]IconPackPanel.unity3d",
+			"path": "v1.0.2",
+			"version": 73
+		}, {
+			"fix_id": 219,
+			"name": "[1.0.2]IconPackUnit.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 220,
+			"name": "[1.0.2]IconPackArea.unity3d",
+			"path": "v1.0.2",
+			"version": 73
+		}, {
+			"fix_id": 221,
+			"name": "[1.0.2]map_0001.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 222,
+			"name": "[1.0.2]map_0008.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 223,
+			"name": "[1.0.2]map_0015.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 224,
+			"name": "[1.0.2]map_0022.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 225,
+			"name": "[1.0.2]map_0029.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 226,
+			"name": "[1.0.2]map_0036.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 227,
+			"name": "[1.0.2]map_1001.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 228,
+			"name": "[1.0.2]map_2001.unity3d",
+			"path": "v1.0.2",
+			"version": 72
+		}, {
+			"fix_id": 229,
+			"name": "[1.0.2]map_2007.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 230,
+			"name": "[1.0.2]map_3001.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 231,
+			"name": "[1.0.2]map_4001.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 232,
+			"name": "[1.0.2]map_4002.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 233,
+			"name": "[1.0.2]map_4003.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 234,
+			"name": "[1.0.2]map_4009.unity3d",
+			"path": "v1.0.2",
+			"version": 71
+		}, {
+			"fix_id": 235,
+			"name": "[1.0.2]map_5002.unity3d",
+			"path": "v1.0.2",
+			"version": 73
+		}, {
+			"fix_id": 236,
+			"name": "[1.0.2]map_6001.unity3d",
+			"path": "v1.0.2",
+			"version": 73
+		}, {
+			"fix_id": 237,
+			"name": "[1.0.2]max",
+			"path": "max",
+			"version": 71
+		}, {
+			"fix_id": 238,
+			"name": "[1.0.3]MasterData.unity3d",
+			"path": "v1.0.3",
+			"version": 41
+		}, {
+			"fix_id": 239,
+			"name": "[1.0.3]Unit_000_009.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 240,
+			"name": "[1.0.3]Unit_010_019.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 241,
+			"name": "[1.0.3]Unit_020_029.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 242,
+			"name": "[1.0.3]Unit_030_039.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 243,
+			"name": "[1.0.3]Unit_040_049.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 244,
+			"name": "[1.0.3]Unit_050_059.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 245,
+			"name": "[1.0.3]Unit_060_069.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 246,
+			"name": "[1.0.3]Unit_070_079.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 247,
+			"name": "[1.0.3]Unit_080_089.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 248,
+			"name": "[1.0.3]Unit_090_099.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 249,
+			"name": "[1.0.3]Unit_100_109.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 250,
+			"name": "[1.0.3]Unit_110_119.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 251,
+			"name": "[1.0.3]Unit_120_129.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 252,
+			"name": "[1.0.3]Unit_130_139.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 253,
+			"name": "[1.0.3]Unit_140_149.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 254,
+			"name": "[1.0.3]Unit_150_159.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 255,
+			"name": "[1.0.3]Unit_160_169.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 256,
+			"name": "[1.0.3]Unit_170_179.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 257,
+			"name": "[1.0.3]Unit_180_189.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 258,
+			"name": "[1.0.3]Unit_190_199.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 259,
+			"name": "[1.0.3]Unit_200_209.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 260,
+			"name": "[1.0.3]Unit_210_219.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 261,
+			"name": "[1.0.3]Unit_220_229.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 262,
+			"name": "[1.0.3]Unit_230_239.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 263,
+			"name": "[1.0.3]Unit_240_249.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 264,
+			"name": "[1.0.3]Unit_250_259.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 265,
+			"name": "[1.0.3]Unit_260_269.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 266,
+			"name": "[1.0.3]Unit_270_279.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 267,
+			"name": "[1.0.3]Unit_280_289.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 268,
+			"name": "[1.0.3]Unit_290_299.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 269,
+			"name": "[1.0.3]Unit_300_309.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 270,
+			"name": "[1.0.3]Unit_310_319.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 271,
+			"name": "[1.0.3]Unit_320_329.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 272,
+			"name": "[1.0.3]Unit_330_339.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 273,
+			"name": "[1.0.3]Unit_340_349.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 274,
+			"name": "[1.0.3]Unit_350_359.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 275,
+			"name": "[1.0.3]Unit_360_369.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 276,
+			"name": "[1.0.3]Unit_370_379.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 277,
+			"name": "[1.0.3]Unit_380_389.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 278,
+			"name": "[1.0.3]Unit_390_399.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 279,
+			"name": "[1.0.3]Unit_400_409.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 280,
+			"name": "[1.0.3]Unit_410_419.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 281,
+			"name": "[1.0.3]Unit_420_429.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 282,
+			"name": "[1.0.3]Unit_430_439.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 283,
+			"name": "[1.0.3]Unit_440_449.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 284,
+			"name": "[1.0.3]Unit_450_459.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 285,
+			"name": "[1.0.3]Unit_460_469.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 286,
+			"name": "[1.0.3]Unit_470_479.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 287,
+			"name": "[1.0.3]Unit_480_489.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 288,
+			"name": "[1.0.3]Unit_490_499.unity3d",
+			"path": "v1.0.3",
+			"version": 11
+		}, {
+			"fix_id": 289,
+			"name": "[1.0.3]IconPackPanel.unity3d",
+			"path": "v1.0.3",
+			"version": 12
+		}, {
+			"fix_id": 290,
+			"name": "[1.0.3]IconPackUnit.unity3d",
+			"path": "v1.0.3",
+			"version": 12
+		}, {
+			"fix_id": 291,
+			"name": "[1.0.3]IconPackArea.unity3d",
+			"path": "v1.0.3",
+			"version": 12
+		}, {
+			"fix_id": 292,
+			"name": "[1.0.3]map_0001.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 293,
+			"name": "[1.0.3]map_0008.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 294,
+			"name": "[1.0.3]map_0015.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 295,
+			"name": "[1.0.3]map_0022.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 296,
+			"name": "[1.0.3]map_0029.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 297,
+			"name": "[1.0.3]map_1001.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 298,
+			"name": "[1.0.3]map_2001.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 299,
+			"name": "[1.0.3]map_2007.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 300,
+			"name": "[1.0.3]map_3001.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 301,
+			"name": "[1.0.3]map_4001.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 302,
+			"name": "[1.0.3]map_4002.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 303,
+			"name": "[1.0.3]map_4003.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 304,
+			"name": "[1.0.3]map_5002.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 305,
+			"name": "[1.0.3]map_5003.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 306,
+			"name": "[1.0.3]map_6001.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 307,
+			"name": "[1.0.3]map_6002.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 308,
+			"name": "[1.0.3]map_4022.unity3d",
+			"path": "v1.0.3",
+			"version": 10
+		}, {
+			"fix_id": 309,
+			"name": "[1.0.3]max",
+			"path": "max",
+			"version": 10
+		}, {
+			"fix_id": 310,
+			"name": "[1.0.4]MasterData.unity3d",
+			"path": "v1.0.4",
+			"version": 7
+		}, {
+			"fix_id": 311,
+			"name": "[1.0.4]Unit_000_009.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 312,
+			"name": "[1.0.4]Unit_010_019.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 313,
+			"name": "[1.0.4]Unit_020_029.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 314,
+			"name": "[1.0.4]Unit_030_039.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 315,
+			"name": "[1.0.4]Unit_040_049.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 316,
+			"name": "[1.0.4]Unit_050_059.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 317,
+			"name": "[1.0.4]Unit_060_069.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 318,
+			"name": "[1.0.4]Unit_070_079.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 319,
+			"name": "[1.0.4]Unit_080_089.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 320,
+			"name": "[1.0.4]Unit_090_099.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 321,
+			"name": "[1.0.4]Unit_100_109.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 322,
+			"name": "[1.0.4]Unit_110_119.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 323,
+			"name": "[1.0.4]Unit_120_129.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 324,
+			"name": "[1.0.4]Unit_130_139.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 325,
+			"name": "[1.0.4]Unit_140_149.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 326,
+			"name": "[1.0.4]Unit_150_159.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 327,
+			"name": "[1.0.4]Unit_160_169.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 328,
+			"name": "[1.0.4]Unit_170_179.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 329,
+			"name": "[1.0.4]Unit_180_189.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 330,
+			"name": "[1.0.4]Unit_190_199.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 331,
+			"name": "[1.0.4]Unit_200_209.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 332,
+			"name": "[1.0.4]Unit_210_219.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 333,
+			"name": "[1.0.4]Unit_220_229.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 334,
+			"name": "[1.0.4]Unit_230_239.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 335,
+			"name": "[1.0.4]Unit_240_249.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 336,
+			"name": "[1.0.4]Unit_250_259.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 337,
+			"name": "[1.0.4]Unit_260_269.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 338,
+			"name": "[1.0.4]Unit_270_279.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 339,
+			"name": "[1.0.4]Unit_280_289.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 340,
+			"name": "[1.0.4]Unit_290_299.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 341,
+			"name": "[1.0.4]Unit_300_309.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 342,
+			"name": "[1.0.4]Unit_310_319.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 343,
+			"name": "[1.0.4]Unit_320_329.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 344,
+			"name": "[1.0.4]Unit_330_339.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 345,
+			"name": "[1.0.4]Unit_340_349.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 346,
+			"name": "[1.0.4]Unit_350_359.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 347,
+			"name": "[1.0.4]Unit_360_369.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 348,
+			"name": "[1.0.4]Unit_370_379.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 349,
+			"name": "[1.0.4]Unit_380_389.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 350,
+			"name": "[1.0.4]Unit_390_399.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 351,
+			"name": "[1.0.4]Unit_400_409.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 352,
+			"name": "[1.0.4]Unit_410_419.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 353,
+			"name": "[1.0.4]Unit_420_429.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 354,
+			"name": "[1.0.4]Unit_430_439.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 355,
+			"name": "[1.0.4]Unit_440_449.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 356,
+			"name": "[1.0.4]Unit_450_459.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 357,
+			"name": "[1.0.4]Unit_460_469.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 358,
+			"name": "[1.0.4]Unit_470_479.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 359,
+			"name": "[1.0.4]Unit_480_489.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 360,
+			"name": "[1.0.4]Unit_490_499.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 361,
+			"name": "[1.0.4]IconPackPanel.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 362,
+			"name": "[1.0.4]IconPackUnit.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 363,
+			"name": "[1.0.4]IconPackArea.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 364,
+			"name": "[1.0.4]map_0001.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 365,
+			"name": "[1.0.4]map_0008.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 366,
+			"name": "[1.0.4]map_0015.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 367,
+			"name": "[1.0.4]map_0022.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 368,
+			"name": "[1.0.4]map_0029.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 369,
+			"name": "[1.0.4]map_1001.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 370,
+			"name": "[1.0.4]map_2001.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 371,
+			"name": "[1.0.4]map_2007.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 372,
+			"name": "[1.0.4]map_3001.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 373,
+			"name": "[1.0.4]map_4001.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 374,
+			"name": "[1.0.4]map_4002.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 375,
+			"name": "[1.0.4]map_4003.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 376,
+			"name": "[1.0.4]map_4022.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 377,
+			"name": "[1.0.4]map_5002.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 378,
+			"name": "[1.0.4]map_5003.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 379,
+			"name": "[1.0.4]map_6001.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 380,
+			"name": "[1.0.4]map_6002.unity3d",
+			"path": "v1.0.4",
+			"version": 4
+		}, {
+			"fix_id": 381,
+			"name": "[1.0.4]max",
+			"path": "max",
+			"version": 4
+		}],
+		"master_array_information": null,
+		"master_hash": [{
+			"type": 11,
+			"hash": "1043947980"
+		}, {
+			"type": 40,
+			"hash": "440108479"
+		}, {
+			"type": 41,
+			"hash": "2835399293"
+		}, {
+			"type": 42,
+			"hash": "2812124954"
+		}, {
+			"type": 43,
+			"hash": "3500655113"
+		}, {
+			"type": 44,
+			"hash": "4015447379"
+		}, {
+			"type": 20,
+			"hash": "3547261994"
+		}, {
+			"type": 45,
+			"hash": "3555695127"
+		}, {
+			"type": 46,
+			"hash": "841482438"
+		}, {
+			"type": 30,
+			"hash": "3771200869"
+		}, {
+			"type": 31,
+			"hash": "4223048583"
+		}, {
+			"type": 23,
+			"hash": "3042484007"
+		}, {
+			"type": 22,
+			"hash": "3069730898"
+		}, {
+			"type": 24,
+			"hash": "25016538"
+		}, {
+			"type": 25,
+			"hash": "2225493159"
+		}, {
+			"type": 73,
+			"hash": "616434967"
+		}, {
+			"type": 74,
+			"hash": "1461760373"
+		}, {
+			"type": 32,
+			"hash": "1068735469"
+		}, {
+			"type": 60,
+			"hash": "1706207936"
+		}, {
+			"type": 61,
+			"hash": "2837224637"
+		}, {
+			"type": 21,
+			"hash": "4232485454"
+		}, {
+			"type": 10,
+			"hash": "366192604"
+		}, {
+			"type": 71,
+			"hash": "3408377264"
+		}, {
+			"type": 70,
+			"hash": "460676192"
+		}, {
+			"type": 72,
+			"hash": "338469871"
+		}, {
+			"type": 80,
+			"hash": "689717889"
+		}, {
+			"type": 81,
+			"hash": "4150746151"
+		}, {
+			"type": 82,
+			"hash": "4068436694"
+		}]
+	}
+}
+```
+
+## select_user_code
+
+```
+request
+{"header":{"api_version":"1.0.3","packet_unique_id":14},"user_id":148524752}
+
+response
+{
+	"header": {
+		"code": 8200,
+		"session_id": "rcs7kga8pmvvlbtgbf90jnchmqbl9khn",
+		"api_version": "1.0.3",
+		"packet_unique_id": 14
+	},
+	"result": {
+		"friend": null
+	}
+}
+```
+
+## buy_gacha
+
+```
+request
+{"header":{"api_version":"1.0.3","packet_unique_id":15},"gacha_id":100100,"gacha_tutorial":0,"gacha_ct":1}
+response
+{
+	"header": {
+		"code": 4096,
+		"session_id": "rcs7kga8pmvvlbtgbf90jnchmqbl9khn",
+		"api_version": "1.0.3",
+		"packet_unique_id": 15
+	},
+	"result": {
+		"blank_unit_id": [47, 79, 51, 66, 63, 89, 77, 49],
+		"player": {
+			"unit_list": [{
+				"id": 10,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 20000013284654,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382587585
+			}, {
+				"id": 129,
+				"exp": 9410,
+				"level": 12,
+				"unique_id": 20000013328842,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382590465
+			}, {
+				"id": 133,
+				"exp": 34652,
+				"level": 20,
+				"unique_id": 20000014146276,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382623828
+			}, {
+				"id": 72,
+				"exp": 531,
+				"level": 4,
+				"unique_id": 20000016687772,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382839187
+			}, {
+				"id": 3,
+				"exp": 78562,
+				"level": 28,
+				"unique_id": 20000016719832,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0,
+				"get_time": 1382842314
+			}, {
+				"id": 49,
+				"exp": 1918,
+				"level": 8,
+				"unique_id": 20000032972480,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384943692
+			}, {
+				"id": 399,
+				"exp": 2993,
+				"level": 10,
+				"unique_id": 20000032992503,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384945358
+			}, {
+				"id": 199,
+				"exp": 3195,
+				"level": 10,
+				"unique_id": 20000033010726,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384946760
+			}, {
+				"id": 381,
+				"exp": 72449,
+				"level": 27,
+				"unique_id": 20000034219738,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385108677
+			}, {
+				"id": 194,
+				"exp": 13,
+				"level": 2,
+				"unique_id": 20000036675386,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385458424
+			}, {
+				"id": 396,
+				"exp": 36000,
+				"level": 14,
+				"unique_id": 20000037208450,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385537691
+			}, {
+				"id": 397,
+				"exp": 10000,
+				"level": 9,
+				"unique_id": 20000037217401,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385538849
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037460188,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561131
+			}, {
+				"id": 394,
+				"exp": 2610,
+				"level": 5,
+				"unique_id": 20000037465566,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561632
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470995,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470996,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 395,
+				"exp": 3690,
+				"level": 6,
+				"unique_id": 20000037492647,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385564514
+			}, {
+				"id": 402,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037501078,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385565446
+			}, {
+				"id": 403,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037501079,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385565446
+			}, {
+				"id": 403,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037513123,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385566900
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037514775,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385567103
+			}, {
+				"id": 212,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000037735221,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385613752
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038031587,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385649265
+			}, {
+				"id": 115,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040797,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 91,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040801,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 61,
+				"exp": 13,
+				"level": 2,
+				"unique_id": 20000038065783,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 214,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000038065785,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 73,
+				"exp": 19,
+				"level": 2,
+				"unique_id": 20000038065786,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 59,
+				"exp": 3195,
+				"level": 10,
+				"unique_id": 20000038092640,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385658959
+			}, {
+				"id": 47,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038092641,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385658959
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038210352,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695425
+			}],
+			"unit_party_current": 0,
+			"unit_party_assign": [{
+				"unit0_unique_id": 20000037208450,
+				"unit1_unique_id": 20000013284654,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000034219738
+			}, {
+				"unit0_unique_id": 20000013328842,
+				"unit1_unique_id": 20000037465566,
+				"unit2_unique_id": 20000034219738,
+				"unit3_unique_id": 20000013284654
+			}, {
+				"unit0_unique_id": 20000037492647,
+				"unit1_unique_id": 20000014146276,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000037208450
+			}, {
+				"unit0_unique_id": 20000037217401,
+				"unit1_unique_id": 0,
+				"unit2_unique_id": 0,
+				"unit3_unique_id": 20000032972480
+			}, {
+				"unit0_unique_id": 20000013284654,
+				"unit1_unique_id": 20000013328842,
+				"unit2_unique_id": 20000016687772,
+				"unit3_unique_id": 20000032992503
+			}],
+			"user": {
+				"user_id": 101946121,
+				"user_name": "orca",
+				"user_group": 0
+			},
+			"first_select_num": 3,
+			"rank": 22,
+			"exp": 6243,
+			"review": 1,
+			"pay_total": 0,
+			"pay_month": 0,
+			"have_money": 8732,
+			"have_stone_pay": 0,
+			"have_stone_free": 0,
+			"have_stone": 0,
+			"have_friend_pt": 685,
+			"stamina_now": 27,
+			"stamina_max": 27,
+			"stamina_recover": 1385695425,
+			"total_unit": 40,
+			"total_party": 37,
+			"total_friend": 31,
+			"flag_quest_check": [32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 0, 66, 128, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_quest_clear": [224, 6, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 0, 2, 128, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_tutorial": [255, 254, 71, 0],
+			"flag_unit_check": [80, 4, 68, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 128, 10, 168, 128, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 136, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_unit_get": [14, 6, 0, 16, 0, 184, 186, 171, 171, 171, 138, 168, 0, 0, 8, 0, 34, 0, 0, 0, 0, 128, 161, 0, 134, 3, 219, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 252, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		},
+		"unit_unique_id": [20000038210352]
+	}
+}
+```
+
+## buy_gacha (3 units)
+
+```
+request:
+{"header":{"api_version":"1.0.3","packet_unique_id":16},"gacha_id":100100,"gacha_tutorial":0,"gacha_ct":3
+
+response:
+{
+	"header": {
+		"code": 4096,
+		"session_id": "rcs7kga8pmvvlbtgbf90jnchmqbl9khn",
+		"api_version": "1.0.3",
+		"packet_unique_id": 16
+	},
+	"result": {
+		"blank_unit_id": [53, 43, 87, 53, 51, 87],
+		"player": {
+			"unit_list": [{
+				"id": 10,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 20000013284654,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382587585
+			}, {
+				"id": 129,
+				"exp": 9410,
+				"level": 12,
+				"unique_id": 20000013328842,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382590465
+			}, {
+				"id": 133,
+				"exp": 34652,
+				"level": 20,
+				"unique_id": 20000014146276,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382623828
+			}, {
+				"id": 72,
+				"exp": 531,
+				"level": 4,
+				"unique_id": 20000016687772,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382839187
+			}, {
+				"id": 3,
+				"exp": 78562,
+				"level": 28,
+				"unique_id": 20000016719832,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0,
+				"get_time": 1382842314
+			}, {
+				"id": 49,
+				"exp": 1918,
+				"level": 8,
+				"unique_id": 20000032972480,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384943692
+			}, {
+				"id": 399,
+				"exp": 2993,
+				"level": 10,
+				"unique_id": 20000032992503,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384945358
+			}, {
+				"id": 199,
+				"exp": 3195,
+				"level": 10,
+				"unique_id": 20000033010726,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384946760
+			}, {
+				"id": 381,
+				"exp": 72449,
+				"level": 27,
+				"unique_id": 20000034219738,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385108677
+			}, {
+				"id": 194,
+				"exp": 13,
+				"level": 2,
+				"unique_id": 20000036675386,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385458424
+			}, {
+				"id": 396,
+				"exp": 36000,
+				"level": 14,
+				"unique_id": 20000037208450,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385537691
+			}, {
+				"id": 397,
+				"exp": 10000,
+				"level": 9,
+				"unique_id": 20000037217401,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385538849
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037460188,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561131
+			}, {
+				"id": 394,
+				"exp": 2610,
+				"level": 5,
+				"unique_id": 20000037465566,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561632
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470995,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470996,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 395,
+				"exp": 3690,
+				"level": 6,
+				"unique_id": 20000037492647,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385564514
+			}, {
+				"id": 402,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037501078,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385565446
+			}, {
+				"id": 403,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037501079,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385565446
+			}, {
+				"id": 403,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037513123,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385566900
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037514775,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385567103
+			}, {
+				"id": 212,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000037735221,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385613752
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038031587,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385649265
+			}, {
+				"id": 115,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040797,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 91,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040801,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 61,
+				"exp": 13,
+				"level": 2,
+				"unique_id": 20000038065783,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 214,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000038065785,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 73,
+				"exp": 19,
+				"level": 2,
+				"unique_id": 20000038065786,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 59,
+				"exp": 3195,
+				"level": 10,
+				"unique_id": 20000038092640,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385658959
+			}, {
+				"id": 47,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038092641,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385658959
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038210352,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695425
+			}, {
+				"id": 54,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038211188,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695553
+			}, {
+				"id": 81,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038211189,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695553
+			}, {
+				"id": 81,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038211190,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695553
+			}],
+			"unit_party_current": 0,
+			"unit_party_assign": [{
+				"unit0_unique_id": 20000037208450,
+				"unit1_unique_id": 20000013284654,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000034219738
+			}, {
+				"unit0_unique_id": 20000013328842,
+				"unit1_unique_id": 20000037465566,
+				"unit2_unique_id": 20000034219738,
+				"unit3_unique_id": 20000013284654
+			}, {
+				"unit0_unique_id": 20000037492647,
+				"unit1_unique_id": 20000014146276,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000037208450
+			}, {
+				"unit0_unique_id": 20000037217401,
+				"unit1_unique_id": 0,
+				"unit2_unique_id": 0,
+				"unit3_unique_id": 20000032972480
+			}, {
+				"unit0_unique_id": 20000013284654,
+				"unit1_unique_id": 20000013328842,
+				"unit2_unique_id": 20000016687772,
+				"unit3_unique_id": 20000032992503
+			}],
+			"user": {
+				"user_id": 101946121,
+				"user_name": "orca",
+				"user_group": 0
+			},
+			"first_select_num": 3,
+			"rank": 22,
+			"exp": 6243,
+			"review": 1,
+			"pay_total": 0,
+			"pay_month": 0,
+			"have_money": 8732,
+			"have_stone_pay": 0,
+			"have_stone_free": 0,
+			"have_stone": 0,
+			"have_friend_pt": 85,
+			"stamina_now": 27,
+			"stamina_max": 27,
+			"stamina_recover": 1385695553,
+			"total_unit": 40,
+			"total_party": 37,
+			"total_friend": 31,
+			"flag_quest_check": [32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 0, 66, 128, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_quest_clear": [224, 6, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 0, 2, 128, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_tutorial": [255, 254, 71, 0],
+			"flag_unit_check": [80, 4, 68, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 128, 10, 168, 128, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 136, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_unit_get": [14, 6, 0, 16, 0, 184, 250, 171, 171, 171, 138, 168, 0, 0, 8, 0, 34, 0, 0, 0, 0, 128, 161, 0, 134, 3, 219, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 252, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		},
+		"unit_unique_id": [20000038211188, 20000038211189, 20000038211190]
+	}
+}
+
+```
+
+## change_user_name
+
+```
+{"header":{"api_version":"1.0.3","packet_unique_id":17},"user_name":"Orca"}
+```
+
+## accept_friend_request.php
+```
+request: 
+{"header":{"api_version":"1.0.3","packet_unique_id":13},"user_id":[103256057]}
+response:
+{
+	"header": {
+		"code": 4096,
+		"session_id": "8rg9g9nmdhrs4ili4kl0nt74cspssl5u",
+		"api_version": "1.0.3",
+		"packet_unique_id": 13
+	},
+	"result": {
+		"friend": [{
+			"user_id": 101802326,
+			"user_name": "\u3084\u30fc\u307e\u3060",
+			"user_rank": 24,
+			"last_play": 1385936655,
+			"friend_state": 0,
+			"friend_state_update": 1383957288,
+			"friend_point": 0,
+			"unit": {
+				"id": 26,
+				"exp": 6241,
+				"level": 11,
+				"unique_id": 30000012319553,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102027425,
+			"user_name": "eine",
+			"user_rank": 61,
+			"last_play": 1385944078,
+			"friend_state": 1,
+			"friend_state_update": 1382625611,
+			"friend_point": 0,
+			"unit": {
+				"id": 140,
+				"exp": 114495,
+				"level": 22,
+				"unique_id": 60000013762538,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101895534,
+			"user_name": "\u30eb\u30a4\u30ea\u30aa",
+			"user_rank": 16,
+			"last_play": 1385951315,
+			"friend_state": 0,
+			"friend_state_update": 1382839223,
+			"friend_point": 0,
+			"unit": {
+				"id": 124,
+				"exp": 34386,
+				"level": 24,
+				"unique_id": 10000015614394,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101229629,
+			"user_name": "worldhome",
+			"user_rank": 10,
+			"last_play": 1385906127,
+			"friend_state": 1,
+			"friend_state_update": 1382839421,
+			"friend_point": 0,
+			"unit": {
+				"id": 143,
+				"exp": 24200,
+				"level": 12,
+				"unique_id": 60000007004875,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102209890,
+			"user_name": "\u3058\u3083\u304c\u3044\u3082",
+			"user_rank": 36,
+			"last_play": 1385915524,
+			"friend_state": 1,
+			"friend_state_update": 1382843511,
+			"friend_point": 0,
+			"unit": {
+				"id": 4,
+				"exp": 109539,
+				"level": 25,
+				"unique_id": 50000015004989,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102615113,
+			"user_name": "\u3061\u30fc\u3055\u3093",
+			"user_rank": 50,
+			"last_play": 1385949992,
+			"friend_state": 0,
+			"friend_state_update": 1384248277,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 33043,
+				"level": 14,
+				"unique_id": 60000029799156,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102708026,
+			"user_name": "\u30c0\u30a4\u30b9\u30b1",
+			"user_rank": 61,
+			"last_play": 1385935615,
+			"friend_state": 0,
+			"friend_state_update": 1383665536,
+			"friend_point": 0,
+			"unit": {
+				"id": 154,
+				"exp": 63450,
+				"level": 18,
+				"unique_id": 30000022970880,
+				"add_pow": 9,
+				"add_def": 0,
+				"add_hp": 14,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102660695,
+			"user_name": "\u5e74\u672b\u8abf\u6574",
+			"user_rank": 28,
+			"last_play": 1385409445,
+			"friend_state": 0,
+			"friend_state_update": 1383712329,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 43390,
+				"level": 15,
+				"unique_id": 60000025059632,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101869749,
+			"user_name": "\u3072\u3087\u3063\u3068\u3053\u658e",
+			"user_rank": 12,
+			"last_play": 1385456135,
+			"friend_state": 0,
+			"friend_state_update": 1383671413,
+			"friend_point": 0,
+			"unit": {
+				"id": 349,
+				"exp": 2850,
+				"level": 8,
+				"unique_id": 40000022847484,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102853471,
+			"user_name": "\u3082\u3084\u3057",
+			"user_rank": 33,
+			"last_play": 1385950288,
+			"friend_state": 0,
+			"friend_state_update": 1385477585,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 20000026498248,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102775342,
+			"user_name": "NobuSh",
+			"user_rank": 14,
+			"last_play": 1384820412,
+			"friend_state": 2,
+			"friend_state_update": 1384433251,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 6101,
+				"level": 10,
+				"unique_id": 50000024484555,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102917568,
+			"user_name": "shan",
+			"user_rank": 18,
+			"last_play": 1385377955,
+			"friend_state": 2,
+			"friend_state_update": 1384435417,
+			"friend_point": 0,
+			"unit": {
+				"id": 394,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 10000029113809,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101528914,
+			"user_name": "bbgtest",
+			"user_rank": 45,
+			"last_play": 1385942798,
+			"friend_state": 0,
+			"friend_state_update": 1384860868,
+			"friend_point": 0,
+			"unit": {
+				"id": 7,
+				"exp": 102052,
+				"level": 31,
+				"unique_id": 50000009026581,
+				"add_pow": 3,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103065717,
+			"user_name": "\u3051\u3067\u3043",
+			"user_rank": 36,
+			"last_play": 1385791357,
+			"friend_state": 0,
+			"friend_state_update": 1384862384,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 25352,
+				"level": 12,
+				"unique_id": 40000036078753,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102939127,
+			"user_name": "Rex",
+			"user_rank": 16,
+			"last_play": 1385820534,
+			"friend_state": 2,
+			"friend_state_update": 1384862594,
+			"friend_point": 0,
+			"unit": {
+				"id": 2,
+				"exp": 2110,
+				"level": 7,
+				"unique_id": 20000029398819,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103058511,
+			"user_name": "\u306e\u3093\u305f",
+			"user_rank": 60,
+			"last_play": 1385951867,
+			"friend_state": 0,
+			"friend_state_update": 1384930860,
+			"friend_point": 0,
+			"unit": {
+				"id": 142,
+				"exp": 225562,
+				"level": 29,
+				"unique_id": 40000031762295,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102280318,
+			"user_name": "LeonHeart",
+			"user_rank": 9,
+			"last_play": 1385876910,
+			"friend_state": 1,
+			"friend_state_update": 1384863133,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 50000015845671,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103075847,
+			"user_name": "KIBA",
+			"user_rank": 21,
+			"last_play": 1385820009,
+			"friend_state": 0,
+			"friend_state_update": 1385107977,
+			"friend_point": 0,
+			"unit": {
+				"id": 405,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 60000032792921,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103081478,
+			"user_name": "d",
+			"user_rank": 40,
+			"last_play": 1385909359,
+			"friend_state": 0,
+			"friend_state_update": 1384931841,
+			"friend_point": 0,
+			"unit": {
+				"id": 405,
+				"exp": 83236,
+				"level": 20,
+				"unique_id": 30000033131186,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 3,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103058584,
+			"user_name": "\u30ad\u30ea\u30c8",
+			"user_rank": 20,
+			"last_play": 1385343570,
+			"friend_state": 2,
+			"friend_state_update": 1384944102,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 225,
+				"level": 3,
+				"unique_id": 50000031950870,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054928,
+			"user_name": "w",
+			"user_rank": 14,
+			"last_play": 1385092245,
+			"friend_state": 2,
+			"friend_state_update": 1384944347,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 1621,
+				"level": 6,
+				"unique_id": 30000032091850,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103007244,
+			"user_name": "\u3082\u3063\u3061",
+			"user_rank": 34,
+			"last_play": 1385934506,
+			"friend_state": 0,
+			"friend_state_update": 1385870911,
+			"friend_point": 0,
+			"unit": {
+				"id": 7,
+				"exp": 50757,
+				"level": 24,
+				"unique_id": 10000030676856,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103015093,
+			"user_name": "\u307e\u308a",
+			"user_rank": 18,
+			"last_play": 1385371929,
+			"friend_state": 0,
+			"friend_state_update": 1385125756,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 2632,
+				"level": 5,
+				"unique_id": 20000033079011,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103044880,
+			"user_name": "rk2i",
+			"user_rank": 13,
+			"last_play": 1385331222,
+			"friend_state": 0,
+			"friend_state_update": 1385107981,
+			"friend_point": 0,
+			"unit": {
+				"id": 143,
+				"exp": 500,
+				"level": 3,
+				"unique_id": 50000031873395,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054379,
+			"user_name": "ROM",
+			"user_rank": 31,
+			"last_play": 1385885412,
+			"friend_state": 0,
+			"friend_state_update": 1384947008,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 13206,
+				"level": 10,
+				"unique_id": 60000033651542,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103016083,
+			"user_name": "\u30ab\u30ba\u30ad",
+			"user_rank": 27,
+			"last_play": 1385542463,
+			"friend_state": 1,
+			"friend_state_update": 1384946887,
+			"friend_point": 0,
+			"unit": {
+				"id": 3,
+				"exp": 5108,
+				"level": 10,
+				"unique_id": 20000031139266,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103086859,
+			"user_name": "\u30d2\u30ed\u30c8",
+			"user_rank": 21,
+			"last_play": 1385817210,
+			"friend_state": 0,
+			"friend_state_update": 1384948242,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 1937,
+				"level": 5,
+				"unique_id": 20000033678966,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103085217,
+			"user_name": "\u30c8\u30de\u30c8",
+			"user_rank": 19,
+			"last_play": 1385179861,
+			"friend_state": 2,
+			"friend_state_update": 1384948051,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 3760,
+				"level": 9,
+				"unique_id": 40000032425893,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103014666,
+			"user_name": "Shun",
+			"user_rank": 19,
+			"last_play": 1385869970,
+			"friend_state": 1,
+			"friend_state_update": 1384950681,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 19942,
+				"level": 11,
+				"unique_id": 10000031488383,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102935850,
+			"user_name": "\u305f\u304b\u307f\u3084\u3093",
+			"user_rank": 20,
+			"last_play": 1385367799,
+			"friend_state": 0,
+			"friend_state_update": 1384955005,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 33390,
+				"level": 14,
+				"unique_id": 10000031552618,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103078765,
+			"user_name": "\u30a2\u30c8\u30e9\u30b9",
+			"user_rank": 16,
+			"last_play": 1385566993,
+			"friend_state": 0,
+			"friend_state_update": 1385107969,
+			"friend_point": 0,
+			"unit": {
+				"id": 165,
+				"exp": 550,
+				"level": 3,
+				"unique_id": 20000032641327,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103115380,
+			"user_name": "\u3060\u3044\u3059\u3051",
+			"user_rank": 29,
+			"last_play": 1385936465,
+			"friend_state": 0,
+			"friend_state_update": 1385476748,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 15411,
+				"level": 10,
+				"unique_id": 50000034320072,
+				"add_pow": 2,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103099814,
+			"user_name": "\u308d\u308d\u30fc",
+			"user_rank": 33,
+			"last_play": 1385908656,
+			"friend_state": 0,
+			"friend_state_update": 1385561730,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 26636,
+				"level": 13,
+				"unique_id": 30000035129095,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103002898,
+			"user_name": "mabo",
+			"user_rank": 16,
+			"last_play": 1385893077,
+			"friend_state": 0,
+			"friend_state_update": 1385728544,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 4600,
+				"level": 9,
+				"unique_id": 50000030637213,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103114495,
+			"user_name": "\u307e\u3075\u3081\u3084",
+			"user_rank": 19,
+			"last_play": 1385943326,
+			"friend_state": 0,
+			"friend_state_update": 1385546340,
+			"friend_point": 0,
+			"unit": {
+				"id": 104,
+				"exp": 8484,
+				"level": 14,
+				"unique_id": 20000033593871,
+				"add_pow": 2,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102279997,
+			"user_name": "\u3086",
+			"user_rank": 17,
+			"last_play": 1385851209,
+			"friend_state": 0,
+			"friend_state_update": 1385774921,
+			"friend_point": 0,
+			"unit": {
+				"id": 2,
+				"exp": 4952,
+				"level": 10,
+				"unique_id": 20000015968631,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103196766,
+			"user_name": "JUN",
+			"user_rank": 29,
+			"last_play": 1385948400,
+			"friend_state": 0,
+			"friend_state_update": 1385571340,
+			"friend_point": 0,
+			"unit": {
+				"id": 397,
+				"exp": 8984,
+				"level": 8,
+				"unique_id": 10000036431374,
+				"add_pow": 3,
+				"add_def": 0,
+				"add_hp": 4,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103190122,
+			"user_name": "hi64",
+			"user_rank": 19,
+			"last_play": 1385802446,
+			"friend_state": 2,
+			"friend_state_update": 1385461144,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 12000,
+				"level": 9,
+				"unique_id": 50000036645228,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102974742,
+			"user_name": "\u30af\u30e9\u30a6\u30f3",
+			"user_rank": 17,
+			"last_play": 1385858880,
+			"friend_state": 0,
+			"friend_state_update": 1385476725,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 2140,
+				"level": 5,
+				"unique_id": 10000036425994,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103126736,
+			"user_name": "\u30af\u30e9\u30ea\u30b9",
+			"user_rank": 14,
+			"last_play": 1385469377,
+			"friend_state": 2,
+			"friend_state_update": 1385469144,
+			"friend_point": 0,
+			"unit": {
+				"id": 104,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 30000034262828,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054428,
+			"user_name": "\u30aa\u30f3\u30ec\u30a4",
+			"user_rank": 18,
+			"last_play": 1385531233,
+			"friend_state": 1,
+			"friend_state_update": 1385476982,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 45667,
+				"level": 15,
+				"unique_id": 10000032394231,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102940204,
+			"user_name": "\u306b\u304f\u307e\u3093",
+			"user_rank": 20,
+			"last_play": 1385814564,
+			"friend_state": 2,
+			"friend_state_update": 1385477121,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 50000029264771,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102313297,
+			"user_name": "rintaro",
+			"user_rank": 19,
+			"last_play": 1385887406,
+			"friend_state": 0,
+			"friend_state_update": 1385641177,
+			"friend_point": 0,
+			"unit": {
+				"id": 41,
+				"exp": 13099,
+				"level": 14,
+				"unique_id": 20000019687858,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101731768,
+			"user_name": "\u308a\u3087\u30fc\u3061\u3083\u3093",
+			"user_rank": 23,
+			"last_play": 1385901262,
+			"friend_state": 2,
+			"friend_state_update": 1385555447,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 1347,
+				"level": 4,
+				"unique_id": 50000036597705,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103132719,
+			"user_name": "\u30d3\u30bf\u30fc",
+			"user_rank": 23,
+			"last_play": 1385858139,
+			"friend_state": 2,
+			"friend_state_update": 1385561642,
+			"friend_point": 0,
+			"unit": {
+				"id": 3,
+				"exp": 8115,
+				"level": 12,
+				"unique_id": 40000033706852,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103085739,
+			"user_name": "\u30d4\u30c3\u30d4",
+			"user_rank": 21,
+			"last_play": 1385762844,
+			"friend_state": 2,
+			"friend_state_update": 1385562603,
+			"friend_point": 0,
+			"unit": {
+				"id": 155,
+				"exp": 10533,
+				"level": 9,
+				"unique_id": 40000032441046,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102587469,
+			"user_name": "\u307d\u3061",
+			"user_rank": 37,
+			"last_play": 1385934192,
+			"friend_state": 0,
+			"friend_state_update": 1385851202,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 34054,
+				"level": 14,
+				"unique_id": 40000036292761,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101818196,
+			"user_name": "\u30ab\u30ca\u30bf",
+			"user_rank": 22,
+			"last_play": 1385948922,
+			"friend_state": 1,
+			"friend_state_update": 1385613779,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 16104,
+				"level": 10,
+				"unique_id": 30000037370072,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101948447,
+			"user_name": "kory",
+			"user_rank": 10,
+			"last_play": 1385870690,
+			"friend_state": 0,
+			"friend_state_update": 1385641165,
+			"friend_point": 0,
+			"unit": {
+				"id": 131,
+				"exp": 2505,
+				"level": 7,
+				"unique_id": 60000013375499,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103207736,
+			"user_name": "\u3086\u3046",
+			"user_rank": 24,
+			"last_play": 1385908562,
+			"friend_state": 0,
+			"friend_state_update": 1385798910,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 5487,
+				"level": 10,
+				"unique_id": 30000036388647,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101926412,
+			"user_name": "\u3051\u3093\u3084\u307e\u3093",
+			"user_rank": 25,
+			"last_play": 1385790300,
+			"friend_state": 0,
+			"friend_state_update": 1385799971,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 30000029081691,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102451275,
+			"user_name": "Cloud",
+			"user_rank": 15,
+			"last_play": 1385704384,
+			"friend_state": 1,
+			"friend_state_update": 1385707318,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 40000018095166,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103221631,
+			"user_name": "KNIGHT",
+			"user_rank": 29,
+			"last_play": 1385943041,
+			"friend_state": 0,
+			"friend_state_update": 1385744838,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 15074,
+				"level": 10,
+				"unique_id": 20000036906773,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 1
+			}
+		}, {
+			"user_id": 102900813,
+			"user_name": "Yuki",
+			"user_rank": 26,
+			"last_play": 1385903016,
+			"friend_state": 1,
+			"friend_state_update": 1385799901,
+			"friend_point": 0,
+			"unit": {
+				"id": 153,
+				"exp": 8297,
+				"level": 8,
+				"unique_id": 40000027721526,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103018478,
+			"user_name": "\u30b0\u30ea\u30fc\u30f3",
+			"user_rank": 25,
+			"last_play": 1385873862,
+			"friend_state": 2,
+			"friend_state_update": 1385819153,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 29681,
+				"level": 13,
+				"unique_id": 30000034875672,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103136324,
+			"user_name": "\u304b\u3081",
+			"user_rank": 31,
+			"last_play": 1385929436,
+			"friend_state": 1,
+			"friend_state_update": 1385875073,
+			"friend_point": 0,
+			"unit": {
+				"id": 153,
+				"exp": 31622,
+				"level": 13,
+				"unique_id": 30000034757526,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102819349,
+			"user_name": "\u30e6\u30a6",
+			"user_rank": 30,
+			"last_play": 1385903077,
+			"friend_state": 1,
+			"friend_state_update": 1385903043,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 113452,
+				"level": 22,
+				"unique_id": 20000026448951,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102952615,
+			"user_name": "\u3082\u308b",
+			"user_rank": 37,
+			"last_play": 1385904642,
+			"friend_state": 1,
+			"friend_state_update": 1385903073,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 23980,
+				"level": 12,
+				"unique_id": 20000029851423,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102866193,
+			"user_name": "Morgan1",
+			"user_rank": 34,
+			"last_play": 1385938949,
+			"friend_state": 2,
+			"friend_state_update": 1385903969,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 30000,
+				"level": 13,
+				"unique_id": 40000028020278,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103256057,
+			"user_name": "\u9ed2\u9f8d\u5236\u8987",
+			"user_rank": 37,
+			"last_play": 1385951606,
+			"friend_state": 0,
+			"friend_state_update": 1385952133,
+			"friend_point": 0,
+			"unit": {
+				"id": 341,
+				"exp": 32201,
+				"level": 14,
+				"unique_id": 60000038409942,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}]
+	}
+}
+```
+
+## delete_friend(删除其他玩家好友申请)
+```
+request:
+{"header":{"api_version":"1.0.3","packet_unique_id":14},"user_id":[103058584]}
+response:
+{
+	"header": {
+		"code": 4096,
+		"session_id": "8rg9g9nmdhrs4ili4kl0nt74cspssl5u",
+		"api_version": "1.0.3",
+		"packet_unique_id": 14
+	},
+	"result": {
+		"friend": [{
+			"user_id": 101802326,
+			"user_name": "\u3084\u30fc\u307e\u3060",
+			"user_rank": 24,
+			"last_play": 1385936655,
+			"friend_state": 0,
+			"friend_state_update": 1383957288,
+			"friend_point": 0,
+			"unit": {
+				"id": 26,
+				"exp": 6241,
+				"level": 11,
+				"unique_id": 30000012319553,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102027425,
+			"user_name": "eine",
+			"user_rank": 61,
+			"last_play": 1385944078,
+			"friend_state": 1,
+			"friend_state_update": 1382625611,
+			"friend_point": 0,
+			"unit": {
+				"id": 140,
+				"exp": 114495,
+				"level": 22,
+				"unique_id": 60000013762538,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101895534,
+			"user_name": "\u30eb\u30a4\u30ea\u30aa",
+			"user_rank": 16,
+			"last_play": 1385951315,
+			"friend_state": 0,
+			"friend_state_update": 1382839223,
+			"friend_point": 0,
+			"unit": {
+				"id": 124,
+				"exp": 34386,
+				"level": 24,
+				"unique_id": 10000015614394,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101229629,
+			"user_name": "worldhome",
+			"user_rank": 10,
+			"last_play": 1385906127,
+			"friend_state": 1,
+			"friend_state_update": 1382839421,
+			"friend_point": 0,
+			"unit": {
+				"id": 143,
+				"exp": 24200,
+				"level": 12,
+				"unique_id": 60000007004875,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102209890,
+			"user_name": "\u3058\u3083\u304c\u3044\u3082",
+			"user_rank": 36,
+			"last_play": 1385915524,
+			"friend_state": 1,
+			"friend_state_update": 1382843511,
+			"friend_point": 0,
+			"unit": {
+				"id": 4,
+				"exp": 109539,
+				"level": 25,
+				"unique_id": 50000015004989,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102615113,
+			"user_name": "\u3061\u30fc\u3055\u3093",
+			"user_rank": 50,
+			"last_play": 1385949992,
+			"friend_state": 0,
+			"friend_state_update": 1384248277,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 33043,
+				"level": 14,
+				"unique_id": 60000029799156,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102708026,
+			"user_name": "\u30c0\u30a4\u30b9\u30b1",
+			"user_rank": 61,
+			"last_play": 1385935615,
+			"friend_state": 0,
+			"friend_state_update": 1383665536,
+			"friend_point": 0,
+			"unit": {
+				"id": 154,
+				"exp": 63450,
+				"level": 18,
+				"unique_id": 30000022970880,
+				"add_pow": 9,
+				"add_def": 0,
+				"add_hp": 14,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102660695,
+			"user_name": "\u5e74\u672b\u8abf\u6574",
+			"user_rank": 28,
+			"last_play": 1385409445,
+			"friend_state": 0,
+			"friend_state_update": 1383712329,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 43390,
+				"level": 15,
+				"unique_id": 60000025059632,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101869749,
+			"user_name": "\u3072\u3087\u3063\u3068\u3053\u658e",
+			"user_rank": 12,
+			"last_play": 1385456135,
+			"friend_state": 0,
+			"friend_state_update": 1383671413,
+			"friend_point": 0,
+			"unit": {
+				"id": 349,
+				"exp": 2850,
+				"level": 8,
+				"unique_id": 40000022847484,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102853471,
+			"user_name": "\u3082\u3084\u3057",
+			"user_rank": 33,
+			"last_play": 1385950288,
+			"friend_state": 0,
+			"friend_state_update": 1385477585,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 20000026498248,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102775342,
+			"user_name": "NobuSh",
+			"user_rank": 14,
+			"last_play": 1384820412,
+			"friend_state": 2,
+			"friend_state_update": 1384433251,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 6101,
+				"level": 10,
+				"unique_id": 50000024484555,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102917568,
+			"user_name": "shan",
+			"user_rank": 18,
+			"last_play": 1385377955,
+			"friend_state": 2,
+			"friend_state_update": 1384435417,
+			"friend_point": 0,
+			"unit": {
+				"id": 394,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 10000029113809,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101528914,
+			"user_name": "bbgtest",
+			"user_rank": 45,
+			"last_play": 1385942798,
+			"friend_state": 0,
+			"friend_state_update": 1384860868,
+			"friend_point": 0,
+			"unit": {
+				"id": 7,
+				"exp": 102052,
+				"level": 31,
+				"unique_id": 50000009026581,
+				"add_pow": 3,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103065717,
+			"user_name": "\u3051\u3067\u3043",
+			"user_rank": 36,
+			"last_play": 1385791357,
+			"friend_state": 0,
+			"friend_state_update": 1384862384,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 25352,
+				"level": 12,
+				"unique_id": 40000036078753,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102939127,
+			"user_name": "Rex",
+			"user_rank": 16,
+			"last_play": 1385820534,
+			"friend_state": 2,
+			"friend_state_update": 1384862594,
+			"friend_point": 0,
+			"unit": {
+				"id": 2,
+				"exp": 2110,
+				"level": 7,
+				"unique_id": 20000029398819,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103058511,
+			"user_name": "\u306e\u3093\u305f",
+			"user_rank": 60,
+			"last_play": 1385951867,
+			"friend_state": 0,
+			"friend_state_update": 1384930860,
+			"friend_point": 0,
+			"unit": {
+				"id": 142,
+				"exp": 225562,
+				"level": 29,
+				"unique_id": 40000031762295,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102280318,
+			"user_name": "LeonHeart",
+			"user_rank": 9,
+			"last_play": 1385876910,
+			"friend_state": 1,
+			"friend_state_update": 1384863133,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 50000015845671,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103075847,
+			"user_name": "KIBA",
+			"user_rank": 21,
+			"last_play": 1385820009,
+			"friend_state": 0,
+			"friend_state_update": 1385107977,
+			"friend_point": 0,
+			"unit": {
+				"id": 405,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 60000032792921,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103081478,
+			"user_name": "d",
+			"user_rank": 40,
+			"last_play": 1385909359,
+			"friend_state": 0,
+			"friend_state_update": 1384931841,
+			"friend_point": 0,
+			"unit": {
+				"id": 405,
+				"exp": 83236,
+				"level": 20,
+				"unique_id": 30000033131186,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 3,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054928,
+			"user_name": "w",
+			"user_rank": 14,
+			"last_play": 1385092245,
+			"friend_state": 2,
+			"friend_state_update": 1384944347,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 1621,
+				"level": 6,
+				"unique_id": 30000032091850,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103007244,
+			"user_name": "\u3082\u3063\u3061",
+			"user_rank": 34,
+			"last_play": 1385934506,
+			"friend_state": 0,
+			"friend_state_update": 1385870911,
+			"friend_point": 0,
+			"unit": {
+				"id": 7,
+				"exp": 50757,
+				"level": 24,
+				"unique_id": 10000030676856,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103015093,
+			"user_name": "\u307e\u308a",
+			"user_rank": 18,
+			"last_play": 1385371929,
+			"friend_state": 0,
+			"friend_state_update": 1385125756,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 2632,
+				"level": 5,
+				"unique_id": 20000033079011,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103044880,
+			"user_name": "rk2i",
+			"user_rank": 13,
+			"last_play": 1385331222,
+			"friend_state": 0,
+			"friend_state_update": 1385107981,
+			"friend_point": 0,
+			"unit": {
+				"id": 143,
+				"exp": 500,
+				"level": 3,
+				"unique_id": 50000031873395,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054379,
+			"user_name": "ROM",
+			"user_rank": 31,
+			"last_play": 1385885412,
+			"friend_state": 0,
+			"friend_state_update": 1384947008,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 13206,
+				"level": 10,
+				"unique_id": 60000033651542,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103016083,
+			"user_name": "\u30ab\u30ba\u30ad",
+			"user_rank": 27,
+			"last_play": 1385542463,
+			"friend_state": 1,
+			"friend_state_update": 1384946887,
+			"friend_point": 0,
+			"unit": {
+				"id": 3,
+				"exp": 5108,
+				"level": 10,
+				"unique_id": 20000031139266,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103086859,
+			"user_name": "\u30d2\u30ed\u30c8",
+			"user_rank": 21,
+			"last_play": 1385817210,
+			"friend_state": 0,
+			"friend_state_update": 1384948242,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 1937,
+				"level": 5,
+				"unique_id": 20000033678966,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103085217,
+			"user_name": "\u30c8\u30de\u30c8",
+			"user_rank": 19,
+			"last_play": 1385179861,
+			"friend_state": 2,
+			"friend_state_update": 1384948051,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 3760,
+				"level": 9,
+				"unique_id": 40000032425893,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103014666,
+			"user_name": "Shun",
+			"user_rank": 19,
+			"last_play": 1385869970,
+			"friend_state": 1,
+			"friend_state_update": 1384950681,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 19942,
+				"level": 11,
+				"unique_id": 10000031488383,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102935850,
+			"user_name": "\u305f\u304b\u307f\u3084\u3093",
+			"user_rank": 20,
+			"last_play": 1385367799,
+			"friend_state": 0,
+			"friend_state_update": 1384955005,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 33390,
+				"level": 14,
+				"unique_id": 10000031552618,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103078765,
+			"user_name": "\u30a2\u30c8\u30e9\u30b9",
+			"user_rank": 16,
+			"last_play": 1385566993,
+			"friend_state": 0,
+			"friend_state_update": 1385107969,
+			"friend_point": 0,
+			"unit": {
+				"id": 165,
+				"exp": 550,
+				"level": 3,
+				"unique_id": 20000032641327,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103115380,
+			"user_name": "\u3060\u3044\u3059\u3051",
+			"user_rank": 29,
+			"last_play": 1385936465,
+			"friend_state": 0,
+			"friend_state_update": 1385476748,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 15411,
+				"level": 10,
+				"unique_id": 50000034320072,
+				"add_pow": 2,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103099814,
+			"user_name": "\u308d\u308d\u30fc",
+			"user_rank": 33,
+			"last_play": 1385908656,
+			"friend_state": 0,
+			"friend_state_update": 1385561730,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 26636,
+				"level": 13,
+				"unique_id": 30000035129095,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103002898,
+			"user_name": "mabo",
+			"user_rank": 16,
+			"last_play": 1385893077,
+			"friend_state": 0,
+			"friend_state_update": 1385728544,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 4600,
+				"level": 9,
+				"unique_id": 50000030637213,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103114495,
+			"user_name": "\u307e\u3075\u3081\u3084",
+			"user_rank": 19,
+			"last_play": 1385943326,
+			"friend_state": 0,
+			"friend_state_update": 1385546340,
+			"friend_point": 0,
+			"unit": {
+				"id": 104,
+				"exp": 8484,
+				"level": 14,
+				"unique_id": 20000033593871,
+				"add_pow": 2,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102279997,
+			"user_name": "\u3086",
+			"user_rank": 17,
+			"last_play": 1385851209,
+			"friend_state": 0,
+			"friend_state_update": 1385774921,
+			"friend_point": 0,
+			"unit": {
+				"id": 2,
+				"exp": 4952,
+				"level": 10,
+				"unique_id": 20000015968631,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103196766,
+			"user_name": "JUN",
+			"user_rank": 29,
+			"last_play": 1385948400,
+			"friend_state": 0,
+			"friend_state_update": 1385571340,
+			"friend_point": 0,
+			"unit": {
+				"id": 397,
+				"exp": 8984,
+				"level": 8,
+				"unique_id": 10000036431374,
+				"add_pow": 3,
+				"add_def": 0,
+				"add_hp": 4,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103190122,
+			"user_name": "hi64",
+			"user_rank": 19,
+			"last_play": 1385802446,
+			"friend_state": 2,
+			"friend_state_update": 1385461144,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 12000,
+				"level": 9,
+				"unique_id": 50000036645228,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102974742,
+			"user_name": "\u30af\u30e9\u30a6\u30f3",
+			"user_rank": 17,
+			"last_play": 1385858880,
+			"friend_state": 0,
+			"friend_state_update": 1385476725,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 2140,
+				"level": 5,
+				"unique_id": 10000036425994,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103126736,
+			"user_name": "\u30af\u30e9\u30ea\u30b9",
+			"user_rank": 14,
+			"last_play": 1385469377,
+			"friend_state": 2,
+			"friend_state_update": 1385469144,
+			"friend_point": 0,
+			"unit": {
+				"id": 104,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 30000034262828,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054428,
+			"user_name": "\u30aa\u30f3\u30ec\u30a4",
+			"user_rank": 18,
+			"last_play": 1385531233,
+			"friend_state": 1,
+			"friend_state_update": 1385476982,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 45667,
+				"level": 15,
+				"unique_id": 10000032394231,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102940204,
+			"user_name": "\u306b\u304f\u307e\u3093",
+			"user_rank": 20,
+			"last_play": 1385814564,
+			"friend_state": 2,
+			"friend_state_update": 1385477121,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 50000029264771,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102313297,
+			"user_name": "rintaro",
+			"user_rank": 19,
+			"last_play": 1385887406,
+			"friend_state": 0,
+			"friend_state_update": 1385641177,
+			"friend_point": 0,
+			"unit": {
+				"id": 41,
+				"exp": 13099,
+				"level": 14,
+				"unique_id": 20000019687858,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101731768,
+			"user_name": "\u308a\u3087\u30fc\u3061\u3083\u3093",
+			"user_rank": 23,
+			"last_play": 1385901262,
+			"friend_state": 2,
+			"friend_state_update": 1385555447,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 1347,
+				"level": 4,
+				"unique_id": 50000036597705,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103132719,
+			"user_name": "\u30d3\u30bf\u30fc",
+			"user_rank": 23,
+			"last_play": 1385858139,
+			"friend_state": 2,
+			"friend_state_update": 1385561642,
+			"friend_point": 0,
+			"unit": {
+				"id": 3,
+				"exp": 8115,
+				"level": 12,
+				"unique_id": 40000033706852,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103085739,
+			"user_name": "\u30d4\u30c3\u30d4",
+			"user_rank": 21,
+			"last_play": 1385762844,
+			"friend_state": 2,
+			"friend_state_update": 1385562603,
+			"friend_point": 0,
+			"unit": {
+				"id": 155,
+				"exp": 10533,
+				"level": 9,
+				"unique_id": 40000032441046,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102587469,
+			"user_name": "\u307d\u3061",
+			"user_rank": 37,
+			"last_play": 1385934192,
+			"friend_state": 0,
+			"friend_state_update": 1385851202,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 34054,
+				"level": 14,
+				"unique_id": 40000036292761,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101818196,
+			"user_name": "\u30ab\u30ca\u30bf",
+			"user_rank": 22,
+			"last_play": 1385948922,
+			"friend_state": 1,
+			"friend_state_update": 1385613779,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 16104,
+				"level": 10,
+				"unique_id": 30000037370072,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101948447,
+			"user_name": "kory",
+			"user_rank": 10,
+			"last_play": 1385870690,
+			"friend_state": 0,
+			"friend_state_update": 1385641165,
+			"friend_point": 0,
+			"unit": {
+				"id": 131,
+				"exp": 2505,
+				"level": 7,
+				"unique_id": 60000013375499,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103207736,
+			"user_name": "\u3086\u3046",
+			"user_rank": 24,
+			"last_play": 1385908562,
+			"friend_state": 0,
+			"friend_state_update": 1385798910,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 5487,
+				"level": 10,
+				"unique_id": 30000036388647,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101926412,
+			"user_name": "\u3051\u3093\u3084\u307e\u3093",
+			"user_rank": 25,
+			"last_play": 1385790300,
+			"friend_state": 0,
+			"friend_state_update": 1385799971,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 30000029081691,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102451275,
+			"user_name": "Cloud",
+			"user_rank": 15,
+			"last_play": 1385704384,
+			"friend_state": 1,
+			"friend_state_update": 1385707318,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 40000018095166,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103221631,
+			"user_name": "KNIGHT",
+			"user_rank": 29,
+			"last_play": 1385943041,
+			"friend_state": 0,
+			"friend_state_update": 1385744838,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 15074,
+				"level": 10,
+				"unique_id": 20000036906773,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 1
+			}
+		}, {
+			"user_id": 102900813,
+			"user_name": "Yuki",
+			"user_rank": 26,
+			"last_play": 1385903016,
+			"friend_state": 1,
+			"friend_state_update": 1385799901,
+			"friend_point": 0,
+			"unit": {
+				"id": 153,
+				"exp": 8297,
+				"level": 8,
+				"unique_id": 40000027721526,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103018478,
+			"user_name": "\u30b0\u30ea\u30fc\u30f3",
+			"user_rank": 25,
+			"last_play": 1385873862,
+			"friend_state": 2,
+			"friend_state_update": 1385819153,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 29681,
+				"level": 13,
+				"unique_id": 30000034875672,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103136324,
+			"user_name": "\u304b\u3081",
+			"user_rank": 31,
+			"last_play": 1385929436,
+			"friend_state": 1,
+			"friend_state_update": 1385875073,
+			"friend_point": 0,
+			"unit": {
+				"id": 153,
+				"exp": 31622,
+				"level": 13,
+				"unique_id": 30000034757526,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102819349,
+			"user_name": "\u30e6\u30a6",
+			"user_rank": 30,
+			"last_play": 1385903077,
+			"friend_state": 1,
+			"friend_state_update": 1385903043,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 113452,
+				"level": 22,
+				"unique_id": 20000026448951,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102952615,
+			"user_name": "\u3082\u308b",
+			"user_rank": 37,
+			"last_play": 1385904642,
+			"friend_state": 1,
+			"friend_state_update": 1385903073,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 23980,
+				"level": 12,
+				"unique_id": 20000029851423,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102866193,
+			"user_name": "Morgan1",
+			"user_rank": 34,
+			"last_play": 1385938949,
+			"friend_state": 2,
+			"friend_state_update": 1385903969,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 30000,
+				"level": 13,
+				"unique_id": 40000028020278,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103256057,
+			"user_name": "\u9ed2\u9f8d\u5236\u8987",
+			"user_rank": 37,
+			"last_play": 1385951606,
+			"friend_state": 0,
+			"friend_state_update": 1385952133,
+			"friend_point": 0,
+			"unit": {
+				"id": 341,
+				"exp": 32201,
+				"level": 14,
+				"unique_id": 60000038409942,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}]
+	}
+}
+ 
+```
+
+## delete_friend(删除玩家发出而未接受的好友申请)
+```
+request:
+{"header":{"api_version":"1.0.3","packet_unique_id":15},"user_id":[102280318]}
+
+response:
+{
+	"header": {
+		"code": 4096,
+		"session_id": "8rg9g9nmdhrs4ili4kl0nt74cspssl5u",
+		"api_version": "1.0.3",
+		"packet_unique_id": 15
+	},
+	"result": {
+		"friend": [{
+			"user_id": 101802326,
+			"user_name": "\u3084\u30fc\u307e\u3060",
+			"user_rank": 24,
+			"last_play": 1385936655,
+			"friend_state": 0,
+			"friend_state_update": 1383957288,
+			"friend_point": 0,
+			"unit": {
+				"id": 26,
+				"exp": 6241,
+				"level": 11,
+				"unique_id": 30000012319553,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102027425,
+			"user_name": "eine",
+			"user_rank": 61,
+			"last_play": 1385944078,
+			"friend_state": 1,
+			"friend_state_update": 1382625611,
+			"friend_point": 0,
+			"unit": {
+				"id": 140,
+				"exp": 114495,
+				"level": 22,
+				"unique_id": 60000013762538,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101895534,
+			"user_name": "\u30eb\u30a4\u30ea\u30aa",
+			"user_rank": 16,
+			"last_play": 1385951315,
+			"friend_state": 0,
+			"friend_state_update": 1382839223,
+			"friend_point": 0,
+			"unit": {
+				"id": 124,
+				"exp": 34386,
+				"level": 24,
+				"unique_id": 10000015614394,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101229629,
+			"user_name": "worldhome",
+			"user_rank": 10,
+			"last_play": 1385906127,
+			"friend_state": 1,
+			"friend_state_update": 1382839421,
+			"friend_point": 0,
+			"unit": {
+				"id": 143,
+				"exp": 24200,
+				"level": 12,
+				"unique_id": 60000007004875,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102209890,
+			"user_name": "\u3058\u3083\u304c\u3044\u3082",
+			"user_rank": 36,
+			"last_play": 1385915524,
+			"friend_state": 1,
+			"friend_state_update": 1382843511,
+			"friend_point": 0,
+			"unit": {
+				"id": 4,
+				"exp": 109539,
+				"level": 25,
+				"unique_id": 50000015004989,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102615113,
+			"user_name": "\u3061\u30fc\u3055\u3093",
+			"user_rank": 50,
+			"last_play": 1385949992,
+			"friend_state": 0,
+			"friend_state_update": 1384248277,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 33043,
+				"level": 14,
+				"unique_id": 60000029799156,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102708026,
+			"user_name": "\u30c0\u30a4\u30b9\u30b1",
+			"user_rank": 61,
+			"last_play": 1385935615,
+			"friend_state": 0,
+			"friend_state_update": 1383665536,
+			"friend_point": 0,
+			"unit": {
+				"id": 154,
+				"exp": 63450,
+				"level": 18,
+				"unique_id": 30000022970880,
+				"add_pow": 9,
+				"add_def": 0,
+				"add_hp": 14,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102660695,
+			"user_name": "\u5e74\u672b\u8abf\u6574",
+			"user_rank": 28,
+			"last_play": 1385409445,
+			"friend_state": 0,
+			"friend_state_update": 1383712329,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 43390,
+				"level": 15,
+				"unique_id": 60000025059632,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101869749,
+			"user_name": "\u3072\u3087\u3063\u3068\u3053\u658e",
+			"user_rank": 12,
+			"last_play": 1385456135,
+			"friend_state": 0,
+			"friend_state_update": 1383671413,
+			"friend_point": 0,
+			"unit": {
+				"id": 349,
+				"exp": 2850,
+				"level": 8,
+				"unique_id": 40000022847484,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102853471,
+			"user_name": "\u3082\u3084\u3057",
+			"user_rank": 33,
+			"last_play": 1385950288,
+			"friend_state": 0,
+			"friend_state_update": 1385477585,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 20000026498248,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102775342,
+			"user_name": "NobuSh",
+			"user_rank": 14,
+			"last_play": 1384820412,
+			"friend_state": 2,
+			"friend_state_update": 1384433251,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 6101,
+				"level": 10,
+				"unique_id": 50000024484555,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102917568,
+			"user_name": "shan",
+			"user_rank": 18,
+			"last_play": 1385377955,
+			"friend_state": 2,
+			"friend_state_update": 1384435417,
+			"friend_point": 0,
+			"unit": {
+				"id": 394,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 10000029113809,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101528914,
+			"user_name": "bbgtest",
+			"user_rank": 45,
+			"last_play": 1385942798,
+			"friend_state": 0,
+			"friend_state_update": 1384860868,
+			"friend_point": 0,
+			"unit": {
+				"id": 7,
+				"exp": 102052,
+				"level": 31,
+				"unique_id": 50000009026581,
+				"add_pow": 3,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103065717,
+			"user_name": "\u3051\u3067\u3043",
+			"user_rank": 36,
+			"last_play": 1385791357,
+			"friend_state": 0,
+			"friend_state_update": 1384862384,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 25352,
+				"level": 12,
+				"unique_id": 40000036078753,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102939127,
+			"user_name": "Rex",
+			"user_rank": 16,
+			"last_play": 1385820534,
+			"friend_state": 2,
+			"friend_state_update": 1384862594,
+			"friend_point": 0,
+			"unit": {
+				"id": 2,
+				"exp": 2110,
+				"level": 7,
+				"unique_id": 20000029398819,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103058511,
+			"user_name": "\u306e\u3093\u305f",
+			"user_rank": 60,
+			"last_play": 1385951867,
+			"friend_state": 0,
+			"friend_state_update": 1384930860,
+			"friend_point": 0,
+			"unit": {
+				"id": 142,
+				"exp": 225562,
+				"level": 29,
+				"unique_id": 40000031762295,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103075847,
+			"user_name": "KIBA",
+			"user_rank": 21,
+			"last_play": 1385820009,
+			"friend_state": 0,
+			"friend_state_update": 1385107977,
+			"friend_point": 0,
+			"unit": {
+				"id": 405,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 60000032792921,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103081478,
+			"user_name": "d",
+			"user_rank": 40,
+			"last_play": 1385909359,
+			"friend_state": 0,
+			"friend_state_update": 1384931841,
+			"friend_point": 0,
+			"unit": {
+				"id": 405,
+				"exp": 83236,
+				"level": 20,
+				"unique_id": 30000033131186,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 3,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054928,
+			"user_name": "w",
+			"user_rank": 14,
+			"last_play": 1385092245,
+			"friend_state": 2,
+			"friend_state_update": 1384944347,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 1621,
+				"level": 6,
+				"unique_id": 30000032091850,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103007244,
+			"user_name": "\u3082\u3063\u3061",
+			"user_rank": 34,
+			"last_play": 1385934506,
+			"friend_state": 0,
+			"friend_state_update": 1385870911,
+			"friend_point": 0,
+			"unit": {
+				"id": 7,
+				"exp": 50757,
+				"level": 24,
+				"unique_id": 10000030676856,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103015093,
+			"user_name": "\u307e\u308a",
+			"user_rank": 18,
+			"last_play": 1385371929,
+			"friend_state": 0,
+			"friend_state_update": 1385125756,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 2632,
+				"level": 5,
+				"unique_id": 20000033079011,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103044880,
+			"user_name": "rk2i",
+			"user_rank": 13,
+			"last_play": 1385331222,
+			"friend_state": 0,
+			"friend_state_update": 1385107981,
+			"friend_point": 0,
+			"unit": {
+				"id": 143,
+				"exp": 500,
+				"level": 3,
+				"unique_id": 50000031873395,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054379,
+			"user_name": "ROM",
+			"user_rank": 31,
+			"last_play": 1385885412,
+			"friend_state": 0,
+			"friend_state_update": 1384947008,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 13206,
+				"level": 10,
+				"unique_id": 60000033651542,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103016083,
+			"user_name": "\u30ab\u30ba\u30ad",
+			"user_rank": 27,
+			"last_play": 1385542463,
+			"friend_state": 1,
+			"friend_state_update": 1384946887,
+			"friend_point": 0,
+			"unit": {
+				"id": 3,
+				"exp": 5108,
+				"level": 10,
+				"unique_id": 20000031139266,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103086859,
+			"user_name": "\u30d2\u30ed\u30c8",
+			"user_rank": 21,
+			"last_play": 1385817210,
+			"friend_state": 0,
+			"friend_state_update": 1384948242,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 1937,
+				"level": 5,
+				"unique_id": 20000033678966,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103085217,
+			"user_name": "\u30c8\u30de\u30c8",
+			"user_rank": 19,
+			"last_play": 1385179861,
+			"friend_state": 2,
+			"friend_state_update": 1384948051,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 3760,
+				"level": 9,
+				"unique_id": 40000032425893,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103014666,
+			"user_name": "Shun",
+			"user_rank": 19,
+			"last_play": 1385869970,
+			"friend_state": 1,
+			"friend_state_update": 1384950681,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 19942,
+				"level": 11,
+				"unique_id": 10000031488383,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102935850,
+			"user_name": "\u305f\u304b\u307f\u3084\u3093",
+			"user_rank": 20,
+			"last_play": 1385367799,
+			"friend_state": 0,
+			"friend_state_update": 1384955005,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 33390,
+				"level": 14,
+				"unique_id": 10000031552618,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103078765,
+			"user_name": "\u30a2\u30c8\u30e9\u30b9",
+			"user_rank": 16,
+			"last_play": 1385566993,
+			"friend_state": 0,
+			"friend_state_update": 1385107969,
+			"friend_point": 0,
+			"unit": {
+				"id": 165,
+				"exp": 550,
+				"level": 3,
+				"unique_id": 20000032641327,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103115380,
+			"user_name": "\u3060\u3044\u3059\u3051",
+			"user_rank": 29,
+			"last_play": 1385936465,
+			"friend_state": 0,
+			"friend_state_update": 1385476748,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 15411,
+				"level": 10,
+				"unique_id": 50000034320072,
+				"add_pow": 2,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103099814,
+			"user_name": "\u308d\u308d\u30fc",
+			"user_rank": 33,
+			"last_play": 1385908656,
+			"friend_state": 0,
+			"friend_state_update": 1385561730,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 26636,
+				"level": 13,
+				"unique_id": 30000035129095,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103002898,
+			"user_name": "mabo",
+			"user_rank": 16,
+			"last_play": 1385893077,
+			"friend_state": 0,
+			"friend_state_update": 1385728544,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 4600,
+				"level": 9,
+				"unique_id": 50000030637213,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103114495,
+			"user_name": "\u307e\u3075\u3081\u3084",
+			"user_rank": 19,
+			"last_play": 1385943326,
+			"friend_state": 0,
+			"friend_state_update": 1385546340,
+			"friend_point": 0,
+			"unit": {
+				"id": 104,
+				"exp": 8484,
+				"level": 14,
+				"unique_id": 20000033593871,
+				"add_pow": 2,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102279997,
+			"user_name": "\u3086",
+			"user_rank": 17,
+			"last_play": 1385851209,
+			"friend_state": 0,
+			"friend_state_update": 1385774921,
+			"friend_point": 0,
+			"unit": {
+				"id": 2,
+				"exp": 4952,
+				"level": 10,
+				"unique_id": 20000015968631,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103196766,
+			"user_name": "JUN",
+			"user_rank": 29,
+			"last_play": 1385948400,
+			"friend_state": 0,
+			"friend_state_update": 1385571340,
+			"friend_point": 0,
+			"unit": {
+				"id": 397,
+				"exp": 8984,
+				"level": 8,
+				"unique_id": 10000036431374,
+				"add_pow": 3,
+				"add_def": 0,
+				"add_hp": 4,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103190122,
+			"user_name": "hi64",
+			"user_rank": 19,
+			"last_play": 1385802446,
+			"friend_state": 2,
+			"friend_state_update": 1385461144,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 12000,
+				"level": 9,
+				"unique_id": 50000036645228,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102974742,
+			"user_name": "\u30af\u30e9\u30a6\u30f3",
+			"user_rank": 17,
+			"last_play": 1385858880,
+			"friend_state": 0,
+			"friend_state_update": 1385476725,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 2140,
+				"level": 5,
+				"unique_id": 10000036425994,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103126736,
+			"user_name": "\u30af\u30e9\u30ea\u30b9",
+			"user_rank": 14,
+			"last_play": 1385469377,
+			"friend_state": 2,
+			"friend_state_update": 1385469144,
+			"friend_point": 0,
+			"unit": {
+				"id": 104,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 30000034262828,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054428,
+			"user_name": "\u30aa\u30f3\u30ec\u30a4",
+			"user_rank": 18,
+			"last_play": 1385531233,
+			"friend_state": 1,
+			"friend_state_update": 1385476982,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 45667,
+				"level": 15,
+				"unique_id": 10000032394231,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102940204,
+			"user_name": "\u306b\u304f\u307e\u3093",
+			"user_rank": 20,
+			"last_play": 1385814564,
+			"friend_state": 2,
+			"friend_state_update": 1385477121,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 50000029264771,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102313297,
+			"user_name": "rintaro",
+			"user_rank": 19,
+			"last_play": 1385887406,
+			"friend_state": 0,
+			"friend_state_update": 1385641177,
+			"friend_point": 0,
+			"unit": {
+				"id": 41,
+				"exp": 13099,
+				"level": 14,
+				"unique_id": 20000019687858,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101731768,
+			"user_name": "\u308a\u3087\u30fc\u3061\u3083\u3093",
+			"user_rank": 23,
+			"last_play": 1385901262,
+			"friend_state": 2,
+			"friend_state_update": 1385555447,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 1347,
+				"level": 4,
+				"unique_id": 50000036597705,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103132719,
+			"user_name": "\u30d3\u30bf\u30fc",
+			"user_rank": 23,
+			"last_play": 1385858139,
+			"friend_state": 2,
+			"friend_state_update": 1385561642,
+			"friend_point": 0,
+			"unit": {
+				"id": 3,
+				"exp": 8115,
+				"level": 12,
+				"unique_id": 40000033706852,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103085739,
+			"user_name": "\u30d4\u30c3\u30d4",
+			"user_rank": 21,
+			"last_play": 1385762844,
+			"friend_state": 2,
+			"friend_state_update": 1385562603,
+			"friend_point": 0,
+			"unit": {
+				"id": 155,
+				"exp": 10533,
+				"level": 9,
+				"unique_id": 40000032441046,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102587469,
+			"user_name": "\u307d\u3061",
+			"user_rank": 37,
+			"last_play": 1385934192,
+			"friend_state": 0,
+			"friend_state_update": 1385851202,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 34054,
+				"level": 14,
+				"unique_id": 40000036292761,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101818196,
+			"user_name": "\u30ab\u30ca\u30bf",
+			"user_rank": 22,
+			"last_play": 1385948922,
+			"friend_state": 1,
+			"friend_state_update": 1385613779,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 16104,
+				"level": 10,
+				"unique_id": 30000037370072,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101948447,
+			"user_name": "kory",
+			"user_rank": 10,
+			"last_play": 1385870690,
+			"friend_state": 0,
+			"friend_state_update": 1385641165,
+			"friend_point": 0,
+			"unit": {
+				"id": 131,
+				"exp": 2505,
+				"level": 7,
+				"unique_id": 60000013375499,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103207736,
+			"user_name": "\u3086\u3046",
+			"user_rank": 24,
+			"last_play": 1385908562,
+			"friend_state": 0,
+			"friend_state_update": 1385798910,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 5487,
+				"level": 10,
+				"unique_id": 30000036388647,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101926412,
+			"user_name": "\u3051\u3093\u3084\u307e\u3093",
+			"user_rank": 25,
+			"last_play": 1385790300,
+			"friend_state": 0,
+			"friend_state_update": 1385799971,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 30000029081691,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102451275,
+			"user_name": "Cloud",
+			"user_rank": 15,
+			"last_play": 1385704384,
+			"friend_state": 1,
+			"friend_state_update": 1385707318,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 40000018095166,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103221631,
+			"user_name": "KNIGHT",
+			"user_rank": 29,
+			"last_play": 1385943041,
+			"friend_state": 0,
+			"friend_state_update": 1385744838,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 15074,
+				"level": 10,
+				"unique_id": 20000036906773,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 1
+			}
+		}, {
+			"user_id": 102900813,
+			"user_name": "Yuki",
+			"user_rank": 26,
+			"last_play": 1385903016,
+			"friend_state": 1,
+			"friend_state_update": 1385799901,
+			"friend_point": 0,
+			"unit": {
+				"id": 153,
+				"exp": 8297,
+				"level": 8,
+				"unique_id": 40000027721526,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103018478,
+			"user_name": "\u30b0\u30ea\u30fc\u30f3",
+			"user_rank": 25,
+			"last_play": 1385873862,
+			"friend_state": 2,
+			"friend_state_update": 1385819153,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 29681,
+				"level": 13,
+				"unique_id": 30000034875672,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103136324,
+			"user_name": "\u304b\u3081",
+			"user_rank": 31,
+			"last_play": 1385929436,
+			"friend_state": 1,
+			"friend_state_update": 1385875073,
+			"friend_point": 0,
+			"unit": {
+				"id": 153,
+				"exp": 31622,
+				"level": 13,
+				"unique_id": 30000034757526,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102819349,
+			"user_name": "\u30e6\u30a6",
+			"user_rank": 30,
+			"last_play": 1385903077,
+			"friend_state": 1,
+			"friend_state_update": 1385903043,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 113452,
+				"level": 22,
+				"unique_id": 20000026448951,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102952615,
+			"user_name": "\u3082\u308b",
+			"user_rank": 37,
+			"last_play": 1385904642,
+			"friend_state": 1,
+			"friend_state_update": 1385903073,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 23980,
+				"level": 12,
+				"unique_id": 20000029851423,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102866193,
+			"user_name": "Morgan1",
+			"user_rank": 34,
+			"last_play": 1385938949,
+			"friend_state": 2,
+			"friend_state_update": 1385903969,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 30000,
+				"level": 13,
+				"unique_id": 40000028020278,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103256057,
+			"user_name": "\u9ed2\u9f8d\u5236\u8987",
+			"user_rank": 37,
+			"last_play": 1385951606,
+			"friend_state": 0,
+			"friend_state_update": 1385952133,
+			"friend_point": 0,
+			"unit": {
+				"id": 341,
+				"exp": 32201,
+				"level": 14,
+				"unique_id": 60000038409942,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}]
+	}
+}
+```
+
+## delete_friend(删除好友)
+```
+request:
+{"header":{"api_version":"1.0.3","packet_unique_id":19},"user_id":[102853471]}
+
+response:
+{
+	"header": {
+		"code": 4096,
+		"session_id": "8rg9g9nmdhrs4ili4kl0nt74cspssl5u",
+		"api_version": "1.0.3",
+		"packet_unique_id": 19
+	},
+	"result": {
+		"friend": [{
+			"user_id": 101802326,
+			"user_name": "\u3084\u30fc\u307e\u3060",
+			"user_rank": 24,
+			"last_play": 1385936655,
+			"friend_state": 0,
+			"friend_state_update": 1383957288,
+			"friend_point": 0,
+			"unit": {
+				"id": 26,
+				"exp": 6241,
+				"level": 11,
+				"unique_id": 30000012319553,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102027425,
+			"user_name": "eine",
+			"user_rank": 61,
+			"last_play": 1385944078,
+			"friend_state": 1,
+			"friend_state_update": 1382625611,
+			"friend_point": 0,
+			"unit": {
+				"id": 140,
+				"exp": 114495,
+				"level": 22,
+				"unique_id": 60000013762538,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101895534,
+			"user_name": "\u30eb\u30a4\u30ea\u30aa",
+			"user_rank": 16,
+			"last_play": 1385951315,
+			"friend_state": 0,
+			"friend_state_update": 1382839223,
+			"friend_point": 0,
+			"unit": {
+				"id": 124,
+				"exp": 34386,
+				"level": 24,
+				"unique_id": 10000015614394,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101229629,
+			"user_name": "worldhome",
+			"user_rank": 10,
+			"last_play": 1385906127,
+			"friend_state": 1,
+			"friend_state_update": 1382839421,
+			"friend_point": 0,
+			"unit": {
+				"id": 143,
+				"exp": 24200,
+				"level": 12,
+				"unique_id": 60000007004875,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102209890,
+			"user_name": "\u3058\u3083\u304c\u3044\u3082",
+			"user_rank": 36,
+			"last_play": 1385915524,
+			"friend_state": 1,
+			"friend_state_update": 1382843511,
+			"friend_point": 0,
+			"unit": {
+				"id": 4,
+				"exp": 109539,
+				"level": 25,
+				"unique_id": 50000015004989,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102615113,
+			"user_name": "\u3061\u30fc\u3055\u3093",
+			"user_rank": 50,
+			"last_play": 1385949992,
+			"friend_state": 0,
+			"friend_state_update": 1384248277,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 33043,
+				"level": 14,
+				"unique_id": 60000029799156,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102708026,
+			"user_name": "\u30c0\u30a4\u30b9\u30b1",
+			"user_rank": 61,
+			"last_play": 1385935615,
+			"friend_state": 0,
+			"friend_state_update": 1383665536,
+			"friend_point": 0,
+			"unit": {
+				"id": 154,
+				"exp": 63450,
+				"level": 18,
+				"unique_id": 30000022970880,
+				"add_pow": 9,
+				"add_def": 0,
+				"add_hp": 14,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102660695,
+			"user_name": "\u5e74\u672b\u8abf\u6574",
+			"user_rank": 28,
+			"last_play": 1385409445,
+			"friend_state": 0,
+			"friend_state_update": 1383712329,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 43390,
+				"level": 15,
+				"unique_id": 60000025059632,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101869749,
+			"user_name": "\u3072\u3087\u3063\u3068\u3053\u658e",
+			"user_rank": 12,
+			"last_play": 1385456135,
+			"friend_state": 0,
+			"friend_state_update": 1383671413,
+			"friend_point": 0,
+			"unit": {
+				"id": 349,
+				"exp": 2850,
+				"level": 8,
+				"unique_id": 40000022847484,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102775342,
+			"user_name": "NobuSh",
+			"user_rank": 14,
+			"last_play": 1384820412,
+			"friend_state": 2,
+			"friend_state_update": 1384433251,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 6101,
+				"level": 10,
+				"unique_id": 50000024484555,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102917568,
+			"user_name": "shan",
+			"user_rank": 18,
+			"last_play": 1385377955,
+			"friend_state": 2,
+			"friend_state_update": 1384435417,
+			"friend_point": 0,
+			"unit": {
+				"id": 394,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 10000029113809,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101528914,
+			"user_name": "bbgtest",
+			"user_rank": 45,
+			"last_play": 1385942798,
+			"friend_state": 0,
+			"friend_state_update": 1384860868,
+			"friend_point": 0,
+			"unit": {
+				"id": 7,
+				"exp": 102052,
+				"level": 31,
+				"unique_id": 50000009026581,
+				"add_pow": 3,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103065717,
+			"user_name": "\u3051\u3067\u3043",
+			"user_rank": 36,
+			"last_play": 1385791357,
+			"friend_state": 0,
+			"friend_state_update": 1384862384,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 25352,
+				"level": 12,
+				"unique_id": 40000036078753,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102939127,
+			"user_name": "Rex",
+			"user_rank": 16,
+			"last_play": 1385820534,
+			"friend_state": 2,
+			"friend_state_update": 1384862594,
+			"friend_point": 0,
+			"unit": {
+				"id": 2,
+				"exp": 2110,
+				"level": 7,
+				"unique_id": 20000029398819,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103058511,
+			"user_name": "\u306e\u3093\u305f",
+			"user_rank": 60,
+			"last_play": 1385951867,
+			"friend_state": 0,
+			"friend_state_update": 1384930860,
+			"friend_point": 0,
+			"unit": {
+				"id": 142,
+				"exp": 225562,
+				"level": 29,
+				"unique_id": 40000031762295,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103075847,
+			"user_name": "KIBA",
+			"user_rank": 21,
+			"last_play": 1385820009,
+			"friend_state": 0,
+			"friend_state_update": 1385107977,
+			"friend_point": 0,
+			"unit": {
+				"id": 405,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 60000032792921,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103081478,
+			"user_name": "d",
+			"user_rank": 40,
+			"last_play": 1385909359,
+			"friend_state": 0,
+			"friend_state_update": 1384931841,
+			"friend_point": 0,
+			"unit": {
+				"id": 405,
+				"exp": 83236,
+				"level": 20,
+				"unique_id": 30000033131186,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 3,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054928,
+			"user_name": "w",
+			"user_rank": 14,
+			"last_play": 1385092245,
+			"friend_state": 2,
+			"friend_state_update": 1384944347,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 1621,
+				"level": 6,
+				"unique_id": 30000032091850,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103007244,
+			"user_name": "\u3082\u3063\u3061",
+			"user_rank": 34,
+			"last_play": 1385934506,
+			"friend_state": 0,
+			"friend_state_update": 1385870911,
+			"friend_point": 0,
+			"unit": {
+				"id": 7,
+				"exp": 50757,
+				"level": 24,
+				"unique_id": 10000030676856,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103015093,
+			"user_name": "\u307e\u308a",
+			"user_rank": 18,
+			"last_play": 1385371929,
+			"friend_state": 0,
+			"friend_state_update": 1385125756,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 2632,
+				"level": 5,
+				"unique_id": 20000033079011,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103044880,
+			"user_name": "rk2i",
+			"user_rank": 13,
+			"last_play": 1385331222,
+			"friend_state": 0,
+			"friend_state_update": 1385107981,
+			"friend_point": 0,
+			"unit": {
+				"id": 143,
+				"exp": 500,
+				"level": 3,
+				"unique_id": 50000031873395,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054379,
+			"user_name": "ROM",
+			"user_rank": 31,
+			"last_play": 1385885412,
+			"friend_state": 0,
+			"friend_state_update": 1384947008,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 13206,
+				"level": 10,
+				"unique_id": 60000033651542,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103016083,
+			"user_name": "\u30ab\u30ba\u30ad",
+			"user_rank": 27,
+			"last_play": 1385542463,
+			"friend_state": 1,
+			"friend_state_update": 1384946887,
+			"friend_point": 0,
+			"unit": {
+				"id": 3,
+				"exp": 5108,
+				"level": 10,
+				"unique_id": 20000031139266,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103086859,
+			"user_name": "\u30d2\u30ed\u30c8",
+			"user_rank": 21,
+			"last_play": 1385817210,
+			"friend_state": 0,
+			"friend_state_update": 1384948242,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 1937,
+				"level": 5,
+				"unique_id": 20000033678966,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103085217,
+			"user_name": "\u30c8\u30de\u30c8",
+			"user_rank": 19,
+			"last_play": 1385179861,
+			"friend_state": 2,
+			"friend_state_update": 1384948051,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 3760,
+				"level": 9,
+				"unique_id": 40000032425893,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103014666,
+			"user_name": "Shun",
+			"user_rank": 19,
+			"last_play": 1385869970,
+			"friend_state": 1,
+			"friend_state_update": 1384950681,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 19942,
+				"level": 11,
+				"unique_id": 10000031488383,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102935850,
+			"user_name": "\u305f\u304b\u307f\u3084\u3093",
+			"user_rank": 20,
+			"last_play": 1385367799,
+			"friend_state": 0,
+			"friend_state_update": 1384955005,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 33390,
+				"level": 14,
+				"unique_id": 10000031552618,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103078765,
+			"user_name": "\u30a2\u30c8\u30e9\u30b9",
+			"user_rank": 16,
+			"last_play": 1385566993,
+			"friend_state": 0,
+			"friend_state_update": 1385107969,
+			"friend_point": 0,
+			"unit": {
+				"id": 165,
+				"exp": 550,
+				"level": 3,
+				"unique_id": 20000032641327,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103115380,
+			"user_name": "\u3060\u3044\u3059\u3051",
+			"user_rank": 29,
+			"last_play": 1385936465,
+			"friend_state": 0,
+			"friend_state_update": 1385476748,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 15411,
+				"level": 10,
+				"unique_id": 50000034320072,
+				"add_pow": 2,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103099814,
+			"user_name": "\u308d\u308d\u30fc",
+			"user_rank": 33,
+			"last_play": 1385908656,
+			"friend_state": 0,
+			"friend_state_update": 1385561730,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 26636,
+				"level": 13,
+				"unique_id": 30000035129095,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103002898,
+			"user_name": "mabo",
+			"user_rank": 16,
+			"last_play": 1385893077,
+			"friend_state": 0,
+			"friend_state_update": 1385728544,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 4600,
+				"level": 9,
+				"unique_id": 50000030637213,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103114495,
+			"user_name": "\u307e\u3075\u3081\u3084",
+			"user_rank": 19,
+			"last_play": 1385943326,
+			"friend_state": 0,
+			"friend_state_update": 1385546340,
+			"friend_point": 0,
+			"unit": {
+				"id": 104,
+				"exp": 8484,
+				"level": 14,
+				"unique_id": 20000033593871,
+				"add_pow": 2,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102279997,
+			"user_name": "\u3086",
+			"user_rank": 17,
+			"last_play": 1385851209,
+			"friend_state": 0,
+			"friend_state_update": 1385774921,
+			"friend_point": 0,
+			"unit": {
+				"id": 2,
+				"exp": 4952,
+				"level": 10,
+				"unique_id": 20000015968631,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103196766,
+			"user_name": "JUN",
+			"user_rank": 29,
+			"last_play": 1385948400,
+			"friend_state": 0,
+			"friend_state_update": 1385571340,
+			"friend_point": 0,
+			"unit": {
+				"id": 397,
+				"exp": 8984,
+				"level": 8,
+				"unique_id": 10000036431374,
+				"add_pow": 3,
+				"add_def": 0,
+				"add_hp": 4,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103190122,
+			"user_name": "hi64",
+			"user_rank": 19,
+			"last_play": 1385802446,
+			"friend_state": 2,
+			"friend_state_update": 1385461144,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 12000,
+				"level": 9,
+				"unique_id": 50000036645228,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102974742,
+			"user_name": "\u30af\u30e9\u30a6\u30f3",
+			"user_rank": 17,
+			"last_play": 1385858880,
+			"friend_state": 0,
+			"friend_state_update": 1385476725,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 2140,
+				"level": 5,
+				"unique_id": 10000036425994,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103126736,
+			"user_name": "\u30af\u30e9\u30ea\u30b9",
+			"user_rank": 14,
+			"last_play": 1385469377,
+			"friend_state": 2,
+			"friend_state_update": 1385469144,
+			"friend_point": 0,
+			"unit": {
+				"id": 104,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 30000034262828,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103054428,
+			"user_name": "\u30aa\u30f3\u30ec\u30a4",
+			"user_rank": 18,
+			"last_play": 1385531233,
+			"friend_state": 1,
+			"friend_state_update": 1385476982,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 45667,
+				"level": 15,
+				"unique_id": 10000032394231,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102940204,
+			"user_name": "\u306b\u304f\u307e\u3093",
+			"user_rank": 20,
+			"last_play": 1385814564,
+			"friend_state": 2,
+			"friend_state_update": 1385477121,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 50000029264771,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102313297,
+			"user_name": "rintaro",
+			"user_rank": 19,
+			"last_play": 1385887406,
+			"friend_state": 0,
+			"friend_state_update": 1385641177,
+			"friend_point": 0,
+			"unit": {
+				"id": 41,
+				"exp": 13099,
+				"level": 14,
+				"unique_id": 20000019687858,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101731768,
+			"user_name": "\u308a\u3087\u30fc\u3061\u3083\u3093",
+			"user_rank": 23,
+			"last_play": 1385901262,
+			"friend_state": 2,
+			"friend_state_update": 1385555447,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 1347,
+				"level": 4,
+				"unique_id": 50000036597705,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103132719,
+			"user_name": "\u30d3\u30bf\u30fc",
+			"user_rank": 23,
+			"last_play": 1385858139,
+			"friend_state": 2,
+			"friend_state_update": 1385561642,
+			"friend_point": 0,
+			"unit": {
+				"id": 3,
+				"exp": 8115,
+				"level": 12,
+				"unique_id": 40000033706852,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103085739,
+			"user_name": "\u30d4\u30c3\u30d4",
+			"user_rank": 21,
+			"last_play": 1385762844,
+			"friend_state": 2,
+			"friend_state_update": 1385562603,
+			"friend_point": 0,
+			"unit": {
+				"id": 155,
+				"exp": 10533,
+				"level": 9,
+				"unique_id": 40000032441046,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102587469,
+			"user_name": "\u307d\u3061",
+			"user_rank": 37,
+			"last_play": 1385934192,
+			"friend_state": 0,
+			"friend_state_update": 1385851202,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 34054,
+				"level": 14,
+				"unique_id": 40000036292761,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101818196,
+			"user_name": "\u30ab\u30ca\u30bf",
+			"user_rank": 22,
+			"last_play": 1385948922,
+			"friend_state": 1,
+			"friend_state_update": 1385613779,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 16104,
+				"level": 10,
+				"unique_id": 30000037370072,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101948447,
+			"user_name": "kory",
+			"user_rank": 10,
+			"last_play": 1385870690,
+			"friend_state": 0,
+			"friend_state_update": 1385641165,
+			"friend_point": 0,
+			"unit": {
+				"id": 131,
+				"exp": 2505,
+				"level": 7,
+				"unique_id": 60000013375499,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103207736,
+			"user_name": "\u3086\u3046",
+			"user_rank": 24,
+			"last_play": 1385908562,
+			"friend_state": 0,
+			"friend_state_update": 1385798910,
+			"friend_point": 0,
+			"unit": {
+				"id": 10,
+				"exp": 5487,
+				"level": 10,
+				"unique_id": 30000036388647,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 101926412,
+			"user_name": "\u3051\u3093\u3084\u307e\u3093",
+			"user_rank": 25,
+			"last_play": 1385790300,
+			"friend_state": 0,
+			"friend_state_update": 1385799971,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 30000029081691,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102451275,
+			"user_name": "Cloud",
+			"user_rank": 15,
+			"last_play": 1385704384,
+			"friend_state": 1,
+			"friend_state_update": 1385707318,
+			"friend_point": 0,
+			"unit": {
+				"id": 6,
+				"exp": 14463,
+				"level": 15,
+				"unique_id": 40000018095166,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103221631,
+			"user_name": "KNIGHT",
+			"user_rank": 29,
+			"last_play": 1385943041,
+			"friend_state": 0,
+			"friend_state_update": 1385744838,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 15074,
+				"level": 10,
+				"unique_id": 20000036906773,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 1
+			}
+		}, {
+			"user_id": 102900813,
+			"user_name": "Yuki",
+			"user_rank": 26,
+			"last_play": 1385903016,
+			"friend_state": 1,
+			"friend_state_update": 1385799901,
+			"friend_point": 0,
+			"unit": {
+				"id": 153,
+				"exp": 8297,
+				"level": 8,
+				"unique_id": 40000027721526,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103018478,
+			"user_name": "\u30b0\u30ea\u30fc\u30f3",
+			"user_rank": 25,
+			"last_play": 1385873862,
+			"friend_state": 0,
+			"friend_state_update": 1385952535,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 29681,
+				"level": 13,
+				"unique_id": 30000034875672,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 2,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103136324,
+			"user_name": "\u304b\u3081",
+			"user_rank": 31,
+			"last_play": 1385929436,
+			"friend_state": 1,
+			"friend_state_update": 1385875073,
+			"friend_point": 0,
+			"unit": {
+				"id": 153,
+				"exp": 31622,
+				"level": 13,
+				"unique_id": 30000034757526,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102819349,
+			"user_name": "\u30e6\u30a6",
+			"user_rank": 30,
+			"last_play": 1385903077,
+			"friend_state": 1,
+			"friend_state_update": 1385903043,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 113452,
+				"level": 22,
+				"unique_id": 20000026448951,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102952615,
+			"user_name": "\u3082\u308b",
+			"user_rank": 37,
+			"last_play": 1385904642,
+			"friend_state": 1,
+			"friend_state_update": 1385903073,
+			"friend_point": 0,
+			"unit": {
+				"id": 395,
+				"exp": 23980,
+				"level": 12,
+				"unique_id": 20000029851423,
+				"add_pow": 4,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 102866193,
+			"user_name": "Morgan1",
+			"user_rank": 34,
+			"last_play": 1385938949,
+			"friend_state": 0,
+			"friend_state_update": 1385952525,
+			"friend_point": 0,
+			"unit": {
+				"id": 396,
+				"exp": 30000,
+				"level": 13,
+				"unique_id": 40000028020278,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}, {
+			"user_id": 103256057,
+			"user_name": "\u9ed2\u9f8d\u5236\u8987",
+			"user_rank": 37,
+			"last_play": 1385951606,
+			"friend_state": 0,
+			"friend_state_update": 1385952133,
+			"friend_point": 0,
+			"unit": {
+				"id": 341,
+				"exp": 32201,
+				"level": 14,
+				"unique_id": 60000038409942,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0
+			}
+		}]
+	}
+}
+```
+
+## compose_unit
+```
+request:
+{"header":{"api_version":"1.0.3","packet_unique_id":21},"unique_id_base":20000037465566,"unique_id_parts":[20000036675386],"helper_user_id":101528914,"helper_unit":{"id":7,"exp":102052,"level":31,"unique_id":50000009026581,"add_pow":3,"add_def":0,"add_hp":1,"limitbreak_lv":0,"get_time":0},"helper_premium":0,"helper_point_ok":1}
+
+{
+	"header": {
+		"code": 4096,
+		"session_id": "8rg9g9nmdhrs4ili4kl0nt74cspssl5u",
+		"api_version": "1.0.3",
+		"packet_unique_id": 21
+	},
+	"result": {
+		"player": {
+			"unit_list": [{
+				"id": 11,
+				"exp": 34030,
+				"level": 20,
+				"unique_id": 20000013284654,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382587585
+			}, {
+				"id": 129,
+				"exp": 9410,
+				"level": 12,
+				"unique_id": 20000013328842,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382590465
+			}, {
+				"id": 133,
+				"exp": 34652,
+				"level": 20,
+				"unique_id": 20000014146276,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382623828
+			}, {
+				"id": 72,
+				"exp": 531,
+				"level": 4,
+				"unique_id": 20000016687772,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382839187
+			}, {
+				"id": 3,
+				"exp": 78562,
+				"level": 28,
+				"unique_id": 20000016719832,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0,
+				"get_time": 1382842314
+			}, {
+				"id": 49,
+				"exp": 1918,
+				"level": 8,
+				"unique_id": 20000032972480,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384943692
+			}, {
+				"id": 399,
+				"exp": 2993,
+				"level": 10,
+				"unique_id": 20000032992503,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384945358
+			}, {
+				"id": 199,
+				"exp": 3195,
+				"level": 10,
+				"unique_id": 20000033010726,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384946760
+			}, {
+				"id": 381,
+				"exp": 72449,
+				"level": 27,
+				"unique_id": 20000034219738,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385108677
+			}, {
+				"id": 396,
+				"exp": 36000,
+				"level": 14,
+				"unique_id": 20000037208450,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385537691
+			}, {
+				"id": 397,
+				"exp": 14068,
+				"level": 10,
+				"unique_id": 20000037217401,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385538849
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037460188,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561131
+			}, {
+				"id": 394,
+				"exp": 2700,
+				"level": 5,
+				"unique_id": 20000037465566,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561632
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470995,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470996,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 395,
+				"exp": 10327,
+				"level": 9,
+				"unique_id": 20000037492647,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385564514
+			}, {
+				"id": 402,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037501078,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385565446
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037514775,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385567103
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038031587,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385649265
+			}, {
+				"id": 115,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040797,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 91,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040801,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 73,
+				"exp": 19,
+				"level": 2,
+				"unique_id": 20000038065786,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038210352,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695425
+			}, {
+				"id": 54,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038211188,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695553
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000038504823,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385742723
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039053888,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385834581
+			}, {
+				"id": 363,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039358118,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385896527
+			}, {
+				"id": 61,
+				"exp": 13,
+				"level": 2,
+				"unique_id": 20000039404158,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385902990
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039473558,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385913065
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039473559,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385913065
+			}],
+			"unit_party_current": 3,
+			"unit_party_assign": [{
+				"unit0_unique_id": 20000037208450,
+				"unit1_unique_id": 20000013284654,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000034219738
+			}, {
+				"unit0_unique_id": 20000013328842,
+				"unit1_unique_id": 20000037465566,
+				"unit2_unique_id": 20000034219738,
+				"unit3_unique_id": 20000013284654
+			}, {
+				"unit0_unique_id": 20000037492647,
+				"unit1_unique_id": 20000014146276,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000037208450
+			}, {
+				"unit0_unique_id": 20000037217401,
+				"unit1_unique_id": 20000038065786,
+				"unit2_unique_id": 20000038211188,
+				"unit3_unique_id": 20000032972480
+			}, {
+				"unit0_unique_id": 20000013284654,
+				"unit1_unique_id": 20000013328842,
+				"unit2_unique_id": 20000016687772,
+				"unit3_unique_id": 20000034219738
+			}],
+			"user": {
+				"user_id": 101946121,
+				"user_name": "Orca",
+				"user_group": 0
+			},
+			"first_select_num": 3,
+			"rank": 35,
+			"exp": 18416,
+			"review": 1,
+			"pay_total": 0,
+			"pay_month": 0,
+			"have_money": 850178,
+			"have_stone_pay": 0,
+			"have_stone_free": 1,
+			"have_stone": 1,
+			"have_friend_pt": 980,
+			"stamina_now": 35,
+			"stamina_max": 35,
+			"stamina_recover": 1385951425,
+			"total_unit": 40,
+			"total_party": 47,
+			"total_friend": 35,
+			"flag_quest_check": [32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 216, 194, 135, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_quest_clear": [224, 6, 18, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 216, 194, 135, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_tutorial": [255, 254, 71, 0],
+			"flag_unit_check": [80, 4, 68, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 128, 10, 232, 128, 6, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 136, 0, 24, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_unit_get": [14, 14, 0, 16, 0, 184, 250, 187, 171, 171, 170, 168, 0, 0, 8, 0, 34, 0, 0, 0, 0, 128, 161, 0, 134, 3, 219, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 2, 32, 0, 252, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		},
+		"blend_pattern": 0,
+		"blend_exp": 90,
+		"blend_unit_unique": 20000037465566
+	}
+}
+```
+
+## retire_user
+```
+request:
+{"header":{"api_version":"1.0.3","packet_unique_id":13},"quest_id":121}
+
+response:
+{
+	"header": {
+		"code": 4096,
+		"session_id": "151dacl6d2sgr6da0l4ujn09kfb6dhrf",
+		"api_version": "1.0.3",
+		"packet_unique_id": 13
+	},
+	"result": {
+		"dummy": 0
+	}
+}
+```
+
+## clear_quest
+```
+request: {"header":{"api_version":"1.0.3","packet_unique_id":19},"quest_id":239,"get_money":630,"get_exp":50,"get_unit":[{"id":363,"level":1,"add_pow":0,"add_def":0,"add_hp":0},{"id":363,"level":1,"add_pow":0,"add_def":0,"add_hp":0}],"security_key":4077659234}
+response: 
+{
+	"header": {
+		"code": 4096,
+		"session_id": "1c6ceskm2psg7798hfldju7j41lfpgqd",
+		"api_version": "1.0.3",
+		"packet_unique_id": 19
+	},
+	"result": {
+		"player": {
+			"unit_list": [{
+				"id": 11,
+				"exp": 34030,
+				"level": 20,
+				"unique_id": 20000013284654,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382587585
+			}, {
+				"id": 129,
+				"exp": 9410,
+				"level": 12,
+				"unique_id": 20000013328842,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382590465
+			}, {
+				"id": 133,
+				"exp": 34652,
+				"level": 20,
+				"unique_id": 20000014146276,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382623828
+			}, {
+				"id": 72,
+				"exp": 531,
+				"level": 4,
+				"unique_id": 20000016687772,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1382839187
+			}, {
+				"id": 3,
+				"exp": 78562,
+				"level": 28,
+				"unique_id": 20000016719832,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 1,
+				"limitbreak_lv": 0,
+				"get_time": 1382842314
+			}, {
+				"id": 49,
+				"exp": 1918,
+				"level": 8,
+				"unique_id": 20000032972480,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384943692
+			}, {
+				"id": 399,
+				"exp": 2993,
+				"level": 10,
+				"unique_id": 20000032992503,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384945358
+			}, {
+				"id": 199,
+				"exp": 3195,
+				"level": 10,
+				"unique_id": 20000033010726,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1384946760
+			}, {
+				"id": 381,
+				"exp": 72449,
+				"level": 27,
+				"unique_id": 20000034219738,
+				"add_pow": 1,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385108677
+			}, {
+				"id": 396,
+				"exp": 36000,
+				"level": 14,
+				"unique_id": 20000037208450,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385537691
+			}, {
+				"id": 397,
+				"exp": 14068,
+				"level": 10,
+				"unique_id": 20000037217401,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385538849
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037460188,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561131
+			}, {
+				"id": 394,
+				"exp": 2700,
+				"level": 5,
+				"unique_id": 20000037465566,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385561632
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470995,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 399,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037470996,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385562217
+			}, {
+				"id": 395,
+				"exp": 10327,
+				"level": 9,
+				"unique_id": 20000037492647,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385564514
+			}, {
+				"id": 402,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037501078,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385565446
+			}, {
+				"id": 398,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000037514775,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385567103
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038031587,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385649265
+			}, {
+				"id": 115,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040797,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 91,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038040801,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385650379
+			}, {
+				"id": 73,
+				"exp": 19,
+				"level": 2,
+				"unique_id": 20000038065786,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385653752
+			}, {
+				"id": 43,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038210352,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695425
+			}, {
+				"id": 54,
+				"exp": 0,
+				"level": 1,
+				"unique_id": 20000038211188,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385695553
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000038504823,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385742723
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039053888,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385834581
+			}, {
+				"id": 363,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039358118,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385896527
+			}, {
+				"id": 61,
+				"exp": 13,
+				"level": 2,
+				"unique_id": 20000039404158,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385902990
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039473558,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385913065
+			}, {
+				"id": 364,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039473559,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385913065
+			}, {
+				"id": 366,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039611379,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385956582
+			}, {
+				"id": 363,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039611380,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385956582
+			}, {
+				"id": 363,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039611381,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385956582
+			}, {
+				"id": 363,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039708625,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385976376
+			}, {
+				"id": 363,
+				"exp": 1,
+				"level": 1,
+				"unique_id": 20000039708626,
+				"add_pow": 0,
+				"add_def": 0,
+				"add_hp": 0,
+				"limitbreak_lv": 0,
+				"get_time": 1385976376
+			}],
+			"unit_party_current": 0,
+			"unit_party_assign": [{
+				"unit0_unique_id": 20000037208450,
+				"unit1_unique_id": 20000013284654,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000034219738
+			}, {
+				"unit0_unique_id": 20000013328842,
+				"unit1_unique_id": 20000037465566,
+				"unit2_unique_id": 20000034219738,
+				"unit3_unique_id": 20000013284654
+			}, {
+				"unit0_unique_id": 20000037492647,
+				"unit1_unique_id": 20000014146276,
+				"unit2_unique_id": 20000016719832,
+				"unit3_unique_id": 20000037208450
+			}, {
+				"unit0_unique_id": 20000037217401,
+				"unit1_unique_id": 20000038065786,
+				"unit2_unique_id": 20000038211188,
+				"unit3_unique_id": 20000032972480
+			}, {
+				"unit0_unique_id": 20000013284654,
+				"unit1_unique_id": 20000013328842,
+				"unit2_unique_id": 20000016687772,
+				"unit3_unique_id": 20000034219738
+			}],
+			"user": {
+				"user_id": 101946121,
+				"user_name": "Orca",
+				"user_group": 0
+			},
+			"first_select_num": 3,
+			"rank": 35,
+			"exp": 18516,
+			"review": 1,
+			"pay_total": 0,
+			"pay_month": 0,
+			"have_money": 851263,
+			"have_stone_pay": 0,
+			"have_stone_free": 1,
+			"have_stone": 1,
+			"have_friend_pt": 1050,
+			"stamina_now": 23,
+			"stamina_max": 35,
+			"stamina_recover": 1385976240,
+			"total_unit": 40,
+			"total_party": 47,
+			"total_friend": 35,
+			"flag_quest_check": [32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 216, 194, 135, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_quest_clear": [224, 6, 18, 0, 0, 0, 0, 0, 0, 0, 248, 255, 255, 255, 255, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 144, 37, 216, 194, 135, 1, 64, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_tutorial": [255, 254, 71, 0],
+			"flag_unit_check": [80, 4, 68, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 128, 10, 232, 128, 6, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 136, 0, 24, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"flag_unit_get": [14, 14, 0, 16, 0, 184, 250, 187, 171, 171, 170, 168, 0, 0, 8, 0, 34, 0, 0, 0, 0, 128, 161, 0, 134, 3, 219, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 248, 2, 32, 0, 252, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		},
+		"get_money": 630,
+		"get_exp": 50,
+		"get_unit": [20000039708625, 20000039708626]
+	}
+}
+```
+
+***
+## patch_dataList_1.0.3.txt(s3)
+```
+request: time = 635215770442322570
+response:
+[{
+	"key": "PATCH_IOS_SHINSEI",
+	"param": "1.0.4"
+}, {
+	"key": "APP_VERSION_PATCH_IOS",
+	"param": "1.0.3"
+}, {
+	"key": "APP_VERSION_PATCH_ANDROID",
+	"param": "1.0.3"
+}, {
+	"key": "DATA_UPDATE_COUNTER",
+	"param": "update00038"
+}, {
+	"key": "SAVE_TRANSFER_DISABLE",
+	"param": "0"
+}, {
+	"key": "IOS_SHOP_OVERWRITE_DISABLE",
+	"param": "0"
+}]
+```
+
+## BannerDataList.txt(s3)
+```
+request: time =
+
+response: 
+[{
+	"name": "dg:unei",
+	"platform": 0,
+	"timing_start": 2013010100,
+	"timing_end": 2013110811,
+	"banner": "http://www.gungho.jp/dg/bn/DG_Banner.jpg",
+	"web_link": "http://mobile.gungho.jp/news/dg/unei.html",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:fairytale",
+	"platform": 0,
+	"timing_start": 2013110811,
+	"timing_end": 2013112811,
+	"banner": "http://www.gungho.jp/dg/bn/131108_ft_c1x8xh.jpg",
+	"web_link": "http://mobile.gungho.jp/news/dg/131105_ft.html",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:steinsgate_a",
+	"platform": 0,
+	"timing_start": 2013112811,
+	"timing_end": 2013120411,
+	"banner": "http://www.gungho.jp/dg/bn/131128_sg1_rxnlrv.jpg",
+	"web_link": "http://steinsgate.jp/sp/",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:steinsgate_b",
+	"platform": 0,
+	"timing_start": 2013112811,
+	"timing_end": 2013120411,
+	"banner": "http://www.gungho.jp/dg/bn/131128_sg2_rxnlrv.jpg",
+	"web_link": "http://steinsgate.jp/sp/",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:steinsgate_b",
+	"platform": 0,
+	"timing_start": 2013112811,
+	"timing_end": 2013120411,
+	"banner": "http://www.gungho.jp/dg/bn/131128_sg2_rxnlrv.jpg",
+	"web_link": "http://steinsgate.jp/sp/",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:unei",
+	"platform": 0,
+	"timing_start": 2013120411,
+	"timing_end": 2020010124,
+	"banner": "http://www.gungho.jp/dg/bn/DG_Banner.jpg",
+	"web_link": "http://mobile.gungho.jp/news/dg/unei.html",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:unei",
+	"platform": 1,
+	"timing_start": 2013010100,
+	"timing_end": 2013110811,
+	"banner": "http://www.gungho.jp/dg/bn/DG_Banner.jpg",
+	"web_link": "http://mobile.gungho.jp/news/dg/unei.html",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:fairytale",
+	"platform": 1,
+	"timing_start": 2013110811,
+	"timing_end": 2013112811,
+	"banner": "http://www.gungho.jp/dg/bn/131108_ft_c1x8xh.jpg",
+	"web_link": "http://mobile.gungho.jp/news/dg/131105_ft.html",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:steinsgate_a",
+	"platform": 1,
+	"timing_start": 2013112811,
+	"timing_end": 2013120411,
+	"banner": "http://www.gungho.jp/dg/bn/131128_sg1_rxnlrv.jpg",
+	"web_link": "http://steinsgate.jp/sp/",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:steinsgate_b",
+	"platform": 1,
+	"timing_start": 2013112811,
+	"timing_end": 2013120411,
+	"banner": "http://www.gungho.jp/dg/bn/131128_sg2_rxnlrv.jpg",
+	"web_link": "http://steinsgate.jp/sp/",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:steinsgate_b",
+	"platform": 1,
+	"timing_start": 2013112811,
+	"timing_end": 2013120411,
+	"banner": "http://www.gungho.jp/dg/bn/131128_sg2_rxnlrv.jpg",
+	"web_link": "http://steinsgate.jp/sp/",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}, {
+	"name": "dg:unei",
+	"platform": 1,
+	"timing_start": 2013120411,
+	"timing_end": 2020010124,
+	"banner": "http://www.gungho.jp/dg/bn/DG_Banner.jpg",
+	"web_link": "http://mobile.gungho.jp/news/dg/unei.html",
+	"app_name": "",
+	"app_scheme": "",
+	"app_store": ""
+}]
+```
