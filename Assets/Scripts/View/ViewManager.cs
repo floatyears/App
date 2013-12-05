@@ -64,10 +64,12 @@ public class ViewManager
 	{
 		string reallyPath = path + name;
 		
-		Object sourceObject = Resources.Load(reallyPath);
+		GameObject sourceObject = Resources.Load(reallyPath) as GameObject;
 		
-		GameObject go = GameObject.Instantiate(sourceObject) as GameObject;
-		
+		GameObject go = NGUITools.AddChild(parentPanel,sourceObject); //GameObject.Instantiate(sourceObject) as GameObject;
+
+		//go.transform.parent = parentPanel.transform;
+
 		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
 
 		goScript.Init(name);

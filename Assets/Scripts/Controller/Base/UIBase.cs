@@ -17,7 +17,7 @@ public class UIBase : IUIInterface
 		}
 	}
 
-	protected Dictionary<string,UIBaseUnity> currentUIDic;
+	protected Dictionary<string,UIBaseUnity> currentUIDic = new Dictionary<string, UIBaseUnity>();
 
 	public Dictionary<string,UIBaseUnity> CurrentUIDic
 	{

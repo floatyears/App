@@ -50,7 +50,9 @@ public class BattleShow : UIBase
 
 	void SetActive(bool b)
 	{
-		insUIObject.SetActive(b);
+//		insUIObject.SetActive(b);
+		foreach(var item in currentUIDic.Values)
+			item.HideUI();
 		topUI.insUIObject.SetActive(b);
 		downUI.insUIObject.SetActive(b);
 	}
