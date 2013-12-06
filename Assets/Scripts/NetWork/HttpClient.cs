@@ -27,6 +27,18 @@ namespace NetWork
 	public class HttpClient
 	{
 
+        private static HttpClient instance;
+        
+        public static HttpClient Instance
+        {
+            get
+            {
+                if(instance  == null)
+                    instance = new HttpClient();
+                
+                return instance;
+            }
+        }
 
 		public HttpClient ()
 		{

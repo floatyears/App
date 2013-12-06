@@ -42,8 +42,7 @@ public class Test : MonoBehaviour
 			Debug.Log("person's id is " + person.id);
 			
 //			StartCoroutine(POST("http://192.168.0.200:8000/get_quest_map", ProtobufSerializer.SerializeToBytes<msg.Person>(person)));
-            HttpClient client = new HttpClient();
-            client.sendPost<msg.Person>(this, "http://192.168.0.200:8000/get_quest_map", person, receivePersonInfoFailed, receivePersonInfoSucceed);
+            HttpClient.Instance.sendPost<msg.Person>(this, "http://192.168.0.200:8000/get_quest_map", person, receivePersonInfoFailed, receivePersonInfoSucceed);
 		}
 	}
 }
