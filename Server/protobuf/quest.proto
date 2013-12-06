@@ -1,0 +1,56 @@
+import public "base.proto";
+
+package bbproto;
+
+message Unit {
+	reqired int32  id = 1;
+	optional string name = 4;
+	optional string skills1 = 4;
+	optional string skills2 = 4;
+	optional string profile = 4;
+};
+
+message UnitInfo {
+	reqired int32 uniqueId=1;
+	reqired int32  id = 2; //unit_id
+	optional int32 uniqueId=3;
+	optional int32 exp=4;
+	optional int32 level=5;
+	optional int32 addPow=6;
+	optional int32 addDef=7;
+	optional int32 addHp=8;
+	optional int32 limitbreakLv=9;
+	optional int32 getTime=10;
+};
+
+message QuestInfo {
+	reqired int32 id = 1;
+	optional int32 state = 2;
+	optional int32 no = 3;
+	optional string name = 4;
+	optional string desc = 5;
+	optional int32 stamina = 6;
+	optional int32 floor = 7;
+	optional int32 rewardExp = 8;
+	optional int32 rewardCoin = 9;
+	optional repeated int32 all_unit_kind = 10;
+	optional UnitInfo boss = 11;
+};
+
+message QuestMapInfo {
+	optional int32 version = 1;
+	optional int32 id = 2;
+	optional int32 type = 3;	//normal,promotion
+	repeated QuestInfo questlist = 4;
+};
+
+message ReqGetQuestMap {
+	optional Request req = 1;
+	optional int32 start_id = 2;
+};
+
+message RspGetQuestMap {
+	optional Response resp = 1;
+	repeated QuestMapInfo maps = 2;
+};
+

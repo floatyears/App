@@ -9,3 +9,4 @@ Temp
 *.pidb
 Build
 Server/others
+.idea
