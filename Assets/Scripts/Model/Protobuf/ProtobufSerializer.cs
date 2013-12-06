@@ -9,19 +9,23 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.IO;
+using UnityEngine;
 using ProtoBuf;
 
 namespace Utility
 {
 
+    /// <summary>
+    /// Protobuf serializer. For convert
+    /// </summary>
 	public class ProtobufSerializer
 	{
 
 		public static byte[] SerializeToBytes<T> (T instance){
 			using (MemoryStream ms = new MemoryStream ())
 			{
-				byte[] output = null;
 				if (instance == null){
+                    Debug.Log("try to serialize null instance, errorcode: " + ErrorCode.IllegalParam);
 					return null;
 				}
 				Serializer.Serialize<T>(ms, instance);
