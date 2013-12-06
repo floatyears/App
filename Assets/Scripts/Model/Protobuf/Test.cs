@@ -9,32 +9,25 @@ using ProtoBuf;
 using msg;
 using System;
 using Utility;
+using NetWork;
 
 public class Test : MonoBehaviour
 {
 
-	IEnumerator POST(string url, byte[] buffer)
-	{
-		Debug.Log("send:" + buffer + ", length of bytes sended: " + buffer.Length);
-		WWW www = new WWW(url, buffer);
-		yield return www;
-		if (www.error != null)
-			{
-			//POST请求失败
-			Debug.Log("error is :"+ www.error);
-						
-		} else
-			{
-			//POST请求成功
-			Debug.Log("request ok : received data " + www.text);
-			msg.Person modifiedPerson = ProtobufSerializer.ParseFormString<msg.Person>(www.text);
+    public bool receivePersonInfoSucceed (msg.Person modifiedPerson ){
 
-			Debug.Log("deserialized info: person's name is " + modifiedPerson.name);
-			Debug.Log("deserialized info: person's id is " + modifiedPerson.id);
-			Debug.Log("deserialized info: person's email is " + modifiedPerson.email);
+        Debug.Log("deserialized info: person's name is " + modifiedPerson.name);
+        Debug.Log("deserialized info: person's id is " + modifiedPerson.id);
+        Debug.Log("deserialized info: person's email is " + modifiedPerson.email);
 
-		}
-	}
+        return true;
+    }
+
+    public bool receivePersonInfoFailed (string responseString){
+        //POST请求成功
+        Debug.Log("request failed :  ErrorCode: " + ErrorCode.TimeOut);
+        return false;
+    }
 	
 	void OnGUI( )
 	{
@@ -48,12 +41,9 @@ public class Test : MonoBehaviour
 			Debug.Log("person's name is " + person.name);
 			Debug.Log("person's id is " + person.id);
 			
-			StartCoroutine(POST("http://192.168.0.200:8000/get_quest_map", ProtobufSerializer.SerializeToBytes<msg.Person>(person)));
-
+//			StartCoroutine(POST("http://192.168.0.200:8000/get_quest_map", ProtobufSerializer.SerializeToBytes<msg.Person>(person)));
+            HttpClient client = new HttpClient();
+            client.sendPost<msg.Person>(this, "http://192.168.0.200:8000/get_quest_map", person, receivePersonInfoFailed, receivePersonInfoSucceed);
 		}
-		
-		
 	}
-	
-	
 }

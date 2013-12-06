@@ -21,9 +21,16 @@ namespace Utility
 	public class ProtobufSerializer
 	{
 
+        /// <summary>
+        /// Serializes to bytes.
+        /// </summary>
+        /// <returns>The to bytes.</returns>
+        /// <param name="instance">Instance.</param>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
 		public static byte[] SerializeToBytes<T> (T instance){
 			using (MemoryStream ms = new MemoryStream ())
 			{
+                // validate
 				if (instance == null){
                     Debug.Log("try to serialize null instance, errorcode: " + ErrorCode.IllegalParam);
 					return null;
@@ -33,9 +40,21 @@ namespace Utility
 			}
 		}
 
+        /// <summary>
+        /// Parses the form string.
+        /// </summary>
+        /// <returns>The form string.</returns>
+        /// <param name="source">Source.</param>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
 		public static T ParseFormString<T> (String source){
 			MemoryStream ms = Converter.StringToStream(source);
-			return Serializer.Deserialize<T>(ms);
+            T retInstance = Serializer.Deserialize<T>(ms);
+
+            // validate
+            if (retInstance == null){
+                Debug.Log("Deserialize instance failed, errorcode: " + ErrorCode.IllegalParam);
+            }
+			return retInstance;
 		}
 	}
 }
