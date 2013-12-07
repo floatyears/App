@@ -10,7 +10,7 @@
 
 using System;
 
-enum ErrorCode {
+public enum ErrorCode {
     Succeed = 0,
 
     // usual
@@ -30,3 +30,35 @@ enum ErrorCode {
     View = -5000,
 };
 
+/// <summary>
+/// Error message.
+/// </summary>
+public class ErrorMsg {
+
+    /// <summary>
+    /// The code.
+    /// </summary>
+    private ErrorCode code = ErrorCode.Succeed;
+    public ErrorCode Code {
+        get { return code; }
+        set { code = value; }
+    }
+
+    /// <summary>
+    /// The message.
+    /// </summary>
+    private string msg = "";
+    public string Msg {
+        get { return msg; }
+        set { msg = value; }
+    }
+
+
+    public ErrorMsg(){
+    }
+
+    public ErrorMsg(ErrorCode errorCode, string message){
+        code = errorCode;
+        msg = message;
+    }
+}

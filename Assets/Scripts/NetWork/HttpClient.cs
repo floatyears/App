@@ -9,16 +9,15 @@
 // ------------------------------------------------------------------------------
 using System;
 using UnityEngine;
-using Utility;
 using System.Collections;
 
 namespace NetWork
 {
-    public delegate bool PostCallbackFailed(string responseStr); 
-    public delegate bool PostCallbackSucceed<T>(T instance); 
+    public delegate object PostCallbackFailed(string responseStr, params object[] values); 
+    public delegate object PostCallbackSucceed<T>(T instance, params object[] values); 
 
-    public delegate bool GetCallbackFailed(string responseStr);
-    public delegate bool GetCallbackSucceed(string responseStr); 
+    public delegate object GetCallbackFailed(string responseStr, params object[] values);
+    public delegate object GetCallbackSucceed(string responseStr, params object[] values); 
 
 
     /// <summary>
@@ -45,17 +44,18 @@ namespace NetWork
 		}
 
         /// <summary>
-        /// Position the specified url, buffer, failedFunc and succeedFunc.
+        /// Position the specified url, buffer, failedFunc, succeedFunc and errorMsg.
         /// </summary>
         /// <param name="url">URL.</param>
         /// <param name="buffer">Buffer.</param>
-        /// <param name="failedFunc">Failed callback.</param>
-        /// <param name="succeedFunc">Succeed callback.</param>
+        /// <param name="failedFunc">Failed func.</param>
+        /// <param name="succeedFunc">Succeed func.</param>
+        /// <param name="errorMsg">Error message.</param>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
         IEnumerator POST<T>(string url, byte[] buffer, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc)
         {
             if (failedFunc == null ){
                 Debug.Log("response failed callback is null, ErrorCode" + ErrorCode.IllegalParam);
-
             }
             else if (succeedFunc == null){
                 Debug.Log("response succeed callback is null, ErrorCode" + ErrorCode.IllegalParam);
@@ -64,6 +64,8 @@ namespace NetWork
             Debug.Log("send:" + buffer + ", length of bytes sended: " + buffer.Length);
             WWW www = new WWW(url, buffer);
             yield return www;
+
+            // when return
             if (www.error != null)
             {
                 // POST request faild
@@ -85,15 +87,19 @@ namespace NetWork
         }
 
         /// <summary>
-        /// GET the specified url, failedFunc and succeedFunc.
+        /// GE the specified url, failedFunc, succeedFunc and errorMsg.
         /// </summary>
         /// <param name="url">URL.</param>
         /// <param name="failedFunc">Failed func.</param>
         /// <param name="succeedFunc">Succeed func.</param>
+        /// <param name="errorMsg">Error message.</param>
         IEnumerator GET(string url, GetCallbackFailed failedFunc, GetCallbackSucceed succeedFunc)
         {
             WWW www = new WWW(url);
             yield return www;
+
+            // deal
+            ErrorMsg errorMsg = new ErrorMsg();
             if (www.error != null)
             {
                 // POST request faild
@@ -109,28 +115,35 @@ namespace NetWork
         }
 
         /// <summary>
-        /// Starts the post.
+        /// Sends the post.
         /// </summary>
-        /// <returns><c>true</c>, if post was started, <c>false</c> otherwise.</returns>
+        /// <param name="sender">Sender.</param>
         /// <param name="url">URL.</param>
         /// <param name="instance">Instance.</param>
         /// <param name="failedFunc">Failed func.</param>
         /// <param name="succeedFunc">Succeed func.</param>
+        /// <param name="errorMsg">Error message.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public bool sendPost<T>(MonoBehaviour sender, string url, T instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc){
+        public void sendPost<T>(MonoBehaviour sender, string url, T instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, out ErrorMsg errorMsg){
+
+            errorMsg = new ErrorMsg();
+
             // validate
             if (url == null || url == ""){
                 Debug.Log("request url is" + url + ", error code is " + ErrorCode.IllegalParam);
-                return false;
+                errorMsg.Code = ErrorCode.IllegalParam;
+                errorMsg.Msg = "request url is null";
+                return;
             }
             else {
                 byte[] sendBytes = ProtobufSerializer.SerializeToBytes<T>(instance);
                 if (sendBytes == null){
-                    return false;
+                    errorMsg.Code = ErrorCode.IllegalParam;
+                    errorMsg.Msg = "Serializer get invalid instance";
+                    return;
                 }
                 sender.StartCoroutine(POST<T>(url, sendBytes, failedFunc, succeedFunc));
             }
-            return true;
         }
 
 	}
