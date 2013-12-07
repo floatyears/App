@@ -17,6 +17,7 @@ public class DragDropSurface : MonoBehaviour
 
 	void OnDrop (GameObject go)
 	{
+		Debug.LogError("OnDrop : DragDropSurface");
 		DragDropItem ddo = go.GetComponent<DragDropItem>();
 		
 		if (ddo != null)

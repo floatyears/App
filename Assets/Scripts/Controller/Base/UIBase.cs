@@ -7,6 +7,8 @@ public class UIBase : IUIInterface
 
 	protected ControllerManager controllerManger;
 
+	protected Main main;
+
 	protected string uiName;
 
 	public string UIName 
@@ -14,6 +16,16 @@ public class UIBase : IUIInterface
 		get
 		{
 			return uiName;
+		}
+	}
+
+	private UIState currentState;
+
+	public UIState GetState
+	{
+		get
+		{
+			return currentState;
 		}
 	}
 
@@ -30,27 +42,31 @@ public class UIBase : IUIInterface
 	{
 		this.uiName = uiName;
 
+		currentState = UIState.UIInit;
+
+		main = Main.Instance;
+
 		controllerManger = ControllerManager.Instance;
 	}
 
 	public virtual void CreatUI ()
 	{
-
+		currentState = UIState.UICreat;
 	}
 
 	public virtual void ShowUI ()
 	{
-
+		currentState = UIState.UIShow;
 	}
 
 	public virtual void HideUI ()
 	{
-
+		currentState = UIState.UIHide;
 	}
 
 	public virtual void DestoryUI ()
 	{
-
+		currentState = UIState.UIDestory;
 	}
 
 	#endregion

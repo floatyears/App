@@ -29,6 +29,8 @@ public interface IUIInterface
 	/// destory ui object
 	/// </summary>
 	void DestoryUI();
+
+	UIState GetState{get;}
 	
 }
 

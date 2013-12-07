@@ -38,11 +38,6 @@ public class BattleShowUnity : UIBaseUnity
 	{
 		base.Init (name);
 
-		CreatUI();
-	}
-
-	public override void CreatUI ()
-	{
 		topLeft = transform.Find("Top_Left");
 		topRight = transform.Find("Top_Right");
 		
@@ -50,7 +45,7 @@ public class BattleShowUnity : UIBaseUnity
 		bottomRight = transform.Find("Bottom_Right");
 		
 		dragItem = transform.Find("Item").gameObject;
-
+		
 		dragItem.SetActive(false);
 	}
 

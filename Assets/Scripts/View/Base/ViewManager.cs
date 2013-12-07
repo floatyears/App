@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class ViewManager 
 {
-	private string path = "Prefabs/"; 
+
 
 	private static ViewManager instance;
 
@@ -47,7 +47,7 @@ public class ViewManager
 		
 		parentPanel = mainUIRoot.transform.Find("Camera/Anchor/Panel").gameObject;
 	}
-
+	  
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
 
 	public UIBaseUnity GetViewObject(string name)
@@ -62,13 +62,11 @@ public class ViewManager
 
 	UIBaseUnity CreatObject(string name)
 	{
-		string reallyPath = path + name;
+		//string reallyPath = path + name;
 		
-		GameObject sourceObject = Resources.Load(reallyPath) as GameObject;
-		
-		GameObject go = NGUITools.AddChild(parentPanel,sourceObject); //GameObject.Instantiate(sourceObject) as GameObject;
+		GameObject sourceObject = LoadAsset.Instance.LoadAssetFromResources(name,ResourceEuum.Prefab) as GameObject;
 
-		//go.transform.parent = parentPanel.transform;
+		GameObject go = NGUITools.AddChild(parentPanel,sourceObject); 
 
 		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
 

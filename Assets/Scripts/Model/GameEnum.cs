@@ -19,3 +19,18 @@ public enum DataEnum
 {
 	Person,
 }
+
+public enum UIState
+{
+	UIInit,
+	UICreat,
+	UIShow,
+	UIHide,
+	UIDestory,
+}
+
+public enum ResourceEuum
+{
+	Prefab,
+	Image,
+}

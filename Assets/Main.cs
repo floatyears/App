@@ -2,10 +2,43 @@ using System.Collections;
 using UnityEngine;
 using ProtoBuf;
 
+/// <summary>
+/// main will always exist until the game close
+/// </summary>
+
 public class Main : MonoBehaviour 
 {
 	public GameObject uiRoot;
-	
+
+	private static Main mainScrpit;
+
+	public static Main Instance
+	{
+		get
+		{
+			if(mainScrpit == null)
+				mainScrpit = (Main)FindObjectOfType(typeof(Main));
+
+			return mainScrpit;
+		}
+	}
+
+	private GameInput gInput;
+
+	public GameInput GInput
+	{
+		get{return gInput;}
+	}
+
+	void Awake()
+	{
+		mainScrpit = this;
+
+		gInput = gameObject.AddComponent<GameInput>();
+
+		DontDestroyOnLoad(gameObject);
+	}
+
 	/// <summary>
 	/// start game
 	/// </summary>
