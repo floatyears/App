@@ -2,7 +2,7 @@ package bbproto;
 
 //general request protocol
 message Request{
-	optional int32 version = 1;
+	required int32 version = 1;
 	optional string cli_ver = 2;
 	optional int32 userid = 3;
 	optional string username = 4;
@@ -10,7 +10,7 @@ message Request{
 
 //general response protocol
 message Response{
-	optional int32 version = 1;
+	required int32 version = 1;
 	optional int32 result = 2;
 	optional string data = 3;
 };

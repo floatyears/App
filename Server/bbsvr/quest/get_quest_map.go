@@ -1,7 +1,6 @@
 package quest
 
 import (
-	proto "code.google.com/p/goprotobuf/proto"
 	"fmt"
 	//"errors"
 	"io/ioutil"
@@ -10,8 +9,11 @@ import (
 	"strconv"
 	//"runtime/debug"
 )
-import bbproto "./proto"
-import "../data"
+import (
+	"../data"
+	bbproto "./proto"
+	proto "code.google.com/p/goprotobuf/proto"
+)
 
 //import "../comm"
 
@@ -59,9 +61,9 @@ func GetQuestMapHandler(rsp http.ResponseWriter, req *http.Request) {
 	//utils.WriteData(req_data, "./msg.pak")
 
 	db := &data.Data{}
-	db.Open(proto.String("0"))
+	db.Open("0")
 	id := strconv.Itoa(int(*msg.Id))
-	value, err := db.Get(&id)
+	value, err := db.Get(id)
 	log.Printf("get for '%v' ret: %v", msg.Id, value)
 	db.Close()
 

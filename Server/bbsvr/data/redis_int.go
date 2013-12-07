@@ -1,45 +1,83 @@
 package data
 
 import (
-	//	"fmt"
-	//"log"
+	"log"
 	"time"
 )
 import redis "github.com/garyburd/redigo/redis"
 
 const (
 	//SERVERADDR = "211.155.86.174:6789"
-	SERVERADDR = "127.0.0.1:6397"
+	SERVERADDR = "127.0.0.1:6379"
 )
 
-type Data struct {
-	redis.Conn
+func TestRedis() error {
+	db := new(redis.Conn)
+	log.Printf("TestRedis db: %v", db)
+
+	return nil
 }
 
-func (t *Data) Open(db *string) error {
-	c, err := redis.DialTimeout("tcp", SERVERADDR, 0, 1*time.Second, 1*time.Second)
+type Data struct {
+	conn redis.Conn
+}
+
+func (t *Data) Open(db string) error {
+	var err error
+	t.conn, err = redis.DialTimeout("tcp", SERVERADDR, 3*time.Second, 10*time.Second, 10*time.Second)
+	log.Printf("redis Open(db:%v) ret {err:%v t.conn:%v} time.Second=%v", db, err, t.conn, time.Second)
 	if err != nil {
 		return err
 	}
-	t = &Data{c}
-	_, err = t.Conn.Do("SELECT", db)
+	_, err = t.conn.Do("SELECT", db)
+	log.Printf("t.conn.Select(%v) ret err:%v", db, err)
 	return err
 }
 
 func (t *Data) Close() error {
-	_, err := t.Conn.Do("FLUSHDB")
-	if err != nil {
-		return err
+	//TODO: when need to FLUSHDB???
+
+	//_, err := t.conn.Do("FLUSHDB")
+	//if err != nil {
+	//	return err
+	//}
+	return t.conn.Close()
+}
+
+func (t *Data) Get(key string) (value string, err error) {
+	log.Printf("try redis.GET(%v) ...", key)
+	if t.conn != nil {
+		value, err := redis.String(t.conn.Do("GET", key))
+		log.Printf("redis.GET(%v) ret err:%v value:%v", key, err, value)
+		return value, err
+	} else {
+		log.Fatal("invalid redis conn:%v", t.conn)
 	}
-	return t.Conn.Close()
+
+	return "", err
 }
 
-func (t *Data) Get(key *string) (value *string, err error) {
-	*value, err = redis.String(t.Do("GET", key))
-	return value, err
+func (t *Data) Gets(key string) (value []byte, err error) {
+	log.Printf("try redis.GET(%v) ...", key)
+	if t.conn != nil {
+		value, err := redis.Bytes(t.conn.Do("GET", key))
+		log.Printf("redis.GET(%v) ret err:%v value:%v", key, err, value)
+		return value, err
+	} else {
+		log.Fatal("invalid redis conn:%v", t.conn)
+	}
+
+	return nil, err
 }
 
-func (t *Data) Set(key *string, value *string) error {
-	_, err := redis.String(t.Do("SET", key, value))
-	return err
+func (t *Data) Set(key string, value string) error {
+	if t.conn != nil {
+		log.Printf("try redis.Set(%v) value:%v", key, value)
+		_, err := redis.String(t.conn.Do("SET", key, value))
+		log.Printf("after redis.Set(%v) ret err:%v", key, err)
+		return err
+	} else {
+		log.Fatal("invalid redis conn:%v", t.conn)
+	}
+	return nil
 }

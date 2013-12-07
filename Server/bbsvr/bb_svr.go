@@ -9,8 +9,10 @@ import (
 	"net/http"
 	"runtime/debug"
 )
-import quest "./quest"
-import "./data"
+import (
+	//"./data"
+	"./quest"
+)
 
 const (
 	_PROTO_GET_QUEST_MAP = "/get_quest_map"
@@ -44,22 +46,13 @@ func ProtoHandler(rsp http.ResponseWriter, req *http.Request) {
 	glog.Info("handleFunc :", req.URL.Path)
 }
 
-func testRedis() error {
-	db := &data.Data{}
-	log.Printf("db: %v", db)
-	if db == nil {
-		return nil
-	}
-	key := string("0")
-	db.Open(&key)
-	id := "kory"
-	value, err := db.Get(&id)
-	log.Printf("get for '%v' ret: %v", id, value)
-	defer db.Close()
-	return err
+func Init() {
+	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)
 }
 
 func main() {
+	Init()
+
 	testRedis()
 	return
 
