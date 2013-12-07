@@ -54,12 +54,6 @@ namespace NetWork
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         IEnumerator POST<T>(string url, byte[] buffer, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc)
         {
-            if (failedFunc == null ){
-                Debug.Log("response failed callback is null, ErrorCode" + ErrorCode.IllegalParam);
-            }
-            else if (succeedFunc == null){
-                Debug.Log("response succeed callback is null, ErrorCode" + ErrorCode.IllegalParam);
-            }
 
             Debug.Log("send:" + buffer + ", length of bytes sended: " + buffer.Length);
             WWW www = new WWW(url, buffer);
@@ -135,6 +129,22 @@ namespace NetWork
                 errorMsg.Msg = "request url is null";
                 return;
             }
+
+            else if (failedFunc == null || succeedFunc == null){
+
+                errorMsg.Code = ErrorCode.IllegalParam;
+
+                if (failedFunc == null ){
+                    errorMsg.Msg = "response failed callback is null, ErrorCode";
+                    Debug.Log("response failed callback is null, ErrorCode" + ErrorCode.IllegalParam);
+                }
+                else {
+                    errorMsg.Msg = "response succeed callback is null, ErrorCode";
+                    Debug.Log("response succeed callback is null, ErrorCode" + ErrorCode.IllegalParam);
+                }
+                return;
+            }
+
             else {
                 byte[] sendBytes = ProtobufSerializer.SerializeToBytes<T>(instance);
                 if (sendBytes == null){
