@@ -4,16 +4,15 @@ package bbproto;
 
 message Unit {
 	required int32  id = 1;
-	optional string name = 4;
-	optional string skills1 = 4;
+	optional string name = 2;
+	optional string skills1 = 3;
 	optional string skills2 = 4;
-	optional string profile = 4;
+	optional string profile = 5;
 };
 
 message UnitInfo {
 	required int32 uniqueId=1;
 	required int32  id = 2; //unit_id
-	optional int32 uniqueId=3;
 	optional int32 exp=4;
 	optional int32 level=5;
 	optional int32 addPow=6;
@@ -33,7 +32,7 @@ message QuestInfo {
 	optional int32 floor = 7;
 	optional int32 rewardExp = 8;
 	optional int32 rewardCoin = 9;
-	optional repeated int32 all_unit_kind = 10;
+	repeated int32 all_unit_kind = 10;
 	optional UnitInfo boss = 11;
 };
 
