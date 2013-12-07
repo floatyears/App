@@ -9,30 +9,50 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.IO;
+using UnityEngine;
 using ProtoBuf;
 
-namespace Utility
+
+/// <summary>
+/// Protobuf serializer. For convert
+/// </summary>
+public class ProtobufSerializer
 {
 
-	public class ProtobufSerializer
-	{
-
-		public static byte[] SerializeToBytes<T> (T instance){
-			using (MemoryStream ms = new MemoryStream ())
-			{
-				byte[] output = null;
-				if (instance == null){
-					return null;
-				}
-				Serializer.Serialize<T>(ms, instance);
-				return Converter.StreamToBytes(ms);
+    /// <summary>
+    /// Serializes to bytes.
+    /// </summary>
+    /// <returns>The to bytes.</returns>
+    /// <param name="instance">Instance.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
+	public static byte[] SerializeToBytes<T> (T instance){
+		using (MemoryStream ms = new MemoryStream ())
+		{
+            // validate
+			if (instance == null){
+                Debug.Log("try to serialize null instance, errorcode: " + ErrorCode.IllegalParam);
+				return null;
 			}
+			Serializer.Serialize<T>(ms, instance);
+			return Converter.StreamToBytes(ms);
 		}
+	}
 
-		public static T ParseFormString<T> (String source){
-			MemoryStream ms = Converter.StringToStream(source);
-			return Serializer.Deserialize<T>(ms);
-		}
+    /// <summary>
+    /// Parses the form string.
+    /// </summary>
+    /// <returns>The form string.</returns>
+    /// <param name="source">Source.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
+	public static T ParseFormString<T> (String source){
+		MemoryStream ms = Converter.StringToStream(source);
+        T retInstance = Serializer.Deserialize<T>(ms);
+
+        // validate
+        if (retInstance == null){
+            Debug.Log("Deserialize instance failed, errorcode: " + ErrorCode.IllegalParam);
+        }
+		return retInstance;
 	}
 }
 
