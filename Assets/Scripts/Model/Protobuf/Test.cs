@@ -13,19 +13,19 @@ using NetWork;
 public class Test : MonoBehaviour
 {
 
-    public ErrorMsg receivePersonInfoSucceed (msg.Person modifiedPerson, params object[] values ){
+    public ErrorMsg receivePersonInfoSucceed (msg.Person modifiedPerson, ErrorMsg errorMsg, object[] values){
 
         Debug.Log("deserialized info: person's name is " + modifiedPerson.name);
         Debug.Log("deserialized info: person's id is " + modifiedPerson.id);
         Debug.Log("deserialized info: person's email is " + modifiedPerson.email);
 
-        ErrorMsg errorMsg = new ErrorMsg(ErrorCode.Succeed, "");
+        errorMsg = new ErrorMsg(ErrorCode.Succeed, "");
         return errorMsg;
     }
 
-    public ErrorMsg receivePersonInfoFailed (string responseString, params object[] values){
+    public ErrorMsg receivePersonInfoFailed (string responseString, ErrorMsg errorMsg, object[] values){
         // post failed
-        ErrorMsg errorMsg = new ErrorMsg(ErrorCode.NetWork, "request failed :  Timed out ");
+        errorMsg = new ErrorMsg(ErrorCode.NetWork, "request failed :  Timed out ");
         Debug.Log(errorMsg);
         return errorMsg;
     }
@@ -43,8 +43,8 @@ public class Test : MonoBehaviour
 			Debug.Log("person's id is " + person.id);
 			
 //			StartCoroutine(POST("http://192.168.0.200:8000/get_quest_map", ProtobufSerializer.SerializeToBytes<msg.Person>(person)));
-            ErrorMsg errorMsg;
-            HttpClient.Instance.sendPost<msg.Person>(this, "http://192.168.0.200:8000/get_quest_map", person, receivePersonInfoFailed, receivePersonInfoSucceed, out errorMsg);
+            ErrorMsg errorMsg = new ErrorMsg();
+            HttpClient.Instance.sendPost<msg.Person>(this, "http://192.168.0.200:8000/get_quest_map", person, receivePersonInfoFailed, receivePersonInfoSucceed, errorMsg);
 		}
 	}
 }

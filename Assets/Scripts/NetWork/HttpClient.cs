@@ -13,11 +13,11 @@ using System.Collections;
 
 namespace NetWork
 {
-    public delegate object PostCallbackFailed(string responseStr, params object[] values); 
-    public delegate object PostCallbackSucceed<T>(T instance, params object[] values); 
+    public delegate object PostCallbackFailed(string responseStr, ErrorMsg errorMsg, params object[] values); 
+    public delegate object PostCallbackSucceed<T>(T instance, ErrorMsg errorMsg, params object[] values); 
 
-    public delegate object GetCallbackFailed(string responseStr, params object[] values);
-    public delegate object GetCallbackSucceed(string responseStr, params object[] values); 
+    public delegate object GetCallbackFailed(string responseStr, ErrorMsg errorMsg, params object[] values);
+    public delegate object GetCallbackSucceed(string responseStr, ErrorMsg errorMsg, params object[] values); 
 
 
     /// <summary>
@@ -27,7 +27,6 @@ namespace NetWork
 	{
 
         private static HttpClient instance;
-        
         public static HttpClient Instance
         {
             get
@@ -52,7 +51,7 @@ namespace NetWork
         /// <param name="succeedFunc">Succeed func.</param>
         /// <param name="errorMsg">Error message.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        IEnumerator POST<T>(string url, byte[] buffer, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc)
+        IEnumerator POST<T>(string url, byte[] buffer, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values)
         {
 
             Debug.Log("send:" + buffer + ", length of bytes sended: " + buffer.Length);
@@ -64,7 +63,7 @@ namespace NetWork
             {
                 // POST request faild
                 Debug.Log("error is :"+ www.error);
-                failedFunc(www.error);
+                failedFunc(www.error, errorMsg, values);
                 // TODO: record error code
             } else
             {
@@ -75,7 +74,7 @@ namespace NetWork
                 T instance = ProtobufSerializer.ParseFormString<T>(www.text);
                 // parse to current instance
                 if (instance != null){
-                    succeedFunc(instance);
+                    succeedFunc(instance, errorMsg, values);
                 }
             }
         }
@@ -87,24 +86,23 @@ namespace NetWork
         /// <param name="failedFunc">Failed func.</param>
         /// <param name="succeedFunc">Succeed func.</param>
         /// <param name="errorMsg">Error message.</param>
-        IEnumerator GET(string url, GetCallbackFailed failedFunc, GetCallbackSucceed succeedFunc)
+        IEnumerator GET(string url, GetCallbackFailed failedFunc, GetCallbackSucceed succeedFunc, ErrorMsg errorMsg, params object[] values)
         {
             WWW www = new WWW(url);
             yield return www;
 
             // deal
-            ErrorMsg errorMsg = new ErrorMsg();
             if (www.error != null)
             {
                 // POST request faild
                 Debug.Log("error is :"+ www.error);
-                failedFunc(www.error);
+                failedFunc(www.error, errorMsg, values);
                 // TODO: record error code
             } else
             {
                 // POST request succeed
                 Debug.Log("request ok : text is " + www.text);
-                succeedFunc(www.text);
+                succeedFunc(www.text, errorMsg, values);
             }
         }
 
@@ -118,9 +116,7 @@ namespace NetWork
         /// <param name="succeedFunc">Succeed func.</param>
         /// <param name="errorMsg">Error message.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public void sendPost<T>(MonoBehaviour sender, string url, T instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, out ErrorMsg errorMsg){
-
-            errorMsg = new ErrorMsg();
+        public void sendPost<T>(MonoBehaviour sender, string url, T instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values){
 
             // validate
             if (url == null || url == ""){
@@ -130,10 +126,10 @@ namespace NetWork
                 return;
             }
 
+
+            // validate func arguments
             else if (failedFunc == null || succeedFunc == null){
-
                 errorMsg.Code = ErrorCode.IllegalParam;
-
                 if (failedFunc == null ){
                     errorMsg.Msg = "response failed callback is null, ErrorCode";
                     Debug.Log("response failed callback is null, ErrorCode" + ErrorCode.IllegalParam);
@@ -152,7 +148,7 @@ namespace NetWork
                     errorMsg.Msg = "Serializer get invalid instance";
                     return;
                 }
-                sender.StartCoroutine(POST<T>(url, sendBytes, failedFunc, succeedFunc));
+                sender.StartCoroutine(POST<T>(url, sendBytes, failedFunc, succeedFunc, errorMsg, values));
             }
         }
 
