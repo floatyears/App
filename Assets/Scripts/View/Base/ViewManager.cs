@@ -23,6 +23,8 @@ public class ViewManager
 	{
 		get{return mainUIRoot;}
 	}
+
+
 	
 	private GameObject parentPanel;
 	
@@ -50,6 +52,15 @@ public class ViewManager
 	  
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
 
+
+	public void RegistUIBaseUnity(UIBaseUnity obj)
+	{
+		if(uiObjectDic.ContainsKey(obj.UIName))
+			uiObjectDic[obj.UIName] = obj;
+		else
+			uiObjectDic.Add(obj.UIName,obj);
+	}
+
 	public UIBaseUnity GetViewObject(string name)
 	{
 		if(uiObjectDic.ContainsKey(name))
@@ -61,12 +72,10 @@ public class ViewManager
 	}
 
 	UIBaseUnity CreatObject(string name)
-	{
-		//string reallyPath = path + name;
-		
+	{	
 		GameObject sourceObject = LoadAsset.Instance.LoadAssetFromResources(name,ResourceEuum.Prefab) as GameObject;
-
-		GameObject go = NGUITools.AddChild(parentPanel,sourceObject); 
+	
+		GameObject go = NGUITools.AddChild(parentPanel,sourceObject);
 
 		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
 

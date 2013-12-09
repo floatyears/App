@@ -37,8 +37,15 @@ public class LoadAsset
 
 	public Object LoadAssetFromResources(string name,ResourceEuum rEnum)
 	{
-		string reallyPath = DisposePathByType(rEnum);
+		string reallyPath = DisposePathByType(rEnum) + name;
 
+		return Resources.Load(reallyPath);
+	}
+
+	public object LoadAssetFromResource(int id)
+	{
+		ItemData loadData = Config.Instance.CardData[id];
+		string reallyPath = DisposePathByType(loadData.resourceEnum) + loadData.itemName;
 		return Resources.Load(reallyPath);
 	}
 
@@ -46,16 +53,16 @@ public class LoadAsset
 	{
 		switch (rEnum) 
 		{
-			case ResourceEuum.Prefab:
-				return prefabPath;
-				break;
-			case ResourceEuum.Image:
-				return texturePath;
-				break;
-			default:
-					break;
+		case ResourceEuum.Prefab:
+			return prefabPath;
+
+		case ResourceEuum.Image:
+			return texturePath;
+
+		default:
+			return "";
 		}	
 
-		return "";
+
 	}
 }

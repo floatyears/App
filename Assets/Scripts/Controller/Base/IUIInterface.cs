@@ -9,6 +9,8 @@ public interface IUIInterface
 
 	string UIName{get;}
 
+
+
 	/// <summary>
 	/// creat ui object
 	/// </summary>

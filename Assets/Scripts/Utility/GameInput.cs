@@ -3,9 +3,9 @@ using System.Collections;
 
 public class GameInput : MonoBehaviour 
 {
-	public static event System.Action<Vector2> OnPressEvent;
+	public static event System.Action OnPressEvent;
 
-	public static event System.Action<Vector2> OnReleaseEvent;
+	public static event System.Action OnReleaseEvent;
 
 	public static event System.Action<Vector2> OnDragEvent;
 
@@ -15,7 +15,7 @@ public class GameInput : MonoBehaviour
 	
 //	public static event System.Action OnFixedUpdate;
 
-	private bool isCheckInput = false;
+	private bool isCheckInput = true;
 
 	public bool IsCheckInput
 	{
@@ -114,11 +114,13 @@ public class GameInput : MonoBehaviour
 	void OnPress()
 	{
 		if(OnPressEvent != null)
-			OnPressEvent(Input.mousePosition);
+			OnPressEvent();
 	}
 
 	void OnDrag()
 	{
+		startTime = Time.realtimeSinceStartup;
+
 		if(OnDragEvent != null)
 			OnDragEvent(deltaPosition);
 	}
@@ -127,7 +129,7 @@ public class GameInput : MonoBehaviour
 	{
 		InitCountTime();
 		if(OnReleaseEvent != null)
-			OnReleaseEvent(Input.mousePosition);
+			OnReleaseEvent();
 	}
 
 	void OnStationary()

@@ -20,7 +20,6 @@ public class BattleShow : UIBase
 
 		currentUIDic.Add(bsu.UIName,bsu);
 
-
 		topUI = new DragUI(bsu.TopLeft,bsu.TopRight,bsu.DragItem);
 
 		topUI.ShowData(3);

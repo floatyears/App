@@ -1,45 +1,50 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-public class CardPoolItem : UIBaseUnity 
+public class CardPoolSingleItem : UIBaseUnity 
 {
-	private CardPoolEnum cardPoolType;
+	
+	protected UITexture backTexture;
 
-	public CardPoolEnum CardPoolType
-	{
-		set{cardPoolType = value;}
-		get{return cardPoolType;}
-	}
+	protected List<CardItem> itemCardList = new List<CardItem>();
 
-
-	private UITexture uiTexture;
-
-	private UITexture itemTexture;
+	protected TweenPosition tweenPosition;
 
 	public override void Init (string name)
 	{
 		base.Init (name);
 
-		uiTexture = FindChild<UITexture>("Back");
-
-		itemTexture = FindChild<UITexture>("Texture");
+		backTexture = FindChild<UITexture>("Back");
 	}
 
-	void GenerateCard(int cardID)
+	public virtual bool GenerateCard(object cardID)
 	{
-		Vector3 initPosition = transform.localPosition;
+		if(itemCardList.Count == 1)
+			return false;
 
-		float width = uiTexture.mainTexture.width;
+		int id = (int)cardID;
 
-		float height = uiTexture.mainTexture.height;
+		ItemData itemData = Config.Instance.CardData[id];
 
-		Texture2D tex2d = LoadAsset.Instance.LoadAssetFromResource(cardID) as Texture2D;
+		GameObject go = NGUITools.AddChild(gameObject);
 
-		if(!itemTexture.enabled)
-			itemTexture.enabled = true;
+		go.name = itemData.itemName;
 
-		itemTexture.mainTexture = tex2d;
+		go.AddComponent<TweenPosition>();
 
+		CardItem ci = go.AddComponent<CardItem>();
+
+		ci.Init(itemData.itemName);
+
+		itemCardList.Add(ci);
+
+		Texture2D tex2d = LoadAsset.Instance.LoadAssetFromResource(id) as Texture2D;
+
+		itemCardList[0].SetTexture(tex2d,backTexture.width,backTexture.height);
+
+		return true;
 	}
+
+
 
 }
