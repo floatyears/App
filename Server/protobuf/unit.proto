@@ -1,0 +1,110 @@
+import public "base.proto";
+package bbproto;
+
+message UnitStatus {
+	optional int32 type = 1; //6 types: fire,wind,water,light,dark,none
+	optional int32 race = 2; //
+	optional int32 rare = 3; //star
+	optional int32 hp = 4;
+	optional int32 attack = 5;
+	optional int32 defence = 6;	
+	optional int32 level = 7;
+	optional int32 nextLvExp = 8;
+	optional int32 cost = 9;	
+};
+
+//message ConvertTypeSkill {
+//	optional int32	fromType		= 1;
+//	optional int32 targetType 	= 2;
+//};
+
+message LeaderSkill {
+	required int32  no = 1;
+	optional string name = 2;
+	optional string desc = 3;
+	optional int32		type = 4;  //type: boostAtk, boostHP, autoRecoverHP, reduceHurt,moreTime,convertType, extraAttack
+	optional int32		target = 5;  //race, type/alltype, battleRound, moveStep
+	optional int32 	value = 6;	//1.3,1.5,2.0,2.5 | fromType
+	optional int32 	value2 = 7;	//targetType
+};
+
+message ActiveSkill {
+	required int32  no = 1;
+	optional string name = 2;
+	optional string desc = 3;
+	optional int32 type = 4;  //type: singleAtk, allAtk, atkRecoverHP,suicideAtkSingle, suicideAtkAll, targetAtk, boostAtk,
+													 //      killHP,recoverHP,reduceHurt,recoverSP,reduceDefence,postAtkRound,poison,moreTime,convertType
+	optional int32 strengthType = 5;  	//0:none, 1:fixed 2:multiple 3:percent 4:round 5:seconds 6:type2type 7:randomType
+	optional int32 strengthValue = 6;	//multiple:3x,5x,10x,15x,35x,40x ATK | fixed: 1000,3000,10000,25000 | type2type: fromType
+	optional int32 strengthValue2 = 7;	//type2type: targetType
+	optional int32 period = 8; //continue rounds
+};
+
+//message dodgeTrapSkill{
+//		optional int32 trapLevel = 2;
+//};
+
+//message dodgeTrapSkill{
+//		optional int32 probability 	= 1;
+//		optional int32 antiAtkRatio	= 2;
+//};
+
+message PassiveSkill{
+	required int32  no = 1;
+	optional string name = 2;
+	optional string desc = 3;
+	optional int32 type = 4;  //1:antiAttack 2:dodgeTrap
+
+	optional int32 probability 	= 5;
+	optional int32 antiAtkRatio	= 6;
+	optional int32 trapLevel = 7;
+};
+
+message UnitInfo { 
+	required int32  id = 1;
+	optional string name = 2;
+	optional UnitSkill skill1 = 3;
+	optional UnitSkill skill2 = 4;
+	optional UnitSkill leaderSkill = 5;
+	optional ActiveSkill activeSkill = 6;
+	optional PassiveSkill passiveSkill = 7;
+	optional int32  maxLevel = 8;
+	optional int32  expType = 9;
+	optional string profile = 10;
+};
+
+message Unit {  //unit instance
+	required int32 uniqueId=1;
+	required int32 id = 2; //unit_id
+	optional int32 exp=3;
+	optional int32 level=4;
+	optional int32 attack = 5;
+	optional int32 defense = 6;
+	optional int32 hp = 7;
+	optional int32 addAttack = 8;
+	optional int32 addDefence = 9;
+	optional int32 addHp = 10;
+	optional int32 limitbreakLv = 11;
+	optional int32 getTime = 12;
+};
+
+message ReqGetUnitInfo {
+	optional Request header = 1;
+	repeated int32 unitIds = 2;
+};
+
+message RspGetUnitInfo {
+	optional Response header = 1;
+	repeated UnitInfo unitinfos = 2;
+};
+
+message ReqGetUnit {
+	optional Request header = 1;
+	repeated int32 unitIds = 2;
+};
+
+message RspGetUnit {
+	optional Response header = 1;
+	repeated Unit units = 2;
+};
+

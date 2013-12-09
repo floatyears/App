@@ -2,16 +2,16 @@ package bbproto;
 
 //general request protocol
 message Request{
-	required int32 version = 1;
-	optional string cli_ver = 2;
-	optional int32 userid = 3;
-	optional string username = 4;
+	required string apiVer = 1;
+	optional string sessionId = 2;
+	optional int32 packetId = 3;
 };
 
 //general response protocol
 message Response{
-	required int32 version = 1;
-	optional int32 result = 2;
-	optional string data = 3;
+	required string apiVer = 1;
+	optional int32 code = 2;		// result code
+	optional string error = 3;	// result error description
+	optional int32 packetId = 4;
 };
 

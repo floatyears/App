@@ -18,6 +18,23 @@ response: {
 }
 }
 ```
+#get_quest_info
+```
+request:{"header":{"api_version":"1.0.3","packet_unique_id":11}}
+response:
+{
+	"header": {
+		"code": 4096,
+		"session_id": "6fqr1nh0ihbl6bo8ufvjd8o5fr77k3lo",
+		"api_version": "1.0.3",
+		"packet_unique_id": 11
+	},
+	"result": {
+		"quest_id": 218,
+		"continue_ct": 0
+	}
+}
+```
 
 ## make_password:
 

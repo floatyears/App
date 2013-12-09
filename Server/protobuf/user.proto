@@ -1,0 +1,24 @@
+import public "base.proto";
+package bbproto;
+
+
+
+message UserInfo {
+	required int32 userId = 1;
+	optional string userName = 2;
+	optional int32 rank = 3;
+	optional int32 exp = 4;
+	optional int32 stamina = 4;
+	optional int32 loginTime = 4;
+	optional string profile = 5;
+};
+
+message ReqGetUserInfo {
+	optional Request header = 1;
+	optional int32 userId = 2;
+};
+
+message RspGetUserInfo {
+	optional Response header = 1;
+	optional UserInfo info = 2;
+};
