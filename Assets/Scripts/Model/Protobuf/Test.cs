@@ -8,7 +8,6 @@ using System.IO;
 using ProtoBuf;
 using msg;
 using System;
-using NetWork;
 
 public class Test : MonoBehaviour
 {

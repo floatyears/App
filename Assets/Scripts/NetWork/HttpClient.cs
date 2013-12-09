@@ -11,146 +11,143 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-namespace NetWork
+public delegate object PostCallbackFailed(string responseStr, ErrorMsg errorMsg, params object[] values); 
+public delegate object PostCallbackSucceed<T>(T instance, ErrorMsg errorMsg, params object[] values); 
+
+public delegate object GetCallbackFailed(string responseStr, ErrorMsg errorMsg, params object[] values);
+public delegate object GetCallbackSucceed(string responseStr, ErrorMsg errorMsg, params object[] values); 
+
+
+/// <summary>
+/// Http client.
+/// </summary>
+public class HttpClient
 {
-    public delegate object PostCallbackFailed(string responseStr, ErrorMsg errorMsg, params object[] values); 
-    public delegate object PostCallbackSucceed<T>(T instance, ErrorMsg errorMsg, params object[] values); 
 
-    public delegate object GetCallbackFailed(string responseStr, ErrorMsg errorMsg, params object[] values);
-    public delegate object GetCallbackSucceed(string responseStr, ErrorMsg errorMsg, params object[] values); 
+    private static HttpClient instance;
+    public static HttpClient Instance
+    {
+        get
+        {
+            if(instance  == null)
+                instance = new HttpClient();
+            
+            return instance;
+        }
+    }
 
+	public HttpClient ()
+	{
+	}
 
     /// <summary>
-    /// Http client.
+    /// Position the specified url, buffer, failedFunc, succeedFunc and errorMsg.
     /// </summary>
-	public class HttpClient
-	{
+    /// <param name="url">URL.</param>
+    /// <param name="buffer">Buffer.</param>
+    /// <param name="failedFunc">Failed func.</param>
+    /// <param name="succeedFunc">Succeed func.</param>
+    /// <param name="errorMsg">Error message.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
+    IEnumerator POST<T>(string url, byte[] buffer, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values)
+    {
 
-        private static HttpClient instance;
-        public static HttpClient Instance
+        Debug.Log("send:" + buffer + ", length of bytes sended: " + buffer.Length);
+        WWW www = new WWW(url, buffer);
+        yield return www;
+
+        // when return
+        if (www.error != null)
         {
-            get
-            {
-                if(instance  == null)
-                    instance = new HttpClient();
-                
-                return instance;
+            // POST request faild
+            Debug.Log("error is :"+ www.error);
+            failedFunc(www.error, errorMsg, values);
+            // TODO: record error code
+        } else
+        {
+            // POST request succeed
+            Debug.Log("request ok : text is " + www.text);
+
+            // deserilize
+            T instance = ProtobufSerializer.ParseFormString<T>(www.text);
+            // parse to current instance
+            if (instance != null){
+                succeedFunc(instance, errorMsg, values);
             }
         }
+    }
 
-		public HttpClient ()
-		{
-		}
+    /// <summary>
+    /// GE the specified url, failedFunc, succeedFunc and errorMsg.
+    /// </summary>
+    /// <param name="url">URL.</param>
+    /// <param name="failedFunc">Failed func.</param>
+    /// <param name="succeedFunc">Succeed func.</param>
+    /// <param name="errorMsg">Error message.</param>
+    IEnumerator GET(string url, GetCallbackFailed failedFunc, GetCallbackSucceed succeedFunc, ErrorMsg errorMsg, params object[] values)
+    {
+        WWW www = new WWW(url);
+        yield return www;
 
-        /// <summary>
-        /// Position the specified url, buffer, failedFunc, succeedFunc and errorMsg.
-        /// </summary>
-        /// <param name="url">URL.</param>
-        /// <param name="buffer">Buffer.</param>
-        /// <param name="failedFunc">Failed func.</param>
-        /// <param name="succeedFunc">Succeed func.</param>
-        /// <param name="errorMsg">Error message.</param>
-        /// <typeparam name="T">The 1st type parameter.</typeparam>
-        IEnumerator POST<T>(string url, byte[] buffer, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values)
+        // deal
+        if (www.error != null)
         {
+            // POST request faild
+            Debug.Log("error is :"+ www.error);
+            failedFunc(www.error, errorMsg, values);
+            // TODO: record error code
+        } else
+        {
+            // POST request succeed
+            Debug.Log("request ok : text is " + www.text);
+            succeedFunc(www.text, errorMsg, values);
+        }
+    }
 
-            Debug.Log("send:" + buffer + ", length of bytes sended: " + buffer.Length);
-            WWW www = new WWW(url, buffer);
-            yield return www;
+    /// <summary>
+    /// Sends the post.
+    /// </summary>
+    /// <param name="sender">Sender.</param>
+    /// <param name="url">URL.</param>
+    /// <param name="instance">Instance.</param>
+    /// <param name="failedFunc">Failed func.</param>
+    /// <param name="succeedFunc">Succeed func.</param>
+    /// <param name="errorMsg">Error message.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
+    public void sendPost<T>(MonoBehaviour sender, string url, T instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values){
 
-            // when return
-            if (www.error != null)
-            {
-                // POST request faild
-                Debug.Log("error is :"+ www.error);
-                failedFunc(www.error, errorMsg, values);
-                // TODO: record error code
-            } else
-            {
-                // POST request succeed
-                Debug.Log("request ok : text is " + www.text);
-
-                // deserilize
-                T instance = ProtobufSerializer.ParseFormString<T>(www.text);
-                // parse to current instance
-                if (instance != null){
-                    succeedFunc(instance, errorMsg, values);
-                }
-            }
+        // validate
+        if (url == null || url == ""){
+            Debug.Log("request url is" + url + ", error code is " + ErrorCode.IllegalParam);
+            errorMsg.Code = ErrorCode.IllegalParam;
+            errorMsg.Msg = "request url is null";
+            return;
         }
 
-        /// <summary>
-        /// GE the specified url, failedFunc, succeedFunc and errorMsg.
-        /// </summary>
-        /// <param name="url">URL.</param>
-        /// <param name="failedFunc">Failed func.</param>
-        /// <param name="succeedFunc">Succeed func.</param>
-        /// <param name="errorMsg">Error message.</param>
-        IEnumerator GET(string url, GetCallbackFailed failedFunc, GetCallbackSucceed succeedFunc, ErrorMsg errorMsg, params object[] values)
-        {
-            WWW www = new WWW(url);
-            yield return www;
 
-            // deal
-            if (www.error != null)
-            {
-                // POST request faild
-                Debug.Log("error is :"+ www.error);
-                failedFunc(www.error, errorMsg, values);
-                // TODO: record error code
-            } else
-            {
-                // POST request succeed
-                Debug.Log("request ok : text is " + www.text);
-                succeedFunc(www.text, errorMsg, values);
+        // validate func arguments
+        else if (failedFunc == null || succeedFunc == null){
+            errorMsg.Code = ErrorCode.IllegalParam;
+            if (failedFunc == null ){
+                errorMsg.Msg = "response failed callback is null, ErrorCode";
+                Debug.Log("response failed callback is null, ErrorCode" + ErrorCode.IllegalParam);
             }
-        }
-
-        /// <summary>
-        /// Sends the post.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="url">URL.</param>
-        /// <param name="instance">Instance.</param>
-        /// <param name="failedFunc">Failed func.</param>
-        /// <param name="succeedFunc">Succeed func.</param>
-        /// <param name="errorMsg">Error message.</param>
-        /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public void sendPost<T>(MonoBehaviour sender, string url, T instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values){
-
-            // validate
-            if (url == null || url == ""){
-                Debug.Log("request url is" + url + ", error code is " + ErrorCode.IllegalParam);
-                errorMsg.Code = ErrorCode.IllegalParam;
-                errorMsg.Msg = "request url is null";
-                return;
-            }
-
-
-            // validate func arguments
-            else if (failedFunc == null || succeedFunc == null){
-                errorMsg.Code = ErrorCode.IllegalParam;
-                if (failedFunc == null ){
-                    errorMsg.Msg = "response failed callback is null, ErrorCode";
-                    Debug.Log("response failed callback is null, ErrorCode" + ErrorCode.IllegalParam);
-                }
-                else {
-                    errorMsg.Msg = "response succeed callback is null, ErrorCode";
-                    Debug.Log("response succeed callback is null, ErrorCode" + ErrorCode.IllegalParam);
-                }
-                return;
-            }
-
             else {
-                byte[] sendBytes = ProtobufSerializer.SerializeToBytes<T>(instance);
-                if (sendBytes == null){
-                    errorMsg.Code = ErrorCode.IllegalParam;
-                    errorMsg.Msg = "Serializer get invalid instance";
-                    return;
-                }
-                sender.StartCoroutine(POST<T>(url, sendBytes, failedFunc, succeedFunc, errorMsg, values));
+                errorMsg.Msg = "response succeed callback is null, ErrorCode";
+                Debug.Log("response succeed callback is null, ErrorCode" + ErrorCode.IllegalParam);
             }
+            return;
         }
 
-	}
+        else {
+            byte[] sendBytes = ProtobufSerializer.SerializeToBytes<T>(instance);
+            if (sendBytes == null){
+                errorMsg.Code = ErrorCode.IllegalParam;
+                errorMsg.Msg = "Serializer get invalid instance";
+                return;
+            }
+            sender.StartCoroutine(POST<T>(url, sendBytes, failedFunc, succeedFunc, errorMsg, values));
+        }
+    }
+
 }
