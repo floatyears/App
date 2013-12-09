@@ -38,6 +38,7 @@ public class DragDropItem : MonoBehaviour
 	void Drop ()
 	{
 		// Is there a droppable container?
+		Debug.LogError("Drop");
 		Collider col = UICamera.lastHit.collider;
 		DragDropContainer container = (col != null) ? col.gameObject.GetComponent<DragDropContainer>() : null;
 
@@ -81,6 +82,8 @@ public class DragDropItem : MonoBehaviour
 
 	void OnDrag (Vector2 delta)
 	{
+		Debug.LogError("OnDrag:" + gameObject.name);
+
 		if (mPressed && UICamera.currentTouchID == mTouchID && enabled)
 		{
 			if (!mIsDragging)
@@ -113,8 +116,14 @@ public class DragDropItem : MonoBehaviour
 	/// Start or stop the drag operation.
 	/// </summary>
 
+	void OnHover(bool isOver)
+	{
+		Debug.LogError(isOver + "``onhover``"+gameObject.name);
+	}
+
 	void OnPress (bool isPressed)
 	{
+		Debug.LogError("OnPress:"+gameObject.name);
 		if (enabled)
 		{
 			if (isPressed)

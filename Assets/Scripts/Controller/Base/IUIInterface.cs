@@ -9,6 +9,8 @@ public interface IUIInterface
 
 	string UIName{get;}
 
+
+
 	/// <summary>
 	/// creat ui object
 	/// </summary>
@@ -29,6 +31,8 @@ public interface IUIInterface
 	/// destory ui object
 	/// </summary>
 	void DestoryUI();
+
+	UIState GetState{get;}
 	
 }
 
