@@ -22,6 +22,8 @@ public enum ErrorCode {
 
     // model
     Model = -3000,
+    Encrypt = -3001,
+    Decrypt = - 3002, 
 
     // controller
     Controller = -4000,

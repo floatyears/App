@@ -1,0 +1,17 @@
+package bbproto;
+
+//general request protocol
+message Request{
+	required int32 version = 1;
+	optional string cli_ver = 2;
+	optional int32 userid = 3;
+	optional string username = 4;
+};
+
+//general response protocol
+message Response{
+	required int32 version = 1;
+	optional int32 result = 2;
+	optional string data = 3;
+};
+
