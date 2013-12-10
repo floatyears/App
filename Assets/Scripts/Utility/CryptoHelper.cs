@@ -95,7 +95,7 @@ public sealed class CryptoHelper {
         catch
         {
             errorMsg.Code = ErrorCode.Decrypt;
-            Debug.Log("catch");
+            LogHelper.Log("catch");
         }
         return result;
     }

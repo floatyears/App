@@ -30,7 +30,7 @@ public class ProtobufSerializer
 		{
             // validate
 			if (instance == null){
-                Debug.Log("try to serialize null instance, errorcode: " + ErrorCode.IllegalParam);
+                LogHelper.Log("try to serialize null instance, errorcode: " + ErrorCode.IllegalParam);
 				return null;
 			}
 			Serializer.Serialize<T>(ms, instance);
@@ -50,7 +50,7 @@ public class ProtobufSerializer
 
         // validate
         if (retInstance == null){
-            Debug.Log("Deserialize instance failed, errorcode: " + ErrorCode.IllegalParam);
+            LogHelper.Log("Deserialize instance failed, errorcode: " + ErrorCode.IllegalParam);
         }
 		return retInstance;
 	}

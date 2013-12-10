@@ -24,9 +24,10 @@ public sealed class LogHelper {
         }
     }
 
-    public static void LogException(object message){
+    public static void LogException(Exception exception){
         if (DebugHelper.DEBUG){
-            Debug.LogException(TimeHelper.FormattedTimeNow() + " " + message.ToString());
+            Debug.Log(TimeHelper.FormattedTimeNow());
+            Debug.LogException(exception);
         }
     }
 }
