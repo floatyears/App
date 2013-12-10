@@ -14,26 +14,17 @@ var _ = proto.Marshal
 var _ = &json.SyntaxError{}
 var _ = math.Inf
 
-// Request from public import base.proto
-type Request bbproto1.Request
+// Header from public import base.proto
+type Header bbproto1.Header
 
-func (m *Request) Reset()               { (*bbproto1.Request)(m).Reset() }
-func (m *Request) String() string       { return (*bbproto1.Request)(m).String() }
-func (*Request) ProtoMessage()          {}
-func (m *Request) GetApiVer() string    { return (*bbproto1.Request)(m).GetApiVer() }
-func (m *Request) GetSessionId() string { return (*bbproto1.Request)(m).GetSessionId() }
-func (m *Request) GetPacketId() int32   { return (*bbproto1.Request)(m).GetPacketId() }
-
-// Response from public import base.proto
-type Response bbproto1.Response
-
-func (m *Response) Reset()             { (*bbproto1.Response)(m).Reset() }
-func (m *Response) String() string     { return (*bbproto1.Response)(m).String() }
-func (*Response) ProtoMessage()        {}
-func (m *Response) GetApiVer() string  { return (*bbproto1.Response)(m).GetApiVer() }
-func (m *Response) GetCode() int32     { return (*bbproto1.Response)(m).GetCode() }
-func (m *Response) GetError() string   { return (*bbproto1.Response)(m).GetError() }
-func (m *Response) GetPacketId() int32 { return (*bbproto1.Response)(m).GetPacketId() }
+func (m *Header) Reset()               { (*bbproto1.Header)(m).Reset() }
+func (m *Header) String() string       { return (*bbproto1.Header)(m).String() }
+func (*Header) ProtoMessage()          {}
+func (m *Header) GetApiVer() string    { return (*bbproto1.Header)(m).GetApiVer() }
+func (m *Header) GetSessionId() string { return (*bbproto1.Header)(m).GetSessionId() }
+func (m *Header) GetPacketId() int32   { return (*bbproto1.Header)(m).GetPacketId() }
+func (m *Header) GetCode() int32       { return (*bbproto1.Header)(m).GetCode() }
+func (m *Header) GetError() string     { return (*bbproto1.Header)(m).GetError() }
 
 // EUnitType from public import base.proto
 type EUnitType bbproto1.EUnitType
@@ -56,9 +47,11 @@ type UserInfo struct {
 	UserName         *string `protobuf:"bytes,2,opt,name=userName" json:"userName,omitempty"`
 	Rank             *int32  `protobuf:"varint,3,opt,name=rank" json:"rank,omitempty"`
 	Exp              *int32  `protobuf:"varint,4,opt,name=exp" json:"exp,omitempty"`
-	Stamina          *int32  `protobuf:"varint,5,opt,name=stamina" json:"stamina,omitempty"`
-	LoginTime        *int32  `protobuf:"varint,6,opt,name=loginTime" json:"loginTime,omitempty"`
-	Profile          *string `protobuf:"bytes,7,opt,name=profile" json:"profile,omitempty"`
+	StaminaNow       *int32  `protobuf:"varint,5,opt,name=staminaNow" json:"staminaNow,omitempty"`
+	StaminaMax       *int32  `protobuf:"varint,6,opt,name=staminaMax" json:"staminaMax,omitempty"`
+	StaminaRecover   *uint32 `protobuf:"varint,7,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	LoginTime        *int32  `protobuf:"varint,8,opt,name=loginTime" json:"loginTime,omitempty"`
+	Profile          *string `protobuf:"bytes,9,opt,name=profile" json:"profile,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -94,9 +87,23 @@ func (m *UserInfo) GetExp() int32 {
 	return 0
 }
 
-func (m *UserInfo) GetStamina() int32 {
-	if m != nil && m.Stamina != nil {
-		return *m.Stamina
+func (m *UserInfo) GetStaminaNow() int32 {
+	if m != nil && m.StaminaNow != nil {
+		return *m.StaminaNow
+	}
+	return 0
+}
+
+func (m *UserInfo) GetStaminaMax() int32 {
+	if m != nil && m.StaminaMax != nil {
+		return *m.StaminaMax
+	}
+	return 0
+}
+
+func (m *UserInfo) GetStaminaRecover() uint32 {
+	if m != nil && m.StaminaRecover != nil {
+		return *m.StaminaRecover
 	}
 	return 0
 }
@@ -115,17 +122,129 @@ func (m *UserInfo) GetProfile() string {
 	return ""
 }
 
+type AcountInfo struct {
+	UserId           *int32  `protobuf:"varint,1,opt,name=userId" json:"userId,omitempty"`
+	Review           *uint32 `protobuf:"varint,2,opt,name=review" json:"review,omitempty"`
+	PayTotal         *uint32 `protobuf:"varint,3,opt,name=pay_total" json:"pay_total,omitempty"`
+	PayMonth         *uint32 `protobuf:"varint,4,opt,name=pay_month" json:"pay_month,omitempty"`
+	Money            *uint32 `protobuf:"varint,5,opt,name=money" json:"money,omitempty"`
+	StonePay         *uint32 `protobuf:"varint,6,opt,name=stone_pay" json:"stone_pay,omitempty"`
+	StoneFree        *uint32 `protobuf:"varint,7,opt,name=stone_free" json:"stone_free,omitempty"`
+	Stone            *uint32 `protobuf:"varint,8,opt,name=stone" json:"stone,omitempty"`
+	FriendPt         *uint32 `protobuf:"varint,9,opt,name=friend_pt" json:"friend_pt,omitempty"`
+	TotalUnit        *uint32 `protobuf:"varint,10,opt,name=total_unit" json:"total_unit,omitempty"`
+	TotalParty       *uint32 `protobuf:"varint,11,opt,name=total_party" json:"total_party,omitempty"`
+	TotalFriend      *uint32 `protobuf:"varint,12,opt,name=total_friend" json:"total_friend,omitempty"`
+	FirstSelectNum   *uint32 `protobuf:"varint,13,opt,name=first_select_num" json:"first_select_num,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *AcountInfo) Reset()         { *m = AcountInfo{} }
+func (m *AcountInfo) String() string { return proto.CompactTextString(m) }
+func (*AcountInfo) ProtoMessage()    {}
+
+func (m *AcountInfo) GetUserId() int32 {
+	if m != nil && m.UserId != nil {
+		return *m.UserId
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetReview() uint32 {
+	if m != nil && m.Review != nil {
+		return *m.Review
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetPayTotal() uint32 {
+	if m != nil && m.PayTotal != nil {
+		return *m.PayTotal
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetPayMonth() uint32 {
+	if m != nil && m.PayMonth != nil {
+		return *m.PayMonth
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetMoney() uint32 {
+	if m != nil && m.Money != nil {
+		return *m.Money
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetStonePay() uint32 {
+	if m != nil && m.StonePay != nil {
+		return *m.StonePay
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetStoneFree() uint32 {
+	if m != nil && m.StoneFree != nil {
+		return *m.StoneFree
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetStone() uint32 {
+	if m != nil && m.Stone != nil {
+		return *m.Stone
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetFriendPt() uint32 {
+	if m != nil && m.FriendPt != nil {
+		return *m.FriendPt
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetTotalUnit() uint32 {
+	if m != nil && m.TotalUnit != nil {
+		return *m.TotalUnit
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetTotalParty() uint32 {
+	if m != nil && m.TotalParty != nil {
+		return *m.TotalParty
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetTotalFriend() uint32 {
+	if m != nil && m.TotalFriend != nil {
+		return *m.TotalFriend
+	}
+	return 0
+}
+
+func (m *AcountInfo) GetFirstSelectNum() uint32 {
+	if m != nil && m.FirstSelectNum != nil {
+		return *m.FirstSelectNum
+	}
+	return 0
+}
+
 type ReqGetUserInfo struct {
-	Header           *bbproto1.Request `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	UserId           *int32            `protobuf:"varint,2,opt,name=userId" json:"userId,omitempty"`
-	XXX_unrecognized []byte            `json:"-"`
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	UserId           *int32           `protobuf:"varint,2,opt,name=userId" json:"userId,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
 }
 
 func (m *ReqGetUserInfo) Reset()         { *m = ReqGetUserInfo{} }
 func (m *ReqGetUserInfo) String() string { return proto.CompactTextString(m) }
 func (*ReqGetUserInfo) ProtoMessage()    {}
 
-func (m *ReqGetUserInfo) GetHeader() *bbproto1.Request {
+func (m *ReqGetUserInfo) GetHeader() *bbproto1.Header {
 	if m != nil {
 		return m.Header
 	}
@@ -140,16 +259,16 @@ func (m *ReqGetUserInfo) GetUserId() int32 {
 }
 
 type RspGetUserInfo struct {
-	Header           *bbproto1.Response `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	Info             *UserInfo          `protobuf:"bytes,2,opt,name=info" json:"info,omitempty"`
-	XXX_unrecognized []byte             `json:"-"`
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Info             *UserInfo        `protobuf:"bytes,2,opt,name=info" json:"info,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
 }
 
 func (m *RspGetUserInfo) Reset()         { *m = RspGetUserInfo{} }
 func (m *RspGetUserInfo) String() string { return proto.CompactTextString(m) }
 func (*RspGetUserInfo) ProtoMessage()    {}
 
-func (m *RspGetUserInfo) GetHeader() *bbproto1.Response {
+func (m *RspGetUserInfo) GetHeader() *bbproto1.Header {
 	if m != nil {
 		return m.Header
 	}

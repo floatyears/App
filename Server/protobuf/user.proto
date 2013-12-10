@@ -1,24 +1,40 @@
 import public "base.proto";
 package bbproto;
 
-
-
 message UserInfo {
-	required int32 userId = 1;
-	optional string userName = 2;
-	optional int32 rank = 3;
-	optional int32 exp = 4;
-	optional int32 stamina = 5;
-	optional int32 loginTime = 6;
-	optional string profile = 7;
+	required int32	userId			= 1;
+	optional string userName		= 2;
+	optional int32	rank			= 3;
+	optional int32	exp				= 4;
+	optional int32	staminaNow		= 5;
+	optional int32	staminaMax		= 6;
+	optional uint32	staminaRecover	= 7; //recover time
+	optional int32	loginTime		= 8; 
+	optional string	profile			= 9;
+};
+
+message AcountInfo {
+	optional int32	userId				= 1;
+	optional uint32	review				= 2;
+	optional uint32	pay_total			= 3;
+	optional uint32	pay_month			= 4;
+	optional uint32	money				= 5;
+	optional uint32	stone_pay			= 6;
+	optional uint32	stone_free			= 7;
+	optional uint32	stone				= 8;
+	optional uint32	friend_pt			= 9;
+	optional uint32	total_unit			= 10;
+	optional uint32	total_party			= 11;
+	optional uint32	total_friend		= 12;
+	optional uint32	first_select_num	= 13;
 };
 
 message ReqGetUserInfo {
-	optional Request header = 1;
-	optional int32 userId = 2;
+	optional Header header	= 1;
+	optional int32	userId	= 2;
 };
 
 message RspGetUserInfo {
-	optional Response header = 1;
-	optional UserInfo info = 2;
+	optional Header		header	= 1;
+	optional UserInfo	info	= 2;
 };

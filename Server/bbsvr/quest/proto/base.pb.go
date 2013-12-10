@@ -61,78 +61,53 @@ func (x *EUnitType) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// general request protocol
-type Request struct {
+// general response protocol
+type Header struct {
 	ApiVer           *string `protobuf:"bytes,1,req,name=apiVer" json:"apiVer,omitempty"`
 	SessionId        *string `protobuf:"bytes,2,opt,name=sessionId" json:"sessionId,omitempty"`
 	PacketId         *int32  `protobuf:"varint,3,opt,name=packetId" json:"packetId,omitempty"`
+	Code             *int32  `protobuf:"varint,4,opt,name=code" json:"code,omitempty"`
+	Error            *string `protobuf:"bytes,5,opt,name=error" json:"error,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Request) Reset()         { *m = Request{} }
-func (m *Request) String() string { return proto.CompactTextString(m) }
-func (*Request) ProtoMessage()    {}
+func (m *Header) Reset()         { *m = Header{} }
+func (m *Header) String() string { return proto.CompactTextString(m) }
+func (*Header) ProtoMessage()    {}
 
-func (m *Request) GetApiVer() string {
+func (m *Header) GetApiVer() string {
 	if m != nil && m.ApiVer != nil {
 		return *m.ApiVer
 	}
 	return ""
 }
 
-func (m *Request) GetSessionId() string {
+func (m *Header) GetSessionId() string {
 	if m != nil && m.SessionId != nil {
 		return *m.SessionId
 	}
 	return ""
 }
 
-func (m *Request) GetPacketId() int32 {
+func (m *Header) GetPacketId() int32 {
 	if m != nil && m.PacketId != nil {
 		return *m.PacketId
 	}
 	return 0
 }
 
-// general response protocol
-type Response struct {
-	ApiVer           *string `protobuf:"bytes,1,req,name=apiVer" json:"apiVer,omitempty"`
-	Code             *int32  `protobuf:"varint,2,opt,name=code" json:"code,omitempty"`
-	Error            *string `protobuf:"bytes,3,opt,name=error" json:"error,omitempty"`
-	PacketId         *int32  `protobuf:"varint,4,opt,name=packetId" json:"packetId,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
-}
-
-func (m *Response) Reset()         { *m = Response{} }
-func (m *Response) String() string { return proto.CompactTextString(m) }
-func (*Response) ProtoMessage()    {}
-
-func (m *Response) GetApiVer() string {
-	if m != nil && m.ApiVer != nil {
-		return *m.ApiVer
-	}
-	return ""
-}
-
-func (m *Response) GetCode() int32 {
+func (m *Header) GetCode() int32 {
 	if m != nil && m.Code != nil {
 		return *m.Code
 	}
 	return 0
 }
 
-func (m *Response) GetError() string {
+func (m *Header) GetError() string {
 	if m != nil && m.Error != nil {
 		return *m.Error
 	}
 	return ""
-}
-
-func (m *Response) GetPacketId() int32 {
-	if m != nil && m.PacketId != nil {
-		return *m.PacketId
-	}
-	return 0
 }
 
 func init() {

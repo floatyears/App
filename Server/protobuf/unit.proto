@@ -44,22 +44,22 @@ message Unit {  //unit instance
 };
 
 message ReqGetUnitInfo {
-	optional Request header = 1;
+	optional Header header = 1;
 	repeated int32 unitIds = 2;
 };
 
 message RspGetUnitInfo {
-	optional Response header = 1;
+	optional Header header = 1;
 	repeated UnitInfo unitinfos = 2;
 };
 
 message ReqGetUnit {
-	optional Request header = 1;
+	optional Header header = 1;
 	repeated int32 unitIds = 2;
 };
 
 message RspGetUnit {
-	optional Response header = 1;
+	optional Header header = 1;
 	repeated Unit units = 2;
 };
 

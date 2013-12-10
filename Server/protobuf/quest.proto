@@ -1,5 +1,6 @@
 import public "base.proto";
 import public "unit.proto";
+import public "user.proto";
 
 package bbproto;
 
@@ -36,12 +37,61 @@ message QuestMapInfo {
 };
 
 message ReqGetQuestMap {
-	optional Request header = 1;
+	optional Header header = 1;
 	optional int32 startId = 2;
 };
 
 message RspGetQuestMap {
-	optional Response header = 1;
+	optional Header header = 1;
 	repeated QuestMapInfo maps = 2;
+};
+
+enum EQuestState {
+	QS_NEW		= 0;
+	QS_CLEARED	= 1;
+};
+
+message ReqStartQuset {
+	optional Header	header			= 1;
+	optional uint32	questId			= 2; 
+	optional uint32	questState		= 3; // QS_NEW | QS_CLEARED
+	optional uint32	helperUserId	= 4; 
+	optional Unit	helperUnit		= 5; 
+	optional uint32	currentParty	= 6; 	
+};
+
+message RspStartQuset {
+	optional Header	header			= 1;
+	optional uint32	questId			= 2; 
+	optional uint32	staminaNow		= 3; // current stamina
+	optional uint32	staminaRecover	= 4; // stamina recover time
+};
+
+message ReqClearQuset {
+	optional Header header 			= 1; 
+	optional uint32	questId			= 2; 
+	optional uint32	securityKey		= 3; 
+	optional uint32	getMoney		= 4; 
+	optional uint32	getExp			= 5; 
+	repeated Unit	getUnit			= 6; 	
+};
+
+message RspClearQuset {
+	optional Header		header		= 1;
+	optional UserInfo	user 		= 2;
+	optional AcountInfo acount		= 3;	
+	optional uint32		getMoney	= 4;
+	optional uint32		getExp		= 5;	
+	repeated uint32		getUnit		= 6; //uniqueId list
+};
+
+message ReqGetQuestInfo {
+	optional Header header 		= 1;
+};
+
+message RspGetQuestInfo {
+	optional Header header 			= 1;
+	optional uint32	questId			= 2; //
+	optional uint32	currentStatus	= 3; // current quest status
 };
 

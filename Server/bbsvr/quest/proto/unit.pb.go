@@ -15,26 +15,17 @@ var _ = proto.Marshal
 var _ = &json.SyntaxError{}
 var _ = math.Inf
 
-// Request from public import base.proto
-type Request bbproto1.Request
+// Header from public import base.proto
+type Header bbproto1.Header
 
-func (m *Request) Reset()               { (*bbproto1.Request)(m).Reset() }
-func (m *Request) String() string       { return (*bbproto1.Request)(m).String() }
-func (*Request) ProtoMessage()          {}
-func (m *Request) GetApiVer() string    { return (*bbproto1.Request)(m).GetApiVer() }
-func (m *Request) GetSessionId() string { return (*bbproto1.Request)(m).GetSessionId() }
-func (m *Request) GetPacketId() int32   { return (*bbproto1.Request)(m).GetPacketId() }
-
-// Response from public import base.proto
-type Response bbproto1.Response
-
-func (m *Response) Reset()             { (*bbproto1.Response)(m).Reset() }
-func (m *Response) String() string     { return (*bbproto1.Response)(m).String() }
-func (*Response) ProtoMessage()        {}
-func (m *Response) GetApiVer() string  { return (*bbproto1.Response)(m).GetApiVer() }
-func (m *Response) GetCode() int32     { return (*bbproto1.Response)(m).GetCode() }
-func (m *Response) GetError() string   { return (*bbproto1.Response)(m).GetError() }
-func (m *Response) GetPacketId() int32 { return (*bbproto1.Response)(m).GetPacketId() }
+func (m *Header) Reset()               { (*bbproto1.Header)(m).Reset() }
+func (m *Header) String() string       { return (*bbproto1.Header)(m).String() }
+func (*Header) ProtoMessage()          {}
+func (m *Header) GetApiVer() string    { return (*bbproto1.Header)(m).GetApiVer() }
+func (m *Header) GetSessionId() string { return (*bbproto1.Header)(m).GetSessionId() }
+func (m *Header) GetPacketId() int32   { return (*bbproto1.Header)(m).GetPacketId() }
+func (m *Header) GetCode() int32       { return (*bbproto1.Header)(m).GetCode() }
+func (m *Header) GetError() string     { return (*bbproto1.Header)(m).GetError() }
 
 // EUnitType from public import base.proto
 type EUnitType bbproto1.EUnitType
@@ -709,16 +700,16 @@ func (m *Unit) GetGetTime() int32 {
 }
 
 type ReqGetUnitInfo struct {
-	Header           *bbproto1.Request `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	UnitIds          []int32           `protobuf:"varint,2,rep,name=unitIds" json:"unitIds,omitempty"`
-	XXX_unrecognized []byte            `json:"-"`
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	UnitIds          []int32          `protobuf:"varint,2,rep,name=unitIds" json:"unitIds,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
 }
 
 func (m *ReqGetUnitInfo) Reset()         { *m = ReqGetUnitInfo{} }
 func (m *ReqGetUnitInfo) String() string { return proto.CompactTextString(m) }
 func (*ReqGetUnitInfo) ProtoMessage()    {}
 
-func (m *ReqGetUnitInfo) GetHeader() *bbproto1.Request {
+func (m *ReqGetUnitInfo) GetHeader() *bbproto1.Header {
 	if m != nil {
 		return m.Header
 	}
@@ -733,16 +724,16 @@ func (m *ReqGetUnitInfo) GetUnitIds() []int32 {
 }
 
 type RspGetUnitInfo struct {
-	Header           *bbproto1.Response `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	Unitinfos        []*UnitInfo        `protobuf:"bytes,2,rep,name=unitinfos" json:"unitinfos,omitempty"`
-	XXX_unrecognized []byte             `json:"-"`
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Unitinfos        []*UnitInfo      `protobuf:"bytes,2,rep,name=unitinfos" json:"unitinfos,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
 }
 
 func (m *RspGetUnitInfo) Reset()         { *m = RspGetUnitInfo{} }
 func (m *RspGetUnitInfo) String() string { return proto.CompactTextString(m) }
 func (*RspGetUnitInfo) ProtoMessage()    {}
 
-func (m *RspGetUnitInfo) GetHeader() *bbproto1.Response {
+func (m *RspGetUnitInfo) GetHeader() *bbproto1.Header {
 	if m != nil {
 		return m.Header
 	}
@@ -757,16 +748,16 @@ func (m *RspGetUnitInfo) GetUnitinfos() []*UnitInfo {
 }
 
 type ReqGetUnit struct {
-	Header           *bbproto1.Request `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	UnitIds          []int32           `protobuf:"varint,2,rep,name=unitIds" json:"unitIds,omitempty"`
-	XXX_unrecognized []byte            `json:"-"`
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	UnitIds          []int32          `protobuf:"varint,2,rep,name=unitIds" json:"unitIds,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
 }
 
 func (m *ReqGetUnit) Reset()         { *m = ReqGetUnit{} }
 func (m *ReqGetUnit) String() string { return proto.CompactTextString(m) }
 func (*ReqGetUnit) ProtoMessage()    {}
 
-func (m *ReqGetUnit) GetHeader() *bbproto1.Request {
+func (m *ReqGetUnit) GetHeader() *bbproto1.Header {
 	if m != nil {
 		return m.Header
 	}
@@ -781,16 +772,16 @@ func (m *ReqGetUnit) GetUnitIds() []int32 {
 }
 
 type RspGetUnit struct {
-	Header           *bbproto1.Response `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	Units            []*Unit            `protobuf:"bytes,2,rep,name=units" json:"units,omitempty"`
-	XXX_unrecognized []byte             `json:"-"`
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Units            []*Unit          `protobuf:"bytes,2,rep,name=units" json:"units,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
 }
 
 func (m *RspGetUnit) Reset()         { *m = RspGetUnit{} }
 func (m *RspGetUnit) String() string { return proto.CompactTextString(m) }
 func (*RspGetUnit) ProtoMessage()    {}
 
-func (m *RspGetUnit) GetHeader() *bbproto1.Response {
+func (m *RspGetUnit) GetHeader() *bbproto1.Header {
 	if m != nil {
 		return m.Header
 	}

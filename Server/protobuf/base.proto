@@ -10,18 +10,12 @@ enum EUnitType{
 	UNONE	= 6;
 };
 
-//general request protocol
-message Request{
-	required string apiVer = 1;
-	optional string sessionId = 2;
-	optional int32 packetId = 3;
-};
-
 //general response protocol
-message Response{
-	required string apiVer = 1;
-	optional int32 code = 2;		// result code
-	optional string error = 3;	// result error description
-	optional int32 packetId = 4;
+message Header{
+	required string apiVer		= 1;
+	optional string sessionId	= 2;
+	optional int32	packetId	= 3;
+	optional int32	code		= 4; // result code
+	optional string error		= 5; // result error description
 };
 

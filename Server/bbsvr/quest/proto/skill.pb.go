@@ -14,26 +14,17 @@ var _ = proto.Marshal
 var _ = &json.SyntaxError{}
 var _ = math.Inf
 
-// Request from public import base.proto
-type Request bbproto1.Request
+// Header from public import base.proto
+type Header bbproto1.Header
 
-func (m *Request) Reset()               { (*bbproto1.Request)(m).Reset() }
-func (m *Request) String() string       { return (*bbproto1.Request)(m).String() }
-func (*Request) ProtoMessage()          {}
-func (m *Request) GetApiVer() string    { return (*bbproto1.Request)(m).GetApiVer() }
-func (m *Request) GetSessionId() string { return (*bbproto1.Request)(m).GetSessionId() }
-func (m *Request) GetPacketId() int32   { return (*bbproto1.Request)(m).GetPacketId() }
-
-// Response from public import base.proto
-type Response bbproto1.Response
-
-func (m *Response) Reset()             { (*bbproto1.Response)(m).Reset() }
-func (m *Response) String() string     { return (*bbproto1.Response)(m).String() }
-func (*Response) ProtoMessage()        {}
-func (m *Response) GetApiVer() string  { return (*bbproto1.Response)(m).GetApiVer() }
-func (m *Response) GetCode() int32     { return (*bbproto1.Response)(m).GetCode() }
-func (m *Response) GetError() string   { return (*bbproto1.Response)(m).GetError() }
-func (m *Response) GetPacketId() int32 { return (*bbproto1.Response)(m).GetPacketId() }
+func (m *Header) Reset()               { (*bbproto1.Header)(m).Reset() }
+func (m *Header) String() string       { return (*bbproto1.Header)(m).String() }
+func (*Header) ProtoMessage()          {}
+func (m *Header) GetApiVer() string    { return (*bbproto1.Header)(m).GetApiVer() }
+func (m *Header) GetSessionId() string { return (*bbproto1.Header)(m).GetSessionId() }
+func (m *Header) GetPacketId() int32   { return (*bbproto1.Header)(m).GetPacketId() }
+func (m *Header) GetCode() int32       { return (*bbproto1.Header)(m).GetCode() }
+func (m *Header) GetError() string     { return (*bbproto1.Header)(m).GetError() }
 
 // EUnitType from public import base.proto
 type EUnitType bbproto1.EUnitType
