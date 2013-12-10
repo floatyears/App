@@ -14,7 +14,11 @@ using System.IO;
 
 using UnityEngine;
 
-public class StringEncryption{
+public sealed class CryptoHelper {
+
+    private CryptoHelper(){
+        
+    }
     
     #region DES
     private static byte[] Keys = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
@@ -91,7 +95,7 @@ public class StringEncryption{
         catch
         {
             errorMsg.Code = ErrorCode.Decrypt;
-            Debug.Log("catch");
+            LogHelper.Log("catch");
         }
         return result;
     }

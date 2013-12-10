@@ -52,7 +52,7 @@ public class HttpClient
     IEnumerator POST<T>(string url, byte[] buffer, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values)
     {
 
-        Debug.Log("send:" + buffer + ", length of bytes sended: " + buffer.Length);
+        LogHelper.Log("send:" + buffer + ", length of bytes sended: " + buffer.Length);
         WWW www = new WWW(url, buffer);
         yield return www;
 
@@ -60,13 +60,13 @@ public class HttpClient
         if (www.error != null)
         {
             // POST request faild
-            Debug.Log("error is :"+ www.error);
+            LogHelper.Log("error is :"+ www.error);
             failedFunc(www.error, errorMsg, values);
             // TODO: record error code
         } else
         {
             // POST request succeed
-            Debug.Log("request ok : text is " + www.text);
+            LogHelper.Log("request ok : text is " + www.text);
 
             // deserilize
             T instance = ProtobufSerializer.ParseFormString<T>(www.text);
@@ -93,13 +93,13 @@ public class HttpClient
         if (www.error != null)
         {
             // POST request faild
-            Debug.Log("error is :"+ www.error);
+            LogHelper.Log("error is :"+ www.error);
             failedFunc(www.error, errorMsg, values);
             // TODO: record error code
         } else
         {
             // POST request succeed
-            Debug.Log("request ok : text is " + www.text);
+            LogHelper.Log("request ok : text is " + www.text);
             succeedFunc(www.text, errorMsg, values);
         }
     }
@@ -118,7 +118,7 @@ public class HttpClient
 
         // validate
         if (url == null || url == ""){
-            Debug.Log("request url is" + url + ", error code is " + ErrorCode.IllegalParam);
+            LogHelper.Log("request url is" + url + ", error code is " + ErrorCode.IllegalParam);
             errorMsg.Code = ErrorCode.IllegalParam;
             errorMsg.Msg = "request url is null";
             return;
@@ -130,11 +130,11 @@ public class HttpClient
             errorMsg.Code = ErrorCode.IllegalParam;
             if (failedFunc == null ){
                 errorMsg.Msg = "response failed callback is null, ErrorCode";
-                Debug.Log("response failed callback is null, ErrorCode" + ErrorCode.IllegalParam);
+                LogHelper.Log("response failed callback is null, ErrorCode" + ErrorCode.IllegalParam);
             }
             else {
                 errorMsg.Msg = "response succeed callback is null, ErrorCode";
-                Debug.Log("response succeed callback is null, ErrorCode" + ErrorCode.IllegalParam);
+                LogHelper.Log("response succeed callback is null, ErrorCode" + ErrorCode.IllegalParam);
             }
             return;
         }
