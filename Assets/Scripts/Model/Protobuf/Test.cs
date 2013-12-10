@@ -14,9 +14,9 @@ public class Test : MonoBehaviour
 
     public ErrorMsg receivePersonInfoSucceed (msg.Person modifiedPerson, ErrorMsg errorMsg, object[] values){
 
-        Debug.Log("deserialized info: person's name is " + modifiedPerson.name);
-        Debug.Log("deserialized info: person's id is " + modifiedPerson.id);
-        Debug.Log("deserialized info: person's email is " + modifiedPerson.email);
+        LogHelper.Log("deserialized info: person's name is " + modifiedPerson.name);
+        LogHelper.Log("deserialized info: person's id is " + modifiedPerson.id);
+        LogHelper.Log("deserialized info: person's email is " + modifiedPerson.email);
 
         errorMsg = new ErrorMsg(ErrorCode.Succeed, "");
         return errorMsg;
@@ -25,7 +25,7 @@ public class Test : MonoBehaviour
     public ErrorMsg receivePersonInfoFailed (string responseString, ErrorMsg errorMsg, object[] values){
         // post failed
         errorMsg = new ErrorMsg(ErrorCode.NetWork, "request failed :  Timed out ");
-        Debug.Log(errorMsg);
+        LogHelper.Log(errorMsg);
         return errorMsg;
     }
 	
@@ -38,8 +38,8 @@ public class Test : MonoBehaviour
 			msg.Person person = new msg.Person();
 			person.name = "Rose Mary";
 			person.id = 20;
-			Debug.Log("person's name is " + person.name);
-			Debug.Log("person's id is " + person.id);
+			LogHelper.Log("person's name is " + person.name);
+			LogHelper.Log("person's id is " + person.id);
 			
 //			StartCoroutine(POST("http://192.168.0.200:8000/get_quest_map", ProtobufSerializer.SerializeToBytes<msg.Person>(person)));
             ErrorMsg errorMsg = new ErrorMsg();

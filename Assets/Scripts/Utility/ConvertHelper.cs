@@ -6,7 +6,11 @@ using UnityEngine;
 /// <summary>
 /// Converter. 	 for convert from one to other
 /// </summary>
-public class Converter {
+public sealed class ConvertHelper {
+
+    private ConvertHelper(){
+
+    }
 
 	/// <summary>
 	/// Streams to bytes.
@@ -31,7 +35,7 @@ public class Converter {
 	public static byte[] StringToBytes (string text){
 		char[] chars = text.ToCharArray();
 		byte[] buffer = new byte[chars.Length];
-		Debug.Log("start convert");
+		LogHelper.Log("start convert");
 		for(int i = 0; i < chars.Length; i++)
 		{
 			buffer[i] = Convert.ToByte(chars[i]);
@@ -45,6 +49,6 @@ public class Converter {
 	/// <returns>The to stream.</returns>
 	/// <param name="text">Text.</param>
 	public static MemoryStream StringToStream (string text){
-		return new MemoryStream(Converter.StringToBytes(text));
+		return new MemoryStream(ConvertHelper.StringToBytes(text));
 	}
 }

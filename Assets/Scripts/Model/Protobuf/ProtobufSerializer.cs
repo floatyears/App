@@ -34,7 +34,7 @@ public class ProtobufSerializer
 				return null;
 			}
 			Serializer.Serialize<T>(ms, instance);
-			return Converter.StreamToBytes(ms);
+			return ConvertHelper.StreamToBytes(ms);
 		}
 	}
 
@@ -45,7 +45,7 @@ public class ProtobufSerializer
     /// <param name="source">Source.</param>
     /// <typeparam name="T">The 1st type parameter.</typeparam>
 	public static T ParseFormString<T> (String source){
-		MemoryStream ms = Converter.StringToStream(source);
+		MemoryStream ms = ConvertHelper.StringToStream(source);
         T retInstance = Serializer.Deserialize<T>(ms);
 
         // validate
