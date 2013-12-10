@@ -13,12 +13,59 @@ var _ = proto.Marshal
 var _ = &json.SyntaxError{}
 var _ = math.Inf
 
+type EUnitType int32
+
+const (
+	EUnitType_UALL   EUnitType = 0
+	EUnitType_UFIRE  EUnitType = 1
+	EUnitType_UWATER EUnitType = 2
+	EUnitType_UWIND  EUnitType = 3
+	EUnitType_ULIGHT EUnitType = 4
+	EUnitType_UDARK  EUnitType = 5
+	EUnitType_UNONE  EUnitType = 6
+)
+
+var EUnitType_name = map[int32]string{
+	0: "UALL",
+	1: "UFIRE",
+	2: "UWATER",
+	3: "UWIND",
+	4: "ULIGHT",
+	5: "UDARK",
+	6: "UNONE",
+}
+var EUnitType_value = map[string]int32{
+	"UALL":   0,
+	"UFIRE":  1,
+	"UWATER": 2,
+	"UWIND":  3,
+	"ULIGHT": 4,
+	"UDARK":  5,
+	"UNONE":  6,
+}
+
+func (x EUnitType) Enum() *EUnitType {
+	p := new(EUnitType)
+	*p = x
+	return p
+}
+func (x EUnitType) String() string {
+	return proto.EnumName(EUnitType_name, int32(x))
+}
+func (x *EUnitType) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(EUnitType_value, data, "EUnitType")
+	if err != nil {
+		return err
+	}
+	*x = EUnitType(value)
+	return nil
+}
+
 // general request protocol
 type Request struct {
-	Version          *int32  `protobuf:"varint,1,opt,name=version" json:"version,omitempty"`
-	CliVer           *string `protobuf:"bytes,2,opt,name=cli_ver" json:"cli_ver,omitempty"`
-	Userid           *int32  `protobuf:"varint,3,opt,name=userid" json:"userid,omitempty"`
-	Username         *string `protobuf:"bytes,4,opt,name=username" json:"username,omitempty"`
+	ApiVer           *string `protobuf:"bytes,1,req,name=apiVer" json:"apiVer,omitempty"`
+	SessionId        *string `protobuf:"bytes,2,opt,name=sessionId" json:"sessionId,omitempty"`
+	PacketId         *int32  `protobuf:"varint,3,opt,name=packetId" json:"packetId,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -26,39 +73,33 @@ func (m *Request) Reset()         { *m = Request{} }
 func (m *Request) String() string { return proto.CompactTextString(m) }
 func (*Request) ProtoMessage()    {}
 
-func (m *Request) GetVersion() int32 {
-	if m != nil && m.Version != nil {
-		return *m.Version
-	}
-	return 0
-}
-
-func (m *Request) GetCliVer() string {
-	if m != nil && m.CliVer != nil {
-		return *m.CliVer
+func (m *Request) GetApiVer() string {
+	if m != nil && m.ApiVer != nil {
+		return *m.ApiVer
 	}
 	return ""
 }
 
-func (m *Request) GetUserid() int32 {
-	if m != nil && m.Userid != nil {
-		return *m.Userid
-	}
-	return 0
-}
-
-func (m *Request) GetUsername() string {
-	if m != nil && m.Username != nil {
-		return *m.Username
+func (m *Request) GetSessionId() string {
+	if m != nil && m.SessionId != nil {
+		return *m.SessionId
 	}
 	return ""
+}
+
+func (m *Request) GetPacketId() int32 {
+	if m != nil && m.PacketId != nil {
+		return *m.PacketId
+	}
+	return 0
 }
 
 // general response protocol
 type Response struct {
-	Version          *int32  `protobuf:"varint,1,opt,name=version" json:"version,omitempty"`
-	Result           *int32  `protobuf:"varint,2,opt,name=result" json:"result,omitempty"`
-	Data             *string `protobuf:"bytes,3,opt,name=data" json:"data,omitempty"`
+	ApiVer           *string `protobuf:"bytes,1,req,name=apiVer" json:"apiVer,omitempty"`
+	Code             *int32  `protobuf:"varint,2,opt,name=code" json:"code,omitempty"`
+	Error            *string `protobuf:"bytes,3,opt,name=error" json:"error,omitempty"`
+	PacketId         *int32  `protobuf:"varint,4,opt,name=packetId" json:"packetId,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -66,26 +107,34 @@ func (m *Response) Reset()         { *m = Response{} }
 func (m *Response) String() string { return proto.CompactTextString(m) }
 func (*Response) ProtoMessage()    {}
 
-func (m *Response) GetVersion() int32 {
-	if m != nil && m.Version != nil {
-		return *m.Version
-	}
-	return 0
-}
-
-func (m *Response) GetResult() int32 {
-	if m != nil && m.Result != nil {
-		return *m.Result
-	}
-	return 0
-}
-
-func (m *Response) GetData() string {
-	if m != nil && m.Data != nil {
-		return *m.Data
+func (m *Response) GetApiVer() string {
+	if m != nil && m.ApiVer != nil {
+		return *m.ApiVer
 	}
 	return ""
 }
 
+func (m *Response) GetCode() int32 {
+	if m != nil && m.Code != nil {
+		return *m.Code
+	}
+	return 0
+}
+
+func (m *Response) GetError() string {
+	if m != nil && m.Error != nil {
+		return *m.Error
+	}
+	return ""
+}
+
+func (m *Response) GetPacketId() int32 {
+	if m != nil && m.PacketId != nil {
+		return *m.PacketId
+	}
+	return 0
+}
+
 func init() {
+	proto.RegisterEnum("bbproto.EUnitType", EUnitType_name, EUnitType_value)
 }

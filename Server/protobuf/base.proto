@@ -1,5 +1,15 @@
 package bbproto;
 
+enum EUnitType{
+	UALL	= 0; // all type
+	UFIRE 	= 1;
+	UWATER	= 2;
+	UWIND	= 3;
+	ULIGHT	= 4;
+	UDARK	= 5;
+	UNONE	= 6;
+};
+
 //general request protocol
 message Request{
 	required string apiVer = 1;

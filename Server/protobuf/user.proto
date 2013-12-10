@@ -8,9 +8,9 @@ message UserInfo {
 	optional string userName = 2;
 	optional int32 rank = 3;
 	optional int32 exp = 4;
-	optional int32 stamina = 4;
-	optional int32 loginTime = 4;
-	optional string profile = 5;
+	optional int32 stamina = 5;
+	optional int32 loginTime = 6;
+	optional string profile = 7;
 };
 
 message ReqGetUserInfo {

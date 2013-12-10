@@ -5,12 +5,12 @@ package bbproto;
 
 message EnemyInfo{
 	required int32	unitId = 1;
-	optional int32  hp = 1;
-	optional int32  attack = 1;
-	optional int32  defense = 1;
-	optional int32  attackRound = 1;
-	optional float  dropRatio   = 1;
-	optional float  dropUnitId   = 1;
+	optional int32  hp = 2;
+	optional int32  attack = 3;
+	optional int32  defense = 4;
+	optional int32  attackRound = 5;
+	optional float  dropRatio   = 6;
+	optional float  dropUnitId   = 7;
 };
 
 message QuestInfo {
@@ -36,12 +36,12 @@ message QuestMapInfo {
 };
 
 message ReqGetQuestMap {
-	optional Request req = 1;
+	optional Request header = 1;
 	optional int32 startId = 2;
 };
 
 message RspGetQuestMap {
-	optional Response resp = 1;
+	optional Response header = 1;
 	repeated QuestMapInfo maps = 2;
 };
 
