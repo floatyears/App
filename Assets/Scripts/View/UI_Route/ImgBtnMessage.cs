@@ -4,12 +4,12 @@ using System.Collections;
 public class ImgBtnMessage : MonoBehaviour 
 {
 	public GameObject InfoBar;
-	public GameObject info;
-	private tk2dTextMesh textInfo;
+	public GameObject infoLabel;
+	private UILabel textInfo;
 
 	void Start()
 	{
-		textInfo = info.GetComponent<tk2dTextMesh>();
+		textInfo = infoLabel.GetComponent<UILabel>();
 	}
 
 	private IEnumerator SetScene(string sceneInfo)
