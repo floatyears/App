@@ -1,26 +1,17 @@
 import public "base.proto";
+import public "unit.proto";
+import public "user.proto";
 
 package bbproto;
 
-message Unit {
-	required int32  id = 1;
-	optional string name = 4;
-	optional string skills1 = 4;
-	optional string skills2 = 4;
-	optional string profile = 4;
-};
-
-message UnitInfo {
-	required int32 uniqueId=1;
-	required int32  id = 2; //unit_id
-	optional int32 uniqueId=3;
-	optional int32 exp=4;
-	optional int32 level=5;
-	optional int32 addPow=6;
-	optional int32 addDef=7;
-	optional int32 addHp=8;
-	optional int32 limitbreakLv=9;
-	optional int32 getTime=10;
+message EnemyInfo{
+	required int32	unitId = 1;
+	optional int32  hp = 2;
+	optional int32  attack = 3;
+	optional int32  defense = 4;
+	optional int32  attackRound = 5;
+	optional float  dropRatio   = 6;
+	optional float  dropUnitId   = 7;
 };
 
 message QuestInfo {
@@ -29,28 +20,78 @@ message QuestInfo {
 	optional int32 no = 3;
 	optional string name = 4;
 	optional string desc = 5;
-	optional int32 stamina = 6;
-	optional int32 floor = 7;
+	optional int32 stamina = 6; //cost stamina
+	optional int32 floor = 7;		
 	optional int32 rewardExp = 8;
 	optional int32 rewardCoin = 9;
-	optional repeated int32 all_unit_kind = 10;
-	optional UnitInfo boss = 11;
+	repeated int32 allUnitKind = 10;
+	repeated EnemyInfo enemyUnit = 11;
+	optional UnitInfo boss = 12;
 };
 
 message QuestMapInfo {
 	optional int32 version = 1;
 	optional int32 id = 2;
 	optional int32 type = 3;	//normal,promotion
-	repeated QuestInfo questlist = 4;
+	repeated QuestInfo quests = 4;
 };
 
 message ReqGetQuestMap {
-	optional Request req = 1;
-	optional int32 start_id = 2;
+	optional Header header = 1;
+	optional int32 startId = 2;
 };
 
 message RspGetQuestMap {
-	optional Response resp = 1;
+	optional Header header = 1;
 	repeated QuestMapInfo maps = 2;
+};
+
+enum EQuestState {
+	QS_NEW		= 0;
+	QS_CLEARED	= 1;
+};
+
+message ReqStartQuset {
+	optional Header	header			= 1;
+	optional uint32	questId			= 2; 
+	optional uint32	questState		= 3; // QS_NEW | QS_CLEARED
+	optional uint32	helperUserId	= 4; 
+	optional Unit	helperUnit		= 5; 
+	optional uint32	currentParty	= 6; 	
+};
+
+message RspStartQuset {
+	optional Header	header			= 1;
+	optional uint32	questId			= 2; 
+	optional uint32	staminaNow		= 3; // current stamina
+	optional uint32	staminaRecover	= 4; // stamina recover time
+};
+
+message ReqClearQuset {
+	optional Header header 			= 1; 
+	optional uint32	questId			= 2; 
+	optional uint32	securityKey		= 3; 
+	optional uint32	getMoney		= 4; 
+	optional uint32	getExp			= 5; 
+	repeated Unit	getUnit			= 6; 	
+};
+
+message RspClearQuset {
+	optional Header		header		= 1;
+	optional UserInfo	user 		= 2;
+	optional AcountInfo acount		= 3;	
+	optional uint32		getMoney	= 4;
+	optional uint32		getExp		= 5;	
+	repeated uint32		getUnit		= 6; //uniqueId list
+};
+
+message ReqGetQuestInfo {
+	optional Header header 		= 1;
+};
+
+message RspGetQuestInfo {
+	optional Header header 			= 1;
+	optional uint32	questId			= 2; //
+	optional uint32	currentStatus	= 3; // current quest status
 };
 

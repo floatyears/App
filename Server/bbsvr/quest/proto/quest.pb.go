@@ -7,24 +7,403 @@ package bbproto
 import proto "code.google.com/p/goprotobuf/proto"
 import json "encoding/json"
 import math "math"
+import bbproto1 "base.pb"
+import bbproto3 "unit.pb"
+import bbproto4 "user.pb"
 
 // Reference proto, json, and math imports to suppress error if they are not otherwise used.
 var _ = proto.Marshal
 var _ = &json.SyntaxError{}
 var _ = math.Inf
 
-// Ignoring public import of Request from base.proto
+// Header from public import base.proto
+type Header bbproto1.Header
 
-// Ignoring public import of Response from base.proto
+func (m *Header) Reset()               { (*bbproto1.Header)(m).Reset() }
+func (m *Header) String() string       { return (*bbproto1.Header)(m).String() }
+func (*Header) ProtoMessage()          {}
+func (m *Header) GetApiVer() string    { return (*bbproto1.Header)(m).GetApiVer() }
+func (m *Header) GetSessionId() string { return (*bbproto1.Header)(m).GetSessionId() }
+func (m *Header) GetPacketId() int32   { return (*bbproto1.Header)(m).GetPacketId() }
+func (m *Header) GetCode() int32       { return (*bbproto1.Header)(m).GetCode() }
+func (m *Header) GetError() string     { return (*bbproto1.Header)(m).GetError() }
+
+// EUnitType from public import base.proto
+type EUnitType bbproto1.EUnitType
+
+var EUnitType_name = bbproto1.EUnitType_name
+var EUnitType_value = bbproto1.EUnitType_value
+
+func NewEUnitType(x EUnitType) *EUnitType { e := EUnitType(x); return &e }
+
+const EUnitType_UALL = EUnitType(bbproto1.EUnitType_UALL)
+const EUnitType_UFIRE = EUnitType(bbproto1.EUnitType_UFIRE)
+const EUnitType_UWATER = EUnitType(bbproto1.EUnitType_UWATER)
+const EUnitType_UWIND = EUnitType(bbproto1.EUnitType_UWIND)
+const EUnitType_ULIGHT = EUnitType(bbproto1.EUnitType_ULIGHT)
+const EUnitType_UDARK = EUnitType(bbproto1.EUnitType_UDARK)
+const EUnitType_UNONE = EUnitType(bbproto1.EUnitType_UNONE)
+
+// UnitStatus from public import unit.proto
+type UnitStatus bbproto3.UnitStatus
+
+func (m *UnitStatus) Reset()              { (*bbproto3.UnitStatus)(m).Reset() }
+func (m *UnitStatus) String() string      { return (*bbproto3.UnitStatus)(m).String() }
+func (*UnitStatus) ProtoMessage()         {}
+func (m *UnitStatus) GetType() int32      { return (*bbproto3.UnitStatus)(m).GetType() }
+func (m *UnitStatus) GetRace() int32      { return (*bbproto3.UnitStatus)(m).GetRace() }
+func (m *UnitStatus) GetRare() int32      { return (*bbproto3.UnitStatus)(m).GetRare() }
+func (m *UnitStatus) GetHp() int32        { return (*bbproto3.UnitStatus)(m).GetHp() }
+func (m *UnitStatus) GetAttack() int32    { return (*bbproto3.UnitStatus)(m).GetAttack() }
+func (m *UnitStatus) GetDefence() int32   { return (*bbproto3.UnitStatus)(m).GetDefence() }
+func (m *UnitStatus) GetLevel() int32     { return (*bbproto3.UnitStatus)(m).GetLevel() }
+func (m *UnitStatus) GetNextLvExp() int32 { return (*bbproto3.UnitStatus)(m).GetNextLvExp() }
+func (m *UnitStatus) GetCost() int32      { return (*bbproto3.UnitStatus)(m).GetCost() }
+
+// UnitInfo from public import unit.proto
+type UnitInfo bbproto3.UnitInfo
+
+func (m *UnitInfo) Reset()             { (*bbproto3.UnitInfo)(m).Reset() }
+func (m *UnitInfo) String() string     { return (*bbproto3.UnitInfo)(m).String() }
+func (*UnitInfo) ProtoMessage()        {}
+func (m *UnitInfo) GetId() int32       { return (*bbproto3.UnitInfo)(m).GetId() }
+func (m *UnitInfo) GetName() string    { return (*bbproto3.UnitInfo)(m).GetName() }
+func (m *UnitInfo) GetMaxLevel() int32 { return (*bbproto3.UnitInfo)(m).GetMaxLevel() }
+func (m *UnitInfo) GetExpType() int32  { return (*bbproto3.UnitInfo)(m).GetExpType() }
+func (m *UnitInfo) GetProfile() string { return (*bbproto3.UnitInfo)(m).GetProfile() }
+
+// Unit from public import unit.proto
+type Unit bbproto3.Unit
+
+func (m *Unit) Reset()                 { (*bbproto3.Unit)(m).Reset() }
+func (m *Unit) String() string         { return (*bbproto3.Unit)(m).String() }
+func (*Unit) ProtoMessage()            {}
+func (m *Unit) GetUniqueId() int32     { return (*bbproto3.Unit)(m).GetUniqueId() }
+func (m *Unit) GetId() int32           { return (*bbproto3.Unit)(m).GetId() }
+func (m *Unit) GetExp() int32          { return (*bbproto3.Unit)(m).GetExp() }
+func (m *Unit) GetLevel() int32        { return (*bbproto3.Unit)(m).GetLevel() }
+func (m *Unit) GetAttack() int32       { return (*bbproto3.Unit)(m).GetAttack() }
+func (m *Unit) GetDefense() int32      { return (*bbproto3.Unit)(m).GetDefense() }
+func (m *Unit) GetHp() int32           { return (*bbproto3.Unit)(m).GetHp() }
+func (m *Unit) GetAddAttack() int32    { return (*bbproto3.Unit)(m).GetAddAttack() }
+func (m *Unit) GetAddDefence() int32   { return (*bbproto3.Unit)(m).GetAddDefence() }
+func (m *Unit) GetAddHp() int32        { return (*bbproto3.Unit)(m).GetAddHp() }
+func (m *Unit) GetLimitbreakLv() int32 { return (*bbproto3.Unit)(m).GetLimitbreakLv() }
+func (m *Unit) GetGetTime() int32      { return (*bbproto3.Unit)(m).GetGetTime() }
+
+// ReqGetUnitInfo from public import unit.proto
+type ReqGetUnitInfo bbproto3.ReqGetUnitInfo
+
+func (m *ReqGetUnitInfo) Reset()              { (*bbproto3.ReqGetUnitInfo)(m).Reset() }
+func (m *ReqGetUnitInfo) String() string      { return (*bbproto3.ReqGetUnitInfo)(m).String() }
+func (*ReqGetUnitInfo) ProtoMessage()         {}
+func (m *ReqGetUnitInfo) GetUnitIds() []int32 { return (*bbproto3.ReqGetUnitInfo)(m).GetUnitIds() }
+
+// RspGetUnitInfo from public import unit.proto
+type RspGetUnitInfo bbproto3.RspGetUnitInfo
+
+func (m *RspGetUnitInfo) Reset()         { (*bbproto3.RspGetUnitInfo)(m).Reset() }
+func (m *RspGetUnitInfo) String() string { return (*bbproto3.RspGetUnitInfo)(m).String() }
+func (*RspGetUnitInfo) ProtoMessage()    {}
+func (m *RspGetUnitInfo) GetUnitinfos() []*UnitInfo {
+	o := (*bbproto3.RspGetUnitInfo)(m).GetUnitinfos()
+	if o == nil {
+		return nil
+	}
+	s := make([]*UnitInfo, len(o))
+	for i, x := range o {
+		s[i] = (*UnitInfo)(x)
+	}
+	return s
+}
+
+// ReqGetUnit from public import unit.proto
+type ReqGetUnit bbproto3.ReqGetUnit
+
+func (m *ReqGetUnit) Reset()              { (*bbproto3.ReqGetUnit)(m).Reset() }
+func (m *ReqGetUnit) String() string      { return (*bbproto3.ReqGetUnit)(m).String() }
+func (*ReqGetUnit) ProtoMessage()         {}
+func (m *ReqGetUnit) GetUnitIds() []int32 { return (*bbproto3.ReqGetUnit)(m).GetUnitIds() }
+
+// RspGetUnit from public import unit.proto
+type RspGetUnit bbproto3.RspGetUnit
+
+func (m *RspGetUnit) Reset()         { (*bbproto3.RspGetUnit)(m).Reset() }
+func (m *RspGetUnit) String() string { return (*bbproto3.RspGetUnit)(m).String() }
+func (*RspGetUnit) ProtoMessage()    {}
+func (m *RspGetUnit) GetUnits() []*Unit {
+	o := (*bbproto3.RspGetUnit)(m).GetUnits()
+	if o == nil {
+		return nil
+	}
+	s := make([]*Unit, len(o))
+	for i, x := range o {
+		s[i] = (*Unit)(x)
+	}
+	return s
+}
+
+// UserInfo from public import user.proto
+type UserInfo bbproto4.UserInfo
+
+func (m *UserInfo) Reset()                    { (*bbproto4.UserInfo)(m).Reset() }
+func (m *UserInfo) String() string            { return (*bbproto4.UserInfo)(m).String() }
+func (*UserInfo) ProtoMessage()               {}
+func (m *UserInfo) GetUserId() int32          { return (*bbproto4.UserInfo)(m).GetUserId() }
+func (m *UserInfo) GetUserName() string       { return (*bbproto4.UserInfo)(m).GetUserName() }
+func (m *UserInfo) GetRank() int32            { return (*bbproto4.UserInfo)(m).GetRank() }
+func (m *UserInfo) GetExp() int32             { return (*bbproto4.UserInfo)(m).GetExp() }
+func (m *UserInfo) GetStaminaNow() int32      { return (*bbproto4.UserInfo)(m).GetStaminaNow() }
+func (m *UserInfo) GetStaminaMax() int32      { return (*bbproto4.UserInfo)(m).GetStaminaMax() }
+func (m *UserInfo) GetStaminaRecover() uint32 { return (*bbproto4.UserInfo)(m).GetStaminaRecover() }
+func (m *UserInfo) GetLoginTime() int32       { return (*bbproto4.UserInfo)(m).GetLoginTime() }
+func (m *UserInfo) GetProfile() string        { return (*bbproto4.UserInfo)(m).GetProfile() }
+
+// AcountInfo from public import user.proto
+type AcountInfo bbproto4.AcountInfo
+
+func (m *AcountInfo) Reset()                    { (*bbproto4.AcountInfo)(m).Reset() }
+func (m *AcountInfo) String() string            { return (*bbproto4.AcountInfo)(m).String() }
+func (*AcountInfo) ProtoMessage()               {}
+func (m *AcountInfo) GetUserId() int32          { return (*bbproto4.AcountInfo)(m).GetUserId() }
+func (m *AcountInfo) GetReview() uint32         { return (*bbproto4.AcountInfo)(m).GetReview() }
+func (m *AcountInfo) GetPayTotal() uint32       { return (*bbproto4.AcountInfo)(m).GetPayTotal() }
+func (m *AcountInfo) GetPayMonth() uint32       { return (*bbproto4.AcountInfo)(m).GetPayMonth() }
+func (m *AcountInfo) GetMoney() uint32          { return (*bbproto4.AcountInfo)(m).GetMoney() }
+func (m *AcountInfo) GetStonePay() uint32       { return (*bbproto4.AcountInfo)(m).GetStonePay() }
+func (m *AcountInfo) GetStoneFree() uint32      { return (*bbproto4.AcountInfo)(m).GetStoneFree() }
+func (m *AcountInfo) GetStone() uint32          { return (*bbproto4.AcountInfo)(m).GetStone() }
+func (m *AcountInfo) GetFriendPt() uint32       { return (*bbproto4.AcountInfo)(m).GetFriendPt() }
+func (m *AcountInfo) GetTotalUnit() uint32      { return (*bbproto4.AcountInfo)(m).GetTotalUnit() }
+func (m *AcountInfo) GetTotalParty() uint32     { return (*bbproto4.AcountInfo)(m).GetTotalParty() }
+func (m *AcountInfo) GetTotalFriend() uint32    { return (*bbproto4.AcountInfo)(m).GetTotalFriend() }
+func (m *AcountInfo) GetFirstSelectNum() uint32 { return (*bbproto4.AcountInfo)(m).GetFirstSelectNum() }
+
+// ReqGetUserInfo from public import user.proto
+type ReqGetUserInfo bbproto4.ReqGetUserInfo
+
+func (m *ReqGetUserInfo) Reset()           { (*bbproto4.ReqGetUserInfo)(m).Reset() }
+func (m *ReqGetUserInfo) String() string   { return (*bbproto4.ReqGetUserInfo)(m).String() }
+func (*ReqGetUserInfo) ProtoMessage()      {}
+func (m *ReqGetUserInfo) GetUserId() int32 { return (*bbproto4.ReqGetUserInfo)(m).GetUserId() }
+
+// RspGetUserInfo from public import user.proto
+type RspGetUserInfo bbproto4.RspGetUserInfo
+
+func (m *RspGetUserInfo) Reset()         { (*bbproto4.RspGetUserInfo)(m).Reset() }
+func (m *RspGetUserInfo) String() string { return (*bbproto4.RspGetUserInfo)(m).String() }
+func (*RspGetUserInfo) ProtoMessage()    {}
+func (m *RspGetUserInfo) GetInfo() *UserInfo {
+	return (*UserInfo)((*bbproto4.RspGetUserInfo)(m).GetInfo())
+}
+
+type EQuestState int32
+
+const (
+	EQuestState_QS_NEW     EQuestState = 0
+	EQuestState_QS_CLEARED EQuestState = 1
+)
+
+var EQuestState_name = map[int32]string{
+	0: "QS_NEW",
+	1: "QS_CLEARED",
+}
+var EQuestState_value = map[string]int32{
+	"QS_NEW":     0,
+	"QS_CLEARED": 1,
+}
+
+func (x EQuestState) Enum() *EQuestState {
+	p := new(EQuestState)
+	*p = x
+	return p
+}
+func (x EQuestState) String() string {
+	return proto.EnumName(EQuestState_name, int32(x))
+}
+func (x *EQuestState) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(EQuestState_value, data, "EQuestState")
+	if err != nil {
+		return err
+	}
+	*x = EQuestState(value)
+	return nil
+}
+
+type EnemyInfo struct {
+	UnitId           *int32   `protobuf:"varint,1,req,name=unitId" json:"unitId,omitempty"`
+	Hp               *int32   `protobuf:"varint,2,opt,name=hp" json:"hp,omitempty"`
+	Attack           *int32   `protobuf:"varint,3,opt,name=attack" json:"attack,omitempty"`
+	Defense          *int32   `protobuf:"varint,4,opt,name=defense" json:"defense,omitempty"`
+	AttackRound      *int32   `protobuf:"varint,5,opt,name=attackRound" json:"attackRound,omitempty"`
+	DropRatio        *float32 `protobuf:"fixed32,6,opt,name=dropRatio" json:"dropRatio,omitempty"`
+	DropUnitId       *float32 `protobuf:"fixed32,7,opt,name=dropUnitId" json:"dropUnitId,omitempty"`
+	XXX_unrecognized []byte   `json:"-"`
+}
+
+func (m *EnemyInfo) Reset()         { *m = EnemyInfo{} }
+func (m *EnemyInfo) String() string { return proto.CompactTextString(m) }
+func (*EnemyInfo) ProtoMessage()    {}
+
+func (m *EnemyInfo) GetUnitId() int32 {
+	if m != nil && m.UnitId != nil {
+		return *m.UnitId
+	}
+	return 0
+}
+
+func (m *EnemyInfo) GetHp() int32 {
+	if m != nil && m.Hp != nil {
+		return *m.Hp
+	}
+	return 0
+}
+
+func (m *EnemyInfo) GetAttack() int32 {
+	if m != nil && m.Attack != nil {
+		return *m.Attack
+	}
+	return 0
+}
+
+func (m *EnemyInfo) GetDefense() int32 {
+	if m != nil && m.Defense != nil {
+		return *m.Defense
+	}
+	return 0
+}
+
+func (m *EnemyInfo) GetAttackRound() int32 {
+	if m != nil && m.AttackRound != nil {
+		return *m.AttackRound
+	}
+	return 0
+}
+
+func (m *EnemyInfo) GetDropRatio() float32 {
+	if m != nil && m.DropRatio != nil {
+		return *m.DropRatio
+	}
+	return 0
+}
+
+func (m *EnemyInfo) GetDropUnitId() float32 {
+	if m != nil && m.DropUnitId != nil {
+		return *m.DropUnitId
+	}
+	return 0
+}
+
+type QuestInfo struct {
+	Id               *int32             `protobuf:"varint,1,req,name=id" json:"id,omitempty"`
+	State            *int32             `protobuf:"varint,2,opt,name=state" json:"state,omitempty"`
+	No               *int32             `protobuf:"varint,3,opt,name=no" json:"no,omitempty"`
+	Name             *string            `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
+	Desc             *string            `protobuf:"bytes,5,opt,name=desc" json:"desc,omitempty"`
+	Stamina          *int32             `protobuf:"varint,6,opt,name=stamina" json:"stamina,omitempty"`
+	Floor            *int32             `protobuf:"varint,7,opt,name=floor" json:"floor,omitempty"`
+	RewardExp        *int32             `protobuf:"varint,8,opt,name=rewardExp" json:"rewardExp,omitempty"`
+	RewardCoin       *int32             `protobuf:"varint,9,opt,name=rewardCoin" json:"rewardCoin,omitempty"`
+	AllUnitKind      []int32            `protobuf:"varint,10,rep,name=allUnitKind" json:"allUnitKind,omitempty"`
+	EnemyUnit        []*EnemyInfo       `protobuf:"bytes,11,rep,name=enemyUnit" json:"enemyUnit,omitempty"`
+	Boss             *bbproto3.UnitInfo `protobuf:"bytes,12,opt,name=boss" json:"boss,omitempty"`
+	XXX_unrecognized []byte             `json:"-"`
+}
+
+func (m *QuestInfo) Reset()         { *m = QuestInfo{} }
+func (m *QuestInfo) String() string { return proto.CompactTextString(m) }
+func (*QuestInfo) ProtoMessage()    {}
+
+func (m *QuestInfo) GetId() int32 {
+	if m != nil && m.Id != nil {
+		return *m.Id
+	}
+	return 0
+}
+
+func (m *QuestInfo) GetState() int32 {
+	if m != nil && m.State != nil {
+		return *m.State
+	}
+	return 0
+}
+
+func (m *QuestInfo) GetNo() int32 {
+	if m != nil && m.No != nil {
+		return *m.No
+	}
+	return 0
+}
+
+func (m *QuestInfo) GetName() string {
+	if m != nil && m.Name != nil {
+		return *m.Name
+	}
+	return ""
+}
+
+func (m *QuestInfo) GetDesc() string {
+	if m != nil && m.Desc != nil {
+		return *m.Desc
+	}
+	return ""
+}
+
+func (m *QuestInfo) GetStamina() int32 {
+	if m != nil && m.Stamina != nil {
+		return *m.Stamina
+	}
+	return 0
+}
+
+func (m *QuestInfo) GetFloor() int32 {
+	if m != nil && m.Floor != nil {
+		return *m.Floor
+	}
+	return 0
+}
+
+func (m *QuestInfo) GetRewardExp() int32 {
+	if m != nil && m.RewardExp != nil {
+		return *m.RewardExp
+	}
+	return 0
+}
+
+func (m *QuestInfo) GetRewardCoin() int32 {
+	if m != nil && m.RewardCoin != nil {
+		return *m.RewardCoin
+	}
+	return 0
+}
+
+func (m *QuestInfo) GetAllUnitKind() []int32 {
+	if m != nil {
+		return m.AllUnitKind
+	}
+	return nil
+}
+
+func (m *QuestInfo) GetEnemyUnit() []*EnemyInfo {
+	if m != nil {
+		return m.EnemyUnit
+	}
+	return nil
+}
+
+func (m *QuestInfo) GetBoss() *bbproto3.UnitInfo {
+	if m != nil {
+		return m.Boss
+	}
+	return nil
+}
 
 type QuestMapInfo struct {
-	Version          *int32 `protobuf:"varint,1,opt,name=version" json:"version,omitempty"`
-	Id               *int32 `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
-	Type             *int32 `protobuf:"varint,3,opt,name=type" json:"type,omitempty"`
-	Name             *int32 `protobuf:"varint,4,opt,name=name" json:"name,omitempty"`
-	Desc             *int32 `protobuf:"varint,5,opt,name=desc" json:"desc,omitempty"`
-	CostStanima      *int32 `protobuf:"varint,6,opt,name=cost_stanima" json:"cost_stanima,omitempty"`
-	XXX_unrecognized []byte `json:"-"`
+	Version          *int32       `protobuf:"varint,1,opt,name=version" json:"version,omitempty"`
+	Id               *int32       `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
+	Type             *int32       `protobuf:"varint,3,opt,name=type" json:"type,omitempty"`
+	Quests           []*QuestInfo `protobuf:"bytes,4,rep,name=quests" json:"quests,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
 }
 
 func (m *QuestMapInfo) Reset()         { *m = QuestMapInfo{} }
@@ -52,40 +431,26 @@ func (m *QuestMapInfo) GetType() int32 {
 	return 0
 }
 
-func (m *QuestMapInfo) GetName() int32 {
-	if m != nil && m.Name != nil {
-		return *m.Name
+func (m *QuestMapInfo) GetQuests() []*QuestInfo {
+	if m != nil {
+		return m.Quests
 	}
-	return 0
-}
-
-func (m *QuestMapInfo) GetDesc() int32 {
-	if m != nil && m.Desc != nil {
-		return *m.Desc
-	}
-	return 0
-}
-
-func (m *QuestMapInfo) GetCostStanima() int32 {
-	if m != nil && m.CostStanima != nil {
-		return *m.CostStanima
-	}
-	return 0
+	return nil
 }
 
 type ReqGetQuestMap struct {
-	Req              *Request `protobuf:"bytes,1,opt,name=req" json:"req,omitempty"`
-	StartId          *int32   `protobuf:"varint,2,opt,name=start_id" json:"start_id,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	StartId          *int32           `protobuf:"varint,2,opt,name=startId" json:"startId,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
 }
 
 func (m *ReqGetQuestMap) Reset()         { *m = ReqGetQuestMap{} }
 func (m *ReqGetQuestMap) String() string { return proto.CompactTextString(m) }
 func (*ReqGetQuestMap) ProtoMessage()    {}
 
-func (m *ReqGetQuestMap) GetReq() *Request {
+func (m *ReqGetQuestMap) GetHeader() *bbproto1.Header {
 	if m != nil {
-		return m.Req
+		return m.Header
 	}
 	return nil
 }
@@ -98,18 +463,18 @@ func (m *ReqGetQuestMap) GetStartId() int32 {
 }
 
 type RspGetQuestMap struct {
-	Resp             *Response       `protobuf:"bytes,1,opt,name=resp" json:"resp,omitempty"`
-	Maps             []*QuestMapInfo `protobuf:"bytes,2,rep,name=maps" json:"maps,omitempty"`
-	XXX_unrecognized []byte          `json:"-"`
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Maps             []*QuestMapInfo  `protobuf:"bytes,2,rep,name=maps" json:"maps,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
 }
 
 func (m *RspGetQuestMap) Reset()         { *m = RspGetQuestMap{} }
 func (m *RspGetQuestMap) String() string { return proto.CompactTextString(m) }
 func (*RspGetQuestMap) ProtoMessage()    {}
 
-func (m *RspGetQuestMap) GetResp() *Response {
+func (m *RspGetQuestMap) GetHeader() *bbproto1.Header {
 	if m != nil {
-		return m.Resp
+		return m.Header
 	}
 	return nil
 }
@@ -121,5 +486,262 @@ func (m *RspGetQuestMap) GetMaps() []*QuestMapInfo {
 	return nil
 }
 
+type ReqStartQuset struct {
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	QuestId          *uint32          `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
+	QuestState       *uint32          `protobuf:"varint,3,opt,name=questState" json:"questState,omitempty"`
+	HelperUserId     *uint32          `protobuf:"varint,4,opt,name=helperUserId" json:"helperUserId,omitempty"`
+	HelperUnit       *bbproto3.Unit   `protobuf:"bytes,5,opt,name=helperUnit" json:"helperUnit,omitempty"`
+	CurrentParty     *uint32          `protobuf:"varint,6,opt,name=currentParty" json:"currentParty,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
+}
+
+func (m *ReqStartQuset) Reset()         { *m = ReqStartQuset{} }
+func (m *ReqStartQuset) String() string { return proto.CompactTextString(m) }
+func (*ReqStartQuset) ProtoMessage()    {}
+
+func (m *ReqStartQuset) GetHeader() *bbproto1.Header {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqStartQuset) GetQuestId() uint32 {
+	if m != nil && m.QuestId != nil {
+		return *m.QuestId
+	}
+	return 0
+}
+
+func (m *ReqStartQuset) GetQuestState() uint32 {
+	if m != nil && m.QuestState != nil {
+		return *m.QuestState
+	}
+	return 0
+}
+
+func (m *ReqStartQuset) GetHelperUserId() uint32 {
+	if m != nil && m.HelperUserId != nil {
+		return *m.HelperUserId
+	}
+	return 0
+}
+
+func (m *ReqStartQuset) GetHelperUnit() *bbproto3.Unit {
+	if m != nil {
+		return m.HelperUnit
+	}
+	return nil
+}
+
+func (m *ReqStartQuset) GetCurrentParty() uint32 {
+	if m != nil && m.CurrentParty != nil {
+		return *m.CurrentParty
+	}
+	return 0
+}
+
+type RspStartQuset struct {
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	QuestId          *uint32          `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
+	StaminaNow       *uint32          `protobuf:"varint,3,opt,name=staminaNow" json:"staminaNow,omitempty"`
+	StaminaRecover   *uint32          `protobuf:"varint,4,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
+}
+
+func (m *RspStartQuset) Reset()         { *m = RspStartQuset{} }
+func (m *RspStartQuset) String() string { return proto.CompactTextString(m) }
+func (*RspStartQuset) ProtoMessage()    {}
+
+func (m *RspStartQuset) GetHeader() *bbproto1.Header {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspStartQuset) GetQuestId() uint32 {
+	if m != nil && m.QuestId != nil {
+		return *m.QuestId
+	}
+	return 0
+}
+
+func (m *RspStartQuset) GetStaminaNow() uint32 {
+	if m != nil && m.StaminaNow != nil {
+		return *m.StaminaNow
+	}
+	return 0
+}
+
+func (m *RspStartQuset) GetStaminaRecover() uint32 {
+	if m != nil && m.StaminaRecover != nil {
+		return *m.StaminaRecover
+	}
+	return 0
+}
+
+type ReqClearQuset struct {
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	QuestId          *uint32          `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
+	SecurityKey      *uint32          `protobuf:"varint,3,opt,name=securityKey" json:"securityKey,omitempty"`
+	GetMoney         *uint32          `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
+	GetExp           *uint32          `protobuf:"varint,5,opt,name=getExp" json:"getExp,omitempty"`
+	GetUnit          []*bbproto3.Unit `protobuf:"bytes,6,rep,name=getUnit" json:"getUnit,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
+}
+
+func (m *ReqClearQuset) Reset()         { *m = ReqClearQuset{} }
+func (m *ReqClearQuset) String() string { return proto.CompactTextString(m) }
+func (*ReqClearQuset) ProtoMessage()    {}
+
+func (m *ReqClearQuset) GetHeader() *bbproto1.Header {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqClearQuset) GetQuestId() uint32 {
+	if m != nil && m.QuestId != nil {
+		return *m.QuestId
+	}
+	return 0
+}
+
+func (m *ReqClearQuset) GetSecurityKey() uint32 {
+	if m != nil && m.SecurityKey != nil {
+		return *m.SecurityKey
+	}
+	return 0
+}
+
+func (m *ReqClearQuset) GetGetMoney() uint32 {
+	if m != nil && m.GetMoney != nil {
+		return *m.GetMoney
+	}
+	return 0
+}
+
+func (m *ReqClearQuset) GetGetExp() uint32 {
+	if m != nil && m.GetExp != nil {
+		return *m.GetExp
+	}
+	return 0
+}
+
+func (m *ReqClearQuset) GetGetUnit() []*bbproto3.Unit {
+	if m != nil {
+		return m.GetUnit
+	}
+	return nil
+}
+
+type RspClearQuset struct {
+	Header           *bbproto1.Header     `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	User             *bbproto4.UserInfo   `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	Acount           *bbproto4.AcountInfo `protobuf:"bytes,3,opt,name=acount" json:"acount,omitempty"`
+	GetMoney         *uint32              `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
+	GetExp           *uint32              `protobuf:"varint,5,opt,name=getExp" json:"getExp,omitempty"`
+	GetUnit          []uint32             `protobuf:"varint,6,rep,name=getUnit" json:"getUnit,omitempty"`
+	XXX_unrecognized []byte               `json:"-"`
+}
+
+func (m *RspClearQuset) Reset()         { *m = RspClearQuset{} }
+func (m *RspClearQuset) String() string { return proto.CompactTextString(m) }
+func (*RspClearQuset) ProtoMessage()    {}
+
+func (m *RspClearQuset) GetHeader() *bbproto1.Header {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspClearQuset) GetUser() *bbproto4.UserInfo {
+	if m != nil {
+		return m.User
+	}
+	return nil
+}
+
+func (m *RspClearQuset) GetAcount() *bbproto4.AcountInfo {
+	if m != nil {
+		return m.Acount
+	}
+	return nil
+}
+
+func (m *RspClearQuset) GetGetMoney() uint32 {
+	if m != nil && m.GetMoney != nil {
+		return *m.GetMoney
+	}
+	return 0
+}
+
+func (m *RspClearQuset) GetGetExp() uint32 {
+	if m != nil && m.GetExp != nil {
+		return *m.GetExp
+	}
+	return 0
+}
+
+func (m *RspClearQuset) GetGetUnit() []uint32 {
+	if m != nil {
+		return m.GetUnit
+	}
+	return nil
+}
+
+type ReqGetQuestInfo struct {
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
+}
+
+func (m *ReqGetQuestInfo) Reset()         { *m = ReqGetQuestInfo{} }
+func (m *ReqGetQuestInfo) String() string { return proto.CompactTextString(m) }
+func (*ReqGetQuestInfo) ProtoMessage()    {}
+
+func (m *ReqGetQuestInfo) GetHeader() *bbproto1.Header {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+type RspGetQuestInfo struct {
+	Header           *bbproto1.Header `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	QuestId          *uint32          `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
+	CurrentStatus    *uint32          `protobuf:"varint,3,opt,name=currentStatus" json:"currentStatus,omitempty"`
+	XXX_unrecognized []byte           `json:"-"`
+}
+
+func (m *RspGetQuestInfo) Reset()         { *m = RspGetQuestInfo{} }
+func (m *RspGetQuestInfo) String() string { return proto.CompactTextString(m) }
+func (*RspGetQuestInfo) ProtoMessage()    {}
+
+func (m *RspGetQuestInfo) GetHeader() *bbproto1.Header {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspGetQuestInfo) GetQuestId() uint32 {
+	if m != nil && m.QuestId != nil {
+		return *m.QuestId
+	}
+	return 0
+}
+
+func (m *RspGetQuestInfo) GetCurrentStatus() uint32 {
+	if m != nil && m.CurrentStatus != nil {
+		return *m.CurrentStatus
+	}
+	return 0
+}
+
 func init() {
+	proto.RegisterEnum("bbproto.EQuestState", EQuestState_name, EQuestState_value)
 }
