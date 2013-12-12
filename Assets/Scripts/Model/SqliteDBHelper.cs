@@ -5,34 +5,37 @@ using System;
 //.net framework2.0
 using System.Data;
 
-public class SqliteDbHelper
+public class SqliteDBHelper
 {
     /// <summary>
-    /// 声明一个连接对象
+    /// declare a connection
     /// </summary>
     private SqliteConnection dbConnection;
     /// <summary>
-    /// 声明一个操作数据库命令
+    /// declare a dbCommonad
     /// </summary>
     private SqliteCommand dbCommand;
     /// <summary>
-    /// 声明一个读取结果集的一个或多个结果流
+    /// declare reader
     /// </summary>
     private SqliteDataReader reader;
+
     /// <summary>
-    /// 数据库的连接字符串，用于建立与特定数据源的连接
+    /// connectionString to connect to an assigned db
     /// </summary>
-    /// <param name="connectionString">数据库的连接字符串，用于建立与特定数据源的连接</param>
-    public SqliteDbHelper (string connectionString)
+    /// <param name="connectionString">connectionString to connect to an assigned db</param>
+    public SqliteDBHelper (string connectionString, string password)
     {
-        OpenDB (connectionString);
+        OpenDB (connectionString, password);
         LogHelper.Log(connectionString);
     }
-    public void OpenDB (string connectionString)
+
+    public void OpenDB (string connectionString, string password)
     {
         try
         {
             dbConnection = new SqliteConnection (connectionString);
+            dbConnection.SetPassword(password);
             dbConnection.Open();
             LogHelper.Log ("Connected to db");
         }
@@ -42,8 +45,9 @@ public class SqliteDbHelper
             LogHelper.Log(temp1);
         }
     }
+
     /// <summary>
-    /// 关闭连接
+    /// close the connection
     /// </summary>
     public void CloseSqlConnection ()
     {
@@ -64,8 +68,9 @@ public class SqliteDbHelper
         dbConnection = null;
         LogHelper.Log ("Disconnected from db.");
     }
+
     /// <summary>
-    /// 执行查询sqlite语句操作
+    /// execute query 
     /// </summary>
     /// <param name="sqlQuery"></param>
     /// <returns></returns>
@@ -76,10 +81,11 @@ public class SqliteDbHelper
         reader = dbCommand.ExecuteReader ();
         return reader;
     }
+
     /// <summary>
-    /// 查询该表所有数据
+    /// query full table
     /// </summary>
-    /// <param name="tableName">表名</param>
+    /// <param name="tableName">table name</param>
     /// <returns></returns>
     public SqliteDataReader ReadFullTable (string tableName)
     {
@@ -87,63 +93,65 @@ public class SqliteDbHelper
         return ExecuteQuery (query);
     }
     /// <summary>
-    /// 动态添加表字段到指定表
+    /// 
     /// </summary>
-    /// <param name="tableName">表名</param>
-    /// <param name="values">字段集合</param>
+    /// <param name="tableName">table name</param>
+    /// <param name="values">col collections</param>
     /// <returns></returns>
     public SqliteDataReader InsertInto (string tableName, string[] values)
     {
         string query = "INSERT INTO " + tableName + " VALUES (" + values[0];
         for (int i = 1; i < values.Length; ++i)
         {
-            query += ", " + values;
+            query += ", " + values[i];
         }
         query += ")";
         return ExecuteQuery (query);
     }
+
     /// <summary>
-    /// 动态更新表结构
+    /// update
     /// </summary>
-    /// <param name="tableName">表名</param>
-    /// <param name="cols">字段集</param>
-    /// <param name="colsvalues">对于集合值</param>
-    /// <param name="selectkey">要查询的字段</param>
-    /// <param name="selectvalue">要查询的字段值</param>
+    /// <param name="tableName">table name</param>
+    /// <param name="cols">cols</param>
+    /// <param name="colsvalues">cols values</param>
+    /// <param name="selectkey">select key</param>
+    /// <param name="selectvalue">select values</param>
     /// <returns></returns>
     public SqliteDataReader UpdateInto (string tableName, string []cols,
-                                        string []colsvalues,string selectkey,string selectvalue)
+                                        string []colsvalues, string selectkey, string selectvalue)
     {
-        string query = "UPDATE "+tableName+" SET "+cols[0]+" = "+colsvalues[0];
+        string query = "UPDATE " + tableName + " SET " + cols[0] + " = " + colsvalues[0];
         for (int i = 1; i < colsvalues.Length; ++i) {
-            query += ", " +cols+" ="+ colsvalues;
+            query += ", " + cols + " =" + colsvalues[i];
         }
         query += " WHERE "+selectkey+" = "+selectvalue+" ";
         return ExecuteQuery (query);
     }
+
     /// <summary>
-    /// 动态删除指定表字段数据
+    /// 
     /// </summary>
-    /// <param name="tableName">表名</param>
-    /// <param name="cols">字段</param>
-    /// <param name="colsvalues">字段值</param>
+    /// <param name="tableName">table name</param>
+    /// <param name="cols">cols</param>
+    /// <param name="colsvalues">colsvalues</param>
     /// <returns></returns>
-    public SqliteDataReader Delete(string tableName,string []cols,string []colsvalues)
+    public SqliteDataReader Delete(string tableName, string []cols, string []colsvalues)
     {
         string query = "DELETE FROM "+tableName + " WHERE " +cols[0] +" = " + colsvalues[0];
         for (int i = 1; i < colsvalues.Length; ++i)
         {
-            query += " or " +cols+" = "+ colsvalues;
+            query += " or " +cols+" = "+ colsvalues[i];
         }
         LogHelper.Log(query);
         return ExecuteQuery (query);
     }
     /// <summary>
-    /// 动态添加数据到指定表
+    /// Insert
     /// </summary>
-    /// <param name="tableName">表名</param>
-    /// <param name="cols">字段</param>
-    /// <param name="values">值</param>
+    /// <param name="tableName">table name</param>
+    /// <param name="cols">cols</param>
+    /// <param name="values">values</param>
     /// <returns></returns>
     public SqliteDataReader InsertIntoSpecific (string tableName, string[] cols,
                                                 string[] values)
@@ -160,28 +168,30 @@ public class SqliteDbHelper
         query += ") VALUES (" + values[0];
         for (int i = 1; i < values.Length; ++i)
         {
-            query += ", " + values;
+            query += ", " + values[i];
         }
         query += ")";
         return ExecuteQuery (query);
     }
+
     /// <summary>
-    /// 动态删除表
+    /// delete tables
     /// </summary>
-    /// <param name="tableName">表名</param>
+    /// <param name="tableName">table name</param>
     /// <returns></returns>
     public SqliteDataReader DeleteContents (string tableName)
     {
         string query = "DELETE FROM " + tableName;
         return ExecuteQuery (query);
     }
+
     /// <summary>
-    /// 动态创建表
+    /// Creates the table.
     /// </summary>
-    /// <param name="name">表名</param>
-    /// <param name="col">字段</param>
-    /// <param name="colType">类型</param>
-    /// <returns></returns>
+    /// <returns>The table.</returns>
+    /// <param name="name">Name.</param>
+    /// <param name="col">Col.</param>
+    /// <param name="colType">Col type.</param>
     public SqliteDataReader CreateTable (string name, string[] col, string[] colType)
     {
         if (col.Length != colType.Length)
@@ -197,14 +207,16 @@ public class SqliteDbHelper
         LogHelper.Log(query);
         return ExecuteQuery (query);
     }
+
+
     /// <summary>
-    /// 根据查询条件 动态查询数据信息
+    /// query by filters
     /// </summary>
-    /// <param name="tableName">表</param>
-    /// <param name="items">查询数据集合</param>
-    /// <param name="col">字段</param>
-    /// <param name="operation">操作</param>
-    /// <param name="values">值</param>
+    /// <param name="tableName">table</param>
+    /// <param name="items">query data collection</param>
+    /// <param name="col">col</param>
+    /// <param name="operation">operation</param>
+    /// <param name="values">values</param>
     /// <returns></returns>
     public SqliteDataReader SelectWhere (string tableName, string[] items, string[] col, string[] operation, string[] values)
     {

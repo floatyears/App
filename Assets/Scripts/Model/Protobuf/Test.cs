@@ -35,6 +35,7 @@ public class Test : MonoBehaviour
 		if ( GUILayout.Button ( "Test" , GUILayout.Width ( 200f ) , GUILayout.Height ( 200f ) ) )
 		{
 
+            // test protobuf
 			msg.Person person = new msg.Person();
 			person.name = "Rose Mary";
 			person.id = 20;
@@ -44,6 +45,9 @@ public class Test : MonoBehaviour
 //			StartCoroutine(POST("http://192.168.0.200:8000/get_quest_map", ProtobufSerializer.SerializeToBytes<msg.Person>(person)));
             ErrorMsg errorMsg = new ErrorMsg();
             HttpClient.Instance.sendPost<msg.Person>(this, "http://192.168.0.200:8000/get_quest_map", person, receivePersonInfoFailed, receivePersonInfoSucceed, errorMsg);
+
+
+            // test sqlite
 		}
 	}
 }
