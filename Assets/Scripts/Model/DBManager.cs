@@ -10,27 +10,27 @@
 using System;
 using UnityEngine;
 
-public enum DBModel {
+public enum DbModel {
     UserInfo = 1001,
     Options,
 }
 
-public class DBManager:MonoBehaviour
+public class DbManager:MonoBehaviour
 {
     private const string DB_SECRET = "#%WDssdferG*";
     private const string DB_NAME = "bigbang";
     private const string USER_INFO_TABLE = "p003";
 
-    private static DBManager instance;
-    private SqliteDBHelper dbHelper;
+    private static DbManager instance;
+    private SqliteDbHelper dbHelper;
 
 
-    public static DBManager Instance
+    public static DbManager Instance
     {
         get
         {
             if(instance  == null){
-                instance = new DBManager();
+                instance = new DbManager();
                 instance.Init();
             }
             return instance;
@@ -41,7 +41,7 @@ public class DBManager:MonoBehaviour
     /// Init this instance
     /// </summary>
     public void Init(){
-        dbHelper = new SqliteDBHelper(String.Format("Data Source=./{0}.db", DB_NAME), DB_SECRET);
+        dbHelper = new SqliteDbHelper(String.Format("Data Source=./{0}.db", DB_NAME), DB_SECRET);
     }
 
     /// <summary>
