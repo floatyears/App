@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScrollViewController : MonoBehaviour
+public class ScrollViewController : UIBaseUnity
 {
 
 	public Transform leftTranform;
@@ -14,12 +14,11 @@ public class ScrollViewController : MonoBehaviour
 	void Start()
 	{
 		Init();
-
 		activityScrollView.ShowData(2);
 	}
 
 	void Init()
 	{
-		activityScrollView = new DragUI( leftTranform, rightTranform );
+		activityScrollView = new DragUI( leftTranform, rightTranform, itemElement);
 	}
 }

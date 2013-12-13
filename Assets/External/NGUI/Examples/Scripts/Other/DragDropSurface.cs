@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2012 Tasharen Entertainment
+// Copyright ï¿½ 2011-2012 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -17,7 +17,7 @@ public class DragDropSurface : MonoBehaviour
 
 	void OnDrop (GameObject go)
 	{
-		Debug.LogError("OnDrop : DragDropSurface");
+		LogHelper.LogError("OnDrop : DragDropSurface");
 		DragDropItem ddo = go.GetComponent<DragDropItem>();
 		
 		if (ddo != null)

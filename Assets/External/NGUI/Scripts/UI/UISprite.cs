@@ -315,7 +315,7 @@ public class UISprite : UIWidget
 
 				if (mSprite == null)
 				{
-					Debug.LogError(mAtlas.name + " seems to have a null sprite!");
+					LogHelper.LogError(mAtlas.name + " seems to have a null sprite!");
 					return null;
 				}
 				mSpriteName = mSprite.name;

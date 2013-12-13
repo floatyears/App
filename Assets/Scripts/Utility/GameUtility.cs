@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class DGTools
 {
 	public int RandomToInt(int min,int max)
@@ -16,7 +17,7 @@ public class DGTools
 public class GameLayer
 {
 
-	public static LayerMask Default = 0;
+	private static LayerMask Default = 0;
 	
 	public static LayerMask TransparentFX = 1;
 	
@@ -33,7 +34,14 @@ public class GameLayer
 	//null = 7,
 	
 	public static LayerMask ActorCard = 8;
-	
+
 	public static LayerMask BattleCard = 9;
+
+	public static LayerMask IgnoreCard = 10;
+
+	public static int LayerToInt(LayerMask layer)
+	{
+		return 1 << layer;
+	}
 
 }

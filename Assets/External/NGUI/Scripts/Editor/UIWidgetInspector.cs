@@ -724,7 +724,7 @@ public class UIWidgetInspector : Editor
 		}
 		else
 		{
-			Debug.LogWarning("Pivot " + pivot + " dragging is not supported");
+			LogHelper.LogWarning("Pivot " + pivot + " dragging is not supported");
 		}
 
 		int minx = Mathf.Max(2, w.minWidth);

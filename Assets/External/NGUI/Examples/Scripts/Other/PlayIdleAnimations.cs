@@ -27,7 +27,7 @@ public class PlayIdleAnimations : MonoBehaviour
 		
 		if (mAnim == null)
 		{
-			Debug.LogWarning(NGUITools.GetHierarchy(gameObject) + " has no Animation component");
+			LogHelper.LogWarning(NGUITools.GetHierarchy(gameObject) + " has no Animation component");
 			Destroy(this);
 		}
 		else

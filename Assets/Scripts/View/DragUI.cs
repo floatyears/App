@@ -84,7 +84,7 @@ public class DragUI : UIBase
 	{
 		if(itemObject == null)
 		{
-			Debug.LogError("scroll view source object is null !  return ...");
+			LogHelper.LogError("scroll view source object is null !  return ...");
 			return;
 		}
 

@@ -350,7 +350,7 @@ public class EventDelegate
 		}
 		else
 		{
-			Debug.LogWarning("Attempting to add a callback to a list that's null");
+			LogHelper.LogWarning("Attempting to add a callback to a list that's null");
 		}
 	}
 
@@ -381,7 +381,7 @@ public class EventDelegate
 		}
 		else
 		{
-			Debug.LogWarning("Attempting to add a callback to a list that's null");
+			LogHelper.LogWarning("Attempting to add a callback to a list that's null");
 		}
 	}
 

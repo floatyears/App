@@ -165,7 +165,7 @@ public class UISlider : UIWidgetContainer
 		}
 		else
 		{
-			Debug.LogWarning("UISlider expected to find a foreground object or a box collider to work with", this);
+			LogHelper.LogWarning("UISlider expected to find a foreground object or a box collider to work with", this);
 		}
 	}
 
@@ -351,7 +351,7 @@ public class UISlider : UIWidgetContainer
 					}
 					else
 					{
-						Debug.LogWarning("Slider thumb is only supported with Horizontal or Vertical fill direction", this);
+						LogHelper.LogWarning("Slider thumb is only supported with Horizontal or Vertical fill direction", this);
 					}
 				}
 				else if (direction == Direction.Horizontal)

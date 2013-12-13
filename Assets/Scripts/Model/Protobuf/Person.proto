@@ -1,5 +1,0 @@
-package bbproto;
-message Person{
-    required string name;
-    required int
-}

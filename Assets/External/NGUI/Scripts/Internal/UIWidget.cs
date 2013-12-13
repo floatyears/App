@@ -569,7 +569,7 @@ public class UIWidget : MonoBehaviour
 	{
 		if (mPanel != null && mPanel.gameObject.layer != gameObject.layer)
 		{
-			Debug.LogWarning("You can't place widgets on a layer different than the UIPanel that manages them.\n" +
+			LogHelper.LogWarning("You can't place widgets on a layer different than the UIPanel that manages them.\n" +
 				"If you want to move widgets to a different layer, parent them to a new panel instead.", this);
 			gameObject.layer = mPanel.gameObject.layer;
 		}
@@ -883,7 +883,7 @@ public class UIWidget : MonoBehaviour
 					if (mGeom.hasVertices)
 					{
 						// Want to see what's being filled? Uncomment this line.
-						//Debug.Log("Fill " + name + " (" + Time.time + ")");
+						//LogHelper.Log("Fill " + name + " (" + Time.time + ")");
 
 						if (!hasMatrix) mLocalToPanel = p.worldToLocal * cachedTransform.localToWorldMatrix;
 						mGeom.ApplyTransform(mLocalToPanel);
