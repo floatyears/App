@@ -26,9 +26,11 @@ public class TestSample
     public void testSub()
     {
 
-        int result = 1 + 1;
-        LogHelper.Log(result);
-        Assert.Approx(result, 3, 0);
+        int subA = 1;
+        int subB = 1;
+        int result = subA + subB;
+        LogHelper.Log(subA + " + " + subB + " = " + result);
+        Assert.Approx(result, 2, 0);
     }
 }
 #endif

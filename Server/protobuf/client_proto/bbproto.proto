@@ -1,7 +1,124 @@
-import public "base.proto";
-import public "unit.proto";
+//=====================================================
 
-package bbproto;
+enum EUnitType{
+	UALL	= 0; // all type
+	UFIRE 	= 1;
+	UWATER	= 2;
+	UWIND	= 3;
+	ULIGHT	= 4;
+	UDARK	= 5;
+	UNONE	= 6;
+};
+
+//general response protocol
+message ProtoHeader {
+	required string apiVer		= 1;
+	optional string sessionId	= 2;
+	optional int32	packetId	= 3;
+	optional int32	code		= 4; // result code
+	optional string error		= 5; // result error description
+};
+
+
+//=====================================================
+
+
+enum EQuestState {
+	QS_NEW		= 0;
+	QS_CLEARED	= 1;
+};
+
+message ReqStartQuset {
+	optional ProtoHeader	header			= 1;
+	optional uint32			questId			= 2; 
+	optional uint32			questState		= 3; // QS_NEW | QS_CLEARED
+	optional uint32			helperUserId	= 4; 
+	optional UserUnit		helperUnit		= 5; 
+	optional uint32			currentParty	= 6; 	
+};
+
+message RspStartQuset {
+	optional ProtoHeader	header			= 1;
+	optional uint32			questId			= 2; 
+	optional uint32			staminaNow		= 3; // current stamina
+	optional uint32			staminaRecover	= 4; // stamina recover time
+};
+
+message ReqClearQuset {
+	optional ProtoHeader	header 		= 1; 
+	optional uint32			questId		= 2; 
+	optional uint32			securityKey	= 3; 
+	optional uint32			getMoney	= 4; 
+	optional uint32			getExp		= 5; 
+	repeated UserUnit		getUnit		= 6; 	
+};
+
+message RspClearQuset {
+	optional ProtoHeader	header		= 1;
+	optional UserInfo		user		= 2;
+	optional AccountInfo	acount		= 3;	
+	optional uint32			getMoney	= 4;
+	optional uint32			getExp		= 5;	
+	repeated uint32			getUnit		= 6; //uniqueId list
+};
+
+message ReqGetQuestInfo {
+	optional ProtoHeader	header 		= 1;
+};
+
+message RspGetQuestInfo {
+	optional ProtoHeader 	header 			= 1;
+	optional uint32			questId			= 2; // 
+	optional uint32			currentStatus	= 3; // current quest status
+};
+
+
+//=====================================================
+
+message UnitResource { 
+	required int32			id			= 1;
+	optional string			path		= 2; // resource download path
+	optional int32			size		= 3; // resource size in bytes
+};
+
+message UserUnit {  //unit instance
+	required int32 uniqueId		= 1;
+	optional int32 id			= 2; //unit_id
+	optional int32 exp			= 3;
+	optional int32 level		= 4;
+	optional int32 attack		= 5;
+	optional int32 defense		= 6;
+	optional int32 hp			= 7;
+	optional int32 addAttack	= 8;
+	optional int32 addDefence	= 9;
+	optional int32 addHp		= 10;
+	optional int32 limitbreakLv = 11;
+	optional int32 getTime		= 12;
+};
+
+message ReqGetUnitResource {
+	optional ProtoHeader	header	= 1;
+	repeated int32			unitId	= 2;
+};
+
+message RspGetUnitResource {
+	optional ProtoHeader	header	= 1;
+	optional string			server	= 2; // server address
+	repeated UnitResource	unitres	= 3; // unit download path list
+};
+
+message ReqGetUserUnit {	// get unit instance info
+	optional ProtoHeader	header	= 1;
+	repeated int32			unitId	= 2;
+};
+
+message RspGetUserUnit {
+	optional ProtoHeader	header	= 1;
+	repeated UserUnit		unit	= 2;
+};
+
+
+//=====================================================
 
 message UserInfo {
 	required int32	userId			= 1;
