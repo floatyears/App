@@ -37,3 +37,14 @@ message RspGetUserInfo {
 	optional Header		header	= 1;
 	optional UserInfo	info	= 2;
 };
+
+
+message ReqLoginBack {
+	optional Header header	= 1;
+	optional int32	userId	= 2;
+};
+
+message RspLoginBack {
+	optional Header		header	= 1;
+	optional UserInfo	user	= 2;
+};

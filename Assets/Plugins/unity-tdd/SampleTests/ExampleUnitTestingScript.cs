@@ -37,6 +37,7 @@ public class ExampleUnitTestingScript
 
 		// If you change the following 0.01f to 0, you're test should fail
 		Assert.Approx(0.5f, result, 0.01f);
+//        Assert.Approx(0, result, 0.01f);
 	}
 }
 #endif
