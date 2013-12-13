@@ -1,0 +1,74 @@
+package bbproto;
+
+//=======================Unit - only used at client================================================//
+message UnitStatus {
+	optional int32 type			= 1; //6 types: fire,wind,water,light,dark,none
+	optional int32 race			= 2; //
+	optional int32 rare			= 3; //star
+	optional int32 hp			= 4;
+	optional int32 attack		= 5;
+	optional int32 defence		= 6;	
+	optional int32 level		= 7;
+	optional int32 nextLvExp	= 8;
+	optional int32 cost			= 9;	
+};
+
+message BattlePower {
+	optional int32 level 		= 1; // unit level
+	optional int32 attack		= 2;
+	optional int32 defense		= 3;
+	optional int32 hp			= 4;	
+};
+
+message UnitInfo { 
+	required int32			id			= 1;
+	optional string			name		= 2;
+	optional NormalSkill	skill1 		= 3;
+	optional NormalSkill	skill2 		= 4;
+	optional LeaderSkill	leaderSkill	= 5;
+	optional ActiveSkill	activeSkill	= 6;
+	optional PassiveSkill	passiveSkill= 7;
+	optional int32			maxLevel	= 8;
+	optional int32			expType		= 9;
+	optional int32			rare		= 10;
+	optional string 		profile		= 11;
+	repeated BattlePower	power		= 12; //diff power of each level
+};
+//=======================================================================//
+
+
+
+//============== Quest -  client used only=========================================================//
+message EnemyInfo {
+	required int32	unitId			= 1;
+	optional int32  hp				= 2;
+	optional int32  attack			= 3;
+	optional int32  defense			= 4;
+	optional int32  attackRound 	= 5;
+	optional float  dropRatio   	= 6;
+	optional float  dropUnitId		= 7;
+};
+
+message QuestInfo {
+	required int32		id			= 1; 
+	optional int32		state		= 2; // story or event
+	optional int32		no			= 3; // number: 1, 2, 3...
+	optional string		name		= 4;
+	optional string		description	= 5; // story description
+	optional int32		stamina 	= 6; // cost stamina
+	optional int32		floor		= 7;		
+	optional int32		rewardExp	= 8;
+	optional int32		rewardCoin	= 9;
+	repeated int32		allUnitKind = 10; // pick-up enemy unit list
+	optional int32		bossId		= 11; // boss unit id
+};
+
+message QuestStageInfo {
+	optional int32		version		= 1;
+	optional int32		id			= 2;	
+	optional int32		type		= 3; // story or event
+	optional string		stageName	= 4; // 
+	repeated QuestInfo	story		= 5; 
+};
+//=======================================================================//
+
