@@ -111,7 +111,8 @@ public class ControllerManager
 		switch (sEnum)
 		{	
 		case SceneEnum.Quest:
-			temp = new BattleShow(uiName);
+			//temp = new BattleShow(uiName);
+			temp = new QuestUIController(uiName);
 			break;
 //		case SceneEnum.Scratch:
 //

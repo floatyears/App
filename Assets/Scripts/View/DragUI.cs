@@ -13,7 +13,7 @@ public class DragUI : UIBase
 
 	private static GameObject sourceObject;
 
-	private string dragUIObjectPath = "Prefabs/DragUI";
+	private string dragUIObjectPath = "Prefabs/ScrollView";
 	
 	private static int YPosition = 1000;
 

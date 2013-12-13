@@ -9,7 +9,7 @@ using ProtoBuf;
 using msg;
 using System;
 
-public class Test : MonoBehaviour
+public class TempTest : MonoBehaviour
 {
 
     public ErrorMsg receivePersonInfoSucceed (msg.Person modifiedPerson, ErrorMsg errorMsg, object[] values){

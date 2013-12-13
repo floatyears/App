@@ -1,13 +1,34 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using UnitTesting;
+using UnityEngine;
 
-public class TestSample {
-
-    public void doSetup(){
-
-
+public class TestSample
+{
+//    GameObject dummyGameObject;
+//    const string objectName = "Dummy";
+    
+    
+    [SetUp]
+    public void HandleSetup()
+    {
+//        dummyGameObject = new GameObject(objectName);
     }
+    
+    
+    [TearDown]
+    public void HandleTearDown()
+    {
+//        GameObject.DestroyImmediate(dummyGameObject);
+    }
+    
+    
+    [Test]
+    public void testSub()
+    {
 
-    private int addInt(int param1, int param2){
-        return param1 + param2;
+        int result = 1 + 1;
+        LogHelper.Log(result);
+        Assert.Approx(result, 3, 0);
     }
 }
+#endif
