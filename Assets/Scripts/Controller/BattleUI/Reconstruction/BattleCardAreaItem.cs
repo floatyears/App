@@ -31,12 +31,12 @@ public class BattleCardAreaItem : UIBaseUnity
 		parentObject = transform.parent.gameObject;
 	}
 
-	public void GenerateCard(List<CardItem> source)
+	public int GenerateCard(List<CardItem> source)
 	{
 		int maxLimit = Config.cardCollectionCount - cardItemList.Count;
 
 		if(maxLimit <= 0)
-			return;
+			return 0;
 
 		maxLimit = maxLimit > source.Count ? source.Count : maxLimit;
 
@@ -60,6 +60,8 @@ public class BattleCardAreaItem : UIBaseUnity
 
 			cardItemList.Add(ci);
 		}
+
+		return maxLimit;
 	}
 
 	void DisposeTweenPosition(CardItem ci)

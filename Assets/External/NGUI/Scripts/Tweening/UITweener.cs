@@ -372,6 +372,7 @@ public abstract class UITweener : MonoBehaviour
 		if (comp == null) comp = go.AddComponent<T>();
 #endif
 		comp.mStarted = false;
+
 		comp.duration = duration;
 		comp.mFactor = 0f;
 		comp.mAmountPerDelta = Mathf.Abs(comp.mAmountPerDelta);

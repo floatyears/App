@@ -38,9 +38,7 @@ public class Battle : UIBase
 
 		SwitchInput(false);
 	}
-
-
-
+	
 	public override void CreatUI ()
 	{
 		CreatBack();
@@ -175,14 +173,14 @@ public class Battle : UIBase
 
 	void DisposeReleasePress()
 	{
+		IgnoreLayer(false);
+
 		if(selectTarget.Count == 0)
 		{
 			ResetClick();
 
 			return;
 		}
-
-		IgnoreLayer(false);
 
 		if(Check(GameLayer.BattleCard))
 		{
@@ -196,11 +194,11 @@ public class Battle : UIBase
 				if(bcai != null)
 					break;
 			}
-
+			int generateCount = 0;
 			if(bcai != null)
-				bcai.GenerateCard(selectTarget);
+				generateCount = bcai.GenerateCard(selectTarget);
 
-			for(int i = 0;i<selectTarget.Count;i++)
+			for(int i = 0;i < generateCount;i++)
 			{
 				battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
 			}
@@ -291,8 +289,8 @@ public class Battle : UIBase
 
 	void IgnoreLayer(bool isPress)
 	{
-		battleCard.IgnoreCollider(isPress);
-		battleCardPool.IgnoreCollider(isPress);
+//		battleCard.IgnoreCollider(isPress);
+//		battleCardPool.IgnoreCollider(isPress);
 	}
 
 	void ClickObject(GameObject go)

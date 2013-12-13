@@ -201,12 +201,12 @@ public class CardItem : UIBaseUnity
 
 	public void Move(Vector3 to)
 	{
-		Move(transform.localPosition,to,0.1f);
+		Move(transform.localPosition,to,0.2f);
 	}
 
 	public void Move(Vector3 from,Vector3 to)
 	{
-		Move(from,to,0.1f);
+		Move(from,to,0.2f);
 	}
 
 	public void Move(Vector3 from,Vector3 to, float time)
