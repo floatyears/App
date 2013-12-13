@@ -27,9 +27,13 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 
 	protected ViewManager vManager;
 
+	protected GameObject tempObject;
+
 	public virtual void Init (string name)
 	{
 		uiName = name;
+
+		gameObject.name = name;
 
 		currentState = UIState.UIInit;
 

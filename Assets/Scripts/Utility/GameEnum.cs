@@ -13,6 +13,8 @@ public enum SceneEnum
 	Units,
 
 	QuestSelect,
+
+	Fight,
 }
 
 public enum DataEnum

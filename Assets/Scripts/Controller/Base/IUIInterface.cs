@@ -36,6 +36,10 @@ public interface IUIInterface
 	
 }
 
+public delegate void Callback();
+
 public delegate void UICallback(GameObject caller);
+
+public delegate void UICallback<T>(T arg1);
 
 public delegate void DataListener(object data);

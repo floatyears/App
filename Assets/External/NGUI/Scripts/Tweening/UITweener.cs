@@ -216,7 +216,7 @@ public abstract class UITweener : MonoBehaviour
 	/// Mark as not started when finished to enable delay on next play.
 	/// </summary>
 
-	void OnDisable () { mStarted = false; }
+	protected virtual void OnDisable () { mStarted = false; }
 
 	/// <summary>
 	/// Sample the tween at the specified factor.
@@ -372,6 +372,7 @@ public abstract class UITweener : MonoBehaviour
 		if (comp == null) comp = go.AddComponent<T>();
 #endif
 		comp.mStarted = false;
+
 		comp.duration = duration;
 		comp.mFactor = 0f;
 		comp.mAmountPerDelta = Mathf.Abs(comp.mAmountPerDelta);
