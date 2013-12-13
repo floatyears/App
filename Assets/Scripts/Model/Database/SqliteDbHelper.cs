@@ -5,7 +5,7 @@ using System;
 //.net framework2.0
 using System.Data;
 
-public class SqliteDBHelper
+public class SqliteDbHelper
 {
     /// <summary>
     /// declare a connection
@@ -20,23 +20,24 @@ public class SqliteDBHelper
     /// </summary>
     private SqliteDataReader reader;
 
+    // TODO : set password for db
     /// <summary>
     /// connectionString to connect to an assigned db
     /// </summary>
     /// <param name="connectionString">connectionString to connect to an assigned db</param>
-    public SqliteDBHelper (string connectionString, string password)
+    public SqliteDbHelper (string connectionString)
     {
-        OpenDB (connectionString, password);
+        OpenDB (connectionString);
         LogHelper.Log(connectionString);
     }
 
-    public void OpenDB (string connectionString, string password)
+    public void OpenDB (string connectionString)
     {
         try
         {
             dbConnection = new SqliteConnection (connectionString);
-            dbConnection.SetPassword(password);
             dbConnection.Open();
+//            dbConnection.ChangePassword(password);
             LogHelper.Log ("Connected to db");
         }
         catch(Exception e)
@@ -90,6 +91,7 @@ public class SqliteDBHelper
     public SqliteDataReader ReadFullTable (string tableName)
     {
         string query = "SELECT * FROM " + tableName;
+        LogHelper.Log(query);
         return ExecuteQuery (query);
     }
     /// <summary>
@@ -106,6 +108,8 @@ public class SqliteDBHelper
             query += ", " + values[i];
         }
         query += ")";
+        
+        LogHelper.Log(query);
         return ExecuteQuery (query);
     }
 
@@ -126,6 +130,8 @@ public class SqliteDBHelper
             query += ", " + cols + " =" + colsvalues[i];
         }
         query += " WHERE "+selectkey+" = "+selectvalue+" ";
+        
+        LogHelper.Log(query);
         return ExecuteQuery (query);
     }
 
@@ -146,6 +152,7 @@ public class SqliteDBHelper
         LogHelper.Log(query);
         return ExecuteQuery (query);
     }
+
     /// <summary>
     /// Insert
     /// </summary>
@@ -171,6 +178,7 @@ public class SqliteDBHelper
             query += ", " + values[i];
         }
         query += ")";
+        LogHelper.Log(query);
         return ExecuteQuery (query);
     }
 
@@ -198,7 +206,7 @@ public class SqliteDBHelper
         {
             throw new SqliteException ("columns.Length != colType.Length");
         }
-        string query = "CREATE TABLE " + name + " (" + col[0] + " " + colType[0];
+        string query = "CREATE TABLE IF NOT EXISTS " + name + " (" + col[0] + " " + colType[0];
         for (int i = 1; i < col.Length; ++i)
         {
             query += ", " + col + " " + colType;
@@ -234,6 +242,7 @@ public class SqliteDBHelper
         {
             query += " AND " + col + operation + "'" + values[0] + "' ";
         }
+        LogHelper.Log(query);
         return ExecuteQuery (query);
     }
 }

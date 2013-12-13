@@ -12,7 +12,7 @@ using UnityEngine;
 
 public enum DbModel {
     UserInfo = 1001,
-    Options,
+    Options
 }
 
 public class DbManager:MonoBehaviour
@@ -41,7 +41,7 @@ public class DbManager:MonoBehaviour
     /// Init this instance
     /// </summary>
     public void Init(){
-        dbHelper = new SqliteDbHelper(String.Format("Data Source=./{0}.db", DB_NAME), DB_SECRET);
+        dbHelper = new SqliteDbHelper(String.Format("Data Source=./{0}.db", DB_NAME));
     }
 
     /// <summary>
@@ -57,6 +57,10 @@ public class DbManager:MonoBehaviour
     public void OnDestroy (){
         LogHelper.Log("DBManager on Destroy");
         Free();
+    }
+
+    public void testConnect(){
+        string name = "Jackie";
     }
 
 }

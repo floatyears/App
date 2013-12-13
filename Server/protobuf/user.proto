@@ -10,10 +10,9 @@ message UserInfo {
 	optional int32	staminaMax		= 6;
 	optional uint32	staminaRecover	= 7; //recover time
 	optional int32	loginTime		= 8; 
-	optional string	profile			= 9;
 };
 
-message AcountInfo {
+message AccountInfo {
 	optional int32	userId				= 1;
 	optional uint32	review				= 2;
 	optional uint32	pay_total			= 3;

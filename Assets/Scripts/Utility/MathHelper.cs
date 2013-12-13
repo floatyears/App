@@ -52,4 +52,14 @@ public sealed class MathHelper
             return MathHelper.RandomToInt(0, MathHelper.PROBABILITY_ACCURACY) < probability * MathHelper.PROBABILITY_ACCURACY;
         }
     }
+
+    /// <summary>
+    /// Get Random element in array.
+    /// </summary>
+    /// <returns>The element.</returns>
+    /// <param name="instances">Instances.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
+    public static T RandomElement<T>(T[] instances){
+        return instances[RandomToInt(0, instances.Length)];
+    }
 }
