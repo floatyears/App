@@ -291,7 +291,7 @@ public class UIDrawCall : MonoBehaviour
 			else
 			{
 				mClipping = Clipping.None;
-				Debug.LogError(shaderName + " doesn't have a clipped shader version for " + mClipping);
+				LogHelper.LogError(shaderName + " doesn't have a clipped shader version for " + mClipping);
 			}
 		}
 
@@ -368,13 +368,13 @@ public class UIDrawCall : MonoBehaviour
 			else
 			{
 				if (mFilter.mesh != null) mFilter.mesh.Clear();
-				Debug.LogError("Too many vertices on one panel: " + verts.size);
+				LogHelper.LogError("Too many vertices on one panel: " + verts.size);
 			}
 		}
 		else
 		{
 			if (mFilter.mesh != null) mFilter.mesh.Clear();
-			Debug.LogError("UIWidgets must fill the buffer with 4 vertices per quad. Found " + count);
+			LogHelper.LogError("UIWidgets must fill the buffer with 4 vertices per quad. Found " + count);
 		}
 	}
 

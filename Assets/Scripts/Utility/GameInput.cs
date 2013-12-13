@@ -98,7 +98,7 @@ public class GameInput : MonoBehaviour
 			
 			if(currentPosition != lastPosition)
 			{
-				deltaPosition = currentPosition;
+				deltaPosition = currentPosition - lastPosition;
 				
 				OnDrag();
 				

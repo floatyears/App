@@ -458,7 +458,7 @@ public class UIAtlasMaker : EditorWindow
 #if !UNITY_4_1 && !UNITY_4_0 && !UNITY_3_5
 			if (!AssetDatabase.IsOpenForEdit(newPath))
 			{
-				Debug.LogError(newPath + " is not editable. Did you forget to do a check out?");
+				LogHelper.LogError(newPath + " is not editable. Did you forget to do a check out?");
 				return false;
 			}
 #endif
@@ -495,7 +495,7 @@ public class UIAtlasMaker : EditorWindow
 			// Update the atlas texture
 			if (newTexture)
 			{
-				if (tex == null) Debug.LogError("Failed to load the created atlas saved as " + newPath);
+				if (tex == null) LogHelper.LogError("Failed to load the created atlas saved as " + newPath);
 				else atlas.spriteMaterial.mainTexture = tex;
 				ReleaseSprites(sprites);
 				
@@ -508,7 +508,7 @@ public class UIAtlasMaker : EditorWindow
 		{
 			if (!newTexture) NGUIEditorTools.ImportTexture(oldPath, false, true, !atlas.premultipliedAlpha);
 			
-			//Debug.LogError("Operation canceled: The selected sprites can't fit into the atlas.\n" +
+			//LogHelper.LogError("Operation canceled: The selected sprites can't fit into the atlas.\n" +
 			//	"Keep large sprites outside the atlas (use UITexture), and/or use multiple atlases instead.");
 			
 			EditorUtility.DisplayDialog("Operation Canceled", "The selected sprites can't fit into the atlas.\n" +

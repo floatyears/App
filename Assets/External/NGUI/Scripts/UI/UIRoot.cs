@@ -123,7 +123,7 @@ public class UIRoot : MonoBehaviour
 
 		if (oc != null)
 		{
-			Debug.LogWarning("UIRoot should not be active at the same time as UIOrthoCamera. Disabling UIOrthoCamera.", oc);
+			LogHelper.LogWarning("UIRoot should not be active at the same time as UIOrthoCamera. Disabling UIOrthoCamera.", oc);
 			Camera cam = oc.gameObject.GetComponent<Camera>();
 			oc.enabled = false;
 			if (cam != null) cam.orthographicSize = 1f;
@@ -175,7 +175,7 @@ public class UIRoot : MonoBehaviour
 		if (param == null)
 		{
 			// More on this: http://answers.unity3d.com/questions/55194/suggested-workaround-for-sendmessage-bug.html
-			Debug.LogError("SendMessage is bugged when you try to pass 'null' in the parameter field. It behaves as if no parameter was specified.");
+			LogHelper.LogError("SendMessage is bugged when you try to pass 'null' in the parameter field. It behaves as if no parameter was specified.");
 		}
 		else
 		{

@@ -31,7 +31,7 @@ public class UIDrawCallInspector : Editor
 			}
 			else if (Event.current.type == EventType.Repaint)
 			{
-				Debug.LogWarning("Orphaned UIDrawCall detected!\nUse [Selection -> Force Delete] to get rid of it.");
+				LogHelper.LogWarning("Orphaned UIDrawCall detected!\nUse [Selection -> Force Delete] to get rid of it.");
 			}
 		}
 	}

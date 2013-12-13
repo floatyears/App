@@ -18,6 +18,14 @@ public class Config
 
 	public const byte cardPoolSingle = 5;
 
+	public const byte cardCollectionCount = 5;
+
+	public const byte cardInterv = 10;
+
+	public const byte cardDepth = 3;
+
+	public static Vector3 cardPoolInitPosition = new Vector3(-220f,-30f,0f);
+	
 	private Dictionary<int,ItemData> cardData = new Dictionary<int, ItemData>();
 
 	public Dictionary<int,ItemData> CardData
@@ -28,12 +36,33 @@ public class Config
 	private Config()
 	{
 		ItemData cid;
-		for (int i = 0; i < 4; i++) 
+
+		for (int i = 0; i < cardPoolSingle; i++) 
 		{
-			int j = i +1;
-			cid = new ItemData(j,"Card"+j,1);
+			cid = new ItemData(i,"Card"+i,1);
 			cardData.Add(cid.itemID,cid);
 		}
+
+		Generate();
+	}
+
+	void Generate()
+	{
+		for (int i = 0; i < 20; i++) 
+		{
+			int key = Random.Range(0, 5);
+			cardSort.Enqueue(cardData[key]);
+		}
+	}
+	
+	private Queue<ItemData> cardSort = new Queue<ItemData>();
+
+	public ItemData GetCard()
+	{
+		if(cardSort.Count == 0)
+			Generate();
+
+		return cardSort.Dequeue();
 	}
 }
 
@@ -44,6 +73,8 @@ public class ItemData
 	public string itemName;
 
 	public ResourceEuum resourceEnum;
+
+	public bool isReadyToBattle = false;
 
 	public ItemData(int ID,string name,byte type)
 	{

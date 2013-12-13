@@ -88,7 +88,7 @@ static public class NGUIMenu
 
 		if (go == null)
 		{
-			Debug.Log("No UI found. You can create a new one easily by using the UI creation wizard.\nOpening it for your convenience.");
+			LogHelper.Log("No UI found. You can create a new one easily by using the UI creation wizard.\nOpening it for your convenience.");
 			CreateUIWizard();
 		}
 		return go;
@@ -127,7 +127,7 @@ static public class NGUIMenu
 		}
 		else
 		{
-			Debug.Log("You must select a game object first.");
+			LogHelper.Log("You must select a game object first.");
 		}
 	}
 
@@ -153,7 +153,7 @@ static public class NGUIMenu
 		}
 		else
 		{
-			Debug.Log("You must select a game object first.");
+			LogHelper.Log("You must select a game object first.");
 		}
 	}
 
@@ -176,7 +176,7 @@ static public class NGUIMenu
 		}
 		else
 		{
-			Debug.Log("You must select a game object first.");
+			LogHelper.Log("You must select a game object first.");
 		}
 	}
 
@@ -199,7 +199,7 @@ static public class NGUIMenu
 		}
 		else
 		{
-			Debug.Log("You must select a game object first.");
+			LogHelper.Log("You must select a game object first.");
 		}
 	}
 
@@ -239,7 +239,7 @@ static public class NGUIMenu
 			}
 			else
 			{
-				Debug.Log("You must select a game object first, such as your button.");
+				LogHelper.Log("You must select a game object first, such as your button.");
 			}
 		}
 	}
@@ -256,7 +256,7 @@ static public class NGUIMenu
 		}
 		else
 		{
-			Debug.Log("You must select a game object first.");
+			LogHelper.Log("You must select a game object first.");
 		}
 	}
 

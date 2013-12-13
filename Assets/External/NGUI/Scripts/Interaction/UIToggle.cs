@@ -132,7 +132,7 @@ public class UIToggle : UIWidgetContainer
 
 			if (radioButtonRoot != null && group == 0)
 			{
-				Debug.LogWarning(NGUITools.GetHierarchy(gameObject) +
+				LogHelper.LogWarning(NGUITools.GetHierarchy(gameObject) +
 					" uses a 'Radio Button Root'. You need to change it to use a 'group' instead.", this);
 			}
 

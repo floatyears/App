@@ -393,7 +393,7 @@ public class UIPanel : MonoBehaviour
 		drawCall.baseMaterial = mat;
 		drawCall.renderQueue = UIDrawCall.list.size;
 		drawCall.panel = this;
-		//Debug.Log("Added DC " + mat.name + " as " + UIDrawCall.list.size);
+		//LogHelper.Log("Added DC " + mat.name + " as " + UIDrawCall.list.size);
 		UIDrawCall.list.Add(drawCall);
 		return drawCall;
 	}
@@ -591,7 +591,7 @@ public class UIPanel : MonoBehaviour
 	{
 		if (dc != null)
 		{
-			//Debug.Log("Destroyed DC " + dc.material.name + " as " + dc.renderQueue);
+			//LogHelper.Log("Destroyed DC " + dc.material.name + " as " + dc.renderQueue);
 			UIDrawCall.list.RemoveAt(index);
 			NGUITools.DestroyImmediate(dc.gameObject);
 		}

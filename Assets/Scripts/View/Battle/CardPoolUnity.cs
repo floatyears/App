@@ -10,7 +10,7 @@ public class CardPoolUnity : UIBaseUnity
 
 	}
 
-	public  void CreatUI ()
+	public override  void CreatUI ()
 	{
 		base.CreatUI ();
 	}

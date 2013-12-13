@@ -37,7 +37,7 @@ public class EquipItems : MonoBehaviour
 				}
 				else
 				{
-					Debug.LogWarning("Can't resolve the item ID of " + index);
+					LogHelper.LogWarning("Can't resolve the item ID of " + index);
 				}
 			}
 		}

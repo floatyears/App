@@ -42,7 +42,7 @@ public class MoveCard : MonoBehaviour
 	{
 		if(Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began )
 		{
-			Debug.Log("[Fight]:  ******Touch Began******");
+			LogHelper.Log("[Fight]:  ******Touch Began******");
 
 			int unPickedLayer = 1 << LayerMask.NameToLayer ( "UnpickedLayer" );
 
@@ -52,7 +52,7 @@ public class MoveCard : MonoBehaviour
 
 			if(Physics.Raycast(ray, out hit, 100, unPickedLayer))
 			{
-				Debug.Log("[Fight]:  Began hit card name: "+hit.collider.gameObject.name);
+				LogHelper.Log("[Fight]:  Began hit card name: "+hit.collider.gameObject.name);
 
 				hit.collider.gameObject.layer = PICKEDLAYER;
 
@@ -60,15 +60,15 @@ public class MoveCard : MonoBehaviour
 
 				currentCardStyle = hit.collider.gameObject.GetComponent<Card>().style.ToString();
 
-				Debug.Log("[Fight]:  Began hit card style: "+hit.collider.gameObject.GetComponent<Card>().style.ToString());
+				LogHelper.Log("[Fight]:  Began hit card style: "+hit.collider.gameObject.GetComponent<Card>().style.ToString());
 			}
 			if(pickedCards.Count == 0)
 			{
-				Debug.Log("[Fight]:  Picked Card Nums: "+pickedCards.Count);
+				LogHelper.Log("[Fight]:  Picked Card Nums: "+pickedCards.Count);
 
 				return;
 			}
-			Debug.Log("[Fight]:  Picked Card Nums: "+pickedCards.Count);
+			LogHelper.Log("[Fight]:  Picked Card Nums: "+pickedCards.Count);
 
 			int count = 0;
 
@@ -78,13 +78,13 @@ public class MoveCard : MonoBehaviour
 
 				count++;
 
-				Debug.Log("[Fight]:  Picked "+pickedCard.name+" Pos: "+pickedCard.transform.position);
+				LogHelper.Log("[Fight]:  Picked "+pickedCard.name+" Pos: "+pickedCard.transform.position);
 			}
 		}
 		
 		if( Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved )
 		{
-			Debug.Log("[Fight]:  ******Touch Moved******");
+			LogHelper.Log("[Fight]:  ******Touch Moved******");
 
 			int unPickedLayer = 1 << LayerMask.NameToLayer ( "UnpickedLayer" );
 
@@ -94,7 +94,7 @@ public class MoveCard : MonoBehaviour
 
 			if(Physics.Raycast(ray, out hit, 100, unPickedLayer))
 			{
-				Debug.Log("[Fight]:  Moved hit card name: "+hit.collider.gameObject.name);
+				LogHelper.Log("[Fight]:  Moved hit card name: "+hit.collider.gameObject.name);
 
 				hit.collider.gameObject.layer = PICKEDLAYER;//modify the current picked card's layer as PickedLayer
 
@@ -105,16 +105,16 @@ public class MoveCard : MonoBehaviour
 
 				currentCardStyle = hit.collider.gameObject.GetComponent<Card>().style.ToString();
 
-				Debug.Log("[Fight]:  Moved pickedCard Num: "+pickedCards.Count);
+				LogHelper.Log("[Fight]:  Moved pickedCard Num: "+pickedCards.Count);
 			}
 			if( pickedCards.Count == 0 )
 			{
-				Debug.Log("[Fight]:  Moved pickedCard Num: "+pickedCards.Count);
+				LogHelper.Log("[Fight]:  Moved pickedCard Num: "+pickedCards.Count);
 
 				return;
 			}
 
-			Debug.Log("[Fight]:  Moved pickedCard Num: "+pickedCards.Count);
+			LogHelper.Log("[Fight]:  Moved pickedCard Num: "+pickedCards.Count);
 
 			int count = 0;
 
@@ -122,9 +122,9 @@ public class MoveCard : MonoBehaviour
 			{
 				pickedCard.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + count*cardOffset;//set the current picked card's position
 
-				Debug.Log("[Fight]:  Moved picked Card Name "+pickedCard.name);
+				LogHelper.Log("[Fight]:  Moved picked Card Name "+pickedCard.name);
 
-				Debug.Log("[Fight]:  Moved picked Card Pos "+pickedCard.transform.position);
+				LogHelper.Log("[Fight]:  Moved picked Card Pos "+pickedCard.transform.position);
 
 				count++;
 			}
@@ -132,7 +132,7 @@ public class MoveCard : MonoBehaviour
 		
 		if( Input.touchCount == 1 &&Input.GetTouch(0).phase == TouchPhase.Ended )
 		{
-			Debug.Log("[Fight]:  ******Touch Ended******");
+			LogHelper.Log("[Fight]:  ******Touch Ended******");
 
 			int collectLayer = 1 << LayerMask.NameToLayer ( "CollectedLayer" );
 
@@ -144,7 +144,7 @@ public class MoveCard : MonoBehaviour
 
 			if(Physics.Raycast(ray, out hit, 100, unPickedLayer))
 			{
-				Debug.Log("[Fight]:  Ended hit UnpickedCard Name: "+hit.collider.gameObject.name);
+				LogHelper.Log("[Fight]:  Ended hit UnpickedCard Name: "+hit.collider.gameObject.name);
 
 
 
@@ -155,9 +155,9 @@ public class MoveCard : MonoBehaviour
 
 			else if(Physics.Raycast(ray, out hit, 100, collectLayer))
 			{
-				Debug.Log("[Fight]:  Ended hit Collect Pool name: "+hit.collider.gameObject.name);
+				LogHelper.Log("[Fight]:  Ended hit Collect Pool name: "+hit.collider.gameObject.name);
 
-				Debug.Log("[Fight]:  Ended picked Cards Num: "+pickedCards.Count);
+				LogHelper.Log("[Fight]:  Ended picked Cards Num: "+pickedCards.Count);
 
 				foreach(GameObject pickedCard in pickedCards)
 				{
@@ -166,24 +166,24 @@ public class MoveCard : MonoBehaviour
 
 					}
 
-					Debug.Log("[Fight]:  Collect Pool is Not FULL");
+					LogHelper.Log("[Fight]:  Collect Pool is Not FULL");
 
-					Debug.Log("[Fight]:  Hit Collect Pool name:" + hit.collider.gameObject);
+					LogHelper.Log("[Fight]:  Hit Collect Pool name:" + hit.collider.gameObject);
 
-					Debug.Log("[Fight]:  Picked Card's Parent: " + pickedCard.transform.parent.name);
+					LogHelper.Log("[Fight]:  Picked Card's Parent: " + pickedCard.transform.parent.name);
 					
 					hit.collider.gameObject.GetComponent<ReadyPool>().SetPositionInReadyPool(pickedCard);//set current card's position in order
 
 					pickedCard.layer = COLLECTEDLAYER;//mark current card's layer as collected layer
 
-					Debug.Log("[Fight]:  Hit Collect Pool: " + hit.collider.gameObject.name + "'s NextArea: " + hit.collider.gameObject.GetComponent<ReadyPool>().nextArea);
+					LogHelper.Log("[Fight]:  Hit Collect Pool: " + hit.collider.gameObject.name + "'s NextArea: " + hit.collider.gameObject.GetComponent<ReadyPool>().nextArea);
 
 				}
 			}
 
 			else
 			{
-				Debug.Log("[Fight]:  Touch Ended State: DON'T hit Collect Pool");
+				LogHelper.Log("[Fight]:  Touch Ended State: DON'T hit Collect Pool");
 
 				foreach(GameObject pickedCard in pickedCards)
 				{
@@ -191,9 +191,9 @@ public class MoveCard : MonoBehaviour
 
 					pickedCard.layer = UNPICKEDLAYER;
 
-					Debug.Log("[Fight]: Current Card's canMove: " + pickedCard.GetComponent<Card>().canMove);
+					LogHelper.Log("[Fight]: Current Card's canMove: " + pickedCard.GetComponent<Card>().canMove);
 
-					Debug.Log("[Fight]: Current Card's Layer: " + pickedCard.layer);
+					LogHelper.Log("[Fight]: Current Card's Layer: " + pickedCard.layer);
 				}
 			}
 			pickedCards.Clear();
