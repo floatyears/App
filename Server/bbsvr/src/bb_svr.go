@@ -17,7 +17,7 @@ import (
 
 const (
 	_PROTO_LOGIN_BACK     = "/login_back"
-	_PROTO_GET_QUEST_MAP  = "/get_quest_map"
+	_PROTO_GET_QUEST_MAP  = "/get_new_quest_map"
 	_PROTO_START_QUEST    = "/start_quest"
 	_PROTO_CLEAR_QUEST    = "/clear_quest"
 	_PROTO_GET_QUEST_INFO = "/get_quest_info"
