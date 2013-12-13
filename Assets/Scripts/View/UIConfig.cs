@@ -14,6 +14,8 @@ public class UIConfig
 	public static string Lab_V_TotalEnegy = "24";
 	public static string Lab_V_CurEnegy = "12";
 
+	public static string Lab_V_ScrollViewTitleInfo = "This is the Story Scene";
+
 	DragUI dragui;
 
 }
