@@ -52,7 +52,7 @@ public class NGUIJson
 		
 		if (decodedHash == null)
 		{
-			Debug.LogWarning("Unable to parse Json file: " + asset.name);
+			LogHelper.LogWarning("Unable to parse Json file: " + asset.name);
 			return;
 		}
 
@@ -149,7 +149,7 @@ public class NGUIJson
 
 		// Sort imported sprites alphabetically
 		atlas.spriteList.Sort(CompareSprites);
-		Debug.Log("Imported " + atlas.spriteList.Count + " sprites");
+		LogHelper.Log("Imported " + atlas.spriteList.Count + " sprites");
 
 		// Unload the asset
 		asset = null;
@@ -713,7 +713,7 @@ s += Char.ConvertFromUtf32((int)codePoint);
 	protected static bool serializeValue( object value, StringBuilder builder )
 	{
 		// Type t = value.GetType();
-		// Debug.Log("type: " + t.ToString() + " isArray: " + t.IsArray);
+		// LogHelper.Log("type: " + t.ToString() + " isArray: " + t.IsArray);
 
 		if( value == null )
 		{

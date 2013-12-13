@@ -1,13 +1,13 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright ï¿½ 2011-2013 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// This class is meant to be used only internally. It's like Debug.Log, but prints using OnGUI to screen instead.
+/// This class is meant to be used only internally. It's like LogHelper.Log, but prints using OnGUI to screen instead.
 /// </summary>
 
 [AddComponentMenu("NGUI/Internal/Debug")]
@@ -20,7 +20,7 @@ public class NGUIDebug : MonoBehaviour
 	{
 		if (Application.isPlaying)
 		{
-			//Debug.Log(text);
+			//LogHelper.Log(text);
 
 			if (mLines.Count > 20) mLines.RemoveAt(0);
 			mLines.Add(text);
@@ -34,7 +34,7 @@ public class NGUIDebug : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log(text);
+			LogHelper.Log(text);
 		}
 	}
 

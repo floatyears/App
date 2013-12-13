@@ -32,7 +32,7 @@ public class CardPoolZone : MonoBehaviour
 	{
 		if(currentState == States.empty)
 		{
-			Debug.Log("卡片池当前状态为空,需要立即进行填充");
+			LogHelper.Log("卡片池当前状态为空,需要立即进行填充");
 
 			CreteCardOnRule();
 
@@ -63,7 +63,7 @@ public class CardPoolZone : MonoBehaviour
 			ID=0;
 			break;
 		}
-		Debug.Log("卡片池ID给定完毕，名为"+this.gameObject.name+"的卡片池的ID为"+ID);
+		LogHelper.Log("卡片池ID给定完毕，名为"+this.gameObject.name+"的卡片池的ID为"+ID);
 	}
 
 	void CreteCardOnRule()
@@ -72,7 +72,7 @@ public class CardPoolZone : MonoBehaviour
 		switch(cardID)
 		{
 		case 1:
-			Debug.Log("随机选中了卡片1并生成");
+			LogHelper.Log("随机选中了卡片1并生成");
 
 			GameObject card1=Instantiate(Card1,Vector3.zero,Quaternion.identity) as GameObject;
 
@@ -84,11 +84,11 @@ public class CardPoolZone : MonoBehaviour
 
 			card1.GetComponent<Card>().style = Card.Styles.fire;
 
-			Debug.Log("canMove = "+card1.GetComponent<Card>().canMove);
+			LogHelper.Log("canMove = "+card1.GetComponent<Card>().canMove);
 
 			break;
 		case 2:
-			Debug.Log("随机选中了卡片2并生成");
+			LogHelper.Log("随机选中了卡片2并生成");
 
 			GameObject card2=Instantiate(Card2,Vector3.zero,Quaternion.identity) as GameObject;
 
@@ -100,11 +100,11 @@ public class CardPoolZone : MonoBehaviour
 
 			card2.GetComponent<Card>().style = Card.Styles.light;
 
-			Debug.Log("canMove = "+card2.GetComponent<Card>().canMove);
+			LogHelper.Log("canMove = "+card2.GetComponent<Card>().canMove);
 
 			break;
 		case 3:
-			Debug.Log("随机选中了卡片3并生成");
+			LogHelper.Log("随机选中了卡片3并生成");
 
 			GameObject card3 = Instantiate(Card3,Vector3.zero,Quaternion.identity) as GameObject;
 
@@ -116,11 +116,11 @@ public class CardPoolZone : MonoBehaviour
 
 			card3.GetComponent<Card>().style = Card.Styles.water;
 
-			Debug.Log("canMove = "+card3.GetComponent<Card>().canMove);
+			LogHelper.Log("canMove = "+card3.GetComponent<Card>().canMove);
 
 			break;
 		case 4:
-			Debug.Log("随机选中了卡片4并生成");
+			LogHelper.Log("随机选中了卡片4并生成");
 
 			GameObject card4 = Instantiate(Card4,Vector3.zero,Quaternion.identity) as GameObject;
 
@@ -132,13 +132,13 @@ public class CardPoolZone : MonoBehaviour
 
 			card4.GetComponent<Card>().style = Card.Styles.wind;
 
-			Debug.Log("canMove = "+card4.GetComponent<Card>().canMove);
+			LogHelper.Log("canMove = "+card4.GetComponent<Card>().canMove);
 
 			break;
 
 		default:
 
-			Debug.Log("创建发生异常");
+			LogHelper.Log("创建发生异常");
 
 			break;
 		}

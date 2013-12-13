@@ -21,7 +21,7 @@ public sealed class CryptoHelper {
     }
     
     #region DES
-    private static byte[] Keys = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
+    private static byte[] desKeys = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
     public const int CRYPTO_KEY_LENGTH = 8;
     /// <summary>
     /// DES encryption
@@ -30,11 +30,11 @@ public sealed class CryptoHelper {
     /// <param name="encryptKey">required: 8bit</param>
     /// <param name="errorMsg">for errorMsg</param>
     /// <returns>succeed: encrypted String; failed: source string</returns>
-    public static string EncryptDES(string encryptString, string encryptKey, ErrorMsg errorMsg)
+    public static string EncryptDES(string sourceString, string encryptKey, ErrorMsg errorMsg)
     {
-        string result = encryptString;
+        string result = sourceString;
 
-        if (encryptString == null || encryptKey == null || encryptKey.Length < CRYPTO_KEY_LENGTH){
+        if (sourceString == null || encryptKey == null || encryptKey.Length < CRYPTO_KEY_LENGTH){
             errorMsg.Code = ErrorCode.IllegalParam;
             errorMsg.Msg = "string encrpt get illegal encryptString or encryptKey";
             return result;
@@ -43,8 +43,8 @@ public sealed class CryptoHelper {
         try
         {
             byte[] rgbKey = Encoding.UTF8.GetBytes(encryptKey.Substring(0, CRYPTO_KEY_LENGTH));
-            byte[] rgbIV = Keys;
-            byte[] inputByteArray = Encoding.UTF8.GetBytes(encryptString);
+            byte[] rgbIV = desKeys;
+            byte[] inputByteArray = Encoding.UTF8.GetBytes(sourceString);
             DESCryptoServiceProvider dCSP = new DESCryptoServiceProvider();
             MemoryStream mStream = new MemoryStream();
             CryptoStream cStream = new CryptoStream(mStream, dCSP.CreateEncryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
@@ -57,6 +57,7 @@ public sealed class CryptoHelper {
         catch
         {
             errorMsg.Code = ErrorCode.Encrypt;
+            LogHelper.Log(errorMsg);
         }
         return result;
     }
@@ -68,11 +69,11 @@ public sealed class CryptoHelper {
     /// <param name="decryptKey">decryptKey, 8bit, same as encryptKey</param>
     /// <param name="errorMsg">for errorMsg</param>
     /// <returns>succeed: decrypted string; failed: source string</returns>
-    public static string DecryptDES(string decryptString, string decryptKey, ErrorMsg errorMsg)
+    public static string DecryptDES(string sourceString, string encryptKey, ErrorMsg errorMsg)
     {
-        string result = decryptString;
+        string result = sourceString;
 
-        if (decryptString == null || decryptKey == null || decryptKey.Length < CRYPTO_KEY_LENGTH){
+        if (sourceString == null || encryptKey == null || encryptKey.Length < CRYPTO_KEY_LENGTH){
             errorMsg.Code = ErrorCode.IllegalParam;
             errorMsg.Msg = "string encrpt get illegal decryptString or decryptKey";
             return result;
@@ -80,9 +81,9 @@ public sealed class CryptoHelper {
 
         try
         {
-            byte[] rgbKey = Encoding.UTF8.GetBytes(decryptKey);
-            byte[] rgbIV = Keys;
-            byte[] inputByteArray = Convert.FromBase64String(decryptString);
+            byte[] rgbKey = Encoding.UTF8.GetBytes(encryptKey);
+            byte[] rgbIV = desKeys;
+            byte[] inputByteArray = Convert.FromBase64String(sourceString);
             DESCryptoServiceProvider DCSP = new DESCryptoServiceProvider();
             MemoryStream mStream = new MemoryStream();
             CryptoStream cStream = new CryptoStream(mStream, DCSP.CreateDecryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
@@ -95,12 +96,71 @@ public sealed class CryptoHelper {
         catch
         {
             errorMsg.Code = ErrorCode.Decrypt;
-            LogHelper.Log("catch");
+            errorMsg.Msg = "DES encryptError";
+            LogHelper.Log(errorMsg);
         }
         return result;
     }
     #endregion
-    
+
+    #region RSA
+    public static byte[] EncryptRSA(string sourceString, string encryptKey, ErrorMsg errorMsg){
+        byte[] result = Encoding.UTF8.GetBytes(sourceString);
+
+        if (sourceString == null || encryptKey == null){
+            errorMsg.Code = ErrorCode.IllegalParam;
+            errorMsg.Msg = "string encrpt get illegal encryptString or encryptKey";
+            return result;
+        }
+        
+        try
+        {
+            CspParameters cspParams = new CspParameters();
+            
+            cspParams.KeyContainerName = encryptKey;
+            RSACryptoServiceProvider provider = new RSACryptoServiceProvider(cspParams);
+
+            result = provider.Encrypt(result, true);
+            errorMsg.Code = ErrorCode.Succeed;
+        }
+        catch
+        {
+            errorMsg.Code = ErrorCode.Encrypt;
+            errorMsg.Msg = "RSA encryptError";
+            LogHelper.Log(errorMsg);
+        }
+        return result;
+    }
+
+    public string DecryptRSA(byte[] source, string encryptKey, ErrorMsg errorMsg){
+        string result = ConvertHelper.BytesToString(source);
+        
+        if (result == null || encryptKey == null){
+            errorMsg.Code = ErrorCode.IllegalParam;
+            errorMsg.Msg = "string encrpt get illegal decryptString or decryptKey";
+            return result;
+        }
+        
+        try
+        {
+            CspParameters cspParams = new CspParameters();
+            
+            cspParams.KeyContainerName = encryptKey;
+            RSACryptoServiceProvider provider = new RSACryptoServiceProvider(cspParams);
+
+            result = System.Text.Encoding.UTF8.GetString(
+                provider.Decrypt(source, true));    
+            errorMsg.Code = ErrorCode.Succeed;
+        }
+        catch
+        {
+            errorMsg.Code = ErrorCode.Decrypt;
+            errorMsg.Msg = "RSA encryptError";
+            LogHelper.Log(errorMsg);
+        }
+        return result;
+    }
+    #endregion
 
     #region MD5
     //32 bit

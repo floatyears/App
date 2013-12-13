@@ -298,7 +298,7 @@ public class Fight : UIBase
 			Vector3 point = selectTarget[0].transform.localPosition;
 
 			int sortID = GetLocationByPosition(point,tempIndexList);
-			Debug.LogError(sortID);
+			LogHelper.LogError(sortID);
 			if(sortID != -1)
 			{
 				for (int i = 0; i < selectTarget.Count; i++)

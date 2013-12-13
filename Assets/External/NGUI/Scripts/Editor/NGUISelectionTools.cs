@@ -88,7 +88,7 @@ public class NGUISelectionTools
 	{
 		if (HasValidSelection())
 		{
-			Debug.Log("Selection depends on the following assets:\n\n" + GetDependencyText(Selection.objects, false));
+			LogHelper.Log("Selection depends on the following assets:\n\n" + GetDependencyText(Selection.objects, false));
 		}
 	}
 	
@@ -110,7 +110,7 @@ public class NGUISelectionTools
 	{
 		if (Selection.objects == null || Selection.objects.Length == 0)
 		{
-			Debug.LogWarning("You must select an object first");
+			LogHelper.LogWarning("You must select an object first");
 			return false;
 		}
 		return true;
@@ -124,7 +124,7 @@ public class NGUISelectionTools
 	{
 		if (Selection.activeTransform == null)
 		{
-			Debug.LogWarning("You must select an object first");
+			LogHelper.LogWarning("You must select an object first");
 			return false;
 		}
 		return true;

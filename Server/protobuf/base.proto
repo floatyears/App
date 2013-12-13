@@ -1,17 +1,21 @@
 package bbproto;
 
-//general request protocol
-message Request{
-	required int32 version = 1;
-	optional string cli_ver = 2;
-	optional int32 userid = 3;
-	optional string username = 4;
+enum EUnitType{
+	UALL	= 0; // all type
+	UFIRE 	= 1;
+	UWATER	= 2;
+	UWIND	= 3;
+	ULIGHT	= 4;
+	UDARK	= 5;
+	UNONE	= 6;
 };
 
 //general response protocol
-message Response{
-	required int32 version = 1;
-	optional int32 result = 2;
-	optional string data = 3;
+message Header{
+	required string apiVer		= 1;
+	optional string sessionId	= 2;
+	optional int32	packetId	= 3;
+	optional int32	code		= 4; // result code
+	optional string error		= 5; // result error description
 };
 

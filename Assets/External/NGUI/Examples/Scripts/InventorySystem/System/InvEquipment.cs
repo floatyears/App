@@ -64,7 +64,7 @@ public class InvEquipment : MonoBehaviour
 		}
 		else if (item != null)
 		{
-			Debug.LogWarning("Can't equip \"" + item.name + "\" because it doesn't specify an item slot");
+			LogHelper.LogWarning("Can't equip \"" + item.name + "\" because it doesn't specify an item slot");
 		}
 		return item;
 	}
@@ -79,7 +79,7 @@ public class InvEquipment : MonoBehaviour
 		{
 			InvBaseItem baseItem = item.baseItem;
 			if (baseItem != null) return Replace(baseItem.slot, item);
-			else Debug.LogWarning("Can't resolve the item ID of " + item.baseItemID);
+			else LogHelper.LogWarning("Can't resolve the item ID of " + item.baseItemID);
 		}
 		return item;
 	}

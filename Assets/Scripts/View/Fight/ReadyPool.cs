@@ -37,7 +37,7 @@ public class ReadyPool : MonoBehaviour
 
 			obj.GetComponent<Card>().canMove = false;
 
-			Debug.Log("after set: world: "+obj.transform.position+" local: "+obj.transform.localPosition);
+			LogHelper.Log("after set: world: "+obj.transform.position+" local: "+obj.transform.localPosition);
 
 			nextArea++;
 		}
@@ -53,7 +53,7 @@ public class ReadyPool : MonoBehaviour
 
 			obj.GetComponent<Card>().canMove = false;
 
-			Debug.Log("after set: world: "+obj.transform.position+" local: "+obj.transform.localPosition);
+			LogHelper.Log("after set: world: "+obj.transform.position+" local: "+obj.transform.localPosition);
 
 			nextArea++;
 		}
@@ -69,7 +69,7 @@ public class ReadyPool : MonoBehaviour
 
 			obj.GetComponent<Card>().canMove = false;
 
-			Debug.Log("after set: world: "+obj.transform.position+" local: "+obj.transform.localPosition);
+			LogHelper.Log("after set: world: "+obj.transform.position+" local: "+obj.transform.localPosition);
 
 			nextArea++;
 		}
@@ -85,7 +85,7 @@ public class ReadyPool : MonoBehaviour
 
 			obj.GetComponent<Card>().canMove = false;
 
-			Debug.Log("after set: world: "+obj.transform.position+" local: "+obj.transform.localPosition);
+			LogHelper.Log("after set: world: "+obj.transform.position+" local: "+obj.transform.localPosition);
 
 			nextArea++;
 		}
@@ -101,7 +101,7 @@ public class ReadyPool : MonoBehaviour
 
 			obj.GetComponent<Card>().canMove = false;
 
-			Debug.Log("after set: world: "+obj.transform.position+" local: "+obj.transform.localPosition);
+			LogHelper.Log("after set: world: "+obj.transform.position+" local: "+obj.transform.localPosition);
 
 			currentState = States.full;
 
@@ -113,13 +113,13 @@ public class ReadyPool : MonoBehaviour
 			
 			obj.layer = MoveCard.UNPICKEDLAYER;
 
-			Debug.Log("Fight: Full Back to Layer: " + obj.layer.ToString());
+			LogHelper.Log("Fight: Full Back to Layer: " + obj.layer.ToString());
 
-			Debug.Log("Fight: Full Back to Pre Pos: " + obj.transform.position);
+			LogHelper.Log("Fight: Full Back to Pre Pos: " + obj.transform.position);
 
-			Debug.Log("Fight: Full Back to Pre Parent: " + obj.transform.parent.gameObject.name);
+			LogHelper.Log("Fight: Full Back to Pre Parent: " + obj.transform.parent.gameObject.name);
 
-			Debug.Log("Fight: Full Back to canMove: " + obj.GetComponent<Card>().canMove);
+			LogHelper.Log("Fight: Full Back to canMove: " + obj.GetComponent<Card>().canMove);
 		}
 
 	}

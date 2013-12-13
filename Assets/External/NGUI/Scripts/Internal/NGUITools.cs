@@ -112,12 +112,12 @@ static public class NGUITools
 	static public WWW OpenURL (string url)
 	{
 #if UNITY_FLASH
-		Debug.LogError("WWW is not yet implemented in Flash");
+		LogHelper.LogError("WWW is not yet implemented in Flash");
 		return null;
 #else
 		WWW www = null;
 		try { www = new WWW(url); }
-		catch (System.Exception ex) { Debug.LogError(ex.Message); }
+		catch (System.Exception ex) { LogHelper.LogError(ex.Message); }
 		return www;
 #endif
 	}
@@ -130,12 +130,12 @@ static public class NGUITools
 	{
 		if (form == null) return OpenURL(url);
 #if UNITY_FLASH
-		Debug.LogError("WWW is not yet implemented in Flash");
+		LogHelper.LogError("WWW is not yet implemented in Flash");
 		return null;
 #else
 		WWW www = null;
 		try { www = new WWW(url, form); }
-		catch (System.Exception ex) { Debug.LogError(ex != null ? ex.Message : "<null>"); }
+		catch (System.Exception ex) { LogHelper.LogError(ex != null ? ex.Message : "<null>"); }
 		return www;
 #endif
 	}
