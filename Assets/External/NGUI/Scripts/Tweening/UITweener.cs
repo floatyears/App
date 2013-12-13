@@ -216,7 +216,7 @@ public abstract class UITweener : MonoBehaviour
 	/// Mark as not started when finished to enable delay on next play.
 	/// </summary>
 
-	void OnDisable () { mStarted = false; }
+	protected virtual void OnDisable () { mStarted = false; }
 
 	/// <summary>
 	/// Sample the tween at the specified factor.
