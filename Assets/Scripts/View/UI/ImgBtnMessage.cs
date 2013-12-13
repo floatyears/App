@@ -12,7 +12,7 @@ public class ImgBtnMessage : MonoBehaviour
 		textInfo = infoLabel.GetComponent<UILabel>();
 	}
 
-	private IEnumerator SetScene(string sceneInfo)
+	public IEnumerator SetScene(string sceneInfo)
 	{
 		InfoBar.animation.Play();
 		yield return new WaitForSeconds(0.7F);
