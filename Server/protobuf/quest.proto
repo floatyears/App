@@ -36,12 +36,12 @@ message QuestMapInfo {
 	repeated QuestInfo quests = 4;
 };
 
-message ReqGetQuestMap {
+message ReqGetNewQuestMap {
 	optional Header header = 1;
 	optional int32 startId = 2;
 };
 
-message RspGetQuestMap {
+message RspGetNewQuestMap {
 	optional Header header = 1;
 	repeated QuestMapInfo maps = 2;
 };
@@ -78,8 +78,8 @@ message ReqClearQuset {
 
 message RspClearQuset {
 	optional Header		header		= 1;
-	optional UserInfo	user 		= 2;
-	optional AcountInfo acount		= 3;	
+	optional UserInfo	user 			= 2;
+	optional AccountInfo acount	= 3;	
 	optional uint32		getMoney	= 4;
 	optional uint32		getExp		= 5;	
 	repeated uint32		getUnit		= 6; //uniqueId list
