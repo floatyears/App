@@ -35,7 +35,11 @@ public class Battle : UIBase
 		GameInput.OnReleaseEvent += HandleOnReleaseEvent;
 		GameInput.OnStationaryEvent += HandleOnStationaryEvent;
 		GameInput.OnDragEvent += HandleOnDragEvent;
+
+		SwitchInput(false);
 	}
+
+
 
 	public override void CreatUI ()
 	{
@@ -44,6 +48,12 @@ public class Battle : UIBase
 		CreatCard();
 
 		CreatArea();
+	}
+
+	public override void HideUI ()
+	{
+		SwitchInput(true);
+		base.HideUI ();
 	}
 
 	void CreatBack()
@@ -294,7 +304,9 @@ public class Battle : UIBase
 			if(tempCard.CanDrag)
 			{
 				tempCard.OnPress(true,selectTarget.Count);
-				
+
+				tempCard.ActorTexture.depth = 5;
+
 				selectTarget.Add(tempCard);
 			}
 		}
