@@ -43,6 +43,15 @@ public sealed class ConvertHelper {
 		return buffer;
 	}
 
+    /// <summary>
+    /// Byteses to string.
+    /// </summary>
+    /// <returns>The to string.</returns>
+    /// <param name="source">Source.</param>
+    public static string BytesToString(byte[] source){
+        return System.Text.Encoding.UTF8.GetString ( source );
+    }
+
 	/// <summary>
 	/// Strings to stream.
 	/// </summary>
