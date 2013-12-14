@@ -33,8 +33,7 @@ public class QuestUIController : UIBase
 
 		for(int i= 0; i<storyScroller.DragList.Count; i++)
 		{
-			UIEventListener listen = UIEventListener.Get(storyScroller.DragList[i]);
-			
+			UIEventListener listen = UIEventListener.Get(storyScroller.DragList[i]);	
 			listen.onClick = ClickQuest;
 		}
 
@@ -58,16 +57,20 @@ public class QuestUIController : UIBase
 	void SetActive(bool b)
 	{
 		foreach(var item in currentUIDic.Values)
+		{
 			item.HideUI();
+		}
+
 		activityScroller.insUIObject.SetActive(b);
 		storyScroller.insUIObject.SetActive(b);
+
+		sv.gameObject.SetActive(b);
 	}
 	
 	void ClickQuest(GameObject go)
 	{
 		ControllerManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 		sv.gameObject.SetActive(false);
-
 	}
 
 

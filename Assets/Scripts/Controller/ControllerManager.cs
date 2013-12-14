@@ -114,6 +114,11 @@ public class ControllerManager
 			//temp = new BattleShow(uiName);
 			temp = new QuestUIController(uiName);
 			break;
+
+		case SceneEnum.Friends:
+			temp = new FriendsView(uiName);
+			break;
+
 //		case SceneEnum.Scratch:
 //
 //			break;

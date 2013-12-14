@@ -4,6 +4,8 @@ public enum SceneEnum
 {
 	Quest,
 
+	Friends,
+
 	Scratch,
 
 	Shop,

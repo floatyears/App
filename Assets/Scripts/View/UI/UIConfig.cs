@@ -16,6 +16,6 @@ public class UIConfig
 
 	public static string Lab_V_ScrollViewTitleInfo = "This is the Story Scene";
 
-	DragUI dragui;
+	public static string DragUIObjectPath = "Prefabs/ScrollView";
 
 }
