@@ -32,7 +32,7 @@ message AccountInfo {
 
 message UserQuestInfo {
 	optional int32	questId			= 1;
-	optional int32	questStatus		= 2;
+	optional bool	questCleared	= 2;
 };
 
 message PartyItem {
