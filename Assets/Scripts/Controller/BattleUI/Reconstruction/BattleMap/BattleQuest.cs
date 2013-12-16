@@ -87,17 +87,19 @@ public class BattleQuest : UIBase
 	  
 	public void RoleCoordinate(Coordinate coor)
 	{
-		battleMap.ReachMapItem(coor);
+		if(!battleMap.ReachMapItem(coor))
 
-		currentMapData = mapConfig.mapData[coor.x,coor.y];
-
-		if(currentMapData.MonsterID.Count > 0)
 		{
-			ShowBattle();
+			currentMapData = mapConfig.mapData[coor.x,coor.y];
 
-			role.Stop();
+			if(currentMapData.MonsterID.Count > 0)
+			{
+				ShowBattle();
 
-			battle.ShowEnemy(currentMapData.MonsterID.Count);
+				role.Stop();
+
+				battle.ShowEnemy(currentMapData.MonsterID.Count);
+			}
 		}
 	} 
 

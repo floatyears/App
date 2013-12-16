@@ -76,7 +76,7 @@ public class BattleMap : UIBaseUnity
 		return map[x, y].transform.localPosition;
 	}
 
-	public void ReachMapItem(Coordinate coor)
+	public bool ReachMapItem(Coordinate coor)
 	{
 		prevMapItem = map[coor.x,coor.y];
 
@@ -84,9 +84,13 @@ public class BattleMap : UIBaseUnity
 		{
 			useMapItem.Add(prevMapItem);
 			prevMapItem.IsOld = true;
+
+			return false;
 		}
 
 		ChangeStyle(coor);
+
+		return true;
 	}
 
 	void ChangeStyle(Coordinate coor)
