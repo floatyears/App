@@ -1,4 +1,4 @@
-package bbproto;
+import public "skill.proto";
 
 //=======================Unit - only used at client================================================//
 message UnitStatus {
@@ -18,7 +18,6 @@ message HelperRequire {
     optional int32	level		= 1;
 	optional int32	race		= 2;
 	optional int32	type		= 3;
-	}
 }
 
 message EvolveInfo {
@@ -55,7 +54,7 @@ message EnemyInfo {
 	optional int32	attack			= 4;
 	optional int32	defense			= 5;
 	optional int32	attackRound		= 6;//next 1, 2, 3
-	optional float	dropRatio		= 7;
+	optional float	dropRate		= 7;
 	optional float	dropUnitId		= 8;
 };
 
@@ -82,18 +81,15 @@ message QuestStageInfo {
 	repeated QuestInfo	questInfo	= 5; 
 };
 
+// event occure probability
 message Probability {
 	optional int32		id		= 1;
-	optional int32		ratio	= 2;
+	optional float		rate	= 2;
 }
-
-message	PanelRatios {
-	repeated Probability	panelRatio	= 1;
-}
-
 
 message MapInfo {
-	optional int32		floors		= 1;
+	optional int32			floors		= 1;
+	repeated Probability	panelRate	= 2;
 }
 //=======================================================================//
 

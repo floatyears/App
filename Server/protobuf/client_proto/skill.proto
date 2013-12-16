@@ -1,4 +1,4 @@
-package bbproto;
+import public "bbproto.proto";
 
 enum EValueType{
 	FIXED 		= 1;
