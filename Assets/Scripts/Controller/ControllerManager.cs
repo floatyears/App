@@ -113,11 +113,9 @@ public class ControllerManager
 		case SceneEnum.Quest:
 			temp = new QuestView(uiName);
 			break;
-
 		case SceneEnum.Friends:
 			temp = new FriendsView(uiName);
 			break;
-
 		case SceneEnum.Scratch:
 			temp = new ScratchView(uiName);
 			break;
