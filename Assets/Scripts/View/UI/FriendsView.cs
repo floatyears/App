@@ -19,8 +19,8 @@ public class FriendsView : UIBase
 		currentUIDic.Add(window.UIName, window);
 		currentUIDic.Add(imgBtns.UIName, imgBtns);
 
-		window.gameObject.transform.localPosition = new Vector3(0, 60, 0);
-		imgBtns.gameObject.transform.localPosition = new Vector3(0, -100, 0);
+		window.gameObject.transform.localPosition = UIConfig.UI_Z_TOP*Vector3.up;
+		imgBtns.gameObject.transform.localPosition = UIConfig.UI_Z_DOWN*Vector3.up;
 	}
 
 	public override void ShowUI ()

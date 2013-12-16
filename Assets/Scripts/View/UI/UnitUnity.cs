@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OthersUnity : UIBaseUnity 
+public class UnitUnity : UIBaseUnity
 {
 	public override void Init(string name)
 	{
 		base.Init(name);
 	}
-
+	
 	public override void ShowUI ()
 	{
 		base.ShowUI ();
@@ -22,5 +22,4 @@ public class OthersUnity : UIBaseUnity
 	{
 		base.DestoryUI ();
 	}
-
 }

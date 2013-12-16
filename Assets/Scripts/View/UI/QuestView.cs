@@ -1,21 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class QuestUIController : UIBase
+public class QuestView : UIBase
 {
 	private DragUI activityScroller;
 	private DragUI storyScroller;
 
 	private ScrollView sv;
 
-	public QuestUIController(string uiName):base(uiName)
+	public QuestView(string uiName):base(uiName)
 	{
 		
 	}
 	public override void CreatUI ()
 	{
 		sv = ViewManager.Instance.GetViewObject("QuestScrollView") as ScrollView; 
-		sv.transform.localPosition = new Vector3(0, -80, 0);
+		sv.transform.localPosition = UIConfig.UI_Z_DOWN*Vector3.up;
 		currentUIDic.Add(sv.UIName, sv);
 
 		activityScroller = new DragUI(sv.TopLeft, sv.TopRight, sv.ActivityItem);

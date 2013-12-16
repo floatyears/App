@@ -18,4 +18,8 @@ public class UIConfig
 
 	public static string DragUIObjectPath = "Prefabs/ScrollView";
 
+	public static float UI_Z_TOP = 75F;
+	public static float UI_Z_CENTER = 0F;
+	public static float UI_Z_DOWN = -75F;
+
 }

@@ -1,26 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OtherView : UIBase 
+public class OthersView : UIBase
 {
-	FriendsUnity window;
-	FriendsUnity imgBtns;
+	OthersUnity topUI;
 
-	public OtherView(string uiName) : base(uiName)
+	private DragUI scroller;
+	private OthersScrollView sv;
+
+	public OthersView(string uiName) : base(uiName)
 	{
 
 	}
 
 	public override void CreatUI ()
 	{
-		window = ViewManager.Instance.GetViewObject("Friends_InfoWindow") as FriendsUnity;
-		imgBtns = ViewManager.Instance.GetViewObject("Friends_InfoList") as FriendsUnity;
+		sv = ViewManager.Instance.GetViewObject("OthersBottomWindow") as OthersScrollView; 
+		sv.transform.localPosition = UIConfig.UI_Z_DOWN*Vector3.up;
+		currentUIDic.Add(sv.UIName, sv);
+		
+		scroller = new DragUI(sv.Left, sv.Right, sv.Item);
+		scroller.ShowData(9);
 
-		currentUIDic.Add(window.UIName, window);
-		currentUIDic.Add(imgBtns.UIName, imgBtns);
+		topUI = ViewManager.Instance.GetViewObject("OthersTopWindow") as OthersUnity;
 
-		window.gameObject.transform.localPosition = new Vector3(0, 60, 0);
-		imgBtns.gameObject.transform.localPosition = new Vector3(0, -100, 0);
+		currentUIDic.Add(topUI.UIName, topUI);
+
+		topUI.gameObject.transform.localPosition = UIConfig.UI_Z_TOP*Vector3.up;
 	}
 
 	public override void ShowUI ()
@@ -40,8 +46,9 @@ public class OtherView : UIBase
 	
 	void SetActive(bool b)
 	{
-		window.gameObject.SetActive(b);
-		imgBtns.gameObject.SetActive(b);
+		topUI.gameObject.SetActive(b);
+		scroller.insUIObject.SetActive(b);
+		sv.gameObject.SetActive(b);
 	}
 
 }
