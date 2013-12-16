@@ -17,7 +17,9 @@ public class Battle : UIBase
 	private BattleCardPool battleCardPool;
 	private BattleCard battleCard;
 	private BattleCardArea battleCardArea;
-	
+	private BattleEnemy battleEnemy;
+	private float ZOffset = -100f;
+
 	private List<ItemData> allItemData = new List<ItemData>();
 	private List<CardItem> selectTarget = new List<CardItem>();
 
@@ -30,13 +32,13 @@ public class Battle : UIBase
 		battleRootGameObject = NGUITools.AddChild(ViewManager.Instance.ParentPanel);
 		battleRootGameObject.name = "Fight";
 		battleRootGameObject.layer = GameLayer.ActorCard;
+		Vector3 pos = battleRootGameObject.transform.localPosition;
+		battleRootGameObject.transform.localPosition = new Vector3(pos.x,pos.y,pos.z + ZOffset);
 		
 		GameInput.OnPressEvent += HandleOnPressEvent;
 		GameInput.OnReleaseEvent += HandleOnReleaseEvent;
 		GameInput.OnStationaryEvent += HandleOnStationaryEvent;
 		GameInput.OnDragEvent += HandleOnDragEvent;
-
-		SwitchInput(false);
 	}
 	
 	public override void CreatUI ()
@@ -46,12 +48,40 @@ public class Battle : UIBase
 		CreatCard();
 
 		CreatArea();
+
+		CreatEnemy();
+	}
+
+	public override void ShowUI()
+	{
+		SwitchInput(false);
+
+		base.ShowUI();
+
+		ShowCard();
 	}
 
 	public override void HideUI ()
 	{
 		SwitchInput(true);
+
 		base.HideUI ();
+
+		battleCardArea.HideUI();
+
+		battleRootGameObject.SetActive(false);
+	}
+
+	public void StartBattle (Dictionary<int,List<CardItem>> attackData)
+	{
+		ResetClick();
+
+		Attack();
+	}
+
+	void Attack()
+	{
+		HideUI();
 	}
 
 	void CreatBack()
@@ -83,6 +113,12 @@ public class Battle : UIBase
 
 		battleCard.Init(cardName);
 
+	}
+
+	void ShowCard()
+	{
+		battleRootGameObject.SetActive(true);
+
 		for (int i = 0; i < battleCardPool.CardPosition.Length; i++)
 		{
 			battleCard.GenerateCard(GenerateData(),i);
@@ -95,17 +131,31 @@ public class Battle : UIBase
 
 		tempObject = GetPrefabsObject(areaName);
 
-		Vector3 pos = battleCardPool.transform.localPosition;
-
-		tempObject.transform.localPosition = new Vector3(pos.x,pos.y + 200,pos.z);
-
 		tempObject.layer = GameLayer.BattleCard;
 
 		battleCardArea = tempObject.AddComponent<BattleCardArea>();
-
+		battleCardArea.BQuest = this;
 		battleCardArea.Init(areaName);
 
 		battleCardArea.CreatArea(battleCardPool.CardPosition);
+	}
+
+	void CreatEnemy()
+	{
+		string enemyName = "BattleEnemy";
+
+		tempObject = GetPrefabsObject(enemyName);
+
+		tempObject.layer = GameLayer.EnemyCard;
+
+		battleEnemy = tempObject.AddComponent<BattleEnemy>();
+
+		battleEnemy.Init(enemyName);
+	}
+
+	public void ShowEnemy(int count)
+	{
+		battleEnemy.Refresh(count);
 	}
 
 	GameObject GetPrefabsObject(string name)
@@ -202,6 +252,8 @@ public class Battle : UIBase
 			{
 				battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
 			}
+
+			battleCardArea.tempCountTime = true;
 
 			ResetClick();
 		}

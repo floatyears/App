@@ -30,6 +30,15 @@ public class Main : MonoBehaviour
 		get{return gInput;}
 	}
 
+	private const float screenWidth = 640;
+
+	private static float texScale = 0f;
+
+	public static float TexScale
+	{
+		get{ return texScale; }
+	}
+
 	void Awake()
 	{
 		mainScrpit = this;
@@ -37,6 +46,9 @@ public class Main : MonoBehaviour
 		gInput = gameObject.AddComponent<GameInput>();
 
 		DontDestroyOnLoad(gameObject);
+
+
+		texScale = screenWidth / Screen.width;
 	}
 
 	/// <summary>

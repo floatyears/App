@@ -9,6 +9,8 @@ public class UIBase : IUIInterface
 
 	protected Main main;
 
+	protected ViewManager viewManager;
+
 	protected string uiName;
 
 	public string UIName 
@@ -47,6 +49,8 @@ public class UIBase : IUIInterface
 		main = Main.Instance;
 
 		controllerManger = ControllerManager.Instance;
+
+		viewManager = ViewManager.Instance;
 	}
 
 	public virtual void CreatUI ()

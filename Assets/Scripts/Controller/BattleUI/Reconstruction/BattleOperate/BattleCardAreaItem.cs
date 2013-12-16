@@ -4,6 +4,10 @@ using System.Collections.Generic;
 public class BattleCardAreaItem : UIBaseUnity
 {
 	private List<CardItem> cardItemList = new List<CardItem>();
+	public List<CardItem> CardItemList 
+	{
+		get{return cardItemList;}
+	}
 
 	private GameObject parentObject;
 
@@ -62,6 +66,16 @@ public class BattleCardAreaItem : UIBaseUnity
 		}
 
 		return maxLimit;
+	}
+
+	public void ClearCard()
+	{
+		for (int i = 0; i < cardItemList.Count; i++)
+		{
+			cardItemList[i].HideUI();
+		}
+
+		cardItemList.Clear();
 	}
 
 	void DisposeTweenPosition(CardItem ci)

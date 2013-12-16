@@ -42,10 +42,21 @@ public class BattleCardPool : UIBaseUnity
 			backTextureIns[i] = tempObject.GetComponent<UITexture>();
 		}
 
-
 		templateBackTexture.gameObject.SetActive(false);
 
 		tempObject = null;
+	}
+
+	public override void ShowUI ()
+	{
+		base.ShowUI ();
+		gameObject.SetActive(true);
+	}
+
+	public override void HideUI ()
+	{
+		base.HideUI ();
+		gameObject.SetActive(false);
 	}
 
 	void InitData()

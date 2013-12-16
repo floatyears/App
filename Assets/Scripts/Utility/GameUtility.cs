@@ -8,10 +8,6 @@ public class DGTools
 	{
 		return Random.Range(min,max);
 	}
-
-
-
-	
 }
 
 public class GameLayer
@@ -39,9 +35,10 @@ public class GameLayer
 
 	public static LayerMask IgnoreCard = 10;
 
+	public static LayerMask EnemyCard = 11;
+
 	public static int LayerToInt(LayerMask layer)
 	{
 		return 1 << layer;
 	}
-
 }

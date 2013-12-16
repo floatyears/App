@@ -45,7 +45,7 @@ public class GameInput : MonoBehaviour
 		if(!isCheckInput)
 			return;
 //#if UNITY_IPHONE || UNITY_ANDROID
-		//ProcessTouch();
+//		ProcessTouch();
 //#elif UNITY_EDITOR 
 		ProcessMouse();
 //#endif

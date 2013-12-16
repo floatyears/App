@@ -129,7 +129,8 @@ public class ControllerManager
 			temp = new QuestSelect(uiName);
 			break;
 		case SceneEnum.Fight:
-			temp = new Battle(uiName);
+			//temp = new Battle(uiName);
+			temp = new BattleQuest(uiName);
 			break;
 		default:
 			temp = new UIBase("Null");

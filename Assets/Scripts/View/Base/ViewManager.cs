@@ -79,10 +79,21 @@ public class ViewManager
 
 		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
 
-		goScript.Init(name);
-
 		uiObjectDic.Add(name,goScript);
 
 		return goScript;
+	}
+
+	public void DestoryUI(UIBaseUnity ui)
+	{
+		RemoveUI(ui.name);
+
+		GameObject.Destroy(ui.gameObject);
+	}
+
+	void RemoveUI(string uiName)
+	{
+		if(uiObjectDic.ContainsKey(uiName))
+			uiObjectDic.Remove(uiName);
 	}
 }

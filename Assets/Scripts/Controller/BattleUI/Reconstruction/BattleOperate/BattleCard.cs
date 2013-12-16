@@ -27,6 +27,18 @@ public class BattleCard : UIBaseUnity
 		InitParameter();
 	}
 
+	public override void ShowUI ()
+	{
+		base.ShowUI ();
+		gameObject.SetActive(true);
+	}
+
+	public override void HideUI ()
+	{
+		base.HideUI ();
+		gameObject.SetActive(false);
+	}
+
 	void InitParameter()
 	{
 		templateItemCard = FindChild<UITexture>("Texture");

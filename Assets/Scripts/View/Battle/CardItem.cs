@@ -117,9 +117,7 @@ public class CardItem : UIBaseUnity
 		NGUITools.UpdateWidgetCollider(gameObject);
 
 		if(itemID == 1)
-		{
 			actorTexture.color = Color.yellow;
-		}
 		else
 			actorTexture.color = Color.white;
 	}
