@@ -4,7 +4,7 @@ import public "unit.proto";
 package bbproto;
 
 message UserInfo {
-	required int32	uuId			= 1;
+	required int32	uuid			= 1;
 	required int32	userId			= 2;
 	optional string userName		= 3;
 	optional int32	rank			= 4;
