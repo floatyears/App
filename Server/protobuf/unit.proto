@@ -10,15 +10,14 @@ message UnitResource {
 };
 
 message UserUnit {  //unit instance
-	required int32 uniqueId		= 1;
-	optional int32 id			= 2; //unit_id
-	optional int32 exp			= 3;
-	optional int32 level		= 4;
-	optional int32 addAttack	= 5;
-	optional int32 addDefence	= 6;
-	optional int32 addHp		= 7;
-	optional int32 limitbreakLv = 8;
-	optional int32 getTime		= 9;
+	optional int32 id			= 1; //unit_id
+	optional int32 exp			= 2;
+	optional int32 level		= 3;
+	optional int32 addAttack	= 4;
+	optional int32 addDefence	= 5;
+	optional int32 addHp		= 6;
+	optional int32 limitbreakLv = 7;
+	optional int32 getTime		= 8;
 };
 
 message ReqGetUnitResource {

@@ -4,14 +4,15 @@ import public "unit.proto";
 package bbproto;
 
 message UserInfo {
-	required int32	userId			= 1;
-	optional string userName		= 2;
-	optional int32	rank			= 3;
-	optional int32	exp				= 4;
-	optional int32	staminaNow		= 5;
-	optional int32	staminaMax		= 6;
-	optional uint32	staminaRecover	= 7; //recover time
-	optional int32	loginTime		= 8; 
+	required int32	uuId			= 1;
+	required int32	userId			= 2;
+	optional string userName		= 3;
+	optional int32	rank			= 4;
+	optional int32	exp				= 5;
+	optional int32	staminaNow		= 6;
+	optional int32	staminaMax		= 7;
+	optional uint32	staminaRecover	= 8; //recover time
+	optional int32	loginTime		= 9; 
 };
 
 message AccountInfo {
