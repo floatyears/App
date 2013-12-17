@@ -50,13 +50,20 @@ public class BaseModel : IDataOperation {
         return new ErrorMsg();
     }
 
+
+    /// <summary>
+    /// Init this instance.
+    /// </summary>
+    public virtual void Init (){
+    }
+
     /// <summary>
     /// Validates the type.
     /// </summary>
     /// <returns><c>true</c>, if type was validated, <c>false</c> otherwise.</returns>
     /// <param name="instance">Instance.</param>
     /// <typeparam name="T">The 1st type parameter.</typeparam>
-    public bool ValidateType<T>(Extensible instance){
+    public bool ValidateType<T>(IExtensible instance){
         return instance is T;
     }
 
@@ -92,7 +99,12 @@ public class ModelManager
         // init all instance be used for game.
     }
 
-    public BaseModel GetData(ErrorMsg errorMsg) {
-        BaseModel 
+    public BaseModel GetData(string key, ErrorMsg errorMsg) {
+        BaseModel model;
+        if (!modelDic.TryGetValue(key, out model)){
+            errorMsg.Code = ErrorCode.InvalidModelName;
+            errorMsg.Msg = String.Format("required key {0}, but it not exist in ModelManager", key);
+        }
+        return model;
     }
 }

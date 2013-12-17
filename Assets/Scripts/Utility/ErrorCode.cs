@@ -25,6 +25,7 @@ public enum ErrorCode {
     Encrypt = -3001,
     Decrypt = - 3002, 
     IllegalData = -3003,
+    InvalidModelName = -3004,
 
     // controller
     Controller = -4000,
