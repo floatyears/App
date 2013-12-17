@@ -863,6 +863,54 @@ func (m *UnitParty) GetItems() []*PartyItem {
 	return nil
 }
 
+type UserInfoDetail struct {
+	User             *UserInfo      `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Account          *AccountInfo   `protobuf:"bytes,2,opt,name=account" json:"account,omitempty"`
+	Quest            *UserQuestInfo `protobuf:"bytes,3,opt,name=quest" json:"quest,omitempty"`
+	UnitPartyList    []*UnitParty   `protobuf:"bytes,4,rep,name=unitPartyList" json:"unitPartyList,omitempty"`
+	UnitPartyCurrent *int32         `protobuf:"varint,5,opt,name=unitPartyCurrent" json:"unitPartyCurrent,omitempty"`
+	XXX_unrecognized []byte         `json:"-"`
+}
+
+func (m *UserInfoDetail) Reset()         { *m = UserInfoDetail{} }
+func (m *UserInfoDetail) String() string { return proto.CompactTextString(m) }
+func (*UserInfoDetail) ProtoMessage()    {}
+
+func (m *UserInfoDetail) GetUser() *UserInfo {
+	if m != nil {
+		return m.User
+	}
+	return nil
+}
+
+func (m *UserInfoDetail) GetAccount() *AccountInfo {
+	if m != nil {
+		return m.Account
+	}
+	return nil
+}
+
+func (m *UserInfoDetail) GetQuest() *UserQuestInfo {
+	if m != nil {
+		return m.Quest
+	}
+	return nil
+}
+
+func (m *UserInfoDetail) GetUnitPartyList() []*UnitParty {
+	if m != nil {
+		return m.UnitPartyList
+	}
+	return nil
+}
+
+func (m *UserInfoDetail) GetUnitPartyCurrent() int32 {
+	if m != nil && m.UnitPartyCurrent != nil {
+		return *m.UnitPartyCurrent
+	}
+	return 0
+}
+
 type TerminalInfo struct {
 	Platform         *int32  `protobuf:"varint,1,opt,name=platform" json:"platform,omitempty"`
 	DeviceName       *string `protobuf:"bytes,2,opt,name=deviceName" json:"deviceName,omitempty"`
@@ -1136,14 +1184,10 @@ func (m *ReqAuthUser) GetTerminal() *TerminalInfo {
 }
 
 type RspAuthUser struct {
-	Header           *ProtoHeader   `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	User             *UserInfo      `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
-	Account          *AccountInfo   `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
-	Quest            *UserQuestInfo `protobuf:"bytes,4,opt,name=quest" json:"quest,omitempty"`
-	ServerTime       *uint32        `protobuf:"varint,5,opt,name=server_time" json:"server_time,omitempty"`
-	UnitPartyCurrent *int32         `protobuf:"varint,6,opt,name=unitPartyCurrent" json:"unitPartyCurrent,omitempty"`
-	UnitPartyList    []*UnitParty   `protobuf:"bytes,7,rep,name=unitPartyList" json:"unitPartyList,omitempty"`
-	XXX_unrecognized []byte         `json:"-"`
+	Header           *ProtoHeader    `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Userdetail       *UserInfoDetail `protobuf:"bytes,2,opt,name=userdetail" json:"userdetail,omitempty"`
+	ServerTime       *uint32         `protobuf:"varint,3,opt,name=server_time" json:"server_time,omitempty"`
+	XXX_unrecognized []byte          `json:"-"`
 }
 
 func (m *RspAuthUser) Reset()         { *m = RspAuthUser{} }
@@ -1157,23 +1201,9 @@ func (m *RspAuthUser) GetHeader() *ProtoHeader {
 	return nil
 }
 
-func (m *RspAuthUser) GetUser() *UserInfo {
+func (m *RspAuthUser) GetUserdetail() *UserInfoDetail {
 	if m != nil {
-		return m.User
-	}
-	return nil
-}
-
-func (m *RspAuthUser) GetAccount() *AccountInfo {
-	if m != nil {
-		return m.Account
-	}
-	return nil
-}
-
-func (m *RspAuthUser) GetQuest() *UserQuestInfo {
-	if m != nil {
-		return m.Quest
+		return m.Userdetail
 	}
 	return nil
 }
@@ -1183,20 +1213,6 @@ func (m *RspAuthUser) GetServerTime() uint32 {
 		return *m.ServerTime
 	}
 	return 0
-}
-
-func (m *RspAuthUser) GetUnitPartyCurrent() int32 {
-	if m != nil && m.UnitPartyCurrent != nil {
-		return *m.UnitPartyCurrent
-	}
-	return 0
-}
-
-func (m *RspAuthUser) GetUnitPartyList() []*UnitParty {
-	if m != nil {
-		return m.UnitPartyList
-	}
-	return nil
 }
 
 type ReqLoginPack struct {
