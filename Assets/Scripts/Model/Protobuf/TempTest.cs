@@ -2,33 +2,30 @@ using UnityEngine;
 using System.Collections;
 
 
-//using Fbmly1;
-//using com.fbmly;
 using System.IO;
 using ProtoBuf;
-using msg;
 using System;
 
 public class TempTest : MonoBehaviour
 {
 
-    public ErrorMsg receivePersonInfoSucceed (msg.Person modifiedPerson, ErrorMsg errorMsg, object[] values){
+//    public ErrorMsg receivePersonInfoSucceed (msg.Person modifiedPerson, ErrorMsg errorMsg, object[] values){
+//
+//        // output strings
+//        LogHelper.Log("deserialized info: person's name is " + modifiedPerson.name);
+//        LogHelper.Log("deserialized info: person's id is " + modifiedPerson.id);
+//        LogHelper.Log("deserialized info: person's email is " + modifiedPerson.email);
+//
+//        errorMsg = new ErrorMsg(ErrorCode.Succeed, "");
+//        return errorMsg;
+//    }
 
-        // output strings
-        LogHelper.Log("deserialized info: person's name is " + modifiedPerson.name);
-        LogHelper.Log("deserialized info: person's id is " + modifiedPerson.id);
-        LogHelper.Log("deserialized info: person's email is " + modifiedPerson.email);
-
-        errorMsg = new ErrorMsg(ErrorCode.Succeed, "");
-        return errorMsg;
-    }
-
-    public ErrorMsg receivePersonInfoFailed (string responseString, ErrorMsg errorMsg, object[] values){
-        // post failed
-        errorMsg = new ErrorMsg(ErrorCode.NetWork, "request failed :  Timed out ");
-        LogHelper.Log(errorMsg);
-        return errorMsg;
-    }
+//    public ErrorMsg receivePersonInfoFailed (string responseString, ErrorMsg errorMsg, object[] values){
+//        // post failed
+//        errorMsg = new ErrorMsg(ErrorCode.NetWork, "request failed :  Timed out ");
+//        LogHelper.Log(errorMsg);
+//        return errorMsg;
+//    }
 	
 	void OnGUI( )
 	{
