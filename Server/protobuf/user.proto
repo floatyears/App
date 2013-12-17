@@ -44,6 +44,14 @@ message UnitParty {
 	repeated PartyItem items		= 1;
 };
 
+message UserInfoDetail {
+	optional UserInfo		user				= 1;
+	optional AccountInfo	account				= 2;
+	optional UserQuestInfo	quest				= 3;	
+	repeated UnitParty		unitPartyList		= 4;
+	optional int32			unitPartyCurrent	= 5;
+};
+
 message TerminalInfo {
 	optional int32	platform		= 1;
 	optional string	deviceName		= 2; // "asus Nexus 7"
@@ -90,18 +98,14 @@ message RspGetUserInfo {
 };
 
 message ReqAuthUser {
-	optional ProtoHeader	header		= 1;
-	optional TerminalInfo	terminal	= 2;	
+	optional ProtoHeader	header				= 1;
+	optional TerminalInfo	terminal			= 2;	
 };
 
 message RspAuthUser {
 	optional ProtoHeader	header				= 1;
-	optional UserInfo		user				= 2;
-	optional AccountInfo	account				= 3;
-	optional UserQuestInfo	quest				= 4;	
-	optional uint32			server_time 		= 5;
-	optional int32			unitPartyCurrent	= 6;
-	repeated UnitParty		unitPartyList		= 7;
+	optional UserInfoDetail	user		 		= 2;
+	optional uint32			server_time 		= 3;
 };
 
 message ReqLoginPack {

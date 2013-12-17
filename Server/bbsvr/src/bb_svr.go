@@ -16,7 +16,8 @@ import (
 )
 
 const (
-	_PROTO_LOGIN_BACK     = "/login_back"
+	_PROTO_LOGIN_PACK     = "/login_pack"
+	_PROTO_AUTH_USER      = "/auth_user"
 	_PROTO_GET_QUEST_MAP  = "/get_new_quest_map"
 	_PROTO_START_QUEST    = "/start_quest"
 	_PROTO_CLEAR_QUEST    = "/clear_quest"
@@ -58,7 +59,8 @@ func main() {
 	//testRedis()
 	//return
 
-	http.HandleFunc(_PROTO_LOGIN_BACK, safeHandler(user.LoginBackHandler))
+	http.HandleFunc(_PROTO_LOGIN_PACK, safeHandler(user.LoginPackHandler))
+	http.HandleFunc(_PROTO_AUTH_USER, safeHandler(user.AuthUserHandler))
 	//http.HandleFunc(_PROTO_GET_QUEST_MAP, safeHandler(quest.GetQuestMapHandler))
 	http.HandleFunc(_PROTO_START_QUEST, safeHandler(quest.StartQuestHandler))
 	http.HandleFunc(_PROTO_CLEAR_QUEST, safeHandler(quest.ClearQuestHandler))

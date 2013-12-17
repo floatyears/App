@@ -436,14 +436,11 @@ type UserUnit struct {
 	Id               *int32 `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
 	Exp              *int32 `protobuf:"varint,3,opt,name=exp" json:"exp,omitempty"`
 	Level            *int32 `protobuf:"varint,4,opt,name=level" json:"level,omitempty"`
-	Attack           *int32 `protobuf:"varint,5,opt,name=attack" json:"attack,omitempty"`
-	Defense          *int32 `protobuf:"varint,6,opt,name=defense" json:"defense,omitempty"`
-	Hp               *int32 `protobuf:"varint,7,opt,name=hp" json:"hp,omitempty"`
-	AddAttack        *int32 `protobuf:"varint,8,opt,name=addAttack" json:"addAttack,omitempty"`
-	AddDefence       *int32 `protobuf:"varint,9,opt,name=addDefence" json:"addDefence,omitempty"`
-	AddHp            *int32 `protobuf:"varint,10,opt,name=addHp" json:"addHp,omitempty"`
-	LimitbreakLv     *int32 `protobuf:"varint,11,opt,name=limitbreakLv" json:"limitbreakLv,omitempty"`
-	GetTime          *int32 `protobuf:"varint,12,opt,name=getTime" json:"getTime,omitempty"`
+	AddAttack        *int32 `protobuf:"varint,5,opt,name=addAttack" json:"addAttack,omitempty"`
+	AddDefence       *int32 `protobuf:"varint,6,opt,name=addDefence" json:"addDefence,omitempty"`
+	AddHp            *int32 `protobuf:"varint,7,opt,name=addHp" json:"addHp,omitempty"`
+	LimitbreakLv     *int32 `protobuf:"varint,8,opt,name=limitbreakLv" json:"limitbreakLv,omitempty"`
+	GetTime          *int32 `protobuf:"varint,9,opt,name=getTime" json:"getTime,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
@@ -475,27 +472,6 @@ func (m *UserUnit) GetExp() int32 {
 func (m *UserUnit) GetLevel() int32 {
 	if m != nil && m.Level != nil {
 		return *m.Level
-	}
-	return 0
-}
-
-func (m *UserUnit) GetAttack() int32 {
-	if m != nil && m.Attack != nil {
-		return *m.Attack
-	}
-	return 0
-}
-
-func (m *UserUnit) GetDefense() int32 {
-	if m != nil && m.Defense != nil {
-		return *m.Defense
-	}
-	return 0
-}
-
-func (m *UserUnit) GetHp() int32 {
-	if m != nil && m.Hp != nil {
-		return *m.Hp
 	}
 	return 0
 }
@@ -825,7 +801,7 @@ func (m *AccountInfo) GetFirstSelectNum() uint32 {
 
 type UserQuestInfo struct {
 	QuestId          *int32 `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
-	QuestStatus      *int32 `protobuf:"varint,2,opt,name=questStatus" json:"questStatus,omitempty"`
+	QuestCleared     *bool  `protobuf:"varint,2,opt,name=questCleared" json:"questCleared,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
@@ -840,11 +816,11 @@ func (m *UserQuestInfo) GetQuestId() int32 {
 	return 0
 }
 
-func (m *UserQuestInfo) GetQuestStatus() int32 {
-	if m != nil && m.QuestStatus != nil {
-		return *m.QuestStatus
+func (m *UserQuestInfo) GetQuestCleared() bool {
+	if m != nil && m.QuestCleared != nil {
+		return *m.QuestCleared
 	}
-	return 0
+	return false
 }
 
 type PartyItem struct {
@@ -1328,6 +1304,6 @@ func (m *RspLoginPack) GetLoginParam() *LoginInfo {
 }
 
 func init() {
-	proto.RegisterEnum("EUnitType", EUnitType_name, EUnitType_value)
-	proto.RegisterEnum("EQuestState", EQuestState_name, EQuestState_value)
+	proto.RegisterEnum("bbproto.EUnitType", EUnitType_name, EUnitType_value)
+	proto.RegisterEnum("bbproto.EQuestState", EQuestState_name, EQuestState_value)
 }

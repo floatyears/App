@@ -1,7 +1,7 @@
 package user
 
 import (
-	"fmt"
+	//	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -10,20 +10,20 @@ import (
 )
 import (
 	bbproto "../bbproto"
+	"../common"
 	"../data"
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
-const (
-	NEW_USER_NAME = "no name"
-)
+type LoginPack struct {
+}
 
 //import "../comm"
-func verifyParams(msg bbproto.ReqLoginBack) (err error) {
+func (t LoginPack) verifyParams(msg bbproto.ReqLoginPack) (err error) {
 	return err
 }
 
-func checkInput(req *http.Request) (msg bbproto.ReqLoginBack, err error) {
+func (t LoginPack) checkInput(req *http.Request) (msg bbproto.ReqLoginPack, err error) {
 	reqBuffer, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		log.Printf("ERR: ioutil.ReadAll failed: %v ", err)
@@ -38,28 +38,25 @@ func checkInput(req *http.Request) (msg bbproto.ReqLoginBack, err error) {
 	}
 	log.Printf("recv msg: %+v", msg)
 
-	err = verifyParams(msg)
+	err = t.verifyParams(msg)
 
 	return msg, nil
 }
 
-func sendResponse(rsp http.ResponseWriter, rsperr error) (size int, err error) {
-	size, err = fmt.Fprintf(rsp, "parse proto err: %v", rsperr)
-	//size, err := rsp.Write(value)
-
-	return size, err
+func (t LoginPack) FillRspHeader(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack) (outbuffer []byte, err error) {
+	*rspMsg.Header = *reqMsg.Header
+	outbuffer, err = proto.Marshal(rspMsg)
+	return outbuffer, err
 }
 
-func GetNewUserId() (userid int32, err error) {
-	userid = 1001
-	return userid, err
-}
+func LoginPackHandler(rsp http.ResponseWriter, req *http.Request) {
+	p := &LoginPack{}
+	rspMsg := &bbproto.RspLoginPack{}
 
-func LoginBackHandler(rsp http.ResponseWriter, req *http.Request) {
-
-	msg, err := checkInput(req)
+	msg, err := p.checkInput(req)
 	if err != nil {
-		sendResponse(rsp, err)
+		data, err := p.FillRspHeader(&msg, rspMsg)
+		common.SendResponse(rsp, data, err)
 		return
 	}
 
@@ -73,18 +70,17 @@ func LoginBackHandler(rsp http.ResponseWriter, req *http.Request) {
 		log.Printf("get for '%v' ret err:%v, value: %v", *msg.UserId, err, value)
 	}
 
-	rspMsg := &bbproto.RspLoginBack{}
-
 	isUserExists := value != ""
 	if isUserExists {
 		err = proto.Unmarshal([]byte(value), rspMsg.User) //unSerialize into usrinfo
 
-		size, err := sendResponse(rsp, err)
+		data, err := p.FillRspHeader(&msg, rspMsg)
+		size, err := common.SendResponse(rsp, data, err)
 		log.Printf("rsp msg err:%v, size[%d]: %+v", err, size, rspMsg.User)
 	} else {
 		//rspMsg.User = &bbproto.UserInfo{}
 		*rspMsg.User.UserId, err = GetNewUserId()
-		*rspMsg.User.UserName = NEW_USER_NAME
+		*rspMsg.User.UserName = common.NEW_USER_NAME
 		*rspMsg.User.LoginTime = int32(time.Now().Unix())
 
 		log.Printf("ERR: Cannot find data for user:%v", *msg.UserId)
