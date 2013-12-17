@@ -1,7 +1,7 @@
 using bbproto;
 using System.Collections;
 
-public class User: IDataOperation {
+public class User: BaseModel {
     private UserInfo userInfo;
 
     public UserInfo Load(){
