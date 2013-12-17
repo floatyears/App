@@ -3,37 +3,39 @@ using System.Collections;
 
 public class QuestView : UIBase
 {
-	private DragUI activityScroller;
-	private DragUI storyScroller;
-
-	private ScrollView sv;
+	private ScrollView StoryScroller;
+	private ScrollView EventScroller;
+	
+	private QuestDoor StoryDoor;
+	private QuestDoor EventDoor;
 
 	public QuestView(string uiName):base(uiName)
 	{
-		
+
 	}
 	public override void CreatUI ()
 	{
-		sv = ViewManager.Instance.GetViewObject("QuestScrollView") as ScrollView; 
-		sv.transform.localPosition = UIConfig.UI_Z_DOWN*Vector3.up;
-		currentUIDic.Add(sv.UIName, sv);
-
-		activityScroller = new DragUI(sv.TopLeft, sv.TopRight, sv.ActivityItem);
-		activityScroller.ShowData(5);
-
-		storyScroller = new DragUI(sv.BottomLeft, sv.BottomRight, sv.StoryItem);
-		storyScroller.ShowData(4);
-
-		for(int i= 0; i<activityScroller.DragList.Count; i++)
-		{
-			UIEventListener listen = UIEventListener.Get(activityScroller.DragList[i]);
+		StoryDoor = ViewManager.Instance.GetViewObject("StoryDoor") as QuestDoor; 
+		StoryDoor.transform.localPosition = 210*Vector3.up;
+		currentUIDic.Add(StoryDoor.UIName, StoryDoor);
+		StoryScroller = new ScrollView(StoryDoor.LeftTransform, StoryDoor.RightTransform, StoryDoor.Item);
+		StoryScroller.ShowData(5);
 		
+		for(int i= 0; i<StoryScroller.DragList.Count; i++)
+		{
+			UIEventListener listen = UIEventListener.Get( StoryScroller.DragList[ i ] );	
 			listen.onClick = ClickQuest;
 		}
 
-		for(int i= 0; i<storyScroller.DragList.Count; i++)
+		EventDoor = ViewManager.Instance.GetViewObject("EventDoor") as QuestDoor; 
+		EventDoor.transform.localPosition = -100*Vector3.up;
+		currentUIDic.Add(EventDoor.UIName, EventDoor);
+		EventScroller = new ScrollView(EventDoor.LeftTransform, EventDoor.RightTransform, EventDoor.Item);
+		EventScroller.ShowData(5);
+		
+		for(int i= 0; i<EventScroller.DragList.Count; i++)
 		{
-			UIEventListener listen = UIEventListener.Get(storyScroller.DragList[i]);	
+			UIEventListener listen = UIEventListener.Get( EventScroller.DragList[ i ] );	
 			listen.onClick = ClickQuest;
 		}
 
@@ -50,27 +52,23 @@ public class QuestView : UIBase
 	}
 	
 	public override void DestoryUI ()
-	{
-		
+	{	
 	}
 	
 	void SetActive(bool b)
 	{
-		foreach(var item in currentUIDic.Values)
-		{
-			item.HideUI();
-		}
+		StoryScroller.insUIObject.SetActive(b);
+		EventScroller.insUIObject.SetActive(b);
 
-		activityScroller.insUIObject.SetActive(b);
-		storyScroller.insUIObject.SetActive(b);
-
-		sv.gameObject.SetActive(b);
+		StoryDoor.gameObject.SetActive(b);
+		EventDoor.gameObject.SetActive(b);
 	}
 	
 	void ClickQuest(GameObject go)
 	{
 		ControllerManager.Instance.ChangeScene(SceneEnum.QuestSelect);
-		sv.gameObject.SetActive(false);
+		StoryDoor.gameObject.SetActive(false);
+		EventDoor.gameObject.SetActive(false);
 	}
 
 

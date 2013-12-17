@@ -12,7 +12,7 @@ public class TopMsgBox : UIBaseUnity
 
 	void Start()
 	{
-		Init("aaa");
+		Init("TopMsgBox");
 	}
 
 	public override void Init (string name)
@@ -22,7 +22,6 @@ public class TopMsgBox : UIBaseUnity
 		labTextCurTotalExp = FindChild<UILabel>("Lab_T_CurTotalExp");
 		labTextNextExp = FindChild<UILabel>("Lab_T_NextExp");
 		labTextRank = FindChild<UILabel>("Lab_T_Rank");
-		Debug.Log(labTextRank);
 		labVauleCurTotalExp = FindChild<UILabel>("Lab_V_CurTotalExp");
 		labVauleNextExp = FindChild<UILabel>("Lab_V_NextExp");
 		labVauleRank = FindChild<UILabel>("Lab_V_Rank");

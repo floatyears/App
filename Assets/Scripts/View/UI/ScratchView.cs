@@ -19,8 +19,8 @@ public class ScratchView : UIBase
 		currentUIDic.Add(topUI.UIName, topUI);
 		currentUIDic.Add(bottomUI.UIName, bottomUI);
 
-		topUI.gameObject.transform.localPosition = UIConfig.UI_Z_TOP*Vector3.up;
-		bottomUI.gameObject.transform.localPosition = UIConfig.UI_Z_DOWN*Vector3.up;
+		topUI.gameObject.transform.localPosition = 220*Vector3.up;
+		bottomUI.gameObject.transform.localPosition = -125*Vector3.up;
 	}
 
 	public override void ShowUI ()

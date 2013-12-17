@@ -22,9 +22,9 @@ public class UnitView : UIBase
 		currentUIDic.Add(bottomUI.UIName, bottomUI);
 		currentUIDic.Add(centerUI.UIName, centerUI);
 		
-		topUI.gameObject.transform.localPosition = (UIConfig.UI_Z_TOP+30)*Vector3.up;
-		centerUI.gameObject.transform.localPosition = (UIConfig.UI_Z_CENTER+20)*Vector3.up;
-		bottomUI.gameObject.transform.localPosition = (UIConfig.UI_Z_DOWN-20)*Vector3.up;
+		topUI.gameObject.transform.localPosition = 330*Vector3.up;
+		centerUI.gameObject.transform.localPosition = 150*Vector3.up;
+		bottomUI.gameObject.transform.localPosition = -115*Vector3.up;
 	}
 	
 	public override void ShowUI ()
