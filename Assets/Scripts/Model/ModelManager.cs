@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ProtoBuf;
 
 /// <summary>
 /// Data operation. Class inherit this interface can get data they need.
@@ -10,40 +11,53 @@ public interface IDataOperation {
     /// <summary>
     /// Load this instance.
     /// </summary>
-    /// <typeparam name="T">The 1st type parameter.</typeparam>
-    T Load<T>();
+    IExtensible Load();
 
     /// <summary>
-    /// Save instance, record the specified errorMsg.
-    /// </summary>
+    /// Save the specified instance and errorMsg.
     /// </summary>
     /// <param name="instance">Instance.</param>
     /// <param name="errorMsg">Error message.</param>
-    /// <typeparam name="T">The 1st type parameter.</typeparam>
-    void Save<T>(T instance, ErrorMsg errorMsg);
+    void Save(IExtensible instance, ErrorMsg errorMsg);
 
-    ErrorMsg Validate<T>(T instance);
+    /// <summary>
+    /// Validate the specified instance.
+    /// </summary>
+    /// <param name="instance">Instance.</param>
+    ErrorMsg Validate(IExtensible instance);
 }
 
 public class BaseModel : IDataOperation {
-    private object data;
+    protected IExtensible data;
     
-    public T Load<T>(){
-        return (T)data;
+    public IExtensible Load(){
+        return data as IExtensible;
     }
     
-    public void Save<T>(T newData, ErrorMsg errorMsg){
+    public void Save(IExtensible newData, ErrorMsg errorMsg){
         // validate
         errorMsg = Validate(newData);
         if (errorMsg.Code == ErrorCode.Succeed){
-
+            data = newData;
         }
     }
 
-    public ErrorMsg Validate<T>(T instance){
-        ErrorMsg eMsg = new ErrorMsg();
-        eMsg.Code = ErrorCode.Succeed;
-        return eMsg;
+    /// <summary>
+    /// Validate the specified instance.
+    /// </summary>
+    /// <param name="instance">Instance.</param>
+    public virtual ErrorMsg Validate(IExtensible instance){
+        return new ErrorMsg();
+    }
+
+    /// <summary>
+    /// Validates the type.
+    /// </summary>
+    /// <returns><c>true</c>, if type was validated, <c>false</c> otherwise.</returns>
+    /// <param name="instance">Instance.</param>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
+    public bool ValidateType<T>(Extensible instance){
+        return instance is T;
     }
 
 }
@@ -60,7 +74,7 @@ public class ModelManager
     {
         get
         {
-            if(instance  == null)
+            if(instance == null)
             {
                 instance = new ModelManager();
                 instance.Init();
@@ -69,12 +83,16 @@ public class ModelManager
         }
     }
 
-    private Dictionary<string, IDataOperation> modelDic = new Dictionary<string, IDataOperation>();
+    private Dictionary<string, BaseModel> modelDic = new Dictionary<string, BaseModel>();
 
     /// <summary>
     /// Init this instance.
     /// </summary>
     public void Init (){
-//        modelDic.Add("user", Us)
+        // init all instance be used for game.
+    }
+
+    public BaseModel GetData(ErrorMsg errorMsg) {
+        BaseModel 
     }
 }
