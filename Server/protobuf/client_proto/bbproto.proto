@@ -124,24 +124,24 @@ message UserInfo {
 	optional int32	exp				= 4;
 	optional int32	staminaNow		= 5;
 	optional int32	staminaMax		= 6;
-	optional int32	staminaRecover	= 7; //recover time
+	optional uint32	staminaRecover	= 7; //recover time
 	optional uint32	loginTime		= 8; 
 };
 
 message AccountInfo {
-	optional int32	userId				= 1;
-	optional int32	review				= 2;
-	optional int32	payTotal			= 3;
-	optional int32	payMonth			= 4;
-	optional int32	money				= 5;
-	optional int32	stonePay			= 6;
-	optional int32	stoneFree			= 7;
-	optional int32	stone				= 8;
-	optional int32	friendPoint			= 9;
-	optional int32	totalUnit			= 10;
-	optional int32	totalParty			= 11;
-	optional int32	totalFriend			= 12;
-	optional int32	firstSelectNum		= 13;
+	optional int32	userId			= 1;
+	optional int32	review			= 2;
+	optional int32	payTotal		= 3;
+	optional int32	payMonth		= 4;
+	optional int32	money			= 5;
+	optional int32	stonePay		= 6;
+	optional int32	stoneFree		= 7;
+	optional int32	stone			= 8;
+	optional int32	friendPoint		= 9;
+	optional int32	totalUnit		= 10;
+	optional int32	totalParty		= 11;
+	optional int32	totalFriend		= 12;
+	optional int32	firstSelectNum	= 13;
 };
 
 message UserQuestInfo {
