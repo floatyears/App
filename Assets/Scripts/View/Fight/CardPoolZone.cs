@@ -98,7 +98,7 @@ public class CardPoolZone : MonoBehaviour
 
 			card2.layer = MoveCard.UNPICKEDLAYER;
 
-			card2.GetComponent<Card>().style = Card.Styles.light;
+			card2.GetComponent<Card>().style = Card.Styles.blood;
 
 			LogHelper.Log("canMove = "+card2.GetComponent<Card>().canMove);
 

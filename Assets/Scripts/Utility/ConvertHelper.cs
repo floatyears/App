@@ -35,7 +35,7 @@ public sealed class ConvertHelper {
 	public static byte[] StringToBytes (string text){
 		char[] chars = text.ToCharArray();
 		byte[] buffer = new byte[chars.Length];
-		LogHelper.Log("start convert");
+//		LogHelper.Log("start convert");
 		for(int i = 0; i < chars.Length; i++)
 		{
 			buffer[i] = Convert.ToByte(chars[i]);

@@ -5,6 +5,7 @@ using System.Collections;
 using System.IO;
 using ProtoBuf;
 using System;
+using bbproto;
 
 public class TempTest : MonoBehaviour
 {
@@ -45,17 +46,28 @@ public class TempTest : MonoBehaviour
 //            HttpClient.Instance.sendPost<msg.Person>(this, "http://192.168.0.200:8000/get_quest_map", person, receivePersonInfoFailed, receivePersonInfoSucceed, errorMsg);
 
 
-            // test sqlite
-//            DbManager.Instance.
-            string connectString = "DATA source=" + Application.dataPath + @"/test2.db";
-//            string secret = "next";
-            SqliteDbHelper dbHelper = new SqliteDbHelper(connectString);
-            dbHelper.CreateTable("UserInfo", new string[]{"name"}, new string[]{"varchar(20)"});
+//            // test sqlite
+////            DbManager.Instance.
+//            string connectString = "DATA source=" + Application.dataPath + @"/test2.db";
+////            string secret = "next";
+//            SqliteDbHelper dbHelper = new SqliteDbHelper(connectString);
+//            dbHelper.CreateTable("UserInfo", new string[]{"name"}, new string[]{"varchar(20)"});
+////            dbHelper.CloseSqlConnection();
+////            dbHelper.OpenDB(connectString, "");
+//            dbHelper.InsertInto("UserInfo", new string[]{"'Jackie'"});
+//            dbHelper.InsertInto("UserInfo", new string[]{"'Rose'"});
 //            dbHelper.CloseSqlConnection();
-//            dbHelper.OpenDB(connectString, "");
-            dbHelper.InsertInto("UserInfo", new string[]{"'Jackie'"});
-            dbHelper.InsertInto("UserInfo", new string[]{"'Rose'"});
-            dbHelper.CloseSqlConnection();
+
+            UserInfo userInfo = new UserInfo();
+            userInfo.userId = 1;
+            string serUserInfo = ConvertHelper.BytesToString(ProtobufSerializer.SerializeToBytes<UserInfo>(userInfo));
+            long start = TimeHelper.MillionSecondsNow();
+            LogHelper.Log("now time is " + start);
+            for (int i = 0; i < 10000; i++){
+                UserInfo info = ProtobufSerializer.ParseFormString<UserInfo>(serUserInfo);
+            }
+            long end = TimeHelper.MillionSecondsNow();
+            LogHelper.Log("now time is " + end + " , cost " + (end - start));
 
 		}
 	}

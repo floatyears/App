@@ -5,9 +5,9 @@ public class BattleShow : UIBase
 {
 	#region IUIInterface implementation
 
-	private DragUI topUI;
+	private ScrollView topUI;
 
-	private DragUI downUI;
+	private ScrollView downUI;
 
 	public BattleShow(string uiName):base(uiName)
 	{
@@ -20,11 +20,11 @@ public class BattleShow : UIBase
 
 		currentUIDic.Add(bsu.UIName,bsu);
 
-		topUI = new DragUI(bsu.TopLeft,bsu.TopRight,bsu.DragItem);
+		topUI = new ScrollView(bsu.TopLeft,bsu.TopRight,bsu.DragItem);
 
 		topUI.ShowData(3);
 
-		downUI = new DragUI(bsu.BottomLeft,bsu.BottomRight,bsu.DragItem);
+		downUI = new ScrollView(bsu.BottomLeft,bsu.BottomRight,bsu.DragItem);
 		downUI.ShowData(4);
 
 		UIEventListener listen = UIEventListener.Get(topUI.DragList[0]);

@@ -111,20 +111,23 @@ public class ControllerManager
 		switch (sEnum)
 		{	
 		case SceneEnum.Quest:
-			temp = new BattleShow(uiName);
+			temp = new QuestView(uiName);
 			break;
-//		case SceneEnum.Scratch:
-//
-//			break;
-//		case SceneEnum.Shop:
-//
-//			break;
-//		case SceneEnum.Others:
-//
-//			break;
-//		case SceneEnum.Units:
-//
-//			break;
+		case SceneEnum.Friends:
+			temp = new FriendsView(uiName);
+			break;
+		case SceneEnum.Scratch:
+			temp = new ScratchView(uiName);
+			break;
+		case SceneEnum.Shop:
+			temp = new ShopView(uiName);
+			break;
+		case SceneEnum.Others:
+			temp = new OthersView(uiName);
+			break;
+		case SceneEnum.Units:
+			temp = new UnitView(uiName);
+			break;
 		case SceneEnum.QuestSelect:
 			temp = new QuestSelect(uiName);
 			break;
