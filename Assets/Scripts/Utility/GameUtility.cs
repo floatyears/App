@@ -13,7 +13,7 @@ public class DGTools
 public class GameLayer
 {
 
-	private static LayerMask Default = 0;
+//	private static LayerMask Default = 0;
 	
 	public static LayerMask TransparentFX = 1;
 	

@@ -27,7 +27,7 @@ public class DragUI : UIBase
 	
 	public Camera camera;
 	
-	private Vector3 initPosition = Vector3.zero;
+//	private Vector3 initPosition = Vector3.zero;
 
 	private List<GameObject> dragList = new List<GameObject>();
 	
@@ -65,7 +65,7 @@ public class DragUI : UIBase
 
 		insUIObject.transform.Find("Anchor").GetComponent<UIAnchor>().uiCamera = cam;
 
-		initPosition = insUIObject.transform.Find("Anchor/Offset/InitPosition").localPosition;
+		//initPosition = insUIObject.transform.Find("Anchor/Offset/InitPosition").localPosition;
 
 		SetPosition(camera.transform);
 

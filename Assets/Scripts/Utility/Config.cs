@@ -24,7 +24,7 @@ public class Config
 
 	public const byte cardDepth = 3;
 
-	public static Vector3 cardPoolInitPosition = new Vector3(-220f,-30f,0f);
+	public static Vector3 cardPoolInitPosition = new Vector3(-255f,-30f,0f);
 	
 	private Dictionary<int,ItemData> cardData = new Dictionary<int, ItemData>();
 

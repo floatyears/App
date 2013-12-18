@@ -100,6 +100,8 @@ public class Role : UIBaseUnity
 			MoveEnd();
 	}
 
+	Coordinate tempCoor; 
+
 	void MoveEnd()
 	{
 		if(!isMove)
@@ -108,8 +110,11 @@ public class Role : UIBaseUnity
 		}
 		else
 		{
-			SyncRoleCoordinate(firstWay[0]);
+			tempCoor = firstWay[0];
+
 			firstWay.RemoveAt(0);
+
+			SyncRoleCoordinate(tempCoor);
 
 			if(firstWay.Count > 0)
 				SetTarget(firstWay[0]);
@@ -121,6 +126,8 @@ public class Role : UIBaseUnity
 	public void Stop()
 	{
 		isMove = false;
+
+		firstWay.Clear ();
 	}
 
 

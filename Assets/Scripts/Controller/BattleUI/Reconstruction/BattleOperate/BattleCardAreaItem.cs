@@ -48,7 +48,9 @@ public class BattleCardAreaItem : UIBaseUnity
 		{
 			tempObject = NGUITools.AddChild(parentObject,source[i].gameObject);
 
-			tempObject.transform.localPosition = source[i].transform.localPosition;
+			Vector3 pos = Battle.ChangeCameraPosition();
+
+			tempObject.transform.localPosition = pos - transform.parent.localPosition;
 
 			tempObject.transform.parent = parentObject.transform;
 

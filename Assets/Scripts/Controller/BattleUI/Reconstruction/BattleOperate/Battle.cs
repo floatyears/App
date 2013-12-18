@@ -81,6 +81,7 @@ public class Battle : UIBase
 
 	void Attack()
 	{
+
 		HideUI();
 	}
 
@@ -225,6 +226,7 @@ public class Battle : UIBase
 	{
 		IgnoreLayer(false);
 
+//		Debug.LogError (selectTarget.Count);
 		if(selectTarget.Count == 0)
 		{
 			ResetClick();
@@ -256,6 +258,8 @@ public class Battle : UIBase
 			battleCardArea.tempCountTime = true;
 
 			ResetClick();
+
+//			Debug.LogError(" check battle card  ");
 		}
 		else if(Check(GameLayer.ActorCard))
 		{
@@ -277,9 +281,12 @@ public class Battle : UIBase
 					ResetClick();
 				}
 			}
+
+//			Debug.LogError(" check ActorCard card  indexID " + indexID);
 		}
 		else
 		{
+//			Debug.LogError(" check nothing  ");
 			ResetClick();
 		}
 	}
@@ -295,7 +302,7 @@ public class Battle : UIBase
 		main.GInput.IsCheckInput = true;
 	}
 
-	bool tempCheckDragFirst = false;
+//	bool tempCheckDragFirst = false;
 
 	void DisposeOnDrag(Vector2 obj)
 	{
@@ -305,7 +312,8 @@ public class Battle : UIBase
 
 		for (int i = 0; i < selectTarget.Count; i++) 
 		{
-			selectTarget[i].OnDrag(ChangeDeltaPosition(vec));
+
+				selectTarget[i].OnDrag(ChangeCameraPosition(vec),i);
 		}
 
 		if(Check(GameLayer.ActorCard))
@@ -325,7 +333,20 @@ public class Battle : UIBase
 
 		if(Check(GameLayer.ActorCard))
 		{
-			tempObject= rayCastHit[0].collider.gameObject;
+
+			for (int i = 0; i < rayCastHit.Length; i++)
+			{
+				if(rayCastHit[i].collider.gameObject.layer == GameLayer.ActorCard)
+				{
+	
+					tempObject= rayCastHit[i].collider.gameObject;
+				
+					break;
+				}
+				else
+					continue;
+			}
+
 			
 			ClickObject(tempObject);
 			
@@ -341,16 +362,17 @@ public class Battle : UIBase
 
 	void IgnoreLayer(bool isPress)
 	{
-//		battleCard.IgnoreCollider(isPress);
-//		battleCardPool.IgnoreCollider(isPress);
+		battleCard.IgnoreCollider(isPress);
+		battleCardPool.IgnoreCollider(isPress);
 	}
 
 	void ClickObject(GameObject go)
 	{
 		tempCard = go.GetComponent<CardItem>();
-		
+//		Debug.LogError("click object: tempCard" + (tempCard == null));
 		if(tempCard != null)
 		{
+//			Debug.LogError("click object: " + tempCard.CanDrag);
 			if(tempCard.CanDrag)
 			{
 				tempCard.OnPress(true,selectTarget.Count);
@@ -377,6 +399,17 @@ public class Battle : UIBase
 	public static Vector3 ChangeCameraPosition()
 	{
 		Vector3 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+		
+		float height = (float)Screen.height / 2;
+		
+		Vector3 reallyPoint = worldPoint * height * uiRoot.pixelSizeAdjustment;
+		
+		return reallyPoint;
+	}
+
+	public static Vector3 ChangeCameraPosition(Vector3 pos)
+	{
+		Vector3 worldPoint = mainCamera.ScreenToWorldPoint(pos);
 		
 		float height = (float)Screen.height / 2;
 		

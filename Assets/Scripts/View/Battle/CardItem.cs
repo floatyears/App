@@ -47,6 +47,10 @@ public class CardItem : UIBaseUnity
 
 	private Transform parentObject;
 
+	private float xOffset = 0f;
+
+	private float defaultMoveTime = 0.1f;
+
 	[HideInInspector]
 	public int itemID = -1;
 
@@ -112,8 +116,10 @@ public class CardItem : UIBaseUnity
 
 		actorTexture.mainTexture = tex;
 
-		actorTexture.width = actorTexture.height = 100;
+		actorTexture.width = actorTexture.height = 118;
 
+		xOffset = (float)actorTexture.width / 2;
+		
 		NGUITools.UpdateWidgetCollider(gameObject);
 
 		if(itemID == 1)
@@ -141,12 +147,12 @@ public class CardItem : UIBaseUnity
 			actorTexture.color = Color.white;
 	}
 
-	public void OnDrag(Vector3 position)
+	public void OnDrag(Vector3 position,int index)
 	{
 		if(!canDrag)
 			return;
 
-		actorTexture.transform.localPosition += position ;
+		actorTexture.transform.localPosition = new Vector3(position.x + index * xOffset,position.y - index * xOffset,position.z) ;
 	}
 
 	public void OnPress(bool isPress,int sortID)
@@ -179,7 +185,7 @@ public class CardItem : UIBaseUnity
 		tweenPosition.enabled = true;
 		tweenPosition.from = start;
 		tweenPosition.to = end;
-		tweenPosition.duration = 0.2f;
+		tweenPosition.duration = defaultMoveTime;
 	}
 
 	public bool SetCanDrag(int id)
@@ -199,12 +205,12 @@ public class CardItem : UIBaseUnity
 
 	public void Move(Vector3 to)
 	{
-		Move(transform.localPosition,to,0.2f);
+		Move(transform.localPosition,to,defaultMoveTime);
 	}
 
 	public void Move(Vector3 from,Vector3 to)
 	{
-		Move(from,to,0.2f);
+		Move(from,to,defaultMoveTime);
 	}
 
 	public void Move(Vector3 from,Vector3 to, float time)
@@ -217,7 +223,14 @@ public class CardItem : UIBaseUnity
 
 		tweenPosition.to = to;
 
+		tweenPosition.Reset ();
+
 		initPosition = to;
+
+		//gameObject.transform.localPosition = from;
+		//Debug.LogError (to);
+
+		//iTween.MoveTo (gameObject,iTween.Hash("position",to,"time",time,"oncomplete","TweenPositionCallback","oncompletetarget",gameObject));
 	}
 
 	public void Scale(Vector3 to, float time)
@@ -236,7 +249,7 @@ public class CardItem : UIBaseUnity
 		tse.to = to;
 	}
 	
-	void TweenPositionCallback(TweenPosition go)
+	void TweenPositionCallback()
 	{
 		if(tweenCallback != null)
 		{
