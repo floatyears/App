@@ -10,24 +10,24 @@ message UserInfo {
 	optional int32	exp				= 4;
 	optional int32	staminaNow		= 5;
 	optional int32	staminaMax		= 6;
-	optional uint32	staminaRecover	= 7; //recover time
-	optional int32	loginTime		= 8; 
+	optional int32	staminaRecover	= 7; //recover time
+	optional uint32	loginTime		= 8; 
 };
 
 message AccountInfo {
 	optional int32	userId				= 1;
-	optional uint32	review				= 2;
-	optional uint32	payTotal			= 3;
-	optional uint32	payMonth			= 4;
-	optional uint32	money				= 5;
-	optional uint32	stonePay			= 6;
-	optional uint32	stoneFree			= 7;
-	optional uint32	stone				= 8;
-	optional uint32	friendPoint			= 9;
-	optional uint32	totalUnit			= 10;
-	optional uint32	totalParty			= 11;
-	optional uint32	totalFriend			= 12;
-	optional uint32	firstSelectNum		= 13;
+	optional int32	review				= 2;
+	optional int32	payTotal			= 3;
+	optional int32	payMonth			= 4;
+	optional int32	money				= 5;
+	optional int32	stonePay			= 6;
+	optional int32	stoneFree			= 7;
+	optional int32	stone				= 8;
+	optional int32	friendPoint			= 9;
+	optional int32	totalUnit			= 10;
+	optional int32	totalParty			= 11;
+	optional int32	totalFriend			= 12;
+	optional int32	firstSelectNum		= 13;
 };
 
 message UserQuestInfo {
@@ -53,7 +53,7 @@ message UserInfoDetail {
 };
 
 message TerminalInfo {
-	optional int32	platform		= 1;
+	optional string	platform		= 1;
 	optional string	deviceName		= 2; // "asus Nexus 7"
 	optional string	uuid			= 3; 
 	optional string	os		 		= 4; // android / ios
@@ -63,9 +63,9 @@ message FriendInfo {
 	optional int32		userId				= 1;
 	optional string 	userName			= 2;
 	optional int32		rank				= 3;
-	optional uint32		lastPlayTime		= 4;
+	optional int32		lastPlayTime		= 4;
 	optional int32		friendState			= 5;
-	optional uint32		friendStateUpdate 	= 6; //state updated time
+	optional int32		friendStateUpdate 	= 6; //state updated time
 	optional int32		friendPoint			= 7;
 	optional UserUnit	unit				= 8;
 };
@@ -105,7 +105,7 @@ message ReqAuthUser {
 message RspAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional UserInfoDetail	userdetail	 		= 2;
-	optional uint32			server_time 		= 3;
+	optional uint32			serverTime	 		= 3;
 };
 
 message ReqLoginPack {
