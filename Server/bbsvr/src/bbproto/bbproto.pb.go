@@ -623,7 +623,7 @@ type UserInfo struct {
 	StaminaNow       *int32  `protobuf:"varint,5,opt,name=staminaNow" json:"staminaNow,omitempty"`
 	StaminaMax       *int32  `protobuf:"varint,6,opt,name=staminaMax" json:"staminaMax,omitempty"`
 	StaminaRecover   *uint32 `protobuf:"varint,7,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
-	LoginTime        *int32  `protobuf:"varint,8,opt,name=loginTime" json:"loginTime,omitempty"`
+	LoginTime        *uint32 `protobuf:"varint,8,opt,name=loginTime" json:"loginTime,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -680,7 +680,7 @@ func (m *UserInfo) GetStaminaRecover() uint32 {
 	return 0
 }
 
-func (m *UserInfo) GetLoginTime() int32 {
+func (m *UserInfo) GetLoginTime() uint32 {
 	if m != nil && m.LoginTime != nil {
 		return *m.LoginTime
 	}
@@ -688,20 +688,20 @@ func (m *UserInfo) GetLoginTime() int32 {
 }
 
 type AccountInfo struct {
-	UserId           *int32  `protobuf:"varint,1,opt,name=userId" json:"userId,omitempty"`
-	Review           *uint32 `protobuf:"varint,2,opt,name=review" json:"review,omitempty"`
-	PayTotal         *uint32 `protobuf:"varint,3,opt,name=payTotal" json:"payTotal,omitempty"`
-	PayMonth         *uint32 `protobuf:"varint,4,opt,name=payMonth" json:"payMonth,omitempty"`
-	Money            *uint32 `protobuf:"varint,5,opt,name=money" json:"money,omitempty"`
-	StonePay         *uint32 `protobuf:"varint,6,opt,name=stonePay" json:"stonePay,omitempty"`
-	StoneFree        *uint32 `protobuf:"varint,7,opt,name=stoneFree" json:"stoneFree,omitempty"`
-	Stone            *uint32 `protobuf:"varint,8,opt,name=stone" json:"stone,omitempty"`
-	FriendPoint      *uint32 `protobuf:"varint,9,opt,name=friendPoint" json:"friendPoint,omitempty"`
-	TotalUnit        *uint32 `protobuf:"varint,10,opt,name=totalUnit" json:"totalUnit,omitempty"`
-	TotalParty       *uint32 `protobuf:"varint,11,opt,name=totalParty" json:"totalParty,omitempty"`
-	TotalFriend      *uint32 `protobuf:"varint,12,opt,name=totalFriend" json:"totalFriend,omitempty"`
-	FirstSelectNum   *uint32 `protobuf:"varint,13,opt,name=firstSelectNum" json:"firstSelectNum,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	UserId           *int32 `protobuf:"varint,1,opt,name=userId" json:"userId,omitempty"`
+	Review           *int32 `protobuf:"varint,2,opt,name=review" json:"review,omitempty"`
+	PayTotal         *int32 `protobuf:"varint,3,opt,name=payTotal" json:"payTotal,omitempty"`
+	PayMonth         *int32 `protobuf:"varint,4,opt,name=payMonth" json:"payMonth,omitempty"`
+	Money            *int32 `protobuf:"varint,5,opt,name=money" json:"money,omitempty"`
+	StonePay         *int32 `protobuf:"varint,6,opt,name=stonePay" json:"stonePay,omitempty"`
+	StoneFree        *int32 `protobuf:"varint,7,opt,name=stoneFree" json:"stoneFree,omitempty"`
+	Stone            *int32 `protobuf:"varint,8,opt,name=stone" json:"stone,omitempty"`
+	FriendPoint      *int32 `protobuf:"varint,9,opt,name=friendPoint" json:"friendPoint,omitempty"`
+	TotalUnit        *int32 `protobuf:"varint,10,opt,name=totalUnit" json:"totalUnit,omitempty"`
+	TotalParty       *int32 `protobuf:"varint,11,opt,name=totalParty" json:"totalParty,omitempty"`
+	TotalFriend      *int32 `protobuf:"varint,12,opt,name=totalFriend" json:"totalFriend,omitempty"`
+	FirstSelectNum   *int32 `protobuf:"varint,13,opt,name=firstSelectNum" json:"firstSelectNum,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
 }
 
 func (m *AccountInfo) Reset()         { *m = AccountInfo{} }
@@ -715,84 +715,84 @@ func (m *AccountInfo) GetUserId() int32 {
 	return 0
 }
 
-func (m *AccountInfo) GetReview() uint32 {
+func (m *AccountInfo) GetReview() int32 {
 	if m != nil && m.Review != nil {
 		return *m.Review
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetPayTotal() uint32 {
+func (m *AccountInfo) GetPayTotal() int32 {
 	if m != nil && m.PayTotal != nil {
 		return *m.PayTotal
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetPayMonth() uint32 {
+func (m *AccountInfo) GetPayMonth() int32 {
 	if m != nil && m.PayMonth != nil {
 		return *m.PayMonth
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetMoney() uint32 {
+func (m *AccountInfo) GetMoney() int32 {
 	if m != nil && m.Money != nil {
 		return *m.Money
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetStonePay() uint32 {
+func (m *AccountInfo) GetStonePay() int32 {
 	if m != nil && m.StonePay != nil {
 		return *m.StonePay
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetStoneFree() uint32 {
+func (m *AccountInfo) GetStoneFree() int32 {
 	if m != nil && m.StoneFree != nil {
 		return *m.StoneFree
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetStone() uint32 {
+func (m *AccountInfo) GetStone() int32 {
 	if m != nil && m.Stone != nil {
 		return *m.Stone
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetFriendPoint() uint32 {
+func (m *AccountInfo) GetFriendPoint() int32 {
 	if m != nil && m.FriendPoint != nil {
 		return *m.FriendPoint
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetTotalUnit() uint32 {
+func (m *AccountInfo) GetTotalUnit() int32 {
 	if m != nil && m.TotalUnit != nil {
 		return *m.TotalUnit
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetTotalParty() uint32 {
+func (m *AccountInfo) GetTotalParty() int32 {
 	if m != nil && m.TotalParty != nil {
 		return *m.TotalParty
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetTotalFriend() uint32 {
+func (m *AccountInfo) GetTotalFriend() int32 {
 	if m != nil && m.TotalFriend != nil {
 		return *m.TotalFriend
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetFirstSelectNum() uint32 {
+func (m *AccountInfo) GetFirstSelectNum() int32 {
 	if m != nil && m.FirstSelectNum != nil {
 		return *m.FirstSelectNum
 	}
@@ -912,7 +912,7 @@ func (m *UserInfoDetail) GetUnitPartyCurrent() int32 {
 }
 
 type TerminalInfo struct {
-	Platform         *int32  `protobuf:"varint,1,opt,name=platform" json:"platform,omitempty"`
+	Platform         *string `protobuf:"bytes,1,opt,name=platform" json:"platform,omitempty"`
 	DeviceName       *string `protobuf:"bytes,2,opt,name=deviceName" json:"deviceName,omitempty"`
 	Uuid             *string `protobuf:"bytes,3,opt,name=uuid" json:"uuid,omitempty"`
 	Os               *string `protobuf:"bytes,4,opt,name=os" json:"os,omitempty"`
@@ -923,11 +923,11 @@ func (m *TerminalInfo) Reset()         { *m = TerminalInfo{} }
 func (m *TerminalInfo) String() string { return proto.CompactTextString(m) }
 func (*TerminalInfo) ProtoMessage()    {}
 
-func (m *TerminalInfo) GetPlatform() int32 {
+func (m *TerminalInfo) GetPlatform() string {
 	if m != nil && m.Platform != nil {
 		return *m.Platform
 	}
-	return 0
+	return ""
 }
 
 func (m *TerminalInfo) GetDeviceName() string {
@@ -955,9 +955,9 @@ type FriendInfo struct {
 	UserId            *int32    `protobuf:"varint,1,opt,name=userId" json:"userId,omitempty"`
 	UserName          *string   `protobuf:"bytes,2,opt,name=userName" json:"userName,omitempty"`
 	Rank              *int32    `protobuf:"varint,3,opt,name=rank" json:"rank,omitempty"`
-	LastPlayTime      *uint32   `protobuf:"varint,4,opt,name=lastPlayTime" json:"lastPlayTime,omitempty"`
+	LastPlayTime      *int32    `protobuf:"varint,4,opt,name=lastPlayTime" json:"lastPlayTime,omitempty"`
 	FriendState       *int32    `protobuf:"varint,5,opt,name=friendState" json:"friendState,omitempty"`
-	FriendStateUpdate *uint32   `protobuf:"varint,6,opt,name=friendStateUpdate" json:"friendStateUpdate,omitempty"`
+	FriendStateUpdate *int32    `protobuf:"varint,6,opt,name=friendStateUpdate" json:"friendStateUpdate,omitempty"`
 	FriendPoint       *int32    `protobuf:"varint,7,opt,name=friendPoint" json:"friendPoint,omitempty"`
 	Unit              *UserUnit `protobuf:"bytes,8,opt,name=unit" json:"unit,omitempty"`
 	XXX_unrecognized  []byte    `json:"-"`
@@ -988,7 +988,7 @@ func (m *FriendInfo) GetRank() int32 {
 	return 0
 }
 
-func (m *FriendInfo) GetLastPlayTime() uint32 {
+func (m *FriendInfo) GetLastPlayTime() int32 {
 	if m != nil && m.LastPlayTime != nil {
 		return *m.LastPlayTime
 	}
@@ -1002,7 +1002,7 @@ func (m *FriendInfo) GetFriendState() int32 {
 	return 0
 }
 
-func (m *FriendInfo) GetFriendStateUpdate() uint32 {
+func (m *FriendInfo) GetFriendStateUpdate() int32 {
 	if m != nil && m.FriendStateUpdate != nil {
 		return *m.FriendStateUpdate
 	}
@@ -1186,7 +1186,7 @@ func (m *ReqAuthUser) GetTerminal() *TerminalInfo {
 type RspAuthUser struct {
 	Header           *ProtoHeader    `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	Userdetail       *UserInfoDetail `protobuf:"bytes,2,opt,name=userdetail" json:"userdetail,omitempty"`
-	ServerTime       *uint32         `protobuf:"varint,3,opt,name=server_time" json:"server_time,omitempty"`
+	ServerTime       *uint32         `protobuf:"varint,3,opt,name=serverTime" json:"serverTime,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
 }
 

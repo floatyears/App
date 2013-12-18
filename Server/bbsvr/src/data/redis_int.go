@@ -24,13 +24,14 @@ type Data struct {
 
 func (t *Data) Open(db string) error {
 	var err error
-	t.conn, err = redis.DialTimeout("tcp", SERVERADDR, 3*time.Second, 10*time.Second, 10*time.Second)
-	log.Printf("redis Open(db:%v) ret {err:%v t.conn:%v} time.Second=%v", db, err, t.conn, time.Second)
+	t.conn, err = redis.DialTimeout("tcp", SERVERADDR, 3*time.Second, 10*time.Second, 10*time.Second) //timeout=10s
+
 	if err != nil {
+		log.Printf("ERR: redis Open(db:%v) ret err:%v t.conn:%v", db, err, t.conn)
 		return err
 	}
 	_, err = t.conn.Do("SELECT", db)
-	log.Printf("t.conn.Select(%v) ret err:%v", db, err)
+	log.Printf("redis.Select(%v) ret err:%v", db, err)
 	return err
 }
 
@@ -41,9 +42,17 @@ func (t *Data) Close() error {
 	//if err != nil {
 	//	return err
 	//}
-	return t.conn.Close()
+
+	if t.conn != nil {
+		log.Printf("t.conn.Close()...")
+		return t.conn.Close()
+	} else {
+		log.Printf("FATAL ERR: t.conn=nil")
+	}
+	return nil
 }
 
+//return string
 func (t *Data) Get(key string) (value string, err error) {
 	log.Printf("try redis.GET(%v) ...", key)
 	if t.conn != nil {
@@ -57,6 +66,7 @@ func (t *Data) Get(key string) (value string, err error) {
 	return "", err
 }
 
+//return []byte
 func (t *Data) Gets(key string) (value []byte, err error) {
 	log.Printf("try redis.GET(%v) ...", key)
 	if t.conn != nil {
@@ -70,7 +80,7 @@ func (t *Data) Gets(key string) (value []byte, err error) {
 	return nil, err
 }
 
-func (t *Data) Set(key string, value string) error {
+func (t *Data) Set(key string, value []byte) error {
 	if t.conn != nil {
 		log.Printf("try redis.Set(%v) value:%v", key, value)
 		_, err := redis.String(t.conn.Do("SET", key, value))

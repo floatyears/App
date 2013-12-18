@@ -56,7 +56,6 @@ func Init() {
 func main() {
 	Init()
 
-	//testRedis()
 	//return
 
 	http.HandleFunc(_PROTO_LOGIN_PACK, safeHandler(user.LoginPackHandler))
