@@ -36,7 +36,19 @@ public class HttpClient
         }
     }
 
-	public HttpClient ()
+    /// <summary>
+    /// The session identifier.
+    /// </summary>
+    private string sessionId = "";
+    public string SessionId
+    {
+        get
+        {
+            return sessionId;
+        }
+    }
+    
+    public HttpClient ()
 	{
 	}
 

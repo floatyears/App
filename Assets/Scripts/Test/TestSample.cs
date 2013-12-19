@@ -24,7 +24,7 @@ public class TestSample
     
     
     [Test]
-    public void testSub()
+    public void TestSub()
     {
 
         int subA = 1;

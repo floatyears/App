@@ -19,6 +19,7 @@ public enum ErrorCode {
     // network
     NetWork = -2000,
     TimeOut = -2001,
+    InvalidSessionId = -2002,
 
     // model
     Model = -3000,
