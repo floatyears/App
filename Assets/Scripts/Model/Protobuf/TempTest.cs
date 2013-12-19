@@ -58,41 +58,50 @@ public class TempTest : MonoBehaviour
 //            dbHelper.InsertInto("UserInfo", new string[]{"'Rose'"});
 //            dbHelper.CloseSqlConnection();
 
-            UserInfo userInfo = new UserInfo();
-            userInfo.userId = 127;
-            userInfo.userName = "Rose Mary";
-            userInfo.exp = 20;
-            userInfo.rank = 20;
-            userInfo.staminaMax = 128;
-            userInfo.staminaNow = 127;
-            userInfo.staminaRecover = 127000000;
-            userInfo.loginTime = 127;
-
-//            string serUserInfo = ConvertHelper.BytesToString(ProtobufSerializer.SerializeToBytes<UserInfo>(userInfo));
+            #region test protobufSerializer
+//            UserInfo userInfo = new UserInfo();
+//            userInfo.userId = 127;
+//            userInfo.userName = "Rose Mary";
+//            userInfo.exp = 20;
+//            userInfo.rank = 20;
+//            userInfo.staminaMax = 128;
+//            userInfo.staminaNow = 127;
+//            userInfo.staminaRecover = 127000000;
+//            userInfo.loginTime = 127;
 //
+////            string serUserInfo = ConvertHelper.BytesToString(ProtobufSerializer.SerializeToBytes<UserInfo>(userInfo));
+////
+////            long start = TimeHelper.MillionSecondsNow();
+//
+////            UserInfo info = ProtobufSerializer.ParseFormString<UserInfo>(serUserInfo);
+//
+//            byte[] serUserInfo = ProtobufSerializer.SerializeToBytes<UserInfo>(userInfo);
+//            
 //            long start = TimeHelper.MillionSecondsNow();
-
-//            UserInfo info = ProtobufSerializer.ParseFormString<UserInfo>(serUserInfo);
-
-            byte[] serUserInfo = ProtobufSerializer.SerializeToBytes<UserInfo>(userInfo);
-            
-            long start = TimeHelper.MillionSecondsNow();
-
-
-            LogHelper.Log("now time is " + start);
-            for (int i = 0; i < 10000; i++){
-                UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
-            }
-//            UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
 //
-//            LogHelper.Log("stanimaNow " + info.staminaNow);
-//            LogHelper.Log("stanimaMax " + info.staminaMax);
-//            LogHelper.Log("stanimaRecover " + info.staminaRecover);
-//            LogHelper.Log("userInfo.userName " + info.userName);
+//
+//            LogHelper.Log("now time is " + start);
+//            for (int i = 0; i < 10000; i++){
+//                UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
+//            }
+////            UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
+////
+////            LogHelper.Log("stanimaNow " + info.staminaNow);
+////            LogHelper.Log("stanimaMax " + info.staminaMax);
+////            LogHelper.Log("stanimaRecover " + info.staminaRecover);
+////            LogHelper.Log("userInfo.userName " + info.userName);
+//
+//            long end = TimeHelper.MillionSecondsNow();
+//            LogHelper.Log("now time is " + end + " , cost " + (end - start));
+            #endregion
 
-            long end = TimeHelper.MillionSecondsNow();
-            LogHelper.Log("now time is " + end + " , cost " + (end - start));
+            #region test reflection getProperty
+            UserInfo userInfo = new UserInfo();
+            userInfo.userId = 100;
+            Type t = userInfo.GetType();
+            LogHelper.Log("userId is: " + t.GetProperty("userId").GetValue(userInfo, null));
 
+            #endregion
 		}
 	}
 }

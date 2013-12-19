@@ -9,36 +9,46 @@ using ProtoBuf;
 public interface IDataOperation {
 
     /// <summary>
-    /// Load this instance.
+    /// Loads the protobuf.
     /// </summary>
-    IExtensible Load();
+    /// <returns>The protobuf.</returns>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
+    T LoadProtobuf<T>();
 
     /// <summary>
-    /// Save the specified instance and errorMsg.
+    /// Save the specified newData and errorMsg.
     /// </summary>
-    /// <param name="instance">Instance.</param>
+    /// <param name="newData">New data.</param>
     /// <param name="errorMsg">Error message.</param>
-    void Save(IExtensible instance, ErrorMsg errorMsg);
+    void Save(byte[] newData, ErrorMsg errorMsg);
 
     /// <summary>
     /// Validate the specified instance.
     /// </summary>
     /// <param name="instance">Instance.</param>
-    ErrorMsg Validate(IExtensible instance);
+    ErrorMsg Validate(byte[] data);
 }
 
 public class BaseModel : IDataOperation {
-    protected IExtensible data;
-    
-    public IExtensible Load(){
-        return data as IExtensible;
+    protected byte[] byteData;
+
+    public BaseModel(){
+        Init();
     }
-    
-    public void Save(IExtensible newData, ErrorMsg errorMsg){
+
+    /// <summary>
+    /// Load data from.
+    /// </summary>
+    /// <typeparam name="T">The 1st type parameter.</typeparam>
+    public T LoadProtobuf<T>(){
+        return ProtobufSerializer.ParseFormBytes<T>(byteData);
+    }
+
+    public void Save(byte[] newData, ErrorMsg errorMsg){
         // validate
         errorMsg = Validate(newData);
         if (errorMsg.Code == ErrorCode.Succeed){
-            data = newData;
+            byteData = newData;
         }
     }
 
@@ -46,7 +56,7 @@ public class BaseModel : IDataOperation {
     /// Validate the specified instance.
     /// </summary>
     /// <param name="instance">Instance.</param>
-    public virtual ErrorMsg Validate(IExtensible instance){
+    public virtual ErrorMsg Validate(byte[] data){
         return new ErrorMsg();
     }
 
@@ -56,17 +66,11 @@ public class BaseModel : IDataOperation {
     /// </summary>
     public virtual void Init (){
     }
+}
 
-    /// <summary>
-    /// Validates the type.
-    /// </summary>
-    /// <returns><c>true</c>, if type was validated, <c>false</c> otherwise.</returns>
-    /// <param name="instance">Instance.</param>
-    /// <typeparam name="T">The 1st type parameter.</typeparam>
-    public bool ValidateType<T>(IExtensible instance){
-        return instance is T;
-    }
-
+public enum ModelName
+{
+    User = 1000,
 }
 
 public class ModelManager
@@ -90,7 +94,7 @@ public class ModelManager
         }
     }
 
-    private Dictionary<string, BaseModel> modelDic = new Dictionary<string, BaseModel>();
+    private Dictionary<ModelName, BaseModel> modelDic = new Dictionary<ModelName, BaseModel>();
 
     /// <summary>
     /// Init this instance.
@@ -99,11 +103,20 @@ public class ModelManager
         // init all instance be used for game.
     }
 
-    public BaseModel GetData(string key, ErrorMsg errorMsg) {
-        BaseModel model;
-        if (!modelDic.TryGetValue(key, out model)){
+    /// <summary>
+    /// Gets the data.
+    /// usage: ModelManager.Instance.GetaData<User>
+    /// </summary>
+    /// <returns>The data.</returns>
+    /// <param name="key">Key.</param>
+    /// <param name="errorMsg">Error message.</param>
+    public BaseModel GetData (ModelName modelType, ErrorMsg errorMsg) {
+
+        BaseModel model = null;
+
+        if (!modelDic.TryGetValue(modelType, out model)){
             errorMsg.Code = ErrorCode.InvalidModelName;
-            errorMsg.Msg = String.Format("required key {0}, but it not exist in ModelManager", key);
+            errorMsg.Msg = String.Format("required key {0}, but it not exist in ModelManager", modelType);
         }
         return model;
     }

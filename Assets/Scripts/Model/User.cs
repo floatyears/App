@@ -3,12 +3,12 @@ using System.Collections;
 
 public class User : BaseModel
 {
-    public override ErrorMsg Validate (ProtoBuf.IExtensible instance)
+    public override ErrorMsg Validate (byte[] byteData)
     {
         ErrorMsg errMsg = new ErrorMsg();
         //do validate
-        UserInfo userInfo = instance as UserInfo;
-        if (!ValidateType<UserInfo>(instance)){
+        UserInfo userInfo = Load();
+        if (userInfo == null){
             errMsg.Code = ErrorCode.IllegalData;
         }
         else {
@@ -17,4 +17,15 @@ public class User : BaseModel
         return errMsg;
     }
 
+    public override void Init ()
+    {
+        base.Init ();
+    }
+
+    /// <summary>
+    /// Load this instance. Each Model should complete this.
+    /// </summary>
+    public UserInfo Load(){
+        return LoadProtobuf<UserInfo>();
+    }
 }

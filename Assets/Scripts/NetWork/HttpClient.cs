@@ -10,6 +10,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using ProtoBuf;
 
 public delegate object PostCallbackFailed(string rspError, ErrorMsg errorMsg, params object[] values); 
 public delegate object PostCallbackSucceed<T>(T instance, ErrorMsg errorMsg, params object[] values); 
@@ -42,15 +43,30 @@ public class HttpClient
     private string sessionId = "";
     public string SessionId
     {
-        get
-        {
-            return sessionId;
-        }
+        get { return sessionId; }
+        set { sessionId = value; }
     }
     
-    public HttpClient ()
-	{
-	}
+
+    /// <summary>
+    /// Validates the session identifier.
+    /// </summary>
+    /// <returns>The session identifier.</returns>
+    /// <param name="protobufModel">Protobuf model.</param>
+    public ErrorMsg ValidateSessionId(object protobufModel){
+        ErrorMsg errMsg = new ErrorMsg();
+        Type t = protobufModel.GetType();
+        try {
+            string protoSessionId = (string)t.GetProperty("sessionId").GetValue(protobufModel, null);
+            if (protoSessionId != sessionId){
+                errMsg.Code = ErrorCode.InvalidSessionId;
+            }
+        } catch (Exception ex) {
+            errMsg.Code = ErrorCode.IllegalParam;
+            errMsg.Msg = "request or response not has field sessionId";
+        }
+        return errMsg;
+    }
 
     /// <summary>
     /// Position the specified url, buffer, failedFunc, succeedFunc and errorMsg.
