@@ -54,10 +54,9 @@ func (t *Data) Close() error {
 
 //return string
 func (t *Data) Get(key string) (value string, err error) {
-	log.Printf("try redis.GET(%v) ...", key)
 	if t.conn != nil {
 		value, err := redis.String(t.conn.Do("GET", key))
-		log.Printf("redis.GET(%v) ret err:%v value:%v", key, err, value)
+		//log.Printf("redis.GET(%v) ret err:%v value:%v", key, err, value)
 		return value, err
 	} else {
 		log.Fatal("invalid redis conn:%v", t.conn)
@@ -68,10 +67,8 @@ func (t *Data) Get(key string) (value string, err error) {
 
 //return []byte
 func (t *Data) Gets(key string) (value []byte, err error) {
-	log.Printf("try redis.GET(%v) ...", key)
 	if t.conn != nil {
 		value, err := redis.Bytes(t.conn.Do("GET", key))
-		log.Printf("redis.GET(%v) ret err:%v value:%v", key, err, value)
 		return value, err
 	} else {
 		log.Fatal("invalid redis conn:%v", t.conn)
@@ -80,11 +77,32 @@ func (t *Data) Gets(key string) (value []byte, err error) {
 	return nil, err
 }
 
+func (t *Data) GetInt(key string) (value int, err error) {
+	if t.conn != nil {
+		value, err := redis.Int(t.conn.Do("GET", key))
+		return value, err
+	} else {
+		log.Fatal("invalid redis conn:%v", t.conn)
+	}
+
+	return 0, err
+}
+
 func (t *Data) Set(key string, value []byte) error {
 	if t.conn != nil {
 		log.Printf("try redis.Set(%v) value:%v", key, value)
 		_, err := redis.String(t.conn.Do("SET", key, value))
 		log.Printf("after redis.Set(%v) ret err:%v", key, err)
+		return err
+	} else {
+		log.Fatal("invalid redis conn:%v", t.conn)
+	}
+	return nil
+}
+
+func (t *Data) SetInt(key string, value int32) error {
+	if t.conn != nil {
+		_, err := redis.String(t.conn.Do("SET", key, value))
 		return err
 	} else {
 		log.Fatal("invalid redis conn:%v", t.conn)

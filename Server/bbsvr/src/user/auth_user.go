@@ -1,7 +1,7 @@
 package user
 
 import (
-	//"fmt"
+	_ "fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -16,7 +16,21 @@ import (
 )
 
 func GetNewUserId() (userid int32, err error) {
-	userid = 100001
+	db := &data.Data{}
+	err = db.Open(common.TABLE_NAME_USER)
+	defer db.Close()
+	if err != nil {
+		return 0, err
+	}
+
+	uid, err := db.GetInt(common.KEY_MAX_USER_ID)
+	if err != nil {
+		userid = 100000 //first userId
+	}
+	userid += int32(uid + 1)
+	log.Printf("get MAX_USER_ID ret: %v ", userid)
+	err = db.SetInt(common.KEY_MAX_USER_ID, userid)
+
 	return userid, err
 }
 

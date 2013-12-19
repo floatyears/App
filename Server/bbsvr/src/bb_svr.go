@@ -56,10 +56,14 @@ func Init() {
 func main() {
 	Init()
 
+	//testRedis()
 	//return
 
+	/** user protocol **/
 	http.HandleFunc(_PROTO_LOGIN_PACK, safeHandler(user.LoginPackHandler))
 	http.HandleFunc(_PROTO_AUTH_USER, safeHandler(user.AuthUserHandler))
+
+	/** quest protocol **/
 	//http.HandleFunc(_PROTO_GET_QUEST_MAP, safeHandler(quest.GetQuestMapHandler))
 	http.HandleFunc(_PROTO_START_QUEST, safeHandler(quest.StartQuestHandler))
 	http.HandleFunc(_PROTO_CLEAR_QUEST, safeHandler(quest.ClearQuestHandler))
