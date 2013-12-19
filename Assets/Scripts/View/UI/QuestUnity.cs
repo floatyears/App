@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class QuestDoor : UIBaseUnity
+public class QuestUnity : UIBaseUnity
 {
 	//Transform
 	private Transform leftTransform;
@@ -39,6 +39,7 @@ public class QuestDoor : UIBaseUnity
 	public override void ShowUI ()
 	{
 		base.ShowUI ();
+
 	}
 	
 	public override void HideUI ()

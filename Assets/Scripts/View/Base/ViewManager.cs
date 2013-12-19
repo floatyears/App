@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 public class ViewManager 
 {
-
-
 	private static ViewManager instance;
 
 	public static ViewManager Instance
@@ -23,8 +21,6 @@ public class ViewManager
 	{
 		get{return mainUIRoot;}
 	}
-
-
 	
 	private GameObject parentPanel;
 	

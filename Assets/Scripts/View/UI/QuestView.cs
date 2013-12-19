@@ -6,8 +6,8 @@ public class QuestView : UIBase
 	private ScrollView StoryScroller;
 	private ScrollView EventScroller;
 	
-	private QuestDoor StoryDoor;
-	private QuestDoor EventDoor;
+	private QuestUnity StoryDoor;
+	private QuestUnity EventDoor;
 
 	public QuestView(string uiName):base(uiName)
 	{
@@ -15,7 +15,7 @@ public class QuestView : UIBase
 	}
 	public override void CreatUI ()
 	{
-		StoryDoor = ViewManager.Instance.GetViewObject("StoryDoor") as QuestDoor; 
+		StoryDoor = ViewManager.Instance.GetViewObject("StoryDoor") as QuestUnity; 
 		StoryDoor.transform.localPosition = 210*Vector3.up;
 		currentUIDic.Add(StoryDoor.UIName, StoryDoor);
 		StoryScroller = new ScrollView(StoryDoor.LeftTransform, StoryDoor.RightTransform, StoryDoor.Item);
@@ -27,7 +27,7 @@ public class QuestView : UIBase
 			listen.onClick = ClickQuest;
 		}
 
-		EventDoor = ViewManager.Instance.GetViewObject("EventDoor") as QuestDoor; 
+		EventDoor = ViewManager.Instance.GetViewObject("EventDoor") as QuestUnity; 
 		EventDoor.transform.localPosition = -100*Vector3.up;
 		currentUIDic.Add(EventDoor.UIName, EventDoor);
 		EventScroller = new ScrollView(EventDoor.LeftTransform, EventDoor.RightTransform, EventDoor.Item);
@@ -66,9 +66,9 @@ public class QuestView : UIBase
 	
 	void ClickQuest(GameObject go)
 	{
-		ControllerManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 		StoryDoor.gameObject.SetActive(false);
 		EventDoor.gameObject.SetActive(false);
+		ControllerManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 	}
 
 
