@@ -18,10 +18,13 @@ public class Battle : UIBase
 	private BattleCard battleCard;
 	private BattleCardArea battleCardArea;
 	private BattleEnemy battleEnemy;
+	private Transform dragLayer;
 	private float ZOffset = -100f;
-
+	
 	private List<ItemData> allItemData = new List<ItemData>();
 	private List<CardItem> selectTarget = new List<CardItem>();
+
+	public int cardHeight = 0;
 
 	public Battle(string name):base(name)
 	{
@@ -31,7 +34,10 @@ public class Battle : UIBase
 
 		battleRootGameObject = NGUITools.AddChild(ViewManager.Instance.ParentPanel);
 		battleRootGameObject.name = "Fight";
-		battleRootGameObject.layer = GameLayer.ActorCard;
+		//battleRootGameObject.layer = GameLayer.ActorCard;
+		GameObject go = NGUITools.AddChild (battleRootGameObject);
+		go.layer = GameLayer.IgnoreCard;
+		dragLayer = go.transform;
 		Vector3 pos = battleRootGameObject.transform.localPosition;
 		battleRootGameObject.transform.localPosition = new Vector3(pos.x,pos.y,pos.z + ZOffset);
 		
@@ -98,13 +104,13 @@ public class Battle : UIBase
 		BoxCollider bc = NGUITools.AddWidgetCollider(tempObject);
 
 		battleCardPool.XRange = bc.size.x;
+
+		cardHeight = battleCardPool.templateBackTexture.width;
 	}
 
 	void CreatCard()
 	{
-		string cardName = "BattleCard";
-
-		tempObject = GetPrefabsObject(cardName);
+		tempObject = GetPrefabsObject(Config.battleCardName);
 
 		tempObject.layer = GameLayer.ActorCard;
 
@@ -112,7 +118,7 @@ public class Battle : UIBase
 
 		battleCard.CardPosition = battleCardPool.CardPosition;
 
-		battleCard.Init(cardName);
+		battleCard.Init(Config.battleCardName);
 
 	}
 
@@ -138,7 +144,7 @@ public class Battle : UIBase
 		battleCardArea.BQuest = this;
 		battleCardArea.Init(areaName);
 
-		battleCardArea.CreatArea(battleCardPool.CardPosition);
+		battleCardArea.CreatArea(battleCardPool.CardPosition,cardHeight);
 	}
 
 	void CreatEnemy()
@@ -150,7 +156,7 @@ public class Battle : UIBase
 		tempObject.layer = GameLayer.EnemyCard;
 
 		battleEnemy = tempObject.AddComponent<BattleEnemy>();
-
+		battleEnemy.battle = this;
 		battleEnemy.Init(enemyName);
 	}
 
@@ -213,6 +219,7 @@ public class Battle : UIBase
 	{
 		for (int i = 0; i < selectTarget.Count; i++)
 		{
+			selectTarget[i].transform.parent = battleCard.transform;
 			selectTarget[i].OnPress(false,-1);			
 		}
 
@@ -250,16 +257,15 @@ public class Battle : UIBase
 			if(bcai != null)
 				generateCount = bcai.GenerateCard(selectTarget);
 
-			for(int i = 0;i < generateCount;i++)
+			if(generateCount > 0)
 			{
-				battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
+				battleCardArea.tempCountTime = true;
+				for(int i = 0;i < generateCount;i++)
+				{
+					battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
+				}
 			}
-
-			battleCardArea.tempCountTime = true;
-
 			ResetClick();
-
-//			Debug.LogError(" check battle card  ");
 		}
 		else if(Check(GameLayer.ActorCard))
 		{
@@ -306,14 +312,12 @@ public class Battle : UIBase
 
 	void DisposeOnDrag(Vector2 obj)
 	{
-		Vector3 vec = (Vector3)obj;
-
 		SetDrag();
+		Vector3 vec = ChangeCameraPosition(Input.mousePosition) - viewManager.ParentPanel.transform.localPosition;
 
 		for (int i = 0; i < selectTarget.Count; i++) 
 		{
-
-				selectTarget[i].OnDrag(ChangeCameraPosition(vec),i);
+			selectTarget[i].OnDrag(vec,i);
 		}
 
 		if(Check(GameLayer.ActorCard))
@@ -333,21 +337,17 @@ public class Battle : UIBase
 
 		if(Check(GameLayer.ActorCard))
 		{
-
 			for (int i = 0; i < rayCastHit.Length; i++)
 			{
 				if(rayCastHit[i].collider.gameObject.layer == GameLayer.ActorCard)
 				{
-	
 					tempObject= rayCastHit[i].collider.gameObject;
-				
 					break;
 				}
 				else
 					continue;
 			}
 
-			
 			ClickObject(tempObject);
 			
 			SetDrag();
@@ -369,16 +369,14 @@ public class Battle : UIBase
 	void ClickObject(GameObject go)
 	{
 		tempCard = go.GetComponent<CardItem>();
-//		Debug.LogError("click object: tempCard" + (tempCard == null));
+
 		if(tempCard != null)
 		{
-//			Debug.LogError("click object: " + tempCard.CanDrag);
 			if(tempCard.CanDrag)
 			{
 				tempCard.OnPress(true,selectTarget.Count);
-
 				tempCard.ActorTexture.depth = 5;
-
+				tempCard.transform.parent = dragLayer;
 				selectTarget.Add(tempCard);
 			}
 		}
@@ -399,11 +397,11 @@ public class Battle : UIBase
 	public static Vector3 ChangeCameraPosition()
 	{
 		Vector3 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-		
+
 		float height = (float)Screen.height / 2;
 		
 		Vector3 reallyPoint = worldPoint * height * uiRoot.pixelSizeAdjustment;
-		
+
 		return reallyPoint;
 	}
 

@@ -66,16 +66,14 @@ public class CardItem : UIBaseUnity
 		actorTexture = GetComponent<UITexture>();
 
 		tweenPosition = GetComponent<TweenPosition>();
+		tweenPosition.enabled = false;
 
 		tse = GetComponent<TweenScaleExtend>();
-
 		tse.enabled = false;
 
 		tweenPosition.eventReceiver = gameObject;
 
 		tweenPosition.callWhenFinished = "TweenPositionCallback";
-
-		tweenPosition.enabled = false;
 
 		initPosition = actorTexture.transform.localPosition;
 
@@ -85,7 +83,7 @@ public class CardItem : UIBaseUnity
 
 		canDrag = true;
 	}
-	
+
 	public override void ShowUI ()
 	{
 		if(!actorTexture.enabled)
@@ -96,7 +94,7 @@ public class CardItem : UIBaseUnity
 
 	public override void HideUI ()
 	{
-		actorTexture.mainTexture = null;
+		//actorTexture.mainTexture = null;
 
 		actorTexture.enabled = false;
 
@@ -107,25 +105,35 @@ public class CardItem : UIBaseUnity
 	{
 		base.DestoryUI ();
 	}
-
-	public void SetTexture(Texture2D tex,int itemID)
+	Texture texure ;
+	public void SetTexture(Texture tex,int itemID)
 	{
-		ShowUI();
+		//HideUI ();
+		actorTexture.enabled = false;
 
 		this.itemID = itemID;
 
-		actorTexture.mainTexture = tex;
+		texure = tex;
 
-		actorTexture.width = actorTexture.height = 118;
+		actorTexture.width = 
+			actorTexture.height = 125;
 
-		xOffset = (float)actorTexture.width / 2;
-		
-		NGUITools.UpdateWidgetCollider(gameObject);
+		xOffset = (float)actorTexture.width / 4;
 
 		if(itemID == 1)
 			actorTexture.color = Color.yellow;
 		else
 			actorTexture.color = Color.white;
+
+		StartCoroutine (ActiveTexture ());
+	}
+
+	IEnumerator ActiveTexture()
+	{
+		yield return 1;
+		actorTexture.enabled = true;
+
+		actorTexture.mainTexture = texure;
 	}
 
 	public void SetTexture(Texture2D tex,int width,int height,int location,int itemID)
@@ -151,8 +159,9 @@ public class CardItem : UIBaseUnity
 	{
 		if(!canDrag)
 			return;
+		float offset = index * xOffset;
 
-		actorTexture.transform.localPosition = new Vector3(position.x + index * xOffset,position.y - index * xOffset,position.z) ;
+		actorTexture.transform.localPosition = new Vector3(position.x + offset, position.y - offset, position.z);
 	}
 
 	public void OnPress(bool isPress,int sortID)
@@ -215,22 +224,14 @@ public class CardItem : UIBaseUnity
 
 	public void Move(Vector3 from,Vector3 to, float time)
 	{
-		tweenPosition.enabled = true;
+		if(!tweenPosition.enabled )
+			tweenPosition.enabled = true;
 
 		tweenPosition.duration = time;
-
 		tweenPosition.from = from;
-
 		tweenPosition.to = to;
-
 		tweenPosition.Reset ();
-
 		initPosition = to;
-
-		//gameObject.transform.localPosition = from;
-		//Debug.LogError (to);
-
-		//iTween.MoveTo (gameObject,iTween.Hash("position",to,"time",time,"oncomplete","TweenPositionCallback","oncompletetarget",gameObject));
 	}
 
 	public void Scale(Vector3 to, float time)
@@ -240,13 +241,16 @@ public class CardItem : UIBaseUnity
 
 	public void Scale(Vector3 from, Vector3 to, float time)
 	{
+		if (!tse.enabled)
+			tse.enabled = true;
+
 		tse.enabled = true;
 
 		tse.duration = time;
 
 		tse.from = from;
 
-		tse.to = to;
+		tse.to = to;  
 	}
 	
 	void TweenPositionCallback()
@@ -262,11 +266,12 @@ public class CardItem : UIBaseUnity
 		gameObject.layer = GameLayer.IgnoreCard;
 
 		actorTexture.depth = initDepth + sortID + 1;
-		
-		Vector3 pos = Battle.ChangeCameraPosition();
+
+		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
 
 		Vector3 offset = new Vector3(sortID * (float)actorTexture.width / 2f , - sortID * (float)actorTexture.height / 2, 0f) - transform.parent.localPosition;
 
-		transform.localPosition =new Vector3(pos.x,pos.y,transform.localPosition.z) + offset;
+		transform.localPosition  = new Vector3(pos.x,pos.y,transform.localPosition.z) + offset ;
 	}
+	
 }

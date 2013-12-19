@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class BattleCardAreaItem : UIBaseUnity
 {
@@ -17,7 +18,7 @@ public class BattleCardAreaItem : UIBaseUnity
 
 	private Vector3 pos = Vector3.zero;
 
-	private float durationTime = 0.2f;
+	private float durationTime = 0.1f;
 
 	public override void Init(string name)
 	{
@@ -37,25 +38,33 @@ public class BattleCardAreaItem : UIBaseUnity
 
 	public int GenerateCard(List<CardItem> source)
 	{
+
 		int maxLimit = Config.cardCollectionCount - cardItemList.Count;
 
 		if(maxLimit <= 0)
 			return 0;
-
+	
 		maxLimit = maxLimit > source.Count ? source.Count : maxLimit;
+
+		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
+
+		float time = Time.realtimeSinceStartup;
+
+//		for (int i = 0; i < maxLimit; i++) 
+//		{
+//			tempSource.Add(source[i]);
+//		}
+//
+//		StartCoroutine (DisposeTexture(maxLimit));
 
 		for (int i = 0; i < maxLimit; i++)
 		{
-			tempObject = NGUITools.AddChild(parentObject,source[i].gameObject);
-
-			Vector3 pos = Battle.ChangeCameraPosition();
-
-			tempObject.transform.localPosition = pos - transform.parent.localPosition;
-
+			tempObject = BattleCardArea.GetCard();
+			tempObject.layer = parentObject.layer;
+			tempObject.transform.localPosition = pos;
 			tempObject.transform.parent = parentObject.transform;
-
 			CardItem ci = tempObject.GetComponent<CardItem>();
-
+	
 			ci.Init(tempObject.name);
 
 			DisposeTweenPosition(ci);
@@ -63,12 +72,41 @@ public class BattleCardAreaItem : UIBaseUnity
 			DisposeTweenScale(ci);
 
 			ci.ActorTexture.depth = GetDepth(cardItemList.Count);
+	
+			ci.SetTexture( source[i].ActorTexture.mainTexture,source[i].itemID);
 
 			cardItemList.Add(ci);
 		}
 
 		return maxLimit;
 	}
+
+//	int startIndex = 0;
+////	Texture tempTex;
+//	List<CardItem> tempSource = new List<CardItem>();
+//
+//	IEnumerator DisposeTexture(int count)
+//	{
+//		tempObject = BattleCardArea.GetCard();
+//		tempObject.layer = parentObject.layer;
+//		tempObject.transform.localPosition = pos;
+//		tempObject.transform.parent = parentObject.transform;
+//		CardItem ci = tempObject.GetComponent<CardItem>();
+//		ci.Init(tempObject.name);
+//		DisposeTweenPosition(ci);
+//		DisposeTweenScale(ci);
+//		ci.ActorTexture.depth = GetDepth(cardItemList.Count);
+//		ci.SetTexture( tempSource[0].ActorTexture.mainTexture,tempSource[0].itemID);
+//		cardItemList.Add(ci);
+//		tempSource.RemoveAt (0);
+//
+//		yield return 1;
+//
+//		if (tempSource.Count > 0)
+//		{
+//			StartCoroutine (DisposeTexture (count));
+//		}
+//	}
 
 	public void ClearCard()
 	{

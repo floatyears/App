@@ -47,7 +47,7 @@ public class Main : MonoBehaviour
 
 		DontDestroyOnLoad(gameObject);
 
-
+		Application.targetFrameRate = 1000;
 		texScale = screenWidth / Screen.width;
 	}
 
@@ -70,4 +70,26 @@ public class Main : MonoBehaviour
 //		ProtoBuf.Serializers.
 
 	}
+
+//	float frame = 0f;
+//	float interv = 0.5f;
+//	int frameCount = 0;
+//
+//	void Update()
+//	{
+//		frameCount ++;
+//		if (interv <= 0)
+//		{
+//			frame = frameCount / 0.5f;
+//			frameCount = 0;
+//			interv = 0.5f;
+//		} 
+//		else
+//			interv -= Time.deltaTime;
+//	}
+//
+//	void OnGUI()
+//	{
+//		GUILayout.Label (frame.ToString ());
+//	}
 }

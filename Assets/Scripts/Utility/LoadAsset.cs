@@ -61,6 +61,13 @@ public class LoadAsset
 		return obj;
 	}
 
+	public Texture2D LoadMapItem()
+	{
+		MapConfig mc = BattleQuest.mapConfig;
+
+		return Resources.Load (mc.GetMapPath ()) as Texture2D;
+	}
+
 	public object LoadAssetFromResources(int id)
 	{
 		ItemData loadData = Config.Instance.CardData[id];

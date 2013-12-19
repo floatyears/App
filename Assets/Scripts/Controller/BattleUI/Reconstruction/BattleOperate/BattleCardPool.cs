@@ -3,7 +3,8 @@ using System.Collections;
 
 public class BattleCardPool : UIBaseUnity
 {
-	protected UITexture templateBackTexture ;
+	[HideInInspector]
+	public UITexture templateBackTexture ;
 
 	private Vector3[] cardPosition;
 

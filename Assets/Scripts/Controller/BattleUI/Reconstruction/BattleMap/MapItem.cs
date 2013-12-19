@@ -25,7 +25,10 @@ public class MapItem : UIBaseUnity
 
 	public Vector3 InitPosition
 	{
-		get{return transform.localPosition;}
+		get
+		{
+			return transform.localPosition;
+		}
 	}
 
 	private bool isOld = false;
@@ -52,7 +55,15 @@ public class MapItem : UIBaseUnity
 
 		mapItemTexture = FindChild<UITexture>("MapItem");
 
-		mapItemTexture.mainTexture = LoadAsset.Instance.LoadAssetFromResources("CardCreaterBg",ResourceEuum.Image) as Texture2D;
+		Texture2D map = LoadAsset.Instance.LoadMapItem() ;
+		mapItemTexture.mainTexture = map;
+
+		mapItemTexture.width = map.width;
+
+		mapItemTexture.height = map.height;
+
+
+		//InitPosition = transform.localPosition; //new Vector3 (Screen.width / -2 + map.width / 2, transform.localPosition.y, transform.localPosition.z);
 	}
 
 	public void Around(bool isAround)

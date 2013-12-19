@@ -31,7 +31,7 @@ public class BattleQuest : UIBase
 
 	private GameObject rootObject;
 
-	private MapConfig mapConfig;
+	public static MapConfig mapConfig;
 
 	private SingleMapData currentMapData;
 

@@ -47,7 +47,7 @@ public class ViewManager
 		
 		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();
 		
-		parentPanel = mainUIRoot.transform.Find("Camera/Anchor/Panel").gameObject;
+		parentPanel = mainUIRoot.transform.Find("Bottom").gameObject;
 	}
 	  
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();

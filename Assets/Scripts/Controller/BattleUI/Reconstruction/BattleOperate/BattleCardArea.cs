@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class BattleCardArea : UIBaseUnity
 {
@@ -16,6 +17,10 @@ public class BattleCardArea : UIBaseUnity
 
 	private Dictionary<int,List<CardItem>> battleAttack = new Dictionary<int, List<CardItem>>();
 
+	private static List<GameObject> battleCardIns = new List<GameObject>();
+
+	private GameObject cardItem;
+
 	public override void Init (string name)
 	{
 		base.Init (name);
@@ -26,7 +31,15 @@ public class BattleCardArea : UIBaseUnity
 
 		Vector3 pos = transform.localPosition;
 
-		transform.localPosition = new Vector3(pos.x,pos.y + 200f,pos.z);
+		transform.localPosition = pos;
+
+		if (cardItem == null) 
+		{
+			GameObject go = LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab) as GameObject;
+			cardItem = go.transform.Find("Texture").gameObject;
+		}
+
+		StartCoroutine (GenerateCard ());
 	}
 
 	public override void ShowUI ()
@@ -45,7 +58,7 @@ public class BattleCardArea : UIBaseUnity
 		}
 	}
 
-	public void CreatArea(Vector3[] position)
+	public void CreatArea(Vector3[] position,int height)
 	{
 		if(position == null)
 			return;
@@ -60,7 +73,7 @@ public class BattleCardArea : UIBaseUnity
 
 			tempObject.layer = GameLayer.BattleCard;
 
-			tempObject.transform.localPosition = position[i];
+			tempObject.transform.localPosition = new Vector3(position[i].x,position[i].y + height,position[i].z) ;
 
 			BattleCardAreaItem bca = tempObject.AddComponent<BattleCardAreaItem>();
 
@@ -92,7 +105,7 @@ public class BattleCardArea : UIBaseUnity
 	void StartBattle()
 	{
 		battleAttack.Clear();
-
+		count = 0;
 		for (int i = 0; i < battleCardAreaItem.Length; i++)
 		{
 			battleAttack.Add(i,battleCardAreaItem[i].CardItemList);
@@ -105,8 +118,34 @@ public class BattleCardArea : UIBaseUnity
 	{
 		if(tempCountTime)
 			GUILayout.Box(time.ToString(),GUILayout.Width(100f),GUILayout.Height(100f));
-
-
 	}
+
+	static int count = 0;
+
+	public static GameObject GetCard()
+	{
+		GameObject go = battleCardIns [count];
+		count ++;
+		return go;
+	}
+
+	IEnumerator GenerateCard()
+	{
+		bool b = battleCardIns.Count < 25;
+		if (b) 
+		{
+			GameObject go = NGUITools.AddChild(gameObject,cardItem);//Instantiate (cardItem) as GameObject;
+			go.layer = gameObject.layer;
+			Destroy(go.GetComponent<BoxCollider>());
+			go.AddComponent<CardItem>();
+			battleCardIns.Add(go);
+		}
+		yield return 1;
+		if (b) 
+		{
+			StartCoroutine (GenerateCard ());
+		}
+	}
+
 
 }

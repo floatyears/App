@@ -17,6 +17,9 @@ public class BattleEnemy : UIBaseUnity
 	
 	private float xScale = 0f;
 
+	[HideInInspector]
+	public Battle battle;
+
 	public override void Init (string name)
 	{
 		base.Init (name);
@@ -27,7 +30,7 @@ public class BattleEnemy : UIBaseUnity
 
 		Vector3 pos = transform.localPosition;
 
-		transform.localPosition = new Vector3(pos.x,pos.y + 400f,pos.z);
+		transform.localPosition = new Vector3(pos.x,pos.y + battle.cardHeight * 5,pos.z);
 	}
 
 	public void Refresh(int count)

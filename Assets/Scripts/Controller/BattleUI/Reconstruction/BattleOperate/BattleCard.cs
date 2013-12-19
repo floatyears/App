@@ -43,6 +43,8 @@ public class BattleCard : UIBaseUnity
 	{
 		templateItemCard = FindChild<UITexture>("Texture");
 
+		templateItemCard.depth = 1;
+
 		int count = cardPosition.Length;
 		
 		cardItemArray = new CardItem[count];
@@ -227,7 +229,6 @@ public class BattleCard : UIBaseUnity
 				cardItemArray[countID].CanDrag = false;
 				countID ++;
 			}
-
 		}
 	}
 }

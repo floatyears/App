@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class MapConfig 
 {
@@ -10,12 +10,24 @@ public class MapConfig
 	
 	public int characterInitCoorX = 2;
 	public int characterInitCoorY = 0;
-	
+
+	private List<string> mapItemPath = new List<string>();
+
+	private int mapID;
+
+	public string GetMapPath()
+	{
+		int index = Random.Range (1, mapItemPath.Count);
+		return mapItemPath [index];
+	}
+
 	public MapConfig ()
 	{
 		mapXLength = 5;
 		mapYLength = 5;
-		
+
+		mapID = 1;
+
 		mapData = new SingleMapData[mapXLength,mapYLength];
 
 		for (int i = 0; i < mapXLength; i++) 
@@ -37,5 +49,11 @@ public class MapConfig
 		}
 
 		mapData[characterInitCoorX,characterInitCoorY].MonsterID.Clear();   
+
+		for (int i = 1; i < 4; i++)
+		{
+			mapItemPath.Add("Texture/fight_sprites/map_"+mapID+"_"+i);
+		}
+
 	}
 }
