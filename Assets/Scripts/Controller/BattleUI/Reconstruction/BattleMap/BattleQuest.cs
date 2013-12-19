@@ -44,24 +44,23 @@ public class BattleQuest : UIBase
 	public BattleQuest (string name) : base(name)
 	{
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
-
 		mapConfig = new MapConfig();
-
 		string tempName = "Map";
 		battleMap = viewManager.GetViewObject(tempName) as BattleMap;
 		battleMap.BQuest = this;
+		battleMap.transform.parent = rootObject.transform;
+		battleMap.transform.localPosition = Vector3.zero;
 		Init(battleMap,tempName);
-
-
 		tempName = "Role";
 		role = viewManager.GetViewObject(tempName) as Role;
 		role.BQuest = this;
+		role.transform.parent = rootObject.transform;
 		Init(role,tempName);
 	}
 
 	void Init(UIBaseUnity ui,string name)
 	{
-		ui.transform.parent = rootObject.transform;
+
 		ui.Init(name);
 	}
 

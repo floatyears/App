@@ -103,6 +103,7 @@ public class ControllerManager
 			currentScene = CreatScene(sEnum,uiName);
 
 		currentScene.ShowUI();
+		//AnimController.UpdateSceneInfo(uiName);
 	}
 
 	IUIInterface CreatScene(SceneEnum sEnum,string uiName)
@@ -111,22 +112,28 @@ public class ControllerManager
 		switch (sEnum)
 		{	
 		case SceneEnum.Quest:
-			temp = new BattleShow(uiName);
+			temp = new QuestView(uiName);
 			break;
-//		case SceneEnum.Scratch:
-//
-//			break;
-//		case SceneEnum.Shop:
-//
-//			break;
-//		case SceneEnum.Others:
-//
-//			break;
-//		case SceneEnum.Units:
-//
-//			break;
+		case SceneEnum.Friends:
+			temp = new FriendsView(uiName);
+			break;
+		case SceneEnum.Scratch:
+			temp = new ScratchView(uiName);
+			break;
+		case SceneEnum.Shop:
+			temp = new ShopView(uiName);
+			break;
+		case SceneEnum.Others:
+			temp = new OthersView(uiName);
+			break;
+		case SceneEnum.Units:
+			temp = new UnitView(uiName);
+			break;
 		case SceneEnum.QuestSelect:
-			temp = new QuestSelect(uiName);
+			temp = new QuestSelectView(uiName);
+			break;
+		case SceneEnum.FriendSelect:
+			temp = new FriendSelectView(uiName);
 			break;
 		case SceneEnum.Fight:
 			//temp = new Battle(uiName);

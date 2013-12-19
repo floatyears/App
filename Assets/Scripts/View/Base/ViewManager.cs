@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 public class ViewManager 
 {
-
-
 	private static ViewManager instance;
 
 	public static ViewManager Instance
@@ -24,13 +22,32 @@ public class ViewManager
 		get{return mainUIRoot;}
 	}
 
+	private GameObject topPanel;
 
+	public GameObject TopPanel
+	{
+		get{return topPanel;}
+	}
+
+	private GameObject bottomPanel;
+
+	public GameObject BottomPanel
+	{
+		get{return bottomPanel;}
+	}
 	
+	private GameObject centerPanel;
+	
+	public GameObject CenterPanel
+	{
+		get{ return centerPanel; }
+	}
+
 	private GameObject parentPanel;
 	
 	public GameObject ParentPanel
 	{
-		get{return parentPanel;}
+		get{ return parentPanel; }
 	}
 	
 	private UICamera mainUICamera;
@@ -48,10 +65,15 @@ public class ViewManager
 		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();
 		
 		parentPanel = mainUIRoot.transform.Find("Bottom").gameObject;
-	}
-	  
-	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
 
+		topPanel = mainUIRoot.transform.Find ("Top/Panel").gameObject;
+
+		bottomPanel = mainUIRoot.transform.Find ("Bottom/Panel").gameObject;
+
+		centerPanel = mainUIRoot.transform.Find ("Anchor/Panel").gameObject;
+	}
+
+	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
 
 	public void RegistUIBaseUnity(UIBaseUnity obj)
 	{
@@ -75,7 +97,7 @@ public class ViewManager
 	{	
 		GameObject sourceObject = LoadAsset.Instance.LoadAssetFromResources(name,ResourceEuum.Prefab) as GameObject;
 	
-		GameObject go = NGUITools.AddChild(parentPanel,sourceObject);
+		GameObject go = NGUITools.AddChild(centerPanel,sourceObject);
 
 		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
 

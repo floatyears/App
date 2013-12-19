@@ -59,6 +59,7 @@ public class BattleMap : UIBaseUnity
 				map[i,j] = temp;
 			}
 		}
+
 	}
 	  
 	void OnClickMapItem(GameObject go)
