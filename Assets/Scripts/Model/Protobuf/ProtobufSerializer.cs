@@ -39,23 +39,7 @@ public class ProtobufSerializer
 	}
 
     /// <summary>
-    /// Parses the form string.
-    /// </summary>
-    /// <returns>The form string.</returns>
-    /// <param name="source">Source.</param>
-    /// <typeparam name="T">The 1st type parameter.</typeparam>
-	public static T ParseFormString<T> (String source){
-		MemoryStream ms = ConvertHelper.StringToStream(source);
-        T retInstance = Serializer.Deserialize<T>(ms);
 
-        // validate
-        if (retInstance == null){
-            LogHelper.Log("Deserialize instance failed, errorcode: " + ErrorCode.IllegalParam);
-        }
-		return retInstance;
-	}
-
-    /// <summary>
     /// Parses the form bytes.
     /// </summary>
     /// <returns>The form bytes.</returns>

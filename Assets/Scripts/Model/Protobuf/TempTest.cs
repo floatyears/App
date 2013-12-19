@@ -65,7 +65,7 @@ public class TempTest : MonoBehaviour
             userInfo.rank = 20;
             userInfo.staminaMax = 128;
             userInfo.staminaNow = 127;
-            userInfo.staminaRecover = 127;
+            userInfo.staminaRecover = 127000000;
             userInfo.loginTime = 127;
 
 //            string serUserInfo = ConvertHelper.BytesToString(ProtobufSerializer.SerializeToBytes<UserInfo>(userInfo));
@@ -77,19 +77,18 @@ public class TempTest : MonoBehaviour
             byte[] serUserInfo = ProtobufSerializer.SerializeToBytes<UserInfo>(userInfo);
             
             long start = TimeHelper.MillionSecondsNow();
-            
-            UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
 
 
-
-//            LogHelper.Log("now time is " + start);
-//            for (int i = 0; i < 10000; i++){
-//                UserInfo info = ProtobufSerializer.ParseFormString<UserInfo>(serUserInfo);
-//            }
-            LogHelper.Log("stanimaNow " + info.staminaNow);
-            LogHelper.Log("stanimaMax " + info.staminaMax);
-            LogHelper.Log("stanimaRecover " + info.staminaRecover);
-            LogHelper.Log("userInfo.userName " + info.userName);
+            LogHelper.Log("now time is " + start);
+            for (int i = 0; i < 10000; i++){
+                UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
+            }
+//            UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
+//
+//            LogHelper.Log("stanimaNow " + info.staminaNow);
+//            LogHelper.Log("stanimaMax " + info.staminaMax);
+//            LogHelper.Log("stanimaRecover " + info.staminaRecover);
+//            LogHelper.Log("userInfo.userName " + info.userName);
 
             long end = TimeHelper.MillionSecondsNow();
             LogHelper.Log("now time is " + end + " , cost " + (end - start));

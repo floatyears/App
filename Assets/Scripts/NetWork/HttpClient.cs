@@ -11,11 +11,11 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public delegate object PostCallbackFailed(string responseStr, ErrorMsg errorMsg, params object[] values); 
+public delegate object PostCallbackFailed(string rspError, ErrorMsg errorMsg, params object[] values); 
 public delegate object PostCallbackSucceed<T>(T instance, ErrorMsg errorMsg, params object[] values); 
 
-public delegate object GetCallbackFailed(string responseStr, ErrorMsg errorMsg, params object[] values);
-public delegate object GetCallbackSucceed(string responseStr, ErrorMsg errorMsg, params object[] values); 
+public delegate object GetCallbackFailed(string rspError, ErrorMsg errorMsg, params object[] values);
+public delegate object GetCallbackSucceed(byte[] response, ErrorMsg errorMsg, params object[] values); 
 
 
 /// <summary>
@@ -66,10 +66,10 @@ public class HttpClient
         } else
         {
             // POST request succeed
-            LogHelper.Log("request ok : text is " + www.text);
+            LogHelper.Log("request ok : text is " + www.bytes);
 
             // deserilize
-            T instance = ProtobufSerializer.ParseFormString<T>(www.text);
+            T instance = ProtobufSerializer.ParseFormBytes<T>(www.bytes);
             // parse to current instance
             if (instance != null){
                 succeedFunc(instance, errorMsg, values);
@@ -99,8 +99,8 @@ public class HttpClient
         } else
         {
             // POST request succeed
-            LogHelper.Log("request ok : text is " + www.text);
-            succeedFunc(www.text, errorMsg, values);
+            LogHelper.Log("request ok : text is " + www.bytes);
+            succeedFunc(www.bytes, errorMsg, values);
         }
     }
 

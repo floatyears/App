@@ -28,44 +28,14 @@ public sealed class ConvertHelper {
 		return buffer;
 	}
 
-	/// <summary>
-	/// Strings to bytes.
-	/// </summary>
-	/// <returns>The to bytes.</returns>
-	/// <param name="text">Text.</param>
-	public static byte[] StringToBytes (string text){
-//		char[] chars = text.ToCharArray();
-//		byte[] buffer = new byte[chars.Length];
-////		LogHelper.Log("start convert");
-//		for(int i = 0; i < chars.Length; i++)
-//		{
-//			buffer[i] = Convert.ToByte(chars[i]);
-//		}
-        LogHelper.Log("source : " + text);
-        byte[] buffer = System.Text.Encoding.UTF8.GetBytes( text );
-        string des = BytesToString(buffer);
-        LogHelper.Log("des : " + des);
-        LogHelper.Log("source == des: " + (des == text).ToString() );
-		return buffer;
-	}
-
     /// <summary>
     /// Byteses to string.
     /// </summary>
     /// <returns>The to string.</returns>
     /// <param name="source">Source.</param>
     public static string BytesToString(byte[] source){
-        return System.Text.Encoding.UTF8.GetString ( source );
+        return System.Text.Encoding.UTF8.GetString(source);
     }
-
-	/// <summary>
-	/// Strings to stream.
-	/// </summary>
-	/// <returns>The to stream.</returns>
-	/// <param name="text">Text.</param>
-	public static MemoryStream StringToStream (string text){
-		return new MemoryStream(ConvertHelper.StringToBytes(text));
-	}
 
     /// <summary>
     /// Byteses to stream.
