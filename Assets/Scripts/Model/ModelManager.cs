@@ -88,7 +88,6 @@ public class ModelManager
             if(instance == null)
             {
                 instance = new ModelManager();
-                instance.Init();
             }
             return instance;
         }
