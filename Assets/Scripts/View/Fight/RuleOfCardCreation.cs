@@ -5,7 +5,6 @@ public class RuleOfCardCreation
 {
 	public static int OnRule()
 	{
-		// 生成一个随机值,根据概率返回生成卡片的ID
 		float probability=Random.value;
 		if(probability<=0.25f)
 			return 1;

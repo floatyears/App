@@ -4,6 +4,8 @@ public enum SceneEnum
 {
 	Quest,
 
+	Friends,
+
 	Scratch,
 
 	Shop,
@@ -13,6 +15,8 @@ public enum SceneEnum
 	Units,
 
 	QuestSelect,
+
+	FriendSelect,
 
 	Fight,
 }

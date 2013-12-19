@@ -45,7 +45,11 @@ public class Main : MonoBehaviour
 	void OnEnable()
 	{
 		ViewManager.Instance.Init(uiRoot);
-		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
+
+
+		//LogHelper.Log("1111111111122222222222");
+		//ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
+
 
 		//FileStream fs = new FileStream((Application.dataPath + "/Scripts/Protobuf/Person.proto"),FileMode.Open,FileAccess.Read);
 

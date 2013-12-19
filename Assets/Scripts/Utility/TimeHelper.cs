@@ -14,6 +14,6 @@ public sealed class TimeHelper {
     }
 
     public static string FormattedTimeNow(){
-        return System.DateTime.Now.ToString("yyyy:MM:dd:HH:mm:ss");
+        return System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
     }
 }
