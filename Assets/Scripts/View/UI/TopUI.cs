@@ -29,23 +29,25 @@ public class TopUI : UIBaseUnity
 		base.Init (name);
 
 		//Find out Labels
-		labTextRank = FindChild<UILabel>("Spr_Top_InfoBar/Lab_T_Rank");
-		labVauleRank = FindChild<UILabel>("Spr_Top_InfoBar/Lab_V_Rank");
+		labTextRank = FindChild<UILabel>("Player_Info_Bar/Lab_T_Rank");
+		labVauleRank = FindChild<UILabel>("Player_Info_Bar/Lab_V_Rank");
 
-		labVaulePlayerName = FindChild<UILabel>("Spr_Top_InfoBar/Lab_V_PlayerName");
+		labVaulePlayerName = FindChild<UILabel>("Player_Info_Bar/Lab_V_PlayerName");
 
-		labValueMoney = FindChild<UILabel>("Spr_Top_InfoBar/Lab_V_Money");
+		labValueMoney = FindChild<UILabel>("Player_Info_Bar/Lab_V_Icon");
 
-		labVauleCurStamina = FindChild<UILabel>("Spr_Top_InfoBar/Lab_V_CurStamina");
-		labVauleLine = FindChild<UILabel>("Spr_Top_InfoBar/Lab_T_Line");
-		labVauleTotalStamina = FindChild<UILabel>("Spr_Top_InfoBar/Lab_V_TotalStamina");
+		labVauleCurStamina = FindChild<UILabel>("Player_Info_Bar/Lab_V_CurStamina");
+		labVauleLine = FindChild<UILabel>("Player_Info_Bar/Lab_T_Line");
+		labVauleTotalStamina = FindChild<UILabel>("Player_Info_Bar/Lab_V_TotalStamina");
 
-		labVauleChipNum = FindChild<UILabel>("Spr_Top_InfoBar/Lab_V_ChipNum");
+		labVauleChipNum = FindChild<UILabel>("Player_Info_Bar/Lab_V_ChipNum");
 
-		labVauleUIName = FindChild<UILabel>("UI_Info_Bar/Lab_UI_Name");
+		labVauleUIName = FindChild<UILabel>("Scene_Info_Bar/Lab_UI_Name");
 
-		infoBar = GameObject.Find("UI_Info_Bar");
+		infoBar = transform.Find("Scene_Info_Bar").gameObject;
 
+
+		LogHelper.Log("infobar's name: " + infoBar.name);
 
 		//Give Vaules from Config
 		labTextRank.text = UIConfig.Lab_T_Rank;
