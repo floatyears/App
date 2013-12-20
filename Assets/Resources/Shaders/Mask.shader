@@ -11,7 +11,7 @@ SubShader
 	Lighting Off
 	ZWrite Off
 	Blend SrcAlpha OneMinusSrcAlpha
-	AlphaTest GEqual [_Cutoff]
+	//AlphaTest GEqual [_Cutoff]
 	Pass
 	{
 		SetTexture [_Mask] {combine texture}

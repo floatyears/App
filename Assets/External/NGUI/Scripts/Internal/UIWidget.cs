@@ -11,7 +11,7 @@ using System.Collections.Generic;
 /// </summary>
 
 [ExecuteInEditMode]
-[AddComponentMenu("NGUI/UI/Widget")]
+[AddComponentMenu("NGUI/UI/NGUI Widget")]
 public class UIWidget : MonoBehaviour
 {
 	/// <summary>
@@ -40,6 +40,32 @@ public class UIWidget : MonoBehaviour
 	[HideInInspector][SerializeField] protected int mHeight = 100;
 	[HideInInspector][SerializeField] protected int mDepth = 0;
 
+	protected Vector4 mDrawRegion = new Vector4(0f, 0f, 1f, 1f);
+
+	/// <summary>
+	/// Draw region alters how the widget looks without modifying the widget's rectangle.
+	/// A region is made up of 4 relative values (0-1 range). The order is Left (X), Bottom (Y), Right (Z) and Top (W).
+	/// To have a widget's left edge be 30% from the left side, set X to 0.3. To have the widget's right edge be 30%
+	/// from the right hand side, set Z to 0.7.
+	/// </summary>
+
+	public Vector4 drawRegion
+	{
+		get
+		{
+			return mDrawRegion;
+		}
+		set
+		{
+			if (mDrawRegion != value)
+			{
+				mDrawRegion = value;
+				if (autoResizeBoxCollider) ResizeCollider();
+				MarkAsChanged();
+			}
+		}
+	}
+
 	/// <summary>
 	/// If set to 'true', the box collider's dimensions will be adjusted to always match the widget whenever it resizes.
 	/// </summary>
@@ -65,11 +91,13 @@ public class UIWidget : MonoBehaviour
 	/// Internal usage -- draw call that's drawing the widget.
 	/// </summary>
 
-	public UIDrawCall drawCall { get; set; }
+	[HideInInspector]
+	[System.NonSerialized]
+	public UIDrawCall drawCall;
 
 	// Widget's generated geometry
-	UIGeometry mGeom = new UIGeometry();
-	Vector3[] mCorners = new Vector3[4];
+	protected UIGeometry mGeom = new UIGeometry();
+	protected Vector3[] mCorners = new Vector3[4];
 
 	/// <summary>
 	/// Whether the widget is visible.
@@ -129,19 +157,77 @@ public class UIWidget : MonoBehaviour
 	/// Color used by the widget.
 	/// </summary>
 
-	public Color color { get { return mColor; } set { if (!mColor.Equals(value)) { mColor = value; mChanged = true; } } }
+	public Color color
+	{
+		get
+		{
+			return mColor;
+		}
+		set
+		{
+			if (mColor != value)
+			{
+				mColor = value;
+				mChanged = true;
+			}
+		}
+	}
 
 	/// <summary>
 	/// Widget's alpha -- a convenience method.
 	/// </summary>
 
-	public float alpha { get { return mColor.a; } set { Color c = mColor; c.a = value; color = c; } }
+	public float alpha
+	{
+		get
+		{
+			return mColor.a;
+		}
+		set
+		{
+			Color c = mColor;
+
+			if (c.a != value)
+			{
+				c.a = value;
+				color = c;
+			}
+		}
+	}
 
 	/// <summary>
 	/// Widget's final alpha, after taking the panel's alpha into account.
 	/// </summary>
 
-	public float finalAlpha { get { if (mPanel == null) CreatePanel(); return (mPanel != null) ? mColor.a * mPanel.alpha : mColor.a; } }
+	public float finalAlpha
+	{
+		get
+		{
+			if (mPanel == null) CreatePanel();
+			return (mPanel != null) ? mColor.a * mPanel.finalAlpha : mColor.a;
+		}
+	}
+
+	/// <summary>
+	/// Change the pivot point and do not attempt to keep the widget in the same place by adjusting its transform.
+	/// </summary>
+
+	public Pivot rawPivot
+	{
+		get
+		{
+			return mPivot;
+		}
+		set
+		{
+			if (mPivot != value)
+			{
+				mPivot = value;
+				if (autoResizeBoxCollider) ResizeCollider();
+				MarkAsChanged();
+			}
+		}
+	}
 
 	/// <summary>
 	/// Set or get the value that specifies where the widget's pivot point should be.
@@ -194,11 +280,12 @@ public class UIWidget : MonoBehaviour
 		{
 			if (mDepth != value)
 			{
+				RemoveFromPanel();
 				mDepth = value;
 #if UNITY_EDITOR
 				UnityEditor.EditorUtility.SetDirty(this);
 #endif
-				UIPanel.SetDirty();
+				UIPanel.RebuildAllDrawCalls(true);
 			}
 		}
 	}
@@ -212,6 +299,7 @@ public class UIWidget : MonoBehaviour
 	{
 		get
 		{
+			if (mPanel == null) CreatePanel();
 			return (mPanel != null) ? mDepth + mPanel.depth * 1000 : mDepth;
 		}
 	}
@@ -231,10 +319,10 @@ public class UIWidget : MonoBehaviour
 			float x1 = x0 + mWidth;
 			float y1 = y0 + mHeight;
 
-			mCorners[0] = new Vector3(x0, y0, 0f);
-			mCorners[1] = new Vector3(x0, y1, 0f);
-			mCorners[2] = new Vector3(x1, y1, 0f);
-			mCorners[3] = new Vector3(x1, y0, 0f);
+			mCorners[0] = new Vector3(x0, y0);
+			mCorners[1] = new Vector3(x0, y1);
+			mCorners[2] = new Vector3(x1, y1);
+			mCorners[3] = new Vector3(x1, y0);
 
 			return mCorners;
 		}
@@ -280,10 +368,11 @@ public class UIWidget : MonoBehaviour
 	}
 
 	/// <summary>
-	/// World-space inner rect's corners of the widget. The order is bottom-left, top-left, top-right, bottom-right.
+	/// Local space region where the actual drawing will take place.
+	/// X = left, Y = bottom, Z = right, W = top.
 	/// </summary>
 
-	public Vector3[] innerWorldCorners
+	public virtual Vector4 drawingDimensions
 	{
 		get
 		{
@@ -294,21 +383,11 @@ public class UIWidget : MonoBehaviour
 			float x1 = x0 + mWidth;
 			float y1 = y0 + mHeight;
 
-			Vector4 br = border;
-
-			x0 += br.x;
-			y0 += br.y;
-			x1 -= br.z;
-			y1 -= br.w;
-
-			Transform wt = cachedTransform;
-
-			mCorners[0] = wt.TransformPoint(x0, y0, 0f);
-			mCorners[1] = wt.TransformPoint(x0, y1, 0f);
-			mCorners[2] = wt.TransformPoint(x1, y1, 0f);
-			mCorners[3] = wt.TransformPoint(x1, y0, 0f);
-
-			return mCorners;
+			return new Vector4(
+				mDrawRegion.x == 0f ? x0 : Mathf.Lerp(x0, x1, mDrawRegion.x),
+				mDrawRegion.y == 0f ? y0 : Mathf.Lerp(y0, y1, mDrawRegion.y),
+				mDrawRegion.z == 1f ? x1 : Mathf.Lerp(x0, x1, mDrawRegion.z),
+				mDrawRegion.w == 1f ? y1 : Mathf.Lerp(y0, y1, mDrawRegion.w));
 		}
 	}
 
@@ -372,6 +451,23 @@ public class UIWidget : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Shader is used to create a dynamic material if the widget has no material to work with.
+	/// </summary>
+
+	public virtual Shader shader
+	{
+		get
+		{
+			Material mat = material;
+			return (mat != null) ? mat.shader : null;
+		}
+		set
+		{
+			throw new System.NotImplementedException(GetType() + " has no shader setter");
+		}
+	}
+
+	/// <summary>
 	/// Returns the UI panel responsible for this widget.
 	/// </summary>
 
@@ -401,7 +497,7 @@ public class UIWidget : MonoBehaviour
 	/// Adjust the widget's collider size to match the widget's dimensions.
 	/// </summary>
 
-	void ResizeCollider ()
+	public void ResizeCollider ()
 	{
 		if (NGUITools.IsActive(this))
 		{
@@ -475,7 +571,7 @@ public class UIWidget : MonoBehaviour
 		}
 		else if (isVisible && hasVertices)
 		{
-			UIPanel.SetDirty();
+			drawCall = UIPanel.InsertWidget(this);
 		}
 	}
 
@@ -485,13 +581,18 @@ public class UIWidget : MonoBehaviour
 
 	protected void RemoveFromPanel ()
 	{
-		if (mPanel != null)
-		{
-			drawCall = null;
-			mPanel = null;
-			SetDirty();
-		}
+		UIPanel.RemoveWidget(this);
+		mPanel = null;
+		list.Remove(this);
+#if UNITY_EDITOR
+		mOldTex = null;
+		mOldShader = null;
+#endif
 	}
+
+#if UNITY_EDITOR
+	Texture mOldTex;
+	Shader mOldShader;
 
 	/// <summary>
 	/// This callback is sent inside the editor notifying us that some property has changed.
@@ -500,18 +601,29 @@ public class UIWidget : MonoBehaviour
 	protected virtual void OnValidate()
 	{
 		mChanged = true;
-		
+
 		// Prior to NGUI 2.7.0 width and height was specified as transform's local scale
-		if (mWidth == 100 && mHeight == 100 && cachedTransform.localScale.magnitude > 8f)
+		if ((mWidth == 100 || mWidth == minWidth) &&
+			(mHeight == 100 || mHeight == minHeight) && cachedTransform.localScale.magnitude > 8f)
 		{
 			UpgradeFrom265();
 			cachedTransform.localScale = Vector3.one;
 		}
-		
+
 		if (mWidth < minWidth) mWidth = minWidth;
 		if (mHeight < minHeight) mHeight = minHeight;
 		if (autoResizeBoxCollider) ResizeCollider();
+
+		// If the texture is changing, we need to make sure to rebuild the draw calls
+		if (mOldTex != mainTexture || mOldShader != shader)
+		{
+			mOldTex = mainTexture;
+			mOldShader = shader;
+			UIPanel.RemoveWidget(this);
+			drawCall = UIPanel.InsertWidget(this);
+		}
 	}
+#endif
 
 	/// <summary>
 	/// Only sets the local flag, does not notify the panel.
@@ -526,6 +638,7 @@ public class UIWidget : MonoBehaviour
 
 	public virtual void MarkAsChanged ()
 	{
+		if (this == null) return;
 		mChanged = true;
 #if UNITY_EDITOR
 		UnityEditor.EditorUtility.SetDirty(this);
@@ -548,15 +661,32 @@ public class UIWidget : MonoBehaviour
 
 	public void CreatePanel ()
 	{
-		if (mPanel == null && enabled && NGUITools.GetActive(gameObject))
+		if (mStarted && mPanel == null && enabled && NGUITools.GetActive(gameObject))
 		{
 			mPanel = UIPanel.Find(cachedTransform, mStarted);
 
 			if (mPanel != null)
 			{
+				int rd = raycastDepth;
+				bool inserted = false;
+
+				// Try to insert this widget at the appropriate location within the list
+				for (int i = 0; i < list.size; ++i)
+				{
+					if (list[i].raycastDepth > rd)
+					{
+						list.Insert(i, this);
+						inserted = true;
+						break;
+					}
+				}
+
+				// Add this widget to the end of the list if it's not already there
+				if (!inserted) list.Add(this);
+
 				CheckLayer();
 				mChanged = true;
-				if (material != null) UIPanel.SetDirty();
+				drawCall = UIPanel.InsertWidget(this);
 			}
 		}
 	}
@@ -569,7 +699,7 @@ public class UIWidget : MonoBehaviour
 	{
 		if (mPanel != null && mPanel.gameObject.layer != gameObject.layer)
 		{
-			LogHelper.LogWarning("You can't place widgets on a layer different than the UIPanel that manages them.\n" +
+			Debug.LogWarning("You can't place widgets on a layer different than the UIPanel that manages them.\n" +
 				"If you want to move widgets to a different layer, parent them to a new panel instead.", this);
 			gameObject.layer = mPanel.gameObject.layer;
 		}
@@ -609,9 +739,8 @@ public class UIWidget : MonoBehaviour
 
 	protected virtual void OnEnable ()
 	{
-		list.Add(this);
 		mChanged = true;
-		mPanel = null;
+		RemoveFromPanel();
 
 		// Prior to NGUI 2.7.0 width and height was specified as transform's local scale
 		if (mWidth == 100 && mHeight == 100 && cachedTransform.localScale.magnitude > 8f)
@@ -664,14 +793,16 @@ public class UIWidget : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Mark the UI as changed when returning from paused state.
+	/// </summary>
+
+	void OnApplicationPause (bool paused) { if (!paused) MarkAsChanged(); }
+
+	/// <summary>
 	/// Clear references.
 	/// </summary>
 
-	protected virtual void OnDisable ()
-	{
-		list.Remove(this);
-		RemoveFromPanel();
-	}
+	protected virtual void OnDisable () { RemoveFromPanel(); }
 
 	/// <summary>
 	/// Unregister this widget.
@@ -728,7 +859,7 @@ public class UIWidget : MonoBehaviour
 	/// Whether the widget can be resized using drag handles.
 	/// </summary>
 
-	public virtual bool canResize { get { return true; } }
+	public virtual bool canResize { get { return GetComponent<UIStretch>() == null; } }
 
 	/// <summary>
 	/// Draw some selectable gizmos.
@@ -799,104 +930,106 @@ public class UIWidget : MonoBehaviour
 	/// Update the widget and fill its geometry if necessary. Returns whether something was changed.
 	/// </summary>
 
-	public bool UpdateGeometry (UIPanel p, bool forceVisible)
+	public bool UpdateGeometry (bool forceVisible)
 	{
-		if (p != null)
+		bool hasMatrix = false;
+		float final = finalAlpha;
+		bool visibleByAlpha = (final > 0.001f);
+		bool visibleByPanel = forceVisible || mVisibleByPanel;
+		bool moved = false;
+
+		// Check to see if the widget has moved relative to the panel that manages it
+		if (HasTransformChanged())
 		{
-			mPanel = p;
-			bool hasMatrix = false;
-			float final = finalAlpha;
-			bool visibleByAlpha = (final > 0.001f);
-			bool visibleByPanel = forceVisible || mVisibleByPanel;
-
-			// Has transform moved?
-			if (HasTransformChanged())
-			{
-				// Check to see if the widget has moved relative to the panel that manages it
 #if UNITY_EDITOR
-				if (!mPanel.widgetsAreStatic || !Application.isPlaying)
+			if (!mPanel.widgetsAreStatic || !Application.isPlaying)
 #else
-				if (!mPanel.widgetsAreStatic)
+			if (!mPanel.widgetsAreStatic)
 #endif
+			{
+				mLocalToPanel = mPanel.worldToLocal * cachedTransform.localToWorldMatrix;
+				hasMatrix = true;
+
+				Vector2 offset = pivotOffset;
+
+				float x0 = -offset.x * mWidth;
+				float y0 = -offset.y * mHeight;
+				float x1 = x0 + mWidth;
+				float y1 = y0 + mHeight;
+
+				Transform wt = cachedTransform;
+
+				Vector3 v0 = wt.TransformPoint(x0, y0, 0f);
+				Vector3 v1 = wt.TransformPoint(x1, y1, 0f);
+
+				v0 = mPanel.worldToLocal.MultiplyPoint3x4(v0);
+				v1 = mPanel.worldToLocal.MultiplyPoint3x4(v1);
+
+				if (Vector3.SqrMagnitude(mOldV0 - v0) > 0.000001f ||
+					Vector3.SqrMagnitude(mOldV1 - v1) > 0.000001f)
 				{
-					mLocalToPanel = p.worldToLocal * cachedTransform.localToWorldMatrix;
-					hasMatrix = true;
-
-					Vector2 offset = pivotOffset;
-
-					float x0 = -offset.x * mWidth;
-					float y0 = -offset.y * mHeight;
-					float x1 = x0 + mWidth;
-					float y1 = y0 + mHeight;
-
-					Transform wt = cachedTransform;
-
-					Vector3 v0 = wt.TransformPoint(x0, y0, 0f);
-					Vector3 v1 = wt.TransformPoint(x1, y1, 0f);
-
-					v0 = p.worldToLocal.MultiplyPoint3x4(v0);
-					v1 = p.worldToLocal.MultiplyPoint3x4(v1);
-
-					if (Vector3.SqrMagnitude(mOldV0 - v0) > 0.000001f ||
-						Vector3.SqrMagnitude(mOldV1 - v1) > 0.000001f)
-					{
-						mChanged = true;
-						mOldV0 = v0;
-						mOldV1 = v1;
-					}
-				}
-
-				// Is the widget visible by the panel?
-				if (visibleByAlpha || mForceVisible != forceVisible)
-				{
-					mForceVisible = forceVisible;
-					visibleByPanel = forceVisible || mPanel.IsVisible(this);
+					moved = true;
+					mOldV0 = v0;
+					mOldV1 = v1;
 				}
 			}
-			else if (visibleByAlpha && mForceVisible != forceVisible)
+
+			// Is the widget visible by the panel?
+			if (visibleByAlpha || mForceVisible != forceVisible)
 			{
 				mForceVisible = forceVisible;
-				visibleByPanel = mPanel.IsVisible(this);
+				visibleByPanel = forceVisible || mPanel.IsVisible(this);
 			}
+		}
+		else if (visibleByAlpha && mForceVisible != forceVisible)
+		{
+			mForceVisible = forceVisible;
+			visibleByPanel = mPanel.IsVisible(this);
+		}
 
-			// Is the visibility changing?
-			if (mVisibleByPanel != visibleByPanel)
+		// Is the visibility changing?
+		if (mVisibleByPanel != visibleByPanel)
+		{
+			mVisibleByPanel = visibleByPanel;
+			mChanged = true;
+		}
+
+		// Has the alpha changed?
+		if (mVisibleByPanel && mLastAlpha != final) mChanged = true;
+		mLastAlpha = final;
+
+		if (mChanged)
+		{
+			mChanged = false;
+
+			if (isVisible && shader != null)
 			{
-				mVisibleByPanel = visibleByPanel;
-				mChanged = true;
-			}
+				bool hadVertices = mGeom.hasVertices;
+				mGeom.Clear();
+				OnFill(mGeom.verts, mGeom.uvs, mGeom.cols);
 
-			// Has the alpha changed?
-			if (mVisibleByPanel && mLastAlpha != final) mChanged = true;
-			mLastAlpha = final;
-
-			if (mChanged)
-			{
-				mChanged = false;
-
-				if (material != null && isVisible)
+				if (mGeom.hasVertices)
 				{
-					bool hadVertices = mGeom.hasVertices;
-					mGeom.Clear();
-					OnFill(mGeom.verts, mGeom.uvs, mGeom.cols);
+					// Want to see what's being filled? Uncomment this line.
+					//Debug.Log("Fill " + name + " (" + Time.time + ")");
 
-					if (mGeom.hasVertices)
-					{
-						// Want to see what's being filled? Uncomment this line.
-						//LogHelper.Log("Fill " + name + " (" + Time.time + ")");
-
-						if (!hasMatrix) mLocalToPanel = p.worldToLocal * cachedTransform.localToWorldMatrix;
-						mGeom.ApplyTransform(mLocalToPanel);
-						return true;
-					}
-					return hadVertices;
-				}
-				else if (mGeom.hasVertices)
-				{
-					mGeom.Clear();
+					if (!hasMatrix) mLocalToPanel = mPanel.worldToLocal * cachedTransform.localToWorldMatrix;
+					mGeom.ApplyTransform(mLocalToPanel);
 					return true;
 				}
+				return hadVertices;
 			}
+			else if (mGeom.hasVertices)
+			{
+				mGeom.Clear();
+				return true;
+			}
+		}
+		else if (moved && mGeom.hasVertices)
+		{
+			if (!hasMatrix) mLocalToPanel = mPanel.worldToLocal * cachedTransform.localToWorldMatrix;
+			mGeom.ApplyTransform(mLocalToPanel);
+			return true;
 		}
 		return false;
 	}

@@ -80,7 +80,7 @@ public class UIDragObject : MonoBehaviour
 	/// Create a plane on which we will be performing the dragging.
 	/// </summary>
 
-	public void OnPress (bool pressed)
+	void OnPress (bool pressed)
 	{
 		if (enabled && NGUITools.GetActive(gameObject) && target != null)
 		{
@@ -120,7 +120,7 @@ public class UIDragObject : MonoBehaviour
 	/// Drag the object along the plane.
 	/// </summary>
 
-	public void OnDrag (Vector2 delta)
+	void OnDrag (Vector2 delta)
 	{
 		if (mPressed && mTouchID == UICamera.currentTouchID && enabled && NGUITools.GetActive(gameObject) && target != null)
 		{

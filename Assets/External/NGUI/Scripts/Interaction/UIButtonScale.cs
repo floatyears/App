@@ -52,7 +52,6 @@ public class UIButtonScale : MonoBehaviour
 		if (enabled)
 		{
 			if (!mStarted) Start();
-
 			TweenScale.Begin(tweenTarget.gameObject, duration, isPressed ? Vector3.Scale(mScale, pressed) :
 				(UICamera.IsHighlighted(gameObject) ? Vector3.Scale(mScale, hover) : mScale)).method = UITweener.Method.EaseInOut;
 		}

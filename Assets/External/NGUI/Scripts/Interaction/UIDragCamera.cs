@@ -5,7 +5,6 @@
 
 using UnityEngine;
 
-
 /// <summary>
 /// Allows dragging of the camera object and restricts camera's movement to be within bounds of the area created by the rootForBounds colliders.
 /// </summary>
@@ -67,6 +66,4 @@ public class UIDragCamera : MonoBehaviour
 			draggableCamera.Scroll(delta);
 		}
 	}
-
-
 }

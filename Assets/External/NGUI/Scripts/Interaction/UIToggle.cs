@@ -96,7 +96,22 @@ public class UIToggle : UIWidgetContainer
 	[System.Obsolete("Use 'value' instead")]
 	public bool isChecked { get { return value; } set { this.value = value; } }
 
-	void OnEnable ()  { list.Add(this); }
+	/// <summary>
+	/// Return the first active toggle within the specified group.
+	/// </summary>
+
+	static public UIToggle GetActiveToggle (int group)
+	{
+		for (int i = 0; i < list.size; ++i)
+		{
+			UIToggle toggle = list[i];
+			if (toggle != null && toggle.group == group && toggle.mIsActive)
+				return toggle;
+		}
+		return null;
+	}
+
+	void OnEnable () { list.Add(this); }
 	void OnDisable () { list.Remove(this); }
 
 	/// <summary>
@@ -132,7 +147,7 @@ public class UIToggle : UIWidgetContainer
 
 			if (radioButtonRoot != null && group == 0)
 			{
-				LogHelper.LogWarning(NGUITools.GetHierarchy(gameObject) +
+				Debug.LogWarning(NGUITools.GetHierarchy(gameObject) +
 					" uses a 'Radio Button Root'. You need to change it to use a 'group' instead.", this);
 			}
 

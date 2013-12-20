@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2012 Tasharen Entertainment
+// Copyright © 2011-2013 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -37,7 +37,7 @@ public class EquipItems : MonoBehaviour
 				}
 				else
 				{
-					LogHelper.LogWarning("Can't resolve the item ID of " + index);
+					Debug.LogWarning("Can't resolve the item ID of " + index);
 				}
 			}
 		}

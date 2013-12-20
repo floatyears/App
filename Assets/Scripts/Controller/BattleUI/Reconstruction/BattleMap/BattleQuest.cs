@@ -41,6 +41,10 @@ public class BattleQuest : UIBase
 
 	private Battle battle;
 
+	private BattleBackground background;
+
+	string backgroundName = "BattleBackground";
+
 	public BattleQuest (string name) : base(name)
 	{
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
@@ -56,21 +60,34 @@ public class BattleQuest : UIBase
 		role.BQuest = this;
 		role.transform.parent = rootObject.transform;
 		Init(role,tempName);
+
+		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
+		background.Init (backgroundName);
+		background.CreatUI ();
+
+		AddSelfObject (role);
+		AddSelfObject (battleMap);
+		AddSelfObject (background);
 	}
 
 	void Init(UIBaseUnity ui,string name)
 	{
-
 		ui.Init(name);
 	}
 
 	public override void CreatUI ()
 	{
 		base.CreatUI ();
+	}
 
-		battleMap.CreatUI();
+	public override void ShowUI ()
+	{
+		base.ShowUI ();
+	}
 
-		role.CreatUI();
+	public override void HideUI ()
+	{
+		base.HideUI ();
 	}
 	  
 
@@ -87,7 +104,6 @@ public class BattleQuest : UIBase
 	public void RoleCoordinate(Coordinate coor)
 	{
 		if(!battleMap.ReachMapItem(coor))
-
 		{
 			currentMapData = mapConfig.mapData[coor.x,coor.y];
 

@@ -2,7 +2,7 @@ Shader "Unlit/Transparent Colored"
 {
 	Properties
 	{
-		_MainTex ("Base (RGB), Alpha (A)", 2D) = "white" {}
+		_MainTex ("Base (RGB), Alpha (A)", 2D) = "black" {}
 	}
 	
 	SubShader
@@ -18,7 +18,7 @@ Shader "Unlit/Transparent Colored"
 		
 		Cull Off
 		Lighting Off
-		ZWrite Off
+		ZWrite On
 		Fog { Mode Off }
 		Offset -1, -1
 		Blend SrcAlpha OneMinusSrcAlpha
