@@ -129,8 +129,19 @@ public class ModelManagerTest {
         userInfo.loginTime = 127;
         
         //
+        
         User user = new User(userInfo);
-        user.ChangeRank(3);
-        user.ChangeRank(1);
+        //
+
+        manager.Add(ModelEnum.User, user);
+
+        ErrorMsg errMsg = new ErrorMsg();
+        User userLoaded = manager.GetData(ModelEnum.User, errMsg) as User;
+
+        userLoaded.ChangeRank(3);
+        MsgCenter.Instance.Invoke(DataEnum.Person, userLoaded);
+
+        userLoaded.ChangeRank(1);
+        MsgCenter.Instance.Invoke(DataEnum.Person, userLoaded);
     } 
 }
