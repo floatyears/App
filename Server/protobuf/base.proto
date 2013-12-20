@@ -11,7 +11,7 @@ enum EUnitType{
 };
 
 //general response protocol
-message Header{
+message ProtoHeader {
 	required string apiVer		= 1;
 	optional string sessionId	= 2;
 	optional int32	packetId	= 3;

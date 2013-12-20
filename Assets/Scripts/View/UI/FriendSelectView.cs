@@ -18,7 +18,7 @@ public class FriendSelectView : UIBase
 	{
 		window = ViewManager.Instance.GetViewObject("FriendSelectWindow") as FriendSelectUnity;
 		window.Init ("FriendSelectWindow");
-		currentUIDic.Add (window.UIName, window);
+		//currentUIDic.Add (window.UIName, window);
 
 		friendListScroller = new ScrollView(window.LeftTransform, window.RightTransform, window.FriendItem);
 		friendListScroller.ShowData(5);
@@ -49,11 +49,13 @@ public class FriendSelectView : UIBase
 	public override void ShowUI ()
 	{
 		SetActive(true);
+		//base.ShowUI ();
 	}
 	
 	public override void HideUI ()
 	{
 		SetActive(false);
+		//base.HideUI ();
 	}
 	
 	public override void DestoryUI ()
@@ -63,6 +65,7 @@ public class FriendSelectView : UIBase
 	
 	void SetActive(bool b)
 	{
+		LogHelper.Log("friend select ```` " + b);
 		window.gameObject.SetActive(b);
 		friendListScroller.insUIObject.SetActive(b);
 	}

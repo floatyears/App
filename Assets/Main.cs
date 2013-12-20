@@ -60,7 +60,7 @@ public class Main : MonoBehaviour
 
 
 		//LogHelper.Log("1111111111122222222222");
-		ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
+		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 
 
 		//FileStream fs = new FileStream((Application.dataPath + "/Scripts/Protobuf/Person.proto"),FileMode.Open,FileAccess.Read);

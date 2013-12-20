@@ -47,21 +47,25 @@ public class BattleQuest : UIBase
 
 	public BattleQuest (string name) : base(name)
 	{
+		LogHelper.Log("start battle quest ");
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		mapConfig = new MapConfig();
 		string tempName = "Map";
+		LogHelper.Log("start battle quest  battleMap");
 		battleMap = viewManager.GetViewObject(tempName) as BattleMap;
 		battleMap.BQuest = this;
 		battleMap.transform.parent = rootObject.transform;
 		battleMap.transform.localPosition = Vector3.zero;
 		Init(battleMap,tempName);
 		tempName = "Role";
+		LogHelper.Log("start battle quest  role");
 		role = viewManager.GetViewObject(tempName) as Role;
 		role.BQuest = this;
 		role.transform.parent = rootObject.transform;
 		Init(role,tempName);
-
+		LogHelper.Log("start battle quest  background");
 		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
+		background.transform.parent = rootObject.transform;
 		background.Init (backgroundName);
 		background.CreatUI ();
 
@@ -82,11 +86,13 @@ public class BattleQuest : UIBase
 
 	public override void ShowUI ()
 	{
+		LogHelper.Log("start battle quest  shou ui");
 		base.ShowUI ();
 	}
 
 	public override void HideUI ()
 	{
+		LogHelper.Log("start battle quest  Hide ui");
 		base.HideUI ();
 	}
 	  

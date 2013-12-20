@@ -37,6 +37,7 @@ public class BattleMap : UIBaseUnity
 
 	public override void CreatUI ()
 	{
+		LogHelper.Log("battle map creat ui" );
 		base.CreatUI ();
 
 		int x = map.GetLength(0);

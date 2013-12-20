@@ -10,6 +10,7 @@ SubShader
 	Tags {"Queue"="Transparent"}
 	Lighting Off
 	ZWrite Off
+	Cull Back
 	Blend SrcAlpha OneMinusSrcAlpha
 	//AlphaTest GEqual [_Cutoff]
 	Pass

@@ -1,0 +1,95 @@
+import public "skill.proto";
+
+//=======================Unit - only used at client================================================//
+message UnitStatus {
+	required UserUnit		userUnit	= 1;
+	required UnitInfo		info		= 2;
+	optional BattlePower	power		= 3;
+};
+
+message BattlePower {
+	optional int32 level 		= 1; // unit level
+	optional int32 attack		= 2;
+	optional int32 defense		= 3;
+	optional int32 hp			= 4;	
+};
+
+message HelperRequire {
+    optional int32	level		= 1;
+	optional int32	race		= 2;
+	optional int32	type		= 3;
+}
+
+message EvolveInfo {
+    required int32      		evolveUnitId    = 1;
+    repeated int32		      	materialUnitId  = 2;
+	optional HelperRequire		helperRequire	= 3;	
+}
+
+message UnitInfo { 	
+	required int32			id				= 1;
+	optional string			name			= 2;
+	optional int32			type			= 3;//wind flame water, etc.
+	optional NormalSkill	skill1			= 4;
+	optional NormalSkill	skill2			= 5;
+	optional LeaderSkill	leaderSkill		= 6;
+	optional ActiveSkill	activeSkill		= 7;
+	optional PassiveSkill	passiveSkill	= 8;
+	optional int32			maxLevel		= 9;
+	optional int32			expType			= 10;
+	optional int32			rare			= 11;
+	optional string 		profile			= 12;
+	repeated BattlePower	power			= 13; //diff power of each level
+    optional EvolveInfo		evolveInfo		= 14;
+};
+//=======================================================================//
+
+
+
+//============== Quest -  client used only=========================================================//
+message EnemyInfo {
+	required int32	unitId			= 1;
+    optional int32	type			= 2;//wind flame water, etc.
+	optional int32	hp				= 3;
+	optional int32	attack			= 4;
+	optional int32	defense			= 5;
+	optional int32	attackRound		= 6;//next 1, 2, 3
+	optional float	dropRate		= 7;
+	optional float	dropUnitId		= 8;
+};
+
+message QuestInfo {
+	required int32		id			= 1; 
+	optional int32		states      = 2; // story or event
+	optional int32		no          = 3; // number: 1, 2, 3...
+	optional string		name		= 4;
+	optional string		story		= 5; // story description
+	optional int32		stamina 	= 6; // cost stamina
+	optional int32		floor		= 7;		
+	optional int32		rewardExp	= 8;
+	optional int32		rewardCoin	= 9;
+	repeated int32		allUnitKind = 10; // pick-up enemy unit list
+	optional int32		bossId		= 11; // boss unit id
+};
+
+
+message QuestStageInfo {
+	optional int32		version		= 1;
+	optional int32		id			= 2;	
+	optional int32		type		= 3; // story or event
+	optional string		stageName	= 4; // 
+	repeated QuestInfo	questInfo	= 5; 
+};
+
+// event occure probability
+message Probability {
+	optional int32		id		= 1;
+	optional float		rate	= 2;
+}
+
+message MapInfo {
+	optional int32			floors		= 1;
+	repeated Probability	panelRate	= 2;
+}
+//=======================================================================//
+
