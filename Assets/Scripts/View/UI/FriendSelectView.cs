@@ -17,6 +17,7 @@ public class FriendSelectView : UIBase
 	public override void CreatUI ()
 	{
 		window = ViewManager.Instance.GetViewObject("FriendSelectWindow") as FriendSelectUnity;
+		window.Init ("FriendSelectWindow");
 		currentUIDic.Add (window.UIName, window);
 
 		friendListScroller = new ScrollView(window.LeftTransform, window.RightTransform, window.FriendItem);

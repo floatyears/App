@@ -54,6 +54,8 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 	public virtual void DestoryUI ()
 	{
 		currentState = UIState.UIDestory;
+
+		vManager.DestoryUI(this);
 	}
 
 	/// <summary>

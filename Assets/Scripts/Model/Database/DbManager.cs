@@ -60,7 +60,7 @@ public class DbManager:MonoBehaviour
     }
 
     public void testConnect(){
-        string name = "Jackie";
+//        string name = "Jackie";
     }
 
 }

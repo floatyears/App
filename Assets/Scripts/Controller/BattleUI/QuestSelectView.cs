@@ -13,6 +13,7 @@ public class QuestSelectView : UIBase
 	public override void CreatUI ()
 	{
 		window = ViewManager.Instance.GetViewObject( "QuestSelectWindow" ) as QuestSelectUnity;
+		window.Init ("QuestSelectWindow");
 		currentUIDic.Add( window.UIName, window );
 	}
 

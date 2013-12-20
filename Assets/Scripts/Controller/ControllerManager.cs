@@ -103,7 +103,7 @@ public class ControllerManager
 			currentScene = CreatScene(sEnum,uiName);
 
 		currentScene.ShowUI();
-		AnimController.UpdateSceneInfo(uiName);
+		//AnimController.UpdateSceneInfo(uiName);
 	}
 
 	IUIInterface CreatScene(SceneEnum sEnum,string uiName)
@@ -136,7 +136,8 @@ public class ControllerManager
 			temp = new FriendSelectView(uiName);
 			break;
 		case SceneEnum.Fight:
-			temp = new Battle(uiName);
+			//temp = new Battle(uiName);
+			temp = new BattleQuest(uiName);
 			break;
 		default:
 			temp = new UIBase("Null");

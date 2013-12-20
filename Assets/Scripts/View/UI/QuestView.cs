@@ -16,9 +16,17 @@ public class QuestView : UIBase
 	public override void CreatUI ()
 	{
 		StoryDoor = ViewManager.Instance.GetViewObject("StoryDoor") as QuestUnity; 
-		StoryDoor.transform.localPosition = 210*Vector3.up;
+
+		StoryDoor.transform.parent = viewManager.TopPanel.transform;
+
+		StoryDoor.transform.localPosition = -400*Vector3.up;
+
+		StoryDoor.Init ("StoryDoor");
+
 		currentUIDic.Add(StoryDoor.UIName, StoryDoor);
+
 		StoryScroller = new ScrollView(StoryDoor.LeftTransform, StoryDoor.RightTransform, StoryDoor.Item);
+
 		StoryScroller.ShowData(5);
 		
 		for(int i= 0; i<StoryScroller.DragList.Count; i++)
@@ -28,7 +36,9 @@ public class QuestView : UIBase
 		}
 
 		EventDoor = ViewManager.Instance.GetViewObject("EventDoor") as QuestUnity; 
-		EventDoor.transform.localPosition = -100*Vector3.up;
+		EventDoor.transform.parent = viewManager.TopPanel.transform;
+		EventDoor.transform.localPosition = -740*Vector3.up;
+		EventDoor.Init ("EventDoor");
 		currentUIDic.Add(EventDoor.UIName, EventDoor);
 		EventScroller = new ScrollView(EventDoor.LeftTransform, EventDoor.RightTransform, EventDoor.Item);
 		EventScroller.ShowData(5);

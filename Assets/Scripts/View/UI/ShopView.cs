@@ -15,7 +15,8 @@ public class ShopView : UIBase
 	{
 		window = ViewManager.Instance.GetViewObject("ShopWindow") as ShopUnity;
 		imgBtns = ViewManager.Instance.GetViewObject("ShopChip") as ShopUnity;
-		
+		window.Init ("ShopWindow");
+		imgBtns.Init ("ShopChip");
 		currentUIDic.Add(window.UIName, window);
 		currentUIDic.Add(imgBtns.UIName, imgBtns);
 		

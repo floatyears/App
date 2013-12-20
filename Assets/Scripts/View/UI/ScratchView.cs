@@ -15,7 +15,8 @@ public class ScratchView : UIBase
 	{
 		topUI = ViewManager.Instance.GetViewObject("ScratchTopWindow") as ScratchUnity;
 		bottomUI = ViewManager.Instance.GetViewObject("ScratchBottomWindow") as ScratchUnity;
-
+		topUI.Init ("ScratchTopWindow");
+		bottomUI.Init ("ScratchBottomWindow");
 		currentUIDic.Add(topUI.UIName, topUI);
 		currentUIDic.Add(bottomUI.UIName, bottomUI);
 

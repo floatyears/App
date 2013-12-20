@@ -17,7 +17,10 @@ public class UnitView : UIBase
 		topUI = ViewManager.Instance.GetViewObject("UnitTopWindow") as UnitUnity;
 		centerUI = ViewManager.Instance.GetViewObject("UnitCenterWindow") as UnitUnity;
 		bottomUI = ViewManager.Instance.GetViewObject("UnitBottomWindow") as UnitUnity;
-		
+		topUI.Init ("UnitTopWindow");
+		centerUI.Init ("UnitCenterWindow");
+		bottomUI.Init ("UnitBottomWindow");
+
 		currentUIDic.Add(topUI.UIName, topUI);
 		currentUIDic.Add(bottomUI.UIName, bottomUI);
 		currentUIDic.Add(centerUI.UIName, centerUI);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class CardPoolMutilItem : CardPoolSingleItem 
 {
-	public event UICallback Callback;
+//	public event UICallback Callback;
 
 	bool isFull = false;
 
