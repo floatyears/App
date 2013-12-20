@@ -72,10 +72,10 @@ public class DataListenerTest
         }
         User userData = user as User;
         if(userData.Load().rank > 2){
-            LogHelper.Log("user rank greater than 2, Invoke ");
+            LogHelper.Log("user rank greater than 2");
         }
         else {
-            LogHelper.Log("user rank smaller than 2, so not Invoke");
+            LogHelper.Log("user rank smaller than 2");
         }
     }
 
