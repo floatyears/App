@@ -1,50 +1,124 @@
 import public "base.proto";
+import public "unit.proto";
+
 package bbproto;
 
 message UserInfo {
-	required int32	userId			= 1;
-	optional string userName		= 2;
-	optional int32	rank			= 3;
-	optional int32	exp				= 4;
-	optional int32	staminaNow		= 5;
-	optional int32	staminaMax		= 6;
-	optional uint32	staminaRecover	= 7; //recover time
-	optional int32	loginTime		= 8; 
+	required int32	uuid			= 1;
+	required int32	userId			= 2;
+	optional string userName		= 3;
+	optional int32	rank			= 4;
+	optional int32	exp				= 5;
+	optional int32	staminaNow		= 6;
+	optional int32	staminaMax		= 7;
+	optional uint32	staminaRecover	= 8; //recover time
+	optional int32	loginTime		= 9; 
 };
 
 message AccountInfo {
 	optional int32	userId				= 1;
 	optional uint32	review				= 2;
-	optional uint32	pay_total			= 3;
-	optional uint32	pay_month			= 4;
+	optional uint32	payTotal			= 3;
+	optional uint32	payMonth			= 4;
 	optional uint32	money				= 5;
-	optional uint32	stone_pay			= 6;
-	optional uint32	stone_free			= 7;
+	optional uint32	stonePay			= 6;
+	optional uint32	stoneFree			= 7;
 	optional uint32	stone				= 8;
-	optional uint32	friend_pt			= 9;
-	optional uint32	total_unit			= 10;
-	optional uint32	total_party			= 11;
-	optional uint32	total_friend		= 12;
-	optional uint32	first_select_num	= 13;
+	optional uint32	friendPoint			= 9;
+	optional uint32	totalUnit			= 10;
+	optional uint32	totalParty			= 11;
+	optional uint32	totalFriend			= 12;
+	optional uint32	firstSelectNum		= 13;
 };
 
+message UserQuestInfo {
+	optional int32	questId			= 1;
+	optional bool	questCleared	= 2;
+};
+
+message PartyItem {
+	optional int32 unitPos			= 1;
+	optional int32 unitUniqueId		= 2;
+};
+
+message UnitParty {
+	repeated PartyItem items		= 1;
+};
+
+message TerminalInfo {
+	optional int32	platform		= 1;
+	optional string	deviceName		= 2; // "asus Nexus 7"
+	optional string	uuid			= 3; 
+	optional string	os		 		= 4; // android / ios
+};
+
+message FriendInfo {
+	optional int32		userId				= 1;
+	optional string 	userName			= 2;
+	optional int32		rank				= 3;
+	optional uint32		lastPlayTime		= 4;
+	optional int32		friendState			= 5;
+	optional uint32		friendStateUpdate 	= 6; //state updated time
+	optional int32		friendPoint			= 7;
+	optional UserUnit	unit				= 8;
+};
+
+message LoginBonus {
+	optional int32		type				= 1;
+	optional int32		value				= 2;
+	optional int32		bonusType			= 3;	
+};
+
+message LoginInfo {
+	optional int32		loginTotal			= 1;
+	optional int32		loginChain			= 2;
+	optional int32		friendPointNow		= 3;
+	optional int32		friendPointGet		= 4;
+	optional int32		friendHelpCt		= 5; // unknown field
+	repeated LoginBonus bonus				= 6;
+};
+
+//-------------------------------------------------
+
 message ReqGetUserInfo {
-	optional Header header	= 1;
-	optional int32	userId	= 2;
+	optional ProtoHeader	header	= 1;
+	optional int32			userId	= 2;
 };
 
 message RspGetUserInfo {
-	optional Header		header	= 1;
-	optional UserInfo	info	= 2;
+	optional ProtoHeader	header	= 1;
+	optional UserInfo		user	= 2;
 };
 
-
-message ReqLoginBack {
-	optional Header header	= 1;
-	optional int32	userId	= 2;
+message ReqAuthUser {
+	optional ProtoHeader	header		= 1;
+	optional TerminalInfo	terminal	= 2;	
 };
 
-message RspLoginBack {
-	optional Header		header	= 1;
-	optional UserInfo	user	= 2;
+message RspAuthUser {
+	optional ProtoHeader	header				= 1;
+	optional UserInfo		user				= 2;
+	optional AccountInfo	account				= 3;
+	optional UserQuestInfo	quest				= 4;	
+	optional uint32			server_time 		= 5;
+	optional int32			unitPartyCurrent	= 6;
+	repeated UnitParty		unitPartyList		= 7;
 };
+
+message ReqLoginPack {
+	optional ProtoHeader	header				= 1;
+	optional int32			userId				= 2;
+	optional bool			getLogin			= 3;
+	optional bool			getFriend			= 4;
+	optional bool			getHelper			= 5;
+	optional bool			getPresent			= 6;
+};
+
+message RspLoginPack {
+	optional ProtoHeader	header		= 1;
+	optional UserInfo		user		= 2;
+	optional AccountInfo	account		= 3;
+	repeated FriendInfo		friend		= 4;
+	optional LoginInfo		loginParam	= 5;
+};
+

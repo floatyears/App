@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 import (
 	bbproto "../bbproto"
@@ -13,10 +14,23 @@ import (
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
-//import "../comm"
+const (
+	NEW_USER_NAME = "no name"
+)
 
-func checkInput(reqBuffer []byte) (msg bbproto.ReqLoginBack, err error) {
-	//msg := &bbproto.ReqLoginBack{}
+//import "../comm"
+func verifyParams(msg bbproto.ReqLoginBack) (err error) {
+	return err
+}
+
+func checkInput(req *http.Request) (msg bbproto.ReqLoginBack, err error) {
+	reqBuffer, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		log.Printf("ERR: ioutil.ReadAll failed: %v ", err)
+		return msg, err
+	}
+	log.Printf("GetQuestMap req.body: %v ", reqBuffer)
+
 	err = proto.Unmarshal(reqBuffer, &msg) //unSerialize into msg
 	if err != nil {
 		log.Printf("parse proto err: %v", err)
@@ -24,48 +38,55 @@ func checkInput(reqBuffer []byte) (msg bbproto.ReqLoginBack, err error) {
 	}
 	log.Printf("recv msg: %+v", msg)
 
+	err = verifyParams(msg)
+
 	return msg, nil
 }
 
-func sendResponse(rsp http.ResponseWriter, rsperr error) (err error) {
-	fmt.Fprintf(rsp, "parse proto err: %v", rsperr)
+func sendResponse(rsp http.ResponseWriter, rsperr error) (size int, err error) {
+	size, err = fmt.Fprintf(rsp, "parse proto err: %v", rsperr)
+	//size, err := rsp.Write(value)
 
-	return nil
+	return size, err
+}
+
+func GetNewUserId() (userid int32, err error) {
+	userid = 1001
+	return userid, err
 }
 
 func LoginBackHandler(rsp http.ResponseWriter, req *http.Request) {
-	req_data, err := ioutil.ReadAll(req.Body)
-	if err != nil {
-		sendResponse(rsp, err)
-		return
-	}
-	log.Printf("GetQuestMap req.body: %v ", req_data)
 
-	msg, err := checkInput(req_data)
+	msg, err := checkInput(req)
 	if err != nil {
 		sendResponse(rsp, err)
 		return
 	}
 
-	id := strconv.Itoa(int(*msg.UserId))
-	db := &data.Data{}
-	db.Open("0")
-	defer db.Close()
-	value, err := db.Get(id)
-	log.Printf("get for '%v' ret err:%v, value: %v", *msg.UserId, err, value)
+	value := ""
+	if *msg.UserId != 0 {
+		id := strconv.Itoa(int(*msg.UserId))
+		db := &data.Data{}
+		db.Open("0")
+		defer db.Close()
+		value, err := db.Get(id)
+		log.Printf("get for '%v' ret err:%v, value: %v", *msg.UserId, err, value)
+	}
+
+	rspMsg := &bbproto.RspLoginBack{}
 
 	isUserExists := value != ""
 	if isUserExists {
-		//size, err := rsp.Write(value)
-		size, err := fmt.Fprintf(rsp, value) //rsp string
-
-		//usrinfo := &bbproto.UserInfo{}
-		rspMsg := &bbproto.RspLoginBack{}
-
 		err = proto.Unmarshal([]byte(value), rspMsg.User) //unSerialize into usrinfo
+
+		size, err := sendResponse(rsp, err)
 		log.Printf("rsp msg err:%v, size[%d]: %+v", err, size, rspMsg.User)
 	} else {
+		//rspMsg.User = &bbproto.UserInfo{}
+		*rspMsg.User.UserId, err = GetNewUserId()
+		*rspMsg.User.UserName = NEW_USER_NAME
+		*rspMsg.User.LoginTime = int32(time.Now().Unix())
+
 		log.Printf("ERR: Cannot find data for user:%v", *msg.UserId)
 	}
-
 }

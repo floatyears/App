@@ -3,63 +3,40 @@ import public "skill.proto";
 
 package bbproto;
 
-message UnitStatus {
-	optional int32 type = 1; //6 types: fire,wind,water,light,dark,none
-	optional int32 race = 2; //
-	optional int32 rare = 3; //star
-	optional int32 hp = 4;
-	optional int32 attack = 5;
-	optional int32 defence = 6;	
-	optional int32 level = 7;
-	optional int32 nextLvExp = 8;
-	optional int32 cost = 9;	
+message UnitResource { 
+	required int32			id			= 1;
+	optional string			path		= 2; // resource download path
+	optional int32			size		= 3; // resource size in bytes
 };
 
-message UnitInfo { 
-	required int32  id = 1;
-	optional string name = 2;
-	optional NormalSkill skill1 = 3;
-	optional NormalSkill skill2 = 4;
-	optional LeaderSkill leaderSkill = 5;
-	optional ActiveSkill activeSkill = 6;
-	optional PassiveSkill passiveSkill = 7;
-	optional int32  maxLevel = 8;
-	optional int32  expType = 9;
-	optional string profile = 10;
+message UserUnit {  //unit instance
+	optional int32 id			= 1; //unit_id
+	optional int32 exp			= 2;
+	optional int32 level		= 3;
+	optional int32 addAttack	= 4;
+	optional int32 addDefence	= 5;
+	optional int32 addHp		= 6;
+	optional int32 limitbreakLv = 7;
+	optional int32 getTime		= 8;
 };
 
-message Unit {  //unit instance
-	required int32 uniqueId=1;
-	optional int32 id = 2; //unit_id
-	optional int32 exp=3;
-	optional int32 level=4;
-	optional int32 attack = 5;
-	optional int32 defense = 6;
-	optional int32 hp = 7;
-	optional int32 addAttack = 8;
-	optional int32 addDefence = 9;
-	optional int32 addHp = 10;
-	optional int32 limitbreakLv = 11;
-	optional int32 getTime = 12;
+message ReqGetUnitResource {
+	optional ProtoHeader	header	= 1;
+	repeated int32			unitId	= 2;
 };
 
-message ReqGetUnitInfo {
-	optional Header header = 1;
-	repeated int32 unitIds = 2;
+message RspGetUnitResource {
+	optional ProtoHeader	header	= 1;
+	optional string			server	= 2; // server address
+	repeated UnitResource	unitres	= 3; // unit download path list
 };
 
-message RspGetUnitInfo {
-	optional Header header = 1;
-	repeated UnitInfo unitinfos = 2;
+message ReqGetUserUnit {	// get unit instance info
+	optional ProtoHeader	header	= 1;
+	repeated int32			unitId	= 2;
 };
 
-message ReqGetUnit {
-	optional Header header = 1;
-	repeated int32 unitIds = 2;
+message RspGetUserUnit {
+	optional ProtoHeader	header	= 1;
+	repeated UserUnit		unit	= 2;
 };
-
-message RspGetUnit {
-	optional Header header = 1;
-	repeated Unit units = 2;
-};
-

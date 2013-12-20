@@ -1,0 +1,236 @@
+//=====================================================
+
+enum EUnitType{
+	UALL	= 0; // all type
+	UFIRE 	= 1;
+	UWATER	= 2;
+	UWIND	= 3;
+	ULIGHT	= 4;
+	UDARK	= 5;
+	UNONE	= 6;
+};
+
+//general response protocol
+message ProtoHeader {
+	required string apiVer		= 1;
+	optional string sessionId	= 2;
+	optional int32	packetId	= 3;
+	optional int32	code		= 4; // result code
+	optional string error		= 5; // result error description
+};
+
+
+//=====================================================
+
+
+enum EQuestState {
+	QS_NEW		= 0;
+	QS_CLEARED	= 1;
+};
+
+message ReqStartQuset {
+	optional ProtoHeader	header			= 1;
+	optional uint32			questId			= 2; 
+	optional uint32			questState		= 3; // QS_NEW | QS_CLEARED
+	optional uint32			helperUserId	= 4; 
+	optional UserUnit		helperUnit		= 5; 
+	optional uint32			currentParty	= 6; 	
+};
+
+message RspStartQuset {
+	optional ProtoHeader	header			= 1;
+	optional uint32			questId			= 2; 
+	optional uint32			staminaNow		= 3; // current stamina
+	optional uint32			staminaRecover	= 4; // stamina recover time
+};
+
+message ReqClearQuset {
+	optional ProtoHeader	header 		= 1; 
+	optional uint32			questId		= 2; 
+	optional uint32			securityKey	= 3; 
+	optional uint32			getMoney	= 4; 
+	optional uint32			getExp		= 5; 
+	repeated UserUnit		getUnit		= 6; 	
+};
+
+message RspClearQuset {
+	optional ProtoHeader	header		= 1;
+	optional UserInfo		user		= 2;
+	optional AccountInfo	acount		= 3;	
+	optional uint32			getMoney	= 4;
+	optional uint32			getExp		= 5;	
+	repeated uint32			getUnit		= 6; //uniqueId list
+};
+
+message ReqGetQuestInfo {
+	optional ProtoHeader	header 		= 1;
+};
+
+message RspGetQuestInfo {
+	optional ProtoHeader 	header 			= 1;
+	optional uint32			questId			= 2; // 
+	optional uint32			currentStatus	= 3; // current quest status
+};
+
+
+//=====================================================
+
+message UnitResource { 
+	required int32			id			= 1;
+	optional string			path		= 2; // resource download path
+	optional int32			size		= 3; // resource size in bytes
+};
+
+message UserUnit {  //unit instance
+	optional int32 id			= 1; //unit_id
+	optional int32 exp			= 2;
+	optional int32 level		= 3;
+	optional int32 addAttack	= 4;
+	optional int32 addDefence	= 5;
+	optional int32 addHp		= 6;
+	optional int32 limitbreakLv = 7;
+	optional int32 getTime		= 8;
+};
+
+message ReqGetUnitResource {
+	optional ProtoHeader	header	= 1;
+	repeated int32			unitId	= 2;
+};
+
+message RspGetUnitResource {
+	optional ProtoHeader	header	= 1;
+	optional string			server	= 2; // server address
+	repeated UnitResource	unitres	= 3; // unit download path list
+};
+
+message ReqGetUserUnit {	// get unit instance info
+	optional ProtoHeader	header	= 1;
+	repeated int32			unitId	= 2;
+};
+
+message RspGetUserUnit {
+	optional ProtoHeader	header	= 1;
+	repeated UserUnit		unit	= 2;
+};
+
+//=====================================================
+
+message UserInfo {
+	required int32	uuid			= 1;
+	required int32	userId			= 2;
+	optional string userName		= 3;
+	optional int32	rank			= 4;
+	optional int32	exp				= 5;
+	optional int32	staminaNow		= 6;
+	optional int32	staminaMax		= 7;
+	optional uint32	staminaRecover	= 8; //recover time
+	optional int32	loginTime		= 9; 
+};
+
+message AccountInfo {
+	optional int32	userId				= 1;
+	optional uint32	review				= 2;
+	optional uint32	payTotal			= 3;
+	optional uint32	payMonth			= 4;
+	optional uint32	money				= 5;
+	optional uint32	stonePay			= 6;
+	optional uint32	stoneFree			= 7;
+	optional uint32	stone				= 8;
+	optional uint32	friendPoint			= 9;
+	optional uint32	totalUnit			= 10;
+	optional uint32	totalParty			= 11;
+	optional uint32	totalFriend			= 12;
+	optional uint32	firstSelectNum		= 13;
+};
+
+message UserQuestInfo {
+	optional int32	questId			= 1;
+	optional bool	questCleared	= 2;
+};
+
+message PartyItem {
+	optional int32 unitPos			= 1;
+	optional int32 unitUniqueId		= 2;
+};
+
+message UnitParty {
+	repeated PartyItem items		= 1;
+};
+
+message TerminalInfo {
+	optional int32	platform		= 1;
+	optional string	deviceName		= 2; // "asus Nexus 7"
+	optional string	uuid			= 3; 
+	optional string	os		 		= 4; // android / ios
+};
+
+message FriendInfo {
+	optional int32		userId				= 1;
+	optional string 	userName			= 2;
+	optional int32		rank				= 3;
+	optional uint32		lastPlayTime		= 4;
+	optional int32		friendState			= 5;
+	optional uint32		friendStateUpdate 	= 6; //state updated time
+	optional int32		friendPoint			= 7;
+	optional UserUnit	unit				= 8;
+};
+
+message LoginBonus {
+	optional int32		type				= 1;
+	optional int32		value				= 2;
+	optional int32		bonusType			= 3;	
+};
+
+message LoginInfo {
+	optional int32		loginTotal			= 1;
+	optional int32		loginChain			= 2;
+	optional int32		friendPointNow		= 3;
+	optional int32		friendPointGet		= 4;
+	optional int32		friendHelpCt		= 5; // unknown field
+	repeated LoginBonus bonus				= 6;
+};
+
+//-------------------------------------------------
+
+message ReqGetUserInfo {
+	optional ProtoHeader	header	= 1;
+	optional int32			userId	= 2;
+};
+
+message RspGetUserInfo {
+	optional ProtoHeader	header	= 1;
+	optional UserInfo		user	= 2;
+};
+
+message ReqAuthUser {
+	optional ProtoHeader	header		= 1;
+	optional TerminalInfo	terminal	= 2;	
+};
+
+message RspAuthUser {
+	optional ProtoHeader	header				= 1;
+	optional UserInfo		user				= 2;
+	optional AccountInfo	account				= 3;
+	optional UserQuestInfo	quest				= 4;	
+	optional uint32			server_time 		= 5;
+	optional int32			unitPartyCurrent	= 6;
+	repeated UnitParty		unitPartyList		= 7;
+};
+
+message ReqLoginPack {
+	optional ProtoHeader	header				= 1;
+	optional int32			userId				= 2;
+	optional bool			getLogin			= 3;
+	optional bool			getFriend			= 4;
+	optional bool			getHelper			= 5;
+	optional bool			getPresent			= 6;
+};
+
+message RspLoginPack {
+	optional ProtoHeader	header		= 1;
+	optional UserInfo		user		= 2;
+	optional AccountInfo	account		= 3;
+	repeated FriendInfo		friend		= 4;
+	optional LoginInfo		loginParam	= 5;
+};
+

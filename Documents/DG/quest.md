@@ -19,25 +19,86 @@ response:
 ## order_quest
 
 ```
-request: {"header":{"api_version":"1.0.3","packet_unique_id":16},"quest_id":307,"quest_state":0,"helper_user_id":102974742,"helper_unit":{"id":396,"exp":2140,"level":5,"unique_id":10000036425994,"add_pow":0,"add_def":0,"add_hp":0,"limitbreak_lv":0,"get_time":0},"helper_point_ok":1,"party_current":0,"all_unit_kind":[405,404,403,402,401,400,399,398,396]}
-
-response: {
-"header": {
-"code": 4096,
-"session_id": "opvddcgaj1ae4fevftnraf161cfteu8h",
-"api_version": "1.0.3",
-"packet_unique_id": 16
-},
-"result": {
-"stamina_now": 13,
-"stamina_recover": 1385537144
+request: 
+{
+    "header": {
+        "api_version": "1.0.3",
+        "packet_unique_id": 16
+    },
+    "quest_id": 307,
+    "quest_state": 0,
+    "helper_user_id": 102974742,
+    "helper_unit": {
+        "id": 396,
+        "exp": 2140,
+        "level": 5,
+        "unique_id": 10000036425994,
+        "add_pow": 0,
+        "add_def": 0,
+        "add_hp": 0,
+        "limitbreak_lv": 0,
+        "get_time": 0
+    },
+    "helper_point_ok": 1,
+    "party_current": 0,
+    "all_unit_kind": [
+        405,
+        404,
+        403,
+        402,
+        401,
+        400,
+        399,
+        398,
+        396
+    ]
 }
+
+response:
+{
+    "header": {
+        "code": 4096,
+        "session_id": "opvddcgaj1ae4fevftnraf161cfteu8h",
+        "api_version": "1.0.3",
+        "packet_unique_id": 16
+    },
+    "result": {
+        "stamina_now": 13,
+        "stamina_recover": 1385537144
+    }
 }
 ```
 
 ## clear_quest
 ```
-request: {"header":{"api_version":"1.0.3","packet_unique_id":19},"quest_id":239,"get_money":630,"get_exp":50,"get_unit":[{"id":363,"level":1,"add_pow":0,"add_def":0,"add_hp":0},{"id":363,"level":1,"add_pow":0,"add_def":0,"add_hp":0}],"security_key":4077659234}
+request: 
+{
+    "header": {
+        "api_version": "1.0.3",
+        "packet_unique_id": 19
+    },
+    "quest_id": 239,
+    "get_money": 630,
+    "get_exp": 50,
+    "get_unit": [
+        {
+            "id": 363,
+            "level": 1,
+            "add_pow": 0,
+            "add_def": 0,
+            "add_hp": 0
+        },
+        {
+            "id": 363,
+            "level": 1,
+            "add_pow": 0,
+            "add_def": 0,
+            "add_hp": 0
+        }
+    ],
+    "security_key": 4077659234
+}
+
 response: 
 {
 	"header": {
