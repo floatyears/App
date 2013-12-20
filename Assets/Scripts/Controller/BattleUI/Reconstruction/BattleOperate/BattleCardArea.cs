@@ -45,7 +45,7 @@ public class BattleCardArea : UIBaseUnity
 	public override void ShowUI ()
 	{
 		base.ShowUI ();
-
+		gameObject.SetActive (true);
 	}
 
 	public override void HideUI ()
@@ -56,6 +56,8 @@ public class BattleCardArea : UIBaseUnity
 		{
 			battleCardAreaItem[i].ClearCard();
 		}
+
+		gameObject.SetActive (false);
 	}
 
 	public void CreatArea(Vector3[] position,int height)

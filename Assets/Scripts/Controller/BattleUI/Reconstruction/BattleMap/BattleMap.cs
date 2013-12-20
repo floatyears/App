@@ -39,28 +39,55 @@ public class BattleMap : UIBaseUnity
 	{
 		LogHelper.Log("battle map creat ui" );
 		base.CreatUI ();
+		StartMap ();
+	}
 
+	void StartMap()
+	{
 		int x = map.GetLength(0);
-
+		
 		int y = map.GetLength(1);
-
+		
 		for (int i = 0; i < x; i++)
 		{
 			for (int j = 0; j < y; j++)
 			{
-				tempObject = NGUITools.AddChild(gameObject, template.gameObject);
-				tempObject.SetActive(true);
-				float xp = template.InitPosition.x + i * template.Width;
-				float yp = template.InitPosition.y + j * template.Height;
-				tempObject.transform.localPosition = new Vector3(xp,yp,template.InitPosition.z);
-				temp = tempObject.GetComponent<MapItem>();
-				temp.Coor = new Coordinate(i, j);
-				temp.Init(i+"|"+j);
-				UIEventListener.Get(tempObject).onClick = OnClickMapItem;
-				map[i,j] = temp;
+				if(map[i,j] == null)
+				{
+					tempObject = NGUITools.AddChild(gameObject, template.gameObject);
+					tempObject.SetActive(true);
+					float xp = template.InitPosition.x + i * template.Width;
+					float yp = template.InitPosition.y + j * template.Height;
+					tempObject.transform.localPosition = new Vector3(xp,yp,template.InitPosition.z);
+					temp = tempObject.GetComponent<MapItem>();
+					temp.Coor = new Coordinate(i, j);
+					temp.Init(i+"|"+j);
+					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
+					map[i,j] = temp;
+				}
+				else
+				{
+
+					map[i,j].ShowUI();
+				}
 			}
 		}
+	}
 
+	public override void HideUI ()
+	{
+		base.HideUI ();
+		useMapItem.Clear ();
+		gameObject.SetActive (false);
+
+		StartMap ();
+	}
+
+	public override void ShowUI ()
+	{
+		base.ShowUI ();
+
+		gameObject.SetActive (true);
 	}
 	  
 	void OnClickMapItem(GameObject go)
@@ -81,16 +108,13 @@ public class BattleMap : UIBaseUnity
 	public bool ReachMapItem(Coordinate coor)
 	{
 		prevMapItem = map[coor.x,coor.y];
-
+		ChangeStyle(coor);
 		if(!useMapItem.Contains(prevMapItem))
 		{
 			useMapItem.Add(prevMapItem);
 			prevMapItem.IsOld = true;
-
 			return false;
 		}
-
-		ChangeStyle(coor);
 
 		return true;
 	}

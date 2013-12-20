@@ -56,6 +56,11 @@ public class Battle : UIBase
 		CreatArea();
 
 		CreatEnemy();
+
+		AddSelfObject (battleCardPool);
+		AddSelfObject (battleCard);
+		AddSelfObject (battleCardArea);
+		AddSelfObject (battleEnemy);
 	}
 
 	public override void ShowUI()
@@ -73,7 +78,13 @@ public class Battle : UIBase
 
 		base.HideUI ();
 
-		battleCardArea.HideUI();
+//		battleCardArea.HideUI();
+//
+//		battleCard.HideUI ();
+//
+//		battleCardPool.HideUI ();
+//
+//		battleEnemy.HideUI ();
 
 		battleRootGameObject.SetActive(false);
 	}
@@ -106,6 +117,8 @@ public class Battle : UIBase
 		battleCardPool.XRange = bc.size.x;
 
 		cardHeight = battleCardPool.templateBackTexture.width;
+
+
 	}
 
 	void CreatCard()

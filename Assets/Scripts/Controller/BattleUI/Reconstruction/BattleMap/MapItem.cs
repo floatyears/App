@@ -36,12 +36,9 @@ public class MapItem : UIBaseUnity
 	public bool IsOld
 	{
 		set
-		{ 
-			if(!isOld)
-			{
-				isOld = value; 
-				mapItemTexture.color = Color.red;
-			}
+		{
+			isOld = value; 
+			mapItemTexture.color = Color.gray;
 		}
 
 		get{return isOld;}
@@ -61,9 +58,13 @@ public class MapItem : UIBaseUnity
 		mapItemTexture.width = map.width;
 
 		mapItemTexture.height = map.height;
+	}
 
+	public void ShowUI()
+	{
+		isOld = false;
 
-		//InitPosition = transform.localPosition; //new Vector3 (Screen.width / -2 + map.width / 2, transform.localPosition.y, transform.localPosition.z);
+		mapItemTexture.color = Color.white;
 	}
 
 	public void Around(bool isAround)

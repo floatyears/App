@@ -57,15 +57,33 @@ public class Role : UIBaseUnity
 	
 		base.CreatUI ();
 
-		currentCoor = bQuest.RoleInitPosition;
+		RoleStart ();
+	}
 
+	void RoleStart()
+	{
+		currentCoor = bQuest.RoleInitPosition;
+		
 		Vector3 pos = bQuest.GetPosition(currentCoor);
 		
 		transform.localPosition = new Vector3(pos.x,pos.y + YOffset ,pos.z + ZOffset);
-
+		
 		SyncRoleCoordinate(currentCoor);
-
+		
 		Stop();
+	}
+
+	public override void ShowUI ()
+	{
+		base.ShowUI ();
+		gameObject.SetActive (true);
+		RoleStart ();
+	}
+
+	public override void HideUI ()
+	{
+		base.HideUI ();
+		gameObject.SetActive (false);
 	}
 
 	void Move()

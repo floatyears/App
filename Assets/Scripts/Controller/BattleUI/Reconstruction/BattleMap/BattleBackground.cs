@@ -44,6 +44,7 @@ public class BattleBackground : UIBaseUnity {
 		base.ShowUI ();
 
 		gameObject.SetActive (true);
+		battleBottom.SetActive (true);
 	}
 
 	public override void CreatUI (){
@@ -53,6 +54,7 @@ public class BattleBackground : UIBaseUnity {
 	public override void HideUI (){
 		base.HideUI ();
 		gameObject.SetActive (false);
+		battleBottom.SetActive (false);
 	}
 
 	public override void DestoryUI (){

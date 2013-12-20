@@ -47,32 +47,37 @@ public class BattleQuest : UIBase
 
 	public BattleQuest (string name) : base(name)
 	{
-		LogHelper.Log("start battle quest ");
+		InitData ();
+
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
-		mapConfig = new MapConfig();
 		string tempName = "Map";
-		LogHelper.Log("start battle quest  battleMap");
+
 		battleMap = viewManager.GetViewObject(tempName) as BattleMap;
 		battleMap.BQuest = this;
 		battleMap.transform.parent = rootObject.transform;
 		battleMap.transform.localPosition = Vector3.zero;
 		Init(battleMap,tempName);
 		tempName = "Role";
-		LogHelper.Log("start battle quest  role");
+
 		role = viewManager.GetViewObject(tempName) as Role;
 		role.BQuest = this;
 		role.transform.parent = rootObject.transform;
 		Init(role,tempName);
-		LogHelper.Log("start battle quest  background");
+
 		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
 		background.transform.parent = rootObject.transform;
 		background.Init (backgroundName);
-		//background.CreatUI ();
+
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
 
 		CreatUI ();
+	}
+
+	void InitData()
+	{
+		mapConfig = new MapConfig();
 	}
 
 	void Init(UIBaseUnity ui,string name)
@@ -88,16 +93,19 @@ public class BattleQuest : UIBase
 	public override void ShowUI ()
 	{
 		LogHelper.Log("start battle quest  shou ui");
+
+		InitData ();
+
 		base.ShowUI ();
 	}
 
 	public override void HideUI ()
 	{
 		LogHelper.Log("start battle quest  Hide ui");
+
 		base.HideUI ();
 	}
 	  
-
 	public Vector3 GetPosition(Coordinate coor)
 	{
 		return battleMap.GetPosition(coor.x, coor.y);
@@ -110,11 +118,14 @@ public class BattleQuest : UIBase
 	  
 	public void RoleCoordinate(Coordinate coor)
 	{
-		if(!battleMap.ReachMapItem(coor))
+		bool b = battleMap.ReachMapItem (coor);
+		if(!b)
 		{
 			currentMapData = mapConfig.mapData[coor.x,coor.y];
 
-			if(currentMapData.MonsterID.Count > 0)
+			if(currentMapData.MonsterID.Contains(100))
+				controllerManger.ChangeScene(SceneEnum.Quest);
+			else if(currentMapData.MonsterID.Count > 0)
 			{
 				ShowBattle();
 

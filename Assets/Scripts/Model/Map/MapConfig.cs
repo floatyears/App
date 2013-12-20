@@ -49,7 +49,8 @@ public class MapConfig
 		}
 
 		mapData[characterInitCoorX,characterInitCoorY].MonsterID.Clear();   
-
+		mapData [2, 4].MonsterID.Clear ();
+		mapData [2, 4].MonsterID.Add (100);
 		for (int i = 1; i < 4; i++)
 		{
 			mapItemPath.Add("Texture/fight_sprites/map_"+mapID+"_"+i);

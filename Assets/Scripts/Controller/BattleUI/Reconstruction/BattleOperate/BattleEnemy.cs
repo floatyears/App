@@ -33,6 +33,18 @@ public class BattleEnemy : UIBaseUnity
 		transform.localPosition = new Vector3(pos.x,pos.y + battle.cardHeight * 5,pos.z);
 	}
 
+	public override void HideUI ()
+	{
+		base.HideUI ();
+		gameObject.SetActive (false);
+	}
+
+	public override void ShowUI ()
+	{
+		base.ShowUI ();
+		gameObject.SetActive (true);
+	}
+
 	public void Refresh(int count)
 	{
 		Clear();
