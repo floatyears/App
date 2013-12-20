@@ -16,6 +16,9 @@ public class FriendsView : UIBase
 		window = ViewManager.Instance.GetViewObject("Friends_InfoWindow") as FriendsUnity;
 		imgBtns = ViewManager.Instance.GetViewObject("Friends_InfoList") as FriendsUnity;
 
+		window.Init ("Friends_InfoWindow");
+		imgBtns.Init ("Friends_InfoList");
+
 		currentUIDic.Add(window.UIName, window);
 		currentUIDic.Add(imgBtns.UIName, imgBtns);
 

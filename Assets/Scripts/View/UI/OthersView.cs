@@ -17,13 +17,14 @@ public class OthersView : UIBase
 	{
 		sv = ViewManager.Instance.GetViewObject("OthersBottomWindow") as OthersScrollView; 
 		sv.transform.localPosition = -60*Vector3.up;
+		sv.Init ("OthersBottomWindow");
 		currentUIDic.Add(sv.UIName, sv);
-		
+	
 		scroller = new ScrollView(sv.Left, sv.Right, sv.Item);
 		scroller.ShowData(9);
 
 		topUI = ViewManager.Instance.GetViewObject("OthersTopWindow") as OthersUnity;
-
+		topUI.Init ("OthersTopWindow");
 		currentUIDic.Add(topUI.UIName, topUI);
 
 		topUI.gameObject.transform.localPosition = 230*Vector3.up;

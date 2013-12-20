@@ -16,6 +16,8 @@ public enum SceneEnum
 
 	QuestSelect,
 
+	FriendSelect,
+
 	Fight,
 }
 

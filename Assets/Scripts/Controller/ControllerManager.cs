@@ -103,6 +103,7 @@ public class ControllerManager
 			currentScene = CreatScene(sEnum,uiName);
 
 		currentScene.ShowUI();
+		//AnimController.UpdateSceneInfo(uiName);
 	}
 
 	IUIInterface CreatScene(SceneEnum sEnum,string uiName)
@@ -129,10 +130,14 @@ public class ControllerManager
 			temp = new UnitView(uiName);
 			break;
 		case SceneEnum.QuestSelect:
-			temp = new QuestSelect(uiName);
+			temp = new QuestSelectView(uiName);
+			break;
+		case SceneEnum.FriendSelect:
+			temp = new FriendSelectView(uiName);
 			break;
 		case SceneEnum.Fight:
-			temp = new Battle(uiName);
+			//temp = new Battle(uiName);
+			temp = new BattleQuest(uiName);
 			break;
 		default:
 			temp = new UIBase("Null");
