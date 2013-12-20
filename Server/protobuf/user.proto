@@ -53,7 +53,7 @@ message UserInfoDetail {
 };
 
 message TerminalInfo {
-	optional string	platform		= 1;
+	optional string	channel			= 1; // app market channel
 	optional string	deviceName		= 2; // "asus Nexus 7"
 	optional string	uuid			= 3; 
 	optional string	os		 		= 4; // android / ios

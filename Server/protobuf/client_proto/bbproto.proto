@@ -29,7 +29,7 @@ enum EQuestState {
 	QS_CLEARED	= 1;
 };
 
-message ReqStartQuset {
+message ReqStartQuest {
 	optional ProtoHeader	header			= 1;
 	optional uint32			questId			= 2; 
 	optional uint32			questState		= 3; // QS_NEW | QS_CLEARED
@@ -38,7 +38,7 @@ message ReqStartQuset {
 	optional uint32			currentParty	= 6; 	
 };
 
-message RspStartQuset {
+message RspStartQuest {
 	optional ProtoHeader	header			= 1;
 	optional uint32			questId			= 2; 
 	optional uint32			staminaNow		= 3; // current stamina
