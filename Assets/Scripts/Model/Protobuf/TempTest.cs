@@ -69,12 +69,6 @@ public class TempTest : MonoBehaviour
 //            userInfo.staminaRecover = 127000000;
 //            userInfo.loginTime = 127;
 //
-////            string serUserInfo = ConvertHelper.BytesToString(ProtobufSerializer.SerializeToBytes<UserInfo>(userInfo));
-////
-////            long start = TimeHelper.MillionSecondsNow();
-//
-////            UserInfo info = ProtobufSerializer.ParseFormString<UserInfo>(serUserInfo);
-//
 //            byte[] serUserInfo = ProtobufSerializer.SerializeToBytes<UserInfo>(userInfo);
 //            
 //            long start = TimeHelper.MillionSecondsNow();
@@ -84,23 +78,27 @@ public class TempTest : MonoBehaviour
 //            for (int i = 0; i < 10000; i++){
 //                UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
 //            }
-////            UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
-////
-////            LogHelper.Log("stanimaNow " + info.staminaNow);
-////            LogHelper.Log("stanimaMax " + info.staminaMax);
-////            LogHelper.Log("stanimaRecover " + info.staminaRecover);
-////            LogHelper.Log("userInfo.userName " + info.userName);
+//            UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
+//
+//            LogHelper.Log("stanimaNow " + info.staminaNow);
+//            LogHelper.Log("stanimaMax " + info.staminaMax);
+//            LogHelper.Log("stanimaRecover " + info.staminaRecover);
+//            LogHelper.Log("userInfo.userName " + info.userName);
 //
 //            long end = TimeHelper.MillionSecondsNow();
 //            LogHelper.Log("now time is " + end + " , cost " + (end - start));
             #endregion
 
             #region test reflection getProperty
-            UserInfo userInfo = new UserInfo();
-            userInfo.userId = 100;
-            Type t = userInfo.GetType();
-            LogHelper.Log("userId is: " + t.GetProperty("userId").GetValue(userInfo, null));
+//            UserInfo userInfo = new UserInfo();
+//            userInfo.userId = 100;
+//            Type t = userInfo.GetType();
+//            LogHelper.Log("userId is: " + t.GetProperty("userId").GetValue(userInfo, null));
 
+            #endregion
+
+            #region test model->msgCenter
+            ModelManagerTest.Test();
             #endregion
 		}
 	}

@@ -2,73 +2,60 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ProtoBuf;
+using bbproto;//TODO move after test;
 
-/// <summary>
-/// Data operation. Class inherit this interface can get data they need.
-/// </summary>
-public interface IDataOperation {
-
-    /// <summary>
-    /// Loads the protobuf.
-    /// </summary>
-    /// <returns>The protobuf.</returns>
-    /// <typeparam name="T">The 1st type parameter.</typeparam>
-    T LoadProtobuf<T>();
-
-    /// <summary>
-    /// Save the specified newData and errorMsg.
-    /// </summary>
-    /// <param name="newData">New data.</param>
-    /// <param name="errorMsg">Error message.</param>
-    void Save(byte[] newData, ErrorMsg errorMsg);
-
-    /// <summary>
-    /// Validate the specified instance.
-    /// </summary>
-    /// <param name="instance">Instance.</param>
-    ErrorMsg Validate(byte[] data);
-}
-
-public class BaseModel : IDataOperation {
+public abstract class BaseModel {
     protected byte[] byteData;
 
-    public BaseModel(){
-        Init();
+    public BaseModel(object instance){
+        Init(instance);
     }
 
     /// <summary>
     /// Load data from.
     /// </summary>
     /// <typeparam name="T">The 1st type parameter.</typeparam>
-    public T LoadProtobuf<T>(){
+    protected T LoadProtobuf<T>(){
         return ProtobufSerializer.ParseFormBytes<T>(byteData);
     }
 
-    public void Save(byte[] newData, ErrorMsg errorMsg){
+    /// <summary>
+    /// Save this instance.
+    /// </summary>
+    protected ErrorMsg SaveWithProtobuf<T>(T protobufData){
+        return Save(ProtobufSerializer.SerializeToBytes<T>(protobufData));
+    }
+
+    /// <summary>
+    /// Save the specified newData and errorMsg.
+    /// </summary>
+    /// <param name="newData">New data.</param>
+    protected ErrorMsg Save(byte[] newData){
         // validate
-        errorMsg = Validate(newData);
+        ErrorMsg errorMsg = Validate(newData);
         if (errorMsg.Code == ErrorCode.Succeed){
             byteData = newData;
         }
+        return errorMsg;
     }
 
     /// <summary>
     /// Validate the specified instance.
     /// </summary>
     /// <param name="instance">Instance.</param>
-    public virtual ErrorMsg Validate(byte[] data){
+    protected virtual ErrorMsg Validate(byte[] data){
         return new ErrorMsg();
     }
 
-
     /// <summary>
-    /// Init this instance.
+    /// Init this instance. Each subclass should do own Init
     /// </summary>
-    public virtual void Init (){
+    protected virtual void Init(object instance){
     }
+
 }
 
-public enum ModelName
+public enum ModelEnum
 {
     User = 1000,
 }
@@ -93,13 +80,18 @@ public class ModelManager
         }
     }
 
-    private Dictionary<ModelName, BaseModel> modelDic = new Dictionary<ModelName, BaseModel>();
+    private Dictionary<ModelEnum, BaseModel> modelDic = new Dictionary<ModelEnum, BaseModel>();
 
+    // TODO
     /// <summary>
     /// Init this instance.
     /// </summary>
     public void Init (){
         // init all instance be used for game.
+    }
+
+    public void Add (ModelEnum modelType, BaseModel model){
+        modelDic.Add(modelType, model);
     }
 
     /// <summary>
@@ -109,7 +101,7 @@ public class ModelManager
     /// <returns>The data.</returns>
     /// <param name="key">Key.</param>
     /// <param name="errorMsg">Error message.</param>
-    public BaseModel GetData (ModelName modelType, ErrorMsg errorMsg) {
+    public BaseModel GetData (ModelEnum modelType, ErrorMsg errorMsg) {
 
         BaseModel model = null;
 
@@ -119,4 +111,26 @@ public class ModelManager
         }
         return model;
     }
+}
+
+public class ModelManagerTest {
+    public static void Test(){
+        //
+        ModelManager manager = ModelManager.Instance;
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.userId = 127;
+        userInfo.userName = "Rose Mary";
+        userInfo.exp = 20;
+        userInfo.rank = 20;
+        userInfo.staminaMax = 128;
+        userInfo.staminaNow = 127;
+        userInfo.staminaRecover = 127000000;
+        userInfo.loginTime = 127;
+        
+        //
+        User user = new User(userInfo);
+        user.ChangeRank(3);
+        user.ChangeRank(1);
+    } 
 }
