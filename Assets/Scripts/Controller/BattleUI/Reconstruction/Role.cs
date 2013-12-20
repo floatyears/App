@@ -57,7 +57,7 @@ public class Role : UIBaseUnity
 	
 		base.CreatUI ();
 
-		RoleStart ();
+
 	}
 
 	void RoleStart()

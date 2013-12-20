@@ -57,43 +57,7 @@ public class Main : MonoBehaviour
 	void OnEnable()
 	{
 		ViewManager.Instance.Init(uiRoot);
-
-
-		LogHelper.Log("1111111111122222222222");
-		ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
-
-
-		//FileStream fs = new FileStream((Application.dataPath + "/Scripts/Protobuf/Person.proto"),FileMode.Open,FileAccess.Read);
-
-		//ProtoReader pr=  new ProtoReader(fs,ProtoBuf.Meta.TypeModel.SerializeType,
-//		msg.Person person = new msg.Person();
-//
-//		person.name = "aaa";
-//		person.id = 11;
-//
-//		ProtoBuf.Serializers.
+		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 
 	}
-
-//	float frame = 0f;
-//	float interv = 0.5f;
-//	int frameCount = 0;
-//
-//	void Update()
-//	{
-//		frameCount ++;
-//		if (interv <= 0)
-//		{
-//			frame = frameCount / 0.5f;
-//			frameCount = 0;
-//			interv = 0.5f;
-//		} 
-//		else
-//			interv -= Time.deltaTime;
-//	}
-//
-//	void OnGUI()
-//	{
-//		GUILayout.Label (frame.ToString ());
-//	}
 }

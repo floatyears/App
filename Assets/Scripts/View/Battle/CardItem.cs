@@ -120,11 +120,6 @@ public class CardItem : UIBaseUnity
 
 		xOffset = (float)actorTexture.width / 4;
 
-		if(itemID == 1)
-			actorTexture.color = Color.yellow;
-		else
-			actorTexture.color = Color.white;
-
 		StartCoroutine (ActiveTexture ());
 	}
 

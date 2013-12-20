@@ -33,13 +33,15 @@ public class BattleMap : UIBaseUnity
 		template.Init("SingleMap");
 
 		template.gameObject.SetActive(false);
+
+		gameObject.transform.localPosition += Vector3.right * 5f;
 	}
 
 	public override void CreatUI ()
 	{
 		LogHelper.Log("battle map creat ui" );
 		base.CreatUI ();
-		StartMap ();
+		//StartMap ();
 	}
 
 	void StartMap()
@@ -67,7 +69,6 @@ public class BattleMap : UIBaseUnity
 				}
 				else
 				{
-
 					map[i,j].ShowUI();
 				}
 			}
@@ -79,8 +80,6 @@ public class BattleMap : UIBaseUnity
 		base.HideUI ();
 		useMapItem.Clear ();
 		gameObject.SetActive (false);
-
-		StartMap ();
 	}
 
 	public override void ShowUI ()
@@ -88,6 +87,7 @@ public class BattleMap : UIBaseUnity
 		base.ShowUI ();
 
 		gameObject.SetActive (true);
+		StartMap ();
 	}
 	  
 	void OnClickMapItem(GameObject go)
@@ -112,6 +112,7 @@ public class BattleMap : UIBaseUnity
 		if(!useMapItem.Contains(prevMapItem))
 		{
 			useMapItem.Add(prevMapItem);
+			LogHelper.Log("reach item prevmap item");
 			prevMapItem.IsOld = true;
 			return false;
 		}

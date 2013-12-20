@@ -65,7 +65,8 @@ public class BattleQuest : UIBase
 		Init(role,tempName);
 
 		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
-		background.transform.parent = rootObject.transform;
+		background.transform.parent = viewManager.ParentPanel.transform.parent;
+		background.transform.localPosition = Vector3.zero;
 		background.Init (backgroundName);
 
 		AddSelfObject (battleMap);
@@ -92,7 +93,6 @@ public class BattleQuest : UIBase
 
 	public override void ShowUI ()
 	{
-		LogHelper.Log("start battle quest  shou ui");
 
 		InitData ();
 
@@ -101,7 +101,7 @@ public class BattleQuest : UIBase
 
 	public override void HideUI ()
 	{
-		LogHelper.Log("start battle quest  Hide ui");
+
 
 		base.HideUI ();
 	}
@@ -118,8 +118,7 @@ public class BattleQuest : UIBase
 	  
 	public void RoleCoordinate(Coordinate coor)
 	{
-		bool b = battleMap.ReachMapItem (coor);
-		if(!b)
+		if(!battleMap.ReachMapItem (coor))
 		{
 			currentMapData = mapConfig.mapData[coor.x,coor.y];
 
