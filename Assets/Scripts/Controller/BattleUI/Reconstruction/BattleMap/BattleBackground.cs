@@ -11,6 +11,7 @@ public class BattleBackground : UIBaseUnity {
 
 	private UISprite[] spSprite;
 
+	private GameObject battleBottom;
 
 	public override void Init (string name){
 		base.Init (name);
@@ -19,15 +20,22 @@ public class BattleBackground : UIBaseUnity {
 
 		bottomCamera = FindChild<Camera> ("BottomCamera");
 
+		Object o = LoadAsset.Instance.LoadAssetFromResources ("BattleBottom", ResourceEuum.Prefab);
+
+		battleBottom = Instantiate (o) as GameObject;
+
+
 		actor = new Material[5];
 		spSprite = new UISprite[20];
-
+		string path;
 		for (int i = 0; i < actor.Length; i++) {
-			actor[i] = FindChild<MeshRenderer>(i.ToString()).material;
+			path = "Actor/" + (i + 1).ToString();
+			actor[i] = 	battleBottom.transform.Find(path).renderer.material;		//FindChild<MeshRenderer>(i.ToString()).material;
 		}
 
 		for (int i = 0; i < spSprite.Length; i++) {
-			spSprite[i] = FindChild<UISprite>("Sprite/" + i.ToString());
+			path = "Panel/Sprite/"+(i + 1).ToString();
+			spSprite[i] = battleBottom.transform.Find(path).GetComponent<UISprite>();// <UISprite>("Sprite/" + i.ToString());
 		}
 	}
 

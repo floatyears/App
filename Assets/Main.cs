@@ -59,7 +59,7 @@ public class Main : MonoBehaviour
 		ViewManager.Instance.Init(uiRoot);
 
 
-		//LogHelper.Log("1111111111122222222222");
+		LogHelper.Log("1111111111122222222222");
 		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 
 

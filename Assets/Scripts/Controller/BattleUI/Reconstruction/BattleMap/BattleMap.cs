@@ -72,7 +72,7 @@ public class BattleMap : UIBaseUnity
 
 	public Vector3 GetPosition(int x, int y)
 	{
-		if(x > map.Length || y > map.GetLength(0))
+		if(x > map.GetLength(0) || y > map.GetLength(1))
 			return Vector3.zero;
 
 		return map[x, y].transform.localPosition;

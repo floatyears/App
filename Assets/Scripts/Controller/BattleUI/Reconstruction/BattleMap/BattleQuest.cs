@@ -67,11 +67,12 @@ public class BattleQuest : UIBase
 		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
 		background.transform.parent = rootObject.transform;
 		background.Init (backgroundName);
-		background.CreatUI ();
-
-		AddSelfObject (role);
+		//background.CreatUI ();
 		AddSelfObject (battleMap);
+		AddSelfObject (role);
 		AddSelfObject (background);
+
+		CreatUI ();
 	}
 
 	void Init(UIBaseUnity ui,string name)

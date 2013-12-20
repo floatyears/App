@@ -63,6 +63,7 @@ public class UIBase : IUIInterface
 		currentState = UIState.UICreat;
 
 		foreach (var item in currentUIDic.Values){
+
 			item.CreatUI();
 				}
 	}
