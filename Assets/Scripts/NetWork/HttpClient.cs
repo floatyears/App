@@ -142,7 +142,7 @@ public class HttpClient
     /// <param name="succeedFunc">Succeed func.</param>
     /// <param name="errorMsg">Error message.</param>
     /// <typeparam name="T">The 1st type parameter.</typeparam>
-    public void sendPost<T>(MonoBehaviour sender, string url, T instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values){
+    public void sendPost<T1, T2>(MonoBehaviour sender, string url, T1 instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T2> succeedFunc, ErrorMsg errorMsg, params object[] values){
 
         // validate
         if (url == null || url == ""){
@@ -168,13 +168,13 @@ public class HttpClient
         }
 
         else {
-            byte[] sendBytes = ProtobufSerializer.SerializeToBytes<T>(instance);
+            byte[] sendBytes = ProtobufSerializer.SerializeToBytes<T1>(instance);
             if (sendBytes == null){
                 errorMsg.Code = ErrorCode.IllegalParam;
                 errorMsg.Msg = "Serializer get invalid instance";
                 return;
             }
-            sender.StartCoroutine(POST<T>(url, sendBytes, failedFunc, succeedFunc, errorMsg, values));
+            sender.StartCoroutine(POST<T2>(url, sendBytes, failedFunc, succeedFunc, errorMsg, values));
         }
     }
 
