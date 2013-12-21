@@ -16,9 +16,13 @@ public class TopUI : UIBaseUnity
 
 	private UILabel labVauleChipNum;
 
+	private UIImageButton backButton;
+
 	public static UILabel labVauleUIName;
 
 	public static GameObject infoBar;
+
+	public event UICallback callback;
 
 	void Start()
 	{
@@ -43,6 +47,10 @@ public class TopUI : UIBaseUnity
 		labVauleChipNum = FindChild<UILabel>("Player_Info_Bar/Lab_V_ChipNum");
 
 		labVauleUIName = FindChild<UILabel>("Scene_Info_Bar/Lab_UI_Name");
+
+		backButton = FindChild<UIImageButton>("Scene_Info_Bar/ImgBtn_Arrow");
+
+		UIEventListener.Get(backButton.gameObject).onClick = Back;
 		LogHelper.Log(labVauleUIName);
 		infoBar = transform.Find("Scene_Info_Bar").gameObject;
 
@@ -59,5 +67,11 @@ public class TopUI : UIBaseUnity
 		labVauleTotalStamina.text = UIConfig.Lab_V_TotalStamina;
 
 		labVauleChipNum.text = UIConfig.Lab_V_ChipNum;
+	}
+
+	void Back(GameObject caller)
+	{
+		if(callback != null)
+			callback(caller);
 	}
 }

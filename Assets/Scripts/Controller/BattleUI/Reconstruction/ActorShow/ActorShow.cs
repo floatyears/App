@@ -14,8 +14,12 @@ public class ActorShow : UIBaseUnity{
 	private Dictionary<int,string> textureConfig = new Dictionary<int, string> ();
 
 	private int currentID = -1;
+	private static bool isInit =false;
 
 	public override void Init (string name){
+		if(isInit)
+			return;
+		isInit = true;
 		base.Init (name);
 		transform.parent = vManager.BottomPanel.transform;
 		showTexture = FindChild<UITexture> ("Texture0");
