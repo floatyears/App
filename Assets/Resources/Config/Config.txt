@@ -1,0 +1,4 @@
+cardID	|	cardName#
+1		|	key#
+2	   	|	red_star#
+3	   	| 	wolf_guy#

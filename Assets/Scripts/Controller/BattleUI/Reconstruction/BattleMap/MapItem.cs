@@ -60,7 +60,7 @@ public class MapItem : UIBaseUnity
 		mapItemTexture.height = map.height;
 	}
 
-	public void ShowUI()
+	public override void ShowUI()
 	{
 		isOld = false;
 
