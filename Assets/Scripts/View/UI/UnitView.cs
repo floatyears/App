@@ -6,6 +6,7 @@ public class UnitView : UIBase
 	UnitUnity topUI;
 	UnitUnity centerUI;
 	UnitUnity bottomUI;
+	private GameObject partyBtn;
 
 	public UnitView(string uiName) : base(uiName)
 	{
@@ -21,15 +22,23 @@ public class UnitView : UIBase
 		centerUI.Init ("UnitCenterWindow");
 		bottomUI.Init ("UnitBottomWindow");
 
+		partyBtn = bottomUI.transform.FindChild("Party").gameObject;
+		UIEventListener.Get(partyBtn.gameObject).onClick = TurnToParty;
+
 		currentUIDic.Add(topUI.UIName, topUI);
 		currentUIDic.Add(bottomUI.UIName, bottomUI);
 		currentUIDic.Add(centerUI.UIName, centerUI);
 		
 		topUI.gameObject.transform.localPosition = 330*Vector3.up;
-		centerUI.gameObject.transform.localPosition = 150*Vector3.up;
-		bottomUI.gameObject.transform.localPosition = -115*Vector3.up;
+		centerUI.gameObject.transform.localPosition = 160*Vector3.up;
+		bottomUI.gameObject.transform.localPosition = -90*Vector3.up;
 	}
-	
+
+	void TurnToParty(GameObject go)
+	{
+		ControllerManager.Instance.ChangeScene(SceneEnum.Party);
+	}
+
 	public override void ShowUI ()
 	{
 		SetActive(true);

@@ -19,7 +19,7 @@ public class QuestView : UIBase
 
 		StoryDoor.transform.parent = viewManager.TopPanel.transform;
 
-		StoryDoor.transform.localPosition = -400*Vector3.up;
+		StoryDoor.transform.localPosition = -350*Vector3.up;
 
 		StoryDoor.Init ("StoryDoor");
 
@@ -37,7 +37,7 @@ public class QuestView : UIBase
 
 		EventDoor = ViewManager.Instance.GetViewObject("EventDoor") as QuestUnity; 
 		EventDoor.transform.parent = viewManager.TopPanel.transform;
-		EventDoor.transform.localPosition = -740*Vector3.up;
+		EventDoor.transform.localPosition = -650*Vector3.up;
 		EventDoor.Init ("EventDoor");
 		currentUIDic.Add(EventDoor.UIName, EventDoor);
 		EventScroller = new ScrollView(EventDoor.LeftTransform, EventDoor.RightTransform, EventDoor.Item);
