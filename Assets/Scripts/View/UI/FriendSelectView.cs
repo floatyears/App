@@ -9,6 +9,9 @@ public class FriendSelectView : UIBase
 
 	public UIImageButton startBtn;
 
+	private TopUI topUI;
+	private BottomUI bottomUI;
+
 	public FriendSelectView(string uiName) : base(uiName)
 	{
 
@@ -16,6 +19,14 @@ public class FriendSelectView : UIBase
 
 	public override void CreatUI ()
 	{
+		//add top and bottom UI
+		topUI = ViewManager.Instance.GetViewObject("MenuTop") as TopUI;
+		bottomUI = ViewManager.Instance.GetViewObject("MenuBottom") as BottomUI;
+		topUI.transform.parent = viewManager.TopPanel.transform;
+		bottomUI.transform.parent = viewManager.BottomPanel.transform;
+		topUI.transform.localPosition = Vector3.zero;
+		bottomUI.transform.localPosition = Vector3.zero;
+
 		window = ViewManager.Instance.GetViewObject("FriendSelectWindow") as FriendSelectUnity;
 		window.Init ("FriendSelectWindow");
 		//currentUIDic.Add (window.UIName, window);
@@ -68,6 +79,9 @@ public class FriendSelectView : UIBase
 		LogHelper.Log("friend select ```` " + b);
 		window.gameObject.SetActive(b);
 		friendListScroller.insUIObject.SetActive(b);
+
+		topUI.gameObject.SetActive(b);
+		bottomUI.gameObject.SetActive(b);
 	}
 
 }
