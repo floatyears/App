@@ -43,11 +43,8 @@ public class TopUI : UIBaseUnity
 		labVauleChipNum = FindChild<UILabel>("Player_Info_Bar/Lab_V_ChipNum");
 
 		labVauleUIName = FindChild<UILabel>("Scene_Info_Bar/Lab_UI_Name");
-
+		LogHelper.Log(labVauleUIName);
 		infoBar = transform.Find("Scene_Info_Bar").gameObject;
-
-
-		LogHelper.Log("infobar's name: " + infoBar.name);
 
 		//Give Vaules from Config
 		labTextRank.text = UIConfig.Lab_T_Rank;

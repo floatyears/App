@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UnitUnity : UIBaseUnity
+public class PartyUnity : UIBaseUnity
 {
-	private UIButton partyBtn;
+
 	public override void Init(string name)
 	{
 		base.Init(name);
+
 	}
 
 	public override void ShowUI ()
