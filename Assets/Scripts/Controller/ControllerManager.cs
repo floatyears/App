@@ -160,22 +160,22 @@ public class ControllerManager
 
 	private ActorShow actor;
 
-	public static void ShowActor(int id)
+	public void ShowActor(int id)
 	{
-		instance.currentScene.HideUI ();
-		instance.actor = ViewManager.Instance.GetViewObject (instance.actorName) as ActorShow;
-		instance.actor.Init (instance.actorName);
-		instance.actor.ShowUI ();
-		instance.actor.ShowTextureID (id);
+		currentScene.HideUI ();
+		actor = ViewManager.Instance.GetViewObject (actorName) as ActorShow;
+		actor.Init (actorName);
+		actor.ShowUI ();
+		actor.ShowTextureID (id);
 	}
 
-	public static void HideActor()
+	public void HideActor()
 	{
-		if (instance.actor != null) {
-			instance.actor.HideUI ();
+		if (actor != null) {
+			actor.HideUI ();
 		}
 
-		instance.currentScene.ShowUI ();
+		currentScene.ShowUI ();
 	}
 	#endregion
 

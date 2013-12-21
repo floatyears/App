@@ -15,12 +15,6 @@ public class ActorShow : UIBaseUnity{
 
 	private int currentID = -1;
 
-	void OnEnable()
-	{
-		Init("ActorShow");
-		ShowTextureID (1);
-	}
-
 	public override void Init (string name){
 		base.Init (name);
 		transform.parent = vManager.BottomPanel.transform;
@@ -137,7 +131,7 @@ public class ActorShow : UIBaseUnity{
 	void IMoveTo(UITexture target,Vector3 from,Vector3 to)
 	{
 		target.transform.localPosition = from;
-		iTween.MoveTo (target.gameObject,iTween.Hash("position",to,"time",0.3f,"easetype","easeOutBounce"));
+		iTween.MoveTo (target.gameObject,iTween.Hash("position",to,"time",0.5f,"easetype","easeOutBounce"));
 	}
 }
 
