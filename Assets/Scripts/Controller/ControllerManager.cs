@@ -151,4 +151,28 @@ public class ControllerManager
 		return temp;
 	}
 
+	#region globl ui
+	private string actorName = "ActorShow";
+
+	private ActorShow actor;
+
+	public static void ShowActor(int id)
+	{
+		instance.currentScene.HideUI ();
+		instance.actor = ViewManager.Instance.GetViewObject (instance.actorName) as ActorShow;
+		instance.actor.Init (instance.actorName);
+		instance.actor.ShowUI ();
+		instance.actor.ShowTextureID (id);
+	}
+
+	public static void HideActor()
+	{
+		if (instance.actor != null) {
+			instance.actor.HideUI ();
+		}
+
+		instance.currentScene.ShowUI ();
+	}
+	#endregion
+
 }
