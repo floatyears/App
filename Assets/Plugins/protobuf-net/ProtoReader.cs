@@ -534,7 +534,8 @@ namespace ProtoBuf
         /// </summary>
         public
 #if !FEAT_SAFE
- unsafe
+ 
+			unsafe
 #endif
  double ReadDouble()
         {
