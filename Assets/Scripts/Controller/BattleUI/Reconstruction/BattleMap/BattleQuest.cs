@@ -65,7 +65,7 @@ public class BattleQuest : UIBase
 		Init(role,tempName);
 
 		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
-		background.transform.parent = viewManager.ParentPanel.transform.parent;
+		background.transform.parent = viewManager.CenterPanel.transform.parent;
 		background.transform.localPosition = Vector3.zero;
 		background.Init (backgroundName);
 

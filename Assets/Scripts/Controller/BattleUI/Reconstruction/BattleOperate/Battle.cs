@@ -232,7 +232,8 @@ public class Battle : UIBase
 	{
 		for (int i = 0; i < selectTarget.Count; i++)
 		{
-			selectTarget[i].transform.parent = battleCard.transform;
+			selectTarget[i].gameObject.layer = GameLayer.ActorCard;
+		
 			selectTarget[i].OnPress(false,-1);			
 		}
 
@@ -385,11 +386,14 @@ public class Battle : UIBase
 
 		if(tempCard != null)
 		{
+			if(selectTarget.Contains(tempCard))
+				return;
 			if(tempCard.CanDrag)
 			{
 				tempCard.OnPress(true,selectTarget.Count);
 				tempCard.ActorTexture.depth = 5;
-				tempCard.transform.parent = dragLayer;
+				tempCard.gameObject.layer =  GameLayer.IgnoreCard;
+				//tempCard.transform.parent = dragLayer
 				selectTarget.Add(tempCard);
 			}
 		}

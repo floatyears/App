@@ -48,7 +48,7 @@ public class Role : UIBaseUnity
 	{
 		base.Init (name);
 
-		transform.localScale = scale;
+		transform.localScale = Vector3.one;
 		transform.localRotation = Quaternion.Euler(angle);
 	}
 
