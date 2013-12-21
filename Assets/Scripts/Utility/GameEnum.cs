@@ -18,6 +18,8 @@ public enum SceneEnum
 
 	FriendSelect,
 
+	Party,
+
 	Fight,
 }
 
