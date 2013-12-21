@@ -23,8 +23,9 @@ public class BattleBackground : UIBaseUnity {
 		Object o = LoadAsset.Instance.LoadAssetFromResources ("BattleBottom", ResourceEuum.Prefab);
 
 		battleBottom = Instantiate (o) as GameObject;
-
-
+	
+		battleBottom.GetComponent<UIAnchor> ().uiCamera = ViewManager.Instance.MainUICamera.camera;
+		
 		actor = new Material[5];
 		spSprite = new UISprite[20];
 		string path;
@@ -42,7 +43,7 @@ public class BattleBackground : UIBaseUnity {
 	public override void ShowUI ()
 	{
 		base.ShowUI ();
-
+		background.transform.localPosition = Vector3.zero;
 		gameObject.SetActive (true);
 		battleBottom.SetActive (true);
 	}

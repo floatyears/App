@@ -135,7 +135,7 @@ public class ActorShow : UIBaseUnity{
 	void IMoveTo(UITexture target,Vector3 from,Vector3 to)
 	{
 		target.transform.localPosition = from;
-		iTween.MoveTo (target.gameObject,iTween.Hash("position",to,"time",0.5f,"easetype","easeOutBounce"));
+		iTween.MoveTo (target.gameObject,iTween.Hash("position",to,"time",0.5f));//,"easetype","easeOutBounce"));
 	}
 }
 

@@ -26,6 +26,8 @@ public class BattleEnemy : UIBaseUnity
 
 		template = FindChild<UITexture>("Texture");
 		template.enabled = true;
+		template.width = 200;
+		template.height = 300;
 		template.gameObject.SetActive(false);
 
 		Vector3 pos = transform.localPosition;

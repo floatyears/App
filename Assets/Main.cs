@@ -57,9 +57,9 @@ public class Main : MonoBehaviour
 	void OnEnable()
 	{
 		ViewManager.Instance.Init(uiRoot);
-		ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
+		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 
-//		ControllerManager.Instance.ShowActor (1);
+		//ControllerManager.Instance.ShowActor (1);
 //		ControllerManager.Instance.HideActor ();
 		//FileStream fs = new FileStream((Application.dataPath + "/Scripts/Protobuf/Person.proto"),FileMode.Open,FileAccess.Read);
 

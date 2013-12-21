@@ -163,15 +163,13 @@ public class CardItem : UIBaseUnity
 	{
 		if(!canDrag)
 			return;
-
 		anim.OnPress(isPress);
-
 		if(isPress)
 		{	
 			SetPosition(sortID);
 		}
 		else
-		{	
+		{
 			Reset();
 		}
 	}
@@ -179,8 +177,8 @@ public class CardItem : UIBaseUnity
 	public void Reset()
 	{
 		gameObject.layer = GameLayer.ActorCard;
-		actorTexture.depth = initDepth;
-		transform.parent = parentObject;
+//		actorTexture.depth = initDepth;
+		//transform.parent = parentObject;
 		actorTexture.transform.localPosition = initPosition;
 	}
 
@@ -269,4 +267,9 @@ public class CardItem : UIBaseUnity
 		transform.localPosition  = new Vector3(pos.x,pos.y,transform.localPosition.z) + offset ;
 	}
 	
+	public void SetPos (Vector3 to)
+	{
+		transform.localPosition = to;
+		initPosition = to;
+	}
 }

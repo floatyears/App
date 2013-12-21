@@ -117,6 +117,7 @@ public class BattleCard : UIBaseUnity
 			return false;
 
 		bool bigger = sortID > firstCard.location;
+
 		CheckMove(sortID,ci,bigger);
 
 		if(moveItem.Count == 0)
@@ -145,19 +146,28 @@ public class BattleCard : UIBaseUnity
 			to = new Vector3(pos.x + plus * cardInterv,pos.y,pos.z);
 
 			ci[i].location = sortID + plus;
-
-			ci[i].Move(to);
+			if(i == 0)
+				ci[i].SetPos (to);	
+			else
+				ci[i].Move(to);
 		}
 
-		ci[ci.Count - 1].tweenCallback += HandletweenCallback;
+		if (ci.Count > 1) {
+			ci [ci.Count - 1].tweenCallback += HandletweenCallback;
+		}
+		else {
+			moveItem[moveItem.Count - 1].tweenCallback += HandletweenCallback;;
+		}
 
 		moveItem.Clear();
 
 		return true;
 	}
 
-	void HandletweenCallback<T> (T arg1)
+	void HandletweenCallback (CardItem arg1)
 	{
+		arg1.tweenCallback -= HandletweenCallback;
+
 		for (int i = 0; i < cardItemArray.Length - 1; i++) 
 		{
 			for (int j = i; j < cardItemArray.Length; j++) 
