@@ -24,6 +24,7 @@ public class ControllerManager
 	#endregion
 
 	private IUIInterface currentScene;
+	private IUIInterface prevScene;
 
 	#region UI object manager
 	private Dictionary<string,IUIInterface> uiDic = new Dictionary<string, IUIInterface>();
@@ -103,7 +104,6 @@ public class ControllerManager
 			currentScene = CreatScene(sEnum,uiName);
 
 		currentScene.ShowUI();
-		AnimController.UpdateSceneInfo(uiName);
 	}
 
 	IUIInterface CreatScene(SceneEnum sEnum,string uiName)
@@ -111,6 +111,9 @@ public class ControllerManager
 		IUIInterface temp;
 		switch (sEnum)
 		{	
+		case SceneEnum.Start:
+			temp = new StartView(uiName);
+			break;
 		case SceneEnum.Quest:
 			temp = new QuestView(uiName);
 			break;
@@ -135,7 +138,6 @@ public class ControllerManager
 		case SceneEnum.FriendSelect:
 			temp = new FriendSelectView(uiName);
 			break;
-
 		case SceneEnum.Party:
 			temp = new PartyView(uiName);
 			break;
@@ -154,8 +156,8 @@ public class ControllerManager
 
 		return temp;
 	}
-
-	#region globl ui
+	
+	#region global ui
 	private string actorName = "ActorShow";
 
 	private ActorShow actor;
@@ -174,7 +176,6 @@ public class ControllerManager
 		if (actor != null) {
 			actor.HideUI ();
 		}
-
 		currentScene.ShowUI ();
 	}
 	#endregion

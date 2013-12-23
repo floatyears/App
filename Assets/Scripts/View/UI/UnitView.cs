@@ -7,9 +7,6 @@ public class UnitView : UIBase
 	UnitUnity centerWindow;
 	UnitUnity bottomWindow;
 
-	private TopUI topUI;
-	private BottomUI bottomUI;
-
 	private GameObject partyBtn;
 
 	public UnitView(string uiName) : base(uiName)
@@ -19,14 +16,6 @@ public class UnitView : UIBase
 	
 	public override void CreatUI ()
 	{
-		//add top and bottom UI
-		topUI = ViewManager.Instance.GetViewObject("MenuTop") as TopUI;
-		bottomUI = ViewManager.Instance.GetViewObject("MenuBottom") as BottomUI;
-		topUI.transform.parent = viewManager.TopPanel.transform;
-		bottomUI.transform.parent = viewManager.BottomPanel.transform;
-		topUI.transform.localPosition = Vector3.zero;
-		bottomUI.transform.localPosition = Vector3.zero;
-		topUI.callback += Handlecallback;
 		topWindow = ViewManager.Instance.GetViewObject("UnitTopWindow") as UnitUnity;
 		centerWindow = ViewManager.Instance.GetViewObject("UnitCenterWindow") as UnitUnity;
 		bottomWindow = ViewManager.Instance.GetViewObject("UnitBottomWindow") as UnitUnity;
@@ -54,9 +43,6 @@ public class UnitView : UIBase
 	void TurnToParty(GameObject go)
 	{
 		controllerManger.ShowActor(1);
-
-		//topUI.ShowUI();
-		topUI.gameObject.SetActive(true);
 	}
 
 	public override void ShowUI ()
@@ -79,9 +65,6 @@ public class UnitView : UIBase
 		topWindow.gameObject.SetActive(b);
 		centerWindow.gameObject.SetActive(b);
 		bottomWindow.gameObject.SetActive(b);
-
-		topUI.gameObject.SetActive(b);
-		bottomUI.gameObject.SetActive(b);
 	}
 }
 

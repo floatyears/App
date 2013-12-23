@@ -9,8 +9,9 @@ public class FriendSelectView : UIBase
 
 	public UIImageButton startBtn;
 
-	private TopUI topUI;
-	private BottomUI bottomUI;
+	private SceneInfoBar sceneInfoBar;
+	private UIImageButton backBtn;
+	private UILabel sceneInfoLab;
 
 	public FriendSelectView(string uiName) : base(uiName)
 	{
@@ -19,17 +20,17 @@ public class FriendSelectView : UIBase
 
 	public override void CreatUI ()
 	{
-		//add top and bottom UI
-		topUI = ViewManager.Instance.GetViewObject("MenuTop") as TopUI;
-		bottomUI = ViewManager.Instance.GetViewObject("MenuBottom") as BottomUI;
-		topUI.transform.parent = viewManager.TopPanel.transform;
-		bottomUI.transform.parent = viewManager.BottomPanel.transform;
-		topUI.transform.localPosition = Vector3.zero;
-		bottomUI.transform.localPosition = Vector3.zero;
+		//add scene info bar
+		sceneInfoBar = ViewManager.Instance.GetViewObject("SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
+		sceneInfoBar.transform.localPosition = Vector3.zero;
+
+		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
+
+		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
 
 		window = ViewManager.Instance.GetViewObject("FriendSelectWindow") as FriendSelectUnity;
 		window.Init ("FriendSelectWindow");
-		//currentUIDic.Add (window.UIName, window);
 
 		friendListScroller = new ScrollView(window.LeftTransform, window.RightTransform, window.FriendItem);
 		friendListScroller.ShowData(5);
@@ -42,46 +43,49 @@ public class FriendSelectView : UIBase
 
 		startBtn = window.GetComponentInChildren<UIImageButton>();
 		startBtn.isEnabled = false;
-		LogHelper.Log(startBtn.gameObject.name);
 		UIEventListener.Get(startBtn.gameObject).onClick = StartQuest;
 
 	}
+
+	private void BackToPreScene(GameObject btn)
+	{
+		ChangeScene(SceneEnum.QuestSelect);
+	}
+
 	void StartQuest(GameObject btn)
 	{
-		LogHelper.Log("Fight Start...........");
 		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 	}
 
 	void ClickFriend(GameObject btn)
 	{
-		LogHelper.Log("Picked Up One Friend......");
 		startBtn.isEnabled = true;
 	}
+
+	void SetActive(bool b)
+	{
+		window.gameObject.SetActive(b);
+		friendListScroller.insUIObject.SetActive(b);
+		
+		sceneInfoBar.gameObject.SetActive(b);
+	}
+
 	public override void ShowUI ()
 	{
 		SetActive(true);
-		//base.ShowUI ();
+		backBtn.isEnabled = true;
+		sceneInfoLab.text = uiName;
+		UIEventListener.Get(backBtn.gameObject).onClick += BackToPreScene;
 	}
 	
 	public override void HideUI ()
 	{
+		UIEventListener.Get(backBtn.gameObject).onClick -= BackToPreScene;
 		SetActive(false);
-		//base.HideUI ();
 	}
 	
 	public override void DestoryUI ()
 	{
 		
 	}
-	
-	void SetActive(bool b)
-	{
-		LogHelper.Log("friend select ```` " + b);
-		window.gameObject.SetActive(b);
-		friendListScroller.insUIObject.SetActive(b);
-
-		topUI.gameObject.SetActive(b);
-		bottomUI.gameObject.SetActive(b);
-	}
-
 }

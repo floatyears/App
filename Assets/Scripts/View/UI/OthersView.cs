@@ -7,7 +7,7 @@ public class OthersView : UIBase
 
 	private ScrollView scroller;
 	private OthersScrollView sv;
-
+	
 	public OthersView(string uiName) : base(uiName)
 	{
 

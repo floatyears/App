@@ -1,14 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BottomUI : UIBaseUnity 
+public class MenuBtns : UIBaseUnity 
 {
-
-
-
 	void Start()
 	{
-		Init("Bottom");
+		Init("MenuBtns");
 	}
 
 
@@ -16,15 +13,15 @@ public class BottomUI : UIBaseUnity
 	{
 		base.Init (name);
 
-		//UIEventListener.Get (transform.Find ("ImgBtn_Friends").gameObject).onClick = TurnToFriends;
+		UIEventListener.Get (transform.Find ("ImgBtn_Friends").gameObject).onClick = TurnToFriends;
 
 		UIEventListener.Get (transform.Find ("ImgBtn_Quest").gameObject).onClick = TurnToQuest;
 
-		//UIEventListener.Get (transform.Find ("ImgBtn_Scratch").gameObject).onClick = TurnToScratch;
+		UIEventListener.Get (transform.Find ("ImgBtn_Scratch").gameObject).onClick = TurnToScratch;
 
-		//UIEventListener.Get (transform.Find ("ImgBtn_Shop").gameObject).onClick = TurnToShop;
+		UIEventListener.Get (transform.Find ("ImgBtn_Shop").gameObject).onClick = TurnToShop;
 
-		//UIEventListener.Get (transform.Find ("ImgBtn_Others").gameObject).onClick = TurnToOthers;
+		UIEventListener.Get (transform.Find ("ImgBtn_Others").gameObject).onClick = TurnToOthers;
 
 		UIEventListener.Get (transform.Find ("ImgBtn_Units").gameObject).onClick = TurnToUnits;
 	}
