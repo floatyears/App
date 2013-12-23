@@ -57,7 +57,7 @@ public class Main : MonoBehaviour
 	void OnEnable()
 	{
 		ViewManager.Instance.Init(uiRoot);
-		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
+		ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
 
 		//ControllerManager.Instance.ShowActor (1);
 //		ControllerManager.Instance.HideActor ();
