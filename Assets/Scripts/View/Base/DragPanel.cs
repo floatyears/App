@@ -103,7 +103,7 @@ public class DragPanel : UIBase {
 	void ItemCallback(GameObject target)
 	{
 		if (DragCallback != null) {
-			DragCallback (target);	
+			DragCallback (target);
 		}
 	}
 

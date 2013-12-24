@@ -60,11 +60,7 @@ public class Main : MonoBehaviour
 
 		GameObject go = Resources.Load ("Prefabs/DragPanelItem") as GameObject;
 
-		DragPanel dp = new DragPanel ("Test", go);
-		dp.CreatUI ();
-		dp.AddItem (5);
-
-		//ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
+		ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
 
 		//ControllerManager.Instance.ShowActor (1);
 //		ControllerManager.Instance.HideActor ();
