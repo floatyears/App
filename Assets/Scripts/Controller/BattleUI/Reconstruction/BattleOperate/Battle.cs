@@ -117,8 +117,6 @@ public class Battle : UIBase
 		battleCardPool.XRange = bc.size.x;
 
 		cardHeight = battleCardPool.templateBackTexture.width;
-
-
 	}
 
 	void CreatCard()
@@ -322,7 +320,8 @@ public class Battle : UIBase
 		main.GInput.IsCheckInput = true;
 	}
 
-//	bool tempCheckDragFirst = false;
+
+	private BattleCardAreaItem prevTempBCA;
 
 	void DisposeOnDrag(Vector2 obj)
 	{
@@ -333,8 +332,9 @@ public class Battle : UIBase
 		{
 			selectTarget[i].OnDrag(vec,i);
 		}
+		bool b = Check(GameLayer.ActorCard);
 
-		if(Check(GameLayer.ActorCard))
+		if(b)
 		{
 			for (int i = 0; i < rayCastHit.Length; i++)
 			{
@@ -343,6 +343,22 @@ public class Battle : UIBase
 				ClickObject(tempObject);
 			}
 		}
+
+//		if (Check (GameLayer.BattleCard)) {
+//			for (int i = 0; i < rayCastHit.Length; i++) {
+//				tempObject = rayCastHit[i].collider.gameObject;
+//				BattleCardAreaItem bca = tempObject.GetComponent<BattleCardAreaItem>();
+//				if(bca != null){
+//					if(prevTempBCA != null){
+//						prevTempBCA.Scale(false);
+//					}
+//					prevTempBCA = bca;
+//					prevTempBCA.Scale(true);
+//
+//					break;
+//				}
+//			}
+//		}
 	}
 
 	void DisposePress()

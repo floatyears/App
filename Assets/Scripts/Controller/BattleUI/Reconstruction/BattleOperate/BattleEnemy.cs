@@ -100,8 +100,6 @@ public class BattleEnemy : UIBaseUnity
 			float xWidth = (xScale * monsterCount + interv * monsterCount) / 2;
 
 			parentTrans.localPosition = new Vector3(pos.x - xWidth,pos.y,pos.z);
-
-
 		}
 	}
 }

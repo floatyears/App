@@ -78,12 +78,35 @@ public class ItemData
 
 	public bool isReadyToBattle = false;
 
+	/// <summary>
+	/// 0:red; 1:white; 2:blue; 3:green; 4:magenta
+	/// </summary>
+	public int propertyColor ;
+
 	public ItemData(int ID,string name,byte type)
 	{
 		this.itemID = ID;
 		this.itemName = name;
-
+		propertyColor = ID;
 		resourceEnum = (ResourceEuum)type;
 	}
 
+	public static Color GetColor(int color)
+	{
+		switch (color) {
+		case 0:
+			return Color.red;
+		case 1:
+			return Color.white;
+		case 2:
+			return Color.blue;
+		case 3:
+			return Color.green;
+		case 4:
+			return Color.magenta;
+		default:
+			return Color.white;
+			break;
+		}
+	}
 }

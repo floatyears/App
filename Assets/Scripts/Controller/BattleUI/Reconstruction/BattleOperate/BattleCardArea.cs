@@ -29,10 +29,6 @@ public class BattleCardArea : UIBaseUnity
 
 		backTexture.gameObject.SetActive(false);
 
-		Vector3 pos = transform.localPosition;
-
-		transform.localPosition = pos;
-
 		if (cardItem == null) 
 		{
 			GameObject go = LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab) as GameObject;
@@ -54,7 +50,7 @@ public class BattleCardArea : UIBaseUnity
 
 		for (int i = 0; i < battleCardAreaItem.Length; i++) 
 		{
-			battleCardAreaItem[i].ClearCard();
+			battleCardAreaItem[i].HideUI();
 		}
 
 		gameObject.SetActive (false);

@@ -13,6 +13,8 @@ public class GameInput : MonoBehaviour
 	
 	public static event System.Action OnUpdate;
 
+	public static event System.Action OnPressContinued;
+
 	private bool isCheckInput = true;
 
 	public bool IsCheckInput

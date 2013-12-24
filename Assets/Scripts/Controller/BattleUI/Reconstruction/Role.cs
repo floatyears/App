@@ -103,6 +103,7 @@ public class Role : UIBaseUnity
 		currentCoor.x = tc.x;
 		currentCoor.y = tc.y;
 		TargetPoint = bQuest.GetPosition(tc);
+
 	}
 	
 	void Update()
@@ -112,7 +113,7 @@ public class Role : UIBaseUnity
 
 		distance = transform.localPosition - targetPoint;
 
-		if(distance.magnitude > 0.05f)
+		if(distance.magnitude > 0.1f)
 			transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 10);
 		else
 			MoveEnd();
