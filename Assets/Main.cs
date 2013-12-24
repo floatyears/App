@@ -39,6 +39,8 @@ public class Main : MonoBehaviour
 		get{ return texScale; }
 	}
 
+	private UILabel label;
+
 	void Awake()
 	{
 		mainScrpit = this;

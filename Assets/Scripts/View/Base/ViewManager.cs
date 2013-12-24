@@ -58,6 +58,13 @@ public class ViewManager
 		get{return mainUICamera;}
 	}
 
+	private Font dynamicFont;
+
+	public Font DynamicFont
+	{
+		get{return dynamicFont;}
+	}
+
 	public void Init(GameObject ui)
 	{
 		mainUIRoot = ui;
@@ -71,6 +78,8 @@ public class ViewManager
 		bottomPanel = mainUIRoot.transform.Find ("Bottom/Panel").gameObject;
 
 		centerPanel = mainUIRoot.transform.Find ("Anchor/Panel").gameObject;
+
+		dynamicFont = Resources.Load("Font/Faerytale Woods",typeof(Font)) as Font;
 	}
 
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
