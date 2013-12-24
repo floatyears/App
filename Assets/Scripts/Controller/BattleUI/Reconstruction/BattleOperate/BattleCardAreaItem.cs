@@ -10,9 +10,20 @@ public class BattleCardAreaItem : UIBaseUnity
 		get{return cardItemList;}
 	}
 
+	private List<int> battleList = new List<int> ();
+	/// <summary>
+	/// this item's fight card
+	/// </summary>
+	/// <value>The battle list.</value>
+	public List<int> BattleList{
+		get{
+			return battleList;
+		}
+	}
+
 	private GameObject parentObject;
 
-	private Vector3 scale = Vector3.one;
+	private Vector3 scale = new Vector3 (0.5f, 0.5f, 1f);
 
 	private Vector3 utilityScale = Vector3.zero;
 
@@ -20,25 +31,53 @@ public class BattleCardAreaItem : UIBaseUnity
 
 	private float durationTime = 0.1f;
 
+	private Vector3 selfScale = new Vector3 (1.2f, 1.2f, 1f);
+
+	private Vector3 battleCardInitPos ;
+
+	private UITexture[] battleCardTemplate;
+
 	public override void Init(string name)
 	{
 		base.Init(name);
 
 		UITexture tex = GetComponent<UITexture>();
 
-		scale.x = ((float)tex.width) / 2f;
-		scale.y = ((float)tex.height) / 2f;
-
-		utilityScale = scale / 2f;
+		utilityScale = new Vector3 ((float)tex.width / 4f, (float)tex.height / 4f, 1f);
 
 		pos = transform.localPosition;
 
 		parentObject = transform.parent.gameObject;
+
+		InitFightCard ();
+	}
+
+	void InitFightCard()
+	{
+		battleCardTemplate = new UITexture[Config.cardCollectionCount];
+		UITexture template = FindChild<UITexture> ("BattleCardTemplate");
+		battleCardTemplate [0] = template;
+		battleCardInitPos = template.transform.localPosition;
+		for (int i = 1; i < Config.cardCollectionCount; i++) {
+			GameObject instance = Instantiate (template.gameObject) as GameObject;
+			instance.transform.parent = transform;
+			instance.transform.localScale = Vector3.one;
+			instance.layer = gameObject.layer;
+			instance.transform.localPosition = battleCardInitPos + new Vector3 (0f, i * 10f, 0f);
+			battleCardTemplate[i] = instance.GetComponent<UITexture>();
+		}
+	}
+
+	public override void HideUI ()
+	{
+		base.HideUI ();
+
+		ClearCard ();
 	}
 
 	public int GenerateCard(List<CardItem> source)
 	{
-
+		Scale (true);
 		int maxLimit = Config.cardCollectionCount - cardItemList.Count;
 
 		if(maxLimit <= 0)
@@ -48,7 +87,7 @@ public class BattleCardAreaItem : UIBaseUnity
 
 		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
 
-		float time = Time.realtimeSinceStartup;
+		//float time = Time.realtimeSinceStartup;
 
 //		for (int i = 0; i < maxLimit; i++) 
 //		{
@@ -76,9 +115,38 @@ public class BattleCardAreaItem : UIBaseUnity
 			ci.SetTexture( source[i].ActorTexture.mainTexture,source[i].itemID);
 
 			cardItemList.Add(ci);
+
+			StartCoroutine(GenerateFightCard(source[i].itemID));
 		}
 
 		return maxLimit;
+	}
+
+	IEnumerator GenerateFightCard(int id){
+		yield return 1;
+		int itemID = Config.Instance.CardData [id].itemID;
+		int gID = BattleDataMode.GenerateCard (id, itemID);
+
+		InstnaceCard (gID);
+		battleList.Add(gID);
+	}
+
+	void InstnaceCard(int gID){
+		if (battleList.Count > Config.cardCollectionCount)
+			return;
+		UITexture tex = battleCardTemplate[battleList.Count];
+		tex.enabled = true;
+		tex.color = ItemData.GetColor (gID);
+	}
+
+	public void Scale(bool on)
+	{
+		if (on) {
+			iTween.ScaleFrom (gameObject, iTween.Hash ("x", selfScale.x, "y", selfScale.y, "time", 0.3f, "easetype", "easeoutback"));
+		} 
+		else {
+			iTween.ScaleTo(gameObject,iTween.Hash("x",1f,"y",1f,"time",0.1f,"easetype","easeoutcubic"));
+		}
 	}
 
 //	int startIndex = 0;
@@ -116,6 +184,13 @@ public class BattleCardAreaItem : UIBaseUnity
 		}
 
 		cardItemList.Clear();
+
+		for (int i = 0; i<battleCardTemplate.Length; i++) {
+			if(battleCardTemplate[i].enabled){
+				battleCardTemplate[i].enabled = false;
+			}
+			battleList.Clear();
+		}
 	}
 
 	void DisposeTweenPosition(CardItem ci)
@@ -163,4 +238,7 @@ public class BattleCardAreaItem : UIBaseUnity
 
 		return sortID == 4 ? 2 : 1;
 	}
+
+
+
 }

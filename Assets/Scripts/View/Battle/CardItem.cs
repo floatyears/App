@@ -41,7 +41,15 @@ public class CardItem : UIBaseUnity
 
 	public bool CanDrag
 	{
-		set{canDrag = value;}
+		set{
+			canDrag = value;
+			if(canDrag) {
+				gameObject.layer = GameLayer.ActorCard;
+			}
+			else{
+				gameObject.layer = GameLayer.IgnoreCard;
+			}
+		}
 		get{return canDrag;}
 	}
 
@@ -81,7 +89,7 @@ public class CardItem : UIBaseUnity
 
 		initDepth = actorTexture.depth;
 
-		canDrag = true;
+		CanDrag = true;
 	}
 
 	public override void ShowUI ()
@@ -193,9 +201,9 @@ public class CardItem : UIBaseUnity
 	public bool SetCanDrag(int id)
 	{
 		if(id == this.itemID)
-			canDrag = true;
+			CanDrag = true;
 		else
-			canDrag = false;
+			CanDrag = false;
 
 		return canDrag;
 	}
@@ -234,16 +242,20 @@ public class CardItem : UIBaseUnity
 
 	public void Scale(Vector3 from, Vector3 to, float time)
 	{
-		if (!tse.enabled)
-			tse.enabled = true;
 
-		tse.enabled = true;
+		iTween.ScaleTo (gameObject, iTween.Hash("x", to.x,"y",to.y,"time", 0.3f,"easetype","easeoutquad"));
 
-		tse.duration = time;
 
-		tse.from = from;
-
-		tse.to = to;  
+//		if (!tse.enabled)
+//			tse.enabled = true;
+//
+//		tse.enabled = true;
+//
+//		tse.duration = time;
+//
+//		tse.from = from;
+//
+//		tse.to = to;  
 	}
 	
 	void TweenPositionCallback()
@@ -270,6 +282,7 @@ public class CardItem : UIBaseUnity
 	public void SetPos (Vector3 to)
 	{
 		transform.localPosition = to;
+
 		initPosition = to;
 	}
 }
