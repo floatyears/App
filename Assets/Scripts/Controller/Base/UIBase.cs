@@ -93,6 +93,11 @@ public class UIBase : IUIInterface
 		}
 	}
 
+	protected void ChangeScene(SceneEnum se)
+	{
+		controllerManger.ChangeScene(se);
+	}
+
 	#endregion
 
 

@@ -5,24 +5,23 @@ public class PartyView : UIBase
 {
 	PartyView partyWindow;
 
-	private TopUI topUI;
-
 	public PartyView(string uiName) : base(uiName)
 	{
-		
+
 	}
 	
 	public override void CreatUI ()
 	{
-		//add top and bottom UI
-		topUI = ViewManager.Instance.GetViewObject("MenuTop") as TopUI;
-		topUI.transform.parent = viewManager.TopPanel.transform;
-		topUI.transform.localPosition = Vector3.zero;
+
 	}
 	
 	public override void ShowUI ()
 	{
 		SetActive(true);
+		LogHelper.Log("1111112222222233333333444444");
+		StartView.playerInfoBar.gameObject.SetActive(false);
+		StartView.menuBtns.gameObject.SetActive(false);
+		StartView.mainBg.gameObject.SetActive(false);
 	}
 	
 	public override void HideUI ()
@@ -37,7 +36,7 @@ public class PartyView : UIBase
 	
 	void SetActive(bool b)
 	{
-		topUI.gameObject.SetActive(b);
+
 	}
 }
 

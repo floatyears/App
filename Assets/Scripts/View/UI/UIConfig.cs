@@ -15,9 +15,9 @@ public class UIConfig
 	public static string Lab_V_NextExp ="5555";
 	public static string Lab_V_CurTotalExp = "8888";
 
-	public static string Lab_V_CurStamina = "11";
+	public static string Lab_V_CurStamina = "24";
 	public static string Lab_T_Line = "/";
-	public static string Lab_V_TotalStamina = "21";
+	public static string Lab_V_TotalStamina = "48";
 
 	public static string Lab_V_ChipNum = "1";
 

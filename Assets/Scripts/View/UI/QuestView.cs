@@ -9,8 +9,9 @@ public class QuestView : UIBase
 	private QuestUnity StoryDoor;
 	private QuestUnity EventDoor;
 
-	private TopUI topUI;
-	private BottomUI bottomUI;
+	private SceneInfoBar sceneInfoBar;
+	private UIImageButton backBtn;
+	private UILabel sceneInfoLab;
 
 	public QuestView(string uiName):base(uiName)
 	{
@@ -18,26 +19,21 @@ public class QuestView : UIBase
 	}
 	public override void CreatUI ()
 	{
-		//add top and bottom UI
-		topUI = ViewManager.Instance.GetViewObject("MenuTop") as TopUI;
-		bottomUI = ViewManager.Instance.GetViewObject("MenuBottom") as BottomUI;
-		topUI.transform.parent = viewManager.TopPanel.transform;
-		bottomUI.transform.parent = viewManager.BottomPanel.transform;
-		topUI.transform.localPosition = Vector3.zero;
-		bottomUI.transform.localPosition = Vector3.zero;
+
+		//add scene info bar
+		sceneInfoBar = ViewManager.Instance.GetViewObject("SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
+		sceneInfoBar.transform.localPosition = Vector3.zero;
+
+		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
+		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
 
 		StoryDoor = ViewManager.Instance.GetViewObject("StoryDoor") as QuestUnity; 
-
 		StoryDoor.transform.parent = viewManager.TopPanel.transform;
-
 		StoryDoor.transform.localPosition = -350*Vector3.up;
-
 		StoryDoor.Init ("StoryDoor");
-
 		currentUIDic.Add(StoryDoor.UIName, StoryDoor);
-
 		StoryScroller = new ScrollView(StoryDoor.LeftTransform, StoryDoor.RightTransform, StoryDoor.Item);
-
 		StoryScroller.ShowData(5);
 		
 		for(int i= 0; i<StoryScroller.DragList.Count; i++)
@@ -62,9 +58,22 @@ public class QuestView : UIBase
 
 	}
 
+	void SetActive(bool b)
+	{
+		StoryScroller.insUIObject.SetActive(b);
+		EventScroller.insUIObject.SetActive(b);
+		
+		StoryDoor.gameObject.SetActive(b);
+		EventDoor.gameObject.SetActive(b);
+		
+		sceneInfoBar.gameObject.SetActive(b);
+	}
+
 	public override void ShowUI ()
 	{
 		SetActive(true);
+		backBtn.isEnabled = false;
+		sceneInfoLab.text = uiName;
 	}
 	
 	public override void HideUI ()
@@ -74,28 +83,15 @@ public class QuestView : UIBase
 	
 	public override void DestoryUI ()
 	{	
+
 	}
 	
-	void SetActive(bool b)
-	{
-		StoryScroller.insUIObject.SetActive(b);
-		EventScroller.insUIObject.SetActive(b);
 
-		StoryDoor.gameObject.SetActive(b);
-		EventDoor.gameObject.SetActive(b);
-
-		topUI.gameObject.SetActive(b);
-		bottomUI.gameObject.SetActive(b);
-	}
 	
 	void ClickQuest(GameObject go)
 	{
 		StoryDoor.gameObject.SetActive(false);
 		EventDoor.gameObject.SetActive(false);
-
-		topUI.gameObject.SetActive(false);
-		bottomUI.gameObject.SetActive(false);
-
 		ControllerManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 	}
 

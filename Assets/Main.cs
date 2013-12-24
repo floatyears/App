@@ -39,6 +39,8 @@ public class Main : MonoBehaviour
 		get{ return texScale; }
 	}
 
+	private UILabel label;
+
 	void Awake()
 	{
 		mainScrpit = this;
@@ -57,7 +59,7 @@ public class Main : MonoBehaviour
 	void OnEnable()
 	{
 		ViewManager.Instance.Init(uiRoot);
-		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
+		ControllerManager.Instance.ChangeScene(SceneEnum.Start);
 
 		//ControllerManager.Instance.ShowActor (1);
 //		ControllerManager.Instance.HideActor ();

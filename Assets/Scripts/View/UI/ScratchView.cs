@@ -5,14 +5,14 @@ public class ScratchView : UIBase
 {
 	ScratchUnity topUI;
 	ScratchUnity bottomUI;
-	
+
 	public ScratchView(string uiName) : base(uiName)
 	{
 
 	}
 
 	public override void CreatUI ()
-	{
+	{	
 		topUI = ViewManager.Instance.GetViewObject("ScratchTopWindow") as ScratchUnity;
 		bottomUI = ViewManager.Instance.GetViewObject("ScratchBottomWindow") as ScratchUnity;
 		topUI.Init ("ScratchTopWindow");
