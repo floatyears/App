@@ -2,6 +2,7 @@
 
 public enum SceneEnum
 {
+	Start,
 
 	Quest,
 
