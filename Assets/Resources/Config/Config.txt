@@ -36,3 +36,5 @@ CardType	|	RestraintType#
 
 [START]
 ItemID	|	ItemCardID	|	ItemLevel	|	ItemName	|	ItemRaceID	|	ItemRare
+
+[START]
