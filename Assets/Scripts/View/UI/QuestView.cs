@@ -3,15 +3,14 @@ using System.Collections;
 
 public class QuestView : UIBase
 {
-	private ScrollView StoryScroller;
-	private ScrollView EventScroller;
-
-	private QuestUnity StoryDoor;
-	private QuestUnity EventDoor;
-
+	private QuestUnity window;
 	private SceneInfoBar sceneInfoBar;
 	private UIImageButton backBtn;
 	private UILabel sceneInfoLab;
+
+	private GameObject scrollerItem;
+	private DragPanel storyScroller;
+	private DragPanel eventScroller;
 
 	public QuestView(string uiName):base(uiName)
 	{
@@ -19,8 +18,7 @@ public class QuestView : UIBase
 	}
 	public override void CreatUI ()
 	{
-
-		//add scene info bar
+		//Add Share UI -- SceneInfoBar
 		sceneInfoBar = ViewManager.Instance.GetViewObject("SceneInfoBar") as SceneInfoBar;
 		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
 		sceneInfoBar.transform.localPosition = Vector3.zero;
@@ -28,44 +26,45 @@ public class QuestView : UIBase
 		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
 		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
 
-		StoryDoor = ViewManager.Instance.GetViewObject("StoryDoor") as QuestUnity; 
-		StoryDoor.transform.parent = viewManager.TopPanel.transform;
-		StoryDoor.transform.localPosition = -350*Vector3.up;
-		StoryDoor.Init ("StoryDoor");
-		currentUIDic.Add(StoryDoor.UIName, StoryDoor);
-		StoryScroller = new ScrollView(StoryDoor.LeftTransform, StoryDoor.RightTransform, StoryDoor.Item);
-		StoryScroller.ShowData(5);
-		
-		for(int i= 0; i<StoryScroller.DragList.Count; i++)
+		//Add Self UI -- QuestWindow
+		window = ViewManager.Instance.GetViewObject("QuestWindow") as QuestUnity; 
+		window.transform.parent = viewManager.TopPanel.transform;
+		window.Init ("Quest");
+		currentUIDic.Add(window.UIName, window);
+
+		//Add Scroller -- StoryScroller && EventScroller
+		scrollerItem = Resources.Load("Prefabs/QuestScrollerItem") as GameObject;
+
+		storyScroller = new DragPanel ("StoryScroller", scrollerItem);
+		storyScroller.CreatUI ();
+		storyScroller.AddItem (15);
+		storyScroller.RootObject.SetItemWidth(230);
+		storyScroller.RootObject.gameObject.transform.localPosition = -350*Vector3.up;
+
+		eventScroller = new DragPanel ("EventScroller", scrollerItem);
+		eventScroller.CreatUI();
+		eventScroller.AddItem (10);
+		eventScroller.RootObject.SetItemWidth(230);
+		eventScroller.RootObject.gameObject.transform.localPosition = -700*Vector3.up;
+
+		//Add Event Listener
+		for(int i = 0; i < storyScroller.ScrollItem.Count; i++)
 		{
-			UIEventListener listen = UIEventListener.Get( StoryScroller.DragList[ i ] );	
-			listen.onClick = ClickQuest;
+			UIEventListener.Get(storyScroller.ScrollItem[ i ].gameObject).onClick = TurnToQuest;
 		}
 
-		EventDoor = ViewManager.Instance.GetViewObject("EventDoor") as QuestUnity; 
-		EventDoor.transform.parent = viewManager.TopPanel.transform;
-		EventDoor.transform.localPosition = -650*Vector3.up;
-		EventDoor.Init ("EventDoor");
-		currentUIDic.Add(EventDoor.UIName, EventDoor);
-		EventScroller = new ScrollView(EventDoor.LeftTransform, EventDoor.RightTransform, EventDoor.Item);
-		EventScroller.ShowData(5);
-		
-		for(int i= 0; i<EventScroller.DragList.Count; i++)
+		for(int i = 0; i < eventScroller.ScrollItem.Count; i++)
 		{
-			UIEventListener listen = UIEventListener.Get( EventScroller.DragList[ i ] );	
-			listen.onClick = ClickQuest;
+			UIEventListener.Get(eventScroller.ScrollItem[ i ].gameObject).onClick = TurnToQuest;
 		}
 
 	}
 
 	void SetActive(bool b)
-	{
-		StoryScroller.insUIObject.SetActive(b);
-		EventScroller.insUIObject.SetActive(b);
-		
-		StoryDoor.gameObject.SetActive(b);
-		EventDoor.gameObject.SetActive(b);
-		
+	{	
+		window.gameObject.SetActive(b);
+		storyScroller.RootObject.gameObject.SetActive(b);
+		eventScroller.RootObject.gameObject.SetActive(b);
 		sceneInfoBar.gameObject.SetActive(b);
 	}
 
@@ -85,13 +84,11 @@ public class QuestView : UIBase
 	{	
 
 	}
-	
 
-	
-	void ClickQuest(GameObject go)
+	void TurnToQuest(GameObject go)
 	{
-		StoryDoor.gameObject.SetActive(false);
-		EventDoor.gameObject.SetActive(false);
+		//window.gameObject.SetActive(false);
+
 		ControllerManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 	}
 

@@ -78,4 +78,17 @@ public class DragPanelView : UIBaseUnity {
 
 		clip.clipRange = range;
 	}
+
+	public void SetItemWidth(int width = - 1, int heigt = -1)
+	{
+		if(width > -1){
+			grid.cellWidth = width;
+		}
+
+		if(heigt > -1){
+			grid.cellHeight = heigt;
+		}
+
+		grid.enabled = true;
+	}
 }

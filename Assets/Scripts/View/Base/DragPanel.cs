@@ -5,11 +5,11 @@ public class DragPanel : UIBase {
 
 	public event UICallback DragCallback;
 
-	private DragPanelView rootObject;
+	private DragPanelView dragPanelView;
 
 	public DragPanelView RootObject{
 		get{
-			return rootObject;
+			return dragPanelView;
 		}
 	}
 
@@ -32,27 +32,33 @@ public class DragPanel : UIBase {
 		get{ return sourceObject; }
 	}
 
+	public static GameObject dragObject;
+
 	public DragPanel(string name, GameObject obj) : base(name){
 		sourceObject = obj;
+
+		if(dragObject == null){
+			dragObject = Resources.Load("Prefabs/DragPanelView") as GameObject;
+		}
 	}
 
 	public override void CreatUI () {
 		base.CreatUI ();
-		rootObject = viewManager.GetViewObject ("DragPanelView") as DragPanelView;
-		rootObject.transform.parent = viewManager.TopPanel.transform;
-		rootObject.Init (uiName);
+		dragPanelView = NGUITools.AddChild(viewManager.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); //viewManager.GetViewObject ("DragPanelView") as DragPanelView;
+		//rootObject.transform.parent = viewManager.TopPanel.transform;
+		dragPanelView.Init (uiName);
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
 		AddEvent ();
-		rootObject.ShowUI ();
+		dragPanelView.ShowUI ();
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		RemoveEvent ();
-		rootObject.HideUI ();
+		dragPanelView.HideUI ();
 	}
 
 	public override void DestoryUI () {
@@ -79,12 +85,12 @@ public class DragPanel : UIBase {
 		}
 
 		if (sourceObject == null) {
-			LogHelper.LogError (rootObject.name + " scroll view item is null. don't creat drag panel");
+			LogHelper.LogError (dragPanelView.name + " scroll view item is null. don't creat drag panel");
 			return;
 		}
 						
 		for (int i = 0; i < count; i++) {
-			GameObject go = rootObject.AddObject(sourceObject,scrollItem.Count);
+			GameObject go = dragPanelView.AddObject(sourceObject,scrollItem.Count);
 			if(go != null){
 				scrollItem.Add(go);
 			}
@@ -97,8 +103,10 @@ public class DragPanel : UIBase {
 	/// <param name="position">Position. x is center x; y is center y; z is size x, w is size y</param>
 	public void SetPosition(Vector4 position)
 	{
-		rootObject.SetViewPosition (position);
+		dragPanelView.SetViewPosition (position);
 	}
+
+
 
 	void ItemCallback(GameObject target)
 	{

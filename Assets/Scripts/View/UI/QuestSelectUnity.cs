@@ -3,12 +3,6 @@ using System.Collections;
 
 public class QuestSelectUnity : UIBaseUnity
 {
-	private UIImageButton selectBtn;
-
-	private GameObject items;
-
-	private GameObject questBossPrefab;
-
 	private UILabel labFriendSelect;
 	private UILabel labDoorName;
 	private UILabel labDoorTypeName;
@@ -22,14 +16,14 @@ public class QuestSelectUnity : UIBaseUnity
 	private UILabel labQuestName;
 	private UILabel labReward;
 	private UILabel labRewardInfo;
-	private UILabel labStory;
+	private UILabel labStoryIntroduction;
 
 	public override void Init (string name)
 	{
 		base.Init (name);
 
 		//find labels
-		labFriendSelect = FindChild<UILabel>("btn/Label_friend_select");
+		labFriendSelect = FindChild<UILabel>("btn_friend_select/Label_friend_select");
 		labDoorName = FindChild<UILabel>("title/Label_door_name");
 		labDoorTypeName = FindChild<UILabel>("title/Label_door_type_name");
 		labBoss = FindChild<UILabel>("window_left/Label_boss");
@@ -42,61 +36,28 @@ public class QuestSelectUnity : UIBaseUnity
 		labQuestName = FindChild<UILabel>("window_right/content_detail/Label_quest_name");
 		labReward = FindChild<UILabel>("window_right/content_detail/Label_reward");
 		labRewardInfo = FindChild<UILabel>("window_right/content_detail/Label_reward_info");
-		labStory = FindChild<UILabel>("window_right/content_story/Label_story");
+		labStoryIntroduction = FindChild<UILabel>("window_right/content_story/Label_story");
 
-		selectBtn = transform.FindChild("Btn_Friend_Select").GetComponent<UIImageButton>();
-		selectBtn.isEnabled = false;
-
-		items = transform.FindChild("QuestItems").gameObject;
-
-		questBossPrefab = Resources.Load("Prefabs/QuestBossItem") as GameObject;
-
-		ShowQuest(Random.Range(1,5));
+		CleanPanelInfo();
 
 	}
-
-	void ShowQuest(int num = 1)
+	public void CleanPanelInfo()
 	{
-		if(questBossPrefab == null)
-		{
-			LogHelper.LogError("Quest List Item prefab is Null, Return...");
-			return;
-		}
-		
-		for( int i = 0; i < num; i++ )
-		{
-			GameObject ins = GameObject.Instantiate(questBossPrefab) as GameObject;
-
-			ins.transform.parent = items.transform;
-			float pos_x = -250F + 140*i;
-			float pos_y = -116F;
-			float pos_z = 0;
-			ins.transform.localPosition = new Vector3(pos_x,pos_y,pos_z);
-			ins.transform.localScale = Vector3.one;
-
-			ins.name = i.ToString();
-			ins.SetActive(true);
-
-			UIEventListener.Get(ins).onClick = QuestBossItemClick;
-			UIEventListener.Get(selectBtn.gameObject).onClick = SelectBtnClick;
-		}
+		labQuestInfo.text = string.Empty;
+		labRewardInfo.text = string.Empty;
+		labStoryIntroduction.text = string.Empty;
+		labStaminaVaule.text = string.Empty;
+		labFloorVaule.text = string.Empty;
 	}
-	void QuestBossItemClick(GameObject btn)
+	public void UpdatePanelInfo()
 	{
-		LogHelper.Log("click");
-
-		selectBtn.isEnabled = true;
+		labQuestInfo.text = "Quest Information";
+		labRewardInfo.text = "Reward information";
+		labStoryIntroduction.text = "This is Story Information.This is Story Information.This is Story Information." +
+			"This is Story Information.This is Story Information.This is Story Information.This is Story Information.";
+		labStaminaVaule.text = "5";
+		labFloorVaule.text = "2";
 	}
-
-	void SelectBtnClick(GameObject btn)
-	{
-		LogHelper.Log("Btn Click, change Friend Select....");
-		//Change Scene to Friend Select
-
-		ControllerManager.Instance.ChangeScene(SceneEnum.FriendSelect);
-	}
-
-
 	public override void ShowUI ()
 	{
 		base.ShowUI ();
@@ -105,6 +66,7 @@ public class QuestSelectUnity : UIBaseUnity
 	public override void HideUI ()
 	{
 		base.HideUI ();
+
 	}
 
 	public override void DestoryUI ()
