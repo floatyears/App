@@ -20,11 +20,13 @@ public class Config
 
 	public const byte cardCollectionCount = 5;
 
-	public const byte cardInterv = 10;
+	public const byte cardInterv = 3;
 
 	public const byte cardDepth = 3;
 
-	public static Vector3 cardPoolInitPosition = new Vector3(-220f,-30f,0f);
+	public const string battleCardName = "BattleCard";
+
+	public static Vector3 cardPoolInitPosition = new Vector3(-255f,300f,0f);
 	
 	private Dictionary<int,ItemData> cardData = new Dictionary<int, ItemData>();
 
@@ -76,12 +78,35 @@ public class ItemData
 
 	public bool isReadyToBattle = false;
 
+	/// <summary>
+	/// 0:red; 1:white; 2:blue; 3:green; 4:magenta
+	/// </summary>
+	public int propertyColor ;
+
 	public ItemData(int ID,string name,byte type)
 	{
 		this.itemID = ID;
 		this.itemName = name;
-
+		propertyColor = ID;
 		resourceEnum = (ResourceEuum)type;
 	}
 
+	public static Color GetColor(int color)
+	{
+		switch (color) {
+		case 0:
+			return Color.red;
+		case 1:
+			return Color.white;
+		case 2:
+			return Color.blue;
+		case 3:
+			return Color.green;
+		case 4:
+			return Color.magenta;
+		default:
+			return Color.white;
+			break;
+		}
+	}
 }

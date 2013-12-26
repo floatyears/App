@@ -10,12 +10,13 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using ProtoBuf;
 
-public delegate object PostCallbackFailed(string responseStr, ErrorMsg errorMsg, params object[] values); 
+public delegate object PostCallbackFailed(string rspError, ErrorMsg errorMsg, params object[] values); 
 public delegate object PostCallbackSucceed<T>(T instance, ErrorMsg errorMsg, params object[] values); 
 
-public delegate object GetCallbackFailed(string responseStr, ErrorMsg errorMsg, params object[] values);
-public delegate object GetCallbackSucceed(string responseStr, ErrorMsg errorMsg, params object[] values); 
+public delegate object GetCallbackFailed(string rspError, ErrorMsg errorMsg, params object[] values);
+public delegate object GetCallbackSucceed(byte[] response, ErrorMsg errorMsg, params object[] values); 
 
 
 /// <summary>
@@ -36,9 +37,36 @@ public class HttpClient
         }
     }
 
-	public HttpClient ()
-	{
-	}
+    /// <summary>
+    /// The session identifier.
+    /// </summary>
+    private string sessionId = "";
+    public string SessionId
+    {
+        get { return sessionId; }
+        set { sessionId = value; }
+    }
+    
+
+    /// <summary>
+    /// Validates the session identifier.
+    /// </summary>
+    /// <returns>The session identifier.</returns>
+    /// <param name="protobufModel">Protobuf model.</param>
+    public ErrorMsg ValidateSessionId(object protobufModel){
+        ErrorMsg errMsg = new ErrorMsg();
+        Type t = protobufModel.GetType();
+        try {
+            string protoSessionId = (string)t.GetProperty("sessionId").GetValue(protobufModel, null);
+            if (protoSessionId != sessionId){
+                errMsg.Code = ErrorCode.InvalidSessionId;
+            }
+        } catch (Exception ex) {
+            errMsg.Code = ErrorCode.IllegalParam;
+            errMsg.Msg = "request or response not has field sessionId";
+        }
+        return errMsg;
+    }
 
     /// <summary>
     /// Position the specified url, buffer, failedFunc, succeedFunc and errorMsg.
@@ -66,10 +94,10 @@ public class HttpClient
         } else
         {
             // POST request succeed
-            LogHelper.Log("request ok : text is " + www.text);
+            LogHelper.Log("request ok : text is " + www.bytes);
 
             // deserilize
-            T instance = ProtobufSerializer.ParseFormString<T>(www.text);
+            T instance = ProtobufSerializer.ParseFormBytes<T>(www.bytes);
             // parse to current instance
             if (instance != null){
                 succeedFunc(instance, errorMsg, values);
@@ -99,8 +127,8 @@ public class HttpClient
         } else
         {
             // POST request succeed
-            LogHelper.Log("request ok : text is " + www.text);
-            succeedFunc(www.text, errorMsg, values);
+            LogHelper.Log("request ok : text is " + www.bytes);
+            succeedFunc(www.bytes, errorMsg, values);
         }
     }
 
@@ -114,7 +142,7 @@ public class HttpClient
     /// <param name="succeedFunc">Succeed func.</param>
     /// <param name="errorMsg">Error message.</param>
     /// <typeparam name="T">The 1st type parameter.</typeparam>
-    public void sendPost<T>(MonoBehaviour sender, string url, T instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values){
+    public void sendPost<T1, T2>(MonoBehaviour sender, string url, T1 instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T2> succeedFunc, ErrorMsg errorMsg, params object[] values){
 
         // validate
         if (url == null || url == ""){
@@ -140,13 +168,13 @@ public class HttpClient
         }
 
         else {
-            byte[] sendBytes = ProtobufSerializer.SerializeToBytes<T>(instance);
+            byte[] sendBytes = ProtobufSerializer.SerializeToBytes<T1>(instance);
             if (sendBytes == null){
                 errorMsg.Code = ErrorCode.IllegalParam;
                 errorMsg.Msg = "Serializer get invalid instance";
                 return;
             }
-            sender.StartCoroutine(POST<T>(url, sendBytes, failedFunc, succeedFunc, errorMsg, values));
+            sender.StartCoroutine(POST<T2>(url, sendBytes, failedFunc, succeedFunc, errorMsg, values));
         }
     }
 

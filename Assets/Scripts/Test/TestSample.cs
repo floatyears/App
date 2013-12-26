@@ -19,11 +19,12 @@ public class TestSample
     public void HandleTearDown()
     {
 //        GameObject.DestroyImmediate(dummyGameObject);
+
     }
     
     
     [Test]
-    public void testSub()
+    public void TestSub()
     {
 
         int subA = 1;

@@ -33,7 +33,7 @@ public class CardPoolSingleItem : UIBaseUnity
 
 
 	protected List<CardItem> itemCardList = new List<CardItem>();
-	private GameObject tempObject;
+//	private GameObject tempObject;
 	private UITexture tempTexture;
 
 	public override void Init (string name)
@@ -83,7 +83,7 @@ public class CardPoolSingleItem : UIBaseUnity
 		
 		itemCardList[0].transform.localPosition = pos;
 
-		itemCardList[0].SetTweenPosition(pos,Vector3.zero);
+		itemCardList[0].Move(pos,Vector3.zero);
 
 		itemCardList[0].ActorTexture.depth = 1;
 	}
@@ -98,7 +98,7 @@ public class CardPoolSingleItem : UIBaseUnity
 
 		ItemData itemData = Config.Instance.CardData[id];
 
-		Texture2D image = LoadAsset.Instance.LoadAssetFromResources(itemData.itemID) as Texture2D;
+		//Texture2D image = LoadAsset.Instance.LoadAssetFromResources(itemData.itemID) as Texture2D;
 
 		if(itemCardList.Count == 0)
 		{

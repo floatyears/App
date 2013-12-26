@@ -54,6 +54,8 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 	public virtual void DestoryUI ()
 	{
 		currentState = UIState.UIDestory;
+
+		vManager.DestoryUI(this);
 	}
 
 	/// <summary>
@@ -63,7 +65,7 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 	/// <param name="path">Path.</param>
 	/// <typeparam name="T">The 1st type parameter.</typeparam>
 
-	protected T FindChild<T>(string path) where T : MonoBehaviour
+	protected T FindChild<T>(string path) where T : Component
 	{
 		if(string.IsNullOrEmpty(path))
 			return null;

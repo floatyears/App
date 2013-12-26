@@ -5,6 +5,7 @@ using System.Collections;
 using System.IO;
 using ProtoBuf;
 using System;
+using bbproto;
 
 public class TempTest : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class TempTest : MonoBehaviour
 	void OnGUI( )
 	{
 		
-		if ( GUILayout.Button ( "Test" , GUILayout.Width ( 200f ) , GUILayout.Height ( 200f ) ) )
+		if ( GUILayout.Button ( "Test" , GUILayout.Width ( 400f ) , GUILayout.Height ( 400f )) )
 		{
 
 //            // test protobuf
@@ -45,18 +46,60 @@ public class TempTest : MonoBehaviour
 //            HttpClient.Instance.sendPost<msg.Person>(this, "http://192.168.0.200:8000/get_quest_map", person, receivePersonInfoFailed, receivePersonInfoSucceed, errorMsg);
 
 
-            // test sqlite
-//            DbManager.Instance.
-            string connectString = "DATA source=" + Application.dataPath + @"/test2.db";
-//            string secret = "next";
-            SqliteDbHelper dbHelper = new SqliteDbHelper(connectString);
-            dbHelper.CreateTable("UserInfo", new string[]{"name"}, new string[]{"varchar(20)"});
+//            // test sqlite
+////            DbManager.Instance.
+//            string connectString = "DATA source=" + Application.dataPath + @"/test2.db";
+////            string secret = "next";
+//            SqliteDbHelper dbHelper = new SqliteDbHelper(connectString);
+//            dbHelper.CreateTable("UserInfo", new string[]{"name"}, new string[]{"varchar(20)"});
+////            dbHelper.CloseSqlConnection();
+////            dbHelper.OpenDB(connectString, "");
+//            dbHelper.InsertInto("UserInfo", new string[]{"'Jackie'"});
+//            dbHelper.InsertInto("UserInfo", new string[]{"'Rose'"});
 //            dbHelper.CloseSqlConnection();
-//            dbHelper.OpenDB(connectString, "");
-            dbHelper.InsertInto("UserInfo", new string[]{"'Jackie'"});
-            dbHelper.InsertInto("UserInfo", new string[]{"'Rose'"});
-            dbHelper.CloseSqlConnection();
 
+            #region test protobufSerializer
+//            UserInfo userInfo = new UserInfo();
+//            userInfo.userId = 127;
+//            userInfo.userName = "Rose Mary";
+//            userInfo.exp = 20;
+//            userInfo.rank = 20;
+//            userInfo.staminaMax = 128;
+//            userInfo.staminaNow = 127;
+//            userInfo.staminaRecover = 127000000;
+//            userInfo.loginTime = 127;
+//
+//            byte[] serUserInfo = ProtobufSerializer.SerializeToBytes<UserInfo>(userInfo);
+//            
+//            long start = TimeHelper.MillionSecondsNow();
+//
+//
+//            LogHelper.Log("now time is " + start);
+//            for (int i = 0; i < 10000; i++){
+//                UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
+//            }
+//            UserInfo info = ProtobufSerializer.ParseFormBytes<UserInfo>(serUserInfo);
+//
+//            LogHelper.Log("stanimaNow " + info.staminaNow);
+//            LogHelper.Log("stanimaMax " + info.staminaMax);
+//            LogHelper.Log("stanimaRecover " + info.staminaRecover);
+//            LogHelper.Log("userInfo.userName " + info.userName);
+//
+//            long end = TimeHelper.MillionSecondsNow();
+//            LogHelper.Log("now time is " + end + " , cost " + (end - start));
+            #endregion
+
+            #region test reflection getProperty
+//            UserInfo userInfo = new UserInfo();
+//            userInfo.userId = 100;
+//            Type t = userInfo.GetType();
+//            LogHelper.Log("userId is: " + t.GetProperty("userId").GetValue(userInfo, null));
+
+            #endregion
+
+            #region test model->msgCenter
+            ModelManagerTest.Test();
+            #endregion
 		}
 	}
 }

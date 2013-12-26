@@ -9,6 +9,8 @@ public class UIBase : IUIInterface
 
 	protected Main main;
 
+	protected ViewManager viewManager;
+
 	protected string uiName;
 
 	public string UIName 
@@ -29,11 +31,16 @@ public class UIBase : IUIInterface
 		}
 	}
 
-	protected Dictionary<string,UIBaseUnity> currentUIDic = new Dictionary<string, UIBaseUnity>();
+	protected Dictionary<string,IUIInterface> currentUIDic = new Dictionary<string, IUIInterface>();
 
-	public Dictionary<string,UIBaseUnity> CurrentUIDic
+	public Dictionary<string,IUIInterface> CurrentUIDic
 	{
 		get{return currentUIDic;}
+	}
+
+	protected void AddSelfObject(IUIInterface ui)
+	{
+		currentUIDic.Add (ui.UIName, ui);
 	}
 
 	public GameObject insUIObject;
@@ -47,26 +54,48 @@ public class UIBase : IUIInterface
 		main = Main.Instance;
 
 		controllerManger = ControllerManager.Instance;
+
+		viewManager = ViewManager.Instance;
 	}
 
 	public virtual void CreatUI ()
 	{
 		currentState = UIState.UICreat;
+
+		foreach (var item in currentUIDic.Values){
+
+			item.CreatUI();
+				}
 	}
 
 	public virtual void ShowUI ()
 	{
 		currentState = UIState.UIShow;
+
+		foreach (var item in currentUIDic.Values){
+			item.ShowUI();
+		}
 	}
 
 	public virtual void HideUI ()
 	{
 		currentState = UIState.UIHide;
+		foreach (var item in currentUIDic.Values){
+			item.HideUI();
+		}
 	}
 
 	public virtual void DestoryUI ()
 	{
 		currentState = UIState.UIDestory;
+		foreach (var item in currentUIDic.Values){
+			item.DestoryUI();
+		}
+	}
+
+	protected void ChangeScene(SceneEnum se)
+	{
+		controllerManger.ChangeScene(se);
 	}
 
 	#endregion

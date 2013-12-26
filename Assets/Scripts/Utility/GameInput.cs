@@ -12,8 +12,8 @@ public class GameInput : MonoBehaviour
 	public static event System.Action OnStationaryEvent;
 	
 	public static event System.Action OnUpdate;
-	
-//	public static event System.Action OnFixedUpdate;
+
+	public static event System.Action OnPressContinued;
 
 	private bool isCheckInput = true;
 
@@ -44,11 +44,11 @@ public class GameInput : MonoBehaviour
 
 		if(!isCheckInput)
 			return;
-#if UNITY_IPHONE || UNITY_ANDROID
-        ProcessTouch();
-#elif UNITY_EDITOR 
+//#if UNITY_IPHONE || UNITY_ANDROID
+        //ProcessTouch();
+//#elif UNITY_EDITOR 
 		ProcessMouse();
-#endif
+//#endif
 	}
 
 	void ProcessTouch()
@@ -63,7 +63,7 @@ public class GameInput : MonoBehaviour
 				OnPress();
 				break;
 			case TouchPhase.Moved:
-				deltaPosition = touch.deltaPosition;
+				deltaPosition = touch.position;
 				OnDrag();
 				break;
 			case TouchPhase.Ended:
@@ -98,7 +98,7 @@ public class GameInput : MonoBehaviour
 			
 			if(currentPosition != lastPosition)
 			{
-				deltaPosition = currentPosition - lastPosition;
+				deltaPosition = currentPosition;// currentPosition - lastPosition;
 				
 				OnDrag();
 				

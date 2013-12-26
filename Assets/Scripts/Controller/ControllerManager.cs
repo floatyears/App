@@ -24,6 +24,7 @@ public class ControllerManager
 	#endregion
 
 	private IUIInterface currentScene;
+	private IUIInterface prevScene;
 
 	#region UI object manager
 	private Dictionary<string,IUIInterface> uiDic = new Dictionary<string, IUIInterface>();
@@ -110,26 +111,39 @@ public class ControllerManager
 		IUIInterface temp;
 		switch (sEnum)
 		{	
-		case SceneEnum.Quest:
-			temp = new BattleShow(uiName);
+		case SceneEnum.Start:
+			temp = new StartView(uiName);
 			break;
-//		case SceneEnum.Scratch:
-//
-//			break;
-//		case SceneEnum.Shop:
-//
-//			break;
-//		case SceneEnum.Others:
-//
-//			break;
-//		case SceneEnum.Units:
-//
-//			break;
+		case SceneEnum.Quest:
+			temp = new QuestView(uiName);
+			break;
+		case SceneEnum.Friends:
+			temp = new FriendsView(uiName);
+			break;
+		case SceneEnum.Scratch:
+			temp = new ScratchView(uiName);
+			break;
+		case SceneEnum.Shop:
+			temp = new ShopView(uiName);
+			break;
+		case SceneEnum.Others:
+			temp = new OthersView(uiName);
+			break;
+		case SceneEnum.Units:
+			temp = new UnitView(uiName);
+			break;
 		case SceneEnum.QuestSelect:
-			temp = new QuestSelect(uiName);
+			temp = new QuestSelectView(uiName);
+			break;
+		case SceneEnum.FriendSelect:
+			temp = new FriendSelectView(uiName);
+			break;
+		case SceneEnum.Party:
+			temp = new PartyView(uiName);
 			break;
 		case SceneEnum.Fight:
-			temp = new Battle(uiName);
+			//temp = new Battle(uiName);
+			temp = new BattleQuest(uiName);
 			break;
 		default:
 			temp = new UIBase("Null");
@@ -142,4 +156,28 @@ public class ControllerManager
 
 		return temp;
 	}
+	
+	#region global ui
+	private string actorName = "ActorShow";
+
+	private ActorShow actor;
+
+	public void ShowActor(int id)
+	{
+		currentScene.HideUI ();
+		actor = ViewManager.Instance.GetViewObject (actorName) as ActorShow;
+		actor.Init (actorName);
+		actor.ShowUI ();
+		actor.ShowTextureID (id);
+	}
+
+	public void HideActor()
+	{
+		if (actor != null) {
+			actor.HideUI ();
+		}
+		currentScene.ShowUI ();
+	}
+	#endregion
+
 }

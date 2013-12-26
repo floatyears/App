@@ -12,19 +12,14 @@ public class NGUISelectionTools
 	[MenuItem("GameObject/Selection/Force Delete")]
 	static void ForceDelete()
 	{
-		GameObject go = Selection.activeGameObject;
+		Object[] gos = Selection.GetFiltered(typeof(GameObject), SelectionMode.TopLevel);
 
-		if (go != null)
+		if (gos != null && gos.Length > 0)
 		{
-			go.hideFlags = HideFlags.DontSave;
-
-			if (Application.isPlaying)
+			for (int i = 0; i < gos.Length; ++i)
 			{
-				GameObject.Destroy(go);
-			}
-			else
-			{
-				GameObject.DestroyImmediate(go);
+				Object go = gos[i];
+				NGUITools.DestroyImmediate(go);
 			}
 		}
 	}
@@ -88,7 +83,7 @@ public class NGUISelectionTools
 	{
 		if (HasValidSelection())
 		{
-			LogHelper.Log("Selection depends on the following assets:\n\n" + GetDependencyText(Selection.objects, false));
+			Debug.Log("Selection depends on the following assets:\n\n" + GetDependencyText(Selection.objects, false));
 		}
 	}
 	
@@ -110,7 +105,7 @@ public class NGUISelectionTools
 	{
 		if (Selection.objects == null || Selection.objects.Length == 0)
 		{
-			LogHelper.LogWarning("You must select an object first");
+			Debug.LogWarning("You must select an object first");
 			return false;
 		}
 		return true;
@@ -124,7 +119,7 @@ public class NGUISelectionTools
 	{
 		if (Selection.activeTransform == null)
 		{
-			LogHelper.LogWarning("You must select an object first");
+			Debug.LogWarning("You must select an object first");
 			return false;
 		}
 		return true;

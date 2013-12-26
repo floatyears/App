@@ -54,7 +54,7 @@ namespace UnitTesting
 
 			EditorApplication.NewScene();
 
-			foreach ( Transform tfm in GameObject.FindSceneObjectsOfType(typeof(Transform)) )
+			foreach ( Transform tfm in GameObject.FindObjectsOfType(typeof(Transform)) )
 			{
 				GameObject.DestroyImmediate(tfm.gameObject);
 			}

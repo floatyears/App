@@ -2,7 +2,11 @@
 
 public enum SceneEnum
 {
+	Start,
+
 	Quest,
+
+	Friends,
 
 	Scratch,
 
@@ -13,6 +17,10 @@ public enum SceneEnum
 	Units,
 
 	QuestSelect,
+
+	FriendSelect,
+
+	Party,
 
 	Fight,
 }

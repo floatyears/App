@@ -174,7 +174,7 @@ public class Localization : MonoBehaviour
 		
 		// Show the final report in a format that makes it easy to copy/paste into the original localization file
 		if (!string.IsNullOrEmpty(final))
-			LogHelper.Log("// Localization Report\n\n" + final);
+			Debug.Log("// Localization Report\n\n" + final);
 	}
 #endif
 
@@ -228,7 +228,7 @@ public class Localization : MonoBehaviour
 
 #if UNITY_EDITOR
 		if (mDictionary.TryGetValue(key, out val)) return val;
-		LogHelper.LogWarning("Localization key not found: '" + key + "'");
+		Debug.LogWarning("Localization key not found: '" + key + "'");
 		return key;
 #else
 		return (mDictionary.TryGetValue(key, out val)) ? val : key;

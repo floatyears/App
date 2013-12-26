@@ -1,0 +1,40 @@
+[START]
+//illustrations list
+//illustrations id | illustrations name | illustrations type | illustrations download path
+CardID	|	CardName		|	CardType	|	CardPath#
+1		|	jelly_green_1	|	2			|	Actor#
+2		|	jelly_green_2	|	2			|	Actor#			
+3		|	jelly_red_2		|	1			|	Actor#
+4		|	little_girl		|	1			|	Actor#
+5		|	mavis_1			|	1			|	Actor#
+6		|	mavis_2			|	1			|	Actor#
+7		|	nurse			|	1			|	Actor#
+8		|	plumber			|	1			|	Actor#
+9		|	pumpkin_1		|	2			|	Actor#
+10		|	pumpkin_2		|	2			|	Actor#
+11		|	snowman_1		|	3			|	Actor#
+12		|	soldier_1		|	6			|	Actor#
+13		|	soldier_2		|	6			|	Actor#
+14		|	spy				|	1			|	Actor#
+15		|	vampire_1		|	5			|	Actor#
+16		|	witchs			|	4			|	Actor#
+17		|	wolfman_2		|	5			|	Actor#
+18		|	wolfman			|	5			|	Actor#
+19		|	zombie			|	5			|	Actor#
+
+[START]
+//restraint relationship
+//card type id | restraint card type id
+CardType	|	RestraintType#
+1			|	2#
+2			|	3#
+3			|	1#
+4			|	5#
+5			|	4#
+6			|	-1#
+7			|	-1#
+
+[START]
+ItemID	|	ItemCardID	|	ItemLevel	|	ItemName	|	ItemRaceID	|	ItemRare
+
+[START]

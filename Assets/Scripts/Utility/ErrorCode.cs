@@ -19,12 +19,14 @@ public enum ErrorCode {
     // network
     NetWork = -2000,
     TimeOut = -2001,
+    InvalidSessionId = -2002,
 
     // model
     Model = -3000,
     Encrypt = -3001,
     Decrypt = - 3002, 
     IllegalData = -3003,
+    InvalidModelName = -3004,
 
     // controller
     Controller = -4000,

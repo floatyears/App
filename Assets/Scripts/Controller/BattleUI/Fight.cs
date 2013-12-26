@@ -27,11 +27,11 @@ public class Fight : UIBase
 
 	private List<CardItem> selectTarget = new List<CardItem>();
 
-	private int ignoreLayer = 0;
+//	private int ignoreLayer = 0;
 
-	private float width=0f;
+//	private float width=0f;
 
-	private float intervWidth = 10f;
+//	private float intervWidth = 10f;
 
 	public Fight(string uiName) : base(uiName)
 	{
@@ -55,7 +55,7 @@ public class Fight : UIBase
 
 		GameInput.OnDragEvent += HandleOnDragEvent;
 
-		ignoreLayer = GameLayer.LayerToInt(GameLayer.IgnoreCard);
+//		ignoreLayer = GameLayer.LayerToInt(GameLayer.IgnoreCard);
 	}
 
 	void SwitchInput(bool isShield)
@@ -78,7 +78,7 @@ public class Fight : UIBase
 
 	void CreatSingle()
 	{
-		GameObject go = LoadAsset.Instance.LoadAssetFromResources("Card",ResourceEuum.Prefab) as GameObject;
+//		GameObject go = LoadAsset.Instance.LoadAssetFromResources("Card",ResourceEuum.Prefab) as GameObject;
 
 		singlePoolParent = NGUITools.AddChild(parentObject);
 		
@@ -103,9 +103,9 @@ public class Fight : UIBase
 
 //		intervWidth = cardPSingleItem[0].interv;
 
-		BoxCollider collider = NGUITools.AddWidgetCollider(parentObject);
+//		BoxCollider collider = NGUITools.AddWidgetCollider(parentObject);
 
-		width = collider.size.x;
+//		width = collider.size.x;
 	}
 
 	void CreateMulti()
@@ -162,7 +162,7 @@ public class Fight : UIBase
 
 		for (int i = 0; i < selectTarget.Count; i++) 
 		{
-			selectTarget[i].OnDrag(ChangeDeltaPosition(vec));
+			selectTarget[i].OnDrag(ChangeDeltaPosition(vec),i);
 		}
 
 		if(Check(GameLayer.ActorCard))
@@ -262,7 +262,7 @@ public class Fight : UIBase
 //		}
 	}
 
-	int tempCount = 0;
+//	int tempCount = 0;
 
 	void ReleasePress()
 	{
@@ -286,7 +286,7 @@ public class Fight : UIBase
 			
 			if(targetGO != null )
 			{
-				tempCount = Config.cardPoolSingle - targetGO.GetCount();
+//				tempCount = Config.cardPoolSingle - targetGO.GetCount();
 				
 				targetGO.GenerateCard(selectTarget);
 			}
@@ -333,7 +333,7 @@ public class Fight : UIBase
 
 	int GetLocationByPosition(Vector3 point,List<int> ignorIndex)
 	{
-		int endIndex = Config.cardPoolSingle - 1;
+//		int endIndex = Config.cardPoolSingle - 1;
 
 //		if(point.x <= cardPSingleItem[0].transform.localPosition.x)
 //			return 0;
