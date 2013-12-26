@@ -1,0 +1,22 @@
+{
+"id" : "1",
+"name" : "Fire",
+"type" : "1",
+"skill1" : "1",
+"skill2" : "2",
+"leaderSkill" : "3",
+"activeSkill" : "10",
+"passiveSkill" : "9999",
+"maxLevel" : "99",
+"expType" : "999",
+"rare" : "6",
+"profile" : "XXXXXX",
+"power" : [
+		{
+		"level" : "1",
+		"attack" : "10",
+		"defense" : "3",
+		"hp" : "10"
+		}
+	]
+}

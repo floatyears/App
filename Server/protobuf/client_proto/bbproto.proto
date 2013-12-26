@@ -90,6 +90,7 @@ message UserUnit {  //unit instance
 	optional int32 addHp		= 6;
 	optional int32 limitbreakLv = 7;
 	optional int32 getTime		= 8;
+	
 };
 
 message ReqGetUnitResource {
