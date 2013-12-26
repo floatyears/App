@@ -65,21 +65,18 @@ public class FriendSelectView : UIBase
 
 	void ChooseFriend(GameObject go)
 	{
-		LogHelper.Log("11111111111");
 		msgBox.SetActive(false);
 		friendsScroller.RootObject.gameObject.SetActive(true);
 		btnStart.isEnabled = true;
 	}
 	void SeeFriendInfo(GameObject go)
 	{
-		LogHelper.Log("2222222222");
 		msgBox.SetActive(false);
 		friendsScroller.RootObject.gameObject.SetActive(true);
 	}
 
 	void CancelChoose(GameObject go)
 	{
-		LogHelper.Log("33333333333333");
 		msgBox.SetActive(false);
 		friendsScroller.RootObject.gameObject.SetActive(true);
 	}
