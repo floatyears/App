@@ -28,11 +28,19 @@ public class QuestView : UIBase
 		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
 		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
 
+
+
 		StoryDoor = ViewManager.Instance.GetViewObject("StoryDoor") as QuestUnity; 
 		StoryDoor.transform.parent = viewManager.TopPanel.transform;
 		StoryDoor.transform.localPosition = -350*Vector3.up;
 		StoryDoor.Init ("StoryDoor");
 		currentUIDic.Add(StoryDoor.UIName, StoryDoor);
+
+//		GameObject go = Resources.Load ("Prefabs/DragPanelItem") as GameObject;
+//		DragPanel dp = new DragPanel ("Test", go);
+//		dp.CreatUI ();
+//		dp.AddItem (5);
+
 		StoryScroller = new ScrollView(StoryDoor.LeftTransform, StoryDoor.RightTransform, StoryDoor.Item);
 		StoryScroller.ShowData(5);
 		
