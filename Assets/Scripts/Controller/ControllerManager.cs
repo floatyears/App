@@ -141,10 +141,23 @@ public class ControllerManager
 		case SceneEnum.Party:
 			temp = new PartyView(uiName);
 			break;
+		case SceneEnum.LevelUp:
+			temp = new LevelUpView(uiName);
+			break;
+		case SceneEnum.UnitList:
+			temp = new UnitListView(uiName);
+			break;
+		case SceneEnum.Evolve:
+			temp = new EvolveView(uiName);
+			break;
+		case SceneEnum.Sell:
+			temp = new CatalogView(uiName);
+			break;
 		case SceneEnum.Fight:
 			//temp = new Battle(uiName);
 			temp = new BattleQuest(uiName);
 			break;
+
 		default:
 			temp = new UIBase("Null");
 			break;

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class DragPanel : UIBase {
+public class DragPanel : UIBase 
+{
 
 	public event UICallback DragCallback;
 

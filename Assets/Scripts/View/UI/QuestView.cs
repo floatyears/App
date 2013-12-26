@@ -87,8 +87,6 @@ public class QuestView : UIBase
 
 	void TurnToQuest(GameObject go)
 	{
-		//window.gameObject.SetActive(false);
-
 		ControllerManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 	}
 

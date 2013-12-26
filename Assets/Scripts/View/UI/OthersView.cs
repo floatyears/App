@@ -3,10 +3,14 @@ using System.Collections;
 
 public class OthersView : UIBase
 {
-	OthersUnity topUI;
+	OthersUnity window;
 
-	private ScrollView scroller;
-	private OthersScrollView sv;
+	private SceneInfoBar sceneInfoBar;
+	private UILabel sceneInfoLab;
+	private UIImageButton backBtn;
+
+	private GameObject scrollerItem;
+	private DragPanel othersScroller;
 	
 	public OthersView(string uiName) : base(uiName)
 	{
@@ -15,26 +19,46 @@ public class OthersView : UIBase
 
 	public override void CreatUI ()
 	{
-		sv = ViewManager.Instance.GetViewObject("OthersBottomWindow") as OthersScrollView; 
-		sv.transform.localPosition = -60*Vector3.up;
-		sv.Init ("OthersBottomWindow");
-		currentUIDic.Add(sv.UIName, sv);
-	
-		scroller = new ScrollView(sv.Left, sv.Right, sv.Item);
-		scroller.ShowData(9);
+		//Add Share UI -- SceneInfoBar
+		sceneInfoBar = ViewManager.Instance.GetViewObject("SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
+		sceneInfoBar.transform.localPosition = Vector3.zero;
+		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
+		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
 
-		topUI = ViewManager.Instance.GetViewObject("OthersTopWindow") as OthersUnity;
-		topUI.Init ("OthersTopWindow");
-		currentUIDic.Add(topUI.UIName, topUI);
+		window = ViewManager.Instance.GetViewObject("OthersWindow") as OthersUnity;
+		window.Init ("OthersWindow");
+		currentUIDic.Add(window.UIName, window);
 
-		topUI.gameObject.transform.localPosition = 230*Vector3.up;
+		//window.gameObject.transform.localPosition = 230*Vector3.up;
+
+		//Add Scroller -- OthersScroller
+		scrollerItem = Resources.Load("Prefabs/OthersScrollerItem") as GameObject;
+		
+		othersScroller = new DragPanel ("OthersScroller", scrollerItem);
+		othersScroller.CreatUI ();
+		othersScroller.AddItem (15);
+		othersScroller.RootObject.SetItemWidth(150);
+		othersScroller.RootObject.gameObject.transform.localPosition = -765*Vector3.up;
+
+		//Add Event Listener
+		for(int i = 0; i < othersScroller.ScrollItem.Count; i++)
+		{
+			UIEventListener.Get(othersScroller.ScrollItem[ i ].gameObject).onClick = ShowInfo;
+		}
 	}
 
 	public override void ShowUI ()
 	{
 		SetActive(true);
+		backBtn.isEnabled = false;
+		sceneInfoLab.text = uiName;
+
 	}
-	
+	void ShowInfo(GameObject go)
+	{
+		LogHelper.Log("Show Some information!");
+	}
 	public override void HideUI ()
 	{
 		SetActive(false);
@@ -47,9 +71,9 @@ public class OthersView : UIBase
 	
 	void SetActive(bool b)
 	{
-		topUI.gameObject.SetActive(b);
-		scroller.insUIObject.SetActive(b);
-		sv.gameObject.SetActive(b);
+		window.gameObject.SetActive(b);
+		othersScroller.RootObject.gameObject.SetActive(b);
+		sceneInfoBar.gameObject.SetActive(b);
 	}
 
 }

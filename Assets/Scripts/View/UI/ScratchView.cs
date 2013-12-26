@@ -3,8 +3,11 @@ using System.Collections;
 
 public class ScratchView : UIBase 
 {
-	ScratchUnity topUI;
-	ScratchUnity bottomUI;
+	ScratchUnity window;
+
+	private SceneInfoBar sceneInfoBar;
+	private UILabel sceneInfoLab;
+	private UIImageButton backBtn;
 
 	public ScratchView(string uiName) : base(uiName)
 	{
@@ -13,20 +16,25 @@ public class ScratchView : UIBase
 
 	public override void CreatUI ()
 	{	
-		topUI = ViewManager.Instance.GetViewObject("ScratchTopWindow") as ScratchUnity;
-		bottomUI = ViewManager.Instance.GetViewObject("ScratchBottomWindow") as ScratchUnity;
-		topUI.Init ("ScratchTopWindow");
-		bottomUI.Init ("ScratchBottomWindow");
-		currentUIDic.Add(topUI.UIName, topUI);
-		currentUIDic.Add(bottomUI.UIName, bottomUI);
+		//Add Share UI -- SceneInfoBar
+		sceneInfoBar = ViewManager.Instance.GetViewObject("SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
+		sceneInfoBar.transform.localPosition = Vector3.zero;
+		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
+		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
 
-		topUI.gameObject.transform.localPosition = 220*Vector3.up;
-		bottomUI.gameObject.transform.localPosition = -125*Vector3.up;
+		window = ViewManager.Instance.GetViewObject("ScratchWindow") as ScratchUnity;
+		window.Init ("ScratchWindow");
+		currentUIDic.Add(window.UIName, window);
+
+		//window.gameObject.transform.localPosition = 220*Vector3.up;
 	}
 
 	public override void ShowUI ()
 	{
 		SetActive(true);
+		backBtn.isEnabled = false;
+		sceneInfoLab.text = uiName;
 	}
 	
 	public override void HideUI ()
@@ -41,8 +49,8 @@ public class ScratchView : UIBase
 	
 	void SetActive(bool b)
 	{
-		topUI.gameObject.SetActive(b);
-		bottomUI.gameObject.SetActive(b);
+		window.gameObject.SetActive(b);
+		sceneInfoBar.gameObject.SetActive(b);
 	}
 
 }

@@ -78,5 +78,11 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 		currentState = UIState.UICreat;
 	}
 
+	protected void ChangeScene(SceneEnum se)
+	{
+		ControllerManager.Instance.ChangeScene(se);
+		LogHelper.Log("Turn To The Scene: " + se.ToString());
+	}
+
 	#endregion
 }

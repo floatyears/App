@@ -4,7 +4,9 @@ using System.Collections;
 public class FriendsView : UIBase 
 {
 	FriendsUnity window;
-	FriendsUnity imgBtns;
+	private SceneInfoBar sceneInfoBar;
+	private UILabel sceneInfoLab;
+	private UIImageButton backBtn;
 
 	public FriendsView(string uiName) : base(uiName)
 	{
@@ -13,22 +15,27 @@ public class FriendsView : UIBase
 
 	public override void CreatUI ()
 	{
-		window = ViewManager.Instance.GetViewObject("Friends_InfoWindow") as FriendsUnity;
-		imgBtns = ViewManager.Instance.GetViewObject("Friends_InfoList") as FriendsUnity;
+		//Add Share UI -- SceneInfoBar
+		sceneInfoBar = ViewManager.Instance.GetViewObject("SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
+		sceneInfoBar.transform.localPosition = Vector3.zero;
+		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
+		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
 
-		window.Init ("Friends_InfoWindow");
-		imgBtns.Init ("Friends_InfoList");
+		window = ViewManager.Instance.GetViewObject("FriendWindow") as FriendsUnity;
+
+		window.Init ("FriendWindow");
 
 		currentUIDic.Add(window.UIName, window);
-		currentUIDic.Add(imgBtns.UIName, imgBtns);
 
-		window.gameObject.transform.localPosition = 220*Vector3.up;
-		imgBtns.gameObject.transform.localPosition = -100*Vector3.up;
+		window.gameObject.transform.localPosition = -135*Vector3.up;
 	}
 
 	public override void ShowUI ()
 	{
 		SetActive(true);
+		backBtn.isEnabled = false;
+		sceneInfoLab.text = uiName;
 	}
 	
 	public override void HideUI ()
@@ -44,7 +51,7 @@ public class FriendsView : UIBase
 	void SetActive(bool b)
 	{
 		window.gameObject.SetActive(b);
-		imgBtns.gameObject.SetActive(b);
+		sceneInfoBar.gameObject.SetActive(b);
 	}
 
 }

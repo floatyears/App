@@ -3,16 +3,16 @@ using System.Collections;
 
 public class QuestUnity : UIBaseUnity
 {
-
+	
 	public override void Init (string name)
 	{
 		base.Init (name);
 	}
-
+	
 	public override void ShowUI ()
 	{
 		base.ShowUI ();
-
+		
 	}
 	
 	public override void HideUI ()

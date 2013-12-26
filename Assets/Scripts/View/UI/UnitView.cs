@@ -3,11 +3,10 @@ using System.Collections;
 
 public class UnitView : UIBase
 {
-	UnitUnity topWindow;
-	UnitUnity centerWindow;
-	UnitUnity bottomWindow;
-
-	private GameObject partyBtn;
+	UnitUnity window;
+	private SceneInfoBar sceneInfoBar;
+	private UILabel sceneInfoLab;
+	private UIImageButton backBtn;
 
 	public UnitView(string uiName) : base(uiName)
 	{
@@ -16,38 +15,32 @@ public class UnitView : UIBase
 	
 	public override void CreatUI ()
 	{
-		topWindow = ViewManager.Instance.GetViewObject("UnitTopWindow") as UnitUnity;
-		centerWindow = ViewManager.Instance.GetViewObject("UnitCenterWindow") as UnitUnity;
-		bottomWindow = ViewManager.Instance.GetViewObject("UnitBottomWindow") as UnitUnity;
-		topWindow.Init ("UnitTopWindow");
-		centerWindow.Init ("UnitCenterWindow");
-		bottomWindow.Init ("UnitBottomWindow");
+		//Add Share UI -- SceneInfoBar
+		sceneInfoBar = ViewManager.Instance.GetViewObject("SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
+		sceneInfoBar.transform.localPosition = Vector3.zero;
+		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
+		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
 
-		partyBtn = bottomWindow.transform.FindChild("Party").gameObject;
-		UIEventListener.Get(partyBtn.gameObject).onClick = TurnToParty;
+		window = ViewManager.Instance.GetViewObject("UnitWindow") as UnitUnity;
+		window.Init ("UnitWindow");
 
-		currentUIDic.Add(topWindow.UIName, topWindow);
-		currentUIDic.Add(bottomWindow.UIName, bottomWindow);
-		currentUIDic.Add(centerWindow.UIName, centerWindow);
+		currentUIDic.Add(window.UIName, window);
 		
-		topWindow.gameObject.transform.localPosition = 330*Vector3.up;
-		centerWindow.gameObject.transform.localPosition = 160*Vector3.up;
-		bottomWindow.gameObject.transform.localPosition = -90*Vector3.up;
+		window.gameObject.transform.localPosition = 315*Vector3.up;
 	}
 
-	void Handlecallback (GameObject caller)
+	void SetActive(bool b)
 	{
-		controllerManger.HideActor();
-	}
-
-	void TurnToParty(GameObject go)
-	{
-		controllerManger.ShowActor(1);
+		window.gameObject.SetActive(b);
+		sceneInfoBar.gameObject.SetActive(b);
 	}
 
 	public override void ShowUI ()
 	{
 		SetActive(true);
+		backBtn.isEnabled = false;
+		sceneInfoLab.text = uiName;
 	}
 	
 	public override void HideUI ()
@@ -58,13 +51,6 @@ public class UnitView : UIBase
 	public override void DestoryUI ()
 	{
 		
-	}
-	
-	void SetActive(bool b)
-	{
-		topWindow.gameObject.SetActive(b);
-		centerWindow.gameObject.SetActive(b);
-		bottomWindow.gameObject.SetActive(b);
 	}
 }
 
