@@ -47,7 +47,7 @@ public class ProtobufSerializer
     /// <param name="source">Source.</param>
     /// <typeparam name="T">The 1st type parameter.</typeparam>
     public static T ParseFormBytes<T> (byte[] buffer){
-        LogHelper.Log("start dserialize instance, bytes " + buffer);
+        LogHelper.Log("start dserialize instance, bytes " + buffer.Length);
         MemoryStream ms = ConvertHelper.BytesToStream(buffer);
         T retInstance = Serializer.Deserialize<T>(ms);
 
@@ -57,4 +57,34 @@ public class ProtobufSerializer
         }
         return retInstance;
     }
+
+	#region add by leiliang
+
+	public static byte[] SerializeToBytes(object instance)
+	{
+		using (MemoryStream ms = new MemoryStream ()) {
+			if (instance == null){
+				LogHelper.Log("try to serialize null instance, errorcode: " + ErrorCode.IllegalParam);
+				return null;
+			}
+			LogHelper.Log("start serialize instance");
+			//Serializer.Serialize<T>(ms, instance);
+			Serializer.Serialize(ms,instance);
+			return ConvertHelper.StreamToBytes(ms);
+		}
+	}
+
+	public static object ParseFormBytes(byte[] buffer,Type type){
+		LogHelper.Log("start dserialize instance, bytes " + buffer.Length);
+		MemoryStream ms = ConvertHelper.BytesToStream(buffer);
+		object retInstance = Serializer.Deserialize (ms, type);
+		
+		// validate
+		if (retInstance == null){
+			LogHelper.Log("Deserialize instance failed, errorcode: " + ErrorCode.IllegalParam);
+		}
+		return retInstance;
+	}
+
+	#endregion
 }

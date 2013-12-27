@@ -27,7 +27,13 @@ public enum SceneEnum
 
 public enum DataEnum
 {
+	#region to model
+	DragCardToBattleArea,
+	#endregion
+
+	#region to view
 	Person,
+	#endregion
 }
 
 public enum UIState

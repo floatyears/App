@@ -18,5 +18,9 @@ public class Utility
     public static bool IsInstance<T>(object instance){
         return instance is T;
     }
+
+	public static bool IsInstance(object instance, Type t){
+		return instance.GetType() == t;
+	}
 }
 

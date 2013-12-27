@@ -125,10 +125,12 @@ public class BattleCardAreaItem : UIBaseUnity
 	IEnumerator GenerateFightCard(int id){
 		yield return 1;
 		int itemID = Config.Instance.CardData [id].itemID;
-		int gID = BattleDataMode.GenerateCard (id, itemID);
 
-		InstnaceCard (gID);
-		battleList.Add(gID);
+		MsgCenter.Instance.Invoke (DataEnum.DragCardToBattleArea, itemID);
+		//int gID = BattleDataMode.GenerateCard (id, itemID);
+
+//		InstnaceCard (gID);
+//		battleList.Add(gID);
 	}
 
 	void InstnaceCard(int gID){

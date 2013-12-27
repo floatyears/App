@@ -41,3 +41,5 @@ public delegate void UICallback(GameObject caller);
 public delegate void UICallback<T>(T arg1);
 
 public delegate void DataListener(object data);
+
+public delegate void HttpCallback(WWW www);
