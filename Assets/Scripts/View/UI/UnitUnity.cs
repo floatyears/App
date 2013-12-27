@@ -4,64 +4,51 @@ using System.Collections;
 public class UnitUnity : UIBaseUnity
 {
 	private UIButton partyBtn;
+	public UIButton PartyBtn
+	{
+		get{ return partyBtn; }
+	}
+
 	private UIButton levelUpBtn;
+	public UIButton LevelUpBtn
+	{
+		get{ return levelUpBtn; }
+	}
+
 	private UIButton evolveBtn;
+	public UIButton EvolveBtn
+	{
+		get{ return evolveBtn; }
+	}
+
 	private UIButton sellBtn;
+	public UIButton SellBtn
+	{
+		get{ return sellBtn; }
+	}
+
 	private UIButton listBtn;
+	public UIButton ListBtn
+	{
+		get{ return listBtn; }
+	}
+
 	private UIButton catalogBtn;
+	public UIButton CatalogBtn
+	{
+		get{ return catalogBtn; }
+	}
 
 	public override void Init(string name)
 	{
 		base.Init(name);
 
-		partyBtn = transform.Find("Bottom/Party").GetComponent<UIButton>();
-		levelUpBtn = transform.Find("Bottom/LevelUp").GetComponent<UIButton>();
-		evolveBtn = transform.Find("Bottom/Evolve").GetComponent<UIButton>();
-		sellBtn = transform.Find("Bottom/Sell").GetComponent<UIButton>();
-		listBtn = transform.Find("Bottom/UnitList").GetComponent<UIButton>();
-		catalogBtn = transform.Find("Bottom/Catalog").GetComponent<UIButton>();
-
-		
-		UIEventListener.Get(partyBtn.gameObject).onClick = TurnToParty;
-		UIEventListener.Get(levelUpBtn.gameObject).onClick = TurnToLevelUp;
-		UIEventListener.Get(evolveBtn.gameObject).onClick = TurnToEvolve;
-		UIEventListener.Get(listBtn.gameObject).onClick = TurnToList;
-		UIEventListener.Get(sellBtn.gameObject).onClick = TurnToSell;
-		UIEventListener.Get(catalogBtn.gameObject).onClick = TurnToCatalog;
-	}
-
-	void TurnToParty(GameObject go)
-	{
-		ChangeScene(SceneEnum.Party);
-		ControllerManager.Instance.ShowActor(1);
-	}
-	void Handlecallback (GameObject caller)
-	{
-		ControllerManager.Instance.HideActor();
-	}
-
-	void TurnToLevelUp(GameObject go)
-	{
-		ChangeScene(SceneEnum.LevelUp);
-	}
-	
-	void TurnToEvolve(GameObject go)
-	{
-		ChangeScene(SceneEnum.Evolve);
-	}
-	
-	void TurnToList(GameObject go)
-	{
-		ChangeScene(SceneEnum.UnitList);
-	}
-	
-	void TurnToSell(GameObject go)
-	{
-		ChangeScene(SceneEnum.Sell);
-	}
-	void TurnToCatalog(GameObject go)
-	{
-		ChangeScene(SceneEnum.UnitCatalog);
+		partyBtn = FindChild<UIButton>("Bottom/Party");
+		levelUpBtn = FindChild<UIButton>("Bottom/LevelUp");
+		evolveBtn = FindChild<UIButton>("Bottom/Evolve");
+		sellBtn = FindChild<UIButton>("Bottom/Sell");
+		listBtn = FindChild<UIButton>("Bottom/UnitList");
+		catalogBtn = FindChild<UIButton>("Bottom/Catalog");
 	}
 
 	public override void ShowUI ()
@@ -77,5 +64,40 @@ public class UnitUnity : UIBaseUnity
 	public override void DestoryUI ()
 	{
 		base.DestoryUI ();
+	}
+
+	public void JumpToParty(GameObject btn)
+	{
+		ControllerManager.Instance.ChangeScene(SceneEnum.Party);
+		//ControllerManager.Instance.ShowActor(1);
+	}
+
+	public void JumpToLevelUp(GameObject btn)
+	{
+		ControllerManager.Instance.ChangeScene(SceneEnum.LevelUp);
+	}
+	
+	public void JumpToEvolve(GameObject btn)
+	{
+		ControllerManager.Instance.ChangeScene(SceneEnum.Evolve);
+	}
+	
+	public void JumpToList(GameObject btn)
+	{
+		ControllerManager.Instance.ChangeScene(SceneEnum.UnitList);
+	}
+	
+	public void JumpToSell(GameObject btn)
+	{
+		ControllerManager.Instance.ChangeScene(SceneEnum.Sell);
+	}
+	public void JumpToCatalog(GameObject btn)
+	{
+		ControllerManager.Instance.ChangeScene(SceneEnum.UnitCatalog);
+	}
+
+	private void Handlecallback (GameObject caller)
+	{
+		ControllerManager.Instance.HideActor();
 	}
 }

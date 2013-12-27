@@ -25,6 +25,11 @@ public class ControllerManager
 
 	private IUIInterface currentScene;
 	private IUIInterface prevScene;
+	
+	public void BackToPrevScene()
+	{
+		ChangeScene(prevScene.GetScene);
+	}
 
 	#region UI object manager
 	private Dictionary<string,IUIInterface> uiDic = new Dictionary<string, IUIInterface>();
@@ -92,10 +97,14 @@ public class ControllerManager
 
 		if(currentScene != null)
 		{
+
 			if(currentScene.UIName == uiName)
 				return;
 			else
+			{		
+				prevScene = currentScene;
 				currentScene.HideUI();
+			}
 		}
 
 		if(HasUIObject(uiName))
@@ -153,8 +162,10 @@ public class ControllerManager
 		case SceneEnum.Sell:
 			temp = new CatalogView(uiName);
 			break;
+		case SceneEnum.UnitCatalog:
+			temp = new CatalogView(uiName);
+			break;
 		case SceneEnum.Fight:
-			//temp = new Battle(uiName);
 			temp = new BattleQuest(uiName);
 			break;
 
@@ -162,6 +173,8 @@ public class ControllerManager
 			temp = new UIBase("Null");
 			break;
 		}
+
+		temp.GetScene=sEnum;
 
 		temp.CreatUI();
 

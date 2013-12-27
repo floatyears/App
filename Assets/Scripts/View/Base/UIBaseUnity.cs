@@ -4,6 +4,16 @@ using System.Collections;
 public class UIBaseUnity : MonoBehaviour ,IUIInterface
 {
 	#region IUIInterface implementation
+	protected SceneEnum sEnum;
+
+	public SceneEnum GetScene {
+		get {
+			return sEnum;
+		}
+		set{
+			sEnum = value;
+		}
+	}
 
 	protected string uiName;
 
@@ -76,12 +86,6 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 	public virtual void CreatUI ()
 	{
 		currentState = UIState.UICreat;
-	}
-
-	protected void ChangeScene(SceneEnum se)
-	{
-		ControllerManager.Instance.ChangeScene(se);
-		LogHelper.Log("Turn To The Scene: " + se.ToString());
 	}
 
 	#endregion

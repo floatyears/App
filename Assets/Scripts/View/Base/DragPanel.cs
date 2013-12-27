@@ -39,7 +39,7 @@ public class DragPanel : UIBase
 		sourceObject = obj;
 
 		if(dragObject == null){
-			dragObject = Resources.Load("Prefabs/DragPanelView") as GameObject;
+			dragObject = Resources.Load("Prefabs/UI/Share/DragPanelView") as GameObject;
 		}
 	}
 

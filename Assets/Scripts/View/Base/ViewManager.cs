@@ -105,7 +105,7 @@ public class ViewManager
 	UIBaseUnity CreatObject(string name)
 	{	
 		GameObject sourceObject = LoadAsset.Instance.LoadAssetFromResources(name,ResourceEuum.Prefab) as GameObject;
-	
+
 		GameObject go = NGUITools.AddChild(centerPanel,sourceObject);
 
 		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();

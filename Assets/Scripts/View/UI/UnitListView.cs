@@ -4,43 +4,45 @@ using System.Collections;
 public class UnitListView : UIBase
 {
 	private UnitListUnity window;
-
 	private SceneInfoBar sceneInfoBar;
-	private UIImageButton backBtn;
-	private UILabel sceneInfoLab;
 
-	public UnitListView(string uiName):base(uiName)
-	{
-		
-	}
+	public UnitListView(string uiName):base(uiName){}
 
 	public override void CreatUI ()
 	{
-
-		//Add Share UI -- SceneInfoBar
-		sceneInfoBar = ViewManager.Instance.GetViewObject("SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar = ViewManager.Instance.GetViewObject( UIConfig.sharePath + "SceneInfoBar") as SceneInfoBar;
 		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
 		sceneInfoBar.transform.localPosition = Vector3.zero;
-		
-		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
-		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
-		LogHelper.Log("11111111112222222333333" + sceneInfoBar.name);
+
+		window = ViewManager.Instance.GetViewObject( UIConfig.unitPath + "UnitListWindow" ) as UnitListUnity;
+		window.Init ("UnitListWindow");
+		currentUIDic.Add( window.UIName, window );
+
 	}
 
 	public override void ShowUI ()
 	{
-		SetActive(true);
-		backBtn.isEnabled = false;
-		sceneInfoLab.text = uiName;
+		SetUIActive(true);
+		sceneInfoBar.BackBtn.isEnabled = true;
+		sceneInfoBar.UITitleLab.text = UIName;
+		UIEventListener.Get(sceneInfoBar.BackBtn.gameObject).onClick += BackUI;
 	}
 
 	public override void HideUI ()
 	{
-		SetActive(false);
+		SetUIActive(false);
+		UIEventListener.Get(sceneInfoBar.BackBtn.gameObject).onClick -= BackUI;
 	}
 
-	void SetActive(bool b)
+	private void SetUIActive(bool b)
 	{
+		window.gameObject.SetActive(b);
 		sceneInfoBar.gameObject.SetActive(b);
 	}
+
+	private void BackUI(GameObject btn)
+	{
+		controllerManger.BackToPrevScene();
+	}
+
 }

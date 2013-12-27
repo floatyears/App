@@ -3,41 +3,32 @@ using System.Collections;
 
 public class FriendSelectView : UIBase
 {
-	FriendSelectUnity window;
-
-	//private ScrollView friendListScroller;
+	private FriendSelectUnity window;
+	private SceneInfoBar sceneInfoBar;
 
 	public UIImageButton btnStart;
 	private GameObject msgBox;
-	private SceneInfoBar sceneInfoBar;
-	private UIImageButton backBtn;
+	
 	private UIButton btnMsgChoose;
 	private UIButton btnMsgSeeInfo;
 	private UIButton btnMsgExit;
-	private UILabel sceneInfoLab;
 
 	private DragPanel friendsScroller;
 	private GameObject friendItem;
 
-	public FriendSelectView(string uiName) : base(uiName)
-	{
-
-	}
+	public FriendSelectView(string uiName) : base(uiName){}
 
 	public override void CreatUI ()
 	{
-		//Add Share UI -- SceneInfoBar
-		sceneInfoBar = ViewManager.Instance.GetViewObject("SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar = ViewManager.Instance.GetViewObject( UIConfig.sharePath + "SceneInfoBar") as SceneInfoBar;
 		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
 		sceneInfoBar.transform.localPosition = Vector3.zero;
-		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
-		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
-		window = ViewManager.Instance.GetViewObject("FriendSelectWindow") as FriendSelectUnity;
+
+		window = ViewManager.Instance.GetViewObject( UIConfig.friendPath + "FriendSelectWindow") as FriendSelectUnity;
 		window.Init ("FriendSelectWindow");
 		window.transform.parent = viewManager.TopPanel.transform;
 
-		//Add Scroller -- FriendScroller
-		friendItem = Resources.Load("Prefabs/FriendScrollerItem") as GameObject;
+		friendItem = Resources.Load("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
 		friendsScroller = new DragPanel ("FriendSelectScroller", friendItem);
 		friendsScroller.CreatUI();
 		friendsScroller.AddItem (13);
@@ -80,31 +71,24 @@ public class FriendSelectView : UIBase
 		msgBox.SetActive(false);
 		friendsScroller.RootObject.gameObject.SetActive(true);
 	}
-	private void BackToPreScene(GameObject btn)
-	{
-		btnStart.isEnabled = false;
-		ChangeScene(SceneEnum.QuestSelect);
-	}
 
-	void StartQuest(GameObject btn)
+	private void JumpToQuest(GameObject btn)
 	{
+		StartView.playerInfoBar.gameObject.SetActive(false);
+		StartView.menuBtns.gameObject.SetActive(false);
+		StartView.mainBg.gameObject.SetActive(false);
+
 		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 	}
-
-	void SetActive(bool b)
-	{
-		window.gameObject.SetActive(b);
-		sceneInfoBar.gameObject.SetActive(b);
-		friendsScroller.RootObject.gameObject.SetActive(b);
-	}
-
+	
 	public override void ShowUI ()
 	{
-		SetActive(true);
-		backBtn.isEnabled = true;
-		sceneInfoLab.text = uiName;
-		UIEventListener.Get(backBtn.gameObject).onClick += BackToPreScene;
-		UIEventListener.Get(btnStart.gameObject).onClick += StartQuest;
+		SetUIActive(true);
+		sceneInfoBar.BackBtn.isEnabled = true;
+		sceneInfoBar.UITitleLab.text = UIName;
+		UIEventListener.Get(sceneInfoBar.BackBtn.gameObject).onClick += BackUI;
+
+		UIEventListener.Get(btnStart.gameObject).onClick += JumpToQuest;
 		UIEventListener.Get(btnMsgChoose.gameObject).onClick += ChooseFriend;
 		UIEventListener.Get(btnMsgSeeInfo.gameObject).onClick += SeeFriendInfo;
 		UIEventListener.Get(btnMsgExit.gameObject).onClick += CancelChoose;
@@ -117,17 +101,25 @@ public class FriendSelectView : UIBase
 
 	public override void HideUI ()
 	{
-		UIEventListener.Get(backBtn.gameObject).onClick -= BackToPreScene;
-		UIEventListener.Get(btnStart.gameObject).onClick -= StartQuest;
+		SetUIActive(false);
+		UIEventListener.Get(sceneInfoBar.BackBtn.gameObject).onClick -= BackUI;
+		UIEventListener.Get(btnStart.gameObject).onClick -= JumpToQuest;
 		for(int i = 0; i < friendsScroller.ScrollItem.Count; i++)
 		{
 			UIEventListener.Get(friendsScroller.ScrollItem[ i ].gameObject).onClick -= PickFriend;
 		}
-		SetActive(false);
 	}
-	
-	public override void DestoryUI ()
+
+	private void SetUIActive(bool b)
 	{
-		
+		window.gameObject.SetActive(b);
+		sceneInfoBar.gameObject.SetActive(b);
+		friendsScroller.RootObject.gameObject.SetActive(b);
+	}
+
+	private void BackUI(GameObject btn)
+	{
+		btnStart.isEnabled = false;
+		controllerManger.BackToPrevScene();
 	}
 }

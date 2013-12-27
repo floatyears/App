@@ -31,6 +31,19 @@ public class UIBase : IUIInterface
 		}
 	}
 
+	#region IUIInterface implementation
+	protected SceneEnum sEnum;
+	public SceneEnum GetScene {
+		get {
+			return sEnum;
+		}
+		set{
+			sEnum = value;
+		}
+	}
+
+	#endregion
+
 	protected Dictionary<string,IUIInterface> currentUIDic = new Dictionary<string, IUIInterface>();
 
 	public Dictionary<string,IUIInterface> CurrentUIDic
