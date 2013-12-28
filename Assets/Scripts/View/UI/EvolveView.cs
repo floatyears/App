@@ -10,11 +10,11 @@ public class EvolveView : UIBase
 
 	public override void CreatUI ()
 	{
-		sceneInfoBar = ViewManager.Instance.GetViewObject( UIConfig.sharePath + "SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar = ViewManager.Instance.GetViewObject(UIConfig.sharePath + "SceneInfoBar") as SceneInfoBar;
 		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
 		sceneInfoBar.transform.localPosition = Vector3.zero;
 
-		window = ViewManager.Instance.GetViewObject(  UIConfig.unitPath + "EvolveWindow" ) as EvolveUnity;
+		window = ViewManager.Instance.GetViewObject(UIConfig.unitPath + "EvolveWindow" ) as EvolveUnity;
 		window.Init ("EvolveWindow");
 		currentUIDic.Add( window.UIName, window );
 	}
