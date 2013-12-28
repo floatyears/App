@@ -82,6 +82,7 @@ public class QuestSelectView : UIBase
 	{
 		window.CleanPanelInfo();
 		selectBtn.isEnabled = false;
-		controllerManger.BackToPrevScene();
+		//controllerManger.BackToPrevScene();
+		ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
 	}
 }

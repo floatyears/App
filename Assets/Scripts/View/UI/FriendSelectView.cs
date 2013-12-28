@@ -120,6 +120,7 @@ public class FriendSelectView : UIBase
 	private void BackUI(GameObject btn)
 	{
 		btnStart.isEnabled = false;
-		controllerManger.BackToPrevScene();
+		//controllerManger.BackToPrevScene();
+		ControllerManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 	}
 }
