@@ -10,7 +10,7 @@ enum EQuestState {
 	QS_CLEARED	= 1;
 };
 
-message ReqStartQuset {
+message ReqStartQuest {
 	optional ProtoHeader	header			= 1;
 	optional uint32			questId			= 2; 
 	optional uint32			questState		= 3; // QS_NEW | QS_CLEARED
@@ -19,7 +19,7 @@ message ReqStartQuset {
 	optional uint32			currentParty	= 6; 	
 };
 
-message RspStartQuset {
+message RspStartQuest {
 	optional ProtoHeader	header			= 1;
 	optional uint32			questId			= 2; 
 	optional uint32			staminaNow		= 3; // current stamina
@@ -27,25 +27,25 @@ message RspStartQuset {
 };
 
 message ReqClearQuset {
-	optional ProtoHeader	header 		= 1; 
-	optional uint32			questId		= 2; 
-	optional uint32			securityKey	= 3; 
-	optional uint32			getMoney	= 4; 
-	optional uint32			getExp		= 5; 
-	repeated UserUnit		getUnit		= 6; 	
+	optional ProtoHeader	header 			= 1; 
+	optional uint32			questId			= 2; 
+	optional uint32			securityKey		= 3; 
+	optional uint32			getMoney		= 4; 
+	optional uint32			getExp			= 5; 
+	repeated UserUnit		getUnit			= 6; 	
 };
 
 message RspClearQuset {
-	optional ProtoHeader	header		= 1;
-	optional UserInfo		user		= 2;
-	optional AccountInfo	acount		= 3;	
-	optional uint32			getMoney	= 4;
-	optional uint32			getExp		= 5;	
-	repeated uint32			getUnit		= 6; //uniqueId list
+	optional ProtoHeader	header			= 1;
+	optional UserInfo		user			= 2;
+	optional AccountInfo	acount			= 3;	
+	optional uint32			getMoney		= 4;
+	optional uint32			getExp			= 5;	
+	repeated uint32			getUnit			= 6; //uniqueId list
 };
 
 message ReqGetQuestInfo {
-	optional ProtoHeader	header 		= 1;
+	optional ProtoHeader	header 			= 1;
 };
 
 message RspGetQuestInfo {

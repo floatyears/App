@@ -4,9 +4,9 @@ import (
 	"log"
 )
 import (
-	bbproto "./bbproto"
+	//bbproto "./bbproto"
 	"./data"
-	proto "code.google.com/p/goprotobuf/proto"
+	//proto "code.google.com/p/goprotobuf/proto"
 	//"io/ioutil"
 )
 
@@ -60,12 +60,16 @@ func testRedis() error {
 	//err = db.Set(id, string(msg)) //
 	//log.Printf("set'%v' value:%v ret err:%v", id, msg, err)
 
-	value, err := db.Gets(id)
-	log.Printf("after dg.Get('%v') ret: %v", id, value)
-	msg := &bbproto.UserInfo{}
-	err = proto.Unmarshal(value, msg) //unSerialize into msg
+	err = db.SetInt(id, (1100002)) //
+	log.Printf("redis.set('%v'，110002) ret err:%v", id, err)
 
-	log.Printf("after parse ret:%v, msg: %+v", err, msg)
+	//value, err := db.Gets(id)
+	value, err := db.GetInt(id)
+	log.Printf("after dg.Get('%v') ret: %v", id, value)
+	//msg := &bbproto.UserInfo{}
+	//err = proto.Unmarshal(value, msg) //unSerialize into msg
+
+	//log.Printf("after parse ret:%v, msg: %+v", err, msg)
 
 	return err
 }
