@@ -43,6 +43,11 @@ public class User : BaseModel
         userInfo.rank = newRank;
         return SaveWithProtobuf<UserInfo>(userInfo);
     }
+
+	public override bool NetRequest ()
+	{
+		return false;
+	}
 }
 
 /// <summary>
@@ -65,7 +70,7 @@ public class DataListenerTest
     }
 
     public void register(){
-        MsgCenter.Instance.AddListener(DataEnum.Person, InvokeWhenUserRankGreaterThan2);
+        MsgCenter.Instance.AddListener(CommandEnum.Person, InvokeWhenUserRankGreaterThan2);
     }
 
 }
@@ -96,9 +101,9 @@ public class ModelManagerTest {
 		User userLoaded = manager.GetData(ModelEnum.User, errMsg) as User;
 		
 		userLoaded.ChangeRank(3);
-		MsgCenter.Instance.Invoke(DataEnum.Person, userLoaded);
+		MsgCenter.Instance.Invoke(CommandEnum.Person, userLoaded);
 		
 		userLoaded.ChangeRank(1);
-		MsgCenter.Instance.Invoke(DataEnum.Person, userLoaded);
+		MsgCenter.Instance.Invoke(CommandEnum.Person, userLoaded);
 	} 
 }

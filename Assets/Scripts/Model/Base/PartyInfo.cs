@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using bbproto;
 
 public class PartyInfo : BaseModel {
@@ -12,9 +12,17 @@ public class PartyInfo : BaseModel {
 
 	protected override void Init (object instance) {
 		base.Init (instance);
-		PartyItem pi = new PartyItem ();
+		
 
 	}
 
+	protected override void ReceiveNetData (WWW www) {
+		base.ReceiveNetData (www);
+	}
 
+	public override bool NetRequest () {
+		return false;
+	}
 }
+
+

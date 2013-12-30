@@ -25,14 +25,15 @@ public enum SceneEnum
 	Fight,
 }
 
-public enum DataEnum
+public enum CommandEnum
 {
-	#region to model
-	DragCardToBattleArea,
+	None = 0,
+	#region view to model
+	DragCardToBattleArea = 1000,
 	#endregion
 
-	#region to view
-	Person,
+	#region model to view
+	Person = 3000,
 	#endregion
 }
 

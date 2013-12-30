@@ -5,20 +5,28 @@ using UnityEngine;
 
 public abstract class BaseModel {
 
+	/// <summary>
+	/// origin data
+	/// </summary>
 	protected byte[] byteData;
 
 	/// <summary>
-	/// network
+	/// network if you will use network ,you must instance net
 	/// </summary>
 	protected NetBase net;
 	
 	private ModelManager mManager;
-
+	/// <summary>
+	/// Gets the Model Manager.
+	/// </summary>
+	/// <value>The M manager.</value>
 	protected ModelManager MManager {
 		get {
 			return mManager;
 		}
 	}
+
+	private MsgCenter msgCenter;
 
 	protected ErrorMsg errMsg;
 	
@@ -54,10 +62,10 @@ public abstract class BaseModel {
 	/// Save the specified newData and errorMsg.
 	/// </summary>
 	/// <param name="newData">New data.</param>
-	protected ErrorMsg Save(byte[] newData){
+	protected ErrorMsg Save(byte[] newData) {
 		// validate
 		errMsg = Validate(newData);
-		if (errMsg.Code == ErrorCode.Succeed){
+		if (errMsg.Code == ErrorCode.Succeed) {
 			byteData = newData;
 		}
 		return errMsg;
@@ -67,8 +75,9 @@ public abstract class BaseModel {
 	/// Validate the specified instance.
 	/// </summary>
 	/// <param name="instance">Instance.</param>
-	protected ErrorMsg Validate(byte[] data){
+	protected ErrorMsg Validate(byte[] data) {
 		Type type = this.GetType ();
+
 		object oo = ProtobufSerializer.ParseFormBytes (data,type);
 		if (oo == null) {
 			errMsg.Code = ErrorCode.IllegalData;
@@ -90,8 +99,20 @@ public abstract class BaseModel {
 		byteData = ProtobufSerializer.SerializeToBytes (instance);
 	}
 
+
+
+	/// <summary>
+	/// Receives the net data.
+	/// </summary>
+	/// <param name="www">Www.</param>
 	protected virtual void ReceiveNetData(WWW www) {
 
 	}
+
+	/// <summary>
+	/// send request to server
+	/// </summary>
+	/// <returns><c>true</c>, if request was neted, <c>false</c> otherwise.</returns>
+	public abstract bool NetRequest();
 	
 }

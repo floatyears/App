@@ -5,7 +5,7 @@ using bbproto;
 public class UserUnitInfo : BaseModel {
 
 	public UserUnitInfo(UserUnit instance) : base(instance){
-		net = new NetBase (ReceiveNetData);
+		//net = new NetBase (ReceiveNetData,"");
 	}
 
 	protected override void ReceiveNetData (WWW www)
@@ -18,5 +18,15 @@ public class UserUnitInfo : BaseModel {
 
 	public UserUnit Load() {
 		return LoadProtobuf<UserUnit>();
+	}
+
+	public override bool NetRequest ()
+	{
+		if (net == null)
+			return false;
+
+		net.SendRequest(byteData);
+
+		return true;
 	}
 }

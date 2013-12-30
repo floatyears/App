@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -126,7 +126,7 @@ public class BattleCardAreaItem : UIBaseUnity
 		yield return 1;
 		int itemID = Config.Instance.CardData [id].itemID;
 
-		MsgCenter.Instance.Invoke (DataEnum.DragCardToBattleArea, itemID);
+		MsgCenter.Instance.Invoke (CommandEnum.DragCardToBattleArea, itemID);
 		//int gID = BattleDataMode.GenerateCard (id, itemID);
 
 //		InstnaceCard (gID);
