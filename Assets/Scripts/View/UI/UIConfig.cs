@@ -2,6 +2,7 @@
 
 public class UIConfig
 {
+	#region old
 	//---Main Menu---//
 	public static string Lab_T_Rank = "Rank:";
 	public static string Lab_V_Rank = "12";
@@ -29,6 +30,11 @@ public class UIConfig
 	public static string Lab_V_ScrollViewTitleInfo = "This is the Story Scene";
 
 	public static string DragUIObjectPath = "Prefabs/Scroller";
+	#endregion
+
+	#region new 
+
+	#endregion
 
 
 	public const string sharePath = "UI/Share/";

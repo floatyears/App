@@ -19,6 +19,8 @@ public class DragPanelView : UIBaseUnity {
 		scrollView = FindChild<UIScrollView>("Scroll View");
 		scrollBar = FindChild<UIScrollBar>("Scroll Bar");
 		grid = FindChild<UIGrid>("Scroll View/UIGrid");
+
+
 	}
 
 	public override void CreatUI ()

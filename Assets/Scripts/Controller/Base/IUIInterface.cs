@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+#region old
 public interface IUIInterface 
 {
 	/// <summary>
@@ -35,7 +35,24 @@ public interface IUIInterface
 	SceneEnum GetScene{get;set;}
 	
 }
+#endregion
 
+#region new
+
+public interface IUIComponent
+{
+	string UIName{ get;}
+
+	void CreatUI();
+
+	void ShowUI();
+
+	void HideUI();
+
+	void DestoryUI();
+}
+
+#endregion
 public delegate void Callback();
 
 public delegate void UICallback(GameObject caller);
@@ -43,3 +60,5 @@ public delegate void UICallback(GameObject caller);
 public delegate void UICallback<T>(T arg1);
 
 public delegate void DataListener(object data);
+
+public delegate void HttpCallback(NetworkBase network);

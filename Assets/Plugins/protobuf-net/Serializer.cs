@@ -87,6 +87,20 @@ namespace ProtoBuf
                 RuntimeTypeModel.Default.Serialize(destination, instance);
             }
         }
+
+		#region add by leiliang
+		public static void Serialize(Stream destination, object instance)
+		{
+			if(instance != null) {
+				RuntimeTypeModel.Default.Serialize(destination, instance);
+			}
+		}
+
+		public static object Deserialize(Stream source, Type type)
+		{
+			return RuntimeTypeModel.Default.Deserialize(source, null, type);
+		}
+		#endregion
         /// <summary>
         /// Serializes a given instance and deserializes it as a different type;
         /// this can be used to translate between wire-compatible objects (where

@@ -18,9 +18,9 @@ public class MsgCenter
 		}
 	}
 	
-	private Dictionary<DataEnum,Delegate> msgDic = new Dictionary<DataEnum, Delegate>();
+	private Dictionary<CommandEnum,Delegate> msgDic = new Dictionary<CommandEnum, Delegate>();
 	
-	private bool OnAdd(DataEnum mEnum,Delegate listener)
+	private bool OnAdd(CommandEnum mEnum,Delegate listener)
 	{
 		if(!msgDic.ContainsKey(mEnum))
 			msgDic.Add(mEnum,null);
@@ -35,7 +35,7 @@ public class MsgCenter
 		return true;
 	}
 	
-	private bool OnRemove(DataEnum mEnum, Delegate listener)
+	private bool OnRemove(CommandEnum mEnum, Delegate listener)
 	{
 		if(!msgDic.ContainsKey(mEnum))
 			return false;
@@ -48,13 +48,13 @@ public class MsgCenter
 		return true;
 	}
 	
-	private void OnRemoveEnd(DataEnum mEnum)
+	private void OnRemoveEnd(CommandEnum mEnum)
 	{
 		if(msgDic[mEnum] == null)
 			msgDic.Remove(mEnum);
 	}
 	
-	public void AddListener(DataEnum mEnum,DataListener func)
+	public void AddListener(CommandEnum mEnum,DataListener func)
 	{
 		if(OnAdd(mEnum,func))
 		{
@@ -62,7 +62,7 @@ public class MsgCenter
 		}
 	}
 	
-	public void RemoveNoParameterMsg(DataEnum mEnum,DataListener func)
+	public void RemoveListener(CommandEnum mEnum,DataListener func)
 	{
 		if(OnRemove(mEnum,func))
 		{
@@ -71,7 +71,7 @@ public class MsgCenter
 		}
 	}
 	
-	public void Invoke(DataEnum mEnum,object data)
+	public void Invoke(CommandEnum mEnum,object data)
 	{
 		if(!msgDic.ContainsKey(mEnum))
 			return;

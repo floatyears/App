@@ -35,9 +35,16 @@ public enum SceneEnum
 	Fight,
 }
 
-public enum DataEnum
+public enum CommandEnum
 {
-	Person,
+	None = 0,
+	#region view to model
+	DragCardToBattleArea = 1000,
+	#endregion
+
+	#region model to view
+	Person = 3000,
+	#endregion
 }
 
 public enum UIState

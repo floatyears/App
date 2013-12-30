@@ -96,3 +96,4 @@ public class TClass<T1,T2,T3>
 		arg3 = a3;
 	}
 }
+

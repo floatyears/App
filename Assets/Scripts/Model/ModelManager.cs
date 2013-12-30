@@ -2,58 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ProtoBuf;
-using bbproto;//TODO move after test;
-
-public abstract class BaseModel {
-    protected byte[] byteData;
-
-    public BaseModel(object instance){
-        Init(instance);
-    }
-
-    /// <summary>
-    /// Load data from.
-    /// </summary>
-    /// <typeparam name="T">The 1st type parameter.</typeparam>
-    protected T LoadProtobuf<T>(){
-        return ProtobufSerializer.ParseFormBytes<T>(byteData);
-    }
-
-    /// <summary>
-    /// Save this instance.
-    /// </summary>
-    protected ErrorMsg SaveWithProtobuf<T>(T protobufData){
-        return Save(ProtobufSerializer.SerializeToBytes<T>(protobufData));
-    }
-
-    /// <summary>
-    /// Save the specified newData and errorMsg.
-    /// </summary>
-    /// <param name="newData">New data.</param>
-    protected ErrorMsg Save(byte[] newData){
-        // validate
-        ErrorMsg errorMsg = Validate(newData);
-        if (errorMsg.Code == ErrorCode.Succeed){
-            byteData = newData;
-        }
-        return errorMsg;
-    }
-
-    /// <summary>
-    /// Validate the specified instance.
-    /// </summary>
-    /// <param name="instance">Instance.</param>
-    protected virtual ErrorMsg Validate(byte[] data){
-        return new ErrorMsg();
-    }
-
-    /// <summary>
-    /// Init this instance. Each subclass should do own Init
-    /// </summary>
-    protected virtual void Init(object instance){
-    }
-
-}
 
 public enum ModelEnum
 {
@@ -113,35 +61,3 @@ public class ModelManager
     }
 }
 
-public class ModelManagerTest {
-    public static void Test(){
-        //
-        ModelManager manager = ModelManager.Instance;
-
-        UserInfo userInfo = new UserInfo();
-        userInfo.userId = 127;
-        userInfo.userName = "Rose Mary";
-        userInfo.exp = 20;
-        userInfo.rank = 20;
-        userInfo.staminaMax = 128;
-        userInfo.staminaNow = 127;
-        userInfo.staminaRecover = 127000000;
-        userInfo.loginTime = 127;
-        
-        //
-        
-        User user = new User(userInfo);
-        //
-
-        manager.Add(ModelEnum.User, user);
-
-        ErrorMsg errMsg = new ErrorMsg();
-        User userLoaded = manager.GetData(ModelEnum.User, errMsg) as User;
-
-        userLoaded.ChangeRank(3);
-        MsgCenter.Instance.Invoke(DataEnum.Person, userLoaded);
-
-        userLoaded.ChangeRank(1);
-        MsgCenter.Instance.Invoke(DataEnum.Person, userLoaded);
-    } 
-}

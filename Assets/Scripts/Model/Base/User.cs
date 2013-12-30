@@ -3,23 +3,8 @@ using System.Collections;
 
 public class User : BaseModel
 {
-    public User(object instance): base(instance){
+	public User(UserInfo instance): base(instance) {
 
-    }
-
-    protected override ErrorMsg Validate (byte[] byteData)
-    {
-        ErrorMsg errMsg = new ErrorMsg();
-        //do validate
-        UserInfo userInfo = ProtobufSerializer.ParseFormBytes<UserInfo>(byteData);
-        if (userInfo == null){
-            errMsg.Code = ErrorCode.IllegalData;
-        }
-        else {
-            // TODO: other validation
-            LogHelper.Log("userInfo not null " + errMsg.Code);
-        }
-        return errMsg;
     }
 
     /// <summary>
@@ -58,6 +43,11 @@ public class User : BaseModel
         userInfo.rank = newRank;
         return SaveWithProtobuf<UserInfo>(userInfo);
     }
+
+	public override bool NetRequest ()
+	{
+		return false;
+	}
 }
 
 /// <summary>
@@ -80,7 +70,40 @@ public class DataListenerTest
     }
 
     public void register(){
-        MsgCenter.Instance.AddListener(DataEnum.Person, InvokeWhenUserRankGreaterThan2);
+        MsgCenter.Instance.AddListener(CommandEnum.Person, InvokeWhenUserRankGreaterThan2);
     }
 
+}
+
+public class ModelManagerTest {
+	public static void Test(){
+		//
+		ModelManager manager = ModelManager.Instance;
+		
+		UserInfo userInfo = new UserInfo();
+		userInfo.userId = 127;
+		userInfo.userName = "Rose Mary";
+		userInfo.exp = 20;
+		userInfo.rank = 20;
+		userInfo.staminaMax = 128;
+		userInfo.staminaNow = 127;
+		userInfo.staminaRecover = 127000000;
+		userInfo.loginTime = 127;
+		
+		//
+		
+		User user = new User(userInfo);
+		//
+		
+		manager.Add(ModelEnum.User, user);
+		
+		ErrorMsg errMsg = new ErrorMsg();
+		User userLoaded = manager.GetData(ModelEnum.User, errMsg) as User;
+		
+		userLoaded.ChangeRank(3);
+		MsgCenter.Instance.Invoke(CommandEnum.Person, userLoaded);
+		
+		userLoaded.ChangeRank(1);
+		MsgCenter.Instance.Invoke(CommandEnum.Person, userLoaded);
+	} 
 }
