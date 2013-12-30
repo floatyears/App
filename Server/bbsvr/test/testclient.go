@@ -17,7 +17,8 @@ import (
 )
 
 const (
-	_PROTO_LOGIN_BACK     = "/login_back"
+	_PROTO_LOGIN_PACK     = "/login_pack"
+	_PROTO_AUTH_USER      = "/auth_user"
 	_PROTO_GET_QUEST_MAP  = "/get_new_quest_map"
 	_PROTO_START_QUEST    = "/start_quest"
 	_PROTO_CLEAR_QUEST    = "/clear_quest"
@@ -30,28 +31,31 @@ func Init() {
 	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)
 }
 
-func SendHttpPost(dataBuf io.Reader) (size int, err error) {
-	resp, err := http.Post(WEB_SERVER_ADDR+_PROTO_LOGIN_BACK, "application/binary", dataBuf)
-	defer resp.Body.Close()
+func SendHttpPost(dataBuf io.Reader, protoAddr string) (outbuffer []byte, err error) {
+	resp, err := http.Post(WEB_SERVER_ADDR+protoAddr, "application/binary", dataBuf)
+	if resp != nil && resp.Body != nil {
+		log.Printf("SendHttpPost resp.Body.Close()...")
+		defer resp.Body.Close()
+	}
 
 	if err != nil {
 		log.Printf("post err:%+v", err)
-		return 0, err
+		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK {
 		log.Printf("post ret code:%+v", resp.StatusCode)
-		return 0, err
+		return nil, err
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
-	log.Printf("post resp:%+v", body)
+	outbuffer, err = ioutil.ReadAll(resp.Body)
+	log.Printf("recv resp:%+v", outbuffer)
 
-	return 0, err
+	return outbuffer, err
 }
 
-func LoginBack() {
-	msg := &bbproto.ReqLoginBack{}
-	msg.Header = &bbproto.Header{}
+func LoginPack() {
+	msg := &bbproto.ReqLoginPack{}
+	msg.Header = &bbproto.ProtoHeader{}
 	msg.Header.ApiVer = proto.String("1.0.0")
 	msg.Header.SessionId = proto.String("S10298090290")
 	msg.UserId = proto.Int32(10011)
@@ -59,12 +63,38 @@ func LoginBack() {
 	buffer, err := proto.Marshal(msg)
 	log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
 
-	SendHttpPost(bytes.NewReader(buffer))
+	SendHttpPost(bytes.NewReader(buffer), _PROTO_LOGIN_PACK)
+}
+
+func AuthUser() {
+	msg := &bbproto.ReqAuthUser{}
+	msg.Header = &bbproto.ProtoHeader{}
+	msg.Header.ApiVer = proto.String("0.0.1")
+	msg.Header.SessionId = proto.String("S10298090290")
+	msg.Header.PacketId = proto.Int32(18)
+	msg.Terminal = &bbproto.TerminalInfo{}
+	//msg.Terminal.Uuid = proto.String("b2c4adfd-e6a9-4782-814d-67ce34220110")
+	msg.Terminal.Uuid = proto.String("koryyang")
+	msg.Terminal.DeviceName = proto.String("kory's ipod")
+	msg.Terminal.Os = proto.String("android 4.01")
+	msg.Terminal.Platform = proto.String("official")
+
+	buffer, err := proto.Marshal(msg)
+	log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
+
+	rspbuff, err := SendHttpPost(bytes.NewReader(buffer), _PROTO_AUTH_USER)
+	if err == nil {
+		rspmsg := &bbproto.RspAuthUser{}
+		err = proto.Unmarshal(rspbuff, rspmsg)
+		log.Printf("rsp Unarshal ret err:%v rspmsg:%v", err, rspmsg)
+	} else {
+		log.Printf("SendHttpPost ret err:%v", err)
+	}
 }
 
 func genReqGetQuestMap() (buffer []byte, err error) {
 	msg := &bbproto.ReqGetQuestInfo{
-		Header: &bbproto.Header{
+		Header: &bbproto.ProtoHeader{
 			ApiVer:    proto.String("0.1"),
 			Code:      proto.Int32(0),
 			Error:     proto.String(""),
@@ -79,9 +109,10 @@ func genReqGetQuestMap() (buffer []byte, err error) {
 func main() {
 	Init()
 
-	LoginBack()
+	//LoginPack()
+	AuthUser()
 	//testRedis()
 	//return
 
-	log.Fatal("bbsvr test client")
+	log.Fatal("bbsvr test client finish.")
 }

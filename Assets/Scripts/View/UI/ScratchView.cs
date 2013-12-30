@@ -3,46 +3,38 @@ using System.Collections;
 
 public class ScratchView : UIBase 
 {
-	ScratchUnity topUI;
-	ScratchUnity bottomUI;
+	private ScratchUnity window;
+	private SceneInfoBar sceneInfoBar;
 
-	public ScratchView(string uiName) : base(uiName)
-	{
-
-	}
+	public ScratchView(string uiName) : base(uiName){}
 
 	public override void CreatUI ()
 	{	
-		topUI = ViewManager.Instance.GetViewObject("ScratchTopWindow") as ScratchUnity;
-		bottomUI = ViewManager.Instance.GetViewObject("ScratchBottomWindow") as ScratchUnity;
-		topUI.Init ("ScratchTopWindow");
-		bottomUI.Init ("ScratchBottomWindow");
-		currentUIDic.Add(topUI.UIName, topUI);
-		currentUIDic.Add(bottomUI.UIName, bottomUI);
+		sceneInfoBar = ViewManager.Instance.GetViewObject( UIConfig.sharePath + "SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
+		sceneInfoBar.transform.localPosition = Vector3.zero;
 
-		topUI.gameObject.transform.localPosition = 220*Vector3.up;
-		bottomUI.gameObject.transform.localPosition = -125*Vector3.up;
+		window = ViewManager.Instance.GetViewObject( UIConfig.scratchPath + "ScratchWindow") as ScratchUnity;
+		window.Init ("ScratchWindow");
+		currentUIDic.Add(window.UIName, window);
 	}
 
 	public override void ShowUI ()
 	{
-		SetActive(true);
+		SetUIActive(true);
+		sceneInfoBar.BackBtn.isEnabled = false;
+		sceneInfoBar.UITitleLab.text = UIName;
 	}
 	
 	public override void HideUI ()
 	{
-		SetActive(false);
+		SetUIActive(false);
 	}
-	
-	public override void DestoryUI ()
+
+	private void SetUIActive(bool b)
 	{
-		
-	}
-	
-	void SetActive(bool b)
-	{
-		topUI.gameObject.SetActive(b);
-		bottomUI.gameObject.SetActive(b);
+		window.gameObject.SetActive(b);
+		sceneInfoBar.gameObject.SetActive(b);
 	}
 
 }

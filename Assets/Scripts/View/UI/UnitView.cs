@@ -3,68 +3,53 @@ using System.Collections;
 
 public class UnitView : UIBase
 {
-	UnitUnity topWindow;
-	UnitUnity centerWindow;
-	UnitUnity bottomWindow;
+	private UnitUnity window;
+	private SceneInfoBar sceneInfoBar;
 
-	private GameObject partyBtn;
-
-	public UnitView(string uiName) : base(uiName)
-	{
-		
-	}
+	public UnitView(string uiName) : base(uiName){}
 	
 	public override void CreatUI ()
 	{
-		topWindow = ViewManager.Instance.GetViewObject("UnitTopWindow") as UnitUnity;
-		centerWindow = ViewManager.Instance.GetViewObject("UnitCenterWindow") as UnitUnity;
-		bottomWindow = ViewManager.Instance.GetViewObject("UnitBottomWindow") as UnitUnity;
-		topWindow.Init ("UnitTopWindow");
-		centerWindow.Init ("UnitCenterWindow");
-		bottomWindow.Init ("UnitBottomWindow");
+		sceneInfoBar = ViewManager.Instance.GetViewObject(UIConfig.sharePath + "SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
+		sceneInfoBar.transform.localPosition = Vector3.zero;
 
-		partyBtn = bottomWindow.transform.FindChild("Party").gameObject;
-		UIEventListener.Get(partyBtn.gameObject).onClick = TurnToParty;
-
-		currentUIDic.Add(topWindow.UIName, topWindow);
-		currentUIDic.Add(bottomWindow.UIName, bottomWindow);
-		currentUIDic.Add(centerWindow.UIName, centerWindow);
-		
-		topWindow.gameObject.transform.localPosition = 330*Vector3.up;
-		centerWindow.gameObject.transform.localPosition = 160*Vector3.up;
-		bottomWindow.gameObject.transform.localPosition = -90*Vector3.up;
-	}
-
-	void Handlecallback (GameObject caller)
-	{
-		controllerManger.HideActor();
-	}
-
-	void TurnToParty(GameObject go)
-	{
-		controllerManger.ShowActor(1);
+		window = ViewManager.Instance.GetViewObject( UIConfig.unitPath + "UnitWindow") as UnitUnity;
+		window.Init ("UnitWindow");
+		currentUIDic.Add(window.UIName, window);
+		window.gameObject.transform.localPosition = 315*Vector3.up;
 	}
 
 	public override void ShowUI ()
 	{
-		SetActive(true);
+		SetUIActive(true);
+		sceneInfoBar.BackBtn.isEnabled = false;
+		sceneInfoBar.UITitleLab.text = UIName;
+
+		UIEventListener.Get(window.PartyBtn.gameObject).onClick += window.JumpToParty;
+		UIEventListener.Get(window.LevelUpBtn.gameObject).onClick += window.JumpToLevelUp;
+		UIEventListener.Get(window.ListBtn.gameObject).onClick += window.JumpToList;
+		UIEventListener.Get(window.EvolveBtn.gameObject).onClick += window.JumpToEvolve;
+		UIEventListener.Get(window.SellBtn.gameObject).onClick += window.JumpToSell;
+		UIEventListener.Get(window.CatalogBtn.gameObject).onClick += window.JumpToCatalog;
 	}
 	
 	public override void HideUI ()
 	{
-		SetActive(false);
+		SetUIActive(false);
+
+		UIEventListener.Get(window.PartyBtn.gameObject).onClick -= window.JumpToParty;
+		UIEventListener.Get(window.LevelUpBtn.gameObject).onClick -= window.JumpToList;
+		UIEventListener.Get(window.ListBtn.gameObject).onClick -= window.JumpToList;
+		UIEventListener.Get(window.EvolveBtn.gameObject).onClick -= window.JumpToEvolve;
+		UIEventListener.Get(window.SellBtn.gameObject).onClick -= window.JumpToSell;
+		UIEventListener.Get(window.CatalogBtn.gameObject).onClick -= window.JumpToCatalog;
 	}
 	
-	public override void DestoryUI ()
+	private void SetUIActive(bool b)
 	{
-		
-	}
-	
-	void SetActive(bool b)
-	{
-		topWindow.gameObject.SetActive(b);
-		centerWindow.gameObject.SetActive(b);
-		bottomWindow.gameObject.SetActive(b);
+		window.gameObject.SetActive(b);
+		sceneInfoBar.gameObject.SetActive(b);
 	}
 }
 

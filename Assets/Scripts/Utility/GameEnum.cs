@@ -22,6 +22,16 @@ public enum SceneEnum
 
 	Party,
 
+	LevelUp,
+
+	Evolve,
+
+	Sell,
+
+	UnitList,
+
+	UnitCatalog,
+
 	Fight,
 }
 

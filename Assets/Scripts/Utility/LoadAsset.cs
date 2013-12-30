@@ -52,7 +52,7 @@ public class LoadAsset
 		if(obj == null)
 		{
 			string reallyPath = DisposePathByType(rEnum) + name;
-			
+
 			obj = Resources.Load(reallyPath);
 			
 			objectDic.Add(name,obj);

@@ -22,7 +22,7 @@ func StartQuestHandler(rsp http.ResponseWriter, req *http.Request) {
 	}
 	log.Printf("GetQuestMap req.body: %v ", req_data)
 
-	msg := &bbproto.ReqStartQuest{}
+	msg := &bbproto.ReqStartQuset{}
 	err = proto.Unmarshal(req_data, msg) //unSerialize into msg
 
 	if err != nil {

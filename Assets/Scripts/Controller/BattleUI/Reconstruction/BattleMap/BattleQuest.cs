@@ -101,9 +101,10 @@ public class BattleQuest : UIBase
 
 	public override void HideUI ()
 	{
-
-
 		base.HideUI ();
+		StartView.mainBg.gameObject.SetActive(true);
+		StartView.menuBtns.gameObject.SetActive(true);
+		StartView.playerInfoBar.gameObject.SetActive(true);
 	}
 	  
 	public Vector3 GetPosition(Coordinate coor)

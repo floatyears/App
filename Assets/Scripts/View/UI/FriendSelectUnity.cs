@@ -28,13 +28,6 @@ public class FriendSelectUnity : UIBaseUnity
 	{
 		base.Init(name);
 
-		leftTranform = transform.Find("Left");
-		rightTransform = transform.Find("Right");
-
-		friendItem = transform.Find("FriendItem").gameObject;
-
-		friendItem.SetActive(false);
-
 	}
 
 	public override void ShowUI ()

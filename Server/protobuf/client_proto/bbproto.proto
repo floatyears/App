@@ -1,3 +1,4 @@
+package bbproto;
 //=====================================================
 
 enum EUnitType{
@@ -28,7 +29,7 @@ enum EQuestState {
 	QS_CLEARED	= 1;
 };
 
-message ReqStartQuset {
+message ReqStartQuest {
 	optional ProtoHeader	header			= 1;
 	optional uint32			questId			= 2; 
 	optional uint32			questState		= 3; // QS_NEW | QS_CLEARED
@@ -37,7 +38,7 @@ message ReqStartQuset {
 	optional uint32			currentParty	= 6; 	
 };
 
-message RspStartQuset {
+message RspStartQuest {
 	optional ProtoHeader	header			= 1;
 	optional uint32			questId			= 2; 
 	optional uint32			staminaNow		= 3; // current stamina
@@ -82,15 +83,15 @@ message UnitResource {
 };
 
 message UserUnit {  //unit instance
-	optional int32 id			= 1; //unit_id
-	optional int32 exp			= 2;
-	optional int32 level		= 3;
-	optional int32 addAttack	= 4;
-	optional int32 addDefence	= 5;
-	optional int32 addHp		= 6;
-	optional int32 limitbreakLv = 7;
-	optional int32 getTime		= 8;
-	
+	required int32 uniqueId		= 1;
+	optional int32 id			= 2; //unit_id
+	optional int32 exp			= 3;
+	optional int32 level		= 4;
+	optional int32 addAttack	= 5;
+	optional int32 addDefence	= 6;
+	optional int32 addHp		= 7;
+	optional int32 limitbreakLv = 8;
+	optional int32 getTime		= 9;
 };
 
 message ReqGetUnitResource {
@@ -117,31 +118,30 @@ message RspGetUserUnit {
 //=====================================================
 
 message UserInfo {
-	required int32	uuid			= 1;
-	required int32	userId			= 2;
-	optional string userName		= 3;
-	optional int32	rank			= 4;
-	optional int32	exp				= 5;
-	optional int32	staminaNow		= 6;
-	optional int32	staminaMax		= 7;
-	optional uint32	staminaRecover	= 8; //recover time
-	optional int32	loginTime		= 9; 
+	required int32	userId			= 1;
+	optional string userName		= 2;
+	optional int32	rank			= 3;
+	optional int32	exp				= 4;
+	optional int32	staminaNow		= 5;
+	optional int32	staminaMax		= 6;
+	optional uint32	staminaRecover	= 7; //recover time
+	optional uint32	loginTime		= 8; 
 };
 
 message AccountInfo {
-	optional int32	userId				= 1;
-	optional uint32	review				= 2;
-	optional uint32	payTotal			= 3;
-	optional uint32	payMonth			= 4;
-	optional uint32	money				= 5;
-	optional uint32	stonePay			= 6;
-	optional uint32	stoneFree			= 7;
-	optional uint32	stone				= 8;
-	optional uint32	friendPoint			= 9;
-	optional uint32	totalUnit			= 10;
-	optional uint32	totalParty			= 11;
-	optional uint32	totalFriend			= 12;
-	optional uint32	firstSelectNum		= 13;
+	optional int32	userId			= 1;
+	optional int32	review			= 2;
+	optional int32	payTotal		= 3;
+	optional int32	payMonth		= 4;
+	optional int32	money			= 5;
+	optional int32	stonePay		= 6;
+	optional int32	stoneFree		= 7;
+	optional int32	stone			= 8;
+	optional int32	friendPoint		= 9;
+	optional int32	totalUnit		= 10;
+	optional int32	totalParty		= 11;
+	optional int32	totalFriend		= 12;
+	optional int32	firstSelectNum	= 13;
 };
 
 message UserQuestInfo {
@@ -158,8 +158,16 @@ message UnitParty {
 	repeated PartyItem items		= 1;
 };
 
+message UserInfoDetail {
+	optional UserInfo		user				= 1;
+	optional AccountInfo	account				= 2;
+	optional UserQuestInfo	quest				= 3;	
+	repeated UnitParty		unitPartyList		= 4;
+	optional int32			unitPartyCurrent	= 5;
+};
+
 message TerminalInfo {
-	optional int32	platform		= 1;
+	optional string	platform		= 1;
 	optional string	deviceName		= 2; // "asus Nexus 7"
 	optional string	uuid			= 3; 
 	optional string	os		 		= 4; // android / ios
@@ -169,9 +177,9 @@ message FriendInfo {
 	optional int32		userId				= 1;
 	optional string 	userName			= 2;
 	optional int32		rank				= 3;
-	optional uint32		lastPlayTime		= 4;
+	optional int32		lastPlayTime		= 4;
 	optional int32		friendState			= 5;
-	optional uint32		friendStateUpdate 	= 6; //state updated time
+	optional int32		friendStateUpdate 	= 6; //state updated time
 	optional int32		friendPoint			= 7;
 	optional UserUnit	unit				= 8;
 };
@@ -204,18 +212,14 @@ message RspGetUserInfo {
 };
 
 message ReqAuthUser {
-	optional ProtoHeader	header		= 1;
-	optional TerminalInfo	terminal	= 2;	
+	optional ProtoHeader	header				= 1;
+	optional TerminalInfo	terminal			= 2;	
 };
 
 message RspAuthUser {
 	optional ProtoHeader	header				= 1;
-	optional UserInfo		user				= 2;
-	optional AccountInfo	account				= 3;
-	optional UserQuestInfo	quest				= 4;	
-	optional uint32			server_time 		= 5;
-	optional int32			unitPartyCurrent	= 6;
-	repeated UnitParty		unitPartyList		= 7;
+	optional UserInfoDetail	userdetail	 		= 2;
+	optional uint32			serverTime	 		= 3;
 };
 
 message ReqLoginPack {
