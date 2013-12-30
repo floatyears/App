@@ -5,58 +5,84 @@ using System.Collections.Generic;
 public class QuestSelectView : UIBase
 {
 	private QuestSelectUnity window;
-
 	private SceneInfoBar sceneInfoBar;
-	private UIImageButton backBtn;
-	private UILabel sceneInfoLab;
 
-	public QuestSelectView(string uiName):base(uiName)
-	{
+	private UIImageButton selectBtn;
 
-	}
+	private DragPanel questSelectScroller;
+	private GameObject questItem;
+
+	public QuestSelectView(string uiName):base(uiName){}
 	public override void CreatUI ()
 	{
-		//add scene info bar
-		sceneInfoBar = ViewManager.Instance.GetViewObject("SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar = ViewManager.Instance.GetViewObject( UIConfig.sharePath + "SceneInfoBar") as SceneInfoBar;
 		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
 		sceneInfoBar.transform.localPosition = Vector3.zero;
 
-		backBtn = sceneInfoBar.transform.Find("ImgBtn_Arrow").GetComponent<UIImageButton>();
-		sceneInfoLab = sceneInfoBar.transform.Find("Lab_UI_Name").GetComponent<UILabel>();
-
-		window = ViewManager.Instance.GetViewObject( "QuestSelectWindow" ) as QuestSelectUnity;
+		window = ViewManager.Instance.GetViewObject( UIConfig.questPath + "QuestSelectWindow" ) as QuestSelectUnity;
 		window.Init ("QuestSelectWindow");
 		currentUIDic.Add( window.UIName, window );
+
+		selectBtn = window.gameObject.transform.Find("btn_friend_select").GetComponent<UIImageButton>();
+		selectBtn.isEnabled = false;
+
+		questItem = Resources.Load("Prefabs/UI/Quest/QuestScrollerItem") as GameObject;
+		questSelectScroller = new DragPanel ("QuestSelectScroller", questItem);
+		questSelectScroller.CreatUI();
+		questSelectScroller.AddItem (3);
+		questSelectScroller.RootObject.SetItemWidth(230);
+		questSelectScroller.RootObject.gameObject.transform.localPosition = -630*Vector3.up;
+	}
+	
+	private void PickQuestInfo(GameObject go)
+	{
+		selectBtn.isEnabled = true;
+		window.UpdatePanelInfo();
 	}
 
-	private void BackToPreScene(GameObject btn)
+	private void JumpToFriendSelect(GameObject go)
 	{
-		ChangeScene(SceneEnum.Quest);
+		ChangeScene(SceneEnum.FriendSelect);
 	}
 
 	public override void ShowUI ()
 	{
-		SetActive(true);
-		backBtn.isEnabled = true;
-		sceneInfoLab.text = uiName;
-		UIEventListener.Get(backBtn.gameObject).onClick += BackToPreScene;
+		SetUIActive(true);
+		sceneInfoBar.BackBtn.isEnabled = true;
+		sceneInfoBar.UITitleLab.text = UIName;
+		UIEventListener.Get(sceneInfoBar.BackBtn.gameObject).onClick += BackUI;
+		UIEventListener.Get(selectBtn.gameObject).onClick += JumpToFriendSelect;
+		for(int i = 0; i < questSelectScroller.ScrollItem.Count; i++)
+		{
+			UIEventListener.Get(questSelectScroller.ScrollItem[ i ].gameObject).onClick += PickQuestInfo;
+		}
 	}
 
 	public override void HideUI ()
 	{
-		SetActive(false);
-		UIEventListener.Get(backBtn.gameObject).onClick  -=  BackToPreScene;
+		SetUIActive(false);
+		selectBtn.isEnabled = false;
+		window.CleanPanelInfo();
+		UIEventListener.Get(sceneInfoBar.BackBtn.gameObject).onClick  -=  BackUI;
+		UIEventListener.Get(selectBtn.gameObject).onClick -= JumpToFriendSelect;
+		for(int i = 0; i < questSelectScroller.ScrollItem.Count; i++)
+		{
+			UIEventListener.Get(questSelectScroller.ScrollItem[ i ].gameObject).onClick -= PickQuestInfo;
+		}
 	}
 
-	public override void DestoryUI ()
-	{
-
-	}
-
-	void SetActive(bool b)
+	private void SetUIActive(bool b)
 	{
 		window.gameObject.SetActive(b);
 		sceneInfoBar.gameObject.SetActive(b);
+		questSelectScroller.RootObject.gameObject.SetActive(b);
 	}
 
+	private void BackUI(GameObject btn)
+	{
+		window.CleanPanelInfo();
+		selectBtn.isEnabled = false;
+		//controllerManger.BackToPrevScene();
+		ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
+	}
 }

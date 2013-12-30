@@ -31,6 +31,8 @@ public interface IUIInterface
 	void DestoryUI();
 
 	UIState GetState{get;}
+
+	SceneEnum GetScene{get;set;}
 	
 }
 

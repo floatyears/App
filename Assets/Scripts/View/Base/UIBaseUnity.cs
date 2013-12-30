@@ -4,6 +4,16 @@ using System.Collections;
 public class UIBaseUnity : MonoBehaviour ,IUIInterface
 {
 	#region IUIInterface implementation
+	protected SceneEnum sEnum;
+
+	public SceneEnum GetScene {
+		get {
+			return sEnum;
+		}
+		set{
+			sEnum = value;
+		}
+	}
 
 	protected string uiName;
 

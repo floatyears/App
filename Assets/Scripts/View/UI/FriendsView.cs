@@ -3,48 +3,39 @@ using System.Collections;
 
 public class FriendsView : UIBase 
 {
-	FriendsUnity window;
-	FriendsUnity imgBtns;
+	private FriendsUnity window;
+	private SceneInfoBar sceneInfoBar;
 
-	public FriendsView(string uiName) : base(uiName)
-	{
-
-	}
+	public FriendsView(string uiName) : base(uiName){}
 
 	public override void CreatUI ()
 	{
-		window = ViewManager.Instance.GetViewObject("Friends_InfoWindow") as FriendsUnity;
-		imgBtns = ViewManager.Instance.GetViewObject("Friends_InfoList") as FriendsUnity;
+		sceneInfoBar = ViewManager.Instance.GetViewObject( UIConfig.sharePath + "SceneInfoBar") as SceneInfoBar;
+		sceneInfoBar.transform.parent = viewManager.TopPanel.transform;
+		sceneInfoBar.transform.localPosition = Vector3.zero;
 
-		window.Init ("Friends_InfoWindow");
-		imgBtns.Init ("Friends_InfoList");
-
+		window = ViewManager.Instance.GetViewObject( UIConfig.friendPath + "FriendWindow") as FriendsUnity;
+		window.Init ("FriendWindow");
 		currentUIDic.Add(window.UIName, window);
-		currentUIDic.Add(imgBtns.UIName, imgBtns);
-
-		window.gameObject.transform.localPosition = 220*Vector3.up;
-		imgBtns.gameObject.transform.localPosition = -100*Vector3.up;
+		window.gameObject.transform.localPosition = -135*Vector3.up;
 	}
 
 	public override void ShowUI ()
 	{
-		SetActive(true);
+		SetUIActive(true);
+		sceneInfoBar.BackBtn.isEnabled = false;
+		sceneInfoBar.UITitleLab.text = UIName;
 	}
 	
 	public override void HideUI ()
 	{
-		SetActive(false);
+		SetUIActive(false);
 	}
 	
-	public override void DestoryUI ()
-	{
-		
-	}
-	
-	void SetActive(bool b)
+	void SetUIActive(bool b)
 	{
 		window.gameObject.SetActive(b);
-		imgBtns.gameObject.SetActive(b);
+		sceneInfoBar.gameObject.SetActive(b);
 	}
 
 }

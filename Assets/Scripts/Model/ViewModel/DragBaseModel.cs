@@ -22,6 +22,13 @@ public class DragBaseModel {
 		}
 	}
 
-	public event DataListener callback;
+	public GameObject item;
+
+	public UICallback callbak;
+
+}
+
+public class DragLy : DragBaseModel
+{
 
 }

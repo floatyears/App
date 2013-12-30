@@ -7,7 +7,6 @@ public class PartyUnity : UIBaseUnity
 	public override void Init(string name)
 	{
 		base.Init(name);
-
 	}
 
 	public override void ShowUI ()
