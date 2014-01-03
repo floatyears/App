@@ -90,3 +90,61 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 
 	#endregion
 }
+
+public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
+	protected UIInsConfig config = null;
+	public UIInsConfig UIConfig {
+		get {
+			return config;
+		}
+	}
+
+	protected IUIOrigin origin;
+
+	public virtual void Init(UIInsConfig config,IUIOrigin origin = null) {
+		this.origin = origin;
+		this.config = config;
+		if (config.parent != null) {
+			transform.parent = config.parent;	
+			transform.localScale = Vector3.one;
+		}
+
+		HideUI ();
+	}
+
+	public virtual void ShowUI() {
+		transform.localPosition = config.localPosition;
+	}
+
+	public virtual void HideUI() {
+		transform.localPosition = ViewManager.HidePos;
+	}
+
+	public virtual void DestoryUI() {
+		Destroy (gameObject);
+	}
+
+	protected T FindChild<T> (string path) where T : Component {
+		if (!string.IsNullOrEmpty (path)) {
+			return transform.Find(path).GetComponent<T>();
+		}
+
+		return GetComponent<T>();
+	}
+
+	protected GameObject FindChild(string path) {
+		if (!string.IsNullOrEmpty (path)) {
+			return transform.Find(path).gameObject;
+		}
+
+		return gameObject;
+	}
+
+	public static T FindChild<T> (GameObject root, string path) where T : Component {
+		if (root == null || string.IsNullOrEmpty (path)) {
+			return null;
+		}
+
+		return root.transform.Find (path).GetComponent<T> ();
+	}
+}

@@ -1,0 +1,26 @@
+{
+    "PlayerInfo": {
+        "uiName":"PlayerInfoBar",
+        "resoucePath": "Prefabs/UI/Share/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+     "MainBackground": {
+        "uiName":"MenuBg",
+        "resoucePath": "Prefabs/UI/Share/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+     "BottomMenu": {
+        "uiName":"MenuBottom",
+        "resoucePath": "Prefabs/UI/Share/",
+        "parent": 3,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    }
+}

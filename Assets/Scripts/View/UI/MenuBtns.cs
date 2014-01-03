@@ -28,32 +28,32 @@ public class MenuBtns : UIBaseUnity
 	
 	public void TurnToQuest(GameObject go)
 	{
-		ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
+		//ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
 	}
 	
 	public void TurnToFriends(GameObject go)
 	{
-		ControllerManager.Instance.ChangeScene(SceneEnum.Friends);
+		//ControllerManager.Instance.ChangeScene(SceneEnum.Friends);
 	}
 	
 	public void TurnToScratch(GameObject go)
 	{
-		ControllerManager.Instance.ChangeScene(SceneEnum.Scratch);
+		//ControllerManager.Instance.ChangeScene(SceneEnum.Scratch);
 	}
 	
 	public void TurnToOthers(GameObject go)
 	{
-		ControllerManager.Instance.ChangeScene(SceneEnum.Others);
+		//ControllerManager.Instance.ChangeScene(SceneEnum.Others);
 	}
 	
 	public void TurnToUnits(GameObject go)
 	{
-		ControllerManager.Instance.ChangeScene(SceneEnum.Units);
+		//ControllerManager.Instance.ChangeScene(SceneEnum.Units);
 	}
 	
 	public void TurnToShop(GameObject go)
 	{
-		ControllerManager.Instance.ChangeScene(SceneEnum.Shop);
+		//ControllerManager.Instance.ChangeScene(SceneEnum.Shop);
 	}
 	
 }

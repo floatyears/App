@@ -127,4 +127,61 @@ public class ViewManager
 		if(uiObjectDic.ContainsKey(uiName))
 			uiObjectDic.Remove(uiName);
 	}
+
+	//-----------------------------------------------------------------------------------------------------------------------
+	// new 
+	//-----------------------------------------------------------------------------------------------------------------------
+
+	private IUIComponent temp = null;
+	
+	private Dictionary<string,IUIComponent> UIComponentDic = new Dictionary<string, IUIComponent>();
+	
+	private static Vector3 hidePos = new Vector3(0f,10000f,10000f);
+	public static Vector3 HidePos {
+		get {
+			return hidePos;
+		}
+	}
+	
+	public void AddComponent(IUIComponent component) {
+		if (component == null) {
+			return;	
+		}
+		
+		UIInsConfig config = component.UIConfig;
+		string name = config.uiName;
+		
+		if (UIComponentDic.TryGetValue (name, out temp)) {
+			UIComponentDic [name] = component;	
+			temp = null;
+		}
+		else {
+			UIComponentDic.Add(name,component);
+		}
+	}
+	
+	public IUIComponent GetComponent(string name) {
+		if (UIComponentDic.ContainsKey (name)) {
+			return UIComponentDic [name];	
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public void RemoveComponent(string name) {
+		if (!UIComponentDic.ContainsKey (name)) {
+			return;
+		}
+		
+		UIComponentDic.Remove (name);
+	}
+	
+	public void DeleteComponent(string name) {
+		if (UIComponentDic.TryGetValue (name,out temp)) {
+			temp.DestoryUI ();
+			UIComponentDic.Remove(name);
+			temp = null;
+		}
+	}
 }

@@ -61,8 +61,12 @@ public class Main : MonoBehaviour
 
 		DontDestroyOnLoad(gameObject);
 
-		Application.targetFrameRate = 1000;
+//		Application.targetFrameRate = 1000;
 		texScale = screenWidth / Screen.width;
+
+		// init manager class
+		ViewManager.Instance.Init(uiRoot);
+		ModelManager.Instance.Init ();
 	}
 
 	/// <summary>
@@ -70,8 +74,8 @@ public class Main : MonoBehaviour
 	/// </summary>
 	void OnEnable()
 	{
-		ViewManager.Instance.Init(uiRoot);
-		ControllerManager.Instance.ChangeScene(SceneEnum.Start);
+		UIManager.Instance.ChangeScene (SceneEnum.Start);
+		//ControllerManager.Instance.ChangeScene(SceneEnum.Start);
 
 //		GameObject go = Resources.Load ("Prefabs/DragPanelItem") as GameObject;
 //
