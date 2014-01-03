@@ -6,7 +6,25 @@
     "Coin": 9,
     "FloorCount": 1,
     "Exp": 5,
-    "Story": "哈哈哈哈"
+    "Story": "哈哈哈哈",
+    "BackgroundPath" : {
+     	"name" : "fight_bg",
+     	"path" : "Texture"
+     	},
+    "floor":[
+    {
+        "name": "map_1_1",
+        "path": "Texture/"
+      },
+      {
+        "name": "map_1_2",
+        "path": "Texture/"
+      },
+      {
+        "name": "map_1_3",
+        "path": "Texture/"
+      }
+    ]
   },
   "Boss": [
     {

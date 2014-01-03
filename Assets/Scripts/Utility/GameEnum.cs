@@ -2,6 +2,8 @@
 
 public enum SceneEnum
 {
+	None,
+
 	Start,
 
 	Quest,
@@ -47,6 +49,33 @@ public enum CommandEnum
 	#endregion
 }
 
+public enum UIParentEnum : byte {
+	/// <summary>
+	/// screen center anchor
+	/// </summary>
+	Center = 0,
+
+	/// <summary>
+	/// screen top anchor
+	/// </summary>
+	Top = 1,
+
+	/// <summary>
+	/// screen bottom anchor
+	/// </summary>
+	Bottom = 2,
+
+	/// <summary>
+	/// no UIPanel component
+	/// </summary>
+	BottomNoPanel = 3,
+
+	/// <summary>
+	/// The none.
+	/// </summary>
+	None = 254,
+}
+
 public enum UIState
 {
 	UIInit,
@@ -69,3 +98,4 @@ public enum CardPoolEnum
 
 	FightCard,
 }
+

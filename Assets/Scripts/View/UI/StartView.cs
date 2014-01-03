@@ -61,9 +61,61 @@ public class StartView : UIBase
 		sceneInfoBar.gameObject.SetActive(false);
 	}
 	
-	public override void DestoryUI ()
-	{	
+	public override void DestoryUI () {	
+
+	}
+}
+
+public class StartScene : BaseComponent{
+	public StartScene(string uiName) : base(uiName) {
+
+	}
+	
+	public override void CreatUI () {
 
 	}
 
+	public override void ShowUI () {
+
+	}
+	
+	public override void HideUI () {
+
+	}
+
+	public override void DestoryUI () {
+
+	}
+
+	private SceneEnum currentScene = SceneEnum.None;
+
+	public SceneEnum CurrentScene {
+		get {return currentScene ;}
+	}
+
+	private SceneEnum prevScene;
+	public SceneEnum PrevScene {
+		get { return PrevScene; }
+
+	}
+
+	public void SetScene(SceneEnum sEnum) {
+		//TODO dispose prev scene
+
+		prevScene = currentScene;
+
+
+		currentScene = sEnum;
+
+		if (sEnum == SceneEnum.Start) {
+			DecoratorInitScene dis = new DecoratorInitScene (sEnum);
+			dis.SetDecorator (this);
+			dis.DecoratorScene ();
+			dis.ShowScene ();
+		}
+	}
+
+	void InitGame() {
+
+	}
 }

@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+
 #region old
 public interface IUIInterface 
 {
@@ -37,22 +39,39 @@ public interface IUIInterface
 }
 #endregion
 
-#region new
+//------------------------------------------------------------------------------------------------------------------------
+// new code
+//------------------------------------------------------------------------------------------------------------------------
 
-public interface IUIComponent
-{
-	string UIName{ get;}
-
-	void CreatUI();
-
+/// <summary>
+/// view interface
+/// </summary>
+public interface IUIComponentUnity {
+	UIInsConfig UIConfig{ get;}
 	void ShowUI();
-
 	void HideUI();
-
 	void DestoryUI();
 }
 
-#endregion
+/// <summary>
+/// logic ui interface
+/// </summary>
+public interface IUIComponent :  IUIComponentUnity{
+
+	void CreatUI();
+}
+
+public interface IUIOrigin {
+
+}
+
+/// <summary>
+/// ui callback interface
+/// </summary>
+public interface IUICallback : IUIOrigin {
+	void Callback(object data);
+}
+
 public delegate void Callback();
 
 public delegate void UICallback(GameObject caller);
