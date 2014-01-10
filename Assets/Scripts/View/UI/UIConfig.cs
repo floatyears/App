@@ -49,10 +49,13 @@ public class UIConfig
 	public const string menuBackgroundName = "MenuBg";
 	public const string topBackgroundName = "PlayerInfoBar";
 	public const string menuBottomName = "MenuBottom";
+
+	public const string questWindowName = "QuestWindow";
 }
 
 
 public class UIIns : JsonOriginData {
+
 	private Dictionary<string,UIInsConfig> uiInsData = new Dictionary<string, UIInsConfig>(); 
 
 	public UIIns(string info) :base(info) {

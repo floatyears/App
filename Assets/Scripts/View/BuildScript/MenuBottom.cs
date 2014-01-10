@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class MenuBottom : ConcreteComponent, IUICallback {
+
 	public MenuBottom (string uiName) : base(uiName) {
 
 	}

@@ -100,15 +100,13 @@ public class StartScene : BaseComponent{
 	}
 
 	public void SetScene(SceneEnum sEnum) {
-		//TODO dispose prev scene
 
 		prevScene = currentScene;
-
 
 		currentScene = sEnum;
 
 		if (sEnum == SceneEnum.Start) {
-			DecoratorInitScene dis = new DecoratorInitScene (sEnum);
+			StartDecorator dis = new StartDecorator (sEnum);
 			dis.SetDecorator (this);
 			dis.DecoratorScene ();
 			dis.ShowScene ();

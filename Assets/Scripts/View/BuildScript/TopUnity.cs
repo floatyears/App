@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class TopUnity : UIComponentUnity {
-	public override void Init (UIInsConfig config, IUIOrigin origin) {
+
+	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
 	}
 

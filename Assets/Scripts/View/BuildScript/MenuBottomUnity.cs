@@ -50,7 +50,7 @@ public class MenuBottomUnity : UIComponentUnity {
 		}
 	}
 
-	void OnClickCallback(GameObject caller) {
+	void OnClickCallback( GameObject caller ) {
 
 //		Debug.LogError ("onclickcallback : " + temp + "```" + caller);
 
@@ -58,13 +58,17 @@ public class MenuBottomUnity : UIComponentUnity {
 			return;
 		}
 
-		SceneEnum s = buttonInfo [caller];
+		SceneEnum se = buttonInfo [caller];
 
 		if (iuiCallback == null) {
 			iuiCallback = origin as IUICallback;
 		} 
 		else {
-			iuiCallback.Callback(s);
+			iuiCallback.Callback(se);
+			LogHelper.Log("Click Btn: " + se.ToString() );
+
+			//-->Quest Scene
+			UIManager.Instance.ChangeScene( se );
 		}
 	}
 }
