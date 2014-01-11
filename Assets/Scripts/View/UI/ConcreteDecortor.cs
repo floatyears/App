@@ -27,10 +27,13 @@ public class StartDecorator : DecoratorBase {
 		
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent> (UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent (bottom);
+
+		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar.SetComponent( playerInfoBar );
+
+		sceneInfoBar.CreatUI ();
 		
-		playerInfoBar.CreatUI ();
-		
-		lastDecorator = playerInfoBar;
+		lastDecorator = sceneInfoBar;
 	}
 }
 
@@ -202,10 +205,38 @@ public class UnitsDecorator : DecoratorBase {
 	}
 }
 
-//--------------------------------QuestSelect----------------------------------
-public class QuestSelectDecorator : DecoratorBase {
+//--------------------------------Party----------------------------------------
+public class PartyDecorator : DecoratorBase {
 	
-	public QuestSelectDecorator(SceneEnum sEnum) : base(sEnum) { }
+	public PartyDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+	
+		PartyComponent party = CreatComponent< PartyComponent >( UIConfig.partyWindowName);
+		party.SetComponent( decorator );
+
+		party.CreatUI();
+		lastDecorator = party;
+		
+	}
+}
+
+//--------------------------------LevelUp----------------------------------------
+public class LevelUpDecorator : DecoratorBase {
+	
+	public LevelUpDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
@@ -221,9 +252,123 @@ public class QuestSelectDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		
+		LevelUpComponent levelUp = CreatComponent< LevelUpComponent >( UIConfig.levelUpWindowName);
+		levelUp.SetComponent( decorator );
 		
+		levelUp.CreatUI();
+		lastDecorator = levelUp;
 		
 	}
 }
 
+//--------------------------------Sell------------------------------------------
+public class SellDecorator : DecoratorBase {
+	
+	public SellDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		
+		SellComponent sell = CreatComponent< SellComponent >( UIConfig.sellWindowName);
+		sell.SetComponent( decorator );
+		
+		sell.CreatUI();
+		lastDecorator = sell;
+		
+	}
+}
 
+//--------------------------------Evolve------------------------------------------
+public class EvolveDecorator : DecoratorBase {
+	
+	public EvolveDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		
+		EvolveComponent evolve = CreatComponent< EvolveComponent >( UIConfig.evolveWindowName);
+		evolve.SetComponent( decorator );
+		
+		evolve.CreatUI();
+		lastDecorator = evolve;
+		
+	}
+}
+
+//--------------------------------Catalog------------------------------------------
+public class CatalogDecorator : DecoratorBase {
+	
+	public CatalogDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		
+		CatalogComponent catalog = CreatComponent< CatalogComponent >( UIConfig.catalogWindowName);
+		catalog.SetComponent( decorator );
+		
+		catalog.CreatUI();
+		lastDecorator = catalog;
+		
+	}
+}
+
+//--------------------------------UnitList------------------------------------------
+public class UnitListDecorator : DecoratorBase {
+	
+	public UnitListDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		
+		UnitListComponent list = CreatComponent< UnitListComponent >( UIConfig.unitListWindowName);
+		list.SetComponent( decorator );
+		
+		list.CreatUI();
+		lastDecorator = list;
+		
+	}
+}

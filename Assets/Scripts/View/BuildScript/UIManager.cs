@@ -137,6 +137,30 @@ public class UIManager {
 		case SceneEnum.Units:
 			temp = new UnitsDecorator( sEnum );
 			break;
+
+		case SceneEnum.Party:
+			temp = new PartyDecorator( sEnum );
+			break;
+
+		case SceneEnum.Sell:
+			temp = new SellDecorator( sEnum );
+			break;
+
+		case SceneEnum.Evolve:
+			temp = new EvolveDecorator( sEnum );
+			break;
+
+		case SceneEnum.UnitList:
+			temp = new UnitListDecorator( sEnum );
+			break;
+
+		case SceneEnum.LevelUp:
+			temp = new LevelUpDecorator( sEnum );
+			break;
+
+		case SceneEnum.UnitCatalog:
+			temp = new CatalogDecorator( sEnum );
+			break;
 		}
 		if (temp != null) {
 				temp.SetDecorator (baseScene);

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UnitsComponent : ConcreteComponent,IUICallback {
+public class PartyComponent : ConcreteComponent {
 	
-	public UnitsComponent(string uiName):base(uiName) {}
+	public PartyComponent(string uiName):base(uiName) {}
 	
 	public override void CreatUI () {
 		base.CreatUI ();
@@ -24,9 +24,9 @@ public class UnitsComponent : ConcreteComponent,IUICallback {
 	public void Callback (object data)
 	{
 		try {
-			SceneEnum se = (SceneEnum)data;
-			Debug.Log( se.ToString() );
-			UIManager.Instance.ChangeScene(se);
+			SceneEnum scene = (SceneEnum)data;
+			UIManager.Instance.ChangeScene( scene );
+
 		} 
 		catch (System.Exception ex) {
 			LogHelper.LogException(ex);

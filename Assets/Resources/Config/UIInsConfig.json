@@ -7,6 +7,14 @@
         "positiony": 0,
         "positionz": 0
     },
+     "SceneInfo": {
+        "uiName":"SceneInfoBar",
+        "resoucePath": "Prefabs/UI/Share/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
      "MainBackground": {
         "uiName":"MenuBg",
         "resoucePath": "Prefabs/UI/Share/",
@@ -70,5 +78,85 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
+    },
+     "PartyWindow": {
+        "uiName":"PartyWindow",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+    "LevelUp": {
+        "uiName":"LevelUpWindow",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+    "SellWindow": {
+        "uiName":"SellWindow",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+    "CatalogWindow": {
+        "uiName":"CatalogWindow",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+    "EvolveWindow": {
+        "uiName":"EvolveWindow",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+    "UnitListWindow": {
+        "uiName":"UnitListWindow",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
