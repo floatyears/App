@@ -113,20 +113,30 @@ public class UIManager {
 
 		DecoratorBase temp = null;
 		switch (sEnum)
-		{	
+		{
+		case SceneEnum.Quest:
+			temp = new QuestDecorator( sEnum );
+			break;
 
-//		case SceneEnum.Quest:
-//			temp = new QuestDecorator( sEnum );
-//			break;
+		case SceneEnum.Friends:
+			temp = new FriendDecorator( sEnum );
+			break;
 
+		case SceneEnum.Scratch:
+			temp = new ScratchDecorator( sEnum );
+			break;
 
-//		case SceneEnum.Start:
-//			temp = new DecoratorUIScene(sEnum);
-//			break;
-//		case SceneEnum.Quest:
-//			temp = new TestUIQuest(sEnum);
-//			break;
+		case SceneEnum.Shop:
+			temp = new ShopDecorator( sEnum );
+			break;
 
+		case SceneEnum.Others:
+			temp = new OthersDecorator( sEnum );
+			break;
+
+		case SceneEnum.Units:
+			temp = new UnitsDecorator( sEnum );
+			break;
 		}
 		if (temp != null) {
 				temp.SetDecorator (baseScene);

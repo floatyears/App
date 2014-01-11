@@ -19,11 +19,13 @@ public class StartDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
+		BgComponent background = CreatComponent< BgComponent >( UIConfig.menuBackgroundName );
+		background.SetComponent ( decorator );
+
+		MenuBtnsComponent bottom = CreatComponent< MenuBtnsComponent > (UIConfig.menuBottomName);
+		bottom.SetComponent (background);
 		
-		MenuBottom bottom = CreatComponent<MenuBottom> (UIConfig.menuBottomName);
-		bottom.SetComponent (decorator);
-		
-		Top playerInfoBar = CreatComponent<Top> (UIConfig.topBackgroundName);
+		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent> (UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent (bottom);
 		
 		playerInfoBar.CreatUI ();
@@ -78,7 +80,11 @@ public class FriendDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		
+		FriendComponent friend = CreatComponent< FriendComponent >( UIConfig.friendWindowName );
+		friend.SetComponent( decorator );
+
+		friend.CreatUI ();
+		lastDecorator = friend;
 
 		
 	}
@@ -102,7 +108,11 @@ public class ScratchDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
+		OthersComponent scratch = CreatComponent< OthersComponent >( UIConfig.scratchWindowName );
+		scratch.SetComponent( decorator );
 		
+		scratch.CreatUI ();
+		lastDecorator = scratch;
 		
 		
 	}
@@ -126,7 +136,11 @@ public class ShopDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
+		ShopComponent shop = CreatComponent< ShopComponent >( UIConfig.shopWindowName );
+		shop.SetComponent( decorator );
 		
+		shop.CreatUI ();
+		lastDecorator = shop;
 		
 		
 	}
@@ -151,7 +165,11 @@ public class OthersDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		
+		OthersComponent others = CreatComponent< OthersComponent >( UIConfig.othersWindowName );
+		others.SetComponent( decorator );
 		
+		others.CreatUI ();
+		lastDecorator = others;
 		
 	}
 }
@@ -175,7 +193,11 @@ public class UnitsDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		
+		UnitsComponent units = CreatComponent< UnitsComponent >( UIConfig.unitsWindowName );
+		units.SetComponent( decorator );
 		
+		units.CreatUI ();
+		lastDecorator = units;
 		
 	}
 }

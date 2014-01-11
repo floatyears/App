@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuBottom : ConcreteComponent, IUICallback {
+public class MenuBtnsComponent : ConcreteComponent, IUICallback {
 
-	public MenuBottom (string uiName) : base(uiName) {
+	public MenuBtnsComponent (string uiName) : base(uiName) {
 
 	}
 

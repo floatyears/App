@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class QuestComponent : ConcreteComponent {
-
-	public QuestComponent(string uiName):base(uiName) {}
+public class OthersComponent : ConcreteComponent {
+	
+	public OthersComponent(string uiName):base(uiName) {}
 	
 	public override void CreatUI () {
 		base.CreatUI ();
@@ -20,5 +20,5 @@ public class QuestComponent : ConcreteComponent {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
-
+	
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class MenuBottomUnity : UIComponentUnity {
+public class MenuBtnsDecoratorUnity : UIComponentUnity {
 	IUICallback iuiCallback;
 	bool temp = false;
 
@@ -65,10 +65,6 @@ public class MenuBottomUnity : UIComponentUnity {
 		} 
 		else {
 			iuiCallback.Callback(se);
-			LogHelper.Log("Click Btn: " + se.ToString() );
-
-			//-->Quest Scene
-			UIManager.Instance.ChangeScene( se );
 		}
 	}
 }

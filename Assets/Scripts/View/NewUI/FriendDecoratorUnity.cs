@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class QuestComponent : ConcreteComponent {
-
-	public QuestComponent(string uiName):base(uiName) {}
+public class FriendDecoratorUnity : UIComponentUnity {
 	
-	public override void CreatUI () {
-		base.CreatUI ();
+	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
+		base.Init (config, origin);
 	}
 	
 	public override void ShowUI () {
@@ -20,5 +18,4 @@ public class QuestComponent : ConcreteComponent {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
-
 }

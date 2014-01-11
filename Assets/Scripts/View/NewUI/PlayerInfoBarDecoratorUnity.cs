@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TopUnity : UIComponentUnity {
+public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
