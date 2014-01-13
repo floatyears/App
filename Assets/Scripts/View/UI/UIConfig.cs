@@ -64,6 +64,8 @@ public class UIConfig
 	public const string sellWindowName = "SellWindow";
 	public const string unitListWindowName = "UnitListWindow";
 	public const string evolveWindowName = "EvolveWindow";
+	public const string QuestSelectWindowName = "QuestSelectWindow";
+	public const string FriendSelectWindowName = "FriendSelectWindow";
 
 }
 

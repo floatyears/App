@@ -164,6 +164,14 @@ public class UIManager {
 		case SceneEnum.UnitCatalog:
 			temp = new CatalogDecorator( sEnum );
 			break;
+
+		case SceneEnum.QuestSelect:
+			temp = new QuestSelectDecorator( sEnum );
+			break;
+			
+		case SceneEnum.FriendSelect:
+			temp = new FriendSelectDecorator( sEnum );
+			break;
 		}
 		if (temp != null) {
 				temp.SetDecorator (baseScene);

@@ -18,10 +18,14 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+
+		// Animation Here
+		//iTween.MoveTo ( this.gameObject, iTween.Hash("y", .1, "easeType", "easeInOutExpo", "delay", .1) );
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+
 	}
 	
 	public override void DestoryUI () {

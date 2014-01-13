@@ -36,12 +36,14 @@ public class StartDecorator : DecoratorBase {
 
 //--------------------------------Quest---------------------------------------
 public class QuestDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public QuestDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
+		sceneInfoBar.SetBackScene(SceneEnum.None);
+
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.None);
+
 	}
 		
 	public override void HideScene () {
@@ -54,9 +56,8 @@ public class QuestDecorator : DecoratorBase {
 
 	public override void DecoratorScene () {
 
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		QuestComponent quest = CreatComponent< QuestComponent > ( UIConfig.questWindowName );
 		quest.SetComponent ( sceneInfoBar );
@@ -68,12 +69,12 @@ public class QuestDecorator : DecoratorBase {
 
 //--------------------------------Friend---------------------------------------
 public class FriendDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public FriendDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.None);
+		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene () {
@@ -85,9 +86,8 @@ public class FriendDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		FriendComponent friend = CreatComponent< FriendComponent >( UIConfig.friendWindowName );
 		friend.SetComponent( sceneInfoBar );
@@ -99,12 +99,12 @@ public class FriendDecorator : DecoratorBase {
 
 //--------------------------------Scratch--------------------------------------
 public class ScratchDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public ScratchDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.None);
+		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene () {
@@ -117,9 +117,8 @@ public class ScratchDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		OthersComponent scratch = CreatComponent< OthersComponent >( UIConfig.scratchWindowName );
 		scratch.SetComponent( sceneInfoBar );
@@ -132,12 +131,12 @@ public class ScratchDecorator : DecoratorBase {
 
 //--------------------------------Shop-----------------------------------------
 public class ShopDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public ShopDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.None);
+		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene () {
@@ -150,9 +149,8 @@ public class ShopDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		ShopComponent shop = CreatComponent< ShopComponent >( UIConfig.shopWindowName );
 		shop.SetComponent( sceneInfoBar );
@@ -165,12 +163,12 @@ public class ShopDecorator : DecoratorBase {
 
 //--------------------------------Others---------------------------------------
 public class OthersDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public OthersDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.None);
+		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene () {
@@ -182,9 +180,8 @@ public class OthersDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		OthersComponent others = CreatComponent< OthersComponent >( UIConfig.othersWindowName );
 		others.SetComponent( sceneInfoBar );
@@ -197,12 +194,12 @@ public class OthersDecorator : DecoratorBase {
 
 //--------------------------------Units----------------------------------------
 public class UnitsDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public UnitsDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.None);
+		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene () {
@@ -214,9 +211,8 @@ public class UnitsDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		UnitsComponent units = CreatComponent< UnitsComponent >( UIConfig.unitsWindowName );
 		units.SetComponent( sceneInfoBar );
@@ -227,14 +223,16 @@ public class UnitsDecorator : DecoratorBase {
 	}
 }
 
-//--------------------------------Party----------------------------------------
-public class PartyDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
-	public PartyDecorator(SceneEnum sEnum) : base(sEnum) { }
+//--------------------------------QuestSelect----------------------------------------
+public class QuestSelectDecorator : DecoratorBase {
+
+	private SceneInfoComponent sceneInfoBar;
+
+	public QuestSelectDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Quest);
 	}
 	
 	public override void HideScene () {
@@ -246,9 +244,72 @@ public class PartyDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
+
+		QuestSelectComponent questSelect = CreatComponent< QuestSelectComponent >( UIConfig.QuestSelectWindowName );
+		questSelect.SetComponent( sceneInfoBar );
+
+		lastDecorator = questSelect;
+		lastDecorator.CreatUI();
+
+	}
+}
+
+//--------------------------------FriendSelect----------------------------------------
+public class FriendSelectDecorator : DecoratorBase {
+	
+	private SceneInfoComponent sceneInfoBar;
+	
+	public FriendSelectDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+		sceneInfoBar.SetBackScene(SceneEnum.None);
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar.SetComponent( decorator );
+		
+		FriendSelectComponent friendSelect = CreatComponent< FriendSelectComponent >( UIConfig.FriendSelectWindowName );
+		friendSelect.SetComponent( sceneInfoBar );
+		
+		lastDecorator = friendSelect;
+		lastDecorator.CreatUI();
+		
+	}
+}
+
+//--------------------------------Party----------------------------------------
+public class PartyDecorator : DecoratorBase {
+	private SceneInfoComponent sceneInfoBar;
+	public PartyDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar.SetComponent( decorator );
 
 		PartyComponent party = CreatComponent< PartyComponent >( UIConfig.partyWindowName);
 		party.SetComponent( sceneInfoBar );
@@ -260,12 +321,12 @@ public class PartyDecorator : DecoratorBase {
 
 //--------------------------------LevelUp----------------------------------------
 public class LevelUpDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public LevelUpDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
 	public override void HideScene () {
@@ -277,9 +338,8 @@ public class LevelUpDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		LevelUpComponent levelUp = CreatComponent< LevelUpComponent >( UIConfig.levelUpWindowName);
 		levelUp.SetComponent( sceneInfoBar );
@@ -291,12 +351,12 @@ public class LevelUpDecorator : DecoratorBase {
 
 //--------------------------------Sell------------------------------------------
 public class SellDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public SellDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
 	public override void HideScene () {
@@ -308,9 +368,8 @@ public class SellDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		SellComponent sell = CreatComponent< SellComponent >( UIConfig.sellWindowName);
 		sell.SetComponent( sceneInfoBar );
@@ -322,12 +381,12 @@ public class SellDecorator : DecoratorBase {
 
 //--------------------------------Evolve------------------------------------------
 public class EvolveDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public EvolveDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
 	public override void HideScene () {
@@ -339,9 +398,8 @@ public class EvolveDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		EvolveComponent evolve = CreatComponent< EvolveComponent >( UIConfig.evolveWindowName);
 		evolve.SetComponent( sceneInfoBar );
@@ -353,12 +411,12 @@ public class EvolveDecorator : DecoratorBase {
 
 //--------------------------------Catalog------------------------------------------
 public class CatalogDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public CatalogDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
 	public override void HideScene () {
@@ -370,9 +428,8 @@ public class CatalogDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		CatalogComponent catalog = CreatComponent< CatalogComponent >( UIConfig.catalogWindowName);
 		catalog.SetComponent( sceneInfoBar );
@@ -384,12 +441,12 @@ public class CatalogDecorator : DecoratorBase {
 
 //--------------------------------UnitList------------------------------------------
 public class UnitListDecorator : DecoratorBase {
-	private SceneInfoComponent infoBar;
+	private SceneInfoComponent sceneInfoBar;
 	public UnitListDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		infoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
 	public override void HideScene () {
@@ -401,9 +458,8 @@ public class UnitListDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		SceneInfoComponent sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		infoBar = sceneInfoBar;
 
 		UnitListComponent list = CreatComponent< UnitListComponent >( UIConfig.unitListWindowName);
 		list.SetComponent( sceneInfoBar );
