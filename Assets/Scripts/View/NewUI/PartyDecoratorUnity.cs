@@ -19,4 +19,8 @@ public class PartyDecoratorUnity : UIComponentUnity {
 		base.DestoryUI ();
 	}
 
+	private void InitUI()
+	{
+
+	}
 }

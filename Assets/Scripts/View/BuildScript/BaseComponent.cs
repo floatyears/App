@@ -99,17 +99,22 @@ public class ConcreteComponent : RootComponent, IUIComponent {
 	}
 
 	protected void CreatViewComponent() {
-		Object o = ResourceManager.Instance.LoadLocalAsset (uiConfig.resourcePath) as Object;
 
-		if(o == null)
-			return;
+		if(viewComponent == null) {
 
-		GameObject go = GameObject.Instantiate (o) as GameObject;
-		viewComponent = go.GetComponent<UIComponentUnity> ();
+			Object o = ResourceManager.Instance.LoadLocalAsset (uiConfig.resourcePath) as Object;
+			
+			if(o == null)
+				return;
+			
+			GameObject go = GameObject.Instantiate (o) as GameObject;
+			viewComponent = go.GetComponent<UIComponentUnity> ();
+			
+			if(viewComponent == null)
+				return;
 
-		if(viewComponent == null)
-			return;
-
+		}
+	
 		IUIOrigin org = null;
 		if (this is IUIOrigin) {
 			org = this as IUIOrigin;

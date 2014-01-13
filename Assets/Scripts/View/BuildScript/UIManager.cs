@@ -21,12 +21,12 @@ public class UIManager {
 	/// <summary>
 	/// The base scene. when the game start, instance it.
 	/// </summary>
-	private StartScene baseScene; 
+	public StartScene baseScene; 
 
 	/// <summary>
 	/// current scene class
 	/// </summary>
-	private DecoratorBase current;
+	public DecoratorBase current;
 
 	private Dictionary<SceneEnum,DecoratorBase> sceneDecorator = new Dictionary<SceneEnum, DecoratorBase>();
 	
@@ -85,6 +85,8 @@ public class UIManager {
 		}
 	}
 
+
+
 	public void ChangeScene(SceneEnum sEnum)
 	{
 		if (baseScene.CurrentScene == sEnum) {
@@ -104,6 +106,7 @@ public class UIManager {
 			current = CreatScene(sEnum);
 
 		if (current != null) {
+
 			current.ShowScene();		
 		}
 	}

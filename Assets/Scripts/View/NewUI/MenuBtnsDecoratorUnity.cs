@@ -51,9 +51,6 @@ public class MenuBtnsDecoratorUnity : UIComponentUnity {
 	}
 
 	void OnClickCallback( GameObject caller ) {
-
-//		Debug.LogError ("onclickcallback : " + temp + "```" + caller);
-
 		if (!temp) {
 			return;
 		}
@@ -63,8 +60,7 @@ public class MenuBtnsDecoratorUnity : UIComponentUnity {
 		if (iuiCallback == null) {
 			iuiCallback = origin as IUICallback;
 		} 
-		else {
-			iuiCallback.Callback(se);
-		}
+
+		iuiCallback.Callback(se);
 	}
 }

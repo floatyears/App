@@ -9,7 +9,7 @@ public class PlayerInfoBarComponent : ConcreteComponent  {
 
 	public override void CreatUI () {
 		base.CreatUI ();
-		viewComponent.Init (uiConfig);
+		//viewComponent.Init (uiConfig);
 	}
 
 	public override void ShowUI () {

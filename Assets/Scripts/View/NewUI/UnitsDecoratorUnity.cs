@@ -62,8 +62,7 @@ public class UnitsDecoratorUnity : UIComponentUnity {
 		if (iuiCallback == null) {
 			iuiCallback = origin as IUICallback;
 		} 
-		else {
-			iuiCallback.Callback(se);
-		}
+
+		iuiCallback.Callback(se);
 	}
 }

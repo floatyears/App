@@ -8,7 +8,7 @@ public class DecoratorBase {
 		currentDecoratorScene = sEnum;
 	}
 
-	private SceneEnum currentDecoratorScene;
+	protected SceneEnum currentDecoratorScene;
 
 	public SceneEnum CurrentDecoratorScene{
 		get{

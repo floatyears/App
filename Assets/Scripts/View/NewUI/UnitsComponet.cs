@@ -25,7 +25,7 @@ public class UnitsComponent : ConcreteComponent,IUICallback {
 	{
 		try {
 			SceneEnum se = (SceneEnum)data;
-			Debug.Log( se.ToString() );
+
 			UIManager.Instance.ChangeScene(se);
 		} 
 		catch (System.Exception ex) {
