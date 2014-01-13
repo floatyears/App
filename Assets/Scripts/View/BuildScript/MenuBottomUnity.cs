@@ -61,10 +61,10 @@ public class MenuBottomUnity : UIComponentUnity {
 		SceneEnum s = buttonInfo [caller];
 
 		if (iuiCallback == null) {
-			iuiCallback = origin as IUICallback;
+				iuiCallback = origin as IUICallback;
 		} 
 		else {
-			iuiCallback.Callback(s);
+			iuiCallback.Callback(s);	
 		}
 	}
 }

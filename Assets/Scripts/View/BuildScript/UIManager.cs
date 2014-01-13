@@ -110,7 +110,6 @@ public class UIManager {
 	
 	DecoratorBase CreatScene(SceneEnum sEnum)
 	{
-
 		DecoratorBase temp = null;
 		switch (sEnum)
 		{	

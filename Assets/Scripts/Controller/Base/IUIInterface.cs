@@ -46,17 +46,21 @@ public interface IUIInterface
 /// <summary>
 /// view interface
 /// </summary>
-public interface IUIComponentUnity {
+public interface IUIBaseComponent {
 	UIInsConfig UIConfig{ get;}
 	void ShowUI();
 	void HideUI();
 	void DestoryUI();
 }
 
+public interface IUIComponentUnity :  IUIBaseComponent{
+	void Init(UIInsConfig config, IUIOrigin originInterface);
+}
+
 /// <summary>
 /// logic ui interface
 /// </summary>
-public interface IUIComponent :  IUIComponentUnity{
+public interface IUIComponent :  IUIBaseComponent{
 
 	void CreatUI();
 }

@@ -10,6 +10,17 @@ enum EUnitType{
 	UNONE	= 6;
 };
 
+enum EUnitRace{
+    ALL             = 0; //all race
+    HUMAN           = 1;
+    UNDEAD          = 2;
+    MYTHIC          = 3;
+    BEAST           = 4;
+    MONSTER         = 5;
+    LEGEND          = 6;
+    SCREAMCHEESE    = 7;
+}
+
 //general response protocol
 message ProtoHeader {
 	required string apiVer		= 1;

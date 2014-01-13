@@ -13,12 +13,12 @@ public class ProtobufDataBase : IOriginModel {
 		SerializeData (instance);
 	}
 
-	public ProtobufDataBase(byte[] data) {
-		Validate (data);
-		if (errorMsgInfo.Code == ErrorCode.Succeed) {
-			originData = data;
-		}
-	}
+//	public ProtobufDataBase(byte[] data) {
+//		Validate (data);
+//		if (errorMsgInfo.Code == ErrorCode.Succeed) {
+//			originData = data;
+//		}
+//	}
 
 	void Init() {
 		type = GetType ();

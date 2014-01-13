@@ -46,6 +46,7 @@ public enum CommandEnum
 
 	#region model to view
 	Person = 3000,
+	UnityPartyInfo = 3001,
 	#endregion
 }
 
@@ -99,3 +100,19 @@ public enum CardPoolEnum
 	FightCard,
 }
 
+public enum CardColorType : byte {
+
+	fire = 0,
+
+	water = 1,
+	
+	wind = 2,
+
+	light = 3,
+
+	dark = 4,
+
+	nothing = 5,
+
+	heart = 6,
+}

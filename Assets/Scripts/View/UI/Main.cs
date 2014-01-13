@@ -74,8 +74,8 @@ public class Main : MonoBehaviour
 	/// </summary>
 	void OnEnable()
 	{
-		UIManager.Instance.ChangeScene (SceneEnum.Start);
-		//ControllerManager.Instance.ChangeScene(SceneEnum.Start);
+		//UIManager.Instance.ChangeScene (SceneEnum.Start);
+		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 
 //		GameObject go = Resources.Load ("Prefabs/DragPanelItem") as GameObject;
 //

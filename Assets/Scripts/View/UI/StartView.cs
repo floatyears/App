@@ -108,6 +108,7 @@ public class StartScene : BaseComponent{
 		currentScene = sEnum;
 
 		if (sEnum == SceneEnum.Start) {
+			Debug.LogError("start scene : " + sEnum);
 			DecoratorInitScene dis = new DecoratorInitScene (sEnum);
 			dis.SetDecorator (this);
 			dis.DecoratorScene ();

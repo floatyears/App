@@ -1,6 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+public class AttackInfo {
+	private byte attackType = 0;
+	public byte AttackType {
+		get { return attackType; }
+	}
+	
+	private List<byte> remainingCard = new List<byte> ();
+	public List<byte> RemainingCard {
+		get { return remainingCard; }
+	}
+	
+	private float attackValue ;
+	public float AttackValue {
+		get {return attackValue; }
+	}
+}
+
 public class SingleMapData
 {
 	private int coordinateX = 0;

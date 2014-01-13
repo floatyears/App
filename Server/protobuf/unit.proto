@@ -7,6 +7,8 @@ message UnitResource {
 	required int32			id			= 1;
 	optional string			path		= 2; // resource download path
 	optional int32			size		= 3; // resource size in bytes
+    repeated string         fileName    = 4; // file name list
+    optional int32          version     = 5; // file version
 };
 
 message UserUnit {  //unit instance

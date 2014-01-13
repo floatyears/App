@@ -81,16 +81,19 @@ public class DecoratorInitScene : DecoratorBase {
 	}
 
 	public override void DecoratorScene () {
-		MenuBottom bottom = CreatComponent<MenuBottom> (UIConfig.menuBottomName);
+		ConcreteComponent bottom = CreatComponent<MenuBottom> (UIConfig.menuBottomName);
 		bottom.SetComponent (decorator);
 
 
-		Top t = CreatComponent<Top> (UIConfig.topBackgroundName);
+		ConcreteComponent t = CreatComponent<Top> (UIConfig.topBackgroundName);
 		t.SetComponent (bottom);
+
+		//xxx
 
 		t.CreatUI ();
 
 		lastDecorator = t;
+
 	}
 }
 
@@ -131,11 +134,16 @@ public class TestUIQuest : DecoratorBase {
 	}
 
 	public override void DecoratorScene () {
-		Top top = CreatComponent<Top> (UIConfig.topBackgroundName);
+		ConcreteComponent top = CreatComponent<Top> (UIConfig.topBackgroundName);
 		top.SetComponent (decorator);
-		top.CreatUI ();
 
-		lastDecorator = top;
+		ConcreteComponent bottom = CreatComponent<MenuBottom> (UIConfig.menuBottomName);
+
+		bottom.SetComponent (top);
+
+		bottom.CreatUI ();
+
+		lastDecorator = bottom;
 	}
 
 	public override void ShowScene () {

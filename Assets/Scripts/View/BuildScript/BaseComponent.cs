@@ -27,6 +27,17 @@ public class RootComponent {
 		UIIns ins = ModelManager.Instance.GetData (ModelEnum.UIInsConfig, errMsg) as UIIns;
 		return ins.GetData (name);
 	}
+
+	protected void CreatViewComponent() {
+		Object o = ResourceManager.Instance.LoadLocalAsset (uiConfig.resourcePath) as Object;
+		GameObject go = GameObject.Instantiate (o) as GameObject;
+		viewComponent = go.GetComponent<UIComponentUnity> ();
+		IUIOrigin org = null;
+		if (this is IUIOrigin) {
+			org = this as IUIOrigin;
+		}
+		viewComponent.Init (uiConfig, org);
+	}
 }
 
 /// <summary>
@@ -98,16 +109,7 @@ public class ConcreteComponent : RootComponent, IUIComponent {
 		}
 	}
 
-	protected void CreatViewComponent() {
-		Object o = ResourceManager.Instance.LoadLocalAsset (uiConfig.resourcePath) as Object;
-		GameObject go = GameObject.Instantiate (o) as GameObject;
-		viewComponent = go.GetComponent<UIComponentUnity> ();
-		IUIOrigin org = null;
-		if (this is IUIOrigin) {
-			org = this as IUIOrigin;
-		}
-		viewComponent.Init (uiConfig, org);
-	}
+
 	
 	#region decorator
 	protected IUIComponent component;

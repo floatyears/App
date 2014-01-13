@@ -7,8 +7,10 @@ using UnityEngine;
 public enum ModelEnum
 {
     User = 1000,
+	UnitPartyInfo = 1001,
 
 	UIInsConfig = 2000,
+
 }
 
 public class ModelManager
@@ -83,7 +85,7 @@ public class ModelManager
 	/// </summary>
 	/// <param name="modelType">Model type.</param>
 	/// <param name="model">Model.</param>
-	public void AddData (ModelEnum modelType, IOriginModel model){
+	public void AddData (ModelEnum modelType, IOriginModel model) {
 		if (modelDataDic.ContainsKey (modelType)) {
 			modelDataDic [modelType] = model;
 		}
@@ -108,6 +110,5 @@ public class ModelManager
 
 		return origin;
 	}
-
 }
 
