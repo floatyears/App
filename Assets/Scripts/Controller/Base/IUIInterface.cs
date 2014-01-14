@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 #region old
@@ -47,7 +47,7 @@ public interface IUIInterface
 /// view interface
 /// </summary>
 public interface IUIBaseComponent {
-	UIInsConfig UIConfig{ get;}
+	UIInsConfig uiConfig{ get;}
 	void ShowUI();
 	void HideUI();
 	void DestoryUI();

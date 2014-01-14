@@ -93,7 +93,7 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 
 public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 	protected UIInsConfig config = null;
-	public UIInsConfig UIConfig {
+	public UIInsConfig uiConfig {
 		get {
 			return config;
 		}
@@ -149,5 +149,11 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 		}
 
 		return root.transform.Find (path).GetComponent<T> ();
+	}
+
+	protected Vector3 CaculateReallyPoint (Vector3 distance, Vector3 parentPosition) {
+		Vector3 point = distance + transform.localPosition +  parentPosition;
+		Vector3 targetpoint = point * Main.Instance.uiRoot.transform.localScale.y;
+		return targetpoint;
 	}
 }

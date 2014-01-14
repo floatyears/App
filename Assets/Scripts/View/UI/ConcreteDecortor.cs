@@ -247,7 +247,7 @@ public class QuestSelectDecorator : DecoratorBase {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
 
-		QuestSelectComponent questSelect = CreatComponent< QuestSelectComponent >( UIConfig.QuestSelectWindowName );
+		QuestSelectComponent questSelect = CreatComponent< QuestSelectComponent >( UIConfig.questSelectWindowName );
 		questSelect.SetComponent( sceneInfoBar );
 
 		lastDecorator = questSelect;
@@ -280,7 +280,7 @@ public class FriendSelectDecorator : DecoratorBase {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
 		
-		FriendSelectComponent friendSelect = CreatComponent< FriendSelectComponent >( UIConfig.FriendSelectWindowName );
+		FriendSelectComponent friendSelect = CreatComponent< FriendSelectComponent >( UIConfig.friendSelectWindowName );
 		friendSelect.SetComponent( sceneInfoBar );
 		
 		lastDecorator = friendSelect;
@@ -468,3 +468,166 @@ public class UnitListDecorator : DecoratorBase {
 		lastDecorator.CreatUI();
 	}
 }
+
+//--------------------------------FriendList------------------------------------------
+public class FriendListDecorator : DecoratorBase {
+	private SceneInfoComponent sceneInfoBar;
+	public FriendListDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar.SetComponent( decorator );
+
+		lastDecorator = sceneInfoBar;
+		lastDecorator.CreatUI();
+	}
+}
+
+//--------------------------------Information------------------------------------------
+public class InformationDecorator : DecoratorBase {
+	private SceneInfoComponent sceneInfoBar;
+	public InformationDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar.SetComponent( decorator );
+		
+		lastDecorator = sceneInfoBar;
+		lastDecorator.CreatUI();
+	}
+}
+
+//--------------------------------SearchFriend------------------------------------------
+public class SearchFriendDecorator : DecoratorBase {
+	private SceneInfoComponent sceneInfoBar;
+	public SearchFriendDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar.SetComponent( decorator );
+		
+		lastDecorator = sceneInfoBar;
+		lastDecorator.CreatUI();
+	}
+}
+
+//--------------------------------Apply------------------------------------------
+public class ApplyDecorator : DecoratorBase {
+	private SceneInfoComponent sceneInfoBar;
+	public ApplyDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar.SetComponent( decorator );
+		
+		lastDecorator = sceneInfoBar;
+		lastDecorator.CreatUI();
+	}
+}
+
+//--------------------------------Reception------------------------------------------
+public class ReceptionDecorator : DecoratorBase {
+	private SceneInfoComponent sceneInfoBar;
+	public ReceptionDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar.SetComponent( decorator );
+		
+		lastDecorator = sceneInfoBar;
+		lastDecorator.CreatUI();
+	}
+}
+
+//--------------------------------YourID------------------------------------------
+public class YourIDDecorator : DecoratorBase {
+	private SceneInfoComponent sceneInfoBar;
+	public YourIDDecorator(SceneEnum sEnum) : base(sEnum) { }
+	
+	public override void ShowScene () {
+		base.ShowScene ();
+		sceneInfoBar.SetBackScene(SceneEnum.Units);
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		sceneInfoBar.SetComponent( decorator );
+		
+		lastDecorator = sceneInfoBar;
+		lastDecorator.CreatUI();
+	}
+}
+

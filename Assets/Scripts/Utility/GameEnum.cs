@@ -22,6 +22,18 @@ public enum SceneEnum
 
 	FriendSelect,
 
+	FriendList,
+
+	Information,
+
+	SearchFriend,
+
+	Apply,
+
+	Reception,
+
+	YourID,
+
 	Party,
 
 	LevelUp,

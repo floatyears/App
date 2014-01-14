@@ -171,6 +171,31 @@ public class UIManager {
 		case SceneEnum.FriendSelect:
 			temp = new FriendSelectDecorator( sEnum );
 			break;
+
+		case SceneEnum.FriendList:
+			temp = new FriendListDecorator( sEnum );
+			break;
+			
+		case SceneEnum.SearchFriend:
+			temp = new SearchFriendDecorator( sEnum );
+			break;
+			
+		case SceneEnum.Information:
+			temp = new InformationDecorator( sEnum );
+			break;
+			
+		case SceneEnum.Apply:
+			temp = new ApplyDecorator( sEnum );
+			break;
+			
+		case SceneEnum.Reception:
+			temp = new ReceptionDecorator( sEnum );
+			break;
+			
+		case SceneEnum.YourID:
+			temp = new YourIDDecorator( sEnum );
+			break;
+
 		}
 		if (temp != null) {
 				temp.SetDecorator (baseScene);
