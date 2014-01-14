@@ -1,32 +1,29 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using bbproto;
 
-public class UserUnitInfo : BaseModel {
+public class UserUnitParty {
+	public static Dictionary<int,UnitParty> userUnitPartyInfo = new Dictionary<int, UnitParty> ();
 
-	public UserUnitInfo(UserUnit instance) : base(instance){
-		//net = new NetBase (ReceiveNetData,"");
+}
+
+public class UserUnitInfo : ProtobufDataBase {
+	public UserUnitInfo(UserUnit instance) : base (instance) {
+		EAttackType eat = EAttackType.ATK_ALL;
+		EValueType evt = EValueType.FIXED;
+		EBoostType ebt = EBoostType.BOOST_ATTACK;
+		EBoostTarget ebta = EBoostTarget.UNIT_RACE;
+		EPeriod ep = EPeriod.EP_EVERY_ROUND;
+
 	}
+	
+	~UserUnitInfo() {
 
-	protected override void ReceiveNetData (WWW www)
-	{
-		if (www == null) 
-			return;
-
-		//	TODO dispose net data
 	}
+}
 
-	public UserUnit Load() {
-		return LoadProtobuf<UserUnit>();
-	}
-
-	public override bool NetRequest ()
-	{
-		if (net == null)
-			return false;
-
-		net.SendRequest(byteData);
-
-		return true;
+public class PartyItemInfo : ProtobufDataBase {
+	public PartyItemInfo (PartyItem instance) : base (instance) {
+		UnitInfo UI = new UnitInfo ();
 	}
 }

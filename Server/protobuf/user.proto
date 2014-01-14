@@ -42,7 +42,8 @@ message PartyItem {
 };
 
 message UnitParty {
-	repeated PartyItem items		= 1;
+    optional int32      id          = 1;
+	repeated PartyItem  items		= 2;
 };
 
 message UserInfoDetail {
@@ -124,5 +125,9 @@ message RspLoginPack {
 	optional AccountInfo	account		= 3;
 	repeated FriendInfo		friend		= 4;
 	optional LoginInfo		loginParam	= 5;
+};
+
+message ReqModifyUnitParty {
+    repeated UnitParty      partys      = 1;
 };
 

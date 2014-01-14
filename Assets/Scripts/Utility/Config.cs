@@ -97,13 +97,15 @@ public class ItemData
 		case 0:
 			return Color.red;
 		case 1:
-			return Color.white;
-		case 2:
 			return Color.blue;
-		case 3:
+		case 2:
 			return Color.green;
+		case 3:
+			return Color.yellow;
 		case 4:
 			return Color.magenta;
+		case 5:
+			return Color.white;
 		default:
 			return Color.white;
 			break;

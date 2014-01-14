@@ -7,8 +7,10 @@ using UnityEngine;
 public enum ModelEnum
 {
     User = 1000,
+	UnitPartyInfo = 1001,
 
 	UIInsConfig = 2000,
+
 }
 
 public class ModelManager
@@ -32,8 +34,6 @@ public class ModelManager
     }
 
     private Dictionary<ModelEnum, BaseModel> modelDic = new Dictionary<ModelEnum, BaseModel>();
-
-
 
     public void Add (ModelEnum modelType, BaseModel model){
         modelDic.Add(modelType, model);
@@ -76,14 +76,18 @@ public class ModelManager
 		string info = obj.text;
 		UIIns ins = new UIIns (info);
 		AddData (ModelEnum.UIInsConfig, ins);
+
+		ConfigUnitInfo cui = new ConfigUnitInfo ();
 	}
+
+
 
 	/// <summary>
 	/// Adds the data.
 	/// </summary>
 	/// <param name="modelType">Model type.</param>
 	/// <param name="model">Model.</param>
-	public void AddData (ModelEnum modelType, IOriginModel model){
+	public void AddData (ModelEnum modelType, IOriginModel model) {
 		if (modelDataDic.ContainsKey (modelType)) {
 			modelDataDic [modelType] = model;
 		}
@@ -108,6 +112,5 @@ public class ModelManager
 
 		return origin;
 	}
-
 }
 

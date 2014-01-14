@@ -127,10 +127,10 @@ public class BattleCardAreaItem : UIBaseUnity
 		int itemID = Config.Instance.CardData [id].itemID;
 
 		MsgCenter.Instance.Invoke (CommandEnum.DragCardToBattleArea, itemID);
-		//int gID = BattleDataMode.GenerateCard (id, itemID);
+		int gID = BattleDataMode.GenerateCard (id, itemID);
 
-//		InstnaceCard (gID);
-//		battleList.Add(gID);
+		InstnaceCard (gID);
+		battleList.Add(gID);
 	}
 
 	void InstnaceCard(int gID){

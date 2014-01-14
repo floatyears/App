@@ -7,21 +7,25 @@ public class ProtobufDataBase : IOriginModel {
 	private ErrorMsg errorMsgInfo = null;
 
 	private Type type;
+	public Type GetObjectType() {
+		return type;
+	}
 
 	public ProtobufDataBase(object instance) {
 		Init ();
 		SerializeData (instance);
+		type = instance.GetType ();
 	}
 
-	public ProtobufDataBase(byte[] data) {
-		Validate (data);
-		if (errorMsgInfo.Code == ErrorCode.Succeed) {
-			originData = data;
-		}
-	}
+//	public ProtobufDataBase(byte[] data) {
+//		Validate (data);
+//		if (errorMsgInfo.Code == ErrorCode.Succeed) {
+//			originData = data;
+//		}
+//	}
 
 	void Init() {
-		type = GetType ();
+		errorMsgInfo = new ErrorMsg ();
 	}
 
 	/// <summary>

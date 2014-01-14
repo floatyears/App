@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 
 public class DGTools
@@ -7,6 +8,42 @@ public class DGTools
 	public int RandomToInt(int min,int max)
 	{
 		return Random.Range(min,max);
+	}
+
+	public static bool ListContains<T>(IList<T> big, IList<T> small) {
+		for (int i = 0; i < small.Count; i++) {
+			if(!big.Contains(small[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static bool IsFirstBoost<T>(IList<T> first, IList<T> second) {
+		if (first.Count < second.Count) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public static int CaculateAddBlood (int add) {
+		return add * 100;
+	}
+
+	public static int CaculateAddAttack (int add) {
+		return add * 50;
+	}
+
+	public static int CaculateAddDefense (int add) {
+		return add * 10;
+	}
+
+
+
+	public static float IntegerSubtriction(int firstInterger,int secondInterger) {
+		return (float)firstInterger / (float)secondInterger;
 	}
 }
 

@@ -44,10 +44,15 @@ public enum CommandEnum
 	ChangeScene = 1,
 	#region view to model
 	DragCardToBattleArea = 1000,
+	InquiryBattleBaseData = 1001,
+	MoveToMapItem = 1002,
 	#endregion
 
 	#region model to view
 	Person = 3000,
+	BattleBaseData = 3001,
+	UnitBlood = 3002,
+	EnergyPoint = 3003,
 	#endregion
 }
 
@@ -101,3 +106,19 @@ public enum CardPoolEnum
 	FightCard,
 }
 
+public enum CardColorType : byte {
+
+	fire = 0,
+
+	water = 1,
+	
+	wind = 2,
+
+	light = 3,
+
+	dark = 4,
+
+	nothing = 5,
+
+	heart = 6,
+}

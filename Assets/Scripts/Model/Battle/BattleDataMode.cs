@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 public class BattleDataMode {
 
-	private Dictionary<int,List<int>> battleCardData = new Dictionary<int, List<int>>();
+	private static Dictionary<int,List<int>> battleCardData = new Dictionary<int, List<int>>();
 
-	public int GenerateCard(int areaID,int cardID)
+	public static int GenerateCard(int areaID,int cardID)
 	{
 		List<int> targetValue = null;
 		if (battleCardData.TryGetValue (areaID, out targetValue)) {
@@ -23,7 +23,7 @@ public class BattleDataMode {
 		return DisposeColor (targetValue);
 	}
 
-	public int DisposeColor(List<int> target){
+	public static int DisposeColor(List<int> target){
 		int index = target.Count - 1;
 		int returnValue = target [index];
 		//target.Clear ();

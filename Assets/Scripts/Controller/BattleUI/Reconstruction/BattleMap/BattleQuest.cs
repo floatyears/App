@@ -43,22 +43,25 @@ public class BattleQuest : UIBase
 
 	private BattleBackground background;
 
+	public static BattleUseData bud;
+
 	string backgroundName = "BattleBackground";
 
 	public BattleQuest (string name) : base(name)
 	{
+		bud = new BattleUseData ();
+
 		InitData ();
 
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
-
 		battleMap = viewManager.GetViewObject(tempName) as BattleMap;
 		battleMap.BQuest = this;
 		battleMap.transform.parent = rootObject.transform;
 		battleMap.transform.localPosition = Vector3.zero;
 		Init(battleMap,tempName);
-		tempName = "Role";
 
+		tempName = "Role";
 		role = viewManager.GetViewObject(tempName) as Role;
 		role.BQuest = this;
 		role.transform.parent = rootObject.transform;
@@ -72,8 +75,6 @@ public class BattleQuest : UIBase
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
-
-		CreatUI ();
 	}
 
 	void InitData()
@@ -93,14 +94,18 @@ public class BattleQuest : UIBase
 
 	public override void ShowUI ()
 	{
-
 		InitData ();
-
 		base.ShowUI ();
+
+		AddListener ();
+
+		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
 	}
 
 	public override void HideUI ()
 	{
+		RemoveListener ();
+
 		base.HideUI ();
 		StartView.mainBg.gameObject.SetActive(true);
 		StartView.menuBtns.gameObject.SetActive(true);
@@ -155,9 +160,21 @@ public class BattleQuest : UIBase
 	void BattleEnd()
 	{
 		if(battle == null || battle.GetState == UIState.UIHide)
-
 			return;
+
 		battle.HideUI();
 	}
-	
+
+	void AddListener () {
+		MsgCenter.Instance.AddListener (CommandEnum.BattleBaseData, BattleBase);
+	}
+
+	void RemoveListener () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.BattleBaseData, BattleBase);
+	}
+
+	void BattleBase (object data) {
+		BattleBaseData bbd = (BattleBaseData)data;
+		background.InitData (bbd.Blood, bbd.EnergyPoint);
+	}
 }
