@@ -23,6 +23,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback{
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+		btnSelect.isEnabled = false;
 	}
 	
 	public override void HideUI () {
@@ -35,8 +36,8 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback{
 
 	private void InitUI(){
 
-		btnSelect = FindChild<UIImageButton>("btn_friend_select"); //FindChild( "btn_friend_select" ).GetComponent< UIImageButton >();
-		btnSelect.isEnabled = false;
+		btnSelect = FindChild<UIImageButton>("btn_quest_select"); //FindChild( "btn_friend_select" ).GetComponent< UIImageButton >();
+
 
 		labDoorName = FindChild( "title/Label_door_name").GetComponent< UILabel>();
 		labDoorName.text = string.Empty;
@@ -66,7 +67,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback{
 		if (!temp) {
 			return;
 		}
-		
+
 		SceneEnum se = SceneEnum.FriendSelect;
 		
 		if (iuiCallback == null) {

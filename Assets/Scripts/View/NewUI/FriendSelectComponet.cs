@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FriendSelectComponent : ConcreteComponent,IUICallback {
+public class FriendSelectComponent : ConcreteComponent {
 
 	private DragPanel friendsScroller;
 	private GameObject friendItem;
@@ -17,29 +17,35 @@ public class FriendSelectComponent : ConcreteComponent,IUICallback {
 		friendsScroller.AddItem (13);
 		friendsScroller.RootObject.SetItemWidth(140);
 		friendsScroller.RootObject.gameObject.transform.localPosition = -680*Vector3.up;
+
+		for(int i = 0; i < friendsScroller.ScrollItem.Count; i++)
+		{
+			UIEventListener.Get(friendsScroller.ScrollItem[ i ].gameObject).onClick = PickFriend;
+		}
 	}
-	
+
+
+	void PickFriend(GameObject btn)
+	{
+		if(viewComponent is IUICallback) {
+			IUICallback call = viewComponent as IUICallback;
+			call.Callback(true);
+		}
+	}
+
+
 	public override void ShowUI () {
 		base.ShowUI ();
+		friendsScroller.RootObject.gameObject.SetActive(true);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+		friendsScroller.RootObject.gameObject.SetActive(false);
 	}
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
 
-	public void Callback (object data)
-	{
-		try {
-			SceneEnum se = (SceneEnum)data;
-
-			UIManager.Instance.ChangeScene(se);
-		} 
-		catch (System.Exception ex) {
-			LogHelper.LogException(ex);
-		}
-	}
 }

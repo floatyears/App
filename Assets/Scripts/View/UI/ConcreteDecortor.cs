@@ -120,7 +120,7 @@ public class ScratchDecorator : DecoratorBase {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
 
-		OthersComponent scratch = CreatComponent< OthersComponent >( UIConfig.scratchWindowName );
+		ScratchComponent scratch = CreatComponent< ScratchComponent >( UIConfig.scratchWindowName );
 		scratch.SetComponent( sceneInfoBar );
 
 		lastDecorator = scratch;
@@ -265,7 +265,7 @@ public class FriendSelectDecorator : DecoratorBase {
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		sceneInfoBar.SetBackScene(SceneEnum.None);
+		sceneInfoBar.SetBackScene(SceneEnum.QuestSelect);
 	}
 	
 	public override void HideScene () {

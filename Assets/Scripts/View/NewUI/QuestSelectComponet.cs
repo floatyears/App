@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class QuestSelectComponent : ConcreteComponent,IUICallback {
+public class QuestSelectComponent : ConcreteComponent, IUICallback{
 
 	private DragPanel questSelectScroller;
 	private GameObject questItem;
@@ -39,18 +39,6 @@ public class QuestSelectComponent : ConcreteComponent,IUICallback {
 		base.DestoryUI ();
 	}
 
-	public void Callback (object data)
-	{
-		try {
-			SceneEnum se = (SceneEnum)data;
-			UIManager.Instance.ChangeScene(se);
-			//Debug.Log("QuestSelectComponent  "+se.ToString());
-		} 
-		catch (System.Exception ex) {
-			LogHelper.LogException(ex);
-		}
-	}
-
 	private void PickQuestInfo(GameObject go)
 	{
 		if(viewComponent is IUICallback) {
@@ -62,5 +50,11 @@ public class QuestSelectComponent : ConcreteComponent,IUICallback {
 	private void SetUIActive(bool b)
 	{
 		questSelectScroller.RootObject.gameObject.SetActive(b);
+	}
+
+	public void Callback(object data)
+	{
+		SceneEnum se = (SceneEnum)data;
+		UIManager.Instance.ChangeScene(se);
 	}
 }
