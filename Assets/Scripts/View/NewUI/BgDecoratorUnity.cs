@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BackgroundUnity : UIComponentUnity {
+public class BgDecoratorUnity : UIComponentUnity {
 	private UISprite sprite;
 
 	public override void Init (UIInsConfig config, IUIOrigin origin) {

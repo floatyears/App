@@ -72,6 +72,10 @@ public interface IUICallback : IUIOrigin {
 	void Callback(object data);
 }
 
+public interface IUISetBool : IUIOrigin {
+	void SetEnable(bool b);
+}
+
 public delegate void Callback();
 
 public delegate void UICallback(GameObject caller);

@@ -21,12 +21,12 @@ public class UIManager {
 	/// <summary>
 	/// The base scene. when the game start, instance it.
 	/// </summary>
-	private StartScene baseScene; 
+	public StartScene baseScene; 
 
 	/// <summary>
 	/// current scene class
 	/// </summary>
-	private DecoratorBase current;
+	public DecoratorBase current;
 
 	private Dictionary<SceneEnum,DecoratorBase> sceneDecorator = new Dictionary<SceneEnum, DecoratorBase>();
 	
@@ -85,6 +85,8 @@ public class UIManager {
 		}
 	}
 
+
+
 	public void ChangeScene(SceneEnum sEnum)
 	{
 		if (baseScene.CurrentScene == sEnum) {
@@ -104,6 +106,7 @@ public class UIManager {
 			current = CreatScene(sEnum);
 
 		if (current != null) {
+
 			current.ShowScene();		
 		}
 	}
@@ -113,59 +116,62 @@ public class UIManager {
 
 		DecoratorBase temp = null;
 		switch (sEnum)
-		{	
-		case SceneEnum.Start:
-			temp = new DecoratorUIScene(sEnum);
-			break;
+		{
 		case SceneEnum.Quest:
-			temp = new TestUIQuest(sEnum);
+			temp = new QuestDecorator( sEnum );
 			break;
-//		case SceneEnum.Friends:
-//			temp = new FriendsView(uiName);
-//			break;
-//		case SceneEnum.Scratch:
-//			temp = new ScratchView(uiName);
-//			break;
-//		case SceneEnum.Shop:
-//			temp = new ShopView(uiName);
-//			break;
-//		case SceneEnum.Others:
-//			temp = new OthersView(uiName);
-//			break;
-//		case SceneEnum.Units:
-//			temp = new UnitView(uiName);
-//			break;
-//		case SceneEnum.QuestSelect:
-//			temp = new QuestSelectView(uiName);
-//			break;
-//		case SceneEnum.FriendSelect:
-//			temp = new FriendSelectView(uiName);
-//			break;
-//		case SceneEnum.Party:
-//			temp = new PartyView(uiName);
-//			break;
-//		case SceneEnum.LevelUp:
-//			temp = new LevelUpView(uiName);
-//			break;
-//		case SceneEnum.UnitList:
-//			temp = new UnitListView(uiName);
-//			break;
-//		case SceneEnum.Evolve:
-//			temp = new EvolveView(uiName);
-//			break;
-//		case SceneEnum.Sell:
-//			temp = new CatalogView(uiName);
-//			break;
-//		case SceneEnum.UnitCatalog:
-//			temp = new CatalogView(uiName);
-//			break;
-//		case SceneEnum.Fight:
-//			temp = new BattleQuest(uiName);
-//			break;
-//			
-//		default:
-//			temp = new UIBase("Null");
-//			break;
+
+		case SceneEnum.Friends:
+			temp = new FriendDecorator( sEnum );
+			break;
+
+		case SceneEnum.Scratch:
+			temp = new ScratchDecorator( sEnum );
+			break;
+
+		case SceneEnum.Shop:
+			temp = new ShopDecorator( sEnum );
+			break;
+
+		case SceneEnum.Others:
+			temp = new OthersDecorator( sEnum );
+			break;
+
+		case SceneEnum.Units:
+			temp = new UnitsDecorator( sEnum );
+			break;
+
+		case SceneEnum.Party:
+			temp = new PartyDecorator( sEnum );
+			break;
+
+		case SceneEnum.Sell:
+			temp = new SellDecorator( sEnum );
+			break;
+
+		case SceneEnum.Evolve:
+			temp = new EvolveDecorator( sEnum );
+			break;
+
+		case SceneEnum.UnitList:
+			temp = new UnitListDecorator( sEnum );
+			break;
+
+		case SceneEnum.LevelUp:
+			temp = new LevelUpDecorator( sEnum );
+			break;
+
+		case SceneEnum.UnitCatalog:
+			temp = new CatalogDecorator( sEnum );
+			break;
+
+		case SceneEnum.QuestSelect:
+			temp = new QuestSelectDecorator( sEnum );
+			break;
+			
+		case SceneEnum.FriendSelect:
+			temp = new FriendSelectDecorator( sEnum );
+			break;
 		}
 		if (temp != null) {
 				temp.SetDecorator (baseScene);

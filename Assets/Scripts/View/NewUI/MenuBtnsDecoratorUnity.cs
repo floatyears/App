@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class MenuBottomUnity : UIComponentUnity {
+public class MenuBtnsDecoratorUnity : UIComponentUnity {
 	IUICallback iuiCallback;
 	bool temp = false;
 
@@ -50,21 +50,17 @@ public class MenuBottomUnity : UIComponentUnity {
 		}
 	}
 
-	void OnClickCallback(GameObject caller) {
-
-//		Debug.LogError ("onclickcallback : " + temp + "```" + caller);
-
+	void OnClickCallback( GameObject caller ) {
 		if (!temp) {
 			return;
 		}
 
-		SceneEnum s = buttonInfo [caller];
+		SceneEnum se = buttonInfo [caller];
 
 		if (iuiCallback == null) {
 			iuiCallback = origin as IUICallback;
 		} 
-		else {
-			iuiCallback.Callback(s);
-		}
+
+		iuiCallback.Callback(se);
 	}
 }

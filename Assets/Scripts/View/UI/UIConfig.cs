@@ -49,10 +49,29 @@ public class UIConfig
 	public const string menuBackgroundName = "MenuBg";
 	public const string topBackgroundName = "PlayerInfoBar";
 	public const string menuBottomName = "MenuBottom";
+	public const string sceneInfoBarName = "SceneInfoBar";
+
+	public const string questWindowName = "QuestWindow";
+	public const string friendWindowName = "FriendWindow";
+	public const string scratchWindowName = "ScratchWindow";
+	public const string shopWindowName = "ShopWindow";
+	public const string othersWindowName = "OthersWindow";
+	public const string unitsWindowName = "UnitsWindow";
+
+	public const string partyWindowName = "PartyWindow";
+	public const string catalogWindowName = "CatalogWindow";
+	public const string levelUpWindowName = "LevelUpWindow";
+	public const string sellWindowName = "SellWindow";
+	public const string unitListWindowName = "UnitListWindow";
+	public const string evolveWindowName = "EvolveWindow";
+	public const string QuestSelectWindowName = "QuestSelectWindow";
+	public const string FriendSelectWindowName = "FriendSelectWindow";
+
 }
 
 
 public class UIIns : JsonOriginData {
+
 	private Dictionary<string,UIInsConfig> uiInsData = new Dictionary<string, UIInsConfig>(); 
 
 	public UIIns(string info) :base(info) {
