@@ -27,6 +27,24 @@ public class DGTools
 			return false;
 		}
 	}
+
+	public static int CaculateAddBlood (int add) {
+		return add * 100;
+	}
+
+	public static int CaculateAddAttack (int add) {
+		return add * 50;
+	}
+
+	public static int CaculateAddDefense (int add) {
+		return add * 10;
+	}
+
+
+
+	public static float IntegerSubtriction(int firstInterger,int secondInterger) {
+		return (float)firstInterger / (float)secondInterger;
+	}
 }
 
 public class GameLayer

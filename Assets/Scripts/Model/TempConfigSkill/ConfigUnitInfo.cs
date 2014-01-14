@@ -7,6 +7,8 @@ public class ConfigUnitInfo {
 		GenerateUnitInfo ();
 
 		GenerateUserUnit ();
+
+		GenerateUserUnitParty ();
 	}
 	
 	private const int maxCount = 6;
@@ -32,7 +34,7 @@ public class ConfigUnitInfo {
 			uiitem.rare = i;
 			uiitem.maxLevel = 10;
 			uiitem.expType = 1;
-
+		
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
@@ -58,7 +60,7 @@ public class ConfigUnitInfo {
 	void GenerateUserUnitParty () {
 		UnitParty up = new UnitParty ();
 		up.id = 0;
-		for (int i = 0; i < 5; i++) {
+		for (int i = 1; i < maxCount; i++) {
 			PartyItem pi = new PartyItem();
 			pi.unitPos = i;
 			pi.unitUniqueId = i;
@@ -89,4 +91,29 @@ public class UnitPartyInfo : ProtobufDataBase {
 	~UnitPartyInfo () {
 
 	}
+
+	public int GetBlood () {
+		System.Type ty;
+
+		UnitParty up = DeserializeData () as UnitParty;
+		int bloodNum = 0;
+		for (int i = 0; i < up.items.Count; i++) {
+			int unitUniqueID = up.items[i].unitUniqueId;
+
+			ty = GlobalData.tempUserUnitInfo[unitUniqueID].GetObjectType();
+			LogHelper.Log("ty1 : " + ty);
+		
+			UserUnit uu = GlobalData.tempUserUnitInfo[unitUniqueID].DeserializeData() as UserUnit;
+			ty = GlobalData.tempUnitInfo[uu.id].GetObjectType();
+			LogHelper.Log("ty1 : " + ty);
+			UnitInfo ui = GlobalData.tempUnitInfo[uu.id].DeserializeData() as UnitInfo;
+
+			bloodNum += DGTools.CaculateAddBlood(uu.addHp);
+			bloodNum += ui.power[uu.level].hp;
+		}
+
+		return bloodNum;
+	}
+
+
 }

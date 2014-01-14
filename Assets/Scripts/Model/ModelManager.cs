@@ -35,8 +35,6 @@ public class ModelManager
 
     private Dictionary<ModelEnum, BaseModel> modelDic = new Dictionary<ModelEnum, BaseModel>();
 
-
-
     public void Add (ModelEnum modelType, BaseModel model){
         modelDic.Add(modelType, model);
     }
@@ -78,7 +76,11 @@ public class ModelManager
 		string info = obj.text;
 		UIIns ins = new UIIns (info);
 		AddData (ModelEnum.UIInsConfig, ins);
+
+		ConfigUnitInfo cui = new ConfigUnitInfo ();
 	}
+
+
 
 	/// <summary>
 	/// Adds the data.

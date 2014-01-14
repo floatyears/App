@@ -8,10 +8,8 @@ public class MsgCenter
 
 	private MsgCenter() {	}
 
-	public static MsgCenter Instance
-	{
-		get
-		{
+	public static MsgCenter Instance {
+		get {
 			if(instance == null)
 				instance = new MsgCenter();
 			return instance;
@@ -20,8 +18,7 @@ public class MsgCenter
 	
 	private Dictionary<CommandEnum,Delegate> msgDic = new Dictionary<CommandEnum, Delegate>();
 	
-	private bool OnAdd(CommandEnum mEnum,Delegate listener)
-	{
+	private bool OnAdd(CommandEnum mEnum,Delegate listener) {
 		if(!msgDic.ContainsKey(mEnum))
 			msgDic.Add(mEnum,null);
 		
@@ -35,8 +32,7 @@ public class MsgCenter
 		return true;
 	}
 	
-	private bool OnRemove(CommandEnum mEnum, Delegate listener)
-	{
+	private bool OnRemove(CommandEnum mEnum, Delegate listener) {
 		if(!msgDic.ContainsKey(mEnum))
 			return false;
 		
@@ -48,36 +44,29 @@ public class MsgCenter
 		return true;
 	}
 	
-	private void OnRemoveEnd(CommandEnum mEnum)
-	{
+	private void OnRemoveEnd(CommandEnum mEnum) {
 		if(msgDic[mEnum] == null)
 			msgDic.Remove(mEnum);
 	}
 	
-	public void AddListener(CommandEnum mEnum,DataListener func)
-	{
-		if(OnAdd(mEnum,func))
-		{
+	public void AddListener(CommandEnum mEnum,DataListener func) {
+		if(OnAdd(mEnum,func)) {
 			msgDic[mEnum] = (DataListener)msgDic[mEnum] + func;
 		}
 	}
 	
-	public void RemoveListener(CommandEnum mEnum,DataListener func)
-	{
-		if(OnRemove(mEnum,func))
-		{
+	public void RemoveListener(CommandEnum mEnum,DataListener func) {
+		if(OnRemove(mEnum,func)) {
 			msgDic[mEnum] = (DataListener)msgDic[mEnum] - func;
 			OnRemoveEnd(mEnum);
 		}
 	}
 	
-	public void Invoke(CommandEnum mEnum,object data)
-	{
+	public void Invoke(CommandEnum mEnum,object data = null) {
 		if(!msgDic.ContainsKey(mEnum))
 			return;
 
-		if(msgDic[mEnum] != null)
-		{
+		if(msgDic[mEnum] != null) {
 			DataListener df = (DataListener)msgDic[mEnum];
 			df(data);
 		}

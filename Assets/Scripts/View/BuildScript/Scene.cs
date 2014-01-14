@@ -7,19 +7,19 @@ public class SceneDecorater : BaseComponent {
 
 	}
 
-	public void CreatUI () {
+	public override void CreatUI () {
 
 	}
 
-	public void ShowUI () {
+	public override void ShowUI () {
 
 	}
 
-	public void HideUI () {
+	public override void HideUI () {
 
 	}
 
-	public void DestoryUI () {
+	public override void DestoryUI () {
 
 	}
 }

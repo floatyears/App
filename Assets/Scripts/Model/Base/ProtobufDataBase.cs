@@ -7,10 +7,14 @@ public class ProtobufDataBase : IOriginModel {
 	private ErrorMsg errorMsgInfo = null;
 
 	private Type type;
+	public Type GetObjectType() {
+		return type;
+	}
 
 	public ProtobufDataBase(object instance) {
 		Init ();
 		SerializeData (instance);
+		type = instance.GetType ();
 	}
 
 //	public ProtobufDataBase(byte[] data) {
@@ -21,7 +25,7 @@ public class ProtobufDataBase : IOriginModel {
 //	}
 
 	void Init() {
-		type = GetType ();
+		errorMsgInfo = new ErrorMsg ();
 	}
 
 	/// <summary>

@@ -162,6 +162,7 @@ public class Role : UIBaseUnity
 
 	void SyncRoleCoordinate(Coordinate coor)
 	{
+		MsgCenter.Instance.Invoke (CommandEnum.MoveToMapItem, coor);
 		bQuest.RoleCoordinate(coor);
 	}
 
