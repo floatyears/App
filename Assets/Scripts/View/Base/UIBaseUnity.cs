@@ -102,6 +102,9 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 	protected IUIOrigin origin;
 
 	public virtual void Init(UIInsConfig config,IUIOrigin origin = null) {
+		if(this.config == config)
+			return;
+
 		this.origin = origin;
 		this.config = config;
 		if (config.parent != null) {

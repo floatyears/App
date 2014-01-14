@@ -40,6 +40,8 @@ public enum SceneEnum
 public enum CommandEnum
 {
 	None = 0,
+
+	ChangeScene = 1,
 	#region view to model
 	DragCardToBattleArea = 1000,
 	InquiryBattleBaseData = 1001,
