@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
+using System.Collections;
 
 public class ConfigUnitInfo {
 	public ConfigUnitInfo () {
@@ -82,38 +83,53 @@ public class TempUnitInfo : ProtobufDataBase {
 	}
 }
 
-public class UnitPartyInfo : ProtobufDataBase {
+public class UnitPartyInfo : ProtobufDataBase, IComparer {
+	private List<PartyItem> partyItem = new List<PartyItem> ();
 
-	public UnitPartyInfo (object instance) : base (instance) {
+	public UnitPartyInfo (object instance) : base (instance) { }
 
-	}
-
-	~UnitPartyInfo () {
-
-	}
+	~UnitPartyInfo () { }
 
 	public int GetBlood () {
-		System.Type ty;
-
-		UnitParty up = DeserializeData () as UnitParty;
+		UnitParty up = DeserializeData<UnitParty> ();
 		int bloodNum = 0;
 		for (int i = 0; i < up.items.Count; i++) {
 			int unitUniqueID = up.items[i].unitUniqueId;
-
-			ty = GlobalData.tempUserUnitInfo[unitUniqueID].GetObjectType();
-			LogHelper.Log("ty1 : " + ty);
-		
-			UserUnit uu = GlobalData.tempUserUnitInfo[unitUniqueID].DeserializeData() as UserUnit;
-			ty = GlobalData.tempUnitInfo[uu.id].GetObjectType();
-			LogHelper.Log("ty1 : " + ty);
-			UnitInfo ui = GlobalData.tempUnitInfo[uu.id].DeserializeData() as UnitInfo;
-
+			UserUnit uu = GlobalData.tempUserUnitInfo[unitUniqueID].DeserializeData<UserUnit>();
+			UnitInfo ui = GlobalData.tempUnitInfo[uu.id].DeserializeData<UnitInfo>() ;
 			bloodNum += DGTools.CaculateAddBlood(uu.addHp);
 			bloodNum += ui.power[uu.level].hp;
 		}
-
 		return bloodNum;
 	}
 
 
+	public void GetSkillCollection() {
+		partyItem = new List<PartyItem>();
+		UnitParty up = DeserializeData<UnitParty> ();
+
+		for (int i = 0; i < up.items.Count; i++) {
+			partyItem.Add(up.items[i]);
+		}
+
+		DGTools.InsertSort<PartyItem,IComparer> (partyItem, this);
+	
+	}
+
+	public int Compare (object first, object second)
+	{
+		PartyItem firstUU = (PartyItem)first;
+		PartyItem secondUU = (PartyItem)second;
+		NormalSkill ns1 = GetSkill (firstUU);
+		NormalSkill ns2 = GetSkill (secondUU);
+
+		return ns1.activeBlocks.Count.CompareTo(ns2.activeBlocks.Count);
+	}
+
+
+	NormalSkill GetSkill (PartyItem pi) {
+		UserUnit uu1 = GlobalData.tempUserUnitInfo[pi.unitUniqueId].DeserializeData() as UserUnit;
+		UnitInfo ui1 = GlobalData.tempUnitInfo[uu1.id].DeserializeData<UnitInfo>();
+		return GlobalData.tempNormalSkill [ui1.skill2].DeserializeData<NormalSkill> ();
+	}
 }

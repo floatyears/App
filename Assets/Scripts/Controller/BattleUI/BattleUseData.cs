@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class BattleUseData {
-	ErrorMsg errorMsg;
-	UnitPartyInfo upi;
-	int blood = 0;
-	int maxEnergyPoint = 0;
+	private ErrorMsg errorMsg;
+	private UnitPartyInfo upi;
+	private int blood = 0;
+	private int maxEnergyPoint = 0;
 
 	public BattleUseData () {
 		errorMsg = new ErrorMsg ();
-		UnitPartyInfo upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
+		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
 		blood = upi.GetBlood ();
 		maxEnergyPoint = GlobalData.maxEnergyPoint;
 		ListenEvent ();
@@ -19,26 +19,27 @@ public class BattleUseData {
 		RemoveListen ();
 	}
 
-	public void GetBaseData(object data) {
-	
-		BattleBaseData bud = new BattleBaseData ();
-		bud.Blood = blood;
-		bud.EnergyPoint = maxEnergyPoint;
-		MsgCenter.Instance.Invoke (CommandEnum.BattleBaseData, bud);
-	}
-
 	void ListenEvent () {
 		MsgCenter.Instance.AddListener (CommandEnum.InquiryBattleBaseData, GetBaseData);
 		MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, MoveToMapItem);
+		MsgCenter.Instance.AddListener (CommandEnum.DragCardToBattleArea, CaculateFight);
 	}
 
 	void RemoveListen () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.InquiryBattleBaseData, GetBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, MoveToMapItem);
+		MsgCenter.Instance.RemoveListener (CommandEnum.DragCardToBattleArea, CaculateFight);
 	}
 
-	void RefreshBlood() {
-		MsgCenter.Instance.Invoke (CommandEnum.UnitBlood, blood);
+	void CaculateFight (object data) {
+		
+	}
+
+	public void GetBaseData(object data) {
+		BattleBaseData bud = new BattleBaseData ();
+		bud.Blood = blood;
+		bud.EnergyPoint = maxEnergyPoint;
+		MsgCenter.Instance.Invoke (CommandEnum.BattleBaseData, bud);
 	}
 
 	bool temp = true;
@@ -47,9 +48,12 @@ public class BattleUseData {
 			temp = false;
 			return;
 		}
-
+		
 		if (maxEnergyPoint == 0) {
 			blood -= ReductionBloodByProportion(0.2f);
+			if(blood < 1) {
+				blood = 1;
+			}
 			RefreshBlood();
 		} 
 		else {
@@ -58,6 +62,10 @@ public class BattleUseData {
 		}
 	}
 
+	void RefreshBlood() {
+		MsgCenter.Instance.Invoke (CommandEnum.UnitBlood, blood);
+	}
+			
 	int ReductionBloodByProportion(float proportion) {
 		int maxBlood = upi.GetBlood ();
 		return (int)(maxBlood * proportion);

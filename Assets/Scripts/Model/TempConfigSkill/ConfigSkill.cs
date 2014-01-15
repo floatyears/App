@@ -315,7 +315,6 @@ public class ConfigSkill  {
 		TempSkillExtraAttack tsea = new TempSkillExtraAttack (sea);
 		GlobalData.tempNormalSkill.Add (sea.baseInfo.id, tsea);
 	}
-
 }
 
 
@@ -326,7 +325,18 @@ public class TempNormalSkill : ProtobufDataBase, INormalSkill {
 	
 	public bool CalculateCard (List<uint> count) {
 		NormalSkill ns = DeserializeData () as NormalSkill;
-		return DGTools.ListContains<uint> (count, ns.activeBlocks);
+		bool isExcuteSkill =  DGTools.ListContains<uint> (count, ns.activeBlocks);
+		if (isExcuteSkill) {
+			for (int i = 0; i < ns.activeBlocks.Count; i++) {
+				count.Remove(ns.activeBlocks[i]);
+			}		
+		}
+		return isExcuteSkill;
+	}
+
+	public int GetActiveBlocks() {
+		NormalSkill ns = DeserializeData () as NormalSkill;
+		return ns.activeBlocks.Count;
 	}
 }
 

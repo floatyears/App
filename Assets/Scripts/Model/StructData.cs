@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 
 public class AttackInfo {
-	private byte attackType = 0;
-	public byte AttackType {
-		get { return attackType; }
+	private int userUnitID = -1;
+	public int UserUnitID {
+		get { return userUnitID; }
+		set { userUnitID = value; }
 	}
-	
-	private List<byte> remainingCard = new List<byte> ();
-	public List<byte> RemainingCard {
-		get { return remainingCard; }
+
+	private int attackType = 0;
+	public int AttackType {
+		get { return attackType; }
+		set {attackType = value; }
 	}
 	
 	private float attackValue ;
 	public float AttackValue {
 		get {return attackValue; }
+		set {attackValue = value;}
 	}
 }
 

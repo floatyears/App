@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-
-public class DGTools
-{
-	public int RandomToInt(int min,int max)
-	{
-		return Random.Range(min,max);
+public class DGTools {
+	public int RandomToInt(int min,int max) {
+		return UnityEngine.Random.Range(min,max);
 	}
 
 	public static bool ListContains<T>(IList<T> big, IList<T> small) {
@@ -16,6 +14,7 @@ public class DGTools
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -32,9 +31,9 @@ public class DGTools
 		return add * 100;
 	}
 
-	public static int CaculateAddAttack (int add) {
-		return add * 50;
-	}
+//	public static int CaculateAttack (UserUnit uu, UnitInfo ui) {
+//		int attack = uu.addHp * 50 + ui.power[
+//	}
 
 	public static int CaculateAddDefense (int add) {
 		return add * 10;
@@ -44,6 +43,44 @@ public class DGTools
 
 	public static float IntegerSubtriction(int firstInterger,int secondInterger) {
 		return (float)firstInterger / (float)secondInterger;
+	}
+
+	/// <summary>
+	/// Inserts the sort.
+	/// </summary>
+	/// <param name="target">Target collections.</param>
+	/// <param name="sort">Sort is by Ascending or Descending.</param>
+	/// <typeparam name="T">The 1st type parameter.</typeparam>
+	public static void InsertSort<T,T1> (IList<T> target, T1 compareObject, bool sort = true) where T1 :  IComparer {
+		if (target == null) {
+			return;
+		}
+		int length = target.Count;
+		for (int i = 1; i < length; i++) {
+			T temp = target[i];
+			for (int j = 0; j < i; j++) {
+				int compare = compareObject.Compare(temp,target[j]);
+				if(sort && compare > 0) {
+					temp = target[i];
+					target[i] = target[j];
+					target[j] = temp;
+
+					continue;
+				}
+		
+				if(!sort && compare < 0) {
+					temp = target[i];
+					target[i] = target[j];
+					target[j] = temp;
+				}
+			}
+		}
+	}
+
+	public static void SwitchObject<T>(ref T arg1,ref T arg2) {
+		T temp = arg1;
+		arg1 = arg2;
+		arg2 = temp;
 	}
 }
 

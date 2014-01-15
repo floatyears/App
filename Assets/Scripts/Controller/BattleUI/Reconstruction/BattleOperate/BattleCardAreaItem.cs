@@ -37,6 +37,12 @@ public class BattleCardAreaItem : UIBaseUnity
 
 	private UITexture[] battleCardTemplate;
 
+	private int areaItemID = -1;
+	public int AreaItemID {
+		get {return areaItemID;}
+		set {areaItemID = value;}
+	}
+
 	public override void Init(string name)
 	{
 		base.Init(name);
@@ -125,8 +131,8 @@ public class BattleCardAreaItem : UIBaseUnity
 	IEnumerator GenerateFightCard(int id){
 		yield return 1;
 		int itemID = Config.Instance.CardData [id].itemID;
-
-		MsgCenter.Instance.Invoke (CommandEnum.DragCardToBattleArea, itemID);
+		Debug.LogError (id + " item id " + itemID);
+		//MsgCenter.Instance.Invoke (CommandEnum.DragCardToBattleArea, itemID);
 		int gID = BattleDataMode.GenerateCard (id, itemID);
 
 		InstnaceCard (gID);
