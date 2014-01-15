@@ -2,9 +2,10 @@
 using System.Collections;
 
 public class ScratchDecoratorUnity : UIComponentUnity {
-	
+
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
+		InitUI();
 	}
 	
 	public override void ShowUI () {
@@ -18,4 +19,10 @@ public class ScratchDecoratorUnity : UIComponentUnity {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
+
+	private void InitUI() {
+
+	}
+
+
 }

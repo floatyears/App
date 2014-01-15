@@ -476,7 +476,7 @@ public class FriendListDecorator : DecoratorBase {
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		sceneInfoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
 	public override void HideScene () {
@@ -503,7 +503,7 @@ public class InformationDecorator : DecoratorBase {
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		sceneInfoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
 	public override void HideScene () {
@@ -530,7 +530,7 @@ public class SearchFriendDecorator : DecoratorBase {
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		sceneInfoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
 	public override void HideScene () {
@@ -557,7 +557,7 @@ public class ApplyDecorator : DecoratorBase {
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		sceneInfoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
 	public override void HideScene () {
@@ -584,7 +584,7 @@ public class ReceptionDecorator : DecoratorBase {
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		sceneInfoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
 	public override void HideScene () {
@@ -611,7 +611,7 @@ public class YourIDDecorator : DecoratorBase {
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-		sceneInfoBar.SetBackScene(SceneEnum.Units);
+		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
 	public override void HideScene () {

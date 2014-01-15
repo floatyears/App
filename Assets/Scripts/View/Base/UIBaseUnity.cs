@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class UIBaseUnity : MonoBehaviour ,IUIInterface
 {
@@ -92,6 +92,7 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 }
 
 public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
+
 	protected UIInsConfig config = null;
 	public UIInsConfig uiConfig {
 		get {
@@ -156,4 +157,31 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 		Vector3 targetpoint = point * Main.Instance.uiRoot.transform.localScale.y;
 		return targetpoint;
 	}
+
+	protected void ShowTweeners() 
+	{
+		UITweener[ ] list = gameObject.GetComponentsInChildren< UITweener >();
+		Debug.Log(list.Length);
+		if( list == null )
+			return;
+		foreach( var uiTweener in list)
+		{
+			if( uiTweener == null )
+				continue;
+			uiTweener.Reset();
+			uiTweener.Play();
+		}
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
