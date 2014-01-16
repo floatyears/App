@@ -16,6 +16,7 @@ public class UnitsDecoratorUnity : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+		//ShowTweeners();
 	}
 	
 	public override void HideUI () {

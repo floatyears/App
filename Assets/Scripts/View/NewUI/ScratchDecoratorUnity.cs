@@ -10,6 +10,7 @@ public class ScratchDecoratorUnity : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+
 	}
 	
 	public override void HideUI () {

@@ -13,11 +13,12 @@ public class FriendDecoratorUnity : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		ShowTweeners();
+		//ShowTweenPostion();
 
 	}
 	
 	public override void HideUI () {
+		//ShowTweenPostion();
 		base.HideUI ();
 	}
 	

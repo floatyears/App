@@ -118,10 +118,12 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 
 	public virtual void ShowUI() {
 		transform.localPosition = config.localPosition;
+		ShowTweenPostion(0.5f);
 	}
 
 	public virtual void HideUI() {
-		transform.localPosition = ViewManager.HidePos;
+		//transform.localPosition = ViewManager.HidePos;
+		ShowTweenPostion();
 	}
 
 	public virtual void DestoryUI() {
@@ -158,18 +160,30 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 		return targetpoint;
 	}
 
-	protected void ShowTweeners() 
+	
+	protected void ShowTweenPostion( float mDelay = 0f, UITweener.Method mMethod = UITweener.Method.Linear ) 
 	{
-		UITweener[ ] list = gameObject.GetComponentsInChildren< UITweener >();
-		Debug.Log(list.Length);
+		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
+		
 		if( list == null )
 			return;
-		foreach( var uiTweener in list)
-		{
-			if( uiTweener == null )
+		
+		foreach( var tweenPos in list)
+		{		
+			if( tweenPos == null )
 				continue;
-			uiTweener.Reset();
-			uiTweener.Play();
+			
+			Vector3 temp;
+			temp = tweenPos.to;
+			tweenPos.to = tweenPos.from;
+			tweenPos.from = temp;
+
+			tweenPos.delay = mDelay;
+			tweenPos.method = mMethod;
+
+			tweenPos.Reset();
+			tweenPos.PlayForward();
+
 		}
 	}
 

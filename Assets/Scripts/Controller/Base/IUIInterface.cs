@@ -80,6 +80,13 @@ public interface IUISetBool : IUIOrigin {
 	void SetEnable(bool b);
 }
 
+
+public interface IUIAnimation
+{
+
+}
+
+
 public delegate void Callback();
 
 public delegate void UICallback(GameObject caller);
