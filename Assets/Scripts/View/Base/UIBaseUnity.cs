@@ -118,7 +118,7 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 
 	public virtual void ShowUI() {
 		transform.localPosition = config.localPosition;
-		ShowTweenPostion(0.5f);
+		ShowTweenPostion(0.2f);
 	}
 
 	public virtual void HideUI() {

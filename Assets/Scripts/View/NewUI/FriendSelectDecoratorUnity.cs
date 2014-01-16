@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class FriendSelectDecoratorUnity : UIComponentUnity, IUICallback {
+public class FriendSelectDecoratorUnity : UIComponentUnity {
 
 	private GameObject msgBox;
 	private UIImageButton btnStart;
 	private UIButton btnSure;
 	private UIButton btnCancel;
 	private UIButton btnSeeInfo;
+
+	private DragPanel friendsScroller;
+	private GameObject friendItem;
 
 	public override void Init (UIInsConfig config, IUIOrigin origin) {
 		base.Init (config, origin);
@@ -18,6 +21,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity, IUICallback {
 	public override void ShowUI () {
 		base.ShowUI ();
 		btnStart.isEnabled = false;
+		friendsScroller.RootObject.gameObject.SetActive(true);
 	}
 	
 	public override void HideUI () {
@@ -31,16 +35,13 @@ public class FriendSelectDecoratorUnity : UIComponentUnity, IUICallback {
 
 	private void InitUI() {
 
-		msgBox = FindChild("msg_box");
+		msgBox = FindChild("Window/msg_box");
 	
-//		btnSure = FindChild< UIImageButton >( "btn_choose" );
-//		btnCancel = FindChild< UIImageButton >( "btn_exit" );
-//		btnSeeInfo = FindChild< UIImageButton >( "btn_see_info" );
-		btnSure = FindChild("msg_box/btn_choose").GetComponent<UIButton>();
-		btnCancel = FindChild("msg_box/btn_exit").GetComponent<UIButton>();
-		btnSeeInfo = FindChild("msg_box/btn_see_info").GetComponent<UIButton>();
-
-		btnStart = FindChild< UIImageButton >( "btn_quest_start" );
+		btnSure = FindChild< UIButton >( "Window/msg_box/btn_choose" );
+		btnCancel = FindChild< UIButton >( "Window/msg_box/btn_exit" );
+		btnSeeInfo = FindChild< UIButton >( "Window/msg_box/btn_see_info" );
+	
+		btnStart = FindChild< UIImageButton >( "ScrollView/btn_quest_start" );
 
 
 		UIEventListener.Get(btnStart.gameObject).onClick = ClickStartBtn;
@@ -48,6 +49,21 @@ public class FriendSelectDecoratorUnity : UIComponentUnity, IUICallback {
 		UIEventListener.Get(btnSure.gameObject).onClick = ClickChooseBtn;
 		UIEventListener.Get(btnSeeInfo.gameObject).onClick = ClickSeeInfoBtn;
 		msgBox.SetActive( false );
+
+		friendItem = Resources.Load("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
+		friendsScroller = new DragPanel ("FriendSelectScroller", friendItem);
+		friendsScroller.CreatUI();
+		friendsScroller.AddItem (13);
+		friendsScroller.RootObject.SetItemWidth(140);
+
+		friendsScroller.RootObject.gameObject.transform.parent = gameObject.transform.FindChild("ScrollView");
+		friendsScroller.RootObject.gameObject.transform.localScale = Vector3.one;
+		friendsScroller.RootObject.gameObject.transform.localPosition = -115*Vector3.up;
+		
+		for(int i = 0; i < friendsScroller.ScrollItem.Count; i++)
+		{
+			UIEventListener.Get(friendsScroller.ScrollItem[ i ].gameObject).onClick = PickFriend;
+		}
 	}
 
 	void ClickCancelBtn(GameObject btn) {
@@ -72,11 +88,10 @@ public class FriendSelectDecoratorUnity : UIComponentUnity, IUICallback {
 		btnStart.isEnabled = true;
 	
 	}
-
-	public void Callback(object data)
+	
+	void PickFriend(GameObject btn)
 	{
-		bool canActivateMsgBox = (bool)data;
-		msgBox.SetActive( canActivateMsgBox );
+		msgBox.SetActive( true );
 	}
 
 }

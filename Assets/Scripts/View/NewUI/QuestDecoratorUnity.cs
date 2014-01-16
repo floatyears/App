@@ -70,7 +70,7 @@ public class QuestDecoratorUnity : UIComponentUnity {
 		storyScroller.RootObject.gameObject.transform.parent = this.gameObject.transform.FindChild("story_window");
 		storyScroller.RootObject.gameObject.transform.localScale = Vector3.one;
 
-		storyScroller.RootObject.gameObject.transform.localPosition = -140*Vector3.up;
+		storyScroller.RootObject.gameObject.transform.localPosition = 220*Vector3.up;
 		
 		eventScroller = new DragPanel ("EventScroller", scrollerItem);
 		eventScroller.CreatUI();
@@ -79,6 +79,6 @@ public class QuestDecoratorUnity : UIComponentUnity {
 
 		eventScroller.RootObject.gameObject.transform.parent = this.gameObject.transform.FindChild( "event_window" );
 		eventScroller.RootObject.gameObject.transform.localScale = Vector3.one;
-		eventScroller.RootObject.gameObject.transform.localPosition = 220*Vector3.up;
+		eventScroller.RootObject.gameObject.transform.localPosition = -140*Vector3.up;
 	}
 }
