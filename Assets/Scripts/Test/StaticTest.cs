@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 using UnitTesting;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,19 +26,45 @@ public class StaticTest {
     [Test]
     public void TestUUID()
     {
-        int TEST_COUNT = 100000;
-        List <string> uuidList = new List<string>();
-        for (int i = 0; i < TEST_COUNT; i++){
-            uuidList.Add(GenerationHelper.NewUUID());
-        }
-        HashSet<string> uuidSet = new HashSet<string>(uuidList);
+//        int TEST_COUNT = 100000;
+//        List <string> uuidList = new List<string>();
+//        for (int i = 0; i < TEST_COUNT; i++){
+//            uuidList.Add(GenerationHelper.NewUUID());
+//        }
+//        HashSet<string> uuidSet = new HashSet<string>(uuidList);
+//
+//        int j = 0;
+//        foreach (string uuid in uuidSet){
+//            j++;
+//        }
+//        Assert.Approx(j, TEST_COUNT, 0);
+//		ModelManager.Instance.InitData ();
+//		List<AttackImageUtility> temp = null;
+//		BattleUseData bud = new BattleUseData ();
+//		for (int i = 0; i < 2; i++) {
+//			temp = bud.CaculateFight (1, 1);
+//		}
+//		for (int i = 0; i < 3; i++) {
+//			temp = bud.CaculateFight (1, 2);
+//		}
 
-        int j = 0;
-        foreach (string uuid in uuidSet){
-            j++;
-        }
-        Assert.Approx(j, TEST_COUNT, 0);
+//		temp = bud.CaculateFight (1, 1);
+//		temp = bud.CaculateFight (1, 2);
+//		temp = bud.CaculateFight (1, 3);
+//		temp = bud.CaculateFight (1, 4);
+//		temp = bud.CaculateFight (1, 5);
+//		ConfirmationData (temp);
     }
+
+	void ConfirmationData (List<AttackImageUtility> temp) {
+		if (temp == null) {
+			Debug.Log(" temp is null ");		
+		}
+		foreach (var item in temp) {
+			TempNormalSkill tns = GlobalData.tempNormalSkill[item.skillID] as TempNormalSkill;
+			Debug.Log("attackProperty : " + item.attackProperty + "-- userProperty : " + item.userProperty +"-- skill name : " + tns.GetName());
+		}
+	}
 }
 
-#endif
+//#endif

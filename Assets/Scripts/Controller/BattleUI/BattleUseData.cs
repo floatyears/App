@@ -6,10 +6,13 @@ public class BattleUseData {
 	private UnitPartyInfo upi;
 	private int blood = 0;
 	private int maxEnergyPoint = 0;
+	private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
+
 
 	public BattleUseData () {
 		errorMsg = new ErrorMsg ();
 		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
+		upi.GetSkillCollection ();
 		blood = upi.GetBlood ();
 		maxEnergyPoint = GlobalData.maxEnergyPoint;
 		ListenEvent ();
@@ -22,17 +25,21 @@ public class BattleUseData {
 	void ListenEvent () {
 		MsgCenter.Instance.AddListener (CommandEnum.InquiryBattleBaseData, GetBaseData);
 		MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, MoveToMapItem);
-		MsgCenter.Instance.AddListener (CommandEnum.DragCardToBattleArea, CaculateFight);
+		//MsgCenter.Instance.AddListener (CommandEnum.DragCardToBattleArea, CaculateFight);
 	}
 
 	void RemoveListen () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.InquiryBattleBaseData, GetBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, MoveToMapItem);
-		MsgCenter.Instance.RemoveListener (CommandEnum.DragCardToBattleArea, CaculateFight);
+		//MsgCenter.Instance.RemoveListener (CommandEnum.DragCardToBattleArea, CaculateFight);
 	}
 
-	void CaculateFight (object data) {
-		
+	public List<AttackImageUtility> CaculateFight (int areaItem, int id) {
+		return upi.CalculateSkill (areaItem, id);
+	}
+
+	public void ClearData () {
+		upi.ClearData ();
 	}
 
 	public void GetBaseData(object data) {
@@ -95,3 +102,5 @@ public class BattleBaseData {
 		}
 	}
 }
+
+

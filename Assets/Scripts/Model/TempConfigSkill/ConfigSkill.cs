@@ -9,132 +9,156 @@ public class ConfigSkill  {
 	}
 
 	void ConfigNormalSkill () {
+		//------------------------------------------------------------------------------------------------//
+		//1,2
+		//------------------------------------------------------------------------------------------------//
 		NormalSkill ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 0;
 		ns.baseInfo.name = "no 0 normal skill";
 		ns.baseInfo.description = "two red card generate one";
 		ns.attackValue = 1.5f;
 		ns.attackType = EAttackType.ATK_SINGLE;
-		ns.activeBlocks.Add (0);
-		ns.activeBlocks.Add (0);
+		ns.activeBlocks.Add (1);
+		ns.activeBlocks.Add (1);
 		TempNormalSkill tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 1;
 		ns.baseInfo.name = "no 1 normal skill";
 		ns.baseInfo.description = "five red card generate one";
 		ns.attackValue = 3f;
 		ns.attackType = EAttackType.ATK_SINGLE;
-		ns.activeBlocks.Add (0);
-		ns.activeBlocks.Add (0);
-		ns.activeBlocks.Add (0);
-		ns.activeBlocks.Add (0);
-		ns.activeBlocks.Add (0);
+		ns.activeBlocks.Add (1);
+		ns.activeBlocks.Add (1);
+		ns.activeBlocks.Add (1);
+		ns.activeBlocks.Add (1);
+		ns.activeBlocks.Add (1);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
-		
+		//------------------------------------------------------------------------------------------------//
+		//3,4
+		//------------------------------------------------------------------------------------------------//
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 2;
 		ns.baseInfo.name = "no 2 normal skill";
 		ns.baseInfo.description = "two water card generate one";
 		ns.attackValue = 1.5f;
 		ns.attackType = EAttackType.ATK_SINGLE;
-		ns.activeBlocks.Add (1);
-		ns.activeBlocks.Add (1);
+		ns.activeBlocks.Add (2);
+		ns.activeBlocks.Add (2);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 3;
 		ns.baseInfo.name = "no 3 normal skill";
 		ns.baseInfo.description = "five water card generate one";
 		ns.attackValue = 3f;
 		ns.attackType = EAttackType.ATK_ALL;
-		ns.activeBlocks.Add (1);
-		ns.activeBlocks.Add (1);
-		ns.activeBlocks.Add (1);
-		ns.activeBlocks.Add (1);
-		ns.activeBlocks.Add (1);
+		ns.activeBlocks.Add (2);
+		ns.activeBlocks.Add (2);
+		ns.activeBlocks.Add (2);
+		ns.activeBlocks.Add (2);
+		ns.activeBlocks.Add (2);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
-		
+		//------------------------------------------------------------------------------------------------//
+		//5,6
+		//------------------------------------------------------------------------------------------------//
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 4;
 		ns.baseInfo.name = "no 4 normal skill";
 		ns.baseInfo.description = "two wind card generate one";
 		ns.attackValue = 1f;
 		ns.attackType = EAttackType.ATK_ALL;
-		ns.activeBlocks.Add (2);
-		ns.activeBlocks.Add (2);
+		ns.activeBlocks.Add (3);
+		ns.activeBlocks.Add (3);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 5;
 		ns.baseInfo.name = "no 5 normal skill";
 		ns.baseInfo.description = "five wind card generate one";
 		ns.attackValue = 2.5f;
 		ns.attackType = EAttackType.ATK_ALL;
+		ns.activeBlocks.Add (3);
+		ns.activeBlocks.Add (1);
 		ns.activeBlocks.Add (2);
-		ns.activeBlocks.Add (2);
-		ns.activeBlocks.Add (2);
-		ns.activeBlocks.Add (2);
-		ns.activeBlocks.Add (2);
+//		ns.activeBlocks.Add (3);
+//		ns.activeBlocks.Add (3);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
-		
+		//------------------------------------------------------------------------------------------------//
+		//7,8
+		//------------------------------------------------------------------------------------------------//
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 6;
 		ns.baseInfo.name = "no 6 normal skill";
 		ns.baseInfo.description = "two light card generate one";
 		ns.attackValue = 1.5f;
 		ns.attackType = EAttackType.ATK_ALL;
-		ns.activeBlocks.Add (3);
+		ns.activeBlocks.Add (4);
 		ns.activeBlocks.Add (4);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 7;
 		ns.baseInfo.name = "no 7 normal skill";
 		ns.baseInfo.description = "three light card and two dark card generate one";
 		ns.attackValue = 3f;
 		ns.attackType = EAttackType.ATK_ALL;
-		ns.activeBlocks.Add (3);
-		ns.activeBlocks.Add (3);
+		ns.activeBlocks.Add (1);
+		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (3);
 		ns.activeBlocks.Add (4);
-		ns.activeBlocks.Add (4);
+//		ns.activeBlocks.Add (4);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
-		
+		//------------------------------------------------------------------------------------------------//
+		//9,10
+		//------------------------------------------------------------------------------------------------//
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 8;
 		ns.baseInfo.name = "no 8 normal skill";
 		ns.baseInfo.description = "three light card and two dark card generate one";
 		ns.attackValue = 1f;
 		ns.attackType = EAttackType.ATK_SINGLE;
-		ns.activeBlocks.Add (4);
-		ns.activeBlocks.Add (4);
+		ns.activeBlocks.Add (5);
+		ns.activeBlocks.Add (5);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 9;
 		ns.baseInfo.name = "no 9 normal skill";
 		ns.baseInfo.description = "four dark card and one light card generate one";
 		ns.attackValue = 3.5f;
 		ns.attackType = EAttackType.ATK_ALL;
-		ns.activeBlocks.Add (4);
-		ns.activeBlocks.Add (4);
-		ns.activeBlocks.Add (4);
-		ns.activeBlocks.Add (4);
+		ns.activeBlocks.Add (1);
+		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (3);
+		ns.activeBlocks.Add (4);
+		ns.activeBlocks.Add (5);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
+		//------------------------------------------------------------------------------------------------//
 		
+		//------------------------------------------------------------------------------------------------//
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 10;
 		ns.baseInfo.name = "no 10 normal skill";
 		ns.baseInfo.description = "two nothing card generate one";
@@ -146,6 +170,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 11;
 		ns.baseInfo.name = "no 11 normal skill";
 		ns.baseInfo.description = "every card have one generate one";
@@ -160,6 +185,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 12;
 		ns.baseInfo.name = "no 12 normal skill";
 		ns.baseInfo.description = "two heart card generate one";
@@ -171,6 +197,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 13;
 		ns.baseInfo.name = "no 13 normal skill";
 		ns.baseInfo.description = "three heart card generate one";
@@ -183,6 +210,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 14;
 		ns.baseInfo.name = "no 14 normal skill";
 		ns.baseInfo.description = "four heart card generate one";
@@ -196,6 +224,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 15;
 		ns.baseInfo.name = "no 15 normal skill";
 		ns.baseInfo.description = "four heart card generate one";
@@ -209,6 +238,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
 		ns.baseInfo.id = 16;
 		ns.baseInfo.name = "no 16 normal skill";
 		ns.baseInfo.description = "five heart card generate one";
@@ -221,10 +251,30 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (6);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
+
+		ConfigHeartSkill ();
+	}
+
+	void ConfigHeartSkill () {
+		for (int i = 2; i < 6; i++) {
+			NormalSkill ns			= new NormalSkill ();
+			ns.baseInfo				= new SkillBase ();
+			ns.baseInfo.id			= 24 + i;
+			ns.baseInfo.name		= "no" +  ns.baseInfo.id + "normal skill";
+			ns.baseInfo.description = (i + 2) + " herat card generate one";
+			ns.attackValue = 0.15f * (i - 1);
+			ns.attackType = EAttackType.RECOVER_HP;
+			for (int j = 0; j < i; j++) {
+				ns.activeBlocks.Add(7);
+			}
+			TempNormalSkill tns = new TempNormalSkill(ns);
+			GlobalData.tempNormalSkill.Add(ns.baseInfo.id,tns);
+		}
 	}
 	
 	void ConfigLeadSkill() {
 		SkillBoost sb = new SkillBoost ();
+		sb.baseInfo = new SkillBase ();
 		sb.baseInfo.id = 17;
 		sb.baseInfo.name = "no 17 leader skill";
 		sb.baseInfo.description = "boost attack leader skill";
@@ -236,6 +286,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (sb.baseInfo.id, tbs);
 		
 		sb = new SkillBoost ();
+		sb.baseInfo = new SkillBase ();
 		sb.baseInfo.id = 18;
 		sb.baseInfo.name = "no 18 leader skill";
 		sb.baseInfo.description = "boost hp leader skill";
@@ -247,6 +298,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (sb.baseInfo.id, tbs);
 		
 		SkillRecoverHP srh = new SkillRecoverHP ();
+		srh.baseInfo = new SkillBase ();
 		srh.baseInfo.id = 19;
 		srh.baseInfo.name = "no 19 recover hp";
 		srh.baseInfo.description = "fixed recover hp";
@@ -257,6 +309,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (srh.baseInfo.id, trh);
 		
 		srh = new SkillRecoverHP ();
+		srh.baseInfo = new SkillBase ();
 		srh.baseInfo.id = 20;
 		srh.baseInfo.name = "no 20 recover hp";
 		srh.baseInfo.description = "fixed recover hp";
@@ -267,6 +320,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (srh.baseInfo.id, trh);
 		
 		SkillReduceHurt sreduce = new SkillReduceHurt();
+		sreduce.baseInfo = new SkillBase ();
 		sreduce.baseInfo.id = 21;
 		sreduce.baseInfo.name = "no 21 reduce hurt";
 		sreduce.baseInfo.description = "reduce hurt every round";
@@ -279,6 +333,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (sreduce.baseInfo.id, trhurt);
 		
 		SkillDelayTime sdt = new SkillDelayTime ();
+		sdt.baseInfo = new SkillBase ();
 		sdt.baseInfo.id = 22;
 		sdt.baseInfo.name = "no 22 skill delay time";
 		sdt.baseInfo.description = "delay drag time";
@@ -288,6 +343,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (sdt.baseInfo.id, tst);
 		
 		sdt = new SkillDelayTime ();
+		sdt.baseInfo = new SkillBase ();
 		sdt.baseInfo.id = 23;
 		sdt.baseInfo.name = "no 23 skill delay time";
 		sdt.baseInfo.description = "delay drag time";
@@ -297,6 +353,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (sdt.baseInfo.id, tst);
 		
 		SkillConvertUnitType scut = new SkillConvertUnitType ();
+		scut.baseInfo = new SkillBase ();
 		scut.baseInfo.id = 24;
 		scut.baseInfo.name = "no 24 skill convert unit type";
 		scut.baseInfo.description = "convert card color";
@@ -307,6 +364,7 @@ public class ConfigSkill  {
 		GlobalData.tempNormalSkill.Add (scut.baseInfo.id, tcut);
 		
 		SkillExtraAttack sea = new SkillExtraAttack ();
+		sea.baseInfo = new SkillBase ();
 		sea.baseInfo.id = 25;
 		sea.baseInfo.name = "no 25 skill extra attack";
 		sea.baseInfo.description = "extra all type attack";
@@ -318,25 +376,67 @@ public class ConfigSkill  {
 }
 
 
-public class TempNormalSkill : ProtobufDataBase, INormalSkill {
+public class TempNormalSkill : ProtobufDataBase {
 	public TempNormalSkill (object instance) : base (instance) {
 		
 	}
-	
-	public bool CalculateCard (List<uint> count) {
-		NormalSkill ns = DeserializeData () as NormalSkill;
-		bool isExcuteSkill =  DGTools.ListContains<uint> (count, ns.activeBlocks);
-		if (isExcuteSkill) {
-			for (int i = 0; i < ns.activeBlocks.Count; i++) {
-				count.Remove(ns.activeBlocks[i]);
-			}		
+
+	//static int record = 0;
+	public int CalculateCard (List<uint> count, int record = 0) {
+
+		NormalSkill ns = DeserializeData<NormalSkill> ();
+		Debug.LogError ("CalculateCard : " + ns.baseInfo.name + " count : " + count + " record : " + record);
+
+//		Debug.LogError ("TempNormalSkill : " + ns.baseInfo.id + "  isExcuteSkill : " + isExcuteSkill);
+//		Debug.LogError ("ns.activeBlocks : " + ns.activeBlocks.Count + " -- " + ns.activeBlocks[0] + " count :" + count.Count );//+ " -- " + count[0]); 
+
+		while (count.Count >= ns.activeBlocks.Count) {
+			bool isExcuteSkill =  DGTools.IsTriggerSkill<uint> (count, ns.activeBlocks);
+			if(count.Contains(2)) {
+				Debug.LogWarning("isExcuteSkill : " + isExcuteSkill + " ns.name : " + ns.baseInfo.name);
+				Debug.LogWarning("blocks : " + ns.activeBlocks.Count +" count.count : " + count.Count + " content : " + ns.activeBlocks[0]);
+			}
+			if (isExcuteSkill) {
+				record++;
+				for (int i = 0; i < ns.activeBlocks.Count; i++) {
+					count.Remove(ns.activeBlocks[i]);
+				}
+			}
+			else {
+				break;
+			}
 		}
-		return isExcuteSkill;
+
+		//Debug.LogWarning("record -- : " + record + "``ns : " + ns.baseInfo.name);
+		return record;
 	}
 
 	public int GetActiveBlocks() {
 		NormalSkill ns = DeserializeData () as NormalSkill;
 		return ns.activeBlocks.Count;
+	}
+
+	public void DisposeUseSkillID (List<int> skillID) {
+		NormalSkill ns = DeserializeData<NormalSkill> ();
+		if (skillID.Contains (ns.baseInfo.id)) {
+			skillID.Remove(ns.baseInfo.id);
+		} 
+	}
+
+	NormalSkill GetObject() {
+		return  DeserializeData<NormalSkill> ();
+	}
+
+	public int GetID() {
+		return GetObject().baseInfo.id;
+	} 
+
+	public int GetAttackRange() {
+		return (int)GetObject ().attackType;
+	}
+
+	public string GetName () {
+		return GetObject ().baseInfo.name;
 	}
 }
 

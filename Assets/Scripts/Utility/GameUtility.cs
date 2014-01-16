@@ -8,9 +8,33 @@ public class DGTools {
 		return UnityEngine.Random.Range(min,max);
 	}
 
-	public static bool ListContains<T>(IList<T> big, IList<T> small) {
+	public static bool ListContains<T>(List<T> big, List<T> small) {
+		if (big.Count < small.Count) {
+			return false;
+		}
+						
 		for (int i = 0; i < small.Count; i++) {
 			if(!big.Contains(small[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public static bool IsTriggerSkill<T> (List<T> cardList, List<T> skillList) where T : struct {
+		if (cardList.Count < skillList.Count) {
+			return false;		
+		}
+		List<T> tempCard = new List<T> (cardList);
+		List<T> tempSkillList = new List<T> (skillList);
+
+		for (int i = 0; i < tempSkillList.Count; i++) {
+			if(tempCard.Contains(tempSkillList[i])) {
+				T value = tempSkillList[i];
+				tempCard.Remove(value);
+			}
+			else  {
 				return false;
 			}
 		}

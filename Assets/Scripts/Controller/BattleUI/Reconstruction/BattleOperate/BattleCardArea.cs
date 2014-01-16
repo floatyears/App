@@ -77,6 +77,8 @@ public class BattleCardArea : UIBaseUnity
 
 			bca.Init(tempObject.name);
 
+			bca.AreaItemID = i;
+
 			battleCardAreaItem[i] = bca;
 		}
 	}
@@ -85,20 +87,20 @@ public class BattleCardArea : UIBaseUnity
 	public bool tempCountTime = false;
 	float time = 5f;
 
-	void Update()
-	{
-		if(tempCountTime)
-		{
-			if(time > 0)
-				time -= Time.deltaTime;
-			else
-			{
-				time = 5f;
-				tempCountTime = false;
-				StartBattle();
-			}
-		}
-	}
+//	void Update()
+//	{
+//		if(tempCountTime)
+//		{
+//			if(time > 0)
+//				time -= Time.deltaTime;
+//			else
+//			{
+//				time = 5f;
+//				tempCountTime = false;
+//				StartBattle();
+//			}
+//		}
+//	}
 	
 	void StartBattle()
 	{

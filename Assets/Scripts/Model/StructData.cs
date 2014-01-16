@@ -1,25 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class AttackInfo {
-	private int userUnitID = -1;
-	public int UserUnitID {
-		get { return userUnitID; }
-		set { userUnitID = value; }
-	}
 
-	private int attackType = 0;
-	public int AttackType {
-		get { return attackType; }
-		set {attackType = value; }
-	}
-	
-	private float attackValue ;
-	public float AttackValue {
-		get {return attackValue; }
-		set {attackValue = value;}
-	}
-}
 
 public class SingleMapData
 {

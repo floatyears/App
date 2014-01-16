@@ -5,8 +5,7 @@ using System.Collections;
 public class BattleCardAreaItem : UIBaseUnity
 {
 	private List<CardItem> cardItemList = new List<CardItem>();
-	public List<CardItem> CardItemList 
-	{
+	public List<CardItem> CardItemList {
 		get{return cardItemList;}
 	}
 
@@ -35,13 +34,15 @@ public class BattleCardAreaItem : UIBaseUnity
 
 	private Vector3 battleCardInitPos ;
 
-	private UITexture[] battleCardTemplate;
+	private List<UITexture> battleCardTemplate = new List<UITexture>();
 
 	private int areaItemID = -1;
 	public int AreaItemID {
 		get {return areaItemID;}
 		set {areaItemID = value;}
 	}
+
+	private UITexture template;
 
 	public override void Init(string name)
 	{
@@ -60,18 +61,9 @@ public class BattleCardAreaItem : UIBaseUnity
 
 	void InitFightCard()
 	{
-		battleCardTemplate = new UITexture[Config.cardCollectionCount];
-		UITexture template = FindChild<UITexture> ("BattleCardTemplate");
-		battleCardTemplate [0] = template;
+		template = FindChild<UITexture> ("BattleCardTemplate");
+		battleCardTemplate.Add(template);
 		battleCardInitPos = template.transform.localPosition;
-		for (int i = 1; i < Config.cardCollectionCount; i++) {
-			GameObject instance = Instantiate (template.gameObject) as GameObject;
-			instance.transform.parent = transform;
-			instance.transform.localScale = Vector3.one;
-			instance.layer = gameObject.layer;
-			instance.transform.localPosition = battleCardInitPos + new Vector3 (0f, i * 10f, 0f);
-			battleCardTemplate[i] = instance.GetComponent<UITexture>();
-		}
 	}
 
 	public override void HideUI ()
@@ -92,15 +84,6 @@ public class BattleCardAreaItem : UIBaseUnity
 		maxLimit = maxLimit > source.Count ? source.Count : maxLimit;
 
 		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
-
-		//float time = Time.realtimeSinceStartup;
-
-//		for (int i = 0; i < maxLimit; i++) 
-//		{
-//			tempSource.Add(source[i]);
-//		}
-//
-//		StartCoroutine (DisposeTexture(maxLimit));
 
 		for (int i = 0; i < maxLimit; i++)
 		{
@@ -127,24 +110,39 @@ public class BattleCardAreaItem : UIBaseUnity
 
 		return maxLimit;
 	}
-
-	IEnumerator GenerateFightCard(int id){
+	List <AttackImageUtility> attackImage = new List<AttackImageUtility> ();
+	IEnumerator GenerateFightCard(int id) {
 		yield return 1;
 		int itemID = Config.Instance.CardData [id].itemID;
-		Debug.LogError (id + " item id " + itemID);
-		//MsgCenter.Instance.Invoke (CommandEnum.DragCardToBattleArea, itemID);
-		int gID = BattleDataMode.GenerateCard (id, itemID);
-
-		InstnaceCard (gID);
-		battleList.Add(gID);
+		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
+		Debug.LogError ("GenerateFightCard :" + attackImage.Count);
+		InstnaceCard ();
 	}
 
-	void InstnaceCard(int gID){
-		if (battleList.Count > Config.cardCollectionCount)
-			return;
-		UITexture tex = battleCardTemplate[battleList.Count];
-		tex.enabled = true;
-		tex.color = ItemData.GetColor (gID);
+	void InstnaceCard() {
+		int endNumber = battleCardTemplate.Count - attackImage.Count;
+		for (int i = 0; i < endNumber; i++) {
+			battleCardTemplate[attackImage.Count + i].enabled = false;
+		}
+
+		for (int i = 0; i < attackImage.Count; i++) {
+			if(battleCardTemplate.Count == i) {
+				CreatCard();
+			}
+
+			UITexture tex = battleCardTemplate[i];
+			tex.enabled = true;
+			tex.color = ItemData.GetColor (attackImage[i].attackProperty);
+		}
+	}
+
+	void CreatCard(){
+		GameObject instance = Instantiate (template.gameObject) as GameObject;
+		instance.transform.parent = transform;
+		instance.transform.localScale = Vector3.one;
+		instance.layer = gameObject.layer;
+		instance.transform.localPosition = battleCardInitPos + new Vector3 (0f, battleCardTemplate.Count * 10f, 0f);
+		battleCardTemplate.Add(instance.GetComponent<UITexture>());
 	}
 
 	public void Scale(bool on)
@@ -193,7 +191,7 @@ public class BattleCardAreaItem : UIBaseUnity
 
 		cardItemList.Clear();
 
-		for (int i = 0; i<battleCardTemplate.Length; i++) {
+		for (int i = 0; i<battleCardTemplate.Count; i++) {
 			if(battleCardTemplate[i].enabled){
 				battleCardTemplate[i].enabled = false;
 			}

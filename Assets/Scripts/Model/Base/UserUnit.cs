@@ -7,6 +7,14 @@ public class UserUnitParty {
 
 }
 
+public class AddBlood {
+
+
+	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
+		return null;
+	}
+}
+
 public class UserUnitInfo : ProtobufDataBase {
 	public UserUnitInfo(UserUnit instance) : base (instance) { }
 	
@@ -14,14 +22,15 @@ public class UserUnitInfo : ProtobufDataBase {
 	
 	TempNormalSkill[] normalSkill = new TempNormalSkill[2];
 
-	public List<AttackInfo> CaculateAttack (List<uint> card) {
-		List<uint> copyCard = new List<uint> (card);
+	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
+		Debug.LogError ("userunit id : " + GetUnitType () +  " card : " + card.Count + " ignorSkillID :" + ignorSkillID.Count);
+		List<uint> copyCard 		= new List<uint> (card);
 		List<AttackInfo> returnInfo = new List<AttackInfo> ();
 
-		UserUnit uu = DeserializeData () as UserUnit;
-		UnitInfo ui = GlobalData.tempUnitInfo [uu.id].DeserializeData() as UnitInfo;
+		UserUnit uu 				= DeserializeData () as UserUnit;
+		UnitInfo ui					= GlobalData.tempUnitInfo [uu.id].DeserializeData() as UnitInfo;
 
-		TempNormalSkill firstSkill = GlobalData.tempNormalSkill [ui.skill1] as TempNormalSkill;
+		TempNormalSkill firstSkill	= GlobalData.tempNormalSkill [ui.skill1] as TempNormalSkill;
 		TempNormalSkill secondSkill = GlobalData.tempNormalSkill [ui.skill2] as TempNormalSkill;
 
 		if (normalSkill [0] == null) {
@@ -29,14 +38,21 @@ public class UserUnitInfo : ProtobufDataBase {
 		}
 
 		for (int i = 0; i < normalSkill.Length; i++) {
-			if(normalSkill[i].CalculateCard(copyCard)) {
-				AttackInfo attack = new AttackInfo();
-				attack.AttackValue = CaculateAttack(uu,ui);
-				attack.AttackType = ui.type;
-				attack.UserUnitID = uu.uniqueId;
+			TempNormalSkill tns = normalSkill[i];
+			tns.DisposeUseSkillID(ignorSkillID);
+			int count = tns.CalculateCard(copyCard);
+			Debug.Log("count --- : " +count);
+			for (int j = 0; j < count; j++) {
+				AttackInfo attack	= new AttackInfo();
+				attack.AttackValue	= CaculateAttack(uu,ui);
+				attack.AttackType	= ui.type;
+				attack.UserUnitID	= uu.uniqueId;
+				attack.SkillID		= tns.GetID();
+				attack.AttackRange	= tns.GetAttackRange();
 				returnInfo.Add(attack);
 			}
 		}
+		Debug.LogError ("userunit id : " + GetUnitType () + " returnInfo.Count : " + returnInfo.Count);
 		return returnInfo;
 	}
 
@@ -60,12 +76,20 @@ public class UserUnitInfo : ProtobufDataBase {
 
 	public int CaculateAttack () {
 		UserUnit userUnit =  DeserializeData () as UserUnit;
-		UnitInfo unitInfo = GlobalData.tempUnitInfo [userUnit.id].DeserializeData() as UnitInfo;
+		UnitInfo unitInfo = GlobalData.tempUnitInfo [userUnit.id].DeserializeData<UnitInfo>();
 
 		return CaculateAttack(userUnit,unitInfo);
 	}
 
+	public int GetUnitType (){
 
+		return GetUnitInfo().type;
+	}
+
+	UnitInfo GetUnitInfo() {
+		UserUnit userUnit =  DeserializeData () as UserUnit;
+		return GlobalData.tempUnitInfo [userUnit.id].DeserializeData<UnitInfo>();
+	}
 }
 
 public class PartyItemInfo : ProtobufDataBase {

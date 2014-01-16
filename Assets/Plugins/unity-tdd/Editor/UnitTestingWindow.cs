@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using UnitTesting;
@@ -85,4 +85,4 @@ public class UnitTestingWindow : EditorWindow
 		}
 	}
 }
-#endif
+//#endif

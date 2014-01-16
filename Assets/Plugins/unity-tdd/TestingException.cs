@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 namespace UnitTesting
 {
 	[System.Serializable]
@@ -19,4 +19,4 @@ namespace UnitTesting
 		}
 	}
 }
-#endif
+//#endif
