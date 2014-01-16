@@ -15,55 +15,46 @@ import (
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
-func GetNewUserId() (userid int32, err error) {
-	db := &data.Data{}
-	err = db.Open(common.TABLE_NAME_USER)
-	defer db.Close()
-	if err != nil {
-		return 0, err
-	}
-
-	uid, err := db.GetInt(common.KEY_MAX_USER_ID)
-	if err != nil {
-		userid = 100000 //first userId
-	}
-	userid += int32(uid + 1)
-	log.Printf("get MAX_USER_ID ret: %v ", userid)
-	err = db.SetInt(common.KEY_MAX_USER_ID, userid)
-
-	return userid, err
-}
-
 type AuthUser struct {
 }
 
-func (t AuthUser) verifyParams(reqmsg bbproto.ReqAuthUser) (err error) {
+func (t AuthUser) verifyParams(reqMsg bbproto.ReqAuthUser) (err error) {
 	//TODO: do some params validation
 	return nil
 }
 
-func (t AuthUser) checkInput(req *http.Request) (reqmsg bbproto.ReqAuthUser, err error) {
+func (t AuthUser) checkInput(req *http.Request) (reqMsg bbproto.ReqAuthUser, err error) {
 	reqBuffer, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		log.Printf("ERR: ioutil.ReadAll failed: %v ", err)
-		return reqmsg, err
+		return reqMsg, err
 	}
 
-	err = proto.Unmarshal(reqBuffer, &reqmsg) //unSerialize into reqmsg
+	err = proto.Unmarshal(reqBuffer, &reqMsg) //unSerialize into reqMsg
 	if err != nil {
 		log.Printf("ERR: checkInput parse proto err: %v", err)
-		return reqmsg, err
+		return reqMsg, err
 	}
-	log.Printf("recv reqmsg: %+v", reqmsg)
+	log.Printf("recv reqMsg: %+v", reqMsg)
 
-	err = t.verifyParams(reqmsg)
+	err = t.verifyParams(reqMsg)
 
-	return reqmsg, err
+	return reqMsg, err
+}
+
+func (t AuthUser) GenerateSessionId(uuid *string) (sessionId string, err error) {
+	//TODO: makeSidFrom(*uuid, timeNow)
+	sessionId = "rcs7kga8pmvvlbtgbf90jnchmqbl9khn"
+	return sessionId, nil
 }
 
 func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser, rspErr error) (outbuffer []byte, err error) {
-	rspMsg.Header = reqMsg.Header
-	//log.Printf("rspMsg.Header=%v", rspMsg.Header)
+	{
+		rspMsg.Header = reqMsg.Header
+		sessionId, _ := t.GenerateSessionId(reqMsg.Terminal.Uuid)
+		reqMsg.Header.SessionId = &sessionId
+		log.Printf("req header:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
+	}
 
 	outbuffer, err = proto.Marshal(rspMsg)
 	return outbuffer, err
@@ -82,18 +73,18 @@ func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
 	p := &AuthUser{}
 	rspMsg := &bbproto.RspAuthUser{}
 
-	reqmsg, err := p.checkInput(req)
+	reqMsg, err := p.checkInput(req)
 	if err != nil {
-		p.SendResponse(rsp, &reqmsg, rspMsg, err)
+		p.SendResponse(rsp, &reqMsg, rspMsg, err)
 		return
 	}
 
-	uuid := *reqmsg.Terminal.Uuid
+	uuid := *reqMsg.Terminal.Uuid
 	db := &data.Data{}
 	err = db.Open(common.TABLE_NAME_USER)
 	defer db.Close()
 	if err != nil {
-		p.SendResponse(rsp, &reqmsg, rspMsg, err)
+		p.SendResponse(rsp, &reqMsg, rspMsg, err)
 		return
 	}
 
@@ -117,7 +108,7 @@ func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
 
 		newUserId, err := GetNewUserId()
-		defaultName := common.NEW_USER_NAME
+		defaultName := common.DEFAULT_USER_NAME
 		tNow := uint32(time.Now().Unix())
 		rank := int32(0)
 		exp := int32(0)
@@ -144,6 +135,6 @@ func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
 		log.Printf("db.Set(%v) save new userinfo, return %v", uuid, err)
 	}
 
-	err = p.SendResponse(rsp, &reqmsg, rspMsg, err)
+	err = p.SendResponse(rsp, &reqMsg, rspMsg, err)
 	log.Printf("sendrsp err:%v, rspMsg:\n%+v", err, rspMsg)
 }

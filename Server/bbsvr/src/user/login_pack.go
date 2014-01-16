@@ -80,7 +80,7 @@ func LoginPackHandler(rsp http.ResponseWriter, req *http.Request) {
 	} else {
 		//rspMsg.User = &bbproto.UserInfo{}
 		*rspMsg.User.UserId, err = GetNewUserId()
-		*rspMsg.User.UserName = common.NEW_USER_NAME
+		*rspMsg.User.UserName = common.DEFAULT_USER_NAME
 		*rspMsg.User.LoginTime = uint32(time.Now().Unix())
 
 		log.Printf("ERR: Cannot find data for user:%v", *msg.UserId)
