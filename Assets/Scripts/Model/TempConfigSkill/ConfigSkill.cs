@@ -50,6 +50,7 @@ public class ConfigSkill  {
 		ns.attackType = EAttackType.ATK_SINGLE;
 		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (2);
+//		ns.activeBlocks.Add (2);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
@@ -79,6 +80,7 @@ public class ConfigSkill  {
 		ns.attackType = EAttackType.ATK_ALL;
 		ns.activeBlocks.Add (3);
 		ns.activeBlocks.Add (3);
+		ns.activeBlocks.Add (3);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 		
@@ -89,9 +91,9 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "five wind card generate one";
 		ns.attackValue = 2.5f;
 		ns.attackType = EAttackType.ATK_ALL;
-		ns.activeBlocks.Add (3);
-		ns.activeBlocks.Add (1);
-		ns.activeBlocks.Add (2);
+		ns.activeBlocks.Add (7);
+		ns.activeBlocks.Add (7);
+		ns.activeBlocks.Add (5);
 //		ns.activeBlocks.Add (3);
 //		ns.activeBlocks.Add (3);
 		tns = new TempNormalSkill (ns);
@@ -383,19 +385,17 @@ public class TempNormalSkill : ProtobufDataBase {
 
 	//static int record = 0;
 	public int CalculateCard (List<uint> count, int record = 0) {
-
 		NormalSkill ns = DeserializeData<NormalSkill> ();
-		Debug.LogError ("CalculateCard : " + ns.baseInfo.name + " count : " + count + " record : " + record);
-
+//		Debug.LogError ("CalculateCard : " + ns.baseInfo.name + " count : " + count + " record : " + record);
 //		Debug.LogError ("TempNormalSkill : " + ns.baseInfo.id + "  isExcuteSkill : " + isExcuteSkill);
 //		Debug.LogError ("ns.activeBlocks : " + ns.activeBlocks.Count + " -- " + ns.activeBlocks[0] + " count :" + count.Count );//+ " -- " + count[0]); 
 
 		while (count.Count >= ns.activeBlocks.Count) {
 			bool isExcuteSkill =  DGTools.IsTriggerSkill<uint> (count, ns.activeBlocks);
-			if(count.Contains(2)) {
-				Debug.LogWarning("isExcuteSkill : " + isExcuteSkill + " ns.name : " + ns.baseInfo.name);
-				Debug.LogWarning("blocks : " + ns.activeBlocks.Count +" count.count : " + count.Count + " content : " + ns.activeBlocks[0]);
-			}
+//			if(count.Contains(2)) {
+//				Debug.LogWarning("isExcuteSkill : " + isExcuteSkill + " ns.name : " + ns.baseInfo.name);
+//				Debug.LogWarning("blocks : " + ns.activeBlocks.Count +" count.count : " + count.Count + " content : " + ns.activeBlocks[0]);
+//			}
 			if (isExcuteSkill) {
 				record++;
 				for (int i = 0; i < ns.activeBlocks.Count; i++) {
@@ -411,8 +411,15 @@ public class TempNormalSkill : ProtobufDataBase {
 		return record;
 	}
 
+	public void GetSkillInfo(AttackInfo ai) {
+		NormalSkill ns = GetObject ();
+		ai.SkillID = ns.baseInfo.id;
+		ai.AttackRange = (int)ns.attackType;
+		ai.NeedCardNumber = ns.activeBlocks.Count;
+	}
+
 	public int GetActiveBlocks() {
-		NormalSkill ns = DeserializeData () as NormalSkill;
+		NormalSkill ns = DeserializeData<NormalSkill> ();
 		return ns.activeBlocks.Count;
 	}
 
@@ -420,7 +427,7 @@ public class TempNormalSkill : ProtobufDataBase {
 		NormalSkill ns = DeserializeData<NormalSkill> ();
 		if (skillID.Contains (ns.baseInfo.id)) {
 			skillID.Remove(ns.baseInfo.id);
-		} 
+		}
 	}
 
 	NormalSkill GetObject() {
@@ -429,7 +436,7 @@ public class TempNormalSkill : ProtobufDataBase {
 
 	public int GetID() {
 		return GetObject().baseInfo.id;
-	} 
+	}
 
 	public int GetAttackRange() {
 		return (int)GetObject ().attackType;
@@ -437,6 +444,10 @@ public class TempNormalSkill : ProtobufDataBase {
 
 	public string GetName () {
 		return GetObject ().baseInfo.name;
+	}
+
+	public int GetAttack (int userUnitAttack) {
+		return System.Convert.ToInt32 (userUnitAttack * GetObject ().attackValue);
 	}
 }
 

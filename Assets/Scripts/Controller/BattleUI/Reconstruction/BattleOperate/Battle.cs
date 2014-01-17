@@ -169,9 +169,10 @@ public class Battle : UIBase
 		battleEnemy = tempObject.AddComponent<BattleEnemy>();
 		battleEnemy.battle = this;
 		battleEnemy.Init(enemyName);
+		battleEnemy.ShowUI ();
 	}
 
-	public void ShowEnemy(int count)
+	public void ShowEnemy(List<ShowEnemyUtility> count)
 	{
 		battleEnemy.Refresh(count);
 	}

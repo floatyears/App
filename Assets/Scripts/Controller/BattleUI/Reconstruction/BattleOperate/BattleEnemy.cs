@@ -1,43 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleEnemy : UIBaseUnity
-{
-	private List<UITexture> monster = new List<UITexture>();
-
-	private Transform parentTrans;
-
-	private UITexture template;
-
-	private UITexture tempTex;
-
-	private int monsterCount = 0;
-
-	private int interv = 10;
-	
-	private float xScale = 0f;
-
+public class BattleEnemy : UIBaseUnity {
+	private List<EnemyItem> monster = new List<EnemyItem> ();
+	private GameObject tempGameObject;
 	[HideInInspector]
 	public Battle battle;
 
 	public override void Init (string name)
 	{
 		base.Init (name);
-
-		template = FindChild<UITexture>("Texture");
-		template.enabled = true;
-		template.width = 200;
-		template.height = 300;
-		template.gameObject.SetActive(false);
-
-		Vector3 pos = transform.localPosition;
-
-		transform.localPosition = new Vector3(pos.x,pos.y + battle.cardHeight * 5,pos.z);
+		tempGameObject = transform.Find ("EnemyItem").gameObject;
+		tempGameObject.SetActive (false);
+		transform.localPosition += new Vector3 (0f, battle.cardHeight * 5f, 0f);
 	}
 
 	public override void HideUI ()
 	{
 		base.HideUI ();
+		for (int i = 0; i < monster.Count; i++) {
+			monster[i].DestoryUI();
+		}
+		monster.Clear ();
 		gameObject.SetActive (false);
 	}
 
@@ -47,59 +31,40 @@ public class BattleEnemy : UIBaseUnity
 		gameObject.SetActive (true);
 	}
 
-	public void Refresh(int count)
-	{
+	void ShowEnemy (object enemyList) {
+		List<ShowEnemyUtility> enemy = (List<ShowEnemyUtility>)enemyList;
+	}
+
+	public void Refresh(List<ShowEnemyUtility> enemy) {
 		Clear();
 
-		monsterCount = count;
-
-		parentTrans = NGUITools.AddChild(gameObject).transform;
-
-		for (int i = 0; i < count; i++) 
-		{
-			GameObject go = NGUITools.AddChild(gameObject,template.gameObject);
-
+		for (int i = 0; i < enemy.Count; i++) {
+			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);
-
-			tempTex = go.GetComponent<UITexture>();
-
-			tempTex.mainTexture = LoadAsset.Instance.LoadAssetFromResources("FullMask",ResourceEuum.Image) as Texture2D;
-
-			tempTex.transform.localScale = new Vector3(Main.TexScale,Main.TexScale,1f);
-
-			xScale = tempTex.width * Main.TexScale;
-
 			CaculatePosition(i,go);
-
-			monster.Add(tempTex);
+			EnemyItem ei = go.AddComponent<EnemyItem>();
+			ei.Init(enemy[i]);
+			monster.Add(ei);
 		}
 	}
 
-	void Clear()
-	{
-		for (int i = 0; i < monster.Count; i++)
-		{
+	void Clear() {
+		for (int i = 0; i < monster.Count; i++) {
 			Destroy(monster[i].gameObject);
 		}
-
 		monster.Clear();
 	}
 
-	void CaculatePosition(int index,GameObject target)
-	{
-		target.transform.parent = parentTrans;
-
-		Vector3 pos = parentTrans.localPosition;
-
-		target.transform.localPosition = new Vector3(pos.x + index * (xScale + interv),pos.y,pos.z);
-
-		if(index == monsterCount - 1)
-		{
-			pos = transform.parent.localPosition;
-
-			float xWidth = (xScale * monsterCount + interv * monsterCount) / 2;
-
-			parentTrans.localPosition = new Vector3(pos.x - xWidth,pos.y,pos.z);
-		}
+	void CaculatePosition(int index,GameObject target) {
+		target.transform.localPosition = new Vector3(index * 180, 0f, 0f) ;
 	}
 }
+
+public class ShowEnemyUtility {
+	public int enemyID;
+	public int enemyBlood;
+	public int attackRound;
+}
+
+
+

@@ -113,9 +113,9 @@ public class BattleCardAreaItem : UIBaseUnity
 	List <AttackImageUtility> attackImage = new List<AttackImageUtility> ();
 	IEnumerator GenerateFightCard(int id) {
 		yield return 1;
-		int itemID = Config.Instance.CardData [id].itemID;
+		//int itemID = Config.Instance.CardData [id].itemID;
 		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
-		Debug.LogError ("GenerateFightCard :" + attackImage.Count);
+		//Debug.LogError ("GenerateFightCard :" + attackImage.Count);
 		InstnaceCard ();
 	}
 
@@ -129,10 +129,10 @@ public class BattleCardAreaItem : UIBaseUnity
 			if(battleCardTemplate.Count == i) {
 				CreatCard();
 			}
-
 			UITexture tex = battleCardTemplate[i];
 			tex.enabled = true;
 			tex.color = ItemData.GetColor (attackImage[i].attackProperty);
+			attackImage[i].attackUI = tex;
 		}
 	}
 

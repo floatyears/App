@@ -18,23 +18,23 @@ public class ConfigUnitInfo {
 	
 	void GenerateUnitInfo () {
 		for (int i = 1; i < maxCount; i++) {
-			UnitInfo uiitem = new UnitInfo ();
-			uiitem.id = i;
-			uiitem.name = "unit_" + i;
-			uiitem.type = i;
-			uiitem.skill1 = (i - 1) * 2;
-			uiitem.skill2 = (i - 1) * 2 + 1;
+			UnitInfo uiitem 	= new UnitInfo ();
+			uiitem.id 			= i;
+			uiitem.name			= "unit_" + i;
+			uiitem.type 		= i;
+			uiitem.skill1 		= (i - 1) * 2;
+			uiitem.skill2 		= (i - 1) * 2 + 1;
 			for (int j = 0; j < 3; j++) {
-				BattlePower bp = new BattlePower ();
-				bp.attack = 10 + j * 10;
-				bp.defense = 1 + j * 10;
-				bp.hp = 100 + j * 10;
-				bp.level = j + 1;
+				BattlePower bp 	= new BattlePower ();
+				bp.attack 		= 10 + j * 10;
+				bp.defense 		= 1 + j * 10;
+				bp.hp 			= 100 + j * 10;
+				bp.level 		= j + 1;
 				uiitem.power.Add(bp);
 			}
-			uiitem.rare = i;
-			uiitem.maxLevel = 10;
-			uiitem.expType = 1;
+			uiitem.rare 		= i;
+			uiitem.maxLevel 	= 10;
+			uiitem.expType 		= 1;
 		
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
@@ -43,17 +43,17 @@ public class ConfigUnitInfo {
 
 	void GenerateUserUnit () {
 		for (int i = 1; i < maxCount; i++) {
-			UserUnit uu = new UserUnit ();
-			uu.uniqueId = i;
-			uu.id = i;
-			uu.exp = 0;
-			uu.level = 1;
-			uu.addAttack = i;
-			uu.addDefence = 0;
-			uu.addHp = i;
-			uu.limitbreakLv = 2;
-			uu.getTime = 0;
-			UserUnitInfo uui = new UserUnitInfo (uu);
+			UserUnit uu 		= new UserUnit ();
+			uu.uniqueId 		= i;
+			uu.id 				= i;
+			uu.exp 				= 0;
+			uu.level 			= 1;
+			uu.addAttack 		= i;
+			uu.addDefence		= 0;
+			uu.addHp 			= i;
+			uu.limitbreakLv 	= 2;
+			uu.getTime 			= 0;
+			UserUnitInfo uui 	= new UserUnitInfo (uu);
 			GlobalData.tempUserUnitInfo.Add (i, uui);
 		}
 	}
@@ -61,7 +61,7 @@ public class ConfigUnitInfo {
 	void GenerateUserUnitParty () {
 		UnitParty up = new UnitParty ();
 		up.id = 0;
-		for (int i = 1; i < 6; i++) {
+		for (int i = GlobalData.posStart; i <  GlobalData.posEnd; i++) {
 			PartyItem pi = new PartyItem();
 			pi.unitPos = i;
 			pi.unitUniqueId = i;
@@ -91,14 +91,18 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 	/// </summary>
 	private Dictionary<int, CalculateSkillUtility> alreadyUse = new Dictionary<int, CalculateSkillUtility> ();	 
 	private Dictionary<int, List<AttackInfo>> attack = new Dictionary<int, List<AttackInfo>> ();
+	public Dictionary<int, List<AttackInfo>> Attack {
+		get {return attack;}
+	}
 	public UnitPartyInfo (object instance) : base (instance) { }
 	~UnitPartyInfo () { }
 
 	public List<AttackImageUtility> CalculateSkill(int areaItemID, int cardID) {
-		CalculateSkillUtility skillUtility = CheckSkillUtility (areaItemID, cardID);
-		Debug.LogError ("skillUtility haveCard : " + skillUtility.haveCard.Count + " skillUtility alreadyUseSkill : " +  skillUtility.alreadyUseSkill.Count);
-		List<AttackInfo> areaItemAttackInfo = CheckAttackInfo (areaItemID);
 
+		CalculateSkillUtility skillUtility = CheckSkillUtility (areaItemID, cardID);
+//		Debug.LogError ("skillUtility haveCard : " + skillUtility.haveCard.Count + " skillUtility alreadyUseSkill : " +  skillUtility.alreadyUseSkill.Count);
+		List<AttackInfo> areaItemAttackInfo = CheckAttackInfo (areaItemID);
+		areaItemAttackInfo.Clear ();
 		UserUnitInfo tempUnitInfo;
 		List<AttackInfo> tempAttack = null;		
 		List<AttackImageUtility> tempAttackType = new List<AttackImageUtility> ();
@@ -110,20 +114,28 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 			if (tempAttack.Count > 0) {
 				for (int j = 0; j < tempAttack.Count; j++) {
 					AttackInfo ai 			= tempAttack [j];
+					ai.UserPos = partyItem[i].unitPos;
 					areaItemAttackInfo.Add (ai);
 					skillUtility.alreadyUseSkill.Add (ai.SkillID);
 					AttackImageUtility aiu 	= new AttackImageUtility();
 					aiu.attackProperty		= ai.AttackType;
 					aiu.userProperty 		= GlobalData.tempUserUnitInfo[ai.UserUnitID].GetUnitType();
 					aiu.skillID				= ai.SkillID;
+					aiu.attackID			= ai.AttackID;
 					tempAttackType.Add (aiu);
-				}
+				}     
 			}
 		}
+//		int count = 0;
+//		foreach (var item in attack) {
+//			count += item.Value.Count;
+//		}
+//		Debug.LogError (count+"  tempAttackType : "+ tempAttackType.Count);
 		return tempAttackType;
 	}
 
 	public void ClearData () {
+		AttackInfo.ClearData ();
 		alreadyUse.Clear ();
 		attack.Clear ();
 	}
@@ -193,18 +205,51 @@ public class CalculateSkillUtility {
 public class AttackImageUtility {
 	public int attackProperty = -1;
 	public int userProperty = -1;
-
+	public int attackID = -1;
+	public UITexture attackUI = null;
 	//------------test need data, delete it behind test done------------//
 	//------------------------------------------------------------------//
 	public int skillID = -1;
-
+	public void PlayAttack () {
+		if(attackUI != null) {
+			attackUI.enabled = false;
+			attackUI = null;
+		}
+	}
 }
 
 public class AttackInfo {
+	private static int sequenceID = -1;
+	public static void ClearData () {
+		sequenceID = -1;
+	}
+
+	public AttackInfo (){
+		sequenceID++;
+		this.attackID = sequenceID;
+	}
+
+	private int attackID = -1;
+	public int AttackID {
+		get {return attackID;}
+	}
+
 	private int userUnitID = -1;
 	public int UserUnitID {
 		get { return userUnitID; }
 		set { userUnitID = value; }
+	}
+
+	private int userPos = -1;
+	public int UserPos {
+		get {return userPos;}
+		set {userPos = value;}
+	}
+
+	private int needCardNumber = -1;
+	public int NeedCardNumber {
+		get {return needCardNumber;}
+		set {needCardNumber = value;}
 	}
 	
 	private int skillID = -1;
@@ -237,7 +282,32 @@ public class AttackInfo {
 		set {attackValue = value;}
 	}
 
+	private float injuryValue ;
+	public float InjuryValue
+	{
+		get {return injuryValue;}
+		set {injuryValue = value;}
+	}
+
 	//------------test need data, delete it behind test done------------//
 	//------------------------------------------------------------------//
+	public int originIndex = -1;
 }
 
+public class AISortByCardNumber : IComparer{
+	public int Compare (object x, object y)
+	{
+		AttackInfo ai1 = x as AttackInfo;
+		AttackInfo ai2 = y as AttackInfo;
+		return ai1.NeedCardNumber.CompareTo(ai2.NeedCardNumber);
+	}
+}
+
+public class AISortByUserpos : IComparer{
+	public int Compare (object x, object y)
+	{
+		AttackInfo ai1 = x as AttackInfo;
+		AttackInfo ai2 = x as AttackInfo;
+		return ai1.UserPos.CompareTo(ai2.UserPos);
+	}
+}

@@ -84,9 +84,9 @@ public class ModelManager
 	public void InitData () {
 		ConfigUnitInfo cui = new ConfigUnitInfo ();
 		ConfigSkill cs = new ConfigSkill ();
+		ConfigEnermy ce = new ConfigEnermy ();
 	}
-
-
+	
 	/// <summary>
 	/// Adds the data.
 	/// </summary>

@@ -23,7 +23,7 @@ public class UserUnitInfo : ProtobufDataBase {
 	TempNormalSkill[] normalSkill = new TempNormalSkill[2];
 
 	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
-		Debug.LogError ("userunit id : " + GetUnitType () +  " card : " + card.Count + " ignorSkillID :" + ignorSkillID.Count);
+		//Debug.LogError ("userunit id : " + GetUnitType () +  " card : " + card.Count + " ignorSkillID :" + ignorSkillID.Count);
 		List<uint> copyCard 		= new List<uint> (card);
 		List<AttackInfo> returnInfo = new List<AttackInfo> ();
 
@@ -41,18 +41,15 @@ public class UserUnitInfo : ProtobufDataBase {
 			TempNormalSkill tns = normalSkill[i];
 			tns.DisposeUseSkillID(ignorSkillID);
 			int count = tns.CalculateCard(copyCard);
-			Debug.Log("count --- : " +count);
 			for (int j = 0; j < count; j++) {
 				AttackInfo attack	= new AttackInfo();
-				attack.AttackValue	= CaculateAttack(uu,ui);
+				attack.AttackValue	= CaculateAttack(uu,ui,tns);
 				attack.AttackType	= ui.type;
 				attack.UserUnitID	= uu.uniqueId;
-				attack.SkillID		= tns.GetID();
-				attack.AttackRange	= tns.GetAttackRange();
+				tns.GetSkillInfo(attack);
 				returnInfo.Add(attack);
 			}
 		}
-		Debug.LogError ("userunit id : " + GetUnitType () + " returnInfo.Count : " + returnInfo.Count);
 		return returnInfo;
 	}
 
@@ -67,19 +64,19 @@ public class UserUnitInfo : ProtobufDataBase {
 		}
 	}
 
-	protected int CaculateAttack (UserUnit uu, UnitInfo ui) {
+	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TempNormalSkill tns) {
 		int addAttack = uu.addAttack * 50;
 		int attack = addAttack + ui.power [uu.level].attack;
 
-		return attack;
+		return tns.GetAttack(attack);
 	}
 
-	public int CaculateAttack () {
-		UserUnit userUnit =  DeserializeData () as UserUnit;
-		UnitInfo unitInfo = GlobalData.tempUnitInfo [userUnit.id].DeserializeData<UnitInfo>();
-
-		return CaculateAttack(userUnit,unitInfo);
-	}
+//	public int CaculateUserUnitAttack () {
+//		UserUnit userUnit =  DeserializeData () as UserUnit;
+//		UnitInfo unitInfo = GlobalData.tempUnitInfo [userUnit.id].DeserializeData<UnitInfo>();
+//
+//		return CaculateAttack(userUnit,unitInfo);
+//	}
 
 	public int GetUnitType (){
 

@@ -81,11 +81,20 @@ public class DGTools {
 		}
 		int length = target.Count;
 		for (int i = 1; i < length; i++) {
-			T temp = target[i];
+			//T temp = target[i];
 			for (int j = 0; j < i; j++) {
-				int compare = compareObject.Compare(temp,target[j]);
+				int compare = compareObject.Compare(target[i], target[j]);
+				//Debug.LogWarning(compareObject.GetType() + "``````" +compare + "  sort : " + sort);
 				if(sort && compare > 0) {
-					temp = target[i];
+//					AttackInfo aii = target[i] as AttackInfo;
+//					AttackInfo aij = target[j] as AttackInfo;
+//					if(aii != null && aij != null) {
+//						Debug.LogWarning(" -----------------------------------------------------------------------------------" );
+//						Debug.LogWarning("i : " + i + " j : " + j);
+//						Debug.LogWarning("aii.originIndex " + aii.originIndex + " aii.NeedCardNumber : " + aii.NeedCardNumber);
+//						Debug.LogWarning("aij.originIndex " + aij.originIndex + " aij.NeedCardNumber : " + aij.NeedCardNumber);
+//					}
+					T temp = target[i];
 					target[i] = target[j];
 					target[j] = temp;
 
@@ -93,7 +102,41 @@ public class DGTools {
 				}
 		
 				if(!sort && compare < 0) {
-					temp = target[i];
+					T temp = target[i];
+					target[i] = target[j];
+					target[j] = temp;
+				}
+			}
+		}
+	}
+
+	public static void InsertSortBySequence<T,T1> (IList<T> target, T1 compareObject, bool sort = true) where T1 :  IComparer {
+		if (target == null) {
+			return;
+		}
+		int length = target.Count;
+		for (int i = 1; i < length; i++) {
+
+			for (int j = 0; j < i; j++) {
+				int compare = compareObject.Compare(target[i], target[j]);
+				if(sort && compare > 0) {
+					T temp = target[j];
+					target[j] = target[i];
+					int k = j + 1;
+					T temp1 ;
+					while(k <= i) {
+						temp1 = target[k];
+						target[k] = temp;
+						temp = temp1;
+						k++;
+					}
+
+					//target[j] = temp;
+					continue;
+				}
+				
+				if(!sort && compare < 0) {
+					T temp = target[i];
 					target[i] = target[j];
 					target[j] = temp;
 				}

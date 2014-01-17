@@ -43,16 +43,18 @@ public enum CommandEnum
 
 	ChangeScene = 1,
 	#region view to model
-	DragCardToBattleArea = 1000,
-	InquiryBattleBaseData = 1001,
-	MoveToMapItem = 1002,
+	DragCardToBattleArea 	= 1000,
+	InquiryBattleBaseData 	= 1001,
+	MoveToMapItem 			= 1002,
+	StartAttack				= 1003,
 	#endregion
 
 	#region model to view
-	Person = 3000,
-	BattleBaseData = 3001,
-	UnitBlood = 3002,
-	EnergyPoint = 3003,
+	Person 					= 3000,
+	BattleBaseData 			= 3001,
+	UnitBlood 				= 3002,
+	EnergyPoint				= 3003,
+	ShowEnemy 				= 3004,
 	#endregion
 }
 

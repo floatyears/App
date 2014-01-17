@@ -3,28 +3,22 @@ using System.Collections.Generic;
 
 public class BattleQuest : UIBase
 {
-	public int MapWidth
-	{
+	public int MapWidth {
 		get{ return mapConfig.mapXLength; }
 	}
 
-	public int MapHeight
-	{
+	public int MapHeight {
 		get{ return mapConfig.mapYLength; }
 	}
 
 	private Coordinate roleInitPosition = new Coordinate();
 
-	public Coordinate RoleInitPosition
-	{
-		get
-		{ 
-			if(roleInitPosition.x != mapConfig.characterInitCoorX)
-			{
+	public Coordinate RoleInitPosition {
+		get { 
+			if(roleInitPosition.x != mapConfig.characterInitCoorX) {
 				roleInitPosition.x = mapConfig.characterInitCoorX;
 				roleInitPosition.y = mapConfig.characterInitCoorY;
 			}
-
 			return  roleInitPosition;
 		}
 	}
@@ -77,8 +71,7 @@ public class BattleQuest : UIBase
 		AddSelfObject (background);
 	}
 
-	void InitData()
-	{
+	void InitData() {
 		mapConfig = new MapConfig();
 	}
 
@@ -133,10 +126,14 @@ public class BattleQuest : UIBase
 			else if(currentMapData.MonsterID.Count > 0)
 			{
 				ShowBattle();
-
 				role.Stop();
-
-				battle.ShowEnemy(currentMapData.MonsterID.Count);
+//				List<int> temp = new List<ShowEnemyUtility>();
+//				for (int i = 0; i < currentMapData.MonsterID.Count; i++) {
+//					temp.Add(GlobalData.tempEnemyInfo[currentMapData.MonsterID[i]]);
+//				}
+//          		battle.ShowEnemy(temp);
+				List<ShowEnemyUtility> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
+				battle.ShowEnemy(temp);
 			}
 		}
 	} 
