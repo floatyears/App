@@ -85,7 +85,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity {
 
 	void ClickStartBtn(GameObject btn) {
 
-		btnStart.isEnabled = true;
+		UIManager.Instance.EnterBattle();
 	
 	}
 	

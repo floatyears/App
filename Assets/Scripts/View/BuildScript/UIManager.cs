@@ -85,7 +85,14 @@ public class UIManager {
 		}
 	}
 
+	public void EnterBattle () {
+		current.HideScene();
+		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
+	}
 
+	public void ExitBattle () {
+		current.ShowScene();
+	}
 
 	public void ChangeScene(SceneEnum sEnum)
 	{
@@ -195,7 +202,6 @@ public class UIManager {
 		case SceneEnum.YourID:
 			temp = new YourIDDecorator( sEnum );
 			break;
-
 		}
 		if (temp != null) {
 				temp.SetDecorator (baseScene);

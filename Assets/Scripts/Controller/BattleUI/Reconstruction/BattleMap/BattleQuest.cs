@@ -128,8 +128,11 @@ public class BattleQuest : UIBase
 		{
 			currentMapData = mapConfig.mapData[coor.x,coor.y];
 
-			if(currentMapData.MonsterID.Contains(100))
-				controllerManger.ChangeScene(SceneEnum.Quest);
+			if(currentMapData.MonsterID.Contains(100)) {
+				controllerManger.ExitBattle();
+				UIManager.Instance.ExitBattle();
+			}
+				//controllerManger.ChangeScene(SceneEnum.Quest);
 			else if(currentMapData.MonsterID.Count > 0)
 			{
 				ShowBattle();

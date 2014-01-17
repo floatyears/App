@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerInfoBarComponent : ConcreteComponent  {
+public class TipsBarComponent : ConcreteComponent  {
 
-	public PlayerInfoBarComponent(string uiName):base(uiName) {
+	public TipsBarComponent(string uiName):base(uiName) {
 
 	}
 

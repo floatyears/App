@@ -62,13 +62,9 @@ public class DragPanelView : UIBaseUnity {
 	public void SetViewPosition(Vector4 position)
 	{
 		Vector4 range = clip.clipRange;
-		if (position.x > 0) {
-			range.x = position.x;
-		}
 
-		if (position.y > 0) {
-			range.y = position.y;		
-		}
+		range.x = position.x;
+		range.y = position.y;		
 
 		if (position.z > 0) {
 			range.z = position.z;		
@@ -93,4 +89,23 @@ public class DragPanelView : UIBaseUnity {
 
 		grid.enabled = true;
 	}
+
+	public void SetGridArgs(int cellWidth, int cellHeight, UIGrid.Arrangement arrangement = UIGrid.Arrangement.Horizontal, int maxPerLine = 0)
+	{
+		if( cellWidth < 0 || cellHeight < 0 || maxPerLine < 0 )
+		{
+			LogHelper.LogError( "Illegal args" );
+			return;
+		}
+		grid.cellWidth = cellWidth;
+		grid.cellHeight = cellHeight;
+		grid.arrangement = arrangement;
+		grid.maxPerLine = maxPerLine;
+	}
+
+	public void SetScrollBar( float pos_X, float pos_Y, float pos_Z = 0 )
+	{
+		scrollBar.gameObject.transform.localPosition = new Vector3( pos_X, pos_Y, pos_Z);
+	}
+	
 }

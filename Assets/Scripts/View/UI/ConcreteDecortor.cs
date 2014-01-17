@@ -29,8 +29,11 @@ public class StartDecorator : DecoratorBase {
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent> (UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent (bottom);
 
-		playerInfoBar.CreatUI();
-		lastDecorator = playerInfoBar;
+		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent> (UIConfig.TipsBarName);
+		tipsBar.SetComponent (playerInfoBar);
+
+		tipsBar.CreatUI();
+		lastDecorator = tipsBar;
 	}
 }
 

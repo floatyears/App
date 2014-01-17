@@ -50,6 +50,7 @@ public class UIConfig
 	public const string topBackgroundName = "PlayerInfoBar";
 	public const string menuBottomName = "MenuBottom";
 	public const string sceneInfoBarName = "SceneInfoBar";
+	public const string TipsBarName = "TipsBar";
 
 	public const string questWindowName = "QuestWindow";
 	public const string friendWindowName = "FriendWindow";

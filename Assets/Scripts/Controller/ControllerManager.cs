@@ -91,6 +91,10 @@ public class ControllerManager
 	
 	#endregion
 
+	public void ExitBattle () {
+		currentScene.HideUI();
+	}
+
 	public void ChangeScene(SceneEnum sEnum)
 	{
 		string uiName = sEnum.ToString();
