@@ -45,10 +45,6 @@ public class BattleUseData {
 		List<AttackInfo> sortAttack = new List<AttackInfo> ();
 		foreach (var item in attackInfo.Values) {
 			sortAttack.AddRange(item);
-//			foreach (var item1 in item) {
-//				sortAttack.Add(item1);
-//
-//			}
 		}
 
 		attackInfo.Clear ();
@@ -77,17 +73,20 @@ public class BattleUseData {
 			}
 		}
 
-		for (int i = 0; i < sortAttack.Count; i++) {
-			sortAttack[i].originIndex = i;
-			Debug.LogError("-----------befour---------------    index : " + i + " need card : " + sortAttack[i].NeedCardNumber + " UserPos : " + sortAttack[i].UserPos );
-		}
+//		for (int i = 0; i < sortAttack.Count; i++) {
+//			sortAttack[i].originIndex = i;
+//			Debug.LogError("-----------befour---------------    index : " + i + " need card : " + sortAttack[i].NeedCardNumber + " UserPos : " + sortAttack[i].UserPos );
+//		}
 
 		DGTools.InsertSortBySequence(sortAttack, new AISortByCardNumber());
 		//DGTools.InsertSort(sortAttack, new AISortByUserpos(),false);
+//		for (int i = 0; i < sortAttack.Count; i++) {
+//			Debug.LogError("-----------end---------------    index : " + i + " need card : " + sortAttack[i].NeedCardNumber + " UserPos : " + sortAttack[i].UserPos+ "  index : "+sortAttack[i].originIndex );
+//		}
 		for (int i = 0; i < sortAttack.Count; i++) {
-			Debug.LogError("-----------end---------------    index : " + i + " need card : " + sortAttack[i].NeedCardNumber + " UserPos : " + sortAttack[i].UserPos+ "  index : "+sortAttack[i].originIndex );
+			sortAttack[i].AttackValue *= (1 + i * 0.25f); //ContinuAttackMultip += i * 0.25f;
+			sortAttack[i].ContinuAttackMultip += i;
 		}
-
 		return sortAttack;
 	}
 
@@ -120,7 +119,10 @@ public class BattleUseData {
 
 	public void StartAttack(object data) {
 		attackInfo = upi.Attack;
-		SortAttackSequence ();
+
+		List<AttackInfo> temp = SortAttackSequence ();
+
+
 	}
 
 	public void ClearData () {

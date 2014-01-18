@@ -25,10 +25,13 @@ public class Main : MonoBehaviour
 	}
 
 	private GameInput gInput;
-
-	public GameInput GInput
-	{
+	public GameInput GInput {
 		get{return gInput;}
+	}
+
+	private GameTimer gameTimer;
+	public GameTimer GTTimer {
+		get {return gameTimer;}
 	}
 
 	private const float screenWidth = 640;
@@ -54,15 +57,12 @@ public class Main : MonoBehaviour
 
 	void Awake(){
 		mainScrpit = this;
-
 		globalDataSeed = (byte)Random.Range (0, 255);
-
 		gInput = gameObject.AddComponent<GameInput> ();
-
+		gameObject.AddComponent<GameTimer>();
+		gameTimer = GameTimer.GetInstance ();
 		DontDestroyOnLoad (gameObject);
-
 		texScale = screenWidth / Screen.width;
-
 		// init manager class
 		ViewManager.Instance.Init (uiRoot);
 		ModelManager.Instance.Init ();
@@ -74,8 +74,18 @@ public class Main : MonoBehaviour
 	void OnEnable()
 	{
 		ControllerManager.Instance.ChangeScene (SceneEnum.Fight);
-	}
 
+
+//		for (int i = 1; i < 5; i++) {
+//			Debug.LogError ((int)Time.timeSinceLevelLoad);
+//			gameTimer.AddCountDown (i, CD);
+//				}
+
+	}
+//
+//	void CD() {
+//		Debug.LogWarning ((int)Time.timeSinceLevelLoad);
+//	}
 
 }
 

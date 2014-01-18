@@ -17,6 +17,7 @@ public class ConfigUnitInfo {
 	UnitInfo[] ui = new UnitInfo[maxCount];
 	
 	void GenerateUnitInfo () {
+
 		for (int i = 1; i < maxCount; i++) {
 			UnitInfo uiitem 	= new UnitInfo ();
 			uiitem.id 			= i;
@@ -282,6 +283,19 @@ public class AttackInfo {
 		set {attackValue = value;}
 	}
 
+	private int continuAttackMultip = 1;
+	public int ContinuAttackMultip {
+		get {return continuAttackMultip;}
+		set {continuAttackMultip = value;}
+	}
+
+	private int enemyID = -1;
+
+	public int EnemyID {
+		get {return enemyID;}
+		set {enemyID = value;}
+	}
+
 	private float injuryValue ;
 	public float InjuryValue
 	{
@@ -291,7 +305,7 @@ public class AttackInfo {
 
 	//------------test need data, delete it behind test done------------//
 	//------------------------------------------------------------------//
-	public int originIndex = -1;
+	//public int originIndex = -1;
 }
 
 public class AISortByCardNumber : IComparer{

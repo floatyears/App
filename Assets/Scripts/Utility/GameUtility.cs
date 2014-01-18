@@ -8,6 +8,40 @@ public class DGTools {
 		return UnityEngine.Random.Range(min,max);
 	}
 
+	public static int RestraintType (int unitType) {
+		switch (unitType) {
+		case 1:
+			return 3;
+		case 2:
+			return 1;
+		case 3:
+			return 2;
+		case 4:
+			return 5;
+		case 5:
+			return 4;
+		default :
+			return -1;
+		}
+	}
+
+	public static int BeRestraintType (int unitType) {
+		switch (unitType) {
+		case 1:
+			return 2;
+		case 2:
+			return 3;
+		case 3:
+			return 1;
+		case 4:
+			return 5;
+		case 5:
+			return 4;
+		default :
+			return -1;
+		}
+	}
+
 	public static bool ListContains<T>(List<T> big, List<T> small) {
 		if (big.Count < small.Count) {
 			return false;
@@ -73,7 +107,7 @@ public class DGTools {
 	/// Inserts the sort.
 	/// </summary>
 	/// <param name="target">Target collections.</param>
-	/// <param name="sort">Sort is by Ascending or Descending.</param>
+	/// <param name="sort">Sort is bool. True is Descending and False is Ascending.</param>
 	/// <typeparam name="T">The 1st type parameter.</typeparam>
 	public static void InsertSort<T,T1> (IList<T> target, T1 compareObject, bool sort = true) where T1 :  IComparer {
 		if (target == null) {
@@ -84,16 +118,7 @@ public class DGTools {
 			//T temp = target[i];
 			for (int j = 0; j < i; j++) {
 				int compare = compareObject.Compare(target[i], target[j]);
-				//Debug.LogWarning(compareObject.GetType() + "``````" +compare + "  sort : " + sort);
 				if(sort && compare > 0) {
-//					AttackInfo aii = target[i] as AttackInfo;
-//					AttackInfo aij = target[j] as AttackInfo;
-//					if(aii != null && aij != null) {
-//						Debug.LogWarning(" -----------------------------------------------------------------------------------" );
-//						Debug.LogWarning("i : " + i + " j : " + j);
-//						Debug.LogWarning("aii.originIndex " + aii.originIndex + " aii.NeedCardNumber : " + aii.NeedCardNumber);
-//						Debug.LogWarning("aij.originIndex " + aij.originIndex + " aij.NeedCardNumber : " + aij.NeedCardNumber);
-//					}
 					T temp = target[i];
 					target[i] = target[j];
 					target[j] = temp;

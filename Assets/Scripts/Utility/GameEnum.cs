@@ -55,6 +55,10 @@ public enum CommandEnum
 	UnitBlood 				= 3002,
 	EnergyPoint				= 3003,
 	ShowEnemy 				= 3004,
+	AttackEnemy				= 3005,
+	AttackPlayer			= 3006,
+	AttackRecoverRange		= 3007,
+	BattleEnd				= 3008,
 	#endregion
 }
 
