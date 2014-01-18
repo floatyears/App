@@ -3,20 +3,25 @@ using System.Collections.Generic;
 
 public class LevelUpDecoratorUnity : UIComponentUnity {
 
-	private DragPanel scroller;
-	private GameObject scrollerItem;
+	private DragPanel materialScroller;
+	private GameObject materialScrollerItem;
 
-	private GameObject tab_base;
-	private GameObject tab_friend;
-	private GameObject tab_material;
-	private GameObject hightLight_base;
-	private GameObject hightLight_friend;
-	private GameObject hightLight_material;
+	private DragPanel friendScroller;
+	private GameObject friendScrollerItem;
 
-	private GameObject baseWindow;
+	private GameObject tabBase;
+	private GameObject tabFriend;
+	private GameObject tabMaterial;
+	private GameObject hightLightBase;
+	private GameObject hightLightFriend;
+	private GameObject hightLightMaterial;
+
+	private GameObject materialWindow;
 	private GameObject friendWindow;
-
-	private GameObject sortBar;
+	private GameObject materialSortBar;
+	private GameObject friendSortBar;
+	private GameObject selectMaterialBtn1;
+	private GameObject selectMaterialBtn2;
 
 	public override void Init (UIInsConfig config, IUIOrigin origin) {
 		base.Init (config, origin);
@@ -38,77 +43,112 @@ public class LevelUpDecoratorUnity : UIComponentUnity {
 
 	void InitUI()
 	{
-		tab_base = FindChild("Top/tab_base");
-		tab_friend = FindChild("Top/tab_friend");
-		tab_material = FindChild("Top/tab_materials");
+		tabBase = FindChild("Top_Window/Tabs_Window/Tab_Base");
+		tabFriend = FindChild("Top_Window/Tabs_Window/Tab_Friend");
+		tabMaterial = FindChild("Top_Window/Tabs_Window/Tab_Materials");
 
-		hightLight_base = FindChild("Top/tab_base/Hight_light");
-		hightLight_friend = FindChild("Top/tab_friend/Hight_light");
-		hightLight_material = FindChild("Top/tab_materials/Hight_light");
+		hightLightBase = FindChild("Top_Window/Tabs_Window/Tab_Base/Hight_Light");
+		hightLightFriend = FindChild("Top_Window/Tabs_Window/Tab_Friend/Hight_Light");
+		hightLightMaterial = FindChild("Top_Window/Tabs_Window/Tab_Materials/Hight_Light");
 
-		baseWindow = FindChild("Bottom/BaseWindow");
-		friendWindow = FindChild("Bottom/FriendWindow");
+		materialWindow = FindChild("Bottom_Window/Material_Window");
+		friendWindow = FindChild("Bottom_Window/Friend_Window");
 
-		sortBar = FindChild("Bottom/BaseWindow/SortBar");
+		selectMaterialBtn1 = FindChild("Bottom_Window/Material_Window/BtnSelect1");
+		selectMaterialBtn2 = FindChild("Bottom_Window/Material_Window/BtnSelect2");
 
-		scrollerItem = Resources.Load("Prefabs/UI/Units/LevelUpScrollerItem") as GameObject;
-		scroller = new DragPanel( "LevelUpScroller", scrollerItem );
+		materialSortBar = FindChild("Bottom_Window/Material_Window/SortButton");
+		friendSortBar = FindChild("Bottom_Window/Friend_Window/SortButton");
+		//-------------
+		materialScrollerItem = Resources.Load("Prefabs/UI/Units/LevelUpScrollerItem") as GameObject;
+		materialScroller = new DragPanel( "LevelUpScroller", materialScrollerItem );
 
-		scroller.CreatUI();
-		scroller.AddItem(45);
-		scroller.RootObject.SetGridArgs( 120, 120, UIGrid.Arrangement.Vertical, 3);
-		scroller.RootObject.SetScrollBar( -364,  -340,  0);
-		scroller.RootObject.SetViewPosition( new Vector4(0,-120f,700,400) );
+		materialScroller.CreatUI();
+		materialScroller.AddItem(45);
+		materialScroller.RootObject.SetGridArgs( 120, 120, UIGrid.Arrangement.Vertical, 3);
+		materialScroller.RootObject.SetScrollBar( -364,  -340,  0);
+		materialScroller.RootObject.SetViewPosition( new Vector4(0,-120f,700,400) );
 
-		scroller.RootObject.gameObject.transform.parent = gameObject.transform.FindChild("Bottom/BaseWindow");
-		scroller.RootObject.gameObject.transform.localScale = Vector3.one;
-		scroller.RootObject.gameObject.transform.localPosition = -45*Vector3.up;
+		materialScroller.RootObject.gameObject.transform.parent = gameObject.transform.FindChild("Bottom_Window/Material_Window");
+		materialScroller.RootObject.gameObject.transform.localScale = Vector3.one;
+		materialScroller.RootObject.gameObject.transform.localPosition = -45*Vector3.up;
+		//-------------
 
-		UIEventListener.Get(sortBar).onClick = SortCard;
+		friendScrollerItem = Resources.Load("Prefabs/UI/Units/LevelUpScrollerItem") as GameObject;
+		friendScroller = new DragPanel( "SelectFriendScroller", materialScrollerItem );
+		
+		friendScroller.CreatUI();
+		friendScroller.AddItem(15);
+		friendScroller.RootObject.SetGridArgs( 120, 120, UIGrid.Arrangement.Horizontal, 0);
+		friendScroller.RootObject.SetScrollBar( -364,  -120,  0);
+		friendScroller.RootObject.SetViewPosition( new Vector4(0,0,700,200) );
+		
+		friendScroller.RootObject.gameObject.transform.parent = gameObject.transform.FindChild("Bottom_Window/Friend_Window");
+		friendScroller.RootObject.gameObject.transform.localScale = Vector3.one;
+		friendScroller.RootObject.gameObject.transform.localPosition = -270*Vector3.up;
 
-		UIEventListener.Get(tab_base).onClick = ShowBaseWindow;
-		UIEventListener.Get(tab_friend).onClick = ShowFriendWindow;
-		UIEventListener.Get(tab_material).onClick = ShowMaterialWindow;
+		//-------------
+		UIEventListener.Get( materialSortBar ).onClick = SortMaterial;
+		UIEventListener.Get( friendSortBar ).onClick = SortFriend;
 
-		baseWindow.SetActive( true );
+		UIEventListener.Get(tabBase).onClick = ShowBaseWindow;
+		UIEventListener.Get(tabFriend).onClick = ShowFriendWindow;
+		UIEventListener.Get(tabMaterial).onClick = ShowMaterialWindow;
+
+		materialWindow.SetActive( true );
 		friendWindow.SetActive( false );
 
-		hightLight_base.SetActive( true );
-		hightLight_friend.SetActive( false );
-		hightLight_material.SetActive( false );
+		hightLightBase.SetActive( true );
+		hightLightFriend.SetActive( false );
+		hightLightMaterial.SetActive( false );
+
+		selectMaterialBtn1.SetActive(false);
+		selectMaterialBtn2.SetActive(false);
 	}
 
 	private void ShowBaseWindow( GameObject go) 
 	{
-		baseWindow.SetActive( true );
+		materialWindow.SetActive( true );
 		friendWindow.SetActive( false );
-		hightLight_base.SetActive( true );
-		hightLight_friend.SetActive( false );
-		hightLight_material.SetActive( false );
+		hightLightBase.SetActive( true );
+		hightLightFriend.SetActive( false );
+		hightLightMaterial.SetActive( false );
+		selectMaterialBtn1.SetActive(false);
+		selectMaterialBtn2.SetActive(false);
 	}
 	private void ShowFriendWindow( GameObject go) 
 	{
-		baseWindow.SetActive( false );
+		materialWindow.SetActive( false );
 		friendWindow.SetActive( true );
 
-		hightLight_base.SetActive( false );
-		hightLight_friend.SetActive( true );
-		hightLight_material.SetActive( false );
+		hightLightBase.SetActive( false );
+		hightLightFriend.SetActive( true );
+		hightLightMaterial.SetActive( false );
+		selectMaterialBtn1.SetActive(false);
+		selectMaterialBtn2.SetActive(false);
 	}
 
 	private void ShowMaterialWindow( GameObject go) 
 	{
-		baseWindow.SetActive( true );
+		materialWindow.SetActive( true );
 		friendWindow.SetActive( false );
 
-		hightLight_base.SetActive( false );
-		hightLight_friend.SetActive( false );
-		hightLight_material.SetActive( true );
+		hightLightBase.SetActive( false );
+		hightLightFriend.SetActive( false );
+		hightLightMaterial.SetActive( true );
+
+		selectMaterialBtn1.SetActive(true);
+		selectMaterialBtn2.SetActive(true);
 	}
 
-	private void SortCard(GameObject go)
+	private void SortMaterial(GameObject go)
 	{
-		LogHelper.Log("Sort Card");
+		LogHelper.Log("Sort Material");
+	}
+
+	private void SortFriend(GameObject go)
+	{
+		LogHelper.Log("Sort Friend");
 	}
 
 
