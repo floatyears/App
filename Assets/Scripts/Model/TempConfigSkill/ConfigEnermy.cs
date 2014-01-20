@@ -4,8 +4,7 @@ using bbproto;
 
 public class TempEnemy : ProtobufDataBase {
 	public TempEnemy (object instance) : base (instance) {
-		initBlood = GetEnemyInfo ().hp;
-		initAttackRound = GetEnemyInfo ().attackRound;
+
 	}
 
 	EnemyInfo GetEnemyInfo() {
@@ -28,7 +27,6 @@ public class TempEnemy : ProtobufDataBase {
 		int injured = 0;
 		if (restraint) {
 			injured = (int)(attackInfo * 2 - GetDefense ());
-			//
 		} 
 		else {
 			int beRestraint = DGTools.BeRestraintType(unitType);
@@ -39,16 +37,27 @@ public class TempEnemy : ProtobufDataBase {
 				injured = (int)(attackInfo - GetDefense());
 			}
 		}
-		GetEnemyInfo ().hp -= injured;
+		initBlood -= injured;
+		Debug.LogError ("CalculateInjured : " + initBlood);
+		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 		return injured;
 	}
 
+	public void Reset() {
+		initBlood = GetEnemyInfo ().hp;
+		initAttackRound = GetEnemyInfo ().attackRound;
+	}
+
 	public void ResetAttakAround () {
-		GetEnemyInfo ().attackRound = initAttackRound;
+		initAttackRound = GetEnemyInfo().attackRound;
 	}
 
 	public void Next () {
-		GetEnemyInfo ().attackRound --;
+		initAttackRound --;
+	}
+
+	public int GetAttack () {
+		return GetEnemyInfo().attack;
 	}
 
 	public int GetID () {
@@ -60,11 +69,11 @@ public class TempEnemy : ProtobufDataBase {
 	}
 
 	public int GetRound () {
-		return GetEnemyInfo ().attackRound;
+		return initAttackRound;
 	}
 
 	public int GetBlood () {
-		return GetEnemyInfo ().hp;
+		return initBlood;
 	}
 
 	public int DropUnit () {
@@ -86,7 +95,6 @@ public class TempEnemySortByHP : IComparer {
 }
 
 public class ConfigEnermy {
-
 	public ConfigEnermy() {
 		GenerateEnemy ();
 	}
@@ -94,10 +102,10 @@ public class ConfigEnermy {
 	void GenerateEnemy () {
 		EnemyInfo ei = new EnemyInfo ();
 		ei.unitId = 1;
-		ei.attack = 10;
+		ei.attack = 20;
 		ei.attackRound = 1;
 		ei.defense = 10;
-		ei.hp = 1000;
+		ei.hp = 100;
 		ei.type = 1;
 		ei.dropUnitId = 10;
 		ei.dropRate = 0.15f;
@@ -106,10 +114,10 @@ public class ConfigEnermy {
 
 		ei = new EnemyInfo ();
 		ei.unitId = 2;
-		ei.attack = 20;
+		ei.attack = 40;
 		ei.attackRound = 3;
 		ei.defense = 20;
-		ei.hp = 2000;
+		ei.hp = 200;
 		ei.type = 2;
 		ei.dropUnitId = 11;
 		ei.dropRate = 0.2f;

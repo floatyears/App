@@ -57,6 +57,7 @@ public class BattleCardAreaItem : UIBaseUnity
 		parentObject = transform.parent.gameObject;
 
 		InitFightCard ();
+
 	}
 
 	void InitFightCard()
@@ -66,11 +67,22 @@ public class BattleCardAreaItem : UIBaseUnity
 		battleCardInitPos = template.transform.localPosition;
 	}
 
+	public override void ShowUI () {
+		base.ShowUI ();
+		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, Attack);
+		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
+
+	}
+
 	public override void HideUI ()
 	{
 		base.HideUI ();
 
-		ClearCard ();
+		//ClearCard ();
+
+		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, Attack);
+		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
+
 	}
 
 	public int GenerateCard(List<CardItem> source)
@@ -145,6 +157,25 @@ public class BattleCardAreaItem : UIBaseUnity
 		battleCardTemplate.Add(instance.GetComponent<UITexture>());
 	}
 
+	void Attack(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;		
+		}
+
+		AttackImageUtility aiu = attackImage.Find (a => a.attackID == ai.AttackID);
+
+		if (aiu != null) {
+			aiu.attackUI.enabled = false;	
+		}
+ 	}
+
+
+
+	void StartAttack(object data) {
+		ClearCard ();
+	}
+
 	public void Scale(bool on)
 	{
 		if (on) {
@@ -155,33 +186,6 @@ public class BattleCardAreaItem : UIBaseUnity
 		}
 	}
 
-//	int startIndex = 0;
-////	Texture tempTex;
-//	List<CardItem> tempSource = new List<CardItem>();
-//
-//	IEnumerator DisposeTexture(int count)
-//	{
-//		tempObject = BattleCardArea.GetCard();
-//		tempObject.layer = parentObject.layer;
-//		tempObject.transform.localPosition = pos;
-//		tempObject.transform.parent = parentObject.transform;
-//		CardItem ci = tempObject.GetComponent<CardItem>();
-//		ci.Init(tempObject.name);
-//		DisposeTweenPosition(ci);
-//		DisposeTweenScale(ci);
-//		ci.ActorTexture.depth = GetDepth(cardItemList.Count);
-//		ci.SetTexture( tempSource[0].ActorTexture.mainTexture,tempSource[0].itemID);
-//		cardItemList.Add(ci);
-//		tempSource.RemoveAt (0);
-//
-//		yield return 1;
-//
-//		if (tempSource.Count > 0)
-//		{
-//			StartCoroutine (DisposeTexture (count));
-//		}
-//	}
-
 	public void ClearCard()
 	{
 		for (int i = 0; i < cardItemList.Count; i++)
@@ -191,12 +195,12 @@ public class BattleCardAreaItem : UIBaseUnity
 
 		cardItemList.Clear();
 
-		for (int i = 0; i<battleCardTemplate.Count; i++) {
-			if(battleCardTemplate[i].enabled){
-				battleCardTemplate[i].enabled = false;
-			}
-			battleList.Clear();
-		}
+//		for (int i = 0; i<battleCardTemplate.Count; i++) {
+//			if(battleCardTemplate[i].enabled){
+//				battleCardTemplate[i].enabled = false;
+//			}
+//			battleList.Clear();
+//		}
 	}
 
 	void DisposeTweenPosition(CardItem ci)

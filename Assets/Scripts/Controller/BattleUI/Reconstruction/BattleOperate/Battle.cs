@@ -70,6 +70,9 @@ public class Battle : UIBase
 		base.ShowUI();
 
 		ShowCard();
+
+		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, AttckEnd);
 	}
 
 	public override void HideUI ()
@@ -78,28 +81,32 @@ public class Battle : UIBase
 
 		base.HideUI ();
 
-//		battleCardArea.HideUI();
-//
-//		battleCard.HideUI ();
-//
-//		battleCardPool.HideUI ();
-//
-//		battleEnemy.HideUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, AttckEnd);
 
 		battleRootGameObject.SetActive(false);
 	}
 
-	public void StartBattle (Dictionary<int,List<CardItem>> attackData)
+	public void StartBattle ()
 	{
 		ResetClick();
 
 		Attack();
+
 	}
 
-	void Attack()
-	{
+	void AttckEnd (object data) {
+		SwitchInput(false);
+	}
 
-		HideUI();
+	void BattleEnd (object data) {
+		SwitchInput(true);
+		HideUI ();
+	}
+
+	void Attack() {
+		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
+		SwitchInput(true);
 	}
 
 	void CreatBack()
@@ -272,9 +279,8 @@ public class Battle : UIBase
 
 			if(generateCount > 0)
 			{
-				battleCardArea.tempCountTime = true;
-				for(int i = 0;i < generateCount;i++)
-				{
+				battleCardArea.YieldStartBattle();
+				for(int i = 0;i < generateCount;i++) {
 					battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
 				}
 			}

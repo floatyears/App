@@ -19,6 +19,10 @@ public class BattleEnemy : UIBaseUnity {
 	{
 		base.HideUI ();
 		for (int i = 0; i < monster.Count; i++) {
+			if(monster[i] == null) {
+				monster.RemoveAt(i);
+				continue;
+			}
 			monster[i].DestoryUI();
 		}
 		monster.Clear ();
@@ -43,6 +47,7 @@ public class BattleEnemy : UIBaseUnity {
 			go.SetActive(true);
 			CaculatePosition(i,go);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
+		
 			ei.Init(enemy[i]);
 			monster.Add(ei);
 		}
@@ -50,6 +55,9 @@ public class BattleEnemy : UIBaseUnity {
 
 	void Clear() {
 		for (int i = 0; i < monster.Count; i++) {
+			if(monster[i] == null ){
+				monster.RemoveAt(i);
+			}
 			Destroy(monster[i].gameObject);
 		}
 		monster.Clear();

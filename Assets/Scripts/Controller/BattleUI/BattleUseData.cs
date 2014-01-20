@@ -9,6 +9,7 @@ public class BattleUseData {
 	private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
 	private List<TempEnemy> currentEnemy =new List<TempEnemy> ();
 	private List<ShowEnemyUtility> showEnemy = new List<ShowEnemyUtility>();
+	private AttackController ac;
 
 	public BattleUseData () {
 		errorMsg = new ErrorMsg ();
@@ -27,6 +28,7 @@ public class BattleUseData {
 		MsgCenter.Instance.AddListener (CommandEnum.InquiryBattleBaseData, GetBaseData);
 		MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, MoveToMapItem);
 		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
+//		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, AttckEnd);
 		//MsgCenter.Instance.AddListener (CommandEnum.DragCardToBattleArea, CaculateFight);
 	}
 
@@ -34,12 +36,13 @@ public class BattleUseData {
 		MsgCenter.Instance.RemoveListener (CommandEnum.InquiryBattleBaseData, GetBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, MoveToMapItem);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, AttckEnd);
 		//MsgCenter.Instance.RemoveListener (CommandEnum.DragCardToBattleArea, CaculateFight);
 	}
-
-	void CalculateInjury () {
-
-	}
+//
+//	void AttckEnd(object data) {
+//		ClearData ();
+//	}
 
 	List<AttackInfo> SortAttackSequence() {
 		List<AttackInfo> sortAttack = new List<AttackInfo> ();
@@ -100,10 +103,12 @@ public class BattleUseData {
 
 		for (int i = 0; i < monster.Count; i++) {
 			TempEnemy te = GlobalData.tempEnemyInfo[monster[i]];
+			te.Reset();
 			if(i == showEnemy.Count) {
 				ShowEnemyUtility seu = new ShowEnemyUtility();
 				showEnemy.Add(seu);
 			} 
+
 			showEnemy[i].enemyID = te.GetID();
 			showEnemy[i].enemyBlood = te.GetBlood();
 			showEnemy[i].attackRound = te.GetRound();
@@ -119,14 +124,15 @@ public class BattleUseData {
 
 	public void StartAttack(object data) {
 		attackInfo = upi.Attack;
-
 		List<AttackInfo> temp = SortAttackSequence ();
-
-
+		AttackController ac = new AttackController (this);
+		ac.StartAttack (temp,currentEnemy,upi);
 	}
 
 	public void ClearData () {
 		upi.ClearData ();
+		attackInfo.Clear ();
+		//currentEnemy.Clear ();
 	}
 
 	public void GetBaseData(object data) {
@@ -149,14 +155,15 @@ public class BattleUseData {
 				blood = 1;
 			}
 			RefreshBlood();
-		} 
+		}
 		else {
 			maxEnergyPoint--;
-			MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint,maxEnergyPoint);
+			MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
 		}
 	}
 
-	void RefreshBlood() {
+	public void RefreshBlood() {
+		blood = upi.GetBlood ();
 		MsgCenter.Instance.Invoke (CommandEnum.UnitBlood, blood);
 	}
 			

@@ -17,18 +17,43 @@ public class AddBlood {
 
 public class UserUnitInfo : ProtobufDataBase {
 	public UserUnitInfo(UserUnit instance) : base (instance) { }
-	
+	private int currentBlood = -1;
 	~UserUnitInfo() { }
 	
 	TempNormalSkill[] normalSkill = new TempNormalSkill[2];
+
+	public void CalculateInjured(int attackType, int attackValue) {
+		int beRetraintType = DGTools.BeRestraintType (attackType);
+		int retraintType = DGTools.RestraintType (attackType);
+		UserUnit uu = DeserializeData<UserUnit> ();
+		int defense = DGTools.CaculateAddDefense (uu.addDefence);
+		defense += GetUnitInfo ().power [uu.level].defense;
+		float hurtValue = 0;
+		if (beRetraintType == GetUnitInfo ().type) {
+			hurtValue = attackValue * 2 - defense;
+		} 
+		else if (retraintType == GetUnitInfo ().type) {
+			hurtValue = attackValue * 0.5f - defense;
+		} 
+		else {
+			hurtValue = attackValue - defense;
+		}
+		if (hurtValue <= 0) {
+			hurtValue = 1;
+		}
+		currentBlood -= (int)hurtValue;
+
+		//return hurtValue;
+//		Debug.LogError ("CalculateInjured : " + currentBlood + " hurtValue : " + hurtValue);
+	}
 
 	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
 		//Debug.LogError ("userunit id : " + GetUnitType () +  " card : " + card.Count + " ignorSkillID :" + ignorSkillID.Count);
 		List<uint> copyCard 		= new List<uint> (card);
 		List<AttackInfo> returnInfo = new List<AttackInfo> ();
 
-		UserUnit uu 				= DeserializeData () as UserUnit;
-		UnitInfo ui					= GlobalData.tempUnitInfo [uu.id].DeserializeData() as UnitInfo;
+		UserUnit uu 				= DeserializeData<UserUnit> ();
+		UnitInfo ui					= GlobalData.tempUnitInfo [uu.id].DeserializeData<UnitInfo>();
 
 		TempNormalSkill firstSkill	= GlobalData.tempNormalSkill [ui.skill1] as TempNormalSkill;
 		TempNormalSkill secondSkill = GlobalData.tempNormalSkill [ui.skill2] as TempNormalSkill;
@@ -71,13 +96,6 @@ public class UserUnitInfo : ProtobufDataBase {
 		return tns.GetAttack(attack);
 	}
 
-//	public int CaculateUserUnitAttack () {
-//		UserUnit userUnit =  DeserializeData () as UserUnit;
-//		UnitInfo unitInfo = GlobalData.tempUnitInfo [userUnit.id].DeserializeData<UnitInfo>();
-//
-//		return CaculateAttack(userUnit,unitInfo);
-//	}
-
 	public int GetUnitType (){
 
 		return GetUnitInfo().type;
@@ -86,6 +104,17 @@ public class UserUnitInfo : ProtobufDataBase {
 	UnitInfo GetUnitInfo() {
 		UserUnit userUnit =  DeserializeData () as UserUnit;
 		return GlobalData.tempUnitInfo [userUnit.id].DeserializeData<UnitInfo>();
+	}
+
+	public int GetBlood () {
+		if (currentBlood == -1) {
+			UserUnit uu = DeserializeData<UserUnit>();
+			UnitInfo ui = GetUnitInfo() ;
+			currentBlood += DGTools.CaculateAddBlood (uu.addHp);
+			currentBlood += ui.power [uu.level].hp;
+		}
+//		Debug.LogError ("GetBlood : " + currentBlood);
+		return currentBlood;
 	}
 }
 

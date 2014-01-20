@@ -98,10 +98,17 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 	public UnitPartyInfo (object instance) : base (instance) { }
 	~UnitPartyInfo () { }
 
-	public List<AttackImageUtility> CalculateSkill(int areaItemID, int cardID) {
+	public void CaculateInjured (int attackType, int attackValue) {
+		//int beInjuredType = DGTools.BeRestraintType (attackType);
+		for (int i = 0; i < partyItem.Count; i++) {
+			UserUnitInfo unitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
+			unitInfo.CalculateInjured(attackType, attackValue);
+		}
 
+	}
+
+	public List<AttackImageUtility> CalculateSkill(int areaItemID, int cardID) {
 		CalculateSkillUtility skillUtility = CheckSkillUtility (areaItemID, cardID);
-//		Debug.LogError ("skillUtility haveCard : " + skillUtility.haveCard.Count + " skillUtility alreadyUseSkill : " +  skillUtility.alreadyUseSkill.Count);
 		List<AttackInfo> areaItemAttackInfo = CheckAttackInfo (areaItemID);
 		areaItemAttackInfo.Clear ();
 		UserUnitInfo tempUnitInfo;
@@ -111,7 +118,6 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 		for (int i = 0; i < partyItem.Count; i++) {
 			tempUnitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
 			tempAttack = tempUnitInfo.CaculateAttack (skillUtility.haveCard, skillUtility.alreadyUseSkill);
-
 			if (tempAttack.Count > 0) {
 				for (int j = 0; j < tempAttack.Count; j++) {
 					AttackInfo ai 			= tempAttack [j];
@@ -127,11 +133,7 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 				}     
 			}
 		}
-//		int count = 0;
-//		foreach (var item in attack) {
-//			count += item.Value.Count;
-//		}
-//		Debug.LogError (count+"  tempAttackType : "+ tempAttackType.Count);
+		//Debug.Log ("CalculateSkill : " + tempAttackType.Count);
 		return tempAttackType;
 	}
 
@@ -164,10 +166,7 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 		int bloodNum = 0;
 		for (int i = 0; i < up.items.Count; i++) {
 			int unitUniqueID = up.items [i].unitUniqueId;
-			UserUnit uu = GlobalData.tempUserUnitInfo [unitUniqueID].DeserializeData<UserUnit> ();
-			UnitInfo ui = GlobalData.tempUnitInfo [uu.id].DeserializeData<UnitInfo> ();
-			bloodNum += DGTools.CaculateAddBlood (uu.addHp);
-			bloodNum += ui.power [uu.level].hp;
+			bloodNum += GlobalData.tempUserUnitInfo [unitUniqueID].GetBlood();
 		}
 		return bloodNum;
 	}

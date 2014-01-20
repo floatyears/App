@@ -43,7 +43,7 @@ public enum CommandEnum
 
 	ChangeScene = 1,
 	#region view to model
-	DragCardToBattleArea 	= 1000,
+	//DragCardToBattleArea 	= 1000,
 	InquiryBattleBaseData 	= 1001,
 	MoveToMapItem 			= 1002,
 	StartAttack				= 1003,
@@ -59,6 +59,10 @@ public enum CommandEnum
 	AttackPlayer			= 3006,
 	AttackRecoverRange		= 3007,
 	BattleEnd				= 3008,
+	EnemyAttack				= 3010,
+	EnemyAttackEnd			= 3009,
+	EnemyRefresh			= 3011,
+	EnemyDead				= 3012,
 	#endregion
 }
 
