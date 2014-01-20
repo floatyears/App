@@ -31,7 +31,6 @@ public class BattleDataMode {
 	}
 
 	public static int hurtValue(){
-
 		return 0;
 	}
 }

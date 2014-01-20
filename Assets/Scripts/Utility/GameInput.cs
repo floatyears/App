@@ -35,7 +35,6 @@ public class GameInput : MonoBehaviour
 
 	void Update()
 	{
-
 		if(Time.timeScale < 0.5f)
 			return;
 
@@ -129,7 +128,7 @@ public class GameInput : MonoBehaviour
 	{
 		InitCountTime();
 		if(OnReleaseEvent != null)
-			OnReleaseEvent();
+			OnReleaseEvent ();
 	}
 
 	void OnStationary()
@@ -137,8 +136,7 @@ public class GameInput : MonoBehaviour
 		if(startTime < 0)
 			startTime = Time.realtimeSinceStartup;
 
-		if(Time.realtimeSinceStartup - startTime >= stationarIntervTime)
-		{
+		if(Time.realtimeSinceStartup - startTime >= stationarIntervTime) {
 			InitCountTime();
 
 			if(OnStationaryEvent != null)
@@ -146,8 +144,7 @@ public class GameInput : MonoBehaviour
 		}
 	}
 
-	void InitCountTime()
-	{
+	void InitCountTime() {
 		startTime = -1f;
 	}
 }

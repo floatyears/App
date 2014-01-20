@@ -69,6 +69,11 @@ public interface IUIOrigin {
 
 }
 
+public interface IUISort {
+	int Ascending(object first,object second);
+	int Descending(object first, object second);
+}
+
 /// <summary>
 /// ui callback interface
 /// </summary>

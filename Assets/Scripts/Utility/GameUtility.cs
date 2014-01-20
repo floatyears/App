@@ -1,21 +1,78 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-
-public class DGTools
-{
-	public int RandomToInt(int min,int max)
-	{
-		return Random.Range(min,max);
+public class DGTools {
+	public int RandomToInt(int min,int max) {
+		return UnityEngine.Random.Range(min,max);
 	}
 
-	public static bool ListContains<T>(IList<T> big, IList<T> small) {
+	public static int RestraintType (int unitType) {
+		switch (unitType) {
+		case 1:
+			return 3;
+		case 2:
+			return 1;
+		case 3:
+			return 2;
+		case 4:
+			return 5;
+		case 5:
+			return 4;
+		default :
+			return -1;
+		}
+	}
+
+	public static int BeRestraintType (int unitType) {
+		switch (unitType) {
+		case 1:
+			return 2;
+		case 2:
+			return 3;
+		case 3:
+			return 1;
+		case 4:
+			return 5;
+		case 5:
+			return 4;
+		default :
+			return -1;
+		}
+	}
+
+	public static bool ListContains<T>(List<T> big, List<T> small) {
+		if (big.Count < small.Count) {
+			return false;
+		}
+						
 		for (int i = 0; i < small.Count; i++) {
 			if(!big.Contains(small[i])) {
 				return false;
 			}
 		}
+
+		return true;
+	}
+
+	public static bool IsTriggerSkill<T> (List<T> cardList, List<T> skillList) where T : struct {
+		if (cardList.Count < skillList.Count) {
+			return false;		
+		}
+		List<T> tempCard = new List<T> (cardList);
+		List<T> tempSkillList = new List<T> (skillList);
+
+		for (int i = 0; i < tempSkillList.Count; i++) {
+			if(tempCard.Contains(tempSkillList[i])) {
+				T value = tempSkillList[i];
+				tempCard.Remove(value);
+			}
+			else  {
+				return false;
+			}
+		}
+
 		return true;
 	}
 
@@ -32,9 +89,9 @@ public class DGTools
 		return add * 100;
 	}
 
-	public static int CaculateAddAttack (int add) {
-		return add * 50;
-	}
+//	public static int CaculateAttack (UserUnit uu, UnitInfo ui) {
+//		int attack = uu.addHp * 50 + ui.power[
+//	}
 
 	public static int CaculateAddDefense (int add) {
 		return add * 10;
@@ -44,6 +101,78 @@ public class DGTools
 
 	public static float IntegerSubtriction(int firstInterger,int secondInterger) {
 		return (float)firstInterger / (float)secondInterger;
+	}
+
+	/// <summary>
+	/// Inserts the sort.
+	/// </summary>
+	/// <param name="target">Target collections.</param>
+	/// <param name="sort">Sort is bool. True is Descending and False is Ascending.</param>
+	/// <typeparam name="T">The 1st type parameter.</typeparam>
+	public static void InsertSort<T,T1> (IList<T> target, T1 compareObject, bool sort = true) where T1 :  IComparer {
+		if (target == null) {
+			return;
+		}
+		int length = target.Count;
+		for (int i = 1; i < length; i++) {
+			//T temp = target[i];
+			for (int j = 0; j < i; j++) {
+				int compare = compareObject.Compare(target[i], target[j]);
+				if(sort && compare > 0) {
+					T temp = target[i];
+					target[i] = target[j];
+					target[j] = temp;
+
+					continue;
+				}
+		
+				if(!sort && compare < 0) {
+					T temp = target[i];
+					target[i] = target[j];
+					target[j] = temp;
+				}
+			}
+		}
+	}
+
+	public static void InsertSortBySequence<T,T1> (IList<T> target, T1 compareObject, bool sort = true) where T1 :  IComparer {
+		if (target == null) {
+			return;
+		}
+		int length = target.Count;
+		for (int i = 1; i < length; i++) {
+
+			for (int j = 0; j < i; j++) {
+				int compare = compareObject.Compare(target[i], target[j]);
+				if(sort && compare > 0) {
+					T temp = target[j];
+					target[j] = target[i];
+					int k = j + 1;
+					T temp1 ;
+					while(k <= i) {
+						temp1 = target[k];
+						target[k] = temp;
+						temp = temp1;
+						k++;
+					}
+
+					//target[j] = temp;
+					continue;
+				}
+				
+				if(!sort && compare < 0) {
+					T temp = target[i];
+					target[i] = target[j];
+					target[j] = temp;
+				}
+			}
+		}
+	}
+
+	public static void SwitchObject<T>(ref T arg1,ref T arg2) {
+		T temp = arg1;
+		arg1 = arg2;
+		arg2 = temp;
 	}
 }
 

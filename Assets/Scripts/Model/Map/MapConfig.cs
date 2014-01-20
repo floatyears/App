@@ -39,10 +39,11 @@ public class MapConfig
 				smd.CoordinateX = i;
 				smd.CoordinateY = j;
 				
-				for (int k = 0; k < smd.StarLevel; k++) 
-				{
-					smd.MonsterID.Add(k);
-				}
+//				for (int k = 0; k < smd.StarLevel; k++) 
+//				{
+				smd.MonsterID.Add(1);
+				smd.MonsterID.Add(2);
+//				}
 				
 				mapData[i,j] = smd;
 			}	
