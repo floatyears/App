@@ -68,6 +68,7 @@ public class ModelManager
 	/// </summary>
 	public void Init () {
 		InitConfigData ();
+		InitData ();
 	}
 
 	//init config data
@@ -77,11 +78,15 @@ public class ModelManager
 		UIIns ins = new UIIns (info);
 		AddData (ModelEnum.UIInsConfig, ins);
 
-		ConfigUnitInfo cui = new ConfigUnitInfo ();
+
 	}
 
-
-
+	public void InitData () {
+		ConfigUnitInfo cui = new ConfigUnitInfo ();
+		ConfigSkill cs = new ConfigSkill ();
+		ConfigEnermy ce = new ConfigEnermy ();
+	}
+	
 	/// <summary>
 	/// Adds the data.
 	/// </summary>

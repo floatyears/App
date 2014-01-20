@@ -201,11 +201,12 @@ message SkillAntiAttack {
 //==================NormalSkill Skills=====================================================
 
 message NormalSkill {
-	optional SkillBase  baseInfo    = 1;
+	optional SkillBase      baseInfo        = 1;
 
-	optional EAttackType attackType = 2; //SINGLE,ALL,RECOVER_HP
-	repeated uint32 activeBlocks 	= 3; //[0,0],[1,1,1] => [Fire,Fire],[Water,Water,Water]
-	optional float attackValue		= 4; //1.5xATK | 10%
+	optional EAttackType    attackType      = 2; //SINGLE,ALL,RECOVER_HP
+	repeated uint32         activeBlocks    = 3; //[0,0],[1,1,1] => [Fire,Fire],[Water,Water,Water]
+	optional float          attackValue     = 4; //1.5xATK | 10%
+    optional EUnitType      attackUnitType  = 5; //EUnitType 
 };
 
 

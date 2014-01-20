@@ -16,6 +16,8 @@ public class Config
 		}
 	}
 
+	public const byte startCardID = 1;
+	public const byte endCardID = 8;
 	public const byte cardPoolSingle = 5;
 
 	public const byte cardCollectionCount = 5;
@@ -39,7 +41,7 @@ public class Config
 	{
 		ItemData cid;
 
-		for (int i = 0; i < cardPoolSingle; i++) 
+		for (int i = startCardID; i < endCardID; i++) 
 		{
 			cid = new ItemData(i,"Card"+i,1);
 			cardData.Add(cid.itemID,cid);
@@ -52,7 +54,7 @@ public class Config
 	{
 		for (int i = 0; i < 20; i++) 
 		{
-			int key = Random.Range(0, 5);
+			int key = 1; //Random.Range(startCardID, endCardID);
 			cardSort.Enqueue(cardData[key]);
 		}
 	}
@@ -94,17 +96,17 @@ public class ItemData
 	public static Color GetColor(int color)
 	{
 		switch (color) {
-		case 0:
-			return Color.red;
 		case 1:
-			return Color.blue;
+			return Color.red;
 		case 2:
-			return Color.green;
+			return Color.blue;
 		case 3:
-			return Color.yellow;
+			return Color.green;
 		case 4:
-			return Color.magenta;
+			return Color.yellow;
 		case 5:
+			return Color.magenta;
+		case 6:
 			return Color.white;
 		default:
 			return Color.white;

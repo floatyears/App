@@ -44,20 +44,15 @@ public class Role : UIBaseUnity
 		set{ bQuest = value; }
 	}
 
-	public override void Init (string name)
-	{
+	public override void Init (string name) {
 		base.Init (name);
 
 		transform.localScale = Vector3.one;
 		transform.localRotation = Quaternion.Euler(angle);
 	}
 
-	public override void CreatUI ()
-	{
-	
+	public override void CreatUI () {
 		base.CreatUI ();
-
-
 	}
 
 	void RoleStart()

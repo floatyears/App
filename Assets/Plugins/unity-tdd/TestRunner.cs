@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
@@ -135,14 +135,14 @@ namespace UnitTesting
 
 		string GetExceptionString(Exception e, string baseMessage)
 		{
-			baseMessage += e.Message + "\n\n";
+			baseMessage += e.Message + "\n";
 
 			if ( e.InnerException != null )
 			{
 				return GetExceptionString(e.InnerException, baseMessage);
 			}
 
-			return baseMessage;
+			return baseMessage += e.StackTrace;
 		}
 
 
@@ -215,4 +215,4 @@ namespace UnitTesting
 		}
 	}
 }
-#endif
+//#endif

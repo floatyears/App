@@ -87,8 +87,7 @@ public class BattleCard : UIBaseUnity
 		else
 			layer = GameLayer.IgnoreCard;
 
-		for (int i = 0; i < cardItemArray.Length; i++)
-		{
+		for (int i = 0; i < cardItemArray.Length; i++) {
 			cardItemArray[i].gameObject.layer = layer;
 		}
 	}

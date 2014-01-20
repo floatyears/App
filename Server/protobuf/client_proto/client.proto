@@ -49,14 +49,15 @@ message UnitInfo {
 
 //============== Quest -  client used only=========================================================//
 message EnemyInfo {
-	required int32	unitId			= 1;
-    optional int32	type			= 2;//wind flame water, etc.
-	optional int32	hp				= 3;
-	optional int32	attack			= 4;
-	optional int32	defense			= 5;
-	optional int32	attackRound		= 6;//next 1, 2, 3
-	optional float	dropRate		= 7;
-	optional float	dropUnitId		= 8;
+    required int32  uniqueId        = 1;
+	required int32	unitId			= 2;
+    optional int32	type			= 3;//wind flame water, etc.
+	optional int32	hp				= 4;
+	optional int32	attack			= 5;
+	optional int32	defense			= 6;
+	optional int32	attackRound		= 7;//next 1, 2, 3
+	optional float	dropRate		= 8;
+	optional float	dropUnitId		= 9;
 };
 
 message QuestInfo {

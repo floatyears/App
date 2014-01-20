@@ -29,8 +29,7 @@ public class BattleCardArea : UIBaseUnity
 
 		backTexture.gameObject.SetActive(false);
 
-		if (cardItem == null) 
-		{
+		if (cardItem == null) {
 			GameObject go = LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab) as GameObject;
 			cardItem = go.transform.Find("Texture").gameObject;
 		}
@@ -42,14 +41,17 @@ public class BattleCardArea : UIBaseUnity
 	{
 		base.ShowUI ();
 		gameObject.SetActive (true);
+
+		for (int i = 0; i < battleCardAreaItem.Length; i++)  {
+			battleCardAreaItem[i].ShowUI();
+		}
 	}
 
 	public override void HideUI ()
 	{
 		base.HideUI ();
 
-		for (int i = 0; i < battleCardAreaItem.Length; i++) 
-		{
+		for (int i = 0; i < battleCardAreaItem.Length; i++)  {
 			battleCardAreaItem[i].HideUI();
 		}
 
@@ -77,44 +79,45 @@ public class BattleCardArea : UIBaseUnity
 
 			bca.Init(tempObject.name);
 
+			bca.AreaItemID = i;
+
 			battleCardAreaItem[i] = bca;
 		}
 	}
 
 
-	public bool tempCountTime = false;
-	float time = 5f;
+	public bool showCountDown = false;
+	float time = 3f;
+	float countDownTime = 1f;
 
-	void Update()
-	{
-		if(tempCountTime)
-		{
-			if(time > 0)
-				time -= Time.deltaTime;
-			else
-			{
-				time = 5f;
-				tempCountTime = false;
-				StartBattle();
-			}
+	public void YieldStartBattle () {
+		if (showCountDown) {
+			return;		
+		}
+
+		CountDownBattle ();
+	}
+
+	void CountDownBattle () {
+		if (time > 1) {
+			showCountDown = true;
+			time -= countDownTime;
+			GameTimer.GetInstance ().AddCountDown (countDownTime, CountDownBattle);
+		} 
+		else {
+			showCountDown = false;
+			StartBattle();
+			time = 3f;
 		}
 	}
+
 	
-	void StartBattle()
-	{
-		battleAttack.Clear();
-		count = 0;
-		for (int i = 0; i < battleCardAreaItem.Length; i++)
-		{
-			battleAttack.Add(i,battleCardAreaItem[i].CardItemList);
-		}
-
-		battle.StartBattle(battleAttack);
+	void StartBattle() {
+		battle.StartBattle();
 	}
 
-	public void OnGUI()
-	{
-		if(tempCountTime)
+	public void OnGUI() {
+		if(showCountDown)
 			GUILayout.Box(time.ToString(),GUILayout.Width(100f),GUILayout.Height(100f));
 	}
 
@@ -122,6 +125,10 @@ public class BattleCardArea : UIBaseUnity
 
 	public static GameObject GetCard()
 	{
+		if (count == battleCardIns.Count) {
+			count = 0;
+		}
+
 		GameObject go = battleCardIns [count];
 		count ++;
 		return go;
