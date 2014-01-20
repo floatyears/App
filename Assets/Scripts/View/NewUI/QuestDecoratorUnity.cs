@@ -50,8 +50,7 @@ public class QuestDecoratorUnity : UIComponentUnity {
 
 	private void SetUIActive(bool b)
 	{	
-//		storyScroller.RootObject.gameObject.SetActive(b);
-//		eventScroller.RootObject.gameObject.SetActive(b);
+
 	}
 	
 	private void TurnToQuest(GameObject go)

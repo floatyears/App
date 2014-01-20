@@ -19,9 +19,6 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	public override void ShowUI () {
 
 		base.ShowUI ();
-		//ShowTweeners();
-//		Vector3 tar = CaculateReallyPoint(new Vector3(0f,100f,0f),transform.parent.parent.localPosition);
-//		iTween.MoveFrom ( this.gameObject, tar, 1f );
 
 	}
 	

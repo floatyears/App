@@ -46,6 +46,8 @@ public enum SceneEnum
 
 	UnitCatalog,
 
+	UnitDetail,
+
 	Fight,
 }
 

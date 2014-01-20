@@ -202,6 +202,10 @@ public class UIManager {
 		case SceneEnum.YourID:
 			temp = new YourIDDecorator( sEnum );
 			break;
+
+		case SceneEnum.UnitDetail:
+			temp = new UnitDetailDecorator( sEnum );
+			break;
 		}
 		if (temp != null) {
 				temp.SetDecorator (baseScene);
