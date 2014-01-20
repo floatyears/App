@@ -9,6 +9,8 @@ public class ShopDecoratorUnity : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+
+		//ShowTweeners();
 	}
 	
 	public override void HideUI () {

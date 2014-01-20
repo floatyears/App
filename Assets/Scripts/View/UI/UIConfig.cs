@@ -50,6 +50,7 @@ public class UIConfig
 	public const string topBackgroundName = "PlayerInfoBar";
 	public const string menuBottomName = "MenuBottom";
 	public const string sceneInfoBarName = "SceneInfoBar";
+	public const string TipsBarName = "TipsBar";
 
 	public const string questWindowName = "QuestWindow";
 	public const string friendWindowName = "FriendWindow";
@@ -64,8 +65,11 @@ public class UIConfig
 	public const string sellWindowName = "SellWindow";
 	public const string unitListWindowName = "UnitListWindow";
 	public const string evolveWindowName = "EvolveWindow";
-	public const string QuestSelectWindowName = "QuestSelectWindow";
-	public const string FriendSelectWindowName = "FriendSelectWindow";
+	public const string questSelectWindowName = "QuestSelectWindow";
+	public const string friendSelectWindowName = "FriendSelectWindow";
+
+	public const float playerInfoBox_X = 160f;
+	public const float playerInfoBox_Y = -50f;
 
 }
 

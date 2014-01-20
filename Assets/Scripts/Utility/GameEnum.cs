@@ -22,6 +22,18 @@ public enum SceneEnum
 
 	FriendSelect,
 
+	FriendList,
+
+	Information,
+
+	SearchFriend,
+
+	Apply,
+
+	Reception,
+
+	YourID,
+
 	Party,
 
 	LevelUp,
@@ -33,6 +45,8 @@ public enum SceneEnum
 	UnitList,
 
 	UnitCatalog,
+
+	UnitDetail,
 
 	Fight,
 }

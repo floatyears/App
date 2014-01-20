@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScratchDecoratorUnity : UIComponentUnity {
+public class TipsBarBehavior : UIComponentUnity {
+
+	private UILabel labelTips;
 
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
@@ -21,9 +23,10 @@ public class ScratchDecoratorUnity : UIComponentUnity {
 		base.DestoryUI ();
 	}
 
-	private void InitUI() {
-
+	private void InitUI() 
+	{
+		labelTips = FindChild< UILabel >("Scroll/Label_Tips");
 	}
-
+	
 
 }

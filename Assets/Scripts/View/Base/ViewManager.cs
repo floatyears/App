@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class ViewManager 
@@ -148,7 +148,7 @@ public class ViewManager
 			return;	
 		}
 		
-		UIInsConfig config = component.UIConfig;
+		UIInsConfig config = component.uiConfig;
 		string name = config.uiName;
 		
 		if (UIComponentDic.TryGetValue (name, out temp)) {

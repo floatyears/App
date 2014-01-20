@@ -14,20 +14,31 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback{
 	private UILabel labQuestInfo;
 	private UILabel labRewardInfo;
 
-	public override void Init (UIInsConfig config, IUIOrigin origin) {
-		base.Init (config, origin);
-		InitUI();
+	private GameObject contentDetail;
+	private GameObject contentStory;
 
+	private GameObject detail_low_light;
+	private GameObject story_low_light;
+
+	private DragPanel questSelectScroller;
+	private GameObject questItem;
+
+	public override void Init (UIInsConfig config, IUIOrigin origin) {
+
+		base.Init (config, origin);
 		temp = origin is IUICallback;
+		InitUI();
 	}
 	
 	public override void ShowUI () {
 		base.ShowUI ();
 		btnSelect.isEnabled = false;
+		SetUIActive(true);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+
 	}
 	
 	public override void DestoryUI () {
@@ -36,46 +47,50 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback{
 
 	private void InitUI(){
 
-		btnSelect = FindChild<UIImageButton>("btn_quest_select"); //FindChild( "btn_friend_select" ).GetComponent< UIImageButton >();
+		btnSelect = FindChild<UIImageButton>("ScrollView/btn_quest_select"); 
 
-
-		labDoorName = FindChild( "title/Label_door_name").GetComponent< UILabel>();
+		labDoorName = FindChild( "Window/title/Label_door_name").GetComponent< UILabel>();
 		labDoorName.text = string.Empty;
-		labDoorType = FindChild("title/Label_door_type_name" ).GetComponent< UILabel >();
+		labDoorType = FindChild("Window/title/Label_door_type_name" ).GetComponent< UILabel >();
 		labDoorType.text = string.Empty;
 
-		labFloorVaule = FindChild("window_left/Label_floor_V").GetComponent< UILabel >();
+		labFloorVaule = FindChild("Window/window_left/Label_floor_V").GetComponent< UILabel >();
 		labFloorVaule.text = string.Empty;
 
-		labStaminaVaule = FindChild("window_left/Label_stamina_V").GetComponent< UILabel >();
+		labStaminaVaule = FindChild("Window/window_left/Label_stamina_V").GetComponent< UILabel >();
 		labStaminaVaule.text = string.Empty;
 
-		labStoryContent = FindChild("window_right/content_story/Label_story").GetComponent< UILabel >();
+		labStoryContent = FindChild("Window/window_right/content_story/Label_story").GetComponent< UILabel >();
 		labStoryContent.text = string.Empty;
 
-		labQuestInfo = FindChild("window_right/content_detail/Label_quest_info").GetComponent< UILabel >();
+		labQuestInfo = FindChild("Window/window_right/content_detail/Label_quest_info").GetComponent< UILabel >();
 		labQuestInfo.text = string.Empty;
 
-		labRewardInfo = FindChild("window_right/content_detail/Label_reward_info").GetComponent< UILabel >();
+		labRewardInfo = FindChild("Window/window_right/content_detail/Label_reward_info").GetComponent< UILabel >();
 		labRewardInfo.text = string.Empty;
 
-		UIEventListener.Get( btnSelect.gameObject ).onClick = OnClickCallback;
+		UIEventListener.Get( btnSelect.gameObject ).onClick = ClickQuestSelectBtn;
+
+		questItem = Resources.Load("Prefabs/UI/Quest/QuestScrollerItem") as GameObject;
+		questSelectScroller = new DragPanel ("QuestSelectScroller", questItem);
+		questSelectScroller.CreatUI();
+		questSelectScroller.AddItem (3);
+		questSelectScroller.RootObject.SetItemWidth(230);
+
+		questSelectScroller.RootObject.gameObject.transform.parent = gameObject.transform.FindChild("ScrollView");
+		questSelectScroller.RootObject.gameObject.transform.localScale = Vector3.one;
+		questSelectScroller.RootObject.gameObject.transform.localPosition = -95*Vector3.up;
+		
+		for(int i = 0; i < questSelectScroller.ScrollItem.Count; i++)
+		{
+			UIEventListener.Get(questSelectScroller.ScrollItem[ i ].gameObject).onClick = PickQuestInfo;
+		}
 
 	}
 
-	void OnClickCallback( GameObject caller ) {
-		if (!temp) {
-			return;
-		}
-
-		SceneEnum se = SceneEnum.FriendSelect;
-		
-		if (iuiCallback == null) {
-			iuiCallback = origin as IUICallback;
-		} 
-		
-		iuiCallback.Callback(se);
-		//Debug.Log("QuestSelectDecoratorUnity  "+se.ToString());
+	void ClickQuestSelectBtn( GameObject btn ) 
+	{
+		UIManager.Instance.ChangeScene( SceneEnum.FriendSelect );
 	}
 	
 	public void Callback (object data)
@@ -83,5 +98,16 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback{
 		bool b = (bool)data;
 		btnSelect.isEnabled = b;
 	}
+
+	private void SetUIActive(bool b)
+	{
+		questSelectScroller.RootObject.gameObject.SetActive(b);
+	}
+
+	private void PickQuestInfo(GameObject go)
+	{
+		btnSelect.isEnabled = true;
+	}
+	
 
 }
