@@ -54,6 +54,7 @@ public class DragPanel : UIBase
 		base.ShowUI ();
 		AddEvent ();
 		dragPanelView.ShowUI ();
+
 	}
 
 	public override void HideUI () {
@@ -96,6 +97,7 @@ public class DragPanel : UIBase
 				scrollItem.Add(go);
 			}
 		}
+//		 dragPanelView.
 	}
 
 	/// <summary>

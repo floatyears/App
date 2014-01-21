@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using LitJson;
 using System.Collections.Generic;
@@ -70,6 +70,8 @@ public class UIConfig
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;
+
+	public const float longPressedTimeCount = 0.8f;
 
 }
 

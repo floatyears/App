@@ -30,6 +30,8 @@ public class Main : MonoBehaviour
 		get{return gInput;}
 	}
 
+	private GameTimer gTimer;
+
 	private const float screenWidth = 640;
 
 	private static float texScale = 0f;
@@ -58,7 +60,7 @@ public class Main : MonoBehaviour
 		globalDataSeed = (byte)Random.Range (0, 255);
 
 		gInput = gameObject.AddComponent<GameInput>();
-
+		gTimer = gameObject.AddComponent<GameTimer>();
 		DontDestroyOnLoad(gameObject);
 
 		texScale = screenWidth / Screen.width;

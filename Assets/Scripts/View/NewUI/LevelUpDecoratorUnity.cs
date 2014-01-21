@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class LevelUpDecoratorUnity : UIComponentUnity {
+public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 
 	private DragPanel materialScroller;
 	private GameObject materialScrollerItem;
@@ -199,10 +199,13 @@ public class LevelUpDecoratorUnity : UIComponentUnity {
 		if( isEmptyBase )
 		{
 			baseCard = Instantiate(go) as GameObject;
-			baseCard.transform.parent = baseTab.transform;
-			baseCard.transform.localPosition = Vector3.zero;
-			baseCard.transform.localScale = Vector3.one;
-			
+//			baseCard.transform.parent = baseTab.transform;
+//			baseCard.transform.localPosition = Vector3.zero;
+//			baseCard.transform.localScale = Vector3.one;
+			IUICallback call = origin as IUICallback;
+			if(call != null ){
+				call.Callback( baseCard );
+			}
 			isEmptyBase = false;
 		}
 		
@@ -291,4 +294,18 @@ public class LevelUpDecoratorUnity : UIComponentUnity {
 			
 		}
 	}
+
+	#region IUICallback implementation
+
+	public void Callback (object data)
+	{
+		GameObject go = data as GameObject;
+		if(go != null)
+		{
+			go.transform.parent = baseTab.transform;
+			go.transform.localPosition = Vector3.zero;
+			go.transform.localScale = Vector3.one;
+		}
+	}
+	#endregion
 }
