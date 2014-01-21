@@ -115,6 +115,7 @@ public class StartScene : BaseComponent {
 	}
 
 	public void ShowBase () {
+//		Debug.LogError (dis);
 		dis.ShowScene ();
 	}
 

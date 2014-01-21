@@ -54,7 +54,7 @@ public class Config
 	{
 		for (int i = 0; i < 20; i++) 
 		{
-			int key = 1; //Random.Range(startCardID, endCardID);
+			int key = Random.Range(startCardID, endCardID);
 			cardSort.Enqueue(cardData[key]);
 		}
 	}
