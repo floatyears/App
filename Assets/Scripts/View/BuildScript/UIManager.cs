@@ -87,10 +87,12 @@ public class UIManager {
 
 	public void EnterBattle () {
 		current.HideScene();
+		baseScene.HideBase ();
 		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 	}
 
 	public void ExitBattle () {
+		baseScene.ShowBase ();
 		current.ShowScene();
 	}
 
