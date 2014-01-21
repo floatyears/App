@@ -15,7 +15,7 @@ public class QuestDecoratorUnity : UIComponentUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-
+		ShowTweenPostion(0.2f);
 		SetUIActive(true);
 		for(int i = 0; i < storyScroller.ScrollItem.Count; i++)
 		{
@@ -29,6 +29,8 @@ public class QuestDecoratorUnity : UIComponentUnity {
 	}
 	
 	public override void HideUI () {
+
+		ShowTweenPostion();
 		base.HideUI ();
 
 		SetUIActive(false);
@@ -79,5 +81,32 @@ public class QuestDecoratorUnity : UIComponentUnity {
 		eventScroller.RootObject.gameObject.transform.parent = this.gameObject.transform.FindChild( "event_window" );
 		eventScroller.RootObject.gameObject.transform.localScale = Vector3.one;
 		eventScroller.RootObject.gameObject.transform.localPosition = -140*Vector3.up;
+	}
+
+
+	private void ShowTweenPostion( float mDelay = 0f, UITweener.Method mMethod = UITweener.Method.Linear ) 
+	{
+		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
+		
+		if( list == null )
+			return;
+		
+		foreach( var tweenPos in list)
+		{		
+			if( tweenPos == null )
+				continue;
+			
+			Vector3 temp;
+			temp = tweenPos.to;
+			tweenPos.to = tweenPos.from;
+			tweenPos.from = temp;
+			
+			tweenPos.delay = mDelay;
+			tweenPos.method = mMethod;
+			
+			tweenPos.Reset();
+			tweenPos.PlayForward();
+			
+		}
 	}
 }
