@@ -66,7 +66,8 @@ public class StartView : UIBase
 	}
 }
 
-public class StartScene : BaseComponent{
+public class StartScene : BaseComponent {
+	StartDecorator dis;
 	public StartScene(string uiName) : base(uiName) {
 
 	}
@@ -106,11 +107,19 @@ public class StartScene : BaseComponent{
 		currentScene = sEnum;
 
 		if (sEnum == SceneEnum.Start) {
-			StartDecorator dis = new StartDecorator (sEnum);
+			dis = new StartDecorator (sEnum);
 			dis.SetDecorator (this);
 			dis.DecoratorScene ();
 			dis.ShowScene ();
 		}
+	}
+
+	public void ShowBase () {
+		dis.ShowScene ();
+	}
+
+	public void HideBase () {
+		dis.HideScene ();
 	}
 
 	void InitGame() {
