@@ -46,7 +46,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-
+		ShowTweenPostion( 0.2f );
 		isEmptyBase = true;
 		isEmptyFriend = true;
 		FocusOnPanel( baseTab );
@@ -54,7 +54,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity {
 	
 	public override void HideUI () {
 		base.HideUI ();
-
+		ShowTweenPostion();
 		CleanTabs();
 	}
 	
@@ -255,9 +255,6 @@ public class LevelUpDecoratorUnity : UIComponentUnity {
 
 	private void CleanTabs()
 	{
-//		if( baseCard == null )
-//			return;
-
 		GameObject.Destroy( baseCard );
 		GameObject.Destroy( friendCard );
 
@@ -267,5 +264,31 @@ public class LevelUpDecoratorUnity : UIComponentUnity {
 		}
 
 		materialCardList.Clear();
+	}
+
+	private void ShowTweenPostion( float mDelay = 0f, UITweener.Method mMethod = UITweener.Method.Linear ) 
+	{
+		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
+		
+		if( list == null )
+			return;
+		
+		foreach( var tweenPos in list)
+		{		
+			if( tweenPos == null )
+				continue;
+			
+			Vector3 temp;
+			temp = tweenPos.to;
+			tweenPos.to = tweenPos.from;
+			tweenPos.from = temp;
+			
+			tweenPos.delay = mDelay;
+			tweenPos.method = mMethod;
+			
+			tweenPos.Reset();
+			tweenPos.PlayForward();
+			
+		}
 	}
 }

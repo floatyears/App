@@ -13,12 +13,12 @@ public class FriendDecoratorUnity : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		//ShowTweenPostion();
+		ShowTweenPostion(0.2f);
 
 	}
 	
 	public override void HideUI () {
-		//ShowTweenPostion();
+		ShowTweenPostion();
 		base.HideUI ();
 	}
 	
@@ -61,6 +61,30 @@ public class FriendDecoratorUnity : UIComponentUnity {
 
 
 
-
+	private void ShowTweenPostion( float mDelay = 0f, UITweener.Method mMethod = UITweener.Method.Linear ) 
+	{
+		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
+		
+		if( list == null )
+			return;
+		
+		foreach( var tweenPos in list)
+		{		
+			if( tweenPos == null )
+				continue;
+			
+			Vector3 temp;
+			temp = tweenPos.to;
+			tweenPos.to = tweenPos.from;
+			tweenPos.from = temp;
+			
+			tweenPos.delay = mDelay;
+			tweenPos.method = mMethod;
+			
+			tweenPos.Reset();
+			tweenPos.PlayForward();
+			
+		}
+	}
 
 }

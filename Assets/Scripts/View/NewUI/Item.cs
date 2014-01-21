@@ -25,7 +25,7 @@ public class Item : MonoBehaviour
 		{
 			timer += Time.deltaTime;
 		}
-		if( timer > 0.8f)
+		if( timer > 0.5f)
 		{
 
 			UIManager.Instance.ChangeScene( SceneEnum.UnitDetail );
