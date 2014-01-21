@@ -1,11 +1,10 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using ProtoBuf;
 
 /// <summary>
 /// main will always exist until the game close
 /// </summary>
-using System.Collections;
 
 public class Main : MonoBehaviour 
 {
@@ -25,13 +24,10 @@ public class Main : MonoBehaviour
 	}
 
 	private GameInput gInput;
-	public GameInput GInput {
-		get{return gInput;}
-	}
 
-	private GameTimer gameTimer;
-	public GameTimer GTTimer {
-		get {return gameTimer;}
+	public GameInput GInput
+	{
+		get{return gInput;}
 	}
 
 	private const float screenWidth = 640;
@@ -55,24 +51,30 @@ public class Main : MonoBehaviour
 
 	private UILabel label;
 
-	void Awake(){
+	void Awake()
+	{
 		mainScrpit = this;
+
 		globalDataSeed = (byte)Random.Range (0, 255);
-		gInput = gameObject.AddComponent<GameInput> ();
-		gameObject.AddComponent<GameTimer>();
-		gameTimer = GameTimer.GetInstance ();
-		DontDestroyOnLoad (gameObject);
+
+		gInput = gameObject.AddComponent<GameInput>();
+
+		DontDestroyOnLoad(gameObject);
+
 		texScale = screenWidth / Screen.width;
+
 		// init manager class
-		ViewManager.Instance.Init (uiRoot);
+		ViewManager.Instance.Init(uiRoot);
 		ModelManager.Instance.Init ();
 	}
 
 	/// <summary>
 	/// start game
 	/// </summary>
-	void OnEnable() {
+	void OnEnable()
+	{
 		UIManager.Instance.ChangeScene (SceneEnum.Start);
 	}
-}
 
+
+}
