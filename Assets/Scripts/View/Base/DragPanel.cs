@@ -107,8 +107,6 @@ public class DragPanel : UIBase
 		dragPanelView.SetViewPosition (position);
 	}
 
-
-
 	void ItemCallback(GameObject target)
 	{
 		if (DragCallback != null) {

@@ -72,6 +72,7 @@ public class BattleCardAreaItem : UIBaseUnity
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, Attack);
 		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 	}
 
 	public override void HideUI ()
@@ -80,6 +81,11 @@ public class BattleCardAreaItem : UIBaseUnity
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, Attack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
+	}
+
+	void RecoverHP (object data) {
+		Attack (data);
 	}
 
 	public int GenerateCard(List<CardItem> source)

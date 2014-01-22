@@ -17,7 +17,7 @@ public class Config
 	}
 
 	public const byte startCardID = 1;
-	public const byte endCardID = 8;
+	public const byte endCardID = 4;
 	public const byte cardPoolSingle = 5;
 
 	public const byte cardCollectionCount = 5;
@@ -95,6 +95,10 @@ public class ItemData
 
 	public static Color GetColor(int color)
 	{
+		if (color == -1) {
+			return Color.black;
+		}
+
 		switch (color) {
 		case 1:
 			return Color.red;
