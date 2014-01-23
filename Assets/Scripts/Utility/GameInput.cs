@@ -33,6 +33,21 @@ public class GameInput : MonoBehaviour
 
 	private float stationarIntervTime = 2f;
 
+
+	void OnEnable () {
+
+		Application.RegisterLogCallback (CatchException);
+	}
+
+	void OnDisable () {
+
+		Application.RegisterLogCallback (null);
+	}
+
+	void CatchException(string condition, string stackInfo, LogType lt) {
+		Debug.LogError ("DG : " + " " + lt +  " " + condition + " " + stackInfo + "    " + TimeHelper.FormattedTimeNow ());
+	}
+
 	void Update()
 	{
 		if(Time.timeScale < 0.5f)
@@ -44,7 +59,7 @@ public class GameInput : MonoBehaviour
 		if(!isCheckInput)
 			return;
 //#if UNITY_IPHONE || UNITY_ANDROID
-        //ProcessTouch();
+       	//ProcessTouch();
 //#elif UNITY_EDITOR 
 		ProcessMouse();
 //#endif

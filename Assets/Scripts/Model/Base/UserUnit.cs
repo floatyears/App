@@ -22,7 +22,7 @@ public class UserUnitInfo : ProtobufDataBase {
 	
 	TempNormalSkill[] normalSkill = new TempNormalSkill[2];
 
-	public void CalculateInjured(int attackType, int attackValue) {
+	public int CalculateInjured(int attackType, int attackValue) {
 		int beRetraintType = DGTools.BeRestraintType (attackType);
 		int retraintType = DGTools.RestraintType (attackType);
 		UserUnit uu = DeserializeData<UserUnit> ();
@@ -41,10 +41,9 @@ public class UserUnitInfo : ProtobufDataBase {
 		if (hurtValue <= 0) {
 			hurtValue = 1;
 		}
-		currentBlood -= (int)hurtValue;
-
-		//return hurtValue;
-//		Debug.LogError ("CalculateInjured : " + currentBlood + " hurtValue : " + hurtValue);
+		int hv = System.Convert.ToInt32 (hurtValue);
+		currentBlood -= hv;
+		return hv;
 	}
 
 	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {

@@ -128,14 +128,19 @@ public class CardItem : UIBaseUnity
 
 		xOffset = (float)actorTexture.width / 4;
 
-		StartCoroutine (ActiveTexture ());
+		//StartCoroutine (ActiveTexture ());
+		ActiveTextureImmediate ();
 	}
 
-	IEnumerator ActiveTexture()
-	{
+	void ActiveTextureImmediate() {
+		actorTexture.enabled = true;
+		
+		actorTexture.mainTexture = texure;
+	}
+
+	IEnumerator ActiveTexture() {
 		yield return 1;
 		actorTexture.enabled = true;
-
 		actorTexture.mainTexture = texure;
 	}
 
@@ -184,7 +189,7 @@ public class CardItem : UIBaseUnity
 
 	public void Reset()
 	{
-		gameObject.layer = GameLayer.ActorCard;
+		//gameObject.layer = GameLayer.ActorCard;
 //		actorTexture.depth = initDepth;
 		//transform.parent = parentObject;
 		actorTexture.transform.localPosition = initPosition;

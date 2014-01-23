@@ -80,6 +80,9 @@ public class AttackController {
 		case 1:
 			DisposeAttackAll(ai);
 			break;
+		case 2:
+			DisposeRecoverHP(ai);
+			break;
 		}
 		//CheckTempEnemy ();
 
@@ -102,6 +105,10 @@ public class AttackController {
 			return false;
 		}
 		return true;
+	}
+
+	void DisposeRecoverHP (AttackInfo ai) {
+		MsgCenter.Instance.Invoke (CommandEnum.RecoverHP, ai);
 	}
 
 	void DisposeAttackSingle (AttackInfo ai) {
@@ -167,10 +174,10 @@ public class AttackController {
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.GetID());
 			int attackType = te.GetUnitType ();
 			int attackValue = te.GetAttack ();
-			upi.CaculateInjured (attackType, attackValue);
-			bud.RefreshBlood ();
+			int hurtValue = upi.CaculateInjured (attackType, attackValue);
+			bud.Hurt(hurtValue);
+			//bud.RefreshBlood ();
 			te.ResetAttakAround ();	
-
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 		}
 

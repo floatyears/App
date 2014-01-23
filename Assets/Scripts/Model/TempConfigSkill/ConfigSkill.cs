@@ -271,6 +271,7 @@ public class ConfigSkill  {
 			}
 			TempNormalSkill tns = new TempNormalSkill(ns);
 			GlobalData.tempNormalSkill.Add(ns.baseInfo.id,tns);
+//			Debug.LogError("config herat skill : " + ns.baseInfo.id );
 		}
 	}
 	
@@ -386,16 +387,9 @@ public class TempNormalSkill : ProtobufDataBase {
 	//static int record = 0;
 	public int CalculateCard (List<uint> count, int record = 0) {
 		NormalSkill ns = DeserializeData<NormalSkill> ();
-//		Debug.LogError ("CalculateCard : " + ns.baseInfo.name + " count : " + count + " record : " + record);
-//		Debug.LogError ("TempNormalSkill : " + ns.baseInfo.id + "  isExcuteSkill : " + isExcuteSkill);
-//		Debug.LogError ("ns.activeBlocks : " + ns.activeBlocks.Count + " -- " + ns.activeBlocks[0] + " count :" + count.Count );//+ " -- " + count[0]); 
 
 		while (count.Count >= ns.activeBlocks.Count) {
 			bool isExcuteSkill =  DGTools.IsTriggerSkill<uint> (count, ns.activeBlocks);
-//			if(count.Contains(2)) {
-//				Debug.LogWarning("isExcuteSkill : " + isExcuteSkill + " ns.name : " + ns.baseInfo.name);
-//				Debug.LogWarning("blocks : " + ns.activeBlocks.Count +" count.count : " + count.Count + " content : " + ns.activeBlocks[0]);
-//			}
 			if (isExcuteSkill) {
 				record++;
 				for (int i = 0; i < ns.activeBlocks.Count; i++) {
@@ -444,6 +438,10 @@ public class TempNormalSkill : ProtobufDataBase {
 
 	public string GetName () {
 		return GetObject ().baseInfo.name;
+	}
+
+	public int GetRecoverHP (int blood) {
+		return System.Convert.ToInt32 (blood * GetObject ().attackValue);
 	}
 
 	public int GetAttack (int userUnitAttack) {

@@ -86,7 +86,7 @@ public class TempUnitInfo : ProtobufDataBase {
 
 public class UnitPartyInfo : ProtobufDataBase, IComparer {
 	private List<PartyItem> partyItem = new List<PartyItem> ();							//skill sort
-
+	private CalculateRecoverHP crh ;
 	/// <summary>
 	/// key is area item. value is skill list. this area already use skill must record in this dic, avoidance redundant calculate.
 	/// </summary>
@@ -95,33 +95,48 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 	public Dictionary<int, List<AttackInfo>> Attack {
 		get {return attack;}
 	}
-	public UnitPartyInfo (object instance) : base (instance) { }
+	public UnitPartyInfo (object instance) : base (instance) {   }
 	~UnitPartyInfo () { }
 
-	public void CaculateInjured (int attackType, int attackValue) {
-		//int beInjuredType = DGTools.BeRestraintType (attackType);
+	public int CaculateInjured (int attackType, int attackValue) {
+		float Proportion = 1f / (float)partyItem.Count;
+		int attackV = System.Convert.ToInt32( attackValue * Proportion);
+		int hurtValue = 0;
 		for (int i = 0; i < partyItem.Count; i++) {
 			UserUnitInfo unitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
-			unitInfo.CalculateInjured(attackType, attackValue);
+			hurtValue += unitInfo.CalculateInjured(attackType, attackV);
 		}
-
+		return hurtValue;
 	}
 
-	public List<AttackImageUtility> CalculateSkill(int areaItemID, int cardID) {
+	public List<AttackImageUtility> CalculateSkill(int areaItemID, int cardID, int blood) {
+		if (crh == null) {
+			crh = new CalculateRecoverHP ();		
+		}
 		CalculateSkillUtility skillUtility = CheckSkillUtility (areaItemID, cardID);
 		List<AttackInfo> areaItemAttackInfo = CheckAttackInfo (areaItemID);
 		areaItemAttackInfo.Clear ();
 		UserUnitInfo tempUnitInfo;
-		List<AttackInfo> tempAttack = null;		
+		List<AttackInfo> tempAttack = new List<AttackInfo>();		
 		List<AttackImageUtility> tempAttackType = new List<AttackImageUtility> ();
 
 		for (int i = 0; i < partyItem.Count; i++) {
+			if(i == 0) {
+				AttackInfo recoverHp = crh.RecoverHP (skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
+				if(recoverHp != null) {
+					recoverHp.UserUnitID = partyItem [i].unitUniqueId;
+					recoverHp.UserPos = partyItem[i].unitPos;
+					tempAttack.Add(recoverHp);
+				}
+			}
+
 			tempUnitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
-			tempAttack = tempUnitInfo.CaculateAttack (skillUtility.haveCard, skillUtility.alreadyUseSkill);
+			tempAttack.AddRange(tempUnitInfo.CaculateAttack (skillUtility.haveCard, skillUtility.alreadyUseSkill));
+
 			if (tempAttack.Count > 0) {
 				for (int j = 0; j < tempAttack.Count; j++) {
 					AttackInfo ai 			= tempAttack [j];
-					ai.UserPos = partyItem[i].unitPos;
+					ai.UserPos 				= partyItem[i].unitPos;
 					areaItemAttackInfo.Add (ai);
 					skillUtility.alreadyUseSkill.Add (ai.SkillID);
 					AttackImageUtility aiu 	= new AttackImageUtility();
@@ -132,8 +147,9 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 					tempAttackType.Add (aiu);
 				}     
 			}
+			tempAttack.Clear();
 		}
-		//Debug.Log ("CalculateSkill : " + tempAttackType.Count);
+
 		return tempAttackType;
 	}
 
@@ -258,7 +274,7 @@ public class AttackInfo {
 		set {skillID = value;}
 	}
 	
-	private int attackType = 0;
+	private int attackType = -1;
 	public int AttackType {
 		get { return attackType; }
 		set {attackType = value; }
@@ -302,6 +318,11 @@ public class AttackInfo {
 		set {injuryValue = value;}
 	}
 
+	private Object effect;
+	public Object Effect {
+		get{return effect;}
+		set{effect = value;}
+	}
 	//------------test need data, delete it behind test done------------//
 	//------------------------------------------------------------------//
 	//public int originIndex = -1;

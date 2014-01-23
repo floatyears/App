@@ -4,18 +4,20 @@ using System.Collections.Generic;
 public class BattleUseData {
 	private ErrorMsg errorMsg;
 	private UnitPartyInfo upi;
+	private int maxBlood = 0;
 	private int blood = 0;
+	private int recoverHP = 0;
 	private int maxEnergyPoint = 0;
 	private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
 	private List<TempEnemy> currentEnemy =new List<TempEnemy> ();
 	private List<ShowEnemyUtility> showEnemy = new List<ShowEnemyUtility>();
 	private AttackController ac;
-
+	
 	public BattleUseData () {
 		errorMsg = new ErrorMsg ();
 		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
 		upi.GetSkillCollection ();
-		blood = upi.GetBlood ();
+		maxBlood = blood = upi.GetBlood ();
 		maxEnergyPoint = GlobalData.maxEnergyPoint;
 		ListenEvent ();
 	}
@@ -28,21 +30,15 @@ public class BattleUseData {
 		MsgCenter.Instance.AddListener (CommandEnum.InquiryBattleBaseData, GetBaseData);
 		MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, MoveToMapItem);
 		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
-//		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, AttckEnd);
-		//MsgCenter.Instance.AddListener (CommandEnum.DragCardToBattleArea, CaculateFight);
+		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 	}
 
 	void RemoveListen () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.InquiryBattleBaseData, GetBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, MoveToMapItem);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, AttckEnd);
-		//MsgCenter.Instance.RemoveListener (CommandEnum.DragCardToBattleArea, CaculateFight);
+		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 	}
-//
-//	void AttckEnd(object data) {
-//		ClearData ();
-//	}
 
 	List<AttackInfo> SortAttackSequence() {
 		List<AttackInfo> sortAttack = new List<AttackInfo> ();
@@ -75,22 +71,25 @@ public class BattleUseData {
 				}
 			}
 		}
-
-//		for (int i = 0; i < sortAttack.Count; i++) {
-//			sortAttack[i].originIndex = i;
-//			Debug.LogError("-----------befour---------------    index : " + i + " need card : " + sortAttack[i].NeedCardNumber + " UserPos : " + sortAttack[i].UserPos );
-//		}
-
 		DGTools.InsertSortBySequence(sortAttack, new AISortByCardNumber());
-		//DGTools.InsertSort(sortAttack, new AISortByUserpos(),false);
-//		for (int i = 0; i < sortAttack.Count; i++) {
-//			Debug.LogError("-----------end---------------    index : " + i + " need card : " + sortAttack[i].NeedCardNumber + " UserPos : " + sortAttack[i].UserPos+ "  index : "+sortAttack[i].originIndex );
-//		}
 		for (int i = 0; i < sortAttack.Count; i++) {
-			sortAttack[i].AttackValue *= (1 + i * 0.25f); //ContinuAttackMultip += i * 0.25f;
+			sortAttack[i].AttackValue *= (1 + i * 0.25f);
 			sortAttack[i].ContinuAttackMultip += i;
 		}
 		return sortAttack;
+	}
+
+	void RecoverHP (object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;
+		}
+
+		blood += System.Convert.ToInt32( ai.AttackValue);
+		if (blood > maxBlood) {
+			blood = maxBlood;
+		}
+		RefreshBlood ();
 	}
 
 	public List<ShowEnemyUtility> GetEnemyInfo (List<int> monster) {
@@ -119,7 +118,7 @@ public class BattleUseData {
 	}
 
 	public List<AttackImageUtility> CaculateFight (int areaItem, int id) {
-		return upi.CalculateSkill (areaItem, id);
+		return upi.CalculateSkill (areaItem, id, blood);
 	}
 
 	public void StartAttack(object data) {
@@ -132,7 +131,6 @@ public class BattleUseData {
 	public void ClearData () {
 		upi.ClearData ();
 		attackInfo.Clear ();
-		//currentEnemy.Clear ();
 	}
 
 	public void GetBaseData(object data) {
@@ -162,13 +160,19 @@ public class BattleUseData {
 		}
 	}
 
+	public void Hurt(int hurtValue) {
+		blood -= hurtValue;
+		RefreshBlood ();
+	}
+
 	public void RefreshBlood() {
-		blood = upi.GetBlood ();
+		//int tempBlood = upi.GetBlood ();
+		//blood = tempBlood + recoverHP; //upi.GetBlood (); //tempBlood + recoverHP;
+
 		MsgCenter.Instance.Invoke (CommandEnum.UnitBlood, blood);
 	}
 			
 	int ReductionBloodByProportion(float proportion) {
-		int maxBlood = upi.GetBlood ();
 		return (int)(maxBlood * proportion);
 	}
 }

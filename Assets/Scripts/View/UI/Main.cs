@@ -25,10 +25,11 @@ public class Main : MonoBehaviour
 
 	private GameInput gInput;
 
-	public GameInput GInput
-	{
+	public GameInput GInput{
 		get{return gInput;}
 	}
+
+	private GameTimer gTimer;
 
 	private const float screenWidth = 640;
 
@@ -56,14 +57,10 @@ public class Main : MonoBehaviour
 		mainScrpit = this;
 
 		globalDataSeed = (byte)Random.Range (0, 255);
-
-		gInput = gameObject.AddComponent<GameInput>();
-
+		gInput = gameObject.AddComponent<GameInput> ();
+		gTimer = gameObject.AddComponent<GameTimer> ();
 		DontDestroyOnLoad(gameObject);
-
 		texScale = screenWidth / Screen.width;
-
-		// init manager class
 		ViewManager.Instance.Init(uiRoot);
 		ModelManager.Instance.Init ();
 	}
@@ -73,7 +70,8 @@ public class Main : MonoBehaviour
 	/// </summary>
 	void OnEnable()
 	{
-		UIManager.Instance.ChangeScene (SceneEnum.Start);
+		//UIManager.Instance.ChangeScene (SceneEnum.Start);
+		ControllerManager.Instance.ChangeScene (SceneEnum.Fight);
 	}
 
 

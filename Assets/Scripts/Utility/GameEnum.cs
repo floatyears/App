@@ -77,6 +77,7 @@ public enum CommandEnum
 	EnemyAttackEnd			= 3009,
 	EnemyRefresh			= 3011,
 	EnemyDead				= 3012,
+	RecoverHP				= 3013,
 	#endregion
 }
 
