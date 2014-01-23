@@ -71,18 +71,21 @@ public class BattleCardAreaItem : UIBaseUnity
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, Attack);
 		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
-
+		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 	}
 
 	public override void HideUI ()
 	{
 		base.HideUI ();
-
-		//ClearCard ();
-
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, Attack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
+		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
+	}
 
+	void RecoverHP (object data) {
+		Attack (data);
 	}
 
 	public int GenerateCard(List<CardItem> source)
@@ -117,17 +120,24 @@ public class BattleCardAreaItem : UIBaseUnity
 
 			cardItemList.Add(ci);
 
-			StartCoroutine(GenerateFightCard(source[i].itemID));
+			GenerateFightCardImmelity(source[i].itemID);
+			//StartCoroutine(GenerateFightCard(source[i].itemID));
 		}
 
 		return maxLimit;
 	}
 	List <AttackImageUtility> attackImage = new List<AttackImageUtility> ();
-	IEnumerator GenerateFightCard(int id) {
-		yield return 1;
-		//int itemID = Config.Instance.CardData [id].itemID;
+//	IEnumerator GenerateFightCard(int id) {
+//		yield return 1;
+//		//int itemID = Config.Instance.CardData [id].itemID;
+//		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
+//		//Debug.LogError ("GenerateFightCard :" + attackImage.Count);
+//		InstnaceCard ();
+//	}
+
+	void GenerateFightCardImmelity(int id) {
 		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
-		//Debug.LogError ("GenerateFightCard :" + attackImage.Count);
+
 		InstnaceCard ();
 	}
 
@@ -157,6 +167,12 @@ public class BattleCardAreaItem : UIBaseUnity
 		battleCardTemplate.Add(instance.GetComponent<UITexture>());
 	}
 
+	void BattleEnd(object data) {
+		for (int i = 0; i < attackImage.Count; i++) {
+			attackImage[i].attackUI.enabled = false;
+		}
+	}
+
 	void Attack(object data) {
 		AttackInfo ai = data as AttackInfo;
 		if (ai == null) {
@@ -170,20 +186,26 @@ public class BattleCardAreaItem : UIBaseUnity
 		}
  	}
 
-
-
 	void StartAttack(object data) {
 		ClearCard ();
 	}
 
+	bool isScale = false;
 	public void Scale(bool on)
 	{
-		if (on) {
-			iTween.ScaleFrom (gameObject, iTween.Hash ("x", selfScale.x, "y", selfScale.y, "time", 0.3f, "easetype", "easeoutback"));
-		} 
-		else {
-			iTween.ScaleTo(gameObject,iTween.Hash("x",1f,"y",1f,"time",0.1f,"easetype","easeoutcubic"));
+//		if (on) {
+		if (!isScale) {
+			isScale = true;
+			iTween.ScaleFrom (gameObject, iTween.Hash ("scale", selfScale, "time", 0.3f, "easetype", "easeoutback","oncompletetarget",gameObject,"oncomplete","ScaleDown"));
 		}
+//		} 
+//		else {
+//			iTween.ScaleTo(gameObject,iTween.Hash("scale",Vector3.one,"time",0.1f,"easetype","easeoutcubic"));
+//		}
+	}
+
+	void ScaleDown() {
+		isScale = false;
 	}
 
 	public void ClearCard()

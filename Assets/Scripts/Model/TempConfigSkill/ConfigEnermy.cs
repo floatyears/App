@@ -38,7 +38,6 @@ public class TempEnemy : ProtobufDataBase {
 			}
 		}
 		initBlood -= injured;
-		Debug.LogError ("CalculateInjured : " + initBlood);
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 		return injured;
 	}
@@ -102,10 +101,10 @@ public class ConfigEnermy {
 	void GenerateEnemy () {
 		EnemyInfo ei = new EnemyInfo ();
 		ei.unitId = 1;
-		ei.attack = 20;
+		ei.attack = 200;
 		ei.attackRound = 1;
 		ei.defense = 10;
-		ei.hp = 100;
+		ei.hp = 400;
 		ei.type = 1;
 		ei.dropUnitId = 10;
 		ei.dropRate = 0.15f;
@@ -114,10 +113,10 @@ public class ConfigEnermy {
 
 		ei = new EnemyInfo ();
 		ei.unitId = 2;
-		ei.attack = 40;
+		ei.attack = 800;
 		ei.attackRound = 3;
 		ei.defense = 20;
-		ei.hp = 200;
+		ei.hp = 1500;
 		ei.type = 2;
 		ei.dropUnitId = 11;
 		ei.dropRate = 0.2f;

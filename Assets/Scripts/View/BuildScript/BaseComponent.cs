@@ -96,6 +96,8 @@ public class ConcreteComponent : RootComponent, IUIComponent {
 		if (viewComponent != null) {
 			viewComponent.DestoryUI ();
 		}
+
+		ViewManager.Instance.RemoveComponent (uiConfig.uiName);
 	}
 
 	protected void CreatViewComponent() {

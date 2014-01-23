@@ -18,7 +18,7 @@ public class Battle : UIBase
 	private BattleCard battleCard;
 	private BattleCardArea battleCardArea;
 	private BattleEnemy battleEnemy;
-	private Transform dragLayer;
+
 	private float ZOffset = -100f;
 	
 	private List<ItemData> allItemData = new List<ItemData>();
@@ -34,10 +34,6 @@ public class Battle : UIBase
 
 		battleRootGameObject = NGUITools.AddChild(ViewManager.Instance.ParentPanel);
 		battleRootGameObject.name = "Fight";
-		//battleRootGameObject.layer = GameLayer.ActorCard;
-		GameObject go = NGUITools.AddChild (battleRootGameObject);
-		go.layer = GameLayer.IgnoreCard;
-		dragLayer = go.transform;
 		Vector3 pos = battleRootGameObject.transform.localPosition;
 		battleRootGameObject.transform.localPosition = new Vector3(pos.x,pos.y,pos.z + ZOffset);
 		
@@ -66,11 +62,8 @@ public class Battle : UIBase
 	public override void ShowUI()
 	{
 		SwitchInput(false);
-
 		base.ShowUI();
-
 		ShowCard();
-
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, AttckEnd);
 	}
@@ -78,9 +71,7 @@ public class Battle : UIBase
 	public override void HideUI ()
 	{
 		SwitchInput(true);
-
 		base.HideUI ();
-
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, AttckEnd);
 
@@ -100,13 +91,15 @@ public class Battle : UIBase
 	}
 
 	void BattleEnd (object data) {
+		ShieldInput (true);
 		SwitchInput(true);
 		HideUI ();
 	}
 
 	void Attack() {
 		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
-		SwitchInput(true);
+		//SwitchInput(true);
+		ShieldInput (false);
 	}
 
 	void CreatBack()
@@ -210,8 +203,17 @@ public class Battle : UIBase
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
-		
+		//Debug.LogError ("SwitchInput : " + nguiMainCamera);
 		main.GInput.IsCheckInput = !isShield;
+	}
+
+	void ShieldInput (bool isShield) {
+//		nguiMainCamera.useMouse = isShield;
+//		nguiMainCamera.useKeyboard = isShield;
+//		nguiMainCamera.useTouch = isShield;
+		nguiMainCamera.enabled = isShield;
+		main.GInput.IsCheckInput = isShield;
+
 	}
 
 	void HandleOnPressEvent ()
@@ -238,7 +240,7 @@ public class Battle : UIBase
 	{
 		for (int i = 0; i < selectTarget.Count; i++)
 		{
-			selectTarget[i].gameObject.layer = GameLayer.ActorCard;
+			//selectTarget[i].gameObject.layer = GameLayer.ActorCard;
 		
 			selectTarget[i].OnPress(false,-1);			
 		}
@@ -251,9 +253,7 @@ public class Battle : UIBase
 
 	void DisposeReleasePress()
 	{
-		IgnoreLayer(false);
-
-//		Debug.LogError (selectTarget.Count);
+		//IgnoreLayer(false);
 		if(selectTarget.Count == 0)
 		{
 			ResetClick();
@@ -279,15 +279,16 @@ public class Battle : UIBase
 
 			if(generateCount > 0)
 			{
-				battleCardArea.YieldStartBattle();
-				for(int i = 0;i < generateCount;i++) {
-					battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
+				YieldStartBattle();
+				if(showCountDown) {
+					for(int i = 0;i < generateCount;i++) {
+						battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
+					}
 				}
 			}
 			ResetClick();
 		}
-		else if(Check(GameLayer.ActorCard))
-		{
+		else if(Check(GameLayer.ActorCard)) {
 			Vector3 point = selectTarget[0].transform.localPosition;
 
 			int indexID =  battleCardPool.CaculateSortIndex(point);
@@ -309,8 +310,7 @@ public class Battle : UIBase
 
 //			Debug.LogError(" check ActorCard card  indexID " + indexID);
 		}
-		else
-		{
+		else {
 //			Debug.LogError(" check nothing  ");
 			ResetClick();
 		}
@@ -350,27 +350,11 @@ public class Battle : UIBase
 				ClickObject(tempObject);
 			}
 		}
-
-//		if (Check (GameLayer.BattleCard)) {
-//			for (int i = 0; i < rayCastHit.Length; i++) {
-//				tempObject = rayCastHit[i].collider.gameObject;
-//				BattleCardAreaItem bca = tempObject.GetComponent<BattleCardAreaItem>();
-//				if(bca != null){
-//					if(prevTempBCA != null){
-//						prevTempBCA.Scale(false);
-//					}
-//					prevTempBCA = bca;
-//					prevTempBCA.Scale(true);
-//
-//					break;
-//				}
-//			}
-//		}
 	}
 
 	void DisposePress()
 	{
-		IgnoreLayer(true);
+		//IgnoreLayer(true);
 
 		if(Check(GameLayer.ActorCard))
 		{
@@ -406,7 +390,6 @@ public class Battle : UIBase
 	void ClickObject(GameObject go)
 	{
 		tempCard = go.GetComponent<CardItem>();
-
 		if(tempCard != null)
 		{
 			if(selectTarget.Contains(tempCard))
@@ -415,7 +398,7 @@ public class Battle : UIBase
 			{
 				tempCard.OnPress(true,selectTarget.Count);
 				tempCard.ActorTexture.depth = 5;
-				tempCard.gameObject.layer =  GameLayer.IgnoreCard;
+				//tempCard.gameObject.layer =  GameLayer.IgnoreCard;
 				//tempCard.transform.parent = dragLayer
 				selectTarget.Add(tempCard);
 			}
@@ -460,4 +443,41 @@ public class Battle : UIBase
 	{
 		return delta * uiRoot.pixelSizeAdjustment;
 	}
+
+	#region countdown
+	
+	public bool showCountDown = false;
+	float time = 5f;
+	float countDownTime = 1f;
+	
+	public void YieldStartBattle () {
+		if (showCountDown) {
+			return ;		
+		} 
+		
+		CountDownBattle ();
+	}
+	
+	void CountDownBattle () {
+		battleCardArea.ShowCountDown (true, (int)time);
+		if (time > 1) {
+			showCountDown = true;
+			time -= countDownTime;
+			GameTimer.GetInstance ().AddCountDown (countDownTime, CountDownBattle);
+		} 
+		else {
+			battleCardArea.ShowCountDown (false, (int)time);
+			showCountDown = false;
+			StartBattle();
+			time = 5f;
+		}
+	}
+	
+	
+//	void StartBattle() {
+//		StartBattle();
+//	}
+	
+
+	#endregion
 }

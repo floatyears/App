@@ -6,6 +6,7 @@ public class EnemyItem : UIBaseUnity {
 	private UITexture texture;
 	private UILabel bloodLabel;
 	private UILabel nextLabel;
+	private UIPanel effect;
 
 	void OnEnable() {
 		MsgCenter.Instance.AddListener (CommandEnum.ShowEnemy, EnemyInfo);
@@ -13,6 +14,7 @@ public class EnemyItem : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttack, EnemyAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyRefresh, EnemyRefresh);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyDead, EnemyDead);
+		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, Attack);
 	}
 
 	void OnDisable () {
@@ -21,13 +23,38 @@ public class EnemyItem : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttack, EnemyAttack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyRefresh, EnemyRefresh);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyDead, EnemyDead);
+		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, Attack);
+	}
+
+	GameObject prevObject = null;
+
+	void Attack (object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null || ai.EnemyID != enemyInfo.enemyID) {
+			return;		
+		}
+
+		if (prevObject != null) {
+			Destroy(prevObject);
+		}
+
+		GameObject obj = GlobalData.GetEffect (ai.AttackType) as GameObject;
+
+		if (obj != null) {
+			prevObject = NGUITools.AddChild(effect.gameObject,obj);
+			prevObject.transform.localScale = new Vector3(100f,100f,100f);
+			//iTween.ShakePosition(texture.gameObject,new Vector3(0.1f,0.1f,0.1f),0.3f);
+			//iTween.ShakeRotation(texture.gameObject,new Vector3(2f,2f,2f),0.3f);
+			iTween.ShakeScale(texture.gameObject,new Vector3(0.5f,0.5f,0.5f),0.3f);
+		}
 	}
 
 	public void Init(ShowEnemyUtility te) {
 		texture 	= FindChild<UITexture> ("Texture");
 		bloodLabel 	= FindChild<UILabel> ("BloodLabel");
 		nextLabel 	= FindChild<UILabel> ("NextLabel");
-		enemyInfo = te;
+		effect		= FindChild<UIPanel> ("Effect");
+		enemyInfo 	= te;
 		SetData (te);
 	}
 

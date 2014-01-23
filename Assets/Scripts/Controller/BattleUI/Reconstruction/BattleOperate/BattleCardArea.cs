@@ -86,40 +86,6 @@ public class BattleCardArea : UIBaseUnity
 	}
 
 
-	public bool showCountDown = false;
-	float time = 3f;
-	float countDownTime = 1f;
-
-	public void YieldStartBattle () {
-		if (showCountDown) {
-			return;		
-		}
-
-		CountDownBattle ();
-	}
-
-	void CountDownBattle () {
-		if (time > 1) {
-			showCountDown = true;
-			time -= countDownTime;
-			GameTimer.GetInstance ().AddCountDown (countDownTime, CountDownBattle);
-		} 
-		else {
-			showCountDown = false;
-			StartBattle();
-			time = 3f;
-		}
-	}
-
-	
-	void StartBattle() {
-		battle.StartBattle();
-	}
-
-	public void OnGUI() {
-		if(showCountDown)
-			GUILayout.Box(time.ToString(),GUILayout.Width(100f),GUILayout.Height(100f));
-	}
 
 	static int count = 0;
 
@@ -145,12 +111,25 @@ public class BattleCardArea : UIBaseUnity
 			go.AddComponent<CardItem>();
 			battleCardIns.Add(go);
 		}
+
 		yield return 1;
+
 		if (b) 
 		{
 			StartCoroutine (GenerateCard ());
 		}
 	}
+	bool showCountDown = false;
+	int time = 0;
+	public void ShowCountDown (bool isShow,int time) {
+		showCountDown = isShow;
+		this.time = time;
+	}
 
-
+	void OnGUI() {
+		if (showCountDown) {
+			GUILayout.Box(time.ToString(),GUILayout.Width(100f),GUILayout.Height(100f));
+		}
+		
+	}
 }

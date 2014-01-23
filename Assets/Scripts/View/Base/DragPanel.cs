@@ -92,7 +92,7 @@ public class DragPanel : UIBase
 		}
 						
 		for (int i = 0; i < count; i++) {
-			GameObject go = dragPanelView.AddObject(sourceObject,scrollItem.Count);
+			GameObject go = dragPanelView.AddObject(sourceObject);
 			if(go != null){
 				scrollItem.Add(go);
 			}
@@ -108,8 +108,6 @@ public class DragPanel : UIBase
 	{
 		dragPanelView.SetViewPosition (position);
 	}
-
-
 
 	void ItemCallback(GameObject target)
 	{
