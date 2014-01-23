@@ -37,6 +37,8 @@ public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 	}
 
 	public override void HideUI () {
+		if( UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail )
+			return;
 		base.HideUI ();
 	}
 

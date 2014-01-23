@@ -17,17 +17,13 @@ public class UnitBehaviour : MonoBehaviour
 		else
 		{
 			GameTimer.GetInstance().ExitCountDonw( TimeCountCallback );
-
-			//Tell the UnitPool of LevelUp To Pick This Unit 
-
 		}
 	}
 
 	private void TimeCountCallback()
 	{
+		Messager.toViewUnitName = gameObject.GetComponent< UISprite >().spriteName;
 		UIManager.Instance.ChangeScene( SceneEnum.UnitDetail );
 	}
-
-	//private void  
 
 }

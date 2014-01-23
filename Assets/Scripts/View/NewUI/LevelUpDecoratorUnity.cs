@@ -130,15 +130,15 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	
 	private void CreateScrollerBase()
 	{
-		string ItemPath = "Prefabs/UI/Units/LevelUpScrollerItem";
-		materialScrollerItem = Resources.Load( ItemPath ) as GameObject;
+		materialScrollerItem = Resources.Load( "Prefabs/UI/Units/LevelUpScrollerItem" ) as GameObject;
 		materialScroller = new DragPanel( "LevelUpScroller", materialScrollerItem );
-		
+
 		materialScroller.CreatUI();
-		materialScroller.AddItem(45);
+		materialScroller.AddItem( 45 );
+
 		materialScroller.RootObject.SetGridArgs( 120, 120, UIGrid.Arrangement.Vertical, 3);
-		materialScroller.RootObject.SetScrollBar( -364,  -340,  0);
-		materialScroller.RootObject.SetViewPosition( new Vector4(0,-120f,700,400) ); 
+		materialScroller.RootObject.SetScrollBar( -320,  -340,  0);
+		materialScroller.RootObject.SetViewPosition( new Vector4(0,-120f,640,400) ); 
 		
 		materialScroller.RootObject.gameObject.transform.parent = basePanel.transform;
 		materialScroller.RootObject.gameObject.transform.localScale = Vector3.one;
@@ -159,8 +159,8 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 		materialScroller.CreatUI();
 		materialScroller.AddItem(45);
 		materialScroller.RootObject.SetGridArgs( 120, 120, UIGrid.Arrangement.Vertical, 3);
-		materialScroller.RootObject.SetScrollBar( -364,  -340,  0);
-		materialScroller.RootObject.SetViewPosition( new Vector4(0,-120f,700,400) ); 
+		materialScroller.RootObject.SetScrollBar( -320,  -340,  0);
+		materialScroller.RootObject.SetViewPosition( new Vector4(0,-120f,640,400) ); 
 		
 		materialScroller.RootObject.gameObject.transform.parent = materialPanel.transform;
 		materialScroller.RootObject.gameObject.transform.localScale = Vector3.one;
@@ -181,7 +181,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 		friendScroller.AddItem(15);
 		friendScroller.RootObject.SetGridArgs( 120, 120, UIGrid.Arrangement.Horizontal, 0);
 		friendScroller.RootObject.SetScrollBar( -364,  -120,  0);
-		friendScroller.RootObject.SetViewPosition( new Vector4(0,0,700,200) );
+		friendScroller.RootObject.SetViewPosition( new Vector4(0,0,640,200) );
 		
 		friendScroller.RootObject.gameObject.transform.parent = friendPanel.transform;
 		friendScroller.RootObject.gameObject.transform.localScale = Vector3.one;
@@ -195,13 +195,10 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 
 	private void PickBase( GameObject go )
 	{
-		LogHelper.Log("Pick The Material Which Level up needed! ");
 		if( isEmptyBase )
 		{
 			baseCard = Instantiate(go) as GameObject;
-//			baseCard.transform.parent = baseTab.transform;
-//			baseCard.transform.localPosition = Vector3.zero;
-//			baseCard.transform.localScale = Vector3.one;
+
 			IUICallback call = origin as IUICallback;
 			if(call != null ){
 				call.Callback( baseCard );
@@ -212,9 +209,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	}
 	
 	private void PickFriend(GameObject go)
-	{
-		LogHelper.Log("Pick The Friend Which Levelp up needed!");
-		
+	{	
 		if( isEmptyFriend )
 		{
 			friendCard = Instantiate(go) as GameObject;
@@ -228,8 +223,6 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 
 	private void PickMaterial(GameObject go)
 	{
-		LogHelper.Log("Pick The Friend Which Levelp up needed!");
-		
 		if( materialCardList.Count < 4 )
 		{
 			GameObject temp = Instantiate(go) as GameObject;
@@ -295,8 +288,6 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 		}
 	}
 
-	#region IUICallback implementation
-
 	public void Callback (object data)
 	{
 		GameObject go = data as GameObject;
@@ -307,5 +298,5 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 			go.transform.localScale = Vector3.one;
 		}
 	}
-	#endregion
+
 }
