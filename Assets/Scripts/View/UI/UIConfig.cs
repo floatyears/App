@@ -77,14 +77,16 @@ public class UIConfig
 
 	public const int partyTotalCount = 5;
 
-	public static string[ , ] PlayerParty = new string[5, 4]
-	{ 
+	public static string[ , ] PlayerParty = new string[5, 4] { 
 		{ "role014", "role012", "role013", "role006" }, 
 		{ "role002", "role005", "role001", "role003" },
 		{ "role007", "role008", "role009", "role010" },
 		{ "role015", "role011", "role016", "role017" }, 
 		{ "role018", "role019", "role020", "role004" } 
 	};
+
+
+
 }
 
 
