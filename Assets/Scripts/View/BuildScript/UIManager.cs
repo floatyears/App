@@ -96,6 +96,14 @@ public class UIManager {
 		current.ShowScene();
 	}
 
+	public void HideBaseScene () {
+		baseScene.HideBase ();
+	}
+
+	public void ShowBaseScene () {
+		baseScene.ShowBase ();
+	}
+
 	public void ChangeScene(SceneEnum sEnum)
 	{
 		if (baseScene.CurrentScene == sEnum) {

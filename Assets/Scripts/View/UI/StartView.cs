@@ -96,7 +96,7 @@ public class StartScene : BaseComponent {
 
 	private SceneEnum prevScene;
 	public SceneEnum PrevScene {
-		get { return PrevScene; }
+		get { return prevScene; }
 
 	}
 

@@ -657,8 +657,14 @@ public class UnitDetailDecorator : DecoratorBase {
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-		
-		lastDecorator = sceneInfoBar;
+
+//		PlayerInfoBarComponent playerInfoBar = CreatComponent< PlayerInfoBarComponent >( UIConfig.topBackgroundName );
+//		playerInfoBar.SetComponent( sceneInfoBar );
+
+		UnitDetailComponent  unitDetailPanel = CreatComponent< UnitDetailComponent >( UIConfig.unitDetailPanelName );
+		unitDetailPanel.SetComponent( sceneInfoBar );
+
+		lastDecorator = unitDetailPanel;
 		lastDecorator.CreatUI();
 	}
 }
