@@ -35,8 +35,7 @@ public class DragPanel : UIBase
 
 	public static GameObject dragObject;
 
-	public DragPanel(string name, GameObject obj) : base(name){
-		sourceObject = obj;
+	public DragPanel(string name,GameObject obj) : base(name){
 
 		if(dragObject == null){
 			dragObject = Resources.Load("Prefabs/UI/Share/DragPanelView") as GameObject;
@@ -74,7 +73,7 @@ public class DragPanel : UIBase
 		GameObject.Destroy (itemContain.gameObject);
 	}
 
-	public void AddItem(int count,bool isClean = false,GameObject obj = null) {
+	public void AddItem(int count,GameObject obj = null,bool isClean = false) {
 		if (obj != null) {
 			sourceObject = obj;	
 		}
@@ -97,7 +96,17 @@ public class DragPanel : UIBase
 				scrollItem.Add(go);
 			}
 		}
-//		 dragPanelView.
+	}
+
+	public void RemoveItem (GameObject target){
+		if (!scrollItem.Contains (target)) {
+			return;		
+		}
+		scrollItem.Remove (target);
+		GameObject.Destroy (target);
+		dragPanelView.grid.enabled = true;
+		dragPanelView.grid.Reposition ();
+		UIEventListener.Get (target).onClick = null;
 	}
 
 	/// <summary>

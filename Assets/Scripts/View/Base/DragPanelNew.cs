@@ -62,9 +62,17 @@ public class DragPanelNew : ConcreteComponent,IDragPanel {
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		for (int i = 0; i < item.Count; i++) {
+			GameObject.Destroy(item[i]);
+			item.RemoveAt(i);
+		}
+//		GameObject.Destroy (scrollBar.gameObject);
+//		GameObject.Destroy (itemContain.gameObject);
+
 	}
 
 	public override void HideUI () {
+		//dragPanelView.HideUI ();
 		base.HideUI ();
 	}
 
