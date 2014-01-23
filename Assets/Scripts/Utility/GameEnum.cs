@@ -1,4 +1,4 @@
-﻿
+﻿//public enum 
 
 public enum SceneEnum
 {
