@@ -47,7 +47,7 @@ public class DragPanelView : UIBaseUnity {
 	public GameObject AddObject(GameObject obj)
 	{
 		tempObject = NGUITools.AddChild (grid.gameObject, obj);
-		//tempObject.name = index.ToString();
+
 		UIDragScrollView uidrag = tempObject.GetComponent<UIDragScrollView> ();
 		if (uidrag == null) {
 			LogHelper.LogError("drag item is illegal");
