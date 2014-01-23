@@ -2,12 +2,13 @@
 using System.Collections;
 
 public class DragPanelView : UIBaseUnity {
+	public const string DragPanelPath = "Prefabs/UI/Share/DragPanelView";
 
 	private UIPanel clip;
 
 	private UIScrollView scrollView;
-
-	private UIGrid grid;
+	[HideInInspector]
+	public UIGrid grid;
 	
 	private UIScrollBar scrollBar;
 
@@ -43,10 +44,10 @@ public class DragPanelView : UIBaseUnity {
 		base.DestoryUI ();
 	}
 
-	public GameObject AddObject(GameObject obj,int index)
+	public GameObject AddObject(GameObject obj)
 	{
 		tempObject = NGUITools.AddChild (grid.gameObject, obj);
-		tempObject.name = index.ToString();
+		//tempObject.name = index.ToString();
 		UIDragScrollView uidrag = tempObject.GetComponent<UIDragScrollView> ();
 		if (uidrag == null) {
 			LogHelper.LogError("drag item is illegal");
@@ -56,8 +57,13 @@ public class DragPanelView : UIBaseUnity {
 
 		uidrag.scrollView = scrollView;
 		grid.enabled = true;
+		grid.Reposition ();
 		return tempObject;
 	}
+
+//	public void RemoveObject (GameObject obj) {
+//
+//	}
 	
 	public void SetViewPosition(Vector4 position)
 	{
