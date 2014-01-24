@@ -16,7 +16,7 @@ public class Config
 		}
 	}
 
-	public const byte startCardID = 1;
+	public const byte startCardID = 0;
 	public const byte endCardID = 4;
 	public const byte cardPoolSingle = 5;
 
@@ -27,6 +27,7 @@ public class Config
 	public const byte cardDepth = 3;
 
 	public const string battleCardName = "BattleCard";
+	private int[] cardTypeID = new int[4] {1,2,3,7};
 
 	public static Vector3 cardPoolInitPosition = new Vector3(-255f,300f,0f);
 	
@@ -41,7 +42,7 @@ public class Config
 	{
 		ItemData cid;
 
-		for (int i = startCardID; i < endCardID; i++) 
+		for (int i = 1; i < 8; i++) 
 		{
 			cid = new ItemData(i,"Card"+i,1);
 			cardData.Add(cid.itemID,cid);
@@ -55,7 +56,9 @@ public class Config
 		for (int i = 0; i < 20; i++) 
 		{
 			int key = Random.Range(startCardID, endCardID);
-			cardSort.Enqueue(cardData[key]);
+			int id = cardTypeID[key];
+//			Debug.LogError("id : " + id);
+			cardSort.Enqueue(cardData[id]);
 		}
 	}
 	

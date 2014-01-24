@@ -2,19 +2,13 @@
 using System.Collections;
 
 public class BattleBackground : UIBaseUnity {
-
 	private UITexture background;
-
 	private Camera bottomCamera;
-
 	private Material[] actor;
-
 	private UISprite[] spSprite;
-
+	private UISpriteAnimationCustom spriteAnimation;
 	private GameObject battleBottom;
-
 	private UISlider bloodBar;
-
 	private UILabel label;
 	private int initBlood = -1;
 	private int initEnergyPoint = -1;
@@ -45,7 +39,7 @@ public class BattleBackground : UIBaseUnity {
 			path = "Panel/Sprite/"+ i;
 			spSprite[spSprite.Length - i] = battleBottom.transform.Find(path).GetComponent<UISprite>();
 		}
-
+		spriteAnimation = battleBottom.transform.Find ("Panel/Sprite/HP").GetComponent<UISpriteAnimationCustom> ();
 		bloodBar = battleBottom.transform.Find("Panel/Sprite/Slider").GetComponent<UISlider>();
 		label = battleBottom.transform.Find("Panel/Label").GetComponent<UILabel>();
 	}
@@ -95,10 +89,13 @@ public class BattleBackground : UIBaseUnity {
 	}
 
 	void SetBlood (int num) {
-
 		string info = num + "/" + initBlood;
 		label.text = info;
-		bloodBar.value = DGTools.IntegerSubtriction(num,initBlood);
+		float value = DGTools.IntegerSubtriction(num,initBlood);
+		if (bloodBar.value < value) {
+			spriteAnimation.Reset();
+		}
+		bloodBar.value = value;
 	}
 
 	void ListenUnitBlood (object data) {

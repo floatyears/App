@@ -251,9 +251,9 @@ public class Battle : UIBase
 	}
 	
 
-	void DisposeReleasePress()
-	{
+	void DisposeReleasePress() {
 		//IgnoreLayer(false);
+//		Debug.LogError ("battle : DisposeReleasePress : " + selectTarget.Count);
 		if(selectTarget.Count == 0)
 		{
 			ResetClick();
@@ -261,8 +261,8 @@ public class Battle : UIBase
 			return;
 		}
 
-		if(Check(GameLayer.BattleCard))
-		{
+		if(Check(GameLayer.BattleCard)) {
+//			Debug.LogError("battle : Check(GameLayer.BattleCard)");
 			BattleCardAreaItem bcai = null;
 
 			for (int i = 0; i < rayCastHit.Length; i++) 
@@ -290,28 +290,23 @@ public class Battle : UIBase
 		}
 		else if(Check(GameLayer.ActorCard)) {
 			Vector3 point = selectTarget[0].transform.localPosition;
-
 			int indexID =  battleCardPool.CaculateSortIndex(point);
-
 			if(indexID >= 0)
 			{
 				main.GInput.IsCheckInput = false;
-				if(battleCard.SortCard(indexID,selectTarget))
-				{
+				if(battleCard.SortCard(indexID,selectTarget)) {
 					battleCard.CallBack += HandleCallBack;
 				}
-				else
-				{
-					main.GInput.IsCheckInput = true;
-
+				else {
+					main.GInput.IsCheckInput = true; 
 					ResetClick();
 				}
 			}
-
-//			Debug.LogError(" check ActorCard card  indexID " + indexID);
+			else{
+				ResetClick();
+			}
 		}
 		else {
-//			Debug.LogError(" check nothing  ");
 			ResetClick();
 		}
 	}
