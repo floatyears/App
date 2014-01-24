@@ -12,17 +12,21 @@ public class Main : MonoBehaviour
 
 	private static Main mainScrpit;
 
-	public static Main Instance {
-		get {
+	public static Main Instance
+	{
+		get
+		{
 			if(mainScrpit == null)
 				mainScrpit = (Main)FindObjectOfType(typeof(Main));
+
 			return mainScrpit;
 		}
 	}
 
 	private GameInput gInput;
 
-	public GameInput GInput {
+	public GameInput GInput
+	{
 		get{return gInput;}
 	}
 
@@ -32,42 +36,52 @@ public class Main : MonoBehaviour
 
 	private static float texScale = 0f;
 
-	public static float TexScale {
+	public static float TexScale
+	{
 		get{ return texScale; }
 	}
 
 	private static byte globalDataSeed = 0;
 
-	public static byte GlobalDataSeed {
-		get {
+	public static byte GlobalDataSeed
+	{
+		get
+		{
 			return globalDataSeed;
 		}
 	}
 
 	private UILabel label;
-	private ShowUnitInfo sui;
 
-	void Awake() {
+	void Awake()
+	{
 		mainScrpit = this;
+
 		globalDataSeed = (byte)Random.Range (0, 255);
+
 		gInput = gameObject.AddComponent<GameInput>();
 		gTimer = gameObject.AddComponent<GameTimer>();
 		DontDestroyOnLoad(gameObject);
+
 		texScale = screenWidth / Screen.width;
+
 		// init manager class
 		ViewManager.Instance.Init(uiRoot);
 		ModelManager.Instance.Init ();
-		TempConfig.InitEventQuests ();
-		TempConfig.InitPlayerUnits ();
-		TempConfig.InitStoryQuests ();
-		sui = new ShowUnitInfo ();
+		TempConfig.InitStoryQuests();
+		TempConfig.InitEventQuests();
+		TempConfig.InitPlayerUnits();
+		TempConfig.InitUnitAvatarSprite();
 	}
 
 	/// <summary>
 	/// start game
 	/// </summary>
-	void OnEnable() {
+	void OnEnable()
+	{
 		UIManager.Instance.ChangeScene (SceneEnum.Start);
-		//ControllerManager.Instance.ChangeScene (SceneEnum.Fight);
+	
 	}
+
+
 }
