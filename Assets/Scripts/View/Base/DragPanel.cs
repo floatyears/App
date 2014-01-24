@@ -73,7 +73,7 @@ public class DragPanel : UIBase
 		GameObject.Destroy (itemContain.gameObject);
 	}
 
-	public void AddItem(int count,GameObject obj = null,bool isClean = false) {
+	public void AddItem(int count,GameObject obj = null ,bool isClean = false) {
 		if (obj != null) {
 			sourceObject = obj;	
 		}
@@ -86,8 +86,8 @@ public class DragPanel : UIBase
 		}
 
 		if (sourceObject == null) {
-			LogHelper.LogError (dragPanelView.name + " scroll view item is null. don't creat drag panel");
-			return;
+			LogHelper.LogError (dragPanelView.name +  " scroll view item is null. don't creat drag panel");
+			return ;
 		}
 						
 		for (int i = 0; i < count; i++) {
@@ -97,7 +97,29 @@ public class DragPanel : UIBase
 			}
 		}
 	}
+	
+	public GameObject AddScrollerItem( GameObject obj ,bool isClean = false) {
+		if (obj != null) {
+			sourceObject = obj;	
+		}
 
+		if (isClean) {
+			for (int i = 0; i < scrollItem.Count; i++) {
+				GameObject.Destroy(scrollItem[i]);
+				scrollItem.RemoveAt(i);
+			}
+		}
+		
+		if (sourceObject == null)
+			return obj;
+
+		GameObject go = dragPanelView.AddObject(sourceObject);
+		if(go != null)
+			scrollItem.Add(go);
+
+		return go;
+	}
+	
 	public void RemoveItem (GameObject target){
 		if (!scrollItem.Contains (target)) {
 			return;		
@@ -108,11 +130,7 @@ public class DragPanel : UIBase
 		dragPanelView.grid.Reposition ();
 		UIEventListener.Get (target).onClick = null;
 	}
-
-	/// <summary>
-	/// Sets the position.
-	/// </summary>
-	/// <param name="position">Position. x is center x; y is center y; z is size x, w is size y</param>
+	
 	public void SetPosition(Vector4 position)
 	{
 		dragPanelView.SetViewPosition (position);

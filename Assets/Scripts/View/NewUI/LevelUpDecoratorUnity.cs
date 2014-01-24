@@ -13,8 +13,6 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	private GameObject friendTab;
 	private GameObject materialTab;
 
-	private List< GameObject > materialTabList = new List< GameObject >();
-
 	private GameObject basePanel;
 	private GameObject materialPanel;
 	private GameObject friendPanel;
@@ -33,14 +31,19 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	private GameObject friendCard = null;
 	private List< GameObject > materialCardList = new List<GameObject>();
 
-
+	private List< GameObject > materialTabList = new List< GameObject >();
+	private Dictionary< string, object > scrollerArgsDic = new Dictionary< string, object >();
 	private Dictionary< GameObject, GameObject > focusDic = new Dictionary<GameObject, GameObject>();
-
-	private string currentFocus;
-
+	public Dictionary< string, string > unitSprite = new Dictionary<string, string>();
+	
+	void AddUnitSprite() {
+		unitSprite.Add( "avatar001","role001");
+		unitSprite.Add( "avatar002","role002");
+	}
+	
 	public override void Init (UIInsConfig config, IUIOrigin origin) {
 		base.Init (config, origin);
-
+		AddUnitSprite();
 		InitUI();
 	}
 	
@@ -66,11 +69,9 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	{
 		InitTabs();
 		InitPanels();
-
 		focusDic.Add( baseTab, basePanel );
 		focusDic.Add( materialTab, materialPanel );
 		focusDic.Add ( friendTab, friendPanel );
-
 	}
 
 	private void FocusOnPanel(GameObject focus)
@@ -124,34 +125,34 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 		UIEventListener.Get( friendSortBar ).onClick = SortFriend;
 
 		CreateScrollerBase();
-		CreateScrollerFriend();
-		CreateScrollerMaterial();
+		//CreateScrollerFriend();
+		//CreateScrollerMaterial();
 	}
 	
 	private void CreateScrollerBase()
 	{
-		materialScrollerItem = Resources.Load( "Prefabs/UI/Units/LevelUpScrollerItem" ) as GameObject;
-		materialScroller = new DragPanel( "LevelUpScroller", materialScrollerItem );
-
+		InitBaseScrollArgs();
+		string itemResourcePath = "Prefabs/UI/Units/LevelUpScrollerItem";
+		materialScrollerItem = Resources.Load(itemResourcePath) as GameObject;
+		materialScroller = new DragPanel( "BaseScroller", materialScrollerItem );
 		materialScroller.CreatUI();
-		materialScroller.AddItem( 45 );
 
-		materialScroller.RootObject.SetGridArgs( 120, 120, UIGrid.Arrangement.Vertical, 3);
-		materialScroller.RootObject.SetScrollBar( -320,  -340,  0);
-		materialScroller.RootObject.SetViewPosition( new Vector4(0,-120f,640,400) ); 
-		
-		materialScroller.RootObject.gameObject.transform.parent = basePanel.transform;
-		materialScroller.RootObject.gameObject.transform.localScale = Vector3.one;
-		materialScroller.RootObject.gameObject.transform.localPosition = -45*Vector3.up;
-		
-		for(int i = 0; i < materialScroller.ScrollItem.Count; i++)
+		foreach (string avatar in unitSprite.Keys)
 		{
-			UIEventListener.Get(materialScroller.ScrollItem[ i ].gameObject).onClick += PickBase;
+			materialScroller.AddItem( 1,materialScrollerItem);
+			UITexture tempUITex = materialScrollerItem.GetComponent< UITexture >();
+			Debug.Log( tempUITex.mainTexture.name);
+			tempUITex.mainTexture = Resources.Load("Avatar/" + avatar) as Texture;
 		}
+		materialScroller.RootObject.SetScrollView( scrollerArgsDic );
+
+		for(int i = 0; i < materialScroller.ScrollItem.Count; i++)
+			UIEventListener.Get(materialScroller.ScrollItem[ i ].gameObject).onClick += PickBase;
 	}
 
 	private void CreateScrollerMaterial()
 	{
+
 		string ItemPath = "Prefabs/UI/Units/LevelUpScrollerItem";
 		materialScrollerItem = Resources.Load( ItemPath ) as GameObject;
 		materialScroller = new DragPanel( "LevelUpScroller", materialScrollerItem );
@@ -264,28 +265,28 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 
 	private void ShowTweenPostion( float mDelay = 0f, UITweener.Method mMethod = UITweener.Method.Linear ) 
 	{
-		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
-		
-		if( list == null )
-			return;
-		
-		foreach( var tweenPos in list)
-		{		
-			if( tweenPos == null )
-				continue;
-			
-			Vector3 temp;
-			temp = tweenPos.to;
-			tweenPos.to = tweenPos.from;
-			tweenPos.from = temp;
-			
-			tweenPos.delay = mDelay;
-			tweenPos.method = mMethod;
-			
-			tweenPos.Reset();
-			tweenPos.PlayForward();
-			
-		}
+//		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
+//		
+//		if( list == null )
+//			return;
+//		
+//		foreach( var tweenPos in list)
+//		{		
+//			if( tweenPos == null )
+//				continue;
+//			
+//			Vector3 temp;
+//			temp = tweenPos.to;
+//			tweenPos.to = tweenPos.from;
+//			tweenPos.from = temp;
+//			
+//			tweenPos.delay = mDelay;
+//			tweenPos.method = mMethod;
+//			
+//			tweenPos.Reset();
+//			tweenPos.PlayForward();
+//			
+//		}
 	}
 
 	public void Callback (object data)
@@ -297,6 +298,21 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 			go.transform.localPosition = Vector3.zero;
 			go.transform.localScale = Vector3.one;
 		}
+	}
+
+
+	void InitBaseScrollArgs()
+	{
+		scrollerArgsDic.Add( "parentTrans", 		basePanel.transform);
+		scrollerArgsDic.Add( "scrollerScale", 		Vector3.one);
+		scrollerArgsDic.Add( "scrollerLocalPos" ,	-45*Vector3.up);
+		scrollerArgsDic.Add( "position", 				Vector3.zero );
+		scrollerArgsDic.Add( "clipRange", 			new Vector4(-20, -120, 640, 400 ));
+		scrollerArgsDic.Add( "gridArrange", 		UIGrid.Arrangement.Vertical );
+		scrollerArgsDic.Add( "maxPerLine", 			3 );
+		scrollerArgsDic.Add( "scrollBarPosition", 	new Vector3(-320,-340,0));
+		scrollerArgsDic.Add( "cellWidth", 			110 );
+		scrollerArgsDic.Add( "cellHeight",			110 );
 	}
 
 }

@@ -21,7 +21,13 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback{
 	private GameObject story_low_light;
 
 	private DragPanel questSelectScroller;
-	private GameObject questItem;
+	private GameObject scrollerItem;
+	private GameObject scrollView;
+
+	private string scrollerItemSourcePath = TempConfig.questItemSourcePath;
+	private string questSelectTextureSourcePath = TempConfig.storyTextureSourcePath;
+
+	private Dictionary< string, object > questSelectScrollerArgsDic = new Dictionary< string, object >();
 
 	public override void Init (UIInsConfig config, IUIOrigin origin) {
 
@@ -48,6 +54,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback{
 
 	private void InitUI(){
 
+		scrollView = FindChild("ScrollView");
 		btnSelect = FindChild<UIImageButton>("ScrollView/btn_quest_select"); 
 
 		labDoorName = FindChild( "Window/title/Label_door_name").GetComponent< UILabel>();
@@ -70,43 +77,49 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback{
 		labRewardInfo = FindChild("Window/window_right/content_detail/Label_reward_info").GetComponent< UILabel >();
 		labRewardInfo.text = string.Empty;
 
-		UIEventListener.Get( btnSelect.gameObject ).onClick = ClickQuestSelectBtn;
-
-		questItem = Resources.Load("Prefabs/UI/Quest/QuestScrollerItem") as GameObject;
-		questSelectScroller = new DragPanel ("QuestSelectScroller", questItem);
-		questSelectScroller.CreatUI();
-		questSelectScroller.AddItem (3);
-		questSelectScroller.RootObject.SetItemWidth(230);
-
-		questSelectScroller.RootObject.gameObject.transform.parent = gameObject.transform.FindChild("ScrollView");
-		questSelectScroller.RootObject.gameObject.transform.localScale = Vector3.one;
-		questSelectScroller.RootObject.gameObject.transform.localPosition = -95*Vector3.up;
-		
-		for(int i = 0; i < questSelectScroller.ScrollItem.Count; i++)
-		{
-			UIEventListener.Get(questSelectScroller.ScrollItem[ i ].gameObject).onClick = PickQuestInfo;
-		}
+		UIEventListener.Get( btnSelect.gameObject ).onClick = ChangeScene;
+		CreateScroller();
 
 	}
 
-	void ClickQuestSelectBtn( GameObject btn ) 
-	{
+	private void AddStoryQuestItem( string path) {
+		foreach (string textureName in TempConfig.storyQuestDic.Values) {
+			questSelectScroller.AddItem(6, scrollerItem );
+			UITexture uiTexture = scrollerItem.GetComponent< UITexture >();
+			uiTexture.mainTexture = Resources.Load( path + textureName ) as Texture;
+			//Debug.Log( uiTexture.mainTexture.name);
+		}
+	}
+
+	private void CreateScroller() {
+		string scrollerItemPath = "Quest/QuestScrollerItem";
+		scrollerItem = Resources.Load( scrollerItemPath ) as GameObject;
+		
+		questSelectScroller = new DragPanel ( "QuestSelectScroller", scrollerItem );
+		questSelectScroller.CreatUI ();
+		InitQuestSelectScrollArgs();
+		
+		AddStoryQuestItem( questSelectTextureSourcePath );
+		questSelectScroller.RootObject.SetScrollView( questSelectScrollerArgsDic );
+		
+		for(int i = 0; i < questSelectScroller.ScrollItem.Count; i++)
+			UIEventListener.Get(questSelectScroller.ScrollItem[ i ].gameObject).onClick = PickQuestInfo;
+	}
+
+	private void ChangeScene( GameObject btn ) {
 		UIManager.Instance.ChangeScene( SceneEnum.FriendSelect );
 	}
 	
-	public void Callback (object data)
-	{
+	public void Callback (object data) {
 		bool b = (bool)data;
 		btnSelect.isEnabled = b;
 	}
 
-	private void SetUIActive(bool b)
-	{
+	private void SetUIActive(bool b) {
 		questSelectScroller.RootObject.gameObject.SetActive(b);
 	}
 
-	private void PickQuestInfo(GameObject go)
-	{
+	private void PickQuestInfo(GameObject go) {
 		btnSelect.isEnabled = true;
 	}
 	
@@ -134,5 +147,20 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback{
 			tweenPos.PlayForward();
 			
 		}
+	}
+
+	private void InitQuestSelectScrollArgs() {
+		questSelectScrollerArgsDic.Add( "parentTrans", 				scrollView.transform       		);
+		questSelectScrollerArgsDic.Add( "scrollerScale", 			Vector3.one								);
+		questSelectScrollerArgsDic.Add( "scrollerLocalPos" ,		-96*Vector3.up							);
+		questSelectScrollerArgsDic.Add( "position", 					Vector3.zero 								);
+		questSelectScrollerArgsDic.Add( "clipRange", 				new Vector4( 0, 0, 640, 200)			);
+		questSelectScrollerArgsDic.Add( "gridArrange", 				UIGrid.Arrangement.Horizontal 	);
+		questSelectScrollerArgsDic.Add( "maxPerLine", 				0 												);
+		questSelectScrollerArgsDic.Add( "scrollBarPosition", 		new Vector3(-320,-120,0)			);
+		questSelectScrollerArgsDic.Add( "cellWidth", 				230 											);
+		questSelectScrollerArgsDic.Add( "cellHeight",				150 											);
+		
+		//Debug.Log( "  storyScroller have finlished InitStoryScrollArgs() ");
 	}
 }
