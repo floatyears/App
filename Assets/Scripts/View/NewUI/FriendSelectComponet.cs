@@ -12,7 +12,6 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 	
 	public override void CreatUI () {
 		base.CreatUI ();
-	
 	}
 
 	public override void ShowUI () {
