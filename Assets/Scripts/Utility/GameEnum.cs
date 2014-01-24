@@ -1,4 +1,4 @@
-﻿
+﻿//public enum 
 
 public enum SceneEnum
 {
@@ -61,6 +61,7 @@ public enum CommandEnum
 	InquiryBattleBaseData 	= 1001,
 	MoveToMapItem 			= 1002,
 	StartAttack				= 1003,
+	EnterUnitInfo			= 1004,
 	#endregion
 
 	#region model to view

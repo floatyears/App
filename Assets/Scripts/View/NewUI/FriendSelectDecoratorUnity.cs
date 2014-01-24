@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class FriendSelectDecoratorUnity : UIComponentUnity {
+public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 
 	private GameObject msgBox;
 	private UIImageButton btnStart;
@@ -19,8 +19,11 @@ public class FriendSelectDecoratorUnity : UIComponentUnity {
 
 	private int currentPartyIndex;
 	private int partyTotalCount;
+	private int initPartyPage = 1;
 
 	private List< UISprite > partySpriteList = new List< UISprite >();
+	private Dictionary<int, UISprite> partySprit = new Dictionary<int,UISprite> ();
+	private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
 	private UISprite friendSprite;
 
 	public override void Init (UIInsConfig config, IUIOrigin origin) {
@@ -53,20 +56,54 @@ public class FriendSelectDecoratorUnity : UIComponentUnity {
 		InitFriendList();
 	}
 
-	private void InitPartyUnits()
-	{
-		UISprite temp;
-		for( int i = 1; i < 5; i++)
-		{
-			temp = FindChild< UISprite >("Window/window_party/Unit" + i.ToString() );
-			partySpriteList.Add( temp );
+	
+	public void Callback (object data) {
+		if (data == null) {
+			ShowPartyInfo (null);
+		} 
+		else {
+			Dictionary<int,UnitBaseInfo> upi = data as Dictionary<int,UnitBaseInfo>;
+			if(upi == null) {
+				return;
+			}
+
+			ShowPartyInfo(upi);
 		}
-		
+	}
+
+	void SendUnitPage (int pageIndex) {
+		IUICallback call = origin as IUICallback;
+		if (call == null) {
+			return;		
+		} 
+
+		call.Callback (pageIndex);
+	}
+
+	private void InitPartyUnits() {
+		UISprite temp;
+		for( int i = 1; i < 5; i++) {
+			temp = FindChild< UISprite >("Window/window_party/Unit" + i.ToString() );
+			UIEventListenerCustom.Get(temp.gameObject).LongPress = LongPressCallback;
+			partySpriteList.Add( temp );
+			partySprit.Add(i, temp);
+
+		}
 		friendSprite = FindChild< UISprite >("Window/window_party/Friend");
-		
-		ShowPartyUnit();
-		
+		//ShowPartyUnit();
 		friendSprite.spriteName = string.Empty;
+
+		SendUnitPage (1);
+	}
+
+	void LongPressCallback(GameObject target) {
+		int posID = -1;
+		foreach (var item in partySprit) {
+			if(target == item.Value.gameObject) {
+				posID = item.Key;
+			}
+		}
+		MsgCenter.Instance.Invoke (CommandEnum.EnterUnitInfo, unitBaseInfo [posID].spriteName);
 	}
 
 	private void InitPartyArrow()
@@ -139,6 +176,26 @@ public class FriendSelectDecoratorUnity : UIComponentUnity {
 		}
 	}
 
+	void ShowPartyInfo(Dictionary<int,UnitBaseInfo> name) {
+		unitBaseInfo = name;
+		if (name == null) {
+			foreach (var item in partySprit.Values) {
+				item.spriteName = string.Empty;
+			}
+		} 
+		else {
+			foreach(var item in partySprit){
+			
+				if(name.ContainsKey(item.Key)){
+					partySprit[item.Key].spriteName = name[item.Key].spriteName;
+				}
+				else{
+					partySprit[item.Key].spriteName = string.Empty;
+				}
+			}
+		}
+	}
+
 	void BackParty( GameObject go )
 	{
 		currentPartyIndex = Mathf.Abs( (currentPartyIndex - 1) % partyTotalCount );
@@ -146,17 +203,17 @@ public class FriendSelectDecoratorUnity : UIComponentUnity {
 			currentPartyIndex = partyTotalCount ;
 		labelCurrentPartyIndex.text = currentPartyIndex.ToString();
 
-		ShowPartyUnit();
+		SendUnitPage (currentPartyIndex);
 	}
 
 	void ForwardParty( GameObject go )
 	{
-		currentPartyIndex = (currentPartyIndex + 1 ) % partyTotalCount;
-		if( currentPartyIndex == 0 )
-			currentPartyIndex = partyTotalCount ;
-		labelCurrentPartyIndex.text = currentPartyIndex.ToString();
+		currentPartyIndex++;
+		if (currentPartyIndex > partyTotalCount) {
+			currentPartyIndex = initPartyPage;
+		} 
 
-		ShowPartyUnit();
+		SendUnitPage (currentPartyIndex);
 	}
 	void ClickCancelBtn(GameObject btn) {
 

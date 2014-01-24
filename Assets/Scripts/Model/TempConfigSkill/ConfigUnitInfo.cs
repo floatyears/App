@@ -57,6 +57,12 @@ public class ConfigUnitInfo {
 			UserUnitInfo uui 	= new UserUnitInfo (uu);
 			GlobalData.tempUserUnitInfo.Add (i, uui);
 		}
+
+		GlobalData.tempUserUnitInfo [1].unitBaseInfo = 181;
+		GlobalData.tempUserUnitInfo [2].unitBaseInfo = 85;
+		GlobalData.tempUserUnitInfo [3].unitBaseInfo = 89;
+		GlobalData.tempUserUnitInfo [4].unitBaseInfo = 80;
+		GlobalData.tempUserUnitInfo [5].unitBaseInfo = 87;
 	}
 
 	void GenerateUserUnitParty () {
@@ -185,6 +191,16 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 			bloodNum += GlobalData.tempUserUnitInfo [unitUniqueID].GetBlood();
 		}
 		return bloodNum;
+	}
+
+	public Dictionary<int,int> GetPartyItem () {
+		Dictionary<int,int> temp = new Dictionary<int, int> ();
+		UnitParty up = DeserializeData<UnitParty> ();
+		for (int i = 0; i < up.items.Count; i++) {
+			PartyItem pi = up.items[i];
+			temp.Add(pi.unitPos,pi.unitUniqueId);
+		}
+		return temp;
 	}
 
 	CalculateSkillUtility CheckSkillUtility (int areaItemID, int cardID) {

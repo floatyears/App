@@ -3,9 +3,6 @@ using System.Collections;
 
 public class FriendSelectUnity : UIBaseUnity 
 {
-
-
-
 	private Transform leftTranform;
 	public Transform LeftTransform
 	{
