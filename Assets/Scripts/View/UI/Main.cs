@@ -45,6 +45,7 @@ public class Main : MonoBehaviour
 	}
 
 	private UILabel label;
+	private ShowUnitInfo sui;
 
 	void Awake() {
 		mainScrpit = this;
@@ -56,13 +57,17 @@ public class Main : MonoBehaviour
 		// init manager class
 		ViewManager.Instance.Init(uiRoot);
 		ModelManager.Instance.Init ();
+		TempConfig.InitEventQuests ();
+		TempConfig.InitPlayerUnits ();
+		TempConfig.InitStoryQuests ();
+		sui = new ShowUnitInfo ();
 	}
 
 	/// <summary>
 	/// start game
 	/// </summary>
 	void OnEnable() {
-		//UIManager.Instance.ChangeScene (SceneEnum.Start);
-		ControllerManager.Instance.ChangeScene (SceneEnum.Fight);
+		UIManager.Instance.ChangeScene (SceneEnum.Start);
+		//ControllerManager.Instance.ChangeScene (SceneEnum.Fight);
 	}
 }

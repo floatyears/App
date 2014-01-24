@@ -3,6 +3,13 @@ using System.Collections;
 using bbproto;
 
 public class ConfigUnitBaseInfo {
+
+	public ConfigUnitBaseInfo() {
+		GenerateUnitBaseInfo ();
+		Generate2 ();
+		Generate3 ();
+	}
+
 	void GenerateUnitBaseInfo() {
 		UnitBaseInfo ubi = new UnitBaseInfo ();
 		ubi.assetID = 181;

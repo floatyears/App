@@ -22,7 +22,8 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 	private int initPartyPage = 1;
 
 	private List< UISprite > partySpriteList = new List< UISprite >();
-	private Dictionary<int,UISprite> partySprit = new Dictionary<int,UISprite> ();
+	private Dictionary<int, UISprite> partySprit = new Dictionary<int,UISprite> ();
+	private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
 	private UISprite friendSprite;
 
 	public override void Init (UIInsConfig config, IUIOrigin origin) {
@@ -61,7 +62,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 			ShowPartyInfo (null);
 		} 
 		else {
-			Dictionary<int,string> upi = data as Dictionary<int,string>;
+			Dictionary<int,UnitBaseInfo> upi = data as Dictionary<int,UnitBaseInfo>;
 			if(upi == null) {
 				return;
 			}
@@ -70,25 +71,29 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		}
 	}
 
+	void SendUnitPage (int pageIndex) {
+		IUICallback call = origin as IUICallback;
+		if (call == null) {
+			return;		
+		} 
 
+		call.Callback (pageIndex);
+	}
 
-	private void InitPartyUnits()
-	{
+	private void InitPartyUnits() {
 		UISprite temp;
-		for( int i = 1; i < 5; i++)
-		{
+		for( int i = 1; i < 5; i++) {
 			temp = FindChild< UISprite >("Window/window_party/Unit" + i.ToString() );
 			UIEventListenerCustom.Get(temp.gameObject).LongPress = LongPressCallback;
 			partySpriteList.Add( temp );
 			partySprit.Add(i, temp);
 
 		}
-		
 		friendSprite = FindChild< UISprite >("Window/window_party/Friend");
-		
-		ShowPartyUnit();
-		
+		//ShowPartyUnit();
 		friendSprite.spriteName = string.Empty;
+
+		SendUnitPage (1);
 	}
 
 	void LongPressCallback(GameObject target) {
@@ -98,10 +103,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 				posID = item.Key;
 			}
 		}
-//		IUICallback callback = origin as IUICallback;
-//		if (callback != null) {
-//			callback.Callback(posID);
-//		}
+		MsgCenter.Instance.Invoke (CommandEnum.EnterUnitInfo, unitBaseInfo [posID].spriteName);
 	}
 
 	private void InitPartyArrow()
@@ -174,17 +176,20 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		}
 	}
 
-	void ShowPartyInfo(Dictionary<int,string> name) {
+	void ShowPartyInfo(Dictionary<int,UnitBaseInfo> name) {
+		unitBaseInfo = name;
 		if (name == null) {
 			foreach (var item in partySprit.Values) {
 				item.spriteName = string.Empty;
 			}
 		} 
 		else {
-			foreach (var item in name) {
-				if(partySprit.ContainsKey(item.Key)){
-					partySprit[item.Key].spriteName = item.Value;
-				}else{
+			foreach(var item in partySprit){
+			
+				if(name.ContainsKey(item.Key)){
+					partySprit[item.Key].spriteName = name[item.Key].spriteName;
+				}
+				else{
 					partySprit[item.Key].spriteName = string.Empty;
 				}
 			}
@@ -198,7 +203,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 			currentPartyIndex = partyTotalCount ;
 		labelCurrentPartyIndex.text = currentPartyIndex.ToString();
 
-		ShowPartyUnit();
+		SendUnitPage (currentPartyIndex);
 	}
 
 	void ForwardParty( GameObject go )
@@ -208,12 +213,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 			currentPartyIndex = initPartyPage;
 		} 
 
-		//currentPartyIndex = (currentPartyIndex + 1 ) % partyTotalCount;
-		//if( currentPartyIndex == 0 )
-			//currentPartyIndex = partyTotalCount ;
-		//labelCurrentPartyIndex.text = currentPartyIndex.ToString();
-
-		ShowPartyUnit();
+		SendUnitPage (currentPartyIndex);
 	}
 	void ClickCancelBtn(GameObject btn) {
 

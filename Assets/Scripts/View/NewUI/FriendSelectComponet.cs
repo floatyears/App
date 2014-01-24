@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class FriendSelectComponent : ConcreteComponent, IUICallback {
 	UnitPartyInfo upi;
-	Dictionary<int,UserUnitInfo> userUnit;
+	Dictionary<int,UserUnitInfo> userUnit = new Dictionary<int, UserUnitInfo> ();
 
 	public FriendSelectComponent(string uiName):base(uiName) {
 
@@ -16,6 +16,7 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 
 	public override void ShowUI () {
 		base.ShowUI ();
+
 	}
 	
 	public override void HideUI () {
@@ -42,12 +43,13 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 		if (partyID == 1) {
 			upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, errMsg) as UnitPartyInfo;
 			Dictionary<int,int> temp = upi.GetPartyItem();
-			Dictionary<int,string> viewInfo = new Dictionary<int, string>();
+			Dictionary<int,UnitBaseInfo> viewInfo = new Dictionary<int, UnitBaseInfo>();
 			foreach(var item in temp) {
+//				Debug.LogError("item.Value : " + item.Value);
 				UserUnitInfo uui =  GlobalData.tempUserUnitInfo[item.Value];
 				userUnit.Add(item.Key,uui);
 				UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[uui.unitBaseInfo];
-				viewInfo.Add(item.Key,ubi.spriteName);
+				viewInfo.Add(item.Key,ubi);
 			}
 			call.Callback (viewInfo);
 		}
