@@ -24,13 +24,13 @@ public class TempConfig
 
 	public static void InitStoryQuests()
 	{
-		storyQuestDic.Add( 1,"door_water");
+		storyQuestDic.Add( 1,"water");
 	}
 
 	public static Dictionary< int, string > eventQuestDic = new Dictionary<int, string>();
 	
 	public static void InitEventQuests()
 	{
-		eventQuestDic.Add( 1,"door_fire");
+		eventQuestDic.Add( 1,"fire");
 	}
 }

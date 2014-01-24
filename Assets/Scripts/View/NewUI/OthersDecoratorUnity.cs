@@ -88,7 +88,7 @@ public class OthersDecoratorUnity : UIComponentUnity {
 	}
 
 	private void GetOptions( GameObject go) {
-		Debug.LogError( " Show Options..." );
+		//Debug.LogError( " Show Options..." );
 	}
 
 	private void InitOtherScrollArgs() {
