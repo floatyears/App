@@ -1,0 +1,261 @@
+﻿using UnityEngine;
+using System.Collections;
+using bbproto;
+
+public class ConfigUnitBaseInfo {
+
+	public ConfigUnitBaseInfo() {
+		GenerateUnitBaseInfo ();
+		Generate2 ();
+		Generate3 ();
+	}
+
+	void GenerateUnitBaseInfo() {
+		UnitBaseInfo ubi = new UnitBaseInfo ();
+		ubi.assetID = 181;
+		ubi.chineseName = "di lao ju ren s5";
+		ubi.englishName = "Dungeontitan";
+		ubi.spriteName = "role012";
+		ubi.race = EUnitRace.MYTHIC;
+		ubi.starLevel = 3;
+		ubi.type = EUnitType.UFIRE;
+		ubi.hp = 52;
+		ubi.attack = 57;
+		ubi.cost = 2;
+		ubi.maxLv = 5;
+		ubi.maxExp = 632;
+		ubi.expType = 3;
+		ubi.strengthenExp = 100;
+		ubi.saleCoin = 50;
+		ubi.normalSkill1 = 0;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+
+		ubi = new UnitBaseInfo ();
+		ubi.assetID = 111;
+		ubi.chineseName = "ju zhang yu s5";
+		ubi.englishName = "Kraken";
+		ubi.spriteName = "role005";
+		ubi.race = EUnitRace.MONSTER;
+		ubi.starLevel = 3;
+		ubi.type = EUnitType.UWATER;
+		ubi.hp = 62;
+		ubi.attack = 54;
+		ubi.cost = 2;
+		ubi.maxLv = 5;
+		ubi.maxExp = 632;
+		ubi.expType = 3;
+		ubi.strengthenExp = 100;
+		ubi.saleCoin = 50;
+		ubi.normalSkill1 = 2;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+
+		ubi = new UnitBaseInfo ();
+		ubi.assetID = 185;
+		ubi.chineseName = "jiu tou se s5";
+		ubi.englishName = "Hydra";
+		ubi.spriteName = "role013";
+		ubi.race = EUnitRace.MYTHIC;
+		ubi.starLevel = 3;
+		ubi.type = EUnitType.UWIND;
+		ubi.hp = 67;
+		ubi.attack = 32;
+		ubi.cost = 2;
+		ubi.maxLv = 5;
+		ubi.maxExp = 632;
+		ubi.expType = 3;
+		ubi.strengthenExp = 100;
+		ubi.saleCoin = 50;
+		ubi.normalSkill1 = 4;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+
+	}
+
+	void Generate2 () {
+		UnitBaseInfo ubi = new UnitBaseInfo ();
+		ubi.assetID = 85;
+		ubi.chineseName = "du yan guai s5";
+		ubi.englishName = "One-eyed warrior";
+		ubi.spriteName = "role014";
+		ubi.race = EUnitRace.MONSTER;
+		ubi.starLevel = 1;
+		ubi.type = EUnitType.UFIRE;
+		ubi.hp = 47;
+		ubi.attack = 43;
+		ubi.cost = 1;
+		ubi.maxLv = 10;
+		ubi.maxExp = 3195;
+		ubi.expType = 2;
+		ubi.strengthenExp = 50;
+		ubi.saleCoin = 10;
+		ubi.normalSkill1 = 0;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+
+		ubi = new UnitBaseInfo ();
+		ubi.assetID = 80;
+		ubi.chineseName = "ku lou shi bing2";
+		ubi.englishName = "Skeleton warrior";
+		ubi.spriteName = "role019";
+		ubi.race = EUnitRace.UNDEAD;
+		ubi.starLevel = 1;
+		ubi.type = EUnitType.UWATER;
+		ubi.hp = 45;
+		ubi.attack = 40;
+		ubi.cost = 1;
+		ubi.maxLv = 10;
+		ubi.maxExp = 3195;
+		ubi.expType = 2;
+		ubi.strengthenExp = 50;
+		ubi.saleCoin = 10;
+		ubi.normalSkill1 = 2;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+
+		ubi = new UnitBaseInfo ();
+		ubi.assetID = 161;
+		ubi.chineseName = "shi lai mu s1";
+		ubi.englishName = "Slime";
+		ubi.spriteName = "role008";
+		ubi.race = EUnitRace.MYTHIC;
+		ubi.starLevel = 1;
+		ubi.type = EUnitType.UWIND;
+		ubi.hp = 43;
+		ubi.attack = 39;
+		ubi.cost = 1;
+		ubi.maxLv = 10;
+		ubi.maxExp = 3195;
+		ubi.expType = 2;
+		ubi.strengthenExp = 50;
+		ubi.saleCoin = 10;
+		ubi.normalSkill1 = 4;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+
+		ubi = new UnitBaseInfo ();
+		ubi.assetID = 87;
+		ubi.chineseName = "xue guai s1";
+		ubi.englishName = "Snowman";
+		ubi.spriteName = "role002";
+		ubi.race = EUnitRace.MONSTER;
+		ubi.starLevel = 1;
+		ubi.type = EUnitType.UWATER;
+		ubi.hp = 43;
+		ubi.attack = 32;
+		ubi.cost = 2;
+		ubi.maxLv = 10;
+		ubi.maxExp = 3195;
+		ubi.expType = 2;
+		ubi.strengthenExp = 75;
+		ubi.saleCoin = 10;
+		ubi.normalSkill1 = 2;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+	}
+
+	void Generate3 () {
+		UnitBaseInfo ubi = new UnitBaseInfo ();
+		ubi.assetID = 101;
+		ubi.chineseName = "cang yin ren s3";
+		ubi.englishName = "Flyman";
+		ubi.spriteName = "role004";
+		ubi.race = EUnitRace.MONSTER;
+		ubi.starLevel = 1;
+		ubi.type = EUnitType.UWIND;
+		ubi.hp = 43;
+		ubi.attack = 32;
+		ubi.cost = 2;
+		ubi.maxLv = 10;
+		ubi.maxExp = 3195;
+		ubi.expType = 2;
+		ubi.strengthenExp = 75;
+		ubi.saleCoin = 10;
+		ubi.normalSkill1 = 4;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+
+		ubi = new UnitBaseInfo ();
+		ubi.assetID = 122;
+		ubi.chineseName = "yu ren s2";
+		ubi.englishName = "Gillman";
+		ubi.spriteName = "role010";
+		ubi.race = EUnitRace.MONSTER;
+		ubi.starLevel = 1;
+		ubi.type = EUnitType.UWATER;
+		ubi.hp = 68;
+		ubi.attack = 65;
+		ubi.cost = 2;
+		ubi.maxLv = 10;
+		ubi.maxExp = 4793;
+		ubi.expType = 3;
+		ubi.strengthenExp = 75;
+		ubi.saleCoin = 10;
+		ubi.normalSkill1 = 2;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+
+		ubi = new UnitBaseInfo ();
+		ubi.assetID = 195;
+		ubi.chineseName = "xiao gui s3";
+		ubi.englishName = "Gremlin";
+		ubi.spriteName = "role007";
+		ubi.race = EUnitRace.MYTHIC;
+		ubi.starLevel = 1;
+		ubi.type = EUnitType.UWIND;
+		ubi.hp = 72;
+		ubi.attack = 67;
+		ubi.cost = 2;
+		ubi.maxLv = 10;
+		ubi.maxExp = 4793;
+		ubi.expType = 3;
+		ubi.strengthenExp = 75;
+		ubi.saleCoin = 10;
+		ubi.normalSkill1 = 4;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+
+		ubi = new UnitBaseInfo ();
+		ubi.assetID = 89;
+		ubi.chineseName = "fei tian he ma s3";
+		ubi.englishName = "Flying hippo";
+		ubi.spriteName = "role003";
+		ubi.race = EUnitRace.MONSTER;
+		ubi.starLevel = 1;
+		ubi.type = EUnitType.UWIND;
+		ubi.hp = 136;
+		ubi.attack = 105;
+		ubi.cost = 4;
+		ubi.maxLv = 25;
+		ubi.maxExp = 14463;
+		ubi.expType = 1;
+		ubi.strengthenExp = 150;
+		ubi.saleCoin = 60;
+		ubi.normalSkill1 = 30;
+		ubi.normalSkill2 = -1;
+		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+	}
+
+}
+
+public class UnitBaseInfo {
+	public int id;
+	public int assetID ;
+	public string chineseName;
+	public string englishName;
+	public string spriteName;
+	public EUnitRace race;
+	public int starLevel ;
+	public EUnitType type;
+	public int hp;
+	public int attack;
+	public int cost;
+	public int maxLv ;
+	public int maxExp;
+	public int expType ;
+	public int strengthenExp;
+	public int saleCoin;
+	public int normalSkill1;
+	public int normalSkill2;
+}

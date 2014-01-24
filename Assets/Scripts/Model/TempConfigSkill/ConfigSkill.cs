@@ -17,7 +17,7 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 0;
 		ns.baseInfo.name = "no 0 normal skill";
 		ns.baseInfo.description = "two red card generate one";
-		ns.attackValue = 1.5f;
+		ns.attackValue = 1f;
 		ns.attackType = EAttackType.ATK_SINGLE;
 		ns.activeBlocks.Add (1);
 		ns.activeBlocks.Add (1);
@@ -46,7 +46,7 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 2;
 		ns.baseInfo.name = "no 2 normal skill";
 		ns.baseInfo.description = "two water card generate one";
-		ns.attackValue = 1.5f;
+		ns.attackValue = 1f;
 		ns.attackType = EAttackType.ATK_SINGLE;
 		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (2);
@@ -78,7 +78,6 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "two wind card generate one";
 		ns.attackValue = 1f;
 		ns.attackType = EAttackType.ATK_ALL;
-		ns.activeBlocks.Add (3);
 		ns.activeBlocks.Add (3);
 		ns.activeBlocks.Add (3);
 		tns = new TempNormalSkill (ns);
@@ -253,8 +252,23 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (6);
 		tns = new TempNormalSkill (ns);
 		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
-
+		ConfigNormalSkill2 ();
 		ConfigHeartSkill ();
+	}
+
+	void ConfigNormalSkill2 () { 
+		NormalSkill ns = new NormalSkill ();
+		ns.baseInfo = new SkillBase ();
+		ns.baseInfo.id = 30;
+		ns.baseInfo.name = "no 16 normal skill";
+		ns.baseInfo.description = "five heart card generate one";
+		ns.attackValue = 1.6f;
+		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.activeBlocks.Add (3);
+		ns.activeBlocks.Add (3);
+		ns.activeBlocks.Add (3);
+		TempNormalSkill tns = new TempNormalSkill (ns);
+		GlobalData.tempNormalSkill.Add (ns.baseInfo.id, tns);
 	}
 
 	void ConfigHeartSkill () {

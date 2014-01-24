@@ -114,7 +114,6 @@ public class ConcreteComponent : RootComponent, IUIComponent {
 			
 			if(viewComponent == null)
 				return;
-
 		}
 	
 		IUIOrigin org = null;

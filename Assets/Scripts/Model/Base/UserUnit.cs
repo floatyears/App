@@ -18,6 +18,7 @@ public class AddBlood {
 public class UserUnitInfo : ProtobufDataBase {
 	public UserUnitInfo(UserUnit instance) : base (instance) { }
 	private int currentBlood = -1;
+	public int unitBaseInfo = -1;
 	~UserUnitInfo() { }
 	
 	TempNormalSkill[] normalSkill = new TempNormalSkill[2];

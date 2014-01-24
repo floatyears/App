@@ -86,6 +86,7 @@ public class ModelManager
 //		Debug.LogError ("InitData ConfigSkill");
 		ConfigSkill cs = new ConfigSkill ();
 		ConfigEnermy ce = new ConfigEnermy ();
+		ConfigUnitBaseInfo cubi = new ConfigUnitBaseInfo ();
 	}
 	
 	/// <summary>
