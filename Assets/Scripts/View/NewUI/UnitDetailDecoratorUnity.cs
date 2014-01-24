@@ -19,7 +19,6 @@ public class UnitDetailDecoratorUnity : UIComponentUnity
 
 		ShowUnitDetailInfo();
 		ShowUnitScale();
-		//ShowTweenPostion( 0.2f );
 		UIManager.Instance.HideBaseScene();
 	}
 	
@@ -45,17 +44,11 @@ public class UnitDetailDecoratorUnity : UIComponentUnity
 
 	private void ShowUnitDetailInfo()
 	{
-		if( Messager.toViewUnitName == string.Empty )
-		{
-			//Debug.LogError( "Not Get the Unit to show");
+		if( Messager.toViewUnitName == string.Empty ) {
 			return;
 		}
 
 		detaiSprite.spriteName = Messager.toViewUnitName;
-
-		//Debug.Log( "Sprite Dimensions Width : "+detailWidget.width );
-
-		//Debug.Log( "Sprite Dimensions Height : "+detailWidget.height );
 	}
 
 	private void BackPreScene( GameObject go )

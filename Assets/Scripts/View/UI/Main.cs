@@ -68,6 +68,10 @@ public class Main : MonoBehaviour
 		// init manager class
 		ViewManager.Instance.Init(uiRoot);
 		ModelManager.Instance.Init ();
+		TempConfig.InitStoryQuests();
+		TempConfig.InitEventQuests();
+		TempConfig.InitPlayerUnits();
+		TempConfig.InitUnitAvatarSprite();
 	}
 
 	/// <summary>
@@ -76,9 +80,7 @@ public class Main : MonoBehaviour
 	void OnEnable()
 	{
 		UIManager.Instance.ChangeScene (SceneEnum.Start);
-		TempConfig.InitStoryQuests();
-		TempConfig.InitEventQuests();
-		TempConfig.InitPlayerUnits();
+	
 	}
 
 

@@ -22,7 +22,7 @@ public class UnitBehaviour : MonoBehaviour
 
 	private void TimeCountCallback()
 	{
-		Messager.toViewUnitName = gameObject.GetComponent< UISprite >().spriteName;
+		Messager.toViewUnitName = gameObject.GetComponent< UITexture >().mainTexture.name;
 		UIManager.Instance.ChangeScene( SceneEnum.UnitDetail );
 	}
 
