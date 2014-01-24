@@ -48,12 +48,7 @@ public class OthersDecoratorUnity : UIComponentUnity {
 		othersScroller = new DragPanel ( "OthersScroller", scrollerItem );
 		othersScroller.CreatUI ();
 		InitOtherScrollArgs();
-		
-//		foreach (string name in options.Keys) {
-//			options[ name ] = othersScroller.AddScrollerItem( item );
-//			UILabel label = options[ name].GetComponentInChildren< UILabel >();
-//			label.text = name;
-//		}
+	
 		GameObject temp;
 
 		temp = othersScroller.AddScrollerItem(item);

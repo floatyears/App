@@ -21,9 +21,11 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 	private int partyTotalCount;
 	private int initPartyPage = 1;
 
+	
 	private List< UISprite > partySpriteList = new List< UISprite >();
 	private Dictionary<int, UISprite> partySprit = new Dictionary<int,UISprite> ();
 	private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
+	private Dictionary< string, object > friendScrollerArgsDic = new Dictionary< string, object >();
 	private UISprite friendSprite;
 
 	public override void Init (UIInsConfig config, IUIOrigin origin) {
@@ -53,7 +55,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		InitPartyArrow();
 		InitPartyUnits();
 		InitMsgBox();
-		InitFriendList();
+		CreateFriendScroller();
 	}
 
 	
@@ -110,7 +112,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 	{
 		leftArrowBtn = FindChild("Window/window_party/left_arrow");
 		rightArrowBtn = FindChild("Window/window_party/right_arrow");
-		
+
 		UIEventListener.Get( leftArrowBtn ).onClick = BackParty;
 		UIEventListener.Get( rightArrowBtn ).onClick = ForwardParty;
 	}
@@ -140,34 +142,31 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		msgBox.SetActive( false );
 	}
 
-	private void InitFriendList()
+	private void CreateFriendScroller()
 	{
-		friendItem = Resources.Load("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
+		InitFriendSelectScrollArgs();
+		string ItemPath = "Prefabs/UI/Units/LevelUpScrollerItem";
+		friendItem = Resources.Load(ItemPath) as GameObject;
+		Debug.LogError( friendItem.name );
 		friendsScroller = new DragPanel ("FriendSelectScroller", friendItem);
 		friendsScroller.CreatUI();
-		friendsScroller.AddItem (13);
-		friendsScroller.RootObject.SetItemWidth(140);
-		
-		friendsScroller.RootObject.gameObject.transform.parent = gameObject.transform.FindChild("ScrollView");
-		friendsScroller.RootObject.gameObject.transform.localScale = Vector3.one;
-		friendsScroller.RootObject.gameObject.transform.localPosition = -115*Vector3.up;
-		
-		for(int i = 0; i < friendsScroller.ScrollItem.Count; i++)
-		{
-			UIEventListener.Get(friendsScroller.ScrollItem[ i ].gameObject).onClick = PickFriend;
+
+		foreach (string avatar in TempConfig.unitAvatarSprite.Keys ) {
+			//Debug.LogError( avatar );
+			friendsScroller.AddItem( 1,friendItem);
+			UITexture tempUITex = friendItem.GetComponent< UITexture >();
+			tempUITex.mainTexture = Resources.Load("Avatar/" + avatar) as Texture;
 		}
+		friendsScroller.RootObject.SetScrollView( friendScrollerArgsDic); 
+		for(int i = 0; i < friendsScroller.ScrollItem.Count; i++) 
+			UIEventListener.Get(friendsScroller.ScrollItem[ i ].gameObject).onClick = PickFriend;
 	}
-	private void ShowPartyFriend()
-	{
-//		friendSprite.spriteName = string.Empty;
-	}
+	private void ShowPartyFriend() {}
 	private void ShowPartyUnit()
 	{
 		for( int i = 0; i < partySpriteList.Count; i++ )
 		{
-			if(UIConfig.PlayerParty[ currentPartyIndex - 1, i ] == string.Empty)
-			{
-				//Debug.LogError("Party " + currentPartyIndex + " 's " + i + "th Unit is NOT exist!");
+			if(UIConfig.PlayerParty[ currentPartyIndex - 1, i ] == string.Empty) {
 				partySpriteList[ i ].spriteName = string.Empty;
 				continue;
 			}
@@ -267,6 +266,21 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 			tweenPos.PlayForward();
 			
 		}
+	}
+
+
+	private void InitFriendSelectScrollArgs() {
+		Transform parentTrans = gameObject.transform.FindChild("ScrollView");
+		friendScrollerArgsDic.Add( "parentTrans", 			parentTrans			      				);
+		friendScrollerArgsDic.Add( "scrollerScale", 			Vector3.one								);
+		friendScrollerArgsDic.Add( "scrollerLocalPos" ,	-108*Vector3.up							);
+		friendScrollerArgsDic.Add( "position", 				Vector3.zero 								);
+		friendScrollerArgsDic.Add( "clipRange", 				new Vector4( 0, 0, 640, 200)			);
+		friendScrollerArgsDic.Add( "gridArrange", 			UIGrid.Arrangement.Horizontal 	);
+		friendScrollerArgsDic.Add( "maxPerLine", 			0 												);
+		friendScrollerArgsDic.Add( "scrollBarPosition", 	new Vector3(-320,-120,0)			);
+		friendScrollerArgsDic.Add( "cellWidth", 			110										);
+		friendScrollerArgsDic.Add( "cellHeight",			110 											);
 	}
 
 }
