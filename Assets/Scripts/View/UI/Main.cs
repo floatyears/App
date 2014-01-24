@@ -76,6 +76,9 @@ public class Main : MonoBehaviour
 	void OnEnable()
 	{
 		UIManager.Instance.ChangeScene (SceneEnum.Start);
+		TempConfig.InitStoryQuests();
+		TempConfig.InitEventQuests();
+		TempConfig.InitPlayerUnits();
 	}
 
 
