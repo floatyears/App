@@ -16,6 +16,7 @@ public class AddBlood {
 }
 
 public class UserUnitInfo : ProtobufDataBase {
+
 	public UserUnitInfo(UserUnit instance) : base (instance) { }
 	private int currentBlood = -1;
 	public int unitBaseInfo = -1;
@@ -48,7 +49,6 @@ public class UserUnitInfo : ProtobufDataBase {
 	}
 
 	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
-		//Debug.LogError ("userunit id : " + GetUnitType () +  " card : " + card.Count + " ignorSkillID :" + ignorSkillID.Count);
 		List<uint> copyCard 		= new List<uint> (card);
 		List<AttackInfo> returnInfo = new List<AttackInfo> ();
 
@@ -116,6 +116,26 @@ public class UserUnitInfo : ProtobufDataBase {
 //		Debug.LogError ("GetBlood : " + currentBlood);
 		return currentBlood;
 	}
+
+	UserUnit GetObject{
+		get { return DeserializeData<UserUnit>(); }
+	}
+
+	public int GetLevel{
+		get {
+			return GetObject.level;
+		}
+	}
+
+	public int GetAttack {
+		get {
+			int addAttack = GetObject.addAttack * 50;
+			UnitInfo ui = GetUnitInfo() ;
+			return addAttack + ui.power [GetObject.level].attack;
+		}
+	}
+
+
 }
 
 public class PartyItemInfo : ProtobufDataBase {

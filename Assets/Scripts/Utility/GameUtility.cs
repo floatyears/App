@@ -8,6 +8,32 @@ public class DGTools {
 		return UnityEngine.Random.Range(min,max);
 	}
 
+	public static string SwitchUnitType (int unitType) {
+		string type = "";
+		switch (unitType) {
+		case 1:
+			type = "UFire";
+			break;
+		case 2:
+			type = "UWATER";
+			break;
+		case 3:
+			type = "UWIND";
+			break;
+		case 4:
+			type = "ULIGHT";
+			break;
+		case 5:
+			type = "UDARK";
+			break;
+		case 6:
+			type = "UNONE";
+			break;
+		}
+
+		return type;
+	}
+
 	public static int RestraintType (int unitType) {
 		switch (unitType) {
 		case 1:

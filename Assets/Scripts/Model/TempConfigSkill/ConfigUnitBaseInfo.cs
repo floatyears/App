@@ -15,7 +15,8 @@ public class ConfigUnitBaseInfo {
 		ubi.assetID = 181;
 		ubi.chineseName = "di lao ju ren s5";
 		ubi.englishName = "Dungeontitan";
-		ubi.spriteName = "role012";
+		ubi.spriteName = "role016";
+
 		ubi.race = EUnitRace.MYTHIC;
 		ubi.starLevel = 3;
 		ubi.type = EUnitType.UFIRE;
@@ -35,7 +36,7 @@ public class ConfigUnitBaseInfo {
 		ubi.assetID = 111;
 		ubi.chineseName = "ju zhang yu s5";
 		ubi.englishName = "Kraken";
-		ubi.spriteName = "role005";
+		ubi.spriteName = "role006";
 		ubi.race = EUnitRace.MONSTER;
 		ubi.starLevel = 3;
 		ubi.type = EUnitType.UWATER;
@@ -55,7 +56,7 @@ public class ConfigUnitBaseInfo {
 		ubi.assetID = 185;
 		ubi.chineseName = "jiu tou se s5";
 		ubi.englishName = "Hydra";
-		ubi.spriteName = "role013";
+		ubi.spriteName = "role017";
 		ubi.race = EUnitRace.MYTHIC;
 		ubi.starLevel = 3;
 		ubi.type = EUnitType.UWIND;
@@ -78,7 +79,7 @@ public class ConfigUnitBaseInfo {
 		ubi.assetID = 85;
 		ubi.chineseName = "du yan guai s5";
 		ubi.englishName = "One-eyed warrior";
-		ubi.spriteName = "role014";
+		ubi.spriteName = "role027";
 		ubi.race = EUnitRace.MONSTER;
 		ubi.starLevel = 1;
 		ubi.type = EUnitType.UFIRE;
@@ -98,7 +99,7 @@ public class ConfigUnitBaseInfo {
 		ubi.assetID = 80;
 		ubi.chineseName = "ku lou shi bing2";
 		ubi.englishName = "Skeleton warrior";
-		ubi.spriteName = "role019";
+		ubi.spriteName = "role022";
 		ubi.race = EUnitRace.UNDEAD;
 		ubi.starLevel = 1;
 		ubi.type = EUnitType.UWATER;
@@ -118,7 +119,7 @@ public class ConfigUnitBaseInfo {
 		ubi.assetID = 161;
 		ubi.chineseName = "shi lai mu s1";
 		ubi.englishName = "Slime";
-		ubi.spriteName = "role008";
+		ubi.spriteName = "role011";
 		ubi.race = EUnitRace.MYTHIC;
 		ubi.starLevel = 1;
 		ubi.type = EUnitType.UWIND;
@@ -160,7 +161,7 @@ public class ConfigUnitBaseInfo {
 		ubi.assetID = 101;
 		ubi.chineseName = "cang yin ren s3";
 		ubi.englishName = "Flyman";
-		ubi.spriteName = "role004";
+		ubi.spriteName = "role005";
 		ubi.race = EUnitRace.MONSTER;
 		ubi.starLevel = 1;
 		ubi.type = EUnitType.UWIND;
@@ -180,7 +181,7 @@ public class ConfigUnitBaseInfo {
 		ubi.assetID = 122;
 		ubi.chineseName = "yu ren s2";
 		ubi.englishName = "Gillman";
-		ubi.spriteName = "role010";
+		ubi.spriteName = "role009";
 		ubi.race = EUnitRace.MONSTER;
 		ubi.starLevel = 1;
 		ubi.type = EUnitType.UWATER;
@@ -200,7 +201,7 @@ public class ConfigUnitBaseInfo {
 		ubi.assetID = 195;
 		ubi.chineseName = "xiao gui s3";
 		ubi.englishName = "Gremlin";
-		ubi.spriteName = "role007";
+		ubi.spriteName = "role010";
 		ubi.race = EUnitRace.MYTHIC;
 		ubi.starLevel = 1;
 		ubi.type = EUnitType.UWIND;
@@ -220,7 +221,7 @@ public class ConfigUnitBaseInfo {
 		ubi.assetID = 89;
 		ubi.chineseName = "fei tian he ma s3";
 		ubi.englishName = "Flying hippo";
-		ubi.spriteName = "role003";
+		ubi.spriteName = "role004";
 		ubi.race = EUnitRace.MONSTER;
 		ubi.starLevel = 1;
 		ubi.type = EUnitType.UWIND;
@@ -240,11 +241,25 @@ public class ConfigUnitBaseInfo {
 }
 
 public class UnitBaseInfo {
+	private const string headPath= "Avatar/";
+	private const string rolePath= "Role/";
+	public string GetHeadPath {
+		get{
+			return headPath + spriteName;
+		}
+	}
+	public string GetRolePath {
+		get{
+			return rolePath + spriteName;
+		}
+	}
+
 	public int id;
 	public int assetID ;
 	public string chineseName;
 	public string englishName;
 	public string spriteName;
+	public string spriteHeadName;
 	public EUnitRace race;
 	public int starLevel ;
 	public EUnitType type;

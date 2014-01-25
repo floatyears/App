@@ -13,7 +13,9 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	private GameObject friendItem;
 
 	private GameObject baseTab;
+	private UITexture baseTexture;
 	private GameObject friendTab;
+	private UITexture friendTexture;
 	private GameObject materialTab;
 
 	private GameObject basePanel;
@@ -29,20 +31,23 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 
 	private bool isEmptyBase;
 	private bool isEmptyFriend;
-
 	private GameObject baseCard = null;
 	private GameObject friendCard = null;
 	private List< GameObject > materialCardList = new List<GameObject>();
-
 	private List< GameObject > materialTabList = new List< GameObject >();
+	private List<UITexture> materialTexture = new List<UITexture>();
 	private Dictionary< string, object > baseScrollerArgs = new Dictionary< string, object >();
 	private Dictionary< string, object > materialScrollerArgs = new Dictionary< string, object >();
 	private Dictionary< string, object > friendcrollerArgs = new Dictionary< string, object >();
+	private Dictionary< GameObject, GameObject > focusDic = new Dictionary<GameObject, GameObject> ();
 
-	private Dictionary< GameObject, GameObject > focusDic = new Dictionary<GameObject, GameObject>();
+	private List<UserUnitInfo> uui = new List<UserUnitInfo> ();
+	private Dictionary<GameObject, UserUnitInfo> baseItemInfo = new Dictionary<GameObject, UserUnitInfo> ();
+	private Dictionary<GameObject, UnitBaseInfo> materialItemInfo = new Dictionary<GameObject, UnitBaseInfo> ();
+	public List<UnitBaseInfo> selectMaterial = new List<UnitBaseInfo> ();
+
 	public override void Init (UIInsConfig config, IUIOrigin origin) {
 		base.Init (config, origin);
-		//AddUnitSprite();
 		InitUI();
 	}
 	
@@ -56,7 +61,6 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	
 	public override void HideUI () {
 		base.HideUI ();
-
 		CleanTabs();
 	}
 	
@@ -65,6 +69,9 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	}
 
 	void InitUI() {
+		UnitPartyInfo upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,new ErrorMsg()) as UnitPartyInfo;
+		uui = upi.GetUserUnit ();
+
 		InitTabs();
 		InitPanels();
 		focusDic.Add( baseTab, basePanel );
@@ -92,13 +99,20 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	private void InitTabs()
 	{
 		baseTab = FindChild("Focus_Tabs/Base_Tab");
+		baseTexture = baseTab.GetComponentInChildren<UITexture> ();
 		friendTab = FindChild("Focus_Tabs/Friend_Tab");
+		friendTexture = friendTab.GetComponentInChildren<UITexture> ();
 		materialTab = FindChild("Focus_Tabs/Material_Tab");
 
-		materialTabList.Add( materialTab.transform.FindChild("Material4").gameObject);
-		materialTabList.Add( materialTab.transform.FindChild("Material3").gameObject);
-		materialTabList.Add( materialTab.transform.FindChild("Material2").gameObject);
-		materialTabList.Add( materialTab.transform.FindChild("Material1").gameObject);
+		for (int i = 4; i > 0; i--) {
+			GameObject go = materialTab.transform.FindChild("Material" + i).gameObject;
+			materialTabList.Add(go);
+			materialTexture.Add(go.GetComponentInChildren<UITexture>());
+		}
+
+//		materialTabList.Add( materialTab.transform.FindChild("Material3").gameObject);
+//		materialTabList.Add( materialTab.transform.FindChild("Material2").gameObject);
+//		materialTabList.Add( materialTab.transform.FindChild("Material1").gameObject);
 
 		UIEventListener.Get( baseTab ).onClick = FocusOnPanel;
 		UIEventListener.Get( friendTab ).onClick = FocusOnPanel;
@@ -126,97 +140,93 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	private void CreateScrollerBase()
 	{
 		InitBaseScrollArgs();
-
-		string itemResourcePath = "Prefabs/UI/Units/LevelUpScrollerItem";
-		baseItem = Resources.Load(itemResourcePath) as GameObject;
+		baseItem = GlobalData.ItemObject; 
 		baseScroller = new DragPanel( "BaseScroller", baseItem );
 		baseScroller.CreatUI();
-		//Debug.LogError(TempConfig.unitAvatarSprite.Count);
-		foreach (string avatar in TempConfig.unitAvatarSprite.Keys)
-		{
-			baseScroller.AddItem( 1,baseItem);
-			UITexture tempUITex = baseItem.GetComponent< UITexture >();
-			//Debug.Log( tempUITex.mainTexture.name);
-			tempUITex.mainTexture = Resources.Load("Avatar/" + avatar) as Texture;
+//		Debug.LogError ("CreateScrollerBase : " + uui.Count);
+		baseScroller.AddItem (uui.Count);
+		for (int i = 0; i < baseScroller.ScrollItem.Count; i++) {
+			GameObject item = baseScroller.ScrollItem [i];
+			UITexture tex = item.GetComponentInChildren<UITexture>();
+			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[uui[i].unitBaseInfo];
+			tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
+			baseItemInfo.Add(item,uui[i]);
+			UIEventListenerCustom ulc = UIEventListenerCustom.Get(item);
+			ulc.onClick = PickBase;
+			ulc.LongPress = LongPressPickBase;
 		}
-		baseScroller.RootObject.SetScrollView( baseScrollerArgs );
 
-		for(int i = 0; i < baseScroller.ScrollItem.Count; i++)
-			UIEventListener.Get(baseScroller.ScrollItem[ i ].gameObject).onClick += PickBase;
+		baseScroller.RootObject.SetScrollView(baseScrollerArgs);
+	}
+
+	void LongPressPickBase(GameObject go) {
+		UserUnitInfo uui = baseItemInfo [go];
+		MsgCenter.Instance.Invoke (CommandEnum.EnterUnitInfo, uui);
+	}
+
+	private UserUnitInfo selectUnit;
+	private void PickBase( GameObject go ) {
+		selectUnit = baseItemInfo[go];
+		baseTexture.mainTexture = go.GetComponentInChildren<UITexture> ().mainTexture;
 	}
 
 	private void CreateScrollerMaterial() {
 		InitMaterialScrollArgs();
-
-		string ItemPath = "Prefabs/UI/Units/LevelUpScrollerItem";
-		materialItem = Resources.Load( ItemPath ) as GameObject;
+		materialItem = GlobalData.ItemObject;
 		materialScroller = new DragPanel( "MaterialScroller", materialItem );
 		materialScroller.CreatUI();
-		foreach (string avatar in TempConfig.unitAvatarSprite.Keys) {
-			materialScroller.AddItem( 1,materialItem);
-			UITexture tempUITex = materialItem.GetComponent< UITexture >();
-			tempUITex.mainTexture = Resources.Load("Avatar/" + avatar) as Texture;
+		materialScroller.AddItem (GlobalData.HaveCard.Count);
+		for (int i = 0; i < materialScroller.ScrollItem.Count; i++) {
+			GameObject target = materialScroller.ScrollItem[i];
+			UITexture tex = target.GetComponentInChildren<UITexture>();
+			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[GlobalData.HaveCard[i]];
+			tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
+			UIEventListenerCustom ulc = UIEventListenerCustom.Get(target);
+			ulc.onClick = PickMaterial;
+			ulc.LongPress = LongPressPickMaterial;
+			materialItemInfo.Add(target,ubi);
 		}
 		materialScroller.RootObject.SetScrollView( materialScrollerArgs );
-		for(int i = 0; i < baseScroller.ScrollItem.Count; i++)
-			UIEventListener.Get(materialScroller.ScrollItem[ i ].gameObject).onClick = PickMaterial;
+	}
+
+	void LongPressPickMaterial(GameObject go) {
+		UnitBaseInfo ubi = materialItemInfo [go];
+		MsgCenter.Instance.Invoke (CommandEnum.EnterUnitInfo, ubi);
+	}
+
+	private void PickMaterial(GameObject go)
+	{
+		if (selectMaterial.Count < 4) {
+			Texture tex = go.GetComponentInChildren<UITexture> ().mainTexture;
+			materialTabList [selectMaterial.Count].GetComponentInChildren<UITexture> ().mainTexture = tex;
+			UnitBaseInfo ubi = materialItemInfo [go];
+			selectMaterial.Add (ubi);
+		}
 	}
 
 	private void CreateScrollerFriend()
 	{
 		InitFriendScrollArgs();
-
-		string ItemPath = "Prefabs/UI/Units/LevelUpScrollerItem";
-		friendItem = Resources.Load( ItemPath ) as GameObject;
+		friendItem = GlobalData.ItemObject;
 		friendScroller = new DragPanel( "FriendScroller", friendItem );
 		friendScroller.CreatUI();
-		foreach (string avatar in TempConfig.unitAvatarSprite.Keys ) {
-			friendScroller.AddItem( 1,friendItem);
-			UITexture tempUITex = friendItem.GetComponent< UITexture >();
-			tempUITex.mainTexture = Resources.Load("Avatar/" + avatar) as Texture;
-		}
-
+		friendScroller.AddItem (1);
+		GameObject target = friendScroller.ScrollItem [0];
+		UIEventListenerCustom ulc = UIEventListenerCustom.Get (target);
+		ulc.onClick = PickFriend;
+		ulc.LongPress = LongPressPickFriend;
 		friendScroller.RootObject.SetScrollView( friendcrollerArgs );
-		for(int i = 0; i < friendScroller.ScrollItem.Count; i++)
-			UIEventListener.Get(friendScroller.ScrollItem[ i ].gameObject).onClick = PickFriend;
 	}
 
-	private void PickBase( GameObject go ) {
-		if( isEmptyBase ) {
-			baseCard = Instantiate(go) as GameObject;
-
-			IUICallback call = origin as IUICallback;
-			if(call != null ){
-				call.Callback( baseCard );
-			}
-			isEmptyBase = false;
-		}
-		
+	void LongPressPickFriend(GameObject go) {
+		MsgCenter.Instance.Invoke (CommandEnum.EnterUnitInfo, GlobalData.FriendBaseInfo);
 	}
 	
 	private void PickFriend(GameObject go) {	
-		if( isEmptyFriend )
-		{
-			friendCard = Instantiate(go) as GameObject;
-			friendCard.transform.parent = friendTab.transform;
-			friendCard.transform.localPosition = Vector3.zero;
-			friendCard.transform.localScale = Vector3.one;
-			
-			isEmptyFriend = false;
-		}
+		Texture tex = go.GetComponentInChildren<UITexture> ().mainTexture;
+		friendScroller.ScrollItem [0].GetComponentInChildren<UITexture> ().mainTexture = tex;
 	}
-
-	private void PickMaterial(GameObject go)
-	{
-		if( materialCardList.Count < 4 ) {
-			GameObject temp = Instantiate(go) as GameObject;
-			temp.transform.parent = materialTabList[ materialCardList.Count ].transform;
-			temp.transform.localPosition = Vector3.zero;
-			temp.transform.localScale = 0.8f*Vector3.one;
-			materialCardList.Add( temp );
-		}
-	}
-
+	
 	private void SortBase(GameObject go)
 	{
 		LogHelper.Log("Sort Base");
@@ -260,13 +270,13 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 
 	public void Callback (object data)
 	{
-		GameObject go = data as GameObject;
-		if(go != null)
-		{
-			go.transform.parent = baseTab.transform;
-			go.transform.localPosition = Vector3.zero;
-			go.transform.localScale = Vector3.one;
-		}
+//		GameObject go = data as GameObject;
+//		if(go != null)
+//		{
+//			go.transform.parent = baseTab.transform;
+//			go.transform.localPosition = Vector3.zero;
+//			go.transform.localScale = Vector3.one;
+//		}
 	}
 
 

@@ -10,26 +10,21 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 	private UIButton btnSeeInfo;
 	private UILabel labelCurrentPartyIndex;
 	private UILabel labelPartyTotalCount;
-
 	private GameObject leftArrowBtn;
 	private GameObject rightArrowBtn;
-
 	private DragPanel friendsScroller;
 	private GameObject friendItem;
-
 	private int currentPartyIndex;
 	private int partyTotalCount;
 	private int initPartyPage = 1;
-
-	private List< UISprite > partySpriteList = new List< UISprite >();
-	private Dictionary<int, UISprite> partySprit = new Dictionary<int,UISprite> ();
+	private Dictionary<int, UITexture> partySprit = new Dictionary<int,UITexture> ();
 	private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
-	private UISprite friendSprite;
+	private UITexture friendSprite;
+	private UnitBaseInfo friendBaseInfo;
 
 	public override void Init (UIInsConfig config, IUIOrigin origin) {
 		base.Init (config, origin);
 		InitUI();
-
 	}
 	
 	public override void ShowUI () {
@@ -49,6 +44,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 	}
 
 	private void InitUI() {
+		friendBaseInfo = GlobalData.FriendBaseInfo;
 		InitPartyLabel();
 		InitPartyArrow();
 		InitPartyUnits();
@@ -81,18 +77,16 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 	}
 
 	private void InitPartyUnits() {
-		UISprite temp;
+		UITexture temp;
 		for( int i = 1; i < 5; i++) {
-			temp = FindChild< UISprite >("Window/window_party/Unit" + i.ToString() );
+			temp = FindChild< UITexture >("Window/window_party/Unit" + i.ToString() );
 			UIEventListenerCustom.Get(temp.gameObject).LongPress = LongPressCallback;
-			partySpriteList.Add( temp );
+			temp.enabled = false;
 			partySprit.Add(i, temp);
 
 		}
-		friendSprite = FindChild< UISprite >("Window/window_party/Friend");
-		//ShowPartyUnit();
-		friendSprite.spriteName = string.Empty;
-
+		friendSprite = FindChild< UITexture >("Window/window_party/Friend");
+		friendSprite.enabled = false;
 		SendUnitPage (1);
 	}
 
@@ -103,7 +97,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 				posID = item.Key;
 			}
 		}
-		MsgCenter.Instance.Invoke (CommandEnum.EnterUnitInfo, unitBaseInfo [posID].spriteName);
+		MsgCenter.Instance.Invoke (CommandEnum.EnterUnitInfo, unitBaseInfo [posID]);
 	}
 
 	private void InitPartyArrow()
@@ -145,52 +139,43 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		friendItem = Resources.Load("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
 		friendsScroller = new DragPanel ("FriendSelectScroller", friendItem);
 		friendsScroller.CreatUI();
-		friendsScroller.AddItem (13);
+		friendsScroller.AddItem (1);
 		friendsScroller.RootObject.SetItemWidth(140);
-		
 		friendsScroller.RootObject.gameObject.transform.parent = gameObject.transform.FindChild("ScrollView");
 		friendsScroller.RootObject.gameObject.transform.localScale = Vector3.one;
 		friendsScroller.RootObject.gameObject.transform.localPosition = -115*Vector3.up;
-		
-		for(int i = 0; i < friendsScroller.ScrollItem.Count; i++)
-		{
-			UIEventListener.Get(friendsScroller.ScrollItem[ i ].gameObject).onClick = PickFriend;
+		for(int i = 0; i < friendsScroller.ScrollItem.Count; i++) {
+			friendsScroller.ScrollItem[i].GetComponentInChildren<UITexture>().mainTexture = Resources.Load( friendBaseInfo.GetHeadPath) as Texture2D;
+			UIEventListenerCustom ulc = UIEventListenerCustom.Get(friendsScroller.ScrollItem[ i ].gameObject);
+			ulc.LongPress = PickFriendLongpress;
+			ulc.onClick = PickFriend;
 		}
 	}
-	private void ShowPartyFriend()
-	{
-//		friendSprite.spriteName = string.Empty;
+
+	void PickFriendLongpress (GameObject go) {
+		MsgCenter.Instance.Invoke (CommandEnum.EnterUnitInfo, friendBaseInfo);
 	}
-	private void ShowPartyUnit()
-	{
-		for( int i = 0; i < partySpriteList.Count; i++ )
-		{
-			if(UIConfig.PlayerParty[ currentPartyIndex - 1, i ] == string.Empty)
-			{
-				//Debug.LogError("Party " + currentPartyIndex + " 's " + i + "th Unit is NOT exist!");
-				partySpriteList[ i ].spriteName = string.Empty;
-				continue;
-			}
-			partySpriteList[ i ].spriteName = UIConfig.PlayerParty[ currentPartyIndex - 1, i ];
-			//Debug.Log("Sprite[" + i +"]'s name: " + partySpriteList[ i ].spriteName);
-		}
+
+	private void ShowPartyFriend() {
+
 	}
 
 	void ShowPartyInfo(Dictionary<int,UnitBaseInfo> name) {
 		unitBaseInfo = name;
 		if (name == null) {
 			foreach (var item in partySprit.Values) {
-				item.spriteName = string.Empty;
+				item.enabled = false;
 			}
 		} 
 		else {
 			foreach(var item in partySprit){
-			
 				if(name.ContainsKey(item.Key)){
-					partySprit[item.Key].spriteName = name[item.Key].spriteName;
+					partySprit[item.Key].enabled = true;
+					string path = name[item.Key].GetHeadPath; //UnitBaseInfo.path + name[item.Key].spriteName;
+					partySprit[item.Key].mainTexture = Resources.Load(path) as Texture2D;
 				}
 				else{
-					partySprit[item.Key].spriteName = string.Empty;
+					partySprit[item.Key].enabled = false;
 				}
 			}
 		}
@@ -202,7 +187,6 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		if( currentPartyIndex == 0 )
 			currentPartyIndex = partyTotalCount ;
 		labelCurrentPartyIndex.text = currentPartyIndex.ToString();
-
 		SendUnitPage (currentPartyIndex);
 	}
 
@@ -212,34 +196,29 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		if (currentPartyIndex > partyTotalCount) {
 			currentPartyIndex = initPartyPage;
 		} 
-
+		labelCurrentPartyIndex.text = currentPartyIndex.ToString();
 		SendUnitPage (currentPartyIndex);
 	}
 	void ClickCancelBtn(GameObject btn) {
-
 		msgBox.SetActive( false );
-
 	}
 
 	void ClickChooseBtn(GameObject btn) {
-
 		msgBox.SetActive( false );
+		friendSprite.enabled = true;
+		friendSprite.mainTexture = Resources.Load (friendBaseInfo.GetHeadPath) as Texture2D;
 		btnStart.isEnabled = true;
 	}
 
 	void ClickSeeInfoBtn(GameObject btn) {
-
 		msgBox.SetActive( false );
 	}
 
 	void ClickStartBtn(GameObject btn) {
-
 		UIManager.Instance.EnterBattle();
-	
 	}
 	
-	void PickFriend(GameObject btn)
-	{
+	void PickFriend(GameObject btn) {
 		msgBox.SetActive( true );
 	}
 

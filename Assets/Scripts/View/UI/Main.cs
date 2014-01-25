@@ -29,24 +29,21 @@ public class Main : MonoBehaviour
 	{
 		get{return gInput;}
 	}
-
 	private GameTimer gTimer;
+	private ShowUnitInfo sui;
 
 	private const float screenWidth = 640;
 
 	private static float texScale = 0f;
 
-	public static float TexScale
-	{
+	public static float TexScale {
 		get{ return texScale; }
 	}
 
 	private static byte globalDataSeed = 0;
 
-	public static byte GlobalDataSeed
-	{
-		get
-		{
+	public static byte GlobalDataSeed {
+		get {
 			return globalDataSeed;
 		}
 	}
@@ -64,7 +61,7 @@ public class Main : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 
 		texScale = screenWidth / Screen.width;
-
+		sui = new ShowUnitInfo ();
 		// init manager class
 		ViewManager.Instance.Init(uiRoot);
 		ModelManager.Instance.Init ();

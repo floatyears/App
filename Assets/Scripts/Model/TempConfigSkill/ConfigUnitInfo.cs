@@ -101,7 +101,7 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 	public Dictionary<int, List<AttackInfo>> Attack {
 		get {return attack;}
 	}
-	public UnitPartyInfo (object instance) : base (instance) {   }
+	public UnitPartyInfo (object instance) : base (instance) {  }
 	~UnitPartyInfo () { }
 
 	public int CaculateInjured (int attackType, int attackValue) {
@@ -226,6 +226,16 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 		UserUnit uu1 = GlobalData.tempUserUnitInfo[pi.unitUniqueId].DeserializeData() as UserUnit;
 		UnitInfo ui1 = GlobalData.tempUnitInfo[uu1.id].DeserializeData<UnitInfo>();
 		return GlobalData.tempNormalSkill [ui1.skill2].DeserializeData<NormalSkill> ();
+	}
+
+	public List<UserUnitInfo> GetUserUnit () {
+		UnitParty uup = DeserializeData<UnitParty> ();
+		List<UserUnitInfo> temp = new List<UserUnitInfo> ();
+		foreach (var item in uup.items) {
+			UserUnitInfo uui = GlobalData.tempUserUnitInfo[item.unitUniqueId];
+			temp.Add(uui);
+		}
+		return temp;
 	}
 }
 
