@@ -86,7 +86,7 @@ public class QuestDecoratorUnity : UIComponentUnity {
 	private void AddEventQuestItem( string path) {
 		foreach (string textureName in TempConfig.eventQuestDic.Values) {
 			eventScroller.AddItem(5, scrollerItem );
-			Debug.LogError( "" + textureName);
+			//Debug.LogError( "" + textureName);
 			UITexture uiTexture = scrollerItem.GetComponent< UITexture >();
 			uiTexture.mainTexture = Resources.Load( path + textureName ) as Texture;
 			//Debug.Log( uiTexture.mainTexture.name);
