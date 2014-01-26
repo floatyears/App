@@ -19,12 +19,59 @@ public class UserUnitInfo : ProtobufDataBase {
 
 	public UserUnitInfo(UserUnit instance) : base (instance) { }
 	private int currentBlood = -1;
+	private float attackMultiple = 1;
+	private float hpMultiple = 1;
 	public int unitBaseInfo = -1;
 	~UserUnitInfo() { }
 	
 	TempNormalSkill[] normalSkill = new TempNormalSkill[2];
 
-	public int CalculateInjured(int attackType, int attackValue) {
+	public void SetAttack(float value, int type, EBoostTarget boostTarget,EBoostType boostType) {
+		if (boostType == EBoostType.BOOST_HP) {
+			if (boostTarget == EBoostTarget.UNIT_RACE){
+				SetHPByRace(value,type);
+			}
+			else{
+				SetHPByType(value,type);
+			}
+		} else {
+			if (boostTarget == EBoostTarget.UNIT_RACE) {
+				SetAttackMultipeByRace (value, type);
+			} 
+			else {
+				SetAttackMultipeByRace(value,type);	
+			}
+		}
+	
+	}
+
+	void SetHPByType (float value, int type) {
+		if (type == GetUnitType () || type == 0) {
+			hpMultiple *= value;
+		}
+	}
+
+	void SetHPByRace (float value, int race) {
+		UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [unitBaseInfo];
+		if ((int)ubi.race == race || race == (int)EUnitRace.ALL) {
+			hpMultiple *= value;
+		}
+	}
+
+	void SetAttackMultipleByType (float value,int type) {
+		if (type == GetUnitType () || type == 0) {
+			attackMultiple *= value;
+		}
+	}
+
+	void SetAttackMultipeByRace(float value,int race) {
+		UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [unitBaseInfo];
+		if ((int)ubi.race == race || race == (int)EUnitRace.ALL) {
+			attackMultiple *= value;
+		}
+	}
+
+	public int CalculateInjured(int attackType, float attackValue) {
 		int beRetraintType = DGTools.BeRestraintType (attackType);
 		int retraintType = DGTools.RestraintType (attackType);
 		UserUnit uu = DeserializeData<UserUnit> ();
@@ -91,14 +138,19 @@ public class UserUnitInfo : ProtobufDataBase {
 
 	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TempNormalSkill tns) {
 		int addAttack = uu.addAttack * 50;
-		int attack = addAttack + ui.power [uu.level].attack;
-
-		return tns.GetAttack(attack);
+		float attack = addAttack + ui.power [uu.level].attack;
+		attack = tns.GetAttack(attack) * attackMultiple;
+//		Debug.LogError ("CaculateAttack : " + attack + "  attackMultiple  : " + attackMultiple);
+		int value = System.Convert.ToInt32 (attack);
+		return value;
 	}
 
 	public int GetUnitType (){
-
 		return GetUnitInfo().type;
+	}
+
+	public int GetLeadSKill () {
+		return GetUnitInfo().leaderSkill;
 	}
 
 	UnitInfo GetUnitInfo() {
@@ -113,8 +165,8 @@ public class UserUnitInfo : ProtobufDataBase {
 			currentBlood += DGTools.CaculateAddBlood (uu.addHp);
 			currentBlood += ui.power [uu.level].hp;
 		}
-//		Debug.LogError ("GetBlood : " + currentBlood);
-		return currentBlood;
+		float blood = currentBlood * hpMultiple;
+		return System.Convert.ToInt32(blood);
 	}
 
 	UserUnit GetObject{
@@ -134,6 +186,7 @@ public class UserUnitInfo : ProtobufDataBase {
 			return addAttack + ui.power [GetObject.level].attack;
 		}
 	}
+
 
 
 }

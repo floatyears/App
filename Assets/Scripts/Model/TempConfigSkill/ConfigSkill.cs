@@ -308,7 +308,7 @@ public class ConfigSkill  {
 		sb.baseInfo.name = "no 18 leader skill";
 		sb.baseInfo.description = "boost hp leader skill";
 		sb.boostType = EBoostType.BOOST_HP;
-		sb.boostValue = 1f;
+		sb.boostValue = 2f;
 		sb.targetType = EBoostTarget.UNIT_RACE;
 		sb.targetValue = 0;
 		tbs = new TempBoostSkill(sb);
@@ -458,8 +458,8 @@ public class TempNormalSkill : ProtobufDataBase {
 		return System.Convert.ToInt32 (blood * GetObject ().attackValue);
 	}
 
-	public int GetAttack (int userUnitAttack) {
-		return System.Convert.ToInt32 (userUnitAttack * GetObject ().attackValue);
+	public float GetAttack (float userUnitAttack) {
+		return userUnitAttack * GetObject ().attackValue;
 	}
 }
 
@@ -479,6 +479,42 @@ public class TempBoostSkill : ProtobufDataBase {
 	public TempBoostSkill (object instance) : base (instance) {
 		
 	}
+
+	SkillBoost Get(){
+		return DeserializeData<SkillBoost> ();
+	}
+
+	public float GetBoostValue {
+		get{
+			return DeserializeData<SkillBoost> ().boostValue;
+		}
+	}
+
+	public int GetTargetValue {
+		get{
+			return DeserializeData<SkillBoost> ().targetValue;
+		}
+	}
+
+	/// <summary>
+	/// attack = 0, hp = 1
+	/// </summary>
+	/// <returns>The boost type.</returns>
+	public EBoostType GetBoostType {
+		get{
+			return Get ().boostType;
+		}
+	}
+
+	/// <summary>
+	/// race = 0, type = 1
+	/// </summary>
+	/// <returns>The target type.</returns>
+	public EBoostTarget GetTargetType { 
+		get {
+			return Get ().targetType;
+		}
+	}
 }
 
 public class TempRecoverHP : ProtobufDataBase {
@@ -497,4 +533,10 @@ public class TempSkillTime : ProtobufDataBase {
 	public TempSkillTime (object instance) : base (instance) {
 		
 	}
+
+	public float DelayTime{
+		get {
+			return DeserializeData<SkillDelayTime>().value;
+		}
+	} 
 }

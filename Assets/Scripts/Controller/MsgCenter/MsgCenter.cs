@@ -65,7 +65,6 @@ public class MsgCenter
 	public void Invoke(CommandEnum mEnum,object data = null) {
 		if(!msgDic.ContainsKey(mEnum))
 			return;
-
 		if(msgDic[mEnum] != null) {
 			DataListener df = (DataListener)msgDic[mEnum];
 			df(data);

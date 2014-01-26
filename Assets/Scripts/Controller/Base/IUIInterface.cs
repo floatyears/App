@@ -85,9 +85,12 @@ public interface IUISetBool : IUIOrigin {
 	void SetEnable(bool b);
 }
 
+public interface ILeadSkill {
+	List<ProtobufDataBase> LeadSkill { get;}
+	List<UserUnitInfo> UserUnit { get ;}
+}
 
-public interface IUIAnimation
-{
+public interface IUIAnimation {
 
 }
 

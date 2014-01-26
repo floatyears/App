@@ -17,7 +17,6 @@ public class ConfigUnitInfo {
 	UnitInfo[] ui = new UnitInfo[maxCount];
 	
 	void GenerateUnitInfo () {
-
 		for (int i = 1; i < maxCount; i++) {
 			UnitInfo uiitem 	= new UnitInfo ();
 			uiitem.id 			= i;
@@ -36,10 +35,16 @@ public class ConfigUnitInfo {
 			uiitem.rare 		= i;
 			uiitem.maxLevel 	= 10;
 			uiitem.expType 		= 1;
-		
+			if(i == 1){
+				uiitem.leaderSkill = 17;
+			}
+			if(i == 5) {
+				uiitem.leaderSkill = 18;
+			}
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
+//		Debug.LogError(GlobalData.tempUnitInfo [1].)
 	}
 
 	void GenerateUserUnit () {
@@ -90,8 +95,30 @@ public class TempUnitInfo : ProtobufDataBase {
 	}
 }
 
-public class UnitPartyInfo : ProtobufDataBase, IComparer {
-	private List<PartyItem> partyItem = new List<PartyItem> ();							//skill sort
+public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
+	private List<PartyItem> partyItem = new List<PartyItem> ();		
+	private List<ProtobufDataBase> leaderSkill = new List<ProtobufDataBase> ();
+	public List<ProtobufDataBase> LeadSkill {
+		get {
+//			Debug.LogError("UnitPartyInfo : " + leaderSkill.Count);
+			return leaderSkill;
+		}
+	}
+	private List<UserUnitInfo> userUnit ;
+	public List<UserUnitInfo> UserUnit {
+		get {
+			if(userUnit == null) {
+				userUnit = new List<UserUnitInfo>();
+				for (int i = 0; i < partyItem.Count; i++) {
+					UserUnitInfo uui = GlobalData.tempUserUnitInfo[partyItem[i].unitUniqueId];
+					userUnit.Add(uui);
+				}
+			}
+			return userUnit;
+		}
+	}
+
+//skill sort
 	private CalculateRecoverHP crh ;
 	/// <summary>
 	/// key is area item. value is skill list. this area already use skill must record in this dic, avoidance redundant calculate.
@@ -102,11 +129,11 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 		get {return attack;}
 	}
 	public UnitPartyInfo (object instance) : base (instance) {  }
-	~UnitPartyInfo () { }
+	~UnitPartyInfo () {  }
 
 	public int CaculateInjured (int attackType, int attackValue) {
 		float Proportion = 1f / (float)partyItem.Count;
-		int attackV = System.Convert.ToInt32( attackValue * Proportion);
+		float attackV = attackValue * Proportion;
 		int hurtValue = 0;
 		for (int i = 0; i < partyItem.Count; i++) {
 			UserUnitInfo unitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
@@ -171,11 +198,32 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 		for (int i 		= 0; i < up.items.Count; i++) {
 			partyItem.Add(up.items[i]);
 		}
+		GetLeaderSkill ();
 		DGTools.InsertSort<PartyItem,IComparer> (partyItem, this);
 	}
+
+	void GetLeaderSkill () {
+		UnitParty up = DeserializeData<UnitParty> ();
+		int id = up.items [0].unitUniqueId;
+		AddLeadSkill(id);
+		id =  up.items [4].unitUniqueId;
+		AddLeadSkill (id);
+	}
+
+	void AddLeadSkill (int id) {
+		if (id != -1) {
+			UserUnitInfo firstLeader = GlobalData.tempUserUnitInfo [id];
+//			Debug.LogError("AddLeadSkill : " + id + "  firstLeader.GetLeadSKill()  : " + firstLeader.GetLeadSKill());
+			ProtobufDataBase pdb = GlobalData.tempNormalSkill[firstLeader.GetLeadSKill()];
+			leaderSkill.Add(pdb);
+		}
+	}
 	
-	public int Compare (object first, object second)
-	{
+	UnitParty GetunitParty(){
+		return DeserializeData<UnitParty> ();
+	} 
+	
+	public int Compare (object first, object second) {
 		PartyItem firstUU 	= (PartyItem)first;
 		PartyItem secondUU 	= (PartyItem)second;
 		NormalSkill ns1 	= GetSecondSkill (firstUU);
@@ -190,6 +238,7 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 			int unitUniqueID = up.items [i].unitUniqueId;
 			bloodNum += GlobalData.tempUserUnitInfo [unitUniqueID].GetBlood();
 		}
+
 		return bloodNum;
 	}
 

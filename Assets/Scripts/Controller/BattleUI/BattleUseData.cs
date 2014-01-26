@@ -12,14 +12,23 @@ public class BattleUseData {
 	private List<TempEnemy> currentEnemy =new List<TempEnemy> ();
 	private List<ShowEnemyUtility> showEnemy = new List<ShowEnemyUtility>();
 	private AttackController ac;
-	
+	private ExcuteLeadSkill els;
+	private static float countDown = 5f;
+	public static float CountDown{
+		get {
+			return countDown;
+		}
+	}
 	public BattleUseData () {
+		ListenEvent ();
+
 		errorMsg = new ErrorMsg ();
 		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
 		upi.GetSkillCollection ();
+		els = new ExcuteLeadSkill (upi);
+		els.Excute ();
 		maxBlood = blood = upi.GetBlood ();
 		maxEnergyPoint = GlobalData.maxEnergyPoint;
-		ListenEvent ();
 	}
 
 	~BattleUseData() {
@@ -31,13 +40,22 @@ public class BattleUseData {
 		MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, MoveToMapItem);
 		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
+		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillDelayTime, DelayCountDownTime);
 	}
 
 	void RemoveListen () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.InquiryBattleBaseData, GetBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, MoveToMapItem);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
-		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
+		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
+		MsgCenter.Instance.RemoveListener (CommandEnum.LeaderSkillDelayTime, DelayCountDownTime);
+	}
+
+	void DelayCountDownTime(object data) {
+
+		float addTime = (float)data;
+		Debug.LogError ("addTime : " + addTime);
+		countDown += addTime;
 	}
 
 	List<AttackInfo> SortAttackSequence() {
