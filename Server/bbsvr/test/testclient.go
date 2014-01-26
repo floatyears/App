@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"code.google.com/p/goprotobuf/proto"
-	_ "fmt"
+	"fmt"
 	_ "html"
 	"io"
 	"io/ioutil"
@@ -58,7 +58,7 @@ func LoginPack() {
 	msg.Header = &bbproto.ProtoHeader{}
 	msg.Header.ApiVer = proto.String("1.0.0")
 	msg.Header.SessionId = proto.String("S10298090290")
-	msg.UserId = proto.Int32(10011)
+	msg.Header.UserId = proto.Uint32(101)
 
 	buffer, err := proto.Marshal(msg)
 	log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
@@ -77,7 +77,7 @@ func AuthUser() {
 	msg.Terminal.Uuid = proto.String("koryyang5")
 	msg.Terminal.DeviceName = proto.String("kory's ipod")
 	msg.Terminal.Os = proto.String("android 4.01")
-	msg.Terminal.Platform = proto.String("official")
+	//msg.Terminal.Platform = proto.String("official")
 
 	buffer, err := proto.Marshal(msg)
 	log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
@@ -119,10 +119,9 @@ func testType() {
 }
 
 func main() {
-	testType()
-	//Init()
+	Init()
 
-	//LoginPack()
+	LoginPack()
 	//AuthUser()
 	//testRedis()
 	//return

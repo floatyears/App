@@ -110,14 +110,24 @@ func (t *Data) SetInt(key string, value int32) error {
 	return nil
 }
 
+func (t *Data) SetUInt(key string, value uint32) error {
+	if t.conn != nil {
+		_, err := redis.String(t.conn.Do("SET", key, value))
+		return err
+	} else {
+		log.Fatal("invalid redis conn:%v", t.conn)
+	}
+	return nil
+}
+
 func (t *Data) GetList(key string) (values []interface{}, err error) {
 
-	values, err = redis.Values(t.conn.Do("LRANGE", 0, -1))
+	values, err = redis.Values(t.conn.Do("LRANGE", key, 0, -1))
 	return values, err
 }
 
-func (t *Data) Remove(key string) (values []interface{}, err error) {
+func (t *Data) Remove(key string, removeValue string) (values []interface{}, err error) {
 
-	values, err = redis.Values(t.conn.Do("LRANGE", 0, -1))
+	values, err = redis.Values(t.conn.Do("LREM", 0, removeValue))
 	return values, err
 }

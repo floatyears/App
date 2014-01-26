@@ -12,6 +12,7 @@ import (
 import (
 	bbproto "../bbproto"
 	"../common"
+	"../const"
 	"../data"
 	"../user"
 	proto "code.google.com/p/goprotobuf/proto"
@@ -75,9 +76,9 @@ func StartQuestHandler(rsp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	questId := string(common.KEY_QUEST_PREFIX + string(*reqMsg.QuestId))
+	questId := string(cs.KEY_QUEST_PREFIX + string(*reqMsg.QuestId))
 	db := &data.Data{}
-	err = db.Open(common.TABLE_NAME_QUEST)
+	err = db.Open(cs.TABLE_QUEST)
 	defer db.Close()
 	if err != nil { //connect to db failed
 		p.SendResponse(rsp, &reqMsg, rspMsg, err)
