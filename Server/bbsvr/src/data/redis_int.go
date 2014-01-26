@@ -109,3 +109,15 @@ func (t *Data) SetInt(key string, value int32) error {
 	}
 	return nil
 }
+
+func (t *Data) GetList(key string) (values []interface{}, err error) {
+
+	values, err = redis.Values(t.conn.Do("LRANGE", 0, -1))
+	return values, err
+}
+
+func (t *Data) Remove(key string) (values []interface{}, err error) {
+
+	values, err = redis.Values(t.conn.Do("LRANGE", 0, -1))
+	return values, err
+}

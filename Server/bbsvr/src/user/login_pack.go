@@ -2,7 +2,6 @@ package user
 
 import (
 	//	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
@@ -11,42 +10,138 @@ import (
 import (
 	bbproto "../bbproto"
 	"../common"
+	"../const"
 	"../data"
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
+/////////////////////////////////////////////////////////////////////////////
+
+func LoginPackHandler(rsp http.ResponseWriter, req *http.Request) {
+	var reqMsg bbproto.ReqLoginPack
+	rspMsg := &bbproto.RspLoginPack{}
+
+	handler := &LoginPack{}
+	err := handler.ParseInput(req, &reqMsg)
+	if err != nil {
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
+		return
+	}
+
+	err = handler.verifyParams(&reqMsg)
+	if err != nil {
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
+		return
+	}
+
+	// game logic
+
+	err = handler.ProcessLogic(&reqMsg, rspMsg)
+
+	err = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
+	log.Printf("sendrsp err:%v, rspMsg:\n%+v", err, rspMsg)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
 type LoginPack struct {
+	bbproto.BaseProtoHandler
 }
 
-//import "../comm"
-func (t LoginPack) verifyParams(msg bbproto.ReqLoginPack) (err error) {
+func (t LoginPack) GenerateSessionId(uuid *string) (sessionId string, err error) {
+	//TODO: makeSidFrom(*uuid, timeNow)
+	sessionId = "rcs7kga8pmvvlbtgbf90jnchmqbl9khn"
+	return sessionId, nil
+}
+
+func (t LoginPack) verifyParams(reqMsg proto.Message) (err error) {
+	//TODO: do some params validation
+	return nil
+}
+
+func (t LoginPack) FillResponseMsg(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack, rspErr error) (outbuffer []byte) {
+	// fill protocol header
+	{
+		rspMsg.Header = reqMsg.Header //including the sessionId
+
+		log.Printf("req header:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
+	}
+
+	// fill custom protocol body
+	{
+
+	}
+
+	// serialize to bytes
+	outbuffer, err := proto.Marshal(rspMsg)
+	if err != nil {
+		return nil
+	}
+	return outbuffer
+}
+
+func GetFriendInfo(uid uint32) (friends []FriendData, err error) {
+	err = db.Open(cs.TABLE_FRIEND)
+	defer db.Close()
+	if err != nil || uid == 0 {
+		return err
+	}
+
+	var value []byte
+	if uid != "" {
+		value, err = db.Gets(uid)
+		log.Printf("get from uid '%v' ret err:%v, value: %v", uid, err, value)
+	}
+
+	return friends, nil
+}
+
+func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack) (err error) {
+	// read user data (by uuid) from db
+	uid := *reqMsg.Header.UserId
+	db := &data.Data{}
+
+	isSessionExists := len(value) != 0
+	log.Printf("isSessionExists=%v value len=%v value: ['%v']  ", isSessionExists, len(value), value)
+	rspMsg.loginParam = &bbproto.LoginInfo{}
+	if isSessionExists {
+		err = proto.Unmarshal(value, rspMsg.Userdetail) //unSerialize into Userdetail
+		tNow := uint32(time.Now().Unix())
+
+		*rspMsg.Userdetail.User.LoginTime = uint32(tNow)
+		log.Printf("read Userdetail ret err:%v, Userdetail: %+v", err, rspMsg.Userdetail)
+	} else { //generate new user
+		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
+
+		newUserId, err := GetNewUserId()
+		defaultName := cs.DEFAULT_USER_NAME
+		tNow := uint32(time.Now().Unix())
+		rank := int32(0)
+		exp := int32(0)
+		staminaNow := int32(10)
+		staminaMax := int32(10)
+		staminaRecover := uint32(tNow + 600) //10 minutes
+		rspMsg.Userdetail.User = &bbproto.UserInfo{
+			UserId:         &newUserId,
+			UserName:       &defaultName,
+			LoginTime:      &tNow,
+			Rank:           &rank,
+			Exp:            &exp,
+			StaminaNow:     &staminaNow,
+			StaminaMax:     &staminaMax,
+			StaminaRecover: &staminaRecover,
+		}
+		rspMsg.ServerTime = &tNow
+		log.Printf("rspMsg.Userdetail.User=%v...", rspMsg.Userdetail.User)
+		log.Printf("rspMsg=%+v...", rspMsg)
+
+		//TODO:save userinfo to db through goroutine
+		outbuffer, err := proto.Marshal(rspMsg.Userdetail)
+		err = db.Set(uuid, outbuffer)
+		log.Printf("db.Set(%v) save new userinfo, return %v", uuid, err)
+	}
+
 	return err
-}
-
-func (t LoginPack) checkInput(req *http.Request) (msg bbproto.ReqLoginPack, err error) {
-	reqBuffer, err := ioutil.ReadAll(req.Body)
-	if err != nil {
-		log.Printf("ERR: ioutil.ReadAll failed: %v ", err)
-		return msg, err
-	}
-	log.Printf("GetQuestMap req.body: %v ", reqBuffer)
-
-	err = proto.Unmarshal(reqBuffer, &msg) //unSerialize into msg
-	if err != nil {
-		log.Printf("parse proto err: %v", err)
-		return msg, err
-	}
-	log.Printf("recv msg: %+v", msg)
-
-	err = t.verifyParams(msg)
-
-	return msg, nil
-}
-
-func (t LoginPack) FillRspHeader(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack) (outbuffer []byte, err error) {
-	*rspMsg.Header = *reqMsg.Header
-	outbuffer, err = proto.Marshal(rspMsg)
-	return outbuffer, err
 }
 
 func LoginPackHandler(rsp http.ResponseWriter, req *http.Request) {
@@ -55,8 +150,9 @@ func LoginPackHandler(rsp http.ResponseWriter, req *http.Request) {
 
 	msg, err := p.checkInput(req)
 	if err != nil {
-		data, err := p.FillRspHeader(&msg, rspMsg)
-		common.SendResponse(rsp, data, err)
+		data, _ := p.FillRspHeader(&msg, rspMsg)
+
+		common.SendResponse(rsp, data)
 		return
 	}
 
@@ -75,7 +171,7 @@ func LoginPackHandler(rsp http.ResponseWriter, req *http.Request) {
 		err = proto.Unmarshal([]byte(value), rspMsg.User) //unSerialize into usrinfo
 
 		data, err := p.FillRspHeader(&msg, rspMsg)
-		size, err := common.SendResponse(rsp, data, err)
+		size, err := common.SendResponse(rsp, data)
 		log.Printf("rsp msg err:%v, size[%d]: %+v", err, size, rspMsg.User)
 	} else {
 		//rspMsg.User = &bbproto.UserInfo{}
