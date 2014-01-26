@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class RootComponent {
-	protected UIInsConfig uiConfig = null;
+	protected UIInsConfig config = null;
 
-	public UIInsConfig UIConfig {
+	public UIInsConfig uiConfig {
 		get {
-			return uiConfig;
+			return config;
 		}
 	}
 
@@ -20,7 +20,7 @@ public class RootComponent {
 
 	public RootComponent(string name) {
 
-		uiConfig = GetUIInsConfig(name, errMsg);
+		config = GetUIInsConfig(name, errMsg);
 	}
 
 	public static UIInsConfig GetUIInsConfig(string name,ErrorMsg errMsg) {
@@ -96,6 +96,8 @@ public class ConcreteComponent : RootComponent, IUIComponent {
 		if (viewComponent != null) {
 			viewComponent.DestoryUI ();
 		}
+
+		ViewManager.Instance.RemoveComponent (uiConfig.uiName);
 	}
 
 	protected void CreatViewComponent() {
@@ -112,7 +114,6 @@ public class ConcreteComponent : RootComponent, IUIComponent {
 			
 			if(viewComponent == null)
 				return;
-
 		}
 	
 		IUIOrigin org = null;

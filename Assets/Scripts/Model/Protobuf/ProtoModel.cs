@@ -1350,7 +1350,10 @@ namespace bbproto
       UDARK = 5,
             
       [global::ProtoBuf.ProtoEnum(Name=@"UNONE", Value=6)]
-      UNONE = 6
+      UNONE = 6,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"UHeart", Value=7)]
+      UHeart = 7
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EUnitRace")]

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class UIBaseUnity : MonoBehaviour ,IUIInterface
 {
@@ -65,7 +65,7 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 	{
 		currentState = UIState.UIDestory;
 
-		vManager.DestoryUI(this);
+		//vManager.DestoryUI(this);
 	}
 
 	/// <summary>
@@ -92,8 +92,9 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 }
 
 public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
+
 	protected UIInsConfig config = null;
-	public UIInsConfig UIConfig {
+	public UIInsConfig uiConfig {
 		get {
 			return config;
 		}
@@ -117,10 +118,12 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 
 	public virtual void ShowUI() {
 		transform.localPosition = config.localPosition;
+		//ShowTweenPostion(0.2f);
 	}
 
 	public virtual void HideUI() {
 		transform.localPosition = ViewManager.HidePos;
+		//ShowTweenPostion();
 	}
 
 	public virtual void DestoryUI() {
@@ -150,4 +153,22 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 
 		return root.transform.Find (path).GetComponent<T> ();
 	}
+
+	protected Vector3 CaculateReallyPoint (Vector3 distance, Vector3 parentPosition) {
+		Vector3 point = distance + transform.localPosition +  parentPosition;
+		Vector3 targetpoint = point * Main.Instance.uiRoot.transform.localScale.y;
+		return targetpoint;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+

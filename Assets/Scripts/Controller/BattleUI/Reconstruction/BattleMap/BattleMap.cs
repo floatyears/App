@@ -54,8 +54,7 @@ public class BattleMap : UIBaseUnity
 		{
 			for (int j = 0; j < y; j++)
 			{
-				if(map[i,j] == null)
-				{
+				if(map[i,j] == null) {
 					tempObject = NGUITools.AddChild(gameObject, template.gameObject);
 					tempObject.SetActive(true);
 					float xp = template.InitPosition.x + i * template.Width;
@@ -67,8 +66,7 @@ public class BattleMap : UIBaseUnity
 					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
 					map[i,j] = temp;
 				}
-				else
-				{
+				else {
 					map[i,j].ShowUI();
 				}
 			}

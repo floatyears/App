@@ -35,8 +35,7 @@ public class DragPanel : UIBase
 
 	public static GameObject dragObject;
 
-	public DragPanel(string name, GameObject obj) : base(name){
-		sourceObject = obj;
+	public DragPanel(string name,GameObject obj) : base(name){
 
 		if(dragObject == null){
 			dragObject = Resources.Load("Prefabs/UI/Share/DragPanelView") as GameObject;
@@ -54,6 +53,7 @@ public class DragPanel : UIBase
 		base.ShowUI ();
 		AddEvent ();
 		dragPanelView.ShowUI ();
+
 	}
 
 	public override void HideUI () {
@@ -73,7 +73,7 @@ public class DragPanel : UIBase
 		GameObject.Destroy (itemContain.gameObject);
 	}
 
-	public void AddItem(int count,bool isClean = false,GameObject obj = null) {
+	public void AddItem(int count,GameObject obj = null ,bool isClean = false) {
 		if (obj != null) {
 			sourceObject = obj;	
 		}
@@ -86,28 +86,55 @@ public class DragPanel : UIBase
 		}
 
 		if (sourceObject == null) {
-			LogHelper.LogError (dragPanelView.name + " scroll view item is null. don't creat drag panel");
-			return;
+			LogHelper.LogError (dragPanelView.name +  " scroll view item is null. don't creat drag panel");
+			return ;
 		}
 						
 		for (int i = 0; i < count; i++) {
-			GameObject go = dragPanelView.AddObject(sourceObject,scrollItem.Count);
+			GameObject go = dragPanelView.AddObject(sourceObject);
 			if(go != null){
 				scrollItem.Add(go);
 			}
 		}
 	}
+	
+	public GameObject AddScrollerItem( GameObject obj ,bool isClean = false) {
+		if (obj != null) {
+			sourceObject = obj;	
+		}
 
-	/// <summary>
-	/// Sets the position.
-	/// </summary>
-	/// <param name="position">Position. x is center x; y is center y; z is size x, w is size y</param>
+		if (isClean) {
+			for (int i = 0; i < scrollItem.Count; i++) {
+				GameObject.Destroy(scrollItem[i]);
+				scrollItem.RemoveAt(i);
+			}
+		}
+		
+		if (sourceObject == null)
+			return obj;
+
+		GameObject go = dragPanelView.AddObject(sourceObject);
+		if(go != null)
+			scrollItem.Add(go);
+
+		return go;
+	}
+	
+	public void RemoveItem (GameObject target){
+		if (!scrollItem.Contains (target)) {
+			return;		
+		}
+		scrollItem.Remove (target);
+		GameObject.Destroy (target);
+		dragPanelView.grid.enabled = true;
+		dragPanelView.grid.Reposition ();
+		UIEventListener.Get (target).onClick = null;
+	}
+	
 	public void SetPosition(Vector4 position)
 	{
 		dragPanelView.SetViewPosition (position);
 	}
-
-
 
 	void ItemCallback(GameObject target)
 	{

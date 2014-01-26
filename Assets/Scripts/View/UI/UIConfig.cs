@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using LitJson;
 using System.Collections.Generic;
@@ -50,6 +50,7 @@ public class UIConfig
 	public const string topBackgroundName = "PlayerInfoBar";
 	public const string menuBottomName = "MenuBottom";
 	public const string sceneInfoBarName = "SceneInfoBar";
+	public const string TipsBarName = "TipsBar";
 
 	public const string questWindowName = "QuestWindow";
 	public const string friendWindowName = "FriendWindow";
@@ -64,8 +65,27 @@ public class UIConfig
 	public const string sellWindowName = "SellWindow";
 	public const string unitListWindowName = "UnitListWindow";
 	public const string evolveWindowName = "EvolveWindow";
-	public const string QuestSelectWindowName = "QuestSelectWindow";
-	public const string FriendSelectWindowName = "FriendSelectWindow";
+	public const string questSelectWindowName = "QuestSelectWindow";
+	public const string friendSelectWindowName = "FriendSelectWindow";
+
+	public const string unitDetailPanelName = "UnitDetailPanel";
+
+	public const float playerInfoBox_X = 160f;
+	public const float playerInfoBox_Y = -50f;
+
+	public const float longPressedTimeCount = 0.5f;
+
+	public const int partyTotalCount = 5;
+
+	public static string[ , ] PlayerParty = new string[5, 4] { 
+		{ "role014", "role012", "role013", "role006" }, 
+		{ "role002", "role005", "role001", "role003" },
+		{ "role007", "role008", "role009", "role010" },
+		{ "role015", "role011", "role016", "role017" }, 
+		{ "role018", "role019", "role020", "role004" } 
+	};
+
+
 
 }
 

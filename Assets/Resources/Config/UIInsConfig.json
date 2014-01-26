@@ -23,6 +23,14 @@
         "positiony": 0,
         "positionz": 0
     },
+     "TipsBar": {
+        "uiName":"TipsBar",
+        "resoucePath": "Prefabs/UI/Share/",
+        "parent": 2,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
      "BottomMenu": {
         "uiName":"MenuBottom",
         "resoucePath": "Prefabs/UI/Share/",
@@ -135,9 +143,17 @@
         "positiony": 0,
         "positionz": 0
     },
-      "FriendSelectWindow": {
+    "FriendSelectWindow": {
         "uiName":"FriendSelectWindow",
         "resoucePath": "Prefabs/UI/Friend/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": -567,
+        "positionz": 0
+    },
+    "UnitDetailPanel": {
+        "uiName":"UnitDetailPanel",
+        "resoucePath": "Prefabs/UI/UnitDetail/",
         "parent": 1,
         "positionx": 0,
         "positiony": -567,

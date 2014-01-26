@@ -8,6 +8,7 @@ enum EUnitType{
 	ULIGHT	= 4;
 	UDARK	= 5;
 	UNONE	= 6;
+    UHeart  = 7;
 };
 
 enum EUnitRace{

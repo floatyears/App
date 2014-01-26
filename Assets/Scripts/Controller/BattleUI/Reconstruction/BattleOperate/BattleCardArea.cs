@@ -29,8 +29,7 @@ public class BattleCardArea : UIBaseUnity
 
 		backTexture.gameObject.SetActive(false);
 
-		if (cardItem == null) 
-		{
+		if (cardItem == null) {
 			GameObject go = LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab) as GameObject;
 			cardItem = go.transform.Find("Texture").gameObject;
 		}
@@ -42,14 +41,17 @@ public class BattleCardArea : UIBaseUnity
 	{
 		base.ShowUI ();
 		gameObject.SetActive (true);
+
+		for (int i = 0; i < battleCardAreaItem.Length; i++)  {
+			battleCardAreaItem[i].ShowUI();
+		}
 	}
 
 	public override void HideUI ()
 	{
 		base.HideUI ();
 
-		for (int i = 0; i < battleCardAreaItem.Length; i++) 
-		{
+		for (int i = 0; i < battleCardAreaItem.Length; i++)  {
 			battleCardAreaItem[i].HideUI();
 		}
 
@@ -77,51 +79,22 @@ public class BattleCardArea : UIBaseUnity
 
 			bca.Init(tempObject.name);
 
+			bca.AreaItemID = i;
+
 			battleCardAreaItem[i] = bca;
 		}
 	}
 
 
-	public bool tempCountTime = false;
-	float time = 5f;
-
-	void Update()
-	{
-		if(tempCountTime)
-		{
-			if(time > 0)
-				time -= Time.deltaTime;
-			else
-			{
-				time = 5f;
-				tempCountTime = false;
-				StartBattle();
-			}
-		}
-	}
-	
-	void StartBattle()
-	{
-		battleAttack.Clear();
-		count = 0;
-		for (int i = 0; i < battleCardAreaItem.Length; i++)
-		{
-			battleAttack.Add(i,battleCardAreaItem[i].CardItemList);
-		}
-
-		battle.StartBattle(battleAttack);
-	}
-
-	public void OnGUI()
-	{
-		if(tempCountTime)
-			GUILayout.Box(time.ToString(),GUILayout.Width(100f),GUILayout.Height(100f));
-	}
 
 	static int count = 0;
 
 	public static GameObject GetCard()
 	{
+		if (count == battleCardIns.Count) {
+			count = 0;
+		}
+
 		GameObject go = battleCardIns [count];
 		count ++;
 		return go;
@@ -138,12 +111,25 @@ public class BattleCardArea : UIBaseUnity
 			go.AddComponent<CardItem>();
 			battleCardIns.Add(go);
 		}
+
 		yield return 1;
+
 		if (b) 
 		{
 			StartCoroutine (GenerateCard ());
 		}
 	}
+	bool showCountDown = false;
+	int time = 0;
+	public void ShowCountDown (bool isShow,int time) {
+		showCountDown = isShow;
+		this.time = time;
+	}
 
-
+	void OnGUI() {
+		if (showCountDown) {
+			GUILayout.Box(time.ToString(),GUILayout.Width(100f),GUILayout.Height(100f));
+		}
+		
+	}
 }

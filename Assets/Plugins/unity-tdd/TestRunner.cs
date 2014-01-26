@@ -135,14 +135,14 @@ namespace UnitTesting
 
 		string GetExceptionString(Exception e, string baseMessage)
 		{
-			baseMessage += e.Message + "\n\n";
+			baseMessage += e.Message + "\n";
 
 			if ( e.InnerException != null )
 			{
 				return GetExceptionString(e.InnerException, baseMessage);
 			}
 
-			return baseMessage;
+			return baseMessage += e.StackTrace;
 		}
 
 

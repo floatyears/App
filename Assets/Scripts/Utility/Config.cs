@@ -16,6 +16,8 @@ public class Config
 		}
 	}
 
+	public const byte startCardID = 0;
+	public const byte endCardID = 4;
 	public const byte cardPoolSingle = 5;
 
 	public const byte cardCollectionCount = 5;
@@ -25,6 +27,7 @@ public class Config
 	public const byte cardDepth = 3;
 
 	public const string battleCardName = "BattleCard";
+	private int[] cardTypeID = new int[4] {1,2,3,7};
 
 	public static Vector3 cardPoolInitPosition = new Vector3(-255f,300f,0f);
 	
@@ -39,7 +42,7 @@ public class Config
 	{
 		ItemData cid;
 
-		for (int i = 0; i < cardPoolSingle; i++) 
+		for (int i = 1; i < 8; i++) 
 		{
 			cid = new ItemData(i,"Card"+i,1);
 			cardData.Add(cid.itemID,cid);
@@ -52,8 +55,10 @@ public class Config
 	{
 		for (int i = 0; i < 20; i++) 
 		{
-			int key = Random.Range(0, 5);
-			cardSort.Enqueue(cardData[key]);
+			int key = Random.Range(startCardID, endCardID);
+			int id = cardTypeID[key];
+//			Debug.LogError("id : " + id);
+			cardSort.Enqueue(cardData[id]);
 		}
 	}
 	
@@ -93,18 +98,22 @@ public class ItemData
 
 	public static Color GetColor(int color)
 	{
+		if (color == -1) {
+			return Color.black;
+		}
+
 		switch (color) {
-		case 0:
-			return Color.red;
 		case 1:
-			return Color.blue;
+			return Color.red;
 		case 2:
-			return Color.green;
+			return Color.blue;
 		case 3:
-			return Color.yellow;
+			return Color.green;
 		case 4:
-			return Color.magenta;
+			return Color.yellow;
 		case 5:
+			return Color.magenta;
+		case 6:
 			return Color.white;
 		default:
 			return Color.white;

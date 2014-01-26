@@ -51,6 +51,15 @@ public class ProtobufDataBase : IOriginModel {
 	}
 
 	/// <summary>
+	/// get data by T
+	/// </summary>
+	/// <returns>The data.</returns>
+	/// <typeparam name="T">The 1st type parameter.</typeparam>
+	public T DeserializeData<T> (){
+		return ProtobufSerializer.ParseFormBytes<T> (originData);
+	}
+
+	/// <summary>
 	/// serialize class to byte array
 	/// </summary>
 	/// <returns>The object.</returns>

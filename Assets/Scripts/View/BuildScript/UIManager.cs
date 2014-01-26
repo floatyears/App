@@ -85,7 +85,24 @@ public class UIManager {
 		}
 	}
 
+	public void EnterBattle () {
+		current.HideScene();
+		baseScene.HideBase ();
+		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
+	}
 
+	public void ExitBattle () {
+		baseScene.ShowBase ();
+		current.ShowScene();
+	}
+
+	public void HideBaseScene () {
+		baseScene.HideBase ();
+	}
+
+	public void ShowBaseScene () {
+		baseScene.ShowBase ();
+	}
 
 	public void ChangeScene(SceneEnum sEnum)
 	{
@@ -170,6 +187,34 @@ public class UIManager {
 			
 		case SceneEnum.FriendSelect:
 			temp = new FriendSelectDecorator( sEnum );
+			break;
+
+		case SceneEnum.FriendList:
+			temp = new FriendListDecorator( sEnum );
+			break;
+			
+		case SceneEnum.SearchFriend:
+			temp = new SearchFriendDecorator( sEnum );
+			break;
+			
+		case SceneEnum.Information:
+			temp = new InformationDecorator( sEnum );
+			break;
+			
+		case SceneEnum.Apply:
+			temp = new ApplyDecorator( sEnum );
+			break;
+			
+		case SceneEnum.Reception:
+			temp = new ReceptionDecorator( sEnum );
+			break;
+			
+		case SceneEnum.YourID:
+			temp = new YourIDDecorator( sEnum );
+			break;
+
+		case SceneEnum.UnitDetail:
+			temp = new UnitDetailDecorator( sEnum );
 			break;
 		}
 		if (temp != null) {

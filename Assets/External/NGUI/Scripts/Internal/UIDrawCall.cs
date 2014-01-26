@@ -304,7 +304,7 @@ public class UIDrawCall : MonoBehaviour
 			}
 			else if (mClipping != Clipping.None)
 			{
-				Debug.LogError(shaderName + " doesn't have a clipped shader version for " + mClipping);
+				//Debug.LogError(shaderName + " doesn't have a clipped shader version for " + mClipping);
 				mClipping = Clipping.None;
 			}
 		}

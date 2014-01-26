@@ -33,9 +33,23 @@ public class GameInput : MonoBehaviour
 
 	private float stationarIntervTime = 2f;
 
+
+	void OnEnable () {
+
+		Application.RegisterLogCallback (CatchException);
+	}
+
+	void OnDisable () {
+
+		Application.RegisterLogCallback (null);
+	}
+
+	void CatchException(string condition, string stackInfo, LogType lt) {
+		Debug.LogError ("DG : " + " " + lt +  " " + condition + " " + stackInfo + "    " + TimeHelper.FormattedTimeNow ());
+	}
+
 	void Update()
 	{
-
 		if(Time.timeScale < 0.5f)
 			return;
 
@@ -45,7 +59,7 @@ public class GameInput : MonoBehaviour
 		if(!isCheckInput)
 			return;
 //#if UNITY_IPHONE || UNITY_ANDROID
-        //ProcessTouch();
+       	//ProcessTouch();
 //#elif UNITY_EDITOR 
 		ProcessMouse();
 //#endif
@@ -129,7 +143,7 @@ public class GameInput : MonoBehaviour
 	{
 		InitCountTime();
 		if(OnReleaseEvent != null)
-			OnReleaseEvent();
+			OnReleaseEvent ();
 	}
 
 	void OnStationary()
@@ -137,8 +151,7 @@ public class GameInput : MonoBehaviour
 		if(startTime < 0)
 			startTime = Time.realtimeSinceStartup;
 
-		if(Time.realtimeSinceStartup - startTime >= stationarIntervTime)
-		{
+		if(Time.realtimeSinceStartup - startTime >= stationarIntervTime) {
 			InitCountTime();
 
 			if(OnStationaryEvent != null)
@@ -146,8 +159,7 @@ public class GameInput : MonoBehaviour
 		}
 	}
 
-	void InitCountTime()
-	{
+	void InitCountTime() {
 		startTime = -1f;
 	}
 }

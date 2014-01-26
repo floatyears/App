@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 #region old
@@ -47,7 +47,7 @@ public interface IUIInterface
 /// view interface
 /// </summary>
 public interface IUIBaseComponent {
-	UIInsConfig UIConfig{ get;}
+	UIInsConfig uiConfig{ get;}
 	void ShowUI();
 	void HideUI();
 	void DestoryUI();
@@ -69,6 +69,11 @@ public interface IUIOrigin {
 
 }
 
+public interface IUISort {
+	int Ascending(object first,object second);
+	int Descending(object first, object second);
+}
+
 /// <summary>
 /// ui callback interface
 /// </summary>
@@ -79,6 +84,13 @@ public interface IUICallback : IUIOrigin {
 public interface IUISetBool : IUIOrigin {
 	void SetEnable(bool b);
 }
+
+
+public interface IUIAnimation
+{
+
+}
+
 
 public delegate void Callback();
 

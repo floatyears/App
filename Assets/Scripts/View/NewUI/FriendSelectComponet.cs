@@ -1,51 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class FriendSelectComponent : ConcreteComponent {
+public class FriendSelectComponent : ConcreteComponent, IUICallback {
+	UnitPartyInfo upi;
+	Dictionary<int,UserUnitInfo> userUnit = new Dictionary<int, UserUnitInfo> ();
 
-	private DragPanel friendsScroller;
-	private GameObject friendItem;
+	public FriendSelectComponent(string uiName):base(uiName) {
 
-	public FriendSelectComponent(string uiName):base(uiName) {}
+	}
 	
 	public override void CreatUI () {
 		base.CreatUI ();
-
-		friendItem = Resources.Load("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
-		friendsScroller = new DragPanel ("FriendSelectScroller", friendItem);
-		friendsScroller.CreatUI();
-		friendsScroller.AddItem (13);
-		friendsScroller.RootObject.SetItemWidth(140);
-		friendsScroller.RootObject.gameObject.transform.localPosition = -680*Vector3.up;
-
-		for(int i = 0; i < friendsScroller.ScrollItem.Count; i++)
-		{
-			UIEventListener.Get(friendsScroller.ScrollItem[ i ].gameObject).onClick = PickFriend;
-		}
 	}
-
-
-	void PickFriend(GameObject btn)
-	{
-		if(viewComponent is IUICallback) {
-			IUICallback call = viewComponent as IUICallback;
-			call.Callback(true);
-		}
-	}
-
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		friendsScroller.RootObject.gameObject.SetActive(true);
+
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-		friendsScroller.RootObject.gameObject.SetActive(false);
 	}
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
-
+	
+	public void Callback (object data)
+	{
+		int partyID = 0;
+		try {
+			partyID = (int)data;
+		} catch (System.Exception ex) {
+			Debug.LogError(ex.Message);
+			return;
+		}
+		IUICallback call = viewComponent as IUICallback;
+		if (call == null) {
+			return;		
+		}
+		if (partyID == 1) {
+			upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, errMsg) as UnitPartyInfo;
+			Dictionary<int,int> temp = upi.GetPartyItem();
+			Dictionary<int,UnitBaseInfo> viewInfo = new Dictionary<int, UnitBaseInfo>();
+			foreach(var item in temp) {
+//				Debug.LogError("item.Value : " + item.Value);
+				UserUnitInfo uui =  GlobalData.tempUserUnitInfo[item.Value];
+				userUnit.Add(item.Key,uui);
+				UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[uui.unitBaseInfo];
+				viewInfo.Add(item.Key,ubi);
+			}
+			call.Callback (viewInfo);
+		}
+		else {
+			call.Callback (null);
+		}
+	}
 }

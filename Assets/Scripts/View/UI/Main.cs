@@ -30,6 +30,8 @@ public class Main : MonoBehaviour
 		get{return gInput;}
 	}
 
+	private GameTimer gTimer;
+
 	private const float screenWidth = 640;
 
 	private static float texScale = 0f;
@@ -58,7 +60,7 @@ public class Main : MonoBehaviour
 		globalDataSeed = (byte)Random.Range (0, 255);
 
 		gInput = gameObject.AddComponent<GameInput>();
-
+		gTimer = gameObject.AddComponent<GameTimer>();
 		DontDestroyOnLoad(gameObject);
 
 		texScale = screenWidth / Screen.width;
@@ -66,6 +68,10 @@ public class Main : MonoBehaviour
 		// init manager class
 		ViewManager.Instance.Init(uiRoot);
 		ModelManager.Instance.Init ();
+		TempConfig.InitStoryQuests();
+		TempConfig.InitEventQuests();
+		TempConfig.InitPlayerUnits();
+		TempConfig.InitUnitAvatarSprite();
 	}
 
 	/// <summary>
@@ -74,6 +80,7 @@ public class Main : MonoBehaviour
 	void OnEnable()
 	{
 		UIManager.Instance.ChangeScene (SceneEnum.Start);
+	
 	}
 
 
