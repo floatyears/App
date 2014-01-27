@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"code.google.com/p/goprotobuf/proto"
-	_ "fmt"
+	"fmt"
 	_ "html"
 	"io"
 	"io/ioutil"
@@ -48,7 +48,7 @@ func SendHttpPost(dataBuf io.Reader, protoAddr string) (outbuffer []byte, err er
 	}
 
 	outbuffer, err = ioutil.ReadAll(resp.Body)
-	log.Printf("recv resp:%+v", outbuffer)
+	//log.Printf("recv resp:%+v", outbuffer)
 
 	return outbuffer, err
 }
@@ -58,7 +58,7 @@ func LoginPack() {
 	msg.Header = &bbproto.ProtoHeader{}
 	msg.Header.ApiVer = proto.String("1.0.0")
 	msg.Header.SessionId = proto.String("S10298090290")
-	msg.UserId = proto.Int32(10011)
+	msg.Header.UserId = proto.Uint32(101)
 
 	buffer, err := proto.Marshal(msg)
 	log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
@@ -70,14 +70,14 @@ func AuthUser() {
 	msg := &bbproto.ReqAuthUser{}
 	msg.Header = &bbproto.ProtoHeader{}
 	msg.Header.ApiVer = proto.String("0.0.1")
-	msg.Header.SessionId = proto.String("S10298090290")
+	//msg.Header.SessionId = proto.String("S10298090290")
 	msg.Header.PacketId = proto.Int32(18)
 	msg.Terminal = &bbproto.TerminalInfo{}
 	//msg.Terminal.Uuid = proto.String("b2c4adfd-e6a9-4782-814d-67ce34220110")
-	msg.Terminal.Uuid = proto.String("koryyang")
+	msg.Terminal.Uuid = proto.String("koryyang5")
 	msg.Terminal.DeviceName = proto.String("kory's ipod")
 	msg.Terminal.Os = proto.String("android 4.01")
-	msg.Terminal.Platform = proto.String("official")
+	//msg.Terminal.Platform = proto.String("official")
 
 	buffer, err := proto.Marshal(msg)
 	log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
@@ -106,11 +106,23 @@ func genReqGetQuestMap() (buffer []byte, err error) {
 	return buffer, err
 }
 
+func testType() {
+
+	reply := []interface{}{[]byte{0x57, 0x6f, 0x72, 0x6c, 0x64}, []byte{0x48, 0x65, 0x6c, 0x6c, 0x6f}}
+
+	for _, x := range reply {
+		var v, ok = x.([]byte)
+		if ok {
+			fmt.Println(string(v))
+		}
+	}
+}
+
 func main() {
 	Init()
 
-	//LoginPack()
-	AuthUser()
+	LoginPack()
+	//AuthUser()
 	//testRedis()
 	//return
 

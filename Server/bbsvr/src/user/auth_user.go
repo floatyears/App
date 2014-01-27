@@ -2,7 +2,7 @@ package user
 
 import (
 	_ "fmt"
-	"io/ioutil"
+	//"io/ioutil"
 	"log"
 	"net/http"
 	//"strconv"
@@ -10,91 +10,86 @@ import (
 )
 import (
 	bbproto "../bbproto"
-	"../common"
+	//"../common"
+	"../const"
 	"../data"
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
-func GetNewUserId() (userid int32, err error) {
-	db := &data.Data{}
-	err = db.Open(common.TABLE_NAME_USER)
-	defer db.Close()
+/////////////////////////////////////////////////////////////////////////////
+
+func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
+	var reqMsg bbproto.ReqAuthUser
+	rspMsg := &bbproto.RspAuthUser{}
+
+	handler := &AuthUser{}
+	err := handler.ParseInput(req, &reqMsg)
 	if err != nil {
-		return 0, err
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
+		return
 	}
 
-	uid, err := db.GetInt(common.KEY_MAX_USER_ID)
+	err = handler.verifyParams(&reqMsg)
 	if err != nil {
-		userid = 100000 //first userId
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
+		return
 	}
-	userid += int32(uid + 1)
-	log.Printf("get MAX_USER_ID ret: %v ", userid)
-	err = db.SetInt(common.KEY_MAX_USER_ID, userid)
 
-	return userid, err
+	// game logic
+
+	err = handler.ProcessLogic(&reqMsg, rspMsg)
+
+	err = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
+	log.Printf("sendrsp err:%v, rspMsg:\n%+v", err, rspMsg)
 }
+
+/////////////////////////////////////////////////////////////////////////////
 
 type AuthUser struct {
+	bbproto.BaseProtoHandler
 }
 
-func (t AuthUser) verifyParams(reqmsg bbproto.ReqAuthUser) (err error) {
+func (t AuthUser) GenerateSessionId(uuid *string) (sessionId string, err error) {
+	//TODO: makeSidFrom(*uuid, timeNow)
+	sessionId = "rcs7kga8pmvvlbtgbf90jnchmqbl9khn"
+	return sessionId, nil
+}
+
+func (t AuthUser) verifyParams(reqMsg proto.Message) (err error) {
 	//TODO: do some params validation
 	return nil
 }
 
-func (t AuthUser) checkInput(req *http.Request) (reqmsg bbproto.ReqAuthUser, err error) {
-	reqBuffer, err := ioutil.ReadAll(req.Body)
-	if err != nil {
-		log.Printf("ERR: ioutil.ReadAll failed: %v ", err)
-		return reqmsg, err
+func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser, rspErr error) (outbuffer []byte) {
+	// fill protocol header
+	{
+		rspMsg.Header = reqMsg.Header
+		sessionId, _ := t.GenerateSessionId(reqMsg.Terminal.Uuid)
+		reqMsg.Header.SessionId = &sessionId
+		log.Printf("req header:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
 	}
 
-	err = proto.Unmarshal(reqBuffer, &reqmsg) //unSerialize into reqmsg
-	if err != nil {
-		log.Printf("ERR: checkInput parse proto err: %v", err)
-		return reqmsg, err
+	// fill custom protocol body
+	{
+
 	}
-	log.Printf("recv reqmsg: %+v", reqmsg)
 
-	err = t.verifyParams(reqmsg)
-
-	return reqmsg, err
+	// serialize to bytes
+	outbuffer, err := proto.Marshal(rspMsg)
+	if err != nil {
+		return nil
+	}
+	return outbuffer
 }
 
-func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser, rspErr error) (outbuffer []byte, err error) {
-	rspMsg.Header = reqMsg.Header
-	//log.Printf("rspMsg.Header=%v", rspMsg.Header)
-
-	outbuffer, err = proto.Marshal(rspMsg)
-	return outbuffer, err
-}
-
-func (t AuthUser) SendResponse(rsp http.ResponseWriter, reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser, rspErr error) (err error) {
-	data, err := t.FillResponseMsg(reqMsg, rspMsg, rspErr)
-	if err != nil {
-		return err
-	}
-	_, err = common.SendResponse(rsp, data, err)
-	return err
-}
-
-func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
-	p := &AuthUser{}
-	rspMsg := &bbproto.RspAuthUser{}
-
-	reqmsg, err := p.checkInput(req)
-	if err != nil {
-		p.SendResponse(rsp, &reqmsg, rspMsg, err)
-		return
-	}
-
-	uuid := *reqmsg.Terminal.Uuid
+func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser) (err error) {
+	// read user data (by uuid) from db
+	uuid := *reqMsg.Terminal.Uuid
 	db := &data.Data{}
-	err = db.Open(common.TABLE_NAME_USER)
+	err = db.Open(cs.TABLE_USER)
 	defer db.Close()
 	if err != nil {
-		p.SendResponse(rsp, &reqmsg, rspMsg, err)
-		return
+		return err
 	}
 
 	var value []byte
@@ -105,26 +100,27 @@ func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
 
 	isUserExists := len(value) != 0
 	log.Printf("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
-	rspMsg.Userdetail = &bbproto.UserInfoDetail{}
+	userdetail := &bbproto.UserInfoDetail{}
 	if isUserExists {
-		err = proto.Unmarshal(value, rspMsg.Userdetail) //unSerialize into Userdetail
+		err = proto.Unmarshal(value, userdetail) //unSerialize into Userdetail
 		tNow := uint32(time.Now().Unix())
 
-		*rspMsg.Userdetail.User.StaminaRecover = uint32(tNow + 600) //10 minutes
-		*rspMsg.Userdetail.User.LoginTime = uint32(tNow)
-		log.Printf("read Userdetail ret err:%v, Userdetail: %+v", err, rspMsg.Userdetail)
-	} else { //new user
+		//TODO: assign Userdetail.* into rspMsg
+		*rspMsg.User.StaminaRecover = uint32(tNow + 600) //10 minutes
+		*rspMsg.User.LoginTime = uint32(tNow)
+		log.Printf("read Userdetail ret err:%v, Userdetail: %+v", err, userdetail)
+	} else { //generate new user
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
 
 		newUserId, err := GetNewUserId()
-		defaultName := common.NEW_USER_NAME
+		defaultName := cs.DEFAULT_USER_NAME
 		tNow := uint32(time.Now().Unix())
 		rank := int32(0)
 		exp := int32(0)
 		staminaNow := int32(10)
 		staminaMax := int32(10)
 		staminaRecover := uint32(tNow + 600) //10 minutes
-		rspMsg.Userdetail.User = &bbproto.UserInfo{
+		rspMsg.User = &bbproto.UserInfo{
 			UserId:         &newUserId,
 			UserName:       &defaultName,
 			LoginTime:      &tNow,
@@ -135,15 +131,14 @@ func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
 			StaminaRecover: &staminaRecover,
 		}
 		rspMsg.ServerTime = &tNow
-		log.Printf("rspMsg.Userdetail.User=%v...", rspMsg.Userdetail.User)
+		log.Printf("rspMsg.User=%v...", rspMsg.User)
 		log.Printf("rspMsg=%+v...", rspMsg)
 
 		//TODO:save userinfo to db through goroutine
-		outbuffer, err := proto.Marshal(rspMsg.Userdetail)
+		outbuffer, err := proto.Marshal(userdetail)
 		err = db.Set(uuid, outbuffer)
 		log.Printf("db.Set(%v) save new userinfo, return %v", uuid, err)
 	}
 
-	err = p.SendResponse(rsp, &reqmsg, rspMsg, err)
-	log.Printf("sendrsp err:%v, rspMsg:\n%+v", err, rspMsg)
+	return err
 }

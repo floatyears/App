@@ -20,14 +20,15 @@ enum EUnitRace{
     MONSTER         = 5;
     LEGEND          = 6;
     SCREAMCHEESE    = 7;
-}
+};
 
 //general response protocol
 message ProtoHeader {
 	required string apiVer		= 1;
 	optional string sessionId	= 2;
-	optional int32	packetId	= 3;
-	optional int32	code		= 4; // result code
-	optional string error		= 5; // result error description
+	optional uint32 userId		= 3;
+	optional int32	packetId	= 4;
+	optional int32	code		= 5; // result code
+	optional string error		= 6; // result error description
 };
 
