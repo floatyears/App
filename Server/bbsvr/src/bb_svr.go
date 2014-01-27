@@ -57,6 +57,7 @@ func main() {
 	Init()
 
 	//testRedis()
+	//Test()
 	//return
 
 	/** user protocol **/

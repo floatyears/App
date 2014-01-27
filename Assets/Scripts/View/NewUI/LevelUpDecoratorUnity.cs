@@ -5,7 +5,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 
 	private DragPanel baseScroller;
 	private GameObject baseItem;
-
+	private GameObject btnLevelUp;
 	private DragPanel materialScroller;
 	private GameObject materialItem;
 
@@ -128,6 +128,9 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 		baseSortBar = FindChild("Focus_Panels/Base_Panel/SortButton");
 		materialSortBar = FindChild("Focus_Panels/Material_Panel/SortButton");
 		friendSortBar = FindChild("Focus_Panels/Friend_Panel/SortButton");
+		
+		btnLevelUp = FindChild("Focus_Panels/Friend_Panel/Button_LevelUp");
+		UIEventListener.Get( btnLevelUp ).onClick = LevelUp;
 
 		UIEventListener.Get( baseSortBar ).onClick = SortBase;
 		UIEventListener.Get( materialSortBar ).onClick = SortMaterial;
@@ -279,6 +282,13 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 //		}
 	}
 
+	private void LevelUp( GameObject go) {
+
+		//Here Level Up Logic
+		Debug.LogError("Level Up Logic Here!!!!");
+		UIManager.Instance.ChangeScene( SceneEnum.UnitDetail );
+	}
+
 
 	private void InitBaseScrollArgs() {
 		baseScrollerArgs.Add( "parentTrans", 			basePanel.transform					);
@@ -310,12 +320,12 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 		//Debug.LogError( friendPanel.transform.name);
 		friendcrollerArgs.Add( "parentTrans", 		friendPanel.transform						);
 		friendcrollerArgs.Add( "scrollerScale", 		Vector3.one									);
-		friendcrollerArgs.Add( "scrollerLocalPos" ,	 -280*Vector3.up							);
+		friendcrollerArgs.Add( "scrollerLocalPos" ,	 -240*Vector3.up							);
 		friendcrollerArgs.Add( "position", 				Vector3.zero 									);
 		friendcrollerArgs.Add( "clipRange", 			new Vector4(0, 0, 640, 200 )				);
 		friendcrollerArgs.Add( "gridArrange", 		UIGrid.Arrangement.Horizontal 		);
 		friendcrollerArgs.Add( "maxPerLine", 		0 													);
-		friendcrollerArgs.Add( "scrollBarPosition", 	new Vector3(-320,-105,0)				);
+		friendcrollerArgs.Add( "scrollBarPosition", 	new Vector3(-320,-92,0)				);
 		friendcrollerArgs.Add( "cellWidth", 			110 												);
 		friendcrollerArgs.Add( "cellHeight",			110 												);
 	}

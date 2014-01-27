@@ -16,32 +16,36 @@ message BattlePower {
 };
 
 message HelperRequire {
-    optional int32	level		= 1;
-	optional int32	race		= 2;
-	optional int32	type		= 3;
+    optional int32		level		= 1;
+	optional int32		race		= 2;
+	optional EUnitType	type		= 3;
 };
 
 message EvolveInfo {
     required int32      		evolveUnitId    = 1;
     repeated int32		      	materialUnitId  = 2;
-	optional HelperRequire		helperRequire	= 3;	
+	optional HelperRequire		helperRequire	= 3;
 };
 
 message UnitInfo { 	
-	required int32			id				= 1;
+	required uint32			id				= 1;
 	optional string			name			= 2;
-	optional int32			type			= 3;//wind flame water, etc.
-	optional int32          skill1          = 4;
-    optional int32          skill2          = 5;
-    optional int32          leaderSkill     = 6;
-    optional int32          activeSkill     = 7;
-    optional int32          passiveSkill    = 8;
-	optional int32			maxLevel		= 9;
-	optional int32			expType			= 10;
-	optional int32			rare			= 11;
-	optional string 		profile			= 12;
-	repeated BattlePower	power			= 13; //diff power of each level
-    optional EvolveInfo		evolveInfo		= 14;
+	optional int32			race			= 3;	
+	optional EUnitType		type			= 4;//wind flame water, etc.
+	optional int32			rare			= 5;	
+	optional int32			skill1			= 6;
+	optional int32			skill2			= 7;
+	optional int32			leaderSkill		= 8;
+	optional int32			activeSkill		= 9;
+	optional int32			passiveSkill	= 10;
+	optional int32			maxLevel		= 11;
+	optional int32			expType			= 12;
+	optional string			profile			= 13;
+	repeated BattlePower	power			= 14; //diff power of each level
+	optional EvolveInfo		evolveInfo		= 15;
+	optional int32			cost			= 16;
+	optional int32			saleValue		= 17;
+	optional int32			levelUpValue	= 18;
 };
 //=======================================================================//
 
@@ -49,38 +53,39 @@ message UnitInfo {
 
 //============== Quest -  client used only=========================================================//
 message EnemyInfo {
-    required int32  uniqueId        = 1;
-	required int32	unitId			= 2;
-    optional int32	type			= 3;//wind flame water, etc.
-	optional int32	hp				= 4;
-	optional int32	attack			= 5;
-	optional int32	defense			= 6;
-	optional int32	attackRound		= 7;//next 1, 2, 3
-	optional float	dropRate		= 8;
-	optional float	dropUnitId		= 9;
+	required uint32		uniqueId		= 1;
+	required uint32		unitId			= 2;
+	optional EUnitType	type			= 3;
+	optional int32		hp				= 4;
+	optional int32		attack			= 5;
+	optional int32		defense			= 6;
+	optional int32		attackRound		= 7;//next 1, 2, 3
+	optional float		dropRate		= 8;
+	optional uint32		dropUnitId		= 9;
 };
 
 message QuestInfo {
 	required int32		id			= 1; 
-	optional int32		states      = 2; // story or event
-	optional int32		no          = 3; // number: 1, 2, 3...
+	optional int32		state		= 2; // 
+	optional int32		no			= 3; // number: 1, 2, 3...
 	optional string		name		= 4;
 	optional string		story		= 5; // story description
 	optional int32		stamina 	= 6; // cost stamina
 	optional int32		floor		= 7;		
 	optional int32		rewardExp	= 8;
 	optional int32		rewardCoin	= 9;
-	repeated int32		allUnitKind = 10; // pick-up enemy unit list
-	optional int32		bossId		= 11; // boss unit id
+	repeated uint32		allUnitKind = 10; // pick-up enemy unit list
+	optional uint32		bossId		= 11; // boss unit id
 };
 
 
 message QuestStageInfo {
 	optional int32		version		= 1;
 	optional int32		id			= 2;	
-	optional int32		type		= 3; // story or event
-	optional string		stageName	= 4; // 
-	repeated QuestInfo	questInfo	= 5; 
+	optional int32		state		= 3;
+	optional int32		type		= 4; // story or event
+	optional string		stageName	= 5; // 
+	repeated QuestInfo	questInfo	= 6; 
 };
 
 // event occure probability
