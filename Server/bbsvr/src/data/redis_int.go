@@ -22,20 +22,20 @@ type Data struct {
 	conn redis.Conn
 }
 
-func (t *Data) Open(db string) error {
+func (t *Data) Open(table string) error {
 	var err error
 	t.conn, err = redis.DialTimeout("tcp", SERVERADDR, 3*time.Second, 10*time.Second, 10*time.Second) //timeout=10s
 
 	if err != nil {
-		log.Printf("ERR: redis Open(db:%v) ret err:%v t.conn:%v", db, err, t.conn)
+		log.Printf("ERR: redis Open(table:%v) ret err:%v t.conn:%v", table, err, t.conn)
 		return err
 	}
-	_, err = t.conn.Do("SELECT", db)
-	log.Printf("redis.Select(%v) ret err:%v", db, err)
+	_, err = t.conn.Do("SELECT", table)
+	log.Printf("redis.Select(%v) ret err:%v", table, err)
 	return err
 }
 
-func (t *Data) Close() error {
+func (t *Data) Close() (err error) {
 	//TODO: when need to FLUSHDB???
 
 	//_, err := t.conn.Do("FLUSHDB")
@@ -45,14 +45,22 @@ func (t *Data) Close() error {
 
 	if t.conn != nil {
 		log.Printf("t.conn.Close()...")
-		return t.conn.Close()
+		err = t.conn.Close()
+		t.conn = nil
+		return err
 	} else {
 		log.Printf("FATAL ERR: t.conn=nil")
 	}
-	return nil
+	return err
 }
 
-//return string
+func (t *Data) Select(table string) (err error) {
+	_, err = t.conn.Do("SELECT", table)
+	log.Printf("redis.Select(%v) ret err:%v", table, err)
+	return err
+}
+
+//================= String ==================
 func (t *Data) Get(key string) (value string, err error) {
 	if t.conn != nil {
 		value, err := redis.String(t.conn.Do("GET", key))
@@ -63,6 +71,19 @@ func (t *Data) Get(key string) (value string, err error) {
 	}
 
 	return "", err
+}
+
+//
+func (t *Data) MGet(args []interface{}) (values []interface{}, err error) {
+	if t.conn != nil {
+		values, err := redis.Values(t.conn.Do("MGET", args...))
+		log.Printf("redis.GET(%v) ret err:%v value:%v", args, err, values)
+		return values, err
+	} else {
+		log.Fatal("invalid redis conn:%v", t.conn)
+	}
+
+	return values, err
 }
 
 //return []byte
@@ -120,14 +141,43 @@ func (t *Data) SetUInt(key string, value uint32) error {
 	return nil
 }
 
+//================= List ==================
 func (t *Data) GetList(key string) (values []interface{}, err error) {
 
 	values, err = redis.Values(t.conn.Do("LRANGE", key, 0, -1))
 	return values, err
 }
 
-func (t *Data) Remove(key string, removeValue string) (values []interface{}, err error) {
+func (t *Data) AddToList(key string, value []byte) (err error) {
+	_, err = redis.Values(t.conn.Do("LPUSH", key, value))
 
-	values, err = redis.Values(t.conn.Do("LREM", 0, removeValue))
+	return err
+}
+
+func (t *Data) Remove(key string, removeValue []byte) (err error) {
+
+	_, err = redis.Values(t.conn.Do("LREM", 0, removeValue))
+	return err
+}
+
+//================= HASH ==================
+func (t *Data) HGetAll(key string) (values []interface{}, err error) {
+
+	values, err = redis.Values(t.conn.Do("HGETALL", key))
 	return values, err
+}
+
+func (t *Data) HGet(key string, field string) (value []byte, err error) {
+	value, err = redis.Bytes(t.conn.Do("HGET", key, field))
+	return
+}
+
+func (t *Data) HSet(key string, field string, value []byte) (err error) {
+	_, err = t.conn.Do("HSET", key, field, value)
+	return
+}
+
+func (t *Data) HMSet(key string, fields ...[]byte) (err error) {
+	_, err = t.conn.Do("HMSET", key, fields)
+	return
 }

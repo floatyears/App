@@ -3,6 +3,7 @@ package common
 import (
 	"fmt"
 	"os"
+	"strconv"
 )
 
 func WriteFile(data []byte, filename string) error {
@@ -31,4 +32,12 @@ func ReadFile(filename string) (data []byte, err error) {
 	_, err = file.Read(data)
 
 	return data, err
+}
+
+func Itoa(n int32) string {
+	return strconv.FormatInt(int64(n), 10)
+}
+
+func Utoa(n uint32) string {
+	return strconv.FormatUint(uint64(n), 10)
 }

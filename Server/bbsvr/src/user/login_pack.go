@@ -4,15 +4,15 @@ import (
 	//	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 	//"time"
 )
 import (
 	bbproto "../bbproto"
-	//"../common"
+	"../common"
 	"../const"
 	"../data"
 	proto "code.google.com/p/goprotobuf/proto"
+	redis "github.com/garyburd/redigo/redis"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -80,19 +80,80 @@ func (t LoginPack) FillResponseMsg(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto
 	return outbuffer
 }
 
-func GetFriendInfo(uid uint32) (friends []bbproto.FriendData, err error) {
+func GetFriendInfo(uid uint32) (friendsInfo map[string]bbproto.FriendInfo, err error) {
 	db := &data.Data{}
 	err = db.Open(cs.TABLE_FRIEND)
 	defer db.Close()
 	if err != nil || uid == 0 {
-		return friends, err
+		return
 	}
 
-	strUid := strconv.Itoa(int(uid))
-	values, err := db.GetList(strUid)
-	log.Printf("get from uid '%v' ret err:%v, friends: %v", uid, err, values)
+	strUid := common.Utoa(uid)
+	zFriendDatas, err := db.HGetAll(strUid)
+	friendNum := len(zFriendDatas) / 2
 
-	return friends, nil
+	log.Printf("get from uid '%v' ret err:%v, friendsInfo[%v]: %v",
+		uid, err, friendNum, friendsInfo)
+	if err != nil {
+		return
+	}
+
+	friendsInfo = make(map[string]bbproto.FriendInfo, friendNum)
+
+	log.Printf("friendsInfo's len=%v friendsInfo:%v", len(friendsInfo), friendsInfo)
+
+	i := 0
+	for ; len(zFriendDatas) > 0; i++ {
+		var sFid, sFridata []byte
+		zFriendDatas, err = redis.Scan(zFriendDatas, &sFid, &sFridata)
+		if err != nil {
+			continue
+		}
+		log.Printf("loop fid:%v fdata:%v", sFid, sFridata)
+
+		friendData := &bbproto.FriendData{}
+		//zFriend, err := redis.Bytes(sFridata, err)
+		if err == nil {
+			err = proto.Unmarshal(sFridata, friendData) //unSerialize to friend
+		}
+		log.Printf("get from uid '%v' ret err:%v, friendData: %v", uid, err, friendData)
+
+		//assign friend data fields
+		friInfo := bbproto.FriendInfo{}
+		friInfo.UserId = friendData.UserId
+		friInfo.FriendState = friendData.FriendState
+		friInfo.FriendStateUpdate = friendData.FriendStateUpdate
+		friendsInfo[string(sFid)] = friInfo
+
+		log.Printf("friendsInfo's len=%v data:%v", len(friendsInfo), friendsInfo)
+	}
+
+	// get userinfo by friends's uid
+	fids := redis.Args{}
+	for _, friInfo := range friendsInfo {
+		fids = fids.Add(common.Utoa(*friInfo.UserId))
+	}
+
+	if err = db.Select(cs.TABLE_USER); err != nil {
+		return
+	}
+
+	userinfos, err := db.MGet(fids)
+	if err != nil {
+		return
+	}
+
+	//for _, record := range records {
+	//	user := &bbproto.UserInfo
+	//	zUser, err := redis.Bytes(record)
+	//	if err != nil {
+	//		err = proto.Unmarshal(zUser, user) //unSerialize
+	//	}
+	//}
+	log.Printf("friends's fids:%v userinfos:%v", fids, userinfos)
+	log.Println("===========GetFriends finished.==========\n")
+
+	return friendsInfo, err
 }
 
 func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack) (err error) {
@@ -101,9 +162,9 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 
 	isUserExists := uid != 0
 
-	value, err := GetFriendInfo(uid)
+	friendsData, err := GetFriendInfo(uid)
 
-	log.Printf("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
+	log.Printf("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(friendsData), friendsData)
 
 	//rspMsg.loginParam = &bbproto.LoginInfo{}
 	//if isSessionExists {

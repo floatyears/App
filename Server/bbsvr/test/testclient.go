@@ -9,11 +9,15 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 import (
 	"../src/bbproto"
+	"../src/common"
+	"../src/data"
 	_ "../src/quest"
 	_ "../src/user"
+	//redis "github.com/garyburd/redigo/redis"
 )
 
 const (
@@ -118,9 +122,39 @@ func testType() {
 	}
 }
 
+func AddFriend(uid uint32) error {
+	db := &data.Data{}
+	key := string("5")
+	err := db.Open(key)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	tNow := uint32(time.Now().Unix())
+	sUid := common.Utoa(uid)
+
+	num := uint32(10)
+	state := bbproto.EFriendState_ISFRIEND
+	for fid := uint32(102); fid-100 < num; fid++ {
+		friendData := &bbproto.FriendData{}
+		friendData.UserId = &fid
+		friendData.FriendState = &state
+		tNow += fid - 100
+		friendData.FriendStateUpdate = &tNow
+		friend, err := proto.Marshal(friendData)
+		if err != nil {
+			return err
+		}
+		err = db.HSet(sUid, common.Utoa(fid), friend)
+	}
+	return err
+}
+
 func main() {
 	Init()
 
+	//AddFriend(101)
 	LoginPack()
 	//AuthUser()
 	//testRedis()
