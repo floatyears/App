@@ -110,10 +110,6 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 			materialTexture.Add(go.GetComponentInChildren<UITexture>());
 		}
 
-//		materialTabList.Add( materialTab.transform.FindChild("Material3").gameObject);
-//		materialTabList.Add( materialTab.transform.FindChild("Material2").gameObject);
-//		materialTabList.Add( materialTab.transform.FindChild("Material1").gameObject);
-
 		UIEventListener.Get( baseTab ).onClick = FocusOnPanel;
 		UIEventListener.Get( friendTab ).onClick = FocusOnPanel;
 		UIEventListener.Get( materialTab ).onClick = FocusOnPanel;

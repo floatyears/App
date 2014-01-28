@@ -455,7 +455,7 @@ public class Battle : UIBase
 	
 	void CountDownBattle () {
 		battleCardArea.ShowCountDown (true, (int)time);
-		Debug.LogError ("time : " + time);
+//		Debug.LogError ("time : " + time);
 		if (time > 0) {
 			showCountDown = true;
 			time -= countDownTime;

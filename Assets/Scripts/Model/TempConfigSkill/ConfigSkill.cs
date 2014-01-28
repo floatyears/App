@@ -285,7 +285,6 @@ public class ConfigSkill  {
 			}
 			TempNormalSkill tns = new TempNormalSkill(ns);
 			GlobalData.tempNormalSkill.Add(ns.baseInfo.id,tns);
-//			Debug.LogError("config herat skill : " + ns.baseInfo.id );
 		}
 	}
 	
@@ -329,9 +328,9 @@ public class ConfigSkill  {
 		srh.baseInfo = new SkillBase ();
 		srh.baseInfo.id = 20;
 		srh.baseInfo.name = "no 20 recover hp";
-		srh.baseInfo.description = "fixed recover hp";
-		srh.type = EValueType.FIXED;
-		srh.value = 100f;
+		srh.baseInfo.description = "percent recover hp";
+		srh.type = EValueType.PERCENT;
+		srh.value = 0.05f;
 		srh.period = EPeriod.EP_EVERY_STEP;
 		trh = new TempRecoverHP (srh);
 		GlobalData.tempNormalSkill.Add (srh.baseInfo.id, trh);
@@ -342,10 +341,10 @@ public class ConfigSkill  {
 		sreduce.baseInfo.name = "no 21 reduce hurt";
 		sreduce.baseInfo.description = "reduce hurt every round";
 		sreduce.type = EValueType.PERCENT;
-		sreduce.unitType = EUnitType.UALL;
+		sreduce.unitType = EUnitType.UWIND;
 		sreduce.value = 20f;
 		sreduce.period = EPeriod.EP_EVERY_ROUND;
-		sreduce.periodValue = 1;
+		sreduce.periodValue = 0;
 		TempReduceHurt trhurt = new TempReduceHurt (sreduce);
 		GlobalData.tempNormalSkill.Add (sreduce.baseInfo.id, trhurt);
 		
@@ -379,14 +378,25 @@ public class ConfigSkill  {
 		scut.unitType2 = EUnitType.UWATER;
 		TempConvertUnitType tcut = new TempConvertUnitType (scut);
 		GlobalData.tempNormalSkill.Add (scut.baseInfo.id, tcut);
+
+	 	scut = new SkillConvertUnitType ();
+		scut.baseInfo = new SkillBase ();
+		scut.baseInfo.id = 31;
+		scut.baseInfo.name = "no 31 skill convert unit type";
+		scut.baseInfo.description = "convert card color";
+		scut.type = EValueType.COLORTYPE;
+		scut.unitType1 = EUnitType.UWATER;
+		scut.unitType2 = EUnitType.UWIND;
+		tcut = new TempConvertUnitType (scut);
+		GlobalData.tempNormalSkill.Add (scut.baseInfo.id, tcut);
 		
 		SkillExtraAttack sea = new SkillExtraAttack ();
 		sea.baseInfo = new SkillBase ();
 		sea.baseInfo.id = 25;
 		sea.baseInfo.name = "no 25 skill extra attack";
 		sea.baseInfo.description = "extra all type attack";
-		sea.unitType = EUnitType.UALL;
-		sea.attackValue = 10f;
+		sea.unitType = EUnitType.UWIND;
+		sea.attackValue = 2f;
 		TempSkillExtraAttack tsea = new TempSkillExtraAttack (sea);
 		GlobalData.tempNormalSkill.Add (sea.baseInfo.id, tsea);
 	}
@@ -467,11 +477,35 @@ public class TempSkillExtraAttack : ProtobufDataBase {
 	public TempSkillExtraAttack (object instance) : base (instance) {
 		
 	}
+
+	public AttackInfo AttackValue (float attackValue, int id) {
+		AttackInfo ai = new AttackInfo ();
+		ai.AttackValue = attackValue * DeserializeData<SkillExtraAttack> ().attackValue;
+		ai.AttackType = (int)DeserializeData<SkillExtraAttack> ().unitType;
+		ai.AttackRange = 1;//attack all enemy
+		ai.UserUnitID = id;
+		return ai;
+	}
 }
 
 public class TempConvertUnitType : ProtobufDataBase {
 	public TempConvertUnitType(object instance) : base (instance) {
 		
+	}
+
+	public int SwitchCard (int type) {
+		SkillConvertUnitType scut = DeserializeData<SkillConvertUnitType> ();
+		if (scut.unitType2 == EUnitType.UALL) {
+			List<int> range = new List<int>(Config.Instance.cardTypeID);// Config.Instance.cardTypeID
+			range.Remove(type);
+			int index = Random.Range(0,range.Count);
+			type = range[index];
+		}
+		else if((int)scut.unitType1 == type) {
+			type = (int)scut.unitType2;
+		}
+
+		return type;
 	}
 }
 
@@ -521,11 +555,73 @@ public class TempRecoverHP : ProtobufDataBase {
 	public TempRecoverHP (object instance) : base (instance) {
 		
 	}
+
+	/// <summary>
+	/// Recovers the H.
+	/// </summary>
+	/// <returns>The H.</returns>
+	/// <param name="blood">Blood.</param>
+	/// <param name="type">1 = right now. 2 = every round. 3 = every step.</param>
+	public int RecoverHP (int blood,int type) {
+		SkillRecoverHP srhp = DeserializeData<SkillRecoverHP> ();
+		if(type == (int)srhp.period){
+			float tempBlood = blood;
+			if(srhp.type == EValueType.FIXED) {
+				tempBlood += srhp.value;
+			}
+			else if(srhp.type == EValueType.PERCENT) {
+				tempBlood *= (1 + srhp.value);
+			}
+			blood = System.Convert.ToInt32(tempBlood);
+		}
+		return blood;
+	}
 }
 
 public class TempReduceHurt : ProtobufDataBase {
+	private int useCount = 0;
 	public TempReduceHurt (object instance) : base (instance) {
 		
+	}
+
+	public float ReduceHurt (float attackValue,int type) {
+		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
+		if (srh.unitType == EUnitType.UALL || srh.unitType == (EUnitType)type) {
+			if(srh.value > 100f) {
+				Debug.LogError("ReduceHurt error : reduce proportion error ! ");
+			}
+			else{
+				float proportion = 1f - (float)srh.value / 100f;
+				attackValue *= proportion;
+			}
+		}
+		if (srh.periodValue != 0) {
+			useCount ++;
+		}
+		return attackValue;
+	}
+
+	public bool CheckUseDone () {
+		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
+		if (srh.periodValue == 0) {
+			return false;
+		}
+
+		if (useCount >= srh.periodValue) {
+			useCount = 0;
+			return true;
+		} 
+		else {
+			return false;
+		}
+	}
+
+	/// <summary>
+	/// 0 = right now, 1 = every round, 2 = every step.
+	/// </summary>
+	/// <returns>The duration.</returns>
+	public int GetDuration() {
+		return (int)DeserializeData<SkillReduceHurt> ().period;
 	}
 }
 

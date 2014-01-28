@@ -1,47 +1,154 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-public class ExcuteLeadSkill {
-
+public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, ILeaderSkillSwitchCard,ILeaderSkillRecoverHP {
 	ILeadSkill leadSkill;
+	List<int> RemoveSkill = new List<int> ();
 
 	public ExcuteLeadSkill (ILeadSkill lead) {
 		leadSkill = lead;
-//		Debug.LogError ("leadSkill : " + leadSkill);
 	}
 
 	public void Excute() {
-		if (leadSkill.LeadSkill.Count > 0) {
-			DisposeBoostSkill(leadSkill.LeadSkill[0]);	
+//		if (leadSkill.LeadSkill.Count > 0) {
+//			DisposeBoostSkill (leadSkill.LeadSkill [0]);	
+//		}
+
+		foreach (var item in leadSkill.LeadSkill) {
+			if(DisposeBoostSkill(item.Value)){
+				RemoveSkill.Add(item.Key);
+			}
 		}
-			
+		RemoveLeaderSkill ();
+	}
+
+	void RemoveLeaderSkill () {
+		for (int i = 0; i < RemoveSkill.Count; i++) {
+			leadSkill.LeadSkill.Remove(i);
+		}
 	}
 	
-	void DisposeBoostSkill (ProtobufDataBase pdb) {
+	bool DisposeBoostSkill (ProtobufDataBase pdb) {
 		TempBoostSkill tbs = pdb as TempBoostSkill;
 		if (tbs != null) {
-			leadSkill.LeadSkill.RemoveAt (0);
-			for (int i = 0; i < leadSkill.UserUnit.Count; i++) {
-					leadSkill.UserUnit [i].SetAttack (tbs.GetBoostValue, tbs.GetTargetValue, tbs.GetTargetType, tbs.GetBoostType);
+			foreach (var item in leadSkill.UserUnit.Values) {
+				item.SetAttack(tbs.GetBoostValue, tbs.GetTargetValue, tbs.GetTargetType, tbs.GetBoostType);
 			}
-			Excute ();
-		} 
-		else {
-			DisposeDelayOperateTime(pdb);
+			return true;
 		}
-
-
+		else {
+			return DisposeDelayOperateTime(pdb);
+		}
 	}
 
-	void DisposeDelayOperateTime (ProtobufDataBase pdb) {
+	bool DisposeDelayOperateTime (ProtobufDataBase pdb) {
 		TempSkillTime tst = pdb as TempSkillTime;
-//		Debug.LogError ("TST : " + tst);
 		if (tst != null) {
-			leadSkill.LeadSkill.Remove(tst);
-//			Debug.LogError("tst.DelayTime : " + tst.DelayTime);
 			MsgCenter.Instance.Invoke(CommandEnum.LeaderSkillDelayTime, tst.DelayTime);
-			Excute ();
+			return true;
 		}
+		return false;
+	}
+	
+	public float ReduceHurtValue (float hurt,int type) {
+		if (leadSkill.LeadSkill.Count == 0) {
+			return hurt;	
+		}
+	
+		foreach (var item in leadSkill.LeadSkill) {
+			TempReduceHurt trh = item.Value as TempReduceHurt;
+			if(trh != null) {
+				hurt = trh.ReduceHurt(hurt,type);
+				if(trh.CheckUseDone()) {
+					RemoveSkill.Add(item.Key);
+				}
+			}
+		}
+
+		RemoveLeaderSkill ();
+
+		return hurt;
+	}
+		
+	public List<AttackInfo> ExtraAttack (){
+		List<AttackInfo> ai = new List<AttackInfo>();
+		if (leadSkill.LeadSkill.Count == 0) {
+			return null;
+		}
+		foreach (var item in leadSkill.LeadSkill) {
+			TempSkillExtraAttack tsea = item.Value as TempSkillExtraAttack;
+			if(tsea == null) {
+				continue;
+			}
+			int id = item.Key;
+			foreach (var item1 in leadSkill.UserUnit) {
+				if(item1.Value.GetID == id) {
+					AttackInfo attack = tsea.AttackValue(item1.Value.GetAttack,id);
+					ai.Add(attack);
+					break;
+				}
+			}
+		}
+		return ai;
+	}
+
+
+
+	public List<int> SwitchCard (List<int> cardQuene) {
+		if (leadSkill.LeadSkill.Count == 0) {
+			return null;
+		}
+
+		foreach (var item in leadSkill.LeadSkill) {
+			TempConvertUnitType tcut = item.Value as TempConvertUnitType;
+
+			if(tcut == null) {
+				continue;
+			}
+
+			for (int i = 0; i < cardQuene.Count; i++) {
+				cardQuene[i] = tcut.SwitchCard(cardQuene[i]);
+			}
+		}
+
+		return cardQuene;
+	}
+
+	public int SwitchCard (int card) {
+		if (leadSkill.LeadSkill.Count == 0) {
+			return card;
+		}
+		
+		foreach (var item in leadSkill.LeadSkill) {
+			TempConvertUnitType tcut = item.Value as TempConvertUnitType;	
+			if(tcut == null) {
+				continue;
+			}
+			card = tcut.SwitchCard(card);
+		}
+		return card;
+	}
+	
+	/// <summary>
+	/// Recovers the H.
+	/// </summary>
+	/// <returns>The H.</returns>
+	/// <param name="blood">Blood.</param>
+	/// <param name="type">Type. 0 = right now. 1 = every round. 2 = every step.</param>
+	public int RecoverHP (int blood, int type) {
+		if (leadSkill.LeadSkill.Count == 0) {
+			return blood;
+		}
+
+		foreach (var item in leadSkill.LeadSkill) {
+			TempRecoverHP trhp = item.Value as TempRecoverHP;	
+			if(trhp == null) {
+				continue;
+			}
+
+			blood = trhp.RecoverHP(blood, type);
+		}
+		return blood;
 	}
 
 

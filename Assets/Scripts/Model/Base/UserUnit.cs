@@ -16,7 +16,6 @@ public class AddBlood {
 }
 
 public class UserUnitInfo : ProtobufDataBase {
-
 	public UserUnitInfo(UserUnit instance) : base (instance) { }
 	private int currentBlood = -1;
 	private float attackMultiple = 1;
@@ -37,7 +36,7 @@ public class UserUnitInfo : ProtobufDataBase {
 		} else {
 			if (boostTarget == EBoostTarget.UNIT_RACE) {
 				SetAttackMultipeByRace (value, type);
-			} 
+			}
 			else {
 				SetAttackMultipeByRace(value,type);	
 			}
@@ -71,25 +70,27 @@ public class UserUnitInfo : ProtobufDataBase {
 		}
 	}
 
-	public int CalculateInjured(int attackType, float attackValue) {
+	public float CalculateInjured(int attackType, float attackValue) {
 		int beRetraintType = DGTools.BeRestraintType (attackType);
 		int retraintType = DGTools.RestraintType (attackType);
 		UserUnit uu = DeserializeData<UserUnit> ();
 		int defense = DGTools.CaculateAddDefense (uu.addDefence);
 		defense += GetUnitInfo ().power [uu.level].defense;
 		float hurtValue = 0;
+
 		if (beRetraintType == GetUnitInfo ().type) {
-			hurtValue = attackValue * 2 - defense;
+			hurtValue = attackValue * 0.5f;
 		} 
 		else if (retraintType == GetUnitInfo ().type) {
-			hurtValue = attackValue * 0.5f - defense;
+			hurtValue = attackValue * 2f;
 		} 
 		else {
-			hurtValue = attackValue - defense;
+			hurtValue = attackValue;
 		}
 		if (hurtValue <= 0) {
 			hurtValue = 1;
 		}
+//		Debug.LogError ("item : " + GlobalData.tempUnitBaseInfo [unitBaseInfo].chineseName + " hurtvalue : " + hurtValue + " GetUnitInfo ().type : " + GetUnitInfo ().type);
 		int hv = System.Convert.ToInt32 (hurtValue);
 		currentBlood -= hv;
 		return hv;
@@ -139,8 +140,9 @@ public class UserUnitInfo : ProtobufDataBase {
 	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TempNormalSkill tns) {
 		int addAttack = uu.addAttack * 50;
 		float attack = addAttack + ui.power [uu.level].attack;
+		//Debug.LogError ("item : " +GlobalData.tempUnitBaseInfo[unitBaseInfo].chineseName +  "CaculateAttack : " + attack + "  attackMultiple  : " + attackMultiple);
 		attack = tns.GetAttack(attack) * attackMultiple;
-//		Debug.LogError ("CaculateAttack : " + attack + "  attackMultiple  : " + attackMultiple);
+		//Debug.LogError ("item : " +GlobalData.tempUnitBaseInfo[unitBaseInfo].chineseName +  "CaculateAttack : " + attack + "  attackMultiple  : " + attackMultiple);
 		int value = System.Convert.ToInt32 (attack);
 		return value;
 	}
@@ -187,8 +189,11 @@ public class UserUnitInfo : ProtobufDataBase {
 		}
 	}
 
-
-
+	public int GetID {
+		get {
+			return DeserializeData<UserUnit>().uniqueId;
+		}
+	}
 }
 
 public class PartyItemInfo : ProtobufDataBase {

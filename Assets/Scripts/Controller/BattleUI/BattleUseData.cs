@@ -6,6 +6,11 @@ public class BattleUseData {
 	private UnitPartyInfo upi;
 	private int maxBlood = 0;
 	private int blood = 0;
+	public int Blood {
+		get{
+			return blood;
+		}
+	}
 	private int recoverHP = 0;
 	private int maxEnergyPoint = 0;
 	private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
@@ -13,6 +18,8 @@ public class BattleUseData {
 	private List<ShowEnemyUtility> showEnemy = new List<ShowEnemyUtility>();
 	private AttackController ac;
 	private ExcuteLeadSkill els;
+	private ILeaderSkillRecoverHP skillRecoverHP;
+
 	private static float countDown = 5f;
 	public static float CountDown{
 		get {
@@ -26,9 +33,11 @@ public class BattleUseData {
 		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
 		upi.GetSkillCollection ();
 		els = new ExcuteLeadSkill (upi);
+		skillRecoverHP = els;
 		els.Excute ();
 		maxBlood = blood = upi.GetBlood ();
 		maxEnergyPoint = GlobalData.maxEnergyPoint;
+		Config.Instance.SwitchCard (els);	//switch card skill
 	}
 
 	~BattleUseData() {
@@ -52,7 +61,6 @@ public class BattleUseData {
 	}
 
 	void DelayCountDownTime(object data) {
-
 		float addTime = (float)data;
 		Debug.LogError ("addTime : " + addTime);
 		countDown += addTime;
@@ -102,12 +110,15 @@ public class BattleUseData {
 		if (ai == null) {
 			return;
 		}
+		int addBlood = System.Convert.ToInt32( ai.AttackValue) + blood;
+		RecoverHP (addBlood);
+	}
 
-		blood += System.Convert.ToInt32( ai.AttackValue);
-		if (blood > maxBlood) {
-			blood = maxBlood;
+	public void RecoverHP (int recoverBlood) {
+		if (blood < recoverBlood) {
+			blood = recoverBlood > maxBlood ? maxBlood : recoverBlood;
+			RefreshBlood ();
 		}
-		RefreshBlood ();
 	}
 
 	public List<ShowEnemyUtility> GetEnemyInfo (List<int> monster) {
@@ -142,7 +153,9 @@ public class BattleUseData {
 	public void StartAttack(object data) {
 		attackInfo = upi.Attack;
 		List<AttackInfo> temp = SortAttackSequence ();
-		AttackController ac = new AttackController (this);
+		ac = new AttackController (this);
+		ac.LeadSkillReduceHurt (els);
+
 		ac.StartAttack (temp,currentEnemy,upi);
 	}
 
@@ -164,7 +177,10 @@ public class BattleUseData {
 			temp = false;
 			return;
 		}
-		
+
+		int addBlood = skillRecoverHP.RecoverHP (blood, 2);	//3: every step.
+		RecoverHP (addBlood);
+
 		if (maxEnergyPoint == 0) {
 			blood -= ReductionBloodByProportion(0.2f);
 			if(blood < 1) {
@@ -184,9 +200,6 @@ public class BattleUseData {
 	}
 
 	public void RefreshBlood() {
-		//int tempBlood = upi.GetBlood ();
-		//blood = tempBlood + recoverHP; //upi.GetBlood (); //tempBlood + recoverHP;
-
 		MsgCenter.Instance.Invoke (CommandEnum.UnitBlood, blood);
 	}
 			

@@ -86,8 +86,31 @@ public interface IUISetBool : IUIOrigin {
 }
 
 public interface ILeadSkill {
-	List<ProtobufDataBase> LeadSkill { get;}
-	List<UserUnitInfo> UserUnit { get ;}
+	Dictionary<int,ProtobufDataBase> LeadSkill { get;}
+	Dictionary<int,UserUnitInfo> UserUnit { get ;}
+}
+
+public interface ILeadSkillReduceHurt {
+	float ReduceHurtValue(float hurt,int type);
+}
+
+public interface ILeaderSkillExtraAttack {
+	List<AttackInfo> ExtraAttack ();
+}
+
+public interface ILeaderSkillSwitchCard {
+	List<int> SwitchCard (List<int> cardQuene);
+	int SwitchCard (int card);
+}
+
+public interface ILeaderSkillRecoverHP {
+	/// <summary>
+	/// Recovers the H.
+	/// </summary>
+	/// <returns>The H.</returns>
+	/// <param name="blood">Blood.</param>
+	/// <param name="type">Type. 0 = right now. 1 = every round. 2 = every step.</param>
+	int RecoverHP(int blood,int type);
 }
 
 public interface IUIAnimation {

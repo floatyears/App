@@ -32,10 +32,11 @@ public class ShowUnitInfo {
 	void EnterUnitInfo (object data) {
 		currentDetail = data as UnitBaseInfo;
 		if (currentDetail == null) {
-			DisposeUnitInfo(data);
-			return;
+			DisposeUnitInfo (data);
+		} 
+		else {
+			DisposeBaseInfo (currentDetail);
 		}
-		DisposeBaseInfo (currentDetail);
 		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 	}
 

@@ -7,9 +7,11 @@ public class LevelUpComponent : ConcreteComponent, IUICallback {
 	
 	public override void CreatUI () {
 		base.CreatUI ();
+//		Debug.LogError ("LevelUpComponent : CreatUI");
 	}
 	
 	public override void ShowUI () {
+//		Debug.LogError("LevelUpComponent ");
 		base.ShowUI ();
 	}
 	
