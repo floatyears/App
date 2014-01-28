@@ -14,6 +14,7 @@ import (
 import (
 	"../src/bbproto"
 	"../src/common"
+	"../src/const"
 	"../src/data"
 	_ "../src/quest"
 	_ "../src/user"
@@ -148,13 +149,34 @@ func AddFriend(uid uint32) error {
 		}
 		err = db.HSet(sUid, common.Utoa(fid), friend)
 	}
+
+	//add to user table
+	db.Select(cs.TABLE_USER)
+	for uid := uint32(101); uid-100 < num; uid++ {
+		rank := int32(uid-35) % 100
+		tNow += 3
+		name := "name" + common.Utoa(uid)
+
+		user := &bbproto.UserInfo{}
+		user.UserId = &uid
+		user.Rank = &rank
+		user.UserName = &name
+		user.LoginTime = &tNow
+
+		zUserinfo, err := proto.Marshal(user)
+		if err != nil {
+			return err
+		}
+		err = db.Set(common.Utoa(uid), zUserinfo)
+	}
+
 	return err
 }
 
 func main() {
 	Init()
 
-	//AddFriend(101)
+	AddFriend(101)
 	LoginPack()
 	//AuthUser()
 	//testRedis()

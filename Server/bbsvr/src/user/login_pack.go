@@ -143,13 +143,27 @@ func GetFriendInfo(uid uint32) (friendsInfo map[string]bbproto.FriendInfo, err e
 		return
 	}
 
-	//for _, record := range records {
-	//	user := &bbproto.UserInfo
-	//	zUser, err := redis.Bytes(record)
-	//	if err != nil {
-	//		err = proto.Unmarshal(zUser, user) //unSerialize
-	//	}
-	//}
+	for _, uinfo := range userinfos {
+		user := bbproto.UserInfo{}
+		zUser, err := redis.Bytes(uinfo, err)
+		if err == nil {
+			err = proto.Unmarshal(zUser, &user) //unSerialize
+		}
+		log.Printf("userId: %v -> name:%v rank:%v LoginTime:%v", *user.UserId, *user.UserName, *user.Rank, *user.LoginTime)
+
+		uid = *user.UserId
+		friInfo, ok := friendsInfo[common.Utoa(uid)]
+		if ok {
+			friInfo.Rank = user.Rank
+			friInfo.UserName = user.UserName
+			friInfo.LastPlayTime = user.LoginTime
+			//friInfo.UnitId = uint(10) // TODO: add leader's unitId to userinfo
+			log.Printf("friInfo filled done.")
+		} else {
+			log.Printf("cannot find friInfo for: %v.", uid)
+		}
+
+	}
 	log.Printf("friends's fids:%v userinfos:%v", fids, userinfos)
 	log.Println("===========GetFriends finished.==========\n")
 
@@ -159,12 +173,12 @@ func GetFriendInfo(uid uint32) (friendsInfo map[string]bbproto.FriendInfo, err e
 func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack) (err error) {
 	// read user data (by uuid) from db
 	uid := *reqMsg.Header.UserId
-
 	isUserExists := uid != 0
 
-	friendsData, err := GetFriendInfo(uid)
-
-	log.Printf("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(friendsData), friendsData)
+	if isUserExists {
+		friendsInfo, err := GetFriendInfo(uid)
+		log.Printf("GetFriendInfo ret %v. friends num=%v friendsInfo: ['%v']  ", err, len(friendsInfo), friendsInfo)
+	}
 
 	//rspMsg.loginParam = &bbproto.LoginInfo{}
 	//if isSessionExists {
