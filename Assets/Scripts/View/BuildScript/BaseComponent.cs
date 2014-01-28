@@ -72,7 +72,7 @@ public class ConcreteComponent : RootComponent, IUIComponent {
 		if (component != null) {
 			component.ShowUI();		
 		}
-
+//		Debug.LogError ("ConcreteComponent : " + viewComponent.gameObject.name);
 		if (viewComponent != null) {
 			viewComponent.ShowUI ();
 		}

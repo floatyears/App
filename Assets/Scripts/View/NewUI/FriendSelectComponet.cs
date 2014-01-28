@@ -32,7 +32,8 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 		int partyID = 0;
 		try {
 			partyID = (int)data;
-		} catch (System.Exception ex) {
+		} 
+		catch (System.Exception ex) {
 			Debug.LogError(ex.Message);
 			return;
 		}
@@ -45,9 +46,11 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 			Dictionary<int,int> temp = upi.GetPartyItem();
 			Dictionary<int,UnitBaseInfo> viewInfo = new Dictionary<int, UnitBaseInfo>();
 			foreach(var item in temp) {
-//				Debug.LogError("item.Value : " + item.Value);
 				UserUnitInfo uui =  GlobalData.tempUserUnitInfo[item.Value];
-				userUnit.Add(item.Key,uui);
+				if(!userUnit.ContainsKey(item.Key)) {
+					userUnit.Add(item.Key,uui);
+				}
+//				Debug.LogError(uui.unitBaseInfo);
 				UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[uui.unitBaseInfo];
 				viewInfo.Add(item.Key,ubi);
 			}

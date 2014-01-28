@@ -27,7 +27,7 @@ public class Config
 	public const byte cardDepth = 3;
 
 	public const string battleCardName = "BattleCard";
-	private int[] cardTypeID = new int[4] {1,2,3,7};
+	public int[] cardTypeID = new int[4] {1,2,3,7};
 
 	public static Vector3 cardPoolInitPosition = new Vector3(-255f,300f,0f);
 	
@@ -38,38 +38,36 @@ public class Config
 		get{return cardData;}
 	}
 
-	private Config()
-	{
+	private Config() {
 		ItemData cid;
-
-		for (int i = 1; i < 8; i++) 
-		{
+		for (int i = 1; i < 8; i++) {
 			cid = new ItemData(i,"Card"+i,1);
 			cardData.Add(cid.itemID,cid);
 		}
-
-		Generate();
 	}
 
-	void Generate()
-	{
-		for (int i = 0; i < 20; i++) 
-		{
-			int key = Random.Range(startCardID, endCardID);
+	void Generate() {
+		for (int i = 0; i < 20; i++) {
+			int key = Random.Range(0, cardTypeID.Length);
 			int id = cardTypeID[key];
-//			Debug.LogError("id : " + id);
+			if(ISwitchCard != null){
+				id = ISwitchCard.SwitchCard(id);
+			}
 			cardSort.Enqueue(cardData[id]);
 		}
 	}
-	
+
 	private Queue<ItemData> cardSort = new Queue<ItemData>();
 
-	public ItemData GetCard()
-	{
+	public ItemData GetCard() {
 		if(cardSort.Count == 0)
 			Generate();
-
 		return cardSort.Dequeue();
+	}
+
+	ILeaderSkillSwitchCard ISwitchCard;
+	public void SwitchCard (ILeaderSkillSwitchCard ilssc) {
+		ISwitchCard = ilssc;
 	}
 }
 

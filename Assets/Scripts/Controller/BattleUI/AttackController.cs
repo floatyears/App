@@ -16,15 +16,26 @@ public class AttackController {
 
 	private float countDownTime = 0f;
 
-	public void StartAttack (List<AttackInfo> attackInfo,List<TempEnemy> enemyInfo,UnitPartyInfo upi) {
-		this.attackInfo = attackInfo;
-		this.enemyInfo = enemyInfo;
+	public void StartAttack (List<AttackInfo> attack,List<TempEnemy> ei,UnitPartyInfo upi) {
+		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
+		attackInfo = attack;
+		enemyInfo = ei;
 		this.upi = upi;
 		Attack ();
 	}
 	
 	void StopAttack () {
 
+	}
+
+	ILeadSkillReduceHurt leadSkillReuduce;
+	ILeaderSkillExtraAttack leaderSkilllExtarAttack;
+	ILeaderSkillRecoverHP leaderSkillRecoverHP;
+
+	public void LeadSkillReduceHurt(ExcuteLeadSkill lsr) {
+		leadSkillReuduce = lsr as ILeadSkillReduceHurt;
+		leaderSkilllExtarAttack = lsr as ILeaderSkillExtraAttack;
+		leaderSkillRecoverHP = lsr as ILeaderSkillRecoverHP;
 	}
 
 	bool CheckEnemy () {
@@ -68,6 +79,8 @@ public class AttackController {
 	
 	void AttackEnemy () {
 		if (attackInfo.Count == 0) {
+			int blood = leaderSkillRecoverHP.RecoverHP(bud.Blood, 1);	//1: every round.
+			bud.RecoverHP(blood);
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
@@ -84,8 +97,6 @@ public class AttackController {
 			DisposeRecoverHP(ai);
 			break;
 		}
-		//CheckTempEnemy ();
-
 		Attack ();
 	}
 
@@ -168,27 +179,27 @@ public class AttackController {
 	}
 	
 	void EnemyAttack () {
-		// te = enemyInfo [enemyIndex];
-		//msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 		if (te.GetRound () == 0) {
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.GetID());
 			int attackType = te.GetUnitType ();
 			int attackValue = te.GetAttack ();
-			int hurtValue = upi.CaculateInjured (attackType, attackValue);
+			float reduceValue = leadSkillReuduce.ReduceHurtValue(attackValue,attackType);
+			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
 			bud.Hurt(hurtValue);
-			//bud.RefreshBlood ();
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 		}
-
 		enemyIndex ++;
-
 		if (enemyIndex == enemyInfo.Count) {
-			bud.ClearData();
-			msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
+			EnemyAttackEnd();
 		} 
 		else {
 			LoopEnemyAttack();
 		}
-	}     
+	}    
+
+	void EnemyAttackEnd () {
+		bud.ClearData();
+		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
+	}
 }

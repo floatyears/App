@@ -7,6 +7,7 @@ public sealed class LogHelper {
     }
 
     public static void Log(object message){
+//		Debug.LogError ("LogHelper : " + DebugHelper.DEBUG);
         if (!DebugHelper.DEBUG){
             return;
         }

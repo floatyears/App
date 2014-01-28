@@ -17,7 +17,6 @@ public class ConfigUnitInfo {
 	UnitInfo[] ui = new UnitInfo[maxCount];
 	
 	void GenerateUnitInfo () {
-
 		for (int i = 1; i < maxCount; i++) {
 			UnitInfo uiitem 	= new UnitInfo ();
 			uiitem.id 			= i;
@@ -28,7 +27,7 @@ public class ConfigUnitInfo {
 			for (int j = 0; j < 3; j++) {
 				BattlePower bp 	= new BattlePower ();
 				bp.attack 		= 10 + j * 10;
-				bp.defense 		= 1 + j * 10;
+				//bp.defense 		= 1 + j * 10;
 				bp.hp 			= 100 + j * 10;
 				bp.level 		= j + 1;
 				uiitem.power.Add(bp);
@@ -36,10 +35,16 @@ public class ConfigUnitInfo {
 			uiitem.rare 		= i;
 			uiitem.maxLevel 	= 10;
 			uiitem.expType 		= 1;
-		
+			if(i == 1){
+				uiitem.leaderSkill = 19;
+			}
+			if(i == 5) {
+				uiitem.leaderSkill = 20;
+			}
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
+//		Debug.LogError(GlobalData.tempUnitInfo [1].)
 	}
 
 	void GenerateUserUnit () {
@@ -90,8 +95,30 @@ public class TempUnitInfo : ProtobufDataBase {
 	}
 }
 
-public class UnitPartyInfo : ProtobufDataBase, IComparer {
-	private List<PartyItem> partyItem = new List<PartyItem> ();							//skill sort
+public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
+	private List<PartyItem> partyItem = new List<PartyItem> ();		
+	private Dictionary<int,ProtobufDataBase> leaderSkill = new Dictionary<int,ProtobufDataBase> ();
+	public Dictionary<int,ProtobufDataBase> LeadSkill {
+		get {
+//			Debug.LogError("UnitPartyInfo : " + leaderSkill.Count);
+			return leaderSkill;
+		}
+	}
+	private Dictionary<int,UserUnitInfo> userUnit ;
+	public Dictionary<int,UserUnitInfo> UserUnit {
+		get {
+			if(userUnit == null) {
+				userUnit = new Dictionary<int,UserUnitInfo>();
+				for (int i = 0; i < partyItem.Count; i++) {
+					UserUnitInfo uui = GlobalData.tempUserUnitInfo[partyItem[i].unitUniqueId];
+					userUnit.Add(partyItem[i].unitPos,uui);
+				}
+			}
+			return userUnit;
+		}
+	}
+
+//skill sort
 	private CalculateRecoverHP crh ;
 	/// <summary>
 	/// key is area item. value is skill list. this area already use skill must record in this dic, avoidance redundant calculate.
@@ -101,18 +128,20 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 	public Dictionary<int, List<AttackInfo>> Attack {
 		get {return attack;}
 	}
-	public UnitPartyInfo (object instance) : base (instance) {   }
-	~UnitPartyInfo () { }
+	public UnitPartyInfo (object instance) : base (instance) {  }
+	~UnitPartyInfo () {  }
 
-	public int CaculateInjured (int attackType, int attackValue) {
+	public int CaculateInjured (int attackType, float attackValue) {
 		float Proportion = 1f / (float)partyItem.Count;
-		int attackV = System.Convert.ToInt32( attackValue * Proportion);
-		int hurtValue = 0;
+//		Debug.LogError ("CaculateInjured : " + Proportion);
+		float attackV = attackValue * Proportion;
+//		Debug.LogError ("attackV : " + attackV);
+		float hurtValue = 0;
 		for (int i = 0; i < partyItem.Count; i++) {
 			UserUnitInfo unitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
 			hurtValue += unitInfo.CalculateInjured(attackType, attackV);
 		}
-		return hurtValue;
+		return System.Convert.ToInt32(hurtValue);
 	}
 
 	public List<AttackImageUtility> CalculateSkill(int areaItemID, int cardID, int blood) {
@@ -171,11 +200,32 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 		for (int i 		= 0; i < up.items.Count; i++) {
 			partyItem.Add(up.items[i]);
 		}
+		GetLeaderSkill ();
 		DGTools.InsertSort<PartyItem,IComparer> (partyItem, this);
 	}
+
+	void GetLeaderSkill () {
+		UnitParty up = DeserializeData<UnitParty> ();
+		int id = up.items [0].unitUniqueId;
+		AddLeadSkill(id);
+		id =  up.items [4].unitUniqueId;
+		AddLeadSkill (id);
+	}
+
+	void AddLeadSkill (int id) {
+		if (id != -1) {
+			UserUnitInfo firstLeader = GlobalData.tempUserUnitInfo [id];
+//			Debug.LogError("AddLeadSkill : " + id + "  firstLeader.GetLeadSKill()  : " + firstLeader.GetLeadSKill());
+			ProtobufDataBase pdb = GlobalData.tempNormalSkill[firstLeader.GetLeadSKill()];
+			leaderSkill.Add(id,pdb);
+		}
+	}
 	
-	public int Compare (object first, object second)
-	{
+	UnitParty GetunitParty(){
+		return DeserializeData<UnitParty> ();
+	} 
+	
+	public int Compare (object first, object second) {
 		PartyItem firstUU 	= (PartyItem)first;
 		PartyItem secondUU 	= (PartyItem)second;
 		NormalSkill ns1 	= GetSecondSkill (firstUU);
@@ -190,6 +240,7 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 			int unitUniqueID = up.items [i].unitUniqueId;
 			bloodNum += GlobalData.tempUserUnitInfo [unitUniqueID].GetBlood();
 		}
+
 		return bloodNum;
 	}
 
@@ -226,6 +277,16 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer {
 		UserUnit uu1 = GlobalData.tempUserUnitInfo[pi.unitUniqueId].DeserializeData() as UserUnit;
 		UnitInfo ui1 = GlobalData.tempUnitInfo[uu1.id].DeserializeData<UnitInfo>();
 		return GlobalData.tempNormalSkill [ui1.skill2].DeserializeData<NormalSkill> ();
+	}
+
+	public List<UserUnitInfo> GetUserUnit () {
+		UnitParty uup = DeserializeData<UnitParty> ();
+		List<UserUnitInfo> temp = new List<UserUnitInfo> ();
+		foreach (var item in uup.items) {
+			UserUnitInfo uui = GlobalData.tempUserUnitInfo[item.unitUniqueId];
+			temp.Add(uui);
+		}
+		return temp;
 	}
 }
 

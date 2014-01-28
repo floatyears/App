@@ -101,7 +101,7 @@ public class ConfigEnermy {
 	void GenerateEnemy () {
 		EnemyInfo ei = new EnemyInfo ();
 		ei.unitId = 1;
-		ei.attack = 200;
+		ei.attack = 400;
 		ei.attackRound = 1;
 		ei.defense = 10;
 		ei.hp = 400;
@@ -114,7 +114,7 @@ public class ConfigEnermy {
 		ei = new EnemyInfo ();
 		ei.unitId = 2;
 		ei.attack = 800;
-		ei.attackRound = 3;
+		ei.attackRound = 1;
 		ei.defense = 20;
 		ei.hp = 1500;
 		ei.type = 2;

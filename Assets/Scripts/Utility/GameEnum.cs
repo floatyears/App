@@ -80,6 +80,9 @@ public enum CommandEnum
 	EnemyDead				= 3012,
 	RecoverHP				= 3013,
 	#endregion
+
+	LeaderSkillBoost		= 3014,
+	LeaderSkillDelayTime	= 3015,
 }
 
 public enum UIParentEnum : byte {
