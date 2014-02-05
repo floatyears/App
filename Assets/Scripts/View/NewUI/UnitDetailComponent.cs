@@ -12,7 +12,7 @@ public class UnitDetailComponent : ConcreteComponent {
 	public override void ShowUI () {
 		base.ShowUI ();
 	}
-	
+	   
 	public override void HideUI () {
 		base.HideUI ();
 	}

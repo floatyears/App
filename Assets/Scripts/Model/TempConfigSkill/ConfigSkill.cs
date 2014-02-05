@@ -417,12 +417,14 @@ public class ConfigSkill  {
 	}
 }
 
-public class TempSkillSingleAttack : ProtobufDataBase{
+public class TempSkillSingleAttack : ProtobufDataBase, IActiveSkillExcute{
 	public TempSkillSingleAttack(object instance) : base (instance) {
 
 	}
-
-
+	
+	public Object Excute (int atk = -1) {
+		return null;
+	}
 }
 
 public class TempNormalSkill : ProtobufDataBase {

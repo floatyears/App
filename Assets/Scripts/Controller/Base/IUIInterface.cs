@@ -113,6 +113,10 @@ public interface ILeaderSkillRecoverHP {
 	int RecoverHP(int blood,int type);
 }
 
+public interface IActiveSkillExcute {
+	Object Excute(int atk = -1);
+}
+
 public interface IUIAnimation {
 
 }
