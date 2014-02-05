@@ -83,13 +83,13 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	{
 		foreach( var tabKey in focusDic.Keys ) {
 			if( tabKey == focus ) {
-				tabKey.transform.FindChild("Hight_Light").gameObject.SetActive( true );
-				tabKey.transform.FindChild( "Label_Title" ).GetComponent< UILabel >().color = Color.yellow;
+				tabKey.transform.FindChild("high_light").gameObject.SetActive( true );
+				tabKey.transform.FindChild( "label_title" ).GetComponent< UILabel >().color = Color.yellow;
 				focusDic[ tabKey ].SetActive( true );
 			}
 			else {
-				tabKey.transform.FindChild("Hight_Light").gameObject.SetActive( false );
-				tabKey.transform.FindChild( "Label_Title" ).GetComponent< UILabel >().color = Color.white;
+				tabKey.transform.FindChild("high_light").gameObject.SetActive( false );
+				tabKey.transform.FindChild( "label_title" ).GetComponent< UILabel >().color = Color.white;
 				focusDic[ tabKey ].SetActive( false );
 			}
 		}
@@ -104,7 +104,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 		friendTexture = friendTab.GetComponentInChildren<UITexture> ();
 		materialTab = FindChild("Focus_Tabs/Material_Tab");
 
-		for (int i = 4; i > 0; i--) {
+		for (int i = 1; i < 5; i++) {
 			GameObject go = materialTab.transform.FindChild("Material" + i).gameObject;
 			materialTabList.Add(go);
 			materialTexture.Add(go.GetComponentInChildren<UITexture>());
@@ -279,51 +279,48 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	}
 
 	private void LevelUp( GameObject go) {
-
-		//Here Level Up Logic
 		Debug.LogError("Level Up Logic Here!!!!");
 		UIManager.Instance.ChangeScene( SceneEnum.UnitDetail );
 	}
 
 
 	private void InitBaseScrollArgs() {
-		baseScrollerArgs.Add( "parentTrans", 			basePanel.transform					);
-		baseScrollerArgs.Add( "scrollerScale", 		Vector3.one									);
-		baseScrollerArgs.Add( "scrollerLocalPos" ,	-45*Vector3.up								);
-		baseScrollerArgs.Add( "position", 				Vector3.zero 									);
-		baseScrollerArgs.Add( "clipRange", 			new Vector4(-20, -120, 640, 400)		);
-		baseScrollerArgs.Add( "gridArrange", 		UIGrid.Arrangement.Vertical 			);
-		baseScrollerArgs.Add( "maxPerLine", 			3 												);
-		baseScrollerArgs.Add( "scrollBarPosition", 	new Vector3(-320,-340,0)				);
-		baseScrollerArgs.Add( "cellWidth", 			110 												);
-		baseScrollerArgs.Add( "cellHeight",			110 												);
+		baseScrollerArgs.Add( "parentTrans", 						basePanel.transform						);
+		baseScrollerArgs.Add( "scrollerScale", 						Vector3.one									);
+		baseScrollerArgs.Add( "scrollerLocalPos" ,					-45*Vector3.up								);
+		baseScrollerArgs.Add( "position", 								Vector3.zero 									);
+		baseScrollerArgs.Add( "clipRange", 							new Vector4(0, -120, 640, 400)			);
+		baseScrollerArgs.Add( "gridArrange", 						UIGrid.Arrangement.Vertical 			);
+		baseScrollerArgs.Add( "maxPerLine", 						3 													);
+		baseScrollerArgs.Add( "scrollBarPosition", 					new Vector3(-320,-340,0)				);
+		baseScrollerArgs.Add( "cellWidth", 							110 												);
+		baseScrollerArgs.Add( "cellHeight",							110 												);
 	}
 
 	private void InitMaterialScrollArgs() {
-		materialScrollerArgs.Add( "parentTrans", 		materialPanel.transform				);
-		materialScrollerArgs.Add( "scrollerScale", 		Vector3.one								);
-		materialScrollerArgs.Add( "scrollerLocalPos" ,	-45*Vector3.up							);
-		materialScrollerArgs.Add( "position", 				Vector3.zero 							);
-		materialScrollerArgs.Add( "clipRange", 			new Vector4(-20, -120, 640, 400 ));
-		materialScrollerArgs.Add( "gridArrange", 		UIGrid.Arrangement.Vertical 		);
-		materialScrollerArgs.Add( "maxPerLine", 			3 											);
-		materialScrollerArgs.Add( "scrollBarPosition", 	new Vector3(-320,-340,0)		);
-		materialScrollerArgs.Add( "cellWidth", 			110 											);
-		materialScrollerArgs.Add( "cellHeight",			110 											);
+		materialScrollerArgs.Add( "parentTrans", 					materialPanel.transform					);
+		materialScrollerArgs.Add( "scrollerScale", 					Vector3.one									);
+		materialScrollerArgs.Add( "scrollerLocalPos" ,				-45*Vector3.up								);
+		materialScrollerArgs.Add( "position", 						Vector3.zero 									);
+		materialScrollerArgs.Add( "clipRange", 						new Vector4(0, -120, 640, 400 )		);
+		materialScrollerArgs.Add( "gridArrange", 					UIGrid.Arrangement.Vertical 			);
+		materialScrollerArgs.Add( "maxPerLine", 					3 													);
+		materialScrollerArgs.Add( "scrollBarPosition", 			new Vector3(-320,-340,0)				);
+		materialScrollerArgs.Add( "cellWidth", 						110 												);
+		materialScrollerArgs.Add( "cellHeight",						110 												);
 	}
 
 	private void InitFriendScrollArgs() {
-		//Debug.LogError( friendPanel.transform.name);
-		friendcrollerArgs.Add( "parentTrans", 		friendPanel.transform						);
-		friendcrollerArgs.Add( "scrollerScale", 		Vector3.one									);
-		friendcrollerArgs.Add( "scrollerLocalPos" ,	 -240*Vector3.up							);
-		friendcrollerArgs.Add( "position", 				Vector3.zero 									);
-		friendcrollerArgs.Add( "clipRange", 			new Vector4(0, 0, 640, 200 )				);
-		friendcrollerArgs.Add( "gridArrange", 		UIGrid.Arrangement.Horizontal 		);
-		friendcrollerArgs.Add( "maxPerLine", 		0 													);
-		friendcrollerArgs.Add( "scrollBarPosition", 	new Vector3(-320,-92,0)				);
-		friendcrollerArgs.Add( "cellWidth", 			110 												);
-		friendcrollerArgs.Add( "cellHeight",			110 												);
+		friendcrollerArgs.Add( "parentTrans", 						friendPanel.transform						);
+		friendcrollerArgs.Add( "scrollerScale", 						Vector3.one									);
+		friendcrollerArgs.Add( "scrollerLocalPos" ,	 				-270*Vector3.up								);
+		friendcrollerArgs.Add( "position", 								Vector3.zero 									);
+		friendcrollerArgs.Add( "clipRange", 							new Vector4(0, 0, 640, 200 )				);
+		friendcrollerArgs.Add( "gridArrange", 						UIGrid.Arrangement.Horizontal 		);
+		friendcrollerArgs.Add( "maxPerLine", 						0 													);
+		friendcrollerArgs.Add( "scrollBarPosition", 					new Vector3(-320,-118,0)				);
+		friendcrollerArgs.Add( "cellWidth", 							110 												);
+		friendcrollerArgs.Add( "cellHeight",							110 												);
 	}
 
 }

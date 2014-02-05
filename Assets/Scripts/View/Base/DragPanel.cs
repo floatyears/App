@@ -30,7 +30,8 @@ public class DragPanel : UIBase
 	}
 	public override void CreatUI () {
 		base.CreatUI ();
-		dragPanelView = NGUITools.AddChild(viewManager.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); //viewManager.GetViewObject ("DragPanelView") as DragPanelView;
+		dragPanelView = NGUITools.AddChild(
+			viewManager.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); 
 		dragPanelView.Init (uiName);
 	}
 	public override void ShowUI () {
@@ -64,7 +65,8 @@ public class DragPanel : UIBase
 			}
 		}
 		if (sourceObject == null) {
-			LogHelper.LogError (dragPanelView.name +  " scroll view item is null. don't creat drag panel");
+			LogHelper.LogError (dragPanelView.name + 
+			                    " scroll view item is null. don't creat drag panel");
 			return ;
 		}
 		for (int i = 0; i < count; i++) {

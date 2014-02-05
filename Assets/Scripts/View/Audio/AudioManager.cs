@@ -14,7 +14,4 @@ public class AudioManager {
 		}
 	}
 
-	public void BgMusicOn() {
-
-	}
 }
