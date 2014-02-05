@@ -15,7 +15,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity
 	private UILabel 	unitRareLabel;
 	private UILabel 	unitAttackLabel;
 	private UISlider 	unitExpSlider;
-
+	    
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
 		InitUI();

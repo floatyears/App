@@ -83,6 +83,8 @@ public enum CommandEnum
 
 	LeaderSkillBoost		= 3014,
 	LeaderSkillDelayTime	= 3015,
+
+	ActiveSkillAttack		= 3016,
 }
 
 public enum UIParentEnum : byte {
