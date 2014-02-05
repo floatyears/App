@@ -6,6 +6,7 @@ public class ConfigSkill  {
 	public ConfigSkill() {
 		ConfigNormalSkill ();
 		ConfigLeadSkill ();
+		ConfigActiveSkill ();
 	}
 
 	void ConfigNormalSkill () {
@@ -400,8 +401,29 @@ public class ConfigSkill  {
 		TempSkillExtraAttack tsea = new TempSkillExtraAttack (sea);
 		GlobalData.tempNormalSkill.Add (sea.baseInfo.id, tsea);
 	}
+
+	void ConfigActiveSkill () {
+		SkillSingleAttack ssa = new SkillSingleAttack ();
+		ssa.baseInfo = new SkillBase ();
+		ssa.baseInfo.id = 32;
+		ssa.baseInfo.name = "no 32 skill single attack";
+		ssa.baseInfo.description = "boost a single attack by type";
+		ssa.type = EValueType.FIXED;
+		ssa.unitType = EUnitType.UFIRE;
+		ssa.value = 1000f;
+
+		TempSkillSingleAttack tssa = new TempSkillSingleAttack (ssa);
+		GlobalData.tempNormalSkill.Add (ssa.baseInfo.id, tssa);
+	}
 }
 
+public class TempSkillSingleAttack : ProtobufDataBase{
+	public TempSkillSingleAttack(object instance) : base (instance) {
+
+	}
+
+
+}
 
 public class TempNormalSkill : ProtobufDataBase {
 	public TempNormalSkill (object instance) : base (instance) {
