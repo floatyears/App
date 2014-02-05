@@ -325,7 +325,7 @@ public class PartyDecorator : DecoratorBase {
 //--------------------------------LevelUp----------------------------------------
 public class LevelUpDecorator : DecoratorBase {
 	private SceneInfoComponent sceneInfoBar;
-	public LevelUpDecorator(SceneEnum sEnum) : base(sEnum) { }
+	public LevelUpDecorator(SceneEnum sEnum) : base(sEnum) { LogHelper.Log ("LevelUpDecorator : ");}
 	
 	public override void ShowScene () {
 		base.ShowScene ();
@@ -341,6 +341,7 @@ public class LevelUpDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
+
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
 

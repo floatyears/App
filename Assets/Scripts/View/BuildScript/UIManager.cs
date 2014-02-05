@@ -123,7 +123,6 @@ public class UIManager {
 			current = CreatScene(sEnum);
 
 		if (current != null) {
-
 			current.ShowScene();		
 		}
 	}

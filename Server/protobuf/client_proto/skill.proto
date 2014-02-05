@@ -213,20 +213,24 @@ message NormalSkill {
 //==================LeaderSkill Skills=====================================================
 
 message SkillBoost {
-    optional SkillBase      baseInfo    = 1;
+	optional SkillBase		baseInfo    = 1;
 	optional EBoostType 	boostType	= 2; // BOOST_ATTACK | BOOST_HP
 	optional float 			boostValue	= 3; // 1.5x, 2.0x
-	optional EBoostTarget 	targetType	= 4; // UNIT_RACE | UNIT_TYPE
+	optional EBoostTarget	targetType	= 4; // UNIT_RACE | UNIT_TYPE
 	optional int32 			targetValue = 5; // target race
 };
 
 message SkillExtraAttack {
-    optional SkillBase  baseInfo    = 1;
+	optional SkillBase	baseInfo	= 1;
 	optional EUnitType	unitType	= 2; //target unit type
 	optional float		attackValue	= 3; //1.5x, 2.0x, 2.5x
 };
 
-
+//=================add by leiliang===========================================================
+message SkillMultipleAttack {
+	optional SkillBase	baseInfo		= 1;
+	optional int		unitTypeCount	= 2;
+}
 
 //message LeaderSkill {
 	//optional int32  no				= 1; //skill number

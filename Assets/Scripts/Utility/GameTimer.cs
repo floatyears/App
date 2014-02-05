@@ -42,10 +42,14 @@ public class GameTimer : MonoBehaviour {
 		countDown.Add (task);
 	}
 
-	public void ExitCountDonw(Callback callback) {
+	public bool ExitCountDonw(Callback callback) {
 		CountDownUtility cdu = countDown.Find( a=>a.callback == callback) ;
-		if(cdu != null ) {
-			countDown.Remove(cdu);
+		if (cdu != null) {
+			countDown.Remove (cdu);
+			return true;
+		} 
+		else {
+			return false;
 		}
 	}
 
