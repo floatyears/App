@@ -23,23 +23,33 @@ public class TempEnemy : ProtobufDataBase {
 		}
 	}
 
-	public int CalculateInjured (float attackInfo, bool restraint, int unitType) {
-		int injured = 0;
+	public int CalculateInjured (AttackInfo attackInfo, bool restraint) {//, int unitType, bool ignoreDefense = false) {
+		float injured = 0;
+		bool ignoreDefense = attackInfo.IgnoreDefense;
+		int unitType = attackInfo.AttackType;
+		float attackvalue = attackInfo.AttackValue;
 		if (restraint) {
-			injured = (int)(attackInfo * 2 - GetDefense ());
+			injured = attackvalue * 2;
 		} 
 		else {
 			int beRestraint = DGTools.BeRestraintType(unitType);
-			if(beRestraint > 0) {
-				injured = (int) (attackInfo * 0.5f - GetDefense());
+			if(beRestraint == (int)GetEnemyInfo().type) {
+				injured = attackvalue * 0.5f;
 			}
 			else{
-				injured = (int)(attackInfo - GetDefense());
+				injured = attackvalue;
 			}
 		}
-		initBlood -= injured;
+		if (!ignoreDefense) {
+			injured -= GetDefense();
+		}
+		if (injured < 1) {
+			injured = 1;
+		}
+		int value = System.Convert.ToInt32 (injured);
+		initBlood -= value;
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
-		return injured;
+		return value;
 	}
 
 	public void Reset() {
@@ -59,7 +69,7 @@ public class TempEnemy : ProtobufDataBase {
 		return GetEnemyInfo().attack;
 	}
 
-	public int GetID () {
+	public uint GetID () {
 		return GetEnemyInfo().unitId;
 	}
 
@@ -80,7 +90,7 @@ public class TempEnemy : ProtobufDataBase {
 	}
 
 	public int GetUnitType () {
-		return GetEnemyInfo ().type;
+		return (int)GetEnemyInfo ().type;
 	}
 }
 
@@ -105,7 +115,7 @@ public class ConfigEnermy {
 		ei.attackRound = 1;
 		ei.defense = 10;
 		ei.hp = 400;
-		ei.type = 1;
+		ei.type = (EUnitType)1;
 		ei.dropUnitId = 10;
 		ei.dropRate = 0.15f;
 		TempEnemy te = new TempEnemy (ei);
@@ -117,7 +127,7 @@ public class ConfigEnermy {
 		ei.attackRound = 1;
 		ei.defense = 20;
 		ei.hp = 1500;
-		ei.type = 2;
+		ei.type = (EUnitType)2;
 		ei.dropUnitId = 11;
 		ei.dropRate = 0.2f;
 		te = new TempEnemy (ei);

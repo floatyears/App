@@ -92,7 +92,7 @@ public class EnemyItem : UIBaseUnity {
 	}
 
 	void EnemyAttack (object data) {
-		int id = (int) data;
+		uint id = (uint) data;
 		if (id == enemyInfo.enemyID) {
 			iTween.ScaleFrom(gameObject,new Vector3(1.5f,1.5f,1f),0.5f);
 		}

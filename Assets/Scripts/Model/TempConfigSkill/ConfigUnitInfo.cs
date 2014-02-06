@@ -19,9 +19,9 @@ public class ConfigUnitInfo {
 	void GenerateUnitInfo () {
 		for (int i = 1; i < maxCount; i++) {
 			UnitInfo uiitem 	= new UnitInfo ();
-			uiitem.id 			= i;
+			uiitem.id 			= (uint)i;
 			uiitem.name			= "unit_" + i;
-			uiitem.type 		= i;
+			uiitem.type 		= (EUnitType)i;
 			uiitem.skill1 		= (i - 1) * 2;
 			uiitem.skill2 		= (i - 1) * 2 + 1;
 			for (int j = 0; j < 3; j++) {
@@ -41,6 +41,7 @@ public class ConfigUnitInfo {
 			if(i == 5) {
 				uiitem.leaderSkill = 20;
 			}
+			uiitem.activeSkill = 32;
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
@@ -51,7 +52,7 @@ public class ConfigUnitInfo {
 		for (int i = 1; i < maxCount; i++) {
 			UserUnit uu 		= new UserUnit ();
 			uu.uniqueId 		= i;
-			uu.id 				= i;
+			uu.id 				= (uint)i;
 			uu.exp 				= 0;
 			uu.level 			= 1;
 			uu.addAttack 		= i;
@@ -240,7 +241,6 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
 			int unitUniqueID = up.items [i].unitUniqueId;
 			bloodNum += GlobalData.tempUserUnitInfo [unitUniqueID].GetBlood();
 		}
-
 		return bloodNum;
 	}
 
@@ -381,9 +381,9 @@ public class AttackInfo {
 		set {continuAttackMultip = value;}
 	}
 
-	private int enemyID = -1;
+	private uint enemyID = 0;
 
-	public int EnemyID {
+	public uint EnemyID {
 		get {return enemyID;}
 		set {enemyID = value;}
 	}
@@ -397,8 +397,13 @@ public class AttackInfo {
 
 	private Object effect;
 	public Object Effect {
-		get{return effect;}
-		set{effect = value;}
+		get {return effect;}
+		set {effect = value;}
+	}
+	private bool ignoreDefense = false;
+	public bool IgnoreDefense {
+		get {return ignoreDefense;}
+		set {ignoreDefense = value;}
 	}
 	//------------test need data, delete it behind test done------------//
 	//------------------------------------------------------------------//

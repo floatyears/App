@@ -2,10 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using bbproto;
 
 public class DGTools {
 	public int RandomToInt(int min,int max) {
 		return UnityEngine.Random.Range(min,max);
+	}
+
+	public static bool CheckCooling(SkillBase sb) {
+		if (sb.skillCooling == 0) {
+			return true;
+		}
+		sb.skillCooling --;
+		if (sb.skillCooling == 0) {
+			return true;
+		} 
+		else {
+			return false;
+		}
 	}
 
 	public static string SwitchUnitType (int unitType) {
@@ -228,6 +242,8 @@ public class GameLayer
 	public static LayerMask IgnoreCard = 10;
 
 	public static LayerMask EnemyCard = 11;
+
+	public static LayerMask Bottom = 31;
 
 	public static int LayerToInt(LayerMask layer)
 	{
