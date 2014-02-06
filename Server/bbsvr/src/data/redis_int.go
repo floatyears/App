@@ -44,7 +44,7 @@ func (t *Data) Close() (err error) {
 	//}
 
 	if t.conn != nil {
-		log.Printf("t.conn.Close()...")
+		log.Printf("t.conn.Close().")
 		err = t.conn.Close()
 		t.conn = nil
 		return err
@@ -77,7 +77,7 @@ func (t *Data) Get(key string) (value string, err error) {
 func (t *Data) MGet(args []interface{}) (values []interface{}, err error) {
 	if t.conn != nil {
 		values, err := redis.Values(t.conn.Do("MGET", args...))
-		log.Printf("redis.GET(%v) ret err:%v value:%v", args, err, values)
+		//log.Printf("redis.GET(%v) ret err:%v value:%v", args, err, values)
 		return values, err
 	} else {
 		log.Fatal("invalid redis conn:%v", t.conn)
@@ -179,5 +179,10 @@ func (t *Data) HSet(key string, field string, value []byte) (err error) {
 
 func (t *Data) HMSet(key string, fields ...[]byte) (err error) {
 	_, err = t.conn.Do("HMSET", key, fields)
-	return
+	return err
+}
+
+func (t *Data) HDel(key string, field string) (err error) {
+	_, err = t.conn.Do("HDEL", key, field)
+	return err
 }
