@@ -1,10 +1,9 @@
 package user
 
 import (
-	//	"fmt"
+	//"fmt"
 	"log"
 	"net/http"
-	"strconv"
 	//"time"
 )
 import (
@@ -13,6 +12,7 @@ import (
 	"../const"
 	"../data"
 	proto "code.google.com/p/goprotobuf/proto"
+	//redis "github.com/garyburd/redigo/redis"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -80,30 +80,22 @@ func (t LoginPack) FillResponseMsg(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto
 	return outbuffer
 }
 
-func GetFriendInfo(uid uint32) (friends []bbproto.FriendData, err error) {
+func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack) (err error) {
+	// read user data (by uuid) from db
+	uid := *reqMsg.Header.UserId
+	isUserExists := uid != 0
+
 	db := &data.Data{}
 	err = db.Open(cs.TABLE_FRIEND)
 	defer db.Close()
 	if err != nil || uid == 0 {
-		return friends, err
+		return
 	}
 
-	strUid := strconv.Itoa(int(uid))
-	values, err := db.GetList(strUid)
-	log.Printf("get from uid '%v' ret err:%v, friends: %v", uid, err, values)
-
-	return friends, nil
-}
-
-func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack) (err error) {
-	// read user data (by uuid) from db
-	uid := *reqMsg.Header.UserId
-
-	isUserExists := uid != 0
-
-	value, err := GetFriendInfo(uid)
-
-	log.Printf("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
+	if isUserExists {
+		friendsInfo, err := GetFriendInfo(db, uid)
+		log.Printf("GetFriendInfo ret %v. friends num=%v friendsInfo: ['%v']  ", err, len(friendsInfo), friendsInfo)
+	}
 
 	//rspMsg.loginParam = &bbproto.LoginInfo{}
 	//if isSessionExists {

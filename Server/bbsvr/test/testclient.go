@@ -9,11 +9,16 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 import (
 	"../src/bbproto"
+	"../src/common"
+	"../src/const"
+	"../src/data"
 	_ "../src/quest"
-	_ "../src/user"
+	"../src/user"
+	//redis "github.com/garyburd/redigo/redis"
 )
 
 const (
@@ -118,9 +123,62 @@ func testType() {
 	}
 }
 
+func AddUsers(num uint32) error {
+	db := &data.Data{}
+	err := db.Open(string(cs.TABLE_USER))
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	//add to user table
+	tNow := uint32(time.Now().Unix())
+	for uid := uint32(101); uid-100 < num; uid++ {
+		rank := int32(uid-35) % 100
+		tNow += 3
+		name := "name" + common.Utoa(uid)
+
+		user := &bbproto.UserInfo{}
+		user.UserId = &uid
+		user.Rank = &rank
+		user.UserName = &name
+		user.LoginTime = &tNow
+
+		zUserinfo, err := proto.Marshal(user)
+		if err != nil {
+			return err
+		}
+		err = db.Set(common.Utoa(uid), zUserinfo)
+	}
+	return err
+}
+
+func AddFriends() error {
+	db := &data.Data{}
+	err := db.Open(string(cs.TABLE_FRIEND))
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	//AddUsers(15)
+	uid := uint32(101)
+	sUid := common.Utoa(uid)
+	num := uint32(10)
+	for fid := uint32(202); fid-200 < num; fid++ {
+		updatetime := uint32(time.Now().Unix())
+
+		fState := bbproto.EFriendState_FRIENDHELPER
+		user.AddFriend(db, cs.X_FRIEND_HELPER+sUid, fid, fState, updatetime)
+	}
+
+	return err
+}
+
 func main() {
 	Init()
 
+	AddFriends()
 	LoginPack()
 	//AuthUser()
 	//testRedis()
