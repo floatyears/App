@@ -27,6 +27,11 @@ message EvolveInfo {
 	optional HelperRequire		helperRequire	= 3;
 };
 
+message Position {
+	optional int32			x = 1;
+	optional int32			y = 2;	
+};
+
 message UnitInfo { 	
 	required uint32			id				= 1;
 	optional string			name			= 2;
@@ -65,27 +70,48 @@ message EnemyInfo {
 };
 
 message QuestInfo {
-	required int32		id			= 1; 
-	optional int32		state		= 2; // 
-	optional int32		no			= 3; // number: 1, 2, 3...
-	optional string		name		= 4;
-	optional string		story		= 5; // story description
-	optional int32		stamina 	= 6; // cost stamina
-	optional int32		floor		= 7;		
-	optional int32		rewardExp	= 8;
-	optional int32		rewardCoin	= 9;
-	repeated uint32		allUnitKind = 10; // pick-up enemy unit list
-	optional uint32		bossId		= 11; // boss unit id
+	required uint32		id				= 1; 
+	optional int32		state			= 2; // CLEAR or NEW
+	optional int32		no				= 3; // number: 1, 2, 3...
+	optional string		name			= 4; // quest name
+	optional string		story			= 5; // story description
+	optional int32		stamina 		= 6; // cost stamina
+	optional int32		floor			= 7;		
+	optional int32		rewardExp		= 8;
+	optional int32		rewardCoin		= 9;
+	repeated uint32		allUnitKind 	= 10; // pick-up enemy unit list
+	optional uint32		bossId			= 11; // boss unit id
 };
 
+message StageInfo {
+	optional int32		version			= 1;
+	optional uint32		id				= 2;	
+	optional int32		state			= 3;
+	optional int32		type			= 4; // story or event
+	optional string		stageName		= 5; //
+	optional string		description		= 6; //	 
+	optional uint32		startTime		= 7;	
+	optional uint32		endTime			= 8;
+	optional int32		boostType		= 9; //coins , exp , dropRate 
+	optional int32		boostValue		= 10; //X2, X3
+	optional Position	pos				= 11; // stage position of the city	
+	repeated QuestInfo	quests			= 12; 
+};
 
-message QuestStageInfo {
-	optional int32		version		= 1;
-	optional int32		id			= 2;	
-	optional int32		state		= 3;
-	optional int32		type		= 4; // story or event
-	optional string		stageName	= 5; // 
-	repeated QuestInfo	questInfo	= 6; 
+message CityInfo {
+	optional int32		version			= 1;
+	optional uint32		id				= 2;	
+	optional int32		state			= 3;
+	optional string		cityName		= 4; //
+	optional string		description		= 5; //
+	optional Position	pos				= 6; // city position of the worldmap
+	repeated StageInfo	stages			= 7;
+};
+
+message WorldMapInfo {
+	optional int32		version			= 1;
+	optional uint32		id				= 2;	
+	repeated CityInfo	citys			= 3;
 };
 
 // event occure probability
@@ -94,7 +120,7 @@ message Probability {
 	optional float		rate	= 2;
 };
 
-message MapInfo {
+message QuestMapInfo {
 	optional int32			floors		= 1;
 	repeated Probability	panelRate	= 2;
 };
