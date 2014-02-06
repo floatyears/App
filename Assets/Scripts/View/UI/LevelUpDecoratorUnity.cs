@@ -41,7 +41,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	private Dictionary< string, object > friendcrollerArgs = new Dictionary< string, object >();
 	private Dictionary< GameObject, GameObject > focusDic = new Dictionary<GameObject, GameObject> ();
 
-	private List<UserUnitInfo> uui = new List<UserUnitInfo> ();
+	private List<UserUnitInfo> userUnitInfoList = new List<UserUnitInfo> ();
 	private Dictionary<GameObject, UserUnitInfo> baseItemInfo = new Dictionary<GameObject, UserUnitInfo> ();
 	private Dictionary<GameObject, UnitBaseInfo> materialItemInfo = new Dictionary<GameObject, UnitBaseInfo> ();
 	public List<UnitBaseInfo> selectMaterial = new List<UnitBaseInfo> ();
@@ -69,14 +69,18 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 	}
 
 	void InitUI() {
-		UnitPartyInfo upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,new ErrorMsg()) as UnitPartyInfo;
-		uui = upi.GetUserUnit ();
-
+		GetUnitInfoList ();
 		InitTabs();
 		InitPanels();
 		focusDic.Add( baseTab, basePanel );
 		focusDic.Add( materialTab, materialPanel );
 		focusDic.Add ( friendTab, friendPanel );
+	}
+
+	void GetUnitInfoList ()
+	{
+		UnitPartyInfo upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, new ErrorMsg ()) as UnitPartyInfo;
+		userUnitInfoList = upi.GetUserUnit ();
 	}
 
 	private void FocusOnPanel(GameObject focus)
@@ -143,13 +147,13 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 		baseScroller = new DragPanel( "BaseScroller", baseItem );
 		baseScroller.CreatUI();
 //		Debug.LogError ("CreateScrollerBase : " + uui.Count);
-		baseScroller.AddItem (uui.Count);
+		baseScroller.AddItem (userUnitInfoList.Count);
 		for (int i = 0; i < baseScroller.ScrollItem.Count; i++) {
 			GameObject item = baseScroller.ScrollItem [i];
 			UITexture tex = item.GetComponentInChildren<UITexture>();
-			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[uui[i].unitBaseInfo];
+			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[userUnitInfoList[i].unitBaseInfo];
 			tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
-			baseItemInfo.Add(item,uui[i]);
+			baseItemInfo.Add(item,userUnitInfoList[i]);
 			UIEventListenerCustom ulc = UIEventListenerCustom.Get(item);
 			ulc.onClick = PickBase;
 			ulc.LongPress = LongPressPickBase;
@@ -246,8 +250,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 		GameObject.Destroy( baseCard );
 		GameObject.Destroy( friendCard );
 
-		foreach( GameObject go in materialCardList )
-		{
+		foreach( GameObject go in materialCardList ) {
 			GameObject.Destroy( go );
 		}
 
@@ -267,15 +270,8 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback{
 		}
 	}
 
-	public void Callback (object data)
-	{
-//		GameObject go = data as GameObject;
-//		if(go != null)
-//		{
-//			go.transform.parent = baseTab.transform;
-//			go.transform.localPosition = Vector3.zero;
-//			go.transform.localScale = Vector3.one;
-//		}
+	public void Callback (object data) {
+
 	}
 
 	private void LevelUp( GameObject go) {

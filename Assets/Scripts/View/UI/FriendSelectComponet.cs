@@ -38,6 +38,7 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 			return;
 		}
 		IUICallback call = viewComponent as IUICallback;
+		//Debug.LogError( "Comp : " +viewComponent.ToString());
 		if (call == null) {
 			return;		
 		}
@@ -50,7 +51,6 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 				if(!userUnit.ContainsKey(item.Key)) {
 					userUnit.Add(item.Key,uui);
 				}
-//				Debug.LogError(uui.unitBaseInfo);
 				UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[uui.unitBaseInfo];
 				viewInfo.Add(item.Key,ubi);
 			}
@@ -59,5 +59,7 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 		else {
 			call.Callback (null);
 		}
+
 	}
+
 }

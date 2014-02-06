@@ -17,7 +17,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 	private int currentPartyIndex;
 	private int partyTotalCount;
 	private int initPartyPage = 1;
-	private Dictionary<int, UITexture> partySprit = new Dictionary<int,UITexture> ();
+	private Dictionary<int, UITexture> partySprite = new Dictionary<int,UITexture> ();
 	private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
 	private UITexture friendSprite;
 	private UnitBaseInfo friendBaseInfo;
@@ -29,14 +29,14 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		ShowTweenPostion( 0.2f );
+
+		ShowTween();
 		btnStart.isEnabled = false;
 		friendsScroller.RootObject.gameObject.SetActive(true);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-		ShowTweenPostion();
 	}
 	
 	public override void DestoryUI () {
@@ -51,6 +51,14 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		InitMsgBox();
 		InitFriendList();
 	}
+	
+	private void SendUnitPage (int pageIndex) {
+		IUICallback call = origin as IUICallback;
+		if (call == null) {
+			return;		
+		} 
+		call.Callback ( pageIndex );
+	}
 
 	
 	public void Callback (object data) {
@@ -62,18 +70,29 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 			if(upi == null) {
 				return;
 			}
-
 			ShowPartyInfo(upi);
 		}
 	}
 
-	void SendUnitPage (int pageIndex) {
-		IUICallback call = origin as IUICallback;
-		if (call == null) {
-			return;		
+	private void ShowPartyInfo(Dictionary<int,UnitBaseInfo> name) {
+		unitBaseInfo = name;
+		if (name == null) {
+			foreach (var item in partySprite.Values) {
+				item.enabled = false;
+			}
 		} 
-
-		call.Callback (pageIndex);
+		else {
+			foreach(var item in partySprite){
+				if(name.ContainsKey(item.Key)){
+					partySprite[item.Key].enabled = true;
+					string path = name[item.Key].GetHeadPath; //UnitBaseInfo.path + name[item.Key].spriteName;
+					partySprite[item.Key].mainTexture = Resources.Load(path) as Texture2D;
+				}
+				else{
+					partySprite[item.Key].enabled = false;
+				}
+			}
+		}
 	}
 
 	private void InitPartyUnits() {
@@ -82,7 +101,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 			temp = FindChild< UITexture >("Window/window_party/Unit" + i.ToString() );
 			UIEventListenerCustom.Get(temp.gameObject).LongPress = LongPressCallback;
 			temp.enabled = false;
-			partySprit.Add(i, temp);
+			partySprite.Add(i, temp);
 
 		}
 		friendSprite = FindChild< UITexture >("Window/window_party/Friend");
@@ -92,7 +111,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 
 	void LongPressCallback(GameObject target) {
 		int posID = -1;
-		foreach (var item in partySprit) {
+		foreach (var item in partySprite) {
 			if(target == item.Value.gameObject) {
 				posID = item.Key;
 			}
@@ -145,7 +164,8 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		friendsScroller.RootObject.gameObject.transform.localScale = Vector3.one;
 		friendsScroller.RootObject.gameObject.transform.localPosition = -115*Vector3.up;
 		for(int i = 0; i < friendsScroller.ScrollItem.Count; i++) {
-			friendsScroller.ScrollItem[i].GetComponentInChildren<UITexture>().mainTexture = Resources.Load( friendBaseInfo.GetHeadPath) as Texture2D;
+			friendsScroller.ScrollItem[i].GetComponentInChildren<UITexture>().mainTexture 
+				= Resources.Load( friendBaseInfo.GetHeadPath) as Texture2D;
 			UIEventListenerCustom ulc = UIEventListenerCustom.Get(friendsScroller.ScrollItem[ i ].gameObject);
 			ulc.LongPress = PickFriendLongpress;
 			ulc.onClick = PickFriend;
@@ -156,31 +176,8 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		MsgCenter.Instance.Invoke (CommandEnum.EnterUnitInfo, friendBaseInfo);
 	}
 
-	private void ShowPartyFriend() {
-
-	}
-
-	void ShowPartyInfo(Dictionary<int,UnitBaseInfo> name) {
-		unitBaseInfo = name;
-		if (name == null) {
-			foreach (var item in partySprit.Values) {
-				item.enabled = false;
-			}
-		} 
-		else {
-			foreach(var item in partySprit){
-				if(name.ContainsKey(item.Key)){
-					partySprit[item.Key].enabled = true;
-					string path = name[item.Key].GetHeadPath; //UnitBaseInfo.path + name[item.Key].spriteName;
-					partySprit[item.Key].mainTexture = Resources.Load(path) as Texture2D;
-				}
-				else{
-					partySprit[item.Key].enabled = false;
-				}
-			}
-		}
-	}
-
+	private void ShowPartyFriend() { }
+	
 	void BackParty( GameObject go )
 	{
 		currentPartyIndex = Mathf.Abs( (currentPartyIndex - 1) % partyTotalCount );
@@ -190,8 +187,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		SendUnitPage (currentPartyIndex);
 	}
 
-	void ForwardParty( GameObject go )
-	{
+	void ForwardParty( GameObject go ) {
 		currentPartyIndex++;
 		if (currentPartyIndex > partyTotalCount) {
 			currentPartyIndex = initPartyPage;
@@ -222,29 +218,16 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 		msgBox.SetActive( true );
 	}
 
-	private void ShowTweenPostion( float mDelay = 0f, UITweener.Method mMethod = UITweener.Method.Linear ) 
-	{
-		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
-		
+	private void ShowTween() {
+		TweenPosition[ ] list = 
+			gameObject.GetComponentsInChildren< TweenPosition >();
 		if( list == null )
 			return;
-		
-		foreach( var tweenPos in list)
-		{		
+		foreach( var tweenPos in list) {		
 			if( tweenPos == null )
 				continue;
-
-			Vector3 temp;
-			temp = tweenPos.to;
-			tweenPos.to = tweenPos.from;
-			tweenPos.from = temp;
-			
-			tweenPos.delay = mDelay;
-			tweenPos.method = mMethod;
-			
 			tweenPos.Reset();
 			tweenPos.PlayForward();
-			
 		}
 	}
 
