@@ -35,7 +35,7 @@ public class UIEventListener : MonoBehaviour
 	public StringDelegate onInput;
 	public KeyCodeDelegate onKey;
 
-	 void OnSubmit ()				{ if (onSubmit != null) onSubmit(gameObject); }
+	void OnSubmit ()				{ if (onSubmit != null) onSubmit(gameObject); }
 	void OnClick ()					{ if (onClick != null) onClick (gameObject); }
 	void OnDoubleClick ()			{ if (onDoubleClick != null) onDoubleClick(gameObject); }
 	void OnHover (bool isOver)		{ if (onHover != null) onHover(gameObject, isOver);}
@@ -59,42 +59,3 @@ public class UIEventListener : MonoBehaviour
 	}
 }
 
-public class UIEventListenerCustom : UIEventListener {
-	public delegate void LongPressDelegate(GameObject go);
-	public LongPressDelegate  LongPress;
-	void OnSubmit ()				{ if (onSubmit != null) onSubmit(gameObject); }
-	void OnClick ()					{ if (onClick != null) onClick (gameObject); }
-	void OnDoubleClick ()			{ if (onDoubleClick != null) onDoubleClick(gameObject); }
-	void OnHover (bool isOver)		{ if (onHover != null) onHover(gameObject, isOver);}
-	void OnSelect (bool selected)	{ if (onSelect != null) onSelect(gameObject, selected); }
-	void OnScroll (float delta)		{ if (onScroll != null) onScroll(gameObject, delta); }
-	void OnDrag (Vector2 delta)		{ if (onDrag != null) onDrag(gameObject, delta); }
-	void OnDrop (GameObject go)		{ if (onDrop != null) onDrop(gameObject, go); }
-	void OnInput (string text)		{ if (onInput != null) onInput(gameObject, text); }
-	void OnKey (KeyCode key)		{ if (onKey != null) onKey(gameObject, key); }
-
-	void OnPress (bool isPressed) { 
-		if (onPress != null) {
-			onPress(gameObject, isPressed); 	
-		}
-
-		if (isPressed) {
-			GameTimer.GetInstance ().AddCountDown (0.6f, CountDonw);
-		} else {
-			GameTimer.GetInstance ().ExitCountDonw(CountDonw);
-		}
-	}
-
-	void CountDonw() {
-		if (LongPress != null) {
-			LongPress(gameObject);
-		}
-	}
-
-	static public UIEventListenerCustom Get (GameObject go)
-	{
-		UIEventListenerCustom listener = go.GetComponent<UIEventListenerCustom>();
-		if (listener == null) listener = go.AddComponent<UIEventListenerCustom>();
-		return listener;
-	}
-}

@@ -449,13 +449,14 @@ public class Battle : UIBase
 		if (showCountDown) {
 			return ;		
 		} 
-		
+		time = BattleUseData.CountDown;
 		CountDownBattle ();
 	}
 	
 	void CountDownBattle () {
 		battleCardArea.ShowCountDown (true, (int)time);
-		if (time > 1) {
+//		Debug.LogError ("time : " + time);
+		if (time > 0) {
 			showCountDown = true;
 			time -= countDownTime;
 			GameTimer.GetInstance ().AddCountDown (countDownTime, CountDownBattle);
@@ -464,7 +465,7 @@ public class Battle : UIBase
 			battleCardArea.ShowCountDown (false, (int)time);
 			showCountDown = false;
 			StartBattle();
-			time = 5f;
+			time =  BattleUseData.CountDown;
 		}
 	}
 	

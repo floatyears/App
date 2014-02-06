@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class UnitsDecoratorUnity : UIComponentUnity {
 	IUICallback iuiCallback;
-	bool temp = false;
 	
 	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum> ();
 	
@@ -11,7 +10,7 @@ public class UnitsDecoratorUnity : UIComponentUnity {
 		base.Init (config, origin);
 		InitButton ();
 		
-		temp = origin is IUICallback;
+		iuiCallback = origin as IUICallback;
 	}
 	
 	public override void ShowUI () {
@@ -56,17 +55,12 @@ public class UnitsDecoratorUnity : UIComponentUnity {
 	}
 	
 	void OnClickCallback( GameObject caller ) {
-		if (!temp) {
+		if (iuiCallback == null) {
 			return;
 		}
 		
 		SceneEnum se = buttonInfo [caller];
-		
-		if (iuiCallback == null) {
-			iuiCallback = origin as IUICallback;
-		} 
-
-		iuiCallback.Callback(se);
+		iuiCallback.Callback (se);
 	}
 
 	private void ShowTweenPostion( float mDelay = 0f, UITweener.Method mMethod = UITweener.Method.Linear ) 
