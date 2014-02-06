@@ -34,27 +34,28 @@ enum EPeriod {
 };
 
 //==================Active Skills: 14 kinds=====================================================
-
 message SkillBase {
-    optional int32  id              = 1;
-    optional string name            = 2;
-    optional string description     = 3;
+    optional int32	id				= 1;
+    optional string	name			= 2;
+    optional string	description		= 3;
+	optional int32	skillCooling	= 4;
 }
 
 
 message SkillSingleAttack {
-    optional SkillBase  baseInfo    = 1;
-	optional EValueType type 		= 2; //FIXED | MULTIPLE
-	optional float		value		= 3; //fixed:1000,10000,150000 | 100xATK
-	optional EUnitType	unitType 	= 4; //
+    optional SkillBase		baseInfo    = 1;
+	optional EValueType		type 		= 2; //FIXED | MULTIPLE
+	optional float			value		= 3; //fixed:1000,10000,150000 | 100xATK
+	optional EUnitType		unitType 	= 4; //
+	optional EAttackType	attackRange	= 5; // attack single, attack all, recover hp.
 };
 
-message SkillAllAttack {
-    optional SkillBase  baseInfo    = 1;
-	optional EValueType	type		= 2; //FIXED | MULTIPLE
-	optional float		value 		= 3; //fixed:1000,10000,150000 | 100xATK
-	optional EUnitType	unitType 	= 4; //
-};
+//message SkillAllAttack {
+//    optional SkillBase  baseInfo    = 1;
+//	optional EValueType	type		= 2; //FIXED | MULTIPLE
+//	optional float		value 		= 3; //fixed:1000,10000,150000 | 100xATK
+//	optional EUnitType	unitType 	= 4; //
+//};
 
 message SkillSingleAtkRecoverHP { //single attack & recover HP to 100%
     optional SkillBase  baseInfo    = 1;

@@ -18,6 +18,7 @@ public class BattleUseData {
 	private List<ShowEnemyUtility> showEnemy = new List<ShowEnemyUtility>();
 	private AttackController ac;
 	private ExcuteLeadSkill els;
+	private ExcuteActiveSkill eas;
 	private ILeaderSkillRecoverHP skillRecoverHP;
 
 	private static float countDown = 5f;
@@ -28,11 +29,12 @@ public class BattleUseData {
 	}
 	public BattleUseData () {
 		ListenEvent ();
-
 		errorMsg = new ErrorMsg ();
 		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
 		upi.GetSkillCollection ();
+		ac = new AttackController (this);
 		els = new ExcuteLeadSkill (upi);
+		eas = new ExcuteActiveSkill (upi);
 		skillRecoverHP = els;
 		els.Excute ();
 		maxBlood = blood = upi.GetBlood ();
@@ -121,14 +123,12 @@ public class BattleUseData {
 		}
 	}
 
-	public List<ShowEnemyUtility> GetEnemyInfo (List<int> monster) {
+	public List<ShowEnemyUtility> GetEnemyInfo (List<uint> monster) {
 		currentEnemy.Clear ();
-
 		int j = showEnemy.Count - monster.Count;
 		for (int i = 0; i < j; i++) {
 			showEnemy.RemoveAt(monster.Count + i);
 		}
-
 		for (int i = 0; i < monster.Count; i++) {
 			TempEnemy te = GlobalData.tempEnemyInfo[monster[i]];
 			te.Reset();
@@ -136,13 +136,12 @@ public class BattleUseData {
 				ShowEnemyUtility seu = new ShowEnemyUtility();
 				showEnemy.Add(seu);
 			} 
-
 			showEnemy[i].enemyID = te.GetID();
 			showEnemy[i].enemyBlood = te.GetBlood();
 			showEnemy[i].attackRound = te.GetRound();
 			currentEnemy.Add(te);
 		}
-
+		ac.enemyInfo = currentEnemy;
 		return showEnemy;
 	}
 
@@ -153,10 +152,10 @@ public class BattleUseData {
 	public void StartAttack(object data) {
 		attackInfo = upi.Attack;
 		List<AttackInfo> temp = SortAttackSequence ();
-		ac = new AttackController (this);
+
 		ac.LeadSkillReduceHurt (els);
 
-		ac.StartAttack (temp,currentEnemy,upi);
+		ac.StartAttack (temp,upi);
 	}
 
 	public void ClearData () {

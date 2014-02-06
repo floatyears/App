@@ -408,22 +408,14 @@ public class ConfigSkill  {
 		ssa.baseInfo.id = 32;
 		ssa.baseInfo.name = "no 32 skill single attack";
 		ssa.baseInfo.description = "boost a single attack by type";
+		ssa.baseInfo.skillCooling = 0;
 		ssa.type = EValueType.FIXED;
 		ssa.unitType = EUnitType.UFIRE;
 		ssa.value = 1000f;
+		ssa.attackRange = EAttackType.ATK_SINGLE;
 
-		TempSkillSingleAttack tssa = new TempSkillSingleAttack (ssa);
+		ActiveSkillSingleAttack tssa = new ActiveSkillSingleAttack (ssa);
 		GlobalData.tempNormalSkill.Add (ssa.baseInfo.id, tssa);
-	}
-}
-
-public class TempSkillSingleAttack : ProtobufDataBase, IActiveSkillExcute{
-	public TempSkillSingleAttack(object instance) : base (instance) {
-
-	}
-	
-	public Object Excute (int atk = -1) {
-		return null;
 	}
 }
 

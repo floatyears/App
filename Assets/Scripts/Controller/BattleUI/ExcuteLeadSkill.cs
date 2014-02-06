@@ -92,8 +92,6 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		return ai;
 	}
 
-
-
 	public List<int> SwitchCard (List<int> cardQuene) {
 		if (leadSkill.LeadSkill.Count == 0) {
 			return null;

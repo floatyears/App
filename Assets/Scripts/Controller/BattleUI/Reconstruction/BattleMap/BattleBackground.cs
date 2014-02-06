@@ -8,6 +8,7 @@ public class BattleBackground : UIBaseUnity {
 	private UISprite[] spSprite;
 	private UISpriteAnimationCustom spriteAnimation;
 	private GameObject battleBottom;
+	private BattleBottom battleBottomScript;
 	private UISlider bloodBar;
 	private UILabel label;
 	private int initBlood = -1;
@@ -26,7 +27,8 @@ public class BattleBackground : UIBaseUnity {
 		battleBottom = Instantiate (o) as GameObject;
 	
 		battleBottom.GetComponent<UIAnchor> ().uiCamera = ViewManager.Instance.MainUICamera.camera;
-		
+		battleBottomScript = battleBottom.AddComponent<BattleBottom> ();
+		battleBottomScript.Init (bottomCamera);
 		actor = new Material[5];
 		spSprite = new UISprite[20];
 		string path;

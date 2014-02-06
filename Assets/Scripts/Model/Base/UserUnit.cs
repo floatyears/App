@@ -41,7 +41,6 @@ public class UserUnitInfo : ProtobufDataBase {
 				SetAttackMultipeByRace(value,type);	
 			}
 		}
-	
 	}
 
 	void SetHPByType (float value, int type) {
@@ -78,10 +77,10 @@ public class UserUnitInfo : ProtobufDataBase {
 		defense += GetUnitInfo ().power [uu.level].defense;
 		float hurtValue = 0;
 
-		if (beRetraintType == GetUnitInfo ().type) {
+		if (beRetraintType == (int)GetUnitInfo ().type) {
 			hurtValue = attackValue * 0.5f;
 		} 
-		else if (retraintType == GetUnitInfo ().type) {
+		else if (retraintType == (int)GetUnitInfo ().type) {
 			hurtValue = attackValue * 2f;
 		} 
 		else {
@@ -101,7 +100,8 @@ public class UserUnitInfo : ProtobufDataBase {
 		List<AttackInfo> returnInfo = new List<AttackInfo> ();
 
 		UserUnit uu 				= DeserializeData<UserUnit> ();
-		UnitInfo ui					= GlobalData.tempUnitInfo [uu.id].DeserializeData<UnitInfo>();
+		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.id];
+		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
 
 		TempNormalSkill firstSkill	= GlobalData.tempNormalSkill [ui.skill1] as TempNormalSkill;
 		TempNormalSkill secondSkill = GlobalData.tempNormalSkill [ui.skill2] as TempNormalSkill;
@@ -117,7 +117,7 @@ public class UserUnitInfo : ProtobufDataBase {
 			for (int j = 0; j < count; j++) {
 				AttackInfo attack	= new AttackInfo();
 				attack.AttackValue	= CaculateAttack(uu,ui,tns);
-				attack.AttackType	= ui.type;
+				attack.AttackType	= (int)ui.type;
 				attack.UserUnitID	= uu.uniqueId;
 				tns.GetSkillInfo(attack);
 				returnInfo.Add(attack);
@@ -148,11 +148,15 @@ public class UserUnitInfo : ProtobufDataBase {
 	}
 
 	public int GetUnitType (){
-		return GetUnitInfo().type;
+		return (int)GetUnitInfo().type;
 	}
 
 	public int GetLeadSKill () {
 		return GetUnitInfo().leaderSkill;
+	}
+
+	public int GetActiveSkill () {
+		return GetUnitInfo ().activeSkill;
 	}
 
 	UnitInfo GetUnitInfo() {

@@ -69,7 +69,7 @@ public class BattleEnemy : UIBaseUnity {
 }
 
 public class ShowEnemyUtility {
-	public int enemyID;
+	public uint enemyID;
 	public int enemyBlood;
 	public int attackRound;
 }

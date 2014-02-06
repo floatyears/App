@@ -5,21 +5,42 @@ using System.Timers;
 public class AttackController {
 	private MsgCenter msgCenter;
 	private BattleUseData bud;
+	private List<AttackInfo> attackInfo = new List<AttackInfo>();
+	public List<TempEnemy> enemyInfo = new List<TempEnemy>();
+	private UnitPartyInfo upi;
+	private float countDownTime = 0f;
+
 	public AttackController (BattleUseData bud) {
 		msgCenter = MsgCenter.Instance;
 		this.bud = bud;
+
+		RegisterEvent ();
 	}
 
-	private List<AttackInfo> attackInfo = new List<AttackInfo>();
-	private List<TempEnemy> enemyInfo = new List<TempEnemy>();
-	private UnitPartyInfo upi;
+	~AttackController() {
+		RemoveEvent ();
+	}
 
-	private float countDownTime = 0f;
+	void RegisterEvent () {
+		msgCenter.AddListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
+	}
 
-	public void StartAttack (List<AttackInfo> attack,List<TempEnemy> ei,UnitPartyInfo upi) {
+	void RemoveEvent () {
+		msgCenter.RemoveListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
+	}
+
+	void ActiveSkillAttack (object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;	
+		}
+		BeginAttack (ai);
+		CheckTempEnemy ();
+	}
+
+	public void StartAttack (List<AttackInfo> attack, UnitPartyInfo upi) {
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		attackInfo = attack;
-		enemyInfo = ei;
 		this.upi = upi;
 		Attack ();
 	}
@@ -41,7 +62,7 @@ public class AttackController {
 	bool CheckEnemy () {
 		if (enemyInfo == null || enemyInfo.Count == 0) {
 			return false;
-		} 
+		}
 		else {
 			return true;
 		}
@@ -50,7 +71,7 @@ public class AttackController {
 	bool CheckAttackInfo () {
 		if (attackInfo == null || attackInfo.Count == 0) {
 			return false;		
-		} 
+		}
 		else {
 			return true;		
 		}
@@ -73,6 +94,7 @@ public class AttackController {
 		countDownTime = GetIntervTime ();
 
 		if (CheckTempEnemy () ) {
+			enemyIndex = 0;
 			GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
 		}
 	}
@@ -86,6 +108,12 @@ public class AttackController {
 		}
 		AttackInfo ai = attackInfo [0];
 		attackInfo.RemoveAt (0);
+		BeginAttack (ai);
+		Attack ();
+	}
+
+	void BeginAttack(AttackInfo ai) {
+		Debug.LogError ("BeginAttack : " + ai.AttackRange);
 		switch (ai.AttackRange) {
 		case 0:
 			DisposeAttackSingle(ai);
@@ -97,13 +125,11 @@ public class AttackController {
 			DisposeRecoverHP(ai);
 			break;
 		}
-		Attack ();
 	}
 
 	bool CheckTempEnemy() {
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			int blood = enemyInfo[i].GetBlood();
-
 			if(blood <= 0){
 				TempEnemy te = enemyInfo[i];
 				enemyInfo.RemoveAt(i);
@@ -139,7 +165,7 @@ public class AttackController {
 			te = index > - 1 ?  enemyInfo [index] : enemyInfo [0];
 		}
 		bool restraint = restraintType == te.GetUnitType ();
-		ai.InjuryValue = te.CalculateInjured (ai.AttackValue, restraint, ai.AttackType);
+		ai.InjuryValue = te.CalculateInjured (ai, restraint);
 		ai.EnemyID = te.GetID();
 		AttackEnemyEnd (ai);
 	}
@@ -152,7 +178,7 @@ public class AttackController {
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			TempEnemy te = enemyInfo[i];
 			bool b = restraintType == te.GetUnitType();
-			ai.InjuryValue = te.CalculateInjured(ai.AttackValue,b,ai.AttackType);
+			ai.InjuryValue = te.CalculateInjured(ai,b);
 			ai.EnemyID = te.GetID();
 			AttackEnemyEnd (ai);
 		}
