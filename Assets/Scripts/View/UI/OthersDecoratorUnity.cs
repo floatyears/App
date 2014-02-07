@@ -6,7 +6,13 @@ public class OthersDecoratorUnity : UIComponentUnity {
 	private GameObject scrollerItem;
 	private DragPanel othersScroller;
 
-	private Dictionary< string, GameObject > options = new Dictionary<string, GameObject>();
+	private UILabel titleLabel;
+
+	private GameObject musicOption;
+	private UIButton bgmOnBtn;
+	private UIButton bgmOffBtn;
+
+	private Dictionary< int, GameObject > options = new Dictionary<int, GameObject>();
 	private Dictionary< string, object > otherScrollerArgsDic = new Dictionary< string, object >();
 
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
@@ -31,16 +37,54 @@ public class OthersDecoratorUnity : UIComponentUnity {
 	void InitUI()
 	{
 		CreateScroller();
+		InitMusic();
 	}
 
 	private void SetUIActive(bool b) {
 		othersScroller.RootObject.gameObject.SetActive(b);
 	}
 
+	private void InitMusic() {
+
+		titleLabel = FindChild< UILabel >( "InfoPanel/Label_Title");
+		titleLabel.text = "Music";
+
+		string rootPath =  "InfoPanel/Music/";
+		musicOption = FindChild( rootPath );
+		musicOption.SetActive(false);
+
+		bgmOnBtn = FindChild< UIButton >(rootPath + "BGM/On" );
+		bgmOffBtn = FindChild< UIButton >(rootPath + "BGM/Off" );
+
+		UIEventListener.Get( bgmOnBtn.gameObject ).onClick = ClickBgmBtn;
+		UIEventListener.Get( bgmOffBtn.gameObject ).onClick = ClickBgmBtn;
+
+		string path = "InfoPanel/Music/BGM/";
+		UISprite maskOn = FindChild< UISprite >( path + "On/Mask");
+		UISprite maskOff = FindChild< UISprite >( path + "Off/Mask");
+		AudioManager.Instance.OnMusic();
+		maskOn.enabled = false;
+		maskOff.enabled = true;
+	}
+
+	private void ClickBgmBtn( GameObject btn ) {
+		string path = "InfoPanel/Music/BGM/";
+		UISprite maskOn = FindChild< UISprite >( path + "On/Mask");
+		UISprite maskOff = FindChild< UISprite >( path + "Off/Mask");
+
+		if( btn.name == "On") {
+			AudioManager.Instance.OnMusic();
+			maskOn.enabled = false;
+			maskOff.enabled = true;
+		}else if(btn.name == "Off"){
+			AudioManager.Instance.OffMusic();
+			maskOn.enabled = true;
+			maskOff.enabled = false;
+		}
+	}
+
+
 	private void CreateScroller() {
-		options.Add("option1", null );
-		options.Add("option2", null );
-		options.Add("options", null );
 
 		string itemPath = "Prefabs/UI/Others/OtherOptions";
 		GameObject item = Resources.Load( itemPath ) as GameObject;
@@ -48,20 +92,11 @@ public class OthersDecoratorUnity : UIComponentUnity {
 		othersScroller = new DragPanel ( "OthersScroller", scrollerItem );
 		othersScroller.CreatUI ();
 		InitOtherScrollArgs();
-	
-		GameObject temp;
 
-		temp = othersScroller.AddScrollerItem(item);
-		temp.GetComponentInChildren<UILabel>().text = "option1";
-
-		temp = othersScroller.AddScrollerItem(item);
-		temp.GetComponentInChildren<UILabel>().text = "option2";
-
-		temp = othersScroller.AddScrollerItem(item);
-		temp.GetComponentInChildren<UILabel>().text = "option3";
-
-		temp = othersScroller.AddScrollerItem(item);
-		temp.GetComponentInChildren<UILabel>().text = "option4";
+		GameObject musicOption = othersScroller.AddScrollerItem(item);
+		musicOption.name = UIConfig.otherMusicSettingIndex.ToString();
+		musicOption.GetComponentInChildren<UILabel>().text = UIConfig.otherMusicSettingName;
+		options.Add( UIConfig.otherMusicSettingIndex, musicOption );
 
 		othersScroller.RootObject.SetScrollView( otherScrollerArgsDic );
 		
@@ -70,8 +105,7 @@ public class OthersDecoratorUnity : UIComponentUnity {
 	}
 
 	private void ShowTween() {
-		TweenPosition[ ] list = 
-			gameObject.GetComponentsInChildren< TweenPosition >();
+		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
 		if( list == null )
 			return;
 		foreach( var tweenPos in list) {		
@@ -83,20 +117,24 @@ public class OthersDecoratorUnity : UIComponentUnity {
 	}
 
 	private void GetOptions( GameObject go) {
-		//Debug.LogError( " Show Options..." );
+		Debug.LogError( " Show Options..." + go.name );
+		if( go.name == "1")
+		{
+			musicOption.SetActive( true );
+		}
 	}
 
 	private void InitOtherScrollArgs() {
-		Transform parentTrans = FindChild("scroller").transform;
-		otherScrollerArgsDic.Add( "parentTrans", 			parentTrans			      				);
-		otherScrollerArgsDic.Add( "scrollerScale", 			Vector3.one								);
-		otherScrollerArgsDic.Add( "scrollerLocalPos" ,	-190*Vector3.up							);
-		otherScrollerArgsDic.Add( "position", 				Vector3.zero 								);
+		Transform parentTrans = FindChild("OptionItems").transform;
+		otherScrollerArgsDic.Add( "parentTrans", 			parentTrans					);
+		otherScrollerArgsDic.Add( "scrollerScale", 			Vector3.one					);
+		otherScrollerArgsDic.Add( "scrollerLocalPos" ,		-190*Vector3.up					);
+		otherScrollerArgsDic.Add( "position", 				Vector3.zero 					);
 		otherScrollerArgsDic.Add( "clipRange", 				new Vector4( 0, 0, 640, 200)			);
-		otherScrollerArgsDic.Add( "gridArrange", 			UIGrid.Arrangement.Horizontal 	);
-		otherScrollerArgsDic.Add( "maxPerLine", 			0 												);
-		otherScrollerArgsDic.Add( "scrollBarPosition", 	new Vector3(-320,-120,0)			);
-		otherScrollerArgsDic.Add( "cellWidth", 				150 											);
-		otherScrollerArgsDic.Add( "cellHeight",				130 											);
+		otherScrollerArgsDic.Add( "gridArrange", 			UIGrid.Arrangement.Horizontal 		);
+		otherScrollerArgsDic.Add( "maxPerLine", 			0 							);
+		otherScrollerArgsDic.Add( "scrollBarPosition", 		new Vector3(-320,-120,0)			);
+		otherScrollerArgsDic.Add( "cellWidth", 				150 							);
+		otherScrollerArgsDic.Add( "cellHeight",				130 							);
 	}
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitsComponent : ConcreteComponent,IUICallback, IUIParty {
+public class UnitsComponent : ConcreteComponent, IUIParty {
 
 	UnitPartyInfo unitPartyInfo;
 	Dictionary<int,UserUnitInfo> userUnit = new Dictionary<int, UserUnitInfo> ();
@@ -37,8 +37,7 @@ public class UnitsComponent : ConcreteComponent,IUICallback, IUIParty {
 	}
 
 	//Logic Interface : Party Page Turn 
-	public void PartyPaging (object data)
-	{
+	public void PartyPaging (object data){
 		int partyID = 0;
 		try {
 			partyID = ( int )data;
@@ -52,20 +51,26 @@ public class UnitsComponent : ConcreteComponent,IUICallback, IUIParty {
 		if( partyInterface == null ) {
 			return;
 		}
-
 		if( partyID == 1 )
 		{
 			unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as UnitPartyInfo;
 			Dictionary< int, int > temp = unitPartyInfo.GetPartyItem();
-			Dictionary< int, UnitBaseInfo > viewInfo = new Dictionary<int, UnitBaseInfo >();
+			Dictionary< string, object > viewInfo = new Dictionary<string, object>();
+			Dictionary< int, UnitBaseInfo > avatarInfoDic = new Dictionary<int, UnitBaseInfo >();
+
 			foreach (var item in temp) {
 				UserUnitInfo userUnitInfo = GlobalData.tempUserUnitInfo[ item.Value ];
 				if( !userUnit.ContainsKey( item.Key )) {
 					userUnit.Add( item.Key, userUnitInfo );
 				}
 				UnitBaseInfo unitBaseInfo = GlobalData.tempUnitBaseInfo[ userUnitInfo.unitBaseInfo ];
-				viewInfo.Add( item.Key, unitBaseInfo );
+				avatarInfoDic.Add( item.Key, unitBaseInfo );
 			}
+
+			int totalHP = unitPartyInfo.GetBlood() ;
+
+			viewInfo.Add( "avatar", avatarInfoDic);
+			viewInfo.Add("hp", totalHP);
 
 			partyInterface.PartyPaging( viewInfo );
 			//Debug.Log( unitPartyInfo.GetBlood() );

@@ -13,6 +13,7 @@ public class UnitsDecoratorUnity : UIComponentUnity, IUIParty{
 	private UILabel partyIndexSuffixLabel;
 	private int pageIndexOrigin = 1;
 	UILabel hpLabel;
+
 	private Dictionary< int, UITexture > unitTexureDic = new Dictionary< int, UITexture>();
 	private Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 	private Dictionary< int, UnitBaseInfo > unitBaseInfo = new Dictionary< int, UnitBaseInfo >();
@@ -164,32 +165,46 @@ public class UnitsDecoratorUnity : UIComponentUnity, IUIParty{
 		if (data == null)
 			ShowPartyInfo(null);
 		else{
-			Dictionary< int, UnitBaseInfo > tempUnitBaseInfo = data as Dictionary< int, UnitBaseInfo >;
-			if (tempUnitBaseInfo == null)
+			Dictionary< string, object > viewInfo = data as Dictionary<string, object >;
+			if ( viewInfo == null )
 				return;
-			ShowPartyInfo(tempUnitBaseInfo);
-			//ShowTotalHP();
+			ShowPartyInfo( viewInfo);
 		}
 	}
-
-	private void ShowTotalHP( int data) {
-		hpLabel.text = "31415";
-	}
-	private void ShowPartyInfo(Dictionary< int, UnitBaseInfo > info){
-		//Debug.Log( "UnitsBehaviour Show Party Info " );
-		unitBaseInfo = info;
+	
+	private void ShowPartyInfo(Dictionary< string, object > info){
+		int totalHPCount;
 		if (info == null){
 			foreach (var item in unitTexureDic.Values)
 				item.enabled = false;
 		}else{
+
+			if( info.ContainsKey( "avatar")) {
+				unitBaseInfo = info[ "avatar" ] as Dictionary< int, UnitBaseInfo>;
+			}else {
+				return;
+			}
+			
+			if( info.ContainsKey( "hp")) {
+				totalHPCount = (int)info["hp"];
+			}else {
+				return;
+			}
+
+			//show textures
 			foreach (var item in unitTexureDic){
-				if (info.ContainsKey(item.Key)){
+				if (unitBaseInfo.ContainsKey(item.Key)){
 					unitTexureDic [item.Key].enabled = true;
-					string path = info [item.Key].GetHeadPath;
+					string path = unitBaseInfo [item.Key].GetHeadPath;
 					unitTexureDic [item.Key].mainTexture = Resources.Load(path) as Texture2D;
 				}else
 					unitTexureDic [item.Key].enabled = false;
 			}
+
+			//show hp label
+			hpLabel.text = totalHPCount.ToString();
+
+
 		}
 	}
 
@@ -221,5 +236,8 @@ public class UnitsDecoratorUnity : UIComponentUnity, IUIParty{
 			tweenPos.PlayForward();
 		}
 	}
-
+	
+	public void Callback(object data)
+	{
+	}
 }

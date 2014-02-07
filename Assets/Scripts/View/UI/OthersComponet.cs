@@ -1,32 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class OthersComponent : ConcreteComponent
 {
-    public OthersComponent(string uiName):base(uiName){
+	private Dictionary< object, object > optionsDic = new Dictionary<object, object>();
 
-    }
+        public OthersComponent(string uiName):base(uiName){}
 	
-    public override void CreatUI(){
-        base.CreatUI(); 
-    }
+        public override void CreatUI(){
+        	base.CreatUI(); 
+        }
 	
-    public override void ShowUI()
-    {
-        base.ShowUI();
+        public override void ShowUI(){
+          	base.ShowUI();
+        }
+	
+        public override void HideUI(){
+		base.HideUI();
 
-    }
+	}
 	
-    public override void HideUI()
-    {
-        base.HideUI();
+    	public override void DestoryUI(){
+		base.DestoryUI();
+    	}
 
-    }
-	
-    public override void DestoryUI()
-    {
-        base.DestoryUI();
-    }
+	public void SetOtherOptions(object message){
+
+	}
+
+
+
 
 
 

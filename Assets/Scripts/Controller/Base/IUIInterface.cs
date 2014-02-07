@@ -117,8 +117,8 @@ public interface IActiveSkillExcute {
 	Object Excute(int atk = -1);
 }
 
-public interface IUIParty : IUIOrigin {
-	void PartyPaging( object data );
+public interface IUIParty : IUICallback {
+	void PartyPaging( object textures);
 }
 
 

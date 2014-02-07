@@ -11,6 +11,9 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 	private UILabel partyTotalCountLabel;
 	private UILabel partyIndexPrefixLabel;
 	private UILabel partyIndexSuffixLabel;
+	UILabel hpLabel;
+	UILabel costLabel;
+
 	private int pageIndexOrigin = 1;
 
 	private Dictionary< int, UITexture > unitTexureDic = new Dictionary< int, UITexture>();
@@ -20,7 +23,9 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
 
+		InitInfoPanel();
 		InitPartyPage();
+
 	}
 	
 	public override void ShowUI () {
@@ -87,6 +92,11 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 		}
 		RequestPartyInfo( currentPartyIndex );
 	}
+
+	private void InitInfoPanel() {
+		hpLabel = FindChild< UILabel >("PartyInfoPanel/content_status/Label_HP_Value");
+		costLabel = FindChild< UILabel >( "PartyInfoPanel/content_status/Label_Cost_Value");
+	}
 	
 	//Deal with Party Page Events	
 	private void BackPage( GameObject btn ) {
@@ -120,34 +130,52 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 			ShowPartyInfo( null );
 		partyInterface.PartyPaging( pageIndex );
 	}
-	
-	//Behaviour Interface : Party Page Turn 
-	public void PartyPaging (object data) {
-		if( data == null )
-			ShowPartyInfo( null );
-		else {
-			Dictionary< int, UnitBaseInfo > tempUnitBaseInfo = data as Dictionary< int, UnitBaseInfo >;
-			if( tempUnitBaseInfo == null ) return;
-			ShowPartyInfo( tempUnitBaseInfo );
+
+	public void PartyPaging(object data)
+	{
+		if (data == null)
+			ShowPartyInfo(null);
+		else{
+			Dictionary< string, object > viewInfo = data as Dictionary<string, object >;
+			if ( viewInfo == null )
+				return;
+			ShowPartyInfo( viewInfo);
 		}
 	}
-	
-	private void ShowPartyInfo( Dictionary< int, UnitBaseInfo > info ) {
-		//Debug.Log( "UnitsBehaviour Show Party Info " );
-		unitBaseInfo = info;
-		if( info == null ) {
+
+	private void ShowPartyInfo( Dictionary< string, object > info ) {
+		int totalHPCount = 0;
+		if (info == null){
 			foreach (var item in unitTexureDic.Values)
 				item.enabled = false;
-		}
-		else {
-			foreach (var item in unitTexureDic) {
-				if( info.ContainsKey( item.Key )) {
-					unitTexureDic[ item.Key ].enabled = true;
-					string path = info[item.Key].GetHeadPath;
-					unitTexureDic[ item.Key ].mainTexture = Resources.Load(path) as Texture2D;
-				}
-				else unitTexureDic[ item.Key ].enabled = false;
+		}else{
+			
+			if( info.ContainsKey( "avatar")) {
+				unitBaseInfo = info[ "avatar" ] as Dictionary< int, UnitBaseInfo>;
+			}else {
+				Debug.LogError("Not Find textures dic");
+				return;
 			}
+			
+			if( info.ContainsKey( "hp")) {
+				totalHPCount = (int)info["hp"];
+			}else {
+				Debug.Log("Not Find hp dic");
+				return;
+			}
+			
+			//show textures
+			foreach (var item in unitTexureDic){
+				if (unitBaseInfo.ContainsKey(item.Key)){
+					unitTexureDic [item.Key].enabled = true;
+					string path = unitBaseInfo [item.Key].GetHeadPath;
+					unitTexureDic [item.Key].mainTexture = Resources.Load(path) as Texture2D;
+				}else
+					unitTexureDic [item.Key].enabled = false;
+			}
+			
+			//show hp label
+			hpLabel.text = totalHPCount.ToString();
 		}
 	}
 
@@ -173,4 +201,11 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 			tweenPos.PlayForward();
 		}
 	}
+
+	public void Callback(object data)
+	{
+	
+	}
+
+
 }
