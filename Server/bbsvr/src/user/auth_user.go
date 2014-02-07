@@ -12,7 +12,7 @@ import (
 	bbproto "../bbproto"
 	//"../common"
 	"../const"
-	"../data"
+	//"../data"
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
@@ -85,27 +85,21 @@ func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.R
 func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser) (err error) {
 	// read user data (by uuid) from db
 	uuid := *reqMsg.Terminal.Uuid
-	db := &data.Data{}
-	err = db.Open(cs.TABLE_USER)
-	defer db.Close()
-	if err != nil {
-		return err
+	uid := *reqMsg.Header.UserId
+	var userdetail bbproto.UserInfoDetail
+	var isUserExists bool
+	if uid > 0 {
+		userdetail, isUserExists, err = GetUserInfo(uid)
+	} else {
+		userdetail, isUserExists, err = GetUserInfoByUuid(uuid)
 	}
 
-	var value []byte
-	if uuid != "" {
-		value, err = db.Gets(uuid)
-		log.Printf("get for '%v' ret err:%v, value: %v", uuid, err, value)
-	}
-
-	isUserExists := len(value) != 0
-	log.Printf("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
-	userdetail := &bbproto.UserInfoDetail{}
+	//log.Printf("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
 	if isUserExists {
-		err = proto.Unmarshal(value, userdetail) //unSerialize into Userdetail
 		tNow := uint32(time.Now().Unix())
 
 		//TODO: assign Userdetail.* into rspMsg
+		*rspMsg.User = *userdetail.User
 		*rspMsg.User.StaminaRecover = uint32(tNow + 600) //10 minutes
 		*rspMsg.User.LoginTime = uint32(tNow)
 		log.Printf("read Userdetail ret err:%v, Userdetail: %+v", err, userdetail)
@@ -113,6 +107,9 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
 
 		newUserId, err := GetNewUserId()
+		if err != nil {
+			return err
+		}
 		defaultName := cs.DEFAULT_USER_NAME
 		tNow := uint32(time.Now().Unix())
 		rank := int32(0)
@@ -135,9 +132,10 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		log.Printf("rspMsg=%+v...", rspMsg)
 
 		//TODO:save userinfo to db through goroutine
-		outbuffer, err := proto.Marshal(userdetail)
-		err = db.Set(uuid, outbuffer)
-		log.Printf("db.Set(%v) save new userinfo, return %v", uuid, err)
+		AddNewUser(uuid, rspMsg.User)
+		//zUserData, err := proto.Marshal(&userdetail)
+		//err = db.Set(uuid, zUserData)
+		//log.Printf("db.Set(%v) save new userinfo, return %v", uuid, err)
 	}
 
 	return err

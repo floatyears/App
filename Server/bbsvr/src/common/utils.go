@@ -41,3 +41,13 @@ func Itoa(n int32) string {
 func Utoa(n uint32) string {
 	return strconv.FormatUint(uint64(n), 10)
 }
+
+func Atou(s string) uint32 {
+	u64, _ := strconv.ParseUint(s, 10, 0)
+	return uint32(u64)
+}
+
+func Atoi(s string) int32 {
+	i, _ := strconv.Atoi(s)
+	return int32(i)
+}

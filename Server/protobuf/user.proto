@@ -140,6 +140,10 @@ message RspAuthUser {
 	repeated UnitParty		unitPartyList		= 5;
 	optional int32			currentUnitParty	= 6;
 	optional uint32			serverTime			= 7;
+	optional LoginInfo		loginParam			= 8;
+	repeated FriendInfo		friend				= 9;
+	repeated FriendInfo		helper				= 10;
+	repeated PresentInfo	present				= 11;	
 };
 
 message ReqLoginPack {

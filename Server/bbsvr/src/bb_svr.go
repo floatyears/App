@@ -6,8 +6,10 @@ import (
 	"github.com/golang/glog"
 	"html"
 	"log"
+	"math/rand"
 	"net/http"
 	"runtime/debug"
+	"time"
 )
 import (
 	//"./data"
@@ -51,6 +53,9 @@ func ProtoHandler(rsp http.ResponseWriter, req *http.Request) {
 
 func Init() {
 	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)
+
+	rand.Seed(time.Now().UTC().UnixNano())
+
 }
 
 func main() {

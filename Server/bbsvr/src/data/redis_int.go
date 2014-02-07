@@ -186,3 +186,20 @@ func (t *Data) HDel(key string, field string) (err error) {
 	_, err = t.conn.Do("HDEL", key, field)
 	return err
 }
+
+//================= ZSET ==================
+func (t *Data) ZAdd(key string, member string, score int32) (err error) {
+	_, err = t.conn.Do("ZADD", key, member, score)
+	return err
+}
+
+func (t *Data) ZRem(key string, member string) (err error) {
+	_, err = t.conn.Do("ZREM", key, member)
+	return err
+}
+
+func (t *Data) ZRangeByScore(key string, min int, max int, offset int, count int) (values []interface{}, err error) {
+	log.Printf("ZRangeByScore key:%v %v %v limit %v %v", key, min, max, offset, count)
+	values, err = redis.Values(t.conn.Do("ZRANGEBYSCORE", key, min, max, "limit", offset, count))
+	return values, err
+}

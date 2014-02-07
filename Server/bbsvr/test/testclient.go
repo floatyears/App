@@ -63,7 +63,7 @@ func LoginPack() {
 	msg.Header = &bbproto.ProtoHeader{}
 	msg.Header.ApiVer = proto.String("1.0.0")
 	msg.Header.SessionId = proto.String("S10298090290")
-	msg.Header.UserId = proto.Uint32(101)
+	msg.Header.UserId = proto.Uint32(100002)
 
 	buffer, err := proto.Marshal(msg)
 	log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
@@ -75,13 +75,15 @@ func AuthUser() {
 	msg := &bbproto.ReqAuthUser{}
 	msg.Header = &bbproto.ProtoHeader{}
 	msg.Header.ApiVer = proto.String("0.0.1")
+	//log.Printf("msg.Header.UserId:%v", msg.Header.UserId)
+	uid := uint32(0)
+	msg.Header.UserId = &uid
 	//msg.Header.SessionId = proto.String("S10298090290")
 	msg.Header.PacketId = proto.Int32(18)
 	msg.Terminal = &bbproto.TerminalInfo{}
-	//msg.Terminal.Uuid = proto.String("b2c4adfd-e6a9-4782-814d-67ce34220110")
-	msg.Terminal.Uuid = proto.String("koryyang5")
+	msg.Terminal.Uuid = proto.String("b2c4adfd-e6a9-4782-814d-67ce34220101")
 	msg.Terminal.DeviceName = proto.String("kory's ipod")
-	msg.Terminal.Os = proto.String("android 4.01")
+	msg.Terminal.Os = proto.String("iOS 6.1")
 	//msg.Terminal.Platform = proto.String("official")
 
 	buffer, err := proto.Marshal(msg)
@@ -169,7 +171,7 @@ func AddFriends() error {
 		updatetime := uint32(time.Now().Unix())
 
 		fState := bbproto.EFriendState_FRIENDHELPER
-		user.AddFriend(db, cs.X_FRIEND_HELPER+sUid, fid, fState, updatetime)
+		user.AddFriend(db, cs.X_HELPER_MY+sUid, fid, fState, updatetime)
 	}
 
 	return err
@@ -178,7 +180,7 @@ func AddFriends() error {
 func main() {
 	Init()
 
-	AddFriends()
+	//AddFriends()
 	LoginPack()
 	//AuthUser()
 	//testRedis()
