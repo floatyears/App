@@ -52,6 +52,7 @@ public class BattleUseData {
 		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillDelayTime, DelayCountDownTime);
+		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillRecoverHP, RecoveHPByActiveSkill);
 	}
 
 	void RemoveListen () {
@@ -60,6 +61,20 @@ public class BattleUseData {
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.LeaderSkillDelayTime, DelayCountDownTime);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillRecoverHP, RecoveHPByActiveSkill);
+	}
+	
+	void RecoveHPByActiveSkill (object data) {
+		int value = (int)data;
+//		AttackInfo ai = data as AttackInfo;
+		int add = 0;
+		if (value < 1) {
+			add = blood * value + blood;
+		} 
+		else {
+			add = value + blood;
+		}
+		RecoverHP (add);
 	}
 
 	void DelayCountDownTime(object data) {
@@ -73,7 +88,6 @@ public class BattleUseData {
 		foreach (var item in attackInfo.Values) {
 			sortAttack.AddRange(item);
 		}
-
 		attackInfo.Clear ();
 		int tempCount = 0;
 		for (int i = GlobalData.posStart; i < GlobalData.posEnd; i++) {
@@ -87,9 +101,7 @@ public class BattleUseData {
 			DGTools.InsertSort(temp, new AISortByCardNumber());
 			attackInfo.Add(i,temp);
 		}
-
 		sortAttack.Clear ();
-
 		for (int i = 0; i < tempCount; i++) {
 			for (int j = GlobalData.posStart; j < GlobalData.posEnd; j++) {
 				if(attackInfo[j].Count > 0) {
@@ -109,10 +121,8 @@ public class BattleUseData {
 
 	void RecoverHP (object data) {
 		AttackInfo ai = data as AttackInfo;
-		if (ai == null) {
-			return;
-		}
-		int addBlood = System.Convert.ToInt32( ai.AttackValue) + blood;
+		float tempBlood = ai.AttackValue;
+		int addBlood = System.Convert.ToInt32(tempBlood) + blood;
 		RecoverHP (addBlood);
 	}
 

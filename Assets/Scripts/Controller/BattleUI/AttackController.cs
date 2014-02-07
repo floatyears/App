@@ -23,10 +23,17 @@ public class AttackController {
 
 	void RegisterEvent () {
 		msgCenter.AddListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
+		msgCenter.AddListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
 	}
 
 	void RemoveEvent () {
 		msgCenter.RemoveListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
+		msgCenter.RemoveListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
+	}
+
+	void DrawHP(object data) {
+//		DisposeRecoverHP (tempPreHurtValue);
+		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, tempPreHurtValue);
 	}
 
 	void ActiveSkillAttack (object data) {
@@ -112,8 +119,8 @@ public class AttackController {
 		Attack ();
 	}
 
+	int tempPreHurtValue = 0;
 	void BeginAttack(AttackInfo ai) {
-		Debug.LogError ("BeginAttack : " + ai.AttackRange);
 		switch (ai.AttackRange) {
 		case 0:
 			DisposeAttackSingle(ai);
@@ -144,8 +151,8 @@ public class AttackController {
 		return true;
 	}
 
-	void DisposeRecoverHP (AttackInfo ai) {
-		MsgCenter.Instance.Invoke (CommandEnum.RecoverHP, ai);
+	void DisposeRecoverHP (AttackInfo value) {
+		MsgCenter.Instance.Invoke (CommandEnum.RecoverHP, value);
 	}
 
 	void DisposeAttackSingle (AttackInfo ai) {
@@ -165,7 +172,9 @@ public class AttackController {
 			te = index > - 1 ?  enemyInfo [index] : enemyInfo [0];
 		}
 		bool restraint = restraintType == te.GetUnitType ();
-		ai.InjuryValue = te.CalculateInjured (ai, restraint);
+		int hurtValue = te.CalculateInjured (ai, restraint);
+		ai.InjuryValue = hurtValue;
+		tempPreHurtValue = hurtValue;
 		ai.EnemyID = te.GetID();
 		AttackEnemyEnd (ai);
 	}
@@ -175,10 +184,13 @@ public class AttackController {
 			return;		
 		}
 		int restraintType = DGTools.RestraintType (ai.AttackType);
+		tempPreHurtValue = 0;
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			TempEnemy te = enemyInfo[i];
 			bool b = restraintType == te.GetUnitType();
-			ai.InjuryValue = te.CalculateInjured(ai,b);
+			int hurtValue = te.CalculateInjured (ai, b);
+			ai.InjuryValue = hurtValue;
+			tempPreHurtValue += hurtValue;
 			ai.EnemyID = te.GetID();
 			AttackEnemyEnd (ai);
 		}

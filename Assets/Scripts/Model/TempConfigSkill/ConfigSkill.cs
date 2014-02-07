@@ -406,16 +406,28 @@ public class ConfigSkill  {
 		SkillSingleAttack ssa = new SkillSingleAttack ();
 		ssa.baseInfo = new SkillBase ();
 		ssa.baseInfo.id = 32;
-		ssa.baseInfo.name = "no 32 skill single attack";
-		ssa.baseInfo.description = "boost a single attack by type";
+		ssa.baseInfo.name = "no 32 SkillSingleAttack";
+		ssa.baseInfo.description = "single attack, all attack, recover hp";
 		ssa.baseInfo.skillCooling = 0;
-		ssa.type = EValueType.FIXED;
+		ssa.type = EValueType.MULTIPLE;
 		ssa.unitType = EUnitType.UFIRE;
-		ssa.value = 1000f;
-		ssa.attackRange = EAttackType.ATK_SINGLE;
-
+		ssa.value = 0.1f;
+		ssa.attackRange = EAttackType.RECOVER_HP;
+		ssa.ignoreDefense = true;
 		ActiveSkillSingleAttack tssa = new ActiveSkillSingleAttack (ssa);
 		GlobalData.tempNormalSkill.Add (ssa.baseInfo.id, tssa);
+
+		SkillSingleAtkRecoverHP ssarh = new SkillSingleAtkRecoverHP ();
+		ssarh.baseInfo = new SkillBase ();
+		ssarh.baseInfo.id = 33;
+		ssarh.baseInfo.name = "no 33 SkillSingleAtkRecoverHP";
+		ssarh.baseInfo.description = "attack enemy and recover hp, the recover value equals attack value";
+		ssarh.baseInfo.skillCooling = 0;
+		ssarh.type = EValueType.MULTIPLE;
+		ssarh.value = 5f;
+		ssarh.unitType = EUnitType.UFIRE;
+		AttackRecoverHP arh = new AttackRecoverHP (ssarh);
+		GlobalData.tempNormalSkill.Add (ssarh.baseInfo.id, arh);
 	}
 }
 

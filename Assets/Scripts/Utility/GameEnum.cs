@@ -86,6 +86,8 @@ public enum CommandEnum
 
 	ActiveSkillAttack		= 3016,
 	LaunchActiveSkill		= 3017,
+	ActiveSkillRecoverHP	= 3018,
+	ActiveSkillDrawHP		= 3019,
 }
 
 public enum UIParentEnum : byte {

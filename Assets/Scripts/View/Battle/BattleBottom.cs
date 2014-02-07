@@ -36,7 +36,7 @@ public class BattleBottom : MonoBehaviour {
 		}
 		int id = System.Int32.Parse (name);
 		if (upi.UserUnit.ContainsKey (id)) {
-			Debug.LogError ("CheckCollider : " + id);
+//			Debug.LogError ("CheckCollider : " + id);
 			UserUnitInfo uui = upi.UserUnit [id];
 			MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, uui);
 		}

@@ -43,11 +43,12 @@ message SkillBase {
 
 
 message SkillSingleAttack {
-    optional SkillBase		baseInfo    = 1;
-	optional EValueType		type 		= 2; //FIXED | MULTIPLE
-	optional float			value		= 3; //fixed:1000,10000,150000 | 100xATK
-	optional EUnitType		unitType 	= 4; //
-	optional EAttackType	attackRange	= 5; // attack single, attack all, recover hp.
+    optional SkillBase		baseInfo		= 1;
+	optional EValueType		type 			= 2; //FIXED | MULTIPLE
+	optional float			value			= 3; //fixed:1000,10000,150000 | 100xATK
+	optional EUnitType		unitType 		= 4; //
+	optional EAttackType	attackRange		= 5; // attack single, attack all, recover hp.
+	optional bool			ignoreDefense	= 6; // ignore enemy defense.
 };
 
 //message SkillAllAttack {
@@ -61,6 +62,7 @@ message SkillSingleAtkRecoverHP { //single attack & recover HP to 100%
     optional SkillBase  baseInfo    = 1;
 	optional EValueType	type		= 2; 	    // MULTIPLE
 	optional float		value		= 3; 	 	// 0.5x,1x,2x,3x,5x
+	optional EUnitType	unitType	= 4;
 };
 
 message SkillSuicideAttack { //attack target and HP reduce to 1
@@ -230,7 +232,7 @@ message SkillExtraAttack {
 //=================add by leiliang===========================================================
 message SkillMultipleAttack {
 	optional SkillBase	baseInfo		= 1;
-	optional int		unitTypeCount	= 2;
+	optional int32		unitTypeCount	= 2;
 }
 
 //message LeaderSkill {
