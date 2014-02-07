@@ -68,6 +68,7 @@ public class UnitsComponent : ConcreteComponent,IUICallback, IUIParty {
 			}
 
 			partyInterface.PartyPaging( viewInfo );
+			//Debug.Log( unitPartyInfo.GetBlood() );
 		}
 		else {
 			partyInterface.PartyPaging( null );

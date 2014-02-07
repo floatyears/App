@@ -19,13 +19,14 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
+
+		InitPartyPage();
 	}
 	
 	public override void ShowUI () {
 		base.ShowUI ();
 
 		ShowTween();
-		InitPartyPage();
 	}
 	
 	public override void HideUI () {
@@ -80,7 +81,7 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 		UITexture temp;
 		for( int i = 1; i < 5; i++) {
 			temp = FindChild< UITexture >("PartyPages/Unit" + i.ToString() + "/role" );
-			//UIEventListenerCustom.Get(temp.gameObject).LongPress = LongPressCallback;
+			UIEventListenerCustom.Get(temp.transform.parent.gameObject).LongPress = ViewUnitDetailInfo;
 			temp.enabled = false;
 			unitTexureDic.Add(i, temp);
 		}
@@ -148,6 +149,16 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 				else unitTexureDic[ item.Key ].enabled = false;
 			}
 		}
+	}
+
+	//LongPress
+	private void ViewUnitDetailInfo(GameObject target){
+		int posID = -1;
+		foreach (var item in unitTexureDic){
+			if (target == item.Value.gameObject.transform.parent.gameObject)
+				posID = item.Key;
+		}
+		MsgCenter.Instance.Invoke(CommandEnum.EnterUnitInfo, unitBaseInfo [posID]);
 	}
 
 	private void ShowTween() {

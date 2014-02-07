@@ -1,29 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OthersComponent : ConcreteComponent {
+public class OthersComponent : ConcreteComponent
+{
+    public OthersComponent(string uiName):base(uiName){
 
-
-	public OthersComponent(string uiName):base(uiName) {}
+    }
 	
-	public override void CreatUI () {
-		base.CreatUI ();
-
-	}
+    public override void CreatUI(){
+        base.CreatUI(); 
+    }
 	
-	public override void ShowUI () {
-		base.ShowUI ();
+    public override void ShowUI()
+    {
+        base.ShowUI();
 
-	}
+    }
 	
-	public override void HideUI () {
-		base.HideUI ();
+    public override void HideUI()
+    {
+        base.HideUI();
 
-	}
+    }
 	
-	public override void DestoryUI () {
-		base.DestoryUI ();
-	}
+    public override void DestoryUI()
+    {
+        base.DestoryUI();
+    }
 
 
 

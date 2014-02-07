@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitsDecoratorUnity : UIComponentUnity, IUIParty {
-
+public class UnitsDecoratorUnity : UIComponentUnity, IUIParty{
 	IUICallback iuiCallback;
 	private GameObject leftArrowBtn;
 	private GameObject rightArrowBtn;
@@ -13,73 +12,69 @@ public class UnitsDecoratorUnity : UIComponentUnity, IUIParty {
 	private UILabel partyIndexPrefixLabel;
 	private UILabel partyIndexSuffixLabel;
 	private int pageIndexOrigin = 1;
-
+	UILabel hpLabel;
 	private Dictionary< int, UITexture > unitTexureDic = new Dictionary< int, UITexture>();
 	private Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 	private Dictionary< int, UnitBaseInfo > unitBaseInfo = new Dictionary< int, UnitBaseInfo >();
 
-	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum> ();
+	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum>();
 	
-	public override void Init (UIInsConfig config, IUIOrigin origin) {
-		base.Init (config, origin);
+	public override void Init(UIInsConfig config, IUIOrigin origin){
+		base.Init(config, origin);
 
 		InitCurPartyData();
-		InitChildScenes ();
+		InitChildScenes();
 		InitPartyPage();
 
 		iuiCallback = origin as IUICallback;
 	}
 	
-	public override void ShowUI () {
-		base.ShowUI ();
+	public override void ShowUI(){
+		base.ShowUI();
 		ShowTween();
 	}
 	
-	public override void HideUI () {
-		base.HideUI ();
-
+	public override void HideUI(){
+		base.HideUI();
 	}
 	
-	public override void DestoryUI () {
-		base.DestoryUI ();
+	public override void DestoryUI(){
+		base.DestoryUI();
 	}
-
 	
 	//Init Party Data Panel
-	private void InitCurPartyData() {
-
+	private void InitCurPartyData(){
+		hpLabel = FindChild< UILabel >("PartyInfoPanel/Label_HP_Vaule");
 	}
 
-	
 	//Init Child Scenes
-	private void InitChildScenes() {
+	private void InitChildScenes(){
 		GameObject go;
 
-		go = FindChild ("Bottom/Catalog");
-		buttonInfo.Add (go, SceneEnum.UnitCatalog);
+		go = FindChild("Bottom/Catalog");
+		buttonInfo.Add(go, SceneEnum.UnitCatalog);
 		
-		go = FindChild ("Bottom/Evolve");
-		buttonInfo.Add (go, SceneEnum.Evolve);
+		go = FindChild("Bottom/Evolve");
+		buttonInfo.Add(go, SceneEnum.Evolve);
 		
-		go = FindChild ("Bottom/LevelUp");
-		buttonInfo.Add (go, SceneEnum.LevelUp);
+		go = FindChild("Bottom/LevelUp");
+		buttonInfo.Add(go, SceneEnum.LevelUp);
 		
-		go = FindChild ("Bottom/Party");
-		buttonInfo.Add (go, SceneEnum.Party);
+		go = FindChild("Bottom/Party");
+		buttonInfo.Add(go, SceneEnum.Party);
 		
-		go = FindChild ("Bottom/Sell");
-		buttonInfo.Add (go, SceneEnum.Sell);
+		go = FindChild("Bottom/Sell");
+		buttonInfo.Add(go, SceneEnum.Sell);
 		
-		go = FindChild ("Bottom/UnitList");
-		buttonInfo.Add (go, SceneEnum.UnitList);
+		go = FindChild("Bottom/UnitList");
+		buttonInfo.Add(go, SceneEnum.UnitList);
 		
-		foreach (var item in buttonInfo.Keys) {
+		foreach (var item in buttonInfo.Keys)
 			UIEventListener.Get(item).onClick = OnClickCallback;
-		}
 	}
 	
 	//Init Party Page
-	private void InitPartyPage() {
+	private void InitPartyPage(){
 		InitIndexTextDic();
 		InitPagingBtn();
 		InitRightIndexText();
@@ -87,22 +82,22 @@ public class UnitsDecoratorUnity : UIComponentUnity, IUIParty {
 		InitUnitTexture();
 	}
 
-	private void InitIndexTextDic() {
-		partyIndexDic.Add( 1, "st");
-		partyIndexDic.Add( 2, "nd");
-		partyIndexDic.Add( 3, "rd");
-		partyIndexDic.Add( 4, "th");
-		partyIndexDic.Add( 5, "th");
+	private void InitIndexTextDic(){
+		partyIndexDic.Add(1, "st");
+		partyIndexDic.Add(2, "nd");
+		partyIndexDic.Add(3, "rd");
+		partyIndexDic.Add(4, "th");
+		partyIndexDic.Add(5, "th");
 	}
 
-	private void InitPagingBtn() {
+	private void InitPagingBtn(){
 		leftArrowBtn = FindChild("PartyPages/BtnLeft");
 		rightArrowBtn = FindChild("PartyPages/BtnRight");
-		UIEventListener.Get( leftArrowBtn ).onClick = BackPage;
-		UIEventListener.Get( rightArrowBtn ).onClick = ForwardPage;
+		UIEventListener.Get(leftArrowBtn).onClick = BackPage;
+		UIEventListener.Get(rightArrowBtn).onClick = ForwardPage;
 	}
 
-	private void InitRightIndexText() {
+	private void InitRightIndexText(){
 		currentPartyIndex = 1;
 		partyTotalCount = UIConfig.partyTotalCount;
 		currentPartyIndexLabel = FindChild< UILabel >("PartyPages/Label_Cur_Party");
@@ -111,103 +106,117 @@ public class UnitsDecoratorUnity : UIComponentUnity, IUIParty {
 		partyTotalCountLabel.text = partyTotalCount.ToString();
 	}
 
-	private void InitLeftIndexText() {
+	private void InitLeftIndexText(){
 		partyIndexPrefixLabel = FindChild< UILabel >("PartyPages/Label_Party_Index_Prefix");
 		partyIndexSuffixLabel = FindChild< UILabel >("PartyPages/Label_Party_Index_Suffix");
 		partyIndexPrefixLabel.text = currentPartyIndex.ToString();
-		partyIndexSuffixLabel.text = partyIndexDic[ currentPartyIndex ].ToString();
+		partyIndexSuffixLabel.text = partyIndexDic [currentPartyIndex].ToString();
 	}
 
-	private void InitUnitTexture() {
+	private void InitUnitTexture(){
 		UITexture temp;
-		for( int i = 1; i < 5; i++) {
-			temp = FindChild< UITexture >("PartyPages/Unit" + i.ToString() + "/role" );
-			//UIEventListenerCustom.Get(temp.gameObject).LongPress = LongPressCallback;
+		for (int i = 1; i < 5; i++){
+			temp = FindChild< UITexture >("PartyPages/Unit" + i.ToString() + "/role");
+			UIEventListenerCustom.Get( temp.transform.parent.gameObject ).LongPress = ViewUnitDetailInfo;
 			temp.enabled = false;
 			unitTexureDic.Add(i, temp);
 		}
-		RequestPartyInfo( currentPartyIndex );
+		RequestPartyInfo(currentPartyIndex);
 	}
 
 	//Deal with Party Page Events	
-	private void BackPage( GameObject btn ) {
+	private void BackPage(GameObject btn)
+	{
 		//Debug.Log("Back Page");
-		currentPartyIndex = Mathf.Abs( (currentPartyIndex - 1) % partyTotalCount );
-		if( currentPartyIndex == 0 )
-			currentPartyIndex = partyTotalCount ;
+		currentPartyIndex = Mathf.Abs((currentPartyIndex - 1) % partyTotalCount);
+		if (currentPartyIndex == 0)
+			currentPartyIndex = partyTotalCount;
 		currentPartyIndexLabel.text = currentPartyIndex.ToString();
 		partyIndexPrefixLabel.text = currentPartyIndex.ToString();
-		partyIndexSuffixLabel.text = partyIndexDic[ currentPartyIndex ].ToString();
-		RequestPartyInfo( currentPartyIndex );
+		partyIndexSuffixLabel.text = partyIndexDic [currentPartyIndex].ToString();
+		RequestPartyInfo(currentPartyIndex);
 	}
 
-	private void ForwardPage( GameObject btn ) {
+	private void ForwardPage(GameObject btn)
+	{
 		//Debug.Log("Forward Page");
 		currentPartyIndex++;
-		if (currentPartyIndex > partyTotalCount) {
+		if (currentPartyIndex > partyTotalCount){
 			currentPartyIndex = pageIndexOrigin;
 		} 
 		currentPartyIndexLabel.text = currentPartyIndex.ToString();
 		partyIndexPrefixLabel.text = currentPartyIndex.ToString();
-		partyIndexSuffixLabel.text = partyIndexDic[ currentPartyIndex ].ToString();
-		RequestPartyInfo( currentPartyIndex );
+		partyIndexSuffixLabel.text = partyIndexDic [currentPartyIndex].ToString();
+		RequestPartyInfo(currentPartyIndex);
 	}
 
 	//Request Party Page Info from Logic Component
-	private void RequestPartyInfo( int pageIndex ) {
+	private void RequestPartyInfo(int pageIndex){
 		//origin is UnitsComponent -- Logic Interface
 		IUIParty partyInterface = origin as IUIParty;
-		if( partyInterface == null )
-			ShowPartyInfo( null );
-		partyInterface.PartyPaging( pageIndex );
+		if (partyInterface == null)
+			ShowPartyInfo(null);
+		partyInterface.PartyPaging(pageIndex);
 	}
 
 	//Behaviour Interface : Party Page Turn 
-	public void PartyPaging (object data) {
-		if( data == null )
-			ShowPartyInfo( null );
-		else {
+	public void PartyPaging(object data){
+		if (data == null)
+			ShowPartyInfo(null);
+		else{
 			Dictionary< int, UnitBaseInfo > tempUnitBaseInfo = data as Dictionary< int, UnitBaseInfo >;
-			if( tempUnitBaseInfo == null ) return;
-			ShowPartyInfo( tempUnitBaseInfo );
+			if (tempUnitBaseInfo == null)
+				return;
+			ShowPartyInfo(tempUnitBaseInfo);
+			//ShowTotalHP();
 		}
 	}
 
-	private void ShowPartyInfo( Dictionary< int, UnitBaseInfo > info ) {
+	private void ShowTotalHP( int data) {
+		hpLabel.text = "31415";
+	}
+	private void ShowPartyInfo(Dictionary< int, UnitBaseInfo > info){
 		//Debug.Log( "UnitsBehaviour Show Party Info " );
 		unitBaseInfo = info;
-		if( info == null ) {
+		if (info == null){
 			foreach (var item in unitTexureDic.Values)
 				item.enabled = false;
-		}
-		else {
-			foreach (var item in unitTexureDic) {
-				if( info.ContainsKey( item.Key )) {
-					unitTexureDic[ item.Key ].enabled = true;
-					string path = info[item.Key].GetHeadPath;
-					unitTexureDic[ item.Key ].mainTexture = Resources.Load(path) as Texture2D;
-				}
-				else unitTexureDic[ item.Key ].enabled = false;
+		}else{
+			foreach (var item in unitTexureDic){
+				if (info.ContainsKey(item.Key)){
+					unitTexureDic [item.Key].enabled = true;
+					string path = info [item.Key].GetHeadPath;
+					unitTexureDic [item.Key].mainTexture = Resources.Load(path) as Texture2D;
+				}else
+					unitTexureDic [item.Key].enabled = false;
 			}
 		}
 	}
 
+	//LongPress
+	private void ViewUnitDetailInfo(GameObject target){
+		int posID = -1;
+		foreach (var item in unitTexureDic){
+			if (target == item.Value.gameObject.transform.parent.gameObject)
+				posID = item.Key;
+		}
+		MsgCenter.Instance.Invoke(CommandEnum.EnterUnitInfo, unitBaseInfo [posID]);
+	}
+
 	//Scene Change
-	private void OnClickCallback( GameObject caller ) {
-		if (iuiCallback == null) return;
+	private void OnClickCallback(GameObject caller){
+		if (iuiCallback == null)
+			return;
 		SceneEnum se = buttonInfo [caller];
-		iuiCallback.Callback (se);
+		iuiCallback.Callback(se);
 	}
 
 	//UI Animation
-	private void ShowTween() {
-		TweenPosition[ ] list = 
-			gameObject.GetComponentsInChildren< TweenPosition >();
-		if( list == null )
-			return;
-		foreach( var tweenPos in list) {		
-			if( tweenPos == null )
-				continue;
+	private void ShowTween(){
+		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
+		if (list == null)	return;
+		foreach (var tweenPos in list){		
+			if (tweenPos == null)	continue;
 			tweenPos.Reset();
 			tweenPos.PlayForward();
 		}

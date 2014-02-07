@@ -2,13 +2,13 @@
 using System.Collections;
 
 public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
-
 	private GameObject infoBox;
 	private GameObject leftCollider;
+    
 	private GameObject rightCollider;
 	private Vector3 leftPosition;
 	private Vector3 rightPosition;
-
+                        
 	//Label in "InfoBox"
 	private UILabel infoBox_Label_Text_Rank;
 	private UILabel infoBox_Label_Text_NextExp;
