@@ -34,47 +34,60 @@ enum EPeriod {
 };
 
 //==================Active Skills: 14 kinds=====================================================
-
 message SkillBase {
-    optional int32  id              = 1;
-    optional string name            = 2;
-    optional string description     = 3;
+    optional int32	id				= 1;
+    optional string	name			= 2;
+    optional string	description		= 3;
+	optional int32	skillCooling	= 4;
 }
 
 
 message SkillSingleAttack {
-    optional SkillBase  baseInfo    = 1;
-	optional EValueType type 		= 2; //FIXED | MULTIPLE
-	optional float		value		= 3; //fixed:1000,10000,150000 | 100xATK
-	optional EUnitType	unitType 	= 4; //
+    optional SkillBase		baseInfo		= 1;
+	optional EValueType		type 			= 2; //FIXED | MULTIPLE
+	optional float			value			= 3; //fixed:1000,10000,150000 | 100xATK
+	optional EUnitType		unitType 		= 4; //
+	optional EAttackType	attackRange		= 5; // attack single, attack all, recover hp.
+	optional bool			ignoreDefense	= 6; // ignore enemy defense.
 };
 
-message SkillAllAttack {
-    optional SkillBase  baseInfo    = 1;
-	optional EValueType	type		= 2; //FIXED | MULTIPLE
-	optional float		value 		= 3; //fixed:1000,10000,150000 | 100xATK
-	optional EUnitType	unitType 	= 4; //
-};
+//message SkillAllAttack {
+//    optional SkillBase  baseInfo    = 1;
+//	optional EValueType	type		= 2; //FIXED | MULTIPLE
+//	optional float		value 		= 3; //fixed:1000,10000,150000 | 100xATK
+//	optional EUnitType	unitType 	= 4; //
+//};
 
 message SkillSingleAtkRecoverHP { //single attack & recover HP to 100%
     optional SkillBase  baseInfo    = 1;
 	optional EValueType	type		= 2; 	    // MULTIPLE
 	optional float		value		= 3; 	 	// 0.5x,1x,2x,3x,5x
+	optional EUnitType	unitType	= 4;
 };
 
 message SkillSuicideAttack { //attack target and HP reduce to 1
     optional SkillBase      baseInfo    = 1;
 	optional EValueType		type	    = 2;	// 1:single | 2:all
 	optional float			value	    = 3;		// fixed:1000,10000,150000 | 100xATK
+	optional EUnitType		unitType	= 4;
+	optional EAttackType	attackType	= 5;
 };
 
 message SkillTargetTypeAttack { //only attack target type
-    optional SkillBase      baseInfo    = 1;
-	optional EValueType		type		= 2;	// 1:fixed 2:multiple
-	optional float			value		= 3;		// 35000, 1.5x
-	optional int32			period		= 4;		// valid period ->  0:all time, 1: 1 round, n: n rounds...
-	optional EUnitType		unitType	= 5;
+    optional SkillBase      baseInfo		= 1;
+	optional EValueType		type			= 2;	// 1:fixed 2:multiple
+	optional float			value			= 3;		// 35000, 1.5x
+	optional EUnitType		targetUnitType	= 5;
+	optional EUnitType		hurtUnitType	= 6;
 };
+
+message SkillStrengthenAttack {
+	optional SkillBase		baseInfo		= 1;
+	optional EValueType		type			= 2;
+	optional float			value			= 3;
+	optional int32			periodValue		= 4;
+	optional EUnitType		targetType		= 5;
+}
 
 message SkillKillHP { //kill all people's HP
     optional SkillBase  baseInfo    = 1;
@@ -112,26 +125,29 @@ message SkillReduceDefence {
 };
 
 message SkillDeferAttackRound { //defer enemy attack
-    optional SkillBase baseInfo     = 1;
+    optional SkillBase	baseInfo     = 1;
 	optional EValueType	type		= 2;  //ROUND
 	optional float 		value		= 3;
 };
 
 message SkillPoison { //defer enemy attack
-    optional SkillBase  baseInfo    = 1;
+	optional SkillBase	baseInfo    = 1;
 	optional EValueType	type		= 2;  //ROUND
 	optional float 		value		= 3;
+	optional int32		roundValue	= 4;
+	
 };
 
 message SkillDelayTime { //increase time for moving color block
     optional SkillBase  baseInfo    = 1;
 	optional EValueType	type		= 2;  //SECOND
 	optional float 		value		= 3; //1s, 2s
+	optional int32		periodValue	= 4;
 };
 
 message SkillConvertUnitType { //convert one type to another type
     optional SkillBase  baseInfo    = 1;
-	optional EValueType	type		= 2;  		//COLORTYPE | RANDOMCOLOR
+	optional EValueType	type		= 2;  //COLORTYPE | RANDOMCOLOR
 	optional EUnitType 	unitType1	= 3;  //from type
 	optional EUnitType 	unitType2	= 4;  //target type
 };
@@ -229,7 +245,7 @@ message SkillExtraAttack {
 //=================add by leiliang===========================================================
 message SkillMultipleAttack {
 	optional SkillBase	baseInfo		= 1;
-	optional int		unitTypeCount	= 2;
+	optional int32		unitTypeCount	= 2;
 }
 
 //message LeaderSkill {

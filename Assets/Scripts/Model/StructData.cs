@@ -34,11 +34,11 @@ public class SingleMapData
 		set{starLevel = value;}
 	}
 	
-	private List<int> monsterID = new List<int>();
+	private List<uint> monsterID = new List<uint>();
 	/// <summary>
 	/// Gets or sets the monster ID.
 	/// </summary>
-	public List<int> MonsterID
+	public List<uint> MonsterID
 	{
 		get{return monsterID;}
 		set{monsterID = value;}

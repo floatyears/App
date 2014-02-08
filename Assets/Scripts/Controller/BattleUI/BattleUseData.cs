@@ -7,7 +7,7 @@ public class BattleUseData {
 	private int maxBlood = 0;
 	private int blood = 0;
 	public int Blood {
-		get{
+		get {
 			return blood;
 		}
 	}
@@ -18,6 +18,7 @@ public class BattleUseData {
 	private List<ShowEnemyUtility> showEnemy = new List<ShowEnemyUtility>();
 	private AttackController ac;
 	private ExcuteLeadSkill els;
+	private ExcuteActiveSkill eas;
 	private ILeaderSkillRecoverHP skillRecoverHP;
 
 	private static float countDown = 5f;
@@ -28,11 +29,12 @@ public class BattleUseData {
 	}
 	public BattleUseData () {
 		ListenEvent ();
-
 		errorMsg = new ErrorMsg ();
 		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
 		upi.GetSkillCollection ();
+		ac = new AttackController (this);
 		els = new ExcuteLeadSkill (upi);
+		eas = new ExcuteActiveSkill (upi);
 		skillRecoverHP = els;
 		els.Excute ();
 		maxBlood = blood = upi.GetBlood ();
@@ -50,6 +52,9 @@ public class BattleUseData {
 		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillDelayTime, DelayCountDownTime);
+		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillRecoverHP, RecoveHPByActiveSkill);
+		MsgCenter.Instance.AddListener (CommandEnum.SkillSucide, Sucide);
+		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, RecoverEnergePoint);
 	}
 
 	void RemoveListen () {
@@ -58,12 +63,33 @@ public class BattleUseData {
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.LeaderSkillDelayTime, DelayCountDownTime);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillRecoverHP, RecoveHPByActiveSkill);
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillSucide, Sucide);
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, RecoverEnergePoint);
+	}
+	
+	void RecoveHPByActiveSkill (object data) {
+		int value = (int)data;
+//		AttackInfo ai = data as AttackInfo;
+		int add = 0;
+		if (value < 1) {
+			add = blood * value + blood;
+		} 
+		else {
+			add = value + blood;
+		}
+		RecoverHP (add);
 	}
 
 	void DelayCountDownTime(object data) {
 		float addTime = (float)data;
-		Debug.LogError ("addTime : " + addTime);
+//		Debug.LogError ("addTime : " + addTime);
 		countDown += addTime;
+	}
+
+	void Sucide(object data) {
+		blood = 1;
+		RefreshBlood ();
 	}
 
 	List<AttackInfo> SortAttackSequence() {
@@ -71,7 +97,6 @@ public class BattleUseData {
 		foreach (var item in attackInfo.Values) {
 			sortAttack.AddRange(item);
 		}
-
 		attackInfo.Clear ();
 		int tempCount = 0;
 		for (int i = GlobalData.posStart; i < GlobalData.posEnd; i++) {
@@ -85,9 +110,7 @@ public class BattleUseData {
 			DGTools.InsertSort(temp, new AISortByCardNumber());
 			attackInfo.Add(i,temp);
 		}
-
 		sortAttack.Clear ();
-
 		for (int i = 0; i < tempCount; i++) {
 			for (int j = GlobalData.posStart; j < GlobalData.posEnd; j++) {
 				if(attackInfo[j].Count > 0) {
@@ -107,10 +130,8 @@ public class BattleUseData {
 
 	void RecoverHP (object data) {
 		AttackInfo ai = data as AttackInfo;
-		if (ai == null) {
-			return;
-		}
-		int addBlood = System.Convert.ToInt32( ai.AttackValue) + blood;
+		float tempBlood = ai.AttackValue;
+		int addBlood = System.Convert.ToInt32(tempBlood) + blood;
 		RecoverHP (addBlood);
 	}
 
@@ -121,14 +142,12 @@ public class BattleUseData {
 		}
 	}
 
-	public List<ShowEnemyUtility> GetEnemyInfo (List<int> monster) {
+	public List<ShowEnemyUtility> GetEnemyInfo (List<uint> monster) {
 		currentEnemy.Clear ();
-
 		int j = showEnemy.Count - monster.Count;
 		for (int i = 0; i < j; i++) {
 			showEnemy.RemoveAt(monster.Count + i);
 		}
-
 		for (int i = 0; i < monster.Count; i++) {
 			TempEnemy te = GlobalData.tempEnemyInfo[monster[i]];
 			te.Reset();
@@ -136,13 +155,12 @@ public class BattleUseData {
 				ShowEnemyUtility seu = new ShowEnemyUtility();
 				showEnemy.Add(seu);
 			} 
-
 			showEnemy[i].enemyID = te.GetID();
 			showEnemy[i].enemyBlood = te.GetBlood();
 			showEnemy[i].attackRound = te.GetRound();
 			currentEnemy.Add(te);
 		}
-
+		ac.enemyInfo = currentEnemy;
 		return showEnemy;
 	}
 
@@ -153,10 +171,8 @@ public class BattleUseData {
 	public void StartAttack(object data) {
 		attackInfo = upi.Attack;
 		List<AttackInfo> temp = SortAttackSequence ();
-		ac = new AttackController (this);
 		ac.LeadSkillReduceHurt (els);
-
-		ac.StartAttack (temp,currentEnemy,upi);
+		ac.StartAttack (temp,upi);
 	}
 
 	public void ClearData () {
@@ -171,16 +187,24 @@ public class BattleUseData {
 		MsgCenter.Instance.Invoke (CommandEnum.BattleBaseData, bud);
 	}
 
+	void RecoverEnergePoint(object data) {
+		int recover = (int)data;
+		maxEnergyPoint += recover;
+		if (maxEnergyPoint > GlobalData.maxEnergyPoint) {
+			maxEnergyPoint = GlobalData.maxEnergyPoint;	
+		}
+//		Debug.LogError ("maxEnergyPoint : " + maxEnergyPoint);
+		MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
+	}
+
 	bool temp = true;
 	void MoveToMapItem (object coordinate) {
 		if (temp) {
 			temp = false;
 			return;
 		}
-
 		int addBlood = skillRecoverHP.RecoverHP (blood, 2);	//3: every step.
 		RecoverHP (addBlood);
-
 		if (maxEnergyPoint == 0) {
 			blood -= ReductionBloodByProportion(0.2f);
 			if(blood < 1) {

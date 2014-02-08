@@ -14,6 +14,11 @@ const (
 	TABLE_LOG     = "6"
 )
 
+//key prefix
+const (
+	X_FRIEND_HELPER = "X_HELPER_"
+)
+
 const (
 	KEY_MAX_USER_ID  = "K_MAX_USER_ID"
 	KEY_QUEST_PREFIX = "K_QUEST_INFO_"

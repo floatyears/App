@@ -35,9 +35,8 @@ public class ProtobufDataBase : IOriginModel {
 	/// <c>false</c>
 	/// <param name="instance">Instance.</param>
 	public ErrorMsg SerializeData (object instance) {
-
 		originData = ProtobufSerializer.SerializeToBytes (instance);
-
+		LogHelper.LogWarning ("SerializeData origindata : " + originData.Length);
 		return Dipose (originData,instance.GetType().ToString());
 	}
 
@@ -46,7 +45,7 @@ public class ProtobufDataBase : IOriginModel {
 	/// </summary>
 	/// <returns>The data.</returns>
 	public object DeserializeData () {
-
+		LogHelper.LogWarning ("DeserializeData origindata : " + originData.Length);
 		return ProtobufSerializer.ParseFormBytes(originData,type);
 	}
 
@@ -56,6 +55,7 @@ public class ProtobufDataBase : IOriginModel {
 	/// <returns>The data.</returns>
 	/// <typeparam name="T">The 1st type parameter.</typeparam>
 	public T DeserializeData<T> (){
+		LogHelper.LogWarning ("DeserializeData origindata : " + originData.Length);
 		return ProtobufSerializer.ParseFormBytes<T> (originData);
 	}
 

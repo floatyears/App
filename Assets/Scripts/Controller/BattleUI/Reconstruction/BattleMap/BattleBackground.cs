@@ -8,6 +8,7 @@ public class BattleBackground : UIBaseUnity {
 	private UISprite[] spSprite;
 	private UISpriteAnimationCustom spriteAnimation;
 	private GameObject battleBottom;
+	private BattleBottom battleBottomScript;
 	private UISlider bloodBar;
 	private UILabel label;
 	private int initBlood = -1;
@@ -26,7 +27,8 @@ public class BattleBackground : UIBaseUnity {
 		battleBottom = Instantiate (o) as GameObject;
 	
 		battleBottom.GetComponent<UIAnchor> ().uiCamera = ViewManager.Instance.MainUICamera.camera;
-		
+		battleBottomScript = battleBottom.AddComponent<BattleBottom> ();
+		battleBottomScript.Init (bottomCamera);
 		actor = new Material[5];
 		spSprite = new UISprite[20];
 		string path;
@@ -92,9 +94,9 @@ public class BattleBackground : UIBaseUnity {
 		string info = num + "/" + initBlood;
 		label.text = info;
 		float value = DGTools.IntegerSubtriction(num,initBlood);
-		if (bloodBar.value < value) {
-			spriteAnimation.Reset();
-		}
+//		if (bloodBar.value < value) {
+		spriteAnimation.Reset();
+//		}
 		bloodBar.value = value;
 	}
 
@@ -106,12 +108,18 @@ public class BattleBackground : UIBaseUnity {
 	void ListenEnergyPoint (object data) {
 		int energyPoint = (int) data;
 		int remaining = initEnergyPoint - energyPoint;
-		if (remaining < 0) {
-			LogHelper.LogException(new System.Exception("energy point number is bigger to energy sprite number"));
-			return ;
+
+		if (remaining <= 0) {
+			for (int i = 0; i < energyPoint; i++) {
+				if(!spSprite [i].enabled) {
+					spSprite[i].enabled = true;
+				}
+			}
 		}
-		for (int i = 0; i < remaining; i++) {
-			spSprite[energyPoint + i].enabled = false;
+		else {
+			for (int i = 0; i < remaining; i++) {
+				spSprite[energyPoint + i].enabled = false;
+			}
 		}
 	}
 

@@ -114,7 +114,9 @@ public interface ILeaderSkillRecoverHP {
 }
 
 public interface IActiveSkillExcute {
-	Object Excute(int atk = -1);
+	bool CoolingDone{ get;}
+	void RefreashCooling();
+	object Excute(int userUnitID, int atk = -1);
 }
 
 public interface IUIParty : IUICallback {

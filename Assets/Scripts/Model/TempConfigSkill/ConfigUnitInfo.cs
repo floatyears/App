@@ -19,9 +19,9 @@ public class ConfigUnitInfo {
 	void GenerateUnitInfo () {
 		for (int i = 1; i < maxCount; i++) {
 			UnitInfo uiitem 	= new UnitInfo ();
-			uiitem.id 			= i;
+			uiitem.id 			= (uint)i;
 			uiitem.name			= "unit_" + i;
-			uiitem.type 		= i;
+			uiitem.type 		= (EUnitType)i;
 			uiitem.skill1 		= (i - 1) * 2;
 			uiitem.skill2 		= (i - 1) * 2 + 1;
 			for (int j = 0; j < 3; j++) {
@@ -41,17 +41,17 @@ public class ConfigUnitInfo {
 			if(i == 5) {
 				uiitem.leaderSkill = 20;
 			}
+			uiitem.activeSkill = 46;
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
-//		Debug.LogError(GlobalData.tempUnitInfo [1].)
 	}
 
 	void GenerateUserUnit () {
 		for (int i = 1; i < maxCount; i++) {
 			UserUnit uu 		= new UserUnit ();
 			uu.uniqueId 		= i;
-			uu.id 				= i;
+			uu.id 				= (uint)i;
 			uu.exp 				= 0;
 			uu.level 			= 1;
 			uu.addAttack 		= i;
@@ -128,8 +128,23 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
 	public Dictionary<int, List<AttackInfo>> Attack {
 		get {return attack;}
 	}
-	public UnitPartyInfo (object instance) : base (instance) {  }
-	~UnitPartyInfo () {  }
+	public UnitPartyInfo (object instance) : base (instance) { 
+		MsgCenter.Instance.AddListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
+	}
+	~UnitPartyInfo () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
+	}
+
+	AttackInfo reduceHurt = null;
+
+	void ReduceHurt(object data) {
+		reduceHurt = data as AttackInfo;
+		if (reduceHurt != null) {
+			if(reduceHurt.AttackRound == 0) {
+				reduceHurt = null;
+			}
+		}
+	}
 
 	public int CaculateInjured (int attackType, float attackValue) {
 		float Proportion = 1f / (float)partyItem.Count;
@@ -141,6 +156,12 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
 			UserUnitInfo unitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
 			hurtValue += unitInfo.CalculateInjured(attackType, attackV);
 		}
+
+		if (reduceHurt != null) {
+			float value = hurtValue * reduceHurt.AttackValue;
+			hurtValue -= value;
+		}
+
 		return System.Convert.ToInt32(hurtValue);
 	}
 
@@ -240,7 +261,6 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
 			int unitUniqueID = up.items [i].unitUniqueId;
 			bloodNum += GlobalData.tempUserUnitInfo [unitUniqueID].GetBlood();
 		}
-
 		return bloodNum;
 	}
 
@@ -382,9 +402,9 @@ public class AttackInfo {
 		set {continuAttackMultip = value;}
 	}
 
-	private int enemyID = -1;
+	private uint enemyID = 0;
 
-	public int EnemyID {
+	public uint EnemyID {
 		get {return enemyID;}
 		set {enemyID = value;}
 	}
@@ -398,8 +418,19 @@ public class AttackInfo {
 
 	private Object effect;
 	public Object Effect {
-		get{return effect;}
-		set{effect = value;}
+		get {return effect;}
+		set {effect = value;}
+	}
+	private bool ignoreDefense = false;
+	public bool IgnoreDefense {
+		get {return ignoreDefense;}
+		set {ignoreDefense = value;}
+	}
+
+	private int attackRound = 1; 
+	public int AttackRound {
+		get { return attackRound; }
+		set { attackRound = value; }
 	}
 	//------------test need data, delete it behind test done------------//
 	//------------------------------------------------------------------//

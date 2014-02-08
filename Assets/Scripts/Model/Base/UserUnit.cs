@@ -16,13 +16,18 @@ public class AddBlood {
 }
 
 public class UserUnitInfo : ProtobufDataBase {
-	public UserUnitInfo(UserUnit instance) : base (instance) { }
+	public UserUnitInfo(UserUnit instance) : base (instance) { 
+		MsgCenter.Instance.AddListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
+	} 
+	~UserUnitInfo() { 
+		MsgCenter.Instance.AddListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
+	}
+
 	private int currentBlood = -1;
 	private float attackMultiple = 1;
 	private float hpMultiple = 1;
 	public int unitBaseInfo = -1;
-	~UserUnitInfo() { }
-	
+
 	TempNormalSkill[] normalSkill = new TempNormalSkill[2];
 
 	public void SetAttack(float value, int type, EBoostTarget boostTarget,EBoostType boostType) {
@@ -41,7 +46,6 @@ public class UserUnitInfo : ProtobufDataBase {
 				SetAttackMultipeByRace(value,type);	
 			}
 		}
-	
 	}
 
 	void SetHPByType (float value, int type) {
@@ -78,10 +82,10 @@ public class UserUnitInfo : ProtobufDataBase {
 		defense += GetUnitInfo ().power [uu.level].defense;
 		float hurtValue = 0;
 
-		if (beRetraintType == GetUnitInfo ().type) {
+		if (beRetraintType == (int)GetUnitInfo ().type) {
 			hurtValue = attackValue * 0.5f;
 		} 
-		else if (retraintType == GetUnitInfo ().type) {
+		else if (retraintType == (int)GetUnitInfo ().type) {
 			hurtValue = attackValue * 2f;
 		} 
 		else {
@@ -99,17 +103,14 @@ public class UserUnitInfo : ProtobufDataBase {
 	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
 		List<uint> copyCard 		= new List<uint> (card);
 		List<AttackInfo> returnInfo = new List<AttackInfo> ();
-
 		UserUnit uu 				= DeserializeData<UserUnit> ();
-		UnitInfo ui					= GlobalData.tempUnitInfo [uu.id].DeserializeData<UnitInfo>();
-
+		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.id];
+		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
 		TempNormalSkill firstSkill	= GlobalData.tempNormalSkill [ui.skill1] as TempNormalSkill;
 		TempNormalSkill secondSkill = GlobalData.tempNormalSkill [ui.skill2] as TempNormalSkill;
-
 		if (normalSkill [0] == null) {
 			AddSkill(firstSkill,secondSkill);
 		}
-
 		for (int i = 0; i < normalSkill.Length; i++) {
 			TempNormalSkill tns = normalSkill[i];
 			tns.DisposeUseSkillID(ignorSkillID);
@@ -117,13 +118,29 @@ public class UserUnitInfo : ProtobufDataBase {
 			for (int j = 0; j < count; j++) {
 				AttackInfo attack	= new AttackInfo();
 				attack.AttackValue	= CaculateAttack(uu,ui,tns);
-				attack.AttackType	= ui.type;
+				attack.AttackType	= (int)ui.type;
 				attack.UserUnitID	= uu.uniqueId;
 				tns.GetSkillInfo(attack);
 				returnInfo.Add(attack);
 			}
 		}
 		return returnInfo;
+	}
+
+	AttackInfo strengthenInfo = null;
+	void StrengthenTargetType(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;	
+		}
+		if (ai.AttackType != GetUnitType ()) {
+			return;	
+		}
+		if (ai.AttackRound == 0) {
+			strengthenInfo = null;
+			return;
+		}
+		strengthenInfo = ai;
 	}
 
 	void AddSkill(TempNormalSkill firstSkill, TempNormalSkill secondSkill) {
@@ -140,19 +157,25 @@ public class UserUnitInfo : ProtobufDataBase {
 	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TempNormalSkill tns) {
 		int addAttack = uu.addAttack * 50;
 		float attack = addAttack + ui.power [uu.level].attack;
-		//Debug.LogError ("item : " +GlobalData.tempUnitBaseInfo[unitBaseInfo].chineseName +  "CaculateAttack : " + attack + "  attackMultiple  : " + attackMultiple);
 		attack = tns.GetAttack(attack) * attackMultiple;
-		//Debug.LogError ("item : " +GlobalData.tempUnitBaseInfo[unitBaseInfo].chineseName +  "CaculateAttack : " + attack + "  attackMultiple  : " + attackMultiple);
+
+		if (strengthenInfo != null) {
+			attack *= strengthenInfo.AttackValue;
+		}
 		int value = System.Convert.ToInt32 (attack);
 		return value;
 	}
 
 	public int GetUnitType (){
-		return GetUnitInfo().type;
+		return (int)GetUnitInfo().type;
 	}
 
 	public int GetLeadSKill () {
 		return GetUnitInfo().leaderSkill;
+	}
+
+	public int GetActiveSkill () {
+		return GetUnitInfo ().activeSkill;
 	}
 
 	UnitInfo GetUnitInfo() {

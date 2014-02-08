@@ -4,7 +4,13 @@ using bbproto;
 
 public class TempEnemy : ProtobufDataBase {
 	public TempEnemy (object instance) : base (instance) {
+		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
+		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
+	}
 
+	~TempEnemy () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
+		MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
 
 	EnemyInfo GetEnemyInfo() {
@@ -13,6 +19,9 @@ public class TempEnemy : ProtobufDataBase {
 
 	private int initBlood = -1;
 	private int initAttackRound = -1;
+
+	public bool isDeferAttackRound = false;
+	public bool isPosion = false;
 
 	public bool IsInjured () {
 		if (GetEnemyInfo ().hp < initBlood) {
@@ -23,31 +32,60 @@ public class TempEnemy : ProtobufDataBase {
 		}
 	}
 
-	public int CalculateInjured (float attackInfo, bool restraint, int unitType) {
-		int injured = 0;
+	public int CalculateInjured (AttackInfo attackInfo, bool restraint) {//, int unitType, bool ignoreDefense = false) {
+		float injured = 0;
+		bool ignoreDefense = attackInfo.IgnoreDefense;
+		int unitType = attackInfo.AttackType;
+		float attackvalue = attackInfo.AttackValue;
 		if (restraint) {
-			injured = (int)(attackInfo * 2 - GetDefense ());
+			injured = attackvalue * 2;
 		} 
 		else {
 			int beRestraint = DGTools.BeRestraintType(unitType);
-			if(beRestraint > 0) {
-				injured = (int) (attackInfo * 0.5f - GetDefense());
+			if(beRestraint == (int)GetEnemyInfo().type) {
+				injured = attackvalue * 0.5f;
 			}
 			else{
-				injured = (int)(attackInfo - GetDefense());
+				injured = attackvalue;
 			}
 		}
-		initBlood -= injured;
+		if (!ignoreDefense) {
+			injured -= GetDefense();
+		}
+		if (injured < 1) {
+			injured = 1;
+		}
+		int value = System.Convert.ToInt32 (injured);
+		KillHP (value);
+		return value;
+	}
+
+	float reduceProportion = 0f;
+	public void ReduceDefense(float value) {
+		reduceProportion = value;
+	}
+
+	void SkillPosion(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;	
+		}
+		int value = System.Convert.ToInt32 (ai.AttackValue);
+		KillHP (value);
+	}
+
+	public void KillHP(int hurtValue) {
+		initBlood -= hurtValue;
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
-		return injured;
 	}
 
 	public void Reset() {
-		initBlood = GetEnemyInfo ().hp;
+		initBlood = GetInitBlood ();
 		initAttackRound = GetEnemyInfo ().attackRound;
 	}
 
 	public void ResetAttakAround () {
+		isDeferAttackRound = false;
 		initAttackRound = GetEnemyInfo().attackRound;
 	}
 
@@ -55,20 +93,37 @@ public class TempEnemy : ProtobufDataBase {
 		initAttackRound --;
 	}
 
+	void DeferAttackRound(object data) {
+		int value = (int)data;
+		if (initBlood > 0) {
+			initAttackRound += value;
+			isDeferAttackRound = true;
+			MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+		}
+	}
+
 	public int GetAttack () {
 		return GetEnemyInfo().attack;
 	}
 
-	public int GetID () {
+	public uint GetID () {
 		return GetEnemyInfo().unitId;
 	}
 
 	public int GetDefense () {
-		return GetEnemyInfo ().defense;
+		int defense = GetEnemyInfo ().defense;
+//		Debug.LogError ("befoure defense : " + defense);
+		defense = defense - System.Convert.ToInt32 (defense * reduceProportion);
+//		Debug.LogError ("after defense : " + defense);
+		return defense;
 	}
 
 	public int GetRound () {
 		return initAttackRound;
+	}
+
+	public int GetInitBlood () {
+		return GetEnemyInfo ().hp;
 	}
 
 	public int GetBlood () {
@@ -80,7 +135,7 @@ public class TempEnemy : ProtobufDataBase {
 	}
 
 	public int GetUnitType () {
-		return GetEnemyInfo ().type;
+		return (int)GetEnemyInfo ().type;
 	}
 }
 
@@ -101,11 +156,11 @@ public class ConfigEnermy {
 	void GenerateEnemy () {
 		EnemyInfo ei = new EnemyInfo ();
 		ei.unitId = 1;
-		ei.attack = 400;
+		ei.attack = 10;
 		ei.attackRound = 1;
 		ei.defense = 10;
 		ei.hp = 400;
-		ei.type = 1;
+		ei.type = (EUnitType)1;
 		ei.dropUnitId = 10;
 		ei.dropRate = 0.15f;
 		TempEnemy te = new TempEnemy (ei);
@@ -113,11 +168,11 @@ public class ConfigEnermy {
 
 		ei = new EnemyInfo ();
 		ei.unitId = 2;
-		ei.attack = 800;
+		ei.attack = 20;
 		ei.attackRound = 1;
 		ei.defense = 20;
 		ei.hp = 1500;
-		ei.type = 2;
+		ei.type = (EUnitType)2;
 		ei.dropUnitId = 11;
 		ei.dropRate = 0.2f;
 		te = new TempEnemy (ei);

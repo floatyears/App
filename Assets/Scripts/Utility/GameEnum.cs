@@ -53,38 +53,57 @@ public enum SceneEnum
 
 public enum CommandEnum
 {
-	None = 0,
-
-	ChangeScene = 1,
-	#region view to model
-	//DragCardToBattleArea 	= 1000,
+	None 					= 0,
+	ChangeScene 			= 1,
 	InquiryBattleBaseData 	= 1001,
-	MoveToMapItem 		= 1002,
+	MoveToMapItem 			= 1002,
 	StartAttack				= 1003,
 	EnterUnitInfo			= 1004,
-	#endregion
-
-	#region model to view
-	Person 				= 3000,
+	Person 					= 3000,
 	BattleBaseData 			= 3001,
 	UnitBlood 				= 3002,
-	EnergyPoint			= 3003,
-	ShowEnemy 			= 3004,
-	AttackEnemy			= 3005,
+	EnergyPoint				= 3003,
+	ShowEnemy 				= 3004,
+	AttackEnemy				= 3005,
 	AttackPlayer			= 3006,
 	AttackRecoverRange		= 3007,
 	BattleEnd				= 3008,
-	EnemyAttack			= 3010,
+	EnemyAttack				= 3010,
 	EnemyAttackEnd			= 3009,
 	EnemyRefresh			= 3011,
-	EnemyDead			= 3012,
+	EnemyDead				= 3012,
 	RecoverHP				= 3013,
-	#endregion
+	LeaderSkillBoost		= 3014,
+	LeaderSkillDelayTime	= 3015,
+	ActiveSkillAttack		= 3016,
+	LaunchActiveSkill		= 3017,
+	ActiveSkillRecoverHP	= 3018,
+	ActiveSkillDrawHP		= 3019,
+	SkillSucide				= 3020,
+	SkillGravity			= 3021,
+	SkillRecoverSP			= 3022,
+	SkillPosion				= 3023,
+	AttackEnemyEnd			= 3024,
+	/// <summary>
+	/// zhong du 
+	/// </summary>
+	BePosion				= 3025,
+	/// <summary>
+	/// The color of the change card.
+	/// </summary>
+	ChangeCardColor			= 3026,
 
-	LeaderSkillBoost			= 3014,
-	LeaderSkillDelayTime		= 3015,
+	ReduceDefense			= 3027,
 
-	ActiveSkillAttack			= 3016,
+	DelayTime				= 3028,
+
+	ActiveReduceHurt		= 3029,
+
+	DeferAttackRound		= 3030,
+
+	AttackTargetType		= 3031,
+
+	StrengthenTargetType	= 3032,
 }
 
 public enum UIParentEnum : byte {
