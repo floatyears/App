@@ -41,7 +41,7 @@ public class ConfigUnitInfo {
 			if(i == 5) {
 				uiitem.leaderSkill = 20;
 			}
-			uiitem.activeSkill = 33;
+			uiitem.activeSkill = 40;
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
@@ -404,6 +404,12 @@ public class AttackInfo {
 	public bool IgnoreDefense {
 		get {return ignoreDefense;}
 		set {ignoreDefense = value;}
+	}
+
+	private int attackRound = 1; 
+	public int AttackRound {
+		get { return attackRound; }
+		set { attackRound = value; }
 	}
 	//------------test need data, delete it behind test done------------//
 	//------------------------------------------------------------------//

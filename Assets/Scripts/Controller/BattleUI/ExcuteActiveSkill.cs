@@ -14,7 +14,6 @@ public class ExcuteActiveSkill {
 			}
 			activeSkill.Add(item.GetID,skill);
 		}
-
 		MsgCenter.Instance.AddListener (CommandEnum.LaunchActiveSkill, Excute);
 	}
 

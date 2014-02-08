@@ -7,7 +7,7 @@ public class BattleUseData {
 	private int maxBlood = 0;
 	private int blood = 0;
 	public int Blood {
-		get{
+		get {
 			return blood;
 		}
 	}
@@ -53,6 +53,8 @@ public class BattleUseData {
 		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillDelayTime, DelayCountDownTime);
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillRecoverHP, RecoveHPByActiveSkill);
+		MsgCenter.Instance.AddListener (CommandEnum.SkillSucide, Sucide);
+		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, RecoverEnergePoint);
 	}
 
 	void RemoveListen () {
@@ -62,6 +64,8 @@ public class BattleUseData {
 		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.LeaderSkillDelayTime, DelayCountDownTime);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillRecoverHP, RecoveHPByActiveSkill);
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillSucide, Sucide);
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, RecoverEnergePoint);
 	}
 	
 	void RecoveHPByActiveSkill (object data) {
@@ -79,8 +83,13 @@ public class BattleUseData {
 
 	void DelayCountDownTime(object data) {
 		float addTime = (float)data;
-		Debug.LogError ("addTime : " + addTime);
+//		Debug.LogError ("addTime : " + addTime);
 		countDown += addTime;
+	}
+
+	void Sucide(object data) {
+		blood = 1;
+		RefreshBlood ();
 	}
 
 	List<AttackInfo> SortAttackSequence() {
@@ -162,9 +171,7 @@ public class BattleUseData {
 	public void StartAttack(object data) {
 		attackInfo = upi.Attack;
 		List<AttackInfo> temp = SortAttackSequence ();
-
 		ac.LeadSkillReduceHurt (els);
-
 		ac.StartAttack (temp,upi);
 	}
 
@@ -180,16 +187,24 @@ public class BattleUseData {
 		MsgCenter.Instance.Invoke (CommandEnum.BattleBaseData, bud);
 	}
 
+	void RecoverEnergePoint(object data) {
+		int recover = (int)data;
+		maxEnergyPoint += recover;
+		if (maxEnergyPoint > GlobalData.maxEnergyPoint) {
+			maxEnergyPoint = GlobalData.maxEnergyPoint;	
+		}
+//		Debug.LogError ("maxEnergyPoint : " + maxEnergyPoint);
+		MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
+	}
+
 	bool temp = true;
 	void MoveToMapItem (object coordinate) {
 		if (temp) {
 			temp = false;
 			return;
 		}
-
 		int addBlood = skillRecoverHP.RecoverHP (blood, 2);	//3: every step.
 		RecoverHP (addBlood);
-
 		if (maxEnergyPoint == 0) {
 			blood -= ReductionBloodByProportion(0.2f);
 			if(blood < 1) {

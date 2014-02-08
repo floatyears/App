@@ -24,17 +24,41 @@ public class AttackController {
 	void RegisterEvent () {
 		msgCenter.AddListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
 		msgCenter.AddListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
+		msgCenter.AddListener (CommandEnum.SkillGravity, Gravity);
+		//msgCenter.AddListener (CommandEnum.SkillPosion, EnemyPosison);
 	}
 
 	void RemoveEvent () {
 		msgCenter.RemoveListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
 		msgCenter.RemoveListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
+		msgCenter.RemoveListener (CommandEnum.SkillGravity, Gravity);
+		//msgCenter.RemoveListener (CommandEnum.SkillPosion, EnemyPosison);
 	}
 
 	void DrawHP(object data) {
-//		DisposeRecoverHP (tempPreHurtValue);
 		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, tempPreHurtValue);
 	}
+
+	void Gravity(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;
+		}
+
+		for (int i = 0; i < enemyInfo.Count; i++) {
+			int initBlood = enemyInfo[i].GetInitBlood();
+			int hurtValue = System.Convert.ToInt32(initBlood * ai.AttackValue);
+			enemyInfo[i].KillHP(hurtValue);
+		}
+		CheckTempEnemy ();
+	}
+
+//	void EnemyPosison(object data) {
+//		AttackInfo ai = data as AttackInfo;
+//		if (ai != null) {
+//
+//		}
+//	}
 
 	void ActiveSkillAttack (object data) {
 		AttackInfo ai = data as AttackInfo;
@@ -110,6 +134,7 @@ public class AttackController {
 		if (attackInfo.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.Blood, 1);	//1: every round.
 			bud.RecoverHP(blood);
+			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, null);
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
@@ -135,7 +160,7 @@ public class AttackController {
 	}
 
 	bool CheckTempEnemy() {
-		for (int i = 0; i < enemyInfo.Count; i++) {
+		for (int i = enemyInfo.Count - 1; i > -1; i--) {
 			int blood = enemyInfo[i].GetBlood();
 			if(blood <= 0){
 				TempEnemy te = enemyInfo[i];

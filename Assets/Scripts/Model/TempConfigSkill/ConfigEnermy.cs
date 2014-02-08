@@ -4,7 +4,11 @@ using bbproto;
 
 public class TempEnemy : ProtobufDataBase {
 	public TempEnemy (object instance) : base (instance) {
+		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
+	}
 
+	~TempEnemy () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
 	}
 
 	EnemyInfo GetEnemyInfo() {
@@ -47,13 +51,26 @@ public class TempEnemy : ProtobufDataBase {
 			injured = 1;
 		}
 		int value = System.Convert.ToInt32 (injured);
-		initBlood -= value;
-		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+		KillHP (value);
 		return value;
 	}
 
+	void SkillPosion(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;	
+		}
+		int value = System.Convert.ToInt32 (ai.AttackValue);
+		KillHP (value);
+	}
+
+	public void KillHP(int hurtValue) {
+		initBlood -= hurtValue;
+		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+	}
+
 	public void Reset() {
-		initBlood = GetEnemyInfo ().hp;
+		initBlood = GetInitBlood ();
 		initAttackRound = GetEnemyInfo ().attackRound;
 	}
 
@@ -79,6 +96,10 @@ public class TempEnemy : ProtobufDataBase {
 
 	public int GetRound () {
 		return initAttackRound;
+	}
+
+	public int GetInitBlood () {
+		return GetEnemyInfo ().hp;
 	}
 
 	public int GetBlood () {
@@ -111,7 +132,7 @@ public class ConfigEnermy {
 	void GenerateEnemy () {
 		EnemyInfo ei = new EnemyInfo ();
 		ei.unitId = 1;
-		ei.attack = 400;
+		ei.attack = 10;
 		ei.attackRound = 1;
 		ei.defense = 10;
 		ei.hp = 400;
@@ -123,7 +144,7 @@ public class ConfigEnermy {
 
 		ei = new EnemyInfo ();
 		ei.unitId = 2;
-		ei.attack = 800;
+		ei.attack = 20;
 		ei.attackRound = 1;
 		ei.defense = 20;
 		ei.hp = 1500;

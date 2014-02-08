@@ -69,6 +69,8 @@ message SkillSuicideAttack { //attack target and HP reduce to 1
     optional SkillBase      baseInfo    = 1;
 	optional EValueType		type	    = 2;	// 1:single | 2:all
 	optional float			value	    = 3;		// fixed:1000,10000,150000 | 100xATK
+	optional EUnitType		unitType	= 4;
+	optional EAttackType	attackType	= 5;
 };
 
 message SkillTargetTypeAttack { //only attack target type
@@ -121,9 +123,11 @@ message SkillDeferAttackRound { //defer enemy attack
 };
 
 message SkillPoison { //defer enemy attack
-    optional SkillBase  baseInfo    = 1;
+	optional SkillBase	baseInfo    = 1;
 	optional EValueType	type		= 2;  //ROUND
 	optional float 		value		= 3;
+	optional int32		roundValue	= 4;
+	
 };
 
 message SkillDelayTime { //increase time for moving color block
@@ -134,7 +138,7 @@ message SkillDelayTime { //increase time for moving color block
 
 message SkillConvertUnitType { //convert one type to another type
     optional SkillBase  baseInfo    = 1;
-	optional EValueType	type		= 2;  		//COLORTYPE | RANDOMCOLOR
+	optional EValueType	type		= 2;  //COLORTYPE | RANDOMCOLOR
 	optional EUnitType 	unitType1	= 3;  //from type
 	optional EUnitType 	unitType2	= 4;  //target type
 };

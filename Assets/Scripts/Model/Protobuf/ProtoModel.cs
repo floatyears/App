@@ -1760,6 +1760,22 @@ namespace bbproto
       get { return _value; }
       set { _value = value; }
     }
+    private bbproto.EUnitType _unitType = bbproto.EUnitType.UALL;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"unitType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EUnitType.UALL)]
+    public bbproto.EUnitType unitType
+    {
+      get { return _unitType; }
+      set { _unitType = value; }
+    }
+    private bbproto.EAttackType _attackType = bbproto.EAttackType.ATK_SINGLE;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"attackType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EAttackType.ATK_SINGLE)]
+    public bbproto.EAttackType attackType
+    {
+      get { return _attackType; }
+      set { _attackType = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -2087,6 +2103,14 @@ namespace bbproto
     {
       get { return _value; }
       set { _value = value; }
+    }
+    private int _roundValue = default(int);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"roundValue", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int roundValue
+    {
+      get { return _roundValue; }
+      set { _roundValue = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

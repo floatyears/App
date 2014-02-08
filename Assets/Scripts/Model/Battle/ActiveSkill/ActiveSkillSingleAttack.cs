@@ -6,16 +6,10 @@ public class ActiveSkill : ProtobufDataBase {
 	protected SkillBase skillBase;
 	protected bool coolingDone = false;
 	public ActiveSkill (object instance) : base (instance) {
-		skillBase = DeserializeData<SkillSingleAttack> ().baseInfo;	
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;
-		}
+
 	}
 
 	protected void DisposeCooling () {
-		if (skillBase == null) {
-			skillBase = DeserializeData<SkillSingleAttack> ().baseInfo;	
-		}
 		coolingDone = DGTools.CheckCooling (skillBase);
 	}
 }
@@ -27,7 +21,10 @@ public class ActiveSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 		}
 	}
 	public ActiveSkillSingleAttack(object instance) : base (instance) {
-	
+		skillBase = DeserializeData<SkillSingleAttack> ().baseInfo;	
+		if (skillBase.skillCooling == 0) {
+			coolingDone = true;
+		}
 	}
 
 	public void RefreashCooling () {

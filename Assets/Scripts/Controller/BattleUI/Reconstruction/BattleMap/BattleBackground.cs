@@ -108,12 +108,18 @@ public class BattleBackground : UIBaseUnity {
 	void ListenEnergyPoint (object data) {
 		int energyPoint = (int) data;
 		int remaining = initEnergyPoint - energyPoint;
-		if (remaining < 0) {
-			LogHelper.LogException(new System.Exception("energy point number is bigger to energy sprite number"));
-			return ;
+
+		if (remaining <= 0) {
+			for (int i = 0; i < energyPoint; i++) {
+				if(!spSprite [i].enabled) {
+					spSprite[i].enabled = true;
+				}
+			}
 		}
-		for (int i = 0; i < remaining; i++) {
-			spSprite[energyPoint + i].enabled = false;
+		else {
+			for (int i = 0; i < remaining; i++) {
+				spSprite[energyPoint + i].enabled = false;
+			}
 		}
 	}
 

@@ -66,6 +66,7 @@ public class Battle : UIBase
 		ShowCard();
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, AttckEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 	}
 
 	public override void HideUI ()
@@ -74,6 +75,7 @@ public class Battle : UIBase
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, AttckEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 
 		battleRootGameObject.SetActive(false);
 	}
@@ -84,6 +86,22 @@ public class Battle : UIBase
 
 		Attack();
 
+	}
+
+	void ChangeCard(object data) {
+		ChangeCardColor ccc = data as ChangeCardColor;
+		if (ccc == null) {
+			return;	
+		}
+
+		if (ccc.targetType == -1) {
+			ShowCard ();	
+		} 
+		else {
+			for (int i = 0; i < battleCardPool.CardPosition.Length; i++) {
+				battleCard.ChangeCard(ccc.sourceType,ccc.targetType,i);
+			}
+		}
 	}
 
 	void AttckEnd (object data) {

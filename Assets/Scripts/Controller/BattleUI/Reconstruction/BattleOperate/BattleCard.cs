@@ -70,7 +70,14 @@ public class BattleCard : UIBaseUnity
 
 		cardInterv = Mathf.Abs(cardPosition[1].x - cardPosition[0].x);
 	}
-	
+
+	public void ChangeCard(int sourceType, int TargetType, int locaitonID) {
+		if (cardItemArray [locaitonID].itemID == sourceType) {
+			Texture2D tex = LoadAsset.Instance.LoadAssetFromResources(TargetType) as Texture2D;
+			cardItemArray[locaitonID].SetTexture(tex,TargetType);
+		}
+	}
+
 	public void GenerateCard(int itemID,int locationID)
 	{
 		Texture2D tex = LoadAsset.Instance.LoadAssetFromResources(itemID) as Texture2D;

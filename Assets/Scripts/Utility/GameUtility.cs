@@ -5,8 +5,15 @@ using System;
 using bbproto;
 
 public class DGTools {
-	public int RandomToInt(int min,int max) {
+	public static int RandomToInt(int min,int max) {
 		return UnityEngine.Random.Range(min,max);
+	}
+	/// <summary>
+	/// return a float number between 0 and 1.
+	/// </summary>
+	/// <returns>The to float.</returns>
+	public static float RandomToFloat() {
+		return UnityEngine.Random.Range (0f, 1f);
 	}
 
 	public static bool CheckCooling(SkillBase sb) {

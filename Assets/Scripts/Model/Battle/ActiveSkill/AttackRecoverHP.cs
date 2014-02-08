@@ -10,7 +10,10 @@ public class AttackRecoverHP : ActiveSkill ,IActiveSkillExcute{
 	}
 
 	public AttackRecoverHP(object instance) : base (instance) {
-
+		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
+		if (skillBase.skillCooling == 0) {
+			coolingDone = true;
+		}
 	}
 
 	public void RefreashCooling () {

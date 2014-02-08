@@ -117,23 +117,23 @@ public class CardItem : UIBaseUnity
 	public void SetTexture(Texture tex,int itemID)
 	{
 		//HideUI ();
-		actorTexture.enabled = false;
+		//actorTexture.enabled = false;
 
 		this.itemID = itemID;
 
-		texure = tex;
+		//texure = tex;
 
 		actorTexture.width = 
 			actorTexture.height = 125;
 
 		xOffset = (float)actorTexture.width / 4;
-
+		actorTexture.mainTexture = tex;
 		//StartCoroutine (ActiveTexture ());
-		ActiveTextureImmediate ();
+		//ActiveTextureImmediate ();
 	}
 
 	void ActiveTextureImmediate() {
-		actorTexture.enabled = true;
+		//actorTexture.enabled = true;
 		
 		actorTexture.mainTexture = texure;
 	}

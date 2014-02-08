@@ -7,6 +7,7 @@ public class ConfigSkill  {
 		ConfigNormalSkill ();
 		ConfigLeadSkill ();
 		ConfigActiveSkill ();
+		ConfigActiveSkill2 ();
 	}
 
 	void ConfigNormalSkill () {
@@ -411,9 +412,9 @@ public class ConfigSkill  {
 		ssa.baseInfo.skillCooling = 0;
 		ssa.type = EValueType.MULTIPLE;
 		ssa.unitType = EUnitType.UFIRE;
-		ssa.value = 0.1f;
-		ssa.attackRange = EAttackType.RECOVER_HP;
-		ssa.ignoreDefense = true;
+		ssa.value = 4f;
+		ssa.attackRange = EAttackType.ATK_ALL;
+		ssa.ignoreDefense = false;
 		ActiveSkillSingleAttack tssa = new ActiveSkillSingleAttack (ssa);
 		GlobalData.tempNormalSkill.Add (ssa.baseInfo.id, tssa);
 
@@ -428,6 +429,110 @@ public class ConfigSkill  {
 		ssarh.unitType = EUnitType.UFIRE;
 		AttackRecoverHP arh = new AttackRecoverHP (ssarh);
 		GlobalData.tempNormalSkill.Add (ssarh.baseInfo.id, arh);
+
+		SkillSuicideAttack sSucideAttack = new SkillSuicideAttack ();
+		sSucideAttack.baseInfo = new SkillBase ();
+		sSucideAttack.baseInfo.id = 34;
+		sSucideAttack.baseInfo.name = "no 34 SucideAttack";
+		sSucideAttack.baseInfo.description = "boost a attack and self blood will be one";
+		sSucideAttack.baseInfo.skillCooling = 0;
+		sSucideAttack.type = EValueType.MULTIPLE;
+		sSucideAttack.value = 100f;
+		sSucideAttack.unitType = EUnitType.UFIRE;
+		sSucideAttack.attackType = EAttackType.ATK_ALL;
+		SuicideAttack sa = new SuicideAttack (sSucideAttack);
+		GlobalData.tempNormalSkill.Add (sSucideAttack.baseInfo.id, sa);
+
+		ssa = new SkillSingleAttack ();
+		ssa.baseInfo = new SkillBase ();
+		ssa.baseInfo.id = 35;
+		ssa.baseInfo.name = "no 35 knock down";
+		ssa.baseInfo.description = "knock down enemy";
+		ssa.baseInfo.skillCooling = 0;
+		ssa.value = 0.1f;
+		ssa.attackRange = EAttackType.ATK_SINGLE;
+		ssa.ignoreDefense = true;
+		KnockdownAttack kka = new KnockdownAttack (ssa);
+		GlobalData.tempNormalSkill.Add (ssa.baseInfo.id, kka);
+
+		ConfigActiveSkill1 ();
+	}
+
+	void ConfigActiveSkill1 () {
+		SkillKillHP skh = new SkillKillHP ();
+		skh.baseInfo = new SkillBase ();
+		skh.baseInfo.id = 36;
+		skh.baseInfo.name = "no 36 gravity";
+		skh.baseInfo.description = "gravity kill enemy hp";
+		skh.baseInfo.skillCooling = 0;
+		skh.type = EValueType.PERCENT;
+		skh.value = 0.3f;
+		GravityAttack ga = new GravityAttack (skh);
+		GlobalData.tempNormalSkill.Add (skh.baseInfo.id, ga);
+
+		SkillRecoverSP srs = new SkillRecoverSP ();
+		srs.baseInfo = new SkillBase ();
+		srs.baseInfo.id = 37;
+		srs.baseInfo.name = "no 37 recover sp";
+		srs.baseInfo.description = "recover sp";
+		srs.baseInfo.skillCooling = 0;
+		srs.type = EValueType.FIXED;
+		srs.value = 4f;
+		RecoverSP rs = new RecoverSP (srs);
+		GlobalData.tempNormalSkill.Add (srs.baseInfo.id, rs);
+
+		SkillPoison sp = new SkillPoison ();
+		sp.baseInfo = new SkillBase ();
+		sp.baseInfo.id = 38;
+		sp.baseInfo.name = "no 38 skill poison";
+		sp.baseInfo.description = "poison attack";
+		sp.baseInfo.skillCooling = 0;
+		sp.type = EValueType.ROUND;
+		sp.value = 5f;
+		sp.roundValue = 3;
+		SkillPoisonAttack spa = new SkillPoisonAttack (sp);
+		GlobalData.tempNormalSkill.Add (sp.baseInfo.id, spa);
+
+
+	}
+
+	void ConfigActiveSkill2 () {
+		SkillConvertUnitType scut = new SkillConvertUnitType ();
+		scut.baseInfo = new SkillBase ();
+		scut.baseInfo.id = 39;
+		scut.baseInfo.name = "no 39 convert card color";
+		scut.baseInfo.description = "random change card color";
+		scut.baseInfo.skillCooling = 0;
+		scut.type = EValueType.RANDOMCOLOR;
+		scut.unitType1 = EUnitType.UALL;
+		scut.unitType2 = EUnitType.UALL;
+		ActiveChangeCardColor acc = new ActiveChangeCardColor (scut);
+		GlobalData.tempNormalSkill.Add (scut.baseInfo.id, acc);
+
+		scut = new SkillConvertUnitType ();
+		scut.baseInfo = new SkillBase ();
+		scut.baseInfo.id = 40;
+		scut.baseInfo.name = "no 40 skill convert unit type";
+		scut.baseInfo.description = "convert card color";
+		scut.baseInfo.skillCooling = 0;
+		scut.type = EValueType.COLORTYPE;
+		scut.unitType1 = EUnitType.UWATER;
+		scut.unitType2 = EUnitType.UWIND;
+		acc = new ActiveChangeCardColor (scut);
+		GlobalData.tempNormalSkill.Add (scut.baseInfo.id, acc);
+
+
+//		SkillConvertUnitType scut1 = new SkillConvertUnitType ();
+//		scut1.baseInfo = new SkillBase ();
+//		scut1.baseInfo.id = 40;
+//		scut1.baseInfo.name = "no 40 convert card color";
+//		scut1.baseInfo.description = "change card fire to water";
+//		scut1.baseInfo.skillCooling = 0;
+//		scut1.type = EValueType.COLORTYPE;
+//		scut1.unitType1 = EUnitType.UFIRE;
+//		scut1.unitType2 = EUnitType.UWATER;
+//		ActiveChangeCardColor acc1 = new ActiveChangeCardColor (scut1);
+//		GlobalData.tempNormalSkill.Add (scut1.baseInfo.id, acc1);
 	}
 }
 
