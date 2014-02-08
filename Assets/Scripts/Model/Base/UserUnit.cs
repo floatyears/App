@@ -16,13 +16,18 @@ public class AddBlood {
 }
 
 public class UserUnitInfo : ProtobufDataBase {
-	public UserUnitInfo(UserUnit instance) : base (instance) { }
+	public UserUnitInfo(UserUnit instance) : base (instance) { 
+		MsgCenter.Instance.AddListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
+	} 
+	~UserUnitInfo() { 
+		MsgCenter.Instance.AddListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
+	}
+
 	private int currentBlood = -1;
 	private float attackMultiple = 1;
 	private float hpMultiple = 1;
 	public int unitBaseInfo = -1;
-	~UserUnitInfo() { }
-	
+
 	TempNormalSkill[] normalSkill = new TempNormalSkill[2];
 
 	public void SetAttack(float value, int type, EBoostTarget boostTarget,EBoostType boostType) {
@@ -98,18 +103,14 @@ public class UserUnitInfo : ProtobufDataBase {
 	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
 		List<uint> copyCard 		= new List<uint> (card);
 		List<AttackInfo> returnInfo = new List<AttackInfo> ();
-
 		UserUnit uu 				= DeserializeData<UserUnit> ();
 		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.id];
 		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
-
 		TempNormalSkill firstSkill	= GlobalData.tempNormalSkill [ui.skill1] as TempNormalSkill;
 		TempNormalSkill secondSkill = GlobalData.tempNormalSkill [ui.skill2] as TempNormalSkill;
-
 		if (normalSkill [0] == null) {
 			AddSkill(firstSkill,secondSkill);
 		}
-
 		for (int i = 0; i < normalSkill.Length; i++) {
 			TempNormalSkill tns = normalSkill[i];
 			tns.DisposeUseSkillID(ignorSkillID);
@@ -126,6 +127,22 @@ public class UserUnitInfo : ProtobufDataBase {
 		return returnInfo;
 	}
 
+	AttackInfo strengthenInfo = null;
+	void StrengthenTargetType(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;	
+		}
+		if (ai.AttackType != GetUnitType ()) {
+			return;	
+		}
+		if (ai.AttackRound == 0) {
+			strengthenInfo = null;
+			return;
+		}
+		strengthenInfo = ai;
+	}
+
 	void AddSkill(TempNormalSkill firstSkill, TempNormalSkill secondSkill) {
 		if (secondSkill.GetActiveBlocks() > firstSkill.GetActiveBlocks()) { // second skill first excute
 			normalSkill[0] = secondSkill;
@@ -140,9 +157,11 @@ public class UserUnitInfo : ProtobufDataBase {
 	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TempNormalSkill tns) {
 		int addAttack = uu.addAttack * 50;
 		float attack = addAttack + ui.power [uu.level].attack;
-		//Debug.LogError ("item : " +GlobalData.tempUnitBaseInfo[unitBaseInfo].chineseName +  "CaculateAttack : " + attack + "  attackMultiple  : " + attackMultiple);
 		attack = tns.GetAttack(attack) * attackMultiple;
-		//Debug.LogError ("item : " +GlobalData.tempUnitBaseInfo[unitBaseInfo].chineseName +  "CaculateAttack : " + attack + "  attackMultiple  : " + attackMultiple);
+
+		if (strengthenInfo != null) {
+			attack *= strengthenInfo.AttackValue;
+		}
 		int value = System.Convert.ToInt32 (attack);
 		return value;
 	}

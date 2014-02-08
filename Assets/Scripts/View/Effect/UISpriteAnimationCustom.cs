@@ -126,6 +126,9 @@ public class UISpriteAnimationCustom : MonoBehaviour
 	
 	public void Reset()
 	{
+		if (mSprite == null) {
+			return;	
+		}
 		mActive = true;
 		mIndex = 0;
 		mSprite.enabled = true;

@@ -14,7 +14,6 @@ public class ExcuteActiveSkill {
 			}
 			activeSkill.Add(item.GetID,skill);
 		}
-
 		MsgCenter.Instance.AddListener (CommandEnum.LaunchActiveSkill, Excute);
 	}
 
@@ -25,9 +24,8 @@ public class ExcuteActiveSkill {
 	void Excute(object data) {
 		UserUnitInfo uui = data as UserUnitInfo;
 		if (uui != null) {
-			Debug.LogError("Excute : " + uui.GetID);
 			int id = uui.GetID;
-			activeSkill[id].Excute(id,uui.GetAttack);
+			activeSkill[id].Excute(id, uui.GetAttack);
 		}
 	}
 

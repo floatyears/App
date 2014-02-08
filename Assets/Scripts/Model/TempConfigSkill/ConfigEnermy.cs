@@ -4,7 +4,13 @@ using bbproto;
 
 public class TempEnemy : ProtobufDataBase {
 	public TempEnemy (object instance) : base (instance) {
+		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
+		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
+	}
 
+	~TempEnemy () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
+		MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
 
 	EnemyInfo GetEnemyInfo() {
@@ -13,6 +19,9 @@ public class TempEnemy : ProtobufDataBase {
 
 	private int initBlood = -1;
 	private int initAttackRound = -1;
+
+	public bool isDeferAttackRound = false;
+	public bool isPosion = false;
 
 	public bool IsInjured () {
 		if (GetEnemyInfo ().hp < initBlood) {
@@ -47,22 +56,50 @@ public class TempEnemy : ProtobufDataBase {
 			injured = 1;
 		}
 		int value = System.Convert.ToInt32 (injured);
-		initBlood -= value;
-		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+		KillHP (value);
 		return value;
 	}
 
+	float reduceProportion = 0f;
+	public void ReduceDefense(float value) {
+		reduceProportion = value;
+	}
+
+	void SkillPosion(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;	
+		}
+		int value = System.Convert.ToInt32 (ai.AttackValue);
+		KillHP (value);
+	}
+
+	public void KillHP(int hurtValue) {
+		initBlood -= hurtValue;
+		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+	}
+
 	public void Reset() {
-		initBlood = GetEnemyInfo ().hp;
+		initBlood = GetInitBlood ();
 		initAttackRound = GetEnemyInfo ().attackRound;
 	}
 
 	public void ResetAttakAround () {
+		isDeferAttackRound = false;
 		initAttackRound = GetEnemyInfo().attackRound;
 	}
 
 	public void Next () {
 		initAttackRound --;
+	}
+
+	void DeferAttackRound(object data) {
+		int value = (int)data;
+		if (initBlood > 0) {
+			initAttackRound += value;
+			isDeferAttackRound = true;
+			MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+		}
 	}
 
 	public int GetAttack () {
@@ -74,11 +111,19 @@ public class TempEnemy : ProtobufDataBase {
 	}
 
 	public int GetDefense () {
-		return GetEnemyInfo ().defense;
+		int defense = GetEnemyInfo ().defense;
+//		Debug.LogError ("befoure defense : " + defense);
+		defense = defense - System.Convert.ToInt32 (defense * reduceProportion);
+//		Debug.LogError ("after defense : " + defense);
+		return defense;
 	}
 
 	public int GetRound () {
 		return initAttackRound;
+	}
+
+	public int GetInitBlood () {
+		return GetEnemyInfo ().hp;
 	}
 
 	public int GetBlood () {
@@ -111,7 +156,7 @@ public class ConfigEnermy {
 	void GenerateEnemy () {
 		EnemyInfo ei = new EnemyInfo ();
 		ei.unitId = 1;
-		ei.attack = 400;
+		ei.attack = 10;
 		ei.attackRound = 1;
 		ei.defense = 10;
 		ei.hp = 400;
@@ -123,7 +168,7 @@ public class ConfigEnermy {
 
 		ei = new EnemyInfo ();
 		ei.unitId = 2;
-		ei.attack = 800;
+		ei.attack = 20;
 		ei.attackRound = 1;
 		ei.defense = 20;
 		ei.hp = 1500;

@@ -10,45 +10,74 @@ public class EnemyItem : UIBaseUnity {
 
 	void OnEnable() {
 		MsgCenter.Instance.AddListener (CommandEnum.ShowEnemy, EnemyInfo);
-		//MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttack, EnemyAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyRefresh, EnemyRefresh);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyDead, EnemyDead);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, Attack);
+		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
+		MsgCenter.Instance.AddListener (CommandEnum.BePosion, BePosion);
+		MsgCenter.Instance.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
 	}
 
 	void OnDisable () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowEnemy, EnemyInfo);
-		//MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttack, EnemyAttack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyRefresh, EnemyRefresh);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyDead, EnemyDead);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, Attack);
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
+		MsgCenter.Instance.RemoveListener (CommandEnum.BePosion, BePosion);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ReduceDefense, ReduceDefense);
+
 	}
 
 	GameObject prevObject = null;
 
+	void ReduceDefense(object data)  {
+		TClass<int,int,float> tc = data as TClass<int,int,float>;
+		if (tc == null) {
+			return;	
+		}
+//		Debug.LogError ("enemy item ReduceDefense value : " + tc.arg2);
+	}
+
 	void Attack (object data) {
 		AttackInfo ai = data as AttackInfo;
 		if (ai == null || ai.EnemyID != enemyInfo.enemyID) {
-			return;		
+			return;
 		}
-
 		if (prevObject != null) {
 			Destroy(prevObject);
 		}
-
 		GameObject obj = GlobalData.GetEffect (ai.AttackType) as GameObject;
-
 		if (obj != null) {
 			prevObject = NGUITools.AddChild(effect.gameObject,obj);
 			prevObject.transform.localScale = new Vector3(100f,100f,100f);
-			//iTween.ShakePosition(texture.gameObject,new Vector3(0.1f,0.1f,0.1f),0.3f);
-			//iTween.ShakeRotation(texture.gameObject,new Vector3(2f,2f,2f),0.3f);
-			iTween.ShakeScale(texture.gameObject,new Vector3(0.5f,0.5f,0.5f),0.3f);
+			InjuredShake();
 		}
 	}
 
+	void InjuredShake(){
+		iTween.ShakeScale(texture.gameObject,new Vector3(0.5f,0.5f,0.5f), 0.3f);
+	}
+
+	void BePosion(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;	
+		}
+		Debug.Log ("play posion animation");
+		Debug.Log ("posion round : " + ai.AttackRound);
+	}
+
+	void SkillPosion(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;	
+		}
+		Debug.Log ("posion round : " + ai.AttackRound);
+	}
+	
 	public void Init(ShowEnemyUtility te) {
 		texture 	= FindChild<UITexture> ("Texture");
 		bloodLabel 	= FindChild<UILabel> ("BloodLabel");
@@ -84,6 +113,9 @@ public class EnemyItem : UIBaseUnity {
 
 		if (te.GetID () != enemyInfo.enemyID) {
 			return;		
+		}
+		if (enemyInfo.enemyBlood > te.GetBlood ()) {
+			InjuredShake();
 		}
 		enemyInfo.enemyBlood = te.GetBlood ();
 		enemyInfo.attackRound = te.GetRound ();

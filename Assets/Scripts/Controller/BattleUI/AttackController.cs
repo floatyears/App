@@ -23,10 +23,62 @@ public class AttackController {
 
 	void RegisterEvent () {
 		msgCenter.AddListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
+		msgCenter.AddListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
+		msgCenter.AddListener (CommandEnum.SkillGravity, Gravity);
+		msgCenter.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
+		msgCenter.AddListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
+		//msgCenter.AddListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
+		//msgCenter.AddListener (CommandEnum.SkillPosion, EnemyPosison);
 	}
 
 	void RemoveEvent () {
 		msgCenter.RemoveListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
+		msgCenter.RemoveListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
+		msgCenter.RemoveListener (CommandEnum.SkillGravity, Gravity);
+		msgCenter.RemoveListener (CommandEnum.ReduceDefense, ReduceDefense);
+		msgCenter.RemoveListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
+		//msgCenter.RemoveListener (CommandEnum.SkillPosion, EnemyPosison);
+	}
+
+	void DrawHP(object data) {
+		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, tempPreHurtValue);
+	}
+
+	void Gravity(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;
+		}
+
+		for (int i = 0; i < enemyInfo.Count; i++) {
+			int initBlood = enemyInfo[i].GetInitBlood();
+			int hurtValue = System.Convert.ToInt32(initBlood * ai.AttackValue);
+			enemyInfo[i].KillHP(hurtValue);
+		}
+		CheckTempEnemy ();
+	}
+
+	TClass<int,int,float> reduceInfo = null;
+	void ReduceDefense(object data) {
+		reduceInfo = data as TClass<int,int,float>;
+		if (reduceInfo == null) {
+			return;		
+		}
+
+		if (reduceInfo.arg2 == 0) {
+			reduceInfo = null;
+			ReduceEnemy(0f);
+			return;
+		}
+
+		ReduceEnemy (reduceInfo.arg3);
+	}
+
+	void ReduceEnemy(float value) {
+//		Debug.LogError ("ReduceEnemy value : " + value);
+		for (int i = 0; i < enemyInfo.Count; i++) {
+			enemyInfo[i].ReduceDefense(value);
+		}
 	}
 
 	void ActiveSkillAttack (object data) {
@@ -35,6 +87,29 @@ public class AttackController {
 			return;	
 		}
 		BeginAttack (ai);
+		CheckTempEnemy ();
+	}
+
+	void AttackTargetTypeEnemy (object data) {
+		AttackTargetType att = data as AttackTargetType;
+		if (att == null) {
+			return;	
+		}
+
+		for (int i = 0; i < enemyInfo.Count; i++) {
+			TempEnemy te = enemyInfo[i];
+			if(te.GetUnitType() == att.targetType) {
+				AttackInfo ai = att.attackInfo;
+				int restraintType = DGTools.RestraintType(ai.AttackType);
+				bool b = restraintType == te.GetUnitType();
+				int hurtValue = te.CalculateInjured(ai, b);
+				ai.InjuryValue = hurtValue;
+				tempPreHurtValue = hurtValue;
+				ai.EnemyID = te.GetID();
+				AttackEnemyEnd (ai);
+			}
+		}
+
 		CheckTempEnemy ();
 	}
 
@@ -103,6 +178,7 @@ public class AttackController {
 		if (attackInfo.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.Blood, 1);	//1: every round.
 			bud.RecoverHP(blood);
+			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, null);
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
@@ -112,8 +188,8 @@ public class AttackController {
 		Attack ();
 	}
 
+	int tempPreHurtValue = 0;
 	void BeginAttack(AttackInfo ai) {
-		Debug.LogError ("BeginAttack : " + ai.AttackRange);
 		switch (ai.AttackRange) {
 		case 0:
 			DisposeAttackSingle(ai);
@@ -128,7 +204,7 @@ public class AttackController {
 	}
 
 	bool CheckTempEnemy() {
-		for (int i = 0; i < enemyInfo.Count; i++) {
+		for (int i = enemyInfo.Count - 1; i > -1; i--) {
 			int blood = enemyInfo[i].GetBlood();
 			if(blood <= 0){
 				TempEnemy te = enemyInfo[i];
@@ -144,8 +220,8 @@ public class AttackController {
 		return true;
 	}
 
-	void DisposeRecoverHP (AttackInfo ai) {
-		MsgCenter.Instance.Invoke (CommandEnum.RecoverHP, ai);
+	void DisposeRecoverHP (AttackInfo value) {
+		MsgCenter.Instance.Invoke (CommandEnum.RecoverHP, value);
 	}
 
 	void DisposeAttackSingle (AttackInfo ai) {
@@ -165,7 +241,9 @@ public class AttackController {
 			te = index > - 1 ?  enemyInfo [index] : enemyInfo [0];
 		}
 		bool restraint = restraintType == te.GetUnitType ();
-		ai.InjuryValue = te.CalculateInjured (ai, restraint);
+		int hurtValue = te.CalculateInjured (ai, restraint);
+		ai.InjuryValue = hurtValue;
+		tempPreHurtValue = hurtValue;
 		ai.EnemyID = te.GetID();
 		AttackEnemyEnd (ai);
 	}
@@ -175,10 +253,13 @@ public class AttackController {
 			return;		
 		}
 		int restraintType = DGTools.RestraintType (ai.AttackType);
+		tempPreHurtValue = 0;
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			TempEnemy te = enemyInfo[i];
 			bool b = restraintType == te.GetUnitType();
-			ai.InjuryValue = te.CalculateInjured(ai,b);
+			int hurtValue = te.CalculateInjured (ai, b);
+			ai.InjuryValue = hurtValue;
+			tempPreHurtValue += hurtValue;
 			ai.EnemyID = te.GetID();
 			AttackEnemyEnd (ai);
 		}
@@ -199,7 +280,6 @@ public class AttackController {
 		countDownTime = 0.3f;
 		te = enemyInfo [enemyIndex];
 		te.Next ();
-
 		msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 		GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttack);
 	}

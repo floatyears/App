@@ -2,9 +2,19 @@
 using System.Collections;
 using bbproto;
 
-public class ActiveSkillSingleAttack : ProtobufDataBase ,IActiveSkillExcute {
-	private SkillBase skillBase;
-	private bool coolingDone = false;
+public class ActiveSkill : ProtobufDataBase {
+	protected SkillBase skillBase;
+	protected bool coolingDone = false;
+	public ActiveSkill (object instance) : base (instance) {
+
+	}
+
+	protected void DisposeCooling () {
+		coolingDone = DGTools.CheckCooling (skillBase);
+	}
+}
+
+public class ActiveSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 	public bool CoolingDone {
 		get {
 			return coolingDone;
@@ -18,10 +28,7 @@ public class ActiveSkillSingleAttack : ProtobufDataBase ,IActiveSkillExcute {
 	}
 
 	public void RefreashCooling () {
-		if (skillBase == null) {
-			skillBase = DeserializeData<SkillSingleAttack> ().baseInfo;	
-		}
-		coolingDone = DGTools.CheckCooling (skillBase);
+		DisposeCooling ();
 	}
 	
 	public object Excute (int userUnitID, int atk = -1) {
@@ -33,12 +40,19 @@ public class ActiveSkillSingleAttack : ProtobufDataBase ,IActiveSkillExcute {
 		ai.UserUnitID = userUnitID;
 		ai.AttackType = (int)ssa.unitType;
 		ai.AttackRange = (int)ssa.attackRange;
-		if (ssa.type == EValueType.FIXED) {
-			ai.AttackValue = ssa.value;	
+		if (ssa.attackRange == EAttackType.RECOVER_HP) {
+			MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, ssa.value);
+		} 
+		else {
+			if (ssa.type == EValueType.FIXED) {
+				ai.AttackValue = ssa.value;	
+			}
+			else if(ssa.type == EValueType.MULTIPLE) {
+				ai.AttackValue = ssa.value * atk;
+			}	
 		}
-		else if(ssa.type == EValueType.MULTIPLE) {
-			ai.AttackValue = ssa.value * atk;
-		}
+
+		ai.IgnoreDefense = ssa.ignoreDefense;
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
 		return ai;
 	}

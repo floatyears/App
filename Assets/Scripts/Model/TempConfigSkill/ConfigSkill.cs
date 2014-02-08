@@ -7,6 +7,7 @@ public class ConfigSkill  {
 		ConfigNormalSkill ();
 		ConfigLeadSkill ();
 		ConfigActiveSkill ();
+		ConfigActiveSkill2 ();
 	}
 
 	void ConfigNormalSkill () {
@@ -406,16 +407,199 @@ public class ConfigSkill  {
 		SkillSingleAttack ssa = new SkillSingleAttack ();
 		ssa.baseInfo = new SkillBase ();
 		ssa.baseInfo.id = 32;
-		ssa.baseInfo.name = "no 32 skill single attack";
-		ssa.baseInfo.description = "boost a single attack by type";
+		ssa.baseInfo.name = "no 32 SkillSingleAttack";
+		ssa.baseInfo.description = "single attack, all attack, recover hp";
 		ssa.baseInfo.skillCooling = 0;
-		ssa.type = EValueType.FIXED;
+		ssa.type = EValueType.MULTIPLE;
 		ssa.unitType = EUnitType.UFIRE;
-		ssa.value = 1000f;
-		ssa.attackRange = EAttackType.ATK_SINGLE;
-
+		ssa.value = 4f;
+		ssa.attackRange = EAttackType.ATK_ALL;
+		ssa.ignoreDefense = false;
 		ActiveSkillSingleAttack tssa = new ActiveSkillSingleAttack (ssa);
 		GlobalData.tempNormalSkill.Add (ssa.baseInfo.id, tssa);
+
+		SkillSingleAtkRecoverHP ssarh = new SkillSingleAtkRecoverHP ();
+		ssarh.baseInfo = new SkillBase ();
+		ssarh.baseInfo.id = 33;
+		ssarh.baseInfo.name = "no 33 SkillSingleAtkRecoverHP";
+		ssarh.baseInfo.description = "attack enemy and recover hp, the recover value equals attack value";
+		ssarh.baseInfo.skillCooling = 0;
+		ssarh.type = EValueType.MULTIPLE;
+		ssarh.value = 5f;
+		ssarh.unitType = EUnitType.UFIRE;
+		AttackRecoverHP arh = new AttackRecoverHP (ssarh);
+		GlobalData.tempNormalSkill.Add (ssarh.baseInfo.id, arh);
+
+		SkillSuicideAttack sSucideAttack = new SkillSuicideAttack ();
+		sSucideAttack.baseInfo = new SkillBase ();
+		sSucideAttack.baseInfo.id = 34;
+		sSucideAttack.baseInfo.name = "no 34 SucideAttack";
+		sSucideAttack.baseInfo.description = "boost a attack and self blood will be one";
+		sSucideAttack.baseInfo.skillCooling = 0;
+		sSucideAttack.type = EValueType.MULTIPLE;
+		sSucideAttack.value = 100f;
+		sSucideAttack.unitType = EUnitType.UFIRE;
+		sSucideAttack.attackType = EAttackType.ATK_ALL;
+		SuicideAttack sa = new SuicideAttack (sSucideAttack);
+		GlobalData.tempNormalSkill.Add (sSucideAttack.baseInfo.id, sa);
+
+		ssa = new SkillSingleAttack ();
+		ssa.baseInfo = new SkillBase ();
+		ssa.baseInfo.id = 35;
+		ssa.baseInfo.name = "no 35 knock down";
+		ssa.baseInfo.description = "knock down enemy";
+		ssa.baseInfo.skillCooling = 0;
+		ssa.value = 0.1f;
+		ssa.attackRange = EAttackType.ATK_SINGLE;
+		ssa.ignoreDefense = true;
+		KnockdownAttack kka = new KnockdownAttack (ssa);
+		GlobalData.tempNormalSkill.Add (ssa.baseInfo.id, kka);
+
+		ConfigActiveSkill1 ();
+	}
+
+	void ConfigActiveSkill1 () {
+		SkillKillHP skh = new SkillKillHP ();
+		skh.baseInfo = new SkillBase ();
+		skh.baseInfo.id = 36;
+		skh.baseInfo.name = "no 36 gravity";
+		skh.baseInfo.description = "gravity kill enemy hp";
+		skh.baseInfo.skillCooling = 0;
+		skh.type = EValueType.PERCENT;
+		skh.value = 0.3f;
+		GravityAttack ga = new GravityAttack (skh);
+		GlobalData.tempNormalSkill.Add (skh.baseInfo.id, ga);
+
+		SkillRecoverSP srs = new SkillRecoverSP ();
+		srs.baseInfo = new SkillBase ();
+		srs.baseInfo.id = 37;
+		srs.baseInfo.name = "no 37 recover sp";
+		srs.baseInfo.description = "recover sp";
+		srs.baseInfo.skillCooling = 0;
+		srs.type = EValueType.FIXED;
+		srs.value = 4f;
+		RecoverSP rs = new RecoverSP (srs);
+		GlobalData.tempNormalSkill.Add (srs.baseInfo.id, rs);
+
+		SkillPoison sp = new SkillPoison ();
+		sp.baseInfo = new SkillBase ();
+		sp.baseInfo.id = 38;
+		sp.baseInfo.name = "no 38 skill poison";
+		sp.baseInfo.description = "poison attack";
+		sp.baseInfo.skillCooling = 0;
+		sp.type = EValueType.ROUND;
+		sp.value = 5f;
+		sp.roundValue = 3;
+		SkillPoisonAttack spa = new SkillPoisonAttack (sp);
+		GlobalData.tempNormalSkill.Add (sp.baseInfo.id, spa);
+
+
+	}
+
+	void ConfigActiveSkill2 () {
+		SkillConvertUnitType scut = new SkillConvertUnitType ();
+		scut.baseInfo = new SkillBase ();
+		scut.baseInfo.id = 39;
+		scut.baseInfo.name = "no 39 convert card color";
+		scut.baseInfo.description = "random change card color";
+		scut.baseInfo.skillCooling = 0;
+		scut.type = EValueType.RANDOMCOLOR;
+		scut.unitType1 = EUnitType.UALL;
+		scut.unitType2 = EUnitType.UALL;
+		ActiveChangeCardColor acc = new ActiveChangeCardColor (scut);
+		GlobalData.tempNormalSkill.Add (scut.baseInfo.id, acc);
+
+		scut = new SkillConvertUnitType ();
+		scut.baseInfo = new SkillBase ();
+		scut.baseInfo.id = 40;
+		scut.baseInfo.name = "no 40 skill convert unit type";
+		scut.baseInfo.description = "convert card color";
+		scut.baseInfo.skillCooling = 0;
+		scut.type = EValueType.COLORTYPE;
+		scut.unitType1 = EUnitType.UWATER;
+		scut.unitType2 = EUnitType.UWIND;
+		acc = new ActiveChangeCardColor (scut);
+		GlobalData.tempNormalSkill.Add (scut.baseInfo.id, acc);
+
+		SkillReduceDefence srd = new SkillReduceDefence ();
+		srd.baseInfo = new SkillBase ();
+		srd.baseInfo.id = 41;
+		srd.baseInfo.name = "no 41. Reduce Defense";
+		srd.baseInfo.description = "reduce enemy defense by percent";
+		srd.baseInfo.skillCooling = 0;
+		srd.type = EValueType.PERCENT;
+		srd.period = 1;
+		srd.value = 1f;
+		ActiveReduceDefense ard = new ActiveReduceDefense (srd);
+		GlobalData.tempNormalSkill.Add (srd.baseInfo.id, ard);
+
+		SkillDelayTime sdt = new SkillDelayTime ();
+		sdt.baseInfo = new SkillBase ();
+		sdt.baseInfo.id = 42;
+		sdt.baseInfo.name = "no 42. Delay Time";
+		sdt.baseInfo.description = "delay drag card time";
+		sdt.baseInfo.skillCooling = 0;
+		sdt.type = EValueType.FIXED;
+		sdt.value = 2f;
+		ActiveDelayTime adt = new ActiveDelayTime (sdt);
+		GlobalData.tempNormalSkill.Add (sdt.baseInfo.id, adt);
+
+		ConfigActiveSkill3 ();
+	}
+
+	void ConfigActiveSkill3 () {
+		SkillReduceHurt srh = new SkillReduceHurt ();
+		srh.baseInfo = new SkillBase ();
+		srh.baseInfo.id = 43;
+		srh.baseInfo.name = "no 43. Reduce Hurt";
+		srh.baseInfo.description = "reduce enemy hurt value";
+		srh.baseInfo.skillCooling = 0;
+		srh.type = EValueType.MULTIPLE;
+		srh.period = EPeriod.EP_EVERY_ROUND;
+		srh.periodValue = 3;
+		srh.value = 1f;
+		ActiveReduceHurt arh = new ActiveReduceHurt (srh);
+		GlobalData.tempNormalSkill.Add (srh.baseInfo.id, arh);
+
+		SkillDeferAttackRound sdar = new SkillDeferAttackRound ();
+		sdar.baseInfo = new SkillBase ();
+		sdar.baseInfo.id = 44;
+		sdar.baseInfo.name = "no 44. defer Attack Round";
+		sdar.baseInfo.description = "defer enemy attack round";
+		sdar.baseInfo.skillCooling = 0;
+		sdar.type = EValueType.ROUND;
+		sdar.value = 2f;
+		ActiveDeferAttackRound adar = new ActiveDeferAttackRound (sdar);
+		GlobalData.tempNormalSkill.Add (sdar.baseInfo.id, adar);
+		ConfigActiveSkill4 ();
+	}
+
+	void ConfigActiveSkill4 () {
+		SkillTargetTypeAttack stta = new SkillTargetTypeAttack ();
+		stta.baseInfo = new SkillBase ();
+		stta.baseInfo.id = 45;
+		stta.baseInfo.name = "no 45. Attack Target Type";
+		stta.baseInfo.description = "Attack target type enemey";
+		stta.baseInfo.skillCooling = 0;
+		stta.type = EValueType.MULTIPLE;
+		stta.value = 2f;
+		stta.targetUnitType = EUnitType.UFIRE;
+		stta.hurtUnitType = EUnitType.UWATER;
+		ActiveAttackTargetType aatt = new ActiveAttackTargetType (stta);
+		GlobalData.tempNormalSkill.Add (stta.baseInfo.id, aatt);
+
+		SkillStrengthenAttack ssa = new SkillStrengthenAttack ();
+		ssa.baseInfo = new SkillBase ();
+		ssa.baseInfo.id = 46;
+		ssa.baseInfo.name = "no 46.Skill StrengthenAttack";
+		ssa.baseInfo.description = "strengthen target unit type role attack";
+		ssa.baseInfo.skillCooling = 0;
+		ssa.periodValue = 3;
+		ssa.targetType = EUnitType.UFIRE;
+		ssa.type = EValueType.MULTIPLE;
+		ssa.value = 2f;
+		ActiveStrengthenAttack asa = new ActiveStrengthenAttack (ssa);
+		GlobalData.tempNormalSkill.Add (ssa.baseInfo.id, asa);
 	}
 }
 
