@@ -92,6 +92,18 @@ public enum CommandEnum
 	/// The color of the change card.
 	/// </summary>
 	ChangeCardColor			= 3026,
+
+	ReduceDefense			= 3027,
+
+	DelayTime				= 3028,
+
+	ActiveReduceHurt		= 3029,
+
+	DeferAttackRound		= 3030,
+
+	AttackTargetType		= 3031,
+
+	StrengthenTargetType	= 3032,
 }
 
 public enum UIParentEnum : byte {

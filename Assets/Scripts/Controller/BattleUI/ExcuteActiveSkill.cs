@@ -25,7 +25,7 @@ public class ExcuteActiveSkill {
 		UserUnitInfo uui = data as UserUnitInfo;
 		if (uui != null) {
 			int id = uui.GetID;
-			activeSkill[id].Excute(id,uui.GetAttack);
+			activeSkill[id].Excute(id, uui.GetAttack);
 		}
 	}
 

@@ -1810,21 +1810,71 @@ namespace bbproto
       get { return _value; }
       set { _value = value; }
     }
-    private int _period = default(int);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"period", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int period
-    {
-      get { return _period; }
-      set { _period = value; }
-    }
-    private bbproto.EUnitType _unitType = bbproto.EUnitType.UALL;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"unitType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    private bbproto.EUnitType _targetUnitType = bbproto.EUnitType.UALL;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"targetUnitType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(bbproto.EUnitType.UALL)]
-    public bbproto.EUnitType unitType
+    public bbproto.EUnitType targetUnitType
     {
-      get { return _unitType; }
-      set { _unitType = value; }
+      get { return _targetUnitType; }
+      set { _targetUnitType = value; }
+    }
+    private bbproto.EUnitType _hurtUnitType = bbproto.EUnitType.UALL;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"hurtUnitType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EUnitType.UALL)]
+    public bbproto.EUnitType hurtUnitType
+    {
+      get { return _hurtUnitType; }
+      set { _hurtUnitType = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillStrengthenAttack")]
+  public partial class SkillStrengthenAttack : global::ProtoBuf.IExtensible
+  {
+    public SkillStrengthenAttack() {}
+    
+    private bbproto.SkillBase _baseInfo = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.SkillBase baseInfo
+    {
+      get { return _baseInfo; }
+      set { _baseInfo = value; }
+    }
+    private bbproto.EValueType _type = bbproto.EValueType.FIXED;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"type", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EValueType.FIXED)]
+    public bbproto.EValueType type
+    {
+      get { return _type; }
+      set { _type = value; }
+    }
+    private float _value = default(float);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"value", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float value
+    {
+      get { return _value; }
+      set { _value = value; }
+    }
+    private int _periodValue = default(int);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"periodValue", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int periodValue
+    {
+      get { return _periodValue; }
+      set { _periodValue = value; }
+    }
+    private bbproto.EUnitType _targetType = bbproto.EUnitType.UALL;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"targetType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EUnitType.UALL)]
+    public bbproto.EUnitType targetType
+    {
+      get { return _targetType; }
+      set { _targetType = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -2145,6 +2195,14 @@ namespace bbproto
     {
       get { return _value; }
       set { _value = value; }
+    }
+    private int _periodValue = default(int);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"periodValue", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int periodValue
+    {
+      get { return _periodValue; }
+      set { _periodValue = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

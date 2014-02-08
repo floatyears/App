@@ -67,6 +67,7 @@ public class Battle : UIBase
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, AttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
+		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
 	}
 
 	public override void HideUI ()
@@ -75,7 +76,8 @@ public class Battle : UIBase
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, AttckEnd);
-		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
+		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
 
 		battleRootGameObject.SetActive(false);
 	}
@@ -458,16 +460,20 @@ public class Battle : UIBase
 	}
 
 	#region countdown
-	
+	void DelayTime(object data) {
+		activeDelay =  (float)data;
+	}
+
 	public bool showCountDown = false;
 	float time = 5f;
 	float countDownTime = 1f;
-	
+	float activeDelay = 0f;
 	public void YieldStartBattle () {
 		if (showCountDown) {
 			return ;		
 		} 
-		time = BattleUseData.CountDown;
+		time = BattleUseData.CountDown + activeDelay;
+		activeDelay = 0f;
 		CountDownBattle ();
 	}
 	

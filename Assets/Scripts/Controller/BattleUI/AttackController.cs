@@ -25,6 +25,9 @@ public class AttackController {
 		msgCenter.AddListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
 		msgCenter.AddListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
 		msgCenter.AddListener (CommandEnum.SkillGravity, Gravity);
+		msgCenter.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
+		msgCenter.AddListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
+		//msgCenter.AddListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
 		//msgCenter.AddListener (CommandEnum.SkillPosion, EnemyPosison);
 	}
 
@@ -32,6 +35,8 @@ public class AttackController {
 		msgCenter.RemoveListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
 		msgCenter.RemoveListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
 		msgCenter.RemoveListener (CommandEnum.SkillGravity, Gravity);
+		msgCenter.RemoveListener (CommandEnum.ReduceDefense, ReduceDefense);
+		msgCenter.RemoveListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
 		//msgCenter.RemoveListener (CommandEnum.SkillPosion, EnemyPosison);
 	}
 
@@ -53,12 +58,28 @@ public class AttackController {
 		CheckTempEnemy ();
 	}
 
-//	void EnemyPosison(object data) {
-//		AttackInfo ai = data as AttackInfo;
-//		if (ai != null) {
-//
-//		}
-//	}
+	TClass<int,int,float> reduceInfo = null;
+	void ReduceDefense(object data) {
+		reduceInfo = data as TClass<int,int,float>;
+		if (reduceInfo == null) {
+			return;		
+		}
+
+		if (reduceInfo.arg2 == 0) {
+			reduceInfo = null;
+			ReduceEnemy(0f);
+			return;
+		}
+
+		ReduceEnemy (reduceInfo.arg3);
+	}
+
+	void ReduceEnemy(float value) {
+//		Debug.LogError ("ReduceEnemy value : " + value);
+		for (int i = 0; i < enemyInfo.Count; i++) {
+			enemyInfo[i].ReduceDefense(value);
+		}
+	}
 
 	void ActiveSkillAttack (object data) {
 		AttackInfo ai = data as AttackInfo;
@@ -66,6 +87,29 @@ public class AttackController {
 			return;	
 		}
 		BeginAttack (ai);
+		CheckTempEnemy ();
+	}
+
+	void AttackTargetTypeEnemy (object data) {
+		AttackTargetType att = data as AttackTargetType;
+		if (att == null) {
+			return;	
+		}
+
+		for (int i = 0; i < enemyInfo.Count; i++) {
+			TempEnemy te = enemyInfo[i];
+			if(te.GetUnitType() == att.targetType) {
+				AttackInfo ai = att.attackInfo;
+				int restraintType = DGTools.RestraintType(ai.AttackType);
+				bool b = restraintType == te.GetUnitType();
+				int hurtValue = te.CalculateInjured(ai, b);
+				ai.InjuryValue = hurtValue;
+				tempPreHurtValue = hurtValue;
+				ai.EnemyID = te.GetID();
+				AttackEnemyEnd (ai);
+			}
+		}
+
 		CheckTempEnemy ();
 	}
 
@@ -236,7 +280,6 @@ public class AttackController {
 		countDownTime = 0.3f;
 		te = enemyInfo [enemyIndex];
 		te.Next ();
-
 		msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 		GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttack);
 	}

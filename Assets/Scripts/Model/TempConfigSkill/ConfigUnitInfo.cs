@@ -41,11 +41,10 @@ public class ConfigUnitInfo {
 			if(i == 5) {
 				uiitem.leaderSkill = 20;
 			}
-			uiitem.activeSkill = 40;
+			uiitem.activeSkill = 46;
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
-//		Debug.LogError(GlobalData.tempUnitInfo [1].)
 	}
 
 	void GenerateUserUnit () {
@@ -129,8 +128,23 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
 	public Dictionary<int, List<AttackInfo>> Attack {
 		get {return attack;}
 	}
-	public UnitPartyInfo (object instance) : base (instance) {  }
-	~UnitPartyInfo () {  }
+	public UnitPartyInfo (object instance) : base (instance) { 
+		MsgCenter.Instance.AddListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
+	}
+	~UnitPartyInfo () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
+	}
+
+	AttackInfo reduceHurt = null;
+
+	void ReduceHurt(object data) {
+		reduceHurt = data as AttackInfo;
+		if (reduceHurt != null) {
+			if(reduceHurt.AttackRound == 0) {
+				reduceHurt = null;
+			}
+		}
+	}
 
 	public int CaculateInjured (int attackType, float attackValue) {
 		float Proportion = 1f / (float)partyItem.Count;
@@ -142,6 +156,12 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
 			UserUnitInfo unitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
 			hurtValue += unitInfo.CalculateInjured(attackType, attackV);
 		}
+
+		if (reduceHurt != null) {
+			float value = hurtValue * reduceHurt.AttackValue;
+			hurtValue -= value;
+		}
+
 		return System.Convert.ToInt32(hurtValue);
 	}
 
