@@ -149,20 +149,15 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 			foreach (var item in unitTexureDic.Values)
 				item.enabled = false;
 		}else{
-			
 			if( info.ContainsKey( "avatar")) {
 				unitBaseInfo = info[ "avatar" ] as Dictionary< int, UnitBaseInfo>;
-			}else {
-				Debug.LogError("Not Find textures dic");
+			}else 
 				return;
-			}
 			
 			if( info.ContainsKey( "hp")) {
 				totalHPCount = (int)info["hp"];
-			}else {
-				Debug.Log("Not Find hp dic");
+			}else 
 				return;
-			}
 			
 			//show textures
 			foreach (var item in unitTexureDic){

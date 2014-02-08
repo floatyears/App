@@ -36,8 +36,7 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 			LogHelper.LogException(ex);
 		}
 	}
-
-	//Logic Interface : Party Page Turn 
+	
 	public void PartyPaging (object data){
 		int partyID = 0;
 		try {
@@ -47,17 +46,22 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 			Debug.LogError(ex.Message);
 			return;	
 		}
-		//view is UnitsDecoratorUnity -- Behaviour Interface 
+
 		IUIParty partyInterface = viewComponent as IUIParty;
 		if( partyInterface == null ) {
 			return;
 		}
+
+		unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as UnitPartyInfo;
+
+		Dictionary< int, int > temp = unitPartyInfo.GetPartyItem();
+		Dictionary< string, object > viewInfo = new Dictionary<string, object>();
+		Dictionary< int, UnitBaseInfo > avatarInfoDic = new Dictionary<int, UnitBaseInfo >();
+		int totalHP = 0;
+
 		if( partyID == 1 )
 		{
-			unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as UnitPartyInfo;
-			Dictionary< int, int > temp = unitPartyInfo.GetPartyItem();
-			Dictionary< string, object > viewInfo = new Dictionary<string, object>();
-			Dictionary< int, UnitBaseInfo > avatarInfoDic = new Dictionary<int, UnitBaseInfo >();
+			//deal avatar
 			foreach (var item in temp) {
 				UserUnitInfo userUnitInfo = GlobalData.tempUserUnitInfo[ item.Value ];
 				if( !userUnit.ContainsKey( item.Key )) {
@@ -66,14 +70,16 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 				UnitBaseInfo unitBaseInfo = GlobalData.tempUnitBaseInfo[ userUnitInfo.unitBaseInfo ];
 				avatarInfoDic.Add( item.Key, unitBaseInfo );
 			}
-			
-			int totalHP = unitPartyInfo.GetBlood() ;
-			
+
+			//deal hpCount
+			totalHP = unitPartyInfo.GetBlood() ;
+
+			//add data list
 			viewInfo.Add( "avatar", avatarInfoDic);
 			viewInfo.Add("hp", totalHP);
-			
+
+			//call back to behaviour
 			partyInterface.PartyPaging( viewInfo );
-			//Debug.Log( unitPartyInfo.GetBlood() );
 		}
 		else {
 			partyInterface.PartyPaging( null );

@@ -166,6 +166,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 		msgBox.SetActive(false);
 	}
 
+	//Friend List
 	private void InitFriendList()
 	{
 		friendItem = Resources.Load("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
@@ -184,6 +185,10 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 			ulc.LongPress = PickFriendLongpress;
 			ulc.onClick = PickFriend;
 		}
+
+		//Get Friend List Data Interface
+
+
 	}
 
 	void PickFriendLongpress(GameObject go)
