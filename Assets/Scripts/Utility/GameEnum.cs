@@ -59,32 +59,32 @@ public enum CommandEnum
 	#region view to model
 	//DragCardToBattleArea 	= 1000,
 	InquiryBattleBaseData 	= 1001,
-	MoveToMapItem 			= 1002,
+	MoveToMapItem 		= 1002,
 	StartAttack				= 1003,
 	EnterUnitInfo			= 1004,
 	#endregion
 
 	#region model to view
-	Person 					= 3000,
+	Person 				= 3000,
 	BattleBaseData 			= 3001,
 	UnitBlood 				= 3002,
-	EnergyPoint				= 3003,
-	ShowEnemy 				= 3004,
-	AttackEnemy				= 3005,
+	EnergyPoint			= 3003,
+	ShowEnemy 			= 3004,
+	AttackEnemy			= 3005,
 	AttackPlayer			= 3006,
 	AttackRecoverRange		= 3007,
 	BattleEnd				= 3008,
-	EnemyAttack				= 3010,
+	EnemyAttack			= 3010,
 	EnemyAttackEnd			= 3009,
 	EnemyRefresh			= 3011,
-	EnemyDead				= 3012,
+	EnemyDead			= 3012,
 	RecoverHP				= 3013,
 	#endregion
 
-	LeaderSkillBoost		= 3014,
-	LeaderSkillDelayTime	= 3015,
+	LeaderSkillBoost			= 3014,
+	LeaderSkillDelayTime		= 3015,
 
-	ActiveSkillAttack		= 3016,
+	ActiveSkillAttack			= 3016,
 }
 
 public enum UIParentEnum : byte {
