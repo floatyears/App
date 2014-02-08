@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerInfoBar : UIBaseUnity
+public class PlayerInfoBar : UIBaseUnity 
 {
 	private UILabel labTextRank;
 	private UILabel labVauleRank;
-	
+
 	private UILabel labVaulePlayerName;
-	
+
 	private UILabel labValueMoney;
 	
 	private UILabel labVauleCurStamina;

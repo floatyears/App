@@ -119,8 +119,8 @@ public interface IActiveSkillExcute {
 	object Excute(int userUnitID, int atk = -1);
 }
 
-public interface IUIAnimation {
-
+public interface IUIParty : IUICallback {
+	void PartyPaging( object textures);
 }
 
 

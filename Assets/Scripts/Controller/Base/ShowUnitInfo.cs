@@ -28,6 +28,8 @@ public class ShowUnitInfo {
 	}
 	public static int attack = -1;
 	public static float experenceProgress = 0f; 
+	public static string normalSkill_1_Name = " ";
+	public static string normalSkill_2_Name = " ";
 
 	void EnterUnitInfo (object data) {
 		currentDetail = data as UnitBaseInfo;
@@ -71,5 +73,12 @@ public class ShowUnitInfo {
 		rare = ubi.starLevel;
 		attack = uui.GetAttack;
 		experenceProgress = 0f;
+
+//		TempNormalSkill tns1 = GlobalData.tempNormalSkill[ uui. ] as TempNormalSkill;
+//		normalSkill_1_Name = tns1.GetName();
+//	
+//		TempNormalSkill tns2 = GlobalData.tempNormalSkill[ ubi.normalSkill2 ] as TempNormalSkill;
+//		normalSkill_2_Name = tns2.GetName();
+
 	}
 }

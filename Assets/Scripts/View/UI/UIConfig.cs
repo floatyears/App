@@ -5,8 +5,7 @@ using System.Collections.Generic;
 
 public class UIConfig
 {
-	#region old
-	//---Main Menu---//
+
 	public static string Lab_T_Rank = "Rank:";
 	public static string Lab_V_Rank = "12";
 	public static string Lab_V_PlayerName = "Orca Chen";
@@ -40,10 +39,6 @@ public class UIConfig
 	public const string shopPath = "UI/Shop/";
 	public const string othersPath = "UI/Others/";
 	public const string unitPath = "UI/Units/";
-	#endregion
-
-	//------------------------------------------------------------------------------------------//
-	//------------------------------------------------------------------------------------------//
 
 	public const string UIInsConfigPath = "Config/UIInsConfig";
 	public const string menuBackgroundName = "MenuBg";
@@ -74,17 +69,10 @@ public class UIConfig
 	public const float playerInfoBox_Y = -50f;
 
 	public const float longPressedTimeCount = 0.5f;
-
 	public const int partyTotalCount = 5;
 
-	public static string[ , ] PlayerParty = new string[5, 4] { 
-		{ "role014", "role012", "role013", "role006" }, 
-		{ "role002", "role005", "role001", "role003" },
-		{ "role007", "role008", "role009", "role010" },
-		{ "role015", "role011", "role016", "role017" }, 
-		{ "role018", "role019", "role020", "role004" } 
-	};
-
+	public const int otherMusicSettingIndex = 1;
+	public const string otherMusicSettingName = "Music";
 
 
 }

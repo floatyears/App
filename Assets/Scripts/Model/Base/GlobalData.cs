@@ -30,7 +30,8 @@ public class GlobalData  {
 	public static UnitBaseInfo FriendBaseInfo {
 		get {
 			if(friendBaseInfo == null) {
-				friendBaseInfo = tempUnitBaseInfo[87];
+				friendBaseInfo = tempUnitBaseInfo[195];
+				//Debug.Log("FriendBaseInfo is Null");
 			}
 			return friendBaseInfo;
 		}

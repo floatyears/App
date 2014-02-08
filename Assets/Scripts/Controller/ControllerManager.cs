@@ -127,52 +127,9 @@ public class ControllerManager
 		case SceneEnum.Start:
 			temp = new StartView(uiName);
 			break;
-		case SceneEnum.Quest:
-			temp = new QuestView(uiName);
-			break;
-		case SceneEnum.Friends:
-			temp = new FriendsView(uiName);
-			break;
-		case SceneEnum.Scratch:
-			temp = new ScratchView(uiName);
-			break;
-		case SceneEnum.Shop:
-			temp = new ShopView(uiName);
-			break;
-		case SceneEnum.Others:
-			temp = new OthersView(uiName);
-			break;
-		case SceneEnum.Units:
-			temp = new UnitView(uiName);
-			break;
-		case SceneEnum.QuestSelect:
-			temp = new QuestSelectView(uiName);
-			break;
-		case SceneEnum.FriendSelect:
-			temp = new FriendSelectView(uiName);
-			break;
-		case SceneEnum.Party:
-			temp = new PartyView(uiName);
-			break;
-		case SceneEnum.LevelUp:
-			temp = new LevelUpView(uiName);
-			break;
-		case SceneEnum.UnitList:
-			temp = new UnitListView(uiName);
-			break;
-		case SceneEnum.Evolve:
-			temp = new EvolveView(uiName);
-			break;
-		case SceneEnum.Sell:
-			temp = new CatalogView(uiName);
-			break;
-		case SceneEnum.UnitCatalog:
-			temp = new CatalogView(uiName);
-			break;
 		case SceneEnum.Fight:
 			temp = new BattleQuest(uiName);
 			break;
-
 		default:
 			temp = new UIBase("Null");
 			break;

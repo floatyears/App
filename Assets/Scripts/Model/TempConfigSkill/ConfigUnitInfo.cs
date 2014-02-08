@@ -271,6 +271,7 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
 			PartyItem pi = up.items[i];
 			temp.Add(pi.unitPos,pi.unitUniqueId);
 		}
+		//Debug.LogError("party count: " + temp.Count);
 		return temp;
 	}
 
