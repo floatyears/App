@@ -218,8 +218,8 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetFriend bool, isG
 		if ok {
 			friInfo.Rank = user.Rank
 			friInfo.UserName = user.UserName
-			friInfo.LastPlayTime = user.LoginTime //TODO: add lastPlayTime to userinfo
-			//friInfo.UnitId = uint(10) // TODO: add leader's unitId to userinfo
+			friInfo.LastPlayTime = userDetail.Login.LastPlayTime
+			friInfo.Unit = userDetail.Unit
 
 			friendsInfo[common.Utoa(uid)] = friInfo
 

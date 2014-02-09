@@ -138,6 +138,9 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 					rspMsg.Friend = append(rspMsg.Friend, &pFriend)
 				}
 			}
+
+			//TODO: call update in goroutine
+			UpdateLoginInfo(db, &userdetail)
 		}
 	} else { //generate new user
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)

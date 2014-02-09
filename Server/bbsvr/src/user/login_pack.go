@@ -121,6 +121,11 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 
 		//fill rspMsg
 		for _, friend := range friendsInfo {
+			if friend.UserName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
+				log.Printf("[ERROR] unexcepted error: skip invalid friend: %+v", friend)
+				continue
+			}
+
 			//log.Printf("[TRACE] fid:%v friend:%v", fid, *friend.UserId)
 			pFriend := friend
 			if *friend.FriendState == bbproto.EFriendState_FRIENDHELPER {
@@ -131,7 +136,7 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 		}
 	}
 
-	UpdateLoginInfo(db, &userdetail)
+	//UpdateLastPlayTime(db, &userdetail)
 
 	//get LoginInfo
 	if isGetLogin {
