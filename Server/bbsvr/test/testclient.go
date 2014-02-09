@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	//"math/rand"
 	"net/http"
 	"time"
 )
@@ -58,20 +59,52 @@ func SendHttpPost(dataBuf io.Reader, protoAddr string) (outbuffer []byte, err er
 	return outbuffer, err
 }
 
-func LoginPack() {
+func LoginPack(uid uint32) error {
 	msg := &bbproto.ReqLoginPack{}
 	msg.Header = &bbproto.ProtoHeader{}
 	msg.Header.ApiVer = proto.String("1.0.0")
 	msg.Header.SessionId = proto.String("S10298090290")
-	msg.Header.UserId = proto.Uint32(100002)
+	msg.Header.UserId = proto.Uint32(uid)
+
+	msg.GetFriend = proto.Bool(true)
+	msg.GetHelper = proto.Bool(true)
+	msg.GetLogin = proto.Bool(true)
+	msg.GetPresent = proto.Bool(true)
 
 	buffer, err := proto.Marshal(msg)
-	log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
+	if err != nil {
+		log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
+	}
 
-	SendHttpPost(bytes.NewReader(buffer), _PROTO_LOGIN_PACK)
+	rspbuff, err := SendHttpPost(bytes.NewReader(buffer), _PROTO_LOGIN_PACK)
+	if err != nil {
+		log.Printf("SendHttpPost ret err:%v", err)
+		return err
+	}
+
+	//decode rsp msg
+	log.Printf("-----------------------Response----------------------")
+	rspmsg := &bbproto.RspLoginPack{}
+	if err = proto.Unmarshal(rspbuff, rspmsg); err != nil {
+		log.Printf("ERROR: rsp Unmarshal ret err:%v", err)
+	}
+
+	//print rsp msg
+	for k, friend := range rspmsg.Friend {
+		log.Printf("friend[%v]: %+v", k, friend)
+	}
+
+	for k, friend := range rspmsg.Helper {
+		log.Printf("Helper[%v]: %v", k, friend)
+	}
+
+	log.Printf("LoginInfo: %+v", rspmsg.Login)
+	log.Printf("-----------------------Response end.----------------------\n")
+
+	return err
 }
 
-func AuthUser() {
+func AuthUser(uuid string) {
 	msg := &bbproto.ReqAuthUser{}
 	msg.Header = &bbproto.ProtoHeader{}
 	msg.Header.ApiVer = proto.String("0.0.1")
@@ -81,7 +114,12 @@ func AuthUser() {
 	//msg.Header.SessionId = proto.String("S10298090290")
 	msg.Header.PacketId = proto.Int32(18)
 	msg.Terminal = &bbproto.TerminalInfo{}
-	msg.Terminal.Uuid = proto.String("b2c4adfd-e6a9-4782-814d-67ce34220101")
+	if uuid == "" {
+		msg.Terminal.Uuid = proto.String("b2c4adfd-e6a9-4782-814d-67ce34220101")
+	} else {
+		msg.Terminal.Uuid = proto.String(uuid)
+	}
+
 	msg.Terminal.DeviceName = proto.String("kory's ipod")
 	msg.Terminal.Os = proto.String("iOS 6.1")
 	//msg.Terminal.Platform = proto.String("official")
@@ -125,37 +163,37 @@ func testType() {
 	}
 }
 
-func AddUsers(num uint32) error {
-	db := &data.Data{}
-	err := db.Open(string(cs.TABLE_USER))
-	if err != nil {
-		return err
-	}
-	defer db.Close()
+//func AddUsers(num uint32) error {
+//	db := &data.Data{}
+//	err := db.Open(string(cs.TABLE_USER))
+//	if err != nil {
+//		return err
+//	}
+//	defer db.Close()
 
-	//add to user table
-	tNow := uint32(time.Now().Unix())
-	for uid := uint32(101); uid-100 < num; uid++ {
-		rank := int32(uid-35) % 100
-		tNow += 3
-		name := "name" + common.Utoa(uid)
+//	//add to user table
+//	tNow := uint32(time.Now().Unix())
+//	for uid := uint32(101); uid-100 < num; uid++ {
+//		rank := int32(uid-35) % 100
+//		tNow += 3
+//		name := "name" + common.Utoa(uid)
 
-		user := &bbproto.UserInfo{}
-		user.UserId = &uid
-		user.Rank = &rank
-		user.UserName = &name
-		user.LoginTime = &tNow
+//		user := &bbproto.UserInfo{}
+//		user.UserId = &uid
+//		user.Rank = &rank
+//		user.UserName = &name
+//		user.LoginTime = &tNow
 
-		zUserinfo, err := proto.Marshal(user)
-		if err != nil {
-			return err
-		}
-		err = db.Set(common.Utoa(uid), zUserinfo)
-	}
-	return err
-}
+//		zUserinfo, err := proto.Marshal(user)
+//		if err != nil {
+//			return err
+//		}
+//		err = db.Set(common.Utoa(uid), zUserinfo)
+//	}
+//	return err
+//}
 
-func AddFriends() error {
+func AddFriends(uid uint32, num uint32) error {
 	db := &data.Data{}
 	err := db.Open(string(cs.TABLE_FRIEND))
 	if err != nil {
@@ -163,26 +201,42 @@ func AddFriends() error {
 	}
 	defer db.Close()
 
-	//AddUsers(15)
-	uid := uint32(101)
 	sUid := common.Utoa(uid)
-	num := uint32(10)
-	for fid := uint32(202); fid-200 < num; fid++ {
+	for fid := uint32(101); fid-100 < num; fid++ {
+		if fid == uid {
+			continue
+		}
 		updatetime := uint32(time.Now().Unix())
 
-		fState := bbproto.EFriendState_FRIENDHELPER
-		user.AddFriend(db, cs.X_HELPER_MY+sUid, fid, fState, updatetime)
+		if fid%3 == 1 {
+			fState := bbproto.EFriendState_ISFRIEND
+			user.AddFriend(db, sUid, fid, fState, updatetime)
+		} else {
+			fState := bbproto.EFriendState_FRIENDHELPER
+			user.AddFriend(db, cs.X_HELPER_MY+sUid, fid, fState, updatetime)
+		}
 	}
 
 	return err
 }
 
+func AddUsers() {
+	for i := 0; i < 10; i++ {
+		AuthUser("b2c4adfd-e6a9-4782-814d-67ce3422011" + common.Itoa(int32(i)))
+	}
+	for i := 10; i < 30; i++ {
+		AuthUser("b2c4adfd-e6a9-4782-814d-67ce342201" + common.Itoa(int32(i)))
+	}
+
+}
+
 func main() {
 	Init()
+	//AddUsers()
+	//AddFriends(104, 39)
+	LoginPack(101)
+	//	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220110")
 
-	//AddFriends()
-	LoginPack()
-	//AuthUser()
 	//testRedis()
 	//return
 

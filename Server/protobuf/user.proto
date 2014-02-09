@@ -49,14 +49,16 @@ message UnitParty {
 message UserInfoDetail {
 	optional UserInfo		user				= 1;
 	optional AccountInfo	account				= 2;
-	optional UserQuestInfo	quest				= 3;	
-	repeated UnitParty		unitPartyList		= 4;
-	optional int32			currentUnitParty	= 5;
+	optional UserQuestInfo	quest				= 3;
+	optional UserUnit		unit				= 4; //leader unit
+	repeated UnitParty		partyList			= 5;
+	optional int32			currentParty		= 6;
+	optional LoginInfo		login				= 7;
 };
 
 message TerminalInfo {
 	optional string	channel						= 1; // app market channel
-	optional string	deviceName					= 2; // "asus Nexus 7"
+	optional string	deviceName					= 2; // 
 	optional string	uuid						= 3; 
 	optional string	os		 					= 4; // android / ios
 };
@@ -82,7 +84,7 @@ message FriendInfo {
 	optional EFriendState	friendState			= 5; // 
 	optional uint32			friendStateUpdate 	= 6; // friend state updated time
 	optional int32			friendPoint			= 7;
-	optional uint32			unitId				= 8;
+	optional UserUnit		unit				= 8;
 };
 
 message LoginBonus {
@@ -94,10 +96,11 @@ message LoginBonus {
 message LoginInfo {
 	optional int32		loginTotal				= 1;
 	optional int32		loginChain				= 2;
-	optional int32		friendPointNow			= 3;
-	optional int32		friendPointGet			= 4;
-	optional int32		friendHelpCt			= 5; // unknown field
-	repeated LoginBonus bonus					= 6;
+	optional uint32		lastLoginTime			= 3;
+	optional uint32		lastPlayTime			= 4;
+	optional int32		friendPointGet			= 5;
+	optional int32		friendHelpCount			= 6;
+	repeated LoginBonus bonus					= 7;
 };
 
 message PresentInfo {
@@ -140,7 +143,7 @@ message RspAuthUser {
 	repeated UnitParty		unitPartyList		= 5;
 	optional int32			currentUnitParty	= 6;
 	optional uint32			serverTime			= 7;
-	optional LoginInfo		loginParam			= 8;
+	optional LoginInfo		login				= 8;
 	repeated FriendInfo		friend				= 9;
 	repeated FriendInfo		helper				= 10;
 	repeated PresentInfo	present				= 11;	
@@ -157,7 +160,7 @@ message ReqLoginPack {
 
 message RspLoginPack {
 	optional ProtoHeader	header				= 1;
-	optional LoginInfo		loginParam			= 2;
+	optional LoginInfo		login				= 2;
 	repeated FriendInfo		friend				= 3;
 	repeated FriendInfo		helper				= 4;
 	repeated PresentInfo	present				= 5;

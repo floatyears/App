@@ -22,10 +22,18 @@ func AddNewUser(uuid string, userInfo *bbproto.UserInfo) (err error) {
 
 	userdetail := &bbproto.UserInfoDetail{}
 	userdetail.User = userInfo
+
+	//TODO: fill other default values
 	//userdetail.CurrentUnitParty = 0
 	//userdetail.Account = xx //
 	//userdetail.UnitPartyList = xx //
 	//userdetail.Quest = xx //
+
+	userdetail.Login = &bbproto.LoginInfo{}
+	userdetail.Login.LoginTotal = proto.Int32(1)
+	userdetail.Login.LoginChain = proto.Int32(0)
+	userdetail.Login.LastLoginTime = proto.Uint32(common.Now())
+	userdetail.Login.LastPlayTime = userdetail.Login.LastLoginTime
 
 	zUserData, err := proto.Marshal(userdetail)
 	err = db.Set(common.Utoa(*userInfo.UserId), zUserData)
@@ -93,7 +101,7 @@ func GetNewUserId() (userid uint32, err error) {
 
 	uid, err := db.GetInt(cs.KEY_MAX_USER_ID)
 	if err != nil {
-		userid = 100000 //first userId
+		userid = 100 //first userId
 	}
 	userid += uint32(uid + 1)
 	log.Printf("get MAX_USER_ID ret: %v ", userid)

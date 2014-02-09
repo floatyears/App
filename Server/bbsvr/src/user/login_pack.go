@@ -1,10 +1,11 @@
 package user
 
 import (
-	//"fmt"
+	"fmt"
 	"log"
 	"net/http"
 	//"time"
+	"errors"
 )
 import (
 	bbproto "../bbproto"
@@ -81,9 +82,20 @@ func (t LoginPack) FillResponseMsg(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto
 }
 
 func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack) (err error) {
-	// read user data (by uuid) from db
 	uid := *reqMsg.Header.UserId
-	isUserExists := uid != 0
+	if uid == 0 {
+		err = errors.New("ERROR: userId is invalid.")
+		return err
+	}
+	if reqMsg.GetFriend == nil || reqMsg.GetHelper == nil || reqMsg.GetLogin == nil || reqMsg.GetPresent == nil {
+		err = errors.New("ERROR: params is invalid.")
+		return err
+	}
+
+	isGetFriend := *reqMsg.GetFriend
+	isGetHelper := *reqMsg.GetHelper
+	isGetLogin := *reqMsg.GetLogin
+	isGetPresent := *reqMsg.GetPresent
 
 	db := &data.Data{}
 	err = db.Open(cs.TABLE_FRIEND)
@@ -92,87 +104,44 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 		return
 	}
 
-	if isUserExists {
-		friendsInfo, err := GetFriendInfo(db, uid)
-		log.Printf("GetFriendInfo ret %v. friends num=%v friendsInfo: ['%v']  ", err, len(friendsInfo), friendsInfo)
+	//get user's rank from user table
+	userdetail, isUserExists, err := GetUserInfo(uid)
+	if err != nil || !isUserExists {
+		err := errors.New(fmt.Sprintf("ERROR: Invalid userId %v", uid))
+		return err
+	}
+	log.Printf("[TRACE] getUser(%v) ret userdetail: %v", uid, userdetail)
+	rank := uint32(*userdetail.User.Rank)
+
+	// get FriendInfo
+	if isGetFriend || isGetHelper {
+
+		friendsInfo, err := GetFriendInfo(db, uid, rank, isGetFriend, isGetHelper)
+		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
+
+		//fill rspMsg
+		for _, friend := range friendsInfo {
+			//log.Printf("[TRACE] fid:%v friend:%v", fid, *friend.UserId)
+			pFriend := friend
+			if *friend.FriendState == bbproto.EFriendState_FRIENDHELPER {
+				rspMsg.Helper = append(rspMsg.Helper, &pFriend)
+			} else {
+				rspMsg.Friend = append(rspMsg.Friend, &pFriend)
+			}
+		}
 	}
 
-	//rspMsg.loginParam = &bbproto.LoginInfo{}
-	//if isSessionExists {
-	//	err = proto.Unmarshal(value, rspMsg.Userdetail) //unSerialize into Userdetail
-	//	tNow := uint32(time.Now().Unix())
+	UpdateLoginInfo(db, &userdetail)
 
-	//	*rspMsg.Userdetail.User.LoginTime = uint32(tNow)
-	//	log.Printf("read Userdetail ret err:%v, Userdetail: %+v", err, rspMsg.Userdetail)
-	//} else { //generate new user
-	//	log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
+	//get LoginInfo
+	if isGetLogin {
+		rspMsg.Login = userdetail.Login
+	}
 
-	//	newUserId, err := GetNewUserId()
-	//	defaultName := cs.DEFAULT_USER_NAME
-	//	tNow := uint32(time.Now().Unix())
-	//	rank := int32(0)
-	//	exp := int32(0)
-	//	staminaNow := int32(10)
-	//	staminaMax := int32(10)
-	//	staminaRecover := uint32(tNow + 600) //10 minutes
-	//	rspMsg.Userdetail.User = &bbproto.UserInfo{
-	//		UserId:         &newUserId,
-	//		UserName:       &defaultName,
-	//		LoginTime:      &tNow,
-	//		Rank:           &rank,
-	//		Exp:            &exp,
-	//		StaminaNow:     &staminaNow,
-	//		StaminaMax:     &staminaMax,
-	//		StaminaRecover: &staminaRecover,
-	//	}
-	//	rspMsg.ServerTime = &tNow
-	//	log.Printf("rspMsg.Userdetail.User=%v...", rspMsg.Userdetail.User)
-	//	log.Printf("rspMsg=%+v...", rspMsg)
+	//TODO: get present
+	if isGetPresent {
 
-	//	//TODO:save userinfo to db through goroutine
-	//	outbuffer, err := proto.Marshal(rspMsg.Userdetail)
-	//	err = db.Set(uuid, outbuffer)
-	//	log.Printf("db.Set(%v) save new userinfo, return %v", uuid, err)
-	//}
+	}
 
 	return err
 }
-
-//func LoginPackHandler(rsp http.ResponseWriter, req *http.Request) {
-//	p := &LoginPack{}
-//	rspMsg := &bbproto.RspLoginPack{}
-
-//	msg, err := p.checkInput(req)
-//	if err != nil {
-//		data, _ := p.FillRspHeader(&msg, rspMsg)
-
-//		common.SendResponse(rsp, data)
-//		return
-//	}
-
-//	value := ""
-//	if *msg.UserId != 0 {
-//		id := strconv.Itoa(int(*msg.UserId))
-//		db := &data.Data{}
-//		db.Open("0")
-//		defer db.Close()
-//		value, err := db.Get(id)
-//		log.Printf("get for '%v' ret err:%v, value: %v", *msg.UserId, err, value)
-//	}
-
-//	isUserExists := value != ""
-//	if isUserExists {
-//		err = proto.Unmarshal([]byte(value), rspMsg.User) //unSerialize into usrinfo
-
-//		data, err := p.FillRspHeader(&msg, rspMsg)
-//		size, err := common.SendResponse(rsp, data)
-//		log.Printf("rsp msg err:%v, size[%d]: %+v", err, size, rspMsg.User)
-//	} else {
-//		//rspMsg.User = &bbproto.UserInfo{}
-//		*rspMsg.User.UserId, err = GetNewUserId()
-//		*rspMsg.User.UserName = common.DEFAULT_USER_NAME
-//		*rspMsg.User.LoginTime = uint32(time.Now().Unix())
-
-//		log.Printf("ERR: Cannot find data for user:%v", *msg.UserId)
-//	}
-//}
