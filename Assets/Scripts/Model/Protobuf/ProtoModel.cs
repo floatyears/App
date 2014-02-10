@@ -208,7 +208,7 @@ namespace bbproto
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
-  
+         
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"FriendList")]
   public partial class FriendList : global::ProtoBuf.IExtensible
   {
