@@ -10,6 +10,7 @@ public class ConfigUnitInfo {
 		GenerateUserUnit ();
 
 		GenerateUserUnitParty ();
+
 	}
 	
 	private const int maxCount = 6;
