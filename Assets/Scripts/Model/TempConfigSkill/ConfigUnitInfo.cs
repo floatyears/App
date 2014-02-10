@@ -91,8 +91,9 @@ public class ConfigUserUnit {
 }
 
 public class TempUnitInfo : ProtobufDataBase {
+
 	public TempUnitInfo (object instance) : base (instance) {
-		
+
 	}
 }
 
