@@ -10,8 +10,27 @@ import (
 )
 
 // New returns an error that formats as the given text.
-func New(errCode int, errStr string) error {
+func Err(errCode int) Error {
+	return Error{errCode, ""}
+}
+
+func NewError(err error) Error {
+	if err != nil {
+		return Error{-1, err.Error()}
+	}
+	return Error{0, ""}
+}
+
+func New(errCode int, errStr string) Error {
+	return Error{errCode, errStr}
+}
+
+func Newerror(errCode int, errStr string) error {
 	return &Error{errCode, errStr}
+}
+
+func OK() Error {
+	return Error{0, ""}
 }
 
 // errorString is a trivial implementation of error.
@@ -30,4 +49,20 @@ func (e *Error) Code() int {
 
 func (e *Error) IsError() bool {
 	return e.errCode != 0
+}
+
+func (e *Error) Assign(err error) Error {
+	if err == nil {
+		e.errCode = 0
+		e.errStr = ""
+	} else {
+		e.errCode = -1
+		e.errStr = err.Error()
+	}
+	return *e
+}
+
+func (e *Error) SetError(code int, err error) {
+	e.errCode = code
+	e.errStr = ""
 }

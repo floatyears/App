@@ -2,9 +2,11 @@ package cs
 
 //error code
 const (
-	SUCCESS        = 0
-	FAILED         = -1
-	INVALID_PARAMS = -2
+	SUCCESS          = 0
+	FAILED           = -1
+	INVALID_PARAMS   = -2
+	MARSHAL_FAILED   = -3
+	UNMARSHAL_FAILED = -4
 )
 
 //friend

@@ -130,9 +130,13 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 			//log.Printf("[TRACE] fid:%v friend:%v", fid, *friend.UserId)
 			pFriend := friend
 			if *friend.FriendState == bbproto.EFriendState_FRIENDHELPER {
-				rspMsg.Helper = append(rspMsg.Helper, &pFriend)
-			} else {
-				rspMsg.Friend = append(rspMsg.Friend, &pFriend)
+				rspMsg.Friends.Helper = append(rspMsg.Friends.Helper, &pFriend)
+			} else if *friend.FriendState == bbproto.EFriendState_ISFRIEND {
+				rspMsg.Friends.Friend = append(rspMsg.Friends.Friend, &pFriend)
+			} else if *friend.FriendState == bbproto.EFriendState_FRIENDIN {
+				rspMsg.Friends.FriendIn = append(rspMsg.Friends.FriendIn, &pFriend)
+			} else if *friend.FriendState == bbproto.EFriendState_FRIENDOUT {
+				rspMsg.Friends.FriendOut = append(rspMsg.Friends.FriendOut, &pFriend)
 			}
 		}
 	}
