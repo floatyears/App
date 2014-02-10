@@ -31,7 +31,9 @@ func (t *Data) Open(table string) error {
 		return err
 	}
 	_, err = t.conn.Do("SELECT", table)
-	log.Printf("redis.Select(%v) ret err:%v", table, err)
+	if err != nil {
+		log.Printf("[ERROR] redis.Select(%v) ret err:%v", table, err)
+	}
 	return err
 }
 
@@ -44,7 +46,7 @@ func (t *Data) Close() (err error) {
 	//}
 
 	if t.conn != nil {
-		log.Printf("t.conn.Close().")
+		log.Printf("[TRACE] t.conn.Close().")
 		err = t.conn.Close()
 		t.conn = nil
 		return err
@@ -56,7 +58,9 @@ func (t *Data) Close() (err error) {
 
 func (t *Data) Select(table string) (err error) {
 	_, err = t.conn.Do("SELECT", table)
-	log.Printf("redis.Select(%v) ret err:%v", table, err)
+	if err != nil {
+		log.Printf("[ERROR] redis.Select(%v) ret err:%v", table, err)
+	}
 	return err
 }
 
@@ -185,4 +189,21 @@ func (t *Data) HMSet(key string, fields ...[]byte) (err error) {
 func (t *Data) HDel(key string, field string) (err error) {
 	_, err = t.conn.Do("HDEL", key, field)
 	return err
+}
+
+//================= ZSET ==================
+func (t *Data) ZAdd(key string, member string, score int32) (err error) {
+	_, err = t.conn.Do("ZADD", key, member, score)
+	return err
+}
+
+func (t *Data) ZRem(key string, member string) (err error) {
+	_, err = t.conn.Do("ZREM", key, member)
+	return err
+}
+
+func (t *Data) ZRangeByScore(key string, min int, max int, offset int, count int) (values []interface{}, err error) {
+	//log.Printf("[TRACE] ZRangeByScore key:%v %v %v limit %v %v", key, min, max, offset, count)
+	values, err = redis.Values(t.conn.Do("ZRANGEBYSCORE", key, min, max, "limit", offset, count))
+	return values, err
 }

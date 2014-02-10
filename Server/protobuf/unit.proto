@@ -12,8 +12,8 @@ message UnitResource {
 };
 
 message UserUnit {  //unit instance
-	required int32 uniqueId		= 1;
-	optional uint32 id			= 2; //unit_id
+	required uint32 uniqueId	= 1;
+	optional uint32 unitId		= 2;
 	optional int32 exp			= 3;
 	optional int32 level		= 4;
 	optional int32 addAttack	= 5;
