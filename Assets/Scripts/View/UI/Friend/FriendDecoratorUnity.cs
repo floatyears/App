@@ -47,10 +47,8 @@ public class FriendDecoratorUnity : UIComponentUnity {
 		go = FindChild( "BtnList_Window/ImgBtn_YourID" );
 		btns.Add( go, SceneEnum.YourID );
 
-		foreach( var btn in btns.Keys ) {
+		foreach( var btn in btns.Keys )
 			UIEventListener.Get( btn ).onClick = ClickBtn;
-		}
-
 
 	}
 

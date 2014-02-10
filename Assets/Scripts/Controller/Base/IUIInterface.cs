@@ -122,6 +122,10 @@ public interface IUIParty : IUICallback {
 	void PartyPaging( object textures);
 }
 
+public interface IUIFriendList : IUICallback {
+	void CustomExtraFunction( object message);
+}
+
 
 public delegate void Callback();
 

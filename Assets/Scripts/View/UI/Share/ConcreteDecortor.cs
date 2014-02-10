@@ -493,9 +493,12 @@ public class FriendListDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		sceneInfoBar.SetComponent( decorator );
+		FriendListComponent friendListPanel = CreatComponent< FriendListComponent >( UIConfig.friendListPanelName);
 
-		lastDecorator = sceneInfoBar;
+		sceneInfoBar.SetComponent( decorator );
+		friendListPanel.SetComponent( sceneInfoBar );
+
+		lastDecorator = friendListPanel;
 		lastDecorator.CreatUI();
 	}
 }
@@ -520,10 +523,14 @@ public class InformationDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		InformationComponent infoWindow = CreatComponent< InformationComponent >( UIConfig.informationWindowName );
+
 		sceneInfoBar.SetComponent( decorator );
-		
-		lastDecorator = sceneInfoBar;
+		infoWindow.SetComponent( sceneInfoBar );
+
+		lastDecorator = infoWindow;
 		lastDecorator.CreatUI();
+
 	}
 }
 
@@ -573,10 +580,14 @@ public class ApplyDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
+
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		ApplyComponent applyWindow = CreatComponent< ApplyComponent >( UIConfig.friendListPanelName );
+
 		sceneInfoBar.SetComponent( decorator );
-		
-		lastDecorator = sceneInfoBar;
+		applyWindow.SetComponent( sceneInfoBar );
+		lastDecorator = applyWindow;
+
 		lastDecorator.CreatUI();
 	}
 }
@@ -601,17 +612,20 @@ public class ReceptionDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		ReceptionComponent receptionWindow = CreatComponent< ReceptionComponent >( UIConfig.friendListPanelName );
+
 		sceneInfoBar.SetComponent( decorator );
+		receptionWindow.SetComponent( sceneInfoBar );
 		
-		lastDecorator = sceneInfoBar;
+		lastDecorator = receptionWindow;
 		lastDecorator.CreatUI();
 	}
 }
 
 //--------------------------------YourID------------------------------------------
-public class YourIDDecorator : DecoratorBase {
+public class UserIDDecorator : DecoratorBase {
 	private SceneInfoComponent sceneInfoBar;
-	public YourIDDecorator(SceneEnum sEnum) : base(sEnum) { }
+	public UserIDDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene () {
 		base.ShowScene ();
@@ -628,9 +642,12 @@ public class YourIDDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+		UserIDComponent userIDWindow = CreatComponent< UserIDComponent >( UIConfig.userIDWindowName);
+
 		sceneInfoBar.SetComponent( decorator );
-		
-		lastDecorator = sceneInfoBar;
+		userIDWindow.SetComponent( sceneInfoBar );
+
+		lastDecorator = userIDWindow;
 		lastDecorator.CreatUI();
 	}
 }

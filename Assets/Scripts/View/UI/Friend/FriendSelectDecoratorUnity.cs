@@ -62,14 +62,11 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 	
 	public void Callback(object data)
 	{
-		if (data == null)
-		{
+		if (data == null){
 			ShowPartyInfo(null);
-		} else
-		{
+		} else{
 			Dictionary<int,UnitBaseInfo> upi = data as Dictionary<int,UnitBaseInfo>;
-			if (upi == null)
-			{
+			if (upi == null){
 				return;
 			}
 			ShowPartyInfo(upi);
@@ -79,22 +76,17 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 	private void ShowPartyInfo(Dictionary<int,UnitBaseInfo> name)
 	{
 		unitBaseInfo = name;
-		if (name == null)
-		{
+		if (name == null){
 			foreach (var item in partySprite.Values) {
 				item.enabled = false;
 			}
-		} else
-		{
-			foreach (var item in partySprite)
-			{
-				if (name.ContainsKey(item.Key))
-				{
+		} else{
+			foreach (var item in partySprite){
+				if (name.ContainsKey(item.Key)){
 					partySprite [item.Key].enabled = true;
-					string path = name [item.Key].GetHeadPath; //UnitBaseInfo.path + name[item.Key].spriteName;
+					string path = name [item.Key].GetHeadPath; 
 					partySprite [item.Key].mainTexture = Resources.Load(path) as Texture2D;
-				} else
-				{
+				} else{
 					partySprite [item.Key].enabled = false;
 				}
 			}
