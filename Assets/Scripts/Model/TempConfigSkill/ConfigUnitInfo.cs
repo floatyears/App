@@ -20,7 +20,7 @@ public class ConfigUnitInfo {
 		for (int i = 1; i < maxCount; i++) {
 			UnitInfo uiitem 	= new UnitInfo ();
 			uiitem.id 			= (uint)i;
-			uiitem.name		= "unit_" + i;
+			uiitem.name			= "unit_" + i;
 			uiitem.type 		= (EUnitType)i;
 			uiitem.skill1 		= (i - 1) * 2;
 			uiitem.skill2 		= (i - 1) * 2 + 1;
@@ -95,7 +95,7 @@ public class TempUnitInfo : ProtobufDataBase {
 	}
 }
 
-public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
+public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 	private List<PartyItem> partyItem = new List<PartyItem> ();		
 	private Dictionary<int,ProtobufDataBase> leaderSkill = new Dictionary<int,ProtobufDataBase> ();
 	public Dictionary<int,ProtobufDataBase> LeadSkill {
