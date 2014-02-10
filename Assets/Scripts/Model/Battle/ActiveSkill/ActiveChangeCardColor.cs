@@ -23,6 +23,7 @@ public class ActiveChangeCardColor : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;
 		}
+		InitCooling ();
 		SkillConvertUnitType scut = DeserializeData<SkillConvertUnitType>();
 		ChangeCardColor ccc = new ChangeCardColor ();
 		if (scut.type == EValueType.RANDOMCOLOR) {

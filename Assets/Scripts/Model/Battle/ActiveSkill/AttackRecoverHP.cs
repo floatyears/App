@@ -11,6 +11,7 @@ public class AttackRecoverHP : ActiveSkill ,IActiveSkillExcute{
 
 	public AttackRecoverHP(object instance) : base (instance) {
 		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
+		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -24,6 +25,7 @@ public class AttackRecoverHP : ActiveSkill ,IActiveSkillExcute{
 		if (!coolingDone) {
 			return null;	
 		}
+		InitCooling ();
 		SkillSingleAtkRecoverHP ssarh = DeserializeData<SkillSingleAtkRecoverHP> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.AttackType = (int)ssarh.unitType;

@@ -24,6 +24,7 @@ public class GravityAttack : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;	
 		}
+		InitCooling ();
 		SkillKillHP skh = DeserializeData<SkillKillHP> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;

@@ -104,6 +104,8 @@ public enum CommandEnum
 	AttackTargetType		= 3031,
 
 	StrengthenTargetType	= 3032,
+
+	ActiveSkillCooling		= 3033,
 }
 
 public enum UIParentEnum : byte {

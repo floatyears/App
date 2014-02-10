@@ -24,6 +24,7 @@ public class ActiveStrengthenAttack : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;	
 		}
+		InitCooling ();
 		SkillStrengthenAttack ssa = DeserializeData<SkillStrengthenAttack> ();
 		ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;

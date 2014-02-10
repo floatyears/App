@@ -203,6 +203,9 @@ public class BattleUseData {
 			temp = false;
 			return;
 		}
+
+		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillCooling, null);	// refresh active skill cooling.
+
 		int addBlood = skillRecoverHP.RecoverHP (blood, 2);	//3: every step.
 		RecoverHP (addBlood);
 		if (maxEnergyPoint == 0) {

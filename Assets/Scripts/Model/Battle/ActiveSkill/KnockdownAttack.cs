@@ -24,6 +24,7 @@ public class KnockdownAttack : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;	
 		}
+		InitCooling ();
 		SkillSingleAttack ssa = DeserializeData<SkillSingleAttack>();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
