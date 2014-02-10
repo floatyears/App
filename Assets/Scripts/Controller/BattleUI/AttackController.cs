@@ -27,8 +27,6 @@ public class AttackController {
 		msgCenter.AddListener (CommandEnum.SkillGravity, Gravity);
 		msgCenter.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
 		msgCenter.AddListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
-		//msgCenter.AddListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
-		//msgCenter.AddListener (CommandEnum.SkillPosion, EnemyPosison);
 	}
 
 	void RemoveEvent () {
@@ -37,7 +35,6 @@ public class AttackController {
 		msgCenter.RemoveListener (CommandEnum.SkillGravity, Gravity);
 		msgCenter.RemoveListener (CommandEnum.ReduceDefense, ReduceDefense);
 		msgCenter.RemoveListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
-		//msgCenter.RemoveListener (CommandEnum.SkillPosion, EnemyPosison);
 	}
 
 	void DrawHP(object data) {

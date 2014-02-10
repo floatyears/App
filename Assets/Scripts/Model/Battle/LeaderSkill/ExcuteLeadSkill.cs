@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, ILeaderSkillSwitchCard,ILeaderSkillRecoverHP, ILeaderSkillMultipleAttack {
-	ILeadSkill leadSkill;
+	ILeaderSkill leadSkill;
 	List<int> RemoveSkill = new List<int> ();
 
-	public ExcuteLeadSkill (ILeadSkill lead) {
+	public ExcuteLeadSkill (ILeaderSkill lead) {
 		leadSkill = lead;
 	}
 

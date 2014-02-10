@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class ExcuteActiveSkill {
 	private Dictionary<int,IActiveSkillExcute> activeSkill = new Dictionary<int, IActiveSkillExcute> ();
-	private ILeadSkill leaderSkill;
-	public ExcuteActiveSkill(ILeadSkill ils) {
+	private ILeaderSkill leaderSkill;
+	public ExcuteActiveSkill(ILeaderSkill ils) {
 		leaderSkill = ils;
 		foreach (var item in ils.UserUnit.Values) {
 			ProtobufDataBase pudb = GlobalData.tempNormalSkill[item.GetActiveSkill()];

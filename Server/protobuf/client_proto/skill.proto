@@ -2,13 +2,13 @@ import public "bbproto.proto";
 package bbproto;
 
 enum EValueType{
-	FIXED 		= 1;
-	MULTIPLE	= 2;
-	PERCENT		= 3;
-	SECOND		= 4;
-	ROUND		= 5;
-	COLORTYPE	= 6;
-	RANDOMCOLOR	= 7;
+	FIXED 			= 1;
+	MULTIPLE		= 2;
+	PERCENT			= 3;
+	SECOND			= 4;
+	ROUND			= 5;
+	COLORTYPE		= 6;
+	RANDOMCOLOR		= 7;
 };
 
 enum EAttackType {
@@ -23,8 +23,8 @@ enum EBoostType {
 };
 
 enum EBoostTarget {
-	UNIT_RACE	= 0;
-	UNIT_TYPE	= 1;
+	UNIT_RACE		= 0;
+	UNIT_TYPE		= 1;
 };
 
 enum EPeriod {
@@ -32,6 +32,13 @@ enum EPeriod {
 	EP_EVERY_ROUND	= 1; // every round 
 	EP_EVERY_STEP 	= 2; // every moving step
 };
+
+enum ETrapType {
+	Move			= 0;
+	StateException	= 1;
+	ChangeEnvir		= 2;
+	Injured			= 3;
+}
 
 //==================Active Skills: 14 kinds=====================================================
 message SkillBase {
@@ -196,12 +203,13 @@ message SkillConvertUnitType { //convert one type to another type
 //==================PassiveSkill Skills: 2 kinds=====================================================
 //
 message SkillDodgeTrap {
-        optional SkillBase  baseInfo    = 1;
-		optional int32      trapLevel	= 2;
+        optional SkillBase	baseInfo    = 1;
+		optional int32		trapLevel	= 2;
+		optional ETrapType	trapType	= 3;
 };
 
 message SkillAntiAttack {
-        optional SkillBase  baseInfo        = 1;
+		optional SkillBase  baseInfo        = 1;
 		optional int32      probability 	= 2;
 		optional int32      antiAtkRatio	= 3;
 };

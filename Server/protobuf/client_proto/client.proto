@@ -52,9 +52,21 @@ message UnitInfo {
 	optional int32			saleValue		= 17;
 	optional int32			levelUpValue	= 18;
 };
-//=======================================================================//
+//=================================================================================================//
 
+//=========== Trap ====================================================================//
+message TrapInjuredValue {
+	optional int32		trapLevel		= 1;
+	optional float		trapValue		= 2;
+}
 
+message TrapInfo {
+	required uint32				trapID		= 1;
+	optional ETrapType			trapType	= 2;
+	optional TrapValueIndex		valueIndex	= 3;
+	repeated TrapInjuredValue	injuredInfo	= 4;
+	optional int32				effectType	= 5;
+}
 
 //============== Quest -  client used only=========================================================//
 message EnemyInfo {

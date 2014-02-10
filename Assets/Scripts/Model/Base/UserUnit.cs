@@ -100,19 +100,32 @@ public class UserUnitInfo : ProtobufDataBase {
 		return hv;
 	}
 
-	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
-		List<uint> copyCard 		= new List<uint> (card);
-		List<AttackInfo> returnInfo = new List<AttackInfo> ();
+	void InitSkill () {
 		UserUnit uu 				= DeserializeData<UserUnit> ();
 		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.id];
 		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
-		TempNormalSkill firstSkill	= GlobalData.tempNormalSkill [ui.skill1] as TempNormalSkill;
-		TempNormalSkill secondSkill = GlobalData.tempNormalSkill [ui.skill2] as TempNormalSkill;
-		if (normalSkill [0] == null) {
-			AddSkill(firstSkill,secondSkill);
+		TempNormalSkill firstSkill = null;
+		TempNormalSkill secondSkill = null;
+		if (ui.skill1 > -1) {
+			firstSkill	= GlobalData.tempNormalSkill [ui.skill1] as TempNormalSkill;	
 		}
+		if (ui.skill2 > -1) {
+			secondSkill = GlobalData.tempNormalSkill [ui.skill2] as TempNormalSkill;	
+		}
+		AddSkill(firstSkill,secondSkill);
+	}
+
+	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
+		List<uint> copyCard 		= new List<uint> (card);
+		List<AttackInfo> returnInfo = new List<AttackInfo> ();
+		if (normalSkill [0] == null) {
+			InitSkill();	
+		}
+		UserUnit uu 				= DeserializeData<UserUnit> ();
+		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.id];
+		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
 		for (int i = 0; i < normalSkill.Length; i++) {
-			TempNormalSkill tns = normalSkill[i];
+			TempNormalSkill tns 	= normalSkill[i];
 			tns.DisposeUseSkillID(ignorSkillID);
 			int count = tns.CalculateCard(copyCard);
 			for (int j = 0; j < count; j++) {
@@ -144,13 +157,23 @@ public class UserUnitInfo : ProtobufDataBase {
 	}
 
 	void AddSkill(TempNormalSkill firstSkill, TempNormalSkill secondSkill) {
-		if (secondSkill.GetActiveBlocks() > firstSkill.GetActiveBlocks()) { // second skill first excute
+		if (firstSkill == null && secondSkill != null) {
 			normalSkill[0] = secondSkill;
-			normalSkill[1] = firstSkill;
-		} 
-		else {	
+		}
+
+		if (firstSkill != null && secondSkill == null) {
 			normalSkill[0] = firstSkill;
-			normalSkill[1] = secondSkill;
+		}
+
+		if (firstSkill != null && secondSkill != null) {
+			if (secondSkill.GetActiveBlocks() > firstSkill.GetActiveBlocks()) { // second skill first excute
+				normalSkill[0] = secondSkill;
+				normalSkill[1] = firstSkill;
+			} 
+			else {
+				normalSkill[0] = firstSkill;
+				normalSkill[1] = secondSkill;
+			}
 		}
 	}
 
