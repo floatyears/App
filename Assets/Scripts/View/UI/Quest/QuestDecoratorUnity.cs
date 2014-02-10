@@ -79,17 +79,14 @@ public class QuestDecoratorUnity : UIComponentUnity {
 			storyScroller.AddItem(6, scrollerItem );
 			UITexture uiTexture = scrollerItem.GetComponent< UITexture >();
 			uiTexture.mainTexture = Resources.Load( path + textureName ) as Texture;
-			//Debug.Log( uiTexture.mainTexture.name);
 		}
 	}
 
 	private void AddEventQuestItem( string path) {
 		foreach (string textureName in TempConfig.eventQuestDic.Values) {
 			eventScroller.AddItem(5, scrollerItem );
-//			Debug.LogError( "" + textureName);
 			UITexture uiTexture = scrollerItem.GetComponent< UITexture >();
 			uiTexture.mainTexture = Resources.Load( path + textureName ) as Texture;
-			//Debug.Log( uiTexture.mainTexture.name);
 		}
 	}
 
@@ -108,33 +105,29 @@ public class QuestDecoratorUnity : UIComponentUnity {
 	}
 
 	private void InitStoryScrollArgs() {
-		storyScrollerArgsDic.Add( "parentTrans", 			storyWindow.transform       		);
-		storyScrollerArgsDic.Add( "scrollerScale", 			Vector3.one								);
-		storyScrollerArgsDic.Add( "scrollerLocalPos" ,	215*Vector3.up							);
-		storyScrollerArgsDic.Add( "position", 				Vector3.zero 								);
-		storyScrollerArgsDic.Add( "clipRange", 				new Vector4( 0, 0, 640, 200)			);
+		storyScrollerArgsDic.Add( "parentTrans", 			storyWindow.transform       	);
+		storyScrollerArgsDic.Add( "scrollerScale", 			Vector3.one				);
+		storyScrollerArgsDic.Add( "scrollerLocalPos" ,		215*Vector3.up				);
+		storyScrollerArgsDic.Add( "position", 				Vector3.zero 				);
+		storyScrollerArgsDic.Add( "clipRange", 				new Vector4( 0, 0, 640, 200)		);
 		storyScrollerArgsDic.Add( "gridArrange", 			UIGrid.Arrangement.Horizontal 	);
-		storyScrollerArgsDic.Add( "maxPerLine", 			0 												);
-		storyScrollerArgsDic.Add( "scrollBarPosition", 	new Vector3(-320,-120,0)			);
-		storyScrollerArgsDic.Add( "cellWidth", 				230 											);
-		storyScrollerArgsDic.Add( "cellHeight",				150 											);
-
-		//Debug.Log( "  storyScroller have finlished InitStoryScrollArgs() ");
+		storyScrollerArgsDic.Add( "maxPerLine", 			0 						);
+		storyScrollerArgsDic.Add( "scrollBarPosition", 		new Vector3(-320,-120,0)		);
+		storyScrollerArgsDic.Add( "cellWidth", 				230 						);
+		storyScrollerArgsDic.Add( "cellHeight",				150 						);
 	}
 
 	private void InitEventScrollArgs() {
-		eventScrollerArgsDic.Add( "parentTrans", 			eventWindow.transform       		);
-		eventScrollerArgsDic.Add( "scrollerScale", 			Vector3.one							);
-		eventScrollerArgsDic.Add( "scrollerLocalPos" ,	-140*Vector3.up							);
-		eventScrollerArgsDic.Add( "position", 				Vector3.zero 								);
-		eventScrollerArgsDic.Add( "clipRange", 			new Vector4( 0, 0, 640, 200)			);
+		eventScrollerArgsDic.Add( "parentTrans", 			eventWindow.transform       	);
+		eventScrollerArgsDic.Add( "scrollerScale", 			Vector3.one				);
+		eventScrollerArgsDic.Add( "scrollerLocalPos" ,		-140*Vector3.up				);
+		eventScrollerArgsDic.Add( "position", 				Vector3.zero 				);
+		eventScrollerArgsDic.Add( "clipRange", 			new Vector4( 0, 0, 640, 200)		);
 		eventScrollerArgsDic.Add( "gridArrange", 			UIGrid.Arrangement.Horizontal 	);
-		eventScrollerArgsDic.Add( "maxPerLine", 			0 												);
-		eventScrollerArgsDic.Add( "scrollBarPosition", 	new Vector3(-320,-120,0)			);
-		eventScrollerArgsDic.Add( "cellWidth", 				230 											);
-		eventScrollerArgsDic.Add( "cellHeight",				150 											);
-		
-		//Debug.Log( "  storyScroller have finlished InitStoryScrollArgs() ");
+		eventScrollerArgsDic.Add( "maxPerLine", 			0 						);
+		eventScrollerArgsDic.Add( "scrollBarPosition", 		new Vector3(-320,-120,0)		);
+		eventScrollerArgsDic.Add( "cellWidth", 				230 						);
+		eventScrollerArgsDic.Add( "cellHeight",				150 						);
 	}
 
 }
