@@ -19,7 +19,7 @@ public class ActiveChangeCardColor : ActiveSkill, IActiveSkillExcute {
 		DisposeCooling ();
 	}
 
-	public object Excute (int userUnitID, int atk = -1) {
+	public object Excute (uint userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;
 		}

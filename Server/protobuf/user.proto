@@ -69,23 +69,6 @@ enum EFriendState{
 	FRIENDHELPER	= 4; // friends allocated by system  
 };
 
-message FriendData {
-	optional uint32			userId				= 1;
-	optional EFriendState	friendState			= 2; 
-	optional uint32			friendStateUpdate 	= 3; // friend state updated time
-};
-
-message FriendInfo {
-	optional uint32			userId				= 1;
-	optional string 		userName			= 2;
-	optional int32			rank				= 3;
-	optional uint32			lastPlayTime		= 4;
-	optional EFriendState	friendState			= 5; // 
-	optional uint32			friendStateUpdate 	= 6; // friend state updated time
-	optional int32			friendPoint			= 7;
-	optional UserUnit		unit				= 8;
-};
-
 message LoginBonus {
 	optional int32		type					= 1;
 	optional int32		value					= 2;
@@ -144,9 +127,8 @@ message RspAuthUser {
 	optional int32			currentUnitParty	= 6;
 	optional uint32			serverTime			= 7;
 	optional LoginInfo		login				= 8;
-	repeated FriendInfo		friend				= 9;
-	repeated FriendInfo		helper				= 10;
-	repeated PresentInfo	present				= 11;	
+	optional FriendList		friends				= 9;
+	repeated PresentInfo	present				= 10;	
 };
 
 //-------------------------------------------------
@@ -161,9 +143,8 @@ message ReqLoginPack {
 message RspLoginPack {
 	optional ProtoHeader	header				= 1;
 	optional LoginInfo		login				= 2;
-	repeated FriendInfo		friend				= 3;
-	repeated FriendInfo		helper				= 4;
-	repeated PresentInfo	present				= 5;
+	optional FriendList		friends				= 3;
+	repeated PresentInfo	present				= 4;
 };
 
 //-------------------------------------------------

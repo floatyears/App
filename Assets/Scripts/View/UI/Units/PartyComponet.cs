@@ -54,7 +54,7 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 
 		unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as UnitPartyInfo;
 
-		Dictionary< int, int > temp = unitPartyInfo.GetPartyItem();
+		Dictionary< int, uint > temp = unitPartyInfo.GetPartyItem();
 		Dictionary< string, object > viewInfo = new Dictionary<string, object>();
 		Dictionary< int, UnitBaseInfo > avatarInfoDic = new Dictionary<int, UnitBaseInfo >();
 		int totalHP = 0;

@@ -1,4 +1,5 @@
 import public "skill.proto";
+import public "bbproto.proto";
 package bbproto;
 
 //=======================Unit - only used at client================================================//
@@ -54,46 +55,9 @@ message UnitInfo {
 };
 //=================================================================================================//
 
-//=========== Trap ====================================================================//
-message TrapInjuredValue {
-	optional int32		trapLevel		= 1;
-	optional float		trapValue		= 2;
-}
 
-message TrapInfo {
-	required uint32				trapID		= 1;
-	optional ETrapType			trapType	= 2;
-	optional TrapValueIndex		valueIndex	= 3;
-	repeated TrapInjuredValue	injuredInfo	= 4;
-	optional int32				effectType	= 5;
-}
 
-//============== Quest -  client used only=========================================================//
-message EnemyInfo {
-	required uint32		uniqueId		= 1;
-	required uint32		unitId			= 2;
-	optional EUnitType	type			= 3;
-	optional int32		hp				= 4;
-	optional int32		attack			= 5;
-	optional int32		defense			= 6;
-	optional int32		attackRound		= 7;//next 1, 2, 3
-	optional float		dropRate		= 8;
-	optional uint32		dropUnitId		= 9;
-};
-
-message QuestInfo {
-	required uint32		id				= 1; 
-	optional int32		state			= 2; // CLEAR or NEW
-	optional int32		no				= 3; // number: 1, 2, 3...
-	optional string		name			= 4; // quest name
-	optional string		story			= 5; // story description
-	optional int32		stamina 		= 6; // cost stamina
-	optional int32		floor			= 7;		
-	optional int32		rewardExp		= 8;
-	optional int32		rewardCoin		= 9;
-	repeated uint32		allUnitKind 	= 10; // pick-up enemy unit list
-	optional uint32		bossId			= 11; // boss unit id
-};
+//============== Quest -  client used only=========================================================/
 
 message StageInfo {
 	optional int32		version			= 1;

@@ -81,12 +81,12 @@ public class TempEnemy : ProtobufDataBase {
 
 	public void Reset() {
 		initBlood = GetInitBlood ();
-		initAttackRound = GetEnemyInfo ().attackRound;
+		initAttackRound = GetEnemyInfo ().nextAttack;
 	}
 
 	public void ResetAttakAround () {
 		isDeferAttackRound = false;
-		initAttackRound = GetEnemyInfo().attackRound;
+		initAttackRound = GetEnemyInfo().nextAttack;
 	}
 
 	public void Next () {
@@ -157,7 +157,7 @@ public class ConfigEnermy {
 		EnemyInfo ei = new EnemyInfo ();
 		ei.unitId = 1;
 		ei.attack = 10;
-		ei.attackRound = 1;
+		ei.nextAttack = 1;
 		ei.defense = 10;
 		ei.hp = 400;
 		ei.type = (EUnitType)1;
@@ -169,7 +169,7 @@ public class ConfigEnermy {
 		ei = new EnemyInfo ();
 		ei.unitId = 2;
 		ei.attack = 20;
-		ei.attackRound = 1;
+		ei.nextAttack = 1;
 		ei.defense = 20;
 		ei.hp = 1500;
 		ei.type = (EUnitType)2;
