@@ -18,48 +18,48 @@ public class ConfigUnitInfo {
 	
 	void GenerateUnitInfo () {
 		for (int i = 1; i < maxCount; i++) {
-			UnitInfo uiitem 	= new UnitInfo ();
-			uiitem.id 			= (uint)i;
+			UnitInfo uiitem 			= new UnitInfo ();
+			uiitem.id 				= (uint)i;
 			uiitem.name			= "unit_" + i;
-			uiitem.type 		= (EUnitType)i;
-			uiitem.skill1 		= (i - 1) * 2;
-			uiitem.skill2 		= (i - 1) * 2 + 1;
+			uiitem.type 			= (EUnitType)i;
+			uiitem.skill1 			= (i - 1) * 2;
+			uiitem.skill2 			= (i - 1) * 2 + 1;
 			for (int j = 0; j < 3; j++) {
-				BattlePower bp 	= new BattlePower ();
-				bp.attack 		= 10 + j * 10;
+				BattlePower bp 		= new BattlePower ();
+				bp.attack 			= 10 + j * 10;
 				//bp.defense 		= 1 + j * 10;
 				bp.hp 			= 100 + j * 10;
-				bp.level 		= j + 1;
+				bp.level 			= j + 1;
 				uiitem.power.Add(bp);
 			}
-			uiitem.rare 		= i;
-			uiitem.maxLevel 	= 10;
-			uiitem.expType 		= 1;
+			uiitem.rare 			= i;
+			uiitem.maxLevel 			= 10;
+			uiitem.expType 			= 1;
 			if(i == 1){
-				uiitem.leaderSkill = 47;
+				uiitem.leaderSkill 	= 47;
 			}
 			if(i == 5) {
-				uiitem.leaderSkill = 20;
+				uiitem.leaderSkill 	= 20;
 			}
-			uiitem.activeSkill = 46;
-			TempUnitInfo tui = new TempUnitInfo(uiitem);
+			uiitem.activeSkill 	 	= 46;
+			TempUnitInfo tui 		= new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
 	}
 
 	void GenerateUserUnit () {
 		for (int i = 1; i < maxCount; i++) {
-			UserUnit uu 		= new UserUnit ();
-			uu.uniqueId 		= i;
-			uu.id 				= (uint)i;
+			UserUnit uu 			= new UserUnit ();
+			uu.uniqueId 			= i;
+			uu.id 					= (uint)i;
 			uu.exp 				= 0;
-			uu.level 			= 1;
-			uu.addAttack 		= i;
-			uu.addDefence		= 0;
-			uu.addHp 			= i;
-			uu.limitbreakLv 	= 2;
+			uu.level 				= 1;
+			uu.addAttack 			= i;
+			uu.addDefence			= 0;
+			uu.addHp 				= i;
+			uu.limitbreakLv 			= 2;
 			uu.getTime 			= 0;
-			UserUnitInfo uui 	= new UserUnitInfo (uu);
+			UserUnitInfo uui 		= new UserUnitInfo (uu);
 			GlobalData.tempUserUnitInfo.Add (i, uui);
 		}
 
@@ -82,6 +82,10 @@ public class ConfigUnitInfo {
 		UnitPartyInfo upi = new UnitPartyInfo (up);
 
 		ModelManager.Instance.AddData (ModelEnum.UnitPartyInfo, upi);
+	}
+
+	void GenerateFriendList() {
+		//FriendInfo friendInfo = new FriendInfo();
 	}
 }
 
