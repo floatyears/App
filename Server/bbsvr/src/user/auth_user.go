@@ -9,13 +9,17 @@ import (
 	//"strconv"
 	"math/rand"
 	//"time"
+
+	proto "code.google.com/p/goprotobuf/proto"
 )
+
 import (
-	bbproto "../bbproto"
+	"../bbproto"
 	"../common"
 	"../const"
 	"../data"
-	proto "code.google.com/p/goprotobuf/proto"
+	"../friend"
+	"./usermanage"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -57,8 +61,16 @@ func (t AuthUser) GenerateSessionId(uuid *string) (sessionId string, err error) 
 	return sessionId, nil
 }
 
-func (t AuthUser) verifyParams(reqMsg proto.Message) (err error) {
+func (t AuthUser) verifyParams(reqMsg *bbproto.ReqAuthUser) (err error) {
 	//TODO: do some params validation
+	if reqMsg.Terminal.Uuid == nil && reqMsg.Header.UserId == nil {
+		return errors.New("ERROR:invalid input params")
+	}
+
+	if *reqMsg.Terminal.Uuid == "" && *reqMsg.Header.UserId <= 0 {
+		return errors.New("ERROR:invalid input params")
+	}
+
 	return nil
 }
 
@@ -91,9 +103,9 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 	var userdetail bbproto.UserInfoDetail
 	var isUserExists bool
 	if uid > 0 {
-		userdetail, isUserExists, err = GetUserInfo(uid)
+		userdetail, isUserExists, err = usermanage.GetUserInfo(uid)
 	} else {
-		userdetail, isUserExists, err = GetUserInfoByUuid(uuid)
+		userdetail, isUserExists, err = usermanage.GetUserInfoByUuid(uuid)
 	}
 
 	log.Printf("[TRACE] GetUserInfo(%v) ret isExists=%v userdetail: ['%v']  ",
@@ -104,7 +116,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		//TODO: assign Userdetail.* into rspMsg
 		rspMsg.User = userdetail.User
 		rspMsg.User.StaminaRecover = proto.Uint32(tNow + 600) //10 minutes
-		rspMsg.User.LoginTime = proto.Uint32(tNow)
+		//rspMsg.User.LoginTime = proto.Uint32(tNow)
 		log.Printf("read Userdetail ret err:%v, Userdetail: %+v", err, userdetail)
 
 		// get FriendInfo
@@ -117,7 +129,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			}
 
 			//get user's rank from user table
-			userdetail, isUserExists, err := GetUserInfo(uid)
+			userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
 			if err != nil || !isUserExists {
 				err := errors.New(fmt.Sprintf("ERROR: Invalid userId %v", uid))
 				return err
@@ -125,7 +137,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			log.Printf("[TRACE] getUser(%v) ret userdetail: %v", uid, userdetail)
 			rank := uint32(*userdetail.User.Rank)
 
-			friendsInfo, err := GetFriendInfo(db, uid, rank, true, true)
+			friendsInfo, err := friend.GetFriendInfo(db, uid, rank, true, true)
 			log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
 
 			//fill rspMsg
@@ -141,11 +153,16 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 			//TODO: call update in goroutine
 			UpdateLoginInfo(db, &userdetail)
+
+			rspMsg.Login = userdetail.Login
+
+			//TODO: get present
+			//rspMsg.Present = userdetail.Present
 		}
-	} else { //generate new user
+	} else { //create new user
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
 
-		newUserId, err := GetNewUserId()
+		newUserId, err := usermanage.GetNewUserId()
 		if err != nil {
 			return err
 		}
@@ -159,7 +176,6 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		rspMsg.User = &bbproto.UserInfo{
 			UserId:         &newUserId,
 			UserName:       &defaultName,
-			LoginTime:      &tNow,
 			Rank:           &rank,
 			Exp:            &exp,
 			StaminaNow:     &staminaNow,
@@ -171,7 +187,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		//log.Printf("[TRACE] rspMsg=%+v...", rspMsg)
 
 		//TODO:save userinfo to db through goroutine
-		AddNewUser(uuid, rspMsg.User)
+		usermanage.AddNewUser(uuid, rspMsg.User)
 		//zUserData, err := proto.Marshal(&userdetail)
 		//err = db.Set(uuid, zUserData)
 		//log.Printf("db.Set(%v) save new userinfo, return %v", uuid, err)

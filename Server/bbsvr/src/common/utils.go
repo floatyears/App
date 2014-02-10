@@ -2,6 +2,7 @@ package common
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"time"
@@ -62,6 +63,7 @@ func IsToday(t uint32) bool {
 	y1, m1, d1 := time.Unix(int64(t), 0).Date()
 	y2, m2, d2 := time.Now().UTC().Date()
 
+	log.Printf("[TRACE] IsToday() ->  lastTime: %v-%v-%v   today: %v-%v-%v (%v)", y1, m1, d1, y2, m2, d2, t)
 	if y1 == y2 && m1 == m2 && d1 == d2 { //is same day
 		return true
 	}

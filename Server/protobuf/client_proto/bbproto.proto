@@ -36,6 +36,66 @@ message ProtoHeader {
 
 //=====================================================
 
+//-------------------------------------------------
+message ReqGetFriend {
+	optional ProtoHeader	header				= 1;
+	optional bool			getFriend			= 4;
+	optional bool			getHelper			= 5;
+};
+
+message RspGetFriend {
+	optional ProtoHeader	header				= 1;
+	repeated FriendInfo		friend				= 3;
+	repeated FriendInfo		helper				= 4;
+};
+
+//-------------------------------------------------
+message ReqFindFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			friendUid			= 2;
+};
+
+message RspFindFriend {
+	optional ProtoHeader	header				= 1;
+	optional UserInfo		friend				= 2;
+};
+
+//-------------------------------------------------
+message ReqAddFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			friendUid			= 2;
+};
+
+message RspAddFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			result				= 2;
+};
+
+//-------------------------------------------------
+message ReqDelFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			friendUid			= 2;
+};
+
+message RspDelFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			result				= 2;
+};
+
+//-------------------------------------------------
+message ReqAcceptFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			friendUid			= 2;
+};
+
+message RspAcceptFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			result				= 2;
+};
+//-------------------------------------------------
+
+//=====================================================
+
 
 enum EQuestState {
 	QS_NEW		= 0;
@@ -133,15 +193,15 @@ message RspGetUserUnit {
 //=====================================================
 
 message UserInfo {
-	optional string	uuid				= 1;
-	optional uint32	userId				= 2;
-	optional string userName			= 3;
-	optional int32	rank				= 4;
-	optional int32	exp					= 5;
-	optional int32	staminaNow			= 6;
-	optional int32	staminaMax			= 7;
-	optional uint32	staminaRecover		= 8; //recover time
-	optional uint32	loginTime			= 9;
+	optional string		uuid				= 1;
+	optional uint32		userId				= 2;
+	optional string		userName			= 3;
+	optional int32		rank				= 4;
+	optional int32		exp					= 5;
+	optional int32		staminaNow			= 6;
+	optional int32		staminaMax			= 7;
+	optional uint32		staminaRecover		= 8; //recover time
+	optional UserUnit	unit				= 9; //leader unit	
 };
 
 message AccountInfo {
@@ -179,10 +239,9 @@ message UserInfoDetail {
 	optional UserInfo		user				= 1;
 	optional AccountInfo	account				= 2;
 	optional UserQuestInfo	quest				= 3;
-	optional UserUnit		unit				= 4; //leader unit
-	repeated UnitParty		partyList			= 5;
-	optional int32			currentParty		= 6;
-	optional LoginInfo		login				= 7;
+	repeated UnitParty		partyList			= 4;
+	optional int32			currentParty		= 5;
+	optional LoginInfo		login				= 6;
 };
 
 message TerminalInfo {
@@ -259,6 +318,7 @@ message RspGetUserInfo {
 	optional UserInfo		user				= 2;
 };
 
+//-------------------------------------------------
 message ReqAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional TerminalInfo	terminal			= 2;	
@@ -278,9 +338,9 @@ message RspAuthUser {
 	repeated PresentInfo	present				= 11;	
 };
 
+//-------------------------------------------------
 message ReqLoginPack {
 	optional ProtoHeader	header				= 1;
-	optional uint32			userId				= 2;
 	optional bool			getLogin			= 3;
 	optional bool			getFriend			= 4;
 	optional bool			getHelper			= 5;
@@ -295,6 +355,7 @@ message RspLoginPack {
 	repeated PresentInfo	present				= 5;
 };
 
+//-------------------------------------------------
 message ReqModifyUnitParty {
     repeated UnitParty      partys				= 1;
 };

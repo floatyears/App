@@ -16,7 +16,7 @@ import (
 )
 
 func UpdateLoginInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (err error) {
-	tNow := common.Now()
+	tNow := common.Now() //- 86400*1
 
 	if userdetail == nil || userdetail.Login == nil {
 		return errors.New("ERROR: invalid input param: userdetail.Login")
@@ -35,7 +35,7 @@ func UpdateLoginInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (err err
 			*userdetail.Login.LoginChain = 0
 		}
 	} else {
-		log.Printf("[TRACE] lastLoginTime is today.")
+		log.Printf("[TRACE] lastLoginTime(%v) is today.", *userdetail.Login.LastLoginTime)
 	}
 
 	//update last Login time

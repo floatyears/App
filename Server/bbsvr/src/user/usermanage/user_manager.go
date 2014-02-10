@@ -1,13 +1,13 @@
 // user_manger.go
-package user
+package usermanage
 
 import (
-	bbproto "../bbproto"
-	"../common"
+	bbproto "../../bbproto"
+	"../../common"
 	proto "code.google.com/p/goprotobuf/proto"
 
-	"../const"
-	"../data"
+	"../../const"
+	"../../data"
 	_ "fmt"
 	"log"
 )

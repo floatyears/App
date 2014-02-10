@@ -1,4 +1,4 @@
-package user
+package friend
 
 import (
 	"fmt"
@@ -9,6 +9,7 @@ import (
 	"errors"
 	//"time"
 )
+
 import (
 	bbproto "../bbproto"
 	"../common"
@@ -210,8 +211,8 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetFriend bool, isG
 			log.Printf("[FATAL] unexcepted error: user.UserId is nil. user:%v", user)
 			continue
 		}
-		log.Printf("[TRACE] userId: %v -> name:%v rank:%v LoginTime:%v",
-			*user.UserId, *user.UserName, *user.Rank, *user.LoginTime)
+		log.Printf("[TRACE] userId: %v -> name:%v rank:%v ",
+			*user.UserId, *user.UserName, *user.Rank)
 
 		uid = *user.UserId
 		friInfo, ok := friendsInfo[common.Utoa(uid)]
@@ -219,7 +220,7 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetFriend bool, isG
 			friInfo.Rank = user.Rank
 			friInfo.UserName = user.UserName
 			friInfo.LastPlayTime = userDetail.Login.LastPlayTime
-			friInfo.Unit = userDetail.Unit
+			friInfo.Unit = userDetail.User.Unit
 
 			friendsInfo[common.Utoa(uid)] = friInfo
 

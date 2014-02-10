@@ -24,6 +24,13 @@ const (
 	_PROTO_START_QUEST    = "/start_quest"
 	_PROTO_CLEAR_QUEST    = "/clear_quest"
 	_PROTO_GET_QUEST_INFO = "/get_quest_info"
+
+	//friend
+	_PROTO_GET_FRIEND    = "/get_friend"
+	_PROTO_ADD_FRIEND    = "/add_friend"
+	_PROTO_DEL_FRIEND    = "/del_friend"
+	_PROTO_ACCEPT_FRIEND = "/accept_friend"
+	_PROTO_FIND_FRIEND   = "/find_friend"
 )
 
 func safeHandler(fn http.HandlerFunc) http.HandlerFunc {
@@ -68,6 +75,13 @@ func main() {
 	/** user protocol **/
 	http.HandleFunc(_PROTO_LOGIN_PACK, safeHandler(user.LoginPackHandler))
 	http.HandleFunc(_PROTO_AUTH_USER, safeHandler(user.AuthUserHandler))
+
+	/** friend protocol **/
+	http.HandleFunc(_PROTO_GET_FRIEND, safeHandler(friend.GetFriendHandler))
+	http.HandleFunc(_PROTO_ADD_FRIEND, safeHandler(friend.AddFriendHandler))
+	http.HandleFunc(_PROTO_DEL_FRIEND, safeHandler(friend.DelFriendHandler))
+	http.HandleFunc(_PROTO_FIND_FRIEND, safeHandler(friend.FindFriendHandler))
+	http.HandleFunc(_PROTO_ACCEPT_FRIEND, safeHandler(friend.AcceptFriendHandler))
 
 	/** quest protocol **/
 	//http.HandleFunc(_PROTO_GET_QUEST_MAP, safeHandler(quest.GetQuestMapHandler))

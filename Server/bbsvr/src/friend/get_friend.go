@@ -1,4 +1,4 @@
-package user
+package friend
 
 import (
 	"fmt"
@@ -13,8 +13,7 @@ import (
 	//"../common"
 	"../const"
 	"../data"
-	"../friend"
-	"./usermanage"
+	"../user/usermanage"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
@@ -22,11 +21,11 @@ import (
 
 /////////////////////////////////////////////////////////////////////////////
 
-func LoginPackHandler(rsp http.ResponseWriter, req *http.Request) {
-	var reqMsg bbproto.ReqLoginPack
-	rspMsg := &bbproto.RspLoginPack{}
+func GetFriendHandler(rsp http.ResponseWriter, req *http.Request) {
+	var reqMsg bbproto.ReqGetFriend
+	rspMsg := &bbproto.RspGetFriend{}
 
-	handler := &LoginPack{}
+	handler := &GetFriend{}
 	err := handler.ParseInput(req, &reqMsg)
 	if err != nil {
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
@@ -49,13 +48,19 @@ func LoginPackHandler(rsp http.ResponseWriter, req *http.Request) {
 
 /////////////////////////////////////////////////////////////////////////////
 
-type LoginPack struct {
+type GetFriend struct {
 	bbproto.BaseProtoHandler
 }
 
-func (t LoginPack) verifyParams(reqMsg *bbproto.ReqLoginPack) (err error) {
+func (t GetFriend) GenerateSessionId(uuid *string) (sessionId string, err error) {
+	//TODO: makeSidFrom(*uuid, timeNow)
+	sessionId = "rcs7kga8pmvvlbtgbf90jnchmqbl9khn"
+	return sessionId, nil
+}
+
+func (t GetFriend) verifyParams(reqMsg *bbproto.ReqGetFriend) (err error) {
 	//TODO: input params validation
-	if reqMsg.GetFriend == nil || reqMsg.GetHelper == nil || reqMsg.GetLogin == nil || reqMsg.GetPresent == nil {
+	if reqMsg.Header.UserId == nil || reqMsg.GetFriend == nil || reqMsg.GetHelper == nil {
 		return errors.New("ERROR: params is invalid.")
 	}
 
@@ -66,18 +71,14 @@ func (t LoginPack) verifyParams(reqMsg *bbproto.ReqLoginPack) (err error) {
 	return nil
 }
 
-func (t LoginPack) FillResponseMsg(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack, rspErr error) (outbuffer []byte) {
+func (t GetFriend) FillResponseMsg(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.RspGetFriend, rspErr error) (outbuffer []byte) {
 	// fill protocol header
 	{
 		rspMsg.Header = reqMsg.Header //including the sessionId
-
 		log.Printf("req header:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
 	}
 
 	// fill custom protocol body
-	{
-
-	}
 
 	// serialize to bytes
 	outbuffer, err := proto.Marshal(rspMsg)
@@ -87,12 +88,11 @@ func (t LoginPack) FillResponseMsg(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto
 	return outbuffer
 }
 
-func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.RspLoginPack) (err error) {
+func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.RspGetFriend) (err error) {
+
 	uid := *reqMsg.Header.UserId
 	isGetFriend := *reqMsg.GetFriend
 	isGetHelper := *reqMsg.GetHelper
-	isGetLogin := *reqMsg.GetLogin
-	//isGetPresent := *reqMsg.GetPresent
 
 	db := &data.Data{}
 	err = db.Open(cs.TABLE_FRIEND)
@@ -102,7 +102,8 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 	}
 
 	rank := uint32(0)
-	if isGetHelper || isGetLogin {
+
+	if isGetHelper {
 		//get user's rank from user table
 		userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
 		if err != nil || !isUserExists {
@@ -111,17 +112,12 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 		}
 		log.Printf("[TRACE] getUser(%v) ret userdetail: %v", uid, userdetail)
 		rank = uint32(*userdetail.User.Rank)
-
-		//get LoginInfo
-		if isGetLogin {
-			rspMsg.Login = userdetail.Login
-		}
 	}
 
 	// get FriendInfo
 	if isGetFriend || isGetHelper {
 
-		friendsInfo, err := friend.GetFriendInfo(db, uid, rank, isGetFriend, isGetHelper)
+		friendsInfo, err := GetFriendInfo(db, uid, rank, isGetFriend, isGetHelper)
 		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
 
 		//fill rspMsg
@@ -140,8 +136,6 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 			}
 		}
 	}
-
-	//UpdateLastPlayTime(db, &userdetail)
 
 	return err
 }
