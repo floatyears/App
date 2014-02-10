@@ -146,7 +146,9 @@ message RspAuthUser {
 	optional LoginInfo		login				= 8;
 	repeated FriendInfo		friend				= 9;
 	repeated FriendInfo		helper				= 10;
-	repeated PresentInfo	present				= 11;	
+	repeated FriendInfo		friendIn			= 11;
+	repeated FriendInfo		friendOut			= 12;
+	repeated PresentInfo	present				= 13;	
 };
 
 //-------------------------------------------------
@@ -163,7 +165,9 @@ message RspLoginPack {
 	optional LoginInfo		login				= 2;
 	repeated FriendInfo		friend				= 3;
 	repeated FriendInfo		helper				= 4;
-	repeated PresentInfo	present				= 5;
+	repeated FriendInfo		friendIn			= 5;
+	repeated FriendInfo		friendOut			= 6;
+	repeated PresentInfo	present				= 7;
 };
 
 //-------------------------------------------------

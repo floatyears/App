@@ -1,4 +1,5 @@
 import public "skill.proto";
+import public "bbproto.proto";
 package bbproto;
 
 //=======================Unit - only used at client================================================//
@@ -54,20 +55,7 @@ message UnitInfo {
 };
 //=================================================================================================//
 
-//=========== Trap ====================================================================//
-message TrapInjuredValue {
-	optional int32		trapIndex		= 1;
-	optional int32		trapLevel		= 2;
-	optional float		trapValue		= 3;
-}
 
-message TrapInfo {
-	required uint32				trapID		= 1;
-	optional ETrapType			trapType	= 2;
-	optional TrapValueIndex		valueIndex	= 3;
-	repeated TrapInjuredValue	injuredInfo	= 4;
-	optional int32				effectType	= 5;
-}
 
 //============== Quest -  client used only=========================================================//
 message EnemyInfo {
@@ -77,9 +65,20 @@ message EnemyInfo {
 	optional int32		hp				= 4;
 	optional int32		attack			= 5;
 	optional int32		defense			= 6;
-	optional int32		attackRound		= 7;//next 1, 2, 3
-	optional float		dropRate		= 8;
-	optional uint32		dropUnitId		= 9;
+	optional int32		nextAttack		= 7; // next 1, 2, 3
+	optional uint32		dropUnitId		= 8;
+	optional uint32		dropUnitLevel	= 9;
+	optional float		dropRate		= 10;
+	optional float		plusRate		= 11; // "+" drop rate
+};
+
+message QuestGrid {
+	optional int32			repeatNum	= 1; // appear count
+	optional byte			star		= 2; // 1 - 6 star
+	optional int32			color		= 3; // star color
+	repeated EnemyInfo		enemys		= 4; // enemy list
+	optional int32			coins		= 5;
+	optional TrapInfo		trap		= 6;	
 };
 
 message QuestInfo {
@@ -93,7 +92,8 @@ message QuestInfo {
 	optional int32		rewardExp		= 8;
 	optional int32		rewardCoin		= 9;
 	repeated uint32		allUnitKind 	= 10; // pick-up enemy unit list
-	optional uint32		bossId			= 11; // boss unit id
+	repeated EnemyInfo	boss			= 11; // boss unit
+	repeated QuestGrid	gridInfo		= 12; // 25 grids
 };
 
 message StageInfo {

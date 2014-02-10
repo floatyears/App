@@ -7,14 +7,16 @@ package bbproto;
 //-------------------------------------------------
 message ReqGetFriend {
 	optional ProtoHeader	header				= 1;
-	optional bool			getFriend			= 4;
-	optional bool			getHelper			= 5;
+	optional bool			getFriend			= 2;
+	optional bool			getHelper			= 3;
 };
 
 message RspGetFriend {
 	optional ProtoHeader	header				= 1;
-	repeated FriendInfo		friend				= 3;
-	repeated FriendInfo		helper				= 4;
+	repeated FriendInfo		friend				= 2;
+	repeated FriendInfo		helper				= 3;
+	repeated FriendInfo		friendIn			= 4;
+	repeated FriendInfo		friendOut			= 5;	
 };
 
 //-------------------------------------------------
