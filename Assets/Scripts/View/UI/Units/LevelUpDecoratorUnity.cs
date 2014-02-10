@@ -263,7 +263,6 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 	public void Callback(object data){}
 
 	private void LevelUp(GameObject go){
-		Debug.LogError("Level Up Logic Here!!!!");
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 	}
 

@@ -62,7 +62,9 @@ public class UIConfig
 	public const string evolveWindowName = "EvolveWindow";
 	public const string questSelectWindowName = "QuestSelectWindow";
 	public const string friendSelectWindowName = "FriendSelectWindow";
-
+	public const string friendListPanelName = "FriendListPanel";
+	public const string userIDWindowName = "UserIDWindow";
+	public const string informationWindowName = "InformationWindow";
 	public const string unitDetailPanelName = "UnitDetailPanel";
 
 	public const float playerInfoBox_X = 160f;

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class UIManager {
@@ -209,7 +209,7 @@ public class UIManager {
 			break;
 			
 		case SceneEnum.YourID:
-			temp = new YourIDDecorator( sEnum );
+			temp = new UserIDDecorator( sEnum );
 			break;
 
 		case SceneEnum.UnitDetail:
