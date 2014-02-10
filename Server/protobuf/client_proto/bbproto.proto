@@ -43,12 +43,33 @@ message ReqGetFriend {
 	optional bool			getHelper			= 3;
 };
 
+message FriendData {
+	optional uint32			userId				= 1;
+	optional EFriendState	friendState			= 2; 
+	optional uint32			friendStateUpdate 	= 3; // friend state updated time
+};
+
+message FriendInfo {
+	optional uint32			userId				= 1;
+	optional string 		userName			= 2;
+	optional int32			rank				= 3;
+	optional uint32			lastPlayTime		= 4;
+	optional EFriendState	friendState			= 5; // 
+	optional uint32			friendStateUpdate 	= 6; // friend state updated time
+	optional int32			friendPoint			= 7;
+	optional UserUnit		unit				= 8;
+};
+
+message FriendList {
+	repeated FriendInfo		friend				= 1;
+	repeated FriendInfo		helper				= 2;
+	repeated FriendInfo		friendIn			= 3;
+	repeated FriendInfo		friendOut			= 4;
+};
+
 message RspGetFriend {
 	optional ProtoHeader	header				= 1;
-	repeated FriendInfo		friend				= 2;
-	repeated FriendInfo		helper				= 3;
-	repeated FriendInfo		friendIn			= 4;
-	repeated FriendInfo		friendOut			= 5;	
+	optional FriendList		friends				= 2;
 };
 
 //-------------------------------------------------
@@ -331,23 +352,6 @@ enum EFriendState{
 	FRIENDHELPER	= 4; // friends allocated by system  
 };
 
-message FriendData {
-	optional uint32			userId				= 1;
-	optional EFriendState	friendState			= 2; 
-	optional uint32			friendStateUpdate 	= 3; // friend state updated time
-};
-
-message FriendInfo {
-	optional uint32			userId				= 1;
-	optional string 		userName			= 2;
-	optional int32			rank				= 3;
-	optional uint32			lastPlayTime		= 4;
-	optional EFriendState	friendState			= 5; // 
-	optional uint32			friendStateUpdate 	= 6; // friend state updated time
-	optional int32			friendPoint			= 7;
-	optional UserUnit		unit				= 8;
-};
-
 message LoginBonus {
 	optional int32		type					= 1;
 	optional int32		value					= 2;
@@ -406,11 +410,8 @@ message RspAuthUser {
 	optional int32			currentUnitParty	= 6;
 	optional uint32			serverTime			= 7;
 	optional LoginInfo		login				= 8;
-	repeated FriendInfo		friend				= 9;
-	repeated FriendInfo		helper				= 10;
-	repeated FriendInfo		friendIn			= 11;
-	repeated FriendInfo		friendOut			= 12;
-	repeated PresentInfo	present				= 13;	
+	optional FriendList		friends				= 9;
+	repeated PresentInfo	present				= 10;	
 };
 
 //-------------------------------------------------
@@ -425,11 +426,8 @@ message ReqLoginPack {
 message RspLoginPack {
 	optional ProtoHeader	header				= 1;
 	optional LoginInfo		login				= 2;
-	repeated FriendInfo		friend				= 3;
-	repeated FriendInfo		helper				= 4;
-	repeated FriendInfo		friendIn			= 5;
-	repeated FriendInfo		friendOut			= 6;
-	repeated PresentInfo	present				= 7;
+	optional FriendList		friends				= 3;
+	repeated PresentInfo	present				= 4;
 };
 
 //-------------------------------------------------

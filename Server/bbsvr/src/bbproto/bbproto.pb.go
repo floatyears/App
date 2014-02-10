@@ -316,13 +316,154 @@ func (m *ReqGetFriend) GetGetHelper() bool {
 	return false
 }
 
-type RspGetFriend struct {
-	Header           *ProtoHeader  `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	Friend           []*FriendInfo `protobuf:"bytes,2,rep,name=friend" json:"friend,omitempty"`
-	Helper           []*FriendInfo `protobuf:"bytes,3,rep,name=helper" json:"helper,omitempty"`
-	FriendIn         []*FriendInfo `protobuf:"bytes,4,rep,name=friendIn" json:"friendIn,omitempty"`
-	FriendOut        []*FriendInfo `protobuf:"bytes,5,rep,name=friendOut" json:"friendOut,omitempty"`
+type FriendData struct {
+	UserId            *uint32       `protobuf:"varint,1,opt,name=userId" json:"userId,omitempty"`
+	FriendState       *EFriendState `protobuf:"varint,2,opt,name=friendState,enum=bbproto.EFriendState" json:"friendState,omitempty"`
+	FriendStateUpdate *uint32       `protobuf:"varint,3,opt,name=friendStateUpdate" json:"friendStateUpdate,omitempty"`
+	XXX_unrecognized  []byte        `json:"-"`
+}
+
+func (m *FriendData) Reset()         { *m = FriendData{} }
+func (m *FriendData) String() string { return proto.CompactTextString(m) }
+func (*FriendData) ProtoMessage()    {}
+
+func (m *FriendData) GetUserId() uint32 {
+	if m != nil && m.UserId != nil {
+		return *m.UserId
+	}
+	return 0
+}
+
+func (m *FriendData) GetFriendState() EFriendState {
+	if m != nil && m.FriendState != nil {
+		return *m.FriendState
+	}
+	return EFriendState_ISFRIEND
+}
+
+func (m *FriendData) GetFriendStateUpdate() uint32 {
+	if m != nil && m.FriendStateUpdate != nil {
+		return *m.FriendStateUpdate
+	}
+	return 0
+}
+
+type FriendInfo struct {
+	UserId            *uint32       `protobuf:"varint,1,opt,name=userId" json:"userId,omitempty"`
+	UserName          *string       `protobuf:"bytes,2,opt,name=userName" json:"userName,omitempty"`
+	Rank              *int32        `protobuf:"varint,3,opt,name=rank" json:"rank,omitempty"`
+	LastPlayTime      *uint32       `protobuf:"varint,4,opt,name=lastPlayTime" json:"lastPlayTime,omitempty"`
+	FriendState       *EFriendState `protobuf:"varint,5,opt,name=friendState,enum=bbproto.EFriendState" json:"friendState,omitempty"`
+	FriendStateUpdate *uint32       `protobuf:"varint,6,opt,name=friendStateUpdate" json:"friendStateUpdate,omitempty"`
+	FriendPoint       *int32        `protobuf:"varint,7,opt,name=friendPoint" json:"friendPoint,omitempty"`
+	Unit              *UserUnit     `protobuf:"bytes,8,opt,name=unit" json:"unit,omitempty"`
+	XXX_unrecognized  []byte        `json:"-"`
+}
+
+func (m *FriendInfo) Reset()         { *m = FriendInfo{} }
+func (m *FriendInfo) String() string { return proto.CompactTextString(m) }
+func (*FriendInfo) ProtoMessage()    {}
+
+func (m *FriendInfo) GetUserId() uint32 {
+	if m != nil && m.UserId != nil {
+		return *m.UserId
+	}
+	return 0
+}
+
+func (m *FriendInfo) GetUserName() string {
+	if m != nil && m.UserName != nil {
+		return *m.UserName
+	}
+	return ""
+}
+
+func (m *FriendInfo) GetRank() int32 {
+	if m != nil && m.Rank != nil {
+		return *m.Rank
+	}
+	return 0
+}
+
+func (m *FriendInfo) GetLastPlayTime() uint32 {
+	if m != nil && m.LastPlayTime != nil {
+		return *m.LastPlayTime
+	}
+	return 0
+}
+
+func (m *FriendInfo) GetFriendState() EFriendState {
+	if m != nil && m.FriendState != nil {
+		return *m.FriendState
+	}
+	return EFriendState_ISFRIEND
+}
+
+func (m *FriendInfo) GetFriendStateUpdate() uint32 {
+	if m != nil && m.FriendStateUpdate != nil {
+		return *m.FriendStateUpdate
+	}
+	return 0
+}
+
+func (m *FriendInfo) GetFriendPoint() int32 {
+	if m != nil && m.FriendPoint != nil {
+		return *m.FriendPoint
+	}
+	return 0
+}
+
+func (m *FriendInfo) GetUnit() *UserUnit {
+	if m != nil {
+		return m.Unit
+	}
+	return nil
+}
+
+type FriendList struct {
+	Friend           []*FriendInfo `protobuf:"bytes,1,rep,name=friend" json:"friend,omitempty"`
+	Helper           []*FriendInfo `protobuf:"bytes,2,rep,name=helper" json:"helper,omitempty"`
+	FriendIn         []*FriendInfo `protobuf:"bytes,3,rep,name=friendIn" json:"friendIn,omitempty"`
+	FriendOut        []*FriendInfo `protobuf:"bytes,4,rep,name=friendOut" json:"friendOut,omitempty"`
 	XXX_unrecognized []byte        `json:"-"`
+}
+
+func (m *FriendList) Reset()         { *m = FriendList{} }
+func (m *FriendList) String() string { return proto.CompactTextString(m) }
+func (*FriendList) ProtoMessage()    {}
+
+func (m *FriendList) GetFriend() []*FriendInfo {
+	if m != nil {
+		return m.Friend
+	}
+	return nil
+}
+
+func (m *FriendList) GetHelper() []*FriendInfo {
+	if m != nil {
+		return m.Helper
+	}
+	return nil
+}
+
+func (m *FriendList) GetFriendIn() []*FriendInfo {
+	if m != nil {
+		return m.FriendIn
+	}
+	return nil
+}
+
+func (m *FriendList) GetFriendOut() []*FriendInfo {
+	if m != nil {
+		return m.FriendOut
+	}
+	return nil
+}
+
+type RspGetFriend struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Friends          *FriendList  `protobuf:"bytes,2,opt,name=friends" json:"friends,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
 }
 
 func (m *RspGetFriend) Reset()         { *m = RspGetFriend{} }
@@ -336,30 +477,9 @@ func (m *RspGetFriend) GetHeader() *ProtoHeader {
 	return nil
 }
 
-func (m *RspGetFriend) GetFriend() []*FriendInfo {
+func (m *RspGetFriend) GetFriends() *FriendList {
 	if m != nil {
-		return m.Friend
-	}
-	return nil
-}
-
-func (m *RspGetFriend) GetHelper() []*FriendInfo {
-	if m != nil {
-		return m.Helper
-	}
-	return nil
-}
-
-func (m *RspGetFriend) GetFriendIn() []*FriendInfo {
-	if m != nil {
-		return m.FriendIn
-	}
-	return nil
-}
-
-func (m *RspGetFriend) GetFriendOut() []*FriendInfo {
-	if m != nil {
-		return m.FriendOut
+		return m.Friends
 	}
 	return nil
 }
@@ -1778,110 +1898,6 @@ func (m *TerminalInfo) GetOs() string {
 	return ""
 }
 
-type FriendData struct {
-	UserId            *uint32       `protobuf:"varint,1,opt,name=userId" json:"userId,omitempty"`
-	FriendState       *EFriendState `protobuf:"varint,2,opt,name=friendState,enum=bbproto.EFriendState" json:"friendState,omitempty"`
-	FriendStateUpdate *uint32       `protobuf:"varint,3,opt,name=friendStateUpdate" json:"friendStateUpdate,omitempty"`
-	XXX_unrecognized  []byte        `json:"-"`
-}
-
-func (m *FriendData) Reset()         { *m = FriendData{} }
-func (m *FriendData) String() string { return proto.CompactTextString(m) }
-func (*FriendData) ProtoMessage()    {}
-
-func (m *FriendData) GetUserId() uint32 {
-	if m != nil && m.UserId != nil {
-		return *m.UserId
-	}
-	return 0
-}
-
-func (m *FriendData) GetFriendState() EFriendState {
-	if m != nil && m.FriendState != nil {
-		return *m.FriendState
-	}
-	return EFriendState_ISFRIEND
-}
-
-func (m *FriendData) GetFriendStateUpdate() uint32 {
-	if m != nil && m.FriendStateUpdate != nil {
-		return *m.FriendStateUpdate
-	}
-	return 0
-}
-
-type FriendInfo struct {
-	UserId            *uint32       `protobuf:"varint,1,opt,name=userId" json:"userId,omitempty"`
-	UserName          *string       `protobuf:"bytes,2,opt,name=userName" json:"userName,omitempty"`
-	Rank              *int32        `protobuf:"varint,3,opt,name=rank" json:"rank,omitempty"`
-	LastPlayTime      *uint32       `protobuf:"varint,4,opt,name=lastPlayTime" json:"lastPlayTime,omitempty"`
-	FriendState       *EFriendState `protobuf:"varint,5,opt,name=friendState,enum=bbproto.EFriendState" json:"friendState,omitempty"`
-	FriendStateUpdate *uint32       `protobuf:"varint,6,opt,name=friendStateUpdate" json:"friendStateUpdate,omitempty"`
-	FriendPoint       *int32        `protobuf:"varint,7,opt,name=friendPoint" json:"friendPoint,omitempty"`
-	Unit              *UserUnit     `protobuf:"bytes,8,opt,name=unit" json:"unit,omitempty"`
-	XXX_unrecognized  []byte        `json:"-"`
-}
-
-func (m *FriendInfo) Reset()         { *m = FriendInfo{} }
-func (m *FriendInfo) String() string { return proto.CompactTextString(m) }
-func (*FriendInfo) ProtoMessage()    {}
-
-func (m *FriendInfo) GetUserId() uint32 {
-	if m != nil && m.UserId != nil {
-		return *m.UserId
-	}
-	return 0
-}
-
-func (m *FriendInfo) GetUserName() string {
-	if m != nil && m.UserName != nil {
-		return *m.UserName
-	}
-	return ""
-}
-
-func (m *FriendInfo) GetRank() int32 {
-	if m != nil && m.Rank != nil {
-		return *m.Rank
-	}
-	return 0
-}
-
-func (m *FriendInfo) GetLastPlayTime() uint32 {
-	if m != nil && m.LastPlayTime != nil {
-		return *m.LastPlayTime
-	}
-	return 0
-}
-
-func (m *FriendInfo) GetFriendState() EFriendState {
-	if m != nil && m.FriendState != nil {
-		return *m.FriendState
-	}
-	return EFriendState_ISFRIEND
-}
-
-func (m *FriendInfo) GetFriendStateUpdate() uint32 {
-	if m != nil && m.FriendStateUpdate != nil {
-		return *m.FriendStateUpdate
-	}
-	return 0
-}
-
-func (m *FriendInfo) GetFriendPoint() int32 {
-	if m != nil && m.FriendPoint != nil {
-		return *m.FriendPoint
-	}
-	return 0
-}
-
-func (m *FriendInfo) GetUnit() *UserUnit {
-	if m != nil {
-		return m.Unit
-	}
-	return nil
-}
-
 type LoginBonus struct {
 	Type             *int32 `protobuf:"varint,1,opt,name=type" json:"type,omitempty"`
 	Value            *int32 `protobuf:"varint,2,opt,name=value" json:"value,omitempty"`
@@ -2156,11 +2172,8 @@ type RspAuthUser struct {
 	CurrentUnitParty *int32         `protobuf:"varint,6,opt,name=currentUnitParty" json:"currentUnitParty,omitempty"`
 	ServerTime       *uint32        `protobuf:"varint,7,opt,name=serverTime" json:"serverTime,omitempty"`
 	Login            *LoginInfo     `protobuf:"bytes,8,opt,name=login" json:"login,omitempty"`
-	Friend           []*FriendInfo  `protobuf:"bytes,9,rep,name=friend" json:"friend,omitempty"`
-	Helper           []*FriendInfo  `protobuf:"bytes,10,rep,name=helper" json:"helper,omitempty"`
-	FriendIn         []*FriendInfo  `protobuf:"bytes,11,rep,name=friendIn" json:"friendIn,omitempty"`
-	FriendOut        []*FriendInfo  `protobuf:"bytes,12,rep,name=friendOut" json:"friendOut,omitempty"`
-	Present          []*PresentInfo `protobuf:"bytes,13,rep,name=present" json:"present,omitempty"`
+	Friends          *FriendList    `protobuf:"bytes,9,opt,name=friends" json:"friends,omitempty"`
+	Present          []*PresentInfo `protobuf:"bytes,10,rep,name=present" json:"present,omitempty"`
 	XXX_unrecognized []byte         `json:"-"`
 }
 
@@ -2224,30 +2237,9 @@ func (m *RspAuthUser) GetLogin() *LoginInfo {
 	return nil
 }
 
-func (m *RspAuthUser) GetFriend() []*FriendInfo {
+func (m *RspAuthUser) GetFriends() *FriendList {
 	if m != nil {
-		return m.Friend
-	}
-	return nil
-}
-
-func (m *RspAuthUser) GetHelper() []*FriendInfo {
-	if m != nil {
-		return m.Helper
-	}
-	return nil
-}
-
-func (m *RspAuthUser) GetFriendIn() []*FriendInfo {
-	if m != nil {
-		return m.FriendIn
-	}
-	return nil
-}
-
-func (m *RspAuthUser) GetFriendOut() []*FriendInfo {
-	if m != nil {
-		return m.FriendOut
+		return m.Friends
 	}
 	return nil
 }
@@ -2311,11 +2303,8 @@ func (m *ReqLoginPack) GetGetPresent() bool {
 type RspLoginPack struct {
 	Header           *ProtoHeader   `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	Login            *LoginInfo     `protobuf:"bytes,2,opt,name=login" json:"login,omitempty"`
-	Friend           []*FriendInfo  `protobuf:"bytes,3,rep,name=friend" json:"friend,omitempty"`
-	Helper           []*FriendInfo  `protobuf:"bytes,4,rep,name=helper" json:"helper,omitempty"`
-	FriendIn         []*FriendInfo  `protobuf:"bytes,5,rep,name=friendIn" json:"friendIn,omitempty"`
-	FriendOut        []*FriendInfo  `protobuf:"bytes,6,rep,name=friendOut" json:"friendOut,omitempty"`
-	Present          []*PresentInfo `protobuf:"bytes,7,rep,name=present" json:"present,omitempty"`
+	Friends          *FriendList    `protobuf:"bytes,3,opt,name=friends" json:"friends,omitempty"`
+	Present          []*PresentInfo `protobuf:"bytes,4,rep,name=present" json:"present,omitempty"`
 	XXX_unrecognized []byte         `json:"-"`
 }
 
@@ -2337,30 +2326,9 @@ func (m *RspLoginPack) GetLogin() *LoginInfo {
 	return nil
 }
 
-func (m *RspLoginPack) GetFriend() []*FriendInfo {
+func (m *RspLoginPack) GetFriends() *FriendList {
 	if m != nil {
-		return m.Friend
-	}
-	return nil
-}
-
-func (m *RspLoginPack) GetHelper() []*FriendInfo {
-	if m != nil {
-		return m.Helper
-	}
-	return nil
-}
-
-func (m *RspLoginPack) GetFriendIn() []*FriendInfo {
-	if m != nil {
-		return m.FriendIn
-	}
-	return nil
-}
-
-func (m *RspLoginPack) GetFriendOut() []*FriendInfo {
-	if m != nil {
-		return m.FriendOut
+		return m.Friends
 	}
 	return nil
 }

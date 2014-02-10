@@ -11,12 +11,33 @@ message ReqGetFriend {
 	optional bool			getHelper			= 3;
 };
 
+message FriendData {
+	optional uint32			userId				= 1;
+	optional EFriendState	friendState			= 2; 
+	optional uint32			friendStateUpdate 	= 3; // friend state updated time
+};
+
+message FriendInfo {
+	optional uint32			userId				= 1;
+	optional string 		userName			= 2;
+	optional int32			rank				= 3;
+	optional uint32			lastPlayTime		= 4;
+	optional EFriendState	friendState			= 5; // 
+	optional uint32			friendStateUpdate 	= 6; // friend state updated time
+	optional int32			friendPoint			= 7;
+	optional UserUnit		unit				= 8;
+};
+
+message FriendList {
+	repeated FriendInfo		friend				= 1;
+	repeated FriendInfo		helper				= 2;
+	repeated FriendInfo		friendIn			= 3;
+	repeated FriendInfo		friendOut			= 4;
+};
+
 message RspGetFriend {
 	optional ProtoHeader	header				= 1;
-	repeated FriendInfo		friend				= 2;
-	repeated FriendInfo		helper				= 3;
-	repeated FriendInfo		friendIn			= 4;
-	repeated FriendInfo		friendOut			= 5;	
+	optional FriendList		friends				= 2;
 };
 
 //-------------------------------------------------
