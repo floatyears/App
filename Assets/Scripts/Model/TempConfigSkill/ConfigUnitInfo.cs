@@ -36,7 +36,7 @@ public class ConfigUnitInfo {
 			uiitem.maxLevel 	= 10;
 			uiitem.expType 		= 1;
 			if(i == 1){
-				uiitem.leaderSkill = 19;
+				uiitem.leaderSkill = 47;
 			}
 			if(i == 5) {
 				uiitem.leaderSkill = 20;
@@ -185,10 +185,8 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeadSkill {
 					tempAttack.Add(recoverHp);
 				}
 			}
-
 			tempUnitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
 			tempAttack.AddRange(tempUnitInfo.CaculateAttack (skillUtility.haveCard, skillUtility.alreadyUseSkill));
-
 			if (tempAttack.Count > 0) {
 				for (int j = 0; j < tempAttack.Count; j++) {
 					AttackInfo ai 			= tempAttack [j];

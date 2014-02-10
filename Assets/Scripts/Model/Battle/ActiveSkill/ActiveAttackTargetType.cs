@@ -24,6 +24,7 @@ public class ActiveAttackTargetType : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;
 		}
+		InitCooling ();
 		SkillTargetTypeAttack stta = DeserializeData<SkillTargetTypeAttack> ();
 		AttackTargetType att = new AttackTargetType ();
 		AttackInfo ai = new AttackInfo ();

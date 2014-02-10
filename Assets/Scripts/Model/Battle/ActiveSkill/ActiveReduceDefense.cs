@@ -25,6 +25,7 @@ public class ActiveReduceDefense : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;	
 		}
+		InitCooling ();
 //		Debug.LogError("ActiveReduceDefense excute ");
 		SkillReduceDefence srd = DeserializeData<SkillReduceDefence> ();
 		tc = new TClass<int, int, float> ();

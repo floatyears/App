@@ -25,6 +25,7 @@ public class RecoverSP : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;	
 		}
+		InitCooling ();
 		SkillRecoverSP srs = DeserializeData<SkillRecoverSP> ();
 		int step = (int)srs.value;
 //		Debug.LogError ("step : " + step);

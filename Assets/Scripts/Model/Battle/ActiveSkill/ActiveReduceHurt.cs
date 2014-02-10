@@ -24,7 +24,7 @@ public class ActiveReduceHurt : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;
 		}
-
+		InitCooling ();
 		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
 		ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;

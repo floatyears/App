@@ -24,7 +24,7 @@ public class ActiveDeferAttackRound : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;	
 		}
-
+		InitCooling ();
 		SkillDeferAttackRound sdar = DeserializeData<SkillDeferAttackRound> ();
 		int roundValue = System.Convert.ToInt32 (sdar.value);
 		MsgCenter.Instance.Invoke(CommandEnum.DeferAttackRound, roundValue);

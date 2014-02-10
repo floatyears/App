@@ -24,7 +24,7 @@ public class SkillPoisonAttack : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;
 		}
-
+		InitCooling ();
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 
 		SkillPoison sp = DeserializeData<SkillPoison>();

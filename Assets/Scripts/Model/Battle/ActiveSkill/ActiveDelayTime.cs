@@ -25,6 +25,7 @@ public class ActiveDelayTime : ActiveSkill, IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;
 		}
+		InitCooling ();
 	 	sdt = DeserializeData<SkillDelayTime> ();
 		MsgCenter.Instance.Invoke (CommandEnum.DelayTime, sdt.value);
 		return null;

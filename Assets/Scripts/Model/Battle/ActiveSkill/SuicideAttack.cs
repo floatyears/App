@@ -6,6 +6,7 @@ public class SuicideAttack : ActiveSkill, IActiveSkillExcute {
 	private int blood = 0;
 	public SuicideAttack (object instance) : base(instance) {
 		skillBase = DeserializeData<SkillSuicideAttack> ().baseInfo;	
+		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -34,7 +35,7 @@ public class SuicideAttack : ActiveSkill, IActiveSkillExcute {
 		if (blood <= 1) {
 			return null;		
 		}
-
+		InitCooling ();
 		SkillSuicideAttack ssa = DeserializeData<SkillSuicideAttack> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;

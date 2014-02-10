@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, ILeaderSkillSwitchCard,ILeaderSkillRecoverHP {
+public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, ILeaderSkillSwitchCard,ILeaderSkillRecoverHP, ILeaderSkillMultipleAttack {
 	ILeadSkill leadSkill;
 	List<int> RemoveSkill = new List<int> ();
 
@@ -149,6 +149,19 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		return blood;
 	}
 
-
+	public float MultipleAttack (List<AttackInfo> attackInfo) {
+		if (leadSkill.LeadSkill.Count == 0) {
+			return 1f;
+		}
+		float multipe = 0f;
+		foreach (var item in leadSkill.LeadSkill) {
+			LeaderSkillMultipleAttack trhp = item.Value as LeaderSkillMultipleAttack;
+			if(trhp == null) {
+				continue;
+			}
+			multipe += trhp.MultipeAttack(attackInfo);
+		}
+		return multipe;
+	}
 }
 
