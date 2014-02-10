@@ -56,8 +56,9 @@ message UnitInfo {
 
 //=========== Trap ====================================================================//
 message TrapInjuredValue {
-	optional int32		trapLevel		= 1;
-	optional float		trapValue		= 2;
+	optional int32		trapIndex		= 1;
+	optional int32		trapLevel		= 2;
+	optional float		trapValue		= 3;
 }
 
 message TrapInfo {
