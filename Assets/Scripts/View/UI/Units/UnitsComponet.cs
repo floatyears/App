@@ -54,7 +54,7 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 		if( partyID == 1 )
 		{
 			unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as UnitPartyInfo;
-			Dictionary< int, int > temp = unitPartyInfo.GetPartyItem();
+			Dictionary< int, uint > temp = unitPartyInfo.GetPartyItem();
 			Dictionary< string, object > viewInfo = new Dictionary<string, object>();
 			Dictionary< int, UnitBaseInfo > avatarInfoDic = new Dictionary<int, UnitBaseInfo >();
 

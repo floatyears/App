@@ -10,6 +10,7 @@ public class ConfigUnitInfo {
 		GenerateUserUnit ();
 
 		GenerateUserUnitParty ();
+
 	}
 	
 	private const int maxCount = 6;
@@ -18,48 +19,48 @@ public class ConfigUnitInfo {
 	
 	void GenerateUnitInfo () {
 		for (int i = 1; i < maxCount; i++) {
-			UnitInfo uiitem 			= new UnitInfo ();
-			uiitem.id 				= (uint)i;
+			UnitInfo uiitem 	= new UnitInfo ();
+			uiitem.id 			= (uint)i;
 			uiitem.name			= "unit_" + i;
-			uiitem.type 			= (EUnitType)i;
-			uiitem.skill1 			= (i - 1) * 2;
-			uiitem.skill2 			= (i - 1) * 2 + 1;
+			uiitem.type 		= (EUnitType)i;
+			uiitem.skill1 		= (i - 1) * 2;
+			uiitem.skill2 		= (i - 1) * 2 + 1;
 			for (int j = 0; j < 3; j++) {
-				BattlePower bp 		= new BattlePower ();
-				bp.attack 			= 10 + j * 10;
+				BattlePower bp 	= new BattlePower ();
+				bp.attack 		= 10 + j * 10;
 				//bp.defense 		= 1 + j * 10;
 				bp.hp 			= 100 + j * 10;
-				bp.level 			= j + 1;
+				bp.level 		= j + 1;
 				uiitem.power.Add(bp);
 			}
-			uiitem.rare 			= i;
-			uiitem.maxLevel 			= 10;
-			uiitem.expType 			= 1;
+			uiitem.rare 		= i;
+			uiitem.maxLevel 	= 10;
+			uiitem.expType 		= 1;
 			if(i == 1){
-				uiitem.leaderSkill 	= 47;
+				uiitem.leaderSkill = 47;
 			}
 			if(i == 5) {
-				uiitem.leaderSkill 	= 20;
+				uiitem.leaderSkill = 20;
 			}
-			uiitem.activeSkill 	 	= 46;
-			TempUnitInfo tui 		= new TempUnitInfo(uiitem);
+			uiitem.activeSkill = 46;
+			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
 	}
 
 	void GenerateUserUnit () {
-		for (int i = 1; i < maxCount; i++) {
-			UserUnit uu 			= new UserUnit ();
-			uu.uniqueId 			= i;
-			uu.id 					= (uint)i;
+		for (uint i = 1; i < maxCount; i++) {
+			UserUnit uu 		= new UserUnit ();
+			uu.uniqueId 		= i;
+			uu.unitId 			= i;
 			uu.exp 				= 0;
-			uu.level 				= 1;
-			uu.addAttack 			= i;
-			uu.addDefence			= 0;
-			uu.addHp 				= i;
-			uu.limitbreakLv 			= 2;
+			uu.level 			= 1;
+			uu.addAttack 		= (int)i;
+			uu.addDefence		= 0;
+			uu.addHp 			= (int)i;
+			uu.limitbreakLv 	= 2;
 			uu.getTime 			= 0;
-			UserUnitInfo uui 		= new UserUnitInfo (uu);
+			UserUnitInfo uui 	= new UserUnitInfo (uu);
 			GlobalData.tempUserUnitInfo.Add (i, uui);
 		}
 
@@ -76,16 +77,12 @@ public class ConfigUnitInfo {
 		for (int i = GlobalData.posStart; i <  GlobalData.posEnd; i++) {
 			PartyItem pi = new PartyItem();
 			pi.unitPos = i;
-			pi.unitUniqueId = i;
+			pi.unitUniqueId = (uint)i;
 			up.items.Add(pi);
 		}
 		UnitPartyInfo upi = new UnitPartyInfo (up);
 
 		ModelManager.Instance.AddData (ModelEnum.UnitPartyInfo, upi);
-	}
-
-	void GenerateFriendList() {
-		//FriendInfo friendInfo = new FriendInfo();
 	}
 }
 
@@ -94,15 +91,16 @@ public class ConfigUserUnit {
 }
 
 public class TempUnitInfo : ProtobufDataBase {
+
 	public TempUnitInfo (object instance) : base (instance) {
-		
+
 	}
 }
 
 public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 	private List<PartyItem> partyItem = new List<PartyItem> ();		
-	private Dictionary<int,ProtobufDataBase> leaderSkill = new Dictionary<int,ProtobufDataBase> ();
-	public Dictionary<int,ProtobufDataBase> LeadSkill {
+	private Dictionary<uint,ProtobufDataBase> leaderSkill = new Dictionary<uint,ProtobufDataBase> ();
+	public Dictionary<uint,ProtobufDataBase> LeadSkill {
 		get {
 //			Debug.LogError("UnitPartyInfo : " + leaderSkill.Count);
 			return leaderSkill;
@@ -229,13 +227,13 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 
 	void GetLeaderSkill () {
 		UnitParty up = DeserializeData<UnitParty> ();
-		int id = up.items [0].unitUniqueId;
+		uint id = up.items [0].unitUniqueId;
 		AddLeadSkill(id);
-		id =  up.items [4].unitUniqueId;
+		id = up.items [4].unitUniqueId;
 		AddLeadSkill (id);
 	}
 
-	void AddLeadSkill (int id) {
+	void AddLeadSkill (uint id) {
 		if (id != -1) {
 			UserUnitInfo firstLeader = GlobalData.tempUserUnitInfo [id];
 //			Debug.LogError("AddLeadSkill : " + id + "  firstLeader.GetLeadSKill()  : " + firstLeader.GetLeadSKill());
@@ -260,14 +258,14 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 		UnitParty up = DeserializeData<UnitParty> ();
 		int bloodNum = 0;
 		for (int i = 0; i < up.items.Count; i++) {
-			int unitUniqueID = up.items [i].unitUniqueId;
+			uint unitUniqueID = up.items [i].unitUniqueId;
 			bloodNum += GlobalData.tempUserUnitInfo [unitUniqueID].GetBlood();
 		}
 		return bloodNum;
 	}
 
-	public Dictionary<int,int> GetPartyItem () {
-		Dictionary<int,int> temp = new Dictionary<int, int> ();
+	public Dictionary<int,uint> GetPartyItem () {
+		Dictionary<int,uint> temp = new Dictionary<int, uint> ();
 		UnitParty up = DeserializeData<UnitParty> ();
 		for (int i = 0; i < up.items.Count; i++) {
 			PartyItem pi = up.items[i];
@@ -298,7 +296,7 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 
 	NormalSkill GetSecondSkill (PartyItem pi) {
 		UserUnit uu1 = GlobalData.tempUserUnitInfo[pi.unitUniqueId].DeserializeData() as UserUnit;
-		UnitInfo ui1 = GlobalData.tempUnitInfo[uu1.id].DeserializeData<UnitInfo>();
+		UnitInfo ui1 = GlobalData.tempUnitInfo[uu1.unitId].DeserializeData<UnitInfo>();
 		return GlobalData.tempNormalSkill [ui1.skill2].DeserializeData<NormalSkill> ();
 	}
 
@@ -350,8 +348,8 @@ public class AttackInfo {
 		get {return attackID;}
 	}
 
-	private int userUnitID = -1;
-	public int UserUnitID {
+	private uint userUnitID = 0;
+	public uint UserUnitID {
 		get { return userUnitID; }
 		set { userUnitID = value; }
 	}

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class GlobalData  {
 	public static Dictionary<int, ProtobufDataBase> tempNormalSkill = new Dictionary<int, ProtobufDataBase>();
 	public static Dictionary<uint, TempUnitInfo>	tempUnitInfo = new Dictionary<uint, TempUnitInfo> ();
-	public static Dictionary<int, UserUnitInfo> tempUserUnitInfo = new Dictionary<int, UserUnitInfo>();
+	public static Dictionary<uint, UserUnitInfo> tempUserUnitInfo = new Dictionary<uint, UserUnitInfo>();
 	public static Dictionary<uint, TempEnemy> tempEnemyInfo = new Dictionary<uint, TempEnemy> ();
 	public static Dictionary<int, UnitBaseInfo> tempUnitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
 

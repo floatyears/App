@@ -687,7 +687,7 @@ public class TempSkillExtraAttack : ProtobufDataBase {
 		
 	}
 
-	public AttackInfo AttackValue (float attackValue, int id) {
+	public AttackInfo AttackValue (float attackValue, uint id) {
 		AttackInfo ai = new AttackInfo ();
 		ai.AttackValue = attackValue * DeserializeData<SkillExtraAttack> ().attackValue;
 		ai.AttackType = (int)DeserializeData<SkillExtraAttack> ().unitType;

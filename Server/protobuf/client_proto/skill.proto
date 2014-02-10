@@ -33,13 +33,6 @@ enum EPeriod {
 	EP_EVERY_STEP 	= 2; // every moving step
 };
 
-enum ETrapType {
-	Move			= 0;
-	StateException	= 1;
-	ChangeEnvir		= 2;
-	Injured			= 3;
-}
-
 //==================Active Skills: 14 kinds=====================================================
 message SkillBase {
     optional int32	id				= 1;

@@ -39,14 +39,37 @@ message ProtoHeader {
 //-------------------------------------------------
 message ReqGetFriend {
 	optional ProtoHeader	header				= 1;
-	optional bool			getFriend			= 4;
-	optional bool			getHelper			= 5;
+	optional bool			getFriend			= 2;
+	optional bool			getHelper			= 3;
+};
+
+message FriendData {
+	optional uint32			userId				= 1;
+	optional EFriendState	friendState			= 2; 
+	optional uint32			friendStateUpdate 	= 3; // friend state updated time
+};
+
+message FriendInfo {
+	optional uint32			userId				= 1;
+	optional string 		userName			= 2;
+	optional int32			rank				= 3;
+	optional uint32			lastPlayTime		= 4;
+	optional EFriendState	friendState			= 5; // 
+	optional uint32			friendStateUpdate 	= 6; // friend state updated time
+	optional int32			friendPoint			= 7;
+	optional UserUnit		unit				= 8;
+};
+
+message FriendList {
+	repeated FriendInfo		friend				= 1;
+	repeated FriendInfo		helper				= 2;
+	repeated FriendInfo		friendIn			= 3;
+	repeated FriendInfo		friendOut			= 4;
 };
 
 message RspGetFriend {
 	optional ProtoHeader	header				= 1;
-	repeated FriendInfo		friend				= 3;
-	repeated FriendInfo		helper				= 4;
+	optional FriendList		friends				= 2;
 };
 
 //-------------------------------------------------
@@ -68,7 +91,6 @@ message ReqAddFriend {
 
 message RspAddFriend {
 	optional ProtoHeader	header				= 1;
-	optional uint32			result				= 2;
 };
 
 //-------------------------------------------------
@@ -79,7 +101,6 @@ message ReqDelFriend {
 
 message RspDelFriend {
 	optional ProtoHeader	header				= 1;
-	optional uint32			result				= 2;
 };
 
 //-------------------------------------------------
@@ -90,7 +111,6 @@ message ReqAcceptFriend {
 
 message RspAcceptFriend {
 	optional ProtoHeader	header				= 1;
-	optional uint32			result				= 2;
 };
 //-------------------------------------------------
 
@@ -101,6 +121,66 @@ enum EQuestState {
 	QS_NEW		= 0;
 	QS_CLEARED	= 1;
 };
+
+enum ETrapType {
+	Move			= 0;
+	StateException	= 1;
+	ChangeEnvir		= 2;
+	Injured			= 3;
+};
+
+//-------------------------------------------------------------
+message TreasureBox {
+	optional int32		rate			= 1; // appear rate
+	optional int32		minCoin			= 2; 
+	optional int32		maxCoin			= 3;
+};
+
+message EnemyInfos {
+	optional int32		randomNum		= 1;
+	repeated EnemyInfo		enemys		= 3; // enemy list	
+};
+
+message EnemyInfo {
+	required uint32		uniqueId		= 1;
+	required uint32		unitId			= 2;
+	optional EUnitType	type			= 3;
+	optional int32		hp				= 4;
+	optional int32		attack			= 5;
+	optional int32		defense			= 6;
+	optional int32		nextAttack		= 7; // next 1, 2, 3
+	optional uint32		dropUnitId		= 8;
+	optional uint32		dropUnitLevel	= 9;
+	optional float		dropRate		= 10;
+	optional float		plusRate		= 11; // "+" drop rate
+	
+};
+
+message QuestGrid {
+	optional int32			repeatNum	= 1; // appear count
+	optional int32			star		= 2; // 1 - 6 star
+	optional int32			color		= 3; // star color
+	repeated EnemyInfo		enemys		= 4; // enemy list
+	optional int32			coins		= 5;
+	optional TrapInfo		trap		= 6;	
+};
+
+message QuestInfo {
+	required uint32		id				= 1; 
+	optional int32		state			= 2; // CLEAR or NEW
+	optional int32		no				= 3; // number: 1, 2, 3...
+	optional string		name			= 4; // quest name
+	optional string		story			= 5; // story description
+	optional int32		stamina 		= 6; // cost stamina
+	optional int32		floor			= 7;		
+	optional int32		rewardExp		= 8;
+	optional int32		rewardCoin		= 9;
+	repeated uint32		allUnitKind 	= 10; // pick-up enemy unit list
+	repeated EnemyInfo	boss			= 11; // boss unit
+	repeated QuestGrid	gridInfo		= 12; // 25 grids
+};
+
+//-------------------------------------------------------------
 
 message ReqStartQuest {
 	optional ProtoHeader	header			= 1;
@@ -144,6 +224,21 @@ message RspGetQuestInfo {
 	optional ProtoHeader 	header 			= 1;
 	optional uint32			questId			= 2; // 
 	optional uint32			currentStatus	= 3; // current quest status
+};
+
+//=========== Trap ====================================================================//
+message TrapInjuredValue {
+	optional int32		trapIndex		= 1;
+	optional int32		trapLevel		= 2;
+	optional float		trapValue		= 3;
+};
+
+message TrapInfo {
+	required uint32				trapID		= 1;
+	optional ETrapType			trapType	= 2;
+	optional int32				valueIndex	= 3;
+	repeated TrapInjuredValue	injuredInfo	= 4;
+	optional int32				effectType	= 5;
 };
 
 
@@ -226,8 +321,8 @@ message UserQuestInfo {
 };
 
 message PartyItem {
-	optional int32 unitPos				= 1;
-	optional int32 unitUniqueId			= 2;
+	optional int32	unitPos				= 1;
+	optional uint32	unitUniqueId		= 2;
 };
 
 message UnitParty {
@@ -256,23 +351,6 @@ enum EFriendState{
 	FRIENDOUT		= 2; // I request add one as friend
 	FRIENDIN		= 3; // others request add me as friend
 	FRIENDHELPER	= 4; // friends allocated by system  
-};
-
-message FriendData {
-	optional uint32			userId				= 1;
-	optional EFriendState	friendState			= 2; 
-	optional uint32			friendStateUpdate 	= 3; // friend state updated time
-};
-
-message FriendInfo {
-	optional uint32			userId				= 1;
-	optional string 		userName			= 2;
-	optional int32			rank				= 3;
-	optional uint32			lastPlayTime		= 4;
-	optional EFriendState	friendState			= 5; // 
-	optional uint32			friendStateUpdate 	= 6; // friend state updated time
-	optional int32			friendPoint			= 7;
-	optional UserUnit		unit				= 8;
 };
 
 message LoginBonus {
@@ -333,9 +411,8 @@ message RspAuthUser {
 	optional int32			currentUnitParty	= 6;
 	optional uint32			serverTime			= 7;
 	optional LoginInfo		login				= 8;
-	repeated FriendInfo		friend				= 9;
-	repeated FriendInfo		helper				= 10;
-	repeated PresentInfo	present				= 11;	
+	optional FriendList		friends				= 9;
+	repeated PresentInfo	present				= 10;	
 };
 
 //-------------------------------------------------
@@ -350,9 +427,8 @@ message ReqLoginPack {
 message RspLoginPack {
 	optional ProtoHeader	header				= 1;
 	optional LoginInfo		login				= 2;
-	repeated FriendInfo		friend				= 3;
-	repeated FriendInfo		helper				= 4;
-	repeated PresentInfo	present				= 5;
+	optional FriendList		friends				= 3;
+	repeated PresentInfo	present				= 4;
 };
 
 //-------------------------------------------------

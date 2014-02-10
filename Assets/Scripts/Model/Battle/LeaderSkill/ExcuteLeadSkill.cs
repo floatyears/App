@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, ILeaderSkillSwitchCard,ILeaderSkillRecoverHP, ILeaderSkillMultipleAttack {
 	ILeaderSkill leadSkill;
-	List<int> RemoveSkill = new List<int> ();
+	List<uint> RemoveSkill = new List<uint> ();
 
 	public ExcuteLeadSkill (ILeaderSkill lead) {
 		leadSkill = lead;
@@ -23,7 +23,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	}
 
 	void RemoveLeaderSkill () {
-		for (int i = 0; i < RemoveSkill.Count; i++) {
+		for (uint i = 0; i < (uint)RemoveSkill.Count; i++) {
 			leadSkill.LeadSkill.Remove(i);
 		}
 	}
@@ -80,7 +80,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			if(tsea == null) {
 				continue;
 			}
-			int id = item.Key;
+			uint id = item.Key;
 			foreach (var item1 in leadSkill.UserUnit) {
 				if(item1.Value.GetID == id) {
 					AttackInfo attack = tsea.AttackValue(item1.Value.GetAttack,id);

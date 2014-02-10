@@ -9,7 +9,7 @@ public class ActiveReduceDefense : ActiveSkill, IActiveSkillExcute {
 			coolingDone = true;
 		}
 	}
-	TClass<int, int, float> tc;
+	TClass<uint, int, float> tc;
 
 	public bool CoolingDone {
 		get {
@@ -21,14 +21,14 @@ public class ActiveReduceDefense : ActiveSkill, IActiveSkillExcute {
 		DisposeCooling ();
 	}
 
-	public object Excute (int userUnitID, int atk = -1) {
+	public object Excute (uint userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;	
 		}
 		InitCooling ();
 //		Debug.LogError("ActiveReduceDefense excute ");
 		SkillReduceDefence srd = DeserializeData<SkillReduceDefence> ();
-		tc = new TClass<int, int, float> ();
+		tc = new TClass<uint, int, float> ();
 		tc.arg1 = userUnitID;
 		tc.arg2 = srd.period;
 		tc.arg3 = srd.value;
