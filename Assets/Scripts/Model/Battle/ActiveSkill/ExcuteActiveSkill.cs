@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 public class ExcuteActiveSkill {
-	private Dictionary<int,IActiveSkillExcute> activeSkill = new Dictionary<int, IActiveSkillExcute> ();
+	private Dictionary<uint,IActiveSkillExcute> activeSkill = new Dictionary<uint, IActiveSkillExcute> ();
 	private ILeaderSkill leaderSkill;
 	public ExcuteActiveSkill(ILeaderSkill ils) {
 		leaderSkill = ils;
@@ -24,7 +24,7 @@ public class ExcuteActiveSkill {
 	void Excute(object data) {
 		UserUnitInfo uui = data as UserUnitInfo;
 		if (uui != null) {
-			int id = uui.GetID;
+			uint id = uui.GetID;
 			activeSkill[id].Excute(id, uui.GetAttack);
 		}
 	}

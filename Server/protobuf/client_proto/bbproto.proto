@@ -153,6 +153,7 @@ message EnemyInfo {
 	optional uint32		dropUnitLevel	= 9;
 	optional float		dropRate		= 10;
 	optional float		plusRate		= 11; // "+" drop rate
+	
 };
 
 message QuestGrid {
@@ -320,8 +321,8 @@ message UserQuestInfo {
 };
 
 message PartyItem {
-	optional int32 unitPos				= 1;
-	optional int32 unitUniqueId			= 2;
+	optional int32	unitPos				= 1;
+	optional uint32	unitUniqueId		= 2;
 };
 
 message UnitParty {

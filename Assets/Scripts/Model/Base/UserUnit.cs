@@ -102,7 +102,7 @@ public class UserUnitInfo : ProtobufDataBase {
 
 	void InitSkill () {
 		UserUnit uu 				= DeserializeData<UserUnit> ();
-		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.id];
+		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.unitId];
 		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
 		TempNormalSkill firstSkill = null;
 		TempNormalSkill secondSkill = null;
@@ -122,7 +122,7 @@ public class UserUnitInfo : ProtobufDataBase {
 			InitSkill();	
 		}
 		UserUnit uu 				= DeserializeData<UserUnit> ();
-		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.id];
+		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.unitId];
 		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
 		for (int i = 0; i < normalSkill.Length; i++) {
 			TempNormalSkill tns 	= normalSkill[i];
@@ -203,7 +203,7 @@ public class UserUnitInfo : ProtobufDataBase {
 
 	UnitInfo GetUnitInfo() {
 		UserUnit userUnit =  DeserializeData () as UserUnit;
-		return GlobalData.tempUnitInfo [userUnit.id].DeserializeData<UnitInfo>();
+		return GlobalData.tempUnitInfo [userUnit.unitId].DeserializeData<UnitInfo>();
 	}
 
 	public int GetBlood () {
@@ -235,7 +235,7 @@ public class UserUnitInfo : ProtobufDataBase {
 		}
 	}
 
-	public int GetID {
+	public uint GetID {
 		get {
 			return DeserializeData<UserUnit>().uniqueId;
 		}

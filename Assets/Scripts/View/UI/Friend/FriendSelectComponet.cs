@@ -44,7 +44,7 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 		}
 		if (partyID == 1) {
 			upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, errMsg) as UnitPartyInfo;
-			Dictionary<int,int> temp = upi.GetPartyItem();
+			Dictionary<int,uint> temp = upi.GetPartyItem();
 			Dictionary<int,UnitBaseInfo> viewInfo = new Dictionary<int, UnitBaseInfo>();
 			foreach(var item in temp) {
 				UserUnitInfo uui =  GlobalData.tempUserUnitInfo[item.Value];

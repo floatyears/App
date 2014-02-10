@@ -88,7 +88,7 @@ public class ModelManagerTest {
 		userInfo.staminaMax = 128;
 		userInfo.staminaNow = 127;
 		userInfo.staminaRecover = 127000000;
-		userInfo.loginTime = 127;
+		//userInfo.loginTime = 127;
 		
 		//
 		
