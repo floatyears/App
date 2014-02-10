@@ -80,7 +80,7 @@ public interface IUISetBool : IUIOrigin {
 	void SetEnable(bool b);
 }
 
-public interface ILeadSkill {
+public interface ILeaderSkill {
 	Dictionary<int,ProtobufDataBase> LeadSkill { get;}
 	Dictionary<int,UserUnitInfo> UserUnit { get ;}
 }
