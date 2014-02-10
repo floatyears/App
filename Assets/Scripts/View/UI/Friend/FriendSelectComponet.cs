@@ -59,7 +59,5 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 		else {
 			call.Callback (null);
 		}
-
 	}
-
 }

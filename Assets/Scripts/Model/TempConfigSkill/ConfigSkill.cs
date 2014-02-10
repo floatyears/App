@@ -600,6 +600,15 @@ public class ConfigSkill  {
 		ssa.value = 2f;
 		ActiveStrengthenAttack asa = new ActiveStrengthenAttack (ssa);
 		GlobalData.tempNormalSkill.Add (ssa.baseInfo.id, asa);
+
+		SkillMultipleAttack sma = new SkillMultipleAttack ();
+		sma.baseInfo = new SkillBase ();
+		sma.baseInfo.id = 47;
+		sma.baseInfo.name = "no 47. MultipleAttack";
+		sma.baseInfo.description = "three color can boost multiple attack value";
+		sma.unitTypeCount = 2;
+		LeaderSkillMultipleAttack lsma = new LeaderSkillMultipleAttack (sma);
+		GlobalData.tempNormalSkill.Add (sma.baseInfo.id, lsma);
 	}
 }
 

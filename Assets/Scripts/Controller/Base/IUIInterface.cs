@@ -69,11 +69,6 @@ public interface IUIOrigin {
 
 }
 
-public interface IUISort {
-	int Ascending(object first,object second);
-	int Descending(object first, object second);
-}
-
 /// <summary>
 /// ui callback interface
 /// </summary>
@@ -92,6 +87,10 @@ public interface ILeadSkill {
 
 public interface ILeadSkillReduceHurt {
 	float ReduceHurtValue(float hurt,int type);
+}
+
+public interface ILeaderSkillMultipleAttack {
+	float MultipleAttack(List<AttackInfo> attackInfo);
 }
 
 public interface ILeaderSkillExtraAttack {

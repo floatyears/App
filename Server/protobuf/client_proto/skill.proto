@@ -246,6 +246,7 @@ message SkillExtraAttack {
 message SkillMultipleAttack {
 	optional SkillBase	baseInfo		= 1;
 	optional int32		unitTypeCount	= 2;
+	optional float		value			= 3;
 }
 
 //message LeaderSkill {

@@ -14,7 +14,7 @@ import (
 	"../common"
 	"../const"
 	"../data"
-	"../user"
+	"../user/usermanage"
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
@@ -95,7 +95,7 @@ func StartQuestHandler(rsp http.ResponseWriter, req *http.Request) {
 	log.Printf("isUserExists=%v value-len=%v value: ['%v']  ", isExists, len(value), value)
 	if isExists {
 		//err = proto.Unmarshal(value, rspMsg.Userdetail) //unSerialize into Userdetail
-		userInfo, err := user.GetUserInfo(*reqMsg.Header.SessionId)
+		userInfo, _, err := usermanage.GetUserInfo(*reqMsg.Header.UserId)
 		if err == nil {
 			tNow := uint32(time.Now().Unix())
 			rspMsg.QuestId = reqMsg.QuestId

@@ -4,13 +4,23 @@ using bbproto;
 
 public class ActiveSkill : ProtobufDataBase {
 	protected SkillBase skillBase;
+	protected int initSkillCooling = 0;
 	protected bool coolingDone = false;
 	public ActiveSkill (object instance) : base (instance) {
 
 	}
 
+	~ActiveSkill () {
+
+	}
+
 	protected void DisposeCooling () {
 		coolingDone = DGTools.CheckCooling (skillBase);
+	}
+
+	protected void InitCooling() {
+		coolingDone = false;
+		skillBase.skillCooling = initSkillCooling;
 	}
 }
 
@@ -22,6 +32,7 @@ public class ActiveSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 	}
 	public ActiveSkillSingleAttack(object instance) : base (instance) {
 		skillBase = DeserializeData<SkillSingleAttack> ().baseInfo;	
+		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -35,6 +46,7 @@ public class ActiveSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 		if (!coolingDone) {
 			return null;		
 		}
+		InitCooling ();
 		SkillSingleAttack ssa = DeserializeData<SkillSingleAttack> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;

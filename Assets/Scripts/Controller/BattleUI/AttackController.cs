@@ -127,11 +127,13 @@ public class AttackController {
 	ILeadSkillReduceHurt leadSkillReuduce;
 	ILeaderSkillExtraAttack leaderSkilllExtarAttack;
 	ILeaderSkillRecoverHP leaderSkillRecoverHP;
+	ILeaderSkillMultipleAttack leaderSkillMultiple;
 
 	public void LeadSkillReduceHurt(ExcuteLeadSkill lsr) {
 		leadSkillReuduce = lsr as ILeadSkillReduceHurt;
 		leaderSkilllExtarAttack = lsr as ILeaderSkillExtraAttack;
 		leaderSkillRecoverHP = lsr as ILeaderSkillRecoverHP;
+		leaderSkillMultiple = lsr as ILeaderSkillMultipleAttack;
 	}
 
 	bool CheckEnemy () {
@@ -173,7 +175,18 @@ public class AttackController {
 			GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
 		}
 	}
-	
+
+	void MultipleAttack () {
+		float multipe = leaderSkillMultiple.MultipleAttack (attackInfo);
+		if (multipe > 1.0f) {
+			for (int i = 0; i < attackInfo.Count; i++) {
+//				Debug.LogError("befoure multiple : " + attackInfo[i].AttackValue + "multipe : " +multipe);
+				attackInfo[i].AttackValue *= multipe;
+//				Debug.LogError("behind multiple : " + attackInfo[i].AttackValue);
+			}	
+		}
+	}
+
 	void AttackEnemy () {
 		if (attackInfo.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.Blood, 1);	//1: every round.
@@ -182,6 +195,8 @@ public class AttackController {
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
+		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
+		MultipleAttack ();
 		AttackInfo ai = attackInfo [0];
 		attackInfo.RemoveAt (0);
 		BeginAttack (ai);
