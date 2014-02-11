@@ -1,7 +1,6 @@
 package user
 
 import (
-	"errors"
 	"fmt"
 	//"io/ioutil"
 	"log"
@@ -16,6 +15,7 @@ import (
 import (
 	"../bbproto"
 	"../common"
+	"../common/Error"
 	"../const"
 	"../data"
 	"../friend"
@@ -29,24 +29,24 @@ func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
 	rspMsg := &bbproto.RspAuthUser{}
 
 	handler := &AuthUser{}
-	err := handler.ParseInput(req, &reqMsg)
-	if err != nil {
-		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
+	e := handler.ParseInput(req, &reqMsg)
+	if e.IsError() {
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
 		return
 	}
 
-	err = handler.verifyParams(&reqMsg)
-	if err != nil {
-		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
+	e = handler.verifyParams(&reqMsg)
+	if e.IsError() {
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
 		return
 	}
 
 	// game logic
 
-	err = handler.ProcessLogic(&reqMsg, rspMsg)
+	e = handler.ProcessLogic(&reqMsg, rspMsg)
 
-	err = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
-	log.Printf("sendrsp err:%v, rspMsg:\n%+v", err, rspMsg)
+	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
+	log.Printf("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -61,23 +61,25 @@ func (t AuthUser) GenerateSessionId(uuid *string) (sessionId string, err error) 
 	return sessionId, nil
 }
 
-func (t AuthUser) verifyParams(reqMsg *bbproto.ReqAuthUser) (err error) {
+func (t AuthUser) verifyParams(reqMsg *bbproto.ReqAuthUser) (err Error.Error) {
 	//TODO: do some params validation
 	if reqMsg.Terminal.Uuid == nil && reqMsg.Header.UserId == nil {
-		return errors.New("ERROR:invalid input params")
+		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	if *reqMsg.Terminal.Uuid == "" && *reqMsg.Header.UserId <= 0 {
-		return errors.New("ERROR:invalid input params")
+		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
-	return nil
+	return Error.OK()
 }
 
-func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser, rspErr error) (outbuffer []byte) {
+func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser, rspErr Error.Error) (outbuffer []byte) {
 	// fill protocol header
 	{
 		rspMsg.Header = reqMsg.Header
+		rspMsg.Header.Code = proto.Int(rspErr.Code())
+
 		sessionId, _ := t.GenerateSessionId(reqMsg.Terminal.Uuid)
 		reqMsg.Header.SessionId = &sessionId
 		log.Printf("req header:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
@@ -96,12 +98,13 @@ func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.R
 	return outbuffer
 }
 
-func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser) (err error) {
+func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser) (e Error.Error) {
 	// read user data (by uuid) from db
 	uuid := *reqMsg.Terminal.Uuid
 	uid := *reqMsg.Header.UserId
 	var userdetail bbproto.UserInfoDetail
 	var isUserExists bool
+	var err error
 	if uid > 0 {
 		userdetail, isUserExists, err = usermanage.GetUserInfo(uid)
 	} else {
@@ -130,15 +133,22 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 			//get user's rank from user table
 			userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
-			if err != nil || !isUserExists {
-				err := errors.New(fmt.Sprintf("ERROR: Invalid userId %v", uid))
-				return err
+			if err != nil {
+				return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v", uid))
 			}
+
+			if !isUserExists {
+				return Error.New(cs.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
+			}
+
 			log.Printf("[TRACE] getUser(%v) ret userdetail: %v", uid, userdetail)
 			rank := uint32(*userdetail.User.Rank)
 
 			friendsInfo, err := friend.GetFriendInfo(db, uid, rank, true, true)
 			log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
+			if err != nil {
+				return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
+			}
 
 			//fill rspMsg
 			for _, friend := range friendsInfo {
@@ -168,7 +178,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 		newUserId, err := usermanage.GetNewUserId()
 		if err != nil {
-			return err
+			return Error.New(cs.EU_GET_NEWUSERID_FAIL, err.Error())
 		}
 		defaultName := cs.DEFAULT_USER_NAME
 		tNow := common.Now()
@@ -191,11 +201,11 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		//log.Printf("[TRACE] rspMsg=%+v...", rspMsg)
 
 		//TODO:save userinfo to db through goroutine
-		usermanage.AddNewUser(uuid, rspMsg.User)
+		err = usermanage.AddNewUser(uuid, rspMsg.User)
 		//zUserData, err := proto.Marshal(&userdetail)
 		//err = db.Set(uuid, zUserData)
 		//log.Printf("db.Set(%v) save new userinfo, return %v", uuid, err)
 	}
 
-	return err
+	return Error.OK()
 }

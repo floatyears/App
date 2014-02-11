@@ -9,9 +9,9 @@ import (
 
 import (
 	"../bbproto"
-	Error "../common/error"
+	"../common/Error"
 	"../const"
-	"../data"
+	//"../data"
 	"../user/usermanage"
 
 	proto "code.google.com/p/goprotobuf/proto"
@@ -25,24 +25,24 @@ func FindFriendHandler(rsp http.ResponseWriter, req *http.Request) {
 	rspMsg := &bbproto.RspFindFriend{}
 
 	handler := &FindFriend{}
-	err := handler.ParseInput(req, &reqMsg)
-	if err != nil {
-		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Error.New(cs.INVALID_PARAMS, err.Error())))
+	e := handler.ParseInput(req, &reqMsg)
+	if e.IsError() {
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Error.New(cs.INVALID_PARAMS, e.Error())))
 		return
 	}
 
-	Err := handler.verifyParams(&reqMsg)
-	if Err.IsError() {
-		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Err))
+	e = handler.verifyParams(&reqMsg)
+	if e.IsError() {
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
 		return
 	}
 
 	// game logic
 
-	Err = handler.ProcessLogic(&reqMsg, rspMsg)
+	e = handler.ProcessLogic(&reqMsg, rspMsg)
 
-	err = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Err))
-	log.Printf("sendrsp err:%v, rspMsg:\n%+v", err, rspMsg)
+	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
+	log.Printf("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -68,8 +68,9 @@ func (t FindFriend) FillResponseMsg(reqMsg *bbproto.ReqFindFriend, rspMsg *bbpro
 	// fill protocol header
 	{
 		//fill error code
-		rspMsg.Header.Code = proto.Int(rspErr.Code())
 		rspMsg.Header = reqMsg.Header //including the sessionId
+		rspMsg.Header.Code = proto.Int(rspErr.Code())
+
 		//log.Printf("req sessionId:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
 	}
 
@@ -87,17 +88,10 @@ func (t FindFriend) ProcessLogic(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.
 
 	uid := *reqMsg.Header.UserId
 
-	db := &data.Data{}
-	err := db.Open(cs.TABLE_FRIEND)
-	defer db.Close()
-	if err != nil {
-		return Error.NewError(err)
-	}
-
 	//get user's rank from user table
 	userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
 	if err != nil {
-		return Error.New(cs.EF_GET_USERINFO_FAIL, fmt.Sprintf("ERROR: GetUserInfo failed. userId %v", uid))
+		return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed. userId %v", uid))
 	}
 	log.Printf("[TRACE] getUser(%v) ret userinfo: %v", uid, userdetail.User)
 
@@ -105,7 +99,7 @@ func (t FindFriend) ProcessLogic(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.
 	if isUserExists {
 		rspMsg.Friend = userdetail.User
 	} else {
-
+		return Error.New(cs.EF_FRIEND_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
 	}
 
 	return Error.OK()

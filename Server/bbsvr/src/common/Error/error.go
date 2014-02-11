@@ -14,7 +14,7 @@ func Err(errCode int) Error {
 	return Error{errCode, ""}
 }
 
-func NewError(err error) Error {
+func NewError(errCode int, err error) Error {
 	if err != nil {
 		return Error{-1, err.Error()}
 	}

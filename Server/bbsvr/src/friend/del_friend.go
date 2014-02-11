@@ -5,12 +5,11 @@ import (
 	"log"
 	"net/http"
 	//"time"
-	"errors"
 )
 
 import (
 	"../bbproto"
-	//"../common"
+	"../common/Error"
 	"../const"
 	"../data"
 	//"../user/usermanage"
@@ -27,13 +26,13 @@ func DelFriendHandler(rsp http.ResponseWriter, req *http.Request) {
 
 	handler := &DelFriendProtocol{}
 	err := handler.ParseInput(req, &reqMsg)
-	if err != nil {
+	if err.IsError() {
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
 		return
 	}
 
 	err = handler.verifyParams(&reqMsg)
-	if err != nil {
+	if err.IsError() {
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
 		return
 	}
@@ -52,30 +51,26 @@ type DelFriendProtocol struct {
 	bbproto.BaseProtoHandler
 }
 
-func (t DelFriendProtocol) GenerateSessionId(uuid *string) (sessionId string, err error) {
-	//TODO: makeSidFrom(*uuid, timeNow)
-	sessionId = "rcs7kga8pmvvlbtgbf90jnchmqbl9khn"
-	return sessionId, nil
-}
-
-func (t DelFriendProtocol) verifyParams(reqMsg *bbproto.ReqDelFriend) (err error) {
+func (t DelFriendProtocol) verifyParams(reqMsg *bbproto.ReqDelFriend) (e Error.Error) {
 	//TODO: input params validation
-	if reqMsg.Header.UserId == nil {
-		return errors.New("ERROR: params is invalid.")
+	if reqMsg.Header.UserId == nil || reqMsg.FriendUid == nil {
+		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
-	if *reqMsg.Header.UserId == 0 {
-		return errors.New("ERROR: userId is invalid.")
+	if *reqMsg.Header.UserId == 0 || *reqMsg.FriendUid == 0 {
+		return Error.New(cs.INVALID_PARAMS, "ERROR: userId is invalid.")
 	}
 
-	return nil
+	return Error.OK()
 }
 
-func (t DelFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqDelFriend, rspMsg *bbproto.RspDelFriend, rspErr error) (outbuffer []byte) {
+func (t DelFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqDelFriend, rspMsg *bbproto.RspDelFriend, rspErr Error.Error) (outbuffer []byte) {
 	// fill protocol header
 	{
 		rspMsg.Header = reqMsg.Header //including the sessionId
-		log.Printf("req header:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
+		rspMsg.Header.Code = proto.Int(rspErr.Code())
+
+		//log.Printf("req sessionId:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
 	}
 
 	// fill custom protocol body
@@ -85,22 +80,23 @@ func (t DelFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqDelFriend, rspMsg 
 	if err != nil {
 		return nil
 	}
+
 	return outbuffer
 }
 
-func (t DelFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqDelFriend, rspMsg *bbproto.RspDelFriend) (err error) {
+func (t DelFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqDelFriend, rspMsg *bbproto.RspDelFriend) (e Error.Error) {
 
-	uid := *reqMsg.Header.UserId
+	//uid := *reqMsg.Header.UserId
 	fUid := *reqMsg.FriendUid
 
 	db := &data.Data{}
-	err = db.Open(cs.TABLE_FRIEND)
+	err := db.Open(cs.TABLE_FRIEND)
 	defer db.Close()
-	if err != nil || uid == 0 {
-		return
+	if err != nil {
+		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
 	}
 
 	log.Printf("%v %v %v", db, fUid, fmt.Sprintf(""))
 
-	return err
+	return Error.OK()
 }

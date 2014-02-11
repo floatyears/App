@@ -5,12 +5,11 @@ import (
 	"log"
 	"net/http"
 	//"time"
-	"errors"
 )
 
 import (
 	"../bbproto"
-	//"../common"
+	"../common/Error"
 	"../const"
 	"../data"
 	"../user/usermanage"
@@ -27,13 +26,13 @@ func GetFriendHandler(rsp http.ResponseWriter, req *http.Request) {
 
 	handler := &GetFriend{}
 	err := handler.ParseInput(req, &reqMsg)
-	if err != nil {
+	if err.IsError() {
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
 		return
 	}
 
 	err = handler.verifyParams(&reqMsg)
-	if err != nil {
+	if err.IsError() {
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
 		return
 	}
@@ -52,30 +51,25 @@ type GetFriend struct {
 	bbproto.BaseProtoHandler
 }
 
-func (t GetFriend) GenerateSessionId(uuid *string) (sessionId string, err error) {
-	//TODO: makeSidFrom(*uuid, timeNow)
-	sessionId = "rcs7kga8pmvvlbtgbf90jnchmqbl9khn"
-	return sessionId, nil
-}
-
-func (t GetFriend) verifyParams(reqMsg *bbproto.ReqGetFriend) (err error) {
+func (t GetFriend) verifyParams(reqMsg *bbproto.ReqGetFriend) (err Error.Error) {
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil || reqMsg.GetFriend == nil || reqMsg.GetHelper == nil {
-		return errors.New("ERROR: params is invalid.")
+		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	if *reqMsg.Header.UserId == 0 {
-		return errors.New("ERROR: userId is invalid.")
+		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
-	return nil
+	return Error.OK()
 }
 
-func (t GetFriend) FillResponseMsg(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.RspGetFriend, rspErr error) (outbuffer []byte) {
+func (t GetFriend) FillResponseMsg(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.RspGetFriend, rspErr Error.Error) (outbuffer []byte) {
 	// fill protocol header
 	{
 		rspMsg.Header = reqMsg.Header //including the sessionId
-		log.Printf("req header:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
+		rspMsg.Header.Code = proto.Int(rspErr.Code())
+		//log.Printf("req sessionId:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
 	}
 
 	// fill custom protocol body
@@ -88,17 +82,17 @@ func (t GetFriend) FillResponseMsg(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto
 	return outbuffer
 }
 
-func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.RspGetFriend) (err error) {
+func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.RspGetFriend) (e Error.Error) {
 
 	uid := *reqMsg.Header.UserId
 	isGetFriend := *reqMsg.GetFriend
 	isGetHelper := *reqMsg.GetHelper
 
 	db := &data.Data{}
-	err = db.Open(cs.TABLE_FRIEND)
+	err := db.Open(cs.TABLE_FRIEND)
 	defer db.Close()
-	if err != nil || uid == 0 {
-		return
+	if err != nil {
+		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
 	}
 
 	rank := uint32(0)
@@ -106,9 +100,11 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 	if isGetHelper {
 		//get user's rank from user table
 		userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
-		if err != nil || !isUserExists {
-			err := errors.New(fmt.Sprintf("ERROR: Invalid userId %v", uid))
-			return err
+		if err != nil {
+			return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("ERROR: Get userinfo failed for %v, err:%v", uid, err))
+		}
+		if !isUserExists {
+			return Error.New(cs.EU_INVALID_USERID, fmt.Sprintf("ERROR: Invalid userId %v", uid))
 		}
 		log.Printf("[TRACE] getUser(%v) ret userdetail: %v", uid, userdetail)
 		rank = uint32(*userdetail.User.Rank)
@@ -141,5 +137,5 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 		}
 	}
 
-	return err
+	return Error.OK()
 }

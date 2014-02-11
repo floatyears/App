@@ -9,37 +9,38 @@ import (
 )
 import (
 	"../common"
-	//"../data"
+	"../common/Error"
+	"../const"
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
 type ProtoHandler interface {
 	//parse input into reqMsg
-	ParseInput(req *http.Request, reqMsg proto.Message) (err error)
-	SendResponse(rsp http.ResponseWriter, data []byte) (err error)
+	ParseInput(req *http.Request, reqMsg proto.Message) (e Error.Error)
+	SendResponse(rsp http.ResponseWriter, data []byte) (e Error.Error)
 }
 
 type BaseProtoHandler struct {
 }
 
-func (t BaseProtoHandler) ParseInput(req *http.Request, reqMsg proto.Message) (err error) {
+func (t BaseProtoHandler) ParseInput(req *http.Request, reqMsg proto.Message) (e Error.Error) {
 	reqBuffer, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		log.Printf("ERR: ioutil.ReadAll failed: %v ", err)
-		return err
+		return Error.New(cs.IOREAD_ERROR, err.Error())
 	}
 
 	err = proto.Unmarshal(reqBuffer, reqMsg) //unSerialize into reqMsg
 	if err != nil {
 		log.Printf("ERR: checkInput parse proto err: %v", err)
-		return err
+		return Error.New(cs.UNMARSHAL_ERROR, err.Error())
 	}
 	log.Printf("recv reqMsg: %+v", reqMsg)
 
-	return err
+	return Error.OK()
 }
 
-func (t BaseProtoHandler) SendResponse(rsp http.ResponseWriter, data []byte) (err error) {
-	_, err = common.SendResponse(rsp, data)
-	return err
+func (t BaseProtoHandler) SendResponse(rsp http.ResponseWriter, data []byte) (e Error.Error) {
+	_, e = common.SendResponse(rsp, data)
+	return e
 }
