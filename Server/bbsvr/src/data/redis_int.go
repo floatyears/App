@@ -182,9 +182,9 @@ func (t *Data) HMSet(key string, fields ...[]byte) (err error) {
 	return err
 }
 
-func (t *Data) HDel(key string, field string) (err error) {
-	_, err = t.conn.Do("HDEL", key, field)
-	return err
+func (t *Data) HDel(key string, field string) (num int, err error) {
+	num, err = redis.Int(t.conn.Do("HDEL", key, field))
+	return num, err
 }
 
 //================= ZSET ==================

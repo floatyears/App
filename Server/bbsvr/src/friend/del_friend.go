@@ -1,7 +1,7 @@
 package friend
 
 import (
-	"fmt"
+	//"fmt"
 	"log"
 	"net/http"
 	//"time"
@@ -13,9 +13,7 @@ import (
 	"../const"
 	"../data"
 	//"../user/usermanage"
-
 	proto "code.google.com/p/goprotobuf/proto"
-	//redis "github.com/garyburd/redigo/redis"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -51,6 +49,24 @@ type DelFriendProtocol struct {
 	bbproto.BaseProtoHandler
 }
 
+func (t DelFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqDelFriend, rspMsg *bbproto.RspDelFriend, rspErr Error.Error) (outbuffer []byte) {
+	// fill protocol header
+	{
+		rspMsg.Header = reqMsg.Header //including the sessionId
+		rspMsg.Header.Code = proto.Int(rspErr.Code())
+		rspMsg.Header.Error = proto.String(rspErr.Error())
+	}
+
+	// serialize to bytes
+	outbuffer, err := proto.Marshal(rspMsg)
+	if err != nil {
+		log.Printf("[ERROR] proto.Marshal error: %v", err)
+		return nil
+	}
+
+	return outbuffer
+}
+
 func (t DelFriendProtocol) verifyParams(reqMsg *bbproto.ReqDelFriend) (e Error.Error) {
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil || reqMsg.FriendUid == nil {
@@ -64,32 +80,7 @@ func (t DelFriendProtocol) verifyParams(reqMsg *bbproto.ReqDelFriend) (e Error.E
 	return Error.OK()
 }
 
-func (t DelFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqDelFriend, rspMsg *bbproto.RspDelFriend, rspErr Error.Error) (outbuffer []byte) {
-	// fill protocol header
-	{
-		rspMsg.Header = reqMsg.Header //including the sessionId
-		rspMsg.Header.Code = proto.Int(rspErr.Code())
-		rspMsg.Header.Error = proto.String(rspErr.Error())
-
-		//log.Printf("req sessionId:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
-	}
-
-	// fill custom protocol body
-
-	// serialize to bytes
-	outbuffer, err := proto.Marshal(rspMsg)
-	if err != nil {
-		return nil
-	}
-
-	return outbuffer
-}
-
 func (t DelFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqDelFriend, rspMsg *bbproto.RspDelFriend) (e Error.Error) {
-
-	//uid := *reqMsg.Header.UserId
-	fUid := *reqMsg.FriendUid
-
 	db := &data.Data{}
 	err := db.Open(cs.TABLE_FRIEND)
 	defer db.Close()
@@ -97,7 +88,16 @@ func (t DelFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqDelFriend, rspMsg *bb
 		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
 	}
 
-	log.Printf("%v %v %v", db, fUid, fmt.Sprintf(""))
+	uid := *reqMsg.Header.UserId
+	fUid := *reqMsg.FriendUid
+
+	num, err := DelFriend(db, uid, fUid)
+	if err != nil {
+		log.Printf("[ERROR] user:%v DelFriend(%v) failed: %v", uid, fUid, err)
+		return Error.New(cs.EF_DEL_FRIEND_FAIL, err.Error())
+	}
+
+	log.Printf("[TRACE] user:%v DelFriend(%v) ok (del %v item).", uid, fUid, num)
 
 	return Error.OK()
 }

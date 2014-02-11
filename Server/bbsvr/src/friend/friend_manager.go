@@ -35,10 +35,10 @@ func AddFriend(db *data.Data, sUid string, fid uint32, friendState bbproto.EFrie
 	return err
 }
 
-func DelFriend(db *data.Data, sUid string, fid uint32) (err error) {
-	err = db.HDel(sUid, common.Utoa(fid))
+func DelFriend(db *data.Data, uid uint32, fid uint32) (num int, err error) {
+	num, err = db.HDel(common.Utoa(uid), common.Utoa(fid))
 
-	return err
+	return num, err
 }
 
 func GetFriendsData(db *data.Data, sUid string, friendsInfo map[string]bbproto.FriendInfo) (err error) {
