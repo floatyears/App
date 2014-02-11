@@ -27,6 +27,7 @@ public class BattleUseData {
 			return countDown;
 		}
 	}
+
 	public BattleUseData () {
 		ListenEvent ();
 		errorMsg = new ErrorMsg ();

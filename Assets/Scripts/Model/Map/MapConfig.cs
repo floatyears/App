@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class MapConfig 
+public class MapConfig : IOriginModel
 {
 	public int mapXLength;
 	public int mapYLength;
@@ -21,15 +21,24 @@ public class MapConfig
 		return mapItemPath [index];
 	}
 
+	public ErrorMsg SerializeData (object instance)
+	{
+		throw new System.NotImplementedException ();
+	}
+
+	public object DeserializeData ()
+	{
+		throw new System.NotImplementedException ();
+	}
+
 	public MapConfig ()
 	{
+//		Debug.LogError (" MapConfig : " + Time.realtimeSinceStartup);
+		ConfigTrap ct = new ConfigTrap ();
 		mapXLength = 5;
 		mapYLength = 5;
-
 		mapID = 1;
-
 		mapData = new SingleMapData[mapXLength,mapYLength];
-
 		for (int i = 0; i < mapXLength; i++) 
 		{
 			for (int j = 0; j < mapYLength; j++) 
@@ -41,8 +50,8 @@ public class MapConfig
 				
 //				for (int k = 0; k < smd.StarLevel; k++) 
 //				{
-				smd.MonsterID.Add(1);
-				smd.MonsterID.Add(2);
+				//smd.MonsterID.Add(1);
+				//smd.MonsterID.Add(2);
 //				}
 				
 				mapData[i,j] = smd;
@@ -59,3 +68,4 @@ public class MapConfig
 
 	}
 }
+
