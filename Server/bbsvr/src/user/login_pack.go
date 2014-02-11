@@ -70,6 +70,7 @@ func (t LoginPack) FillResponseMsg(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto
 	{
 		rspMsg.Header = reqMsg.Header //including the sessionId
 		rspMsg.Header.Code = proto.Int(rspErr.Code())
+		rspMsg.Header.Error = proto.String(rspErr.Error())
 	}
 
 	// fill custom protocol body
@@ -122,8 +123,12 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 
 		friendsInfo, err := friend.GetFriendInfo(db, uid, rank, isGetFriend, isGetHelper)
 		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
+		if err != nil {
+			return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
+		}
 
 		//fill rspMsg
+		rspMsg.Friends = &bbproto.FriendList{}
 		for _, friend := range friendsInfo {
 			if friend.UserName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
 				log.Printf("[ERROR] unexcepted error: skip invalid friend: %+v", friend)
@@ -131,6 +136,7 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 			}
 
 			//log.Printf("[TRACE] fid:%v friend:%v", fid, *friend.UserId)
+
 			pFriend := friend
 			if *friend.FriendState == bbproto.EFriendState_FRIENDHELPER {
 				rspMsg.Friends.Helper = append(rspMsg.Friends.Helper, &pFriend)

@@ -34,24 +34,20 @@ func (t *Data) Open(table string) error {
 	if err != nil {
 		log.Printf("[ERROR] redis.Select(%v) ret err:%v", table, err)
 	}
+
+	log.Printf("[TRACE] redis.Open(%v) ok...", table)
+
 	return err
 }
 
 func (t *Data) Close() (err error) {
-	//TODO: when need to FLUSHDB???
-
-	//_, err := t.conn.Do("FLUSHDB")
-	//if err != nil {
-	//	return err
-	//}
-
 	if t.conn != nil {
 		log.Printf("[TRACE] t.conn.Close().")
 		err = t.conn.Close()
 		t.conn = nil
 		return err
 	} else {
-		log.Printf("FATAL ERR: t.conn=nil")
+		log.Printf("FATAL ERR: try redis.Close() BUT t.conn=nil")
 	}
 	return err
 }

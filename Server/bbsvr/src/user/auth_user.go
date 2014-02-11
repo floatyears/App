@@ -79,6 +79,7 @@ func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.R
 	{
 		rspMsg.Header = reqMsg.Header
 		rspMsg.Header.Code = proto.Int(rspErr.Code())
+		rspMsg.Header.Error = proto.String(rspErr.Error())
 
 		sessionId, _ := t.GenerateSessionId(reqMsg.Terminal.Uuid)
 		reqMsg.Header.SessionId = &sessionId
@@ -86,9 +87,6 @@ func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.R
 	}
 
 	// fill custom protocol body
-	{
-
-	}
 
 	// serialize to bytes
 	outbuffer, err := proto.Marshal(rspMsg)
@@ -151,6 +149,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			}
 
 			//fill rspMsg
+			rspMsg.Friends = &bbproto.FriendList{}
 			for _, friend := range friendsInfo {
 				//log.Printf("[TRACE] fid:%v friend:%v", fid, *friend.UserId)
 				pFriend := friend

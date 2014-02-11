@@ -69,6 +69,8 @@ func (t GetFriend) FillResponseMsg(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto
 	{
 		rspMsg.Header = reqMsg.Header //including the sessionId
 		rspMsg.Header.Code = proto.Int(rspErr.Code())
+		rspMsg.Header.Error = proto.String(rspErr.Error())
+
 		//log.Printf("req sessionId:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
 	}
 
@@ -115,8 +117,12 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 
 		friendsInfo, err := GetFriendInfo(db, uid, rank, isGetFriend, isGetHelper)
 		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
+		if err != nil {
+			return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
+		}
 
 		//fill rspMsg
+		rspMsg.Friends = &bbproto.FriendList{}
 		for _, friend := range friendsInfo {
 			if friend.UserName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
 				log.Printf("[ERROR] unexcepted error: skip invalid friend: %+v", friend)

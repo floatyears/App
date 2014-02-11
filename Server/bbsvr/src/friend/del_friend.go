@@ -69,6 +69,7 @@ func (t DelFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqDelFriend, rspMsg 
 	{
 		rspMsg.Header = reqMsg.Header //including the sessionId
 		rspMsg.Header.Code = proto.Int(rspErr.Code())
+		rspMsg.Header.Error = proto.String(rspErr.Error())
 
 		//log.Printf("req sessionId:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
 	}

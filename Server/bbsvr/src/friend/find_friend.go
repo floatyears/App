@@ -51,6 +51,22 @@ type FindFriend struct {
 	bbproto.BaseProtoHandler
 }
 
+func (t FindFriend) FillResponseMsg(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.RspFindFriend, rspErr Error.Error) (outbuffer []byte) {
+	// fill protocol header
+	{
+		rspMsg.Header = reqMsg.Header //including the sessionId
+		rspMsg.Header.Code = proto.Int(rspErr.Code())
+		rspMsg.Header.Error = proto.String(rspErr.Error())
+	}
+
+	// serialize to bytes
+	outbuffer, err := proto.Marshal(rspMsg)
+	if err != nil {
+		return nil
+	}
+	return outbuffer
+}
+
 func (t FindFriend) verifyParams(reqMsg *bbproto.ReqFindFriend) (err Error.Error) {
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil {
@@ -64,42 +80,22 @@ func (t FindFriend) verifyParams(reqMsg *bbproto.ReqFindFriend) (err Error.Error
 	return Error.OK()
 }
 
-func (t FindFriend) FillResponseMsg(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.RspFindFriend, rspErr Error.Error) (outbuffer []byte) {
-	// fill protocol header
-	{
-		//fill error code
-		rspMsg.Header = reqMsg.Header //including the sessionId
-		rspMsg.Header.Code = proto.Int(rspErr.Code())
-
-		//log.Printf("req sessionId:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
-	}
-
-	// fill custom protocol body
-
-	// serialize to bytes
-	outbuffer, err := proto.Marshal(rspMsg)
-	if err != nil {
-		return nil
-	}
-	return outbuffer
-}
-
 func (t FindFriend) ProcessLogic(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.RspFindFriend) (Err Error.Error) {
 
-	uid := *reqMsg.Header.UserId
+	friendUid := *reqMsg.FriendUid
 
 	//get user's rank from user table
-	userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
+	userdetail, isUserExists, err := usermanage.GetUserInfo(friendUid)
 	if err != nil {
-		return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed. userId %v", uid))
+		return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", friendUid, err.Error()))
 	}
-	log.Printf("[TRACE] getUser(%v) ret userinfo: %v", uid, userdetail.User)
+	log.Printf("[TRACE] getUser(%v) ret userinfo: %v", friendUid, userdetail.User)
 
 	// get FriendInfo
 	if isUserExists {
 		rspMsg.Friend = userdetail.User
 	} else {
-		return Error.New(cs.EF_FRIEND_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
+		return Error.New(cs.EF_FRIEND_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", friendUid))
 	}
 
 	return Error.OK()

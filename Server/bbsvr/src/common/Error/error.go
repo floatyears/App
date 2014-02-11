@@ -40,14 +40,25 @@ type Error struct {
 }
 
 func (e *Error) Error() string {
+	if e == nil {
+		return ""
+	}
 	return fmt.Sprintf("[%v]%v", e.errCode, e.errStr)
 }
 
 func (e *Error) Code() int {
+	if e == nil {
+		return 0
+	}
+
 	return e.errCode
 }
 
 func (e *Error) IsError() bool {
+	if e == nil {
+		return false
+	}
+
 	return e.errCode != 0
 }
 

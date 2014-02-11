@@ -26,9 +26,9 @@ func UpdateLoginInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (err err
 		userdetail.Login.LastLoginTime = &tNow
 	}
 
-	if !common.IsToday(*userdetail.Login.LastLoginTime) {
-		*userdetail.Login.LoginTotal += 1
+	*userdetail.Login.LoginTotal += 1
 
+	if !common.IsToday(*userdetail.Login.LastLoginTime) {
 		if common.IsYestoday(*userdetail.Login.LastLoginTime) {
 			*userdetail.Login.LoginChain += 1
 		} else {
@@ -39,7 +39,6 @@ func UpdateLoginInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (err err
 	}
 
 	//update last Login time
-
 	userdetail.Login.LastLoginTime = &tNow
 	userdetail.Login.LastPlayTime = &tNow
 

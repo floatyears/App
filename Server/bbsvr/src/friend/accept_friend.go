@@ -67,10 +67,9 @@ func (t AcceptFriend) verifyParams(reqMsg *bbproto.ReqAcceptFriend) (e Error.Err
 func (t AcceptFriend) FillResponseMsg(reqMsg *bbproto.ReqAcceptFriend, rspMsg *bbproto.RspAcceptFriend, rspErr Error.Error) (outbuffer []byte) {
 	// fill protocol header
 	{
-		//fill error code
 		rspMsg.Header = reqMsg.Header //including the sessionId
 		rspMsg.Header.Code = proto.Int(rspErr.Code())
-		//log.Printf("req sessionId:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
+		rspMsg.Header.Error = proto.String(rspErr.Error())
 	}
 
 	// fill custom protocol body

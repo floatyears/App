@@ -69,7 +69,8 @@ func (t AddFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqAddFriend, rspMsg 
 	{
 		rspMsg.Header = reqMsg.Header //including the sessionId
 		rspMsg.Header.Code = proto.Int(rspErr.Code())
-		//log.Printf("req sessionId:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
+		rspMsg.Header.Error = proto.String(rspErr.Error())
+
 	}
 
 	// fill custom protocol body

@@ -13,5 +13,9 @@ func SendResponse(rsp http.ResponseWriter, data []byte) (size int, e Error.Error
 	}
 
 	size, err := rsp.Write(data)
-	return size, Error.New(cs.IOWRITE_ERROR, err.Error())
+	if err != nil {
+		return 0, Error.New(cs.IOWRITE_ERROR, err.Error())
+	}
+
+	return size, Error.OK()
 }
