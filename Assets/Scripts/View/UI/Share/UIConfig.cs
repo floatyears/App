@@ -66,6 +66,8 @@ public class UIConfig
 	public const string userIDWindowName = "UserIDWindow";
 	public const string informationWindowName = "InformationWindow";
 	public const string unitDetailPanelName = "UnitDetailPanel";
+	public const string searchMainWindowName = "SearchMainWindow";
+	public const string searchInfoWindowName = "SearchInfoWindow";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;

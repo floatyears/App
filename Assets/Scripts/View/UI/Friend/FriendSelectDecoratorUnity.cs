@@ -179,7 +179,11 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 		}
 
 		//Get Friend List Data Interface
-
+//		for (int i = 0; i < ConfigFriendList.selectableFriendList.Count; i++){
+//			friendsScroller.AddItem(1);
+//			friendsScroller.ScrollItem[ i ].GetComponentInChildren< UITexture >().mainTexture
+//				= Resources.Load( ConfigFriendList.selectableFriendList[i].unitId) as Texture2D;
+//		}
 
 	}
 
