@@ -43,7 +43,10 @@ func (e *Error) Error() string {
 	if e == nil {
 		return ""
 	}
-	return fmt.Sprintf("[%v]%v", e.errCode, e.errStr)
+	if e.errCode == 0 {
+		e.errStr = "OK"
+	}
+	return fmt.Sprintf("[%v] %v", e.errCode, e.errStr)
 }
 
 func (e *Error) Code() int {

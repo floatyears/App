@@ -125,7 +125,7 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 		rspMsg.Friends = &bbproto.FriendList{}
 		for _, friend := range friendsInfo {
 			if friend.UserName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
-				log.Printf("[ERROR] unexcepted error: skip invalid friend: %+v", friend)
+				log.Printf("[ERROR] unexcepted error: skip invalid friend(%v): %+v", *friend.UserId, friend)
 				continue
 			}
 

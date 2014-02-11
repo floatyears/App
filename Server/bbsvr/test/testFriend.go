@@ -11,7 +11,7 @@ import (
 )
 import (
 	"../src/bbproto"
-	"../src/common"
+	//"../src/common"
 	"../src/const"
 	"../src/data"
 	_ "../src/quest"
@@ -49,7 +49,7 @@ func GetFriend(uid uint32) error {
 	}
 
 	//print rsp msg
-	log.Printf("Reponse: code[%v]: %v", *rspmsg.Header.Code, *rspmsg.Header.Error)
+	log.Printf("RspGetFriend uid:%v code[%v]: %v", uid, *rspmsg.Header.Code, *rspmsg.Header.Error)
 	if err == nil && rspmsg.Friends != nil {
 		for k, friend := range rspmsg.Friends.Friend {
 			log.Printf("friend[%v]: %+v", k, friend)
@@ -101,7 +101,7 @@ func FindFriend(myUid uint32, fUid uint32) error {
 	}
 
 	//print rsp msg
-	log.Printf("Reponse: code[%v]: %v", *rspmsg.Header.Code, *rspmsg.Header.Error)
+	log.Printf("RspFindFriend uid:%v code[%v]: %v", myUid, *rspmsg.Header.Code, *rspmsg.Header.Error)
 	if err == nil && rspmsg.Friend != nil {
 		log.Printf("ret friendinfo: %+v", rspmsg.Friend)
 	} else {
@@ -146,7 +146,6 @@ func DataAddFriends(uid uint32, num uint32) error {
 	}
 	defer db.Close()
 
-	sUid := common.Utoa(uid)
 	for fid := uint32(101); fid-100 < num; fid++ {
 		if fid == uid {
 			continue
@@ -155,7 +154,7 @@ func DataAddFriends(uid uint32, num uint32) error {
 
 		if fid%4 == 1 {
 			fState := bbproto.EFriendState_FRIENDHELPER
-			friend.AddFriend(db, cs.X_HELPER_MY+sUid, fid, fState, updatetime)
+			friend.AddHelper(db, uid, fid, fState, updatetime)
 		} else {
 			fState := bbproto.EFriendState_ISFRIEND
 			if fid%5 == 2 {
@@ -163,7 +162,7 @@ func DataAddFriends(uid uint32, num uint32) error {
 			} else if fid%5 == 3 {
 				fState = bbproto.EFriendState_FRIENDOUT
 			}
-			friend.AddFriend(db, sUid, fid, fState, updatetime)
+			friend.AddFriend(db, uid, fid, fState, updatetime)
 		}
 	}
 
@@ -183,7 +182,6 @@ func DelFriend(myUid uint32, fUid uint32) error {
 	if err != nil {
 		log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
 	}
-
 	rspbuff, err := SendHttpPost(bytes.NewReader(buffer), _PROTO_DEL_FRIEND)
 	if err != nil {
 		log.Printf("SendHttpPost ret err:%v", err)
@@ -199,21 +197,96 @@ func DelFriend(myUid uint32, fUid uint32) error {
 
 	//print rsp msg
 	log.Printf("Reponse: code[%v]: %v", *rspmsg.Header.Code, *rspmsg.Header.Error)
+	log.Printf("-----------------------Response end.----------------------\n")
 
+	return err
+}
+
+func AddFriend(myUid uint32, fUid uint32) error {
+	msg := &bbproto.ReqAddFriend{}
+	msg.Header = &bbproto.ProtoHeader{}
+	msg.Header.ApiVer = proto.String("1.0.0")
+	msg.Header.SessionId = proto.String("S10298090290")
+	msg.Header.UserId = proto.Uint32(myUid)
+
+	msg.FriendUid = proto.Uint32(fUid)
+
+	buffer, err := proto.Marshal(msg)
+	if err != nil {
+		log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
+	}
+	rspbuff, err := SendHttpPost(bytes.NewReader(buffer), _PROTO_ADD_FRIEND)
+	if err != nil {
+		log.Printf("SendHttpPost ret err:%v", err)
+		return err
+	}
+
+	//decode rsp msg
+	log.Printf("-----------------------Response----------------------")
+	rspmsg := &bbproto.RspAddFriend{}
+	if err = proto.Unmarshal(rspbuff, rspmsg); err != nil {
+		log.Printf("ERROR: rsp Unmarshal ret err:%v", err)
+	}
+
+	//print rsp msg
+	log.Printf("Reponse: code[%v]: %v", *rspmsg.Header.Code, *rspmsg.Header.Error)
+	log.Printf("-----------------------Response end.----------------------\n")
+
+	return err
+}
+
+func AcceptFriend(myUid uint32, fUid uint32) error {
+	msg := &bbproto.ReqAcceptFriend{}
+	msg.Header = &bbproto.ProtoHeader{}
+	msg.Header.ApiVer = proto.String("1.0.0")
+	msg.Header.SessionId = proto.String("S10298090290")
+	msg.Header.UserId = proto.Uint32(myUid)
+
+	msg.FriendUid = proto.Uint32(fUid)
+
+	buffer, err := proto.Marshal(msg)
+	if err != nil {
+		log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
+	}
+	rspbuff, err := SendHttpPost(bytes.NewReader(buffer), _PROTO_ACCEPT_FRIEND)
+	if err != nil {
+		log.Printf("SendHttpPost ret err:%v", err)
+		return err
+	}
+
+	//decode rsp msg
+	log.Printf("-----------------------Response----------------------")
+	rspmsg := &bbproto.RspAcceptFriend{}
+	if err = proto.Unmarshal(rspbuff, rspmsg); err != nil {
+		log.Printf("ERROR: rsp Unmarshal ret err:%v", err)
+	}
+
+	//print rsp msg
+	log.Printf("Reponse: code[%v]: %v", *rspmsg.Header.Code, *rspmsg.Header.Error)
 	log.Printf("-----------------------Response end.----------------------\n")
 
 	return err
 }
 
 func main() {
+	log.Printf("==============================================")
+	log.Printf("bbsvr test client begin...")
+
 	Init()
 	//DataAddFriends(104, 39)
 
 	//protocol test
-	GetFriend(101)
-	//FindFriend(101, 1021)
+	//GetFriend(130)
+	//FindFriend(101, 130)
 
-	DelFriend(101, 130)
+	//AddFriend(101, 120)
+
+	AcceptFriend(101, 120)
+	//AcceptFriend(130, 101)
+	//GetFriend(101)
+
+	//DelFriend(120, 101)
+	//GetFriend(120)
 
 	log.Fatal("bbsvr test client finish.")
 }
