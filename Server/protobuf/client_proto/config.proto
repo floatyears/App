@@ -1,0 +1,13 @@
+package bbproto;
+
+//Audio config file
+message AudioConfigItem {
+    optional int32	id						= 1;
+    optional string	name					= 2;
+    optional string	resourcePath			= 3;
+	optional int32	type					= 4;
+}
+
+message AudioConfigFile {
+    repeated AudioConfigItem	audioConfig	= 1;
+}

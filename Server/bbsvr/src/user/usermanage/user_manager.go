@@ -103,6 +103,7 @@ func GetNewUserId() (userid uint32, err error) {
 	if err != nil {
 		userid = 100 //first userId
 	}
+
 	userid += uint32(uid + 1)
 	log.Printf("get MAX_USER_ID ret: %v ", userid)
 	err = db.SetUInt(cs.KEY_MAX_USER_ID, userid)

@@ -1,22 +1,20 @@
 package friend
 
 import (
-	"fmt"
+	//"fmt"
 	"log"
 	"net/http"
 	//"time"
-	"errors"
 )
 
 import (
 	"../bbproto"
-	//"../common"
+	"../common"
+	"../common/Error"
 	"../const"
 	"../data"
 	//"../user/usermanage"
-
 	proto "code.google.com/p/goprotobuf/proto"
-	//redis "github.com/garyburd/redigo/redis"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -27,19 +25,18 @@ func AddFriendHandler(rsp http.ResponseWriter, req *http.Request) {
 
 	handler := &AddFriendProtocol{}
 	err := handler.ParseInput(req, &reqMsg)
-	if err != nil {
+	if err.IsError() {
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
 		return
 	}
 
 	err = handler.verifyParams(&reqMsg)
-	if err != nil {
+	if err.IsError() {
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
 		return
 	}
 
 	// game logic
-
 	err = handler.ProcessLogic(&reqMsg, rspMsg)
 
 	err = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
@@ -52,55 +49,55 @@ type AddFriendProtocol struct {
 	bbproto.BaseProtoHandler
 }
 
-func (t AddFriendProtocol) GenerateSessionId(uuid *string) (sessionId string, err error) {
-	//TODO: makeSidFrom(*uuid, timeNow)
-	sessionId = "rcs7kga8pmvvlbtgbf90jnchmqbl9khn"
-	return sessionId, nil
-}
-
-func (t AddFriendProtocol) verifyParams(reqMsg *bbproto.ReqAddFriend) (err error) {
-	//TODO: input params validation
-	if reqMsg.Header.UserId == nil {
-		return errors.New("ERROR: params is invalid.")
-	}
-
-	if *reqMsg.Header.UserId == 0 {
-		return errors.New("ERROR: userId is invalid.")
-	}
-
-	return nil
-}
-
-func (t AddFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqAddFriend, rspMsg *bbproto.RspAddFriend, rspErr error) (outbuffer []byte) {
+func (t AddFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqAddFriend, rspMsg *bbproto.RspAddFriend, rspErr Error.Error) (outbuffer []byte) {
 	// fill protocol header
 	{
 		rspMsg.Header = reqMsg.Header //including the sessionId
-		log.Printf("req header:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
+		rspMsg.Header.Code = proto.Int(rspErr.Code())
+		rspMsg.Header.Error = proto.String(rspErr.Error())
 	}
-
-	// fill custom protocol body
 
 	// serialize to bytes
 	outbuffer, err := proto.Marshal(rspMsg)
 	if err != nil {
+		log.Printf("[ERROR] proto.Marshal error: %v", err)
 		return nil
 	}
+
 	return outbuffer
 }
 
-func (t AddFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqAddFriend, rspMsg *bbproto.RspAddFriend) (err error) {
+func (t AddFriendProtocol) verifyParams(reqMsg *bbproto.ReqAddFriend) (e Error.Error) {
+	//TODO: input params validation
+	if reqMsg.Header.UserId == nil || reqMsg.FriendUid == nil {
+		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+	}
+
+	if *reqMsg.Header.UserId == 0 || *reqMsg.FriendUid == 0 {
+		return Error.New(cs.INVALID_PARAMS, "ERROR: userId is invalid.")
+	}
+
+	return Error.OK()
+}
+
+func (t AddFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqAddFriend, rspMsg *bbproto.RspAddFriend) (e Error.Error) {
+	db := &data.Data{}
+	err := db.Open(cs.TABLE_FRIEND)
+	defer db.Close()
+	if err != nil {
+		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
+	}
 
 	uid := *reqMsg.Header.UserId
 	fUid := *reqMsg.FriendUid
 
-	db := &data.Data{}
-	err = db.Open(cs.TABLE_FRIEND)
-	defer db.Close()
-	if err != nil || uid == 0 {
-		return
+	e = AddFriend(db, uid, fUid, bbproto.EFriendState_FRIENDOUT, common.Now())
+	if e.IsError() {
+		log.Printf("[ERROR] user:%v AddFriend(%v) failed: %v", uid, fUid, e.Error())
+		return e
 	}
 
-	log.Printf("%v %v %v", db, fUid, fmt.Sprintf(""))
+	log.Printf("[TRACE] user:%v AddFriend(%v) ok.", uid, fUid)
 
-	return err
+	return Error.OK()
 }

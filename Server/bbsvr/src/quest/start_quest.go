@@ -62,7 +62,7 @@ func (t StartQuest) SendResponse(rsp http.ResponseWriter, reqMsg *bbproto.ReqSta
 	if err != nil {
 		return err
 	}
-	_, err = common.SendResponse(rsp, data)
+	_, _ = common.SendResponse(rsp, data)
 	return err
 }
 

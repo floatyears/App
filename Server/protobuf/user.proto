@@ -62,13 +62,6 @@ message TerminalInfo {
 	optional string	os		 					= 4; // android / ios
 };
 
-enum EFriendState{
-	ISFRIEND		= 1; // is already friend
-	FRIENDOUT		= 2; // I request add one as friend
-	FRIENDIN		= 3; // others request add me as friend
-	FRIENDHELPER	= 4; // friends allocated by system  
-};
-
 message LoginBonus {
 	optional int32		type					= 1;
 	optional int32		value					= 2;
