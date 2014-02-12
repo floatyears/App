@@ -106,6 +106,20 @@ public enum CommandEnum
 	StrengthenTargetType	= 3032,
 
 	ActiveSkillCooling		= 3033,
+
+	TrapMove				= 3034,
+
+	NoSPMove				= 3035,
+
+	TrapInjuredDead			= 3036,
+
+	ConsumeSP				= 3037,
+
+	ConsumeCoin				= 3038,
+
+	ShieldMap				= 3039,
+
+	InjuredNotDead			= 3040,
 }
 
 public enum UIParentEnum : byte {

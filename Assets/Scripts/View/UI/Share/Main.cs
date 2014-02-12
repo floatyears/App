@@ -53,7 +53,7 @@ public class Main : MonoBehaviour
 	void Awake()
 	{
 		mainScrpit = this;
-
+		TrapInjuredInfo tii = TrapInjuredInfo.Instance;
 		globalDataSeed = (byte)Random.Range (0, 255);
 
 		gInput = gameObject.AddComponent<GameInput>();

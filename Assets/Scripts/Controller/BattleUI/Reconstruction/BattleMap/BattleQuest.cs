@@ -72,7 +72,7 @@ public class BattleQuest : UIBase
 	}
 
 	void InitData() {
-		mapConfig = new MapConfig();
+		mapConfig = ModelManager.Instance.GetData (ModelEnum.MapConfig,new ErrorMsg()) as MapConfig; //new MapConfig (); //
 	}
 
 	void Init(UIBaseUnity ui,string name)
@@ -86,19 +86,16 @@ public class BattleQuest : UIBase
 	}
 
 	public override void ShowUI ()
-	{
+	{ 
 		InitData ();
 		base.ShowUI ();
-
 		AddListener ();
-
 		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
 	}
 
 	public override void HideUI ()
 	{
 		RemoveListener ();
-
 		base.HideUI ();
 //		StartView.mainBg.gameObject.SetActive(true);
 //		StartView.menuBtns.gameObject.SetActive(true);

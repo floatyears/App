@@ -95,17 +95,15 @@ public class ControllerManager
 		currentScene.HideUI();
 	}
 
-	public void ChangeScene(SceneEnum sEnum)
-	{
+	public void ChangeScene(SceneEnum sEnum) {
 		string uiName = sEnum.ToString();
 
-		if(currentScene != null)
-		{
-
-			if(currentScene.UIName == uiName)
+		if(currentScene != null) {
+			if(currentScene.UIName == uiName){
+				currentScene.ShowUI();
 				return;
-			else
-			{		
+			}
+			else {		
 				prevScene = currentScene;
 				currentScene.HideUI();
 			}

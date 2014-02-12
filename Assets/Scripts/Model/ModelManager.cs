@@ -6,11 +6,11 @@ using UnityEngine;
 
 public enum ModelEnum
 {
-    User = 1000,
-	UnitPartyInfo = 1001,
+    User			= 1000,
+	UnitPartyInfo	= 1001,
 
-	UIInsConfig = 2000,
-
+	UIInsConfig		= 2000,
+	MapConfig		= 2001,
 }
 
 public class ModelManager
@@ -77,8 +77,8 @@ public class ModelManager
 		string info = obj.text;
 		UIIns ins = new UIIns (info);
 		AddData (ModelEnum.UIInsConfig, ins);
-
-
+		MapConfig mc = new MapConfig ();
+		AddData (ModelEnum.MapConfig, mc);
 	}
 
 	public void InitData () {

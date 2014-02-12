@@ -8,7 +8,6 @@ public interface IUIInterface
 	/// ui name
 	/// </summary>
 	/// <value>The name.</value>
-
 	string UIName{get;}
 	
 	/// <summary>
@@ -35,7 +34,6 @@ public interface IUIInterface
 	UIState GetState{get;}
 
 	SceneEnum GetScene{get;set;}
-	
 }
 #endregion
 
@@ -116,6 +114,10 @@ public interface IActiveSkillExcute {
 	bool CoolingDone{ get;}
 	void RefreashCooling();
 	object Excute(uint userUnitID, int atk = -1);
+}
+
+public interface ITrapExcute {
+	void Excute();
 }
 
 public interface IUIParty : IUICallback {
