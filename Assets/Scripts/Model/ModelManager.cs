@@ -89,6 +89,8 @@ public class ModelManager
 		ConfigUnitBaseInfo cubi = new ConfigUnitBaseInfo ();
 
 		ConfigFriendList configFriendList = new ConfigFriendList();
+		ConfigAudio audioConfig = new ConfigAudio();
+
 
 	}
 	

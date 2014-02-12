@@ -62,7 +62,7 @@ public class OthersDecoratorUnity : UIComponentUnity {
 		string path = "InfoPanel/Music/BGM/";
 		UISprite maskOn = FindChild< UISprite >( path + "On/Mask");
 		UISprite maskOff = FindChild< UISprite >( path + "Off/Mask");
-		AudioManager.Instance.OnMusic();
+		//AudioManager.Instance.OnMusic();
 		maskOn.enabled = false;
 		maskOff.enabled = true;
 	}
@@ -73,11 +73,11 @@ public class OthersDecoratorUnity : UIComponentUnity {
 		UISprite maskOff = FindChild< UISprite >( path + "Off/Mask");
 
 		if( btn.name == "On") {
-			AudioManager.Instance.OnMusic();
+			//AudioManager.Instance.OnMusic();
 			maskOn.enabled = false;
 			maskOff.enabled = true;
 		}else if(btn.name == "Off"){
-			AudioManager.Instance.OffMusic();
+			//AudioManager.Instance.OffMusic();
 			maskOn.enabled = true;
 			maskOff.enabled = false;
 		}

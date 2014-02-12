@@ -1,24 +1,10 @@
-﻿using UnityEngine;
+﻿using bbproto;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class AudioManager {
-
-	private AudioSource musicSource;
-	private AudioSource soundSource;
-	private bool canPlaySound;
-	private bool canPlayMusic;
-
-	private Dictionary< string, AudioClip > audioClipCollection = new  Dictionary<string, AudioClip>();
-
-	AudioClip bgMusicClip;
-
-	private AudioManager() {
-		InitAudioSource();
-		canPlaySound = true;
-		canPlayMusic = true;
-	}
-
 	private static AudioManager instance;
 	public static AudioManager Instance {
 		get {
@@ -28,48 +14,22 @@ public class AudioManager {
 		}
 	}
 
-	private void InitAudioSource() {
-		musicSource = GameObject.Find("Audio/Music").GetComponent<AudioSource>();
-		soundSource = GameObject.Find("Audio/Sound").GetComponent< AudioSource >();
+	private AudioManager(){}
 
-		bgMusicClip = Resources.Load("Audio/bgMusic") as AudioClip;
+	public void PlayAudio(AudioEnum audioEnum){
+		int audioID = (int)audioEnum;
+		GameObject audioPlayer = new GameObject();
+		AudioSource audioSource = audioPlayer.AddComponent<AudioSource>();
+		AudioClip audioClip = new AudioClip();
+	
+		AudioConfigItem configItem = ConfigAudio.audioList.Find( item=>item.id == audioID );
+		if(configItem == default(AudioConfigItem))	return;
+		audioClip = Resources.Load(configItem.resourcePath) as AudioClip;
+		if(audioClip == null)	return;
 
-		musicSource.clip = bgMusicClip;
-		musicSource.loop = true;
-	}
-	private void InitAudioClip(){
-
-	}
-
-	public void OnMusic() {
-		if(!canPlayMusic)
-			return;
-
-		if(musicSource.isPlaying)
-			return;
-			musicSource.Play();
+		audioPlayer.name = "_" + audioEnum.ToString();
+		audioSource.clip = audioClip;
+		audioSource.Play();
 	}
 
-	public void OffMusic() {
-		if( musicSource.isPlaying )
-			musicSource.Pause();
-	}
-
-
-
-
-	public void PlaySound(string soundName) {
-		if(!canPlaySound) 
-			return;
-		if(!audioClipCollection.ContainsKey(soundName))
-			return;
-			
-		AudioClip clip = audioClipCollection[soundName];
-		if(clip == null){
-			Debug.LogError("Clip is Null");
-			return;
-		}
-		soundSource.clip = clip;
-		soundSource.Play();
-	}
 }
