@@ -23,7 +23,7 @@ public class SearchFriendWindow : UIComponentUnity {
 	}
 
 	void ClickButton( GameObject button ){
-		Debug.Log( "Click Button,Call.......");
+//		Debug.Log( "Click Button,Call.......");
 		IUICallback buttonBacker = origin as IUICallback;
 		bool isBacker;
 		isBacker = origin is IUICallback;

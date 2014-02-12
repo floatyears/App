@@ -14,11 +14,10 @@ public class SearchInfoUI : ConcreteComponent {
 	}
 
 	public void ShowSelf(){
-		Debug.Log("Class SearchInfoUI");
 		IUICallback caller = viewComponent as IUICallback;
 		bool isCaller;
 		isCaller = viewComponent is IUICallback;
-		Debug.Log( viewComponent.ToString() );
+		//Debug.Log( viewComponent.ToString() );
 		if( !isCaller )	return;
 		caller.Callback( true );
 	}

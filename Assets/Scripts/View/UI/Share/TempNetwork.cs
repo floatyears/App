@@ -12,11 +12,11 @@ public class TempNetwork
 		//other verify logic here
 		else {
 			if( infoUI == null ){
-				Debug.LogError("InfoUI is Null");
+				//Debug.LogError("InfoUI is Null");
 				return;
 			}
 			infoUI.ShowSelf();
-			Debug.Log("Net ");
+			//Debug.Log("Net ");
 		}
 			
 	}

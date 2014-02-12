@@ -21,7 +21,7 @@ public class SearchInfoWindow : UIComponentUnity,IUICallback {
 	}
 
 	public void Callback(object data) {
-		Debug.Log("Show Info Window");
+		//Debug.Log("Show Info Window");
 		bool isActive = (bool)data;
 		SetActive( this.gameObject, isActive);
 	}
