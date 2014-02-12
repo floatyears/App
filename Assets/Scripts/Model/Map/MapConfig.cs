@@ -33,7 +33,6 @@ public class MapConfig : IOriginModel
 
 	public MapConfig ()
 	{
-//		Debug.LogError (" MapConfig : " + Time.realtimeSinceStartup);
 		ConfigTrap ct = new ConfigTrap ();
 		mapXLength = 5;
 		mapYLength = 5;
@@ -57,6 +56,19 @@ public class MapConfig : IOriginModel
 				mapData[i,j] = smd;
 			}	
 		}
+
+		SingleMapData singleMapItem = mapData [2, 1];
+		singleMapItem.ContentType = MapItemEnum.Trap;
+		singleMapItem.TypeValue = 1;
+		singleMapItem = mapData [2, 2];
+		singleMapItem.ContentType = MapItemEnum.Trap;
+		singleMapItem.TypeValue = 5;
+		singleMapItem = mapData [2, 3];
+		singleMapItem.ContentType = MapItemEnum.Trap;
+		singleMapItem.TypeValue = 6;
+		singleMapItem = mapData [1, 0];
+		singleMapItem.ContentType = MapItemEnum.Trap;
+		singleMapItem.TypeValue = 2;
 
 		mapData[characterInitCoorX,characterInitCoorY].MonsterID.Clear();   
 		mapData [2, 4].MonsterID.Clear ();
