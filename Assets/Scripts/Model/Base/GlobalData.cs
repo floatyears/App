@@ -8,7 +8,7 @@ public class GlobalData  {
 	public static Dictionary<uint, UserUnitInfo> tempUserUnitInfo = new Dictionary<uint, UserUnitInfo>();
 	public static Dictionary<uint, TempEnemy> tempEnemyInfo = new Dictionary<uint, TempEnemy> ();
 	public static Dictionary<int, UnitBaseInfo> tempUnitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
-	public static Dictionary<uint, ITrapExcute> tempTrapInfo = new Dictionary<uint, ITrapExcute> ();
+	public static Dictionary<uint, TrapBase> tempTrapInfo = new Dictionary<uint, TrapBase> ();
 	//public static Dictionary<uint,>
 
 	public const int maxEnergyPoint = 20;

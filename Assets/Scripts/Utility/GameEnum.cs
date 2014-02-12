@@ -119,7 +119,23 @@ public enum CommandEnum
 
 	ShieldMap				= 3039,
 
-	InjuredNotDead			= 3040,
+	PlayerPosion			= 3040,
+
+	InjuredNotDead			= 3041,
+
+	MeetEnemy				= 3042,
+
+	MeetTrap				= 3043,
+
+	TrapTargetPoint			= 3044,
+}
+
+public enum MapItemEnum {
+	None					= 0,
+	Enemy					= 1,
+	Trap					= 2,
+	Coin					= 3,
+	key						= 4,
 }
 
 public enum UIParentEnum : byte {

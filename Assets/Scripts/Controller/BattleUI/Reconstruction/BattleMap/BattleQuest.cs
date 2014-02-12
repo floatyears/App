@@ -112,31 +112,47 @@ public class BattleQuest : UIBase
 		role.StartMove(coor);
 	}
 	  
-	public void RoleCoordinate(Coordinate coor)
-	{
+	public void RoleCoordinate(Coordinate coor) {
 		if(!battleMap.ReachMapItem (coor))
 		{
 			currentMapData = mapConfig.mapData[coor.x,coor.y];
-
 			if(currentMapData.MonsterID.Contains(100)) {
 				controllerManger.ExitBattle();
 				UIManager.Instance.ExitBattle();
+				return;
 			}
-				//controllerManger.ChangeScene(SceneEnum.Quest);
-			else if(currentMapData.MonsterID.Count > 0)
-			{
+		
+			switch (currentMapData.ContentType) {
+			case MapItemEnum.None:
+				break;
+			case MapItemEnum.Enemy:
+				MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, null);
 				ShowBattle();
 				role.Stop();
-//				List<int> temp = new List<ShowEnemyUtility>();
-//				for (int i = 0; i < currentMapData.MonsterID.Count; i++) {
-//					temp.Add(GlobalData.tempEnemyInfo[currentMapData.MonsterID[i]]);
-//				}
-//          		battle.ShowEnemy(temp);
 				List<ShowEnemyUtility> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
 				battle.ShowEnemy(temp);
+				break;
+			case MapItemEnum.key:
+				break;
+			case MapItemEnum.Coin:
+
+				break;
+			case MapItemEnum.Trap:
+				TrapBase tb = GlobalData.tempTrapInfo[currentMapData.TypeValue];
+				MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+				break;
+			default:
+					break;
 			}
+//			if(currentMapData.MonsterID.Count > 0) {
+//				MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, null);
+//				ShowBattle();
+//				role.Stop();
+//				List<ShowEnemyUtility> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
+//				battle.ShowEnemy(temp);
+//			}
 		}
-	} 
+	}
 
 	void ShowBattle()
 	{

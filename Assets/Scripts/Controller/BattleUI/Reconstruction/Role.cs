@@ -1,13 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Role : UIBaseUnity
 {
 	private Coordinate currentCoor;
-
-	public Coordinate CurrentCoor
-	{
+	public Coordinate CurrentCoor {
 		get{ return currentCoor; }
+	}
+
+	private Coordinate prevCoor;
+	public Coordinate PrevCoor {
+		get { return prevCoor; }
 	}
 
 	/// <summary>
@@ -57,7 +61,7 @@ public class Role : UIBaseUnity
 
 	void RoleStart()
 	{
-		currentCoor = bQuest.RoleInitPosition;
+		prevCoor = currentCoor = bQuest.RoleInitPosition;
 		
 		Vector3 pos = bQuest.GetPosition(currentCoor);
 		
@@ -68,41 +72,83 @@ public class Role : UIBaseUnity
 		Stop();
 	}
 
-	public override void ShowUI ()
-	{
+	public override void ShowUI () {
 		base.ShowUI ();
 		gameObject.SetActive (true);
 		RoleStart ();
+
+		MsgCenter.Instance.AddListener (CommandEnum.TrapMove, TrapMove);
+		MsgCenter.Instance.AddListener (CommandEnum.NoSPMove, NoSPMove);
 	}
 
-	public override void HideUI ()
-	{
+	public override void HideUI () {
 		base.HideUI ();
 		gameObject.SetActive (false);
+
+		MsgCenter.Instance.RemoveListener (CommandEnum.TrapMove, TrapMove);
+		MsgCenter.Instance.RemoveListener (CommandEnum.NoSPMove, NoSPMove);
 	}
 
-	void Move()
-	{
-		if(firstWay.Count == 0)
-		{
-			return;
+	void NoSPMove(object data) {
+		if (data == null) {
+			SetTarget (prevCoor);
+		} 
+		else {
+			Coordinate cd = (Coordinate)data;
+			SetTarget (cd);
+			bQuest.RoleCoordinate(cd);
 		}
 
-		isMove = true;
+		StartCoroutine (MoveByTrap ());
+	}
 
+	void TrapMove(object data) {
+		if (data == null) {
+			SetTarget (prevCoor);
+			StartCoroutine(MoveByTrap());
+			return;
+		}
+		Coordinate cd = (Coordinate)data;
+		SetTarget (cd);
+		MsgCenter.Instance.Invoke(CommandEnum.TrapTargetPoint, cd);
+		if (cd.x == bQuest.RoleInitPosition.x && cd.y == bQuest.RoleInitPosition.y) {
+			GoTarget ();
+		} else {
+			bQuest.RoleCoordinate(cd);
+			GoTarget();		
+		}
+	}
+
+	void GoTarget() {
+		transform.localPosition = targetPoint;
+	}
+
+	IEnumerator MoveByTrap() {
+		Stop ();
+		transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 10);
+		distance = transform.localPosition - targetPoint;
+		yield return 1;
+		if (distance.magnitude > 0.1f) {
+			StartCoroutine(MoveByTrap());
+		}
+	}
+
+	void Move() {
+		if(firstWay.Count == 0) {
+			return;
+		}
+		isMove = true;
 		SetTarget(firstWay[0]);
 	}
 
-	void SetTarget(Coordinate tc)
-	{
+	void SetTarget(Coordinate tc) {
+		prevCoor = currentCoor;
 		currentCoor.x = tc.x;
 		currentCoor.y = tc.y;
 		TargetPoint = bQuest.GetPosition(tc);
-
 	}
 	
-	void Update()
-	{
+	void Update() {
 		if(!isMove)
 			return;
 

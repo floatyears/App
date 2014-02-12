@@ -2,11 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class ExcuteTrap : ProtobufDataBase {
-	public ExcuteTrap (object instance) : base (instance) {
-
-	}	
-
+public class ExcuteTrap  {
 	public void Excute (ITrapExcute trap) {
 		trap.Excute ();
 	}

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 
 
-public class SingleMapData
-{
+public class SingleMapData {
 	private int coordinateX = 0;
 	/// <summary>
 	/// Gets or sets the coordinate x.
@@ -30,16 +29,27 @@ public class SingleMapData
 	/// </summary>
 	public int StarLevel
 	{
-		get{return starLevel;}
-		set{starLevel = value;}
+		get { return starLevel; }
+		set { starLevel = value; }
+	}
+
+	private MapItemEnum contentType = MapItemEnum.None;
+	public MapItemEnum ContentType {
+		get { return contentType; }
+		set { contentType = value; }
+	}
+
+	private uint typeValue = 0;
+	public uint TypeValue {
+		get { return typeValue; }
+		set {typeValue = value; }
 	}
 	
 	private List<uint> monsterID = new List<uint>();
 	/// <summary>
 	/// Gets or sets the monster ID.
 	/// </summary>
-	public List<uint> MonsterID
-	{
+	public List<uint> MonsterID {
 		get{return monsterID;}
 		set{monsterID = value;}
 	}

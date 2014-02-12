@@ -19,6 +19,7 @@ public class BattleUseData {
 	private AttackController ac;
 	private ExcuteLeadSkill els;
 	private ExcuteActiveSkill eas;
+	private ExcutePassiveSkill eps;
 	private ILeaderSkillRecoverHP skillRecoverHP;
 
 	private static Coordinate currentCoor;
@@ -39,6 +40,7 @@ public class BattleUseData {
 		ac = new AttackController (this);
 		els = new ExcuteLeadSkill (upi);
 		eas = new ExcuteActiveSkill (upi);
+		eps = new ExcutePassiveSkill (upi);
 		skillRecoverHP = els;
 		els.Excute ();
 		maxBlood = blood = upi.GetBlood ();
@@ -59,6 +61,10 @@ public class BattleUseData {
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillRecoverHP, RecoveHPByActiveSkill);
 		MsgCenter.Instance.AddListener (CommandEnum.SkillSucide, Sucide);
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, RecoverEnergePoint);
+		MsgCenter.Instance.AddListener (CommandEnum.TrapMove, TrapMove);
+		MsgCenter.Instance.AddListener (CommandEnum.TrapInjuredDead, TrapInjuredDead);
+		MsgCenter.Instance.AddListener (CommandEnum.InjuredNotDead, InjuredNotDead);
+		MsgCenter.Instance.AddListener (CommandEnum.TrapTargetPoint, TrapTargetPoint);
 	}
 
 	void RemoveListen () {
@@ -70,11 +76,37 @@ public class BattleUseData {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillRecoverHP, RecoveHPByActiveSkill);
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillSucide, Sucide);
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, RecoverEnergePoint);
+		MsgCenter.Instance.RemoveListener (CommandEnum.TrapMove, TrapMove);
+		MsgCenter.Instance.RemoveListener (CommandEnum.TrapInjuredDead, TrapInjuredDead);
+		MsgCenter.Instance.RemoveListener (CommandEnum.InjuredNotDead, InjuredNotDead);
+		MsgCenter.Instance.RemoveListener (CommandEnum.TrapTargetPoint, TrapTargetPoint);
 	}
-	
+
+	void TrapMove(object data) {
+		if (data == null) {
+			ConsumeEnergyPoint ();
+		}
+	}
+
+	void TrapInjuredDead(object data) {
+		float value = (float)data;
+		int hurtValue = System.Convert.ToInt32 (value);
+		blood -= hurtValue;
+		RefreshBlood ();
+	}
+
+	void InjuredNotDead(object data) {
+		float probability = (float)data;
+		float residualBlood = blood - maxBlood * probability;
+		if (blood < 1) {
+			blood = 1;	
+		}
+		blood = System.Convert.ToInt32 (residualBlood);
+		RefreshBlood ();
+	}
+
 	void RecoveHPByActiveSkill (object data) {
 		int value = (int)data;
-//		AttackInfo ai = data as AttackInfo;
 		int add = 0;
 		if (value < 1) {
 			add = blood * value + blood;
@@ -87,7 +119,6 @@ public class BattleUseData {
 
 	void DelayCountDownTime(object data) {
 		float addTime = (float)data;
-//		Debug.LogError ("addTime : " + addTime);
 		countDown += addTime;
 	}
 
@@ -200,6 +231,12 @@ public class BattleUseData {
 //		Debug.LogError ("maxEnergyPoint : " + maxEnergyPoint);
 		MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
 	}
+	void TrapTargetPoint(object coordinate) {
+		currentCoor = (Coordinate)coordinate;
+
+		ConsumeEnergyPoint ();
+//		Debug.LogError("TrapTargetPoint TrapTargetPoint ");
+	}
 
 	bool temp = true;
 	void MoveToMapItem (object coordinate) {
@@ -211,6 +248,11 @@ public class BattleUseData {
 		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillCooling, null);	// refresh active skill cooling.
 		int addBlood = skillRecoverHP.RecoverHP (blood, 2);	//3: every step.
 		RecoverHP (addBlood);
+		ConsumeEnergyPoint ();
+//		Debug.LogError("MoveToMapItem TrapTargetPoint ");
+	}
+
+	void ConsumeEnergyPoint () {
 		if (maxEnergyPoint == 0) {
 			blood -= ReductionBloodByProportion(0.2f);
 			if(blood < 1) {
