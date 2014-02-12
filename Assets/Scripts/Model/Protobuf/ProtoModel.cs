@@ -208,7 +208,7 @@ namespace bbproto
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
-         
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"FriendList")]
   public partial class FriendList : global::ProtoBuf.IExtensible
   {
@@ -3859,5 +3859,87 @@ namespace bbproto
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
+  
+}
+// Generated from: config.proto
+namespace bbproto
+{
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AudioConfigItem")]
+  public partial class AudioConfigItem : global::ProtoBuf.IExtensible
+  {
+    public AudioConfigItem() {}
+    
+    private int _version = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"version", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int version
+    {
+      get { return _version; }
+      set { _version = value; }
+    }
+    private int _id = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int id
+    {
+      get { return _id; }
+      set { _id = value; }
+    }
+    private string _name = "";
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string name
+    {
+      get { return _name; }
+      set { _name = value; }
+    }
+    private string _resourcePath = "";
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"resourcePath", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string resourcePath
+    {
+      get { return _resourcePath; }
+      set { _resourcePath = value; }
+    }
+    private bbproto.EPlayType _type = bbproto.EPlayType.ONCE;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"type", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EPlayType.ONCE)]
+    public bbproto.EPlayType type
+    {
+      get { return _type; }
+      set { _type = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AudioConfigFile")]
+  public partial class AudioConfigFile : global::ProtoBuf.IExtensible
+  {
+    public AudioConfigFile() {}
+    
+    private readonly global::System.Collections.Generic.List<bbproto.AudioConfigItem> _audioConfig = new global::System.Collections.Generic.List<bbproto.AudioConfigItem>();
+    [global::ProtoBuf.ProtoMember(1, Name=@"audioConfig", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.AudioConfigItem> audioConfig
+    {
+      get { return _audioConfig; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"EPlayType")]
+    public enum EPlayType
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ONCE", Value=1)]
+      ONCE = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ALWAYS", Value=2)]
+      ALWAYS = 2
+    }
   
 }
