@@ -137,41 +137,31 @@ public class Role : UIBaseUnity
 		}
 	}
 
-	public void Stop()
-	{
+	public void Stop() {
 		isMove = false;
-
 		firstWay.Clear ();
 	}
 
 
-	public void StartMove(Coordinate coor)
-	{
+	public void StartMove(Coordinate coor) {
 		if(isMove)
 			return;
-
 		GenerateWayPoint(coor);
-
 		Move();
 	}
 
-	void SyncRoleCoordinate(Coordinate coor)
-	{
+	void SyncRoleCoordinate(Coordinate coor) {
 		MsgCenter.Instance.Invoke (CommandEnum.MoveToMapItem, coor);
 		bQuest.RoleCoordinate(coor);
 	}
 
-	void GenerateWayPoint(Coordinate endCoord)
-	{
-		if(currentCoor.x == endCoord.x)
-		{
+	void GenerateWayPoint(Coordinate endCoord) {
+		if(currentCoor.x == endCoord.x) {
 			firstWay.AddRange(CaculateY(endCoord));
 			return;
 		}
 
-		if(currentCoor.y == endCoord.y)
-		{
-			
+		if(currentCoor.y == endCoord.y) {
 			firstWay.AddRange(CaculateX(endCoord));
 			return;
 		}

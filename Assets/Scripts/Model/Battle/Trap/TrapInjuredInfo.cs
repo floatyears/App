@@ -13,19 +13,19 @@ public class TrapInjuredInfo {
 		}
 	}
 
-	private int mineInfo		= 1;
-	private int trappingInfo	= 2;
-	private int hungryInfo		= 3;
-	private int lostMoney		= 4;
-	private int environment		= 5;
-	private int stateException	= 6;
+	public const int mineInfo		= 1;
+	public const int trappingInfo	= 2;
+	public const int hungryInfo		= 3;
+	public const int lostMoney		= 4;
+	public const int environment	= 5;
+	public const int stateException	= 6;
 
 	/// <summary>
 	/// 1: mine. 2: trapping. 3: hungryinfo. 4: lostmoney. 5: environment. 6: state excpeiton.
 	/// </summary>
 	private Dictionary<int, List<TrapInjuredValue>> TrapInjured = new Dictionary<int, List<TrapInjuredValue>> ();
 	private TrapInjuredInfo () {
-	//-----------------------------mine-------------------------------------
+	//-----------------------------mine------------------------------------
 		List<TrapInjuredValue> temp = new List<TrapInjuredValue> ();
 		for (int i = 1; i < 10; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
@@ -36,7 +36,7 @@ public class TrapInjuredInfo {
 		}
 		TrapInjured.Add (mineInfo, temp);
 
-	//-----------------------------trapping----------------------------------
+	//-----------------------------trapping---------------------------------
 		temp = new List<TrapInjuredValue> ();
 		for (int i = 1; i < 10; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
@@ -47,7 +47,7 @@ public class TrapInjuredInfo {
 		}
 		TrapInjured.Add (trappingInfo, temp);
 	
-	//-----------------------------hungryInfo--------------------------------
+	//-----------------------------hungryInfo-------------------------------
 		temp = new List<TrapInjuredValue> ();
 		for (int i = 1; i < 11; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
@@ -58,7 +58,7 @@ public class TrapInjuredInfo {
 		}
 		TrapInjured.Add (hungryInfo, temp);
 
-	//-----------------------------lostMoney----------------------------------
+	//-----------------------------lostMoney---------------------------------
 		temp = new List<TrapInjuredValue> ();
 		for (int i = 1; i < 11; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
@@ -69,7 +69,7 @@ public class TrapInjuredInfo {
 		}
 		TrapInjured.Add (lostMoney, temp);
 
-	//-----------------------------environment--------------------------------
+	//-----------------------------environment-------------------------------
 		temp = new List<TrapInjuredValue> ();
 		for (int i = 1; i < 11; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
@@ -80,7 +80,7 @@ public class TrapInjuredInfo {
 		}
 		TrapInjured.Add (environment, temp);
 
-	//-----------------------------stateException-----------------------------
+	//-----------------------------stateException----------------------------
 		temp = new List<TrapInjuredValue> ();
 		for (int i = 1; i < 11; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
@@ -105,6 +105,10 @@ public class TrapInjuredInfo {
 		else {
 			return tiv;
 		}
+	}
+
+	public TrapInjuredValue FindInfo(int type,int valueIndex) {
+		return FindTrapInjured (type, valueIndex);
 	}
 
 	public TrapInjuredValue FindMineInfo (int valueIndex) {

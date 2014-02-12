@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class MoveTrap : ProtobufDataBase, ITrapExcute{
+public class MoveTrap : TrapBase, ITrapExcute{
 	public MoveTrap(object instance) : base (instance) {
 
 	}

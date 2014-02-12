@@ -21,11 +21,14 @@ public class BattleUseData {
 	private ExcuteActiveSkill eas;
 	private ILeaderSkillRecoverHP skillRecoverHP;
 
+	private static Coordinate currentCoor;
+	public static Coordinate CurrentCoor {
+		get { return currentCoor; }
+	}
+
 	private static float countDown = 5f;
 	public static float CountDown{
-		get {
-			return countDown;
-		}
+		get { return countDown; }
 	}
 
 	public BattleUseData () {
@@ -200,13 +203,12 @@ public class BattleUseData {
 
 	bool temp = true;
 	void MoveToMapItem (object coordinate) {
+		currentCoor = (Coordinate)coordinate;
 		if (temp) {
 			temp = false;
 			return;
 		}
-
 		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillCooling, null);	// refresh active skill cooling.
-
 		int addBlood = skillRecoverHP.RecoverHP (blood, 2);	//3: every step.
 		RecoverHP (addBlood);
 		if (maxEnergyPoint == 0) {

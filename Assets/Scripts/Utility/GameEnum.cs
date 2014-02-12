@@ -111,11 +111,15 @@ public enum CommandEnum
 
 	NoSPMove				= 3035,
 
-	TrapInjured				= 3036,
+	TrapInjuredDead			= 3036,
 
 	ConsumeSP				= 3037,
 
 	ConsumeCoin				= 3038,
+
+	ShieldMap				= 3039,
+
+	InjuredNotDead			= 3040,
 }
 
 public enum UIParentEnum : byte {
