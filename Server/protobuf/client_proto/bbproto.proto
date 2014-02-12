@@ -36,11 +36,11 @@ message ProtoHeader {
 
 //=====================================================
 
-//-------------------------------------------------
-message ReqGetFriend {
-	optional ProtoHeader	header				= 1;
-	optional bool			getFriend			= 2;
-	optional bool			getHelper			= 3;
+enum EFriendState{
+	ISFRIEND		= 1; // is already friend
+	FRIENDOUT		= 2; // I request add one as friend
+	FRIENDIN		= 3; // others request add me as friend
+	FRIENDHELPER	= 4; // friends allocated by system  
 };
 
 message FriendData {
@@ -65,6 +65,13 @@ message FriendList {
 	repeated FriendInfo		helper				= 2;
 	repeated FriendInfo		friendIn			= 3;
 	repeated FriendInfo		friendOut			= 4;
+};
+
+//-------------------------------------------------
+message ReqGetFriend {
+	optional ProtoHeader	header				= 1;
+	optional bool			getFriend			= 2;
+	optional bool			getHelper			= 3;
 };
 
 message RspGetFriend {
@@ -120,27 +127,50 @@ message RspAcceptFriend {
 enum EQuestState {
 	QS_NEW		= 0;
 	QS_CLEARED	= 1;
-};
+}
 
 enum ETrapType {
 	Move			= 0;
 	StateException	= 1;
 	ChangeEnvir		= 2;
 	Injured			= 3;
-};
+}
 
-//-------------------------------------------------------------
-message TreasureBox {
-	optional int32		rate			= 1; // appear rate
-	optional int32		minCoin			= 2; 
-	optional int32		maxCoin			= 3;
-};
+enum EQuestGridType {
+	Q_NONE			= 0;
+	Q_TREATURE		= 1;
+	Q_ENEMY			= 2;
+	Q_TRAP			= 3;
+}
 
-message EnemyInfos {
-	optional int32		randomNum		= 1;
-	repeated EnemyInfo		enemys		= 3; // enemy list	
-};
+//----------------------Quest config data-----------------------------
+message NumRange {
+	optional int32		min				= 1; 
+	optional int32		max				= 2;
+}
 
+message StarConfig {
+	optional int32			repeat		= 1;
+	optional int32			star		= 2; // 1 - 6: star, 0: key, 7: !
+	optional NumRange		coin		= 3; // tresureBox
+	repeated uint32			enemyPool	= 4; 
+	optional NumRange		enemyNum	= 5;
+	repeated int32			trap		= 6; // trapId
+}
+
+message QuestFloorConfig {
+	optional int32		version			= 1;
+	optional int32		treasureNum		= 2;
+	optional int32		trapNum			= 3;
+	optional int32		enemyNum		= 4;
+	repeated StarConfig stars			= 5; // 1 - 6, !, ?
+}
+
+message QuestConfig {
+	repeated QuestFloorConfig 	floors	= 1;
+}
+
+//------------------------------------------------------------
 message EnemyInfo {
 	required uint32		uniqueId		= 1;
 	required uint32		unitId			= 2;
@@ -153,15 +183,32 @@ message EnemyInfo {
 	optional uint32		dropUnitLevel	= 9;
 	optional float		dropRate		= 10;
 	optional float		plusRate		= 11; // "+" drop rate
-};
+}
 
 message QuestGrid {
-	optional int32			repeatNum	= 1; // appear count
-	optional int32			star		= 2; // 1 - 6 star
+	repeated int32			position	= 1; // grid position
+	optional int32			star		= 2; // 1 - 6 star, !, ?
 	optional int32			color		= 3; // star color
-	repeated EnemyInfo		enemys		= 4; // enemy list
-	optional int32			coins		= 5;
-	optional TrapInfo		trap		= 6;	
+	optional EQuestGridType	type		= 4; // enemy, coin, enemy, empty
+	repeated uint32			enemyId		= 5; // enemy uniqueId list
+	optional int32			coins		= 6; 
+	optional uint32			trapId		= 7; 
+}
+
+message QuestFloor {
+	repeated QuestGrid	gridInfo		= 1; // 24 grids		
+}
+
+message QuestDungeonData {
+	repeated EnemyInfo	boss			= 1; // boss unit
+	repeated EnemyInfo	enemys			= 2; // enemy list	
+	repeated QuestFloor	floors			= 3; // 1, 2, 3... floors		
+}
+
+//============== QuestMapData -  client data also used=======================//
+message Position {
+	optional int32			x = 1;
+	optional int32			y = 2;	
 };
 
 message QuestInfo {
@@ -174,28 +221,59 @@ message QuestInfo {
 	optional int32		floor			= 7;		
 	optional int32		rewardExp		= 8;
 	optional int32		rewardCoin		= 9;
-	repeated uint32		allUnitKind 	= 10; // pick-up enemy unit list
-	repeated EnemyInfo	boss			= 11; // boss unit
-	repeated QuestGrid	gridInfo		= 12; // 25 grids
+	repeated uint32		bossId			= 10; // boss unitid
+	repeated uint32		enemyId			= 11; // enemy unitid
+};
+
+message StageInfo {
+	optional int32		version			= 1;
+	optional uint32		id				= 2;	
+	optional int32		state			= 3;
+	optional int32		type			= 4; // story or event
+	optional string		stageName		= 5; //
+	optional string		description		= 6; //	 
+	optional uint32		startTime		= 7;	
+	optional uint32		endTime			= 8;
+	optional int32		boostType		= 9; //coins , exp , dropRate 
+	optional int32		boostValue		= 10; //X2, X3
+	optional Position	pos				= 11; // stage position of the city	
+	repeated QuestInfo	quests			= 12; 
+};
+
+message CityInfo {
+	optional int32		version			= 1;
+	optional uint32		id				= 2;	
+	optional int32		state			= 3;
+	optional string		cityName		= 4; //
+	optional string		description		= 5; //
+	optional Position	pos				= 6; // city position of the worldmap
+	repeated StageInfo	stages			= 7;
+};
+
+message WorldMapInfo {
+	optional int32		version			= 1;
+	optional uint32		id				= 2;	
+	repeated CityInfo	citys			= 3;
 };
 
 //-------------------------------------------------------------
 
 message ReqStartQuest {
 	optional ProtoHeader	header			= 1;
-	optional uint32			questId			= 2; 
-	optional uint32			questState		= 3; // QS_NEW | QS_CLEARED
+	optional uint32			stageId			= 2; 
+	optional uint32			questId			= 3; 
 	optional uint32			helperUserId	= 4; 
 	optional UserUnit		helperUnit		= 5; 
 	optional uint32			currentParty	= 6; 	
-};
+}
 
 message RspStartQuest {
-	optional ProtoHeader	header			= 1;
-	optional uint32			questId			= 2; 
-	optional uint32			staminaNow		= 3; // current stamina
-	optional uint32			staminaRecover	= 4; // stamina recover time
-};
+	optional ProtoHeader		header			= 1;
+	optional uint32				questId			= 2; 
+	optional int32				staminaNow		= 3; // current stamina
+	optional uint32				staminaRecover	= 4; // stamina recover time
+	optional QuestDungeonData	dungeonData		= 5;
+}
 
 message ReqClearQuset {
 	optional ProtoHeader	header 			= 1; 
@@ -204,7 +282,7 @@ message ReqClearQuset {
 	optional uint32			getMoney		= 4; 
 	optional uint32			getExp			= 5; 
 	repeated UserUnit		getUnit			= 6; 	
-};
+}
 
 message RspClearQuset {
 	optional ProtoHeader	header			= 1;
@@ -213,11 +291,11 @@ message RspClearQuset {
 	optional uint32			getMoney		= 4;
 	optional uint32			getExp			= 5;	
 	repeated uint32			getUnit			= 6; //uniqueId list
-};
+}
 
 message ReqGetQuestInfo {
 	optional ProtoHeader	header 			= 1;
-};
+}
 
 message RspGetQuestInfo {
 	optional ProtoHeader 	header 			= 1;
@@ -227,9 +305,9 @@ message RspGetQuestInfo {
 
 //=========== Trap ====================================================================//
 message TrapInjuredValue {
-	optional int32		trapIndex		= 1;
-	optional int32		trapLevel		= 2;
-	optional float		trapValue		= 3;
+	optional int32			trapIndex		= 1;
+	optional int32			trapLevel		= 2;
+	optional float			trapValue		= 3;
 };
 
 message TrapInfo {
@@ -343,13 +421,6 @@ message TerminalInfo {
 	optional string	deviceName					= 2; // 
 	optional string	uuid						= 3; 
 	optional string	os		 					= 4; // android / ios
-};
-
-enum EFriendState{
-	ISFRIEND		= 1; // is already friend
-	FRIENDOUT		= 2; // I request add one as friend
-	FRIENDIN		= 3; // others request add me as friend
-	FRIENDHELPER	= 4; // friends allocated by system  
 };
 
 message LoginBonus {

@@ -19,6 +19,10 @@ const (
 	X_UUID      = "X_UUID_"
 	X_HELPER_MY = "X_HELPER_MY_" // A user's helpers
 	X_USER_RANK = "X_USER_RANK_" // ZSET: uid - rank
+
+	//quest
+	X_QUEST_STAGE  = "X_STAGE_"
+	X_QUEST_CONFIG = "X_CONFIG_"
 )
 
 const (
