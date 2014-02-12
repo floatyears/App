@@ -14,7 +14,7 @@ public class AudioManager {
 		}
 	}
 
-	private AudioManager(){}
+	private AudioManager() {}
 
 	public void PlayAudio(AudioEnum audioEnum){
 		int audioID = (int)audioEnum;
