@@ -13,6 +13,7 @@ import (
 )
 import (
 	//"./data"
+	"./friend"
 	"./quest"
 	"./user"
 )

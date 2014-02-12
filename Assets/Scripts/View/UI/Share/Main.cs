@@ -77,7 +77,7 @@ public class Main : MonoBehaviour
 	void OnEnable()
 	{
 		UIManager.Instance.ChangeScene (SceneEnum.Start);
-		AudioManager.Instance.OnMusic();
+		//AudioManager.Instance.OnMusic();
 	}
 
 

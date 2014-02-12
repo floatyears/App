@@ -87,6 +87,9 @@ public class ModelManager
 		ConfigSkill cs = new ConfigSkill ();
 		ConfigEnermy ce = new ConfigEnermy ();
 		ConfigUnitBaseInfo cubi = new ConfigUnitBaseInfo ();
+
+		ConfigFriendList configFriendList = new ConfigFriendList();
+
 	}
 	
 	/// <summary>

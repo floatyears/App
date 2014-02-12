@@ -9,9 +9,9 @@ import (
 
 import (
 	"../bbproto"
-	Error "../common/error"
+	"../common/Error"
 	"../const"
-	"../data"
+	//"../data"
 	"../user/usermanage"
 
 	proto "code.google.com/p/goprotobuf/proto"
@@ -25,24 +25,24 @@ func FindFriendHandler(rsp http.ResponseWriter, req *http.Request) {
 	rspMsg := &bbproto.RspFindFriend{}
 
 	handler := &FindFriend{}
-	err := handler.ParseInput(req, &reqMsg)
-	if err != nil {
-		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
+	e := handler.ParseInput(req, &reqMsg)
+	if e.IsError() {
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Error.New(cs.INVALID_PARAMS, e.Error())))
 		return
 	}
 
-	err = handler.verifyParams(&reqMsg)
-	if err != nil {
-		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
+	e = handler.verifyParams(&reqMsg)
+	if e.IsError() {
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
 		return
 	}
 
 	// game logic
 
-	err = handler.ProcessLogic(&reqMsg, rspMsg)
+	e = handler.ProcessLogic(&reqMsg, rspMsg)
 
-	err = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, err))
-	log.Printf("sendrsp err:%v, rspMsg:\n%+v", err, rspMsg)
+	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
+	log.Printf("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -51,33 +51,13 @@ type FindFriend struct {
 	bbproto.BaseProtoHandler
 }
 
-func (t FindFriend) GenerateSessionId(uuid *string) (sessionId string, err error) {
-	//TODO: makeSidFrom(*uuid, timeNow)
-	sessionId = "rcs7kga8pmvvlbtgbf90jnchmqbl9khn"
-	return sessionId, nil
-}
-
-func (t FindFriend) verifyParams(reqMsg *bbproto.ReqFindFriend) (err error) {
-	//TODO: input params validation
-	if reqMsg.Header.UserId == nil {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
-	}
-
-	if *reqMsg.Header.UserId == 0 {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: userId is invalid.")
-	}
-
-	return nil
-}
-
-func (t FindFriend) FillResponseMsg(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.RspFindFriend, rspErr error) (outbuffer []byte) {
+func (t FindFriend) FillResponseMsg(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.RspFindFriend, rspErr Error.Error) (outbuffer []byte) {
 	// fill protocol header
 	{
 		rspMsg.Header = reqMsg.Header //including the sessionId
-		log.Printf("req header:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
+		rspMsg.Header.Code = proto.Int(rspErr.Code())
+		rspMsg.Header.Error = proto.String(rspErr.Error())
 	}
-
-	// fill custom protocol body
 
 	// serialize to bytes
 	outbuffer, err := proto.Marshal(rspMsg)
@@ -87,31 +67,36 @@ func (t FindFriend) FillResponseMsg(reqMsg *bbproto.ReqFindFriend, rspMsg *bbpro
 	return outbuffer
 }
 
-func (t FindFriend) ProcessLogic(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.RspFindFriend) (err Error.Error) {
-
-	uid := *reqMsg.Header.UserId
-
-	db := &data.Data{}
-	err = db.Open(cs.TABLE_FRIEND)
-	defer db.Close()
-	if err != nil || uid == 0 {
-		return
+func (t FindFriend) verifyParams(reqMsg *bbproto.ReqFindFriend) (err Error.Error) {
+	//TODO: input params validation
+	if reqMsg.Header.UserId == nil {
+		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
+
+	if *reqMsg.Header.UserId == 0 {
+		return Error.New(cs.INVALID_PARAMS, "ERROR: userId is invalid.")
+	}
+
+	return Error.OK()
+}
+
+func (t FindFriend) ProcessLogic(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.RspFindFriend) (Err Error.Error) {
+
+	friendUid := *reqMsg.FriendUid
 
 	//get user's rank from user table
-	userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
+	userdetail, isUserExists, err := usermanage.GetUserInfo(friendUid)
 	if err != nil {
-		err := Error.New(cs.EF_GET_USERINFO_FAIL, fmt.Sprintf("ERROR: GetUserInfo failed. userId %v", uid))
-		return err
+		return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", friendUid, err.Error()))
 	}
-	log.Printf("[TRACE] getUser(%v) ret userinfo: %v", uid, userdetail.User)
+	log.Printf("[TRACE] getUser(%v) ret userinfo: %v", friendUid, userdetail.User)
 
 	// get FriendInfo
 	if isUserExists {
 		rspMsg.Friend = userdetail.User
 	} else {
-
+		return Error.New(cs.EF_FRIEND_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", friendUid))
 	}
 
-	return err
+	return Error.OK()
 }

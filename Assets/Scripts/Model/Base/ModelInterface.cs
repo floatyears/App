@@ -39,8 +39,8 @@ public interface IModelSave {
 /// net interface
 /// </summary>
 public interface INet {
-	void Send();
-	void Receive();
+	void Send( object data );
+	void Receive( object data );
 }
 
 public interface INormalSkill {

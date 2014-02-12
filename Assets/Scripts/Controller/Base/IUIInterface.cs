@@ -128,6 +128,12 @@ public interface IUIFriendList : IUICallback {
 	void CustomExtraFunction( object message);
 }
 
+public interface INetTemp {
+	//Add by Lynn : Temp for show 
+	void Send( object data );
+	void Receive( object data );
+}
+
 
 public delegate void Callback();
 
