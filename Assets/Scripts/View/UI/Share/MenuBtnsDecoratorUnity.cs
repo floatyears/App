@@ -51,6 +51,7 @@ public class MenuBtnsDecoratorUnity : UIComponentUnity {
 	}
 
 	void OnClickCallback( GameObject caller ) {
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		if (!temp) {
 			return;
 		}

@@ -28,15 +28,14 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 	{
 		try {
 			SceneEnum se = (SceneEnum)data;
-
+			AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 			UIManager.Instance.ChangeScene(se);
 		} 
 		catch (System.Exception ex) {
 			LogHelper.LogException(ex);
 		}
 	}
-
-	//Logic Interface : Party Page Turn 
+	
 	public void PartyPaging (object data){
 		int partyID = 0;
 		try {
@@ -46,7 +45,6 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 			Debug.LogError(ex.Message);
 			return;	
 		}
-		//view is UnitsDecoratorUnity -- Behaviour Interface 
 		IUIParty partyInterface = viewComponent as IUIParty;
 		if( partyInterface == null ) {
 			return;
@@ -73,7 +71,6 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 			viewInfo.Add("hp", totalHP);
 
 			partyInterface.PartyPaging( viewInfo );
-			//Debug.Log( unitPartyInfo.GetBlood() );
 		}
 		else {
 			partyInterface.PartyPaging( null );

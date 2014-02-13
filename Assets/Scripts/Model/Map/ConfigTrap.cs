@@ -32,8 +32,8 @@ public class ConfigTrap {
 		ti = new TrapInfo ();
 		ti.trapID = 2;
 		ti.trapType = ETrapType.Injured;
-		ti.effectType = 3;
-		ti.valueIndex = 2;
+		ti.effectType = 1;
+		ti.valueIndex = 1;
 		InjuredTrap it = new InjuredTrap (ti);
 		GlobalData.tempTrapInfo.Add (ti.trapID, it);
 

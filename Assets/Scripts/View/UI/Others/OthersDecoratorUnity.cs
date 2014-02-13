@@ -117,7 +117,6 @@ public class OthersDecoratorUnity : UIComponentUnity {
 	}
 
 	private void GetOptions( GameObject go) {
-//		Debug.LogError( " Show Options..." + go.name );
 		if( go.name == "1")
 		{
 			musicOption.SetActive( true );

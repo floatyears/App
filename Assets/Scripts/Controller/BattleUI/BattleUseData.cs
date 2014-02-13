@@ -65,7 +65,6 @@ public class BattleUseData {
 		MsgCenter.Instance.AddListener (CommandEnum.TrapInjuredDead, TrapInjuredDead);
 		MsgCenter.Instance.AddListener (CommandEnum.InjuredNotDead, InjuredNotDead);
 		MsgCenter.Instance.AddListener (CommandEnum.TrapTargetPoint, TrapTargetPoint);
-		MsgCenter.Instance.AddListener (CommandEnum.ConsumeSP, ConsumeSP);
 	}
 
 	void RemoveListen () {
@@ -81,29 +80,11 @@ public class BattleUseData {
 		MsgCenter.Instance.RemoveListener (CommandEnum.TrapInjuredDead, TrapInjuredDead);
 		MsgCenter.Instance.RemoveListener (CommandEnum.InjuredNotDead, InjuredNotDead);
 		MsgCenter.Instance.RemoveListener (CommandEnum.TrapTargetPoint, TrapTargetPoint);
-		MsgCenter.Instance.RemoveListener (CommandEnum.ConsumeSP, ConsumeSP);
 	}
 
 	void TrapMove(object data) {
 		if (data == null) {
 			ConsumeEnergyPoint ();
-		}
-	}
-
-	void ConsumeSP(object data) {
-		float value = (float)data;
-		int consume = (int)value;
-		if (maxEnergyPoint == 0) {
-//			blood -= ReductionBloodByProportion(0.2f);
-//			if(blood < 1) {
-//				blood = 1;
-//			}
-//			RefreshBlood();
-			return;
-		}
-		else {
-			maxEnergyPoint-= consume;
-			MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
 		}
 	}
 

@@ -187,17 +187,14 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 
 	}
 
-	void PickFriendLongpress(GameObject go)
-	{
+	void PickFriendLongpress(GameObject go){
 		MsgCenter.Instance.Invoke(CommandEnum.EnterUnitInfo, friendBaseInfo);
 	}
 
-	private void ShowPartyFriend()
-	{
-	}
+	private void ShowPartyFriend(){}
 	
-	void BackParty(GameObject go)
-	{
+	void BackParty(GameObject go){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		currentPartyIndex = Mathf.Abs((currentPartyIndex - 1) % partyTotalCount);
 		if (currentPartyIndex == 0)
 			currentPartyIndex = partyTotalCount;
@@ -205,8 +202,8 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 		SendUnitPage(currentPartyIndex);
 	}
 
-	void ForwardParty(GameObject go)
-	{
+	void ForwardParty(GameObject go){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		currentPartyIndex++;
 		if (currentPartyIndex > partyTotalCount)
 		{
@@ -215,13 +212,14 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 		labelCurrentPartyIndex.text = currentPartyIndex.ToString();
 		SendUnitPage(currentPartyIndex);
 	}
-	void ClickCancelBtn(GameObject btn)
-	{
+
+	void ClickCancelBtn(GameObject btn){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		msgBox.SetActive(false);
 	}
 
-	void ClickChooseBtn(GameObject btn)
-	{
+	void ClickChooseBtn(GameObject btn) {
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		msgBox.SetActive(false);
 		friendSprite.enabled = true;
 		friendSprite.mainTexture = Resources.Load(friendBaseInfo.GetHeadPath) as Texture2D;
@@ -230,16 +228,17 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 
 	void ClickSeeInfoBtn(GameObject btn)
 	{
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		msgBox.SetActive(false);
 	}
 
-	void ClickStartBtn(GameObject btn)
-	{
+	void ClickStartBtn(GameObject btn){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		UIManager.Instance.EnterBattle();
 	}
 	
-	void PickFriend(GameObject btn)
-	{
+	void PickFriend(GameObject btn){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		msgBox.SetActive(true);
 	}
 

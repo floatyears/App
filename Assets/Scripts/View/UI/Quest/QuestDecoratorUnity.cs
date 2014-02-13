@@ -71,6 +71,7 @@ public class QuestDecoratorUnity : UIComponentUnity {
 	}
 
 	private void ChangeScene(GameObject go) {
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 	}
 

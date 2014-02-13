@@ -55,6 +55,7 @@ public class FriendDecoratorUnity : UIComponentUnity {
 	private void ClickBtn( GameObject btn ) {
 		SceneEnum scene = btns[ btn ];
 		UIManager.Instance.ChangeScene( scene );
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 	}
 
 

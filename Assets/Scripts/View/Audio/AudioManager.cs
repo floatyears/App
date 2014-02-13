@@ -3,7 +3,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-
 public class AudioManager {
 	private static AudioManager instance;
 	public static AudioManager Instance {
@@ -13,23 +12,66 @@ public class AudioManager {
 			return instance;
 		}
 	}
+	private AudioManager(){}
 
-	private AudioManager() {}
-
+	//AudioSource Cache
+	private Dictionary< int, AudioSource> audioPlayerCache = new Dictionary<int, AudioSource>();
+	
 	public void PlayAudio(AudioEnum audioEnum){
 		int audioID = (int)audioEnum;
-		GameObject audioPlayer = new GameObject();
-		AudioSource audioSource = audioPlayer.AddComponent<AudioSource>();
-		AudioClip audioClip = new AudioClip();
-	
 		AudioConfigItem configItem = ConfigAudio.audioList.Find( item=>item.id == audioID );
-		if(configItem == default(AudioConfigItem))	return;
-		audioClip = Resources.Load(configItem.resourcePath) as AudioClip;
-		if(audioClip == null)	return;
+		if(configItem == default( AudioConfigItem ) )	
+			return;
 
-		audioPlayer.name = "_" + audioEnum.ToString();
-		audioSource.clip = audioClip;
-		audioSource.Play();
+		if( !audioPlayerCache.ContainsKey( audioID )){
+			Debug.Log( string.Format( "At present, NOT EXIST a audioPlayer Cache with the ID [{0}]. ADD IT", audioID) );
+			GameObject go = new GameObject();
+			go.name = string.Format( "_{0}", audioEnum.ToString() );
+			AudioSource source = go.AddComponent< AudioSource >();
+			AudioClip clip = Resources.Load( configItem.resourcePath ) as AudioClip;
+			source.clip = clip;
+			audioPlayerCache.Add( audioID, source );
+		}
+
+		if( audioPlayerCache[ audioID ] == null ){
+			Debug.LogError( string.Format( "The audioPlayer's GameObject with the ID [{0}] is NULL", audioID) );
+			return;
+		}
+
+		if( !audioPlayerCache[ audioID ].isPlaying )	
+			audioPlayerCache[ audioID ].Play();
+	}
+
+	public void PauseAudio( AudioEnum audioEnum ) {
+		int audioID = (int)audioEnum;
+		if( !audioPlayerCache.ContainsKey( audioID ) ){
+			Debug.LogError( string.Format( "At present, NOT EXIST a audioPlayer Cache with the ID [{0}]. CAN'T PAUSE it", audioID) );
+			return;
+		}
+
+		if( audioPlayerCache[ audioID ] == null ){
+			Debug.LogError( string.Format( "The audioPlayer's GameObject with the ID [{0}] is NULL", audioID) );
+			return;
+		}
+
+		if( audioPlayerCache[ audioID ].isPlaying )	
+			audioPlayerCache[ audioID ].Pause();
+	}
+
+	public void StopAudio( AudioEnum audioEnum ) {
+		int audioID = (int)audioEnum;
+		if( !audioPlayerCache.ContainsKey( audioID )){
+			Debug.LogError( string.Format( "At present, NOT EXIST a audioPlayer Cache with the ID [{0}]. CAN'T STOP it", audioID) );
+			return;
+		}
+		
+		if( audioPlayerCache[ audioID ] == null ){
+			Debug.LogError( string.Format( "The audioPlayer's GameObject with the ID [{0}] is NULL", audioID) );
+			return;
+		}
+		
+		if( audioPlayerCache[ audioID ].isPlaying )	
+			audioPlayerCache[ audioID ].Stop();
 	}
 
 }
