@@ -116,11 +116,7 @@ public class ControllerManager
 
 	IUIInterface CreatScene(SceneEnum sEnum,string uiName) {
 		IUIInterface temp;
-		switch (sEnum)
-		{	
-		case SceneEnum.Start:
-			temp = new StartView(uiName);
-			break;
+		switch (sEnum) {	
 		case SceneEnum.Fight:
 			temp = new BattleQuest(uiName);
 			break;

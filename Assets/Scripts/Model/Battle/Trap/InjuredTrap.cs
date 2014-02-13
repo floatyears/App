@@ -19,78 +19,73 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 			break;
 		}
 	}
-
-	private const float probability = 0.9f;
+	private const float probability = 0.1f;
 	private int[] randomRange = new int[2] {1, -1};
-
 	public void Excute () {
-		switch (GetTrap.effectType) {
+		TrapInfo ti = GetTrap;
+		TrapInjuredValue tiv = null;
+		switch (ti.effectType) {
 		case 1:
-			DisposeMine();
+			DisposeMine(ti);
 			break;
 		case 2:
-			DisposeTrapping ();
+			DisposeTrapping (ti);
 			break;
 		case 3:
-			DisposeHungry ();
+			DisposeHungry (ti);
 			break;
 		case 4:
-			DisposeLostMoney ();
+			DisposeLostMoney (ti);
 			break;
 		}
 	}
 
-	void DisposeLostMoney () {
+	void DisposeLostMoney (TrapInfo ti) {
 		MsgCenter.Instance.Invoke(CommandEnum.ConsumeCoin, GetInjuredValue.trapValue);
 	}
 
-	void DisposeHungry () {
+	void DisposeHungry (TrapInfo ti) {
 		MsgCenter.Instance.Invoke(CommandEnum.ConsumeSP, GetInjuredValue.trapValue);
 	}
 
-	void DisposeTrapping () {
+	void DisposeTrapping (TrapInfo ti) {
 		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
 	}
 	
-	void DisposeMine() {
+	void DisposeMine(TrapInfo ti) {
 		float value = DGTools.RandomToFloat();
 		if(value <= probability) {
 			MsgCenter.Instance.Invoke(CommandEnum.NoSPMove, null);
 		}
 		else {
-			Coordinate cd = CalculateCoordinate();
+			Coordinate cd = BattleUseData.CurrentCoor;
+			int xRandom = DGTools.RandomToInt(0, randomRange.Length);
+			int yRandom = DGTools.RandomToInt(0, randomRange.Length);
+			MapConfig mc = ModelManager.Instance.GetData(ModelEnum.MapConfig, new ErrorMsg()) as MapConfig;
+			if(xRandom > yRandom) {
+				cd.x -= randomRange[xRandom];
+				if(cd.x < 0) {
+					cd.x = 0;
+				}
+				if(cd.x >= mc.mapXLength) {
+					cd.x = mc.mapXLength - 1;
+				}
+			}
+			else{
+				cd.y -= randomRange[xRandom];
+				if(cd.y < 0) {
+					cd.y = 0;
+				}
+				if(cd.y >= mc.mapYLength) {
+					cd.y = mc.mapYLength - 1;
+				}
+			}
+
 			MsgCenter.Instance.Invoke(CommandEnum.NoSPMove, cd);
 		}
 		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
 	}
-
-	Coordinate CalculateCoordinate () {
-		Coordinate cd = BattleUseData.CurrentCoor;
-		int xRandom = DGTools.RandomToInt(0, randomRange.Length);
-		int yRandom = DGTools.RandomToInt(0, randomRange.Length);
-		MapConfig mc = ModelManager.Instance.GetData(ModelEnum.MapConfig, new ErrorMsg()) as MapConfig;
-		if(xRandom > yRandom) {
-			cd.x -= randomRange[xRandom];
-			if(cd.x < 0) {
-				cd.x = 1;
-			}
-			if(cd.x >= mc.mapXLength) {
-				cd.x = mc.mapXLength - 2;
-			}
-		}
-		else{
-			cd.y -= randomRange[yRandom];
-			if(cd.y < 0) {
-				cd.y = 1;
-			}
-			if(cd.y >= mc.mapYLength) {
-				cd.y = mc.mapYLength - 2;
-			}
-		}
-		return cd;
-	}
 }
-
 
 public class TrapBase : ProtobufDataBase {
 	public TrapBase(object instance) : base (instance) {

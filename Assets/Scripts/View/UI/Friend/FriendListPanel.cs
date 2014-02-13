@@ -69,7 +69,7 @@ public class FriendListPanel : UIComponentUnity, IUIFriendList {
 
 	public void CustomExtraFunction(object message){
 		string extraFunctionName = (string)message;
-		Debug.Log(extraFunctionName);
+		//Debug.Log(extraFunctionName);
 		string path = "Button_Refuse_All";
 		UIButton customButton = FindChild< UIButton >( path);
 		UILabel customLabel = customButton.gameObject.GetComponentInChildren<UILabel>();

@@ -82,21 +82,19 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		unitExpSlider.value = ShowUnitInfo.experenceProgress;
 
 		unitNormalSkill_1_NameLabel.text = ShowUnitInfo.normalSkill_1_Name;
-		Debug.Log("unitNormalSkill_1_Name : "+unitNormalSkill_1_NameLabel.text);
+		//Debug.Log("unitNormalSkill_1_Name : "+unitNormalSkill_1_NameLabel.text);
 
 		unitNormalSkill_2_NameLabel.text = ShowUnitInfo.normalSkill_2_Name;
-		Debug.Log("unitNormalSkill_2_Name : "+unitNormalSkill_2_NameLabel.text);
+		//Debug.Log("unitNormalSkill_2_Name : "+unitNormalSkill_2_NameLabel.text);
 	}
 
-	private void BackPreScene( GameObject go )
-	{
+	private void BackPreScene( GameObject go ){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
-
 		UIManager.Instance.ChangeScene( preScene );
 	}
 
-	private void ShowUnitScale()
-	{
+	private void ShowUnitScale(){
 		TweenScale unitScale = gameObject.GetComponentInChildren< TweenScale >();
 		TweenAlpha unitAlpha = gameObject.GetComponentInChildren< TweenAlpha >();
 

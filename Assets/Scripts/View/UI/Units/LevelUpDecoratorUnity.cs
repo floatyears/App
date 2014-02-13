@@ -48,8 +48,17 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 	public override void Init(UIInsConfig config, IUIOrigin origin) {
 		base.Init(config, origin);
 		InitUI();
+
+		MsgCenter.Instance.Invoke(CommandEnum.SelectFriend, null);
+
+
+		MsgCenter.Instance.AddListener (CommandEnum.SelectFriend,function);
 	}
-	
+
+	void function(object data) {
+
+	}
+
 	public override void ShowUI() {
 		base.ShowUI();
 		ShowTween();
@@ -113,8 +122,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 		UIEventListener.Get(materialTab).onClick = FocusOnPanel;
 	}
 
-	private void InitPanels()
-	{
+	private void InitPanels(){
 		basePanel = FindChild("Focus_Panels/Base_Panel");
 		materialPanel = FindChild("Focus_Panels/Material_Panel");
 		friendPanel = FindChild("Focus_Panels/Friend_Panel");
@@ -123,8 +131,8 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 		materialSortBar = FindChild("Focus_Panels/Material_Panel/SortButton");
 		friendSortBar = FindChild("Focus_Panels/Friend_Panel/SortButton");
 		
-		btnLevelUp = FindChild("Focus_Panels/Friend_Panel/Button_LevelUp");
-		UIEventListener.Get(btnLevelUp).onClick = LevelUp;
+		//btnLevelUp = FindChild("Focus_Panels/Friend_Panel/Button_LevelUp");
+		//UIEventListener.Get(btnLevelUp).onClick = LevelUp;
 
 		UIEventListener.Get(baseSortBar).onClick = SortBase;
 		UIEventListener.Get(materialSortBar).onClick = SortMaterial;
@@ -134,16 +142,14 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 		CreateScrollerMaterial();
 	}
 	
-	private void CreateScrollerBase()
-	{
+	private void CreateScrollerBase(){
 		InitBaseScrollArgs();
-		baseItem = GlobalData.ItemObject; 
+		baseItem = Resources.Load("Prefabs/UI/Friend/UnitItem") as GameObject;
+		//baseItem = GlobalData.ItemObject;
 		baseScroller = new DragPanel("BaseScroller", baseItem);
 		baseScroller.CreatUI();
-//		Debug.LogError ("CreateScrollerBase : " + uui.Count);
 		baseScroller.AddItem(userUnitInfoList.Count);
-		for (int i = 0; i < baseScroller.ScrollItem.Count; i++)
-		{
+		for (int i = 0; i < baseScroller.ScrollItem.Count; i++){
 			GameObject item = baseScroller.ScrollItem [i];
 			UITexture tex = item.GetComponentInChildren<UITexture>();
 			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [userUnitInfoList [i].unitBaseInfo];
@@ -171,7 +177,8 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 
 	private void CreateScrollerMaterial() {
 		InitMaterialScrollArgs();
-		materialItem = GlobalData.ItemObject;
+//		materialItem = GlobalData.ItemObject;
+		materialItem = Resources.Load("Prefabs/UI/Friend/UnitItem") as GameObject;
 		materialScroller = new DragPanel("MaterialScroller", materialItem);
 		materialScroller.CreatUI();
 		materialScroller.AddItem(GlobalData.HaveCard.Count);
@@ -277,8 +284,8 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 		baseScrollerArgs.Add("gridArrange", UIGrid.Arrangement.Vertical);
 		baseScrollerArgs.Add("maxPerLine", 3);
 		baseScrollerArgs.Add("scrollBarPosition", new Vector3(-320, -340, 0));
-		baseScrollerArgs.Add("cellWidth", 110);
-		baseScrollerArgs.Add("cellHeight", 110);
+		baseScrollerArgs.Add("cellWidth", 115);
+		baseScrollerArgs.Add("cellHeight", 115);
 	}
 
 	private void InitMaterialScrollArgs()
@@ -299,14 +306,13 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 	{
 		friendcrollerArgs.Add("parentTrans", friendPanel.transform);
 		friendcrollerArgs.Add("scrollerScale", Vector3.one);
-		friendcrollerArgs.Add("scrollerLocalPos", -270 * Vector3.up);
+		friendcrollerArgs.Add("scrollerLocalPos", -255 * Vector3.up);
 		friendcrollerArgs.Add("position", Vector3.zero);
 		friendcrollerArgs.Add("clipRange", new Vector4(0, 0, 640, 200));
 		friendcrollerArgs.Add("gridArrange", UIGrid.Arrangement.Horizontal);
 		friendcrollerArgs.Add("maxPerLine", 0);
-		friendcrollerArgs.Add("scrollBarPosition", new Vector3(-320, -118, 0));
-		friendcrollerArgs.Add("cellWidth", 110);
-		friendcrollerArgs.Add("cellHeight", 110);
+		friendcrollerArgs.Add("scrollBarPosition", new Vector3(-320, -130, 0));
+		friendcrollerArgs.Add("cellWidth", 115);
+		friendcrollerArgs.Add("cellHeight", 130);
 	}
-
 }

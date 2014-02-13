@@ -128,6 +128,10 @@ public enum CommandEnum
 	MeetTrap				= 3043,
 
 	TrapTargetPoint			= 3044,
+
+
+
+	SelectFriend			= 4000,
 }
 
 public enum MapItemEnum {
@@ -246,4 +250,10 @@ public enum AudioEnum {
 	sound_level_up			= 36,
 	sound_check_role		= 37,
 	sound_chess_move		= 38
+}
+
+
+public enum showTurn{
+	levelTurn,
+	addPointTurn	
 }
