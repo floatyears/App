@@ -203,8 +203,10 @@ message SkillDodgeTrap {
 
 message SkillAntiAttack {
 		optional SkillBase  baseInfo        = 1;
-		optional int32      probability 	= 2;
-		optional int32      antiAtkRatio	= 3;
+		optional EUnitType	attackSource	= 3;
+		optional EUnitType	antiAttack		= 4;
+		optional float		probability 	= 2;
+		optional float		antiAtkRatio	= 5;
 };
 
 //message PassiveSkill {

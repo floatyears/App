@@ -98,6 +98,9 @@ public class TrapInjuredInfo {
 	}
 
 	TrapInjuredValue FindTrapInjured(int index,int valueIndex) {
+		if (index == -1) {
+			return null;	
+		}
 		TrapInjuredValue tiv = TrapInjured[index].Find (a => a.trapIndex == valueIndex);
 		if (tiv == default(TrapInjuredValue)) {
 			return null;

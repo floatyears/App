@@ -9,11 +9,12 @@ public class AttackController {
 	public List<TempEnemy> enemyInfo = new List<TempEnemy>();
 	private UnitPartyInfo upi;
 	private float countDownTime = 0f;
+	IExcutePassiveSkill passiveSkill;
 
-	public AttackController (BattleUseData bud) {
+	public AttackController (BattleUseData bud,IExcutePassiveSkill ips) {
 		msgCenter = MsgCenter.Instance;
 		this.bud = bud;
-
+		passiveSkill = ips;
 		RegisterEvent ();
 	}
 
@@ -106,7 +107,6 @@ public class AttackController {
 				AttackEnemyEnd (ai);
 			}
 		}
-
 		CheckTempEnemy ();
 	}
 
@@ -221,6 +221,7 @@ public class AttackController {
 			if(blood <= 0){
 				TempEnemy te = enemyInfo[i];
 				enemyInfo.RemoveAt(i);
+				antiInfo.RemoveAll(a=>a.EnemyID == te.GetID());
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 			}
 		}
@@ -247,7 +248,7 @@ public class AttackController {
 			DGTools.InsertSort(injuredEnemy,new TempEnemySortByHP(),false);
 			int index = injuredEnemy.FindIndex (a => a.GetUnitType () == restraintType);
 			te = index > - 1 ?  injuredEnemy [index] : injuredEnemy [0];
-		} 
+		}
 		else {
 			int index = enemyInfo.FindIndex (a => a.GetUnitType () == restraintType);
 			te = index > - 1 ?  enemyInfo [index] : enemyInfo [0];
@@ -295,7 +296,7 @@ public class AttackController {
 		msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 		GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttack);
 	}
-	
+	List<AttackInfo> antiInfo = new List<AttackInfo>();
 	void EnemyAttack () {
 		if (te.GetRound () == 0) {
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.GetID());
@@ -306,11 +307,18 @@ public class AttackController {
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
+//			Debug.LogError("hurtValue : " + hurtValue);
+			List<AttackInfo> temp = passiveSkill.Dispose(attackType,hurtValue);
+			for (int i = 0; i < temp.Count; i++) {
+				temp[i].EnemyID = te.GetID();
+				antiInfo.Add(temp[i]);
+			}
 		}
 		enemyIndex ++;
 		if (enemyIndex == enemyInfo.Count) {
-			EnemyAttackEnd();
-		} 
+			//EnemyAttackEnd();
+			LoopAntiAttack();
+		}
 		else {
 			LoopEnemyAttack();
 		}
@@ -319,5 +327,33 @@ public class AttackController {
 	void EnemyAttackEnd () {
 		bud.ClearData();
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
+	}
+
+	void LoopAntiAttack() {
+		float intervTime = 0.2f;
+		GameTimer.GetInstance ().AddCountDown (intervTime, AntiAttack);
+	}
+
+	void AntiAttack() {
+		if (antiInfo.Count == 0) {
+			EnemyAttackEnd();	
+			return;
+		}
+
+		AttackInfo ai = antiInfo [0];
+		antiInfo.RemoveAt (0);
+		TempEnemy te = enemyInfo.Find(a=>a.GetID() == ai.EnemyID);
+		if (te == default(TempEnemy)) {
+			return;	
+		}
+		int restraintType = DGTools.RestraintType (ai.AttackType);
+		bool restaint = restraintType == te.GetUnitType ();
+
+		int hurtValue = te.CalculateInjured (ai, restaint);
+		ai.InjuryValue = hurtValue;
+		AttackEnemyEnd (ai);
+		if (CheckEnemy ()) {
+			LoopAntiAttack ();		
+		}
 	}
 }

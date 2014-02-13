@@ -3018,18 +3018,34 @@ namespace bbproto
       get { return _baseInfo; }
       set { _baseInfo = value; }
     }
-    private int _probability = default(int);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"probability", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int probability
+    private bbproto.EUnitType _attackSource = bbproto.EUnitType.UALL;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"attackSource", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EUnitType.UALL)]
+    public bbproto.EUnitType attackSource
+    {
+      get { return _attackSource; }
+      set { _attackSource = value; }
+    }
+    private bbproto.EUnitType _antiAttack = bbproto.EUnitType.UALL;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"antiAttack", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EUnitType.UALL)]
+    public bbproto.EUnitType antiAttack
+    {
+      get { return _antiAttack; }
+      set { _antiAttack = value; }
+    }
+    private float _probability = default(float);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"probability", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float probability
     {
       get { return _probability; }
       set { _probability = value; }
     }
-    private int _antiAtkRatio = default(int);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"antiAtkRatio", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int antiAtkRatio
+    private float _antiAtkRatio = default(float);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"antiAtkRatio", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float antiAtkRatio
     {
       get { return _antiAtkRatio; }
       set { _antiAtkRatio = value; }

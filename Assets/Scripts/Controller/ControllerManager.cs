@@ -97,7 +97,6 @@ public class ControllerManager
 
 	public void ChangeScene(SceneEnum sEnum) {
 		string uiName = sEnum.ToString();
-
 		if(currentScene != null) {
 			if(currentScene.UIName == uiName){
 				currentScene.ShowUI();
@@ -108,17 +107,14 @@ public class ControllerManager
 				currentScene.HideUI();
 			}
 		}
-
 		if(HasUIObject(uiName))
 			currentScene = GetUI(uiName);
 		else
 			currentScene = CreatScene(sEnum,uiName);
-
 		currentScene.ShowUI();
 	}
 
-	IUIInterface CreatScene(SceneEnum sEnum,string uiName)
-	{
+	IUIInterface CreatScene(SceneEnum sEnum,string uiName) {
 		IUIInterface temp;
 		switch (sEnum)
 		{	
@@ -132,23 +128,17 @@ public class ControllerManager
 			temp = new UIBase("Null");
 			break;
 		}
-
 		temp.GetScene=sEnum;
-
 		temp.CreatUI();
-
 		AddUIObject(uiName,temp);
-
 		return temp;
 	}
 	
 	#region global ui
 	private string actorName = "ActorShow";
-
 	private ActorShow actor;
 
-	public void ShowActor(int id)
-	{
+	public void ShowActor(int id) {
 		currentScene.HideUI ();
 		actor = ViewManager.Instance.GetViewObject (actorName) as ActorShow;
 		actor.Init (actorName);

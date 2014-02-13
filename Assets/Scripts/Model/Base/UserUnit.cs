@@ -25,6 +25,11 @@ public class UserUnitInfo : ProtobufDataBase {
 
 	private int currentBlood = -1;
 	private float attackMultiple = 1;
+	public float AttackMultiple {
+		get {
+			return attackMultiple;
+		}
+	}
 	private float hpMultiple = 1;
 	public int unitBaseInfo = -1;
 
@@ -43,7 +48,7 @@ public class UserUnitInfo : ProtobufDataBase {
 				SetAttackMultipeByRace (value, type);
 			}
 			else {
-				SetAttackMultipeByRace(value,type);	
+				SetAttackMultipleByType(value,type);	
 			}
 		}
 	}
@@ -199,6 +204,10 @@ public class UserUnitInfo : ProtobufDataBase {
 
 	public int GetActiveSkill () {
 		return GetUnitInfo ().activeSkill;
+	}
+
+	public int GetPassiveSkill () {
+		return GetUnitInfo ().passiveSkill;
 	}
 
 	UnitInfo GetUnitInfo() {

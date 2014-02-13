@@ -11,6 +11,9 @@ public class CardItem : UIBaseUnity
 	{
 		get{return actorTexture;}
 	}
+
+	private Vector3 initActorPosition;
+	private Vector3 hideActorPosition = new Vector3 (10000f, 10000f, 10000f);
 	
 	private TweenPosition tweenPosition;
 
@@ -73,6 +76,8 @@ public class CardItem : UIBaseUnity
 
 		actorTexture = GetComponent<UITexture>();
 
+		initActorPosition = actorTexture.transform.localPosition;
+
 		tweenPosition = GetComponent<TweenPosition>();
 		tweenPosition.enabled = false;
 
@@ -96,6 +101,7 @@ public class CardItem : UIBaseUnity
 	{
 		if(!actorTexture.enabled)
 			actorTexture.enabled = true;
+		//actorTexture.transform.localPosition = initActorPosition;
 
 		base.ShowUI ();
 	}
@@ -103,9 +109,9 @@ public class CardItem : UIBaseUnity
 	public override void HideUI ()
 	{
 		//actorTexture.mainTexture = null;
-
+		if(actorTexture.enabled)
 		actorTexture.enabled = false;
-
+//		actorTexture.transform.localPosition = hideActorPosition;
 		base.HideUI ();
 	}
 
@@ -128,6 +134,11 @@ public class CardItem : UIBaseUnity
 
 		xOffset = (float)actorTexture.width / 4;
 		actorTexture.mainTexture = tex;
+//		actorTexture.transform.localPosition = initActorPosition;
+
+		if (!actorTexture.enabled) {
+			actorTexture.enabled = true;
+		}
 		//StartCoroutine (ActiveTexture ());
 		//ActiveTextureImmediate ();
 	}

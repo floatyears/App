@@ -109,10 +109,18 @@ public class TrapBase : ProtobufDataBase {
 	protected int trapEffectType = -1;
 	protected int trapValueIndex = -1;   
 
-	public int GetTrapType () {
-		return (int)GetTrap.trapType;
+	public ETrapType GetTrapType () {
+		return GetTrap.trapType;
 	}
-	public int GetLevel() {
-		return GetInjuredValue.trapLevel;
+	public int GetLevel {
+		get{
+			TrapInjuredValue tiv = GetInjuredValue;
+			if(tiv == null) {
+				return -1;
+			}
+			else{
+				return GetInjuredValue.trapLevel;
+			}
+		}
 	}
 }
