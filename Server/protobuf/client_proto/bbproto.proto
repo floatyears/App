@@ -209,9 +209,11 @@ message QuestFloor {
 }
 
 message QuestDungeonData {
-	repeated EnemyInfo	boss			= 1; // boss unit
-	repeated EnemyInfo	enemys			= 2; // enemy list	
-	repeated QuestFloor	floors			= 3; // 1, 2, 3... floors		
+	optional uint32			questId		= 1; 
+	repeated EnemyInfo		boss		= 2; // boss unit
+	repeated EnemyInfo		enemys		= 3; // enemy list
+	repeated ColorPercent	colors		= 4;
+	repeated QuestFloor		floors		= 5; // 1, 2, 3... floors
 }
 
 //============== QuestMapData -  client data also used=======================//
@@ -278,7 +280,6 @@ message ReqStartQuest {
 
 message RspStartQuest {
 	optional ProtoHeader		header			= 1;
-	optional uint32				questId			= 2; 
 	optional int32				staminaNow		= 3; // current stamina
 	optional uint32				staminaRecover	= 4; // stamina recover time
 	optional QuestDungeonData	dungeonData		= 5;

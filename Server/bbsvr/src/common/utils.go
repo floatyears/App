@@ -3,6 +3,7 @@ package common
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"strconv"
 	"time"
@@ -78,4 +79,13 @@ func IsToday(t uint32) bool {
 func IsYestoday(t uint32) bool {
 
 	return IsToday(t + 86400)
+}
+
+func Rand(start, end int32) int32 {
+
+	return start + rand.Int31n(end-start)
+}
+
+func Randn(n int32) int32 {
+	return rand.Int31n(n)
 }

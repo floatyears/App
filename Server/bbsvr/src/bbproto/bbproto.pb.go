@@ -1074,15 +1074,24 @@ func (m *QuestFloor) GetGridInfo() []*QuestGrid {
 }
 
 type QuestDungeonData struct {
-	Boss             []*EnemyInfo  `protobuf:"bytes,1,rep,name=boss" json:"boss,omitempty"`
-	Enemys           []*EnemyInfo  `protobuf:"bytes,2,rep,name=enemys" json:"enemys,omitempty"`
-	Floors           []*QuestFloor `protobuf:"bytes,3,rep,name=floors" json:"floors,omitempty"`
-	XXX_unrecognized []byte        `json:"-"`
+	QuestId          *uint32         `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
+	Boss             []*EnemyInfo    `protobuf:"bytes,2,rep,name=boss" json:"boss,omitempty"`
+	Enemys           []*EnemyInfo    `protobuf:"bytes,3,rep,name=enemys" json:"enemys,omitempty"`
+	Colors           []*ColorPercent `protobuf:"bytes,4,rep,name=colors" json:"colors,omitempty"`
+	Floors           []*QuestFloor   `protobuf:"bytes,5,rep,name=floors" json:"floors,omitempty"`
+	XXX_unrecognized []byte          `json:"-"`
 }
 
 func (m *QuestDungeonData) Reset()         { *m = QuestDungeonData{} }
 func (m *QuestDungeonData) String() string { return proto.CompactTextString(m) }
 func (*QuestDungeonData) ProtoMessage()    {}
+
+func (m *QuestDungeonData) GetQuestId() uint32 {
+	if m != nil && m.QuestId != nil {
+		return *m.QuestId
+	}
+	return 0
+}
 
 func (m *QuestDungeonData) GetBoss() []*EnemyInfo {
 	if m != nil {
@@ -1094,6 +1103,13 @@ func (m *QuestDungeonData) GetBoss() []*EnemyInfo {
 func (m *QuestDungeonData) GetEnemys() []*EnemyInfo {
 	if m != nil {
 		return m.Enemys
+	}
+	return nil
+}
+
+func (m *QuestDungeonData) GetColors() []*ColorPercent {
+	if m != nil {
+		return m.Colors
 	}
 	return nil
 }
@@ -1484,7 +1500,6 @@ func (m *ReqStartQuest) GetCurrentParty() uint32 {
 
 type RspStartQuest struct {
 	Header           *ProtoHeader      `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	QuestId          *uint32           `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
 	StaminaNow       *int32            `protobuf:"varint,3,opt,name=staminaNow" json:"staminaNow,omitempty"`
 	StaminaRecover   *uint32           `protobuf:"varint,4,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
 	DungeonData      *QuestDungeonData `protobuf:"bytes,5,opt,name=dungeonData" json:"dungeonData,omitempty"`
@@ -1500,13 +1515,6 @@ func (m *RspStartQuest) GetHeader() *ProtoHeader {
 		return m.Header
 	}
 	return nil
-}
-
-func (m *RspStartQuest) GetQuestId() uint32 {
-	if m != nil && m.QuestId != nil {
-		return *m.QuestId
-	}
-	return 0
 }
 
 func (m *RspStartQuest) GetStaminaNow() int32 {

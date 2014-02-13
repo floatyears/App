@@ -98,21 +98,112 @@ func UpdateStamina(tRecover *uint32, userStamina *int32, userStaminaMax int32, q
 	return Error.OK()
 }
 
+type TUsedValue struct {
+	Value int32
+	Used  bool
+}
+
 func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonData, e Error.Error) {
 	dungeonData := &bbproto.QuestDungeonData{}
 	//dungeonData.Floors := make([]QuestFloor, cs.N_DUNGEON_GRID_COUNT-1)
-	log.Printf("original dungeonData.Floors is:%+v", dungeonData.Floors)
+	log.Printf("[TRACE] original dungeonData.Floors is:%+v", dungeonData.Floors)
 
-	dungeonData.Floors = make([]*bbproto.QuestFloor, len(config.Floors))
-	log.Printf("make %v floors is:%+v", len(config.Floors), dungeonData.Floors)
+	//dungeonData.Floors = make([]*bbproto.QuestFloor, len(config.Floors))
+	//log.Printf("[TRACE] make %v floors is:%+v", floorNum, dungeonData.Floors)
+	//floorNum := len(config.Floors)
 
+	dungeonData.QuestId = config.QuestId
 	dungeonData.Boss = config.Boss
 	dungeonData.Enemys = config.Enemys
+	dungeonData.QuestId = config.QuestId
+	dungeonData.Colors = config.Colors
 
-	//for k, floorConf := range config.Floors {
+	//generate floor's grid data
+	starList := make(map[int32]TUsedValue, cs.N_DUNGEON_GRID_COUNT-1)
+	typeList := make(map[int32]TUsedValue, cs.N_DUNGEON_GRID_COUNT-1)
 
-	//	//floorConf.TreasureNum
-	//}
+	for k, floorConf := range config.Floors {
+		questFloor := &bbproto.QuestFloor{}
+
+		currNum := int32(0)
+		for n := currNum; n < *floorConf.TreasureNum; n++ {
+			typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_TREATURE), false}
+		}
+		currNum += *floorConf.TreasureNum
+
+		for n := currNum; n < currNum+(*floorConf.TrapNum); n++ {
+			typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_TRAP), false}
+		}
+		currNum += *floorConf.TrapNum
+
+		for n := currNum; n < currNum+(*floorConf.EnemyNum); n++ {
+			typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_ENEMY), false}
+		}
+		currNum += *floorConf.EnemyNum
+		log.Printf("[TRACE]  typeList len= %v | %v", currNum, len(typeList))
+
+		starNum := int32(0)
+		for i, star := range floorConf.Stars {
+			log.Printf("[TRACE] floorConf.Stars[%v]: %+v", i, star)
+			for n := starNum; n < starNum+(*star.Repeat); n++ {
+				starList[n] = TUsedValue{int32(*star.Star), false}
+			}
+			starNum += *star.Repeat
+		}
+		log.Printf("[TRACE]  starList len= %v | %v", starNum, len(starList))
+
+		gridCount := int32(cs.N_DUNGEON_GRID_COUNT - 1)
+		for i := 0; i < cs.N_DUNGEON_GRID_COUNT-1; i++ {
+			grid := &bbproto.QuestGrid{}
+
+			randNum := common.Rand(0, gridCount-1)
+			nStar := starList[randNum].Value
+			var starConf *bbproto.StarConfig
+			for _, conf := range floorConf.Stars {
+				if *starConf.Star == nStar {
+					starConf = conf
+					break
+				}
+			}
+
+			if typeList[randNum].Value == int32(bbproto.EQuestGridType_Q_TREATURE) {
+				tmpType := bbproto.EQuestGridType_Q_TREATURE
+				grid.Type = &tmpType
+				grid.Coins = proto.Int32(common.Rand(*starConf.Coin.Min, *starConf.Coin.Max))
+			} else if typeList[randNum].Value == int32(bbproto.EQuestGridType_Q_TRAP) {
+				tmpType := bbproto.EQuestGridType_Q_TRAP
+				grid.Type = &tmpType
+
+				randn := common.Randn(int32(len(starConf.Trap)))
+				grid.TrapId = proto.Uint32(starConf.Trap[randn])
+				log.Printf("[TRACE] randn:%v -> trapId: %v", randn, starConf.Trap[randn])
+
+			} else if typeList[randNum].Value == int32(bbproto.EQuestGridType_Q_ENEMY) {
+				tmpType := bbproto.EQuestGridType_Q_ENEMY
+				grid.Type = &tmpType
+
+				randn := common.Rand(*starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
+				log.Printf("[TRACE] randnum:%v enemys: ", randn)
+				for x := int32(0); x < randn; x++ {
+					nn := int32(len(starConf.EnemyPool))
+					nn = common.Randn(nn) % (nn - 1)
+
+					grid.EnemyId = append(grid.EnemyId, starConf.EnemyPool[nn])
+					log.Printf("[TRACE] randnn:%v enemyId:%v ", nn, starConf.EnemyPool[nn])
+				}
+			}
+
+			questFloor.GridInfo = append(questFloor.GridInfo, grid)
+
+			delete(typeList, randNum)
+			delete(starList, randNum)
+			gridCount -= 1
+		}
+
+		log.Printf("floor[%v]: questFloor.GridInfo:%+v floorConf:%+v", k, questFloor.GridInfo, floorConf)
+
+		dungeonData.Floors = append(dungeonData.Floors, questFloor)
+	}
 
 	return
 }

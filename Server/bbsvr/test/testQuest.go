@@ -249,8 +249,8 @@ func main() {
 	//DataAddStageInfo(12, "Water City")
 	//DataAddStageInfo(13, "Win City")
 
-	DataAddQuestConfig(1101)
-	//StartQuest(101, 11, 1101, 102)
+	//DataAddQuestConfig(1101)
+	StartQuest(101, 11, 1101, 102)
 
 	log.Fatal("bbsvr test client finish.")
 }
