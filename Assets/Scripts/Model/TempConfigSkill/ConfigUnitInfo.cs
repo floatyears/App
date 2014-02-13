@@ -37,12 +37,13 @@ public class ConfigUnitInfo {
 			uiitem.maxLevel 	= 10;
 			uiitem.expType 		= 1;
 			if(i == 1){
-				uiitem.leaderSkill = 47;
+				uiitem.leaderSkill = 17;
 			}
 			if(i == 5) {
 				uiitem.leaderSkill = 20;
 			}
 			uiitem.activeSkill = 46;
+			uiitem.passiveSkill = 49;
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
@@ -63,7 +64,6 @@ public class ConfigUnitInfo {
 			UserUnitInfo uui 	= new UserUnitInfo (uu);
 			GlobalData.tempUserUnitInfo.Add (i, uui);
 		}
-
 		GlobalData.tempUserUnitInfo [1].unitBaseInfo = 181;
 		GlobalData.tempUserUnitInfo [2].unitBaseInfo = 85;
 		GlobalData.tempUserUnitInfo [3].unitBaseInfo = 89;

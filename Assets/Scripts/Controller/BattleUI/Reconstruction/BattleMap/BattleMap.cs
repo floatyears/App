@@ -57,8 +57,8 @@ public class BattleMap : UIBaseUnity
 				if(map[i,j] == null) {
 					tempObject = NGUITools.AddChild(gameObject, template.gameObject);
 					tempObject.SetActive(true);
-					float xp = template.InitPosition.x + i * template.Width;
-					float yp = template.InitPosition.y + j * template.Height;
+					float xp = template.InitPosition.x + i * 125f;//template.Width;
+					float yp = template.InitPosition.y + j * 125f;//template.Height;
 					tempObject.transform.localPosition = new Vector3(xp,yp,template.InitPosition.z);
 					temp = tempObject.GetComponent<MapItem>();
 					temp.Coor = new Coordinate(i, j);
@@ -91,15 +91,12 @@ public class BattleMap : UIBaseUnity
 	void OnClickMapItem(GameObject go)
 	{
 		temp = go.GetComponent<MapItem>();
-
 		bQuest.TargetItem(temp.Coor);
 	}
 
-	public Vector3 GetPosition(int x, int y)
-	{
+	public Vector3 GetPosition(int x, int y) {
 		if(x > map.GetLength(0) || y > map.GetLength(1))
 			return Vector3.zero;
-
 		return map[x, y].transform.localPosition;
 	}
 

@@ -120,6 +120,15 @@ public interface ITrapExcute {
 	void Excute();
 }
 
+public interface IExcutePassiveSkill {
+	List<AttackInfo> Dispose(int attackType ,int attack);
+	void DisposeTrap(bool isAvoid);
+}
+
+public interface IPassiveExcute {
+	object Excute(object trapBase, IExcutePassiveSkill excutePS);
+}
+
 public interface IUIParty : IUICallback {
 	void PartyPaging( object textures);
 }
