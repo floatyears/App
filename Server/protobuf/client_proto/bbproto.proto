@@ -149,13 +149,18 @@ message NumRange {
 	optional int32		max				= 2;
 }
 
+message ColorPercent {
+	optional EUnitType	color			= 1; 
+	optional float		percent			= 2;	
+}
+
 message StarConfig {
 	optional int32			repeat		= 1;
 	optional int32			star		= 2; // 1 - 6: star, 0: key, 7: !
 	optional NumRange		coin		= 3; // tresureBox
 	repeated uint32			enemyPool	= 4; // unit uniqueId
 	optional NumRange		enemyNum	= 5;
-	repeated int32			trap		= 6; // trapId
+	repeated uint32			trap		= 6; // trapId
 }
 
 message QuestFloorConfig {
@@ -167,9 +172,11 @@ message QuestFloorConfig {
 }
 
 message QuestConfig {
-	repeated EnemyInfo			boss	= 1;
-	repeated EnemyInfo			enemys	= 2;
-	repeated QuestFloorConfig 	floors	= 3;
+	optional uint32				questId	= 1;
+	repeated EnemyInfo			boss	= 2;
+	repeated EnemyInfo			enemys	= 3;
+	repeated ColorPercent		colors	= 4;	
+	repeated QuestFloorConfig 	floors	= 5;
 }
 
 //------------------------------------------------------------

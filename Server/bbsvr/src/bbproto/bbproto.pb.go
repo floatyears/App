@@ -720,13 +720,37 @@ func (m *NumRange) GetMax() int32 {
 	return 0
 }
 
+type ColorPercent struct {
+	Color            *EUnitType `protobuf:"varint,1,opt,name=color,enum=bbproto.EUnitType" json:"color,omitempty"`
+	Percent          *float32   `protobuf:"fixed32,2,opt,name=percent" json:"percent,omitempty"`
+	XXX_unrecognized []byte     `json:"-"`
+}
+
+func (m *ColorPercent) Reset()         { *m = ColorPercent{} }
+func (m *ColorPercent) String() string { return proto.CompactTextString(m) }
+func (*ColorPercent) ProtoMessage()    {}
+
+func (m *ColorPercent) GetColor() EUnitType {
+	if m != nil && m.Color != nil {
+		return *m.Color
+	}
+	return EUnitType_UALL
+}
+
+func (m *ColorPercent) GetPercent() float32 {
+	if m != nil && m.Percent != nil {
+		return *m.Percent
+	}
+	return 0
+}
+
 type StarConfig struct {
 	Repeat           *int32    `protobuf:"varint,1,opt,name=repeat" json:"repeat,omitempty"`
 	Star             *int32    `protobuf:"varint,2,opt,name=star" json:"star,omitempty"`
 	Coin             *NumRange `protobuf:"bytes,3,opt,name=coin" json:"coin,omitempty"`
 	EnemyPool        []uint32  `protobuf:"varint,4,rep,name=enemyPool" json:"enemyPool,omitempty"`
 	EnemyNum         *NumRange `protobuf:"bytes,5,opt,name=enemyNum" json:"enemyNum,omitempty"`
-	Trap             []int32   `protobuf:"varint,6,rep,name=trap" json:"trap,omitempty"`
+	Trap             []uint32  `protobuf:"varint,6,rep,name=trap" json:"trap,omitempty"`
 	XXX_unrecognized []byte    `json:"-"`
 }
 
@@ -769,7 +793,7 @@ func (m *StarConfig) GetEnemyNum() *NumRange {
 	return nil
 }
 
-func (m *StarConfig) GetTrap() []int32 {
+func (m *StarConfig) GetTrap() []uint32 {
 	if m != nil {
 		return m.Trap
 	}
@@ -825,15 +849,24 @@ func (m *QuestFloorConfig) GetStars() []*StarConfig {
 }
 
 type QuestConfig struct {
-	Boss             []*EnemyInfo        `protobuf:"bytes,1,rep,name=boss" json:"boss,omitempty"`
-	Enemys           []*EnemyInfo        `protobuf:"bytes,2,rep,name=enemys" json:"enemys,omitempty"`
-	Floors           []*QuestFloorConfig `protobuf:"bytes,3,rep,name=floors" json:"floors,omitempty"`
+	QuestId          *uint32             `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
+	Boss             []*EnemyInfo        `protobuf:"bytes,2,rep,name=boss" json:"boss,omitempty"`
+	Enemys           []*EnemyInfo        `protobuf:"bytes,3,rep,name=enemys" json:"enemys,omitempty"`
+	Colors           []*ColorPercent     `protobuf:"bytes,4,rep,name=colors" json:"colors,omitempty"`
+	Floors           []*QuestFloorConfig `protobuf:"bytes,5,rep,name=floors" json:"floors,omitempty"`
 	XXX_unrecognized []byte              `json:"-"`
 }
 
 func (m *QuestConfig) Reset()         { *m = QuestConfig{} }
 func (m *QuestConfig) String() string { return proto.CompactTextString(m) }
 func (*QuestConfig) ProtoMessage()    {}
+
+func (m *QuestConfig) GetQuestId() uint32 {
+	if m != nil && m.QuestId != nil {
+		return *m.QuestId
+	}
+	return 0
+}
 
 func (m *QuestConfig) GetBoss() []*EnemyInfo {
 	if m != nil {
@@ -845,6 +878,13 @@ func (m *QuestConfig) GetBoss() []*EnemyInfo {
 func (m *QuestConfig) GetEnemys() []*EnemyInfo {
 	if m != nil {
 		return m.Enemys
+	}
+	return nil
+}
+
+func (m *QuestConfig) GetColors() []*ColorPercent {
+	if m != nil {
+		return m.Colors
 	}
 	return nil
 }

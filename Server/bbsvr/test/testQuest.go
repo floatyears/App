@@ -6,7 +6,7 @@ import (
 	//"fmt"
 	_ "html"
 	"log"
-	//"math/rand"
+	"math/rand"
 	//"time"
 )
 import (
@@ -20,7 +20,134 @@ import (
 	//redis "github.com/garyburd/redigo/redis"
 )
 
-func DataAddQuest(stageId uint32, stageName string) error {
+func DataAddQuestConfig(questId uint32) error {
+
+	conf := &bbproto.QuestConfig{}
+	conf.QuestId = proto.Uint32(questId)
+
+	boss := &bbproto.EnemyInfo{}
+	boss.UniqueId = proto.Uint32(1001)
+	boss.UnitId = proto.Uint32(2)
+	unitType := bbproto.EUnitType_UFIRE
+	boss.Type = &unitType
+	boss.Hp = proto.Int32(1200)
+	boss.Attack = proto.Int32(300)
+	boss.Defense = proto.Int32(100)
+	boss.NextAttack = proto.Int32(2)
+	boss.DropUnitId = proto.Uint32(11)
+	boss.DropUnitLevel = proto.Uint32(1)
+	boss.DropRate = proto.Float32(0.5)
+	boss.PlusRate = proto.Float32(0.1)
+
+	conf.Boss = append(conf.Boss, boss)
+
+	for i := 1; i <= 5; i++ {
+		enemy := &bbproto.EnemyInfo{}
+
+		enemy.UniqueId = proto.Uint32(uint32(900 + i))
+		enemy.UnitId = proto.Uint32(2 + uint32(i))
+		enemy.Type = &unitType
+		enemy.Hp = proto.Int32(1000 + int32(rand.Intn(100)*10))
+		enemy.Attack = proto.Int32(300 + int32(rand.Intn(10)*10))
+		enemy.Defense = proto.Int32(100 + int32(rand.Intn(10)*10))
+		enemy.NextAttack = proto.Int32(int32(1 + rand.Intn(2)))
+		enemy.DropUnitId = proto.Uint32(*enemy.UnitId)
+		enemy.DropUnitLevel = proto.Uint32(1)
+		enemy.DropRate = proto.Float32(0.1 * float32(1+rand.Intn(9)))
+		enemy.PlusRate = proto.Float32(0.1)
+
+		conf.Enemys = append(conf.Enemys, enemy)
+	}
+
+	//fill block color
+	for n := 1; n <= 7; n++ {
+		color := &bbproto.ColorPercent{}
+		unitType := bbproto.EUnitType(n)
+		color.Color = &unitType
+		if unitType == bbproto.EUnitType_UHeart { //
+			color.Percent = proto.Float32(0.16)
+		} else {
+			color.Percent = proto.Float32(0.14)
+		}
+		conf.Colors = append(conf.Colors, color)
+	}
+
+	//fill QuestFloorConfig
+	floor1 := &bbproto.QuestFloorConfig{}
+	floor1.TreasureNum = proto.Int32(10)
+	floor1.TrapNum = proto.Int32(3)
+	floor1.EnemyNum = proto.Int32(10)
+
+	star1Conf := &bbproto.StarConfig{}
+	star1Conf.Star = proto.Int32(1)
+	star1Conf.Repeat = proto.Int32(5)
+	star1Conf.Coin = &bbproto.NumRange{proto.Int32(300), proto.Int32(600), nil}
+	star1Conf.EnemyNum = &bbproto.NumRange{proto.Int32(1), proto.Int32(2), nil}
+	star1Conf.EnemyPool = []uint32{901, 902, 903}
+	star1Conf.Trap = []uint32{11, 12} //trapId
+
+	star2Conf := &bbproto.StarConfig{}
+	star2Conf.Star = proto.Int32(2)
+	star2Conf.Repeat = proto.Int32(6)
+	star2Conf.Coin = &bbproto.NumRange{proto.Int32(700), proto.Int32(900), nil}
+	star2Conf.EnemyNum = &bbproto.NumRange{proto.Int32(2), proto.Int32(4), nil}
+	star2Conf.EnemyPool = []uint32{901, 902, 903, 904}
+	star2Conf.Trap = []uint32{11, 12} //trapId
+
+	star3Conf := &bbproto.StarConfig{}
+	star3Conf.Star = proto.Int32(5)
+	star3Conf.Repeat = proto.Int32(6)
+	star3Conf.Coin = &bbproto.NumRange{proto.Int32(2000), proto.Int32(3000), nil}
+	star3Conf.EnemyNum = &bbproto.NumRange{proto.Int32(3), proto.Int32(4), nil}
+	star3Conf.EnemyPool = []uint32{902, 903, 904, 905}
+	star3Conf.Trap = []uint32{11, 12} //trapId
+
+	star0Conf := &bbproto.StarConfig{}
+	star0Conf.Star = proto.Int32(0) // 0: key
+	star0Conf.Repeat = proto.Int32(1)
+	star0Conf.Coin = &bbproto.NumRange{proto.Int32(2000), proto.Int32(3000), nil}
+	star0Conf.EnemyNum = &bbproto.NumRange{proto.Int32(3), proto.Int32(4), nil}
+	star0Conf.EnemyPool = []uint32{902, 903, 904, 905}
+	star0Conf.Trap = []uint32{11, 12} //trapId
+
+	star_Conf := &bbproto.StarConfig{}
+	star_Conf.Star = proto.Int32(7) // 7: !
+	star_Conf.Repeat = proto.Int32(3)
+	star_Conf.Coin = &bbproto.NumRange{proto.Int32(3000), proto.Int32(4000), nil}
+	star_Conf.EnemyNum = &bbproto.NumRange{proto.Int32(5), proto.Int32(5), nil}
+	star_Conf.EnemyPool = []uint32{901, 902, 903, 904, 905}
+	star_Conf.Trap = []uint32{19, 20} //trapId
+
+	floor1.Stars = append(floor1.Stars, star1Conf)
+	floor1.Stars = append(floor1.Stars, star2Conf)
+	floor1.Stars = append(floor1.Stars, star3Conf)
+	floor1.Stars = append(floor1.Stars, star0Conf) // key
+	floor1.Stars = append(floor1.Stars, star_Conf) // !
+
+	conf.Floors = append(conf.Floors, floor1)
+
+	log.Printf("QuestConfig: %+v", conf)
+
+	db := &data.Data{}
+	err := db.Open(string(cs.TABLE_QUEST))
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	zData, err := proto.Marshal(conf)
+	if err != nil {
+		log.Printf("unmarshal error.")
+		return err
+	}
+	if err = db.Set(cs.X_QUEST_CONFIG+common.Utoa(questId), zData); err != nil {
+		return err
+	}
+
+	return err
+}
+
+func DataAddStageInfo(stageId uint32, stageName string) error {
 	db := &data.Data{}
 	err := db.Open(string(cs.TABLE_QUEST))
 	if err != nil {
@@ -118,10 +245,12 @@ func main() {
 	log.Printf("bbsvr test client begin...")
 
 	Init()
-	DataAddQuest(11, "Fire City")
-	DataAddQuest(12, "Water City")
-	DataAddQuest(13, "Win City")
-	StartQuest(101, 11, 1101, 102)
+	//DataAddStageInfo(11, "Fire City")
+	//DataAddStageInfo(12, "Water City")
+	//DataAddStageInfo(13, "Win City")
+
+	DataAddQuestConfig(1101)
+	//StartQuest(101, 11, 1101, 102)
 
 	log.Fatal("bbsvr test client finish.")
 }
