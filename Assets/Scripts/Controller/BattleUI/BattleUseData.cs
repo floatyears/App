@@ -37,15 +37,15 @@ public class BattleUseData {
 		errorMsg = new ErrorMsg ();
 		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
 		upi.GetSkillCollection ();
-		ac = new AttackController (this);
 		els = new ExcuteLeadSkill (upi);
-		eas = new ExcuteActiveSkill (upi);
-		eps = new ExcutePassiveSkill (upi);
 		skillRecoverHP = els;
 		els.Excute ();
+		eas = new ExcuteActiveSkill (upi);
+		eps = new ExcutePassiveSkill (upi);
+		ac = new AttackController (this, eps);
 		maxBlood = blood = upi.GetBlood ();
 		maxEnergyPoint = GlobalData.maxEnergyPoint;
-		Config.Instance.SwitchCard (els);	//switch card skill
+		Config.Instance.SwitchCard (els);	
 	}
 
 	~BattleUseData() {

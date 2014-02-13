@@ -304,6 +304,6 @@ public class ConfigAudio {
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
 
-		Debug.Log("audio's configging has completed!, the audio clip's count is: " + audioList.Count);
+//		Debug.Log("audio's configging has completed!, the audio clip's count is: " + audioList.Count);
 	}
 }

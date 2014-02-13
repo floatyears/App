@@ -609,6 +609,32 @@ public class ConfigSkill  {
 		sma.unitTypeCount = 2;
 		LeaderSkillMultipleAttack lsma = new LeaderSkillMultipleAttack (sma);
 		GlobalData.tempNormalSkill.Add (sma.baseInfo.id, lsma);
+
+		ConfigPassiveSkil ();
+	}
+
+	void ConfigPassiveSkil () {
+		SkillDodgeTrap sdt = new SkillDodgeTrap ();
+		sdt.baseInfo = new SkillBase ();
+		sdt.baseInfo.id = 48;
+		sdt.baseInfo.name = "no 48. Dodge trap";
+		sdt.baseInfo.description = "avoid trap";
+		sdt.trapLevel = 1;
+		sdt.trapType = ETrapType.Injured;
+		PassiveDodgeTrap pdt = new PassiveDodgeTrap (sdt);
+		GlobalData.tempNormalSkill.Add (sdt.baseInfo.id, pdt);
+
+		SkillAntiAttack saa = new SkillAntiAttack ();
+		saa.baseInfo = new SkillBase ();
+		saa.baseInfo.id = 49;
+		saa.baseInfo.name = "no 49. Anti Attak";
+		saa.baseInfo.description = "anti enemy attack";
+		saa.attackSource = EUnitType.UALL;
+		saa.antiAttack = EUnitType.UFIRE;
+		saa.antiAtkRatio = 1f;
+		saa.probability = 1f;
+		PassiveAntiAttack paa = new PassiveAntiAttack (saa);
+		GlobalData.tempNormalSkill.Add (saa.baseInfo.id, paa);
 	}
 }
 
