@@ -9,6 +9,7 @@ import (
 
 import (
 	"../bbproto"
+	//"../common"
 	"../common/Error"
 	"../const"
 	"../data"
@@ -118,11 +119,13 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	}
 	log.Printf("questInfo:%+v", questInfo)
 
-	//check stamina
-	if *userdetail.User.StaminaNow < *questInfo.Stamina {
-		return Error.New(cs.EQ_STAMINA_NOT_ENOUGH, "stamina is not enough")
+	//update stamina
+	log.Printf("[TRACE]--Old Stamina:%v staminaRecover:%v", *userdetail.User.StaminaNow, *userdetail.User.StaminaRecover)
+	e = UpdateStamina(userdetail.User.StaminaRecover, userdetail.User.StaminaNow, *userdetail.User.StaminaMax, *questInfo.Stamina)
+	if e.IsError() {
+		return e
 	}
-	//log.Printf("staminaNow:%+v", *userdetail.User.StaminaNow)
+	log.Printf("[TRACE]--New StaminaNow:%v staminaRecover:%v", *userdetail.User.StaminaNow, *userdetail.User.StaminaRecover)
 
 	//get quest config
 	questConf, e := GetQuestConfig(db, questId)

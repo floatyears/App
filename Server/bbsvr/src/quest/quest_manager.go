@@ -23,7 +23,8 @@ func GetQuestInfo(db *data.Data, stageInfo *bbproto.StageInfo, questId uint32) (
 		return nil, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer or stageInfo is nil.")
 	}
 
-	for _, quest := range stageInfo.Quests {
+	for k, quest := range stageInfo.Quests {
+		log.Printf("[LOOP] Trace [%v] quest.Id:%v", k, *quest.Id)
 		if *quest.Id == questId {
 			return quest, Error.OK()
 		}
@@ -37,9 +38,11 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo bbproto.StageInfo, e
 		return stageInfo, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
 	}
 
+	log.Printf("begin get stageInfo: %v", stageId)
+
 	zStageInfo, err := db.Gets(cs.X_QUEST_STAGE + common.Utoa(stageId))
 	if err != nil {
-		return
+		return stageInfo, Error.New(cs.READ_DB_ERROR, "read stageinfo fail")
 	}
 
 	if err = proto.Unmarshal(zStageInfo, &stageInfo); err != nil {
@@ -47,7 +50,7 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo bbproto.StageInfo, e
 		return stageInfo, Error.New(cs.UNMARSHAL_ERROR, "unmarshal error.")
 	}
 
-	log.Printf("")
+	log.Printf("stageInfo[%v]: %+v", stageId, stageInfo)
 
 	return stageInfo, Error.OK()
 }
@@ -70,7 +73,46 @@ func GetQuestConfig(db *data.Data, questId uint32) (config bbproto.QuestConfig, 
 	return config, Error.OK()
 }
 
+//update tRecover, userStamina
+func UpdateStamina(tRecover *uint32, userStamina *int32, userStaminaMax int32, questStamina int32) (e Error.Error) {
+	if tRecover == nil || userStamina == nil {
+		return Error.New(cs.INVALID_PARAMS, "invalid params")
+	}
+
+	tNow := common.Now()
+	tElapse := int32(tNow - *tRecover)
+	log.Printf("Old Stamina:%v tRecover:%v tElapse:%v questStamina:%v", userStamina, *tRecover, tElapse, questStamina)
+	*userStamina += (tElapse/cs.N_STAMINA_TIME + 1)
+	log.Printf("Now Stamina:%v userStaminaMax:%v", *userStamina, userStaminaMax)
+
+	if *userStamina > userStaminaMax {
+		*userStamina = userStaminaMax
+	}
+
+	*tRecover = tNow + uint32(cs.N_STAMINA_TIME-tElapse%cs.N_STAMINA_TIME)
+
+	if *userStamina < questStamina {
+		return Error.New(cs.EQ_STAMINA_NOT_ENOUGH, "stamina is not enough")
+	}
+	//log.Printf("staminaNow:%+v", *userdetail.User.StaminaNow)
+	return Error.OK()
+}
+
 func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonData, e Error.Error) {
+	dungeonData := &bbproto.QuestDungeonData{}
+	//dungeonData.Floors := make([]QuestFloor, cs.N_DUNGEON_GRID_COUNT-1)
+	log.Printf("original dungeonData.Floors is:%+v", dungeonData.Floors)
+
+	dungeonData.Floors = make([]*bbproto.QuestFloor, len(config.Floors))
+	log.Printf("make %v floors is:%+v", len(config.Floors), dungeonData.Floors)
+
+	dungeonData.Boss = config.Boss
+	dungeonData.Enemys = config.Enemys
+
+	//for k, floorConf := range config.Floors {
+
+	//	//floorConf.TreasureNum
+	//}
 
 	return
 }

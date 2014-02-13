@@ -825,13 +825,29 @@ func (m *QuestFloorConfig) GetStars() []*StarConfig {
 }
 
 type QuestConfig struct {
-	Floors           []*QuestFloorConfig `protobuf:"bytes,1,rep,name=floors" json:"floors,omitempty"`
+	Boss             []*EnemyInfo        `protobuf:"bytes,1,rep,name=boss" json:"boss,omitempty"`
+	Enemys           []*EnemyInfo        `protobuf:"bytes,2,rep,name=enemys" json:"enemys,omitempty"`
+	Floors           []*QuestFloorConfig `protobuf:"bytes,3,rep,name=floors" json:"floors,omitempty"`
 	XXX_unrecognized []byte              `json:"-"`
 }
 
 func (m *QuestConfig) Reset()         { *m = QuestConfig{} }
 func (m *QuestConfig) String() string { return proto.CompactTextString(m) }
 func (*QuestConfig) ProtoMessage()    {}
+
+func (m *QuestConfig) GetBoss() []*EnemyInfo {
+	if m != nil {
+		return m.Boss
+	}
+	return nil
+}
+
+func (m *QuestConfig) GetEnemys() []*EnemyInfo {
+	if m != nil {
+		return m.Enemys
+	}
+	return nil
+}
 
 func (m *QuestConfig) GetFloors() []*QuestFloorConfig {
 	if m != nil {

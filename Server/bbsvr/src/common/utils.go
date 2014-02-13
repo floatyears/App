@@ -36,7 +36,11 @@ func ReadFile(filename string) (data []byte, err error) {
 	return data, err
 }
 
-func Itoa(n int32) string {
+func Itoa(n int) string {
+	return strconv.FormatInt(int64(n), 10)
+}
+
+func Ntoa(n int32) string {
 	return strconv.FormatInt(int64(n), 10)
 }
 

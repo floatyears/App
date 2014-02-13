@@ -31,6 +31,8 @@ const (
 )
 
 const (
-	N_USER_SPACE_PARTS  = 10
-	N_HELPER_RANK_RANGE = 5
+	N_DUNGEON_GRID_COUNT = 25
+	N_USER_SPACE_PARTS   = 10
+	N_HELPER_RANK_RANGE  = 5
+	N_STAMINA_TIME       = 600 // seconds
 )
