@@ -88,7 +88,7 @@ public class UIManager {
 	public void EnterBattle () {
 		current.HideScene();
 		baseScene.HideBase ();
-		AudioManager.Instance.PlayAudio (AudioEnum.music_fight);
+		//AudioManager.Instance.PlayAudio (AudioEnum.sound_ui_back);
 		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 	}
 
