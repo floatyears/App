@@ -48,11 +48,6 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 	public override void Init(UIInsConfig config, IUIOrigin origin) {
 		base.Init(config, origin);
 		InitUI();
-
-		MsgCenter.Instance.Invoke(CommandEnum.SelectFriend, null);
-
-
-		MsgCenter.Instance.AddListener (CommandEnum.SelectFriend,function);
 	}
 
 	void function(object data) {
