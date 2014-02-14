@@ -9,7 +9,7 @@ import (
 
 import (
 	"../bbproto"
-	//"../common"
+	"../common"
 	"../common/Error"
 	"../const"
 	"../data"
@@ -82,6 +82,8 @@ func (t StartQuest) verifyParams(reqMsg *bbproto.ReqStartQuest) (err Error.Error
 }
 
 func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.RspStartQuest) (e Error.Error) {
+	cost := &common.Cost{}
+	cost.Begin()
 
 	stageId := *reqMsg.StageId
 	questId := *reqMsg.QuestId
@@ -130,14 +132,21 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	//get quest config
 	questConf, e := GetQuestConfig(db, questId)
 	log.Printf("[TRACE] questConf:%+v", questConf)
+	if e.IsError() {
+		return e
+	}
 
 	//make quest data
 	questData, e := MakeQuestData(&questConf)
-
+	if e.IsError() {
+		return e
+	}
 	//fill response
 	rspMsg.StaminaNow = proto.Int32(*userdetail.User.StaminaNow - *questInfo.Stamina)
 	rspMsg.StaminaRecover = proto.Uint32(*userdetail.User.StaminaRecover)
 	rspMsg.DungeonData = &questData
+
+	log.Printf("=========== StartQuest total cost %v ms. ============\n\n", cost.Cost())
 
 	return Error.OK()
 }

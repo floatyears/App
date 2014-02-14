@@ -2,7 +2,6 @@ package quest
 
 import (
 	"fmt"
-	"log"
 	//"time"
 )
 
@@ -10,6 +9,7 @@ import (
 	"../bbproto"
 	"../common"
 	"../common/Error"
+	"../common/log"
 	"../const"
 	"../data"
 	//"../user/usermanage"
@@ -24,7 +24,7 @@ func GetQuestInfo(db *data.Data, stageInfo *bbproto.StageInfo, questId uint32) (
 	}
 
 	for k, quest := range stageInfo.Quests {
-		log.Printf("[LOOP] Trace [%v] quest.Id:%v", k, *quest.Id)
+		log.T("[LOOP] Trace [%v] quest.Id:%v", k, *quest.Id)
 		if *quest.Id == questId {
 			return quest, Error.OK()
 		}
@@ -38,7 +38,7 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo bbproto.StageInfo, e
 		return stageInfo, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
 	}
 
-	log.Printf("begin get stageInfo: %v", stageId)
+	log.T("begin get stageInfo: %v", stageId)
 
 	zStageInfo, err := db.Gets(cs.X_QUEST_STAGE + common.Utoa(stageId))
 	if err != nil {
@@ -46,11 +46,11 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo bbproto.StageInfo, e
 	}
 
 	if err = proto.Unmarshal(zStageInfo, &stageInfo); err != nil {
-		log.Printf("[ERROR] unmarshal error from stage[%v] info.", stageId)
+		log.T("[ERROR] unmarshal error from stage[%v] info.", stageId)
 		return stageInfo, Error.New(cs.UNMARSHAL_ERROR, "unmarshal error.")
 	}
 
-	log.Printf("stageInfo[%v]: %+v", stageId, stageInfo)
+	log.T("stageInfo[%v]: %+v", stageId, stageInfo)
 
 	return stageInfo, Error.OK()
 }
@@ -66,7 +66,7 @@ func GetQuestConfig(db *data.Data, questId uint32) (config bbproto.QuestConfig, 
 	}
 
 	if err = proto.Unmarshal(zQuestConf, &config); err != nil {
-		log.Printf("[ERROR] unmarshal error from questConfig[%v].", questId)
+		log.T("[ERROR] unmarshal error from questConfig[%v].", questId)
 		return config, Error.New(cs.UNMARSHAL_ERROR, "unmarshal error.")
 	}
 
@@ -81,9 +81,9 @@ func UpdateStamina(tRecover *uint32, userStamina *int32, userStaminaMax int32, q
 
 	tNow := common.Now()
 	tElapse := int32(tNow - *tRecover)
-	log.Printf("Old Stamina:%v tRecover:%v tElapse:%v questStamina:%v", userStamina, *tRecover, tElapse, questStamina)
+	log.T("Old Stamina:%v tRecover:%v tElapse:%v questStamina:%v", userStamina, *tRecover, tElapse, questStamina)
 	*userStamina += (tElapse/cs.N_STAMINA_TIME + 1)
-	log.Printf("Now Stamina:%v userStaminaMax:%v", *userStamina, userStaminaMax)
+	log.T("Now Stamina:%v userStaminaMax:%v", *userStamina, userStaminaMax)
 
 	if *userStamina > userStaminaMax {
 		*userStamina = userStaminaMax
@@ -94,7 +94,7 @@ func UpdateStamina(tRecover *uint32, userStamina *int32, userStaminaMax int32, q
 	if *userStamina < questStamina {
 		return Error.New(cs.EQ_STAMINA_NOT_ENOUGH, "stamina is not enough")
 	}
-	//log.Printf("staminaNow:%+v", *userdetail.User.StaminaNow)
+	//log.T("staminaNow:%+v", *userdetail.User.StaminaNow)
 	return Error.OK()
 }
 
@@ -103,20 +103,51 @@ type TUsedValue struct {
 	Used  bool
 }
 
+func getItemFromList(pos int32, list *map[int32]TUsedValue) (result int32) {
+	//retrieve target item from list
+	result = -1
+	if pos >= int32(len(*list)) {
+		return result
+	}
+
+	index := int32(0)
+	for k, ss := range *list {
+		if ss.Used {
+			log.T("list :: index:%v is used.", index)
+			continue
+		}
+
+		if index == pos {
+			(*list)[k] = TUsedValue{ss.Value, true}
+			result = ss.Value
+			log.T("LOOP k:%v ss:%v list[k]:%v", k, ss, (*list)[k])
+			break
+		}
+		index++
+	}
+	return result
+}
+
+func getStarConf(iStar int32, starsConf []*bbproto.StarConfig) (starConf *bbproto.StarConfig, e Error.Error) {
+	for _, conf := range starsConf {
+		if conf.Star != nil && int32(*conf.Star) == iStar {
+			starConf = conf
+			log.T("found starConf:%+v", starConf)
+			return starConf, Error.OK()
+		}
+	}
+
+	return nil, Error.New(cs.DATA_NOT_EXISTS, "Not found starconf.")
+}
+
 func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonData, e Error.Error) {
-	dungeonData := &bbproto.QuestDungeonData{}
-	//dungeonData.Floors := make([]QuestFloor, cs.N_DUNGEON_GRID_COUNT-1)
-	log.Printf("[TRACE] original dungeonData.Floors is:%+v", dungeonData.Floors)
+	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)
 
-	//dungeonData.Floors = make([]*bbproto.QuestFloor, len(config.Floors))
-	//log.Printf("[TRACE] make %v floors is:%+v", floorNum, dungeonData.Floors)
-	//floorNum := len(config.Floors)
-
-	dungeonData.QuestId = config.QuestId
-	dungeonData.Boss = config.Boss
-	dungeonData.Enemys = config.Enemys
-	dungeonData.QuestId = config.QuestId
-	dungeonData.Colors = config.Colors
+	questData.QuestId = config.QuestId
+	questData.Boss = config.Boss
+	questData.Enemys = config.Enemys
+	questData.QuestId = config.QuestId
+	questData.Colors = config.Colors
 
 	//generate floor's grid data
 	starList := make(map[int32]TUsedValue, cs.N_DUNGEON_GRID_COUNT-1)
@@ -140,70 +171,88 @@ func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonD
 			typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_ENEMY), false}
 		}
 		currNum += *floorConf.EnemyNum
-		log.Printf("[TRACE]  typeList len= %v | %v", currNum, len(typeList))
+		log.T("typeList len= %v | %v", currNum, len(typeList))
 
 		starNum := int32(0)
 		for i, star := range floorConf.Stars {
-			log.Printf("[TRACE] floorConf.Stars[%v]: %+v", i, star)
+			log.T(" floorConf.Stars[%v]: %+v", i, star)
 			for n := starNum; n < starNum+(*star.Repeat); n++ {
 				starList[n] = TUsedValue{int32(*star.Star), false}
 			}
 			starNum += *star.Repeat
 		}
-		log.Printf("[TRACE]  starList len= %v | %v", starNum, len(starList))
+		log.T("starList len= %v | %v", starNum, len(starList))
 
 		gridCount := int32(cs.N_DUNGEON_GRID_COUNT - 1)
-		for i := 0; i < cs.N_DUNGEON_GRID_COUNT-1; i++ {
+		for i := 0; i < cs.N_DUNGEON_GRID_COUNT-1 && gridCount > 0; i++ {
 			grid := &bbproto.QuestGrid{}
+			grid.Position = proto.Int32(int32(i))
 
-			randNum := common.Rand(0, gridCount-1)
-			nStar := starList[randNum].Value
-			var starConf *bbproto.StarConfig
-			for _, conf := range floorConf.Stars {
-				if *starConf.Star == nStar {
-					starConf = conf
-					break
-				}
+			randNum := common.Randn(gridCount)
+			gridCount -= 1
+
+			//retrieve target item from list
+			iType := getItemFromList(randNum, &typeList)
+			iStar := getItemFromList(randNum, &starList)
+
+			log.T("--[GRID-%v] randNum:%v iType:%v, iStar:%v,\n floorConf.Stars:%+v", i, randNum, iType, iStar, floorConf.Stars)
+			if iType < 0 || iStar < 0 {
+				//it should be empty grid
+				questFloor.GridInfo = append(questFloor.GridInfo, grid)
+				continue
 			}
 
-			if typeList[randNum].Value == int32(bbproto.EQuestGridType_Q_TREATURE) {
+			starConf, e := getStarConf(iStar, floorConf.Stars)
+			log.T("After found starConf:%+v err:%v", starConf, e.Error())
+			if e.IsError() {
+				return questData, e //unreachable here
+			}
+
+			grid.Star = starConf.Star
+			grid.Color = proto.Int32(common.Randn(3)) //0:red,1:yellow,2:blue
+
+			if iType == int32(bbproto.EQuestGridType_Q_TREATURE) {
 				tmpType := bbproto.EQuestGridType_Q_TREATURE
 				grid.Type = &tmpType
 				grid.Coins = proto.Int32(common.Rand(*starConf.Coin.Min, *starConf.Coin.Max))
-			} else if typeList[randNum].Value == int32(bbproto.EQuestGridType_Q_TRAP) {
+				log.T("random ret treasure, grid: %+v", grid)
+			} else if iType == int32(bbproto.EQuestGridType_Q_TRAP) {
 				tmpType := bbproto.EQuestGridType_Q_TRAP
 				grid.Type = &tmpType
 
 				randn := common.Randn(int32(len(starConf.Trap)))
 				grid.TrapId = proto.Uint32(starConf.Trap[randn])
-				log.Printf("[TRACE] randn:%v -> trapId: %v", randn, starConf.Trap[randn])
+				log.T(" randn:%v -> trapId: %v", randn, starConf.Trap[randn])
 
-			} else if typeList[randNum].Value == int32(bbproto.EQuestGridType_Q_ENEMY) {
+			} else if iType == int32(bbproto.EQuestGridType_Q_ENEMY) {
 				tmpType := bbproto.EQuestGridType_Q_ENEMY
 				grid.Type = &tmpType
+				log.T("EnemyNum: %v %v", *starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
 
 				randn := common.Rand(*starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
-				log.Printf("[TRACE] randnum:%v enemys: ", randn)
+				log.T("randnum:%v enemys: ", randn)
 				for x := int32(0); x < randn; x++ {
 					nn := int32(len(starConf.EnemyPool))
 					nn = common.Randn(nn) % (nn - 1)
 
 					grid.EnemyId = append(grid.EnemyId, starConf.EnemyPool[nn])
-					log.Printf("[TRACE] randnn:%v enemyId:%v ", nn, starConf.EnemyPool[nn])
+					log.T("randnn:%v enemyId:%v ", nn, starConf.EnemyPool[nn])
 				}
+			} else {
+				log.Warn("Random ret grid type is Empty: %v", iType)
 			}
 
 			questFloor.GridInfo = append(questFloor.GridInfo, grid)
-
-			delete(typeList, randNum)
-			delete(starList, randNum)
-			gridCount -= 1
+			log.T("===[GRID-%v]: %+v", i, grid)
 		}
 
-		log.Printf("floor[%v]: questFloor.GridInfo:%+v floorConf:%+v", k, questFloor.GridInfo, floorConf)
+		log.T("starList: %+v", starList)
+		log.T("typeList: %+v", typeList)
 
-		dungeonData.Floors = append(dungeonData.Floors, questFloor)
+		log.T("floor[%v]: questFloor.GridInfo:%+v floorConf:%+v", k, questFloor.GridInfo, floorConf)
+
+		questData.Floors = append(questData.Floors, questFloor)
 	}
 
-	return
+	return questData, Error.OK()
 }

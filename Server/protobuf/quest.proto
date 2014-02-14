@@ -24,6 +24,18 @@ enum EQuestGridType {
 	Q_TRAP			= 3;
 }
 
+enum EGridStar {
+	GS_KEY				= 0;
+	GS_STAR_1			= 1;
+	GS_STAR_2			= 2;
+	GS_STAR_3			= 3;
+	GS_STAR_4			= 4;
+	GS_STAR_5			= 5;
+	GS_STAR_6			= 6;
+	GS_QUESTION			= 7;
+	GS_EXCLAMATION		= 8;
+}
+
 //----------------------Quest config data-----------------------------
 message NumRange {
 	optional int32		min				= 1; 
@@ -37,7 +49,7 @@ message ColorPercent {
 
 message StarConfig {
 	optional int32			repeat		= 1;
-	optional int32			star		= 2; // 1 - 6: star, 0: key, 7: !
+	optional EGridStar		star		= 2; // 1 - 6: star, 0: key, 7: ? 8:!
 	optional NumRange		coin		= 3; // tresureBox
 	repeated uint32			enemyPool	= 4; // unit uniqueId
 	optional NumRange		enemyNum	= 5;
@@ -76,8 +88,8 @@ message EnemyInfo {
 }
 
 message QuestGrid {
-	repeated int32			position	= 1; // grid position
-	optional int32			star		= 2; // 1 - 6 star, !, ?
+	optional int32			position	= 1; // grid position
+	optional EGridStar		star		= 2; // 1 - 6 star, !, ?
 	optional int32			color		= 3; // star color
 	optional EQuestGridType	type		= 4; // enemy, coin, enemy, empty
 	repeated uint32			enemyId		= 5; // enemy uniqueId list
@@ -161,9 +173,9 @@ message ReqStartQuest {
 
 message RspStartQuest {
 	optional ProtoHeader		header			= 1;
-	optional int32				staminaNow		= 3; // current stamina
-	optional uint32				staminaRecover	= 4; // stamina recover time
-	optional QuestDungeonData	dungeonData		= 5;
+	optional int32				staminaNow		= 2; // current stamina
+	optional uint32				staminaRecover	= 3; // stamina recover time
+	optional QuestDungeonData	dungeonData		= 4;
 }
 
 message ReqClearQuset {

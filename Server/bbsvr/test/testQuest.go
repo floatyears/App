@@ -78,8 +78,18 @@ func DataAddQuestConfig(questId uint32) error {
 	floor1.TrapNum = proto.Int32(3)
 	floor1.EnemyNum = proto.Int32(10)
 
+	star1 := bbproto.EGridStar_GS_STAR_1
+	//star2 := bbproto.EGridStar_GS_STAR_2
+	star3 := bbproto.EGridStar_GS_STAR_3
+	//star4 := bbproto.EGridStar_GS_STAR_4
+	star5 := bbproto.EGridStar_GS_STAR_5
+	//star6 := bbproto.EGridStar_GS_STAR_6
+	starKey := bbproto.EGridStar_GS_KEY
+	starQ := bbproto.EGridStar_GS_QUESTION
+	starX := bbproto.EGridStar_GS_EXCLAMATION
+
 	star1Conf := &bbproto.StarConfig{}
-	star1Conf.Star = proto.Int32(1)
+	star1Conf.Star = &star1
 	star1Conf.Repeat = proto.Int32(5)
 	star1Conf.Coin = &bbproto.NumRange{proto.Int32(300), proto.Int32(600), nil}
 	star1Conf.EnemyNum = &bbproto.NumRange{proto.Int32(1), proto.Int32(2), nil}
@@ -87,7 +97,7 @@ func DataAddQuestConfig(questId uint32) error {
 	star1Conf.Trap = []uint32{11, 12} //trapId
 
 	star2Conf := &bbproto.StarConfig{}
-	star2Conf.Star = proto.Int32(2)
+	star2Conf.Star = &star3
 	star2Conf.Repeat = proto.Int32(6)
 	star2Conf.Coin = &bbproto.NumRange{proto.Int32(700), proto.Int32(900), nil}
 	star2Conf.EnemyNum = &bbproto.NumRange{proto.Int32(2), proto.Int32(4), nil}
@@ -95,7 +105,7 @@ func DataAddQuestConfig(questId uint32) error {
 	star2Conf.Trap = []uint32{11, 12} //trapId
 
 	star3Conf := &bbproto.StarConfig{}
-	star3Conf.Star = proto.Int32(5)
+	star3Conf.Star = &star5
 	star3Conf.Repeat = proto.Int32(6)
 	star3Conf.Coin = &bbproto.NumRange{proto.Int32(2000), proto.Int32(3000), nil}
 	star3Conf.EnemyNum = &bbproto.NumRange{proto.Int32(3), proto.Int32(4), nil}
@@ -103,16 +113,24 @@ func DataAddQuestConfig(questId uint32) error {
 	star3Conf.Trap = []uint32{11, 12} //trapId
 
 	star0Conf := &bbproto.StarConfig{}
-	star0Conf.Star = proto.Int32(0) // 0: key
+	star0Conf.Star = &starKey
 	star0Conf.Repeat = proto.Int32(1)
 	star0Conf.Coin = &bbproto.NumRange{proto.Int32(2000), proto.Int32(3000), nil}
 	star0Conf.EnemyNum = &bbproto.NumRange{proto.Int32(3), proto.Int32(4), nil}
 	star0Conf.EnemyPool = []uint32{902, 903, 904, 905}
 	star0Conf.Trap = []uint32{11, 12} //trapId
 
+	starQConf := &bbproto.StarConfig{}
+	starQConf.Star = &starQ
+	starQConf.Repeat = proto.Int32(3)
+	starQConf.Coin = &bbproto.NumRange{proto.Int32(3000), proto.Int32(4000), nil}
+	starQConf.EnemyNum = &bbproto.NumRange{proto.Int32(5), proto.Int32(5), nil}
+	starQConf.EnemyPool = []uint32{901, 902, 903, 904, 905}
+	starQConf.Trap = []uint32{19, 20} //trapId
+
 	star_Conf := &bbproto.StarConfig{}
-	star_Conf.Star = proto.Int32(7) // 7: !
-	star_Conf.Repeat = proto.Int32(3)
+	star_Conf.Star = &starX
+	star_Conf.Repeat = proto.Int32(1)
 	star_Conf.Coin = &bbproto.NumRange{proto.Int32(3000), proto.Int32(4000), nil}
 	star_Conf.EnemyNum = &bbproto.NumRange{proto.Int32(5), proto.Int32(5), nil}
 	star_Conf.EnemyPool = []uint32{901, 902, 903, 904, 905}
@@ -122,6 +140,7 @@ func DataAddQuestConfig(questId uint32) error {
 	floor1.Stars = append(floor1.Stars, star2Conf)
 	floor1.Stars = append(floor1.Stars, star3Conf)
 	floor1.Stars = append(floor1.Stars, star0Conf) // key
+	floor1.Stars = append(floor1.Stars, starQConf) // ?
 	floor1.Stars = append(floor1.Stars, star_Conf) // !
 
 	conf.Floors = append(conf.Floors, floor1)
@@ -188,7 +207,7 @@ func DataAddStageInfo(stageId uint32, stageName string) error {
 
 		stageInfo.Quests = append(stageInfo.Quests, qusetInfo)
 	}
-	log.Printf("====stageInfo: %+v", stageInfo)
+	log.Printf("====stageInfo: %+vin", stageInfo)
 	for k, q := range stageInfo.Quests {
 		log.Printf("   --- quest[%v]: %+v", k, q)
 	}
@@ -231,10 +250,34 @@ func StartQuest(uid uint32, stageId uint32, questId uint32, helperUid uint32) er
 	}
 
 	//decode rsp msg
-	log.Printf("-----------------------Response----------------------")
+	log.Printf("-----------------------Response (len:%v)----------------------", len(rspbuff))
 	rspmsg := &bbproto.RspStartQuest{}
 	if err = proto.Unmarshal(rspbuff, rspmsg); err != nil {
 		log.Printf("ERROR: rsp Unmarshal ret err:%v", err)
+	}
+	log.Printf("staminaNow:%v", *rspmsg.StaminaNow)
+	log.Printf("StaminaRecover:%v", *rspmsg.StaminaRecover)
+
+	log.Printf("QuestId:%v", *rspmsg.DungeonData.QuestId)
+	for k, boss := range rspmsg.DungeonData.Boss {
+		log.Printf("boss[%v]: %v", k, boss)
+	}
+
+	for k, enemy := range rspmsg.DungeonData.Enemys {
+		log.Printf("enemy[%v]: %v", k, enemy)
+	}
+
+	for k, color := range rspmsg.DungeonData.Colors {
+		log.Printf("color[%v]: %v", k, color)
+	}
+
+	log.Printf("------------------------------")
+	for k, floor := range rspmsg.DungeonData.Floors {
+		log.Printf("floor[%v]: ", k)
+		for i, grid := range floor.GridInfo {
+			log.Printf("\t grid[%v]: %v", i, grid)
+		}
+
 	}
 
 	return err
@@ -249,7 +292,7 @@ func main() {
 	//DataAddStageInfo(12, "Water City")
 	//DataAddStageInfo(13, "Win City")
 
-	//DataAddQuestConfig(1101)
+	DataAddQuestConfig(1101)
 	StartQuest(101, 11, 1101, 102)
 
 	log.Fatal("bbsvr test client finish.")

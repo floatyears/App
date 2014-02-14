@@ -265,6 +265,60 @@ func (x *EQuestGridType) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type EGridStar int32
+
+const (
+	EGridStar_GS_KEY         EGridStar = 0
+	EGridStar_GS_STAR_1      EGridStar = 1
+	EGridStar_GS_STAR_2      EGridStar = 2
+	EGridStar_GS_STAR_3      EGridStar = 3
+	EGridStar_GS_STAR_4      EGridStar = 4
+	EGridStar_GS_STAR_5      EGridStar = 5
+	EGridStar_GS_STAR_6      EGridStar = 6
+	EGridStar_GS_QUESTION    EGridStar = 7
+	EGridStar_GS_EXCLAMATION EGridStar = 8
+)
+
+var EGridStar_name = map[int32]string{
+	0: "GS_KEY",
+	1: "GS_STAR_1",
+	2: "GS_STAR_2",
+	3: "GS_STAR_3",
+	4: "GS_STAR_4",
+	5: "GS_STAR_5",
+	6: "GS_STAR_6",
+	7: "GS_QUESTION",
+	8: "GS_EXCLAMATION",
+}
+var EGridStar_value = map[string]int32{
+	"GS_KEY":         0,
+	"GS_STAR_1":      1,
+	"GS_STAR_2":      2,
+	"GS_STAR_3":      3,
+	"GS_STAR_4":      4,
+	"GS_STAR_5":      5,
+	"GS_STAR_6":      6,
+	"GS_QUESTION":    7,
+	"GS_EXCLAMATION": 8,
+}
+
+func (x EGridStar) Enum() *EGridStar {
+	p := new(EGridStar)
+	*p = x
+	return p
+}
+func (x EGridStar) String() string {
+	return proto.EnumName(EGridStar_name, int32(x))
+}
+func (x *EGridStar) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(EGridStar_value, data, "EGridStar")
+	if err != nil {
+		return err
+	}
+	*x = EGridStar(value)
+	return nil
+}
+
 // general response protocol
 type ProtoHeader struct {
 	ApiVer           *string `protobuf:"bytes,1,req,name=apiVer" json:"apiVer,omitempty"`
@@ -745,13 +799,13 @@ func (m *ColorPercent) GetPercent() float32 {
 }
 
 type StarConfig struct {
-	Repeat           *int32    `protobuf:"varint,1,opt,name=repeat" json:"repeat,omitempty"`
-	Star             *int32    `protobuf:"varint,2,opt,name=star" json:"star,omitempty"`
-	Coin             *NumRange `protobuf:"bytes,3,opt,name=coin" json:"coin,omitempty"`
-	EnemyPool        []uint32  `protobuf:"varint,4,rep,name=enemyPool" json:"enemyPool,omitempty"`
-	EnemyNum         *NumRange `protobuf:"bytes,5,opt,name=enemyNum" json:"enemyNum,omitempty"`
-	Trap             []uint32  `protobuf:"varint,6,rep,name=trap" json:"trap,omitempty"`
-	XXX_unrecognized []byte    `json:"-"`
+	Repeat           *int32     `protobuf:"varint,1,opt,name=repeat" json:"repeat,omitempty"`
+	Star             *EGridStar `protobuf:"varint,2,opt,name=star,enum=bbproto.EGridStar" json:"star,omitempty"`
+	Coin             *NumRange  `protobuf:"bytes,3,opt,name=coin" json:"coin,omitempty"`
+	EnemyPool        []uint32   `protobuf:"varint,4,rep,name=enemyPool" json:"enemyPool,omitempty"`
+	EnemyNum         *NumRange  `protobuf:"bytes,5,opt,name=enemyNum" json:"enemyNum,omitempty"`
+	Trap             []uint32   `protobuf:"varint,6,rep,name=trap" json:"trap,omitempty"`
+	XXX_unrecognized []byte     `json:"-"`
 }
 
 func (m *StarConfig) Reset()         { *m = StarConfig{} }
@@ -765,11 +819,11 @@ func (m *StarConfig) GetRepeat() int32 {
 	return 0
 }
 
-func (m *StarConfig) GetStar() int32 {
+func (m *StarConfig) GetStar() EGridStar {
 	if m != nil && m.Star != nil {
 		return *m.Star
 	}
-	return 0
+	return EGridStar_GS_KEY
 }
 
 func (m *StarConfig) GetCoin() *NumRange {
@@ -994,8 +1048,8 @@ func (m *EnemyInfo) GetPlusRate() float32 {
 }
 
 type QuestGrid struct {
-	Position         []int32         `protobuf:"varint,1,rep,name=position" json:"position,omitempty"`
-	Star             *int32          `protobuf:"varint,2,opt,name=star" json:"star,omitempty"`
+	Position         *int32          `protobuf:"varint,1,opt,name=position" json:"position,omitempty"`
+	Star             *EGridStar      `protobuf:"varint,2,opt,name=star,enum=bbproto.EGridStar" json:"star,omitempty"`
 	Color            *int32          `protobuf:"varint,3,opt,name=color" json:"color,omitempty"`
 	Type             *EQuestGridType `protobuf:"varint,4,opt,name=type,enum=bbproto.EQuestGridType" json:"type,omitempty"`
 	EnemyId          []uint32        `protobuf:"varint,5,rep,name=enemyId" json:"enemyId,omitempty"`
@@ -1008,18 +1062,18 @@ func (m *QuestGrid) Reset()         { *m = QuestGrid{} }
 func (m *QuestGrid) String() string { return proto.CompactTextString(m) }
 func (*QuestGrid) ProtoMessage()    {}
 
-func (m *QuestGrid) GetPosition() []int32 {
-	if m != nil {
-		return m.Position
+func (m *QuestGrid) GetPosition() int32 {
+	if m != nil && m.Position != nil {
+		return *m.Position
 	}
-	return nil
+	return 0
 }
 
-func (m *QuestGrid) GetStar() int32 {
+func (m *QuestGrid) GetStar() EGridStar {
 	if m != nil && m.Star != nil {
 		return *m.Star
 	}
-	return 0
+	return EGridStar_GS_KEY
 }
 
 func (m *QuestGrid) GetColor() int32 {
@@ -1500,9 +1554,9 @@ func (m *ReqStartQuest) GetCurrentParty() uint32 {
 
 type RspStartQuest struct {
 	Header           *ProtoHeader      `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	StaminaNow       *int32            `protobuf:"varint,3,opt,name=staminaNow" json:"staminaNow,omitempty"`
-	StaminaRecover   *uint32           `protobuf:"varint,4,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
-	DungeonData      *QuestDungeonData `protobuf:"bytes,5,opt,name=dungeonData" json:"dungeonData,omitempty"`
+	StaminaNow       *int32            `protobuf:"varint,2,opt,name=staminaNow" json:"staminaNow,omitempty"`
+	StaminaRecover   *uint32           `protobuf:"varint,3,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	DungeonData      *QuestDungeonData `protobuf:"bytes,4,opt,name=dungeonData" json:"dungeonData,omitempty"`
 	XXX_unrecognized []byte            `json:"-"`
 }
 
@@ -2837,4 +2891,5 @@ func init() {
 	proto.RegisterEnum("bbproto.EQuestState", EQuestState_name, EQuestState_value)
 	proto.RegisterEnum("bbproto.ETrapType", ETrapType_name, ETrapType_value)
 	proto.RegisterEnum("bbproto.EQuestGridType", EQuestGridType_name, EQuestGridType_value)
+	proto.RegisterEnum("bbproto.EGridStar", EGridStar_name, EGridStar_value)
 }
