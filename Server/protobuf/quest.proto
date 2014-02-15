@@ -66,27 +66,31 @@ message QuestFloorConfig {
 
 message QuestConfig {
 	optional uint32				questId	= 1;
-	repeated EnemyInfo			boss	= 2;
-	repeated EnemyInfo			enemys	= 3;
+	repeated EnemyInfoConf		boss	= 2;
+	repeated EnemyInfoConf		enemys	= 3;
 	repeated ColorPercent		colors	= 4;	
 	repeated QuestFloorConfig 	floors	= 5;
 }
 
 //------------------------------------------------------------
 message EnemyInfo {
-	required uint32		uniqueId		= 1;
-	required uint32		unitId			= 2;
+	optional uint32		uniqueId		= 1;
+	optional uint32		unitId			= 2;
 	optional EUnitType	type			= 3;
 	optional int32		hp				= 4;
 	optional int32		attack			= 5;
 	optional int32		defense			= 6;
-	optional int32		nextAttack		= 7; // next 1, 2, 3
-	optional uint32		dropUnitId		= 8;
-	optional uint32		dropUnitLevel	= 9;
-	optional float		dropRate		= 10;
-	optional float		addHp			= 11; // "+" rate
-	optional float		addAttack		= 12; //
-	optional float		addDefence		= 13; // 
+	optional int32		nextAttack		= 7; // next 1, 2, 3 
+}
+
+message EnemyInfoConf {
+	optional EnemyInfo	enemy			= 1;
+	optional uint32		dropUnitId		= 2;
+	optional uint32		dropUnitLevel	= 3;
+	optional float		dropRate		= 4;
+	optional float		addHpRate		= 5; // "+" rate
+	optional float		addAttackRate	= 6; //
+	optional float		addDefenceRate	= 7; // 
 }
 
 message DropUnit{

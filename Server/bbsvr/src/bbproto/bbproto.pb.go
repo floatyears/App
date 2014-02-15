@@ -904,8 +904,8 @@ func (m *QuestFloorConfig) GetStars() []*StarConfig {
 
 type QuestConfig struct {
 	QuestId          *uint32             `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
-	Boss             []*EnemyInfo        `protobuf:"bytes,2,rep,name=boss" json:"boss,omitempty"`
-	Enemys           []*EnemyInfo        `protobuf:"bytes,3,rep,name=enemys" json:"enemys,omitempty"`
+	Boss             []*EnemyInfoConf    `protobuf:"bytes,2,rep,name=boss" json:"boss,omitempty"`
+	Enemys           []*EnemyInfoConf    `protobuf:"bytes,3,rep,name=enemys" json:"enemys,omitempty"`
 	Colors           []*ColorPercent     `protobuf:"bytes,4,rep,name=colors" json:"colors,omitempty"`
 	Floors           []*QuestFloorConfig `protobuf:"bytes,5,rep,name=floors" json:"floors,omitempty"`
 	XXX_unrecognized []byte              `json:"-"`
@@ -922,14 +922,14 @@ func (m *QuestConfig) GetQuestId() uint32 {
 	return 0
 }
 
-func (m *QuestConfig) GetBoss() []*EnemyInfo {
+func (m *QuestConfig) GetBoss() []*EnemyInfoConf {
 	if m != nil {
 		return m.Boss
 	}
 	return nil
 }
 
-func (m *QuestConfig) GetEnemys() []*EnemyInfo {
+func (m *QuestConfig) GetEnemys() []*EnemyInfoConf {
 	if m != nil {
 		return m.Enemys
 	}
@@ -952,19 +952,13 @@ func (m *QuestConfig) GetFloors() []*QuestFloorConfig {
 
 // ------------------------------------------------------------
 type EnemyInfo struct {
-	UniqueId         *uint32    `protobuf:"varint,1,req,name=uniqueId" json:"uniqueId,omitempty"`
-	UnitId           *uint32    `protobuf:"varint,2,req,name=unitId" json:"unitId,omitempty"`
+	UniqueId         *uint32    `protobuf:"varint,1,opt,name=uniqueId" json:"uniqueId,omitempty"`
+	UnitId           *uint32    `protobuf:"varint,2,opt,name=unitId" json:"unitId,omitempty"`
 	Type             *EUnitType `protobuf:"varint,3,opt,name=type,enum=bbproto.EUnitType" json:"type,omitempty"`
 	Hp               *int32     `protobuf:"varint,4,opt,name=hp" json:"hp,omitempty"`
 	Attack           *int32     `protobuf:"varint,5,opt,name=attack" json:"attack,omitempty"`
 	Defense          *int32     `protobuf:"varint,6,opt,name=defense" json:"defense,omitempty"`
 	NextAttack       *int32     `protobuf:"varint,7,opt,name=nextAttack" json:"nextAttack,omitempty"`
-	DropUnitId       *uint32    `protobuf:"varint,8,opt,name=dropUnitId" json:"dropUnitId,omitempty"`
-	DropUnitLevel    *uint32    `protobuf:"varint,9,opt,name=dropUnitLevel" json:"dropUnitLevel,omitempty"`
-	DropRate         *float32   `protobuf:"fixed32,10,opt,name=dropRate" json:"dropRate,omitempty"`
-	AddHp            *float32   `protobuf:"fixed32,11,opt,name=addHp" json:"addHp,omitempty"`
-	AddAttack        *float32   `protobuf:"fixed32,12,opt,name=addAttack" json:"addAttack,omitempty"`
-	AddDefence       *float32   `protobuf:"fixed32,13,opt,name=addDefence" json:"addDefence,omitempty"`
 	XXX_unrecognized []byte     `json:"-"`
 }
 
@@ -1021,44 +1015,66 @@ func (m *EnemyInfo) GetNextAttack() int32 {
 	return 0
 }
 
-func (m *EnemyInfo) GetDropUnitId() uint32 {
+type EnemyInfoConf struct {
+	Enemy            *EnemyInfo `protobuf:"bytes,1,opt,name=enemy" json:"enemy,omitempty"`
+	DropUnitId       *uint32    `protobuf:"varint,2,opt,name=dropUnitId" json:"dropUnitId,omitempty"`
+	DropUnitLevel    *uint32    `protobuf:"varint,3,opt,name=dropUnitLevel" json:"dropUnitLevel,omitempty"`
+	DropRate         *float32   `protobuf:"fixed32,4,opt,name=dropRate" json:"dropRate,omitempty"`
+	AddHpRate        *float32   `protobuf:"fixed32,5,opt,name=addHpRate" json:"addHpRate,omitempty"`
+	AddAttackRate    *float32   `protobuf:"fixed32,6,opt,name=addAttackRate" json:"addAttackRate,omitempty"`
+	AddDefenceRate   *float32   `protobuf:"fixed32,7,opt,name=addDefenceRate" json:"addDefenceRate,omitempty"`
+	XXX_unrecognized []byte     `json:"-"`
+}
+
+func (m *EnemyInfoConf) Reset()         { *m = EnemyInfoConf{} }
+func (m *EnemyInfoConf) String() string { return proto.CompactTextString(m) }
+func (*EnemyInfoConf) ProtoMessage()    {}
+
+func (m *EnemyInfoConf) GetEnemy() *EnemyInfo {
+	if m != nil {
+		return m.Enemy
+	}
+	return nil
+}
+
+func (m *EnemyInfoConf) GetDropUnitId() uint32 {
 	if m != nil && m.DropUnitId != nil {
 		return *m.DropUnitId
 	}
 	return 0
 }
 
-func (m *EnemyInfo) GetDropUnitLevel() uint32 {
+func (m *EnemyInfoConf) GetDropUnitLevel() uint32 {
 	if m != nil && m.DropUnitLevel != nil {
 		return *m.DropUnitLevel
 	}
 	return 0
 }
 
-func (m *EnemyInfo) GetDropRate() float32 {
+func (m *EnemyInfoConf) GetDropRate() float32 {
 	if m != nil && m.DropRate != nil {
 		return *m.DropRate
 	}
 	return 0
 }
 
-func (m *EnemyInfo) GetAddHp() float32 {
-	if m != nil && m.AddHp != nil {
-		return *m.AddHp
+func (m *EnemyInfoConf) GetAddHpRate() float32 {
+	if m != nil && m.AddHpRate != nil {
+		return *m.AddHpRate
 	}
 	return 0
 }
 
-func (m *EnemyInfo) GetAddAttack() float32 {
-	if m != nil && m.AddAttack != nil {
-		return *m.AddAttack
+func (m *EnemyInfoConf) GetAddAttackRate() float32 {
+	if m != nil && m.AddAttackRate != nil {
+		return *m.AddAttackRate
 	}
 	return 0
 }
 
-func (m *EnemyInfo) GetAddDefence() float32 {
-	if m != nil && m.AddDefence != nil {
-		return *m.AddDefence
+func (m *EnemyInfoConf) GetAddDefenceRate() float32 {
+	if m != nil && m.AddDefenceRate != nil {
+		return *m.AddDefenceRate
 	}
 	return 0
 }

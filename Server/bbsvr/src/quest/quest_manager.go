@@ -175,10 +175,15 @@ func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonD
 	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)
 
 	questData.QuestId = config.QuestId
-	questData.Boss = config.Boss
-	questData.Enemys = config.Enemys
 	questData.QuestId = config.QuestId
 	questData.Colors = config.Colors
+
+	for _, bossConf := range config.Boss {
+		questData.Boss = append(questData.Boss, bossConf.Enemy)
+	}
+	for _, enemyConf := range config.Enemys {
+		questData.Enemys = append(questData.Enemys, enemyConf.Enemy)
+	}
 
 	//generate floor's grid data
 	starList := make(map[int32]TUsedValue, cs.N_DUNGEON_GRID_COUNT-1)

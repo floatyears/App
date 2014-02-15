@@ -27,24 +27,28 @@ func DataAddQuestConfig(questId uint32) error {
 	conf := &bbproto.QuestConfig{}
 	conf.QuestId = proto.Uint32(questId)
 
-	boss := &bbproto.EnemyInfo{}
-	boss.UniqueId = proto.Uint32(1001)
-	boss.UnitId = proto.Uint32(2)
+	boss := &bbproto.EnemyInfoConf{}
+	enemy := &bbproto.EnemyInfo{}
+
+	enemy.UniqueId = proto.Uint32(1001)
+	enemy.UnitId = proto.Uint32(2)
 	unitType := bbproto.EUnitType_UFIRE
-	boss.Type = &unitType
-	boss.Hp = proto.Int32(1200)
-	boss.Attack = proto.Int32(300)
-	boss.Defense = proto.Int32(100)
-	boss.NextAttack = proto.Int32(2)
+	enemy.Type = &unitType
+	enemy.Hp = proto.Int32(1200)
+	enemy.Attack = proto.Int32(300)
+	enemy.Defense = proto.Int32(100)
+	enemy.NextAttack = proto.Int32(2)
+	boss.Enemy = enemy
 	boss.DropUnitId = proto.Uint32(11)
 	boss.DropUnitLevel = proto.Uint32(1)
 	boss.DropRate = proto.Float32(0.5)
-	boss.AddHp = proto.Float32(0.1)
-	boss.AddAttack = proto.Float32(0.1)
+	boss.AddHpRate = proto.Float32(0.1)
+	boss.AddAttackRate = proto.Float32(0.1)
 
 	conf.Boss = append(conf.Boss, boss)
 
 	for i := 1; i <= 5; i++ {
+		enemyConf := &bbproto.EnemyInfoConf{}
 		enemy := &bbproto.EnemyInfo{}
 
 		enemy.UniqueId = proto.Uint32(uint32(900 + i))
@@ -54,14 +58,16 @@ func DataAddQuestConfig(questId uint32) error {
 		enemy.Attack = proto.Int32(300 + int32(rand.Intn(10)*10))
 		enemy.Defense = proto.Int32(100 + int32(rand.Intn(10)*10))
 		enemy.NextAttack = proto.Int32(int32(1 + rand.Intn(2)))
-		enemy.DropUnitId = proto.Uint32(*enemy.UnitId)
-		enemy.DropUnitLevel = proto.Uint32(1)
-		enemy.DropRate = proto.Float32(0.1 * float32(1+rand.Intn(9)))
-		enemy.AddHp = proto.Float32(0.1)
-		enemy.AddAttack = proto.Float32(0.1)
+
+		enemyConf.Enemy = enemy
+		enemyConf.DropUnitId = proto.Uint32(*enemy.UnitId)
+		enemyConf.DropUnitLevel = proto.Uint32(1)
+		enemyConf.DropRate = proto.Float32(0.1 * float32(1+rand.Intn(9)))
+		enemyConf.AddHpRate = proto.Float32(0.1)
+		enemyConf.AddAttackRate = proto.Float32(0.1)
 		//enemy.AddDefence = proto.Float32(0)
 
-		conf.Enemys = append(conf.Enemys, enemy)
+		conf.Enemys = append(conf.Enemys, enemyConf)
 	}
 
 	//fill block color
@@ -313,8 +319,8 @@ func main() {
 	//DataAddStageInfo(12, "Water City")
 	//DataAddStageInfo(13, "Win City")
 
-	//DataAddQuestConfig(1101)
-	//StartQuest(101, 11, 1101, 102)
+	DataAddQuestConfig(1101)
+	StartQuest(101, 11, 1101, 102)
 
 	log.Fatal("bbsvr test client finish.")
 }
