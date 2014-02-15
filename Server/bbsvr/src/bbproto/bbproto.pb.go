@@ -962,7 +962,9 @@ type EnemyInfo struct {
 	DropUnitId       *uint32    `protobuf:"varint,8,opt,name=dropUnitId" json:"dropUnitId,omitempty"`
 	DropUnitLevel    *uint32    `protobuf:"varint,9,opt,name=dropUnitLevel" json:"dropUnitLevel,omitempty"`
 	DropRate         *float32   `protobuf:"fixed32,10,opt,name=dropRate" json:"dropRate,omitempty"`
-	PlusRate         *float32   `protobuf:"fixed32,11,opt,name=plusRate" json:"plusRate,omitempty"`
+	AddHp            *float32   `protobuf:"fixed32,11,opt,name=addHp" json:"addHp,omitempty"`
+	AddAttack        *float32   `protobuf:"fixed32,12,opt,name=addAttack" json:"addAttack,omitempty"`
+	AddDefence       *float32   `protobuf:"fixed32,13,opt,name=addDefence" json:"addDefence,omitempty"`
 	XXX_unrecognized []byte     `json:"-"`
 }
 
@@ -1040,9 +1042,71 @@ func (m *EnemyInfo) GetDropRate() float32 {
 	return 0
 }
 
-func (m *EnemyInfo) GetPlusRate() float32 {
-	if m != nil && m.PlusRate != nil {
-		return *m.PlusRate
+func (m *EnemyInfo) GetAddHp() float32 {
+	if m != nil && m.AddHp != nil {
+		return *m.AddHp
+	}
+	return 0
+}
+
+func (m *EnemyInfo) GetAddAttack() float32 {
+	if m != nil && m.AddAttack != nil {
+		return *m.AddAttack
+	}
+	return 0
+}
+
+func (m *EnemyInfo) GetAddDefence() float32 {
+	if m != nil && m.AddDefence != nil {
+		return *m.AddDefence
+	}
+	return 0
+}
+
+type DropUnit struct {
+	UnitId           *uint32 `protobuf:"varint,1,opt,name=unitId" json:"unitId,omitempty"`
+	Level            *int32  `protobuf:"varint,2,opt,name=level" json:"level,omitempty"`
+	AddHp            *int32  `protobuf:"varint,3,opt,name=addHp" json:"addHp,omitempty"`
+	AddAttack        *int32  `protobuf:"varint,4,opt,name=addAttack" json:"addAttack,omitempty"`
+	AddDefence       *int32  `protobuf:"varint,5,opt,name=addDefence" json:"addDefence,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *DropUnit) Reset()         { *m = DropUnit{} }
+func (m *DropUnit) String() string { return proto.CompactTextString(m) }
+func (*DropUnit) ProtoMessage()    {}
+
+func (m *DropUnit) GetUnitId() uint32 {
+	if m != nil && m.UnitId != nil {
+		return *m.UnitId
+	}
+	return 0
+}
+
+func (m *DropUnit) GetLevel() int32 {
+	if m != nil && m.Level != nil {
+		return *m.Level
+	}
+	return 0
+}
+
+func (m *DropUnit) GetAddHp() int32 {
+	if m != nil && m.AddHp != nil {
+		return *m.AddHp
+	}
+	return 0
+}
+
+func (m *DropUnit) GetAddAttack() int32 {
+	if m != nil && m.AddAttack != nil {
+		return *m.AddAttack
+	}
+	return 0
+}
+
+func (m *DropUnit) GetAddDefence() int32 {
+	if m != nil && m.AddDefence != nil {
+		return *m.AddDefence
 	}
 	return 0
 }
@@ -1053,8 +1117,9 @@ type QuestGrid struct {
 	Color            *int32          `protobuf:"varint,3,opt,name=color" json:"color,omitempty"`
 	Type             *EQuestGridType `protobuf:"varint,4,opt,name=type,enum=bbproto.EQuestGridType" json:"type,omitempty"`
 	EnemyId          []uint32        `protobuf:"varint,5,rep,name=enemyId" json:"enemyId,omitempty"`
-	Coins            *int32          `protobuf:"varint,6,opt,name=coins" json:"coins,omitempty"`
-	TrapId           *uint32         `protobuf:"varint,7,opt,name=trapId" json:"trapId,omitempty"`
+	Drop             []*DropUnit     `protobuf:"bytes,6,rep,name=drop" json:"drop,omitempty"`
+	Coins            *int32          `protobuf:"varint,7,opt,name=coins" json:"coins,omitempty"`
+	TrapId           *uint32         `protobuf:"varint,8,opt,name=trapId" json:"trapId,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
 }
 
@@ -1093,6 +1158,13 @@ func (m *QuestGrid) GetType() EQuestGridType {
 func (m *QuestGrid) GetEnemyId() []uint32 {
 	if m != nil {
 		return m.EnemyId
+	}
+	return nil
+}
+
+func (m *QuestGrid) GetDrop() []*DropUnit {
+	if m != nil {
+		return m.Drop
 	}
 	return nil
 }

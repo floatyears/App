@@ -140,6 +140,37 @@ func getStarConf(iStar int32, starsConf []*bbproto.StarConfig) (starConf *bbprot
 	return nil, Error.New(cs.DATA_NOT_EXISTS, "Not found starconf.")
 }
 
+func fillGridsList(typeList map[int32]TUsedValue, starList map[int32]TUsedValue, floorConf *bbproto.QuestFloorConfig) Error.Error {
+	currNum := int32(0)
+	for n := currNum; n < *floorConf.TreasureNum; n++ {
+		typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_TREATURE), false}
+	}
+	currNum += *floorConf.TreasureNum
+
+	for n := currNum; n < currNum+(*floorConf.TrapNum); n++ {
+		typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_TRAP), false}
+	}
+	currNum += *floorConf.TrapNum
+
+	for n := currNum; n < currNum+(*floorConf.EnemyNum); n++ {
+		typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_ENEMY), false}
+	}
+	currNum += *floorConf.EnemyNum
+	log.T("typeList len= %v | %v", currNum, len(typeList))
+
+	starNum := int32(0)
+	for i, star := range floorConf.Stars {
+		log.T(" floorConf.Stars[%v]: %+v", i, star)
+		for n := starNum; n < starNum+(*star.Repeat); n++ {
+			starList[n] = TUsedValue{int32(*star.Star), false}
+		}
+		starNum += *star.Repeat
+	}
+	log.T("starList len= %v | %v", starNum, len(starList))
+
+	return Error.OK()
+}
+
 func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonData, e Error.Error) {
 	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)
 
@@ -156,32 +187,7 @@ func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonD
 	for k, floorConf := range config.Floors {
 		questFloor := &bbproto.QuestFloor{}
 
-		currNum := int32(0)
-		for n := currNum; n < *floorConf.TreasureNum; n++ {
-			typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_TREATURE), false}
-		}
-		currNum += *floorConf.TreasureNum
-
-		for n := currNum; n < currNum+(*floorConf.TrapNum); n++ {
-			typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_TRAP), false}
-		}
-		currNum += *floorConf.TrapNum
-
-		for n := currNum; n < currNum+(*floorConf.EnemyNum); n++ {
-			typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_ENEMY), false}
-		}
-		currNum += *floorConf.EnemyNum
-		log.T("typeList len= %v | %v", currNum, len(typeList))
-
-		starNum := int32(0)
-		for i, star := range floorConf.Stars {
-			log.T(" floorConf.Stars[%v]: %+v", i, star)
-			for n := starNum; n < starNum+(*star.Repeat); n++ {
-				starList[n] = TUsedValue{int32(*star.Star), false}
-			}
-			starNum += *star.Repeat
-		}
-		log.T("starList len= %v | %v", starNum, len(starList))
+		fillGridsList(starList, typeList, floorConf)
 
 		gridCount := int32(cs.N_DUNGEON_GRID_COUNT - 1)
 		for i := 0; i < cs.N_DUNGEON_GRID_COUNT-1 && gridCount > 0; i++ {

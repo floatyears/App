@@ -8,22 +8,11 @@ import (
 	"fmt"
 )
 
-// New returns an error that formats as the given text.
-func Err(errCode int) Error {
-	return Error{errCode, ""}
-}
-
-func NewError(errCode int, err error) Error {
-	if err != nil {
-		return Error{-1, err.Error()}
-	}
-	return Error{0, ""}
-}
-
 //func New(errCode int, errStr string) Error {
 //	return Error{errCode, errStr}
 //}
 
+// New returns an error that formats as the given text.
 func New(vlist ...interface{}) Error {
 	errno := 0
 	errstr := ""
@@ -51,7 +40,7 @@ func New(vlist ...interface{}) Error {
 	return Error{errno, errstr}
 }
 
-func Newerror(errCode int, errStr string) error {
+func NewError(errCode int, errStr string) error {
 	return &Error{errCode, errStr}
 }
 

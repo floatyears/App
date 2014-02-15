@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"code.google.com/p/goprotobuf/proto"
 	//"fmt"
+	//"errors"
 	_ "html"
 	"log"
 	"math/rand"
@@ -12,6 +13,7 @@ import (
 import (
 	"../src/bbproto"
 	"../src/common"
+	//"../src/common/Error"
 	"../src/const"
 	"../src/data"
 	//"../src/quest"
@@ -37,7 +39,8 @@ func DataAddQuestConfig(questId uint32) error {
 	boss.DropUnitId = proto.Uint32(11)
 	boss.DropUnitLevel = proto.Uint32(1)
 	boss.DropRate = proto.Float32(0.5)
-	boss.PlusRate = proto.Float32(0.1)
+	boss.AddHp = proto.Float32(0.1)
+	boss.AddAttack = proto.Float32(0.1)
 
 	conf.Boss = append(conf.Boss, boss)
 
@@ -54,7 +57,9 @@ func DataAddQuestConfig(questId uint32) error {
 		enemy.DropUnitId = proto.Uint32(*enemy.UnitId)
 		enemy.DropUnitLevel = proto.Uint32(1)
 		enemy.DropRate = proto.Float32(0.1 * float32(1+rand.Intn(9)))
-		enemy.PlusRate = proto.Float32(0.1)
+		enemy.AddHp = proto.Float32(0.1)
+		enemy.AddAttack = proto.Float32(0.1)
+		//enemy.AddDefence = proto.Float32(0)
 
 		conf.Enemys = append(conf.Enemys, enemy)
 	}
@@ -283,6 +288,22 @@ func StartQuest(uid uint32, stageId uint32, questId uint32, helperUid uint32) er
 	return err
 }
 
+type st struct {
+	s string
+	i int
+}
+
+func modify(v st) (re *st) {
+	v.i = 110
+	v.s = "valuein"
+
+	r := st{}
+	r.i = 33
+	r.s = "kory"
+	log.Printf("inner func v:%+v r:%+v", v, r)
+	return &r
+}
+
 func main() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
@@ -292,8 +313,8 @@ func main() {
 	//DataAddStageInfo(12, "Water City")
 	//DataAddStageInfo(13, "Win City")
 
-	DataAddQuestConfig(1101)
-	StartQuest(101, 11, 1101, 102)
+	//DataAddQuestConfig(1101)
+	//StartQuest(101, 11, 1101, 102)
 
 	log.Fatal("bbsvr test client finish.")
 }

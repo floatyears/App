@@ -203,7 +203,17 @@ message EnemyInfo {
 	optional uint32		dropUnitId		= 8;
 	optional uint32		dropUnitLevel	= 9;
 	optional float		dropRate		= 10;
-	optional float		plusRate		= 11; // "+" drop rate
+	optional float		addHp			= 11; // "+" rate
+	optional float		addAttack		= 12; //
+	optional float		addDefence		= 13; // 
+}
+
+message DropUnit{
+	optional uint32		unitId			= 1;
+	optional int32		level			= 2;
+	optional int32		addHp			= 3;
+	optional int32		addAttack		= 4;
+	optional int32		addDefence		= 5;
 }
 
 message QuestGrid {
@@ -212,8 +222,9 @@ message QuestGrid {
 	optional int32			color		= 3; // star color
 	optional EQuestGridType	type		= 4; // enemy, coin, enemy, empty
 	repeated uint32			enemyId		= 5; // enemy uniqueId list
-	optional int32			coins		= 6; 
-	optional uint32			trapId		= 7; 
+	repeated DropUnit		drop		= 6;
+	optional int32			coins		= 7; 
+	optional uint32			trapId		= 8; 
 }
 
 message QuestFloor {
