@@ -2,7 +2,6 @@
 // created by kory 2014-02-10
 //
 
-// Package errors implements functions to manipulate errors.
 package Error
 
 import (
@@ -21,8 +20,35 @@ func NewError(errCode int, err error) Error {
 	return Error{0, ""}
 }
 
-func New(errCode int, errStr string) Error {
-	return Error{errCode, errStr}
+//func New(errCode int, errStr string) Error {
+//	return Error{errCode, errStr}
+//}
+
+func New(vlist ...interface{}) Error {
+	errno := 0
+	errstr := ""
+	for _, vv := range vlist {
+		switch v := vv.(type) {
+		case int:
+			{
+				errno = v //vlist[0].(int)
+			}
+		case string:
+			{
+				errstr = v //vlist[0].(string)
+			}
+		case error:
+			{
+				if errno == 0 {
+					errno = -1
+				}
+				if v != nil {
+					errstr = v.Error()
+				}
+			}
+		}
+	}
+	return Error{errno, errstr}
 }
 
 func Newerror(errCode int, errStr string) error {
