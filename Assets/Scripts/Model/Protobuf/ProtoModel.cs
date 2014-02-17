@@ -665,13 +665,13 @@ namespace bbproto
   {
     public EnemyInfo() {}
     
-    private uint _uniqueId = default(uint);
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"uniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    private uint _number = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"number", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint uniqueId
+    public uint number
     {
-      get { return _uniqueId; }
-      set { _uniqueId = value; }
+      get { return _number; }
+      set { _number = value; }
     }
     private uint _unitId = default(uint);
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"unitId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
@@ -2089,10 +2089,10 @@ namespace bbproto
       get { return _unitPos; }
       set { _unitPos = value; }
     }
-    private int _unitUniqueId = default(int);
+    private uint _unitUniqueId = default(uint);
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"unitUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int unitUniqueId
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint unitUniqueId
     {
       get { return _unitUniqueId; }
       set { _unitUniqueId = value; }
