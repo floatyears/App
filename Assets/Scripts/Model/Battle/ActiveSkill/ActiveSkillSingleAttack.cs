@@ -15,12 +15,18 @@ public class ActiveSkill : ProtobufDataBase {
 	}
 
 	protected void DisposeCooling () {
+
 		coolingDone = DGTools.CheckCooling (skillBase);
+//		Debug.LogError("DisposeCooling --------"+"ActiveSkillSingleAttack coolingDone : " + coolingDone + " skillBase.skillCooling : " + skillBase.skillCooling);
 	}
 
 	protected void InitCooling() {
-		coolingDone = false;
+
 		skillBase.skillCooling = initSkillCooling;
+		if (skillBase.skillCooling > 0) {
+			coolingDone = false;
+		}
+//		Debug.LogError( "InitCooling --------"+ "ActiveSkillSingleAttack coolingDone : " + coolingDone + " skillBase.skillCooling : " + skillBase.skillCooling);
 	}
 }
 
@@ -33,12 +39,16 @@ public class ActiveSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 	public ActiveSkillSingleAttack(object instance) : base (instance) {
 		skillBase = DeserializeData<SkillSingleAttack> ().baseInfo;	
 		initSkillCooling = skillBase.skillCooling;
-		if (skillBase.skillCooling == 0) {
+	
+		if (initSkillCooling == 0) {
 			coolingDone = true;
+//			Debug.LogError("ActiveSkillSingleAttack ---------" + "ActiveSkillSingleAttack coolingDone : " + initSkillCooling);
 		}
+//		Debug.LogError ("ActiveSkillSingleAttack ---------" + initSkillCooling + "ActiveSkillSingleAttack coolingDone : " + coolingDone);
 	}
 
 	public void RefreashCooling () {
+//		Debug.LogError ("ActiveSkillSingleAttack RefreashCooling : ");
 		DisposeCooling ();
 	}
 	

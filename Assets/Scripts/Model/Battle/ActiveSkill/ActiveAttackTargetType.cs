@@ -17,6 +17,7 @@ public class ActiveAttackTargetType : ActiveSkill, IActiveSkillExcute {
 	}
 	
 	public void RefreashCooling () {
+
 		DisposeCooling ();
 	}
 

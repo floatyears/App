@@ -17,6 +17,10 @@ public class BattleMap : UIBaseUnity
 
 	private MapItem prevMapItem;
 
+	private MapDoor door;
+
+	private const float itemWidth = 127.5f;
+
 	public BattleQuest BQuest
 	{
 		set{ bQuest = value; }
@@ -25,15 +29,14 @@ public class BattleMap : UIBaseUnity
 	public override void Init (string name)
 	{
 		base.Init (name);
-
 		map = new MapItem[bQuest.MapWidth, bQuest.MapHeight];
-
 		template = FindChild<MapItem>("SingleMap");
-
 		template.Init("SingleMap");
 
-		template.gameObject.SetActive(false);
+		door = FindChild<MapDoor>("Door_1");
+		door.Init ("Door_1");
 
+		template.gameObject.SetActive(false);
 		gameObject.transform.localPosition += Vector3.right * 5f;
 	}
 
@@ -50,15 +53,13 @@ public class BattleMap : UIBaseUnity
 		
 		int y = map.GetLength(1);
 		
-		for (int i = 0; i < x; i++)
-		{
-			for (int j = 0; j < y; j++)
-			{
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
 				if(map[i,j] == null) {
 					tempObject = NGUITools.AddChild(gameObject, template.gameObject);
 					tempObject.SetActive(true);
-					float xp = template.InitPosition.x + i * 125f;//template.Width;
-					float yp = template.InitPosition.y + j * 125f;//template.Height;
+					float xp = template.InitPosition.x + i * itemWidth;//template.Width;
+					float yp = template.InitPosition.y + j * itemWidth;//template.Height;
 					tempObject.transform.localPosition = new Vector3(xp,yp,template.InitPosition.z);
 					temp = tempObject.GetComponent<MapItem>();
 					temp.Coor = new Coordinate(i, j);
@@ -71,6 +72,9 @@ public class BattleMap : UIBaseUnity
 				}
 			}
 		}
+		float xCoor =  template.InitPosition.x + (x / 2) * itemWidth;
+		float yCoor = template.InitPosition.y + y * itemWidth;
+		door.SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
 	}
 
 	public override void HideUI ()
@@ -78,12 +82,13 @@ public class BattleMap : UIBaseUnity
 		base.HideUI ();
 		useMapItem.Clear ();
 		gameObject.SetActive (false);
+		door.HideUI ();
 	}
 
 	public override void ShowUI ()
 	{
 		base.ShowUI ();
-
+		door.ShowUI ();
 		gameObject.SetActive (true);
 		StartMap ();
 	}

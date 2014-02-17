@@ -321,7 +321,7 @@ public class ConfigSkill  {
 		srh.baseInfo.name = "no 19 recover hp";
 		srh.baseInfo.description = "fixed recover hp";
 		srh.type = EValueType.FIXED;
-		srh.value = 100f;
+		srh.value = 200f;
 		srh.period = EPeriod.EP_EVERY_ROUND;
 		TempRecoverHP trh = new TempRecoverHP (srh);
 		GlobalData.tempNormalSkill.Add (srh.baseInfo.id, trh);

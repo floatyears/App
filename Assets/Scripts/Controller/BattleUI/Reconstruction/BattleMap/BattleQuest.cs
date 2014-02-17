@@ -112,16 +112,20 @@ public class BattleQuest : UIBase
 		role.StartMove(coor);
 	}
 	  
+	void Exit() {
+		controllerManger.ExitBattle();
+		UIManager.Instance.ExitBattle();
+	}
+
 	public void RoleCoordinate(Coordinate coor) {
-		if(!battleMap.ReachMapItem (coor))
-		{
+		if(!battleMap.ReachMapItem (coor)) {
 			currentMapData = mapConfig.mapData[coor.x,coor.y];
 			if(currentMapData.MonsterID.Contains(100)) {
-				controllerManger.ExitBattle();
-				UIManager.Instance.ExitBattle();
+//				Debug.LogError("opendoor");
+				MsgCenter.Instance.Invoke(CommandEnum.OpenDoor,null);
+				GameTimer.GetInstance().AddCountDown (2f, Exit);
 				return;
 			}
-		
 			switch (currentMapData.ContentType) {
 			case MapItemEnum.None:
 				break;
@@ -144,13 +148,6 @@ public class BattleQuest : UIBase
 			default:
 					break;
 			}
-//			if(currentMapData.MonsterID.Count > 0) {
-//				MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, null);
-//				ShowBattle();
-//				role.Stop();
-//				List<ShowEnemyUtility> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
-//				battle.ShowEnemy(temp);
-//			}
 		}
 	}
 

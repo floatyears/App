@@ -38,11 +38,15 @@ public class ConfigUnitInfo {
 			uiitem.expType 		= 1;
 			if(i == 1){
 				uiitem.leaderSkill = 17;
+				uiitem.activeSkill = 32;
+			}
+			if(i == 2) {
+				uiitem.activeSkill = 38;
 			}
 			if(i == 5) {
-				uiitem.leaderSkill = 20;
+				uiitem.leaderSkill = 19;
 			}
-			uiitem.activeSkill = 46;
+
 			uiitem.passiveSkill = 49;
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);

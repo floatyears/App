@@ -19,9 +19,7 @@ public class MapItem : UIBaseUnity
 	}
 
 	public Vector3 InitPosition {
-		get {
-			return transform.localPosition;
-		}
+		get { return transform.localPosition; }
 	}
 
 	private bool isOld = false;

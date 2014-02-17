@@ -171,6 +171,7 @@ public class BattleUseData {
 	}
 
 	public void RecoverHP (int recoverBlood) {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_hp_recover);
 		if (blood < recoverBlood) {
 			blood = recoverBlood > maxBlood ? maxBlood : recoverBlood;
 			RefreshBlood ();

@@ -156,7 +156,7 @@ public class AttackController {
 			return 0.5f;		
 		}
 		else {
-			return 1.0f;		
+			return 0.8f;		
 		}
 	}
 
@@ -167,10 +167,10 @@ public class AttackController {
 	void Attack () {
 		countDownTime = GetIntervTime ();
 
-		if (CheckTempEnemy () ) {
+		//if (CheckTempEnemy () ) {
 			enemyIndex = 0;
 			GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
-		}
+		//}
 	}
 
 	void MultipleAttack () {
@@ -226,11 +226,15 @@ public class AttackController {
 			}
 		}
 		if (enemyInfo.Count == 0) {
-			msgCenter.Invoke(CommandEnum.BattleEnd, null);
-			bud.ClearData();
+			GameTimer.GetInstance().AddCountDown(0.5f, BattleEnd);
 			return false;
 		}
 		return true;
+	}
+
+	void BattleEnd() {
+		msgCenter.Invoke(CommandEnum.BattleEnd, null);
+		bud.ClearData();
 	}
 
 	void DisposeRecoverHP (AttackInfo value) {
@@ -352,8 +356,8 @@ public class AttackController {
 		int hurtValue = te.CalculateInjured (ai, restaint);
 		ai.InjuryValue = hurtValue;
 		AttackEnemyEnd (ai);
-		if (CheckEnemy ()) {
+		//if (CheckEnemy ()) {
 			LoopAntiAttack ();		
-		}
+		//}
 	}
 }

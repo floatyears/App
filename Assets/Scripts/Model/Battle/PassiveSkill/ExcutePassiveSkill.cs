@@ -25,6 +25,9 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 				continue;
 			}
 			IPassiveExcute ipe = GlobalData.tempNormalSkill[id] as IPassiveExcute;
+			if(ipe == null) {
+				continue;
+			}
 			passiveSkill.Add(item.GetID,ipe);
 			multipe.Add(item.GetID,item.AttackMultiple);
 		}
@@ -36,9 +39,14 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 		if (tb == null) {
 			return;		
 		}
+//		Debug.LogError (tb);
 		trap.Enqueue (tb);
-		foreach (var item in passiveSkill.Values) {
-			item.Excute(tb,this);
+		if (passiveSkill.Values.Count == 0) {
+			DisposeTrap (false);
+		} else {
+			foreach (var item in passiveSkill.Values) {
+				item.Excute(tb, this);
+			}	
 		}
 	}
 
@@ -59,6 +67,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 	}
 
 	public void DisposeTrap (bool isAvoid) {
+
 		if (trap.Count == 0) {
 			return;	
 		}

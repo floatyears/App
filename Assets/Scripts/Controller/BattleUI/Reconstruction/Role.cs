@@ -164,12 +164,10 @@ public class Role : UIBaseUnity
 
 	void MoveEnd()
 	{
-		if(!isMove)
-		{
+		if(!isMove) {
 			firstWay.Clear();
 		}
-		else
-		{
+		else {
 			tempCoor = firstWay[0];
 
 			firstWay.RemoveAt(0);
@@ -227,18 +225,14 @@ public class Role : UIBaseUnity
 		{
 			int i = currentCoor.x + 1;
 
-			while(i <= endCoord.x)
-			{
+			while(i <= endCoord.x) {
 				xWay.Add(new Coordinate(i,currentCoor.y));
 				i++;
 			}
 		}
-		else if(currentCoor.x > endCoord.x)
-		{
+		else if(currentCoor.x > endCoord.x) {
 			int i = currentCoor.x - 1;
-
-			while(i >= endCoord.x)
-			{
+			while(i >= endCoord.x) {
 				xWay.Add(new Coordinate(i,currentCoor.y));
 				i--;
 			}

@@ -156,10 +156,10 @@ public class ConfigEnermy {
 	void GenerateEnemy () {
 		EnemyInfo ei = new EnemyInfo ();
 		ei.unitId = 1;
-		ei.attack = 10;
+		ei.attack = 50;
 		ei.nextAttack = 1;
-		ei.defense = 10;
-		ei.hp = 400;
+		ei.defense = 100;
+		ei.hp = 1000;
 		ei.type = (EUnitType)1;
 		ei.dropUnitId = 10;
 		ei.dropRate = 0.15f;
@@ -168,10 +168,10 @@ public class ConfigEnermy {
 
 		ei = new EnemyInfo ();
 		ei.unitId = 2;
-		ei.attack = 20;
+		ei.attack = 100;
 		ei.nextAttack = 1;
-		ei.defense = 20;
-		ei.hp = 1500;
+		ei.defense = 100;
+		ei.hp = 2000;
 		ei.type = (EUnitType)2;
 		ei.dropUnitId = 11;
 		ei.dropRate = 0.2f;

@@ -50,25 +50,28 @@ public class MapConfig : IOriginModel
 //				for (int k = 0; k < smd.StarLevel; k++) 
 //				{
 					smd.MonsterID.Add(1);
-//					smd.MonsterID.Add(2);
+					smd.MonsterID.Add(2);
 //				}
 				
 				mapData[i,j] = smd;
 			}	
 		}
 
-//		SingleMapData singleMapItem = mapData [2, 1];
-//		singleMapItem.ContentType = MapItemEnum.Trap;
-//		singleMapItem.TypeValue = 1;
-//		singleMapItem = mapData [2, 2];
+		SingleMapData singleMapItem = mapData [1, 0];
+		singleMapItem.ContentType = MapItemEnum.Trap;
+		singleMapItem.TypeValue = 2;
+		singleMapItem = mapData [1, 1];
+		singleMapItem.ContentType = MapItemEnum.Trap;
+		singleMapItem.TypeValue = 1;
+//		singleMapItem = mapData [1, 2];
 //		singleMapItem.ContentType = MapItemEnum.Trap;
 //		singleMapItem.TypeValue = 5;
 //		singleMapItem = mapData [2, 3];
 //		singleMapItem.ContentType = MapItemEnum.Trap;
 //		singleMapItem.TypeValue = 6;
-		SingleMapData singleMapItem = mapData [1, 0];
-		singleMapItem.ContentType = MapItemEnum.Trap;
-		singleMapItem.TypeValue = 2;
+
+
+
 
 		mapData[characterInitCoorX,characterInitCoorY].MonsterID.Clear();   
 		mapData [characterInitCoorX, characterInitCoorY].ContentType = MapItemEnum.None;

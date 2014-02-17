@@ -19,7 +19,7 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 			break;
 		}
 	}
-	private const float probability = 0.1f;
+	private const float probability = 0.9f;
 	private int[] randomRange = new int[2] {1, -1};
 	public void Excute () {
 		TrapInfo ti = GetTrap;

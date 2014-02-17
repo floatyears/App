@@ -28,7 +28,6 @@ public class EnemyItem : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.RemoveListener (CommandEnum.BePosion, BePosion);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ReduceDefense, ReduceDefense);
-
 	}
 
 	GameObject prevObject = null;
@@ -38,7 +37,6 @@ public class EnemyItem : UIBaseUnity {
 		if (tc == null) {
 			return;	
 		}
-//		Debug.LogError ("enemy item ReduceDefense value : " + tc.arg2);
 	}
 
 	void Attack (object data) {
@@ -50,6 +48,7 @@ public class EnemyItem : UIBaseUnity {
 			Destroy(prevObject);
 		}
 		GameObject obj = GlobalData.GetEffect (ai.AttackType) as GameObject;
+		DGTools.PlayAttackSound (ai.AttackType);
 		if (obj != null) {
 			prevObject = NGUITools.AddChild(effect.gameObject,obj);
 			prevObject.transform.localScale = new Vector3(100f,100f,100f);
@@ -101,7 +100,7 @@ public class EnemyItem : UIBaseUnity {
 		if (te == null || te.GetID () != enemyInfo.enemyID) {
 			return;		
 		}
-		
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
 		DestoryUI ();
 	}
 
@@ -118,6 +117,9 @@ public class EnemyItem : UIBaseUnity {
 			InjuredShake();
 		}
 		enemyInfo.enemyBlood = te.GetBlood ();
+		if (enemyInfo.enemyBlood < 0) {
+			enemyInfo.enemyBlood = 0;
+		}
 		enemyInfo.attackRound = te.GetRound ();
 		SetBloodLabel (enemyInfo.enemyBlood);
 		SetNextLabel (enemyInfo.attackRound);
@@ -126,7 +128,8 @@ public class EnemyItem : UIBaseUnity {
 	void EnemyAttack (object data) {
 		uint id = (uint) data;
 		if (id == enemyInfo.enemyID) {
-			iTween.ScaleFrom(gameObject,new Vector3(1.5f,1.5f,1f),0.5f);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
+			iTween.ScaleFrom(gameObject,new Vector3(1.5f,1.5f,1f),0.2f);
 		}
 	}
 

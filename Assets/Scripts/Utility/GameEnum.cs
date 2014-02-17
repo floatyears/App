@@ -129,7 +129,7 @@ public enum CommandEnum
 
 	TrapTargetPoint			= 3044,
 
-
+	OpenDoor				= 3045,
 
 	SelectFriend			= 4000,
 }

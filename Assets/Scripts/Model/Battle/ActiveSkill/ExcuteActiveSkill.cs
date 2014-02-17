@@ -10,15 +10,21 @@ public class ExcuteActiveSkill {
 			ProtobufDataBase pudb = GlobalData.tempNormalSkill[item.GetActiveSkill()];
 			IActiveSkillExcute skill = pudb as IActiveSkillExcute;
 			if(skill == null) {
-				Debug.LogError("this userunit : " + item.GetID + " active skill id is error : " +item.GetActiveSkill());
+//				Debug.LogError("this userunit : " + item.GetID + " active skill id is error : " +item.GetActiveSkill());
+				continue;
 			}
+
 			activeSkill.Add(item.GetID,skill);
 		}
 		MsgCenter.Instance.AddListener (CommandEnum.LaunchActiveSkill, Excute);
+		MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, MoveToMapItem);
+		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
 	~ExcuteActiveSkill() {
 		MsgCenter.Instance.RemoveListener (CommandEnum.LaunchActiveSkill, Excute);
+		MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, MoveToMapItem);
+		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
 	void Excute(object data) {
@@ -27,6 +33,16 @@ public class ExcuteActiveSkill {
 			uint id = uui.GetID;
 			activeSkill[id].Excute(id, uui.GetAttack);
 		}
+	}
+
+	void MoveToMapItem(object data) {
+//		Debug.LogError ("MoveToMapItem");
+		CoolingSkill ();
+	}
+
+	void BattleEnd(object data) {
+//		Debug.LogError ("BattleEnd");
+		CoolingSkill ();
 	}
 
 	public void CoolingSkill () {
