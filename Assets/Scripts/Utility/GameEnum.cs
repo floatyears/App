@@ -128,6 +128,8 @@ public enum CommandEnum
 	MeetTrap					= 3043,
 
 	TrapTargetPoint				= 3044,
+
+	OpenDoor					= 3045,
 	//Add By Ling yan	
 	LevelUpPanelFocus			= 4000,
 	ViewUnitDetail				= 4001,
