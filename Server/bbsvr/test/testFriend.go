@@ -268,7 +268,7 @@ func AcceptFriend(myUid uint32, fUid uint32) error {
 	return err
 }
 
-func main() {
+func xmain() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
 

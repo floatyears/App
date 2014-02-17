@@ -944,3 +944,21 @@ response:
 	}
 }
 ***
+
+
+## retire_quest:
+####request:
+{"header":{"api_version":"1.0.3","packet_unique_id":39},"quest_id":119}
+
+####response:
+{
+"header": {
+"code": 4096,
+"session_id": "o67lmljq7hhgdn45ulpa28nq6jlktfja",
+"api_version": "1.0.3",
+"packet_unique_id": 39
+},
+"result": {
+"dummy": 0
+}
+}

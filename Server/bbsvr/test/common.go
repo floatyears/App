@@ -4,7 +4,9 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
+	"time"
 )
 
 const (
@@ -27,6 +29,8 @@ const WEB_SERVER_ADDR = "http://127.0.0.1:8000"
 
 func Init() {
 	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)
+	rand.Seed(time.Now().UTC().UnixNano())
+
 }
 
 func SendHttpPost(dataBuf io.Reader, protoAddr string) (outbuffer []byte, err error) {
