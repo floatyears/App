@@ -3,6 +3,7 @@ package common
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"strconv"
 	"time"
@@ -36,7 +37,11 @@ func ReadFile(filename string) (data []byte, err error) {
 	return data, err
 }
 
-func Itoa(n int32) string {
+func Itoa(n int) string {
+	return strconv.FormatInt(int64(n), 10)
+}
+
+func Ntoa(n int32) string {
 	return strconv.FormatInt(int64(n), 10)
 }
 
@@ -74,4 +79,20 @@ func IsToday(t uint32) bool {
 func IsYestoday(t uint32) bool {
 
 	return IsToday(t + 86400)
+}
+
+//return rand number between [start, end)
+func Rand(start, end int32) int32 {
+	if end-start <= 0 {
+		return start
+	}
+	return start + rand.Int31n(end-start)
+}
+
+//return rand number between [0, n)
+func Randn(n int32) int32 {
+	if n <= 0 {
+		return 0
+	}
+	return rand.Int31n(n)
 }

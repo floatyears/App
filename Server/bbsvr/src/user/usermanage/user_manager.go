@@ -49,6 +49,8 @@ func AddNewUser(uuid string, userInfo *bbproto.UserInfo) (err error) {
 }
 
 func GetUserInfo(uid uint32) (userInfo bbproto.UserInfoDetail, isUserExists bool, err error) {
+	isUserExists = false
+
 	db := &data.Data{}
 	err = db.Open(cs.TABLE_USER)
 	defer db.Close()
@@ -58,11 +60,13 @@ func GetUserInfo(uid uint32) (userInfo bbproto.UserInfoDetail, isUserExists bool
 
 	var value []byte
 	value, err = db.Gets(common.Utoa(uid))
-	log.Printf("GetUserInfo for '%v' ret err:%v, value: %v", uid, err, value)
-
+	if err != nil {
+		log.Printf("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		return userInfo, isUserExists, err
+	}
 	isUserExists = len(value) != 0
-	log.Printf("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
-	//userInfo = bbproto.UserInfoDetail{}
+	//log.Printf("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
+
 	if isUserExists {
 		err = proto.Unmarshal(value, &userInfo)
 	}

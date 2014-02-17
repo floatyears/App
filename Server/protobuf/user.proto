@@ -16,19 +16,15 @@ message UserInfo {
 };
 
 message AccountInfo {
-	optional uint32	userId				= 1;
-	optional uint32	review				= 2;
-	optional uint32	payTotal			= 3;
-	optional uint32	payMonth			= 4;
-	optional uint32	money				= 5;
-	optional uint32	stonePay			= 6;
-	optional uint32	stoneFree			= 7;
-	optional uint32	stone				= 8;
-	optional uint32	friendPoint			= 9;
-	optional uint32	totalUnit			= 10;
-	optional uint32	totalParty			= 11;
-	optional uint32	totalFriend			= 12;
-	optional uint32	firstSelectNum		= 13;
+	optional uint32	review				= 1;
+	optional uint32	payTotal			= 2;
+	optional uint32	payMonth			= 3;
+	optional uint32	money				= 4;
+	optional uint32	stonePay			= 5;
+	optional uint32	stoneFree			= 6;
+	optional uint32	stone				= 7;
+	optional uint32	friendPoint			= 8;
+	optional uint32	firstSelectNum		= 9;
 };
 
 message UserQuestInfo {
@@ -50,9 +46,10 @@ message UserInfoDetail {
 	optional UserInfo		user				= 1;
 	optional AccountInfo	account				= 2;
 	optional UserQuestInfo	quest				= 3;
-	repeated UnitParty		partyList			= 4;
-	optional int32			currentParty		= 5;
-	optional LoginInfo		login				= 6;
+	repeated uint32			unitList			= 4; //unitId list
+	repeated UnitParty		partyList			= 5;
+	optional int32			currentParty		= 6;
+	optional LoginInfo		login				= 7;
 };
 
 message TerminalInfo {

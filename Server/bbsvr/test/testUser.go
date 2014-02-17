@@ -145,17 +145,17 @@ func AuthUser(uuid string, uid uint32) {
 
 func AddUsers() {
 	for i := 0; i < 10; i++ {
-		AuthUser("b2c4adfd-e6a9-4782-814d-67ce3422011"+common.Itoa(int32(i)),
+		AuthUser("b2c4adfd-e6a9-4782-814d-67ce3422011"+common.Itoa(i),
 			uint32(i+100))
 	}
 	for i := 10; i < 30; i++ {
-		AuthUser("b2c4adfd-e6a9-4782-814d-67ce342201"+common.Itoa(int32(i)),
+		AuthUser("b2c4adfd-e6a9-4782-814d-67ce342201"+common.Itoa(i),
 			uint32(i+100))
 	}
 
 }
 
-func xmain() {
+func umain() {
 	Init()
 	//AddUsers()
 

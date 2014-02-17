@@ -2,30 +2,45 @@
 // created by kory 2014-02-10
 //
 
-// Package errors implements functions to manipulate errors.
 package Error
 
 import (
 	"fmt"
 )
 
+//func New(errCode int, errStr string) Error {
+//	return Error{errCode, errStr}
+//}
+
 // New returns an error that formats as the given text.
-func Err(errCode int) Error {
-	return Error{errCode, ""}
-}
-
-func NewError(errCode int, err error) Error {
-	if err != nil {
-		return Error{-1, err.Error()}
+func New(vlist ...interface{}) Error {
+	errno := 0
+	errstr := ""
+	for _, vv := range vlist {
+		switch v := vv.(type) {
+		case int:
+			{
+				errno = v //vlist[0].(int)
+			}
+		case string:
+			{
+				errstr = v //vlist[0].(string)
+			}
+		case error:
+			{
+				if errno == 0 {
+					errno = -1
+				}
+				if v != nil {
+					errstr = v.Error()
+				}
+			}
+		}
 	}
-	return Error{0, ""}
+	return Error{errno, errstr}
 }
 
-func New(errCode int, errStr string) Error {
-	return Error{errCode, errStr}
-}
-
-func Newerror(errCode int, errStr string) error {
+func NewError(errCode int, errStr string) error {
 	return &Error{errCode, errStr}
 }
 

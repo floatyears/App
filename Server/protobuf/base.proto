@@ -27,8 +27,8 @@ message ProtoHeader {
 	required string apiVer		= 1;
 	optional string sessionId	= 2;
 	optional uint32 userId		= 3;
-	optional int	packetId	= 4;
-	optional int	code		= 5; // result code
+	optional int32	packetId	= 4;
+	optional int32	code		= 5; // result code
 	optional string error		= 6; // result error description
 };
 

@@ -111,9 +111,9 @@ func (t *Data) GetInt(key string) (value int, err error) {
 
 func (t *Data) Set(key string, value []byte) error {
 	if t.conn != nil {
-		log.Printf("try redis.Set(%v) value:%v", key, value)
+		//log.Printf("[TRACE] try redis.Set(%v) value:%v", key, value)
 		_, err := redis.String(t.conn.Do("SET", key, value))
-		log.Printf("after redis.Set(%v) ret err:%v", key, err)
+		//log.Printf("[TRACE] after redis.Set(%v) ret err:%v", key, err)
 		return err
 	} else {
 		log.Fatal("invalid redis conn:%v", t.conn)
