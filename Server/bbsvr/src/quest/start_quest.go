@@ -141,6 +141,7 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	if e.IsError() {
 		return e
 	}
+
 	//fill response
 	rspMsg.StaminaNow = proto.Int32(*userdetail.User.StaminaNow - *questInfo.Stamina)
 	rspMsg.StaminaRecover = proto.Uint32(*userdetail.User.StaminaRecover)

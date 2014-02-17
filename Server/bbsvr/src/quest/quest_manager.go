@@ -103,8 +103,8 @@ type TUsedValue struct {
 	Used  bool
 }
 
+//retrieve target item from list
 func getItemFromList(pos int32, list *map[int32]TUsedValue) (result int32) {
-	//retrieve target item from list
 	result = -1
 	if pos >= int32(len(*list)) {
 		return result
@@ -112,15 +112,17 @@ func getItemFromList(pos int32, list *map[int32]TUsedValue) (result int32) {
 
 	index := int32(0)
 	for k, ss := range *list {
+		//log.T("LOOP list[%v]: %+v ...  Now index=%v ", k, ss, index)
 		if ss.Used {
-			log.T("list :: index:%v is used.", index)
+			//log.T("==> list[%v] is used.", k)
 			continue
 		}
 
 		if index == pos {
 			(*list)[k] = TUsedValue{ss.Value, true}
 			result = ss.Value
-			log.T("LOOP k:%v ss:%v list[k]:%v", k, ss, (*list)[k])
+			log.T("LOOP list[%v]: found ss:%+v list[k]:%+v", k, ss, (*list)[k])
+			log.T("\t==> all list: %+v", k, ss, (*list))
 			break
 		}
 		index++
@@ -129,10 +131,11 @@ func getItemFromList(pos int32, list *map[int32]TUsedValue) (result int32) {
 }
 
 func getStarConf(iStar int32, starsConf []*bbproto.StarConfig) (starConf *bbproto.StarConfig, e Error.Error) {
-	for _, conf := range starsConf {
+	for i, conf := range starsConf {
+		log.T("== getStarConf : loop[%v]:%+v", i, conf)
 		if conf.Star != nil && int32(*conf.Star) == iStar {
 			starConf = conf
-			log.T("found starConf:%+v", starConf)
+			log.T("found matched starConf[%+v]", iStar)
 			return starConf, Error.OK()
 		}
 	}
@@ -156,7 +159,11 @@ func fillGridsList(typeList map[int32]TUsedValue, starList map[int32]TUsedValue,
 		typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_ENEMY), false}
 	}
 	currNum += *floorConf.EnemyNum
-	log.T("typeList len= %v | %v", currNum, len(typeList))
+
+	for n := currNum; n < cs.N_DUNGEON_GRID_COUNT-1; n++ {
+		typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_NONE), true}
+	}
+	log.T("typeList: len(%v | %v): %v", currNum, len(typeList), typeList)
 
 	starNum := int32(0)
 	for i, star := range floorConf.Stars {
@@ -166,7 +173,11 @@ func fillGridsList(typeList map[int32]TUsedValue, starList map[int32]TUsedValue,
 		}
 		starNum += *star.Repeat
 	}
-	log.T("starList len= %v | %v", starNum, len(starList))
+	for n := starNum; n < cs.N_DUNGEON_GRID_COUNT-1; n++ {
+		starList[n] = TUsedValue{int32(bbproto.EGridStar_GS_EMPTY), true}
+	}
+
+	log.T("starList (len:%v | %v): %v", starNum, len(starList), starList)
 
 	return Error.OK()
 }
@@ -192,21 +203,25 @@ func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonD
 	for k, floorConf := range config.Floors {
 		questFloor := &bbproto.QuestFloor{}
 
-		fillGridsList(starList, typeList, floorConf)
+		log.T("--pre typeList:%+v", typeList)
+
+		fillGridsList(typeList, starList, floorConf)
+		log.T("--after typeList:%+v", typeList)
 
 		gridCount := int32(cs.N_DUNGEON_GRID_COUNT - 1)
 		for i := 0; i < cs.N_DUNGEON_GRID_COUNT-1 && gridCount > 0; i++ {
 			grid := &bbproto.QuestGrid{}
 			grid.Position = proto.Int32(int32(i))
 
-			randNum := common.Randn(gridCount)
+			randPos := common.Randn(gridCount)
 			gridCount -= 1
 
 			//retrieve target item from list
-			iType := getItemFromList(randNum, &typeList)
-			iStar := getItemFromList(randNum, &starList)
+			iType := getItemFromList(randPos, &typeList)
+			iStar := getItemFromList(randPos, &starList)
 
-			log.T("--[GRID-%v] randNum:%v iType:%v, iStar:%v,\n floorConf.Stars:%+v", i, randNum, iType, iStar, floorConf.Stars)
+			log.T("--[GRID-%v] randPos:%v iType:%v, iStar:%v,\n floorConf.Stars:%+v",
+				i, randPos, iType, iStar, floorConf.Stars)
 			if iType < 0 || iStar < 0 {
 				//it should be empty grid
 				questFloor.GridInfo = append(questFloor.GridInfo, grid)
@@ -214,10 +229,11 @@ func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonD
 			}
 
 			starConf, e := getStarConf(iStar, floorConf.Stars)
-			log.T("After found starConf:%+v err:%v", starConf, e.Error())
 			if e.IsError() {
+				log.Error("getStarConf[%v] ret err:%v ", iStar, e.Error())
 				return questData, e //unreachable here
 			}
+			log.T("After found starConf[%v] ret err:%v,  starConf:%+v ", iStar, e.Error(), starConf)
 
 			grid.Star = starConf.Star
 			grid.Color = proto.Int32(common.Randn(3)) //0:red,1:yellow,2:blue
@@ -241,16 +257,16 @@ func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonD
 				log.T("EnemyNum: %v %v", *starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
 
 				randn := common.Rand(*starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
-				log.T("randnum:%v enemys: ", randn)
+				log.T("randn:%v enemys: ", randn)
 				for x := int32(0); x < randn; x++ {
 					nn := int32(len(starConf.EnemyPool))
 					nn = common.Randn(nn) % (nn - 1)
 
 					grid.EnemyId = append(grid.EnemyId, starConf.EnemyPool[nn])
-					log.T("randnn:%v enemyId:%v ", nn, starConf.EnemyPool[nn])
+					log.T("\t--randnn:%v enemyId:%v ", nn, starConf.EnemyPool[nn])
 				}
 			} else {
-				log.Warn("Random ret grid type is Empty: %v", iType)
+				log.Warn("Random ret grid type is Empty. (randPos: %v iType:%v)", randPos, iType)
 			}
 
 			questFloor.GridInfo = append(questFloor.GridInfo, grid)

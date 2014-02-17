@@ -144,15 +144,16 @@ enum EQuestGridType {
 }
 
 enum EGridStar {
-	GS_KEY				= 0;
+	GS_EMPTY			= 0;
 	GS_STAR_1			= 1;
 	GS_STAR_2			= 2;
 	GS_STAR_3			= 3;
 	GS_STAR_4			= 4;
 	GS_STAR_5			= 5;
 	GS_STAR_6			= 6;
-	GS_QUESTION			= 7;
-	GS_EXCLAMATION		= 8;
+	GS_KEY				= 7;
+	GS_QUESTION			= 8;
+	GS_EXCLAMATION		= 9;
 }
 
 //----------------------Quest config data-----------------------------
@@ -250,32 +251,32 @@ message Position {
 };
 
 message QuestInfo {
-	required uint32		id				= 1; 
-	optional int32		state			= 2; // CLEAR or NEW
-	optional int32		no				= 3; // number: 1, 2, 3...
-	optional string		name			= 4; // quest name
-	optional string		story			= 5; // story description
-	optional int32		stamina 		= 6; // cost stamina
-	optional int32		floor			= 7;		
-	optional int32		rewardExp		= 8;
-	optional int32		rewardCoin		= 9;
-	repeated uint32		bossId			= 10; // boss unitid
-	repeated uint32		enemyId			= 11; // enemy unitid
+	required uint32			id			= 1; 
+	optional EQuestState	state		= 2; // CLEAR or NEW
+	optional int32			no			= 3; // number: 1, 2, 3...
+	optional string			name		= 4; // quest name
+	optional string			story		= 5; // story description
+	optional int32			stamina		= 6; // cost stamina
+	optional int32			floor		= 7;		
+	optional int32			rewardExp	= 8;
+	optional int32			rewardCoin	= 9;
+	repeated uint32			bossId		= 10; // boss unitid
+	repeated uint32			enemyId		= 11; // enemy unitid
 };
 
 message StageInfo {
-	optional int32		version			= 1;
-	optional uint32		id				= 2;	
-	optional int32		state			= 3;
-	optional int32		type			= 4; // story or event
-	optional string		stageName		= 5; //
-	optional string		description		= 6; //	 
-	optional uint32		startTime		= 7;	
-	optional uint32		endTime			= 8;
-	optional int32		boostType		= 9; //coins , exp , dropRate 
-	optional int32		boostValue		= 10; //X2, X3
-	optional Position	pos				= 11; // stage position of the city	
-	repeated QuestInfo	quests			= 12; 
+	optional int32			version		= 1;
+	optional uint32			id			= 2;	
+	optional EQuestState	state		= 3; // CLEAR or NEW
+	optional int32			type		= 4; // story or event
+	optional string			stageName	= 5; //
+	optional string			description	= 6; //	 
+	optional uint32			startTime	= 7;	
+	optional uint32			endTime		= 8;
+	optional int32			boostType	= 9; //coins , exp , dropRate 
+	optional int32			boostValue	= 10; //X2, X3
+	optional Position		pos			= 11; // stage position of the city	
+	repeated QuestInfo		quests		= 12; 
 };
 
 message CityInfo {
@@ -414,19 +415,15 @@ message UserInfo {
 };
 
 message AccountInfo {
-	optional uint32	userId				= 1;
-	optional uint32	review				= 2;
-	optional uint32	payTotal			= 3;
-	optional uint32	payMonth			= 4;
-	optional uint32	money				= 5;
-	optional uint32	stonePay			= 6;
-	optional uint32	stoneFree			= 7;
-	optional uint32	stone				= 8;
-	optional uint32	friendPoint			= 9;
-	optional uint32	totalUnit			= 10;
-	optional uint32	totalParty			= 11;
-	optional uint32	totalFriend			= 12;
-	optional uint32	firstSelectNum		= 13;
+	optional uint32	review				= 1;
+	optional uint32	payTotal			= 2;
+	optional uint32	payMonth			= 3;
+	optional uint32	money				= 4;
+	optional uint32	stonePay			= 5;
+	optional uint32	stoneFree			= 6;
+	optional uint32	stone				= 7;
+	optional uint32	friendPoint			= 8;
+	optional uint32	firstSelectNum		= 9;
 };
 
 message UserQuestInfo {
@@ -448,9 +445,10 @@ message UserInfoDetail {
 	optional UserInfo		user				= 1;
 	optional AccountInfo	account				= 2;
 	optional UserQuestInfo	quest				= 3;
-	repeated UnitParty		partyList			= 4;
-	optional int32			currentParty		= 5;
-	optional LoginInfo		login				= 6;
+	repeated uint32			unitList			= 4; //unitId list
+	repeated UnitParty		partyList			= 5;
+	optional int32			currentParty		= 6;
+	optional LoginInfo		login				= 7;
 };
 
 message TerminalInfo {
