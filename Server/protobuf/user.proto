@@ -34,7 +34,7 @@ message UserQuestInfo {
 
 message PartyItem {
 	optional int32 unitPos				= 1;
-	optional int32 unitUniqueId			= 2;
+	optional uint32 unitUniqueId		= 2;
 };
 
 message UnitParty {

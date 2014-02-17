@@ -194,7 +194,7 @@ message QuestConfig {
 
 //------------------------------------------------------------
 message EnemyInfo {
-	optional uint32		uniqueId		= 1;
+	optional uint32		number			= 1;
 	optional uint32		unitId			= 2;
 	optional EUnitType	type			= 3;
 	optional int32		hp				= 4;
@@ -433,7 +433,7 @@ message UserQuestInfo {
 
 message PartyItem {
 	optional int32 unitPos				= 1;
-	optional int32 unitUniqueId			= 2;
+	optional uint32 unitUniqueId		= 2;
 };
 
 message UnitParty {
