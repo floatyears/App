@@ -106,7 +106,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		UITexture[] texs = pickEnemies.GetComponentsInChildren<UITexture>();
 		foreach (var item in texs){
 			pickEnemiesList.Add(item);
-		}
+		} 
 //		Debug.LogError(string.Format("pick enemy count: {0}",pickEnemiesList.Count));
 
 		UIEventListener.Get(btnSelect.gameObject).onClick = ChangeScene;

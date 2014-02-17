@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class LevelUpMaterialWindow : UIComponentUnity {
 	DragPanel dragPanel;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-
+	//Dictionary<GameObject,>
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
 		InitUI();
@@ -54,11 +54,15 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 //			ulc.onClick = PickMaterial;
 //			ulc.LongPress = LongPressPickMaterial;
 //			materialItemInfo.Add(target, ubi);
+			UIEventListenerCustom.Get(target).onClick = PickMaterial;
 		}
 		InitDragPanelArgs();
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
-	
+
+	void PickMaterial(GameObject friendItem){
+		//Debug.LogError("Pick Material");
+	}
 
 	void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans",	transform);

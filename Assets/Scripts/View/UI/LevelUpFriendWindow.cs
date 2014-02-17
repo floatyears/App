@@ -47,6 +47,9 @@ public class LevelUpFriendWindow : UIComponentUnity {
 		dragPanel.AddItem(availFriendList.Count);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			UIEventListenerCustom.Get(dragPanel.ScrollItem[ i ]).onClick = PickMaterial;
+
+
 			GameObject avatarGo = dragPanel.ScrollItem[i].transform.FindChild("Texture_Avatar").gameObject;
 			UITexture avatarTexture = avatarGo.GetComponent<UITexture>();
 			GameObject userNameGo = dragPanel.ScrollItem[ i ].transform.FindChild("Label_Name").gameObject;
@@ -88,7 +91,11 @@ public class LevelUpFriendWindow : UIComponentUnity {
 		InitDragPanelArgs();
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
-	
+
+	void PickMaterial(GameObject go){
+		Debug.LogError("Pick Friend");
+	}
+
 	void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans", 	transform);
 		dragPanelArgs.Add("scrollerScale", 	Vector3.one);
