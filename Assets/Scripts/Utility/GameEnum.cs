@@ -130,6 +130,7 @@ public enum CommandEnum
 	TrapTargetPoint				= 3044,
 	//Add By Ling yan	
 	LevelUpPanelFocus			= 4000,
+	ViewUnitDetail				= 4001,
 }
 
 public enum MapItemEnum {

@@ -269,8 +269,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 	}
 
 
-	private void InitBaseScrollArgs()
-	{
+	private void InitBaseScrollArgs(){
 		baseScrollerArgs.Add("parentTrans", basePanel.transform);
 		baseScrollerArgs.Add("scrollerScale", Vector3.one);
 		baseScrollerArgs.Add("scrollerLocalPos", -45 * Vector3.up);
@@ -283,8 +282,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 		baseScrollerArgs.Add("cellHeight", 115);
 	}
 
-	private void InitMaterialScrollArgs()
-	{
+	private void InitMaterialScrollArgs(){
 		materialScrollerArgs.Add("parentTrans", materialPanel.transform);
 		materialScrollerArgs.Add("scrollerScale", Vector3.one);
 		materialScrollerArgs.Add("scrollerLocalPos", -45 * Vector3.up);
@@ -297,8 +295,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 		materialScrollerArgs.Add("cellHeight", 110);
 	}
 
-	private void InitFriendScrollArgs()
-	{
+	private void InitFriendScrollArgs(){
 		friendcrollerArgs.Add("parentTrans", friendPanel.transform);
 		friendcrollerArgs.Add("scrollerScale", Vector3.one);
 		friendcrollerArgs.Add("scrollerLocalPos", -255 * Vector3.up);
