@@ -37,7 +37,7 @@ public class MapItem : UIBaseUnity
 
 		//mapItemTexture = FindChild<UITexture>("MapItem");
 
-		Texture2D map = LoadAsset.Instance.LoadMapItem() ;
+		//Texture2D map = LoadAsset.Instance.LoadMapItem() ;
 		//mapItemTexture.mainTexture = map;
 
 		//mapItemTexture.width = map.width;

@@ -161,8 +161,6 @@ public class ConfigEnermy {
 		ei.defense = 100;
 		ei.hp = 1000;
 		ei.type = (EUnitType)1;
-		ei.dropUnitId = 10;
-		ei.dropRate = 0.15f;
 		TempEnemy te = new TempEnemy (ei);
 		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
 
@@ -173,8 +171,6 @@ public class ConfigEnermy {
 		ei.defense = 100;
 		ei.hp = 2000;
 		ei.type = (EUnitType)2;
-		ei.dropUnitId = 11;
-		ei.dropRate = 0.2f;
 		te = new TempEnemy (ei);
 		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
 	}
