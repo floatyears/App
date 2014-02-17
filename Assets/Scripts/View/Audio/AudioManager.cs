@@ -24,7 +24,7 @@ public class AudioManager {
 			return;
 
 		if( !audioPlayerCache.ContainsKey( audioID )){
-			Debug.Log( string.Format( "At present, NOT EXIST a audioPlayer Cache with the ID [{0}]. ADD IT", audioID) );
+//			Debug.Log( string.Format( "At present, NOT EXIST a audioPlayer Cache with the ID [{0}]. ADD IT", audioID) );
 			GameObject go = new GameObject();
 			go.name = string.Format( "_{0}", audioEnum.ToString() );
 			AudioSource source = go.AddComponent< AudioSource >();

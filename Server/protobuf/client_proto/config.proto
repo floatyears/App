@@ -15,5 +15,5 @@ message AudioConfigFile {
 
 enum EPlayType {
 	ONCE									= 1;
-	ALWAYS									= 2;
+	LOOP									= 2;
 }

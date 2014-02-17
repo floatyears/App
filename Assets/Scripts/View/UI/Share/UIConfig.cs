@@ -69,6 +69,11 @@ public class UIConfig
 	public const string searchMainWindowName = "SearchMainWindow";
 	public const string searchInfoWindowName = "SearchInfoWindow";
 
+	public const string levelUpInfoPanelName = "LevelUpInfoPanel";
+	public const string levelUpReadyPanelName = "LevelUpReadyPanel";
+	public const string levelUpMaterialWindowName = "LevelUpMaterialWindow";
+	public const string levelUpFriendWindowName = "LevelUpFriendWindow";
+
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;
 
