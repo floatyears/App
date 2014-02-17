@@ -126,8 +126,7 @@ public class UnitsDecoratorUnity : UIComponentUnity, IUIParty{
 	}
 
 	//Deal with Party Page Events	
-	private void BackPage(GameObject btn)
-	{
+	private void BackPage(GameObject btn){
 		//Debug.Log("Back Page");
 		currentPartyIndex = Mathf.Abs((currentPartyIndex - 1) % partyTotalCount);
 		if (currentPartyIndex == 0)
@@ -138,8 +137,7 @@ public class UnitsDecoratorUnity : UIComponentUnity, IUIParty{
 		RequestPartyInfo(currentPartyIndex);
 	}
 
-	private void ForwardPage(GameObject btn)
-	{
+	private void ForwardPage(GameObject btn){
 		//Debug.Log("Forward Page");
 		currentPartyIndex++;
 		if (currentPartyIndex > partyTotalCount){

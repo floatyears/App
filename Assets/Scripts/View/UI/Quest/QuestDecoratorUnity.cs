@@ -1,4 +1,5 @@
-﻿ using UnityEngine;
+﻿using bbproto;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class QuestDecoratorUnity : UIComponentUnity {
@@ -131,4 +132,32 @@ public class QuestDecoratorUnity : UIComponentUnity {
 		eventScrollerArgsDic.Add( "cellHeight",				150 						);
 	}
 
+}
+
+public class ConfigStage{
+	public ConfigStage(){
+		Config();
+	}
+
+	void Config(){
+		Debug.Log("Start to Config the data of stage");
+
+		StageInfo stageItem = new StageInfo();
+		stageItem.version = 1;
+		stageItem.id = 1;
+		stageItem.state = 1;
+		stageItem.stageName = "第一监狱";
+		stageItem.description = "This is the description of stage.Here many interesting infomation could be caught! Enjoy your game!";
+		QuestInfo questItem = new QuestInfo();
+		questItem.no = 1;
+		questItem.state = 1;
+		questItem.name = "第一小关卡";
+		questItem.story = "This is the first level of the current stage";
+		questItem.stamina = 8;
+		questItem.floor = 1;
+		questItem.rewardExp = 17;
+		questItem.rewardCoin = 69;
+
+
+	}
 }

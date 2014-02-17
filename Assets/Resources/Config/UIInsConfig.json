@@ -198,6 +198,38 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
+    },
+     "LevelUpReadyPanel": {
+        "uiName":"LevelUpReadyPanel",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+     "LevelUpInfoPanel": {
+        "uiName":"LevelUpInfoPanel",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 170,
+        "positionz": 0
+    },
+     "LevelUpFriendWindow": {
+        "uiName":"LevelUpFriendWindow",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 80,
+        "positionz": 0
+    },
+     "LevelUpMaterialWindow": {
+        "uiName":"LevelUpMaterialWindow",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
     
     

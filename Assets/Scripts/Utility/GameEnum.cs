@@ -54,62 +54,62 @@ public enum SceneEnum
 public enum CommandEnum
 {
 	None 					= 0,
-	ChangeScene 			= 1,
-	InquiryBattleBaseData 	= 1001,
+	ChangeScene 				= 1,
+	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 			= 1002,
-	StartAttack				= 1003,
-	EnterUnitInfo			= 1004,
+	StartAttack					= 1003,
+	EnterUnitInfo				= 1004,
 	Person 					= 3000,
-	BattleBaseData 			= 3001,
-	UnitBlood 				= 3002,
+	BattleBaseData 				= 3001,
+	UnitBlood 					= 3002,
 	EnergyPoint				= 3003,
 	ShowEnemy 				= 3004,
 	AttackEnemy				= 3005,
-	AttackPlayer			= 3006,
-	AttackRecoverRange		= 3007,
-	BattleEnd				= 3008,
+	AttackPlayer				= 3006,
+	AttackRecoverRange			= 3007,
+	BattleEnd					= 3008,
 	EnemyAttack				= 3010,
-	EnemyAttackEnd			= 3009,
-	EnemyRefresh			= 3011,
+	EnemyAttackEnd				= 3009,
+	EnemyRefresh				= 3011,
 	EnemyDead				= 3012,
-	RecoverHP				= 3013,
-	LeaderSkillBoost		= 3014,
-	LeaderSkillDelayTime	= 3015,
-	ActiveSkillAttack		= 3016,
-	LaunchActiveSkill		= 3017,
-	ActiveSkillRecoverHP	= 3018,
-	ActiveSkillDrawHP		= 3019,
-	SkillSucide				= 3020,
-	SkillGravity			= 3021,
-	SkillRecoverSP			= 3022,
-	SkillPosion				= 3023,
-	AttackEnemyEnd			= 3024,
+	RecoverHP					= 3013,
+	LeaderSkillBoost				= 3014,
+	LeaderSkillDelayTime			= 3015,
+	ActiveSkillAttack				= 3016,
+	LaunchActiveSkill			= 3017,
+	ActiveSkillRecoverHP			= 3018,
+	ActiveSkillDrawHP			= 3019,
+	SkillSucide					= 3020,
+	SkillGravity				= 3021,
+	SkillRecoverSP				= 3022,
+	SkillPosion					= 3023,
+	AttackEnemyEnd				= 3024,
 	/// <summary>
 	/// zhong du 
 	/// </summary>
-	BePosion				= 3025,
+	BePosion					= 3025,
 	/// <summary>
 	/// The color of the change card.
 	/// </summary>
 	ChangeCardColor			= 3026,
 
-	ReduceDefense			= 3027,
+	ReduceDefense				= 3027,
 
-	DelayTime				= 3028,
+	DelayTime					= 3028,
 
-	ActiveReduceHurt		= 3029,
+	ActiveReduceHurt			= 3029,
 
-	DeferAttackRound		= 3030,
+	DeferAttackRound			= 3030,
 
-	AttackTargetType		= 3031,
+	AttackTargetType			= 3031,
 
-	StrengthenTargetType	= 3032,
+	StrengthenTargetType		= 3032,
 
-	ActiveSkillCooling		= 3033,
+	ActiveSkillCooling			= 3033,
 
-	TrapMove				= 3034,
+	TrapMove					= 3034,
 
-	NoSPMove				= 3035,
+	NoSPMove					= 3035,
 
 	TrapInjuredDead			= 3036,
 
@@ -117,28 +117,27 @@ public enum CommandEnum
 
 	ConsumeCoin				= 3038,
 
-	ShieldMap				= 3039,
+	ShieldMap					= 3039,
 
-	PlayerPosion			= 3040,
+	PlayerPosion				= 3040,
 
-	InjuredNotDead			= 3041,
+	InjuredNotDead				= 3041,
 
 	MeetEnemy				= 3042,
 
-	MeetTrap				= 3043,
+	MeetTrap					= 3043,
 
-	TrapTargetPoint			= 3044,
-
-
-
-	SelectFriend			= 4000,
+	TrapTargetPoint				= 3044,
+	//Add By Ling yan	
+	LevelUpPanelFocus			= 4000,
+	ViewUnitDetail				= 4001,
 }
 
 public enum MapItemEnum {
-	None					= 0,
+	None						= 0,
 	Enemy					= 1,
-	Trap					= 2,
-	Coin					= 3,
+	Trap						= 2,
+	Coin						= 3,
 	key						= 4,
 }
 

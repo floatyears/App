@@ -161,7 +161,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 	//Friend List
 	private void InitFriendList()
 	{
-		friendItem = Resources.Load("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
+		friendItem = Resources.Load("Prefabs/UI/Friend/AvailFriendItem") as GameObject;
 		friendsScroller = new DragPanel("FriendSelectScroller", friendItem);
 		friendsScroller.CreatUI();
 		friendsScroller.AddItem(1);

@@ -20,6 +20,9 @@ public class GlobalData  {
 	public static Dictionary<int, Object> tempEffect = new Dictionary<int, Object>();
 	public static List<int> HaveCard = new List<int>() {111,185,161,101,122,195};
 
+	//Temp
+	//public static List<int> HaveFriend = new List<int>(){};
+
 	private static GameObject itemObject;
 	public static GameObject ItemObject {
 		get{

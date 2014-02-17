@@ -342,13 +342,28 @@ public class LevelUpDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 
+//		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
+//		sceneInfoBar.SetComponent( decorator );
+//
+//		LevelUpComponent levelUp = CreatComponent< LevelUpComponent >( UIConfig.levelUpWindowName);
+//		levelUp.SetComponent( sceneInfoBar );
+//
+//		lastDecorator = levelUp;
+//		lastDecorator.CreatUI();
+
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		sceneInfoBar.SetComponent( decorator );
+		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
+		LevelUpInfoPanelUI infoPanel = CreatComponent<LevelUpInfoPanelUI>(UIConfig.levelUpInfoPanelName);
+		LevelUpFriendUI friendListPanel = CreatComponent<LevelUpFriendUI>(UIConfig.levelUpFriendWindowName);
+		LevelUpMaterialUI materialPanel = CreatComponent<LevelUpMaterialUI>(UIConfig.levelUpMaterialWindowName);
 
-		LevelUpComponent levelUp = CreatComponent< LevelUpComponent >( UIConfig.levelUpWindowName);
-		levelUp.SetComponent( sceneInfoBar );
+		sceneInfoBar.SetComponent(decorator);
+		readyPanel.SetComponent(sceneInfoBar);
+		infoPanel.SetComponent(readyPanel);
+		friendListPanel.SetComponent(infoPanel);
+		materialPanel.SetComponent(friendListPanel);
 
-		lastDecorator = levelUp;
+		lastDecorator = materialPanel;
 		lastDecorator.CreatUI();
 	}
 }
