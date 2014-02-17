@@ -3954,8 +3954,8 @@ namespace bbproto
       [global::ProtoBuf.ProtoEnum(Name=@"ONCE", Value=1)]
       ONCE = 1,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"ALWAYS", Value=2)]
-      ALWAYS = 2
+      [global::ProtoBuf.ProtoEnum(Name=@"LOOP", Value=2)]
+      LOOP = 2
     }
   
 }
