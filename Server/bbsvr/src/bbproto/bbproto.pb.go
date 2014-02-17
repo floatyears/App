@@ -955,7 +955,7 @@ func (m *QuestConfig) GetFloors() []*QuestFloorConfig {
 
 // ------------------------------------------------------------
 type EnemyInfo struct {
-	UniqueId         *uint32    `protobuf:"varint,1,opt,name=uniqueId" json:"uniqueId,omitempty"`
+	Number           *uint32    `protobuf:"varint,1,opt,name=number" json:"number,omitempty"`
 	UnitId           *uint32    `protobuf:"varint,2,opt,name=unitId" json:"unitId,omitempty"`
 	Type             *EUnitType `protobuf:"varint,3,opt,name=type,enum=bbproto.EUnitType" json:"type,omitempty"`
 	Hp               *int32     `protobuf:"varint,4,opt,name=hp" json:"hp,omitempty"`
@@ -969,9 +969,9 @@ func (m *EnemyInfo) Reset()         { *m = EnemyInfo{} }
 func (m *EnemyInfo) String() string { return proto.CompactTextString(m) }
 func (*EnemyInfo) ProtoMessage()    {}
 
-func (m *EnemyInfo) GetUniqueId() uint32 {
-	if m != nil && m.UniqueId != nil {
-		return *m.UniqueId
+func (m *EnemyInfo) GetNumber() uint32 {
+	if m != nil && m.Number != nil {
+		return *m.Number
 	}
 	return 0
 }
@@ -2341,9 +2341,9 @@ func (m *UserQuestInfo) GetQuestCleared() bool {
 }
 
 type PartyItem struct {
-	UnitPos          *int32 `protobuf:"varint,1,opt,name=unitPos" json:"unitPos,omitempty"`
-	UnitUniqueId     *int32 `protobuf:"varint,2,opt,name=unitUniqueId" json:"unitUniqueId,omitempty"`
-	XXX_unrecognized []byte `json:"-"`
+	UnitPos          *int32  `protobuf:"varint,1,opt,name=unitPos" json:"unitPos,omitempty"`
+	UnitUniqueId     *uint32 `protobuf:"varint,2,opt,name=unitUniqueId" json:"unitUniqueId,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
 }
 
 func (m *PartyItem) Reset()         { *m = PartyItem{} }
@@ -2357,7 +2357,7 @@ func (m *PartyItem) GetUnitPos() int32 {
 	return 0
 }
 
-func (m *PartyItem) GetUnitUniqueId() int32 {
+func (m *PartyItem) GetUnitUniqueId() uint32 {
 	if m != nil && m.UnitUniqueId != nil {
 		return *m.UnitUniqueId
 	}
