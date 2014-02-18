@@ -198,9 +198,9 @@ message ReqClearQuset {
 	optional ProtoHeader	header 			= 1; 
 	optional uint32			questId			= 2; 
 	optional uint32			securityKey		= 3; 
-	optional uint32			getMoney		= 4; 
-	optional uint32			getExp			= 5; 
-	repeated UserUnit		getUnit			= 6; //without uniqueId	
+	optional uint32			getMoney		= 4;
+	repeated UserUnit		getUnit			= 5; //without uniqueId	
+	repeated uint32			hitGrid			= 6;
 }
 
 message RspClearQuset {
