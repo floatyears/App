@@ -18,7 +18,7 @@ message BattlePower {
 
 message HelperRequire {
     optional int32		level		= 1;
-	optional int32		race		= 2;
+	optional EUnitType	race		= 2;
 	optional EUnitType	type		= 3;
 };
 
@@ -31,7 +31,7 @@ message EvolveInfo {
 message UnitInfo { 	
 	required uint32			id				= 1;
 	optional string			name			= 2;
-	optional int32			race			= 3;	
+	optional EUnitType		race			= 3;	
 	optional EUnitType		type			= 4;//wind flame water, etc.
 	optional int32			rare			= 5;	
 	optional int32			skill1			= 6;

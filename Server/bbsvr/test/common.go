@@ -49,6 +49,7 @@ func SendHttpPost(dataBuf io.Reader, protoAddr string) (outbuffer []byte, err er
 		return nil, err
 	}
 
+	log.Printf("Header:%+v", resp.Header)
 	outbuffer, err = ioutil.ReadAll(resp.Body)
 	//log.Printf("recv resp:%+v", outbuffer)
 

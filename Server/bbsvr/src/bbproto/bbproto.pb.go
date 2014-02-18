@@ -955,7 +955,7 @@ func (m *QuestConfig) GetFloors() []*QuestFloorConfig {
 
 // ------------------------------------------------------------
 type EnemyInfo struct {
-	UniqueId         *uint32    `protobuf:"varint,1,opt,name=uniqueId" json:"uniqueId,omitempty"`
+	Number           *uint32    `protobuf:"varint,1,opt,name=number" json:"number,omitempty"`
 	UnitId           *uint32    `protobuf:"varint,2,opt,name=unitId" json:"unitId,omitempty"`
 	Type             *EUnitType `protobuf:"varint,3,opt,name=type,enum=bbproto.EUnitType" json:"type,omitempty"`
 	Hp               *int32     `protobuf:"varint,4,opt,name=hp" json:"hp,omitempty"`
@@ -969,9 +969,9 @@ func (m *EnemyInfo) Reset()         { *m = EnemyInfo{} }
 func (m *EnemyInfo) String() string { return proto.CompactTextString(m) }
 func (*EnemyInfo) ProtoMessage()    {}
 
-func (m *EnemyInfo) GetUniqueId() uint32 {
-	if m != nil && m.UniqueId != nil {
-		return *m.UniqueId
+func (m *EnemyInfo) GetNumber() uint32 {
+	if m != nil && m.Number != nil {
+		return *m.Number
 	}
 	return 0
 }
@@ -1219,12 +1219,12 @@ func (m *QuestFloor) GetGridInfo() []*QuestGrid {
 }
 
 type QuestDungeonData struct {
-	QuestId          *uint32         `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
-	Boss             []*EnemyInfo    `protobuf:"bytes,2,rep,name=boss" json:"boss,omitempty"`
-	Enemys           []*EnemyInfo    `protobuf:"bytes,3,rep,name=enemys" json:"enemys,omitempty"`
-	Colors           []*ColorPercent `protobuf:"bytes,4,rep,name=colors" json:"colors,omitempty"`
-	Floors           []*QuestFloor   `protobuf:"bytes,5,rep,name=floors" json:"floors,omitempty"`
-	XXX_unrecognized []byte          `json:"-"`
+	QuestId          *uint32       `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
+	Boss             []*EnemyInfo  `protobuf:"bytes,2,rep,name=boss" json:"boss,omitempty"`
+	Enemys           []*EnemyInfo  `protobuf:"bytes,3,rep,name=enemys" json:"enemys,omitempty"`
+	Colors           []byte        `protobuf:"bytes,4,opt,name=colors" json:"colors,omitempty"`
+	Floors           []*QuestFloor `protobuf:"bytes,5,rep,name=floors" json:"floors,omitempty"`
+	XXX_unrecognized []byte        `json:"-"`
 }
 
 func (m *QuestDungeonData) Reset()         { *m = QuestDungeonData{} }
@@ -1252,7 +1252,7 @@ func (m *QuestDungeonData) GetEnemys() []*EnemyInfo {
 	return nil
 }
 
-func (m *QuestDungeonData) GetColors() []*ColorPercent {
+func (m *QuestDungeonData) GetColors() []byte {
 	if m != nil {
 		return m.Colors
 	}
@@ -2341,9 +2341,9 @@ func (m *UserQuestInfo) GetQuestCleared() bool {
 }
 
 type PartyItem struct {
-	UnitPos          *int32 `protobuf:"varint,1,opt,name=unitPos" json:"unitPos,omitempty"`
-	UnitUniqueId     *int32 `protobuf:"varint,2,opt,name=unitUniqueId" json:"unitUniqueId,omitempty"`
-	XXX_unrecognized []byte `json:"-"`
+	UnitPos          *int32  `protobuf:"varint,1,opt,name=unitPos" json:"unitPos,omitempty"`
+	UnitUniqueId     *uint32 `protobuf:"varint,2,opt,name=unitUniqueId" json:"unitUniqueId,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
 }
 
 func (m *PartyItem) Reset()         { *m = PartyItem{} }
@@ -2357,7 +2357,7 @@ func (m *PartyItem) GetUnitPos() int32 {
 	return 0
 }
 
-func (m *PartyItem) GetUnitUniqueId() int32 {
+func (m *PartyItem) GetUnitUniqueId() uint32 {
 	if m != nil && m.UnitUniqueId != nil {
 		return *m.UnitUniqueId
 	}
@@ -2762,12 +2762,13 @@ type RspAuthUser struct {
 	User             *UserInfo      `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
 	Account          *AccountInfo   `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
 	Quest            *UserQuestInfo `protobuf:"bytes,4,opt,name=quest" json:"quest,omitempty"`
-	UnitPartyList    []*UnitParty   `protobuf:"bytes,5,rep,name=unitPartyList" json:"unitPartyList,omitempty"`
-	CurrentUnitParty *int32         `protobuf:"varint,6,opt,name=currentUnitParty" json:"currentUnitParty,omitempty"`
-	ServerTime       *uint32        `protobuf:"varint,7,opt,name=serverTime" json:"serverTime,omitempty"`
-	Login            *LoginInfo     `protobuf:"bytes,8,opt,name=login" json:"login,omitempty"`
-	Friends          *FriendList    `protobuf:"bytes,9,opt,name=friends" json:"friends,omitempty"`
-	Present          []*PresentInfo `protobuf:"bytes,10,rep,name=present" json:"present,omitempty"`
+	UnitList         []uint32       `protobuf:"varint,5,rep,name=unitList" json:"unitList,omitempty"`
+	UnitPartyList    []*UnitParty   `protobuf:"bytes,6,rep,name=unitPartyList" json:"unitPartyList,omitempty"`
+	CurrentUnitParty *int32         `protobuf:"varint,7,opt,name=currentUnitParty" json:"currentUnitParty,omitempty"`
+	ServerTime       *uint32        `protobuf:"varint,8,opt,name=serverTime" json:"serverTime,omitempty"`
+	Login            *LoginInfo     `protobuf:"bytes,9,opt,name=login" json:"login,omitempty"`
+	Friends          *FriendList    `protobuf:"bytes,10,opt,name=friends" json:"friends,omitempty"`
+	Present          []*PresentInfo `protobuf:"bytes,11,rep,name=present" json:"present,omitempty"`
 	XXX_unrecognized []byte         `json:"-"`
 }
 
@@ -2799,6 +2800,13 @@ func (m *RspAuthUser) GetAccount() *AccountInfo {
 func (m *RspAuthUser) GetQuest() *UserQuestInfo {
 	if m != nil {
 		return m.Quest
+	}
+	return nil
+}
+
+func (m *RspAuthUser) GetUnitList() []uint32 {
+	if m != nil {
+		return m.UnitList
 	}
 	return nil
 }
