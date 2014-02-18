@@ -92,26 +92,30 @@ public class ViewManager
 			uiObjectDic.Add(obj.UIName,obj);
 	}
 
-	public UIBaseUnity GetViewObject(string name)
-	{
-		if(uiObjectDic.ContainsKey(name))
-		{	
+	public UIBaseUnity GetViewObject(string name) {
+		if(uiObjectDic.ContainsKey(name)) {	
 			return uiObjectDic[name];
 		}
-
 		return CreatObject(name);
 	}
 
-	UIBaseUnity CreatObject(string name)
-	{	
+	public UIBaseUnity GetBattleMap (string name) {
+		if (uiObjectDic.ContainsKey (name)) {
+			return uiObjectDic[name];
+		}
+
+	}
+
+	UIBaseUnity CreatNoUIObject (string name) {
+		Object sourceObject = LoadAsset.Instance.LoadAssetFromResources (name, ResourceEuum.Prefab) as Object;
+		GameObject go = GameObject.Instantiate (sourceObject);
+	}
+
+	UIBaseUnity CreatObject(string name) {	
 		GameObject sourceObject = LoadAsset.Instance.LoadAssetFromResources(name,ResourceEuum.Prefab) as GameObject;
-
 		GameObject go = NGUITools.AddChild(centerPanel,sourceObject);
-
 		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
-
 		uiObjectDic.Add(name,goScript);
-
 		return goScript;
 	}
 

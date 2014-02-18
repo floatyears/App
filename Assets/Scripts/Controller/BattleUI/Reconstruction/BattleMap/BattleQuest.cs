@@ -41,12 +41,9 @@ public class BattleQuest : UIBase
 
 	string backgroundName = "BattleBackground";
 
-	public BattleQuest (string name) : base(name)
-	{
+	public BattleQuest (string name) : base(name) {
 		bud = new BattleUseData ();
-
 		InitData ();
-
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
 		battleMap = viewManager.GetViewObject(tempName) as BattleMap;
@@ -54,18 +51,15 @@ public class BattleQuest : UIBase
 		battleMap.transform.parent = rootObject.transform;
 		battleMap.transform.localPosition = Vector3.zero;
 		Init(battleMap,tempName);
-
 		tempName = "Role";
 		role = viewManager.GetViewObject(tempName) as Role;
 		role.BQuest = this;
 		role.transform.parent = rootObject.transform;
 		Init(role,tempName);
-
 		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
 		background.transform.parent = viewManager.CenterPanel.transform.parent;
 		background.transform.localPosition = Vector3.zero;
 		background.Init (backgroundName);
-
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
@@ -107,8 +101,7 @@ public class BattleQuest : UIBase
 		return battleMap.GetPosition(coor.x, coor.y);
 	}
 
-	public void TargetItem(Coordinate coor)
-	{
+	public void TargetItem(Coordinate coor) {
 		role.StartMove(coor);
 	}
 	  
@@ -121,29 +114,29 @@ public class BattleQuest : UIBase
 		if(!battleMap.ReachMapItem (coor)) {
 			currentMapData = mapConfig.mapData[coor.x,coor.y];
 			if(currentMapData.MonsterID.Contains(100)) {
-//				Debug.LogError("opendoor");
 				MsgCenter.Instance.Invoke(CommandEnum.OpenDoor,null);
 				GameTimer.GetInstance().AddCountDown (2f, Exit);
 				return;
 			}
 			switch (currentMapData.ContentType) {
 			case MapItemEnum.None:
+				battleMap.waitMove = false;
 				break;
 			case MapItemEnum.Enemy:
-				MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, null);
-				ShowBattle();
-				role.Stop();
-				List<ShowEnemyUtility> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
-				battle.ShowEnemy(temp);
+				battleMap.waitMove = true;
+				battleMap.RotateAnim(MapItemEnemy);
 				break;
 			case MapItemEnum.key:
+				battleMap.waitMove = true;
+				battleMap.RotateAnim(MapItemKey);
 				break;
 			case MapItemEnum.Coin:
-
+				battleMap.waitMove = true;
+				battleMap.RotateAnim(MapItemCoin);
 				break;
 			case MapItemEnum.Trap:
-				TrapBase tb = GlobalData.tempTrapInfo[currentMapData.TypeValue];
-				MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+				battleMap.waitMove = true;
+				battleMap.RotateAnim(MapItemTrap);
 				break;
 			default:
 					break;
@@ -151,12 +144,35 @@ public class BattleQuest : UIBase
 		}
 	}
 
-	void ShowBattle()
-	{
-		if(battle == null)
-		{	
-			battle = new Battle("Battle");
+	void MapItemTrap() {
+		role.Stop();
+		battleMap.waitMove = false;
+		TrapBase tb = GlobalData.tempTrapInfo[currentMapData.TypeValue];
+		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+	}
 
+	void MapItemCoin() {
+		battleMap.waitMove = false;
+		role.Stop();
+	}
+
+	void MapItemKey() {
+		battleMap.waitMove = false;
+		role.Stop();
+	}
+
+	void MapItemEnemy() {
+		battleMap.waitMove = false;
+		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, null);
+		ShowBattle();
+		role.Stop();
+		List<ShowEnemyUtility> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
+		battle.ShowEnemy(temp);
+	}
+
+	void ShowBattle() {
+		if(battle == null) {	
+			battle = new Battle("Battle"); 
 			battle.CreatUI();
 		}
 
@@ -164,14 +180,11 @@ public class BattleQuest : UIBase
 			return;
 
 		battle.ShowUI();
-
 	}
 
-	void BattleEnd()
-	{
+	void BattleEnd() {
 		if(battle == null || battle.GetState == UIState.UIHide)
 			return;
-
 		battle.HideUI();
 	}
 
