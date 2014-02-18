@@ -317,9 +317,9 @@ message ReqClearQuset {
 	optional ProtoHeader	header 			= 1; 
 	optional uint32			questId			= 2; 
 	optional uint32			securityKey		= 3; 
-	optional uint32			getMoney		= 4; 
-	optional uint32			getExp			= 5; 
-	repeated UserUnit		getUnit			= 6; 	
+	optional uint32			getMoney		= 4;
+	repeated UserUnit		getUnit			= 5; //without uniqueId	
+	repeated uint32			hitGrid			= 6;
 }
 
 message RspClearQuset {
@@ -328,7 +328,7 @@ message RspClearQuset {
 	optional AccountInfo	acount			= 3;	
 	optional uint32			getMoney		= 4;
 	optional uint32			getExp			= 5;	
-	repeated uint32			getUnit			= 6; //uniqueId list
+	repeated UserUnit		getUnit			= 6; //with uniqueId 
 }
 
 message ReqGetQuestInfo {
@@ -434,21 +434,25 @@ message UserQuestInfo {
 message PartyItem {
 	optional int32 unitPos				= 1;
 	optional uint32 unitUniqueId		= 2;
-};
+}
 
 message UnitParty {
     optional int32      id				= 1;
 	repeated PartyItem  items			= 2;
-};
+}
+
+message PartyInfo {
+	repeated UnitParty		partyList			= 1;
+	optional int32			currentParty		= 2;
+}
 
 message UserInfoDetail {
 	optional UserInfo		user				= 1;
 	optional AccountInfo	account				= 2;
 	optional UserQuestInfo	quest				= 3;
-	repeated uint32			unitList			= 4; //unitId list
-	repeated UnitParty		partyList			= 5;
-	optional int32			currentParty		= 6;
-	optional LoginInfo		login				= 7;
+	repeated UserUnit		unitList			= 4;
+	optional PartyInfo		party				= 5;
+	optional LoginInfo		login				= 6;
 };
 
 message TerminalInfo {
@@ -512,13 +516,12 @@ message RspAuthUser {
 	optional UserInfo		user				= 2;
 	optional AccountInfo	account				= 3;
 	optional UserQuestInfo	quest				= 4;	
-	repeated uint32			unitList			= 5; //unitId list
-	repeated UnitParty		unitPartyList		= 6;
-	optional int32			currentUnitParty	= 7;
-	optional uint32			serverTime			= 8;
-	optional LoginInfo		login				= 9;
-	optional FriendList		friends				= 10;
-	repeated PresentInfo	present				= 11;	
+	repeated UserUnit		unitList			= 5;
+	optional PartyInfo		party				= 6;
+	optional uint32			serverTime			= 7;
+	optional LoginInfo		login				= 8;
+	optional FriendList		friends				= 9;
+	repeated PresentInfo	present				= 10;	
 };
 
 //-------------------------------------------------
@@ -538,7 +541,3 @@ message RspLoginPack {
 };
 
 //-------------------------------------------------
-message ReqModifyUnitParty {
-    repeated UnitParty      partys				= 1;
-};
-

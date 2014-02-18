@@ -2,46 +2,151 @@ package quest
 
 import (
 	"fmt"
-	//"errors"
-	"io/ioutil"
 	"log"
 	"net/http"
-	_ "strconv"
-	//"runtime/debug"
+	//"time"
 )
+
 import (
 	"../bbproto"
-	_ "../data"
+	"../common"
+	"../common/Error"
+	"../const"
+	"../data"
+	"../user/usermanage"
+
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
+/////////////////////////////////////////////////////////////////////////////
+
 func ClearQuestHandler(rsp http.ResponseWriter, req *http.Request) {
-	req_data, err := ioutil.ReadAll(req.Body)
-	if err != nil {
-		fmt.Fprintf(rsp, "%s", err)
-	}
-	log.Printf("GetQuestMap req.body: %v ", req_data)
+	var reqMsg bbproto.ReqClearQuest
+	rspMsg := &bbproto.RspClearQuest{}
 
-	msg := &bbproto.ReqClearQuset{}
-	err = proto.Unmarshal(req_data, msg) //unSerialize into msg
-
-	if err != nil {
-		log.Printf("parse proto err: %v", err)
-		fmt.Fprintf(rsp, "parse proto err: %v", err)
+	handler := &ClearQuest{}
+	e := handler.ParseInput(req, &reqMsg)
+	if e.IsError() {
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Error.New(cs.INVALID_PARAMS, e.Error())))
 		return
 	}
-	log.Printf("recv msg: %+v", msg)
 
-	//db := &data.Data{}
-	//db.Open("0")
-	//id := strconv.Itoa(int(*msg.Id))
-	//value, err := db.Get(id)
-	//log.Printf("get for '%v' ret: %v", msg.Id, value)
-	//db.Close()
+	e = handler.verifyParams(&reqMsg)
+	if e.IsError() {
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
+		return
+	}
 
-	//buffer, err := proto.Marshal(msg) //SerializeToOstream
-	buffer := "{mapinfo}"
-	size, err := rsp.Write([]byte(buffer))
+	// game logic
 
-	log.Printf("rsp msg[%d]: %+v", size, msg)
+	e = handler.ProcessLogic(&reqMsg, rspMsg)
+
+	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
+	log.Printf("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+type ClearQuest struct {
+	bbproto.BaseProtoHandler
+}
+
+func (t ClearQuest) FillResponseMsg(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.RspClearQuest, rspErr Error.Error) (outbuffer []byte) {
+	// fill protocol header
+	{
+		rspMsg.Header = reqMsg.Header //including the sessionId
+		rspMsg.Header.Code = proto.Int(rspErr.Code())
+		rspMsg.Header.Error = proto.String(rspErr.Error())
+	}
+
+	// serialize to bytes
+	outbuffer, err := proto.Marshal(rspMsg)
+	if err != nil {
+		return nil
+	}
+	return outbuffer
+}
+
+func (t ClearQuest) verifyParams(reqMsg *bbproto.ReqClearQuest) (err Error.Error) {
+	//TODO: input params validation
+	if reqMsg.Header.UserId == nil || reqMsg.StageId == nil || reqMsg.QuestId == nil {
+		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+	}
+
+	if *reqMsg.Header.UserId == 0 || *reqMsg.StageId == 0 || *reqMsg.QuestId == 0 {
+		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+	}
+
+	return Error.OK()
+}
+
+func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.RspClearQuest) (e Error.Error) {
+	cost := &common.Cost{}
+	cost.Begin()
+
+	stageId := *reqMsg.StageId
+	questId := *reqMsg.QuestId
+	uid := *reqMsg.Header.UserId
+
+	//get userinfo from user table
+	userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
+	if err != nil {
+		return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", uid, err.Error()))
+	}
+	if !isUserExists {
+		return Error.New(cs.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
+	}
+	log.Printf("[TRACE] getUser(%v) ret userinfo: %v", uid, userdetail.User)
+
+	db := &data.Data{}
+	err = db.Open(cs.TABLE_QUEST)
+	defer db.Close()
+	if err != nil {
+		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
+	}
+
+	//get questInfo
+	stageInfo, e := GetStageInfo(db, stageId)
+	if e.IsError() {
+		return e
+	}
+
+	questInfo, e := GetQuestInfo(db, &stageInfo, questId)
+	if e.IsError() {
+		return e
+	}
+	if questInfo == nil {
+		return Error.New(cs.EQ_GET_QUESTINFO_ERROR, "GetQuestInfo ret ok, but result is nil.")
+	}
+	log.Printf("questInfo:%+v", questInfo)
+
+	//update stamina
+	log.Printf("[TRACE]--Old Stamina:%v staminaRecover:%v", *userdetail.User.StaminaNow, *userdetail.User.StaminaRecover)
+	e = UpdateStamina(userdetail.User.StaminaRecover, userdetail.User.StaminaNow, *userdetail.User.StaminaMax, *questInfo.Stamina)
+	if e.IsError() {
+		return e
+	}
+	log.Printf("[TRACE]--New StaminaNow:%v staminaRecover:%v", *userdetail.User.StaminaNow, *userdetail.User.StaminaRecover)
+
+	//get quest config
+	questConf, e := GetQuestConfig(db, questId)
+	log.Printf("[TRACE] questConf:%+v", questConf)
+	if e.IsError() {
+		return e
+	}
+
+	//make quest data
+	questData, e := MakeQuestData(&questConf)
+	if e.IsError() {
+		return e
+	}
+
+	//fill response
+	rspMsg.StaminaNow = proto.Int32(*userdetail.User.StaminaNow - *questInfo.Stamina)
+	rspMsg.StaminaRecover = proto.Uint32(*userdetail.User.StaminaRecover)
+	rspMsg.DungeonData = &questData
+
+	log.Printf("=========== ClearQuest total cost %v ms. ============\n\n", cost.Cost())
+
+	return Error.OK()
 }
