@@ -200,7 +200,7 @@ message ReqClearQuset {
 	optional uint32			securityKey		= 3; 
 	optional uint32			getMoney		= 4; 
 	optional uint32			getExp			= 5; 
-	repeated UserUnit		getUnit			= 6; 	
+	repeated UserUnit		getUnit			= 6; //without uniqueId	
 }
 
 message RspClearQuset {
@@ -209,7 +209,7 @@ message RspClearQuset {
 	optional AccountInfo	acount			= 3;	
 	optional uint32			getMoney		= 4;
 	optional uint32			getExp			= 5;	
-	repeated uint32			getUnit			= 6; //uniqueId list
+	repeated UserUnit		getUnit			= 6; //with uniqueId 
 }
 
 message ReqGetQuestInfo {

@@ -139,7 +139,3 @@ message RspLoginPack {
 };
 
 //-------------------------------------------------
-message ReqModifyUnitParty {
-    repeated UnitParty      partys				= 1;
-};
-
