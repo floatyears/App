@@ -157,7 +157,7 @@ func AddUsers() {
 
 func umain() {
 	Init()
-	//AddUsers()
+	AddUsers()
 
 	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220101", 101)
 	LoginPack(101)

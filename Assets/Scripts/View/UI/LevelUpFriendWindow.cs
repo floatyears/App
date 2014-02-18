@@ -93,7 +93,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	}
 
 	void PickMaterial(GameObject go){
-		Debug.LogError("Pick Friend");
+//		Debug.LogError("Pick Friend");
 	}
 
 	void InitDragPanelArgs(){
@@ -198,7 +198,6 @@ public class ConfigAvailFriend{
 		friendItem.unitTextureSoucePath = "Avatar/role018";
 		availFriendList.Add(friendItem);
 
-//		Debug.Log(string.Format("AvailFriendList Count: {0}", availFriendList.Count));
 	}
 
 }

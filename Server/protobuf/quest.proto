@@ -121,7 +121,7 @@ message QuestDungeonData {
 	optional uint32			questId		= 1; 
 	repeated EnemyInfo		boss		= 2; // boss unit
 	repeated EnemyInfo		enemys		= 3; // enemy list
-	repeated ColorPercent	colors		= 4;
+	optional bytes			colors		= 4; 
 	repeated QuestFloor		floors		= 5; // 1, 2, 3... floors
 }
 
@@ -198,9 +198,9 @@ message ReqClearQuset {
 	optional ProtoHeader	header 			= 1; 
 	optional uint32			questId			= 2; 
 	optional uint32			securityKey		= 3; 
-	optional uint32			getMoney		= 4; 
-	optional uint32			getExp			= 5; 
-	repeated UserUnit		getUnit			= 6; 	
+	optional uint32			getMoney		= 4;
+	repeated UserUnit		getUnit			= 5; //without uniqueId	
+	repeated uint32			hitGrid			= 6;
 }
 
 message RspClearQuset {
@@ -209,7 +209,7 @@ message RspClearQuset {
 	optional AccountInfo	acount			= 3;	
 	optional uint32			getMoney		= 4;
 	optional uint32			getExp			= 5;	
-	repeated uint32			getUnit			= 6; //uniqueId list
+	repeated UserUnit		getUnit			= 6; //with uniqueId 
 }
 
 message ReqGetQuestInfo {

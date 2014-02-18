@@ -955,7 +955,7 @@ func (m *QuestConfig) GetFloors() []*QuestFloorConfig {
 
 // ------------------------------------------------------------
 type EnemyInfo struct {
-	UniqueId         *uint32    `protobuf:"varint,1,opt,name=uniqueId" json:"uniqueId,omitempty"`
+	Number           *uint32    `protobuf:"varint,1,opt,name=number" json:"number,omitempty"`
 	UnitId           *uint32    `protobuf:"varint,2,opt,name=unitId" json:"unitId,omitempty"`
 	Type             *EUnitType `protobuf:"varint,3,opt,name=type,enum=bbproto.EUnitType" json:"type,omitempty"`
 	Hp               *int32     `protobuf:"varint,4,opt,name=hp" json:"hp,omitempty"`
@@ -969,9 +969,9 @@ func (m *EnemyInfo) Reset()         { *m = EnemyInfo{} }
 func (m *EnemyInfo) String() string { return proto.CompactTextString(m) }
 func (*EnemyInfo) ProtoMessage()    {}
 
-func (m *EnemyInfo) GetUniqueId() uint32 {
-	if m != nil && m.UniqueId != nil {
-		return *m.UniqueId
+func (m *EnemyInfo) GetNumber() uint32 {
+	if m != nil && m.Number != nil {
+		return *m.Number
 	}
 	return 0
 }
@@ -1219,12 +1219,12 @@ func (m *QuestFloor) GetGridInfo() []*QuestGrid {
 }
 
 type QuestDungeonData struct {
-	QuestId          *uint32         `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
-	Boss             []*EnemyInfo    `protobuf:"bytes,2,rep,name=boss" json:"boss,omitempty"`
-	Enemys           []*EnemyInfo    `protobuf:"bytes,3,rep,name=enemys" json:"enemys,omitempty"`
-	Colors           []*ColorPercent `protobuf:"bytes,4,rep,name=colors" json:"colors,omitempty"`
-	Floors           []*QuestFloor   `protobuf:"bytes,5,rep,name=floors" json:"floors,omitempty"`
-	XXX_unrecognized []byte          `json:"-"`
+	QuestId          *uint32       `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
+	Boss             []*EnemyInfo  `protobuf:"bytes,2,rep,name=boss" json:"boss,omitempty"`
+	Enemys           []*EnemyInfo  `protobuf:"bytes,3,rep,name=enemys" json:"enemys,omitempty"`
+	Colors           []byte        `protobuf:"bytes,4,opt,name=colors" json:"colors,omitempty"`
+	Floors           []*QuestFloor `protobuf:"bytes,5,rep,name=floors" json:"floors,omitempty"`
+	XXX_unrecognized []byte        `json:"-"`
 }
 
 func (m *QuestDungeonData) Reset()         { *m = QuestDungeonData{} }
@@ -1252,7 +1252,7 @@ func (m *QuestDungeonData) GetEnemys() []*EnemyInfo {
 	return nil
 }
 
-func (m *QuestDungeonData) GetColors() []*ColorPercent {
+func (m *QuestDungeonData) GetColors() []byte {
 	if m != nil {
 		return m.Colors
 	}
@@ -1688,8 +1688,8 @@ type ReqClearQuset struct {
 	QuestId          *uint32      `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
 	SecurityKey      *uint32      `protobuf:"varint,3,opt,name=securityKey" json:"securityKey,omitempty"`
 	GetMoney         *uint32      `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
-	GetExp           *uint32      `protobuf:"varint,5,opt,name=getExp" json:"getExp,omitempty"`
-	GetUnit          []*UserUnit  `protobuf:"bytes,6,rep,name=getUnit" json:"getUnit,omitempty"`
+	GetUnit          []*UserUnit  `protobuf:"bytes,5,rep,name=getUnit" json:"getUnit,omitempty"`
+	HitGrid          []uint32     `protobuf:"varint,6,rep,name=hitGrid" json:"hitGrid,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -1725,16 +1725,16 @@ func (m *ReqClearQuset) GetGetMoney() uint32 {
 	return 0
 }
 
-func (m *ReqClearQuset) GetGetExp() uint32 {
-	if m != nil && m.GetExp != nil {
-		return *m.GetExp
-	}
-	return 0
-}
-
 func (m *ReqClearQuset) GetGetUnit() []*UserUnit {
 	if m != nil {
 		return m.GetUnit
+	}
+	return nil
+}
+
+func (m *ReqClearQuset) GetHitGrid() []uint32 {
+	if m != nil {
+		return m.HitGrid
 	}
 	return nil
 }
@@ -1745,7 +1745,7 @@ type RspClearQuset struct {
 	Acount           *AccountInfo `protobuf:"bytes,3,opt,name=acount" json:"acount,omitempty"`
 	GetMoney         *uint32      `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
 	GetExp           *uint32      `protobuf:"varint,5,opt,name=getExp" json:"getExp,omitempty"`
-	GetUnit          []uint32     `protobuf:"varint,6,rep,name=getUnit" json:"getUnit,omitempty"`
+	GetUnit          []*UserUnit  `protobuf:"bytes,6,rep,name=getUnit" json:"getUnit,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -1788,7 +1788,7 @@ func (m *RspClearQuset) GetGetExp() uint32 {
 	return 0
 }
 
-func (m *RspClearQuset) GetGetUnit() []uint32 {
+func (m *RspClearQuset) GetGetUnit() []*UserUnit {
 	if m != nil {
 		return m.GetUnit
 	}
@@ -2341,9 +2341,9 @@ func (m *UserQuestInfo) GetQuestCleared() bool {
 }
 
 type PartyItem struct {
-	UnitPos          *int32 `protobuf:"varint,1,opt,name=unitPos" json:"unitPos,omitempty"`
-	UnitUniqueId     *int32 `protobuf:"varint,2,opt,name=unitUniqueId" json:"unitUniqueId,omitempty"`
-	XXX_unrecognized []byte `json:"-"`
+	UnitPos          *int32  `protobuf:"varint,1,opt,name=unitPos" json:"unitPos,omitempty"`
+	UnitUniqueId     *uint32 `protobuf:"varint,2,opt,name=unitUniqueId" json:"unitUniqueId,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
 }
 
 func (m *PartyItem) Reset()         { *m = PartyItem{} }
@@ -2357,7 +2357,7 @@ func (m *PartyItem) GetUnitPos() int32 {
 	return 0
 }
 
-func (m *PartyItem) GetUnitUniqueId() int32 {
+func (m *PartyItem) GetUnitUniqueId() uint32 {
 	if m != nil && m.UnitUniqueId != nil {
 		return *m.UnitUniqueId
 	}
@@ -2388,14 +2388,37 @@ func (m *UnitParty) GetItems() []*PartyItem {
 	return nil
 }
 
+type PartyInfo struct {
+	PartyList        []*UnitParty `protobuf:"bytes,1,rep,name=partyList" json:"partyList,omitempty"`
+	CurrentParty     *int32       `protobuf:"varint,2,opt,name=currentParty" json:"currentParty,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *PartyInfo) Reset()         { *m = PartyInfo{} }
+func (m *PartyInfo) String() string { return proto.CompactTextString(m) }
+func (*PartyInfo) ProtoMessage()    {}
+
+func (m *PartyInfo) GetPartyList() []*UnitParty {
+	if m != nil {
+		return m.PartyList
+	}
+	return nil
+}
+
+func (m *PartyInfo) GetCurrentParty() int32 {
+	if m != nil && m.CurrentParty != nil {
+		return *m.CurrentParty
+	}
+	return 0
+}
+
 type UserInfoDetail struct {
 	User             *UserInfo      `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 	Account          *AccountInfo   `protobuf:"bytes,2,opt,name=account" json:"account,omitempty"`
 	Quest            *UserQuestInfo `protobuf:"bytes,3,opt,name=quest" json:"quest,omitempty"`
-	UnitList         []uint32       `protobuf:"varint,4,rep,name=unitList" json:"unitList,omitempty"`
-	PartyList        []*UnitParty   `protobuf:"bytes,5,rep,name=partyList" json:"partyList,omitempty"`
-	CurrentParty     *int32         `protobuf:"varint,6,opt,name=currentParty" json:"currentParty,omitempty"`
-	Login            *LoginInfo     `protobuf:"bytes,7,opt,name=login" json:"login,omitempty"`
+	UnitList         []*UserUnit    `protobuf:"bytes,4,rep,name=unitList" json:"unitList,omitempty"`
+	Party            *PartyInfo     `protobuf:"bytes,5,opt,name=party" json:"party,omitempty"`
+	Login            *LoginInfo     `protobuf:"bytes,6,opt,name=login" json:"login,omitempty"`
 	XXX_unrecognized []byte         `json:"-"`
 }
 
@@ -2424,25 +2447,18 @@ func (m *UserInfoDetail) GetQuest() *UserQuestInfo {
 	return nil
 }
 
-func (m *UserInfoDetail) GetUnitList() []uint32 {
+func (m *UserInfoDetail) GetUnitList() []*UserUnit {
 	if m != nil {
 		return m.UnitList
 	}
 	return nil
 }
 
-func (m *UserInfoDetail) GetPartyList() []*UnitParty {
+func (m *UserInfoDetail) GetParty() *PartyInfo {
 	if m != nil {
-		return m.PartyList
+		return m.Party
 	}
 	return nil
-}
-
-func (m *UserInfoDetail) GetCurrentParty() int32 {
-	if m != nil && m.CurrentParty != nil {
-		return *m.CurrentParty
-	}
-	return 0
 }
 
 func (m *UserInfoDetail) GetLogin() *LoginInfo {
@@ -2762,8 +2778,8 @@ type RspAuthUser struct {
 	User             *UserInfo      `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
 	Account          *AccountInfo   `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
 	Quest            *UserQuestInfo `protobuf:"bytes,4,opt,name=quest" json:"quest,omitempty"`
-	UnitPartyList    []*UnitParty   `protobuf:"bytes,5,rep,name=unitPartyList" json:"unitPartyList,omitempty"`
-	CurrentUnitParty *int32         `protobuf:"varint,6,opt,name=currentUnitParty" json:"currentUnitParty,omitempty"`
+	UnitList         []*UserUnit    `protobuf:"bytes,5,rep,name=unitList" json:"unitList,omitempty"`
+	Party            *PartyInfo     `protobuf:"bytes,6,opt,name=party" json:"party,omitempty"`
 	ServerTime       *uint32        `protobuf:"varint,7,opt,name=serverTime" json:"serverTime,omitempty"`
 	Login            *LoginInfo     `protobuf:"bytes,8,opt,name=login" json:"login,omitempty"`
 	Friends          *FriendList    `protobuf:"bytes,9,opt,name=friends" json:"friends,omitempty"`
@@ -2803,18 +2819,18 @@ func (m *RspAuthUser) GetQuest() *UserQuestInfo {
 	return nil
 }
 
-func (m *RspAuthUser) GetUnitPartyList() []*UnitParty {
+func (m *RspAuthUser) GetUnitList() []*UserUnit {
 	if m != nil {
-		return m.UnitPartyList
+		return m.UnitList
 	}
 	return nil
 }
 
-func (m *RspAuthUser) GetCurrentUnitParty() int32 {
-	if m != nil && m.CurrentUnitParty != nil {
-		return *m.CurrentUnitParty
+func (m *RspAuthUser) GetParty() *PartyInfo {
+	if m != nil {
+		return m.Party
 	}
-	return 0
+	return nil
 }
 
 func (m *RspAuthUser) GetServerTime() uint32 {
@@ -2930,23 +2946,6 @@ func (m *RspLoginPack) GetFriends() *FriendList {
 func (m *RspLoginPack) GetPresent() []*PresentInfo {
 	if m != nil {
 		return m.Present
-	}
-	return nil
-}
-
-// -------------------------------------------------
-type ReqModifyUnitParty struct {
-	Partys           []*UnitParty `protobuf:"bytes,1,rep,name=partys" json:"partys,omitempty"`
-	XXX_unrecognized []byte       `json:"-"`
-}
-
-func (m *ReqModifyUnitParty) Reset()         { *m = ReqModifyUnitParty{} }
-func (m *ReqModifyUnitParty) String() string { return proto.CompactTextString(m) }
-func (*ReqModifyUnitParty) ProtoMessage()    {}
-
-func (m *ReqModifyUnitParty) GetPartys() []*UnitParty {
-	if m != nil {
-		return m.Partys
 	}
 	return nil
 }

@@ -3,6 +3,7 @@ package quest
 import (
 	"fmt"
 	//"time"
+	"container/list"
 )
 
 import (
@@ -17,6 +18,99 @@ import (
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
 )
+
+func MakeColors(colorPercent []*bbproto.ColorPercent, count int) (colorPack []byte, e Error.Error) {
+	log.T("MakeColors[ %v ] ...", count)
+	colors := make([]byte, count)
+
+	totalPercent := int32(0)
+	colorConf := list.New()
+	for _, p := range colorPercent {
+		totalPercent += int32(*p.Percent * 100)
+		colorConf.PushBack(bbproto.ColorPercent{p.Color, proto.Float32(float32(totalPercent)), nil})
+	}
+
+	for i := 0; i < count; i++ {
+		randNum := common.Randn(totalPercent)
+		for e := colorConf.Front(); e != nil; e = e.Next() {
+			cp := e.Value.(bbproto.ColorPercent)
+			//log.T("\t ===>  loop list: (randNum:%v) {%+v %+v}", randNum, *cp.Color, *cp.Percent)
+			if float32(randNum) < *cp.Percent {
+				log.T("\t \t >>>  found match: randNum:%v < %v, color:%v", randNum, *cp.Percent, *cp.Color)
+				colors[i] = byte(*cp.Color)
+				break
+			}
+		}
+	}
+
+	return MakePackColors(colors)
+}
+
+// use 3 bits to store a color, Convert colors to colorPack
+func MakePackColors(colors []byte) (colorPack []byte, e Error.Error) {
+	const (
+		HEAD_BIT1 = byte(0x4) // 100
+		HEAD_BIT2 = byte(0x6) // 110
+
+		TAIL_BIT1 = byte(0x1) // 001
+		TAIL_BIT2 = byte(0x3) // 011
+	)
+
+	datalen := (len(colors) * 3) / 8
+	log.T("MakePackColors:: datLen:%v, mod:%v", datalen, len(colors)*8%3)
+	if (len(colors)*3)%8 != 0 {
+		datalen += 1
+	}
+
+	result := make([]byte, datalen)
+
+	count := len(colors)
+	k := 0
+	for i := 0; i < count; i += 8 {
+		log.T("result[%v]:%v colors[%v]: %v<<5 = %v", k, result[k], i, colors[i], colors[i]<<5)
+		result[k] += (colors[i] << 5)
+
+		if i+1 < count {
+			log.T("result[%v]:%v %v<< 2 = %v", k+1, result[k], colors[i+1], colors[i+1]<<2)
+			result[k] += (colors[i+1] << 2)
+		}
+		if i+2 < count {
+			log.T("result[%v]:%v %v&HEAD_BIT2  = %v", k+2, result[k], colors[i+2], colors[i+2]&HEAD_BIT2>>1)
+			result[k] += (colors[i+2] & HEAD_BIT2 >> 1)
+		}
+
+		if i+2 < count {
+			log.T("result[%v]:%v & TAIL_BIT1<< 7 = %v", k+3, result[k], colors[i+2]&TAIL_BIT1<<7)
+			result[k+1] += (colors[i+2] & TAIL_BIT1 << 7)
+		}
+		if i+3 < count {
+			result[k+1] += (colors[i+3] << 4)
+		}
+		log.T("result[%v]:%v", k+1, result[k+1])
+		if i+4 < count {
+			result[k+1] += (colors[i+4] << 1)
+		}
+		if i+5 < count {
+			result[k+1] += (colors[i+5] & HEAD_BIT1 >> 2)
+		}
+		if i+5 < count {
+			result[k+2] += (colors[i+5] & TAIL_BIT2 << 6)
+		}
+		if i+6 < count {
+			result[k+2] += (colors[i+6] << 3)
+		}
+		if i+7 < count {
+			result[k+2] += (colors[i+7])
+		}
+		k += 3
+	}
+
+	for k, b := range result {
+		log.T("[%v] MakePackColors result b=%v ", k, b)
+	}
+
+	return result, Error.OK()
+}
 
 func GetQuestInfo(db *data.Data, stageInfo *bbproto.StageInfo, questId uint32) (questInfo *bbproto.QuestInfo, e Error.Error) {
 	if db == nil || stageInfo == nil {
@@ -187,7 +281,7 @@ func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonD
 
 	questData.QuestId = config.QuestId
 	questData.QuestId = config.QuestId
-	questData.Colors = config.Colors
+	questData.Colors, e = MakeColors(config.Colors, cs.N_QUEST_COLOR_BLOCK_NUM)
 
 	for _, bossConf := range config.Boss {
 		questData.Boss = append(questData.Boss, bossConf.Enemy)

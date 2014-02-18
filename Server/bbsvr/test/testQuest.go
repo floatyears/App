@@ -30,7 +30,7 @@ func DataAddQuestConfig(questId uint32) error {
 	boss := &bbproto.EnemyInfoConf{}
 	enemy := &bbproto.EnemyInfo{}
 
-	enemy.UniqueId = proto.Uint32(1001)
+	enemy.Number = proto.Uint32(1001)
 	enemy.UnitId = proto.Uint32(2)
 	unitType := bbproto.EUnitType_UFIRE
 	enemy.Type = &unitType
@@ -51,7 +51,7 @@ func DataAddQuestConfig(questId uint32) error {
 		enemyConf := &bbproto.EnemyInfoConf{}
 		enemy := &bbproto.EnemyInfo{}
 
-		enemy.UniqueId = proto.Uint32(uint32(900 + i))
+		enemy.Number = proto.Uint32(uint32(900 + i))
 		enemy.UnitId = proto.Uint32(2 + uint32(i))
 		enemy.Type = &unitType
 		enemy.Hp = proto.Int32(1000 + int32(rand.Intn(100)*10))
@@ -77,6 +77,14 @@ func DataAddQuestConfig(questId uint32) error {
 		color.Color = &unitType
 		if unitType == bbproto.EUnitType_UHeart { //
 			color.Percent = proto.Float32(0.16)
+		} else if unitType == bbproto.EUnitType_UWIND { //
+			color.Percent = proto.Float32(0.1)
+		} else if unitType == bbproto.EUnitType_UFIRE { //
+			color.Percent = proto.Float32(0.1)
+		} else if unitType == bbproto.EUnitType_UWATER { //
+			color.Percent = proto.Float32(0.3)
+		} else if unitType == bbproto.EUnitType_ULIGHT { //
+			color.Percent = proto.Float32(0.04)
 		} else {
 			color.Percent = proto.Float32(0.14)
 		}
@@ -185,10 +193,12 @@ func DataAddStageInfo(stageId uint32, stageName string) error {
 	}
 	defer db.Close()
 
+	state := bbproto.EQuestState_QS_NEW
+
 	stageInfo := &bbproto.StageInfo{}
 	stageInfo.Version = proto.Int(1)
 	stageInfo.Id = proto.Uint32(stageId)
-	stageInfo.State = proto.Int(0)
+	stageInfo.State = &state
 	stageInfo.Type = proto.Int(1) // story or event
 	stageInfo.StageName = proto.String(stageName)
 	stageInfo.Description = proto.String("it is :" + stageName)
@@ -201,7 +211,7 @@ func DataAddStageInfo(stageId uint32, stageName string) error {
 	for i := 1; i <= 5; i++ {
 		qusetInfo := &bbproto.QuestInfo{}
 		qusetInfo.Id = proto.Uint32(100*stageId + uint32(i))
-		qusetInfo.State = proto.Int32(0)
+		qusetInfo.State = &state
 		qusetInfo.No = proto.Int32(1)
 		qusetInfo.Name = proto.String("quest name" + common.Itoa(i))   // quest name
 		qusetInfo.Story = proto.String("it is quest" + common.Itoa(i)) // story description
@@ -319,7 +329,7 @@ func main() {
 	//DataAddStageInfo(12, "Water City")
 	//DataAddStageInfo(13, "Win City")
 
-	DataAddQuestConfig(1101)
+	//DataAddQuestConfig(1101)
 	StartQuest(101, 11, 1101, 102)
 
 	log.Fatal("bbsvr test client finish.")

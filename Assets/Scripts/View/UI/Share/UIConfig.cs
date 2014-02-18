@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 public class UIConfig
 {
-
+	public static string stageDragPanelItemPath = "Stage/StageDragPanelItem";
+	public static string questDragPanelItemPath = "Prefabs/UI/Quest/QuestItem";
 	public static string Lab_T_Rank = "Rank:";
 	public static string Lab_V_Rank = "12";
 	public static string Lab_V_PlayerName = "Orca Chen";

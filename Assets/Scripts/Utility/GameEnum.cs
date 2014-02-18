@@ -131,10 +131,10 @@ public enum CommandEnum
 
 	OpenDoor					= 3045,
 
-	RotateDown					= 3046,
 	//Add By Ling yan	
 	LevelUpPanelFocus			= 4000,
-	ViewUnitDetail				= 4001,
+	TransmitStageInfo			= 4001,
+	TransmitMaterialUnitInfo		= 4002,
 }
 
 public enum MapItemEnum {
