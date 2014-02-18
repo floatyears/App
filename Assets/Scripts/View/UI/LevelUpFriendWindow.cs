@@ -198,7 +198,6 @@ public class ConfigAvailFriend{
 		friendItem.unitTextureSoucePath = "Avatar/role018";
 		availFriendList.Add(friendItem);
 
-//		Debug.Log(string.Format("AvailFriendList Count: {0}", availFriendList.Count));
 	}
 
 }

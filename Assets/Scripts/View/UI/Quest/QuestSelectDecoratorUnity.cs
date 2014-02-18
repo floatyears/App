@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using bbproto;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 {
+	StageInfo stageInfo;
 	public static UIImageButton btnSelect;
 	IUICallback iuiCallback;
 	bool temp = false;
@@ -23,22 +25,20 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 	private GameObject story_low_light;
 	private UILabel clearLabel;
 
-	private DragPanel questSelectScroller;
+	private DragPanel questDragPanel;
 	private GameObject scrollerItem;
 	private GameObject scrollView;
 	List<UITexture> pickEnemiesList = new List<UITexture>();
 
-	private string scrollerItemSourcePath = TempConfig.questItemSourcePath;
-	private string questSelectTextureSourcePath = TempConfig.storyTextureSourcePath;
-
 	private Dictionary< string, object > questSelectScrollerArgsDic = new Dictionary< string, object >();
-	List<TempQuest> tempQuestList;
+
+	List<QuestInfo> questInfoList = new List<QuestInfo>();
 
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
 		temp = origin is IUICallback;
 
-		tempQuestList = ConfigQuestList.questFriendList;
+		//tempQuestList = ConfigQuestList.questFriendList;
 		InitUI();
 	}
 	
@@ -48,56 +48,53 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		btnSelect.isEnabled = false;
 		SetUIActive(true);
 		CleanQuestInfo();
+//		Debug.LogError("ShowUI : " + Time.realtimeSinceStartup);
+		MsgCenter.Instance.AddListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
 		ShowTweenPostion();
-
+		MsgCenter.Instance.RemoveListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
 	}
 	
 	public override void DestoryUI(){
 		base.DestoryUI();
 	}
 
-	private void InitUI()
-	{
-          
+	void ReceiveStageInfo( object data ){
+		Debug.Log("Receive");
+		StageInfo receivedStageInfo = data as StageInfo;
+		stageInfo = receivedStageInfo;
+		questInfoList = stageInfo.quests;
+		InitDragPanel();
+//		Debug.LogError("Receive stage's quest count: " + questInfoList.Count);
+	}
+
+	void InitUI(){
 		scrollView = FindChild("ScrollView");
 		btnSelect = FindChild<UIImageButton>("ScrollView/btn_quest_select"); 
-
-		labDoorName = FindChild("Window/title/Label_door_name").GetComponent< UILabel>();
+		labDoorName = FindChild< UILabel >("Window/title/Label_door_name");
 		labDoorName.text = string.Empty;
-		labDoorType = FindChild("Window/title/Label_door_type_name").GetComponent< UILabel >();
+		labDoorType = FindChild< UILabel >("Window/title/Label_door_type_name");
 		labDoorType.text = string.Empty;
-
-		labFloorVaule = FindChild("Window/window_left/Label_floor_V").GetComponent< UILabel >();
+		labFloorVaule = FindChild< UILabel >("Window/window_left/Label_floor_V");
 		labFloorVaule.text = string.Empty;
-
-		labStaminaVaule = FindChild("Window/window_left/Label_stamina_V").GetComponent< UILabel >();
+		labStaminaVaule = FindChild< UILabel >("Window/window_left/Label_stamina_V");
 		labStaminaVaule.text = string.Empty;
-
-		labStoryContent = FindChild("Window/window_right/content_story/Label_story").GetComponent< UILabel >();
+		labStoryContent = FindChild< UILabel >("Window/window_right/content_story/Label_story");
 		labStoryContent.text = string.Empty;
-
-		labQuestInfo = FindChild("Window/window_right/content_detail/Label_quest_info").GetComponent< UILabel >();
-		labQuestInfo.text = string.Empty;
-
+		labQuestInfo = FindChild< UILabel >("Window/window_right/content_detail/Label_quest_info");
 		storyTextLabel = FindChild<UILabel>("Window/window_right/content_story/Label_story");
 		storyTextLabel.text = string.Empty;
-
 		rewardLineLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_Reward_Line");
 		rewardLineLabel.text = string.Empty;
-
 		rewardExpLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_Reward_Exp");
 		rewardExpLabel.text = string.Empty;
-
 		rewardCoinLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_Reward_Coin");
 		rewardCoinLabel.text= string.Empty;
-
 		questNameLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_quest_name");
 		questNameLabel.text = string.Empty;
-
 		avatarTexture = FindChild<UITexture>("Window/window_left/Texture_Avatar");
 		//avatarTexture.mainTexture ;
 
@@ -107,36 +104,55 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		foreach (var item in texs){
 			pickEnemiesList.Add(item);
 		} 
-//		Debug.LogError(string.Format("pick enemy count: {0}",pickEnemiesList.Count));
 
 		UIEventListener.Get(btnSelect.gameObject).onClick = ChangeScene;
-		CreateScroller();
 
 	}
 
-	private void AddStoryQuestItem(string path){
-		foreach (string textureName in TempConfig.storyQuestDic.Values){
-			questSelectScroller.AddItem(6, scrollerItem);
-			UITexture uiTexture = scrollerItem.GetComponent< UITexture >();
-			uiTexture.mainTexture = Resources.Load(path + textureName) as Texture;
+	void InitDragPanel(){
+		questDragPanel = CreateDragPanel(questInfoList.Count);
+		Debug.LogError("quest drag panel scroll item count : " + questDragPanel.ScrollItem.Count );
+		FillDragPanel(questDragPanel, questInfoList);
+		InitQuestSelectScrollArgs();
+		questDragPanel.RootObject.SetScrollView(questSelectScrollerArgsDic);
+	}
+
+	GameObject GetScrollItem( string resourcePath ){
+		GameObject scrollItem;
+		scrollItem = Resources.Load( resourcePath ) as GameObject;
+		return scrollItem;
+	}
+
+	DragPanel CreateDragPanel(int count){
+		Debug.Log("count: " + count);
+		GameObject scrollItem = GetScrollItem(UIConfig.questDragPanelItemPath);
+		if( scrollItem == null)
+			Debug.LogError("Not Find The Scroll Item");
+		else
+			Debug.LogError("Scroll Item Name : " +scrollItem.name );
+
+		DragPanel dragPanel = new DragPanel("QuestDragPanel", scrollItem);
+		dragPanel.CreatUI();
+		dragPanel.AddItem(count);
+		return dragPanel;
+	}
+
+	void FillDragPanel(DragPanel dragPanel, List<QuestInfo> infoList){
+//		Debug.LogError(dragPanel.ScrollItem.Count);
+		//Debug.LogError(dragPanel.RootObject.gameObject.name);
+		for(int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = dragPanel.ScrollItem[ i ];
+			ShowItemInfo( scrollItem, infoList[i]);
 		}
 	}
 
-	private void CreateScroller(){
-		string scrollerItemPath = "Quest/QuestScrollerItem";
-		scrollerItem = Resources.Load(scrollerItemPath) as GameObject;
-		
-		questSelectScroller = new DragPanel("QuestSelectScroller", scrollerItem);
-		questSelectScroller.CreatUI();
-		InitQuestSelectScrollArgs();
-		
-		AddStoryQuestItem(questSelectTextureSourcePath);
-		questSelectScroller.RootObject.SetScrollView(questSelectScrollerArgsDic);
-		
-		for (int i = 0; i < questSelectScroller.ScrollItem.Count; i++)
-			UIEventListener.Get(questSelectScroller.ScrollItem [i].gameObject).onClick = PickQuestInfo;
+	void ShowItemInfo(GameObject item, QuestInfo questInfo){
+		string textureSourcePath = string.Format("Avatar/role00{0}",questInfo.no);
+		Debug.Log(string.Format("textureSourcePath : {0}", textureSourcePath));
+		UITexture texture = item.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
+		texture.mainTexture = Resources.Load( textureSourcePath ) as Texture2D;
 	}
-
+	
 	private void ChangeScene(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
@@ -148,17 +164,17 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 	}
 
 	private void SetUIActive(bool b){
-		questSelectScroller.RootObject.gameObject.SetActive(b);
+		//questDragPanel.RootObject.gameObject.SetActive(b);
 	}
 
 	private void PickQuestInfo(GameObject go){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		btnSelect.isEnabled = true;
 
-		int questItemIndex = questSelectScroller.ScrollItem.IndexOf(go);
+		int questItemIndex = questDragPanel.ScrollItem.IndexOf(go);
 		//Debug.Log(string.Format("Quest Item Index is : {0}",questItemIndex));
 
-		ShowQuestInfo(tempQuestList[questItemIndex]);
+		//ShowQuestInfo(tempQuestList[questItemIndex]);
 	}
 
 	void CleanQuestInfo(){

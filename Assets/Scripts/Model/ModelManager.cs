@@ -92,6 +92,7 @@ public class ModelManager
 		ConfigAudio audioConfig = new ConfigAudio();
 		ConfigAvailFriend availFriend = new ConfigAvailFriend();
 		ConfigQuestList quest = new ConfigQuestList();
+		ConfigStage storyStage = new ConfigStage();
 
 
 	}
