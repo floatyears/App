@@ -121,7 +121,7 @@ message QuestDungeonData {
 	optional uint32			questId		= 1; 
 	repeated EnemyInfo		boss		= 2; // boss unit
 	repeated EnemyInfo		enemys		= 3; // enemy list
-	repeated ColorPercent	colors		= 4;
+	optional bytes			colors		= 4; 
 	repeated QuestFloor		floors		= 5; // 1, 2, 3... floors
 }
 

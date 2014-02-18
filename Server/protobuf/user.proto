@@ -113,12 +113,13 @@ message RspAuthUser {
 	optional UserInfo		user				= 2;
 	optional AccountInfo	account				= 3;
 	optional UserQuestInfo	quest				= 4;	
-	repeated UnitParty		unitPartyList		= 5;
-	optional int32			currentUnitParty	= 6;
-	optional uint32			serverTime			= 7;
-	optional LoginInfo		login				= 8;
-	optional FriendList		friends				= 9;
-	repeated PresentInfo	present				= 10;	
+	repeated uint32			unitList			= 5; //unitId list
+	repeated UnitParty		unitPartyList		= 6;
+	optional int32			currentUnitParty	= 7;
+	optional uint32			serverTime			= 8;
+	optional LoginInfo		login				= 9;
+	optional FriendList		friends				= 10;
+	repeated PresentInfo	present				= 11;	
 };
 
 //-------------------------------------------------

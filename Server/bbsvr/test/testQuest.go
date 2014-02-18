@@ -77,6 +77,14 @@ func DataAddQuestConfig(questId uint32) error {
 		color.Color = &unitType
 		if unitType == bbproto.EUnitType_UHeart { //
 			color.Percent = proto.Float32(0.16)
+		} else if unitType == bbproto.EUnitType_UWIND { //
+			color.Percent = proto.Float32(0.1)
+		} else if unitType == bbproto.EUnitType_UFIRE { //
+			color.Percent = proto.Float32(0.1)
+		} else if unitType == bbproto.EUnitType_UWATER { //
+			color.Percent = proto.Float32(0.3)
+		} else if unitType == bbproto.EUnitType_ULIGHT { //
+			color.Percent = proto.Float32(0.04)
 		} else {
 			color.Percent = proto.Float32(0.14)
 		}
@@ -312,7 +320,7 @@ func modify(v st) (re *st) {
 	return &r
 }
 
-func qmain() {
+func main() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
 
