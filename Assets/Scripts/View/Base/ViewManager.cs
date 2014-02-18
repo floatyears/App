@@ -100,9 +100,6 @@ public class ViewManager
 	}
 
 	public UIBaseUnity GetBattleMap (string name) {
-//		if (uiObjectDic.ContainsKey (name)) {
-//			return uiObjectDic[name];
-//		}
 		return CreatNoUIObject (name);
 	}
 
