@@ -10,6 +10,9 @@ public class MapItem : UIBaseUnity
 	}
 
 	private UITexture mapItemTexture;
+
+	private FloorRotate floorRotate;
+
 	public int  Width {
 		get{ return mapItemTexture.width; }
 	}
@@ -27,21 +30,21 @@ public class MapItem : UIBaseUnity
 		set {
 			isOld = value; 
 //			mapItemTexture.color = Color.gray;
+			//floorRotate.RotateFloor();
 		}
 		get{return isOld;}
 	}
 
 	private UITexture alreayQuestTexture;
 	public override void Init (string name) {
+//		Debug.LogError ("mapitem init : " + name);
 		base.Init (name);
-
-		//mapItemTexture = FindChild<UITexture>("MapItem");
-
-		//Texture2D map = LoadAsset.Instance.LoadMapItem() ;
+		mapItemTexture = FindChild<UITexture>("Floor/MapItem");
+		floorRotate = GetComponent<FloorRotate> ();
+		floorRotate.Init ();
+		//Texture2D map = LoadAsset.Instance.LoadMapItem();
 		//mapItemTexture.mainTexture = map;
-
 		//mapItemTexture.width = map.width;
-
 		///mapItemTexture.height = map.height;
 	}
 
@@ -51,6 +54,10 @@ public class MapItem : UIBaseUnity
 
 		//mapItemTexture.color = Color.white;
 	}
+
+	public void RotateAnim() {
+		floorRotate.RotateFloor ();
+	}                    
 
 	public void Around(bool isAround)
 	{

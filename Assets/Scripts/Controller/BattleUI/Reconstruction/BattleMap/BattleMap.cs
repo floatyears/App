@@ -20,6 +20,7 @@ public class BattleMap : UIBaseUnity
 	private MapDoor door;
 
 	private const float itemWidth = 127.5f;
+	public bool waitMove =  false;
 
 	public BattleQuest BQuest
 	{
@@ -85,18 +86,18 @@ public class BattleMap : UIBaseUnity
 		door.HideUI ();
 	}
 
-	public override void ShowUI ()
-	{
+	public override void ShowUI () {
 		base.ShowUI ();
 		door.ShowUI ();
 		gameObject.SetActive (true);
 		StartMap ();
 	}
 	  
-	void OnClickMapItem(GameObject go)
-	{
-		temp = go.GetComponent<MapItem>();
-		bQuest.TargetItem(temp.Coor);
+	void OnClickMapItem(GameObject go) {
+		if (!waitMove) {
+			temp = go.GetComponent<MapItem>();
+			bQuest.TargetItem(temp.Coor);
+		}
 	}
 
 	public Vector3 GetPosition(int x, int y) {
@@ -105,8 +106,7 @@ public class BattleMap : UIBaseUnity
 		return map[x, y].transform.localPosition;
 	}
 
-	public bool ReachMapItem(Coordinate coor)
-	{
+	public bool ReachMapItem(Coordinate coor) {
 		prevMapItem = map[coor.x,coor.y];
 		ChangeStyle(coor);
 		if(!useMapItem.Contains(prevMapItem))
@@ -119,9 +119,23 @@ public class BattleMap : UIBaseUnity
 
 		return true;
 	}
+	private Callback callback = null;
 
-	void ChangeStyle(Coordinate coor)
-	{
+	public void RotateAnim(Callback cb) {
+		MsgCenter.Instance.AddListener (CommandEnum.RotateDown, RotateDown);
+		callback = cb;
+		prevMapItem.RotateAnim ();
+	}
+
+	void RotateDown(object data) {
+		MsgCenter.Instance.RemoveListener (CommandEnum.RotateDown, RotateDown);
+		if (callback != null) {
+			callback ();	
+		}
+		callback = null;
+	}
+
+	void ChangeStyle(Coordinate coor) {
 		if(prevAround.Count > 0)
 		{
 			for (int i = 0; i < prevAround.Count; i++)

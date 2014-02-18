@@ -159,7 +159,7 @@ public class ConfigEnermy {
 		ei.attack = 50;
 		ei.nextAttack = 1;
 		ei.defense = 100;
-		ei.hp = 1000;
+		ei.hp = 100;
 		ei.type = (EUnitType)1;
 		TempEnemy te = new TempEnemy (ei);
 		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
@@ -169,7 +169,7 @@ public class ConfigEnermy {
 		ei.attack = 100;
 		ei.nextAttack = 1;
 		ei.defense = 100;
-		ei.hp = 2000;
+		ei.hp = 200;
 		ei.type = (EUnitType)2;
 		te = new TempEnemy (ei);
 		GlobalData.tempEnemyInfo.Add (ei.unitId,te);

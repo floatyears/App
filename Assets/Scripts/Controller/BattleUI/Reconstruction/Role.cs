@@ -14,43 +14,33 @@ public class Role : UIBaseUnity
 		get { return prevCoor; }
 	}
 
-	/// <summary>
-	/// role state
-	/// </summary>
 	private bool isMove = false;
-
+	public bool waitMove = false;
 	private Vector3 targetPoint;
-
 	private const int YOffset = 25;
 	private const int ZOffset = -40;
-
 	private Vector3 scale = new Vector3(30f,25f,30f);
 	private Vector3 angle = new Vector3(330f,0f,0f);
-
 	private List<Coordinate> firstWay = new List<Coordinate>();
-
 	private Vector3 distance = Vector3.zero;
-
-	public Vector3 TargetPoint
-	{
-		set
-		{
+	public Vector3 TargetPoint {
+		set {
 			targetPoint.x = value.x;
 			targetPoint.y = value.y + YOffset;
 			targetPoint.z = transform.localPosition.z;
 		}
 	}
-
 	private BattleQuest bQuest;
 
-	public BattleQuest BQuest
-	{
+	public BattleQuest BQuest {
 		set{ bQuest = value; }
 	}
 
+	private Jump jump;
+	private Vector3 initPosition = new Vector3 (0f, 350f, -240f);
 	public override void Init (string name) {
 		base.Init (name);
-
+		jump = GetComponent<Jump> ();
 		transform.localScale = Vector3.one;
 		transform.localRotation = Quaternion.Euler(angle);
 	}
@@ -59,17 +49,22 @@ public class Role : UIBaseUnity
 		base.CreatUI ();
 	}
 
-	void RoleStart()
-	{
+	void RoleStart() {
 		prevCoor = currentCoor = bQuest.RoleInitPosition;
 		
-		Vector3 pos = bQuest.GetPosition(currentCoor);
-		
-		transform.localPosition = new Vector3(pos.x,pos.y + YOffset ,pos.z + ZOffset);
+		Vector3 pos = GetRolePosition(bQuest.GetPosition(currentCoor));
+		jump.Init (initPosition);
+		jump.GameStart (pos);
+		//transform.localPosition = new Vector3(pos.x,pos.y + YOffset ,pos.z + ZOffset);
 		
 		SyncRoleCoordinate(currentCoor);
 		
 		Stop();
+	}
+
+	Vector3 GetRolePosition(Vector3 pos) {
+		Vector3 reallyPosition = new Vector3 (pos.x + 7f, pos.y + 30f, pos.z - 50f);
+		return reallyPosition;
 	}
 
 	public override void ShowUI () {
@@ -124,6 +119,7 @@ public class Role : UIBaseUnity
 	}
 
 	IEnumerator MoveByTrap() {
+		jump.JumpAnim ();
 		Stop ();
 		transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 10);
 		distance = transform.localPosition - targetPoint;
@@ -146,6 +142,9 @@ public class Role : UIBaseUnity
 		currentCoor.x = tc.x;
 		currentCoor.y = tc.y;
 		TargetPoint = bQuest.GetPosition(tc);
+		if (isMove) {
+			jump.JumpAnim ();
+		}
 	}
 	
 	void Update() {
@@ -162,18 +161,14 @@ public class Role : UIBaseUnity
 
 	Coordinate tempCoor; 
 
-	void MoveEnd()
-	{
+	void MoveEnd() {
 		if(!isMove) {
 			firstWay.Clear();
 		}
 		else {
 			tempCoor = firstWay[0];
-
 			firstWay.RemoveAt(0);
-
 			SyncRoleCoordinate(tempCoor);
-
 			if(firstWay.Count > 0)
 				SetTarget(firstWay[0]);
 			else

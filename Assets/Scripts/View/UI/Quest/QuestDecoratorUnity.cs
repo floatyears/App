@@ -145,12 +145,12 @@ public class ConfigStage{
 		StageInfo stageItem = new StageInfo();
 		stageItem.version = 1;
 		stageItem.id = 1;
-		stageItem.state = 1;
+		stageItem.state = EQuestState.QS_NEW;
 		stageItem.stageName = "第一监狱";
 		stageItem.description = "This is the description of stage.Here many interesting infomation could be caught! Enjoy your game!";
 		QuestInfo questItem = new QuestInfo();
 		questItem.no = 1;
-		questItem.state = 1;
+		questItem.state = EQuestState.QS_CLEARED;
 		questItem.name = "第一小关卡";
 		questItem.story = "This is the first level of the current stage";
 		questItem.stamina = 8;
