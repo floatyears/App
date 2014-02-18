@@ -110,10 +110,8 @@ public class QuestDecoratorUnity : UIComponentUnity {
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 		if(!storyDragPanel.ScrollItem.Contains(go))	return;
 		int index = storyDragPanel.ScrollItem.IndexOf(go);
-//		Debug.Log("Click Story Stage Scroll Item's IndexOf is : " + index + " time : " + Time.realtimeSinceStartup);	
 		StageInfo curSelectStage = storyStageInfoList[ index ];
-		MsgCenter.Instance.Invoke(CommandEnum.TransmitStageInfo, curSelectStage);
-//		DeDebug.Log("Click Story Stage Scroll Item's IndexOf is : " + index + " time : " + Time.realtimeSinceStartup);	
+		MsgCenter.Instance.Invoke(CommandEnum.TransmitStageInfo, curSelectStage);	
 	}
 
 	void ClickEventStage(GameObject go) {
@@ -124,7 +122,6 @@ public class QuestDecoratorUnity : UIComponentUnity {
 		Debug.Log("Click Event Stage Scroll Item's IndexOf is : " + index);
 		StageInfo curSelectStage = eventStageInfoList[ index ];
 		MsgCenter.Instance.Invoke(CommandEnum.TransmitStageInfo, curSelectStage);
-		//Debug.LogError(curSelectStage.quests.Count);
 	}
 
 	void ShowTween() {
@@ -188,6 +185,8 @@ public class ConfigStage{
 			QuestInfo storyQuestItem = new QuestInfo();
 			storyQuestItem.id = 991;
 			storyQuestItem.no = 1;
+			List<uint> bossIDList = new List<uint>(){11,12,13};
+			//storyQuestItem.bossId = bossIDList;
 			storyQuestItem.state = EQuestState.QS_CLEARED;
 			storyQuestItem.name = "第一小关卡";
 			storyQuestItem.story = "This is the first level of the current stage";
@@ -202,6 +201,8 @@ public class ConfigStage{
 			storyQuestItem = new QuestInfo();
 			storyQuestItem.id = 992;
 			storyQuestItem.no = 2;
+			bossIDList = new List<uint>(){12,13,14};
+			//storyQuestItem.bossId = bossIDList;
 			storyQuestItem.state = EQuestState.QS_CLEARED;
 			storyQuestItem.name = "第二小关卡";
 			storyQuestItem.story = "This is the first level of the current stage";
@@ -216,6 +217,8 @@ public class ConfigStage{
 			storyQuestItem = new QuestInfo();
 			storyQuestItem.id = 993;
 			storyQuestItem.no = 3;
+			bossIDList = new List<uint>(){13,14,15};
+//			storyQuestItem.bossId = bossIDList;
 			storyQuestItem.state = EQuestState.QS_NEW;
 			storyQuestItem.name = "第三小关卡";
 			storyQuestItem.story = "This is the first level of the current stage";
@@ -243,6 +246,8 @@ public class ConfigStage{
 			QuestInfo eventQuestItem = new QuestInfo();
 			eventQuestItem.id = 991;
 			eventQuestItem.no = 1;
+			bossIDList = new List<uint>(){14,15,16};
+//			eventQuestItem.bossId = bossIDList;
 			eventQuestItem.state = EQuestState.QS_CLEARED;
 			eventQuestItem.name = "第一小关卡";
 			eventQuestItem.story = "This is the first level of the current stage";
@@ -257,6 +262,8 @@ public class ConfigStage{
 			eventQuestItem = new QuestInfo();
 			eventQuestItem.id = 992;
 			eventQuestItem.no = 2;
+			bossIDList = new List<uint>(){17,18,19};
+//			eventQuestItem.bossId = bossIDList;
 			eventQuestItem.state = EQuestState.QS_CLEARED;
 			eventQuestItem.name = "第二小关卡";
 			eventQuestItem.story = "This is the first level of the current stage";
@@ -271,6 +278,8 @@ public class ConfigStage{
 			eventQuestItem = new QuestInfo();
 			eventQuestItem.id = 993;
 			eventQuestItem.no = 3;
+			bossIDList = new List<uint>(){18,19,20};
+//			eventQuestItem.bossId = bossIDList;
 			eventQuestItem.state = EQuestState.QS_NEW;
 			eventQuestItem.name = "第三小关卡";
 			eventQuestItem.story = "This is the first level of the current stage";

@@ -69,12 +69,15 @@ public class DragPanel : UIBase
 			                    " scroll view item is null. don't creat drag panel");
 			return ;
 		}
+
 		for (int i = 0; i < count; i++) {
 			GameObject go = dragPanelView.AddObject(sourceObject);
 			if(go != null){
 				scrollItem.Add(go);
 			}
+
 		}
+
 	}
 	public GameObject AddScrollerItem( GameObject obj ,bool isClean = false) {
 		if (obj != null) {
