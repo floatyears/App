@@ -119,7 +119,7 @@ public class QuestDecoratorUnity : UIComponentUnity {
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 		if(!eventDragPanel.ScrollItem.Contains(go))	return;
 		int index = eventDragPanel.ScrollItem.IndexOf(go);
-		Debug.Log("Click Event Stage Scroll Item's IndexOf is : " + index);
+//		Debug.Log("Click Event Stage Scroll Item's IndexOf is : " + index);
 		StageInfo curSelectStage = eventStageInfoList[ index ];
 		MsgCenter.Instance.Invoke(CommandEnum.TransmitStageInfo, curSelectStage);
 	}
@@ -285,8 +285,8 @@ public class ConfigStage{
 			eventQuestItem.story = "This is the first level of the current stage";
 			eventQuestItem.stamina = 15;
 			eventQuestItem.floor = 8;
-			eventQuestItem.rewardExp = 125;
-			eventQuestItem.rewardCoin = 287;
+			eventQuestItem.rewardExp = 111;
+			eventQuestItem.rewardCoin = 245;
 			eventEnemyIdList = new List<uint>(){2,4,6,8,10,12,14,16};
 			eventQuestItem.enemyId.AddRange(storyEnemyList);
 		eventStageItem.quests.Add(eventQuestItem);

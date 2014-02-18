@@ -103,6 +103,10 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 	}
 
 	void InitDragPanel(){
+		if(questDragPanel != null){
+//			Debug.LogError("Not Need Create Drag Panel");
+			return ;
+		}
 		questDragPanel = CreateDragPanel(questInfoList.Count);
 		FillDragPanel(questDragPanel, questInfoList);
 		InitQuestSelectScrollArgs();
@@ -161,7 +165,8 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 
 	void ClickQuestItem(GameObject go ){
 		int index = questDragPanel.ScrollItem.IndexOf( go );
-		Debug.LogError("Index: " + index);
+//		Debug.LogError("Index : " + index);
+//		Debug.LogError("questInfoList Count: " + questInfoList.Count);
 		QuestInfo currentInfo = questInfoList[ index ];
 
 		labStaminaVaule.text = currentInfo.stamina.ToString();
@@ -209,7 +214,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		questNameLabel.text = string.Empty;
 		questNameLabel.text = string.Empty;
 		avatarTexture.mainTexture = null;
-
+		labDoorName.text = string.Empty;
 		foreach (var item in pickEnemiesList){
 			item.mainTexture = null;
 		}

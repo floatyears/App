@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class LevelUpMaterialWindow : UIComponentUnity {
 	DragPanel dragPanel;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	//Dictionary<GameObject,>
+	private Dictionary<GameObject, UnitBaseInfo> materialItemInfo = new Dictionary<GameObject, UnitBaseInfo>();
+	List<UnitInfo> materialUnitInfoList = new List<UnitInfo>();
+
+
+
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
 		InitUI();
@@ -50,18 +55,25 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 			UITexture tex = target.GetComponentInChildren<UITexture>();
 			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [GlobalData.HaveCard [i]];
 			tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
-//			UIEventListenerCustom ulc = UIEventListenerCustom.Get(target);
-//			ulc.onClick = PickMaterial;
-//			ulc.LongPress = LongPressPickMaterial;
-//			materialItemInfo.Add(target, ubi);
-			UIEventListenerCustom.Get(target).onClick = PickMaterial;
+			UIEventListenerCustom ulc = UIEventListenerCustom.Get(target);
+			ulc.onClick = PickMaterial;
+			ulc.LongPress = LongPressPickMaterial;
+			materialItemInfo.Add(target, ubi);
 		}
 		InitDragPanelArgs();
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 
-	void PickMaterial(GameObject friendItem){
+	void LongPressPickMaterial(GameObject go){
+		UnitBaseInfo ubi = materialItemInfo [go];
+		MsgCenter.Instance.Invoke(CommandEnum.EnterUnitInfo, ubi);
+	}
+	
+	void PickMaterial(GameObject go){
 		//Debug.LogError("Pick Material");
+		int index = dragPanel.ScrollItem.IndexOf( go );
+		UnitInfo pickedUnitInfo = materialUnitInfoList[ index ];
+		MsgCenter.Instance.Invoke( CommandEnum.TransmitMaterialUnitInfo, pickedUnitInfo );
 	}
 
 	void InitDragPanelArgs(){
@@ -77,3 +89,39 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		dragPanelArgs.Add("cellHeight",		120);
 	}
 }
+
+public class ConfigOwnedUnitInfo{
+	public static List<UnitInfo> ownedUnitInfo = new List<UnitInfo>();
+	public ConfigOwnedUnitInfo(){
+		Config();
+	}
+	
+	void Config(){
+		//Debug.Log("Start to Config the data of stage");
+
+//		UnitInfo tempUnitInfo = new UnitInfo();
+//
+//		tempUnitInfo.id = 1;
+//		tempUnitInfo.name = "Zeus";
+//		tempUnitInfo.type = EUnitType.UFIRE;
+//		tempUnitInfo.race = 0;
+//		tempUnitInfo.skill1 = 1;
+//		tempUnitInfo.skill2 = 2;
+//		tempUnitInfo.leaderSkill = 3;
+//		tempUnitInfo.activeSkill = 4;
+//		tempUnitInfo.passiveSkill = 5;
+//		tempUnitInfo.maxLevel = 50;
+//		tempUnitInfo.rare = 3;
+//		tempUnitInfo.expType = 1;
+//		tempUnitInfo.cost = 8;
+//		tempUnitInfo.levelUpValue = 329;
+//
+//		//ownedUnitInfo.Add();
+	
+
+
+	}
+}
+
+
+

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using bbproto;
 public class LevelUpReadyPanel: UIComponentUnity {
 
 	List<GameObject> TabList = new List<GameObject>();
@@ -14,6 +14,17 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
+		MsgCenter.Instance.AddListener(CommandEnum.TransmitMaterialUnitInfo, ReceiveUnitInfo );
+	}
+
+	public override void HideUI(){
+		base.HideUI();
+		MsgCenter.Instance.RemoveListener(CommandEnum.TransmitMaterialUnitInfo, ReceiveUnitInfo );
+	}
+
+	void ReceiveUnitInfo( object data){
+		Debug.Log("Receive Material UnitInfo");
+		UnitInfo pickedUnitInfo = data as UnitInfo;
 	}
 
 	void InitUI(){

@@ -93,7 +93,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	}
 
 	void PickMaterial(GameObject go){
-		Debug.LogError("Pick Friend");
+//		Debug.LogError("Pick Friend");
 	}
 
 	void InitDragPanelArgs(){

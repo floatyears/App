@@ -134,6 +134,7 @@ public enum CommandEnum
 	//Add By Ling yan	
 	LevelUpPanelFocus			= 4000,
 	TransmitStageInfo			= 4001,
+	TransmitMaterialUnitInfo		= 4002,
 }
 
 public enum MapItemEnum {
