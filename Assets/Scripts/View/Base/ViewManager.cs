@@ -100,15 +100,15 @@ public class ViewManager
 	}
 
 	public UIBaseUnity GetBattleMap (string name) {
-		if (uiObjectDic.ContainsKey (name)) {
-			return uiObjectDic[name];
-		}
-
+		return CreatNoUIObject (name);
 	}
 
 	UIBaseUnity CreatNoUIObject (string name) {
 		Object sourceObject = LoadAsset.Instance.LoadAssetFromResources (name, ResourceEuum.Prefab) as Object;
-		GameObject go = GameObject.Instantiate (sourceObject);
+		GameObject go = GameObject.Instantiate (sourceObject) as GameObject;
+		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
+//		uiObjectDic.Add(name,goScript);
+		return goScript;
 	}
 
 	UIBaseUnity CreatObject(string name) {	
