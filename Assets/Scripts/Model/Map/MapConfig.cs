@@ -63,6 +63,9 @@ public class MapConfig : IOriginModel
 		singleMapItem = mapData [1, 1];
 		singleMapItem.ContentType = MapItemEnum.Trap;
 		singleMapItem.TypeValue = 1;
+		singleMapItem = mapData [2, 1];
+		singleMapItem.ContentType = MapItemEnum.Coin;
+		singleMapItem.TypeValue = 0;
 //		singleMapItem = mapData [1, 2];
 //		singleMapItem.ContentType = MapItemEnum.Trap;
 //		singleMapItem.TypeValue = 5;

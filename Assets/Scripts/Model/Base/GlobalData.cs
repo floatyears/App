@@ -43,6 +43,20 @@ public class GlobalData  {
 			return friendBaseInfo;
 		}
 	}
+	
+
+//	public static object GetEffect (Effect effect) {
+//		int type = (int)effect;
+//		object obj = null;
+
+//		if (effect == Effect.DragCard) {
+//			if (!tempEffect.TryGetValue (type, out obj)) {
+//				string path = GetEffectPath(type);
+//				obj = Resources.Load(path);
+//				tempEffect.Add(type,obj);
+//			}
+//		}
+//	}
 
 	public static Object GetEffect (int type) {
 		Object obj = null;
@@ -66,9 +80,16 @@ public class GlobalData  {
 		case 3:
 			path = "Effect/wind";
 			break;
+		case 8:
+			path = "Effect/card_effect";
+			break;
 		default:
 				break;
 		}
 		return path;
 	}
+}
+
+public enum Effect {
+	DragCard = 8,
 }

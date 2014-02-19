@@ -27,12 +27,6 @@ public class Fight : UIBase
 
 	private List<CardItem> selectTarget = new List<CardItem>();
 
-//	private int ignoreLayer = 0;
-
-//	private float width=0f;
-
-//	private float intervWidth = 10f;
-
 	public Fight(string uiName) : base(uiName)
 	{
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
@@ -58,54 +52,22 @@ public class Fight : UIBase
 //		ignoreLayer = GameLayer.LayerToInt(GameLayer.IgnoreCard);
 	}
 
-	void SwitchInput(bool isShield)
-	{
+	void SwitchInput(bool isShield) {
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
-
 		main.GInput.IsCheckInput = !isShield;
 	}
 
-	public override void CreatUI ()
-	{
+	public override void CreatUI () {
 		dragParent = NGUITools.AddChild(parentObject).transform;
-
 		CreatSingle();
-
 		CreateMulti();
 	}
 
-	void CreatSingle()
-	{
-//		GameObject go = LoadAsset.Instance.LoadAssetFromResources("Card",ResourceEuum.Prefab) as GameObject;
-
+	void CreatSingle() {
 		singlePoolParent = NGUITools.AddChild(parentObject);
-		
 		singlePoolParent.name = "singlePoolParent";
-
-//		cardPSingleItem = new CardPoolSingleItem[Config.cardPoolSingle];
-		
-//		for (int i = 0; i < cardPSingleItem.Length; i++) 
-//		{
-//			tempObject = NGUITools.AddChild(singlePoolParent,go);
-//			
-//			tempObject.layer = GameLayer.ActorCard;
-//			
-//			CardPoolSingleItem temp = tempObject.AddComponent<CardPoolSingleItem>();
-//			
-//			temp.Init("CardSinglePool" + i);
-//			
-//			temp.SetInitPosition(i);
-//			
-//			cardPSingleItem[i] = temp;
-//		}
-
-//		intervWidth = cardPSingleItem[0].interv;
-
-//		BoxCollider collider = NGUITools.AddWidgetCollider(parentObject);
-
-//		width = collider.size.x;
 	}
 
 	void CreateMulti()

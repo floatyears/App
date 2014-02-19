@@ -16,12 +16,12 @@ public class MapDoor : UIBaseUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, OpenDoor);
+		//MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, OpenDoor);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.OpenDoor, OpenDoor);
+		//MsgCenter.Instance.RemoveListener (CommandEnum.OpenDoor, OpenDoor);
 	}
 
 	public override void DestoryUI () {

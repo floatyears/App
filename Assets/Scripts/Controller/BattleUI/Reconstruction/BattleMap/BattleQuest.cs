@@ -47,12 +47,14 @@ public class BattleQuest : UIBase
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
 		battleMap = viewManager.GetBattleMap(tempName) as BattleMap;
+		battleMap.transform.localPosition = new Vector3 (-1100f, 0f, 0f);
 		battleMap.BQuest = this;
 //		battleMap.transform.parent = rootObject.transform;
-		battleMap.transform.localPosition = Vector3.zero;
+		//battleMap.transform.localPosition = Vector3.zero;
 		Init(battleMap,tempName);
 		tempName = "Role";
 		role = viewManager.GetBattleMap(tempName) as Role;
+		//role.transform.localPosition = new Vector3 (-1100f, 0f, 0f);
 		role.BQuest = this;
 //		role.transform.parent = rootObject.transform;
 		Init(role,tempName);
@@ -118,9 +120,11 @@ public class BattleQuest : UIBase
 				GameTimer.GetInstance().AddCountDown (2f, Exit);
 				return;
 			}
+			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 			switch (currentMapData.ContentType) {
 			case MapItemEnum.None:
-				battleMap.waitMove = false;
+				battleMap.waitMove = true;
+				battleMap.RotateAnim(MapItemNone);
 				break;
 			case MapItemEnum.Enemy:
 				battleMap.waitMove = true;
@@ -132,6 +136,7 @@ public class BattleQuest : UIBase
 				break;
 			case MapItemEnum.Coin:
 				battleMap.waitMove = true;
+				battleMap.ShowBox();
 				battleMap.RotateAnim(MapItemCoin);
 				break;
 			case MapItemEnum.Trap:
@@ -149,21 +154,31 @@ public class BattleQuest : UIBase
 		battleMap.waitMove = false;
 		TrapBase tb = GlobalData.tempTrapInfo[currentMapData.TypeValue];
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
 	void MapItemCoin() {
 		battleMap.waitMove = false;
 		role.Stop();
+		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
 	void MapItemKey() {
 		battleMap.waitMove = false;
 		role.Stop();
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+	}
+
+	void MapItemNone () {
+		battleMap.waitMove = false;
+		role.Stop();
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
 	void MapItemEnemy() {
 		battleMap.waitMove = false;
-		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, null);
+
 		ShowBattle();
 		role.Stop();
 		List<ShowEnemyUtility> temp = bud.GetEnemyInfo(currentMapData.MonsterID);

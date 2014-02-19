@@ -50,7 +50,7 @@ public enum SceneEnum
 
 	Fight,
 }
-
+//
 public enum CommandEnum
 {
 	None 					= 0,
@@ -131,6 +131,7 @@ public enum CommandEnum
 
 	OpenDoor					= 3045,
 	RotateDown					= 3046,
+	MeetCoin					= 3047,
 	//Add By Ling yan	
 	LevelUpPanelFocus			= 4000,
 	TransmitStageInfo			= 4001,

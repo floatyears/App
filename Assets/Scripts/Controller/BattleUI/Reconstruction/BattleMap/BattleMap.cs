@@ -1,44 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleMap : UIBaseUnity 
-{
+public class BattleMap : UIBaseUnity {
 	private MapItem template;
-
 	private MapItem[,] map;
-
 	private MapItem temp;
-
 	private BattleQuest bQuest;
-
 	private List<MapItem> prevAround = new List<MapItem>();
-
 	private List<MapItem> useMapItem = new List<MapItem>();
-
 	private MapItem prevMapItem;
-
 	private MapDoor door;
-
 	private const float itemWidth = 127.5f;
-	public bool waitMove =  false;
 
-	public BattleQuest BQuest
-	{
+	private static GameObject box;
+	public static GameObject Box {
+		get { return box; }
+	}
+
+	public bool waitMove =  false;
+	
+	public BattleQuest BQuest {
 		set{ bQuest = value; }
 	}
 
-	public override void Init (string name)
-	{
+	public override void Init (string name) {
 		base.Init (name);
 		map = new MapItem[bQuest.MapWidth, bQuest.MapHeight];
 		template = FindChild<MapItem>("SingleMap");
 		template.Init("SingleMap");
-
-		door = FindChild<MapDoor>("Door_1");
-		door.Init ("Door_1");
-
+//		door = FindChild<MapDoor>("Door_1");
+//		door.Init ("Door_1");
 		template.gameObject.SetActive(false);
 		gameObject.transform.localPosition += Vector3.right * 5f;
+		box = transform.Find ("magic_Box04").gameObject;
+		box.SetActive (false);
 	}
 
 	public override void CreatUI ()
@@ -48,12 +43,9 @@ public class BattleMap : UIBaseUnity
 		//StartMap ();
 	}
 
-	void StartMap()
-	{
+	void StartMap() {
 		int x = map.GetLength(0);
-		
 		int y = map.GetLength(1);
-		
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
 				if(map[i,j] == null) {
@@ -75,7 +67,7 @@ public class BattleMap : UIBaseUnity
 		}
 		float xCoor =  template.InitPosition.x + (x / 2) * itemWidth;
 		float yCoor = template.InitPosition.y + y * itemWidth;
-		door.SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
+//		door.SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
 	}
 
 	public override void HideUI ()
@@ -83,12 +75,12 @@ public class BattleMap : UIBaseUnity
 		base.HideUI ();
 		useMapItem.Clear ();
 		gameObject.SetActive (false);
-		door.HideUI ();
+//		door.HideUI ();
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		door.ShowUI ();
+//		door.ShowUI ();
 		gameObject.SetActive (true);
 		StartMap ();
 	}
@@ -103,16 +95,15 @@ public class BattleMap : UIBaseUnity
 	public Vector3 GetPosition(int x, int y) {
 		if(x > map.GetLength(0) || y > map.GetLength(1))
 			return Vector3.zero;
-		return map[x, y].transform.localPosition;
+//		Debug.LogError ("x : " + x + "y : " + y + "position : " + map [x, y].transform.position);
+		return map[x, y].transform.position;
 	}
 
 	public bool ReachMapItem(Coordinate coor) {
 		prevMapItem = map[coor.x,coor.y];
 		ChangeStyle(coor);
-		if(!useMapItem.Contains(prevMapItem))
-		{
+		if(!useMapItem.Contains(prevMapItem)) {
 			useMapItem.Add(prevMapItem);
-			LogHelper.Log("reach item prevmap item");
 			prevMapItem.IsOld = true;
 			return false;
 		}
@@ -127,6 +118,10 @@ public class BattleMap : UIBaseUnity
 		prevMapItem.RotateAnim ();
 	}
 
+	public void ShowBox() {
+		prevMapItem.ShowBox ();
+	}
+
 	void RotateDown(object data) {
 		MsgCenter.Instance.RemoveListener (CommandEnum.RotateDown, RotateDown);
 		if (callback != null) {
@@ -136,10 +131,8 @@ public class BattleMap : UIBaseUnity
 	}
 
 	void ChangeStyle(Coordinate coor) {
-		if(prevAround.Count > 0)
-		{
-			for (int i = 0; i < prevAround.Count; i++)
-			{
+		if(prevAround.Count > 0) {
+			for (int i = 0; i < prevAround.Count; i++) {
 				prevAround[i].Around(false);
 			}
 

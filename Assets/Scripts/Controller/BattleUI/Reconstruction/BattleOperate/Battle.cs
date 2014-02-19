@@ -18,6 +18,7 @@ public class Battle : UIBase
 	private BattleCard battleCard;
 	private BattleCardArea battleCardArea;
 	private BattleEnemy battleEnemy;
+	private CountDownUnity countDownUI;
 
 	private float ZOffset = -100f;
 	
@@ -26,8 +27,7 @@ public class Battle : UIBase
 
 	public int cardHeight = 0;
 
-	public Battle(string name):base(name)
-	{
+	public Battle(string name):base(name) {
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
 		nguiMainCamera = ViewManager.Instance.MainUICamera;
 		mainCamera = nguiMainCamera.camera;
@@ -43,15 +43,12 @@ public class Battle : UIBase
 		GameInput.OnDragEvent += HandleOnDragEvent;
 	}
 	
-	public override void CreatUI ()
-	{
+	public override void CreatUI () {
 		CreatBack();
-
 		CreatCard();
-
 		CreatArea();
-
 		CreatEnemy();
+		CreatCountDown ();
 
 		AddSelfObject (battleCardPool);
 		AddSelfObject (battleCard);
@@ -118,24 +115,24 @@ public class Battle : UIBase
 
 	void Attack() {
 		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
-		//SwitchInput(true);
 		ShieldInput (false);
 	}
 
-	void CreatBack()
-	{
+	void CreatCountDown () {
+		string name = "CountDown";
+		tempObject = GetPrefabsObject (name);
+		tempObject.transform.parent = viewManager.CenterPanel.transform;
+		countDownUI = tempObject.GetComponent<CountDownUnity> ();
+		countDownUI.Init ("CountDown");
+	}
+
+	void CreatBack() {
 		string backName = "BattleCardPool";
-
 		tempObject = GetPrefabsObject(backName);
-
 		battleCardPool = tempObject.AddComponent<BattleCardPool>();
-		
 		battleCardPool.Init(backName);
-		
 		BoxCollider bc = NGUITools.AddWidgetCollider(tempObject);
-
 		battleCardPool.XRange = bc.size.x;
-
 		cardHeight = battleCardPool.templateBackTexture.width;
 	}
 
@@ -416,6 +413,9 @@ public class Battle : UIBase
 				//tempCard.gameObject.layer =  GameLayer.IgnoreCard;
 				//tempCard.transform.parent = dragLayer
 				selectTarget.Add(tempCard);
+				if(selectTarget.Count > 1) {
+
+				}
 			}
 		}
 	}
@@ -458,8 +458,7 @@ public class Battle : UIBase
 	{
 		return delta * uiRoot.pixelSizeAdjustment;
 	}
-
-	#region countdown
+	
 	void DelayTime(object data) {
 		activeDelay =  (float)data;
 	}
@@ -473,13 +472,14 @@ public class Battle : UIBase
 			return ;		
 		} 
 		time = BattleUseData.CountDown + activeDelay;
+		countDownUI.ShowUI();
 		activeDelay = 0f;
 		CountDownBattle ();
 	}
 	
 	void CountDownBattle () {
-		battleCardArea.ShowCountDown (true, (int)time);
-//		Debug.LogError ("time : " + time);
+		//battleCardArea.ShowCountDown (true, (int)time);
+		countDownUI.SetCurrentTime ((int)time);
 		if (time > 0) {
 			showCountDown = true;
 			time -= countDownTime;
@@ -492,12 +492,4 @@ public class Battle : UIBase
 			time =  BattleUseData.CountDown;
 		}
 	}
-	
-	
-//	void StartBattle() {
-//		StartBattle();
-//	}
-	
-
-	#endregion
 }

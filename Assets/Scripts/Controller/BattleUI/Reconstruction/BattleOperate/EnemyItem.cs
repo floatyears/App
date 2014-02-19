@@ -7,6 +7,8 @@ public class EnemyItem : UIBaseUnity {
 	private UILabel bloodLabel;
 	private UILabel nextLabel;
 	private UIPanel effect;
+	private Vector3 attackPosition;
+	private Vector3 localPosition;
 
 	void OnEnable() {
 		MsgCenter.Instance.AddListener (CommandEnum.ShowEnemy, EnemyInfo);
@@ -17,6 +19,8 @@ public class EnemyItem : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.AddListener (CommandEnum.BePosion, BePosion);
 		MsgCenter.Instance.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
+
+
 	}
 
 	void OnDisable () {
@@ -57,7 +61,7 @@ public class EnemyItem : UIBaseUnity {
 	}
 
 	void InjuredShake(){
-		iTween.ShakeScale(texture.gameObject,new Vector3(0.5f,0.5f,0.5f), 0.3f);
+//		iTween.ShakeScale(texture.gameObject, new Vector3(0.5f,0.5f,0.5f), 0.3f);
 	}
 
 	void BePosion(object data) {
@@ -79,6 +83,9 @@ public class EnemyItem : UIBaseUnity {
 	
 	public void Init(ShowEnemyUtility te) {
 		texture 	= FindChild<UITexture> ("Texture");
+		localPosition = texture.transform.localPosition;
+		attackPosition = new Vector3 (localPosition.x, BattleBackground.ActorPosition.y  - 20f, localPosition.z);
+//		Debug.LogError (attackPosition + " --   -- " + localPosition + "       ......     " + BattleBackground.ActorPosition.y);
 		bloodLabel 	= FindChild<UILabel> ("BloodLabel");
 		nextLabel 	= FindChild<UILabel> ("NextLabel");
 		effect		= FindChild<UIPanel> ("Effect");
@@ -129,8 +136,14 @@ public class EnemyItem : UIBaseUnity {
 		uint id = (uint) data;
 		if (id == enemyInfo.enemyID) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
-			iTween.ScaleFrom(gameObject,new Vector3(1.5f,1.5f,1f),0.2f);
+			iTween.ScaleTo(gameObject,new Vector3(1.5f,1.5f,1f),0.2f);
+			iTween.MoveTo (texture.gameObject,iTween.Hash("position",attackPosition,"time",0.2f,"oncomplete","MoveBack","oncompletetarget",gameObject, "islocal",true ,"easetype",iTween.EaseType.easeInCubic));
 		}
+	}
+
+	void MoveBack () {
+		iTween.ScaleTo(gameObject,new Vector3(1f,1f,1f),0.2f);
+		iTween.MoveTo (texture.gameObject,iTween.Hash("position",localPosition,"time",0.2f,"islocal",true,"easetype",iTween.EaseType.easeOutCubic));
 	}
 
 //	void AttackEnemy (object data) {

@@ -166,20 +166,32 @@ public class AttackController {
 
 	void Attack () {
 		countDownTime = GetIntervTime ();
+		enemyIndex = 0;
 
-		//if (CheckTempEnemy () ) {
-			enemyIndex = 0;
-			GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
-		//}
+		GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
+
+	}
+
+	List<TempEnemy> deadEnemy = new List<TempEnemy>();
+	void CheckEnemyDead () {
+		if (enemyInfo.Count == 1) {
+			return;	
+		}
+		for (int i = enemyInfo.Count - 1; i > 0; i--) {
+			TempEnemy te = enemyInfo[i];
+//			Debug.LogError(te.GetID() + " te.getblood " + te.GetBlood());
+			if(te.GetBlood() <= 0) {
+				deadEnemy.Add(te);
+				enemyInfo.Remove(te);
+			}
+		}
 	}
 
 	void MultipleAttack () {
 		float multipe = leaderSkillMultiple.MultipleAttack (attackInfo);
 		if (multipe > 1.0f) {
 			for (int i = 0; i < attackInfo.Count; i++) {
-//				Debug.LogError("befoure multiple : " + attackInfo[i].AttackValue + "multipe : " +multipe);
 				attackInfo[i].AttackValue *= multipe;
-//				Debug.LogError("behind multiple : " + attackInfo[i].AttackValue);
 			}	
 		}
 	}
@@ -192,6 +204,9 @@ public class AttackController {
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
+
+		CheckEnemyDead();
+
 		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
 		MultipleAttack ();
 		AttackInfo ai = attackInfo [0];
@@ -216,12 +231,17 @@ public class AttackController {
 	}
 
 	bool CheckTempEnemy() {
+		for (int i = 0; i < deadEnemy.Count; i++) {
+			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, deadEnemy[i]);
+		}
+		deadEnemy.Clear ();
 		for (int i = enemyInfo.Count - 1; i > -1; i--) {
+
 			int blood = enemyInfo[i].GetBlood();
 			if(blood <= 0){
+//				Debug.LogError(enemyInfo[i].GetID() + " Enemy " + enemyInfo[i].GetBlood()); 
 				TempEnemy te = enemyInfo[i];
 				enemyInfo.RemoveAt(i);
-				antiInfo.RemoveAll(a=>a.EnemyID == te.GetID());
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 			}
 		}
@@ -245,6 +265,7 @@ public class AttackController {
 		if (enemyInfo.Count == 0) {
 			return;	
 		}
+
 		List<TempEnemy> injuredEnemy = enemyInfo.FindAll (a => a.IsInjured () == true);
 		int restraintType = DGTools.RestraintType (ai.AttackType);
 		TempEnemy te = null;

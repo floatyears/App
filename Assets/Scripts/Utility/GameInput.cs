@@ -1,26 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameInput : MonoBehaviour 
-{
+public class GameInput : MonoBehaviour  {
 	public static event System.Action OnPressEvent;
-
 	public static event System.Action OnReleaseEvent;
-
 	public static event System.Action<Vector2> OnDragEvent;
-
 	public static event System.Action OnStationaryEvent;
-	
 	public static event System.Action OnUpdate;
-
 	public static event System.Action OnPressContinued;
-
-	private bool isCheckInput = true;
-
-	public bool IsCheckInput
-	{
-		set{isCheckInput = value;}
-		get{return isCheckInput;}
+	private bool isCheckInput = false;
+	public bool IsCheckInput {
+		set{ isCheckInput = value; }
+		get{ return isCheckInput; }
 	}
 
 	private Vector2 lastPosition = Vector2.zero;
@@ -32,8 +23,7 @@ public class GameInput : MonoBehaviour
 	private float startTime = -1f;
 
 	private float stationarIntervTime = 2f;
-
-
+	
 	void OnEnable () {
 
 		Application.RegisterLogCallback (CatchException);
@@ -55,7 +45,7 @@ public class GameInput : MonoBehaviour
 
 		if(OnUpdate != null)
 			OnUpdate();
-
+//		Debug.LogError ("GameInput : " + isCheckInput);
 		if(!isCheckInput)
 			return;
 //#if UNITY_IPHONE || UNITY_ANDROID
@@ -96,9 +86,9 @@ public class GameInput : MonoBehaviour
 	{
 		if(Input.GetMouseButtonDown(0))
 		{
-			lastPosition = Input.mousePosition;
-			
-			currentPosition = Input.mousePosition;
+//			lastPosition = Input.mousePosition;
+//			
+//			currentPosition = Input.mousePosition;
 			
 			OnPress();
 		}
@@ -163,4 +153,3 @@ public class GameInput : MonoBehaviour
 		startTime = -1f;
 	}
 }
-

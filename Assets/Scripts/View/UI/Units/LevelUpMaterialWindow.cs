@@ -313,7 +313,7 @@ public class ConfigOwnedUnitInfo{
 		tempUnitInfo.levelUpValue = 92;
 		ownedUnitInfo.Add(tempUnitInfo);
 
-		Debug.Log("Config OwnedUnitInfo, List Count : " + ownedUnitInfo.Count);
+//		Debug.Log("Config OwnedUnitInfo, List Count : " + ownedUnitInfo.Count);
 	}
 }
 

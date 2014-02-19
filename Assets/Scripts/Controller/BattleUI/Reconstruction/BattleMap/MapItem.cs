@@ -35,6 +35,10 @@ public class MapItem : UIBaseUnity
 		get{return isOld;}
 	}
 
+	public Vector3 GetBoxPosition () {
+		return floorRotate.currentPoint;
+	}
+
 	private UITexture alreayQuestTexture;
 	public override void Init (string name) {
 //		Debug.LogError ("mapitem init : " + name);
@@ -57,7 +61,11 @@ public class MapItem : UIBaseUnity
 
 	public void RotateAnim() {
 		floorRotate.RotateFloor ();
-	}                    
+	}     
+
+	public void ShowBox() {
+		floorRotate.isShowBox = true;
+	}
 
 	public void Around(bool isAround)
 	{

@@ -409,7 +409,7 @@ public class ConfigSkill  {
 		ssa.baseInfo.id = 32;
 		ssa.baseInfo.name = "no 32 SkillSingleAttack";
 		ssa.baseInfo.description = "single attack, all attack, recover hp";
-		ssa.baseInfo.skillCooling = 0;
+		ssa.baseInfo.skillCooling = 3;
 		ssa.type = EValueType.MULTIPLE;
 		ssa.unitType = EUnitType.UFIRE;
 		ssa.value = 4f;

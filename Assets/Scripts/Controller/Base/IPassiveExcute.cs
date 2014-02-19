@@ -116,6 +116,8 @@ public interface IActiveSkillExcute {
 	object Excute(uint userUnitID, int atk = -1);
 }
 
+
+
 public interface ITrapExcute {
 	void Excute();
 }

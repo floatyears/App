@@ -37,7 +37,7 @@ public class Role : UIBaseUnity
 	}
 
 	private Jump jump;
-	private Vector3 initPosition = new Vector3 (0f, 350f, -240f);
+	private Vector3 initPosition = new Vector3 (-1100f, 350f, -240f);
 	public override void Init (string name) {
 		base.Init (name);
 		jump = GetComponent<Jump> ();

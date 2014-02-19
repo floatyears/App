@@ -7,16 +7,14 @@ public class BattleEnemy : UIBaseUnity {
 	[HideInInspector]
 	public Battle battle;
 
-	public override void Init (string name)
-	{
+	public override void Init (string name) {
 		base.Init (name);
 		tempGameObject = transform.Find ("EnemyItem").gameObject;
 		tempGameObject.SetActive (false);
-		transform.localPosition += new Vector3 (0f, battle.cardHeight * 5f, 0f);
+		transform.localPosition += new Vector3 (0f, battle.cardHeight * 5.5f, 0f);
 	}
 
-	public override void HideUI ()
-	{
+	public override void HideUI () {
 		base.HideUI ();
 		for (int i = 0; i < monster.Count; i++) {
 			if(monster[i] == null) {
@@ -29,8 +27,7 @@ public class BattleEnemy : UIBaseUnity {
 		gameObject.SetActive (false);
 	}
 
-	public override void ShowUI ()
-	{
+	public override void ShowUI () {
 		base.ShowUI ();
 		gameObject.SetActive (true);
 	}
@@ -44,8 +41,17 @@ public class BattleEnemy : UIBaseUnity {
 
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
+			TempUnitInfo tu = GlobalData.tempUnitInfo[enemy[i].enemyID];
+		
+			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[tu.unitBaseInfoID];
 			go.SetActive(true);
-			CaculatePosition(i,go);
+			UITexture tex = go.GetComponentInChildren<UITexture>();
+			Texture2D tex2d = Resources.Load(ubi.GetRolePath) as Texture2D;
+			tex.mainTexture = tex2d;
+			tex.width = (int)(tex2d.width * 0.6f);
+			tex.height = (int)(tex2d.height * 0.6f);
+//			Debug.LogError(tex2d.width + " -- " + tex2d.height);
+ 			CaculatePosition(i,go);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 		
 			ei.Init(enemy[i]);

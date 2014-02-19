@@ -46,7 +46,9 @@ public class ExcuteActiveSkill {
 	}
 
 	public void CoolingSkill () {
+//		Debug.LogError (activeSkill.Values.Count);
 		foreach (var item in activeSkill.Values) {
+//			Debug.LogError("CoolingSkill : " + item);
 			item.RefreashCooling();
 		}
 	}

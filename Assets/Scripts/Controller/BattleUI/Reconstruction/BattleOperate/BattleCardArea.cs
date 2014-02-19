@@ -111,11 +111,8 @@ public class BattleCardArea : UIBaseUnity
 			go.AddComponent<CardItem>();
 			battleCardIns.Add(go);
 		}
-
 		yield return 1;
-
-		if (b) 
-		{
+		if (b) {
 			StartCoroutine (GenerateCard ());
 		}
 	}

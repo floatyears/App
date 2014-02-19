@@ -127,6 +127,7 @@ public class TempEnemy : ProtobufDataBase {
 	}
 
 	public int GetBlood () {
+//		Debug.LogError ("GetBlood : " + initBlood + " id : " + GetID ());
 		return initBlood;
 	}
 

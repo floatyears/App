@@ -44,13 +44,19 @@ public class ConfigUnitInfo {
 				uiitem.activeSkill = 38;
 			}
 			if(i == 5) {
-				uiitem.leaderSkill = 19;
+				uiitem.leaderSkill = 22;
 			}
 
 			uiitem.passiveSkill = 49;
 			TempUnitInfo tui = new TempUnitInfo(uiitem);
 			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
 		}
+
+		GlobalData.tempUnitInfo [1].unitBaseInfoID = 181;
+		GlobalData.tempUnitInfo [2].unitBaseInfoID = 85;
+		GlobalData.tempUnitInfo [3].unitBaseInfoID = 89;
+		GlobalData.tempUnitInfo [4].unitBaseInfoID = 80;
+		GlobalData.tempUnitInfo [5].unitBaseInfoID = 87;
 	}
 
 	void GenerateUserUnit () {
@@ -99,6 +105,8 @@ public class TempUnitInfo : ProtobufDataBase {
 	public TempUnitInfo (object instance) : base (instance) {
 
 	}
+
+	public int unitBaseInfoID = 0;
 }
 
 public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {

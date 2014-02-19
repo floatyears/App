@@ -15,20 +15,23 @@ public class BattleBackground : UIBaseUnity {
 	private int initEnergyPoint = -1;
 	private int currentEnergyPoint = -1;
 
+	private static Vector3 actorPosition = Vector3.zero;
+	public static Vector3 ActorPosition	{
+		get {
+			return actorPosition;
+		}
+	}
+
 	public override void Init (string name){
 		base.Init (name);
-
-		background = FindChild<UITexture> ("Center/Texture");
-
 		bottomCamera = FindChild<Camera> ("BottomCamera");
-
 		Object o = LoadAsset.Instance.LoadAssetFromResources ("BattleBottom", ResourceEuum.Prefab);
-
 		battleBottom = Instantiate (o) as GameObject;
-	
 		battleBottom.GetComponent<UIAnchor> ().uiCamera = ViewManager.Instance.MainUICamera.camera;
 		battleBottomScript = battleBottom.AddComponent<BattleBottom> ();
 		battleBottomScript.Init (bottomCamera);
+		actorPosition = transform.Find ("Position").localPosition;
+
 		actor = new Material[5];
 		spSprite = new UISprite[20];
 		string path;
@@ -49,7 +52,7 @@ public class BattleBackground : UIBaseUnity {
 	public override void ShowUI ()
 	{
 		base.ShowUI ();
-		background.transform.localPosition = Vector3.zero;
+//		background.transform.localPosition = Vector3.zero;
 		gameObject.SetActive (true);
 		battleBottom.SetActive (true);
 
