@@ -50,7 +50,7 @@ public enum SceneEnum
 
 	Fight,
 }
-//
+
 public enum CommandEnum
 {
 	None 					= 0,
@@ -120,22 +120,21 @@ public enum CommandEnum
 	ShieldMap					= 3039,
 
 	PlayerPosion				= 3040,
-
 	InjuredNotDead				= 3041,
-
 	MeetEnemy				= 3042,
-
 	MeetTrap					= 3043,
-
 	TrapTargetPoint				= 3044,
-
 	OpenDoor					= 3045,
-	RotateDown					= 3046,
-	MeetCoin					= 3047,
+	RotateDown				= 3046,
+
+
 	//Add By Ling yan	
 	LevelUpPanelFocus			= 4000,
 	TransmitStageInfo			= 4001,
-	TransmitMaterialUnitInfo		= 4002,
+	PickMaterialUnitInfo			= 4002,
+	PickBaseUnitInfo				= 4003,
+	PickFriendUnitInfo			= 4004,
+
 }
 
 public enum MapItemEnum {

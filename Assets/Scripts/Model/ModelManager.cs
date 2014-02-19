@@ -92,8 +92,8 @@ public class ModelManager
 		ConfigAudio audioConfig = new ConfigAudio();
 		ConfigAvailFriend availFriend = new ConfigAvailFriend();
 		ConfigStage stage = new ConfigStage();
-		ConfigOwnedUnitInfo ownedUnitInfo = new ConfigOwnedUnitInfo();
-
+		//ConfigOwnedUnitInfo ownedUnitInfo = new ConfigOwnedUnitInfo();
+		ConfigViewData tempViewData = new ConfigViewData();
 	}
 	
 	/// <summary>

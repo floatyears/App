@@ -73,11 +73,11 @@ public class OthersDecoratorUnity : UIComponentUnity {
 		UISprite maskOff = FindChild< UISprite >( path + "Off/Mask");
 
 		if( btn.name == "On") {
-			//AudioManager.Instance.OnMusic();
+			AudioManager.Instance.PlayAudio(AudioEnum.music_home);
 			maskOn.enabled = false;
 			maskOff.enabled = true;
 		}else if(btn.name == "Off"){
-			//AudioManager.Instance.OffMusic();
+			AudioManager.Instance.PauseAudio(AudioEnum.music_home);
 			maskOn.enabled = true;
 			maskOff.enabled = false;
 		}

@@ -1,15 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using bbproto;
 
 public class LevelUpMaterialWindow : UIComponentUnity {
-	DragPanel dragPanel;
+	DragPanel materialDragPanel;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	private Dictionary<GameObject, UnitBaseInfo> materialItemInfo = new Dictionary<GameObject, UnitBaseInfo>();
-	List<UnitInfo> materialUnitInfoList = new List<UnitInfo>();
-
-
+	private List<UserUnitInfo> userUnitInfoList = new List<UserUnitInfo>();
+	Dictionary<GameObject, UserUnitInfo> materialUnitInfoDic = new Dictionary<GameObject, UserUnitInfo>();
 
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
@@ -18,304 +15,131 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		//this.gameObject.SetActive(false);
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
 	}
 	
-	public override void HideUI() {
+	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
 	}
 	
-	void InitUI(){
-		materialUnitInfoList = ConfigOwnedUnitInfo.ownedUnitInfo;
-		CreateDragPanel();
+	private void InitUI(){
+		GetUnitInfoList();
+		InitDragPanel();
+		this.gameObject.SetActive(false);
 	}
 	
-	void FocusOnPanel(object data) {
+	private void FocusOnPanel(object data){
 		string message = (string)data;
+		//Debug.Log("Material Window receive : " + message);
 		if(message == "Tab_Material" ){
 			this.gameObject.SetActive(true);
-		}
-		else if(message == "Tab_Base"){
-			this.gameObject.SetActive(true);
-		}
-		else{
+		}else{
 			this.gameObject.SetActive(false);
 		}
 	}
 
-	void CreateDragPanel() {
-		GameObject materialItem = 
-			Resources.Load("Prefabs/UI/Friend/UnitItem") as GameObject;
-		dragPanel = new DragPanel("MaterialScroller", materialItem);
-		dragPanel.CreatUI();
-		dragPanel.AddItem(GlobalData.HaveCard.Count);
-//		dragPanel.AddItem( ConfigOwnedUnitInfo.ownedUnitInfo.Count );
-
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			GameObject target = dragPanel.ScrollItem [i];
-
-			UITexture tex = target.GetComponentInChildren<UITexture>();
-			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [GlobalData.HaveCard [i]];
-
-			tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
-//			string texPath = "Avatar/role0" + materialUnitInfoList[ i ].id.ToString();
-//			Debug.Log(texPath);
-//			tex.mainTexture = Resources.Load( texPath ) as Texture2D;
-
-			UIEventListenerCustom ulc = UIEventListenerCustom.Get(target);
-			ulc.onClick = PickMaterial;
-			ulc.LongPress = LongPressPickMaterial;
-			materialItemInfo.Add(target, ubi);
+	private string GetAvatarInfo( int index){
+		if( ConfigViewData.OwnedUnitInfoList.Count < (index + 1) ){
+			Debug.LogError("The OwnedUnitInfo List Not has so many item");
+			return string.Empty;
 		}
-		InitDragPanelArgs();
-		dragPanel.RootObject.SetScrollView(dragPanelArgs);
+		string avatarSourcePath;
+		int unitId = (int)ConfigViewData.OwnedUnitInfoList[ index ].id;
+		avatarSourcePath = "Avatar/role01" + unitId.ToString();
+		//Debug.LogError(avatarSourcePath);
+		return avatarSourcePath;
 	}
 
-	void LongPressPickMaterial(GameObject go){
-		UnitBaseInfo ubi = materialItemInfo [go];
-		MsgCenter.Instance.Invoke(CommandEnum.EnterUnitInfo, ubi);
+	private int IndexOfItem(DragPanel panel, GameObject item){
+		if( panel == null || item == null ){
+			Debug.LogError("IndexOf Item Error!");
+			return 0;
+		}
+		return panel.ScrollItem.IndexOf( item);
+	}
+
+	void GetUnitInfoList() {
+		UnitPartyInfo upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo, new ErrorMsg()) as UnitPartyInfo;
+		userUnitInfoList = upi.GetUserUnit();
+	}
+
+	private void ShowAvatar( GameObject item){
+		//Debug.Log(string.Format("Show Avatar named as {0}", item));
+		//find des
+		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
+		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
+		 //find src 
+		int scrollItemIndex = IndexOfItem( materialDragPanel, item);
+		string sourceTexPath = GetAvatarInfo( scrollItemIndex );
+		//Debug.Log("ShowAvatar, the avatar texure path is : " + sourceTexPath);
+		Texture2D sourceTex = Resources.Load( sourceTexPath ) as Texture2D;
+		//show
+		avatarTex.mainTexture = sourceTex;
+	}
+
+	private void AddEventListener( GameObject item){
+		UIEventListener.Get( item ).onClick = ClickItem;
+		UIEventListenerCustom.Get( item ).LongPress = PressItem;
+	}
+
+	private void ClickItem(GameObject item){
+		//Debug.LogError("Click Item " + item.name);
+		MsgCenter.Instance.Invoke( CommandEnum.PickMaterialUnitInfo, item );
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+	}
+
+	void PressItem(GameObject itemGo){
+		UserUnitInfo userUnitInfo = materialUnitInfoDic [ itemGo ];
+		MsgCenter.Instance.Invoke(CommandEnum.EnterUnitInfo, userUnitInfo);   
+        }
+
+	private void InitDragPanel(){
+
+		string name = "MaterialDragPanel";
+		int count = userUnitInfoList.Count;
+		//Debug.Log( string.Format("The count to add is : " + count) );
+		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
+		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
+		materialDragPanel = CreateDragPanel( name, count, itemGo) ;
+		FillDragPanel( materialDragPanel );
+		InitDragPanelArgs();
+		materialDragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 	
-	void PickMaterial(GameObject go){
-		//Debug.LogError("Pick Material");
-		int index = dragPanel.ScrollItem.IndexOf( go );
-		UnitInfo pickedUnitInfo = materialUnitInfoList[ index ];
-		MsgCenter.Instance.Invoke( CommandEnum.TransmitMaterialUnitInfo, pickedUnitInfo );
+	private DragPanel CreateDragPanel( string name, int count, GameObject item){
+		Debug.Log("Create Drag Panel");
+		DragPanel panel = new DragPanel(name,item);
+		panel.CreatUI();
+		panel.AddItem( count);
+		return panel;
 	}
 
-	void InitDragPanelArgs(){
+	private void FillDragPanel(DragPanel panel){
+		Debug.Log("Fill Drag Panel");
+		if( panel == null )	return;
+
+		for( int i = 0; i < panel.ScrollItem.Count; i++){
+			GameObject currentItem = panel.ScrollItem[ i ];
+			UITexture tex = currentItem.GetComponentInChildren<UITexture>();
+			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [userUnitInfoList [i].unitBaseInfo];
+			tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
+			materialUnitInfoDic.Add(currentItem, userUnitInfoList [i]);
+			//ShowAvatar( currentItem );
+			AddEventListener( currentItem );
+		}
+	}
+
+	private void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans",	transform);
 		dragPanelArgs.Add("scrollerScale",	Vector3.one);
-		dragPanelArgs.Add("scrollerLocalPos",	-45 * Vector3.up);
+		dragPanelArgs.Add("scrollerLocalPos",	-60 * Vector3.up);
 		dragPanelArgs.Add("position", 		Vector3.zero);
 		dragPanelArgs.Add("clipRange", 		new Vector4(0, -120, 640, 400));
 		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
 		dragPanelArgs.Add("maxPerLine",		3);
-		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -340, 0));
+		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -330, 0));
 		dragPanelArgs.Add("cellWidth", 		120);
 		dragPanelArgs.Add("cellHeight",		120);
 	}
 }
-
-public class ConfigOwnedUnitInfo{
-	public static List<UnitInfo> ownedUnitInfo = new List<UnitInfo>();
-	public ConfigOwnedUnitInfo(){
-		Config();
-	}
-	
-	void Config(){
-		//Debug.Log("Start to Config the data of stage");
-
-		UnitInfo tempUnitInfo = new UnitInfo();
-
-		tempUnitInfo.id = 11;
-		tempUnitInfo.name = "Zeus";
-		tempUnitInfo.type = EUnitType.UFIRE;
-//		tempUnitInfo.
-		tempUnitInfo.skill1 = 1;
-		tempUnitInfo.skill2 = 2;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 8;
-		tempUnitInfo.levelUpValue = 329;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 12;
-		tempUnitInfo.name = "Darchro";
-		tempUnitInfo.type = EUnitType.UDARK;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 18;
-		tempUnitInfo.levelUpValue = 117;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 13;
-		tempUnitInfo.name = "Boush";
-		tempUnitInfo.type = EUnitType.ULIGHT;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 3;
-		tempUnitInfo.levelUpValue = 92;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 14;
-		tempUnitInfo.name = "Azwraith";
-		tempUnitInfo.type = EUnitType.ULIGHT;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 3;
-		tempUnitInfo.levelUpValue = 92;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 15;
-		tempUnitInfo.name = "Rigwarl";
-		tempUnitInfo.type = EUnitType.ULIGHT;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 3;
-		tempUnitInfo.levelUpValue = 92;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 16;
-		tempUnitInfo.name = "Jah'rakal";
-		tempUnitInfo.type = EUnitType.ULIGHT;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 3;
-		tempUnitInfo.levelUpValue = 92;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 17;
-		tempUnitInfo.name = "Yurnero";
-		tempUnitInfo.type = EUnitType.ULIGHT;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 3;
-		tempUnitInfo.levelUpValue = 92;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 18;
-		tempUnitInfo.name = "Nortrom";
-		tempUnitInfo.type = EUnitType.ULIGHT;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 3;
-		tempUnitInfo.levelUpValue = 92;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 19;
-		tempUnitInfo.name = "Ulfsaar";
-		tempUnitInfo.type = EUnitType.ULIGHT;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 3;
-		tempUnitInfo.levelUpValue = 92;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 20;
-		tempUnitInfo.name = "Tiny";
-		tempUnitInfo.type = EUnitType.ULIGHT;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 3;
-		tempUnitInfo.levelUpValue = 92;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 21;
-		tempUnitInfo.name = "Chen";
-		tempUnitInfo.type = EUnitType.ULIGHT;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 3;
-		tempUnitInfo.levelUpValue = 92;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-		tempUnitInfo = new UnitInfo();
-		tempUnitInfo.id = 22;
-		tempUnitInfo.name = "Furion";
-		tempUnitInfo.type = EUnitType.ULIGHT;
-		//tempUnitInfo.
-		tempUnitInfo.skill1 = 3;
-		tempUnitInfo.skill2 = 4;
-		tempUnitInfo.leaderSkill = 3;
-		tempUnitInfo.activeSkill = 4;
-		tempUnitInfo.passiveSkill = 5;
-		tempUnitInfo.maxLevel = 50;
-		tempUnitInfo.rare = 3;
-		tempUnitInfo.expType = 1;
-		tempUnitInfo.cost = 3;
-		tempUnitInfo.levelUpValue = 92;
-		ownedUnitInfo.Add(tempUnitInfo);
-
-//		Debug.Log("Config OwnedUnitInfo, List Count : " + ownedUnitInfo.Count);
-	}
-}
-
-
-

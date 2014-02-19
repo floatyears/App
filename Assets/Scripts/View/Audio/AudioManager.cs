@@ -31,15 +31,14 @@ public class AudioManager {
 			AudioClip clip = Resources.Load( configItem.resourcePath ) as AudioClip;
 			source.clip = clip;
 			audioPlayerCache.Add( audioID, source );
+			SetPlayType( configItem.type, source);
 		}
 
 		if( audioPlayerCache[ audioID ] == null ){
 			Debug.LogError( string.Format( "The audioPlayer's GameObject with the ID [{0}] is NULL", audioID) );
 			return;
-		}
-
-		if( !audioPlayerCache[ audioID ].isPlaying )	
-			audioPlayerCache[ audioID ].Play();
+		}	
+		audioPlayerCache[ audioID ].Play();
 	}
 
 	public void PauseAudio( AudioEnum audioEnum ) {
@@ -72,6 +71,19 @@ public class AudioManager {
 		
 		if( audioPlayerCache[ audioID ].isPlaying )	
 			audioPlayerCache[ audioID ].Stop();
+	}
+
+	void SetPlayType(EPlayType type, AudioSource source){
+		switch (type){
+			case EPlayType.LOOP : 
+				source.loop = true;
+				break;
+			case EPlayType.ONCE : 
+				source.loop = false;
+				break;
+			default:
+				break;
+		}
 	}
 
 }

@@ -343,28 +343,40 @@ public class LevelUpDecorator : DecoratorBase {
 	public override void DecoratorScene () {
 
 //		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-//		sceneInfoBar.SetComponent( decorator );
+//		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
+//		LevelUpInfoPanelUI infoPanel = CreatComponent<LevelUpInfoPanelUI>(UIConfig.levelUpInfoPanelName);
+//		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
+//		LevelUpBaseUI friendListPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
+//		LevelUpMaterialUI materialPanel = CreatComponent<LevelUpMaterialUI>(UIConfig.levelUpMaterialWindowName);
 //
-//		LevelUpComponent levelUp = CreatComponent< LevelUpComponent >( UIConfig.levelUpWindowName);
-//		levelUp.SetComponent( sceneInfoBar );
+//		sceneInfoBar.SetComponent(decorator);
+//		readyPanel.SetComponent(sceneInfoBar);
+//		infoPanel.SetComponent(readyPanel);
+//		readyPanel.SetComponent(infoPanel);
+//		basePanel.SetComponent(readyPanel);
+//		friendListPanel.SetComponent(basePanel);
+//		materialPanel.SetComponent(friendListPanel);
 //
-//		lastDecorator = levelUp;
+//		lastDecorator = materialPanel;
 //		lastDecorator.CreatUI();
 
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
 		LevelUpInfoPanelUI infoPanel = CreatComponent<LevelUpInfoPanelUI>(UIConfig.levelUpInfoPanelName);
-		LevelUpFriendUI friendListPanel = CreatComponent<LevelUpFriendUI>(UIConfig.levelUpFriendWindowName);
+		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
 		LevelUpMaterialUI materialPanel = CreatComponent<LevelUpMaterialUI>(UIConfig.levelUpMaterialWindowName);
+		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		readyPanel.SetComponent(sceneInfoBar);
 		infoPanel.SetComponent(readyPanel);
-		friendListPanel.SetComponent(infoPanel);
-		materialPanel.SetComponent(friendListPanel);
+		basePanel.SetComponent(infoPanel);
+		materialPanel.SetComponent(basePanel);
+		friendPanel.SetComponent(materialPanel);
 
-		lastDecorator = materialPanel;
+		lastDecorator = friendPanel;
 		lastDecorator.CreatUI();
+
 	}
 }
 

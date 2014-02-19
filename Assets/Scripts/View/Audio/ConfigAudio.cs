@@ -19,7 +19,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 18;
-		audioItem.name 				= "active skill";
+		audioItem.name 				= "active_skill";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -35,7 +35,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 17;
-		audioItem.name 				= "back attack";
+		audioItem.name 				= "back_attack";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -43,7 +43,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 32;
-		audioItem.name 				= "boss battle";
+		audioItem.name 				= "boss_battle";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -51,7 +51,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 34;
-		audioItem.name 				= "card swallow";
+		audioItem.name 				= "card_swallow";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -59,7 +59,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 37;
-		audioItem.name 				= "check role";
+		audioItem.name 				= "check_role";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -83,7 +83,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 25;
-		audioItem.name 				= "count down";
+		audioItem.name 				= "count_down";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -99,7 +99,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 14;
-		audioItem.name 				= "door open";
+		audioItem.name 				= "door_open";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -107,7 +107,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 26;
-		audioItem.name 				= "drag tile";
+		audioItem.name 				= "drag_tile";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -115,7 +115,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 5;
-		audioItem.name 				= "dungeon ready";
+		audioItem.name 				= "dungeon_ready";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -123,7 +123,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 29;
-		audioItem.name 				= "enemy attack";
+		audioItem.name 				= "enemy_attack";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -131,7 +131,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 15;
-		audioItem.name 				= "enemy battle";
+		audioItem.name 				= "enemy_battle";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -139,7 +139,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 30;
-		audioItem.name 				= "enemy die";
+		audioItem.name 				= "enemy_die";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -147,7 +147,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 5;
-		audioItem.name 				= "explore done";
+		audioItem.name 				= "explore_done";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -155,7 +155,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 7;
-		audioItem.name 				= "explore go";
+		audioItem.name 				= "explore_go";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -163,7 +163,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 6;
-		audioItem.name 				= "explore ready";
+		audioItem.name 				= "explore_ready";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -171,7 +171,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 20;
-		audioItem.name 				= "fire attack";
+		audioItem.name 				= "fire_attack";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -179,7 +179,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 16;
-		audioItem.name 				= "first attack";
+		audioItem.name 				= "first_attack";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -187,7 +187,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 31;
-		audioItem.name 				= "get chess";
+		audioItem.name 				= "get_chess";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -195,7 +195,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 35;
-		audioItem.name 				= "get exp";
+		audioItem.name 				= "get_exp";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -203,7 +203,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 13;
-		audioItem.name 				= "get key";
+		audioItem.name 				= "get_key";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -211,7 +211,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 11;
-		audioItem.name 				= "get treasure";
+		audioItem.name 				= "get_treasure";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -219,7 +219,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 10;
-		audioItem.name 				= "grid turn";
+		audioItem.name 				= "grid_turn";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -229,13 +229,13 @@ public class ConfigAudio {
 		audioItem.id 				= 0;
 		audioItem.name 				= "home";
 		audioItem.resourcePath 		= basePath + audioItem.name;
-		audioItem.type 				= EPlayType.ONCE;
+		audioItem.type 				= EPlayType.LOOP;
 		audioList.Add(audioItem);	
 
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 28;
-		audioItem.name 				= "hp recover";
+		audioItem.name 				= "hp_recover";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -243,7 +243,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 36;
-		audioItem.name 				= "level up";
+		audioItem.name 				= "level_up";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -251,7 +251,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 22;
-		audioItem.name 				= "light attack";
+		audioItem.name 				= "light_attack";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -259,7 +259,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 12;
-		audioItem.name 				= "trigger trap";
+		audioItem.name 				= "trigger_trap";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -275,7 +275,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 9;
-		audioItem.name 				= "walk hurt";
+		audioItem.name 				= "walk_hurt";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -283,7 +283,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 19;
-		audioItem.name 				= "water attack";
+		audioItem.name 				= "water_attack";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -291,7 +291,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 21;
-		audioItem.name 				= "wind attack";
+		audioItem.name 				= "wind_attack";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -299,7 +299,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 				= 24;
-		audioItem.name 				= "zero attack";
+		audioItem.name 				= "zero_attack";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	

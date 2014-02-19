@@ -35,12 +35,14 @@ public class ShowUnitInfo {
 		currentDetail = data as UnitBaseInfo;
 		if (currentDetail == null) {
 			DisposeUnitInfo (data);
+			Debug.LogError("Current Info is Null");
 		} 
 		else {
 			DisposeBaseInfo (currentDetail);
 		}
 		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
-	}
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
+        }
 
 	void DisposeBaseInfo (UnitBaseInfo ubi) {
 		roleSpriteName = ubi.GetRolePath;
