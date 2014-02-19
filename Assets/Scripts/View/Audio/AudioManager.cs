@@ -37,10 +37,8 @@ public class AudioManager {
 		if( audioPlayerCache[ audioID ] == null ){
 			Debug.LogError( string.Format( "The audioPlayer's GameObject with the ID [{0}] is NULL", audioID) );
 			return;
-		}
-
-		if( !audioPlayerCache[ audioID ].isPlaying )	
-			audioPlayerCache[ audioID ].Play();
+		}	
+		audioPlayerCache[ audioID ].Play();
 	}
 
 	public void PauseAudio( AudioEnum audioEnum ) {
