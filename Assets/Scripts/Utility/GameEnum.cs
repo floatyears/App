@@ -126,7 +126,7 @@ public enum CommandEnum
 	TrapTargetPoint				= 3044,
 	OpenDoor					= 3045,
 	RotateDown				= 3046,
-
+	MeetCoin					= 3047,
 
 	//Add By Ling yan	
 	LevelUpPanelFocus			= 4000,
