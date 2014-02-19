@@ -4,12 +4,12 @@ package usermanage
 import (
 	bbproto "../../bbproto"
 	"../../common"
-	proto "code.google.com/p/goprotobuf/proto"
-
+	"../../common/Error"
+	"../../common/log"
 	"../../const"
 	"../../data"
+	proto "code.google.com/p/goprotobuf/proto"
 	_ "fmt"
-	"log"
 )
 
 func AddNewUser(uuid string, userInfo *bbproto.UserInfo) (err error) {
@@ -37,7 +37,7 @@ func AddNewUser(uuid string, userInfo *bbproto.UserInfo) (err error) {
 
 	zUserData, err := proto.Marshal(userdetail)
 	err = db.Set(common.Utoa(*userInfo.UserId), zUserData)
-	log.Printf("[TRACE] db.Set(%v) save new userinfo, return err(%v)", *userInfo.UserId, err)
+	log.T("db.Set(%v) save new userinfo, return err(%v)", *userInfo.UserId, err)
 	if err != nil {
 		return err
 	}
@@ -46,6 +46,28 @@ func AddNewUser(uuid string, userInfo *bbproto.UserInfo) (err error) {
 	err = db.Set(cs.X_UUID+uuid, []byte(common.Utoa(*userInfo.UserId)))
 
 	return err
+}
+
+func UpdateUserInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.Error) {
+	if db == nil {
+		return Error.New(cs.INVALID_PARAMS, "invalid db pointer")
+	}
+
+	zUserData, err := proto.Marshal(userdetail)
+	if err != nil {
+		return Error.New(cs.MARSHAL_ERROR, err.Error())
+	}
+
+	if err = db.Select(cs.TABLE_USER); err != nil {
+		return Error.New(cs.SET_DB_ERROR, err.Error())
+	}
+
+	if err = db.Set(common.Utoa(*userdetail.User.UserId), zUserData); err != nil {
+		return Error.New(cs.SET_DB_ERROR, err.Error())
+	}
+	log.T("UpdateUserInfo for (%v) , return OK", *userdetail.User.UserId)
+
+	return Error.OK()
 }
 
 func GetUserInfo(uid uint32) (userInfo bbproto.UserInfoDetail, isUserExists bool, err error) {

@@ -3,7 +3,6 @@ package user
 import (
 	"fmt"
 	//"io/ioutil"
-	"log"
 	"net/http"
 	//"strconv"
 	"math/rand"
@@ -16,6 +15,7 @@ import (
 	"../bbproto"
 	"../common"
 	"../common/Error"
+	"../common/log"
 	"../const"
 	"../data"
 	"../friend"
@@ -109,7 +109,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		userdetail, isUserExists, err = usermanage.GetUserInfoByUuid(uuid)
 	}
 
-	log.Printf("[TRACE] GetUserInfo(%v) ret isExists=%v userdetail: ['%v']  ",
+	log.T("GetUserInfo(%v) ret isExists=%v userdetail: ['%v']  ",
 		uuid, isUserExists, userdetail)
 	if isUserExists {
 		tNow := common.Now()
@@ -139,11 +139,11 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 				return Error.New(cs.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
 			}
 
-			log.Printf("[TRACE] getUser(%v) ret userdetail: %v", uid, userdetail)
+			log.T("getUser(%v) ret userdetail: %v", uid, userdetail)
 			rank := uint32(*userdetail.User.Rank)
 
 			friendsInfo, err := friend.GetFriendInfo(db, uid, rank, true, true)
-			log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
+			log.T("GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
 			if err != nil {
 				return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
 			}
@@ -151,7 +151,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			//fill rspMsg
 			rspMsg.Friends = &bbproto.FriendList{}
 			for _, friend := range friendsInfo {
-				//log.Printf("[TRACE] fid:%v friend:%v", fid, *friend.UserId)
+				//log.T("fid:%v friend:%v", fid, *friend.UserId)
 				pFriend := friend
 				if *friend.FriendState == bbproto.EFriendState_FRIENDHELPER {
 					rspMsg.Friends.Helper = append(rspMsg.Friends.Helper, &pFriend)
@@ -196,8 +196,8 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			StaminaRecover: &staminaRecover,
 		}
 		rspMsg.ServerTime = &tNow
-		log.Printf("[TRACE] rspMsg.User=%v...", rspMsg.User)
-		//log.Printf("[TRACE] rspMsg=%+v...", rspMsg)
+		log.T("rspMsg.User=%v...", rspMsg.User)
+		//log.T("rspMsg=%+v...", rspMsg)
 
 		//TODO:save userinfo to db through goroutine
 		err = usermanage.AddNewUser(uuid, rspMsg.User)

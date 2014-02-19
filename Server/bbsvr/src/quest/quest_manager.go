@@ -19,6 +19,11 @@ import (
 	//redis "github.com/garyburd/redigo/redis"
 )
 
+func UpdateQuestRecord(db *data.Data, uid uint32, questId uint32, getUnit []*bbproto.UserUnit, getMoney uint32) (e Error.Error) {
+	//
+	return Error.OK()
+}
+
 func MakeColors(colorPercent []*bbproto.ColorPercent, count int) (colorPack []byte, e Error.Error) {
 	log.T("MakeColors[ %v ] ...", count)
 	colors := make([]byte, count)
@@ -127,7 +132,7 @@ func GetQuestInfo(db *data.Data, stageInfo *bbproto.StageInfo, questId uint32) (
 	return nil, Error.New(cs.EQ_QUEST_ID_INVALID, fmt.Sprintf("invalid questId: %v", questId))
 }
 
-func GetStageInfo(db *data.Data, stageId uint32) (stageInfo bbproto.StageInfo, e Error.Error) {
+func GetStageInfo(db *data.Data, stageId uint32) (stageInfo *bbproto.StageInfo, e Error.Error) {
 	if db == nil {
 		return stageInfo, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
 	}
@@ -139,7 +144,8 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo bbproto.StageInfo, e
 		return stageInfo, Error.New(cs.READ_DB_ERROR, "read stageinfo fail")
 	}
 
-	if err = proto.Unmarshal(zStageInfo, &stageInfo); err != nil {
+	stageInfo = &bbproto.StageInfo{}
+	if err = proto.Unmarshal(zStageInfo, stageInfo); err != nil {
 		log.T("[ERROR] unmarshal error from stage[%v] info.", stageId)
 		return stageInfo, Error.New(cs.UNMARSHAL_ERROR, "unmarshal error.")
 	}
@@ -276,6 +282,15 @@ func fillGridsList(typeList map[int32]TUsedValue, starList map[int32]TUsedValue,
 	return Error.OK()
 }
 
+func getEnemyConf(enemyId uint32, confs []*bbproto.EnemyInfoConf) (enemyConf *bbproto.EnemyInfoConf, e Error.Error) {
+	for _, enemyConf := range confs {
+		if enemyId == *enemyConf.Enemy.EnemyId {
+			return enemyConf, Error.OK()
+		}
+	}
+	return nil, Error.New(cs.DATA_NOT_EXISTS)
+}
+
 func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonData, e Error.Error) {
 	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)
 
@@ -350,15 +365,43 @@ func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonD
 				grid.Type = &tmpType
 				log.T("EnemyNum: %v %v", *starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
 
-				randn := common.Rand(*starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
-				log.T("randn:%v enemys: ", randn)
-				for x := int32(0); x < randn; x++ {
+				enemyNum := common.Rand(*starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
+				log.T("randn:%v enemys: ", enemyNum)
+				for x := int32(0); x < enemyNum; x++ {
 					nn := int32(len(starConf.EnemyPool))
 					nn = common.Randn(nn) % (nn - 1)
-
-					grid.EnemyId = append(grid.EnemyId, starConf.EnemyPool[nn])
+					enemyId := starConf.EnemyPool[nn]
+					grid.EnemyId = append(grid.EnemyId, enemyId)
 					log.T("\t--randnn:%v enemyId:%v ", nn, starConf.EnemyPool[nn])
+
+					//fill drop unit by dropRate
+					if len(grid.DropId) == 0 { //only drop one unit
+						enemyConf, e := getEnemyConf(enemyId, config.Enemys)
+						if !e.IsError() && enemyConf != nil {
+							if common.HitRandomRate(*enemyConf.DropRate) {
+								dropUnit := &bbproto.DropUnit{}
+								dropUnit.UnitId = enemyConf.DropUnitId
+								dropUnit.Level = enemyConf.DropUnitLevel
+								if common.HitRandomRate(*enemyConf.AddHpRate) {
+									dropUnit.AddHp = proto.Int32(1)
+								}
+								if common.HitRandomRate(*enemyConf.AddHpRate) {
+									dropUnit.AddAttack = proto.Int32(1)
+								}
+								if common.HitRandomRate(*enemyConf.AddDefenceRate) {
+									dropUnit.AddDefence = proto.Int32(1)
+								}
+								log.T("\t -- append dropUnit:%+v", dropUnit)
+
+								dropUnit.DropId = proto.Uint32(uint32(len(questData.Drop)))
+
+								grid.DropId = append(grid.DropId, *dropUnit.DropId)
+								questData.Drop = append(questData.Drop, dropUnit)
+							}
+						}
+					}
 				}
+
 			} else {
 				log.Warn("Random ret grid type is Empty. (randPos: %v iType:%v)", randPos, iType)
 			}
@@ -376,4 +419,80 @@ func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonD
 	}
 
 	return questData, Error.OK()
+}
+
+//get quest record from QuestLog, fill to userDetail.Quest
+func GetQuestRecord(db *data.Data, questId uint32, userDetail *bbproto.UserInfoDetail) (e Error.Error) {
+	//TODO:
+	if db == nil {
+		return Error.New(cs.INVALID_PARAMS, "invalid db pointer")
+	}
+
+	if err := db.Select(cs.TABLE_QUEST_LOG); err != nil {
+		return Error.New(cs.SET_DB_ERROR, err.Error())
+	}
+
+	var value []byte
+	uid := *userDetail.User.UserId
+	value, err := db.HGet(cs.X_QUEST_LOG+common.Utoa(uid), common.Utoa(questId))
+	if err != nil {
+		log.Printf("[ERROR] GetQuestRecord for '%v' ret err:%v", uid, err)
+		return Error.New(cs.READ_DB_ERROR, "read quest log fail")
+	}
+
+	if len(value) == 0 {
+		return Error.OK() //no records
+	}
+
+	userDetail.Quest = &bbproto.QuestRecord{}
+	err = proto.Unmarshal(value, userDetail.Quest)
+	if err != nil {
+		return Error.New(cs.UNMARSHAL_ERROR)
+	}
+
+	return Error.OK()
+}
+
+func FillQuestRecord(userDetail *bbproto.UserInfoDetail, questId uint32, drops []*bbproto.DropUnit,
+	stage *bbproto.StageInfo, quest *bbproto.QuestInfo) (e Error.Error) {
+	if userDetail.Quest == nil {
+		userDetail.Quest = &bbproto.QuestRecord{}
+		userDetail.Quest.QuestId = proto.Uint32(questId)
+		userDetail.Quest.StartTime = proto.Uint32(common.Now())
+		//userDetail.Quest.EndTime = proto.Uint32(common.Now())
+	}
+
+	//fill getExp, getMoney
+	getExp := *quest.RewardExp
+	getMoney := *quest.RewardMoney
+	if *stage.Boost.Type == bbproto.QuestBoostType_QB_BOOST_MONEY {
+		log.T("boost money: %v x%v", getMoney, *stage.Boost.Value)
+		getMoney *= *stage.Boost.Value
+	}
+	if *stage.Boost.Type == bbproto.QuestBoostType_QB_BOOST_EXP {
+		log.T("boost Exp: %v x%v", getExp, *stage.Boost.Value)
+		getExp *= *stage.Boost.Value
+	}
+	userDetail.Quest.GetExp = proto.Int32(getExp)
+	userDetail.Quest.GetMoney = proto.Int32(getMoney)
+
+	state := bbproto.EQuestState_QS_QUESTING
+	userDetail.Quest.State = &state
+
+	//fill drop unit
+	for _, dropUnit := range drops {
+		if dropUnit != nil {
+			userunit := &bbproto.UserUnit{}
+			userunit.UniqueId = proto.Uint32(0)
+			userunit.UnitId = dropUnit.UnitId
+			userunit.Level = dropUnit.Level
+			userunit.AddHp = dropUnit.AddHp
+			userunit.AddAttack = dropUnit.AddAttack
+			userunit.AddDefence = dropUnit.AddDefence
+
+			userDetail.Quest.DropUnit = append(userDetail.Quest.DropUnit, userunit)
+		}
+	}
+
+	return Error.OK()
 }

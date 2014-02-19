@@ -6,12 +6,12 @@ const (
 
 //redis table name list
 const (
-	TABLE_USER    = "1"
-	TABLE_UNIT    = "2"
-	TABLE_QUEST   = "3"
-	TABLE_SESSION = "4"
-	TABLE_FRIEND  = "5"
-	TABLE_LOG     = "6"
+	TABLE_USER      = "1"
+	TABLE_UNIT      = "2"
+	TABLE_QUEST     = "3"
+	TABLE_SESSION   = "4"
+	TABLE_FRIEND    = "5"
+	TABLE_QUEST_LOG = "6"
 )
 
 //key prefix
@@ -23,6 +23,7 @@ const (
 	//quest
 	X_QUEST_STAGE  = "X_STAGE_"
 	X_QUEST_CONFIG = "X_CONFIG_"
+	X_QUEST_LOG    = "X_Q_LOG_"
 )
 
 const (

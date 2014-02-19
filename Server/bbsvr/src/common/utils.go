@@ -1,8 +1,8 @@
 package common
 
 import (
+	"./log"
 	"fmt"
-	"log"
 	"math/rand"
 	"os"
 	"strconv"
@@ -68,7 +68,7 @@ func IsToday(t uint32) bool {
 	y1, m1, d1 := time.Unix(int64(t), 0).Date()
 	y2, m2, d2 := time.Now().UTC().Date()
 
-	log.Printf("[TRACE] IsToday() ->  lastTime: %v-%v-%v   today: %v-%v-%v (%v)", y1, m1, d1, y2, m2, d2, t)
+	log.T(" IsToday() ->  lastTime: %v-%v-%v   today: %v-%v-%v (%v)", y1, m1, d1, y2, m2, d2, t)
 	if y1 == y2 && m1 == m2 && d1 == d2 { //is same day
 		return true
 	}
@@ -95,4 +95,11 @@ func Randn(n int32) int32 {
 		return 0
 	}
 	return rand.Int31n(n)
+}
+
+//rate range from: [0 - 1.0]
+func HitRandomRate(rate float32) bool {
+	randnum := Randn(100)
+	log.T("HitRandomRate :: [ randnum %v ? rate: %v ] ==> %v", rate, randnum < int32(rate*100))
+	return randnum < int32(rate*100)
 }
