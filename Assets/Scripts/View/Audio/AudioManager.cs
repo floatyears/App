@@ -31,6 +31,7 @@ public class AudioManager {
 			AudioClip clip = Resources.Load( configItem.resourcePath ) as AudioClip;
 			source.clip = clip;
 			audioPlayerCache.Add( audioID, source );
+			SetPlayType( configItem.type, source);
 		}
 
 		if( audioPlayerCache[ audioID ] == null ){
@@ -72,6 +73,19 @@ public class AudioManager {
 		
 		if( audioPlayerCache[ audioID ].isPlaying )	
 			audioPlayerCache[ audioID ].Stop();
+	}
+
+	void SetPlayType(EPlayType type, AudioSource source){
+		switch (type){
+			case EPlayType.LOOP : 
+				source.loop = true;
+				break;
+			case EPlayType.ONCE : 
+				source.loop = false;
+				break;
+			default:
+				break;
+		}
 	}
 
 }

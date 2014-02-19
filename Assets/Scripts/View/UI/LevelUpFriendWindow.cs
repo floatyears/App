@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class LevelUpFriendWindow : UIComponentUnity {
 	DragPanel dragPanel;
+	GameObject levelUpButton;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	List<TempAvailFriend> availFriendList;
 	public override void Init(UIInsConfig config, IUIOrigin origin){
@@ -27,10 +28,20 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
 	void InitUI(){
 		CreateDragPanel();
+		this.gameObject.SetActive(false);
+
+		levelUpButton = FindChild("Button_LevelUp");
+		UIEventListener.Get( levelUpButton ).onClick = ClickLevelUpButton;
+	}
+
+	void ClickLevelUpButton(GameObject go){
+		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 	}
 
 	void FocusOnPanel(object data) {
 		string message = (string)data;
+		Debug.Log("Friend Window receive : " + message);
+
 		if(message == "Tab_Friend"){
 			this.gameObject.SetActive(true);
 		}else{
@@ -94,6 +105,8 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
 	void PickMaterial(GameObject go){
 //		Debug.LogError("Pick Friend");
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+		MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, go);
 	}
 
 	void InitDragPanelArgs(){

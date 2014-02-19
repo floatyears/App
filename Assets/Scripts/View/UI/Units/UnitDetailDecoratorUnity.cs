@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class UnitDetailDecoratorUnity : UIComponentUnity{
 	private UITexture detaiSprite;
@@ -29,14 +30,14 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		ShowUnitScale();
 		UIManager.Instance.HideBaseScene();
 		TabFocus();
-
 	}
 	
 	public override void HideUI ()  {
 		base.HideUI ();
 		UIManager.Instance.ShowBaseScene();
 	}
-	
+
+
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
@@ -66,6 +67,12 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	
 	private void TabFocus() {
 		startToggle.value = true;
+	}
+
+	private void ShowUnitDetail( object info){
+		UnitInfo unitInfo = info as UnitInfo;
+		if( unitInfo == null )	return;
+		Debug.Log( string.Format("Catch Info, to show unit detail which named as {0}", unitInfo.name));
 	}
 
 	private void ShowUnitDetailInfo() {
