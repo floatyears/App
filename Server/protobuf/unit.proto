@@ -20,7 +20,7 @@ message UserUnit {  //unit instance
 	optional int32 addDefence	= 6;
 	optional int32 addHp		= 7;
 	optional int32 limitbreakLv	= 8;
-	optional int32 getTime		= 9;
+	optional uint32 getTime		= 9;
 };
 
 message ReqGetUnitResource {

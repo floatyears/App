@@ -42,13 +42,14 @@ message QuestRecord {
 	optional uint32			questId		= 1;
 	optional uint32			startTime	= 2;
 	optional uint32			endTime		= 3;
-	repeated UserUnit		dropUnit	= 4;
-	optional int32			getExp		= 5;
-	optional int32			getMoney	= 6;
-	optional EQuestState	state		= 7;
-	optional int32		continue_times	= 8; 
-	optional int32			playTotal	= 9;
-	optional int32			playToday	= 10;
+	repeated DropUnit		dropUnits	= 4;
+	repeated UserUnit		getUnit		= 5;
+	optional int32			getExp		= 6;
+	optional int32			getMoney	= 7;
+	optional EQuestState	state		= 8;
+	optional int32		continue_times	= 9; 
+	optional int32			playTotal	= 10;
+	optional int32			playToday	= 11;
 }
 
 //----------------------Quest config data-----------------------------
@@ -226,8 +227,8 @@ message ReqClearQuest {
 	optional ProtoHeader	header 			= 1; 
 	optional uint32			questId			= 2; 
 	optional uint32			securityKey		= 3; 
-	optional uint32			getMoney		= 4;
-	repeated UserUnit		getUnit			= 5; //without uniqueId	
+	optional int32			getMoney		= 4;
+	repeated DropUnit		getUnit			= 5; //without uniqueId	
 	repeated uint32			hitGrid			= 6;
 }
 
@@ -235,8 +236,8 @@ message RspClearQuest {
 	optional ProtoHeader	header			= 1;
 	optional UserInfo		user			= 2;
 	optional AccountInfo	acount			= 3;	
-	optional uint32			getMoney		= 4;
-	optional uint32			getExp			= 5;	
+	optional int32			getMoney		= 4;
+	optional int32			getExp			= 5;	
 	repeated UserUnit		getUnit			= 6; //with uniqueId 
 }
 

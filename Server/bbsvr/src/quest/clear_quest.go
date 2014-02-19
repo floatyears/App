@@ -106,17 +106,17 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	}
 
 	//2. update questPlayRecord
-	e = UpdateQuestRecord(db, uid, questId, reqMsg.GetUnit, *reqMsg.GetMoney)
+	e = UpdateQuestRecord(db, &userDetail, questId, reqMsg.GetUnit, *reqMsg.GetMoney)
 	if e.IsError() {
 		return e
 	}
 
 	//3. update userinfo (unitList, exp, money, stamina)
-	//questInfo, e := updateUserInfo(db, userDetail)
+	e = usermanage.UpdateUserInfo(db, &userDetail)
 	if e.IsError() {
-		return e
+		return Error.New(cs.EU_UPDATE_USERINFO_ERROR, "update userinfo failed.")
 	}
-	log.T("userDetail:%+v", userDetail)
+	log.T("UpdateUserInfo(%v) ret OK.", uid)
 
 	//fill response
 	//rspMsg.DungeonData = &questData

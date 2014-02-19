@@ -801,13 +801,14 @@ type QuestRecord struct {
 	QuestId          *uint32      `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
 	StartTime        *uint32      `protobuf:"varint,2,opt,name=startTime" json:"startTime,omitempty"`
 	EndTime          *uint32      `protobuf:"varint,3,opt,name=endTime" json:"endTime,omitempty"`
-	DropUnit         []*UserUnit  `protobuf:"bytes,4,rep,name=dropUnit" json:"dropUnit,omitempty"`
-	GetExp           *int32       `protobuf:"varint,5,opt,name=getExp" json:"getExp,omitempty"`
-	GetMoney         *int32       `protobuf:"varint,6,opt,name=getMoney" json:"getMoney,omitempty"`
-	State            *EQuestState `protobuf:"varint,7,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
-	ContinueTimes    *int32       `protobuf:"varint,8,opt,name=continue_times" json:"continue_times,omitempty"`
-	PlayTotal        *int32       `protobuf:"varint,9,opt,name=playTotal" json:"playTotal,omitempty"`
-	PlayToday        *int32       `protobuf:"varint,10,opt,name=playToday" json:"playToday,omitempty"`
+	DropUnits        []*DropUnit  `protobuf:"bytes,4,rep,name=dropUnits" json:"dropUnits,omitempty"`
+	GetUnit          []*UserUnit  `protobuf:"bytes,5,rep,name=getUnit" json:"getUnit,omitempty"`
+	GetExp           *int32       `protobuf:"varint,6,opt,name=getExp" json:"getExp,omitempty"`
+	GetMoney         *int32       `protobuf:"varint,7,opt,name=getMoney" json:"getMoney,omitempty"`
+	State            *EQuestState `protobuf:"varint,8,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
+	ContinueTimes    *int32       `protobuf:"varint,9,opt,name=continue_times" json:"continue_times,omitempty"`
+	PlayTotal        *int32       `protobuf:"varint,10,opt,name=playTotal" json:"playTotal,omitempty"`
+	PlayToday        *int32       `protobuf:"varint,11,opt,name=playToday" json:"playToday,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -836,9 +837,16 @@ func (m *QuestRecord) GetEndTime() uint32 {
 	return 0
 }
 
-func (m *QuestRecord) GetDropUnit() []*UserUnit {
+func (m *QuestRecord) GetDropUnits() []*DropUnit {
 	if m != nil {
-		return m.DropUnit
+		return m.DropUnits
+	}
+	return nil
+}
+
+func (m *QuestRecord) GetGetUnit() []*UserUnit {
+	if m != nil {
+		return m.GetUnit
 	}
 	return nil
 }
@@ -1852,8 +1860,8 @@ type ReqClearQuest struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	QuestId          *uint32      `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
 	SecurityKey      *uint32      `protobuf:"varint,3,opt,name=securityKey" json:"securityKey,omitempty"`
-	GetMoney         *uint32      `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
-	GetUnit          []*UserUnit  `protobuf:"bytes,5,rep,name=getUnit" json:"getUnit,omitempty"`
+	GetMoney         *int32       `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
+	GetUnit          []*DropUnit  `protobuf:"bytes,5,rep,name=getUnit" json:"getUnit,omitempty"`
 	HitGrid          []uint32     `protobuf:"varint,6,rep,name=hitGrid" json:"hitGrid,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
@@ -1883,14 +1891,14 @@ func (m *ReqClearQuest) GetSecurityKey() uint32 {
 	return 0
 }
 
-func (m *ReqClearQuest) GetGetMoney() uint32 {
+func (m *ReqClearQuest) GetGetMoney() int32 {
 	if m != nil && m.GetMoney != nil {
 		return *m.GetMoney
 	}
 	return 0
 }
 
-func (m *ReqClearQuest) GetGetUnit() []*UserUnit {
+func (m *ReqClearQuest) GetGetUnit() []*DropUnit {
 	if m != nil {
 		return m.GetUnit
 	}
@@ -1908,8 +1916,8 @@ type RspClearQuest struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	User             *UserInfo    `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
 	Acount           *AccountInfo `protobuf:"bytes,3,opt,name=acount" json:"acount,omitempty"`
-	GetMoney         *uint32      `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
-	GetExp           *uint32      `protobuf:"varint,5,opt,name=getExp" json:"getExp,omitempty"`
+	GetMoney         *int32       `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
+	GetExp           *int32       `protobuf:"varint,5,opt,name=getExp" json:"getExp,omitempty"`
 	GetUnit          []*UserUnit  `protobuf:"bytes,6,rep,name=getUnit" json:"getUnit,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
@@ -1939,14 +1947,14 @@ func (m *RspClearQuest) GetAcount() *AccountInfo {
 	return nil
 }
 
-func (m *RspClearQuest) GetGetMoney() uint32 {
+func (m *RspClearQuest) GetGetMoney() int32 {
 	if m != nil && m.GetMoney != nil {
 		return *m.GetMoney
 	}
 	return 0
 }
 
-func (m *RspClearQuest) GetGetExp() uint32 {
+func (m *RspClearQuest) GetGetExp() int32 {
 	if m != nil && m.GetExp != nil {
 		return *m.GetExp
 	}
@@ -2146,7 +2154,7 @@ type UserUnit struct {
 	AddDefence       *int32  `protobuf:"varint,6,opt,name=addDefence" json:"addDefence,omitempty"`
 	AddHp            *int32  `protobuf:"varint,7,opt,name=addHp" json:"addHp,omitempty"`
 	LimitbreakLv     *int32  `protobuf:"varint,8,opt,name=limitbreakLv" json:"limitbreakLv,omitempty"`
-	GetTime          *int32  `protobuf:"varint,9,opt,name=getTime" json:"getTime,omitempty"`
+	GetTime          *uint32 `protobuf:"varint,9,opt,name=getTime" json:"getTime,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -2210,7 +2218,7 @@ func (m *UserUnit) GetLimitbreakLv() int32 {
 	return 0
 }
 
-func (m *UserUnit) GetGetTime() int32 {
+func (m *UserUnit) GetGetTime() uint32 {
 	if m != nil && m.GetTime != nil {
 		return *m.GetTime
 	}

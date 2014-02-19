@@ -13,16 +13,12 @@ import (
 	"../common/log"
 	"../const"
 	"../data"
+	"../unit"
 	//"../user/usermanage"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
 )
-
-func UpdateQuestRecord(db *data.Data, uid uint32, questId uint32, getUnit []*bbproto.UserUnit, getMoney uint32) (e Error.Error) {
-	//
-	return Error.OK()
-}
 
 func MakeColors(colorPercent []*bbproto.ColorPercent, count int) (colorPack []byte, e Error.Error) {
 	log.T("MakeColors[ %v ] ...", count)
@@ -423,7 +419,6 @@ func MakeQuestData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonD
 
 //get quest record from QuestLog, fill to userDetail.Quest
 func GetQuestRecord(db *data.Data, questId uint32, userDetail *bbproto.UserInfoDetail) (e Error.Error) {
-	//TODO:
 	if db == nil {
 		return Error.New(cs.INVALID_PARAMS, "invalid db pointer")
 	}
@@ -449,6 +444,88 @@ func GetQuestRecord(db *data.Data, questId uint32, userDetail *bbproto.UserInfoD
 	if err != nil {
 		return Error.New(cs.UNMARSHAL_ERROR)
 	}
+
+	return Error.OK()
+}
+
+func UpdateQuestRecord(db *data.Data, userDetail *bbproto.UserInfoDetail, questId uint32, getUnit []*bbproto.DropUnit, getMoney int32) (e Error.Error) {
+	if db == nil {
+		return Error.New(cs.INVALID_PARAMS, "invalid db pointer")
+	}
+
+	uid := *userDetail.User.UserId
+	if userDetail.Quest == nil {
+		return Error.New(cs.EQ_UPDATE_QUEST_RECORD_ERROR, "user.Quest is nil")
+	}
+
+	userDetail.Quest.EndTime = proto.Uint32(common.Now())
+
+	//TODO: verity getMoney
+	*userDetail.Quest.GetMoney += getMoney
+
+	//check getUnit
+	isValidUnit := true
+	for _, unitGot := range getUnit {
+		isValidOne := false
+		for _, unitDrop := range userDetail.Quest.DropUnits {
+			if *unitDrop.DropId == *unitGot.DropId && *unitDrop.UnitId == *unitGot.UnitId {
+				isValidOne = true
+				break
+			}
+		}
+		if !isValidOne {
+			log.Error("ClearQuest :: unitGot is invalid: %+v", unitGot)
+			isValidUnit = false
+			break
+		}
+	}
+
+	if !isValidUnit {
+		return Error.New(cs.EQ_INVALID_DROP_UNIT, "clear request: invalid drop unit")
+	}
+
+	//add unit to userinfo
+	for _, unitDrop := range userDetail.Quest.DropUnits {
+		uniqueId, e := unit.GetUnitUniqueId(db, userDetail)
+		if e.IsError() {
+			return e
+		}
+
+		userUnit := &bbproto.UserUnit{}
+		userUnit.UniqueId = proto.Uint32(uniqueId)
+		userUnit.UnitId = unitDrop.UnitId
+		userUnit.Level = unitDrop.Level
+		userUnit.AddHp = unitDrop.AddHp
+		userUnit.AddAttack = unitDrop.AddAttack
+		userUnit.AddDefence = unitDrop.AddDefence
+		userUnit.GetTime = proto.Uint32(common.Now())
+
+		userDetail.UnitList = append(userDetail.UnitList, userUnit)
+		userDetail.Quest.GetUnit = append(userDetail.Quest.GetUnit, userUnit)
+	}
+
+	//already fill in getUnit, so empty dropUnit before save to QuestLog
+	userDetail.Quest.DropUnits = []*bbproto.DropUnit{}
+	//save userDetail.Quest to QuestLog
+	zQuest, err := proto.Marshal(userDetail.Quest)
+	if err != nil {
+		return Error.New(cs.MARSHAL_ERROR)
+	}
+
+	if err := db.Select(cs.TABLE_QUEST_LOG); err != nil {
+		return Error.New(cs.SET_DB_ERROR, err.Error())
+	}
+	if err = db.HSet(cs.X_QUEST_LOG+common.Utoa(uid), common.Utoa(questId), zQuest); err != nil {
+		return Error.New(cs.SET_DB_ERROR)
+	}
+
+	//clear userDetail.Quest, then save userDetail
+	*userDetail.User.Exp += *userDetail.Quest.GetExp
+	*userDetail.Account.Money += uint32(*userDetail.Quest.GetMoney)
+	log.T("==Account :: addMoney:%v -> %v addExp:%v -> %v", *userDetail.Quest.GetMoney, *userDetail.Account.Money, *userDetail.Quest.GetExp, *userDetail.User.Exp)
+	userDetail.Quest = nil
+
+	//TODO:update stamina
 
 	return Error.OK()
 }
@@ -482,15 +559,15 @@ func FillQuestRecord(userDetail *bbproto.UserInfoDetail, questId uint32, drops [
 	//fill drop unit
 	for _, dropUnit := range drops {
 		if dropUnit != nil {
-			userunit := &bbproto.UserUnit{}
-			userunit.UniqueId = proto.Uint32(0)
-			userunit.UnitId = dropUnit.UnitId
-			userunit.Level = dropUnit.Level
-			userunit.AddHp = dropUnit.AddHp
-			userunit.AddAttack = dropUnit.AddAttack
-			userunit.AddDefence = dropUnit.AddDefence
+			//userunit := &bbproto.UserUnit{}
+			//userunit.UniqueId = proto.Uint32(0)
+			//userunit.UnitId = dropUnit.UnitId
+			//userunit.Level = dropUnit.Level
+			//userunit.AddHp = dropUnit.AddHp
+			//userunit.AddAttack = dropUnit.AddAttack
+			//userunit.AddDefence = dropUnit.AddDefence
 
-			userDetail.Quest.DropUnit = append(userDetail.Quest.DropUnit, userunit)
+			userDetail.Quest.DropUnits = append(userDetail.Quest.DropUnits, dropUnit)
 		}
 	}
 

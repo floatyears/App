@@ -28,6 +28,7 @@ const (
 
 const (
 	KEY_MAX_USER_ID  = "K_MAX_USER_ID"
+	KEY_MAX_UNIT_ID  = "K_MAX_UNIT_ID"
 	KEY_QUEST_PREFIX = "K_QUEST_INFO_"
 )
 
