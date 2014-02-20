@@ -34,6 +34,8 @@ public class BattleMap : UIBaseUnity {
 		gameObject.transform.localPosition += Vector3.right * 5f;
 		box = transform.Find ("magic_Box04").gameObject;
 		box.SetActive (false);
+
+	
 	}
 
 	public override void CreatUI ()
@@ -73,6 +75,9 @@ public class BattleMap : UIBaseUnity {
 	public override void HideUI ()
 	{
 		base.HideUI ();
+		for (int i = 0; i < useMapItem.Count; i++) {
+			useMapItem[i].Reset();
+				}
 		useMapItem.Clear ();
 		gameObject.SetActive (false);
 //		door.HideUI ();
@@ -80,6 +85,8 @@ public class BattleMap : UIBaseUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
+//		MapConfig mc = ModelManager.Instance.GetData(ModelEnum.MapConfig,new ErrorMsg()) as MapConfig;
+//		ReachMapItem (new Coordinate (mc.characterInitCoorX, mc.characterInitCoorY));
 //		door.ShowUI ();
 		gameObject.SetActive (true);
 		StartMap ();

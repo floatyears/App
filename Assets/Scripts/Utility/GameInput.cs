@@ -40,6 +40,7 @@ public class GameInput : MonoBehaviour  {
 
 	void Update()
 	{
+//		Debug.LogError ("update : ");
 		if(Time.timeScale < 0.5f)
 			return;
 

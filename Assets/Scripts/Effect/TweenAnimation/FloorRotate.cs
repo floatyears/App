@@ -21,7 +21,11 @@ public class FloorRotate : MonoBehaviour {
 		Vector3 scale = targetObject.transform.localScale;
 		rotatePoint = transform.Find ("RotatePoint").transform.position;
 	}
-	
+
+	void OnEnable () {
+		isRotate = false;
+	}
+
 	public void RotateFloor () {
 		if (isRotate) {
 			return;	
