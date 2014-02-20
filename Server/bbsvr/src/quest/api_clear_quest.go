@@ -102,18 +102,22 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	err = db.Open(cs.TABLE_QUEST)
 	defer db.Close()
 	if err != nil {
+		log.Error("open TABLE_QUEST failed.")
 		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
 	}
 
-	//2. update questPlayRecord
-	e = UpdateQuestRecord(db, &userDetail, questId, reqMsg.GetUnit, *reqMsg.GetMoney)
-	if e.IsError() {
+	//2. update questPlayRecord (include )
+	if e = UpdateQuestRecord(db, &userDetail, questId, reqMsg.GetUnit, *reqMsg.GetMoney); e.IsError() {
 		return e
 	}
 
-	//3. update userinfo (unitList, exp, money, stamina)
-	e = usermanage.UpdateUserInfo(db, &userDetail)
-	if e.IsError() {
+	//3. calculate stamina
+	if e = RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {
+		return e
+	}
+
+	//4. update userinfo (include: unitList, exp, money, stamina)
+	if e = usermanage.UpdateUserInfo(db, &userDetail); e.IsError() {
 		return Error.New(cs.EU_UPDATE_USERINFO_ERROR, "update userinfo failed.")
 	}
 	log.T("UpdateUserInfo(%v) ret OK.", uid)

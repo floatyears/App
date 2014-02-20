@@ -3,7 +3,6 @@ package quest
 import (
 	"fmt"
 	"net/http"
-	//"time"
 )
 
 import (
@@ -15,8 +14,7 @@ import (
 	"../data"
 	"../user/usermanage"
 
-	proto "code.google.com/p/goprotobuf/proto"
-	//redis "github.com/garyburd/redigo/redis"
+	"code.google.com/p/goprotobuf/proto"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -123,11 +121,17 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 
 	//update stamina
 	log.T("--Old Stamina:%v staminaRecover:%v", *userDetail.User.StaminaNow, *userDetail.User.StaminaRecover)
-	e = UpdateStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax, *questInfo.Stamina)
+	e = RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax)
 	if e.IsError() {
 		return e
 	}
-	log.T("--New StaminaNow:%v staminaRecover:%v", *userDetail.User.StaminaNow, *userDetail.User.StaminaRecover)
+	log.T("--New StaminaNow: %v -> %v staminaRecover:%v",
+		*userDetail.User.StaminaNow, *userDetail.User.StaminaNow-*questInfo.Stamina, *userDetail.User.StaminaRecover)
+
+	if *userDetail.User.StaminaNow < *questInfo.Stamina {
+		return Error.New(cs.EQ_STAMINA_NOT_ENOUGH, "stamina is not enough")
+	}
+	*userDetail.User.StaminaNow -= *questInfo.Stamina
 
 	//get quest config
 	questConf, e := GetQuestConfig(db, questId)
@@ -136,8 +140,9 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 		return e
 	}
 
+	questDataMaker := &QuestDataMaker{}
 	//make quest data
-	questData, e := MakeQuestData(&questConf)
+	questData, e := questDataMaker.MakeData(&questConf)
 	if e.IsError() {
 		return e
 	}
@@ -158,8 +163,8 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	}
 
 	//fill response
-	rspMsg.StaminaNow = proto.Int32(*userDetail.User.StaminaNow - *questInfo.Stamina)
-	rspMsg.StaminaRecover = proto.Uint32(*userDetail.User.StaminaRecover)
+	rspMsg.StaminaNow = userDetail.User.StaminaNow
+	rspMsg.StaminaRecover = userDetail.User.StaminaRecover
 	rspMsg.DungeonData = &questData
 
 	log.T("=========== StartQuest total cost %v ms. ============\n\n", cost.Cost())
