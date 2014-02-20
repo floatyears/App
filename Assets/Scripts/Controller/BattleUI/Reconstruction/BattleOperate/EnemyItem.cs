@@ -61,7 +61,7 @@ public class EnemyItem : UIBaseUnity {
 	}
 
 	void InjuredShake(){
-//		iTween.ShakeScale(texture.gameObject, new Vector3(0.5f,0.5f,0.5f), 0.3f);
+		iTween.ShakeScale(texture.gameObject, new Vector3(0.5f,0.5f,0.5f), 0.2f);
 	}
 
 	void BePosion(object data) {
@@ -84,7 +84,7 @@ public class EnemyItem : UIBaseUnity {
 	public void Init(ShowEnemyUtility te) {
 		texture 	= FindChild<UITexture> ("Texture");
 		localPosition = texture.transform.localPosition;
-		attackPosition = new Vector3 (localPosition.x, BattleBackground.ActorPosition.y  - 20f, localPosition.z);
+		attackPosition = new Vector3 (localPosition.x, BattleBackground.ActorPosition.y , localPosition.z);
 //		Debug.LogError (attackPosition + " --   -- " + localPosition + "       ......     " + BattleBackground.ActorPosition.y);
 		bloodLabel 	= FindChild<UILabel> ("BloodLabel");
 		nextLabel 	= FindChild<UILabel> ("NextLabel");
