@@ -1,14 +1,15 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class LevelUpBasePanel : UIComponentUnity {
-	DragPanel baseDragPanel;
 
+	DragPanel baseDragPanel;
+	Dictionary<GameObject, UnitInfo> baseUnitInfoDic = new Dictionary<GameObject, UnitInfo>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	private List<UserUnitInfo> userUnitInfoList = new List<UserUnitInfo>();
-	Dictionary<GameObject, UserUnitInfo> baseUnitInfoDic = new Dictionary<GameObject, UserUnitInfo>();
-
+	
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
 		InitUI();
@@ -23,9 +24,8 @@ public class LevelUpBasePanel : UIComponentUnity {
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
 	}
-	
+
 	private void InitUI(){
-		GetUnitInfoList();
 		InitDragPanel();
 	}
 	
@@ -51,18 +51,10 @@ public class LevelUpBasePanel : UIComponentUnity {
 		//Debug.LogError(avatarSourcePath);
 		return avatarSourcePath;
 	}
+	
 
-	private int IndexOfItem(DragPanel panel, GameObject item){
-		if( panel == null || item == null ){
-			Debug.LogError("IndexOf Item Error!");
-			return 0;
-		}
-		return panel.ScrollItem.IndexOf( item);
-	}
-
-	void GetUnitInfoList() {
-		UnitPartyInfo upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo, new ErrorMsg()) as UnitPartyInfo;
-		userUnitInfoList = upi.GetUserUnit();
+	void GetBaseUnitInfo(GameObject item, UnitInfo unitInfo){
+		baseUnitInfoDic.Add(item,unitInfo);
 	}
 
 	private void ShowAvatar( GameObject item){
@@ -71,8 +63,8 @@ public class LevelUpBasePanel : UIComponentUnity {
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		 //find src 
-		int scrollItemIndex = IndexOfItem( baseDragPanel, item);
-		string sourceTexPath = GetAvatarInfo( scrollItemIndex );
+		uint id = baseUnitInfoDic[item].id;
+		string sourceTexPath = "Avatar/role00" + id.ToString();
 		//Debug.Log("ShowAvatar, the avatar texure path is : " + sourceTexPath);
 		Texture2D sourceTex = Resources.Load( sourceTexPath ) as Texture2D;
 		//show
@@ -80,26 +72,29 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	private void AddEventListener( GameObject item){
-		UIEventListener.Get( item ).onClick = ClickItem;
+		UIEventListener.Get( item ).onClick = ClickBaseItem;
 		UIEventListenerCustom.Get( item ).LongPress = PressItem;
 	}
+	
 
-	private void ClickItem(GameObject item){
-		//Debug.LogError("Click Item " + item.name);
-		MsgCenter.Instance.Invoke( CommandEnum.PickBaseUnitInfo, item );
+	private void ClickBaseItem(GameObject item){
+		//Debug.Log()
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+		UnitInfo tempInfo = baseUnitInfoDic[ item ];
+		//Debug.LogError( tempInfo.name );
+		MsgCenter.Instance.Invoke( CommandEnum.PickBaseUnitInfo, tempInfo );
 	}
 
-	void PressItem(GameObject itemGo){
-		UserUnitInfo userUnitInfo = baseUnitInfoDic [ itemGo ];
-		MsgCenter.Instance.Invoke(CommandEnum.EnterUnitInfo, userUnitInfo);
+	void PressItem(GameObject item ){
+		UnitInfo unitInfo = baseUnitInfoDic[ item ];
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
+
         }
 
 	private void InitDragPanel(){
-		
-		string name = "MaterialDragPanel";
-		int count = userUnitInfoList.Count - 2;
-		//Debug.Log( string.Format("The count to add is : " + count) );
+		string name = "BaseDragPanel";
+		int count = ConfigViewData.OwnedUnitInfoList.Count;
+		Debug.Log( string.Format("Base Panel: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		InitDragPanelArgs();
@@ -109,7 +104,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){
-		//Debug.Log("Create Drag Panel");
+		Debug.Log(string.Format("Create Drag Panel -> {0}, Item's count is {1}", name, count) );
 		DragPanel panel = new DragPanel(name,item);
 		panel.CreatUI();
 		panel.AddItem( count);
@@ -123,10 +118,8 @@ public class LevelUpBasePanel : UIComponentUnity {
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
 			GameObject currentItem = panel.ScrollItem[ i ];
 			UITexture tex = currentItem.GetComponentInChildren<UITexture>();
-			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [userUnitInfoList [i].unitBaseInfo];
-			tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
-			baseUnitInfoDic.Add(currentItem, userUnitInfoList [i]);
-			//ShowAvatar( currentItem );
+			baseUnitInfoDic.Add(currentItem, ConfigViewData.OwnedUnitInfoList[ i ]);
+			ShowAvatar( currentItem );
 			AddEventListener( currentItem );
 		}
 	}

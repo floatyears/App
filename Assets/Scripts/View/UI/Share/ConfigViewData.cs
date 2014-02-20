@@ -30,7 +30,7 @@ public class ConfigViewData
 
 		tempUnitInfo = new UnitInfo();
 		tempUnitInfo.id = 3;
-		tempUnitInfo.name = "Zeus";
+		tempUnitInfo.name = "Bradwarden";
 		tempUnitInfo.type = EUnitType.UWIND;
 		tempUnitInfo.maxLevel = 70;
 		tempUnitInfo.cost = 12;
@@ -38,13 +38,13 @@ public class ConfigViewData
 
 		tempUnitInfo = new UnitInfo();
 		tempUnitInfo.id = 4;
-		tempUnitInfo.name = "Zeus";
+		tempUnitInfo.name = "Coco";
 		tempUnitInfo.type = EUnitType.ULIGHT;
 		tempUnitInfo.maxLevel = 90;
 		tempUnitInfo.cost = 26;
 		OwnedUnitInfoList.Add( tempUnitInfo );
 
-		//Debug.Log(string.Format( "Finlish configging owned unit info, the Count of OwnedUnitInfoList is {0}", OwnedUnitInfoList.Count) );
+		Debug.Log(string.Format( "Finlish configging owned unit info, the Count of OwnedUnitInfoList is {0}", OwnedUnitInfoList.Count) );
 
 
 	}

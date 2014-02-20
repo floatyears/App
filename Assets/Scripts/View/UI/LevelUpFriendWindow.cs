@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class LevelUpFriendWindow : UIComponentUnity {
-	DragPanel dragPanel;
-	GameObject levelUpButton;
+	DragPanel friendDragPanel;
+	UIImageButton levelUpButton;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	List<TempAvailFriend> availFriendList;
 	public override void Init(UIInsConfig config, IUIOrigin origin){
@@ -25,17 +26,88 @@ public class LevelUpFriendWindow : UIComponentUnity {
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
 	}
+	
+	void InitButton(){
+		levelUpButton = FindChild<UIImageButton>("Button_LevelUp");
+		UIEventListener.Get( levelUpButton.gameObject ).onClick = ClickLevelUpButton;
+		levelUpButton.isEnabled = false;
+	}
 
 	void InitUI(){
-		CreateDragPanel();
+		//CreateDragPanel();
+		InitDragPanel();
+		InitButton();
 		this.gameObject.SetActive(false);
+	}
 
-		levelUpButton = FindChild("Button_LevelUp");
-		UIEventListener.Get( levelUpButton ).onClick = ClickLevelUpButton;
+	void InitDragPanel(){
+		string name = "FriendDragPanel";
+		int count = ConfigViewData.OwnedUnitInfoList.Count;
+		Debug.Log( string.Format("The Friend count to add is : " + count) );
+		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
+		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
+		InitDragPanelArgs();
+		friendDragPanel = CreateDrag( name, count, itemGo) ;
+		FillDragPanel( friendDragPanel );
+		friendDragPanel.RootObject.SetScrollView(dragPanelArgs);
+	}
+
+	private DragPanel CreateDrag( string name, int count, GameObject item){
+		//Debug.Log("Create Drag Panel");
+		DragPanel panel = new DragPanel(name,item);
+		panel.CreatUI();
+		panel.AddItem( count);
+		return panel;
+	}
+
+
+	private void AddEventListener( GameObject item){
+		UIEventListener.Get( item ).onClick = ClickFriendItem;
+		UIEventListenerCustom.Get( item ).LongPress = PressItem;
+	}
+
+	private void FillDragPanel(DragPanel panel){
+		//Debug.Log("Fill Drag Panel");
+		if( panel == null )	return;
+		
+		for( int i = 0; i < panel.ScrollItem.Count; i++){
+			GameObject currentItem = panel.ScrollItem[ i ];
+			UITexture tex = currentItem.GetComponentInChildren<UITexture>();
+			friendUnitInfoDic.Add(currentItem, ConfigViewData.OwnedUnitInfoList[ i ]);
+			ShowAvatar( currentItem );
+			AddEventListener( currentItem );
+		}
+	}
+
+	private void ShowAvatar( GameObject item){
+		//Debug.Log(string.Format("Show Avatar named as {0}", item));
+		//find des
+		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
+		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
+		//find src 
+		uint id = friendUnitInfoDic[ item ].id;
+		string sourceTexPath = "Avatar/role00" + id.ToString();
+		//Debug.Log("ShowAvatar, the avatar texure path is : " + sourceTexPath);
+		Texture2D sourceTex = Resources.Load( sourceTexPath ) as Texture2D;
+		//show
+		avatarTex.mainTexture = sourceTex;
+	}
+
+	Dictionary<GameObject,UnitInfo> friendUnitInfoDic = new Dictionary<GameObject, UnitInfo>();
+	void ClickFriendItem(GameObject item){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+		UnitInfo tempInfo = friendUnitInfoDic[ item ];
+		Debug.LogError(item.name + tempInfo.name);
+		MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, tempInfo);
+	}
+
+	void PressItem(GameObject item ){
+		UnitInfo unitInfo = friendUnitInfoDic[ item ];
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
 	}
 
 	void ClickLevelUpButton(GameObject go){
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
+		MsgCenter.Instance.Invoke( CommandEnum.CheckLevelUpInfo, true );
 	}
 
 	void FocusOnPanel(object data) {
@@ -52,22 +124,22 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	void CreateDragPanel(){
 		GameObject friendItem = 
 			Resources.Load("Prefabs/UI/Friend/AvailFriendItem") as GameObject;
-		dragPanel = new DragPanel("DragPanel", friendItem);
-		dragPanel.CreatUI();
+		friendDragPanel = new DragPanel("DragPanel", friendItem);
+		friendDragPanel.CreatUI();
 //		dragPanel.AddItem(48);//need get data of FriendList
-		dragPanel.AddItem(availFriendList.Count);
+		friendDragPanel.AddItem(availFriendList.Count);
 
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			UIEventListenerCustom.Get(dragPanel.ScrollItem[ i ]).onClick = PickMaterial;
+		for (int i = 0; i < friendDragPanel.ScrollItem.Count; i++){
+			UIEventListenerCustom.Get(friendDragPanel.ScrollItem[ i ]).onClick = ClickFriendItem;
 
 
-			GameObject avatarGo = dragPanel.ScrollItem[i].transform.FindChild("Texture_Avatar").gameObject;
+			GameObject avatarGo = friendDragPanel.ScrollItem[i].transform.FindChild("Texture_Avatar").gameObject;
 			UITexture avatarTexture = avatarGo.GetComponent<UITexture>();
-			GameObject userNameGo = dragPanel.ScrollItem[ i ].transform.FindChild("Label_Name").gameObject;
+			GameObject userNameGo = friendDragPanel.ScrollItem[ i ].transform.FindChild("Label_Name").gameObject;
 			UILabel availFriendUserNameLabel = userNameGo.GetComponent<UILabel>();
-			GameObject friendTypeGo = dragPanel.ScrollItem[ i ].transform.FindChild("Label_Friend_Type").gameObject;
+			GameObject friendTypeGo = friendDragPanel.ScrollItem[ i ].transform.FindChild("Label_Friend_Type").gameObject;
 			UILabel friendTypeLabel = friendTypeGo.GetComponent<UILabel>();
-			GameObject friendPointGo = dragPanel.ScrollItem[ i ].transform.FindChild("Label_Friend_Point").gameObject;
+			GameObject friendPointGo = friendDragPanel.ScrollItem[ i ].transform.FindChild("Label_Friend_Point").gameObject;
 			UILabel friendPointLabel = friendPointGo.GetComponent<UILabel>();
 
 			//Get Friend Avatar Texture
@@ -100,14 +172,10 @@ public class LevelUpFriendWindow : UIComponentUnity {
 		}
 
 		InitDragPanelArgs();
-		dragPanel.RootObject.SetScrollView(dragPanelArgs);
+		friendDragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 
-	void PickMaterial(GameObject go){
-//		Debug.LogError("Pick Friend");
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, go);
-	}
+
 
 	void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans", 	transform);

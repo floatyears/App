@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class LevelUpMaterialWindow : UIComponentUnity {
 	DragPanel materialDragPanel;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	private List<UserUnitInfo> userUnitInfoList = new List<UserUnitInfo>();
-	Dictionary<GameObject, UserUnitInfo> materialUnitInfoDic = new Dictionary<GameObject, UserUnitInfo>();
+//	Dictionary<GameObject, UserUnitInfo> materialUnitInfoDic = new Dictionary<GameObject, UserUnitInfo>();
 
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
@@ -24,7 +25,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	}
 	
 	private void InitUI(){
-		GetUnitInfoList();
+		//GetUnitInfoList();
 		InitDragPanel();
 		this.gameObject.SetActive(false);
 	}
@@ -51,54 +52,39 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		return avatarSourcePath;
 	}
 
-	private int IndexOfItem(DragPanel panel, GameObject item){
-		if( panel == null || item == null ){
-			Debug.LogError("IndexOf Item Error!");
-			return 0;
-		}
-		return panel.ScrollItem.IndexOf( item);
-	}
-
-	void GetUnitInfoList() {
-		UnitPartyInfo upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo, new ErrorMsg()) as UnitPartyInfo;
-		userUnitInfoList = upi.GetUserUnit();
-	}
-
 	private void ShowAvatar( GameObject item){
-		//Debug.Log(string.Format("Show Avatar named as {0}", item));
-		//find des
+		Debug.Log(string.Format("Show Avatar named as {0}", item));
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
-		 //find src 
-		int scrollItemIndex = IndexOfItem( materialDragPanel, item);
-		string sourceTexPath = GetAvatarInfo( scrollItemIndex );
-		//Debug.Log("ShowAvatar, the avatar texure path is : " + sourceTexPath);
+		uint id = materialUnitInfoDic[ item ].id;
+		string sourceTexPath = "Avatar/role00" + id.ToString();
+		Debug.Log("ShowAvatar, the avatar texure path is : " + sourceTexPath);
 		Texture2D sourceTex = Resources.Load( sourceTexPath ) as Texture2D;
-		//show
 		avatarTex.mainTexture = sourceTex;
 	}
 
 	private void AddEventListener( GameObject item){
-		UIEventListener.Get( item ).onClick = ClickItem;
+		UIEventListener.Get( item ).onClick = ClickMaterialItem;
 		UIEventListenerCustom.Get( item ).LongPress = PressItem;
 	}
 
-	private void ClickItem(GameObject item){
-		//Debug.LogError("Click Item " + item.name);
-		MsgCenter.Instance.Invoke( CommandEnum.PickMaterialUnitInfo, item );
+	Dictionary<GameObject, UnitInfo> materialUnitInfoDic = new Dictionary<GameObject, UnitInfo>();
+	private void ClickMaterialItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+		UnitInfo tempInfo = materialUnitInfoDic[ item ];
+		MsgCenter.Instance.Invoke( CommandEnum.PickMaterialUnitInfo, tempInfo);
 	}
 
-	void PressItem(GameObject itemGo){
-		UserUnitInfo userUnitInfo = materialUnitInfoDic [ itemGo ];
-		MsgCenter.Instance.Invoke(CommandEnum.EnterUnitInfo, userUnitInfo);   
+	void PressItem(GameObject item){  
+		UnitInfo unitInfo = materialUnitInfoDic[ item ];
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
         }
 
 	private void InitDragPanel(){
 
 		string name = "MaterialDragPanel";
-		int count = userUnitInfoList.Count;
-		//Debug.Log( string.Format("The count to add is : " + count) );
+		int count = ConfigViewData.OwnedUnitInfoList.Count;
+		Debug.Log( string.Format("Material Window: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		materialDragPanel = CreateDragPanel( name, count, itemGo) ;
@@ -122,10 +108,8 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
 			GameObject currentItem = panel.ScrollItem[ i ];
 			UITexture tex = currentItem.GetComponentInChildren<UITexture>();
-			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [userUnitInfoList [i].unitBaseInfo];
-			tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
-			materialUnitInfoDic.Add(currentItem, userUnitInfoList [i]);
-			//ShowAvatar( currentItem );
+			materialUnitInfoDic.Add(currentItem, ConfigViewData.OwnedUnitInfoList[ i ]);
+			ShowAvatar( currentItem );
 			AddEventListener( currentItem );
 		}
 	}

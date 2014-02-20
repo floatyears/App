@@ -27,6 +27,9 @@ public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 	private UILabel infoBar_Label_Vaule_Rank;
 	private UILabel infoBar_Label_Vaule_TotalStamina;
 
+	private UISprite curExpSpr;
+	private UISprite staminaSpr;
+
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
 		InitUI();
@@ -57,6 +60,9 @@ public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 		UIEventListener.Get( rightCollider.gameObject ).onPress = ShowInfoBox;
 
 		infoBox.SetActive( false );
+
+		ShowStaminaInfo();
+		ShowExpInfo();
 	}
 	
 	private void FindObject() {
@@ -80,6 +86,9 @@ public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 		infoBar_Label_Vaule_PlayerName = FindChild< UILabel >( "InfoBar/Label_Vaule_PlayerName" );
 		infoBar_Label_Vaule_Rank = FindChild< UILabel >( "InfoBar/Label_Vaule_Rank" );
 		infoBar_Label_Vaule_TotalStamina = FindChild< UILabel >( "InfoBar/Label_Vaule_TotalStamina" );
+
+		curExpSpr = FindChild<UISprite>("InfoBar/Sprite_CurExp");
+		staminaSpr = FindChild< UISprite >("InfoBar/Sprite_Stamina");
 	}
 
 	private void ShowInfoBox( GameObject go, bool isPressed ) {
@@ -91,5 +100,24 @@ public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 		else if(go.name == "Right_Collider") {
 			infoBox.transform.localPosition = leftPosition;
 		}
+	}
+
+	int curStamina = 39;
+	int maxStamina = 61;
+	int curExp = 492;
+	int nextRandNeedExp = 1856;
+
+	private void ShowStaminaInfo(){
+		infoBar_Label_Vaule_CurStamina.text =  curStamina.ToString();
+		infoBar_Label_Vaule_TotalStamina.text = maxStamina.ToString();
+		float percent = (float)curStamina/maxStamina;
+		//Debug.LogError(percent);
+		staminaSpr.fillAmount = percent;
+	}
+
+	private void ShowExpInfo(){
+		float percent = (float)curExp/nextRandNeedExp;
+		curExpSpr.fillAmount = percent;
+		//Debug.LogError(percent);
 	}
 }
