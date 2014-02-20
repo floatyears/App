@@ -66,18 +66,9 @@ public class MapConfig : IOriginModel
 		singleMapItem = mapData [2, 1];
 		singleMapItem.ContentType = MapItemEnum.Coin;
 		singleMapItem.TypeValue = 0;
-//		singleMapItem = mapData [1, 2];
-//		singleMapItem.ContentType = MapItemEnum.Trap;
-//		singleMapItem.TypeValue = 5;
-//		singleMapItem = mapData [2, 3];
-//		singleMapItem.ContentType = MapItemEnum.Trap;
-//		singleMapItem.TypeValue = 6;
-
-
-
-
+		singleMapItem = mapData [2, 0];
+		singleMapItem.ContentType = MapItemEnum.Start;
 		mapData[characterInitCoorX,characterInitCoorY].MonsterID.Clear();   
-		mapData [characterInitCoorX, characterInitCoorY].ContentType = MapItemEnum.None;
 		mapData [2, 4].MonsterID.Clear ();
 		mapData [2, 4].MonsterID.Add (100);
 		for (int i = 1; i < 4; i++)

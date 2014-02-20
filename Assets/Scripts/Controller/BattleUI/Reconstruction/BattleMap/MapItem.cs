@@ -8,10 +8,11 @@ public class MapItem : UIBaseUnity
 		get{ return coor; }
 		set{ coor = value; }
 	}
-
 	private UITexture mapItemTexture;
-
 	private FloorRotate floorRotate;
+
+	private Vector3 initPosition = Vector3.zero;
+	private Vector3 initRotation = Vector3.zero;
 
 	public int  Width {
 		get{ return mapItemTexture.width; }
@@ -29,8 +30,6 @@ public class MapItem : UIBaseUnity
 	public bool IsOld {
 		set {
 			isOld = value; 
-//			mapItemTexture.color = Color.gray;
-			//floorRotate.RotateFloor();
 		}
 		get{return isOld;}
 	}
@@ -41,15 +40,12 @@ public class MapItem : UIBaseUnity
 
 	private UITexture alreayQuestTexture;
 	public override void Init (string name) {
-//		Debug.LogError ("mapitem init : " + name);
 		base.Init (name);
+		initPosition = transform.localPosition;
+		initRotation = transform.rotation.eulerAngles;
 		mapItemTexture = FindChild<UITexture>("Floor/MapItem");
 		floorRotate = GetComponent<FloorRotate> ();
 		floorRotate.Init ();
-		//Texture2D map = LoadAsset.Instance.LoadMapItem();
-		//mapItemTexture.mainTexture = map;
-		//mapItemTexture.width = map.width;
-		///mapItemTexture.height = map.height;
 	}
 
 	public override void ShowUI()
@@ -65,6 +61,11 @@ public class MapItem : UIBaseUnity
 
 	public void ShowBox() {
 		floorRotate.isShowBox = true;
+	}
+
+	public void Reset () {
+		gameObject.transform.localPosition = initPosition;
+		gameObject.transform.rotation = Quaternion.Euler (initRotation);
 	}
 
 	public void Around(bool isAround)

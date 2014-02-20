@@ -9,17 +9,22 @@ public class MapCamera : MonoBehaviour {
 	void Awake () {
 		camera = GetComponent<Camera> ();
 		gameInput = Main.Instance.GInput;
-		GameInput.OnUpdate += HandleOnUpdate;
+
 	}
 
 	void OnEnable () {
 		MsgCenter.Instance.AddListener (CommandEnum.MeetEnemy, MeetEnemy);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+		GameInput.OnUpdate += HandleOnUpdate;
+		isClick = true;
+//		Debug.LogError ("OnEnable : " + isClick);
 	}
 
-	void Disable () {
+	void OnDisable () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.MeetEnemy, MeetEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+		GameInput.OnUpdate -= HandleOnUpdate;
+		isClick = false;
 	}
 
 	void HandleOnUpdate () {
@@ -30,6 +35,7 @@ public class MapCamera : MonoBehaviour {
 	}
 
 	void MeetEnemy (object data) {
+
 		isClick = false;
 	}
 
@@ -59,7 +65,9 @@ public class MapCamera : MonoBehaviour {
 	RaycastHit rayCastHit;
 	void Press () {
 		Ray ray = camera.ScreenPointToRay (Input.mousePosition);
-		if(Physics.Raycast(ray, out rayCastHit)) {
+		bool haveObject = Physics.Raycast (ray, out rayCastHit);
+		Debug.LogError ("haveObject : " + haveObject);
+		if(haveObject) {
 			GameObject go = rayCastHit.collider.gameObject;
 			go.SendMessage("OnClick",SendMessageOptions.DontRequireReceiver);
 		}

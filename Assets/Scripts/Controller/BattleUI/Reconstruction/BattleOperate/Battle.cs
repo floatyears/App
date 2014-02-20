@@ -75,7 +75,6 @@ public class Battle : UIBase
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, AttckEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
-
 		battleRootGameObject.SetActive(false);
 	}
 

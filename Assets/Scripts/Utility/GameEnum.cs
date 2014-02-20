@@ -138,11 +138,12 @@ public enum CommandEnum
 }
 
 public enum MapItemEnum {
-	None						= 0,
+	None					= 0,
 	Enemy					= 1,
-	Trap						= 2,
-	Coin						= 3,
+	Trap					= 2,
+	Coin					= 3,
 	key						= 4,
+	Start					= 5,
 }
 
 public enum UIParentEnum : byte {
