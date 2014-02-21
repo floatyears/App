@@ -183,8 +183,8 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		tNow := common.Now()
 		rank := int32(30 + rand.Intn(10)) //int32(1)
 		exp := int32(0)
-		staminaNow := int32(10)
-		staminaMax := int32(10)
+		staminaNow := int32(100)
+		staminaMax := int32(100)
 		staminaRecover := uint32(tNow + 600) //10 minutes
 		rspMsg.User = &bbproto.UserInfo{
 			UserId:         &newUserId,

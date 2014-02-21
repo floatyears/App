@@ -48,6 +48,10 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo *bbproto.StageInfo, 
 	}
 
 	stageInfo = &bbproto.StageInfo{}
+	if len(zStageInfo) == 0 {
+		return stageInfo, Error.New(cs.DATA_NOT_EXISTS, fmt.Sprintf("stageInfo [%v] not exists", stageId))
+	}
+
 	if err = proto.Unmarshal(zStageInfo, stageInfo); err != nil {
 		log.T("[ERROR] unmarshal error from stage[%v] info.", stageId)
 		return stageInfo, Error.New(cs.UNMARSHAL_ERROR, "unmarshal error.")
@@ -66,6 +70,10 @@ func GetQuestConfig(db *data.Data, questId uint32) (config bbproto.QuestConfig, 
 	zQuestConf, err := db.Gets(cs.X_QUEST_CONFIG + common.Utoa(questId))
 	if err != nil {
 		return config, Error.New(cs.EQ_GET_QUEST_CONFIG_ERROR, "get quest config fail")
+	}
+
+	if len(zQuestConf) == 0 {
+		return config, Error.New(cs.DATA_NOT_EXISTS, fmt.Sprintf("QuestConfig for:%v not exists", questId))
 	}
 
 	if err = proto.Unmarshal(zQuestConf, &config); err != nil {

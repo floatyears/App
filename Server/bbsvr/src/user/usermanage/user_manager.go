@@ -109,6 +109,10 @@ func GetUserInfoByUuid(uuid string) (userInfo bbproto.UserInfoDetail, isUserExis
 	if err != nil {
 		return
 	}
+	if len(sUid) == 0 {
+		isUserExists = false
+		return
+	}
 
 	uid := common.Atou(sUid)
 	log.Printf("get uid by uuid('%v') ret err:%v, uid: %v", uuid, err, uid)
@@ -127,6 +131,10 @@ func GetNewUserId() (userid uint32, err error) {
 
 	uid, err := db.GetInt(cs.KEY_MAX_USER_ID)
 	if err != nil {
+		return 0, err
+	}
+
+	if uid == 0 {
 		userid = 100 //first userId
 	}
 

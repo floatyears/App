@@ -167,11 +167,8 @@ func main() {
 	Init()
 	AddUsers()
 
-	m := &My{}
-	m.MyTp.x = 3
-
 	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220101", 101)
-	LoginPack(101)
+	//LoginPack(101)
 
 	log.Fatal("bbsvr test client finish.")
 }
