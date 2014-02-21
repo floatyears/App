@@ -15,19 +15,16 @@ public class MapConfig : IOriginModel
 
 	private int mapID;
 
-	public string GetMapPath()
-	{
+	public string GetMapPath() {
 		int index = Random.Range (1, mapItemPath.Count);
 		return mapItemPath [index];
 	}
 
-	public ErrorMsg SerializeData (object instance)
-	{
+	public ErrorMsg SerializeData (object instance) {
 		throw new System.NotImplementedException ();
 	}
 
-	public object DeserializeData ()
-	{
+	public object DeserializeData () {
 		throw new System.NotImplementedException ();
 	}
 
