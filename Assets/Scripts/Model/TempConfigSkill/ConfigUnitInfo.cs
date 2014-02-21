@@ -13,7 +13,7 @@ public class ConfigUnitInfo {
 
 	}
 	
-	private const int maxCount = 9;
+	private const int maxCount = 6;
 	
 	UnitInfo[] ui = new UnitInfo[maxCount];
 	
