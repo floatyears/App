@@ -157,20 +157,20 @@ public class ConfigEnermy {
 	void GenerateEnemy () {
 		EnemyInfo ei = new EnemyInfo ();
 		ei.unitId = 1;
-		ei.attack = 50;
+		ei.attack = 200;
 		ei.nextAttack = 1;
 		ei.defense = 100;
-		ei.hp = 100;
+		ei.hp = 500;
 		ei.type = (EUnitType)1;
 		TempEnemy te = new TempEnemy (ei);
 		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
 
 		ei = new EnemyInfo ();
 		ei.unitId = 2;
-		ei.attack = 100;
+		ei.attack = 300;
 		ei.nextAttack = 1;
 		ei.defense = 100;
-		ei.hp = 200;
+		ei.hp = 500;
 		ei.type = (EUnitType)2;
 		te = new TempEnemy (ei);
 		GlobalData.tempEnemyInfo.Add (ei.unitId,te);

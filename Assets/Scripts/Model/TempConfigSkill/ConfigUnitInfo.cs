@@ -282,9 +282,13 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 	void AddLeadSkill (uint id) {
 		if (id != -1) {
 			UserUnitInfo firstLeader = GlobalData.tempUserUnitInfo [id];
-//			Debug.LogError("AddLeadSkill : " + id + "  firstLeader.GetLeadSKill()  : " + firstLeader.GetLeadSKill());
 			ProtobufDataBase pdb = GlobalData.tempNormalSkill[firstLeader.GetLeadSKill()];
-			leaderSkill.Add(id,pdb);
+			if(leaderSkill.ContainsKey(id)) {
+				leaderSkill[id] = pdb;
+			}
+			else{
+				leaderSkill.Add(id,pdb);
+			}
 		}
 	}
 	
@@ -298,6 +302,16 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 		NormalSkill ns1 	= GetSecondSkill (firstUU);
 		NormalSkill ns2 	= GetSecondSkill (secondUU);
 		return ns1.activeBlocks.Count.CompareTo(ns2.activeBlocks.Count);
+	}
+
+	public int GetInitBlood () {
+		UnitParty up = DeserializeData<UnitParty> ();
+		int bloodNum = 0;
+		for (int i = 0; i < up.items.Count; i++) {
+			uint unitUniqueID = up.items [i].unitUniqueId;
+			bloodNum += GlobalData.tempUserUnitInfo [unitUniqueID].GetInitBlood();
+		}
+		return bloodNum;
 	}
 
 	public int GetBlood () {

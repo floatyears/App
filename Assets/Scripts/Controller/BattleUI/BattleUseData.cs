@@ -43,7 +43,7 @@ public class BattleUseData {
 		eas = new ExcuteActiveSkill (upi);
 		eps = new ExcutePassiveSkill (upi);
 		ac = new AttackController (this, eps);
-		maxBlood = blood = upi.GetBlood ();
+		maxBlood = blood = upi.GetInitBlood ();
 		maxEnergyPoint = GlobalData.maxEnergyPoint;
 		Config.Instance.SwitchCard (els);	
 	}

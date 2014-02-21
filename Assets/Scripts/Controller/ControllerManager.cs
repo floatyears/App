@@ -6,11 +6,6 @@ public class ControllerManager
 {
 	#region singleton
 	private static ControllerManager instance;
-
-	/// <summary>
-	/// singleton 
-	/// </summary>
-	/// <value>The instance.</value>
 	public static ControllerManager Instance
 	{
 		get

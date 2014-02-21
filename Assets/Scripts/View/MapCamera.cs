@@ -66,7 +66,7 @@ public class MapCamera : MonoBehaviour {
 	void Press () {
 		Ray ray = camera.ScreenPointToRay (Input.mousePosition);
 		bool haveObject = Physics.Raycast (ray, out rayCastHit);
-		Debug.LogError ("haveObject : " + haveObject);
+//		Debug.LogError ("haveObject : " + haveObject);
 		if(haveObject) {
 			GameObject go = rayCastHit.collider.gameObject;
 			go.SendMessage("OnClick",SendMessageOptions.DontRequireReceiver);

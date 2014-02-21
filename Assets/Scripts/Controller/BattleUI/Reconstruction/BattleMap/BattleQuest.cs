@@ -38,11 +38,12 @@ public class BattleQuest : UIBase
 	private BattleBackground background;
 
 	public static BattleUseData bud;
+	private Camera mainCamera;
 
 	string backgroundName = "BattleBackground";
 
 	public BattleQuest (string name) : base(name) {
-		bud = new BattleUseData ();
+
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
@@ -61,6 +62,7 @@ public class BattleQuest : UIBase
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
+
 	}
 
 	void InitData() {
@@ -77,17 +79,25 @@ public class BattleQuest : UIBase
 		base.CreatUI ();
 	}
 
-	public override void ShowUI ()
-	{ 
-		Camera.main.clearFlags = CameraClearFlags.Depth;
+	public override void ShowUI () {
+		bud = new BattleUseData ();
+		mainCamera = Camera.main;
+		mainCamera.clearFlags = CameraClearFlags.Depth;
+		mainCamera.enabled = false;
+		GameTimer.GetInstance ().AddCountDown (0.5f, ShowScene);
 		InitData ();
 		base.ShowUI ();
 		AddListener ();
 		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
 	}
 
+	void ShowScene () {
+		mainCamera.enabled = true;
+	}
+
 	public override void HideUI ()
 	{
+		bud = null;
 		Camera.main.clearFlags = CameraClearFlags.Skybox;
 		RemoveListener ();
 		base.HideUI ();
