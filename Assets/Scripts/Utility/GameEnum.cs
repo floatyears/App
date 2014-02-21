@@ -137,6 +137,8 @@ public enum CommandEnum
 	CheckLevelUpInfo			= 4005,
 	LevelUp					= 4006,
 	ShowUnitInfo				= 4007,
+	SendLevelUpInfo			= 4008,
+	TryEnableLevelUp			= 4009,
 
 }
 

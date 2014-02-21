@@ -25,9 +25,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		base.HideUI();
 		RemoveListener();
         }
-
-
-
+	
 	void InitReadySign(){
 		foreach (var item in TabList){
 			readySignDic.Add(item,false);
@@ -37,9 +35,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void UpdateReadySign(GameObject tab,bool isSign){
 			readySignDic[ tab ] = isSign;
 	}
-
-
-
+	
 	void UpdateBaseInfoView( UnitInfo unitInfo){
 		GameObject baseTab = TabList[0];
 		UITexture tex = baseTab.GetComponentInChildren<UITexture>();
@@ -81,6 +77,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			UIEventListener.Get(item).onClick = ClickTab;
 		}
 		OnTab(TabList[0]);
+
+		InitButton();
 	}
 	
 
@@ -106,16 +104,36 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		MsgCenter.Instance.AddListener(CommandEnum.PickBaseUnitInfo, PickBaseUnitInfo );
 		MsgCenter.Instance.AddListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
 		MsgCenter.Instance.AddListener(CommandEnum.PickMaterialUnitInfo, PickMaterialUnitInfo );
-		MsgCenter.Instance.AddListener(CommandEnum.CheckLevelUpInfo, SendLevelUpInfo);
+		MsgCenter.Instance.AddListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
+		//MsgCenter.Instance.AddListener(CommandEnum.SendLevelUpInfo, SendLevelUpInfo);
 	}
 	
 	void RemoveListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickBaseUnitInfo, PickBaseUnitInfo );
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickMaterialUnitInfo, PickMaterialUnitInfo );
-		MsgCenter.Instance.RemoveListener(CommandEnum.CheckLevelUpInfo, SendLevelUpInfo);
+		MsgCenter.Instance.RemoveListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
+		//MsgCenter.Instance.RemoveListener(CommandEnum.SendLevelUpInfo, SendLevelUpInfo);
 	}
 
+	UIImageButton levelUpButton;
+	void EnableLevelUp(object info){
+		Dictionary<string, object> levelUpInfo = PackLevelUpInfo();
+		if( levelUpInfo == null)	
+			levelUpButton.isEnabled = false;
+		else
+			levelUpButton.isEnabled = true;
+	}
+	
+	void InitButton(){
+		levelUpButton = FindChild<UIImageButton>("Button_LevelUp");
+		UIEventListener.Get( levelUpButton.gameObject ).onClick = ClickLevelUpButton;
+		levelUpButton.isEnabled = false;
+	}
+
+	void ClickLevelUpButton(GameObject go){
+		MsgCenter.Instance.Invoke( CommandEnum.LevelUp, true );
+	}
 
 	UnitInfo baseUnitInfo;
 	UnitInfo friendUnitInfo;
@@ -126,6 +144,10 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		baseUnitInfo = info as UnitInfo;
 		UpdateBaseInfoView( baseUnitInfo );
 
+	}
+
+	void CheckLevelUpInfo( object info){
+		//MsgCenter.Instance.Invoke(CommandEnum.EnableLevelUp, );
 	}
 
 	void PickFriendUnitInfo(object info){

@@ -5,7 +5,6 @@ using bbproto;
 
 public class LevelUpFriendWindow : UIComponentUnity {
 	DragPanel friendDragPanel;
-	UIImageButton levelUpButton;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	List<TempAvailFriend> availFriendList;
 	public override void Init(UIInsConfig config, IUIOrigin origin){
@@ -27,16 +26,11 @@ public class LevelUpFriendWindow : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
 	}
 	
-	void InitButton(){
-		levelUpButton = FindChild<UIImageButton>("Button_LevelUp");
-		UIEventListener.Get( levelUpButton.gameObject ).onClick = ClickLevelUpButton;
-		levelUpButton.isEnabled = false;
-	}
+
 
 	void InitUI(){
 		//CreateDragPanel();
 		InitDragPanel();
-		InitButton();
 		this.gameObject.SetActive(false);
 	}
 
@@ -97,17 +91,13 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	void ClickFriendItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		UnitInfo tempInfo = friendUnitInfoDic[ item ];
-		Debug.LogError(item.name + tempInfo.name);
 		MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, tempInfo);
+		MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
 	}
 
 	void PressItem(GameObject item ){
 		UnitInfo unitInfo = friendUnitInfoDic[ item ];
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
-	}
-
-	void ClickLevelUpButton(GameObject go){
-		MsgCenter.Instance.Invoke( CommandEnum.CheckLevelUpInfo, true );
 	}
 
 	void FocusOnPanel(object data) {
@@ -126,7 +116,6 @@ public class LevelUpFriendWindow : UIComponentUnity {
 			Resources.Load("Prefabs/UI/Friend/AvailFriendItem") as GameObject;
 		friendDragPanel = new DragPanel("DragPanel", friendItem);
 		friendDragPanel.CreatUI();
-//		dragPanel.AddItem(48);//need get data of FriendList
 		friendDragPanel.AddItem(availFriendList.Count);
 
 		for (int i = 0; i < friendDragPanel.ScrollItem.Count; i++){

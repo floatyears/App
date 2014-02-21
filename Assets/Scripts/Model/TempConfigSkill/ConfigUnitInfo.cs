@@ -13,7 +13,7 @@ public class ConfigUnitInfo {
 
 	}
 	
-	private const int maxCount = 6;
+	private const int maxCount = 9;
 	
 	UnitInfo[] ui = new UnitInfo[maxCount];
 	
@@ -58,6 +58,23 @@ public class ConfigUnitInfo {
 		GlobalData.tempUnitInfo [4].unitBaseInfoID = 80;
 		GlobalData.tempUnitInfo [5].unitBaseInfoID = 87;
 	}
+
+	//Lynn Add
+	void AddUnitInfoConfig(){
+//		UnitInfo unitInfo;
+//		TempUnitInfo tui;
+//
+//		unitInfo = new UnitInfo();
+//		unitInfo.id = 1;
+//		unitInfo.name = "aaa";
+//		unitInfo.type = EUnitType.UDARK;
+//		unitInfo.cost = 6;
+//		tui = new TempUnitInfo(unitInf o);
+//		GlobalData.tempUnitInfo.Add(unitInfo.id, tui);
+
+	}
+
+
 
 	void GenerateUserUnit () {
 		for (uint i = 1; i < maxCount; i++) {

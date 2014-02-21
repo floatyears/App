@@ -73,6 +73,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		UnitInfo tempInfo = materialUnitInfoDic[ item ];
 		MsgCenter.Instance.Invoke( CommandEnum.PickMaterialUnitInfo, tempInfo);
+		MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
 	}
 
 	void PressItem(GameObject item){  

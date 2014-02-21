@@ -3,6 +3,29 @@ using System.Collections.Generic;
 using bbproto;
 
 public class GlobalData  {
+	private static GlobalData instance;
+	public static GlobalData Instance{
+		get{
+			if(instance == null) {
+				instance = new GlobalData();
+			}
+			return instance;
+		}
+
+	}
+	private GlobalData() {}
+
+	public UnitInfo GetUnitInfo(uint unitID) {
+		if(tempUnitInfo.ContainsKey(unitID)) {
+			TempUnitInfo tui = tempUnitInfo[unitID];
+			return tui.DeserializeData<UnitInfo>();
+		}
+		else{
+			Debug.LogError("unitid is invalid");
+			return null;
+		}
+	}
+
 	public static Dictionary<int, ProtobufDataBase> tempNormalSkill = new Dictionary<int, ProtobufDataBase>();
 	public static Dictionary<uint, TempUnitInfo>	tempUnitInfo = new Dictionary<uint, TempUnitInfo> ();
 	public static Dictionary<uint, UserUnitInfo> tempUserUnitInfo = new Dictionary<uint, UserUnitInfo>();

@@ -6,7 +6,7 @@ using bbproto;
 public class LevelUpBasePanel : UIComponentUnity {
 
 	DragPanel baseDragPanel;
-	Dictionary<GameObject, UnitInfo> baseUnitInfoDic = new Dictionary<GameObject, UnitInfo>();
+	Dictionary<GameObject, UserUnit> baseUnitInfoDic = new Dictionary<GameObject, UserUnit>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	private List<UserUnitInfo> userUnitInfoList = new List<UserUnitInfo>();
 	
@@ -53,7 +53,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 	
 
-	void GetBaseUnitInfo(GameObject item, UnitInfo unitInfo){
+	void GetBaseUnitInfo(GameObject item, UserUnit unitInfo){
 		baseUnitInfoDic.Add(item,unitInfo);
 	}
 
@@ -80,13 +80,14 @@ public class LevelUpBasePanel : UIComponentUnity {
 	private void ClickBaseItem(GameObject item){
 		//Debug.Log()
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		UnitInfo tempInfo = baseUnitInfoDic[ item ];
+		UserUnit tempInfo = baseUnitInfoDic[ item ];
 		//Debug.LogError( tempInfo.name );
 		MsgCenter.Instance.Invoke( CommandEnum.PickBaseUnitInfo, tempInfo );
+		MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
 	}
 
 	void PressItem(GameObject item ){
-		UnitInfo unitInfo = baseUnitInfoDic[ item ];
+		UserUnit unitInfo = baseUnitInfoDic[ item ];
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
 
         }
@@ -112,16 +113,37 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	private void FillDragPanel(DragPanel panel){
-		//Debug.Log("Fill Drag Panel");
+		Debug.Log(string.Format("Fill Drag Panel -> {0}" + panel.RootObject.name) );
 		if( panel == null )	return;
-
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
 			GameObject currentItem = panel.ScrollItem[ i ];
-			UITexture tex = currentItem.GetComponentInChildren<UITexture>();
 			baseUnitInfoDic.Add(currentItem, ConfigViewData.OwnedUnitInfoList[ i ]);
 			ShowAvatar( currentItem );
 			AddEventListener( currentItem );
 		}
+	}
+		
+	void FillItem( GameObject item){
+
+	}
+
+	Texture2D GetAvatarSouce(string sourcePath){
+		Texture2D tex2d = Resources.Load( sourcePath ) as Texture2D;;
+		if( tex2d == null ){
+			return null;
+			Debug.LogError( string.Format("GetAvatarSouce Error, sourcePath is : {0}", sourcePath) );
+		}
+		return tex2d;
+	}
+
+	string GetSourcePath( int id){
+		//string sourcePath = "Avatar/role"
+	}
+
+	void FillAvatar(GameObject target, Texture2D source){
+		GameObject avatar = target.transform.FindChild("Texture_Avatar").gameObject;
+		UITexture avatarTex = avatar.GetComponent<UITexture>();
+		avatarTex.mainTexture = source;
 	}
 
 	private void InitDragPanelArgs(){
