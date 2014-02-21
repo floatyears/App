@@ -17,12 +17,12 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+		AddListener();
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+		RemoveListener();
 	}
 
 	private void InitUI(){
@@ -31,7 +31,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	
 	private void FocusOnPanel(object data){
 		string message = (string)data;
-		Debug.Log("Base Window receive : " + message);
+		//Debug.Log("Base Window receive : " + message);
 
 		if(message == "Tab_Base" ){
 			this.gameObject.SetActive(true);
@@ -40,17 +40,13 @@ public class LevelUpBasePanel : UIComponentUnity {
 		}
 	}
 
-//	private string GetAvatarInfo( int index){
-//		if( ConfigViewData.OwnedUnitInfoList.Count < (index + 1) ){
-//			Debug.LogError("The OwnedUnitInfo List Not has so many item");
-//			return string.Empty;
-//		}
-//		string avatarSourcePath;
-//		//int unitId = (int)ConfigViewData.OwnedUnitInfoList[ index ].id;
-//		//avatarSourcePath = "Avatar/role01" + unitId.ToString();
-//		//Debug.LogError(avatarSourcePath);
-//		return avatarSourcePath;
-//	}
+	void AddListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+	}
+
+	void RemoveListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+	}
 	
 
 	void GetBaseUnitInfo(GameObject item, UserUnit unitInfo){
@@ -58,17 +54,13 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	private void ShowAvatar( GameObject item){
-		//Debug.Log(string.Format("Show Avatar named as {0}", item));
-		//find des
+//		Debug.LogError("Base Show Avatar: ");
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
-		 //find src 
-		//uint id = baseUnitInfoDic[item].id;
-		//string sourceTexPath = "Avatar/role00" + id.ToString();
-		//Debug.Log("ShowAvatar, the avatar texure path is : " + sourceTexPath);
-		//Texture2D sourceTex = Resources.Load( sourceTexPath ) as Texture2D;
-		//show
-		//avatarTex.mainTexture = sourceTex;
+
+		uint curUnitId = baseUnitInfoDic[item].unitId;
+		Debug.LogError("Base Show Avatar : curUnitId is : " + curUnitId);
+		avatarTex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
 	}
 
 	private void AddEventListener( GameObject item){
@@ -95,7 +87,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	private void InitDragPanel(){
 		string name = "BaseDragPanel";
 		int count = ConfigViewData.OwnedUnitInfoList.Count;
-		Debug.Log( string.Format("Base Panel: The count to add is : " + count) );
+		//Debug.Log( string.Format("Base Panel: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		InitDragPanelArgs();
@@ -105,7 +97,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){
-		Debug.Log(string.Format("Create Drag Panel -> {0}, Item's count is {1}", name, count) );
+		//Debug.Log(string.Format("Create Drag Panel -> {0}, Item's count is {1}", name, count) );
 		DragPanel panel = new DragPanel(name,item);
 		panel.CreatUI();
 		panel.AddItem( count);
@@ -113,7 +105,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	private void FillDragPanel(DragPanel panel){
-		Debug.Log(string.Format("Fill Drag Panel -> {0}" + panel.RootObject.name) );
 		if( panel == null )	return;
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
 			GameObject currentItem = panel.ScrollItem[ i ];
@@ -123,25 +114,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 		}
 	}
 		
-	void FillItem( GameObject item){
-
-	}
-
-	Texture2D GetAvatarSouce(string sourcePath){
-		Texture2D tex2d = Resources.Load( sourcePath ) as Texture2D;;
-		if( tex2d == null ){
-			return null;
-			Debug.LogError( string.Format("GetAvatarSouce Error, sourcePath is : {0}", sourcePath) );
-		}
-		return tex2d;
-	}
-	
-
-	void FillAvatar(GameObject target, Texture2D source){
-		GameObject avatar = target.transform.FindChild("Texture_Avatar").gameObject;
-		UITexture avatarTex = avatar.GetComponent<UITexture>();
-		avatarTex.mainTexture = source;
-	}
 
 	private void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans",	transform);
