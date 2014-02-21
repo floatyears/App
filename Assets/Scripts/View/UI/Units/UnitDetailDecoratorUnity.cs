@@ -35,7 +35,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		UIManager.Instance.HideBaseScene();
 		TabFocus();
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUp , LevelUpUnit);
-		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitInfo , ShowUnitInfoDetail);
+		//MsgCenter.Instance.AddListener(CommandEnum.ShowUnitInfo , ShowUnitInfoDetail);
 	}
 	
 	public override void HideUI ()  {
@@ -43,7 +43,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		ClearEffectCache();
 		UIManager.Instance.ShowBaseScene();
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp , LevelUpUnit);
-		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitInfo , ShowUnitInfoDetail);
+		//MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitInfo , ShowUnitInfoDetail);
 
 	}
 	void ShowUnitInfoDetail(object info ){
@@ -52,15 +52,14 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		detaiSprite.mainTexture = Resources.Load(path) as Texture2D;
 	}
 
-	void LevelUpUnit( object data){
-		UnitInfo unitInfo = data as UnitInfo;
-		uint id = unitInfo.id;
-		string sourcePath = "Role/role00" + id.ToString();
+	void LevelUpUnit( object Info){
+		List<UserUnit> packageInfo = Info as List<UserUnit>;
 		GameObject role_plane = levelUpEffect.transform.FindChild("Plane_Role").gameObject;
-		Texture role_tex = role_plane.GetComponent<MeshRenderer>().materials[0].mainTexture;
-		role_tex = Resources.Load( sourcePath ) as Texture;
+//		Texture role_tex = ;  //role_plane.GetComponent<MeshRenderer>().materials[0].mainTexture;
+		Debug.LogError("Material Name: " + role_plane.GetComponent<MeshRenderer>().materials[0].name);
+		uint curUnitId = packageInfo[0].unitId;
+		role_plane.renderer.material.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
 		ShowEffect();
-
 	}
 
 	void ClearEffectCache(){

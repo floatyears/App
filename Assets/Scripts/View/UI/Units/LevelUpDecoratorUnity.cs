@@ -158,8 +158,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 		baseScroller.RootObject.SetScrollView(baseScrollerArgs);
 	}
 
-	void LongPressPickBase(GameObject go)
-	{
+	void LongPressPickBase(GameObject go){
 		UserUnitInfo uui = baseItemInfo [go];
 		MsgCenter.Instance.Invoke(CommandEnum.EnterUnitInfo, uui);
 	}
