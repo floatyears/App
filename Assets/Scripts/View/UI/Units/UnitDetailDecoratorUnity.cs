@@ -20,12 +20,22 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	private UILabel unitNormalSkill_1_NameLabel;
 	private UILabel unitNormalSkill_2_NameLabel;
 	GameObject levelUpEffect;
+
+	Material unitMaterial;
+
+	void GetUnitMaterial(){
+		unitMaterial = Resources.Load("Materials/UnitMaterial") as Material;
+		if( unitMaterial == null )
+			Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
+	}
+
 	List<GameObject> effectCache = new List<GameObject>();
 
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
-		InitUI();
+		GetUnitMaterial();
 		InitEffect();
+		InitUI();
 	}
 	
 	public override void ShowUI () {
@@ -35,7 +45,6 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		UIManager.Instance.HideBaseScene();
 		TabFocus();
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUp , LevelUpUnit);
-		//MsgCenter.Instance.AddListener(CommandEnum.ShowUnitInfo , ShowUnitInfoDetail);
 	}
 	
 	public override void HideUI ()  {
@@ -43,7 +52,6 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		ClearEffectCache();
 		UIManager.Instance.ShowBaseScene();
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp , LevelUpUnit);
-		//MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitInfo , ShowUnitInfoDetail);
 
 	}
 	void ShowUnitInfoDetail(object info ){
@@ -54,12 +62,20 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 
 	void LevelUpUnit( object Info){
 		List<UserUnit> packageInfo = Info as List<UserUnit>;
-		GameObject role_plane = levelUpEffect.transform.FindChild("Plane_Role").gameObject;
-//		Texture role_tex = ;  //role_plane.GetComponent<MeshRenderer>().materials[0].mainTexture;
-		Debug.LogError("Material Name: " + role_plane.GetComponent<MeshRenderer>().materials[0].name);
 		uint curUnitId = packageInfo[0].unitId;
-		role_plane.renderer.material.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
-		ShowEffect();
+
+		GameObject tempEffect = Instantiate( levelUpEffect ) as GameObject;
+		GameObject profile = tempEffect.transform.FindChild("ProfileTexture").gameObject;
+		if(profile == null)
+			Debug.LogError("Profile is not found!");
+		MeshRenderer meshRender = profile.GetComponent< MeshRenderer >();
+		Texture tex = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
+		Debug.LogError(tex.name);
+		meshRender.materials[ 0 ].SetTexture("_MainTex", tex);
+//		meshRender.materials[ 0 ] = unitMaterial;
+//		unitMaterial.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
+//
+		effectCache.Add( tempEffect );
 	}
 
 	void ClearEffectCache(){
@@ -73,8 +89,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		levelUpEffect = Resources.Load("Prefabs/UI/UnitDetail/LevelUpEffect") as GameObject;
 	}
 	void ShowEffect(){
-		GameObject tempEffect = Instantiate( levelUpEffect ) as GameObject;
-		effectCache.Add( tempEffect );
+
 	}
 
 	public override void DestoryUI () {

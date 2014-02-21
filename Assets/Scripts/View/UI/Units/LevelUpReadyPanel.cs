@@ -23,7 +23,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		InitReadySign();
+		//InitReadySign();
 		AddListener();
         }
 

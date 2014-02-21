@@ -134,10 +134,11 @@ public class TempUnitInfo : ProtobufDataBase {
 				path = string.Format("Avatar/avatar{0}_1", GetID) ;
 				break;
 			case UnitAssetType.Profile:
-				path = string.Format("Profile/profile{0}_2", GetID) ;
+				path = string.Format("Profile/{0}_2", GetID) ;
 				break;
 
 		}
+		//Debug.LogError("path : " + path);
 		Texture2D tex2d = Resources.Load(path) as Texture2D;
 		return tex2d;
 	}
