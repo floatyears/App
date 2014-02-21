@@ -16,7 +16,7 @@ import (
 	"../src/bbproto"
 	"../src/common"
 	//"../src/const"
-	//"../src/data"
+	"../src/data"
 	_ "../src/quest"
 	//"../src/user/usermanage"
 	//redis "github.com/garyburd/redigo/redis"
@@ -155,7 +155,7 @@ func AddUsers() {
 
 }
 
-func umain() {
+func main() {
 	Init()
 	AddUsers()
 

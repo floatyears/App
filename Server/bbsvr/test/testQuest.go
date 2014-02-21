@@ -30,7 +30,7 @@ func DataAddQuestConfig(questId uint32) error {
 	boss := &bbproto.EnemyInfoConf{}
 	enemy := &bbproto.EnemyInfo{}
 
-	enemy.Number = proto.Uint32(1001)
+	enemy.EnemyId = proto.Uint32(1001)
 	enemy.UnitId = proto.Uint32(2)
 	unitType := bbproto.EUnitType_UFIRE
 	enemy.Type = &unitType
@@ -40,7 +40,7 @@ func DataAddQuestConfig(questId uint32) error {
 	enemy.NextAttack = proto.Int32(2)
 	boss.Enemy = enemy
 	boss.DropUnitId = proto.Uint32(11)
-	boss.DropUnitLevel = proto.Uint32(1)
+	boss.DropUnitLevel = proto.Int32(1)
 	boss.DropRate = proto.Float32(0.5)
 	boss.AddHpRate = proto.Float32(0.1)
 	boss.AddAttackRate = proto.Float32(0.1)
@@ -51,7 +51,7 @@ func DataAddQuestConfig(questId uint32) error {
 		enemyConf := &bbproto.EnemyInfoConf{}
 		enemy := &bbproto.EnemyInfo{}
 
-		enemy.Number = proto.Uint32(uint32(900 + i))
+		enemy.EnemyId = proto.Uint32(uint32(900 + i))
 		enemy.UnitId = proto.Uint32(2 + uint32(i))
 		enemy.Type = &unitType
 		enemy.Hp = proto.Int32(1000 + int32(rand.Intn(100)*10))
@@ -61,7 +61,7 @@ func DataAddQuestConfig(questId uint32) error {
 
 		enemyConf.Enemy = enemy
 		enemyConf.DropUnitId = proto.Uint32(*enemy.UnitId)
-		enemyConf.DropUnitLevel = proto.Uint32(1)
+		enemyConf.DropUnitLevel = proto.Int32(1)
 		enemyConf.DropRate = proto.Float32(0.1 * float32(1+rand.Intn(9)))
 		enemyConf.AddHpRate = proto.Float32(0.1)
 		enemyConf.AddAttackRate = proto.Float32(0.1)
@@ -204,8 +204,9 @@ func DataAddStageInfo(stageId uint32, stageName string) error {
 	stageInfo.Description = proto.String("it is :" + stageName)
 	stageInfo.StartTime = proto.Uint32(0)
 	stageInfo.EndTime = proto.Uint32(0)
-	stageInfo.BoostType = proto.Int(0) //coins , exp , dropRate
-	//stageInfo.BoostValue		= nil
+	boostType := bbproto.QuestBoostType_QB_BOOST_MONEY
+	stageInfo.Boost.Type = proto.Int(0) //coins , exp , dropRate
+	//stageInfo.Boost.Value		= nil
 	//optional Position	pos				= &pos; // stage position of the city
 
 	for i := 1; i <= 5; i++ {
@@ -320,7 +321,7 @@ func modify(v st) (re *st) {
 	return &r
 }
 
-func main() {
+func qmain() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
 

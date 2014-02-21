@@ -2,21 +2,19 @@ package quest
 
 import (
 	"fmt"
-	"log"
 	"net/http"
-	//"time"
 )
 
 import (
 	"../bbproto"
 	"../common"
 	"../common/Error"
+	"../common/log"
 	"../const"
 	"../data"
 	"../user/usermanage"
 
-	proto "code.google.com/p/goprotobuf/proto"
-	//redis "github.com/garyburd/redigo/redis"
+	"code.google.com/p/goprotobuf/proto"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -43,7 +41,7 @@ func StartQuestHandler(rsp http.ResponseWriter, req *http.Request) {
 	e = handler.ProcessLogic(&reqMsg, rspMsg)
 
 	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
-	log.Printf("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
+	log.T("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -90,14 +88,14 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	uid := *reqMsg.Header.UserId
 
 	//get userinfo from user table
-	userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
+	userDetail, isUserExists, err := usermanage.GetUserInfo(uid)
 	if err != nil {
 		return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", uid, err.Error()))
 	}
 	if !isUserExists {
 		return Error.New(cs.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
 	}
-	log.Printf("[TRACE] getUser(%v) ret userinfo: %v", uid, userdetail.User)
+	log.T(" getUser(%v) ret userinfo: %v", uid, userDetail.User)
 
 	db := &data.Data{}
 	err = db.Open(cs.TABLE_QUEST)
@@ -112,42 +110,64 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 		return e
 	}
 
-	questInfo, e := GetQuestInfo(db, &stageInfo, questId)
+	questInfo, e := GetQuestInfo(db, stageInfo, questId)
 	if e.IsError() {
 		return e
 	}
 	if questInfo == nil {
 		return Error.New(cs.EQ_GET_QUESTINFO_ERROR, "GetQuestInfo ret ok, but result is nil.")
 	}
-	log.Printf("questInfo:%+v", questInfo)
+	log.T("questInfo:%+v", questInfo)
 
 	//update stamina
-	log.Printf("[TRACE]--Old Stamina:%v staminaRecover:%v", *userdetail.User.StaminaNow, *userdetail.User.StaminaRecover)
-	e = UpdateStamina(userdetail.User.StaminaRecover, userdetail.User.StaminaNow, *userdetail.User.StaminaMax, *questInfo.Stamina)
+	log.T("--Old Stamina:%v staminaRecover:%v", *userDetail.User.StaminaNow, *userDetail.User.StaminaRecover)
+	e = RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax)
 	if e.IsError() {
 		return e
 	}
-	log.Printf("[TRACE]--New StaminaNow:%v staminaRecover:%v", *userdetail.User.StaminaNow, *userdetail.User.StaminaRecover)
+	log.T("--New StaminaNow: %v -> %v staminaRecover:%v",
+		*userDetail.User.StaminaNow, *userDetail.User.StaminaNow-*questInfo.Stamina, *userDetail.User.StaminaRecover)
+
+	if *userDetail.User.StaminaNow < *questInfo.Stamina {
+		return Error.New(cs.EQ_STAMINA_NOT_ENOUGH, "stamina is not enough")
+	}
+	*userDetail.User.StaminaNow -= *questInfo.Stamina
 
 	//get quest config
 	questConf, e := GetQuestConfig(db, questId)
-	log.Printf("[TRACE] questConf:%+v", questConf)
+	log.T(" questConf:%+v", questConf)
 	if e.IsError() {
 		return e
 	}
 
+	questDataMaker := &QuestDataMaker{}
 	//make quest data
-	questData, e := MakeQuestData(&questConf)
+	questData, e := questDataMaker.MakeData(&questConf)
 	if e.IsError() {
+		return e
+	}
+
+	//get quest record from QuestLog, fill to userDetail.Quest
+	if e = GetQuestRecord(db, questId, &userDetail); e.IsError() {
+		return e
+	}
+
+	//update latest quest record of userDetail
+	if e = FillQuestRecord(&userDetail, questId, questData.Drop, stageInfo, questInfo); e.IsError() {
+		return e
+	}
+
+	//save updated userinfo
+	if e = usermanage.UpdateUserInfo(db, &userDetail); e.IsError() {
 		return e
 	}
 
 	//fill response
-	rspMsg.StaminaNow = proto.Int32(*userdetail.User.StaminaNow - *questInfo.Stamina)
-	rspMsg.StaminaRecover = proto.Uint32(*userdetail.User.StaminaRecover)
+	rspMsg.StaminaNow = userDetail.User.StaminaNow
+	rspMsg.StaminaRecover = userDetail.User.StaminaRecover
 	rspMsg.DungeonData = &questData
 
-	log.Printf("=========== StartQuest total cost %v ms. ============\n\n", cost.Cost())
+	log.T("=========== StartQuest total cost %v ms. ============\n\n", cost.Cost())
 
 	return Error.OK()
 }
