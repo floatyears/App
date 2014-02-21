@@ -215,6 +215,16 @@ public class UserUnitInfo : ProtobufDataBase {
 		return GlobalData.tempUnitInfo [userUnit.unitId].DeserializeData<UnitInfo>();
 	}
 
+	public int GetInitBlood () {
+		UserUnit uu = DeserializeData<UserUnit>();
+		UnitInfo ui = GetUnitInfo() ;
+		int blood = 0;
+		blood +=  DGTools.CaculateAddBlood (uu.addHp);
+		blood += ui.power [uu.level].hp;
+		float temp = blood * hpMultiple;
+		return System.Convert.ToInt32(blood);
+	}
+
 	public int GetBlood () {
 		if (currentBlood == -1) {
 			UserUnit uu = DeserializeData<UserUnit>();

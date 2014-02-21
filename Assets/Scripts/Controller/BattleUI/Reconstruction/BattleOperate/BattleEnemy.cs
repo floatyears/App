@@ -38,11 +38,9 @@ public class BattleEnemy : UIBaseUnity {
 
 	public void Refresh(List<ShowEnemyUtility> enemy) {
 		Clear();
-
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			TempUnitInfo tu = GlobalData.tempUnitInfo[enemy[i].enemyID];
-		
 			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[tu.unitBaseInfoID];
 			go.SetActive(true);
 			UITexture tex = go.GetComponentInChildren<UITexture>();
@@ -50,10 +48,8 @@ public class BattleEnemy : UIBaseUnity {
 			tex.mainTexture = tex2d;
 			tex.width = (int)(tex2d.width * 0.6f);
 			tex.height = (int)(tex2d.height * 0.6f);
-//			Debug.LogError(tex2d.width + " -- " + tex2d.height);
  			CaculatePosition(i,go);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
-		
 			ei.Init(enemy[i]);
 			monster.Add(ei);
 		}
