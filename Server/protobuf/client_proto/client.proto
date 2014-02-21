@@ -3,12 +3,6 @@ import public "bbproto.proto";
 package bbproto;
 
 //=======================Unit - only used at client================================================//
-message UnitStatus {
-	required UserUnit		userUnit	= 1;
-	required UnitInfo		info		= 2;
-	optional BattlePower	power		= 3;
-}
-
 message PowerValue {
 	optional int32 level 		= 1; // unit level
 	optional int32 value		= 2;

@@ -205,8 +205,8 @@ func DataAddStageInfo(stageId uint32, stageName string) error {
 	stageInfo.StartTime = proto.Uint32(0)
 	stageInfo.EndTime = proto.Uint32(0)
 	boostType := bbproto.QuestBoostType_QB_BOOST_MONEY
-	stageInfo.Boost.Type = proto.Int(0) //coins , exp , dropRate
-	//stageInfo.Boost.Value		= nil
+	stageInfo.Boost.Type = &boostType //coins , exp , dropRate
+	stageInfo.Boost.Value = proto.Int(2)
 	//optional Position	pos				= &pos; // stage position of the city
 
 	for i := 1; i <= 5; i++ {
@@ -219,7 +219,7 @@ func DataAddStageInfo(stageId uint32, stageName string) error {
 		qusetInfo.Stamina = proto.Int32(5)                             // cost stamina
 		qusetInfo.Floor = proto.Int32(2)
 		qusetInfo.RewardExp = proto.Int32(100)
-		qusetInfo.RewardCoin = proto.Int32(2000)
+		qusetInfo.RewardMoney = proto.Int32(2000)
 		for b := 1; b <= 3; b++ {
 			qusetInfo.BossId = append(qusetInfo.BossId, uint32(1000+b))
 		}

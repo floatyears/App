@@ -16,7 +16,7 @@ import (
 	"../src/bbproto"
 	"../src/common"
 	//"../src/const"
-	"../src/data"
+	//"../src/data"
 	_ "../src/quest"
 	//"../src/user/usermanage"
 	//redis "github.com/garyburd/redigo/redis"
@@ -155,9 +155,20 @@ func AddUsers() {
 
 }
 
+type MyTp struct {
+	x int32
+}
+
+type My struct {
+	MyTp MyTp
+}
+
 func main() {
 	Init()
 	AddUsers()
+
+	m := &My{}
+	m.MyTp.x = 3
 
 	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220101", 101)
 	LoginPack(101)

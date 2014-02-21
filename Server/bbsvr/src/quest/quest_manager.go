@@ -209,7 +209,7 @@ func UpdateQuestRecord(db *data.Data, userDetail *bbproto.UserInfoDetail, questI
 
 	//clear userDetail.Quest, then save userDetail
 	*userDetail.User.Exp += *userDetail.Quest.GetExp
-	*userDetail.Account.Money += uint32(*userDetail.Quest.GetMoney)
+	*userDetail.Account.Money += (*userDetail.Quest.GetMoney)
 	log.T("==Account :: addMoney:%v -> %v addExp:%v -> %v", *userDetail.Quest.GetMoney, *userDetail.Account.Money, *userDetail.Quest.GetExp, *userDetail.User.Exp)
 	userDetail.Quest = nil
 
