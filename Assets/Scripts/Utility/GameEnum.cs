@@ -53,31 +53,31 @@ public enum SceneEnum
 
 public enum CommandEnum
 {
-	None 					= 0,
+	None 						= 0,
 	ChangeScene 				= 1,
 	InquiryBattleBaseData 		= 1001,
-	MoveToMapItem 			= 1002,
+	MoveToMapItem 				= 1002,
 	StartAttack					= 1003,
 	EnterUnitInfo				= 1004,
-	Person 					= 3000,
+	Person 						= 3000,
 	BattleBaseData 				= 3001,
 	UnitBlood 					= 3002,
-	EnergyPoint				= 3003,
-	ShowEnemy 				= 3004,
-	AttackEnemy				= 3005,
+	EnergyPoint					= 3003,
+	ShowEnemy 					= 3004,
+	AttackEnemy					= 3005,
 	AttackPlayer				= 3006,
 	AttackRecoverRange			= 3007,
 	BattleEnd					= 3008,
-	EnemyAttack				= 3010,
+	EnemyAttack					= 3010,
 	EnemyAttackEnd				= 3009,
 	EnemyRefresh				= 3011,
-	EnemyDead				= 3012,
+	EnemyDead					= 3012,
 	RecoverHP					= 3013,
-	LeaderSkillBoost				= 3014,
-	LeaderSkillDelayTime			= 3015,
-	ActiveSkillAttack				= 3016,
+	LeaderSkillBoost			= 3014,
+	LeaderSkillDelayTime		= 3015,
+	ActiveSkillAttack			= 3016,
 	LaunchActiveSkill			= 3017,
-	ActiveSkillRecoverHP			= 3018,
+	ActiveSkillRecoverHP		= 3018,
 	ActiveSkillDrawHP			= 3019,
 	SkillSucide					= 3020,
 	SkillGravity				= 3021,
@@ -91,7 +91,7 @@ public enum CommandEnum
 	/// <summary>
 	/// The color of the change card.
 	/// </summary>
-	ChangeCardColor			= 3026,
+	ChangeCardColor				= 3026,
 
 	ReduceDefense				= 3027,
 
@@ -111,33 +111,34 @@ public enum CommandEnum
 
 	NoSPMove					= 3035,
 
-	TrapInjuredDead			= 3036,
+	TrapInjuredDead				= 3036,
 
-	ConsumeSP				= 3037,
+	ConsumeSP					= 3037,
 
-	ConsumeCoin				= 3038,
+	ConsumeCoin					= 3038,
 
 	ShieldMap					= 3039,
 
 	PlayerPosion				= 3040,
 	InjuredNotDead				= 3041,
-	MeetEnemy				= 3042,
+	MeetEnemy					= 3042,
 	MeetTrap					= 3043,
 	TrapTargetPoint				= 3044,
 	OpenDoor					= 3045,
-	RotateDown				= 3046,
+	RotateDown					= 3046,
 	MeetCoin					= 3047,
+	StateInfo					= 3048,
 
 	//Add By Ling yan	
 	LevelUpPanelFocus			= 4000,
 	TransmitStageInfo			= 4001,
-	PickBaseUnitInfo				= 4002,
+	PickBaseUnitInfo			= 4002,
 	PickFriendUnitInfo			= 4003,
-	PickMaterialUnitInfo			= 4004,
+	PickMaterialUnitInfo		= 4004,
 	CheckLevelUpInfo			= 4005,
-	LevelUp					= 4006,
+	LevelUp						= 4006,
 	ShowUnitInfo				= 4007,
-	SendLevelUpInfo			= 4008,
+	SendLevelUpInfo				= 4008,
 	TryEnableLevelUp			= 4009,
 
 }

@@ -167,7 +167,7 @@ public class AttackController {
 	void Attack () {
 		countDownTime = GetIntervTime ();
 		enemyIndex = 0;
-
+		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [2]);
 		GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
 
 	}
@@ -179,7 +179,6 @@ public class AttackController {
 		}
 		for (int i = enemyInfo.Count - 1; i > 0; i--) {
 			TempEnemy te = enemyInfo[i];
-//			Debug.LogError(te.GetID() + " te.getblood " + te.GetBlood());
 			if(te.GetBlood() <= 0) {
 				deadEnemy.Add(te);
 				enemyInfo.Remove(te);
@@ -201,6 +200,7 @@ public class AttackController {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.Blood, 1);	//1: every round.
 			bud.RecoverHP(blood);
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, null);
+			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [1]);
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
@@ -332,7 +332,6 @@ public class AttackController {
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
-//			Debug.LogError("hurtValue : " + hurtValue);
 			List<AttackInfo> temp = passiveSkill.Dispose(attackType,hurtValue);
 			for (int i = 0; i < temp.Count; i++) {
 				temp[i].EnemyID = te.GetID();
@@ -341,8 +340,8 @@ public class AttackController {
 		}
 		enemyIndex ++;
 		if (enemyIndex == enemyInfo.Count) {
-			//EnemyAttackEnd();
-			LoopAntiAttack();
+			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]);
+			GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
 		}
 		else {
 			LoopEnemyAttack();
@@ -350,12 +349,13 @@ public class AttackController {
 	}    
 
 	void EnemyAttackEnd () {
+		CheckTempEnemy ();
 		bud.ClearData();
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
 	}
 
 	void LoopAntiAttack() {
-		float intervTime = 0.2f;
+		float intervTime = 0.4f;
 		GameTimer.GetInstance ().AddCountDown (intervTime, AntiAttack);
 	}
 
@@ -373,7 +373,6 @@ public class AttackController {
 		}
 		int restraintType = DGTools.RestraintType (ai.AttackType);
 		bool restaint = restraintType == te.GetUnitType ();
-
 		int hurtValue = te.CalculateInjured (ai, restaint);
 		ai.InjuryValue = hurtValue;
 		AttackEnemyEnd (ai);
