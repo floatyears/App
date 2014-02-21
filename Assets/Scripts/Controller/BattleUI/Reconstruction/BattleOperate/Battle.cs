@@ -62,7 +62,7 @@ public class Battle : UIBase
 		base.ShowUI();
 		ShowCard();
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
-		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, AttckEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
 	}
@@ -72,7 +72,7 @@ public class Battle : UIBase
 		SwitchInput(true);
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
-		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, AttckEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
 		battleRootGameObject.SetActive(false);
@@ -102,8 +102,9 @@ public class Battle : UIBase
 		}
 	}
 
-	void AttckEnd (object data) {
+	void EnemyAttckEnd (object data) {
 		SwitchInput(false);
+		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
 	void BattleEnd (object data) {
@@ -191,6 +192,7 @@ public class Battle : UIBase
 	public void ShowEnemy(List<ShowEnemyUtility> count)
 	{
 		battleEnemy.Refresh(count);
+		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
 	GameObject GetPrefabsObject(string name)
@@ -295,6 +297,7 @@ public class Battle : UIBase
 
 			if(generateCount > 0)
 			{
+				MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
 				YieldStartBattle();
 				if(showCountDown) {
 					for(int i = 0;i < generateCount;i++) {

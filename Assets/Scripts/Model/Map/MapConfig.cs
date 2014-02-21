@@ -10,7 +10,7 @@ public class MapConfig : IOriginModel
 	
 	public int characterInitCoorX = 2;
 	public int characterInitCoorY = 0;
-
+	public int BossID = 3;
 	private List<string> mapItemPath = new List<string>();
 
 	private int mapID;
@@ -31,8 +31,7 @@ public class MapConfig : IOriginModel
 		throw new System.NotImplementedException ();
 	}
 
-	public MapConfig ()
-	{
+	public MapConfig () {
 		ConfigTrap ct = new ConfigTrap ();
 		mapXLength = 5;
 		mapYLength = 5;

@@ -112,9 +112,7 @@ public class TempEnemy : ProtobufDataBase {
 
 	public int GetDefense () {
 		int defense = GetEnemyInfo ().defense;
-//		Debug.LogError ("befoure defense : " + defense);
 		defense = defense - System.Convert.ToInt32 (defense * reduceProportion);
-//		Debug.LogError ("after defense : " + defense);
 		return defense;
 	}
 
@@ -127,7 +125,6 @@ public class TempEnemy : ProtobufDataBase {
 	}
 
 	public int GetBlood () {
-//		Debug.LogError ("GetBlood : " + initBlood + " id : " + GetID ());
 		return initBlood;
 	}
 
@@ -172,6 +169,16 @@ public class ConfigEnermy {
 		ei.defense = 100;
 		ei.hp = 500;
 		ei.type = (EUnitType)2;
+		te = new TempEnemy (ei);
+		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
+
+		ei = new EnemyInfo();
+		ei.unitId = 3;
+		ei.attack = 500;
+		ei.defense = 500;
+		ei.type = EUnitType.UNONE;
+		ei.hp = 10000;
+		ei.nextAttack = 1;
 		te = new TempEnemy (ei);
 		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
 	}

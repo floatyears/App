@@ -229,14 +229,11 @@ public class BattleUseData {
 		if (maxEnergyPoint > GlobalData.maxEnergyPoint) {
 			maxEnergyPoint = GlobalData.maxEnergyPoint;	
 		}
-//		Debug.LogError ("maxEnergyPoint : " + maxEnergyPoint);
 		MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
 	}
 	void TrapTargetPoint(object coordinate) {
 		currentCoor = (Coordinate)coordinate;
-
 		ConsumeEnergyPoint ();
-//		Debug.LogError("TrapTargetPoint TrapTargetPoint ");
 	}
 
 	bool temp = true;
@@ -250,7 +247,6 @@ public class BattleUseData {
 		int addBlood = skillRecoverHP.RecoverHP (blood, 2);	//3: every step.
 		RecoverHP (addBlood);
 		ConsumeEnergyPoint ();
-//		Debug.LogError("MoveToMapItem TrapTargetPoint ");
 	}
 
 	void ConsumeEnergyPoint () {

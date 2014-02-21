@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyItem : UIBaseUnity {
 	private ShowEnemyUtility enemyInfo;
@@ -9,6 +9,11 @@ public class EnemyItem : UIBaseUnity {
 	private UIPanel effect;
 	private Vector3 attackPosition;
 	private Vector3 localPosition;
+
+	private UILabel hurtValueLabel;
+	private Queue<GameObject> hurtValueQueue = new Queue<GameObject>();
+	private Vector3 hurtLabelPosition = Vector3.zero;
+	private Vector3 initHurtLabelPosition = Vector3.zero;
 
 	void OnEnable() {
 		MsgCenter.Instance.AddListener (CommandEnum.ShowEnemy, EnemyInfo);
@@ -51,8 +56,28 @@ public class EnemyItem : UIBaseUnity {
 		if (prevObject != null) {
 			Destroy(prevObject);
 		}
-		GameObject obj = GlobalData.GetEffect (ai.AttackType) as GameObject;
-		DGTools.PlayAttackSound (ai.AttackType);
+
+		ShowHurtInfo (ai.InjuryValue);
+		ShowInjuredEffect (ai.AttackType);
+	}
+
+	void ShowHurtInfo(int injuredValue) {
+		GameObject hurtLabel = NGUITools.AddChild (gameObject, hurtValueLabel.gameObject);
+		hurtLabel.SetActive (true);
+		hurtLabel.transform.localPosition = initHurtLabelPosition;
+		hurtValueQueue.Enqueue (hurtLabel);
+		UILabel info = hurtLabel.GetComponent<UILabel> ();
+		info.text = injuredValue.ToString();
+		iTween.MoveTo(hurtLabel,iTween.Hash("position",hurtLabelPosition,"time",1f,"easetype",iTween.EaseType.easeOutQuart,"oncomplete","RemoveHurtLabel","oncompletetarget",gameObject,"islocal",true));
+	}
+
+	void RemoveHurtLabel() {
+		Destroy (hurtValueQueue.Dequeue ());
+	}
+
+	void ShowInjuredEffect (int attackType) {
+		GameObject obj = GlobalData.GetEffect (attackType) as GameObject;
+		DGTools.PlayAttackSound (attackType);
 		if (obj != null) {
 			prevObject = NGUITools.AddChild(effect.gameObject,obj);
 			prevObject.transform.localScale = new Vector3(100f,100f,100f);
@@ -82,14 +107,17 @@ public class EnemyItem : UIBaseUnity {
 	}
 	
 	public void Init(ShowEnemyUtility te) {
-		texture 	= FindChild<UITexture> ("Texture");
-		localPosition = texture.transform.localPosition;
-		attackPosition = new Vector3 (localPosition.x, BattleBackground.ActorPosition.y , localPosition.z);
-//		Debug.LogError (attackPosition + " --   -- " + localPosition + "       ......     " + BattleBackground.ActorPosition.y);
-		bloodLabel 	= FindChild<UILabel> ("BloodLabel");
-		nextLabel 	= FindChild<UILabel> ("NextLabel");
-		effect		= FindChild<UIPanel> ("Effect");
-		enemyInfo 	= te;
+		texture 				= FindChild<UITexture> ("Texture");
+		localPosition 			= texture.transform.localPosition;
+		attackPosition 			= new Vector3 (localPosition.x, BattleBackground.ActorPosition.y , localPosition.z);
+		bloodLabel 				= FindChild<UILabel> ("BloodLabel");
+		nextLabel 				= FindChild<UILabel> ("NextLabel");
+		effect					= FindChild<UIPanel> ("Effect");
+		hurtValueLabel			= FindChild<UILabel> ("HurtLabel");
+		initHurtLabelPosition 	= hurtValueLabel.transform.localPosition;
+		hurtLabelPosition 		= new Vector3 (initHurtLabelPosition.x, initHurtLabelPosition.y + hurtValueLabel.height * 3, initHurtLabelPosition.z);
+		enemyInfo 				= te;
+		hurtValueLabel.gameObject.SetActive (false);
 		SetData (te);
 	}
 

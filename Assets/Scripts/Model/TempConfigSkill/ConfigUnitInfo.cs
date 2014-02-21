@@ -469,8 +469,8 @@ public class AttackInfo {
 		set {enemyID = value;}
 	}
 
-	private float injuryValue ;
-	public float InjuryValue
+	private int injuryValue ;
+	public int InjuryValue
 	{
 		get {return injuryValue;}
 		set {injuryValue = value;}
