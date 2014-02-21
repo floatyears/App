@@ -84,7 +84,7 @@ public class UserUnitInfo : ProtobufDataBase {
 		int retraintType = DGTools.RestraintType (attackType);
 		UserUnit uu = DeserializeData<UserUnit> ();
 		int defense = DGTools.CaculateAddDefense (uu.addDefence);
-		defense += GetUnitInfo ().power [uu.level].defense;
+//		defense += GetUnitInfo ().power [uu.level].defense;
 		float hurtValue = 0;
 
 		if (beRetraintType == (int)GetUnitInfo ().type) {
@@ -184,7 +184,7 @@ public class UserUnitInfo : ProtobufDataBase {
 
 	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TempNormalSkill tns) {
 		int addAttack = uu.addAttack * 50;
-		float attack = addAttack + ui.power [uu.level].attack;
+		float attack = addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType, uu.level); //ui.power [uu.level].attack;
 		attack = tns.GetAttack(attack) * attackMultiple;
 
 		if (strengthenInfo != null) {
@@ -220,7 +220,7 @@ public class UserUnitInfo : ProtobufDataBase {
 			UserUnit uu = DeserializeData<UserUnit>();
 			UnitInfo ui = GetUnitInfo() ;
 			currentBlood += DGTools.CaculateAddBlood (uu.addHp);
-			currentBlood += ui.power [uu.level].hp;
+			currentBlood += GlobalData.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
 		}
 		float blood = currentBlood * hpMultiple;
 		return System.Convert.ToInt32(blood);
@@ -240,7 +240,8 @@ public class UserUnitInfo : ProtobufDataBase {
 		get {
 			int addAttack = GetObject.addAttack * 50;
 			UnitInfo ui = GetUnitInfo() ;
-			return addAttack + ui.power [GetObject.level].attack;
+
+			return addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType,GetObject.level); //ui.power [GetObject.level].attack;
 		}
 	}
 

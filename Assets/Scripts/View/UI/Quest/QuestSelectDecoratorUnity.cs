@@ -176,7 +176,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		labDoorName.text = stageInfo.stageName;
 		rewardExpLabel.text = string.Format( "Exp : {0}", currentInfo.rewardExp.ToString() );
 		rewardLineLabel.text = "/";
-		rewardCoinLabel.text = string.Format("Cion : {0}", currentInfo.rewardCoin.ToString() );
+		rewardCoinLabel.text = string.Format("Cion : {0}", currentInfo.rewardMoney.ToString() );
 
 		string avatarTexturePath = "Avatar/role01" + currentInfo.no.ToString();
 		avatarTexture.mainTexture = Resources.Load( avatarTexturePath ) as Texture2D;

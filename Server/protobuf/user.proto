@@ -16,20 +16,15 @@ message UserInfo {
 };
 
 message AccountInfo {
-	optional uint32	review				= 1;
-	optional uint32	payTotal			= 2;
-	optional uint32	payMonth			= 3;
-	optional uint32	money				= 4;
-	optional uint32	stonePay			= 5;
-	optional uint32	stoneFree			= 6;
-	optional uint32	stone				= 7;
-	optional uint32	friendPoint			= 8;
-	optional uint32	firstSelectNum		= 9;
-};
-
-message UserQuestInfo {
-	optional int32	questId				= 1;
-	optional bool	questCleared		= 2;
+	optional int32	review				= 1;
+	optional int32	payTotal			= 2;
+	optional int32	payMonth			= 3;
+	optional int32	money				= 4;
+	optional int32	stonePay			= 5;
+	optional int32	stoneFree			= 6;
+	optional int32	stone				= 7;
+	optional int32	friendPoint			= 8;
+	optional int32	firstSelectNum		= 9;
 };
 
 message PartyItem {
@@ -50,7 +45,7 @@ message PartyInfo {
 message UserInfoDetail {
 	optional UserInfo		user				= 1;
 	optional AccountInfo	account				= 2;
-	optional UserQuestInfo	quest				= 3;
+	optional QuestRecord	quest				= 3;
 	repeated UserUnit		unitList			= 4;
 	optional PartyInfo		party				= 5;
 	optional LoginInfo		login				= 6;
@@ -116,7 +111,7 @@ message RspAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional UserInfo		user				= 2;
 	optional AccountInfo	account				= 3;
-	optional UserQuestInfo	quest				= 4;	
+	optional QuestRecord	quest				= 4;	
 	repeated UserUnit		unitList			= 5;
 	optional PartyInfo		party				= 6;
 	optional uint32			serverTime			= 7;

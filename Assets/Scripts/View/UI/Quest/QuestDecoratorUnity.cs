@@ -193,7 +193,7 @@ public class ConfigStage{
 			storyQuestItem.stamina = 8;
 			storyQuestItem.floor = 1;
 			storyQuestItem.rewardExp = 17;
-			storyQuestItem.rewardCoin = 69;
+			storyQuestItem.rewardMoney = 69;
 			List<uint> storyEnemyList = new List<uint>(){1,3,5,7,9,11,13,15};
 			storyQuestItem.enemyId.AddRange(storyEnemyList);
 		storyStageItem.quests.Add(storyQuestItem);
@@ -209,7 +209,7 @@ public class ConfigStage{
 			storyQuestItem.stamina = 9;
 			storyQuestItem.floor = 2;
 			storyQuestItem.rewardExp = 25;
-			storyQuestItem.rewardCoin = 74;
+			storyQuestItem.rewardMoney = 74;
 			storyEnemyList = new List<uint>(){2,4,6,8,10,12,14,16};
 			storyQuestItem.enemyId.AddRange(storyEnemyList);
 		storyStageItem.quests.Add(storyQuestItem);
@@ -225,7 +225,7 @@ public class ConfigStage{
 			storyQuestItem.stamina = 15;
 			storyQuestItem.floor = 8;
 			storyQuestItem.rewardExp = 125;
-			storyQuestItem.rewardCoin = 287;
+			storyQuestItem.rewardMoney = 287;
 			storyEnemyList = new List<uint>(){2,4,6,8,10,12,14,16};
 			storyQuestItem.enemyId.AddRange(storyEnemyList);
 		storyStageItem.quests.Add(storyQuestItem);
@@ -254,7 +254,7 @@ public class ConfigStage{
 			eventQuestItem.stamina = 8;
 			eventQuestItem.floor = 1;
 			eventQuestItem.rewardExp = 17;
-			eventQuestItem.rewardCoin = 69;
+		eventQuestItem.rewardMoney = 69;
 			List<uint> eventEnemyIdList = new List<uint>(){1,3,5,7,9,11,13,15};
 			eventQuestItem.enemyId.AddRange(storyEnemyList);
 		eventStageItem.quests.Add(eventQuestItem);
@@ -270,7 +270,7 @@ public class ConfigStage{
 			eventQuestItem.stamina = 9;
 			eventQuestItem.floor = 2;
 			eventQuestItem.rewardExp = 25;
-			eventQuestItem.rewardCoin = 74;
+		eventQuestItem.rewardMoney = 74;
 			eventEnemyIdList = new List<uint>(){2,4,6,8,10,12,14,16};
 			eventQuestItem.enemyId.AddRange(storyEnemyList);
 		eventStageItem.quests.Add(eventQuestItem);
@@ -286,7 +286,7 @@ public class ConfigStage{
 			eventQuestItem.stamina = 15;
 			eventQuestItem.floor = 8;
 			eventQuestItem.rewardExp = 111;
-			eventQuestItem.rewardCoin = 245;
+		eventQuestItem.rewardMoney = 245;
 			eventEnemyIdList = new List<uint>(){2,4,6,8,10,12,14,16};
 			eventQuestItem.enemyId.AddRange(storyEnemyList);
 		eventStageItem.quests.Add(eventQuestItem);

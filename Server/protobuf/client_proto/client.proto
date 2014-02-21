@@ -3,30 +3,32 @@ import public "bbproto.proto";
 package bbproto;
 
 //=======================Unit - only used at client================================================//
-message UnitStatus {
-	required UserUnit		userUnit	= 1;
-	required UnitInfo		info		= 2;
-	optional BattlePower	power		= 3;
-};
-
-message BattlePower {
+message PowerValue {
 	optional int32 level 		= 1; // unit level
-	optional int32 attack		= 2;
-	optional int32 defense		= 3;
-	optional int32 hp			= 4;	
-};
+	optional int32 value		= 2;
+}
+
+message PowerTable {
+	repeated PowerValue	 power	= 1; //has one item for each level
+}
+
+message PowerType {
+	optional int32 attackType	= 1;
+	optional int32 hpType		= 2;
+	optional int32 expType		= 3;		
+}
 
 message HelperRequire {
     optional int32		level		= 1;
 	optional EUnitType	race		= 2;
 	optional EUnitType	type		= 3;
-};
+}
 
 message EvolveInfo {
     required int32      		evolveUnitId    = 1;
     repeated int32		      	materialUnitId  = 2;
 	optional HelperRequire		helperRequire	= 3;
-};
+}
 
 message UnitInfo { 	
 	required uint32			id				= 1;
@@ -40,14 +42,13 @@ message UnitInfo {
 	optional int32			activeSkill		= 9;
 	optional int32			passiveSkill	= 10;
 	optional int32			maxLevel		= 11;
-	optional int32			expType			= 12;
-	optional string			profile			= 13;
-	repeated BattlePower	power			= 14; //diff power of each level
-	optional EvolveInfo		evolveInfo		= 15;
-	optional int32			cost			= 16;
-	optional int32			saleValue		= 17;
-	optional int32			levelUpValue	= 18;
-};
+	optional string			profile			= 12;
+	optional PowerType		powerType		= 13; //include: hpType,atkType,expType
+	optional EvolveInfo		evolveInfo		= 14;
+	optional int32			cost			= 15;
+	optional int32			saleValue		= 16;
+	optional int32			devourValue		= 17;
+}
 //=================================================================================================//
 
 
@@ -58,11 +59,11 @@ message UnitInfo {
 message Probability {
 	optional int32		id		= 1;
 	optional float		rate	= 2;
-};
+}
 
 message QuestMapInfo {
 	optional int32			floors		= 1;
 	repeated Probability	panelRate	= 2;
-};
+}
 //=======================================================================//
 

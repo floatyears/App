@@ -131,9 +131,14 @@ public enum CommandEnum
 	//Add By Ling yan	
 	LevelUpPanelFocus			= 4000,
 	TransmitStageInfo			= 4001,
-	PickMaterialUnitInfo			= 4002,
-	PickBaseUnitInfo				= 4003,
-	PickFriendUnitInfo			= 4004,
+	PickBaseUnitInfo				= 4002,
+	PickFriendUnitInfo			= 4003,
+	PickMaterialUnitInfo			= 4004,
+	CheckLevelUpInfo			= 4005,
+	LevelUp					= 4006,
+	ShowUnitInfo				= 4007,
+	SendLevelUpInfo			= 4008,
+	TryEnableLevelUp			= 4009,
 
 }
 
@@ -260,4 +265,9 @@ public enum AudioEnum {
 public enum showTurn{
 	levelTurn,
 	addPointTurn	
+}
+
+public enum UnitAssetType {
+	Avatar 	= 0,
+	Profile	= 1,
 }
