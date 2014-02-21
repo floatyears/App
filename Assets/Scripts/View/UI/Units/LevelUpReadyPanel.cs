@@ -4,10 +4,16 @@ using System.Collections.Generic;
 using bbproto;
 public class LevelUpReadyPanel: UIComponentUnity {
 	UITexture baseTex;
+	UIImageButton levelUpButton;
 	int currentMaterialPos = 1;
 	List<GameObject> TabList = new List<GameObject>();
 	Dictionary<int,GameObject> materialPoolDic = new Dictionary<int,GameObject>();
-	
+
+
+	UserUnit baseUnitInfo;
+	UserUnit friendUnitInfo;
+	List<UserUnit> materialUnitInfo = new List<UserUnit>();
+
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
 		InitUI();
@@ -17,7 +23,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		InitReadySign();
+		//InitReadySign();
 		AddListener();
         }
 
@@ -36,53 +42,56 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			readySignDic[ tab ] = isSign;
 	}
 	
-	void UpdateBaseInfoView( UnitInfo unitInfo){
+	void UpdateBaseInfoView( UserUnit unitInfo){
 		GameObject baseTab = TabList[0];
 		UITexture tex = baseTab.GetComponentInChildren<UITexture>();
-		string sourcePath = "Avatar/role00" + unitInfo.id.ToString();
-		tex.mainTexture = Resources.Load( sourcePath ) as Texture2D;
+		uint curUnitId = unitInfo.unitId;
+		tex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
 	}
 	
-	void UpdateMaterialInfoView( UnitInfo unitInfo){
+	void UpdateMaterialInfoView( UserUnit unitInfo){
 		GameObject materialTab = materialPoolDic[ materialUnitInfo.Count ];
 		UITexture tex = materialTab.GetComponentInChildren<UITexture>();
-		string sourcePath = "Avatar/role00" + unitInfo.id.ToString();
-		tex.mainTexture = Resources.Load( sourcePath ) as Texture2D;
+		uint curUnitId = unitInfo.unitId;
+		tex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
         }
         
-        void UpdateFriendInfo(UnitInfo unitInfo){
-		Debug.LogError("Friend Item Show");
+	void UpdateFriendInfo(UserUnit unitInfo){
+//		Debug.LogError("Friend Item Show");
 		GameObject friendTab = TabList[1];
 		UITexture tex = friendTab.GetComponentInChildren<UITexture>();
-		string sourcePath = "Avatar/role00" + unitInfo.id.ToString();
-		tex.mainTexture = Resources.Load( sourcePath ) as Texture2D;
+		uint curUnitId = unitInfo.unitId;
+		tex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
         }
 
 	void InitUI(){
+		InitTab();
+		InitButton();
+	}
+	
+	void InitTab(){
 		GameObject tab;
 		tab = FindChild("Tab_Base");
 		baseTex = tab.GetComponentInChildren< UITexture >();
 		TabList.Add(tab);
-	
+		
 		tab = FindChild("Tab_Friend");
 		TabList.Add(tab);
 		tab = FindChild("Tab_Material");
 		TabList.Add(tab);
 		for (int i = 1; i < 5; i++){
 			GameObject temp = tab.transform.FindChild("Material" + i.ToString()).gameObject;
-			materialPoolDic.Add( i, temp);
+                        materialPoolDic.Add( i, temp);
                 }
-	
-		foreach (var item in TabList){
-			UIEventListener.Get(item).onClick = ClickTab;
-		}
-		OnTab(TabList[0]);
+                
+                foreach (var item in TabList){
+                        UIEventListener.Get(item).onClick = ClickTab;
+                }
+                OnTab(TabList[0]);
+        }
 
-		InitButton();
-	}
-	
 
-	void ClickTab(GameObject tab){
+        void ClickTab(GameObject tab){
 		OnTab(tab);
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 	}
@@ -116,7 +125,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		//MsgCenter.Instance.RemoveListener(CommandEnum.SendLevelUpInfo, SendLevelUpInfo);
 	}
 
-	UIImageButton levelUpButton;
+
 	void EnableLevelUp(object info){
 		Dictionary<string, object> levelUpInfo = PackLevelUpInfo();
 		if( levelUpInfo == null)	
@@ -132,33 +141,52 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void ClickLevelUpButton(GameObject go){
-		MsgCenter.Instance.Invoke( CommandEnum.LevelUp, true );
+		Debug.LogError("Ready Pool : Click LevelUp Button");
+		UIManager.Instance.ChangeScene( SceneEnum.UnitDetail );
+		MsgCenter.Instance.Invoke( CommandEnum.LevelUp, PackUserUnitInfo() );
+//		Debug.LogError("Click LeveUp Button PackUserCount : " + PackUserUnitInfo().Count);
+
 	}
 
-	UnitInfo baseUnitInfo;
-	UnitInfo friendUnitInfo;
-	List<UnitInfo> materialUnitInfo = new List<UnitInfo>();
+
+	
+	/// <summary>
+	/// Packs the user unit info. 
+	/// </summary>
+	List<UserUnit> PackUserUnitInfo(){
+		List<UserUnit> pickedUserUnitInfo = new List<UserUnit>();
+		pickedUserUnitInfo.Add(baseUnitInfo);
+		pickedUserUnitInfo.Add(friendUnitInfo);
+//		Debug.LogError("Pack : Material Count " + materialUnitInfo.Count); 
+		foreach (var item in materialUnitInfo){
+			pickedUserUnitInfo.Add(item);
+		}
+//		Debug.LogError("Pck: Package Count " + pickedUserUnitInfo.Count );
+		return pickedUserUnitInfo;
+	}
 
 	void PickBaseUnitInfo(object info){
+		Debug.Log("Ready Pool Receive info !");
 		if(baseUnitInfo != null)	return;
-		baseUnitInfo = info as UnitInfo;
+		baseUnitInfo = info as UserUnit;
 		UpdateBaseInfoView( baseUnitInfo );
 
 	}
 
 	void CheckLevelUpInfo( object info){
+		Debug.LogError("Check LevelUp Info");
 		//MsgCenter.Instance.Invoke(CommandEnum.EnableLevelUp, );
 	}
 
 	void PickFriendUnitInfo(object info){
 		if(friendUnitInfo != null)	return;
-		friendUnitInfo = info as UnitInfo;
+		friendUnitInfo = info as UserUnit;
 
 		UpdateFriendInfo(friendUnitInfo);
 	}
 	void PickMaterialUnitInfo(object info){
 		if( materialUnitInfo.Count == 4)	return;
-		UnitInfo tempInfo = info as UnitInfo;
+		UserUnit tempInfo = info as UserUnit;
 		materialUnitInfo.Add(tempInfo);
 		UpdateMaterialInfoView( tempInfo );
 

@@ -23,8 +23,8 @@ public class ConfigViewData
 		OwnedUnitInfoList.Add( tempUserUnit );
 
 		tempUserUnit= new UserUnit();
-		tempUserUnit.uniqueId = 1003;
-		tempUserUnit.unitId = 3;
+		tempUserUnit.uniqueId = 1002;
+		tempUserUnit.unitId = 2;
 		tempUserUnit.exp = 786;
 		tempUserUnit.level = 54;
 		tempUserUnit.addAttack = 8;
@@ -32,8 +32,8 @@ public class ConfigViewData
 		OwnedUnitInfoList.Add( tempUserUnit );
 
 		tempUserUnit= new UserUnit();
-		tempUserUnit.uniqueId = 1;
-		tempUserUnit.unitId = 1;
+		tempUserUnit.uniqueId = 1003;
+		tempUserUnit.unitId = 3;
 		tempUserUnit.exp = 134;
 		tempUserUnit.level = 9;
 		tempUserUnit.addAttack = 3;
@@ -58,26 +58,7 @@ public class ConfigViewData
 		tempUserUnit.addHp = 24;
 		OwnedUnitInfoList.Add( tempUserUnit );
 
-
-		tempUserUnit= new UserUnit();
-		tempUserUnit.uniqueId = 1006;
-		tempUserUnit.unitId = 6;
-		tempUserUnit.exp = 291;
-		tempUserUnit.level = 27;
-		tempUserUnit.addAttack = 1;
-		tempUserUnit.addHp = 4;
-		OwnedUnitInfoList.Add( tempUserUnit );
-
-		tempUserUnit= new UserUnit();
-		tempUserUnit.uniqueId = 1007;
-		tempUserUnit.unitId = 7;
-		tempUserUnit.exp = 427;
-		tempUserUnit.level = 55;
-		tempUserUnit.addAttack = 9;
-		tempUserUnit.addHp = 12;
-		OwnedUnitInfoList.Add( tempUserUnit );
-
-		Debug.Log(string.Format( "Finlish configging owned unit info, the Count of OwnedUnitInfoList is {0}", OwnedUnitInfoList.Count) );
+//		Debug.Log(string.Format( "Finlish configging owned unit info, the Count of OwnedUnitInfoList is {0}", OwnedUnitInfoList.Count) );
 
 
 	}

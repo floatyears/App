@@ -90,7 +90,6 @@ public class ModelManager
 
 		ConfigFriendList configFriendList = new ConfigFriendList();
 		ConfigAudio audioConfig = new ConfigAudio();
-		ConfigAvailFriend availFriend = new ConfigAvailFriend();
 		ConfigStage stage = new ConfigStage();
 		ConfigViewData tempViewData = new ConfigViewData();
 	}

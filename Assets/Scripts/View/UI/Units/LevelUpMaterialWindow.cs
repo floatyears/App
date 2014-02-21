@@ -7,7 +7,6 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	DragPanel materialDragPanel;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	private List<UserUnitInfo> userUnitInfoList = new List<UserUnitInfo>();
-//	Dictionary<GameObject, UserUnitInfo> materialUnitInfoDic = new Dictionary<GameObject, UserUnitInfo>();
 
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
@@ -42,14 +41,13 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	
 
 	private void ShowAvatar( GameObject item){
-		Debug.Log(string.Format("Show Avatar named as {0}", item));
+		Debug.LogError("Material Show Avatar: ");
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
-		uint id = materialUnitInfoDic[ item ].id;
-		string sourceTexPath = "Avatar/role00" + id.ToString();
-		Debug.Log("ShowAvatar, the avatar texure path is : " + sourceTexPath);
-		Texture2D sourceTex = Resources.Load( sourceTexPath ) as Texture2D;
-		avatarTex.mainTexture = sourceTex;
+		
+		uint curUnitId = materialUnitInfoDic[item].unitId;
+		Debug.LogError("Material Show Avatar : curUnitId is : " + curUnitId);
+		avatarTex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
 	}
 
 	private void AddEventListener( GameObject item){
@@ -57,16 +55,16 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		UIEventListenerCustom.Get( item ).LongPress = PressItem;
 	}
 
-	Dictionary<GameObject, UnitInfo> materialUnitInfoDic = new Dictionary<GameObject, UnitInfo>();
+	Dictionary<GameObject, UserUnit> materialUnitInfoDic = new Dictionary<GameObject, UserUnit>();
 	private void ClickMaterialItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		UnitInfo tempInfo = materialUnitInfoDic[ item ];
+		UserUnit tempInfo = materialUnitInfoDic[ item ];
 		MsgCenter.Instance.Invoke( CommandEnum.PickMaterialUnitInfo, tempInfo);
 		MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
 	}
 
 	void PressItem(GameObject item){  
-		UnitInfo unitInfo = materialUnitInfoDic[ item ];
+		UserUnit unitInfo = materialUnitInfoDic[ item ];
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
         }
 
@@ -92,16 +90,13 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	}
 
 	private void FillDragPanel(DragPanel panel){
-		Debug.Log("Fill Drag Panel");
 		if( panel == null )	return;
-
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
 			GameObject currentItem = panel.ScrollItem[ i ];
-			UITexture tex = currentItem.GetComponentInChildren<UITexture>();
-			//materialUnitInfoDic.Add(currentItem, ConfigViewData.OwnedUnitInfoList[ i ]);
-			ShowAvatar( currentItem );
-			AddEventListener( currentItem );
-		}
+			materialUnitInfoDic.Add(currentItem, ConfigViewData.OwnedUnitInfoList[ i ]);
+                        ShowAvatar( currentItem );
+                        AddEventListener( currentItem );
+                }
 	}
 
 	private void InitDragPanelArgs(){
