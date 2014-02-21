@@ -8,6 +8,55 @@ public class ConfigUnitBaseInfo {
 		GenerateUnitBaseInfo ();
 		Generate2 ();
 		Generate3 ();
+
+		GenerateUnitBaseExp();
+		GenerateUnitBaseAttack();
+//		GenerateUnitBaseDefense();
+		GenerateUnitBaseHP();
+	}
+	// exp attack defense hp
+	void GenerateUnitBaseExp () {
+		PowerTable pt = new PowerTable();
+		for (int i = 1; i < 100; i++) {
+			PowerValue pv = new PowerValue();
+			pv.level = i;
+			pv.value = i * 100;
+			pt.power.Add(pv);
+		}
+		GlobalData.unitValue .Add(1,new PowerTableInfo(pt)) ;
+	}
+
+	void GenerateUnitBaseAttack () {
+		PowerTable pt = new PowerTable();
+		for (int i = 1; i < 100; i++) {
+			PowerValue pv = new PowerValue();
+			pv.level = i;
+			pv.value = i * 20;
+			pt.power.Add(pv);
+		}
+		GlobalData.unitValue .Add(2,new PowerTableInfo(pt)) ; 
+	}
+
+//	void GenerateUnitBaseDefense () {
+//		PowerTable pt = new PowerTable();
+//		for (int i = 1; i < 100; i++) {
+//			PowerValue pv = new PowerValue();
+//			pv.level = i;
+//			pv.value = i * 5;
+//			pt.power.Add(pv);
+//		}
+//		GlobalData.unitValue .Add(3,new PowerTableInfo(pt)) ;
+//	}
+
+	void GenerateUnitBaseHP () {
+		PowerTable pt = new PowerTable();
+		for (int i = 1; i < 100; i++) {
+			PowerValue pv = new PowerValue();
+			pv.level = i;
+			pv.value = i * 50;
+			pt.power.Add(pv);
+		}
+		GlobalData.unitValue.Add(3,new PowerTableInfo(pt)) ;
 	}
 
 	void GenerateUnitBaseInfo() {
@@ -238,6 +287,22 @@ public class ConfigUnitBaseInfo {
 		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
 	}
 
+}
+
+public class PowerTableInfo : ProtobufDataBase {
+	public PowerTableInfo(object instance) : base (instance) {
+		pt = instance as PowerTable;
+	}
+	PowerTable pt;
+	public int GetValue (int level) {
+		PowerValue pv = pt.power.Find(a=>a.level == level);
+		if(pv == default(PowerValue)) {
+			return -1;
+		}
+		else{
+			return pv.value;
+		}
+	}
 }
 
 public class UnitBaseInfo {

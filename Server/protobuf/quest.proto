@@ -7,7 +7,8 @@ package bbproto;
 
 enum EQuestState {
 	QS_NEW		= 0;
-	QS_CLEARED	= 1;
+	QS_QUESTING	= 1;
+	QS_CLEARED	= 2;
 }
 
 enum ETrapType {
@@ -37,6 +38,20 @@ enum EGridStar {
 	GS_EXCLAMATION		= 9;
 }
 
+message QuestRecord {
+	optional uint32			questId		= 1;
+	optional uint32			startTime	= 2;
+	optional uint32			endTime		= 3;
+	repeated DropUnit		dropUnits	= 4;
+	repeated UserUnit		getUnit		= 5;
+	optional int32			getExp		= 6;
+	optional int32			getMoney	= 7;
+	optional EQuestState	state		= 8;
+	optional int32		continue_times	= 9; 
+	optional int32			playTotal	= 10;
+	optional int32			playToday	= 11;
+}
+
 //----------------------Quest config data-----------------------------
 message NumRange {
 	optional int32		min				= 1; 
@@ -52,7 +67,7 @@ message StarConfig {
 	optional int32			repeat		= 1;
 	optional EGridStar		star		= 2; // 1 - 6: star, 0: key, 7: ? 8:!
 	optional NumRange		coin		= 3; // tresureBox
-	repeated uint32			enemyPool	= 4; // unit uniqueId
+	repeated uint32			enemyPool	= 4; // enemyId list
 	optional NumRange		enemyNum	= 5;
 	repeated uint32			trap		= 6; // trapId
 }
@@ -73,9 +88,9 @@ message QuestConfig {
 	repeated QuestFloorConfig 	floors	= 5;
 }
 
-//------------------------------------------------------------
+//-------------------------QuestData------------------------------
 message EnemyInfo {
-	optional uint32		number			= 1;
+	optional uint32		enemyId			= 1;
 	optional uint32		unitId			= 2;
 	optional EUnitType	type			= 3;
 	optional int32		hp				= 4;
@@ -87,7 +102,7 @@ message EnemyInfo {
 message EnemyInfoConf {
 	optional EnemyInfo	enemy			= 1;
 	optional uint32		dropUnitId		= 2;
-	optional uint32		dropUnitLevel	= 3;
+	optional int32		dropUnitLevel	= 3;
 	optional float		dropRate		= 4;
 	optional float		addHpRate		= 5; // "+" rate
 	optional float		addAttackRate	= 6; //
@@ -95,11 +110,12 @@ message EnemyInfoConf {
 }
 
 message DropUnit{
-	optional uint32		unitId			= 1;
-	optional int32		level			= 2;
-	optional int32		addHp			= 3;
-	optional int32		addAttack		= 4;
-	optional int32		addDefence		= 5;
+	optional uint32		dropId			= 1;
+	optional uint32		unitId			= 2;
+	optional int32		level			= 3;
+	optional int32		addHp			= 4;
+	optional int32		addAttack		= 5;
+	optional int32		addDefence		= 6;
 }
 
 message QuestGrid {
@@ -108,7 +124,7 @@ message QuestGrid {
 	optional int32			color		= 3; // star color
 	optional EQuestGridType	type		= 4; // enemy, coin, enemy, empty
 	repeated uint32			enemyId		= 5; // enemy uniqueId list
-	repeated DropUnit		drop		= 6;
+	repeated uint32			dropId		= 6;
 	optional int32			coins		= 7; 
 	optional uint32			trapId		= 8; 
 }
@@ -122,7 +138,8 @@ message QuestDungeonData {
 	repeated EnemyInfo		boss		= 2; // boss unit
 	repeated EnemyInfo		enemys		= 3; // enemy list
 	optional bytes			colors		= 4; 
-	repeated QuestFloor		floors		= 5; // 1, 2, 3... floors
+	repeated DropUnit		drop		= 5;
+	repeated QuestFloor		floors		= 6; // 1, 2, 3... floors
 }
 
 //============== QuestMapData -  client data also used=======================//
@@ -140,10 +157,23 @@ message QuestInfo {
 	optional int32			stamina		= 6; // cost stamina
 	optional int32			floor		= 7;		
 	optional int32			rewardExp	= 8;
-	optional int32			rewardCoin	= 9;
+	optional int32			rewardMoney	= 9;
 	repeated uint32			bossId		= 10; // boss unitid
 	repeated uint32			enemyId		= 11; // enemy unitid
 };
+
+enum QuestBoostType {
+	QB_BOOST_NONE		= 0;
+	QB_BOOST_MONEY		= 1;
+	QB_BOOST_EXP		= 2;
+	QB_BOOST_DROPRATE	= 3;
+	QB_BOOST_DROPPLUS	= 4;
+}
+
+message QuestBoost {
+	optional QuestBoostType	type	= 1; //money , exp , dropRate, drop+
+	optional int32			value	= 2; //2, 3...
+}
 
 message StageInfo {
 	optional int32			version		= 1;
@@ -154,10 +184,9 @@ message StageInfo {
 	optional string			description	= 6; //	 
 	optional uint32			startTime	= 7;	
 	optional uint32			endTime		= 8;
-	optional int32			boostType	= 9; //coins , exp , dropRate 
-	optional int32			boostValue	= 10; //X2, X3
-	optional Position		pos			= 11; // stage position of the city	
-	repeated QuestInfo		quests		= 12; 
+	optional QuestBoost		boost		= 9;
+	optional Position		pos			= 10; // stage position of the city	
+	repeated QuestInfo		quests		= 11; 
 };
 
 message CityInfo {
@@ -194,22 +223,28 @@ message RspStartQuest {
 	optional QuestDungeonData	dungeonData		= 4;
 }
 
-message ReqClearQuset {
+message ReqClearQuest {
 	optional ProtoHeader	header 			= 1; 
 	optional uint32			questId			= 2; 
 	optional uint32			securityKey		= 3; 
-	optional uint32			getMoney		= 4;
-	repeated UserUnit		getUnit			= 5; //without uniqueId	
+	optional int32			getMoney		= 4;
+	repeated DropUnit		getUnit			= 5; //without uniqueId	
 	repeated uint32			hitGrid			= 6;
 }
 
-message RspClearQuset {
+message RspClearQuest {
 	optional ProtoHeader	header			= 1;
-	optional UserInfo		user			= 2;
-	optional AccountInfo	acount			= 3;	
-	optional uint32			getMoney		= 4;
-	optional uint32			getExp			= 5;	
-	repeated UserUnit		getUnit			= 6; //with uniqueId 
+	optional int32			rank			= 2;
+	optional int32			exp				= 3;
+	optional int32			money			= 7;
+	optional int32			friendPoint		= 8;
+	optional int32			staminaNow		= 4;
+	optional int32			staminaMax		= 5;
+	optional uint32			staminaRecover	= 6; //recover time
+	optional int32			gotMoney		= 9;
+	optional int32			gotExp			= 10;
+	optional int32			gotFriendPot	= 11;
+	repeated UserUnit		userUnit		= 12; //with uniqueId 
 }
 
 message ReqGetQuestInfo {

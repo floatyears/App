@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using bbproto;
+using System.Collections.Generic;
 
 public class UnitDetailDecoratorUnity : UIComponentUnity{
 	private UITexture detaiSprite;
@@ -18,10 +19,13 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	private UIToggle startToggle;
 	private UILabel unitNormalSkill_1_NameLabel;
 	private UILabel unitNormalSkill_2_NameLabel;
+	GameObject levelUpEffect;
+	List<GameObject> effectCache = new List<GameObject>();
 
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
 		InitUI();
+		InitEffect();
 	}
 	
 	public override void ShowUI () {
@@ -30,13 +34,49 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		ShowUnitScale();
 		UIManager.Instance.HideBaseScene();
 		TabFocus();
+		MsgCenter.Instance.AddListener(CommandEnum.LevelUp , LevelUpUnit);
+		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitInfo , ShowUnitInfoDetail);
 	}
 	
 	public override void HideUI ()  {
 		base.HideUI ();
+		ClearEffectCache();
 		UIManager.Instance.ShowBaseScene();
+		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp , LevelUpUnit);
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitInfo , ShowUnitInfoDetail);
+
+	}
+	void ShowUnitInfoDetail(object info ){
+		UnitInfo unitInfo = info as UnitInfo;
+		string path = "Role/role00" + unitInfo.id.ToString();
+		detaiSprite.mainTexture = Resources.Load(path) as Texture2D;
 	}
 
+	void LevelUpUnit( object data){
+		UnitInfo unitInfo = data as UnitInfo;
+		uint id = unitInfo.id;
+		string sourcePath = "Role/role00" + id.ToString();
+		GameObject role_plane = levelUpEffect.transform.FindChild("Plane_Role").gameObject;
+		Texture role_tex = role_plane.GetComponent<MeshRenderer>().materials[0].mainTexture;
+		role_tex = Resources.Load( sourcePath ) as Texture;
+		ShowEffect();
+
+	}
+
+	void ClearEffectCache(){
+		foreach (var item in effectCache){
+			Destroy( item );
+		}
+		effectCache.Clear();
+	}
+
+	void InitEffect(){
+		levelUpEffect = Resources.Load("Prefabs/UI/UnitDetail/LevelUpEffect") as GameObject;
+	}
+	void ShowEffect(){
+		GameObject tempEffect = Instantiate( levelUpEffect ) as GameObject;
+		effectCache.Add( tempEffect );
+	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
