@@ -1914,11 +1914,17 @@ func (m *ReqClearQuest) GetHitGrid() []uint32 {
 
 type RspClearQuest struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	User             *UserInfo    `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
-	Acount           *AccountInfo `protobuf:"bytes,3,opt,name=acount" json:"acount,omitempty"`
-	GetMoney         *int32       `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
-	GetExp           *int32       `protobuf:"varint,5,opt,name=getExp" json:"getExp,omitempty"`
-	GetUnit          []*UserUnit  `protobuf:"bytes,6,rep,name=getUnit" json:"getUnit,omitempty"`
+	Rank             *int32       `protobuf:"varint,2,opt,name=rank" json:"rank,omitempty"`
+	Exp              *int32       `protobuf:"varint,3,opt,name=exp" json:"exp,omitempty"`
+	Money            *int32       `protobuf:"varint,7,opt,name=money" json:"money,omitempty"`
+	FriendPoint      *int32       `protobuf:"varint,8,opt,name=friendPoint" json:"friendPoint,omitempty"`
+	StaminaNow       *int32       `protobuf:"varint,4,opt,name=staminaNow" json:"staminaNow,omitempty"`
+	StaminaMax       *int32       `protobuf:"varint,5,opt,name=staminaMax" json:"staminaMax,omitempty"`
+	StaminaRecover   *uint32      `protobuf:"varint,6,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	GotMoney         *int32       `protobuf:"varint,9,opt,name=gotMoney" json:"gotMoney,omitempty"`
+	GotExp           *int32       `protobuf:"varint,10,opt,name=gotExp" json:"gotExp,omitempty"`
+	GotFriendPot     *int32       `protobuf:"varint,11,opt,name=gotFriendPot" json:"gotFriendPot,omitempty"`
+	UserUnit         []*UserUnit  `protobuf:"bytes,12,rep,name=userUnit" json:"userUnit,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -1933,37 +1939,79 @@ func (m *RspClearQuest) GetHeader() *ProtoHeader {
 	return nil
 }
 
-func (m *RspClearQuest) GetUser() *UserInfo {
-	if m != nil {
-		return m.User
-	}
-	return nil
-}
-
-func (m *RspClearQuest) GetAcount() *AccountInfo {
-	if m != nil {
-		return m.Acount
-	}
-	return nil
-}
-
-func (m *RspClearQuest) GetGetMoney() int32 {
-	if m != nil && m.GetMoney != nil {
-		return *m.GetMoney
+func (m *RspClearQuest) GetRank() int32 {
+	if m != nil && m.Rank != nil {
+		return *m.Rank
 	}
 	return 0
 }
 
-func (m *RspClearQuest) GetGetExp() int32 {
-	if m != nil && m.GetExp != nil {
-		return *m.GetExp
+func (m *RspClearQuest) GetExp() int32 {
+	if m != nil && m.Exp != nil {
+		return *m.Exp
 	}
 	return 0
 }
 
-func (m *RspClearQuest) GetGetUnit() []*UserUnit {
+func (m *RspClearQuest) GetMoney() int32 {
+	if m != nil && m.Money != nil {
+		return *m.Money
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetFriendPoint() int32 {
+	if m != nil && m.FriendPoint != nil {
+		return *m.FriendPoint
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetStaminaNow() int32 {
+	if m != nil && m.StaminaNow != nil {
+		return *m.StaminaNow
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetStaminaMax() int32 {
+	if m != nil && m.StaminaMax != nil {
+		return *m.StaminaMax
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetStaminaRecover() uint32 {
+	if m != nil && m.StaminaRecover != nil {
+		return *m.StaminaRecover
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetGotMoney() int32 {
+	if m != nil && m.GotMoney != nil {
+		return *m.GotMoney
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetGotExp() int32 {
+	if m != nil && m.GotExp != nil {
+		return *m.GotExp
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetGotFriendPot() int32 {
+	if m != nil && m.GotFriendPot != nil {
+		return *m.GotFriendPot
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetUserUnit() []*UserUnit {
 	if m != nil {
-		return m.GetUnit
+		return m.UserUnit
 	}
 	return nil
 }
@@ -2410,79 +2458,79 @@ func (m *UserInfo) GetUnit() *UserUnit {
 }
 
 type AccountInfo struct {
-	Review           *uint32 `protobuf:"varint,1,opt,name=review" json:"review,omitempty"`
-	PayTotal         *uint32 `protobuf:"varint,2,opt,name=payTotal" json:"payTotal,omitempty"`
-	PayMonth         *uint32 `protobuf:"varint,3,opt,name=payMonth" json:"payMonth,omitempty"`
-	Money            *uint32 `protobuf:"varint,4,opt,name=money" json:"money,omitempty"`
-	StonePay         *uint32 `protobuf:"varint,5,opt,name=stonePay" json:"stonePay,omitempty"`
-	StoneFree        *uint32 `protobuf:"varint,6,opt,name=stoneFree" json:"stoneFree,omitempty"`
-	Stone            *uint32 `protobuf:"varint,7,opt,name=stone" json:"stone,omitempty"`
-	FriendPoint      *uint32 `protobuf:"varint,8,opt,name=friendPoint" json:"friendPoint,omitempty"`
-	FirstSelectNum   *uint32 `protobuf:"varint,9,opt,name=firstSelectNum" json:"firstSelectNum,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	Review           *int32 `protobuf:"varint,1,opt,name=review" json:"review,omitempty"`
+	PayTotal         *int32 `protobuf:"varint,2,opt,name=payTotal" json:"payTotal,omitempty"`
+	PayMonth         *int32 `protobuf:"varint,3,opt,name=payMonth" json:"payMonth,omitempty"`
+	Money            *int32 `protobuf:"varint,4,opt,name=money" json:"money,omitempty"`
+	StonePay         *int32 `protobuf:"varint,5,opt,name=stonePay" json:"stonePay,omitempty"`
+	StoneFree        *int32 `protobuf:"varint,6,opt,name=stoneFree" json:"stoneFree,omitempty"`
+	Stone            *int32 `protobuf:"varint,7,opt,name=stone" json:"stone,omitempty"`
+	FriendPoint      *int32 `protobuf:"varint,8,opt,name=friendPoint" json:"friendPoint,omitempty"`
+	FirstSelectNum   *int32 `protobuf:"varint,9,opt,name=firstSelectNum" json:"firstSelectNum,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
 }
 
 func (m *AccountInfo) Reset()         { *m = AccountInfo{} }
 func (m *AccountInfo) String() string { return proto.CompactTextString(m) }
 func (*AccountInfo) ProtoMessage()    {}
 
-func (m *AccountInfo) GetReview() uint32 {
+func (m *AccountInfo) GetReview() int32 {
 	if m != nil && m.Review != nil {
 		return *m.Review
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetPayTotal() uint32 {
+func (m *AccountInfo) GetPayTotal() int32 {
 	if m != nil && m.PayTotal != nil {
 		return *m.PayTotal
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetPayMonth() uint32 {
+func (m *AccountInfo) GetPayMonth() int32 {
 	if m != nil && m.PayMonth != nil {
 		return *m.PayMonth
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetMoney() uint32 {
+func (m *AccountInfo) GetMoney() int32 {
 	if m != nil && m.Money != nil {
 		return *m.Money
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetStonePay() uint32 {
+func (m *AccountInfo) GetStonePay() int32 {
 	if m != nil && m.StonePay != nil {
 		return *m.StonePay
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetStoneFree() uint32 {
+func (m *AccountInfo) GetStoneFree() int32 {
 	if m != nil && m.StoneFree != nil {
 		return *m.StoneFree
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetStone() uint32 {
+func (m *AccountInfo) GetStone() int32 {
 	if m != nil && m.Stone != nil {
 		return *m.Stone
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetFriendPoint() uint32 {
+func (m *AccountInfo) GetFriendPoint() int32 {
 	if m != nil && m.FriendPoint != nil {
 		return *m.FriendPoint
 	}
 	return 0
 }
 
-func (m *AccountInfo) GetFirstSelectNum() uint32 {
+func (m *AccountInfo) GetFirstSelectNum() int32 {
 	if m != nil && m.FirstSelectNum != nil {
 		return *m.FirstSelectNum
 	}

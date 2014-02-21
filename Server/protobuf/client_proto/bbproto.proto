@@ -353,11 +353,17 @@ message ReqClearQuest {
 
 message RspClearQuest {
 	optional ProtoHeader	header			= 1;
-	optional UserInfo		user			= 2;
-	optional AccountInfo	acount			= 3;	
-	optional int32			getMoney		= 4;
-	optional int32			getExp			= 5;	
-	repeated UserUnit		getUnit			= 6; //with uniqueId 
+	optional int32			rank			= 2;
+	optional int32			exp				= 3;
+	optional int32			money			= 7;
+	optional int32			friendPoint		= 8;
+	optional int32			staminaNow		= 4;
+	optional int32			staminaMax		= 5;
+	optional uint32			staminaRecover	= 6; //recover time
+	optional int32			gotMoney		= 9;
+	optional int32			gotExp			= 10;
+	optional int32			gotFriendPot	= 11;
+	repeated UserUnit		userUnit		= 12; //with uniqueId 
 }
 
 message ReqGetQuestInfo {
@@ -444,15 +450,15 @@ message UserInfo {
 };
 
 message AccountInfo {
-	optional uint32	review				= 1;
-	optional uint32	payTotal			= 2;
-	optional uint32	payMonth			= 3;
-	optional uint32	money				= 4;
-	optional uint32	stonePay			= 5;
-	optional uint32	stoneFree			= 6;
-	optional uint32	stone				= 7;
-	optional uint32	friendPoint			= 8;
-	optional uint32	firstSelectNum		= 9;
+	optional int32	review				= 1;
+	optional int32	payTotal			= 2;
+	optional int32	payMonth			= 3;
+	optional int32	money				= 4;
+	optional int32	stonePay			= 5;
+	optional int32	stoneFree			= 6;
+	optional int32	stone				= 7;
+	optional int32	friendPoint			= 8;
+	optional int32	firstSelectNum		= 9;
 };
 
 message PartyItem {
