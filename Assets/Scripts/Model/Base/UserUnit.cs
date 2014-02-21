@@ -220,7 +220,7 @@ public class UserUnitInfo : ProtobufDataBase {
 		UnitInfo ui = GetUnitInfo() ;
 		int blood = 0;
 		blood +=  DGTools.CaculateAddBlood (uu.addHp);
-		blood += ui.power [uu.level].hp;
+		blood += GlobalData.Instance.GetUnitValue (ui.powerType.hpType, uu.level); //ui.power [uu.level].hp;
 		float temp = blood * hpMultiple;
 		return System.Convert.ToInt32(blood);
 	}
