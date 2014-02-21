@@ -79,25 +79,25 @@ public class LevelUpFriendWindow : UIComponentUnity {
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		//find src 
-		uint id = friendUnitInfoDic[ item ].id;
-		string sourceTexPath = "Avatar/role00" + id.ToString();
+		//uint id = friendUnitInfoDic[ item ].id;
+		//string sourceTexPath = "Avatar/role00" + id.ToString();
 		//Debug.Log("ShowAvatar, the avatar texure path is : " + sourceTexPath);
-		Texture2D sourceTex = Resources.Load( sourceTexPath ) as Texture2D;
+		//Texture2D sourceTex = Resources.Load( sourceTexPath ) as Texture2D;
 		//show
-		avatarTex.mainTexture = sourceTex;
+		//avatarTex.mainTexture = sourceTex;
 	}
 
-	Dictionary<GameObject,UnitInfo> friendUnitInfoDic = new Dictionary<GameObject, UnitInfo>();
+	Dictionary<GameObject,UserUnit> friendUnitInfoDic = new Dictionary<GameObject, UserUnit>();
 	void ClickFriendItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		UnitInfo tempInfo = friendUnitInfoDic[ item ];
-		MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, tempInfo);
+		//UnitInfo tempInfo = friendUnitInfoDic[ item ];
+		//MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, tempInfo);
 		MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
 	}
 
 	void PressItem(GameObject item ){
-		UnitInfo unitInfo = friendUnitInfoDic[ item ];
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
+//		UnitInfo unitInfo = friendUnitInfoDic[ item ];
+//		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
 	}
 
 	void FocusOnPanel(object data) {

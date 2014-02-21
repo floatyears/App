@@ -25,17 +25,13 @@ public class ConfigUnitInfo {
 			uiitem.type 		= (EUnitType)i;
 			uiitem.skill1 		= (i - 1) * 2;
 			uiitem.skill2 		= (i - 1) * 2 + 1;
-			for (int j = 0; j < 3; j++) {
-				BattlePower bp 	= new BattlePower ();
-				bp.attack 		= 10 + j * 10;
-				//bp.defense 		= 1 + j * 10;
-				bp.hp 			= 100 + j * 10;
-				bp.level 		= j + 1;
-				uiitem.power.Add(bp);
-			}
+			uiitem.powerType = new PowerType();
+			uiitem.powerType.attackType = 2;
+			uiitem.powerType.expType = 1;
+			uiitem.powerType.hpType = 3;
+
 			uiitem.rare 		= i;
 			uiitem.maxLevel 	= 10;
-			uiitem.expType 		= 1;
 			if(i == 1){
 				uiitem.leaderSkill = 17;
 				uiitem.activeSkill = 32;
@@ -124,6 +120,27 @@ public class TempUnitInfo : ProtobufDataBase {
 	}
 
 	public int unitBaseInfoID = 0;
+	public uint GetID  {
+		get {
+			UnitInfo ui = DeserializeData<UnitInfo>();
+			return ui.id;
+		}
+	}
+
+	public Texture2D GetAsset(UnitAssetType uat) {
+		string path = string.Empty;
+		switch (uat) {
+			case UnitAssetType.Avatar:
+				path = string.Format("Avatar/avatar{0}_1", GetID) ;
+				break;
+			case UnitAssetType.Profile:
+				path = string.Format("Profile/profile{0}_2", GetID) ;
+				break;
+
+		}
+		Texture2D tex2d = Resources.Load(path) as Texture2D;
+		return tex2d;
+	}
 }
 
 public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {

@@ -39,18 +39,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 			this.gameObject.SetActive(false);
 		}
 	}
-
-	private string GetAvatarInfo( int index){
-		if( ConfigViewData.OwnedUnitInfoList.Count < (index + 1) ){
-			Debug.LogError("The OwnedUnitInfo List Not has so many item");
-			return string.Empty;
-		}
-		string avatarSourcePath;
-		int unitId = (int)ConfigViewData.OwnedUnitInfoList[ index ].id;
-		avatarSourcePath = "Avatar/role01" + unitId.ToString();
-		//Debug.LogError(avatarSourcePath);
-		return avatarSourcePath;
-	}
+	
 
 	private void ShowAvatar( GameObject item){
 		Debug.Log(string.Format("Show Avatar named as {0}", item));
@@ -109,7 +98,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
 			GameObject currentItem = panel.ScrollItem[ i ];
 			UITexture tex = currentItem.GetComponentInChildren<UITexture>();
-			materialUnitInfoDic.Add(currentItem, ConfigViewData.OwnedUnitInfoList[ i ]);
+			//materialUnitInfoDic.Add(currentItem, ConfigViewData.OwnedUnitInfoList[ i ]);
 			ShowAvatar( currentItem );
 			AddEventListener( currentItem );
 		}

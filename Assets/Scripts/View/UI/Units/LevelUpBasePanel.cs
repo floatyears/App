@@ -40,17 +40,17 @@ public class LevelUpBasePanel : UIComponentUnity {
 		}
 	}
 
-	private string GetAvatarInfo( int index){
-		if( ConfigViewData.OwnedUnitInfoList.Count < (index + 1) ){
-			Debug.LogError("The OwnedUnitInfo List Not has so many item");
-			return string.Empty;
-		}
-		string avatarSourcePath;
-		int unitId = (int)ConfigViewData.OwnedUnitInfoList[ index ].id;
-		avatarSourcePath = "Avatar/role01" + unitId.ToString();
-		//Debug.LogError(avatarSourcePath);
-		return avatarSourcePath;
-	}
+//	private string GetAvatarInfo( int index){
+//		if( ConfigViewData.OwnedUnitInfoList.Count < (index + 1) ){
+//			Debug.LogError("The OwnedUnitInfo List Not has so many item");
+//			return string.Empty;
+//		}
+//		string avatarSourcePath;
+//		//int unitId = (int)ConfigViewData.OwnedUnitInfoList[ index ].id;
+//		//avatarSourcePath = "Avatar/role01" + unitId.ToString();
+//		//Debug.LogError(avatarSourcePath);
+//		return avatarSourcePath;
+//	}
 	
 
 	void GetBaseUnitInfo(GameObject item, UserUnit unitInfo){
@@ -63,12 +63,12 @@ public class LevelUpBasePanel : UIComponentUnity {
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		 //find src 
-		uint id = baseUnitInfoDic[item].id;
-		string sourceTexPath = "Avatar/role00" + id.ToString();
+		//uint id = baseUnitInfoDic[item].id;
+		//string sourceTexPath = "Avatar/role00" + id.ToString();
 		//Debug.Log("ShowAvatar, the avatar texure path is : " + sourceTexPath);
-		Texture2D sourceTex = Resources.Load( sourceTexPath ) as Texture2D;
+		//Texture2D sourceTex = Resources.Load( sourceTexPath ) as Texture2D;
 		//show
-		avatarTex.mainTexture = sourceTex;
+		//avatarTex.mainTexture = sourceTex;
 	}
 
 	private void AddEventListener( GameObject item){
@@ -135,10 +135,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		}
 		return tex2d;
 	}
-
-	string GetSourcePath( int id){
-		//string sourcePath = "Avatar/role"
-	}
+	
 
 	void FillAvatar(GameObject target, Texture2D source){
 		GameObject avatar = target.transform.FindChild("Texture_Avatar").gameObject;

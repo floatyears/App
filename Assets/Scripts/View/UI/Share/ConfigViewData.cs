@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class ConfigViewData 
 {
-	public static List<UserUnit> OwnedUnitInfoList = new List<UnitInfo>();
+	public static List<UserUnit> OwnedUnitInfoList = new List<UserUnit>();
 	public ConfigViewData(){
 		ConfigOwnedUnitInfo();
 	}

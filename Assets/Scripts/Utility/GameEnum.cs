@@ -265,3 +265,8 @@ public enum showTurn{
 	levelTurn,
 	addPointTurn	
 }
+
+public enum UnitAssetType {
+	Avatar 	= 0,
+	Profile	= 1,
+}

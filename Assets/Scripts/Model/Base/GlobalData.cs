@@ -26,6 +26,8 @@ public class GlobalData  {
 		}
 	}
 
+	public static Dictionary<int,PowerTableInfo> unitValue = new Dictionary<int, PowerTableInfo>();
+
 	public static Dictionary<int, ProtobufDataBase> tempNormalSkill = new Dictionary<int, ProtobufDataBase>();
 	public static Dictionary<uint, TempUnitInfo>	tempUnitInfo = new Dictionary<uint, TempUnitInfo> ();
 	public static Dictionary<uint, UserUnitInfo> tempUserUnitInfo = new Dictionary<uint, UserUnitInfo>();
@@ -42,6 +44,17 @@ public class GlobalData  {
 
 	public static Dictionary<int, Object> tempEffect = new Dictionary<int, Object>();
 	public static List<int> HaveCard = new List<int>() {111,185,161,101,122,195};
+
+	/// <summary>
+	/// Gets the unit value.  1 =  exp. 2 = attack. 3 = hp.
+	/// </summary>
+	/// <returns>The unit value.</returns>
+	/// <param name="type">Type.</param>
+	/// <param name="level">Level.</param>
+	public int GetUnitValue (int type, int level) {
+		PowerTableInfo pti = unitValue[type];
+		return pti.GetValue(level);
+	}
 
 	//Temp
 	//public static List<int> HaveFriend = new List<int>(){};
