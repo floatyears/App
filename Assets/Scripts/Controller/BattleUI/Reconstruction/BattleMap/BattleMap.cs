@@ -16,7 +16,7 @@ public class BattleMap : UIBaseUnity {
 	public static GameObject Box {
 		get { return box; }
 	}
-
+	[HideInInspector]
 	public bool waitMove =  false;
 	
 	public BattleQuest BQuest {
@@ -28,8 +28,8 @@ public class BattleMap : UIBaseUnity {
 		map = new MapItem[bQuest.MapWidth, bQuest.MapHeight];
 		template = FindChild<MapItem>("SingleMap");
 		template.Init("SingleMap");
-//		door = FindChild<MapDoor>("Door_1");
-//		door.Init ("Door_1");
+		door = FindChild<MapDoor>("Door_1");
+		door.Init ("Door_1");
 		template.gameObject.SetActive(false);
 		gameObject.transform.localPosition += Vector3.right * 5f;
 		box = transform.Find ("magic_Box04").gameObject;
@@ -69,7 +69,8 @@ public class BattleMap : UIBaseUnity {
 		}
 		float xCoor =  template.InitPosition.x + (x / 2) * itemWidth;
 		float yCoor = template.InitPosition.y + y * itemWidth;
-//		door.SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
+		door.SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
+		UIEventListener.Get (door.gameObject).onClick = ClickDoor;
 	}
 
 	public override void HideUI ()
@@ -80,16 +81,22 @@ public class BattleMap : UIBaseUnity {
 				}
 		useMapItem.Clear ();
 		gameObject.SetActive (false);
-//		door.HideUI ();
+		door.HideUI ();
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
 //		MapConfig mc = ModelManager.Instance.GetData(ModelEnum.MapConfig,new ErrorMsg()) as MapConfig;
 //		ReachMapItem (new Coordinate (mc.characterInitCoorX, mc.characterInitCoorY));
-//		door.ShowUI ();
+		door.ShowUI ();
 		gameObject.SetActive (true);
 		StartMap ();
+	}
+
+	void ClickDoor(GameObject go) {
+		if (prevMapItem.Coor.x == MapConfig.endPointX && prevMapItem.Coor.y == MapConfig.endPointY) {
+			bQuest.ClickDoor();
+		}
 	}
 	  
 	void OnClickMapItem(GameObject go) {
@@ -102,7 +109,6 @@ public class BattleMap : UIBaseUnity {
 	public Vector3 GetPosition(int x, int y) {
 		if(x > map.GetLength(0) || y > map.GetLength(1))
 			return Vector3.zero;
-//		Debug.LogError ("x : " + x + "y : " + y + "position : " + map [x, y].transform.position);
 		return map[x, y].transform.position;
 	}
 

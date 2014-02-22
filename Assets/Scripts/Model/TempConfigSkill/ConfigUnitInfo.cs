@@ -33,7 +33,7 @@ public class ConfigUnitInfo {
 			uiitem.rare 		= i;
 			uiitem.maxLevel 	= 10;
 			if(i == 1){
-				uiitem.leaderSkill = 17;
+				uiitem.leaderSkill = 21;
 				uiitem.activeSkill = 32;
 			}
 			if(i == 2) {

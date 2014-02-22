@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleQuest : UIBase
-{
+public class BattleQuest : UIBase {
 	public int MapWidth {
 		get{ return mapConfig.mapXLength; }
 	}
@@ -12,7 +11,6 @@ public class BattleQuest : UIBase
 	}
 
 	private Coordinate roleInitPosition = new Coordinate();
-
 	public Coordinate RoleInitPosition {
 		get { 
 			if(roleInitPosition.x != mapConfig.characterInitCoorX) {
@@ -24,26 +22,20 @@ public class BattleQuest : UIBase
 	}
 
 	private GameObject rootObject;
-
 	public static MapConfig mapConfig;
-
 	private SingleMapData currentMapData;
-
 	private BattleMap battleMap;
-	
 	private Role role;
-
 	private Battle battle;
-
 	private BattleBackground background;
-
 	public static BattleUseData bud;
 	private Camera mainCamera;
+	private BossAppear bossAppear;
 
 	string backgroundName = "BattleBackground";
 
 	public BattleQuest (string name) : base(name) {
-
+		Resources.UnloadUnusedAssets ();
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
@@ -62,20 +54,17 @@ public class BattleQuest : UIBase
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
-
 	}
 
 	void InitData() {
 		mapConfig = ModelManager.Instance.GetData (ModelEnum.MapConfig,new ErrorMsg()) as MapConfig; //new MapConfig (); //
 	}
 
-	void Init(UIBaseUnity ui,string name)
-	{
+	void Init(UIBaseUnity ui,string name) {
 		ui.Init(name);
 	}
 
-	public override void CreatUI ()
-	{
+	public override void CreatUI () {
 		base.CreatUI ();
 	}
 
@@ -89,25 +78,43 @@ public class BattleQuest : UIBase
 		base.ShowUI ();
 		AddListener ();
 		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
+		if (bossAppear == null) {
+			CreatBoosAppear();
+		}
+
+		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+	}
+
+	public override void DestoryUI () {
+		base.DestoryUI ();
+		bossAppear.DestoryUI ();
+	}
+
+	void CreatBoosAppear () {
+		GameObject obj = Resources.Load("Prefabs/BossAppear") as GameObject;
+		Vector3 pos = obj.transform.localPosition;
+		GameObject go = NGUITools.AddChild (viewManager.BottomPanel, obj);
+		go.transform.localPosition = pos;
+		bossAppear = go.GetComponent<BossAppear> ();
+		bossAppear.Init("BossAppear");
 	}
 
 	void ShowScene () {
 		mainCamera.enabled = true;
 	}
 
-	public override void HideUI ()
-	{
+	public override void HideUI () {
+		battleEnemy = false;
+		bud.RemoveListen ();
 		bud = null;
 		Camera.main.clearFlags = CameraClearFlags.Skybox;
 		RemoveListener ();
 		base.HideUI ();
-//		StartView.mainBg.gameObject.SetActive(true);
-//		StartView.menuBtns.gameObject.SetActive(true);
-//		StartView.playerInfoBar.gameObject.SetActive(true);
+
+		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 	  
-	public Vector3 GetPosition(Coordinate coor)
-	{
+	public Vector3 GetPosition(Coordinate coor) {
 		return battleMap.GetPosition(coor.x, coor.y);
 	}
 
@@ -120,14 +127,19 @@ public class BattleQuest : UIBase
 		UIManager.Instance.ExitBattle();
 	}
 
+	bool battleEnemy = false;
+	public void ClickDoor () {
+		bossAppear.PlayBossAppera (MeetBoss);
+		role.Stop();
+		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
+		battleEnemy = true;
+	}
+
+	void QuestEnd () { }
+
 	public void RoleCoordinate(Coordinate coor) {
 		if(!battleMap.ReachMapItem (coor)) {
 			currentMapData = mapConfig.mapData[coor.x,coor.y];
-			if(currentMapData.MonsterID.Contains(100)) {
-				MsgCenter.Instance.Invoke(CommandEnum.OpenDoor,null);
-				GameTimer.GetInstance().AddCountDown (2f, Exit);
-				return;
-			}
 			role.Stop();
 			if(currentMapData.ContentType == MapItemEnum.Start) {
 				return;
@@ -159,6 +171,13 @@ public class BattleQuest : UIBase
 					break;
 			}
 		}
+	}
+
+	void MeetBoss () {
+		battleMap.waitMove = false;
+		ShowBattle();
+		List<ShowEnemyUtility> temp = bud.GetEnemyInfo(mapConfig.BossID);
+		battle.ShowEnemy(temp);
 	}
 
 	void MapItemTrap() {
@@ -203,10 +222,16 @@ public class BattleQuest : UIBase
 		battle.ShowUI();
 	}
 
-	void BattleEnd() {
-		if(battle == null || battle.GetState == UIState.UIHide)
-			return;
-		battle.HideUI();
+	void BattleEnd(object data) {
+		if (battleEnemy) {
+			GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
+			Vector3 tempScale = obj.transform.localScale;
+			obj = NGUITools.AddChild(viewManager.CenterPanel,obj);
+			obj.transform.localScale = tempScale;
+			VictoryEffect ve = obj.GetComponent<VictoryEffect>();
+			ve.Init("Victory");
+			ve.PlayAnimation(QuestEnd,new VictoryInfo(100,0,0,100));
+		}
 	}
 
 	void AddListener () {
