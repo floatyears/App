@@ -46,8 +46,8 @@ public class BattleEnemy : UIBaseUnity {
 			UITexture tex = go.GetComponentInChildren<UITexture>();
 			Texture2D tex2d = Resources.Load(ubi.GetRolePath) as Texture2D;
 			tex.mainTexture = tex2d;
-			tex.width = (int)(tex2d.width * 0.6f);
-			tex.height = (int)(tex2d.height * 0.6f);
+//			tex.width = (int)(tex2d.width * 0.6f);
+//			tex.height = (int)(tex2d.height * 0.6f);
  			CaculatePosition(i,go);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.Init(enemy[i]);
