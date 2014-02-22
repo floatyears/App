@@ -342,35 +342,17 @@ public class LevelUpDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 
-//		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-//		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
-//		LevelUpInfoPanelUI infoPanel = CreatComponent<LevelUpInfoPanelUI>(UIConfig.levelUpInfoPanelName);
-//		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
-//		LevelUpBaseUI friendListPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
-//		LevelUpMaterialUI materialPanel = CreatComponent<LevelUpMaterialUI>(UIConfig.levelUpMaterialWindowName);
-//
-//		sceneInfoBar.SetComponent(decorator);
-//		readyPanel.SetComponent(sceneInfoBar);
-//		infoPanel.SetComponent(readyPanel);
-//		readyPanel.SetComponent(infoPanel);
-//		basePanel.SetComponent(readyPanel);
-//		friendListPanel.SetComponent(basePanel);
-//		materialPanel.SetComponent(friendListPanel);
-//
-//		lastDecorator = materialPanel;
-//		lastDecorator.CreatUI();
-
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
-		LevelUpInfoPanelUI infoPanel = CreatComponent<LevelUpInfoPanelUI>(UIConfig.levelUpInfoPanelName);
+		//LevelUpInfoPanelUI infoPanel = CreatComponent<LevelUpInfoPanelUI>(UIConfig.levelUpInfoPanelName);
 		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
 		LevelUpMaterialUI materialPanel = CreatComponent<LevelUpMaterialUI>(UIConfig.levelUpMaterialWindowName);
 		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		readyPanel.SetComponent(sceneInfoBar);
-		infoPanel.SetComponent(readyPanel);
-		basePanel.SetComponent(infoPanel);
+		//infoPanel.SetComponent(readyPanel);
+		basePanel.SetComponent(readyPanel);
 		materialPanel.SetComponent(basePanel);
 		friendPanel.SetComponent(materialPanel);
 

@@ -204,7 +204,7 @@
         "resoucePath": "Prefabs/UI/Units/",
         "parent": 0,
         "positionx": 0,
-        "positiony": 300,
+        "positiony": 315,
         "positionz": 0
     },
      "LevelUpInfoPanel": {
@@ -212,7 +212,7 @@
         "resoucePath": "Prefabs/UI/Units/",
         "parent": 0,
         "positionx": 0,
-        "positiony": 165,
+        "positiony": 182,
         "positionz": 0
     },
      "LevelUpFriendWindow": {

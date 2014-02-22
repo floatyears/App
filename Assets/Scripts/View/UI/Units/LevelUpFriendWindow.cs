@@ -76,6 +76,13 @@ public class LevelUpFriendWindow : UIComponentUnity {
 		uint curUnitId = friendUnitInfoDic[item].unitId;
 		//Debug.LogError("Base Show Avatar : curUnitId is : " + curUnitId);
 		avatarTex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+
+		int addAttack = friendUnitInfoDic[ item ].addAttack;
+		int addHp = friendUnitInfoDic[ item ].addHp;
+		item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
+		
+		int level = friendUnitInfoDic[ item ].level;
+		item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
 	}
 
 
@@ -89,8 +96,9 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	}
 
 	void PressItem(GameObject item ){
-//		UnitInfo unitInfo = friendUnitInfoDic[ item ];
-//		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
+		UserUnit unitInfo = friendUnitInfoDic[ item ];
+		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );//before
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);//after
 	}
 
 	void FocusOnPanel(object data) {
@@ -107,14 +115,14 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans", 	transform);
 		dragPanelArgs.Add("scrollerScale", 	Vector3.one);
-		dragPanelArgs.Add("scrollerLocalPos",	-255 * Vector3.up);
+		dragPanelArgs.Add("scrollerLocalPos",	-238 * Vector3.up);
 		dragPanelArgs.Add("position", 		Vector3.zero);
 		dragPanelArgs.Add("clipRange", 		new Vector4(0, 0, 640, 200));
 		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Horizontal);
 		dragPanelArgs.Add("maxPerLine", 	0);
-		dragPanelArgs.Add("scrollBarPosition", 	new Vector3(-320, -130, 0));
-		dragPanelArgs.Add("cellWidth", 		140);
-		dragPanelArgs.Add("cellHeight",		140);
+		dragPanelArgs.Add("scrollBarPosition", 	new Vector3(-320, -96, 0));
+		dragPanelArgs.Add("cellWidth", 		130);
+		dragPanelArgs.Add("cellHeight",		130);
 	}
 }
 
