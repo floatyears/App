@@ -49,7 +49,8 @@ public class BattleUseData {
 	}
 
 	~BattleUseData() {
-		RemoveListen ();
+
+		//RemoveListen ();
 	}
 
 	void ListenEvent () {
@@ -67,7 +68,7 @@ public class BattleUseData {
 		MsgCenter.Instance.AddListener (CommandEnum.TrapTargetPoint, TrapTargetPoint);
 	}
 
-	void RemoveListen () {
+	public void RemoveListen () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.InquiryBattleBaseData, GetBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, MoveToMapItem);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);

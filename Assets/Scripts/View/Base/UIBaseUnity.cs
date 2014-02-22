@@ -23,7 +23,7 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 		}
 	}
 
-	private UIState currentState;
+	protected UIState currentState;
 
 	public UIState GetState {
 		get {

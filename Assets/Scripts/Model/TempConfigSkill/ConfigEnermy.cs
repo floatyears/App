@@ -175,9 +175,9 @@ public class ConfigEnermy {
 		ei = new EnemyInfo();
 		ei.unitId = 3;
 		ei.attack = 500;
-		ei.defense = 500;
+		ei.defense = 100;
 		ei.type = EUnitType.UNONE;
-		ei.hp = 10000;
+		ei.hp = 1000;
 		ei.nextAttack = 1;
 		te = new TempEnemy (ei);
 		GlobalData.tempEnemyInfo.Add (ei.unitId,te);

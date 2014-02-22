@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class MapConfig : IOriginModel
-{
+public class MapConfig : IOriginModel {
 	public int mapXLength;
 	public int mapYLength;
 	
@@ -10,9 +9,10 @@ public class MapConfig : IOriginModel
 	
 	public int characterInitCoorX = 2;
 	public int characterInitCoorY = 0;
-	public int BossID = 3;
+	public const int endPointX = 2;
+	public const int endPointY = 4;
+	public List<uint> BossID = new List<uint> () {3};
 	private List<string> mapItemPath = new List<string>();
-
 	private int mapID;
 
 	public string GetMapPath() {
@@ -42,11 +42,11 @@ public class MapConfig : IOriginModel
 				smd.StarLevel = Random.Range(0,5);
 				smd.CoordinateX = i;
 				smd.CoordinateY = j;
-				smd.ContentType = MapItemEnum.Enemy;
+				smd.ContentType = MapItemEnum.None;
 //				for (int k = 0; k < smd.StarLevel; k++) 
 //				{
-					smd.MonsterID.Add(1);
-					smd.MonsterID.Add(2);
+//					smd.MonsterID.Add(1);
+//					smd.MonsterID.Add(2);
 //				}
 				
 				mapData[i,j] = smd;
@@ -65,10 +65,9 @@ public class MapConfig : IOriginModel
 		singleMapItem = mapData [2, 0];
 		singleMapItem.ContentType = MapItemEnum.Start;
 		mapData[characterInitCoorX,characterInitCoorY].MonsterID.Clear();   
-		mapData [2, 4].MonsterID.Clear ();
-		mapData [2, 4].MonsterID.Add (100);
-		for (int i = 1; i < 4; i++)
-		{
+//		mapData [2, 4].MonsterID.Clear ();
+//		mapData [2, 4].MonsterID.Add (100);
+		for (int i = 1; i < 4; i++) {
 			mapItemPath.Add("Texture/fight_sprites/map_"+mapID+"_"+i);
 		}
 
