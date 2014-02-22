@@ -158,17 +158,21 @@ enum EGridStar {
 }
 
 message QuestRecord {
-	optional uint32			questId		= 1;
-	optional uint32			startTime	= 2;
-	optional uint32			endTime		= 3;
-	repeated DropUnit		dropUnits	= 4;
-	repeated UserUnit		getUnit		= 5;
-	optional int32			getExp		= 6;
-	optional int32			getMoney	= 7;
-	optional EQuestState	state		= 8;
-	optional int32		continue_times	= 9; 
-	optional int32			playTotal	= 10;
-	optional int32			playToday	= 11;
+	optional uint32			questId			= 1;
+	optional uint32			startTime		= 2;
+	optional uint32			endTime			= 3;
+	optional uint32			helperUserId	= 4; 
+	optional UserUnit		helperUnit		= 5; 
+	optional int32			currentParty	= 6;
+	repeated DropUnit		dropUnits		= 7;
+	repeated UserUnit		getUnit			= 8;
+	optional int32			getExp			= 9;
+	optional int32			getMoney		= 10;
+	optional int32			getFriendPoint	= 11;
+	optional int32			continueTimes	= 12;
+	optional EQuestState	state			= 13;
+	optional int32			playTotal		= 14;
+	optional int32			playToday		= 15;
 }
 
 //----------------------Quest config data-----------------------------
@@ -332,7 +336,7 @@ message ReqStartQuest {
 	optional uint32			questId			= 3; 
 	optional uint32			helperUserId	= 4; 
 	optional UserUnit		helperUnit		= 5; 
-	optional uint32			currentParty	= 6; 	
+	optional int32			currentParty	= 6; 	
 }
 
 message RspStartQuest {
@@ -355,15 +359,15 @@ message RspClearQuest {
 	optional ProtoHeader	header			= 1;
 	optional int32			rank			= 2;
 	optional int32			exp				= 3;
-	optional int32			money			= 7;
-	optional int32			friendPoint		= 8;
-	optional int32			staminaNow		= 4;
-	optional int32			staminaMax		= 5;
-	optional uint32			staminaRecover	= 6; //recover time
+	optional int32			money			= 4;
+	optional int32			friendPoint		= 5;
+	optional int32			staminaNow		= 6;
+	optional int32			staminaMax		= 7;
+	optional uint32			staminaRecover	= 8; //recover time
 	optional int32			gotMoney		= 9;
 	optional int32			gotExp			= 10;
-	optional int32			gotFriendPot	= 11;
-	repeated UserUnit		userUnit		= 12; //with uniqueId 
+	optional int32			gotFriendPoint	= 11;
+	repeated UserUnit		gotUnit			= 12; //with uniqueId 
 }
 
 message ReqGetQuestInfo {
@@ -447,7 +451,16 @@ message UserInfo {
 	optional int32		staminaMax			= 7;
 	optional uint32		staminaRecover		= 8; //recover time
 	optional UserUnit	unit				= 9; //leader unit	
-};
+}
+
+message UserInfoDetail {
+	optional UserInfo		user				= 1;
+	optional AccountInfo	account				= 2;
+	optional QuestRecord	quest				= 3;
+	repeated UserUnit		unitList			= 4;
+	optional PartyInfo		party				= 5;
+	optional LoginInfo		login				= 6;
+}
 
 message AccountInfo {
 	optional int32	review				= 1;
@@ -459,7 +472,7 @@ message AccountInfo {
 	optional int32	stone				= 7;
 	optional int32	friendPoint			= 8;
 	optional int32	firstSelectNum		= 9;
-};
+}
 
 message PartyItem {
 	optional int32 unitPos				= 1;
@@ -475,15 +488,6 @@ message PartyInfo {
 	repeated UnitParty		partyList			= 1;
 	optional int32			currentParty		= 2;
 }
-
-message UserInfoDetail {
-	optional UserInfo		user				= 1;
-	optional AccountInfo	account				= 2;
-	optional QuestRecord	quest				= 3;
-	repeated UserUnit		unitList			= 4;
-	optional PartyInfo		party				= 5;
-	optional LoginInfo		login				= 6;
-};
 
 message TerminalInfo {
 	optional string	channel						= 1; // app market channel

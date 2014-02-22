@@ -110,8 +110,8 @@ type TUsedValue struct {
 	Used  bool
 }
 
-//get quest record from QuestLog, fill to userDetail.Quest
-func GetQuestRecord(db *data.Data, questId uint32, userDetail *bbproto.UserInfoDetail) (e Error.Error) {
+//check userDetail.Quest if exists; get quest state from QuestRecords(for chip gift)
+func CheckQuestRecord(db *data.Data, questId uint32, userDetail *bbproto.UserInfoDetail) (e Error.Error) {
 	if db == nil {
 		return Error.New(cs.INVALID_PARAMS, "invalid db pointer")
 	}
@@ -141,20 +141,21 @@ func GetQuestRecord(db *data.Data, questId uint32, userDetail *bbproto.UserInfoD
 	return Error.OK()
 }
 
-func UpdateQuestRecord(db *data.Data, userDetail *bbproto.UserInfoDetail, questId uint32, getUnit []*bbproto.DropUnit, getMoney int32) (e Error.Error) {
+func UpdateQuestRecord(db *data.Data, userDetail *bbproto.UserInfoDetail, questId uint32,
+	getUnit []*bbproto.DropUnit, getMoney int32) (gotMoney, gotExp, gotFriendPt int32, gotUnit []*bbproto.UserUnit, e Error.Error) {
 	if db == nil {
-		return Error.New(cs.INVALID_PARAMS, "invalid db pointer")
+		return 0, 0, 0, gotUnit, Error.New(cs.INVALID_PARAMS, "invalid db pointer")
 	}
 
 	uid := *userDetail.User.UserId
 	if userDetail.Quest == nil {
-		return Error.New(cs.EQ_UPDATE_QUEST_RECORD_ERROR, "user.Quest is nil")
+		return 0, 0, 0, gotUnit, Error.New(cs.EQ_UPDATE_QUEST_RECORD_ERROR, "user.Quest is nil")
 	}
 
 	userDetail.Quest.EndTime = proto.Uint32(common.Now())
 
 	//TODO: verity getMoney
-	*userDetail.Quest.GetMoney += getMoney
+	*userDetail.Quest.GetMoney = getMoney
 
 	//verify getUnit
 	isAllValidUnit := true
@@ -175,14 +176,14 @@ func UpdateQuestRecord(db *data.Data, userDetail *bbproto.UserInfoDetail, questI
 
 	if !isAllValidUnit {
 		log.Error("clear request: invalid drop unit.")
-		return Error.New(cs.EQ_INVALID_DROP_UNIT, "clear request: invalid drop unit")
+		return 0, 0, 0, gotUnit, Error.New(cs.EQ_INVALID_DROP_UNIT, "clear request: invalid drop unit")
 	}
 
 	//add unit to userinfo
 	for _, unitDrop := range userDetail.Quest.DropUnits {
 		uniqueId, e := unit.GetUnitUniqueId(db, userDetail)
 		if e.IsError() {
-			return e
+			return 0, 0, 0, gotUnit, e
 		}
 
 		userUnit := &bbproto.UserUnit{}
@@ -196,6 +197,8 @@ func UpdateQuestRecord(db *data.Data, userDetail *bbproto.UserInfoDetail, questI
 
 		userDetail.UnitList = append(userDetail.UnitList, userUnit)
 		userDetail.Quest.GetUnit = append(userDetail.Quest.GetUnit, userUnit)
+
+		gotUnit = append(gotUnit, userUnit) //return value
 	}
 
 	//already fill in getUnit, so empty dropUnit before save to QuestLog
@@ -204,31 +207,36 @@ func UpdateQuestRecord(db *data.Data, userDetail *bbproto.UserInfoDetail, questI
 	//save userDetail.Quest to QuestLog
 	zQuest, err := proto.Marshal(userDetail.Quest)
 	if err != nil {
-		return Error.New(cs.MARSHAL_ERROR)
+		return 0, 0, 0, gotUnit, Error.New(cs.MARSHAL_ERROR)
 	}
 
 	if err := db.Select(cs.TABLE_QUEST_LOG); err != nil {
-		return Error.New(cs.SET_DB_ERROR, err.Error())
+		return 0, 0, 0, gotUnit, Error.New(cs.SET_DB_ERROR, err.Error())
 	}
 	if err = db.HSet(cs.X_QUEST_LOG+common.Utoa(uid), common.Utoa(questId), zQuest); err != nil {
 		log.Error("HSet(X_QUEST_LOG_%v, %v) failed:%v.", uid, questId, err)
-		return Error.New(cs.SET_DB_ERROR)
+		return 0, 0, 0, gotUnit, Error.New(cs.SET_DB_ERROR)
 	}
 
 	//clear userDetail.Quest, then save userDetail
 	*userDetail.User.Exp += *userDetail.Quest.GetExp
 	*userDetail.Account.Money += (*userDetail.Quest.GetMoney)
 	log.T("==Account :: addMoney:%v -> %v addExp:%v -> %v", *userDetail.Quest.GetMoney, *userDetail.Account.Money, *userDetail.Quest.GetExp, *userDetail.User.Exp)
+
+	gotMoney = *userDetail.Quest.GetMoney
+	gotExp = *userDetail.Quest.GetExp
+	gotFriendPt = *userDetail.Quest.GetFriendPoint
+
 	userDetail.Quest = nil
 
-	return Error.OK()
+	return gotMoney, gotExp, gotFriendPt, gotUnit, Error.OK()
 }
 
-func FillQuestRecord(userDetail *bbproto.UserInfoDetail, questId uint32, drops []*bbproto.DropUnit,
-	stage *bbproto.StageInfo, quest *bbproto.QuestInfo) (e Error.Error) {
+func FillQuestRecord(userDetail *bbproto.UserInfoDetail, currParty int32, helperUid uint32, helperUnit *bbproto.UserUnit,
+	drops []*bbproto.DropUnit, stage *bbproto.StageInfo, quest *bbproto.QuestInfo) (e Error.Error) {
 	if userDetail.Quest == nil {
 		userDetail.Quest = &bbproto.QuestRecord{}
-		userDetail.Quest.QuestId = proto.Uint32(questId)
+		userDetail.Quest.QuestId = quest.Id
 		userDetail.Quest.StartTime = proto.Uint32(common.Now())
 		//userDetail.Quest.EndTime = proto.Uint32(common.Now())
 	}
@@ -246,6 +254,9 @@ func FillQuestRecord(userDetail *bbproto.UserInfoDetail, questId uint32, drops [
 	}
 	userDetail.Quest.GetExp = proto.Int32(getExp)
 	userDetail.Quest.GetMoney = proto.Int32(getMoney)
+	userDetail.Quest.CurrentParty = proto.Int32(currParty)
+	userDetail.Quest.HelperUserId = proto.Uint32(helperUid)
+	userDetail.Quest.HelperUnit = helperUnit
 
 	state := bbproto.EQuestState_QS_QUESTING
 	userDetail.Quest.State = &state

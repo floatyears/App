@@ -322,7 +322,7 @@ func modify(v st) (re *st) {
 	return &r
 }
 
-func qmain() {
+func main() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
 

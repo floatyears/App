@@ -39,17 +39,21 @@ enum EGridStar {
 }
 
 message QuestRecord {
-	optional uint32			questId		= 1;
-	optional uint32			startTime	= 2;
-	optional uint32			endTime		= 3;
-	repeated DropUnit		dropUnits	= 4;
-	repeated UserUnit		getUnit		= 5;
-	optional int32			getExp		= 6;
-	optional int32			getMoney	= 7;
-	optional EQuestState	state		= 8;
-	optional int32		continue_times	= 9; 
-	optional int32			playTotal	= 10;
-	optional int32			playToday	= 11;
+	optional uint32			questId			= 1;
+	optional uint32			startTime		= 2;
+	optional uint32			endTime			= 3;
+	optional uint32			helperUserId	= 4; 
+	optional UserUnit		helperUnit		= 5; 
+	optional int32			currentParty	= 6;
+	repeated DropUnit		dropUnits		= 7;
+	repeated UserUnit		getUnit			= 8;
+	optional int32			getExp			= 9;
+	optional int32			getMoney		= 10;
+	optional int32			getFriendPoint	= 11;
+	optional int32			continueTimes	= 12;
+	optional EQuestState	state			= 13;
+	optional int32			playTotal		= 14;
+	optional int32			playToday		= 15;
 }
 
 //----------------------Quest config data-----------------------------
@@ -213,7 +217,7 @@ message ReqStartQuest {
 	optional uint32			questId			= 3; 
 	optional uint32			helperUserId	= 4; 
 	optional UserUnit		helperUnit		= 5; 
-	optional uint32			currentParty	= 6; 	
+	optional int32			currentParty	= 6; 	
 }
 
 message RspStartQuest {
