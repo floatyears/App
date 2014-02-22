@@ -46,13 +46,21 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		
 		uint curUnitId = materialUnitInfoDic[item].unitId;
-		Debug.LogError("Material Show Avatar : curUnitId is : " + curUnitId);
+//		Debug.LogError("Material Show Avatar : curUnitId is : " + curUnitId);
 		avatarTex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+
+		int addAttack = materialUnitInfoDic[ item ].addAttack;
+		int addHp = materialUnitInfoDic[ item ].addHp;
+		item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
+		
+		int level = materialUnitInfoDic[ item ].level;
+		item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
 	}
 
 	private void AddEventListener( GameObject item){
 		UIEventListener.Get( item ).onClick = ClickMaterialItem;
 		UIEventListenerCustom.Get( item ).LongPress = PressItem;
+
 	}
 
 	Dictionary<GameObject, UserUnit> materialUnitInfoDic = new Dictionary<GameObject, UserUnit>();
@@ -65,14 +73,15 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 
 	void PressItem(GameObject item){  
 		UserUnit unitInfo = materialUnitInfoDic[ item ];
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
-        }
+		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
+	}
 
 	private void InitDragPanel(){
 
 		string name = "MaterialDragPanel";
 		int count = ConfigViewData.OwnedUnitInfoList.Count;
-		Debug.Log( string.Format("Material Window: The count to add is : " + count) );
+//		Debug.Log( string.Format("Material Window: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		materialDragPanel = CreateDragPanel( name, count, itemGo) ;
@@ -82,7 +91,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){
-		Debug.Log("Create Drag Panel");
+//		Debug.Log("Create Drag Panel");
 		DragPanel panel = new DragPanel(name,item);
 		panel.CreatUI();
 		panel.AddItem( count);
@@ -102,13 +111,13 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	private void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans",	transform);
 		dragPanelArgs.Add("scrollerScale",	Vector3.one);
-		dragPanelArgs.Add("scrollerLocalPos",	-60 * Vector3.up);
+		dragPanelArgs.Add("scrollerLocalPos",	-28 * Vector3.up);
 		dragPanelArgs.Add("position", 		Vector3.zero);
 		dragPanelArgs.Add("clipRange", 		new Vector4(0, -120, 640, 400));
 		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
 		dragPanelArgs.Add("maxPerLine",		3);
-		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -330, 0));
-		dragPanelArgs.Add("cellWidth", 		120);
-		dragPanelArgs.Add("cellHeight",		120);
+		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
+		dragPanelArgs.Add("cellWidth", 		110);
+		dragPanelArgs.Add("cellHeight",		110);
 	}
 }

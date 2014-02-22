@@ -5,18 +5,26 @@ public class UnitItem : MonoBehaviour {
 
 	public UILabel unitItemInfoLabel;
 	private showTurn turn;
-	public int addPoint;
-	public int level;
+	private int addPoint;
+	private int level;
 	private float timer;
 	private float alternateTime;
 
 	void Start () {
 		turn = showTurn.levelTurn;
-		addPoint = 7;
-		level = 32;
 		timer = 0;
 		alternateTime = 1f;
 		unitItemInfoLabel.text = string.Format( "Lv{0}", level );
+	}
+
+	void ReceiveAddMsg( int add){
+		Debug.Log("ReceiveAddMsg");
+		addPoint = add;
+		Debug.LogError("ReceiveAddMsg : " + add);
+	}
+
+	void ReceiveLevel( int level ){
+		this.level = level;
 	}
 
 	void Update () {

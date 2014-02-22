@@ -35,7 +35,7 @@ public class ConfigViewData
 		tempUserUnit.uniqueId = 1003;
 		tempUserUnit.unitId = 3;
 		tempUserUnit.exp = 134;
-		tempUserUnit.level = 9;
+		tempUserUnit.level = 48;
 		tempUserUnit.addAttack = 3;
 		tempUserUnit.addHp = 4;
 		OwnedUnitInfoList.Add( tempUserUnit );
@@ -44,7 +44,7 @@ public class ConfigViewData
 		tempUserUnit.uniqueId = 1004;
 		tempUserUnit.unitId = 4;
 		tempUserUnit.exp = 291;
-		tempUserUnit.level = 19;
+		tempUserUnit.level = 107;
 		tempUserUnit.addAttack = 4;
 		tempUserUnit.addHp = 15;
 		OwnedUnitInfoList.Add( tempUserUnit );
@@ -53,7 +53,7 @@ public class ConfigViewData
 		tempUserUnit.uniqueId = 1005;
 		tempUserUnit.unitId = 5;
 		tempUserUnit.exp = 291;
-		tempUserUnit.level = 32;
+		tempUserUnit.level = 92;
 		tempUserUnit.addAttack = 13;
 		tempUserUnit.addHp = 24;
 		OwnedUnitInfoList.Add( tempUserUnit );

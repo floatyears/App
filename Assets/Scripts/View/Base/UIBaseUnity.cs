@@ -100,18 +100,15 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 			transform.parent = config.parent;	
 			transform.localScale = Vector3.one;
 		}
-
 		HideUI ();
 	}
 
 	public virtual void ShowUI() {
 		transform.localPosition = config.localPosition;
-		//ShowTweenPostion(0.2f);
 	}
 
 	public virtual void HideUI() {
 		transform.localPosition = ViewManager.HidePos;
-		//ShowTweenPostion();
 	}
 
 	public virtual void DestoryUI() {
