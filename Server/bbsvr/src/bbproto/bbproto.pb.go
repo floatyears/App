@@ -797,7 +797,31 @@ func (m *RspAcceptFriend) GetHeader() *ProtoHeader {
 	return nil
 }
 
-type QuestRecord struct {
+type QuestStatus struct {
+	State            *EQuestState `protobuf:"varint,1,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
+	PlayTime         []uint32     `protobuf:"varint,2,rep,name=playTime" json:"playTime,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *QuestStatus) Reset()         { *m = QuestStatus{} }
+func (m *QuestStatus) String() string { return proto.CompactTextString(m) }
+func (*QuestStatus) ProtoMessage()    {}
+
+func (m *QuestStatus) GetState() EQuestState {
+	if m != nil && m.State != nil {
+		return *m.State
+	}
+	return EQuestState_QS_NEW
+}
+
+func (m *QuestStatus) GetPlayTime() []uint32 {
+	if m != nil {
+		return m.PlayTime
+	}
+	return nil
+}
+
+type QuestLog struct {
 	QuestId          *uint32      `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
 	StartTime        *uint32      `protobuf:"varint,2,opt,name=startTime" json:"startTime,omitempty"`
 	EndTime          *uint32      `protobuf:"varint,3,opt,name=endTime" json:"endTime,omitempty"`
@@ -816,109 +840,109 @@ type QuestRecord struct {
 	XXX_unrecognized []byte       `json:"-"`
 }
 
-func (m *QuestRecord) Reset()         { *m = QuestRecord{} }
-func (m *QuestRecord) String() string { return proto.CompactTextString(m) }
-func (*QuestRecord) ProtoMessage()    {}
+func (m *QuestLog) Reset()         { *m = QuestLog{} }
+func (m *QuestLog) String() string { return proto.CompactTextString(m) }
+func (*QuestLog) ProtoMessage()    {}
 
-func (m *QuestRecord) GetQuestId() uint32 {
+func (m *QuestLog) GetQuestId() uint32 {
 	if m != nil && m.QuestId != nil {
 		return *m.QuestId
 	}
 	return 0
 }
 
-func (m *QuestRecord) GetStartTime() uint32 {
+func (m *QuestLog) GetStartTime() uint32 {
 	if m != nil && m.StartTime != nil {
 		return *m.StartTime
 	}
 	return 0
 }
 
-func (m *QuestRecord) GetEndTime() uint32 {
+func (m *QuestLog) GetEndTime() uint32 {
 	if m != nil && m.EndTime != nil {
 		return *m.EndTime
 	}
 	return 0
 }
 
-func (m *QuestRecord) GetHelperUserId() uint32 {
+func (m *QuestLog) GetHelperUserId() uint32 {
 	if m != nil && m.HelperUserId != nil {
 		return *m.HelperUserId
 	}
 	return 0
 }
 
-func (m *QuestRecord) GetHelperUnit() *UserUnit {
+func (m *QuestLog) GetHelperUnit() *UserUnit {
 	if m != nil {
 		return m.HelperUnit
 	}
 	return nil
 }
 
-func (m *QuestRecord) GetCurrentParty() int32 {
+func (m *QuestLog) GetCurrentParty() int32 {
 	if m != nil && m.CurrentParty != nil {
 		return *m.CurrentParty
 	}
 	return 0
 }
 
-func (m *QuestRecord) GetDropUnits() []*DropUnit {
+func (m *QuestLog) GetDropUnits() []*DropUnit {
 	if m != nil {
 		return m.DropUnits
 	}
 	return nil
 }
 
-func (m *QuestRecord) GetGetUnit() []*UserUnit {
+func (m *QuestLog) GetGetUnit() []*UserUnit {
 	if m != nil {
 		return m.GetUnit
 	}
 	return nil
 }
 
-func (m *QuestRecord) GetGetExp() int32 {
+func (m *QuestLog) GetGetExp() int32 {
 	if m != nil && m.GetExp != nil {
 		return *m.GetExp
 	}
 	return 0
 }
 
-func (m *QuestRecord) GetGetMoney() int32 {
+func (m *QuestLog) GetGetMoney() int32 {
 	if m != nil && m.GetMoney != nil {
 		return *m.GetMoney
 	}
 	return 0
 }
 
-func (m *QuestRecord) GetGetFriendPoint() int32 {
+func (m *QuestLog) GetGetFriendPoint() int32 {
 	if m != nil && m.GetFriendPoint != nil {
 		return *m.GetFriendPoint
 	}
 	return 0
 }
 
-func (m *QuestRecord) GetContinueTimes() int32 {
+func (m *QuestLog) GetContinueTimes() int32 {
 	if m != nil && m.ContinueTimes != nil {
 		return *m.ContinueTimes
 	}
 	return 0
 }
 
-func (m *QuestRecord) GetState() EQuestState {
+func (m *QuestLog) GetState() EQuestState {
 	if m != nil && m.State != nil {
 		return *m.State
 	}
 	return EQuestState_QS_NEW
 }
 
-func (m *QuestRecord) GetPlayTotal() int32 {
+func (m *QuestLog) GetPlayTotal() int32 {
 	if m != nil && m.PlayTotal != nil {
 		return *m.PlayTotal
 	}
 	return 0
 }
 
-func (m *QuestRecord) GetPlayToday() int32 {
+func (m *QuestLog) GetPlayToday() int32 {
 	if m != nil && m.PlayToday != nil {
 		return *m.PlayToday
 	}
@@ -1955,8 +1979,9 @@ type RspClearQuest struct {
 	StaminaRecover   *uint32      `protobuf:"varint,8,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
 	GotMoney         *int32       `protobuf:"varint,9,opt,name=gotMoney" json:"gotMoney,omitempty"`
 	GotExp           *int32       `protobuf:"varint,10,opt,name=gotExp" json:"gotExp,omitempty"`
-	GotFriendPoint   *int32       `protobuf:"varint,11,opt,name=gotFriendPoint" json:"gotFriendPoint,omitempty"`
-	GotUnit          []*UserUnit  `protobuf:"bytes,12,rep,name=gotUnit" json:"gotUnit,omitempty"`
+	GotChip          *int32       `protobuf:"varint,11,opt,name=gotChip" json:"gotChip,omitempty"`
+	GotFriendPoint   *int32       `protobuf:"varint,12,opt,name=gotFriendPoint" json:"gotFriendPoint,omitempty"`
+	GotUnit          []*UserUnit  `protobuf:"bytes,13,rep,name=gotUnit" json:"gotUnit,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -2030,6 +2055,13 @@ func (m *RspClearQuest) GetGotMoney() int32 {
 func (m *RspClearQuest) GetGotExp() int32 {
 	if m != nil && m.GotExp != nil {
 		return *m.GotExp
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetGotChip() int32 {
+	if m != nil && m.GotChip != nil {
+		return *m.GotChip
 	}
 	return 0
 }
@@ -2492,7 +2524,7 @@ func (m *UserInfo) GetUnit() *UserUnit {
 type UserInfoDetail struct {
 	User             *UserInfo    `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 	Account          *AccountInfo `protobuf:"bytes,2,opt,name=account" json:"account,omitempty"`
-	Quest            *QuestRecord `protobuf:"bytes,3,opt,name=quest" json:"quest,omitempty"`
+	Quest            *QuestLog    `protobuf:"bytes,3,opt,name=quest" json:"quest,omitempty"`
 	UnitList         []*UserUnit  `protobuf:"bytes,4,rep,name=unitList" json:"unitList,omitempty"`
 	Party            *PartyInfo   `protobuf:"bytes,5,opt,name=party" json:"party,omitempty"`
 	Login            *LoginInfo   `protobuf:"bytes,6,opt,name=login" json:"login,omitempty"`
@@ -2517,7 +2549,7 @@ func (m *UserInfoDetail) GetAccount() *AccountInfo {
 	return nil
 }
 
-func (m *UserInfoDetail) GetQuest() *QuestRecord {
+func (m *UserInfoDetail) GetQuest() *QuestLog {
 	if m != nil {
 		return m.Quest
 	}
@@ -3006,7 +3038,7 @@ type RspAuthUser struct {
 	Header           *ProtoHeader   `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	User             *UserInfo      `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
 	Account          *AccountInfo   `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
-	Quest            *QuestRecord   `protobuf:"bytes,4,opt,name=quest" json:"quest,omitempty"`
+	Quest            *QuestLog      `protobuf:"bytes,4,opt,name=quest" json:"quest,omitempty"`
 	UnitList         []*UserUnit    `protobuf:"bytes,5,rep,name=unitList" json:"unitList,omitempty"`
 	Party            *PartyInfo     `protobuf:"bytes,6,opt,name=party" json:"party,omitempty"`
 	ServerTime       *uint32        `protobuf:"varint,7,opt,name=serverTime" json:"serverTime,omitempty"`
@@ -3041,7 +3073,7 @@ func (m *RspAuthUser) GetAccount() *AccountInfo {
 	return nil
 }
 
-func (m *RspAuthUser) GetQuest() *QuestRecord {
+func (m *RspAuthUser) GetQuest() *QuestLog {
 	if m != nil {
 		return m.Quest
 	}

@@ -38,7 +38,12 @@ enum EGridStar {
 	GS_EXCLAMATION		= 9;
 }
 
-message QuestRecord {
+message QuestStatus {
+	optional EQuestState	state			= 1;
+	repeated uint32			playTime		= 2;
+}
+
+message QuestLog {
 	optional uint32			questId			= 1;
 	optional uint32			startTime		= 2;
 	optional uint32			endTime			= 3;
@@ -247,8 +252,9 @@ message RspClearQuest {
 	optional uint32			staminaRecover	= 8; //recover time
 	optional int32			gotMoney		= 9;
 	optional int32			gotExp			= 10;
-	optional int32			gotFriendPoint	= 11;
-	repeated UserUnit		gotUnit			= 12; //with uniqueId 
+	optional int32			gotChip			= 11;
+	optional int32			gotFriendPoint	= 12;
+	repeated UserUnit		gotUnit			= 13; //with uniqueId 
 }
 
 message ReqGetQuestInfo {

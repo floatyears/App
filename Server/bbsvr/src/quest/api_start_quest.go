@@ -149,16 +149,17 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 		return e
 	}
 
-	//get quest record from QuestLog, fill to userDetail.Quest
-	if e = CheckQuestRecord(db, questId, &userDetail); e.IsError() {
+	//check userDetail.Quest if exists (quest is playing)
+	questState, e := CheckQuestRecord(db, stageId, questId, &userDetail)
+	if e.IsError() {
 		return e
 	}
 
-	//try getFriendState(helperUid) -> getFriendPoint
+	//TODO:try getFriendState(helperUid) -> getFriendPoint
 
 	//update latest quest record of userDetail
-	if e = FillQuestRecord(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
-		questData.Drop, stageInfo, questInfo); e.IsError() {
+	if e = FillQuestLog(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
+		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}
 

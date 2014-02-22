@@ -18,7 +18,7 @@ message UserInfo {
 message UserInfoDetail {
 	optional UserInfo		user				= 1;
 	optional AccountInfo	account				= 2;
-	optional QuestRecord	quest				= 3;
+	optional QuestLog		quest				= 3;
 	repeated UserUnit		unitList			= 4;
 	optional PartyInfo		party				= 5;
 	optional LoginInfo		login				= 6;
@@ -111,7 +111,7 @@ message RspAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional UserInfo		user				= 2;
 	optional AccountInfo	account				= 3;
-	optional QuestRecord	quest				= 4;	
+	optional QuestLog		quest				= 4;
 	repeated UserUnit		unitList			= 5;
 	optional PartyInfo		party				= 6;
 	optional uint32			serverTime			= 7;

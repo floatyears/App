@@ -111,8 +111,8 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	gotExp := int32(0)
 	gotFriendPt := int32(0)
 
-	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e = UpdateQuestRecord(db, &userDetail,
-		questId, reqMsg.GetUnit, gotMoney)
+	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e =
+		UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
 	if e.IsError() {
 		return e
 	}
@@ -128,7 +128,7 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	}
 	log.T("UpdateUserInfo(%v) ret OK.", uid)
 
-	//fill response
+	//5. fill response
 	rspMsg.Rank = userDetail.User.Rank
 	rspMsg.Exp = userDetail.User.Exp
 	rspMsg.StaminaNow = userDetail.User.StaminaNow

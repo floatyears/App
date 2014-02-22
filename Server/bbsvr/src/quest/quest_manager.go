@@ -110,38 +110,45 @@ type TUsedValue struct {
 	Used  bool
 }
 
-//check userDetail.Quest if exists; get quest state from QuestRecords(for chip gift)
-func CheckQuestRecord(db *data.Data, questId uint32, userDetail *bbproto.UserInfoDetail) (e Error.Error) {
-	if db == nil {
-		return Error.New(cs.INVALID_PARAMS, "invalid db pointer")
+//starQuest: check userDetail.Quest if exists; else: get quest state from QuestLogs(for chip gift)
+func CheckQuestRecord(db *data.Data, stageId, questId uint32, userDetail *bbproto.UserInfoDetail) (state bbproto.EQuestState, e Error.Error) {
+	if db == nil || userDetail == nil {
+		return 0, Error.New(cs.INVALID_PARAMS, "invalid db pointer or userDetail pointer")
 	}
 
-	if err := db.Select(cs.TABLE_QUEST_LOG); err != nil {
-		return Error.New(cs.SET_DB_ERROR, err.Error())
+	if userDetail.Quest != nil && userDetail.Quest.State != nil {
+		log.T("user(%v) is playing quest:%+v", *userDetail.User.UserId, userDetail.Quest)
+		return 0, Error.New(cs.EQ_QUEST_IS_PLAYING)
 	}
 
+	//get quest state: CLEAR or NEW
 	var value []byte
 	uid := *userDetail.User.UserId
-	value, err := db.HGet(cs.X_QUEST_LOG+common.Utoa(uid), common.Utoa(questId))
+	value, err := db.HGet(cs.X_QUEST_RECORD+common.Utoa(uid), common.Utoa(stageId)+"_"+common.Utoa(questId))
 	if err != nil {
 		log.Printf("[ERROR] GetQuestRecord for '%v' ret err:%v", uid, err)
-		return Error.New(cs.READ_DB_ERROR, "read quest log fail")
+		return 0, Error.New(cs.READ_DB_ERROR, "read quest log fail")
 	}
 
 	if len(value) == 0 {
-		return Error.OK() //no records
+		return 0, Error.OK() //no records
 	}
 
-	userDetail.Quest = &bbproto.QuestRecord{}
-	err = proto.Unmarshal(value, userDetail.Quest)
+	questStatus := &bbproto.QuestStatus{}
+	err = proto.Unmarshal(value, questStatus)
 	if err != nil {
-		return Error.New(cs.UNMARSHAL_ERROR)
+		return 0, Error.New(cs.UNMARSHAL_ERROR)
 	}
 
-	return Error.OK()
+	if questStatus.State != nil {
+		state = *questStatus.State
+	}
+
+	return state, Error.OK()
 }
 
-func UpdateQuestRecord(db *data.Data, userDetail *bbproto.UserInfoDetail, questId uint32,
+//called in clear_quest
+func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId uint32,
 	getUnit []*bbproto.DropUnit, getMoney int32) (gotMoney, gotExp, gotFriendPt int32, gotUnit []*bbproto.UserUnit, e Error.Error) {
 	if db == nil {
 		return 0, 0, 0, gotUnit, Error.New(cs.INVALID_PARAMS, "invalid db pointer")
@@ -179,7 +186,7 @@ func UpdateQuestRecord(db *data.Data, userDetail *bbproto.UserInfoDetail, questI
 		return 0, 0, 0, gotUnit, Error.New(cs.EQ_INVALID_DROP_UNIT, "clear request: invalid drop unit")
 	}
 
-	//add unit to userinfo
+	//append unit to userinfo
 	for _, unitDrop := range userDetail.Quest.DropUnits {
 		uniqueId, e := unit.GetUnitUniqueId(db, userDetail)
 		if e.IsError() {
@@ -232,10 +239,11 @@ func UpdateQuestRecord(db *data.Data, userDetail *bbproto.UserInfoDetail, questI
 	return gotMoney, gotExp, gotFriendPt, gotUnit, Error.OK()
 }
 
-func FillQuestRecord(userDetail *bbproto.UserInfoDetail, currParty int32, helperUid uint32, helperUnit *bbproto.UserUnit,
-	drops []*bbproto.DropUnit, stage *bbproto.StageInfo, quest *bbproto.QuestInfo) (e Error.Error) {
+//called in start_quest
+func FillQuestLog(userDetail *bbproto.UserInfoDetail, currParty int32, helperUid uint32, helperUnit *bbproto.UserUnit,
+	drops []*bbproto.DropUnit, stage *bbproto.StageInfo, quest *bbproto.QuestInfo, questState bbproto.EQuestState) (e Error.Error) {
 	if userDetail.Quest == nil {
-		userDetail.Quest = &bbproto.QuestRecord{}
+		userDetail.Quest = &bbproto.QuestLog{}
 		userDetail.Quest.QuestId = quest.Id
 		userDetail.Quest.StartTime = proto.Uint32(common.Now())
 		//userDetail.Quest.EndTime = proto.Uint32(common.Now())
@@ -258,20 +266,11 @@ func FillQuestRecord(userDetail *bbproto.UserInfoDetail, currParty int32, helper
 	userDetail.Quest.HelperUserId = proto.Uint32(helperUid)
 	userDetail.Quest.HelperUnit = helperUnit
 
-	state := bbproto.EQuestState_QS_QUESTING
-	userDetail.Quest.State = &state
+	userDetail.Quest.State = &questState
 
 	//fill drop unit
 	for _, dropUnit := range drops {
 		if dropUnit != nil {
-			//userunit := &bbproto.UserUnit{}
-			//userunit.UniqueId = proto.Uint32(0)
-			//userunit.UnitId = dropUnit.UnitId
-			//userunit.Level = dropUnit.Level
-			//userunit.AddHp = dropUnit.AddHp
-			//userunit.AddAttack = dropUnit.AddAttack
-			//userunit.AddDefence = dropUnit.AddDefence
-
 			userDetail.Quest.DropUnits = append(userDetail.Quest.DropUnits, dropUnit)
 		}
 	}
