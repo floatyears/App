@@ -3,50 +3,56 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 public class LevelUpReadyPanel: UIComponentUnity {
-	UITexture baseTex;
+	UILabel hpLabel;
+	UILabel atkLabel;
+
 	UIImageButton levelUpButton;
-	int currentMaterialPos = 1;
 	List<GameObject> TabList = new List<GameObject>();
 	Dictionary<int,GameObject> materialPoolDic = new Dictionary<int,GameObject>();
 
-
+	UITexture baseCollectorTex;
+	UITexture friendCollectorTex;
+	List<UITexture> materialCollectorTex = new List<UITexture>();
+	
 	UserUnit baseUnitInfo;
 	UserUnit friendUnitInfo;
 	List<UserUnit> materialUnitInfo = new List<UserUnit>();
 
 	public override void Init(UIInsConfig config, IUIOrigin origin){
-		base.Init(config, origin);
 		InitUI();
+		base.Init(config, origin);
 	}
-	
-	Dictionary< GameObject, bool> readySignDic = new Dictionary<GameObject, bool>() ;
 
 	public override void ShowUI(){
+
 		base.ShowUI();
-		//InitReadySign();
+		OnTab(TabList[0]);
 		AddListener();
+		levelUpButton.isEnabled = false;
+		CleanCollectorTexture();
+		ClearData();
         }
 
 	public override void HideUI(){
 		base.HideUI();
 		RemoveListener();
         }
-	
-	void InitReadySign(){
-		foreach (var item in TabList){
-			readySignDic.Add(item,false);
-		}
+
+	void InitUI(){
+		InitTab();
+		InitButton();
+		FindInfoPanelLabel();
+		FindCollectorTexture();
 	}
 
-	void UpdateReadySign(GameObject tab,bool isSign){
-			readySignDic[ tab ] = isSign;
-	}
-	
 	void UpdateBaseInfoView( UserUnit unitInfo){
 		GameObject baseTab = TabList[0];
 		UITexture tex = baseTab.GetComponentInChildren<UITexture>();
 		uint curUnitId = unitInfo.unitId;
 		tex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+
+		hpLabel.text = "1024";
+		atkLabel.text = "768";
 	}
 	
 	void UpdateMaterialInfoView( UserUnit unitInfo){
@@ -57,22 +63,48 @@ public class LevelUpReadyPanel: UIComponentUnity {
         }
         
 	void UpdateFriendInfo(UserUnit unitInfo){
-//		Debug.LogError("Friend Item Show");
 		GameObject friendTab = TabList[1];
 		UITexture tex = friendTab.GetComponentInChildren<UITexture>();
 		uint curUnitId = unitInfo.unitId;
 		tex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
         }
 
-	void InitUI(){
-		InitTab();
-		InitButton();
+	void FindInfoPanelLabel(){
+		hpLabel = FindChild<UILabel>("InfoPanel/Label_Vaule/0");
+		atkLabel = FindChild<UILabel>("InfoPanel/Label_Vaule/1");
+	}
+	
+	void FindCollectorTexture(){
+		baseCollectorTex = FindChild<UITexture>("Tab_Base/role");
+		friendCollectorTex = FindChild<UITexture>("Tab_Friend/role");
+
+		for( int i = 1; i <= 4; i++ ){
+			string path = string.Format( "Tab_Material/Material{0}/Avatar", i );
+			//Debug.Log("Ready Panel,FindAvatarTexture, Path is " + path);
+			UITexture tex = FindChild< UITexture >( path );
+			materialCollectorTex.Add( tex );
+		}
+	}
+
+	void CleanCollectorTexture(){
+		Debug.LogError("Clean");
+		baseCollectorTex.mainTexture = null;
+		friendCollectorTex.mainTexture = null;
+
+		foreach (var item in materialCollectorTex) {
+			item.mainTexture = null;
+		}
+	}
+
+	void ClearData(){
+		baseUnitInfo = null;
+		friendUnitInfo = null;
+		materialUnitInfo.Clear();
 	}
 	
 	void InitTab(){
 		GameObject tab;
 		tab = FindChild("Tab_Base");
-		baseTex = tab.GetComponentInChildren< UITexture >();
 		TabList.Add(tab);
 		
 		tab = FindChild("Tab_Friend");
@@ -87,7 +119,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
                 foreach (var item in TabList){
                         UIEventListener.Get(item).onClick = ClickTab;
                 }
-                OnTab(TabList[0]);
         }
 
 
@@ -114,7 +145,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		MsgCenter.Instance.AddListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
 		MsgCenter.Instance.AddListener(CommandEnum.PickMaterialUnitInfo, PickMaterialUnitInfo );
 		MsgCenter.Instance.AddListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
-		//MsgCenter.Instance.AddListener(CommandEnum.SendLevelUpInfo, SendLevelUpInfo);
+
 	}
 	
 	void RemoveListener(){
@@ -122,10 +153,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickMaterialUnitInfo, PickMaterialUnitInfo );
 		MsgCenter.Instance.RemoveListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
-		//MsgCenter.Instance.RemoveListener(CommandEnum.SendLevelUpInfo, SendLevelUpInfo);
 	}
-
-
+	
 	void EnableLevelUp(object info){
 		Dictionary<string, object> levelUpInfo = PackLevelUpInfo();
 		if( levelUpInfo == null)	
@@ -141,27 +170,17 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void ClickLevelUpButton(GameObject go){
-		Debug.LogError("Ready Pool : Click LevelUp Button");
-		UIManager.Instance.ChangeScene( SceneEnum.UnitDetail );
-		MsgCenter.Instance.Invoke( CommandEnum.LevelUp, PackUserUnitInfo() );
-//		Debug.LogError("Click LeveUp Button PackUserCount : " + PackUserUnitInfo().Count);
-
+		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);//before
+		MsgCenter.Instance.Invoke(CommandEnum.LevelUp, PackUserUnitInfo());//after
 	}
-
-
 	
-	/// <summary>
-	/// Packs the user unit info. 
-	/// </summary>
 	List<UserUnit> PackUserUnitInfo(){
 		List<UserUnit> pickedUserUnitInfo = new List<UserUnit>();
 		pickedUserUnitInfo.Add(baseUnitInfo);
 		pickedUserUnitInfo.Add(friendUnitInfo);
-//		Debug.LogError("Pack : Material Count " + materialUnitInfo.Count); 
 		foreach (var item in materialUnitInfo){
 			pickedUserUnitInfo.Add(item);
 		}
-//		Debug.LogError("Pck: Package Count " + pickedUserUnitInfo.Count );
 		return pickedUserUnitInfo;
 	}
 
@@ -170,13 +189,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		if(baseUnitInfo != null)	return;
 		baseUnitInfo = info as UserUnit;
 		UpdateBaseInfoView( baseUnitInfo );
-
 	}
 
-	void CheckLevelUpInfo( object info){
-		Debug.LogError("Check LevelUp Info");
-		//MsgCenter.Instance.Invoke(CommandEnum.EnableLevelUp, );
-	}
 
 	void PickFriendUnitInfo(object info){
 		if(friendUnitInfo != null)	return;

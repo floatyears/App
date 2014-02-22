@@ -4,7 +4,7 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailDecoratorUnity : UIComponentUnity{
-	private UITexture detaiSprite;
+	private UITexture detailSprite;
 	private UIWidget detailWidget;
 	private UILabel 	unitIDLabel;
 	private UILabel 	unitNameLabel;
@@ -45,20 +45,34 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		UIManager.Instance.HideBaseScene();
 		TabFocus();
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUp , LevelUpUnit);
+		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, ShowUnitDetail);
 	}
-	
+
+	void ShowUnitDetail( object info ){
+		UserUnit userUnitInfo = info as UserUnit;
+		uint curId = userUnitInfo.unitId;
+		Debug.LogError("Test Unit Show:   " + curId);
+		detailSprite.mainTexture = GlobalData.tempUnitInfo[ curId ].GetAsset( UnitAssetType.Profile);
+		unitIDLabel.text = curId.ToString();
+//		unitNameLabel.text = GlobalData.tempUnit
+		unitLevelLabel.text = userUnitInfo.level.ToString();
+
+	}
+
 	public override void HideUI ()  {
 		base.HideUI ();
 		ClearEffectCache();
 		UIManager.Instance.ShowBaseScene();
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp , LevelUpUnit);
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, ShowUnitDetail);
 
 	}
-	void ShowUnitInfoDetail(object info ){
-		UnitInfo unitInfo = info as UnitInfo;
-		string path = "Role/role00" + unitInfo.id.ToString();
-		detaiSprite.mainTexture = Resources.Load(path) as Texture2D;
-	}
+
+//	void ShowUnitInfoDetail(object info ){
+//		UnitInfo unitInfo = info as UnitInfo;
+//		string path = "Role/role00" + unitInfo.id.ToString();
+//		detaiSprite.mainTexture = Resources.Load(path) as Texture2D;
+//	}
 
 	void LevelUpUnit( object Info){
 		List<UserUnit> packageInfo = Info as List<UserUnit>;
@@ -70,11 +84,8 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 			Debug.LogError("Profile is not found!");
 		MeshRenderer meshRender = profile.GetComponent< MeshRenderer >();
 		Texture tex = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
-		Debug.LogError(tex.name);
+
 		meshRender.materials[ 0 ].SetTexture("_MainTex", tex);
-//		meshRender.materials[ 0 ] = unitMaterial;
-//		unitMaterial.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
-//
 		effectCache.Add( tempEffect );
 	}
 
@@ -88,18 +99,15 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	void InitEffect(){
 		levelUpEffect = Resources.Load("Prefabs/UI/UnitDetail/LevelUpEffect") as GameObject;
 	}
-	void ShowEffect(){
-
-	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
 
 	private void InitUI() {
-		detaiSprite = FindChild< UITexture >("detailSprite");
+		detailSprite = FindChild< UITexture >("detailSprite");
 		detailWidget = FindChild< UIWidget >("detailSprite");
-		UIEventListener.Get( detaiSprite.gameObject ).onClick = BackPreScene;
+		UIEventListener.Get( detailSprite.gameObject ).onClick = BackPreScene;
 		string path1 = "UnitInfoTabs/Content_Status/";
 		unitIDLabel = FindChild<UILabel> (path1 + "InputFrame_No");
 		unitNameLabel = FindChild<UILabel> (path1 + "InputFrame_Name");
@@ -123,14 +131,8 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		startToggle.value = true;
 	}
 
-	private void ShowUnitDetail( object info){
-		UnitInfo unitInfo = info as UnitInfo;
-		if( unitInfo == null )	return;
-		Debug.Log( string.Format("Catch Info, to show unit detail which named as {0}", unitInfo.name));
-	}
-
 	private void ShowUnitDetailInfo() {
-		detaiSprite.mainTexture = Resources.Load(ShowUnitInfo.roleSpriteName) as Texture2D;
+		detailSprite.mainTexture = Resources.Load(ShowUnitInfo.roleSpriteName) as Texture2D;
 		unitIDLabel.text 	= ShowUnitInfo.unitID.ToString();
 		unitNameLabel.text = ShowUnitInfo.unitName;
 		unitLevelLabel.text = ShowUnitInfo.level.ToString ();
@@ -143,10 +145,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		unitExpSlider.value = ShowUnitInfo.experenceProgress;
 
 		unitNormalSkill_1_NameLabel.text = ShowUnitInfo.normalSkill_1_Name;
-		//Debug.Log("unitNormalSkill_1_Name : "+unitNormalSkill_1_NameLabel.text);
-
 		unitNormalSkill_2_NameLabel.text = ShowUnitInfo.normalSkill_2_Name;
-		//Debug.Log("unitNormalSkill_2_Name : "+unitNormalSkill_2_NameLabel.text);
 	}
 
 	private void BackPreScene( GameObject go ){

@@ -18,21 +18,22 @@ public class LevelUpBasePanel : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 		AddListener();
+		this.gameObject.SetActive(true);//start show in tabs
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
 		RemoveListener();
+
 	}
 
 	private void InitUI(){
 		InitDragPanel();
 	}
 	
+
 	private void FocusOnPanel(object data){
 		string message = (string)data;
-		//Debug.Log("Base Window receive : " + message);
-
 		if(message == "Tab_Base" ){
 			this.gameObject.SetActive(true);
 		}else{
@@ -59,8 +60,15 @@ public class LevelUpBasePanel : UIComponentUnity {
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 
 		uint curUnitId = baseUnitInfoDic[item].unitId;
-		Debug.LogError("Base Show Avatar : curUnitId is : " + curUnitId);
+//		Debug.LogError("Base Show Avatar : curUnitId is : " + curUnitId);
 		avatarTex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+
+		int addAttack = baseUnitInfoDic[ item ].addAttack;
+		int addHp = baseUnitInfoDic[ item ].addHp;
+		item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
+
+		int level = baseUnitInfoDic[ item ].level;
+		item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
 	}
 
 	private void AddEventListener( GameObject item){
@@ -80,7 +88,8 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 	void PressItem(GameObject item ){
 		UserUnit unitInfo = baseUnitInfoDic[ item ];
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitInfo, unitInfo);
+		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
 
         }
 
@@ -118,13 +127,13 @@ public class LevelUpBasePanel : UIComponentUnity {
 	private void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans",	transform);
 		dragPanelArgs.Add("scrollerScale",	Vector3.one);
-		dragPanelArgs.Add("scrollerLocalPos",	-60 * Vector3.up);
+		dragPanelArgs.Add("scrollerLocalPos",	-28 * Vector3.up);
 		dragPanelArgs.Add("position", 		Vector3.zero);
 		dragPanelArgs.Add("clipRange", 		new Vector4(0, -120, 640, 400));
 		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
 		dragPanelArgs.Add("maxPerLine",		3);
-		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -330, 0));
-		dragPanelArgs.Add("cellWidth", 		120);
-		dragPanelArgs.Add("cellHeight",		120);
+		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
+		dragPanelArgs.Add("cellWidth", 		110);
+		dragPanelArgs.Add("cellHeight",		110);
 	}
 }

@@ -131,7 +131,7 @@ public class TempUnitInfo : ProtobufDataBase {
 		string path = string.Empty;
 		switch (uat) {
 			case UnitAssetType.Avatar:
-				path = string.Format("Avatar/avatar{0}_1", GetID) ;
+				path = string.Format("Avatar/{0}_1", GetID) ;
 				break;
 			case UnitAssetType.Profile:
 				path = string.Format("Profile/{0}_2", GetID) ;
