@@ -4,6 +4,14 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailDecoratorUnity : UIComponentUnity{
+	GameObject levelUpEffect;
+	bool slide = false;
+	float curProgress;
+	float riseProgress;
+	float detalProgress;
+	UILabel nextLevelNeddExpLabal;
+
+
 	private UITexture detailSprite;
 	private UIWidget detailWidget;
 	private UILabel 	unitIDLabel;
@@ -19,8 +27,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	private UIToggle startToggle;
 	private UILabel unitNormalSkill_1_NameLabel;
 	private UILabel unitNormalSkill_2_NameLabel;
-	GameObject levelUpEffect;
-
+	
 	Material unitMaterial;
 
 	void GetUnitMaterial(){
@@ -36,6 +43,8 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		GetUnitMaterial();
 		InitEffect();
 		InitUI();
+		CountAction( 607, 4, 5009);
+		Debug.LogError("Count is : " + actionCount );
 	}
 	
 	public override void ShowUI () {
@@ -69,9 +78,11 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		int rare = GlobalData.tempUnitInfo[ curId ].GetRare();
 		unitRareLabel.text = rare.ToString();
 
-//		string race = GlobalData.tempUnitInfo[ curId ].GetRace();
 		unitRaceLabel.text = "Human";
+
 	}
+
+
 
 	public override void HideUI ()  {
 		base.HideUI ();
@@ -81,12 +92,6 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, ShowUnitDetail);
 
 	}
-
-//	void ShowUnitInfoDetail(object info ){
-//		UnitInfo unitInfo = info as UnitInfo;
-//		string path = "Role/role00" + unitInfo.id.ToString();
-//		detaiSprite.mainTexture = Resources.Load(path) as Texture2D;
-//	}
 
 	void LevelUpUnit( object Info){
 		List<UserUnit> packageInfo = Info as List<UserUnit>;
@@ -101,6 +106,28 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 
 		meshRender.materials[ 0 ].SetTexture("_MainTex", tex);
 		effectCache.Add( tempEffect );
+
+
+		ExpRise();
+
+		unitIDLabel.text = curUnitId.ToString();
+		unitNameLabel.text = GlobalData.tempUnitInfo[ curUnitId ].GetName();
+		unitLevelLabel.text = packageInfo[0].level.ToString();
+		unitTypeLabel.text = GlobalData.tempUnitInfo[ curUnitId ].GetUnitType();
+		
+		TempUnitInfo tu = GlobalData.tempUnitInfo[ curUnitId ];
+		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),packageInfo[0].level);
+		unitHpLabel.text = hp.ToString();
+		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), packageInfo[0].level);
+		unitAttackLabel.text = atk.ToString();
+		
+		int cost = GlobalData.tempUnitInfo[ curUnitId ].GetCost();
+		unitCostLabel.text = cost.ToString();
+		
+		int rare = GlobalData.tempUnitInfo[ curUnitId ].GetRare();
+		unitRareLabel.text = rare.ToString();
+
+		unitRaceLabel.text = "Human";
 	}
 
 	void ClearEffectCache(){
@@ -181,5 +208,71 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		unitAlpha.Reset();
 		unitAlpha.PlayForward();
 	}
+
+
+	int maxExp = 1825;
+	int curExp = 306;
+	int gotExp = 4279;
+
+	void Slide( UISlider target, float speed ){
+		if( detalProgress <= 0f ){
+			return;
+		}
+		detalProgress -=  speed * Time.deltaTime;
+		target.value += speed * Time.deltaTime;
+		if( target.value >= 1f ){
+			target.value = 0f;
+		}
+	}
+	
+	void ExpRise(){
+		curProgress = GetCurExpProgress();
+		riseProgress = GetRiseExpProgress();
+		detalProgress = riseProgress - curProgress;
+		unitExpSlider.value = curProgress;
+		slide = true;
+	}
+
+	float GetCurExpProgress(){
+		//temp data
+		return (float)curExp/maxExp;
+
+	}
+
+	float GetRiseExpProgress(){
+		//temp data
+		return (float)(curExp + gotExp)/maxExp;
+	}
+
+	void Update(){
+		if( slide )
+			Slide(unitExpSlider, UIConfig.uisliderSpeed);
+	}
+
+
+	int actionCount = 0;
+
+	void CountAction( int curExp, int curLevel, int curRemainExp )
+	{
+		int curMaxExp = GetCurLevelMaxExp( curLevel );
+		int curNeedExp = curMaxExp - curExp;//1519 = 1825 - 306
+		if( curRemainExp >= curNeedExp )
+		{
+			actionCount++;
+			curRemainExp -= curNeedExp;
+			CountAction( 0, curLevel + 1, curRemainExp );
+			Debug.LogError("CurExp : " + curRemainExp);
+		}
+
+	}
+
+	int GetCurLevelMaxExp( int level){
+		return 1000 + 23 * ( level + 9);
+	}
+
+
+
+
+
 
 }
