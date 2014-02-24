@@ -127,6 +127,18 @@ public class TempUnitInfo : ProtobufDataBase {
 		}
 	}
 
+	public int GetHPType () {
+		return DeserializeData<UnitInfo>().powerType.hpType;
+	}
+
+	public int GetAttackType () {
+		return DeserializeData<UnitInfo>().powerType.attackType;
+	}
+
+	public int GetExpType () {
+		return DeserializeData<UnitInfo>().powerType.expType;
+	}
+
 	public Texture2D GetAsset(UnitAssetType uat) {
 		string path = string.Empty;
 		switch (uat) {

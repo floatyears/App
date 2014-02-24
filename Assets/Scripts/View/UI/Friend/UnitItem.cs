@@ -20,7 +20,7 @@ public class UnitItem : MonoBehaviour {
 	void ReceiveAddMsg( int add){
 		Debug.Log("ReceiveAddMsg");
 		addPoint = add;
-		Debug.LogError("ReceiveAddMsg : " + add);
+//		Debug.LogError("ReceiveAddMsg : " + add);
 	}
 
 	void ReceiveLevel( int level ){
