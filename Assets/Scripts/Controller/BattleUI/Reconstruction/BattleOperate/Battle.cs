@@ -191,7 +191,7 @@ public class Battle : UIBase
 		battleEnemy.ShowUI ();
 	}
 
-	public void ShowEnemy(List<ShowEnemyUtility> count)
+	public void ShowEnemy(List<TempEnemy> count)
 	{
 		battleEnemy.Refresh(count);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);

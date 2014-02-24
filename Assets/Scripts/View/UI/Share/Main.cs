@@ -79,7 +79,7 @@ public class Main : MonoBehaviour
 		UIManager.Instance.ChangeScene( SceneEnum.Start );
 		AudioManager.Instance.PlayAudio( AudioEnum.music_home );
 
-		TestNet tn = new TestNet ();
+//		TestNet tn = new TestNet ();
 	}
 
 	void OnDisable () {

@@ -35,7 +35,7 @@ public class BattleQuest : UIBase {
 	string backgroundName = "BattleBackground";
 
 	public BattleQuest (string name) : base(name) {
-		Resources.UnloadUnusedAssets ();
+
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
@@ -69,6 +69,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public override void ShowUI () {
+		Resources.UnloadUnusedAssets ();
 		bud = new BattleUseData ();
 		mainCamera = Camera.main;
 		mainCamera.clearFlags = CameraClearFlags.Depth;
@@ -178,7 +179,7 @@ public class BattleQuest : UIBase {
 	void MeetBoss () {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<ShowEnemyUtility> temp = bud.GetEnemyInfo(mapConfig.BossID);
+		List<TempEnemy> temp = bud.GetEnemyInfo(mapConfig.BossID);
 		battle.ShowEnemy(temp);
 	}
 
@@ -208,7 +209,7 @@ public class BattleQuest : UIBase {
 	void MapItemEnemy() {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<ShowEnemyUtility> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
+		List<TempEnemy> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
 		battle.ShowEnemy(temp);
 	}
 

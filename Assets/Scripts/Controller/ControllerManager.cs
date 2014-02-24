@@ -88,6 +88,7 @@ public class ControllerManager
 
 	public void ExitBattle () {
 		currentScene.HideUI();
+		Resources.UnloadUnusedAssets ();
 	}
 
 	public void ChangeScene(SceneEnum sEnum) {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 public class EnemyItem : UIBaseUnity {
-	private ShowEnemyUtility enemyInfo;
+	private TempEnemy enemyInfo;
 	private UITexture texture;
 	private UILabel bloodLabel;
 	private UILabel nextLabel;
@@ -16,7 +16,7 @@ public class EnemyItem : UIBaseUnity {
 	private Vector3 initHurtLabelPosition = Vector3.zero;
 
 	void OnEnable() {
-		MsgCenter.Instance.AddListener (CommandEnum.ShowEnemy, EnemyInfo);
+//		MsgCenter.Instance.AddListener (CommandEnum.ShowEnemy, EnemyInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttack, EnemyAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyRefresh, EnemyRefresh);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyDead, EnemyDead);
@@ -29,7 +29,7 @@ public class EnemyItem : UIBaseUnity {
 	}
 
 	void OnDisable () {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ShowEnemy, EnemyInfo);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ShowEnemy, EnemyInfo);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttack, EnemyAttack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyRefresh, EnemyRefresh);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyDead, EnemyDead);
@@ -50,7 +50,7 @@ public class EnemyItem : UIBaseUnity {
 
 	void Attack (object data) {
 		AttackInfo ai = data as AttackInfo;
-		if (ai == null || ai.EnemyID != enemyInfo.enemyID) {
+		if (ai == null || ai.EnemyID != enemyInfo.GetID()) {
 			return;
 		}
 		if (prevObject != null) {
@@ -106,8 +106,10 @@ public class EnemyItem : UIBaseUnity {
 		Debug.Log ("posion round : " + ai.AttackRound);
 	}
 	
-	public void Init(ShowEnemyUtility te) {
+	public void Init(TempEnemy te) {
 		texture 				= FindChild<UITexture> ("Texture");
+		TempUnitInfo tui 		= GlobalData.tempUnitInfo [te.GetID ()];
+		texture.mainTexture 	= tui.GetAsset (UnitAssetType.Profile);
 		localPosition 			= texture.transform.localPosition;
 		attackPosition 			= new Vector3 (localPosition.x, BattleBackground.ActorPosition.y , localPosition.z);
 		bloodLabel 				= FindChild<UILabel> ("BloodLabel");
@@ -132,7 +134,7 @@ public class EnemyItem : UIBaseUnity {
 	void EnemyDead(object data) {
 		TempEnemy te = data as TempEnemy;
 		//Debug.LogError(te.GetID() + " EnemyDead : " + enemyInfo.enemyID);
-		if (te == null || te.GetID () != enemyInfo.enemyID) {
+		if (te == null || te.GetID () != enemyInfo.GetID()) {
 			return;		
 		}
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
@@ -145,24 +147,23 @@ public class EnemyItem : UIBaseUnity {
 			return;		
 		}
 
-		if (te.GetID () != enemyInfo.enemyID) {
+		if (te.GetID () != enemyInfo.GetID()) {
 			return;		
 		}
-		if (enemyInfo.enemyBlood > te.GetBlood ()) {
+
+		enemyInfo = te;
+
+		if (enemyInfo.GetBlood() > te.GetBlood ()) {
 			InjuredShake();
 		}
-		enemyInfo.enemyBlood = te.GetBlood ();
-		if (enemyInfo.enemyBlood < 0) {
-			enemyInfo.enemyBlood = 0;
-		}
-		enemyInfo.attackRound = te.GetRound ();
-		SetBloodLabel (enemyInfo.enemyBlood);
-		SetNextLabel (enemyInfo.attackRound);
+
+		SetBloodLabel (enemyInfo.GetBlood());
+		SetNextLabel (enemyInfo.GetRound());
 	}
 
 	void EnemyAttack (object data) {
 		uint id = (uint) data;
-		if (id == enemyInfo.enemyID) {
+		if (id == enemyInfo.GetID()) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
 			iTween.ScaleTo(gameObject,new Vector3(1.5f,1.5f,1f),0.2f);
 			iTween.MoveTo (texture.gameObject,iTween.Hash("position",attackPosition,"time",0.2f,"oncomplete","MoveBack","oncompletetarget",gameObject, "islocal",true ,"easetype",iTween.EaseType.easeInCubic));
@@ -188,10 +189,10 @@ public class EnemyItem : UIBaseUnity {
 //		SetData (enemyInfo);
 //	}
 
-	void SetData (ShowEnemyUtility seu) {
+	void SetData (TempEnemy seu) {
 
-		SetBloodLabel (seu.enemyBlood);
-		SetNextLabel (seu.attackRound);
+		SetBloodLabel (seu.GetBlood());
+		SetNextLabel (seu.GetRound());
 	}
 
 	void SetBloodLabel (int seu) {
@@ -207,11 +208,11 @@ public class EnemyItem : UIBaseUnity {
 //		}
 	}
 
-	void EnemyInfo (object data) {
-		ShowEnemyUtility te = (ShowEnemyUtility)data;
-		if (te.enemyID != enemyInfo.enemyID) {
-			return;
-		}
-		SetData(te);
-	}
+//	void EnemyInfo (object data) {
+//		ShowEnemyUtility te = (ShowEnemyUtility)data;
+//		if (te.enemyID != enemyInfo.GetID()) {
+//			return;
+//		}
+//		SetData(te);
+//	}
 }

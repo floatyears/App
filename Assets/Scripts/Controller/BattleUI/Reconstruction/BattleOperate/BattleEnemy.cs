@@ -32,22 +32,19 @@ public class BattleEnemy : UIBaseUnity {
 		gameObject.SetActive (true);
 	}
 
-	void ShowEnemy (object enemyList) {
-		List<ShowEnemyUtility> enemy = (List<ShowEnemyUtility>)enemyList;
-	}
+//	void ShowEnemy (object enemyList) {
+//		List<ShowEnemyUtility> enemy = (List<ShowEnemyUtility>)enemyList;
+//	}
 
-	public void Refresh(List<ShowEnemyUtility> enemy) {
+	public void Refresh(List<TempEnemy> enemy) {
 		Clear();
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
-			TempUnitInfo tu = GlobalData.tempUnitInfo[enemy[i].enemyID];
-			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[tu.unitBaseInfoID];
+//			TempUnitInfo tu = GlobalData.tempUnitInfo[enemy[i].GetID()];
 			go.SetActive(true);
-			UITexture tex = go.GetComponentInChildren<UITexture>();
-			Texture2D tex2d = Resources.Load(ubi.GetRolePath) as Texture2D;
-			tex.mainTexture = tex2d;
-//			tex.width = (int)(tex2d.width * 0.6f);
-//			tex.height = (int)(tex2d.height * 0.6f);
+//			UITexture tex = go.GetComponentInChildren<UITexture>();
+//			Texture2D tex2d = tu.GetAsset();
+//			tex.mainTexture = tex2d;
  			CaculatePosition(i,go);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.Init(enemy[i]);

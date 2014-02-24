@@ -155,6 +155,7 @@ public class TempUnitInfo : ProtobufDataBase, INetBase  {
 	}
 	
 	public void Send () {
+	
 		HttpNetBase hnb = new HttpNetBase ();
 		hnb.Url = "aaa";
 		WWWForm wf = new WWWForm ();
