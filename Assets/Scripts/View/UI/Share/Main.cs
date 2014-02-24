@@ -80,5 +80,7 @@ public class Main : MonoBehaviour
 		AudioManager.Instance.PlayAudio( AudioEnum.music_home );
 	}
 
-
+	void OnDisable () {
+		sui.RemoveListener ();
+	}
 }

@@ -18,7 +18,7 @@ public class AttackController {
 		RegisterEvent ();
 	}
 
-	~AttackController() {
+	public void RemoveListener () {
 		RemoveEvent ();
 	}
 

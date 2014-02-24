@@ -180,7 +180,8 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 	public UnitPartyInfo (object instance) : base (instance) { 
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
 	}
-	~UnitPartyInfo () {
+
+	public void RemoveListener () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
 	}
 

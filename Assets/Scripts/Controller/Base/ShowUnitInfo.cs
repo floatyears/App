@@ -5,12 +5,8 @@ public class ShowUnitInfo {
 	public ShowUnitInfo() {
 		MsgCenter.Instance.AddListener (CommandEnum.EnterUnitInfo, EnterUnitInfo);
 	}
-
-	~ShowUnitInfo () {
-		MsgCenter.Instance.RemoveListener (CommandEnum.EnterUnitInfo, EnterUnitInfo);
-	}
+	
 	private static UnitBaseInfo currentDetail;
-
 	public static string roleSpriteName = "";
 	public static UserUnitInfo uui;
 	public static int unitID = -1;
@@ -30,6 +26,10 @@ public class ShowUnitInfo {
 	public static float experenceProgress = 0f; 
 	public static string normalSkill_1_Name = " ";
 	public static string normalSkill_2_Name = " ";
+
+	public void RemoveListener () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.EnterUnitInfo, EnterUnitInfo);
+	}
 
 	void EnterUnitInfo (object data) {
 		currentDetail = data as UnitBaseInfo;

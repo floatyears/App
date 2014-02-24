@@ -8,7 +8,7 @@ public class TempEnemy : ProtobufDataBase {
 		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
 
-	~TempEnemy () {
+	public void RemoveListener () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}

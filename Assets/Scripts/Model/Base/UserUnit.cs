@@ -19,8 +19,9 @@ public class UserUnitInfo : ProtobufDataBase {
 	public UserUnitInfo(UserUnit instance) : base (instance) { 
 		MsgCenter.Instance.AddListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
 	} 
-	~UserUnitInfo() { 
-		MsgCenter.Instance.AddListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
+
+	public void RemovevListener () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
 	}
 
 	private int currentBlood = -1;

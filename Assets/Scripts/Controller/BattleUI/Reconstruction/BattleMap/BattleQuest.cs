@@ -85,6 +85,17 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
+	public override void HideUI () {
+		battleEnemy = false;
+		bud.RemoveListen ();
+		bud = null;
+		Camera.main.clearFlags = CameraClearFlags.Skybox;
+		RemoveListener ();
+		base.HideUI ();
+		
+		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+	}
+
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		bossAppear.DestoryUI ();
@@ -103,16 +114,7 @@ public class BattleQuest : UIBase {
 		mainCamera.enabled = true;
 	}
 
-	public override void HideUI () {
-		battleEnemy = false;
-		bud.RemoveListen ();
-		bud = null;
-		Camera.main.clearFlags = CameraClearFlags.Skybox;
-		RemoveListener ();
-		base.HideUI ();
 
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
-	}
 	  
 	public Vector3 GetPosition(Coordinate coor) {
 		return battleMap.GetPosition(coor.x, coor.y);

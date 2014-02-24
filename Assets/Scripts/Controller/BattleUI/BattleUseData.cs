@@ -81,6 +81,16 @@ public class BattleUseData {
 		MsgCenter.Instance.RemoveListener (CommandEnum.TrapInjuredDead, TrapInjuredDead);
 		MsgCenter.Instance.RemoveListener (CommandEnum.InjuredNotDead, InjuredNotDead);
 		MsgCenter.Instance.RemoveListener (CommandEnum.TrapTargetPoint, TrapTargetPoint);
+
+		countDown = 5f;
+		eas.RemoveListener ();
+		eps.RemoveListener ();
+		ac.RemoveListener ();
+
+		els = null;
+		eas = null;
+		eps = null;
+		ac = null;
 	}
 
 	void TrapMove(object data) {
@@ -120,8 +130,11 @@ public class BattleUseData {
 
 	void DelayCountDownTime(object data) {
 		float addTime = (float)data;
+
 		countDown += addTime;
+		Debug.LogError ("addTime : " + addTime + " countDown : " + countDown);
 	}
+
 
 	void Sucide(object data) {
 		blood = 1;
