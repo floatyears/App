@@ -80,8 +80,8 @@ public class BattleCardAreaItem : UIBaseUnity
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, Attack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
-		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
+		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 	}
 
 	void RecoverHP (object data) {

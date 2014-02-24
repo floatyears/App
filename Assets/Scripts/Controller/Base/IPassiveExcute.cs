@@ -139,12 +139,24 @@ public interface IUIFriendList : IUICallback {
 	void CustomExtraFunction( object message);
 }
 
-public interface INetTemp {
-	//Add by Lynn : Temp for show 
-	void Send( object data );
-	void Receive( object data );
+public interface INetBase {
+	void Send();
+	void Receive(IWWWPost post);
 }
 
+public interface IWWWPost {
+	WWW WwwInfo { get; set;}
+	string Url  { get; set;}
+	int Version { get; set;}
+
+	void ExcuteCallback();
+	void Send(INetBase callback,WWWForm wf);
+}
+
+public interface INetSendPost {
+	void SendHttpPost(IWWWPost post);
+	void SendAssetPost(IWWWPost post);
+}
 
 public delegate void Callback();
 
@@ -155,3 +167,5 @@ public delegate void UICallback<T>(T arg1);
 public delegate void DataListener(object data);
 
 public delegate void HttpCallback(NetworkBase network);
+
+public delegate void NetCallback(IWWWPost post);

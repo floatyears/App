@@ -5,6 +5,9 @@ using bbproto;
 public class LevelUpReadyPanel: UIComponentUnity {
 	UILabel hpLabel;
 	UILabel atkLabel;
+	UILabel expNeedLabel;
+	UILabel expCurGotLabel;
+	UILabel cionNeedLabel;
 
 	UIImageButton levelUpButton;
 	List<GameObject> TabList = new List<GameObject>();
@@ -29,7 +32,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		OnTab(TabList[0]);
 		AddListener();
 		levelUpButton.isEnabled = false;
-		CleanCollectorTexture();
+		ClearTexture();
+		ClearLabel();
 		ClearData();
         }
 
@@ -45,16 +49,37 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		FindCollectorTexture();
 	}
 
+
+
 	void UpdateBaseInfoView( UserUnit unitInfo){
 		GameObject baseTab = TabList[0];
-		UITexture tex = baseTab.GetComponentInChildren<UITexture>();
 		uint curUnitId = unitInfo.unitId;
-		tex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		TempUnitInfo tu = GlobalData.tempUnitInfo[ curUnitId ];
 
-		hpLabel.text = "1024";
-		atkLabel.text = "768";
+		UITexture tex = baseTab.GetComponentInChildren<UITexture>();
+		tex.mainTexture = tu.GetAsset(UnitAssetType.Avatar);
+
+		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),unitInfo.level);
+		hpLabel.text = hp.ToString();
+
+		int atk =  GlobalData.Instance.GetUnitValue(tu.GetAttackType(), unitInfo.level);
+		atkLabel.text = atk.ToString();
+
+		expNeedLabel.text = "16918";
+
+		expCurGotLabel.text = "0";
+
+		cionNeedLabel.text = "0";
 	}
-	
+
+	void ClearLabel(){
+		hpLabel.text = UIConfig.emptyLabelTextFormat;
+		atkLabel.text = UIConfig.emptyLabelTextFormat;
+		expNeedLabel.text = UIConfig.emptyLabelTextFormat;
+		expCurGotLabel.text = UIConfig.emptyLabelTextFormat;
+		cionNeedLabel.text = UIConfig.emptyLabelTextFormat;
+	}
+
 	void UpdateMaterialInfoView( UserUnit unitInfo){
 		GameObject materialTab = materialPoolDic[ materialUnitInfo.Count ];
 		UITexture tex = materialTab.GetComponentInChildren<UITexture>();
@@ -70,8 +95,11 @@ public class LevelUpReadyPanel: UIComponentUnity {
         }
 
 	void FindInfoPanelLabel(){
-		hpLabel = FindChild<UILabel>("InfoPanel/Label_Vaule/0");
-		atkLabel = FindChild<UILabel>("InfoPanel/Label_Vaule/1");
+		hpLabel = FindChild< UILabel >("InfoPanel/Label_Vaule/0");
+		atkLabel = FindChild< UILabel >("InfoPanel/Label_Vaule/1");
+		expNeedLabel = FindChild< UILabel >( "InfoPanel/Label_Vaule/2");
+		expCurGotLabel = FindChild< UILabel >( "InfoPanel/Label_Vaule/3");
+		cionNeedLabel = FindChild< UILabel >( "InfoPanel/Label_Vaule/4");
 	}
 	
 	void FindCollectorTexture(){
@@ -86,14 +114,11 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		}
 	}
 
-	void CleanCollectorTexture(){
-		Debug.LogError("Clean");
+	void ClearTexture(){
 		baseCollectorTex.mainTexture = null;
 		friendCollectorTex.mainTexture = null;
-
-		foreach (var item in materialCollectorTex) {
+		foreach (var item in materialCollectorTex)
 			item.mainTexture = null;
-		}
 	}
 
 	void ClearData(){
@@ -157,10 +182,12 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	
 	void EnableLevelUp(object info){
 		Dictionary<string, object> levelUpInfo = PackLevelUpInfo();
-		if( levelUpInfo == null)	
+		if( levelUpInfo == null){	
 			levelUpButton.isEnabled = false;
-		else
+		}
+		else{
 			levelUpButton.isEnabled = true;
+		}
 	}
 	
 	void InitButton(){
@@ -207,11 +234,13 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	Dictionary<string, object> PackLevelUpInfo(){
-		if(baseUnitInfo == null)	return null;
-		if(friendUnitInfo == null)	return null;
-		foreach (var item in materialUnitInfo)	
-			if(item == null)		return null;
-
+		//condition : exist base && material && friend
+		if(baseUnitInfo == null)		
+			return null;
+		if(friendUnitInfo == null)	
+			return null;
+		if( materialUnitInfo.Count < 1)
+			return null;
 		Dictionary<string, object> levelUpInfo = new Dictionary<string, object>();
 		levelUpInfo.Add("BaseInfo", baseUnitInfo);
 		levelUpInfo.Add("FriendInfo", friendUnitInfo);
@@ -220,13 +249,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		return levelUpInfo;
 	}
 
-	void SendLevelUpInfo(object info){
-		bool b = (bool)info;
-		if(!b)	return;
-		Dictionary<string, object> levelUpInfo = PackLevelUpInfo();
-		if(levelUpInfo == null)		return;
-		UIManager.Instance.ChangeScene( SceneEnum.UnitDetail);
-		MsgCenter.Instance.Invoke( CommandEnum.LevelUp, levelUpInfo);
-	}
-
 }
+
+

@@ -15,7 +15,7 @@ public class BattleUseData {
 	private int maxEnergyPoint = 0;
 	private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
 	private List<TempEnemy> currentEnemy =new List<TempEnemy> ();
-	private List<ShowEnemyUtility> showEnemy = new List<ShowEnemyUtility>();
+	private List<TempEnemy> showEnemy = new List<TempEnemy>();
 	private AttackController ac;
 	private ExcuteLeadSkill els;
 	private ExcuteActiveSkill eas;
@@ -81,6 +81,16 @@ public class BattleUseData {
 		MsgCenter.Instance.RemoveListener (CommandEnum.TrapInjuredDead, TrapInjuredDead);
 		MsgCenter.Instance.RemoveListener (CommandEnum.InjuredNotDead, InjuredNotDead);
 		MsgCenter.Instance.RemoveListener (CommandEnum.TrapTargetPoint, TrapTargetPoint);
+
+		countDown = 5f;
+		eas.RemoveListener ();
+		eps.RemoveListener ();
+		ac.RemoveListener ();
+
+		els = null;
+		eas = null;
+		eps = null;
+		ac = null;
 	}
 
 	void TrapMove(object data) {
@@ -120,8 +130,11 @@ public class BattleUseData {
 
 	void DelayCountDownTime(object data) {
 		float addTime = (float)data;
+
 		countDown += addTime;
+//		Debug.LogError ("addTime : " + addTime + " countDown : " + countDown);
 	}
+
 
 	void Sucide(object data) {
 		blood = 1;
@@ -179,7 +192,7 @@ public class BattleUseData {
 		}
 	}
 
-	public List<ShowEnemyUtility> GetEnemyInfo (List<uint> monster) {
+	public List<TempEnemy> GetEnemyInfo (List<uint> monster) {
 		currentEnemy.Clear ();
 		int j = showEnemy.Count - monster.Count;
 		for (int i = 0; i < j; i++) {
@@ -189,12 +202,9 @@ public class BattleUseData {
 			TempEnemy te = GlobalData.tempEnemyInfo[monster[i]];
 			te.Reset();
 			if(i == showEnemy.Count) {
-				ShowEnemyUtility seu = new ShowEnemyUtility();
-				showEnemy.Add(seu);
+				showEnemy.Add(te);
 			} 
-			showEnemy[i].enemyID = te.GetID();
-			showEnemy[i].enemyBlood = te.GetBlood();
-			showEnemy[i].attackRound = te.GetRound();
+			showEnemy[i] = te;
 			currentEnemy.Add(te);
 		}
 		ac.enemyInfo = currentEnemy;
