@@ -31,7 +31,7 @@ public class TempEnemy : ProtobufDataBase {
 		}
 	}
 
-	public int CalculateInjured (AttackInfo attackInfo, bool restraint) {//, int unitType, bool ignoreDefense = false) {
+	public int CalculateInjured (AttackInfo attackInfo, bool restraint) {
 		float injured = 0;
 		bool ignoreDefense = attackInfo.IgnoreDefense;
 		int unitType = attackInfo.AttackType;
@@ -159,7 +159,7 @@ public class ConfigEnermy {
 		ei.unitId = 1;
 		ei.attack = 200;
 		ei.nextAttack = 1;
-		ei.defense = 100;
+		ei.defense = 10;
 		ei.hp = 500;
 		ei.type = (EUnitType)1;
 		TempEnemy te = new TempEnemy (ei);
@@ -168,7 +168,7 @@ public class ConfigEnermy {
 		ei = new EnemyInfo ();
 		ei.enemyId = 2;
 		ei.unitId = 2;
-		ei.attack = 300;
+		ei.attack = 20;
 		ei.nextAttack = 1;
 		ei.defense = 100;
 		ei.hp = 500;

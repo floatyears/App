@@ -168,24 +168,11 @@ public class AttackController {
 		countDownTime = GetIntervTime ();
 		enemyIndex = 0;
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [2]);
+
 		GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
 
 	}
-
-	List<TempEnemy> deadEnemy = new List<TempEnemy>();
-	void CheckEnemyDead () {
-		if (enemyInfo.Count == 1) {
-			return;	
-		}
-		for (int i = enemyInfo.Count - 1; i > 0; i--) {
-			TempEnemy te = enemyInfo[i];
-			if(te.GetBlood() <= 0) {
-				deadEnemy.Add(te);
-				enemyInfo.Remove(te);
-			}
-		}
-	}
-
+	
 	void MultipleAttack () {
 		float multipe = leaderSkillMultiple.MultipleAttack (attackInfo);
 		if (multipe > 1.0f) {
@@ -230,6 +217,20 @@ public class AttackController {
 		}
 	}
 
+	List<TempEnemy> deadEnemy = new List<TempEnemy>();
+	void CheckEnemyDead () {
+		if (enemyInfo.Count == 1) {
+			return;	
+		}
+		for (int i = enemyInfo.Count - 1; i > -1; i--) {
+			TempEnemy te = enemyInfo[i];
+			if(te.GetBlood() <= 0) {
+				deadEnemy.Add(te);
+				enemyInfo.Remove(te);
+			}
+		}
+	}
+
 	bool CheckTempEnemy() {
 		for (int i = 0; i < deadEnemy.Count; i++) {
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, deadEnemy[i]);
@@ -246,7 +247,7 @@ public class AttackController {
 			}
 		}
 		if (enemyInfo.Count == 0) {
-			GameTimer.GetInstance().AddCountDown(0.5f, BattleEnd);
+			GameTimer.GetInstance().AddCountDown(2f, BattleEnd);
 			return false;
 		}
 		return true;

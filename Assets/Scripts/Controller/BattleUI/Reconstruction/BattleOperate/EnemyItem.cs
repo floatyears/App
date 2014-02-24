@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public class EnemyItem : UIBaseUnity {
 	private TempEnemy enemyInfo;
 	private UITexture texture;
+	private UITexture dropTexture;
+
 	private UILabel bloodLabel;
 	private UILabel nextLabel;
 	private UIPanel effect;
@@ -106,6 +108,8 @@ public class EnemyItem : UIBaseUnity {
 		texture 				= FindChild<UITexture> ("Texture");
 		TempUnitInfo tui 		= GlobalData.tempUnitInfo [te.GetID ()];
 		texture.mainTexture 	= tui.GetAsset (UnitAssetType.Profile);
+		dropTexture 			= FindChild<UITexture>("Drop");
+		dropTexture.enabled 	= false;
 		localPosition 			= texture.transform.localPosition;
 		attackPosition 			= new Vector3 (localPosition.x, BattleBackground.ActorPosition.y , localPosition.z);
 		bloodLabel 				= FindChild<UILabel> ("BloodLabel");
@@ -125,13 +129,24 @@ public class EnemyItem : UIBaseUnity {
 		Destroy (gameObject);
 	}
 
+	public void DropItem () {
+		dropTexture.enabled = true;
+		iTween.ShakeRotation (dropTexture.gameObject, iTween.Hash ("z",20,"time",0.5f,"oncomplete","DorpEnd","oncompletetarget",gameObject));
+	}
+
+	void DorpEnd () {
+		DestoryUI ();
+	}
+
 	void EnemyDead(object data) {
 		TempEnemy te = data as TempEnemy;
 		if (te == null || te.GetID () != enemyInfo.GetID()) {
 			return;		
 		}
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
-		DestoryUI ();
+		//DestoryUI ();
+		texture.enabled = false;
+		DropItem ();
 	}
 
 	void EnemyRefresh(object data) {

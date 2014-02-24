@@ -132,6 +132,7 @@ public class BattleQuest : UIBase {
 
 	bool battleEnemy = false;
 	public void ClickDoor () {
+//		Debug.LogError (bossAppear);
 		bossAppear.PlayBossAppera (MeetBoss);
 		role.Stop();
 		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);

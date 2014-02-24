@@ -40,11 +40,11 @@ public class MapConfig : IOriginModel {
 				smd.StarLevel = Random.Range(0,5);
 				smd.CoordinateX = i;
 				smd.CoordinateY = j;
-				smd.ContentType = MapItemEnum.None;
+				smd.ContentType = MapItemEnum.Enemy;
 //				for (int k = 0; k < smd.StarLevel; k++) 
 //				{
-//					smd.MonsterID.Add(1);
-//					smd.MonsterID.Add(2);
+					smd.MonsterID.Add(1);
+					smd.MonsterID.Add(2);
 //				}
 				
 				mapData[i,j] = smd;
