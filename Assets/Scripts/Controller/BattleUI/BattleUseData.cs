@@ -132,7 +132,7 @@ public class BattleUseData {
 		float addTime = (float)data;
 
 		countDown += addTime;
-		Debug.LogError ("addTime : " + addTime + " countDown : " + countDown);
+//		Debug.LogError ("addTime : " + addTime + " countDown : " + countDown);
 	}
 
 

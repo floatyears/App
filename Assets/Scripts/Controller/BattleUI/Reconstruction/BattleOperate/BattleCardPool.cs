@@ -21,41 +21,30 @@ public class BattleCardPool : UIBaseUnity
 
 	private float xStart = 0f;
 
-	public float XRange
-	{
-		set
-		{
-			xStart = transform.localPosition.x - value / 2f;
-		}
+	public float XRange {
+		set { xStart = transform.localPosition.x - value / 2f; }
 	}
 
-	public override void Init (string name)
-	{
+	public override void Init (string name) {
 		base.Init (name);
-
 		InitData();
-
-		for (int i = 0; i < cardPosition.Length; i++)
-		{
+		//gameObject.transform.localPosition = localPosition;
+		for (int i = 0; i < cardPosition.Length; i++) {
 			tempObject = NGUITools.AddChild(gameObject, templateBackTexture.gameObject);
 			cardPosition[i] = new Vector3(initPosition.x + i *cardInterv,initPosition.y,initPosition.z);
 			tempObject.transform.localPosition = cardPosition[i];
 			backTextureIns[i] = tempObject.GetComponent<UITexture>();
 		}
-
 		templateBackTexture.gameObject.SetActive(false);
-
 		tempObject = null;
 	}
 
-	public override void ShowUI ()
-	{
+	public override void ShowUI () {
 		base.ShowUI ();
 		gameObject.SetActive(true);
 	}
 
-	public override void HideUI ()
-	{
+	public override void HideUI () {
 		base.HideUI ();
 		gameObject.SetActive(false);
 	}
