@@ -397,6 +397,17 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 		}
 		return temp;
 	}
+
+	public Dictionary<int, UserUnitInfo> GetPosUnitInfo () {
+		UnitParty uup = DeserializeData<UnitParty> ();
+		Dictionary<int,UserUnitInfo> temp = new Dictionary<int,UserUnitInfo> ();
+		foreach (var item in uup.items) {
+			UserUnitInfo uui = GlobalData.tempUserUnitInfo[item.unitUniqueId];
+			temp.Add(item.unitPos,uui);
+		}
+//		Debug.LogError (temp.Count + " GetPosUnitInfo " + uup.items.Count);
+		return temp;
+	}
 }
 
 public class CalculateSkillUtility {

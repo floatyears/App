@@ -16,7 +16,6 @@ public class EnemyItem : UIBaseUnity {
 	private Vector3 initHurtLabelPosition = Vector3.zero;
 
 	void OnEnable() {
-//		MsgCenter.Instance.AddListener (CommandEnum.ShowEnemy, EnemyInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttack, EnemyAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyRefresh, EnemyRefresh);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyDead, EnemyDead);
@@ -24,12 +23,9 @@ public class EnemyItem : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.AddListener (CommandEnum.BePosion, BePosion);
 		MsgCenter.Instance.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
-
-
 	}
 
 	void OnDisable () {
-//		MsgCenter.Instance.RemoveListener (CommandEnum.ShowEnemy, EnemyInfo);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttack, EnemyAttack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyRefresh, EnemyRefresh);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyDead, EnemyDead);
@@ -123,17 +119,14 @@ public class EnemyItem : UIBaseUnity {
 		SetData (te);
 	}
 
-	public override void DestoryUI ()
-	{
+	public override void DestoryUI () {
 		base.DestoryUI ();
 		OnDisable ();
 		Destroy (gameObject);
-	//	Destroy (this);
 	}
 
 	void EnemyDead(object data) {
 		TempEnemy te = data as TempEnemy;
-		//Debug.LogError(te.GetID() + " EnemyDead : " + enemyInfo.enemyID);
 		if (te == null || te.GetID () != enemyInfo.GetID()) {
 			return;		
 		}
@@ -175,44 +168,18 @@ public class EnemyItem : UIBaseUnity {
 		iTween.MoveTo (texture.gameObject,iTween.Hash("position",localPosition,"time",0.2f,"islocal",true,"easetype",iTween.EaseType.easeOutCubic));
 	}
 
-//	void AttackEnemy (object data) {
-//		AttackInfo ai = data as AttackInfo;
-//
-//		if (ai == null) {
-//			return;
-//		}
-//		if (ai.AttackRange != 1 && ai.EnemyID != enemyInfo.enemyID) {
-//			return;		
-//		}
-//		enemyInfo.enemyBlood -= (int)ai.AttackValue;
-//	
-//		SetData (enemyInfo);
-//	}
-
 	void SetData (TempEnemy seu) {
-
 		SetBloodLabel (seu.GetBlood());
 		SetNextLabel (seu.GetRound());
 	}
 
 	void SetBloodLabel (int seu) {
 			bloodLabel.text = seu.ToString();	
-			//enemyInfo.enemyBlood = seu;
-//		}
 	}
 
 	void SetNextLabel (int seu) {
-//		if (seu != enemyInfo.attackRound) {
 			nextLabel.text = "Next : " + seu;
-			//enemyInfo.attackRound = seu;
-//		}
 	}
 
-//	void EnemyInfo (object data) {
-//		ShowEnemyUtility te = (ShowEnemyUtility)data;
-//		if (te.enemyID != enemyInfo.GetID()) {
-//			return;
-//		}
-//		SetData(te);
-//	}
+
 }

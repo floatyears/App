@@ -256,6 +256,12 @@ public class UserUnitInfo : ProtobufDataBase {
 		}
 	}
 
+	public uint GetUnitID {
+		get {
+			return GetUnitInfo().id;
+		}
+	}
+
 	public uint GetID {
 		get {
 			return DeserializeData<UserUnit>().uniqueId;
