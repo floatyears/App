@@ -205,6 +205,7 @@ func DataAddStageInfo(stageId uint32, stageName string) error {
 	stageInfo.StartTime = proto.Uint32(0)
 	stageInfo.EndTime = proto.Uint32(0)
 	boostType := bbproto.QuestBoostType_QB_BOOST_MONEY
+	stageInfo.Boost = new(bbproto.QuestBoost)
 	stageInfo.Boost.Type = &boostType //coins , exp , dropRate
 	stageInfo.Boost.Value = proto.Int(2)
 	//optional Position	pos				= &pos; // stage position of the city
@@ -321,7 +322,7 @@ func modify(v st) (re *st) {
 	return &r
 }
 
-func qmain() {
+func main() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
 

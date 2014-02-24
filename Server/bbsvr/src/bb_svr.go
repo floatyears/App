@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/golang/glog"
 	"html"
-	"log"
 	"math/rand"
 	"net/http"
 	"runtime/debug"
@@ -13,6 +12,7 @@ import (
 )
 import (
 	//"./data"
+	"./common/log"
 	"./friend"
 	"./quest"
 	"./user"
@@ -42,16 +42,12 @@ func safeHandler(fn http.HandlerFunc) http.HandlerFunc {
 				// w.WriteHeader(http.StatusInternalServerError)
 				// renderHtml(w, "error", e)
 				// logging
-				log.Println("WARN: panic in %v. - %v", fn, err)
-				log.Println(string(debug.Stack()))
+				log.Error("WARN: panic in %v. - %v", fn, err)
+				log.Error(string(debug.Stack()))
 			}
 		}()
 		fn(w, r)
 	}
-}
-
-func LoginHandler(rsp http.ResponseWriter, req *http.Request) {
-	log.Fatal("login : %s", req.URL.Path)
 }
 
 func ProtoHandler(rsp http.ResponseWriter, req *http.Request) {
@@ -88,7 +84,7 @@ func main() {
 	//http.HandleFunc(_PROTO_GET_QUEST_MAP, safeHandler(quest.GetQuestMapHandler))
 	http.HandleFunc(_PROTO_START_QUEST, safeHandler(quest.StartQuestHandler))
 	http.HandleFunc(_PROTO_CLEAR_QUEST, safeHandler(quest.ClearQuestHandler))
-	http.HandleFunc(_PROTO_GET_QUEST_INFO, safeHandler(quest.GetQuestInfoHandler))
+	//http.HandleFunc(_PROTO_GET_QUEST_INFO, safeHandler(quest.GetQuestInfoHandler))
 
 	ret := http.ListenAndServe(":8000", nil)
 	log.Fatal("http.ListenAndServe ret:%d", ret)

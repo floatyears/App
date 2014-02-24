@@ -107,7 +107,13 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	}
 
 	//2. update questPlayRecord (include )
-	if e = UpdateQuestRecord(db, &userDetail, questId, reqMsg.GetUnit, *reqMsg.GetMoney); e.IsError() {
+	gotMoney := *reqMsg.GetMoney
+	gotExp := int32(0)
+	gotFriendPt := int32(0)
+
+	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e =
+		UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
+	if e.IsError() {
 		return e
 	}
 
@@ -122,8 +128,18 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	}
 	log.T("UpdateUserInfo(%v) ret OK.", uid)
 
-	//fill response
-	//rspMsg.DungeonData = &questData
+	//5. fill response
+	rspMsg.Rank = userDetail.User.Rank
+	rspMsg.Exp = userDetail.User.Exp
+	rspMsg.StaminaNow = userDetail.User.StaminaNow
+	rspMsg.StaminaMax = userDetail.User.StaminaMax
+	rspMsg.StaminaRecover = userDetail.User.StaminaRecover
+	rspMsg.Money = userDetail.Account.Money
+	rspMsg.FriendPoint = userDetail.Account.FriendPoint
+	rspMsg.GotExp = proto.Int32(gotExp)
+	rspMsg.GotMoney = proto.Int32(gotMoney)
+	//rspMsg.GotUnit = gotUnit
+	rspMsg.GotFriendPoint = proto.Int32(gotFriendPt)
 
 	log.T("=========== ClearQuest total cost %v ms. ============\n\n", cost.Cost())
 
