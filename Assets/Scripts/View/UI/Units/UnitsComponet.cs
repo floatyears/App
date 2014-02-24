@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class UnitsComponent : ConcreteComponent, IUIParty {
@@ -10,14 +11,18 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 
 	public override void CreatUI () {
 		base.CreatUI ();
+		//Debug.Log( "Units Scene: CreateUI");
 	}
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+		//Debug.Log( "Units Scene: ShowUI");
+
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+		//Debug.Log( "Units Scene: HideUI");
 	}
 	
 	public override void DestoryUI () {
@@ -76,5 +81,7 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 			partyInterface.PartyPaging( null );
 		}
 	}
+
+
 
 }
