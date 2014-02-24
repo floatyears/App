@@ -51,12 +51,26 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	void ShowUnitDetail( object info ){
 		UserUnit userUnitInfo = info as UserUnit;
 		uint curId = userUnitInfo.unitId;
-		Debug.LogError("Test Unit Show:   " + curId);
 		detailSprite.mainTexture = GlobalData.tempUnitInfo[ curId ].GetAsset( UnitAssetType.Profile);
 		unitIDLabel.text = curId.ToString();
-//		unitNameLabel.text = GlobalData.tempUnit
+		unitNameLabel.text = GlobalData.tempUnitInfo[ curId ].GetName();
 		unitLevelLabel.text = userUnitInfo.level.ToString();
+		unitTypeLabel.text = GlobalData.tempUnitInfo[ curId ].GetUnitType();
 
+		TempUnitInfo tu = GlobalData.tempUnitInfo[ curId ];
+		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),userUnitInfo.level);
+		unitHpLabel.text = hp.ToString();
+		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), userUnitInfo.level);
+		unitAttackLabel.text = atk.ToString();
+
+		int cost = GlobalData.tempUnitInfo[ curId ].GetCost();
+		unitCostLabel.text = cost.ToString();
+
+		int rare = GlobalData.tempUnitInfo[ curId ].GetRare();
+		unitRareLabel.text = rare.ToString();
+
+//		string race = GlobalData.tempUnitInfo[ curId ].GetRace();
+		unitRaceLabel.text = "Human";
 	}
 
 	public override void HideUI ()  {
