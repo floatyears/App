@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class UIConfig
 {
+	public static string emptyLabelTextFormat = "---";
 	public static string stageDragPanelItemPath = "Stage/StageDragPanelItem";
 	public static string questDragPanelItemPath = "Prefabs/UI/Quest/QuestItem";
 	public static string Lab_T_Rank = "Rank:";

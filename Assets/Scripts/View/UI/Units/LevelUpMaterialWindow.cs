@@ -41,7 +41,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	
 
 	private void ShowAvatar( GameObject item){
-		Debug.LogError("Material Show Avatar: ");
+//		Debug.LogError("Material Show Avatar: ");
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		

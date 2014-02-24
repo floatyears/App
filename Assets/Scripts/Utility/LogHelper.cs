@@ -11,35 +11,35 @@ public sealed class LogHelper {
         if (!DebugHelper.DEBUG){
             return;
         }
-        Debug.Log(TimeHelper.FormattedTimeNow() + " " + message.ToString());
+        Debug.Log(TimeHelper.FormattedTimeNow() + "  " + message.ToString());
     }
     
     public static void LogError(object message){
         if (!DebugHelper.DEBUG){
             return;
         }
-        Debug.LogError(TimeHelper.FormattedTimeNow() + " " + message.ToString());
+        Debug.LogError(TimeHelper.FormattedTimeNow() + "  " + message.ToString());
     }
 
     public static void LogError(object message, object content){
         if (!DebugHelper.DEBUG){
             return;
         }
-        Debug.LogError(TimeHelper.FormattedTimeNow() + " " + message.ToString());
+        Debug.LogError(TimeHelper.FormattedTimeNow() + "  " + message.ToString());
     }
 
     public static void LogWarning(object message){
         if (!DebugHelper.DEBUG){
             return;
         }
-        Debug.LogWarning(TimeHelper.FormattedTimeNow() + " " + message.ToString());
+        Debug.LogWarning(TimeHelper.FormattedTimeNow() + "  " + message.ToString());
     }
 
     public static void LogWarning(object message, object content){
         if (!DebugHelper.DEBUG){
             return;
         }
-        Debug.LogWarning(TimeHelper.FormattedTimeNow() + " " + message.ToString());
+        Debug.LogWarning(TimeHelper.FormattedTimeNow() + "  " + message.ToString());
     }
 
     public static void LogException(Exception exception){
