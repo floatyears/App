@@ -113,7 +113,7 @@ public class ConfigUserUnit {
 	
 }
 
-public class TempUnitInfo : ProtobufDataBase {
+public class TempUnitInfo : ProtobufDataBase, INetBase  {
 
 	public TempUnitInfo (object instance) : base (instance) {
 
@@ -150,10 +150,23 @@ public class TempUnitInfo : ProtobufDataBase {
 				break;
 
 		}
-		//Debug.LogError("path : " + path);
 		Texture2D tex2d = Resources.Load(path) as Texture2D;
 		return tex2d;
 	}
+	
+	public void Send () {
+		HttpNetBase hnb = new HttpNetBase ();
+		hnb.Url = "aaa";
+		WWWForm wf = new WWWForm ();
+//		hnb.WwwInfo = new WWW (hnb.Url, wf);
+		hnb.Send (this,wf);
+	}
+
+	public void Receive (IWWWPost post) {
+
+	}
+
+
 }
 
 public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
