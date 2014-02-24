@@ -103,9 +103,9 @@ func (qm *QuestDataMaker) makePackColors(colors []byte) (colorPack []byte, e Err
 		k += 3
 	}
 
-	for k, b := range result {
-		log.T("[%v] makePackColors result b=%v ", k, b)
-	}
+	//for k, b := range result {
+	//	log.T("[%v] makePackColors result b=%v ", k, b)
+	//}
 
 	return result, Error.OK()
 }
@@ -129,7 +129,7 @@ func (qm *QuestDataMaker) getItemFromList(pos int32, list *map[int32]TUsedValue)
 			(*list)[k] = TUsedValue{ss.Value, true}
 			result = ss.Value
 			log.T("LOOP list[%v]: found ss:%+v list[k]:%+v", k, ss, (*list)[k])
-			log.T("\t==> all list: %+v", k, ss, (*list))
+			log.T("\t==> all list: %+v", (*list))
 			break
 		}
 		index++
@@ -289,13 +289,13 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 								dropUnit := &bbproto.DropUnit{}
 								dropUnit.UnitId = enemyConf.DropUnitId
 								dropUnit.Level = enemyConf.DropUnitLevel
-								if common.HitRandomRate(*enemyConf.AddHpRate) {
+								if enemyConf.AddHpRate != nil && common.HitRandomRate(*enemyConf.AddHpRate) {
 									dropUnit.AddHp = proto.Int32(1)
 								}
-								if common.HitRandomRate(*enemyConf.AddHpRate) {
+								if enemyConf.AddAttackRate != nil && common.HitRandomRate(*enemyConf.AddAttackRate) {
 									dropUnit.AddAttack = proto.Int32(1)
 								}
-								if common.HitRandomRate(*enemyConf.AddDefenceRate) {
+								if enemyConf.AddDefenceRate != nil && common.HitRandomRate(*enemyConf.AddDefenceRate) {
 									dropUnit.AddDefence = proto.Int32(1)
 								}
 								log.T("\t -- append dropUnit:%+v", dropUnit)

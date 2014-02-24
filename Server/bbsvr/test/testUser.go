@@ -163,12 +163,9 @@ type My struct {
 	MyTp MyTp
 }
 
-func main() {
+func umain() {
 	Init()
-	AddUsers()
-
-	m := &My{}
-	m.MyTp.x = 3
+	//AddUsers()
 
 	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220101", 101)
 	LoginPack(101)

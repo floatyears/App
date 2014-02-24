@@ -2,7 +2,6 @@ package friend
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
 	"strconv"
 	//"net/http"
@@ -14,6 +13,7 @@ import (
 	bbproto "../bbproto"
 	"../common"
 	"../common/Error"
+	"../common/log"
 	"../const"
 	"../data"
 	proto "code.google.com/p/goprotobuf/proto"
@@ -48,7 +48,7 @@ func AddFriend(db *data.Data, uid uint32, fid uint32, friendState bbproto.EFrien
 			}
 		}
 	} else { //findFriendData ret err!=nil, probably data not exists, or db error.
-		log.Printf("[TRACE] findFriendData ret err: %v", e.Error())
+		log.T("[TRACE] findFriendData ret err: %v", e.Error())
 
 		if friendState == bbproto.EFriendState_ISFRIEND { //request is accept friendin
 			return Error.New(cs.EF_INVALID_FRIEND_STATE,
@@ -89,7 +89,7 @@ func innerAddFriend(db *data.Data, sUid string, fid uint32, friendState bbproto.
 		return err
 	}
 	err = db.HSet(sUid, common.Utoa(fid), friend)
-	log.Printf("[TRACE] AddFriend uid:%v, fid:%v, state:%v  ret err:%v", sUid, fid, friendState, err)
+	log.T("AddFriend uid:%v, fid:%v, state:%v  ret err:%v", sUid, fid, friendState, err)
 
 	return err
 }
@@ -108,23 +108,27 @@ func DelFriend(db *data.Data, uid uint32, fid uint32) (num int, err error) {
 
 //------------------------------------------------------
 func findFriendData(db *data.Data, sUid string, fUid uint32, friendData *bbproto.FriendData) (e Error.Error) {
-	if db == nil {
-		return Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
+	if db == nil || sUid == "" || fUid == 0 || friendData == nil {
+		log.Error("db == nil || sUid == '' || fUid == 0 || friendData == nil.")
+		return Error.New(cs.INVALID_PARAMS)
 	}
 
 	zFriendData, err := db.HGet(sUid, common.Utoa(fUid))
 	if err != nil {
-		log.Printf("[FATAL] HGet(%v, %v) ret err:%v", sUid, fUid, err)
-		//probably data not exists, or db error.
-		return Error.New(cs.DATA_NOT_EXISTS, err.Error())
+		log.Fatal(" HGet(%v, %v) ret err:%v", sUid, fUid, err)
+		return Error.New(cs.READ_DB_ERROR, err.Error())
 	}
 
-	log.Printf("[TRACE] TABLE_FRIEND :: HGet(%v, %v) ret err:%v, friendData: %v",
+	if len(zFriendData) == 0 {
+		return Error.New(cs.DATA_NOT_EXISTS)
+	}
+
+	log.T("TABLE_FRIEND :: HGet(%v, %v) ret err:%v, friendData: %v",
 		sUid, fUid, err, friendData)
 
 	err = proto.Unmarshal(zFriendData, friendData) //unSerialize to friend
 	if err != nil {
-		log.Printf("[ERROR] unSerialize FriendData '%v' ret err:%v. sFridata:%v", fUid, err, zFriendData)
+		log.Error(" unSerialize FriendData '%v' ret err:%v. sFridata:%v", fUid, err, zFriendData)
 		return Error.New(cs.UNMARSHAL_ERROR, err.Error())
 	}
 
@@ -136,20 +140,20 @@ func GetFriendsData(db *data.Data, sUid string, friendsInfo map[string]bbproto.F
 		return fmt.Errorf("[ERROR] db pointer is nil.")
 	}
 
-	log.Printf("[TRACE] begin friendsInfo[%v] is: %v", sUid, len(friendsInfo))
+	log.T("begin friendsInfo[%v] is: %v", sUid, len(friendsInfo))
 
 	zFriendDatas, err := db.HGetAll(sUid)
 	if err != nil {
-		log.Printf("[FATAL] HGetAll('%v') ret err:%v", sUid, err)
+		log.Fatal(" HGetAll('%v') ret err:%v", sUid, err)
 		return err
 	}
 
-	log.Printf("[TRACE] TABLE_FRIEND :: HGetAll('%v') ret err:%v, friendsInfo: %v",
+	log.T("TABLE_FRIEND :: HGetAll('%v') ret err:%v, friendsInfo: %v",
 		sUid, err, friendsInfo)
 
 	friendNum := len(zFriendDatas) / 2
 
-	log.Printf("[TRACE] GetFiendsData:: friendNum=%v friendsInfo len:%v", friendNum, len(friendsInfo))
+	log.T("GetFiendsData:: friendNum=%v friendsInfo len:%v", friendNum, len(friendsInfo))
 	for i := 0; len(zFriendDatas) > 0; i++ {
 		var sFid, sFridata []byte
 		zFriendDatas, err = redis.Scan(zFriendDatas, &sFid, &sFridata)
@@ -160,7 +164,7 @@ func GetFriendsData(db *data.Data, sUid string, friendsInfo map[string]bbproto.F
 		friendData := &bbproto.FriendData{}
 		err = proto.Unmarshal(sFridata, friendData) //unSerialize to friend
 		if err != nil {
-			log.Printf("[ERROR] unSerialize FriendData '%v' ret err:%v. sFridata:%v", sFid, err, sFridata)
+			log.Error(" unSerialize FriendData '%v' ret err:%v. sFridata:%v", sFid, err, sFridata)
 			return err
 		}
 
@@ -171,10 +175,10 @@ func GetFriendsData(db *data.Data, sUid string, friendsInfo map[string]bbproto.F
 		friInfo.FriendStateUpdate = friendData.FriendStateUpdate
 		friendsInfo[string(sFid)] = friInfo
 
-		log.Printf("[TRACE] got friendData[%v]: %v", sFid, friInfo)
+		log.T("got friendData[%v]: %v", sFid, friInfo)
 	}
 
-	log.Printf("[TRACE] now friendsInfo[%v] is: %v", sUid, len(friendsInfo))
+	log.T("now friendsInfo[%v] is: %v", sUid, len(friendsInfo))
 
 	return err
 }
@@ -198,7 +202,7 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 		return err
 	}
 
-	log.Printf("[TRACE] ZRangeByScore(%v,[%v,%v],[%v,%v]) ret err:%v, got helper count:%v",
+	log.T("ZRangeByScore(%v,[%v,%v],[%v,%v]) ret err:%v, got helper count:%v",
 		sUserSpace, minRank, rank+cs.N_HELPER_RANK_RANGE, offset, count, err, len(zHelperIds))
 
 	//helperCount := len(zHelperIds)
@@ -208,11 +212,11 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 		var sFid string
 		zHelperIds, err = redis.Scan(zHelperIds, &sFid)
 		if err != nil {
-			log.Printf("[ERROR] redis.Scan(zHelperIds, &sFid) ret err:%v", err)
+			log.Error(" redis.Scan(zHelperIds, &sFid) ret err:%v", err)
 			continue
 		}
 
-		log.Printf("[TRACE] helper %v: fid=%v", i, sFid)
+		log.T("helper %v: fid=%v", i, sFid)
 
 		//assign friend data fields
 		uid := common.Atou(sFid)
@@ -241,26 +245,26 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetFriend bool, isG
 		sUid := common.Utoa(uid)
 		err = GetFriendsData(db, sUid, friendsInfo)
 		if err != nil {
-			log.Printf("[FATAL] GetFriendsData('%v') ret err:%v", sUid, err)
+			log.Fatal(" GetFriendsData('%v') ret err:%v", sUid, err)
 			return friendsInfo, err
 		}
 
-		log.Printf("[TRACE] GetFriendsData ret total %v friends", len(friendsInfo))
+		log.T("GetFriendsData ret total %v friends", len(friendsInfo))
 	}
 
 	//get helper data
 	if isGetHelper {
 		err = GetHelperData(db, uid, rank, friendsInfo)
 		if err != nil {
-			log.Printf("[FATAL] GetHelperData(%v,%v) ret err:%v", uid, rank, err)
+			log.Fatal(" GetHelperData(%v,%v) ret err:%v", uid, rank, err)
 			return friendsInfo, err
 		}
 	}
 
-	log.Printf("[TRACE] GetHelperData ret total %v helpers", len(friendsInfo))
+	log.T("GetHelperData ret total %v helpers", len(friendsInfo))
 	if len(friendsInfo) <= 0 {
 		err = errors.New(fmt.Sprintf("[ERROR] Cannot find any friends/helpers for uid:%v rank:%v", uid, rank))
-		log.Printf(err.Error())
+		log.T(err.Error())
 		return friendsInfo, err
 	}
 
@@ -278,7 +282,7 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetFriend bool, isG
 	if err != nil {
 		return
 	}
-	log.Printf("[TRACE] TABLE_USER.MGet(fids:%v) ret %v", fids, userinfos)
+	log.T("TABLE_USER.MGet(fids:%v) ret %v", fids, userinfos)
 
 	for _, uinfo := range userinfos {
 		if uinfo == nil {
@@ -286,21 +290,22 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetFriend bool, isG
 		}
 		userDetail := bbproto.UserInfoDetail{}
 		zUser, err := redis.Bytes(uinfo, err)
-		if err == nil {
-			err = proto.Unmarshal(zUser, &userDetail) //unSerialize
-		}
-		if err != nil {
-			log.Printf("[ERROR] Cannot Unmarshal userinfo(err:%v) userinfo: %v", err, uinfo)
-			return friendsInfo, err
+		if err == nil && len(zUser) > 0 {
+			if err = proto.Unmarshal(zUser, &userDetail); err != nil {
+				log.Error(" Cannot Unmarshal userinfo(err:%v) userinfo: %v", err, uinfo)
+				return friendsInfo, err
+			}
+		} else {
+			return friendsInfo, errors.New("redis.Bytes(uinfo, err) fail.")
 		}
 
 		user := userDetail.User
 
 		if user == nil || user.UserId == nil {
-			log.Printf("[FATAL] unexcepted error: user.UserId is nil. user:%v", user)
+			log.Fatal("unexcepted error: user.UserId is nil. user:%v", user)
 			continue
 		}
-		log.Printf("[TRACE] userId: %v -> name:%v rank:%v ",
+		log.T("userId: %v -> name:%v rank:%v ",
 			*user.UserId, *user.UserName, *user.Rank)
 
 		uid = *user.UserId
@@ -313,15 +318,15 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetFriend bool, isG
 
 			friendsInfo[common.Utoa(uid)] = friInfo
 
-			//log.Printf("[TRACE] new friend uid:%v rank:%v username:%v lastPlay:%v",
+			//log.T("new friend uid:%v rank:%v username:%v lastPlay:%v",
 			//	uid, *newfriInfo.Rank, *newfriInfo.UserName, *newfriInfo.LastPlayTime)
 
 		} else {
-			log.Printf("[ERROR] cannot find friInfo for: %v.", uid)
+			log.Error(" cannot find friInfo for: %v.", uid)
 		}
 	}
-	log.Printf("\nfriends's fids:%v friendsInfo:%v", fids, friendsInfo)
-	log.Println("===========GetFriends finished.==========\n")
+	log.T("\nfriends's fids:%v friendsInfo:%v", fids, friendsInfo)
+	log.T("===========GetFriends finished.==========\n")
 
 	return friendsInfo, err
 }

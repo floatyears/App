@@ -24,6 +24,7 @@ const (
 	X_QUEST_STAGE  = "X_STAGE_"
 	X_QUEST_CONFIG = "X_CONFIG_"
 	X_QUEST_LOG    = "X_Q_LOG_"
+	X_QUEST_RECORD = "X_Q_REC_"
 )
 
 const (
