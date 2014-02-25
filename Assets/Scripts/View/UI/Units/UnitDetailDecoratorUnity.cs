@@ -5,13 +5,7 @@ using System.Collections.Generic;
 
 public class UnitDetailDecoratorUnity : UIComponentUnity{
 	GameObject levelUpEffect;
-	bool slide = false;
-	float curProgress;
-	float riseProgress;
-	float detalProgress;
-	UILabel nextLevelNeddExpLabal;
-
-
+	
 	private UITexture detailSprite;
 	private UIWidget detailWidget;
 	private UILabel 	unitIDLabel;
@@ -27,7 +21,8 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	private UIToggle startToggle;
 	private UILabel unitNormalSkill_1_NameLabel;
 	private UILabel unitNormalSkill_2_NameLabel;
-	
+	UILabel nextLevelExpNeedLabel;
+
 	Material unitMaterial;
 
 	void GetUnitMaterial(){
@@ -43,8 +38,6 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		GetUnitMaterial();
 		InitEffect();
 		InitUI();
-		CountAction( 607, 4, 5009);
-		Debug.LogError("Count is : " + actionCount );
 	}
 	
 	public override void ShowUI () {
@@ -82,7 +75,21 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 
 	}
 
-
+	void FindLabel(){
+		string path = "UnitInfoTabs/Content_Status/Label_Next_Lv_Vaule";
+		nextLevelExpNeedLabel = FindChild< UILabel >( path );
+		string path1 = "UnitInfoTabs/Content_Status/";
+		unitIDLabel = FindChild<UILabel> (path1 + "InputFrame_No");
+		unitNameLabel = FindChild<UILabel> (path1 + "InputFrame_Name");
+		unitLevelLabel = FindChild<UILabel> (path1 + "InputFrame_Lv");
+		unitTypeLabel = FindChild<UILabel> (path1 + "InputFrame_Type");
+		unitRaceLabel = FindChild<UILabel> (path1 + "InputFrame_Race");
+		unitHpLabel = FindChild<UILabel> (path1 + "InputFrame_HP");
+		unitCostLabel = FindChild<UILabel> (path1 + "InputFrame_Cost");
+		unitRareLabel = FindChild<UILabel> (path1 + "InputFrame_Rare");
+		unitAttackLabel = FindChild<UILabel> (path1 + "InputFrame_ATK");
+		unitExpSlider = FindChild<UISlider> (path1 + "ExperenceBar");
+	}
 
 	public override void HideUI ()  {
 		base.HideUI ();
@@ -107,9 +114,6 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		meshRender.materials[ 0 ].SetTexture("_MainTex", tex);
 		effectCache.Add( tempEffect );
 
-
-		ExpRise();
-
 		unitIDLabel.text = curUnitId.ToString();
 		unitNameLabel.text = GlobalData.tempUnitInfo[ curUnitId ].GetName();
 		unitLevelLabel.text = packageInfo[0].level.ToString();
@@ -128,6 +132,8 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		unitRareLabel.text = rare.ToString();
 
 		unitRaceLabel.text = "Human";
+
+		ExpRise();
 	}
 
 	void ClearEffectCache(){
@@ -146,20 +152,11 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	}
 
 	private void InitUI() {
+		FindLabel();
 		detailSprite = FindChild< UITexture >("detailSprite");
 		detailWidget = FindChild< UIWidget >("detailSprite");
 		UIEventListener.Get( detailSprite.gameObject ).onClick = BackPreScene;
-		string path1 = "UnitInfoTabs/Content_Status/";
-		unitIDLabel = FindChild<UILabel> (path1 + "InputFrame_No");
-		unitNameLabel = FindChild<UILabel> (path1 + "InputFrame_Name");
-		unitLevelLabel = FindChild<UILabel> (path1 + "InputFrame_Lv");
-		unitTypeLabel = FindChild<UILabel> (path1 + "InputFrame_Type");
-		unitRaceLabel = FindChild<UILabel> (path1 + "InputFrame_Race");
-		unitHpLabel = FindChild<UILabel> (path1 + "InputFrame_HP");
-		unitCostLabel = FindChild<UILabel> (path1 + "InputFrame_Cost");
-		unitRareLabel = FindChild<UILabel> (path1 + "InputFrame_Rare");
-		unitAttackLabel = FindChild<UILabel> (path1 + "InputFrame_ATK");
-		unitExpSlider = FindChild<UISlider> (path1 + "ExperenceBar");
+	
 
 		startToggle = FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
 
@@ -209,70 +206,26 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		unitAlpha.PlayForward();
 	}
 
+	int maxExp = 100;
+	int curExp = 10;
+	int gotExp = 330;
 
-	int maxExp = 1825;
-	int curExp = 306;
-	int gotExp = 4279;
-
-	void Slide( UISlider target, float speed ){
-		if( detalProgress <= 0f ){
-			return;
-		}
-		detalProgress -=  speed * Time.deltaTime;
-		target.value += speed * Time.deltaTime;
-		if( target.value >= 1f ){
-			target.value = 0f;
-		}
-	}
-	
-	void ExpRise(){
-		curProgress = GetCurExpProgress();
-		riseProgress = GetRiseExpProgress();
-		detalProgress = riseProgress - curProgress;
-		unitExpSlider.value = curProgress;
-		slide = true;
-	}
-
-	float GetCurExpProgress(){
-		//temp data
-		return (float)curExp/maxExp;
-
-	}
-
-	float GetRiseExpProgress(){
-		//temp data
-		return (float)(curExp + gotExp)/maxExp;
-	}
 
 	void Update(){
-		if( slide )
-			Slide(unitExpSlider, UIConfig.uisliderSpeed);
+		ExpRise();
 	}
 
-
-	int actionCount = 0;
-
-	void CountAction( int curExp, int curLevel, int curRemainExp )
-	{
-		int curMaxExp = GetCurLevelMaxExp( curLevel );
-		int curNeedExp = curMaxExp - curExp;//1519 = 1825 - 306
-		if( curRemainExp >= curNeedExp )
-		{
-			actionCount++;
-			curRemainExp -= curNeedExp;
-			CountAction( 0, curLevel + 1, curRemainExp );
-			Debug.LogError("CurExp : " + curRemainExp);
+	void ExpRise () {
+		if(gotExp <= 0)	return;
+		gotExp -= 1;
+		curExp += 1;
+		if(curExp >= maxExp) {
+			curExp = 0;
 		}
-
+		int value = maxExp - curExp;
+		nextLevelExpNeedLabel.text = value.ToString();
+		float progress = (float)curExp / (float)maxExp;
+		unitExpSlider.value = progress;
 	}
-
-	int GetCurLevelMaxExp( int level){
-		return 1000 + 23 * ( level + 9);
-	}
-
-
-
-
-
 
 }

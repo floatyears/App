@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class UIConfig
 {
-	public static float uisliderSpeed = 1.2f;//per second
+	public static float uisliderSpeed = 0.2f;//per second
 	public static string emptyLabelTextFormat = "---";
 	public static string stageDragPanelItemPath = "Stage/StageDragPanelItem";
 	public static string questDragPanelItemPath = "Prefabs/UI/Quest/QuestItem";
