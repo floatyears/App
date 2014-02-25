@@ -68,11 +68,13 @@ func (t StartQuest) FillResponseMsg(reqMsg *bbproto.ReqStartQuest, rspMsg *bbpro
 
 func (t StartQuest) verifyParams(reqMsg *bbproto.ReqStartQuest) (err Error.Error) {
 	//TODO: input params validation
-	if reqMsg.Header.UserId == nil || reqMsg.StageId == nil || reqMsg.QuestId == nil {
+	if reqMsg.Header.UserId == nil || reqMsg.StageId == nil || reqMsg.QuestId == nil ||
+		reqMsg.CurrentParty == nil || reqMsg.HelperUserId == nil || reqMsg.HelperUnit == nil {
 		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
-	if *reqMsg.Header.UserId == 0 || *reqMsg.StageId == 0 || *reqMsg.QuestId == 0 {
+	if *reqMsg.Header.UserId == 0 || *reqMsg.StageId == 0 || *reqMsg.QuestId == 0 ||
+		*reqMsg.HelperUserId == 0 {
 		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
@@ -147,13 +149,17 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 		return e
 	}
 
-	//get quest record from QuestLog, fill to userDetail.Quest
-	if e = GetQuestRecord(db, questId, &userDetail); e.IsError() {
+	//check userDetail.Quest if exists (quest is playing)
+	questState, e := CheckQuestRecord(db, stageId, questId, &userDetail)
+	if e.IsError() {
 		return e
 	}
 
+	//TODO:try getFriendState(helperUid) -> getFriendPoint
+
 	//update latest quest record of userDetail
-	if e = FillQuestRecord(&userDetail, questId, questData.Drop, stageInfo, questInfo); e.IsError() {
+	if e = FillQuestLog(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
+		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}
 

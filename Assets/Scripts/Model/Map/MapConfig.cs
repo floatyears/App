@@ -26,6 +26,7 @@ public class MapConfig : IOriginModel {
 
 	public object DeserializeData () {
 		throw new System.NotImplementedException ();
+
 	}
 
 	public MapConfig () {
@@ -34,19 +35,17 @@ public class MapConfig : IOriginModel {
 		mapYLength = 5;
 		mapID = 1;
 		mapData = new SingleMapData[mapXLength,mapYLength];
-		for (int i = 0; i < mapXLength; i++) 
-		{
-			for (int j = 0; j < mapYLength; j++) 
-			{
+		for (int i = 0; i < mapXLength; i++) {
+			for (int j = 0; j < mapYLength; j++) {
 				SingleMapData smd = new SingleMapData();
 				smd.StarLevel = Random.Range(0,5);
 				smd.CoordinateX = i;
 				smd.CoordinateY = j;
-				smd.ContentType = MapItemEnum.None;
+				smd.ContentType = MapItemEnum.Enemy;
 //				for (int k = 0; k < smd.StarLevel; k++) 
 //				{
-//					smd.MonsterID.Add(1);
-//					smd.MonsterID.Add(2);
+					smd.MonsterID.Add(1);
+					smd.MonsterID.Add(2);
 //				}
 				
 				mapData[i,j] = smd;

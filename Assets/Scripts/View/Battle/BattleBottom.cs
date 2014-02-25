@@ -1,15 +1,30 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class BattleBottom : MonoBehaviour {
 	private Camera bottomCamera;
 	private RaycastHit rch;
 	private UnitPartyInfo upi;
+	private Dictionary<int,GameObject> actorObject = new Dictionary<int,GameObject>();
+	private static Dictionary<uint,Vector3> rolePosition = new Dictionary<uint, Vector3> ();
+	public static Dictionary<uint,Vector3> RolePosition {
+		get{ return rolePosition; }
+	}
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
 		if (upi == null) {
 			upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo,new ErrorMsg()) as UnitPartyInfo;		
+		}
+		for (int i = 1; i < 6; i++) {
+			GameObject tex = transform.Find("Actor/" + i).gameObject;	
+			actorObject.Add(i,tex);
+		}
+		Dictionary<int,UserUnitInfo> userUnitInfo = upi.GetPosUnitInfo ();
+		foreach (var item in userUnitInfo) {
+			TempUnitInfo tui = GlobalData.tempUnitInfo[item.Value.GetUnitID];
+			actorObject[item.Key].renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
+			rolePosition.Add(item.Value.GetID,actorObject[item.Key].transform.position);
 		}
 	}
 

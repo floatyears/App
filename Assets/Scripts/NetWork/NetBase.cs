@@ -117,6 +117,14 @@ public class NetBase : INetwork {
 		return errMsg;
 	}
 
+
+
+	public void SendAssetRequest () {
+		throw new NotImplementedException ();
+	}
+
+
+
 	public void SendRequest(byte[] data = null)
 	{
 		NetworkBase network = new NetworkBase ();

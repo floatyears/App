@@ -113,7 +113,7 @@ public class ConfigUserUnit {
 	
 }
 
-public class TempUnitInfo : ProtobufDataBase {
+public class TempUnitInfo : ProtobufDataBase, INetBase  {
 
 	public TempUnitInfo (object instance) : base (instance) {
 
@@ -150,10 +150,24 @@ public class TempUnitInfo : ProtobufDataBase {
 				break;
 
 		}
-		//Debug.LogError("path : " + path);
 		Texture2D tex2d = Resources.Load(path) as Texture2D;
 		return tex2d;
 	}
+	
+	public void Send () {
+	
+		HttpNetBase hnb = new HttpNetBase ();
+		hnb.Url = "aaa";
+		WWWForm wf = new WWWForm ();
+//		hnb.WwwInfo = new WWW (hnb.Url, wf);
+		hnb.Send (this,wf);
+	}
+
+	public void Receive (IWWWPost post) {
+
+	}
+
+
 }
 
 public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
@@ -192,7 +206,8 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 	public UnitPartyInfo (object instance) : base (instance) { 
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
 	}
-	~UnitPartyInfo () {
+
+	public void RemoveListener () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
 	}
 
@@ -380,6 +395,17 @@ public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
 			UserUnitInfo uui = GlobalData.tempUserUnitInfo[item.unitUniqueId];
 			temp.Add(uui);
 		}
+		return temp;
+	}
+
+	public Dictionary<int, UserUnitInfo> GetPosUnitInfo () {
+		UnitParty uup = DeserializeData<UnitParty> ();
+		Dictionary<int,UserUnitInfo> temp = new Dictionary<int,UserUnitInfo> ();
+		foreach (var item in uup.items) {
+			UserUnitInfo uui = GlobalData.tempUserUnitInfo[item.unitUniqueId];
+			temp.Add(item.unitPos,uui);
+		}
+//		Debug.LogError (temp.Count + " GetPosUnitInfo " + uup.items.Count);
 		return temp;
 	}
 }

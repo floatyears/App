@@ -19,8 +19,9 @@ public class UserUnitInfo : ProtobufDataBase {
 	public UserUnitInfo(UserUnit instance) : base (instance) { 
 		MsgCenter.Instance.AddListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
 	} 
-	~UserUnitInfo() { 
-		MsgCenter.Instance.AddListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
+
+	public void RemovevListener () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
 	}
 
 	private int currentBlood = -1;
@@ -252,6 +253,12 @@ public class UserUnitInfo : ProtobufDataBase {
 			UnitInfo ui = GetUnitInfo() ;
 
 			return addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType,GetObject.level); //ui.power [GetObject.level].attack;
+		}
+	}
+
+	public uint GetUnitID {
+		get {
+			return GetUnitInfo().id;
 		}
 	}
 

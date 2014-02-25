@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 
 public class EnemyItem : UIBaseUnity {
-	private ShowEnemyUtility enemyInfo;
+	private TempEnemy enemyInfo;
 	private UITexture texture;
+	private UITexture dropTexture;
+
 	private UILabel bloodLabel;
 	private UILabel nextLabel;
 	private UIPanel effect;
@@ -16,7 +18,6 @@ public class EnemyItem : UIBaseUnity {
 	private Vector3 initHurtLabelPosition = Vector3.zero;
 
 	void OnEnable() {
-		MsgCenter.Instance.AddListener (CommandEnum.ShowEnemy, EnemyInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttack, EnemyAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyRefresh, EnemyRefresh);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyDead, EnemyDead);
@@ -24,12 +25,9 @@ public class EnemyItem : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.AddListener (CommandEnum.BePosion, BePosion);
 		MsgCenter.Instance.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
-
-
 	}
 
 	void OnDisable () {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ShowEnemy, EnemyInfo);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttack, EnemyAttack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyRefresh, EnemyRefresh);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyDead, EnemyDead);
@@ -50,7 +48,7 @@ public class EnemyItem : UIBaseUnity {
 
 	void Attack (object data) {
 		AttackInfo ai = data as AttackInfo;
-		if (ai == null || ai.EnemyID != enemyInfo.enemyID) {
+		if (ai == null || ai.EnemyID != enemyInfo.GetID()) {
 			return;
 		}
 		if (prevObject != null) {
@@ -58,7 +56,8 @@ public class EnemyItem : UIBaseUnity {
 		}
 
 		ShowHurtInfo (ai.InjuryValue);
-		ShowInjuredEffect (ai.AttackType);
+		//ShowInjuredEffect (ai.AttackType);
+		InjuredShake ();
 	}
 
 	void ShowHurtInfo(int injuredValue) {
@@ -106,8 +105,12 @@ public class EnemyItem : UIBaseUnity {
 		Debug.Log ("posion round : " + ai.AttackRound);
 	}
 	
-	public void Init(ShowEnemyUtility te) {
+	public void Init(TempEnemy te) {
 		texture 				= FindChild<UITexture> ("Texture");
+		TempUnitInfo tui 		= GlobalData.tempUnitInfo [te.GetID ()];
+		texture.mainTexture 	= tui.GetAsset (UnitAssetType.Profile);
+		dropTexture 			= FindChild<UITexture>("Drop");
+		dropTexture.enabled 	= false;
 		localPosition 			= texture.transform.localPosition;
 		attackPosition 			= new Vector3 (localPosition.x, BattleBackground.ActorPosition.y , localPosition.z);
 		bloodLabel 				= FindChild<UILabel> ("BloodLabel");
@@ -121,22 +124,30 @@ public class EnemyItem : UIBaseUnity {
 		SetData (te);
 	}
 
-	public override void DestoryUI ()
-	{
+	public override void DestoryUI () {
 		base.DestoryUI ();
 		OnDisable ();
 		Destroy (gameObject);
-	//	Destroy (this);
+	}
+
+	public void DropItem () {
+		dropTexture.enabled = true;
+		iTween.ShakeRotation (dropTexture.gameObject, iTween.Hash ("z",20,"time",0.5f,"oncomplete","DorpEnd","oncompletetarget",gameObject));
+	}
+
+	void DorpEnd () {
+		DestoryUI ();
 	}
 
 	void EnemyDead(object data) {
 		TempEnemy te = data as TempEnemy;
-		//Debug.LogError(te.GetID() + " EnemyDead : " + enemyInfo.enemyID);
-		if (te == null || te.GetID () != enemyInfo.enemyID) {
+		if (te == null || te.GetID () != enemyInfo.GetID()) {
 			return;		
 		}
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
-		DestoryUI ();
+		//DestoryUI ();
+		texture.enabled = false;
+		DropItem ();
 	}
 
 	void EnemyRefresh(object data) {
@@ -145,24 +156,23 @@ public class EnemyItem : UIBaseUnity {
 			return;		
 		}
 
-		if (te.GetID () != enemyInfo.enemyID) {
+		if (te.GetID () != enemyInfo.GetID()) {
 			return;		
 		}
-		if (enemyInfo.enemyBlood > te.GetBlood ()) {
+
+		enemyInfo = te;
+
+		if (enemyInfo.GetBlood() > te.GetBlood ()) {
 			InjuredShake();
 		}
-		enemyInfo.enemyBlood = te.GetBlood ();
-		if (enemyInfo.enemyBlood < 0) {
-			enemyInfo.enemyBlood = 0;
-		}
-		enemyInfo.attackRound = te.GetRound ();
-		SetBloodLabel (enemyInfo.enemyBlood);
-		SetNextLabel (enemyInfo.attackRound);
+
+		SetBloodLabel (enemyInfo.GetBlood());
+		SetNextLabel (enemyInfo.GetRound());
 	}
 
 	void EnemyAttack (object data) {
 		uint id = (uint) data;
-		if (id == enemyInfo.enemyID) {
+		if (id == enemyInfo.GetID()) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
 			iTween.ScaleTo(gameObject,new Vector3(1.5f,1.5f,1f),0.2f);
 			iTween.MoveTo (texture.gameObject,iTween.Hash("position",attackPosition,"time",0.2f,"oncomplete","MoveBack","oncompletetarget",gameObject, "islocal",true ,"easetype",iTween.EaseType.easeInCubic));
@@ -174,44 +184,18 @@ public class EnemyItem : UIBaseUnity {
 		iTween.MoveTo (texture.gameObject,iTween.Hash("position",localPosition,"time",0.2f,"islocal",true,"easetype",iTween.EaseType.easeOutCubic));
 	}
 
-//	void AttackEnemy (object data) {
-//		AttackInfo ai = data as AttackInfo;
-//
-//		if (ai == null) {
-//			return;
-//		}
-//		if (ai.AttackRange != 1 && ai.EnemyID != enemyInfo.enemyID) {
-//			return;		
-//		}
-//		enemyInfo.enemyBlood -= (int)ai.AttackValue;
-//	
-//		SetData (enemyInfo);
-//	}
-
-	void SetData (ShowEnemyUtility seu) {
-
-		SetBloodLabel (seu.enemyBlood);
-		SetNextLabel (seu.attackRound);
+	void SetData (TempEnemy seu) {
+		SetBloodLabel (seu.GetBlood());
+		SetNextLabel (seu.GetRound());
 	}
 
 	void SetBloodLabel (int seu) {
 			bloodLabel.text = seu.ToString();	
-			//enemyInfo.enemyBlood = seu;
-//		}
 	}
 
 	void SetNextLabel (int seu) {
-//		if (seu != enemyInfo.attackRound) {
 			nextLabel.text = "Next : " + seu;
-			//enemyInfo.attackRound = seu;
-//		}
 	}
 
-	void EnemyInfo (object data) {
-		ShowEnemyUtility te = (ShowEnemyUtility)data;
-		if (te.enemyID != enemyInfo.enemyID) {
-			return;
-		}
-		SetData(te);
-	}
+
 }

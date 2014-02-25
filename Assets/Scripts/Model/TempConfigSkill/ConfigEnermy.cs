@@ -8,7 +8,7 @@ public class TempEnemy : ProtobufDataBase {
 		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
 
-	~TempEnemy () {
+	public void RemoveListener () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
@@ -19,7 +19,6 @@ public class TempEnemy : ProtobufDataBase {
 
 	private int initBlood = -1;
 	private int initAttackRound = -1;
-
 	public bool isDeferAttackRound = false;
 	public bool isPosion = false;
 
@@ -32,7 +31,7 @@ public class TempEnemy : ProtobufDataBase {
 		}
 	}
 
-	public int CalculateInjured (AttackInfo attackInfo, bool restraint) {//, int unitType, bool ignoreDefense = false) {
+	public int CalculateInjured (AttackInfo attackInfo, bool restraint) {
 		float injured = 0;
 		bool ignoreDefense = attackInfo.IgnoreDefense;
 		int unitType = attackInfo.AttackType;
@@ -76,6 +75,9 @@ public class TempEnemy : ProtobufDataBase {
 
 	public void KillHP(int hurtValue) {
 		initBlood -= hurtValue;
+		if (initBlood < 0) {
+			initBlood = 0;	
+		}
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
 
@@ -153,18 +155,20 @@ public class ConfigEnermy {
 
 	void GenerateEnemy () {
 		EnemyInfo ei = new EnemyInfo ();
+		ei.enemyId = 1;
 		ei.unitId = 1;
 		ei.attack = 200;
 		ei.nextAttack = 1;
-		ei.defense = 100;
+		ei.defense = 10;
 		ei.hp = 500;
 		ei.type = (EUnitType)1;
 		TempEnemy te = new TempEnemy (ei);
 		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
 
 		ei = new EnemyInfo ();
+		ei.enemyId = 2;
 		ei.unitId = 2;
-		ei.attack = 300;
+		ei.attack = 20;
 		ei.nextAttack = 1;
 		ei.defense = 100;
 		ei.hp = 500;
@@ -173,6 +177,7 @@ public class ConfigEnermy {
 		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
 
 		ei = new EnemyInfo();
+		ei.enemyId = 3;
 		ei.unitId = 3;
 		ei.attack = 500;
 		ei.defense = 100;
