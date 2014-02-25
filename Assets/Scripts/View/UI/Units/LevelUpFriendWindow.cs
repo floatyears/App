@@ -36,7 +36,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	void InitDragPanel(){
 		string name = "FriendDragPanel";
 		int count = ConfigViewData.OwnedUnitInfoList.Count;
-		Debug.Log( string.Format("The Friend count to add is : " + count) );
+//		Debug.Log( string.Format("The Friend count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		InitDragPanelArgs();

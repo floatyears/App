@@ -78,12 +78,16 @@ public class LevelUpBasePanel : UIComponentUnity {
 	
 
 	private void ClickBaseItem(GameObject item){
-		//Debug.Log()
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		UserUnit tempInfo = baseUnitInfoDic[ item ];
-		//Debug.LogError( tempInfo.name );
 		MsgCenter.Instance.Invoke( CommandEnum.PickBaseUnitInfo, tempInfo );
 		MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
+		ShowMask( item, true );
+	}
+
+	void ShowMask( GameObject target, bool canMask) {
+		GameObject maskSpr = target.transform.FindChild("Mask").gameObject;
+		maskSpr.gameObject.SetActive( canMask );
 	}
 
 	void PressItem(GameObject item ){

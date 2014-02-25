@@ -4,6 +4,8 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailDecoratorUnity : UIComponentUnity{
+	GameObject levelUpEffect;
+	
 	private UITexture detailSprite;
 	private UIWidget detailWidget;
 	private UILabel 	unitIDLabel;
@@ -19,7 +21,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	private UIToggle startToggle;
 	private UILabel unitNormalSkill_1_NameLabel;
 	private UILabel unitNormalSkill_2_NameLabel;
-	GameObject levelUpEffect;
+	UILabel nextLevelExpNeedLabel;
 
 	Material unitMaterial;
 
@@ -51,12 +53,42 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	void ShowUnitDetail( object info ){
 		UserUnit userUnitInfo = info as UserUnit;
 		uint curId = userUnitInfo.unitId;
-		Debug.LogError("Test Unit Show:   " + curId);
 		detailSprite.mainTexture = GlobalData.tempUnitInfo[ curId ].GetAsset( UnitAssetType.Profile);
 		unitIDLabel.text = curId.ToString();
-//		unitNameLabel.text = GlobalData.tempUnit
+		unitNameLabel.text = GlobalData.tempUnitInfo[ curId ].GetName();
 		unitLevelLabel.text = userUnitInfo.level.ToString();
+		unitTypeLabel.text = GlobalData.tempUnitInfo[ curId ].GetUnitType();
 
+		TempUnitInfo tu = GlobalData.tempUnitInfo[ curId ];
+		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),userUnitInfo.level);
+		unitHpLabel.text = hp.ToString();
+		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), userUnitInfo.level);
+		unitAttackLabel.text = atk.ToString();
+
+		int cost = GlobalData.tempUnitInfo[ curId ].GetCost();
+		unitCostLabel.text = cost.ToString();
+
+		int rare = GlobalData.tempUnitInfo[ curId ].GetRare();
+		unitRareLabel.text = rare.ToString();
+
+		unitRaceLabel.text = "Human";
+
+	}
+
+	void FindLabel(){
+		string path = "UnitInfoTabs/Content_Status/Label_Next_Lv_Vaule";
+		nextLevelExpNeedLabel = FindChild< UILabel >( path );
+		string path1 = "UnitInfoTabs/Content_Status/";
+		unitIDLabel = FindChild<UILabel> (path1 + "InputFrame_No");
+		unitNameLabel = FindChild<UILabel> (path1 + "InputFrame_Name");
+		unitLevelLabel = FindChild<UILabel> (path1 + "InputFrame_Lv");
+		unitTypeLabel = FindChild<UILabel> (path1 + "InputFrame_Type");
+		unitRaceLabel = FindChild<UILabel> (path1 + "InputFrame_Race");
+		unitHpLabel = FindChild<UILabel> (path1 + "InputFrame_HP");
+		unitCostLabel = FindChild<UILabel> (path1 + "InputFrame_Cost");
+		unitRareLabel = FindChild<UILabel> (path1 + "InputFrame_Rare");
+		unitAttackLabel = FindChild<UILabel> (path1 + "InputFrame_ATK");
+		unitExpSlider = FindChild<UISlider> (path1 + "ExperenceBar");
 	}
 
 	public override void HideUI ()  {
@@ -67,12 +99,6 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, ShowUnitDetail);
 
 	}
-
-//	void ShowUnitInfoDetail(object info ){
-//		UnitInfo unitInfo = info as UnitInfo;
-//		string path = "Role/role00" + unitInfo.id.ToString();
-//		detaiSprite.mainTexture = Resources.Load(path) as Texture2D;
-//	}
 
 	void LevelUpUnit( object Info){
 		List<UserUnit> packageInfo = Info as List<UserUnit>;
@@ -87,6 +113,27 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 
 		meshRender.materials[ 0 ].SetTexture("_MainTex", tex);
 		effectCache.Add( tempEffect );
+
+		unitIDLabel.text = curUnitId.ToString();
+		unitNameLabel.text = GlobalData.tempUnitInfo[ curUnitId ].GetName();
+		unitLevelLabel.text = packageInfo[0].level.ToString();
+		unitTypeLabel.text = GlobalData.tempUnitInfo[ curUnitId ].GetUnitType();
+		
+		TempUnitInfo tu = GlobalData.tempUnitInfo[ curUnitId ];
+		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),packageInfo[0].level);
+		unitHpLabel.text = hp.ToString();
+		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), packageInfo[0].level);
+		unitAttackLabel.text = atk.ToString();
+		
+		int cost = GlobalData.tempUnitInfo[ curUnitId ].GetCost();
+		unitCostLabel.text = cost.ToString();
+		
+		int rare = GlobalData.tempUnitInfo[ curUnitId ].GetRare();
+		unitRareLabel.text = rare.ToString();
+
+		unitRaceLabel.text = "Human";
+
+		ExpRise();
 	}
 
 	void ClearEffectCache(){
@@ -105,20 +152,11 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	}
 
 	private void InitUI() {
+		FindLabel();
 		detailSprite = FindChild< UITexture >("detailSprite");
 		detailWidget = FindChild< UIWidget >("detailSprite");
 		UIEventListener.Get( detailSprite.gameObject ).onClick = BackPreScene;
-		string path1 = "UnitInfoTabs/Content_Status/";
-		unitIDLabel = FindChild<UILabel> (path1 + "InputFrame_No");
-		unitNameLabel = FindChild<UILabel> (path1 + "InputFrame_Name");
-		unitLevelLabel = FindChild<UILabel> (path1 + "InputFrame_Lv");
-		unitTypeLabel = FindChild<UILabel> (path1 + "InputFrame_Type");
-		unitRaceLabel = FindChild<UILabel> (path1 + "InputFrame_Race");
-		unitHpLabel = FindChild<UILabel> (path1 + "InputFrame_HP");
-		unitCostLabel = FindChild<UILabel> (path1 + "InputFrame_Cost");
-		unitRareLabel = FindChild<UILabel> (path1 + "InputFrame_Rare");
-		unitAttackLabel = FindChild<UILabel> (path1 + "InputFrame_ATK");
-		unitExpSlider = FindChild<UISlider> (path1 + "ExperenceBar");
+	
 
 		startToggle = FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
 
@@ -166,6 +204,28 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 
 		unitAlpha.Reset();
 		unitAlpha.PlayForward();
+	}
+
+	int maxExp = 2080;
+	int curExp = 1009;
+	int gotExp = 3307;
+
+
+	void Update(){
+		ExpRise();
+	}
+
+	void ExpRise () {
+		if(gotExp <= 0)	return;
+		gotExp -= 19;
+		curExp += 19;
+		if(curExp >= maxExp) {
+			curExp = 0;
+		}
+		int value = maxExp - curExp;
+		nextLevelExpNeedLabel.text = value.ToString();
+		float progress = (float)curExp / (float)maxExp;
+		unitExpSlider.value = progress;
 	}
 
 }
