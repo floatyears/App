@@ -2,39 +2,39 @@ using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class ProtoManager <T>: ProtobufDataBase,INetBase {
-	public ProtoManager() {
-		Send ();
-	}
+public class AuthUser: ProtoManager {
+	private bbproto.ReqAuthUser reqAuthUser;
 	
-	public void Send () {
-		IWWWPost http = new HttpNetBase ();
-
-		MakePacket ();
-
-		http.Send (this, "auth_user", Data);
+	public void GetData () { 
+		Send (); 
 	}
-	
-	public void Receive (IWWWPost post) {
-		Debug.LogError ("ProtoManager Receive...");
-		T instance = ProtobufSerializer.ParseFormBytes<T>(post.WwwInfo.bytes);
-		// parse to current instance
-		if (instance != null){
-//			succeedFunc(instance, errorMsg, values);
+
+	public override bool MakePacket () {
+		LogHelper.Log ("AuthUser.MakePacket()...");
+
+		Proto = "auth_user";
+		reqAuthUser = new ReqAuthUser ();
+		InstanceType = reqAuthUser.GetType ();
+
+		reqAuthUser.header = new ProtoHeader ();
+		reqAuthUser.header.apiVer = "1.0";
+		reqAuthUser.terminal = new TerminalInfo ();
+		reqAuthUser.terminal.uuid = "kory-abcdefg";
+
+		ErrorMsg err = SerializeData (reqAuthUser); // save to Data for send out
+		
+		return err.Code == ErrorCode.Succeed;
+	}
+
+	public override void OnReceiveFinish (bool success) {
+		if (!success) {
+			return;
 		}
 
+		bbproto.RspAuthUser rspAuthUser = InstanceObj as bbproto.RspAuthUser;
+		LogHelper.Log("reponse userId:"+rspAuthUser.user.userId);
+		LogHelper.Log("reponse:"+rspAuthUser.user);
 	}
-	
-	public bool MakePacket () {
-		ReqAuthUser authUser = new ReqAuthUser ();
-		authUser.header = new ProtoHeader ();
-		authUser.header.apiVer = "1.0";
-		authUser.terminal = new TerminalInfo ();
-		authUser.terminal.uuid = "kory-abcdefg";
 
-		SerializeData (authUser); // save to Data
-
-		return true;
-	}
 }
 
