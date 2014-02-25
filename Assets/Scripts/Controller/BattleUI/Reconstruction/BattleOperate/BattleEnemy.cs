@@ -51,11 +51,11 @@ public class BattleEnemy : UIBaseUnity {
 		if (effect == null || effect.Count == 0) {
 			return;	
 		}
-		WWW www = WWW.LoadFromCacheOrDownload ();
+//		WWW www = WWW.LoadFromCacheOrDownload ();
 		if (effect.Count == 2) {
 			GameObject go = NGUITools.AddChild(gameObject,	effect[0]);
 			go.transform.localScale = new Vector3(100f,100f,100f);
-			go.transform.localPosition = 
+//			go.transform.localPosition = 
 
 		}
 	}
