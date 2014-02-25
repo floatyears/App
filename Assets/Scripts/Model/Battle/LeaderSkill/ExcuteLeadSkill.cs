@@ -54,7 +54,6 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		if (leadSkill.LeadSkill.Count == 0) {
 			return hurt;	
 		}
-	
 		foreach (var item in leadSkill.LeadSkill) {
 			TempReduceHurt trh = item.Value as TempReduceHurt;
 			if(trh != null) {
@@ -64,9 +63,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 				}
 			}
 		}
-
 		RemoveLeaderSkill ();
-
 		return hurt;
 	}
 		

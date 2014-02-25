@@ -26,14 +26,16 @@ public class Battle : UIBase
 	private List<CardItem> selectTarget = new List<CardItem>();
 
 	public int cardHeight = 0;
+	private Vector3 localPosition = new Vector3 (-0.18f, -17f, 0f);
 
 	public Battle(string name):base(name) {
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
 		nguiMainCamera = ViewManager.Instance.MainUICamera;
 		mainCamera = nguiMainCamera.camera;
-
 		battleRootGameObject = NGUITools.AddChild(ViewManager.Instance.ParentPanel);
 		battleRootGameObject.name = "Fight";
+		battleRootGameObject.transform.localPosition = localPosition;
+
 		Vector3 pos = battleRootGameObject.transform.localPosition;
 		battleRootGameObject.transform.localPosition = new Vector3(pos.x,pos.y,pos.z + ZOffset);
 		
@@ -189,7 +191,7 @@ public class Battle : UIBase
 		battleEnemy.ShowUI ();
 	}
 
-	public void ShowEnemy(List<ShowEnemyUtility> count)
+	public void ShowEnemy(List<TempEnemy> count)
 	{
 		battleEnemy.Refresh(count);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);

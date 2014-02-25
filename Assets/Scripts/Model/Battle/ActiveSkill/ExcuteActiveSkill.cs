@@ -21,7 +21,7 @@ public class ExcuteActiveSkill {
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
-	~ExcuteActiveSkill() {
+	public void RemoveListener (){
 		MsgCenter.Instance.RemoveListener (CommandEnum.LaunchActiveSkill, Excute);
 		MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, MoveToMapItem);
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);

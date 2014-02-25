@@ -78,7 +78,13 @@ public class Main : MonoBehaviour
 	{
 		UIManager.Instance.ChangeScene( SceneEnum.Start );
 		AudioManager.Instance.PlayAudio( AudioEnum.music_home );
+
+		//ProtoManager<bbproto.ReqAuthUser> authUser = new ProtoManager<bbproto.ReqAuthUser> ();
+
+
 	}
 
-
+	void OnDisable () {
+		sui.RemoveListener ();
+	}
 }

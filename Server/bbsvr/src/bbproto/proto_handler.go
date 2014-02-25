@@ -3,13 +3,12 @@ package bbproto
 import (
 	_ "fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	//"strconv"
 )
 import (
-	"../common"
 	"../common/Error"
+	"../common/log"
 	"../const"
 	proto "code.google.com/p/goprotobuf/proto"
 )
@@ -26,21 +25,35 @@ type BaseProtoHandler struct {
 func (t BaseProtoHandler) ParseInput(req *http.Request, reqMsg proto.Message) (e Error.Error) {
 	reqBuffer, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		log.Printf("ERR: ioutil.ReadAll failed: %v ", err)
+		log.Error("ERR: ioutil.ReadAll failed: %v ", err)
 		return Error.New(cs.IOREAD_ERROR, err.Error())
 	}
 
+	log.T("recv reqBuffer: %+v", reqBuffer)
+
 	err = proto.Unmarshal(reqBuffer, reqMsg) //unSerialize into reqMsg
 	if err != nil {
-		log.Printf("ERR: checkInput parse proto err: %v", err)
+		log.Error("Unmarshal proto err: %v", err)
 		return Error.New(cs.UNMARSHAL_ERROR, err.Error())
 	}
-	log.Printf("recv reqMsg: %+v", reqMsg)
+	log.T("recv reqMsg: %+v", reqMsg)
 
 	return Error.OK()
 }
 
 func (t BaseProtoHandler) SendResponse(rsp http.ResponseWriter, data []byte) (e Error.Error) {
-	_, e = common.SendResponse(rsp, data)
-	return e
+
+	if data == nil {
+		log.Fatal("Cannot SendResponse empty data bytes")
+		return Error.New(cs.INVALID_PARAMS, "Cannot SendResponse empty data bytes")
+	}
+
+	size, err := rsp.Write(data)
+	if err != nil {
+		return Error.New(cs.IOWRITE_ERROR, err.Error())
+	}
+
+	log.T("reponse data size:%v", size)
+
+	return Error.OK()
 }

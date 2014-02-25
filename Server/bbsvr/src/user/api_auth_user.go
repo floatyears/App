@@ -7,8 +7,8 @@ import (
 	//"strconv"
 	"math/rand"
 	//"time"
-
-	proto "code.google.com/p/goprotobuf/proto"
+	"code.google.com/p/goprotobuf/proto"
+	"reflect"
 )
 
 import (
@@ -63,7 +63,7 @@ func (t AuthUser) GenerateSessionId(uuid *string) (sessionId string, err error) 
 
 func (t AuthUser) verifyParams(reqMsg *bbproto.ReqAuthUser) (err Error.Error) {
 	//TODO: do some params validation
-	if reqMsg.Terminal.Uuid == nil && reqMsg.Header.UserId == nil {
+	if reqMsg.Terminal == nil || reqMsg.Terminal.Uuid == nil && reqMsg.Header.UserId == nil {
 		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
@@ -74,8 +74,18 @@ func (t AuthUser) verifyParams(reqMsg *bbproto.ReqAuthUser) (err Error.Error) {
 	return Error.OK()
 }
 
-func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser, rspErr Error.Error) (outbuffer []byte) {
+func (t AuthUser) FillResponseMsg(req interface{}, rspMsg *bbproto.RspAuthUser, rspErr Error.Error) (outbuffer []byte) {
 	// fill protocol header
+	log.T("++++++ req type:%+v", reflect.TypeOf(req))
+	//tp := reflect.TypeOf(req)
+	//if tp.Type() != *bbproto.ReqAuthUser {
+	//	return
+	//}
+	reqMsg := req.(*bbproto.ReqAuthUser)
+	if reqMsg.Header == nil {
+		return nil
+	}
+
 	{
 		rspMsg.Header = reqMsg.Header
 		rspMsg.Header.Code = proto.Int(rspErr.Code())
@@ -98,8 +108,15 @@ func (t AuthUser) FillResponseMsg(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.R
 
 func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspAuthUser) (e Error.Error) {
 	// read user data (by uuid) from db
-	uuid := *reqMsg.Terminal.Uuid
-	uid := *reqMsg.Header.UserId
+	var uuid string
+	var uid uint32 = 0
+	if reqMsg.Terminal.Uuid != nil {
+		uuid = *reqMsg.Terminal.Uuid
+	}
+	if reqMsg.Header.UserId != nil {
+		uid = *reqMsg.Header.UserId
+	}
+
 	var userdetail bbproto.UserInfoDetail
 	var isUserExists bool
 	var err error
@@ -183,8 +200,8 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		tNow := common.Now()
 		rank := int32(30 + rand.Intn(10)) //int32(1)
 		exp := int32(0)
-		staminaNow := int32(10)
-		staminaMax := int32(10)
+		staminaNow := int32(100)
+		staminaMax := int32(100)
 		staminaRecover := uint32(tNow + 600) //10 minutes
 		rspMsg.User = &bbproto.UserInfo{
 			UserId:         &newUserId,

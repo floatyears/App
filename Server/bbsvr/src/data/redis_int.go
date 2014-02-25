@@ -65,6 +65,10 @@ func (t *Data) Get(key string) (value string, err error) {
 	if t.conn != nil {
 		value, err := redis.String(t.conn.Do("GET", key))
 		//log.Printf("redis.GET(%v) ret err:%v value:%v", key, err, value)
+		if err == redis.ErrNil {
+			err = nil
+		}
+
 		return value, err
 	} else {
 		log.Fatal("invalid redis conn:%v", t.conn)
@@ -77,6 +81,10 @@ func (t *Data) Get(key string) (value string, err error) {
 func (t *Data) MGet(args []interface{}) (values []interface{}, err error) {
 	if t.conn != nil {
 		values, err := redis.Values(t.conn.Do("MGET", args...))
+		if err == redis.ErrNil {
+			err = nil
+		}
+
 		//log.Printf("redis.GET(%v) ret err:%v value:%v", args, err, values)
 		return values, err
 	} else {
@@ -90,6 +98,10 @@ func (t *Data) MGet(args []interface{}) (values []interface{}, err error) {
 func (t *Data) Gets(key string) (value []byte, err error) {
 	if t.conn != nil {
 		value, err := redis.Bytes(t.conn.Do("GET", key))
+		if err == redis.ErrNil {
+			err = nil
+		}
+
 		return value, err
 	} else {
 		log.Fatal("invalid redis conn:%v", t.conn)
@@ -101,6 +113,10 @@ func (t *Data) Gets(key string) (value []byte, err error) {
 func (t *Data) GetInt(key string) (value int, err error) {
 	if t.conn != nil {
 		value, err := redis.Int(t.conn.Do("GET", key))
+		if err == redis.ErrNil {
+			err = nil
+		}
+
 		return value, err
 	} else {
 		log.Fatal("invalid redis conn:%v", t.conn)
@@ -145,6 +161,10 @@ func (t *Data) SetUInt(key string, value uint32) error {
 func (t *Data) GetList(key string) (values []interface{}, err error) {
 
 	values, err = redis.Values(t.conn.Do("LRANGE", key, 0, -1))
+	if err == redis.ErrNil {
+		err = nil
+	}
+
 	return values, err
 }
 
@@ -162,13 +182,19 @@ func (t *Data) Remove(key string, removeValue []byte) (err error) {
 
 //================= HASH ==================
 func (t *Data) HGetAll(key string) (values []interface{}, err error) {
-
 	values, err = redis.Values(t.conn.Do("HGETALL", key))
+	if err == redis.ErrNil {
+		err = nil
+	}
+
 	return values, err
 }
 
 func (t *Data) HGet(key string, field string) (value []byte, err error) {
 	value, err = redis.Bytes(t.conn.Do("HGET", key, field))
+	if err == redis.ErrNil {
+		err = nil
+	}
 	return
 }
 

@@ -25,9 +25,13 @@ func GetUnitUniqueId(db *data.Data, userDetail *bbproto.UserInfoDetail) (unitId 
 
 	maxId, err := db.GetInt(cs.KEY_MAX_UNIT_ID + common.Utoa(uid))
 	if err != nil {
+		return 0, Error.New(cs.READ_DB_ERROR, err)
+	}
+
+	if maxId == 0 {
 		maxId = 1 //first unitId
 		if len(userDetail.UnitList) > 0 {
-			return 0, Error.New(cs.READ_DB_ERROR, err.Error())
+			return 0, Error.New(cs.READ_DB_ERROR)
 		}
 	}
 

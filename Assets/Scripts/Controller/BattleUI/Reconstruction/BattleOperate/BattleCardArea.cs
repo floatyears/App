@@ -75,22 +75,18 @@ public class BattleCardArea : UIBaseUnity {
 	}
 	
 	static int count = 0;
-	public static GameObject GetCard()
-	{
+	public static GameObject GetCard() {
 		if (count == battleCardIns.Count) {
 			count = 0;
 		}
-
 		GameObject go = battleCardIns [count];
 		count ++;
 		return go;
 	}
 
-	IEnumerator GenerateCard()
-	{
+	IEnumerator GenerateCard() {
 		bool b = battleCardIns.Count < 25;
-		if (b) 
-		{
+		if (b) {
 			GameObject go = NGUITools.AddChild(gameObject,cardItem);//Instantiate (cardItem) as GameObject;
 			go.layer = gameObject.layer;
 			Destroy(go.GetComponent<BoxCollider>());
@@ -107,12 +103,5 @@ public class BattleCardArea : UIBaseUnity {
 	public void ShowCountDown (bool isShow,int time) {
 		showCountDown = isShow;
 		this.time = time;
-	}
-
-	void OnGUI() {
-//		if (showCountDown) {
-//			GUILayout.Box(time.ToString(),GUILayout.Width(100f),GUILayout.Height(100f));
-//		}
-		
 	}
 }

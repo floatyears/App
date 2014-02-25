@@ -100,6 +100,6 @@ func Randn(n int32) int32 {
 //rate range from: [0 - 1.0]
 func HitRandomRate(rate float32) bool {
 	randnum := Randn(100)
-	log.T("HitRandomRate :: [ randnum %v ? rate: %v ] ==> %v", rate, randnum < int32(rate*100))
+	log.T("HitRandomRate :: [ randnum %v ? rate: %v ] ==> %v", randnum, rate, randnum < int32(rate*100))
 	return randnum < int32(rate*100)
 }

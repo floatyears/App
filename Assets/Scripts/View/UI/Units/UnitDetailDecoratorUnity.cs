@@ -206,9 +206,9 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		unitAlpha.PlayForward();
 	}
 
-	int maxExp = 100;
-	int curExp = 10;
-	int gotExp = 330;
+	int maxExp = 2080;
+	int curExp = 1009;
+	int gotExp = 3307;
 
 
 	void Update(){
@@ -217,8 +217,8 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 
 	void ExpRise () {
 		if(gotExp <= 0)	return;
-		gotExp -= 1;
-		curExp += 1;
+		gotExp -= 19;
+		curExp += 19;
 		if(curExp >= maxExp) {
 			curExp = 0;
 		}

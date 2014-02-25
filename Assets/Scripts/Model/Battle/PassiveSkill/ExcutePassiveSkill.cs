@@ -14,7 +14,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 		MsgCenter.Instance.AddListener (CommandEnum.MeetTrap, DisposeTrapEvent);
 	}
 
-	~ ExcutePassiveSkill () {
+	public void RemoveListener () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.MeetTrap, DisposeTrapEvent);
 	}
 

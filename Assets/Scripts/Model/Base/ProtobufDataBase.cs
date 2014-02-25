@@ -11,6 +11,14 @@ public class ProtobufDataBase : IOriginModel {
 		return type;
 	}
 
+	public byte[] Data {
+		get { return originData; }
+	}
+
+	public ProtobufDataBase() {
+		Init ();
+	}
+
 	public ProtobufDataBase(object instance) {
 		Init ();
 		SerializeData (instance);
@@ -36,7 +44,7 @@ public class ProtobufDataBase : IOriginModel {
 	/// <param name="instance">Instance.</param>
 	public ErrorMsg SerializeData (object instance) {
 		originData = ProtobufSerializer.SerializeToBytes (instance);
-		LogHelper.LogWarning ("SerializeData origindata : " + originData.Length);
+		LogHelper.LogError ("SerializeData origindata : " + originData.Length);
 		return Dipose (originData,instance.GetType().ToString());
 	}
 
