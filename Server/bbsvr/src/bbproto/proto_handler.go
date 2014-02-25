@@ -29,6 +29,8 @@ func (t BaseProtoHandler) ParseInput(req *http.Request, reqMsg proto.Message) (e
 		return Error.New(cs.IOREAD_ERROR, err.Error())
 	}
 
+	log.T("recv reqBuffer: %+v", reqBuffer)
+
 	err = proto.Unmarshal(reqBuffer, reqMsg) //unSerialize into reqMsg
 	if err != nil {
 		log.Error("Unmarshal proto err: %v", err)

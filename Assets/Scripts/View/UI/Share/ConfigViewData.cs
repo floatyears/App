@@ -16,6 +16,7 @@ public class ConfigViewData
 		tempUserUnit= new UserUnit();
 		tempUserUnit.uniqueId = 1001;
 		tempUserUnit.unitId = 1;
+		//tempUserUnit.
 		tempUserUnit.exp = 134;
 		tempUserUnit.level = 9;
 		tempUserUnit.addAttack = 3;

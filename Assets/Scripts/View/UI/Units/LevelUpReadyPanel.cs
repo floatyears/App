@@ -212,7 +212,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void PickBaseUnitInfo(object info){
-		Debug.Log("Ready Pool Receive info !");
+//		Debug.Log("Ready Pool Receive info !");
 		if(baseUnitInfo != null)	return;
 		baseUnitInfo = info as UserUnit;
 		UpdateBaseInfoView( baseUnitInfo );

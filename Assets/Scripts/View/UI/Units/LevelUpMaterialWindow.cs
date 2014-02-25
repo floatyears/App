@@ -78,10 +78,8 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	}
 
 	private void InitDragPanel(){
-
 		string name = "MaterialDragPanel";
 		int count = ConfigViewData.OwnedUnitInfoList.Count;
-//		Debug.Log( string.Format("Material Window: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		materialDragPanel = CreateDragPanel( name, count, itemGo) ;
@@ -91,7 +89,6 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){
-//		Debug.Log("Create Drag Panel");
 		DragPanel panel = new DragPanel(name,item);
 		panel.CreatUI();
 		panel.AddItem( count);
@@ -120,4 +117,6 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		dragPanelArgs.Add("cellWidth", 		110);
 		dragPanelArgs.Add("cellHeight",		110);
 	}
+
+
 }

@@ -163,12 +163,12 @@ type My struct {
 	MyTp MyTp
 }
 
-func umain() {
+func main() {
 	Init()
 	//AddUsers()
 
-	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220101", 101)
-	LoginPack(101)
+	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220101", 101)
+	//LoginPack(101)
 
 	log.Fatal("bbsvr test client finish.")
 }
