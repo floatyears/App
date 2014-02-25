@@ -20,7 +20,7 @@ message PowerType {
 
 message HelperRequire {
     optional int32		level		= 1;
-	optional EUnitType	race		= 2;
+	optional EUnitRace	race		= 2;
 	optional EUnitType	type		= 3;
 }
 
