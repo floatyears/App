@@ -4,9 +4,7 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailDecoratorUnity : UIComponentUnity{
-
-	//-----------------------------------
-	//content status
+	//----------UI elements list----------
 	UILabel idLabel;
 	UILabel hpLabel;
 	UILabel atkLabel;
@@ -19,67 +17,24 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	UILabel needExpLabel;
 	UISlider expSlider;
 
-	//content skill_1
 	UILabel skill1DscpLabel;
 	UILabel skill1NameLabel;
 	
-	//content skill_2
 	UILabel skill2DscpLabel;
 	UILabel skill2NameLabel;
-	
-	//content profile
+
 	UILabel profileLabel;
 
-	//Tabs Ctrl
-	UIToggle startToggle;
-	
+	UIToggle statusToggle;
 	UITexture unitBodyTex;
 
-	//Effect
 	GameObject levelUpEffect;
 	Material unitMaterial;
-
-	//Exp Slider
-	int maxExp;
-	int curExp;
-	int gotExp;
-	int expRiseStep;
-	//-----------------------------------
-
-	
-	//-----------------------------------
-	//Init Function
-
-	void InitTexture(){
-		unitBodyTex = FindChild< UITexture >("detailSprite");
-		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
-	}
-
-	void InitTabContent() {
-		string rootPath = "UnitInfoTabs/Content_Status/";
-
-		idLabel = FindChild<UILabel> (rootPath + "InputFrame_No");
-		nameLabel = FindChild<UILabel> (rootPath + "InputFrame_Name");
-		levelLabel = FindChild<UILabel> (rootPath + "InputFrame_Lv");
-		typeLabel = FindChild<UILabel> (rootPath + "InputFrame_Type");
-		raceLabel = FindChild<UILabel> (rootPath + "InputFrame_Race");
-		hpLabel = FindChild<UILabel> (rootPath + "InputFrame_HP");
-		costLabel = FindChild<UILabel> (rootPath + "InputFrame_Cost");
-		rareLabel = FindChild<UILabel> (rootPath + "InputFrame_Rare");
-		atkLabel = FindChild<UILabel> (rootPath + "InputFrame_ATK");
-		needExpLabel = FindChild< UILabel >( rootPath + "Label_Next_Lv_Vaule");
-		expSlider	= FindChild<UISlider>	(rootPath + "ExperenceBar");
-	}
-
-
-	void GetUnitMaterial(){
-		unitMaterial = Resources.Load("Materials/UnitMaterial") as Material;
-		if( unitMaterial == null )
-			Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
-	}
-
 	List<GameObject> effectCache = new List<GameObject>();
 
+	int maxExp, curExp, gotExp, expRiseStep;
+
+	
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
 		GetUnitMaterial();
@@ -88,15 +43,97 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	}
 	
 	public override void ShowUI () {
+
 		base.ShowUI ();
-		ShowUnitDetailInfo();
+
 		ShowUnitScale();
 		UIManager.Instance.HideBaseScene();
-		TabFocus();
+		ResetStartToggle (statusToggle);
+		AddMsgCmd ();
+	}
+
+	public override void HideUI () {
+
+		base.HideUI ();
+
+		ClearEffectCache();
+		UIManager.Instance.ShowBaseScene();
+		RmvMsgCmd ();
+	}
+
+	public override void DestoryUI () {
+		base.DestoryUI ();
+	}
+
+
+	//----------deal with message----------
+	void AddMsgCmd () {
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUp , LevelUpUnit);
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, ShowUnitDetail);
 	}
 
+	void RmvMsgCmd () {
+		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp , LevelUpUnit);
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, ShowUnitDetail);
+	}
+
+
+
+	//----------Init functions of UI Elements----------
+	void InitUI() {
+		InitTabStatus ();
+		InitExpSlider ();
+		InitTexture ();
+	}
+
+
+	void InitTexture(){
+		unitBodyTex = FindChild< UITexture >("detailSprite");
+		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
+	}
+
+	void InitTabStatus() {
+		string rootPath = "UnitInfoTabs/Content_Status/";
+
+		idLabel		= FindChild<UILabel> (rootPath + "InputFrame_No"		);
+		nameLabel		= FindChild<UILabel> (rootPath + "InputFrame_Name"	);
+		levelLabel		= FindChild<UILabel> (rootPath + "InputFrame_Lv"		);
+		typeLabel		= FindChild<UILabel> (rootPath + "InputFrame_Type"	);
+		raceLabel		= FindChild<UILabel> (rootPath + "InputFrame_Race"	);
+		hpLabel		= FindChild<UILabel> (rootPath + "InputFrame_HP"		);
+		costLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Cost"	);
+		rareLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Rare"	);
+		atkLabel 		= FindChild<UILabel> (rootPath + "InputFrame_ATK"	);
+		needExpLabel	= FindChild<UILabel>( rootPath + "Label_Next_Lv_Vaule"	);
+		expSlider		= FindChild<UISlider>	(rootPath + "ExperenceBar"		);
+
+		statusToggle = FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
+	}
+
+	void InitTabSkill(){
+
+		string rootPath =  "UnitInfoTabs/Content_Skill2/";
+
+		// skill_1
+		skill1NameLabel = FindChild< UILabel >( rootPath + "Label_Normal_Skill1");
+
+		// skill_2
+		skill2NameLabel = FindChild< UILabel >( rootPath + "Label_Normal_Skill2");
+
+	}
+	
+	//Make panel focus on the same tab every time when this ui show
+	void ResetStartToggle( UIToggle target) {
+		target.value = true;
+	}
+
+	
+	void GetUnitMaterial(){
+		unitMaterial = Resources.Load("Materials/UnitMaterial") as Material;
+		if( unitMaterial == null )
+			Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
+	}
+	
 	void ShowUnitDetail( object info ){
 		UserUnit userUnitInfo = info as UserUnit;
 		uint curId = userUnitInfo.unitId;
@@ -122,16 +159,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 
 	}
 
-
-	public override void HideUI ()  {
-		base.HideUI ();
-		ClearEffectCache();
-		UIManager.Instance.ShowBaseScene();
-		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp , LevelUpUnit);
-		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, ShowUnitDetail);
-
-	}
-
+	
 	void LevelUpUnit( object Info){
 		List<UserUnit> packageInfo = Info as List<UserUnit>;
 		uint curUnitId = packageInfo[0].unitId;
@@ -168,6 +196,9 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		ExpRise();
 	}
 
+
+
+	//----------deal with effect----------
 	void ClearEffectCache(){
 		foreach (var item in effectCache){
 			Destroy( item );
@@ -176,44 +207,12 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	}
 
 	void InitEffect(){
-		levelUpEffect = Resources.Load("Prefabs/UI/UnitDetail/LevelUpEffect") as GameObject;
+		string path = "Prefabs/UI/UnitDetail/LevelUpEffect";
+		levelUpEffect = Resources.Load( path ) as GameObject;
 	}
-
-	public override void DestoryUI () {
-		base.DestoryUI ();
-	}
-
-	private void InitUI() {
-		InitTabContent();
-		InitExpSlider();
-
-		startToggle = FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
-
-		string path2 =  "UnitInfoTabs/Content_Skill2/";
-		skill1NameLabel = FindChild< UILabel >( path2 + "Label_Normal_Skill1");
-		skill2NameLabel = FindChild< UILabel >( path2 + "Label_Normal_Skill2");
-	}
+	//----------end deal with effect----------
 	
-	private void TabFocus() {
-		startToggle.value = true;
-	}
 
-	private void ShowUnitDetailInfo() {
-		unitBodyTex.mainTexture = Resources.Load(ShowUnitInfo.roleSpriteName) as Texture2D;
-		idLabel.text 	= ShowUnitInfo.unitID.ToString();
-		nameLabel.text = ShowUnitInfo.unitName;
-		levelLabel.text = ShowUnitInfo.level.ToString ();
-		typeLabel.text = ShowUnitInfo.unitType;
-		raceLabel.text = ShowUnitInfo.race;
-		hpLabel.text = ShowUnitInfo.hp.ToString();
-		costLabel.text = ShowUnitInfo.cost.ToString();
-		rareLabel.text = ShowUnitInfo.Rare;
-		atkLabel.text = ShowUnitInfo.attack.ToString ();
-		expSlider.value = ShowUnitInfo.experenceProgress;
-
-		skill1NameLabel.text = ShowUnitInfo.normalSkill_1_Name;
-		skill2NameLabel.text = ShowUnitInfo.normalSkill_2_Name;
-	}
 
 	void ClickTexture( GameObject go ){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
@@ -221,9 +220,13 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		UIManager.Instance.ChangeScene( preScene );
 	}
 
+
+	//----------deal with animation---------- 
 	private void ShowUnitScale(){
-		TweenScale unitScale = gameObject.GetComponentInChildren< TweenScale >();
-		TweenAlpha unitAlpha = gameObject.GetComponentInChildren< TweenAlpha >();
+		TweenScale unitScale = 
+			gameObject.GetComponentInChildren< TweenScale >();
+		TweenAlpha unitAlpha =
+			gameObject.GetComponentInChildren< TweenAlpha >();
 
 		if( unitScale == null || unitAlpha == null )
 			return;
@@ -234,13 +237,10 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		unitAlpha.Reset();
 		unitAlpha.PlayForward();
 	}
+		
 
 
-
-	void OnEnable(){
-
-	}
-
+	//---------Exp increase----------
 	void InitExpSlider(){
 		curExp = 460;
 		gotExp = 3000;
@@ -277,5 +277,6 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		float progress = (float)curExp / (float)maxExp;
 		expSlider.value = progress;
 	}
+
 
 }
