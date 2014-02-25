@@ -17,11 +17,11 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 	private UILabel 	unitCostLabel;
 	private UILabel 	unitRareLabel;
 	private UILabel 	unitAttackLabel;
-	private UISlider 	unitExpSlider;
+	private UISlider 	expSlider;
 	private UIToggle startToggle;
 	private UILabel unitNormalSkill_1_NameLabel;
 	private UILabel unitNormalSkill_2_NameLabel;
-	UILabel nextLevelExpNeedLabel;
+	UILabel needExpLabel;
 
 	Material unitMaterial;
 
@@ -77,7 +77,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 
 	void FindLabel(){
 		string path = "UnitInfoTabs/Content_Status/Label_Next_Lv_Vaule";
-		nextLevelExpNeedLabel = FindChild< UILabel >( path );
+		needExpLabel = FindChild< UILabel >( path );
 		string path1 = "UnitInfoTabs/Content_Status/";
 		unitIDLabel = FindChild<UILabel> (path1 + "InputFrame_No");
 		unitNameLabel = FindChild<UILabel> (path1 + "InputFrame_Name");
@@ -88,7 +88,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		unitCostLabel = FindChild<UILabel> (path1 + "InputFrame_Cost");
 		unitRareLabel = FindChild<UILabel> (path1 + "InputFrame_Rare");
 		unitAttackLabel = FindChild<UILabel> (path1 + "InputFrame_ATK");
-		unitExpSlider = FindChild<UISlider> (path1 + "ExperenceBar");
+		expSlider = FindChild<UISlider> (path1 + "ExperenceBar");
 	}
 
 	public override void HideUI ()  {
@@ -180,7 +180,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		unitCostLabel.text = ShowUnitInfo.cost.ToString();
 		unitRareLabel.text = ShowUnitInfo.Rare;
 		unitAttackLabel.text = ShowUnitInfo.attack.ToString ();
-		unitExpSlider.value = ShowUnitInfo.experenceProgress;
+		expSlider.value = ShowUnitInfo.experenceProgress;
 
 		unitNormalSkill_1_NameLabel.text = ShowUnitInfo.normalSkill_1_Name;
 		unitNormalSkill_2_NameLabel.text = ShowUnitInfo.normalSkill_2_Name;
@@ -206,26 +206,43 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		unitAlpha.PlayForward();
 	}
 
-	int maxExp = 2080;
-	int curExp = 1009;
-	int gotExp = 3307;
+	int maxExp = 1000;
+	int curExp = 460;
+	int gotExp = 3000;
+	int expRiseStep;
 
+	void OnEnable(){
+		expRiseStep = maxExp / 120;
+	}
 
 	void Update(){
 		ExpRise();
 	}
 
 	void ExpRise () {
-		if(gotExp <= 0)	return;
-		gotExp -= 19;
-		curExp += 19;
+		if(gotExp <= 0)	
+			return;
+
+		if(gotExp < expRiseStep){
+			//remain less than step, add remain
+			curExp += gotExp;
+			gotExp = 0;
+		} else {
+			gotExp -= expRiseStep;
+			curExp += expRiseStep;
+		}
+
 		if(curExp >= maxExp) {
+			//current overflow,add back
+			gotExp += curExp - maxExp;
+
 			curExp = 0;
 		}
-		int value = maxExp - curExp;
-		nextLevelExpNeedLabel.text = value.ToString();
+
+		int needExp = maxExp - curExp;
+		needExpLabel.text = needExp.ToString();
 		float progress = (float)curExp / (float)maxExp;
-		unitExpSlider.value = progress;
+		expSlider.value = progress;
 	}
 
 }
