@@ -69,6 +69,14 @@ public class ModelManager
 	public void Init () {
 		InitConfigData ();
 		InitData ();
+
+		//new all server protocol handler
+		InitNetworkHandler ();
+	}
+
+	void InitNetworkHandler () {
+		AuthUser authUser = new AuthUser ();
+
 	}
 
 	//init config data

@@ -4,18 +4,24 @@ using bbproto;
 
 public class AuthUser: ProtoManager {
 	private bbproto.ReqAuthUser reqAuthUser;
-	
-	public void GetData () { 
-		Send (); 
+	private bbproto.RspAuthUser rspAuthUser;
+
+	public AuthUser(){
+		MsgCenter.Instance.AddListener (CommandEnum.ReqAuthUser, OnReceiveCommand);
+	}
+
+	~AuthUser() {
+		MsgCenter.Instance.RemoveListener (CommandEnum.ReqAuthUser, OnReceiveCommand);
 	}
 
 	public override bool MakePacket () {
 		LogHelper.Log ("AuthUser.MakePacket()...");
 
 		Proto = "auth_user";
-		reqAuthUser = new ReqAuthUser ();
-		InstanceType = reqAuthUser.GetType ();
+		reqType = typeof(ReqAuthUser);
+		rspType = typeof(RspAuthUser);
 
+		reqAuthUser = new ReqAuthUser ();
 		reqAuthUser.header = new ProtoHeader ();
 		reqAuthUser.header.apiVer = "1.0";
 		reqAuthUser.terminal = new TerminalInfo ();
@@ -26,14 +32,23 @@ public class AuthUser: ProtoManager {
 		return err.Code == ErrorCode.Succeed;
 	}
 
-	public override void OnReceiveFinish (bool success) {
-		if (!success) {
-			return;
-		}
+	public override void OnResponse (bool success) {
+		if (!success) { return; }
 
-		bbproto.RspAuthUser rspAuthUser = InstanceObj as bbproto.RspAuthUser;
+		rspAuthUser = InstanceObj as bbproto.RspAuthUser;
 		LogHelper.Log("reponse userId:"+rspAuthUser.user.userId);
-		LogHelper.Log("reponse:"+rspAuthUser.user);
+		LogHelper.Log("reponse rank:"+rspAuthUser.user.rank);
+		LogHelper.Log("reponse staminaNow:"+rspAuthUser.user.staminaNow);
+		LogHelper.Log("reponse staminaMax:"+rspAuthUser.user.staminaMax);
+		LogHelper.Log("reponse staminaRecover:"+rspAuthUser.user.staminaRecover);
+
+
+		//send response to caller
+		MsgCenter.Instance.Invoke (CommandEnum.RspAuthUser, rspAuthUser);
+	}
+
+	void OnReceiveCommand(object data) {
+		Send (); //send request to server
 	}
 
 }

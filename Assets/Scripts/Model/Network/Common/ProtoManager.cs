@@ -5,17 +5,13 @@ using bbproto;
 
 public class ProtoManager: ProtobufDataBase,INetBase {
 	private string protoName;
-	private System.Type instType;
 	private object instObj;
-
+	protected System.Type reqType;
+	protected System.Type rspType;
+	
 	public ProtoManager() {
 	}
-
-	protected System.Type InstanceType {
-		get { return instType; }
-		set { instType = value; }
-	}
-
+	
 	protected object InstanceObj {
 		get { return instObj; }
 		set { instObj = value; }
@@ -27,32 +23,29 @@ public class ProtoManager: ProtobufDataBase,INetBase {
 
 	public void Send () {
 		IWWWPost http = new HttpNetBase ();
-		LogHelper.Log ("manager.Send() => proto:{0} InstanceType:{1}",protoName, InstanceType);
 
 		if( MakePacket () ) {
-			LogHelper.Log ("MakePacket => proto:{0} InstanceType:{1}",protoName, InstanceType);
+//			LogHelper.Log ("MakePacket => proto:{0} InstanceType:{1}",protoName, reqType);
 			http.Send (this, protoName, Data);
 		}
 	}
 	
 	public void Receive (IWWWPost post) {
-		LogHelper.Log ("ProtoManager Receive...");
-		instObj = ProtobufSerializer.ParseFormBytes(post.WwwInfo.bytes, instType);
+		instObj = ProtobufSerializer.ParseFormBytes(post.WwwInfo.bytes, rspType);
 		if (instObj != null) {
-			OnReceiveFinish (true);
+			OnResponse (true);
 		} else {
-			OnReceiveFinish (false);
-			LogHelper.LogError("proto.ParseFormBytes failed.");
+			OnResponse (false);
+			LogHelper.LogError("++++++proto.ParseFormBytes failed.++++++");
 		}
 	}
 
-	public virtual void OnReceiveFinish (bool success) {
+	public virtual void OnResponse (bool success) {
 		// implement in derived class
 	}
 
 	public virtual bool MakePacket () {
 		//make packet to Data for send to server
-		LogHelper.Log("base.MakePacket()...");
 		return true;
 	}
 }

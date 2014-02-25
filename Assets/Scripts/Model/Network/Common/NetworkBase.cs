@@ -13,7 +13,6 @@ public class NetworkBase  {
 	}
 }
 
-
 public class HttpNetBase : IWWWPost {
 	private WWW www;
 	public WWW WwwInfo {
