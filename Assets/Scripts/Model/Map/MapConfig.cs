@@ -26,6 +26,7 @@ public class MapConfig : IOriginModel {
 
 	public object DeserializeData () {
 		throw new System.NotImplementedException ();
+
 	}
 
 	public MapConfig () {

@@ -6,6 +6,10 @@ public class BattleBottom : MonoBehaviour {
 	private RaycastHit rch;
 	private UnitPartyInfo upi;
 	private Dictionary<int,GameObject> actorObject = new Dictionary<int,GameObject>();
+	private static Dictionary<uint,Vector3> rolePosition = new Dictionary<uint, Vector3> ();
+	public static Dictionary<uint,Vector3> RolePosition {
+		get{ return rolePosition; }
+	}
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
@@ -17,10 +21,10 @@ public class BattleBottom : MonoBehaviour {
 			actorObject.Add(i,tex);
 		}
 		Dictionary<int,UserUnitInfo> userUnitInfo = upi.GetPosUnitInfo ();
-//		Debug.LogError (userUnitInfo.Count);
 		foreach (var item in userUnitInfo) {
 			TempUnitInfo tui = GlobalData.tempUnitInfo[item.Value.GetUnitID];
 			actorObject[item.Key].renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
+			rolePosition.Add(item.Value.GetID,actorObject[item.Key].transform.position);
 		}
 	}
 

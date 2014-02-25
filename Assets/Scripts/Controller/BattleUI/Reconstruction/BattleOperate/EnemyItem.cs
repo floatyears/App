@@ -56,7 +56,8 @@ public class EnemyItem : UIBaseUnity {
 		}
 
 		ShowHurtInfo (ai.InjuryValue);
-		ShowInjuredEffect (ai.AttackType);
+		//ShowInjuredEffect (ai.AttackType);
+		InjuredShake ();
 	}
 
 	void ShowHurtInfo(int injuredValue) {

@@ -116,6 +116,12 @@ public interface IActiveSkillExcute {
 	object Excute(uint userUnitID, int atk = -1);
 }
 
+public interface IEffectExcute {
+	Vector3 StartPosition { get;}
+	Vector3 EndPosition { get;}
+	void Excute(string effectName);
+	GameObject LoadEffect(string effectAssetName);
+}
 
 
 public interface ITrapExcute {
