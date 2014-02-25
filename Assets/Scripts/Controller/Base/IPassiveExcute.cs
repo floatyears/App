@@ -151,6 +151,7 @@ public interface IWWWPost {
 
 	void ExcuteCallback();
 	void Send(INetBase callback,WWWForm wf);
+	void Send(INetBase nettemp, string urlPath, byte[] data);
 }
 
 public interface INetSendPost {

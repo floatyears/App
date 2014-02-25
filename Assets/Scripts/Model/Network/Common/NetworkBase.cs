@@ -38,6 +38,14 @@ public class HttpNetBase : IWWWPost {
 		www = new WWW (Url, wf);
 		HttpManager.Instance.SendHttpPost (this);
 	}
+
+	public void Send (INetBase nettemp, string urlPath, byte[] data) {
+		callback = nettemp.Receive;
+		Url = urlPath;
+
+		www = new WWW (Url, data);
+		HttpManager.Instance.SendHttpPost (this);
+	}
 	
 	public void ExcuteCallback () {
 		if (callback != null) {
