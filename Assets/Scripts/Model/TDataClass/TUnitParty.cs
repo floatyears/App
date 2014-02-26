@@ -132,10 +132,17 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	
 	void GetLeaderSkill () {
 //		UnitParty up = DeserializeData<UnitParty> ();
-		uint id = instance.items [0].unitUniqueId;
-		AddLeadSkill(id);
-		id = instance.items [4].unitUniqueId;
-		AddLeadSkill (id);
+		if (instance.items.Count > 0) {
+			uint id = instance.items [0].unitUniqueId;
+			AddLeadSkill(id);
+
+
+		}
+		else if(instance.items.Count > 4){
+			uint id = instance.items [4].unitUniqueId;
+			AddLeadSkill (id);	
+		}
+
 	}
 	
 	void AddLeadSkill (uint id) {
@@ -189,6 +196,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		for (int i = 0; i < instance.items.Count; i++) {
 			PartyItem pi = instance.items[i];
 			temp.Add(pi.unitPos,pi.unitUniqueId);
+			Debug.LogError("pi.unitPos : " + pi.unitPos + " pi.unitUniqueId : " + pi.unitUniqueId);
 		}
 		return temp;
 	}

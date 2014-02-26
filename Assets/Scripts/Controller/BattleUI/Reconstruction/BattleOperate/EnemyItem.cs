@@ -107,7 +107,7 @@ public class EnemyItem : UIBaseUnity {
 	
 	public void Init(TEnemyInfo te) {
 		texture 				= FindChild<UITexture> ("Texture");
-		TUnitInfo tui 		= GlobalData.unitInfo [te.GetID ()];
+		TUnitInfo tui 			= GlobalData.unitInfo [te.GetID ()];
 		texture.mainTexture 	= tui.GetAsset (UnitAssetType.Profile);
 		dropTexture 			= FindChild<UITexture>("Drop");
 		dropTexture.enabled 	= false;
