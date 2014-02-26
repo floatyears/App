@@ -36,11 +36,8 @@ public class AuthUser: ProtoManager {
 		if (!success) { return; }
 
 		rspAuthUser = InstanceObj as bbproto.RspAuthUser;
-		LogHelper.Log("reponse userId:"+rspAuthUser.user.userId);
-		LogHelper.Log("reponse rank:"+rspAuthUser.user.rank);
-		LogHelper.Log("reponse staminaNow:"+rspAuthUser.user.staminaNow);
-		LogHelper.Log("reponse staminaMax:"+rspAuthUser.user.staminaMax);
-		LogHelper.Log("reponse staminaRecover:"+rspAuthUser.user.staminaRecover);
+//		LogHelper.Log("reponse userId:"+rspAuthUser.user.userId);
+
 
 		//TODO: update localtime with servertime
 		//localTime = rspAuthUser.serverTime

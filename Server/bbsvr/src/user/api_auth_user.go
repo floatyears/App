@@ -117,25 +117,25 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		uid = *reqMsg.Header.UserId
 	}
 
-	var userdetail bbproto.UserInfoDetail
+	var userDetail bbproto.UserInfoDetail
 	var isUserExists bool
 	var err error
 	if uid > 0 {
-		userdetail, isUserExists, err = usermanage.GetUserInfo(uid)
+		userDetail, isUserExists, err = usermanage.GetUserInfo(uid)
 	} else {
-		userdetail, isUserExists, err = usermanage.GetUserInfoByUuid(uuid)
+		userDetail, isUserExists, err = usermanage.GetUserInfoByUuid(uuid)
 	}
 
-	log.T("GetUserInfo(%v) ret isExists=%v userdetail: ['%v']  ",
-		uuid, isUserExists, userdetail)
+	log.T("GetUserInfo(%v) ret isExists=%v userDetail: ['%v']  ",
+		uuid, isUserExists, userDetail)
 	if isUserExists {
 		tNow := common.Now()
 
 		//TODO: assign Userdetail.* into rspMsg
-		rspMsg.User = userdetail.User
+		rspMsg.User = userDetail.User
 		rspMsg.User.StaminaRecover = proto.Uint32(tNow + 600) //10 minutes
 		//rspMsg.User.LoginTime = proto.Uint32(tNow)
-		log.Printf("read Userdetail ret err:%v, Userdetail: %+v", err, userdetail)
+		log.Printf("read Userdetail ret err:%v, Userdetail: %+v", err, userDetail)
 
 		// get FriendInfo
 		{
@@ -147,7 +147,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			}
 
 			//get user's rank from user table
-			userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
+			userDetail, isUserExists, err := usermanage.GetUserInfo(uid)
 			if err != nil {
 				return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v", uid))
 			}
@@ -156,8 +156,8 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 				return Error.New(cs.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
 			}
 
-			log.T("getUser(%v) ret userdetail: %v", uid, userdetail)
-			rank := uint32(*userdetail.User.Rank)
+			log.T("getUser(%v) ret userDetail: %v", uid, userDetail)
+			rank := uint32(*userDetail.User.Rank)
 
 			friendsInfo, err := friend.GetFriendInfo(db, uid, rank, true, true)
 			log.T("GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
@@ -182,12 +182,15 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			}
 
 			//TODO: call update in goroutine
-			UpdateLoginInfo(db, &userdetail)
+			UpdateLoginInfo(db, &userDetail)
 
-			rspMsg.Login = userdetail.Login
+			rspMsg.UnitList = userDetail.UnitList
+			rspMsg.Party = userDetail.Party
+			rspMsg.Login = userDetail.Login
+			rspMsg.Quest = userDetail.Quest
 
 			//TODO: get present
-			//rspMsg.Present = userdetail.Present
+			//rspMsg.Present = userDetail.Present
 		}
 	} else { //create new user
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
@@ -218,7 +221,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 		//TODO:save userinfo to db through goroutine
 		err = usermanage.AddNewUser(uuid, rspMsg.User)
-		//zUserData, err := proto.Marshal(&userdetail)
+		//zUserData, err := proto.Marshal(&userDetail)
 		//err = db.Set(uuid, zUserData)
 		//log.Printf("db.Set(%v) save new userinfo, return %v", uuid, err)
 	}
