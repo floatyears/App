@@ -4,6 +4,7 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity{
+
 	//----------UI elements list----------
 	UILabel idLabel;
 	UILabel hpLabel;
@@ -17,11 +18,15 @@ public class UnitDetailPanel : UIComponentUnity{
 	UILabel needExpLabel;
 	UISlider expSlider;
 
-	UILabel skill1DscpLabel;
-	UILabel skill1NameLabel;
-	
-	UILabel skill2DscpLabel;
-	UILabel skill2NameLabel;
+	UILabel leaderSkillDscpLabel;
+	UILabel activeSkillDscpLabel;
+	UILabel leaderSkillNameLabel;
+	UILabel activeSkillNameLabel;
+
+	UILabel normalSkill1DscpLabel;
+	UILabel normalSkill1NameLabel;
+	UILabel normalSkill2DscpLabel;
+	UILabel normalSkil2NameLabel;
 
 	UILabel profileLabel;
 
@@ -32,7 +37,7 @@ public class UnitDetailPanel : UIComponentUnity{
 	Material unitMaterial;
 	List<GameObject> effectCache = new List<GameObject>();
 
-	int maxExp, curExp, gotExp, expRiseStep;
+	int maxExp, curLevel, curExp, gotExp, expRiseStep;
 
 	
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
@@ -80,9 +85,11 @@ public class UnitDetailPanel : UIComponentUnity{
 	
 	//----------Init functions of UI Elements----------
 	void InitUI() {
+		InitTabSkill();
 		InitTabStatus ();
 		InitExpSlider ();
 		InitTexture ();
+		InitProfile();
 	}
 	
 	void InitTexture(){
@@ -110,16 +117,27 @@ public class UnitDetailPanel : UIComponentUnity{
 
 	void InitTabSkill(){
 
-		string rootPath =  "UnitInfoTabs/Content_Skill2/";
+		string rootPath;
 
 		// skill_1
-		skill1NameLabel = FindChild< UILabel >( rootPath + "Label_Normal_Skill1");
+		rootPath =  "UnitInfoTabs/Content_Skill1/Label_Vaule/";
+		leaderSkillNameLabel		= FindChild<UILabel>(rootPath + "Leader_Skill");
+		leaderSkillDscpLabel		= FindChild<UILabel>(rootPath + "Leader_Skill_Dscp");
+		activeSkillNameLabel		= FindChild<UILabel>(rootPath + "Active_Skill");
+		activeSkillDscpLabel		= FindChild<UILabel>(rootPath + "Active_Skill_Dscp");
 
 		// skill_2
-		skill2NameLabel = FindChild< UILabel >( rootPath + "Label_Normal_Skill2");
-
+		rootPath =  "UnitInfoTabs/Content_Skill2/Label_Vaule/";
+		normalSkill1NameLabel	= FindChild<UILabel>(rootPath + "Normal_Skill1");
+		normalSkill1DscpLabel	= FindChild<UILabel>(rootPath + "Normal_Skill1_Dscp");
+		normalSkil2NameLabel	= FindChild<UILabel>(rootPath + "Normal_Skill2");
+		normalSkill2DscpLabel	= FindChild<UILabel>(rootPath + "Normal_Skill2_Dscp");
 	}
-	
+
+	void InitProfile() {
+		string rootPath = "UnitInfoTabs/Content_Profile/";
+		profileLabel			= FindChild<UILabel>(rootPath + "Label_info");
+	}
 	//Make panel focus on the same tab every time when this ui show
 	void ResetStartToggle( UIToggle target) {
 		target.value = true;
@@ -135,7 +153,9 @@ public class UnitDetailPanel : UIComponentUnity{
 	void ShowUnitDetail( object info ){
 		UserUnit userUnitInfo = info as UserUnit;
 		uint curId = userUnitInfo.unitId;
-		unitBodyTex.mainTexture = GlobalData.tempUnitInfo[ curId ].GetAsset( UnitAssetType.Profile);
+		unitBodyTex.mainTexture =
+			GlobalData.tempUnitInfo[ curId ].GetAsset( UnitAssetType.Profile);
+
 		idLabel.text = curId.ToString();
 		nameLabel.text = GlobalData.tempUnitInfo[ curId ].GetName();
 		levelLabel.text = userUnitInfo.level.ToString();
@@ -155,6 +175,44 @@ public class UnitDetailPanel : UIComponentUnity{
 
 		raceLabel.text = "Human";
 
+		ShowSkill1();
+		ShowSkill2();
+		ShowProfile();
+
+	}
+
+	
+	void ShowSkill1() {
+		//skill_1
+
+		Debug.Log("UnitDetailPanel.ShowSkill1() : ");
+		string leaderSkillName = "111";
+		leaderSkillNameLabel.text = leaderSkillName;
+		string leaderSkillDscp = "222";
+		leaderSkillDscpLabel.text = leaderSkillDscp;
+		string activeSkillName = "5555" ;
+		activeSkillNameLabel.text = activeSkillName;
+		string activeSkillDscp = "333";
+		activeSkillDscpLabel.text = activeSkillDscp;
+
+	}
+
+	void ShowSkill2(){
+		//skill_2
+		
+		string normalSkill1Name = "";
+		normalSkill1NameLabel.text = normalSkill1Name;
+		string normalSkill2Name = "";
+		normalSkil2NameLabel.text = normalSkill2Name;
+		string normalSkill1Dscp = "";
+		normalSkil2NameLabel.text = normalSkill1Dscp;
+		string normalSkill2Dscp = "";
+		normalSkill2DscpLabel.text = normalSkill2Dscp;
+	}
+
+	void ShowProfile(){
+		string content = "";
+		profileLabel.text = content;
 	}
 
 	
@@ -191,9 +249,12 @@ public class UnitDetailPanel : UIComponentUnity{
 
 		raceLabel.text = "Human";
 
-		ExpRise();
+		StartLevelProcess();
 	}
 
+	void StartLevelProcess(){
+		expRiseSign = true;
+	}
 
 
 	//----------deal with effect----------
@@ -237,7 +298,6 @@ public class UnitDetailPanel : UIComponentUnity{
 	}
 		
 
-	int curLevel;
 	//---------Exp increase----------
 	void InitExpSlider(){
 		curExp = 460;
@@ -247,8 +307,9 @@ public class UnitDetailPanel : UIComponentUnity{
 		expRiseStep = maxExp / 120;
 	}
 
+	bool expRiseSign = false;
 	void Update(){
-		ExpRise();
+		if(expRiseSign)	ExpRise();
 	}
 
 	void ExpRise () {
@@ -273,7 +334,6 @@ public class UnitDetailPanel : UIComponentUnity{
 			curExp = 0;
 			curLevel++;
 			maxExp = GetMaxExpByLv( curLevel );
-                        
                 }
 
 		int needExp = maxExp - curExp;
