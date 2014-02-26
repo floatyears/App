@@ -2,10 +2,11 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillRecoverHP : ProtobufDataBase {
+public class TSkillRecoverHP : LeaderSkillBase {
 	private SkillRecoverHP instance;
 	public TSkillRecoverHP (object instance) : base (instance) {
 		this.instance = instance as SkillRecoverHP;
+		skillBase = this.instance.baseInfo;
 	}
 	
 	/// <summary>

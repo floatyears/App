@@ -2,10 +2,11 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillExtraAttack : ProtobufDataBase {
+public class TSkillExtraAttack : LeaderSkillBase {
 	private SkillExtraAttack instance;
 	public TSkillExtraAttack (object instance) : base (instance) {
 		this.instance = instance as SkillExtraAttack;
+		skillBase = this.instance.baseInfo;
 	}
 	
 	public AttackInfo AttackValue (float attackValue, uint id) {

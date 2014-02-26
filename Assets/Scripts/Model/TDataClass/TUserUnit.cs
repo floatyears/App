@@ -112,10 +112,10 @@ public class TUserUnit : ProtobufDataBase {
 		TNormalSkill firstSkill = null;
 		TNormalSkill secondSkill = null;
 		if (ui.skill1 > -1) {
-			firstSkill	= GlobalData.normalSkill [ui.skill1] as TNormalSkill;	
+			firstSkill	= GlobalData.skill [ui.skill1] as TNormalSkill;	
 		}
 		if (ui.skill2 > -1) {
-			secondSkill = GlobalData.normalSkill [ui.skill2] as TNormalSkill;	
+			secondSkill = GlobalData.skill [ui.skill2] as TNormalSkill;	
 		}
 		AddSkill(firstSkill,secondSkill);
 	}

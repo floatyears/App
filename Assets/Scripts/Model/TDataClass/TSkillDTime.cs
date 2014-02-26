@@ -2,15 +2,14 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillDelayTime : ProtobufDataBase {
+public class TSkillDelayTime : LeaderSkillBase {
 	private SkillDelayTime instance;
 	public TSkillDelayTime (object instance) : base (instance) {
 		this.instance = instance as SkillDelayTime;
+		skillBase = this.instance.baseInfo;
 	}
 	
 	public float DelayTime{
-		get {
-			return instance.value;
-		}
+		get { return instance.value; }
 	} 
 }
