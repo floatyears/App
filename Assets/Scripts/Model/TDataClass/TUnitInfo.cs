@@ -37,7 +37,27 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 	public int GetMaxLevel(){
 		return instance.maxLevel;
 	}
-	
+
+	public int GetSkill1 () {
+		return instance.skill1;
+	}
+
+	public int GetSkill2 () {
+		return instance.skill2;
+	}
+
+	public int GetActiveSkill() {
+		return instance.activeSkill;
+	}
+
+	public int GetPassiveSkill() {
+		return instance.passiveSkill;
+	}
+
+	public int GetLeaderSkill() {
+		return instance.leaderSkill;
+	}
+
 	//	public string GetRace(){
 	//		EUnitRace race = DeserializeData< UnitInfo >().race;
 	//		switch ( race ){
