@@ -32,13 +32,19 @@ public class TFriendList : ProtobufDataBase {
 	private List<TFriendInfo> friend;
 	private List<TFriendInfo> friendIn;
 	private List<TFriendInfo> friendOut;
+	
+	//// property ////
+	public List<TFriendInfo> Helper { get { return helper; } }
+	public List<TFriendInfo> Friend { get { return friend; } }
+	public List<TFriendInfo> FriendIn { get { return friendIn; } }
+	public List<TFriendInfo> FriendOut { get { return friendOut; } }
+	
 
+	//constructor
 	public TFriendList(FriendList inst) : base (inst) { 
 		instance = inst;
-	
 		AssignFriends ();
 	}
-
 
 	private void AssignFriends() {
 		friend = new List<TFriendInfo> ();
