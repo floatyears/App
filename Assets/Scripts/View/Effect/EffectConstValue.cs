@@ -12,6 +12,9 @@ public class EffectConstValue {
 		}
 	}
 
+
+
+
 	private Dictionary<string,GameObject> effectAsset = new Dictionary<string, GameObject> ();
 	public const string assetPath	= "Effect/";
 	//---------------------effct asset name-------------------

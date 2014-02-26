@@ -59,7 +59,6 @@ public interface IUIComponentUnity :  IUIBaseComponent{
 /// logic ui interface
 /// </summary>
 public interface IUIComponent :  IUIBaseComponent{
-
 	void CreatUI();
 }
 
@@ -116,7 +115,14 @@ public interface IActiveSkillExcute {
 	object Excute(uint userUnitID, int atk = -1);
 }
 
+public interface IEffectBehavior {
+	List<GameObject> EffectAssetList { set; get;}
+	void CollectEffectExcute();
+	void Excute(List<Vector3> position);
+}
+
 public interface IEffectExcute {
+	float AnimTime { set; get;}
 	Vector3 StartPosition { set; get;}
 	Vector3 EndPosition { set; get;}
 	GameObject TargetObject { set; get;}

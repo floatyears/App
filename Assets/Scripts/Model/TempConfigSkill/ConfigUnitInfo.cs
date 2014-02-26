@@ -48,11 +48,11 @@ public class ConfigUnitInfo {
 			GlobalData.unitInfo.Add(uiitem.id, tui);
 		}
 
-		GlobalData.unitInfo [1].unitBaseInfoID = 181;
-		GlobalData.unitInfo [2].unitBaseInfoID = 85;
-		GlobalData.unitInfo [3].unitBaseInfoID = 89;
-		GlobalData.unitInfo [4].unitBaseInfoID = 80;
-		GlobalData.unitInfo [5].unitBaseInfoID = 87;
+//		GlobalData.unitInfo [1].unitBaseInfoID = 181;
+//		GlobalData.unitInfo [2].unitBaseInfoID = 85;
+//		GlobalData.unitInfo [3].unitBaseInfoID = 89;
+//		GlobalData.unitInfo [4].unitBaseInfoID = 80;
+//		GlobalData.unitInfo [5].unitBaseInfoID = 87;
 	}
 
 	//Lynn Add
@@ -97,7 +97,7 @@ public class ConfigUnitInfo {
 	void GenerateUserUnitParty () {
 		UnitParty up = new UnitParty ();
 		up.id = 0;
-		for (int i = GlobalData.posStart; i <  GlobalData.posEnd; i++) {
+		for (int i = 1; i <  2; i++) {
 			PartyItem pi = new PartyItem();
 			pi.unitPos = i;
 			pi.unitUniqueId = (uint)i;

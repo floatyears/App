@@ -2,7 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleEnemy : UIBaseUnity {
-	private Dictionary<uint, EnemyItem> monster = new Dictionary<uint, EnemyItem> ();
+	private static Dictionary<uint, EnemyItem> monster = new Dictionary<uint, EnemyItem> ();
+	public static Dictionary<uint, EnemyItem> Monster {
+		get{
+			return monster;
+		}
+	}
 	private GameObject tempGameObject;
 	[HideInInspector]
 	public Battle battle;
@@ -42,22 +47,7 @@ public class BattleEnemy : UIBaseUnity {
 	}
 
 	void AttackEnemy(object data) {
-		AttackInfo ai = data as AttackInfo;
-		if (ai == null) {
-			return;	
-		}
 
-		List<GameObject> effect = EffectConstValue.Instance.GetEffect (ai);
-		if (effect == null || effect.Count == 0) {
-			return;	
-		}
-//		WWW www = WWW.LoadFromCacheOrDownload ();
-		if (effect.Count == 2) {
-			GameObject go = NGUITools.AddChild(gameObject,	effect[0]);
-			go.transform.localScale = new Vector3(100f,100f,100f);
-//			go.transform.localPosition = 
-
-		}
 	}
 
 	void End() {
