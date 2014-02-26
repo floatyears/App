@@ -33,29 +33,7 @@ public class ModelManager
         }
     }
 
-    private Dictionary<ModelEnum, BaseModel> modelDic = new Dictionary<ModelEnum, BaseModel>();
-
-    public void Add (ModelEnum modelType, BaseModel model){
-        modelDic.Add(modelType, model);
-    }
-
-    /// <summary>
-    /// Gets the data.
-    /// usage: ModelManager.Instance.GetaData<User>
-    /// </summary>
-    /// <returns>The data.</returns>
-    /// <param name="key">Key.</param>
-    /// <param name="errorMsg">Error message.</param>
-    public BaseModel Get (ModelEnum modelType, ErrorMsg errorMsg) {
-
-        BaseModel model = null;
-
-        if (!modelDic.TryGetValue(modelType, out model)){
-            errorMsg.Code = ErrorCode.InvalidModelName;
-            errorMsg.Msg = String.Format("required key {0}, but it not exist in ModelManager", modelType);
-        }
-        return model;
-    }
+    
 
 	//---------------------------------------------------------------------------------------------------------------//
 

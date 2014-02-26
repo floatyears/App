@@ -245,35 +245,7 @@ public class UnitDetailPanel : UIComponentUnity{
 		gotExp = 3000;
 		expRiseStep = currMaxExp / 120;
 	}
-
-	int GetRiseLevel(int curExp, int curLv, int gotExp, ref int nextExp) {
-		int totalExp = gotExp;
-		int riseLv = 0, curLvExp=0;
-
-		nextExp = (GetMaxExpByLv( curLv ) - curExp);
-		if (totalExp < nextExp) {
-			nextExp -= totalExp;
-			return 0;
-		}
-
-		totalExp -= nextExp;
-		while (totalExp >= 0) {
-			riseLv += 1;
-			curLv += 1;
-
-			nextExp = totalExp;
-			curLvExp = GetMaxExpByLv( curLv );
-			if ( curLvExp <= 0 ) { //reach max level
-				nextExp = 0;
-				break;
-			}
-
-			totalExp -= curLvExp;
-		}
-
-		return riseLv;
-	}
-
+	
 	void Update(){
 		ExpRise();
 	}
