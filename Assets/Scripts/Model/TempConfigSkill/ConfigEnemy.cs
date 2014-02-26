@@ -25,7 +25,7 @@ public class ConfigEnermy {
 		ei.hp = 500;
 		ei.type = (EUnitType)1;
 		TEnemyInfo te = new TEnemyInfo (ei);
-		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
+		GlobalData.enemyInfo.Add (ei.unitId,te);
 		
 		ei = new EnemyInfo ();
 		ei.enemyId = 2;
@@ -36,7 +36,7 @@ public class ConfigEnermy {
 		ei.hp = 500;
 		ei.type = (EUnitType)2;
 		te = new TEnemyInfo (ei);
-		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
+		GlobalData.enemyInfo.Add (ei.unitId,te);
 		
 		ei = new EnemyInfo();
 		ei.enemyId = 3;
@@ -47,6 +47,6 @@ public class ConfigEnermy {
 		ei.hp = 1000;
 		ei.nextAttack = 1;
 		te = new TEnemyInfo (ei);
-		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
+		GlobalData.enemyInfo.Add (ei.unitId,te);
 	}
 }

@@ -2,8 +2,9 @@
 using System.Collections;
 using bbproto;
 
-public class PassiveAntiAttack : ProtobufDataBase, IPassiveExcute {
-	public PassiveAntiAttack(object instance) : base (instance) {
+public class TSkillAntiAttack : ProtobufDataBase, IPassiveExcute {
+	private SkillAntiAttack instance;
+	public TSkillAntiAttack(object instance) : base (instance) {
 
 	}
 
@@ -12,15 +13,15 @@ public class PassiveAntiAttack : ProtobufDataBase, IPassiveExcute {
 			return null;	
 		}
 
-		SkillAntiAttack saa = DeserializeData<SkillAntiAttack> ();
+//		SkillAntiAttack saa = DeserializeData<SkillAntiAttack> ();
 		int type = (int)trapBase;
 		EUnitType et = (EUnitType)type;
-		if (saa.attackSource == EUnitType.UALL || et == saa.attackSource) {
+		if (instance.attackSource == EUnitType.UALL || et == instance.attackSource) {
 			float value = DGTools.RandomToFloat ();
-			if (value <= saa.antiAtkRatio) {
+			if (value <= instance.antiAtkRatio) {
 				AttackInfo ai = new AttackInfo();
-				ai.AttackValue = saa.probability;
-				ai.AttackType = (int)saa.antiAttack;
+				ai.AttackValue = instance.probability;
+				ai.AttackType = (int)instance.antiAttack;
 				return ai;
 			}	
 		}

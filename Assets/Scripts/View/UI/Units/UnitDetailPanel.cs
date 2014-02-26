@@ -135,22 +135,22 @@ public class UnitDetailPanel : UIComponentUnity{
 	void ShowUnitDetail( object info ){
 		UserUnit userUnitInfo = info as UserUnit;
 		uint curId = userUnitInfo.unitId;
-		unitBodyTex.mainTexture = GlobalData.tempUnitInfo[ curId ].GetAsset( UnitAssetType.Profile);
+		unitBodyTex.mainTexture = GlobalData.unitInfo[ curId ].GetAsset( UnitAssetType.Profile);
 		idLabel.text = curId.ToString();
-		nameLabel.text = GlobalData.tempUnitInfo[ curId ].GetName();
+		nameLabel.text = GlobalData.unitInfo[ curId ].GetName();
 		levelLabel.text = userUnitInfo.level.ToString();
-		typeLabel.text = GlobalData.tempUnitInfo[ curId ].GetUnitType();
+		typeLabel.text = GlobalData.unitInfo[ curId ].GetUnitType();
 
-		TUnitInfo tu = GlobalData.tempUnitInfo[ curId ];
+		TUnitInfo tu = GlobalData.unitInfo[ curId ];
 		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),userUnitInfo.level);
 		hpLabel.text = hp.ToString();
 		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), userUnitInfo.level);
 		atkLabel.text = atk.ToString();
 
-		int cost = GlobalData.tempUnitInfo[ curId ].GetCost();
+		int cost = GlobalData.unitInfo[ curId ].GetCost();
 		costLabel.text = cost.ToString();
 
-		int rare = GlobalData.tempUnitInfo[ curId ].GetRare();
+		int rare = GlobalData.unitInfo[ curId ].GetRare();
 		rareLabel.text = rare.ToString();
 
 		raceLabel.text = "Human";
@@ -167,26 +167,26 @@ public class UnitDetailPanel : UIComponentUnity{
 		if(profile == null)
 			Debug.LogError("Profile is not found!");
 		MeshRenderer meshRender = profile.GetComponent< MeshRenderer >();
-		Texture tex = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
+		Texture tex = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
 
 		meshRender.materials[ 0 ].SetTexture("_MainTex", tex);
 		effectCache.Add( tempEffect );
 
 		idLabel.text = curUnitId.ToString();
-		nameLabel.text = GlobalData.tempUnitInfo[ curUnitId ].GetName();
+		nameLabel.text = GlobalData.unitInfo[ curUnitId ].GetName();
 		levelLabel.text = packageInfo[0].level.ToString();
-		typeLabel.text = GlobalData.tempUnitInfo[ curUnitId ].GetUnitType();
+		typeLabel.text = GlobalData.unitInfo[ curUnitId ].GetUnitType();
 		
-		TUnitInfo tu = GlobalData.tempUnitInfo[ curUnitId ];
+		TUnitInfo tu = GlobalData.unitInfo[ curUnitId ];
 		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),packageInfo[0].level);
 		hpLabel.text = hp.ToString();
 		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), packageInfo[0].level);
 		atkLabel.text = atk.ToString();
 		
-		int cost = GlobalData.tempUnitInfo[ curUnitId ].GetCost();
+		int cost = GlobalData.unitInfo[ curUnitId ].GetCost();
 		costLabel.text = cost.ToString();
 		
-		int rare = GlobalData.tempUnitInfo[ curUnitId ].GetRare();
+		int rare = GlobalData.unitInfo[ curUnitId ].GetRare();
 		rareLabel.text = rare.ToString();
 
 		raceLabel.text = "Human";

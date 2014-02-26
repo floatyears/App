@@ -3,15 +3,16 @@ using System.Collections;
 using bbproto;
 
 public class MoveTrap : TrapBase, ITrapExcute{
+//	private TrapInfo instance;
 	public MoveTrap(object instance) : base (instance) {
-
+//		this.instance = instance as TrapInfo;
 	}
 
 	public void Excute () {
-		TrapInfo ti = DeserializeData<TrapInfo> ();
+//		TrapInfo ti = DeserializeData<TrapInfo> ();
 		MapConfig mc;
 		Coordinate cd;
-		switch (ti.effectType) {
+		switch (instance.effectType) {
 		case 1:
 			MsgCenter.Instance.Invoke(CommandEnum.TrapMove, null);
 			break;

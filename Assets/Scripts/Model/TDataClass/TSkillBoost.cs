@@ -3,23 +3,24 @@ using System.Collections;
 using bbproto;
 
 public class TSkillBoost : ProtobufDataBase {
+	private SkillBoost instance;
 	public TSkillBoost (object instance) : base (instance) {
-		
+		this.instance = instance as SkillBoost;
 	}
 	
 	SkillBoost Get(){
-		return DeserializeData<SkillBoost> ();
+		return instance;
 	}
 	
 	public float GetBoostValue {
 		get{
-			return DeserializeData<SkillBoost> ().boostValue;
+			return instance.boostValue;
 		}
 	}
 	
 	public int GetTargetValue {
 		get{
-			return DeserializeData<SkillBoost> ().targetValue;
+			return instance.targetValue;
 		}
 	}
 	

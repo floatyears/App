@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class PartyComponent : ConcreteComponent, IUIParty {
 
-	UnitPartyInfo unitPartyInfo;
-	Dictionary<int,UserUnitInfo> userUnit = new Dictionary<int, UserUnitInfo> ();
+	TUnitParty unitPartyInfo;
+	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 
 	public PartyComponent(string uiName):base(uiName) {}
 	
@@ -52,7 +52,7 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 			return;
 		}
 
-		unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as UnitPartyInfo;
+		unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as TUnitParty;
 
 		Dictionary< int, uint > temp = unitPartyInfo.GetPartyItem();
 		Dictionary< string, object > viewInfo = new Dictionary<string, object>();
@@ -63,11 +63,11 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 		{
 			//deal avatar
 			foreach (var item in temp) {
-				UserUnitInfo userUnitInfo = GlobalData.tempUserUnitInfo[ item.Value ];
+				TUserUnit userUnitInfo = GlobalData.userUnitInfo[ item.Value ];
 				if( !userUnit.ContainsKey( item.Key )) {
 					userUnit.Add( item.Key, userUnitInfo );
 				}
-				UnitBaseInfo unitBaseInfo = GlobalData.tempUnitBaseInfo[ userUnitInfo.unitBaseInfo ];
+				UnitBaseInfo unitBaseInfo = GlobalData.unitBaseInfo[ userUnitInfo.unitBaseInfo ];
 				avatarInfoDic.Add( item.Key, unitBaseInfo );
 			}
 

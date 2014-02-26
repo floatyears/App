@@ -42,7 +42,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	}
 
 	bool DisposeDelayOperateTime (ProtobufDataBase pdb) {
-		TSkillTime tst = pdb as TSkillTime;
+		TSkillDelayTime tst = pdb as TSkillDelayTime;
 		if (tst != null) {
 			MsgCenter.Instance.Invoke(CommandEnum.LeaderSkillDelayTime, tst.DelayTime);
 			return true;

@@ -3,33 +3,39 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class TUnitInfo : ProtobufDataBase, INetBase  {
-	
+	private UnitInfo instance;
 	public TUnitInfo (object instance) : base (instance) {
-		
+		this.instance = instance as UnitInfo;
 	}
 	
 	public int unitBaseInfoID = 0;
+	public UnitInfo GetObject{
+		get{
+			return instance;
+		}
+	}
+
 	public uint GetID  {
 		get {
-			UnitInfo ui = DeserializeData<UnitInfo>();
-			return ui.id;
+//			UnitInfo ui = DeserializeData<UnitInfo>();
+			return instance.id;
 		}
 	}
 	public string GetName() {
-		return DeserializeData< UnitInfo >().name;
+		return instance.name;
 	}
 	
 	
 	public int GetCost(){
-		return DeserializeData< UnitInfo >().cost;
+		return instance.cost;
 	}
 	
 	public int GetRare(){
-		return DeserializeData< UnitInfo >().rare;
+		return instance.rare;
 	}
 	
 	public int GetMaxLevel(){
-		return DeserializeData< UnitInfo >().maxLevel;
+		return instance.maxLevel;
 	}
 	
 	//	public string GetRace(){
@@ -90,15 +96,15 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 	}
 	
 	public int GetHPType () {
-		return DeserializeData<UnitInfo>().powerType.hpType;
+		return instance.powerType.hpType;
 	}
 	
 	public int GetAttackType () {
-		return DeserializeData<UnitInfo>().powerType.attackType;
+		return instance.powerType.attackType;
 	}
 	
 	public int GetExpType () {
-		return DeserializeData<UnitInfo>().powerType.expType;
+		return instance.powerType.expType;
 	}
 	
 	public Texture2D GetAsset(UnitAssetType uat) {

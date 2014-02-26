@@ -160,16 +160,20 @@ public class DGTools {
 		}
 	}
 
-	public static int CaculateAddBlood (int add) {
-		return add * 100;
+	public static int CaculateAddBlood (int addHP,UserUnit uu, UnitInfo ui) {
+		return addHP * 100 + GetValue (uu, ui);
 	}
 
-//	public static int CaculateAttack (UserUnit uu, UnitInfo ui) {
-//		int attack = uu.addHp * 50 + ui.power[
-//	}
+	public static int CaculateAttack (int addAttack, UserUnit uu, UnitInfo ui) {
+		return addAttack * 50 + GetValue (uu, ui);
+	}
 
-	public static int CaculateAddDefense (int add) {
-		return add * 10;
+	public static int CaculateAddDefense (int add, UserUnit uu, UnitInfo ui) {
+		return add * 10 + GetValue (uu, ui);
+	}
+
+	static int GetValue (UserUnit uu, UnitInfo ui) {
+		return GlobalData.Instance.GetUnitValue(ui.powerType.attackType,uu.level);
 	}
 
 

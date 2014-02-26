@@ -3,8 +3,9 @@ using System.Collections;
 using bbproto;
 
 public class TSkillRecoverHP : ProtobufDataBase {
+	private SkillRecoverHP instance;
 	public TSkillRecoverHP (object instance) : base (instance) {
-		
+		this.instance = instance as SkillRecoverHP;
 	}
 	
 	/// <summary>
@@ -14,14 +15,14 @@ public class TSkillRecoverHP : ProtobufDataBase {
 	/// <param name="blood">Blood.</param>
 	/// <param name="type">1 = right now. 2 = every round. 3 = every step.</param>
 	public int RecoverHP (int blood,int type) {
-		SkillRecoverHP srhp = DeserializeData<SkillRecoverHP> ();
-		if(type == (int)srhp.period){
+//		SkillRecoverHP srhp = DeserializeData<SkillRecoverHP> ();
+		if(type == (int)instance.period){
 			float tempBlood = blood;
-			if(srhp.type == EValueType.FIXED) {
-				tempBlood += srhp.value;
+			if(instance.type == EValueType.FIXED) {
+				tempBlood += instance.value;
 			}
-			else if(srhp.type == EValueType.PERCENT) {
-				tempBlood *= (1 + srhp.value);
+			else if(instance.type == EValueType.PERCENT) {
+				tempBlood *= (1 + instance.value);
 			}
 			blood = System.Convert.ToInt32(tempBlood);
 		}

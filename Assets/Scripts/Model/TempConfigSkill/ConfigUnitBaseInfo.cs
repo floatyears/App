@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -23,7 +23,7 @@ public class ConfigUnitBaseInfo {
 			pv.value = i * 100;
 			pt.power.Add(pv);
 		}
-		GlobalData.unitValue .Add(1,new PowerTableInfo(pt)) ;
+		GlobalData.unitValue .Add(1,new TPowerTableInfo(pt)) ;
 	}
 
 	void GenerateUnitBaseAttack () {
@@ -34,7 +34,7 @@ public class ConfigUnitBaseInfo {
 			pv.value = i * 20;
 			pt.power.Add(pv);
 		}
-		GlobalData.unitValue .Add(2,new PowerTableInfo(pt)) ; 
+		GlobalData.unitValue .Add(2,new TPowerTableInfo(pt)) ; 
 	}
 
 //	void GenerateUnitBaseDefense () {
@@ -56,7 +56,7 @@ public class ConfigUnitBaseInfo {
 			pv.value = i * 50;
 			pt.power.Add(pv);
 		}
-		GlobalData.unitValue.Add(3,new PowerTableInfo(pt)) ;
+		GlobalData.unitValue.Add(3,new TPowerTableInfo(pt)) ;
 	}
 
 	void GenerateUnitBaseInfo() {
@@ -79,7 +79,7 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 50;
 		ubi.normalSkill1 = 0;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 
 		ubi = new UnitBaseInfo ();
 		ubi.assetID = 111;
@@ -99,7 +99,7 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 50;
 		ubi.normalSkill1 = 2;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 
 		ubi = new UnitBaseInfo ();
 		ubi.assetID = 185;
@@ -119,7 +119,7 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 50;
 		ubi.normalSkill1 = 4;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 
 	}
 
@@ -142,7 +142,7 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 10;
 		ubi.normalSkill1 = 0;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 
 		ubi = new UnitBaseInfo ();
 		ubi.assetID = 80;
@@ -162,7 +162,7 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 10;
 		ubi.normalSkill1 = 2;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 
 		ubi = new UnitBaseInfo ();
 		ubi.assetID = 161;
@@ -182,7 +182,7 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 10;
 		ubi.normalSkill1 = 4;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 
 		ubi = new UnitBaseInfo ();
 		ubi.assetID = 87;
@@ -202,7 +202,7 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 10;
 		ubi.normalSkill1 = 2;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 	}
 
 	void Generate3 () {
@@ -224,7 +224,7 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 10;
 		ubi.normalSkill1 = 4;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 
 		ubi = new UnitBaseInfo ();
 		ubi.assetID = 122;
@@ -244,7 +244,7 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 10;
 		ubi.normalSkill1 = 2;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 
 		ubi = new UnitBaseInfo ();
 		ubi.assetID = 195;
@@ -264,7 +264,7 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 10;
 		ubi.normalSkill1 = 4;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 
 		ubi = new UnitBaseInfo ();
 		ubi.assetID = 89;
@@ -284,26 +284,26 @@ public class ConfigUnitBaseInfo {
 		ubi.saleCoin = 60;
 		ubi.normalSkill1 = 30;
 		ubi.normalSkill2 = -1;
-		GlobalData.tempUnitBaseInfo.Add (ubi.assetID, ubi);
+		GlobalData.unitBaseInfo.Add (ubi.assetID, ubi);
 	}
 
 }
 
-public class PowerTableInfo : ProtobufDataBase {
-	public PowerTableInfo(object instance) : base (instance) {
-		pt = instance as PowerTable;
-	}
-	PowerTable pt;
-	public int GetValue (int level) {
-		PowerValue pv = pt.power.Find(a=>a.level == level);
-		if(pv == default(PowerValue)) {
-			return -1;
-		}
-		else{
-			return pv.value;
-		}
-	}
-}
+//public class TPowerTableInfo : ProtobufDataBase {
+//	public TPowerTableInfo(object instance) : base (instance) {
+//		pt = instance as PowerTable;
+//	}
+//	PowerTable pt;
+//	public int GetValue (int level) {
+//		PowerValue pv = pt.power.Find(a=>a.level == level);
+//		if(pv == default(PowerValue)) {
+//			return -1;
+//		}
+//		else{
+//			return pv.value;
+//		}
+//	}
+//}
 
 public class UnitBaseInfo {
 	private const string headPath= "Avatar/";

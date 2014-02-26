@@ -186,7 +186,7 @@ public class BattleQuest : UIBase {
 
 	void MapItemTrap() {
 		battleMap.waitMove = false;
-		TrapBase tb = GlobalData.tempTrapInfo[currentMapData.TypeValue];
+		TrapBase tb = GlobalData.trapInfo[currentMapData.TypeValue];
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}

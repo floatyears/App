@@ -80,7 +80,7 @@ public interface IUISetBool : IUIOrigin {
 
 public interface ILeaderSkill {
 	Dictionary<uint,ProtobufDataBase> LeadSkill { get;}
-	Dictionary<int,UserUnitInfo> UserUnit { get ;}
+	Dictionary<int,TUserUnit> UserUnit { get ;}
 }
 
 public interface ILeadSkillReduceHurt {

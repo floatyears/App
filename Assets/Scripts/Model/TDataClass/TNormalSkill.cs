@@ -3,52 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TNormalSkill : ProtobufDataBase {
+	private NormalSkill instance;
 	public TNormalSkill (object instance) : base (instance) {
-		
+		this.instance = instance as NormalSkill;
 	}
 	
 	//static int record = 0;
 	public int CalculateCard (List<uint> count, int record = 0) {
-		NormalSkill ns = DeserializeData<NormalSkill> ();
-		
-		while (count.Count >= ns.activeBlocks.Count) {
-			bool isExcuteSkill =  DGTools.IsTriggerSkill<uint> (count, ns.activeBlocks);
+		while (count.Count >= instance.activeBlocks.Count) {
+			bool isExcuteSkill =  DGTools.IsTriggerSkill<uint> (count, instance.activeBlocks);
 			if (isExcuteSkill) {
 				record++;
-				for (int i = 0; i < ns.activeBlocks.Count; i++) {
-					count.Remove(ns.activeBlocks[i]);
+				for (int i = 0; i < instance.activeBlocks.Count; i++) {
+					count.Remove(instance.activeBlocks[i]);
 				}
 			}
 			else {
 				break;
 			}
 		}
-		
-		//Debug.LogWarning("record -- : " + record + "``ns : " + ns.baseInfo.name);
 		return record;
 	}
 	
 	public void GetSkillInfo(AttackInfo ai) {
-		NormalSkill ns = GetObject ();
-		ai.SkillID = ns.baseInfo.id;
-		ai.AttackRange = (int)ns.attackType;
-		ai.NeedCardNumber = ns.activeBlocks.Count;
+		ai.SkillID = instance.baseInfo.id;
+		ai.AttackRange = (int)instance.attackType;
+		ai.NeedCardNumber = instance.activeBlocks.Count;
 	}
 	
 	public int GetActiveBlocks() {
-		NormalSkill ns = DeserializeData<NormalSkill> ();
-		return ns.activeBlocks.Count;
+		return instance.activeBlocks.Count;
 	}
 	
 	public void DisposeUseSkillID (List<int> skillID) {
-		NormalSkill ns = DeserializeData<NormalSkill> ();
-		if (skillID.Contains (ns.baseInfo.id)) {
-			skillID.Remove(ns.baseInfo.id);
+		if (skillID.Contains (instance.baseInfo.id)) {
+			skillID.Remove(instance.baseInfo.id);
 		}
 	}
 	
 	NormalSkill GetObject() {
-		return  DeserializeData<NormalSkill> ();
+		return  instance;
 	}
 	
 	public int GetID() {
@@ -70,4 +64,6 @@ public class TNormalSkill : ProtobufDataBase {
 	public float GetAttack (float userUnitAttack) {
 		return userUnitAttack * GetObject ().attackValue;
 	}
+
+//	public SkillBase GetSkillInfo()
 }

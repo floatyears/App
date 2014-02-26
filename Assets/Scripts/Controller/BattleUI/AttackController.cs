@@ -7,7 +7,7 @@ public class AttackController {
 	private BattleUseData bud;
 	private List<AttackInfo> attackInfo = new List<AttackInfo>();
 	public List<TEnemyInfo> enemyInfo = new List<TEnemyInfo>();
-	private UnitPartyInfo upi;
+	private TUnitParty upi;
 	private float countDownTime = 0f;
 	IExcutePassiveSkill passiveSkill;
 
@@ -110,7 +110,7 @@ public class AttackController {
 		CheckTempEnemy ();
 	}
 
-	public void StartAttack (List<AttackInfo> attack, UnitPartyInfo upi) {
+	public void StartAttack (List<AttackInfo> attack, TUnitParty upi) {
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		attackInfo = attack;
 		this.upi = upi;

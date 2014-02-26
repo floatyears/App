@@ -3,35 +3,36 @@ using System.Collections;
 using bbproto;
 
 public class TSkillReduceHurt : ProtobufDataBase {
+	private SkillReduceHurt instance;
 	private int useCount = 0;
 	public TSkillReduceHurt (object instance) : base (instance) {
-		
+		this.instance = instance as SkillReduceHurt;
 	}
 	
 	public float ReduceHurt (float attackValue,int type) {
-		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
-		if (srh.unitType == EUnitType.UALL || srh.unitType == (EUnitType)type) {
-			if(srh.value > 100f) {
+//		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
+		if (instance.unitType == EUnitType.UALL || instance.unitType == (EUnitType)type) {
+			if(instance.value > 100f) {
 				Debug.LogError("ReduceHurt error : reduce proportion error ! ");
 			}
 			else{
-				float proportion = 1f - (float)srh.value / 100f;
+				float proportion = 1f - (float)instance.value / 100f;
 				attackValue *= proportion;
 			}
 		}
-		if (srh.periodValue != 0) {
+		if (instance.periodValue != 0) {
 			useCount ++;
 		}
 		return attackValue;
 	}
 	
 	public bool CheckUseDone () {
-		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
-		if (srh.periodValue == 0) {
+//		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
+		if (instance.periodValue == 0) {
 			return false;
 		}
 		
-		if (useCount >= srh.periodValue) {
+		if (useCount >= instance.periodValue) {
 			useCount = 0;
 			return true;
 		} 
@@ -45,6 +46,6 @@ public class TSkillReduceHurt : ProtobufDataBase {
 	/// </summary>
 	/// <returns>The duration.</returns>
 	public int GetDuration() {
-		return (int)DeserializeData<SkillReduceHurt> ().period;
+		return (int)instance.period;
 	}
 }

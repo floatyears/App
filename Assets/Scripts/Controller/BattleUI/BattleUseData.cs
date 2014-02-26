@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class BattleUseData {
 	private ErrorMsg errorMsg;
-	private UnitPartyInfo upi;
+	private TUnitParty upi;
 	private int maxBlood = 0;
 	private int blood = 0;
 	public int Blood {
@@ -35,7 +35,7 @@ public class BattleUseData {
 	public BattleUseData () {
 		ListenEvent ();
 		errorMsg = new ErrorMsg ();
-		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
+		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as TUnitParty;
 		upi.GetSkillCollection ();
 		els = new ExcuteLeadSkill (upi);
 		skillRecoverHP = els;
@@ -199,7 +199,7 @@ public class BattleUseData {
 			showEnemy.RemoveAt(monster.Count + i);
 		}
 		for (int i = 0; i < monster.Count; i++) {
-			TEnemyInfo te = GlobalData.tempEnemyInfo[monster[i]];
+			TEnemyInfo te = GlobalData.enemyInfo[monster[i]];
 			te.Reset();
 			if(i == showEnemy.Count) {
 				showEnemy.Add(te);

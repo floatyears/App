@@ -1,244 +1,274 @@
-﻿using UnityEngine;
-using System.Collections;
+using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class UnitPartyInfo : ProtobufDataBase, IComparer, ILeaderSkill {
-	private List<PartyItem> partyItem = new List<PartyItem> ();		
-	private Dictionary<uint,ProtobufDataBase> leaderSkill = new Dictionary<uint,ProtobufDataBase> ();
-	public Dictionary<uint,ProtobufDataBase> LeadSkill {
+//public class UserUnitParty {
+//	public static Dictionary<int,UnitParty> userUnitPartyInfo = new Dictionary<int, UnitParty> ();
+//
+//}
+//
+//public class AddBlood {
+//
+//
+//	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
+//		return null;
+//	}
+//}
+
+public class TUserUnit : ProtobufDataBase {
+	private UserUnit instance;
+	public TUserUnit(UserUnit instance) : base (instance) { 
+		MsgCenter.Instance.AddListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
+		this.instance = instance as UserUnit;
+	} 
+
+	public void RemovevListener () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
+	}
+
+	private int currentBlood = -1;
+	private float attackMultiple = 1;
+	public float AttackMultiple {
 		get {
-			//			Debug.LogError("UnitPartyInfo : " + leaderSkill.Count);
-			return leaderSkill;
+			return attackMultiple;
 		}
 	}
-	private Dictionary<int,UserUnitInfo> userUnit ;
-	public Dictionary<int,UserUnitInfo> UserUnit {
-		get {
-			if(userUnit == null) {
-				userUnit = new Dictionary<int,UserUnitInfo>();
-				for (int i = 0; i < partyItem.Count; i++) {
-					UserUnitInfo uui = GlobalData.tempUserUnitInfo[partyItem[i].unitUniqueId];
-					userUnit.Add(partyItem[i].unitPos,uui);
-				}
-			}
-			return userUnit;
-		}
-	}
-	
-	//skill sort
-	private CalculateRecoverHP crh ;
-	/// <summary>
-	/// key is area item. value is skill list. this area already use skill must record in this dic, avoidance redundant calculate.
-	/// </summary>
-	private Dictionary<int, CalculateSkillUtility> alreadyUse = new Dictionary<int, CalculateSkillUtility> ();	 
-	private Dictionary<int, List<AttackInfo>> attack = new Dictionary<int, List<AttackInfo>> ();
-	public Dictionary<int, List<AttackInfo>> Attack {
-		get {return attack;}
-	}
-	public UnitPartyInfo (object instance) : base (instance) { 
-		MsgCenter.Instance.AddListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
-	}
-	
-	public void RemoveListener () {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
-	}
-	
-	AttackInfo reduceHurt = null;
-	
-	void ReduceHurt(object data) {
-		reduceHurt = data as AttackInfo;
-		if (reduceHurt != null) {
-			if(reduceHurt.AttackRound == 0) {
-				reduceHurt = null;
-			}
-		}
-	}
-	
-	public int CaculateInjured (int attackType, float attackValue) {
-		float Proportion = 1f / (float)partyItem.Count;
-		//		Debug.LogError ("CaculateInjured : " + Proportion);
-		float attackV = attackValue * Proportion;
-		//		Debug.LogError ("attackV : " + attackV);
-		float hurtValue = 0;
-		for (int i = 0; i < partyItem.Count; i++) {
-			UserUnitInfo unitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
-			hurtValue += unitInfo.CalculateInjured(attackType, attackV);
-		}
-		
-		if (reduceHurt != null) {
-			float value = hurtValue * reduceHurt.AttackValue;
-			hurtValue -= value;
-		}
-		
-		return System.Convert.ToInt32(hurtValue);
-	}
-	
-	public List<AttackImageUtility> CalculateSkill(int areaItemID, int cardID, int blood) {
-		if (crh == null) {
-			crh = new CalculateRecoverHP ();		
-		}
-		CalculateSkillUtility skillUtility = CheckSkillUtility (areaItemID, cardID);
-		List<AttackInfo> areaItemAttackInfo = CheckAttackInfo (areaItemID);
-		areaItemAttackInfo.Clear ();
-		UserUnitInfo tempUnitInfo;
-		List<AttackInfo> tempAttack = new List<AttackInfo>();		
-		List<AttackImageUtility> tempAttackType = new List<AttackImageUtility> ();
-		
-		for (int i = 0; i < partyItem.Count; i++) {
-			if(i == 0) {
-				AttackInfo recoverHp = crh.RecoverHP (skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
-				if(recoverHp != null) {
-					recoverHp.UserUnitID = partyItem [i].unitUniqueId;
-					recoverHp.UserPos = partyItem[i].unitPos;
-					tempAttack.Add(recoverHp);
-				}
-			}
-			tempUnitInfo = GlobalData.tempUserUnitInfo [partyItem [i].unitUniqueId];
-			tempAttack.AddRange(tempUnitInfo.CaculateAttack (skillUtility.haveCard, skillUtility.alreadyUseSkill));
-			if (tempAttack.Count > 0) {
-				for (int j = 0; j < tempAttack.Count; j++) {
-					AttackInfo ai 			= tempAttack [j];
-					ai.UserPos 				= partyItem[i].unitPos;
-					areaItemAttackInfo.Add (ai);
-					skillUtility.alreadyUseSkill.Add (ai.SkillID);
-					AttackImageUtility aiu 	= new AttackImageUtility();
-					aiu.attackProperty		= ai.AttackType;
-					aiu.userProperty 		= GlobalData.tempUserUnitInfo[ai.UserUnitID].GetUnitType();
-					aiu.skillID				= ai.SkillID;
-					aiu.attackID			= ai.AttackID;
-					tempAttackType.Add (aiu);
-				}     
-			}
-			tempAttack.Clear();
-		}
-		
-		return tempAttackType;
-	}
-	
-	public void ClearData () {
-		AttackInfo.ClearData ();
-		alreadyUse.Clear ();
-		attack.Clear ();
-	}
-	
-	public void GetSkillCollection() {
-		partyItem 		= new List<PartyItem>();
-		UnitParty up 	= DeserializeData<UnitParty> ();
-		for (int i 		= 0; i < up.items.Count; i++) {
-			partyItem.Add(up.items[i]);
-		}
-		GetLeaderSkill ();
-		DGTools.InsertSort<PartyItem,IComparer> (partyItem, this);
-	}
-	
-	void GetLeaderSkill () {
-		UnitParty up = DeserializeData<UnitParty> ();
-		uint id = up.items [0].unitUniqueId;
-		AddLeadSkill(id);
-		id = up.items [4].unitUniqueId;
-		AddLeadSkill (id);
-	}
-	
-	void AddLeadSkill (uint id) {
-		if (id != -1) {
-			UserUnitInfo firstLeader = GlobalData.tempUserUnitInfo [id];
-			ProtobufDataBase pdb = GlobalData.tempNormalSkill[firstLeader.GetLeadSKill()];
-			if(leaderSkill.ContainsKey(id)) {
-				leaderSkill[id] = pdb;
+	private float hpMultiple = 1;
+	public int unitBaseInfo = -1;
+
+	TNormalSkill[] normalSkill = new TNormalSkill[2];
+
+	public void SetAttack(float value, int type, EBoostTarget boostTarget,EBoostType boostType) {
+		if (boostType == EBoostType.BOOST_HP) {
+			if (boostTarget == EBoostTarget.UNIT_RACE){
+				SetHPByRace(value,type);
 			}
 			else{
-				leaderSkill.Add(id,pdb);
+				SetHPByType(value,type);
+			}
+		} else {
+			if (boostTarget == EBoostTarget.UNIT_RACE) {
+				SetAttackMultipeByRace (value, type);
+			}
+			else {
+				SetAttackMultipleByType(value,type);	
 			}
 		}
 	}
-	
-	UnitParty GetunitParty(){
-		return DeserializeData<UnitParty> ();
-	} 
-	
-	public int Compare (object first, object second) {
-		PartyItem firstUU 	= (PartyItem)first;
-		PartyItem secondUU 	= (PartyItem)second;
-		NormalSkill ns1 	= GetSecondSkill (firstUU);
-		NormalSkill ns2 	= GetSecondSkill (secondUU);
-		return ns1.activeBlocks.Count.CompareTo(ns2.activeBlocks.Count);
+
+	void SetHPByType (float value, int type) {
+		if (type == GetUnitType () || type == 0) {
+			hpMultiple *= value;
+		}
 	}
-	
+
+	void SetHPByRace (float value, int race) {
+		UnitBaseInfo ubi = GlobalData.unitBaseInfo [unitBaseInfo];
+		if ((int)ubi.race == race || race == (int)EUnitRace.ALL) {
+			hpMultiple *= value;
+		}
+	}
+
+	void SetAttackMultipleByType (float value,int type) {
+		if (type == GetUnitType () || type == 0) {
+			attackMultiple *= value;
+		}
+	}
+
+	void SetAttackMultipeByRace(float value,int race) {
+		UnitBaseInfo ubi = GlobalData.unitBaseInfo [unitBaseInfo];
+		if ((int)ubi.race == race || race == (int)EUnitRace.ALL) {
+			attackMultiple *= value;
+		}
+	}
+
+	public float CalculateInjured(int attackType, float attackValue) {
+		int beRetraintType = DGTools.BeRestraintType (attackType);
+		int retraintType = DGTools.RestraintType (attackType);
+//		UserUnit uu = DeserializeData<UserUnit> ();
+		float hurtValue = 0;
+
+		if (beRetraintType == (int)GetUnitInfo ().type) {
+			hurtValue = attackValue * 0.5f;
+		} 
+		else if (retraintType == (int)GetUnitInfo ().type) {
+			hurtValue = attackValue * 2f;
+		} 
+		else {
+			hurtValue = attackValue;
+		}
+		if (hurtValue <= 0) {
+			hurtValue = 1;
+		}
+		int hv = System.Convert.ToInt32 (hurtValue);
+		currentBlood -= hv;
+		return hv;
+	}
+
+	void InitSkill () {
+//		UserUnit uu 				= DeserializeData<UserUnit> ();
+		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
+		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
+		TNormalSkill firstSkill = null;
+		TNormalSkill secondSkill = null;
+		if (ui.skill1 > -1) {
+			firstSkill	= GlobalData.normalSkill [ui.skill1] as TNormalSkill;	
+		}
+		if (ui.skill2 > -1) {
+			secondSkill = GlobalData.normalSkill [ui.skill2] as TNormalSkill;	
+		}
+		AddSkill(firstSkill,secondSkill);
+	}
+
+	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
+		List<uint> copyCard 		= new List<uint> (card);
+		List<AttackInfo> returnInfo = new List<AttackInfo> ();
+		if (normalSkill [0] == null) {
+			InitSkill();	
+		}
+//		UserUnit uu 				= DeserializeData<UserUnit> ();
+		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
+		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
+		for (int i = 0; i < normalSkill.Length; i++) {
+			TNormalSkill tns 	= normalSkill[i];
+			tns.DisposeUseSkillID(ignorSkillID);
+			int count = tns.CalculateCard(copyCard);
+			for (int j = 0; j < count; j++) {
+				AttackInfo attack	= new AttackInfo();
+				attack.AttackValue	= CaculateAttack(instance,ui,tns);
+				attack.AttackType	= (int)ui.type;
+				attack.UserUnitID	= instance.uniqueId;
+				tns.GetSkillInfo(attack);
+				returnInfo.Add(attack);
+			}
+		}
+		return returnInfo;
+	}
+
+	AttackInfo strengthenInfo = null;
+	void StrengthenTargetType(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;	
+		}
+		if (ai.AttackType != GetUnitType ()) {
+			return;	
+		}
+		if (ai.AttackRound == 0) {
+			strengthenInfo = null;
+			return;
+		}
+		strengthenInfo = ai;
+	}
+
+	void AddSkill(TNormalSkill firstSkill, TNormalSkill secondSkill) {
+		if (firstSkill == null && secondSkill != null) {
+			normalSkill[0] = secondSkill;
+		}
+
+		if (firstSkill != null && secondSkill == null) {
+			normalSkill[0] = firstSkill;
+		}
+
+		if (firstSkill != null && secondSkill != null) {
+			if (secondSkill.GetActiveBlocks() > firstSkill.GetActiveBlocks()) { // second skill first excute
+				normalSkill[0] = secondSkill;
+				normalSkill[1] = firstSkill;
+			} 
+			else {
+				normalSkill[0] = firstSkill;
+				normalSkill[1] = secondSkill;
+			}
+		}
+	}
+
+	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TNormalSkill tns) {
+		int addAttack = uu.addAttack * 50;
+		float attack = addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType, uu.level); //ui.power [uu.level].attack;
+		attack = tns.GetAttack(attack) * attackMultiple;
+
+		if (strengthenInfo != null) {
+			attack *= strengthenInfo.AttackValue;
+		}
+		int value = System.Convert.ToInt32 (attack);
+		return value;
+	}
+
+	public int GetUnitType (){
+		return (int)GetUnitInfo().type;
+	}
+
+	public int GetLeadSKill () {
+		return GetUnitInfo().leaderSkill;
+	}
+
+	public int GetActiveSkill () {
+		return GetUnitInfo ().activeSkill;
+	}
+
+	public int GetPassiveSkill () {
+		return GetUnitInfo ().passiveSkill;
+	}
+
+	public UnitInfo GetUnitInfo() {
+//		UserUnit userUnit = instance;//DeserializeData () as UserUnit;
+		return GlobalData.unitInfo [instance.unitId].GetObject;
+	}
+
 	public int GetInitBlood () {
-		UnitParty up = DeserializeData<UnitParty> ();
-		int bloodNum = 0;
-		for (int i = 0; i < up.items.Count; i++) {
-			uint unitUniqueID = up.items [i].unitUniqueId;
-			bloodNum += GlobalData.tempUserUnitInfo [unitUniqueID].GetInitBlood();
-		}
-		return bloodNum;
+//		UserUnit uu = DeserializeData<UserUnit>();
+		UnitInfo ui = GetUnitInfo() ;
+		int blood = 0;
+		blood +=  DGTools.CaculateAddBlood (instance.addHp,uu,ui);
+//		blood += GlobalData.Instance.GetUnitValue (ui.powerType.hpType, uu.level); //ui.power [uu.level].hp;
+		float temp = blood * hpMultiple;
+		return System.Convert.ToInt32(blood);
 	}
-	
+
 	public int GetBlood () {
-		UnitParty up = DeserializeData<UnitParty> ();
-		int bloodNum = 0;
-		for (int i = 0; i < up.items.Count; i++) {
-			uint unitUniqueID = up.items [i].unitUniqueId;
-			bloodNum += GlobalData.tempUserUnitInfo [unitUniqueID].GetBlood();
+		if (currentBlood == -1) {
+//			UserUnit uu = DeserializeData<UserUnit>();
+			UnitInfo ui = GetUnitInfo() ;
+			currentBlood += DGTools.CaculateAddBlood (instance.addHp,uu,ui);
+//			currentBlood += GlobalData.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
 		}
-		return bloodNum;
+		float blood = currentBlood * hpMultiple;
+		return System.Convert.ToInt32(blood);
 	}
-	
-	public Dictionary<int,uint> GetPartyItem () {
-		Dictionary<int,uint> temp = new Dictionary<int, uint> ();
-		UnitParty up = DeserializeData<UnitParty> ();
-		for (int i = 0; i < up.items.Count; i++) {
-			PartyItem pi = up.items[i];
-			temp.Add(pi.unitPos,pi.unitUniqueId);
+
+	public UserUnit GetObject{
+		get { return instance; }
+	}
+
+	public int GetLevel{
+		get {
+			return GetObject.level;
 		}
-		//Debug.LogError("party count: " + temp.Count);
-		return temp;
 	}
-	
-	CalculateSkillUtility CheckSkillUtility (int areaItemID, int cardID) {
-		CalculateSkillUtility skillUtility;												//-- find or creat  have card and use skill record data
-		if (!alreadyUse.TryGetValue (areaItemID, out skillUtility)) {
-			skillUtility = new CalculateSkillUtility();
-			alreadyUse.Add(areaItemID,skillUtility);
+
+	public int GetAttack {
+		get {
+			int addAttack = GetObject.addAttack * 50;
+			UnitInfo ui = GetUnitInfo() ;
+			return addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType,GetObject.level); //ui.power [GetObject.level].attack;
 		}
-		skillUtility.haveCard.Add ((uint)cardID);
-		return skillUtility;
 	}
-	
-	List<AttackInfo> CheckAttackInfo (int areaItemID) {
-		List<AttackInfo> areaItemAttackInfo = null;										//-- find or creat attack data;
-		if (!attack.TryGetValue (areaItemID, out areaItemAttackInfo)) {
-			areaItemAttackInfo 				= new List<AttackInfo>();
-			attack.Add(areaItemID,areaItemAttackInfo);
+
+	public uint GetUnitID {
+		get {
+			return GetUnitInfo().id;
 		}
-		return areaItemAttackInfo;
 	}
-	
-	NormalSkill GetSecondSkill (PartyItem pi) {
-		UserUnit uu1 = GlobalData.tempUserUnitInfo[pi.unitUniqueId].DeserializeData() as UserUnit;
-		UnitInfo ui1 = GlobalData.tempUnitInfo[uu1.unitId].DeserializeData<UnitInfo>();
-		return GlobalData.tempNormalSkill [ui1.skill2].DeserializeData<NormalSkill> ();
-	}
-	
-	public List<UserUnitInfo> GetUserUnit () {
-		UnitParty uup = DeserializeData<UnitParty> ();
-		List<UserUnitInfo> temp = new List<UserUnitInfo> ();
-		foreach (var item in uup.items) {
-			UserUnitInfo uui = GlobalData.tempUserUnitInfo[item.unitUniqueId];
-			temp.Add(uui);
+
+	public uint GetID {
+		get {
+			return DeserializeData<UserUnit>().uniqueId;
 		}
-		return temp;
-	}
-	
-	public Dictionary<int, UserUnitInfo> GetPosUnitInfo () {
-		UnitParty uup = DeserializeData<UnitParty> ();
-		Dictionary<int,UserUnitInfo> temp = new Dictionary<int,UserUnitInfo> ();
-		foreach (var item in uup.items) {
-			UserUnitInfo uui = GlobalData.tempUserUnitInfo[item.unitUniqueId];
-			temp.Add(item.unitPos,uui);
-		}
-		//		Debug.LogError (temp.Count + " GetPosUnitInfo " + uup.items.Count);
-		return temp;
 	}
 }
+
+//public class PartyItemInfo : ProtobufDataBase {
+//	public PartyItemInfo (PartyItem instance) : base (instance) {
+//		UnitInfo UI = new UnitInfo ();
+//	}
+//}

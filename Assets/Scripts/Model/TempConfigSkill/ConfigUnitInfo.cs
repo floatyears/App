@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 using System.Collections;
@@ -45,14 +45,14 @@ public class ConfigUnitInfo {
 
 			uiitem.passiveSkill = 49;
 			TUnitInfo tui = new TUnitInfo(uiitem);
-			GlobalData.tempUnitInfo.Add(uiitem.id, tui);
+			GlobalData.unitInfo.Add(uiitem.id, tui);
 		}
 
-		GlobalData.tempUnitInfo [1].unitBaseInfoID = 181;
-		GlobalData.tempUnitInfo [2].unitBaseInfoID = 85;
-		GlobalData.tempUnitInfo [3].unitBaseInfoID = 89;
-		GlobalData.tempUnitInfo [4].unitBaseInfoID = 80;
-		GlobalData.tempUnitInfo [5].unitBaseInfoID = 87;
+		GlobalData.unitInfo [1].unitBaseInfoID = 181;
+		GlobalData.unitInfo [2].unitBaseInfoID = 85;
+		GlobalData.unitInfo [3].unitBaseInfoID = 89;
+		GlobalData.unitInfo [4].unitBaseInfoID = 80;
+		GlobalData.unitInfo [5].unitBaseInfoID = 87;
 	}
 
 	//Lynn Add
@@ -84,14 +84,14 @@ public class ConfigUnitInfo {
 			uu.addHp 			= (int)i;
 			uu.limitbreakLv 	= 2;
 			uu.getTime 			= 0;
-			UserUnitInfo uui 	= new UserUnitInfo (uu);
-			GlobalData.tempUserUnitInfo.Add (i, uui);
+			TUserUnit uui 	= new TUserUnit (uu);
+			GlobalData.userUnitInfo.Add (i, uui);
 		}
-		GlobalData.tempUserUnitInfo [1].unitBaseInfo = 181;
-		GlobalData.tempUserUnitInfo [2].unitBaseInfo = 85;
-		GlobalData.tempUserUnitInfo [3].unitBaseInfo = 89;
-		GlobalData.tempUserUnitInfo [4].unitBaseInfo = 80;
-		GlobalData.tempUserUnitInfo [5].unitBaseInfo = 87;
+//		GlobalData.userUnitInfo [1].unitBaseInfo = 181;
+//		GlobalData.userUnitInfo [2].unitBaseInfo = 85;
+//		GlobalData.userUnitInfo [3].unitBaseInfo = 89;
+//		GlobalData.userUnitInfo [4].unitBaseInfo = 80;
+//		GlobalData.userUnitInfo [5].unitBaseInfo = 87;
 	}
 
 	void GenerateUserUnitParty () {
@@ -103,7 +103,7 @@ public class ConfigUnitInfo {
 			pi.unitUniqueId = (uint)i;
 			up.items.Add(pi);
 		}
-		UnitPartyInfo upi = new UnitPartyInfo (up);
+		TUnitParty upi = new TUnitParty (up);
 
 		ModelManager.Instance.AddData (ModelEnum.UnitPartyInfo, upi);
 	}
