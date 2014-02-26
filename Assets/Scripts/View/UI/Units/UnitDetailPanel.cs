@@ -259,54 +259,54 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	//call back view text info
 	public void Callback(object data)	{
-		Dictionary<int, string> textInfo = data as Dictionary<int, string>;
+		Dictionary<int, object> textInfo = data as Dictionary<int, object>;
 		if( !textInfo.ContainsKey(1) ){
 			LogHelper.LogError("Not get the text info which id == 1");
 			return;
 		}
-		leaderSkillNameLabel.text = textInfo[1];
+		leaderSkillNameLabel.text = textInfo[1] as string;
 
 		if( !textInfo.ContainsKey(2) ){
 			LogHelper.LogError("Not get the text info which id == 2");
 			return;
                 }
-		leaderSkillDscpLabel.text = textInfo[ 2 ];
+		leaderSkillDscpLabel.text = textInfo[ 2 ] as string;
 
 		if( !textInfo.ContainsKey(3) ){
 			LogHelper.LogError("Not get the text info which id == 3");
                         return;
                 }
-                activeSkillNameLabel.text = textInfo[ 3 ];
+                activeSkillNameLabel.text = textInfo[ 3 ] as string;
 
 		if( !textInfo.ContainsKey(4) ){
 			LogHelper.LogError("Not get the text info which id == 4");
                         return;
                 }
-		activeSkillDscpLabel.text = textInfo[ 4 ];
+		activeSkillDscpLabel.text = textInfo[ 4 ] as string;
 
 		if( !textInfo.ContainsKey(5) ){
 			LogHelper.LogError("Not get the text info which id == 5");
                         return;
                 }
-		normalSkill1NameLabel.text = textInfo[ 5 ];
+		normalSkill1NameLabel.text = textInfo[ 5 ] as string;
 
 		if( !textInfo.ContainsKey(6) ){
 			LogHelper.LogError("Not get the text info which id == 6");
                         return;
                 }
-		normalSkill1DscpLabel.text = textInfo[ 6 ];
+		normalSkill1DscpLabel.text = textInfo[ 6 ] as string;
 
 		if( !textInfo.ContainsKey(7) ){
 			LogHelper.LogError("Not get the text info which id == 7");
                         return;
                 }
-		normalSkill2NameLabel.text = textInfo[ 7 ];
+		normalSkill2NameLabel.text = textInfo[ 7 ] as string;
 
 		if( !textInfo.ContainsKey(8) ){
 			LogHelper.LogError("Not get the text info which id == 8");
                         return;
                 }
-		normalSkill2DscpLabel.text = textInfo[ 8];
+		normalSkill2DscpLabel.text = textInfo[ 8] as string;
         }
         
         
