@@ -13,6 +13,7 @@ public class TSkillSingleAtkRecoverHP : ActiveSkill ,IActiveSkillExcute{
 	public TSkillSingleAtkRecoverHP(object instance) : base (instance) {
 //		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
 		this.instance = instance as SkillSingleAtkRecoverHP;
+		skillBase = this.instance.baseInfo;
 		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;

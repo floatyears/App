@@ -22,9 +22,9 @@ public class BattleBottom : MonoBehaviour {
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.GetPosUnitInfo ();
 		foreach (var item in userUnitInfo) {
-			TUnitInfo tui = GlobalData.unitInfo[item.Value.GetUnitID];
+			TUnitInfo tui = GlobalData.unitInfo[item.Value.UnitID];
 			actorObject[item.Key].renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
-			rolePosition.Add(item.Value.GetID,actorObject[item.Key].transform.position);
+			rolePosition.Add(item.Value.ID,actorObject[item.Key].transform.position);
 		}
 	}
 
