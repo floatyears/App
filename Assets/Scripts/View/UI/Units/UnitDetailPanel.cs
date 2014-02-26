@@ -3,7 +3,7 @@ using System.Collections;
 using bbproto;
 using System.Collections.Generic;
 
-public class UnitDetailDecoratorUnity : UIComponentUnity{
+public class UnitDetailPanel : UIComponentUnity{
 	//----------UI elements list----------
 	UILabel idLabel;
 	UILabel hpLabel;
@@ -77,16 +77,14 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, ShowUnitDetail);
 	}
 
-
-
+	
 	//----------Init functions of UI Elements----------
 	void InitUI() {
 		InitTabStatus ();
 		InitExpSlider ();
 		InitTexture ();
 	}
-
-
+	
 	void InitTexture(){
 		unitBodyTex = FindChild< UITexture >("detailSprite");
 		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
@@ -104,7 +102,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		costLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Cost"	);
 		rareLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Rare"	);
 		atkLabel 		= FindChild<UILabel> (rootPath + "InputFrame_ATK"	);
-		needExpLabel	= FindChild<UILabel>( rootPath + "Label_Next_Lv_Vaule"	);
+		needExpLabel	= FindChild<UILabel>( rootPath + "Label_Exp_Need"	);
 		expSlider		= FindChild<UISlider>	(rootPath + "ExperenceBar"		);
 
 		statusToggle = FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
