@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleUseData {
@@ -14,8 +14,8 @@ public class BattleUseData {
 	private int recoverHP = 0;
 	private int maxEnergyPoint = 0;
 	private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
-	private List<TempEnemy> currentEnemy =new List<TempEnemy> ();
-	private List<TempEnemy> showEnemy = new List<TempEnemy>();
+	private List<TEnemyInfo> currentEnemy =new List<TEnemyInfo> ();
+	private List<TEnemyInfo> showEnemy = new List<TEnemyInfo>();
 	private AttackController ac;
 	private ExcuteLeadSkill els;
 	private ExcuteActiveSkill eas;
@@ -192,14 +192,14 @@ public class BattleUseData {
 		}
 	}
 
-	public List<TempEnemy> GetEnemyInfo (List<uint> monster) {
+	public List<TEnemyInfo> GetEnemyInfo (List<uint> monster) {
 		currentEnemy.Clear ();
 		int j = showEnemy.Count - monster.Count;
 		for (int i = 0; i < j; i++) {
 			showEnemy.RemoveAt(monster.Count + i);
 		}
 		for (int i = 0; i < monster.Count; i++) {
-			TempEnemy te = GlobalData.tempEnemyInfo[monster[i]];
+			TEnemyInfo te = GlobalData.tempEnemyInfo[monster[i]];
 			te.Reset();
 			if(i == showEnemy.Count) {
 				showEnemy.Add(te);

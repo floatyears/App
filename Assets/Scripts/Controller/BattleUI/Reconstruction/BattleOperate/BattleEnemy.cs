@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleEnemy : UIBaseUnity {
@@ -65,7 +65,7 @@ public class BattleEnemy : UIBaseUnity {
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
 	}
 
-	public void Refresh(List<TempEnemy> enemy) {
+	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);

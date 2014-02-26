@@ -29,7 +29,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	}
 	
 	bool DisposeBoostSkill (ProtobufDataBase pdb) {
-		TempBoostSkill tbs = pdb as TempBoostSkill;
+		TSkillBoost tbs = pdb as TSkillBoost;
 		if (tbs != null) {
 			foreach (var item in leadSkill.UserUnit.Values) {
 				item.SetAttack(tbs.GetBoostValue, tbs.GetTargetValue, tbs.GetTargetType, tbs.GetBoostType);
@@ -42,7 +42,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	}
 
 	bool DisposeDelayOperateTime (ProtobufDataBase pdb) {
-		TempSkillTime tst = pdb as TempSkillTime;
+		TSkillTime tst = pdb as TSkillTime;
 		if (tst != null) {
 			MsgCenter.Instance.Invoke(CommandEnum.LeaderSkillDelayTime, tst.DelayTime);
 			return true;
@@ -55,7 +55,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			return hurt;	
 		}
 		foreach (var item in leadSkill.LeadSkill) {
-			TempReduceHurt trh = item.Value as TempReduceHurt;
+			TSkillReduceHurt trh = item.Value as TSkillReduceHurt;
 			if(trh != null) {
 				hurt = trh.ReduceHurt(hurt,type);
 				if(trh.CheckUseDone()) {
@@ -73,7 +73,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			return null;
 		}
 		foreach (var item in leadSkill.LeadSkill) {
-			TempSkillExtraAttack tsea = item.Value as TempSkillExtraAttack;
+			TSkillExtraAttack tsea = item.Value as TSkillExtraAttack;
 			if(tsea == null) {
 				continue;
 			}
@@ -95,7 +95,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		}
 
 		foreach (var item in leadSkill.LeadSkill) {
-			TempConvertUnitType tcut = item.Value as TempConvertUnitType;
+			TSkillConvertUnitType tcut = item.Value as TSkillConvertUnitType;
 
 			if(tcut == null) {
 				continue;
@@ -115,7 +115,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		}
 		
 		foreach (var item in leadSkill.LeadSkill) {
-			TempConvertUnitType tcut = item.Value as TempConvertUnitType;	
+			TSkillConvertUnitType tcut = item.Value as TSkillConvertUnitType;	
 			if(tcut == null) {
 				continue;
 			}
@@ -136,7 +136,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		}
 
 		foreach (var item in leadSkill.LeadSkill) {
-			TempRecoverHP trhp = item.Value as TempRecoverHP;	
+			TSkillRecoverHP trhp = item.Value as TSkillRecoverHP;	
 			if(trhp == null) {
 				continue;
 			}

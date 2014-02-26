@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleBottom : MonoBehaviour {
@@ -22,7 +22,7 @@ public class BattleBottom : MonoBehaviour {
 		}
 		Dictionary<int,UserUnitInfo> userUnitInfo = upi.GetPosUnitInfo ();
 		foreach (var item in userUnitInfo) {
-			TempUnitInfo tui = GlobalData.tempUnitInfo[item.Value.GetUnitID];
+			TUnitInfo tui = GlobalData.tempUnitInfo[item.Value.GetUnitID];
 			actorObject[item.Key].renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
 			rolePosition.Add(item.Value.GetID,actorObject[item.Key].transform.position);
 		}

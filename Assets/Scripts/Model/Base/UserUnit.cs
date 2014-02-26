@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
@@ -34,7 +34,7 @@ public class UserUnitInfo : ProtobufDataBase {
 	private float hpMultiple = 1;
 	public int unitBaseInfo = -1;
 
-	TempNormalSkill[] normalSkill = new TempNormalSkill[2];
+	TNormalSkill[] normalSkill = new TNormalSkill[2];
 
 	public void SetAttack(float value, int type, EBoostTarget boostTarget,EBoostType boostType) {
 		if (boostType == EBoostType.BOOST_HP) {
@@ -108,15 +108,15 @@ public class UserUnitInfo : ProtobufDataBase {
 
 	void InitSkill () {
 		UserUnit uu 				= DeserializeData<UserUnit> ();
-		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.unitId];
+		TUnitInfo tui 			= GlobalData.tempUnitInfo[uu.unitId];
 		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
-		TempNormalSkill firstSkill = null;
-		TempNormalSkill secondSkill = null;
+		TNormalSkill firstSkill = null;
+		TNormalSkill secondSkill = null;
 		if (ui.skill1 > -1) {
-			firstSkill	= GlobalData.tempNormalSkill [ui.skill1] as TempNormalSkill;	
+			firstSkill	= GlobalData.tempNormalSkill [ui.skill1] as TNormalSkill;	
 		}
 		if (ui.skill2 > -1) {
-			secondSkill = GlobalData.tempNormalSkill [ui.skill2] as TempNormalSkill;	
+			secondSkill = GlobalData.tempNormalSkill [ui.skill2] as TNormalSkill;	
 		}
 		AddSkill(firstSkill,secondSkill);
 	}
@@ -128,10 +128,10 @@ public class UserUnitInfo : ProtobufDataBase {
 			InitSkill();	
 		}
 		UserUnit uu 				= DeserializeData<UserUnit> ();
-		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.unitId];
+		TUnitInfo tui 			= GlobalData.tempUnitInfo[uu.unitId];
 		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
 		for (int i = 0; i < normalSkill.Length; i++) {
-			TempNormalSkill tns 	= normalSkill[i];
+			TNormalSkill tns 	= normalSkill[i];
 			tns.DisposeUseSkillID(ignorSkillID);
 			int count = tns.CalculateCard(copyCard);
 			for (int j = 0; j < count; j++) {
@@ -162,7 +162,7 @@ public class UserUnitInfo : ProtobufDataBase {
 		strengthenInfo = ai;
 	}
 
-	void AddSkill(TempNormalSkill firstSkill, TempNormalSkill secondSkill) {
+	void AddSkill(TNormalSkill firstSkill, TNormalSkill secondSkill) {
 		if (firstSkill == null && secondSkill != null) {
 			normalSkill[0] = secondSkill;
 		}
@@ -183,7 +183,7 @@ public class UserUnitInfo : ProtobufDataBase {
 		}
 	}
 
-	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TempNormalSkill tns) {
+	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TNormalSkill tns) {
 		int addAttack = uu.addAttack * 50;
 		float attack = addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType, uu.level); //ui.power [uu.level].attack;
 		attack = tns.GetAttack(attack) * attackMultiple;

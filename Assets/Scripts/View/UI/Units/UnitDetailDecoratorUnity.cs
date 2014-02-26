@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 using System.Collections.Generic;
@@ -106,7 +106,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		levelLabel.text = userUnitInfo.level.ToString();
 		typeLabel.text = GlobalData.tempUnitInfo[ curId ].GetUnitType();
 
-		TempUnitInfo tu = GlobalData.tempUnitInfo[ curId ];
+		TUnitInfo tu = GlobalData.tempUnitInfo[ curId ];
 		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),userUnitInfo.level);
 		hpLabel.text = hp.ToString();
 		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), userUnitInfo.level);
@@ -151,7 +151,7 @@ public class UnitDetailDecoratorUnity : UIComponentUnity{
 		levelLabel.text = packageInfo[0].level.ToString();
 		typeLabel.text = GlobalData.tempUnitInfo[ curUnitId ].GetUnitType();
 		
-		TempUnitInfo tu = GlobalData.tempUnitInfo[ curUnitId ];
+		TUnitInfo tu = GlobalData.tempUnitInfo[ curUnitId ];
 		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),packageInfo[0].level);
 		hpLabel.text = hp.ToString();
 		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), packageInfo[0].level);

@@ -2,8 +2,8 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillAntiAttack : ProtobufDataBase, IPassiveExcute {
-	public TSkillAntiAttack(object instance) : base (instance) {
+public class PassiveAntiAttack : ProtobufDataBase, IPassiveExcute {
+	public PassiveAntiAttack(object instance) : base (instance) {
 
 	}
 

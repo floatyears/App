@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleQuest : UIBase {
@@ -180,7 +180,7 @@ public class BattleQuest : UIBase {
 	void MeetBoss () {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<TempEnemy> temp = bud.GetEnemyInfo(mapConfig.BossID);
+		List<TEnemyInfo> temp = bud.GetEnemyInfo(mapConfig.BossID);
 		battle.ShowEnemy(temp);
 	}
 
@@ -210,7 +210,7 @@ public class BattleQuest : UIBase {
 	void MapItemEnemy() {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<TempEnemy> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
+		List<TEnemyInfo> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
 		battle.ShowEnemy(temp);
 	}
 

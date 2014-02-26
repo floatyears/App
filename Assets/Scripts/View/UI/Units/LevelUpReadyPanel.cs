@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
@@ -54,7 +54,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void UpdateBaseInfoView( UserUnit unitInfo){
 		GameObject baseTab = TabList[0];
 		uint curUnitId = unitInfo.unitId;
-		TempUnitInfo tu = GlobalData.tempUnitInfo[ curUnitId ];
+		TUnitInfo tu = GlobalData.tempUnitInfo[ curUnitId ];
 
 		UITexture tex = baseTab.GetComponentInChildren<UITexture>();
 		tex.mainTexture = tu.GetAsset(UnitAssetType.Avatar);
