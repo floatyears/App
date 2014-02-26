@@ -38,7 +38,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	Material unitMaterial;
 	List<GameObject> effectCache = new List<GameObject>();
 
-	int currMaxExp, curExp, gotExp, expRiseStep;
+	List<UISprite> blockLsit1 = new List<UISprite>();
+	List<UISprite> blockLsit2 = new List<UISprite>();
+        
+        int currMaxExp, curExp, gotExp, expRiseStep;
 
 	
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
@@ -91,6 +94,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		InitExpSlider ();
 		InitTexture ();
 		InitProfile();
+
 	}
 
 
@@ -103,6 +107,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitBodyTex = FindChild< UITexture >("detailSprite");
 		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
 	}
+	
 
 	void InitTabStatus() {
 		string rootPath			= "UnitInfoTabs/Content_Status/";
@@ -138,7 +143,25 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		normalSkill1DscpLabel	= FindChild<UILabel>(rootPath + "Normal_Skill1_Dscp");
 		normalSkill2NameLabel 	= FindChild<UILabel>(rootPath + "Normal_Skill2");
 		normalSkill2DscpLabel	= FindChild<UILabel>(rootPath + "Normal_Skill2_Dscp");
-                
+	
+		rootPath 				= "UnitInfoTabs/Content_Skill2/Block/Block1/";
+		UISprite spr;
+		int count;
+		for( count =0; count <=4; count++ ){
+			spr				= FindChild<UISprite>(rootPath + count.ToString());
+			blockLsit1.Add( spr );
+		}
+		ClearBlock( blockLsit1 );
+//		Debug.LogError( "BlockList1 count : " + blockLsit1.Count);
+
+		rootPath 				= "UnitInfoTabs/Content_Skill2/Block/Block2/";
+		for( count =0; count <=4; count++ ){
+			spr				= FindChild<UISprite>(rootPath + count.ToString());
+			blockLsit2.Add( spr );
+		}
+		ClearBlock( blockLsit2 );
+//                Debug.LogError( "BlockList2 count : " + blockLsit2.Count);
+
         }
         
         //Make panel focus on the same tab every time when this ui show
@@ -307,10 +330,43 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
                         return;
                 }
 		normalSkill2DscpLabel.text = textInfo[ 8] as string;
+
+		if( !textInfo.ContainsKey(9) ){
+			LogHelper.LogError("Not get the text info which id == 8");
+			return;
+                }
+		profileLabel.text = textInfo[ 9 ] as string;
+
+		if( !textInfo.ContainsKey(10) ){
+			LogHelper.LogError("Not get the text info which id == 10");
+                        return;
+                }
+		List<uint> sprNameList1 = textInfo[ 10 ] as List<uint>;
+		for( int i = 0; i < sprNameList1.Count; i++ ){
+			blockLsit1[ i ].enabled = true;
+			blockLsit1[ i ].spriteName = sprNameList1[ i ].ToString();
+//			Debug.LogError( " name : " + sprNameList1[ i ].ToString());
+		}
+
+		if( !textInfo.ContainsKey(11) ){
+			LogHelper.LogError("Not get the text info which id == 11");
+			return;
+		}
+		List<uint> sprNameList2 = textInfo[ 11 ] as List<uint>;
+		for( int i = 0; i < sprNameList2.Count; i++ ){
+			blockLsit2[ i ].enabled = true;
+                        blockLsit2[ i ].spriteName = sprNameList2[ i ].ToString();
+//			Debug.LogError( " name : " + sprNameList2[ i ].ToString());
+                }
         }
         
-        
-        
+        void ClearBlock(List<UISprite> blocks){
+		foreach (var item in blocks){
+			item.enabled = false;
+			item.spriteName = string.Empty;
+		}
+	}
+	       
         int curLevel;
 	//---------Exp increase----------
 	void InitExpSlider(){
