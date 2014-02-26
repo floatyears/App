@@ -26,15 +26,17 @@ public class GlobalData  {
 		}
 	}
 
+	///////////////////////////////////////////////////////////////////////////////
+	/// 
+	public static TUserInfo userInfo;
 	public static Dictionary<int,PowerTableInfo> unitValue = new Dictionary<int, PowerTableInfo>();
-
 	public static Dictionary<int, ProtobufDataBase> tempNormalSkill = new Dictionary<int, ProtobufDataBase>();
 	public static Dictionary<uint, TempUnitInfo>	tempUnitInfo = new Dictionary<uint, TempUnitInfo> ();
 	public static Dictionary<uint, UserUnitInfo> tempUserUnitInfo = new Dictionary<uint, UserUnitInfo>();
 	public static Dictionary<uint, TempEnemy> tempEnemyInfo = new Dictionary<uint, TempEnemy> ();
 	public static Dictionary<int, UnitBaseInfo> tempUnitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
 	public static Dictionary<uint, TrapBase> tempTrapInfo = new Dictionary<uint, TrapBase> ();
-	//public static Dictionary<uint,>
+	///////////////////////////////////////////////////////////////////////////////
 
 	public const int maxEnergyPoint = 20;
 	public const int posStart = 1;

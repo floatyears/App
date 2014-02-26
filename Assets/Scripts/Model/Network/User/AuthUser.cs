@@ -42,6 +42,8 @@ public class AuthUser: ProtoManager {
 		LogHelper.Log("reponse staminaMax:"+rspAuthUser.user.staminaMax);
 		LogHelper.Log("reponse staminaRecover:"+rspAuthUser.user.staminaRecover);
 
+		//save to GlobalData
+		GlobalData.userInfo = new TUserInfo (rspAuthUser.user);
 
 		//send response to caller
 		MsgCenter.Instance.Invoke (CommandEnum.RspAuthUser, rspAuthUser);
