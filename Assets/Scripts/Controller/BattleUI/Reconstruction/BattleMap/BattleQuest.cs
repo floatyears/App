@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleQuest : UIBase {
@@ -132,6 +132,7 @@ public class BattleQuest : UIBase {
 
 	bool battleEnemy = false;
 	public void ClickDoor () {
+//		Debug.LogError (bossAppear);
 		bossAppear.PlayBossAppera (MeetBoss);
 		role.Stop();
 		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
@@ -179,13 +180,13 @@ public class BattleQuest : UIBase {
 	void MeetBoss () {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<TempEnemy> temp = bud.GetEnemyInfo(mapConfig.BossID);
+		List<TEnemyInfo> temp = bud.GetEnemyInfo(mapConfig.BossID);
 		battle.ShowEnemy(temp);
 	}
 
 	void MapItemTrap() {
 		battleMap.waitMove = false;
-		TrapBase tb = GlobalData.tempTrapInfo[currentMapData.TypeValue];
+		TrapBase tb = GlobalData.trapInfo[currentMapData.TypeValue];
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
@@ -209,7 +210,7 @@ public class BattleQuest : UIBase {
 	void MapItemEnemy() {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<TempEnemy> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
+		List<TEnemyInfo> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
 		battle.ShowEnemy(temp);
 	}
 

@@ -15,29 +15,31 @@ public class ActiveSkill : ProtobufDataBase {
 	}
 
 	protected void DisposeCooling () {
-
 		coolingDone = DGTools.CheckCooling (skillBase);
-//		Debug.LogError("DisposeCooling --------"+"ActiveSkillSingleAttack coolingDone : " + coolingDone + " skillBase.skillCooling : " + skillBase.skillCooling);
 	}
 
 	protected void InitCooling() {
-
 		skillBase.skillCooling = initSkillCooling;
 		if (skillBase.skillCooling > 0) {
 			coolingDone = false;
 		}
-//		Debug.LogError( "InitCooling --------"+ "ActiveSkillSingleAttack coolingDone : " + coolingDone + " skillBase.skillCooling : " + skillBase.skillCooling);
+	}
+
+	public SkillBase GetSkillInfo () {
+		return skillBase;
 	}
 }
 
-public class ActiveSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
+public class TSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
+	private SkillSingleAttack instance;
 	public bool CoolingDone {
 		get {
 			return coolingDone;
 		}
 	}
-	public ActiveSkillSingleAttack(object instance) : base (instance) {
-		skillBase = DeserializeData<SkillSingleAttack> ().baseInfo;	
+	public TSkillSingleAttack(object instance) : base (instance) {
+		this.instance = instance as SkillSingleAttack;
+		skillBase = this.instance.baseInfo;	
 		initSkillCooling = skillBase.skillCooling;
 	
 		if (initSkillCooling == 0) {
@@ -57,24 +59,24 @@ public class ActiveSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 			return null;		
 		}
 		InitCooling ();
-		SkillSingleAttack ssa = DeserializeData<SkillSingleAttack> ();
+//		SkillSingleAttack ssa = instance;//DeserializeData<SkillSingleAttack> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
-		ai.AttackType = (int)ssa.unitType;
-		ai.AttackRange = (int)ssa.attackRange;
-		if (ssa.attackRange == EAttackType.RECOVER_HP) {
-			MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, ssa.value);
+		ai.AttackType = (int)instance.unitType;
+		ai.AttackRange = (int)instance.attackRange;
+		if (instance.attackRange == EAttackType.RECOVER_HP) {
+			MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, instance.value);
 		} 
 		else {
-			if (ssa.type == EValueType.FIXED) {
-				ai.AttackValue = ssa.value;	
+			if (instance.type == EValueType.FIXED) {
+				ai.AttackValue = instance.value;	
 			}
-			else if(ssa.type == EValueType.MULTIPLE) {
-				ai.AttackValue = ssa.value * atk;
+			else if(instance.type == EValueType.MULTIPLE) {
+				ai.AttackValue = instance.value * atk;
 			}	
 		}
 
-		ai.IgnoreDefense = ssa.ignoreDefense;
+		ai.IgnoreDefense = instance.ignoreDefense;
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
 		return ai;
 	}

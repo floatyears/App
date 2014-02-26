@@ -3,8 +3,10 @@ using System.Collections;
 using bbproto;
 
 public class KnockdownAttack : ActiveSkill, IActiveSkillExcute {
+	private SkillSingleAttack instance;
 	public KnockdownAttack (object instance) : base (instance){ 
-		skillBase = DeserializeData<SkillSingleAttack> ().baseInfo;	
+		this.instance = instance as SkillSingleAttack;
+		skillBase = this.instance.baseInfo;	
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -25,19 +27,19 @@ public class KnockdownAttack : ActiveSkill, IActiveSkillExcute {
 			return null;	
 		}
 		InitCooling ();
-		SkillSingleAttack ssa = DeserializeData<SkillSingleAttack>();
+//		SkillSingleAttack ssa = DeserializeData<SkillSingleAttack>();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		float value = DGTools.RandomToFloat ();
 //		Debug.LogError ("random value : " + value);
-		if (value <= ssa.value) {
+		if (value <= instance.value) {
 			ai.AttackValue = int.MaxValue - 10000; //not minus 10000, number will be overflow.
 		} 
 		else {
 			ai.AttackValue = 1f;
 		}
-		ai.IgnoreDefense = ssa.ignoreDefense;
-		ai.AttackRange = (int)ssa.attackRange;
+		ai.IgnoreDefense = instance.ignoreDefense;
+		ai.AttackRange = (int)instance.attackRange;
 		ai.AttackType = 0;
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
 		return ai;

@@ -8,7 +8,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	DragPanel baseDragPanel;
 	Dictionary<GameObject, UserUnit> baseUnitInfoDic = new Dictionary<GameObject, UserUnit>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	private List<UserUnitInfo> userUnitInfoList = new List<UserUnitInfo>();
+	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
@@ -61,7 +61,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 		uint curUnitId = baseUnitInfoDic[item].unitId;
 //		Debug.LogError("Base Show Avatar : curUnitId is : " + curUnitId);
-		avatarTex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		avatarTex.mainTexture = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
 
 		int addAttack = baseUnitInfoDic[ item ].addAttack;
 		int addHp = baseUnitInfoDic[ item ].addHp;

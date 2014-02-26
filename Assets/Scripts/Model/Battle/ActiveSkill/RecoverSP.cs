@@ -2,9 +2,11 @@
 using System.Collections;
 using bbproto;
 
-public class RecoverSP : ActiveSkill, IActiveSkillExcute {
-	public RecoverSP (object instance) : base (instance) { 
-		skillBase = DeserializeData<SkillRecoverSP> ().baseInfo;	
+public class TSkillRecoverSP : ActiveSkill, IActiveSkillExcute {
+	private SkillRecoverSP instance;
+	public TSkillRecoverSP (object instance) : base (instance) { 
+		this.instance = instance as SkillRecoverSP;
+		skillBase = this.instance.baseInfo;	
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -26,8 +28,8 @@ public class RecoverSP : ActiveSkill, IActiveSkillExcute {
 			return null;	
 		}
 		InitCooling ();
-		SkillRecoverSP srs = DeserializeData<SkillRecoverSP> ();
-		int step = (int)srs.value;
+//		SkillRecoverSP srs = DeserializeData<SkillRecoverSP> ();
+		int step = (int)instance.value;
 //		Debug.LogError ("step : " + step);
 		MsgCenter.Instance.Invoke (CommandEnum.SkillRecoverSP, step);
 		return step;

@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class EnemyItem : UIBaseUnity {
-	private TempEnemy enemyInfo;
+	private TEnemyInfo enemyInfo;
 	private UITexture texture;
+	private UITexture dropTexture;
+
 	private UILabel bloodLabel;
 	private UILabel nextLabel;
 	private UIPanel effect;
@@ -54,7 +56,8 @@ public class EnemyItem : UIBaseUnity {
 		}
 
 		ShowHurtInfo (ai.InjuryValue);
-		ShowInjuredEffect (ai.AttackType);
+		//ShowInjuredEffect (ai.AttackType);
+		InjuredShake ();
 	}
 
 	void ShowHurtInfo(int injuredValue) {
@@ -102,10 +105,12 @@ public class EnemyItem : UIBaseUnity {
 		Debug.Log ("posion round : " + ai.AttackRound);
 	}
 	
-	public void Init(TempEnemy te) {
+	public void Init(TEnemyInfo te) {
 		texture 				= FindChild<UITexture> ("Texture");
-		TempUnitInfo tui 		= GlobalData.tempUnitInfo [te.GetID ()];
+		TUnitInfo tui 		= GlobalData.unitInfo [te.GetID ()];
 		texture.mainTexture 	= tui.GetAsset (UnitAssetType.Profile);
+		dropTexture 			= FindChild<UITexture>("Drop");
+		dropTexture.enabled 	= false;
 		localPosition 			= texture.transform.localPosition;
 		attackPosition 			= new Vector3 (localPosition.x, BattleBackground.ActorPosition.y , localPosition.z);
 		bloodLabel 				= FindChild<UILabel> ("BloodLabel");
@@ -125,17 +130,28 @@ public class EnemyItem : UIBaseUnity {
 		Destroy (gameObject);
 	}
 
+	public void DropItem () {
+		dropTexture.enabled = true;
+		iTween.ShakeRotation (dropTexture.gameObject, iTween.Hash ("z",20,"time",0.5f,"oncomplete","DorpEnd","oncompletetarget",gameObject));
+	}
+
+	void DorpEnd () {
+		DestoryUI ();
+	}
+
 	void EnemyDead(object data) {
-		TempEnemy te = data as TempEnemy;
+		TEnemyInfo te = data as TEnemyInfo;
 		if (te == null || te.GetID () != enemyInfo.GetID()) {
 			return;		
 		}
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
-		DestoryUI ();
+		//DestoryUI ();
+		texture.enabled = false;
+		DropItem ();
 	}
 
 	void EnemyRefresh(object data) {
-		TempEnemy te = data as TempEnemy;
+		TEnemyInfo te = data as TEnemyInfo;
 		if (te == null) {
 			return;		
 		}
@@ -168,7 +184,7 @@ public class EnemyItem : UIBaseUnity {
 		iTween.MoveTo (texture.gameObject,iTween.Hash("position",localPosition,"time",0.2f,"islocal",true,"easetype",iTween.EaseType.easeOutCubic));
 	}
 
-	void SetData (TempEnemy seu) {
+	void SetData (TEnemyInfo seu) {
 		SetBloodLabel (seu.GetBlood());
 		SetNextLabel (seu.GetRound());
 	}

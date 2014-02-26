@@ -1,26 +1,30 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleBottom : MonoBehaviour {
 	private Camera bottomCamera;
 	private RaycastHit rch;
-	private UnitPartyInfo upi;
+	private TUnitParty upi;
 	private Dictionary<int,GameObject> actorObject = new Dictionary<int,GameObject>();
+	private static Dictionary<uint,Vector3> rolePosition = new Dictionary<uint, Vector3> ();
+	public static Dictionary<uint,Vector3> RolePosition {
+		get{ return rolePosition; }
+	}
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
 		if (upi == null) {
-			upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo,new ErrorMsg()) as UnitPartyInfo;		
+			upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo,new ErrorMsg()) as TUnitParty;		
 		}
 		for (int i = 1; i < 6; i++) {
 			GameObject tex = transform.Find("Actor/" + i).gameObject;	
 			actorObject.Add(i,tex);
 		}
-		Dictionary<int,UserUnitInfo> userUnitInfo = upi.GetPosUnitInfo ();
-//		Debug.LogError (userUnitInfo.Count);
+		Dictionary<int,TUserUnit> userUnitInfo = upi.GetPosUnitInfo ();
 		foreach (var item in userUnitInfo) {
-			TempUnitInfo tui = GlobalData.tempUnitInfo[item.Value.GetUnitID];
+			TUnitInfo tui = GlobalData.unitInfo[item.Value.GetUnitID];
 			actorObject[item.Key].renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
+			rolePosition.Add(item.Value.GetID,actorObject[item.Key].transform.position);
 		}
 	}
 
@@ -47,7 +51,7 @@ public class BattleBottom : MonoBehaviour {
 		}
 		int id = System.Int32.Parse (name);
 		if (upi.UserUnit.ContainsKey (id)) {
-			UserUnitInfo uui = upi.UserUnit [id];
+			TUserUnit uui = upi.UserUnit [id];
 			MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, uui);
 		}
 	}

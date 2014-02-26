@@ -3,8 +3,10 @@ using System.Collections;
 using bbproto;
 
 public class ActiveDeferAttackRound : ActiveSkill, IActiveSkillExcute {
+	private SkillDeferAttackRound instance;
 	public ActiveDeferAttackRound (object instance) : base (instance) {
-		skillBase = DeserializeData<SkillDeferAttackRound> ().baseInfo;
+		this.instance = instance as SkillDeferAttackRound;
+		skillBase = this.instance.baseInfo;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;		
 		}
@@ -25,8 +27,8 @@ public class ActiveDeferAttackRound : ActiveSkill, IActiveSkillExcute {
 			return null;	
 		}
 		InitCooling ();
-		SkillDeferAttackRound sdar = DeserializeData<SkillDeferAttackRound> ();
-		int roundValue = System.Convert.ToInt32 (sdar.value);
+//		SkillDeferAttackRound sdar = DeserializeData<SkillDeferAttackRound> ();
+		int roundValue = System.Convert.ToInt32 (instance.value);
 		MsgCenter.Instance.Invoke(CommandEnum.DeferAttackRound, roundValue);
 		return null;
 	}

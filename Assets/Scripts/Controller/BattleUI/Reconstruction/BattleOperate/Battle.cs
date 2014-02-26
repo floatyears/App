@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class Battle : UIBase
@@ -191,7 +191,7 @@ public class Battle : UIBase
 		battleEnemy.ShowUI ();
 	}
 
-	public void ShowEnemy(List<TempEnemy> count)
+	public void ShowEnemy(List<TEnemyInfo> count)
 	{
 		battleEnemy.Refresh(count);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
