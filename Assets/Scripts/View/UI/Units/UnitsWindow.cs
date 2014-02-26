@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitsDecoratorUnity : UIComponentUnity, IUIParty{
+public class UnitsWindow : UIComponentUnity, IUIParty{
 	IUICallback iuiCallback;
 	private GameObject leftArrowBtn;
 	private GameObject rightArrowBtn;
