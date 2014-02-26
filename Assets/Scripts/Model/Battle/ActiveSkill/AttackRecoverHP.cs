@@ -2,15 +2,18 @@
 using System.Collections;
 using bbproto;
 
-public class AttackRecoverHP : ActiveSkill ,IActiveSkillExcute{
+public class TSkillSingleAtkRecoverHP : ActiveSkill ,IActiveSkillExcute{
+	private SkillSingleAtkRecoverHP instance;
 	public bool CoolingDone {
 		get {
 			return coolingDone;
 		}
 	}
 
-	public AttackRecoverHP(object instance) : base (instance) {
-		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
+	public TSkillSingleAtkRecoverHP(object instance) : base (instance) {
+//		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
+		this.instance = instance as SkillSingleAtkRecoverHP;
+		skillBase = this.instance.baseInfo;
 		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
@@ -26,13 +29,13 @@ public class AttackRecoverHP : ActiveSkill ,IActiveSkillExcute{
 			return null;	
 		}
 		InitCooling ();
-		SkillSingleAtkRecoverHP ssarh = DeserializeData<SkillSingleAtkRecoverHP> ();
+//		SkillSingleAtkRecoverHP ssarh = DeserializeData<SkillSingleAtkRecoverHP> ();
 		AttackInfo ai = new AttackInfo ();
-		ai.AttackType = (int)ssarh.unitType;
-		if (ssarh.type == EValueType.MULTIPLE) {
-			ai.AttackValue = atk * ssarh.value;		
-		} else if(ssarh.type == EValueType.FIXED) {
-			ai.AttackValue = ssarh.value;
+		ai.AttackType = (int)instance.unitType;
+		if (instance.type == EValueType.MULTIPLE) {
+			ai.AttackValue = atk * instance.value;		
+		} else if(instance.type == EValueType.FIXED) {
+			ai.AttackValue = instance.value;
 		}
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillDrawHP, null);

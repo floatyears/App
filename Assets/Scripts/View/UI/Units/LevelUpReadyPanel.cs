@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
@@ -54,7 +54,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void UpdateBaseInfoView( UserUnit unitInfo){
 		GameObject baseTab = TabList[0];
 		uint curUnitId = unitInfo.unitId;
-		TempUnitInfo tu = GlobalData.tempUnitInfo[ curUnitId ];
+		TUnitInfo tu = GlobalData.unitInfo[ curUnitId ];
 
 		UITexture tex = baseTab.GetComponentInChildren<UITexture>();
 		tex.mainTexture = tu.GetAsset(UnitAssetType.Avatar);
@@ -84,14 +84,14 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		GameObject materialTab = materialPoolDic[ materialUnitInfo.Count ];
 		UITexture tex = materialTab.GetComponentInChildren<UITexture>();
 		uint curUnitId = unitInfo.unitId;
-		tex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		tex.mainTexture = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
         }
         
 	void UpdateFriendInfo(UserUnit unitInfo){
 		GameObject friendTab = TabList[1];
 		UITexture tex = friendTab.GetComponentInChildren<UITexture>();
 		uint curUnitId = unitInfo.unitId;
-		tex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		tex.mainTexture = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
         }
 
 	void FindInfoPanelLabel(){

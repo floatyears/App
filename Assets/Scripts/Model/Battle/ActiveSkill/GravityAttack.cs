@@ -3,8 +3,10 @@ using System.Collections;
 using bbproto;
 
 public class GravityAttack : ActiveSkill, IActiveSkillExcute {
+	private SkillKillHP instance; 
 	public GravityAttack (object instance) : base (instance) {
-		skillBase = DeserializeData<SkillKillHP> ().baseInfo;	
+		this.instance = instance as SkillKillHP;
+		skillBase = this.instance.baseInfo;	
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -25,11 +27,11 @@ public class GravityAttack : ActiveSkill, IActiveSkillExcute {
 			return null;	
 		}
 		InitCooling ();
-		SkillKillHP skh = DeserializeData<SkillKillHP> ();
+//		SkillKillHP skh = DeserializeData<SkillKillHP> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.IgnoreDefense = true;
-		ai.AttackValue = skh.value;
+		ai.AttackValue = instance.value;
 
 		MsgCenter.Instance.Invoke(CommandEnum.SkillGravity, ai);
 		return ai;

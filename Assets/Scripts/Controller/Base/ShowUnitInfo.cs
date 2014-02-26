@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ShowUnitInfo {
@@ -8,7 +8,7 @@ public class ShowUnitInfo {
 	
 	private static UnitBaseInfo currentDetail;
 	public static string roleSpriteName = "";
-	public static UserUnitInfo uui;
+	public static TUserUnit uui;
 	public static int unitID = -1;
 	public static string unitName = "";
 	public static int level = -1;
@@ -59,11 +59,11 @@ public class ShowUnitInfo {
 	}
 
 	void DisposeUnitInfo (object data) {
-		UserUnitInfo uui = data as UserUnitInfo;
+		TUserUnit uui = data as TUserUnit;
 		if (uui == null) {
 			return;	
 		}
-		UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [uui.unitBaseInfo];
+		UnitBaseInfo ubi = GlobalData.unitBaseInfo [uui.unitBaseInfo];
 		roleSpriteName = ubi.GetRolePath;
 		unitID = ubi.assetID;
 		unitName = ubi.englishName;

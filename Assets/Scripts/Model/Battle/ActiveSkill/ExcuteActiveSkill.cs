@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class ExcuteActiveSkill {
@@ -7,7 +7,7 @@ public class ExcuteActiveSkill {
 	public ExcuteActiveSkill(ILeaderSkill ils) {
 		leaderSkill = ils;
 		foreach (var item in ils.UserUnit.Values) {
-			ProtobufDataBase pudb = GlobalData.tempNormalSkill[item.GetActiveSkill()];
+			ProtobufDataBase pudb = GlobalData.skill[item.GetActiveSkill()];
 			IActiveSkillExcute skill = pudb as IActiveSkillExcute;
 			if(skill == null) {
 //				Debug.LogError("this userunit : " + item.GetID + " active skill id is error : " +item.GetActiveSkill());
@@ -28,7 +28,7 @@ public class ExcuteActiveSkill {
 	}
 
 	void Excute(object data) {
-		UserUnitInfo uui = data as UserUnitInfo;
+		TUserUnit uui = data as TUserUnit;
 		if (uui != null) {
 			uint id = uui.GetID;
 			activeSkill[id].Excute(id, uui.GetAttack);

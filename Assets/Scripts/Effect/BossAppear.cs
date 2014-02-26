@@ -19,6 +19,7 @@ public class BossAppear : UIBaseUnity {
 
 	public override void Init (string name) {
 		base.Init (name);
+//		Debug.LogError (name);
 		position = transform.localPosition;
 		float xOffset = -Screen.width;
 		startPosition = new Vector3 (position.x + xOffset, position.y, position.z);
@@ -31,6 +32,11 @@ public class BossAppear : UIBaseUnity {
 		topTargetPosition = new Vector3 (topPosition.x, topPosition.y + addNum, topPosition.z);
 		HideUI ();
 	}
+
+//	void Start() {
+//		Init("aa");
+//		PlayBossAppera (null);
+//	}
 
 	public override void ShowUI () {
 		base.ShowUI ();

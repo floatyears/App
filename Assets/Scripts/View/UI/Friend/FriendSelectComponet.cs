@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class FriendSelectComponent : ConcreteComponent, IUICallback {
-	UnitPartyInfo upi;
-	Dictionary<int,UserUnitInfo> userUnit = new Dictionary<int, UserUnitInfo> ();
+	TUnitParty upi;
+	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 
 	public FriendSelectComponent(string uiName):base(uiName) {
 
@@ -43,16 +43,16 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 			return;		
 		}
 		if (partyID == 1) {
-			upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, errMsg) as UnitPartyInfo;
+			upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, errMsg) as TUnitParty;
 			Dictionary<int,uint> temp = upi.GetPartyItem();
 			Dictionary<int,UnitBaseInfo> viewInfo = new Dictionary<int, UnitBaseInfo>();
 			foreach(var item in temp) {
-				UserUnitInfo uui =  GlobalData.tempUserUnitInfo[item.Value];
+				TUserUnit uui =  GlobalData.userUnitInfo[item.Value];
 				if(!userUnit.ContainsKey(item.Key)) {
 					userUnit.Add(item.Key,uui);
 				}
-				UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo[uui.unitBaseInfo];
-				viewInfo.Add(item.Key,ubi);
+//				UnitBaseInfo ubi = GlobalData.unitBaseInfo[uui.unitBaseInfo];
+//				viewInfo.Add(item.Key,ubi);
 			}
 			call.Callback (viewInfo);
 		}

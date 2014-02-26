@@ -2,9 +2,11 @@
 using System.Collections;
 using bbproto;
 
-public class PassiveDodgeTrap : ProtobufDataBase, IPassiveExcute {
+public class PassiveDodgeTrap : SkillBaseInfo, IPassiveExcute {
+	private SkillDodgeTrap instance;
 	public PassiveDodgeTrap(object instance) : base (instance) {
-
+		this.instance = instance as SkillDodgeTrap;
+		skillBase = this.instance.baseInfo;
 	}
 
 	public object Excute (object trapBase, IExcutePassiveSkill excutePS) {
@@ -13,9 +15,9 @@ public class PassiveDodgeTrap : ProtobufDataBase, IPassiveExcute {
 			return null;	
 		}
 
-		SkillDodgeTrap sdt = DeserializeData<SkillDodgeTrap> ();
-		if (sdt.trapType == tb.GetTrapType() ) {
-			if(tb.GetLevel == -1 || sdt.trapLevel >= tb.GetLevel) {
+//		SkillDodgeTrap sdt = DeserializeData<SkillDodgeTrap> ();
+		if (instance.trapType == tb.GetTrapType() ) {
+			if(tb.GetLevel == -1 || instance.trapLevel >= tb.GetLevel) {
 				excutePS.DisposeTrap(true);
 				return null;
 			}

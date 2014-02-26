@@ -2,18 +2,29 @@
 using System.Collections;
 using bbproto;
 
-public class SuicideAttack : ActiveSkill, IActiveSkillExcute {
+public class TSkillSuicideAttack : ActiveSkill, IActiveSkillExcute {
+	private SkillSuicideAttack instance;
 	private int blood = 0;
-	public SuicideAttack (object instance) : base(instance) {
-		skillBase = DeserializeData<SkillSuicideAttack> ().baseInfo;	
+	public TSkillSuicideAttack (object instance) : base(instance) {
+		this.instance = instance as SkillSuicideAttack;
+		skillBase = this.instance.baseInfo;	
 		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
+//		MsgCenter.Instance.AddListener (CommandEnum.UnitBlood, RecordBlood);
+		AddListener ();
+	}
+
+	~TSkillSuicideAttack() {
+		RemoveListener ();
+	}
+
+	public void AddListener () {
 		MsgCenter.Instance.AddListener (CommandEnum.UnitBlood, RecordBlood);
 	}
 
-	~SuicideAttack () {
+	public void RemoveListener() {
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitBlood, RecordBlood);
 	}
 
@@ -36,16 +47,16 @@ public class SuicideAttack : ActiveSkill, IActiveSkillExcute {
 			return null;		
 		}
 		InitCooling ();
-		SkillSuicideAttack ssa = DeserializeData<SkillSuicideAttack> ();
+//		SkillSuicideAttack ssa = DeserializeData<SkillSuicideAttack> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
-		if (ssa.type == EValueType.FIXED) {
-			ai.AttackValue = ssa.value;
+		if (instance.type == EValueType.FIXED) {
+			ai.AttackValue = instance.value;
 		}
-		else if (ssa.type == EValueType.MULTIPLE){
-			ai.AttackValue = ssa.value * atk;
+		else if (instance.type == EValueType.MULTIPLE){
+			ai.AttackValue = instance.value * atk;
 		}
-		ai.AttackRange = (int)ssa.attackType;
+		ai.AttackRange = (int)instance.attackType;
 		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillAttack, ai);
 		MsgCenter.Instance.Invoke (CommandEnum.SkillSucide, null);
 		return ai;

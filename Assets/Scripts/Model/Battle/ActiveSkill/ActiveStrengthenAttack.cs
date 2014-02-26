@@ -3,8 +3,10 @@ using System.Collections;
 using bbproto;
 
 public class ActiveStrengthenAttack : ActiveSkill, IActiveSkillExcute {
+	private SkillStrengthenAttack instance;
 	public ActiveStrengthenAttack (object instance) : base (instance) {
-		skillBase = DeserializeData<SkillStrengthenAttack> ().baseInfo;
+		this.instance = instance as SkillStrengthenAttack;
+		skillBase = this.instance.baseInfo;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;	
 		}
@@ -25,12 +27,12 @@ public class ActiveStrengthenAttack : ActiveSkill, IActiveSkillExcute {
 			return null;	
 		}
 		InitCooling ();
-		SkillStrengthenAttack ssa = DeserializeData<SkillStrengthenAttack> ();
+//		SkillStrengthenAttack ssa = DeserializeData<SkillStrengthenAttack> ();
 		ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
-		ai.AttackType = (int)ssa.targetType;
-		ai.AttackValue = ssa.value;
-		ai.AttackRound = ssa.periodValue;
+		ai.AttackType = (int)instance.targetType;
+		ai.AttackValue = instance.value;
+		ai.AttackRound = instance.periodValue;
 		MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, ai);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 		ai.AttackRound --;

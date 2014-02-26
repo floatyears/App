@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class ExcutePassiveSkill : IExcutePassiveSkill  {
@@ -24,7 +24,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			if(id == -1) {
 				continue;
 			}
-			IPassiveExcute ipe = GlobalData.tempNormalSkill[id] as IPassiveExcute;
+			IPassiveExcute ipe = GlobalData.skill[id] as IPassiveExcute;
 			if(ipe == null) {
 				continue;
 			}

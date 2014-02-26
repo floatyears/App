@@ -6,7 +6,7 @@ using bbproto;
 public class LevelUpMaterialWindow : UIComponentUnity {
 	DragPanel materialDragPanel;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	private List<UserUnitInfo> userUnitInfoList = new List<UserUnitInfo>();
+	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
@@ -47,7 +47,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		
 		uint curUnitId = materialUnitInfoDic[item].unitId;
 //		Debug.LogError("Material Show Avatar : curUnitId is : " + curUnitId);
-		avatarTex.mainTexture = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		avatarTex.mainTexture = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
 
 		int addAttack = materialUnitInfoDic[ item ].addAttack;
 		int addHp = materialUnitInfoDic[ item ].addHp;
