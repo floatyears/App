@@ -58,6 +58,10 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 		return instance.leaderSkill;
 	}
 
+	public string GetProfile() {
+		return instance.profile;
+	}
+
 	//	public string GetRace(){
 	//		EUnitRace race = DeserializeData< UnitInfo >().race;
 	//		switch ( race ){
