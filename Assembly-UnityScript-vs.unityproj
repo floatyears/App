@@ -106,6 +106,7 @@
      <None Include="Assets\External\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
      <None Include="Assets\Resources\Shaders\NewShader.shader" />
      <None Include="Assets\IGSoft_Resources\ToolResources\EffectShader\FXMaker_Mask Additive Tint.shader" />
+     <None Include="Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Text (SoftClip).shader" />
      <None Include="Assets\TK2DROOT\tk2d\Goodies\TexturePacker\Exporter\2dtoolkit\exporter.xml" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\SolidVertexColor.shader" />

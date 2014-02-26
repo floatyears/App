@@ -30,31 +30,56 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 
 	}
 
+	string skill1Name;
+	string skill1Description;
+	string skill2Name;
+	string skill2Description;
+	string leaderSkillName;
+	string leaderSkillDescription;
+	string activeSkillName;
+
+
 	void GetSkill(object msg) {
 		UnitInfo unitInfo = msg as UnitInfo;
 
-		int skillID;
-		skillID = unitInfo.skill1;
-		GetNormalSkill1(skillID);
+		int id;
+		id = unitInfo.skill1;
+		GetNormalSkill1(id);
 
+		id = unitInfo.skill2;
+		GetNormalSkill2(id);
+
+		id = unitInfo.leaderSkill;
+		GetLeaderSkill(id);
+
+		id = unitInfo.activeSkill;
+		GetActiveSkill(id);
 	}
 
+	void GetLeaderSkill(int id) {
+		LogHelper.Log("UnitDetailComponent.GetLeaderSkill()");
+                
+        }
+
 	void GetNormalSkill1(int id){
-		Debug.Log("UnitDetailComponent.GetNormalSkill1()");
+		LogHelper.Log("UnitDetailComponent.GetNormalSkill1()");
 
 	}
 
 	void GetNormalSkill2() {
-
-	}
+		LogHelper.Log("UnitDetailComponent.GetNormalSkill2()");
+                
+        }
 
 	void GetLeaderSkill() {
-
-	}
+		LogHelper.Log("UnitDetailComponent.GetLeaderSkill()");
+                
+        }
 
 	void GetActiveSkill() {
-
-	}
+		LogHelper.Log("UnitDetailComponent.GetActiveSkill()");
+                
+        }
 
 
 
