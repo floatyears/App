@@ -154,23 +154,23 @@ public class UnitDetailPanel : UIComponentUnity{
 		UserUnit userUnitInfo = info as UserUnit;
 		uint curId = userUnitInfo.unitId;
 		unitBodyTex.mainTexture =
-			GlobalData.tempUnitInfo[ curId ].GetAsset( UnitAssetType.Profile);
+			GlobalData.unitInfo[ curId ].GetAsset( UnitAssetType.Profile);
 
 		idLabel.text = curId.ToString();
-		nameLabel.text = GlobalData.tempUnitInfo[ curId ].GetName();
+		nameLabel.text = GlobalData.unitInfo[ curId ].GetName();
 		levelLabel.text = userUnitInfo.level.ToString();
-		typeLabel.text = GlobalData.tempUnitInfo[ curId ].GetUnitType();
+		typeLabel.text = GlobalData.unitInfo[ curId ].GetUnitType();
 
-		TempUnitInfo tu = GlobalData.tempUnitInfo[ curId ];
+		TUnitInfo tu = GlobalData.unitInfo[ curId ];
 		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),userUnitInfo.level);
 		hpLabel.text = hp.ToString();
 		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), userUnitInfo.level);
 		atkLabel.text = atk.ToString();
 
-		int cost = GlobalData.tempUnitInfo[ curId ].GetCost();
+		int cost = GlobalData.unitInfo[ curId ].GetCost();
 		costLabel.text = cost.ToString();
 
-		int rare = GlobalData.tempUnitInfo[ curId ].GetRare();
+		int rare = GlobalData.unitInfo[ curId ].GetRare();
 		rareLabel.text = rare.ToString();
 
 		raceLabel.text = "Human";

@@ -32,12 +32,17 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 
 	string skill1Name;
 	string skill1Description;
+
 	string skill2Name;
 	string skill2Description;
+
 	string leaderSkillName;
 	string leaderSkillDescription;
-	string activeSkillName;
 
+	string activeSkillName;
+	string activeSkillDescription;
+
+	List<string> skillTextList = new List<string>();
 
 	void GetSkill(object msg) {
 		UnitInfo unitInfo = msg as UnitInfo;
@@ -58,7 +63,7 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 
 	void GetLeaderSkill(int id) {
 		LogHelper.Log("UnitDetailComponent.GetLeaderSkill()");
-                
+               	//SkillBase skill = GlobalData.skill[ id ].
         }
 
 	void GetNormalSkill1(int id){
@@ -66,24 +71,26 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 
 	}
 
-	void GetNormalSkill2() {
+	void GetNormalSkill2(int id) {
 		LogHelper.Log("UnitDetailComponent.GetNormalSkill2()");
                 
         }
 
-	void GetLeaderSkill() {
+	void GetLeaderSkill( int id ) {
 		LogHelper.Log("UnitDetailComponent.GetLeaderSkill()");
                 
         }
 
-	void GetActiveSkill() {
+	void GetActiveSkill(int id) {
 		LogHelper.Log("UnitDetailComponent.GetActiveSkill()");
                 
         }
 
 
-
-
+//
+//	void PackSkillText () {
+//
+//	}
 
 
 
