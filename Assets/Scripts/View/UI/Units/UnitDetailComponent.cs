@@ -31,7 +31,6 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 	public void Callback(object data) {
 
 	}
-	
 
 	//use to store source path
 	List<string> sourcePathList = new List<string>();
