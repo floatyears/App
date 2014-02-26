@@ -8,19 +8,18 @@ import (
 	"../../common/log"
 	"../../const"
 	"../../data"
+	"../../unit"
 	proto "code.google.com/p/goprotobuf/proto"
 	_ "fmt"
 )
 
-func AddNewUser(uuid string, userInfo *bbproto.UserInfo) (err error) {
-	db := &data.Data{}
-	err = db.Open(cs.TABLE_USER)
-	defer db.Close()
-	if err != nil || *userInfo.UserId <= 0 {
-		return
+func AddNewUser(db *data.Data, uuid string, userInfo *bbproto.UserInfo) (userdetail *bbproto.UserInfoDetail, e Error.Error) {
+
+	if userInfo == nil || userInfo.UserId == nil || *userInfo.UserId <= 0 {
+		return nil, Error.New(cs.INVALID_PARAMS)
 	}
 
-	userdetail := &bbproto.UserInfoDetail{}
+	userdetail = &bbproto.UserInfoDetail{}
 	userdetail.User = userInfo
 
 	//TODO: fill other default values
@@ -29,23 +28,107 @@ func AddNewUser(uuid string, userInfo *bbproto.UserInfo) (err error) {
 	//userdetail.UnitPartyList = xx //
 	//userdetail.Quest = xx //
 
+	tNow := common.Now()
 	userdetail.Login = &bbproto.LoginInfo{}
 	userdetail.Login.LoginTotal = proto.Int32(1)
 	userdetail.Login.LoginChain = proto.Int32(0)
-	userdetail.Login.LastLoginTime = proto.Uint32(common.Now())
+	userdetail.Login.LastLoginTime = proto.Uint32(tNow)
 	userdetail.Login.LastPlayTime = userdetail.Login.LastLoginTime
+
+	if db == nil {
+		db = &data.Data{}
+		err := db.Open(cs.TABLE_UNIT)
+		defer db.Close()
+		if err != nil {
+			return nil, Error.New(cs.CONNECT_DB_ERROR, err)
+		}
+	} else if err := db.Select(cs.TABLE_UNIT); err != nil {
+		return nil, Error.New(cs.SET_DB_ERROR, err.Error())
+	}
+
+	//malloc 3 default unit, TODO: let user to select a actor.
+	unitId1, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, 0)
+	if e.IsError() {
+		return nil, e
+	}
+	userUnit1 := &bbproto.UserUnit{
+		UniqueId: proto.Uint32(unitId1),
+		UnitId:   proto.Uint32(101),
+		Exp:      proto.Int32(1),
+		Level:    proto.Int32(1),
+		GetTime:  &tNow,
+	}
+	userdetail.UnitList = append(userdetail.UnitList, userUnit1)
+
+	unitId2, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, 1)
+	if e.IsError() {
+		return nil, e
+	}
+	userUnit2 := &bbproto.UserUnit{
+		UniqueId: proto.Uint32(unitId2),
+		UnitId:   proto.Uint32(102),
+		Exp:      proto.Int32(1),
+		Level:    proto.Int32(1),
+		GetTime:  &tNow,
+	}
+	userdetail.UnitList = append(userdetail.UnitList, userUnit2)
+
+	unitId3, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, 2)
+	if e.IsError() {
+		return nil, e
+	}
+	userUnit3 := &bbproto.UserUnit{
+		UniqueId: proto.Uint32(unitId3),
+		UnitId:   proto.Uint32(103),
+		Exp:      proto.Int32(1),
+		Level:    proto.Int32(1),
+		GetTime:  &tNow,
+	}
+	userdetail.UnitList = append(userdetail.UnitList, userUnit3)
+
+	//make default party[0]
+	unitParty := &bbproto.UnitParty{}
+	unitParty.Id = proto.Int32(0)
+	item1 := &bbproto.PartyItem{
+		UnitPos:      proto.Int32(0),
+		UnitUniqueId: proto.Uint32(unitId1),
+	}
+	unitParty.Items = append(unitParty.Items, item1)
+	item2 := &bbproto.PartyItem{
+		UnitPos:      proto.Int32(1),
+		UnitUniqueId: proto.Uint32(unitId2),
+	}
+	unitParty.Items = append(unitParty.Items, item2)
+	item3 := &bbproto.PartyItem{
+		UnitPos:      proto.Int32(2),
+		UnitUniqueId: proto.Uint32(unitId3),
+	}
+	unitParty.Items = append(unitParty.Items, item3)
+
+	userdetail.Party = &bbproto.PartyInfo{}
+	userdetail.Party.CurrentParty = proto.Int(0)
+	userdetail.Party.PartyList = append(userdetail.Party.PartyList, unitParty)
+
+	if err := db.Select(cs.TABLE_USER); err != nil {
+		return nil, Error.New(cs.SET_DB_ERROR, err.Error())
+	}
 
 	zUserData, err := proto.Marshal(userdetail)
 	err = db.Set(common.Utoa(*userInfo.UserId), zUserData)
 	log.T("db.Set(%v) save new userinfo, return err(%v)", *userInfo.UserId, err)
 	if err != nil {
-		return err
+		log.Error("set db(userinfo) ret error:%v", err)
+		return nil, Error.New(cs.SET_DB_ERROR, err)
 	}
 
 	//save uuid -> uid
 	err = db.Set(cs.X_UUID+uuid, []byte(common.Utoa(*userInfo.UserId)))
+	if err != nil {
+		log.Error("set db(uuid -> userId) ret error:%v", err)
+		return nil, Error.New(cs.SET_DB_ERROR, err)
+	}
 
-	return err
+	return userdetail, Error.OK()
 }
 
 func UpdateUserInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.Error) {
@@ -83,14 +166,17 @@ func GetUserInfo(uid uint32) (userInfo bbproto.UserInfoDetail, isUserExists bool
 	var value []byte
 	value, err = db.Gets(common.Utoa(uid))
 	if err != nil {
-		log.Printf("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
 		return userInfo, isUserExists, err
 	}
 	isUserExists = len(value) != 0
-	//log.Printf("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
+	//log.T("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
 
 	if isUserExists {
 		err = proto.Unmarshal(value, &userInfo)
+		if err != nil {
+			log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		}
 	}
 
 	return userInfo, isUserExists, err
