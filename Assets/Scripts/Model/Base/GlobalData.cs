@@ -27,7 +27,7 @@ public class GlobalData  {
 	}
 
 	public static Dictionary<int,TPowerTableInfo> unitValue = new Dictionary<int, TPowerTableInfo>();
-	public static Dictionary<int, ProtobufDataBase> skill = new Dictionary<int, ProtobufDataBase>();
+	public static Dictionary<int, SkillBaseInfo> skill = new Dictionary<int, SkillBaseInfo>();
 	public static Dictionary<uint, TUnitInfo>	unitInfo = new Dictionary<uint, TUnitInfo> ();
 	public static Dictionary<uint, TUserUnit> userUnitInfo = new Dictionary<uint, TUserUnit>();
 	public static Dictionary<uint, TEnemyInfo> enemyInfo = new Dictionary<uint, TEnemyInfo> ();
