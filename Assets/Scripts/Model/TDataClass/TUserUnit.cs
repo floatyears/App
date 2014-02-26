@@ -219,7 +219,7 @@ public class TUserUnit : ProtobufDataBase {
 //		UserUnit uu = DeserializeData<UserUnit>();
 		UnitInfo ui = GetUnitInfo() ;
 		int blood = 0;
-		blood +=  DGTools.CaculateAddBlood (instance.addHp,uu,ui);
+		blood +=  DGTools.CaculateAddBlood (instance.addHp,instance,ui);
 //		blood += GlobalData.Instance.GetUnitValue (ui.powerType.hpType, uu.level); //ui.power [uu.level].hp;
 		float temp = blood * hpMultiple;
 		return System.Convert.ToInt32(blood);
@@ -229,7 +229,7 @@ public class TUserUnit : ProtobufDataBase {
 		if (currentBlood == -1) {
 //			UserUnit uu = DeserializeData<UserUnit>();
 			UnitInfo ui = GetUnitInfo() ;
-			currentBlood += DGTools.CaculateAddBlood (instance.addHp,uu,ui);
+			currentBlood += DGTools.CaculateAddBlood (instance.addHp,instance,ui);
 //			currentBlood += GlobalData.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
 		}
 		float blood = currentBlood * hpMultiple;
