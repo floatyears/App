@@ -42,11 +42,21 @@ public class AuthUser: ProtoManager {
 		LogHelper.Log("reponse staminaMax:"+rspAuthUser.user.staminaMax);
 		LogHelper.Log("reponse staminaRecover:"+rspAuthUser.user.staminaRecover);
 
+		//TODO: update localtime with servertime
+		//localTime = rspAuthUser.serverTime
+
 		//save to GlobalData
 		GlobalData.userInfo = new TUserInfo (rspAuthUser.user);
+		GlobalData.friendList = new TFriendList (rspAuthUser.friends);
+
+		if (rspAuthUser.unitList != null) {
+			foreach(UserUnit unit in rspAuthUser.unitList) {
+				GlobalData.userUnitInfo.Add( unit.uniqueId, new TUserUnit(unit));
+			}
+		}
 
 		//send response to caller
-		MsgCenter.Instance.Invoke (CommandEnum.RspAuthUser, rspAuthUser);
+		MsgCenter.Instance.Invoke (CommandEnum.RspAuthUser, null);
 	}
 
 	void OnReceiveCommand(object data) {
