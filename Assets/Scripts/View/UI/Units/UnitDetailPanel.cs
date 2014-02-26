@@ -3,7 +3,7 @@ using System.Collections;
 using bbproto;
 using System.Collections.Generic;
 
-public class UnitDetailPanel : UIComponentUnity{
+public class UnitDetailPanel : UIComponentUnity, IUICallback{
 
 	//----------UI elements list----------
 	UILabel idLabel;
@@ -198,8 +198,7 @@ public class UnitDetailPanel : UIComponentUnity{
 	}
 
 	void ShowSkill2(){
-		//skill_2
-		
+		//skill_2	
 		string normalSkill1Name = "";
 		normalSkill1NameLabel.text = normalSkill1Name;
 		string normalSkill2Name = "";
@@ -215,6 +214,11 @@ public class UnitDetailPanel : UIComponentUnity{
 		profileLabel.text = content;
 	}
 
+
+	//----------Call back Label Text
+	public void Callback(object data) {
+
+	}
 	
 	void LevelUpUnit( object Info){
 		List<UserUnit> packageInfo = Info as List<UserUnit>;
@@ -225,26 +229,26 @@ public class UnitDetailPanel : UIComponentUnity{
 		if(profile == null)
 			Debug.LogError("Profile is not found!");
 		MeshRenderer meshRender = profile.GetComponent< MeshRenderer >();
-		Texture tex = GlobalData.tempUnitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
+		Texture tex = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
 
 		meshRender.materials[ 0 ].SetTexture("_MainTex", tex);
 		effectCache.Add( tempEffect );
 
 		idLabel.text = curUnitId.ToString();
-		nameLabel.text = GlobalData.tempUnitInfo[ curUnitId ].GetName();
+		nameLabel.text = GlobalData.unitInfo[ curUnitId ].GetName();
 		levelLabel.text = packageInfo[0].level.ToString();
-		typeLabel.text = GlobalData.tempUnitInfo[ curUnitId ].GetUnitType();
+		typeLabel.text = GlobalData.unitInfo[ curUnitId ].GetUnitType();
 		
-		TempUnitInfo tu = GlobalData.tempUnitInfo[ curUnitId ];
+		TUnitInfo tu = GlobalData.unitInfo[ curUnitId ];
 		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),packageInfo[0].level);
 		hpLabel.text = hp.ToString();
 		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), packageInfo[0].level);
 		atkLabel.text = atk.ToString();
 		
-		int cost = GlobalData.tempUnitInfo[ curUnitId ].GetCost();
+		int cost = GlobalData.unitInfo[ curUnitId ].GetCost();
 		costLabel.text = cost.ToString();
 		
-		int rare = GlobalData.tempUnitInfo[ curUnitId ].GetRare();
+		int rare = GlobalData.unitInfo[ curUnitId ].GetRare();
 		rareLabel.text = rare.ToString();
 
 		raceLabel.text = "Human";

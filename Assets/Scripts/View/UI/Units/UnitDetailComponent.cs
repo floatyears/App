@@ -26,8 +26,10 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 	}
 
 	public void Callback(object data) {
+		IUICallback caller = viewComponent as IUICallback;
 
-
+		LogHelper.Log( "UnitDetailComponent.Callback() : SkillTextDic's Count is : " + skillTextDic.Count );
+		caller.Callback( skillTextDic );
 	}
 
 	string skill1Name;
@@ -42,12 +44,18 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 	string activeSkillName;
 	string activeSkillDescription;
 
-	List<string> skillTextList = new List<string>();
+	Dictionary<int, string> skillTextDic = new Dictionary< string, string>();
 
 	void GetSkill(object msg) {
 		UnitInfo unitInfo = msg as UnitInfo;
 
 		int id;
+
+		if ( id == -1 ){
+			LogHelper.LogError("Find Skill Error!");
+			return;
+		}
+
 		id = unitInfo.skill1;
 		GetNormalSkill1(id);
 
@@ -63,27 +71,31 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 
 	void GetLeaderSkill(int id) {
 		LogHelper.Log("UnitDetailComponent.GetLeaderSkill()");
-               	//SkillBase skill = GlobalData.skill[ id ].
+               	SkillBase skill = GlobalData.skill[ id ].GetSkillInfo();
+		skillTextDic.Add( 1, skill.name );
+		skillTextDic.Add( 2, skill.description );
         }
 
 	void GetNormalSkill1(int id){
 		LogHelper.Log("UnitDetailComponent.GetNormalSkill1()");
-
+		SkillBase skill = GlobalData.skill[ id ].GetSkillInfo();
+		skillTextDic.Add( 5, skill.name );
+		skillTextDic.Add( 6, skill.description );
 	}
 
 	void GetNormalSkill2(int id) {
 		LogHelper.Log("UnitDetailComponent.GetNormalSkill2()");
-                
+                SkillBase skill = GlobalData.skill[ id ].GetSkillInfo();
+		skillTextDic.Add( 7, skill.name );
+		skillTextDic.Add( 8, skill.description );
         }
-
-	void GetLeaderSkill( int id ) {
-		LogHelper.Log("UnitDetailComponent.GetLeaderSkill()");
-                
-        }
+	
 
 	void GetActiveSkill(int id) {
 		LogHelper.Log("UnitDetailComponent.GetActiveSkill()");
-                
+		SkillBase skill = GlobalData.skill[ id ].GetSkillInfo();
+		skillTextDic.Add( 3, skill.name );
+		skillTextDic.Add( 4, skill.description );
         }
 
 
