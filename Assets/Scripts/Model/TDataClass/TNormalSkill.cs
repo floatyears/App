@@ -41,7 +41,7 @@ public class TNormalSkill : ProtobufDataBase {
 		}
 	}
 	
-	NormalSkill GetObject() {
+	public NormalSkill GetObject() {
 		return  instance;
 	}
 	

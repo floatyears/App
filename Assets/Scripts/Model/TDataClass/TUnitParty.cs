@@ -216,7 +216,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		TUserUnit tuu = GlobalData.userUnitInfo [pi.unitUniqueId];
 		UserUnit uu1 = tuu.GetObject;
 		UnitInfo ui1 = tuu.GetUnitInfo();			 //GlobalData.unitInfo[uu1.unitId].DeserializeData<UnitInfo>();
-		return GlobalData.normalSkill [ui1.skill2].DeserializeData<NormalSkill> ();
+		TNormalSkill ns = GlobalData.normalSkill [ui1.skill2] as TNormalSkill;
+		return ns.GetObject();
 	}
 	
 	public List<TUserUnit> GetUserUnit () {

@@ -5,7 +5,7 @@ using bbproto;
 public class TSkillAntiAttack : ProtobufDataBase, IPassiveExcute {
 	private SkillAntiAttack instance;
 	public TSkillAntiAttack(object instance) : base (instance) {
-
+		this.instance = instance as SkillAntiAttack;
 	}
 
 	public object Excute (object trapBase, IExcutePassiveSkill excutePS) {
