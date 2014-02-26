@@ -117,10 +117,10 @@ public interface IActiveSkillExcute {
 }
 
 public interface IEffectExcute {
-	Vector3 StartPosition { get;}
-	Vector3 EndPosition { get;}
-	void Excute(string effectName);
-	GameObject LoadEffect(string effectAssetName);
+	Vector3 StartPosition { set; get;}
+	Vector3 EndPosition { set; get;}
+	GameObject TargetObject { set; get;}
+	void Excute(Callback EndCallback);
 }
 
 
