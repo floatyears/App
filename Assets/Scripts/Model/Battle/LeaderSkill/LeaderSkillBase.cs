@@ -2,9 +2,9 @@
 using System.Collections;
 using bbproto;
 
-public class LeaderSkillBase : ProtobufDataBase {
+public class SkillBaseInfo : ProtobufDataBase {
 	protected SkillBase skillBase;
-	public LeaderSkillBase(object instance) : base (instance) {
+	public SkillBaseInfo(object instance) : base (instance) {
 		
 	}
 	public SkillBase GetSkillInfo () {

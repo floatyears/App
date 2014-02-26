@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class TSkillExtraAttack : LeaderSkillBase {
+public class TSkillExtraAttack : SkillBaseInfo {
 	private SkillExtraAttack instance;
 	public TSkillExtraAttack (object instance) : base (instance) {
 		this.instance = instance as SkillExtraAttack;

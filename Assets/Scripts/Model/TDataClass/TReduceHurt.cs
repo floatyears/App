@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class TSkillReduceHurt : LeaderSkillBase {
+public class TSkillReduceHurt : SkillBaseInfo {
 	private SkillReduceHurt instance;
 	private int useCount = 0;
 	public TSkillReduceHurt (object instance) : base (instance) {

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class TSkillConvertUnitType : LeaderSkillBase {
+public class TSkillConvertUnitType : SkillBaseInfo {
 	private SkillConvertUnitType instance;
 	public TSkillConvertUnitType(object instance) : base (instance) {
 		this.instance = instance as SkillConvertUnitType;

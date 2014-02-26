@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class TSkillRecoverHP : LeaderSkillBase {
+public class TSkillRecoverHP : SkillBaseInfo {
 	private SkillRecoverHP instance;
 	public TSkillRecoverHP (object instance) : base (instance) {
 		this.instance = instance as SkillRecoverHP;

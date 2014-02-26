@@ -2,10 +2,11 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillAntiAttack : ProtobufDataBase, IPassiveExcute {
+public class TSkillAntiAttack : SkillBaseInfo, IPassiveExcute {
 	private SkillAntiAttack instance;
 	public TSkillAntiAttack(object instance) : base (instance) {
 		this.instance = instance as SkillAntiAttack;
+		skillBase = this.instance.baseInfo;
 	}
 
 	public object Excute (object trapBase, IExcutePassiveSkill excutePS) {
