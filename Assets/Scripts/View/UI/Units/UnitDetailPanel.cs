@@ -237,10 +237,11 @@ public class UnitDetailPanel : UIComponentUnity{
 	}
 		
 
-
+	int curLevel;
 	//---------Exp increase----------
 	void InitExpSlider(){
 		curExp = 460;
+		curLevel = 10;
 		gotExp = 3000;
 		maxExp = 1000;
 		expRiseStep = maxExp / 120;
@@ -251,6 +252,8 @@ public class UnitDetailPanel : UIComponentUnity{
 	}
 
 	void ExpRise () {
+		maxExp = GetMaxExpByLv( curLevel );
+
 		if(gotExp <= 0)	
 			return;
 
@@ -268,12 +271,19 @@ public class UnitDetailPanel : UIComponentUnity{
 			gotExp += curExp - maxExp;
 
 			curExp = 0;
-		}
+			curLevel++;
+			maxExp = GetMaxExpByLv( curLevel );
+                        
+                }
 
 		int needExp = maxExp - curExp;
 		needExpLabel.text = needExp.ToString();
 		float progress = (float)curExp / (float)maxExp;
 		expSlider.value = progress;
+	}
+
+	int GetMaxExpByLv( int level) {
+		return level*level + 1000; 
 	}
 
 
