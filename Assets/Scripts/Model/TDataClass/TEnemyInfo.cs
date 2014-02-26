@@ -2,8 +2,12 @@
 using System.Collections;
 using bbproto;
 
-public class TempEnemy : ProtobufDataBase {
-	public TempEnemy (object instance) : base (instance) {
+public class TEnemyInfo : ProtobufDataBase {
+	private EnemyInfo instance;
+
+	public TEnemyInfo (object instance) : base (instance) {
+		this.instance = instance as EnemyInfo;
+
 		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
@@ -14,7 +18,7 @@ public class TempEnemy : ProtobufDataBase {
 	}
 
 	EnemyInfo GetEnemyInfo() {
-		return DeserializeData<EnemyInfo> ();
+		return instance;
 	}
 
 	private int initBlood = -1;
@@ -23,12 +27,8 @@ public class TempEnemy : ProtobufDataBase {
 	public bool isPosion = false;
 
 	public bool IsInjured () {
-		if (GetEnemyInfo ().hp < initBlood) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		if (GetEnemyInfo ().hp < initBlood) { return true; }
+		else { return false; }
 	}
 
 	public int CalculateInjured (AttackInfo attackInfo, bool restraint) {
@@ -139,52 +139,11 @@ public class TempEnemy : ProtobufDataBase {
 	}
 }
 
-public class TempEnemySortByHP : IComparer {
+public class EnemySortByHP : IComparer {
 	public int Compare (object x, object y)
 	{
-		TempEnemy tex = (TempEnemy)x;
-		TempEnemy tey = (TempEnemy)y;
+		TEnemyInfo tex = (TEnemyInfo)x;
+		TEnemyInfo tey = (TEnemyInfo)y;
 		return tex.GetBlood ().CompareTo (tey.GetBlood ());
-	}
-}
-
-public class ConfigEnermy {
-	public ConfigEnermy() {
-		GenerateEnemy ();
-	}
-
-	void GenerateEnemy () {
-		EnemyInfo ei = new EnemyInfo ();
-		ei.enemyId = 1;
-		ei.unitId = 1;
-		ei.attack = 200;
-		ei.nextAttack = 1;
-		ei.defense = 10;
-		ei.hp = 500;
-		ei.type = (EUnitType)1;
-		TempEnemy te = new TempEnemy (ei);
-		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
-
-		ei = new EnemyInfo ();
-		ei.enemyId = 2;
-		ei.unitId = 2;
-		ei.attack = 20;
-		ei.nextAttack = 1;
-		ei.defense = 100;
-		ei.hp = 500;
-		ei.type = (EUnitType)2;
-		te = new TempEnemy (ei);
-		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
-
-		ei = new EnemyInfo();
-		ei.enemyId = 3;
-		ei.unitId = 3;
-		ei.attack = 500;
-		ei.defense = 100;
-		ei.type = EUnitType.UNONE;
-		ei.hp = 1000;
-		ei.nextAttack = 1;
-		te = new TempEnemy (ei);
-		GlobalData.tempEnemyInfo.Add (ei.unitId,te);
 	}
 }

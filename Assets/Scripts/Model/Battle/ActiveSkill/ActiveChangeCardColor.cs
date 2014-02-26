@@ -3,8 +3,10 @@ using System.Collections;
 using bbproto;
 
 public class ActiveChangeCardColor : ActiveSkill, IActiveSkillExcute {
+	private SkillConvertUnitType instance;
 	public 	ActiveChangeCardColor(object instance) : base (instance) { 
-		skillBase = DeserializeData<SkillConvertUnitType> ().baseInfo;	
+		this.instance = instance as SkillConvertUnitType;
+		skillBase = this.instance.baseInfo;	
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -24,14 +26,14 @@ public class ActiveChangeCardColor : ActiveSkill, IActiveSkillExcute {
 			return null;
 		}
 		InitCooling ();
-		SkillConvertUnitType scut = DeserializeData<SkillConvertUnitType>();
+//		SkillConvertUnitType scut = DeserializeData<SkillConvertUnitType>();
 		ChangeCardColor ccc = new ChangeCardColor ();
-		if (scut.type == EValueType.RANDOMCOLOR) {
+		if (instance.type == EValueType.RANDOMCOLOR) {
 			MsgCenter.Instance.Invoke (CommandEnum.ChangeCardColor, ccc);
 		}
-		else if (scut.type == EValueType.COLORTYPE) {
-			ccc.sourceType = (int)scut.unitType1;
-			ccc.targetType = (int)scut.unitType2;
+		else if (instance.type == EValueType.COLORTYPE) {
+			ccc.sourceType = (int)instance.unitType1;
+			ccc.targetType = (int)instance.unitType2;
 			MsgCenter.Instance.Invoke (CommandEnum.ChangeCardColor, ccc);
 		}
 		return null;

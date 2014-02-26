@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
@@ -16,8 +16,8 @@ public class GlobalData  {
 	private GlobalData() {}
 
 	public UnitInfo GetUnitInfo(uint unitID) {
-		if(tempUnitInfo.ContainsKey(unitID)) {
-			TempUnitInfo tui = tempUnitInfo[unitID];
+		if(unitInfo.ContainsKey(unitID)) {
+			TUnitInfo tui = unitInfo[unitID];
 			return tui.DeserializeData<UnitInfo>();
 		}
 		else{
@@ -26,15 +26,13 @@ public class GlobalData  {
 		}
 	}
 
-	public static Dictionary<int,PowerTableInfo> unitValue = new Dictionary<int, PowerTableInfo>();
-
-	public static Dictionary<int, ProtobufDataBase> tempNormalSkill = new Dictionary<int, ProtobufDataBase>();
-	public static Dictionary<uint, TempUnitInfo>	tempUnitInfo = new Dictionary<uint, TempUnitInfo> ();
-	public static Dictionary<uint, UserUnitInfo> tempUserUnitInfo = new Dictionary<uint, UserUnitInfo>();
-	public static Dictionary<uint, TempEnemy> tempEnemyInfo = new Dictionary<uint, TempEnemy> ();
-	public static Dictionary<int, UnitBaseInfo> tempUnitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
-	public static Dictionary<uint, TrapBase> tempTrapInfo = new Dictionary<uint, TrapBase> ();
-	//public static Dictionary<uint,>
+	public static Dictionary<int,TPowerTableInfo> unitValue = new Dictionary<int, TPowerTableInfo>();
+	public static Dictionary<int, ProtobufDataBase> normalSkill = new Dictionary<int, ProtobufDataBase>();
+	public static Dictionary<uint, TUnitInfo>	unitInfo = new Dictionary<uint, TUnitInfo> ();
+	public static Dictionary<uint, TUserUnit> userUnitInfo = new Dictionary<uint, TUserUnit>();
+	public static Dictionary<uint, TEnemyInfo> enemyInfo = new Dictionary<uint, TEnemyInfo> ();
+	public static Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
+	public static Dictionary<uint, TrapBase> trapInfo = new Dictionary<uint, TrapBase> ();
 
 	public const int maxEnergyPoint = 20;
 	public const int posStart = 1;
@@ -52,7 +50,7 @@ public class GlobalData  {
 	/// <param name="type">Type.</param>
 	/// <param name="level">Level.</param>
 	public int GetUnitValue (int type, int level) {
-		PowerTableInfo pti = unitValue[type];
+		TPowerTableInfo pti = unitValue[type];
 		return pti.GetValue(level);
 	}
 
@@ -73,7 +71,7 @@ public class GlobalData  {
 	public static UnitBaseInfo FriendBaseInfo {
 		get {
 			if(friendBaseInfo == null) {
-				friendBaseInfo = tempUnitBaseInfo[195];
+				friendBaseInfo = unitBaseInfo[195];
 
 			}
 			return friendBaseInfo;

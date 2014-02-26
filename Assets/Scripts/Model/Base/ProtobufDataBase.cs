@@ -1,7 +1,6 @@
 ﻿using System;
 
 public class ProtobufDataBase : IOriginModel {
-
 	protected byte[] originData;
 
 	private ErrorMsg errorMsgInfo = null;
@@ -21,16 +20,9 @@ public class ProtobufDataBase : IOriginModel {
 
 	public ProtobufDataBase(object instance) {
 		Init ();
-		SerializeData (instance);
+//		SerializeData (instance);
 		type = instance.GetType ();
 	}
-
-//	public ProtobufDataBase(byte[] data) {
-//		Validate (data);
-//		if (errorMsgInfo.Code == ErrorCode.Succeed) {
-//			originData = data;
-//		}
-//	}
 
 	void Init() {
 		errorMsgInfo = new ErrorMsg ();

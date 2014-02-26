@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
@@ -40,8 +40,8 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 	private Dictionary< string, object > friendcrollerArgs = new Dictionary< string, object >();
 	private Dictionary< GameObject, GameObject > focusDic = new Dictionary<GameObject, GameObject>();
 
-	private List<UserUnitInfo> userUnitInfoList = new List<UserUnitInfo>();
-	private Dictionary<GameObject, UserUnitInfo> baseItemInfo = new Dictionary<GameObject, UserUnitInfo>();
+	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
+	private Dictionary<GameObject, TUserUnit> baseItemInfo = new Dictionary<GameObject, TUserUnit>();
 	private Dictionary<GameObject, UnitBaseInfo> materialItemInfo = new Dictionary<GameObject, UnitBaseInfo>();
 	public List<UnitBaseInfo> selectMaterial = new List<UnitBaseInfo>();
 
@@ -81,7 +81,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 	}
 
 	void GetUnitInfoList() {
-		UnitPartyInfo upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo, new ErrorMsg()) as UnitPartyInfo;
+		TUnitParty upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo, new ErrorMsg()) as TUnitParty;
 		userUnitInfoList = upi.GetUserUnit();
 	}
 
@@ -147,7 +147,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 		for (int i = 0; i < baseScroller.ScrollItem.Count; i++){
 			GameObject item = baseScroller.ScrollItem [i];
 			UITexture tex = item.GetComponentInChildren<UITexture>();
-			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [userUnitInfoList [i].unitBaseInfo];
+			UnitBaseInfo ubi = GlobalData.unitBaseInfo [userUnitInfoList [i].unitBaseInfo];
 			tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
 			baseItemInfo.Add(item, userUnitInfoList [i]);
 			UIEventListenerCustom ulc = UIEventListenerCustom.Get(item);
@@ -159,11 +159,11 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 	}
 
 	void LongPressPickBase(GameObject go){
-		UserUnitInfo uui = baseItemInfo [go];
+		TUserUnit uui = baseItemInfo [go];
 		MsgCenter.Instance.Invoke(CommandEnum.EnterUnitInfo, uui);
 	}
 
-	private UserUnitInfo selectUnit;
+	private TUserUnit selectUnit;
         private void PickBase(GameObject go) {
 		selectUnit = baseItemInfo [go];
 		baseTexture.mainTexture = go.GetComponentInChildren<UITexture>().mainTexture;
@@ -179,7 +179,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 		for (int i = 0; i < materialScroller.ScrollItem.Count; i++) {
 			GameObject target = materialScroller.ScrollItem [i];
 			UITexture tex = target.GetComponentInChildren<UITexture>();
-			UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [GlobalData.HaveCard [i]];
+			UnitBaseInfo ubi = GlobalData.unitBaseInfo [GlobalData.HaveCard [i]];
 			tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
 			UIEventListenerCustom ulc = UIEventListenerCustom.Get(target);
 			ulc.onClick = PickMaterial;

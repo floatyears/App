@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class UnitsComponent : ConcreteComponent, IUIParty {
 
-	UnitPartyInfo unitPartyInfo;
-	Dictionary<int,UserUnitInfo> userUnit = new Dictionary<int, UserUnitInfo> ();
+	TUnitParty unitPartyInfo;
+	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 
 	public UnitsComponent(string uiName):base(uiName) {}
 
@@ -56,17 +56,17 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 		}
 		if( partyID == 1 )
 		{
-			unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as UnitPartyInfo;
+			unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as TUnitParty;
 			Dictionary< int, uint > temp = unitPartyInfo.GetPartyItem();
 			Dictionary< string, object > viewInfo = new Dictionary<string, object>();
 			Dictionary< int, UnitBaseInfo > avatarInfoDic = new Dictionary<int, UnitBaseInfo >();
 
 			foreach (var item in temp) {
-				UserUnitInfo userUnitInfo = GlobalData.tempUserUnitInfo[ item.Value ];
+				TUserUnit userUnitInfo = GlobalData.userUnitInfo[ item.Value ];
 				if( !userUnit.ContainsKey( item.Key )) {
 					userUnit.Add( item.Key, userUnitInfo );
 				}
-				UnitBaseInfo unitBaseInfo = GlobalData.tempUnitBaseInfo[ userUnitInfo.unitBaseInfo ];
+				UnitBaseInfo unitBaseInfo = GlobalData.unitBaseInfo[ userUnitInfo.unitBaseInfo ];
 				avatarInfoDic.Add( item.Key, unitBaseInfo );
 			}
 

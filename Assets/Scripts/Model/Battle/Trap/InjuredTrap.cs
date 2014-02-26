@@ -3,6 +3,7 @@ using System.Collections;
 using bbproto;
 
 public class InjuredTrap : TrapBase, ITrapExcute {
+
 	public InjuredTrap (object instance) : base (instance) {
 		switch (GetTrap.effectType) {
 		case 1:
@@ -88,12 +89,14 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 }
 
 public class TrapBase : ProtobufDataBase {
+	protected TrapInfo instance;
 	public TrapBase(object instance) : base (instance) {
 		trapValueIndex = GetTrap.valueIndex;
+		instance = instance as TrapInfo;
 	}
 	protected TrapInfo GetTrap {
 		get {
-			return DeserializeData<TrapInfo> ();
+			return instance;
 		}
 	}
 	protected TrapInjuredValue GetInjuredValue {

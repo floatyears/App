@@ -3,8 +3,10 @@ using System.Collections;
 using bbproto;
 
 public class ActiveDelayTime : ActiveSkill, IActiveSkillExcute {
+	private SkillDelayTime instance;
 	public ActiveDelayTime(object instance) : base (instance) {
-		skillBase = DeserializeData<SkillDelayTime> ().baseInfo;
+		this.instance = instance as SkillDelayTime;
+		skillBase = this.instance.baseInfo;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -26,8 +28,8 @@ public class ActiveDelayTime : ActiveSkill, IActiveSkillExcute {
 			return null;
 		}
 		InitCooling ();
-	 	sdt = DeserializeData<SkillDelayTime> ();
-		MsgCenter.Instance.Invoke (CommandEnum.DelayTime, sdt.value);
+//	 	sdt = DeserializeData<SkillDelayTime> ();
+		MsgCenter.Instance.Invoke (CommandEnum.DelayTime, instance.value);
 		return null;
 	}
 }

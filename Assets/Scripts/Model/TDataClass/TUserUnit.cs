@@ -1,23 +1,25 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class UserUnitParty {
-	public static Dictionary<int,UnitParty> userUnitPartyInfo = new Dictionary<int, UnitParty> ();
+//public class UserUnitParty {
+//	public static Dictionary<int,UnitParty> userUnitPartyInfo = new Dictionary<int, UnitParty> ();
+//
+//}
+//
+//public class AddBlood {
+//
+//
+//	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
+//		return null;
+//	}
+//}
 
-}
-
-public class AddBlood {
-
-
-	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
-		return null;
-	}
-}
-
-public class UserUnitInfo : ProtobufDataBase {
-	public UserUnitInfo(UserUnit instance) : base (instance) { 
+public class TUserUnit : ProtobufDataBase {
+	private UserUnit instance;
+	public TUserUnit(UserUnit instance) : base (instance) { 
 		MsgCenter.Instance.AddListener (CommandEnum.StrengthenTargetType, StrengthenTargetType);
+		this.instance = instance as UserUnit;
 	} 
 
 	public void RemovevListener () {
@@ -34,7 +36,7 @@ public class UserUnitInfo : ProtobufDataBase {
 	private float hpMultiple = 1;
 	public int unitBaseInfo = -1;
 
-	TempNormalSkill[] normalSkill = new TempNormalSkill[2];
+	TNormalSkill[] normalSkill = new TNormalSkill[2];
 
 	public void SetAttack(float value, int type, EBoostTarget boostTarget,EBoostType boostType) {
 		if (boostType == EBoostType.BOOST_HP) {
@@ -61,7 +63,7 @@ public class UserUnitInfo : ProtobufDataBase {
 	}
 
 	void SetHPByRace (float value, int race) {
-		UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [unitBaseInfo];
+		UnitBaseInfo ubi = GlobalData.unitBaseInfo [unitBaseInfo];
 		if ((int)ubi.race == race || race == (int)EUnitRace.ALL) {
 			hpMultiple *= value;
 		}
@@ -74,7 +76,7 @@ public class UserUnitInfo : ProtobufDataBase {
 	}
 
 	void SetAttackMultipeByRace(float value,int race) {
-		UnitBaseInfo ubi = GlobalData.tempUnitBaseInfo [unitBaseInfo];
+		UnitBaseInfo ubi = GlobalData.unitBaseInfo [unitBaseInfo];
 		if ((int)ubi.race == race || race == (int)EUnitRace.ALL) {
 			attackMultiple *= value;
 		}
@@ -83,9 +85,7 @@ public class UserUnitInfo : ProtobufDataBase {
 	public float CalculateInjured(int attackType, float attackValue) {
 		int beRetraintType = DGTools.BeRestraintType (attackType);
 		int retraintType = DGTools.RestraintType (attackType);
-		UserUnit uu = DeserializeData<UserUnit> ();
-		int defense = DGTools.CaculateAddDefense (uu.addDefence);
-//		defense += GetUnitInfo ().power [uu.level].defense;
+//		UserUnit uu = DeserializeData<UserUnit> ();
 		float hurtValue = 0;
 
 		if (beRetraintType == (int)GetUnitInfo ().type) {
@@ -100,23 +100,22 @@ public class UserUnitInfo : ProtobufDataBase {
 		if (hurtValue <= 0) {
 			hurtValue = 1;
 		}
-//		Debug.LogError ("item : " + GlobalData.tempUnitBaseInfo [unitBaseInfo].chineseName + " hurtvalue : " + hurtValue + " GetUnitInfo ().type : " + GetUnitInfo ().type);
 		int hv = System.Convert.ToInt32 (hurtValue);
 		currentBlood -= hv;
 		return hv;
 	}
 
 	void InitSkill () {
-		UserUnit uu 				= DeserializeData<UserUnit> ();
-		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.unitId];
+//		UserUnit uu 				= DeserializeData<UserUnit> ();
+		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
 		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
-		TempNormalSkill firstSkill = null;
-		TempNormalSkill secondSkill = null;
+		TNormalSkill firstSkill = null;
+		TNormalSkill secondSkill = null;
 		if (ui.skill1 > -1) {
-			firstSkill	= GlobalData.tempNormalSkill [ui.skill1] as TempNormalSkill;	
+			firstSkill	= GlobalData.normalSkill [ui.skill1] as TNormalSkill;	
 		}
 		if (ui.skill2 > -1) {
-			secondSkill = GlobalData.tempNormalSkill [ui.skill2] as TempNormalSkill;	
+			secondSkill = GlobalData.normalSkill [ui.skill2] as TNormalSkill;	
 		}
 		AddSkill(firstSkill,secondSkill);
 	}
@@ -127,18 +126,18 @@ public class UserUnitInfo : ProtobufDataBase {
 		if (normalSkill [0] == null) {
 			InitSkill();	
 		}
-		UserUnit uu 				= DeserializeData<UserUnit> ();
-		TempUnitInfo tui 			= GlobalData.tempUnitInfo[uu.unitId];
+//		UserUnit uu 				= DeserializeData<UserUnit> ();
+		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
 		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
 		for (int i = 0; i < normalSkill.Length; i++) {
-			TempNormalSkill tns 	= normalSkill[i];
+			TNormalSkill tns 	= normalSkill[i];
 			tns.DisposeUseSkillID(ignorSkillID);
 			int count = tns.CalculateCard(copyCard);
 			for (int j = 0; j < count; j++) {
 				AttackInfo attack	= new AttackInfo();
-				attack.AttackValue	= CaculateAttack(uu,ui,tns);
+				attack.AttackValue	= CaculateAttack(instance,ui,tns);
 				attack.AttackType	= (int)ui.type;
-				attack.UserUnitID	= uu.uniqueId;
+				attack.UserUnitID	= instance.uniqueId;
 				tns.GetSkillInfo(attack);
 				returnInfo.Add(attack);
 			}
@@ -162,7 +161,7 @@ public class UserUnitInfo : ProtobufDataBase {
 		strengthenInfo = ai;
 	}
 
-	void AddSkill(TempNormalSkill firstSkill, TempNormalSkill secondSkill) {
+	void AddSkill(TNormalSkill firstSkill, TNormalSkill secondSkill) {
 		if (firstSkill == null && secondSkill != null) {
 			normalSkill[0] = secondSkill;
 		}
@@ -183,7 +182,7 @@ public class UserUnitInfo : ProtobufDataBase {
 		}
 	}
 
-	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TempNormalSkill tns) {
+	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TNormalSkill tns) {
 		int addAttack = uu.addAttack * 50;
 		float attack = addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType, uu.level); //ui.power [uu.level].attack;
 		attack = tns.GetAttack(attack) * attackMultiple;
@@ -211,34 +210,34 @@ public class UserUnitInfo : ProtobufDataBase {
 		return GetUnitInfo ().passiveSkill;
 	}
 
-	UnitInfo GetUnitInfo() {
-		UserUnit userUnit =  DeserializeData () as UserUnit;
-		return GlobalData.tempUnitInfo [userUnit.unitId].DeserializeData<UnitInfo>();
+	public UnitInfo GetUnitInfo() {
+//		UserUnit userUnit = instance;//DeserializeData () as UserUnit;
+		return GlobalData.unitInfo [instance.unitId].GetObject;
 	}
 
 	public int GetInitBlood () {
-		UserUnit uu = DeserializeData<UserUnit>();
+//		UserUnit uu = DeserializeData<UserUnit>();
 		UnitInfo ui = GetUnitInfo() ;
 		int blood = 0;
-		blood +=  DGTools.CaculateAddBlood (uu.addHp);
-		blood += GlobalData.Instance.GetUnitValue (ui.powerType.hpType, uu.level); //ui.power [uu.level].hp;
+		blood +=  DGTools.CaculateAddBlood (instance.addHp,uu,ui);
+//		blood += GlobalData.Instance.GetUnitValue (ui.powerType.hpType, uu.level); //ui.power [uu.level].hp;
 		float temp = blood * hpMultiple;
 		return System.Convert.ToInt32(blood);
 	}
 
 	public int GetBlood () {
 		if (currentBlood == -1) {
-			UserUnit uu = DeserializeData<UserUnit>();
+//			UserUnit uu = DeserializeData<UserUnit>();
 			UnitInfo ui = GetUnitInfo() ;
-			currentBlood += DGTools.CaculateAddBlood (uu.addHp);
-			currentBlood += GlobalData.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
+			currentBlood += DGTools.CaculateAddBlood (instance.addHp,uu,ui);
+//			currentBlood += GlobalData.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
 		}
 		float blood = currentBlood * hpMultiple;
 		return System.Convert.ToInt32(blood);
 	}
 
-	UserUnit GetObject{
-		get { return DeserializeData<UserUnit>(); }
+	public UserUnit GetObject{
+		get { return instance; }
 	}
 
 	public int GetLevel{
@@ -251,7 +250,6 @@ public class UserUnitInfo : ProtobufDataBase {
 		get {
 			int addAttack = GetObject.addAttack * 50;
 			UnitInfo ui = GetUnitInfo() ;
-
 			return addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType,GetObject.level); //ui.power [GetObject.level].attack;
 		}
 	}
@@ -269,8 +267,8 @@ public class UserUnitInfo : ProtobufDataBase {
 	}
 }
 
-public class PartyItemInfo : ProtobufDataBase {
-	public PartyItemInfo (PartyItem instance) : base (instance) {
-		UnitInfo UI = new UnitInfo ();
-	}
-}
+//public class PartyItemInfo : ProtobufDataBase {
+//	public PartyItemInfo (PartyItem instance) : base (instance) {
+//		UnitInfo UI = new UnitInfo ();
+//	}
+//}

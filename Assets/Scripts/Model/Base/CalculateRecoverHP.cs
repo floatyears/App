@@ -1,13 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class CalculateRecoverHP {
 
-	private TempNormalSkill[] recoverHPSkill = new TempNormalSkill[4];
+	private TNormalSkill[] recoverHPSkill = new TNormalSkill[4];
 
 	public CalculateRecoverHP() {
 		for (int i = 0; i < 4; i++) {
-			TempNormalSkill tns = GlobalData.tempNormalSkill [29 - i] as TempNormalSkill;
+			TNormalSkill tns = GlobalData.normalSkill [29 - i] as TNormalSkill;
 			recoverHPSkill[i] = tns;
 		}
 
@@ -17,7 +17,7 @@ public class CalculateRecoverHP {
 		AttackInfo ai = null;
 		List<uint> copyCard = new List<uint> (card);
 		for (int i = 0; i < recoverHPSkill.Length; i++) {
-			TempNormalSkill tns = recoverHPSkill[i];
+			TNormalSkill tns = recoverHPSkill[i];
 			tns.DisposeUseSkillID(ignorSkillID);
 			int count = tns.CalculateCard(copyCard);
 			if(count > 0){

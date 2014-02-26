@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using bbproto;
 
 public class LeaderSkillMultipleAttack : ProtobufDataBase {
+	private SkillMultipleAttack instance;
 	public LeaderSkillMultipleAttack(object instance) : base (instance) {
+		this.instance = instance as SkillMultipleAttack;
 
 	}
 
 	public float MultipeAttack (List<AttackInfo> attackInfo) {
-		SkillMultipleAttack sma = DeserializeData<SkillMultipleAttack> ();
+//		SkillMultipleAttack sma = DeserializeData<SkillMultipleAttack> ();
 		float multiple = 1f;
 		List<int> tempAttackType = new List<int> ();
 		for (int i = 0; i < attackInfo.Count; i++) {
@@ -18,7 +20,7 @@ public class LeaderSkillMultipleAttack : ProtobufDataBase {
 			tempAttackType.Add(attackInfo[i].AttackType);
 		}
 
-		if (tempAttackType.Count >= sma.unitTypeCount) {
+		if (tempAttackType.Count >= instance.unitTypeCount) {
 			multiple = 2.5f;
 		}
 

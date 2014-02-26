@@ -2,9 +2,11 @@
 using System.Collections;
 using bbproto;
 
-public class SkillPoisonAttack : ActiveSkill, IActiveSkillExcute {
-	public SkillPoisonAttack(object instance) : base (instance) { 
-		skillBase = DeserializeData<SkillPoison> ().baseInfo;	
+public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
+	private SkillPoison instance;
+	public TSkillPoison(object instance) : base (instance) { 
+		this.instance = instance as SkillPoison;
+		skillBase = this.instance.baseInfo;	
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -26,12 +28,10 @@ public class SkillPoisonAttack : ActiveSkill, IActiveSkillExcute {
 		}
 		InitCooling ();
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-
-		SkillPoison sp = DeserializeData<SkillPoison>();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
-		ai.AttackValue = atk * sp.value;
-		ai.AttackRound = sp.roundValue;
+		ai.AttackValue = atk * instance.value;
+		ai.AttackRound = instance.roundValue;
 		ai.IgnoreDefense = true;
 		ai.AttackType = 0;
 		posionInfo = ai;

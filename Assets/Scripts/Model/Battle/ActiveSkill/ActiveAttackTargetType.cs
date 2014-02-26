@@ -3,8 +3,10 @@ using System.Collections;
 using bbproto;
 
 public class ActiveAttackTargetType : ActiveSkill, IActiveSkillExcute {
+	private SkillTargetTypeAttack instance;
 	public ActiveAttackTargetType(object instance) : base (instance) {
-		skillBase = DeserializeData<SkillTargetTypeAttack> ().baseInfo;
+		this.instance = instance as SkillTargetTypeAttack;
+		skillBase = this.instance.baseInfo;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;	
 		}
@@ -26,18 +28,18 @@ public class ActiveAttackTargetType : ActiveSkill, IActiveSkillExcute {
 			return null;
 		}
 		InitCooling ();
-		SkillTargetTypeAttack stta = DeserializeData<SkillTargetTypeAttack> ();
+//		SkillTargetTypeAttack stta = DeserializeData<SkillTargetTypeAttack> ();
 		AttackTargetType att = new AttackTargetType ();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
-		if (stta.type == EValueType.MULTIPLE) {
-			ai.AttackValue = atk * stta.value;	
+		if (instance.type == EValueType.MULTIPLE) {
+			ai.AttackValue = atk * instance.value;	
 		}
-		else if(stta.type == EValueType.FIXED){
-			ai.AttackValue = stta.value;
+		else if(instance.type == EValueType.FIXED){
+			ai.AttackValue = instance.value;
 		}
-		att.targetType = (int)stta.targetUnitType;
-		ai.AttackType = (int)stta.hurtUnitType;
+		att.targetType = (int)instance.targetUnitType;
+		ai.AttackType = (int)instance.hurtUnitType;
 		att.attackInfo = ai;
 		MsgCenter.Instance.Invoke(CommandEnum.AttackTargetType, att);
 		return att;

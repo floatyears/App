@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleUseData {
 	private ErrorMsg errorMsg;
-	private UnitPartyInfo upi;
+	private TUnitParty upi;
 	private int maxBlood = 0;
 	private int blood = 0;
 	public int Blood {
@@ -14,8 +14,8 @@ public class BattleUseData {
 	private int recoverHP = 0;
 	private int maxEnergyPoint = 0;
 	private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
-	private List<TempEnemy> currentEnemy =new List<TempEnemy> ();
-	private List<TempEnemy> showEnemy = new List<TempEnemy>();
+	private List<TEnemyInfo> currentEnemy =new List<TEnemyInfo> ();
+	private List<TEnemyInfo> showEnemy = new List<TEnemyInfo>();
 	private AttackController ac;
 	private ExcuteLeadSkill els;
 	private ExcuteActiveSkill eas;
@@ -35,7 +35,7 @@ public class BattleUseData {
 	public BattleUseData () {
 		ListenEvent ();
 		errorMsg = new ErrorMsg ();
-		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as UnitPartyInfo;
+		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as TUnitParty;
 		upi.GetSkillCollection ();
 		els = new ExcuteLeadSkill (upi);
 		skillRecoverHP = els;
@@ -192,14 +192,14 @@ public class BattleUseData {
 		}
 	}
 
-	public List<TempEnemy> GetEnemyInfo (List<uint> monster) {
+	public List<TEnemyInfo> GetEnemyInfo (List<uint> monster) {
 		currentEnemy.Clear ();
 		int j = showEnemy.Count - monster.Count;
 		for (int i = 0; i < j; i++) {
 			showEnemy.RemoveAt(monster.Count + i);
 		}
 		for (int i = 0; i < monster.Count; i++) {
-			TempEnemy te = GlobalData.tempEnemyInfo[monster[i]];
+			TEnemyInfo te = GlobalData.enemyInfo[monster[i]];
 			te.Reset();
 			if(i == showEnemy.Count) {
 				showEnemy.Add(te);

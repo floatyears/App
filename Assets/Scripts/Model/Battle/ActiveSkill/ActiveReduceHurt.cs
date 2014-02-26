@@ -3,8 +3,10 @@ using System.Collections;
 using bbproto;
 
 public class ActiveReduceHurt : ActiveSkill, IActiveSkillExcute {
+	private SkillReduceHurt instance;
 	public ActiveReduceHurt (object instance) : base (instance) {
-		skillBase = DeserializeData<SkillReduceHurt> ().baseInfo;
+		this.instance = instance as SkillReduceHurt;
+		skillBase = this.instance.baseInfo;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;		
 		}
@@ -25,11 +27,11 @@ public class ActiveReduceHurt : ActiveSkill, IActiveSkillExcute {
 			return null;
 		}
 		InitCooling ();
-		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
+//		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
 		ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
-		ai.AttackValue = srh.value;
-		ai.AttackRound = srh.periodValue;
+		ai.AttackValue = instance.value;
+		ai.AttackRound = instance.periodValue;
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveReduceHurt,ai);
 		ai.AttackRound --;
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class EnemyItem : UIBaseUnity {
-	private TempEnemy enemyInfo;
+	private TEnemyInfo enemyInfo;
 	private UITexture texture;
 	private UITexture dropTexture;
 
@@ -105,9 +105,9 @@ public class EnemyItem : UIBaseUnity {
 		Debug.Log ("posion round : " + ai.AttackRound);
 	}
 	
-	public void Init(TempEnemy te) {
+	public void Init(TEnemyInfo te) {
 		texture 				= FindChild<UITexture> ("Texture");
-		TempUnitInfo tui 		= GlobalData.tempUnitInfo [te.GetID ()];
+		TUnitInfo tui 		= GlobalData.unitInfo [te.GetID ()];
 		texture.mainTexture 	= tui.GetAsset (UnitAssetType.Profile);
 		dropTexture 			= FindChild<UITexture>("Drop");
 		dropTexture.enabled 	= false;
@@ -140,7 +140,7 @@ public class EnemyItem : UIBaseUnity {
 	}
 
 	void EnemyDead(object data) {
-		TempEnemy te = data as TempEnemy;
+		TEnemyInfo te = data as TEnemyInfo;
 		if (te == null || te.GetID () != enemyInfo.GetID()) {
 			return;		
 		}
@@ -151,7 +151,7 @@ public class EnemyItem : UIBaseUnity {
 	}
 
 	void EnemyRefresh(object data) {
-		TempEnemy te = data as TempEnemy;
+		TEnemyInfo te = data as TEnemyInfo;
 		if (te == null) {
 			return;		
 		}
@@ -184,7 +184,7 @@ public class EnemyItem : UIBaseUnity {
 		iTween.MoveTo (texture.gameObject,iTween.Hash("position",localPosition,"time",0.2f,"islocal",true,"easetype",iTween.EaseType.easeOutCubic));
 	}
 
-	void SetData (TempEnemy seu) {
+	void SetData (TEnemyInfo seu) {
 		SetBloodLabel (seu.GetBlood());
 		SetNextLabel (seu.GetRound());
 	}

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Timers;
 
@@ -6,8 +6,8 @@ public class AttackController {
 	private MsgCenter msgCenter;
 	private BattleUseData bud;
 	private List<AttackInfo> attackInfo = new List<AttackInfo>();
-	public List<TempEnemy> enemyInfo = new List<TempEnemy>();
-	private UnitPartyInfo upi;
+	public List<TEnemyInfo> enemyInfo = new List<TEnemyInfo>();
+	private TUnitParty upi;
 	private float countDownTime = 0f;
 	IExcutePassiveSkill passiveSkill;
 
@@ -95,7 +95,7 @@ public class AttackController {
 		}
 
 		for (int i = 0; i < enemyInfo.Count; i++) {
-			TempEnemy te = enemyInfo[i];
+			TEnemyInfo te = enemyInfo[i];
 			if(te.GetUnitType() == att.targetType) {
 				AttackInfo ai = att.attackInfo;
 				int restraintType = DGTools.RestraintType(ai.AttackType);
@@ -110,7 +110,7 @@ public class AttackController {
 		CheckTempEnemy ();
 	}
 
-	public void StartAttack (List<AttackInfo> attack, UnitPartyInfo upi) {
+	public void StartAttack (List<AttackInfo> attack, TUnitParty upi) {
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		attackInfo = attack;
 		this.upi = upi;
@@ -217,13 +217,13 @@ public class AttackController {
 		}
 	}
 
-	List<TempEnemy> deadEnemy = new List<TempEnemy>();
+	List<TEnemyInfo> deadEnemy = new List<TEnemyInfo>();
 	void CheckEnemyDead () {
 		if (enemyInfo.Count == 1) {
 			return;	
 		}
 		for (int i = enemyInfo.Count - 1; i > -1; i--) {
-			TempEnemy te = enemyInfo[i];
+			TEnemyInfo te = enemyInfo[i];
 			if(te.GetBlood() <= 0) {
 				deadEnemy.Add(te);
 				enemyInfo.Remove(te);
@@ -241,7 +241,7 @@ public class AttackController {
 			int blood = enemyInfo[i].GetBlood();
 			if(blood <= 0){
 //				Debug.LogError(enemyInfo[i].GetID() + " Enemy " + enemyInfo[i].GetBlood()); 
-				TempEnemy te = enemyInfo[i];
+				TEnemyInfo te = enemyInfo[i];
 				enemyInfo.RemoveAt(i);
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 			}
@@ -267,11 +267,11 @@ public class AttackController {
 			return;	
 		}
 
-		List<TempEnemy> injuredEnemy = enemyInfo.FindAll (a => a.IsInjured () == true);
+		List<TEnemyInfo> injuredEnemy = enemyInfo.FindAll (a => a.IsInjured () == true);
 		int restraintType = DGTools.RestraintType (ai.AttackType);
-		TempEnemy te = null;
+		TEnemyInfo te = null;
 		if (injuredEnemy.Count > 0) {
-			DGTools.InsertSort(injuredEnemy,new TempEnemySortByHP(),false);
+			DGTools.InsertSort(injuredEnemy,new EnemySortByHP(),false);
 			int index = injuredEnemy.FindIndex (a => a.GetUnitType () == restraintType);
 			te = index > - 1 ?  injuredEnemy [index] : injuredEnemy [0];
 		}
@@ -294,7 +294,7 @@ public class AttackController {
 		int restraintType = DGTools.RestraintType (ai.AttackType);
 		tempPreHurtValue = 0;
 		for (int i = 0; i < enemyInfo.Count; i++) {
-			TempEnemy te = enemyInfo[i];
+			TEnemyInfo te = enemyInfo[i];
 			bool b = restraintType == te.GetUnitType();
 			int hurtValue = te.CalculateInjured (ai, b);
 			ai.InjuryValue = hurtValue;
@@ -314,7 +314,7 @@ public class AttackController {
 		}
 	}
 	int enemyIndex = 0;
-	TempEnemy te;
+	TEnemyInfo te;
 	void LoopEnemyAttack () {
 		countDownTime = 0.3f;
 		te = enemyInfo [enemyIndex];
@@ -368,8 +368,8 @@ public class AttackController {
 
 		AttackInfo ai = antiInfo [0];
 		antiInfo.RemoveAt (0);
-		TempEnemy te = enemyInfo.Find(a=>a.GetID() == ai.EnemyID);
-		if (te == default(TempEnemy)) {
+		TEnemyInfo te = enemyInfo.Find(a=>a.GetID() == ai.EnemyID);
+		if (te == default(TEnemyInfo)) {
 			return;	
 		}
 		int restraintType = DGTools.RestraintType (ai.AttackType);
