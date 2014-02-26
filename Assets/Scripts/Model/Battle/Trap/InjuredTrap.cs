@@ -91,6 +91,7 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 public class TrapBase : ProtobufDataBase {
 	protected TrapInfo instance;
 	public TrapBase(object instance) : base (instance) {
+		this.instance = instance as TrapInfo;
 		trapValueIndex = GetTrap.valueIndex;
 		instance = instance as TrapInfo;
 	}

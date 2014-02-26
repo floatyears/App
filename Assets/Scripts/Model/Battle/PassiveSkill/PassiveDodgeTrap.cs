@@ -2,10 +2,11 @@
 using System.Collections;
 using bbproto;
 
-public class PassiveDodgeTrap : ProtobufDataBase, IPassiveExcute {
+public class PassiveDodgeTrap : SkillBaseInfo, IPassiveExcute {
 	private SkillDodgeTrap instance;
 	public PassiveDodgeTrap(object instance) : base (instance) {
 		this.instance = instance as SkillDodgeTrap;
+		skillBase = this.instance.baseInfo;
 	}
 
 	public object Excute (object trapBase, IExcutePassiveSkill excutePS) {

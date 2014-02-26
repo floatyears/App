@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class TSkillReduceHurt : ProtobufDataBase {
+public class TSkillReduceHurt : SkillBaseInfo {
 	private SkillReduceHurt instance;
 	private int useCount = 0;
 	public TSkillReduceHurt (object instance) : base (instance) {
 		this.instance = instance as SkillReduceHurt;
+		skillBase = this.instance.baseInfo;
 	}
 	
 	public float ReduceHurt (float attackValue,int type) {

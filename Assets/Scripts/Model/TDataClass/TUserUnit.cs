@@ -107,15 +107,15 @@ public class TUserUnit : ProtobufDataBase {
 
 	void InitSkill () {
 //		UserUnit uu 				= DeserializeData<UserUnit> ();
-		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
-		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
+//		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
+		UnitInfo ui				= GlobalData.unitInfo[instance.unitId].GetObject;
 		TNormalSkill firstSkill = null;
 		TNormalSkill secondSkill = null;
 		if (ui.skill1 > -1) {
-			firstSkill	= GlobalData.normalSkill [ui.skill1] as TNormalSkill;	
+			firstSkill	= GlobalData.skill [ui.skill1] as TNormalSkill;	
 		}
 		if (ui.skill2 > -1) {
-			secondSkill = GlobalData.normalSkill [ui.skill2] as TNormalSkill;	
+			secondSkill = GlobalData.skill [ui.skill2] as TNormalSkill;	
 		}
 		AddSkill(firstSkill,secondSkill);
 	}
@@ -128,7 +128,7 @@ public class TUserUnit : ProtobufDataBase {
 		}
 //		UserUnit uu 				= DeserializeData<UserUnit> ();
 		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
-		UnitInfo ui					= tui.DeserializeData<UnitInfo>();
+		UnitInfo ui				= GlobalData.unitInfo[instance.unitId].GetObject;
 		for (int i = 0; i < normalSkill.Length; i++) {
 			TNormalSkill tns 	= normalSkill[i];
 			tns.DisposeUseSkillID(ignorSkillID);
@@ -262,7 +262,8 @@ public class TUserUnit : ProtobufDataBase {
 
 	public uint GetID {
 		get {
-			return DeserializeData<UserUnit>().uniqueId;
+			return instance.uniqueId;
+//			return DeserializeData<UserUnit>().uniqueId;
 		}
 	}
 }

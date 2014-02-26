@@ -27,7 +27,7 @@ public class GlobalData  {
 	}
 
 	public static Dictionary<int,TPowerTableInfo> unitValue = new Dictionary<int, TPowerTableInfo>();
-	public static Dictionary<int, ProtobufDataBase> normalSkill = new Dictionary<int, ProtobufDataBase>();
+	public static Dictionary<int, ProtobufDataBase> skill = new Dictionary<int, ProtobufDataBase>();
 	public static Dictionary<uint, TUnitInfo>	unitInfo = new Dictionary<uint, TUnitInfo> ();
 	public static Dictionary<uint, TUserUnit> userUnitInfo = new Dictionary<uint, TUserUnit>();
 	public static Dictionary<uint, TEnemyInfo> enemyInfo = new Dictionary<uint, TEnemyInfo> ();
@@ -51,6 +51,7 @@ public class GlobalData  {
 	/// <param name="level">Level.</param>
 	public int GetUnitValue (int type, int level) {
 		TPowerTableInfo pti = unitValue[type];
+//		Debug.LogError ("global type : " + type + " pti : " + pti);
 		return pti.GetValue(level);
 	}
 

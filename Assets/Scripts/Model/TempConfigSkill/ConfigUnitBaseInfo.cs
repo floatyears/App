@@ -23,7 +23,8 @@ public class ConfigUnitBaseInfo {
 			pv.value = i * 100;
 			pt.power.Add(pv);
 		}
-		GlobalData.unitValue .Add(1,new TPowerTableInfo(pt)) ;
+		TPowerTableInfo tbi = new TPowerTableInfo (pt);
+		GlobalData.unitValue .Add(1,tbi) ;
 	}
 
 	void GenerateUnitBaseAttack () {
@@ -34,7 +35,8 @@ public class ConfigUnitBaseInfo {
 			pv.value = i * 20;
 			pt.power.Add(pv);
 		}
-		GlobalData.unitValue .Add(2,new TPowerTableInfo(pt)) ; 
+		TPowerTableInfo tbi = new TPowerTableInfo (pt);
+		GlobalData.unitValue .Add(2,tbi) ; 
 	}
 
 //	void GenerateUnitBaseDefense () {
@@ -56,7 +58,8 @@ public class ConfigUnitBaseInfo {
 			pv.value = i * 50;
 			pt.power.Add(pv);
 		}
-		GlobalData.unitValue.Add(3,new TPowerTableInfo(pt)) ;
+		TPowerTableInfo tbi = new TPowerTableInfo (pt);
+		GlobalData.unitValue.Add(3,tbi) ;
 	}
 
 	void GenerateUnitBaseInfo() {

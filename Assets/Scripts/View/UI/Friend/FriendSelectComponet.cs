@@ -51,8 +51,8 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 				if(!userUnit.ContainsKey(item.Key)) {
 					userUnit.Add(item.Key,uui);
 				}
-				UnitBaseInfo ubi = GlobalData.unitBaseInfo[uui.unitBaseInfo];
-				viewInfo.Add(item.Key,ubi);
+//				UnitBaseInfo ubi = GlobalData.unitBaseInfo[uui.unitBaseInfo];
+//				viewInfo.Add(item.Key,ubi);
 			}
 			call.Callback (viewInfo);
 		}

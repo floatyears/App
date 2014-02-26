@@ -3,10 +3,11 @@ using System.Collections;
 using bbproto;
 
 public class TPowerTableInfo : ProtobufDataBase {
+	private PowerTable instance;
+
 	public TPowerTableInfo(object instance) : base (instance) {
-		instance = instance as PowerTable;
+		this.instance = instance as PowerTable;
 	}
-	PowerTable instance;
 	public int GetValue (int level) {
 		PowerValue pv = instance.power.Find(a=>a.level == level);
 		if(pv == default(PowerValue)) {
