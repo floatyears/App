@@ -3,7 +3,7 @@ using System.Collections;
 using bbproto;
 using System.Collections.Generic;
 
-public class UnitDetailPanel : UIComponentUnity{
+public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//----------UI elements list----------
 	UILabel idLabel;
 	UILabel hpLabel;
@@ -17,11 +17,17 @@ public class UnitDetailPanel : UIComponentUnity{
 	UILabel needExpLabel;
 	UISlider expSlider;
 
-	UILabel skill1DscpLabel;
-	UILabel skill1NameLabel;
+	UILabel normalSkill1DscpLabel;
+	UILabel normalSkill1NameLabel;
 	
-	UILabel skill2DscpLabel;
-	UILabel skill2NameLabel;
+	UILabel normalSkill2DscpLabel;
+	UILabel normalSkill2NameLabel;
+
+	UILabel leaderSkillNameLabel;
+	UILabel leaderSkillDscpLabel;
+
+	UILabel activeSkillNameLabel;
+	UILabel activeSkillDscpLabel;
 
 	UILabel profileLabel;
 
@@ -80,47 +86,62 @@ public class UnitDetailPanel : UIComponentUnity{
 	
 	//----------Init functions of UI Elements----------
 	void InitUI() {
+		InitTabSkill();
 		InitTabStatus ();
 		InitExpSlider ();
 		InitTexture ();
+		InitProfile();
 	}
-	
+
+
+	void InitProfile() {
+		string rootPath			= "UnitInfoTabs/Content_Profile/";
+		profileLabel			= FindChild<UILabel>(rootPath + "Label_info"			);
+	}
+
 	void InitTexture(){
 		unitBodyTex = FindChild< UITexture >("detailSprite");
 		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
 	}
 
 	void InitTabStatus() {
-		string rootPath = "UnitInfoTabs/Content_Status/";
+		string rootPath			= "UnitInfoTabs/Content_Status/";
 
-		idLabel		= FindChild<UILabel> (rootPath + "InputFrame_No"		);
-		nameLabel		= FindChild<UILabel> (rootPath + "InputFrame_Name"	);
-		levelLabel		= FindChild<UILabel> (rootPath + "InputFrame_Lv"		);
-		typeLabel		= FindChild<UILabel> (rootPath + "InputFrame_Type"	);
-		raceLabel		= FindChild<UILabel> (rootPath + "InputFrame_Race"	);
-		hpLabel		= FindChild<UILabel> (rootPath + "InputFrame_HP"		);
-		costLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Cost"	);
-		rareLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Rare"	);
-		atkLabel 		= FindChild<UILabel> (rootPath + "InputFrame_ATK"	);
-		needExpLabel	= FindChild<UILabel>( rootPath + "Label_Exp_Need"	);
-		expSlider		= FindChild<UISlider>	(rootPath + "ExperenceBar"		);
+		idLabel				= FindChild<UILabel> (rootPath + "InputFrame_No"		);
+		nameLabel				= FindChild<UILabel> (rootPath + "InputFrame_Name"	);
+		levelLabel				= FindChild<UILabel> (rootPath + "InputFrame_Lv"		);
+		typeLabel				= FindChild<UILabel> (rootPath + "InputFrame_Type"	);
+		raceLabel				= FindChild<UILabel> (rootPath + "InputFrame_Race"	);
+		hpLabel				= FindChild<UILabel> (rootPath + "InputFrame_HP"		);
+		costLabel 				= FindChild<UILabel> (rootPath + "InputFrame_Cost"	);
+		rareLabel 				= FindChild<UILabel> (rootPath + "InputFrame_Rare"	);
+		atkLabel 				= FindChild<UILabel> (rootPath + "InputFrame_ATK"	);
+		needExpLabel			= FindChild<UILabel>( rootPath + "Label_Exp_Need"	);
+		expSlider				= FindChild<UISlider>	(rootPath + "ExperenceBar"		);
 
-		statusToggle = FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
+		statusToggle 			= FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
 	}
 
 	void InitTabSkill(){
 
-		string rootPath =  "UnitInfoTabs/Content_Skill2/";
+		string rootPath;
 
 		// skill_1
-		skill1NameLabel = FindChild< UILabel >( rootPath + "Label_Normal_Skill1");
-
+		rootPath 				=  "UnitInfoTabs/Content_Skill1/Label_Vaule/";
+		leaderSkillNameLabel		= FindChild<UILabel>(rootPath + "Leader_Skill");
+		leaderSkillDscpLabel		= FindChild<UILabel>(rootPath + "Leader_Skill_Dscp");
+		activeSkillNameLabel		= FindChild<UILabel>(rootPath + "Active_Skill");
+		activeSkillDscpLabel		= FindChild<UILabel>(rootPath + "Active_Skill_Dscp");
 		// skill_2
-		skill2NameLabel = FindChild< UILabel >( rootPath + "Label_Normal_Skill2");
-
-	}
-	
-	//Make panel focus on the same tab every time when this ui show
+		rootPath 				= "UnitInfoTabs/Content_Skill2/Label_Vaule/";
+		normalSkill1NameLabel	= FindChild<UILabel>(rootPath + "Normal_Skill1");
+		normalSkill1DscpLabel	= FindChild<UILabel>(rootPath + "Normal_Skill1_Dscp");
+		normalSkill2NameLabel 	= FindChild<UILabel>(rootPath + "Normal_Skill2");
+		normalSkill2DscpLabel	= FindChild<UILabel>(rootPath + "Normal_Skill2_Dscp");
+                
+        }
+        
+        //Make panel focus on the same tab every time when this ui show
 	void ResetStartToggle( UIToggle target) {
 		target.value = true;
 	}
@@ -139,7 +160,7 @@ public class UnitDetailPanel : UIComponentUnity{
 		idLabel.text = curId.ToString();
 		nameLabel.text = GlobalData.unitInfo[ curId ].GetName();
 		levelLabel.text = userUnitInfo.level.ToString();
-		typeLabel.text = GlobalData.unitInfo[ curId ].GetUnitType();
+		//typeLabel.text = GlobalData.unitInfo[ curId ].GetUnitType();
 
 		TUnitInfo tu = GlobalData.unitInfo[ curId ];
 		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),userUnitInfo.level);
@@ -235,9 +256,62 @@ public class UnitDetailPanel : UIComponentUnity{
 		unitAlpha.Reset();
 		unitAlpha.PlayForward();
 	}
-		
 
-	int curLevel;
+	//call back view text info
+	public void Callback(object data)	{
+		Dictionary<int, string> textInfo = data as Dictionary<int, string>;
+		if( !textInfo.ContainsKey(1) ){
+			LogHelper.LogError("Not get the text info which id == 1");
+			return;
+		}
+		leaderSkillNameLabel.text = textInfo[1];
+
+		if( !textInfo.ContainsKey(2) ){
+			LogHelper.LogError("Not get the text info which id == 2");
+			return;
+                }
+		leaderSkillDscpLabel.text = textInfo[ 2 ];
+
+		if( !textInfo.ContainsKey(3) ){
+			LogHelper.LogError("Not get the text info which id == 3");
+                        return;
+                }
+                activeSkillNameLabel.text = textInfo[ 3 ];
+
+		if( !textInfo.ContainsKey(4) ){
+			LogHelper.LogError("Not get the text info which id == 4");
+                        return;
+                }
+		activeSkillDscpLabel.text = textInfo[ 4 ];
+
+		if( !textInfo.ContainsKey(5) ){
+			LogHelper.LogError("Not get the text info which id == 5");
+                        return;
+                }
+		normalSkill1NameLabel.text = textInfo[ 5 ];
+
+		if( !textInfo.ContainsKey(6) ){
+			LogHelper.LogError("Not get the text info which id == 6");
+                        return;
+                }
+		normalSkill1DscpLabel.text = textInfo[ 6 ];
+
+		if( !textInfo.ContainsKey(7) ){
+			LogHelper.LogError("Not get the text info which id == 7");
+                        return;
+                }
+		normalSkill2NameLabel.text = textInfo[ 7 ];
+
+		if( !textInfo.ContainsKey(8) ){
+			LogHelper.LogError("Not get the text info which id == 8");
+                        return;
+                }
+		normalSkill2DscpLabel.text = textInfo[ 8];
+        }
+        
+        
+        
+        int curLevel;
 	//---------Exp increase----------
 	void InitExpSlider(){
 		curExp = 460;

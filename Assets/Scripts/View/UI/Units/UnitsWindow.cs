@@ -153,6 +153,7 @@ public class UnitsWindow : UIComponentUnity, IUIParty{
 	private void RequestPartyInfo(int pageIndex){
 		//origin is UnitsComponent -- Logic Interface
 		IUIParty partyInterface = origin as IUIParty;
+		Debug.LogError("Party:  " + partyInterface);
 		if (partyInterface == null)
 			ShowPartyInfo(null);
 		partyInterface.PartyPaging(pageIndex);

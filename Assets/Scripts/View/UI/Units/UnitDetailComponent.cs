@@ -15,10 +15,14 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-	}
+		AddMsgCmd();
+
+                
+        }
 	   
 	public override void HideUI () {
 		base.HideUI ();
+		RmvMsgCmd();
 	}
 	
 	public override void DestoryUI () {
@@ -26,10 +30,7 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 	}
 
 	public void Callback(object data) {
-		IUICallback caller = viewComponent as IUICallback;
 
-		LogHelper.Log( "UnitDetailComponent.Callback() : SkillTextDic's Count is : " + skillTextDic.Count );
-		caller.Callback( skillTextDic );
 	}
 
 	string skill1Name;
@@ -44,29 +45,41 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 	string activeSkillName;
 	string activeSkillDescription;
 
-	Dictionary<int, string> skillTextDic = new Dictionary< string, string>();
+	Dictionary<int, string> skillTextDic = new Dictionary< int, string>();
+	//use to store source path
+	List<string> sourcePathList = new List<string>();
 
+
+	void AddMsgCmd () {
+		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, PackSkillText);
+        }
+
+	void RmvMsgCmd () {
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, PackSkillText);
+        }
+        
 	void GetSkill(object msg) {
-		UnitInfo unitInfo = msg as UnitInfo;
+		UserUnit userUnit = msg as UserUnit;
+		TUnitInfo unitInfo = GlobalData.unitInfo[ userUnit.unitId ];
 
-		int id;
+		uint skillID;
 
-		if ( id == -1 ){
+		if ( skillID == -1 ){
 			LogHelper.LogError("Find Skill Error!");
 			return;
 		}
 
-		id = unitInfo.skill1;
-		GetNormalSkill1(id);
-
-		id = unitInfo.skill2;
-		GetNormalSkill2(id);
-
-		id = unitInfo.leaderSkill;
-		GetLeaderSkill(id);
-
-		id = unitInfo.activeSkill;
-		GetActiveSkill(id);
+//		skillID = 
+//		GetNormalSkill1(id);
+//
+//		id = unitInfo.skill2;
+//		GetNormalSkill2(id);
+//
+//		id = unitInfo.leaderSkill;
+//		GetLeaderSkill(id);
+//
+//		id = unitInfo.activeSkill;
+//		GetActiveSkill(id);
 	}
 
 	void GetLeaderSkill(int id) {
@@ -78,19 +91,28 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 
 	void GetNormalSkill1(int id){
 		LogHelper.Log("UnitDetailComponent.GetNormalSkill1()");
-		SkillBase skill = GlobalData.skill[ id ].GetSkillInfo();
+		SkillBaseInfo sbi = GlobalData.skill[ id ];
+		SkillBase skill =sbi.GetSkillInfo();
 		skillTextDic.Add( 5, skill.name );
 		skillTextDic.Add( 6, skill.description );
+//		NormalSkill normalSkill = sbi as NormalSkill;
+//
+//		//Card Trigger
+//		List<int> unitTypeList = normalSkill.activeBlocks;
+//		foreach (var item in unitTypeList){
+//			sourcePathList.Add( item.ToString() );
+//		}
+	
 	}
 
 	void GetNormalSkill2(int id) {
 		LogHelper.Log("UnitDetailComponent.GetNormalSkill2()");
+
                 SkillBase skill = GlobalData.skill[ id ].GetSkillInfo();
 		skillTextDic.Add( 7, skill.name );
 		skillTextDic.Add( 8, skill.description );
         }
 	
-
 	void GetActiveSkill(int id) {
 		LogHelper.Log("UnitDetailComponent.GetActiveSkill()");
 		SkillBase skill = GlobalData.skill[ id ].GetSkillInfo();
@@ -98,12 +120,16 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 		skillTextDic.Add( 4, skill.description );
         }
 
+	void PackSkillText ( object info) {
+		LogHelper.Log("UnitDetailComponent : Call UnitDetailPanel ");
 
-//
-//	void PackSkillText () {
-//
-//	}
-
-
-
+		Debug.LogError( "aaaaaaaaaaaaa : " + info );
+		IUICallback caller = viewComponent as IUICallback;
+		GetSkill( info );
+		caller.Callback( skillTextDic );
+		LogHelper.Log( "UnitDetailComponent.Callback() : SkillTextDic's Count is : " + skillTextDic.Count );
+        }
+        
+        
+        
 }
