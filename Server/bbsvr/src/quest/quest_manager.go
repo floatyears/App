@@ -188,7 +188,7 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 
 	//append unit to userinfo
 	for _, unitDrop := range userDetail.Quest.DropUnits {
-		uniqueId, e := unit.GetUnitUniqueId(db, userDetail)
+		uniqueId, e := unit.GetUnitUniqueId(db, *userDetail.User.UserId, len(userDetail.UnitList))
 		if e.IsError() {
 			return 0, 0, 0, gotUnit, e
 		}

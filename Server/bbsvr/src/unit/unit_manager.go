@@ -1,7 +1,7 @@
 package unit
 
 import (
-	"../bbproto"
+	//"../bbproto"
 	"../common"
 	"../common/Error"
 	"../common/log"
@@ -9,18 +9,16 @@ import (
 	"../data"
 )
 
-func GetUnitUniqueId(db *data.Data, userDetail *bbproto.UserInfoDetail) (unitId uint32, e Error.Error) {
+func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e Error.Error) {
 	if db == nil {
-		return 0, Error.New(cs.INVALID_PARAMS, "invalid db pointer")
-	}
-
-	if err := db.Select(cs.TABLE_UNIT); err != nil {
+		db = &data.Data{}
+		err := db.Open(cs.TABLE_UNIT)
+		defer db.Close()
+		if err != nil {
+			return 0, Error.New(cs.READ_DB_ERROR, err)
+		}
+	} else if err := db.Select(cs.TABLE_UNIT); err != nil {
 		return 0, Error.New(cs.SET_DB_ERROR, err.Error())
-	}
-
-	uid := *userDetail.User.UserId
-	if userDetail.Quest == nil {
-		return 0, Error.New(cs.EQ_UPDATE_QUEST_RECORD_ERROR, "user.Quest is nil")
 	}
 
 	maxId, err := db.GetInt(cs.KEY_MAX_UNIT_ID + common.Utoa(uid))
@@ -30,12 +28,13 @@ func GetUnitUniqueId(db *data.Data, userDetail *bbproto.UserInfoDetail) (unitId 
 
 	if maxId == 0 {
 		maxId = 1 //first unitId
-		if len(userDetail.UnitList) > 0 {
-			return 0, Error.New(cs.READ_DB_ERROR)
+		if unitCount > 0 {
+			log.Fatal("data not valid: read from KEY_MAX_UNIT_ID return 0, but unit count is:%v", unitCount)
+			return 0, Error.New(cs.EC_UNIT_ID_ERROR)
 		}
 	}
 
-	unitId += uint32(maxId + 1)
+	unitId = uint32(maxId + 1)
 	log.Printf("get getNewUnitId ret: %v ", unitId)
 	if err = db.SetUInt(cs.KEY_MAX_UNIT_ID+common.Utoa(uid), unitId); err != nil {
 		return 0, Error.New(cs.SET_DB_ERROR)

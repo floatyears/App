@@ -141,6 +141,25 @@ public enum CommandEnum
 	SendLevelUpInfo				= 4008,
 	TryEnableLevelUp			= 4009,
 
+
+	//-----------------Server Protocol-----------------------//
+	// user - 5000
+	ReqAuthUser					= 5000,
+	RspAuthUser					= 5001,
+	ReqLoginPack				= 5002,
+	RspLoginPack				= 5003,
+
+	// quest - 5100
+	ReqStartQuest				= 5101,
+	RspStartQuest				= 5102,
+
+	//unit - 5200
+	ReqLevelUp					= 5201,
+	RspLevelUp					= 5202,
+
+
+
+	//-----------------Server Protocol-----------------------//
 }
 
 public enum MapItemEnum {

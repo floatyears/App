@@ -6,6 +6,13 @@ public sealed class LogHelper {
 
     }
 
+	public static void Log(string format, params object[] args ){
+		if (!DebugHelper.DEBUG){
+			return;
+		}
+		Debug.LogError(TimeHelper.FormattedTimeNow()+ string.Format(format,args));
+	}
+
     public static void Log(object message){
 //		Debug.LogError ("LogHelper : " + DebugHelper.DEBUG);
         if (!DebugHelper.DEBUG){

@@ -14,7 +14,7 @@ public class BattleBottom : MonoBehaviour {
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
 		if (upi == null) {
-			upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo,new ErrorMsg()) as TUnitParty;	
+			upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo,new ErrorMsg()) as TUnitParty;		
 		}
 		for (int i = 1; i < 6; i++) {
 			GameObject tex = transform.Find("Actor/" + i).gameObject;	
@@ -22,7 +22,7 @@ public class BattleBottom : MonoBehaviour {
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.GetPosUnitInfo ();
 		foreach (var item in userUnitInfo) {
-			TUnitInfo tui = GlobalData.unitInfo[item.Value.GetUnitID];
+			TUnitInfo tui = GlobalData.unitInfo[item.Value.UnitID];
 			actorObject[item.Key].renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
 //			rolePosition.Add(item.Value.GetID,actorObject[item.Key].transform);
 		}

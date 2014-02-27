@@ -32,7 +32,7 @@ public class UnitDetailPanel : UIComponentUnity{
 	Material unitMaterial;
 	List<GameObject> effectCache = new List<GameObject>();
 
-	int maxExp, curExp, gotExp, expRiseStep;
+	int currMaxExp, curExp, gotExp, expRiseStep;
 
 	
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
@@ -237,15 +237,15 @@ public class UnitDetailPanel : UIComponentUnity{
 	}
 		
 
-
+	int curLevel;
 	//---------Exp increase----------
 	void InitExpSlider(){
 		curExp = 460;
+		curLevel = 10;
 		gotExp = 3000;
-		maxExp = 1000;
-		expRiseStep = maxExp / 120;
+		expRiseStep = currMaxExp / 120;
 	}
-
+	
 	void Update(){
 		ExpRise();
 	}
@@ -253,6 +253,8 @@ public class UnitDetailPanel : UIComponentUnity{
 	void ExpRise () {
 		if(gotExp <= 0)	
 			return;
+
+		currMaxExp = GetMaxExpByLv( curLevel );
 
 		if(gotExp < expRiseStep){
 			//remain less than step, add remain
@@ -263,18 +265,23 @@ public class UnitDetailPanel : UIComponentUnity{
 			curExp += expRiseStep;
 		}
 
-		if(curExp >= maxExp) {
+		if(curExp >= currMaxExp) {
 			//current overflow,add back
-			gotExp += curExp - maxExp;
+			gotExp += curExp - currMaxExp;
 
 			curExp = 0;
+			curLevel++;
+			currMaxExp = GetMaxExpByLv( curLevel );
 		}
 
-		int needExp = maxExp - curExp;
+		int needExp = currMaxExp - curExp;
 		needExpLabel.text = needExp.ToString();
-		float progress = (float)curExp / (float)maxExp;
+		float progress = (float)curExp / (float)currMaxExp;
 		expSlider.value = progress;
 	}
 
-
+	int GetMaxExpByLv( int level) {
+		return level*level + 1000; 
+	}
+	
 }

@@ -67,13 +67,13 @@ public class ShowUnitInfo {
 		roleSpriteName = ubi.GetRolePath;
 		unitID = ubi.assetID;
 		unitName = ubi.englishName;
-		level = uui.GetLevel;
+		level = uui.Level;
 		unitType = ubi.type.ToString ();
 		race = ubi.race.ToString ();
-		hp = uui.GetBlood ();
+		hp = uui.Blood;
 		cost = ubi.cost;
 		rare = ubi.starLevel;
-		attack = uui.GetAttack;
+		attack = uui.Attack;
 		experenceProgress = 0f;
 
 //		TempNormalSkill tns1 = GlobalData.tempNormalSkill[ uui. ] as TempNormalSkill;
