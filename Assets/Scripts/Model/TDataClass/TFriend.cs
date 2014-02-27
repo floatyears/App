@@ -15,7 +15,7 @@ public class TFriendInfo : ProtobufDataBase {
 
 	//// property ////
 	public	uint			UserId { get { return instance.userId; } }
-	public	string			UserName { get { return instance.userName; } }
+	public	string			NickName { get { return instance.nickName; } }
 	public	int				Rank 	{ get { return instance.rank; } }
 	public	uint			LastPlayTime { get { return instance.lastPlayTime; } }
 	public	EFriendState	FriendState { get { return instance.friendState; } }
