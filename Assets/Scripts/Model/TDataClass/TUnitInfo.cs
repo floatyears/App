@@ -57,6 +57,11 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 		return instance.leaderSkill;
 	}
 
+/// <summary>
+/// SSS
+/// </summary>
+/// <returns>The profile.</returns>
+
 	public string GetProfile() {
 		return instance.profile;
 	}

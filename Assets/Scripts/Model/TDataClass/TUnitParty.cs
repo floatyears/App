@@ -102,7 +102,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 					skillUtility.alreadyUseSkill.Add (ai.SkillID);
 					AttackImageUtility aiu 	= new AttackImageUtility();
 					aiu.attackProperty		= ai.AttackType;
-					aiu.userProperty 		= GlobalData.userUnitInfo[ai.UserUnitID].GetUnitType();
+					aiu.userProperty 		= GlobalData.userUnitInfo[ai.UserUnitID].UnitType;
 					aiu.skillID				= ai.SkillID;
 					aiu.attackID			= ai.AttackID;
 					tempAttackType.Add (aiu);
@@ -141,7 +141,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	void AddLeadSkill (uint id) {
 		if (id != -1) {
 			TUserUnit firstLeader = GlobalData.userUnitInfo [id];
-			ProtobufDataBase pdb = GlobalData.skill[firstLeader.GetLeadSKill()];
+			ProtobufDataBase pdb = GlobalData.normalSkill[firstLeader.GetLeadSKill()];
 			if(leaderSkill.ContainsKey(id)) {
 				leaderSkill[id] = pdb;
 			}
@@ -216,8 +216,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		TUserUnit tuu = GlobalData.userUnitInfo [pi.unitUniqueId];
 		UserUnit uu1 = tuu.GetObject;
 		UnitInfo ui1 = tuu.GetUnitInfo();			 //GlobalData.unitInfo[uu1.unitId].DeserializeData<UnitInfo>();
-		TNormalSkill ns = GlobalData.skill [ui1.skill2] as TNormalSkill;
-		return ns.GetObject();
+		return GlobalData.normalSkill [ui1.skill2].DeserializeData<NormalSkill> ();
 	}
 	
 	public List<TUserUnit> GetUserUnit () {

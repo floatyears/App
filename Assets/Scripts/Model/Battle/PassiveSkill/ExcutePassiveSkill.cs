@@ -20,7 +20,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 
 	void InitPassiveSkill() {
 		foreach (var item in leaderSkill.UserUnit.Values) {
-			int id = item.GetPassiveSkill();
+			int id = item.PassiveSkill;
 			if(id == -1) {
 				continue;
 			}
@@ -28,8 +28,8 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			if(ipe == null) {
 				continue;
 			}
-			passiveSkill.Add(item.GetID,ipe);
-			multipe.Add(item.GetID,item.AttackMultiple);
+			passiveSkill.Add(item.ID,ipe);
+			multipe.Add(item.ID,item.AttackMultiple);
 		}
 	}
 

@@ -50,3 +50,9 @@ const (
 	EQ_INVALID_DROP_UNIT         = EQ_QUEST_BASE - 7
 	EQ_QUEST_IS_PLAYING          = EQ_QUEST_BASE - 8
 )
+
+//unit error
+const (
+	EC_UNIT_BASE     = -500
+	EC_UNIT_ID_ERROR = EC_UNIT_BASE - 1
+)

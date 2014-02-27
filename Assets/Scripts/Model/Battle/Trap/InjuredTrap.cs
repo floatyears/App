@@ -93,7 +93,6 @@ public class TrapBase : ProtobufDataBase {
 	public TrapBase(object instance) : base (instance) {
 		this.instance = instance as TrapInfo;
 		trapValueIndex = GetTrap.valueIndex;
-		instance = instance as TrapInfo;
 	}
 	protected TrapInfo GetTrap {
 		get {
