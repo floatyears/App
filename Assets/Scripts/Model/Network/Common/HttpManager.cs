@@ -13,7 +13,7 @@ public class HttpManager : INetSendPost {
 		}
 	}
 
-	public static string baseUrl = "http://192.168.0.108:8000/";
+	public static string baseUrl = "http://192.168.0.108:6666/";
 
 	private List<IWWWPost> wwwRequst = new List<IWWWPost>();
 
