@@ -54,6 +54,8 @@ public class BattleBackground : UIBaseUnity {
 		spriteAnimation = battleBottom.transform.Find ("Panel/Sprite/HP").GetComponent<UISpriteAnimationCustom> ();
 		bloodBar = battleBottom.transform.Find("Panel/Sprite/Slider").GetComponent<UISlider>();
 		label = battleBottom.transform.Find("Panel/Label").GetComponent<UILabel>();
+
+		InitTransform ();
 	}
 
 	void InitTransform() {
@@ -61,7 +63,7 @@ public class BattleBackground : UIBaseUnity {
 		Dictionary<int,TUserUnit> userUnitInfo = upi.GetPosUnitInfo ();
 		Transform trans = FindChild<Transform>("Bottom/1");
 		foreach (var item in userUnitInfo) {
-			actorTransform.Add(item.Value.GetID,trans);
+			actorTransform.Add(item.Value.ID,trans);
 		}
 	}
 

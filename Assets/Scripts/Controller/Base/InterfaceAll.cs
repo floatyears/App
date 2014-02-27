@@ -115,17 +115,25 @@ public interface IActiveSkillExcute {
 	object Excute(uint userUnitID, int atk = -1);
 }
 
+/// <summary>
+/// effect colleciton
+/// </summary>
 public interface IEffectBehavior {
 	List<GameObject> EffectAssetList { set; get;}
 	void CollectEffectExcute();
 	void Excute(List<Vector3> position);
 }
 
+/// <summary>
+/// single effect implement
+/// </summary>
 public interface IEffectExcute {
 	float AnimTime { set; get;}
 	Vector3 StartPosition { set; get;}
 	Vector3 EndPosition { set; get;}
 	GameObject TargetObject { set; get;}
+	Callback EffectStartCallback{ set;}
+	Callback EffectUpdateCallback{ set; }
 	void Excute(Callback EndCallback);
 }
 
