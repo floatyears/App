@@ -139,7 +139,7 @@ public class UnitDetailPanel : UIComponentUnity{
 		idLabel.text = curId.ToString();
 		nameLabel.text = GlobalData.unitInfo[ curId ].Name;
 		levelLabel.text = userUnitInfo.level.ToString();
-		typeLabel.text = GlobalData.unitInfo[ curId ].GetUnitType();
+		typeLabel.text = GlobalData.unitInfo[ curId ].UnitType;
 
 		TUnitInfo tu = GlobalData.unitInfo[ curId ];
 		int hp = GlobalData.Instance.GetUnitValue(tu.HPType,userUnitInfo.level);
@@ -175,7 +175,7 @@ public class UnitDetailPanel : UIComponentUnity{
 		idLabel.text = curUnitId.ToString();
 		nameLabel.text = GlobalData.unitInfo[ curUnitId ].Name;
 		levelLabel.text = packageInfo[0].level.ToString();
-		typeLabel.text = GlobalData.unitInfo[ curUnitId ].GetUnitType();
+		typeLabel.text = GlobalData.unitInfo[ curUnitId ].UnitType;
 		
 		TUnitInfo tu = GlobalData.unitInfo[ curUnitId ];
 		int hp = GlobalData.Instance.GetUnitValue(tu.HPType,packageInfo[0].level);
