@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//----------UI elements list----------
-	UILabel idLabel;
+	UILabel noLabel;
 	UILabel hpLabel;
 	UILabel atkLabel;
 	UILabel raceLabel;
@@ -112,7 +112,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void InitTabStatus() {
 		string rootPath			= "UnitInfoTabs/Content_Status/";
 
-		idLabel				= FindChild<UILabel> (rootPath + "InputFrame_No"		);
+		noLabel				= FindChild<UILabel> (rootPath + "InputFrame_No"		);
 		nameLabel				= FindChild<UILabel> (rootPath + "InputFrame_Name"	);
 		levelLabel				= FindChild<UILabel> (rootPath + "InputFrame_Lv"		);
 		typeLabel				= FindChild<UILabel> (rootPath + "InputFrame_Type"	);
@@ -177,27 +177,27 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	void ShowUnitDetail( object info ){
-		UserUnit userUnitInfo = info as UserUnit;
-		uint curId = userUnitInfo.unitId;
-		unitBodyTex.mainTexture = GlobalData.unitInfo[ curId ].GetAsset( UnitAssetType.Profile);
-		idLabel.text = curId.ToString();
-		nameLabel.text = GlobalData.unitInfo[ curId ].GetName();
-		levelLabel.text = userUnitInfo.level.ToString();
-		//typeLabel.text = GlobalData.unitInfo[ curId ].GetUnitType();
-
-		TUnitInfo tu = GlobalData.unitInfo[ curId ];
-		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),userUnitInfo.level);
-		hpLabel.text = hp.ToString();
-		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), userUnitInfo.level);
-		atkLabel.text = atk.ToString();
-
-		int cost = GlobalData.unitInfo[ curId ].GetCost();
-		costLabel.text = cost.ToString();
-
-		int rare = GlobalData.unitInfo[ curId ].GetRare();
-		rareLabel.text = rare.ToString();
-
-		raceLabel.text = "Human";
+//		UserUnit userUnitInfo = info as UserUnit;
+//		uint curId = userUnitInfo.unitId;
+//		unitBodyTex.mainTexture = GlobalData.unitInfo[ curId ].GetAsset( UnitAssetType.Profile);
+//		idLabel.text = curId.ToString();
+//		nameLabel.text = GlobalData.unitInfo[ curId ].GetName();
+//		levelLabel.text = userUnitInfo.level.ToString();
+//		//typeLabel.text = GlobalData.unitInfo[ curId ].GetUnitType();
+//
+//		TUnitInfo tu = GlobalData.unitInfo[ curId ];
+//		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),userUnitInfo.level);
+//		hpLabel.text = hp.ToString();
+//		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), userUnitInfo.level);
+//		atkLabel.text = atk.ToString();
+//
+//		int cost = GlobalData.unitInfo[ curId ].GetCost();
+//		costLabel.text = cost.ToString();
+//
+//		int rare = GlobalData.unitInfo[ curId ].GetRare();
+//		rareLabel.text = rare.ToString();
+//
+//		raceLabel.text = "Human";
 
 	}
 
@@ -216,7 +216,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		meshRender.materials[ 0 ].SetTexture("_MainTex", tex);
 		effectCache.Add( tempEffect );
 
-		idLabel.text = curUnitId.ToString();
+		noLabel.text = curUnitId.ToString();
 		nameLabel.text = GlobalData.unitInfo[ curUnitId ].GetName();
 		levelLabel.text = packageInfo[0].level.ToString();
 		typeLabel.text = GlobalData.unitInfo[ curUnitId ].GetUnitType();
@@ -279,85 +279,170 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitAlpha.Reset();
 		unitAlpha.PlayForward();
 	}
+	
+	/// <summary>
+	/// Callback the specified data.
+	/// ns1_n = normal skill1 name.
+	/// ns2_dscp = normal skill1 description.
+	/// ns2_n = normal skill2 name.
+	/// ns2_dscp = normal skill2 description.
+	/// ls_n = leader skill name.
+	/// ls_dscp = leader skill description.
+	/// as_n = active skill name.
+	/// as_dscp = active skill description.
+	/// bls1 = active blocks1.
+	/// bls2 = active blocks2.
+	/// pf = profile.
+	/// </summary>
+	/// <param name="data">Data.</param>
+	/// 
 
-	//call back view text info
+
+	void ShowStatusContent( TUserUnit data ){
+		TUnitInfo unitInfo = data.GetUnitInfo();
+		//no
+		noLabel.text = unitInfo.GetID;
+		
+		//current level
+		levelLabel.text = data.level;
+		
+		//hp
+		int hp = GlobalData.Instance.GetUnitValue( unitInfo.GetHPType(), data.level );
+		hpLabel.text = hp.ToString();
+		
+		//atk
+		int atk = GlobalData.Instance.GetUnitValue(unitInfo.GetAttackType(), data.level);
+		atkLabel.text = atk.ToString();
+		
+		//name
+		nameLabel.text = unitInfo.GetName();
+		
+		//type
+		typeLabel.text = unitInfo.GetUnitType();
+		
+		//cost
+		costLabel.text = unitInfo.GetCost().ToString();
+		
+		//race  not have data interface
+		raceLabel.text = unitInfo.GetRare().ToString();
+		
+		//rare
+		rareLabel.text = unitInfo.GetRare().ToString();
+		
+		//next level need
+		needExpLabel.text = data.exp;
+	}
+
+
+	void ShowSkillContent( UserUnit data, int skillID ){
+		TUnitInfo unitInfo = GlobalData.unitInfo[ data.unitId ];
+		int skillID = unitInfo.GetSkill1();
+		SkillBaseInfo sbi = GlobalData.skill[ skillID ];
+		SkillBase skill =sbi.GetSkillInfo();
+	}
+
+
 	public void Callback(object data)	{
-		Dictionary<int, object> textInfo = data as Dictionary<int, object>;
-		if( !textInfo.ContainsKey(1) ){
-			LogHelper.LogError("Not get the text info which id == 1");
-			return;
-		}
-		leaderSkillNameLabel.text = textInfo[1] as string;
+//		Dictionary<string, object> textInfo = data as Dictionary<string, object>;
+//		hpLabel.text = textInfo["hp"] as string;
+//		nameLabel.text = textInfo["name"] as string;
+//		idLabel.text = textInfo["no"] as string;
+//		levelLabel.text = textInfo["lv"] as string;
 
-		if( !textInfo.ContainsKey(2) ){
-			LogHelper.LogError("Not get the text info which id == 2");
-			return;
-                }
-		leaderSkillDscpLabel.text = textInfo[ 2 ] as string;
+		UserUnit userUnit = data as UserUnit;
+//		TUnitInfo unitInfo = GlobalData.unitInfo[ userUnit.unitId ];
+		ShowStatusContent( userUnit );
 
-		if( !textInfo.ContainsKey(3) ){
-			LogHelper.LogError("Not get the text info which id == 3");
-                        return;
-                }
-                activeSkillNameLabel.text = textInfo[ 3 ] as string;
+//
+//		//leader skill name
+//		if( !textInfo.ContainsKey("ls_n") ){
+//			Debug.LogError("Not get the normal skill1 name");
+//			return;
+//		}
+//		leaderSkillNameLabel.text = textInfo["ls_n"] as string;
+//
+//		//leader skill description
+//		if( !textInfo.ContainsKey("ls_dscp") ){
+//			LogHelper.LogError("Not get the leader skill description");
+//			return;
+//                }
+//		leaderSkillDscpLabel.text = textInfo["ls_dscp"] as string;
+//
+//		//active skill name
+//		if( !textInfo.ContainsKey("as_n") ){
+//			LogHelper.LogError("Not get the text info which id == 3");
+//                        return;
+//                }
+//                activeSkillNameLabel.text = textInfo[ "as_n" ] as string;
+//
+//		//active skill description
+//		if( !textInfo.ContainsKey("as_dscp") ){
+//			LogHelper.LogError("Not get the text info which id == 4");
+//                        return;
+//                }
+//		activeSkillDscpLabel.text = textInfo[ "as_dscp" ] as string;
+//
+//		//normal skill1 name
+//		if( !textInfo.ContainsKey("ns1_n") ){
+//			LogHelper.LogError("Not get the text info which id == 5");
+//                        return;
+//                }
+//		normalSkill1NameLabel.text = textInfo[ "ns1_n" ] as string;
+//
+//
+//		//normal skill1 description
+//		if( !textInfo.ContainsKey("ns1_dscp") ){
+//			LogHelper.LogError("Not get the text info which id == 6");
+//                        return;
+//                }
+//		normalSkill1DscpLabel.text = textInfo[ "ns1_dscp" ] as string;
+//
+//		//normal skill2 name
+//		if( !textInfo.ContainsKey("ns2_n") ){
+//			LogHelper.LogError("Not get the text info which id == 7");
+//                        return;
+//                }
+//		normalSkill2NameLabel.text = textInfo[ "ns2_n" ] as string;
+//
+//		//normal skill2 description
+//		if( !textInfo.ContainsKey("ns2_dscp") ){
+//			LogHelper.LogError("Not get the text info which id == 8");
+//                        return;
+//                }
+//		normalSkill2DscpLabel.text = textInfo[ "ns2_dscp" ] as string;
+//
+//		//profile 
+//		if( !textInfo.ContainsKey("pf") ){
+//			LogHelper.LogError("Not get the text info which id == 8");
+//			return;
+//                }
+//		profileLabel.text = textInfo[ "pf" ] as string;
+//
+//		//active blocks1 list
+//		if( !textInfo.ContainsKey("bls1") ){
+//			LogHelper.LogError("Not get the text info which id == 10");
+//                        return;
+//                }
+//		List<uint> sprNameList1 = textInfo[ "bls1" ] as List<uint>;
+//		for( int i = 0; i < sprNameList1.Count; i++ ){
+//			blockLsit1[ i ].enabled = true;
+//			blockLsit1[ i ].spriteName = sprNameList1[ i ].ToString();
+////			Debug.LogError( " name : " + sprNameList1[ i ].ToString());
+//		}
+//
+//		//active blocks2 list
+//		if( !textInfo.ContainsKey("bls2") ){
+//			LogHelper.LogError("Not get the text info which id == 11");
+//			return;
+//		}
+//		List<uint> sprNameList2 = textInfo[ "bls2" ] as List<uint>;
+//		for( int i = 0; i < sprNameList2.Count; i++ ){
+//			blockLsit2[ i ].enabled = true;
+//                        blockLsit2[ i ].spriteName = sprNameList2[ i ].ToString();
+////			Debug.LogError( " name : " + sprNameList2[ i ].ToString());
+//                }
 
-		if( !textInfo.ContainsKey(4) ){
-			LogHelper.LogError("Not get the text info which id == 4");
-                        return;
-                }
-		activeSkillDscpLabel.text = textInfo[ 4 ] as string;
 
-		if( !textInfo.ContainsKey(5) ){
-			LogHelper.LogError("Not get the text info which id == 5");
-                        return;
-                }
-		normalSkill1NameLabel.text = textInfo[ 5 ] as string;
-
-		if( !textInfo.ContainsKey(6) ){
-			LogHelper.LogError("Not get the text info which id == 6");
-                        return;
-                }
-		normalSkill1DscpLabel.text = textInfo[ 6 ] as string;
-
-		if( !textInfo.ContainsKey(7) ){
-			LogHelper.LogError("Not get the text info which id == 7");
-                        return;
-                }
-		normalSkill2NameLabel.text = textInfo[ 7 ] as string;
-
-		if( !textInfo.ContainsKey(8) ){
-			LogHelper.LogError("Not get the text info which id == 8");
-                        return;
-                }
-		normalSkill2DscpLabel.text = textInfo[ 8] as string;
-
-		if( !textInfo.ContainsKey(9) ){
-			LogHelper.LogError("Not get the text info which id == 8");
-			return;
-                }
-		profileLabel.text = textInfo[ 9 ] as string;
-
-		if( !textInfo.ContainsKey(10) ){
-			LogHelper.LogError("Not get the text info which id == 10");
-                        return;
-                }
-		List<uint> sprNameList1 = textInfo[ 10 ] as List<uint>;
-		for( int i = 0; i < sprNameList1.Count; i++ ){
-			blockLsit1[ i ].enabled = true;
-			blockLsit1[ i ].spriteName = sprNameList1[ i ].ToString();
-//			Debug.LogError( " name : " + sprNameList1[ i ].ToString());
-		}
-
-		if( !textInfo.ContainsKey(11) ){
-			LogHelper.LogError("Not get the text info which id == 11");
-			return;
-		}
-		List<uint> sprNameList2 = textInfo[ 11 ] as List<uint>;
-		for( int i = 0; i < sprNameList2.Count; i++ ){
-			blockLsit2[ i ].enabled = true;
-                        blockLsit2[ i ].spriteName = sprNameList2[ i ].ToString();
-//			Debug.LogError( " name : " + sprNameList2[ i ].ToString());
-                }
         }
         
         void ClearBlock(List<UISprite> blocks){

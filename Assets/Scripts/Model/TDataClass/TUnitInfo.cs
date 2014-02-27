@@ -17,7 +17,6 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 
 	public uint GetID  {
 		get {
-//			UnitInfo ui = DeserializeData<UnitInfo>();
 			return instance.id;
 		}
 	}

@@ -6,7 +6,9 @@ using System.Collections.Generic;
 public class UnitDetailComponent : ConcreteComponent,IUICallback {
 
 	//int maxExp, curLevel, curExp, gotExp, expRiseStep;
-	Dictionary<int, object> unitDetailInfoDic = new Dictionary< int, object>();
+	Dictionary<string, object> unitDetailInfoDic = new Dictionary< string, object>();
+	//use to store source path
+	List<string> sourcePathList = new List<string>();
 
 	public UnitDetailComponent(string uiName):base(uiName) {}
 	
@@ -31,11 +33,7 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 	public void Callback(object data) {
 
 	}
-
-	//use to store source path
-	List<string> sourcePathList = new List<string>();
-
-
+	
 	void AddMsgCmd () {
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, PackSkillText);
         }
@@ -55,60 +53,76 @@ public class UnitDetailComponent : ConcreteComponent,IUICallback {
 		GetProfile( unitInfo.GetProfile() );
 	}
 
+	void GetStatus( object msg ){
+		Debug.Log( "GetStatus");
+		UserUnit userUnit = msg as UserUnit;
+		TUnitInfo unitInfo = GlobalData.unitInfo[ userUnit.unitId ];
+
+		unitDetailInfoDic.Add( "no", unitInfo.GetID.ToString() );
+		unitDetailInfoDic.Add( "lv", userUnit.level.ToString() );
+		unitDetailInfoDic.Add( "maxLv", unitInfo.GetMaxLevel().ToString() );
+
+		int hpType = unitInfo.GetHPType();
+		int hp = GlobalData.Instance.GetUnitValue( hpType, userUnit.level );
+		unitDetailInfoDic.Add( "hp", hp.ToString() );
+
+
+		unitDetailInfoDic.Add( "name", unitInfo.GetName() );
+		unitDetailInfoDic.Add( "cost", unitInfo.GetCost().ToString() );
+		unitDetailInfoDic.Add( "Rare", unitInfo.GetRare().ToString() );
+	}
+
 	void GetLeaderSkill(int id) {
 		LogHelper.Log("UnitDetailComponent.GetLeaderSkill()");
                	SkillBase skill = GlobalData.skill[ id ].GetSkillInfo();
-		unitDetailInfoDic.Add( 1, skill.name );
-		unitDetailInfoDic.Add( 2, skill.description );
+		unitDetailInfoDic.Add( "ls_n", skill.name );
+		unitDetailInfoDic.Add( "ls_dscp", skill.description );
         }
-
+	
 	void GetNormalSkill1(int id){
 		LogHelper.Log("UnitDetailComponent.GetNormalSkill1()");
 		SkillBaseInfo sbi = GlobalData.skill[ id ];
 		SkillBase skill =sbi.GetSkillInfo();
-		unitDetailInfoDic.Add( 5, skill.name );
-		unitDetailInfoDic.Add( 6, skill.description );
+		unitDetailInfoDic.Add( "ns1_n", skill.name );
+		unitDetailInfoDic.Add( "ns1_dscp", skill.description );
 
 		TNormalSkill ns = sbi as TNormalSkill;
 		List<uint> ab = ns.GetObject().activeBlocks;
 		LogHelper.Log( "Skill1 activeBlock Count is " + ab.Count );
 
-		unitDetailInfoDic.Add( 10, ab);
+		unitDetailInfoDic.Add( "bls1", ab);
 	}
 
 	void GetNormalSkill2(int id) {
 		LogHelper.Log("UnitDetailComponent.GetNormalSkill2()");
 
-//             SkillBase skill = GlobalData.skill[ id ].GetSkillInfo();
-//		unitDetailInfoDic.Add( 7, skill.name );
-//		unitDetailInfoDic.Add( 8, skill.description );
-
 		SkillBaseInfo sbi = GlobalData.skill[ id ];
 		SkillBase skill =sbi.GetSkillInfo();
-		unitDetailInfoDic.Add( 7, skill.name );
-		unitDetailInfoDic.Add( 8, skill.description );
+		unitDetailInfoDic.Add( "ns2_n", skill.name );
+		unitDetailInfoDic.Add( "ns2_dscp", skill.description );
 		
 		TNormalSkill ns = sbi as TNormalSkill;
 		List<uint> ab = ns.GetObject().activeBlocks;
                 LogHelper.Log( "Skill2 activeBlock Count is " + ab.Count );
                 
-                unitDetailInfoDic.Add( 11, ab);
+                unitDetailInfoDic.Add( "bls2", ab);
         }
 	
 	void GetActiveSkill(int id) {
 		LogHelper.Log("UnitDetailComponent.GetActiveSkill()");
 		SkillBase skill = GlobalData.skill[ id ].GetSkillInfo();
-		unitDetailInfoDic.Add( 3, skill.name );
-		unitDetailInfoDic.Add( 4, skill.description );
+		unitDetailInfoDic.Add( "as_n", skill.name );
+		unitDetailInfoDic.Add( "as_dscp", skill.description );
         }
 
 	void GetProfile( string text) {
-		unitDetailInfoDic.Add( 9, text );
+		unitDetailInfoDic.Add( "pf", text );
 	}
 
 	void PackSkillText ( object info) {
 		LogHelper.Log("UnitDetailComponent : Call UnitDetailPanel ");
 		IUICallback caller = viewComponent as IUICallback;
+		GetStatus( info );
 		GetSkill( info );
 		caller.Callback( unitDetailInfoDic );
 		LogHelper.Log( "UnitDetailComponent.Callback() : SkillTextDic's Count is : " + unitDetailInfoDic.Count );
