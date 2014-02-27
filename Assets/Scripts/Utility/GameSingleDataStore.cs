@@ -8,6 +8,7 @@ public class GameSingleDataStore {
 			if(instance == null) {
 				instance = new GameSingleDataStore();
 			}
+			return instance;
 		}
 	}
 
