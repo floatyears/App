@@ -22,13 +22,13 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 		}
 	}
 	public string Name {
-		get {
+		get{
 			return instance.name;
 		}
 	}
 
-	public int Cost{
-		get {
+	public int Cost {
+		get{
 			return instance.cost;
 		}
 	}
@@ -39,8 +39,8 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 		}
 	}
 	
-	public int MaxLevel{
-		get{
+	public int MaxLevel {
+		get {
 			return instance.maxLevel;
 		}
 	}
@@ -52,19 +52,19 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 	}
 
 	public int NormalSkill2 {
-		get {
+		get{
 			return instance.skill2;
 		}
 	}
 
 	public int ActiveSkill {
-		get {
+		get{
 			return instance.activeSkill;
 		}
 	}
 
 	public int PassiveSkill {
-		get {
+		get{
 			return instance.passiveSkill;
 		}
 	}
@@ -117,7 +117,7 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 	//	}
 
 	public string GetUnitType() {
-		EUnitType unitType = instance.type; //DeserializeData< UnitInfo >().type;
+		EUnitType unitType = DeserializeData< UnitInfo >().type;
 		switch ( unitType ){
 		case EUnitType.UFIRE : 
 			return "Fire";
@@ -144,13 +144,13 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 	}
 	
 	public int HPType {
-		get {
+		get{
 			return instance.powerType.hpType;
 		}
 	}
 	
 	public int AttackType {
-		get {
+		get{
 			return instance.powerType.attackType;
 		}
 	}
