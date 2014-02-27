@@ -137,20 +137,20 @@ public class UnitDetailPanel : UIComponentUnity{
 		uint curId = userUnitInfo.unitId;
 		unitBodyTex.mainTexture = GlobalData.unitInfo[ curId ].GetAsset( UnitAssetType.Profile);
 		idLabel.text = curId.ToString();
-		nameLabel.text = GlobalData.unitInfo[ curId ].GetName();
+		nameLabel.text = GlobalData.unitInfo[ curId ].Name;
 		levelLabel.text = userUnitInfo.level.ToString();
 		typeLabel.text = GlobalData.unitInfo[ curId ].GetUnitType();
 
 		TUnitInfo tu = GlobalData.unitInfo[ curId ];
-		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),userUnitInfo.level);
+		int hp = GlobalData.Instance.GetUnitValue(tu.HPType,userUnitInfo.level);
 		hpLabel.text = hp.ToString();
-		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), userUnitInfo.level);
+		int atk = GlobalData.Instance.GetUnitValue(tu.AttackType, userUnitInfo.level);
 		atkLabel.text = atk.ToString();
 
-		int cost = GlobalData.unitInfo[ curId ].GetCost();
+		int cost = GlobalData.unitInfo[ curId ].Cost;
 		costLabel.text = cost.ToString();
 
-		int rare = GlobalData.unitInfo[ curId ].GetRare();
+		int rare = GlobalData.unitInfo[ curId ].Rare;
 		rareLabel.text = rare.ToString();
 
 		raceLabel.text = "Human";
@@ -173,20 +173,20 @@ public class UnitDetailPanel : UIComponentUnity{
 		effectCache.Add( tempEffect );
 
 		idLabel.text = curUnitId.ToString();
-		nameLabel.text = GlobalData.unitInfo[ curUnitId ].GetName();
+		nameLabel.text = GlobalData.unitInfo[ curUnitId ].Name;
 		levelLabel.text = packageInfo[0].level.ToString();
 		typeLabel.text = GlobalData.unitInfo[ curUnitId ].GetUnitType();
 		
 		TUnitInfo tu = GlobalData.unitInfo[ curUnitId ];
-		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),packageInfo[0].level);
+		int hp = GlobalData.Instance.GetUnitValue(tu.HPType,packageInfo[0].level);
 		hpLabel.text = hp.ToString();
-		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), packageInfo[0].level);
+		int atk = GlobalData.Instance.GetUnitValue(tu.AttackType, packageInfo[0].level);
 		atkLabel.text = atk.ToString();
 		
-		int cost = GlobalData.unitInfo[ curUnitId ].GetCost();
+		int cost = GlobalData.unitInfo[ curUnitId ].Cost;
 		costLabel.text = cost.ToString();
 		
-		int rare = GlobalData.unitInfo[ curUnitId ].GetRare();
+		int rare = GlobalData.unitInfo[ curUnitId ].Rare;
 		rareLabel.text = rare.ToString();
 
 		raceLabel.text = "Human";

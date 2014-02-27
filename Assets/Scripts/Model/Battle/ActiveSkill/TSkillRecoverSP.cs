@@ -5,7 +5,9 @@ using bbproto;
 public class RecoverSP : ActiveSkill, IActiveSkillExcute {
 	private SkillRecoverSP instance;
 	public RecoverSP (object instance) : base (instance) { 
-		skillBase = DeserializeData<SkillRecoverSP> ().baseInfo;	
+		this.instance = instance as SkillRecoverSP;
+		skillBase = this.instance.baseInfo;
+//		skillBase = DeserializeData<SkillRecoverSP> ().baseInfo;	
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}

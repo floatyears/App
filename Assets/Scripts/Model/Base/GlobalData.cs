@@ -18,7 +18,7 @@ public class GlobalData  {
 	public UnitInfo GetUnitInfo(uint unitID) {
 		if(unitInfo.ContainsKey(unitID)) {
 			TUnitInfo tui = unitInfo[unitID];
-			return tui.DeserializeData<UnitInfo>();
+			return tui.Object;
 		}
 		else{
 			Debug.LogError("unitid is invalid");
