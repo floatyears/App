@@ -59,10 +59,10 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		UITexture tex = baseTab.GetComponentInChildren<UITexture>();
 		tex.mainTexture = tu.GetAsset(UnitAssetType.Avatar);
 
-		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),unitInfo.level);
+		int hp = GlobalData.Instance.GetUnitValue(tu.HPType,unitInfo.level);
 		hpLabel.text = hp.ToString();
 
-		int atk =  GlobalData.Instance.GetUnitValue(tu.GetAttackType(), unitInfo.level);
+		int atk =  GlobalData.Instance.GetUnitValue(tu.AttackType, unitInfo.level);
 		atkLabel.text = atk.ToString();
 
 		expNeedLabel.text = "16918";
