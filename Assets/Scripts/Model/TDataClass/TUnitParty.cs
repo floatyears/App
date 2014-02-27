@@ -196,7 +196,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		for (int i = 0; i < instance.items.Count; i++) {
 			PartyItem pi = instance.items[i];
 			temp.Add(pi.unitPos,pi.unitUniqueId);
-			Debug.LogError("pi.unitPos : " + pi.unitPos + " pi.unitUniqueId : " + pi.unitUniqueId);
+//			Debug.LogError("pi.unitPos : " + pi.unitPos + " pi.unitUniqueId : " + pi.unitUniqueId);
 		}
 		return temp;
 	}

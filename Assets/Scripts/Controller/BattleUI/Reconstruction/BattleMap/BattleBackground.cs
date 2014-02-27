@@ -54,6 +54,8 @@ public class BattleBackground : UIBaseUnity {
 		spriteAnimation = battleBottom.transform.Find ("Panel/Sprite/HP").GetComponent<UISpriteAnimationCustom> ();
 		bloodBar = battleBottom.transform.Find("Panel/Sprite/Slider").GetComponent<UISlider>();
 		label = battleBottom.transform.Find("Panel/Label").GetComponent<UILabel>();
+
+		InitTransform ();
 	}
 
 	void InitTransform() {

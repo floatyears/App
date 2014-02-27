@@ -48,29 +48,32 @@ public class EffectManager {
 			return;	
 		}
 
-		if (ai.AttackType == 1) {
+//		if (ai.AttackType == 1) {
 			GameObject go = NGUITools.AddChild(effectPanel,effect[0]);
+//			Debug.LogError("go : " + go);
 			go.transform.localScale = new Vector3(100f,100f,100f);
 			go.SetActive(false);
 			List<GameObject> tempGo = new List<GameObject>();
 			tempGo.Add(go);
+			Debug.LogError("tempGo : " + tempGo.Count);
 			List<Vector3> position = new List<Vector3>();
+			Debug.LogError("ai.UserUnitID : " + ai.UserUnitID);
 			Vector3 temp = DisposeActorPosition(BattleBackground.ActorTransform[ai.UserUnitID]);
 			position.Add(temp);
-			temp = DisposeEnemyPosition(BattleEnemy.Monster[ai.UserUnitID].transform);
+			temp = DisposeEnemyPosition(BattleEnemy.Monster[ai.EnemyID].transform);
 			position.Add(temp);
 			PlayAttackEffect(EffectConstValue.NormalFire1,position,tempGo);
-		}
+//		}
 	}
 
 	Vector3 DisposeActorPosition(Transform temp) {
-		Vector3 tempPosition = temp.localPosition - temp.parent.localPosition;
+		Vector3 tempPosition = temp.localPosition; //- temp.parent.localPosition;
 		return tempPosition;
 	}
 
 	Vector3 DisposeEnemyPosition(Transform enemy) {
 //		return Vector3.zero;
-		Vector3 tempPosition = enemy.localPosition - enemy.parent.localPosition - enemy.parent.parent.localPosition;
+		Vector3 tempPosition = enemy.localPosition + enemy.parent.localPosition + enemy.parent.parent.localPosition;
 		return tempPosition;
 	}
 }
