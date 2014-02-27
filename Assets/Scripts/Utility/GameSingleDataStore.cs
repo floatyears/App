@@ -1,15 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameSingleDataStore : MonoBehaviour {
+public class GameSingleDataStore {
+	private static GameSingleDataStore instance;
+	public static GameSingleDataStore Instance {
 
-	// Use this for initialization
-	void Start () {
-	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }
