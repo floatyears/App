@@ -36,7 +36,7 @@ public class AuthUser: ProtoManager {
 		if (!success) { return; }
 
 		rspAuthUser = InstanceObj as bbproto.RspAuthUser;
-		LogHelper.Log("authUser response userId:"+rspAuthUser.user.userId);
+		Debug.Log("authUser response userId:"+rspAuthUser.user.userId);
 
 
 		//TODO: update localtime with servertime
