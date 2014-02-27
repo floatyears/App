@@ -24,7 +24,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			if(id == -1) {
 				continue;
 			}
-			IPassiveExcute ipe = GlobalData.normalSkill[id] as IPassiveExcute;
+			IPassiveExcute ipe = GlobalData.skill[id] as IPassiveExcute;
 			if(ipe == null) {
 				continue;
 			}

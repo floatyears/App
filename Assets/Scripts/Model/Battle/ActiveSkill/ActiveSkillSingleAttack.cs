@@ -2,12 +2,12 @@
 using System.Collections;
 using bbproto;
 
-public class ActiveSkill : ProtobufDataBase {
-	protected SkillBase skillBase;
+public class ActiveSkill : SkillBaseInfo {
+//	protected SkillBase skillBase;
 	protected int initSkillCooling = 0;
 	protected bool coolingDone = false;
 	public ActiveSkill (object instance) : base (instance) {
-
+//		skillBase = 
 	}
 
 	~ActiveSkill () {

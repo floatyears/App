@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class TSkillExtraAttack : ProtobufDataBase {
+public class TSkillExtraAttack : SkillBaseInfo {
 	private SkillExtraAttack instance;
 	public TSkillExtraAttack (object instance) : base (instance) {
 		this.instance = instance as SkillExtraAttack;
+		skillBase = this.instance.baseInfo;
 	}
 	
 	public AttackInfo AttackValue (float attackValue, uint id) {

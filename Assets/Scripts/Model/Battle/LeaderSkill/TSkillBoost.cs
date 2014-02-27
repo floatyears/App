@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class TSkillBoost : ProtobufDataBase {
+public class TSkillBoost : SkillBaseInfo {
 	private SkillBoost instance;
 	public TSkillBoost (object instance) : base (instance) {
 		this.instance = instance as SkillBoost;
+		skillBase = this.instance.baseInfo;
 	}
 	
 	SkillBoost Get(){

@@ -7,7 +7,7 @@ public class CalculateRecoverHP {
 
 	public CalculateRecoverHP() {
 		for (int i = 0; i < 4; i++) {
-			TNormalSkill tns = GlobalData.normalSkill [29 - i] as TNormalSkill;
+			TNormalSkill tns = GlobalData.skill [29 - i] as TNormalSkill;
 			recoverHPSkill[i] = tns;
 		}
 

@@ -141,7 +141,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	void AddLeadSkill (uint id) {
 		if (id != -1) {
 			TUserUnit firstLeader = GlobalData.userUnitInfo [id];
-			ProtobufDataBase pdb = GlobalData.normalSkill[firstLeader.LeadSKill];
+			ProtobufDataBase pdb = GlobalData.normalSkill[firstLeader.GetLeadSKill()];
 			if(leaderSkill.ContainsKey(id)) {
 				leaderSkill[id] = pdb;
 			}
@@ -168,7 +168,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		int bloodNum = 0;
 		for (int i = 0; i < instance.items.Count; i++) {
 			uint unitUniqueID = instance.items [i].unitUniqueId;
-			bloodNum += GlobalData.userUnitInfo [unitUniqueID].InitBlood;
+			bloodNum += GlobalData.userUnitInfo [unitUniqueID].GetInitBlood();
 		}
 		return bloodNum;
 	}
@@ -178,7 +178,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		int bloodNum = 0;
 		for (int i = 0; i < instance.items.Count; i++) {
 			uint unitUniqueID = instance.items [i].unitUniqueId;
-			bloodNum += GlobalData.userUnitInfo [unitUniqueID].Blood;
+			bloodNum += GlobalData.userUnitInfo [unitUniqueID].GetBlood();
 		}
 		return bloodNum;
 	}
@@ -214,8 +214,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	
 	NormalSkill GetSecondSkill (PartyItem pi) {
 		TUserUnit tuu = GlobalData.userUnitInfo [pi.unitUniqueId];
-		UserUnit uu1 = tuu.Object;
-		UnitInfo ui1 = tuu.UnitInfo;			 //GlobalData.unitInfo[uu1.unitId].DeserializeData<UnitInfo>();
+		UserUnit uu1 = tuu.GetObject;
+		UnitInfo ui1 = tuu.GetUnitInfo();			 //GlobalData.unitInfo[uu1.unitId].DeserializeData<UnitInfo>();
 		return GlobalData.normalSkill [ui1.skill2].DeserializeData<NormalSkill> ();
 	}
 	

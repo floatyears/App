@@ -24,7 +24,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (1);
 		ns.activeBlocks.Add (1);
 		TNormalSkill tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -39,7 +39,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (1);
 		ns.activeBlocks.Add (1);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		//------------------------------------------------------------------------------------------------//
 		//3,4
 		//------------------------------------------------------------------------------------------------//
@@ -54,7 +54,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (2);
 //		ns.activeBlocks.Add (2);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -69,7 +69,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (2);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		//------------------------------------------------------------------------------------------------//
 		//5,6
 		//------------------------------------------------------------------------------------------------//
@@ -83,7 +83,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (3);
 		ns.activeBlocks.Add (3);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -98,7 +98,7 @@ public class ConfigSkill  {
 //		ns.activeBlocks.Add (3);
 //		ns.activeBlocks.Add (3);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		//------------------------------------------------------------------------------------------------//
 		//7,8
 		//------------------------------------------------------------------------------------------------//
@@ -112,7 +112,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (4);
 		ns.activeBlocks.Add (4);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -127,7 +127,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (4);
 //		ns.activeBlocks.Add (4);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		//------------------------------------------------------------------------------------------------//
 		//9,10
 		//------------------------------------------------------------------------------------------------//
@@ -141,7 +141,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (5);
 		ns.activeBlocks.Add (5);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -156,7 +156,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (4);
 		ns.activeBlocks.Add (5);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		//------------------------------------------------------------------------------------------------//
 		
 		//------------------------------------------------------------------------------------------------//
@@ -170,7 +170,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (5);
 		ns.activeBlocks.Add (5);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -185,7 +185,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (4);
 		ns.activeBlocks.Add (5);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -197,7 +197,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -210,7 +210,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -224,7 +224,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -238,7 +238,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		
 		ns = new NormalSkill ();
 		ns.baseInfo = new SkillBase ();
@@ -253,7 +253,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
 		tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 		ConfigNormalSkill2 ();
 		ConfigHeartSkill ();
 	}
@@ -270,7 +270,7 @@ public class ConfigSkill  {
 		ns.activeBlocks.Add (3);
 		ns.activeBlocks.Add (3);
 		TNormalSkill tns = new TNormalSkill (ns);
-		GlobalData.normalSkill.Add (ns.baseInfo.id, tns);
+		GlobalData.skill.Add (ns.baseInfo.id, tns);
 	}
 
 	void ConfigHeartSkill () {
@@ -286,7 +286,7 @@ public class ConfigSkill  {
 				ns.activeBlocks.Add(7);
 			}
 			TNormalSkill tns = new TNormalSkill(ns);
-			GlobalData.normalSkill.Add(ns.baseInfo.id,tns);
+			GlobalData.skill.Add(ns.baseInfo.id,tns);
 		}
 	}
 	
@@ -301,7 +301,7 @@ public class ConfigSkill  {
 		sb.targetType = EBoostTarget.UNIT_TYPE;
 		sb.targetValue = 0;
 		TSkillBoost tbs = new TSkillBoost (sb);
-		GlobalData.normalSkill.Add (sb.baseInfo.id, tbs);
+		GlobalData.skill.Add (sb.baseInfo.id, tbs);
 		
 		sb = new SkillBoost ();
 		sb.baseInfo = new SkillBase ();
@@ -313,7 +313,7 @@ public class ConfigSkill  {
 		sb.targetType = EBoostTarget.UNIT_RACE;
 		sb.targetValue = 0;
 		tbs = new TSkillBoost(sb);
-		GlobalData.normalSkill.Add (sb.baseInfo.id, tbs);
+		GlobalData.skill.Add (sb.baseInfo.id, tbs);
 		
 		SkillRecoverHP srh = new SkillRecoverHP ();
 		srh.baseInfo = new SkillBase ();
@@ -324,7 +324,7 @@ public class ConfigSkill  {
 		srh.value = 200f;
 		srh.period = EPeriod.EP_EVERY_ROUND;
 		TSkillRecoverHP trh = new TSkillRecoverHP (srh);
-		GlobalData.normalSkill.Add (srh.baseInfo.id, trh);
+		GlobalData.skill.Add (srh.baseInfo.id, trh);
 		
 		srh = new SkillRecoverHP ();
 		srh.baseInfo = new SkillBase ();
@@ -335,7 +335,7 @@ public class ConfigSkill  {
 		srh.value = 0.05f;
 		srh.period = EPeriod.EP_EVERY_STEP;
 		trh = new TSkillRecoverHP (srh);
-		GlobalData.normalSkill.Add (srh.baseInfo.id, trh);
+		GlobalData.skill.Add (srh.baseInfo.id, trh);
 		
 		SkillReduceHurt sreduce = new SkillReduceHurt();
 		sreduce.baseInfo = new SkillBase ();
@@ -348,7 +348,7 @@ public class ConfigSkill  {
 		sreduce.period = EPeriod.EP_EVERY_ROUND;
 		sreduce.periodValue = 0;
 		TSkillReduceHurt trhurt = new TSkillReduceHurt (sreduce);
-		GlobalData.normalSkill.Add (sreduce.baseInfo.id, trhurt);
+		GlobalData.skill.Add (sreduce.baseInfo.id, trhurt);
 		
 		SkillDelayTime sdt = new SkillDelayTime ();
 		sdt.baseInfo = new SkillBase ();
@@ -358,7 +358,7 @@ public class ConfigSkill  {
 		sdt.type = EValueType.FIXED;
 		sdt.value = 1f;
 		TSkillDelayTime tst = new TSkillDelayTime (sdt);
-		GlobalData.normalSkill.Add (sdt.baseInfo.id, tst);
+		GlobalData.skill.Add (sdt.baseInfo.id, tst);
 		
 		sdt = new SkillDelayTime ();
 		sdt.baseInfo = new SkillBase ();
@@ -368,7 +368,7 @@ public class ConfigSkill  {
 		sdt.type = EValueType.FIXED;
 		sdt.value = 2f;
 		tst = new TSkillDelayTime (sdt);
-		GlobalData.normalSkill.Add (sdt.baseInfo.id, tst);
+		GlobalData.skill.Add (sdt.baseInfo.id, tst);
 		
 		SkillConvertUnitType scut = new SkillConvertUnitType ();
 		scut.baseInfo = new SkillBase ();
@@ -379,7 +379,7 @@ public class ConfigSkill  {
 		scut.unitType1 = EUnitType.UFIRE;
 		scut.unitType2 = EUnitType.UWATER;
 		TSkillConvertUnitType tcut = new TSkillConvertUnitType (scut);
-		GlobalData.normalSkill.Add (scut.baseInfo.id, tcut);
+		GlobalData.skill.Add (scut.baseInfo.id, tcut);
 
 	 	scut = new SkillConvertUnitType ();
 		scut.baseInfo = new SkillBase ();
@@ -390,7 +390,7 @@ public class ConfigSkill  {
 		scut.unitType1 = EUnitType.UWATER;
 		scut.unitType2 = EUnitType.UWIND;
 		tcut = new TSkillConvertUnitType (scut);
-		GlobalData.normalSkill.Add (scut.baseInfo.id, tcut);
+		GlobalData.skill.Add (scut.baseInfo.id, tcut);
 		
 		SkillExtraAttack sea = new SkillExtraAttack ();
 		sea.baseInfo = new SkillBase ();
@@ -400,7 +400,7 @@ public class ConfigSkill  {
 		sea.unitType = EUnitType.UWIND;
 		sea.attackValue = 2f;
 		TSkillExtraAttack tsea = new TSkillExtraAttack (sea);
-		GlobalData.normalSkill.Add (sea.baseInfo.id, tsea);
+		GlobalData.skill.Add (sea.baseInfo.id, tsea);
 	}
 
 	void ConfigActiveSkill () {
@@ -416,7 +416,7 @@ public class ConfigSkill  {
 		ssa.attackRange = EAttackType.ATK_ALL;
 		ssa.ignoreDefense = false;
 		TSkillSingleAttack tssa = new TSkillSingleAttack (ssa);
-		GlobalData.normalSkill.Add (ssa.baseInfo.id, tssa);
+		GlobalData.skill.Add (ssa.baseInfo.id, tssa);
 
 		SkillSingleAtkRecoverHP ssarh = new SkillSingleAtkRecoverHP ();
 		ssarh.baseInfo = new SkillBase ();
@@ -428,7 +428,7 @@ public class ConfigSkill  {
 		ssarh.value = 5f;
 		ssarh.unitType = EUnitType.UFIRE;
 		TSkillSingleAtkRecoverHP arh = new TSkillSingleAtkRecoverHP (ssarh);
-		GlobalData.normalSkill.Add (ssarh.baseInfo.id, arh);
+		GlobalData.skill.Add (ssarh.baseInfo.id, arh);
 
 		SkillSuicideAttack sSucideAttack = new SkillSuicideAttack ();
 		sSucideAttack.baseInfo = new SkillBase ();
@@ -441,7 +441,7 @@ public class ConfigSkill  {
 		sSucideAttack.unitType = EUnitType.UFIRE;
 		sSucideAttack.attackType = EAttackType.ATK_ALL;
 		TSkillSuicideAttack sa = new TSkillSuicideAttack (sSucideAttack);
-		GlobalData.normalSkill.Add (sSucideAttack.baseInfo.id, sa);
+		GlobalData.skill.Add (sSucideAttack.baseInfo.id, sa);
 
 		ssa = new SkillSingleAttack ();
 		ssa.baseInfo = new SkillBase ();
@@ -453,7 +453,7 @@ public class ConfigSkill  {
 		ssa.attackRange = EAttackType.ATK_SINGLE;
 		ssa.ignoreDefense = true;
 		KnockdownAttack kka = new KnockdownAttack (ssa);
-		GlobalData.normalSkill.Add (ssa.baseInfo.id, kka);
+		GlobalData.skill.Add (ssa.baseInfo.id, kka);
 
 		ConfigActiveSkill1 ();
 	}
@@ -468,7 +468,7 @@ public class ConfigSkill  {
 		skh.type = EValueType.PERCENT;
 		skh.value = 0.3f;
 		GravityAttack ga = new GravityAttack (skh);
-		GlobalData.normalSkill.Add (skh.baseInfo.id, ga);
+		GlobalData.skill.Add (skh.baseInfo.id, ga);
 
 		SkillRecoverSP srs = new SkillRecoverSP ();
 		srs.baseInfo = new SkillBase ();
@@ -479,7 +479,7 @@ public class ConfigSkill  {
 		srs.type = EValueType.FIXED;
 		srs.value = 4f;
 		TSkillRecoverSP rs = new TSkillRecoverSP (srs);
-		GlobalData.normalSkill.Add (srs.baseInfo.id, rs);
+		GlobalData.skill.Add (srs.baseInfo.id, rs);
 
 		SkillPoison sp = new SkillPoison ();
 		sp.baseInfo = new SkillBase ();
@@ -491,7 +491,7 @@ public class ConfigSkill  {
 		sp.value = 5f;
 		sp.roundValue = 3;
 		TSkillPoison spa = new TSkillPoison (sp);
-		GlobalData.normalSkill.Add (sp.baseInfo.id, spa);
+		GlobalData.skill.Add (sp.baseInfo.id, spa);
 
 
 	}
@@ -507,7 +507,7 @@ public class ConfigSkill  {
 		scut.unitType1 = EUnitType.UALL;
 		scut.unitType2 = EUnitType.UALL;
 		ActiveChangeCardColor acc = new ActiveChangeCardColor (scut);
-		GlobalData.normalSkill.Add (scut.baseInfo.id, acc);
+		GlobalData.skill.Add (scut.baseInfo.id, acc);
 
 		scut = new SkillConvertUnitType ();
 		scut.baseInfo = new SkillBase ();
@@ -519,7 +519,7 @@ public class ConfigSkill  {
 		scut.unitType1 = EUnitType.UWATER;
 		scut.unitType2 = EUnitType.UWIND;
 		acc = new ActiveChangeCardColor (scut);
-		GlobalData.normalSkill.Add (scut.baseInfo.id, acc);
+		GlobalData.skill.Add (scut.baseInfo.id, acc);
 
 		SkillReduceDefence srd = new SkillReduceDefence ();
 		srd.baseInfo = new SkillBase ();
@@ -531,7 +531,7 @@ public class ConfigSkill  {
 		srd.period = 1;
 		srd.value = 1f;
 		ActiveReduceDefense ard = new ActiveReduceDefense (srd);
-		GlobalData.normalSkill.Add (srd.baseInfo.id, ard);
+		GlobalData.skill.Add (srd.baseInfo.id, ard);
 
 		SkillDelayTime sdt = new SkillDelayTime ();
 		sdt.baseInfo = new SkillBase ();
@@ -542,7 +542,7 @@ public class ConfigSkill  {
 		sdt.type = EValueType.FIXED;
 		sdt.value = 2f;
 		ActiveDelayTime adt = new ActiveDelayTime (sdt);
-		GlobalData.normalSkill.Add (sdt.baseInfo.id, adt);
+		GlobalData.skill.Add (sdt.baseInfo.id, adt);
 
 		ConfigActiveSkill3 ();
 	}
@@ -559,7 +559,7 @@ public class ConfigSkill  {
 		srh.periodValue = 3;
 		srh.value = 1f;
 		ActiveReduceHurt arh = new ActiveReduceHurt (srh);
-		GlobalData.normalSkill.Add (srh.baseInfo.id, arh);
+		GlobalData.skill.Add (srh.baseInfo.id, arh);
 
 		SkillDeferAttackRound sdar = new SkillDeferAttackRound ();
 		sdar.baseInfo = new SkillBase ();
@@ -570,7 +570,7 @@ public class ConfigSkill  {
 		sdar.type = EValueType.ROUND;
 		sdar.value = 2f;
 		ActiveDeferAttackRound adar = new ActiveDeferAttackRound (sdar);
-		GlobalData.normalSkill.Add (sdar.baseInfo.id, adar);
+		GlobalData.skill.Add (sdar.baseInfo.id, adar);
 		ConfigActiveSkill4 ();
 	}
 
@@ -586,7 +586,7 @@ public class ConfigSkill  {
 		stta.targetUnitType = EUnitType.UFIRE;
 		stta.hurtUnitType = EUnitType.UWATER;
 		ActiveAttackTargetType aatt = new ActiveAttackTargetType (stta);
-		GlobalData.normalSkill.Add (stta.baseInfo.id, aatt);
+		GlobalData.skill.Add (stta.baseInfo.id, aatt);
 
 		SkillStrengthenAttack ssa = new SkillStrengthenAttack ();
 		ssa.baseInfo = new SkillBase ();
@@ -599,7 +599,7 @@ public class ConfigSkill  {
 		ssa.type = EValueType.MULTIPLE;
 		ssa.value = 2f;
 		ActiveStrengthenAttack asa = new ActiveStrengthenAttack (ssa);
-		GlobalData.normalSkill.Add (ssa.baseInfo.id, asa);
+		GlobalData.skill.Add (ssa.baseInfo.id, asa);
 
 		SkillMultipleAttack sma = new SkillMultipleAttack ();
 		sma.baseInfo = new SkillBase ();
@@ -608,7 +608,7 @@ public class ConfigSkill  {
 		sma.baseInfo.description = "three color can boost multiple attack value";
 		sma.unitTypeCount = 2;
 		LeaderSkillMultipleAttack lsma = new LeaderSkillMultipleAttack (sma);
-		GlobalData.normalSkill.Add (sma.baseInfo.id, lsma);
+		GlobalData.skill.Add (sma.baseInfo.id, lsma);
 
 		ConfigPassiveSkil ();
 	}
@@ -622,7 +622,7 @@ public class ConfigSkill  {
 		sdt.trapLevel = 1;
 		sdt.trapType = ETrapType.Injured;
 		PassiveDodgeTrap pdt = new PassiveDodgeTrap (sdt);
-		GlobalData.normalSkill.Add (sdt.baseInfo.id, pdt);
+		GlobalData.skill.Add (sdt.baseInfo.id, pdt);
 
 		SkillAntiAttack saa = new SkillAntiAttack ();
 		saa.baseInfo = new SkillBase ();
@@ -634,6 +634,6 @@ public class ConfigSkill  {
 		saa.antiAtkRatio = 1f;
 		saa.probability = 1f;
 TSkillAntiAttack paa = new TSkillAntiAttack (saa);
-		GlobalData.normalSkill.Add (saa.baseInfo.id, paa);
+		GlobalData.skill.Add (saa.baseInfo.id, paa);
 	}
 }

@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class TSkillConvertUnitType : ProtobufDataBase {
+public class TSkillConvertUnitType : SkillBaseInfo {
 	private SkillConvertUnitType instance;
 	public TSkillConvertUnitType(object instance) : base (instance) {
 		this.instance = instance as SkillConvertUnitType;
+		skillBase = this.instance.baseInfo;
 	}
 	
 	public int SwitchCard (int type) {

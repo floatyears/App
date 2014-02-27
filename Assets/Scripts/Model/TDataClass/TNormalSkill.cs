@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TNormalSkill : ProtobufDataBase {
+public class TNormalSkill : SkillBaseInfo {
 	private NormalSkill instance;
 	public TNormalSkill (object instance) : base (instance) {
 		this.instance = instance as NormalSkill;
+		skillBase = this.instance.baseInfo;
 	}
 	
 	//static int record = 0;
@@ -41,7 +42,7 @@ public class TNormalSkill : ProtobufDataBase {
 		}
 	}
 	
-	NormalSkill GetObject() {
+	public NormalSkill GetObject() {
 		return  instance;
 	}
 	

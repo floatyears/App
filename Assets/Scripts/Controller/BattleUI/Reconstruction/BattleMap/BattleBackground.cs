@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class BattleBackground : UIBaseUnity {
 	private UITexture background;
@@ -14,6 +14,13 @@ public class BattleBackground : UIBaseUnity {
 	private int initBlood = -1;
 	private int initEnergyPoint = -1;
 	private int currentEnergyPoint = -1;
+
+	private static Dictionary<uint,Transform> actorTransform = new Dictionary<uint, Transform> ();
+	public static Dictionary<uint,Transform> ActorTransform {
+		get {
+			return actorTransform;
+		}
+	}
 
 	private static Vector3 actorPosition = Vector3.zero;
 	public static Vector3 ActorPosition	{
@@ -47,6 +54,15 @@ public class BattleBackground : UIBaseUnity {
 		spriteAnimation = battleBottom.transform.Find ("Panel/Sprite/HP").GetComponent<UISpriteAnimationCustom> ();
 		bloodBar = battleBottom.transform.Find("Panel/Sprite/Slider").GetComponent<UISlider>();
 		label = battleBottom.transform.Find("Panel/Label").GetComponent<UILabel>();
+	}
+
+	void InitTransform() {
+		TUnitParty upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, new ErrorMsg ()) as TUnitParty;
+		Dictionary<int,TUserUnit> userUnitInfo = upi.GetPosUnitInfo ();
+		Transform trans = FindChild<Transform>("Bottom/1");
+		foreach (var item in userUnitInfo) {
+			actorTransform.Add(item.Value.GetID,trans);
+		}
 	}
 
 	public override void ShowUI ()
