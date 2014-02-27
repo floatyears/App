@@ -62,7 +62,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		int hp = GlobalData.Instance.GetUnitValue(tu.HPType,unitInfo.level);
 		hpLabel.text = hp.ToString();
 
-		int atk =  GlobalData.Instance.GetUnitValue(tu.Object.AttackType, unitInfo.level);
+		int atk =  GlobalData.Instance.GetUnitValue(tu.AttackType, unitInfo.level);
 		atkLabel.text = atk.ToString();
 
 		expNeedLabel.text = "16918";
