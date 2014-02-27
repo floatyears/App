@@ -22,4 +22,5 @@ public class TUserInfo : ProtobufDataBase {
 	public	int		StaminaMax { get { return instance.staminaMax; } }
 	public	uint	StaminaRecover { get { return instance.staminaRecover; } }
 	public	TUserUnit UserUnit { get { return unit; } }
+	
 }
