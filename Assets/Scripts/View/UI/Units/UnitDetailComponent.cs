@@ -34,12 +34,12 @@ public class UnitDetailComponent : ConcreteComponent {
 	}
 	
 	void AddMsgCmd () {
-		MsgCenter.Instance.AddListener(CommandEnum.LevelUp , LevelUp);
+		//MsgCenter.Instance.AddListener(CommandEnum.LevelUp , LevelUp);
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 	}
 	
 	void RmvMsgCmd () {
-		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp , LevelUp);
+		//MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp , LevelUp);
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
         }
         

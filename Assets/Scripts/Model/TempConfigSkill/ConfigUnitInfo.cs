@@ -97,7 +97,7 @@ public class ConfigUnitInfo {
 	void GenerateUserUnitParty () {
 		UnitParty up = new UnitParty ();
 		up.id = 0;
-		for (int i = 1; i <  2; i++) {
+		for (int i = 1; i <  4; i++) {
 			PartyItem pi = new PartyItem();
 			pi.unitPos = i;
 			pi.unitUniqueId = (uint)i;

@@ -88,10 +88,10 @@ public class TUserUnit : ProtobufDataBase {
 //		UserUnit uu = DeserializeData<UserUnit> ();
 		float hurtValue = 0;
 
-		if (beRetraintType == (int)UnitInfo.type) {
+		if (beRetraintType == (int)UnitInfo.Object.type) {
 			hurtValue = attackValue * 0.5f;
 		} 
-		else if (retraintType == (int)UnitInfo.type) {
+		else if (retraintType == (int)UnitInfo.Object.type) {
 			hurtValue = attackValue * 2f;
 		} 
 		else {
@@ -108,7 +108,7 @@ public class TUserUnit : ProtobufDataBase {
 	void InitSkill () {
 //		UserUnit uu 				= DeserializeData<UserUnit> ();
 //		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
-		UnitInfo ui				= GlobalData.unitInfo[instance.unitId].GetObject;
+		UnitInfo ui				= GlobalData.unitInfo[instance.unitId].Object;
 		TNormalSkill firstSkill = null;
 		TNormalSkill secondSkill = null;
 		if (ui.skill1 > -1) {
@@ -128,7 +128,7 @@ public class TUserUnit : ProtobufDataBase {
 		}
 //		UserUnit uu 				= DeserializeData<UserUnit> ();
 		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
-		UnitInfo ui				= GlobalData.unitInfo[instance.unitId].GetObject;
+		UnitInfo ui				= GlobalData.unitInfo[instance.unitId].Object;
 		for (int i = 0; i < normalSkill.Length; i++) {
 			TNormalSkill tns 	= normalSkill[i];
 			tns.DisposeUseSkillID(ignorSkillID);
@@ -196,32 +196,32 @@ public class TUserUnit : ProtobufDataBase {
 
 	public int UnitType {
 		get {
-			return (int)UnitInfo.type;
+			return (int)UnitInfo.Object.type;
 		}
 	}
 
 	public int LeadSKill  {
 		get {
-			return UnitInfo.leaderSkill;
+			return UnitInfo.Object.leaderSkill;
 		}
 	}
 
 	public int ActiveSkill {
 		get {
-			return UnitInfo.activeSkill;
+			return UnitInfo.Object.activeSkill;
 		}
 	}
 
 	public int PassiveSkill {
 		get {
-			return UnitInfo.passiveSkill;
+			return UnitInfo.Object.passiveSkill;
 		}
 	}
 
-	public UnitInfo UnitInfo {
+	public TUnitInfo UnitInfo {
 		get {
 //		UserUnit userUnit = instance;//DeserializeData () as UserUnit;
-		return GlobalData.unitInfo [instance.unitId].GetObject;
+		return GlobalData.unitInfo [instance.unitId];
 		}
 	}
 
@@ -234,7 +234,7 @@ public class TUserUnit : ProtobufDataBase {
 	public int InitBlood {
 		get {
 	//		UserUnit uu = DeserializeData<UserUnit>();
-			UnitInfo ui = UnitInfo;
+			UnitInfo ui = UnitInfo.Object;
 			int blood = 0;
 			blood +=  DGTools.CaculateAddBlood (instance.addHp,instance,ui);
 	//		blood += GlobalData.Instance.GetUnitValue (ui.powerType.hpType, uu.level); //ui.power [uu.level].hp;
@@ -247,7 +247,7 @@ public class TUserUnit : ProtobufDataBase {
 		get {
 			if (currentBlood == -1) {
 	//			UserUnit uu = DeserializeData<UserUnit>();
-				UnitInfo ui = UnitInfo ;
+				UnitInfo ui = UnitInfo.Object ;
 				currentBlood += DGTools.CaculateAddBlood (instance.addHp,instance,ui);
 	//			currentBlood += GlobalData.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
 			}
@@ -269,14 +269,14 @@ public class TUserUnit : ProtobufDataBase {
 	public int Attack {
 		get {
 			int addAttack = Object.addAttack * 50;
-			UnitInfo ui = UnitInfo ;
+			UnitInfo ui = UnitInfo.Object ;
 			return addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType,Object.level); //ui.power [GetObject.level].attack;
 		}
 	}
 
 	public uint UnitID {
 		get {
-			return UnitInfo.id;
+			return UnitInfo.Object.id;
 		}
 	}
 

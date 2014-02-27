@@ -53,6 +53,8 @@ public class EffectConstValue {
 		} else {
 			return null;
 		}
+
+
 	}
 
 	List<GameObject> SingleAttackAsset (int attackType) {

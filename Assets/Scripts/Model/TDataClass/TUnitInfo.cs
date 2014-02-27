@@ -9,52 +9,69 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 	}
 	
 	public int unitBaseInfoID = 0;
-	public UnitInfo GetObject{
+	public UnitInfo Object{
 		get{
 			return instance;
 		}
 	}
 
-	public uint GetID  {
+	public uint ID  {
 		get {
 			return instance.id;
 		}
 	}
-	public string GetName() {
-		return instance.name;
+	public string Name {
+		get{
+			return instance.name;
+		}
 	}
 	
-	
-	public int GetCost(){
-		return instance.cost;
+	public int Cost {
+		get{
+			return instance.cost;
+		}
 	}
 	
-	public int GetRare(){
-		return instance.rare;
+	public int Rare {
+		get{
+			return instance.rare;
+		}
 	}
 	
-	public int GetMaxLevel(){
-		return instance.maxLevel;
+	public int MaxLevel {
+		get {
+			return instance.maxLevel;
+		}
 	}
 
-	public int GetSkill1 () {
-		return instance.skill1;
+	public int NormalSkill1 {
+		get{
+			return instance.skill1;
+		}
 	}
 
-	public int GetSkill2 () {
-		return instance.skill2;
+	public int NormalSkill2 {
+		get{
+			return instance.skill2;
+		}
 	}
 
-	public int GetActiveSkill() {
-		return instance.activeSkill;
+	public int ActiveSkill {
+		get{
+			return instance.activeSkill;
+		}
 	}
 
-	public int GetPassiveSkill() {
-		return instance.passiveSkill;
+	public int PassiveSkill {
+		get{
+			return instance.passiveSkill;
+		}
 	}
 
-	public int GetLeaderSkill() {
-		return instance.leaderSkill;
+	public int LeaderSkill {
+		get{
+			return instance.leaderSkill;
+		}
 	}
 
 /// <summary>
@@ -62,8 +79,10 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 /// </summary>
 /// <returns>The profile.</returns>
 
-	public string GetProfile() {
-		return instance.profile;
+	public string Profile {
+		get{
+			return instance.profile;
+		}
 	}
 
 	//	public string GetRace(){
@@ -123,26 +142,32 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 		}
 	}
 	
-	public int GetHPType () {
-		return instance.powerType.hpType;
+	public int HPType {
+		get{
+			return instance.powerType.hpType;
+		}
 	}
 	
-	public int GetAttackType () {
-		return instance.powerType.attackType;
+	public int AttackType {
+		get{
+			return instance.powerType.attackType;
+		}
 	}
 	
-	public int GetExpType () {
-		return instance.powerType.expType;
+	public int ExpType {
+		get{
+			return instance.powerType.expType;
+		}
 	}
 	
 	public Texture2D GetAsset(UnitAssetType uat) {
 		string path = string.Empty;
 		switch (uat) {
 		case UnitAssetType.Avatar:
-			path = string.Format("Avatar/{0}_1", GetID) ;
+			path = string.Format("Avatar/{0}_1", ID) ;
 			break;
 		case UnitAssetType.Profile:
-			path = string.Format("Profile/{0}_2", GetID) ;
+			path = string.Format("Profile/{0}_2", ID) ;
 			break;
 			
 		}

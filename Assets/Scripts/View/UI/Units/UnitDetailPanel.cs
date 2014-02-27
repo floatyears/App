@@ -71,8 +71,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
-	
-	
+
+
 	//----------Init functions of UI Elements----------
 	void InitUI() {
 		InitTabSkill();
@@ -86,28 +86,28 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		string rootPath			= "UnitInfoTabs/Content_Profile/";
 		profileLabel			= FindChild<UILabel>(rootPath + "Label_info"			);
 	}
-
+	
 	void InitTexture(){
 		unitBodyTex = FindChild< UITexture >("detailSprite");
 		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
 	}
 
 	void InitTabStatus() {
-		string rootPath			= "UnitInfoTabs/Content_Status/";
+		string rootPath = "UnitInfoTabs/Content_Status/";
 
 		noLabel				= FindChild<UILabel> (rootPath + "InputFrame_No"		);
-		nameLabel				= FindChild<UILabel> (rootPath + "InputFrame_Name"	);
-		levelLabel				= FindChild<UILabel> (rootPath + "InputFrame_Lv"		);
-		typeLabel				= FindChild<UILabel> (rootPath + "InputFrame_Type"	);
-		raceLabel				= FindChild<UILabel> (rootPath + "InputFrame_Race"	);
-		hpLabel				= FindChild<UILabel> (rootPath + "InputFrame_HP"		);
-		costLabel 				= FindChild<UILabel> (rootPath + "InputFrame_Cost"	);
-		rareLabel 				= FindChild<UILabel> (rootPath + "InputFrame_Rare"	);
-		atkLabel 				= FindChild<UILabel> (rootPath + "InputFrame_ATK"	);
-		needExpLabel			= FindChild<UILabel>( rootPath + "Label_Exp_Need"	);
-		expSlider				= FindChild<UISlider>	(rootPath + "ExperenceBar"		);
+		nameLabel		= FindChild<UILabel> (rootPath + "InputFrame_Name"	);
+		levelLabel		= FindChild<UILabel> (rootPath + "InputFrame_Lv"		);
+		typeLabel		= FindChild<UILabel> (rootPath + "InputFrame_Type"	);
+		raceLabel		= FindChild<UILabel> (rootPath + "InputFrame_Race"	);
+		hpLabel		= FindChild<UILabel> (rootPath + "InputFrame_HP"		);
+		costLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Cost"	);
+		rareLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Rare"	);
+		atkLabel 		= FindChild<UILabel> (rootPath + "InputFrame_ATK"	);
+		needExpLabel	= FindChild<UILabel>( rootPath + "Label_Exp_Need"	);
+		expSlider		= FindChild<UISlider>	(rootPath + "ExperenceBar"		);
 
-		statusToggle 			= FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
+		statusToggle = FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
 	}
 
 	void InitTabSkill(){
@@ -126,7 +126,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		normalSkill1DscpLabel	= FindChild<UILabel>(rootPath + "Normal_Skill1_Dscp");
 		normalSkill2NameLabel 	= FindChild<UILabel>(rootPath + "Normal_Skill2");
 		normalSkill2DscpLabel	= FindChild<UILabel>(rootPath + "Normal_Skill2_Dscp");
-	
+
 		rootPath 				= "UnitInfoTabs/Content_Skill2/Block/Block1/";
 		UISprite spr;
 		int count;
@@ -145,9 +145,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ClearBlock( blockLsit2 );
 //                Debug.LogError( "BlockList2 count : " + blockLsit2.Count);
 
-        }
-        
-        //Make panel focus on the same tab every time when this ui show
+	}
+	
+	//Make panel focus on the same tab every time when this ui show
 	void ResetStartToggle( UIToggle target) {
 		target.value = true;
 	}
@@ -188,7 +188,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void LevelUp( object data){
 		//Get BaseUnitInfo
 		TUserUnit baseUnitData = data as TUserUnit;
-		ShowPanelContent( baseUnitData );
+		//ShowPanelContent( baseUnitData );
 
 		//Get Material and Friend Data
 
@@ -244,7 +244,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitAlpha.Reset();
 		unitAlpha.PlayForward();
 	}
-	
+		
 	void ShowStatusContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
 		//no
@@ -254,36 +254,36 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelLabel.text = data.Level.ToString();
 		
 		//hp
-		int hp = GlobalData.Instance.GetUnitValue( unitInfo.GetHPType(), data.Level );
+		int hp = GlobalData.Instance.GetUnitValue( unitInfo.HPType, data.Level );
 		hpLabel.text = hp.ToString();
 		
 		//atk
-		int atk = GlobalData.Instance.GetUnitValue(unitInfo.GetAttackType(), data.Level);
+		int atk = GlobalData.Instance.GetUnitValue(unitInfo.AttackType, data.Level);
 		atkLabel.text = atk.ToString();
 		
 		//name
-		nameLabel.text = unitInfo.GetName();
+		nameLabel.text = unitInfo.Name;
 		
 		//type
 		typeLabel.text = unitInfo.GetUnitType();
 		
 		//cost
-		costLabel.text = unitInfo.GetCost().ToString();
+		costLabel.text = unitInfo.Cost.ToString();
 		
 		//race  not have data interface
-		raceLabel.text = unitInfo.GetRare().ToString();
+		//raceLabel.text = unitInfo.ToString();
 		
 		//rare
-		rareLabel.text = unitInfo.GetRare().ToString();
+		rareLabel.text = unitInfo.Rare.ToString();
 		
 		//next level need
-		needExpLabel.text = data.Exp;
+		needExpLabel.text = data.Exp.ToString();
 	}
 
 
 	void ShowSkill1Content( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
-		int skillId = unitInfo.GetSkill1();
+		int skillId = unitInfo.NormalSkill1;
 		SkillBaseInfo sbi = GlobalData.skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
 
@@ -300,7 +300,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void ShowSkill2Content( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
-		int skillId = unitInfo.GetSkill2();
+		int skillId = unitInfo.NormalSkill2;
 		SkillBaseInfo sbi = GlobalData.skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
                 
@@ -317,7 +317,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void ShowLeaderSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
-		int skillId = unitInfo.GetLeaderSkill();
+		int skillId = unitInfo.LeaderSkill;
 		SkillBase skill = GlobalData.skill[ skillId ].GetSkillInfo();
                 
                 leaderSkillNameLabel.text = skill.name;
@@ -326,7 +326,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void ShowActiveSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
-		int skillId = unitInfo.GetActiveSkill();
+		int skillId = unitInfo.ActiveSkill;
 		SkillBase skill = GlobalData.skill[ skillId ].GetSkillInfo();
 		
 		activeSkillNameLabel.text = skill.name;
@@ -335,18 +335,20 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
         
         void ShowProfileContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
-		profileLabel.text = unitInfo.GetProfile();
+		profileLabel.text = unitInfo.Profile;
 	}
 
 	public void Callback(object data)	{
-		UserUnit userUnit = data as UserUnit;
+		TUserUnit userUnit = data as TUserUnit;
 
-		ShowStatusContent( userUnit );
-		ShowSkill1Content( userUnit );
-		ShowSkill2Content( userUnit );
-		ShowLeaderSkillContent( userUnit );
-		ShowActiveSkillContent( userUnit );
-		ShowProfileContent( userUnit );
+//		ShowStatusContent( userUnit );
+//		ShowSkill1Content( userUnit );
+//		ShowSkill2Content( userUnit );
+//		ShowLeaderSkillContent( userUnit );
+//		ShowActiveSkillContent( userUnit );
+//		ShowProfileContent( userUnit );
+
+		ShowPanelContent(userUnit); 
 //
 //		//leader skill name
 //		if( !textInfo.ContainsKey("ls_n") ){
@@ -444,7 +446,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			item.spriteName = string.Empty;
 		}
 	}
-	       
+
         protected int curLevel;
 	//---------Exp increase----------
 	void InitExpSlider(){

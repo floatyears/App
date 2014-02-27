@@ -18,7 +18,7 @@ public class GlobalData  {
 	public UnitInfo GetUnitInfo(uint unitID) {
 		if(unitInfo.ContainsKey(unitID)) {
 			TUnitInfo tui = unitInfo[unitID];
-			return tui.DeserializeData<UnitInfo>();
+			return tui.Object;
 		}
 		else{
 			Debug.LogError("unitid is invalid");
@@ -31,7 +31,7 @@ public class GlobalData  {
 	/// global data section
 	public static TUserInfo userInfo;	  // new it in AuthUser
 	public static TFriendList friendList; // new it in AuthUser
-	public static Dictionary<int, TPowerTableInfo> unitValue = new Dictionary<int, TPowerTableInfo>();
+	public static Dictionary<int,TPowerTableInfo> unitValue = new Dictionary<int, TPowerTableInfo>();
 	public static Dictionary<int, SkillBaseInfo> skill = new Dictionary<int, SkillBaseInfo>();
 	public static Dictionary<uint, TUnitInfo>	unitInfo = new Dictionary<uint, TUnitInfo> ();
 	public static Dictionary<uint, TUserUnit> userUnitInfo = new Dictionary<uint, TUserUnit>();
@@ -56,7 +56,6 @@ public class GlobalData  {
 	/// <param name="level">Level.</param>
 	public int GetUnitValue (int type, int level) {
 		TPowerTableInfo pti = unitValue[type];
-//		Debug.LogError ("global type : " + type + " pti : " + pti);
 		return pti.GetValue(level);
 	}
 

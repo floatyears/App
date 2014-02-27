@@ -132,16 +132,23 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	
 	void GetLeaderSkill () {
 //		UnitParty up = DeserializeData<UnitParty> ();
+		if (instance.items.Count > 0) {
 		uint id = instance.items [0].unitUniqueId;
 		AddLeadSkill(id);
-		id = instance.items [4].unitUniqueId;
+
+
+		}
+		else if(instance.items.Count > 4){
+			uint id = instance.items [4].unitUniqueId;
 		AddLeadSkill (id);
+	}
+	
 	}
 	
 	void AddLeadSkill (uint id) {
 		if (id != -1) {
 			TUserUnit firstLeader = GlobalData.userUnitInfo [id];
-			ProtobufDataBase pdb = GlobalData.normalSkill[firstLeader.GetLeadSKill()];
+			ProtobufDataBase pdb = GlobalData.skill[firstLeader.LeadSKill];
 			if(leaderSkill.ContainsKey(id)) {
 				leaderSkill[id] = pdb;
 			}
@@ -168,7 +175,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		int bloodNum = 0;
 		for (int i = 0; i < instance.items.Count; i++) {
 			uint unitUniqueID = instance.items [i].unitUniqueId;
-			bloodNum += GlobalData.userUnitInfo [unitUniqueID].GetInitBlood();
+			bloodNum += GlobalData.userUnitInfo [unitUniqueID].InitBlood;
 		}
 		return bloodNum;
 	}
@@ -178,7 +185,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		int bloodNum = 0;
 		for (int i = 0; i < instance.items.Count; i++) {
 			uint unitUniqueID = instance.items [i].unitUniqueId;
-			bloodNum += GlobalData.userUnitInfo [unitUniqueID].GetBlood();
+			bloodNum += GlobalData.userUnitInfo [unitUniqueID].Blood;
 		}
 		return bloodNum;
 	}
@@ -189,6 +196,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		for (int i = 0; i < instance.items.Count; i++) {
 			PartyItem pi = instance.items[i];
 			temp.Add(pi.unitPos,pi.unitUniqueId);
+//			Debug.LogError("pi.unitPos : " + pi.unitPos + " pi.unitUniqueId : " + pi.unitUniqueId);
 		}
 		return temp;
 	}
@@ -214,9 +222,10 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	
 	NormalSkill GetSecondSkill (PartyItem pi) {
 		TUserUnit tuu = GlobalData.userUnitInfo [pi.unitUniqueId];
-		UserUnit uu1 = tuu.GetObject;
-		UnitInfo ui1 = tuu.GetUnitInfo();			 //GlobalData.unitInfo[uu1.unitId].DeserializeData<UnitInfo>();
-		return GlobalData.normalSkill [ui1.skill2].DeserializeData<NormalSkill> ();
+		UserUnit uu1 = tuu.Object;
+		UnitInfo ui1 = tuu.UnitInfo.Object;			 //GlobalData.unitInfo[uu1.unitId].DeserializeData<UnitInfo>();
+		TNormalSkill ns = GlobalData.skill [ui1.skill2] as TNormalSkill;
+		return ns.GetObject();
 	}
 	
 	public List<TUserUnit> GetUserUnit () {
