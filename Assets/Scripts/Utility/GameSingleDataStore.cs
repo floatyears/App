@@ -12,4 +12,9 @@ public class GameSingleDataStore {
 		}
 	}
 
+	public void StoreSingleData(string key, object value) {
+		string info = value.ToString ();
+
+	}
+
 }
