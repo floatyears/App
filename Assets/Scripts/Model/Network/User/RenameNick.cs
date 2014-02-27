@@ -24,7 +24,7 @@ public class RenameNick: ProtoManager {
 		reqRenameNick = new ReqRenameNick ();
 		reqRenameNick.header = new ProtoHeader ();
 		reqRenameNick.header.apiVer = "1.0";
-		reqRenameNick.newNickName = "";
+		reqRenameNick.newNickName = "newName";
 		
 
 		ErrorMsg err = SerializeData (reqRenameNick); // save to Data for send out
@@ -36,7 +36,7 @@ public class RenameNick: ProtoManager {
 		if (!success) { return; }
 
 		rspRenameNick = InstanceObj as bbproto.RspRenameNick;
-//		LogHelper.Log("authUser response userId:"+rspRenameNick.header.userId);
+		//		LogHelper.Log("authUser response userId:"+rspRenameNick.header.userId);
 
 		//send response to caller
 		MsgCenter.Instance.Invoke (CommandEnum.RspRenameNick, null);
