@@ -214,14 +214,14 @@ public class TUserUnit : ProtobufDataBase {
 
 	public int PassiveSkill {
 		get {
-			return UnitInfo.passiveSkill;
+			return UnitInfo.GetPassiveSkill;
 		}
 	}
 
-	public UnitInfo UnitInfo {
+	public TUnitInfo UnitInfo {
 		get {
 //		UserUnit userUnit = instance;//DeserializeData () as UserUnit;
-		return GlobalData.unitInfo [instance.unitId].Object;
+		return GlobalData.unitInfo [instance.unitId];
 		}
 	}
 

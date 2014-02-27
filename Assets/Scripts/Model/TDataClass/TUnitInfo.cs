@@ -15,64 +15,47 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 		}
 	}
 
-	public uint ID  {
+	public uint GetID  {
 		get {
 //			UnitInfo ui = DeserializeData<UnitInfo>();
 			return instance.id;
 		}
 	}
-	public string Name {
-		get {
-			return instance.name;
-		}
-	}
-
-	public int Cost{
-		get {
-			return instance.cost;
-		}
+	public string GetName() {
+		return instance.name;
 	}
 	
-	public int Rare {
-		get{
-			return instance.rare;
-		}
+	
+	public int GetCost(){
+		return instance.cost;
 	}
 	
-	public int MaxLevel{
-		get{
-			return instance.maxLevel;
-		}
+	public int GetRare(){
+		return instance.rare;
+	}
+	
+	public int GetMaxLevel(){
+		return instance.maxLevel;
 	}
 
-	public int NormalSkill1 {
-		get{
-			return instance.skill1;
-		}
+	public int GetSkill1 () {
+		return instance.skill1;
 	}
 
-	public int NormalSkill2 {
-		get {
-			return instance.skill2;
-		}
+	public int GetSkill2 () {
+		return instance.skill2;
 	}
 
-	public int ActiveSkill {
-		get {
-			return instance.activeSkill;
-		}
+	public int GetActiveSkill() {
+		return instance.activeSkill;
 	}
 
-	public int PassiveSkill {
-		get {
-			return instance.passiveSkill;
-		}
+	public int GetPassiveSkill() {
+		return instance.passiveSkill;
 	}
 
-	public int LeaderSkill {
-		get{
-			return instance.leaderSkill;
-		}
+	public int GetLeaderSkill() {
+		return instance.leaderSkill;
 	}
 
 /// <summary>
@@ -80,10 +63,8 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 /// </summary>
 /// <returns>The profile.</returns>
 
-	public string Profile {
-		get{
-			return instance.profile;
-		}
+	public string GetProfile() {
+		return instance.profile;
 	}
 
 	//	public string GetRace(){
@@ -117,7 +98,7 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 	//	}
 
 	public string GetUnitType() {
-		EUnitType unitType = instance.type; //DeserializeData< UnitInfo >().type;
+		EUnitType unitType = DeserializeData< UnitInfo >().type;
 		switch ( unitType ){
 		case EUnitType.UFIRE : 
 			return "Fire";
@@ -143,32 +124,26 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 		}
 	}
 	
-	public int HPType {
-		get {
-			return instance.powerType.hpType;
-		}
+	public int GetHPType () {
+		return instance.powerType.hpType;
 	}
 	
-	public int AttackType {
-		get {
-			return instance.powerType.attackType;
-		}
+	public int GetAttackType () {
+		return instance.powerType.attackType;
 	}
 	
-	public int ExpType {
-		get{
-			return instance.powerType.expType;
-		}
+	public int GetExpType () {
+		return instance.powerType.expType;
 	}
 	
 	public Texture2D GetAsset(UnitAssetType uat) {
 		string path = string.Empty;
 		switch (uat) {
 		case UnitAssetType.Avatar:
-			path = string.Format("Avatar/{0}_1", ID) ;
+			path = string.Format("Avatar/{0}_1", GetID) ;
 			break;
 		case UnitAssetType.Profile:
-			path = string.Format("Profile/{0}_2", ID) ;
+			path = string.Format("Profile/{0}_2", GetID) ;
 			break;
 			
 		}
