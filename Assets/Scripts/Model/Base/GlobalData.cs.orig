@@ -25,11 +25,19 @@ public class GlobalData  {
 			return null;
 		}
 	}
+	     
 
+<<<<<<< HEAD
+	////////////////////////////////////////////////////////////////////////////////////////// 
+	/// global data section
+	public static TUserInfo userInfo;	  // new it in AuthUser
+	public static TFriendList friendList; // new it in AuthUser
+=======
 	public static TUserInfo userInfo;
 	public static TFriendList friendList;
 	public static Dictionary<uint, TUserUnit> myUnitList = new Dictionary<uint, TUserUnit>();
-
+	
+>>>>>>> dcc17a537eaccb3afecec91f4b8abc94c191132f
 	public static Dictionary<int,TPowerTableInfo> unitValue = new Dictionary<int, TPowerTableInfo>();
 	public static Dictionary<int, SkillBaseInfo> skill = new Dictionary<int, SkillBaseInfo>();
 	public static Dictionary<uint, TUnitInfo>	unitInfo = new Dictionary<uint, TUnitInfo> ();

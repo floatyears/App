@@ -130,7 +130,7 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 		//fill rspMsg
 		rspMsg.Friends = &bbproto.FriendList{}
 		for _, friend := range friendsInfo {
-			if friend.UserName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
+			if friend.NickName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
 				log.Printf("[ERROR] unexcepted error: skip invalid friend: %+v", friend)
 				continue
 			}

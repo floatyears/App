@@ -458,7 +458,7 @@ func (m *FriendData) GetFriendStateUpdate() uint32 {
 
 type FriendInfo struct {
 	UserId            *uint32       `protobuf:"varint,1,opt,name=userId" json:"userId,omitempty"`
-	UserName          *string       `protobuf:"bytes,2,opt,name=userName" json:"userName,omitempty"`
+	NickName          *string       `protobuf:"bytes,2,opt,name=nickName" json:"nickName,omitempty"`
 	Rank              *int32        `protobuf:"varint,3,opt,name=rank" json:"rank,omitempty"`
 	LastPlayTime      *uint32       `protobuf:"varint,4,opt,name=lastPlayTime" json:"lastPlayTime,omitempty"`
 	FriendState       *EFriendState `protobuf:"varint,5,opt,name=friendState,enum=bbproto.EFriendState" json:"friendState,omitempty"`
@@ -479,9 +479,9 @@ func (m *FriendInfo) GetUserId() uint32 {
 	return 0
 }
 
-func (m *FriendInfo) GetUserName() string {
-	if m != nil && m.UserName != nil {
-		return *m.UserName
+func (m *FriendInfo) GetNickName() string {
+	if m != nil && m.NickName != nil {
+		return *m.NickName
 	}
 	return ""
 }
@@ -2444,7 +2444,7 @@ func (m *RspGetUserUnit) GetUnit() []*UserUnit {
 type UserInfo struct {
 	Uuid             *string   `protobuf:"bytes,1,opt,name=uuid" json:"uuid,omitempty"`
 	UserId           *uint32   `protobuf:"varint,2,opt,name=userId" json:"userId,omitempty"`
-	UserName         *string   `protobuf:"bytes,3,opt,name=userName" json:"userName,omitempty"`
+	NickName         *string   `protobuf:"bytes,3,opt,name=nickName" json:"nickName,omitempty"`
 	Rank             *int32    `protobuf:"varint,4,opt,name=rank" json:"rank,omitempty"`
 	Exp              *int32    `protobuf:"varint,5,opt,name=exp" json:"exp,omitempty"`
 	StaminaNow       *int32    `protobuf:"varint,6,opt,name=staminaNow" json:"staminaNow,omitempty"`
@@ -2472,9 +2472,9 @@ func (m *UserInfo) GetUserId() uint32 {
 	return 0
 }
 
-func (m *UserInfo) GetUserName() string {
-	if m != nil && m.UserName != nil {
-		return *m.UserName
+func (m *UserInfo) GetNickName() string {
+	if m != nil && m.NickName != nil {
+		return *m.NickName
 	}
 	return ""
 }
@@ -3125,10 +3125,10 @@ func (m *RspAuthUser) GetPresent() []*PresentInfo {
 // -------------------------------------------------
 type ReqLoginPack struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	GetLogin         *bool        `protobuf:"varint,3,opt,name=getLogin" json:"getLogin,omitempty"`
-	GetFriend        *bool        `protobuf:"varint,4,opt,name=getFriend" json:"getFriend,omitempty"`
-	GetHelper        *bool        `protobuf:"varint,5,opt,name=getHelper" json:"getHelper,omitempty"`
-	GetPresent       *bool        `protobuf:"varint,6,opt,name=getPresent" json:"getPresent,omitempty"`
+	GetLogin         *bool        `protobuf:"varint,2,opt,name=getLogin" json:"getLogin,omitempty"`
+	GetFriend        *bool        `protobuf:"varint,3,opt,name=getFriend" json:"getFriend,omitempty"`
+	GetHelper        *bool        `protobuf:"varint,4,opt,name=getHelper" json:"getHelper,omitempty"`
+	GetPresent       *bool        `protobuf:"varint,5,opt,name=getPresent" json:"getPresent,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -3207,6 +3207,46 @@ func (m *RspLoginPack) GetFriends() *FriendList {
 func (m *RspLoginPack) GetPresent() []*PresentInfo {
 	if m != nil {
 		return m.Present
+	}
+	return nil
+}
+
+type ReqRenameNick struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	NewNickName      *string      `protobuf:"bytes,2,opt,name=newNickName" json:"newNickName,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqRenameNick) Reset()         { *m = ReqRenameNick{} }
+func (m *ReqRenameNick) String() string { return proto.CompactTextString(m) }
+func (*ReqRenameNick) ProtoMessage()    {}
+
+func (m *ReqRenameNick) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqRenameNick) GetNewNickName() string {
+	if m != nil && m.NewNickName != nil {
+		return *m.NewNickName
+	}
+	return ""
+}
+
+type RspRenameNick struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspRenameNick) Reset()         { *m = RspRenameNick{} }
+func (m *RspRenameNick) String() string { return proto.CompactTextString(m) }
+func (*RspRenameNick) ProtoMessage()    {}
+
+func (m *RspRenameNick) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
 	}
 	return nil
 }

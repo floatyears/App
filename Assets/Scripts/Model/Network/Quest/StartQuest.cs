@@ -24,13 +24,15 @@ public class StartQuest: ProtoManager {
 		reqStartQuest = new ReqStartQuest ();
 		reqStartQuest.header = new ProtoHeader ();
 		reqStartQuest.header.apiVer = "1.0";
-		reqStartQuest.header.userId = 101;
+		reqStartQuest.header.userId = 101; //read userid from db
+
 		reqStartQuest.stageId = 11;
 		reqStartQuest.questId = 1101;
 		reqStartQuest.helperUserId = 103;
 		reqStartQuest.currentParty = 0;
-		UserUnit helperUnit = GlobalData.userUnitInfo [reqStartQuest.helperUserId].Object;
-		reqStartQuest.helperUnit = helperUnit;
+
+		if ( GlobalData.userUnitInfo.ContainsKey( reqStartQuest.helperUserId) )
+			reqStartQuest.helperUnit = GlobalData.userUnitInfo [reqStartQuest.helperUserId].Object;
 
 		ErrorMsg err = SerializeData (reqStartQuest); // save to Data for send out
 		
