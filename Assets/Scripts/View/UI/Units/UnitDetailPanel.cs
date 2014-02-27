@@ -304,7 +304,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		noLabel.text = unitInfo.GetID;
 		
 		//current level
-		levelLabel.text = data.level;
+		levelLabel.text = data.GetLevel();
 		
 		//hp
 		int hp = GlobalData.Instance.GetUnitValue( unitInfo.GetHPType(), data.level );
