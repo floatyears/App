@@ -36,7 +36,7 @@ public class AuthUser: ProtoManager {
 		if (!success) { return; }
 
 		rspAuthUser = InstanceObj as bbproto.RspAuthUser;
-//		LogHelper.Log("reponse userId:"+rspAuthUser.user.userId);
+		LogHelper.Log("authUser response userId:"+rspAuthUser.user.userId);
 
 
 		//TODO: update localtime with servertime
@@ -58,6 +58,7 @@ public class AuthUser: ProtoManager {
 	}
 
 	void OnReceiveCommand(object data) {
+		LogHelper.Log ("OnReceiveCommand authUser...");
 		Send (); //send request to server
 	}
 

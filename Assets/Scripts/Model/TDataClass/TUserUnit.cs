@@ -218,10 +218,10 @@ public class TUserUnit : ProtobufDataBase {
 		}
 	}
 
-	public UnitInfo UnitInfo {
+	public TUnitInfo UnitInfo {
 		get {
 //		UserUnit userUnit = instance;//DeserializeData () as UserUnit;
-		return GlobalData.unitInfo [instance.unitId].GetObject;
+		return GlobalData.unitInfo [instance.unitId];
 		}
 	}
 
