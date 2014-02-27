@@ -428,6 +428,7 @@ namespace ProtoBuf
             int read = TryReadUInt64VariantWithoutMoving(out value);
             if (read > 0)
             {
+
                 ioIndex += read;
                 available -= read;
                 position += read;
