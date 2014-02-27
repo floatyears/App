@@ -9,10 +9,22 @@ public class LevelUpBasePanel : UIComponentUnity {
 	Dictionary<GameObject, UserUnit> baseUnitInfoDic = new Dictionary<GameObject, UserUnit>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
-	
+
+
+	void GetData(object data){
+		//GlobalData.userInfo.
+	}
+
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		base.Init(config, origin);
+
+		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
+
+		MsgCenter.Instance.AddListener(CommandEnum.RspAuthUser, GetData);
+
 		InitUI();
+
+
 	}
 
 	public override void ShowUI(){

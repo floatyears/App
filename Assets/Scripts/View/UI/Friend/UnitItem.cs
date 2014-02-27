@@ -48,4 +48,8 @@ public class UnitItem : MonoBehaviour {
 				break;
 		}
 	}
+
+	IEnumerator CrossFade(string str1, string str2, float dt, UILabel label) {
+		yield return new WaitForSeconds(dt);
+	}
 }

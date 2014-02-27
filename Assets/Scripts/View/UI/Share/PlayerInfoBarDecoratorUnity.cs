@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 	private GameObject infoBox;
@@ -20,19 +21,26 @@ public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 	//Label in "InfoBar"
 	private UILabel infoBar_Label_Text_Line;
 	private UILabel infoBar_Label_Text_Rank;
-	private UILabel infoBar_Label_Vaule_ChipNum;
-	private UILabel infoBar_Label_Vaule_CurStamina;
-	private UILabel infoBar_Label_Vaule_Icon;
-	private UILabel infoBar_Label_Vaule_PlayerName;
-	private UILabel infoBar_Label_Vaule_Rank;
-	private UILabel infoBar_Label_Vaule_TotalStamina;
+	private UILabel chipLabel;
+	private UILabel staminaNowLabel;
+	private UILabel iconLabel;
+	private UILabel userNameLabel;
+	private UILabel rankLabel;
+	private UILabel staminaMaxLabel;
 
 	private UISprite curExpSpr;
 	private UISprite staminaSpr;
 
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
+
+
+		
+
+
 		InitUI();
+
+		ReceiveData();
 	}
 
 	public override void ShowUI () {
@@ -80,12 +88,12 @@ public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 		
 		infoBar_Label_Text_Line = FindChild< UILabel >( "InfoBar/Label_Text_Line" );
 		infoBar_Label_Text_Rank = FindChild< UILabel >( "InfoBar/Label_Text_Rank" );
-		infoBar_Label_Vaule_ChipNum = FindChild< UILabel >( "InfoBar/Label_Vaule_ChipNum" );
-		infoBar_Label_Vaule_CurStamina = FindChild< UILabel >( "InfoBar/Label_Vaule_CurStamina" );
-		infoBar_Label_Vaule_Icon = FindChild< UILabel >( "InfoBar/Label_Vaule_Icon" );
-		infoBar_Label_Vaule_PlayerName = FindChild< UILabel >( "InfoBar/Label_Vaule_PlayerName" );
-		infoBar_Label_Vaule_Rank = FindChild< UILabel >( "InfoBar/Label_Vaule_Rank" );
-		infoBar_Label_Vaule_TotalStamina = FindChild< UILabel >( "InfoBar/Label_Vaule_TotalStamina" );
+		chipLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_ChipNum" );
+		staminaNowLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_CurStamina" );
+		iconLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_Icon" );
+		userNameLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_PlayerName" );
+		rankLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_Rank" );
+		staminaMaxLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_TotalStamina" );
 
 		curExpSpr = FindChild<UISprite>("InfoBar/Sprite_CurExp");
 		staminaSpr = FindChild< UISprite >("InfoBar/Sprite_Stamina");
@@ -108,8 +116,8 @@ public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 	int nextRandNeedExp = 1856;
 
 	private void ShowStaminaInfo(){
-		infoBar_Label_Vaule_CurStamina.text =  curStamina.ToString();
-		infoBar_Label_Vaule_TotalStamina.text = maxStamina.ToString();
+		staminaNowLabel.text =  curStamina.ToString();
+		staminaMaxLabel.text = maxStamina.ToString();
 		float percent = (float)curStamina/maxStamina;
 		//Debug.LogError(percent);
 		staminaSpr.fillAmount = percent;
@@ -120,4 +128,23 @@ public class PlayerInfoBarDecoratorUnity : UIComponentUnity {
 		curExpSpr.fillAmount = percent;
 		//Debug.LogError(percent);
 	}
+
+
+	void UpdateData( object data ){
+		//Debug.LogError(GlobalData.userInfo.Rank.ToString());
+		rankLabel.text = GlobalData.userInfo.Rank.ToString();
+		staminaMaxLabel.text = GlobalData.userInfo.StaminaMax.ToString();
+		staminaNowLabel.text = GlobalData.userInfo.StaminaNow.ToString();
+
+
+
+	}
+
+	void ReceiveData(){
+		MsgCenter.Instance.AddListener( CommandEnum.RspAuthUser, UpdateData );
+
+		//TODO:temp for user login
+		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
+	}
+
 }

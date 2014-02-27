@@ -17,7 +17,6 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 
 	public uint ID  {
 		get {
-//			UnitInfo ui = DeserializeData<UnitInfo>();
 			return instance.id;
 		}
 	}
@@ -26,7 +25,7 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 			return instance.name;
 		}
 	}
-
+	
 	public int Cost {
 		get{
 			return instance.cost;
