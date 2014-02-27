@@ -225,6 +225,12 @@ public class TUserUnit : ProtobufDataBase {
 		}
 	}
 
+
+	public int Exp {
+		get {
+			return instance.exp;
+		}
+	}
 	public int InitBlood {
 		get {
 	//		UserUnit uu = DeserializeData<UserUnit>();

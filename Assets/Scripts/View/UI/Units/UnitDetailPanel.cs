@@ -41,7 +41,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	List<UISprite> blockLsit1 = new List<UISprite>();
 	List<UISprite> blockLsit2 = new List<UISprite>();
         
-        int currMaxExp, curExp, gotExp, expRiseStep;
+        protected int currMaxExp, curExp, gotExp, expRiseStep;
 
 	
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
@@ -58,7 +58,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ShowUnitScale();
 		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
-		AddMsgCmd ();
 	}
 
 	public override void HideUI () {
@@ -67,25 +66,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		ClearEffectCache();
 		UIManager.Instance.ShowBaseScene();
-		RmvMsgCmd ();
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
-
-
-	//----------deal with message----------
-	void AddMsgCmd () {
-		MsgCenter.Instance.AddListener(CommandEnum.LevelUp , LevelUpUnit);
-		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, ShowUnitDetail);
-	}
-
-	void RmvMsgCmd () {
-		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp , LevelUpUnit);
-		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, ShowUnitDetail);
-	}
-
+	
 	
 	//----------Init functions of UI Elements----------
 	void InitUI() {
@@ -94,10 +80,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		InitExpSlider ();
 		InitTexture ();
 		InitProfile();
-
 	}
-
-
+	
 	void InitProfile() {
 		string rootPath			= "UnitInfoTabs/Content_Profile/";
 		profileLabel			= FindChild<UILabel>(rootPath + "Label_info"			);
@@ -107,7 +91,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitBodyTex = FindChild< UITexture >("detailSprite");
 		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
 	}
-	
 
 	void InitTabStatus() {
 		string rootPath			= "UnitInfoTabs/Content_Status/";
@@ -202,43 +185,25 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	
-	void LevelUpUnit( object Info){
-		List<UserUnit> packageInfo = Info as List<UserUnit>;
-		uint curUnitId = packageInfo[0].unitId;
+	void LevelUp( object data){
+		//Get BaseUnitInfo
+		TUserUnit baseUnitData = data as TUserUnit;
+		ShowPanelContent( baseUnitData );
 
-		GameObject tempEffect = Instantiate( levelUpEffect ) as GameObject;
-		GameObject profile = tempEffect.transform.FindChild("ProfileTexture").gameObject;
-		if(profile == null)
-			Debug.LogError("Profile is not found!");
-		MeshRenderer meshRender = profile.GetComponent< MeshRenderer >();
-		Texture tex = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Profile);
+		//Get Material and Friend Data
 
-		meshRender.materials[ 0 ].SetTexture("_MainTex", tex);
-		effectCache.Add( tempEffect );
-
-		noLabel.text = curUnitId.ToString();
-		nameLabel.text = GlobalData.unitInfo[ curUnitId ].GetName();
-		levelLabel.text = packageInfo[0].level.ToString();
-		typeLabel.text = GlobalData.unitInfo[ curUnitId ].GetUnitType();
-		
-		TUnitInfo tu = GlobalData.unitInfo[ curUnitId ];
-		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),packageInfo[0].level);
-		hpLabel.text = hp.ToString();
-		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), packageInfo[0].level);
-		atkLabel.text = atk.ToString();
-		
-		int cost = GlobalData.unitInfo[ curUnitId ].GetCost();
-		costLabel.text = cost.ToString();
-		
-		int rare = GlobalData.unitInfo[ curUnitId ].GetRare();
-		rareLabel.text = rare.ToString();
-
-		raceLabel.text = "Human";
-
+		//Show exp increase process
 		ExpRise();
 	}
 
-
+	void ShowPanelContent( TUserUnit data ){
+		ShowStatusContent( data );
+		ShowSkill1Content( data );
+		ShowSkill2Content( data );
+		ShowLeaderSkillContent( data );
+		ShowActiveSkillContent( data );
+		ShowProfileContent( data );
+	}
 
 	//----------deal with effect----------
 	void ClearEffectCache(){
@@ -280,38 +245,20 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitAlpha.PlayForward();
 	}
 	
-	/// <summary>
-	/// Callback the specified data.
-	/// ns1_n = normal skill1 name.
-	/// ns2_dscp = normal skill1 description.
-	/// ns2_n = normal skill2 name.
-	/// ns2_dscp = normal skill2 description.
-	/// ls_n = leader skill name.
-	/// ls_dscp = leader skill description.
-	/// as_n = active skill name.
-	/// as_dscp = active skill description.
-	/// bls1 = active blocks1.
-	/// bls2 = active blocks2.
-	/// pf = profile.
-	/// </summary>
-	/// <param name="data">Data.</param>
-	/// 
-
-
 	void ShowStatusContent( TUserUnit data ){
-		TUnitInfo unitInfo = data.GetUnitInfo();
+		TUnitInfo unitInfo = data.UnitInfo;
 		//no
-		noLabel.text = unitInfo.GetID;
+		noLabel.text = data.ID.ToString();
 		
-		//current level
-		levelLabel.text = data.GetLevel();
+		//level
+		levelLabel.text = data.Level.ToString();
 		
 		//hp
-		int hp = GlobalData.Instance.GetUnitValue( unitInfo.GetHPType(), data.level );
+		int hp = GlobalData.Instance.GetUnitValue( unitInfo.GetHPType(), data.Level );
 		hpLabel.text = hp.ToString();
 		
 		//atk
-		int atk = GlobalData.Instance.GetUnitValue(unitInfo.GetAttackType(), data.level);
+		int atk = GlobalData.Instance.GetUnitValue(unitInfo.GetAttackType(), data.Level);
 		atkLabel.text = atk.ToString();
 		
 		//name
@@ -330,29 +277,76 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		rareLabel.text = unitInfo.GetRare().ToString();
 		
 		//next level need
-		needExpLabel.text = data.exp;
+		needExpLabel.text = data.Exp;
 	}
 
 
-	void ShowSkillContent( UserUnit data, int skillID ){
-		TUnitInfo unitInfo = GlobalData.unitInfo[ data.unitId ];
-		int skillID = unitInfo.GetSkill1();
-		SkillBaseInfo sbi = GlobalData.skill[ skillID ];
+	void ShowSkill1Content( TUserUnit data){
+		TUnitInfo unitInfo = data.UnitInfo;
+		int skillId = unitInfo.GetSkill1();
+		SkillBaseInfo sbi = GlobalData.skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
+
+		normalSkill1NameLabel.text = skill.name;
+		normalSkill1DscpLabel.text = skill.description;
+
+		TNormalSkill ns = sbi as TNormalSkill;
+		List<uint> sprNameList1 = ns.GetObject().activeBlocks;
+		for( int i = 0; i < sprNameList1.Count; i++ ){
+			blockLsit1[ i ].enabled = true;
+			blockLsit1[ i ].spriteName = sprNameList1[ i ].ToString();
+		}
 	}
 
+	void ShowSkill2Content( TUserUnit data){
+		TUnitInfo unitInfo = data.UnitInfo;
+		int skillId = unitInfo.GetSkill2();
+		SkillBaseInfo sbi = GlobalData.skill[ skillId ];
+		SkillBase skill =sbi.GetSkillInfo();
+                
+                normalSkill2NameLabel.text = skill.name;
+		normalSkill2DscpLabel.text = skill.description;
+
+		TNormalSkill ns = sbi as TNormalSkill;
+		List<uint> sprNameList2 = ns.GetObject().activeBlocks;
+		for( int i = 0; i < sprNameList2.Count; i++ ){
+			blockLsit1[ i ].enabled = true;
+			blockLsit1[ i ].spriteName = sprNameList2[ i ].ToString();
+                }
+        }
+
+	void ShowLeaderSkillContent( TUserUnit data){
+		TUnitInfo unitInfo = data.UnitInfo;
+		int skillId = unitInfo.GetLeaderSkill();
+		SkillBase skill = GlobalData.skill[ skillId ].GetSkillInfo();
+                
+                leaderSkillNameLabel.text = skill.name;
+		leaderSkillDscpLabel.text = skill.description;
+        }
+
+	void ShowActiveSkillContent( TUserUnit data){
+		TUnitInfo unitInfo = data.UnitInfo;
+		int skillId = unitInfo.GetActiveSkill();
+		SkillBase skill = GlobalData.skill[ skillId ].GetSkillInfo();
+		
+		activeSkillNameLabel.text = skill.name;
+		activeSkillDscpLabel.text = skill.description;
+        }
+        
+        void ShowProfileContent( TUserUnit data ){
+		TUnitInfo unitInfo = data.UnitInfo;
+		profileLabel.text = unitInfo.GetProfile();
+	}
 
 	public void Callback(object data)	{
-//		Dictionary<string, object> textInfo = data as Dictionary<string, object>;
-//		hpLabel.text = textInfo["hp"] as string;
-//		nameLabel.text = textInfo["name"] as string;
-//		idLabel.text = textInfo["no"] as string;
-//		levelLabel.text = textInfo["lv"] as string;
-
 		UserUnit userUnit = data as UserUnit;
-//		TUnitInfo unitInfo = GlobalData.unitInfo[ userUnit.unitId ];
-		ShowStatusContent( userUnit );
 
+		ShowStatusContent( userUnit );
+		ShowSkill1Content( userUnit );
+		ShowSkill2Content( userUnit );
+		ShowLeaderSkillContent( userUnit );
+		ShowActiveSkillContent( userUnit );
+		ShowProfileContent( userUnit );
 //
 //		//leader skill name
 //		if( !textInfo.ContainsKey("ls_n") ){
@@ -442,7 +436,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 ////			Debug.LogError( " name : " + sprNameList2[ i ].ToString());
 //                }
 
-
         }
         
         void ClearBlock(List<UISprite> blocks){
@@ -452,7 +445,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 	}
 	       
-        int curLevel;
+        protected int curLevel;
 	//---------Exp increase----------
 	void InitExpSlider(){
 		curExp = 460;
