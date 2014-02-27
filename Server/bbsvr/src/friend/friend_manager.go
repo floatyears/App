@@ -306,13 +306,13 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetFriend bool, isG
 			continue
 		}
 		log.T("userId: %v -> name:%v rank:%v ",
-			*user.UserId, *user.UserName, *user.Rank)
+			*user.UserId, *user.NickName, *user.Rank)
 
 		uid = *user.UserId
 		friInfo, ok := friendsInfo[common.Utoa(uid)]
 		if ok {
 			friInfo.Rank = user.Rank
-			friInfo.UserName = user.UserName
+			friInfo.NickName = user.NickName
 			friInfo.LastPlayTime = userDetail.Login.LastPlayTime
 			friInfo.Unit = userDetail.User.Unit
 

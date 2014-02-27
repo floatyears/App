@@ -129,7 +129,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 	log.T("GetUserInfo(%v) ret err(%v). isExists=%v userDetail: ['%v']  ",
 		uuid, err, isUserExists, userDetail)
-	if isUserExists && err != nil {
+	if isUserExists && err == nil {
 		tNow := common.Now()
 
 		//TODO: assign Userdetail.* into rspMsg
@@ -209,7 +209,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 		rspMsg.User = &bbproto.UserInfo{
 			UserId:         &newUserId,
-			UserName:       &defaultName,
+			NickName:       &defaultName,
 			Rank:           &rank,
 			Exp:            &exp,
 			StaminaNow:     &staminaNow,

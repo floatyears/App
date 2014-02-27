@@ -230,3 +230,49 @@ func GetNewUserId() (userid uint32, err error) {
 
 	return userid, err
 }
+
+func RenameUser(uid uint32, newNickName string) (e Error.Error) {
+	db := &data.Data{}
+	err := db.Open(cs.TABLE_USER)
+	defer db.Close()
+	if err != nil {
+		log.Error("[ERROR] CONNECT_DB_ERROR err:%v", err)
+		return Error.New(cs.CONNECT_DB_ERROR, err)
+	}
+
+	var value []byte
+	value, err = db.Gets(common.Utoa(uid))
+	if err != nil {
+		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		return Error.New(cs.READ_DB_ERROR, err)
+	}
+
+	if len(value) == 0 {
+		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret value is empty.", uid)
+		return Error.New(cs.EU_USER_NOT_EXISTS, err)
+	}
+
+	userDetail := &bbproto.UserInfoDetail{}
+	err = proto.Unmarshal(value, userDetail)
+	if err != nil {
+		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		return Error.New(cs.UNMARSHAL_ERROR)
+	}
+
+	//modify username
+	userDetail.User.NickName = &newNickName
+
+	//save data
+	zUserData, err := proto.Marshal(userDetail)
+	if err != nil {
+		return Error.New(cs.MARSHAL_ERROR, err)
+	}
+
+	if err = db.Set(common.Utoa(*userDetail.User.UserId), zUserData); err != nil {
+		log.Error("SET_DB_ERROR for userDetail: %v", *userDetail.User.UserId)
+		return Error.New(cs.SET_DB_ERROR, err)
+	}
+
+	log.T("rename success: now nickName is:%v", *userDetail.User.NickName)
+	return Error.OK()
+}
