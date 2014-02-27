@@ -69,6 +69,8 @@ public class Main : MonoBehaviour
 		TempConfig.InitEventQuests();
 		TempConfig.InitPlayerUnits();
 		TempConfig.InitUnitAvatarSprite();
+
+//		GameSingleDataStore.Instance.StoreSingleData ("aa", "bb");
 	}
 
 	/// <summary>

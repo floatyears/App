@@ -5,8 +5,9 @@ using System.Security.Cryptography;
 using System.IO;
 
 public class ASE {
-	public static byte[] AESKey = UTF8Encoding.UTF8.GetBytes("1234567890123456789012");
-	public static byte[] AESEncrypt(string plainText , string strKey )  
+	public static byte[] AESKey = UTF8Encoding.UTF8.GetBytes("1234567890123456");
+
+	public static string AESEncrypt(string plainText , string strKey )  
 	{  
 		//分组加密算法  
 		SymmetricAlgorithm des = Rijndael .Create () ;                
@@ -21,7 +22,21 @@ public class ASE {
 		byte[] cipherBytes = ms .ToArray () ;//得到加密后的字节数组  
 		cs.Close();  
 		ms.Close();  
-		return cipherBytes ;           
+		return UTF8Encoding.UTF8.GetString(cipherBytes);           
 	}  
 
+	public static string AESDecrypt(string info, string strKey )  
+	{             
+		SymmetricAlgorithm des = Rijndael.Create () ;   
+		byte[] infoArray = Encoding.UTF8.GetBytes (info);
+		des.Key =Encoding.UTF8.GetBytes (strKey );  
+		des.IV = AESKey ;  
+		byte[] decryptBytes = new byte[infoArray.Length ];     
+		MemoryStream ms = new MemoryStream(infoArray);
+		CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor (), CryptoStreamMode.Read );  
+		cs.Read (decryptBytes , 0, decryptBytes.Length);              
+		cs.Close();  
+		ms.Close();           
+		return UTF8Encoding.UTF8.GetString(decryptBytes);
+	} 
 }
