@@ -5,7 +5,6 @@ import (
 	//"io/ioutil"
 	"net/http"
 	//"strconv"
-	"math/rand"
 	//"time"
 	"code.google.com/p/goprotobuf/proto"
 	"reflect"
@@ -195,28 +194,6 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 	} else { //create new user
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
 
-		newUserId, err := usermanage.GetNewUserId()
-		if err != nil {
-			return Error.New(cs.EU_GET_NEWUSERID_FAIL, err.Error())
-		}
-		defaultName := cs.DEFAULT_USER_NAME
-		tNow := common.Now()
-		rank := int32(30 + rand.Intn(10)) //int32(1)
-		exp := int32(0)
-		staminaNow := int32(100)
-		staminaMax := int32(100)
-		staminaRecover := uint32(tNow + 600) //10 minutes
-
-		rspMsg.User = &bbproto.UserInfo{
-			UserId:         &newUserId,
-			NickName:       &defaultName,
-			Rank:           &rank,
-			Exp:            &exp,
-			StaminaNow:     &staminaNow,
-			StaminaMax:     &staminaMax,
-			StaminaRecover: &staminaRecover,
-		}
-
 		db := &data.Data{}
 		err = db.Open(cs.TABLE_UNIT)
 		defer db.Close()
@@ -224,16 +201,18 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			return Error.New(cs.READ_DB_ERROR, err)
 		}
 
-		rspMsg.ServerTime = &tNow
-		log.T("rspMsg.User=%v...", rspMsg.User)
-		//log.T("rspMsg=%+v...", rspMsg)
+		rspMsg.ServerTime = proto.Uint32(common.Now())
 
 		//TODO:save userinfo to db through goroutine
-		userDetail, e := usermanage.AddNewUser(db, uuid, rspMsg.User)
+		userDetail, e := usermanage.AddNewUser(db, uuid)
 		if !e.IsError() && userDetail != nil {
 			rspMsg.UnitList = userDetail.UnitList
 			rspMsg.Party = userDetail.Party
+			rspMsg.User = userDetail.User
 		}
+
+		log.T("rspMsg: %+v", rspMsg)
+
 	}
 
 	return Error.OK()

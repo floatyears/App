@@ -13,22 +13,36 @@ import (
 	_ "fmt"
 )
 
-func AddNewUser(db *data.Data, uuid string, userInfo *bbproto.UserInfo) (userdetail *bbproto.UserInfoDetail, e Error.Error) {
-
-	if userInfo == nil || userInfo.UserId == nil || *userInfo.UserId <= 0 {
-		return nil, Error.New(cs.INVALID_PARAMS)
-	}
+func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail, e Error.Error) {
 
 	userdetail = &bbproto.UserInfoDetail{}
-	userdetail.User = userInfo
+
+	newUserId, err := GetNewUserId()
+	if err != nil {
+		return nil, Error.New(cs.EU_GET_NEWUSERID_FAIL, err)
+	}
+	defaultName := cs.DEFAULT_USER_NAME
+	tNow := common.Now()
+	rank := int32(30 + common.Randn(10)) //int32(1)
+	exp := int32(0)
+	staminaNow := int32(100)
+	staminaMax := int32(100)
+	staminaRecover := uint32(tNow + 600) //10 minutes
+
+	userdetail.User = &bbproto.UserInfo{
+		UserId:         &newUserId,
+		NickName:       &defaultName,
+		Rank:           &rank,
+		Exp:            &exp,
+		StaminaNow:     &staminaNow,
+		StaminaMax:     &staminaMax,
+		StaminaRecover: &staminaRecover,
+	}
 
 	//TODO: fill other default values
-	//userdetail.CurrentUnitParty = 0
 	//userdetail.Account = xx //
-	//userdetail.UnitPartyList = xx //
 	//userdetail.Quest = xx //
 
-	tNow := common.Now()
 	userdetail.Login = &bbproto.LoginInfo{}
 	userdetail.Login.LoginTotal = proto.Int32(1)
 	userdetail.Login.LoginChain = proto.Int32(0)
@@ -86,6 +100,8 @@ func AddNewUser(db *data.Data, uuid string, userInfo *bbproto.UserInfo) (userdet
 	}
 	userdetail.UnitList = append(userdetail.UnitList, userUnit3)
 
+	userdetail.User.Unit = userUnit1
+
 	//make default party[0]
 	unitParty := &bbproto.UnitParty{}
 	unitParty.Id = proto.Int32(0)
@@ -114,15 +130,15 @@ func AddNewUser(db *data.Data, uuid string, userInfo *bbproto.UserInfo) (userdet
 	}
 
 	zUserData, err := proto.Marshal(userdetail)
-	err = db.Set(common.Utoa(*userInfo.UserId), zUserData)
-	log.T("db.Set(%v) save new userinfo, return err(%v)", *userInfo.UserId, err)
+	err = db.Set(common.Utoa(*userdetail.User.UserId), zUserData)
+	log.T("db.Set(%v) save new userinfo, return err(%v)", *userdetail.User.UserId, err)
 	if err != nil {
 		log.Error("set db(userinfo) ret error:%v", err)
 		return nil, Error.New(cs.SET_DB_ERROR, err)
 	}
 
 	//save uuid -> uid
-	err = db.Set(cs.X_UUID+uuid, []byte(common.Utoa(*userInfo.UserId)))
+	err = db.Set(cs.X_UUID+uuid, []byte(common.Utoa(*userdetail.User.UserId)))
 	if err != nil {
 		log.Error("set db(uuid -> userId) ret error:%v", err)
 		return nil, Error.New(cs.SET_DB_ERROR, err)
