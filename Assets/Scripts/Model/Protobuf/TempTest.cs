@@ -98,7 +98,7 @@ public class TempTest : MonoBehaviour
             #endregion
 
             #region test model->msgCenter
-            ModelManagerTest.Test();
+            //ModelManagerTest.Test();
             #endregion
 		}
 	}

@@ -6,7 +6,6 @@ public class ActiveReduceDefense : ActiveSkill, IActiveSkillExcute {
 	private SkillReduceDefence instance;
 	public ActiveReduceDefense(object instance) : base (instance) {
 		this.instance = instance as SkillReduceDefence;
-
 		skillBase = this.instance.baseInfo;	
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;

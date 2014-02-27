@@ -2,38 +2,50 @@ using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class ProtoManager <T>: ProtobufDataBase,INetBase {
+
+public class ProtoManager: ProtobufDataBase,INetBase {
+	private string protoName;
+	private object instObj;
+	protected System.Type reqType;
+	protected System.Type rspType;
+	
 	public ProtoManager() {
-		Send ();
 	}
 	
+	protected object InstanceObj {
+		get { return instObj; }
+		set { instObj = value; }
+	}
+
+	protected string Proto {
+		set { protoName = value; }
+	}
+
 	public void Send () {
 		IWWWPost http = new HttpNetBase ();
 
-		MakePacket ();
-
-		http.Send (this, "auth_user", Data);
+		if( MakePacket () ) { //make proto packet to Data
+//			LogHelper.Log ("MakePacket => proto:{0} InstanceType:{1}",protoName, reqType);
+			http.Send (this, protoName, Data);
+		}
 	}
 	
 	public void Receive (IWWWPost post) {
-		Debug.LogError ("ProtoManager Receive...");
-		T instance = ProtobufSerializer.ParseFormBytes<T>(post.WwwInfo.bytes);
-		// parse to current instance
-		if (instance != null){
-//			succeedFunc(instance, errorMsg, values);
+		instObj = ProtobufSerializer.ParseFormBytes(post.WwwInfo.bytes, rspType);
+		if (instObj != null) {
+			OnResponse (true);
+		} else {
+			OnResponse (false);
+			LogHelper.LogError("++++++proto.ParseFormBytes failed.++++++");
 		}
-
 	}
-	
-	public bool MakePacket () {
-		ReqAuthUser authUser = new ReqAuthUser ();
-		authUser.header = new ProtoHeader ();
-		authUser.header.apiVer = "1.0";
-		authUser.terminal = new TerminalInfo ();
-		authUser.terminal.uuid = "kory-abcdefg";
 
-		SerializeData (authUser); // save to Data
+	public virtual void OnResponse (bool success) {
+		// implement in derived class
+	}
 
+	public virtual bool MakePacket () {
+		//make packet to Data for send to server
 		return true;
 	}
 }

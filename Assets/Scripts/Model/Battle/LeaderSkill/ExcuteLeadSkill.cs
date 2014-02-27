@@ -79,8 +79,8 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			}
 			uint id = item.Key;
 			foreach (var item1 in leadSkill.UserUnit) {
-				if(item1.Value.GetID == id) {
-					AttackInfo attack = tsea.AttackValue(item1.Value.GetAttack,id);
+				if(item1.Value.ID == id) {
+					AttackInfo attack = tsea.AttackValue(item1.Value.Attack, id);
 					ai.Add(attack);
 					break;
 				}

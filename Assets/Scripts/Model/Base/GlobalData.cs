@@ -51,7 +51,6 @@ public class GlobalData  {
 	/// <param name="level">Level.</param>
 	public int GetUnitValue (int type, int level) {
 		TPowerTableInfo pti = unitValue[type];
-//		Debug.LogError ("global type : " + type + " pti : " + pti);
 		return pti.GetValue(level);
 	}
 

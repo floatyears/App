@@ -102,7 +102,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 					skillUtility.alreadyUseSkill.Add (ai.SkillID);
 					AttackImageUtility aiu 	= new AttackImageUtility();
 					aiu.attackProperty		= ai.AttackType;
-					aiu.userProperty 		= GlobalData.userUnitInfo[ai.UserUnitID].GetUnitType();
+					aiu.userProperty 		= GlobalData.userUnitInfo[ai.UserUnitID].UnitType;
 					aiu.skillID				= ai.SkillID;
 					aiu.attackID			= ai.AttackID;
 					tempAttackType.Add (aiu);
@@ -133,16 +133,16 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	void GetLeaderSkill () {
 //		UnitParty up = DeserializeData<UnitParty> ();
 		if (instance.items.Count > 0) {
-			uint id = instance.items [0].unitUniqueId;
-			AddLeadSkill(id);
+		uint id = instance.items [0].unitUniqueId;
+		AddLeadSkill(id);
 
 
 		}
 		else if(instance.items.Count > 4){
 			uint id = instance.items [4].unitUniqueId;
-			AddLeadSkill (id);	
-		}
-
+		AddLeadSkill (id);
+	}
+	
 	}
 	
 	void AddLeadSkill (uint id) {

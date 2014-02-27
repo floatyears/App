@@ -57,7 +57,7 @@ public class TUserUnit : ProtobufDataBase {
 	}
 
 	void SetHPByType (float value, int type) {
-		if (type == GetUnitType () || type == 0) {
+		if (type == UnitType || type == 0) {
 			hpMultiple *= value;
 		}
 	}
@@ -70,7 +70,7 @@ public class TUserUnit : ProtobufDataBase {
 	}
 
 	void SetAttackMultipleByType (float value,int type) {
-		if (type == GetUnitType () || type == 0) {
+		if (type == UnitType || type == 0) {
 			attackMultiple *= value;
 		}
 	}
@@ -88,10 +88,10 @@ public class TUserUnit : ProtobufDataBase {
 //		UserUnit uu = DeserializeData<UserUnit> ();
 		float hurtValue = 0;
 
-		if (beRetraintType == (int)GetUnitInfo ().type) {
+		if (beRetraintType == (int)UnitInfo.type) {
 			hurtValue = attackValue * 0.5f;
 		} 
-		else if (retraintType == (int)GetUnitInfo ().type) {
+		else if (retraintType == (int)UnitInfo.type) {
 			hurtValue = attackValue * 2f;
 		} 
 		else {
@@ -151,7 +151,7 @@ public class TUserUnit : ProtobufDataBase {
 		if (ai == null) {
 			return;	
 		}
-		if (ai.AttackType != GetUnitType ()) {
+		if (ai.AttackType != UnitType ) {
 			return;	
 		}
 		if (ai.AttackRound == 0) {
@@ -194,73 +194,87 @@ public class TUserUnit : ProtobufDataBase {
 		return value;
 	}
 
-	public int GetUnitType (){
-		return (int)GetUnitInfo().type;
+	public int UnitType {
+		get {
+			return (int)UnitInfo.type;
+		}
 	}
 
-	public int GetLeadSKill () {
-		return GetUnitInfo().leaderSkill;
+	public int LeadSKill  {
+		get {
+			return UnitInfo.leaderSkill;
+		}
 	}
 
-	public int GetActiveSkill () {
-		return GetUnitInfo ().activeSkill;
+	public int ActiveSkill {
+		get {
+			return UnitInfo.activeSkill;
+		}
 	}
 
-	public int GetPassiveSkill () {
-		return GetUnitInfo ().passiveSkill;
+	public int PassiveSkill {
+		get {
+			return UnitInfo.passiveSkill;
+		}
 	}
 
-	public UnitInfo GetUnitInfo() {
+	public UnitInfo UnitInfo {
+		get {
 //		UserUnit userUnit = instance;//DeserializeData () as UserUnit;
 		return GlobalData.unitInfo [instance.unitId].GetObject;
-	}
-
-	public int GetInitBlood () {
-//		UserUnit uu = DeserializeData<UserUnit>();
-		UnitInfo ui = GetUnitInfo() ;
-		int blood = 0;
-		blood +=  DGTools.CaculateAddBlood (instance.addHp,instance,ui);
-//		blood += GlobalData.Instance.GetUnitValue (ui.powerType.hpType, uu.level); //ui.power [uu.level].hp;
-		float temp = blood * hpMultiple;
-		return System.Convert.ToInt32(blood);
-	}
-
-	public int GetBlood () {
-		if (currentBlood == -1) {
-//			UserUnit uu = DeserializeData<UserUnit>();
-			UnitInfo ui = GetUnitInfo() ;
-			currentBlood += DGTools.CaculateAddBlood (instance.addHp,instance,ui);
-//			currentBlood += GlobalData.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
 		}
-		float blood = currentBlood * hpMultiple;
-		return System.Convert.ToInt32(blood);
 	}
 
-	public UserUnit GetObject{
+	public int InitBlood {
+		get {
+	//		UserUnit uu = DeserializeData<UserUnit>();
+			UnitInfo ui = UnitInfo;
+			int blood = 0;
+			blood +=  DGTools.CaculateAddBlood (instance.addHp,instance,ui);
+	//		blood += GlobalData.Instance.GetUnitValue (ui.powerType.hpType, uu.level); //ui.power [uu.level].hp;
+			float temp = blood * hpMultiple;
+			return System.Convert.ToInt32(blood);
+		}
+	}
+
+	public int Blood {
+		get {
+			if (currentBlood == -1) {
+	//			UserUnit uu = DeserializeData<UserUnit>();
+				UnitInfo ui = UnitInfo ;
+				currentBlood += DGTools.CaculateAddBlood (instance.addHp,instance,ui);
+	//			currentBlood += GlobalData.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
+			}
+			float blood = currentBlood * hpMultiple;
+			return System.Convert.ToInt32(blood);
+		}
+	}
+
+	public UserUnit Object{
 		get { return instance; }
 	}
 
-	public int GetLevel{
+	public int Level{
 		get {
-			return GetObject.level;
+			return instance.level;
 		}
 	}
 
-	public int GetAttack {
+	public int Attack {
 		get {
-			int addAttack = GetObject.addAttack * 50;
-			UnitInfo ui = GetUnitInfo() ;
-			return addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType,GetObject.level); //ui.power [GetObject.level].attack;
+			int addAttack = Object.addAttack * 50;
+			UnitInfo ui = UnitInfo ;
+			return addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType,Object.level); //ui.power [GetObject.level].attack;
 		}
 	}
 
-	public uint GetUnitID {
+	public uint UnitID {
 		get {
-			return GetUnitInfo().id;
+			return UnitInfo.id;
 		}
 	}
 
-	public uint GetID {
+	public uint ID {
 		get {
 			return instance.uniqueId;
 //			return DeserializeData<UserUnit>().uniqueId;

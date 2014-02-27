@@ -93,7 +93,8 @@ func (t AuthUser) FillResponseMsg(req interface{}, rspMsg *bbproto.RspAuthUser, 
 
 		sessionId, _ := t.GenerateSessionId(reqMsg.Terminal.Uuid)
 		reqMsg.Header.SessionId = &sessionId
-		log.Printf("req header:%v reqMsg.Header:%v", *reqMsg.Header.SessionId, reqMsg.Header)
+		log.T("req sessionId:%v reqMsg.Header:%+v\n",
+			*reqMsg.Header.SessionId, reqMsg.Header)
 	}
 
 	// fill custom protocol body
@@ -117,25 +118,24 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		uid = *reqMsg.Header.UserId
 	}
 
-	var userdetail bbproto.UserInfoDetail
+	var userDetail bbproto.UserInfoDetail
 	var isUserExists bool
 	var err error
 	if uid > 0 {
-		userdetail, isUserExists, err = usermanage.GetUserInfo(uid)
+		userDetail, isUserExists, err = usermanage.GetUserInfo(uid)
 	} else {
-		userdetail, isUserExists, err = usermanage.GetUserInfoByUuid(uuid)
+		userDetail, isUserExists, err = usermanage.GetUserInfoByUuid(uuid)
 	}
 
-	log.T("GetUserInfo(%v) ret isExists=%v userdetail: ['%v']  ",
-		uuid, isUserExists, userdetail)
-	if isUserExists {
+	log.T("GetUserInfo(%v) ret err(%v). isExists=%v userDetail: ['%v']  ",
+		uuid, err, isUserExists, userDetail)
+	if isUserExists && err != nil {
 		tNow := common.Now()
 
 		//TODO: assign Userdetail.* into rspMsg
-		rspMsg.User = userdetail.User
+		rspMsg.User = userDetail.User
 		rspMsg.User.StaminaRecover = proto.Uint32(tNow + 600) //10 minutes
 		//rspMsg.User.LoginTime = proto.Uint32(tNow)
-		log.Printf("read Userdetail ret err:%v, Userdetail: %+v", err, userdetail)
 
 		// get FriendInfo
 		{
@@ -147,7 +147,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			}
 
 			//get user's rank from user table
-			userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
+			userDetail, isUserExists, err := usermanage.GetUserInfo(uid)
 			if err != nil {
 				return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v", uid))
 			}
@@ -156,8 +156,8 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 				return Error.New(cs.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
 			}
 
-			log.T("getUser(%v) ret userdetail: %v", uid, userdetail)
-			rank := uint32(*userdetail.User.Rank)
+			log.T("getUser(%v) ret userDetail: %v", uid, userDetail)
+			rank := uint32(*userDetail.User.Rank)
 
 			friendsInfo, err := friend.GetFriendInfo(db, uid, rank, true, true)
 			log.T("GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
@@ -182,12 +182,15 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			}
 
 			//TODO: call update in goroutine
-			UpdateLoginInfo(db, &userdetail)
+			UpdateLoginInfo(db, &userDetail)
 
-			rspMsg.Login = userdetail.Login
+			rspMsg.UnitList = userDetail.UnitList
+			rspMsg.Party = userDetail.Party
+			rspMsg.Login = userDetail.Login
+			rspMsg.Quest = userDetail.Quest
 
 			//TODO: get present
-			//rspMsg.Present = userdetail.Present
+			//rspMsg.Present = userDetail.Present
 		}
 	} else { //create new user
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
@@ -203,6 +206,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		staminaNow := int32(100)
 		staminaMax := int32(100)
 		staminaRecover := uint32(tNow + 600) //10 minutes
+
 		rspMsg.User = &bbproto.UserInfo{
 			UserId:         &newUserId,
 			UserName:       &defaultName,
@@ -212,15 +216,24 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			StaminaMax:     &staminaMax,
 			StaminaRecover: &staminaRecover,
 		}
+
+		db := &data.Data{}
+		err = db.Open(cs.TABLE_UNIT)
+		defer db.Close()
+		if err != nil {
+			return Error.New(cs.READ_DB_ERROR, err)
+		}
+
 		rspMsg.ServerTime = &tNow
 		log.T("rspMsg.User=%v...", rspMsg.User)
 		//log.T("rspMsg=%+v...", rspMsg)
 
 		//TODO:save userinfo to db through goroutine
-		err = usermanage.AddNewUser(uuid, rspMsg.User)
-		//zUserData, err := proto.Marshal(&userdetail)
-		//err = db.Set(uuid, zUserData)
-		//log.Printf("db.Set(%v) save new userinfo, return %v", uuid, err)
+		userDetail, e := usermanage.AddNewUser(db, uuid, rspMsg.User)
+		if !e.IsError() && userDetail != nil {
+			rspMsg.UnitList = userDetail.UnitList
+			rspMsg.Party = userDetail.Party
+		}
 	}
 
 	return Error.OK()
