@@ -11,7 +11,7 @@ public class TSkillExtraAttack : SkillBaseInfo {
 	
 	public AttackInfo AttackValue (float attackValue, uint id) {
 		AttackInfo ai = new AttackInfo ();
-		ai.AttackValue = attackValue * DeserializeData<SkillExtraAttack> ().attackValue;
+		ai.AttackValue = attackValue * instance.attackValue;
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = 1;//attack all enemy
 		ai.UserUnitID = id;
