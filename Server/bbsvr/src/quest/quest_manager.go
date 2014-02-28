@@ -85,25 +85,6 @@ func GetQuestConfig(db *data.Data, questId uint32) (config bbproto.QuestConfig, 
 }
 
 //update tRecover, userStamina
-func RefreshStamina(tRecover *uint32, userStamina *int32, userStaminaMax int32) (e Error.Error) {
-	if tRecover == nil || userStamina == nil {
-		return Error.New(cs.INVALID_PARAMS, "invalid params")
-	}
-
-	tNow := common.Now()
-	tElapse := int32(tNow - *tRecover)
-	log.T("Old Stamina:%v tRecover:%v tElapse:%v ", userStamina, *tRecover, tElapse)
-	*userStamina += (tElapse/cs.N_STAMINA_TIME + 1)
-	log.T("Now Stamina:%v userStaminaMax:%v", *userStamina, userStaminaMax)
-
-	if *userStamina > userStaminaMax {
-		*userStamina = userStaminaMax
-	}
-
-	*tRecover = tNow + uint32(cs.N_STAMINA_TIME-tElapse%cs.N_STAMINA_TIME)
-
-	return Error.OK()
-}
 
 type TUsedValue struct {
 	Value int32

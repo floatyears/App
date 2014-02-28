@@ -3237,6 +3237,7 @@ func (m *ReqRenameNick) GetNewNickName() string {
 
 type RspRenameNick struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	NewNickName      *string      `protobuf:"bytes,2,opt,name=newNickName" json:"newNickName,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -3249,6 +3250,13 @@ func (m *RspRenameNick) GetHeader() *ProtoHeader {
 		return m.Header
 	}
 	return nil
+}
+
+func (m *RspRenameNick) GetNewNickName() string {
+	if m != nil && m.NewNickName != nil {
+		return *m.NewNickName
+	}
+	return ""
 }
 
 func init() {

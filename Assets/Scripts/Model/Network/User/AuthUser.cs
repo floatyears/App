@@ -17,15 +17,15 @@ public class AuthUser: ProtoManager {
 	public override bool MakePacket () {
 		LogHelper.Log ("AuthUser.MakePacket()...");
 
-		Proto = "auth_user";
+		Proto = Proto = Protocol.AUTH_USER;
 		reqType = typeof(ReqAuthUser);
 		rspType = typeof(RspAuthUser);
 
 		reqAuthUser = new ReqAuthUser ();
 		reqAuthUser.header = new ProtoHeader ();
-		reqAuthUser.header.apiVer = "1.0";
+		reqAuthUser.header.apiVer = Protocol.API_VERSION;
 		reqAuthUser.terminal = new TerminalInfo ();
-		reqAuthUser.terminal.uuid = "kory-abcdefg";
+		reqAuthUser.terminal.uuid = "5e654e3c-ac0d-49ed-93f4-bf51518fab26";//System.Guid.NewGuid().ToString();
 
 		ErrorMsg err = SerializeData (reqAuthUser); // save to Data for send out
 		
@@ -33,12 +33,15 @@ public class AuthUser: ProtoManager {
 	}
 
 	public override void OnResponse (bool success) {
+		LogHelper.Log("authUser response success:{0}",success);
+
 		if (!success) { return; }
 
 		rspAuthUser = InstanceObj as bbproto.RspAuthUser;
-		Debug.Log("authUser response userId:"+rspAuthUser.user.userId);
-		if (rspAuthUser == null)
-				return;
+		if ( rspAuthUser == null ) {
+			LogHelper.Log("authUser response rspAuthUser == null");
+			 return;
+		}
 
 		//TODO: update localtime with servertime
 		//localTime = rspAuthUser.serverTime
@@ -46,9 +49,13 @@ public class AuthUser: ProtoManager {
 		//save to GlobalData
 		if ( rspAuthUser.user != null ) {
 			GlobalData.userInfo = new TUserInfo (rspAuthUser.user);
+			LogHelper.Log("authUser response userId:"+rspAuthUser.user.userId);
+		}else{
+			LogHelper.Log("authUser response rspAuthUser.user == null");
 		}
 
-		if (rspAuthUser.friends != null){
+		if (rspAuthUser.friends != null) {
+			LogHelper.Log ("rsp.friends have some friends.");
 			GlobalData.friendList = new TFriendList (rspAuthUser.friends);
 		}
 		else {
@@ -57,8 +64,10 @@ public class AuthUser: ProtoManager {
 
 		if (rspAuthUser.unitList != null) {
 			foreach(UserUnit unit in rspAuthUser.unitList) {
-				GlobalData.myUnitList.Add(unit.uniqueId, new TUserUnit(unit));
-				GlobalData.userUnitInfo.Add( unit.uniqueId, new TUserUnit(unit));
+				if ( !GlobalData.myUnitList.ContainsKey(unit.uniqueId) )
+					GlobalData.myUnitList.Add(unit.uniqueId, new TUserUnit(unit));
+				if ( !GlobalData.userUnitInfo.ContainsKey(unit.uniqueId) )
+					GlobalData.userUnitInfo.Add( unit.uniqueId, new TUserUnit(unit));
 			}
 		}
 

@@ -79,5 +79,12 @@ func (t RenameNick) FillResponseMsg(reqMsg *bbproto.ReqRenameNick, rspMsg *bbpro
 
 func (t RenameNick) ProcessLogic(reqMsg *bbproto.ReqRenameNick, rspMsg *bbproto.RspRenameNick) (e Error.Error) {
 	log.T("Rename ...")
-	return usermanage.RenameUser(*reqMsg.Header.UserId, *reqMsg.NewNickName)
+	e = usermanage.RenameUser(*reqMsg.Header.UserId, *reqMsg.NewNickName)
+	if e.IsError() {
+		return e
+	}
+
+	rspMsg.NewNickName = reqMsg.NewNickName
+
+	return e
 }

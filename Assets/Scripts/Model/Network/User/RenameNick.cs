@@ -5,6 +5,7 @@ using bbproto;
 public class RenameNick: ProtoManager {
 	private bbproto.ReqRenameNick reqRenameNick;
 	private bbproto.RspRenameNick rspRenameNick;
+	private string newNickName;
 
 	public RenameNick(){
 		MsgCenter.Instance.AddListener (CommandEnum.ReqRenameNick, OnReceiveCommand);
@@ -15,16 +16,16 @@ public class RenameNick: ProtoManager {
 	}
 
 	public override bool MakePacket () {
-		LogHelper.Log ("RenameNick.MakePacket()...");
 
-		Proto = "auth_user";
+		Proto = Protocol.RENAME_NICK;
 		reqType = typeof(ReqRenameNick);
 		rspType = typeof(RspRenameNick);
 
 		reqRenameNick = new ReqRenameNick ();
 		reqRenameNick.header = new ProtoHeader ();
-		reqRenameNick.header.apiVer = "1.0";
-		reqRenameNick.newNickName = "newName";
+		reqRenameNick.header.apiVer = Protocol.API_VERSION;
+		reqRenameNick.header.userId = 103;
+		reqRenameNick.newNickName = newNickName;
 		
 
 		ErrorMsg err = SerializeData (reqRenameNick); // save to Data for send out
@@ -43,7 +44,9 @@ public class RenameNick: ProtoManager {
 	}
 
 	void OnReceiveCommand(object data) {
-		LogHelper.Log ("OnReceiveCommand authUser...");
+		this.newNickName = data as string;
+
+		LogHelper.Log ("OnReceiveCommand rename to: {1}", newNickName);
 		Send (); //send request to server
 	}
 

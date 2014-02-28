@@ -39,9 +39,19 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		StaminaRecover: &staminaRecover,
 	}
 
+	userdetail.Account = &bbproto.AccountInfo{
+		PayTotal:       proto.Int32(0),
+		PayMonth:       proto.Int32(0),
+		Money:          proto.Int32(10000),
+		StonePay:       proto.Int32(0),
+		StoneFree:      proto.Int32(3),
+		Stone:          proto.Int32(3),
+		FriendPoint:    proto.Int32(50),
+		FirstSelectNum: proto.Int32(1),
+	}
+
 	//TODO: fill other default values
-	//userdetail.Account = xx //
-	//userdetail.Quest = xx //
+	//userdetail.Quest = nil //
 
 	userdetail.Login = &bbproto.LoginInfo{}
 	userdetail.Login.LoginTotal = proto.Int32(1)
@@ -290,5 +300,25 @@ func RenameUser(uid uint32, newNickName string) (e Error.Error) {
 	}
 
 	log.T("rename success: now nickName is:%v", *userDetail.User.NickName)
+	return Error.OK()
+}
+
+func RefreshStamina(tRecover *uint32, userStamina *int32, userStaminaMax int32) (e Error.Error) {
+	if tRecover == nil || userStamina == nil {
+		return Error.New(cs.INVALID_PARAMS, "invalid params")
+	}
+
+	tNow := common.Now()
+	tElapse := int32(tNow - *tRecover)
+	log.T("Old Stamina:%v tRecover:%v tElapse:%v ", userStamina, *tRecover, tElapse)
+	*userStamina += (tElapse/cs.N_STAMINA_TIME + 1)
+	log.T("Now Stamina:%v userStaminaMax:%v", *userStamina, userStaminaMax)
+
+	if *userStamina > userStaminaMax {
+		*userStamina = userStaminaMax
+	}
+
+	*tRecover = tNow + uint32(cs.N_STAMINA_TIME-tElapse%cs.N_STAMINA_TIME)
+
 	return Error.OK()
 }

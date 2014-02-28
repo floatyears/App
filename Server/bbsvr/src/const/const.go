@@ -1,7 +1,7 @@
 package cs
 
 const (
-	DEFAULT_USER_NAME = "no name"
+	DEFAULT_USER_NAME = ""
 )
 
 //redis table name list

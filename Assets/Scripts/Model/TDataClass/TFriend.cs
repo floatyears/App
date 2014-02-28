@@ -7,7 +7,9 @@ public class TFriendInfo : ProtobufDataBase {
 	private FriendInfo	instance;
 	public TFriendInfo(FriendInfo inst) : base (inst) { 
 		instance = inst;
-		unit = new TUserUnit (instance.unit);
+		if (instance.unit != null) {
+			unit = new TUserUnit (instance.unit);
+		}
 	}
 
 	private TUserUnit		unit;
