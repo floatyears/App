@@ -135,7 +135,7 @@ public class OthersWindow : UIComponentUnity {
 	void SetUIElement(){
 		SetMusicPanel();
 		SetNickNamePanel();
-		SwicthOption( othersScroller.ScrollItem[ 0 ] );
+		SwicthOption( othersScroller.ScrollItem[ 1 ] );
 		ShowTween();
 	}
 
@@ -148,10 +148,16 @@ public class OthersWindow : UIComponentUnity {
 
 	void SetNickNamePanel(){
 		Debug.Log( "OthersWindow SetNickNamePanel() : Start");
-		nickNameInput.defaultText = UIConfig.TextNickNameInputDefault;
+//		nickNameInput.defaultText = UIConfig.TextNickNameInputDefault;
+		UIEventListener.Get( okButton.gameObject ).onClick = ClickOkButton;
 		Debug.Log( "OthersWindow SetNickNamePanel() : End");
 	}
         
+	void ClickOkButton( GameObject go ){
+		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
+		Debug.Log("OthersWindow ClickOkButton(), nickNameInput is " + nickNameInput.value);
+	}
+
 	//----------Reset UI----------
         void ResetUIElement(){
                 nickNameInput.label.text = string.Empty;
@@ -207,22 +213,6 @@ public class OthersWindow : UIComponentUnity {
 		Debug.Log( "OthersWindow RequestNameChange() : Start");
 //		MsgCenter.Instance.Invoke()
 		Debug.Log( "OthersWindow RequestNameChange() : End");
-	}
-        
-	void ReName(object data){
-		bool noName = (bool)data;
-		if( noName ){
-
-		}
-	}
-
-
-	void AddCommandListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.RspRenameNick, ReName );
-	}
-
-	void RemoveCommandListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.RspRenameNick, ReName );
 	}
 
 	void InitOtherScrollArgs() {

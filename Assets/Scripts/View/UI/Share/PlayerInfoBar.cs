@@ -34,27 +34,49 @@ public class PlayerInfoBar : UIComponentUnity {
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
 
-
 		InitUI();
 
 		ReceiveData();
 	}
 
 	public override void ShowUI () {
+
+		AddCommandListener();
 		base.ShowUI ();
-	}
+                
+        }
 
 	public override void HideUI () {
-		if( UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail )
+        	RemoveCommandListener();
+                if( UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail )
 			return;
 		base.HideUI ();
-	}
+                
+        }
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
 
-	private void InitUI() {
+	void TurnToReName(object data){
+		Debug.Log("StartScene.ReName() : Start");
+		if(GlobalData.userInfo == null ){
+			Debug.LogError("GlobalData.userInfo is null");
+			return;
+		}
+		
+		if(GlobalData.userInfo.NickName == null ) {
+			Debug.LogError("GlobalData.userInfo.NickName is null");
+			return;
+		}
+		
+		if(GlobalData.userInfo.NickName.Length == 0){
+                        UIManager.Instance.ChangeScene( SceneEnum.Others );
+                }
+                Debug.Log("StartScene.ReName() : End. NickName is " + GlobalData.userInfo.NickName);
+        }
+
+        private void InitUI() {
 		FindObject();
 		FindLabel();
 
@@ -129,7 +151,9 @@ public class PlayerInfoBar : UIComponentUnity {
 
 	void UpdateData( object data ){
 		//Debug.LogError(GlobalData.userInfo.Rank.ToString());
+		if( GlobalData.userInfo == null )	return;
 		VRankLabel.text = GlobalData.userInfo.Rank.ToString();
+		VRankHideLabel.text = GlobalData.userInfo.Rank.ToString();
 //		VUserNameLabel.text = GlobalData.userInfo.NickName;
 
 		int staminaNow = GlobalData.userInfo.StaminaNow;
@@ -142,12 +166,24 @@ public class PlayerInfoBar : UIComponentUnity {
 //		int expMax = GlobalData.
 //		expSpr.fillAmount = CountPercent();
 
+		TurnToReName(data);
 
 	}
 
-	void UpdateUserName( object data ){
-		VUserNameLabel.text = data as string;
+	void ReName( object data ){
+		bool state = (bool)data;
+		if(state){
+			VUserNameLabel.text = GlobalData.userInfo.NickName;
+		}
 	}
+
+	void AddCommandListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.RspRenameNick, ReName );
+	}
+	
+	void RemoveCommandListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.RspRenameNick, ReName );
+        }
 
 	void ReceiveData(){
 		MsgCenter.Instance.AddListener( CommandEnum.RspAuthUser, UpdateData );

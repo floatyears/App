@@ -2962,6 +2962,14 @@ namespace bbproto
       get { return _header; }
       set { _header = value; }
     }
+    private string _newNickName = "";
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"newNickName", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string newNickName
+    {
+      get { return _newNickName; }
+      set { _newNickName = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

@@ -19,7 +19,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
 
-		MsgCenter.Instance.AddListener(CommandEnum.RspAuthUser, GetData);
+//		MsgCenter.Instance.AddListener(CommandEnum.RspAuthUser, GetData);
 
 		InitUI();
 
