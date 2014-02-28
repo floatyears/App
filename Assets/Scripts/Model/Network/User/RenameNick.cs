@@ -40,7 +40,8 @@ public class RenameNick: ProtoManager {
 		//		LogHelper.Log("authUser response userId:"+rspRenameNick.header.userId);
 
 		//send response to caller
-		MsgCenter.Instance.Invoke (CommandEnum.RspRenameNick, null);
+		bool renameSuccess = (rspRenameNick.header.code == 0);
+		MsgCenter.Instance.Invoke (CommandEnum.RspRenameNick, renameSuccess);
 	}
 
 	void OnReceiveCommand(object data) {
