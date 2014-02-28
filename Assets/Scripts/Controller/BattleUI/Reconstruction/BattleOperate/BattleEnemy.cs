@@ -57,14 +57,19 @@ public class BattleEnemy : UIBaseUnity {
 
 	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
+		List<EnemyItem> temp = new List<EnemyItem> ();
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);
- 			CaculatePosition(i,go);
+
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.Init(enemy[i]);
-			monster.Add(enemy[i].GetID(),ei);
+//			CaculatePosition(i,enemy.Count,ei);
+//			Debug.LogError(" i : " + i + " EnemyID : " + enemy[i].EnemyID);
+			temp.Add(ei);
+			monster.Add(enemy[i].EnemyID,ei);
 		}
+		SortEnemyItem (temp);
 	}
 
 	void Clear() {
@@ -76,8 +81,45 @@ public class BattleEnemy : UIBaseUnity {
 		monster.Clear();
 	}
 
-	void CaculatePosition(int index,GameObject target) {
-		target.transform.localPosition = new Vector3(index * 180, 0f, 0f) ;
+	void SortEnemyItem(List<EnemyItem> temp) {
+		int count = temp.Count;
+		if (count == 0) {	return;	}
+		if (count == 1) { temp[0].transform.localPosition = Vector3.zero; }
+		int centerIndex = 0;
+		if (DGTools.IsOddNumber (count)) {
+			centerIndex = ((count + 1) >> 1) - 1;		
+			temp[centerIndex].transform.localPosition = Vector3.zero;
+			DisposeCenterLeft(centerIndex, temp);
+			DisposeCenterRight(centerIndex,temp);
+		} else {
+			centerIndex = (count >> 1) - 1;
+			int centerRightIndex = centerIndex + 1;
+			temp[centerIndex].transform.localPosition = new Vector3(0f - (temp[centerIndex].texture.width >> 2),0f,0f);
+			temp[centerRightIndex].transform.localPosition = new Vector3(0f + (temp[centerRightIndex].texture.width >> 2),0f,0f);
+			DisposeCenterLeft(centerIndex--, temp);
+			centerRightIndex++;
+			DisposeCenterRight(centerRightIndex , temp);
+		}
+
+	}
+
+	void DisposeCenterLeft(int centerIndex,List<EnemyItem> temp) {
+		int tempIndex = centerIndex - 1;
+		while(tempIndex >= 0) {
+			Vector3 localPosition = temp[tempIndex + 1].transform.localPosition;
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - (temp[tempIndex].texture.width >> 1), 0f, 0f);
+			tempIndex--;
+		}
+	}
+
+	void DisposeCenterRight (int centerIndex, List<EnemyItem> temp) {
+		int tempIndex = centerIndex;
+
+		while(tempIndex < temp.Count) {
+			Vector3 localPosition = temp[tempIndex - 1].transform.localPosition;
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + (temp[tempIndex].texture.width >> 1), 0f, 0f);
+			tempIndex++;
+		}
 	}
 }
 

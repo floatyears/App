@@ -103,7 +103,7 @@ public class AttackController {
 				int hurtValue = te.CalculateInjured(ai, b);
 				ai.InjuryValue = hurtValue;
 				tempPreHurtValue = hurtValue;
-				ai.EnemyID = te.GetID();
+				ai.EnemyID = te.EnemyID;//te.GetID();
 				AttackEnemyEnd (ai);
 			}
 		}
@@ -283,7 +283,7 @@ public class AttackController {
 		int hurtValue = te.CalculateInjured (ai, restraint);
 		ai.InjuryValue = hurtValue;
 		tempPreHurtValue = hurtValue;
-		ai.EnemyID = te.GetID();
+		ai.EnemyID = te.EnemyID;//GetID();
 		AttackEnemyEnd (ai);
 	}
 
@@ -299,7 +299,7 @@ public class AttackController {
 			int hurtValue = te.CalculateInjured (ai, b);
 			ai.InjuryValue = hurtValue;
 			tempPreHurtValue += hurtValue;
-			ai.EnemyID = te.GetID();
+			ai.EnemyID = te.EnemyID;//GetID();
 			AttackEnemyEnd (ai);
 		}
 	}
@@ -325,7 +325,7 @@ public class AttackController {
 	List<AttackInfo> antiInfo = new List<AttackInfo>();
 	void EnemyAttack () {
 		if (te.GetRound () == 0) {
-			msgCenter.Invoke (CommandEnum.EnemyAttack, te.GetID());
+			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemyID);//GetID());
 			int attackType = te.GetUnitType ();
 			int attackValue = te.GetAttack ();
 			float reduceValue = leadSkillReuduce.ReduceHurtValue(attackValue,attackType);
@@ -335,7 +335,7 @@ public class AttackController {
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 			List<AttackInfo> temp = passiveSkill.Dispose(attackType,hurtValue);
 			for (int i = 0; i < temp.Count; i++) {
-				temp[i].EnemyID = te.GetID();
+				temp[i].EnemyID = te.EnemyID;//GetID();
 				antiInfo.Add(temp[i]);
 			}
 		}
@@ -368,7 +368,7 @@ public class AttackController {
 
 		AttackInfo ai = antiInfo [0];
 		antiInfo.RemoveAt (0);
-		TEnemyInfo te = enemyInfo.Find(a=>a.GetID() == ai.EnemyID);
+		TEnemyInfo te = enemyInfo.Find(a=>a.EnemyID == ai.EnemyID);
 		if (te == default(TEnemyInfo)) {
 			return;	
 		}

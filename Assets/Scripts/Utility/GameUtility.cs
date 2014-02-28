@@ -253,6 +253,10 @@ public class DGTools {
 		arg1 = arg2;
 		arg2 = temp;
 	}
+
+	public static bool IsOddNumber(int number) {
+		return System.Convert.ToBoolean (number & 1);
+	}
 }
 
 public class GameLayer
