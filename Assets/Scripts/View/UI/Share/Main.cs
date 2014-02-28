@@ -84,7 +84,6 @@ public class Main : MonoBehaviour
 		//ProtoManager<bbproto.ReqAuthUser> authUser = new ProtoManager<bbproto.ReqAuthUser> ();
 //		string info =  GameSingleDataStore.Instance.GetSingleData ("aa");
 //		Debug.LogError (info);
-
 	}
 
 	void OnDisable () {
