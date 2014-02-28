@@ -46,6 +46,7 @@ public class EnemyItem : UIBaseUnity {
 		}
 	}
 
+	Queue<AttackInfo> attackQueue = new Queue<AttackInfo> ();
 	void Attack (object data) {
 		AttackInfo ai = data as AttackInfo;
 		if (ai == null || ai.EnemyID != enemyInfo.GetID()) {
@@ -55,10 +56,17 @@ public class EnemyItem : UIBaseUnity {
 			Destroy(prevObject);
 		}
 
-		ShowHurtInfo (ai.InjuryValue);
+		attackQueue.Enqueue (ai);
+		GameTimer.GetInstance ().AddCountDown (1f, Effect);
+
 		//ShowInjuredEffect (ai.AttackType);
-		InjuredShake ();
+
 	}
+
+	void Effect() {
+		ShowHurtInfo (attackQueue.Dequeue().InjuryValue);
+		InjuredShake ();
+		}
 
 	void ShowHurtInfo(int injuredValue) {
 		GameObject hurtLabel = NGUITools.AddChild (gameObject, hurtValueLabel.gameObject);
@@ -85,7 +93,7 @@ public class EnemyItem : UIBaseUnity {
 	}
 
 	void InjuredShake(){
-		iTween.ShakeScale(texture.gameObject, new Vector3(0.5f,0.5f,0.5f), 0.2f);
+		iTween.ShakeScale (texture.gameObject, iTween.Hash ("amount", new Vector3 (0.5f, 0.5f, 0.5f), "time", 0.2f));
 	}
 
 	void BePosion(object data) {
