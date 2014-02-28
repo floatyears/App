@@ -57,14 +57,18 @@ public class BattleEnemy : UIBaseUnity {
 
 	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
+		List<EnemyItem> temp = new List<EnemyItem> ();
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);
- 			CaculatePosition(i,go);
+
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.Init(enemy[i]);
+//			CaculatePosition(i,enemy.Count,ei);
+			temp.Add(ei);
 			monster.Add(enemy[i].GetID(),ei);
 		}
+		SortEnemyItem (temp);
 	}
 
 	void Clear() {
@@ -76,9 +80,72 @@ public class BattleEnemy : UIBaseUnity {
 		monster.Clear();
 	}
 
-	void CaculatePosition(int index,GameObject target) {
-		target.transform.localPosition = new Vector3(index * 180, 0f, 0f) ;
+	void SortEnemyItem(List<EnemyItem> temp) {
+		int count = temp.Count;
+		if (count == 0) {	return;	}
+		if (count == 1) { temp[0].transform.localPosition = Vector3.zero; }
+		int centerIndex = 0;
+		if (DGTools.IsOddNumber (count)) {
+			centerIndex = ((count + 1) >> 1) - 1;		
+//			Debug.LogError("centerIndex : " + centerIndex);
+			temp[centerIndex].transform.localPosition = Vector3.zero;
+			DisposeCenterLeft(centerIndex, temp);
+			DisposeCenterRight(centerIndex,temp);
+//			int tempIndex = centerIndex - 1;
+//			Debug.LogError("centerIndex : " + centerIndex + " count ; " + count + " tempIndex : " + tempIndex);
+//			while(tempIndex >= 0) {
+//				Vector3 localPosition = temp[tempIndex + 1].transform.localPosition;
+//				temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - (temp[tempIndex].texture.width >> 1), 0f, 0f);
+//				tempIndex--;
+//			}
+//			tempIndex = centerIndex;
+//			while(tempIndex< count) {
+//				Vector3 localPosition = temp[tempIndex - 1].transform.localPosition;
+//				temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + (temp[tempIndex].texture.width >> 1), 0f, 0f);
+//				tempIndex++;
+//			}
+		} else {
+			centerIndex = count >> 1;
+			int centerRightIndex = centerIndex + 1;
+			temp[centerIndex].transform.localPosition = new Vector3(0f - (temp[centerIndex].texture.width >> 1),0f,0f);
+			DisposeCenterLeft(centerIndex, temp);
+			DisposeCenterLeft(centerRightIndex, temp);
+		}
+
 	}
+
+	void DisposeCenterLeft(int centerIndex,List<EnemyItem> temp) {
+		int tempIndex = centerIndex - 1;
+		while(tempIndex >= 0) {
+			Vector3 localPosition = temp[tempIndex + 1].transform.localPosition;
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - (temp[tempIndex].texture.width >> 1), 0f, 0f);
+			tempIndex--;
+		}
+	}
+
+	void DisposeCenterRight (int centerIndex, List<EnemyItem> temp) {
+		int tempIndex = centerIndex;
+		while(tempIndex < temp.Count) {
+			Vector3 localPosition = temp[tempIndex - 1].transform.localPosition;
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + (temp[tempIndex].texture.width >> 1), 0f, 0f);
+			tempIndex++;
+		}
+	}
+
+//	void CaculatePosition(int index,int max ,EnemyItem tex) {
+//		if (max <= 0) {	return;	}
+//		if(max == 1) { tex.transform.localPosition = Vector3.zero; }
+//		int width = tex.texture.width;
+//		float centerIndex = 1;
+//		if (DGTools.IsOddNumber (max)) {
+//			centerIndex = (max + 1) >> 1;
+//			Debug.LogError ("centerIndex : " + centerIndex);
+//		} else {
+//			centerIndex = max >> 1 + 0.5f;
+//		}
+//
+//
+//	}
 }
 
 public class ShowEnemyUtility {

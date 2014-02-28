@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public class EnemyItem : UIBaseUnity {
 	private TEnemyInfo enemyInfo;
-	private UITexture texture;
+	[HideInInspector]
+	public UITexture texture;
 	private UITexture dropTexture;
 
 	private UILabel bloodLabel;
