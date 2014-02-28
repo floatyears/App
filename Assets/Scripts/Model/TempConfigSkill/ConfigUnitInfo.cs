@@ -15,16 +15,16 @@ public class ConfigUnitInfo {
 	
 	private const int maxCount = 6;
 	
-	UnitInfo[] ui = new UnitInfo[maxCount];
+	//UnitInfo[] ui = new UnitInfo[maxCount];
 	
 	void GenerateUnitInfo () {
-		for (int i = 1; i < maxCount; i++) {
+		for (int i = 1; i <= 29; i++) {
 			UnitInfo uiitem 	= new UnitInfo ();
 			uiitem.id 			= (uint)i;
 			uiitem.name			= "unit_" + i;
 			uiitem.type 		= (EUnitType)i;
-			uiitem.skill1 		= (i - 1) * 2;
-			uiitem.skill2 		= (i - 1) * 2 + 1;
+			uiitem.skill1 		= (i - 1) * 2 % 10;
+			uiitem.skill2 		= ((i - 1) * 2 + 1)%10;
 			uiitem.powerType = new PowerType();
 			uiitem.powerType.attackType = 2;
 			uiitem.powerType.expType = 1;

@@ -131,7 +131,7 @@ public class PlayerInfoBar : UIComponentUnity {
 
 
 	void UpdateData( object data ){
-		Debug.LogError(GlobalData.userInfo.Rank.ToString());
+		Debug.LogError("user rank:"+GlobalData.userInfo.Rank.ToString());
 		rankLabel.text = GlobalData.userInfo.Rank.ToString();
 		staminaMaxLabel.text = GlobalData.userInfo.StaminaMax.ToString();
 		staminaNowLabel.text = GlobalData.userInfo.StaminaNow.ToString();
