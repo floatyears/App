@@ -1,46 +1,54 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class UnitItem : MonoBehaviour {
 
 	public UILabel unitItemInfoLabel;
 	private showTurn turn;
-	private int addPoint;
-	private int level;
+	private string firstFadeText;
+	private string secondFadeText;
+
 	private float timer;
 	private float alternateTime;
 
 	void Start () {
-		turn = showTurn.levelTurn;
+		MsgCenter.Instance.AddListener( CommandEnum.CrossFade, CrossFade);
+		turn = showTurn.FirstTurn;
 		timer = 0;
 		alternateTime = 1f;
-		unitItemInfoLabel.text = string.Format( "Lv{0}", level );
+		unitItemInfoLabel.text = string.Format( "Lv{0}", firstFadeText );
+	}
+	
+	void CrossFade(object data){
+		List<string> fadeTextList = new List<string>();
+		firstFadeText = fadeTextList[0];
+		secondFadeText = fadeTextList[1];
 	}
 
-	void ReceiveAddMsg( int add){
-//		Debug.Log("ReceiveAddMsg");
-		addPoint = add;
-//		Debug.LogError("ReceiveAddMsg : " + add);
-	}
-
-	void ReceiveLevel( int level ){
-		this.level = level;
-	}
+//	void ReceiveAddMsg( int add){
+////		Debug.Log("ReceiveAddMsg");
+//		secondFadeText = add;
+////		Debug.LogError("ReceiveAddMsg : " + add);
+//	}
+//
+//	void ReceiveLevel( int level ){
+//		this.firstFadeText = level;
+//	}
 
 	void Update () {
 		timer += Time.deltaTime;
 		if( timer < alternateTime )	return;
 		switch( turn ){
-			case showTurn.levelTurn:
-				turn = showTurn.addPointTurn;
-				unitItemInfoLabel.text = string.Format( "Lv:{0}", level );
+			case showTurn.FirstTurn:
+				turn = showTurn.FirstTurn;
+				unitItemInfoLabel.text = string.Format( "Lv:{0}", firstFadeText );
 				unitItemInfoLabel.color = Color.white;
 				timer = 0f;
 				break;
-			case showTurn.addPointTurn:
-				if( addPoint == 0 )	return;
-				turn = showTurn.levelTurn;
-				unitItemInfoLabel.text = string.Format( "+{0}", addPoint );
+			case showTurn.SecondTurn:
+				turn = showTurn.SecondTurn;
+				unitItemInfoLabel.text = string.Format( "+{0}", secondFadeText );
 				unitItemInfoLabel.color = Color.yellow;
 				timer = 0f;
 				break;

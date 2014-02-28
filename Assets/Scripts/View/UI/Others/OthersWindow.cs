@@ -21,22 +21,27 @@ public class OthersWindow : UIComponentUnity {
 	Dictionary< string, object > otherScrollerArgsDic = new Dictionary< string, object >();
 
 	public override void Init ( UIInsConfig config, IUIOrigin origin ){
-		base.Init (config, origin);
-
+//		Debug.LogError("Init_Before");
 		FindUIElement();
 		SetOption();
+
+		base.Init (config, origin);
+//		Debug.LogError("Init_After");
 	}
 	
 	public override void ShowUI(){
+//		Debug.LogError("Show_Before");
 		base.ShowUI ();
-
+//		Debug.LogError("Show_After");
 		SetUIElement();
+
 	}
 	
 	public override void HideUI(){
+//		Debug.LogError("Hide_Before");
 		base.HideUI ();
-
-		//ResetUIElement();
+//		Debug.LogError("Hide_After");
+		ResetUIElement();
 	}
 	
 	public override void DestoryUI(){
@@ -69,8 +74,6 @@ public class OthersWindow : UIComponentUnity {
 			UIEventListener.Get( othersScroller.ScrollItem[ i ].gameObject ).onClick = ClickOption;
 
 		Debug.Log( "OthersWindow SetOption() : End");
-
-		SwicthOption( musicOption );
 	}
 
 
@@ -125,7 +128,6 @@ public class OthersWindow : UIComponentUnity {
 		okButton = FindChild< UIButton >( rootPath + "OKButton" );
 		nickNameInput = FindChild< UIInput >( rootPath + "NickNameInput" );
 		Debug.Log( "OthersWindow FindNickNamePanel() : End");
-                
         }
 
 
@@ -133,6 +135,7 @@ public class OthersWindow : UIComponentUnity {
 	void SetUIElement(){
 		SetMusicPanel();
 		SetNickNamePanel();
+		SwicthOption( othersScroller.ScrollItem[ 0 ] );
 		ShowTween();
 	}
 
@@ -206,6 +209,21 @@ public class OthersWindow : UIComponentUnity {
 		Debug.Log( "OthersWindow RequestNameChange() : End");
 	}
         
+	void ReName(object data){
+		bool noName = (bool)data;
+		if( noName ){
+
+		}
+	}
+
+
+	void AddCommandListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.RspRenameNick, ReName );
+	}
+
+	void RemoveCommandListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.RspRenameNick, ReName );
+	}
 
 	void InitOtherScrollArgs() {
 		Transform parentTrans = FindChild("OptionItems").transform;

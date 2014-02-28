@@ -7,7 +7,17 @@ public class StartScene : BaseComponent {
 	
 	public override void CreatUI () {}
 
-	public override void ShowUI () {}
+	public override void ShowUI () {
+		ReName();
+	}
+
+	void ReName(){
+		Debug.Log("StartScene.ReName() : Start");
+		if(GlobalData.userInfo.NickName.Length == 0){
+			UIManager.Instance.ChangeScene( SceneEnum.Others );
+		}
+		Debug.Log("StartScene.ReName() : End");
+	}
 	
 	public override void HideUI () {}
 

@@ -8,8 +8,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	DragPanel baseDragPanel;
 	Dictionary<GameObject, UserUnit> baseUnitInfoDic = new Dictionary<GameObject, UserUnit>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
-
+	List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 
 	void GetData(object data){
 		//GlobalData.userInfo.
@@ -42,7 +41,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 	private void InitUI(){
 		InitDragPanel();
 	}
-	
 
 	private void FocusOnPanel(object data){
 		string message = (string)data;
@@ -54,6 +52,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	void AddListener(){
+
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
 	}
 
@@ -61,7 +60,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
 	}
 	
-
 	void GetBaseUnitInfo(GameObject item, UserUnit unitInfo){
 		baseUnitInfoDic.Add(item,unitInfo);
 	}
@@ -77,10 +75,11 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 		int addAttack = baseUnitInfoDic[ item ].addAttack;
 		int addHp = baseUnitInfoDic[ item ].addHp;
-		item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
-
+//		item.gameObject.SendMessageUpwards( "RcvArg", addAttack + addHp, SendMessageOptions.RequireReceiver);
+		MsgCenter.Instance.Invoke(CommandEnum.CrossFade, addAttack + addHp );
 		int level = baseUnitInfoDic[ item ].level;
-		item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
+		MsgCenter.Instance.Invoke(CommandEnum.CrossFade, level);
+//		item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
 	}
 
 	private void AddEventListener( GameObject item){
@@ -109,7 +108,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 
         }
 
-	private void InitDragPanel(){
+	void InitDragPanel(){
 		string name = "BaseDragPanel";
 		int count = ConfigViewData.OwnedUnitInfoList.Count;
 		//Debug.Log( string.Format("Base Panel: The count to add is : " + count) );

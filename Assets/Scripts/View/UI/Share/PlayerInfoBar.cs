@@ -130,7 +130,7 @@ public class PlayerInfoBar : UIComponentUnity {
 	void UpdateData( object data ){
 		//Debug.LogError(GlobalData.userInfo.Rank.ToString());
 		VRankLabel.text = GlobalData.userInfo.Rank.ToString();
-		VUserNameLabel.text = GlobalData.userInfo.NickName;
+//		VUserNameLabel.text = GlobalData.userInfo.NickName;
 
 		int staminaNow = GlobalData.userInfo.StaminaNow;
 		int staminaMax = GlobalData.userInfo.StaminaMax;
@@ -143,6 +143,10 @@ public class PlayerInfoBar : UIComponentUnity {
 //		expSpr.fillAmount = CountPercent();
 
 
+	}
+
+	void UpdateUserName( object data ){
+		VUserNameLabel.text = data as string;
 	}
 
 	void ReceiveData(){
