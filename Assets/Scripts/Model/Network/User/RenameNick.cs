@@ -46,7 +46,7 @@ public class RenameNick: ProtoManager {
 	void OnReceiveCommand(object data) {
 		this.newNickName = data as string;
 
-		LogHelper.Log ("OnReceiveCommand rename to: {1}", newNickName);
+		LogHelper.Log ("OnReceiveCommand rename to: {0}", newNickName);
 		Send (); //send request to server
 	}
 
