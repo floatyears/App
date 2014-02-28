@@ -36,7 +36,7 @@ public class OthersWindow : UIComponentUnity {
 	public override void HideUI(){
 		base.HideUI ();
 
-		ResetUIElement();
+		//ResetUIElement();
 	}
 	
 	public override void DestoryUI(){
@@ -69,16 +69,22 @@ public class OthersWindow : UIComponentUnity {
 			UIEventListener.Get( othersScroller.ScrollItem[ i ].gameObject ).onClick = ClickOption;
 
 		Debug.Log( "OthersWindow SetOption() : End");
+
+		SwicthOption( musicOption );
 	}
 
 
 	void ClickOption( GameObject go) {
 		Debug.Log( "OthersWindow ClickOption() : Start");
 		Debug.Log( "OthersWindow ClickOption() : Click Option's name : " + go.name);
+		SwicthOption( go );
+		Debug.Log( "OthersWindow ClickOption() : Start");
+	}
+
+	void SwicthOption( GameObject target ){
 		foreach (var item in options)
 			item.Value.SetActive( false );
-		options[ go ].SetActive( true );
-		Debug.Log( "OthersWindow ClickOption() : Start");
+		options[ target ].SetActive( true );
 	}
 
 
@@ -126,6 +132,7 @@ public class OthersWindow : UIComponentUnity {
 	//----------Set UI----------
 	void SetUIElement(){
 		SetMusicPanel();
+		SetNickNamePanel();
 		ShowTween();
 	}
 
@@ -137,12 +144,14 @@ public class OthersWindow : UIComponentUnity {
         }
 
 	void SetNickNamePanel(){
-
+		Debug.Log( "OthersWindow SetNickNamePanel() : Start");
+		nickNameInput.defaultText = UIConfig.TextNickNameInputDefault;
+		Debug.Log( "OthersWindow SetNickNamePanel() : End");
 	}
         
 	//----------Reset UI----------
         void ResetUIElement(){
-                //SetUIActive( false );
+                nickNameInput.label.text = string.Empty;
         }
         
         void SetUIActive(bool active) {
@@ -183,12 +192,17 @@ public class OthersWindow : UIComponentUnity {
 
 	void ClickNameChangeButton( GameObject go ){
 		Debug.Log( "OthersWindow ClickNameChangeButton() : Start");
-		//RequestNameChange( );
+		RequestNameChange( GetInputText() );
 		Debug.Log( "OthersWindow ClickNameChangeButton() : End");
 	}
 
-	void RequestNameChange(){
+	string GetInputText(){
+		return nickNameInput.label.text;
+	}
+
+	void RequestNameChange(string name){
 		Debug.Log( "OthersWindow RequestNameChange() : Start");
+//		MsgCenter.Instance.Invoke()
 		Debug.Log( "OthersWindow RequestNameChange() : End");
 	}
         
