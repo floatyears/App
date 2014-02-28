@@ -146,4 +146,5 @@ public class PlayerInfoBar : UIComponentUnity {
 		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
 	}
 
+
 }
