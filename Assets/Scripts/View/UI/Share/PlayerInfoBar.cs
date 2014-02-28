@@ -3,39 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PlayerInfoBar : UIComponentUnity {
-	private GameObject infoBox;
-	private GameObject leftCollider;
-    
-	private GameObject rightCollider;
-	private Vector3 leftPosition;
-	private Vector3 rightPosition;
-                        
-	//Label in "InfoBox"
-	private UILabel infoBox_Label_Text_Rank;
-	private UILabel infoBox_Label_Text_NextExp;
-	private UILabel infoBox_Label_Text_TotalExp;
-	private UILabel infoBox_Label_Vaule_Rank;
-	private UILabel infoBox_Label_Vaule_NextExp;
-	private UILabel infoBox_Label_Vaule_TotalExp;
+	GameObject infoBox;
+	GameObject leftCollider;
+	GameObject rightCollider;
+ 
+	//Out 
+	UILabel TLineLabel;
+	UILabel TRankLabel;
+	UILabel VChipCountLabel;
+	UILabel VStamMaxLabel;
+	UILabel VCionCountLabel;
+	UILabel VUserNameLabel;
+	UILabel VRankLabel;
+	UILabel VStaminaNowLabel;
+	
+	//Hide
+	UILabel TRankHideLabel;
+	UILabel VRankHideLabel;
+	UILabel TNeedExpHideLabel;
+	UILabel TTotalExpHideLabel;
+	UILabel VNeedExpHideLabel;
+        UILabel VTotalExpHideLabel;
+        
+        UISprite expSprite;
+	UISprite staminaSprite;
 
-	//Label in "InfoBar"
-	private UILabel infoBar_Label_Text_Line;
-	private UILabel infoBar_Label_Text_Rank;
-	private UILabel chipLabel;
-	private UILabel staminaNowLabel;
-	private UILabel cionLabel;
-	private UILabel userNameLabel;
-	private UILabel rankLabel;
-	private UILabel staminaMaxLabel;
-
-	private UISprite curExpSpr;
-	private UISprite staminaSpr;
+	Vector3 leftPosition;
+	Vector3 rightPosition;
 
 	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
 		base.Init (config, origin);
-
-
-		
 
 
 		InitUI();
@@ -79,24 +76,24 @@ public class PlayerInfoBar : UIComponentUnity {
 		rightCollider = FindChild( "Right_Collider" );
 	}
 	private void FindLabel() {
-		infoBox_Label_Text_Rank = FindChild< UILabel >( "InfoBox/Label_Text_Rank" );
-		infoBox_Label_Text_NextExp = FindChild< UILabel >( "InfoBox/Label_Text_NextExp" );
-		infoBox_Label_Text_TotalExp = FindChild< UILabel>( "InfoBox/Label_Text_TotalExp");
-		infoBox_Label_Vaule_Rank = FindChild< UILabel>( "InfoBox/Label_Vaule_Rank");
-		infoBox_Label_Vaule_NextExp = FindChild< UILabel>( "InfoBox/Label_Vaule_NextExp");
-		infoBox_Label_Vaule_TotalExp = FindChild< UILabel>( "InfoBox/Label_Vaule_TotalExp");
+		TRankHideLabel = FindChild< UILabel >( "InfoBox/Label_Text_Rank" );
+		TNeedExpHideLabel = FindChild< UILabel >( "InfoBox/Label_Text_NextExp" );
+		TTotalExpHideLabel = FindChild< UILabel>( "InfoBox/Label_Text_TotalExp");
+		VRankHideLabel = FindChild< UILabel>( "InfoBox/Label_Vaule_Rank");
+		VNeedExpHideLabel = FindChild< UILabel>( "InfoBox/Label_Vaule_NextExp");
+		VTotalExpHideLabel = FindChild< UILabel>( "InfoBox/Label_Vaule_TotalExp");
 		
-		infoBar_Label_Text_Line = FindChild< UILabel >( "InfoBar/Label_Text_Line" );
-		infoBar_Label_Text_Rank = FindChild< UILabel >( "InfoBar/Label_Text_Rank" );
-		chipLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_ChipNum" );
-		staminaNowLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_CurStamina" );
-		cionLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_Icon" );
-		userNameLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_PlayerName" );
-		rankLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_Rank" );
-		staminaMaxLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_TotalStamina" );
+		TLineLabel = FindChild< UILabel >( "InfoBar/Label_Text_Line" );
+		TRankLabel = FindChild< UILabel >( "InfoBar/Label_Text_Rank" );
+		VChipCountLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_ChipNum" );
+		VStamMaxLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_CurStamina" );
+		VCionCountLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_Icon" );
+		VUserNameLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_PlayerName" );
+		VRankLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_Rank" );
+		VStaminaNowLabel = FindChild< UILabel >( "InfoBar/Label_Vaule_TotalStamina" );
 
-		curExpSpr = FindChild<UISprite>("InfoBar/Sprite_CurExp");
-		staminaSpr = FindChild< UISprite >("InfoBar/Sprite_Stamina");
+		expSprite = FindChild<UISprite>("InfoBar/Sprite_CurExp");
+		staminaSprite = FindChild< UISprite >("InfoBar/Sprite_Stamina");
 	}
 
 	private void ShowInfoBox( GameObject go, bool isPressed ) {
@@ -116,27 +113,35 @@ public class PlayerInfoBar : UIComponentUnity {
 	int nextRandNeedExp = 1856;
 
 	private void ShowStaminaInfo(){
-		staminaNowLabel.text =  curStamina.ToString();
-		staminaMaxLabel.text = maxStamina.ToString();
+		VStamMaxLabel.text =  curStamina.ToString();
+		VStaminaNowLabel.text = maxStamina.ToString();
 		float percent = (float)curStamina/maxStamina;
 		//Debug.LogError(percent);
-		staminaSpr.fillAmount = percent;
+		staminaSprite.fillAmount = percent;
 	}
 
 	private void ShowExpInfo(){
 		float percent = (float)curExp/nextRandNeedExp;
-		curExpSpr.fillAmount = percent;
+		expSprite.fillAmount = percent;
 		//Debug.LogError(percent);
 	}
 
 
 	void UpdateData( object data ){
-		Debug.LogError(GlobalData.userInfo.Rank.ToString());
-		rankLabel.text = GlobalData.userInfo.Rank.ToString();
-		staminaMaxLabel.text = GlobalData.userInfo.StaminaMax.ToString();
-		staminaNowLabel.text = GlobalData.userInfo.StaminaNow.ToString();
-		userNameLabel.text = GlobalData.userInfo.NickName;
-//		cionLabel.text = GlobalData.userInfo
+		//Debug.LogError(GlobalData.userInfo.Rank.ToString());
+		VRankLabel.text = GlobalData.userInfo.Rank.ToString();
+		VUserNameLabel.text = GlobalData.userInfo.NickName;
+
+		int staminaNow = GlobalData.userInfo.StaminaNow;
+		int staminaMax = GlobalData.userInfo.StaminaMax;
+		VStamMaxLabel.text = staminaNow.ToString();
+		VStaminaNowLabel.text = staminaMax.ToString();
+		staminaSprite.fillAmount = CountPercent(staminaNow, staminaMax);
+
+		int expNow = GlobalData.userInfo.Exp;
+//		int expMax = GlobalData.
+//		expSpr.fillAmount = CountPercent();
+
 
 	}
 
@@ -146,5 +151,9 @@ public class PlayerInfoBar : UIComponentUnity {
 		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
 	}
 
-
+	float  CountPercent( int cur, int max ){
+		if( cur < 0 || max <= 0 ) return 0f;
+		return (float)cur/(float)max;
+	}
+	
 }
