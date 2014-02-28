@@ -17,7 +17,7 @@ public class TEnemyInfo : ProtobufDataBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
 
-	EnemyInfo GetEnemyInfo() {
+	EnemyInfo EnemyInfo() {
 		return instance;
 	}
 
@@ -27,7 +27,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	public bool isPosion = false;
 
 	public bool IsInjured () {
-		if (GetEnemyInfo ().hp < initBlood) { return true; }
+		if (EnemyInfo ().hp < initBlood) { return true; }
 		else { return false; }
 	}
 
@@ -41,7 +41,7 @@ public class TEnemyInfo : ProtobufDataBase {
 		} 
 		else {
 			int beRestraint = DGTools.BeRestraintType(unitType);
-			if(beRestraint == (int)GetEnemyInfo().type) {
+			if(beRestraint == (int)EnemyInfo().type) {
 				injured = attackvalue * 0.5f;
 			}
 			else{
@@ -83,12 +83,12 @@ public class TEnemyInfo : ProtobufDataBase {
 
 	public void Reset() {
 		initBlood = GetInitBlood ();
-		initAttackRound = GetEnemyInfo ().nextAttack;
+		initAttackRound = EnemyInfo ().nextAttack;
 	}
 
 	public void ResetAttakAround () {
 		isDeferAttackRound = false;
-		initAttackRound = GetEnemyInfo().nextAttack;
+		initAttackRound = EnemyInfo().nextAttack;
 	}
 
 	public void Next () {
@@ -105,15 +105,23 @@ public class TEnemyInfo : ProtobufDataBase {
 	}
 
 	public int GetAttack () {
-		return GetEnemyInfo().attack;
+		return EnemyInfo().attack;
 	}
 
-	public uint GetID () {
-		return GetEnemyInfo().unitId;
+	public uint EnemyID {
+		get{
+			return EnemyInfo().enemyId;
+		}
+	}
+
+	public uint UnitID{
+		get{
+			return EnemyInfo ().unitId;
+		}
 	}
 
 	public int GetDefense () {
-		int defense = GetEnemyInfo ().defense;
+		int defense = EnemyInfo ().defense;
 		defense = defense - System.Convert.ToInt32 (defense * reduceProportion);
 		return defense;
 	}
@@ -123,7 +131,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	}
 
 	public int GetInitBlood () {
-		return GetEnemyInfo ().hp;
+		return EnemyInfo ().hp;
 	}
 
 	public int GetBlood () {
@@ -135,7 +143,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	}
 
 	public int GetUnitType () {
-		return (int)GetEnemyInfo ().type;
+		return (int)EnemyInfo ().type;
 	}
 }
 

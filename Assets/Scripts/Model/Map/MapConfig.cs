@@ -47,8 +47,8 @@ public class MapConfig : IOriginModel {
 					smd.MonsterID.Add(1);
 					smd.MonsterID.Add(2);
 					smd.MonsterID.Add(3);
-//					smd.MonsterID.Add(2);
-//					smd.MonsterID.Add(3);
+					smd.MonsterID.Add(4);
+					smd.MonsterID.Add(5);
 				//				}
 				
 				mapData[i,j] = smd;
