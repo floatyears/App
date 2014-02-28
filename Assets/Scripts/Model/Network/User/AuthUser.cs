@@ -37,14 +37,23 @@ public class AuthUser: ProtoManager {
 
 		rspAuthUser = InstanceObj as bbproto.RspAuthUser;
 		Debug.Log("authUser response userId:"+rspAuthUser.user.userId);
-
+		if (rspAuthUser == null)
+				return;
 
 		//TODO: update localtime with servertime
 		//localTime = rspAuthUser.serverTime
 
 		//save to GlobalData
-		GlobalData.userInfo = new TUserInfo (rspAuthUser.user);
-		GlobalData.friendList = new TFriendList (rspAuthUser.friends);
+		if ( rspAuthUser.user != null ) {
+			GlobalData.userInfo = new TUserInfo (rspAuthUser.user);
+		}
+
+		if (rspAuthUser.friends != null){
+			GlobalData.friendList = new TFriendList (rspAuthUser.friends);
+		}
+		else {
+			LogHelper.Log ("rsp.friends==null");
+		}
 
 		if (rspAuthUser.unitList != null) {
 			foreach(UserUnit unit in rspAuthUser.unitList) {

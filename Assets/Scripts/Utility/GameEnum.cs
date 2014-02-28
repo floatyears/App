@@ -146,8 +146,8 @@ public enum CommandEnum
 	// user - 5000
 	ReqAuthUser					= 5000,
 	RspAuthUser					= 5001,
-	ReqLoginPack				= 5002,
-	RspLoginPack				= 5003,
+	ReqRenameNick				= 5002,
+	RspRenameNick				= 5003,
 
 	// quest - 5100
 	ReqStartQuest				= 5101,
