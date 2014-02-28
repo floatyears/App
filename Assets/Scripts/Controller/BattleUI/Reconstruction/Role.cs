@@ -42,7 +42,7 @@ public class Role : UIBaseUnity
 		base.Init (name);
 		jump = GetComponent<Jump> ();
 		transform.localScale = Vector3.one;
-		transform.localRotation = Quaternion.Euler(angle);
+//		transform.localRotation = Quaternion.Euler(angle);
 	}
 
 	public override void CreatUI () {
@@ -56,9 +56,7 @@ public class Role : UIBaseUnity
 		jump.Init (initPosition);
 		jump.GameStart (pos);
 		//transform.localPosition = new Vector3(pos.x,pos.y + YOffset ,pos.z + ZOffset);
-		
 		SyncRoleCoordinate(currentCoor);
-		
 		Stop();
 	}
 

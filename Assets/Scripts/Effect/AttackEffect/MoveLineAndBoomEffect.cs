@@ -9,6 +9,8 @@ public class MoveLineAndBoomEffect : EffectBehaviorBase {
 	public override void CollectEffectExcute () {
 		IEffectExcute ee = new MoveLineEffect ();
 		effectList.Add (ee);
+		ee = new BombEffect ();
+		effectList.Add (ee);
 	}
 
 	public override void Excute (List<Vector3> position) {
@@ -16,10 +18,14 @@ public class MoveLineAndBoomEffect : EffectBehaviorBase {
 			Debug.LogError("effect position count is not match effect count : " + position.Count + "   effectList.Count : " +  effectList.Count);
 			return;
 		}
-		effectList[0].StartPosition = position[0];
-		effectList[0].EndPosition = position[1];
-		effectList[0].TargetObject = effectAssetList[0];
+		for (int i = 0; i < effectList.Count; i++) {
+			effectList[i].StartPosition = position[i * 2];
+			effectList[i].EndPosition = position[i* 2 + 1];
+			effectList[i].TargetObject = effectAssetList[i];
+		}
+	
 		effectList[0].AnimTime = 1f;
+		effectList [1].AnimTime = 0.5f;
 		effectList[0].Excute (EffectEndCallback);
 	}
 
@@ -33,9 +39,5 @@ public class MoveLineAndBoomEffect : EffectBehaviorBase {
 		}
 		ee = effectList [0];
 		ee.Excute (EffectEndCallback);
-	}
-
-	void StartBomb() {
-
 	}
 }

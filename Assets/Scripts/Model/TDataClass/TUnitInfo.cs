@@ -87,35 +87,35 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 	}
 
 		public string Race{
-		get{
-			EUnitRace race = instance.race;
-			switch ( race ){
-			case EUnitRace.HUMAN : 
-				return "Human";
-				break;
-			case EUnitRace.LEGEND : 
-				return "Legend";
-				break;
-			case EUnitRace.MONSTER : 
-				return "Monster";
-				break;
-			case EUnitRace.MYTHIC : 
-				return "Mythic";
-				break;
-			case EUnitRace.BEAST : 
-				return "Beast";
-				break;
-			case EUnitRace.UNDEAD : 
-				return "Undead"  ;
-				break;
-			case EUnitRace.SCREAMCHEESE: 
-				return "强化合成专用";
-				break;
-			default:
-				return string.Empty;
-				break;
+			get{
+				EUnitRace race = instance.race;
+				switch ( race ){
+				case EUnitRace.HUMAN : 
+					return "Human";
+					break;
+				case EUnitRace.LEGEND : 
+					return "Legend";
+					break;
+				case EUnitRace.MONSTER : 
+					return "Monster";
+					break;
+				case EUnitRace.MYTHIC : 
+					return "Mythic";
+					break;
+				case EUnitRace.BEAST : 
+					return "Beast";
+					break;
+				case EUnitRace.UNDEAD : 
+					return "Undead"  ;
+					break;
+				case EUnitRace.SCREAMCHEESE: 
+					return "强化合成专用";
+					break;
+				default:
+					return string.Empty;
+					break;
+				}
 			}
-		}
 		}
 
 

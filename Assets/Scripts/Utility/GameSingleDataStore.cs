@@ -12,7 +12,6 @@ public class GameSingleDataStore {
 			return instance;
 		}
 	}
-	public const string Encryptkey = "aaaabbbbccccdddd";
 
 	public void StoreSingleData(string key, object value) {
 		string info = value.ToString ();
@@ -31,5 +30,5 @@ public class GameSingleDataStore {
 		return info;
 	}
 
-
+	public const string XXXXXX = "XXXXX";
 }
