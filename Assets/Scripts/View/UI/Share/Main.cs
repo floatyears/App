@@ -82,7 +82,8 @@ public class Main : MonoBehaviour
 		AudioManager.Instance.PlayAudio( AudioEnum.music_home );
 		EffectManager em = EffectManager.Instance;
 		//ProtoManager<bbproto.ReqAuthUser> authUser = new ProtoManager<bbproto.ReqAuthUser> ();
-
+//		string info =  GameSingleDataStore.Instance.GetSingleData ("aa");
+//		Debug.LogError (info);
 
 	}
 
