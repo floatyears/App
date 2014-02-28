@@ -265,7 +265,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		nameLabel.text = unitInfo.Name;
 		
 		//type
-		typeLabel.text = unitInfo.GetUnitType();
+		typeLabel.text = unitInfo.UnitType;
 		
 		//cost
 		costLabel.text = unitInfo.Cost.ToString();

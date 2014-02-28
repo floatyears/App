@@ -59,7 +59,7 @@ public class PlayerInfoBar : UIComponentUnity {
 	}
 
 	void TurnToReName(object data){
-		Debug.Log("StartScene.ReName() : Start");
+		Debug.Log("PlayerInfoBar.TurnToReName() : Start");
 		if(GlobalData.userInfo == null ){
 			Debug.LogError("GlobalData.userInfo is null");
 			return;
@@ -73,7 +73,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		if(GlobalData.userInfo.NickName.Length == 0){
                         UIManager.Instance.ChangeScene( SceneEnum.Others );
                 }
-                Debug.Log("StartScene.ReName() : End. NickName is " + GlobalData.userInfo.NickName);
+		Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + GlobalData.userInfo.NickName);
         }
 
         private void InitUI() {
@@ -151,10 +151,13 @@ public class PlayerInfoBar : UIComponentUnity {
 
 	void UpdateData( object data ){
 		//Debug.LogError(GlobalData.userInfo.Rank.ToString());
-		if( GlobalData.userInfo == null )	return;
+		if( GlobalData.userInfo == null ){
+			Debug.Log("PlayerInfoBar.UpdateData() , userInfo is null , return ");
+			return;
+		}
 		VRankLabel.text = GlobalData.userInfo.Rank.ToString();
 		VRankHideLabel.text = GlobalData.userInfo.Rank.ToString();
-//		VUserNameLabel.text = GlobalData.userInfo.NickName;
+		VUserNameLabel.text = GlobalData.userInfo.NickName;
 
 		int staminaNow = GlobalData.userInfo.StaminaNow;
 		int staminaMax = GlobalData.userInfo.StaminaMax;
@@ -172,9 +175,11 @@ public class PlayerInfoBar : UIComponentUnity {
 
 	void ReName( object data ){
 		bool state = (bool)data;
+		Debug.LogError("PlayerInfoBar.ReName(), NickName : " + GlobalData.userInfo.NickName);
 		if(state){
 			VUserNameLabel.text = GlobalData.userInfo.NickName;
 		}
+		UIManager.Instance.ChangeScene( SceneEnum.Quest );
 	}
 
 	void AddCommandListener(){

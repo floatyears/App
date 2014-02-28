@@ -13,20 +13,21 @@ public class EffectManager {
 		}
 	}
 
-	private GameObject effectPanel;
+	public GameObject effectPanel;
 
 	private Dictionary<string,Type> effectCommand = new Dictionary<string, Type> ();
 	private EffectManager() {
 		effectPanel = ViewManager.Instance.BottomPanel.transform.parent.Find("EffectPanel").gameObject;
-		effectCommand.Add (EffectConstValue.NormalFire1, typeof(MoveLineAndBoomEffect));
+		effectCommand.Add (EffectConstValue.NormalFire1, typeof(NormalFireEffect));
 		AddListener ();
 	}
 
-	public void PlayAttackEffect(string command,List<Vector3> position,List<GameObject> obj) {
+	public void PlayAttackEffect(string command,List<GameObject> effect,AttackInfo ai) {
 		Type ty = effectCommand [command];
-		IEffectBehavior eb = Activator.CreateInstance (ty) as IEffectBehavior;
-		eb.EffectAssetList = obj;
-		eb.Excute (position);
+		IEffectConcrete eb = Activator.CreateInstance (ty) as IEffectConcrete;
+		eb.Play (effect, ai);
+
+
 	}
 
 	void AddListener() {
@@ -42,38 +43,32 @@ public class EffectManager {
 		if (ai == null) {
 			return;	
 		}
-		
 		List<GameObject> effect = EffectConstValue.Instance.GetEffect (ai);
 		if (effect == null || effect.Count == 0) {
 			return;	
 		}
-
-//		if (ai.AttackType == 1) {
-			GameObject go = NGUITools.AddChild(effectPanel,effect[0]);
-//			Debug.LogError("go : " + go);
-			go.transform.localScale = new Vector3(100f,100f,100f);
-			go.SetActive(false);
-			List<GameObject> tempGo = new List<GameObject>();
-			tempGo.Add(go);
-			Debug.LogError("tempGo : " + tempGo.Count);
-			List<Vector3> position = new List<Vector3>();
-			Debug.LogError("ai.UserUnitID : " + ai.UserUnitID);
-			Vector3 temp = DisposeActorPosition(BattleBackground.ActorTransform[ai.UserUnitID]);
-			position.Add(temp);
-			temp = DisposeEnemyPosition(BattleEnemy.Monster[ai.EnemyID].transform);
-			position.Add(temp);
-			PlayAttackEffect(EffectConstValue.NormalFire1,position,tempGo);
-//		}
+		PlayAttackEffect (EffectConstValue.NormalFire1, effect, ai);
 	}
 
-	Vector3 DisposeActorPosition(Transform temp) {
-		Vector3 tempPosition = temp.localPosition; //- temp.parent.localPosition;
+	public Vector3 DisposeActorPosition(Transform temp) {
+		Vector3 tempPosition = temp.localPosition; 
 		return tempPosition;
 	}
 
-	Vector3 DisposeEnemyPosition(Transform enemy) {
-//		return Vector3.zero;
+	public Vector3 DisposeEnemyPosition(Transform enemy) {
 		Vector3 tempPosition = enemy.localPosition + enemy.parent.localPosition + enemy.parent.parent.localPosition;
 		return tempPosition;
+	}
+
+	public List<GameObject> InitGameObject (List<GameObject> sourceObject) {
+		List<GameObject> temp = new List<GameObject> ();
+	
+		for (int i = 0; i < sourceObject.Count; i++) {
+			GameObject go = NGUITools.AddChild(effectPanel,sourceObject[i]);
+			go.transform.localScale = new Vector3(100f,100f,100f);
+			go.SetActive(false);
+			temp.Add(go);
+		}
+		return temp;
 	}
 }

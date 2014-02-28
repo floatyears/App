@@ -115,6 +115,10 @@ public interface IActiveSkillExcute {
 	object Excute(uint userUnitID, int atk = -1);
 }
 
+public interface IEffectConcrete {
+	void Play (List<GameObject> effect,AttackInfo ai);
+}
+
 /// <summary>
 /// effect colleciton
 /// </summary>

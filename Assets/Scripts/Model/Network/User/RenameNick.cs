@@ -37,10 +37,13 @@ public class RenameNick: ProtoManager {
 		if (!success) { return; }
 
 		rspRenameNick = InstanceObj as bbproto.RspRenameNick;
-		//		LogHelper.Log("authUser response userId:"+rspRenameNick.header.userId);
+		LogHelper.Log("rename response newNickName : "+rspRenameNick.newNickName );
 
 		//send response to caller
-		MsgCenter.Instance.Invoke (CommandEnum.RspRenameNick, null);
+		bool renameSuccess = (rspRenameNick.header.code == 0);
+		if( renameSuccess && rspRenameNick.newNickName != null)
+			GlobalData.userInfo.NickName = rspRenameNick.newNickName;
+		MsgCenter.Instance.Invoke (CommandEnum.RspRenameNick, renameSuccess);
 	}
 
 	void OnReceiveCommand(object data) {
