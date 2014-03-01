@@ -217,7 +217,7 @@ public class EnemyItem : UIBaseUnity {
 
 	IEnumerator CountBloodValue (float fillAmount) {
 		while (bloodSprite.fillAmount > fillAmount) {
-			bloodSprite.fillAmount -= Time.deltaTime;
+			bloodSprite.fillAmount -= Time.deltaTime * 5;
 			yield return 1;
 		}
 
