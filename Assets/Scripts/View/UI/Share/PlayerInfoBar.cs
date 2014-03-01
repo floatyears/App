@@ -167,8 +167,10 @@ public class PlayerInfoBar : UIComponentUnity {
 		//TODO Get current rank max exp 
 		expSprite.fillAmount = CountFillCount( curTotalExp - nextExp, curTotalExp );
 		//Cion
-		VCionCountLabel.text = GlobalData.accountInfo.Money.ToString();
-		VChipCountLabel.text = GlobalData.accountInfo.Stone.ToString();
+		if ( GlobalData.accountInfo != null ){
+			VCionCountLabel.text = GlobalData.accountInfo.Money.ToString();
+			VChipCountLabel.text = GlobalData.accountInfo.Stone.ToString();
+		}
 		//Stamina
 		int staminaNow = GlobalData.userInfo.StaminaNow;
 		int staminaMax = GlobalData.userInfo.StaminaMax;

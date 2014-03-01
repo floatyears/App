@@ -302,7 +302,6 @@ public class TUserUnit : ProtobufDataBase {
 
 //A wrapper to manage userUnitInfo list
 public class UserUnitList {
-	private UserUnitList instance;
 	private Dictionary<string, TUserUnit> userUnitInfo;
 	public UserUnitList(){ 
 		userUnitInfo = new Dictionary<string, TUserUnit>(); //key: "{userid}_{unitUniqueId}"
@@ -310,6 +309,10 @@ public class UserUnitList {
 
 	public  string MakeUserUnitKey(uint userId, uint uniqueId) {
 		return userId.ToString () + "_" + uniqueId.ToString ();
+	}
+
+	public  Dictionary<string, TUserUnit> GetAll() {
+		return userUnitInfo;
 	}
 
 	public  TUserUnit Get(uint userId, uint uniqueId) {

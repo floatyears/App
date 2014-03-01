@@ -111,17 +111,18 @@ public class LevelUpBasePanel : UIComponentUnity {
         }
 
 	void InitDragPanel(){
+		if ( GlobalData.myUnitList != null)
+			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
 
-		userUnitInfoList = GetMyUnitList();
 		string name = "BaseDragPanel";
 		//Debug.LogError("GlobalData.myUnitList.Count : " + GlobalData.myUnitList.Count );
-		if(GlobalData.myUnitList == null ){
-			Debug.LogWarning("GlobalData.myUnitList is null ");
+		if(userUnitInfoList == null ){
+			Debug.LogWarning("userUnitInfoList is null ");
 			return;
 		}
 		//Debug.Log("GlobalData.myUnitList count is " + GlobalData.myUnitList.Count);
 
-		int count = GlobalData.myUnitList.Count;
+		int count = userUnitInfoList.Count;
 		//Debug.Log( string.Format("Base Panel: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
@@ -159,20 +160,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 			AddEventListener( scrollItem );
 		}
 	}
-
-
-	List<TUserUnit> GetMyUnitList(){
-		List<TUserUnit> uuList = new List<TUserUnit>();
-		if( GlobalData.myUnitList == null ){
-			Debug.LogError( "LevelUpBasePanel.GetMyUnitList(), GlobalData.myUnitList is NULL, return!");
-			return null;  
-		}
-		uuList.AddRange( GlobalData.myUnitList.Values );
-		Debug.Log( "LevelUpBasePanel.GetMyUnitList(), Get Unit Count : " + uuList.Count );
-		return uuList;
-	}
-		
-
+	
 	private void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans",	transform);
 		dragPanelArgs.Add("scrollerScale",	Vector3.one);
