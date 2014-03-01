@@ -79,10 +79,10 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
 		int addAttack = friendUnitInfoDic[ item ].addAttack;
 		int addHp = friendUnitInfoDic[ item ].addHp;
-		item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
+		//item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
 		
 		int level = friendUnitInfoDic[ item ].level;
-		item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
+		//item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
 	}
 
 

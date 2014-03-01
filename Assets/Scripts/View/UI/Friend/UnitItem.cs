@@ -21,20 +21,14 @@ public class UnitItem : MonoBehaviour {
 	}
 	
 	void CrossFade(object data){
-		List<string> fadeTextList = new List<string>();
-		firstFadeText = fadeTextList[0];
-		secondFadeText = fadeTextList[1];
-	}
+		List<int> fadeList = data as List<int>;
 
-//	void ReceiveAddMsg( int add){
-////		Debug.Log("ReceiveAddMsg");
-//		secondFadeText = add;
-////		Debug.LogError("ReceiveAddMsg : " + add);
-//	}
-//
-//	void ReceiveLevel( int level ){
-//		this.firstFadeText = level;
-//	}
+		firstFadeText = fadeList[0].ToString();
+		Debug.Log("UnitItem CrossFade(), firstFadeText : " + firstFadeText);
+		secondFadeText = fadeList[1].ToString();
+		Debug.Log("UnitItem CrossFade(), secondFadeText : " + secondFadeText);
+
+	}
 
 	void Update () {
 		timer += Time.deltaTime;

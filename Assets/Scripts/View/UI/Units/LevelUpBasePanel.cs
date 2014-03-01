@@ -72,13 +72,16 @@ public class LevelUpBasePanel : UIComponentUnity {
                 
                 int addHp = baseUnitInfoDic[ item ].AddHP;
 		Debug.Log("LevelUpBasePanel.ShowAvatar(),  addHp is " + addHp);
-                
-		int addPoint = addAttack + addHp;
-                MsgCenter.Instance.Invoke(CommandEnum.CrossFade,  addPoint );
 
 		int level = baseUnitInfoDic[ item ].Level;
 		Debug.Log("LevelUpBasePanel.ShowAvatar(),  level is " + level );
-                MsgCenter.Instance.Invoke(CommandEnum.CrossFade, level);
+
+                int addPoint = addAttack + addHp;
+
+		List<int> crossFadeList = new List<int>();
+		crossFadeList.Add( level );
+		crossFadeList.Add( addPoint );
+		MsgCenter.Instance.Invoke(CommandEnum.CrossFade, crossFadeList );
 	}
 
 	private void AddEventListener( GameObject item){
