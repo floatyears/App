@@ -3043,8 +3043,9 @@ type RspAuthUser struct {
 	Party            *PartyInfo     `protobuf:"bytes,6,opt,name=party" json:"party,omitempty"`
 	ServerTime       *uint32        `protobuf:"varint,7,opt,name=serverTime" json:"serverTime,omitempty"`
 	Login            *LoginInfo     `protobuf:"bytes,8,opt,name=login" json:"login,omitempty"`
-	Friends          *FriendList    `protobuf:"bytes,9,opt,name=friends" json:"friends,omitempty"`
+	Friends          []*FriendInfo  `protobuf:"bytes,9,rep,name=friends" json:"friends,omitempty"`
 	Present          []*PresentInfo `protobuf:"bytes,10,rep,name=present" json:"present,omitempty"`
+	EvolveType       *EUnitType     `protobuf:"varint,11,opt,name=evolveType,enum=bbproto.EUnitType" json:"evolveType,omitempty"`
 	XXX_unrecognized []byte         `json:"-"`
 }
 
@@ -3108,7 +3109,7 @@ func (m *RspAuthUser) GetLogin() *LoginInfo {
 	return nil
 }
 
-func (m *RspAuthUser) GetFriends() *FriendList {
+func (m *RspAuthUser) GetFriends() []*FriendInfo {
 	if m != nil {
 		return m.Friends
 	}
@@ -3120,6 +3121,13 @@ func (m *RspAuthUser) GetPresent() []*PresentInfo {
 		return m.Present
 	}
 	return nil
+}
+
+func (m *RspAuthUser) GetEvolveType() EUnitType {
+	if m != nil && m.EvolveType != nil {
+		return *m.EvolveType
+	}
+	return EUnitType_UALL
 }
 
 // -------------------------------------------------
@@ -3174,7 +3182,7 @@ func (m *ReqLoginPack) GetGetPresent() bool {
 type RspLoginPack struct {
 	Header           *ProtoHeader   `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	Login            *LoginInfo     `protobuf:"bytes,2,opt,name=login" json:"login,omitempty"`
-	Friends          *FriendList    `protobuf:"bytes,3,opt,name=friends" json:"friends,omitempty"`
+	Friends          []*FriendInfo  `protobuf:"bytes,9,rep,name=friends" json:"friends,omitempty"`
 	Present          []*PresentInfo `protobuf:"bytes,4,rep,name=present" json:"present,omitempty"`
 	XXX_unrecognized []byte         `json:"-"`
 }
@@ -3197,7 +3205,7 @@ func (m *RspLoginPack) GetLogin() *LoginInfo {
 	return nil
 }
 
-func (m *RspLoginPack) GetFriends() *FriendList {
+func (m *RspLoginPack) GetFriends() []*FriendInfo {
 	if m != nil {
 		return m.Friends
 	}

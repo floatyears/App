@@ -74,14 +74,22 @@ public class AuthUser: ProtoManager {
 
 		if ( rspAuthUser.user != null ) {
 			GlobalData.userInfo = new TUserInfo (rspAuthUser.user);
+			if (rspAuthUser.evolveType != null) {
+				GlobalData.userInfo.EvolveType = rspAuthUser.evolveType;
+			}
+
 			LogHelper.Log("authUser response userId:"+rspAuthUser.user.userId);
 		}else{
 			LogHelper.Log("authUser response rspAuthUser.user == null");
 		}
 
 		if (rspAuthUser.friends != null) {
-			LogHelper.Log ("rsp.friends have some friends.");
-			GlobalData.friendList = new TFriendList (rspAuthUser.friends);
+			LogHelper.Log ("rsp.friends have {0} friends.", rspAuthUser.friends.Count);
+			GlobalData.friends = new List<TFriendInfo> ();
+			foreach ( FriendInfo fi in rspAuthUser.friends ) {
+				TFriendInfo tfi = new TFriendInfo(fi);
+				GlobalData.friends.Add( tfi );
+			}
 		}
 		else {
 			LogHelper.Log ("rsp.friends==null");
