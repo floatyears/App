@@ -2,7 +2,7 @@
 package usermanage
 
 import (
-	bbproto "../../bbproto"
+	"../../bbproto"
 	"../../common"
 	"../../common/Error"
 	"../../common/log"
@@ -77,7 +77,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	}
 	userUnit1 := &bbproto.UserUnit{
 		UniqueId:  proto.Uint32(unitId1),
-		UnitId:    proto.Uint32(101),
+		UnitId:    proto.Uint32(11),
 		Exp:       proto.Int32(1),
 		Level:     proto.Int32(1),
 		GetTime:   &tNow,
@@ -92,7 +92,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	}
 	userUnit2 := &bbproto.UserUnit{
 		UniqueId:  proto.Uint32(unitId2),
-		UnitId:    proto.Uint32(102),
+		UnitId:    proto.Uint32(12),
 		Exp:       proto.Int32(1),
 		Level:     proto.Int32(1),
 		GetTime:   &tNow,
@@ -107,7 +107,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	}
 	userUnit3 := &bbproto.UserUnit{
 		UniqueId:  proto.Uint32(unitId3),
-		UnitId:    proto.Uint32(103),
+		UnitId:    proto.Uint32(13),
 		Exp:       proto.Int32(1),
 		Level:     proto.Int32(1),
 		GetTime:   &tNow,

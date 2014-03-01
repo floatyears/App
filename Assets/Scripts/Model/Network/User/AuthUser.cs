@@ -74,6 +74,10 @@ public class AuthUser: ProtoManager {
 
 		if ( rspAuthUser.user != null ) {
 			GlobalData.userInfo = new TUserInfo (rspAuthUser.user);
+			if (rspAuthUser.evolveType != null) {
+				GlobalData.userInfo.EvolveType = rspAuthUser.evolveType;
+			}
+
 			LogHelper.Log("authUser response userId:"+rspAuthUser.user.userId);
 		}else{
 			LogHelper.Log("authUser response rspAuthUser.user == null");

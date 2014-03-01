@@ -81,6 +81,10 @@ func IsYestoday(t uint32) bool {
 	return IsToday(t + 86400)
 }
 
+func WeekDay() time.Weekday {
+	return time.Now().UTC().Weekday()
+}
+
 //return rand number between [start, end)
 func Rand(start, end int32) int32 {
 	if end-start <= 0 {

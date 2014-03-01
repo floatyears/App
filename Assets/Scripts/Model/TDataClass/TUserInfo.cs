@@ -10,6 +10,7 @@ public class TUserInfo : ProtobufDataBase {
 
 	private UserInfo	instance;
 	private TUserUnit	unit;
+	private EUnitType	evolvetype;
 
 	//////////////////////////////////////////////////////////////
 	/// 
@@ -22,5 +23,5 @@ public class TUserInfo : ProtobufDataBase {
 	public	int		StaminaMax { get { return instance.staminaMax; } }
 	public	uint	StaminaRecover { get { return instance.staminaRecover; } }
 	public	TUserUnit UserUnit { get { return unit; } }
-	
+	public	EUnitType EvolveType { get {return evolvetype;} set { evolvetype = value;} }
 }

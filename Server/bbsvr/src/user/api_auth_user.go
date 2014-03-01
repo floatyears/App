@@ -17,6 +17,7 @@ import (
 	"../common/log"
 	"../const"
 	"../data"
+	"../event"
 	"../friend"
 	"./usermanage"
 )
@@ -208,6 +209,8 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		log.T("create NewUser rspMsg: %+v", rspMsg)
 
 	}
+
+	rspMsg.EvolveType = event.GetEvolveType()
 
 	return Error.OK()
 }
