@@ -1,10 +1,13 @@
 using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using bbproto;
 
 public class AuthUser: ProtoManager {
 	private bbproto.ReqAuthUser reqAuthUser;
 	private bbproto.RspAuthUser rspAuthUser;
+	private uint userId;
 
 	public AuthUser(){
 		MsgCenter.Instance.AddListener (CommandEnum.ReqAuthUser, OnReceiveCommand);
@@ -21,12 +24,23 @@ public class AuthUser: ProtoManager {
 		reqType = typeof(ReqAuthUser);
 		rspType = typeof(RspAuthUser);
 
+		this.userId = GameDataStore.Instance.GetUInt (GameDataStore.USER_ID);
+		string uuid = GameDataStore.Instance.GetData (GameDataStore.UUID);
+		if (userId == 0 && uuid.Length == 0) {
+			uuid = System.Guid.NewGuid ().ToString ();
+			GameDataStore.Instance.StoreData (GameDataStore.UUID, uuid);
+			LogHelper.Log ("New user first run, generate uuid: " + uuid);
+		} else {
+			LogHelper.Log ("Exists userid:{0} uuid:{1} ", userId,  uuid);
+		}
+
 		reqAuthUser = new ReqAuthUser ();
 		reqAuthUser.header = new ProtoHeader ();
 		reqAuthUser.header.apiVer = Protocol.API_VERSION;
-		//reqAuthUser.header.userId = 103; //TODO: check already registered
+
 		reqAuthUser.terminal = new TerminalInfo ();
-		reqAuthUser.terminal.uuid = "5e654e3c-ac0d-49ed-93f4-bf51518fab26";//System.Guid.NewGuid().ToString();
+		reqAuthUser.header.userId = userId;
+		reqAuthUser.terminal.uuid = uuid;
 
 		ErrorMsg err = SerializeData (reqAuthUser); // save to Data for send out
 		
@@ -44,10 +58,20 @@ public class AuthUser: ProtoManager {
 			 return;
 		}
 
+		if (this.userId == 0) {
+			userId = rspAuthUser.user.userId;
+			LogHelper.Log("New user registeed, save userid:"+userId);
+			GameDataStore.Instance.StoreData (GameDataStore.USER_ID, rspAuthUser.user.userId);
+		}
+
 		//TODO: update localtime with servertime
 		//localTime = rspAuthUser.serverTime
 
 		//save to GlobalData
+		if (rspAuthUser.account != null) {
+			GlobalData.accountInfo = new TAccountInfo (rspAuthUser.account);
+		}
+
 		if ( rspAuthUser.user != null ) {
 			GlobalData.userInfo = new TUserInfo (rspAuthUser.user);
 			LogHelper.Log("authUser response userId:"+rspAuthUser.user.userId);
