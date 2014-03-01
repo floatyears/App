@@ -24,6 +24,7 @@ public class AuthUser: ProtoManager {
 		reqAuthUser = new ReqAuthUser ();
 		reqAuthUser.header = new ProtoHeader ();
 		reqAuthUser.header.apiVer = Protocol.API_VERSION;
+		//reqAuthUser.header.userId = 103; //TODO: check already registered
 		reqAuthUser.terminal = new TerminalInfo ();
 		reqAuthUser.terminal.uuid = "5e654e3c-ac0d-49ed-93f4-bf51518fab26";//System.Guid.NewGuid().ToString();
 

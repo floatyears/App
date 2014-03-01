@@ -55,9 +55,9 @@ func Rename(uid uint32, newName string) error {
 	return err
 }
 
-func rmain() {
+func main() {
 	Init()
-	Rename(101, "king")
+	Rename(103, "")
 
 	log.Fatal("bbsvr test client finish.")
 }
