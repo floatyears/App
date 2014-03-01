@@ -135,7 +135,7 @@ func findFriendData(db *data.Data, sUid string, fUid uint32, friendData *bbproto
 	return Error.OK()
 }
 
-func GetFriendsData(db *data.Data, sUid string, friendsInfo map[string]bbproto.FriendInfo) (err error) {
+func GetFriendsData(db *data.Data, sUid string, isGetOnlyFriends bool, friendsInfo map[string]bbproto.FriendInfo) (err error) {
 	if db == nil {
 		return fmt.Errorf("[ERROR] db pointer is nil.")
 	}
@@ -166,6 +166,10 @@ func GetFriendsData(db *data.Data, sUid string, friendsInfo map[string]bbproto.F
 		if err != nil {
 			log.Error(" unSerialize FriendData '%v' ret err:%v. sFridata:%v", sFid, err, sFridata)
 			return err
+		}
+
+		if isGetOnlyFriends && *friendData.FriendState != bbproto.EFriendState_ISFRIEND {
+			continue
 		}
 
 		//assign friend data fields
@@ -233,7 +237,12 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 	return
 }
 
-func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetFriend bool, isGetHelper bool) (friendsInfo map[string]bbproto.FriendInfo, err error) {
+func GetOnlyFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[string]bbproto.FriendInfo, err error) {
+	//get all friends & helper, but NOT include friendIn & friendOut
+	return GetFriendInfo(db, uid, rank, true, true, true)
+}
+
+func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool, isGetFriend bool, isGetHelper bool) (friendsInfo map[string]bbproto.FriendInfo, err error) {
 	if db == nil {
 		return friendsInfo, fmt.Errorf("[ERROR] db pointer is nil.")
 	}
@@ -243,7 +252,7 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetFriend bool, isG
 	//get friends data
 	if isGetFriend {
 		sUid := common.Utoa(uid)
-		err = GetFriendsData(db, sUid, friendsInfo)
+		err = GetFriendsData(db, sUid, isGetOnlyFriends, friendsInfo)
 		if err != nil {
 			log.Fatal(" GetFriendsData('%v') ret err:%v", sUid, err)
 			return friendsInfo, err

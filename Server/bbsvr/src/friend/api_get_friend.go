@@ -115,7 +115,7 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 	// get FriendInfo
 	if isGetFriend || isGetHelper {
 
-		friendsInfo, err := GetFriendInfo(db, uid, rank, isGetFriend, isGetHelper)
+		friendsInfo, err := GetFriendInfo(db, uid, rank, false, isGetFriend, isGetHelper)
 		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
 		if err != nil {
 			return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))

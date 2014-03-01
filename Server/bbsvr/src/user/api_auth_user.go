@@ -144,7 +144,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			return Error.New(cs.CONNECT_DB_ERROR, err)
 		}
 
-		friendsInfo, err := friend.GetFriendInfo(db, uid, rank, true, true)
+		friendsInfo, err := friend.GetOnlyFriends(db, uid, rank)
 		log.T("GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
 		if err != nil {
 			return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
