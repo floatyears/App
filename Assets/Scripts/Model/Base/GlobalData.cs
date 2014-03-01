@@ -37,7 +37,7 @@ public class GlobalData  {
 	public static Dictionary<uint, TEnemyInfo> enemyInfo = new Dictionary<uint, TEnemyInfo> ();
 	public static Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
 	public static Dictionary<uint, TrapBase> trapInfo = new Dictionary<uint, TrapBase> ();
-	
+
 	public const int maxEnergyPoint = 20;
 	public const int posStart = 1;
 	public const int posEnd = 6;
@@ -131,4 +131,3 @@ public class GlobalData  {
 public enum Effect {
 	DragCard = 8,
 }
-

@@ -18,12 +18,12 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 		this.gameObject.SetActive( false );
-		MsgCenter.Instance.AddListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+		MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, FocusOnPanel);
 	}
 
 	public override void HideUI() {
 		base.HideUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+		MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, FocusOnPanel);
 	}
 	
 
@@ -79,10 +79,10 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
 		int addAttack = friendUnitInfoDic[ item ].addAttack;
 		int addHp = friendUnitInfoDic[ item ].addHp;
-		item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
+		//item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
 		
 		int level = friendUnitInfoDic[ item ].level;
-		item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
+		//item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
 	}
 
 
@@ -102,10 +102,9 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	}
 
 	void FocusOnPanel(object data) {
-		string message = (string)data;
-//		Debug.Log("Friend Window receive : " + message);
-
-		if(message == "Tab_Friend"){
+		string msg = (string)data;
+		Debug.Log("Friend Window receive : " + msg);
+		if(msg == "Tab_Friend"){
 			this.gameObject.SetActive(true);
 		}else{
 			this.gameObject.SetActive(false);

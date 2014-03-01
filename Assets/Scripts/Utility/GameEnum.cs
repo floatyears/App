@@ -121,16 +121,16 @@ public enum CommandEnum
 
 	PlayerPosion				= 3040,
 	InjuredNotDead				= 3041,
-	MeetEnemy					= 3042,
+	MeetEnemy				= 3042,
 	MeetTrap					= 3043,
 	TrapTargetPoint				= 3044,
 	OpenDoor					= 3045,
-	RotateDown					= 3046,
+	RotateDown				= 3046,
 	MeetCoin					= 3047,
 	StateInfo					= 3048,
 
 	//Add By Ling yan	
-	LevelUpPanelFocus			= 4000,
+	PanelFocus					= 4000,
 	TransmitStageInfo			= 4001,
 	PickBaseUnitInfo				= 4002,
 	PickFriendUnitInfo			= 4003,

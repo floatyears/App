@@ -35,8 +35,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		base.Init (config, origin);
 
 		InitUI();
-
-		ReceiveData();
+		RequestData();
 	}
 
 	public override void ShowUI () {
@@ -89,8 +88,8 @@ public class PlayerInfoBar : UIComponentUnity {
 
 		infoBox.SetActive( false );
 
-		ShowStaminaInfo();
-		ShowExpInfo();
+		//ShowStaminaInfo();
+		//ShowExpInfo();
 	}
 	
 	private void FindObject() {
@@ -151,24 +150,31 @@ public class PlayerInfoBar : UIComponentUnity {
 
 
 	void UpdateData( object data ){
-		//Debug.LogError(GlobalData.userInfo.Rank.ToString());
 		if( GlobalData.userInfo == null ){
 			Debug.Log("PlayerInfoBar.UpdateData() , userInfo is null , return ");
 			return;
 		}
+		//Rank
 		VRankLabel.text = GlobalData.userInfo.Rank.ToString();
 		VRankHideLabel.text = GlobalData.userInfo.Rank.ToString();
+		//Name
 		VUserNameLabel.text = GlobalData.userInfo.NickName;
-
+		//Exp
+		int nextExp = GlobalData.userInfo.NextExp;
+		int curTotalExp = GlobalData.userInfo.CurTotalExp;
+		VNeedExpHideLabel.text = nextExp.ToString();
+		VTotalExpHideLabel.text = curTotalExp.ToString();
+		//TODO Get current rank max exp 
+		expSprite.fillAmount = CountFillCount( curTotalExp - nextExp, curTotalExp );
+		//Cion
+		VCionCountLabel.text = GlobalData.accountInfo.Money.ToString();
+		VChipCountLabel.text = GlobalData.accountInfo.Stone.ToString();
+		//Stamina
 		int staminaNow = GlobalData.userInfo.StaminaNow;
 		int staminaMax = GlobalData.userInfo.StaminaMax;
 		VStamMaxLabel.text = staminaNow.ToString();
 		VStaminaNowLabel.text = staminaMax.ToString();
-		staminaSprite.fillAmount = CountPercent(staminaNow, staminaMax);
-
-		int expNow = GlobalData.userInfo.Exp;
-//		int expMax = GlobalData.
-//		expSpr.fillAmount = CountPercent();
+		staminaSprite.fillAmount = CountFillCount(staminaNow, staminaMax);
 
 		TurnToReName(data);
 
@@ -191,13 +197,13 @@ public class PlayerInfoBar : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.RspRenameNick, ReName );
         }
 
-	void ReceiveData(){
+	void RequestData(){
 		MsgCenter.Instance.AddListener( CommandEnum.RspAuthUser, UpdateData );
 		//TODO:temp for user login
 		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
 	}
-
-	float  CountPercent( int cur, int max ){
+	
+	float  CountFillCount( int cur, int max ){
 		if( cur < 0 || max <= 0 ) return 0f;
 		return (float)cur/(float)max;
 	}
