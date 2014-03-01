@@ -151,19 +151,9 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		}
 
 		//fill rspMsg
-		rspMsg.Friends = &bbproto.FriendList{}
 		for _, friend := range friendsInfo {
 			//log.T("fid:%v friend:%v", fid, *friend.UserId)
-			pFriend := friend
-			if *friend.FriendState == bbproto.EFriendState_FRIENDHELPER {
-				rspMsg.Friends.Helper = append(rspMsg.Friends.Helper, &pFriend)
-			} else if *friend.FriendState == bbproto.EFriendState_ISFRIEND {
-				rspMsg.Friends.Friend = append(rspMsg.Friends.Friend, &pFriend)
-			} else if *friend.FriendState == bbproto.EFriendState_FRIENDIN {
-				rspMsg.Friends.FriendIn = append(rspMsg.Friends.FriendIn, &pFriend)
-			} else if *friend.FriendState == bbproto.EFriendState_FRIENDOUT {
-				rspMsg.Friends.FriendOut = append(rspMsg.Friends.FriendOut, &pFriend)
-			}
+			rspMsg.Friends = append(rspMsg.Friends, &friend)
 		}
 
 		if e = usermanage.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {

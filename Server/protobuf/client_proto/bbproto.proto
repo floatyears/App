@@ -577,7 +577,7 @@ message ReqLoginPack {
 message RspLoginPack {
 	optional ProtoHeader	header				= 1;
 	optional LoginInfo		login				= 2;
-	optional FriendList		friends				= 3;
+	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 4;
 };
 
