@@ -20,7 +20,7 @@ public class TUserInfo : ProtobufDataBase {
 	public	int		Exp { get { return instance.exp; } }
 	public	int		StaminaNow { get { return instance.staminaNow; } }
 	public	int		StaminaMax { get { return instance.staminaMax; } }
-	public	uint	StaminaRecover { get { return instance.staminaRecover; } }
+	public	uint		StaminaRecover { get { return instance.staminaRecover; } }
 	public	TUserUnit UserUnit { get { return unit; } }
 	
 }

@@ -286,6 +286,18 @@ public class TUserUnit : ProtobufDataBase {
 //			return DeserializeData<UserUnit>().uniqueId;
 		}
 	}
+
+	public int AddAttack{
+		get{
+			return instance.addAttack;
+		}
+	}
+
+	public int AddHP{
+		get{
+			return instance.addHp;
+		}
+	}
 }
 
 //public class PartyItemInfo : ProtobufDataBase {
