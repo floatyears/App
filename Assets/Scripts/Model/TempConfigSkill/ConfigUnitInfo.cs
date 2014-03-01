@@ -9,16 +9,19 @@ public class ConfigUnitInfo {
 		GenerateUserUnit ();
 		GenerateUserUnitParty ();
 	}
+	
 	private const int maxCount = 6;
+	
 	UnitInfo[] ui = new UnitInfo[maxCount];
+	
 	void GenerateUnitInfo () {
-		for (int i = 1; i < maxCount; i++) {
+		for (int i = 1; i <= 29; i++) {
 			UnitInfo uiitem 	= new UnitInfo ();
 			uiitem.id 			= (uint)i;
 			uiitem.name			= "unit_" + i;
 			uiitem.type 		= (EUnitType)i;
-			uiitem.skill1 		= (i - 1) * 2;
-			uiitem.skill2 		= (i - 1) * 2 + 1;
+			uiitem.skill1 		= (i - 1) * 2 % 10;
+			uiitem.skill2 		= ((i - 1) * 2 + 1)%10;
 			uiitem.powerType = new PowerType();
 			uiitem.powerType.attackType = 2;
 			uiitem.powerType.expType = 1;
@@ -91,7 +94,7 @@ public class ConfigUnitInfo {
 	void GenerateUserUnitParty () {
 		UnitParty up = new UnitParty ();
 		up.id = 0;
-		for (int i = 1; i <  6; i++) {
+		for (int i = 1; i <=  5; i++) {
 			PartyItem pi = new PartyItem();
 			pi.unitPos = i;
 			pi.unitUniqueId = (uint)i;

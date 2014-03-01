@@ -6,13 +6,20 @@ using bbproto;
 public class LevelUpBasePanel : UIComponentUnity {
 
 	DragPanel baseDragPanel;
-	Dictionary<GameObject, UserUnit> baseUnitInfoDic = new Dictionary<GameObject, UserUnit>();
+	Dictionary<GameObject, TUserUnit> baseUnitInfoDic = new Dictionary<GameObject, TUserUnit>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
-	
+	List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
+
+	void GetData(object data){
+//		TUserUnit uu = new TUserUnit();
+
+		//GlobalData.userInfo.
+	}
+
 	public override void Init(UIInsConfig config, IUIOrigin origin){
-		base.Init(config, origin);
 		InitUI();
+		base.Init(config, origin);
+		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
 	}
 
 	public override void ShowUI(){
@@ -24,13 +31,11 @@ public class LevelUpBasePanel : UIComponentUnity {
 	public override void HideUI(){
 		base.HideUI();
 		RemoveListener();
-
 	}
 
 	private void InitUI(){
 		InitDragPanel();
 	}
-	
 
 	private void FocusOnPanel(object data){
 		string message = (string)data;
@@ -42,6 +47,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	void AddListener(){
+
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
 	}
 
@@ -49,26 +55,32 @@ public class LevelUpBasePanel : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
 	}
 	
+//	void GetBaseUnitInfo(GameObject item, UserUnit unitInfo){
+//		baseUnitInfoDic.Add(item,unitInfo);
+//	}
 
-	void GetBaseUnitInfo(GameObject item, UserUnit unitInfo){
-		baseUnitInfoDic.Add(item,unitInfo);
-	}
-
-	private void ShowAvatar( GameObject item){
-//		Debug.LogError("Base Show Avatar: ");
+	void ShowItem( GameObject item){
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 
-		uint curUnitId = baseUnitInfoDic[item].unitId;
-//		Debug.LogError("Base Show Avatar : curUnitId is : " + curUnitId);
-		avatarTex.mainTexture = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		uint uid = baseUnitInfoDic[item].ID;
+		avatarTex.mainTexture = GlobalData.unitInfo[ uid ].GetAsset(UnitAssetType.Avatar);
 
-		int addAttack = baseUnitInfoDic[ item ].addAttack;
-		int addHp = baseUnitInfoDic[ item ].addHp;
-		item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
+		int addAttack = baseUnitInfoDic[ item ].AddAttack;
+		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  addAttack is " + addAttack);
+                
+                int addHp = baseUnitInfoDic[ item ].AddHP;
+		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  addHp is " + addHp);
 
-		int level = baseUnitInfoDic[ item ].level;
-		item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
+		int level = baseUnitInfoDic[ item ].Level;
+		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  level is " + level );
+
+                int addPoint = addAttack + addHp;
+
+		List<int> crossFadeList = new List<int>();
+		crossFadeList.Add( level );
+		crossFadeList.Add( addPoint );
+		MsgCenter.Instance.Invoke(CommandEnum.CrossFade, crossFadeList );
 	}
 
 	private void AddEventListener( GameObject item){
@@ -79,7 +91,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 	private void ClickBaseItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		UserUnit tempInfo = baseUnitInfoDic[ item ];
+		TUserUnit tempInfo = baseUnitInfoDic[ item ];
 		MsgCenter.Instance.Invoke( CommandEnum.PickBaseUnitInfo, tempInfo );
 		MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
 		ShowMask( item, true );
@@ -91,15 +103,24 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	void PressItem(GameObject item ){
-		UserUnit unitInfo = baseUnitInfoDic[ item ];
+		TUserUnit unitInfo = baseUnitInfoDic[ item ];
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
 
         }
 
-	private void InitDragPanel(){
+	void InitDragPanel(){
+
+		userUnitInfoList = GetMyUnitList();
 		string name = "BaseDragPanel";
-		int count = ConfigViewData.OwnedUnitInfoList.Count;
+		//Debug.LogError("GlobalData.myUnitList.Count : " + GlobalData.myUnitList.Count );
+		if(GlobalData.myUnitList == null ){
+			Debug.LogWarning("GlobalData.myUnitList is null ");
+			return;
+		}
+		//Debug.Log("GlobalData.myUnitList count is " + GlobalData.myUnitList.Count);
+
+		int count = GlobalData.myUnitList.Count;
 		//Debug.Log( string.Format("Base Panel: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
@@ -117,14 +138,37 @@ public class LevelUpBasePanel : UIComponentUnity {
 		return panel;
 	}
 
-	private void FillDragPanel(DragPanel panel){
-		if( panel == null )	return;
-		for( int i = 0; i < panel.ScrollItem.Count; i++){
-			GameObject currentItem = panel.ScrollItem[ i ];
-			baseUnitInfoDic.Add(currentItem, ConfigViewData.OwnedUnitInfoList[ i ]);
-			ShowAvatar( currentItem );
-			AddEventListener( currentItem );
+	//Fill Unit Item by with config data
+	void FillDragPanel(DragPanel panel){
+		if( panel == null ){
+			Debug.LogError( "LevelUpBasePanel.FillDragPanel(), DragPanel is null, return!");
+			return;
 		}
+
+		for( int i = 0; i < panel.ScrollItem.Count; i++){
+			//Get each panel item GameObject
+			GameObject scrollItem = panel.ScrollItem[ i ];
+
+			//Get target data of each panel item
+			 TUserUnit uuItem = userUnitInfoList[ i ] ;
+
+			baseUnitInfoDic.Add( scrollItem, uuItem );
+
+			ShowItem( scrollItem );
+			AddEventListener( scrollItem );
+		}
+	}
+
+
+	List<TUserUnit> GetMyUnitList(){
+		List<TUserUnit> uuList = new List<TUserUnit>();
+		if( GlobalData.myUnitList == null ){
+			Debug.LogError( "LevelUpBasePanel.GetMyUnitList(), GlobalData.myUnitList is NULL, return!");
+			return null;  
+		}
+		uuList.AddRange( GlobalData.myUnitList.Values );
+		Debug.Log( "LevelUpBasePanel.GetMyUnitList(), Get Unit Count : " + uuList.Count );
+		return uuList;
 	}
 		
 

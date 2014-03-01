@@ -13,7 +13,7 @@ public class HttpManager : INetSendPost {
 		}
 	}
 
-	public static string baseUrl = "http://192.168.0.108:8000/";
+	public static string baseUrl = "http://192.168.0.108:6666/";
 
 	private List<IWWWPost> wwwRequst = new List<IWWWPost>();
 
@@ -62,7 +62,7 @@ public class HttpManager : INetSendPost {
 			return;	
 		}
 
-		for (int i = 0; i < count; i++) {
+		for (int i = wwwRequst.Count - 1; i >= 0; i--) {
 			WWW www = wwwRequst[i].WwwInfo;
 			if(www.isDone && string.IsNullOrEmpty(www.error)) {
 				RequestDone(wwwRequst[i]);

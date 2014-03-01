@@ -7,7 +7,11 @@ public class StartScene : BaseComponent {
 	
 	public override void CreatUI () {}
 
-	public override void ShowUI () {}
+	public override void ShowUI () {
+//		MsgCenter.Instance.AddListener(CommandEnum.RspAuthUser, Login );
+	}
+
+
 	
 	public override void HideUI () {}
 

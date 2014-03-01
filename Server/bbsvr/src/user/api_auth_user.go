@@ -5,7 +5,6 @@ import (
 	//"io/ioutil"
 	"net/http"
 	//"strconv"
-	"math/rand"
 	//"time"
 	"code.google.com/p/goprotobuf/proto"
 	"reflect"
@@ -18,6 +17,7 @@ import (
 	"../common/log"
 	"../const"
 	"../data"
+	"../event"
 	"../friend"
 	"./usermanage"
 )
@@ -129,93 +129,53 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 	log.T("GetUserInfo(%v) ret err(%v). isExists=%v userDetail: ['%v']  ",
 		uuid, err, isUserExists, userDetail)
-	if isUserExists && err != nil {
-		tNow := common.Now()
+	if isUserExists && err == nil {
+		uid = *userDetail.User.UserId
+		log.T("+++exists user: %v", *userDetail.User.UserId)
 
-		//TODO: assign Userdetail.* into rspMsg
-		rspMsg.User = userDetail.User
-		rspMsg.User.StaminaRecover = proto.Uint32(tNow + 600) //10 minutes
-		//rspMsg.User.LoginTime = proto.Uint32(tNow)
+		rank := uint32(*userDetail.User.Rank)
 
 		// get FriendInfo
-		{
-			db := &data.Data{}
-			err = db.Open(cs.TABLE_FRIEND)
-			defer db.Close()
-			if err != nil || uid == 0 {
-				return
-			}
-
-			//get user's rank from user table
-			userDetail, isUserExists, err := usermanage.GetUserInfo(uid)
-			if err != nil {
-				return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v", uid))
-			}
-
-			if !isUserExists {
-				return Error.New(cs.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
-			}
-
-			log.T("getUser(%v) ret userDetail: %v", uid, userDetail)
-			rank := uint32(*userDetail.User.Rank)
-
-			friendsInfo, err := friend.GetFriendInfo(db, uid, rank, true, true)
-			log.T("GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
-			if err != nil {
-				return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
-			}
-
-			//fill rspMsg
-			rspMsg.Friends = &bbproto.FriendList{}
-			for _, friend := range friendsInfo {
-				//log.T("fid:%v friend:%v", fid, *friend.UserId)
-				pFriend := friend
-				if *friend.FriendState == bbproto.EFriendState_FRIENDHELPER {
-					rspMsg.Friends.Helper = append(rspMsg.Friends.Helper, &pFriend)
-				} else if *friend.FriendState == bbproto.EFriendState_ISFRIEND {
-					rspMsg.Friends.Friend = append(rspMsg.Friends.Friend, &pFriend)
-				} else if *friend.FriendState == bbproto.EFriendState_FRIENDIN {
-					rspMsg.Friends.FriendIn = append(rspMsg.Friends.FriendIn, &pFriend)
-				} else if *friend.FriendState == bbproto.EFriendState_FRIENDOUT {
-					rspMsg.Friends.FriendOut = append(rspMsg.Friends.FriendOut, &pFriend)
-				}
-			}
-
-			//TODO: call update in goroutine
-			UpdateLoginInfo(db, &userDetail)
-
-			rspMsg.UnitList = userDetail.UnitList
-			rspMsg.Party = userDetail.Party
-			rspMsg.Login = userDetail.Login
-			rspMsg.Quest = userDetail.Quest
-
-			//TODO: get present
-			//rspMsg.Present = userDetail.Present
+		db := &data.Data{}
+		err = db.Open(cs.TABLE_FRIEND)
+		defer db.Close()
+		if err != nil {
+			log.Error("uid:%v, open db ret err:%v", uid, err)
+			return Error.New(cs.CONNECT_DB_ERROR, err)
 		}
+
+		friendsInfo, err := friend.GetFriendInfo(db, uid, rank, true, true)
+		log.T("GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
+		if err != nil {
+			return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
+		}
+
+		//fill rspMsg
+		for _, friend := range friendsInfo {
+			//log.T("fid:%v friend:%v", fid, *friend.UserId)
+			rspMsg.Friends = append(rspMsg.Friends, &friend)
+		}
+
+		if e = usermanage.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {
+			log.Error("RefreshStamina fail")
+			return e
+		}
+
+		//TODO: call update in goroutine
+		UpdateLoginInfo(db, &userDetail)
+
+		rspMsg.Account = userDetail.Account
+		rspMsg.UnitList = userDetail.UnitList
+		rspMsg.Party = userDetail.Party
+		rspMsg.Login = userDetail.Login
+		rspMsg.Quest = userDetail.Quest
+		rspMsg.User = userDetail.User
+
+		//TODO: get present
+		//rspMsg.Present = userDetail.Present
+
 	} else { //create new user
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
-
-		newUserId, err := usermanage.GetNewUserId()
-		if err != nil {
-			return Error.New(cs.EU_GET_NEWUSERID_FAIL, err.Error())
-		}
-		defaultName := cs.DEFAULT_USER_NAME
-		tNow := common.Now()
-		rank := int32(30 + rand.Intn(10)) //int32(1)
-		exp := int32(0)
-		staminaNow := int32(100)
-		staminaMax := int32(100)
-		staminaRecover := uint32(tNow + 600) //10 minutes
-
-		rspMsg.User = &bbproto.UserInfo{
-			UserId:         &newUserId,
-			UserName:       &defaultName,
-			Rank:           &rank,
-			Exp:            &exp,
-			StaminaNow:     &staminaNow,
-			StaminaMax:     &staminaMax,
-			StaminaRecover: &staminaRecover,
-		}
 
 		db := &data.Data{}
 		err = db.Open(cs.TABLE_UNIT)
@@ -224,17 +184,23 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			return Error.New(cs.READ_DB_ERROR, err)
 		}
 
-		rspMsg.ServerTime = &tNow
-		log.T("rspMsg.User=%v...", rspMsg.User)
-		//log.T("rspMsg=%+v...", rspMsg)
+		rspMsg.ServerTime = proto.Uint32(common.Now())
 
 		//TODO:save userinfo to db through goroutine
-		userDetail, e := usermanage.AddNewUser(db, uuid, rspMsg.User)
+		userDetail, e := usermanage.AddNewUser(db, uuid)
 		if !e.IsError() && userDetail != nil {
 			rspMsg.UnitList = userDetail.UnitList
 			rspMsg.Party = userDetail.Party
+			rspMsg.User = userDetail.User
+
+			reqMsg.Header.UserId = userDetail.User.UserId
 		}
+
+		log.T("create NewUser rspMsg: %+v", rspMsg)
+
 	}
+
+	rspMsg.EvolveType = event.GetEvolveType()
 
 	return Error.OK()
 }

@@ -225,6 +225,12 @@ public class TUserUnit : ProtobufDataBase {
 		}
 	}
 
+
+	public int Exp {
+		get {
+			return instance.exp;
+		}
+	}
 	public int InitBlood {
 		get {
 	//		UserUnit uu = DeserializeData<UserUnit>();
@@ -278,6 +284,18 @@ public class TUserUnit : ProtobufDataBase {
 		get {
 			return instance.uniqueId;
 //			return DeserializeData<UserUnit>().uniqueId;
+		}
+	}
+
+	public int AddAttack{
+		get{
+			return instance.addAttack;
+		}
+	}
+
+	public int AddHP{
+		get{
+			return instance.addHp;
 		}
 	}
 }

@@ -1,51 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class UnitItem : MonoBehaviour {
 
 	public UILabel unitItemInfoLabel;
 	private showTurn turn;
-	private int addPoint;
-	private int level;
+	private string firstFadeText;
+	private string secondFadeText;
+
 	private float timer;
 	private float alternateTime;
 
 	void Start () {
-		turn = showTurn.levelTurn;
+//		firstFadeText = "97";
+//		secondFadeText = "28";
+		MsgCenter.Instance.AddListener( CommandEnum.CrossFade, CrossFade);
+		turn = showTurn.FirstTurn;
 		timer = 0;
 		alternateTime = 1f;
-		unitItemInfoLabel.text = string.Format( "Lv{0}", level );
-	}
+		unitItemInfoLabel.text = string.Format( "Lv{0}", firstFadeText );
 
-	void ReceiveAddMsg( int add){
-//		Debug.Log("ReceiveAddMsg");
-		addPoint = add;
-//		Debug.LogError("ReceiveAddMsg : " + add);
 	}
+	
+	void CrossFade(object data){
+		List<int> fadeList = data as List<int>;
 
-	void ReceiveLevel( int level ){
-		this.level = level;
+		firstFadeText = fadeList[0].ToString();
+		Debug.Log("UnitItem CrossFade(), firstFadeText : " + firstFadeText);
+		secondFadeText = fadeList[1].ToString();
+		Debug.Log("UnitItem CrossFade(), secondFadeText : " + secondFadeText);
+
 	}
 
 	void Update () {
 		timer += Time.deltaTime;
 		if( timer < alternateTime )	return;
 		switch( turn ){
-			case showTurn.levelTurn:
-				turn = showTurn.addPointTurn;
-				unitItemInfoLabel.text = string.Format( "Lv:{0}", level );
+			case showTurn.FirstTurn:
+				turn = showTurn.SecondTurn;
+				unitItemInfoLabel.text = string.Format( "Lv:{0}", firstFadeText );
 				unitItemInfoLabel.color = Color.white;
 				timer = 0f;
 				break;
-			case showTurn.addPointTurn:
-				if( addPoint == 0 )	return;
-				turn = showTurn.levelTurn;
-				unitItemInfoLabel.text = string.Format( "+{0}", addPoint );
+			case showTurn.SecondTurn:
+				turn = showTurn.FirstTurn;
+				unitItemInfoLabel.text = string.Format( "+{0}", secondFadeText );
 				unitItemInfoLabel.color = Color.yellow;
 				timer = 0f;
 				break;
 			default:
 				break;
 		}
+	}
+
+	IEnumerator CrossFade(string str1, string str2, float dt, UILabel label) {
+		yield return new WaitForSeconds(dt);
 	}
 }

@@ -21,34 +21,34 @@ public class ConfigFriendList {
 
 		temp = new FriendInfo();
 		temp.unit = new UserUnit();
-		temp.userName = "Tony";
+		temp.nickName = "Tony";
 		temp.friendPoint = 10;
 		temp.unit.unitId = 3;
 		ownedFriendList.Add( temp );
 
 		temp = new FriendInfo();
 		temp.unit = new UserUnit();
-		temp.userName = "Kory";
+		temp.nickName = "Kory";
 		temp.friendPoint = 10;
 		temp.unit.unitId = 4;
 		ownedFriendList.Add( temp );
 
 		temp = new FriendInfo();
 		temp.unit = new UserUnit();
-		temp.userName = "Orca";
+		temp.nickName = "Orca";
 		temp.unit.unitId = 16;
 		ownedFriendList.Add( temp );
 
 		temp = new FriendInfo();
 		temp.unit = new UserUnit();
-		temp.userName = "Neon";
+		temp.nickName = "Neon";
 		temp.friendPoint = 5;
 		temp.unit.unitId = 7;
 		helperFriendList.Add( temp );
 
 		temp = new FriendInfo();
 		temp.unit = new UserUnit();
-		temp.userName = "Massi";
+		temp.nickName = "Massi";
 		temp.friendPoint = 5;
 		temp.unit.unitId = 15;
 		helperFriendList.Add( temp );

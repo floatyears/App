@@ -19,7 +19,7 @@ message FriendData {
 
 message FriendInfo {
 	optional uint32			userId				= 1;
-	optional string 		userName			= 2;
+	optional string 		nickName			= 2;
 	optional int32			rank				= 3;
 	optional uint32			lastPlayTime		= 4;
 	optional EFriendState	friendState			= 5; // 

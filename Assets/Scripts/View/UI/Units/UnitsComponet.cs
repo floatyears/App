@@ -11,18 +11,18 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 
 	public override void CreatUI () {
 		base.CreatUI ();
-		//Debug.Log( "Units Scene: CreateUI");
+//		Debug.Log( "Units Scene: CreateUI");
 	}
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		//Debug.Log( "Units Scene: ShowUI");
+//		Debug.Log( "Units Scene: ShowUI");
 
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-		//Debug.Log( "Units Scene: HideUI");
+//		Debug.Log( "Units Scene: HideUI");
 	}
 	
 	public override void DestoryUI () {
@@ -51,6 +51,7 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 			return;	
 		}
 		IUIParty partyInterface = viewComponent as IUIParty;
+
 		if( partyInterface == null ) {
 			return;
 		}
@@ -66,8 +67,8 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 				if( !userUnit.ContainsKey( item.Key )) {
 					userUnit.Add( item.Key, userUnitInfo );
 				}
-				UnitBaseInfo unitBaseInfo = GlobalData.unitBaseInfo[ userUnitInfo.unitBaseInfo ];
-				avatarInfoDic.Add( item.Key, unitBaseInfo );
+//				UnitBaseInfo unitBaseInfo = GlobalData.unitBaseInfo[ userUnitInfo.unitBaseInfo ];
+//				avatarInfoDic.Add( item.Key, unitBaseInfo );
 			}
 
 			int totalHP = unitPartyInfo.GetBlood() ;

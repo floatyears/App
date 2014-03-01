@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class UIConfig
 {
+	public static string TextNickNameInputDefault = "change name here";
 	public static float uisliderSpeed = 0.2f;//per second
 	public static string emptyLabelTextFormat = "---";
 	public static string stageDragPanelItemPath = "Stage/StageDragPanelItem";

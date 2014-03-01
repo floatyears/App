@@ -51,7 +51,7 @@ message FriendData {
 
 message FriendInfo {
 	optional uint32			userId				= 1;
-	optional string 		userName			= 2;
+	optional string 		nickName			= 2;
 	optional int32			rank				= 3;
 	optional uint32			lastPlayTime		= 4;
 	optional EFriendState	friendState			= 5; // 
@@ -450,7 +450,7 @@ message RspGetUserUnit {
 message UserInfo {
 	optional string		uuid				= 1;
 	optional uint32		userId				= 2;
-	optional string		userName			= 3;
+	optional string		nickName			= 3;
 	optional int32		rank				= 4;
 	optional int32		exp					= 5;
 	optional int32		staminaNow			= 6;
@@ -560,24 +560,35 @@ message RspAuthUser {
 	optional PartyInfo		party				= 6;
 	optional uint32			serverTime			= 7;
 	optional LoginInfo		login				= 8;
-	optional FriendList		friends				= 9;
-	repeated PresentInfo	present				= 10;	
+	repeated FriendInfo		friends				= 9;
+	repeated PresentInfo	present				= 10;
+	optional EUnitType		evolveType			= 11;
 };
 
 //-------------------------------------------------
 message ReqLoginPack {
 	optional ProtoHeader	header				= 1;
-	optional bool			getLogin			= 3;
-	optional bool			getFriend			= 4;
-	optional bool			getHelper			= 5;
-	optional bool			getPresent			= 6;
+	optional bool			getLogin			= 2;
+	optional bool			getFriend			= 3;
+	optional bool			getHelper			= 4;
+	optional bool			getPresent			= 5;
 };
 
 message RspLoginPack {
 	optional ProtoHeader	header				= 1;
 	optional LoginInfo		login				= 2;
-	optional FriendList		friends				= 3;
+	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 4;
 };
 
 //-------------------------------------------------
+
+message ReqRenameNick {
+	optional ProtoHeader	header				= 1;
+	optional string			newNickName			= 2;
+};
+
+message RspRenameNick {
+	optional ProtoHeader	header				= 1;
+	optional string			newNickName			= 2;
+};

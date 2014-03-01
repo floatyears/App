@@ -2,7 +2,7 @@
 package usermanage
 
 import (
-	bbproto "../../bbproto"
+	"../../bbproto"
 	"../../common"
 	"../../common/Error"
 	"../../common/log"
@@ -13,22 +13,46 @@ import (
 	_ "fmt"
 )
 
-func AddNewUser(db *data.Data, uuid string, userInfo *bbproto.UserInfo) (userdetail *bbproto.UserInfoDetail, e Error.Error) {
-
-	if userInfo == nil || userInfo.UserId == nil || *userInfo.UserId <= 0 {
-		return nil, Error.New(cs.INVALID_PARAMS)
-	}
+func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail, e Error.Error) {
 
 	userdetail = &bbproto.UserInfoDetail{}
-	userdetail.User = userInfo
+
+	newUserId, err := GetNewUserId()
+	if err != nil {
+		return nil, Error.New(cs.EU_GET_NEWUSERID_FAIL, err)
+	}
+	defaultName := cs.DEFAULT_USER_NAME
+	tNow := common.Now()
+	rank := int32(30 + common.Randn(10)) //int32(1)
+	exp := int32(0)
+	staminaNow := int32(100)
+	staminaMax := int32(100)
+	staminaRecover := uint32(tNow + 600) //10 minutes
+
+	userdetail.User = &bbproto.UserInfo{
+		UserId:         &newUserId,
+		NickName:       &defaultName,
+		Rank:           &rank,
+		Exp:            &exp,
+		StaminaNow:     &staminaNow,
+		StaminaMax:     &staminaMax,
+		StaminaRecover: &staminaRecover,
+	}
+
+	userdetail.Account = &bbproto.AccountInfo{
+		PayTotal:       proto.Int32(0),
+		PayMonth:       proto.Int32(0),
+		Money:          proto.Int32(10000),
+		StonePay:       proto.Int32(0),
+		StoneFree:      proto.Int32(3),
+		Stone:          proto.Int32(3),
+		FriendPoint:    proto.Int32(50),
+		FirstSelectNum: proto.Int32(1),
+	}
 
 	//TODO: fill other default values
-	//userdetail.CurrentUnitParty = 0
-	//userdetail.Account = xx //
-	//userdetail.UnitPartyList = xx //
-	//userdetail.Quest = xx //
+	//userdetail.Quest = nil //
 
-	tNow := common.Now()
 	userdetail.Login = &bbproto.LoginInfo{}
 	userdetail.Login.LoginTotal = proto.Int32(1)
 	userdetail.Login.LoginChain = proto.Int32(0)
@@ -52,11 +76,13 @@ func AddNewUser(db *data.Data, uuid string, userInfo *bbproto.UserInfo) (userdet
 		return nil, e
 	}
 	userUnit1 := &bbproto.UserUnit{
-		UniqueId: proto.Uint32(unitId1),
-		UnitId:   proto.Uint32(101),
-		Exp:      proto.Int32(1),
-		Level:    proto.Int32(1),
-		GetTime:  &tNow,
+		UniqueId:  proto.Uint32(unitId1),
+		UnitId:    proto.Uint32(11),
+		Exp:       proto.Int32(1),
+		Level:     proto.Int32(1),
+		GetTime:   &tNow,
+		AddAttack: proto.Int32(3),
+		AddHp:     proto.Int32(2),
 	}
 	userdetail.UnitList = append(userdetail.UnitList, userUnit1)
 
@@ -65,11 +91,13 @@ func AddNewUser(db *data.Data, uuid string, userInfo *bbproto.UserInfo) (userdet
 		return nil, e
 	}
 	userUnit2 := &bbproto.UserUnit{
-		UniqueId: proto.Uint32(unitId2),
-		UnitId:   proto.Uint32(102),
-		Exp:      proto.Int32(1),
-		Level:    proto.Int32(1),
-		GetTime:  &tNow,
+		UniqueId:  proto.Uint32(unitId2),
+		UnitId:    proto.Uint32(12),
+		Exp:       proto.Int32(1),
+		Level:     proto.Int32(1),
+		GetTime:   &tNow,
+		AddAttack: proto.Int32(98),
+		AddHp:     proto.Int32(8),
 	}
 	userdetail.UnitList = append(userdetail.UnitList, userUnit2)
 
@@ -78,13 +106,17 @@ func AddNewUser(db *data.Data, uuid string, userInfo *bbproto.UserInfo) (userdet
 		return nil, e
 	}
 	userUnit3 := &bbproto.UserUnit{
-		UniqueId: proto.Uint32(unitId3),
-		UnitId:   proto.Uint32(103),
-		Exp:      proto.Int32(1),
-		Level:    proto.Int32(1),
-		GetTime:  &tNow,
+		UniqueId:  proto.Uint32(unitId3),
+		UnitId:    proto.Uint32(13),
+		Exp:       proto.Int32(1),
+		Level:     proto.Int32(1),
+		GetTime:   &tNow,
+		AddAttack: proto.Int32(99),
+		AddHp:     proto.Int32(99),
 	}
 	userdetail.UnitList = append(userdetail.UnitList, userUnit3)
+
+	userdetail.User.Unit = userUnit1
 
 	//make default party[0]
 	unitParty := &bbproto.UnitParty{}
@@ -114,15 +146,15 @@ func AddNewUser(db *data.Data, uuid string, userInfo *bbproto.UserInfo) (userdet
 	}
 
 	zUserData, err := proto.Marshal(userdetail)
-	err = db.Set(common.Utoa(*userInfo.UserId), zUserData)
-	log.T("db.Set(%v) save new userinfo, return err(%v)", *userInfo.UserId, err)
+	err = db.Set(common.Utoa(*userdetail.User.UserId), zUserData)
+	log.T("db.Set(%v) save new userinfo, return err(%v)", *userdetail.User.UserId, err)
 	if err != nil {
 		log.Error("set db(userinfo) ret error:%v", err)
 		return nil, Error.New(cs.SET_DB_ERROR, err)
 	}
 
 	//save uuid -> uid
-	err = db.Set(cs.X_UUID+uuid, []byte(common.Utoa(*userInfo.UserId)))
+	err = db.Set(cs.X_UUID+uuid, []byte(common.Utoa(*userdetail.User.UserId)))
 	if err != nil {
 		log.Error("set db(uuid -> userId) ret error:%v", err)
 		return nil, Error.New(cs.SET_DB_ERROR, err)
@@ -229,4 +261,70 @@ func GetNewUserId() (userid uint32, err error) {
 	err = db.SetUInt(cs.KEY_MAX_USER_ID, userid)
 
 	return userid, err
+}
+
+func RenameUser(uid uint32, newNickName string) (e Error.Error) {
+	db := &data.Data{}
+	err := db.Open(cs.TABLE_USER)
+	defer db.Close()
+	if err != nil {
+		log.Error("[ERROR] CONNECT_DB_ERROR err:%v", err)
+		return Error.New(cs.CONNECT_DB_ERROR, err)
+	}
+
+	var value []byte
+	value, err = db.Gets(common.Utoa(uid))
+	if err != nil {
+		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		return Error.New(cs.READ_DB_ERROR, err)
+	}
+
+	if len(value) == 0 {
+		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret value is empty.", uid)
+		return Error.New(cs.EU_USER_NOT_EXISTS, err)
+	}
+
+	userDetail := &bbproto.UserInfoDetail{}
+	err = proto.Unmarshal(value, userDetail)
+	if err != nil {
+		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		return Error.New(cs.UNMARSHAL_ERROR)
+	}
+
+	//modify username
+	userDetail.User.NickName = &newNickName
+
+	//save data
+	zUserData, err := proto.Marshal(userDetail)
+	if err != nil {
+		return Error.New(cs.MARSHAL_ERROR, err)
+	}
+
+	if err = db.Set(common.Utoa(*userDetail.User.UserId), zUserData); err != nil {
+		log.Error("SET_DB_ERROR for userDetail: %v", *userDetail.User.UserId)
+		return Error.New(cs.SET_DB_ERROR, err)
+	}
+
+	log.T("rename success: now nickName is:%v", *userDetail.User.NickName)
+	return Error.OK()
+}
+
+func RefreshStamina(tRecover *uint32, userStamina *int32, userStaminaMax int32) (e Error.Error) {
+	if tRecover == nil || userStamina == nil {
+		return Error.New(cs.INVALID_PARAMS, "invalid params")
+	}
+
+	tNow := common.Now()
+	tElapse := int32(tNow - *tRecover)
+	log.T("Old Stamina:%v tRecover:%v tElapse:%v ", userStamina, *tRecover, tElapse)
+	*userStamina += (tElapse/cs.N_STAMINA_TIME + 1)
+	log.T("Now Stamina:%v userStaminaMax:%v", *userStamina, userStaminaMax)
+
+	if *userStamina > userStaminaMax {
+		*userStamina = userStaminaMax
+	}
+
+	*tRecover = tNow + uint32(cs.N_STAMINA_TIME-tElapse%cs.N_STAMINA_TIME)
+
+	return Error.OK()
 }

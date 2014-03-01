@@ -16,6 +16,7 @@ const (
 	_PROTO_START_QUEST    = "/start_quest"
 	_PROTO_CLEAR_QUEST    = "/clear_quest"
 	_PROTO_GET_QUEST_INFO = "/get_quest_info"
+	_PROTO_RENAME_NICK    = "/rename_nick"
 
 	//friend
 	_PROTO_GET_FRIEND    = "/get_friend"
@@ -25,7 +26,9 @@ const (
 	_PROTO_FIND_FRIEND   = "/find_friend"
 )
 
-const WEB_SERVER_ADDR = "http://127.0.0.1:8000"
+const WEB_SERVER_ADDR = "http://127.0.0.1:6666"
+
+//const WEB_SERVER_ADDR = "http://107.170.243.127:6666"
 
 func Init() {
 	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)

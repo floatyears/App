@@ -51,10 +51,10 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 
 		int addAttack = materialUnitInfoDic[ item ].addAttack;
 		int addHp = materialUnitInfoDic[ item ].addHp;
-		item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
+		//item.gameObject.SendMessageUpwards( "ReceiveAddMsg", addAttack + addHp, SendMessageOptions.RequireReceiver);
 		
 		int level = materialUnitInfoDic[ item ].level;
-		item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
+		//item.gameObject.SendMessageUpwards("ReceiveLevel",level,SendMessageOptions.RequireReceiver);
 	}
 
 	private void AddEventListener( GameObject item){
