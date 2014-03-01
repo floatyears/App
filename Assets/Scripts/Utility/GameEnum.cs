@@ -171,6 +171,7 @@ public enum MapItemEnum {
 	Coin					= 3,
 	key						= 4,
 	Start					= 5,
+	Exclamation 			= 6,
 }
 
 public enum UIParentEnum : byte {

@@ -47,6 +47,7 @@ public class VictoryEffect : UIBaseUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		gameObject.SetActive (true);
+		Debug.LogError ("CommandEnum.StopInput");
 		MsgCenter.Instance.Invoke (CommandEnum.StopInput, null);
 	}
 
@@ -57,11 +58,12 @@ public class VictoryEffect : UIBaseUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		Debug.LogError ("DestoryUI");
+//		Debug.LogError ("DestoryUI");
 		Destroy (gameObject);
 	}
 
 	void FindComponent () {
+		MsgCenter.Instance.Invoke (CommandEnum.StopInput, null);
 //		localScale = transform.localScale;
 		levelProgress = FindChild<UISprite> ("LvProgress");
 		coinLabel = FindChild<UILabel>("CoinValue");
