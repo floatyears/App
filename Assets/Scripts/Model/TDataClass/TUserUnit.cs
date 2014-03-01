@@ -296,14 +296,6 @@ public class UserUnitList {
 		userUnitInfo = new Dictionary<string, TUserUnit>(); //key: "{userid}_{unitUniqueId}"
 	}
 
-	public static UserUnitList Instance {
-		get {
-			if(instance == null)
-				instance = new UserUnitList();
-			return instance;
-		}
-	}
-
 	public  string MakeUserUnitKey(uint userId, uint uniqueId) {
 		return userId.ToString () + "_" + uniqueId.ToString ();
 	}

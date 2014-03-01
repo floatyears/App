@@ -3,10 +3,10 @@ using System.Collections;
 using bbproto;
 
 public class StartQuestParam {
-	public int stageId;
-	public int questId;
-	public int helperUserId;
-	public int helperUniqueId;
+	public uint stageId;
+	public uint questId;
+	public uint helperUserId;
+	public uint helperUniqueId;
 	public int currPartyId;
 }
 
@@ -41,7 +41,7 @@ public class StartQuest: ProtoManager {
 		reqStartQuest.helperUserId = questParam.helperUserId;
 		reqStartQuest.currentParty = questParam.currPartyId;
 
-		TUserUnit userunit = GlobalData.userUnitList.GetMyUnit (reqStartQuest.helperUserId, questParam.helperUniqueId);
+		TUserUnit userunit = GlobalData.userUnitList.GetMyUnit (questParam.helperUniqueId);
 		if ( userunit != null )
 			reqStartQuest.helperUnit = userunit.Object;
 
