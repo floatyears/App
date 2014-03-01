@@ -13,11 +13,14 @@ public class UnitItem : MonoBehaviour {
 	private float alternateTime;
 
 	void Start () {
+//		firstFadeText = "97";
+//		secondFadeText = "28";
 		MsgCenter.Instance.AddListener( CommandEnum.CrossFade, CrossFade);
 		turn = showTurn.FirstTurn;
 		timer = 0;
 		alternateTime = 1f;
 		unitItemInfoLabel.text = string.Format( "Lv{0}", firstFadeText );
+
 	}
 	
 	void CrossFade(object data){
@@ -35,13 +38,13 @@ public class UnitItem : MonoBehaviour {
 		if( timer < alternateTime )	return;
 		switch( turn ){
 			case showTurn.FirstTurn:
-				turn = showTurn.FirstTurn;
+				turn = showTurn.SecondTurn;
 				unitItemInfoLabel.text = string.Format( "Lv:{0}", firstFadeText );
 				unitItemInfoLabel.color = Color.white;
 				timer = 0f;
 				break;
 			case showTurn.SecondTurn:
-				turn = showTurn.SecondTurn;
+				turn = showTurn.FirstTurn;
 				unitItemInfoLabel.text = string.Format( "+{0}", secondFadeText );
 				unitItemInfoLabel.color = Color.yellow;
 				timer = 0f;

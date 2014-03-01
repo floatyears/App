@@ -64,17 +64,16 @@ public class LevelUpBasePanel : UIComponentUnity {
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 
 		uint uid = baseUnitInfoDic[item].ID;
-		Debug.Log("Base Show Avatar : curUnitId is : " + uid);
 		avatarTex.mainTexture = GlobalData.unitInfo[ uid ].GetAsset(UnitAssetType.Avatar);
 
 		int addAttack = baseUnitInfoDic[ item ].AddAttack;
-		Debug.Log("LevelUpBasePanel.ShowAvatar(),  addAttack is " + addAttack);
+		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  addAttack is " + addAttack);
                 
                 int addHp = baseUnitInfoDic[ item ].AddHP;
-		Debug.Log("LevelUpBasePanel.ShowAvatar(),  addHp is " + addHp);
+		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  addHp is " + addHp);
 
 		int level = baseUnitInfoDic[ item ].Level;
-		Debug.Log("LevelUpBasePanel.ShowAvatar(),  level is " + level );
+		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  level is " + level );
 
                 int addPoint = addAttack + addHp;
 
@@ -114,15 +113,15 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 		userUnitInfoList = GetMyUnitList();
 		string name = "BaseDragPanel";
-		Debug.LogError("GlobalData.myUnitList.Count : " + GlobalData.myUnitList.Count );
+		//Debug.LogError("GlobalData.myUnitList.Count : " + GlobalData.myUnitList.Count );
 		if(GlobalData.myUnitList == null ){
 			Debug.LogWarning("GlobalData.myUnitList is null ");
 			return;
 		}
-		Debug.Log("GlobalData.myUnitList count is " + GlobalData.myUnitList.Count);
+		//Debug.Log("GlobalData.myUnitList count is " + GlobalData.myUnitList.Count);
 
 		int count = GlobalData.myUnitList.Count;
-		Debug.Log( string.Format("Base Panel: The count to add is : " + count) );
+		//Debug.Log( string.Format("Base Panel: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		InitDragPanelArgs();

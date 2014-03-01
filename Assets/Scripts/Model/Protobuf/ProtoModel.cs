@@ -2812,14 +2812,13 @@ namespace bbproto
       get { return _login; }
       set { _login = value; }
     }
-    private bbproto.FriendList _friends = null;
-    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"friends", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public bbproto.FriendList friends
+    private readonly global::System.Collections.Generic.List<bbproto.FriendInfo> _friends = new global::System.Collections.Generic.List<bbproto.FriendInfo>();
+    [global::ProtoBuf.ProtoMember(9, Name=@"friends", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.FriendInfo> friends
     {
       get { return _friends; }
-      set { _friends = value; }
     }
+  
     private readonly global::System.Collections.Generic.List<bbproto.PresentInfo> _present = new global::System.Collections.Generic.List<bbproto.PresentInfo>();
     [global::ProtoBuf.ProtoMember(10, Name=@"present", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<bbproto.PresentInfo> present
@@ -2827,6 +2826,14 @@ namespace bbproto
       get { return _present; }
     }
   
+    private bbproto.EUnitType _evolveType = bbproto.EUnitType.UALL;
+    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"evolveType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EUnitType.UALL)]
+    public bbproto.EUnitType evolveType
+    {
+      get { return _evolveType; }
+      set { _evolveType = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -2903,14 +2910,13 @@ namespace bbproto
       get { return _login; }
       set { _login = value; }
     }
-    private bbproto.FriendList _friends = null;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"friends", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public bbproto.FriendList friends
+    private readonly global::System.Collections.Generic.List<bbproto.FriendInfo> _friends = new global::System.Collections.Generic.List<bbproto.FriendInfo>();
+    [global::ProtoBuf.ProtoMember(9, Name=@"friends", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.FriendInfo> friends
     {
       get { return _friends; }
-      set { _friends = value; }
     }
+  
     private readonly global::System.Collections.Generic.List<bbproto.PresentInfo> _present = new global::System.Collections.Generic.List<bbproto.PresentInfo>();
     [global::ProtoBuf.ProtoMember(4, Name=@"present", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<bbproto.PresentInfo> present
