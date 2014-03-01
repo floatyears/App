@@ -84,8 +84,12 @@ public class AuthUser: ProtoManager {
 		}
 
 		if (rspAuthUser.friends != null) {
-			LogHelper.Log ("rsp.friends have some friends.");
-			GlobalData.friendList = new TFriendList (rspAuthUser.friends);
+			LogHelper.Log ("rsp.friends have {0} friends.", rspAuthUser.friends.Count);
+			GlobalData.friends = new List<TFriendInfo> ();
+			foreach ( FriendInfo fi in rspAuthUser.friends ) {
+				TFriendInfo tfi = new TFriendInfo(fi);
+				GlobalData.friends.Add( tfi );
+			}
 		}
 		else {
 			LogHelper.Log ("rsp.friends==null");

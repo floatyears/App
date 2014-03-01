@@ -28,8 +28,7 @@ public class GlobalData  {
 	
 	public static TUserInfo userInfo;
 	public static TAccountInfo accountInfo;
-	public static TFriendList friendList;
-	public static List<TFriendInfo> questFriend;
+	public static List<TFriendInfo> friends;
 	public static Dictionary<uint, TUserUnit> myUnitList = new Dictionary<uint, TUserUnit>();
 
 	public static Dictionary<int,TPowerTableInfo> unitValue = new Dictionary<int, TPowerTableInfo>();

@@ -116,7 +116,7 @@ message RspAuthUser {
 	optional PartyInfo		party				= 6;
 	optional uint32			serverTime			= 7;
 	optional LoginInfo		login				= 8;
-	optional FriendList		friends				= 9;
+	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 10;
 	optional EUnitType		evolveType			= 11;
 };
