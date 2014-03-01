@@ -71,9 +71,10 @@ public class PlayerInfoBar : UIComponentUnity {
 		}
 		
 		if(GlobalData.userInfo.NickName.Length == 0){
-                        UIManager.Instance.ChangeScene( SceneEnum.Others );
-                }
-		Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + GlobalData.userInfo.NickName);
+			UIManager.Instance.ChangeScene( SceneEnum.Others );
+			Debug.Log ("PlayerInfoBar.ChangeScene( Others ).");
+		}
+			Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + GlobalData.userInfo.NickName);
         }
 
         private void InitUI() {

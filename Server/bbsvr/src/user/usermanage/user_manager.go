@@ -76,11 +76,13 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		return nil, e
 	}
 	userUnit1 := &bbproto.UserUnit{
-		UniqueId: proto.Uint32(unitId1),
-		UnitId:   proto.Uint32(101),
-		Exp:      proto.Int32(1),
-		Level:    proto.Int32(1),
-		GetTime:  &tNow,
+		UniqueId:  proto.Uint32(unitId1),
+		UnitId:    proto.Uint32(101),
+		Exp:       proto.Int32(1),
+		Level:     proto.Int32(1),
+		GetTime:   &tNow,
+		AddAttack: proto.Int32(3),
+		AddHp:     proto.Int32(2),
 	}
 	userdetail.UnitList = append(userdetail.UnitList, userUnit1)
 
@@ -89,11 +91,13 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		return nil, e
 	}
 	userUnit2 := &bbproto.UserUnit{
-		UniqueId: proto.Uint32(unitId2),
-		UnitId:   proto.Uint32(102),
-		Exp:      proto.Int32(1),
-		Level:    proto.Int32(1),
-		GetTime:  &tNow,
+		UniqueId:  proto.Uint32(unitId2),
+		UnitId:    proto.Uint32(102),
+		Exp:       proto.Int32(1),
+		Level:     proto.Int32(1),
+		GetTime:   &tNow,
+		AddAttack: proto.Int32(98),
+		AddHp:     proto.Int32(8),
 	}
 	userdetail.UnitList = append(userdetail.UnitList, userUnit2)
 
@@ -102,11 +106,13 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		return nil, e
 	}
 	userUnit3 := &bbproto.UserUnit{
-		UniqueId: proto.Uint32(unitId3),
-		UnitId:   proto.Uint32(103),
-		Exp:      proto.Int32(1),
-		Level:    proto.Int32(1),
-		GetTime:  &tNow,
+		UniqueId:  proto.Uint32(unitId3),
+		UnitId:    proto.Uint32(103),
+		Exp:       proto.Int32(1),
+		Level:     proto.Int32(1),
+		GetTime:   &tNow,
+		AddAttack: proto.Int32(99),
+		AddHp:     proto.Int32(99),
 	}
 	userdetail.UnitList = append(userdetail.UnitList, userUnit3)
 

@@ -25,8 +25,9 @@ public class GlobalData  {
 			return null;
 		}
 	}
-
+	
 	public static TUserInfo userInfo;
+	public static TAccountInfo accountInfo;
 	public static TFriendList friendList;
 	public static Dictionary<uint, TUserUnit> myUnitList = new Dictionary<uint, TUserUnit>();
 
