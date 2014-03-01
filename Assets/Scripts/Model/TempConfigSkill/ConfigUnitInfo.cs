@@ -82,7 +82,7 @@ public class ConfigUnitInfo {
 			uu.limitbreakLv 	= 2;
 			uu.getTime 			= 0;
 			TUserUnit uui 	= new TUserUnit (uu);
-			GlobalData.userUnitInfo.Add (i, uui);
+			GlobalData.userUnitList.Add (GlobalData.userInfo.UserId,uu.uniqueId, uui);
 		}
 //		GlobalData.userUnitInfo [1].unitBaseInfo = 181;
 //		GlobalData.userUnitInfo [2].unitBaseInfo = 85;
