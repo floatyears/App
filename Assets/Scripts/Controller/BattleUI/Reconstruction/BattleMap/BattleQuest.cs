@@ -148,6 +148,7 @@ public class BattleQuest : UIBase {
 			if(currentMapData.ContentType == MapItemEnum.Start) {
 				return;
 			}
+//			Debug.LogError("ContentType : " + currentMapData.ContentType);
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 			switch (currentMapData.ContentType) {
 			case MapItemEnum.None:

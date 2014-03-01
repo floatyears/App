@@ -128,6 +128,7 @@ public enum CommandEnum
 	RotateDown					= 3046,
 	MeetCoin					= 3047,
 	StateInfo					= 3048,
+	StopInput					= 3049,
 
 	//Add By Ling yan	
 	LevelUpPanelFocus			= 4000,

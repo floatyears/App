@@ -47,8 +47,8 @@ public class MapConfig : IOriginModel {
 					smd.MonsterID.Add(1);
 					smd.MonsterID.Add(2);
 					smd.MonsterID.Add(3);
-					smd.MonsterID.Add(4);
-					smd.MonsterID.Add(5);
+//					smd.MonsterID.Add(4);
+//					smd.MonsterID.Add(5);
 				//				}
 				
 				mapData[i,j] = smd;
@@ -57,7 +57,7 @@ public class MapConfig : IOriginModel {
 
 		SingleMapData singleMapItem = mapData [1, 0];
 		singleMapItem.ContentType = MapItemEnum.Trap;
-		singleMapItem.TypeValue = 2;
+		singleMapItem.TypeValue = 3;
 		singleMapItem = mapData [1, 1];
 		singleMapItem.ContentType = MapItemEnum.Trap;
 		singleMapItem.TypeValue = 1;
