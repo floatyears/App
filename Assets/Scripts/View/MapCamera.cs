@@ -32,6 +32,7 @@ public class MapCamera : MonoBehaviour {
 
 	void StopInput(object data) {
 		isClick = false;
+//		Debug.LogError ("isClick : " + isClick);
 	}
 
 	void HandleOnUpdate () {

@@ -66,6 +66,10 @@ public class MapConfig : IOriginModel {
 		singleMapItem.TypeValue = 0;
 		singleMapItem = mapData [2, 0];
 		singleMapItem.ContentType = MapItemEnum.Start;
+		singleMapItem = mapData [2, 2];
+		singleMapItem.ContentType = MapItemEnum.Exclamation;
+		singleMapItem = mapData [2, 3];
+		singleMapItem.ContentType = MapItemEnum.key;
 		mapData[characterInitCoorX,characterInitCoorY].MonsterID.Clear();   
 //		mapData [2, 4].MonsterID.Clear ();
 //		mapData [2, 4].MonsterID.Add (100);
