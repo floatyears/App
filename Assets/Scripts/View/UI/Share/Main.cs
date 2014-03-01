@@ -48,7 +48,6 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private UILabel label;
 
 	void Awake()
 	{

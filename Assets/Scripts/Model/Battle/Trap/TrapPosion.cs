@@ -26,6 +26,7 @@ public class TrapPosion : TrapBase, ITrapExcute {
 
 	void ExcuteTrap () {
 		if (round == 0) {
+			ViewManager.Instance.TrapLabel.text = "";
 			MsgCenter.Instance.RemoveListener(CommandEnum.MoveToMapItem, RoleMove);
 			MsgCenter.Instance.RemoveListener(CommandEnum.EnemyAttackEnd, EnemyAttak);
 			MsgCenter.Instance.Invoke (CommandEnum.PlayerPosion, round);
@@ -36,6 +37,7 @@ public class TrapPosion : TrapBase, ITrapExcute {
 	}
 
 	void CountDownRound () {
+		ViewManager.Instance.TrapLabel.text = "posion trap hurt:" +  GetInjuredValue.trapValue +" round : " + round;
 		MsgCenter.Instance.Invoke (CommandEnum.PlayerPosion, round);
 		MsgCenter.Instance.Invoke(CommandEnum.InjuredNotDead, GetInjuredValue.trapValue);
 		round--;
