@@ -6,6 +6,8 @@ public class MapCamera : MonoBehaviour {
 	private GameInput gameInput;
 	private bool isClick = true;
 
+
+
 	void Awake () {
 		camera = GetComponent<Camera> ();
 		gameInput = Main.Instance.GInput;
@@ -15,16 +17,22 @@ public class MapCamera : MonoBehaviour {
 	void OnEnable () {
 		MsgCenter.Instance.AddListener (CommandEnum.MeetEnemy, MeetEnemy);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.StopInput, StopInput);
 		GameInput.OnUpdate += HandleOnUpdate;
 		isClick = true;
-//		Debug.LogError ("OnEnable : " + isClick);
 	}
 
 	void OnDisable () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.MeetEnemy, MeetEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.StopInput, StopInput);
 		GameInput.OnUpdate -= HandleOnUpdate;
 		isClick = false;
+	}
+
+	void StopInput(object data) {
+		isClick = false;
+//		Debug.LogError ("isClick : " + isClick);
 	}
 
 	void HandleOnUpdate () {

@@ -47,8 +47,8 @@ public class MapConfig : IOriginModel {
 					smd.MonsterID.Add(1);
 					smd.MonsterID.Add(2);
 					smd.MonsterID.Add(3);
-					smd.MonsterID.Add(4);
-					smd.MonsterID.Add(5);
+//					smd.MonsterID.Add(4);
+//					smd.MonsterID.Add(5);
 				//				}
 				
 				mapData[i,j] = smd;
@@ -57,7 +57,7 @@ public class MapConfig : IOriginModel {
 
 		SingleMapData singleMapItem = mapData [1, 0];
 		singleMapItem.ContentType = MapItemEnum.Trap;
-		singleMapItem.TypeValue = 2;
+		singleMapItem.TypeValue = 3;
 		singleMapItem = mapData [1, 1];
 		singleMapItem.ContentType = MapItemEnum.Trap;
 		singleMapItem.TypeValue = 1;
@@ -66,6 +66,10 @@ public class MapConfig : IOriginModel {
 		singleMapItem.TypeValue = 0;
 		singleMapItem = mapData [2, 0];
 		singleMapItem.ContentType = MapItemEnum.Start;
+		singleMapItem = mapData [2, 2];
+		singleMapItem.ContentType = MapItemEnum.Exclamation;
+		singleMapItem = mapData [2, 3];
+		singleMapItem.ContentType = MapItemEnum.key;
 		mapData[characterInitCoorX,characterInitCoorY].MonsterID.Clear();   
 //		mapData [2, 4].MonsterID.Clear ();
 //		mapData [2, 4].MonsterID.Add (100);

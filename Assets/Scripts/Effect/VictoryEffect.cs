@@ -32,12 +32,12 @@ public class VictoryEffect : UIBaseUnity {
 	private Vector3 rightWingAngle3 	= new Vector3 (0f, 0f, 15f);
 	private Callback sureButtonCallback;
 
-	//------------------------------------------------------------------------------------------------
-	// test data
-	private int maxEmpirical = 100;
-	private int currentEmpirical = 50;
-	private int addEmpirical = 20;
-	//------------------------------------------------------------------------------------------------
+//	//------------------------------------------------------------------------------------------------
+//	// test data
+//	private int maxEmpirical = 100;
+//	private int currentEmpirical = 50;
+//	private int addEmpirical = 20;
+//	//------------------------------------------------------------------------------------------------
 
 	public override void Init (string name) {
 		base.Init (name);
@@ -47,6 +47,8 @@ public class VictoryEffect : UIBaseUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		gameObject.SetActive (true);
+		Debug.LogError ("CommandEnum.StopInput");
+		MsgCenter.Instance.Invoke (CommandEnum.StopInput, null);
 	}
 
 	public override void HideUI () {
@@ -56,11 +58,12 @@ public class VictoryEffect : UIBaseUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		Debug.LogError ("DestoryUI");
+//		Debug.LogError ("DestoryUI");
 		Destroy (gameObject);
 	}
 
 	void FindComponent () {
+		MsgCenter.Instance.Invoke (CommandEnum.StopInput, null);
 //		localScale = transform.localScale;
 		levelProgress = FindChild<UISprite> ("LvProgress");
 		coinLabel = FindChild<UILabel>("CoinValue");

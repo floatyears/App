@@ -65,21 +65,23 @@ public class ViewManager
 		get{return dynamicFont;}
 	}
 
+	private UILabel trapLabel;
+	public UILabel TrapLabel{
+		get {
+			return trapLabel;
+		}
+	}
+
 	public void Init(GameObject ui)
 	{
-		mainUIRoot = ui;
-		
-		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();
-		
+		mainUIRoot = ui;		
+		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();		
 		parentPanel = mainUIRoot.transform.Find("Bottom").gameObject;
-
 		topPanel = mainUIRoot.transform.Find ("Top/Panel").gameObject;
-
 		bottomPanel = mainUIRoot.transform.Find ("Bottom/Panel").gameObject;
-
 		centerPanel = mainUIRoot.transform.Find ("Anchor/Panel").gameObject;
-
 		dynamicFont = Resources.Load("Font/Faerytale Woods",typeof(Font)) as Font;
+		trapLabel = mainUIRoot.transform.Find ("BottomLeft/Label").GetComponent<UILabel> ();
 	}
 
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
