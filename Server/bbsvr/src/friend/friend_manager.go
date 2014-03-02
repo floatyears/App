@@ -24,17 +24,19 @@ func AddFriend(db *data.Data, uid uint32, fid uint32, friendState bbproto.EFrien
 	//first check friend exists or not
 	friendData := &bbproto.FriendData{}
 	e = findFriendData(db, common.Utoa(uid), fid, friendData)
-	if e.IsError() { //already exists FriendData
+	if !e.IsError() { //already exists FriendData
 		if friendState == bbproto.EFriendState_FRIENDOUT { //request is addFriend
-			if *friendData.FriendState == bbproto.EFriendState_FRIENDOUT {
-				return Error.New(cs.EF_IS_ALREADY_FRIENDOUT,
-					fmt.Sprintf("already request add %v before, cannot add again.", fid))
-			} else if *friendData.FriendState == bbproto.EFriendState_ISFRIEND {
-				return Error.New(cs.EF_IS_ALREADY_FRIEND,
-					fmt.Sprintf("user(%v) is already your friend, cannot add again.", fid))
-			} else if *friendData.FriendState == bbproto.EFriendState_FRIENDIN {
-				//friend request add me before I add him, directly accept it as friend now.
-				friendState = bbproto.EFriendState_ISFRIEND
+			if friendData.FriendState != nil {
+				if *friendData.FriendState == bbproto.EFriendState_FRIENDOUT {
+					return Error.New(cs.EF_IS_ALREADY_FRIENDOUT,
+						fmt.Sprintf("already request add %v before, cannot add again.", fid))
+				} else if *friendData.FriendState == bbproto.EFriendState_ISFRIEND {
+					return Error.New(cs.EF_IS_ALREADY_FRIEND,
+						fmt.Sprintf("user(%v) is already your friend, cannot add again.", fid))
+				} else if *friendData.FriendState == bbproto.EFriendState_FRIENDIN {
+					//friend request add me before I add him, directly accept it as friend now.
+					friendState = bbproto.EFriendState_ISFRIEND
+				}
 			}
 		} else if friendState == bbproto.EFriendState_ISFRIEND { //request is accept friendin
 			if *friendData.FriendState == bbproto.EFriendState_ISFRIEND {
@@ -50,9 +52,13 @@ func AddFriend(db *data.Data, uid uint32, fid uint32, friendState bbproto.EFrien
 	} else { //findFriendData ret err!=nil, probably data not exists, or db error.
 		log.T("[TRACE] findFriendData ret err: %v", e.Error())
 
-		if friendState == bbproto.EFriendState_ISFRIEND { //request is accept friendin
-			return Error.New(cs.EF_INVALID_FRIEND_STATE,
-				fmt.Sprintf("Unexcepted: %v state is not FRIENDIN, cannot be accepted.", fid))
+		if e.Code() == cs.DATA_NOT_EXISTS {
+			if friendState == bbproto.EFriendState_ISFRIEND { //request is accept friendin
+				return Error.New(cs.EF_INVALID_FRIEND_STATE,
+					fmt.Sprintf("Unexcepted: %v state is not FRIENDIN, cannot be accepted.", fid))
+			}
+		} else { //other db Error
+			return e
 		}
 	}
 
@@ -120,6 +126,7 @@ func findFriendData(db *data.Data, sUid string, fUid uint32, friendData *bbproto
 	}
 
 	if len(zFriendData) == 0 {
+		log.T("user: %v's friend(%v) data not exists.", sUid, fUid)
 		return Error.New(cs.DATA_NOT_EXISTS)
 	}
 
