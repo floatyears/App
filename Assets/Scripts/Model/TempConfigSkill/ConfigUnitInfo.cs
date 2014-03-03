@@ -26,7 +26,7 @@ public class ConfigUnitInfo {
 			uiitem.powerType.attackType = 2;
 			uiitem.powerType.expType = 1;
 			uiitem.powerType.hpType = 3;
-
+			uiitem.cost = (i % 5);
 			uiitem.race 		= (EUnitRace)(i%6);
 			uiitem.rare 		= i%6;
 			uiitem.maxLevel 	= 10;
