@@ -153,8 +153,10 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		//fill rspMsg
 		if friendsInfo != nil {
 			for _, friend := range friendsInfo {
-				//log.T("fid:%v friend:%v", fid, *friend.UserId)
-				rspMsg.Friends = append(rspMsg.Friends, &friend)
+				//log.T("rspMsg.append => &friend:%p fid:%v friend.Unit: %+v", &friend, *friend.UserId, *friend.Unit)
+				oneFriend := &bbproto.FriendInfo{}
+				*oneFriend = friend
+				rspMsg.Friends = append(rspMsg.Friends, oneFriend)
 			}
 		}
 

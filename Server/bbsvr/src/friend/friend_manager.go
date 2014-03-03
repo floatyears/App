@@ -175,6 +175,7 @@ func GetFriendsData(db *data.Data, sUid string, isGetOnlyFriends bool, friendsIn
 		}
 
 		if isGetOnlyFriends && *friendData.FriendState != bbproto.EFriendState_ISFRIEND {
+			log.T("isGetOnlyFriends:  skip -> (fid:%v, friendState:%v)", sFid, *friendData.FriendState)
 			continue
 		}
 
@@ -296,9 +297,9 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool
 	if err != nil {
 		return friendsInfo, Error.New(cs.READ_DB_ERROR)
 	}
-	log.T("TABLE_USER.MGet(fids:%v) ret %v", fids, userinfos)
+	//log.T("TABLE_USER.MGet(fids:%v) ret %v", fids, userinfos)
 
-	for _, uinfo := range userinfos {
+	for k, uinfo := range userinfos {
 		if uinfo == nil {
 			continue
 		}
@@ -319,8 +320,8 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool
 			log.Fatal("unexcepted error: user.UserId is nil. user:%v", user)
 			continue
 		}
-		log.T("userId: %v -> name:%v rank:%v ",
-			*user.UserId, *user.NickName, *user.Rank)
+		log.T("friend[%v] userId: %v -> name:%v rank:%v ",
+			k, *user.UserId, *user.NickName, *user.Rank)
 
 		uid = *user.UserId
 		friInfo, ok := friendsInfo[common.Utoa(uid)]
