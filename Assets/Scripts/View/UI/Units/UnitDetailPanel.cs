@@ -5,41 +5,41 @@ using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//----------UI elements list----------
-	UILabel noLabel;
-	UILabel hpLabel;
-	UILabel atkLabel;
-	UILabel raceLabel;
-	UILabel costLabel;
-	UILabel rareLabel;
-	UILabel levelLabel;
-	UILabel typeLabel;
-	UILabel nameLabel;
-	UILabel needExpLabel;
-	UISlider expSlider;
+	protected UILabel noLabel;
+	protected UILabel hpLabel;
+	protected UILabel atkLabel;
+	protected UILabel raceLabel;
+	protected UILabel costLabel;
+	protected UILabel rareLabel;
+	protected UILabel levelLabel;
+	protected UILabel typeLabel;
+	protected UILabel nameLabel;
+	protected UILabel needExpLabel;
+	protected UISlider expSlider;
 
-	UILabel normalSkill1DscpLabel;
-	UILabel normalSkill1NameLabel;
+	protected UILabel normalSkill1DscpLabel;
+	protected UILabel normalSkill1NameLabel;
 	
-	UILabel normalSkill2DscpLabel;
-	UILabel normalSkill2NameLabel;
+	protected UILabel normalSkill2DscpLabel;
+	protected UILabel normalSkill2NameLabel;
 
-	UILabel leaderSkillNameLabel;
-	UILabel leaderSkillDscpLabel;
+	protected UILabel leaderSkillNameLabel;
+	protected UILabel leaderSkillDscpLabel;
 
-	UILabel activeSkillNameLabel;
-	UILabel activeSkillDscpLabel;
+	protected UILabel activeSkillNameLabel;
+	protected UILabel activeSkillDscpLabel;
 
-	UILabel profileLabel;
+	protected UILabel profileLabel;
 
-	UIToggle statusToggle;
-	UITexture unitBodyTex;
+	protected UIToggle statusToggle;
+	protected UITexture unitBodyTex;
 
-	GameObject levelUpEffect;
-	Material unitMaterial;
-	List<GameObject> effectCache = new List<GameObject>();
+	protected GameObject levelUpEffect;
+	protected Material unitMaterial;
+	protected List<GameObject> effectCache = new List<GameObject>();
 
-	List<UISprite> blockLsit1 = new List<UISprite>();
-	List<UISprite> blockLsit2 = new List<UISprite>();
+	protected List<UISprite> blockLsit1 = new List<UISprite>();
+	protected List<UISprite> blockLsit2 = new List<UISprite>();
         
         protected int currMaxExp, curExp, gotExp, expRiseStep;
 
@@ -245,7 +245,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		Debug.LogError("unitInfo.Rare : "+unitInfo.Rare.ToString());
 		
 		//next level need
-		needExpLabel.text = data.Exp.ToString();
+		needExpLabel.text = data.NextExp.ToString();
+		Debug.LogError("unitInfo.NextExp : "+data.NextExp.ToString());
 	}
 
 
@@ -337,8 +338,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	void Update(){
-		ExpRise();
-	}
+		//ExpRise();
+	} 
 
 	void ExpRise () {
 		if(gotExp <= 0)	
