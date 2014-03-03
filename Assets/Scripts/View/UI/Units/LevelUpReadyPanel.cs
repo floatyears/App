@@ -9,6 +9,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	UILabel expCurGotLabel;
 	UILabel cionNeedLabel;
 
+	GameObject curFocusTab;
 	GameObject baseTab;
 	GameObject friendTab;
 	GameObject materialTab;
@@ -57,7 +58,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void UpdateBaseInfoView( TUserUnit unitInfo){
 		GameObject baseTab = Tabs[0];
 			
-		TUnitInfo tu = GlobalData.unitInfo[ unitInfo.ID ];
+		TUnitInfo tu = GlobalData.unitInfo[ unitInfo.UnitID ];
 
 		UITexture tex = baseTab.GetComponentInChildren<UITexture>();
 		tex.mainTexture = tu.GetAsset(UnitAssetType.Avatar);
@@ -86,13 +87,13 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void UpdateMaterialInfoView( TUserUnit unitInfo){
 		GameObject materialTab = materialPoolDic[ materialUnitInfo.Count ];
 		UITexture tex = materialTab.GetComponentInChildren<UITexture>();
-		tex.mainTexture = GlobalData.unitInfo[ unitInfo.ID ].GetAsset(UnitAssetType.Avatar);
+		tex.mainTexture = GlobalData.unitInfo[ unitInfo.UnitID ].GetAsset(UnitAssetType.Avatar);
         }
         
 	void UpdateFriendInfo(TUserUnit unitInfo){
 		GameObject friendTab = Tabs[1];
 		UITexture tex = friendTab.GetComponentInChildren<UITexture>();
-		tex.mainTexture = GlobalData.unitInfo[ unitInfo.ID ].GetAsset(UnitAssetType.Avatar);
+		tex.mainTexture = GlobalData.unitInfo[ unitInfo.UnitID ].GetAsset(UnitAssetType.Avatar);
         }
 
 	void FindInfoPanelLabel(){
@@ -156,6 +157,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void FoucsOnTab(GameObject focus){
+
 		//disable all tab
 		foreach (var tab in Tabs){
 			tab.transform.FindChild("Light_Frame").gameObject.SetActive(false);
@@ -163,16 +165,17 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		}
 
 		//activate focus tab
+		curFocusTab = focus;
 		focus.transform.FindChild("Light_Frame").gameObject.SetActive(true);
 		focus.transform.FindChild("Label_Title").GetComponent< UILabel >().color = Color.yellow;
 		//activate focus tab content
 		MsgCenter.Instance.Invoke(CommandEnum.PanelFocus, focus.name );
+//		Debug.Log("FoucsOnTab() :  ");
 	}
 	
 	void AddListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.PickBaseUnitInfo, PickBaseUnitInfo );
 		MsgCenter.Instance.AddListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
-		MsgCenter.Instance.AddListener(CommandEnum.PickMaterialUnitInfo, PickMaterialUnitInfo );
 		MsgCenter.Instance.AddListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
 
 	}
@@ -180,7 +183,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void RemoveListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickBaseUnitInfo, PickBaseUnitInfo );
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
-		MsgCenter.Instance.RemoveListener(CommandEnum.PickMaterialUnitInfo, PickMaterialUnitInfo );
 		MsgCenter.Instance.RemoveListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
 	}
 	
@@ -217,25 +219,34 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	void PickBaseUnitInfo(object info){
 //		Debug.Log("Ready Pool Receive info !");
-		if(baseUnitInfo != null)	return;
-		baseUnitInfo = info as TUserUnit;
-		UpdateBaseInfoView( baseUnitInfo );
+//		Debug.LogError("Current Focus Panel : " + curFocusTab.name);
+		if( curFocusTab.name == "Tab_Base" ){
+//			Debug.LogError("UpdateBaseInfoView ");
+			//if(baseUnitInfo != null)	return;
+			baseUnitInfo = info as TUserUnit;
+			UpdateBaseInfoView( baseUnitInfo );
+		}else{
+			if( materialUnitInfo.Count == 4)	return;
+			TUserUnit tempInfo = info as TUserUnit;
+			materialUnitInfo.Add(tempInfo);
+			UpdateMaterialInfoView( tempInfo );
+		}
 	}
 
 
 	void PickFriendUnitInfo(object info){
-		if(friendUnitInfo != null)	return;
+		//if(friendUnitInfo != null)	return;
 		friendUnitInfo = info as TUserUnit;
 
 		UpdateFriendInfo(friendUnitInfo);
 	}
-	void PickMaterialUnitInfo(object info){
-		if( materialUnitInfo.Count == 4)	return;
-		TUserUnit tempInfo = info as TUserUnit;
-		materialUnitInfo.Add(tempInfo);
-		UpdateMaterialInfoView( tempInfo );
-
-	}
+//	void PickMaterialUnitInfo(object info){
+//		if( materialUnitInfo.Count == 4)	return;
+//		TUserUnit tempInfo = info as TUserUnit;
+//		materialUnitInfo.Add(tempInfo);
+//		UpdateMaterialInfoView( tempInfo );
+//
+//	}
 
 	Dictionary<string, object> PackLevelUpInfo(){
 		//condition : exist base && material && friend

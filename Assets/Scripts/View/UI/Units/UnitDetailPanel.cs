@@ -5,41 +5,41 @@ using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//----------UI elements list----------
-	UILabel noLabel;
-	UILabel hpLabel;
-	UILabel atkLabel;
-	UILabel raceLabel;
-	UILabel costLabel;
-	UILabel rareLabel;
-	UILabel levelLabel;
-	UILabel typeLabel;
-	UILabel nameLabel;
-	UILabel needExpLabel;
-	UISlider expSlider;
+	protected UILabel noLabel;
+	protected UILabel hpLabel;
+	protected UILabel atkLabel;
+	protected UILabel raceLabel;
+	protected UILabel costLabel;
+	protected UILabel rareLabel;
+	protected UILabel levelLabel;
+	protected UILabel typeLabel;
+	protected UILabel nameLabel;
+	protected UILabel needExpLabel;
+	protected UISlider expSlider;
 
-	UILabel normalSkill1DscpLabel;
-	UILabel normalSkill1NameLabel;
+	protected UILabel normalSkill1DscpLabel;
+	protected UILabel normalSkill1NameLabel;
 	
-	UILabel normalSkill2DscpLabel;
-	UILabel normalSkill2NameLabel;
+	protected UILabel normalSkill2DscpLabel;
+	protected UILabel normalSkill2NameLabel;
 
-	UILabel leaderSkillNameLabel;
-	UILabel leaderSkillDscpLabel;
+	protected UILabel leaderSkillNameLabel;
+	protected UILabel leaderSkillDscpLabel;
 
-	UILabel activeSkillNameLabel;
-	UILabel activeSkillDscpLabel;
+	protected UILabel activeSkillNameLabel;
+	protected UILabel activeSkillDscpLabel;
 
-	UILabel profileLabel;
+	protected UILabel profileLabel;
 
-	UIToggle statusToggle;
-	UITexture unitBodyTex;
+	protected UIToggle statusToggle;
+	protected UITexture unitBodyTex;
 
-	GameObject levelUpEffect;
-	Material unitMaterial;
-	List<GameObject> effectCache = new List<GameObject>();
+	protected GameObject levelUpEffect;
+	protected Material unitMaterial;
+	protected List<GameObject> effectCache = new List<GameObject>();
 
-	List<UISprite> blockLsit1 = new List<UISprite>();
-	List<UISprite> blockLsit2 = new List<UISprite>();
+	protected List<UISprite> blockLsit1 = new List<UISprite>();
+	protected List<UISprite> blockLsit2 = new List<UISprite>();
         
         protected int currMaxExp, curExp, gotExp, expRiseStep;
 
@@ -55,7 +55,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		base.ShowUI ();
 
-		ShowUnitScale();
+
 		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 	}
@@ -144,7 +144,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 		ClearBlock( blockLsit2 );
 //                Debug.LogError( "BlockList2 count : " + blockLsit2.Count);
-
 	}
 	
 	//Make panel focus on the same tab every time when this ui show
@@ -158,52 +157,13 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if( unitMaterial == null )
 			Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
 	}
-	
-	void ShowUnitDetail( object info ){
-//		UserUnit userUnitInfo = info as UserUnit;
-//		uint curId = userUnitInfo.unitId;
-//		unitBodyTex.mainTexture = GlobalData.unitInfo[ curId ].GetAsset( UnitAssetType.Profile);
-//		idLabel.text = curId.ToString();
-//		nameLabel.text = GlobalData.unitInfo[ curId ].GetName();
-//		levelLabel.text = userUnitInfo.level.ToString();
-//		//typeLabel.text = GlobalData.unitInfo[ curId ].GetUnitType();
-//
-//		TUnitInfo tu = GlobalData.unitInfo[ curId ];
-//		int hp = GlobalData.Instance.GetUnitValue(tu.GetHPType(),userUnitInfo.level);
-//		hpLabel.text = hp.ToString();
-//		int atk = GlobalData.Instance.GetUnitValue(tu.GetAttackType(), userUnitInfo.level);
-//		atkLabel.text = atk.ToString();
-//
-//		int cost = GlobalData.unitInfo[ curId ].GetCost();
-//		costLabel.text = cost.ToString();
-//
-//		int rare = GlobalData.unitInfo[ curId ].GetRare();
-//		rareLabel.text = rare.ToString();
-//
-//		raceLabel.text = "Human";
 
-	}
-
-	
 	void LevelUp( object data){
 		//Get BaseUnitInfo
 		TUserUnit baseUnitData = data as TUserUnit;
-		//ShowPanelContent( baseUnitData );
-
-		//Get Material and Friend Data
-
-		//Show exp increase process
 		ExpRise();
 	}
-
-	void ShowPanelContent( TUserUnit data ){
-		ShowStatusContent( data );
-		ShowSkill1Content( data );
-		ShowSkill2Content( data );
-		ShowLeaderSkillContent( data );
-		ShowActiveSkillContent( data );
-		ShowProfileContent( data );
-	}
+	
 
 	//----------deal with effect----------
 	void ClearEffectCache(){
@@ -244,11 +204,16 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitAlpha.Reset();
 		unitAlpha.PlayForward();
 	}
+
+	void ShowBodyTexture( TUserUnit data ){
+		TUnitInfo unitInfo = data.UnitInfo;
+		unitBodyTex.mainTexture = unitInfo.GetAsset( UnitAssetType.Profile);
+	}
 		
 	void ShowStatusContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
 		//no
-		noLabel.text = data.ID.ToString();
+		noLabel.text = data.UnitID.ToString();
 		
 		//level
 		levelLabel.text = data.Level.ToString();
@@ -270,14 +235,18 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		//cost
 		costLabel.text = unitInfo.Cost.ToString();
 		
-		//race  not have data interface
-		//raceLabel.text = unitInfo.ToString();
+		//race  
+		raceLabel.text = unitInfo.Race.ToString();
+//		Debug.LogError("unitInfo.Race : "+unitInfo.Race.ToString());
+
 		
 		//rare
 		rareLabel.text = unitInfo.Rare.ToString();
+//		Debug.LogError("unitInfo.Rare : "+unitInfo.Rare.ToString());
 		
 		//next level need
-		needExpLabel.text = data.Exp.ToString();
+		needExpLabel.text = data.NextExp.ToString();
+		Debug.LogError("unitInfo.NextExp : "+data.NextExp.ToString());
 	}
 
 
@@ -340,103 +309,15 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	public void Callback(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
-
-//		ShowStatusContent( userUnit );
-//		ShowSkill1Content( userUnit );
-//		ShowSkill2Content( userUnit );
-//		ShowLeaderSkillContent( userUnit );
-//		ShowActiveSkillContent( userUnit );
-//		ShowProfileContent( userUnit );
-
-		ShowPanelContent(userUnit); 
-//
-//		//leader skill name
-//		if( !textInfo.ContainsKey("ls_n") ){
-//			Debug.LogError("Not get the normal skill1 name");
-//			return;
-//		}
-//		leaderSkillNameLabel.text = textInfo["ls_n"] as string;
-//
-//		//leader skill description
-//		if( !textInfo.ContainsKey("ls_dscp") ){
-//			LogHelper.LogError("Not get the leader skill description");
-//			return;
-//                }
-//		leaderSkillDscpLabel.text = textInfo["ls_dscp"] as string;
-//
-//		//active skill name
-//		if( !textInfo.ContainsKey("as_n") ){
-//			LogHelper.LogError("Not get the text info which id == 3");
-//                        return;
-//                }
-//                activeSkillNameLabel.text = textInfo[ "as_n" ] as string;
-//
-//		//active skill description
-//		if( !textInfo.ContainsKey("as_dscp") ){
-//			LogHelper.LogError("Not get the text info which id == 4");
-//                        return;
-//                }
-//		activeSkillDscpLabel.text = textInfo[ "as_dscp" ] as string;
-//
-//		//normal skill1 name
-//		if( !textInfo.ContainsKey("ns1_n") ){
-//			LogHelper.LogError("Not get the text info which id == 5");
-//                        return;
-//                }
-//		normalSkill1NameLabel.text = textInfo[ "ns1_n" ] as string;
-//
-//
-//		//normal skill1 description
-//		if( !textInfo.ContainsKey("ns1_dscp") ){
-//			LogHelper.LogError("Not get the text info which id == 6");
-//                        return;
-//                }
-//		normalSkill1DscpLabel.text = textInfo[ "ns1_dscp" ] as string;
-//
-//		//normal skill2 name
-//		if( !textInfo.ContainsKey("ns2_n") ){
-//			LogHelper.LogError("Not get the text info which id == 7");
-//                        return;
-//                }
-//		normalSkill2NameLabel.text = textInfo[ "ns2_n" ] as string;
-//
-//		//normal skill2 description
-//		if( !textInfo.ContainsKey("ns2_dscp") ){
-//			LogHelper.LogError("Not get the text info which id == 8");
-//                        return;
-//                }
-//		normalSkill2DscpLabel.text = textInfo[ "ns2_dscp" ] as string;
-//
-//		//profile 
-//		if( !textInfo.ContainsKey("pf") ){
-//			LogHelper.LogError("Not get the text info which id == 8");
-//			return;
-//                }
-//		profileLabel.text = textInfo[ "pf" ] as string;
-//
-//		//active blocks1 list
-//		if( !textInfo.ContainsKey("bls1") ){
-//			LogHelper.LogError("Not get the text info which id == 10");
-//                        return;
-//                }
-//		List<uint> sprNameList1 = textInfo[ "bls1" ] as List<uint>;
-//		for( int i = 0; i < sprNameList1.Count; i++ ){
-//			blockLsit1[ i ].enabled = true;
-//			blockLsit1[ i ].spriteName = sprNameList1[ i ].ToString();
-////			Debug.LogError( " name : " + sprNameList1[ i ].ToString());
-//		}
-//
-//		//active blocks2 list
-//		if( !textInfo.ContainsKey("bls2") ){
-//			LogHelper.LogError("Not get the text info which id == 11");
-//			return;
-//		}
-//		List<uint> sprNameList2 = textInfo[ "bls2" ] as List<uint>;
-//		for( int i = 0; i < sprNameList2.Count; i++ ){
-//			blockLsit2[ i ].enabled = true;
-//                        blockLsit2[ i ].spriteName = sprNameList2[ i ].ToString();
-////			Debug.LogError( " name : " + sprNameList2[ i ].ToString());
-//                }
+//		Debug.Log("UnitDetailPanel.Callback()");
+		ShowBodyTexture( userUnit ); 
+		ShowUnitScale();
+		ShowStatusContent( userUnit );
+		ShowSkill1Content( userUnit );
+		ShowSkill2Content( userUnit );
+		ShowLeaderSkillContent( userUnit );
+		ShowActiveSkillContent( userUnit );
+		ShowProfileContent( userUnit );
 
         }
         
@@ -457,8 +338,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	void Update(){
-		ExpRise();
-	}
+		//ExpRise();
+	} 
 
 	void ExpRise () {
 		if(gotExp <= 0)	
