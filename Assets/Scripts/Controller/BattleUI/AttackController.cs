@@ -205,6 +205,7 @@ public class AttackController {
 
 	int tempPreHurtValue = 0;
 	void BeginAttack(AttackInfo ai) {
+		Debug.LogError ("BeginAttack : " + ai.AttackRange + " ```` " + Time.realtimeSinceStartup);
 		switch (ai.AttackRange) {
 		case 0:
 			DisposeAttackSingle(ai);
