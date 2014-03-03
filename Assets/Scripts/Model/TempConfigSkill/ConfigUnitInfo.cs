@@ -27,7 +27,8 @@ public class ConfigUnitInfo {
 			uiitem.powerType.expType = 1;
 			uiitem.powerType.hpType = 3;
 
-			uiitem.rare 		= i;
+			uiitem.race 		= (EUnitRace)(i%6);
+			uiitem.rare 		= i%6;
 			uiitem.maxLevel 	= 10;
 			if(i == 1){
 				uiitem.leaderSkill = 21;
