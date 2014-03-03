@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ErrorMsgWindow : UIComponentUnity {
+public class ErrorMsgWindow : UIComponentUnity,IUICallback {
 
 	UILabel errorNoteLabel;
 	UIButton closeButton;
@@ -27,15 +27,15 @@ public class ErrorMsgWindow : UIComponentUnity {
 	}
 
 	void FindUIElement(){
-		Debug.Log("ErrorMsgWindow.FindUIElement() : Start ");
+//		Debug.Log("ErrorMsgWindow.FindUIElement() : Start ");
 		errorNoteLabel = FindChild<UILabel>("Label_Error");
 		closeButton = FindChild<UIButton>("Button");
-		Debug.Log("ErrorMsgWindow.FindUIElement() : End ");
+//		Debug.Log("ErrorMsgWindow.FindUIElement() : End ");
 
 	}
 
 	void SetUIElement(){
-		AddListener();
+		this.gameObject.SetActive(false);
 	}
 
 	void ClickButton(GameObject go){
@@ -43,24 +43,18 @@ public class ErrorMsgWindow : UIComponentUnity {
 		UIEventListener.Get(closeButton.gameObject).onClick -= ClickButton;
 	}
 
-	void ShowErrorMsg(object msg){
-		string errorText = msg as string;
+	void ShowErrorMsg(string text){
 		UIEventListener.Get(closeButton.gameObject).onClick += ClickButton;
 		this.gameObject.SetActive(true);
-		errorNoteLabel.text = errorText;
+		errorNoteLabel.text = text;
 	}
 
 	void ResetUIElement(){
 		errorNoteLabel.text = string.Empty;
-		RemoveListener();
 	}
 
-	void AddListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.ErrorMsgShow , ShowErrorMsg);
+	public void Callback(object data){
+		string errorText = data as string;
+		ShowErrorMsg( errorText );
 	}
-
-	void RemoveListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.ErrorMsgShow , ShowErrorMsg);
-	}
-
 }
