@@ -57,7 +57,11 @@ func Rename(uid uint32, newName string) error {
 
 func rmain() {
 	Init()
-	Rename(103, "")
+	//Rename(104, "Jack04")
+	//Rename(105, "Maggie05")
+	//Rename(106, "Jessie06")
+	//Rename(107, "Mary07")
+	Rename(108, "Bill08")
 
 	log.Fatal("bbsvr test client finish.")
 }

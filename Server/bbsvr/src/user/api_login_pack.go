@@ -121,21 +121,23 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 	// get FriendInfo
 	if isGetFriend || isGetHelper {
 
-		friendsInfo, err := friend.GetOnlyFriends(db, uid, rank)
-		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
-		if err != nil {
+		friendsInfo, e := friend.GetOnlyFriends(db, uid, rank)
+		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", e.Error(), len(friendsInfo))
+		if e.IsError() && e.Code() != cs.EF_FRIEND_NOT_EXISTS {
 			return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
 		}
 
 		//fill rspMsg
-		for _, friend := range friendsInfo {
-			if friend.NickName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
-				log.Printf("[ERROR] unexcepted error: skip invalid friend: %+v", friend)
-				continue
-			}
+		if friendsInfo != nil {
+			for _, friend := range friendsInfo {
+				if friend.NickName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
+					log.Printf("[ERROR] unexcepted error: skip invalid friend: %+v", friend)
+					continue
+				}
 
-			//log.Printf("[TRACE] fid:%v friend:%v", fid, *friend.UserId)
-			rspMsg.Friends = append(rspMsg.Friends, &friend)
+				//log.Printf("[TRACE] fid:%v friend:%v", fid, *friend.UserId)
+				rspMsg.Friends = append(rspMsg.Friends, &friend)
+			}
 		}
 	}
 
