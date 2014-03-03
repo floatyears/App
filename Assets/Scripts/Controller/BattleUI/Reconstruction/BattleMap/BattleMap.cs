@@ -80,6 +80,8 @@ public class BattleMap : UIBaseUnity {
 		useMapItem.Clear ();
 		gameObject.SetActive (false);
 		door.HideUI ();
+
+		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMap, ShieldMap);
 	}
 
 	public override void ShowUI () {
@@ -89,6 +91,18 @@ public class BattleMap : UIBaseUnity {
 		door.ShowUI ();
 		gameObject.SetActive (true);
 		StartMap ();
+
+		MsgCenter.Instance.AddListener (CommandEnum.ShieldMap, ShieldMap);
+	}
+
+	void ShieldMap(object data) {
+		bool b = (bool)data;
+//		Debug.LogError ("ShieldMap : " + b + "map.GetLength(0) : " + map.GetLength (0) + " map.GetLength(1) : " + map.GetLength (1));
+		for (int i = 0; i < map.GetLength(0); i++) {
+			for (int j = 0; j < map.GetLength(1); j++) {
+				map[i,j].HideEnvirment(b);
+			}
+		}
 	}
 
 	void ClickDoor(GameObject go) {

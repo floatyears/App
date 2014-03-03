@@ -48,7 +48,7 @@ public class ConfigTrap {
 		ti = new TrapInfo ();
 		ti.trapID = 4;
 		ti.trapType = ETrapType.ChangeEnvir;
-		ti.valueIndex = 1;
+		ti.valueIndex = 2;
 		EnvironmentTrap et = new EnvironmentTrap (ti);
 		GlobalData.trapInfo.Add (ti.trapID, et);
 	}
