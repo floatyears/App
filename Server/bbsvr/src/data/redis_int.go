@@ -7,7 +7,6 @@ import (
 import redis "github.com/garyburd/redigo/redis"
 
 const (
-	//SERVERADDR = "211.155.86.174:6789"
 	SERVERADDR = "127.0.0.1:9999"
 )
 

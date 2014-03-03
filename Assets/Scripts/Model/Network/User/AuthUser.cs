@@ -64,6 +64,9 @@ public class AuthUser: ProtoManager {
 			GameDataStore.Instance.StoreData (GameDataStore.USER_ID, rspAuthUser.user.userId);
 		}
 
+		TUnitParty currParty = new TUnitParty (rspAuthUser.party.partyList[rspAuthUser.party.currentParty]);
+		ModelManager.Instance.SetData (ModelEnum.UnitPartyInfo, currParty);
+
 		//TODO: update localtime with servertime
 		//localTime = rspAuthUser.serverTime
 

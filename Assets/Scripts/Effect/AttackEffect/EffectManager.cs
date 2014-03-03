@@ -44,6 +44,7 @@ public class EffectManager {
 			return;	
 		}
 		List<GameObject> effect = EffectConstValue.Instance.GetEffect (ai);
+//		Debug.LogError ("AttackEnemy : " + effect.Count);
 		if (effect == null || effect.Count == 0) {
 			return;	
 		}

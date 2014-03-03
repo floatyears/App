@@ -4,10 +4,14 @@ using System.Collections;
 public class MapDoor : UIBaseUnity {
 	private GameObject leftDoor;
 	private GameObject rightDoor;
+	private Quaternion leftRotation;
+	private Quaternion rightRotation;
 	public override void Init (string name) {
 		base.Init (name);
 		leftDoor = transform.Find("Left").gameObject;
+		leftRotation = leftDoor.transform.rotation;
 		rightDoor = transform.Find ("Right").gameObject;
+		rightRotation = rightDoor.transform.rotation;
 	}
 
 	public override void CreatUI () {
@@ -17,6 +21,8 @@ public class MapDoor : UIBaseUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, OpenDoor);
+		leftDoor.transform.localRotation = leftRotation;
+		rightDoor.transform.localRotation = rightRotation;
 	}
 
 	public override void HideUI () {
