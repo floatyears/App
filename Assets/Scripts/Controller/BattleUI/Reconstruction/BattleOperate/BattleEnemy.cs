@@ -78,12 +78,11 @@ public class BattleEnemy : UIBaseUnity {
 		}
 		monster.Clear();
 	}
-
+	float interv = 10f;
 	void SortEnemyItem(List<EnemyItem> temp) {
 		int count = temp.Count;
 		if (count == 0) {	return;	}
-
-
+		CompressTextureWidth (temp);
 		if (count == 1) { 
 			temp[0].transform.localPosition = Vector3.zero; 
 			return; 
@@ -105,13 +104,35 @@ public class BattleEnemy : UIBaseUnity {
 		}
 	}
 
-//	void Compress
+	void CompressTextureWidth (List<EnemyItem> temp) {
+		int width = Screen.width;
+		int allWidth = 0;
+		for (int i = 0; i < temp.Count; i++) {
+			allWidth += temp[i].texture.width;
+		}
+		float probability = (float)width / allWidth;
+		if (probability * 2 < 1) {
+			probability *= 2;
+		}
+//		Debug.LogError (" probability : " + probability + "  width :" + width + " allWidth : " + allWidth);
+		if (probability < 1f) {
+			interv *= probability;
+			for (int i = 0; i < temp.Count; i++) {
+				float tempWidth = temp [i].texture.width * probability;
+				float tempHeight = temp [i].texture.height * probability;
+				temp [i].texture.width = (int)tempWidth;
+				temp [i].texture.height = (int)tempHeight;
+			}	
+		} else {
+			interv = 10;
+		}
+	}
 
 	void DisposeCenterLeft(int centerIndex,List<EnemyItem> temp) {
 		int tempIndex = centerIndex - 1;
 		while(tempIndex >= 0) {
 			Vector3 localPosition = temp[tempIndex + 1].transform.localPosition;
-			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - (temp[tempIndex].texture.width >> 1), 0f, 0f);
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - ((temp[tempIndex].texture.width >> 1) + interv) , 0f, 0f);
 			tempIndex--;
 		}
 	}
@@ -121,7 +142,7 @@ public class BattleEnemy : UIBaseUnity {
 
 		while(tempIndex < temp.Count) {
 			Vector3 localPosition = temp[tempIndex - 1].transform.localPosition;
-			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + (temp[tempIndex].texture.width >> 1), 0f, 0f);
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + ((temp[tempIndex].texture.width >> 1) + interv), 0f, 0f);
 			tempIndex++;
 		}
 	}

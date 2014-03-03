@@ -11,6 +11,7 @@ public class MapItem : UIBaseUnity
 	private UITexture mapItemTexture;
 	private FloorRotate floorRotate;
 	private UISprite mapItemSprite;
+	string spriteName = "";
 
 	private Vector3 initPosition = Vector3.zero;
 	private Vector3 initRotation = Vector3.zero;
@@ -58,20 +59,32 @@ public class MapItem : UIBaseUnity
 		int y = System.Int32.Parse (info [1]);
 		SingleMapData smd = BattleQuest.mapConfig.mapData [x, y];
 		if (smd.ContentType == MapItemEnum.key) {
-			mapItemSprite.spriteName = "key";	
+			spriteName = "key";
+//			mapItemSprite.spriteName = "key";	
 		} else if(smd.ContentType == MapItemEnum.Exclamation){
-			mapItemSprite.spriteName = "d";	
+			spriteName = "d";
+//			mapItemSprite.spriteName = "d";	
 		} else{
-			mapItemSprite.spriteName = "";	
+//			mapItemSprite.spriteName = "";	
 		}
-		
+		mapItemSprite.spriteName = spriteName;
 	}
 
-	public override void ShowUI()
-	{
+	public override void ShowUI() {
 		isOld = false;
 
 		//mapItemTexture.color = Color.white;
+	}
+
+	public void HideEnvirment(bool b) {
+//		Debug.Log ("isOld : " + isOld + " b : " + b);
+		if (!isOld) {
+			if(b) {
+				mapItemSprite.spriteName = "6";
+			}else{
+				mapItemSprite.spriteName = spriteName;
+			}
+		}
 	}
 
 	public void RotateAnim() {

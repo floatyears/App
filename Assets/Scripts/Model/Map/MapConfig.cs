@@ -13,6 +13,8 @@ public class MapConfig : IOriginModel {
 	public const int endPointY = 4;
 	public List<uint> BossID = new List<uint> () {3};
 	private List<string> mapItemPath = new List<string>();
+	public int floor = 2;
+
 	private int mapID;
 
 	public string GetMapPath() {
@@ -31,6 +33,7 @@ public class MapConfig : IOriginModel {
 
 	public MapConfig () {
 		ConfigTrap ct = new ConfigTrap ();
+		floor = 2;
 		mapXLength = 5;
 		mapYLength = 5;
 		mapID = 1;
@@ -41,14 +44,14 @@ public class MapConfig : IOriginModel {
 				smd.StarLevel = Random.Range(0,5);
 				smd.CoordinateX = i;
 				smd.CoordinateY = j;
-				smd.ContentType = MapItemEnum.Enemy;
+				smd.ContentType = MapItemEnum.None;
 //				for (int k = 0; k < smd.StarLevel; k++) 
 //				{
 					smd.MonsterID.Add(1);
 					smd.MonsterID.Add(2);
 					smd.MonsterID.Add(3);
-//					smd.MonsterID.Add(4);
-//					smd.MonsterID.Add(5);
+					smd.MonsterID.Add(4);
+					smd.MonsterID.Add(5);
 				//				}
 				
 				mapData[i,j] = smd;
@@ -57,10 +60,10 @@ public class MapConfig : IOriginModel {
 
 		SingleMapData singleMapItem = mapData [1, 0];
 		singleMapItem.ContentType = MapItemEnum.Trap;
-		singleMapItem.TypeValue = 3;
+		singleMapItem.TypeValue = 4;
 		singleMapItem = mapData [1, 1];
 		singleMapItem.ContentType = MapItemEnum.Trap;
-		singleMapItem.TypeValue = 1;
+		singleMapItem.TypeValue = 3;
 		singleMapItem = mapData [2, 1];
 		singleMapItem.ContentType = MapItemEnum.Coin;
 		singleMapItem.TypeValue = 0;
