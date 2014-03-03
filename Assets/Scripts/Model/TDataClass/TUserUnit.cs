@@ -234,7 +234,10 @@ public class TUserUnit : ProtobufDataBase {
 
 	public int NextExp {
 		get {
-			return GlobalData.Instance.GetUnitValueTotal(UnitInfo.ExpType, instance.level) - instance.exp;
+			int nextexp = GlobalData.Instance.GetUnitValueTotal (UnitInfo.ExpType, instance.level) - instance.exp;
+			if (nextexp < 0)
+				nextexp = 0;
+			return nextexp;
 		}
 	}
 

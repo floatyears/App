@@ -28,7 +28,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 		for(int nFloor=0; nFloor < instance.floors.Count; nFloor++){
 			LogHelper.Log ("===fill floor[{0}]", nFloor);
 			for(int f=0; f< instance.floors[nFloor].gridInfo.Count; f++){
-				TQuestGrid grid = new TQuestGrid (instance.floors [nFloor].gridInfo [f]);
+				TQuestGrid grid = new TQuestGrid (instance.floors[nFloor].gridInfo[f]);
 
 				//assign DropUnit
 				for(int i=0; i<instance.drop.Count;i++){
@@ -100,11 +100,11 @@ public class TQuestDungeonData : ProtobufDataBase {
 	public uint				QuestId	{ get { return instance.questId; } }
 	public List<byte>		Colors	{ get { return this.colors; } }
 	public List<TDropUnit>	DropUnit { get { return this.dropUnit;} }
+
 //	EnemyInfo		boss	
 //	EnemyInfo		enemys	
 
-//	QuestFloor		floors	
-
+	public List<QuestFloor>	Floors;
 	
 }
 
@@ -134,6 +134,7 @@ public class TQuestGrid : ProtobufDataBase {
 	public EGridStar Star { get { return instance.star; } }
 	public EQuestGridType Type { get { return instance.type; } }
 	public uint	TrapId { get { return instance.trapId; } }
+	public TrapBase	TrapInfo { get { return GlobalData.trapInfo[instance.trapId]; } }
 }
 
 
