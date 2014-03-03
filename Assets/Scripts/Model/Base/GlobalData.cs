@@ -54,9 +54,17 @@ public class GlobalData  {
 	/// <returns>The unit value.</returns>
 	/// <param name="type">Type.</param>
 	/// <param name="level">Level.</param>
+
 	public int GetUnitValue (int type, int level) {
 		TPowerTableInfo pti = unitValue[type];
 		return pti.GetValue(level);
+	}
+	public int GetUnitValueTotal (int type, int level) {
+		TPowerTableInfo pti = unitValue[type];
+		int totalValue = 0;
+		for (int i=1; i<=level; i++)
+			totalValue += pti.GetValue(level);
+		return totalValue;
 	}
 
 	//Temp
