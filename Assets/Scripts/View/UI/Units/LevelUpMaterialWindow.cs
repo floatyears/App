@@ -15,12 +15,12 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+		MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, FocusOnPanel);
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+		MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, FocusOnPanel);
 	}
 	
 	private void InitUI(){

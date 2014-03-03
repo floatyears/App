@@ -47,7 +47,7 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 			Dictionary<int,uint> temp = upi.GetPartyItem();
 			Dictionary<int,UnitBaseInfo> viewInfo = new Dictionary<int, UnitBaseInfo>();
 			foreach(var item in temp) {
-				TUserUnit uui =  GlobalData.userUnitInfo[item.Value];
+				TUserUnit uui =  GlobalData.userUnitList.GetMyUnit(item.Value);
 				if(!userUnit.ContainsKey(item.Key)) {
 					userUnit.Add(item.Key,uui);
 				}

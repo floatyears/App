@@ -97,10 +97,8 @@ public class AuthUser: ProtoManager {
 
 		if (rspAuthUser.unitList != null) {
 			foreach(UserUnit unit in rspAuthUser.unitList) {
-				if ( !GlobalData.myUnitList.ContainsKey(unit.uniqueId) )
-					GlobalData.myUnitList.Add(unit.uniqueId, new TUserUnit(unit));
-				if ( !GlobalData.userUnitInfo.ContainsKey(unit.uniqueId) )
-					GlobalData.userUnitInfo.Add( unit.uniqueId, new TUserUnit(unit));
+				GlobalData.myUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+				GlobalData.userUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
 			}
 		}
 

@@ -57,26 +57,26 @@ public class UnitsComponent : ConcreteComponent, IUIParty {
 		}
 		if( partyID == 1 )
 		{
-			unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as TUnitParty;
-			Dictionary< int, uint > temp = unitPartyInfo.GetPartyItem();
-			Dictionary< string, object > viewInfo = new Dictionary<string, object>();
-			Dictionary< int, UnitBaseInfo > avatarInfoDic = new Dictionary<int, UnitBaseInfo >();
-
-			foreach (var item in temp) {
-				TUserUnit userUnitInfo = GlobalData.userUnitInfo[ item.Value ];
-				if( !userUnit.ContainsKey( item.Key )) {
-					userUnit.Add( item.Key, userUnitInfo );
-				}
-//				UnitBaseInfo unitBaseInfo = GlobalData.unitBaseInfo[ userUnitInfo.unitBaseInfo ];
-//				avatarInfoDic.Add( item.Key, unitBaseInfo );
-			}
-
-			int totalHP = unitPartyInfo.GetBlood() ;
-
-			viewInfo.Add( "avatar", avatarInfoDic);
-			viewInfo.Add("hp", totalHP);
-
-			partyInterface.PartyPaging( viewInfo );
+//			unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as TUnitParty;
+//			Dictionary< int, uint > temp = unitPartyInfo.GetPartyItem();
+//			Dictionary< string, object > viewInfo = new Dictionary<string, object>();
+//			Dictionary< int, UnitBaseInfo > avatarInfoDic = new Dictionary<int, UnitBaseInfo >();
+//
+//			foreach (var item in temp) {
+//				TUserUnit userUnitInfo = GlobalData.userUnitList.GetMyUnit(item.Value);
+//				if( !userUnit.ContainsKey( item.Key )) {
+//					userUnit.Add( item.Key, userUnitInfo );
+//				}
+////				UnitBaseInfo unitBaseInfo = GlobalData.unitBaseInfo[ userUnitInfo.unitBaseInfo ];
+////				avatarInfoDic.Add( item.Key, unitBaseInfo );
+//			}
+//
+//			int totalHP = unitPartyInfo.GetBlood() ;
+//
+//			viewInfo.Add( "avatar", avatarInfoDic);
+//			viewInfo.Add("hp", totalHP);
+//
+//			partyInterface.PartyPaging( viewInfo );
 		}
 		else {
 			partyInterface.PartyPaging( null );

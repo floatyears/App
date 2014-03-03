@@ -19,15 +19,16 @@ public class ConfigUnitInfo {
 			UnitInfo uiitem 	= new UnitInfo ();
 			uiitem.id 			= (uint)i;
 			uiitem.name			= "unit_" + i;
-			uiitem.type 		= (EUnitType)i;
+			uiitem.type 		= (EUnitType)(1+i%6);
 			uiitem.skill1 		= (i - 1) * 2 % 10;
 			uiitem.skill2 		= ((i - 1) * 2 + 1)%10;
 			uiitem.powerType = new PowerType();
 			uiitem.powerType.attackType = 2;
 			uiitem.powerType.expType = 1;
 			uiitem.powerType.hpType = 3;
-
-			uiitem.rare 		= i;
+			uiitem.cost = (i % 5);
+			uiitem.race 		= (EUnitRace)(i%6);
+			uiitem.rare 		= i%6;
 			uiitem.maxLevel 	= 10;
 			if(i == 1){
 				uiitem.leaderSkill = 21;
@@ -70,20 +71,21 @@ public class ConfigUnitInfo {
 
 
 	void GenerateUserUnit () {
-		for (uint i = 1; i < maxCount; i++) {
-			UserUnit uu 		= new UserUnit ();
-			uu.uniqueId 		= i;
-			uu.unitId 			= i;
-			uu.exp 				= 0;
-			uu.level 			= 1;
-			uu.addAttack 		= (int)i;
-			uu.addDefence		= 0;
-			uu.addHp 			= (int)i;
-			uu.limitbreakLv 	= 2;
-			uu.getTime 			= 0;
-			TUserUnit uui 	= new TUserUnit (uu);
-			GlobalData.userUnitInfo.Add (i, uui);
-		}
+//		for (uint i = 1; i < maxCount; i++) {
+//			UserUnit uu 		= new UserUnit ();
+//			uu.uniqueId 		= i;
+//			uu.unitId 			= i;
+//			uu.exp 				= 0;
+//			uu.level 			= 1;
+//			uu.addAttack 		= (int)i;
+//			uu.addDefence		= 0;
+//			uu.addHp 			= (int)i;
+//			uu.limitbreakLv 	= 2;
+//			uu.getTime 			= 0;
+//			TUserUnit uui 	= new TUserUnit (uu);
+////			if ( GlobalData.userInfo!=null )
+////				GlobalData.userUnitList.Add (GlobalData.userInfo.UserId,uu.uniqueId, uui);
+//		}
 //		GlobalData.userUnitInfo [1].unitBaseInfo = 181;
 //		GlobalData.userUnitInfo [2].unitBaseInfo = 85;
 //		GlobalData.userUnitInfo [3].unitBaseInfo = 89;

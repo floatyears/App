@@ -9,17 +9,22 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	UILabel expCurGotLabel;
 	UILabel cionNeedLabel;
 
+	GameObject curFocusTab;
+	GameObject baseTab;
+	GameObject friendTab;
+	GameObject materialTab;
+
 	UIImageButton levelUpButton;
-	List<GameObject> TabList = new List<GameObject>();
+	List<GameObject> Tabs = new List<GameObject>();
 	Dictionary<int,GameObject> materialPoolDic = new Dictionary<int,GameObject>();
 
 	UITexture baseCollectorTex;
 	UITexture friendCollectorTex;
 	List<UITexture> materialCollectorTex = new List<UITexture>();
 	
-	UserUnit baseUnitInfo;
-	UserUnit friendUnitInfo;
-	List<UserUnit> materialUnitInfo = new List<UserUnit>();
+	TUserUnit baseUnitInfo;
+	TUserUnit friendUnitInfo;
+	List<TUserUnit> materialUnitInfo = new List<TUserUnit>();
 
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		InitUI();
@@ -29,7 +34,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	public override void ShowUI(){
 
 		base.ShowUI();
-		OnTab(TabList[0]);
+		FoucsOnTab( Tabs[0] );
 		AddListener();
 		levelUpButton.isEnabled = false;
 		ClearTexture();
@@ -50,19 +55,18 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 
-
-	void UpdateBaseInfoView( UserUnit unitInfo){
-		GameObject baseTab = TabList[0];
-		uint curUnitId = unitInfo.unitId;
-		TUnitInfo tu = GlobalData.unitInfo[ curUnitId ];
+	void UpdateBaseInfoView( TUserUnit unitInfo){
+		GameObject baseTab = Tabs[0];
+			
+		TUnitInfo tu = GlobalData.unitInfo[ unitInfo.UnitID ];
 
 		UITexture tex = baseTab.GetComponentInChildren<UITexture>();
 		tex.mainTexture = tu.GetAsset(UnitAssetType.Avatar);
 
-		int hp = GlobalData.Instance.GetUnitValue(tu.HPType,unitInfo.level);
+		int hp = GlobalData.Instance.GetUnitValue(tu.HPType,unitInfo.Level);
 		hpLabel.text = hp.ToString();
 
-		int atk =  GlobalData.Instance.GetUnitValue(tu.AttackType, unitInfo.level);
+		int atk =  GlobalData.Instance.GetUnitValue(tu.AttackType, unitInfo.Level);
 		atkLabel.text = atk.ToString();
 
 		expNeedLabel.text = "16918";
@@ -80,18 +84,16 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		cionNeedLabel.text = UIConfig.emptyLabelTextFormat;
 	}
 
-	void UpdateMaterialInfoView( UserUnit unitInfo){
+	void UpdateMaterialInfoView( TUserUnit unitInfo){
 		GameObject materialTab = materialPoolDic[ materialUnitInfo.Count ];
 		UITexture tex = materialTab.GetComponentInChildren<UITexture>();
-		uint curUnitId = unitInfo.unitId;
-		tex.mainTexture = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		tex.mainTexture = GlobalData.unitInfo[ unitInfo.UnitID ].GetAsset(UnitAssetType.Avatar);
         }
         
-	void UpdateFriendInfo(UserUnit unitInfo){
-		GameObject friendTab = TabList[1];
+	void UpdateFriendInfo(TUserUnit unitInfo){
+		GameObject friendTab = Tabs[1];
 		UITexture tex = friendTab.GetComponentInChildren<UITexture>();
-		uint curUnitId = unitInfo.unitId;
-		tex.mainTexture = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		tex.mainTexture = GlobalData.unitInfo[ unitInfo.UnitID ].GetAsset(UnitAssetType.Avatar);
         }
 
 	void FindInfoPanelLabel(){
@@ -129,46 +131,51 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	
 	void InitTab(){
 		GameObject tab;
+
 		tab = FindChild("Tab_Base");
-		TabList.Add(tab);
+		Tabs.Add(tab);
 		
 		tab = FindChild("Tab_Friend");
-		TabList.Add(tab);
+		Tabs.Add(tab);
+
 		tab = FindChild("Tab_Material");
-		TabList.Add(tab);
+		Tabs.Add(tab);
+
 		for (int i = 1; i < 5; i++){
-			GameObject temp = tab.transform.FindChild("Material" + i.ToString()).gameObject;
-                        materialPoolDic.Add( i, temp);
+			GameObject item = tab.transform.FindChild("Material" + i.ToString()).gameObject;
+                        materialPoolDic.Add( i, item);
                 }
                 
-                foreach (var item in TabList){
+                foreach (var item in Tabs)
                         UIEventListener.Get(item).onClick = ClickTab;
-                }
         }
 
 
         void ClickTab(GameObject tab){
-		OnTab(tab);
+		FoucsOnTab(tab);
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 	}
 
-	void OnTab(GameObject focus){
-		MsgCenter.Instance.Invoke(CommandEnum.LevelUpPanelFocus, focus.name );
-		foreach (var tab in TabList) {
-			if (tab == focus) {
-				tab.transform.FindChild("Light_Frame").gameObject.SetActive(true);
-				tab.transform.FindChild("Label_Title").GetComponent< UILabel >().color = Color.yellow;
-			} else{
-				tab.transform.FindChild("Light_Frame").gameObject.SetActive(false);
-				tab.transform.FindChild("Label_Title").GetComponent< UILabel >().color = Color.white;
-			}
+	void FoucsOnTab(GameObject focus){
+
+		//disable all tab
+		foreach (var tab in Tabs){
+			tab.transform.FindChild("Light_Frame").gameObject.SetActive(false);
+			tab.transform.FindChild("Label_Title").GetComponent< UILabel >().color = Color.white;
 		}
+
+		//activate focus tab
+		curFocusTab = focus;
+		focus.transform.FindChild("Light_Frame").gameObject.SetActive(true);
+		focus.transform.FindChild("Label_Title").GetComponent< UILabel >().color = Color.yellow;
+		//activate focus tab content
+		MsgCenter.Instance.Invoke(CommandEnum.PanelFocus, focus.name );
+//		Debug.Log("FoucsOnTab() :  ");
 	}
 	
 	void AddListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.PickBaseUnitInfo, PickBaseUnitInfo );
 		MsgCenter.Instance.AddListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
-		MsgCenter.Instance.AddListener(CommandEnum.PickMaterialUnitInfo, PickMaterialUnitInfo );
 		MsgCenter.Instance.AddListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
 
 	}
@@ -176,7 +183,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void RemoveListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickBaseUnitInfo, PickBaseUnitInfo );
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
-		MsgCenter.Instance.RemoveListener(CommandEnum.PickMaterialUnitInfo, PickMaterialUnitInfo );
 		MsgCenter.Instance.RemoveListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
 	}
 	
@@ -201,8 +207,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		MsgCenter.Instance.Invoke(CommandEnum.LevelUp, PackUserUnitInfo());//after
 	}
 	
-	List<UserUnit> PackUserUnitInfo(){
-		List<UserUnit> pickedUserUnitInfo = new List<UserUnit>();
+	List<TUserUnit> PackUserUnitInfo(){
+		List<TUserUnit> pickedUserUnitInfo = new List<TUserUnit>();
 		pickedUserUnitInfo.Add(baseUnitInfo);
 		pickedUserUnitInfo.Add(friendUnitInfo);
 		foreach (var item in materialUnitInfo){
@@ -213,25 +219,34 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	void PickBaseUnitInfo(object info){
 //		Debug.Log("Ready Pool Receive info !");
-		if(baseUnitInfo != null)	return;
-		baseUnitInfo = info as UserUnit;
-		UpdateBaseInfoView( baseUnitInfo );
+//		Debug.LogError("Current Focus Panel : " + curFocusTab.name);
+		if( curFocusTab.name == "Tab_Base" ){
+//			Debug.LogError("UpdateBaseInfoView ");
+			//if(baseUnitInfo != null)	return;
+			baseUnitInfo = info as TUserUnit;
+			UpdateBaseInfoView( baseUnitInfo );
+		}else{
+			if( materialUnitInfo.Count == 4)	return;
+			TUserUnit tempInfo = info as TUserUnit;
+			materialUnitInfo.Add(tempInfo);
+			UpdateMaterialInfoView( tempInfo );
+		}
 	}
 
 
 	void PickFriendUnitInfo(object info){
-		if(friendUnitInfo != null)	return;
-		friendUnitInfo = info as UserUnit;
+		//if(friendUnitInfo != null)	return;
+		friendUnitInfo = info as TUserUnit;
 
 		UpdateFriendInfo(friendUnitInfo);
 	}
-	void PickMaterialUnitInfo(object info){
-		if( materialUnitInfo.Count == 4)	return;
-		UserUnit tempInfo = info as UserUnit;
-		materialUnitInfo.Add(tempInfo);
-		UpdateMaterialInfoView( tempInfo );
-
-	}
+//	void PickMaterialUnitInfo(object info){
+//		if( materialUnitInfo.Count == 4)	return;
+//		TUserUnit tempInfo = info as TUserUnit;
+//		materialUnitInfo.Add(tempInfo);
+//		UpdateMaterialInfoView( tempInfo );
+//
+//	}
 
 	Dictionary<string, object> PackLevelUpInfo(){
 		//condition : exist base && material && friend
