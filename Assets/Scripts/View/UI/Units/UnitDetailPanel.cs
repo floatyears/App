@@ -244,11 +244,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		//cost
 		costLabel.text = unitInfo.Cost.ToString();
 		
-		//race  not have data interface
-		//raceLabel.text = unitInfo.ToString();
+		//race  
+		raceLabel.text = unitInfo.Race.ToString();
+		Debug.LogError("unitInfo.Race : "+unitInfo.Race.ToString());
+
 		
 		//rare
 		rareLabel.text = unitInfo.Rare.ToString();
+		Debug.LogError("unitInfo.Rare : "+unitInfo.Rare.ToString());
 		
 		//next level need
 		needExpLabel.text = data.Exp.ToString();
