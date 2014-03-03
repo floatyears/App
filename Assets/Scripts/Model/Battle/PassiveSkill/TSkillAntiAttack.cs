@@ -11,6 +11,7 @@ public class TSkillAntiAttack : SkillBaseInfo, IPassiveExcute {
 
 	public object Excute (object trapBase, IExcutePassiveSkill excutePS) {
 		if (trapBase is TrapBase) {
+			excutePS.DisposeTrap(false);
 			return null;	
 		}
 

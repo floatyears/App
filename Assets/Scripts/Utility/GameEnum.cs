@@ -128,6 +128,7 @@ public enum CommandEnum
 	RotateDown				= 3046,
 	MeetCoin					= 3047,
 	StateInfo					= 3048,
+	StopInput					= 3049,
 
 	//Add By Ling yan	
 	PanelFocus					= 4000,
@@ -170,6 +171,7 @@ public enum MapItemEnum {
 	Coin					= 3,
 	key						= 4,
 	Start					= 5,
+	Exclamation 			= 6,
 }
 
 public enum UIParentEnum : byte {

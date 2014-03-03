@@ -148,6 +148,7 @@ public class BattleQuest : UIBase {
 			if(currentMapData.ContentType == MapItemEnum.Start) {
 				return;
 			}
+//			Debug.LogError("ContentType : " + currentMapData.ContentType);
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 			switch (currentMapData.ContentType) {
 			case MapItemEnum.None:
@@ -171,6 +172,10 @@ public class BattleQuest : UIBase {
 				battleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemTrap);
 				break;
+			case MapItemEnum.Exclamation : 
+				battleMap.waitMove = true;
+				battleMap.RotateAnim(MapItemExclamation);
+				break;
 			default:
 					break;
 			}
@@ -184,6 +189,11 @@ public class BattleQuest : UIBase {
 		battle.ShowEnemy(temp);
 	}
 
+	void MapItemExclamation() {
+		battleMap.waitMove = false;
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+	}
+	
 	void MapItemTrap() {
 		battleMap.waitMove = false;
 		TrapBase tb = GlobalData.trapInfo[currentMapData.TypeValue];
@@ -199,6 +209,7 @@ public class BattleQuest : UIBase {
 
 	void MapItemKey() {
 		battleMap.waitMove = false;
+		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 

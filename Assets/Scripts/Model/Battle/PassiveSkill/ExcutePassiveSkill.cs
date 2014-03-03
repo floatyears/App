@@ -67,7 +67,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 	}
 
 	public void DisposeTrap (bool isAvoid) {
-
+//		Debug.LogError ("trap.Count : " + trap.Count + " isAvoid : " + isAvoid);
 		if (trap.Count == 0) {
 			return;	
 		}

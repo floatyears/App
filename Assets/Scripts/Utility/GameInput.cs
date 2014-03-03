@@ -25,13 +25,17 @@ public class GameInput : MonoBehaviour  {
 	private float stationarIntervTime = 2f;
 	
 	void OnEnable () {
-
 		Application.RegisterLogCallback (CatchException);
+		MsgCenter.Instance.AddListener (CommandEnum.StopInput, StopInput);
 	}
 
 	void OnDisable () {
-
 		Application.RegisterLogCallback (null);
+		MsgCenter.Instance.RemoveListener (CommandEnum.StopInput, StopInput);
+	}
+
+	void StopInput(object data) {
+		isCheckInput = false;
 	}
 
 	void CatchException(string condition, string stackInfo, LogType lt) {

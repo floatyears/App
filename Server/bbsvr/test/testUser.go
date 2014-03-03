@@ -163,7 +163,7 @@ type My struct {
 	MyTp MyTp
 }
 
-func umain() {
+func main() {
 	Init()
 	//AddUsers()
 

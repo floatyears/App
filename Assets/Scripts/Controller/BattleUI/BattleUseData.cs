@@ -195,7 +195,9 @@ public class BattleUseData {
 	public List<TEnemyInfo> GetEnemyInfo (List<uint> monster) {
 		currentEnemy.Clear ();
 		int j = showEnemy.Count - monster.Count;
-		for (int i = 0; i < j; i++) {
+
+		for (int i = j - 1; i > -1; i--) {
+//			Debug.LogError (showEnemy.Count + "  monster.Count : " + monster.Count + " monster.Count + i : " + (monster.Count + i));
 			showEnemy.RemoveAt(monster.Count + i);
 		}
 		for (int i = 0; i < monster.Count; i++) {

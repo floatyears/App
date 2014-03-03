@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class EnemyItem : UIBaseUnity {
 	private TEnemyInfo enemyInfo;
@@ -8,6 +9,7 @@ public class EnemyItem : UIBaseUnity {
 	private UITexture dropTexture;
 
 	private UILabel bloodLabel;
+	private UISprite bloodSprite;
 	private UILabel nextLabel;
 	private UIPanel effect;
 	private Vector3 attackPosition;
@@ -59,6 +61,7 @@ public class EnemyItem : UIBaseUnity {
 
 		attackQueue.Enqueue (ai);
 		GameTimer.GetInstance ().AddCountDown (1f, Effect);
+//		Debug.LogError("Attack : ");
 
 	}
 
@@ -120,7 +123,8 @@ public class EnemyItem : UIBaseUnity {
 		dropTexture.enabled 	= false;
 		localPosition 			= texture.transform.localPosition;
 		attackPosition 			= new Vector3 (localPosition.x, BattleBackground.ActorPosition.y , localPosition.z);
-		bloodLabel 				= FindChild<UILabel> ("BloodLabel");
+//		bloodLabel 				= FindChild<UILabel> ("BloodLabel");
+		bloodSprite				= FindChild<UISprite>("BloodSprite");
 		nextLabel 				= FindChild<UILabel> ("NextLabel");
 		effect					= FindChild<UIPanel> ("Effect");
 		hurtValueLabel			= FindChild<UILabel> ("HurtLabel");
@@ -157,7 +161,7 @@ public class EnemyItem : UIBaseUnity {
 		texture.enabled = false;
 		DropItem ();
 	}
-
+	Queue<TEnemyInfo> tempQue = new Queue<TEnemyInfo>();
 	void EnemyRefresh(object data) {
 		TEnemyInfo te = data as TEnemyInfo;
 		if (te == null) {
@@ -167,14 +171,23 @@ public class EnemyItem : UIBaseUnity {
 		if (te.EnemyID != enemyInfo.EnemyID) {
 			return;		
 		}
+//		enemyInfo = te;
 
-		enemyInfo = te;
+		tempQue.Enqueue (te);
 
-		if (enemyInfo.GetBlood() > te.GetBlood ()) {
-			InjuredShake();
-		}
+		GameTimer.GetInstance ().AddCountDown (1f, RefreshData);
+//		if (enemyInfo.GetBlood() > te.GetBlood ()) {
+//			InjuredShake();
+//		}
 
-		SetBloodLabel (enemyInfo.GetBlood());
+		//SetBloodLabel (enemyInfo.GetBlood());
+
+	}
+
+	void RefreshData () {
+		enemyInfo = tempQue.Dequeue ();
+		float value =  (float)enemyInfo.GetBlood () /enemyInfo.GetInitBlood ();
+		SetBlood (value);
 		SetNextLabel (enemyInfo.GetRound());
 	}
 
@@ -197,8 +210,22 @@ public class EnemyItem : UIBaseUnity {
 		SetNextLabel (seu.GetRound());
 	}
 
+	void SetBlood(float value) {
+		//bloodSprite.fillAmount = value; 
+		StartCoroutine (CountBloodValue (value));
+	}
+
+	IEnumerator CountBloodValue (float fillAmount) {
+		while (bloodSprite.fillAmount > fillAmount) {
+			bloodSprite.fillAmount -= Time.deltaTime * 5;
+			yield return 1;
+		}
+
+		bloodSprite.fillAmount = fillAmount;
+	}
+
 	void SetBloodLabel (int seu) {
-			bloodLabel.text = seu.ToString();	
+//			bloodLabel.text = seu.ToString();	
 	}
 
 	void SetNextLabel (int seu) {

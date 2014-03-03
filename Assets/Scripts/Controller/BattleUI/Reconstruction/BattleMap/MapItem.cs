@@ -10,6 +10,7 @@ public class MapItem : UIBaseUnity
 	}
 	private UITexture mapItemTexture;
 	private FloorRotate floorRotate;
+	private UISprite mapItemSprite;
 
 	private Vector3 initPosition = Vector3.zero;
 	private Vector3 initRotation = Vector3.zero;
@@ -44,8 +45,26 @@ public class MapItem : UIBaseUnity
 		initPosition = transform.localPosition;
 		initRotation = transform.rotation.eulerAngles;
 		mapItemTexture = FindChild<UITexture>("Floor/MapItem");
+		mapItemSprite = FindChild<UISprite>("Sprite");
 		floorRotate = GetComponent<FloorRotate> ();
 		floorRotate.Init ();
+
+		if (name == "SingleMap") {
+			return;
+		}
+
+		string[] info = name.Split('|');
+		int x = System.Int32.Parse (info[0]);
+		int y = System.Int32.Parse (info [1]);
+		SingleMapData smd = BattleQuest.mapConfig.mapData [x, y];
+		if (smd.ContentType == MapItemEnum.key) {
+			mapItemSprite.spriteName = "key";	
+		} else if(smd.ContentType == MapItemEnum.Exclamation){
+			mapItemSprite.spriteName = "d";	
+		} else{
+			mapItemSprite.spriteName = "";	
+		}
+		
 	}
 
 	public override void ShowUI()

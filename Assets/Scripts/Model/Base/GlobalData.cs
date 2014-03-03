@@ -29,12 +29,12 @@ public class GlobalData  {
 	public static TUserInfo userInfo;
 	public static TAccountInfo accountInfo;
 	public static List<TFriendInfo> friends;
-	public static Dictionary<uint, TUserUnit> myUnitList = new Dictionary<uint, TUserUnit>();
-
+	//TODO: reconstruct myUnitList
+	public static UserUnitList myUnitList = new UserUnitList();
+	public static UserUnitList userUnitList = new UserUnitList();
 	public static Dictionary<int,TPowerTableInfo> unitValue = new Dictionary<int, TPowerTableInfo>();
 	public static Dictionary<int, SkillBaseInfo> skill = new Dictionary<int, SkillBaseInfo>();
-	public static Dictionary<uint, TUnitInfo> unitInfo = new Dictionary<uint, TUnitInfo> ();
-	public static Dictionary<uint, TUserUnit> userUnitInfo = new Dictionary<uint, TUserUnit>();
+	public static Dictionary<uint, TUnitInfo>	unitInfo = new Dictionary<uint, TUnitInfo> ();
 	public static Dictionary<uint, TEnemyInfo> enemyInfo = new Dictionary<uint, TEnemyInfo> ();
 	public static Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo> ();
 	public static Dictionary<uint, TrapBase> trapInfo = new Dictionary<uint, TrapBase> ();

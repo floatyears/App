@@ -55,7 +55,7 @@ func Rename(uid uint32, newName string) error {
 	return err
 }
 
-func main() {
+func rmain() {
 	Init()
 	Rename(103, "")
 

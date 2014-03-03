@@ -84,7 +84,10 @@ public class BattleEnemy : UIBaseUnity {
 	void SortEnemyItem(List<EnemyItem> temp) {
 		int count = temp.Count;
 		if (count == 0) {	return;	}
-		if (count == 1) { temp[0].transform.localPosition = Vector3.zero; }
+		if (count == 1) { 
+			temp[0].transform.localPosition = Vector3.zero; 
+			return; 
+		}
 		int centerIndex = 0;
 		if (DGTools.IsOddNumber (count)) {
 			centerIndex = ((count + 1) >> 1) - 1;		

@@ -300,6 +300,48 @@ public class TUserUnit : ProtobufDataBase {
 	}
 }
 
+//A wrapper to manage userUnitInfo list
+public class UserUnitList {
+	private Dictionary<string, TUserUnit> userUnitInfo;
+	public UserUnitList(){ 
+		userUnitInfo = new Dictionary<string, TUserUnit>(); //key: "{userid}_{unitUniqueId}"
+	}
+
+	public  string MakeUserUnitKey(uint userId, uint uniqueId) {
+		return userId.ToString () + "_" + uniqueId.ToString ();
+	}
+
+	public  Dictionary<string, TUserUnit> GetAll() {
+		return userUnitInfo;
+	}
+
+	public  TUserUnit Get(uint userId, uint uniqueId) {
+		string key = MakeUserUnitKey(userId, uniqueId);
+		if (!userUnitInfo.ContainsKey (key))
+			return null;
+		return userUnitInfo [key];
+	}
+
+	public  TUserUnit GetMyUnit(uint uniqueId) {
+		return Get(GlobalData.userInfo.UserId, uniqueId);
+	}
+
+	public  void Add(uint userId, uint uniqueId, TUserUnit uu) {
+		string key = MakeUserUnitKey(userId, uniqueId);
+		if ( !userUnitInfo.ContainsKey (key) )
+			userUnitInfo.Add(key, uu);
+		else{
+			userUnitInfo [key] = uu;
+		}
+	}
+
+	public  void Del(uint userId, uint uniqueId) {
+		string key = MakeUserUnitKey(userId, uniqueId);
+		if (userUnitInfo.ContainsKey (key))
+			userUnitInfo.Remove(key);
+	}
+}
+
 //public class PartyItemInfo : ProtobufDataBase {
 //	public PartyItemInfo (PartyItem instance) : base (instance) {
 //		UnitInfo UI = new UnitInfo ();
