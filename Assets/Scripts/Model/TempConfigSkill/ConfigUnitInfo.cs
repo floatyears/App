@@ -104,7 +104,7 @@ public class ConfigUnitInfo {
 		}
 		TUnitParty upi = new TUnitParty (up);
 
-		ModelManager.Instance.AddData (ModelEnum.UnitPartyInfo, upi);
+		ModelManager.Instance.SetData (ModelEnum.UnitPartyInfo, upi);
 	}
 }
 
