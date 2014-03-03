@@ -156,7 +156,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 			//Get target data of each panel item
 			TUserUnit uuItem = userUnitInfoList[ i ] ;
-			Debug.LogError("userUnitInfoList id " + userUnitInfoList[ i ].UnitID);
+//			Debug.LogError("userUnitInfoList id " + userUnitInfoList[ i ].UnitID);
 
 			baseUnitInfoDic.Add( scrollItem, uuItem );
 

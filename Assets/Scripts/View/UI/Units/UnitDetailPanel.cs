@@ -55,7 +55,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		base.ShowUI ();
 
-		ShowUnitScale();
+
 		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 	}
@@ -144,7 +144,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 		ClearBlock( blockLsit2 );
 //                Debug.LogError( "BlockList2 count : " + blockLsit2.Count);
-
 	}
 	
 	//Make panel focus on the same tab every time when this ui show
@@ -158,18 +157,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if( unitMaterial == null )
 			Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
 	}
-	
 
-
-	
 	void LevelUp( object data){
 		//Get BaseUnitInfo
 		TUserUnit baseUnitData = data as TUserUnit;
-		//ShowPanelContent( baseUnitData );
-
-		//Get Material and Friend Data
-
-		//Show exp increase process
 		ExpRise();
 	}
 	
@@ -246,12 +237,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		
 		//race  
 		raceLabel.text = unitInfo.Race.ToString();
-		Debug.LogError("unitInfo.Race : "+unitInfo.Race.ToString());
+//		Debug.LogError("unitInfo.Race : "+unitInfo.Race.ToString());
 
 		
 		//rare
 		rareLabel.text = unitInfo.Rare.ToString();
-		Debug.LogError("unitInfo.Rare : "+unitInfo.Rare.ToString());
+//		Debug.LogError("unitInfo.Rare : "+unitInfo.Rare.ToString());
 		
 		//next level need
 		needExpLabel.text = data.Exp.ToString();
@@ -317,14 +308,16 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	public void Callback(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
-		Debug.Log("UnitDetailPanel.Callback()");
+//		Debug.Log("UnitDetailPanel.Callback()");
 		ShowBodyTexture( userUnit ); 
+		ShowUnitScale();
 		ShowStatusContent( userUnit );
 		ShowSkill1Content( userUnit );
 		ShowSkill2Content( userUnit );
 		ShowLeaderSkillContent( userUnit );
 		ShowActiveSkillContent( userUnit );
 		ShowProfileContent( userUnit );
+
         }
         
         void ClearBlock(List<UISprite> blocks){
