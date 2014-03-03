@@ -71,11 +71,11 @@ public class TrapInjuredInfo {
 
 	//-----------------------------environment-------------------------------
 		temp = new List<TrapInjuredValue> ();
-		for (int i = 1; i < 11; i++) {
+		for (int i = 1; i < 8; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
 			tjv.trapIndex = i;
-			tjv.trapLevel = i < 5 ? i : 5;
-			tjv.trapValue = 0.05f * i;
+			tjv.trapLevel = i ;
+			tjv.trapValue = i + 1;
 			temp.Add(tjv);
 		}
 		TrapInjured.Add (environment, temp);

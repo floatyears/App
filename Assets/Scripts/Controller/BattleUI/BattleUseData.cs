@@ -220,6 +220,7 @@ public class BattleUseData {
 	public void StartAttack(object data) {
 		attackInfo = upi.Attack;
 		List<AttackInfo> temp = SortAttackSequence ();
+		Debug.LogError ("StartAttack temp : " + temp.Count);
 		ac.LeadSkillReduceHurt (els);
 		ac.StartAttack (temp,upi);
 	}

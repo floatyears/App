@@ -176,6 +176,7 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 			break;
 			
 		}
+//		Debug.LogError ("path : " + path);
 		Texture2D tex2d = Resources.Load(path) as Texture2D;
 		return tex2d;
 	}

@@ -46,7 +46,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 		} else {
 			foreach (var item in passiveSkill.Values) {
 				item.Excute(tb, this);
-			}	
+			}
 		}
 	}
 

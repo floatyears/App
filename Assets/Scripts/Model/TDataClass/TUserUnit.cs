@@ -142,6 +142,8 @@ public class TUserUnit : ProtobufDataBase {
 				returnInfo.Add(attack);
 			}
 		}
+
+//		Debug.LogError ("instance.uniqueId : " + instance.uniqueId + " returnInfo.Count: " + returnInfo.Count);
 		return returnInfo;
 	}
 
@@ -333,6 +335,7 @@ public class UserUnitList {
 	}
 
 	public  TUserUnit GetMyUnit(uint uniqueId) {
+//		Debug.LogError ("GetMyUnit : " + GlobalData.userInfo);
 		return Get(GlobalData.userInfo.UserId, uniqueId);
 	}
 
