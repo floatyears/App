@@ -64,8 +64,6 @@ public class BattleEnemy : UIBaseUnity {
 
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.Init(enemy[i]);
-//			CaculatePosition(i,enemy.Count,ei);
-//			Debug.LogError(" i : " + i + " EnemyID : " + enemy[i].EnemyID);
 			temp.Add(ei);
 			monster.Add(enemy[i].EnemyID,ei);
 		}
@@ -84,6 +82,8 @@ public class BattleEnemy : UIBaseUnity {
 	void SortEnemyItem(List<EnemyItem> temp) {
 		int count = temp.Count;
 		if (count == 0) {	return;	}
+
+
 		if (count == 1) { 
 			temp[0].transform.localPosition = Vector3.zero; 
 			return; 
@@ -103,8 +103,9 @@ public class BattleEnemy : UIBaseUnity {
 			centerRightIndex++;
 			DisposeCenterRight(centerRightIndex , temp);
 		}
-
 	}
+
+//	void Compress
 
 	void DisposeCenterLeft(int centerIndex,List<EnemyItem> temp) {
 		int tempIndex = centerIndex - 1;
