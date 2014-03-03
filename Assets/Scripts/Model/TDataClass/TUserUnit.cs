@@ -333,6 +333,7 @@ public class UserUnitList {
 	}
 
 	public  TUserUnit GetMyUnit(uint uniqueId) {
+//		Debug.LogError ("GetMyUnit : " + GlobalData.userInfo);
 		return Get(GlobalData.userInfo.UserId, uniqueId);
 	}
 
