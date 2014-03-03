@@ -7,8 +7,8 @@ import (
 import redis "github.com/garyburd/redigo/redis"
 
 const (
-	//SERVERADDR = "211.155.86.174:6789"
-	SERVERADDR = "127.0.0.1:9999"
+	SERVERADDR = "107.170.243.127:9999" //staging server
+	//SERVERADDR = "127.0.0.1:9999"
 )
 
 func TestRedis() error {
