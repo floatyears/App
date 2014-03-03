@@ -56,9 +56,13 @@ public class StartQuest: ProtoManager {
 		rspStartQuest = InstanceObj as bbproto.RspStartQuest;
 //		LogHelper.Log("reponse userId:"+rspStartQuest.user.userId);
 
+		GlobalData.userInfo.StaminaNow = rspStartQuest.staminaNow;
+		GlobalData.userInfo.StaminaRecover = rspStartQuest.staminaRecover;
+
+		TQuestDungeonData dungeonData = new TQuestDungeonData (rspStartQuest.dungeonData);
 
 		//send response to caller
-		MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, null);
+		MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, dungeonData);
 	}
 
 	void OnReceiveCommand(object data) {

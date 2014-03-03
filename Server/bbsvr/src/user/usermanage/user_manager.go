@@ -86,56 +86,35 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	}
 	userdetail.UnitList = append(userdetail.UnitList, userUnit1)
 
-	unitId2, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, 1)
-	if e.IsError() {
-		return nil, e
+	for i := 3; i < 20; i++ {
+		unitId2, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i)
+		if e.IsError() {
+			return nil, e
+		}
+		userUnit2 := &bbproto.UserUnit{
+			UniqueId:  proto.Uint32(unitId2),
+			UnitId:    proto.Uint32(uint32(10 + i)),
+			Exp:       proto.Int32(1),
+			Level:     proto.Int32(common.Randn(int32(i))),
+			GetTime:   &tNow,
+			AddAttack: proto.Int32(common.Randn(int32(i) % 10)),
+			AddHp:     proto.Int32(common.Randn(int32(i) % 10)),
+		}
+		userdetail.UnitList = append(userdetail.UnitList, userUnit2)
 	}
-	userUnit2 := &bbproto.UserUnit{
-		UniqueId:  proto.Uint32(unitId2),
-		UnitId:    proto.Uint32(12),
-		Exp:       proto.Int32(1),
-		Level:     proto.Int32(1),
-		GetTime:   &tNow,
-		AddAttack: proto.Int32(98),
-		AddHp:     proto.Int32(8),
-	}
-	userdetail.UnitList = append(userdetail.UnitList, userUnit2)
-
-	unitId3, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, 2)
-	if e.IsError() {
-		return nil, e
-	}
-	userUnit3 := &bbproto.UserUnit{
-		UniqueId:  proto.Uint32(unitId3),
-		UnitId:    proto.Uint32(13),
-		Exp:       proto.Int32(1),
-		Level:     proto.Int32(1),
-		GetTime:   &tNow,
-		AddAttack: proto.Int32(99),
-		AddHp:     proto.Int32(99),
-	}
-	userdetail.UnitList = append(userdetail.UnitList, userUnit3)
 
 	userdetail.User.Unit = userUnit1
 
 	//make default party[0]
 	unitParty := &bbproto.UnitParty{}
 	unitParty.Id = proto.Int32(0)
-	item1 := &bbproto.PartyItem{
-		UnitPos:      proto.Int32(0),
-		UnitUniqueId: proto.Uint32(unitId1),
+	for i := 0; i < 4; i++ {
+		item := &bbproto.PartyItem{
+			UnitPos:      proto.Int32(int32(i)),
+			UnitUniqueId: proto.Uint32(uint32(i) + 1),
+		}
+		unitParty.Items = append(unitParty.Items, item)
 	}
-	unitParty.Items = append(unitParty.Items, item1)
-	item2 := &bbproto.PartyItem{
-		UnitPos:      proto.Int32(1),
-		UnitUniqueId: proto.Uint32(unitId2),
-	}
-	unitParty.Items = append(unitParty.Items, item2)
-	item3 := &bbproto.PartyItem{
-		UnitPos:      proto.Int32(2),
-		UnitUniqueId: proto.Uint32(unitId3),
-	}
-	unitParty.Items = append(unitParty.Items, item3)
 
 	userdetail.Party = &bbproto.PartyInfo{}
 	userdetail.Party.CurrentParty = proto.Int(0)
