@@ -22,7 +22,7 @@ public class ConfigEnermy {
 		ei.attack = 200;
 		ei.nextAttack = 1;
 		ei.defense = 10;
-		ei.hp = 500;
+		ei.hp = 2000;
 		ei.type = (EUnitType)1;
 		TEnemyInfo te = new TEnemyInfo (ei);
 		GlobalData.enemyInfo.Add (ei.enemyId,te);
@@ -33,7 +33,7 @@ public class ConfigEnermy {
 		ei.attack = 20;
 		ei.nextAttack = 1;
 		ei.defense = 100;
-		ei.hp = 500;
+		ei.hp = 2000;
 		ei.type = (EUnitType)2;
 		te = new TEnemyInfo (ei);
 		GlobalData.enemyInfo.Add (ei.enemyId,te);
@@ -44,7 +44,7 @@ public class ConfigEnermy {
 		ei.attack = 500;
 		ei.defense = 100;
 		ei.type = EUnitType.UNONE;
-		ei.hp = 1000;
+		ei.hp = 2000;
 		ei.nextAttack = 1;
 		te = new TEnemyInfo (ei);
 		GlobalData.enemyInfo.Add (ei.enemyId,te);
@@ -55,7 +55,7 @@ public class ConfigEnermy {
 		ei.attack = 500;
 		ei.defense = 100;
 		ei.type = EUnitType.UNONE;
-		ei.hp = 1000;
+		ei.hp = 2000;
 		ei.nextAttack = 1;
 		te = new TEnemyInfo (ei);
 		GlobalData.enemyInfo.Add (ei.enemyId,te);
@@ -66,7 +66,7 @@ public class ConfigEnermy {
 		ei.attack = 500;
 		ei.defense = 100;
 		ei.type = EUnitType.UNONE;
-		ei.hp = 1000;
+		ei.hp = 2000;
 		ei.nextAttack = 1;
 		te = new TEnemyInfo (ei);
 		GlobalData.enemyInfo.Add (ei.enemyId,te);

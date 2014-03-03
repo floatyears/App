@@ -183,7 +183,7 @@ public class AttackController {
 	}
 
 	void AttackEnemy () {
-		Debug.LogError ("attackInfo.Count : " + attackInfo.Count);
+//		Debug.LogError ("attackInfo.Count : " + attackInfo.Count);
 		if (attackInfo.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.Blood, 1);	//1: every round.
 			bud.RecoverHP(blood);
@@ -205,12 +205,13 @@ public class AttackController {
 
 	int tempPreHurtValue = 0;
 	void BeginAttack(AttackInfo ai) {
-		Debug.LogError ("BeginAttack : " + ai.AttackRange + " ```` " + Time.realtimeSinceStartup);
+//		Debug.LogError ("BeginAttack : " + ai.AttackRange + " ```` " + Time.realtimeSinceStartup);
 		switch (ai.AttackRange) {
 		case 0:
 			DisposeAttackSingle(ai);
 			break;
 		case 1:
+//			DisposeAttackSingle(ai);
 			DisposeAttackAll(ai);
 			break;
 		case 2:
@@ -224,7 +225,7 @@ public class AttackController {
 		if (enemyInfo.Count == 1) {
 			return;	
 		}
-		for (int i = enemyInfo.Count - 1; i > -1; i--) {
+		for (int i = enemyInfo.Count - 2; i > -1; i--) {
 			TEnemyInfo te = enemyInfo[i];
 			if(te.GetBlood() <= 0) {
 				deadEnemy.Add(te);
