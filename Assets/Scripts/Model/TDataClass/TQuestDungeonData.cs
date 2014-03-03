@@ -5,13 +5,10 @@ using System.Collections.Generic;
 public class TQuestDungeonData : ProtobufDataBase {
 	public TQuestDungeonData(QuestDungeonData inst) : base (inst) { 
 		instance = inst;
-//		LogHelper.Log("prev new TUserUnit....");
-//		unit = new TUserUnit (instance.unit);
 
 		convertColors ();
 
 		assignData ();
-
 	}
 
 	private QuestDungeonData	instance;
@@ -20,12 +17,16 @@ public class TQuestDungeonData : ProtobufDataBase {
 	private List<byte> colors;
 
 	private void assignData() {
+		Floors = new  List< List<TQuestGrid> > ();
+
 		foreach(DropUnit drop in instance.drop) {
 			TDropUnit du = new TDropUnit (drop);
 			dropUnit.Add (du);
 		}
 
 		for(int nFloor=0; nFloor < instance.floors.Count; nFloor++){
+			List<TQuestGrid> floor = new List<TQuestGrid> ();
+						
 			LogHelper.Log ("===fill floor[{0}]", nFloor);
 			for(int f=0; f< instance.floors[nFloor].gridInfo.Count; f++){
 				TQuestGrid grid = new TQuestGrid (instance.floors[nFloor].gridInfo[f]);
@@ -47,9 +48,13 @@ public class TQuestDungeonData : ProtobufDataBase {
 							break;
 						}
 					}
-
 				}
-			}
+
+				floor.Add (grid);
+
+			} //end of gridInfo...
+
+			Floors.Add (floor);
 		}
 	}
 
@@ -97,14 +102,15 @@ public class TQuestDungeonData : ProtobufDataBase {
 	//////////////////////////////////////////////////////////////
 	/// 
 	/// 
+
 	public uint				QuestId	{ get { return instance.questId; } }
 	public List<byte>		Colors	{ get { return this.colors; } }
 	public List<TDropUnit>	DropUnit { get { return this.dropUnit;} }
 
-//	EnemyInfo		boss	
+	public List<EnemyInfo>	Boss {get { return instance.boss;} }
 //	EnemyInfo		enemys	
 
-	public List<QuestFloor>	Floors;
+	public List< List<TQuestGrid> >	Floors;
 	
 }
 
