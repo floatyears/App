@@ -243,9 +243,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 //		UnitParty uup = DeserializeData<UnitParty> ();
 		Dictionary<int,TUserUnit> temp = new Dictionary<int,TUserUnit> ();
 		foreach (var item in instance.items) {
-			Debug.LogError("item.unitUniqueId : " + item.unitUniqueId);
+//			Debug.LogError("item.unitUniqueId : " + item.unitUniqueId);
 			TUserUnit uui = GlobalData.userUnitList.GetMyUnit(item.unitUniqueId);
-			Debug.LogError(uui);
+//			Debug.LogError(uui);
 			temp.Add(item.unitPos,uui);
 		}
 		//		Debug.LogError (temp.Count + " GetPosUnitInfo " + uup.items.Count);

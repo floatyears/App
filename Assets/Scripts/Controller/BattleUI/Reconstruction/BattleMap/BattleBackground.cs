@@ -43,7 +43,7 @@ public class BattleBackground : UIBaseUnity {
 		spSprite = new UISprite[20];
 		string path;
 		for (int i = 0; i < actor.Length; i++) {
-			path = "Actor/" + (i + 1).ToString();
+			path = "Actor/" + i.ToString();
 			actor[i] = 	battleBottom.transform.Find(path).renderer.material;
 		}
 

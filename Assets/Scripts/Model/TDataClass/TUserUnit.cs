@@ -142,6 +142,8 @@ public class TUserUnit : ProtobufDataBase {
 				returnInfo.Add(attack);
 			}
 		}
+
+//		Debug.LogError ("instance.uniqueId : " + instance.uniqueId + " returnInfo.Count: " + returnInfo.Count);
 		return returnInfo;
 	}
 

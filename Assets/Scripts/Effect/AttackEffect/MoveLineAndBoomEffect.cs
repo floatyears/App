@@ -18,6 +18,7 @@ public class MoveLineAndBoomEffect : EffectBehaviorBase {
 			Debug.LogError("effect position count is not match effect count : " + position.Count + "   effectList.Count : " +  effectList.Count);
 			return;
 		}
+//		Debug.LogError ("effectAssetList : " + effectAssetList.Count + " effectList.Count : " + effectList.Count);
 		for (int i = 0; i < effectList.Count; i++) {
 			effectList[i].StartPosition = position[i * 2];
 			effectList[i].EndPosition = position[i* 2 + 1];
