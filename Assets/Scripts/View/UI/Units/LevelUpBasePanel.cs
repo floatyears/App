@@ -10,12 +10,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 
-	void GetData(object data){
-//		TUserUnit uu = new TUserUnit();
-
-		//GlobalData.userInfo.
-	}
-
 	public override void Init(UIInsConfig config, IUIOrigin origin){
 		InitUI();
 		base.Init(config, origin);
