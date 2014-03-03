@@ -24,12 +24,14 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
+
 		AddListener();
-		this.gameObject.SetActive(true);//start show in tabs
+		this.gameObject.SetActive(true);
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
+
 		RemoveListener();
 	}
 
@@ -37,28 +39,25 @@ public class LevelUpBasePanel : UIComponentUnity {
 		InitDragPanel();
 	}
 
-	private void FocusOnPanel(object data){
-		string message = (string)data;
-		if(message == "Tab_Base" ){
-			this.gameObject.SetActive(true);
-		}else{
-			this.gameObject.SetActive(false);
+	//CommandEnum.PanelFocus
+	void ShowMyself(object data){
+		string msg = (string)data;
+		Debug.Log( "ShowMyself, canShow is " + msg );
+		if( msg == "Tab_Friend"){
+			this.gameObject.SetActive( false );
+			return;
 		}
+		this.gameObject.SetActive(true);
 	}
 
 	void AddListener(){
-
-		MsgCenter.Instance.AddListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+		MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, ShowMyself);
 	}
 
 	void RemoveListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+		MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, ShowMyself);
 	}
 	
-//	void GetBaseUnitInfo(GameObject item, UserUnit unitInfo){
-//		baseUnitInfoDic.Add(item,unitInfo);
-//	}
-
 	void ShowItem( GameObject item){
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
@@ -76,6 +75,8 @@ public class LevelUpBasePanel : UIComponentUnity {
 		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  level is " + level );
 
                 int addPoint = addAttack + addHp;
+
+		UILabel crossFadeLabel = item.transform.FindChild("Label_Info").GetComponent<UILabel>();
 
 		List<int> crossFadeList = new List<int>();
 		crossFadeList.Add( level );
@@ -110,17 +111,18 @@ public class LevelUpBasePanel : UIComponentUnity {
         }
 
 	void InitDragPanel(){
+		if ( GlobalData.myUnitList != null)
+			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
 
-		userUnitInfoList = GetMyUnitList();
 		string name = "BaseDragPanel";
 		//Debug.LogError("GlobalData.myUnitList.Count : " + GlobalData.myUnitList.Count );
-		if(GlobalData.myUnitList == null ){
-			Debug.LogWarning("GlobalData.myUnitList is null ");
+		if(userUnitInfoList == null ){
+			Debug.LogWarning("userUnitInfoList is null ");
 			return;
 		}
 		//Debug.Log("GlobalData.myUnitList count is " + GlobalData.myUnitList.Count);
 
-		int count = GlobalData.myUnitList.Count;
+		int count = userUnitInfoList.Count;
 		//Debug.Log( string.Format("Base Panel: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
@@ -158,20 +160,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 			AddEventListener( scrollItem );
 		}
 	}
-
-
-	List<TUserUnit> GetMyUnitList(){
-		List<TUserUnit> uuList = new List<TUserUnit>();
-		if( GlobalData.myUnitList == null ){
-			Debug.LogError( "LevelUpBasePanel.GetMyUnitList(), GlobalData.myUnitList is NULL, return!");
-			return null;  
-		}
-		uuList.AddRange( GlobalData.myUnitList.Values );
-		Debug.Log( "LevelUpBasePanel.GetMyUnitList(), Get Unit Count : " + uuList.Count );
-		return uuList;
-	}
-		
-
+	
 	private void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans",	transform);
 		dragPanelArgs.Add("scrollerScale",	Vector3.one);
@@ -184,4 +173,5 @@ public class LevelUpBasePanel : UIComponentUnity {
 		dragPanelArgs.Add("cellWidth", 		110);
 		dragPanelArgs.Add("cellHeight",		110);
 	}
+
 }

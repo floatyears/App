@@ -231,6 +231,16 @@ public class TUserUnit : ProtobufDataBase {
 			return instance.exp;
 		}
 	}
+
+	public int NextExp {
+		get {
+			int nextexp = GlobalData.Instance.GetUnitValueTotal (UnitInfo.ExpType, instance.level) - instance.exp;
+			if (nextexp < 0)
+				nextexp = 0;
+			return nextexp;
+		}
+	}
+
 	public int InitBlood {
 		get {
 	//		UserUnit uu = DeserializeData<UserUnit>();
@@ -297,6 +307,48 @@ public class TUserUnit : ProtobufDataBase {
 		get{
 			return instance.addHp;
 		}
+	}
+}
+
+//A wrapper to manage userUnitInfo list
+public class UserUnitList {
+	private Dictionary<string, TUserUnit> userUnitInfo;
+	public UserUnitList(){ 
+		userUnitInfo = new Dictionary<string, TUserUnit>(); //key: "{userid}_{unitUniqueId}"
+	}
+
+	public  string MakeUserUnitKey(uint userId, uint uniqueId) {
+		return userId.ToString () + "_" + uniqueId.ToString ();
+	}
+
+	public  Dictionary<string, TUserUnit> GetAll() {
+		return userUnitInfo;
+	}
+
+	public  TUserUnit Get(uint userId, uint uniqueId) {
+		string key = MakeUserUnitKey(userId, uniqueId);
+		if (!userUnitInfo.ContainsKey (key))
+			return null;
+		return userUnitInfo [key];
+	}
+
+	public  TUserUnit GetMyUnit(uint uniqueId) {
+		return Get(GlobalData.userInfo.UserId, uniqueId);
+	}
+
+	public  void Add(uint userId, uint uniqueId, TUserUnit uu) {
+		string key = MakeUserUnitKey(userId, uniqueId);
+		if ( !userUnitInfo.ContainsKey (key) )
+			userUnitInfo.Add(key, uu);
+		else{
+			userUnitInfo [key] = uu;
+		}
+	}
+
+	public  void Del(uint userId, uint uniqueId) {
+		string key = MakeUserUnitKey(userId, uniqueId);
+		if (userUnitInfo.ContainsKey (key))
+			userUnitInfo.Remove(key);
 	}
 }
 

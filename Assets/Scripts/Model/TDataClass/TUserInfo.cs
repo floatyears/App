@@ -19,11 +19,20 @@ public class TUserInfo : ProtobufDataBase {
 	public	string	NickName { get { return instance.nickName; } set {instance.nickName = value; }}
 	public	int		Rank { get { return instance.rank; } }
 	public	int		Exp { get { return instance.exp; } }
-	public	int		NextExp{ get{ return 843; }}
-	public	int		CurTotalExp{ get{ return 9106; }}
-	public	int		StaminaNow { get { return instance.staminaNow; } }
-	public	int		StaminaMax { get { return instance.staminaMax; } }
-	public	uint		StaminaRecover { get { return instance.staminaRecover; } }
+	public	int		NextExp{ get{ return 843; }} //TODO: get exp for current rank
+	public	int		CurTotalExp{ get{ return 9106; }} //TODO: get exp for current rank
+	public	int		StaminaNow { 
+		get { return instance.staminaNow; } 
+		set { instance.staminaNow = value; } 
+	}
+	public	int		StaminaMax { 
+		get { return instance.staminaMax; } 
+		set { instance.staminaMax = value; } 
+	}
+	public	uint	StaminaRecover { 
+		get { return instance.staminaRecover; } 
+		set { instance.staminaRecover = value; } 
+	}
 	public	TUserUnit UserUnit { get { return unit; } }
 	public	EUnitType EvolveType { get {return evolvetype;} set { evolvetype = value;} }
 }
