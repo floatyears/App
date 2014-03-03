@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"strconv"
 	//"net/http"
-	"errors"
 	//"time"
 )
 
@@ -244,14 +243,14 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 	return
 }
 
-func GetOnlyFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[string]bbproto.FriendInfo, err error) {
+func GetOnlyFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {
 	//get all friends & helper, but NOT include friendIn & friendOut
 	return GetFriendInfo(db, uid, rank, true, true, true)
 }
 
-func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool, isGetFriend bool, isGetHelper bool) (friendsInfo map[string]bbproto.FriendInfo, err error) {
+func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool, isGetFriend bool, isGetHelper bool) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {
 	if db == nil {
-		return friendsInfo, fmt.Errorf("[ERROR] db pointer is nil.")
+		return friendsInfo, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
 	}
 
 	friendsInfo = make(map[string]bbproto.FriendInfo)
@@ -259,10 +258,10 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool
 	//get friends data
 	if isGetFriend {
 		sUid := common.Utoa(uid)
-		err = GetFriendsData(db, sUid, isGetOnlyFriends, friendsInfo)
+		err := GetFriendsData(db, sUid, isGetOnlyFriends, friendsInfo)
 		if err != nil {
 			log.Fatal(" GetFriendsData('%v') ret err:%v", sUid, err)
-			return friendsInfo, err
+			return friendsInfo, Error.New(err)
 		}
 
 		log.T("GetFriendsData ret total %v friends", len(friendsInfo))
@@ -270,18 +269,17 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool
 
 	//get helper data
 	if isGetHelper {
-		err = GetHelperData(db, uid, rank, friendsInfo)
+		err := GetHelperData(db, uid, rank, friendsInfo)
 		if err != nil {
 			log.Fatal(" GetHelperData(%v,%v) ret err:%v", uid, rank, err)
-			return friendsInfo, err
+			return friendsInfo, Error.New(err)
 		}
 	}
 
 	log.T("GetHelperData ret total %v helpers", len(friendsInfo))
 	if len(friendsInfo) <= 0 {
-		err = errors.New(fmt.Sprintf("[ERROR] Cannot find any friends/helpers for uid:%v rank:%v", uid, rank))
-		log.T(err.Error())
-		return friendsInfo, err
+		//log.T(err.Error())
+		return friendsInfo, Error.New(cs.EF_FRIEND_NOT_EXISTS, fmt.Sprintf("[ERROR] Cannot find any friends/helpers for uid:%v rank:%v", uid, rank))
 	}
 
 	// retrieve userinfo by uids from TABLE_USER
@@ -290,13 +288,13 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool
 		fids = fids.Add(common.Utoa(*friInfo.UserId))
 	}
 
-	if err = db.Select(cs.TABLE_USER); err != nil {
-		return
+	if err := db.Select(cs.TABLE_USER); err != nil {
+		return friendsInfo, Error.New(cs.READ_DB_ERROR)
 	}
 
 	userinfos, err := db.MGet(fids)
 	if err != nil {
-		return
+		return friendsInfo, Error.New(cs.READ_DB_ERROR)
 	}
 	log.T("TABLE_USER.MGet(fids:%v) ret %v", fids, userinfos)
 
@@ -309,10 +307,10 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool
 		if err == nil && len(zUser) > 0 {
 			if err = proto.Unmarshal(zUser, &userDetail); err != nil {
 				log.Error(" Cannot Unmarshal userinfo(err:%v) userinfo: %v", err, uinfo)
-				return friendsInfo, err
+				return friendsInfo, Error.New(err)
 			}
 		} else {
-			return friendsInfo, errors.New("redis.Bytes(uinfo, err) fail.")
+			return friendsInfo, Error.New("redis.Bytes(uinfo, err) fail.")
 		}
 
 		user := userDetail.User
@@ -344,5 +342,5 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool
 	log.T("\nfriends's fids:%v friendsInfo:%v", fids, friendsInfo)
 	log.T("===========GetFriends finished.==========\n")
 
-	return friendsInfo, err
+	return friendsInfo, Error.OK()
 }

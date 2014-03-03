@@ -144,16 +144,18 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			return Error.New(cs.CONNECT_DB_ERROR, err)
 		}
 
-		friendsInfo, err := friend.GetOnlyFriends(db, uid, rank)
-		log.T("GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
-		if err != nil {
+		friendsInfo, e := friend.GetOnlyFriends(db, uid, rank)
+		log.T("GetFriendInfo ret err:%v. friends num=%v  ", e.Error(), len(friendsInfo))
+		if e.IsError() && e.Code() != cs.EF_FRIEND_NOT_EXISTS {
 			return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
 		}
 
 		//fill rspMsg
-		for _, friend := range friendsInfo {
-			//log.T("fid:%v friend:%v", fid, *friend.UserId)
-			rspMsg.Friends = append(rspMsg.Friends, &friend)
+		if friendsInfo != nil {
+			for _, friend := range friendsInfo {
+				//log.T("fid:%v friend:%v", fid, *friend.UserId)
+				rspMsg.Friends = append(rspMsg.Friends, &friend)
+			}
 		}
 
 		if e = usermanage.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {
