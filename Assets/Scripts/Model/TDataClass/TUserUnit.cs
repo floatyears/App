@@ -231,6 +231,13 @@ public class TUserUnit : ProtobufDataBase {
 			return instance.exp;
 		}
 	}
+
+	public int NextExp {
+		get {
+			return GlobalData.Instance.GetUnitValueTotal(UnitInfo.ExpType, instance.level) - instance.exp;
+		}
+	}
+
 	public int InitBlood {
 		get {
 	//		UserUnit uu = DeserializeData<UserUnit>();
