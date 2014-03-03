@@ -1,10 +1,19 @@
 {
+
     "PlayerInfo": {
         "uiName":"PlayerInfoBar",
         "resoucePath": "Prefabs/UI/Share/",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
+        "positionz": 0
+    },
+    "ErrorMsgBox": {
+        "uiName":"ErrorMsgBox",
+        "resoucePath": "Prefabs/UI/Share/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 100,
         "positionz": 0
     },
      "SceneInfo": {

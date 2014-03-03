@@ -143,6 +143,7 @@ public enum CommandEnum
 	TryEnableLevelUp			= 4009,
 	CrossFade					= 4010,
 	UpdateNickName			= 4011,
+	ErrorMsgShow				= 4012,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

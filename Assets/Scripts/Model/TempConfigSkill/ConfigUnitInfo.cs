@@ -19,7 +19,7 @@ public class ConfigUnitInfo {
 			UnitInfo uiitem 	= new UnitInfo ();
 			uiitem.id 			= (uint)i;
 			uiitem.name			= "unit_" + i;
-			uiitem.type 		= (EUnitType)i;
+			uiitem.type 		= (EUnitType)(1+i%6);
 			uiitem.skill1 		= (i - 1) * 2 % 10;
 			uiitem.skill2 		= ((i - 1) * 2 + 1)%10;
 			uiitem.powerType = new PowerType();
