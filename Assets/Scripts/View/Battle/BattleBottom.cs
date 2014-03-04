@@ -16,13 +16,15 @@ public class BattleBottom : MonoBehaviour {
 		if (upi == null) {
 			upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo,new ErrorMsg()) as TUnitParty;		
 		}
-		for (int i = 1; i < 6; i++) {
+		for (int i = 0; i < 5; i++) {
 			GameObject tex = transform.Find("Actor/" + i).gameObject;	
 			actorObject.Add(i,tex);
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.GetPosUnitInfo ();
 		foreach (var item in userUnitInfo) {
+//			Debug.LogError("item.Value.UnitID : " + item.Value.UnitID);
 			TUnitInfo tui = GlobalData.unitInfo[item.Value.UnitID];
+
 			actorObject[item.Key].renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
 //			rolePosition.Add(item.Value.GetID,actorObject[item.Key].transform);
 		}

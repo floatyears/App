@@ -33,7 +33,9 @@ public class StartQuest: ProtoManager {
 		reqStartQuest = new ReqStartQuest ();
 		reqStartQuest.header = new ProtoHeader ();
 		reqStartQuest.header.apiVer = Protocol.API_VERSION;
-		reqStartQuest.header.userId = GlobalData.userInfo.UserId;
+
+		if (  GlobalData.userInfo != null )
+			reqStartQuest.header.userId = GlobalData.userInfo.UserId;
 
 
 		reqStartQuest.stageId = questParam.stageId;
@@ -56,9 +58,13 @@ public class StartQuest: ProtoManager {
 		rspStartQuest = InstanceObj as bbproto.RspStartQuest;
 //		LogHelper.Log("reponse userId:"+rspStartQuest.user.userId);
 
+		GlobalData.userInfo.StaminaNow = rspStartQuest.staminaNow;
+		GlobalData.userInfo.StaminaRecover = rspStartQuest.staminaRecover;
+
+		TQuestDungeonData dungeonData = new TQuestDungeonData (rspStartQuest.dungeonData);
 
 		//send response to caller
-		MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, null);
+		MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, dungeonData);
 	}
 
 	void OnReceiveCommand(object data) {

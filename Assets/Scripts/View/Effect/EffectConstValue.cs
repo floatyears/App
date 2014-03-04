@@ -99,7 +99,12 @@ public class EffectConstValue {
 		string path = "";
 		switch (attackType) {
 		case 1:
-			path = assetPath + fireRain;
+//			path = assetPath + fireRain;
+//			tempList.Add(GetEffect(path));
+
+			path = assetPath + Fire1;
+			tempList.Add(GetEffect(path));
+			path = assetPath + Fire2;
 			tempList.Add(GetEffect(path));
 			break;
 		case 2:

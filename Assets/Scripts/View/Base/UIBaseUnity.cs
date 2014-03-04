@@ -79,7 +79,7 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 	#endregion
 }
 
-public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
+public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 
 	protected UIInsConfig config = null;
 	public UIInsConfig uiConfig {
@@ -88,9 +88,9 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 		}
 	}
 
-	protected IUIOrigin origin;
+	protected IUICallback origin;
 
-	public virtual void Init(UIInsConfig config,IUIOrigin origin = null) {
+	public virtual void Init(UIInsConfig config,IUICallback origin = null) {
 		if(this.config == config)
 			return;
 
@@ -147,6 +147,16 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity {
 		Vector3 point = distance + transform.localPosition +  parentPosition;
 		Vector3 targetpoint = point * Main.Instance.uiRoot.transform.localScale.y;
 		return targetpoint;
+	}
+	
+	public virtual void Callback (object data) {
+
+	}
+	
+	protected void ExcuteCallback (object data) {
+		if (origin != null) {
+			origin.Callback (data);	
+		}
 	}
 
 }

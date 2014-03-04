@@ -34,7 +34,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 
 	List<QuestInfo> questInfoList = new List<QuestInfo>();
 
-	public override void Init(UIInsConfig config, IUIOrigin origin){
+	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		temp = origin is IUICallback;
 		InitUI();

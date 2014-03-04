@@ -6,7 +6,7 @@ public class ErrorMsgWindow : UIComponentUnity,IUICallback {
 	UILabel errorNoteLabel;
 	UIButton closeButton;
 
-	public override void Init(UIInsConfig config, IUIOrigin origin){
+	public override void Init(UIInsConfig config, IUICallback origin){
 		FindUIElement();
 
 		base.Init(config, origin);

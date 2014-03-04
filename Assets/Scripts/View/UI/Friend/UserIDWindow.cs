@@ -4,7 +4,7 @@ using System.Collections;
 public class UserIDWindow : UIComponentUnity, IUICallback {
 
 
-	public override void Init(UIInsConfig config, IUIOrigin origin)
+	public override void Init(UIInsConfig config, IUICallback origin)
 	{
 		base.Init(config, origin);
 		InitUI();

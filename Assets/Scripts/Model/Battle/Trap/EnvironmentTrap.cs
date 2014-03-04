@@ -5,6 +5,8 @@ public class EnvironmentTrap : TrapBase, ITrapExcute {
 	public EnvironmentTrap (object instance) : base (instance) {
 		trapEffectType = TrapInjuredInfo.environment;
 		round = (int)GetInjuredValue.trapValue;
+//		round = trapValueIndex;
+//		Debug.LogError ("EnvironmentTrap : " + round);
 	}
 
 	int round = 0;
@@ -15,6 +17,8 @@ public class EnvironmentTrap : TrapBase, ITrapExcute {
 			MsgCenter.Instance.Invoke (CommandEnum.ShieldMap, true);
 			round--;
 		}
+
+//		Debug.LogError ("Excute EnvironmentTrap : " + round);
 	}
 
 

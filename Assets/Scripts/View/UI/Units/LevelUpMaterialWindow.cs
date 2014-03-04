@@ -8,7 +8,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 
-	public override void Init(UIInsConfig config, IUIOrigin origin){
+	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUI();
 	}

@@ -13,7 +13,7 @@ import (
 	//"time"
 )
 import (
-	"../src/bbproto"
+	bbproto "../src/bbproto"
 	"../src/common"
 	//"../src/const"
 	//"../src/data"
@@ -172,11 +172,36 @@ type My struct {
 	MyTp MyTp
 }
 
-func main() {
+func test() {
+	//db := &data.Data{}
+	//err := db.Open("0")
+	//defer db.Close()
+	//if err != nil {
+	//	return
+	//}
+
+	//var value []byte
+	//value, err = db.Gets("userinfo")
+	//if err != nil {
+	//	log.Printf("[ERROR] GetUserInfo ret err:%v", err)
+	//}
+
+	//unit := &bbproto.UnitInfo{}
+
+	//err = proto.Unmarshal(value, unit)
+	//if err != nil {
+	//	log.Printf("[ERROR] GetUserInfo for ret err:%v", err)
+	//}
+	//log.Printf("unit:%+v", unit)
+
+	return
+}
+
+func umain() {
 	Init()
 	//AddUsers()
 
-	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220101", 102)
+	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220201", 0)
 	//LoginPack(101)
 
 	log.Fatal("bbsvr test client finish.")

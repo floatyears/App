@@ -5,13 +5,10 @@ using System.Collections.Generic;
 public class TQuestDungeonData : ProtobufDataBase {
 	public TQuestDungeonData(QuestDungeonData inst) : base (inst) { 
 		instance = inst;
-//		LogHelper.Log("prev new TUserUnit....");
-//		unit = new TUserUnit (instance.unit);
 
 		convertColors ();
 
 		assignData ();
-
 	}
 
 	private QuestDungeonData	instance;
@@ -20,15 +17,19 @@ public class TQuestDungeonData : ProtobufDataBase {
 	private List<byte> colors;
 
 	private void assignData() {
+		Floors = new  List< List<TQuestGrid> > ();
+
 		foreach(DropUnit drop in instance.drop) {
 			TDropUnit du = new TDropUnit (drop);
 			dropUnit.Add (du);
 		}
 
 		for(int nFloor=0; nFloor < instance.floors.Count; nFloor++){
+			List<TQuestGrid> floor = new List<TQuestGrid> ();
+						
 			LogHelper.Log ("===fill floor[{0}]", nFloor);
 			for(int f=0; f< instance.floors[nFloor].gridInfo.Count; f++){
-				TQuestGrid grid = new TQuestGrid (instance.floors [nFloor].gridInfo [f]);
+				TQuestGrid grid = new TQuestGrid (instance.floors[nFloor].gridInfo[f]);
 
 				//assign DropUnit
 				for(int i=0; i<instance.drop.Count;i++){
@@ -47,9 +48,13 @@ public class TQuestDungeonData : ProtobufDataBase {
 							break;
 						}
 					}
-
 				}
-			}
+
+				floor.Add (grid);
+
+			} //end of gridInfo...
+
+			Floors.Add (floor);
 		}
 	}
 
@@ -93,18 +98,25 @@ public class TQuestDungeonData : ProtobufDataBase {
 			b = (byte) (b3 & BIT3);
 			colors.Add ( b );
 		}
+
+
+		for( int i=0; i<colors.Count;i++){
+			LogHelper.Log ("b[{0}]: {1}", i, colors[i]);
+		}
+
 	}
 	//////////////////////////////////////////////////////////////
 	/// 
 	/// 
+
 	public uint				QuestId	{ get { return instance.questId; } }
 	public List<byte>		Colors	{ get { return this.colors; } }
 	public List<TDropUnit>	DropUnit { get { return this.dropUnit;} }
-//	EnemyInfo		boss	
+
+	public List<EnemyInfo>	Boss {get { return instance.boss;} }
 //	EnemyInfo		enemys	
 
-//	QuestFloor		floors	
-
+	public List< List<TQuestGrid> >	Floors;
 	
 }
 
@@ -134,6 +146,7 @@ public class TQuestGrid : ProtobufDataBase {
 	public EGridStar Star { get { return instance.star; } }
 	public EQuestGridType Type { get { return instance.type; } }
 	public uint	TrapId { get { return instance.trapId; } }
+	public TrapBase	TrapInfo { get { return GlobalData.trapInfo[instance.trapId]; } }
 }
 
 
