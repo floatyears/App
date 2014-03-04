@@ -46,7 +46,6 @@ public class BattleQuest : UIBase {
 	string backgroundName = "BattleBackground";
 
 	public BattleQuest (string name) : base(name) {
-
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
@@ -168,7 +167,7 @@ public class BattleQuest : UIBase {
 	public void ClickDoor () {
 //		Debug.LogError ("ClickDoor : " + questFloor + " mapConfig.floor : " + mapConfig.floor);
 //		if (questFloor == mapConfig.floor) {
-		if(questFloor == questDungeonData.Floors.Count - 1){
+		if(questDungeonData.currentFloor == questDungeonData.Floors.Count - 1){
 			QuestStop ();
 		} else {
 			EnterNextFloor();
@@ -176,9 +175,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void EnterNextFloor () {
-		questFloor ++;
+		questDungeonData.currentFloor ++;
 		Reset ();
-
 	}
 
 	void QuestStop () {
@@ -197,11 +195,7 @@ public class BattleQuest : UIBase {
 				return;
 			}
 
-			int index = coor.x - 1 + coor.y * 5;
-			if(coor.y == 0 && coor.x < 2) {
-				index ++;
-			}
-			currentMapData =  questDungeonData.Floors[questFloor][index];  //mapConfig.mapData[coor.x,coor.y];
+			currentMapData =  questDungeonData.GetSingleFloor(coor);  //mapConfig.mapData[coor.x,coor.y];
 			role.Stop();
 //			Debug.LogError("ContentType : " + currentMapData.ContentType);
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
@@ -241,6 +235,7 @@ public class BattleQuest : UIBase {
 		battleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = questDungeonData.Boss; //bud.GetEnemyInfo(mapConfig.BossID);
+		bud.InitEnemyInfo (temp);
 		battle.ShowEnemy(temp);
 	}
 
@@ -278,7 +273,8 @@ public class BattleQuest : UIBase {
 		battleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = currentMapData.Enemy; //bud.GetEnemyInfo(currentMapData.MonsterID);
-		battle.ShowEnemy(temp);
+		bud.InitEnemyInfo (temp);
+		battle.ShowEnemy (temp);
 	}
 
 	void ShowBattle() {

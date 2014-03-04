@@ -10,7 +10,7 @@ public class MoveTrap : TrapBase, ITrapExcute{
 
 	public void Excute () {
 //		TrapInfo ti = DeserializeData<TrapInfo> ();
-		MapConfig mc;
+//		MapConfig mc;
 		Coordinate cd;
 		switch (instance.effectType) {
 		case 1:
@@ -20,15 +20,15 @@ public class MoveTrap : TrapBase, ITrapExcute{
 			break;
 		case 2:
 			ViewManager.Instance.TrapLabel.text = "move trap,random position ";
-			mc = ModelManager.Instance.GetData(ModelEnum.MapConfig,new ErrorMsg()) as MapConfig;
-			int xCoor = Random.Range(0, mc.mapXLength);
-			int yCoor = Random.Range(0, mc.mapYLength);
+//			mc = ModelManager.Instance.GetData(ModelEnum.MapConfig,new ErrorMsg()) as MapConfig;
+			int xCoor = Random.Range(0, MapConfig.MapWidth);
+			int yCoor = Random.Range(0, MapConfig.MapHeight);
 			cd = new Coordinate(xCoor,yCoor);
 			MsgCenter.Instance.Invoke(CommandEnum.TrapMove, cd);
 			break;
 		case 3:
 			ViewManager.Instance.TrapLabel.text = "move trap,return start position ";
-			mc = ModelManager.Instance.GetData(ModelEnum.MapConfig,new ErrorMsg()) as MapConfig;
+//			mc = ModelManager.Instance.GetData(ModelEnum.MapConfig,new ErrorMsg()) as MapConfig;
 			cd = new Coordinate(MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);
 			MsgCenter.Instance.Invoke(CommandEnum.TrapMove, cd);
 			break;

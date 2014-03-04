@@ -66,14 +66,14 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 			Coordinate cd = BattleUseData.CurrentCoor;
 			int xRandom = DGTools.RandomToInt(0, randomRange.Length);
 			int yRandom = DGTools.RandomToInt(0, randomRange.Length);
-			MapConfig mc = ModelManager.Instance.GetData(ModelEnum.MapConfig, new ErrorMsg()) as MapConfig;
+//			MapConfig mc = ModelManager.Instance.GetData(ModelEnum.MapConfig, new ErrorMsg()) as MapConfig;
 			if(xRandom > yRandom) {
 				cd.x -= randomRange[xRandom];
 				if(cd.x < 0) {
 					cd.x = 0;
 				}
-				if(cd.x >= mc.mapXLength) {
-					cd.x = mc.mapXLength - 1;
+				if(cd.x >= MapConfig.MapWidth) {
+					cd.x = MapConfig.MapWidth - 1;
 				}
 			}
 			else{
@@ -81,8 +81,8 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 				if(cd.y < 0) {
 					cd.y = 0;
 				}
-				if(cd.y >= mc.mapYLength) {
-					cd.y = mc.mapYLength - 1;
+				if(cd.y >= MapConfig.MapHeight) {
+					cd.y = MapConfig.MapHeight - 1;
 				}
 			}
 

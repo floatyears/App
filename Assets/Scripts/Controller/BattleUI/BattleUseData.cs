@@ -215,6 +215,10 @@ public class BattleUseData {
 //		return showEnemy;
 //	}
 
+	public void InitEnemyInfo(List<TEnemyInfo> enemyInfo) {
+		ac.enemyInfo = enemyInfo;
+	}
+
 	public List<AttackImageUtility> CaculateFight (int areaItem, int id) {
 		return upi.CalculateSkill (areaItem, id, blood);
 	}

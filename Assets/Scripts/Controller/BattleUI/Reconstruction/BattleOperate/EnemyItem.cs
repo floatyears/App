@@ -52,17 +52,15 @@ public class EnemyItem : UIBaseUnity {
 	Queue<AttackInfo> attackQueue = new Queue<AttackInfo> ();
 	void Attack (object data) {
 		AttackInfo ai = data as AttackInfo;
+//		Debug.LogError ("Attack : " + ai.EnemyID + "   enemyInfo.EnemyID : " + enemyInfo.EnemyID);
 		if (ai == null || ai.EnemyID != enemyInfo.EnemyID) {
 			return;
 		}
 		if (prevObject != null) {
 			Destroy(prevObject);
 		}
-
 		attackQueue.Enqueue (ai);
 		GameTimer.GetInstance ().AddCountDown (1f, Effect);
-//		Debug.LogError("Attack : ");
-
 	}
 
 	void Effect() {
@@ -193,6 +191,7 @@ public class EnemyItem : UIBaseUnity {
 
 	void EnemyAttack (object data) {
 		uint id = (uint) data;
+		Debug.LogError (id + "enemyInfo.EnemyID : " + enemyInfo.EnemyID);
 		if (id == enemyInfo.EnemyID) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
 			iTween.ScaleTo(gameObject,new Vector3(1.5f,1.5f,1f),0.2f);
