@@ -68,8 +68,9 @@ public class StartQuest: ProtoManager {
 			//send response to caller
 			MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, dungeonData);
 
+		} else{
+			MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, null);
 		}
-
 
 	}
 
