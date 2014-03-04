@@ -20,7 +20,7 @@ public class QuestDecoratorUnity : UIComponentUnity {
 	List<StageInfo> storyStageInfoList = new List<StageInfo>();
 	List<StageInfo> eventStageInfoList = new List<StageInfo>();
 
-	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
+	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		InitUI();
 		base.Init (config, origin);
 	}

@@ -11,7 +11,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
-	public override void Init(UIInsConfig config, IUIOrigin origin){
+	public override void Init(UIInsConfig config, IUICallback origin){
 		InitUI();
 		base.Init(config, origin);
 		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);

@@ -44,7 +44,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
         protected int currMaxExp, curExp, gotExp, expRiseStep;
 
 	
-	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
+	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		GetUnitMaterial();
 		InitEffect();

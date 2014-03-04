@@ -14,7 +14,7 @@ public class UnitInfoWindow : UIComponentUnity {
 	protected UILabel nameLabel;
 	protected UILabel raceLabel;
 
-	public override void Init(UIInsConfig config, IUIOrigin origin){
+	public override void Init(UIInsConfig config, IUICallback origin){
 		FindUIElement();
 		base.Init(config, origin);
 	}

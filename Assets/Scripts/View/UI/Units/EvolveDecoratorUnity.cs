@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EvolveDecoratorUnity : UIComponentUnity {
 	
-	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
+	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 	}
 	
