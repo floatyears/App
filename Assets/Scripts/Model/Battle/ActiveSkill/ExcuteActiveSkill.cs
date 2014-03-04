@@ -10,10 +10,10 @@ public class ExcuteActiveSkill {
 			ProtobufDataBase pudb = GlobalData.skill[item.ActiveSkill];
 			IActiveSkillExcute skill = pudb as IActiveSkillExcute;
 			if(skill == null) {
-//				Debug.LogError("this userunit : " + item.GetID + " active skill id is error : " +item.GetActiveSkill());
+
 				continue;
 			}
-
+			Debug.LogError("this userunit : " + item.ID + " active skill id is error : " +item.ActiveSkill);
 			activeSkill.Add(item.ID,skill);
 		}
 		MsgCenter.Instance.AddListener (CommandEnum.LaunchActiveSkill, Excute);
