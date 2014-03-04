@@ -26,7 +26,7 @@ public class StartQuest: ProtoManager {
 	public override bool MakePacket () {
 //		LogHelper.Log ("StartQuest.MakePacket()...");
 
-		Proto = "start_quest";
+		Proto = Protocol.START_QUEST;
 		reqType = typeof(ReqStartQuest);
 		rspType = typeof(RspStartQuest);
 
@@ -41,11 +41,12 @@ public class StartQuest: ProtoManager {
 		reqStartQuest.stageId = questParam.stageId;
 		reqStartQuest.questId = questParam.questId;
 		reqStartQuest.helperUserId = questParam.helperUserId;
-		reqStartQuest.currentParty = questParam.currPartyId;
-
+		reqStartQuest.currentParty = 0;//questParam.currPartyId;
 		TUserUnit userunit = GlobalData.userUnitList.GetMyUnit (questParam.helperUniqueId);
 		if ( userunit != null )
 			reqStartQuest.helperUnit = userunit.Object;
+
+		LogHelper.Log ("helperUserId:{0} currParty:{1} userunit:{2}", reqStartQuest.helperUserId, reqStartQuest.currentParty, userunit);
 
 		ErrorMsg err = SerializeData (reqStartQuest); // save to Data for send out
 		
@@ -61,10 +62,15 @@ public class StartQuest: ProtoManager {
 		GlobalData.userInfo.StaminaNow = rspStartQuest.staminaNow;
 		GlobalData.userInfo.StaminaRecover = rspStartQuest.staminaRecover;
 
-		TQuestDungeonData dungeonData = new TQuestDungeonData (rspStartQuest.dungeonData);
+		LogHelper.Log ("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
+		if(rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null ){
+			TQuestDungeonData dungeonData = new TQuestDungeonData (rspStartQuest.dungeonData);
+			//send response to caller
+			MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, dungeonData);
 
-		//send response to caller
-		MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, dungeonData);
+		}
+
+
 	}
 
 	void OnReceiveCommand(object data) {

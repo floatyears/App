@@ -18,6 +18,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 
 	private void assignData() {
 		Floors = new  List< List<TQuestGrid> > ();
+		dropUnit = new List<TDropUnit>();
 
 		foreach(DropUnit drop in instance.drop) {
 			TDropUnit du = new TDropUnit (drop);
@@ -33,6 +34,11 @@ public class TQuestDungeonData : ProtobufDataBase {
 
 				//assign DropUnit
 				for(int i=0; i<instance.drop.Count;i++){
+					if ( grid.Object.dropId == null || grid.Object.dropId.Count==0){
+						LogHelper.Log ("===floor[{0}].Add grid[{1}/{2}].dropId==null, skip...", nFloor,i,floor.Count);
+						continue;
+					}
+
 					if ( instance.drop[i].dropId == grid.Object.dropId[0] ){
 						grid.Drop = new TDropUnit(instance.drop [i]);
 						break;
@@ -49,7 +55,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 						}
 					}
 				}
-
+				LogHelper.Log ("===floor[{0}].Add grid{1}", nFloor,floor.Count);
 				floor.Add (grid);
 
 			} //end of gridInfo...
@@ -73,14 +79,14 @@ public class TQuestDungeonData : ProtobufDataBase {
 			byte b1 = instance.colors [i];
 			byte b2 = instance.colors [i+1];
 			byte b3 = instance.colors [i+2];
-
+			LogHelper.Log("bbb:{0},{1},{2}",b1,b2,b3);
 			byte b = (byte)((b1 >> 5) & BIT3);
 			colors.Add (b);
 
 			b = (byte) ((b1 >> 2) & BIT3);
 			colors.Add ( b );
 
-			b = (byte)( (b1 & TAIL_BIT2) << 1 + (b2 & HEAD_BIT1) );
+			b = (byte)( ((b1 & TAIL_BIT2) << 1) + ((b2 & HEAD_BIT1)>>7) );
 			colors.Add ( b );
 
 			b = (byte) ( (b2 >> 4) & BIT3);
@@ -89,7 +95,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 			b = (byte) ( (b2 >> 1) & BIT3);
 			colors.Add ( b );
 
-			b = (byte) ((b2 & TAIL_BIT1) << 2 + (b3 & HEAD_BIT2));
+			b = (byte) ( ((b2 & TAIL_BIT1) << 2) + ((b3 & HEAD_BIT2)>>6) );
 			colors.Add ( b );
 
 			b = (byte) ((b3 >> 3) & BIT3);

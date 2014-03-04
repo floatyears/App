@@ -99,7 +99,7 @@ func CheckQuestRecord(db *data.Data, stageId, questId uint32, userDetail *bbprot
 
 	if userDetail.Quest != nil && userDetail.Quest.State != nil {
 		log.T("user(%v) is playing quest:%+v", *userDetail.User.UserId, userDetail.Quest)
-		return 0, Error.New(cs.EQ_QUEST_IS_PLAYING)
+		//return 0, Error.New(cs.EQ_QUEST_IS_PLAYING)
 	}
 
 	//get quest state: CLEAR or NEW

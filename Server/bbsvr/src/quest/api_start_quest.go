@@ -41,7 +41,7 @@ func StartQuestHandler(rsp http.ResponseWriter, req *http.Request) {
 	e = handler.ProcessLogic(&reqMsg, rspMsg)
 
 	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
-	log.T("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
+	log.T("sendrsp err:%v, rspMsg:%+v.\n===========================================", e, rspMsg.Header)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -69,8 +69,13 @@ func (t StartQuest) FillResponseMsg(reqMsg *bbproto.ReqStartQuest, rspMsg *bbpro
 func (t StartQuest) verifyParams(reqMsg *bbproto.ReqStartQuest) (err Error.Error) {
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil || reqMsg.StageId == nil || reqMsg.QuestId == nil ||
-		reqMsg.CurrentParty == nil || reqMsg.HelperUserId == nil || reqMsg.HelperUnit == nil {
+		reqMsg.HelperUserId == nil || reqMsg.HelperUnit == nil {
 		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+	}
+
+	//!!IMPORTANT!!: client protobuf.net cannot serialize when value='0', so convert nil to 0.
+	if reqMsg.CurrentParty == nil {
+		reqMsg.CurrentParty = proto.Int32(0)
 	}
 
 	if *reqMsg.Header.UserId == 0 || *reqMsg.StageId == 0 || *reqMsg.QuestId == 0 ||
@@ -174,6 +179,30 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	rspMsg.DungeonData = &questData
 
 	log.T("=========== StartQuest total cost %v ms. ============\n\n", cost.Cost())
+
+	log.T(">>>>>>>>>>>>rspMsg begin<<<<<<<<<<<<<")
+	log.T("--StaminaNow:%v", *rspMsg.StaminaNow)
+	log.T("--StaminaRecover:%v", *rspMsg.StaminaRecover)
+
+	log.T("--Boss:%+v", rspMsg.DungeonData.Boss)
+
+	log.T("--Enemys: count=%v", len(rspMsg.DungeonData.Enemys))
+	for k, enemy := range rspMsg.DungeonData.Enemys {
+		log.T("\t enemy[%v]: %v", k, enemy)
+	}
+
+	log.T("--Drop: count=%v", len(rspMsg.DungeonData.Drop))
+	for k, drop := range rspMsg.DungeonData.Drop {
+		log.T("\t drop[%v]: %v", k, drop)
+	}
+
+	for k, floor := range rspMsg.DungeonData.Floors {
+		log.T("--floor[%v]:", k)
+		for _, grid := range floor.GridInfo {
+			log.T("\t--[%+v] \n", grid)
+		}
+	}
+	log.T(">>>>>>>>>>>>rspMsg end.<<<<<<<<<<<<<")
 
 	return Error.OK()
 }
