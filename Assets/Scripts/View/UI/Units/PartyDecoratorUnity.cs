@@ -107,7 +107,7 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 		currentPartyIndexLabel.text = currentPartyIndex.ToString();
 		partyIndexPrefixLabel.text = currentPartyIndex.ToString();
 		partyIndexSuffixLabel.text = partyIndexDic[ currentPartyIndex ].ToString();
-		RequestPartyInfo( currentPartyIndex );
+		//RequestPartyInfo( currentPartyIndex );
 	}
 	
 	private void ForwardPage( GameObject btn ) {
@@ -119,9 +119,10 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 		currentPartyIndexLabel.text = currentPartyIndex.ToString();
 		partyIndexPrefixLabel.text = currentPartyIndex.ToString();
 		partyIndexSuffixLabel.text = partyIndexDic[ currentPartyIndex ].ToString();
-		RequestPartyInfo( currentPartyIndex );
+		//RequestPartyInfo( currentPartyIndex );
 	}
 	
+
 	//Request Party Page Info from Logic Component
 	private void RequestPartyInfo( int pageIndex ) {
 		//origin is UnitsComponent -- Logic Interface
@@ -201,6 +202,10 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 	{
 	
 	}
+
+
+
+
 
 
 }

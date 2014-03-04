@@ -54,8 +54,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public override void ShowUI () {
 
 		base.ShowUI ();
-
-
+	
 		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 	}
@@ -84,7 +83,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	
 	void InitProfile() {
 		string rootPath			= "UnitInfoTabs/Content_Profile/";
-		profileLabel			= FindChild<UILabel>(rootPath + "Label_info"			);
+		profileLabel			= FindChild<UILabel>(rootPath + "Label_info"	);
 	}
 	
 	void InitTexture(){
@@ -239,7 +238,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		raceLabel.text = unitInfo.Race.ToString();
 //		Debug.LogError("unitInfo.Race : "+unitInfo.Race.ToString());
 
-		
 		//rare
 		rareLabel.text = unitInfo.Rare.ToString();
 //		Debug.LogError("unitInfo.Rare : "+unitInfo.Rare.ToString());

@@ -118,6 +118,25 @@ public class DragPanelView : UIBaseUnity {
 		scrollBar.gameObject.transform.localPosition = new Vector3( pos_X, pos_Y, pos_Z);
 	}
 
+//	public void UpdateScrollArgument(string key, object value){
+//		switch (key)
+//		{
+//			case "parentTrans":
+//				parentTrans = (Transform)value;
+//				break;
+//			
+//			default:
+//				break;
+//		}
+//	}
+//
+//	public void UpdateScrollArgs(Dictionary< string, object > argsDic){
+//		foreach (var key in argsDic.Keys)
+//		{
+//			UpdateScrollArgument(key, argsDic[key]);
+//		}
+//	}
+
 	public void SetScrollView(Dictionary< string, object > argsDic)
 	{
 		//default args List
