@@ -20,7 +20,7 @@ public class AuthUser: ProtoManager {
 	public override bool MakePacket () {
 		LogHelper.Log ("AuthUser.MakePacket()...");
 
-		Proto = Proto = Protocol.AUTH_USER;
+		Proto = Protocol.AUTH_USER;
 		reqType = typeof(ReqAuthUser);
 		rspType = typeof(RspAuthUser);
 
@@ -48,9 +48,10 @@ public class AuthUser: ProtoManager {
 	}
 
 	public override void OnResponse (bool success) {
-		LogHelper.Log("authUser response success:{0}",success);
-
-		if (!success) { return; }
+		if (!success) { 
+			LogHelper.Log("authUser response failed.");
+			return;
+		}
 
 		rspAuthUser = InstanceObj as bbproto.RspAuthUser;
 		if ( rspAuthUser == null ) {
@@ -58,14 +59,23 @@ public class AuthUser: ProtoManager {
 			 return;
 		}
 
+		if (rspAuthUser.header.code != 0) {
+			//TODO: showErrMsg()
+			LogHelper.Log("rspAuthUser return error: {0} {1}", rspAuthUser.header.code,rspAuthUser.header.error);
+			return;
+		}
+				
+
 		if (this.userId == 0) {
 			userId = rspAuthUser.user.userId;
 			LogHelper.Log("New user registeed, save userid:"+userId);
 			GameDataStore.Instance.StoreData (GameDataStore.USER_ID, rspAuthUser.user.userId);
 		}
 
-		TUnitParty currParty = new TUnitParty (rspAuthUser.party.partyList[rspAuthUser.party.currentParty]);
-		ModelManager.Instance.SetData (ModelEnum.UnitPartyInfo, currParty);
+		if (rspAuthUser.party != null && rspAuthUser.party.partyList!=null) {
+			TUnitParty currParty = new TUnitParty (rspAuthUser.party.partyList [rspAuthUser.party.currentParty]);
+			ModelManager.Instance.SetData (ModelEnum.UnitPartyInfo, currParty);
+		}
 
 		//TODO: update localtime with servertime
 		//localTime = rspAuthUser.serverTime
@@ -102,8 +112,19 @@ public class AuthUser: ProtoManager {
 			foreach(UserUnit unit in rspAuthUser.unitList) {
 				GlobalData.myUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
 				GlobalData.userUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+				LogHelper.Log("rspAuthUser add userUnit.uniqueId:{0}",unit.uniqueId);
 			}
 		}
+
+		//TODO: remove test code bellow
+//		StartQuestParam p= new StartQuestParam();
+//		p.currPartyId=0;
+//		p.questId=1101;
+//		p.stageId=11;
+//		p.helperUserId=103;
+//		p.helperUniqueId=2;
+//		MsgCenter.Instance.Invoke (CommandEnum.ReqStartQuest, p);
+
 
 		//send response to caller
 		MsgCenter.Instance.Invoke (CommandEnum.RspAuthUser, null);
