@@ -234,8 +234,25 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 
 	void ClickStartBtn(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-		UIManager.Instance.EnterBattle();
+
+		StartQuestParam p= new StartQuestParam();
+		p.currPartyId=0;
+		p.questId=101;
+		p.stageId=11;
+		p.helperUserId=103;
+		p.helperUniqueId=2;
+		MsgCenter.Instance.Invoke (CommandEnum.ReqStartQuest, p);
+		MsgCenter.Instance.AddListener (CommandEnum.RspStartQuest, RspStartQuest);
+
 	}
+
+	void RspStartQuest(object data) {
+		MsgCenter.Instance.RemoveListener (CommandEnum.RspStartQuest, RspStartQuest);
+		TQuestDungeonData tqdd = data as TQuestDungeonData;
+		ModelManager.Instance.SetData (ModelEnum.MapConfig, tqdd);
+		UIManager.Instance.EnterBattle();
+	} 
+
 	
 	void PickFriend(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );

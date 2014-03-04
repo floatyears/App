@@ -25,7 +25,7 @@ public class BattleMap : UIBaseUnity {
 
 	public override void Init (string name) {
 		base.Init (name);
-		map = new MapItem[bQuest.MapWidth, bQuest.MapHeight];
+		map = new MapItem[BattleQuest.MapWidth, BattleQuest.MapHeight];
 		template = FindChild<MapItem>("SingleMap");
 		template.Init("SingleMap");
 		door = FindChild<MapDoor>("Door_1");

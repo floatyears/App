@@ -6,14 +6,15 @@ public class ExcuteActiveSkill {
 	private ILeaderSkill leaderSkill;
 	public ExcuteActiveSkill(ILeaderSkill ils) {
 		leaderSkill = ils;
+//		Debug.Log("this userunit : " + ils.UserUnit.Count);
 		foreach (var item in ils.UserUnit.Values) {
 			ProtobufDataBase pudb = GlobalData.skill[item.ActiveSkill];
 			IActiveSkillExcute skill = pudb as IActiveSkillExcute;
+//			Debug.Log("pudb : " + skill + " active skill id is error : " +item.ActiveSkill);
 			if(skill == null) {
-//				Debug.LogError("this userunit : " + item.GetID + " active skill id is error : " +item.GetActiveSkill());
 				continue;
 			}
-
+//			Debug.Log("this userunit : " + item.ID + " active skill id is error : " +item.ActiveSkill);
 			activeSkill.Add(item.ID,skill);
 		}
 		MsgCenter.Instance.AddListener (CommandEnum.LaunchActiveSkill, Excute);
@@ -31,7 +32,12 @@ public class ExcuteActiveSkill {
 		TUserUnit uui = data as TUserUnit;
 		if (uui != null) {
 			uint id = uui.ID;
-			activeSkill[id].Excute(id, uui.Attack);
+//			Debug.LogError("id : " + id);
+			IActiveSkillExcute iase ;
+			if(activeSkill.TryGetValue(id,out iase)) {
+				iase = activeSkill[id];
+				iase.Excute(id, uui.Attack);
+			}
 		}
 	}
 

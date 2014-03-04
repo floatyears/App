@@ -178,12 +178,12 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		rewardLineLabel.text = "/";
 		rewardCoinLabel.text = string.Format("Cion : {0}", currentInfo.rewardMoney.ToString() );
 
-		string avatarTexturePath = "Avatar/role01" + currentInfo.no.ToString();
+		string avatarTexturePath = "Avatar/" + currentInfo.no.ToString() + "_1";
 		avatarTexture.mainTexture = Resources.Load( avatarTexturePath ) as Texture2D;
 
 		int enemyCount = 4;
 		for (int i = 0; i < enemyCount; i++){
-			string enemyAvatarTexturePath = "Avatar/role02" + i.ToString();
+			string enemyAvatarTexturePath = "Avatar/" + i.ToString() + "_1";
 			pickEnemiesList[ i ].mainTexture = Resources.Load(enemyAvatarTexturePath) as Texture2D;
 		}
 
