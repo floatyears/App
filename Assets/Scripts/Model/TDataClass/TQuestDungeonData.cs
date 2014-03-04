@@ -13,7 +13,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 
 	private QuestDungeonData	instance;
 	private List<TDropUnit>		dropUnit;
-
+	private List<TEnemyInfo>	boss;
 	private List<byte> colors;
 
 	private void assignData() {
@@ -23,6 +23,11 @@ public class TQuestDungeonData : ProtobufDataBase {
 		foreach(DropUnit drop in instance.drop) {
 			TDropUnit du = new TDropUnit (drop);
 			dropUnit.Add (du);
+		}
+
+		foreach(EnemyInfo b in instance.boss) {
+			TEnemyInfo e = new TEnemyInfo(b);
+			this.boss.Add(e);
 		}
 
 		for(int nFloor=0; nFloor < instance.floors.Count; nFloor++){
@@ -119,7 +124,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 	public List<byte>		Colors	{ get { return this.colors; } }
 	public List<TDropUnit>	DropUnit { get { return this.dropUnit;} }
 
-	public List<EnemyInfo>	Boss {get { return instance.boss;} }
+	public List<TEnemyInfo>	Boss {get { return this.boss;} }
 //	EnemyInfo		enemys	
 
 	public List< List<TQuestGrid> >	Floors;
