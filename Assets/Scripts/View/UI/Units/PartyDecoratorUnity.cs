@@ -60,7 +60,7 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 	}
 	
 	private void InitPagingBtn() {
-		leftArrowBtn = FindChild("PartyPages/BtnLeft");
+		leftArrowBtn = FindChild("Party Pages/BtnLeft");
 		rightArrowBtn = FindChild("PartyPages/BtnRight");
 		UIEventListener.Get( leftArrowBtn ).onClick = BackPage;
 		UIEventListener.Get( rightArrowBtn ).onClick = ForwardPage;
