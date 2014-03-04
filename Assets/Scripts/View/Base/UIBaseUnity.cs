@@ -100,7 +100,7 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 			transform.parent = config.parent;	
 			transform.localScale = Vector3.one;
 		}
-		HideUI ();
+		InitHide ();
 	}
 
 	public virtual void ShowUI() {
@@ -108,6 +108,10 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 	}
 
 	public virtual void HideUI() {
+		InitHide();
+	}
+
+	private void InitHide() {
 		transform.localPosition = ViewManager.HidePos;
 	}
 
