@@ -144,8 +144,10 @@ public class BattleUseData {
 	List<AttackInfo> SortAttackSequence() {
 		List<AttackInfo> sortAttack = new List<AttackInfo> ();
 		foreach (var item in attackInfo.Values) {
+//			Debug.LogError("SortAttackSequence foreach : " + item.Count);
 			sortAttack.AddRange(item);
 		}
+//		Debug.LogError ("SortAttackSequence 1 : " + sortAttack.Count);
 		attackInfo.Clear ();
 		int tempCount = 0;
 		for (int i = GlobalData.posStart; i < GlobalData.posEnd; i++) {
@@ -219,8 +221,9 @@ public class BattleUseData {
 
 	public void StartAttack(object data) {
 		attackInfo = upi.Attack;
+//		Debug.LogError ("StartAttack  " + attackInfo.Count);
 		List<AttackInfo> temp = SortAttackSequence ();
-		Debug.LogError ("StartAttack temp : " + temp.Count);
+//		Debug.LogError ("StartAttack temp : " + temp.Count);
 		ac.LeadSkillReduceHurt (els);
 		ac.StartAttack (temp,upi);
 	}

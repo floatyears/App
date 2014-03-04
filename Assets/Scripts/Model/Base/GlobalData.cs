@@ -40,8 +40,8 @@ public class GlobalData  {
 	public static Dictionary<uint, TrapBase> trapInfo = new Dictionary<uint, TrapBase> ();
 
 	public const int maxEnergyPoint = 20;
-	public const int posStart = 1;
-	public const int posEnd = 6;
+	public const int posStart = 0;
+	public const int posEnd = 5;
 	public const int minNeedCard = 2;
 	public const int maxNeedCard = 5;
 
