@@ -319,10 +319,10 @@ public class PartyDecorator : DecoratorBase {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
 
-		PartyComponent party = CreatComponent< PartyComponent >( UIConfig.partyWindowName);
-		party.SetComponent( sceneInfoBar );
+		PartyPageUILogic partyPage = CreatComponent< PartyPageUILogic >( UIConfig.partyPagePanelName);
+		partyPage.SetComponent( sceneInfoBar );
 
-		lastDecorator = party;
+		lastDecorator = partyPage;
 		lastDecorator.CreatUI();
 	}
 }
