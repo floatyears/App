@@ -97,6 +97,7 @@ class UnitInfo
   end
   
   def save_to_redis
+    $redis.select 20
     $redis.set "unit_"+self["id"].to_s,self.encode
   end
 end
