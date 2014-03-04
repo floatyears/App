@@ -329,15 +329,20 @@ public class UserUnitList {
 
 	public  TUserUnit Get(uint userId, uint uniqueId) {
 		string key = MakeUserUnitKey(userId, uniqueId);
-		if (!userUnitInfo.ContainsKey (key))
+		if (!userUnitInfo.ContainsKey (key)){
+			LogHelper.Log("Cannot find key {0} in Global.userUnitInfo.",key);
 			return null;
+		}
+			
 		return userUnitInfo [key];
 	}
 
 	public  TUserUnit GetMyUnit(uint uniqueId) {
-//		Debug.LogError ("GetMyUnit : " + GlobalData.userInfo);
-		if (GlobalData.userInfo == null)
+		if (GlobalData.userInfo == null){
+			Debug.LogError ("TUserUnit.GetMyUnit : Global.userInfo=null");
 			return null;
+		}
+			
 		return Get(GlobalData.userInfo.UserId, uniqueId);
 	}
 
