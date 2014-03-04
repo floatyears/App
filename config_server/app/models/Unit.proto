@@ -1,0 +1,59 @@
+message UnitInfo { 	
+	required uint32			id				= 1;
+	optional string			name			= 2;
+	optional EUnitRace		race			= 3;	
+	optional EUnitType		type			= 4;//wind flame water, etc.
+	optional int32			rare			= 5;	
+	optional int32			skill1			= 6;
+	optional int32			skill2			= 7;
+	optional int32			leaderSkill		= 8;
+	optional int32			activeSkill		= 9;
+	optional int32			passiveSkill	= 10;
+	optional int32			maxLevel		= 11;
+	optional string			profile			= 12;
+	optional PowerType		powerType		= 13; //include: hpType,atkType,expType
+	optional EvolveInfo		evolveInfo		= 14;
+	optional int32			cost			= 15;
+	optional int32			saleValue		= 16;
+	optional int32			devourValue		= 17;
+}
+
+message PowerType {
+	optional int32 attackType	= 1;
+	optional int32 hpType		= 2;
+	optional int32 expType		= 3;		
+}
+
+enum EUnitType{
+	UALL	= 0; // all type
+	UFIRE 	= 1;
+	UWATER	= 2;
+	UWIND	= 3;
+	ULIGHT	= 4;
+	UDARK	= 5;
+	UNONE	= 6;
+    UHeart  = 7;
+};
+enum EUnitRace{
+    ALL             = 0; //all race
+    HUMAN           = 1;
+    UNDEAD          = 2;
+    MYTHIC          = 3;
+    BEAST           = 4;
+    MONSTER         = 5;
+    LEGEND          = 6;
+    SCREAMCHEESE    = 7;
+}
+
+message HelperRequire {
+    optional int32		level		= 1;
+	optional EUnitRace	race		= 2;
+	optional EUnitType	type		= 3;
+}
+
+
+message EvolveInfo {
+    required int32      		evolveUnitId    = 1;
+    repeated int32		      	materialUnitId  = 2;
+	optional HelperRequire		helperRequire	= 3;
+}

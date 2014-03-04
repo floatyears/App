@@ -40,7 +40,9 @@ func (qm *QuestDataMaker) makeColors(colorPercent []*bbproto.ColorPercent, count
 			}
 		}
 	}
-
+	for k, c := range colors {
+		log.T("c[%v]: %v", k, c)
+	}
 	return qm.makePackColors(colors)
 }
 
@@ -65,26 +67,26 @@ func (qm *QuestDataMaker) makePackColors(colors []byte) (colorPack []byte, e Err
 	count := len(colors)
 	k := 0
 	for i := 0; i < count; i += 8 {
-		log.T("result[%v]:%v colors[%v]: %v<<5 = %v", k, result[k], i, colors[i], colors[i]<<5)
+		//log.T("result[%v]:%v colors[%v]: %v<<5 = %v", k, result[k], i, colors[i], colors[i]<<5)
 		result[k] += (colors[i] << 5)
 
 		if i+1 < count {
-			log.T("result[%v]:%v %v<< 2 = %v", k+1, result[k], colors[i+1], colors[i+1]<<2)
+			//log.T("result[%v]:%v %v<< 2 = %v", k+1, result[k], colors[i+1], colors[i+1]<<2)
 			result[k] += (colors[i+1] << 2)
 		}
 		if i+2 < count {
-			log.T("result[%v]:%v %v&HEAD_BIT2  = %v", k+2, result[k], colors[i+2], colors[i+2]&HEAD_BIT2>>1)
+			//log.T("result[%v]:%v %v&HEAD_BIT2  = %v", k+2, result[k], colors[i+2], colors[i+2]&HEAD_BIT2>>1)
 			result[k] += (colors[i+2] & HEAD_BIT2 >> 1)
 		}
 
 		if i+2 < count {
-			log.T("result[%v]:%v & TAIL_BIT1<< 7 = %v", k+3, result[k], colors[i+2]&TAIL_BIT1<<7)
+			//log.T("result[%v]:%v & TAIL_BIT1<< 7 = %v", k+3, result[k], colors[i+2]&TAIL_BIT1<<7)
 			result[k+1] += (colors[i+2] & TAIL_BIT1 << 7)
 		}
 		if i+3 < count {
 			result[k+1] += (colors[i+3] << 4)
 		}
-		log.T("result[%v]:%v", k+1, result[k+1])
+		//log.T("result[%v]:%v", k+1, result[k+1])
 		if i+4 < count {
 			result[k+1] += (colors[i+4] << 1)
 		}
@@ -103,9 +105,9 @@ func (qm *QuestDataMaker) makePackColors(colors []byte) (colorPack []byte, e Err
 		k += 3
 	}
 
-	//for k, b := range result {
-	//	log.T("[%v] makePackColors result b=%v ", k, b)
-	//}
+	for k, b := range result {
+		log.T("[%v] makePackColors result b=%v ", k, b)
+	}
 
 	return result, Error.OK()
 }
