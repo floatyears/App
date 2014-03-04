@@ -83,13 +83,7 @@ public class Main : MonoBehaviour
 		//ProtoManager<bbproto.ReqAuthUser> authUser = new ProtoManager<bbproto.ReqAuthUser> ();
 //		string info =  GameSingleDataStore.Instance.GetSingleData ("aa");
 //		Debug.LogError (info);
-		StartQuestParam p= new StartQuestParam();
-		p.currPartyId=0;
-		p.questId=101;
-		p.stageId=11;
-		p.helperUserId=103;
-		p.helperUniqueId=2;
-		MsgCenter.Instance.Invoke (CommandEnum.ReqStartQuest, p);
+
 
 	}
 

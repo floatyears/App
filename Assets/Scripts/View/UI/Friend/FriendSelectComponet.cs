@@ -16,7 +16,13 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-
+//		StartQuestParam p= new StartQuestParam();
+//		p.currPartyId=0;
+//		p.questId=101;
+//		p.stageId=11;
+//		p.helperUserId=103;
+//		p.helperUniqueId=2;
+//		MsgCenter.Instance.Invoke (CommandEnum.ReqStartQuest, p);
 	}
 	
 	public override void HideUI () {

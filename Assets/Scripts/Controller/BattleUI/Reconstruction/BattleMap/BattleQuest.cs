@@ -2,20 +2,26 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleQuest : UIBase {
-	public int MapWidth {
-		get{ return mapConfig.mapXLength; }
-	}
+//	public int MapWidth {
+//		get{ return mapConfig.mapXLength; }
+//	}
+	public const int MapWidth = 5;
+	public const int MapHeight = 5;
 
-	public int MapHeight {
-		get{ return mapConfig.mapYLength; }
-	}
+//	public int MapWidth {
+//		get{ return questDungeonData.Floors.Count; }
+//	}
+
+//	public int MapHeight {
+//		get{ return questDungeonData.Floors[0]; }
+//	}
 
 	private Coordinate roleInitPosition = new Coordinate();
 	public Coordinate RoleInitPosition {
 		get { 
-			if(roleInitPosition.x != mapConfig.characterInitCoorX) {
-				roleInitPosition.x = mapConfig.characterInitCoorX;
-				roleInitPosition.y = mapConfig.characterInitCoorY;
+			if(roleInitPosition.x != MapConfig.characterInitCoorX) {
+				roleInitPosition.x = MapConfig.characterInitCoorX;
+				roleInitPosition.y = MapConfig.characterInitCoorY;
 			}
 			return  roleInitPosition;
 		}
@@ -23,6 +29,7 @@ public class BattleQuest : UIBase {
 
 	private GameObject rootObject;
 	public static MapConfig mapConfig;
+	public static TQuestDungeonData questDungeonData;
 	private SingleMapData currentMapData;
 	private BattleMap battleMap;
 	private Role role;
@@ -58,7 +65,9 @@ public class BattleQuest : UIBase {
 	}
 
 	void InitData() {
-		mapConfig = ModelManager.Instance.GetData (ModelEnum.MapConfig,new ErrorMsg()) as MapConfig; //new MapConfig (); //
+//		mapConfig = ModelManager.Instance.GetData (ModelEnum.MapConfig,new ErrorMsg()) as MapConfig; //new MapConfig (); //
+
+		questDungeonData = ModelManager.Instance.GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
 	}
 
 	void Init(UIBaseUnity ui,string name) {
@@ -155,7 +164,8 @@ public class BattleQuest : UIBase {
 	bool battleEnemy = false;
 	public void ClickDoor () {
 //		Debug.LogError ("ClickDoor : " + questFloor + " mapConfig.floor : " + mapConfig.floor);
-		if (questFloor == mapConfig.floor) {
+//		if (questFloor == mapConfig.floor) {
+		if(questFloor == questDungeonData.Floors.Count){
 			QuestStop ();
 		} else {
 			EnterNextFloor();

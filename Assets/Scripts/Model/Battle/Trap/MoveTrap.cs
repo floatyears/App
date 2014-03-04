@@ -29,7 +29,7 @@ public class MoveTrap : TrapBase, ITrapExcute{
 		case 3:
 			ViewManager.Instance.TrapLabel.text = "move trap,return start position ";
 			mc = ModelManager.Instance.GetData(ModelEnum.MapConfig,new ErrorMsg()) as MapConfig;
-			cd = new Coordinate(mc.characterInitCoorX, mc.characterInitCoorY);
+			cd = new Coordinate(MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);
 			MsgCenter.Instance.Invoke(CommandEnum.TrapMove, cd);
 			break;
 		}

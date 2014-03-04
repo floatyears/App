@@ -7,8 +7,8 @@ public class MapConfig : IOriginModel {
 	
 	public SingleMapData[,] mapData;
 	
-	public int characterInitCoorX = 2;
-	public int characterInitCoorY = 0;
+	public const int characterInitCoorX = 2;
+	public const int characterInitCoorY = 0;
 	public const int endPointX = 2;
 	public const int endPointY = 4;
 	public List<uint> BossID = new List<uint> () {3};
