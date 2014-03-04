@@ -21,7 +21,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 	private UITexture friendSprite;
 	private UnitBaseInfo friendBaseInfo;
 
-	public override void Init(UIInsConfig config, IUIOrigin origin){
+	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUI();
 	}

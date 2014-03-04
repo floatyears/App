@@ -26,7 +26,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	TUserUnit friendUnitInfo;
 	List<TUserUnit> materialUnitInfo = new List<TUserUnit>();
 
-	public override void Init(UIInsConfig config, IUIOrigin origin){
+	public override void Init(UIInsConfig config, IUICallback origin){
 		InitUI();
 		base.Init(config, origin);
 	}

@@ -52,7 +52,7 @@ public interface IUIBaseComponent {
 }
 
 public interface IUIComponentUnity :  IUIBaseComponent{
-	void Init(UIInsConfig config, IUIOrigin originInterface);
+	void Init(UIInsConfig config, IUICallback originInterface);
 }
 
 /// <summary>
@@ -62,18 +62,18 @@ public interface IUIComponent :  IUIBaseComponent{
 	void CreatUI();
 }
 
-public interface IUIOrigin {
-
-}
+//public interface IUICallback {
+//
+//}
 
 /// <summary>
 /// ui callback interface
 /// </summary>
-public interface IUICallback : IUIOrigin {
+public interface IUICallback  {
 	void Callback(object data);
 }
 
-public interface IUISetBool : IUIOrigin {
+public interface IUISetBool {
 	void SetEnable(bool b);
 }
 
@@ -186,6 +186,8 @@ public interface INetSendPost {
 public delegate void Callback();
 
 public delegate void UICallback(GameObject caller);
+
+public delegate Object UICallbackExtend(Object data);
 
 public delegate void UICallback<T>(T arg1);
 

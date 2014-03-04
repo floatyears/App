@@ -33,7 +33,7 @@ public class PlayerInfoBar : UIComponentUnity {
 	Vector3 leftPosition;
 	Vector3 rightPosition;
 
-	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
+	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 
 		InitUI();

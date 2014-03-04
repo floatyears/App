@@ -9,7 +9,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	private IUICallback iuiCallback; 
 	private bool temp = false;
 	
-	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
+	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		InitUI();
 

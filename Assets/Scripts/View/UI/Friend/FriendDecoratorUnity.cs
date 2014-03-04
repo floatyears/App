@@ -5,7 +5,7 @@ public class FriendDecoratorUnity : UIComponentUnity {
 
 	private Dictionary< GameObject, SceneEnum > btns = new Dictionary< GameObject, SceneEnum >();
 	
-	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
+	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 
 		InitUI();

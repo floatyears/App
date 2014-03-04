@@ -20,7 +20,7 @@ public class OthersWindow : UIComponentUnity {
 	Dictionary< GameObject, GameObject > options = new Dictionary< GameObject, GameObject>();
 	Dictionary< string, object > otherScrollerArgsDic = new Dictionary< string, object >();
 
-	public override void Init ( UIInsConfig config, IUIOrigin origin ){
+	public override void Init ( UIInsConfig config, IUICallback origin ){
 //		Debug.LogError("Init_Before");
 		FindUIElement();
 		SetOption();
