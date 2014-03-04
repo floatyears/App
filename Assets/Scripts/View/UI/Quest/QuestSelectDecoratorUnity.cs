@@ -138,7 +138,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 	}
 
 	void ShowItemInfo(GameObject item, QuestInfo questInfo){
-		string textureSourcePath = string.Format("Avatar/role00{0}",questInfo.no);
+		string textureSourcePath = string.Format("Avatar/{0}_1",questInfo.no);
 		UITexture texture = item.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
 		texture.mainTexture = Resources.Load( textureSourcePath ) as Texture2D;
 
