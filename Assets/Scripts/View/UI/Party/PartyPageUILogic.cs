@@ -7,7 +7,10 @@ public class PartyPageUILogic : ConcreteComponent {
 
 	public override void Callback(object data){
 		base.Callback(data);
-//		ExcuteCallback()
+
+		//Get data and call back
+
+//		ExcuteCallback();
 	}
 
 }
