@@ -232,10 +232,13 @@ func (x *ETrapType) UnmarshalJSON(data []byte) error {
 type EQuestGridType int32
 
 const (
-	EQuestGridType_Q_NONE     EQuestGridType = 0
-	EQuestGridType_Q_TREATURE EQuestGridType = 1
-	EQuestGridType_Q_ENEMY    EQuestGridType = 2
-	EQuestGridType_Q_TRAP     EQuestGridType = 3
+	EQuestGridType_Q_NONE        EQuestGridType = 0
+	EQuestGridType_Q_TREATURE    EQuestGridType = 1
+	EQuestGridType_Q_ENEMY       EQuestGridType = 2
+	EQuestGridType_Q_TRAP        EQuestGridType = 3
+	EQuestGridType_Q_KEY         EQuestGridType = 4
+	EQuestGridType_Q_QUESTION    EQuestGridType = 5
+	EQuestGridType_Q_EXCLAMATION EQuestGridType = 6
 )
 
 var EQuestGridType_name = map[int32]string{
@@ -243,12 +246,18 @@ var EQuestGridType_name = map[int32]string{
 	1: "Q_TREATURE",
 	2: "Q_ENEMY",
 	3: "Q_TRAP",
+	4: "Q_KEY",
+	5: "Q_QUESTION",
+	6: "Q_EXCLAMATION",
 }
 var EQuestGridType_value = map[string]int32{
-	"Q_NONE":     0,
-	"Q_TREATURE": 1,
-	"Q_ENEMY":    2,
-	"Q_TRAP":     3,
+	"Q_NONE":        0,
+	"Q_TREATURE":    1,
+	"Q_ENEMY":       2,
+	"Q_TRAP":        3,
+	"Q_KEY":         4,
+	"Q_QUESTION":    5,
+	"Q_EXCLAMATION": 6,
 }
 
 func (x EQuestGridType) Enum() *EQuestGridType {
@@ -1917,7 +1926,7 @@ type ReqClearQuest struct {
 	QuestId          *uint32      `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
 	SecurityKey      *uint32      `protobuf:"varint,3,opt,name=securityKey" json:"securityKey,omitempty"`
 	GetMoney         *int32       `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
-	GetUnit          []*DropUnit  `protobuf:"bytes,5,rep,name=getUnit" json:"getUnit,omitempty"`
+	GetUnit          []uint32     `protobuf:"varint,5,rep,name=getUnit" json:"getUnit,omitempty"`
 	HitGrid          []uint32     `protobuf:"varint,6,rep,name=hitGrid" json:"hitGrid,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
@@ -1954,7 +1963,7 @@ func (m *ReqClearQuest) GetGetMoney() int32 {
 	return 0
 }
 
-func (m *ReqClearQuest) GetGetUnit() []*DropUnit {
+func (m *ReqClearQuest) GetGetUnit() []uint32 {
 	if m != nil {
 		return m.GetUnit
 	}

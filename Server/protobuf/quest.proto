@@ -23,6 +23,9 @@ enum EQuestGridType {
 	Q_TREATURE		= 1;
 	Q_ENEMY			= 2;
 	Q_TRAP			= 3;
+	Q_KEY			= 4;
+	Q_QUESTION		= 5;
+	Q_EXCLAMATION	= 6;
 }
 
 enum EGridStar {
@@ -237,7 +240,7 @@ message ReqClearQuest {
 	optional uint32			questId			= 2; 
 	optional uint32			securityKey		= 3; 
 	optional int32			getMoney		= 4;
-	repeated DropUnit		getUnit			= 5; //without uniqueId	
+	repeated uint32			getUnit			= 5; //without uniqueId	
 	repeated uint32			hitGrid			= 6;
 }
 
