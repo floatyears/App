@@ -33,7 +33,9 @@ public class StartQuest: ProtoManager {
 		reqStartQuest = new ReqStartQuest ();
 		reqStartQuest.header = new ProtoHeader ();
 		reqStartQuest.header.apiVer = Protocol.API_VERSION;
-		reqStartQuest.header.userId = GlobalData.userInfo.UserId;
+
+		if (  GlobalData.userInfo != null )
+			reqStartQuest.header.userId = GlobalData.userInfo.UserId;
 
 
 		reqStartQuest.stageId = questParam.stageId;

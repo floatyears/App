@@ -98,6 +98,12 @@ public class TQuestDungeonData : ProtobufDataBase {
 			b = (byte) (b3 & BIT3);
 			colors.Add ( b );
 		}
+
+
+		for( int i=0; i<colors.Count;i++){
+			LogHelper.Log ("b[{0}]: {1}", i, colors[i]);
+		}
+
 	}
 	//////////////////////////////////////////////////////////////
 	/// 
