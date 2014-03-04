@@ -65,6 +65,8 @@ public class QuestDecorator : DecoratorBase {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
 
+		UnityEngine.Debug.Log("QuestDecorator");
+
 		QuestComponent quest = CreatComponent< QuestComponent > ( UIConfig.questWindowName );
 		quest.SetComponent ( sceneInfoBar );
 
@@ -205,7 +207,7 @@ public class UnitsDecorator : DecoratorBase {
 	
 	public override void ShowScene () {
 		base.ShowScene ();
-//		sceneInfoBar.SetBackScene(SceneEnum.None);
+		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene () {

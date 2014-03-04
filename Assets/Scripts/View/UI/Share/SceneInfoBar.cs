@@ -19,8 +19,7 @@ public class SceneInfoBar : UIBaseUnity
 		}
 	}
 	
-	void Start()
-	{
+	void Start(){
 		Init("SceneInoBar");
 	}
 

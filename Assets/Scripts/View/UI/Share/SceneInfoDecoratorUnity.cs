@@ -19,13 +19,12 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	public override void ShowUI () {
 
 		base.ShowUI ();
-		ShowTweenPostion(0.2f);
+		ShowTween();
 
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-		ShowTweenPostion();
 	}
 	
 	public override void DestoryUI () {
@@ -72,29 +71,18 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 		}
 	}
 
-	private void ShowTweenPostion( float mDelay = 0f, UITweener.Method mMethod = UITweener.Method.Linear ) 
+	private void ShowTween()
 	{
-		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
-		
-		if( list == null )
+		TweenPosition[ ] list = 
+			gameObject.GetComponentsInChildren< TweenPosition >();
+		if (list == null)
 			return;
-		
-		foreach( var tweenPos in list)
+		foreach (var tweenPos in list)
 		{		
-			if( tweenPos == null )
+			if (tweenPos == null)
 				continue;
-			
-			Vector3 temp;
-			temp = tweenPos.to;
-			tweenPos.to = tweenPos.from;
-			tweenPos.from = temp;
-			
-			tweenPos.delay = mDelay;
-			tweenPos.method = mMethod;
-			
 			tweenPos.Reset();
 			tweenPos.PlayForward();
-			
 		}
 	}
 }
