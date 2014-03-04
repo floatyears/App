@@ -65,8 +65,8 @@ public class ModelManager
 		string info = obj.text;
 		UIIns ins = new UIIns (info);
 		SetData (ModelEnum.UIInsConfig, ins);
-		MapConfig mc = new MapConfig ();
-		SetData (ModelEnum.MapConfig, mc);
+//		MapConfig mc = new MapConfig ();
+//		SetData (ModelEnum.MapConfig, mc);
 	}
 
 	public void InitData () {
@@ -75,6 +75,7 @@ public class ModelManager
 		ConfigSkill cs = new ConfigSkill ();
 		ConfigEnermy ce = new ConfigEnermy ();
 		ConfigUnitBaseInfo cubi = new ConfigUnitBaseInfo ();
+		ConfigTrap ct = new ConfigTrap ();
 
 		ConfigFriendList configFriendList = new ConfigFriendList();
 		ConfigAudio audioConfig = new ConfigAudio();

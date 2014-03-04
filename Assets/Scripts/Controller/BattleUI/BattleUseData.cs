@@ -194,25 +194,29 @@ public class BattleUseData {
 		}
 	}
 
-	public List<TEnemyInfo> GetEnemyInfo (List<uint> monster) {
-		currentEnemy.Clear ();
-		int j = showEnemy.Count - monster.Count;
+//	public List<TEnemyInfo> GetEnemyInfo (List<uint> monster) {
+//		currentEnemy.Clear ();
+//		int j = showEnemy.Count - monster.Count;
+//
+//		for (int i = j - 1; i > -1; i--) {
+////			Debug.LogError (showEnemy.Count + "  monster.Count : " + monster.Count + " monster.Count + i : " + (monster.Count + i));
+//			showEnemy.RemoveAt(monster.Count + i);
+//		}
+//		for (int i = 0; i < monster.Count; i++) {
+//			TEnemyInfo te = GlobalData.enemyInfo[monster[i]];
+//			te.Reset();
+//			if(i == showEnemy.Count) {
+//				showEnemy.Add(te);
+//			} 
+//			showEnemy[i] = te;
+//			currentEnemy.Add(te);
+//		}
+//		ac.enemyInfo = currentEnemy;
+//		return showEnemy;
+//	}
 
-		for (int i = j - 1; i > -1; i--) {
-//			Debug.LogError (showEnemy.Count + "  monster.Count : " + monster.Count + " monster.Count + i : " + (monster.Count + i));
-			showEnemy.RemoveAt(monster.Count + i);
-		}
-		for (int i = 0; i < monster.Count; i++) {
-			TEnemyInfo te = GlobalData.enemyInfo[monster[i]];
-			te.Reset();
-			if(i == showEnemy.Count) {
-				showEnemy.Add(te);
-			} 
-			showEnemy[i] = te;
-			currentEnemy.Add(te);
-		}
-		ac.enemyInfo = currentEnemy;
-		return showEnemy;
+	public void InitEnemyInfo(List<TEnemyInfo> enemyInfo) {
+		ac.enemyInfo = enemyInfo;
 	}
 
 	public List<AttackImageUtility> CaculateFight (int areaItem, int id) {

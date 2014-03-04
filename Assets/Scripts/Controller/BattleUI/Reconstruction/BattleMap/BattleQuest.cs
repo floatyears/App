@@ -1,17 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class BattleQuest : UIBase {
 //	public int MapWidth {
 //		get{ return mapConfig.mapXLength; }
 //	}
-	public const int MapWidth = 5;
-	public const int MapHeight = 5;
 
+//
 //	public int MapWidth {
 //		get{ return questDungeonData.Floors.Count; }
 //	}
-
+//
 //	public int MapHeight {
 //		get{ return questDungeonData.Floors[0]; }
 //	}
@@ -28,9 +28,12 @@ public class BattleQuest : UIBase {
 	}
 
 	private GameObject rootObject;
-	public static MapConfig mapConfig;
+//	public static MapConfig mapConfig;
+//	private SingleMapData currentMapData;
+
+	private TQuestGrid currentMapData;
 	public static TQuestDungeonData questDungeonData;
-	private SingleMapData currentMapData;
+
 	private BattleMap battleMap;
 	private Role role;
 	private Battle battle;
@@ -38,12 +41,11 @@ public class BattleQuest : UIBase {
 	public static BattleUseData bud;
 	private Camera mainCamera;
 	private BossAppear bossAppear;
-	private int questFloor = 1;
+	private int questFloor = 0;
 
 	string backgroundName = "BattleBackground";
 
 	public BattleQuest (string name) : base(name) {
-
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
@@ -165,7 +167,7 @@ public class BattleQuest : UIBase {
 	public void ClickDoor () {
 //		Debug.LogError ("ClickDoor : " + questFloor + " mapConfig.floor : " + mapConfig.floor);
 //		if (questFloor == mapConfig.floor) {
-		if(questFloor == questDungeonData.Floors.Count){
+		if(questDungeonData.currentFloor == questDungeonData.Floors.Count - 1){
 			QuestStop ();
 		} else {
 			EnterNextFloor();
@@ -173,9 +175,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void EnterNextFloor () {
-		questFloor ++;
+		questDungeonData.currentFloor ++;
 		Reset ();
-
 	}
 
 	void QuestStop () {
@@ -189,39 +190,41 @@ public class BattleQuest : UIBase {
 
 	public void RoleCoordinate(Coordinate coor) {
 		if(!battleMap.ReachMapItem (coor)) {
-			currentMapData = mapConfig.mapData[coor.x,coor.y];
-			role.Stop();
-			if(currentMapData.ContentType == MapItemEnum.Start) {
+			if(coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
+				battleMap.RotateAnim(null);
 				return;
 			}
+
+			currentMapData =  questDungeonData.GetSingleFloor(coor);  //mapConfig.mapData[coor.x,coor.y];
+			role.Stop();
 //			Debug.LogError("ContentType : " + currentMapData.ContentType);
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
-			switch (currentMapData.ContentType) {
-			case MapItemEnum.None:
+			switch (currentMapData.Type) {
+			case EQuestGridType.Q_NONE:
 				battleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemNone);
 				break;
-			case MapItemEnum.Enemy:
+			case EQuestGridType.Q_ENEMY:
 				battleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemEnemy);
 				break;
-			case MapItemEnum.key:
-				battleMap.waitMove = true;
-				battleMap.RotateAnim(MapItemKey);
-				break;
-			case MapItemEnum.Coin:
+//			case MapItemEnum.key:
+//				battleMap.waitMove = true;
+//				battleMap.RotateAnim(MapItemKey);
+//				break;
+			case EQuestGridType.Q_TREATURE:				
 				battleMap.waitMove = true;
 				battleMap.ShowBox();
 				battleMap.RotateAnim(MapItemCoin);
 				break;
-			case MapItemEnum.Trap:
+			case EQuestGridType.Q_TRAP:
 				battleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemTrap);
 				break;
-			case MapItemEnum.Exclamation : 
-				battleMap.waitMove = true;
-				battleMap.RotateAnim(MapItemExclamation);
-				break;
+//			case MapItemEnum.Exclamation : 
+//				battleMap.waitMove = true;
+//				battleMap.RotateAnim(MapItemExclamation);
+//				break;
 			default:
 					break;
 			}
@@ -231,7 +234,8 @@ public class BattleQuest : UIBase {
 	void MeetBoss () {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<TEnemyInfo> temp = bud.GetEnemyInfo(mapConfig.BossID);
+		List<TEnemyInfo> temp = questDungeonData.Boss; //bud.GetEnemyInfo(mapConfig.BossID);
+		bud.InitEnemyInfo (temp);
 		battle.ShowEnemy(temp);
 	}
 
@@ -242,7 +246,8 @@ public class BattleQuest : UIBase {
 	
 	void MapItemTrap() {
 		battleMap.waitMove = false;
-		TrapBase tb = GlobalData.trapInfo[currentMapData.TypeValue];
+//		TrapBase tb = GlobalData.trapInfo[currentMapData.TypeValue];
+		TrapBase tb = currentMapData.TrapInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
@@ -267,8 +272,9 @@ public class BattleQuest : UIBase {
 	void MapItemEnemy() {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<TEnemyInfo> temp = bud.GetEnemyInfo(currentMapData.MonsterID);
-		battle.ShowEnemy(temp);
+		List<TEnemyInfo> temp = currentMapData.Enemy; //bud.GetEnemyInfo(currentMapData.MonsterID);
+		bud.InitEnemyInfo (temp);
+		battle.ShowEnemy (temp);
 	}
 
 	void ShowBattle() {

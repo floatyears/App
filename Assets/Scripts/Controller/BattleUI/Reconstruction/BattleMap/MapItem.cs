@@ -57,16 +57,16 @@ public class MapItem : UIBaseUnity
 		string[] info = name.Split('|');
 		int x = System.Int32.Parse (info[0]);
 		int y = System.Int32.Parse (info [1]);
-		SingleMapData smd = BattleQuest.mapConfig.mapData [x, y];
-		if (smd.ContentType == MapItemEnum.key) {
-			spriteName = "key";
-//			mapItemSprite.spriteName = "key";	
-		} else if(smd.ContentType == MapItemEnum.Exclamation){
-			spriteName = "d";
-//			mapItemSprite.spriteName = "d";	
-		} else{
-//			mapItemSprite.spriteName = "";	
-		}
+//		SingleMapData smd = BattleQuest.mapConfig.mapData [x, y];
+//		if (smd.ContentType == MapItemEnum.key) {
+//			spriteName = "key";
+////			mapItemSprite.spriteName = "key";	
+//		} else if(smd.ContentType == MapItemEnum.Exclamation){
+//			spriteName = "d";
+////			mapItemSprite.spriteName = "d";	
+//		} else{
+////			mapItemSprite.spriteName = "";	
+//		}
 		mapItemSprite.spriteName = spriteName;
 	}
 

@@ -10,7 +10,7 @@ public sealed class LogHelper {
 		if (!DebugHelper.DEBUG){
 			return;
 		}
-		Debug.LogError(TimeHelper.FormattedTimeNow()+ string.Format(format,args));
+		Debug.Log(TimeHelper.FormattedTimeNow()+ string.Format(format,args));
 	}
 
     public static void Log(object message){

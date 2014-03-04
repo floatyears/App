@@ -13,7 +13,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 
 	private QuestDungeonData	instance;
 	private List<TDropUnit>		dropUnit;
-	private List<TEnemyInfo>	boss;
+	private List<TEnemyInfo>	boss = new List<TEnemyInfo>();
 	private List<byte> colors;
 
 	private void assignData() {
@@ -128,6 +128,22 @@ public class TQuestDungeonData : ProtobufDataBase {
 //	EnemyInfo		enemys	
 
 	public List< List<TQuestGrid> >	Floors;
+	public int currentFloor = 0;
+
+	//======================by leiliang start=================================
+
+	public TQuestGrid GetSingleFloor(Coordinate coor) {
+		if (coor.y == 0 && coor.x == 2) {
+			return null;	
+		}
+
+		int index = coor.y * 5 + coor.x - 1;
+		if (coor.y == 0 && coor.x < 2) {
+			index++;
+		} 
+		return Floors [currentFloor] [index];
+	}
+	//======================end
 	
 }
 
@@ -137,6 +153,7 @@ public class TQuestGrid : ProtobufDataBase {
 
 	public TQuestGrid(QuestGrid inst) : base (inst) { 
 		instance = inst;
+		LogHelper.LogError ("instance.trap id : " + instance.trapId);
 		Enemy = new List<TEnemyInfo> ();
 	}
 

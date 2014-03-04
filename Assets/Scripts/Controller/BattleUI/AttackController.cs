@@ -183,7 +183,6 @@ public class AttackController {
 	}
 
 	void AttackEnemy () {
-//		Debug.LogError ("attackInfo.Count : " + attackInfo.Count);
 		if (attackInfo.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.Blood, 1);	//1: every round.
 			bud.RecoverHP(blood);
