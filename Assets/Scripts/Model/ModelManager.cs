@@ -55,6 +55,8 @@ public class ModelManager
 	void InitNetworkHandler () {
 		AuthUser authUser = new AuthUser ();
 		RenameNick rename = new RenameNick ();
+		StartQuest startquest = new StartQuest ();
+
 	}
 
 	//init config data

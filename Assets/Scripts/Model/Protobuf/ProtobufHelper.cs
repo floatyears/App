@@ -75,7 +75,7 @@ public class ProtobufSerializer
 	}
 
 	public static object ParseFormBytes(byte[] buffer,Type type){
-		LogHelper.Log("start dserialize instance, bytes " + buffer.Length);
+//		LogHelper.Log("start dserialize instance, bytes " + buffer.Length);
 		MemoryStream ms = ConvertHelper.BytesToStream(buffer);
 		object retInstance = Serializer.Deserialize (ms, type);
 		

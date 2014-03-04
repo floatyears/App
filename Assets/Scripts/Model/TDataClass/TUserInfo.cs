@@ -4,7 +4,6 @@ using System.Collections;
 public class TUserInfo : ProtobufDataBase {
 	public TUserInfo(UserInfo inst) : base (inst) { 
 		instance = inst;
-		LogHelper.Log("prev new TUserUnit....");
 		unit = new TUserUnit (instance.unit);
 	}
 
