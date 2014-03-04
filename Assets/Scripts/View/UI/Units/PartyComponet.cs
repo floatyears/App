@@ -63,7 +63,7 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 		{
 			//deal avatar
 			foreach (var item in temp) {
-				TUserUnit userUnitInfo = GlobalData.userUnitInfo[ item.Value ];
+				TUserUnit userUnitInfo = GlobalData.userUnitList.GetMyUnit(item.Value);
 				if( !userUnit.ContainsKey( item.Key )) {
 					userUnit.Add( item.Key, userUnitInfo );
 				}

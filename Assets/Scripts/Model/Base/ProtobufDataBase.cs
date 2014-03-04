@@ -36,7 +36,7 @@ public class ProtobufDataBase : IOriginModel {
 	/// <param name="instance">Instance.</param>
 	public ErrorMsg SerializeData (object instance) {
 		originData = ProtobufSerializer.SerializeToBytes (instance);
-		LogHelper.LogError ("SerializeData origindata : " + originData.Length);
+//		LogHelper.LogError ("SerializeData origindata : " + originData.Length);
 		return Dipose (originData,instance.GetType().ToString());
 	}
 

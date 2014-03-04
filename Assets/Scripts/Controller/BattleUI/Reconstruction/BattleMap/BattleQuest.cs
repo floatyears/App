@@ -31,6 +31,7 @@ public class BattleQuest : UIBase {
 	public static BattleUseData bud;
 	private Camera mainCamera;
 	private BossAppear bossAppear;
+	private int questFloor = 1;
 
 	string backgroundName = "BattleBackground";
 
@@ -86,6 +87,8 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
+//	void ResetScene()
+
 	public override void HideUI () {
 		battleEnemy = false;
 		bud.RemoveListen ();
@@ -95,6 +98,27 @@ public class BattleQuest : UIBase {
 		base.HideUI ();
 		
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+	}
+
+	void Reset () {
+		battleEnemy = false;
+		bud.RemoveListen ();
+		bud = new BattleUseData ();
+//		mainCamera = Camera.main;
+//		mainCamera.clearFlags = CameraClearFlags.Depth;
+		battleMap.HideUI ();
+		role.HideUI ();
+		background.HideUI ();
+		mainCamera.enabled = false;
+		battleMap.ShowUI ();
+		role.ShowUI ();
+		background.ShowUI ();
+		GameTimer.GetInstance ().AddCountDown (1f, ShowScene);
+		InitData ();
+		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
+		if (bossAppear == null) {
+			CreatBoosAppear();
+		}
 	}
 
 	public override void DestoryUI () {
@@ -114,9 +138,7 @@ public class BattleQuest : UIBase {
 	void ShowScene () {
 		mainCamera.enabled = true;
 	}
-
-
-	  
+	
 	public Vector3 GetPosition(Coordinate coor) {
 		return battleMap.GetPosition(coor.x, coor.y);
 	}
@@ -132,7 +154,21 @@ public class BattleQuest : UIBase {
 
 	bool battleEnemy = false;
 	public void ClickDoor () {
-//		Debug.LogError (bossAppear);
+//		Debug.LogError ("ClickDoor : " + questFloor + " mapConfig.floor : " + mapConfig.floor);
+		if (questFloor == mapConfig.floor) {
+			QuestStop ();
+		} else {
+			EnterNextFloor();
+		}
+	}
+
+	void EnterNextFloor () {
+		questFloor ++;
+		Reset ();
+
+	}
+
+	void QuestStop () {
 		bossAppear.PlayBossAppera (MeetBoss);
 		role.Stop();
 		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);

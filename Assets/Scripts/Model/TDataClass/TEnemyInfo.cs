@@ -5,8 +5,8 @@ using bbproto;
 public class TEnemyInfo : ProtobufDataBase {
 	private EnemyInfo instance;
 
-	public TEnemyInfo (object instance) : base (instance) {
-		this.instance = instance as EnemyInfo;
+	public TEnemyInfo (EnemyInfo instance) : base (instance) {
+		this.instance = instance;
 
 		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);

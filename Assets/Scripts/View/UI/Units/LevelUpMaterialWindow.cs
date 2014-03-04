@@ -8,19 +8,19 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 
-	public override void Init(UIInsConfig config, IUIOrigin origin){
+	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUI();
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+		MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, FocusOnPanel);
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpPanelFocus, FocusOnPanel);
+		MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, FocusOnPanel);
 	}
 	
 	private void InitUI(){

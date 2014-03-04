@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class RootComponent {
 	protected UIInsConfig config = null;
@@ -32,7 +32,7 @@ public class RootComponent {
 /// <summary>
 /// decorator class
 /// </summary>
-public class BaseComponent :RootComponent, IUIComponent {
+public class BaseComponent :RootComponent, IUIComponent{
 
 	public BaseComponent(string name) : base (name) {
 
@@ -49,12 +49,15 @@ public class BaseComponent :RootComponent, IUIComponent {
 
 	public virtual void DestoryUI () {
 	}
+	
+
+
 }
 
 /// <summary>
 /// concrete decorate class
 /// </summary>
-public class ConcreteComponent : RootComponent, IUIComponent {	
+public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{	
 
 	public ConcreteComponent (string name) : base(name) {
 		ViewManager.Instance.AddComponent (this);
@@ -111,19 +114,13 @@ public class ConcreteComponent : RootComponent, IUIComponent {
 			
 			GameObject go = GameObject.Instantiate (o) as GameObject;
 			viewComponent = go.GetComponent<UIComponentUnity> ();
-			
 			if(viewComponent == null)
 				return;
+			viewCallback = viewComponent;
 		}
-	
-		IUIOrigin org = null;
-		if (this is IUIOrigin) {
-			org = this as IUIOrigin;
-		}
-		viewComponent.Init (uiConfig, org);
+		viewComponent.Init (uiConfig, this);
 	}
-	
-	#region decorator
+
 	protected IUIComponent component;
 	
 	/// <summary>
@@ -133,5 +130,20 @@ public class ConcreteComponent : RootComponent, IUIComponent {
 	public void SetComponent(IUIComponent component)  {
 		this.component = component;
 	}
-	#endregion
+
+	/// <summary>
+	/// IUICallback implement. UI Part will use 
+	/// </summary>
+	/// <param name="data">Data.</param>
+	public virtual void Callback (object data) {
+
+	}
+
+	protected IUICallback viewCallback;
+
+	protected void ExcuteCallback (object data) {
+		if (viewCallback != null) {
+			viewCallback.Callback (data);
+		}
+	}
 }

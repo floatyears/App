@@ -13,7 +13,7 @@ import (
 	//"time"
 )
 import (
-	"../src/bbproto"
+	bbproto "../src/bbproto"
 	"../src/common"
 	//"../src/const"
 	//"../src/data"
@@ -55,21 +55,25 @@ func LoginPack(uid uint32) error {
 	//print rsp msg
 	log.Printf("Reponse : [%v] error: %v", *rspmsg.Header.Code, *rspmsg.Header.Error)
 	if rspmsg.Friends != nil {
-		for k, friend := range rspmsg.Friends.Friend {
+		for k, friend := range rspmsg.Friends {
 			log.Printf("friend[%v]: %+v", k, friend)
 		}
 
-		for k, friend := range rspmsg.Friends.Helper {
-			log.Printf("Helper[%v]: %v", k, friend)
-		}
+		//for k, friend := range rspmsg.Friends.Friend {
+		//	log.Printf("friend[%v]: %+v", k, friend)
+		//}
 
-		for k, friend := range rspmsg.Friends.FriendIn {
-			log.Printf("FriendIn[%v]: %v", k, friend)
-		}
+		//for k, friend := range rspmsg.Friends.Helper {
+		//	log.Printf("Helper[%v]: %v", k, friend)
+		//}
 
-		for k, friend := range rspmsg.Friends.FriendOut {
-			log.Printf("FriendOut[%v]: %v", k, friend)
-		}
+		//for k, friend := range rspmsg.Friends.FriendIn {
+		//	log.Printf("FriendIn[%v]: %v", k, friend)
+		//}
+
+		//for k, friend := range rspmsg.Friends.FriendOut {
+		//	log.Printf("FriendOut[%v]: %v", k, friend)
+		//}
 	} else {
 		log.Printf("rspmsg.Friends is nil")
 	}
@@ -104,13 +108,18 @@ func AuthUser(uuid string, uid uint32) {
 	log.Printf("Marshal ret err:%v buffer:%v", err, buffer)
 
 	rspbuff, err := SendHttpPost(bytes.NewReader(buffer), _PROTO_AUTH_USER)
+
 	if err == nil {
 		rspmsg := &bbproto.RspAuthUser{}
 		err = proto.Unmarshal(rspbuff, rspmsg)
 		log.Printf("rsp Unarshal ret err:%v rspmsg:%v", err, rspmsg)
+		for k, friend := range rspmsg.Friends {
+			log.Printf("Friend[%v]: %+v", k, friend)
+		}
 	} else {
 		log.Printf("SendHttpPost ret err:%v", err)
 	}
+
 }
 
 //func AddUsers(num uint32) error {
@@ -163,11 +172,36 @@ type My struct {
 	MyTp MyTp
 }
 
+func test() {
+	//db := &data.Data{}
+	//err := db.Open("0")
+	//defer db.Close()
+	//if err != nil {
+	//	return
+	//}
+
+	//var value []byte
+	//value, err = db.Gets("userinfo")
+	//if err != nil {
+	//	log.Printf("[ERROR] GetUserInfo ret err:%v", err)
+	//}
+
+	//unit := &bbproto.UnitInfo{}
+
+	//err = proto.Unmarshal(value, unit)
+	//if err != nil {
+	//	log.Printf("[ERROR] GetUserInfo for ret err:%v", err)
+	//}
+	//log.Printf("unit:%+v", unit)
+
+	return
+}
+
 func umain() {
 	Init()
 	//AddUsers()
 
-	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220101", 101)
+	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220201", 0)
 	//LoginPack(101)
 
 	log.Fatal("bbsvr test client finish.")

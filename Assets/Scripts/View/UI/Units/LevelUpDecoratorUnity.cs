@@ -45,7 +45,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 	private Dictionary<GameObject, UnitBaseInfo> materialItemInfo = new Dictionary<GameObject, UnitBaseInfo>();
 	public List<UnitBaseInfo> selectMaterial = new List<UnitBaseInfo>();
 
-	public override void Init(UIInsConfig config, IUIOrigin origin) {
+	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
 	}

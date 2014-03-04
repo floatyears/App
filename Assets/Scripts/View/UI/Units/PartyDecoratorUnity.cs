@@ -20,7 +20,7 @@ public class PartyDecoratorUnity : UIComponentUnity, IUIParty {
 	private Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 	private Dictionary< int, UnitBaseInfo > unitBaseInfo = new Dictionary< int, UnitBaseInfo >();
 
-	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
+	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 
 		InitInfoPanel();

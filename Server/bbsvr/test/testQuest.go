@@ -322,17 +322,17 @@ func modify(v st) (re *st) {
 	return &r
 }
 
-func qmain() {
+func main() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
 
 	Init()
-	//DataAddStageInfo(11, "Fire City")
-	//DataAddStageInfo(12, "Water City")
-	//DataAddStageInfo(13, "Win City")
+	DataAddStageInfo(11, "Fire City")
+	DataAddStageInfo(12, "Water City")
+	DataAddStageInfo(13, "Win City")
 
-	//DataAddQuestConfig(1101)
-	StartQuest(101, 11, 1101, 102)
+	DataAddQuestConfig(1101)
+	//StartQuest(101, 11, 1101, 102)
 
 	log.Fatal("bbsvr test client finish.")
 }

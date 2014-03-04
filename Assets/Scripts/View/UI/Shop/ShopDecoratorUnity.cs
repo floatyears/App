@@ -6,7 +6,7 @@ public class ShopDecoratorUnity : UIComponentUnity {
 
 	private Dictionary<string,UIButton> buttonDic = new Dictionary<string, UIButton>();
 
-	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
+	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		InitUI();
 	}

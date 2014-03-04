@@ -268,20 +268,24 @@ func AcceptFriend(myUid uint32, fUid uint32) error {
 	return err
 }
 
-func xmain() {
+func fmain() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
 
 	Init()
-	//DataAddFriends(104, 39)
+	//DataAddFriends(101, 39)
 
 	//protocol test
 	//GetFriend(130)
 	//FindFriend(101, 130)
 
-	//AddFriend(101, 120)
+	AddFriend(102, 103)
+	AddFriend(102, 104)
+	AddFriend(102, 106)
+	AddFriend(102, 107)
+	AddFriend(102, 108)
 
-	AcceptFriend(101, 120)
+	//AcceptFriend(101, 120)
 	//AcceptFriend(130, 101)
 	//GetFriend(101)
 

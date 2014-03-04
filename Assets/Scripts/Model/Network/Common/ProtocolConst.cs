@@ -5,4 +5,5 @@ class Protocol {
 
 	public const string AUTH_USER = "auth_user";
 	public const string RENAME_NICK = "rename_nick";
+	public const string START_QUEST = "start_quest";
 }

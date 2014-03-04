@@ -64,6 +64,9 @@ public class AuthUser: ProtoManager {
 			GameDataStore.Instance.StoreData (GameDataStore.USER_ID, rspAuthUser.user.userId);
 		}
 
+		TUnitParty currParty = new TUnitParty (rspAuthUser.party.partyList[rspAuthUser.party.currentParty]);
+		ModelManager.Instance.SetData (ModelEnum.UnitPartyInfo, currParty);
+
 		//TODO: update localtime with servertime
 		//localTime = rspAuthUser.serverTime
 
@@ -97,10 +100,8 @@ public class AuthUser: ProtoManager {
 
 		if (rspAuthUser.unitList != null) {
 			foreach(UserUnit unit in rspAuthUser.unitList) {
-				if ( !GlobalData.myUnitList.ContainsKey(unit.uniqueId) )
-					GlobalData.myUnitList.Add(unit.uniqueId, new TUserUnit(unit));
-				if ( !GlobalData.userUnitInfo.ContainsKey(unit.uniqueId) )
-					GlobalData.userUnitInfo.Add( unit.uniqueId, new TUserUnit(unit));
+				GlobalData.myUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+				GlobalData.userUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
 			}
 		}
 

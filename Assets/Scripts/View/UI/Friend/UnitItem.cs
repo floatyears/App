@@ -12,9 +12,7 @@ public class UnitItem : MonoBehaviour {
 	private float timer;
 	private float alternateTime;
 
-	void Start () {
-//		firstFadeText = "97";
-//		secondFadeText = "28";
+	void OnEnable () {
 		MsgCenter.Instance.AddListener( CommandEnum.CrossFade, CrossFade);
 		turn = showTurn.FirstTurn;
 		timer = 0;
@@ -27,10 +25,10 @@ public class UnitItem : MonoBehaviour {
 		List<int> fadeList = data as List<int>;
 
 		firstFadeText = fadeList[0].ToString();
-		Debug.Log("UnitItem CrossFade(), firstFadeText : " + firstFadeText);
+//		Debug.Log("UnitItem CrossFade(), firstFadeText : " + firstFadeText);
 		secondFadeText = fadeList[1].ToString();
-		Debug.Log("UnitItem CrossFade(), secondFadeText : " + secondFadeText);
-
+//		Debug.Log("UnitItem CrossFade(), secondFadeText : " + secondFadeText);
+		//StartCoroutine( CrossFade(firstFadeText, secondFadeText, unitItemInfoLabel ) );
 	}
 
 	void Update () {
@@ -54,7 +52,27 @@ public class UnitItem : MonoBehaviour {
 		}
 	}
 
-	IEnumerator CrossFade(string str1, string str2, float dt, UILabel label) {
-		yield return new WaitForSeconds(dt);
-	}
+//	IEnumerator CrossFade(string firstText, string secondText, UILabel label){
+//		float timer = 0.0f;
+//		float alternateTime = 1.0f;
+//		bool turnChange = false;
+//		while( timer < alternateTime ){
+//			timer += Time.deltaTime;
+//			switch (turnChange){
+//				case true :
+//					label.text = secondText;
+//					break;
+//				case false :
+//					label.text = firstText;
+//					break;
+//				default:
+//					break;
+//			}
+//			if( timer >= alternateTime ){
+//				turnChange = !turnChange;
+//				timer = 0.0f;
+//			}
+//		yield return null;
+//		}
+//	}
 }

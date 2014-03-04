@@ -55,6 +55,8 @@ public class ModelManager
 	void InitNetworkHandler () {
 		AuthUser authUser = new AuthUser ();
 		RenameNick rename = new RenameNick ();
+		StartQuest startquest = new StartQuest ();
+
 	}
 
 	//init config data
@@ -62,9 +64,9 @@ public class ModelManager
 		TextAsset obj = ResourceManager.Instance.LoadLocalAsset (UIConfig.UIInsConfigPath) as TextAsset;
 		string info = obj.text;
 		UIIns ins = new UIIns (info);
-		AddData (ModelEnum.UIInsConfig, ins);
+		SetData (ModelEnum.UIInsConfig, ins);
 		MapConfig mc = new MapConfig ();
-		AddData (ModelEnum.MapConfig, mc);
+		SetData (ModelEnum.MapConfig, mc);
 	}
 
 	public void InitData () {
@@ -85,7 +87,7 @@ public class ModelManager
 	/// </summary>
 	/// <param name="modelType">Model type.</param>
 	/// <param name="model">Model.</param>
-	public void AddData (ModelEnum modelType, IOriginModel model) {
+	public void SetData (ModelEnum modelType, IOriginModel model) {
 		if (modelDataDic.ContainsKey (modelType)) {
 			modelDataDic [modelType] = model;
 		}

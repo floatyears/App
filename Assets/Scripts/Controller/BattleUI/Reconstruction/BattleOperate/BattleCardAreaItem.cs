@@ -181,7 +181,7 @@ public class BattleCardAreaItem : UIBaseUnity
 
 		AttackImageUtility aiu = attackImage.Find (a => a.attackID == ai.AttackID);
 
-		if (aiu != null) {
+		if (aiu != default(AttackImageUtility)) {
 			aiu.attackUI.enabled = false;	
 		}
  	}

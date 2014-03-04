@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using bbproto;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -27,11 +28,12 @@ public class PlayerInfoBar : UIComponentUnity {
         
         UISprite expSprite;
 	UISprite staminaSprite;
+	UISprite evolveTypeSprite;
 
 	Vector3 leftPosition;
 	Vector3 rightPosition;
 
-	public override void Init ( UIInsConfig config, IUIOrigin origin ) {
+	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 
 		InitUI();
@@ -58,7 +60,7 @@ public class PlayerInfoBar : UIComponentUnity {
 	}
 
 	void TurnToReName(object data){
-		Debug.Log("PlayerInfoBar.TurnToReName() : Start");
+//		Debug.Log("PlayerInfoBar.TurnToReName() : Start");
 		if(GlobalData.userInfo == null ){
 			Debug.LogError("GlobalData.userInfo is null");
 			return;
@@ -116,6 +118,8 @@ public class PlayerInfoBar : UIComponentUnity {
 
 		expSprite = FindChild<UISprite>("InfoBar/Sprite_CurExp");
 		staminaSprite = FindChild< UISprite >("InfoBar/Sprite_Stamina");
+
+		evolveTypeSprite = FindChild<UISprite>("InfoBar/Sprite_EvolveType");
 	}
 
 	private void ShowInfoBox( GameObject go, bool isPressed ) {
@@ -167,8 +171,10 @@ public class PlayerInfoBar : UIComponentUnity {
 		//TODO Get current rank max exp 
 		expSprite.fillAmount = CountFillCount( curTotalExp - nextExp, curTotalExp );
 		//Cion
-		VCionCountLabel.text = GlobalData.accountInfo.Money.ToString();
-		VChipCountLabel.text = GlobalData.accountInfo.Stone.ToString();
+		if ( GlobalData.accountInfo != null ){
+			VCionCountLabel.text = GlobalData.accountInfo.Money.ToString();
+			VChipCountLabel.text = GlobalData.accountInfo.Stone.ToString();
+		}
 		//Stamina
 		int staminaNow = GlobalData.userInfo.StaminaNow;
 		int staminaMax = GlobalData.userInfo.StaminaMax;
@@ -176,9 +182,15 @@ public class PlayerInfoBar : UIComponentUnity {
 		VStaminaNowLabel.text = staminaMax.ToString();
 		staminaSprite.fillAmount = CountFillCount(staminaNow, staminaMax);
 
+		//Evo
+		int evoType = (int)GlobalData.userInfo.EvolveType;
+		evolveTypeSprite.spriteName = evoType.ToString();
+
+		//Debug.Log("PlayerInfoBar,GlobalData.userInfo.EvolveType : " + evoType.ToString());
 		TurnToReName(data);
 
 	}
+	
 
 	void ReName( object data ){
 		bool state = (bool)data;
