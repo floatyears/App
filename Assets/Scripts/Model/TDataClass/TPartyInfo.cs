@@ -51,6 +51,9 @@ public class TPartyInfo : ProtobufDataBase {
 	
 
 	//// property ////
+	public PartyInfo Object {
+		get { return instance; } 
+	}
 	public	int	CurrentPartyId { 
 		get { return instance.currentParty; } 
 		set { instance.currentParty = value; }
@@ -64,6 +67,7 @@ public class TPartyInfo : ProtobufDataBase {
 		get {
 			CurrentPartyId += 1;
 			isPartyGroupModified = (CurrentPartyId!=originalPartyId);
+			instance.currentParty = CurrentPartyId;
 			return this.partyList[CurrentPartyId]; 
 		} 
 	}
@@ -72,6 +76,7 @@ public class TPartyInfo : ProtobufDataBase {
 		get { 
 			CurrentPartyId -= 1;
 			isPartyGroupModified = (CurrentPartyId!=originalPartyId);
+			instance.currentParty = CurrentPartyId;
 			return this.partyList[CurrentPartyId]; 
 		} 
 	}
@@ -91,7 +96,7 @@ public class TPartyInfo : ProtobufDataBase {
 		isPartyItemModified = true;
 		CurrentParty.SetPartyItem(pos, unitUniqueId);
 
-		//updte 
+		//update 
 		PartyItem item = new PartyItem();
 		item.unitPos = pos;
 		item.unitUniqueId = unitUniqueId;
@@ -106,7 +111,7 @@ public class TPartyInfo : ProtobufDataBase {
 
 	public void ExitParty() {
 		if ( IsModified ) {
-			MsgCenter.Instance.Invoke (CommandEnum.ReqModifyParty, this);
+			MsgCenter.Instance.Invoke (CommandEnum.ReqChangeParty, this);
 		}
 	}
 }
