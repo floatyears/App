@@ -239,7 +239,7 @@ func ResetStamina(uid uint32) (e Error.Error) {
 	return Error.OK()
 }
 
-func main() {
+func umain() {
 	Init()
 	//AddUsers()
 
