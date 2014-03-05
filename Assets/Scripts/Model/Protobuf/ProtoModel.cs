@@ -1625,9 +1625,9 @@ namespace bbproto
       get { return _getMoney; }
       set { _getMoney = value; }
     }
-    private readonly global::System.Collections.Generic.List<bbproto.DropUnit> _getUnit = new global::System.Collections.Generic.List<bbproto.DropUnit>();
-    [global::ProtoBuf.ProtoMember(5, Name=@"getUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<bbproto.DropUnit> getUnit
+    private readonly global::System.Collections.Generic.List<uint> _getUnit = new global::System.Collections.Generic.List<uint>();
+    [global::ProtoBuf.ProtoMember(5, Name=@"getUnit", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<uint> getUnit
     {
       get { return _getUnit; }
     }
@@ -2981,6 +2981,110 @@ namespace bbproto
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReqRestoreStamina")]
+  public partial class ReqRestoreStamina : global::ProtoBuf.IExtensible
+  {
+    public ReqRestoreStamina() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RspRestoreStamina")]
+  public partial class RspRestoreStamina : global::ProtoBuf.IExtensible
+  {
+    public RspRestoreStamina() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private int _staminaNow = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"staminaNow", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int staminaNow
+    {
+      get { return _staminaNow; }
+      set { _staminaNow = value; }
+    }
+    private uint _staminaRecover = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"staminaRecover", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint staminaRecover
+    {
+      get { return _staminaRecover; }
+      set { _staminaRecover = value; }
+    }
+    private bbproto.AccountInfo _account = null;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"account", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.AccountInfo account
+    {
+      get { return _account; }
+      set { _account = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReqChangeParty")]
+  public partial class ReqChangeParty : global::ProtoBuf.IExtensible
+  {
+    public ReqChangeParty() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private bbproto.PartyInfo _party = null;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"party", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.PartyInfo party
+    {
+      get { return _party; }
+      set { _party = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RspChangeParty")]
+  public partial class RspChangeParty : global::ProtoBuf.IExtensible
+  {
+    public RspChangeParty() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"EUnitType")]
     public enum EUnitType
     {
@@ -3101,7 +3205,16 @@ namespace bbproto
       Q_ENEMY = 2,
             
       [global::ProtoBuf.ProtoEnum(Name=@"Q_TRAP", Value=3)]
-      Q_TRAP = 3
+      Q_TRAP = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Q_KEY", Value=4)]
+      Q_KEY = 4,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Q_QUESTION", Value=5)]
+      Q_QUESTION = 5,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Q_EXCLAMATION", Value=6)]
+      Q_EXCLAMATION = 6
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EGridStar")]

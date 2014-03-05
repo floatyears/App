@@ -3276,6 +3276,103 @@ func (m *RspRenameNick) GetNewNickName() string {
 	return ""
 }
 
+type ReqRestoreStamina struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqRestoreStamina) Reset()         { *m = ReqRestoreStamina{} }
+func (m *ReqRestoreStamina) String() string { return proto.CompactTextString(m) }
+func (*ReqRestoreStamina) ProtoMessage()    {}
+
+func (m *ReqRestoreStamina) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+type RspRestoreStamina struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	StaminaNow       *int32       `protobuf:"varint,2,opt,name=staminaNow" json:"staminaNow,omitempty"`
+	StaminaRecover   *uint32      `protobuf:"varint,3,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	Account          *AccountInfo `protobuf:"bytes,4,opt,name=account" json:"account,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspRestoreStamina) Reset()         { *m = RspRestoreStamina{} }
+func (m *RspRestoreStamina) String() string { return proto.CompactTextString(m) }
+func (*RspRestoreStamina) ProtoMessage()    {}
+
+func (m *RspRestoreStamina) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspRestoreStamina) GetStaminaNow() int32 {
+	if m != nil && m.StaminaNow != nil {
+		return *m.StaminaNow
+	}
+	return 0
+}
+
+func (m *RspRestoreStamina) GetStaminaRecover() uint32 {
+	if m != nil && m.StaminaRecover != nil {
+		return *m.StaminaRecover
+	}
+	return 0
+}
+
+func (m *RspRestoreStamina) GetAccount() *AccountInfo {
+	if m != nil {
+		return m.Account
+	}
+	return nil
+}
+
+// -------------------------------------------------
+type ReqChangeParty struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Party            *PartyInfo   `protobuf:"bytes,2,opt,name=party" json:"party,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqChangeParty) Reset()         { *m = ReqChangeParty{} }
+func (m *ReqChangeParty) String() string { return proto.CompactTextString(m) }
+func (*ReqChangeParty) ProtoMessage()    {}
+
+func (m *ReqChangeParty) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqChangeParty) GetParty() *PartyInfo {
+	if m != nil {
+		return m.Party
+	}
+	return nil
+}
+
+type RspChangeParty struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspChangeParty) Reset()         { *m = RspChangeParty{} }
+func (m *RspChangeParty) String() string { return proto.CompactTextString(m) }
+func (*RspChangeParty) ProtoMessage()    {}
+
+func (m *RspChangeParty) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterEnum("bbproto.EUnitType", EUnitType_name, EUnitType_value)
 	proto.RegisterEnum("bbproto.EUnitRace", EUnitRace_name, EUnitRace_value)

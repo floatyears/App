@@ -56,7 +56,7 @@ public class ModelManager
 		AuthUser authUser = new AuthUser ();
 		RenameNick rename = new RenameNick ();
 		StartQuest startquest = new StartQuest ();
-
+		ChangeParty changeparty = new ChangeParty();
 	}
 
 	//init config data
