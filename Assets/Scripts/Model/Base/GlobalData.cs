@@ -29,6 +29,7 @@ public class GlobalData  {
 	public static TUserInfo userInfo;
 	public static TAccountInfo accountInfo;
 	public static List<TFriendInfo> friends;
+	public static TPartyInfo partyInfo;
 	//TODO: reconstruct myUnitList
 	public static UserUnitList myUnitList = new UserUnitList();
 	public static UserUnitList userUnitList = new UserUnitList();

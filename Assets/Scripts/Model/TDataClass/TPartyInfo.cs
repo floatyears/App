@@ -1,11 +1,13 @@
 using bbproto;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine;
 
 public class TPartyInfo : ProtobufDataBase {
 	private PartyInfo	instance;
 	private List<TUnitParty> partyList;
+	private bool isModified = false;
+
 	public TPartyInfo(PartyInfo inst) : base (inst) { 
 		instance = inst;
 
@@ -68,8 +70,21 @@ public class TPartyInfo : ProtobufDataBase {
 		} 
 	}
 
-	public	bool ChangeParty(TUnitParty party) { 
-		this.partyList[party.ID] = party;
+	public	bool ChangeParty(PartyItem item) { 
+
+		if( CurrentPartyId >= instance.partyList.Count ){
+			LogHelper.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:{0} is invalid.", CurrentPartyId);
+			return false;
+		}
+
+		if( item.unitPos >= instance.partyList[CurrentPartyId].items.Count ){
+			LogHelper.LogError("TPartyInfo.ChangeParty:: item.unitPos:{0} is invalid.", item.unitPos);
+			return false;
+		}
+
+		isModified = true;
+		CurrentParty.SetPartyItem(item);
+		instance.partyList[CurrentPartyId].items[item.unitPos] = item;
 
 		return true;
 	}
