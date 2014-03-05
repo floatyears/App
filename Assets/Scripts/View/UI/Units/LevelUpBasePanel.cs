@@ -26,7 +26,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 	
 	public override void HideUI(){
-		//StopCoroutine( "CrossShow");
 		RemoveListener();
 		base.HideUI();
 	}
@@ -192,49 +191,19 @@ public class LevelUpBasePanel : UIComponentUnity {
 	bool exchange = false;
 	void CrossShow(){
 		if(exchange){
-			//				target.text = text2;
 			for (int i = 0 ; i< unitInfoStruct.Count; i++) {
 				unitInfoStruct[ i ].targetLabel.text = string.Format( "+{0}", unitInfoStruct[ i ].text2);
-				//Debug.LogError("Text2 : " + item.text2);
+				unitInfoStruct[ i ].targetLabel.color = Color.yellow;
 			}
 			exchange = false;
 		} else {
-			//                                target.text = text1;
 			for (int i = 0 ; i< unitInfoStruct.Count; i++) {
 				unitInfoStruct[ i ].targetLabel.text = string.Format( "Lv{0}", unitInfoStruct[ i ].text1);
-				//Debug.LogError("Text2 : " + item.text2);
+				unitInfoStruct[ i ].targetLabel.color = Color.red;
                         }
 			exchange = true;
                 }
         }//End
-        
-        //Cross Show Label
-//        IEnumerator CrossShow(List<UnitInfoStruct> infoStruct){
-//                
-//                float timer = 0.0f;
-//                float cycle = 1.0f;
-//		bool exchange = false;
-//		Debug.LogError("infoStruct.Count : " + infoStruct.Count);
-//		while(true){
-//			Debug.Log("CrossShow() : Start");
-//			timer += Time.deltaTime;
-//			if(exchange){
-////				target.text = text2;
-//				foreach (var item in infoStruct) {
-//					item.targetLabel.text = string.Format( "+{0}", item.text2);
-////					Debug.LogError("Text2 : " + item.text2);
-//				}
-//                        } else {
-////                                target.text = text1;
-//				foreach (var item in infoStruct) {
-//					item.targetLabel.text = string.Format("Lv: {0}", item.text1);
-////					Debug.LogError("Text2 : " + item.text1);
-//                                }
-//                        }
-//                        yield return new WaitForSeconds(cycle);
-//                        exchange = !exchange;
-//                } 
-//        }//End 
         
 }
 

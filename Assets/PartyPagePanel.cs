@@ -6,7 +6,7 @@ public class PartyPagePanel : UIComponentUnity {
 
 	int pageIndexOrigin = 1;
 	int currentPartyIndex = 1;
-	int partyTotalCount;
+	int partyTotalCount = 5;
 	UILabel curPartyIndexLabel;
 	UILabel partyCountLabel;
 	UILabel curPartyPrefixLabel;
@@ -19,6 +19,7 @@ public class PartyPagePanel : UIComponentUnity {
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		FindUIElement();
+		InitUIElement();
 	}
 
 	public override void ShowUI(){
@@ -63,20 +64,40 @@ public class PartyPagePanel : UIComponentUnity {
 		}
 	}
 
+	void InitUIElement(){
+		InitIndexTextDic();
+		partyCountLabel.text = partyTotalCount.ToString();
+	}
+
+	
+	void UpdateLabel(){
+		//LeftCenter Label
+		curPartyPrefixLabel.text = currentPartyIndex.ToString();
+		curPartysuffixLabel.text = partyIndexDic[ currentPartyIndex ].ToString();
+		//TopRight Label
+		curPartyIndexLabel.text = currentPartyIndex.ToString();
+	}
+
+
 	void UpdateTexture(){
 
 	}
 
+	void UpdatePartyData(){
+		//TODO
+//		currentPartyIndex = 
+
+	}
 
 	void SetUIElement(){
 		Debug.Log("PartyPagePanel.SetUIElement() : Start");
-		SetIndexTextDic();
+		UpdateLabel();
 		UIEventListener.Get(leftButton.gameObject).onClick = PageBack;
 		UIEventListener.Get(rightButton.gameObject).onClick = PageForward;
 		Debug.Log("PartyPagePanel.SetUIElement() : End");
 	}
 
-	void SetIndexTextDic() {
+	void InitIndexTextDic() {
 		partyIndexDic.Add( 1, "st");
 		partyIndexDic.Add( 2, "nd");
 		partyIndexDic.Add( 3, "rd");
@@ -90,9 +111,8 @@ public class PartyPagePanel : UIComponentUnity {
 		currentPartyIndex = Mathf.Abs( (currentPartyIndex - 1) % partyTotalCount );
 		if( currentPartyIndex == 0 )
 			currentPartyIndex = partyTotalCount ;
-		curPartyIndexLabel.text = currentPartyIndex.ToString();
-		curPartyPrefixLabel.text = currentPartyIndex.ToString();
-		curPartysuffixLabel.text = partyIndexDic[ currentPartyIndex ].ToString();
+
+		UpdateLabel();
 
 		//call logic 
 		string callerName = "PageBack";
@@ -109,16 +129,12 @@ public class PartyPagePanel : UIComponentUnity {
 		if (currentPartyIndex > partyTotalCount) {
 			currentPartyIndex = pageIndexOrigin;
 		} 
-		curPartyPrefixLabel.text = currentPartyIndex.ToString();
-		curPartyPrefixLabel.text = currentPartyIndex.ToString();
-		curPartysuffixLabel.text = partyIndexDic[ currentPartyIndex ].ToString();
 
+		UpdateLabel();
 
 		Debug.Log("PartyPagePanel.PageForward() : End");
 	}
-
-
-
+	
 	void ResetUIElement(){
 //		ExcuteCallback();
 		Debug.Log("PartyPagePanel.ResetUIElement() : Start");

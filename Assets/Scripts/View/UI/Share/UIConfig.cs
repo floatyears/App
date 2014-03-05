@@ -58,7 +58,9 @@ public class UIConfig
 	public const string othersWindowName = "OthersWindow";
 	public const string unitsWindowName = "UnitsWindow";
 
-	public const string partyPagePanelName = "PartyPagePanel";
+	public const string partyDragPanelName = "PartyDragPanel";
+	public const string partyInfoPanelName = "PartyInfoPanel";
+        public const string partyPagePanelName = "PartyPagePanel";
 	public const string partyWindowName = "PartyWindow";
 	public const string catalogWindowName = "CatalogWindow";
 	public const string levelUpWindowName = "LevelUpWindow";

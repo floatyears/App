@@ -244,7 +244,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		
 		//next level need
 		needExpLabel.text = data.NextExp.ToString();
-		Debug.LogError("unitInfo.NextExp : "+data.NextExp.ToString());
+//		Debug.LogError("unitInfo.NextExp : "+data.NextExp.ToString());
 	}
 
 
