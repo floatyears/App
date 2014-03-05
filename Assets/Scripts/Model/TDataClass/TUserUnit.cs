@@ -344,7 +344,7 @@ public class UserUnitList {
 			Debug.LogError ("TUserUnit.GetMyUnit : Global.userInfo=null");
 			return null;
 		}
-		Debug.LogError("uniqueId : " +uniqueId + " GlobalData.userInfo.UserId : " + GlobalData.userInfo.UserId);
+//		Debug.LogError("uniqueId : " +uniqueId + " GlobalData.userInfo.UserId : " + GlobalData.userInfo.UserId);
 		return Get(GlobalData.userInfo.UserId, uniqueId);
 	}
 
