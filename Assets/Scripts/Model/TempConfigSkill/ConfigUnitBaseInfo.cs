@@ -32,7 +32,7 @@ public class ConfigUnitBaseInfo {
 		for (int i = 1; i < 100; i++) {
 			PowerValue pv = new PowerValue();
 			pv.level = i;
-			pv.value = i * 20;
+			pv.value = i * 50;
 			pt.power.Add(pv);
 		}
 		TPowerTableInfo tbi = new TPowerTableInfo (pt);
@@ -55,7 +55,7 @@ public class ConfigUnitBaseInfo {
 		for (int i = 1; i < 100; i++) {
 			PowerValue pv = new PowerValue();
 			pv.level = i;
-			pv.value = i * 50;
+			pv.value = i * 200;
 			pt.power.Add(pv);
 		}
 		TPowerTableInfo tbi = new TPowerTableInfo (pt);

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class BattleMap : UIBaseUnity {
 	private MapItem template;
@@ -11,13 +12,17 @@ public class BattleMap : UIBaseUnity {
 	private MapItem prevMapItem;
 	private MapDoor door;
 	private const float itemWidth = 127.5f;
-
 	private static GameObject box;
 	public static GameObject Box {
 		get { return box; }
 	}
 	[HideInInspector]
-	public bool waitMove =  false;
+	private bool wMove = false;
+
+	public bool waitMove {
+		set{ wMove = value; }// Debug.LogError("wMove : " + wMove);}
+		get{return wMove;}
+	}
 	
 	public BattleQuest BQuest {
 		set{ bQuest = value; }
@@ -112,6 +117,7 @@ public class BattleMap : UIBaseUnity {
 	}
 	  
 	void OnClickMapItem(GameObject go) {
+//		Debug.LogError ("OnClickMapItem: " + waitMove);
 		if (!waitMove) {
 			temp = go.GetComponent<MapItem>();
 			bQuest.TargetItem(temp.Coor);
@@ -137,10 +143,24 @@ public class BattleMap : UIBaseUnity {
 	}
 	private Callback callback = null;
 
+	Queue<Callback> callbackQueue = new Queue<Callback> ();
 	public void RotateAnim(Callback cb) {
 		MsgCenter.Instance.AddListener (CommandEnum.RotateDown, RotateDown);
-		callback = cb;
+		callbackQueue.Enqueue(cb);
 		prevMapItem.RotateAnim ();
+	}
+
+	public void BattleEndRotate () {
+		StartCoroutine (EndRotate ());
+	}
+
+	IEnumerator EndRotate () {
+		for (int i = 0; i < map.GetLength(0); i++) {
+			for (int j = 0; j < map.GetLength(1); j++) {
+				map[i,j].RotateAnim();
+				yield return 2;
+			}
+		}
 	}
 
 	public void ShowBox() {
@@ -149,6 +169,7 @@ public class BattleMap : UIBaseUnity {
 
 	void RotateDown(object data) {
 		MsgCenter.Instance.RemoveListener (CommandEnum.RotateDown, RotateDown);
+		callback = callbackQueue.Dequeue ();
 		if (callback != null) {
 			callback ();	
 		}

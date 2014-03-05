@@ -52,7 +52,7 @@ public class EnemyItem : UIBaseUnity {
 	Queue<AttackInfo> attackQueue = new Queue<AttackInfo> ();
 	void Attack (object data) {
 		AttackInfo ai = data as AttackInfo;
-//		Debug.LogError ("Attack : " + ai.EnemyID + "   enemyInfo.EnemyID : " + enemyInfo.EnemyID);
+//		Debug.LogError ("Attack : " + ai.EnemyID + "   enemyInfo.EnemySymbol : " + enemyInfo.EnemySymbol);
 		if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol) {
 			return;
 		}
@@ -191,7 +191,7 @@ public class EnemyItem : UIBaseUnity {
 
 	void EnemyAttack (object data) {
 		uint id = (uint) data;
-		Debug.LogError (id + "enemyInfo.EnemyID : " + enemyInfo.EnemySymbol);
+//		Debug.LogError (id + "enemyInfo.EnemyID : " + enemyInfo.EnemySymbol);
 		if (id == enemyInfo.EnemySymbol) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
 			iTween.ScaleTo(gameObject,new Vector3(1.5f,1.5f,1f),0.2f);

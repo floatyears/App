@@ -19,7 +19,7 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 0;
 		ns.baseInfo.name = "no 0 normal skill";
 		ns.baseInfo.description = "two red card generate one";
-		ns.attackValue = 1f;
+		ns.attackValue = 3f;
 		ns.attackType = EAttackType.ATK_SINGLE;
 		ns.attackUnitType = EUnitType.UFIRE;
 		ns.activeBlocks.Add (1);
@@ -32,7 +32,7 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 1;
 		ns.baseInfo.name = "no 1 normal skill";
 		ns.baseInfo.description = "five red card generate one";
-		ns.attackValue = 3f;
+		ns.attackValue = 4f;
 		ns.attackType = EAttackType.ATK_SINGLE;
 		ns.attackUnitType = EUnitType.UFIRE;
 		ns.activeBlocks.Add (1);
@@ -50,7 +50,7 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 2;
 		ns.baseInfo.name = "no 2 normal skill";
 		ns.baseInfo.description = "two water card generate one";
-		ns.attackValue = 1f;
+		ns.attackValue = 2f;
 		ns.attackType = EAttackType.ATK_SINGLE;
 		ns.attackUnitType = EUnitType.UWATER;
 		ns.activeBlocks.Add (2);
@@ -82,7 +82,7 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 4;
 		ns.baseInfo.name = "no 4 normal skill";
 		ns.baseInfo.description = "two wind card generate one";
-		ns.attackValue = 1f;
+		ns.attackValue = 3f;
 		ns.attackType = EAttackType.ATK_ALL;
 		ns.attackUnitType = EUnitType.UWIND;
 		ns.activeBlocks.Add (3);
@@ -95,7 +95,7 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 5;
 		ns.baseInfo.name = "no 5 normal skill";
 		ns.baseInfo.description = "five wind card generate one";
-		ns.attackValue = 2.5f;
+		ns.attackValue = 5f;
 		ns.attackType = EAttackType.ATK_ALL;
 		ns.attackUnitType = EUnitType.UHeart;
 		ns.activeBlocks.Add (7);

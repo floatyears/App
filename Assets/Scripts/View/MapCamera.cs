@@ -32,7 +32,6 @@ public class MapCamera : MonoBehaviour {
 
 	void StopInput(object data) {
 		isClick = false;
-//		Debug.LogError ("isClick : " + isClick);
 	}
 
 	void HandleOnUpdate () {
@@ -43,7 +42,6 @@ public class MapCamera : MonoBehaviour {
 	}
 
 	void MeetEnemy (object data) {
-
 		isClick = false;
 	}
 
@@ -74,6 +72,7 @@ public class MapCamera : MonoBehaviour {
 	void Press () {
 		Ray ray = camera.ScreenPointToRay (Input.mousePosition);
 		bool haveObject = Physics.Raycast (ray, out rayCastHit);
+//		Debug.LogError ("Press" + haveObject);
 //		Debug.LogError ("haveObject : " + haveObject);
 		if(haveObject) {
 			GameObject go = rayCastHit.collider.gameObject;
