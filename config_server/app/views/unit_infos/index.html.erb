@@ -1,4 +1,4 @@
-<h1>Listing unit_infos</h1>
+<h1>所有卡牌信息</h1>
 
 <table>
   <thead>
@@ -8,16 +8,12 @@
   </thead>
 
   <tbody>
-    <% @unit_infos.each do |unit_info| %>
-      <tr>
-        <td><%= link_to 'Show', unit_info %></td>
-        <td><%= link_to 'Edit', edit_unit_info_path(unit_info) %></td>
-        <td><%= link_to 'Destroy', unit_info, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+    <% @units.each do |unit|%>
+	<%= unit%><br/>
+	<% end %>
   </tbody>
 </table>
 
 <br>
 
-<%= link_to 'New Unit info', new_unit_info_path %>
+<%= link_to '新建卡牌', new_unit_info_path %>

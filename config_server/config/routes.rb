@@ -1,5 +1,7 @@
 Rails.application.routes.draw do  
+  
   resources :unit_infos
+  resources :skills
 
   root "unit_infos#index"
 

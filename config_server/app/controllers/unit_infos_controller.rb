@@ -4,7 +4,7 @@ class UnitInfosController < ApplicationController
   # GET /unit_infos
   # GET /unit_infos.json
   def index
-    
+    @units = $redis.keys
   end
 
   # GET /unit_infos/1
