@@ -255,6 +255,22 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
+    },
+      "PartyInfoPanel": {
+        "uiName":"PartyInfoPanel",
+        "resoucePath": "Prefabs/UI/Party/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+     "PartyDragPanel": {
+        "uiName":"PartyDragPanel",
+        "resoucePath": "Prefabs/UI/Party/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
 
 }

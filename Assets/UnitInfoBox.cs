@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitInfoBox : MonoBehaviour {
+public class UnitInfoBox : UIComponentUnity {
 
 	GameObject buttonChoose;
 	GameObject buttonViewInfo;

@@ -245,7 +245,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		foreach (var item in instance.items) {
 //			Debug.LogError("item.unitUniqueId : " + item.unitUniqueId);
 			TUserUnit uui = GlobalData.userUnitList.GetMyUnit(item.unitUniqueId);
-//			Debug.LogError(uui);
+			Debug.LogError("GetPosUnitInfo : " + uui);
 			temp.Add(item.unitPos,uui);
 		}
 		//		Debug.LogError (temp.Count + " GetPosUnitInfo " + uup.items.Count);
