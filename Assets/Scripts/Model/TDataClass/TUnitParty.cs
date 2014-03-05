@@ -158,10 +158,26 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		}
 	}
 	
-	UnitParty GetunitParty(){
-		return instance;
+	public UnitParty Object{
+		get { return instance; }
 	} 
-	
+
+	public int ID { //party id
+		get { return instance.id; }
+	}
+
+	public void SetPartyItem(PartyItem item) {
+		if( item.unitPos < instance.items.Count)
+			instance.items[item.unitPos] = item;
+		else {
+			LogHelper.LogError ("SetPartyItem :: item.unitPos:{0} is invalid.", item.unitPos);	
+		}
+	}
+
+	public List<PartyItem> PartyItems {
+		get { return instance.items; }
+	}
+
 	public int Compare (object first, object second) {
 		PartyItem firstUU 	= (PartyItem)first;
 		PartyItem secondUU 	= (PartyItem)second;

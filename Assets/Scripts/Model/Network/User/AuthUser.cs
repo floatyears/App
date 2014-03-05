@@ -73,8 +73,10 @@ public class AuthUser: ProtoManager {
 		}
 
 		if (rspAuthUser.party != null && rspAuthUser.party.partyList!=null) {
-			TUnitParty currParty = new TUnitParty (rspAuthUser.party.partyList [rspAuthUser.party.currentParty]);
-			ModelManager.Instance.SetData (ModelEnum.UnitPartyInfo, currParty);
+			GlobalData.partyInfo = new TPartyInfo(rspAuthUser.party);
+
+			//TODO: replace ModelManager.GetData(UnitPartyInfo) with GlobalData.partyInfo.CurrentParty
+			ModelManager.Instance.SetData (ModelEnum.UnitPartyInfo, GlobalData.partyInfo.CurrentParty);
 		}
 
 		//TODO: update localtime with servertime
