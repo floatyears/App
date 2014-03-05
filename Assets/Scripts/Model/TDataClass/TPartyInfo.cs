@@ -6,7 +6,9 @@ using UnityEngine;
 public class TPartyInfo : ProtobufDataBase {
 	private PartyInfo	instance;
 	private List<TUnitParty> partyList;
-	private bool isModified = false;
+	private bool isPartyItemModified = false;
+	private bool isPartyGroupModified = false;
+	private int originalPartyId = 0;
 
 	public TPartyInfo(PartyInfo inst) : base (inst) { 
 		instance = inst;
@@ -15,6 +17,8 @@ public class TPartyInfo : ProtobufDataBase {
 	}
 
 	private void AssignParty() {
+		originalPartyId = instance.currentParty;
+
 		this.partyList = new List<TUnitParty>();
 
 		foreach (UnitParty party in instance.partyList) {
@@ -59,6 +63,7 @@ public class TPartyInfo : ProtobufDataBase {
 	public	TUnitParty	NextParty { 
 		get {
 			CurrentPartyId += 1;
+			isPartyGroupModified = (CurrentPartyId!=originalPartyId);
 			return this.partyList[CurrentPartyId]; 
 		} 
 	}
@@ -66,27 +71,43 @@ public class TPartyInfo : ProtobufDataBase {
 	public	TUnitParty	PrevParty { 
 		get { 
 			CurrentPartyId -= 1;
+			isPartyGroupModified = (CurrentPartyId!=originalPartyId);
 			return this.partyList[CurrentPartyId]; 
 		} 
 	}
 
-	public	bool ChangeParty(PartyItem item) { 
+	public	bool ChangeParty(int pos, uint unitUniqueId) { 
 
 		if( CurrentPartyId >= instance.partyList.Count ){
 			LogHelper.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:{0} is invalid.", CurrentPartyId);
 			return false;
 		}
 
-		if( item.unitPos >= instance.partyList[CurrentPartyId].items.Count ){
-			LogHelper.LogError("TPartyInfo.ChangeParty:: item.unitPos:{0} is invalid.", item.unitPos);
+		if( pos >= instance.partyList[CurrentPartyId].items.Count ){
+			LogHelper.LogError("TPartyInfo.ChangeParty:: item.unitPos:{0} is invalid.", pos);
 			return false;
 		}
 
-		isModified = true;
-		CurrentParty.SetPartyItem(item);
-		instance.partyList[CurrentPartyId].items[item.unitPos] = item;
+		isPartyItemModified = true;
+		CurrentParty.SetPartyItem(pos, unitUniqueId);
+
+		//updte 
+		PartyItem item = new PartyItem();
+		item.unitPos = pos;
+		item.unitUniqueId = unitUniqueId;
+		instance.partyList[CurrentPartyId].items[pos] = item;
 
 		return true;
+	}
+
+	public bool IsModified {
+		get { return this.isPartyItemModified||isPartyGroupModified; }
+	}
+
+	public void ExitParty() {
+		if ( IsModified ) {
+			MsgCenter.Instance.Invoke (CommandEnum.ReqModifyParty, this);
+		}
 	}
 }
 
