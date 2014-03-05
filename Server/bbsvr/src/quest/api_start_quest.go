@@ -94,8 +94,15 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	questId := *reqMsg.QuestId
 	uid := *reqMsg.Header.UserId
 
+	db := &data.Data{}
+	err := db.Open("")
+	defer db.Close()
+	if err != nil {
+		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
+	}
+
 	//get userinfo from user table
-	userDetail, isUserExists, err := usermanage.GetUserInfo(uid)
+	userDetail, isUserExists, err := usermanage.GetUserInfo(db, uid)
 	if err != nil {
 		return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", uid, err.Error()))
 	}
@@ -103,13 +110,6 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 		return Error.New(cs.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
 	}
 	log.T(" getUser(%v) ret userinfo: %v", uid, userDetail.User)
-
-	db := &data.Data{}
-	err = db.Open(cs.TABLE_QUEST)
-	defer db.Close()
-	if err != nil {
-		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
-	}
 
 	//get questInfo
 	stageInfo, e := GetStageInfo(db, stageId)

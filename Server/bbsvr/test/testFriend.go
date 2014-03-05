@@ -279,15 +279,17 @@ func fmain() {
 	//GetFriend(130)
 	//FindFriend(101, 130)
 
-	AddFriend(102, 103)
-	AddFriend(102, 104)
-	AddFriend(102, 106)
-	AddFriend(102, 107)
-	AddFriend(102, 108)
+	//AddFriend(130, 103)
+	//AddFriend(130, 104)
+	//AddFriend(130, 106)
+	//AddFriend(130, 107)
+	//AddFriend(130, 131)
+	//AddFriend(130, 129)
+	//AddFriend(130, 128)
 
 	//AcceptFriend(101, 120)
 	//AcceptFriend(130, 101)
-	//GetFriend(101)
+	GetFriend(130)
 
 	//DelFriend(120, 101)
 	//GetFriend(120)

@@ -7,7 +7,6 @@ import (
 	_ "html"
 	//"io"
 	//"io/ioutil"
-	"log"
 	//"math/rand"
 	//"net/http"
 	//"time"
@@ -15,8 +14,10 @@ import (
 import (
 	bbproto "../src/bbproto"
 	"../src/common"
-	//"../src/const"
-	//"../src/data"
+	"../src/common/Error"
+	"../src/common/log"
+	"../src/const"
+	"../src/data"
 	_ "../src/quest"
 	//"../src/user/usermanage"
 	//redis "github.com/garyburd/redigo/redis"
@@ -197,11 +198,53 @@ func test() {
 	return
 }
 
+func ResetStamina(uid uint32) (e Error.Error) {
+	db := &data.Data{}
+	err := db.Open(cs.TABLE_USER)
+	defer db.Close()
+	if err != nil || uid <= 0 {
+		return
+	}
+
+	userDetail := &bbproto.UserInfoDetail{}
+
+	var value []byte
+	value, err = db.Gets(common.Utoa(uid))
+	if err != nil {
+		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		return Error.New(err)
+	}
+
+	if len(value) != 0 {
+		err = proto.Unmarshal(value, userDetail)
+		if err != nil {
+			log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		}
+	}
+
+	userDetail.User.StaminaNow = proto.Int(9000)
+	userDetail.User.StaminaMax = proto.Int(9000)
+
+	//save data
+	zUserData, err := proto.Marshal(userDetail)
+	if err != nil {
+		return Error.New(cs.MARSHAL_ERROR, err)
+	}
+
+	if err = db.Set(common.Utoa(*userDetail.User.UserId), zUserData); err != nil {
+		log.Error("SET_DB_ERROR for userDetail: %v", *userDetail.User.UserId)
+		return Error.New(cs.SET_DB_ERROR, err)
+	}
+
+	return Error.OK()
+}
+
 func umain() {
 	Init()
 	//AddUsers()
 
-	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220201", 0)
+	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220201", 102)
+	ResetStamina(146)
 	//LoginPack(101)
 
 	log.Fatal("bbsvr test client finish.")

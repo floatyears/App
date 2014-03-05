@@ -40,6 +40,10 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo *bbproto.StageInfo, 
 		return stageInfo, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
 	}
 
+	if err := db.Select(cs.TABLE_QUEST); err != nil {
+		return stageInfo, Error.New(cs.READ_DB_ERROR, err)
+	}
+
 	log.T("begin get stageInfo: %v", stageId)
 
 	zStageInfo, err := db.Gets(cs.X_QUEST_STAGE + common.Utoa(stageId))
@@ -65,6 +69,9 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo *bbproto.StageInfo, 
 func GetQuestConfig(db *data.Data, questId uint32) (config bbproto.QuestConfig, e Error.Error) {
 	if db == nil {
 		return config, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
+	}
+	if err := db.Select(cs.TABLE_QUEST); err != nil {
+		return config, Error.New(cs.READ_DB_ERROR, err)
 	}
 
 	zQuestConf, err := db.Gets(cs.X_QUEST_CONFIG + common.Utoa(questId))
@@ -102,6 +109,10 @@ func CheckQuestRecord(db *data.Data, stageId, questId uint32, userDetail *bbprot
 		//return 0, Error.New(cs.EQ_QUEST_IS_PLAYING)
 	}
 
+	if err := db.Select(cs.TABLE_QUEST); err != nil {
+		return 0, Error.New(cs.READ_DB_ERROR, err)
+	}
+
 	//get quest state: CLEAR or NEW
 	var value []byte
 	uid := *userDetail.User.UserId
@@ -130,7 +141,7 @@ func CheckQuestRecord(db *data.Data, stageId, questId uint32, userDetail *bbprot
 
 //called in clear_quest
 func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId uint32,
-	getUnit []*bbproto.DropUnit, getMoney int32) (gotMoney, gotExp, gotFriendPt int32, gotUnit []*bbproto.UserUnit, e Error.Error) {
+	getUnit []uint32, getMoney int32) (gotMoney, gotExp, gotFriendPt int32, gotUnit []*bbproto.UserUnit, e Error.Error) {
 	if db == nil {
 		return 0, 0, 0, gotUnit, Error.New(cs.INVALID_PARAMS, "invalid db pointer")
 	}
@@ -147,16 +158,16 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 
 	//verify getUnit
 	isAllValidUnit := true
-	for _, unitGot := range getUnit {
+	for _, unitIdGot := range getUnit {
 		isValidOne := false
 		for _, unitDrop := range userDetail.Quest.DropUnits {
-			if *unitDrop.DropId == *unitGot.DropId && *unitDrop.UnitId == *unitGot.UnitId {
+			if *unitDrop.DropId == unitIdGot {
 				isValidOne = true
 				break
 			}
 		}
 		if !isValidOne {
-			log.Error("ClearQuest :: unitGot is invalid: %+v", unitGot)
+			log.Error("ClearQuest :: unitGot is invalid: %+v", unitIdGot)
 			isAllValidUnit = false
 			break
 		}

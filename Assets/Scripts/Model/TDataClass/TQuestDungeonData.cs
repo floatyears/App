@@ -51,7 +51,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 				}
 
 				// assign EnemyInfo
-				for(int g=0; g<grid.Object.enemyId.Count;g++){
+				for(int g=0; g<grid.Object.enemyId.Count;g++){	
 					for(int i=0; i<instance.enemys.Count;i++){
 						if ( grid.Object.enemyId[g] == instance.enemys[i].enemyId ){
 							LogHelper.Log ("grid[{0}]: assign enemy[{1}], enemyCount={2}...  ", g, grid.Object.enemyId[g], grid.Enemy.Count);

@@ -595,3 +595,27 @@ message RspRenameNick {
 	optional ProtoHeader	header				= 1;
 	optional string			newNickName			= 2;
 };
+
+//-------------------------------------------------
+
+message ReqRestoreStamina {
+	optional ProtoHeader	header				= 1;
+};
+
+message RspRestoreStamina {
+	optional ProtoHeader	header				= 1;
+	optional int32			staminaNow			= 2; // current stamina
+	optional uint32			staminaRecover		= 3; // stamina recover time
+	optional AccountInfo	account				= 4;
+};
+
+//-------------------------------------------------
+message ReqChangeParty {
+	optional ProtoHeader	header				= 1;
+	optional PartyInfo		party				= 2;
+};
+
+message RspChangeParty {
+	optional ProtoHeader	header				= 1;
+};
+
