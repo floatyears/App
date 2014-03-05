@@ -193,7 +193,7 @@ public class TUserUnit : ProtobufDataBase {
 		if (strengthenInfo != null) {
 			attack *= strengthenInfo.AttackValue;
 		}
-		Debug.LogError ("addAttack : " + addAttack + "attack : " + uu.addAttack );
+//		Debug.LogError ("addAttack : " + addAttack + "attack : " + uu.addAttack );
 		int value = System.Convert.ToInt32 (attack);
 		return value;
 	}

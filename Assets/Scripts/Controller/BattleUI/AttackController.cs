@@ -103,7 +103,8 @@ public class AttackController {
 				int hurtValue = te.CalculateInjured(ai, b);
 				ai.InjuryValue = hurtValue;
 				tempPreHurtValue = hurtValue;
-				ai.EnemyID = te.EnemyID;//te.GetID();
+//				ai.EnemyID = te.EnemyID;//te.GetID();
+				ai.EnemyID =te.EnemySymbol;
 				AttackEnemyEnd (ai);
 			}
 		}
@@ -285,7 +286,8 @@ public class AttackController {
 		int hurtValue = te.CalculateInjured (ai, restraint);
 		ai.InjuryValue = hurtValue;
 		tempPreHurtValue = hurtValue;
-		ai.EnemyID = te.EnemyID;//GetID();
+//		ai.EnemyID = te.EnemyID;//GetID();
+		ai.EnemyID = te.EnemySymbol;
 		AttackEnemyEnd (ai);
 	}
 
@@ -301,7 +303,8 @@ public class AttackController {
 			int hurtValue = te.CalculateInjured (ai, b);
 			ai.InjuryValue = hurtValue;
 			tempPreHurtValue += hurtValue;
-			ai.EnemyID = te.EnemyID;//GetID();
+//			ai.EnemyID = te.EnemyID;//GetID();
+			ai.EnemyID = te.EnemySymbol;
 			AttackEnemyEnd (ai);
 		}
 	}
@@ -327,9 +330,10 @@ public class AttackController {
 	List<AttackInfo> antiInfo = new List<AttackInfo>();
 	void EnemyAttack () {
 		if (te.GetRound () == 0) {
-			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemyID);//GetID());
+//			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemyID);//GetID());
+			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
 			int attackType = te.GetUnitType ();
-			int attackValue = te.GetAttack ();
+			int attackValue = te.AttackValue;
 			float reduceValue = leadSkillReuduce.ReduceHurtValue(attackValue,attackType);
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
 			bud.Hurt(hurtValue);
@@ -337,7 +341,8 @@ public class AttackController {
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 			List<AttackInfo> temp = passiveSkill.Dispose(attackType,hurtValue);
 			for (int i = 0; i < temp.Count; i++) {
-				temp[i].EnemyID = te.EnemyID;//GetID();
+//				temp[i].EnemyID = te.EnemyID;//GetID();
+				temp[i].EnemyID = te.EnemySymbol;
 				antiInfo.Add(temp[i]);
 			}
 		}
@@ -370,7 +375,7 @@ public class AttackController {
 
 		AttackInfo ai = antiInfo [0];
 		antiInfo.RemoveAt (0);
-		TEnemyInfo te = enemyInfo.Find(a=>a.EnemyID == ai.EnemyID);
+		TEnemyInfo te = enemyInfo.Find(a=>a.EnemySymbol == ai.EnemyID);
 		if (te == default(TEnemyInfo)) {
 			return;	
 		}
