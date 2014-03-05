@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PartyPagePanel : UIComponentUnity {
 
 	int pageIndexOrigin = 1;
-	int currentPartyIndex;
+	int currentPartyIndex = 1;
 	int partyTotalCount;
 	UILabel curPartyIndexLabel;
 	UILabel partyCountLabel;
@@ -37,7 +37,7 @@ public class PartyPagePanel : UIComponentUnity {
 
 		FindLabel();
 		FindButton();
-		FindAvatarTexture();
+		FindTexture();
 
 		Debug.Log("PartyPagePanel.FindUIElement() : End");
 	}
@@ -54,22 +54,25 @@ public class PartyPagePanel : UIComponentUnity {
 		rightButton = FindChild<UIButton>("Button_Right");
 	}
 
-	void FindAvatarTexture() {
+	void FindTexture() {
 		UITexture temp;
 		for( int i = 1; i < 5; i++) {
-			temp = FindChild< UITexture >("PartyPages/Unit" + i.ToString() + "/role" );
+			temp = FindChild< UITexture >("Unit" + i.ToString() + "/role" );
 			temp.enabled = false;
 			unitTexureDic.Add(i, temp);
 		}
 	}
+
+	void UpdateTexture(){
+
+	}
+
 
 	void SetUIElement(){
 		Debug.Log("PartyPagePanel.SetUIElement() : Start");
 		SetIndexTextDic();
 		UIEventListener.Get(leftButton.gameObject).onClick = PageBack;
 		UIEventListener.Get(rightButton.gameObject).onClick = PageForward;
-
-
 		Debug.Log("PartyPagePanel.SetUIElement() : End");
 	}
 
