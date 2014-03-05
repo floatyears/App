@@ -144,6 +144,7 @@ public enum CommandEnum
 	CrossFade					= 4010,
 	UpdateNickName			= 4011,
 	ErrorMsgShow				= 4012,
+	ShowSelectUnitInfo			= 4013,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

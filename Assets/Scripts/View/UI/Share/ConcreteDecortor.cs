@@ -1,4 +1,4 @@
-﻿
+
 //--------------------------------Decorator-----------------------------------
 
 //--------------------------------Start---------------------------------------
@@ -35,8 +35,11 @@ public class StartDecorator : DecoratorBase {
 		ErrorMsgComponent errorMsgBox = CreatComponent<ErrorMsgComponent>(UIConfig.errorMsgBoxName);
 		errorMsgBox.SetComponent(tipsBar);
 
-		errorMsgBox.CreatUI();
-		lastDecorator = errorMsgBox;
+		SelectUnitInfoUILogic selectUnitInfo = CreatComponent<SelectUnitInfoUILogic>(UIConfig.selectUnitInfoWindowName);
+		selectUnitInfo.SetComponent(errorMsgBox);
+
+		selectUnitInfo.CreatUI();
+		lastDecorator = selectUnitInfo;
 	}
 }
 
@@ -321,7 +324,7 @@ public class PartyDecorator : DecoratorBase {
 
 		PartyPageUILogic partyPage = CreatComponent<PartyPageUILogic>( UIConfig.partyPagePanelName);
 		PartyInfoUILogic partyInfo = CreatComponent<PartyInfoUILogic>(UIConfig.partyInfoPanelName);
-		PartyDragUILogic dragPanel = CreatComponent<PartyDragUILogic>(UIConfig.partyDragPanelName);
+		MyUnitDragUILogic dragPanel = CreatComponent<MyUnitDragUILogic>(UIConfig.partyDragPanelName);
 		partyPage.SetComponent( sceneInfoBar );
 		partyInfo.SetComponent(partyPage);
 		dragPanel.SetComponent(partyInfo);

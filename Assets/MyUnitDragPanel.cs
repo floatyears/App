@@ -93,12 +93,14 @@ public class MyUnitDragPanel : UIComponentUnity {
 		int addPoint = addAttack + addHp;
 	}
 
-	protected void ClickBaseItem(GameObject item){
+	protected void ClickDragItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TUserUnit tempInfo = baseUnitInfoDic[ item ];
 		MsgCenter.Instance.Invoke( CommandEnum.PickBaseUnitInfo, tempInfo );
 		MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
-		ShowMask( item, true );
+		//ShowMask( item, true );
+		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, null);
+
 	}
 
 	protected void PressItem(GameObject item ){
@@ -114,7 +116,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 	}
 
 	void AddEventListener( GameObject item){
-		UIEventListener.Get( item ).onClick = ClickBaseItem;
+		UIEventListener.Get( item ).onClick = ClickDragItem;
 		UIEventListenerCustom.Get( item ).LongPress = PressItem;
 	}
 

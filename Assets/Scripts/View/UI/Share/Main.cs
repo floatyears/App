@@ -48,6 +48,16 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	private UICamera nguiCamera ;
+	public UICamera NguiCamera{
+		get {
+			if(nguiCamera == null) {
+				nguiCamera = Camera.main.GetComponent<UICamera>();
+			}
+			return nguiCamera;
+		}
+
+	}
 
 	void Awake()
 	{
