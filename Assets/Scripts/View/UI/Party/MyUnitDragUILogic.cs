@@ -6,12 +6,4 @@ public class MyUnitDragUILogic : ConcreteComponent {
 
 	public MyUnitDragUILogic(string uiName):base(uiName) {}
 
-	public override void ShowUI(){
-		base.ShowUI();
-
-	}
-
-	void GetCurPartyData(){
-		//GlobalData
-	}
 }
