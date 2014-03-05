@@ -57,12 +57,22 @@ public class TPartyInfo : ProtobufDataBase {
 	}
 
 	public	TUnitParty	CurrentParty { 
-		get { return this.partyList[CurrentPartyId]; } 
+		get { 
+			if( CurrentPartyId >= this.partyList.Count -1 )
+				return null;
+
+			return this.partyList[CurrentPartyId]; } 
 	}
 
 	public	TUnitParty	NextParty { 
 		get {
 			CurrentPartyId += 1;
+
+			if( CurrentPartyId>4)
+				CurrentPartyId = 0;
+			if( CurrentPartyId >= this.partyList.Count -1 )
+				return null;
+
 			isPartyGroupModified = (CurrentPartyId!=originalPartyId);
 			return this.partyList[CurrentPartyId]; 
 		} 
@@ -71,7 +81,15 @@ public class TPartyInfo : ProtobufDataBase {
 	public	TUnitParty	PrevParty { 
 		get { 
 			CurrentPartyId -= 1;
+			if (CurrentPartyId<0)
+				CurrentPartyId=4;
+
+
+			if( CurrentPartyId >= this.partyList.Count -1 )
+				return null;
+
 			isPartyGroupModified = (CurrentPartyId!=originalPartyId);
+
 			return this.partyList[CurrentPartyId]; 
 		} 
 	}

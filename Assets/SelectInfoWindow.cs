@@ -34,12 +34,12 @@ public class SelectInfoWindow : UIComponentUnity {
 	void InitUIElement(){
 		window = FindChild("Window");
 
-		lvLabel = FindChild<UILabel>("Window/Label_Vaule/Lv");
-		slvLabel = FindChild<UILabel>("Window/Label_Vaule/SLv");
-		atkLabel = FindChild<UILabel>("Window/Label_Vaule/ATK");
-		hpLabel = FindChild<UILabel>("Window/Label_Vaule/Hp");
-		nameLabel = FindChild<UILabel>("Window/Label_Vaule/Name");
-		raceLabel = FindChild<UILabel>("Window/Label_Vaule/Race");
+//		lvLabel = FindChild<UILabel>("Window/Label_Vaule/Lv");
+//		slvLabel = FindChild<UILabel>("Window/Label_Vaule/SLv");
+//		atkLabel = FindChild<UILabel>("Window/Label_Vaule/ATK");
+//		hpLabel = FindChild<UILabel>("Window/Label_Vaule/Hp");
+//		nameLabel = FindChild<UILabel>("Window/Label_Vaule/Name");
+//		raceLabel = FindChild<UILabel>("Window/Label_Vaule/Race");
 
 		buttonChoose = transform.FindChild("Window/btn_choose").gameObject;
 		UIEventListener.Get(buttonChoose).onClick = Choose;
@@ -84,10 +84,10 @@ public class SelectInfoWindow : UIComponentUnity {
 
 	public override void Callback(object data){
 		base.Callback(data);
-		TUserUnit tuu = data as TUserUnit;
-		hpLabel.text = tuu.Level.ToString();
-		atkLabel.text = tuu.Attack.ToString();
-//		nameLabel.text = 
+//		TUserUnit tuu = data as TUserUnit;
+//		hpLabel.text = tuu.Level.ToString();
+//		atkLabel.text = tuu.Attack.ToString();
+////		nameLabel.text = 
 
 
 	}
