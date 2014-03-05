@@ -125,4 +125,54 @@ public class TrapBase : ProtobufDataBase {
 			}
 		}
 	}
+
+	public static string GetTrapSpriteName (TrapBase tb) {
+		string spriteName = "";
+		switch (tb.instance.trapType) {
+		case ETrapType.Move:
+			spriteName = MoveTrapName(tb.instance.effectType);
+			break;
+		case ETrapType.Injured:
+			spriteName = InjuredTrapName(tb.instance.effectType);
+			break;
+		case ETrapType.StateException:
+			spriteName = "PoisonTrap";
+			break;
+		case ETrapType.ChangeEnvir:
+			spriteName = "EnvirmentTrap";
+			break;
+		default:
+			break;
+		}
+		return spriteName;
+	}
+
+	static string MoveTrapName(int effectType) {
+		if (effectType == 1) {
+			return "MoveTrapPrev";
+		}
+		if (effectType == 2) {
+			return "MoveTrapRandom";
+		}
+		if (effectType == 3) {
+			return "MoveTrapStart";
+		}
+		return "";
+	}
+
+	static string InjuredTrapName(int effectType) {
+		if (effectType == 1) {
+			return "InjuredTrapMine";
+		}
+		if (effectType == 2) {
+			return "InjuredTrapTrapping";
+		}
+		if (effectType == 3) {
+			return "InjuredTrapHungry";
+		}
+		if (effectType == 4) {
+			return "InjuredTrapLostMoney";
+		}
+		return "";
+	}
 }

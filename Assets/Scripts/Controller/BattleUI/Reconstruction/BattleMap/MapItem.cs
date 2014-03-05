@@ -9,12 +9,16 @@ public class MapItem : UIBaseUnity
 		set{ coor = value; }
 	}
 	private UITexture mapItemTexture;
+	private UISprite mapBackSprite;
+
 	private FloorRotate floorRotate;
 	private UISprite mapItemSprite;
 	string spriteName = "";
 
 	private Vector3 initPosition = Vector3.zero;
 	private Vector3 initRotation = Vector3.zero;
+
+	private TQuestGrid gridItem ;
 
 	public int  Width {
 		get{ return mapItemTexture.width; }
@@ -36,6 +40,8 @@ public class MapItem : UIBaseUnity
 		get{return isOld;}
 	}
 
+	private bool isRotate = false;
+
 	public Vector3 GetBoxPosition () {
 		return floorRotate.currentPoint;
 	}
@@ -45,29 +51,75 @@ public class MapItem : UIBaseUnity
 		base.Init (name);
 		initPosition = transform.localPosition;
 		initRotation = transform.rotation.eulerAngles;
-		mapItemTexture = FindChild<UITexture>("Floor/MapItem");
+		mapItemTexture = FindChild<UITexture>("Floor/MapItem/Texture");
+		mapBackSprite = mapItemTexture.GetComponent<UISprite> ();
+		mapItemTexture.enabled = false;
+		mapBackSprite.enabled = false;
 		mapItemSprite = FindChild<UISprite>("Sprite");
 		floorRotate = GetComponent<FloorRotate> ();
 		floorRotate.Init ();
-
 		if (name == "SingleMap") {
 			return;
 		}
-
 		string[] info = name.Split('|');
 		int x = System.Int32.Parse (info[0]);
 		int y = System.Int32.Parse (info [1]);
-//		SingleMapData smd = BattleQuest.mapConfig.mapData [x, y];
-//		if (smd.ContentType == MapItemEnum.key) {
-//			spriteName = "key";
-////			mapItemSprite.spriteName = "key";	
-//		} else if(smd.ContentType == MapItemEnum.Exclamation){
-//			spriteName = "d";
-////			mapItemSprite.spriteName = "d";	
-//		} else{
-////			mapItemSprite.spriteName = "";	
-//		}
-		mapItemSprite.spriteName = spriteName;
+		gridItem = BattleQuest.questDungeonData.GetSingleFloor (new Coordinate (x, y));
+		if (gridItem != null) {
+//			if (gridItem.Type == bbproto.EQuestGridType.Q_KEY) {
+//				spriteName = "key";
+//			} else if (gridItem.Type == bbproto.EQuestGridType.Q_EXCLAMATION) {
+//				spriteName = "d";
+//			} else if (gridItem.Type == bbproto.EQuestGridType.Q_ENEMY) {
+//				uint unitID = gridItem.Enemy [0].UnitID;
+//				TUnitInfo tui = GlobalData.Instance.GetUnitInfo (unitID);
+//				if (tui != null) {
+//					mapItemTexture.enabled = true;
+//					mapItemTexture.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
+//				}
+//			}
+//			else if(){
+//
+//			}
+			switch (gridItem.Star) {
+			case bbproto.EGridStar.GS_KEY:
+				spriteName = "key";
+				break;
+			case bbproto.EGridStar.GS_QUESTION:
+				break;
+			case bbproto.EGridStar.GS_EXCLAMATION:
+				spriteName = "d";
+				break;
+			default:
+				break;
+			}
+			mapItemSprite.spriteName = spriteName;
+			switch (gridItem.Type) {
+			case bbproto.EQuestGridType.Q_KEY:
+
+				break;
+			case bbproto.EQuestGridType.Q_EXCLAMATION:
+
+				break;
+			case bbproto.EQuestGridType.Q_ENEMY:
+				uint unitID = gridItem.Enemy [0].UnitID;
+				TUnitInfo tui = GlobalData.Instance.GetUnitInfo (unitID);
+				if (tui != null) {
+					mapItemTexture.enabled = true;
+					mapItemTexture.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
+				}
+				break;
+			case bbproto.EQuestGridType.Q_TRAP:
+				mapBackSprite.enabled = true;
+				mapBackSprite.spriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
+				break;
+			case bbproto.EQuestGridType.Q_TREATURE:
+				mapBackSprite.spriteName = "s";
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	public override void ShowUI() {
@@ -88,7 +140,10 @@ public class MapItem : UIBaseUnity
 	}
 
 	public void RotateAnim() {
-		floorRotate.RotateFloor ();
+		if (!isRotate) {
+			isRotate = true;
+			floorRotate.RotateFloor ();	
+		}
 	}     
 
 	public void ShowBox() {

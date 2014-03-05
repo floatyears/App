@@ -126,11 +126,11 @@ public class TUserUnit : ProtobufDataBase {
 		if (normalSkill [0] == null) {
 			InitSkill();	
 		}
-//		UserUnit uu 				= DeserializeData<UserUnit> ();
 		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
 		UnitInfo ui				= GlobalData.unitInfo[instance.unitId].Object;
 		for (int i = 0; i < normalSkill.Length; i++) {
 			TNormalSkill tns 	= normalSkill[i];
+//			Debug.LogError("tns : " + tns.SkillID );
 			tns.DisposeUseSkillID(ignorSkillID);
 			int count = tns.CalculateCard(copyCard);
 			for (int j = 0; j < count; j++) {

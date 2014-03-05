@@ -15,10 +15,10 @@ public class GlobalData  {
 	}
 	private GlobalData() {}
 
-	public UnitInfo GetUnitInfo(uint unitID) {
+	public TUnitInfo GetUnitInfo(uint unitID) {
 		if(unitInfo.ContainsKey(unitID)) {
 			TUnitInfo tui = unitInfo[unitID];
-			return tui.Object;
+			return tui;
 		}
 		else{
 			Debug.LogError("unitid is invalid");
