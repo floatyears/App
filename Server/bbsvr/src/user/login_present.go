@@ -1,27 +1,28 @@
 package user
 
 import (
-	//"fmt"
-	"errors"
-	"log"
-	//"time"
+//"fmt"
 )
 import (
 	bbproto "../bbproto"
 	"../common"
+	"../common/Error"
+	"../common/log"
 	"../const"
 	"../data"
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
 )
 
-func UpdateLoginInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (err error) {
-	tNow := common.Now() //- 86400*1
-
+func UpdateLoginInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.Error) {
+	if db == nil {
+		return Error.New(cs.INVALID_PARAMS, "invalid db pointer")
+	}
 	if userdetail == nil || userdetail.Login == nil {
-		return errors.New("ERROR: invalid input param: userdetail.Login")
+		return Error.New("ERROR: invalid input param: userdetail.Login")
 	}
 
+	tNow := common.Now() //- 86400*1
 	if userdetail.Login.LastLoginTime == nil {
 		userdetail.Login.LastLoginTime = &tNow
 	}
@@ -45,11 +46,13 @@ func UpdateLoginInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (err err
 	zUserData, err := proto.Marshal(userdetail)
 
 	if err = db.Select(cs.TABLE_USER); err != nil {
-		return err
+		return Error.New(cs.READ_DB_ERROR)
 	}
 
-	err = db.Set(common.Utoa(*userdetail.User.UserId), zUserData)
+	if err = db.Set(common.Utoa(*userdetail.User.UserId), zUserData); err != nil {
+		return Error.New(cs.SET_DB_ERROR, err)
+	}
 	log.Printf("[TRACE] UpdateLoginInfo for (%v) , return err(%v)", *userdetail.User.UserId, err)
 
-	return err
+	return Error.OK()
 }

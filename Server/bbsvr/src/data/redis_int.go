@@ -29,12 +29,14 @@ func (t *Data) Open(table string) error {
 		log.Printf("ERR: redis Open(table:%v) ret err:%v t.conn:%v", table, err, t.conn)
 		return err
 	}
-	_, err = t.conn.Do("SELECT", table)
-	if err != nil {
-		log.Printf("[ERROR] redis.Select(%v) ret err:%v", table, err)
-	}
 
-	log.Printf("[TRACE] redis.Open(%v) ok...", table)
+	if table != "" {
+		_, err = t.conn.Do("SELECT", table)
+		if err != nil {
+			log.Printf("[ERROR] redis.Select(%v) ret err:%v", table, err)
+		}
+		log.Printf("[TRACE] redis.Open(%v) ok...", table)
+	}
 
 	return err
 }
