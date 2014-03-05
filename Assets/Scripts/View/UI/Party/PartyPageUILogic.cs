@@ -4,36 +4,68 @@ using System.Collections.Generic;
 
 public class PartyPageUILogic : ConcreteComponent {
 
-
 	public PartyPageUILogic(string uiName):base(uiName) {}
 
 	public override void Callback(object data){
 		base.Callback(data);
-
 		string call = data as string;
-		if(call == "PageForward"){
-			//CallBackNextPageData();
+		ExcuteCallback(GetPartyPageData(call));
+	}
+
+	public override void ShowUI(){
+		base.ShowUI();
+		ExcuteCallback(GetPartyPageData("PageCurrent"));
+	}
+
+	public override void HideUI(){
+		base.HideUI();
+//		GlobalData.partyInfo.ChangeParty();
+	}
+
+	Dictionary<string,object> GetPartyPageData(string pageType){
+		TUnitParty partyInfo;
+		switch (pageType){
+			case "PageForward" : 
+				partyInfo = GlobalData.partyInfo.PrevParty;
+				break;
+			case "PageBack" : 
+				partyInfo = GlobalData.partyInfo.NextParty;
+				break;
+			case "PageCurrent" :
+				partyInfo = GlobalData.partyInfo.CurrentParty;
+				break;
+			default:
+				partyInfo = null;
+				break;
 		}
-		if(call == "PageBack"){
 
+		if(partyInfo == null){
+			Debug.LogError("PartyPageUILogic.GetPartyPageData(), partyInfo is NULL");
+			return null;
 		}
 
+		int curPartyIndex = partyInfo.ID + 1;
+		
+		if(partyInfo.UserUnit == null){
+			Debug.LogError("PartyPageUILogic.GetPartyPageData(), partyInfo.UserUnit is NULL");
+			return null;
+		}
+
+		List<Texture2D> avatarDic = new List<Texture2D>();
+		for (int i = 0; i < partyInfo.UserUnit.Count; i++){
+			if(partyInfo.UserUnit[ i ] == null){
+				avatarDic.Add(null); 
+			} else {
+				Texture2D t2d = partyInfo.UserUnit[ i ].UnitInfo.GetAsset(UnitAssetType.Avatar);
+				avatarDic.Add(t2d);
+			}
+		}
+		
+		Dictionary<string,object> viewInfo = new Dictionary<string, object>();
+		viewInfo.Add("texture", avatarDic);
+		viewInfo.Add("index",curPartyIndex);
+
+		return viewInfo;
 	}
-
-	void GetCurPartyPageData(){
-
-	}
-
-	void CallBackNextPageData(){
-//		List<TUserUnit> curPartyUnitDic = GlobalData.partyInfo.CurrentParty.PartyItems;
-//		return curPartyUnitDic
-//		GlobalData.partyInfo.CurrentParty.PartyItems[0]
-	}
-
-	void CallBackPrePageData(){
-
-	}
-
-
 
 }

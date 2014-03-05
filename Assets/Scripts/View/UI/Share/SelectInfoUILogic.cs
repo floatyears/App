@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class SelectUnitInfoUILogic : ConcreteComponent {
+public class SelectInfoUILogic : ConcreteComponent {
 
-	public SelectUnitInfoUILogic(string uiName):base(uiName) {}
+	public SelectInfoUILogic(string uiName):base(uiName) {}
 
 	public override void ShowUI(){
 		base.ShowUI();
@@ -26,7 +26,8 @@ public class SelectUnitInfoUILogic : ConcreteComponent {
         }
         
         void ShowSelectUnitInfo(object data){
-		ExcuteCallback(true);
+		TUserUnit tuu = data as TUserUnit;
+		ExcuteCallback(tuu);
 	}
 
 }

@@ -7,7 +7,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 	protected bool exchange = false;
         protected List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	protected Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	protected Dictionary<GameObject, TUserUnit> baseUnitInfoDic = new Dictionary<GameObject, TUserUnit>();
+	protected Dictionary<GameObject, TUserUnit> myUnitInfoDic = new Dictionary<GameObject, TUserUnit>();
 	protected List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -68,7 +68,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 			TUserUnit uuItem = userUnitInfoList[ i ] ;
 
-			baseUnitInfoDic.Add( scrollItem, uuItem );
+			myUnitInfoDic.Add( scrollItem, uuItem );
 			
 			StoreLabelInfo( scrollItem);
 			ShowItem( scrollItem );
@@ -77,34 +77,31 @@ public class MyUnitDragPanel : UIComponentUnity {
 	}
 
 	protected void ShowItem( GameObject item){
-		ShowMask(item,true);
+		//ShowMask(item,true);
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		
-		uint uid = baseUnitInfoDic[item].UnitID;
+		uint uid = myUnitInfoDic[item].UnitID;
 		avatarTex.mainTexture = GlobalData.unitInfo[ uid ].GetAsset(UnitAssetType.Avatar);
 		
-		int addAttack = baseUnitInfoDic[ item ].AddAttack;
+		int addAttack = myUnitInfoDic[ item ].AddAttack;
 
-		int addHp = baseUnitInfoDic[ item ].AddHP;
+		int addHp = myUnitInfoDic[ item ].AddHP;
 
-		int level = baseUnitInfoDic[ item ].Level;
+		int level = myUnitInfoDic[ item ].Level;
 
 		int addPoint = addAttack + addHp;
 	}
 
 	protected void ClickDragItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		TUserUnit tempInfo = baseUnitInfoDic[ item ];
-		MsgCenter.Instance.Invoke( CommandEnum.PickBaseUnitInfo, tempInfo );
-		MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
-		//ShowMask( item, true );
+		TUserUnit tuu = myUnitInfoDic[ item ];
 		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, null);
 
 	}
 
 	protected void PressItem(GameObject item ){
-		TUserUnit unitInfo = baseUnitInfoDic[ item ];
+		TUserUnit unitInfo = myUnitInfoDic[ item ];
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
 		
@@ -122,7 +119,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	void StoreLabelInfo(GameObject item){
 		
-		TUserUnit tuu = baseUnitInfoDic[ item ];
+		TUserUnit tuu = myUnitInfoDic[ item ];
 		UnitInfoStruct infoStruct = new UnitInfoStruct();
 		infoStruct.text1 = tuu.Level.ToString();
 		infoStruct.text2 = (tuu.AddHP + tuu.AddAttack).ToString();

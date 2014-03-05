@@ -35,7 +35,7 @@ public class StartDecorator : DecoratorBase {
 		ErrorMsgComponent errorMsgBox = CreatComponent<ErrorMsgComponent>(UIConfig.errorMsgBoxName);
 		errorMsgBox.SetComponent(tipsBar);
 
-		SelectUnitInfoUILogic selectUnitInfo = CreatComponent<SelectUnitInfoUILogic>(UIConfig.selectUnitInfoWindowName);
+		SelectInfoUILogic selectUnitInfo = CreatComponent<SelectInfoUILogic>(UIConfig.selectUnitInfoWindowName);
 		selectUnitInfo.SetComponent(errorMsgBox);
 
 		selectUnitInfo.CreatUI();

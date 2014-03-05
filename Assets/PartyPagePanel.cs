@@ -77,18 +77,16 @@ public class PartyPagePanel : UIComponentUnity {
 		//TopRight Label
 		curPartyIndexLabel.text = index.ToString();
 	}
-
-
-	void UpdateTexture(List<Texture2D> texList){
+	
+	void UpdateTexture(List<Texture2D> tex2dList){
 		for (int i = 0; i < unitTexureDic.Count; i++){
-			if(texList[ i ] == null)	continue;
-			unitTexureDic[ i ].mainTexture = texList[ i ] 
+			if(tex2dList[ i ] == null)	continue;
+			unitTexureDic[ i ].mainTexture = tex2dList[ i ] ;
 		}
 	}
 
 	void SetUIElement(){
 		Debug.Log("PartyPagePanel.SetUIElement() : Start");
-		UpdateLabel();
 		UIEventListener.Get(leftButton.gameObject).onClick = PageBack;
 		UIEventListener.Get(rightButton.gameObject).onClick = PageForward;
 		Debug.Log("PartyPagePanel.SetUIElement() : End");
@@ -105,27 +103,13 @@ public class PartyPagePanel : UIComponentUnity {
 	void PageBack(GameObject button){
 		Debug.Log("PartyPagePanel.PageBack() : Start");
 
-//		currentPartyIndex = Mathf.Abs( (currentPartyIndex - 1) % partyTotalCount );
-//		if( currentPartyIndex == 0 )
-//			currentPartyIndex = partyTotalCount ;
-
-		//UpdateLabel();
-
-
 		ExcuteCallback("PageBack");
-
-		Debug.Log("PartyPagePanel.PageBack() : CallerName is : " + callerName);
 
 		Debug.Log("PartyPagePanel.ExcuteCallback() : End");
 	} 
 
 	void PageForward(GameObject go){
 		Debug.Log("PartyPagePanel.PageForward() : Start");
-//
-//		currentPartyIndex++;
-//		if (currentPartyIndex > partyTotalCount) {
-//			currentPartyIndex = pageIndexOrigin;
-//		} 
 
 		ExcuteCallback("PageForward");
 
@@ -146,15 +130,15 @@ public class PartyPagePanel : UIComponentUnity {
 			return;
 		}	
 
-		List<Texture2D> tex2dList;
-		int curPartyIndex;
+		object tex2dList;
+		object curPartyIndex;
 
 		if(viewInfoDic.TryGetValue("texture",out tex2dList)){
-			UpdateTexture(tex2dList);
+			UpdateTexture(tex2dList as List<Texture2D>);
 		}
 
 		if(viewInfoDic.TryGetValue("index",out curPartyIndex)){
-			UpdateLabel(curPartyIndex);
+			UpdateLabel((int)curPartyIndex);
 		}
 	}
 
