@@ -160,7 +160,9 @@ public enum CommandEnum
 	ReqLevelUp					= 5201,
 	RspLevelUp					= 5202,
 
-
+	//party - 5300 
+	ReqModifyParty				= 5301,
+	RspModifyParty				= 5302,
 
 	//-----------------Server Protocol-----------------------//
 }

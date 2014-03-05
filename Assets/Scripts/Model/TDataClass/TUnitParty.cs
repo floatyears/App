@@ -22,7 +22,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 			return userUnit;
 		}
 	}
-	
+
+	AttackInfo reduceHurt = null;
+
 	//skill sort
 	private CalculateRecoverHP crh ;
 	/// <summary>
@@ -44,8 +46,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
 	}
 	
-	AttackInfo reduceHurt = null;
-	
+
 	void ReduceHurt(object data) {
 		reduceHurt = data as AttackInfo;
 		if (reduceHurt != null) {
@@ -166,16 +167,19 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		get { return instance.id; }
 	}
 
-	public void SetPartyItem(PartyItem item) {
-		if( item.unitPos < instance.items.Count)
-			instance.items[item.unitPos] = item;
-		else {
-			LogHelper.LogError ("SetPartyItem :: item.unitPos:{0} is invalid.", item.unitPos);	
-		}
-	}
+	public void SetPartyItem(int pos, uint unitUniqueId) {
 
-	public List<PartyItem> PartyItems {
-		get { return instance.items; }
+		if( pos < instance.items.Count) {
+			PartyItem item = new PartyItem();
+			item.unitPos = pos;
+			item.unitUniqueId = unitUniqueId;
+
+			instance.items[item.unitPos] = item;
+			userUnit[item.unitPos] = GlobalData.userUnitList.GetMyUnit(item.unitUniqueId);
+		}
+		else {
+			LogHelper.LogError ("SetPartyItem :: item.unitPos:{0} is invalid.", pos);
+		}
 	}
 
 	public int Compare (object first, object second) {
