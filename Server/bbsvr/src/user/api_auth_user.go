@@ -165,6 +165,15 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			return e
 		}
 
+		//TODO: remove the testing code
+		//if *userDetail.User.UserId == 103 {
+		//	usermanage.TestAddMyUnits(db, &userDetail)
+		//}
+
+		//if *userDetail.User.UserId == 130 {
+		//	usermanage.UpdateStamina(db, &userDetail)
+		//}
+
 		//TODO: call update in goroutine
 		UpdateLoginInfo(db, &userDetail)
 
@@ -174,6 +183,19 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		rspMsg.Login = userDetail.Login
 		rspMsg.Quest = userDetail.Quest
 		rspMsg.User = userDetail.User
+
+		log.T(">>>>>>>>>>>>AuthUser RspMsg<<<<<<<<<<<<<<")
+		log.T("\tUserinfo: %+v", rspMsg.User)
+		log.T("\tAccount: %+v", rspMsg.Account)
+		log.T("\tParty: %+v", rspMsg.Party)
+		log.T("\tLogin: %+v", rspMsg.Login)
+		log.T("\tUnitList: count=%v", len(rspMsg.UnitList))
+		for k, unit := range rspMsg.UnitList {
+			log.T("\t\tunit[%v]: %+v", k, unit)
+		}
+		log.T("\tQuest: %+v", rspMsg.Quest)
+
+		log.T(">>>>>>>>>>>>AuthUser RspMsg<<<<<<<<<<<<<<")
 
 		//TODO: get present
 		//rspMsg.Present = userDetail.Present

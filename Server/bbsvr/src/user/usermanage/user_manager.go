@@ -13,6 +13,36 @@ import (
 	_ "fmt"
 )
 
+func TestAddMyUnits(db *data.Data, userdetail *bbproto.UserInfoDetail) {
+	MAX_UNIT_NUM := 25
+	if userdetail == nil {
+		return
+	}
+	for i := 1; i <= MAX_UNIT_NUM; i++ {
+		unitId2, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i)
+		if e.IsError() {
+			return
+		}
+		userUnit2 := &bbproto.UserUnit{
+			UniqueId:  proto.Uint32(unitId2),
+			UnitId:    proto.Uint32(uint32(i)),
+			Exp:       proto.Int32(1),
+			Level:     proto.Int32(common.Randn(int32(i))),
+			GetTime:   proto.Uint32(common.Now()),
+			AddAttack: proto.Int32(common.Randn(int32(i) % 10)),
+			AddHp:     proto.Int32(common.Randn(int32(i) % 10)),
+		}
+		userdetail.UnitList = append(userdetail.UnitList, userUnit2)
+	}
+}
+
+func UpdateStamina(db *data.Data, userdetail *bbproto.UserInfoDetail) {
+	if userdetail == nil {
+		return
+	}
+	userdetail.User.StaminaNow = proto.Int32(300)
+}
+
 func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail, e Error.Error) {
 
 	userdetail = &bbproto.UserInfoDetail{}
@@ -93,7 +123,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		}
 		userUnit2 := &bbproto.UserUnit{
 			UniqueId:  proto.Uint32(unitId2),
-			UnitId:    proto.Uint32(uint32(10 + i)),
+			UnitId:    proto.Uint32(uint32(3 + i)),
 			Exp:       proto.Int32(1),
 			Level:     proto.Int32(common.Randn(int32(i))),
 			GetTime:   &tNow,

@@ -130,7 +130,7 @@ func CheckQuestRecord(db *data.Data, stageId, questId uint32, userDetail *bbprot
 
 //called in clear_quest
 func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId uint32,
-	getUnit []*bbproto.DropUnit, getMoney int32) (gotMoney, gotExp, gotFriendPt int32, gotUnit []*bbproto.UserUnit, e Error.Error) {
+	getUnit []uint32, getMoney int32) (gotMoney, gotExp, gotFriendPt int32, gotUnit []*bbproto.UserUnit, e Error.Error) {
 	if db == nil {
 		return 0, 0, 0, gotUnit, Error.New(cs.INVALID_PARAMS, "invalid db pointer")
 	}
@@ -147,16 +147,16 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 
 	//verify getUnit
 	isAllValidUnit := true
-	for _, unitGot := range getUnit {
+	for _, unitIdGot := range getUnit {
 		isValidOne := false
 		for _, unitDrop := range userDetail.Quest.DropUnits {
-			if *unitDrop.DropId == *unitGot.DropId && *unitDrop.UnitId == *unitGot.UnitId {
+			if *unitDrop.DropId == unitIdGot {
 				isValidOne = true
 				break
 			}
 		}
 		if !isValidOne {
-			log.Error("ClearQuest :: unitGot is invalid: %+v", unitGot)
+			log.Error("ClearQuest :: unitGot is invalid: %+v", unitIdGot)
 			isAllValidUnit = false
 			break
 		}
