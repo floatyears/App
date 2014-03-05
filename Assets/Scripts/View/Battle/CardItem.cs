@@ -145,7 +145,7 @@ public class CardItem : UIBaseUnity
 	}
 
 	public void SetSprite(int index) {
-		uiSprite.spriteName = index.ToString ();
+//		uiSprite.spriteName = index.ToString ();
 	}
 
 	void ActiveTextureImmediate() {
