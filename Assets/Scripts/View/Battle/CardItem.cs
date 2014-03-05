@@ -68,14 +68,15 @@ public class CardItem : UIBaseUnity
 	[HideInInspector]
 	public int location = -1;
 
-	public override void Init (string name)
-	{
+	private UISprite uiSprite;
+
+	public override void Init (string name) {
 		base.Init (name);
 
 		parentObject = transform.parent;
 
 		actorTexture = GetComponent<UITexture>();
-
+		uiSprite = GetComponent<UISprite> ();
 		initActorPosition = actorTexture.transform.localPosition;
 
 		tweenPosition = GetComponent<TweenPosition>();
@@ -143,6 +144,10 @@ public class CardItem : UIBaseUnity
 		//ActiveTextureImmediate ();
 	}
 
+	public void SetSprite(int index) {
+		uiSprite.spriteName = index.ToString ();
+	}
+
 	void ActiveTextureImmediate() {
 		//actorTexture.enabled = true;
 		
@@ -155,24 +160,24 @@ public class CardItem : UIBaseUnity
 		actorTexture.mainTexture = texure;
 	}
 
-	public void SetTexture(Texture2D tex,int width,int height,int location,int itemID)
-	{
-		this.itemID = itemID;
-		this.location = location;
-
-		actorTexture.mainTexture = tex;
-		actorTexture.width = width;
-		actorTexture.height = height;
-
-		ShowUI();
-
-		if(itemID == 1)
-		{
-			actorTexture.color = Color.black;
-		}
-		else
-			actorTexture.color = Color.white;
-	}
+//	public void SetTexture(Texture2D tex,int width,int height,int location,int itemID)
+//	{
+//		this.itemID = itemID;
+//		this.location = location;
+//
+//		actorTexture.mainTexture = tex;
+//		actorTexture.width = width;
+//		actorTexture.height = height;
+//
+//		ShowUI();
+//
+//		if(itemID == 1)
+//		{
+//			actorTexture.color = Color.black;
+//		}
+//		else
+//			actorTexture.color = Color.white;
+//	}
 
 	public void OnDrag(Vector3 position,int index)
 	{

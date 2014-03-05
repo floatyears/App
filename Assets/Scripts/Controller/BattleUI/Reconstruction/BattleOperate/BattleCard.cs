@@ -71,6 +71,12 @@ public class BattleCard : UIBaseUnity
 		cardInterv = Mathf.Abs(cardPosition[1].x - cardPosition[0].x);
 	}
 
+	/// <summary>
+	/// old 
+	/// </summary>
+	/// <param name="sourceType">Source type.</param>
+	/// <param name="TargetType">Target type.</param>
+	/// <param name="locaitonID">Locaiton I.</param>
 	public void ChangeCard(int sourceType, int TargetType, int locaitonID) {
 		if (cardItemArray [locaitonID].itemID == sourceType) {
 			Texture2D tex = LoadAsset.Instance.LoadAssetFromResources(TargetType) as Texture2D;
@@ -78,11 +84,35 @@ public class BattleCard : UIBaseUnity
 		}
 	}
 
-	public void GenerateCard(int itemID,int locationID)
-	{
+	
+	/// <summary>
+	/// old
+	/// </summary>
+	/// <param name="itemID">Item I.</param>
+	/// <param name="locationID">Location I.</param>
+	public void GenerateCard(int itemID,int locationID) {
 		Texture2D tex = LoadAsset.Instance.LoadAssetFromResources(itemID) as Texture2D;
-
 		cardItemArray[locationID].SetTexture(tex,itemID);
+	}
+
+	/// <summary>
+	/// new
+	/// </summary>
+	/// <param name="index">Index.</param>
+	/// <param name="locationID">Location I.</param>
+	public void ChangeSpriteCard(int source, int index, int locationID) {
+		if (cardItemArray [locationID].itemID == source) {
+			cardItemArray [locationID].SetSprite (index);
+		}
+	}
+
+	/// <summary>
+	/// new 
+	/// </summary>
+	/// <param name="index">Index.</param>
+	/// <param name="locationID">Location I.</param>
+	public void GenerateSpriteCard(int index,int locationID) {
+		cardItemArray [locationID].SetSprite (index);
 	}
 
 	public void IgnoreCollider(bool isIgnore)

@@ -159,6 +159,7 @@ public class Battle : UIBase
 		for (int i = 0; i < battleCardPool.CardPosition.Length; i++)
 		{
 			battleCard.GenerateCard(GenerateData(),i);
+//			battleCard.GenerateSpriteCard(GenerateCardIndex(),i);
 		}
 	}
 
@@ -215,6 +216,12 @@ public class Battle : UIBase
 		allItemData.Add(id);
 
 		return id.itemID;
+	}
+
+	int GenerateCardIndex () {
+		int index = BattleQuest.questDungeonData.Colors [0];
+		BattleQuest.questDungeonData.Colors.Remove (0);
+		return index;
 	}
 
 
@@ -304,6 +311,7 @@ public class Battle : UIBase
 				if(showCountDown) {
 					for(int i = 0;i < generateCount;i++) {
 						battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
+//						battleCard.GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
 					}
 				}
 			}
