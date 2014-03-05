@@ -78,7 +78,7 @@ public class StaticTest {
 		}
 		foreach (var item in temp) {
 			TNormalSkill tns = GlobalData.skill[item.skillID] as TNormalSkill;
-			Debug.Log("attackProperty : " + item.attackProperty + "-- userProperty : " + item.userProperty +"-- skill name : " + tns.GetName());
+			Debug.Log("attackProperty : " + item.attackProperty + "-- userProperty : " + item.userProperty +"-- skill name : " + tns.Name);
 		}
 	}
 }

@@ -226,6 +226,8 @@ public class BattleQuest : UIBase {
 //				battleMap.RotateAnim(MapItemExclamation);
 //				break;
 			default:
+				Debug.LogError("default : " + currentMapData.Type);
+				battleMap.waitMove = false;
 					break;
 			}
 		}

@@ -258,7 +258,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		normalSkill1DscpLabel.text = skill.description;
 
 		TNormalSkill ns = sbi as TNormalSkill;
-		List<uint> sprNameList1 = ns.GetObject().activeBlocks;
+		List<uint> sprNameList1 = ns.Object.activeBlocks;
 		for( int i = 0; i < sprNameList1.Count; i++ ){
 			blockLsit1[ i ].enabled = true;
 			blockLsit1[ i ].spriteName = sprNameList1[ i ].ToString();
@@ -275,7 +275,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		normalSkill2DscpLabel.text = skill.description;
 
 		TNormalSkill ns = sbi as TNormalSkill;
-		List<uint> sprNameList2 = ns.GetObject().activeBlocks;
+		List<uint> sprNameList2 = ns.Object.activeBlocks;
 		for( int i = 0; i < sprNameList2.Count; i++ ){
 			blockLsit1[ i ].enabled = true;
 			blockLsit1[ i ].spriteName = sprNameList2[ i ].ToString();

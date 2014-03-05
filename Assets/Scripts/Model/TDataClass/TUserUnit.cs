@@ -136,7 +136,7 @@ public class TUserUnit : ProtobufDataBase {
 			for (int j = 0; j < count; j++) {
 				AttackInfo attack	= new AttackInfo();
 				attack.AttackValue	= CaculateAttack(instance,ui,tns);
-				attack.AttackType	= (int)ui.type;
+				attack.AttackType	= tns.AttackType;
 				attack.UserUnitID	= instance.uniqueId;
 				tns.GetSkillInfo(attack);
 				returnInfo.Add(attack);
@@ -186,12 +186,14 @@ public class TUserUnit : ProtobufDataBase {
 
 	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TNormalSkill tns) {
 		int addAttack = uu.addAttack * 50;
+
 		float attack = addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType, uu.level); //ui.power [uu.level].attack;
 		attack = tns.GetAttack(attack) * attackMultiple;
 
 		if (strengthenInfo != null) {
 			attack *= strengthenInfo.AttackValue;
 		}
+		Debug.LogError ("addAttack : " + addAttack + "attack : " + uu.addAttack );
 		int value = System.Convert.ToInt32 (attack);
 		return value;
 	}
