@@ -26,6 +26,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	public bool isDeferAttackRound = false;
 	public bool isPosion = false;
 
+
 	public bool IsInjured () {
 		if (EnemyInfo ().hp < initBlood) { return true; }
 		else { return false; }
@@ -104,8 +105,16 @@ public class TEnemyInfo : ProtobufDataBase {
 		}
 	}
 
-	public int GetAttack () {
-		return EnemyInfo().attack;
+	public int AttackValue{
+		get{
+			return EnemyInfo().attack;
+		}
+	}
+
+	private uint enemySymbol = 0;
+	public uint EnemySymbol {
+		get{ return enemySymbol; }
+		set{ enemySymbol = value; }
 	}
 
 	public uint EnemyID {

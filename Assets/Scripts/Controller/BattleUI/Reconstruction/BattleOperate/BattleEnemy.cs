@@ -65,7 +65,7 @@ public class BattleEnemy : UIBaseUnity {
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.Init(enemy[i]);
 			temp.Add(ei);
-			monster.Add(enemy[i].EnemyID,ei);
+			monster.Add(enemy[i].EnemySymbol,ei);
 		}
 		SortEnemyItem (temp);
 	}

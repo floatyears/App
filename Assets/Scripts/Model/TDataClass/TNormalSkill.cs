@@ -41,29 +41,43 @@ public class TNormalSkill : SkillBaseInfo {
 			skillID.Remove(instance.baseInfo.id);
 		}
 	}
-	
-	public NormalSkill GetObject() {
-		return  instance;
+
+	public int AttackType {
+		get {
+			return (int)instance.attackUnitType;
+		}
+	}
+
+	public NormalSkill Object {
+		get{
+			return  instance;
+		}
 	}
 	
-	public int GetID() {
-		return GetObject().baseInfo.id;
+	public int SkillID {
+		get{
+			return Object.baseInfo.id;
+		}
 	}
 	
-	public int GetAttackRange() {
-		return (int)GetObject ().attackType;
+	public int AttackRange {
+		get{
+			return (int)Object .attackType;
+		}
 	}
 	
-	public string GetName () {
-		return GetObject ().baseInfo.name;
+	public string Name {
+		get{
+			return Object.baseInfo.name;
+		}
 	}
 	
 	public int GetRecoverHP (int blood) {
-		return System.Convert.ToInt32 (blood * GetObject ().attackValue);
+		return System.Convert.ToInt32 (blood * Object .attackValue);
 	}
 	
 	public float GetAttack (float userUnitAttack) {
-		return userUnitAttack * GetObject ().attackValue;
+		return userUnitAttack * Object.attackValue;
 	}
 
 //	public SkillBase GetSkillInfo()

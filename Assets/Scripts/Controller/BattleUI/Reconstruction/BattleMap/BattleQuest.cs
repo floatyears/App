@@ -226,6 +226,8 @@ public class BattleQuest : UIBase {
 //				battleMap.RotateAnim(MapItemExclamation);
 //				break;
 			default:
+				Debug.LogError("default : " + currentMapData.Type);
+				battleMap.waitMove = false;
 					break;
 			}
 		}
@@ -234,7 +236,13 @@ public class BattleQuest : UIBase {
 	void MeetBoss () {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<TEnemyInfo> temp = questDungeonData.Boss; //bud.GetEnemyInfo(mapConfig.BossID);
+		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+		for (int i = 0; i < questDungeonData.Boss.Count; i++) {
+			TEnemyInfo tei = questDungeonData.Boss[i];
+			tei.EnemySymbol = (uint)i;
+			temp.Add(tei);
+		}
+//		 = questDungeonData.Boss; //bud.GetEnemyInfo(mapConfig.BossID);
 		bud.InitEnemyInfo (temp);
 		battle.ShowEnemy(temp);
 	}
@@ -272,7 +280,13 @@ public class BattleQuest : UIBase {
 	void MapItemEnemy() {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<TEnemyInfo> temp = currentMapData.Enemy; //bud.GetEnemyInfo(currentMapData.MonsterID);
+		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+		for (int i = 0; i < currentMapData.Enemy.Count; i++) {
+			TEnemyInfo tei = currentMapData.Enemy[i];
+			tei.EnemySymbol = (uint)i;
+			temp.Add(tei);
+		}
+//		temp = currentMapData.Enemy; //bud.GetEnemyInfo(currentMapData.MonsterID);
 		bud.InitEnemyInfo (temp);
 		battle.ShowEnemy (temp);
 	}
