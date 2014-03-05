@@ -26,6 +26,8 @@ public class UnitInfoBox : UIComponentUnity {
 
 	void Choose(GameObject btn){
 
+
+		//
 	}
 
 	void ViewInfo(GameObject btn){
