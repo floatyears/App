@@ -320,8 +320,7 @@ public class Battle : UIBase
 		else if(Check(GameLayer.ActorCard)) {
 			Vector3 point = selectTarget[0].transform.localPosition;
 			int indexID =  battleCardPool.CaculateSortIndex(point);
-			if(indexID >= 0)
-			{
+			if(indexID >= 0) {
 				main.GInput.IsCheckInput = false;
 				if(battleCard.SortCard(indexID,selectTarget)) {
 					battleCard.CallBack += HandleCallBack;
@@ -331,7 +330,7 @@ public class Battle : UIBase
 					ResetClick();
 				}
 			}
-			else{
+			else {
 				ResetClick();
 			}
 		}
