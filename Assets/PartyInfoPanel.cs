@@ -3,20 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PartyInfoPanel : UIComponentUnity {
-
-//	protected UILabel hpLabel;
-//	protected UILabel curCostLabel;
-//	protected UILabel maxCostLabel;
-//
-//	protected UILabel fireLabel;
-//	protected UILabel lightLabel;
-//	protected UILabel darkLabel;
-//	protected UILabel waterLabel;
-//	protected UILabel windLabel;
-//	protected UILabel wuLabel;
-//
-//	UILabel skillNameLabel;
-//	UILabel skillDscpLabel;
+	
+	UIToggle focus;
 
 	Dictionary<string, UILabel> viewLabel = new Dictionary<string, UILabel>();
 
@@ -72,17 +60,24 @@ public class PartyInfoPanel : UIComponentUnity {
 		label = FindChild<UILabel>("content_leader_skill/VauleLabel/Label_LeaderSkillDscp");
 		viewLabel.Add("skillDscp", label);
 
+		focus = FindChild<UIToggle>("tab_status");
+
 		Debug.Log("PartyInfoPanel.FindUIElement(), End...");
 	}
 
 	void SetUIElement(){
 		Debug.Log("PartyInfoPanel.SetUIElement(), Start...");
+		SetTabFocus();
 		Debug.Log("PartyInfoPanel.SetUIElement(), End...");
 	}
 
 	void ResetUIElement(){
 		Debug.Log("PartyInfoPanel.ResetUIElement(), Start...");
 		Debug.Log("PartyInfoPanel.ResetUIElement(), End...");
+	}
+
+	void SetTabFocus(){
+		focus.startsActive = true;
 	}
 
 	void UpdateLabel(Dictionary<string, string> text){

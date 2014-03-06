@@ -106,7 +106,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 	protected void ClickDragItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TUserUnit tuu = myUnitInfoDic[ item ];
-		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, null);
+//		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, null);
 
 	}
 

@@ -21,13 +21,13 @@ public class PartyInfoUILogic : ConcreteComponent {
 
 	void AddCmdListener(){
 		Debug.Log("PartyInfoUILogic.AddCmdListener(), Start...");
-		MsgCenter.Instance.AddListener(CommandEnum.UpdatePartyInfoPanel, Recive);
+		//MsgCenter.Instance.AddListener(CommandEnum.UpdatePartyInfoPanel, Recive);
 		Debug.Log("PartyInfoUILogic.AddCmdListener(), End...");
 	}
 
 	void RmvCmdListener(){
 		Debug.Log("PartyInfoUILogic.RmvCmdListener(), Start...");
-		MsgCenter.Instance.RemoveListener(CommandEnum.UpdatePartyInfoPanel, Recive);
+		//MsgCenter.Instance.RemoveListener(CommandEnum.UpdatePartyInfoPanel, Recive);
 		Debug.Log("PartyInfoUILogic.RmvCmdListener(), End...");
 	}
 
@@ -52,29 +52,29 @@ public class PartyInfoUILogic : ConcreteComponent {
 		//Get skill dscp
 		string leaderSkillDscp = tup.GetLeaderSkillInfo().description;
 		//Get total hp
-		string hp = string.Empty;
+		string hp = tup.TotalHp.ToString();
 		//Get cur cost
-		string curCost = string.Empty;
+		string curCost = tup.TotalCost.ToString();
 		//Get maxCost
-		string maxCost =string.Empty;
+		string maxCost = GlobalData.UserCost.ToString();
 		//Get fireAtk vaule
-		string fireAtk = string.Empty;
+		string fireAtk = tup.TypeAttack[ EUnitType.UFIRE ].ToString();
 		//Get waterAtk vaule
-		string waterAtk = string.Empty;
+		//string waterAtk = tup.TypeAttack[ EUnitType.UWATER ].ToString();
 		//Get windAtk vaule
-		string windAtk = string.Empty;
+		//string windAtk = tup.TypeAttack[ EUnitType.UWIND ].ToString();
 		//Get wuAtk vaule
-		string wuAtk = string.Empty;
+		string wuAtk = tup.TypeAttack[ EUnitType.UNONE ].ToString();
 		//Get lightAtk vaule
-		string lightAtk = string.Empty;
+		string lightAtk = tup.TypeAttack[ EUnitType.ULIGHT ].ToString();
 		//Get drakAtk vaule
-		string darkAtk = string.Empty;
+		string darkAtk = tup.TypeAttack[ EUnitType.UDARK ].ToString();
 
 		Dictionary<string,string> text = new Dictionary<string, string>();
 		text.Add("hp",hp);
 		text.Add("fire", fireAtk);
-		text.Add("water", waterAtk);
-		text.Add("wind", windAtk);
+		//text.Add("water", waterAtk);
+		//text.Add("wind", windAtk);
 		text.Add("wu", wuAtk);
 		text.Add("light", lightAtk);
 		text.Add("dark", darkAtk);

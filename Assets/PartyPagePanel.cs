@@ -111,6 +111,14 @@ public class PartyPagePanel : UIComponentUnity {
 		partyIndexDic.Add( 5, "th");
 	}
 
+	void ClickItem(GameObject go){
+
+
+
+	}
+
+
+
 	void PageBack(GameObject button){
 		Debug.Log("PartyPagePanel.PageBack() : Start");
 
