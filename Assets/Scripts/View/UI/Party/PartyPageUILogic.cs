@@ -56,6 +56,18 @@ public class PartyPageUILogic : ConcreteComponent {
 				partyInfo = GlobalData.partyInfo.CurrentParty;
 				//NoticeInfoPanel(GlobalData.partyInfo.CurrentParty);
 				break;
+			case "ClickItem0" :
+				NoticeShowUnitInfo(0);
+				break;
+			case "ClickItem1" :
+				NoticeShowUnitInfo(1);
+				break;
+			case "ClickItem2" :
+				NoticeShowUnitInfo(2);
+				break;
+			case "ClickItem3" :
+				NoticeShowUnitInfo(3);
+				break;
 			default:
 				partyInfo = null;
 				break;
@@ -106,6 +118,16 @@ public class PartyPageUILogic : ConcreteComponent {
 		Debug.Log("PartyPageUILogic.NoticeInfoPanel(), Start...");
 		MsgCenter.Instance.Invoke(CommandEnum.UpdatePartyInfoPanel, tup);
 		Debug.Log("PartyPageUILogic.NoticeInfoPanel(), End...");
+	}
+
+	void NoticeShowUnitInfo(int pos){
+		List<TUserUnit> tuuList = GlobalData.partyInfo.CurrentParty.GetUserUnit();
+		if(tuuList[ pos ] == null){
+			Debug.LogError("PartyPageUILogic.NoticeShowUnitInfo(), UnitInfo is Null, do nothing!");
+			return;
+		}
+
+		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, tuuList[ pos ]);
 	}
 
 }

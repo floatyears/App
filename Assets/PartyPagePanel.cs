@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class PartyPagePanel : UIComponentUnity {
 
-	int pageIndexOrigin = 1;
-	int currentPartyIndex = 1;
 	int partyTotalCount = 5;
 	UILabel curPartyIndexLabel;
 	UILabel partyCountLabel;
@@ -14,6 +12,8 @@ public class PartyPagePanel : UIComponentUnity {
 	UIButton leftButton;
 	UIButton rightButton;
 	Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
+	Dictionary<GameObject, int> itemDic = new Dictionary<GameObject, int>();
+
 	List<UITexture> texureList = new List<UITexture>();
 	bool InitSymbol = false;
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -64,9 +64,13 @@ public class PartyPagePanel : UIComponentUnity {
 
 	void FindTexture() {
 		UITexture tex;
-		for( int i = 1; i < 5; i++) {
+		GameObject go;
+		for( int i = 0; i < 4; i++) {
 			tex = FindChild< UITexture >("Unit" + i.ToString() + "/role" );
 			texureList.Add(tex);
+			go = transform.FindChild("Unit" + i.ToString() ).gameObject;
+			UIEventListener.Get(go).onClick = ClickItem;
+			itemDic.Add( go, i );
 		}
 	}
 
@@ -113,9 +117,12 @@ public class PartyPagePanel : UIComponentUnity {
 	}
 
 	void ClickItem(GameObject go){
-
-
-
+		Debug.Log("PartyPagePanel.ClickItem(), item name is : " + go.name);
+		if(!itemDic.ContainsKey(go)){
+			Debug.Log("PartyPagePanel.ClickItem(), itemDic NOT ContainsKey : " + go.name);
+			return;
+		}
+		ExcuteCallback("ClickItem" + itemDic[ go ]);
 	}
 
 

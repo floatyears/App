@@ -49,13 +49,13 @@ public class MyUnitDragPanel : UIComponentUnity {
 //		Debug.Log("My Unit Count : " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject unitItem =  Resources.Load( itemSourcePath ) as GameObject;
-		//GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
+		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
 		InitDragPanelArgs();
 		//dragPanel = CreateDragPanel( name, count, itemGo) ;
-		//FillDragPanel( dragPanel );
+		FillDragPanel( dragPanel );
 		dragPanel =new DragPanel("MyUnitDragPanel", unitItem);
 		dragPanel.CreatUI();
-		//dragPanel.AddItem(1,rejectItem);
+		dragPanel.AddItem(1,rejectItem);
 		dragPanel.AddItem(unitCount,unitItem);
 		FillDragPanel( dragPanel );
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
@@ -74,11 +74,10 @@ public class MyUnitDragPanel : UIComponentUnity {
 			return;
 		}
 
-		for( int i = 0; i < panel.ScrollItem.Count; i++){
+		for( int i = 1; i < panel.ScrollItem.Count; i++){
 			GameObject scrollItem = panel.ScrollItem[ i ];
 
-			TUserUnit uuItem = userUnitInfoList[ i ] ;
-
+			TUserUnit uuItem = userUnitInfoList[ i - 1 ] ;
 			myUnitInfoDic.Add( scrollItem, uuItem );
 			
 			StoreLabelInfo( scrollItem);

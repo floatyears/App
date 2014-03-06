@@ -15,6 +15,8 @@ public class SelectInfoWindow : UIComponentUnity {
 	UILabel nameLabel;
 	UILabel raceLabel;
 
+	UITexture avatarTex;
+
 	int originLayer;
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -33,12 +35,14 @@ public class SelectInfoWindow : UIComponentUnity {
 	void InitUIElement(){
 		window = FindChild("Window");
 
-//		lvLabel = FindChild<UILabel>("Window/Label_Vaule/Lv");
-//		slvLabel = FindChild<UILabel>("Window/Label_Vaule/SLv");
-//		atkLabel = FindChild<UILabel>("Window/Label_Vaule/ATK");
-//		hpLabel = FindChild<UILabel>("Window/Label_Vaule/Hp");
-//		nameLabel = FindChild<UILabel>("Window/Label_Vaule/Name");
-//		raceLabel = FindChild<UILabel>("Window/Label_Vaule/Race");
+		avatarTex = FindChild<UITexture>("Window/Avatar/Texture");
+
+		lvLabel = FindChild<UILabel>("Window/Label_Vaule/Lv");
+		slvLabel = FindChild<UILabel>("Window/Label_Vaule/SLv");
+		atkLabel = FindChild<UILabel>("Window/Label_Vaule/ATK");
+		hpLabel = FindChild<UILabel>("Window/Label_Vaule/Hp");
+		nameLabel = FindChild<UILabel>("Window/Label_Vaule/Name");
+		raceLabel = FindChild<UILabel>("Window/Label_Vaule/Race");
 
 		buttonChoose = transform.FindChild("Window/btn_choose").gameObject;
 		UIEventListener.Get(buttonChoose).onClick = Choose;
@@ -84,12 +88,13 @@ public class SelectInfoWindow : UIComponentUnity {
 	public override void Callback(object data){
 		base.Callback(data);
 		ShowSelf(true);
-//		TUserUnit tuu = data as TUserUnit;
-//		hpLabel.text = tuu.Level.ToString();
-//		atkLabel.text = tuu.Attack.ToString();
-////		nameLabel.text = 
-
-
+		TUserUnit tuu = data as TUserUnit;
+		hpLabel.text = tuu.Level.ToString();
+		atkLabel.text = tuu.Attack.ToString();
+		lvLabel.text = tuu.Level.ToString();
+		nameLabel.text = tuu.UnitInfo.Name;
+		raceLabel.text = tuu.UnitInfo.UnitRace.ToString();
+		avatarTex.mainTexture = tuu.UnitInfo.GetAsset(UnitAssetType.Avatar);
 	}
 	
 }
