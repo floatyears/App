@@ -49,13 +49,23 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	private int totalHp = 0;
 	private int totalCost = 0;
 	private Dictionary<EUnitType, int>  typeAttackValue = new Dictionary<EUnitType, int> ();
+
+	private void initTypeAtk(Dictionary<EUnitType, int> atkVal, EUnitType type) {
+		if ( !atkVal.ContainsKey( type ) )
+			atkVal.Add(type, 0);
+		else
+			atkVal[type] = 0;
+	}
 	//calculate each Type Attack, party's totalHp, totalCost
 	private void reAssignData() {
 		List<TUserUnit> uu = GetUserUnit();
 		totalHp = totalCost = 0;
-		foreach(var it in typeAttackValue) {
-			typeAttackValue[it.Key] = 0;
-		}
+		initTypeAtk(EUnitType.UWIND);
+		initTypeAtk(EUnitType.UFIRE);
+		initTypeAtk(EUnitType.UWATER);
+		initTypeAtk(EUnitType.ULIGHT);
+		initTypeAtk(EUnitType.UDARK);
+		initTypeAtk(EUnitType.UNONE);
 
 		foreach(PartyItem item in instance.items) {
 			if ( item.unitPos >= uu.Count ) {
@@ -63,8 +73,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 				continue;
 			}
 			EUnitType unitType = uu[item.unitPos].UnitInfo.Type;
-			if ( !typeAttackValue.ContainsKey(unitType) )
-				typeAttackValue.Add(unitType, 0);
 
 			typeAttackValue[ unitType ] += uu[item.unitPos].Attack;
 			totalHp += uu[item.unitPos].Hp;
