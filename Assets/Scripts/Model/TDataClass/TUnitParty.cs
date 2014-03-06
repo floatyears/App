@@ -10,6 +10,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		get { return leaderSkill; }
 	}
 	private Dictionary<int,TUserUnit> userUnit ;
+
+	//!!! UserUnit Only Avaiable after called GetSkillCollection()
 	public Dictionary<int,TUserUnit> UserUnit {
 		get {
 			if(userUnit == null) {

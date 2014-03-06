@@ -72,13 +72,6 @@ public class AuthUser: ProtoManager {
 			GameDataStore.Instance.StoreData (GameDataStore.USER_ID, rspAuthUser.user.userId);
 		}
 
-		if (rspAuthUser.party != null && rspAuthUser.party.partyList!=null) {
-			GlobalData.partyInfo = new TPartyInfo(rspAuthUser.party);
-
-			//TODO: replace ModelManager.GetData(UnitPartyInfo) with GlobalData.partyInfo.CurrentParty
-			ModelManager.Instance.SetData (ModelEnum.UnitPartyInfo, GlobalData.partyInfo.CurrentParty);
-		}
-
 		//TODO: update localtime with servertime
 		//localTime = rspAuthUser.serverTime
 
@@ -114,8 +107,15 @@ public class AuthUser: ProtoManager {
 			foreach(UserUnit unit in rspAuthUser.unitList) {
 				GlobalData.myUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
 				GlobalData.userUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
-				LogHelper.Log("rspAuthUser add userUnit.uniqueId:{0}",unit.uniqueId);
 			}
+			LogHelper.Log("rspAuthUser add to myUserUnit.count: {0}", rspAuthUser.unitList.Count);
+		}
+
+		if (rspAuthUser.party != null && rspAuthUser.party.partyList!=null) {
+			GlobalData.partyInfo = new TPartyInfo(rspAuthUser.party);
+			
+			//TODO: replace ModelManager.GetData(UnitPartyInfo) with GlobalData.partyInfo.CurrentParty
+			ModelManager.Instance.SetData (ModelEnum.UnitPartyInfo, GlobalData.partyInfo.CurrentParty);
 		}
 
 		//TODO: remove test code bellow
@@ -133,7 +133,7 @@ public class AuthUser: ProtoManager {
 	}
 
 	void OnReceiveCommand(object data) {
-		LogHelper.Log ("OnReceiveCommand authUser...");
+//		LogHelper.Log ("OnReceiveCommand authUser...");
 		Send (); //send request to server
 	}
 

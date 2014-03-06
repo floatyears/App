@@ -85,7 +85,15 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 		}
 	}
 
-		public string Race{
+	public EUnitRace Race {
+		get { return instance.race; }
+	}
+
+	public EUnitType Type {
+		get { return instance.type; }
+	}
+		
+	public string UnitRace{
 			get{
 				EUnitRace race = instance.race;
 				switch ( race ){
@@ -116,6 +124,7 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 				}
 			}
 		}
+
 
 
 	public string UnitType {
