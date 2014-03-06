@@ -19,7 +19,7 @@ public class ChangeParty: ProtoManager {
 	public override bool MakePacket () {
 //		LogHelper.Log ("ChangeParty.MakePacket()...");
 
-		Proto = Protocol.START_QUEST;
+		Proto = Protocol.CHANGE_PARTY;
 		reqType = typeof(ReqChangeParty);
 		rspType = typeof(RspChangeParty);
 

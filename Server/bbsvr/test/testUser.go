@@ -239,12 +239,12 @@ func ResetStamina(uid uint32) (e Error.Error) {
 	return Error.OK()
 }
 
-func umain() {
+func uumain() {
 	Init()
 	//AddUsers()
 
-	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220201", 102)
-	ResetStamina(146)
+	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220201", 154)
+	//ResetStamina(154)
 	//LoginPack(101)
 
 	log.Fatal("bbsvr test client finish.")

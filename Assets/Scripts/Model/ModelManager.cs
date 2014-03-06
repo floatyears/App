@@ -56,6 +56,7 @@ public class ModelManager
 		AuthUser authUser = new AuthUser ();
 		RenameNick rename = new RenameNick ();
 		StartQuest startquest = new StartQuest ();
+		ClearQuest clearquest = new ClearQuest ();
 		ChangeParty changeparty = new ChangeParty();
 	}
 

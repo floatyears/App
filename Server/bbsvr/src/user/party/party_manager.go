@@ -12,7 +12,7 @@ import (
 
 func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.Error) {
 	if db == nil {
-		db := &data.Data{}
+		db = &data.Data{}
 		err := db.Open(cs.TABLE_USER)
 		defer db.Close()
 		if err != nil {

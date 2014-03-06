@@ -262,7 +262,7 @@ public class TUserUnit : ProtobufDataBase {
 			if (currentBlood == -1) {
 	//			UserUnit uu = DeserializeData<UserUnit>();
 				UnitInfo ui = UnitInfo.Object ;
-				currentBlood += DGTools.CaculateAddBlood (instance.addHp,instance,ui);
+				currentBlood = DGTools.CaculateAddBlood (instance.addHp,instance,ui);
 	//			currentBlood += GlobalData.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
 			}
 			float blood = currentBlood * hpMultiple;
@@ -282,9 +282,13 @@ public class TUserUnit : ProtobufDataBase {
 
 	public int Attack {
 		get {
-			int addAttack = Object.addAttack * 50;
-			UnitInfo ui = UnitInfo.Object ;
-			return addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType,Object.level); //ui.power [GetObject.level].attack;
+			return DGTools.CaculateAddAttack (instance.addAttack,instance, UnitInfo.Object);
+		}
+	}
+
+	public int Hp {
+		get {
+			return DGTools.CaculateAddBlood (instance.addHp, instance, UnitInfo.Object);
 		}
 	}
 
@@ -341,7 +345,7 @@ public class UserUnitList {
 
 	public  TUserUnit GetMyUnit(uint uniqueId) {
 		if (GlobalData.userInfo == null){
-			Debug.LogError ("TUserUnit.GetMyUnit : Global.userInfo=null");
+			Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
 			return null;
 		}
 //		Debug.LogError("uniqueId : " +uniqueId + " GlobalData.userInfo.UserId : " + GlobalData.userInfo.UserId);

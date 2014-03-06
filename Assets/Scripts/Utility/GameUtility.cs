@@ -161,11 +161,11 @@ public class DGTools {
 	}
 
 	public static int CaculateAddBlood (int addHP,UserUnit uu, UnitInfo ui) {
-		return addHP * 100 + GetValue (uu, ui);
+		return addHP * 10 + GetValue (uu, ui);
 	}
 
-	public static int CaculateAttack (int addAttack, UserUnit uu, UnitInfo ui) {
-		return addAttack * 50 + GetValue (uu, ui);
+	public static int CaculateAddAttack (int addAttack, UserUnit uu, UnitInfo ui) {
+		return addAttack * 5 + GetValue (uu, ui);
 	}
 
 	public static int CaculateAddDefense (int add, UserUnit uu, UnitInfo ui) {

@@ -10,6 +10,10 @@ public class TPartyInfo : ProtobufDataBase {
 	private bool isPartyItemModified = false;
 	private bool isPartyGroupModified = false;
 	private int originalPartyId = 0;
+	//  dict: <{partyId}, <{UNIT_TYPE}, {ATK}> >
+	private Dictionary<int, Dictionary<EUnitType, int> > attackValue = new Dictionary<int, Dictionary<EUnitType, int> > ();
+	private Dictionary<int, int> totalHp = new  Dictionary<int, int> (); // <partyId, HP>
+	private Dictionary<int, int> totalCost = new  Dictionary<int, int> (); // <partyId, cost>
 
 	public TPartyInfo(PartyInfo inst) : base (inst) { 
 		instance = inst;
@@ -23,22 +27,51 @@ public class TPartyInfo : ProtobufDataBase {
 		this.partyList = new List<TUnitParty>();
 
 		foreach (UnitParty party in instance.partyList) {
+			Dictionary<EUnitType, int> atkVal = new Dictionary<EUnitType, int>();
 
-			foreach(PartyItem item in party.items) {
-				LogHelper.Log("--before sort ==> item{0}: {1}", item.unitPos, item.unitUniqueId);
-			}
+//			foreach(PartyItem item in party.items) {
+//				LogHelper.Log("--before sort ==> item{0}: {1}", item.unitPos, item.unitUniqueId);
+//			}
 			
 			party.items.Sort( SortParty );
 			
+			TUnitParty tup = new TUnitParty(party);
+			partyList.Add(tup);
+//			LogHelper.Log("tup.GetLeaderSkillInfo():{0} {1}", tup.GetLeaderSkillInfo().name, tup.GetLeaderSkillInfo().description);
+
+			List<TUserUnit> userunit = tup.GetUserUnit();
 			foreach(PartyItem item in party.items) {
-				LogHelper.Log("++after sort party ==> item{0}: {1}", item.unitPos, item.unitUniqueId);
-				
+//				LogHelper.Log("++after sort party ==> item{0}: {1}", item.unitPos, item.unitUniqueId);
+				if ( item.unitPos >= userunit.Count ) {
+					LogHelper.Log("  Calculate party attack: INVALID item.unitPos{0} > count:{1}", item.unitPos, userunit.Count);
+					continue;
+				}
+				EUnitType unitType = userunit[item.unitPos].UnitInfo.Type;
+				if ( !atkVal.ContainsKey(unitType) )
+					atkVal.Add(unitType, 0);
+				if (!totalHp.ContainsKey(party.id) )
+					totalHp.Add (party.id, 0);
+				if (!totalCost.ContainsKey(party.id) )
+					totalCost.Add (party.id, 0);
+
+				atkVal[ unitType ] += userunit[item.unitPos].Attack;
+				totalHp[party.id] += userunit[item.unitPos].Hp;
+				totalCost[party.id] += userunit[item.unitPos].UnitInfo.Cost;
 			}
 
-			TUnitParty pi = new TUnitParty(party);
-			partyList.Add(pi);
-
+			attackValue.Add(party.id, atkVal );
 		}
+
+//		foreach(var item in attackValue) {
+//			foreach(var it in item.Value) {
+//
+//				LogHelper.Log("atkVal: party{0} - <type:{1} atk={2}>", item.Key, it.Key, it.Value);
+//			}
+//		}
+
+//		foreach(var item in totalHp ) {
+//			LogHelper.Log("party{0}: totalHp={1}", item.Key, item.Value);
+//		}
 	}
 
 	private static int SortParty(PartyItem item1, PartyItem item2) {
@@ -62,8 +95,10 @@ public class TPartyInfo : ProtobufDataBase {
 
 	public	TUnitParty	CurrentParty { 
 		get { 
-			if(this.partyList == null || CurrentPartyId > this.partyList.Count -1 )
+			if(this.partyList == null || CurrentPartyId > this.partyList.Count -1 ){
+				LogHelper.Log("invalid partyList==null or CurrentPartyId:{0} is invalid.", CurrentPartyId);
 				return null;
+			}
 
 			return this.partyList[CurrentPartyId]; } 
 	}
@@ -99,8 +134,6 @@ public class TPartyInfo : ProtobufDataBase {
 				return null;
 			}
 
-			LogHelper.Log("CurrentPartyId:{0} partyList.cnt:{1}", CurrentPartyId, partyList.Count);
-
 			isPartyGroupModified = (CurrentPartyId!=originalPartyId);
 			instance.currentParty = CurrentPartyId;
 			return this.partyList[CurrentPartyId]; 
@@ -108,7 +141,6 @@ public class TPartyInfo : ProtobufDataBase {
 	}
 
 	public	bool ChangeParty(int pos, uint unitUniqueId) { 
-
 		if( CurrentPartyId >= instance.partyList.Count ){
 			LogHelper.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:{0} is invalid.", CurrentPartyId);
 			return false;
@@ -138,6 +170,31 @@ public class TPartyInfo : ProtobufDataBase {
 	public void ExitParty() {
 		if ( IsModified ) {
 			MsgCenter.Instance.Invoke (CommandEnum.ReqChangeParty, this);
+		}
+	}
+
+	public Dictionary<EUnitType, int> Attack {
+		get {
+			return attackValue[CurrentPartyId];
+		}
+	}
+
+	public int TotalHp {
+		get {
+			return totalHp[CurrentPartyId];
+		}
+	}
+
+	public int TotalCost {
+		get {
+			return totalCost[CurrentPartyId];
+		}
+	}
+
+	public int MaxCost {
+		get {
+			const int TYPE_MAXCOST_OF_RANK = 4; //type = 4: userRank -> cost
+			return GlobalData.Instance.GetUnitValue(TYPE_MAXCOST_OF_RANK, GlobalData.userInfo.Rank); 
 		}
 	}
 }
