@@ -13,6 +13,7 @@ public class TPartyInfo : ProtobufDataBase {
 	//  dict: <{partyId}, <{UNIT_TYPE}, {ATK}> >
 	private Dictionary<int, Dictionary<EUnitType, int> > attackValue = new Dictionary<int, Dictionary<EUnitType, int> > ();
 	private Dictionary<int, int> totalHp = new  Dictionary<int, int> (); // <partyId, HP>
+	private Dictionary<int, int> totalCost = new  Dictionary<int, int> (); // <partyId, cost>
 
 	public TPartyInfo(PartyInfo inst) : base (inst) { 
 		instance = inst;
@@ -50,9 +51,12 @@ public class TPartyInfo : ProtobufDataBase {
 					atkVal.Add(unitType, 0);
 				if (!totalHp.ContainsKey(party.id) )
 					totalHp.Add (party.id, 0);
+				if (!totalCost.ContainsKey(party.id) )
+					totalCost.Add (party.id, 0);
 
 				atkVal[ unitType ] += userunit[item.unitPos].Attack;
 				totalHp[party.id] += userunit[item.unitPos].Hp;
+				totalCost[party.id] += userunit[item.unitPos].UnitInfo.Cost;
 			}
 
 			attackValue.Add(party.id, atkVal );
@@ -178,6 +182,19 @@ public class TPartyInfo : ProtobufDataBase {
 	public int TotalHp {
 		get {
 			return totalHp[CurrentPartyId];
+		}
+	}
+
+	public int TotalCost {
+		get {
+			return totalCost[CurrentPartyId];
+		}
+	}
+
+	public int MaxCost {
+		get {
+			const int TYPE_MAXCOST_OF_RANK = 4; //type = 4: userRank -> cost
+			return GlobalData.Instance.GetUnitValue(TYPE_MAXCOST_OF_RANK, GlobalData.userInfo.Rank); 
 		}
 	}
 }

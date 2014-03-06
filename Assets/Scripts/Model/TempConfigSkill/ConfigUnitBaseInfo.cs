@@ -13,6 +13,7 @@ public class ConfigUnitBaseInfo {
 		GenerateUnitBaseAttack();
 //		GenerateUnitBaseDefense();
 		GenerateUnitBaseHP();
+		GenerateUserMaxCost();
 	}
 	// exp attack defense hp
 	void GenerateUnitBaseExp () {
@@ -60,6 +61,18 @@ public class ConfigUnitBaseInfo {
 		}
 		TPowerTableInfo tbi = new TPowerTableInfo (pt);
 		GlobalData.unitValue.Add(3,tbi) ;
+	}
+
+	void GenerateUserMaxCost () {
+		PowerTable pt = new PowerTable();
+		for (int i = 1; i < 200; i++) {
+			PowerValue pv = new PowerValue();
+			pv.level = i;
+			pv.value = i * 5;
+			pt.power.Add(pv);
+		}
+		TPowerTableInfo tbi = new TPowerTableInfo (pt);
+		GlobalData.unitValue.Add(4,tbi) ;
 	}
 
 	void GenerateUnitBaseInfo() {
