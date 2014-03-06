@@ -44,7 +44,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 		}
 
 		int unitCount = userUnitInfoList.Count;
-		Debug.Log("My Unit Count : " + unitCount);
+//		Debug.Log("My Unit Count : " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject unitItem =  Resources.Load( itemSourcePath ) as GameObject;
 		//GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
