@@ -197,27 +197,19 @@ public class Role : UIBaseUnity
 			firstWay.AddRange(CaculateY(endCoord));
 			return;
 		}
-
 		if(currentCoor.y == endCoord.y) {
 			firstWay.AddRange(CaculateX(endCoord));
 			return;
 		}
-		
 		firstWay.AddRange(CaculateX(endCoord));
-		
 		firstWay.AddRange(CaculateY(endCoord));
-
 		Move();
 	}
 	
-	List<Coordinate> CaculateX(Coordinate endCoord)
-	{
+	List<Coordinate> CaculateX(Coordinate endCoord) {
 		List<Coordinate> xWay = new List<Coordinate>();
-		
-		if(currentCoor.x < endCoord.x)
-		{
+		if(currentCoor.x < endCoord.x) {
 			int i = currentCoor.x + 1;
-
 			while(i <= endCoord.x) {
 				xWay.Add(new Coordinate(i,currentCoor.y));
 				i++;
@@ -230,29 +222,22 @@ public class Role : UIBaseUnity
 				i--;
 			}
 		}
-		
 		return xWay;
 	}
 	
 	List<Coordinate> CaculateY(Coordinate endCoord)
 	{
 		List<Coordinate> yWay = new List<Coordinate>();
-		
-		if(currentCoor.y < endCoord.y)
-		{
+		if(currentCoor.y < endCoord.y) {
 			int i = currentCoor.y +1 ;
-			
-			while(i <= endCoord.y)
-			{
+			while(i <= endCoord.y) {
 				yWay.Add(new Coordinate(endCoord.x,i));
 				i++;
 			}
 		}
-		else
-		{
+		else {
 			int i = currentCoor.y - 1;
-			while(i >= endCoord.y)
-			{
+			while(i >= endCoord.y)	{
 				yWay.Add(new Coordinate(endCoord.x,i));
 				i--;
 			}

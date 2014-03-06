@@ -28,7 +28,7 @@ public class BattleCardArea : UIBaseUnity {
 			GameObject go = LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab) as GameObject;
 			cardItem = go.transform.Find("Texture").gameObject;
 		}
-		StartCoroutine (GenerateCard ());
+
 	}
 
 	public override void ShowUI () {
@@ -84,20 +84,20 @@ public class BattleCardArea : UIBaseUnity {
 		return go;
 	}
 
-	IEnumerator GenerateCard() {
-		bool b = battleCardIns.Count < 25;
-		if (b) {
-			GameObject go = NGUITools.AddChild(gameObject,cardItem);//Instantiate (cardItem) as GameObject;
-			go.layer = gameObject.layer;
-			Destroy(go.GetComponent<BoxCollider>());
-			go.AddComponent<CardItem>();
-			battleCardIns.Add(go);
-		}
-		yield return 1;
-		if (b) {
-			StartCoroutine (GenerateCard ());
-		}
-	}
+//	IEnumerator GenerateCard() {
+//		bool b = battleCardIns.Count < 25;
+//		if (b) {
+//			GameObject go = NGUITools.AddChild(gameObject,cardItem);//Instantiate (cardItem) as GameObject;
+//			go.layer = gameObject.layer;
+//			Destroy(go.GetComponent<BoxCollider>());
+//			go.AddComponent<CardItem>();
+//			battleCardIns.Add(go);
+//		}
+//		yield return 1;
+//		if (b) {
+//			StartCoroutine (GenerateCard ());
+//		}
+//	}
 	bool showCountDown = false;
 	int time = 0;
 	public void ShowCountDown (bool isShow,int time) {
