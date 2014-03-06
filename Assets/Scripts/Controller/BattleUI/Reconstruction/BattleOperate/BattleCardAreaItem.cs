@@ -74,14 +74,15 @@ public class BattleCardAreaItem : UIBaseUnity {
 		maxLimit = maxLimit > source.Count ? source.Count : maxLimit;
 		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
 		for (int i = 0; i < maxLimit; i++) {
-			GameObject go = cardList[0].gameObject;
-			cardList.RemoveAt(0);
+
+			GameObject go = cardList[cardItemList.Count].gameObject;
+
 			CardSprite ci = go.AddComponent<CardSprite>();
 			ci.Init("aaa");
 			DisposeTweenPosition(ci);
 			DisposeTweenScale(ci);
 			ci.ActorSprite.depth = GetDepth(cardItemList.Count);
-//			ci.SetTexture( source[i].ActorTexture.mainTexture,source[i].itemID);
+			ci.SetTexture(source[i].itemID);
 			cardItemList.Add(ci);
 			GenerateFightCardImmelity(source[i].itemID);
 		}
@@ -92,7 +93,6 @@ public class BattleCardAreaItem : UIBaseUnity {
 
 	void GenerateFightCardImmelity(int id) {
 		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
-
 		InstnaceCard ();
 	}
 
@@ -210,7 +210,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 			break;
 		}
 
-		return tempPos;
+		return tempPos - transform.localPosition;
 	}
 
 	int GetDepth(int sortID)

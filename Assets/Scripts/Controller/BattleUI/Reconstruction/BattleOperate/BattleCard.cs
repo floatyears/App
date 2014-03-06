@@ -12,7 +12,7 @@ public class BattleCard : UIBaseUnity
 		set{cardPosition = value;}
 	}
 
-	private UITexture templateItemCard;
+	private UISprite templateItemCard;
 
 	private CardItem[] cardItemArray;
 
@@ -43,7 +43,7 @@ public class BattleCard : UIBaseUnity
 
 	void InitParameter()
 	{
-		templateItemCard = FindChild<UITexture>("Texture");
+		templateItemCard = FindChild<UISprite>("Texture");
 
 		templateItemCard.depth = 1;
 
@@ -80,7 +80,7 @@ public class BattleCard : UIBaseUnity
 	public void ChangeCard(int sourceType, int TargetType, int locaitonID) {
 		if (cardItemArray [locaitonID].itemID == sourceType) {
 			Texture2D tex = LoadAsset.Instance.LoadAssetFromResources(TargetType) as Texture2D;
-			cardItemArray[locaitonID].SetTexture(tex,TargetType);
+//			cardItemArray[locaitonID].SetTexture(tex,TargetType);
 		}
 	}
 
@@ -92,7 +92,7 @@ public class BattleCard : UIBaseUnity
 	/// <param name="locationID">Location I.</param>
 	public void GenerateCard(int itemID,int locationID) {
 		Texture2D tex = LoadAsset.Instance.LoadAssetFromResources(itemID) as Texture2D;
-		cardItemArray[locationID].SetTexture(tex,itemID);
+//		cardItemArray[locationID].SetTexture(tex,itemID);
 	}
 
 	/// <summary>

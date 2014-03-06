@@ -139,6 +139,13 @@ public class MapItem : UIBaseUnity
 		}
 	}
 
+	public void RotateOneCircle() {
+		if (!isRotate) {
+			isRotate = true;
+			floorRotate.RotateOne ();
+		}
+	}
+
 	public void RotateAnim() {
 		if (!isRotate) {
 			isRotate = true;

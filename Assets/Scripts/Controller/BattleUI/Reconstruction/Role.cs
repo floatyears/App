@@ -119,9 +119,9 @@ public class Role : UIBaseUnity
 	IEnumerator MoveByTrap() {
 		jump.JumpAnim ();
 		Stop ();
-		transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 10);
+		transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 20);
 		distance = transform.localPosition - targetPoint;
-		yield return 1;
+		yield return 1 * Time.deltaTime;
 		if (distance.magnitude > 0.1f) {
 			StartCoroutine(MoveByTrap());
 		}

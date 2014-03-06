@@ -6,25 +6,23 @@ public class Battle : UIBase
 	private static UIRoot uiRoot;
 	private static Camera mainCamera;
 	private UICamera nguiMainCamera;
-
 	private GameObject battleRootGameObject;
-
 	private RaycastHit[] rayCastHit;
-
 	private CardItem tempCard;
 	private GameObject tempObject;
-
 	private BattleCardPool battleCardPool;
 	private BattleCard battleCard;
 	private BattleCardArea battleCardArea;
 	private BattleEnemy battleEnemy;
 	private CountDownUnity countDownUI;
-
 	private float ZOffset = -100f;
-	
 	private List<ItemData> allItemData = new List<ItemData>();
 	private List<CardItem> selectTarget = new List<CardItem>();
-
+	//temp-----------------------------------------------------------
+	public static int colorIndex = 0;
+	public static bool isShow = false;
+	private List<int> currentColor = new List<int>();
+	//end-----------------------------------------------------------
 	public int cardHeight = 0;
 	private Vector3 localPosition = new Vector3 (-0.18f, -17f, 0f);
 
@@ -58,19 +56,22 @@ public class Battle : UIBase
 		AddSelfObject (battleEnemy);
 	}
 
-	public override void ShowUI()
-	{
+	public override void ShowUI() {
 		SwitchInput(false);
 		base.ShowUI();
 		ShowCard();
+		if (!isShow) {
+			isShow = true;
+			GenerateShowCard();
+		}
+//		battleRootGameObject.SetActive(true);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
 	}
 
-	public override void HideUI ()
-	{
+	public override void HideUI () {
 		SwitchInput(true);
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
@@ -95,11 +96,12 @@ public class Battle : UIBase
 		}
 
 		if (ccc.targetType == -1) {
-			ShowCard ();	
+//			ShowCard ();	
+			GenerateShowCard();
 		} 
 		else {
 			for (int i = 0; i < battleCardPool.CardPosition.Length; i++) {
-				battleCard.ChangeCard(ccc.sourceType,ccc.targetType,i);
+				battleCard.ChangeSpriteCard(ccc.sourceType,ccc.targetType,i);
 			}
 		}
 	}
@@ -138,8 +140,7 @@ public class Battle : UIBase
 		cardHeight = battleCardPool.templateBackTexture.width;
 	}
 
-	void CreatCard()
-	{
+	void CreatCard() {
 		tempObject = GetPrefabsObject(Config.battleCardName);
 
 		tempObject.layer = GameLayer.ActorCard;
@@ -152,14 +153,14 @@ public class Battle : UIBase
 
 	}
 
-	void ShowCard()
-	{
-		battleRootGameObject.SetActive(true);
+	void ShowCard() {
+		if(!battleRootGameObject.activeSelf)
+			battleRootGameObject.SetActive(true);
+	}
 
-		for (int i = 0; i < battleCardPool.CardPosition.Length; i++)
-		{
-			battleCard.GenerateCard(GenerateData(),i);
-//			battleCard.GenerateSpriteCard(GenerateCardIndex(),i);
+	void GenerateShowCard() {
+		for (int i = 0; i < battleCardPool.CardPosition.Length; i++) {
+			battleCard.GenerateSpriteCard(GenerateCardIndex(),i);
 		}
 	}
 
@@ -219,14 +220,20 @@ public class Battle : UIBase
 	}
 
 	int GenerateCardIndex () {
-		int index = BattleQuest.questDungeonData.Colors [0];
-		BattleQuest.questDungeonData.Colors.Remove (0);
+		int index = BattleQuest.questDungeonData.Colors [colorIndex];
+//		Debug.LogError ("GenerateCardIndex : " + index);
+		currentColor.Add (index);
+		if (currentColor.Count > 5) {
+			currentColor.RemoveAt(0);
+		}
+//		BattleQuest.questDungeonData.Colors.RemoveAt (0);
+//		Debug.LogError ("GenerateCardIndex : " + index);
+		colorIndex++;
 		return index;
 	}
 
 
-	void SwitchInput(bool isShield)
-	{
+	void SwitchInput(bool isShield) {
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
@@ -243,13 +250,11 @@ public class Battle : UIBase
 
 	}
 
-	void HandleOnPressEvent ()
-	{
+	void HandleOnPressEvent () {
 		DisposePress();
 	}
 
-	void HandleOnReleaseEvent ()
-	{
+	void HandleOnReleaseEvent () {
 		DisposeReleasePress();
 	}
 
@@ -281,10 +286,8 @@ public class Battle : UIBase
 	void DisposeReleasePress() {
 		//IgnoreLayer(false);
 //		Debug.LogError ("battle : DisposeReleasePress : " + selectTarget.Count);
-		if(selectTarget.Count == 0)
-		{
+		if(selectTarget.Count == 0) {
 			ResetClick();
-
 			return;
 		}
 
@@ -310,8 +313,8 @@ public class Battle : UIBase
 				YieldStartBattle();
 				if(showCountDown) {
 					for(int i = 0;i < generateCount;i++) {
-						battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
-//						battleCard.GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
+//						battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
+						battleCard.GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
 					}
 				}
 			}
@@ -424,9 +427,14 @@ public class Battle : UIBase
 				//tempCard.gameObject.layer =  GameLayer.IgnoreCard;
 				//tempCard.transform.parent = dragLayer
 				selectTarget.Add(tempCard);
-				if(selectTarget.Count > 1) {
-
-				}
+//				if(selectTarget.Count > 1) {
+//					for (int i = 1; i < selectTarget.Count; i++) {
+//						Vector3 pos = selectTarget[i-1].transform.localPosition;
+//						Vector3 newPos = new Vector3(pos.x + 62,pos.y - 62,pos.z);
+//						Debug.LogError("newPos : " + newPos);
+//						selectTarget[i].transform.localPosition = newPos;
+//					}
+//				}
 			}
 		}
 	}

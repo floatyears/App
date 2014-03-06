@@ -11,20 +11,9 @@ public class CardSprite : UIBaseUnity
 		get{return actorSprite;}
 	}
 	
-	private Vector3 initActorPosition;
-	private Vector3 hideActorPosition = new Vector3 (10000f, 10000f, 10000f);
-	
 	private TweenPosition tweenPosition;
-	public TweenPosition TweenP {
-		get{return tweenPosition;}
-	}
-	
-	private UIButtonScale anim;
-	
 	private TweenScaleExtend tse;
-	public TweenScaleExtend TweenSE {
-		get{return tse;}
-	}
+
 	
 	private Vector3 initPosition;
 	public Vector3 InitPosition {
@@ -48,16 +37,23 @@ public class CardSprite : UIBaseUnity
 		base.Init (name); 
 		parentObject = transform.parent;
 		actorSprite = GetComponent<UISprite>();
-		initActorPosition = actorSprite.transform.localPosition;
+		if (actorSprite.enabled) {
+			actorSprite.spriteName = "";
+		}
+//		Debug.LogError ("actorSprite.width  : " + actorSprite.width);
 		tweenPosition = GetComponent<TweenPosition>();
-		tweenPosition.enabled = false;
+		if (tweenPosition.enabled) {
+			tweenPosition.enabled = false;	
+		}
 		tse = GetComponent<TweenScaleExtend> ();
-		tse.enabled = false;
+		if (tse.enabled) {
+			tse.enabled = false;	
+		}
 		tweenPosition.eventReceiver = gameObject;
 		tweenPosition.callWhenFinished = "TweenPositionCallback";
 		initPosition = actorSprite.transform.localPosition;
-		anim = GetComponent<UIButtonScale>();
 		initDepth = actorSprite.depth;
+//		Debug.LogError ("actorSprite.width  : " + actorSprite.width);
 	}
 	
 	public override void ShowUI () {
@@ -69,8 +65,8 @@ public class CardSprite : UIBaseUnity
 	
 	public override void HideUI () {
 		actorSprite.spriteName = "";
-		if(actorSprite.enabled)
-			actorSprite.enabled = false;
+//		if(actorSprite.enabled)
+//			actorSprite.enabled = false;
 		base.HideUI ();
 	}
 	
@@ -80,9 +76,12 @@ public class CardSprite : UIBaseUnity
 
 	Texture texure ;
 
-	public void SetTexture(int color,int itemID) {
+	public void SetTexture(int itemID) {
 		this.itemID = itemID;
-		actorSprite.spriteName = color.ToString ();
+		if(!actorSprite.enabled)
+			actorSprite.enabled = true;
+		actorSprite.spriteName = itemID.ToString ();
+	
 		xOffset = (float)actorSprite.width / 4;
 	}
 	
@@ -144,7 +143,6 @@ public class CardSprite : UIBaseUnity
 	
 	public void SetPos (Vector3 to) {
 		transform.localPosition = to;
-		
 		initPosition = to;
 	}
 }
