@@ -22,7 +22,6 @@ public class MyUnitDragPanel : UIComponentUnity {
 		if(IsInvoking("CrossShow")) {
 			CancelInvoke("CrossShow");
 		}
-		//		Debug.LogError("InvokeRepeating");
                 InvokeRepeating("CrossShow",0.1f, 1f);
 	}
 
@@ -33,27 +32,31 @@ public class MyUnitDragPanel : UIComponentUnity {
 	protected void InitDragPanel(){
 		if ( GlobalData.myUnitList != null)
 			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
-		
-		string name = "MyUnitDragPanel";
+
 		if(userUnitInfoList == null ){
 			Debug.LogWarning("userUnitInfoList is null ");
 			return;
 		}
 
-		int count = userUnitInfoList.Count;
+		int unitCount = userUnitInfoList.Count;
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
-		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
+		GameObject unitItem =  Resources.Load( itemSourcePath ) as GameObject;
+		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
 		InitDragPanelArgs();
-		dragPanel = CreateDragPanel( name, count, itemGo) ;
-		FillDragPanel( dragPanel );
+		//dragPanel = CreateDragPanel( name, count, itemGo) ;
+		//FillDragPanel( dragPanel );
+		dragPanel =new DragPanel("MyUnitDragPanel", unitItem);
+		dragPanel.CreatUI();
+		//dragPanel.AddItem(1,rejectItem);
+		dragPanel.AddItem(unitCount,unitItem);
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
-		
+		FillDragPanel( dragPanel );
 	}
 
 	protected DragPanel CreateDragPanel( string name, int count, GameObject item){
 		DragPanel panel = new DragPanel(name,item);
 		panel.CreatUI();
-		panel.AddItem( count);
+		panel.AddItem( count, item);
 		return panel;
 	}
 
@@ -62,7 +65,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 			Debug.LogError( "LevelUpBasePanel.FillDragPanel(), DragPanel is null, return!");
 			return;
 		}
-		
+
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
 			GameObject scrollItem = panel.ScrollItem[ i ];
 
@@ -77,7 +80,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 	}
 
 	protected void ShowItem( GameObject item){
-		//ShowMask(item,true);
+		ShowMask(item,true);
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		
