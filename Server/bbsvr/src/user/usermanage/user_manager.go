@@ -110,20 +110,20 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 
 	userdetail.User.Unit = userUnit1
 
-	//make default party[0]
-	unitParty := &bbproto.UnitParty{}
-	unitParty.Id = proto.Int32(0)
-	for i := 0; i < 4; i++ {
-		item := &bbproto.PartyItem{
-			UnitPos:      proto.Int32(int32(i)),
-			UnitUniqueId: userdetail.UnitList[i].UniqueId,
-		}
-		unitParty.Items = append(unitParty.Items, item)
-	}
-
+	//make default party
 	userdetail.Party = &bbproto.PartyInfo{}
 	userdetail.Party.CurrentParty = proto.Int(0)
-	userdetail.Party.PartyList = append(userdetail.Party.PartyList, unitParty)
+	for i := int32(0); i < 5; i++ { //5 group
+		party := &bbproto.UnitParty{}
+		party.Id = proto.Int32(i)
+		for pos := int32(0); pos < 4; pos++ {
+			item := &bbproto.PartyItem{}
+			item.UnitPos = proto.Int32(pos)
+			item.UnitUniqueId = userdetail.UnitList[pos].UniqueId
+			party.Items = append(party.Items, item)
+		}
+		userdetail.Party.PartyList = append(userdetail.Party.PartyList, party)
+	}
 
 	if err := db.Select(cs.TABLE_USER); err != nil {
 		return nil, Error.New(cs.READ_DB_ERROR, err.Error())

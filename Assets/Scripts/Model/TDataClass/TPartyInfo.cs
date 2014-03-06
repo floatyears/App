@@ -36,6 +36,7 @@ public class TPartyInfo : ProtobufDataBase {
 			
 			TUnitParty tup = new TUnitParty(party);
 			partyList.Add(tup);
+			LogHelper.Log("tup.GetLeaderSkillInfo():{0} {1}", tup.GetLeaderSkillInfo().name, tup.GetLeaderSkillInfo().description);
 
 			List<TUserUnit> userunit = tup.GetUserUnit();
 			foreach(PartyItem item in party.items) {
@@ -64,9 +65,9 @@ public class TPartyInfo : ProtobufDataBase {
 //			}
 //		}
 
-		foreach(var item in totalHp ) {
-			LogHelper.Log("party{0}: totalHp={1}", item.Key, item.Value);
-		}
+//		foreach(var item in totalHp ) {
+//			LogHelper.Log("party{0}: totalHp={1}", item.Key, item.Value);
+//		}
 	}
 
 	private static int SortParty(PartyItem item1, PartyItem item2) {

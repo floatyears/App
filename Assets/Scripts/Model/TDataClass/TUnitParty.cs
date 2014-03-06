@@ -260,7 +260,18 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		}
 		return temp;
 	}
-	
+
+	public SkillBase GetLeaderSkillInfo() {
+		TUserUnit uui = GlobalData.userUnitList.GetMyUnit(instance.items[0].unitUniqueId);
+		if ( uui == null )
+			return null;
+
+		SkillBaseInfo sbi = GlobalData.skill[ uui.LeadSKill ];
+		if (sbi==null)
+			return null;
+		return sbi.GetSkillInfo();
+	}
+
 	public Dictionary<int, TUserUnit> GetPosUnitInfo () {
 //		UnitParty uup = DeserializeData<UnitParty> ();
 		Dictionary<int,TUserUnit> temp = new Dictionary<int,TUserUnit> ();

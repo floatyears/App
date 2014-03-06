@@ -10,13 +10,18 @@ import (
 )
 
 const (
-	_PROTO_LOGIN_PACK     = "/login_pack"
-	_PROTO_AUTH_USER      = "/auth_user"
+	//User
+	_PROTO_LOGIN_PACK      = "/login_pack"
+	_PROTO_AUTH_USER       = "/auth_user"
+	_PROTO_RENAME_NICK     = "/rename_nick"
+	_PROTO_RESTORE_STAMINA = "/restore_stamina"
+	_PROTO_CHANGE_PARTY    = "/change_party"
+
+	//Quest
 	_PROTO_GET_QUEST_MAP  = "/get_new_quest_map"
 	_PROTO_START_QUEST    = "/start_quest"
 	_PROTO_CLEAR_QUEST    = "/clear_quest"
 	_PROTO_GET_QUEST_INFO = "/get_quest_info"
-	_PROTO_RENAME_NICK    = "/rename_nick"
 
 	//friend
 	_PROTO_GET_FRIEND    = "/get_friend"
