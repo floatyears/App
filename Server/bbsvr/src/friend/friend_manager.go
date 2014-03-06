@@ -9,13 +9,14 @@ import (
 )
 
 import (
-	bbproto "../bbproto"
-	"../common"
-	"../common/Error"
-	"../common/log"
-	"../const"
-	"../data"
+	bbproto "bbproto"
 	proto "code.google.com/p/goprotobuf/proto"
+	"common"
+	"common/EC"
+	"common/Error"
+	"common/consts"
+	"common/log"
+	"data"
 	redis "github.com/garyburd/redigo/redis"
 )
 
@@ -27,10 +28,10 @@ func AddFriend(db *data.Data, uid uint32, fid uint32, friendState bbproto.EFrien
 		if friendState == bbproto.EFriendState_FRIENDOUT { //request is addFriend
 			if friendData.FriendState != nil {
 				if *friendData.FriendState == bbproto.EFriendState_FRIENDOUT {
-					return Error.New(cs.EF_IS_ALREADY_FRIENDOUT,
+					return Error.New(EC.EF_IS_ALREADY_FRIENDOUT,
 						fmt.Sprintf("already request add %v before, cannot add again.", fid))
 				} else if *friendData.FriendState == bbproto.EFriendState_ISFRIEND {
-					return Error.New(cs.EF_IS_ALREADY_FRIEND,
+					return Error.New(EC.EF_IS_ALREADY_FRIEND,
 						fmt.Sprintf("user(%v) is already your friend, cannot add again.", fid))
 				} else if *friendData.FriendState == bbproto.EFriendState_FRIENDIN {
 					//friend request add me before I add him, directly accept it as friend now.
@@ -39,21 +40,21 @@ func AddFriend(db *data.Data, uid uint32, fid uint32, friendState bbproto.EFrien
 			}
 		} else if friendState == bbproto.EFriendState_ISFRIEND { //request is accept friendin
 			if *friendData.FriendState == bbproto.EFriendState_ISFRIEND {
-				return Error.New(cs.EF_IS_ALREADY_FRIEND,
+				return Error.New(EC.EF_IS_ALREADY_FRIEND,
 					fmt.Sprintf("user(%v) is already your friend, cannot accept again.", fid))
 
 			} else if *friendData.FriendState != bbproto.EFriendState_FRIENDIN {
 				//invalid friend state
-				return Error.New(cs.EF_INVALID_FRIEND_STATE,
+				return Error.New(EC.EF_INVALID_FRIEND_STATE,
 					fmt.Sprintf("Unexcepted: user:%v friendState(%v) is invalid, cannot be accepted.", fid, *friendData.FriendState))
 			}
 		}
 	} else { //findFriendData ret err!=nil, probably data not exists, or db error.
 		log.T("[TRACE] findFriendData ret err: %v", e.Error())
 
-		if e.Code() == cs.DATA_NOT_EXISTS {
+		if e.Code() == EC.DATA_NOT_EXISTS {
 			if friendState == bbproto.EFriendState_ISFRIEND { //request is accept friendin
-				return Error.New(cs.EF_INVALID_FRIEND_STATE,
+				return Error.New(EC.EF_INVALID_FRIEND_STATE,
 					fmt.Sprintf("Unexcepted: %v state is not FRIENDIN, cannot be accepted.", fid))
 			}
 		} else { //other db Error
@@ -64,7 +65,7 @@ func AddFriend(db *data.Data, uid uint32, fid uint32, friendState bbproto.EFrien
 	// add friend to me
 	err := innerAddFriend(db, common.Utoa(uid), fid, friendState, updateTime)
 	if err != nil {
-		return Error.New(cs.EF_ADD_FRIEND_FAIL, err.Error())
+		return Error.New(EC.EF_ADD_FRIEND_FAIL, err.Error())
 	}
 
 	// add me to friend
@@ -73,14 +74,14 @@ func AddFriend(db *data.Data, uid uint32, fid uint32, friendState bbproto.EFrien
 	}
 	err = innerAddFriend(db, common.Utoa(fid), uid, friendState, updateTime)
 	if err != nil {
-		return Error.New(cs.EF_ADD_FRIEND_FAIL, err.Error())
+		return Error.New(EC.EF_ADD_FRIEND_FAIL, err.Error())
 	}
 
 	return Error.OK()
 }
 
 func AddHelper(db *data.Data, uid uint32, fid uint32, friendState bbproto.EFriendState, updateTime uint32) error {
-	return innerAddFriend(db, cs.X_HELPER_MY+common.Utoa(uid), fid, friendState, updateTime)
+	return innerAddFriend(db, consts.X_HELPER_MY+common.Utoa(uid), fid, friendState, updateTime)
 }
 
 func innerAddFriend(db *data.Data, sUid string, fid uint32, friendState bbproto.EFriendState, updateTime uint32) error {
@@ -115,18 +116,18 @@ func DelFriend(db *data.Data, uid uint32, fid uint32) (num int, err error) {
 func findFriendData(db *data.Data, sUid string, fUid uint32, friendData *bbproto.FriendData) (e Error.Error) {
 	if db == nil || sUid == "" || fUid == 0 || friendData == nil {
 		log.Error("db == nil || sUid == '' || fUid == 0 || friendData == nil.")
-		return Error.New(cs.INVALID_PARAMS)
+		return Error.New(EC.INVALID_PARAMS)
 	}
 
 	zFriendData, err := db.HGet(sUid, common.Utoa(fUid))
 	if err != nil {
 		log.Fatal(" HGet(%v, %v) ret err:%v", sUid, fUid, err)
-		return Error.New(cs.READ_DB_ERROR, err.Error())
+		return Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 
 	if len(zFriendData) == 0 {
 		log.T("user: %v's friend(%v) data not exists.", sUid, fUid)
-		return Error.New(cs.DATA_NOT_EXISTS)
+		return Error.New(EC.DATA_NOT_EXISTS)
 	}
 
 	log.T("TABLE_FRIEND :: HGet(%v, %v) ret err:%v, friendData: %v",
@@ -135,7 +136,7 @@ func findFriendData(db *data.Data, sUid string, fUid uint32, friendData *bbproto
 	err = proto.Unmarshal(zFriendData, friendData) //unSerialize to friend
 	if err != nil {
 		log.Error(" unSerialize FriendData '%v' ret err:%v. sFridata:%v", fUid, err, zFriendData)
-		return Error.New(cs.UNMARSHAL_ERROR, err.Error())
+		return Error.New(EC.UNMARSHAL_ERROR, err.Error())
 	}
 
 	return Error.OK()
@@ -195,18 +196,18 @@ func GetFriendsData(db *data.Data, sUid string, isGetOnlyFriends bool, friendsIn
 }
 
 func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[string]bbproto.FriendInfo) (err error) {
-	sUserSpace := cs.X_USER_RANK + strconv.Itoa(int(uid%cs.N_USER_SPACE_PARTS))
+	sUserSpace := consts.X_USER_RANK + strconv.Itoa(int(uid%consts.N_USER_SPACE_PARTS))
 
 	offset := 0 //rand.Intn(2)
 	count := 3 + rand.Intn(3)
 
 	minRank := 1
-	if rank > cs.N_HELPER_RANK_RANGE {
-		minRank = int(rank - cs.N_HELPER_RANK_RANGE)
+	if rank > consts.N_HELPER_RANK_RANGE {
+		minRank = int(rank - consts.N_HELPER_RANK_RANGE)
 	}
 
 	zHelperIds, err := db.ZRangeByScore(sUserSpace,
-		int(minRank), int(rank+cs.N_HELPER_RANK_RANGE),
+		int(minRank), int(rank+consts.N_HELPER_RANK_RANGE),
 		offset, count)
 
 	if err != nil {
@@ -214,7 +215,7 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 	}
 
 	log.T("ZRangeByScore(%v,[%v,%v],[%v,%v]) ret err:%v, got helper count:%v",
-		sUserSpace, minRank, rank+cs.N_HELPER_RANK_RANGE, offset, count, err, len(zHelperIds))
+		sUserSpace, minRank, rank+consts.N_HELPER_RANK_RANGE, offset, count, err, len(zHelperIds))
 
 	//helperCount := len(zHelperIds)
 	//helperUids = make([]string, helperCount)
@@ -251,10 +252,10 @@ func GetOnlyFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[str
 
 func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool, isGetFriend bool, isGetHelper bool) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {
 	if db == nil {
-		return friendsInfo, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
+		return friendsInfo, Error.New(EC.INVALID_PARAMS, "[ERROR] db pointer is nil.")
 	}
-	if err := db.Select(cs.TABLE_FRIEND); err != nil {
-		return friendsInfo, Error.New(cs.READ_DB_ERROR, err.Error())
+	if err := db.Select(consts.TABLE_FRIEND); err != nil {
+		return friendsInfo, Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 
 	friendsInfo = make(map[string]bbproto.FriendInfo)
@@ -283,7 +284,7 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool
 	log.T("GetHelperData ret total %v helpers", len(friendsInfo))
 	if len(friendsInfo) <= 0 {
 		//log.T(err.Error())
-		return friendsInfo, Error.New(cs.EF_FRIEND_NOT_EXISTS, fmt.Sprintf("[ERROR] Cannot find any friends/helpers for uid:%v rank:%v", uid, rank))
+		return friendsInfo, Error.New(EC.EF_FRIEND_NOT_EXISTS, fmt.Sprintf("[ERROR] Cannot find any friends/helpers for uid:%v rank:%v", uid, rank))
 	}
 
 	// retrieve userinfo by uids from TABLE_USER
@@ -292,13 +293,13 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool
 		fids = fids.Add(common.Utoa(*friInfo.UserId))
 	}
 
-	if err := db.Select(cs.TABLE_USER); err != nil {
-		return friendsInfo, Error.New(cs.READ_DB_ERROR)
+	if err := db.Select(consts.TABLE_USER); err != nil {
+		return friendsInfo, Error.New(EC.READ_DB_ERROR)
 	}
 
 	userinfos, err := db.MGet(fids)
 	if err != nil {
-		return friendsInfo, Error.New(cs.READ_DB_ERROR)
+		return friendsInfo, Error.New(EC.READ_DB_ERROR)
 	}
 	//log.T("TABLE_USER.MGet(fids:%v) ret %v", fids, userinfos)
 

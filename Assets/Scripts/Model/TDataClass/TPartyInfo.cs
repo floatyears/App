@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TPartyInfo : ProtobufDataBase {
-	const int MAX_PARTY_GROUP_NUM = 4;
+	const int MAX_PARTY_GROUP_NUM = 5;
 	private PartyInfo	instance;
 	private List<TUnitParty> partyList;
 	private bool isPartyItemModified = false;
@@ -72,7 +72,7 @@ public class TPartyInfo : ProtobufDataBase {
 
 			CurrentPartyId += 1;
 
-			if( CurrentPartyId >= MAX_PARTY_GROUP_NUM)
+			if( CurrentPartyId > MAX_PARTY_GROUP_NUM-1)
 				CurrentPartyId = 0;
 			if( CurrentPartyId > this.partyList.Count -1 )
 				return null;
@@ -90,7 +90,7 @@ public class TPartyInfo : ProtobufDataBase {
 
 			CurrentPartyId -= 1;
 			if (CurrentPartyId<0)
-				CurrentPartyId = MAX_PARTY_GROUP_NUM;
+				CurrentPartyId = MAX_PARTY_GROUP_NUM-1;
 
 			if( CurrentPartyId > this.partyList.Count -1 ) {
 				return null;

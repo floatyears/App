@@ -1,13 +1,13 @@
 package event
 
 import (
-	"../bbproto"
+	"bbproto"
 	"time"
-	//"../common/Error"
-	"../common"
-	"../common/log"
-	//"../const"
-	//"../data"
+	//"common/Error"
+	"common"
+	"common/log"
+	//"common/consts"
+	//"data"
 	//proto "code.google.com/p/goprotobuf/proto"
 )
 

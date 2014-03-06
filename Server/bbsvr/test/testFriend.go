@@ -10,13 +10,11 @@ import (
 	"time"
 )
 import (
-	"../src/bbproto"
+	"bbproto"
 	//"../src/common"
-	"../src/const"
-	"../src/data"
-	_ "../src/quest"
-	//"../src/user/usermanage"
+	"../src/common/consts"
 	"../src/friend"
+	"data"
 	//redis "github.com/garyburd/redigo/redis"
 )
 
@@ -140,7 +138,7 @@ func testType() {
 
 func DataAddFriends(uid uint32, num uint32) error {
 	db := &data.Data{}
-	err := db.Open(string(cs.TABLE_FRIEND))
+	err := db.Open(string(consts.TABLE_FRIEND))
 	if err != nil {
 		return err
 	}

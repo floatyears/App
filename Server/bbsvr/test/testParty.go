@@ -10,12 +10,12 @@ import (
 )
 import (
 	"../src/bbproto"
-	//"../src/common"
-	//"../src/const"
-	//"../src/data"
+	//"src/common"
+	//"src/common/consts"
+	//"src/data"
 	_ "../src/quest"
-	//"../src/user/usermanage"
-	//"../src/friend"
+	//"src/user/usermanage"
+	//"src/friend"
 	//redis "github.com/garyburd/redigo/redis"
 )
 

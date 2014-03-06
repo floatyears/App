@@ -2,14 +2,14 @@ package unit
 
 import (
 	"net/http"
-	//"../common"
-	//"../common/Error"
-	"../common/log"
-	//"../const"
-	//"../data"
+	//"common"
+	//"common/Error"
+	"common/log"
+	//"common/consts"
+	//"data"
 )
 
-//import "../comm"
+//import "comm"
 
 func GetUnitInfoHandler(rsp http.ResponseWriter, req *http.Request) {
 

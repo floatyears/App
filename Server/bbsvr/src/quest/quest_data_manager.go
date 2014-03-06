@@ -5,13 +5,13 @@ import (
 )
 
 import (
-	"../bbproto"
-	"../common"
-	"../common/Error"
-	"../common/log"
-	"../const"
-
+	"bbproto"
 	proto "code.google.com/p/goprotobuf/proto"
+	"common"
+	"common/EC"
+	"common/Error"
+	"common/consts"
+	"common/log"
 )
 
 type QuestDataMaker struct {
@@ -149,7 +149,7 @@ func (qm *QuestDataMaker) getStarConf(iStar int32, starsConf []*bbproto.StarConf
 		}
 	}
 
-	return nil, Error.New(cs.DATA_NOT_EXISTS, "Not found starconf.")
+	return nil, Error.New(EC.DATA_NOT_EXISTS, "Not found starconf.")
 }
 
 func (qm *QuestDataMaker) fillGridsList(typeList map[int32]TUsedValue, starList map[int32]TUsedValue, floorConf *bbproto.QuestFloorConfig) Error.Error {
@@ -169,7 +169,7 @@ func (qm *QuestDataMaker) fillGridsList(typeList map[int32]TUsedValue, starList 
 	}
 	currNum += *floorConf.EnemyNum
 
-	for n := currNum; n < cs.N_DUNGEON_GRID_COUNT-1; n++ {
+	for n := currNum; n < consts.N_DUNGEON_GRID_COUNT-1; n++ {
 		typeList[n] = TUsedValue{int32(bbproto.EQuestGridType_Q_NONE), true}
 	}
 	log.T("typeList: len(%v | %v): %v", currNum, len(typeList), typeList)
@@ -182,7 +182,7 @@ func (qm *QuestDataMaker) fillGridsList(typeList map[int32]TUsedValue, starList 
 		}
 		starNum += *star.Repeat
 	}
-	for n := starNum; n < cs.N_DUNGEON_GRID_COUNT-1; n++ {
+	for n := starNum; n < consts.N_DUNGEON_GRID_COUNT-1; n++ {
 		starList[n] = TUsedValue{int32(bbproto.EGridStar_GS_EMPTY), true}
 	}
 
@@ -197,7 +197,7 @@ func (qm *QuestDataMaker) getEnemyConf(enemyId uint32, confs []*bbproto.EnemyInf
 			return enemyConf, Error.OK()
 		}
 	}
-	return nil, Error.New(cs.DATA_NOT_EXISTS)
+	return nil, Error.New(EC.DATA_NOT_EXISTS)
 }
 
 func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonData, e Error.Error) {
@@ -205,7 +205,7 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 
 	questData.QuestId = config.QuestId
 	questData.QuestId = config.QuestId
-	questData.Colors, e = qm.makeColors(config.Colors, cs.N_QUEST_COLOR_BLOCK_NUM)
+	questData.Colors, e = qm.makeColors(config.Colors, consts.N_QUEST_COLOR_BLOCK_NUM)
 
 	for _, bossConf := range config.Boss {
 		questData.Boss = append(questData.Boss, bossConf.Enemy)
@@ -215,8 +215,8 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 	}
 
 	//generate floor's grid data
-	starList := make(map[int32]TUsedValue, cs.N_DUNGEON_GRID_COUNT-1)
-	typeList := make(map[int32]TUsedValue, cs.N_DUNGEON_GRID_COUNT-1)
+	starList := make(map[int32]TUsedValue, consts.N_DUNGEON_GRID_COUNT-1)
+	typeList := make(map[int32]TUsedValue, consts.N_DUNGEON_GRID_COUNT-1)
 
 	for k, floorConf := range config.Floors {
 		questFloor := &bbproto.QuestFloor{}
@@ -226,8 +226,8 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 		qm.fillGridsList(typeList, starList, floorConf)
 		log.T("--after typeList:%+v", typeList)
 
-		gridCount := int32(cs.N_DUNGEON_GRID_COUNT - 1)
-		for i := 0; i < cs.N_DUNGEON_GRID_COUNT-1 && gridCount > 0; i++ {
+		gridCount := int32(consts.N_DUNGEON_GRID_COUNT - 1)
+		for i := 0; i < consts.N_DUNGEON_GRID_COUNT-1 && gridCount > 0; i++ {
 			grid := &bbproto.QuestGrid{}
 			grid.Position = proto.Int32(int32(i))
 

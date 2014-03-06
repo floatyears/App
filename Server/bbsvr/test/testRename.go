@@ -14,11 +14,11 @@ import (
 )
 import (
 	"../src/bbproto"
-	//"../src/common"
-	//"../src/const"
-	//"../src/data"
+	//"src/common"
+	//"src/common/consts"
+	//"src/data"
 	_ "../src/quest"
-	//"../src/user/usermanage"
+	//"src/user/usermanage"
 	//redis "github.com/garyburd/redigo/redis"
 )
 

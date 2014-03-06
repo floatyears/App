@@ -1,4 +1,4 @@
-package cs
+package consts
 
 const (
 	DEFAULT_USER_NAME = ""

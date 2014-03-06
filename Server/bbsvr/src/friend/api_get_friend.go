@@ -8,11 +8,12 @@ import (
 )
 
 import (
-	"../bbproto"
-	"../common/Error"
-	"../const"
-	"../data"
-	"../user/usermanage"
+	"bbproto"
+	"common/EC"
+	"common/Error"
+	"common/consts"
+	"data"
+	"user/usermanage"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
@@ -54,11 +55,11 @@ type GetFriend struct {
 func (t GetFriend) verifyParams(reqMsg *bbproto.ReqGetFriend) (err Error.Error) {
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil || reqMsg.GetFriend == nil || reqMsg.GetHelper == nil {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	if *reqMsg.Header.UserId == 0 {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	return Error.OK()
@@ -91,10 +92,10 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 	isGetHelper := *reqMsg.GetHelper
 
 	db := &data.Data{}
-	err := db.Open(cs.TABLE_FRIEND)
+	err := db.Open(consts.TABLE_FRIEND)
 	defer db.Close()
 	if err != nil {
-		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
+		return Error.New(EC.CONNECT_DB_ERROR, err.Error())
 	}
 
 	rank := uint32(0)
@@ -103,10 +104,10 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 		//get user's rank from user table
 		userdetail, isUserExists, err := usermanage.GetUserInfo(db, uid)
 		if err != nil {
-			return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("ERROR: Get userinfo failed for %v, err:%v", uid, err))
+			return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("ERROR: Get userinfo failed for %v, err:%v", uid, err))
 		}
 		if !isUserExists {
-			return Error.New(cs.EU_INVALID_USERID, fmt.Sprintf("ERROR: Invalid userId %v", uid))
+			return Error.New(EC.EU_INVALID_USERID, fmt.Sprintf("ERROR: Invalid userId %v", uid))
 		}
 		log.Printf("[TRACE] getUser(%v) ret userdetail: %v", uid, userdetail)
 		rank = uint32(*userdetail.User.Rank)
@@ -117,8 +118,8 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 
 		friendsInfo, e := GetFriendInfo(db, uid, rank, false, isGetFriend, isGetHelper)
 		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
-		if e.IsError() && e.Code() != cs.EF_FRIEND_NOT_EXISTS {
-			return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
+		if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
+			return Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
 		}
 
 		//fill rspMsg
