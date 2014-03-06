@@ -70,28 +70,23 @@ public class PartyPagePanel : UIComponentUnity {
 	}
 
 	
-	void UpdateLabel(){
+	void UpdateLabel(int index){
 		//LeftCenter Label
-		curPartyPrefixLabel.text = currentPartyIndex.ToString();
-		curPartysuffixLabel.text = partyIndexDic[ currentPartyIndex ].ToString();
+		curPartyPrefixLabel.text = index.ToString();
+		curPartysuffixLabel.text = partyIndexDic[ index ].ToString();
 		//TopRight Label
-		curPartyIndexLabel.text = currentPartyIndex.ToString();
+		curPartyIndexLabel.text = index.ToString();
 	}
-
-
-	void UpdateTexture(){
-
-	}
-
-	void UpdatePartyData(){
-		//TODO
-//		currentPartyIndex = 
-
+	
+	void UpdateTexture(List<Texture2D> tex2dList){
+		for (int i = 0; i < unitTexureDic.Count; i++){
+			if(tex2dList[ i ] == null)	continue;
+			unitTexureDic[ i ].mainTexture = tex2dList[ i ] ;
+		}
 	}
 
 	void SetUIElement(){
 		Debug.Log("PartyPagePanel.SetUIElement() : Start");
-		UpdateLabel();
 		UIEventListener.Get(leftButton.gameObject).onClick = PageBack;
 		UIEventListener.Get(rightButton.gameObject).onClick = PageForward;
 		Debug.Log("PartyPagePanel.SetUIElement() : End");
@@ -108,16 +103,7 @@ public class PartyPagePanel : UIComponentUnity {
 	void PageBack(GameObject button){
 		Debug.Log("PartyPagePanel.PageBack() : Start");
 
-		currentPartyIndex = Mathf.Abs( (currentPartyIndex - 1) % partyTotalCount );
-		if( currentPartyIndex == 0 )
-			currentPartyIndex = partyTotalCount ;
-
-		UpdateLabel();
-
-		//call logic 
-		string callerName = "PageBack";
-		ExcuteCallback(callerName);
-		Debug.Log("PartyPagePanel.PageBack() : CallerName is : " + callerName);
+		ExcuteCallback("PageBack");
 
 		Debug.Log("PartyPagePanel.ExcuteCallback() : End");
 	} 
@@ -125,35 +111,39 @@ public class PartyPagePanel : UIComponentUnity {
 	void PageForward(GameObject go){
 		Debug.Log("PartyPagePanel.PageForward() : Start");
 
-		currentPartyIndex++;
-		if (currentPartyIndex > partyTotalCount) {
-			currentPartyIndex = pageIndexOrigin;
-		} 
-
-		UpdateLabel();
+		ExcuteCallback("PageForward");
 
 		Debug.Log("PartyPagePanel.PageForward() : End");
 	}
 	
 	void ResetUIElement(){
-//		ExcuteCallback();
 		Debug.Log("PartyPagePanel.ResetUIElement() : Start");
 		Debug.Log("PartyPagePanel.ResetUIElement() : End");
 	}
 
 	public override void Callback(object data){
 		base.Callback(data);
-		Dictionary<string,object> callBack = data as Dictionary<string,object>;
-		if(callBack.ContainsKey("PageBack")){
-			Debug.Log("Receive UILogic call of");
+
+		Dictionary<string,object> viewInfoDic = data as Dictionary<string,object>;
+		if( viewInfoDic == null ){
+			Debug.LogError("PartyPagePanel.Callback(), ViewInfo is Null!");
+			return;
+		}	
+
+		object tex2dList;
+		object curPartyIndex;
+
+		if(viewInfoDic.TryGetValue("texture",out tex2dList)){
+			UpdateTexture(tex2dList as List<Texture2D>);
 		}
 
-		if(callBack.ContainsKey("PageForward")){
-
+		if(viewInfoDic.TryGetValue("index",out curPartyIndex)){
+			UpdateLabel((int)curPartyIndex);
 		}
-
-
 	}
+
+
+
 
 
 
