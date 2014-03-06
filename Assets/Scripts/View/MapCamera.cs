@@ -43,10 +43,12 @@ public class MapCamera : MonoBehaviour {
 
 	void MeetEnemy (object data) {
 		isClick = false;
+//		Debug.LogError ("mapcamera : MeetEnemy " + isClick);
 	}
 
 	void BattleEnd (object data) {
 		isClick = true;
+//		Debug.LogError ("mapcamera : BattleEnd " + isClick);
 	}
 
 	void ProcessMouse() {

@@ -8,21 +8,19 @@ using UnityEngine;
 /// <summary>
 /// Tween the object's local scale.
 /// </summary>
-
-[RequireComponent(typeof(UITexture))]
 public class TweenScaleExtend : UITweener
 {
 	public Vector3 from = Vector3.one;
 	public Vector3 to = Vector3.one;
 
-	private UITexture target;
+	private UISprite target;
 	private Vector3 vec= Vector3.zero;
 
 	void Start()
 	{
 		duration = 0.2f;
 
-		target = GetComponent<UITexture>();
+		target = GetComponent<UISprite>();
 	}
 
 	protected override void OnUpdate (float factor, bool isFinished)

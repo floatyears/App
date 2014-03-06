@@ -95,8 +95,6 @@ public class BattleQuest : UIBase {
 		battleEnemy = false;
 		bud.RemoveListen ();
 		bud = new BattleUseData ();
-//		mainCamera = Camera.main;
-//		mainCamera.clearFlags = CameraClearFlags.Depth;
 		battleMap.HideUI ();
 		role.HideUI ();
 		background.HideUI ();
@@ -179,6 +177,12 @@ public class BattleQuest : UIBase {
 			role.Stop();
 //			Debug.LogError("currentMapData.Type : " + currentMapData.Type);
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
+			if(currentMapData.Star == EGridStar.GS_KEY) {
+				battleMap.waitMove = true;
+				battleMap.RotateAnim(MapItemKey);
+				return;
+			}
+
 			switch (currentMapData.Type) {
 			case EQuestGridType.Q_NONE:
 				battleMap.waitMove = true;
@@ -190,8 +194,8 @@ public class BattleQuest : UIBase {
 				battleMap.RotateAnim(MapItemEnemy);
 				break;
 			case EQuestGridType.Q_KEY:
-				battleMap.waitMove = true;
-				battleMap.RotateAnim(MapItemKey);
+//				battleMap.waitMove = true;
+//				battleMap.RotateAnim(MapItemKey);
 				break;
 			case EQuestGridType.Q_TREATURE:				
 				battleMap.waitMove = true;
@@ -199,9 +203,7 @@ public class BattleQuest : UIBase {
 				battleMap.RotateAnim(MapItemCoin);
 				break;
 			case EQuestGridType.Q_TRAP:
-//				Debug.LogError("coor : " + coor.x + "    " + coor.y + "     " + Time.realtimeSinceStartup);
 				battleMap.waitMove = true;
-//				Debug.LogError(Time.realtimeSinceStartup + " Q_TRAP : " + battleMap.waitMove);
 				battleMap.RotateAnim(MapItemTrap);
 				break;
 			case EQuestGridType.Q_QUESTION:
@@ -249,8 +251,11 @@ public class BattleQuest : UIBase {
 	void MapItemTrap() {
 		battleMap.waitMove = false;
 		TrapBase tb = currentMapData.TrapInfo;
-		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+
+
+
 	}
 
 	void MapItemCoin() {
@@ -261,8 +266,8 @@ public class BattleQuest : UIBase {
 
 	void MapItemKey() {
 		battleMap.waitMove = false;
-		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
 	}
 
 	void MapItemNone () {
@@ -289,10 +294,8 @@ public class BattleQuest : UIBase {
 			battle = new Battle("Battle"); 
 			battle.CreatUI();
 		}
-
 		if(battle.GetState == UIState.UIShow)
 			return;
-
 		battle.ShowUI();
 	}
 
@@ -304,6 +307,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void End() {
+		Battle.colorIndex = 0;
+		Battle.isShow = false;
 		GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
 		Vector3 tempScale = obj.transform.localScale;
 		obj = NGUITools.AddChild(viewManager.CenterPanel,obj);

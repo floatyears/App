@@ -51,7 +51,7 @@ public class FloorRotate : MonoBehaviour {
 		manyAngle = 900f;
 	}
 
-	void RotateOne () {
+	public void RotateOne () {
 //		MoveComplete ();
 		rotateState = 0;
 		countDownTime = time;	
