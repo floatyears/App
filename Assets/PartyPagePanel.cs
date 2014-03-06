@@ -90,7 +90,7 @@ public class PartyPagePanel : UIComponentUnity {
 				continue;
 			} else {
 				texureList[ i ].mainTexture = tex2dList[ i ];
-				Debug.LogError(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] texture is showing", i));
+				Debug.Log(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] texture is showing", i));
 			}
 		}
 		Debug.Log("PartyPagePanel.UpdateTexture(), End...");

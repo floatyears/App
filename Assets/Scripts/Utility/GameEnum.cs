@@ -130,7 +130,8 @@ public enum CommandEnum
 	StateInfo					= 3048,
 	StopInput					= 3049,
 
-	//Add By Ling yan	
+	//-----------------View Cmd-----------------------//
+	//Add By Lynn
 	PanelFocus					= 4000,
 	TransmitStageInfo			= 4001,
 	PickBaseUnitInfo				= 4002,
@@ -145,6 +146,7 @@ public enum CommandEnum
 	UpdateNickName			= 4011,
 	ErrorMsgShow				= 4012,
 	ShowSelectUnitInfo			= 4013,
+	UpdatePartyInfoPanel			= 4014,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

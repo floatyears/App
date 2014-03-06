@@ -27,17 +27,14 @@ public class PartyPageUILogic : ConcreteComponent {
 				Debug.LogError("GlobalData.partyInfo.CurrentPartyId is NULL");
 				return;
 			}
-			//Debug.LogError("GlobalData.partyInfo.CurrentParty  count : " + GlobalData.partyInfo.CurrentParty);
 
 		}
 		Dictionary<string,object> dic =GetPartyPageData("PageCurrent"); 
-		//Debug.LogError(dic.Count);
 		ExcuteCallback(dic);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-//		GlobalData.partyInfo.ChangeParty();
 	}
 
 	Dictionary<string,object> GetPartyPageData(string pageType){
@@ -49,18 +46,23 @@ public class PartyPageUILogic : ConcreteComponent {
 		switch (pageType){
 			case "PageForward" : 
 				partyInfo = GlobalData.partyInfo.NextParty;
+				//NoticeInfoPanel(GlobalData.partyInfo.NextParty);
 				break;
 			case "PageBack" : 
 				partyInfo = GlobalData.partyInfo.PrevParty;
+				//NoticeInfoPanel(GlobalData.partyInfo.PrevParty);
 				break;
 			case "PageCurrent" :
 				partyInfo = GlobalData.partyInfo.CurrentParty;
+				//NoticeInfoPanel(GlobalData.partyInfo.CurrentParty);
 				break;
 			default:
 				partyInfo = null;
 				break;
 		}
 
+		NoticeInfoPanel(GlobalData.partyInfo.CurrentParty);
+		
 		if(partyInfo == null){
 			Debug.LogError("PartyPageUILogic.GetPartyPageData(), partyInfo.currentParty is NULL. " + GlobalData.partyInfo.CurrentPartyId);
 			return null;
@@ -97,6 +99,13 @@ public class PartyPageUILogic : ConcreteComponent {
 		viewInfo.Add("index",curPartyIndex);
 
 		return viewInfo;
+	}
+
+	//notice PartyInfoPanel to update data
+	void NoticeInfoPanel(TUnitParty tup){
+		Debug.Log("PartyPageUILogic.NoticeInfoPanel(), Start...");
+		MsgCenter.Instance.Invoke(CommandEnum.UpdatePartyInfoPanel, tup);
+		Debug.Log("PartyPageUILogic.NoticeInfoPanel(), End...");
 	}
 
 }
