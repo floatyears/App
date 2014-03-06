@@ -43,7 +43,7 @@ public class ClearQuest: ProtoManager {
 
 		Proto = Protocol.START_QUEST;
 		reqType = typeof(ReqClearQuest);
-		rspType = typeof(RspClearQuest);T
+		rspType = typeof(RspClearQuest);
 
 		reqClearQuest = new ReqClearQuest ();
 		reqClearQuest.header = new ProtoHeader ();
@@ -86,11 +86,11 @@ public class ClearQuest: ProtoManager {
 			cq.gotExp		= rspClearQuest.gotExp;
 			cq.gotChip		= rspClearQuest.gotChip;
 			cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
-			cq.gotUnit		= new List<TUserUnit>();
-			foreach (UserUnit uu in rspClearQuest.gotUnit ) {
-				TUserUnit tuu = new TUserUnit(uu);
-				cq.gotUnit.Add(tuu);
-			}
+//			cq.gotUnit		= new List<TUserUnit>();
+//			foreach (UserUnit uu in rspClearQuest.gotUnit ) {
+//				TUserUnit tuu = new TUserUnit(uu);
+//				cq.gotUnit.Add(tuu);
+//			}
 
 			//send response to caller
 			MsgCenter.Instance.Invoke (CommandEnum.RspClearQuest, null);
