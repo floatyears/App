@@ -24,6 +24,8 @@ public class MyUnitDragPanel : UIComponentUnity {
 			CancelInvoke("CrossShow");
 		}
                 InvokeRepeating("CrossShow",0.1f, 1f);
+
+		ShowTween();
 	}
 
 	public override void HideUI(){
@@ -57,7 +59,6 @@ public class MyUnitDragPanel : UIComponentUnity {
 		dragPanel.AddItem(unitCount,unitItem);
 		FillDragPanel( dragPanel );
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
-
 	}
 
 	protected DragPanel CreateDragPanel( string name, int count, GameObject item){
@@ -86,7 +87,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 		}
 	}
 
-	protected void ShowItem( GameObject item){
+	void ShowItem( GameObject item){
 		ShowMask(item,true);
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
@@ -103,7 +104,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 		int addPoint = addAttack + addHp;
 	}
 
-	protected void ClickDragItem(GameObject item){
+	void ClickDragItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TUserUnit tuu = myUnitInfoDic[ item ];
 //		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, null);
@@ -150,7 +151,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 		dragPanelArgs.Add("cellHeight",		110);
 	}
 
-	protected void CrossShow(){
+	void CrossShow(){
 		if(exchange){
 			for (int i = 0 ; i< unitInfoStruct.Count; i++) {
 				unitInfoStruct[ i ].targetLabel.text = string.Format( "+{0}", unitInfoStruct[ i ].text2);
@@ -167,4 +168,19 @@ public class MyUnitDragPanel : UIComponentUnity {
                         exchange = true;
                 }
         }//End
+
+	void ShowTween()
+	{
+		TweenPosition[ ] list = 
+			gameObject.GetComponentsInChildren< TweenPosition >();
+		if (list == null)
+			return;
+		foreach (var tweenPos in list)
+		{		
+			if (tweenPos == null)
+				continue;
+			tweenPos.Reset();
+			tweenPos.PlayForward();
+		}
+	}
 }

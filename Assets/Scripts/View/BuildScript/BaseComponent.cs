@@ -64,11 +64,13 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 	}
 	
 	public virtual void CreatUI () {
+//		Debug.LogError("CreatUI : 111  " + config.uiName);
 		if (component != null) {
 			component.CreatUI ();
 		}
-
+//		Debug.LogError("CreatUI : 222  "  + config.uiName );
 		CreatViewComponent ();
+//		Debug.LogError("CreatUI : 333  " + config.uiName );
 	}
 
 	public virtual void ShowUI () {
@@ -113,13 +115,16 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 				return;
 			
 			GameObject go = GameObject.Instantiate (o) as GameObject;
+
 			viewComponent = go.GetComponent<UIComponentUnity> ();
 			if(viewComponent == null)
 				return;
 			viewCallback = viewComponent;
+			viewComponent.Init (uiConfig, this);
 		}
-		viewComponent.Init (uiConfig, this);
 	}
+
+
 
 	protected IUIComponent component;
 	

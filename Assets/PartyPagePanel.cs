@@ -15,9 +15,9 @@ public class PartyPagePanel : UIComponentUnity {
 	UIButton rightButton;
 	Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 	List<UITexture> texureList = new List<UITexture>();
-	//Dictionary< GameObject, > partyItemDic = new Dictionary<int, GameObject>();
-
+	bool InitSymbol = false;
 	public override void Init(UIInsConfig config, IUICallback origin){
+
 		base.Init(config, origin);
 		FindUIElement();
 		InitUIElement();
@@ -26,6 +26,7 @@ public class PartyPagePanel : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 		SetUIElement();
+		ShowTween();
 	}
 
 	public override void HideUI(){
@@ -118,7 +119,6 @@ public class PartyPagePanel : UIComponentUnity {
 	}
 
 
-
 	void PageBack(GameObject button){
 		Debug.Log("PartyPagePanel.PageBack() : Start");
 
@@ -157,6 +157,21 @@ public class PartyPagePanel : UIComponentUnity {
 		if(viewInfoDic.TryGetValue("texture",out tex2dList)){
 			List<Texture2D> temp = tex2dList as List<Texture2D>;
 			UpdateTexture(temp);
+		}
+	}
+
+	void ShowTween()
+	{
+		TweenPosition[ ] list = 
+			gameObject.GetComponentsInChildren< TweenPosition >();
+		if (list == null)
+			return;
+		foreach (var tweenPos in list)
+		{		
+			if (tweenPos == null)
+				continue;
+			tweenPos.Reset();
+			tweenPos.PlayForward();
 		}
 	}
 	

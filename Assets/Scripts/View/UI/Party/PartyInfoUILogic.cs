@@ -7,6 +7,9 @@ public class PartyInfoUILogic : ConcreteComponent {
 
 	public PartyInfoUILogic(string uiName):base(uiName) {}
 
+	public override void CreatUI(){
+		base.CreatUI();
+	}
 	public override void ShowUI(){
 		base.ShowUI();
 
@@ -21,13 +24,13 @@ public class PartyInfoUILogic : ConcreteComponent {
 
 	void AddCmdListener(){
 		Debug.Log("PartyInfoUILogic.AddCmdListener(), Start...");
-		//MsgCenter.Instance.AddListener(CommandEnum.UpdatePartyInfoPanel, Recive);
+		MsgCenter.Instance.AddListener(CommandEnum.UpdatePartyInfoPanel, Recive);
 		Debug.Log("PartyInfoUILogic.AddCmdListener(), End...");
 	}
 
 	void RmvCmdListener(){
 		Debug.Log("PartyInfoUILogic.RmvCmdListener(), Start...");
-		//MsgCenter.Instance.RemoveListener(CommandEnum.UpdatePartyInfoPanel, Recive);
+		MsgCenter.Instance.RemoveListener(CommandEnum.UpdatePartyInfoPanel, Recive);
 		Debug.Log("PartyInfoUILogic.RmvCmdListener(), End...");
 	}
 
@@ -60,9 +63,9 @@ public class PartyInfoUILogic : ConcreteComponent {
 		//Get fireAtk vaule
 		string fireAtk = tup.TypeAttack[ EUnitType.UFIRE ].ToString();
 		//Get waterAtk vaule
-		//string waterAtk = tup.TypeAttack[ EUnitType.UWATER ].ToString();
+		string waterAtk = tup.TypeAttack[ EUnitType.UWATER ].ToString();
 		//Get windAtk vaule
-		//string windAtk = tup.TypeAttack[ EUnitType.UWIND ].ToString();
+		string windAtk = tup.TypeAttack[ EUnitType.UWIND ].ToString();
 		//Get wuAtk vaule
 		string wuAtk = tup.TypeAttack[ EUnitType.UNONE ].ToString();
 		//Get lightAtk vaule
@@ -73,8 +76,8 @@ public class PartyInfoUILogic : ConcreteComponent {
 		Dictionary<string,string> text = new Dictionary<string, string>();
 		text.Add("hp",hp);
 		text.Add("fire", fireAtk);
-		//text.Add("water", waterAtk);
-		//text.Add("wind", windAtk);
+		text.Add("water", waterAtk);
+		text.Add("wind", windAtk);
 		text.Add("wu", wuAtk);
 		text.Add("light", lightAtk);
 		text.Add("dark", darkAtk);
@@ -88,10 +91,10 @@ public class PartyInfoUILogic : ConcreteComponent {
 	}
 
 	void UpdateData(Dictionary<string,string> data){
-		Debug.LogError("PartyInfoUILogic.UpdateData(), Start...");
+		Debug.Log("PartyInfoUILogic.UpdateData(), Start...");
 		if(data == null)	return;
 		ExcuteCallback(data);
-		Debug.LogError("PartyInfoUILogic.UpdateData(), End...");
+		Debug.Log("PartyInfoUILogic.UpdateData(), End...");
 	}
 
 

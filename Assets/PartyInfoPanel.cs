@@ -16,6 +16,7 @@ public class PartyInfoPanel : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 		SetUIElement();
+		ShowTween();
 	}
 
 	public override void HideUI(){
@@ -67,16 +68,17 @@ public class PartyInfoPanel : UIComponentUnity {
 
 	void SetUIElement(){
 		Debug.Log("PartyInfoPanel.SetUIElement(), Start...");
-		SetTabFocus();
+
 		Debug.Log("PartyInfoPanel.SetUIElement(), End...");
 	}
 
 	void ResetUIElement(){
 		Debug.Log("PartyInfoPanel.ResetUIElement(), Start...");
+		ResetTabFocus();
 		Debug.Log("PartyInfoPanel.ResetUIElement(), End...");
 	}
 
-	void SetTabFocus(){
+	void ResetTabFocus(){
 		focus.startsActive = true;
 	}
 
@@ -101,6 +103,21 @@ public class PartyInfoPanel : UIComponentUnity {
 			return;
 		}	
 		UpdateLabel(viewInfoDic);
+	}
+
+	void ShowTween()
+	{
+		TweenPosition[ ] list = 
+			gameObject.GetComponentsInChildren< TweenPosition >();
+		if (list == null)
+			return;
+		foreach (var tweenPos in list)
+		{		
+			if (tweenPos == null)
+				continue;
+			tweenPos.Reset();
+			tweenPos.PlayForward();
+		}
 	}
 
 }
