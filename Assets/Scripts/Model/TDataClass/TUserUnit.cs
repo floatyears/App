@@ -126,17 +126,17 @@ public class TUserUnit : ProtobufDataBase {
 		if (normalSkill [0] == null) {
 			InitSkill();	
 		}
-//		UserUnit uu 				= DeserializeData<UserUnit> ();
 		TUnitInfo tui 			= GlobalData.unitInfo[instance.unitId];
 		UnitInfo ui				= GlobalData.unitInfo[instance.unitId].Object;
 		for (int i = 0; i < normalSkill.Length; i++) {
 			TNormalSkill tns 	= normalSkill[i];
+//			Debug.LogError("tns : " + tns.SkillID );
 			tns.DisposeUseSkillID(ignorSkillID);
 			int count = tns.CalculateCard(copyCard);
 			for (int j = 0; j < count; j++) {
 				AttackInfo attack	= new AttackInfo();
 				attack.AttackValue	= CaculateAttack(instance,ui,tns);
-				attack.AttackType	= (int)ui.type;
+				attack.AttackType	= tns.AttackType;
 				attack.UserUnitID	= instance.uniqueId;
 				tns.GetSkillInfo(attack);
 				returnInfo.Add(attack);
@@ -186,12 +186,14 @@ public class TUserUnit : ProtobufDataBase {
 
 	protected int CaculateAttack (UserUnit uu, UnitInfo ui, TNormalSkill tns) {
 		int addAttack = uu.addAttack * 50;
+
 		float attack = addAttack + GlobalData.Instance.GetUnitValue(ui.powerType.attackType, uu.level); //ui.power [uu.level].attack;
 		attack = tns.GetAttack(attack) * attackMultiple;
 
 		if (strengthenInfo != null) {
 			attack *= strengthenInfo.AttackValue;
 		}
+//		Debug.LogError ("addAttack : " + addAttack + "attack : " + uu.addAttack );
 		int value = System.Convert.ToInt32 (attack);
 		return value;
 	}
@@ -342,7 +344,7 @@ public class UserUnitList {
 			Debug.LogError ("TUserUnit.GetMyUnit : Global.userInfo=null");
 			return null;
 		}
-		Debug.LogError("uniqueId : " +uniqueId + " GlobalData.userInfo.UserId : " + GlobalData.userInfo.UserId);
+//		Debug.LogError("uniqueId : " +uniqueId + " GlobalData.userInfo.UserId : " + GlobalData.userInfo.UserId);
 		return Get(GlobalData.userInfo.UserId, uniqueId);
 	}
 

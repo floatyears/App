@@ -16,7 +16,7 @@ public class PartyPageUILogic : ConcreteComponent {
 		base.ShowUI();
 		Dictionary<string,object> dic =GetPartyPageData("PageCurrent"); 
 //		Debug.LogError(dic.Count);
-//		ExcuteCallback(dic);
+		ExcuteCallback(dic);
 	}
 
 	public override void HideUI(){
@@ -29,7 +29,7 @@ public class PartyPageUILogic : ConcreteComponent {
 			Debug.LogError("PartyPageUILogic.GetPartyPageData(), GlobalData.partyInfo is NULL");
 			return null;
 		}
-		TUnitParty partyInfo = null;
+		TUnitParty partyInfo;
 		switch (pageType){
 			case "PageForward" : 
 				partyInfo = GlobalData.partyInfo.PrevParty;

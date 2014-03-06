@@ -1,21 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using bbproto;
 
 public class BattleQuest : UIBase {
-//	public int MapWidth {
-//		get{ return mapConfig.mapXLength; }
-//	}
-
-//
-//	public int MapWidth {
-//		get{ return questDungeonData.Floors.Count; }
-//	}
-//
-//	public int MapHeight {
-//		get{ return questDungeonData.Floors[0]; }
-//	}
-
 	private Coordinate roleInitPosition = new Coordinate();
 	public Coordinate RoleInitPosition {
 		get { 
@@ -28,12 +16,8 @@ public class BattleQuest : UIBase {
 	}
 
 	private GameObject rootObject;
-//	public static MapConfig mapConfig;
-//	private SingleMapData currentMapData;
-
 	private TQuestGrid currentMapData;
 	public static TQuestDungeonData questDungeonData;
-
 	private BattleMap battleMap;
 	private Role role;
 	private Battle battle;
@@ -67,8 +51,6 @@ public class BattleQuest : UIBase {
 	}
 
 	void InitData() {
-//		mapConfig = ModelManager.Instance.GetData (ModelEnum.MapConfig,new ErrorMsg()) as MapConfig; //new MapConfig (); //
-
 		questDungeonData = ModelManager.Instance.GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
 	}
 
@@ -97,8 +79,6 @@ public class BattleQuest : UIBase {
 
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 	}
-
-//	void ResetScene()
 
 	public override void HideUI () {
 		battleEnemy = false;
@@ -197,44 +177,66 @@ public class BattleQuest : UIBase {
 
 			currentMapData =  questDungeonData.GetSingleFloor(coor);  //mapConfig.mapData[coor.x,coor.y];
 			role.Stop();
-//			Debug.LogError("ContentType : " + currentMapData.ContentType);
+//			Debug.LogError("currentMapData.Type : " + currentMapData.Type);
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 			switch (currentMapData.Type) {
 			case EQuestGridType.Q_NONE:
 				battleMap.waitMove = true;
+//				Debug.LogError(Time.realtimeSinceStartup + " Q_NONE : " + battleMap.waitMove);
 				battleMap.RotateAnim(MapItemNone);
 				break;
 			case EQuestGridType.Q_ENEMY:
 				battleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemEnemy);
 				break;
-//			case MapItemEnum.key:
-//				battleMap.waitMove = true;
-//				battleMap.RotateAnim(MapItemKey);
-//				break;
+			case EQuestGridType.Q_KEY:
+				battleMap.waitMove = true;
+				battleMap.RotateAnim(MapItemKey);
+				break;
 			case EQuestGridType.Q_TREATURE:				
 				battleMap.waitMove = true;
 				battleMap.ShowBox();
 				battleMap.RotateAnim(MapItemCoin);
 				break;
 			case EQuestGridType.Q_TRAP:
+//				Debug.LogError("coor : " + coor.x + "    " + coor.y + "     " + Time.realtimeSinceStartup);
 				battleMap.waitMove = true;
+//				Debug.LogError(Time.realtimeSinceStartup + " Q_TRAP : " + battleMap.waitMove);
 				battleMap.RotateAnim(MapItemTrap);
 				break;
-//			case MapItemEnum.Exclamation : 
-//				battleMap.waitMove = true;
-//				battleMap.RotateAnim(MapItemExclamation);
-//				break;
+			case EQuestGridType.Q_QUESTION:
+				battleMap.waitMove = true;
+//				Debug.LogError(Time.realtimeSinceStartup + " Q_TRAP : " + battleMap.waitMove);
+				battleMap.RotateAnim(MeetQuestion);
+				break;
+			case EQuestGridType.Q_EXCLAMATION : 
+				battleMap.waitMove = true;
+				battleMap.RotateAnim(MapItemExclamation);
+				break;
 			default:
+//				Debug.LogError("RoleCoordinate default : " + currentMapData.Type);
+				battleMap.waitMove = false;
+				MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 					break;
 			}
 		}
 	}
 
+	void MeetQuestion () {
+		battleMap.waitMove = false;
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+	}
+
 	void MeetBoss () {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<TEnemyInfo> temp = questDungeonData.Boss; //bud.GetEnemyInfo(mapConfig.BossID);
+		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+		for (int i = 0; i < questDungeonData.Boss.Count; i++) {
+			TEnemyInfo tei = questDungeonData.Boss[i];
+			tei.EnemySymbol = (uint)i;
+			temp.Add(tei);
+		}
+//		 = questDungeonData.Boss; //bud.GetEnemyInfo(mapConfig.BossID);
 		bud.InitEnemyInfo (temp);
 		battle.ShowEnemy(temp);
 	}
@@ -246,7 +248,6 @@ public class BattleQuest : UIBase {
 	
 	void MapItemTrap() {
 		battleMap.waitMove = false;
-//		TrapBase tb = GlobalData.trapInfo[currentMapData.TypeValue];
 		TrapBase tb = currentMapData.TrapInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
@@ -266,13 +267,19 @@ public class BattleQuest : UIBase {
 
 	void MapItemNone () {
 		battleMap.waitMove = false;
+//		Debug.LogError(Time.realtimeSinceStartup + " Q_NONE : " + battleMap.waitMove);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
 	void MapItemEnemy() {
 		battleMap.waitMove = false;
 		ShowBattle();
-		List<TEnemyInfo> temp = currentMapData.Enemy; //bud.GetEnemyInfo(currentMapData.MonsterID);
+		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+		for (int i = 0; i < currentMapData.Enemy.Count; i++) {
+			TEnemyInfo tei = currentMapData.Enemy[i];
+			tei.EnemySymbol = (uint)i;
+			temp.Add(tei);
+		}
 		bud.InitEnemyInfo (temp);
 		battle.ShowEnemy (temp);
 	}
@@ -291,15 +298,21 @@ public class BattleQuest : UIBase {
 
 	void BattleEnd(object data) {
 		if (battleEnemy) {
-			GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
-			Vector3 tempScale = obj.transform.localScale;
-			obj = NGUITools.AddChild(viewManager.CenterPanel,obj);
-			obj.transform.localScale = tempScale;
-			VictoryEffect ve = obj.GetComponent<VictoryEffect>();
-			ve.Init("Victory");
-			ve.PlayAnimation(QuestEnd,new VictoryInfo(100,0,0,100));
+			battleMap.BattleEndRotate();
+			GameTimer.GetInstance().AddCountDown(2f,End);
 		}
 	}
+
+	void End() {
+		GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
+		Vector3 tempScale = obj.transform.localScale;
+		obj = NGUITools.AddChild(viewManager.CenterPanel,obj);
+		obj.transform.localScale = tempScale;
+		VictoryEffect ve = obj.GetComponent<VictoryEffect>();
+		ve.Init("Victory");
+		ve.PlayAnimation(QuestEnd,new VictoryInfo(100,0,0,100));
+	}
+
 
 	void AddListener () {
 		MsgCenter.Instance.AddListener (CommandEnum.BattleBaseData, BattleBase);

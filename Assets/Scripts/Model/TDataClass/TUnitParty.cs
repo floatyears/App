@@ -245,7 +245,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		UserUnit uu1 = tuu.Object;
 		UnitInfo ui1 = tuu.UnitInfo.Object;			 //GlobalData.unitInfo[uu1.unitId].DeserializeData<UnitInfo>();
 		TNormalSkill ns = GlobalData.skill [ui1.skill2] as TNormalSkill;
-		return ns.GetObject();
+		return ns.Object;
 	}
 	
 	public List<TUserUnit> GetUserUnit () {
@@ -265,7 +265,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		foreach (var item in instance.items) {
 //			Debug.LogError("item.unitUniqueId : " + item.unitUniqueId);
 			TUserUnit uui = GlobalData.userUnitList.GetMyUnit(item.unitUniqueId);
-			Debug.LogError("GetPosUnitInfo : " + uui);
+//			Debug.LogError("GetPosUnitInfo : " + uui);
 			temp.Add(item.unitPos,uui);
 		}
 		//		Debug.LogError (temp.Count + " GetPosUnitInfo " + uup.items.Count);

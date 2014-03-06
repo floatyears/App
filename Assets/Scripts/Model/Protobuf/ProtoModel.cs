@@ -1625,9 +1625,9 @@ namespace bbproto
       get { return _getMoney; }
       set { _getMoney = value; }
     }
-    private readonly global::System.Collections.Generic.List<bbproto.DropUnit> _getUnit = new global::System.Collections.Generic.List<bbproto.DropUnit>();
-    [global::ProtoBuf.ProtoMember(5, Name=@"getUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<bbproto.DropUnit> getUnit
+    private readonly global::System.Collections.Generic.List<uint> _getUnit = new global::System.Collections.Generic.List<uint>();
+    [global::ProtoBuf.ProtoMember(5, Name=@"getUnit", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<uint> getUnit
     {
       get { return _getUnit; }
     }
@@ -3101,7 +3101,16 @@ namespace bbproto
       Q_ENEMY = 2,
             
       [global::ProtoBuf.ProtoEnum(Name=@"Q_TRAP", Value=3)]
-      Q_TRAP = 3
+      Q_TRAP = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Q_KEY", Value=4)]
+      Q_KEY = 4,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Q_QUESTION", Value=5)]
+      Q_QUESTION = 5,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Q_EXCLAMATION", Value=6)]
+      Q_EXCLAMATION = 6
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EGridStar")]

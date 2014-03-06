@@ -15,12 +15,12 @@ public class SelectInfoWindow : UIComponentUnity {
 	UILabel nameLabel;
 	UILabel raceLabel;
 
-
 	int originLayer;
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUIElement();
 		ShowSelf(false);
+		Debug.Log("1111111");
 	}
 	public override void ShowUI(){
 		base.ShowUI();
@@ -84,6 +84,7 @@ public class SelectInfoWindow : UIComponentUnity {
 
 	public override void Callback(object data){
 		base.Callback(data);
+		ShowSelf(true);
 //		TUserUnit tuu = data as TUserUnit;
 //		hpLabel.text = tuu.Level.ToString();
 //		atkLabel.text = tuu.Attack.ToString();

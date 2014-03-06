@@ -1,0 +1,32 @@
+message NormalSkill {
+	optional SkillBase      baseInfo        = 1;
+
+	optional EAttackType    attackType      = 2; //SINGLE,ALL,RECOVER_HP
+	repeated uint32         activeBlocks    = 3; //[0,0],[1,1,1] => [Fire,Fire],[Water,Water,Water]
+	optional float          attackValue     = 4; //1.5xATK | 10%
+    optional EUnitType      attackUnitType  = 5; //EUnitType 
+};
+
+enum EAttackType {
+	ATK_SINGLE		= 0;
+	ATK_ALL			= 1;
+	RECOVER_HP		= 2;
+};
+
+enum EUnitType{
+	UALL	= 0; // all type
+	UFIRE 	= 1;
+	UWATER	= 2;
+	UWIND	= 3;
+	ULIGHT	= 4;
+	UDARK	= 5;
+	UNONE	= 6;
+    UHeart  = 7;
+};
+
+message SkillBase {
+    optional int32	id				= 1;
+    optional string	name			= 2;
+    optional string	description		= 3;
+	optional int32	skillCooling	= 4;
+}

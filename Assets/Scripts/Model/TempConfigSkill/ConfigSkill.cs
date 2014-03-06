@@ -19,8 +19,9 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 0;
 		ns.baseInfo.name = "no 0 normal skill";
 		ns.baseInfo.description = "two red card generate one";
-		ns.attackValue = 1f;
+		ns.attackValue = 3f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UFIRE;
 		ns.activeBlocks.Add (1);
 		ns.activeBlocks.Add (1);
 		TNormalSkill tns = new TNormalSkill (ns);
@@ -31,8 +32,9 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 1;
 		ns.baseInfo.name = "no 1 normal skill";
 		ns.baseInfo.description = "five red card generate one";
-		ns.attackValue = 3f;
+		ns.attackValue = 4f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UFIRE;
 		ns.activeBlocks.Add (1);
 		ns.activeBlocks.Add (1);
 		ns.activeBlocks.Add (1);
@@ -48,8 +50,9 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 2;
 		ns.baseInfo.name = "no 2 normal skill";
 		ns.baseInfo.description = "two water card generate one";
-		ns.attackValue = 1f;
+		ns.attackValue = 2f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UWATER;
 		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (2);
 //		ns.activeBlocks.Add (2);
@@ -63,6 +66,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "five water card generate one";
 		ns.attackValue = 3f;
 		ns.attackType = EAttackType.ATK_ALL;
+		ns.attackUnitType = EUnitType.UWATER;
 		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (2);
@@ -78,8 +82,9 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 4;
 		ns.baseInfo.name = "no 4 normal skill";
 		ns.baseInfo.description = "two wind card generate one";
-		ns.attackValue = 1f;
+		ns.attackValue = 3f;
 		ns.attackType = EAttackType.ATK_ALL;
+		ns.attackUnitType = EUnitType.UWIND;
 		ns.activeBlocks.Add (3);
 		ns.activeBlocks.Add (3);
 		tns = new TNormalSkill (ns);
@@ -90,8 +95,9 @@ public class ConfigSkill  {
 		ns.baseInfo.id = 5;
 		ns.baseInfo.name = "no 5 normal skill";
 		ns.baseInfo.description = "five wind card generate one";
-		ns.attackValue = 2.5f;
+		ns.attackValue = 5f;
 		ns.attackType = EAttackType.ATK_ALL;
+		ns.attackUnitType = EUnitType.UHeart;
 		ns.activeBlocks.Add (7);
 		ns.activeBlocks.Add (7);
 		ns.activeBlocks.Add (5);
@@ -109,6 +115,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "two light card generate one";
 		ns.attackValue = 1.5f;
 		ns.attackType = EAttackType.ATK_ALL;
+		ns.attackUnitType = EUnitType.ULIGHT;
 		ns.activeBlocks.Add (4);
 		ns.activeBlocks.Add (4);
 		tns = new TNormalSkill (ns);
@@ -121,6 +128,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "three light card and two dark card generate one";
 		ns.attackValue = 3f;
 		ns.attackType = EAttackType.ATK_ALL;
+		ns.attackUnitType = EUnitType.ULIGHT;
 		ns.activeBlocks.Add (1);
 		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (3);
@@ -138,6 +146,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "three light card and two dark card generate one";
 		ns.attackValue = 1f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UDARK;
 		ns.activeBlocks.Add (5);
 		ns.activeBlocks.Add (5);
 		tns = new TNormalSkill (ns);
@@ -150,6 +159,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "four dark card and one light card generate one";
 		ns.attackValue = 3.5f;
 		ns.attackType = EAttackType.ATK_ALL;
+		ns.attackUnitType = EUnitType.UDARK;
 		ns.activeBlocks.Add (1);
 		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (3);
@@ -167,6 +177,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "two nothing card generate one";
 		ns.attackValue = 2f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UDARK;
 		ns.activeBlocks.Add (5);
 		ns.activeBlocks.Add (5);
 		tns = new TNormalSkill (ns);
@@ -179,6 +190,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "every card have one generate one";
 		ns.attackValue = 3.5f;
 		ns.attackType = EAttackType.ATK_ALL;
+		ns.attackUnitType = EUnitType.UDARK;
 		ns.activeBlocks.Add (1);
 		ns.activeBlocks.Add (2);
 		ns.activeBlocks.Add (3);
@@ -194,6 +206,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "two heart card generate one";
 		ns.attackValue = 0.2f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UNONE;
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
 		tns = new TNormalSkill (ns);
@@ -206,6 +219,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "three heart card generate one";
 		ns.attackValue = 0.4f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UNONE;
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
@@ -219,6 +233,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "four heart card generate one";
 		ns.attackValue = 0.6f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UNONE;
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
@@ -233,6 +248,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "four heart card generate one";
 		ns.attackValue = 0.8f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UNONE;
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
@@ -247,6 +263,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "five heart card generate one";
 		ns.attackValue = 1f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UNONE;
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
 		ns.activeBlocks.Add (6);
@@ -266,6 +283,7 @@ public class ConfigSkill  {
 		ns.baseInfo.description = "five heart card generate one";
 		ns.attackValue = 1.6f;
 		ns.attackType = EAttackType.ATK_SINGLE;
+		ns.attackUnitType = EUnitType.UWIND;
 		ns.activeBlocks.Add (3);
 		ns.activeBlocks.Add (3);
 		ns.activeBlocks.Add (3);

@@ -7,6 +7,8 @@ public class TEnemyInfo : ProtobufDataBase {
 
 	public TEnemyInfo (EnemyInfo instance) : base (instance) {
 		this.instance = instance;
+		initBlood = GetInitBlood ();
+		initAttackRound = instance.nextAttack;
 
 		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
@@ -25,6 +27,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	private int initAttackRound = -1;
 	public bool isDeferAttackRound = false;
 	public bool isPosion = false;
+
 
 	public bool IsInjured () {
 		if (EnemyInfo ().hp < initBlood) { return true; }
@@ -104,8 +107,16 @@ public class TEnemyInfo : ProtobufDataBase {
 		}
 	}
 
-	public int GetAttack () {
-		return EnemyInfo().attack;
+	public int AttackValue{
+		get{
+			return EnemyInfo().attack;
+		}
+	}
+
+	private uint enemySymbol = 0;
+	public uint EnemySymbol {
+		get{ return enemySymbol; }
+		set{ enemySymbol = value; }
 	}
 
 	public uint EnemyID {

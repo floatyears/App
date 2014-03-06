@@ -52,8 +52,8 @@ public class EnemyItem : UIBaseUnity {
 	Queue<AttackInfo> attackQueue = new Queue<AttackInfo> ();
 	void Attack (object data) {
 		AttackInfo ai = data as AttackInfo;
-//		Debug.LogError ("Attack : " + ai.EnemyID + "   enemyInfo.EnemyID : " + enemyInfo.EnemyID);
-		if (ai == null || ai.EnemyID != enemyInfo.EnemyID) {
+//		Debug.LogError ("Attack : " + ai.EnemyID + "   enemyInfo.EnemySymbol : " + enemyInfo.EnemySymbol);
+		if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol) {
 			return;
 		}
 		if (prevObject != null) {
@@ -151,7 +151,7 @@ public class EnemyItem : UIBaseUnity {
 
 	void EnemyDead(object data) {
 		TEnemyInfo te = data as TEnemyInfo;
-		if (te == null || te.EnemyID != enemyInfo.EnemyID) {
+		if (te == null || te.EnemySymbol != enemyInfo.EnemySymbol) {
 			return;		
 		}
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
@@ -166,7 +166,7 @@ public class EnemyItem : UIBaseUnity {
 			return;		
 		}
 
-		if (te.EnemyID != enemyInfo.EnemyID) {
+		if (te.EnemySymbol != enemyInfo.EnemySymbol) {
 			return;		
 		}
 //		enemyInfo = te;
@@ -191,8 +191,8 @@ public class EnemyItem : UIBaseUnity {
 
 	void EnemyAttack (object data) {
 		uint id = (uint) data;
-		Debug.LogError (id + "enemyInfo.EnemyID : " + enemyInfo.EnemyID);
-		if (id == enemyInfo.EnemyID) {
+//		Debug.LogError (id + "enemyInfo.EnemyID : " + enemyInfo.EnemySymbol);
+		if (id == enemyInfo.EnemySymbol) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
 			iTween.ScaleTo(gameObject,new Vector3(1.5f,1.5f,1f),0.2f);
 			iTween.MoveTo (texture.gameObject,iTween.Hash("position",attackPosition,"time",0.2f,"oncomplete","MoveBack","oncompletetarget",gameObject, "islocal",true ,"easetype",iTween.EaseType.easeInCubic));

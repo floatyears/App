@@ -1,0 +1,597 @@
+package bbproto;
+//=====================================================
+
+enum EUnitType{
+	UALL	= 0; // all type
+	UFIRE 	= 1;
+	UWATER	= 2;
+	UWIND	= 3;
+	ULIGHT	= 4;
+	UDARK	= 5;
+	UNONE	= 6;
+    UHeart  = 7;
+};
+
+enum EUnitRace{
+    ALL             = 0; //all race
+    HUMAN           = 1;
+    UNDEAD          = 2;
+    MYTHIC          = 3;
+    BEAST           = 4;
+    MONSTER         = 5;
+    LEGEND          = 6;
+    SCREAMCHEESE    = 7;
+};
+
+//general response protocol
+message ProtoHeader {
+	required string apiVer		= 1;
+	optional string sessionId	= 2;
+	optional uint32 userId		= 3;
+	optional int32	packetId	= 4;
+	optional int32	code		= 5; // result code
+	optional string error		= 6; // result error description
+};
+
+
+//=====================================================
+
+enum EFriendState{
+	ISFRIEND		= 1; // is already friend
+	FRIENDOUT		= 2; // I request add one as friend
+	FRIENDIN		= 3; // others request add me as friend
+	FRIENDHELPER	= 4; // friends allocated by system  
+};
+
+message FriendData {
+	optional uint32			userId				= 1;
+	optional EFriendState	friendState			= 2; 
+	optional uint32			friendStateUpdate 	= 3; // friend state updated time
+};
+
+message FriendInfo {
+	optional uint32			userId				= 1;
+	optional string 		nickName			= 2;
+	optional int32			rank				= 3;
+	optional uint32			lastPlayTime		= 4;
+	optional EFriendState	friendState			= 5; // 
+	optional uint32			friendStateUpdate 	= 6; // friend state updated time
+	optional int32			friendPoint			= 7;
+	optional UserUnit		unit				= 8;
+};
+
+message FriendList {
+	repeated FriendInfo		friend				= 1;
+	repeated FriendInfo		helper				= 2;
+	repeated FriendInfo		friendIn			= 3;
+	repeated FriendInfo		friendOut			= 4;
+};
+
+//-------------------------------------------------
+message ReqGetFriend {
+	optional ProtoHeader	header				= 1;
+	optional bool			getFriend			= 2;
+	optional bool			getHelper			= 3;
+};
+
+message RspGetFriend {
+	optional ProtoHeader	header				= 1;
+	optional FriendList		friends				= 2;
+};
+
+//-------------------------------------------------
+message ReqFindFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			friendUid			= 2;
+};
+
+message RspFindFriend {
+	optional ProtoHeader	header				= 1;
+	optional UserInfo		friend				= 2;
+};
+
+//-------------------------------------------------
+message ReqAddFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			friendUid			= 2;
+};
+
+message RspAddFriend {
+	optional ProtoHeader	header				= 1;
+};
+
+//-------------------------------------------------
+message ReqDelFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			friendUid			= 2;
+};
+
+message RspDelFriend {
+	optional ProtoHeader	header				= 1;
+};
+
+//-------------------------------------------------
+message ReqAcceptFriend {
+	optional ProtoHeader	header				= 1;
+	optional uint32			friendUid			= 2;
+};
+
+message RspAcceptFriend {
+	optional ProtoHeader	header				= 1;
+};
+//-------------------------------------------------
+
+//=====================================================
+
+
+enum EQuestState {
+	QS_NEW		= 0;
+	QS_QUESTING	= 1;
+	QS_CLEARED	= 2;
+}
+
+enum ETrapType {
+	Move			= 0;
+	StateException	= 1;
+	ChangeEnvir		= 2;
+	Injured			= 3;
+}
+
+enum EQuestGridType {
+	Q_NONE			= 0;
+	Q_TREATURE		= 1;
+	Q_ENEMY			= 2;
+	Q_TRAP			= 3;
+	Q_KEY			= 4;
+	Q_QUESTION		= 5;
+	Q_EXCLAMATION	= 6;
+}
+
+enum EGridStar {
+	GS_EMPTY			= 0;
+	GS_STAR_1			= 1;
+	GS_STAR_2			= 2;
+	GS_STAR_3			= 3;
+	GS_STAR_4			= 4;
+	GS_STAR_5			= 5;
+	GS_STAR_6			= 6;
+	GS_KEY				= 7;
+	GS_QUESTION			= 8;
+	GS_EXCLAMATION		= 9;
+}
+
+message QuestStatus {
+	optional EQuestState	state			= 1;
+	repeated uint32			playTime		= 2;
+}
+
+message QuestLog {
+	optional uint32			questId			= 1;
+	optional uint32			startTime		= 2;
+	optional uint32			endTime			= 3;
+	optional uint32			helperUserId	= 4; 
+	optional UserUnit		helperUnit		= 5; 
+	optional int32			currentParty	= 6;
+	repeated DropUnit		dropUnits		= 7;
+	repeated UserUnit		getUnit			= 8;
+	optional int32			getExp			= 9;
+	optional int32			getMoney		= 10;
+	optional int32			getFriendPoint	= 11;
+	optional int32			continueTimes	= 12;
+	optional EQuestState	state			= 13;
+	optional int32			playTotal		= 14;
+	optional int32			playToday		= 15;
+}
+
+//----------------------Quest config data-----------------------------
+message NumRange {
+	optional int32		min				= 1; 
+	optional int32		max				= 2;
+}
+
+message ColorPercent {
+	optional EUnitType	color			= 1; 
+	optional float		percent			= 2;	
+}
+
+message StarConfig {
+	optional int32			repeat		= 1;
+	optional EGridStar		star		= 2; // 1 - 6: star, 0: key, 7: ? 8:!
+	optional NumRange		coin		= 3; // tresureBox
+	repeated uint32			enemyPool	= 4; // enemyId list
+	optional NumRange		enemyNum	= 5;
+	repeated uint32			trap		= 6; // trapId
+}
+
+message QuestFloorConfig {
+	optional int32		version			= 1;
+	optional int32		treasureNum		= 2;
+	optional int32		trapNum			= 3;
+	optional int32		enemyNum		= 4;
+	repeated StarConfig stars			= 5; // 1 - 6, !, ?
+}
+
+message QuestConfig {
+	optional uint32				questId	= 1;
+	repeated EnemyInfoConf		boss	= 2;
+	repeated EnemyInfoConf		enemys	= 3;
+	repeated ColorPercent		colors	= 4;	
+	repeated QuestFloorConfig 	floors	= 5;
+}
+
+//-------------------------QuestData------------------------------
+message EnemyInfo {
+	optional uint32		enemyId			= 1;
+	optional uint32		unitId			= 2;
+	optional EUnitType	type			= 3;
+	optional int32		hp				= 4;
+	optional int32		attack			= 5;
+	optional int32		defense			= 6;
+	optional int32		nextAttack		= 7; // next 1, 2, 3 
+}
+
+message EnemyInfoConf {
+	optional EnemyInfo	enemy			= 1;
+	optional uint32		dropUnitId		= 2;
+	optional int32		dropUnitLevel	= 3;
+	optional float		dropRate		= 4;
+	optional float		addHpRate		= 5; // "+" rate
+	optional float		addAttackRate	= 6; //
+	optional float		addDefenceRate	= 7; // 
+}
+
+message DropUnit{
+	optional uint32		dropId			= 1;
+	optional uint32		unitId			= 2;
+	optional int32		level			= 3;
+	optional int32		addHp			= 4;
+	optional int32		addAttack		= 5;
+	optional int32		addDefence		= 6;
+}
+
+message QuestGrid {
+	optional int32			position	= 1; // grid position
+	optional EGridStar		star		= 2; // 1 - 6 star, !, ?
+	optional int32			color		= 3; // star color
+	optional EQuestGridType	type		= 4; // enemy, coin, enemy, empty
+	repeated uint32			enemyId		= 5; // enemy uniqueId list
+	repeated uint32			dropId		= 6;
+	optional int32			coins		= 7; 
+	optional uint32			trapId		= 8; 
+}
+
+message QuestFloor {
+	repeated QuestGrid	gridInfo		= 1; // 24 grids		
+}
+
+message QuestDungeonData {
+	optional uint32			questId		= 1; 
+	repeated EnemyInfo		boss		= 2; // boss unit
+	repeated EnemyInfo		enemys		= 3; // enemy list
+	optional bytes			colors		= 4; 
+	repeated DropUnit		drop		= 5;
+	repeated QuestFloor		floors		= 6; // 1, 2, 3... floors
+}
+
+//============== QuestMapData -  client data also used=======================//
+message Position {
+	optional int32			x = 1;
+	optional int32			y = 2;	
+};
+
+message QuestInfo {
+	required uint32			id			= 1; 
+	optional EQuestState	state		= 2; // CLEAR or NEW
+	optional int32			no			= 3; // number: 1, 2, 3...
+	optional string			name		= 4; // quest name
+	optional string			story		= 5; // story description
+	optional int32			stamina		= 6; // cost stamina
+	optional int32			floor		= 7;		
+	optional int32			rewardExp	= 8;
+	optional int32			rewardMoney	= 9;
+	repeated uint32			bossId		= 10; // boss unitid
+	repeated uint32			enemyId		= 11; // enemy unitid
+};
+
+enum QuestBoostType {
+	QB_BOOST_NONE		= 0;
+	QB_BOOST_MONEY		= 1;
+	QB_BOOST_EXP		= 2;
+	QB_BOOST_DROPRATE	= 3;
+	QB_BOOST_DROPPLUS	= 4;
+}
+
+message QuestBoost {
+	optional QuestBoostType	type	= 1; //money , exp , dropRate, drop+
+	optional int32			value	= 2; //2, 3...
+}
+
+message StageInfo {
+	optional int32			version		= 1;
+	optional uint32			id			= 2;	
+	optional EQuestState	state		= 3; // CLEAR or NEW
+	optional int32			type		= 4; // story or event
+	optional string			stageName	= 5; //
+	optional string			description	= 6; //	 
+	optional uint32			startTime	= 7;	
+	optional uint32			endTime		= 8;
+	optional QuestBoost		boost		= 9;
+	optional Position		pos			= 10; // stage position of the city	
+	repeated QuestInfo		quests		= 11; 
+};
+
+message CityInfo {
+	optional int32		version			= 1;
+	optional uint32		id				= 2;	
+	optional int32		state			= 3;
+	optional string		cityName		= 4; //
+	optional string		description		= 5; //
+	optional Position	pos				= 6; // city position of the worldmap
+	repeated StageInfo	stages			= 7;
+};
+
+message WorldMapInfo {
+	optional int32		version			= 1;
+	optional uint32		id				= 2;	
+	repeated CityInfo	citys			= 3;
+};
+
+//-------------------------------------------------------------
+
+message ReqStartQuest {
+	optional ProtoHeader	header			= 1;
+	optional uint32			stageId			= 2; 
+	optional uint32			questId			= 3; 
+	optional uint32			helperUserId	= 4; 
+	optional UserUnit		helperUnit		= 5; 
+	optional int32			currentParty	= 6; 	
+}
+
+message RspStartQuest {
+	optional ProtoHeader		header			= 1;
+	optional int32				staminaNow		= 2; // current stamina
+	optional uint32				staminaRecover	= 3; // stamina recover time
+	optional QuestDungeonData	dungeonData		= 4;
+}
+
+message ReqClearQuest {
+	optional ProtoHeader	header 			= 1; 
+	optional uint32			questId			= 2; 
+	optional uint32			securityKey		= 3; 
+	optional int32			getMoney		= 4;
+	repeated uint32			getUnit			= 5; //without uniqueId	
+	repeated uint32			hitGrid			= 6;
+}
+
+message RspClearQuest {
+	optional ProtoHeader	header			= 1;
+	optional int32			rank			= 2;
+	optional int32			exp				= 3;
+	optional int32			money			= 4;
+	optional int32			friendPoint		= 5;
+	optional int32			staminaNow		= 6;
+	optional int32			staminaMax		= 7;
+	optional uint32			staminaRecover	= 8; //recover time
+	optional int32			gotMoney		= 9;
+	optional int32			gotExp			= 10;
+	optional int32			gotChip			= 11;
+	optional int32			gotFriendPoint	= 12;
+	repeated UserUnit		gotUnit			= 13; //with uniqueId 
+}
+
+message ReqGetQuestInfo {
+	optional ProtoHeader	header 			= 1;
+}
+
+message RspGetQuestInfo {
+	optional ProtoHeader 	header 			= 1;
+	optional uint32			questId			= 2; // 
+	optional uint32			currentStatus	= 3; // current quest status
+};
+
+//=========== Trap ====================================================================//
+message TrapInjuredValue {
+	optional int32			trapIndex		= 1;
+	optional int32			trapLevel		= 2;
+	optional float			trapValue		= 3;
+};
+
+message TrapInfo {
+	required uint32				trapID		= 1;
+	optional ETrapType			trapType	= 2;
+	optional int32				valueIndex	= 3;
+	repeated TrapInjuredValue	injuredInfo	= 4;
+	optional int32				effectType	= 5;
+};
+
+
+//=====================================================
+
+message UnitResource { 
+	required uint32			id			= 1;
+	optional string			path		= 2; // resource download path
+	optional int32			size		= 3; // resource size in bytes
+    repeated string         fileName    = 4; // file name list
+    optional int32          version     = 5; // file version
+};
+
+message UserUnit {  //unit instance
+	required uint32 uniqueId	= 1;
+	optional uint32 unitId		= 2;
+	optional int32 exp			= 3;
+	optional int32 level		= 4;
+	optional int32 addAttack	= 5;
+	optional int32 addDefence	= 6;
+	optional int32 addHp		= 7;
+	optional int32 limitbreakLv	= 8;
+	optional uint32 getTime		= 9;
+};
+
+message ReqGetUnitResource {
+	optional ProtoHeader	header	= 1;
+	repeated uint32			unitId	= 2;
+};
+
+message RspGetUnitResource {
+	optional ProtoHeader	header	= 1;
+	optional string			server	= 2; // server address
+	repeated UnitResource	unitres	= 3; // unit download path list
+};
+
+message ReqGetUserUnit {	// get unit instance info
+	optional ProtoHeader	header	= 1;
+	repeated uint32			unitId	= 2;
+};
+
+message RspGetUserUnit {
+	optional ProtoHeader	header	= 1;
+	repeated UserUnit		unit	= 2;
+};
+
+//=====================================================
+
+message UserInfo {
+	optional string		uuid				= 1;
+	optional uint32		userId				= 2;
+	optional string		nickName			= 3;
+	optional int32		rank				= 4;
+	optional int32		exp					= 5;
+	optional int32		staminaNow			= 6;
+	optional int32		staminaMax			= 7;
+	optional uint32		staminaRecover		= 8; //recover time
+	optional UserUnit	unit				= 9; //leader unit	
+}
+
+message UserInfoDetail {
+	optional UserInfo		user				= 1;
+	optional AccountInfo	account				= 2;
+	optional QuestLog		quest				= 3;
+	repeated UserUnit		unitList			= 4;
+	optional PartyInfo		party				= 5;
+	optional LoginInfo		login				= 6;
+}
+
+message AccountInfo {
+	optional int32	review				= 1;
+	optional int32	payTotal			= 2;
+	optional int32	payMonth			= 3;
+	optional int32	money				= 4;
+	optional int32	stonePay			= 5;
+	optional int32	stoneFree			= 6;
+	optional int32	stone				= 7;
+	optional int32	friendPoint			= 8;
+	optional int32	firstSelectNum		= 9;
+}
+
+message PartyItem {
+	optional int32 unitPos				= 1;
+	optional uint32 unitUniqueId		= 2;
+}
+
+message UnitParty {
+    optional int32      id				= 1;
+	repeated PartyItem  items			= 2;
+}
+
+message PartyInfo {
+	repeated UnitParty		partyList			= 1;
+	optional int32			currentParty		= 2;
+}
+
+message TerminalInfo {
+	optional string	channel						= 1; // app market channel
+	optional string	deviceName					= 2; // 
+	optional string	uuid						= 3; 
+	optional string	os		 					= 4; // android / ios
+};
+
+message LoginBonus {
+	optional int32		type					= 1;
+	optional int32		value					= 2;
+	optional int32		bonusType				= 3;	
+};
+
+message LoginInfo {
+	optional int32		loginTotal				= 1;
+	optional int32		loginChain				= 2;
+	optional uint32		lastLoginTime			= 3;
+	optional uint32		lastPlayTime			= 4;
+	optional int32		friendPointGet			= 5;
+	optional int32		friendHelpCount			= 6;
+	repeated LoginBonus bonus					= 7;
+};
+
+message PresentInfo {
+	optional uint32		serialId				= 1;
+	optional uint32		sendTime				= 2;
+	optional uint32		type					= 3;
+	optional uint32		value1					= 4;
+	optional uint32		value2					= 5;
+	optional string		message					= 6;
+};
+
+message SessionInfo {
+	optional string		sessionId				= 1;
+	optional string		uuid					= 2;
+	optional uint32		userId					= 3;
+	optional uint32		questId					= 4;
+};
+//-------------------------------------------------
+
+message ReqGetUserInfo {
+	optional ProtoHeader	header				= 1;
+	optional uint32			userId				= 2;
+};
+
+message RspGetUserInfo {
+	optional ProtoHeader	header				= 1;
+	optional UserInfo		user				= 2;
+};
+
+//-------------------------------------------------
+message ReqAuthUser {
+	optional ProtoHeader	header				= 1;
+	optional TerminalInfo	terminal			= 2;	
+};
+
+message RspAuthUser {
+	optional ProtoHeader	header				= 1;
+	optional UserInfo		user				= 2;
+	optional AccountInfo	account				= 3;
+	optional QuestLog		quest				= 4;
+	repeated UserUnit		unitList			= 5;
+	optional PartyInfo		party				= 6;
+	optional uint32			serverTime			= 7;
+	optional LoginInfo		login				= 8;
+	repeated FriendInfo		friends				= 9;
+	repeated PresentInfo	present				= 10;
+	optional EUnitType		evolveType			= 11;
+};
+
+//-------------------------------------------------
+message ReqLoginPack {
+	optional ProtoHeader	header				= 1;
+	optional bool			getLogin			= 2;
+	optional bool			getFriend			= 3;
+	optional bool			getHelper			= 4;
+	optional bool			getPresent			= 5;
+};
+
+message RspLoginPack {
+	optional ProtoHeader	header				= 1;
+	optional LoginInfo		login				= 2;
+	repeated FriendInfo		friends				= 9;
+	repeated PresentInfo	present				= 4;
+};
+
+//-------------------------------------------------
+
+message ReqRenameNick {
+	optional ProtoHeader	header				= 1;
+	optional string			newNickName			= 2;
+};
+
+message RspRenameNick {
+	optional ProtoHeader	header				= 1;
+	optional string			newNickName			= 2;
+};
