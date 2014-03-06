@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TPartyInfo : ProtobufDataBase {
+	const int MAX_PARTY_GROUP_NUM = 4;
 	private PartyInfo	instance;
 	private List<TUnitParty> partyList;
 	private bool isPartyItemModified = false;
@@ -61,7 +62,7 @@ public class TPartyInfo : ProtobufDataBase {
 
 	public	TUnitParty	CurrentParty { 
 		get { 
-			if( CurrentPartyId >= this.partyList.Count -1 )
+			if(this.partyList == null || CurrentPartyId > this.partyList.Count -1 )
 				return null;
 
 			return this.partyList[CurrentPartyId]; } 
@@ -69,11 +70,14 @@ public class TPartyInfo : ProtobufDataBase {
 
 	public	TUnitParty	NextParty { 
 		get {
+			if ( this.partyList == null )
+				return null;
+
 			CurrentPartyId += 1;
 
-			if( CurrentPartyId>4)
+			if( CurrentPartyId >= MAX_PARTY_GROUP_NUM)
 				CurrentPartyId = 0;
-			if( CurrentPartyId >= this.partyList.Count -1 )
+			if( CurrentPartyId > this.partyList.Count -1 )
 				return null;
 
 			isPartyGroupModified = (CurrentPartyId!=originalPartyId);
@@ -84,13 +88,18 @@ public class TPartyInfo : ProtobufDataBase {
 
 	public	TUnitParty	PrevParty { 
 		get { 
+			if ( this.partyList == null )
+				return null;
+
 			CurrentPartyId -= 1;
 			if (CurrentPartyId<0)
-				CurrentPartyId=4;
+				CurrentPartyId = MAX_PARTY_GROUP_NUM;
 
-
-			if( CurrentPartyId >= this.partyList.Count -1 )
+			if( CurrentPartyId > this.partyList.Count -1 ) {
 				return null;
+			}
+
+			LogHelper.Log("CurrentPartyId:{0} partyList.cnt:{1}", CurrentPartyId, partyList.Count);
 
 			isPartyGroupModified = (CurrentPartyId!=originalPartyId);
 			instance.currentParty = CurrentPartyId;
