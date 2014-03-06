@@ -37,11 +37,11 @@ public class TPartyInfo : ProtobufDataBase {
 			
 			TUnitParty tup = new TUnitParty(party);
 			partyList.Add(tup);
-			LogHelper.Log("tup.GetLeaderSkillInfo():{0} {1}", tup.GetLeaderSkillInfo().name, tup.GetLeaderSkillInfo().description);
+//			LogHelper.Log("tup.GetLeaderSkillInfo():{0} {1}", tup.GetLeaderSkillInfo().name, tup.GetLeaderSkillInfo().description);
 
 			List<TUserUnit> userunit = tup.GetUserUnit();
 			foreach(PartyItem item in party.items) {
-				LogHelper.Log("++after sort party ==> item{0}: {1}", item.unitPos, item.unitUniqueId);
+//				LogHelper.Log("++after sort party ==> item{0}: {1}", item.unitPos, item.unitUniqueId);
 				if ( item.unitPos >= userunit.Count ) {
 					LogHelper.Log("  Calculate party attack: INVALID item.unitPos{0} > count:{1}", item.unitPos, userunit.Count);
 					continue;

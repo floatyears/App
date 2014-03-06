@@ -22,7 +22,7 @@ public class TRspClearQuest {
 	public int			gotExp;	
 	public int			gotChip;
 	public int			gotFriendPoint;
-	List<TUserUnit>		gotUnit;
+	public List<TUserUnit>		gotUnit;
 }
 
 public class ClearQuest: ProtoManager {
@@ -41,7 +41,7 @@ public class ClearQuest: ProtoManager {
 	public override bool MakePacket () {
 //		LogHelper.Log ("ClearQuest.MakePacket()...");
 
-		Proto = Protocol.START_QUEST;
+		Proto = Protocol.CLEAR_QUEST;
 		reqType = typeof(ReqClearQuest);
 		rspType = typeof(RspClearQuest);
 
@@ -55,8 +55,11 @@ public class ClearQuest: ProtoManager {
 
 		reqClearQuest.questId = questParam.questId;
 		reqClearQuest.getMoney = questParam.getMoney;
+//		reqClearQuest.getUnit = new List<uint>();
 		reqClearQuest.getUnit.AddRange( questParam.getUnit );
+//		reqClearQuest.hitGrid = new List<uint>();
 		reqClearQuest.hitGrid.AddRange( questParam.hitGrid );
+
 
 		ErrorMsg err = SerializeData (reqClearQuest); // save to Data for send out
 		
@@ -86,14 +89,13 @@ public class ClearQuest: ProtoManager {
 			cq.gotExp		= rspClearQuest.gotExp;
 			cq.gotChip		= rspClearQuest.gotChip;
 			cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
-//			cq.gotUnit		= new List<TUserUnit>();
-//			foreach (UserUnit uu in rspClearQuest.gotUnit ) {
-//				TUserUnit tuu = new TUserUnit(uu);
-//				cq.gotUnit.Add(tuu);
-//			}
+			foreach (UserUnit uu in rspClearQuest.gotUnit ) {
+				TUserUnit tuu = new TUserUnit(uu);
+				cq.gotUnit.Add(tuu);
+			}
 
 			//send response to caller
-			MsgCenter.Instance.Invoke (CommandEnum.RspClearQuest, null);
+			MsgCenter.Instance.Invoke (CommandEnum.RspClearQuest, cq);
 
 		} else{
 			MsgCenter.Instance.Invoke (CommandEnum.RspClearQuest, null);

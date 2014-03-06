@@ -20,6 +20,8 @@ public class AuthUser: ProtoManager {
 	public override bool MakePacket () {
 		LogHelper.Log ("AuthUser.MakePacket()...");
 
+
+		
 		Proto = Protocol.AUTH_USER;
 		reqType = typeof(ReqAuthUser);
 		rspType = typeof(RspAuthUser);
