@@ -12,17 +12,18 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-		InitDragPanel();
-		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
+//		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
+//		InitDragPanel();
+
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-
-		if(IsInvoking("CrossShow")) {
-			CancelInvoke("CrossShow");
-		}
-                InvokeRepeating("CrossShow",0.1f, 1f);
+//
+//		if(IsInvoking("CrossShow")) {
+//			CancelInvoke("CrossShow");
+//		}
+//                InvokeRepeating("CrossShow",0.1f, 1f);
 	}
 
 	public override void HideUI(){
@@ -32,6 +33,10 @@ public class MyUnitDragPanel : UIComponentUnity {
 	protected void InitDragPanel(){
 		if ( GlobalData.myUnitList != null)
 			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
+		else {
+			Debug.Log("lobalData.myUnitList is null, return");
+			return;
+		}
 
 		if(userUnitInfoList == null ){
 			Debug.LogWarning("userUnitInfoList is null ");
@@ -39,9 +44,10 @@ public class MyUnitDragPanel : UIComponentUnity {
 		}
 
 		int unitCount = userUnitInfoList.Count;
+		Debug.Log("1111111111111Count : " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject unitItem =  Resources.Load( itemSourcePath ) as GameObject;
-		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
+		//GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
 		InitDragPanelArgs();
 		//dragPanel = CreateDragPanel( name, count, itemGo) ;
 		//FillDragPanel( dragPanel );
@@ -49,8 +55,9 @@ public class MyUnitDragPanel : UIComponentUnity {
 		dragPanel.CreatUI();
 		//dragPanel.AddItem(1,rejectItem);
 		dragPanel.AddItem(unitCount,unitItem);
-		dragPanel.RootObject.SetScrollView(dragPanelArgs);
 		FillDragPanel( dragPanel );
+		dragPanel.RootObject.SetScrollView(dragPanelArgs);
+
 	}
 
 	protected DragPanel CreateDragPanel( string name, int count, GameObject item){

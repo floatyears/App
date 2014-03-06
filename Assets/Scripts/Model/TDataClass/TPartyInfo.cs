@@ -58,7 +58,7 @@ public class TPartyInfo : ProtobufDataBase {
 
 	public	TUnitParty	CurrentParty { 
 		get { 
-			if( CurrentPartyId >= this.partyList.Count -1 )
+			if( CurrentPartyId > this.partyList.Count -1 )
 				return null;
 
 			return this.partyList[CurrentPartyId]; } 

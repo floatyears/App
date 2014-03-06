@@ -29,7 +29,7 @@ public class PartyPageUILogic : ConcreteComponent {
 			Debug.LogError("PartyPageUILogic.GetPartyPageData(), GlobalData.partyInfo is NULL");
 			return null;
 		}
-		TUnitParty partyInfo;
+		TUnitParty partyInfo = null;
 		switch (pageType){
 			case "PageForward" : 
 				partyInfo = GlobalData.partyInfo.PrevParty;

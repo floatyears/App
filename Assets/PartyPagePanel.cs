@@ -15,6 +15,7 @@ public class PartyPagePanel : UIComponentUnity {
 	UIButton rightButton;
 	Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 	Dictionary< int, UITexture > unitTexureDic = new Dictionary< int, UITexture>();
+	//Dictionary< GameObject, > partyItemDic = new Dictionary<int, GameObject>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -53,6 +54,11 @@ public class PartyPagePanel : UIComponentUnity {
 	void FindButton(){
 		leftButton = FindChild<UIButton>("Button_Left");
 		rightButton = FindChild<UIButton>("Button_Right");
+	}
+
+	void FindItem(){
+//		GameObject go;
+
 	}
 
 	void FindTexture() {
@@ -141,10 +147,5 @@ public class PartyPagePanel : UIComponentUnity {
 			UpdateLabel((int)curPartyIndex);
 		}
 	}
-
-
-
-
-
-
+	
 }
