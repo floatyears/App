@@ -4,19 +4,20 @@ import (
 //"fmt"
 )
 import (
-	bbproto "../bbproto"
-	"../common"
-	"../common/Error"
-	"../common/log"
-	"../const"
-	"../data"
+	bbproto "bbproto"
 	proto "code.google.com/p/goprotobuf/proto"
+	"common"
+	"common/EC"
+	"common/Error"
+	"common/consts"
+	"common/log"
+	"data"
 	//redis "github.com/garyburd/redigo/redis"
 )
 
 func UpdateLoginInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.Error) {
 	if db == nil {
-		return Error.New(cs.INVALID_PARAMS, "invalid db pointer")
+		return Error.New(EC.INVALID_PARAMS, "invalid db pointer")
 	}
 	if userdetail == nil || userdetail.Login == nil {
 		return Error.New("ERROR: invalid input param: userdetail.Login")
@@ -45,12 +46,12 @@ func UpdateLoginInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error
 
 	zUserData, err := proto.Marshal(userdetail)
 
-	if err = db.Select(cs.TABLE_USER); err != nil {
-		return Error.New(cs.READ_DB_ERROR)
+	if err = db.Select(consts.TABLE_USER); err != nil {
+		return Error.New(EC.READ_DB_ERROR)
 	}
 
 	if err = db.Set(common.Utoa(*userdetail.User.UserId), zUserData); err != nil {
-		return Error.New(cs.SET_DB_ERROR, err)
+		return Error.New(EC.READ_DB_ERROR, err)
 	}
 	log.Printf("[TRACE] UpdateLoginInfo for (%v) , return err(%v)", *userdetail.User.UserId, err)
 

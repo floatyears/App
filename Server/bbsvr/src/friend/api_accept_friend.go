@@ -8,12 +8,13 @@ import (
 )
 
 import (
-	"../bbproto"
-	"../common"
-	"../common/Error"
-	"../const"
-	"../data"
-	//"../user/usermanage"
+	"bbproto"
+	"common"
+	"common/Error"
+	"common/consts"
+	"common/EC"
+	"data"
+	//"user/usermanage"
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
@@ -71,11 +72,11 @@ func (t AcceptFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqAcceptFriend, r
 func (t AcceptFriendProtocol) verifyParams(reqMsg *bbproto.ReqAcceptFriend) (e Error.Error) {
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil || reqMsg.FriendUid == nil {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	if *reqMsg.Header.UserId == 0 || *reqMsg.FriendUid == 0 {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: userId is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: userId is invalid.")
 	}
 
 	return Error.OK()
@@ -83,10 +84,10 @@ func (t AcceptFriendProtocol) verifyParams(reqMsg *bbproto.ReqAcceptFriend) (e E
 
 func (t AcceptFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqAcceptFriend, rspMsg *bbproto.RspAcceptFriend) (e Error.Error) {
 	db := &data.Data{}
-	err := db.Open(cs.TABLE_FRIEND)
+	err := db.Open(consts.TABLE_FRIEND)
 	defer db.Close()
 	if err != nil {
-		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
+		return Error.New(EC.CONNECT_DB_ERROR, err.Error())
 	}
 
 	uid := *reqMsg.Header.UserId

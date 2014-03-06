@@ -11,11 +11,11 @@ import (
 	"time"
 )
 import (
-	//"./data"
-	"./common/log"
-	"./friend"
-	"./quest"
-	"./user"
+	//"data"
+	"common/log"
+	"friend"
+	"quest"
+	"user"
 )
 
 const (

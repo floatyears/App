@@ -12,14 +12,14 @@ import (
 	//"time"
 )
 import (
-	bbproto "../src/bbproto"
-	"../src/common"
-	"../src/common/Error"
-	"../src/common/log"
-	"../src/const"
-	"../src/data"
-	_ "../src/quest"
-	//"../src/user/usermanage"
+	bbproto "bbproto"
+	"common"
+	"common/EC"
+	"common/Error"
+	"common/consts"
+	"common/log"
+	"data"
+	//"src/user/usermanage"
 	//redis "github.com/garyburd/redigo/redis"
 )
 
@@ -125,7 +125,7 @@ func AuthUser(uuid string, uid uint32) {
 
 //func AddUsers(num uint32) error {
 //	db := &data.Data{}
-//	err := db.Open(string(cs.TABLE_USER))
+//	err := db.Open(string(consts.TABLE_USER))
 //	if err != nil {
 //		return err
 //	}
@@ -200,7 +200,7 @@ func test() {
 
 func ResetStamina(uid uint32) (e Error.Error) {
 	db := &data.Data{}
-	err := db.Open(cs.TABLE_USER)
+	err := db.Open(consts.TABLE_USER)
 	defer db.Close()
 	if err != nil || uid <= 0 {
 		return
@@ -228,12 +228,12 @@ func ResetStamina(uid uint32) (e Error.Error) {
 	//save data
 	zUserData, err := proto.Marshal(userDetail)
 	if err != nil {
-		return Error.New(cs.MARSHAL_ERROR, err)
+		return Error.New(EC.MARSHAL_ERROR, err)
 	}
 
 	if err = db.Set(common.Utoa(*userDetail.User.UserId), zUserData); err != nil {
 		log.Error("SET_DB_ERROR for userDetail: %v", *userDetail.User.UserId)
-		return Error.New(cs.SET_DB_ERROR, err)
+		return Error.New(EC.READ_DB_ERROR, err)
 	}
 
 	return Error.OK()

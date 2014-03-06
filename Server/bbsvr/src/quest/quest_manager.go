@@ -7,14 +7,15 @@ import (
 )
 
 import (
-	"../bbproto"
-	"../common"
-	"../common/Error"
-	"../common/log"
-	"../const"
-	"../data"
-	"../unit"
-	//"../user/usermanage"
+	"bbproto"
+	"common"
+	"common/EC"
+	"common/Error"
+	"common/consts"
+	"common/log"
+	"data"
+	"unit"
+	//"user/usermanage"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
@@ -22,7 +23,7 @@ import (
 
 func GetQuestInfo(db *data.Data, stageInfo *bbproto.StageInfo, questId uint32) (questInfo *bbproto.QuestInfo, e Error.Error) {
 	if db == nil || stageInfo == nil {
-		return nil, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer or stageInfo is nil.")
+		return nil, Error.New(EC.INVALID_PARAMS, "[ERROR] db pointer or stageInfo is nil.")
 	}
 
 	for k, quest := range stageInfo.Quests {
@@ -32,33 +33,33 @@ func GetQuestInfo(db *data.Data, stageInfo *bbproto.StageInfo, questId uint32) (
 		}
 	}
 
-	return nil, Error.New(cs.EQ_QUEST_ID_INVALID, fmt.Sprintf("invalid questId: %v", questId))
+	return nil, Error.New(EC.EQ_QUEST_ID_INVALID, fmt.Sprintf("invalid questId: %v", questId))
 }
 
 func GetStageInfo(db *data.Data, stageId uint32) (stageInfo *bbproto.StageInfo, e Error.Error) {
 	if db == nil {
-		return stageInfo, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
+		return stageInfo, Error.New(EC.INVALID_PARAMS, "[ERROR] db pointer is nil.")
 	}
 
-	if err := db.Select(cs.TABLE_QUEST); err != nil {
-		return stageInfo, Error.New(cs.READ_DB_ERROR, err)
+	if err := db.Select(consts.TABLE_QUEST); err != nil {
+		return stageInfo, Error.New(EC.READ_DB_ERROR, err)
 	}
 
 	log.T("begin get stageInfo: %v", stageId)
 
-	zStageInfo, err := db.Gets(cs.X_QUEST_STAGE + common.Utoa(stageId))
+	zStageInfo, err := db.Gets(consts.X_QUEST_STAGE + common.Utoa(stageId))
 	if err != nil {
-		return stageInfo, Error.New(cs.READ_DB_ERROR, "read stageinfo fail")
+		return stageInfo, Error.New(EC.READ_DB_ERROR, "read stageinfo fail")
 	}
 
 	stageInfo = &bbproto.StageInfo{}
 	if len(zStageInfo) == 0 {
-		return stageInfo, Error.New(cs.DATA_NOT_EXISTS, fmt.Sprintf("stageInfo [%v] not exists", stageId))
+		return stageInfo, Error.New(EC.DATA_NOT_EXISTS, fmt.Sprintf("stageInfo [%v] not exists", stageId))
 	}
 
 	if err = proto.Unmarshal(zStageInfo, stageInfo); err != nil {
 		log.T("[ERROR] unmarshal error from stage[%v] info.", stageId)
-		return stageInfo, Error.New(cs.UNMARSHAL_ERROR, "unmarshal error.")
+		return stageInfo, Error.New(EC.UNMARSHAL_ERROR, "unmarshal error.")
 	}
 
 	log.T("stageInfo[%v]: %+v", stageId, stageInfo)
@@ -68,24 +69,24 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo *bbproto.StageInfo, 
 
 func GetQuestConfig(db *data.Data, questId uint32) (config bbproto.QuestConfig, e Error.Error) {
 	if db == nil {
-		return config, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
+		return config, Error.New(EC.INVALID_PARAMS, "[ERROR] db pointer is nil.")
 	}
-	if err := db.Select(cs.TABLE_QUEST); err != nil {
-		return config, Error.New(cs.READ_DB_ERROR, err)
+	if err := db.Select(consts.TABLE_QUEST); err != nil {
+		return config, Error.New(EC.READ_DB_ERROR, err)
 	}
 
-	zQuestConf, err := db.Gets(cs.X_QUEST_CONFIG + common.Utoa(questId))
+	zQuestConf, err := db.Gets(consts.X_QUEST_CONFIG + common.Utoa(questId))
 	if err != nil {
-		return config, Error.New(cs.EQ_GET_QUEST_CONFIG_ERROR, "get quest config fail")
+		return config, Error.New(EC.EQ_GET_QUEST_CONFIG_ERROR, "get quest config fail")
 	}
 
 	if len(zQuestConf) == 0 {
-		return config, Error.New(cs.DATA_NOT_EXISTS, fmt.Sprintf("QuestConfig for:%v not exists", questId))
+		return config, Error.New(EC.DATA_NOT_EXISTS, fmt.Sprintf("QuestConfig for:%v not exists", questId))
 	}
 
 	if err = proto.Unmarshal(zQuestConf, &config); err != nil {
 		log.T("[ERROR] unmarshal error from questConfig[%v].", questId)
-		return config, Error.New(cs.UNMARSHAL_ERROR, "unmarshal error.")
+		return config, Error.New(EC.UNMARSHAL_ERROR, "unmarshal error.")
 	}
 
 	return config, Error.OK()
@@ -101,25 +102,25 @@ type TUsedValue struct {
 //starQuest: check userDetail.Quest if exists; else: get quest state from QuestLogs(for chip gift)
 func CheckQuestRecord(db *data.Data, stageId, questId uint32, userDetail *bbproto.UserInfoDetail) (state bbproto.EQuestState, e Error.Error) {
 	if db == nil || userDetail == nil {
-		return 0, Error.New(cs.INVALID_PARAMS, "invalid db pointer or userDetail pointer")
+		return 0, Error.New(EC.INVALID_PARAMS, "invalid db pointer or userDetail pointer")
 	}
 
 	if userDetail.Quest != nil && userDetail.Quest.State != nil {
 		log.T("user(%v) is playing quest:%+v", *userDetail.User.UserId, userDetail.Quest)
-		//return 0, Error.New(cs.EQ_QUEST_IS_PLAYING)
+		//return 0, Error.New(EC.EQ_QUEST_IS_PLAYING)
 	}
 
-	if err := db.Select(cs.TABLE_QUEST); err != nil {
-		return 0, Error.New(cs.READ_DB_ERROR, err)
+	if err := db.Select(consts.TABLE_QUEST); err != nil {
+		return 0, Error.New(EC.READ_DB_ERROR, err)
 	}
 
 	//get quest state: CLEAR or NEW
 	var value []byte
 	uid := *userDetail.User.UserId
-	value, err := db.HGet(cs.X_QUEST_RECORD+common.Utoa(uid), common.Utoa(stageId)+"_"+common.Utoa(questId))
+	value, err := db.HGet(consts.X_QUEST_RECORD+common.Utoa(uid), common.Utoa(stageId)+"_"+common.Utoa(questId))
 	if err != nil {
 		log.Printf("[ERROR] GetQuestRecord for '%v' ret err:%v", uid, err)
-		return 0, Error.New(cs.READ_DB_ERROR, "read quest log fail")
+		return 0, Error.New(EC.READ_DB_ERROR, "read quest log fail")
 	}
 
 	if len(value) == 0 {
@@ -129,7 +130,7 @@ func CheckQuestRecord(db *data.Data, stageId, questId uint32, userDetail *bbprot
 	questStatus := &bbproto.QuestStatus{}
 	err = proto.Unmarshal(value, questStatus)
 	if err != nil {
-		return 0, Error.New(cs.UNMARSHAL_ERROR)
+		return 0, Error.New(EC.UNMARSHAL_ERROR)
 	}
 
 	if questStatus.State != nil {
@@ -143,12 +144,12 @@ func CheckQuestRecord(db *data.Data, stageId, questId uint32, userDetail *bbprot
 func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId uint32,
 	getUnit []uint32, getMoney int32) (gotMoney, gotExp, gotFriendPt int32, gotUnit []*bbproto.UserUnit, e Error.Error) {
 	if db == nil {
-		return 0, 0, 0, gotUnit, Error.New(cs.INVALID_PARAMS, "invalid db pointer")
+		return 0, 0, 0, gotUnit, Error.New(EC.INVALID_PARAMS, "invalid db pointer")
 	}
 
 	uid := *userDetail.User.UserId
 	if userDetail.Quest == nil {
-		return 0, 0, 0, gotUnit, Error.New(cs.EQ_UPDATE_QUEST_RECORD_ERROR, "user.Quest is nil")
+		return 0, 0, 0, gotUnit, Error.New(EC.EQ_UPDATE_QUEST_RECORD_ERROR, "user.Quest is nil")
 	}
 
 	userDetail.Quest.EndTime = proto.Uint32(common.Now())
@@ -175,7 +176,7 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 
 	if !isAllValidUnit {
 		log.Error("clear request: invalid drop unit.")
-		return 0, 0, 0, gotUnit, Error.New(cs.EQ_INVALID_DROP_UNIT, "clear request: invalid drop unit")
+		return 0, 0, 0, gotUnit, Error.New(EC.EQ_INVALID_DROP_UNIT, "clear request: invalid drop unit")
 	}
 
 	//append unit to userinfo
@@ -206,15 +207,15 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 	//save userDetail.Quest to QuestLog
 	zQuest, err := proto.Marshal(userDetail.Quest)
 	if err != nil {
-		return 0, 0, 0, gotUnit, Error.New(cs.MARSHAL_ERROR)
+		return 0, 0, 0, gotUnit, Error.New(EC.MARSHAL_ERROR)
 	}
 
-	if err := db.Select(cs.TABLE_QUEST_LOG); err != nil {
-		return 0, 0, 0, gotUnit, Error.New(cs.SET_DB_ERROR, err.Error())
+	if err := db.Select(consts.TABLE_QUEST_LOG); err != nil {
+		return 0, 0, 0, gotUnit, Error.New(EC.READ_DB_ERROR, err.Error())
 	}
-	if err = db.HSet(cs.X_QUEST_LOG+common.Utoa(uid), common.Utoa(questId), zQuest); err != nil {
+	if err = db.HSet(consts.X_QUEST_LOG+common.Utoa(uid), common.Utoa(questId), zQuest); err != nil {
 		log.Error("HSet(X_QUEST_LOG_%v, %v) failed:%v.", uid, questId, err)
-		return 0, 0, 0, gotUnit, Error.New(cs.SET_DB_ERROR)
+		return 0, 0, 0, gotUnit, Error.New(EC.READ_DB_ERROR)
 	}
 
 	//clear userDetail.Quest, then save userDetail

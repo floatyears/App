@@ -6,13 +6,13 @@ import (
 )
 
 import (
-	"../bbproto"
-	"../common"
-	"../common/Error"
-	"../common/log"
-	"../const"
-	"../data"
-	"../user/usermanage"
+	"bbproto"
+	"common"
+	"common/EC"
+	"common/Error"
+	"common/log"
+	"data"
+	"user/usermanage"
 
 	"code.google.com/p/goprotobuf/proto"
 )
@@ -26,7 +26,7 @@ func StartQuestHandler(rsp http.ResponseWriter, req *http.Request) {
 	handler := &StartQuest{}
 	e := handler.ParseInput(req, &reqMsg)
 	if e.IsError() {
-		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Error.New(cs.INVALID_PARAMS, e.Error())))
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Error.New(EC.INVALID_PARAMS, e.Error())))
 		return
 	}
 
@@ -70,7 +70,7 @@ func (t StartQuest) verifyParams(reqMsg *bbproto.ReqStartQuest) (err Error.Error
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil || reqMsg.StageId == nil || reqMsg.QuestId == nil ||
 		reqMsg.HelperUserId == nil || reqMsg.HelperUnit == nil {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	//!!IMPORTANT!!: client protobuf.net cannot serialize when value='0', so convert nil to 0.
@@ -80,7 +80,7 @@ func (t StartQuest) verifyParams(reqMsg *bbproto.ReqStartQuest) (err Error.Error
 
 	if *reqMsg.Header.UserId == 0 || *reqMsg.StageId == 0 || *reqMsg.QuestId == 0 ||
 		*reqMsg.HelperUserId == 0 {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	return Error.OK()
@@ -98,16 +98,16 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	err := db.Open("")
 	defer db.Close()
 	if err != nil {
-		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
+		return Error.New(EC.CONNECT_DB_ERROR, err.Error())
 	}
 
 	//get userinfo from user table
 	userDetail, isUserExists, err := usermanage.GetUserInfo(db, uid)
 	if err != nil {
-		return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", uid, err.Error()))
+		return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", uid, err.Error()))
 	}
 	if !isUserExists {
-		return Error.New(cs.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
+		return Error.New(EC.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
 	}
 	log.T(" getUser(%v) ret userinfo: %v", uid, userDetail.User)
 
@@ -122,7 +122,7 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 		return e
 	}
 	if questInfo == nil {
-		return Error.New(cs.EQ_GET_QUESTINFO_ERROR, "GetQuestInfo ret ok, but result is nil.")
+		return Error.New(EC.EQ_GET_QUESTINFO_ERROR, "GetQuestInfo ret ok, but result is nil.")
 	}
 	log.T("questInfo:%+v", questInfo)
 
@@ -136,7 +136,7 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 		*userDetail.User.StaminaNow, *userDetail.User.StaminaNow-*questInfo.Stamina, *userDetail.User.StaminaRecover)
 
 	if *userDetail.User.StaminaNow < *questInfo.Stamina {
-		return Error.New(cs.EQ_STAMINA_NOT_ENOUGH, "stamina is not enough")
+		return Error.New(EC.EQ_STAMINA_NOT_ENOUGH, "stamina is not enough")
 	}
 	*userDetail.User.StaminaNow -= *questInfo.Stamina
 

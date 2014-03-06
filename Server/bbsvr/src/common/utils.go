@@ -1,7 +1,7 @@
 package common
 
 import (
-	"./log"
+	"common/log"
 	"fmt"
 	"math/rand"
 	"os"

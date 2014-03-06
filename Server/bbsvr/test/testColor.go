@@ -6,7 +6,7 @@ import (
 	//"fmt"
 	//"log"
 	"../src/common/log"
-	//"../src/quest"
+	//"src/quest"
 	//"math/rand"
 )
 

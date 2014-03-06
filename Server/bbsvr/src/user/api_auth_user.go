@@ -11,15 +11,15 @@ import (
 )
 
 import (
-	"../bbproto"
-	"../common"
-	"../common/Error"
-	"../common/log"
-	"../const"
-	"../data"
-	"../event"
-	"../friend"
-	"./usermanage"
+	"bbproto"
+	"common"
+	"common/EC"
+	"common/Error"
+	"common/log"
+	"data"
+	"event"
+	"friend"
+	"user/usermanage"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -64,11 +64,11 @@ func (t AuthUser) GenerateSessionId(uuid *string) (sessionId string, err error) 
 func (t AuthUser) verifyParams(reqMsg *bbproto.ReqAuthUser) (err Error.Error) {
 	//TODO: do some params validation
 	if reqMsg.Terminal == nil || reqMsg.Terminal.Uuid == nil && reqMsg.Header.UserId == nil {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	if *reqMsg.Terminal.Uuid == "" && *reqMsg.Header.UserId <= 0 {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	return Error.OK()
@@ -123,7 +123,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 	defer db.Close()
 	if err != nil {
 		log.Error("uid:%v, open db ret err:%v", uid, err)
-		return Error.New(cs.CONNECT_DB_ERROR, err)
+		return Error.New(EC.CONNECT_DB_ERROR, err)
 	}
 
 	var userDetail bbproto.UserInfoDetail
@@ -145,8 +145,8 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		// get FriendInfo
 		friendsInfo, e := friend.GetOnlyFriends(db, uid, rank)
 		log.T("GetFriendInfo ret err:%v. friends num=%v  ", e.Error(), len(friendsInfo))
-		if e.IsError() && e.Code() != cs.EF_FRIEND_NOT_EXISTS {
-			return Error.New(cs.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
+		if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
+			return Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
 		}
 
 		//fill rspMsg

@@ -1,4 +1,4 @@
-package cs
+package EC
 
 //common error
 const (

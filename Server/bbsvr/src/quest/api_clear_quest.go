@@ -7,13 +7,13 @@ import (
 )
 
 import (
-	"../bbproto"
-	"../common"
-	"../common/Error"
-	"../common/log"
-	"../const"
-	"../data"
-	"../user/usermanage"
+	"bbproto"
+	"common"
+	"common/EC"
+	"common/Error"
+	"common/log"
+	"data"
+	"user/usermanage"
 
 	proto "code.google.com/p/goprotobuf/proto"
 )
@@ -27,7 +27,7 @@ func ClearQuestHandler(rsp http.ResponseWriter, req *http.Request) {
 	handler := &ClearQuest{}
 	e := handler.ParseInput(req, &reqMsg)
 	if e.IsError() {
-		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Error.New(cs.INVALID_PARAMS, e.Error())))
+		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Error.New(EC.INVALID_PARAMS, e.Error())))
 		return
 	}
 
@@ -71,11 +71,11 @@ func (t ClearQuest) verifyParams(reqMsg *bbproto.ReqClearQuest) (err Error.Error
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil || reqMsg.GetMoney == nil || //reqMsg.HitGrid == nil ||
 		reqMsg.GetUnit == nil || reqMsg.QuestId == nil {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	if *reqMsg.Header.UserId == 0 || *reqMsg.QuestId == 0 {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	return Error.OK()
@@ -93,16 +93,16 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	defer db.Close()
 	if err != nil {
 		log.Error("open TABLE_QUEST failed.")
-		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
+		return Error.New(EC.CONNECT_DB_ERROR, err.Error())
 	}
 
 	//1. get userinfo from user table
 	userDetail, isUserExists, err := usermanage.GetUserInfo(db, uid)
 	if err != nil {
-		return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", uid, err.Error()))
+		return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", uid, err.Error()))
 	}
 	if !isUserExists {
-		return Error.New(cs.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
+		return Error.New(EC.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
 	}
 	log.T("getUser(%v) ret userinfo: %v", uid, userDetail.User)
 
@@ -124,7 +124,7 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 
 	//4. update userinfo (include: unitList, exp, money, stamina)
 	if e = usermanage.UpdateUserInfo(db, &userDetail); e.IsError() {
-		return Error.New(cs.EU_UPDATE_USERINFO_ERROR, "update userinfo failed.")
+		return Error.New(EC.EU_UPDATE_USERINFO_ERROR, "update userinfo failed.")
 	}
 	log.T("UpdateUserInfo(%v) ret OK.", uid)
 

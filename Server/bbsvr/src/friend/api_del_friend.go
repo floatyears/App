@@ -8,11 +8,12 @@ import (
 )
 
 import (
-	"../bbproto"
-	"../common/Error"
-	"../const"
-	"../data"
-	//"../user/usermanage"
+	"bbproto"
+	"common/EC"
+	"common/Error"
+	"common/consts"
+	"data"
+	//"user/usermanage"
 	proto "code.google.com/p/goprotobuf/proto"
 )
 
@@ -70,11 +71,11 @@ func (t DelFriendProtocol) FillResponseMsg(reqMsg *bbproto.ReqDelFriend, rspMsg 
 func (t DelFriendProtocol) verifyParams(reqMsg *bbproto.ReqDelFriend) (e Error.Error) {
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil || reqMsg.FriendUid == nil {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	if *reqMsg.Header.UserId == 0 || *reqMsg.FriendUid == 0 {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: userId is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: userId is invalid.")
 	}
 
 	return Error.OK()
@@ -82,10 +83,10 @@ func (t DelFriendProtocol) verifyParams(reqMsg *bbproto.ReqDelFriend) (e Error.E
 
 func (t DelFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqDelFriend, rspMsg *bbproto.RspDelFriend) (e Error.Error) {
 	db := &data.Data{}
-	err := db.Open(cs.TABLE_FRIEND)
+	err := db.Open(consts.TABLE_FRIEND)
 	defer db.Close()
 	if err != nil {
-		return Error.New(cs.CONNECT_DB_ERROR, err.Error())
+		return Error.New(EC.CONNECT_DB_ERROR, err.Error())
 	}
 
 	uid := *reqMsg.Header.UserId
@@ -94,7 +95,7 @@ func (t DelFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqDelFriend, rspMsg *bb
 	num, err := DelFriend(db, uid, fUid)
 	if err != nil {
 		log.Printf("[ERROR] user:%v DelFriend(%v) failed: %v", uid, fUid, err)
-		return Error.New(cs.EF_DEL_FRIEND_FAIL, err.Error())
+		return Error.New(EC.EF_DEL_FRIEND_FAIL, err.Error())
 	}
 
 	log.Printf("[TRACE] user:%v DelFriend(%v) ok (del %v item).", uid, fUid, num)

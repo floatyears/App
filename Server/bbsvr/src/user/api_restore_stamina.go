@@ -6,11 +6,11 @@ import (
 )
 
 import (
-	"../bbproto"
-	"../common/Error"
-	"../common/log"
-	"../const"
-	"./usermanage"
+	"bbproto"
+	"common/EC"
+	"common/Error"
+	"common/log"
+	"user/usermanage"
 
 	proto "code.google.com/p/goprotobuf/proto"
 )
@@ -51,11 +51,11 @@ type RestoreStamina struct {
 func (t RestoreStamina) verifyParams(reqMsg *bbproto.ReqRestoreStamina) (err Error.Error) {
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	if *reqMsg.Header.UserId == 0 {
-		return Error.New(cs.INVALID_PARAMS, "ERROR: userId is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: userId is invalid.")
 	}
 
 	return Error.OK()

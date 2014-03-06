@@ -11,14 +11,14 @@ import (
 	//"time"
 )
 import (
-	"../src/bbproto"
-	"../src/common"
-	//"../src/common/Error"
-	"../src/const"
-	"../src/data"
-	//"../src/quest"
-	//"../src/user/usermanage"
-	//"../src/friend"
+	"bbproto"
+	"common"
+	//"src/common/Error"
+	"common/consts"
+	"data"
+	//"src/quest"
+	//"src/user/usermanage"
+	//"src/friend"
 	//redis "github.com/garyburd/redigo/redis"
 )
 
@@ -173,7 +173,7 @@ func DataAddQuestConfig(questId uint32) error {
 	log.Printf("QuestConfig: %+v", conf)
 
 	db := &data.Data{}
-	err := db.Open(string(cs.TABLE_QUEST))
+	err := db.Open(string(consts.TABLE_QUEST))
 	if err != nil {
 		return err
 	}
@@ -184,7 +184,7 @@ func DataAddQuestConfig(questId uint32) error {
 		log.Printf("unmarshal error.")
 		return err
 	}
-	if err = db.Set(cs.X_QUEST_CONFIG+common.Utoa(questId), zData); err != nil {
+	if err = db.Set(consts.X_QUEST_CONFIG+common.Utoa(questId), zData); err != nil {
 		return err
 	}
 
@@ -193,7 +193,7 @@ func DataAddQuestConfig(questId uint32) error {
 
 func DataAddStageInfo(stageId uint32, stageName string) error {
 	db := &data.Data{}
-	err := db.Open(string(cs.TABLE_QUEST))
+	err := db.Open(string(consts.TABLE_QUEST))
 	if err != nil {
 		return err
 	}
@@ -247,7 +247,7 @@ func DataAddStageInfo(stageId uint32, stageName string) error {
 		return err
 	}
 
-	err = db.Set(cs.X_QUEST_STAGE+common.Utoa(stageId), zStageInfo)
+	err = db.Set(consts.X_QUEST_STAGE+common.Utoa(stageId), zStageInfo)
 	if err != nil {
 		return err
 	}
