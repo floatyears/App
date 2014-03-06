@@ -6,6 +6,21 @@ using bbproto;
 public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	private List<PartyItem> partyItem = new List<PartyItem> ();		
 	private Dictionary<uint,ProtobufDataBase> leaderSkill = new Dictionary<uint,ProtobufDataBase> ();
+
+
+	private UnitParty instance;
+	public TUnitParty (object instance) : base (instance) { 
+		this.instance = instance as UnitParty;
+		MsgCenter.Instance.AddListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
+
+		reAssignData();
+	}
+	
+	public void RemoveListener () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
+	}
+
+
 	public Dictionary<uint,ProtobufDataBase> LeadSkill {
 		get { return leaderSkill; }
 	}
@@ -27,6 +42,36 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 
 	AttackInfo reduceHurt = null;
 
+	private int totalHp = 0;
+	private int totalCost = 0;
+	private Dictionary<EUnitType, int>  typeAttackValue = new Dictionary<EUnitType, int> ();
+	//calculate each Type Attack, party's totalHp, totalCost
+	private void reAssignData() {
+		List<TUserUnit> uu = GetUserUnit();
+		totalHp = totalCost = 0;
+		foreach(var it in typeAttackValue) {
+			typeAttackValue[it.Key] = 0;
+		}
+
+		foreach(PartyItem item in instance.items) {
+			if ( item.unitPos >= uu.Count ) {
+				LogHelper.Log("  Calculate party attack: INVALID item.unitPos{0} > count:{1}", item.unitPos, uu.Count);
+				continue;
+			}
+			EUnitType unitType = uu[item.unitPos].UnitInfo.Type;
+			if ( !typeAttackValue.ContainsKey(unitType) )
+				typeAttackValue.Add(unitType, 0);
+
+			typeAttackValue[ unitType ] += uu[item.unitPos].Attack;
+			totalHp += uu[item.unitPos].Hp;
+			totalCost += uu[item.unitPos].UnitInfo.Cost;
+		}
+	}
+
+	public Dictionary<EUnitType, int> TypeAttack { get { return typeAttackValue; } }
+	public int TotalHp		{ get { return totalHp; } }
+	public int TotalCost	{ get { return totalCost; } }
+
 	//skill sort
 	private CalculateRecoverHP crh ;
 	/// <summary>
@@ -37,17 +82,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	public Dictionary<int, List<AttackInfo>> Attack {
 		get {return attack;}
 	}
-
-	private UnitParty instance;
-	public TUnitParty (object instance) : base (instance) { 
-		this.instance = instance as UnitParty;
-		MsgCenter.Instance.AddListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
-	}
-	
-	public void RemoveListener () {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveReduceHurt, ReduceHurt);
-	}
-	
 
 	void ReduceHurt(object data) {
 		reduceHurt = data as AttackInfo;
@@ -176,8 +210,12 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 			item.unitPos = pos;
 			item.unitUniqueId = unitUniqueId;
 
+			//update instance and userUnit
 			instance.items[item.unitPos] = item;
-			userUnit[item.unitPos] = GlobalData.userUnitList.GetMyUnit(item.unitUniqueId);
+			if( userUnit!=null && userUnit.ContainsKey(item.unitPos) )
+				userUnit[item.unitPos] = GlobalData.userUnitList.GetMyUnit(item.unitUniqueId);
+
+			this.reAssignData();
 		}
 		else {
 			LogHelper.LogError ("SetPartyItem :: item.unitPos:{0} is invalid.", pos);

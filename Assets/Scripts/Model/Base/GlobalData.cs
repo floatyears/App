@@ -49,8 +49,17 @@ public class GlobalData  {
 	public static Dictionary<int, Object> tempEffect = new Dictionary<int, Object>();
 	public static List<int> HaveCard = new List<int>() {111,185,161,101,122,195};
 
+
+	// return UserCost of curr Rank.
+	public static int UserCost {
+		get {
+			const int TYPE_MAXCOST_OF_RANK = 4; //type = 4: userRank -> cost
+			return GlobalData.Instance.GetUnitValue(TYPE_MAXCOST_OF_RANK, GlobalData.userInfo.Rank); 
+		}
+	}
+
 	/// <summary>
-	/// Gets the unit value.  1 =  exp. 2 = attack. 3 = hp.
+	/// Gets the unit value.  1 =  exp. 2 = attack. 3 = hp. 4 = rankCost
 	/// </summary>
 	/// <returns>The unit value.</returns>
 	/// <param name="type">Type.</param>
