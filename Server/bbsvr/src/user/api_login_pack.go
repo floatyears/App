@@ -91,16 +91,16 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 	//isGetPresent := *reqMsg.GetPresent
 
 	db := &data.Data{}
-	err := db.Open(cs.TABLE_FRIEND)
+	err := db.Open("")
 	defer db.Close()
-	if err != nil || uid == 0 {
+	if err != nil {
 		return
 	}
 
 	rank := uint32(0)
 	if isGetHelper || isGetLogin {
 		//get user's rank from user table
-		userdetail, isUserExists, err := usermanage.GetUserInfo(uid)
+		userdetail, isUserExists, err := usermanage.GetUserInfo(db, uid)
 		if err != nil {
 			return Error.New(cs.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v", uid))
 		}

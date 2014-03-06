@@ -142,6 +142,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 	protected IUICallback viewCallback;
 
 	protected void ExcuteCallback (object data) {
+//		Debug.LogError(viewCallback);
 		if (viewCallback != null) {
 			viewCallback.Callback (data);
 		}

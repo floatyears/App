@@ -13,38 +13,13 @@ import (
 	_ "fmt"
 )
 
-func TestAddMyUnits(db *data.Data, userdetail *bbproto.UserInfoDetail) {
-	MAX_UNIT_NUM := 25
-	if userdetail == nil {
-		return
-	}
-	for i := 1; i <= MAX_UNIT_NUM; i++ {
-		unitId2, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i)
-		if e.IsError() {
-			return
-		}
-		userUnit2 := &bbproto.UserUnit{
-			UniqueId:  proto.Uint32(unitId2),
-			UnitId:    proto.Uint32(uint32(i)),
-			Exp:       proto.Int32(1),
-			Level:     proto.Int32(common.Randn(int32(i))),
-			GetTime:   proto.Uint32(common.Now()),
-			AddAttack: proto.Int32(common.Randn(int32(i) % 10)),
-			AddHp:     proto.Int32(common.Randn(int32(i) % 10)),
-		}
-		userdetail.UnitList = append(userdetail.UnitList, userUnit2)
-	}
-}
-
-func UpdateStamina(db *data.Data, userdetail *bbproto.UserInfoDetail) {
-	if userdetail == nil {
-		return
-	}
-	userdetail.User.StaminaNow = proto.Int32(300)
-}
-
 func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail, e Error.Error) {
-
+	if db == nil {
+		return nil, Error.New(cs.INVALID_PARAMS, "invalid db pointer")
+	}
+	if err := db.Select(cs.TABLE_USER); err != nil {
+		return nil, Error.New(cs.READ_DB_ERROR, err)
+	}
 	userdetail = &bbproto.UserInfoDetail{}
 
 	newUserId, err := GetNewUserId()
@@ -107,7 +82,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	}
 	userUnit1 := &bbproto.UserUnit{
 		UniqueId:  proto.Uint32(unitId1),
-		UnitId:    proto.Uint32(uint32(common.Rand(12, 20))),
+		UnitId:    proto.Uint32(uint32(common.Rand(1, 20))),
 		Exp:       proto.Int32(1),
 		Level:     proto.Int32(1),
 		GetTime:   &tNow,
@@ -116,16 +91,16 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	}
 	userdetail.UnitList = append(userdetail.UnitList, userUnit1)
 
-	for i := 3; i < 20; i++ {
+	for i := 1; i <= 28; i++ {
 		unitId2, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i)
 		if e.IsError() {
 			return nil, e
 		}
 		userUnit2 := &bbproto.UserUnit{
 			UniqueId:  proto.Uint32(unitId2),
-			UnitId:    proto.Uint32(uint32(3 + i)),
+			UnitId:    proto.Uint32(uint32(i)),
 			Exp:       proto.Int32(1),
-			Level:     proto.Int32(common.Randn(int32(i))),
+			Level:     proto.Int32(common.Rand(1, int32(i))),
 			GetTime:   &tNow,
 			AddAttack: proto.Int32(common.Randn(int32(i) % 10)),
 			AddHp:     proto.Int32(common.Randn(int32(i) % 10)),
@@ -141,7 +116,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	for i := 0; i < 4; i++ {
 		item := &bbproto.PartyItem{
 			UnitPos:      proto.Int32(int32(i)),
-			UnitUniqueId: proto.Uint32(uint32(i) + 1),
+			UnitUniqueId: userdetail.UnitList[i].UniqueId,
 		}
 		unitParty.Items = append(unitParty.Items, item)
 	}
@@ -151,7 +126,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	userdetail.Party.PartyList = append(userdetail.Party.PartyList, unitParty)
 
 	if err := db.Select(cs.TABLE_USER); err != nil {
-		return nil, Error.New(cs.SET_DB_ERROR, err.Error())
+		return nil, Error.New(cs.READ_DB_ERROR, err.Error())
 	}
 
 	zUserData, err := proto.Marshal(userdetail)
@@ -177,13 +152,13 @@ func UpdateUserInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.
 		return Error.New(cs.INVALID_PARAMS, "invalid db pointer")
 	}
 
+	if err := db.Select(cs.TABLE_USER); err != nil {
+		return Error.New(cs.READ_DB_ERROR, err.Error())
+	}
+
 	zUserData, err := proto.Marshal(userdetail)
 	if err != nil {
 		return Error.New(cs.MARSHAL_ERROR, err.Error())
-	}
-
-	if err = db.Select(cs.TABLE_USER); err != nil {
-		return Error.New(cs.SET_DB_ERROR, err.Error())
 	}
 
 	if err = db.Set(common.Utoa(*userdetail.User.UserId), zUserData); err != nil {
@@ -194,14 +169,21 @@ func UpdateUserInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.
 	return Error.OK()
 }
 
-func GetUserInfo(uid uint32) (userInfo bbproto.UserInfoDetail, isUserExists bool, err error) {
+//TODO: may return *bbproto.UserInfoDetail
+func GetUserInfo(db *data.Data, uid uint32) (userInfo bbproto.UserInfoDetail, isUserExists bool, err error) {
 	isUserExists = false
 
-	db := &data.Data{}
-	err = db.Open(cs.TABLE_USER)
-	defer db.Close()
-	if err != nil || uid <= 0 {
-		return
+	if db == nil {
+		db := &data.Data{}
+		err = db.Open(cs.TABLE_USER)
+		defer db.Close()
+		if err != nil {
+			return
+		}
+	} else {
+		if err := db.Select(cs.TABLE_USER); err != nil {
+			return userInfo, isUserExists, err
+		}
 	}
 
 	var value []byte
@@ -244,7 +226,7 @@ func GetUserInfoByUuid(uuid string) (userInfo bbproto.UserInfoDetail, isUserExis
 	uid := common.Atou(sUid)
 	log.Printf("get uid by uuid('%v') ret err:%v, uid: %v", uuid, err, uid)
 
-	return GetUserInfo(uid)
+	return GetUserInfo(db, uid)
 }
 
 //get a new userid from db
@@ -316,6 +298,58 @@ func RenameUser(uid uint32, newNickName string) (e Error.Error) {
 
 	log.T("rename success: now nickName is:%v", *userDetail.User.NickName)
 	return Error.OK()
+}
+
+func RetoreStamina(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e Error.Error) {
+	if db == nil {
+		db := &data.Data{}
+		err := db.Open(cs.TABLE_USER)
+		defer db.Close()
+		if err != nil {
+			log.Error("[ERROR] CONNECT_DB_ERROR err:%v", err)
+			return nil, Error.New(cs.CONNECT_DB_ERROR, err)
+		}
+	} else {
+		if err := db.Select(cs.TABLE_USER); err != nil {
+			return nil, Error.New(cs.READ_DB_ERROR, err.Error())
+		}
+	}
+
+	var value []byte
+	value, err := db.Gets(common.Utoa(uid))
+	if err != nil {
+		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		return nil, Error.New(cs.READ_DB_ERROR, err)
+	}
+
+	if len(value) == 0 {
+		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret value is empty.", uid)
+		return nil, Error.New(cs.EU_USER_NOT_EXISTS, err)
+	}
+
+	userDetail = &bbproto.UserInfoDetail{}
+	err = proto.Unmarshal(value, userDetail)
+	if err != nil {
+		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
+		return nil, Error.New(cs.UNMARSHAL_ERROR)
+	}
+
+	//restore stamina
+	userDetail.User.StaminaNow = userDetail.User.StaminaMax
+
+	//save data
+	zUserData, err := proto.Marshal(userDetail)
+	if err != nil {
+		return nil, Error.New(cs.MARSHAL_ERROR, err)
+	}
+
+	if err = db.Set(common.Utoa(*userDetail.User.UserId), zUserData); err != nil {
+		log.Error("SET_DB_ERROR for userDetail: %v", *userDetail.User.UserId)
+		return nil, Error.New(cs.SET_DB_ERROR, err)
+	}
+
+	log.T("user:%v restore stamina success, now stamina is: %v/%v", uid, *userDetail.User.StaminaNow, *userDetail.User.StaminaMax)
+	return userDetail, Error.OK()
 }
 
 func RefreshStamina(tRecover *uint32, userStamina *int32, userStaminaMax int32) (e Error.Error) {

@@ -20,9 +20,10 @@ import (
 
 const (
 	//User
-	_PROTO_LOGIN_PACK  = "/login_pack"
-	_PROTO_AUTH_USER   = "/auth_user"
-	_PROTO_RENAME_NICK = "/rename_nick"
+	_PROTO_LOGIN_PACK      = "/login_pack"
+	_PROTO_AUTH_USER       = "/auth_user"
+	_PROTO_RENAME_NICK     = "/rename_nick"
+	_PROTO_RESTORE_STAMINa = "/restore_stamina"
 
 	//Quest
 	_PROTO_GET_QUEST_MAP  = "/get_new_quest_map"
@@ -77,6 +78,7 @@ func main() {
 	http.HandleFunc(_PROTO_LOGIN_PACK, safeHandler(user.LoginPackHandler))
 	http.HandleFunc(_PROTO_AUTH_USER, safeHandler(user.AuthUserHandler))
 	http.HandleFunc(_PROTO_RENAME_NICK, safeHandler(user.RenameNickHandler))
+	http.HandleFunc(_PROTO_RESTORE_STAMINa, safeHandler(user.RestoreStaminaHandler))
 
 	/** friend protocol **/
 	http.HandleFunc(_PROTO_GET_FRIEND, safeHandler(friend.GetFriendHandler))

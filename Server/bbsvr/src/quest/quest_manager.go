@@ -40,6 +40,10 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo *bbproto.StageInfo, 
 		return stageInfo, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
 	}
 
+	if err := db.Select(cs.TABLE_QUEST); err != nil {
+		return stageInfo, Error.New(cs.READ_DB_ERROR, err)
+	}
+
 	log.T("begin get stageInfo: %v", stageId)
 
 	zStageInfo, err := db.Gets(cs.X_QUEST_STAGE + common.Utoa(stageId))
@@ -65,6 +69,9 @@ func GetStageInfo(db *data.Data, stageId uint32) (stageInfo *bbproto.StageInfo, 
 func GetQuestConfig(db *data.Data, questId uint32) (config bbproto.QuestConfig, e Error.Error) {
 	if db == nil {
 		return config, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
+	}
+	if err := db.Select(cs.TABLE_QUEST); err != nil {
+		return config, Error.New(cs.READ_DB_ERROR, err)
 	}
 
 	zQuestConf, err := db.Gets(cs.X_QUEST_CONFIG + common.Utoa(questId))
@@ -100,6 +107,10 @@ func CheckQuestRecord(db *data.Data, stageId, questId uint32, userDetail *bbprot
 	if userDetail.Quest != nil && userDetail.Quest.State != nil {
 		log.T("user(%v) is playing quest:%+v", *userDetail.User.UserId, userDetail.Quest)
 		//return 0, Error.New(cs.EQ_QUEST_IS_PLAYING)
+	}
+
+	if err := db.Select(cs.TABLE_QUEST); err != nil {
+		return 0, Error.New(cs.READ_DB_ERROR, err)
 	}
 
 	//get quest state: CLEAR or NEW

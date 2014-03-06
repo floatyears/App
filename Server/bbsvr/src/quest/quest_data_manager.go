@@ -265,7 +265,16 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 				tmpType := bbproto.EQuestGridType_Q_TRAP
 				grid.Type = &tmpType
 
-				randn := common.Randn(int32(len(starConf.Trap)))
+				trapNum := len(starConf.Trap)
+				if starConf.Trap == nil || trapNum == 0 {
+					e = Error.New("invalid quest data config: starConf.Trap is empty.")
+					log.Fatal(e.Error())
+					return questData, e
+				}
+
+				randn := common.Randn(int32(trapNum))
+				log.T("star:%v, randn=%v trapNum:%v starConf.Trap:%v", starConf.Star, randn, trapNum, starConf.Trap)
+
 				grid.TrapId = proto.Uint32(starConf.Trap[randn])
 				log.T(" randn:%v -> trapId: %v", randn, starConf.Trap[randn])
 

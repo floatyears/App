@@ -253,6 +253,9 @@ func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool
 	if db == nil {
 		return friendsInfo, Error.New(cs.INVALID_PARAMS, "[ERROR] db pointer is nil.")
 	}
+	if err := db.Select(cs.TABLE_FRIEND); err != nil {
+		return friendsInfo, Error.New(cs.READ_DB_ERROR, err.Error())
+	}
 
 	friendsInfo = make(map[string]bbproto.FriendInfo)
 

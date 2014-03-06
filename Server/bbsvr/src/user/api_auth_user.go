@@ -46,7 +46,7 @@ func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
 	e = handler.ProcessLogic(&reqMsg, rspMsg)
 
 	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
-	log.Printf("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
+	log.Printf("sendrsp err:%v, AuthUser rspMsg.Header:\n%+v nickName:%v\n\n", e, rspMsg.Header, rspMsg.User.NickName)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -118,11 +118,18 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		uid = *reqMsg.Header.UserId
 	}
 
+	db := &data.Data{}
+	err := db.Open("")
+	defer db.Close()
+	if err != nil {
+		log.Error("uid:%v, open db ret err:%v", uid, err)
+		return Error.New(cs.CONNECT_DB_ERROR, err)
+	}
+
 	var userDetail bbproto.UserInfoDetail
 	var isUserExists bool
-	var err error
 	if uid > 0 {
-		userDetail, isUserExists, err = usermanage.GetUserInfo(uid)
+		userDetail, isUserExists, err = usermanage.GetUserInfo(db, uid)
 	} else {
 		userDetail, isUserExists, err = usermanage.GetUserInfoByUuid(uuid)
 	}
@@ -136,14 +143,6 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		rank := uint32(*userDetail.User.Rank)
 
 		// get FriendInfo
-		db := &data.Data{}
-		err = db.Open(cs.TABLE_FRIEND)
-		defer db.Close()
-		if err != nil {
-			log.Error("uid:%v, open db ret err:%v", uid, err)
-			return Error.New(cs.CONNECT_DB_ERROR, err)
-		}
-
 		friendsInfo, e := friend.GetOnlyFriends(db, uid, rank)
 		log.T("GetFriendInfo ret err:%v. friends num=%v  ", e.Error(), len(friendsInfo))
 		if e.IsError() && e.Code() != cs.EF_FRIEND_NOT_EXISTS {
@@ -170,10 +169,6 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		//	usermanage.TestAddMyUnits(db, &userDetail)
 		//}
 
-		//if *userDetail.User.UserId == 130 {
-		//	usermanage.UpdateStamina(db, &userDetail)
-		//}
-
 		//TODO: call update in goroutine
 		UpdateLoginInfo(db, &userDetail)
 
@@ -184,49 +179,46 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		rspMsg.Quest = userDetail.Quest
 		rspMsg.User = userDetail.User
 
-		log.T(">>>>>>>>>>>>AuthUser RspMsg<<<<<<<<<<<<<<")
-		log.T("\tUserinfo: %+v", rspMsg.User)
-		log.T("\tAccount: %+v", rspMsg.Account)
-		log.T("\tParty: %+v", rspMsg.Party)
-		log.T("\tLogin: %+v", rspMsg.Login)
-		log.T("\tUnitList: count=%v", len(rspMsg.UnitList))
-		for k, unit := range rspMsg.UnitList {
-			log.T("\t\tunit[%v]: %+v", k, unit)
-		}
-		log.T("\tQuest: %+v", rspMsg.Quest)
-
-		log.T(">>>>>>>>>>>>AuthUser RspMsg<<<<<<<<<<<<<<")
-
 		//TODO: get present
 		//rspMsg.Present = userDetail.Present
 
 	} else { //create new user
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
 
-		db := &data.Data{}
-		err = db.Open(cs.TABLE_UNIT)
-		defer db.Close()
-		if err != nil {
-			return Error.New(cs.READ_DB_ERROR, err)
-		}
-
 		rspMsg.ServerTime = proto.Uint32(common.Now())
 
 		//TODO:save userinfo to db through goroutine
 		userDetail, e := usermanage.AddNewUser(db, uuid)
 		if !e.IsError() && userDetail != nil {
+			rspMsg.Account = userDetail.Account
 			rspMsg.UnitList = userDetail.UnitList
 			rspMsg.Party = userDetail.Party
+			rspMsg.Login = userDetail.Login
+			rspMsg.Quest = userDetail.Quest
 			rspMsg.User = userDetail.User
 
 			reqMsg.Header.UserId = userDetail.User.UserId
 		}
 
-		log.T("create NewUser rspMsg: %+v", rspMsg)
+		log.T("create NewUser rspMsg.UserId: %v", *reqMsg.Header.UserId)
 
 	}
 
 	rspMsg.EvolveType = event.GetEvolveType()
+
+	log.T(">>>>>>>>>>>>AuthUser RspMsg<<<<<<<<<<<<<<")
+	log.T("\tUserinfo: %+v", rspMsg.User)
+	log.T("\tAccount: %+v", rspMsg.Account)
+	log.T("\tParty: %+v", rspMsg.Party)
+	log.T("\tLogin: %+v", rspMsg.Login)
+	log.T("\tUnitList: count=%v", len(rspMsg.UnitList))
+	for k, unit := range rspMsg.UnitList {
+		log.T("\t\tunit[%v]: %+v", k, unit)
+	}
+	log.T("\tQuest: %+v", rspMsg.Quest)
+	log.T("\tEvolveType: %+v", rspMsg.EvolveType)
+
+	log.T(">>>>>>>>>>>>AuthUser RspMsg<<<<<<<<<<<<<<")
 
 	return Error.OK()
 }

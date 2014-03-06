@@ -12,18 +12,18 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-//		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
-//		InitDragPanel();
+		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
+		InitDragPanel();
 
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-//
-//		if(IsInvoking("CrossShow")) {
-//			CancelInvoke("CrossShow");
-//		}
-//                InvokeRepeating("CrossShow",0.1f, 1f);
+
+		if(IsInvoking("CrossShow")) {
+			CancelInvoke("CrossShow");
+		}
+                InvokeRepeating("CrossShow",0.1f, 1f);
 	}
 
 	public override void HideUI(){
@@ -44,7 +44,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 		}
 
 		int unitCount = userUnitInfoList.Count;
-		Debug.Log("1111111111111Count : " + unitCount);
+		Debug.Log("My Unit Count : " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject unitItem =  Resources.Load( itemSourcePath ) as GameObject;
 		//GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;

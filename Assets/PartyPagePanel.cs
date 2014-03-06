@@ -14,7 +14,7 @@ public class PartyPagePanel : UIComponentUnity {
 	UIButton leftButton;
 	UIButton rightButton;
 	Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
-	Dictionary< int, UITexture > unitTexureDic = new Dictionary< int, UITexture>();
+	List<UITexture> texureList = new List<UITexture>();
 	//Dictionary< GameObject, > partyItemDic = new Dictionary<int, GameObject>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -35,13 +35,13 @@ public class PartyPagePanel : UIComponentUnity {
 	}
 
 	void FindUIElement(){
-		Debug.Log("PartyPagePanel.FindUIElement() : Start");
+		Debug.Log("PartyPagePanel.FindUIElement() : Start...");
 
 		FindLabel();
 		FindButton();
 		FindTexture();
 
-		Debug.Log("PartyPagePanel.FindUIElement() : End");
+		Debug.Log("PartyPagePanel.FindUIElement() : End...");
 	}
 
 	void FindLabel(){
@@ -62,11 +62,10 @@ public class PartyPagePanel : UIComponentUnity {
 	}
 
 	void FindTexture() {
-		UITexture temp;
+		UITexture tex;
 		for( int i = 1; i < 5; i++) {
-			temp = FindChild< UITexture >("Unit" + i.ToString() + "/role" );
-			temp.enabled = false;
-			unitTexureDic.Add(i, temp);
+			tex = FindChild< UITexture >("Unit" + i.ToString() + "/role" );
+			texureList.Add(tex);
 		}
 	}
 
@@ -77,25 +76,31 @@ public class PartyPagePanel : UIComponentUnity {
 
 	
 	void UpdateLabel(int index){
-		//LeftCenter Label
+		Debug.Log("PartyPagePanel.UpdateLabel(), index is " + index);
 		curPartyPrefixLabel.text = index.ToString();
 		curPartysuffixLabel.text = partyIndexDic[ index ].ToString();
-		//TopRight Label
 		curPartyIndexLabel.text = index.ToString();
 	}
 	
 	void UpdateTexture(List<Texture2D> tex2dList){
-		for (int i = 0; i < unitTexureDic.Count; i++){
-			if(tex2dList[ i ] == null)	continue;
-			unitTexureDic[ i ].mainTexture = tex2dList[ i ] ;
+		Debug.Log("PartyPagePanel.UpdateTexture(), Start...");
+		for (int i = 0; i < tex2dList.Count; i++) {
+			if(tex2dList[ i ] == null){
+				Debug.LogError(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] source is null, do nothing!", i));
+				continue;
+			} else {
+				texureList[ i ].mainTexture = tex2dList[ i ];
+				Debug.LogError(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] texture is showing", i));
+			}
 		}
+		Debug.Log("PartyPagePanel.UpdateTexture(), End...");
 	}
 
 	void SetUIElement(){
-		Debug.Log("PartyPagePanel.SetUIElement() : Start");
+		Debug.Log("PartyPagePanel.SetUIElement() : Start...");
 		UIEventListener.Get(leftButton.gameObject).onClick = PageBack;
 		UIEventListener.Get(rightButton.gameObject).onClick = PageForward;
-		Debug.Log("PartyPagePanel.SetUIElement() : End");
+		Debug.Log("PartyPagePanel.SetUIElement() : End...");
 	}
 
 	void InitIndexTextDic() {
@@ -129,22 +134,21 @@ public class PartyPagePanel : UIComponentUnity {
 
 	public override void Callback(object data){
 		base.Callback(data);
-
 		Dictionary<string,object> viewInfoDic = data as Dictionary<string,object>;
 		if( viewInfoDic == null ){
 			Debug.LogError("PartyPagePanel.Callback(), ViewInfo is Null!");
 			return;
 		}	
-
 		object tex2dList;
 		object curPartyIndex;
 
-		if(viewInfoDic.TryGetValue("texture",out tex2dList)){
-			UpdateTexture(tex2dList as List<Texture2D>);
-		}
-
 		if(viewInfoDic.TryGetValue("index",out curPartyIndex)){
 			UpdateLabel((int)curPartyIndex);
+		}
+
+		if(viewInfoDic.TryGetValue("texture",out tex2dList)){
+			List<Texture2D> temp = tex2dList as List<Texture2D>;
+			UpdateTexture(temp);
 		}
 	}
 	

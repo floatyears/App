@@ -156,14 +156,16 @@ public enum CommandEnum
 	// quest - 5100
 	ReqStartQuest				= 5101,
 	RspStartQuest				= 5102,
-
+	ReqClearQuest				= 5103,
+	RspClearQuest				= 5104,
+	
 	//unit - 5200
 	ReqLevelUp					= 5201,
 	RspLevelUp					= 5202,
 
 	//party - 5300 
-	ReqModifyParty				= 5301,
-	RspModifyParty				= 5302,
+	ReqChangeParty				= 5301,
+	RspChangeParty				= 5302,
 
 	//-----------------Server Protocol-----------------------//
 }

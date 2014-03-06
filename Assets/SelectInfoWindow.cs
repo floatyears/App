@@ -20,7 +20,6 @@ public class SelectInfoWindow : UIComponentUnity {
 		base.Init(config, origin);
 		InitUIElement();
 		ShowSelf(false);
-		Debug.Log("1111111");
 	}
 	public override void ShowUI(){
 		base.ShowUI();

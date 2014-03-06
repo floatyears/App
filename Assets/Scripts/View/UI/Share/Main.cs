@@ -94,7 +94,6 @@ public class Main : MonoBehaviour
 //		string info =  GameSingleDataStore.Instance.GetSingleData ("aa");
 //		Debug.LogError (info);
 
-
 	}
 
 	void OnDisable () {
