@@ -7,11 +7,11 @@ public class LevelUp: ProtoManager {
 	private bbproto.RspAuthUser rspLevelUp;
 
 	public LevelUp(){
-		MsgCenter.Instance.AddListener (CommandEnum.ReqLevelUp, OnReceiveCommand);
+//		MsgCenter.Instance.AddListener (CommandEnum.ReqLevelUp, OnReceiveCommand);
 	}
 
 	~LevelUp() {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ReqLevelUp, OnReceiveCommand);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ReqLevelUp, OnReceiveCommand);
 	}
 
 	public override bool MakePacket () {
@@ -33,12 +33,13 @@ public class LevelUp: ProtoManager {
 	public override void OnResponse (bool success) {
 		if (!success) { return; }
 
-		rspLevelUp = InstanceObj as bbproto.RspAuthUser;
+//		rspLevelUp = InstanceObj as bbproto.RspAuthUser;
 //		LogHelper.Log("reponse userId:"+rspLevelUp.user.userId);
 
 
 		//send response to caller
-		MsgCenter.Instance.Invoke (CommandEnum.RspLevelUp, rspLevelUp);
+//		MsgCenter.Instance.Invoke (CommandEnum.RspLevelUp, rspLevelUp);
+		OnResposeEnd (InstanceObj);
 	}
 
 	void OnReceiveCommand(object data) {
@@ -77,5 +78,9 @@ public class LevelUp: ProtoManager {
 		return riseLv;
 	}
 
+	public override void OnRequest (object data, DataListener callback) {
+		OnRequestBefoure (callback);
+		OnReceiveCommand (data);
+	}
 }
 

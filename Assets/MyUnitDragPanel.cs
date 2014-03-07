@@ -12,7 +12,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
+//		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
 		InitDragPanel();
 
 	}

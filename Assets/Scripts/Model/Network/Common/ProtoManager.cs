@@ -3,7 +3,7 @@ using System.Collections;
 using bbproto;
 
 
-public class ProtoManager: ProtobufDataBase,INetBase {
+public class ProtoManager: ProtobufDataBase, INetBase {
 	private string protoName;
 	private object instObj;
 	protected System.Type reqType;
@@ -48,5 +48,26 @@ public class ProtoManager: ProtobufDataBase,INetBase {
 		//make packet to Data for send to server
 		return true;
 	}
+
+	private DataListener netDoneCallback;
+
+	public virtual void OnRequest (object data, DataListener callback) {
+
+	}
+
+	protected void OnRequestBefoure (DataListener callback) {
+		netDoneCallback = callback;
+	}
+
+	protected void OnResposeEnd(object data) {
+		if (netDoneCallback != null) {
+			netDoneCallback(data);
+		}
+	}
+}
+
+public abstract class NetDataBase {
+	public INetBase netBase;
+	public abstract void ParseNetData(object data);
 }
 

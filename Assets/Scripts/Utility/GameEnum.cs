@@ -150,16 +150,16 @@ public enum CommandEnum
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
-	ReqAuthUser					= 5000,
-	RspAuthUser					= 5001,
+//	ReqAuthUser					= 5000,
+//	RspAuthUser					= 5001,
 	ReqRenameNick				= 5002,
-	RspRenameNick				= 5003,
+//	RspRenameNick				= 5003,
 
 	// quest - 5100
-	ReqStartQuest				= 5101,
-	RspStartQuest				= 5102,
-	ReqClearQuest				= 5103,
-	RspClearQuest				= 5104,
+//	ReqStartQuest				= 5101,
+//	RspStartQuest				= 5102,
+//	ReqClearQuest				= 5103,
+//	RspClearQuest				= 5104,
 	
 	//unit - 5200
 	ReqLevelUp					= 5201,

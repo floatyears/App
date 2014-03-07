@@ -31,11 +31,11 @@ public class ClearQuest: ProtoManager {
 	private ClearQuestParam questParam;
 
 	public ClearQuest(){
-		MsgCenter.Instance.AddListener (CommandEnum.ReqClearQuest, OnReceiveCommand);
+//		MsgCenter.Instance.AddListener (CommandEnum.ReqClearQuest, OnReceiveCommand);
 	}
 
 	~ClearQuest() {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ReqClearQuest, OnReceiveCommand);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ReqClearQuest, OnReceiveCommand);
 	}
 
 	public override bool MakePacket () {
@@ -95,10 +95,12 @@ public class ClearQuest: ProtoManager {
 			}
 
 			//send response to caller
-			MsgCenter.Instance.Invoke (CommandEnum.RspClearQuest, cq);
+//			MsgCenter.Instance.Invoke (CommandEnum.RspClearQuest, cq);
+			OnResposeEnd(cq);
 
 		} else{
-			MsgCenter.Instance.Invoke (CommandEnum.RspClearQuest, null);
+//			MsgCenter.Instance.Invoke (CommandEnum.RspClearQuest, null);
+			OnResposeEnd(null);
 		}
 
 	}
@@ -116,5 +118,9 @@ public class ClearQuest: ProtoManager {
 		Send (); //send request to server
 	}
 
+	public override void OnRequest (object data, DataListener callback) {
+		OnRequestBefoure (callback);
+		OnReceiveCommand (data);
+	}
 }
 
