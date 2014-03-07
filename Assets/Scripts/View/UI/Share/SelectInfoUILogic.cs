@@ -31,4 +31,31 @@ public class SelectInfoUILogic : ConcreteComponent {
 		ExcuteCallback(tuu);
 	}
 
+	public override void Callback(object data){
+		base.Callback(data);
+		string call = data as string;
+		switch (call){
+			case "Choose" : 
+				NoticeFuncParty();
+				break;
+			case "ViewInfo" : 
+				NoticeShowUnitDetail();
+				break;
+			case "Exit" :
+				//HideUI();
+				break;
+			default:
+				break;
+		}
+	}
+	
+	void NoticeShowUnitDetail(){
+		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitDetail, null);
+	}
+
+	//notice to activate party function
+	void NoticeFuncParty(){
+		MsgCenter.Instance.Invoke(CommandEnum.NoticeFuncParty, null);
+	}
+
 }

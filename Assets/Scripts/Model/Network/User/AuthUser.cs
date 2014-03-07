@@ -10,11 +10,11 @@ public class AuthUser: ProtoManager {
 	private uint userId;
 
 	public AuthUser(){
-		MsgCenter.Instance.AddListener (CommandEnum.ReqAuthUser, OnReceiveCommand);
+//		MsgCenter.Instance.AddListener (CommandEnum.ReqAuthUser, OnReceiveCommand);
 	}
 
 	~AuthUser() {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ReqAuthUser, OnReceiveCommand);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ReqAuthUser, OnReceiveCommand);
 	}
 
 	public override bool MakePacket () {
@@ -131,7 +131,9 @@ public class AuthUser: ProtoManager {
 
 
 		//send response to caller
-		MsgCenter.Instance.Invoke (CommandEnum.RspAuthUser, null);
+//		MsgCenter.Instance.Invoke (CommandEnum.RspAuthUser, null);
+
+		OnResposeEnd (null);
 	}
 
 	void OnReceiveCommand(object data) {
@@ -139,5 +141,9 @@ public class AuthUser: ProtoManager {
 		Send (); //send request to server
 	}
 
+	public override void OnRequest (object data, DataListener callback) {
+		OnRequestBefoure (callback);
+		OnReceiveCommand (data);
+	}
 }
 

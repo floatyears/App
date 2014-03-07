@@ -8,11 +8,11 @@ public class RenameNick: ProtoManager {
 	private string newNickName;
 
 	public RenameNick(){
-		MsgCenter.Instance.AddListener (CommandEnum.ReqRenameNick, OnReceiveCommand);
+//		MsgCenter.Instance.AddListener (CommandEnum.ReqRenameNick, OnReceiveCommand);
 	}
 
 	~RenameNick() {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ReqRenameNick, OnReceiveCommand);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ReqRenameNick, OnReceiveCommand);
 	}
 
 	public override bool MakePacket () {
@@ -47,7 +47,10 @@ public class RenameNick: ProtoManager {
 		bool renameSuccess = (rspRenameNick.header.code == 0);
 		if( renameSuccess && rspRenameNick.newNickName != null)
 			GlobalData.userInfo.NickName = rspRenameNick.newNickName;
-		MsgCenter.Instance.Invoke (CommandEnum.RspRenameNick, renameSuccess);
+//		MsgCenter.Instance.Invoke (CommandEnum.RspRenameNick, renameSuccess);
+
+		// leiliang -----------------------------------------------------------
+		OnResposeEnd (renameSuccess);
 	}
 
 	void OnReceiveCommand(object data) {
@@ -57,5 +60,10 @@ public class RenameNick: ProtoManager {
 		Send (); //send request to server
 	}
 
+	// leiliang -----------------------------------------------------------
+	public override void OnRequest (object data, DataListener callback) {
+		OnRequestBefoure (callback);
+		OnReceiveCommand (data);
+	}
 }
 

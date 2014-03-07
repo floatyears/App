@@ -164,8 +164,8 @@ public interface IUIFriendList : IUICallback {
 }
 
 public interface INetBase {
-	void Send();
-	void Receive(IWWWPost post);
+	void OnRequest(object data, DataListener callback);
+//	void OnResponse(IWWWPost post);
 }
 
 public interface IWWWPost {
@@ -174,14 +174,15 @@ public interface IWWWPost {
 	int Version { get; set;}
 
 	void ExcuteCallback();
-	void Send(INetBase callback,WWWForm wf);
-	void Send(INetBase nettemp, string urlPath, byte[] data);
+	void Send(ProtoManager callback,WWWForm wf);
+	void Send(ProtoManager nettemp, string urlPath, byte[] data);
 }
 
 public interface INetSendPost {
 	void SendHttpPost(IWWWPost post);
 	void SendAssetPost(IWWWPost post);
 }
+
 
 public delegate void Callback();
 

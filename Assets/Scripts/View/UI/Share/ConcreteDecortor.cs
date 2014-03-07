@@ -226,12 +226,13 @@ public class UnitsDecorator : DecoratorBase {
 		sceneInfoBar.SetComponent( decorator );
 
 		UnitsComponent units = CreatComponent< UnitsComponent >( UIConfig.unitsWindowName );
-		PartyPageUILogic partyPage = CreatComponent<PartyPageUILogic>( UIConfig.partyPagePanelName);
 		PartyInfoUILogic partyInfo = CreatComponent<PartyInfoUILogic>(UIConfig.partyInfoPanelName);
+		PartyPageUILogic partyPage = CreatComponent<PartyPageUILogic>( UIConfig.partyPagePanelName);
 
 		partyInfo.SetComponent( sceneInfoBar );
 		partyPage.SetComponent( partyInfo );
 		units.SetComponent( partyPage );
+
 
 		lastDecorator = units;
 		lastDecorator.CreatUI();
@@ -297,8 +298,17 @@ public class FriendSelectDecorator : DecoratorBase {
 		sceneInfoBar.SetComponent( decorator );
 		
 		FriendSelectComponent friendSelect = CreatComponent< FriendSelectComponent >( UIConfig.friendSelectWindowName );
-		friendSelect.SetComponent( sceneInfoBar );
-		
+
+		PartyInfoUILogic infoPanel = CreatComponent<PartyInfoUILogic>(UIConfig.partyInfoPanelName);
+
+		PartyPageUILogic page = CreatComponent<PartyPageUILogic>(UIConfig.partyPagePanelName);
+
+		infoPanel.SetComponent(sceneInfoBar);
+
+		page.SetComponent(infoPanel);
+
+		friendSelect.SetComponent( page );
+
 		lastDecorator = friendSelect;
 		lastDecorator.CreatUI();
 		

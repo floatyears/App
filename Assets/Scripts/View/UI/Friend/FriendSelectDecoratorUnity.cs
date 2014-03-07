@@ -234,24 +234,28 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 
 	void ClickStartBtn(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+		btnStart.isEnabled = false;
 
 		RequestStartQuest ();
 	}
 
+	INetBase startQuestNetBase; 
 	void RequestStartQuest () {
-		MsgCenter.Instance.AddListener (CommandEnum.RspStartQuest, RspStartQuest);
+		if (startQuestNetBase == null) {
+			startQuestNetBase = new StartQuest();
+		}
+
 		StartQuestParam p= new StartQuestParam();
 		p.currPartyId=0;
 		p.questId=1101;
 		p.stageId=11;
 		p.helperUserId=103;
 		p.helperUniqueId=2;
-		MsgCenter.Instance.Invoke (CommandEnum.ReqStartQuest, p);
+
+		startQuestNetBase.OnRequest (p,RspStartQuest);
 	}
 
 	void RspStartQuest(object data) {
-		MsgCenter.Instance.RemoveListener (CommandEnum.RspStartQuest, RspStartQuest);
-
 		TQuestDungeonData tqdd = data as TQuestDungeonData;
 		if (data == null || tqdd == null) {
 			Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);

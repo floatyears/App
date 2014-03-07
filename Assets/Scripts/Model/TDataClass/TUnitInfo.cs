@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class TUnitInfo : ProtobufDataBase, INetBase  {
+public class TUnitInfo : ProtobufDataBase {
 	private UnitInfo instance;
 	public TUnitInfo (object instance) : base (instance) {
 		this.instance = instance as UnitInfo;
@@ -192,11 +192,11 @@ public class TUnitInfo : ProtobufDataBase, INetBase  {
 	
 	public void Send () {
 		
-		HttpNetBase hnb = new HttpNetBase ();
-		hnb.Url = "aaa";
-		WWWForm wf = new WWWForm ();
-		//		hnb.WwwInfo = new WWW (hnb.Url, wf);
-		hnb.Send (this,wf);
+//		HttpNetBase hnb = new HttpNetBase ();
+//		hnb.Url = "aaa";
+//		WWWForm wf = new WWWForm ();
+//		//		hnb.WwwInfo = new WWW (hnb.Url, wf);
+//		hnb.Send (this,wf);
 	}
 	
 	public void Receive (IWWWPost post) {

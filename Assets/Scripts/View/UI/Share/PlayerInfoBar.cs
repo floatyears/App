@@ -24,9 +24,9 @@ public class PlayerInfoBar : UIComponentUnity {
 	UILabel TNeedExpHideLabel;
 	UILabel TTotalExpHideLabel;
 	UILabel VNeedExpHideLabel;
-        UILabel VTotalExpHideLabel;
+	UILabel VTotalExpHideLabel;
         
-        UISprite expSprite;
+    UISprite expSprite;
 	UISprite staminaSprite;
 	UISprite evolveTypeSprite;
 
@@ -165,7 +165,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		VUserNameLabel.text = GlobalData.userInfo.NickName;
 		//Exp
 		int nextExp = GlobalData.userInfo.NextExp;
-		int curTotalExp = GlobalData.userInfo.CurTotalExp;
+		int curTotalExp = GlobalData.userInfo.CurRankExp;
 		VNeedExpHideLabel.text = nextExp.ToString();
 		VTotalExpHideLabel.text = curTotalExp.ToString();
 		//TODO Get current rank max exp 
@@ -202,22 +202,36 @@ public class PlayerInfoBar : UIComponentUnity {
 	}
 
 	void AddCommandListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.RspRenameNick, ReName );
+//		MsgCenter.Instance.AddListener(CommandEnum.RspRenameNick, ReName );
+
+		// leiliang---------------------------------------------------------------
+		MsgCenter.Instance.AddListener (CommandEnum.ReqRenameNick, ChangeName);
 	}
 	
 	void RemoveCommandListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.RspRenameNick, ReName );
-        }
+//		MsgCenter.Instance.RemoveListener(CommandEnum.RspRenameNick, ReName );
+
+		// leiliang---------------------------------------------------------------
+		MsgCenter.Instance.RemoveListener (CommandEnum.ReqRenameNick, ChangeName);
+     }
 
 	void RequestData(){
-		MsgCenter.Instance.AddListener( CommandEnum.RspAuthUser, UpdateData );
+//		MsgCenter.Instance.AddListener( CommandEnum.RspAuthUser, UpdateData );
 		//TODO:temp for user login
-		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
+//		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
 	}
 	
 	float  CountFillCount( int cur, int max ){
 		if( cur < 0 || max <= 0 ) return 0f;
 		return (float)cur/(float)max;
 	}
-	
+
+	// leiliang--------------------------------------------------------------------
+	private INetBase changeName;
+	public void ChangeName(object  name) {
+		if (changeName == null) {
+			changeName = new RenameNick();
+			changeName.OnRequest(name,ReName);
+		}
+	}
 }
