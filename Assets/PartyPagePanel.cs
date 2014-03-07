@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PartyPagePanel : UIComponentUnity {
-
+	int currentPos = -1;
 	int partyTotalCount = 5;
 	UILabel curPartyIndexLabel;
 	UILabel partyCountLabel;
@@ -25,8 +25,10 @@ public class PartyPagePanel : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
+		currentPos = -1;
 		SetUIElement();
 		ShowTween();
+
 	}
 
 	public override void HideUI(){
@@ -34,6 +36,7 @@ public class PartyPagePanel : UIComponentUnity {
 		base.HideUI();
 		ResetUIElement();
 	}
+
 
 	void FindUIElement(){
 		Debug.Log("PartyPagePanel.FindUIElement() : Start...");
@@ -164,6 +167,42 @@ public class PartyPagePanel : UIComponentUnity {
 		if(viewInfoDic.TryGetValue("texture",out tex2dList)){
 			List<Texture2D> temp = tex2dList as List<Texture2D>;
 			UpdateTexture(temp);
+		}
+
+		object pos;
+		if(viewInfoDic.TryGetValue("LightSprite", out pos)){
+			SetHighLight((int)pos);
+		}
+
+		object avatarChange;
+		if(viewInfoDic.TryGetValue("changeTexture", out avatarChange)){
+			if(currentPos <= 0)	return;
+			ChangeTexure(currentPos,avatarChange as Texture2D);
+		}
+
+		
+	}
+
+	void ChangeTexure(int pos,Texture2D tex){
+		if(tex == null ){
+			return;
+		}
+	
+		foreach (var item in itemDic) {
+			if( pos == item.Value ){
+				texureList[ pos-1 ].mainTexture = tex;
+			} 
+		}
+	}
+
+	void SetHighLight(int pos){
+		foreach (var item in itemDic) {
+			if( pos == item.Value ){
+				currentPos = pos;
+				item.Key.transform.FindChild("High_Light").gameObject.SetActive(true);
+			} else {
+				item.Key.transform.FindChild("High_Light").gameObject.SetActive(false);
+			}
 		}
 	}
 

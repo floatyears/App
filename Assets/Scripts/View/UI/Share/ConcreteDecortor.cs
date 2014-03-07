@@ -298,8 +298,17 @@ public class FriendSelectDecorator : DecoratorBase {
 		sceneInfoBar.SetComponent( decorator );
 		
 		FriendSelectComponent friendSelect = CreatComponent< FriendSelectComponent >( UIConfig.friendSelectWindowName );
-		friendSelect.SetComponent( sceneInfoBar );
-		
+
+		PartyInfoUILogic infoPanel = CreatComponent<PartyInfoUILogic>(UIConfig.partyInfoPanelName);
+
+		PartyPageUILogic page = CreatComponent<PartyPageUILogic>(UIConfig.partyPagePanelName);
+
+		infoPanel.SetComponent(sceneInfoBar);
+
+		page.SetComponent(infoPanel);
+
+		friendSelect.SetComponent( page );
+
 		lastDecorator = friendSelect;
 		lastDecorator.CreatUI();
 		

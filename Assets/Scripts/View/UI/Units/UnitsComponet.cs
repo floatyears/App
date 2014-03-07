@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitsComponent : ConcreteComponent, IUIParty {
+public class UnitsComponent : ConcreteComponent, IUICallback {
 
 	TUnitParty unitPartyInfo;
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();

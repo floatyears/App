@@ -30,6 +30,7 @@ public class SelectInfoWindow : UIComponentUnity {
 
 	public override void HideUI(){
 		base.HideUI();
+		ShowSelf(false);
 	}
 
 	void InitUIElement(){
@@ -74,15 +75,19 @@ public class SelectInfoWindow : UIComponentUnity {
         }
 
 	void Choose(GameObject btn){
+		ExcuteCallback("Choose");
+		ShowSelf(false);
 	}
 
 	void ViewInfo(GameObject btn){
-
+		ExcuteCallback("ViewInfo");
+		ShowSelf(false);
 	}
 
 	void Exit(GameObject btn){
 		Debug.Log("SelectUnitInfoWindow.Exit() : ");
 		ShowSelf(false);
+		ExcuteCallback("Exit");
 	}
 
 	public override void Callback(object data){

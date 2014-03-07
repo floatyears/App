@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 public class MyUnitDragPanel : UIComponentUnity {
-       
+       	bool partyingActive = false;
+	GameObject rejectItem;
 	protected DragPanel dragPanel;
 	protected bool exchange = false;
         protected List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
@@ -19,17 +20,18 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-
+		partyingActive = false;
 		if(IsInvoking("CrossShow")) {
 			CancelInvoke("CrossShow");
 		}
                 InvokeRepeating("CrossShow",0.1f, 1f);
-
+		ActivateAllMask(true);
 		ShowTween();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+
 	}
 
 	protected void InitDragPanel(){
@@ -49,7 +51,8 @@ public class MyUnitDragPanel : UIComponentUnity {
 //		Debug.Log("My Unit Count : " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject unitItem =  Resources.Load( itemSourcePath ) as GameObject;
-		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
+		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject ;
+		
 		InitDragPanelArgs();
 
 		dragPanel =new DragPanel("MyUnitDragPanel", unitItem);
@@ -104,9 +107,10 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	void ClickDragItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+		if(!partyingActive)	return;
 		TUserUnit tuu = myUnitInfoDic[ item ];
-//		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, null);
-
+		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, tuu);
+		MsgCenter.Instance.Invoke(CommandEnum.OnPartySelectUnit, tuu);
 	}
 
 	protected void PressItem(GameObject item ){
@@ -181,4 +185,40 @@ public class MyUnitDragPanel : UIComponentUnity {
 			tweenPos.PlayForward();
 		}
 	}
+
+	public override void Callback(object data){
+		base.Callback(data);
+
+		CallBackDeliver cbd = data as CallBackDeliver;
+		switch (cbd.callBackName){
+			case "activate" : 
+				ActivateAllMask(false);
+				break; 
+			default:
+				break;
+		}	
+	}
+
+	void ActivateAllMask(bool b){
+		rejectItem.transform.FindChild("Mask").gameObject.SetActive(b);
+		foreach (var item in myUnitInfoDic){
+			ShowMask(item.Key,b);
+		}
+		partyingActive = true;
+	}
+
 }
+
+public class CallBackDeliver{
+	public CallBackDeliver(string name,object content){
+		this.callBackName = name;
+		this.callBackContent = content;
+	}
+
+	public string callBackName;
+	public object callBackContent;
+}
+
+
+
+
