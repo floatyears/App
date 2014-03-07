@@ -44,9 +44,9 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e
 	return unitId, Error.OK()
 }
 
-func getUnitInfo(unitId uint32) (e Error.Error) {
+func getUserUnit(unitId uint32) (unit bbproto.UserUnit, e Error.Error) {
 
-	return Error.OK()
+	return unit, Error.OK()
 }
 
 func DoLevelUp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseUniqueId uint32, partUniqueId []uint32, helperUid uint32, helperUnit bbproto.UserUnit) (e Error.Error) {
@@ -59,6 +59,8 @@ func DoLevelUp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseUniqueId u
 	//4. remove partUnits,
 
 	//5. levelup baseUnit
+
+	//6.
 
 	return Error.OK()
 }

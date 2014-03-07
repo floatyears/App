@@ -14,7 +14,7 @@ import (
 	//"src/common/consts"
 	//"src/data"
 	_ "../src/quest"
-	//"src/user/usermanage"
+	//"src/model/user"
 	//"src/friend"
 	//redis "github.com/garyburd/redigo/redis"
 )

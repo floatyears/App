@@ -19,7 +19,7 @@ import (
 	"common/consts"
 	"common/log"
 	"data"
-	//"src/user/usermanage"
+	//"src/model/user"
 	//redis "github.com/garyburd/redigo/redis"
 )
 
