@@ -13,7 +13,7 @@ import (
 	"common/Error"
 	"common/consts"
 	"data"
-	"user/usermanage"
+	"model/user"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
@@ -102,7 +102,7 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 
 	if isGetHelper {
 		//get user's rank from user table
-		userdetail, isUserExists, err := usermanage.GetUserInfo(db, uid)
+		userdetail, isUserExists, err := user.GetUserInfo(db, uid)
 		if err != nil {
 			return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("ERROR: Get userinfo failed for %v, err:%v", uid, err))
 		}

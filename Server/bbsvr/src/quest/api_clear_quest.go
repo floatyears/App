@@ -13,7 +13,7 @@ import (
 	"common/Error"
 	"common/log"
 	"data"
-	"user/usermanage"
+	"model/user"
 
 	proto "code.google.com/p/goprotobuf/proto"
 )
@@ -97,7 +97,7 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	}
 
 	//1. get userinfo from user table
-	userDetail, isUserExists, err := usermanage.GetUserInfo(db, uid)
+	userDetail, isUserExists, err := user.GetUserInfo(db, uid)
 	if err != nil {
 		return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", uid, err.Error()))
 	}
@@ -118,12 +118,12 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	}
 
 	//3. calculate stamina
-	if e = usermanage.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {
+	if e = user.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {
 		return e
 	}
 
 	//4. update userinfo (include: unitList, exp, money, stamina)
-	if e = usermanage.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
 		return Error.New(EC.EU_UPDATE_USERINFO_ERROR, "update userinfo failed.")
 	}
 	log.T("UpdateUserInfo(%v) ret OK.", uid)

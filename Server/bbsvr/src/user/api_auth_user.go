@@ -19,7 +19,7 @@ import (
 	"data"
 	"event"
 	"friend"
-	"user/usermanage"
+	"model/user"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -129,9 +129,9 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 	var userDetail bbproto.UserInfoDetail
 	var isUserExists bool
 	if uid > 0 {
-		userDetail, isUserExists, err = usermanage.GetUserInfo(db, uid)
+		userDetail, isUserExists, err = user.GetUserInfo(db, uid)
 	} else {
-		userDetail, isUserExists, err = usermanage.GetUserInfoByUuid(uuid)
+		userDetail, isUserExists, err = user.GetUserInfoByUuid(uuid)
 	}
 
 	log.T("GetUserInfo(%v) ret err(%v). isExists=%v userDetail: ['%v']  ",
@@ -159,14 +159,14 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			}
 		}
 
-		if e = usermanage.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {
+		if e = user.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {
 			log.Error("RefreshStamina fail")
 			return e
 		}
 
 		//TODO: remove the testing code
 		//if *userDetail.User.UserId == 103 {
-		//	usermanage.TestAddMyUnits(db, &userDetail)
+		//	user.TestAddMyUnits(db, &userDetail)
 		//}
 
 		//TODO: call update in goroutine
@@ -188,7 +188,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		rspMsg.ServerTime = proto.Uint32(common.Now())
 
 		//TODO:save userinfo to db through goroutine
-		userDetail, e := usermanage.AddNewUser(db, uuid)
+		userDetail, e := user.AddNewUser(db, uuid)
 		if !e.IsError() && userDetail != nil {
 			rspMsg.Account = userDetail.Account
 			rspMsg.UnitList = userDetail.UnitList

@@ -7,14 +7,14 @@ import (
 
 import (
 	"bbproto"
+	"code.google.com/p/goprotobuf/proto"
 	"common/EC"
 	"common/Error"
+	//"common/consts"
 	"common/log"
 	"data"
-	"user/usermanage"
-
-	"code.google.com/p/goprotobuf/proto"
-	"common/consts"
+	"model/unit"
+	"model/user"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,8 @@ type LevelUp struct {
 
 func (t LevelUp) verifyParams(reqMsg *bbproto.ReqLevelUp) (err Error.Error) {
 	//TODO: input params validation
-	if reqMsg.NewNickName == nil || reqMsg.Header.UserId == nil {
+	if reqMsg.BaseUniqueId == nil || reqMsg.PartUniqueId == nil || reqMsg.HelperUserId == nil ||
+		reqMsg.HelperUnit == nil || reqMsg.Header.UserId == nil {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
@@ -87,13 +88,13 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 		return Error.New(EC.CONNECT_DB_ERROR, err)
 	}
 
-	//	e = usermanage.RenameUser(*reqMsg.Header.UserId, *reqMsg.NewNickName)
+	//	e = user.RenameUser(*reqMsg.Header.UserId, *reqMsg.NewNickName)
 	//	if e.IsError() {
 	//		return e
 	//	}
 	uid := *reqMsg.Header.UserId
 
-	userDetail, exists, err := usermanage.GetUserInfo(db, uid)
+	userDetail, exists, err := user.GetUserInfo(db, uid)
 	if err != nil || !exists {
 		log.Error("getUserInfo(%v) failed.", uid)
 		return Error.New(EC.EU_GET_USERINFO_FAIL, err)

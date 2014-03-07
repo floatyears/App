@@ -7,7 +7,7 @@ import (
 	"common/consts"
 	"common/log"
 	"data"
-	"user/usermanage"
+	"model/user"
 	//proto "code.google.com/p/goprotobuf/proto"
 )
 
@@ -26,7 +26,7 @@ func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.E
 		}
 	}
 
-	userDetail, isExists, err := usermanage.GetUserInfo(db, uid)
+	userDetail, isExists, err := user.GetUserInfo(db, uid)
 	if err != nil {
 		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret err:%v", uid, e.Error())
 		return Error.New(err)
@@ -38,7 +38,7 @@ func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.E
 	userDetail.Party = party
 	userDetail.GetUser()
 	//save data
-	e = usermanage.UpdateUserInfo(db, &userDetail)
+	e = user.UpdateUserInfo(db, &userDetail)
 
 	log.T("user:%v changeParty success.", uid)
 	return e

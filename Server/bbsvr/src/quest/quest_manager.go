@@ -14,8 +14,7 @@ import (
 	"common/consts"
 	"common/log"
 	"data"
-	"unit"
-	//"user/usermanage"
+	"model/unit"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"

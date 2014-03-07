@@ -1,17 +1,17 @@
 // user_manger.go
-package usermanage
+package user
 
 import (
 	"bbproto"
-	"common"
-	"common/Error"
-	"common/log"
-	"common/consts"
-	"common/EC"
-	"data"
-	"unit"
 	proto "code.google.com/p/goprotobuf/proto"
+	"common"
+	"common/EC"
+	"common/Error"
+	"common/consts"
+	"common/log"
+	"data"
 	_ "fmt"
+	"model/unit"
 )
 
 func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail, e Error.Error) {

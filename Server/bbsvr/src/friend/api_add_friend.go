@@ -14,7 +14,7 @@ import (
 	"common/consts"
 	"common/EC"
 	"data"
-	//"user/usermanage"
+	//"model/user"
 	proto "code.google.com/p/goprotobuf/proto"
 )
 

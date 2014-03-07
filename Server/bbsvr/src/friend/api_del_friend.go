@@ -13,7 +13,7 @@ import (
 	"common/Error"
 	"common/consts"
 	"data"
-	//"user/usermanage"
+	//"model/user"
 	proto "code.google.com/p/goprotobuf/proto"
 )
 

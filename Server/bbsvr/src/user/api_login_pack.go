@@ -13,7 +13,7 @@ import (
 	"common/Error"
 	"data"
 	"friend"
-	"user/usermanage"
+	"model/user"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
@@ -100,7 +100,7 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 	rank := uint32(0)
 	if isGetHelper || isGetLogin {
 		//get user's rank from user table
-		userdetail, isUserExists, err := usermanage.GetUserInfo(db, uid)
+		userdetail, isUserExists, err := user.GetUserInfo(db, uid)
 		if err != nil {
 			return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v", uid))
 		}

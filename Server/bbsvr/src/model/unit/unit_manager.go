@@ -1,14 +1,13 @@
 package unit
 
 import (
-	//"bbproto"
+	"bbproto"
 	"common"
+	"common/EC"
 	"common/Error"
+	"common/consts"
 	"common/log"
 	"data"
-	"common/consts"
-	"common/EC"
-	"bbproto"
 )
 
 func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e Error.Error) {
