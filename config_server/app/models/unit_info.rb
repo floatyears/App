@@ -93,12 +93,12 @@ class UnitInfo
   end
   
   def save_to_file
-    File.open(Rails.root.join("public/unit/unit_#{self["id"]}"), "wb") { | file|  file.write(self.encode) } 
+    File.open(Rails.root.join("public/unit/X_UNIT_#{self["id"]}"), "wb") { | file|  file.write(self.encode) } 
   end
   
   def save_to_redis
     $redis.select 2
-    $redis.set "unit_"+self["id"].to_s,self.encode
+    $redis.set "X_UNIT_"+self["id"].to_s,self.encode
   end
 end
 

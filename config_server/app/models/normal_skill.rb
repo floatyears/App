@@ -57,12 +57,12 @@ class NormalSkill
   end
   
   def save_to_file
-    File.open(Rails.root.join("public/skills/skill_#{self.baseInfo.id}"), "wb") { | file|  file.write(self.encode) } 
+    File.open(Rails.root.join("public/skills/X_SKILL_#{self.baseInfo.id}"), "wb") { | file|  file.write(self.encode) } 
   end
   
   def save_to_redis
     $redis.select 2
-    $redis.set "skill_"+self.baseInfo.id.to_s,self.encode
+    $redis.set "X_SKILL_"+self.baseInfo.id.to_s,self.encode
   end
   
 end
