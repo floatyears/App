@@ -5547,7 +5547,30 @@ response:
 ## compose_unit(Level Up)
 ```
 request:
-{"header":{"api_version":"1.0.3","packet_unique_id":21},"unique_id_base":20000037465566,"unique_id_parts":[20000036675386],"helper_user_id":101528914,"helper_unit":{"id":7,"exp":102052,"level":31,"unique_id":50000009026581,"add_pow":3,"add_def":0,"add_hp":1,"limitbreak_lv":0,"get_time":0},"helper_premium":0,"helper_point_ok":1}
+{
+   "header":{
+      "api_version":"1.0.3",
+      "packet_unique_id":21
+   },
+   "unique_id_base":20000037465566,
+   "unique_id_parts":[
+      20000036675386
+   ],
+   "helper_user_id":101528914,
+   "helper_unit":{
+      "id":7,
+      "exp":102052,
+      "level":31,
+      "unique_id":50000009026581,
+      "add_pow":3,
+      "add_def":0,
+      "add_hp":1,
+      "limitbreak_lv":0,
+      "get_time":0
+   },
+   "helper_premium":0,
+   "helper_point_ok":1
+}
 
 {
 	"header": {

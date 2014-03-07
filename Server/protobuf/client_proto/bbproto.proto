@@ -448,6 +448,22 @@ message RspGetUserUnit {
 	repeated UserUnit		unit	= 2;
 };
 
+message ReqLevelUp {	
+	optional ProtoHeader	header			= 1;
+	optional uint32			baseUniqueId	= 2;
+	repeated uint32			partUniqueId	= 3;
+	optional uint32			helperUserId	= 4; 
+	optional UserUnit		helperUnit		= 5;
+	optional int32			helperPremium	= 6;
+};
+
+message RspLevelUp {
+	optional ProtoHeader	header			= 1;
+	repeated UserUnit		unitList		= 2;
+	optional uint32			blendUniqueId	= 3;
+	optional int32			blendExp		= 4;
+};
+
 //=====================================================
 
 message UserInfo {

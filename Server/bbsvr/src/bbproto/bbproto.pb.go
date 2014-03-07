@@ -2450,6 +2450,102 @@ func (m *RspGetUserUnit) GetUnit() []*UserUnit {
 	return nil
 }
 
+type ReqLevelUp struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	BaseUniqueId     *uint32      `protobuf:"varint,2,opt,name=baseUniqueId" json:"baseUniqueId,omitempty"`
+	PartUniqueId     []uint32     `protobuf:"varint,3,rep,name=partUniqueId" json:"partUniqueId,omitempty"`
+	HelperUserId     *uint32      `protobuf:"varint,4,opt,name=helperUserId" json:"helperUserId,omitempty"`
+	HelperUnit       *UserUnit    `protobuf:"bytes,5,opt,name=helperUnit" json:"helperUnit,omitempty"`
+	HelperPremium    *int32       `protobuf:"varint,6,opt,name=helperPremium" json:"helperPremium,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqLevelUp) Reset()         { *m = ReqLevelUp{} }
+func (m *ReqLevelUp) String() string { return proto.CompactTextString(m) }
+func (*ReqLevelUp) ProtoMessage()    {}
+
+func (m *ReqLevelUp) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqLevelUp) GetBaseUniqueId() uint32 {
+	if m != nil && m.BaseUniqueId != nil {
+		return *m.BaseUniqueId
+	}
+	return 0
+}
+
+func (m *ReqLevelUp) GetPartUniqueId() []uint32 {
+	if m != nil {
+		return m.PartUniqueId
+	}
+	return nil
+}
+
+func (m *ReqLevelUp) GetHelperUserId() uint32 {
+	if m != nil && m.HelperUserId != nil {
+		return *m.HelperUserId
+	}
+	return 0
+}
+
+func (m *ReqLevelUp) GetHelperUnit() *UserUnit {
+	if m != nil {
+		return m.HelperUnit
+	}
+	return nil
+}
+
+func (m *ReqLevelUp) GetHelperPremium() int32 {
+	if m != nil && m.HelperPremium != nil {
+		return *m.HelperPremium
+	}
+	return 0
+}
+
+type RspLevelUp struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	UnitList         []*UserUnit  `protobuf:"bytes,2,rep,name=unitList" json:"unitList,omitempty"`
+	BlendUniqueId    *uint32      `protobuf:"varint,3,opt,name=blendUniqueId" json:"blendUniqueId,omitempty"`
+	BlendExp         *int32       `protobuf:"varint,4,opt,name=blendExp" json:"blendExp,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspLevelUp) Reset()         { *m = RspLevelUp{} }
+func (m *RspLevelUp) String() string { return proto.CompactTextString(m) }
+func (*RspLevelUp) ProtoMessage()    {}
+
+func (m *RspLevelUp) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspLevelUp) GetUnitList() []*UserUnit {
+	if m != nil {
+		return m.UnitList
+	}
+	return nil
+}
+
+func (m *RspLevelUp) GetBlendUniqueId() uint32 {
+	if m != nil && m.BlendUniqueId != nil {
+		return *m.BlendUniqueId
+	}
+	return 0
+}
+
+func (m *RspLevelUp) GetBlendExp() int32 {
+	if m != nil && m.BlendExp != nil {
+		return *m.BlendExp
+	}
+	return 0
+}
+
 type UserInfo struct {
 	Uuid             *string   `protobuf:"bytes,1,opt,name=uuid" json:"uuid,omitempty"`
 	UserId           *uint32   `protobuf:"varint,2,opt,name=userId" json:"userId,omitempty"`

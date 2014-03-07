@@ -175,7 +175,7 @@ func GetUserInfo(db *data.Data, uid uint32) (userInfo bbproto.UserInfoDetail, is
 	isUserExists = false
 
 	if db == nil {
-		db := &data.Data{}
+		db = &data.Data{}
 		err = db.Open(consts.TABLE_USER)
 		defer db.Close()
 		if err != nil {
@@ -303,7 +303,7 @@ func RenameUser(uid uint32, newNickName string) (e Error.Error) {
 
 func RetoreStamina(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e Error.Error) {
 	if db == nil {
-		db := &data.Data{}
+		db = &data.Data{}
 		err := db.Open(consts.TABLE_USER)
 		defer db.Close()
 		if err != nil {

@@ -16,6 +16,7 @@ import (
 	"friend"
 	"quest"
 	"user"
+	"unit"
 )
 
 const (
@@ -38,6 +39,9 @@ const (
 	_PROTO_DEL_FRIEND    = "/del_friend"
 	_PROTO_ACCEPT_FRIEND = "/accept_friend"
 	_PROTO_FIND_FRIEND   = "/find_friend"
+
+	//unit
+	_PROTO_LEVEL_UP		= "/level_up"
 )
 
 func safeHandler(fn http.HandlerFunc) http.HandlerFunc {
@@ -94,6 +98,10 @@ func main() {
 	http.HandleFunc(_PROTO_START_QUEST, safeHandler(quest.StartQuestHandler))
 	http.HandleFunc(_PROTO_CLEAR_QUEST, safeHandler(quest.ClearQuestHandler))
 	//http.HandleFunc(_PROTO_GET_QUEST_INFO, safeHandler(quest.GetQuestInfoHandler))
+
+	/** unit protocol **/
+	http.HandleFunc(_PROTO_LEVEL_UP, safeHandler(unit.LevelUpHandler))
+
 
 	ret := http.ListenAndServe(":6666", nil)
 	log.Fatal("http.ListenAndServe ret:%d", ret)

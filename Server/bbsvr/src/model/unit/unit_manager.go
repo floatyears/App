@@ -8,6 +8,7 @@ import (
 	"data"
 	"common/consts"
 	"common/EC"
+	"bbproto"
 )
 
 func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e Error.Error) {
@@ -42,4 +43,23 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e
 	}
 
 	return unitId, Error.OK()
+}
+
+func getUnitInfo(unitId uint32) (e Error.Error) {
+
+	return Error.OK()
+}
+
+func DoLevelUp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseUniqueId uint32, partUniqueId []uint32, helperUid uint32, helperUnit bbproto.UserUnit) (e Error.Error) {
+	//1. getUnitInfo(baseUniqueId)
+
+	//2. getUnitInfo(partUniqueId..)
+
+	//3. getUnitInfo(helperUnit.UnitId) *1.25, *1.5
+
+	//4. remove partUnits,
+
+	//5. levelup baseUnit
+
+	return Error.OK()
 }
