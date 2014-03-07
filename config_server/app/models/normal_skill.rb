@@ -61,7 +61,7 @@ class NormalSkill
   end
   
   def save_to_redis
-    $redis.select 20
+    $redis.select 2
     $redis.set "skill_"+self.baseInfo.id.to_s,self.encode
   end
   
