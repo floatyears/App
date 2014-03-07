@@ -10,7 +10,7 @@ import (
 	"common/EC"
 	"common/Error"
 	"common/log"
-	"user/party"
+	"model/party"
 
 	proto "code.google.com/p/goprotobuf/proto"
 )

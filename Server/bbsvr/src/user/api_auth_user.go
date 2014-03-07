@@ -18,7 +18,7 @@ import (
 	"common/log"
 	"data"
 	"event"
-	"friend"
+	"model/friend"
 	"model/user"
 )
 
@@ -170,7 +170,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		//}
 
 		//TODO: call update in goroutine
-		UpdateLoginInfo(db, &userDetail)
+		user.UpdateLoginInfo(db, &userDetail)
 
 		rspMsg.Account = userDetail.Account
 		rspMsg.UnitList = userDetail.UnitList

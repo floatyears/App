@@ -9,10 +9,11 @@ import (
 
 import (
 	"bbproto"
-	"common/Error"
 	"common/EC"
+	"common/Error"
 	//"data"
 	"model/user"
+	//"model/friend"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"

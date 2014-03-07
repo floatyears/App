@@ -13,6 +13,7 @@ import (
 	"common/Error"
 	"common/log"
 	"data"
+	"model/quest"
 	"model/user"
 
 	proto "code.google.com/p/goprotobuf/proto"
@@ -112,7 +113,7 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	gotFriendPt := int32(0)
 
 	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e =
-		UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
+		quest.UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
 	if e.IsError() {
 		return e
 	}

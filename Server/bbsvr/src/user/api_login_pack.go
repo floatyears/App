@@ -12,7 +12,7 @@ import (
 	"common/EC"
 	"common/Error"
 	"data"
-	"friend"
+	"model/friend"
 	"model/user"
 
 	proto "code.google.com/p/goprotobuf/proto"

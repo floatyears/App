@@ -9,12 +9,12 @@ import (
 
 import (
 	"bbproto"
+	proto "code.google.com/p/goprotobuf/proto"
 	"common/EC"
 	"common/Error"
 	"common/consts"
 	"data"
-	//"model/user"
-	proto "code.google.com/p/goprotobuf/proto"
+	"model/friend"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -92,7 +92,7 @@ func (t DelFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqDelFriend, rspMsg *bb
 	uid := *reqMsg.Header.UserId
 	fUid := *reqMsg.FriendUid
 
-	num, err := DelFriend(db, uid, fUid)
+	num, err := friend.DelFriend(db, uid, fUid)
 	if err != nil {
 		log.Printf("[ERROR] user:%v DelFriend(%v) failed: %v", uid, fUid, err)
 		return Error.New(EC.EF_DEL_FRIEND_FAIL, err.Error())
