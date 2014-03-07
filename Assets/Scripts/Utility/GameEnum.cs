@@ -130,7 +130,8 @@ public enum CommandEnum
 	StateInfo					= 3048,
 	StopInput					= 3049,
 
-	//Add By Ling yan	
+	//-----------------View Cmd-----------------------//
+	//Add By Lynn
 	PanelFocus					= 4000,
 	TransmitStageInfo			= 4001,
 	PickBaseUnitInfo				= 4002,
@@ -145,19 +146,20 @@ public enum CommandEnum
 	UpdateNickName			= 4011,
 	ErrorMsgShow				= 4012,
 	ShowSelectUnitInfo			= 4013,
+	UpdatePartyInfoPanel			= 4014,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
-	ReqAuthUser					= 5000,
-	RspAuthUser					= 5001,
+//	ReqAuthUser					= 5000,
+//	RspAuthUser					= 5001,
 	ReqRenameNick				= 5002,
-	RspRenameNick				= 5003,
+//	RspRenameNick				= 5003,
 
 	// quest - 5100
-	ReqStartQuest				= 5101,
-	RspStartQuest				= 5102,
-	ReqClearQuest				= 5103,
-	RspClearQuest				= 5104,
+//	ReqStartQuest				= 5101,
+//	RspStartQuest				= 5102,
+//	ReqClearQuest				= 5103,
+//	RspClearQuest				= 5104,
 	
 	//unit - 5200
 	ReqLevelUp					= 5201,

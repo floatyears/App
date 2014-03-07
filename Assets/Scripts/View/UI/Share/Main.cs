@@ -87,13 +87,19 @@ public class Main : MonoBehaviour
 	/// </summary>
 	void OnEnable()
 	{
-		UIManager.Instance.ChangeScene( SceneEnum.Start );
+		INetBase netBase = new AuthUser ();
+		netBase.OnRequest (null, LoginSuccess);
+
 		AudioManager.Instance.PlayAudio( AudioEnum.music_home );
 		EffectManager em = EffectManager.Instance;
 		//ProtoManager<bbproto.ReqAuthUser> authUser = new ProtoManager<bbproto.ReqAuthUser> ();
 //		string info =  GameSingleDataStore.Instance.GetSingleData ("aa");
 //		Debug.LogError (info);
 
+	}
+
+	void LoginSuccess(object data) {
+		UIManager.Instance.ChangeScene( SceneEnum.Start);
 	}
 
 	void OnDisable () {

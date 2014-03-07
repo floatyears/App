@@ -2,38 +2,20 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class BattleCardAreaItem : UIBaseUnity
-{
-	private List<CardItem> cardItemList = new List<CardItem>();
-	public List<CardItem> CardItemList {
+public class BattleCardAreaItem : UIBaseUnity {
+	private List<CardSprite> cardItemList = new List<CardSprite>();
+	public List<CardSprite> CardItemList {
 		get{return cardItemList;}
 	}
 
-	private List<int> battleList = new List<int> ();
-	/// <summary>
-	/// this item's fight card
-	/// </summary>
-	/// <value>The battle list.</value>
-	public List<int> BattleList{
-		get{
-			return battleList;
-		}
-	}
-
+	private List<UISprite> cardList = new List<UISprite> ();
 	private GameObject parentObject;
-
 	private Vector3 scale = new Vector3 (0.5f, 0.5f, 1f);
-
 	private Vector3 utilityScale = Vector3.zero;
-
 	private Vector3 pos = Vector3.zero;
-
 	private float durationTime = 0.1f;
-
 	private Vector3 selfScale = new Vector3 (1.2f, 1.2f, 1f);
-
 	private Vector3 battleCardInitPos ;
-
 	private List<UITexture> battleCardTemplate = new List<UITexture>();
 
 	private int areaItemID = -1;
@@ -44,24 +26,21 @@ public class BattleCardAreaItem : UIBaseUnity
 
 	private UITexture template;
 
-	public override void Init(string name)
-	{
+	public override void Init(string name) {
 		base.Init(name);
-
 		UITexture tex = GetComponent<UITexture>();
-
 		utilityScale = new Vector3 ((float)tex.width / 4f, (float)tex.height / 4f, 1f);
-
 		pos = transform.localPosition;
-
 		parentObject = transform.parent.gameObject;
-
 		InitFightCard ();
-
+		for (int i = 1; i < 6; i++) {
+			UISprite sprite = FindChild<UISprite>(i.ToString());
+			sprite.spriteName = "";
+			cardList.Add(sprite);
+		}
 	}
 
-	void InitFightCard()
-	{
+	void InitFightCard() {
 		template = FindChild<UITexture> ("BattleCardTemplate");
 		battleCardTemplate.Add(template);
 		battleCardInitPos = template.transform.localPosition;
@@ -75,8 +54,7 @@ public class BattleCardAreaItem : UIBaseUnity
 		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 	}
 
-	public override void HideUI ()
-	{
+	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, Attack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
@@ -88,56 +66,33 @@ public class BattleCardAreaItem : UIBaseUnity
 		Attack (data);
 	}
 
-	public int GenerateCard(List<CardItem> source)
-	{
+	public int GenerateCard(List<CardItem> source) {
 		Scale (true);
 		int maxLimit = Config.cardCollectionCount - cardItemList.Count;
-
 		if(maxLimit <= 0)
 			return 0;
-	
 		maxLimit = maxLimit > source.Count ? source.Count : maxLimit;
-
 		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
+		for (int i = 0; i < maxLimit; i++) {
 
-		for (int i = 0; i < maxLimit; i++)
-		{
-			tempObject = BattleCardArea.GetCard();
-			tempObject.layer = parentObject.layer;
-			tempObject.transform.localPosition = pos;
-			tempObject.transform.parent = parentObject.transform;
-			CardItem ci = tempObject.GetComponent<CardItem>();
-	
-			ci.Init(tempObject.name);
+			GameObject go = cardList[cardItemList.Count].gameObject;
 
+			CardSprite ci = go.AddComponent<CardSprite>();
+			ci.Init("aaa");
 			DisposeTweenPosition(ci);
-
 			DisposeTweenScale(ci);
-
-			ci.ActorTexture.depth = GetDepth(cardItemList.Count);
-	
-			ci.SetTexture( source[i].ActorTexture.mainTexture,source[i].itemID);
-
+			ci.ActorSprite.depth = GetDepth(cardItemList.Count);
+			ci.SetTexture(source[i].itemID);
 			cardItemList.Add(ci);
-
 			GenerateFightCardImmelity(source[i].itemID);
-			//StartCoroutine(GenerateFightCard(source[i].itemID));
 		}
 
 		return maxLimit;
 	}
 	List <AttackImageUtility> attackImage = new List<AttackImageUtility> ();
-//	IEnumerator GenerateFightCard(int id) {
-//		yield return 1;
-//		//int itemID = Config.Instance.CardData [id].itemID;
-//		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
-//		//Debug.LogError ("GenerateFightCard :" + attackImage.Count);
-//		InstnaceCard ();
-//	}
 
 	void GenerateFightCardImmelity(int id) {
 		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
-
 		InstnaceCard ();
 	}
 
@@ -210,37 +165,32 @@ public class BattleCardAreaItem : UIBaseUnity
 
 	public void ClearCard()
 	{
-		for (int i = 0; i < cardItemList.Count; i++)
-		{
+		for (int i = 0; i < cardItemList.Count; i++) {
 			cardItemList[i].HideUI();
 		}
-
 		cardItemList.Clear();
-
-//		for (int i = 0; i<battleCardTemplate.Count; i++) {
-//			if(battleCardTemplate[i].enabled){
-//				battleCardTemplate[i].enabled = false;
-//			}
-//			battleList.Clear();
-//		}
 	}
 
-	void DisposeTweenPosition(CardItem ci)
-	{
+	void DisposeTweenPosition(CardSprite ci) {
 		ci.Move(GetPosition(cardItemList.Count),durationTime);
 	}
 
-	void DisposeTweenScale(CardItem ci)
-	{
+	void DisposeTweenScale(CardSprite ci) {
+		ci.Scale(scale,durationTime);
+	}
+
+	void DisposeTweenPosition(CardItem ci) {
+		ci.Move(GetPosition(cardItemList.Count),durationTime);
+	}
+
+	void DisposeTweenScale(CardItem ci) {
 		ci.Scale(scale,durationTime);
 	}
 	
-	Vector3 GetPosition(int sortID)
-	{	
+	Vector3 GetPosition(int sortID) {	
 		Vector3 tempPos = Vector3.zero;
 		
-		switch (sortID) 
-		{
+		switch (sortID) {
 		case 0:
 			tempPos = new Vector3(pos.x - utilityScale.x,pos.y + utilityScale.y,pos.z);
 			break;
@@ -260,7 +210,7 @@ public class BattleCardAreaItem : UIBaseUnity
 			break;
 		}
 
-		return tempPos;
+		return tempPos - transform.localPosition;
 	}
 
 	int GetDepth(int sortID)

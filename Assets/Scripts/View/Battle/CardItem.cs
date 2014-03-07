@@ -5,9 +5,9 @@ public class CardItem : UIBaseUnity
 {
 	public event UICallback<CardItem> tweenCallback;
 
-	private UITexture actorTexture;
+	private UISprite actorTexture;
 
-	public UITexture ActorTexture
+	public UISprite ActorTexture
 	{
 		get{return actorTexture;}
 	}
@@ -57,44 +57,36 @@ public class CardItem : UIBaseUnity
 	}
 
 	private Transform parentObject;
-
 	private float xOffset = 0f;
-
 	private float defaultMoveTime = 0.1f;
 
 	[HideInInspector]
 	public int itemID = -1;
-
 	[HideInInspector]
 	public int location = -1;
-
-	private UISprite uiSprite;
+	[HideInInspector]
+	public int color = -1;
 
 	public override void Init (string name) {
 		base.Init (name);
-
 		parentObject = transform.parent;
+		actorTexture = GetComponent<UISprite>();
+		if (!actorTexture.enabled) {
+			actorTexture.enabled = true;
+		}
 
-		actorTexture = GetComponent<UITexture>();
-		uiSprite = GetComponent<UISprite> ();
+		actorTexture.spriteName = "";
+		xOffset = (float)actorTexture.width / 4;
 		initActorPosition = actorTexture.transform.localPosition;
-
 		tweenPosition = GetComponent<TweenPosition>();
 		tweenPosition.enabled = false;
-
 		tse = GetComponent<TweenScaleExtend>();
 		tse.enabled = false;
-
 		tweenPosition.eventReceiver = gameObject;
-
 		tweenPosition.callWhenFinished = "TweenPositionCallback";
-
 		initPosition = actorTexture.transform.localPosition;
-
 		anim = GetComponent<UIButtonScale>();
-
 		initDepth = actorTexture.depth;
-
 		CanDrag = true;
 	}
 
@@ -102,6 +94,9 @@ public class CardItem : UIBaseUnity
 	{
 		if(!actorTexture.enabled)
 			actorTexture.enabled = true;
+		if (itemID != -1) {
+			actorTexture.spriteName = itemID.ToString();
+		}
 		//actorTexture.transform.localPosition = initActorPosition;
 
 		base.ShowUI ();
@@ -110,8 +105,8 @@ public class CardItem : UIBaseUnity
 	public override void HideUI ()
 	{
 		//actorTexture.mainTexture = null;
-		if(actorTexture.enabled)
-		actorTexture.enabled = false;
+		actorTexture.spriteName = "";
+
 //		actorTexture.transform.localPosition = hideActorPosition;
 		base.HideUI ();
 	}
@@ -120,64 +115,57 @@ public class CardItem : UIBaseUnity
 	{
 		base.DestoryUI ();
 	}
-	Texture texure ;
-	public void SetTexture(Texture tex,int itemID)
-	{
-		//HideUI ();
-		//actorTexture.enabled = false;
+//	Texture texure ;
+//	public void SetTexture(Texture tex,int itemID)
+//	{
+//		//HideUI ();
+//		//actorTexture.enabled = false;
+//
+//		this.itemID = itemID;
+//
+//		//texure = tex;
+//
+//		actorTexture.width = 
+//			actorTexture.height = 125;
+//
+//		xOffset = (float)actorTexture.width / 4;
+//		actorTexture.mainTexture = tex;
+////		actorTexture.transform.localPosition = initActorPosition;
+//
+//		if (!actorTexture.enabled) {
+//			actorTexture.enabled = true;
+//		}
+//		//StartCoroutine (ActiveTexture ());
+//		//ActiveTextureImmediate ();
+//	}
 
-		this.itemID = itemID;
-
-		//texure = tex;
-
-		actorTexture.width = 
-			actorTexture.height = 125;
-
-		xOffset = (float)actorTexture.width / 4;
-		actorTexture.mainTexture = tex;
-//		actorTexture.transform.localPosition = initActorPosition;
-
-		if (!actorTexture.enabled) {
-			actorTexture.enabled = true;
-		}
-		//StartCoroutine (ActiveTexture ());
-		//ActiveTextureImmediate ();
-	}
+//	public void SetTexture(Texture tex,int itemID,int color)
+//	{
+//		//HideUI ();
+//		//actorTexture.enabled = false;
+//		
+//		this.itemID = itemID;
+//		
+//		//texure = tex;
+//		this.color = color;
+//		actorTexture.width = 
+//			actorTexture.height = 125;
+//		
+//		xOffset = (float)actorTexture.width / 4;
+//		actorTexture.mainTexture = tex;
+//		//		actorTexture.transform.localPosition = initActorPosition;
+//		
+//		if (!actorTexture.enabled) {
+//			actorTexture.enabled = true;
+//		}
+//		//StartCoroutine (ActiveTexture ());
+//		//ActiveTextureImmediate ();
+//	}
 
 	public void SetSprite(int index) {
-//		uiSprite.spriteName = index.ToString ();
+		itemID = index;
+		actorTexture.spriteName = index.ToString ();
 	}
-
-	void ActiveTextureImmediate() {
-		//actorTexture.enabled = true;
-		
-		actorTexture.mainTexture = texure;
-	}
-
-	IEnumerator ActiveTexture() {
-		yield return 1;
-		actorTexture.enabled = true;
-		actorTexture.mainTexture = texure;
-	}
-
-//	public void SetTexture(Texture2D tex,int width,int height,int location,int itemID)
-//	{
-//		this.itemID = itemID;
-//		this.location = location;
-//
-//		actorTexture.mainTexture = tex;
-//		actorTexture.width = width;
-//		actorTexture.height = height;
-//
-//		ShowUI();
-//
-//		if(itemID == 1)
-//		{
-//			actorTexture.color = Color.black;
-//		}
-//		else
-//			actorTexture.color = Color.white;
-//	}
 
 	public void OnDrag(Vector3 position,int index)
 	{
@@ -205,9 +193,6 @@ public class CardItem : UIBaseUnity
 
 	public void Reset()
 	{
-		//gameObject.layer = GameLayer.ActorCard;
-//		actorTexture.depth = initDepth;
-		//transform.parent = parentObject;
 		actorTexture.transform.localPosition = initPosition;
 	}
 
@@ -256,33 +241,16 @@ public class CardItem : UIBaseUnity
 		initPosition = to;
 	}
 
-	public void Scale(Vector3 to, float time)
-	{
+	public void Scale(Vector3 to, float time) {
 		Scale(transform.localScale,to,time);
 	}
 
-	public void Scale(Vector3 from, Vector3 to, float time)
-	{
-
+	public void Scale(Vector3 from, Vector3 to, float time) {
 		iTween.ScaleTo (gameObject, iTween.Hash("x", to.x,"y",to.y,"time", 0.3f,"easetype","easeoutquad"));
-
-
-//		if (!tse.enabled)
-//			tse.enabled = true;
-//
-//		tse.enabled = true;
-//
-//		tse.duration = time;
-//
-//		tse.from = from;
-//
-//		tse.to = to;  
 	}
 	
-	void TweenPositionCallback()
-	{
-		if(tweenCallback != null)
-		{
+	void TweenPositionCallback() {
+		if(tweenCallback != null) {
 			tweenCallback(this);
 		}
 	}

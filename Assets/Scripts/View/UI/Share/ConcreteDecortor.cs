@@ -224,10 +224,15 @@ public class UnitsDecorator : DecoratorBase {
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
-//
+
 		UnitsComponent units = CreatComponent< UnitsComponent >( UIConfig.unitsWindowName );
-		units.SetComponent( sceneInfoBar );
-	
+		PartyPageUILogic partyPage = CreatComponent<PartyPageUILogic>( UIConfig.partyPagePanelName);
+		PartyInfoUILogic partyInfo = CreatComponent<PartyInfoUILogic>(UIConfig.partyInfoPanelName);
+
+		partyInfo.SetComponent( sceneInfoBar );
+		partyPage.SetComponent( partyInfo );
+		units.SetComponent( partyPage );
+
 		lastDecorator = units;
 		lastDecorator.CreatUI();
 	
@@ -323,14 +328,21 @@ public class PartyDecorator : DecoratorBase {
 		sceneInfoBar.SetComponent( decorator );
 
 		PartyPageUILogic partyPage = CreatComponent<PartyPageUILogic>( UIConfig.partyPagePanelName);
+
 		PartyInfoUILogic partyInfo = CreatComponent<PartyInfoUILogic>(UIConfig.partyInfoPanelName);
+
 		MyUnitDragUILogic dragPanel = CreatComponent<MyUnitDragUILogic>(UIConfig.partyDragPanelName);
-		partyPage.SetComponent( sceneInfoBar );
-		partyInfo.SetComponent(partyPage);
-		dragPanel.SetComponent(partyInfo);
+	
+		partyInfo.SetComponent( sceneInfoBar );
+
+		partyPage.SetComponent(partyInfo);
+
+		dragPanel.SetComponent(partyPage);
 
 		lastDecorator = dragPanel;
+
 		lastDecorator.CreatUI();
+
 	}
 }
 

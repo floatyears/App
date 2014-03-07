@@ -30,11 +30,15 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	public Dictionary<int,TUserUnit> UserUnit {
 		get {
 			if(userUnit == null) {
+//				Debug.Log("TUnitParty :: userunit is null. new it..");
 				userUnit = new Dictionary<int,TUserUnit>();
 				for (int i = 0; i < partyItem.Count; i++) {
 					TUserUnit uui = GlobalData.userUnitList.GetMyUnit(partyItem[i].unitUniqueId);
 					userUnit.Add(partyItem[i].unitPos,uui);
+//					Debug.Log("TUnitParty :: userunit.add "+i);
 				}
+			}else{
+//				Debug.Log("TUnitParty :: userunit is not null");
 			}
 			return userUnit;
 		}
@@ -56,12 +60,12 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	private void reAssignData() {
 		List<TUserUnit> uu = GetUserUnit();
 		totalHp = totalCost = 0;
-		initTypeAtk(EUnitType.UWIND);
-		initTypeAtk(EUnitType.UFIRE);
-		initTypeAtk(EUnitType.UWATER);
-		initTypeAtk(EUnitType.ULIGHT);
-		initTypeAtk(EUnitType.UDARK);
-		initTypeAtk(EUnitType.UNONE);
+		initTypeAtk(typeAttackValue, EUnitType.UWIND);
+		initTypeAtk(typeAttackValue, EUnitType.UFIRE);
+		initTypeAtk(typeAttackValue, EUnitType.UWATER);
+		initTypeAtk(typeAttackValue, EUnitType.ULIGHT);
+		initTypeAtk(typeAttackValue, EUnitType.UDARK);
+		initTypeAtk(typeAttackValue, EUnitType.UNONE);
 
 		foreach(PartyItem item in instance.items) {
 			if ( item.unitPos >= uu.Count ) {

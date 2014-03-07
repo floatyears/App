@@ -8,7 +8,7 @@ public class MapItem : UIBaseUnity
 		get{ return coor; }
 		set{ coor = value; }
 	}
-	private UITexture mapItemTexture;
+//	private UITexture mapItemTexture;
 	private UISprite mapBackSprite;
 
 	private FloorRotate floorRotate;
@@ -21,11 +21,11 @@ public class MapItem : UIBaseUnity
 	private TQuestGrid gridItem ;
 
 	public int  Width {
-		get{ return mapItemTexture.width; }
+		get{ return mapItemSprite.width; }
 	}
 		
 	public int Height {
-		get{return mapItemTexture.height;}
+		get{return mapItemSprite.height;}
 	}
 
 	public Vector3 InitPosition {
@@ -51,10 +51,11 @@ public class MapItem : UIBaseUnity
 		base.Init (name);
 		initPosition = transform.localPosition;
 		initRotation = transform.rotation.eulerAngles;
-		mapItemTexture = FindChild<UITexture>("Floor/MapItem/Texture");
-		mapBackSprite = mapItemTexture.GetComponent<UISprite> ();
-		mapItemTexture.enabled = false;
-		mapBackSprite.enabled = false;
+//		mapItemTexture = FindChild<UITexture>("Floor/MapItem/Texture");
+		mapBackSprite = FindChild<UISprite>("Floor/MapItem/Texture");
+//		mapItemTexture.enabled = false;
+		mapBackSprite.spriteName = "";
+//		mapBackSprite.enabled = false;
 		mapItemSprite = FindChild<UISprite>("Sprite");
 		floorRotate = GetComponent<FloorRotate> ();
 		floorRotate.Init ();
@@ -66,59 +67,64 @@ public class MapItem : UIBaseUnity
 		int y = System.Int32.Parse (info [1]);
 		gridItem = BattleQuest.questDungeonData.GetSingleFloor (new Coordinate (x, y));
 		if (gridItem != null) {
-//			if (gridItem.Type == bbproto.EQuestGridType.Q_KEY) {
-//				spriteName = "key";
-//			} else if (gridItem.Type == bbproto.EQuestGridType.Q_EXCLAMATION) {
-//				spriteName = "d";
-//			} else if (gridItem.Type == bbproto.EQuestGridType.Q_ENEMY) {
-//				uint unitID = gridItem.Enemy [0].UnitID;
-//				TUnitInfo tui = GlobalData.Instance.GetUnitInfo (unitID);
-//				if (tui != null) {
-//					mapItemTexture.enabled = true;
-//					mapItemTexture.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
-//				}
-//			}
-//			else if(){
-//
-//			}
 			switch (gridItem.Star) {
 			case bbproto.EGridStar.GS_KEY:
+//				mapBackSprite.enabled = true;
+
 				spriteName = "key";
+//				Destroy(mapItemTexture);
 				break;
 			case bbproto.EGridStar.GS_QUESTION:
 				break;
 			case bbproto.EGridStar.GS_EXCLAMATION:
+//				mapBackSprite.enabled = true;
+
 				spriteName = "d";
+//				Destroy(mapItemTexture);
 				break;
 			default:
 				break;
 			}
 			mapItemSprite.spriteName = spriteName;
+			spriteName = "";
 			switch (gridItem.Type) {
+			case bbproto.EQuestGridType.Q_NONE:
+//				Destroy(mapItemTexture);
+				break;
 			case bbproto.EQuestGridType.Q_KEY:
-
+//				Destroy(mapItemTexture);
 				break;
 			case bbproto.EQuestGridType.Q_EXCLAMATION:
-
+//				Destroy(mapItemTexture);
 				break;
 			case bbproto.EQuestGridType.Q_ENEMY:
+
 				uint unitID = gridItem.Enemy [0].UnitID;
 				TUnitInfo tui = GlobalData.Instance.GetUnitInfo (unitID);
 				if (tui != null) {
-					mapItemTexture.enabled = true;
-					mapItemTexture.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
+					UITexture tex = mapBackSprite.gameObject.AddComponent<UITexture>();
+//					mapItemTexture.enabled = true;
+					Destroy(mapBackSprite);
+					tex.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
+					tex.width = 125;
+					tex.height = 125;
 				}
 				break;
 			case bbproto.EQuestGridType.Q_TRAP:
-				mapBackSprite.enabled = true;
-				mapBackSprite.spriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
+//				Destroy(mapItemTexture);
+//				mapBackSprite.enabled = true;
+				spriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
 				break;
 			case bbproto.EQuestGridType.Q_TREATURE:
-				mapBackSprite.spriteName = "s";
+//				Destroy(mapItemTexture);
+//				mapBackSprite.enabled = true;
+				spriteName = "s";
 				break;
 			default:
 				break;
 			}
+			mapBackSprite.spriteName = spriteName;
+
 		}
 	}
 
@@ -136,6 +142,13 @@ public class MapItem : UIBaseUnity
 			}else{
 				mapItemSprite.spriteName = spriteName;
 			}
+		}
+	}
+
+	public void RotateOneCircle() {
+		if (!isRotate) {
+			isRotate = true;
+			floorRotate.RotateOne ();
 		}
 	}
 

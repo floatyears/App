@@ -17,15 +17,16 @@ public class SelectInfoUILogic : ConcreteComponent {
 	}
 
 	void AddCmdListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.ShowSelectUnitInfo, ShowSelectUnitInfo);
+		MsgCenter.Instance.AddListener(CommandEnum.ShowSelectUnitInfo, UpdateUI);
 	}
 
 	void RmvCmdListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.ShowSelectUnitInfo, ShowSelectUnitInfo);
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowSelectUnitInfo, UpdateUI);
 
         }
         
-        void ShowSelectUnitInfo(object data){
+        void UpdateUI(object data){
+		Debug.Log("SelectInfoUILogic.UpdateUI(), receive command, to show unitInfo...");
 		TUserUnit tuu = data as TUserUnit;
 		ExcuteCallback(tuu);
 	}

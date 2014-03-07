@@ -79,13 +79,17 @@ public class BattleMap : UIBaseUnity {
 	public override void HideUI ()
 	{
 		base.HideUI ();
-		for (int i = 0; i < useMapItem.Count; i++) {
-			useMapItem[i].Reset();
-				}
+//		for (int i = 0; i < useMapItem.Count; i++) {
+//			useMapItem[i].Reset();
+//		}
 		useMapItem.Clear ();
 		gameObject.SetActive (false);
+		for (int i = 0; i < map.GetLength(0); i++) {
+			for (int j = 0; j < map.GetLength(1); j++) {
+				Destroy(map[i,j].gameObject);
+			}
+		}
 		door.HideUI ();
-
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMap, ShieldMap);
 	}
 
@@ -157,7 +161,7 @@ public class BattleMap : UIBaseUnity {
 	IEnumerator EndRotate () {
 		for (int i = 0; i < map.GetLength(0); i++) {
 			for (int j = 0; j < map.GetLength(1); j++) {
-				map[i,j].RotateAnim();
+				map[i,j].RotateOneCircle();
 				yield return 2;
 			}
 		}

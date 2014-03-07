@@ -155,7 +155,7 @@ public class TQuestGrid : ProtobufDataBase {
 
 	public TQuestGrid(QuestGrid inst) : base (inst) { 
 		instance = inst;
-		LogHelper.LogError ("TQuestGrid :: instance.trap id : " + instance.trapId);
+//		LogHelper.LogError ("TQuestGrid :: instance.trap id : " + instance.trapId);
 		Enemy = new List<TEnemyInfo> ();
 	}
 

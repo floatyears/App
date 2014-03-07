@@ -25,6 +25,7 @@ public class MoveTrap : TrapBase, ITrapExcute{
 			int yCoor = Random.Range(0, MapConfig.MapHeight);
 			cd = new Coordinate(xCoor,yCoor);
 			MsgCenter.Instance.Invoke(CommandEnum.TrapMove, cd);
+//			Debug.LogError("random position TrapMove");
 			break;
 		case 3:
 			ViewManager.Instance.TrapLabel.text = "move trap,return start position ";

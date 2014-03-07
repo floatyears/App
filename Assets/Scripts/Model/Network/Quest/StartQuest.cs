@@ -16,11 +16,11 @@ public class StartQuest: ProtoManager {
 	private StartQuestParam questParam;
 
 	public StartQuest(){
-		MsgCenter.Instance.AddListener (CommandEnum.ReqStartQuest, OnReceiveCommand);
+//		MsgCenter.Instance.AddListener (CommandEnum.ReqStartQuest, OnReceiveCommand);
 	}
 
 	~StartQuest() {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ReqStartQuest, OnReceiveCommand);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ReqStartQuest, OnReceiveCommand);
 	}
 
 	public override bool MakePacket () {
@@ -66,10 +66,12 @@ public class StartQuest: ProtoManager {
 		if(rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null ){
 			TQuestDungeonData dungeonData = new TQuestDungeonData (rspStartQuest.dungeonData);
 			//send response to caller
-			MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, dungeonData);
+//			MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, dungeonData);
+			OnResposeEnd(dungeonData);
 
 		} else{
-			MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, null);
+//			MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, null);
+			OnResposeEnd(null);
 		}
 
 	}
@@ -87,5 +89,9 @@ public class StartQuest: ProtoManager {
 		Send (); //send request to server
 	}
 
+	public override void OnRequest (object data, DataListener callback) {
+		OnRequestBefoure (callback);
+		OnReceiveCommand (data);
+	}
 }
 
