@@ -11,9 +11,11 @@ public class PartyInfoUILogic : ConcreteComponent {
 		base.CreatUI();
 	}
 	public override void ShowUI(){
+//		Debug.LogError("PartyInfoUILogic showui 11 ");
 		base.ShowUI();
-
+//		Debug.LogError("PartyInfoUILogic showui 22 ");
 		AddCmdListener();
+//		Debug.LogError("PartyInfoUILogic showui 33");
 	}
 
 	public override void HideUI(){

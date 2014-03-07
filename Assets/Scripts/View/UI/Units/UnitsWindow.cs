@@ -16,8 +16,10 @@ public class UnitsWindow : UIComponentUnity{
 	}
 	
 	public override void ShowUI(){
+//		Debug.LogError("UnitsWindow.ShowUI(), Start...");
 		base.ShowUI();
 		ShowTween();
+//		Debug.LogError("UnitsWindow.ShowUI(), End...");
 	}
 	
 	public override void HideUI(){

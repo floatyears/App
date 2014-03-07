@@ -65,7 +65,7 @@ public class PartyPagePanel : UIComponentUnity {
 	void FindTexture() {
 		UITexture tex;
 		GameObject go;
-		for( int i = 0; i < 4; i++) {
+		for( int i = 1; i < 5; i++) {
 			tex = FindChild< UITexture >("Unit" + i.ToString() + "/role" );
 			texureList.Add(tex);
 			go = transform.FindChild("Unit" + i.ToString() ).gameObject;

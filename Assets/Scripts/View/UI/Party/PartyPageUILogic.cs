@@ -46,26 +46,26 @@ public class PartyPageUILogic : ConcreteComponent {
 		switch (pageType){
 			case "PageForward" : 
 				partyInfo = GlobalData.partyInfo.NextParty;
-				//NoticeInfoPanel(GlobalData.partyInfo.NextParty);
+				NoticeInfoPanel(GlobalData.partyInfo.NextParty);
 				break;
 			case "PageBack" : 
 				partyInfo = GlobalData.partyInfo.PrevParty;
-				//NoticeInfoPanel(GlobalData.partyInfo.PrevParty);
+				NoticeInfoPanel(GlobalData.partyInfo.PrevParty);
 				break;
 			case "PageCurrent" :
 				partyInfo = GlobalData.partyInfo.CurrentParty;
-				//NoticeInfoPanel(GlobalData.partyInfo.CurrentParty);
-				break;
-			case "ClickItem0" :
-				NoticeShowUnitInfo(0);
+				NoticeInfoPanel(GlobalData.partyInfo.CurrentParty);
 				break;
 			case "ClickItem1" :
-				NoticeShowUnitInfo(1);
+				NoticeShowUnitInfo(0);
 				break;
 			case "ClickItem2" :
-				NoticeShowUnitInfo(2);
+				NoticeShowUnitInfo(1);
 				break;
 			case "ClickItem3" :
+				NoticeShowUnitInfo(2);
+				break;
+			case "ClickItem4" :
 				NoticeShowUnitInfo(3);
 				break;
 			default:
@@ -73,7 +73,7 @@ public class PartyPageUILogic : ConcreteComponent {
 				break;
 		}
 
-		NoticeInfoPanel(GlobalData.partyInfo.CurrentParty);
+		//NoticeInfoPanel(GlobalData.partyInfo.CurrentParty);
 		
 		if(partyInfo == null){
 			Debug.LogError("PartyPageUILogic.GetPartyPageData(), partyInfo.currentParty is NULL. " + GlobalData.partyInfo.CurrentPartyId);

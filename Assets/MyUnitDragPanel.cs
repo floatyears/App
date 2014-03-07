@@ -51,8 +51,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 		GameObject unitItem =  Resources.Load( itemSourcePath ) as GameObject;
 		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
 		InitDragPanelArgs();
-		//dragPanel = CreateDragPanel( name, count, itemGo) ;
-		FillDragPanel( dragPanel );
+
 		dragPanel =new DragPanel("MyUnitDragPanel", unitItem);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(1,rejectItem);
@@ -70,7 +69,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	void FillDragPanel(DragPanel panel){
 		if( panel == null ){
-			Debug.LogError( "LevelUpBasePanel.FillDragPanel(), DragPanel is null, return!");
+			Debug.LogError( "MyUnitDragPanel.FillDragPanel(), DragPanel is null, return!");
 			return;
 		}
 
