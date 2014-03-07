@@ -147,6 +147,11 @@ public enum CommandEnum
 	ErrorMsgShow				= 4012,
 	ShowSelectUnitInfo			= 4013,
 	UpdatePartyInfoPanel			= 4014,
+	ShowSelectUnitDetail			= 4015,
+	NoticeFuncParty				= 4016,
+	OnPartySelectUnit			= 4017,
+	OnSubmitChangePartyItem		= 4018,
+	GetSubmitChangeState		= 4019,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
