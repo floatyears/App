@@ -9,11 +9,11 @@ public class ChangeParty: ProtoManager {
 	private TPartyInfo partyInfo;
 
 	public ChangeParty(){
-		MsgCenter.Instance.AddListener (CommandEnum.ReqChangeParty, OnReceiveCommand);
+//		MsgCenter.Instance.AddListener (CommandEnum.ReqChangeParty, OnReceiveCommand);
 	}
 
 	~ChangeParty() {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ReqChangeParty, OnReceiveCommand);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ReqChangeParty, OnReceiveCommand);
 	}
 
 	public override bool MakePacket () {
@@ -41,7 +41,8 @@ public class ChangeParty: ProtoManager {
 		LogHelper.Log ("rspChangeParty code:{0}, error:{1}", rspChangeParty.header.code, rspChangeParty.header.error);
 		success = (rspChangeParty.header.code == 0 );
 		//send response to caller
-		MsgCenter.Instance.Invoke (CommandEnum.RspChangeParty, success);
+//		MsgCenter.Instance.Invoke (CommandEnum.RspChangeParty, success);
+		OnResposeEnd (success);
 	}
 
 	void OnReceiveCommand(object data) {
@@ -56,5 +57,9 @@ public class ChangeParty: ProtoManager {
 		Send (); //send request to server
 	}
 
+	public override void OnRequest (object data, DataListener callback) {
+		OnRequestBefoure (callback);
+		OnReceiveCommand (data);
+	}
 }
 

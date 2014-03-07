@@ -121,14 +121,15 @@ public enum CommandEnum
 
 	PlayerPosion				= 3040,
 	InjuredNotDead				= 3041,
-	MeetEnemy				= 3042,
+	MeetEnemy					= 3042,
 	MeetTrap					= 3043,
 	TrapTargetPoint				= 3044,
 	OpenDoor					= 3045,
-	RotateDown				= 3046,
+	RotateDown					= 3046,
 	MeetCoin					= 3047,
 	StateInfo					= 3048,
 	StopInput					= 3049,
+	GridEnd						= 3050,
 
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
@@ -155,16 +156,16 @@ public enum CommandEnum
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
-	ReqAuthUser					= 5000,
-	RspAuthUser					= 5001,
+//	ReqAuthUser					= 5000,
+//	RspAuthUser					= 5001,
 	ReqRenameNick				= 5002,
-	RspRenameNick				= 5003,
+//	RspRenameNick				= 5003,
 
 	// quest - 5100
-	ReqStartQuest				= 5101,
-	RspStartQuest				= 5102,
+//	ReqStartQuest				= 5101,
+//	RspStartQuest				= 5102,
 	ReqClearQuest				= 5103,
-	RspClearQuest				= 5104,
+//	RspClearQuest				= 5104,
 	
 	//unit - 5200
 	ReqLevelUp					= 5201,

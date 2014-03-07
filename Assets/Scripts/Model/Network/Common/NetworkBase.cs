@@ -32,13 +32,13 @@ public class HttpNetBase : IWWWPost {
 
 	private NetCallback callback;
 
-	public void Send (INetBase nettemp,WWWForm wf)	{
+	public void Send (ProtoManager nettemp,WWWForm wf)	{
 		callback = nettemp.Receive;
 		www = new WWW (Url, wf);
 		HttpManager.Instance.SendHttpPost (this);
 	}
 
-	public void Send (INetBase nettemp, string urlPath, byte[] data) {
+	public void Send (ProtoManager nettemp, string urlPath, byte[] data) {
 		callback = nettemp.Receive;
 		Url = urlPath;
 

@@ -23,9 +23,9 @@ public class ConfigUnitInfo {
 			uiitem.skill1 		= (i - 1) * 2 % 10;
 			uiitem.skill2 		= ((i - 1) * 2 + 1)%10;
 			uiitem.powerType = new PowerType();
-			uiitem.powerType.attackType = 2;
-			uiitem.powerType.expType = 1;
-			uiitem.powerType.hpType = 3;
+			uiitem.powerType.attackType = TPowerTableInfo.UnitInfoAttackType1;
+			uiitem.powerType.expType = TPowerTableInfo.UnitInfoExpType1;
+			uiitem.powerType.hpType = TPowerTableInfo.UnitInfoHPType1;
 			uiitem.cost = (i % 5);
 			uiitem.race 		= (EUnitRace)(i%6);
 			uiitem.rare 		= i%6;

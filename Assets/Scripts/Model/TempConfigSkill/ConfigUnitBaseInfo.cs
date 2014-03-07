@@ -14,6 +14,7 @@ public class ConfigUnitBaseInfo {
 //		GenerateUnitBaseDefense();
 		GenerateUnitBaseHP();
 		GenerateUserMaxCost();
+		GenerateUserExp ();
 	}
 	// exp attack defense hp
 	void GenerateUnitBaseExp () {
@@ -25,7 +26,7 @@ public class ConfigUnitBaseInfo {
 			pt.power.Add(pv);
 		}
 		TPowerTableInfo tbi = new TPowerTableInfo (pt);
-		GlobalData.unitValue .Add(1,tbi) ;
+		GlobalData.unitValue .Add(TPowerTableInfo.UnitInfoExpType1,tbi) ;
 	}
 
 	void GenerateUnitBaseAttack () {
@@ -37,7 +38,7 @@ public class ConfigUnitBaseInfo {
 			pt.power.Add(pv);
 		}
 		TPowerTableInfo tbi = new TPowerTableInfo (pt);
-		GlobalData.unitValue .Add(2,tbi) ; 
+		GlobalData.unitValue .Add(TPowerTableInfo.UnitInfoAttackType1,tbi) ; 
 	}
 
 //	void GenerateUnitBaseDefense () {
@@ -60,7 +61,7 @@ public class ConfigUnitBaseInfo {
 			pt.power.Add(pv);
 		}
 		TPowerTableInfo tbi = new TPowerTableInfo (pt);
-		GlobalData.unitValue.Add(3,tbi) ;
+		GlobalData.unitValue.Add(TPowerTableInfo.UnitInfoHPType1,tbi) ;
 	}
 
 	void GenerateUserMaxCost () {
@@ -72,7 +73,19 @@ public class ConfigUnitBaseInfo {
 			pt.power.Add(pv);
 		}
 		TPowerTableInfo tbi = new TPowerTableInfo (pt);
-		GlobalData.unitValue.Add(4,tbi) ;
+		GlobalData.unitValue.Add(TPowerTableInfo.UnitInfoCost1,tbi) ;
+	}
+
+	void GenerateUserExp () {
+		PowerTable pt = new PowerTable();
+		for (int i = 1; i < 200; i++) {
+			PowerValue pv = new PowerValue();
+			pv.level = i;
+			pv.value = i * 200;
+			pt.power.Add(pv);
+		}
+		TPowerTableInfo tbi = new TPowerTableInfo (pt);
+		GlobalData.unitValue.Add(TPowerTableInfo.UserExpType,tbi) ;
 	}
 
 	void GenerateUnitBaseInfo() {
