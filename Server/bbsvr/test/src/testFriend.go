@@ -12,9 +12,9 @@ import (
 import (
 	"bbproto"
 	//"../src/common"
-	"../src/common/consts"
-	"../src/friend"
+	"common/consts"
 	"data"
+	"model/friend"
 	//redis "github.com/garyburd/redigo/redis"
 )
 

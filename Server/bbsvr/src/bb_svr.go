@@ -12,11 +12,12 @@ import (
 )
 import (
 	//"data"
+	"common/config"
 	"common/log"
 	"friend"
 	"quest"
-	"user"
 	"unit"
+	"user"
 )
 
 const (
@@ -41,7 +42,7 @@ const (
 	_PROTO_FIND_FRIEND   = "/find_friend"
 
 	//unit
-	_PROTO_LEVEL_UP		= "/level_up"
+	_PROTO_LEVEL_UP = "/level_up"
 )
 
 func safeHandler(fn http.HandlerFunc) http.HandlerFunc {
@@ -70,6 +71,7 @@ func Init() {
 
 	rand.Seed(time.Now().UTC().UnixNano())
 
+	config.InitConfig()
 }
 
 func main() {
@@ -101,7 +103,6 @@ func main() {
 
 	/** unit protocol **/
 	http.HandleFunc(_PROTO_LEVEL_UP, safeHandler(unit.LevelUpHandler))
-
 
 	ret := http.ListenAndServe(":6666", nil)
 	log.Fatal("http.ListenAndServe ret:%d", ret)

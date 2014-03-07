@@ -6,6 +6,7 @@ import (
 	"common"
 	"common/EC"
 	"common/Error"
+	"common/config"
 	"common/consts"
 	"common/log"
 	"data"
@@ -89,26 +90,90 @@ func GetUserUnitInfo(userDetail *bbproto.UserInfoDetail, uniqueId uint32) (useru
 	return userunit, Error.New(EC.DATA_NOT_EXISTS)
 }
 
-func DoLevelUp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseUniqueId uint32, partUniqueId []uint32, helperUid uint32, helperUnit bbproto.UserUnit) (e Error.Error) {
+func CalculateDevourExp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseUnit *bbproto.UnitInfo,
+	partUniqueIds []uint32) (blendExp, addAtk, addHp, addDef int32, e Error.Error) {
+	blendExp = int32(0)
+	addAtk = int32(0)
+	addHp = int32(0)
+	addDef = int32(0)
+	for _, partUniqueId := range partUniqueIds {
+		partUU, e := GetUserUnitInfo(userDetail, partUniqueId)
+		if e.IsError() {
+			return -1, -1, -1, -1, e
+		}
+		partUnit, e := GetUnitInfo(db, *partUU.UnitId)
+		if e.IsError() {
+			return -1, -1, -1, -1, e
+		}
+		if partUU.AddAttack != nil {
+			addAtk += *partUU.AddAttack
+		}
+		if partUU.AddHp != nil {
+			addHp += *partUU.AddHp
+		}
+		if partUU.AddDefence != nil {
+			addDef += *partUU.AddDefence
+		}
 
-	//6.
+		multiple := float32(1.0)
+		if *baseUnit.Race == *partUnit.Race && *baseUnit.Type == *partUnit.Type {
+			multiple = float32(1.5)
+		} else if *baseUnit.Race == *partUnit.Race || *baseUnit.Type == *partUnit.Type {
+			multiple = float32(1.25)
+		}
 
-	return Error.OK()
+		blendExp += int32(float32(*partUnit.DevourValue) * float32(*partUU.Level) * multiple)
+
+		log.T("Add partUnit:[%v | %v] DevourExp = (%v * %v) => %v", partUU.UniqueId, partUU.UnitId,
+			(*partUnit.DevourValue)*(*partUU.Level), multiple, int32(float32(*partUnit.DevourValue)*float32(*partUU.Level)*multiple))
+	}
+
+	return blendExp, addAtk, addHp, addDef, Error.OK()
+}
+
+func getUnitExpValue(expType int32, level int32) (levelExp int32) {
+	//TODO: read from global exp type table
+	if level > int32(len(config.TableUnitExpType)) {
+		return -1
+	}
+
+	levelExp = config.TableUnitExpType[level]
+	return levelExp
+}
+
+func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, currExp int32, addExp int32) (addLevel int32, e Error.Error) {
+	addLevel = int32(0)
+	for level := *userUnit.Level; level < *unit.MaxLevel; level++ {
+		nextLevelExp := getUnitExpValue(*unit.PowerType.ExpType, *userUnit.Level)
+		if nextLevelExp <= 0 { // nextLevelExp<=0 means it reach MAX_LEVEL
+			break
+		}
+
+		if currExp+addExp >= nextLevelExp {
+			addLevel += 1
+		} else {
+			break
+		}
+	}
+
+	return addLevel, Error.OK()
 }
 
 func GetLevelUpMoney(level int32, count int32) int32 {
-	//TODO: config money table per lelvel
-	money := 100 * level * count
 
-	return money
+	if level > int32(len(config.TableUnitExpType)) {
+		return -1
+	}
+
+	return config.TableDevourCoin[level]
 }
 
-func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32 ) (e Error.Error) {
-	for i:=0; i<len(partUniqueId); i++ {
-		for pos, userunit:=range unitList {
+func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32) (e Error.Error) {
+	for i := 0; i < len(partUniqueId); i++ {
+		for pos, userunit := range unitList {
 			if *userunit.UniqueId == partUniqueId[i] {
 				unitList = append(unitList[:pos], unitList[pos+1:]...)
-				log.T("after remove[pos:%v | uniqId:%v], unitList is: %+v", pos,partUniqueId, unitList)
+				log.T("after remove[pos:%v | uniqId:%v], unitList is: %+v", pos, partUniqueId, unitList)
 			}
 		}
 	}

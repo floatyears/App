@@ -29,6 +29,9 @@ const (
 	_PROTO_DEL_FRIEND    = "/del_friend"
 	_PROTO_ACCEPT_FRIEND = "/accept_friend"
 	_PROTO_FIND_FRIEND   = "/find_friend"
+
+	//unit
+	_PROTO_LEVEL_UP = "/level_up"
 )
 
 //const WEB_SERVER_ADDR = "http://127.0.0.1:6666"

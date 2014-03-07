@@ -312,7 +312,7 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 								}
 								log.T("\t -- append dropUnit:%+v", dropUnit)
 
-								dropUnit.DropId = proto.Uint32(uint32(len(questData.Drop)))
+								dropUnit.DropId = proto.Uint32(uint32(len(questData.Drop) + 1))
 
 								grid.DropId = proto.Uint32(*dropUnit.DropId)
 								grid.DropPos = proto.Int32(x)

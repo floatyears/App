@@ -2326,6 +2326,7 @@ type UserUnit struct {
 	AddHp            *int32  `protobuf:"varint,7,opt,name=addHp" json:"addHp,omitempty"`
 	LimitbreakLv     *int32  `protobuf:"varint,8,opt,name=limitbreakLv" json:"limitbreakLv,omitempty"`
 	GetTime          *uint32 `protobuf:"varint,9,opt,name=getTime" json:"getTime,omitempty"`
+	IsFavorite       *int32  `protobuf:"varint,10,opt,name=isFavorite" json:"isFavorite,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -2392,6 +2393,13 @@ func (m *UserUnit) GetLimitbreakLv() int32 {
 func (m *UserUnit) GetGetTime() uint32 {
 	if m != nil && m.GetTime != nil {
 		return *m.GetTime
+	}
+	return 0
+}
+
+func (m *UserUnit) GetIsFavorite() int32 {
+	if m != nil && m.IsFavorite != nil {
+		return *m.IsFavorite
 	}
 	return 0
 }

@@ -107,41 +107,49 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 		return Error.New(EC.E_LEVELUP_NO_ENOUGH_MONEY)
 	}
 
-	//4. getUnitInfo of all material part, caculate exp
-	for _, partUniqueId := range reqMsg.PartUniqueId {
-		partUU, e := unit.GetUserUnitInfo(&userDetail, partUniqueId)
-		if e.IsError() {
-			return e
-		}
+	//4. getUnitInfo of all material part to caculate exp
+	addExp, addAtk, addHp, addDef, e := unit.CalculateDevourExp(db, &userDetail, &baseUnit, reqMsg.PartUniqueId)
+	log.T("OrigExp:%v addExp:%v", *baseUserUnit.Exp, addExp)
 
-		partUnit, e := unit.GetUnitInfo(db, *partUU.UnitId)
+	//5. calculate Level growup
+	addLevel, e := unit.CalcLevelUpAddLevel(baseUserUnit, &baseUnit, *baseUserUnit.Exp, addExp)
 
-		multiple := float32(1.0)
-		if *baseUnit.Race == *partUnit.Race && *baseUnit.Type == *partUnit.Type {
-			multiple = float32(1.5)
-		} else if *baseUnit.Race == *partUnit.Race || *baseUnit.Type == *partUnit.Type {
-			multiple = float32(1.25)
-		}
+	*baseUserUnit.Exp += addExp
+	*baseUserUnit.Level += addLevel
+	*baseUserUnit.AddAttack += addAtk
+	*baseUserUnit.AddHp += addHp
+	*baseUserUnit.AddDefence += addDef
+	log.T("baseUserUnit ref to userDetail.UnitList[x] => after Assign value: %+v", baseUserUnit)
+	log.T("userDetail.UnitList[x] => NOW value: %+v", userDetail.UnitList)
 
-		*baseUserUnit.Exp += int32(float32(*partUnit.DevourValue) * float32(*partUU.Level) * multiple)
-		log.T("Add partUnit:[%v | %v] DevourExp = (%v * %v) => %v", partUU.UniqueId, partUU.UnitId,
-			(*partUnit.DevourValue)*(*partUU.Level), multiple, int32(float32(*partUnit.DevourValue)*float32(*partUU.Level)*multiple))
-	}
-
-	//4. remove partUnits
-	e = unit.RemoveMyUnit( userDetail.UnitList, reqMsg.PartUniqueId )
+	//6. remove partUnits
+	e = unit.RemoveMyUnit(userDetail.UnitList, reqMsg.PartUniqueId)
 	if e.IsError() {
 		return e
 	}
 
 	//5. deduct user money
-	*userDetail.Account.Money -= needMoney;
+	*userDetail.Account.Money -= needMoney
 	log.T("after deduct money is: %v", *userDetail.Account.Money)
 
 	//6. update userinfo
 	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
 		return e
 	}
+
+	// fill rsp
+	rspMsg.BlendExp = proto.Int32(addExp)
+	rspMsg.BlendUniqueId = reqMsg.BaseUniqueId
+	rspMsg.UnitList = userDetail.UnitList
+
+	log.T("=================rspMsg begin==================")
+	log.T("\t BlendExp:", *rspMsg.BlendExp)
+	log.T("\t BlendUniqueId:", *rspMsg.BlendUniqueId)
+
+	for k, unit := range rspMsg.UnitList {
+		log.T("\t [%v] unit: %+v", k, unit)
+	}
+	log.T(">>>>>>>>>>>>>>>>>>>Rsp End<<<<<<<<<<<<<<<<<<<<")
 
 	return e
 }

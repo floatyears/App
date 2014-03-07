@@ -21,6 +21,7 @@ message UserUnit {  //unit instance
 	optional int32 addHp		= 7;
 	optional int32 limitbreakLv	= 8;
 	optional uint32 getTime		= 9;
+	optional int32	isFavorite	= 10;
 };
 
 message UnitInfo { 	
