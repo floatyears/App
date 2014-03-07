@@ -27,7 +27,8 @@ public class MyUnitDragUILogic : ConcreteComponent {
 	}
 	
 	void ActivateItem(object data){
-		CallBackDeliver cbd = new CallBackDeliver("activate",null);
+		string tag = data as string;
+		CallBackDeliver cbd = new CallBackDeliver("activate", null);
 		ExcuteCallback(cbd);
 	}
 

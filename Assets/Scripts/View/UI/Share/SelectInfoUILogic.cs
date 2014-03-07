@@ -5,10 +5,12 @@ using System.Collections.Generic;
 public class SelectInfoUILogic : ConcreteComponent {
 
 	public SelectInfoUILogic(string uiName):base(uiName) {}
+	string currentState;
 
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCmdListener();
+
 	}
 
 	public override void HideUI(){
@@ -17,18 +19,28 @@ public class SelectInfoUILogic : ConcreteComponent {
 	}
 
 	void AddCmdListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.ShowSelectUnitInfo, UpdateUI);
+		MsgCenter.Instance.AddListener(CommandEnum.ShowSelectUnitInfo, ReceiveSelectedUnitInfo);
 	}
 
 	void RmvCmdListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.ShowSelectUnitInfo, UpdateUI);
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowSelectUnitInfo, ReceiveSelectedUnitInfo);
 
         }
-        
-        void UpdateUI(object data){
+
+        void ReceiveSelectedUnitInfo(object data){
 		Debug.Log("SelectInfoUILogic.UpdateUI(), receive command, to show unitInfo...");
-		TUserUnit tuu = data as TUserUnit;
-		ExcuteCallback(tuu);
+		BriefUnitInfo bui = data as BriefUnitInfo;
+		switch (bui.tag){
+			case "page" :
+				currentState = "page";
+				break;
+			case "unitList" :
+				currentState = "unitList";
+				break;
+			default:
+				break;
+		}
+		ExcuteCallback(bui.data);
 	}
 
 	public override void Callback(object data){
@@ -55,7 +67,12 @@ public class SelectInfoUILogic : ConcreteComponent {
 
 	//notice to activate party function
 	void NoticeFuncParty(){
-		MsgCenter.Instance.Invoke(CommandEnum.NoticeFuncParty, null);
+		if(currentState == "page")
+			MsgCenter.Instance.Invoke(CommandEnum.NoticeFuncParty, "page");
+		if(currentState == "unitList")
+			MsgCenter.Instance.Invoke(CommandEnum.OnSubmitChangePartyItem, "unitList");
 	}
+
+
 
 }

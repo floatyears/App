@@ -3,12 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PartyPageUILogic : ConcreteComponent {
+	
+	private PartyFocusState partyFocusState;
+	
+	void InitFocusState(){
+		partyFocusState = new PartyFocusState();
+	}
+
+	void SetFocusState(){
+		partyFocusState.ResetState();
+	}
+
 	TUserUnit currentFocusUserUnit;
 	int currentFocusPos = -1;
 	TUserUnit currentChangeUnit;
 	bool canSubmit = false;
 
-	public PartyPageUILogic(string uiName):base(uiName) {}
+	public PartyPageUILogic(string uiName):base(uiName) {
+		InitFocusState();
+	}
 
 	public override void CreatUI(){
 		base.CreatUI();
@@ -28,6 +41,9 @@ public class PartyPageUILogic : ConcreteComponent {
 		currentChangeUnit = null;
 		canSubmit = false;
 
+		//Reset 
+		SetFocusState();
+
 		if(GlobalData.partyInfo == null){
 			Debug.LogError("GlobalData.partyInfo is NULL");
 			return;
@@ -42,26 +58,28 @@ public class PartyPageUILogic : ConcreteComponent {
 		Dictionary<string,object> dic =GetPartyPageData("PageCurrent"); 
 		ExcuteCallback(dic);
 
-//		CallBackDeliver cbd = new CallBackDeliver("texture", );
 	}
-
-
 
 	public override void HideUI(){
 		base.HideUI();
-		//currentFocusUserUnit = null;
-//		currentFocusPos = -1;
-		if( currentFocusPos != null){
-			//notice sever to update data
-		}
 
-		RmvCmdListener();
-
+		NoticeServerUpdatePartyInfo();
+		RemoveCommandListener();
+		  
 	}
+
+	void NoticeServerUpdatePartyInfo(){
+		Debug.Log("PartyPageUILogic.NoticeServerUpdatePartyInfo(), Start...");
+//		if(partyFocusState.IsChanged){
+//			Debug.Log("PartyPageUILogic.NoticeServerUpdatePartyInfo(), Party Info is changed...");
+//			int pos = partyFocusState.Position;
+//			uint id = partyFocusState.Data.ID;
 //
-//	List<Texture2D> GetTextureData(string type){
-//
-//	}
+//			Debug.Log(string.Format("PartyPageUILogic.NoticeServerUpdatePartyInfo(), changed pos is {0}, uniqueId is {1}...", pos, id));
+//		}
+		GlobalData.partyInfo.ExitParty();
+		Debug.Log("PartyPageUILogic.NoticeServerUpdatePartyInfo(), End...");
+	}
 
 	Dictionary<string,object> GetPartyPageData(string pageType){
 		if(GlobalData.partyInfo == null ){
@@ -151,7 +169,7 @@ public class PartyPageUILogic : ConcreteComponent {
 
 	void ReceiveClickEvent(int pos){
 		List<TUserUnit> tuuList = GlobalData.partyInfo.CurrentParty.GetUserUnit();
-		currentFocusUserUnit = tuuList[pos];
+		currentFocusUserUnit = tuuList[ pos ];
 		currentFocusPos = pos + 1;
 
 		switch (UIManager.Instance.baseScene.CurrentScene){
@@ -162,20 +180,21 @@ public class PartyPageUILogic : ConcreteComponent {
 				//do nothing
 				break;
 			case SceneEnum.Party : 
-				NoticeShowUnitInfo(currentFocusUserUnit);
+				BriefUnitInfo briefInfo = new BriefUnitInfo("page", currentFocusUserUnit );
+				NoticeShowUnitInfo(briefInfo);
 				break;
 			default:
 				break;
 		}
 	}
 
-	void NoticeShowUnitInfo(TUserUnit tuu){
+	void NoticeShowUnitInfo(BriefUnitInfo briefinfo){
 //		List<TUserUnit> tuuList = GlobalData.partyInfo.CurrentParty.GetUserUnit();
-		if(tuu == null){
+		if(briefinfo.data == null){
 			Debug.LogError("PartyPageUILogic.NoticeShowUnitInfo(), UnitInfo is Null, do nothing!");
 			return;
 		}
-		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, tuu);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, briefinfo);
 	}
 
 	void ShowSelectUnitDetail(object data){
@@ -202,7 +221,7 @@ public class PartyPageUILogic : ConcreteComponent {
 //		ExcuteCallback(cbd);
 	}
 	
-	void RmvCmdListener(){
+	void RemoveCommandListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowSelectUnitDetail, ShowSelectUnitDetail);
 		MsgCenter.Instance.RemoveListener(CommandEnum.NoticeFuncParty, HighLightShow);
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPartySelectUnit, OnParty);
@@ -211,7 +230,7 @@ public class PartyPageUILogic : ConcreteComponent {
 	}
 
 	void SubmitChangePartyItem(object data){
-
+		
 	}
 	
 	void OnParty(object data){
@@ -223,7 +242,24 @@ public class PartyPageUILogic : ConcreteComponent {
 		Dictionary<string,object> viewInfoDic = new Dictionary<string, object>();
 		viewInfoDic.Add("changeTexture", t2d);
 		ExcuteCallback(viewInfoDic);
+
+		GlobalData.partyInfo.ChangeParty(currentFocusPos, tuu.ID);
+
 		canSubmit = false;
+
+		//MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitDetail,)
+
 	}
 
 }
+
+
+public class BriefUnitInfo{
+	public BriefUnitInfo(string tag, TUserUnit data){
+		this.tag = tag;
+		this.data = data;
+	}
+	public string tag;
+	public TUserUnit data;
+}
+
