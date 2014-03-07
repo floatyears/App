@@ -30,15 +30,15 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	public Dictionary<int,TUserUnit> UserUnit {
 		get {
 			if(userUnit == null) {
-//				Debug.Log("TUnitParty :: userunit is null. new it..");
+//				Debug.LogError("TUnitParty :: userunit is null. new it..");
 				userUnit = new Dictionary<int,TUserUnit>();
 				for (int i = 0; i < partyItem.Count; i++) {
 					TUserUnit uui = GlobalData.userUnitList.GetMyUnit(partyItem[i].unitUniqueId);
 					userUnit.Add(partyItem[i].unitPos,uui);
-//					Debug.Log("TUnitParty :: userunit.add "+i);
+//					Debug.LogError("TUnitParty :: userunit.add "+i);
 				}
 			}else{
-//				Debug.Log("TUnitParty :: userunit is not null");
+//				Debug.LogError("TUnitParty :: userunit is not null" + userUnit.Count);
 			}
 			return userUnit;
 		}

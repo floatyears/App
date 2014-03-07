@@ -6,10 +6,15 @@ using bbproto;
 public class LevelUpBasePanel : UIComponentUnity {
 
 	DragPanel baseDragPanel;
-	Dictionary<GameObject, TUserUnit> baseUnitInfoDic = new Dictionary<GameObject, TUserUnit>();
+	Dictionary<GameObject, UnitItemInfo> baseUnitInfoDic = new Dictionary<GameObject, UnitItemInfo>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
+
+	private UnitItemInfo baseSelectItem;
+	private string currentState = "";
+	private List<UnitItemInfo> partyItem = new List<UnitItemInfo> ();
+	private List<UnitItemInfo> materialItem = new List<UnitItemInfo> ();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		InitUI();
@@ -18,7 +23,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	public override void ShowUI(){
-
 		AddListener();
 		base.ShowUI();
 		this.gameObject.SetActive(true);
@@ -36,12 +40,10 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 	//CommandEnum.PanelFocus
 	void ShowMyself(object data){
-//		Debug.LogError("Recive Comad PanelFocus");
 		string msg = (string)data;
-//		Debug.Log( "ShowMyself, canShow is " + msg );
+		currentState = msg;
 		if( msg == "Tab_Friend"){
 			this.gameObject.SetActive( false );
-//			StopCoroutine("CrossShow");
 			return;
 		}
 		this.gameObject.SetActive(true);
@@ -49,62 +51,84 @@ public class LevelUpBasePanel : UIComponentUnity {
 		if(IsInvoking("CrossShow")) {
 			CancelInvoke("CrossShow");
 		}
-//		Debug.LogError("InvokeRepeating");
 		InvokeRepeating("CrossShow",0.1f, 1f);
-//		StartCoroutine( CrossShow(unitInfoStruct));
 	}
 
 	void AddListener(){
 //		Debug.Log("LevelUpBasePanel.AddListener()");
 		MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, ShowMyself);
+		MsgCenter.Instance.AddListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
 	}
 
 	void RemoveListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, ShowMyself);
+		MsgCenter.Instance.RemoveListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
 	}
 	
-	void ShowItem( GameObject item){
-		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
-		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
-
-		uint uid = baseUnitInfoDic[item].UnitID;
-		avatarTex.mainTexture = GlobalData.unitInfo[ uid ].GetAsset(UnitAssetType.Avatar);
-
-		int addAttack = baseUnitInfoDic[ item ].AddAttack;
-		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  addAttack is " + addAttack);
-                
-                int addHp = baseUnitInfoDic[ item ].AddHP;
-		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  addHp is " + addHp);
-
-		int level = baseUnitInfoDic[ item ].Level;
-		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  level is " + level );
-
-                int addPoint = addAttack + addHp;
-
-		//UILabel crossFadeLabel = item.transform.FindChild("Label_Info").GetComponent<UILabel>();
-
+	void BaseAlreadySelect(object data) {
+		if (data == null) {
+			ShieldParty(false);
+			if(baseSelectItem != null) {
+				baseSelectItem.stateLabel.text = "";
+				baseSelectItem = null;
+			}
+		} else {
+			ShieldParty(true);
+			baseSelectItem = data as UnitItemInfo;
+			baseSelectItem.stateLabel.text = "base";
+		}
 	}
 
-	private void AddEventListener( GameObject item){
-		UIEventListener.Get( item ).onClick = ClickBaseItem;
-		UIEventListenerCustom.Get( item ).LongPress = PressItem;
+	void ShieldParty(bool isShield) {
+		for (int i = 0; i < partyItem.Count; i++) {
+			UnitItemInfo uii = partyItem[i];
+			if(baseSelectItem != null && baseSelectItem.Equals(uii)) {
+				continue;
+			}
+
+			uii.isSelect = isShield;
+			ShowMask(uii.scrollItem,isShield);
+		}
 	}
 
 	private void ClickBaseItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		TUserUnit tempInfo = baseUnitInfoDic[ item ];
-		MsgCenter.Instance.Invoke( CommandEnum.PickBaseUnitInfo, tempInfo );
-		MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
-		ShowMask( item, true );
+		UnitItemInfo uui = baseUnitInfoDic [item];
+		if (uui.isCollect) {
+			return;		
+		}
+
+		if (currentState == "Tab_Base") {
+			DisposeBaseClick(uui);
+		}
 	}
 
+	void DisposeBaseClick(UnitItemInfo uui) {
+		bool first = baseSelectItem != null;
+
+		if (first && !baseSelectItem.Equals(uui)) {
+			return;	
+		}
+
+		if (!uui.isSelect) {
+			uui.isSelect = true;
+			ShowMask (uui.scrollItem, true);
+		} else {
+			uui.isSelect = false;
+			ShowMask(uui.scrollItem, false);
+		}
+
+		MsgCenter.Instance.Invoke (CommandEnum.PickBaseUnitInfo, uui);
+	}
+	
 	void ShowMask( GameObject target, bool canMask) {
 		GameObject maskSpr = target.transform.FindChild("Mask").gameObject;
+//		Debug.LogError (target.name + "```" + maskSpr);
 		maskSpr.gameObject.SetActive( canMask );
 	}
 
 	void PressItem(GameObject item ){
-		TUserUnit unitInfo = baseUnitInfoDic[ item ];
+		TUserUnit unitInfo = baseUnitInfoDic[ item ].userUnitItem;
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
 
@@ -121,17 +145,14 @@ public class LevelUpBasePanel : UIComponentUnity {
 			return;
 		}
 		//Debug.Log("GlobalData.myUnitList count is " + GlobalData.myUnitList.Count);
-
 		int count = userUnitInfoList.Count;
 		//Debug.Log( string.Format("Base Panel: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		InitDragPanelArgs();
 		baseDragPanel = CreateDragPanel( name, count, itemGo) ;
-		FillDragPanel( baseDragPanel );
+		StartCoroutine( FillDragPanel( baseDragPanel ));
 		baseDragPanel.RootObject.SetScrollView(dragPanelArgs);
-
-
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){
@@ -143,37 +164,94 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	//Fill Unit Item by with config data
-	void FillDragPanel(DragPanel panel){
+	IEnumerator FillDragPanel(DragPanel panel){
 		if( panel == null ){
 			Debug.LogError( "LevelUpBasePanel.FillDragPanel(), DragPanel is null, return!");
-			return;
+			yield break;
+		}
+
+		List<TUserUnit> temp = new List<TUserUnit> ();
+		List<TUnitParty> allParty = GlobalData.partyInfo.AllParty;
+
+		for (int i = 0; i < allParty.Count; i++) {
+			List<TUserUnit> dic =  allParty[i].GetUserUnit();
+			foreach (var item in dic) {
+				temp.Add(item);
+			}
 		}
 
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
-			//Get each panel item GameObject
 			GameObject scrollItem = panel.ScrollItem[ i ];
-
-			//Get target data of each panel item
 			TUserUnit uuItem = userUnitInfoList[ i ] ;
-//			Debug.LogError("userUnitInfoList id " + userUnitInfoList[ i ].UnitID);
+			UnitItemInfo uii = new UnitItemInfo();
+			uii.userUnitItem = uuItem;
+			uii.isCollect = false;
+			uii.stateLabel = scrollItem.transform.Find("Label_Party").GetComponent<UILabel>();
 
-			baseUnitInfoDic.Add( scrollItem, uuItem );
+			if(!uii.isCollect) {
+				int index = temp.FindIndex(a=>a.ID == uuItem.ID);
+				if(index > -1) {
+					uii.isPartyItem = true;
+					int indexTwo = partyItem.FindIndex(a=>a.userUnitItem.ID == uii.userUnitItem.ID);
+					if(indexTwo == -1) {
+						partyItem.Add(uii);
+					}
+				}
+				else{
+					materialItem.Add(uii);
+				}
+			}else{
+				ShowMask(uii.scrollItem,true);
+			}
 
-			StoreLabelInfo( scrollItem);
-			ShowItem( scrollItem );
-			AddEventListener( scrollItem );
+			uii.scrollItem = scrollItem;
+			baseUnitInfoDic.Add( scrollItem, uii );
+			StoreLabelInfo( uii);
+			ShowItem(uii);
+			AddEventListener(uii);
+			if(i > 0 && i % 20 == 0)
+				yield return 0;
 		}
 	}
 
-	void StoreLabelInfo(GameObject item){
+	void StoreLabelInfo(UnitItemInfo item){
 
-		TUserUnit tuu = baseUnitInfoDic[ item ];
+		TUserUnit tuu = item.userUnitItem;
 		UnitInfoStruct infoStruct = new UnitInfoStruct();
 		infoStruct.text1 = tuu.Level.ToString();
 		infoStruct.text2 = (tuu.AddHP + tuu.AddAttack).ToString();
 //		Debug.LogError("TUserUnit.Level : " + tuu.Level.ToString());
-		infoStruct.targetLabel = item.transform.FindChild("Label_Info").GetComponent<UILabel>();
+		infoStruct.targetLabel = item.scrollItem.transform.FindChild("Label_Info").GetComponent<UILabel>();
 		unitInfoStruct.Add(infoStruct);
+	}
+
+	void ShowItem( UnitItemInfo item){
+		Transform avatarGo = item.scrollItem.transform.FindChild( "Texture_Avatar");
+		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
+		TUserUnit uu = item.userUnitItem;
+		uint uid = uu.UnitID;
+		avatarTex.mainTexture = GlobalData.unitInfo[ uid ].GetAsset(UnitAssetType.Avatar);
+		
+//		int addAttack = uu.AddAttack;
+		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  addAttack is " + addAttack);
+		
+//		int addHp = uu.AddHP;
+		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  addHp is " + addHp);
+		
+//		int level = uu.Level;
+		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  level is " + level );
+		
+//		int addPoint = addAttack + addHp;
+		
+		//UILabel crossFadeLabel = item.transform.FindChild("Label_Info").GetComponent<UILabel>();
+		
+	}
+	
+	private void AddEventListener( UnitItemInfo item){
+		UIEventListenerCustom uiEventListener = UIEventListenerCustom.Get (item.scrollItem);
+		item.listener = uiEventListener;
+		uiEventListener.LongPress = PressItem;
+		uiEventListener.onClick = ClickBaseItem;
 	}
 	
 	private void InitDragPanelArgs(){
@@ -200,18 +278,27 @@ public class LevelUpBasePanel : UIComponentUnity {
 			for (int i = 0 ; i< unitInfoStruct.Count; i++) {
 				unitInfoStruct[ i ].targetLabel.text = string.Format( "Lv{0}", unitInfoStruct[ i ].text1);
 				unitInfoStruct[ i ].targetLabel.color = Color.red;
-                        }
+        	}
 			exchange = true;
-                }
-        }//End
+        }
+	}//End
         
 }
-
 
 public class UnitInfoStruct{
 	public string text1;
 	public string text2;
 	public UILabel targetLabel;
+}
+
+public class UnitItemInfo {
+	public GameObject scrollItem;
+	public UILabel stateLabel;
+	public UIEventListenerCustom listener;
+	public TUserUnit userUnitItem;
+	public bool isCollect 	= false;
+	public bool isPartyItem = false;
+	public bool isSelect = false;
 }
 
 

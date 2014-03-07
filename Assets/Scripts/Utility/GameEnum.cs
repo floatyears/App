@@ -154,6 +154,8 @@ public enum CommandEnum
 	OnSubmitChangePartyItem		= 4018,
 	GetSubmitChangeState		= 4019,
 
+	BaseAlreadySelect			= 4020,
+
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,
