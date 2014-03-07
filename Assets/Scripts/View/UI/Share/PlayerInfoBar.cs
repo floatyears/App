@@ -41,7 +41,7 @@ public class PlayerInfoBar : UIComponentUnity {
 	}
 
 	public override void ShowUI () {
-
+		UpdateData ();
 		AddCommandListener();
 		base.ShowUI ();
                 
@@ -59,7 +59,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		base.DestoryUI ();
 	}
 
-	void TurnToReName(object data){
+	void TurnToReName(){
 //		Debug.Log("PlayerInfoBar.TurnToReName() : Start");
 		if(GlobalData.userInfo == null ){
 			Debug.LogError("GlobalData.userInfo is null");
@@ -153,7 +153,7 @@ public class PlayerInfoBar : UIComponentUnity {
 	}
 
 
-	void UpdateData( object data ){
+	void UpdateData() {
 		if( GlobalData.userInfo == null ){
 			Debug.Log("PlayerInfoBar.UpdateData() , userInfo is null , return ");
 			return;
@@ -187,7 +187,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		evolveTypeSprite.spriteName = evoType.ToString();
 
 		//Debug.Log("PlayerInfoBar,GlobalData.userInfo.EvolveType : " + evoType.ToString());
-		TurnToReName(data);
+		TurnToReName();
 
 	}
 	
