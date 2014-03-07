@@ -376,6 +376,48 @@ func (x *QuestBoostType) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type EUnitGetWay int32
+
+const (
+	EUnitGetWay_E_NONE         EUnitGetWay = 0
+	EUnitGetWay_E_FREE         EUnitGetWay = 1
+	EUnitGetWay_E_GACHA_NORMAL EUnitGetWay = 2
+	EUnitGetWay_E_GACHA_EVENT  EUnitGetWay = 3
+	EUnitGetWay_E_BUY          EUnitGetWay = 4
+)
+
+var EUnitGetWay_name = map[int32]string{
+	0: "E_NONE",
+	1: "E_FREE",
+	2: "E_GACHA_NORMAL",
+	3: "E_GACHA_EVENT",
+	4: "E_BUY",
+}
+var EUnitGetWay_value = map[string]int32{
+	"E_NONE":         0,
+	"E_FREE":         1,
+	"E_GACHA_NORMAL": 2,
+	"E_GACHA_EVENT":  3,
+	"E_BUY":          4,
+}
+
+func (x EUnitGetWay) Enum() *EUnitGetWay {
+	p := new(EUnitGetWay)
+	*p = x
+	return p
+}
+func (x EUnitGetWay) String() string {
+	return proto.EnumName(EUnitGetWay_name, int32(x))
+}
+func (x *EUnitGetWay) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(EUnitGetWay_value, data, "EUnitGetWay")
+	if err != nil {
+		return err
+	}
+	*x = EUnitGetWay(value)
+	return nil
+}
+
 // general response protocol
 type ProtoHeader struct {
 	ApiVer           *string `protobuf:"bytes,1,req,name=apiVer" json:"apiVer,omitempty"`
@@ -1350,9 +1392,10 @@ type QuestGrid struct {
 	Color            *int32          `protobuf:"varint,3,opt,name=color" json:"color,omitempty"`
 	Type             *EQuestGridType `protobuf:"varint,4,opt,name=type,enum=bbproto.EQuestGridType" json:"type,omitempty"`
 	EnemyId          []uint32        `protobuf:"varint,5,rep,name=enemyId" json:"enemyId,omitempty"`
-	DropId           []uint32        `protobuf:"varint,6,rep,name=dropId" json:"dropId,omitempty"`
-	Coins            *int32          `protobuf:"varint,7,opt,name=coins" json:"coins,omitempty"`
-	TrapId           *uint32         `protobuf:"varint,8,opt,name=trapId" json:"trapId,omitempty"`
+	DropId           *uint32         `protobuf:"varint,6,opt,name=dropId" json:"dropId,omitempty"`
+	DropPos          *int32          `protobuf:"varint,7,opt,name=dropPos" json:"dropPos,omitempty"`
+	Coins            *int32          `protobuf:"varint,8,opt,name=coins" json:"coins,omitempty"`
+	TrapId           *uint32         `protobuf:"varint,9,opt,name=trapId" json:"trapId,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
 }
 
@@ -1395,11 +1438,18 @@ func (m *QuestGrid) GetEnemyId() []uint32 {
 	return nil
 }
 
-func (m *QuestGrid) GetDropId() []uint32 {
-	if m != nil {
-		return m.DropId
+func (m *QuestGrid) GetDropId() uint32 {
+	if m != nil && m.DropId != nil {
+		return *m.DropId
 	}
-	return nil
+	return 0
+}
+
+func (m *QuestGrid) GetDropPos() int32 {
+	if m != nil && m.DropPos != nil {
+		return *m.DropPos
+	}
+	return 0
 }
 
 func (m *QuestGrid) GetCoins() int32 {
@@ -2344,6 +2394,302 @@ func (m *UserUnit) GetGetTime() uint32 {
 		return *m.GetTime
 	}
 	return 0
+}
+
+type UnitInfo struct {
+	Id               *uint32      `protobuf:"varint,1,req,name=id" json:"id,omitempty"`
+	Name             *string      `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	Race             *EUnitRace   `protobuf:"varint,3,opt,name=race,enum=bbproto.EUnitRace" json:"race,omitempty"`
+	Type             *EUnitType   `protobuf:"varint,4,opt,name=type,enum=bbproto.EUnitType" json:"type,omitempty"`
+	Rare             *int32       `protobuf:"varint,5,opt,name=rare" json:"rare,omitempty"`
+	Skill1           *int32       `protobuf:"varint,6,opt,name=skill1" json:"skill1,omitempty"`
+	Skill2           *int32       `protobuf:"varint,7,opt,name=skill2" json:"skill2,omitempty"`
+	LeaderSkill      *int32       `protobuf:"varint,8,opt,name=leaderSkill" json:"leaderSkill,omitempty"`
+	ActiveSkill      *int32       `protobuf:"varint,9,opt,name=activeSkill" json:"activeSkill,omitempty"`
+	PassiveSkill     *int32       `protobuf:"varint,10,opt,name=passiveSkill" json:"passiveSkill,omitempty"`
+	ActiveSkillLevel *int32       `protobuf:"varint,11,opt,name=activeSkillLevel" json:"activeSkillLevel,omitempty"`
+	MaxLevel         *int32       `protobuf:"varint,12,opt,name=maxLevel" json:"maxLevel,omitempty"`
+	Profile          *string      `protobuf:"bytes,13,opt,name=profile" json:"profile,omitempty"`
+	PowerType        *PowerType   `protobuf:"bytes,14,opt,name=powerType" json:"powerType,omitempty"`
+	EvolveInfo       *EvolveInfo  `protobuf:"bytes,15,opt,name=evolveInfo" json:"evolveInfo,omitempty"`
+	Cost             *int32       `protobuf:"varint,16,opt,name=cost" json:"cost,omitempty"`
+	SaleValue        *int32       `protobuf:"varint,17,opt,name=saleValue" json:"saleValue,omitempty"`
+	DevourValue      *int32       `protobuf:"varint,18,opt,name=devourValue" json:"devourValue,omitempty"`
+	GetWay           *EUnitGetWay `protobuf:"varint,19,opt,name=getWay,enum=bbproto.EUnitGetWay" json:"getWay,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *UnitInfo) Reset()         { *m = UnitInfo{} }
+func (m *UnitInfo) String() string { return proto.CompactTextString(m) }
+func (*UnitInfo) ProtoMessage()    {}
+
+func (m *UnitInfo) GetId() uint32 {
+	if m != nil && m.Id != nil {
+		return *m.Id
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetName() string {
+	if m != nil && m.Name != nil {
+		return *m.Name
+	}
+	return ""
+}
+
+func (m *UnitInfo) GetRace() EUnitRace {
+	if m != nil && m.Race != nil {
+		return *m.Race
+	}
+	return EUnitRace_ALL
+}
+
+func (m *UnitInfo) GetType() EUnitType {
+	if m != nil && m.Type != nil {
+		return *m.Type
+	}
+	return EUnitType_UALL
+}
+
+func (m *UnitInfo) GetRare() int32 {
+	if m != nil && m.Rare != nil {
+		return *m.Rare
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetSkill1() int32 {
+	if m != nil && m.Skill1 != nil {
+		return *m.Skill1
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetSkill2() int32 {
+	if m != nil && m.Skill2 != nil {
+		return *m.Skill2
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetLeaderSkill() int32 {
+	if m != nil && m.LeaderSkill != nil {
+		return *m.LeaderSkill
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetActiveSkill() int32 {
+	if m != nil && m.ActiveSkill != nil {
+		return *m.ActiveSkill
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetPassiveSkill() int32 {
+	if m != nil && m.PassiveSkill != nil {
+		return *m.PassiveSkill
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetActiveSkillLevel() int32 {
+	if m != nil && m.ActiveSkillLevel != nil {
+		return *m.ActiveSkillLevel
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetMaxLevel() int32 {
+	if m != nil && m.MaxLevel != nil {
+		return *m.MaxLevel
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetProfile() string {
+	if m != nil && m.Profile != nil {
+		return *m.Profile
+	}
+	return ""
+}
+
+func (m *UnitInfo) GetPowerType() *PowerType {
+	if m != nil {
+		return m.PowerType
+	}
+	return nil
+}
+
+func (m *UnitInfo) GetEvolveInfo() *EvolveInfo {
+	if m != nil {
+		return m.EvolveInfo
+	}
+	return nil
+}
+
+func (m *UnitInfo) GetCost() int32 {
+	if m != nil && m.Cost != nil {
+		return *m.Cost
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetSaleValue() int32 {
+	if m != nil && m.SaleValue != nil {
+		return *m.SaleValue
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetDevourValue() int32 {
+	if m != nil && m.DevourValue != nil {
+		return *m.DevourValue
+	}
+	return 0
+}
+
+func (m *UnitInfo) GetGetWay() EUnitGetWay {
+	if m != nil && m.GetWay != nil {
+		return *m.GetWay
+	}
+	return EUnitGetWay_E_NONE
+}
+
+type PowerValue struct {
+	Level            *int32 `protobuf:"varint,1,opt,name=level" json:"level,omitempty"`
+	Value            *int32 `protobuf:"varint,2,opt,name=value" json:"value,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
+}
+
+func (m *PowerValue) Reset()         { *m = PowerValue{} }
+func (m *PowerValue) String() string { return proto.CompactTextString(m) }
+func (*PowerValue) ProtoMessage()    {}
+
+func (m *PowerValue) GetLevel() int32 {
+	if m != nil && m.Level != nil {
+		return *m.Level
+	}
+	return 0
+}
+
+func (m *PowerValue) GetValue() int32 {
+	if m != nil && m.Value != nil {
+		return *m.Value
+	}
+	return 0
+}
+
+type PowerTable struct {
+	Power            []*PowerValue `protobuf:"bytes,1,rep,name=power" json:"power,omitempty"`
+	XXX_unrecognized []byte        `json:"-"`
+}
+
+func (m *PowerTable) Reset()         { *m = PowerTable{} }
+func (m *PowerTable) String() string { return proto.CompactTextString(m) }
+func (*PowerTable) ProtoMessage()    {}
+
+func (m *PowerTable) GetPower() []*PowerValue {
+	if m != nil {
+		return m.Power
+	}
+	return nil
+}
+
+type PowerType struct {
+	AttackType       *int32 `protobuf:"varint,1,opt,name=attackType" json:"attackType,omitempty"`
+	HpType           *int32 `protobuf:"varint,2,opt,name=hpType" json:"hpType,omitempty"`
+	ExpType          *int32 `protobuf:"varint,3,opt,name=expType" json:"expType,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
+}
+
+func (m *PowerType) Reset()         { *m = PowerType{} }
+func (m *PowerType) String() string { return proto.CompactTextString(m) }
+func (*PowerType) ProtoMessage()    {}
+
+func (m *PowerType) GetAttackType() int32 {
+	if m != nil && m.AttackType != nil {
+		return *m.AttackType
+	}
+	return 0
+}
+
+func (m *PowerType) GetHpType() int32 {
+	if m != nil && m.HpType != nil {
+		return *m.HpType
+	}
+	return 0
+}
+
+func (m *PowerType) GetExpType() int32 {
+	if m != nil && m.ExpType != nil {
+		return *m.ExpType
+	}
+	return 0
+}
+
+type HelperRequire struct {
+	Level            *int32     `protobuf:"varint,1,opt,name=level" json:"level,omitempty"`
+	Race             *EUnitRace `protobuf:"varint,2,opt,name=race,enum=bbproto.EUnitRace" json:"race,omitempty"`
+	Type             *EUnitType `protobuf:"varint,3,opt,name=type,enum=bbproto.EUnitType" json:"type,omitempty"`
+	XXX_unrecognized []byte     `json:"-"`
+}
+
+func (m *HelperRequire) Reset()         { *m = HelperRequire{} }
+func (m *HelperRequire) String() string { return proto.CompactTextString(m) }
+func (*HelperRequire) ProtoMessage()    {}
+
+func (m *HelperRequire) GetLevel() int32 {
+	if m != nil && m.Level != nil {
+		return *m.Level
+	}
+	return 0
+}
+
+func (m *HelperRequire) GetRace() EUnitRace {
+	if m != nil && m.Race != nil {
+		return *m.Race
+	}
+	return EUnitRace_ALL
+}
+
+func (m *HelperRequire) GetType() EUnitType {
+	if m != nil && m.Type != nil {
+		return *m.Type
+	}
+	return EUnitType_UALL
+}
+
+type EvolveInfo struct {
+	EvolveUnitId     *int32         `protobuf:"varint,1,req,name=evolveUnitId" json:"evolveUnitId,omitempty"`
+	MaterialUnitId   []int32        `protobuf:"varint,2,rep,name=materialUnitId" json:"materialUnitId,omitempty"`
+	HelperRequire    *HelperRequire `protobuf:"bytes,3,opt,name=helperRequire" json:"helperRequire,omitempty"`
+	XXX_unrecognized []byte         `json:"-"`
+}
+
+func (m *EvolveInfo) Reset()         { *m = EvolveInfo{} }
+func (m *EvolveInfo) String() string { return proto.CompactTextString(m) }
+func (*EvolveInfo) ProtoMessage()    {}
+
+func (m *EvolveInfo) GetEvolveUnitId() int32 {
+	if m != nil && m.EvolveUnitId != nil {
+		return *m.EvolveUnitId
+	}
+	return 0
+}
+
+func (m *EvolveInfo) GetMaterialUnitId() []int32 {
+	if m != nil {
+		return m.MaterialUnitId
+	}
+	return nil
+}
+
+func (m *EvolveInfo) GetHelperRequire() *HelperRequire {
+	if m != nil {
+		return m.HelperRequire
+	}
+	return nil
 }
 
 type ReqGetUnitResource struct {
@@ -3478,4 +3824,5 @@ func init() {
 	proto.RegisterEnum("bbproto.EQuestGridType", EQuestGridType_name, EQuestGridType_value)
 	proto.RegisterEnum("bbproto.EGridStar", EGridStar_name, EGridStar_value)
 	proto.RegisterEnum("bbproto.QuestBoostType", QuestBoostType_name, QuestBoostType_value)
+	proto.RegisterEnum("bbproto.EUnitGetWay", EUnitGetWay_name, EUnitGetWay_value)
 }

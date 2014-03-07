@@ -23,6 +23,65 @@ message UserUnit {  //unit instance
 	optional uint32 getTime		= 9;
 };
 
+message UnitInfo { 	
+	required uint32			id				= 1;
+	optional string			name			= 2;
+	optional EUnitRace		race			= 3;	
+	optional EUnitType		type			= 4;//wind flame water, etc.
+	optional int32			rare			= 5;	
+	optional int32			skill1			= 6;
+	optional int32			skill2			= 7;
+	optional int32			leaderSkill		= 8;
+	optional int32			activeSkill		= 9;
+	optional int32			passiveSkill	= 10;
+	optional int32			activeSkillLevel= 11; 
+	optional int32			maxLevel		= 12;
+	optional string			profile			= 13;
+	optional PowerType		powerType		= 14; //include: hpType,atkType,expType
+	optional EvolveInfo		evolveInfo		= 15;
+	optional int32			cost			= 16;
+	optional int32			saleValue		= 17;
+	optional int32			devourValue		= 18;
+	optional EUnitGetWay	getWay			= 19;	
+}
+
+enum EUnitGetWay {
+	E_NONE				= 0;
+	E_FREE				= 1;
+	E_GACHA_NORMAL		= 2;
+	E_GACHA_EVENT		= 3;
+	E_BUY				= 4;
+}
+
+message PowerValue {
+	optional int32 level 		= 1; // unit level
+	optional int32 value		= 2;
+}
+
+message PowerTable {
+	repeated PowerValue	 power	= 1; //has one item for each level
+}
+
+message PowerType {
+	optional int32 attackType	= 1;
+	optional int32 hpType		= 2;
+	optional int32 expType		= 3;		
+}
+
+message HelperRequire {
+    optional int32		level		= 1;
+	optional EUnitRace	race		= 2;
+	optional EUnitType	type		= 3;
+}
+
+message EvolveInfo {
+    required int32      		evolveUnitId    = 1;
+    repeated int32		      	materialUnitId  = 2;
+	optional HelperRequire		helperRequire	= 3;
+}
+
+//=================================================================================================//
+
 message ReqGetUnitResource {
 	optional ProtoHeader	header	= 1;
 	repeated uint32			unitId	= 2;

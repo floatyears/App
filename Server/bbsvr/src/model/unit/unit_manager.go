@@ -8,6 +8,7 @@ import (
 	"common/consts"
 	"common/log"
 	"data"
+	"code.google.com/p/goprotobuf/proto"
 )
 
 func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e Error.Error) {
@@ -44,7 +45,35 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e
 	return unitId, Error.OK()
 }
 
-func getUserUnit(unitId uint32) (unit bbproto.UserUnit, e Error.Error) {
+func getUnitInfo(db *data.Data, unitId uint32) (unit bbproto.UnitInfo, e Error.Error) {
+	if db == nil {
+		db = &data.Data{}
+		err := db.Open(consts.TABLE_UNIT)
+		defer db.Close()
+		if err != nil {
+			return unit, Error.New(EC.READ_DB_ERROR, err)
+		}
+	} else if err := db.Select(consts.TABLE_UNIT); err != nil {
+		return unit, Error.New(EC.READ_DB_ERROR, err.Error())
+	}
+
+	value, err := db.Gets(consts.X_UNIT_INFO + common.Utoa(unitId))
+	if err != nil {
+		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", unitId, err)
+		return unit, Error.New(EC.READ_DB_ERROR, err.Error())
+	}
+	isExists := len(value) != 0
+	//log.T("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
+
+	if !isExists {
+		log.Error("getUnitInfo: unitId(%v) not exists.", unitId)
+		return unit, Error.New(EC.EC_UNIT_ID_ERROR)
+	}
+
+	err = proto.Unmarshal(value, &unit)
+	if err != nil {
+		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", unit, err)
+	}
 
 	return unit, Error.OK()
 }

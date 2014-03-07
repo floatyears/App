@@ -209,6 +209,10 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 	log.T(">>>>>>>>>>>>AuthUser RspMsg<<<<<<<<<<<<<<")
 	log.T("\tUserinfo: %+v", rspMsg.User)
 	log.T("\tAccount: %+v", rspMsg.Account)
+	log.T("\tFriends: ")
+	for k, friend:=range rspMsg.Friends{
+		log.T("\t [%v]: %+v", k, friend)
+	}
 	log.T("\tParty: ")
 	for _, party := range rspMsg.Party.PartyList {
 		log.T("\t%v: %+v", *party.Id, party.Items)
