@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 public class MyUnitDragPanel : UIComponentUnity {
-       	bool partyingActive = false;
+
+       	bool canChangePartyItem = false;
+
 	GameObject rejectItem;
 	protected DragPanel dragPanel;
 	protected bool exchange = false;
@@ -15,12 +17,13 @@ public class MyUnitDragPanel : UIComponentUnity {
 		base.Init(config, origin);
 //		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
 		InitDragPanel();
-
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		partyingActive = false;
+
+		canChangePartyItem = false;
+
 		if(IsInvoking("CrossShow")) {
 			CancelInvoke("CrossShow");
 		}
@@ -107,10 +110,19 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	void ClickDragItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		if(!partyingActive)	return;
+
+		if( !canChangePartyItem ){ 
+			Debug.LogError("MyUnitDragPanel.ClickDragItem(), canChangePartyItem is false!!! , do nothing!! ");
+			return;
+		}
+
 		TUserUnit tuu = myUnitInfoDic[ item ];
-		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, tuu);
+		BriefUnitInfo bui = new BriefUnitInfo("unitList", tuu);
+
+		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, bui);
 		MsgCenter.Instance.Invoke(CommandEnum.OnPartySelectUnit, tuu);
+
+		//MsgCenter.Instance.Invoke(CommandEnum.ShowMyUnitListBriefInfo, tuu );
 	}
 
 	protected void PressItem(GameObject item ){
@@ -204,7 +216,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 		foreach (var item in myUnitInfoDic){
 			ShowMask(item.Key,b);
 		}
-		partyingActive = true;
+		canChangePartyItem = true;
 	}
 
 }

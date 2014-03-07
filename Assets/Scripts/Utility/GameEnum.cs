@@ -153,6 +153,7 @@ public enum CommandEnum
 	OnPartySelectUnit			= 4017,
 	OnSubmitChangePartyItem		= 4018,
 	GetSubmitChangeState		= 4019,
+	ShowMyUnitListBriefInfo		= 4020,
 
 	BaseAlreadySelect			= 4020,
 
