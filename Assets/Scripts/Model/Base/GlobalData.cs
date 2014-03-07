@@ -50,6 +50,14 @@ public class GlobalData  {
 	public static List<int> HaveCard = new List<int>() {111,185,161,101,122,195};
 
 
+	public void RefreshUserInfo (TRspClearQuest clearQuest) {
+		if (clearQuest == null) {
+			return;	
+		}
+		userInfo.RefreshUserInfo (clearQuest);
+		accountInfo.RefreshAcountInfo (clearQuest);
+	}
+
 	// return UserCost of curr Rank.
 	public static int UserCost {
 		get {

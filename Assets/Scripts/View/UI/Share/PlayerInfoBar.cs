@@ -24,9 +24,9 @@ public class PlayerInfoBar : UIComponentUnity {
 	UILabel TNeedExpHideLabel;
 	UILabel TTotalExpHideLabel;
 	UILabel VNeedExpHideLabel;
-        UILabel VTotalExpHideLabel;
+	UILabel VTotalExpHideLabel;
         
-        UISprite expSprite;
+    UISprite expSprite;
 	UISprite staminaSprite;
 	UISprite evolveTypeSprite;
 
@@ -165,7 +165,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		VUserNameLabel.text = GlobalData.userInfo.NickName;
 		//Exp
 		int nextExp = GlobalData.userInfo.NextExp;
-		int curTotalExp = GlobalData.userInfo.CurTotalExp;
+		int curTotalExp = GlobalData.userInfo.CurRankExp;
 		VNeedExpHideLabel.text = nextExp.ToString();
 		VTotalExpHideLabel.text = curTotalExp.ToString();
 		//TODO Get current rank max exp 

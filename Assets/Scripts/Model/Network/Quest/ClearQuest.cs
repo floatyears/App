@@ -6,8 +6,8 @@ using bbproto;
 public class ClearQuestParam {
 	public uint questId;
 	public int getMoney;
-	public List<uint> getUnit;
-	public List<uint> hitGrid;
+	public List<uint> getUnit = new List<uint>();
+	public List<uint> hitGrid = new List<uint>();
 }
 
 public class TRspClearQuest {

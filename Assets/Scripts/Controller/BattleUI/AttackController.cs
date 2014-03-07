@@ -257,6 +257,7 @@ public class AttackController {
 	}
 
 	void BattleEnd() {
+		msgCenter.Invoke (CommandEnum.GridEnd, null);
 		msgCenter.Invoke(CommandEnum.BattleEnd, null);
 		bud.ClearData();
 	}

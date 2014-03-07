@@ -25,7 +25,9 @@ public class BattleQuest : UIBase {
 	public static BattleUseData bud;
 	private Camera mainCamera;
 	private BossAppear bossAppear;
-	private int questFloor = 0;
+//	private int questFloor = 0;
+
+	private ClearQuestParam questData;
 
 	string backgroundName = "BattleBackground";
 
@@ -48,6 +50,8 @@ public class BattleQuest : UIBase {
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
+
+		questData = new ClearQuestParam ();
 	}
 
 	void InitData() {
@@ -78,6 +82,7 @@ public class BattleQuest : UIBase {
 		}
 
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.GridEnd, GridEnd);
 	}
 
 	public override void HideUI () {
@@ -89,6 +94,7 @@ public class BattleQuest : UIBase {
 		base.HideUI ();
 		
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.GridEnd, GridEnd);
 	}
 
 	void Reset () {
@@ -172,10 +178,12 @@ public class BattleQuest : UIBase {
 				battleMap.RotateAnim(null);
 				return;
 			}
-
+			int index = questDungeonData.GetGridIndex(coor);
+			if(index != -1) {
+				questData.hitGrid.Add((uint)index);
+			}
 			currentMapData =  questDungeonData.GetSingleFloor(coor);  //mapConfig.mapData[coor.x,coor.y];
 			role.Stop();
-//			Debug.LogError("currentMapData.Type : " + currentMapData.Type);
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 			if(currentMapData.Star == EGridStar.GS_KEY) {
 				battleMap.waitMove = true;
@@ -186,7 +194,6 @@ public class BattleQuest : UIBase {
 			switch (currentMapData.Type) {
 			case EQuestGridType.Q_NONE:
 				battleMap.waitMove = true;
-//				Debug.LogError(Time.realtimeSinceStartup + " Q_NONE : " + battleMap.waitMove);
 				battleMap.RotateAnim(MapItemNone);
 				break;
 			case EQuestGridType.Q_ENEMY:
@@ -224,6 +231,10 @@ public class BattleQuest : UIBase {
 		}
 	}
 
+	void GridEnd(object data) {
+		questData.getUnit.Add (currentMapData.Drop.DropId);
+	}
+
 	void MeetQuestion () {
 		battleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
@@ -253,13 +264,13 @@ public class BattleQuest : UIBase {
 		TrapBase tb = currentMapData.TrapInfo;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
-
-
-
 	}
 
 	void MapItemCoin() {
 		battleMap.waitMove = false;
+
+		questData.getMoney += currentMapData.Coins;
+
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
@@ -301,12 +312,13 @@ public class BattleQuest : UIBase {
 
 	void BattleEnd(object data) {
 		if (battleEnemy) {
+			RequestData();
 			battleMap.BattleEndRotate();
-			GameTimer.GetInstance().AddCountDown(2f,End);
+//			GameTimer.GetInstance().AddCountDown(2f,End);
 		}
 	}
 
-	void End() {
+	void End(TRspClearQuest clearQuest) {
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
 		GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
@@ -315,6 +327,7 @@ public class BattleQuest : UIBase {
 		obj.transform.localScale = tempScale;
 		VictoryEffect ve = obj.GetComponent<VictoryEffect>();
 		ve.Init("Victory");
+		ve.ShowData (clearQuest);
 		ve.PlayAnimation(QuestEnd,new VictoryInfo(100,0,0,100));
 	}
 
@@ -330,5 +343,16 @@ public class BattleQuest : UIBase {
 	void BattleBase (object data) {
 		BattleBaseData bbd = (BattleBaseData)data;
 		background.InitData (bbd.Blood, bbd.EnergyPoint);
+	}
+
+	void RequestData () {
+		INetBase netBase = new ClearQuest ();
+		netBase.OnRequest (questData, ResponseClearQuest);
+	}
+
+	void ResponseClearQuest (object data) {
+		TRspClearQuest clearQuest = data as TRspClearQuest;
+		End (clearQuest);
+		GlobalData.Instance.RefreshUserInfo (clearQuest);
 	}
 }

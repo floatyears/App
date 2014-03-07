@@ -134,6 +134,14 @@ public class TQuestDungeonData : ProtobufDataBase {
 
 	//======================by leiliang start=================================
 
+	public int GetGridIndex(Coordinate coor) {
+		if (coor.y == 0 && coor.x == 2) {
+			return -1;	
+		}
+
+		return coor.y * 5 + coor.x - 1 + currentFloor * 24;
+	}
+
 	public TQuestGrid GetSingleFloor(Coordinate coor) {
 		if (coor.y == 0 && coor.x == 2) {
 			return null;	
