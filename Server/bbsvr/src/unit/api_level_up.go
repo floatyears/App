@@ -87,20 +87,61 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	if err != nil {
 		return Error.New(EC.CONNECT_DB_ERROR, err)
 	}
-
-	//	e = user.RenameUser(*reqMsg.Header.UserId, *reqMsg.NewNickName)
-	//	if e.IsError() {
-	//		return e
-	//	}
 	uid := *reqMsg.Header.UserId
 
+	//1. get userinfo
 	userDetail, exists, err := user.GetUserInfo(db, uid)
 	if err != nil || !exists {
 		log.Error("getUserInfo(%v) failed.", uid)
 		return Error.New(EC.EU_GET_USERINFO_FAIL, err)
 	}
 
-	e = unit.DoLevelUp(db, &userDetail, *reqMsg.BaseUniqueId, reqMsg.PartUniqueId, *reqMsg.HelperUserId, *reqMsg.HelperUnit)
+	//2. getUnitInfo of baseUniqueId
+	baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, *reqMsg.BaseUniqueId)
+	baseUnit, e := unit.GetUnitInfo(db, *baseUserUnit.UnitId)
+
+	//3. check acount.money is enough or not
+	needMoney := unit.GetLevelUpMoney(*baseUserUnit.Level, int32(len(reqMsg.PartUniqueId)))
+	if *userDetail.Account.Money < needMoney {
+		log.Error("no enough money: %v < %v", *userDetail.Account.Money, needMoney)
+		return Error.New(EC.E_LEVELUP_NO_ENOUGH_MONEY)
+	}
+
+	//4. getUnitInfo of all material part, caculate exp
+	for _, partUniqueId := range reqMsg.PartUniqueId {
+		partUU, e := unit.GetUserUnitInfo(&userDetail, partUniqueId)
+		if e.IsError() {
+			return e
+		}
+
+		partUnit, e := unit.GetUnitInfo(db, *partUU.UnitId)
+
+		multiple := float32(1.0)
+		if *baseUnit.Race == *partUnit.Race && *baseUnit.Type == *partUnit.Type {
+			multiple = float32(1.5)
+		} else if *baseUnit.Race == *partUnit.Race || *baseUnit.Type == *partUnit.Type {
+			multiple = float32(1.25)
+		}
+
+		*baseUserUnit.Exp += int32(float32(*partUnit.DevourValue) * float32(*partUU.Level) * multiple)
+		log.T("Add partUnit:[%v | %v] DevourExp = (%v * %v) => %v", partUU.UniqueId, partUU.UnitId,
+			(*partUnit.DevourValue)*(*partUU.Level), multiple, int32(float32(*partUnit.DevourValue)*float32(*partUU.Level)*multiple))
+	}
+
+	//4. remove partUnits
+	e = unit.RemoveMyUnit( userDetail.UnitList, reqMsg.PartUniqueId )
+	if e.IsError() {
+		return e
+	}
+
+	//5. deduct user money
+	*userDetail.Account.Money -= needMoney;
+	log.T("after deduct money is: %v", *userDetail.Account.Money)
+
+	//6. update userinfo
+	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+		return e
+	}
 
 	return e
 }

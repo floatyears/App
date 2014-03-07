@@ -2,13 +2,13 @@ package unit
 
 import (
 	"bbproto"
+	"code.google.com/p/goprotobuf/proto"
 	"common"
 	"common/EC"
 	"common/Error"
 	"common/consts"
 	"common/log"
 	"data"
-	"code.google.com/p/goprotobuf/proto"
 )
 
 func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e Error.Error) {
@@ -32,7 +32,7 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e
 		maxId = 1 //first unitId
 		if unitCount > 0 {
 			log.Fatal("data not valid: read from KEY_MAX_UNIT_ID return 0, but unit count is:%v", unitCount)
-			return 0, Error.New(EC.EC_UNIT_ID_ERROR)
+			return 0, Error.New(EC.E_UNIT_ID_ERROR)
 		}
 	}
 
@@ -45,7 +45,7 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e
 	return unitId, Error.OK()
 }
 
-func getUnitInfo(db *data.Data, unitId uint32) (unit bbproto.UnitInfo, e Error.Error) {
+func GetUnitInfo(db *data.Data, unitId uint32) (unit bbproto.UnitInfo, e Error.Error) {
 	if db == nil {
 		db = &data.Data{}
 		err := db.Open(consts.TABLE_UNIT)
@@ -67,7 +67,7 @@ func getUnitInfo(db *data.Data, unitId uint32) (unit bbproto.UnitInfo, e Error.E
 
 	if !isExists {
 		log.Error("getUnitInfo: unitId(%v) not exists.", unitId)
-		return unit, Error.New(EC.EC_UNIT_ID_ERROR)
+		return unit, Error.New(EC.E_UNIT_ID_ERROR)
 	}
 
 	err = proto.Unmarshal(value, &unit)
@@ -78,18 +78,40 @@ func getUnitInfo(db *data.Data, unitId uint32) (unit bbproto.UnitInfo, e Error.E
 	return unit, Error.OK()
 }
 
+// find UserUnit from userDetail.UnitList
+func GetUserUnitInfo(userDetail *bbproto.UserInfoDetail, uniqueId uint32) (userunit *bbproto.UserUnit, e Error.Error) {
+	for _, unit := range userDetail.UnitList {
+		if *unit.UniqueId == uniqueId {
+			return unit, Error.OK()
+		}
+	}
+
+	return userunit, Error.New(EC.DATA_NOT_EXISTS)
+}
+
 func DoLevelUp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseUniqueId uint32, partUniqueId []uint32, helperUid uint32, helperUnit bbproto.UserUnit) (e Error.Error) {
-	//1. getUnitInfo(baseUniqueId)
-
-	//2. getUnitInfo(partUniqueId..)
-
-	//3. getUnitInfo(helperUnit.UnitId) *1.25, *1.5
-
-	//4. remove partUnits,
-
-	//5. levelup baseUnit
 
 	//6.
+
+	return Error.OK()
+}
+
+func GetLevelUpMoney(level int32, count int32) int32 {
+	//TODO: config money table per lelvel
+	money := 100 * level * count
+
+	return money
+}
+
+func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32 ) (e Error.Error) {
+	for i:=0; i<len(partUniqueId); i++ {
+		for pos, userunit:=range unitList {
+			if *userunit.UniqueId == partUniqueId[i] {
+				unitList = append(unitList[:pos], unitList[pos+1:]...)
+				log.T("after remove[pos:%v | uniqId:%v], unitList is: %+v", pos,partUniqueId, unitList)
+			}
+		}
+	}
 
 	return Error.OK()
 }
