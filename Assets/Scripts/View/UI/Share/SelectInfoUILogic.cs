@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class SelectInfoUILogic : ConcreteComponent {
 
 	public SelectInfoUILogic(string uiName):base(uiName) {}
-	string currentState;
+
+	string lastMsgFrom;
 
 	public override void ShowUI(){
 		base.ShowUI();
@@ -19,58 +20,63 @@ public class SelectInfoUILogic : ConcreteComponent {
 	}
 
 	void AddCmdListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.ShowSelectUnitInfo, ReceiveSelectedUnitInfo);
+		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitBriefInfo, ReceiveShowBriefRquest);
 	}
 
 	void RmvCmdListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.ShowSelectUnitInfo, ReceiveSelectedUnitInfo);
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitBriefInfo, ReceiveShowBriefRquest);
 
         }
 
-        void ReceiveSelectedUnitInfo(object data){
-		Debug.Log("SelectInfoUILogic.UpdateUI(), receive command, to show unitInfo...");
-		BriefUnitInfo bui = data as BriefUnitInfo;
-		switch (bui.tag){
-			case "page" :
-				currentState = "page";
-				break;
-			case "unitList" :
-				currentState = "unitList";
-				break;
-			default:
-				break;
-		}
-		ExcuteCallback(bui.data);
+        void ReceiveShowBriefRquest(object data){
+
+		Debug.Log("SelectInfoUILogic.ReceiveShowBriefRquest(), receive command, to show unit brief Info...");
+
+		BriefUnitInfo briefInfo = data as BriefUnitInfo;
+		lastMsgFrom = briefInfo.tag;
+
+		Debug.LogError("SelectInfoUILogic.ReceiveShowBriefRquest(), lastMsgFrom is " + lastMsgFrom);
+		CallBackDeliver cbd = new CallBackDeliver("ShowUnitBrief", briefInfo.data);
+
+		ExcuteCallback( cbd );
 	}
+
 
 	public override void Callback(object data){
 		base.Callback(data);
-		string call = data as string;
-		switch (call){
+
+		CallBackDeliver cbd = data as CallBackDeliver;
+
+		switch (cbd.callBackName){
 			case "Choose" : 
-				NoticeFuncParty();
+				SendBackChooseMsg();
 				break;
-			case "ViewInfo" : 
-				NoticeShowUnitDetail();
+			case "ViewDetailInfo" : 
+				MsgCenter.Instance.Invoke(CommandEnum.ShowFocusUnitDetail, null);
 				break;
-			case "Exit" :
-				//HideUI();
-				break;
+
 			default:
 				break;
 		}
 	}
 	
-	void NoticeShowUnitDetail(){
-		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitDetail, null);
-	}
+	void SendBackChooseMsg(){
+		if(lastMsgFrom == null){
+			Debug.LogError("SelectInfoUILogic.SendBackChooseMsg(), lastMsgFrom is NULL, return!!!");
+			return;
+		}
 
-	//notice to activate party function
-	void NoticeFuncParty(){
-		if(currentState == "page")
-			MsgCenter.Instance.Invoke(CommandEnum.NoticeFuncParty, "page");
-		if(currentState == "unitList")
-			MsgCenter.Instance.Invoke(CommandEnum.OnSubmitChangePartyItem, "unitList");
+		if(lastMsgFrom == "PartyItem"){
+			MsgCenter.Instance.Invoke(CommandEnum.EnsureFocusOnPartyItem, null);
+			MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
+		}
+
+		if(lastMsgFrom == "MyUnitItem")
+			MsgCenter.Instance.Invoke(CommandEnum.EnsureSubmitUnitToParty, null);
+
+		lastMsgFrom = null;
+
+		Debug.LogError("SelectInfoUILogic.SendBackChooseMsg(), End...");
 	}
 
 

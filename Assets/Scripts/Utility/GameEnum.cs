@@ -146,14 +146,19 @@ public enum CommandEnum
 	CrossFade					= 4010,
 	UpdateNickName			= 4011,
 	ErrorMsgShow				= 4012,
-	ShowSelectUnitInfo			= 4013,
+	ShowUnitBriefInfo			= 4013,
 	UpdatePartyInfoPanel			= 4014,
-	ShowSelectUnitDetail			= 4015,
+	ShowFocusUnitDetail			= 4015,
 	NoticeFuncParty				= 4016,
 	OnPartySelectUnit			= 4017,
 	OnSubmitChangePartyItem		= 4018,
 	GetSubmitChangeState		= 4019,
 	ShowMyUnitListBriefInfo		= 4020,
+	ActivateMyUnitDragPanelState	= 4021,
+	EnsureFocusOnPartyItem		= 4022,
+	EnsureSubmitUnitToParty		= 4023,
+	ReplacePartyFocusItem		= 4024,
+
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
