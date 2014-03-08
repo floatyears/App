@@ -91,11 +91,16 @@ func GetUserUnitInfo(userDetail *bbproto.UserInfoDetail, uniqueId uint32) (useru
 }
 
 func CalculateDevourExp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseUnit *bbproto.UnitInfo,
-	partUniqueIds []uint32) (blendExp, addAtk, addHp, addDef int32, e Error.Error) {
+partUniqueIds []uint32) (blendExp, addAtk, addHp, addDef int32, e Error.Error) {
 	blendExp = int32(0)
 	addAtk = int32(0)
 	addHp = int32(0)
 	addDef = int32(0)
+
+	if userDetail==nil || baseUnit == nil {
+		log.Error("Invalid userDetail or baseUnit pointer.")
+		return -1, -1, -1, -1, Error.New(EC.INVALID_PARAMS)
+	}
 	for _, partUniqueId := range partUniqueIds {
 		partUU, e := GetUserUnitInfo(userDetail, partUniqueId)
 		if e.IsError() {
@@ -105,6 +110,8 @@ func CalculateDevourExp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseU
 		if e.IsError() {
 			return -1, -1, -1, -1, e
 		}
+		log.T("partUserUnit:%+v partUnit:%+v", partUU, partUnit)
+
 		if partUU.AddAttack != nil {
 			addAtk += *partUU.AddAttack
 		}
@@ -131,16 +138,6 @@ func CalculateDevourExp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseU
 	return blendExp, addAtk, addHp, addDef, Error.OK()
 }
 
-func getUnitExpValue(expType int32, level int32) (levelExp int32) {
-	//TODO: read from global exp type table
-	if level > int32(len(config.TableUnitExpType)) {
-		return -1
-	}
-
-	levelExp = config.TableUnitExpType[level]
-	return levelExp
-}
-
 func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, currExp int32, addExp int32) (addLevel int32, e Error.Error) {
 	addLevel = int32(0)
 	for level := *userUnit.Level; level < *unit.MaxLevel; level++ {
@@ -161,11 +158,20 @@ func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, cur
 
 func GetLevelUpMoney(level int32, count int32) int32 {
 
+	if level<=0 || level > int32(len(config.TableDevourCostCoin)-1) {
+		return -1
+	}
+
+	return config.TableDevourCostCoin[level-1]
+}
+
+func getUnitExpValue(expType int32, level int32) (levelExp int32) {
+	//TODO: read from global exp type table
 	if level > int32(len(config.TableUnitExpType)) {
 		return -1
 	}
 
-	return config.TableDevourCoin[level]
+	return  config.TableUnitExpType[level-1]
 }
 
 func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32) (e Error.Error) {
