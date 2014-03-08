@@ -76,6 +76,9 @@
 <p>
 	devourValue:<%= text_field_tag :devourValue %>
 </p>
+<p>
+	getWay:<%= select_tag :getWay,options_for_select(UnitInfo::EUNIT_GETWAY) %>
+</p>
 <div class="actions">
 	<%= submit_tag '提交' %>
 </div>
