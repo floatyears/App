@@ -135,20 +135,20 @@ public enum CommandEnum
 	//Add By Lynn
 	PanelFocus					= 4000,
 	TransmitStageInfo			= 4001,
-	PickBaseUnitInfo				= 4002,
+	PickBaseUnitInfo			= 4002,
 	PickFriendUnitInfo			= 4003,
-	PickMaterialUnitInfo			= 4004,
+	PickMaterialUnitInfo		= 4004,
 	CheckLevelUpInfo			= 4005,
-	LevelUp					= 4006,
+	LevelUp						= 4006,
 	ShowUnitDetail				= 4007,
-	SendLevelUpInfo			= 4008,
+	SendLevelUpInfo				= 4008,
 	TryEnableLevelUp			= 4009,
 	CrossFade					= 4010,
-	UpdateNickName			= 4011,
+	UpdateNickName				= 4011,
 	ErrorMsgShow				= 4012,
 	ShowSelectUnitInfo			= 4013,
-	UpdatePartyInfoPanel			= 4014,
-	ShowSelectUnitDetail			= 4015,
+	UpdatePartyInfoPanel		= 4014,
+	ShowSelectUnitDetail		= 4015,
 	NoticeFuncParty				= 4016,
 	OnPartySelectUnit			= 4017,
 	OnSubmitChangePartyItem		= 4018,
@@ -156,6 +156,8 @@ public enum CommandEnum
 	ShowMyUnitListBriefInfo		= 4020,
 
 	BaseAlreadySelect			= 4020,
+	MaterialSelect				= 4021,
+	ShieldMaterial				= 4022,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

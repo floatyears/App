@@ -52,7 +52,7 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 			return;
 		}
 
-		unitPartyInfo = ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as TUnitParty;
+		unitPartyInfo = GlobalData.partyInfo.CurrentParty; //ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as TUnitParty;
 
 		Dictionary< int, uint > temp = unitPartyInfo.GetPartyItem();
 		Dictionary< string, object > viewInfo = new Dictionary<string, object>();

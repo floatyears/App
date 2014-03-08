@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//----------UI elements list----------
+
+	private GameObject unitInfoTabs;
+
 	protected UILabel noLabel;
 	protected UILabel hpLabel;
 	protected UILabel atkLabel;
@@ -74,6 +77,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	//----------Init functions of UI Elements----------
 	void InitUI() {
+		unitInfoTabs = transform.Find("UnitInfoTabs").gameObject;
 		InitTabSkill();
 		InitTabStatus ();
 		InitExpSlider ();
@@ -168,8 +172,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ClearEffectCache(){
 		foreach (var item in effectCache){
 			Destroy( item );
+			effectCache.Remove(item);
 		}
-		effectCache.Clear();
 	}
 
 	void InitEffect(){
@@ -308,6 +312,20 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public void Callback(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
 //		Debug.Log("UnitDetailPanel.Callback()");
+		if (userUnit != null) {
+			ShowInfo (userUnit);
+		} else {
+			PlayLevelUp();
+		}
+
+	}
+
+	void PlayLevelUp() {
+		unitInfoTabs.SetActive (false);
+		GameObject go = Instantiate (levelUpEffect) as GameObject;
+	}
+
+	void ShowInfo(TUserUnit userUnit) {
 		ShowBodyTexture( userUnit ); 
 		ShowUnitScale();
 		ShowStatusContent( userUnit );
@@ -316,8 +334,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ShowLeaderSkillContent( userUnit );
 		ShowActiveSkillContent( userUnit );
 		ShowProfileContent( userUnit );
-
-        }
+	}
         
         void ClearBlock(List<UISprite> blocks){
 		foreach (var item in blocks){

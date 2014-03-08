@@ -89,14 +89,14 @@ public class PartyInfoUILogic : ConcreteComponent {
 		text.Add("skillDscp", leaderSkillDscp);
 
 		return text;
-		Debug.Log("PartyInfoUILogic.GetData(), End...");
+//		Debug.Log("PartyInfoUILogic.GetData(), End...");
 	}
 
 	void UpdateData(Dictionary<string,string> data){
-		Debug.Log("PartyInfoUILogic.UpdateData(), Start...");
+//		Debug.Log("PartyInfoUILogic.UpdateData(), Start...");
 		if(data == null)	return;
 		ExcuteCallback(data);
-		Debug.Log("PartyInfoUILogic.UpdateData(), End...");
+//		Debug.Log("PartyInfoUILogic.UpdateData(), End...");
 	}
 
 
