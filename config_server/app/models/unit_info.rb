@@ -20,6 +20,14 @@ module EUnitRace
   SCREAMCHEESE = 7
 end
 
+module EUnitGetWay 
+  E_NONE				= 0
+  E_FREE				= 1
+  E_GACHA_NORMAL		= 2
+  E_GACHA_EVENT		= 3
+  E_BUY				= 4
+end
+
 class UnitInfo
   include Beefcake::Message
 end
@@ -39,7 +47,8 @@ end
 class UnitInfo
   UNITTYPE = { "UALL" => 0 , "UFIRE" => 1, "UWATER" => 2, "UWIND" => 3, "ULIGHT" => 4 ,"UDARK" => 5,"UNONE" => 6,"UHeart" => 7 }
   UNITRACE = { "ALL" => 0 , "HUMAN" => 1, "UNDEAD" =>2 , "MYTHIC" => 3 , "BEAST" => 4, "MONSTER" => 5 ,"LEGEND" => 6, "SCREAMCHEESE" => 7 }
-    
+  EUNIT_GETWAY = { "E_NONE" => 0,"E_FREE" => 1 ,"E_GACHA_NORMAL" => 2 ,"E_GACHA_EVENT" => 3,"E_BUY" => 4}  
+  
   required :id, :uint32, 1
   optional :name, :string, 2
   optional :race, EUnitRace, 3
@@ -50,13 +59,15 @@ class UnitInfo
   optional :leaderSkill, :int32, 8
   optional :activeSkill, :int32, 9
   optional :passiveSkill, :int32, 10
-  optional :maxLevel, :int32, 11
-  optional :profile, :string, 12
-  optional :powerType, PowerType, 13
-  optional :evolveInfo, EvolveInfo, 14
-  optional :cost, :int32, 15
-  optional :saleValue, :int32, 16
-  optional :devourValue, :int32, 17
+  optional :activeSkillLevel,:int32, 11;
+  optional :maxLevel, :int32, 12
+  optional :profile, :string, 13
+  optional :powerType, PowerType, 14
+  optional :evolveInfo, EvolveInfo, 15
+  optional :cost, :int32, 16
+  optional :saleValue, :int32, 17
+  optional :devourValue, :int32, 18
+  optional :getWay,  EUnitGetWay, 19
   
   def self.create_with_params(params)
     power_type = PowerType.new(attackType:  params[:attackType].to_i,hpType: params[:hpType].to_i,expType: params[:expType].to_i)
@@ -80,7 +91,8 @@ class UnitInfo
     evolveInfo: envolve_info,
     cost: params[:cost].to_i,
     saleValue: params[:saleValue].to_i,
-    devourValue: params[:devourValue].to_i
+    devourValue: params[:devourValue].to_i,
+    getWay: params[:getWay].to_i
     )
   end
   
@@ -97,7 +109,6 @@ class UnitInfo
   end
   
   def save_to_redis
-    $redis.select 2
     $redis.set "X_UNIT_"+self["id"].to_s,self.encode
   end
 end
