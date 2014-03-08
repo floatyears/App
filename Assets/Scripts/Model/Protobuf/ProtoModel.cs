@@ -2526,8 +2526,16 @@ namespace bbproto
       get { return _unitList; }
     }
   
+    private uint _money = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"money", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint money
+    {
+      get { return _money; }
+      set { _money = value; }
+    }
     private uint _blendUniqueId = default(uint);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"blendUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"blendUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(uint))]
     public uint blendUniqueId
     {
@@ -2535,7 +2543,7 @@ namespace bbproto
       set { _blendUniqueId = value; }
     }
     private int _blendExp = default(int);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"blendExp", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"blendExp", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int blendExp
     {

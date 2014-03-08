@@ -334,7 +334,7 @@ public class UserUnitList {
 	}
 
 	public  void Clear() {
-		return userUnitInfo.Clear();
+		userUnitInfo.Clear();
 	}
 
 	public  TUserUnit Get(uint userId, uint uniqueId) {

@@ -8,7 +8,7 @@ public class LevelUp: ProtoManager {
 	private bbproto.RspLevelUp rspLevelUp;
 
 	private uint baseUniqueId;
-	private List<uint> partUniqueId;
+	private List<uint> partUniqueId = new List<uint>();
 	private uint helperUserId;
 	private TUserUnit helperUserUnit;
 
@@ -50,12 +50,11 @@ public class LevelUp: ProtoManager {
 		reqType = typeof(ReqLevelUp);
 		rspType = typeof(RspLevelUp);
 
-		reqLevelUp = new ReqAuthUser ();
+		reqLevelUp = new ReqLevelUp ();
 		reqLevelUp.header = new ProtoHeader ();
 		reqLevelUp.header.apiVer = "1.0";
-
 		reqLevelUp.baseUniqueId = baseUniqueId;
-		reqLevelUp.partUniqueId = partUniqueId;
+		reqLevelUp.partUniqueId.AddRange(partUniqueId);
 		reqLevelUp.helperUserId = helperUserId;
 		reqLevelUp.helperUnit = helperUserUnit.Object;
 

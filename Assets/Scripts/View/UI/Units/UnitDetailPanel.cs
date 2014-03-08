@@ -44,7 +44,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	protected List<UISprite> blockLsit1 = new List<UISprite>();
 	protected List<UISprite> blockLsit2 = new List<UISprite>();
         
-        protected int currMaxExp, curExp, gotExp, expRiseStep;
+	protected int currMaxExp, curExp, gotExp, expRiseStep;
 
 	
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
@@ -283,8 +283,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		for( int i = 0; i < sprNameList2.Count; i++ ){
 			blockLsit1[ i ].enabled = true;
 			blockLsit1[ i ].spriteName = sprNameList2[ i ].ToString();
-                }
         }
+	}
 
 	void ShowLeaderSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
@@ -293,36 +293,47 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
                 
                 leaderSkillNameLabel.text = skill.name;
 		leaderSkillDscpLabel.text = skill.description;
-        }
+	}
 
 	void ShowActiveSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.ActiveSkill;
-		SkillBase skill = GlobalData.skill[ skillId ].GetSkillInfo();
-		
+		SkillBase skill = GlobalData.skill[ skillId ].GetSkillInfo();		
 		activeSkillNameLabel.text = skill.name;
 		activeSkillDscpLabel.text = skill.description;
-        }
+    }
         
-        void ShowProfileContent( TUserUnit data ){
+	void ShowProfileContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
 		profileLabel.text = unitInfo.Profile;
 	}
 
 	public void Callback(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
-//		Debug.Log("UnitDetailPanel.Callback()");
 		if (userUnit != null) {
 			ShowInfo (userUnit);
 		} else {
-			PlayLevelUp();
+			RspLevelUp rlu = data as RspLevelUp;
+			if(rlu ==null) {
+				return;
+			}
+			PlayLevelUp(rlu);
 		}
-
+	}
+	RspLevelUp levelUpData;
+	void PlayLevelUp(RspLevelUp rlu) {
+		levelUpData = rlu;
+		unitInfoTabs.SetActive (false);
+		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}
 
-	void PlayLevelUp() {
-		unitInfoTabs.SetActive (false);
+	void CreatEffect() {
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
+		effectCache.Add (go);
+
+		if (effectCache.Count > 2) {
+			CancelInvoke("CreatEffect");
+		}
 	}
 
 	void ShowInfo(TUserUnit userUnit) {
