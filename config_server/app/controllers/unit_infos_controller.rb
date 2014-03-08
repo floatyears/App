@@ -14,7 +14,7 @@ class UnitInfosController < ApplicationController
 
   # GET /unit_infos/new
   def new
-    unit_keys =  $redis.keys.map{|k|k if k.include?("X_UNIT_")}.compact
+    unit_keys =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact
     @units = {"请选择卡牌信息" => "请选择卡牌信息" }.merge unit_keys.inject({}){|hsh,key| hsh[key] = key.split("_")[2].to_i;hsh}
   end
 
