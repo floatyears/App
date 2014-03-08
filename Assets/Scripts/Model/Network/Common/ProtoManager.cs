@@ -67,7 +67,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
 }
 
 public abstract class NetDataBase {
-	public INetBase netBase;
-	public abstract void ParseNetData(object data);
+	protected INetBase netBase;
+
 }
 

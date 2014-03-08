@@ -24,18 +24,19 @@ public class UIEventListenerCustom : MonoBehaviour {
 	public StringDelegate onInput;
 	public KeyCodeDelegate onKey;
 
+	public bool ShieldInput = false;
 
 	public delegate void LongPressDelegate(GameObject go);
 	public LongPressDelegate  LongPress;
-	void OnSubmit ()				{ if (onSubmit != null) onSubmit(gameObject); }
-	void OnDoubleClick ()			{ if (onDoubleClick != null) onDoubleClick(gameObject); }
-	void OnHover (bool isOver)		{ if (onHover != null) onHover(gameObject, isOver);}
-	void OnSelect (bool selected)	{ if (onSelect != null) onSelect(gameObject, selected); }
-	void OnScroll (float delta)		{ if (onScroll != null) onScroll(gameObject, delta); }
-	void OnDrag (Vector2 delta)		{ if (onDrag != null) onDrag(gameObject, delta); }
-	void OnDrop (GameObject go)		{ if (onDrop != null) onDrop(gameObject, go); }
-	void OnInput (string text)		{ if (onInput != null) onInput(gameObject, text); }
-	void OnKey (KeyCode key)		{ if (onKey != null) onKey(gameObject, key); }
+	void OnSubmit ()				{ if (ShieldInput) return; if (onSubmit != null) onSubmit(gameObject); }
+	void OnDoubleClick ()			{ if (ShieldInput) return; if (onDoubleClick != null) onDoubleClick(gameObject); }
+	void OnHover (bool isOver)		{ if (ShieldInput) return; if (onHover != null) onHover(gameObject, isOver);}
+	void OnSelect (bool selected)	{ if (ShieldInput) return; if (onSelect != null) onSelect(gameObject, selected); }
+	void OnScroll (float delta)		{ if (ShieldInput) return; if (onScroll != null) onScroll(gameObject, delta); }
+	void OnDrag (Vector2 delta)		{ if (ShieldInput) return; if (onDrag != null) onDrag(gameObject, delta); }
+	void OnDrop (GameObject go)		{ if (ShieldInput) return; if (onDrop != null) onDrop(gameObject, go); }
+	void OnInput (string text)		{ if (ShieldInput) return; if (onInput != null) onInput(gameObject, text); }
+	void OnKey (KeyCode key)		{ if (ShieldInput) return; if (onKey != null) onKey(gameObject, key); }
 	
 	void OnPress (bool isPressed) { 
 		if (onPress != null) {

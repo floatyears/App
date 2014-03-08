@@ -29,7 +29,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 	private GameObject scrollerItem;
 	private GameObject scrollView;
 	List<UITexture> pickEnemiesList = new List<UITexture>();
-
+	UIToggle firstFocus;
 	private Dictionary< string, object > questSelectScrollerArgsDic = new Dictionary< string, object >();
 
 	List<QuestInfo> questInfoList = new List<QuestInfo>();
@@ -44,12 +44,15 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		base.ShowUI();
 		ShowTween();
 		btnSelect.isEnabled = false;
-		CleanQuestInfo();
+
+		firstFocus.startsActive = true;
+
 		MsgCenter.Instance.AddListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
+		CleanQuestInfo();
 		MsgCenter.Instance.RemoveListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
 	}
 	
@@ -65,7 +68,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 	}
 
 	void InitUI(){
-
+		firstFocus = FindChild<UIToggle>("Window/window_right/tab_detail");
 		scrollView = FindChild("ScrollView");
 		btnSelect = FindChild<UIImageButton>("ScrollView/btn_quest_select"); 
 		labDoorName = FindChild< UILabel >("Window/title/Label_door_name");

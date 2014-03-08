@@ -17,5 +17,10 @@ public class TAccountInfo : ProtobufDataBase {
 	public	int		StoneFree { get { return instance.stoneFree; } }
 	public	int		Stone { get { return instance.stone; } }
 	public	int		FriendPoint { get { return instance.friendPoint; } }
-	
+
+	public void RefreshAcountInfo(TRspClearQuest clearQuest) {
+		instance.money = clearQuest.money;
+		instance.friendPoint = clearQuest.friendPoint;
+		instance.stone += clearQuest.gotChip;
+	}
 }

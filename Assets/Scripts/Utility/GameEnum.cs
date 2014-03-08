@@ -121,14 +121,15 @@ public enum CommandEnum
 
 	PlayerPosion				= 3040,
 	InjuredNotDead				= 3041,
-	MeetEnemy				= 3042,
+	MeetEnemy					= 3042,
 	MeetTrap					= 3043,
 	TrapTargetPoint				= 3044,
 	OpenDoor					= 3045,
-	RotateDown				= 3046,
+	RotateDown					= 3046,
 	MeetCoin					= 3047,
 	StateInfo					= 3048,
 	StopInput					= 3049,
+	GridEnd						= 3050,
 
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
@@ -147,6 +148,14 @@ public enum CommandEnum
 	ErrorMsgShow				= 4012,
 	ShowSelectUnitInfo			= 4013,
 	UpdatePartyInfoPanel			= 4014,
+	ShowSelectUnitDetail			= 4015,
+	NoticeFuncParty				= 4016,
+	OnPartySelectUnit			= 4017,
+	OnSubmitChangePartyItem		= 4018,
+	GetSubmitChangeState		= 4019,
+	ShowMyUnitListBriefInfo		= 4020,
+
+	BaseAlreadySelect			= 4020,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
@@ -158,7 +167,7 @@ public enum CommandEnum
 	// quest - 5100
 //	ReqStartQuest				= 5101,
 //	RspStartQuest				= 5102,
-//	ReqClearQuest				= 5103,
+	ReqClearQuest				= 5103,
 //	RspClearQuest				= 5104,
 	
 	//unit - 5200

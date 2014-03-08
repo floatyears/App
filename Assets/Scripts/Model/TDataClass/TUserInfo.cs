@@ -14,12 +14,32 @@ public class TUserInfo : ProtobufDataBase {
 	//////////////////////////////////////////////////////////////
 	/// 
 	public	string	Uuid { get { return instance.uuid; } }
-	public	uint		UserId { get { return instance.userId; } }
+	public	uint	UserId { get { return instance.userId; } }
 	public	string	NickName { get { return instance.nickName; } set {instance.nickName = value; }}
 	public	int		Rank { get { return instance.rank; } }
 	public	int		Exp { get { return instance.exp; } }
-	public	int		NextExp{ get{ return 843; }} //TODO: get exp for current rank
-	public	int		CurTotalExp{ get{ return 9106; }} //TODO: get exp for current rank
+	public	int		NextExp{ 
+		get{ 
+			int nextLevel = Rank + 2;
+			int totalExp = 0;
+			for (int i = 1; i < nextLevel; i++) {
+				totalExp += GlobalData.Instance.GetUnitValue(TPowerTableInfo.UserExpType,i);
+			}
+			return totalExp - Exp;
+
+//			return GlobalData.Instance.GetUnitValue(TPowerTableInfo.UserExpType,Rank + 1); 
+		}
+	} //TODO: get exp for current rank
+	public	int		CurRankExp{ 
+		get{ 
+			int curLevel = Rank + 1;
+			int totalExp = 0;
+			for (int i = 1; i < curLevel; i++) {
+				totalExp += GlobalData.Instance.GetUnitValue(TPowerTableInfo.UserExpType,i);
+			}
+			return Exp - totalExp;
+		}
+	} //TODO: get exp for current rank
 	public	int		StaminaNow { 
 		get { return instance.staminaNow; } 
 		set { instance.staminaNow = value; } 
@@ -34,4 +54,12 @@ public class TUserInfo : ProtobufDataBase {
 	}
 	public	TUserUnit UserUnit { get { return unit; } }
 	public	EUnitType EvolveType { get {return evolvetype;} set { evolvetype = value;} }
+
+	public void RefreshUserInfo(TRspClearQuest rspClearQuest) {
+		instance.exp = rspClearQuest.exp;
+		instance.rank = rspClearQuest.rank;
+		instance.staminaMax = rspClearQuest.staminaMax;
+		instance.staminaNow = rspClearQuest.staminaNow;
+		instance.staminaRecover = rspClearQuest.staminaRecover;
+	}
 }

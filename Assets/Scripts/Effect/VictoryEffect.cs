@@ -33,7 +33,7 @@ public class VictoryEffect : UIBaseUnity {
 	private Callback sureButtonCallback;
 
 //	//------------------------------------------------------------------------------------------------
-//	// test data
+//	 test data
 //	private int maxEmpirical = 100;
 //	private int currentEmpirical = 50;
 //	private int addEmpirical = 20;
@@ -60,6 +60,56 @@ public class VictoryEffect : UIBaseUnity {
 		base.DestoryUI ();
 //		Debug.LogError ("DestoryUI");
 		Destroy (gameObject);
+	}
+
+	float currentExp = 0;
+	float gotExp = 0;
+	float add = 0;
+	int currentTotalExp = 0;
+	int rank = 0;
+
+
+	public void ShowData(TRspClearQuest clearQuest){
+		if (clearQuest == null) {
+			return;	
+		}
+		int nextEmp = GlobalData.userInfo.NextExp;
+		int maxEmp = clearQuest.exp;
+
+		gotExp= clearQuest.gotExp;
+		rank = GlobalData.userInfo.Rank;
+		currentExp = GlobalData.userInfo.CurRankExp;
+		currentTotalExp = GlobalData.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
+		add = (float)gotExp / 10f;
+
+		StartCoroutine (UpdateLevelNumber ());
+//		int curCoin = GlobalData.accountInfo.Money;
+//		int maxCoin = clearQuest.money;
+//		int gotCoin = clearQuest.gotMoney;
+	}
+
+	IEnumerator UpdateLevelNumber () {
+		while (gotExp > 0) {
+			float addNum = gotExp - add;
+			if (addNum <= 0) {
+				add = gotExp;
+			} else {
+				gotExp = addNum;
+				currentExp += add;
+			}
+			gotExp -= add;
+			currentExp += add;
+			int showValue = (int)currentExp;
+			empiricalLabel.text = showValue.ToString ();
+			float progress = currentExp / currentTotalExp;
+			levelProgress.fillAmount = progress;
+			if(currentExp >= currentTotalExp) {
+				currentExp -= currentTotalExp;
+				rank++;
+				currentTotalExp = GlobalData.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
+			}
+			yield return 0;
+		}
 	}
 
 	void FindComponent () {

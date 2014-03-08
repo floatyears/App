@@ -41,7 +41,7 @@ func LevelUpHandler(rsp http.ResponseWriter, req *http.Request) {
 	e = handler.ProcessLogic(&reqMsg, rspMsg)
 
 	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
-	log.Printf("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
+	log.Printf("sendrsp err:%v, rspMsg.Header: %+v", e, rspMsg.Header)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -99,12 +99,12 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	//2. getUnitInfo of baseUniqueId
 	baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, *reqMsg.BaseUniqueId)
 	if e.IsError() {
-		log.Error("GetUserUnitInfo(%v) failed: %v", *reqMsg.BaseUniqueId, e.Error() )
+		log.Error("GetUserUnitInfo(%v) failed: %v", *reqMsg.BaseUniqueId, e.Error())
 		return e
 	}
 	baseUnit, e := unit.GetUnitInfo(db, *baseUserUnit.UnitId)
 	if e.IsError() {
-		log.Error("GetUnitInfo(%v) failed: %v", *baseUserUnit.UnitId, e.Error() )
+		log.Error("GetUnitInfo(%v) failed: %v", *baseUserUnit.UnitId, e.Error())
 		return e
 	}
 
@@ -117,7 +117,7 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 
 	//4. getUnitInfo of all material part to caculate exp
 	addExp, addAtk, addHp, addDef, e := unit.CalculateDevourExp(db, &userDetail, &baseUnit, reqMsg.PartUniqueId)
-	log.T("OrigExp:%v addExp:%v addHp:%v addDef:%v", *baseUserUnit.Exp, addExp, addHp, addDef)
+	log.T("OrigExp:%v addExp:%v (addAtk:%v addHp:%v addDef:%v)", *baseUserUnit.Exp, addExp, addAtk, addHp, addDef)
 	if e.IsError() {
 		return e
 	}
@@ -129,9 +129,15 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	}
 	*baseUserUnit.Exp += addExp
 	*baseUserUnit.Level += addLevel
-	*baseUserUnit.AddAttack += addAtk
-	*baseUserUnit.AddHp += addHp
-	*baseUserUnit.AddDefence += addDef
+	if baseUserUnit.AddAttack != nil {
+		*baseUserUnit.AddAttack += addAtk
+	}
+	if baseUserUnit.AddHp != nil {
+		*baseUserUnit.AddHp += addHp
+	}
+	if baseUserUnit.AddDefence != nil {
+		*baseUserUnit.AddDefence += addDef
+	}
 	log.T("baseUserUnit ref to userDetail.UnitList[x] => after Assign value: %+v", baseUserUnit)
 	log.T("userDetail.UnitList[x] => NOW value: %+v", userDetail.UnitList)
 
@@ -144,7 +150,6 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	//7. deduct user money
 	log.T("deduct money: %v - %v ", *userDetail.Account.Money, needMoney)
 	*userDetail.Account.Money -= needMoney
-
 
 	//8. update userinfo
 	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {

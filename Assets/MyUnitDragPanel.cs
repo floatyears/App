@@ -2,7 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 public class MyUnitDragPanel : UIComponentUnity {
-       
+
+       	bool canChangePartyItem = false;
+
+	GameObject rejectItem;
 	protected DragPanel dragPanel;
 	protected bool exchange = false;
         protected List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
@@ -14,22 +17,24 @@ public class MyUnitDragPanel : UIComponentUnity {
 		base.Init(config, origin);
 //		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
 		InitDragPanel();
-
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
 
+		canChangePartyItem = false;
+
 		if(IsInvoking("CrossShow")) {
 			CancelInvoke("CrossShow");
 		}
                 InvokeRepeating("CrossShow",0.1f, 1f);
-
+		ActivateAllMask(true);
 		ShowTween();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+
 	}
 
 	protected void InitDragPanel(){
@@ -49,10 +54,10 @@ public class MyUnitDragPanel : UIComponentUnity {
 //		Debug.Log("My Unit Count : " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject unitItem =  Resources.Load( itemSourcePath ) as GameObject;
-		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
+		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject ;
+		
 		InitDragPanelArgs();
-		//dragPanel = CreateDragPanel( name, count, itemGo) ;
-		FillDragPanel( dragPanel );
+
 		dragPanel =new DragPanel("MyUnitDragPanel", unitItem);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(1,rejectItem);
@@ -70,7 +75,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	void FillDragPanel(DragPanel panel){
 		if( panel == null ){
-			Debug.LogError( "LevelUpBasePanel.FillDragPanel(), DragPanel is null, return!");
+			Debug.LogError( "MyUnitDragPanel.FillDragPanel(), DragPanel is null, return!");
 			return;
 		}
 
@@ -105,9 +110,19 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	void ClickDragItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		TUserUnit tuu = myUnitInfoDic[ item ];
-//		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, null);
 
+		if( !canChangePartyItem ){ 
+			Debug.LogError("MyUnitDragPanel.ClickDragItem(), canChangePartyItem is false!!! , do nothing!! ");
+			return;
+		}
+
+		TUserUnit tuu = myUnitInfoDic[ item ];
+		BriefUnitInfo bui = new BriefUnitInfo("unitList", tuu);
+
+		MsgCenter.Instance.Invoke(CommandEnum.ShowSelectUnitInfo, bui);
+		MsgCenter.Instance.Invoke(CommandEnum.OnPartySelectUnit, tuu);
+
+		//MsgCenter.Instance.Invoke(CommandEnum.ShowMyUnitListBriefInfo, tuu );
 	}
 
 	protected void PressItem(GameObject item ){
@@ -182,4 +197,40 @@ public class MyUnitDragPanel : UIComponentUnity {
 			tweenPos.PlayForward();
 		}
 	}
+
+	public override void Callback(object data){
+		base.Callback(data);
+
+		CallBackDeliver cbd = data as CallBackDeliver;
+		switch (cbd.callBackName){
+			case "activate" : 
+				ActivateAllMask(false);
+				break; 
+			default:
+				break;
+		}	
+	}
+
+	void ActivateAllMask(bool b){
+		rejectItem.transform.FindChild("Mask").gameObject.SetActive(b);
+		foreach (var item in myUnitInfoDic){
+			ShowMask(item.Key,b);
+		}
+		canChangePartyItem = true;
+	}
+
 }
+
+public class CallBackDeliver{
+	public CallBackDeliver(string name,object content){
+		this.callBackName = name;
+		this.callBackContent = content;
+	}
+
+	public string callBackName;
+	public object callBackContent;
+}
+
+
+
+

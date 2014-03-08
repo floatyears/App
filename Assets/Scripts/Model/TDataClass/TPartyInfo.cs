@@ -65,6 +65,12 @@ public class TPartyInfo : ProtobufDataBase {
 			return this.partyList[CurrentPartyId]; } 
 	}
 
+	public List<TUnitParty> AllParty {
+		get{
+			return this.partyList;
+		}
+	}
+
 	public	TUnitParty	NextParty { 
 		get {
 			if ( this.partyList == null )

@@ -24,9 +24,9 @@ public class PlayerInfoBar : UIComponentUnity {
 	UILabel TNeedExpHideLabel;
 	UILabel TTotalExpHideLabel;
 	UILabel VNeedExpHideLabel;
-        UILabel VTotalExpHideLabel;
+	UILabel VTotalExpHideLabel;
         
-        UISprite expSprite;
+    UISprite expSprite;
 	UISprite staminaSprite;
 	UISprite evolveTypeSprite;
 
@@ -41,7 +41,7 @@ public class PlayerInfoBar : UIComponentUnity {
 	}
 
 	public override void ShowUI () {
-
+		UpdateData ();
 		AddCommandListener();
 		base.ShowUI ();
                 
@@ -59,7 +59,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		base.DestoryUI ();
 	}
 
-	void TurnToReName(object data){
+	void TurnToReName(){
 //		Debug.Log("PlayerInfoBar.TurnToReName() : Start");
 		if(GlobalData.userInfo == null ){
 			Debug.LogError("GlobalData.userInfo is null");
@@ -153,7 +153,7 @@ public class PlayerInfoBar : UIComponentUnity {
 	}
 
 
-	void UpdateData( object data ){
+	void UpdateData() {
 		if( GlobalData.userInfo == null ){
 			Debug.Log("PlayerInfoBar.UpdateData() , userInfo is null , return ");
 			return;
@@ -165,7 +165,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		VUserNameLabel.text = GlobalData.userInfo.NickName;
 		//Exp
 		int nextExp = GlobalData.userInfo.NextExp;
-		int curTotalExp = GlobalData.userInfo.CurTotalExp;
+		int curTotalExp = GlobalData.userInfo.CurRankExp;
 		VNeedExpHideLabel.text = nextExp.ToString();
 		VTotalExpHideLabel.text = curTotalExp.ToString();
 		//TODO Get current rank max exp 
@@ -187,7 +187,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		evolveTypeSprite.spriteName = evoType.ToString();
 
 		//Debug.Log("PlayerInfoBar,GlobalData.userInfo.EvolveType : " + evoType.ToString());
-		TurnToReName(data);
+		TurnToReName();
 
 	}
 	
@@ -232,6 +232,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		if (changeName == null) {
 			changeName = new RenameNick();
 			changeName.OnRequest(name,ReName);
+			UIManager.Instance.ChangeScene(SceneEnum.Start);
 		}
 	}
 }
