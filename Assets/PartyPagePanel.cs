@@ -252,7 +252,7 @@ public class PartyPagePanel : UIComponentUnity {
 	void ReplaceItemView(int pos, TUserUnit tuu){
 		Debug.Log("PartyPagePanel.ReplaceItemView(), Start...");
 
-		ChangeTexure( pos , tuu.UnitInfo.GetAsset(UnitAssetType.Avatar));
+		ChangeTexure(pos, tuu.UnitInfo.GetAsset(UnitAssetType.Avatar));
 
 		Debug.Log("PartyPagePanel.ReplaceItemView(), End...");
 	}

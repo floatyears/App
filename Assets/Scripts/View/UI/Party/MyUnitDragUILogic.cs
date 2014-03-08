@@ -23,13 +23,12 @@ public class MyUnitDragUILogic : ConcreteComponent {
 	}
 
 	void AddCmdListener(){
-		//MsgCenter.Instance.AddListener(CommandEnum.NoticeFuncParty, ActivateItem);
 		MsgCenter.Instance.AddListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureSubmitUnitToParty, SubmitPickedUnitToParty);
 	}
 
 	void RmvCmdListener(){
-		//MsgCenter.Instance.AddListener(CommandEnum.NoticeFuncParty, ActivateItem);
+
 		MsgCenter.Instance.RemoveListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureSubmitUnitToParty, SubmitPickedUnitToParty);
 	}
@@ -99,6 +98,14 @@ public class MyUnitDragUILogic : ConcreteComponent {
 		}
 
 		MsgCenter.Instance.Invoke(CommandEnum.ReplacePartyFocusItem, currentPickedUnit);
+	}
+
+	void RejectPartyItem(){
+		//notice sever reject data
+		int pos = 0;
+		GlobalData.partyInfo.ChangeParty( pos, 0);
+
+		//call view to empty
 	}
 
 

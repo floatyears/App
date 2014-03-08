@@ -161,9 +161,9 @@ public class PartyPageUILogic : ConcreteComponent {
 
 
 	void NoticeServerUpdatePartyInfo(){
-		Debug.Log("PartyPageUILogic.NoticeServerUpdatePartyInfo(), Start...");
+		Debug.LogError("PartyPageUILogic.NoticeServerUpdatePartyInfo(), Start...");
 		GlobalData.partyInfo.ExitParty();
-		Debug.Log("PartyPageUILogic.NoticeServerUpdatePartyInfo(), End...");
+		Debug.LogError("PartyPageUILogic.NoticeServerUpdatePartyInfo(), End...");
 	}
 
 	

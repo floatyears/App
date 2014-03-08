@@ -25,7 +25,6 @@ public class SelectInfoUILogic : ConcreteComponent {
 
 	void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitBriefInfo, ReceiveShowBriefRquest);
-
         }
 
         void ReceiveShowBriefRquest(object data){

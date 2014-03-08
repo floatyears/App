@@ -131,11 +131,14 @@ public class TPartyInfo : ProtobufDataBase {
 
 	public void ExitParty() {
 		if ( IsModified ) {
-			MsgCenter.Instance.Invoke (CommandEnum.ReqChangeParty, this);
+			ChangeParty cp = new ChangeParty();
+			cp.OnRequest(this, onRspChangeParty);
 		}
 	}
 
-
+	public void onRspChangeParty(object data){
+		//nothing to do
+	}
 }
 
 

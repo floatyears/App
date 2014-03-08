@@ -3,15 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 public class MyUnitDragPanel : UIComponentUnity {
 
-//       	bool canChangePartyItem = false;
-
 	GameObject rejectItem;
-	protected DragPanel dragPanel;
-	protected bool exchange = false;
-        protected List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
-	protected Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	protected Dictionary<GameObject, TUserUnit> myUnitInfoDic = new Dictionary<GameObject, TUserUnit>();
-	protected List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
+	DragPanel dragPanel;
+	bool exchange = false;
+        List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
+	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
+	Dictionary<GameObject, TUserUnit> myUnitInfoDic = new Dictionary<GameObject, TUserUnit>();
+	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -21,9 +19,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-
-//		canChangePartyItem = false;
-
+	
 		if(IsInvoking("CrossShow")) {
 			CancelInvoke("CrossShow");
 		}
@@ -36,7 +32,6 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 	public override void HideUI(){
 		base.HideUI();
-
 	}
 
 	protected void InitDragPanel(){
@@ -216,7 +211,6 @@ public class MyUnitDragPanel : UIComponentUnity {
 			ShowMask(item.Key, b);
 		}
 
-//		canChangePartyItem = true;
 		LogHelper.Log("MyUnitDragPanel.ActivateAllMask(), End...");
 	}
 
