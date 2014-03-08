@@ -116,6 +116,7 @@ message ReqLevelUp {
 message RspLevelUp {
 	optional ProtoHeader	header			= 1;
 	repeated UserUnit		unitList		= 2;
-	optional uint32			blendUniqueId	= 3;
-	optional int32			blendExp		= 4;
+	optional uint32			money			= 3;
+	optional uint32			blendUniqueId	= 4;
+	optional int32			blendExp		= 5;
 };

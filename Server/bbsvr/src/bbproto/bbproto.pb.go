@@ -2863,8 +2863,9 @@ func (m *ReqLevelUp) GetHelperPremium() int32 {
 type RspLevelUp struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	UnitList         []*UserUnit  `protobuf:"bytes,2,rep,name=unitList" json:"unitList,omitempty"`
-	BlendUniqueId    *uint32      `protobuf:"varint,3,opt,name=blendUniqueId" json:"blendUniqueId,omitempty"`
-	BlendExp         *int32       `protobuf:"varint,4,opt,name=blendExp" json:"blendExp,omitempty"`
+	Money            *uint32      `protobuf:"varint,3,opt,name=money" json:"money,omitempty"`
+	BlendUniqueId    *uint32      `protobuf:"varint,4,opt,name=blendUniqueId" json:"blendUniqueId,omitempty"`
+	BlendExp         *int32       `protobuf:"varint,5,opt,name=blendExp" json:"blendExp,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -2884,6 +2885,13 @@ func (m *RspLevelUp) GetUnitList() []*UserUnit {
 		return m.UnitList
 	}
 	return nil
+}
+
+func (m *RspLevelUp) GetMoney() uint32 {
+	if m != nil && m.Money != nil {
+		return *m.Money
+	}
+	return 0
 }
 
 func (m *RspLevelUp) GetBlendUniqueId() uint32 {

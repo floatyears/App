@@ -256,14 +256,26 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 	}
 
 	void RspStartQuest(object data) {
-		TQuestDungeonData tqdd = data as TQuestDungeonData;
+		TQuestDungeonData tqdd = null;
+		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
+		if( rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null ) {
+
+			GlobalData.userInfo.StaminaNow = rspStartQuest.staminaNow;
+			GlobalData.userInfo.StaminaRecover = rspStartQuest.staminaRecover;
+
+			LogHelper.Log ("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
+
+			tqdd = new TQuestDungeonData (rspStartQuest.dungeonData);
+				
+			ModelManager.Instance.SetData (ModelEnum.MapConfig, tqdd);
+		}
+
 		if (data == null || tqdd == null) {
 			Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
-			RequestStartQuest();
+			//TODO: show failed window for user to retry
 			return;
 		}
 
-		ModelManager.Instance.SetData (ModelEnum.MapConfig, tqdd);
 		UIManager.Instance.EnterBattle();
 	} 
 

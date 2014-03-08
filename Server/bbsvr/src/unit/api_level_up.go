@@ -107,6 +107,9 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 		log.Error("GetUnitInfo(%v) failed: %v", *baseUserUnit.UnitId, e.Error())
 		return e
 	}
+	log.Error("baseUserUnit:(%+v).", baseUserUnit)
+	log.Error("baseUnit:(%+v).", baseUnit)
+
 
 	//3. check acount.money is enough or not
 	needMoney := unit.GetLevelUpMoney(*baseUserUnit.Level, int32(len(reqMsg.PartUniqueId)))
@@ -162,8 +165,8 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	rspMsg.UnitList = userDetail.UnitList
 
 	log.T("=================rspMsg begin==================")
-	log.T("\t BlendExp:", *rspMsg.BlendExp)
-	log.T("\t BlendUniqueId:", *rspMsg.BlendUniqueId)
+	log.T("\t BlendExp:%v", *rspMsg.BlendExp)
+	log.T("\t BlendUniqueId:%v", *rspMsg.BlendUniqueId)
 
 	for k, unit := range rspMsg.UnitList {
 		log.T("\t [%v] unit: %+v", k, unit)

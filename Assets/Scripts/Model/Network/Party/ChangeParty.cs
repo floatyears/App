@@ -45,7 +45,7 @@ public class ChangeParty: ProtoManager {
 		OnResposeEnd (success);
 	}
 
-	void OnReceiveCommand(object data) {
+	protected override void OnReceiveCommand(object data) {
 		partyInfo = data as TPartyInfo;
 		if (partyInfo == null) {
 			LogHelper.LogError ("ChangeParty: Invalid param data.");
@@ -57,9 +57,5 @@ public class ChangeParty: ProtoManager {
 		Send (); //send request to server
 	}
 
-	public override void OnRequest (object data, DataListener callback) {
-		OnRequestBefoure (callback);
-		OnReceiveCommand (data);
-	}
 }
 

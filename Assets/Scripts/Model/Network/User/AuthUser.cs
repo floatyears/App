@@ -136,14 +136,10 @@ public class AuthUser: ProtoManager {
 		OnResposeEnd (null);
 	}
 
-	void OnReceiveCommand(object data) {
+	protected override void OnReceiveCommand(object data) {
 //		LogHelper.Log ("OnReceiveCommand authUser...");
 		Send (); //send request to server
 	}
 
-	public override void OnRequest (object data, DataListener callback) {
-		OnRequestBefoure (callback);
-		OnReceiveCommand (data);
-	}
 }
 

@@ -65,7 +65,7 @@ func LevelUp(uid uint32) error {
 
 func main() {
 	Init()
-	LevelUp(154)
+	LevelUp(153)
 
 	log.Fatal("bbsvr test client finish.")
 }

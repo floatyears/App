@@ -53,17 +53,13 @@ public class RenameNick: ProtoManager {
 		OnResposeEnd (renameSuccess);
 	}
 
-	void OnReceiveCommand(object data) {
+	protected override void OnReceiveCommand(object data) {
 		this.newNickName = data as string;
 
 		LogHelper.Log ("OnReceiveCommand rename to: {0}", newNickName);
 		Send (); //send request to server
 	}
 
-	// leiliang -----------------------------------------------------------
-	public override void OnRequest (object data, DataListener callback) {
-		OnRequestBefoure (callback);
-		OnReceiveCommand (data);
-	}
+
 }
 
