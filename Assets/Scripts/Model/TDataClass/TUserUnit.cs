@@ -333,6 +333,10 @@ public class UserUnitList {
 		return userUnitInfo;
 	}
 
+	public  void Clear() {
+		userUnitInfo.Clear();
+	}
+
 	public  TUserUnit Get(uint userId, uint uniqueId) {
 		string key = MakeUserUnitKey(userId, uniqueId);
 		if (!userUnitInfo.ContainsKey (key)){

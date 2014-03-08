@@ -13,7 +13,8 @@ import (
 	"common/Error"
 	"common/consts"
 	"data"
-	"user/usermanage"
+	"model/friend"
+	"model/user"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
@@ -102,7 +103,7 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 
 	if isGetHelper {
 		//get user's rank from user table
-		userdetail, isUserExists, err := usermanage.GetUserInfo(db, uid)
+		userdetail, isUserExists, err := user.GetUserInfo(db, uid)
 		if err != nil {
 			return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("ERROR: Get userinfo failed for %v, err:%v", uid, err))
 		}
@@ -116,7 +117,7 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 	// get FriendInfo
 	if isGetFriend || isGetHelper {
 
-		friendsInfo, e := GetFriendInfo(db, uid, rank, false, isGetFriend, isGetHelper)
+		friendsInfo, e := friend.GetFriendInfo(db, uid, rank, false, isGetFriend, isGetHelper)
 		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
 		if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
 			return Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))

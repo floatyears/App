@@ -57,7 +57,13 @@ func ChangeParty(myUid uint32, partyinfo *bbproto.PartyInfo) error {
 	return err
 }
 
-func main() {
+//	removePos := make([]int, len(partUniqueId) )
+//	log.T("removePos len=%v cap=%v",len(removePos), cap(removePos))
+//	for k, pos:=range removePos {
+//		unitList = append(unitList[:pos], unitList[pos+1:])
+//	}
+
+func ppmain() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
 

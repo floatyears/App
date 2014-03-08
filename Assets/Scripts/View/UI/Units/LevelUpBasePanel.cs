@@ -12,9 +12,12 @@ public class LevelUpBasePanel : UIComponentUnity {
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
 	private UnitItemInfo baseSelectItem;
+	private Dictionary<int, UnitItemInfo> materialDic = new Dictionary<int, UnitItemInfo> ();	// key is item pos.
+
 	private string currentState = "";
 	private List<UnitItemInfo> partyItem = new List<UnitItemInfo> ();
 	private List<UnitItemInfo> materialItem = new List<UnitItemInfo> ();
+	private List<UnitItemInfo> selectMaterial = new List<UnitItemInfo> ();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		InitUI();
@@ -58,13 +61,62 @@ public class LevelUpBasePanel : UIComponentUnity {
 //		Debug.Log("LevelUpBasePanel.AddListener()");
 		MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, ShowMyself);
 		MsgCenter.Instance.AddListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
+		MsgCenter.Instance.AddListener (CommandEnum.ShieldMaterial, ShieldMaterial);
 	}
 
 	void RemoveListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, ShowMyself);
 		MsgCenter.Instance.RemoveListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMaterial, ShieldMaterial);
 	}
-	
+
+	void ShieldMaterial(object data) {
+		UnitItemInfo[] unitItem = data as UnitItemInfo[];
+		for (int i = 0; i < unitItem.Length; i++) {
+			if(unitItem[i] == null) {
+				continue;
+			}
+			if(selectMaterial.Contains(unitItem[i])) {
+				selectMaterial.Remove(unitItem[i]);
+			}
+		}
+		for (int i = 0; i < selectMaterial.Count; i++) {
+			ShowMask(selectMaterial[i].scrollItem,false);
+			selectMaterial.RemoveAt(i);
+		}
+
+		for (int i = 0; i < unitItem.Length; i++) {
+			if(unitItem[i] != null){
+				selectMaterial.Add(unitItem[i]);
+				unitItem[i].stateLabel.text = "Material";
+
+			}
+		}
+		if (selectMaterial.Count == 4) {
+			ShieldMaterial (true);
+		} else {
+			ShieldMaterial(false);
+		}
+
+	}
+
+	void ShieldMaterial(bool isShield) {
+		if (isShield) {
+			for (int i = 0; i < materialItem.Count; i++) {
+				ShowMask (materialItem [i].scrollItem, isShield);
+			}
+		} else {
+			for (int i = 0; i < materialItem.Count; i++) {
+				if(selectMaterial.Contains(materialItem [i])) {
+					ShowMask (materialItem [i].scrollItem, !isShield);
+				}else{
+					ShowMask (materialItem [i].scrollItem, isShield);
+					materialItem[i].stateLabel.text = "";
+				}
+			}
+		}
+	}
+
 	void BaseAlreadySelect(object data) {
 		if (data == null) {
 			ShieldParty(false);
@@ -99,11 +151,36 @@ public class LevelUpBasePanel : UIComponentUnity {
 		}
 
 		if (currentState == "Tab_Base") {
-			DisposeBaseClick(uui);
+			DisposeBaseClick (uui);
+		} else if (currentState == "Tab_Material") {
+			DisposeMaterialClick(uui);
 		}
 	}
 
+	void DisposeMaterialClick(UnitItemInfo uui) {
+		if (uui.isPartyItem) {
+			return;	
+		}
+
+		if (selectMaterial.Count == 4) {
+			for (int i = 0; i < selectMaterial.Count; i++) {
+				if(selectMaterial[i].Equals(uui)) {
+					MsgCenter.Instance.Invoke (CommandEnum.PickBaseUnitInfo, uui);
+					return;
+				}
+			}
+
+			return;
+		}
+
+		MsgCenter.Instance.Invoke (CommandEnum.PickBaseUnitInfo, uui);
+	}
+
 	void DisposeBaseClick(UnitItemInfo uui) {
+		if (!uui.isPartyItem) {
+			return;	
+		}
+
 		bool first = baseSelectItem != null;
 
 		if (first && !baseSelectItem.Equals(uui)) {

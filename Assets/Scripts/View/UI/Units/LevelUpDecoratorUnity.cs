@@ -81,7 +81,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
 	}
 
 	void GetUnitInfoList() {
-		TUnitParty upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo, new ErrorMsg()) as TUnitParty;
+		TUnitParty upi = GlobalData.partyInfo.CurrentParty; // ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo, new ErrorMsg()) as TUnitParty;
 		userUnitInfoList = upi.GetUserUnit();
 	}
 

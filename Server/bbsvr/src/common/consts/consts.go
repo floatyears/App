@@ -25,6 +25,10 @@ const (
 	X_QUEST_CONFIG = "X_CONFIG_"
 	X_QUEST_LOG    = "X_Q_LOG_"
 	X_QUEST_RECORD = "X_Q_REC_"
+
+	//unit
+	X_UNIT_INFO    = "X_UNIT_"
+	X_SKILL_INFO   = "X_SKILL_"
 )
 
 const (

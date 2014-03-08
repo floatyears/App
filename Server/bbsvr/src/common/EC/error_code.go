@@ -53,6 +53,8 @@ const (
 
 //unit error
 const (
-	EC_UNIT_BASE     = -500
-	EC_UNIT_ID_ERROR = EC_UNIT_BASE - 1
+	E_UNIT_BASE					= -500
+	E_UNIT_ID_ERROR 			= E_UNIT_BASE - 1
+	E_LEVELUP_NO_ENOUGH_MONEY	= E_UNIT_BASE - 2
+	E_GET_UNIT_INFO_ERROR 		= E_UNIT_BASE - 3
 )

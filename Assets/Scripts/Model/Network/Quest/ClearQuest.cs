@@ -76,36 +76,10 @@ public class ClearQuest: ProtoManager {
 		GlobalData.userInfo.StaminaRecover = rspClearQuest.staminaRecover;
 
 		LogHelper.Log ("rspClearQuest code:{0}, error:{1}", rspClearQuest.header.code, rspClearQuest.header.error);
-		if(rspClearQuest.header.code == 0 ){
-			TRspClearQuest cq = new TRspClearQuest();
-			cq.rank 		= rspClearQuest.rank;
-			cq.exp 			= rspClearQuest.exp;
-			cq.money 		= rspClearQuest.money;
-			cq.friendPoint 	= rspClearQuest.friendPoint;
-			cq.staminaNow	= rspClearQuest.staminaNow;
-			cq.staminaMax	= rspClearQuest.staminaMax;
-			cq.staminaRecover = rspClearQuest.staminaRecover;
-
-			cq.gotExp		= rspClearQuest.gotExp;
-			cq.gotChip		= rspClearQuest.gotChip;
-			cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
-			foreach (UserUnit uu in rspClearQuest.gotUnit ) {
-				TUserUnit tuu = new TUserUnit(uu);
-				cq.gotUnit.Add(tuu);
-			}
-
-			//send response to caller
-//			MsgCenter.Instance.Invoke (CommandEnum.RspClearQuest, cq);
-			OnResposeEnd(cq);
-
-		} else{
-//			MsgCenter.Instance.Invoke (CommandEnum.RspClearQuest, null);
-			OnResposeEnd(null);
-		}
 
 	}
 
-	void OnReceiveCommand(object data) {
+	protected override void OnReceiveCommand(object data) {
 		questParam = data as ClearQuestParam;
 		if (questParam == null) {
 			LogHelper.Log ("ClearQuest: Invalid param data.");
@@ -118,9 +92,5 @@ public class ClearQuest: ProtoManager {
 		Send (); //send request to server
 	}
 
-	public override void OnRequest (object data, DataListener callback) {
-		OnRequestBefoure (callback);
-		OnReceiveCommand (data);
-	}
 }
 

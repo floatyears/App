@@ -107,3 +107,8 @@ func HitRandomRate(rate float32) bool {
 	log.T("HitRandomRate :: [ randnum %v ? rate: %v ] ==> %v", randnum, rate, randnum < int32(rate*100))
 	return randnum < int32(rate*100)
 }
+
+
+func RemoveSlice(s []interface {}, pos int) {
+	s = append(s[:pos], s[pos+1:]...)
+}

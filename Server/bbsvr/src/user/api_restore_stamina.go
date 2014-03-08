@@ -10,7 +10,7 @@ import (
 	"common/EC"
 	"common/Error"
 	"common/log"
-	"user/usermanage"
+	"model/user"
 
 	proto "code.google.com/p/goprotobuf/proto"
 )
@@ -80,7 +80,7 @@ func (t RestoreStamina) FillResponseMsg(reqMsg *bbproto.ReqRestoreStamina, rspMs
 func (t RestoreStamina) ProcessLogic(reqMsg *bbproto.ReqRestoreStamina, rspMsg *bbproto.RspRestoreStamina) (e Error.Error) {
 	log.T("RestoreStamina ...")
 
-	userDetail, e := usermanage.RetoreStamina(nil, *reqMsg.Header.UserId)
+	userDetail, e := user.RetoreStamina(nil, *reqMsg.Header.UserId)
 	if e.IsError() {
 		return e
 	}

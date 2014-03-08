@@ -19,8 +19,10 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 	}
 
 	void InitPassiveSkill() {
+//		Debug.LogError("passive id : " + leaderSkill.UserUnit.Count);
 		foreach (var item in leaderSkill.UserUnit.Values) {
 			int id = item.PassiveSkill;
+
 			if(id == -1) {
 				continue;
 			}

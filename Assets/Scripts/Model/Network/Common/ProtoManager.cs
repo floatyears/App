@@ -38,6 +38,8 @@ public class ProtoManager: ProtobufDataBase, INetBase {
 			OnResponse (false);
 			LogHelper.LogError("++++++proto.ParseFormBytes failed.++++++");
 		}
+
+		OnResposeEnd( this.instObj );
 	}
 
 	public virtual void OnResponse (bool success) {
@@ -52,14 +54,19 @@ public class ProtoManager: ProtobufDataBase, INetBase {
 	private DataListener netDoneCallback;
 
 	public virtual void OnRequest (object data, DataListener callback) {
-
+		OnRequestBefoure (callback);
+		OnReceiveCommand (data);
 	}
 
-	protected void OnRequestBefoure (DataListener callback) {
+	protected virtual void OnReceiveCommand(object data) {
+		Send (); //send request to server
+	}
+
+	protected virtual void OnRequestBefoure (DataListener callback) {
 		netDoneCallback = callback;
 	}
 
-	protected void OnResposeEnd(object data) {
+	protected virtual void OnResposeEnd(object data) {
 		if (netDoneCallback != null) {
 			netDoneCallback(data);
 		}

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//----------UI elements list----------
+
+	private GameObject unitInfoTabs;
+
 	protected UILabel noLabel;
 	protected UILabel hpLabel;
 	protected UILabel atkLabel;
@@ -41,7 +44,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	protected List<UISprite> blockLsit1 = new List<UISprite>();
 	protected List<UISprite> blockLsit2 = new List<UISprite>();
         
-        protected int currMaxExp, curExp, gotExp, expRiseStep;
+	protected int currMaxExp, curExp, gotExp, expRiseStep;
 
 	
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
@@ -74,6 +77,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	//----------Init functions of UI Elements----------
 	void InitUI() {
+		unitInfoTabs = transform.Find("UnitInfoTabs").gameObject;
 		InitTabSkill();
 		InitTabStatus ();
 		InitExpSlider ();
@@ -168,8 +172,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ClearEffectCache(){
 		foreach (var item in effectCache){
 			Destroy( item );
+			effectCache.Remove(item);
 		}
-		effectCache.Clear();
 	}
 
 	void InitEffect(){
@@ -279,8 +283,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		for( int i = 0; i < sprNameList2.Count; i++ ){
 			blockLsit1[ i ].enabled = true;
 			blockLsit1[ i ].spriteName = sprNameList2[ i ].ToString();
-                }
         }
+	}
 
 	void ShowLeaderSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
@@ -289,25 +293,50 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
                 
                 leaderSkillNameLabel.text = skill.name;
 		leaderSkillDscpLabel.text = skill.description;
-        }
+	}
 
 	void ShowActiveSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.ActiveSkill;
-		SkillBase skill = GlobalData.skill[ skillId ].GetSkillInfo();
-		
+		SkillBase skill = GlobalData.skill[ skillId ].GetSkillInfo();		
 		activeSkillNameLabel.text = skill.name;
 		activeSkillDscpLabel.text = skill.description;
-        }
+    }
         
-        void ShowProfileContent( TUserUnit data ){
+	void ShowProfileContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
 		profileLabel.text = unitInfo.Profile;
 	}
 
 	public void Callback(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
-//		Debug.Log("UnitDetailPanel.Callback()");
+		if (userUnit != null) {
+			ShowInfo (userUnit);
+		} else {
+			RspLevelUp rlu = data as RspLevelUp;
+			if(rlu ==null) {
+				return;
+			}
+			PlayLevelUp(rlu);
+		}
+	}
+	RspLevelUp levelUpData;
+	void PlayLevelUp(RspLevelUp rlu) {
+		levelUpData = rlu;
+		unitInfoTabs.SetActive (false);
+		InvokeRepeating ("CreatEffect", 0f, 2f);
+	}
+
+	void CreatEffect() {
+		GameObject go = Instantiate (levelUpEffect) as GameObject;
+		effectCache.Add (go);
+
+		if (effectCache.Count > 2) {
+			CancelInvoke("CreatEffect");
+		}
+	}
+
+	void ShowInfo(TUserUnit userUnit) {
 		ShowBodyTexture( userUnit ); 
 		ShowUnitScale();
 		ShowStatusContent( userUnit );
@@ -316,8 +345,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ShowLeaderSkillContent( userUnit );
 		ShowActiveSkillContent( userUnit );
 		ShowProfileContent( userUnit );
-
-        }
+	}
         
         void ClearBlock(List<UISprite> blocks){
 		foreach (var item in blocks){

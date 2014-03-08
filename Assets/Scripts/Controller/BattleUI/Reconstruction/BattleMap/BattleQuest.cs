@@ -232,7 +232,10 @@ public class BattleQuest : UIBase {
 	}
 
 	void GridEnd(object data) {
-		questData.getUnit.Add (currentMapData.Drop.DropId);
+		if (currentMapData.Drop.DropId != 0) {
+			questData.getUnit.Add (currentMapData.Drop.DropId);	
+		}
+
 	}
 
 	void MeetQuestion () {

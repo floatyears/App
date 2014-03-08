@@ -10,7 +10,7 @@ public class BattleBottom : MonoBehaviour {
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
 		if (upi == null) {
-			upi = ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo,new ErrorMsg()) as TUnitParty;		
+			upi = GlobalData.partyInfo.CurrentParty; //ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo,new ErrorMsg()) as TUnitParty;		
 		}
 		for (int i = 0; i < 5; i++) {
 			GameObject tex = transform.Find("Actor/" + i).gameObject;	

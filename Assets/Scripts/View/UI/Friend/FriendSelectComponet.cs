@@ -49,7 +49,7 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 			return;		
 		}
 		if (partyID == 1) {
-			upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, errMsg) as TUnitParty;
+			upi = GlobalData.partyInfo.CurrentParty; //ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, errMsg) as TUnitParty;
 			if (upi == null) {
 				Debug.LogError("ModelManager.GetData( UnitPartyInfo ) return null");
 				return;

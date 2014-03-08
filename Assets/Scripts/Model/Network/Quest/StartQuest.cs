@@ -56,27 +56,9 @@ public class StartQuest: ProtoManager {
 	public override void OnResponse (bool success) {
 		if (!success) { return; }
 
-		rspStartQuest = InstanceObj as bbproto.RspStartQuest;
-//		LogHelper.Log("reponse userId:"+rspStartQuest.user.userId);
-
-		GlobalData.userInfo.StaminaNow = rspStartQuest.staminaNow;
-		GlobalData.userInfo.StaminaRecover = rspStartQuest.staminaRecover;
-
-		LogHelper.Log ("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-		if(rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null ){
-			TQuestDungeonData dungeonData = new TQuestDungeonData (rspStartQuest.dungeonData);
-			//send response to caller
-//			MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, dungeonData);
-			OnResposeEnd(dungeonData);
-
-		} else{
-//			MsgCenter.Instance.Invoke (CommandEnum.RspStartQuest, null);
-			OnResposeEnd(null);
-		}
-
 	}
 
-	void OnReceiveCommand(object data) {
+	protected override void OnReceiveCommand(object data) {
 		questParam = data as StartQuestParam;
 		if (questParam == null) {
 			LogHelper.Log ("StartQuest: Invalid param data.");
@@ -88,10 +70,4 @@ public class StartQuest: ProtoManager {
 
 		Send (); //send request to server
 	}
-
-	public override void OnRequest (object data, DataListener callback) {
-		OnRequestBefoure (callback);
-		OnReceiveCommand (data);
-	}
 }
-

@@ -12,7 +12,8 @@ import (
 	"common/Error"
 	"common/log"
 	"data"
-	"user/usermanage"
+	"model/quest"
+	"model/user"
 
 	"code.google.com/p/goprotobuf/proto"
 )
@@ -102,7 +103,7 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	}
 
 	//get userinfo from user table
-	userDetail, isUserExists, err := usermanage.GetUserInfo(db, uid)
+	userDetail, isUserExists, err := user.GetUserInfo(db, uid)
 	if err != nil {
 		return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", uid, err.Error()))
 	}
@@ -112,12 +113,12 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	log.T(" getUser(%v) ret userinfo: %v", uid, userDetail.User)
 
 	//get questInfo
-	stageInfo, e := GetStageInfo(db, stageId)
+	stageInfo, e := quest.GetStageInfo(db, stageId)
 	if e.IsError() {
 		return e
 	}
 
-	questInfo, e := GetQuestInfo(db, stageInfo, questId)
+	questInfo, e := quest.GetQuestInfo(db, stageInfo, questId)
 	if e.IsError() {
 		return e
 	}
@@ -128,7 +129,7 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 
 	//update stamina
 	log.T("--Old Stamina:%v staminaRecover:%v", *userDetail.User.StaminaNow, *userDetail.User.StaminaRecover)
-	e = usermanage.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax)
+	e = user.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax)
 	if e.IsError() {
 		return e
 	}
@@ -141,13 +142,13 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	*userDetail.User.StaminaNow -= *questInfo.Stamina
 
 	//get quest config
-	questConf, e := GetQuestConfig(db, questId)
+	questConf, e := quest.GetQuestConfig(db, questId)
 	log.T(" questConf:%+v", questConf)
 	if e.IsError() {
 		return e
 	}
 
-	questDataMaker := &QuestDataMaker{}
+	questDataMaker := &quest.QuestDataMaker{}
 	//make quest data
 	questData, e := questDataMaker.MakeData(&questConf)
 	if e.IsError() {
@@ -155,7 +156,7 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	}
 
 	//check userDetail.Quest if exists (quest is playing)
-	questState, e := CheckQuestRecord(db, stageId, questId, &userDetail)
+	questState, e := quest.CheckQuestRecord(db, stageId, questId, &userDetail)
 	if e.IsError() {
 		return e
 	}
@@ -163,13 +164,13 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	//TODO:try getFriendState(helperUid) -> getFriendPoint
 
 	//update latest quest record of userDetail
-	if e = FillQuestLog(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
+	if e = quest.FillQuestLog(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
 		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}
 
 	//save updated userinfo
-	if e = usermanage.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
 		return e
 	}
 

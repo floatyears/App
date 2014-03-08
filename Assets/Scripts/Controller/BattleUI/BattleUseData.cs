@@ -35,12 +35,14 @@ public class BattleUseData {
 	public BattleUseData () {
 		ListenEvent ();
 		errorMsg = new ErrorMsg ();
-		upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as TUnitParty;
+		upi = GlobalData.partyInfo.CurrentParty; 
+//		TUnitParty up =  ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as TUnitParty;
 		upi.GetSkillCollection ();
 		els = new ExcuteLeadSkill (upi);
 		skillRecoverHP = els;
 		els.Excute ();
 		eas = new ExcuteActiveSkill (upi);
+//		Debug.LogError (" BattleUseData : ");
 		eps = new ExcutePassiveSkill (upi);
 		ac = new AttackController (this, eps);
 		maxBlood = blood = upi.GetInitBlood ();
