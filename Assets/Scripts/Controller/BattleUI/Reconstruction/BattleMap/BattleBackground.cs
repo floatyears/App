@@ -59,10 +59,11 @@ public class BattleBackground : UIBaseUnity {
 	}
 
 	void InitTransform() {
-		TUnitParty upi = ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, new ErrorMsg ()) as TUnitParty;
+		TUnitParty upi = GlobalData.partyInfo.CurrentParty; //ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, new ErrorMsg ()) as TUnitParty;
 		Dictionary<int,TUserUnit> userUnitInfo = upi.GetPosUnitInfo ();
 		Transform trans = FindChild<Transform>("Bottom/1");
 		foreach (var item in userUnitInfo) {
+//			Debug.LogError(item.Value.ID);
 			actorTransform.Add(item.Value.ID,trans);
 		}
 	}

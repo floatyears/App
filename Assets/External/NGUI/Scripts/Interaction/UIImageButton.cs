@@ -48,8 +48,10 @@ public class UIImageButton : MonoBehaviour
 	{
 		if (target != null)
 		{
+//			Debug.LogError("UpdateImage : " + isEnabled);
 			if (isEnabled)
 			{
+
 				target.spriteName = UICamera.IsHighlighted(gameObject) ? hoverSprite : normalSprite;
 			}
 			else

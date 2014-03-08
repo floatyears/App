@@ -25,9 +25,10 @@ public class UnitDetailComponent : ConcreteComponent {
 	}
 
 	void CallBackUnitData ( object data) {
-		IUICallback caller = viewComponent as IUICallback;
-		caller.Callback( data );
-        }
+//		IUICallback caller = viewComponent as IUICallback;
+//		caller.Callback( data );
+		ExcuteCallback (null);
+	}
 
 	void AddMsgCmd () {
 		//MsgCenter.Instance.AddListener(CommandEnum.LevelUp , LevelUp);
