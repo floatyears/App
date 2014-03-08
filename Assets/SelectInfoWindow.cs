@@ -75,25 +75,43 @@ public class SelectInfoWindow : UIComponentUnity {
         }
 
 	void Choose(GameObject btn){
-		ExcuteCallback("Choose");
+
+		CallBackDeliver cbd = new CallBackDeliver("Choose", null);
+		ExcuteCallback( cbd );
 		ShowSelf(false);
 	}
 
 	void ViewInfo(GameObject btn){
-		ExcuteCallback("ViewInfo");
+
+		CallBackDeliver cbd = new CallBackDeliver("ViewDetailInfo", null);
+
+		ExcuteCallback( cbd );
+
 		ShowSelf(false);
 	}
 
 	void Exit(GameObject btn){
+
 		Debug.Log("SelectUnitInfoWindow.Exit() : ");
 		ShowSelf(false);
-		ExcuteCallback("Exit");
+		//ExcuteCallback("Exit");
 	}
 
 	public override void Callback(object data){
 		base.Callback(data);
+
 		ShowSelf(true);
-		TUserUnit tuu = data as TUserUnit;
+	
+		CallBackDeliver cbd = data as CallBackDeliver;
+
+		TUserUnit tuu = cbd.callBackContent as TUserUnit;
+
+		RefreshViewInfo( tuu );
+	}
+
+
+	void RefreshViewInfo(TUserUnit tuu){
+
 		hpLabel.text = tuu.Level.ToString();
 		atkLabel.text = tuu.Attack.ToString();
 		lvLabel.text = tuu.Level.ToString();
@@ -101,5 +119,4 @@ public class SelectInfoWindow : UIComponentUnity {
 		raceLabel.text = tuu.UnitInfo.UnitRace.ToString();
 		avatarTex.mainTexture = tuu.UnitInfo.GetAsset(UnitAssetType.Avatar);
 	}
-	
 }

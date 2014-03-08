@@ -26,6 +26,7 @@ public class ChangeParty: ProtoManager {
 		reqChangeParty = new ReqChangeParty ();
 		reqChangeParty.header = new ProtoHeader ();
 		reqChangeParty.header.apiVer = Protocol.API_VERSION;
+		reqChangeParty.header.userId = GlobalData.userInfo.UserId;
 		reqChangeParty.party = partyInfo.Object;
 
 		ErrorMsg err = SerializeData (reqChangeParty); // save to Data for send out
