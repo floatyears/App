@@ -9,11 +9,10 @@ import (
 	//"time"
 )
 import (
-	"../src/bbproto"
+	"bbproto"
 	//"src/common"
 	//"src/common/consts"
 	//"src/data"
-	_ "../src/quest"
 	//"src/user/usermanage"
 	//"src/friend"
 	//redis "github.com/garyburd/redigo/redis"
@@ -63,7 +62,7 @@ func ChangeParty(myUid uint32, partyinfo *bbproto.PartyInfo) error {
 //		unitList = append(unitList[:pos], unitList[pos+1:])
 //	}
 
-func ppmain() {
+func main() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
 
@@ -84,6 +83,6 @@ func ppmain() {
 		pi.PartyList = append(pi.PartyList, party)
 	}
 
-	ChangeParty(150, pi)
+	ChangeParty(104, pi)
 	log.Fatal("bbsvr test client finish.")
 }
