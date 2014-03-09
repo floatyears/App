@@ -1,3 +1,69 @@
-<%= link_to '新建卡牌', new_unit_info_path %><br/>
-<%= link_to '新建基本技能', new_skill_path %>
+<h1>所有卡牌信息</h1>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Race</th>
+			<th>Type</th>
+			<th>Rare</th>
+			<th>Skill1</th>
+			<th>Skill2</th>
+			<th>LeaderSkill</th>
+			<th>ActiveSkill</th>
+			<th>PassiveSkill</th>
+			<th>ActiveSkillLevel</th>
+			<th>MaxLevel</th>
+			<th>Profile</th>
+			<th>PowerType</th>
+			<th>EnvolveInfo</th>
+			<th>Cost</th>
+			<th>SaleValue</th>
+			<th>DevourValue</th>
+			<th>GetWay</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @units.each do |unit| %>
+		<tr>
+			<td><%= unit.try(:id) %></td>
+			<td><%= unit.try(:name) %></td>
+			<td><%= unit.try(:race) %></td>
+			<td><%= unit.try(:type) %></td>
+			<td><%= unit.try(:rare) %></td>
+			<td><%= unit.try(:skill1) %></td>
+			<td><%= unit.try(:skill2) %></td>
+			<td><%= unit.try(:leaderSkill) %></td>
+			<td><%= unit.try(:activeSkill) %></td>
+			<td><%= unit.try(:passiveSkill) %></td>
+			<td><%= unit.try(:activeSkillLevel) %></td>
+			<td><%= unit.try(:maxLevel) %></td>
+			<td><%= unit.try(:profile) %></td>
+			<td>{
+				attackType:<%= unit.try(:powerType).try(:attackType) %>;
+				hpType:<%= unit.try(:powerType).try(:hpType) %>;
+				expType:<%= unit.try(:powerType).try(:expType) %>
+				}
+			</td>
+			<td>
+				evolveUnitId:<%= unit.try(:evolveInfo).try(:evolveUnitId) %>;
+			    materialUnitId:<%= unit.try(:evolveInfo).try(:materialUnitId) %>;
+				helperRequire:{
+					level:<%= unit.try(:evolveInfo).try(:helperRequire).try(:level)%>
+					race:<%= unit.try(:evolveInfo).try(:helperRequire).try(:race)%>
+					type:<%= unit.try(:evolveInfo).try(:helperRequire).try(:type)%>
+				}
+			</td>
+			<td><%= unit.try(:cost) %></td>
+			<td><%= unit.try(:saleValue) %></td>
+			<td><%= unit.try(:devourValue) %></td>
+			<td><%= unit.try(:getWay) %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<%= link_to '新建卡牌', new_unit_info_path,style: "font-size: 20px;" %><br/>
+<%= link_to '新建基本技能', new_skill_path,style: "font-size: 20px;" %>
 

@@ -119,6 +119,8 @@ public class TPartyInfo : ProtobufDataBase {
 			return false;
 		}
 
+		LogHelper.LogError("TPartyInfo.ChangeParty: pos:{0} uniqueId:{1}", pos, unitUniqueId);
+
 		isPartyItemModified = true;
 		CurrentParty.SetPartyItem(pos, unitUniqueId);
 
@@ -137,11 +139,21 @@ public class TPartyInfo : ProtobufDataBase {
 
 	public void ExitParty() {
 		if ( IsModified ) {
-			MsgCenter.Instance.Invoke (CommandEnum.ReqChangeParty, this);
+			ChangeParty cp = new ChangeParty();
+			cp.OnRequest(this, onRspChangeParty);
 		}
 	}
 
+	public void onRspChangeParty(object data){
+		//nothing to do
+		if (data != null) {
+			bbproto.RspChangeParty rspChangeParty = data as bbproto.RspChangeParty;
+			
+			LogHelper.Log ("rspChangeParty code:{0}, error:{1}", rspChangeParty.header.code, rspChangeParty.header.error);
+//			bool success = (rspChangeParty.header.code == 0 );
+		}
 
+	}
 }
 
 

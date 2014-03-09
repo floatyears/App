@@ -59,6 +59,12 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	//calculate each Type Attack, party's totalHp, totalCost
 	private void reAssignData() {
 		List<TUserUnit> uu = GetUserUnit();
+		if (uu == null){
+			Debug.LogError("TUnitParty.AssignData :: GetUserUnit() return null.");
+			return;
+		}
+//		LogHelper.LogError("uu.count:{0}", uu.Count);
+
 		totalHp = totalCost = 0;
 		initTypeAtk(typeAttackValue, EUnitType.UWIND);
 		initTypeAtk(typeAttackValue, EUnitType.UFIRE);
@@ -69,9 +75,14 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 
 		foreach(PartyItem item in instance.items) {
 			if ( item.unitPos >= uu.Count ) {
-				LogHelper.Log("  Calculate party attack: INVALID item.unitPos{0} > count:{1}", item.unitPos, uu.Count);
+				LogHelper.LogError("  Calculate party attack: INVALID item.unitPos{0} > count:{1}", item.unitPos, uu.Count);
 				continue;
 			}
+			if ( uu[item.unitPos]==null ) //it's empty party item
+				continue;
+
+//			Debug.LogError("uu[item.unitPos].UnitInfo="+uu[item.unitPos].UnitInfo);
+
 			EUnitType unitType = uu[item.unitPos].UnitInfo.Type;
 
 			typeAttackValue[ unitType ] += uu[item.unitPos].Attack;

@@ -26,6 +26,7 @@ public class ChangeParty: ProtoManager {
 		reqChangeParty = new ReqChangeParty ();
 		reqChangeParty.header = new ProtoHeader ();
 		reqChangeParty.header.apiVer = Protocol.API_VERSION;
+		reqChangeParty.header.userId = GlobalData.userInfo.UserId;
 		reqChangeParty.party = partyInfo.Object;
 
 		ErrorMsg err = SerializeData (reqChangeParty); // save to Data for send out
@@ -35,14 +36,6 @@ public class ChangeParty: ProtoManager {
 
 	public override void OnResponse (bool success) {
 		if (!success) { return; }
-
-		rspChangeParty = InstanceObj as bbproto.RspChangeParty;
-
-		LogHelper.Log ("rspChangeParty code:{0}, error:{1}", rspChangeParty.header.code, rspChangeParty.header.error);
-		success = (rspChangeParty.header.code == 0 );
-		//send response to caller
-//		MsgCenter.Instance.Invoke (CommandEnum.RspChangeParty, success);
-		OnResposeEnd (success);
 	}
 
 	protected override void OnReceiveCommand(object data) {

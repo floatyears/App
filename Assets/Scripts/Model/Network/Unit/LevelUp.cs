@@ -8,7 +8,7 @@ public class LevelUp: ProtoManager {
 	private bbproto.RspLevelUp rspLevelUp;
 
 	private uint baseUniqueId;
-	private List<uint> partUniqueId;
+	private List<uint> partUniqueId = new List<uint>();
 	private uint helperUserId;
 	private TUserUnit helperUserUnit;
 
@@ -50,12 +50,11 @@ public class LevelUp: ProtoManager {
 		reqType = typeof(ReqLevelUp);
 		rspType = typeof(RspLevelUp);
 
-		reqLevelUp = new ReqAuthUser ();
+		reqLevelUp = new ReqLevelUp ();
 		reqLevelUp.header = new ProtoHeader ();
 		reqLevelUp.header.apiVer = "1.0";
-
 		reqLevelUp.baseUniqueId = baseUniqueId;
-		reqLevelUp.partUniqueId = partUniqueId;
+		reqLevelUp.partUniqueId.AddRange(partUniqueId);
 		reqLevelUp.helperUserId = helperUserId;
 		reqLevelUp.helperUnit = helperUserUnit.Object;
 
@@ -72,26 +71,11 @@ public class LevelUp: ProtoManager {
 
 		rspLevelUp = InstanceObj as bbproto.RspLevelUp;
 
-		//update money
-//		GlobalData.accountInfo.Money = rspLevelUp.money;
 
-		// update unitlist
-		uint userId = GlobalData.userInfo.UserId;
-		if (rspLevelUp.unitList != null) {
-			GlobalData.myUnitList.Clear();	//TODO: maybe havenot to clear all, just for simple right now.
-			//GlobalData.userUnitList.Clear(); //TODO: only update the baseUnit
-			foreach(UserUnit unit in rspLevelUp.unitList) {
-				GlobalData.myUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
-				//GlobalData.userUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
-			}
-			LogHelper.Log("rspLevelUp add to myUserUnit.count: {0}", rspLevelUp.unitList.Count);
-		}
 
 //		LogHelper.Log("reponse userId:"+rspLevelUp.user.userId);
 
 
-		//send response to caller
-		OnResposeEnd (InstanceObj);
 	}
 
 	int GetMaxExpByLv(int level) {

@@ -13,7 +13,7 @@ public class UnitDetailComponent : ConcreteComponent {
 	public override void ShowUI () {
 		base.ShowUI ();
 		AddMsgCmd();
-        }
+	}
 	   
 	public override void HideUI () {
 		base.HideUI ();
@@ -25,20 +25,21 @@ public class UnitDetailComponent : ConcreteComponent {
 	}
 
 	void CallBackUnitData ( object data) {
-//		IUICallback caller = viewComponent as IUICallback;
-//		caller.Callback( data );
-		ExcuteCallback (null);
+		ExcuteCallback (data);
 	}
 
 	void AddMsgCmd () {
-		//MsgCenter.Instance.AddListener(CommandEnum.LevelUp , LevelUp);
+
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
+		MsgCenter.Instance.AddListener (CommandEnum.LevelUp, LevelUpFunc);
 	}
 	
 	void RmvMsgCmd () {
-		//MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp , LevelUp);
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
-        }
+		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUp, LevelUpFunc);
+	}
         
-        
+	void LevelUpFunc(object data) {
+		ExcuteCallback (data);
+	}
 }

@@ -69,14 +69,43 @@ public class ClearQuest: ProtoManager {
 	public override void OnResponse (bool success) {
 		if (!success) { return; }
 
-		rspClearQuest = InstanceObj as bbproto.RspClearQuest;
-//		LogHelper.Log("reponse userId:"+rspClearQuest.user.userId);
+		if ( InstanceObj != null ) {
+			rspClearQuest = InstanceObj as bbproto.RspClearQuest;
+			//		LogHelper.Log("reponse userId:"+rspClearQuest.user.userId);
+			
+			GlobalData.userInfo.StaminaNow = rspClearQuest.staminaNow;
+			GlobalData.userInfo.StaminaRecover = rspClearQuest.staminaRecover;
 
-		GlobalData.userInfo.StaminaNow = rspClearQuest.staminaNow;
-		GlobalData.userInfo.StaminaRecover = rspClearQuest.staminaRecover;
+		}
 
 		LogHelper.Log ("rspClearQuest code:{0}, error:{1}", rspClearQuest.header.code, rspClearQuest.header.error);
 
+	}
+
+	protected override void OnResposeEnd (object data) {
+		if ( data != null ) {
+			TRspClearQuest cq = new TRspClearQuest();
+			cq.rank 		= rspClearQuest.rank;
+			cq.exp 			= rspClearQuest.exp;
+			cq.money 		= rspClearQuest.money;
+			cq.friendPoint 	= rspClearQuest.friendPoint;
+			cq.staminaNow	= rspClearQuest.staminaNow;
+			cq.staminaMax	= rspClearQuest.staminaMax;
+			cq.staminaRecover = rspClearQuest.staminaRecover;
+			
+			cq.gotExp		= rspClearQuest.gotExp;
+			cq.gotChip		= rspClearQuest.gotChip;
+			cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
+			foreach (UserUnit uu in rspClearQuest.gotUnit ) {
+				TUserUnit tuu = new TUserUnit(uu);
+				cq.gotUnit.Add(tuu);
+			}
+
+			base.OnResposeEnd( cq );
+
+		} else {
+			base.OnResposeEnd( null );
+		}
 	}
 
 	protected override void OnReceiveCommand(object data) {

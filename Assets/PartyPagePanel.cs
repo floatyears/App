@@ -60,11 +60,6 @@ public class PartyPagePanel : UIComponentUnity {
 		rightButton = FindChild<UIButton>("Button_Right");
 	}
 
-	void FindItem(){
-//		GameObject go;
-
-	}
-
 	void FindTexture() {
 		UITexture tex;
 		GameObject go;
@@ -120,19 +115,28 @@ public class PartyPagePanel : UIComponentUnity {
 	}
 
 	void ClickItem(GameObject go){
-		Debug.Log("PartyPagePanel.ClickItem(), item name is : " + go.name);
-		if(!itemDic.ContainsKey(go)){
+
+		if( !itemDic.ContainsKey(go) ){
 			Debug.Log("PartyPagePanel.ClickItem(), itemDic NOT ContainsKey : " + go.name);
 			return;
 		}
-		ExcuteCallback("ClickItem" + itemDic[ go ]);
+
+		string callName = "ClickItem";
+		int pos = itemDic[ go ];
+		CallBackDeliver cbd = new CallBackDeliver( callName, pos );
+		LogHelper.Log("PartyPagePanel.ClickItem(), click the item" + itemDic[ go ].ToString() + ", wait respone...");
+		ExcuteCallback( cbd );
+
 	}
 
 
 	void PageBack(GameObject button){
 		Debug.Log("PartyPagePanel.PageBack() : Start");
 
-		ExcuteCallback("PageBack");
+		CallBackDeliver cbd = new CallBackDeliver( "PageBack", null );
+		LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
+
+		ExcuteCallback( cbd );
 
 		Debug.Log("PartyPagePanel.ExcuteCallback() : End");
 	} 
@@ -140,7 +144,9 @@ public class PartyPagePanel : UIComponentUnity {
 	void PageForward(GameObject go){
 		Debug.Log("PartyPagePanel.PageForward() : Start");
 
-		ExcuteCallback("PageForward");
+		CallBackDeliver cbd = new CallBackDeliver( "PageForward", null );
+		LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
+		ExcuteCallback( cbd );
 
 		Debug.Log("PartyPagePanel.PageForward() : End");
 	}
@@ -149,40 +155,7 @@ public class PartyPagePanel : UIComponentUnity {
 		Debug.Log("PartyPagePanel.ResetUIElement() : Start");
 		Debug.Log("PartyPagePanel.ResetUIElement() : End");
 	}
-
-	public override void Callback(object data){
-		base.Callback(data);
-		Dictionary<string,object> viewInfoDic = data as Dictionary<string,object>;
-		if( viewInfoDic == null ){
-			Debug.LogError("PartyPagePanel.Callback(), ViewInfo is Null!");
-			return;
-		}	
-		object tex2dList;
-		object curPartyIndex;
-
-		if(viewInfoDic.TryGetValue("index",out curPartyIndex)){
-			UpdateLabel((int)curPartyIndex);
-		}
-
-		if(viewInfoDic.TryGetValue("texture",out tex2dList)){
-			List<Texture2D> temp = tex2dList as List<Texture2D>;
-			UpdateTexture(temp);
-		}
-
-		object pos;
-		if(viewInfoDic.TryGetValue("LightSprite", out pos)){
-			SetHighLight((int)pos);
-		}
-
-		object avatarChange;
-		if(viewInfoDic.TryGetValue("changeTexture", out avatarChange)){
-			if(currentPos <= 0)	return;
-			ChangeTexure(currentPos,avatarChange as Texture2D);
-		}
-
-		
-	}
-
+	
 	void ChangeTexure(int pos,Texture2D tex){
 		if(tex == null ){
 			return;
@@ -194,8 +167,20 @@ public class PartyPagePanel : UIComponentUnity {
 			} 
 		}
 	}
+	
+	void DarkAllItem(){
+		Debug.Log("PartyPagePanel.DarkAllItem() : Start...");
+		foreach (var item in itemDic) {
+			item.Key.transform.FindChild("High_Light").gameObject.SetActive(false);
+		}
 
+		Debug.Log("PartyPagePanel.SetHighLight() : End...");
+	}
+
+	//Light the click Item
 	void SetHighLight(int pos){
+
+		Debug.Log("PartyPagePanel.SetHighLight() : Sprite Pos is : " + pos);
 		foreach (var item in itemDic) {
 			if( pos == item.Value ){
 				currentPos = pos;
@@ -204,21 +189,72 @@ public class PartyPagePanel : UIComponentUnity {
 				item.Key.transform.FindChild("High_Light").gameObject.SetActive(false);
 			}
 		}
+
+		Debug.Log("PartyPagePanel.SetHighLight() : End...");
 	}
 
-	void ShowTween()
-	{
+	void ShowTween(){
 		TweenPosition[ ] list = 
 			gameObject.GetComponentsInChildren< TweenPosition >();
 		if (list == null)
 			return;
-		foreach (var tweenPos in list)
-		{		
+		foreach (var tweenPos in list){		
 			if (tweenPos == null)
 				continue;
 			tweenPos.Reset();
 			tweenPos.PlayForward();
 		}
+	}
+
+	public override void Callback(object data){
+		base.Callback(data);
+		
+		CallBackDeliver cbd = data as CallBackDeliver;
+		
+		switch ( cbd.callBackName ){
+			case "RefreshPartyIndex" : 
+				int index = ( int )cbd.callBackContent;
+				UpdateLabel( index );
+				break;
+			case "RefreshPartyTexture" : 
+				List<Texture2D> t2dList = cbd.callBackContent as List<Texture2D>;
+				UpdateTexture( t2dList );
+                        break;
+               	 	case "LightCurSprite" :
+                        	int pos = ( int )cbd.callBackContent;
+                        	SetHighLight( pos );
+                        	break;
+                	case "DrakAllSprite" :
+                       		DarkAllItem();
+                        	break;
+			case "Replace1" :
+				TUserUnit tuu1 = cbd.callBackContent as TUserUnit;
+				ReplaceItemView(1, tuu1 );
+				break;
+			case "Replace2" :
+				TUserUnit tuu2 = cbd.callBackContent as TUserUnit;
+				ReplaceItemView(2, tuu2 );
+                        	break;
+			case "Replace3" :
+				TUserUnit tuu3 = cbd.callBackContent as TUserUnit;
+				ReplaceItemView(3, tuu3 );
+                        	break;
+			case "Replace4" :
+				TUserUnit tuu4 = cbd.callBackContent as TUserUnit;
+				ReplaceItemView(4, tuu4 );
+                        	break;
+                default:
+                        break;
+                }
+                
+        }
+
+	void ReplaceItemView(int pos, TUserUnit tuu){
+		Debug.Log("PartyPagePanel.ReplaceItemView(), Start...");
+
+		ChangeTexure(pos, tuu.UnitInfo.GetAsset(UnitAssetType.Avatar));
+
+		Debug.Log("PartyPagePanel.ReplaceItemView(), End...");
 	}
 	
 }

@@ -244,14 +244,16 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void ClickLevelUpButton(GameObject go){
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);//before
-		MsgCenter.Instance.Invoke(CommandEnum.LevelUp, PackUserUnitInfo());//after
+		List<TUserUnit> temp = PackUserUnitInfo ();
+		ExcuteCallback (temp);
+//		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);//before
+//		MsgCenter.Instance.Invoke(CommandEnum.LevelUp, PackUserUnitInfo());//after
 	}
 	
 	List<TUserUnit> PackUserUnitInfo(){
 		List<TUserUnit> pickedUserUnitInfo = new List<TUserUnit>();
 		pickedUserUnitInfo.Add (baseUnitInfo.userUnitItem);
-
+		pickedUserUnitInfo.Add (friendUnitInfo);
 		//TODO add base unit info .....
 //		pickedUserUnitInfo.Add(baseUnitInfo);
 		pickedUserUnitInfo.Add(friendUnitInfo);
@@ -260,7 +262,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 				pickedUserUnitInfo.Add(item.userUnitItem);
 			}
 		}
-		pickedUserUnitInfo.Add (friendUnitInfo);
 		return pickedUserUnitInfo;
 	}
 

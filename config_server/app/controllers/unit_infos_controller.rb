@@ -4,7 +4,7 @@ class UnitInfosController < ApplicationController
   # GET /unit_infos
   # GET /unit_infos.json
   def index
-    @units = $redis.keys
+    @units =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact.map{|key| UnitInfo.decode($redis.get key)}
   end
 
   # GET /unit_infos/1
@@ -14,7 +14,8 @@ class UnitInfosController < ApplicationController
 
   # GET /unit_infos/new
   def new
-    @units = {"请选择卡牌信息" => "请选择卡牌信息" }.merge $redis.keys.inject({}){|hsh,key| hsh[key] = key.split("_")[2].to_i if key.include?("X_UNIT_");hsh}
+    unit_keys =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact
+    @units = {"请选择卡牌信息" => "请选择卡牌信息" }.merge unit_keys.inject({}){|hsh,key| hsh[key] = key.split("_")[2].to_i;hsh}
   end
 
   # GET /unit_infos/1/edit
