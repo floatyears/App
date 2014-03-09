@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using ProtoBuf;
+using bbproto;
 
 /// <summary>
 /// main will always exist until the game close
@@ -99,6 +101,72 @@ public class Main : MonoBehaviour
 	}
 
 	void LoginSuccess(object data) {
+		if ( data != null ) {
+			bbproto.RspAuthUser rspAuthUser = data as bbproto.RspAuthUser;
+			if ( rspAuthUser == null ) {
+				LogHelper.Log("authUser response rspAuthUser == null");
+				return;
+			}
+			
+			if (rspAuthUser.header.code != 0) {
+				//TODO: showErrMsg()
+				LogHelper.Log("rspAuthUser return error: {0} {1}", rspAuthUser.header.code,rspAuthUser.header.error);
+				return;
+			}
+			
+			uint userId = GameDataStore.Instance.GetUInt (GameDataStore.USER_ID);
+			if (userId == 0) {
+				userId = rspAuthUser.user.userId;
+				LogHelper.Log("New user registeed, save userid:"+userId);
+				GameDataStore.Instance.StoreData (GameDataStore.USER_ID, rspAuthUser.user.userId);
+			}
+			
+			//TODO: update localtime with servertime
+			//localTime = rspAuthUser.serverTime
+			
+			//save to GlobalData
+			if (rspAuthUser.account != null) {
+				GlobalData.accountInfo = new TAccountInfo (rspAuthUser.account);
+			}
+			
+			if ( rspAuthUser.user != null ) {
+				GlobalData.userInfo = new TUserInfo (rspAuthUser.user);
+				if (rspAuthUser.evolveType != null) {
+					GlobalData.userInfo.EvolveType = rspAuthUser.evolveType;
+				}
+				
+				LogHelper.Log("authUser response userId:"+rspAuthUser.user.userId);
+			}else{
+				LogHelper.Log("authUser response rspAuthUser.user == null");
+			}
+			
+			if (rspAuthUser.friends != null) {
+				LogHelper.Log ("rsp.friends have {0} friends.", rspAuthUser.friends.Count);
+				GlobalData.friends = new List<TFriendInfo> ();
+				foreach ( FriendInfo fi in rspAuthUser.friends ) {
+					TFriendInfo tfi = new TFriendInfo(fi);
+					GlobalData.friends.Add( tfi );
+				}
+			}
+			else {
+				LogHelper.Log ("rsp.friends==null");
+			}
+			
+			if (rspAuthUser.unitList != null) {
+				foreach(UserUnit unit in rspAuthUser.unitList) {
+					GlobalData.myUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+					GlobalData.userUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+				}
+				LogHelper.Log("rspAuthUser add to myUserUnit.count: {0}", rspAuthUser.unitList.Count);
+			}
+			
+			if (rspAuthUser.party != null && rspAuthUser.party.partyList!=null) {
+				GlobalData.partyInfo = new TPartyInfo(rspAuthUser.party);
+				
+				//TODO: replace ModelManager.GetData(UnitPartyInfo) with GlobalData.partyInfo.CurrentParty
+				ModelManager.Instance.SetData (ModelEnum.UnitPartyInfo, GlobalData.partyInfo.CurrentParty);
+			}
+		}
 		UIManager.Instance.ChangeScene( SceneEnum.Start);
 	}
 

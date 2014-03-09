@@ -71,26 +71,11 @@ public class LevelUp: ProtoManager {
 
 		rspLevelUp = InstanceObj as bbproto.RspLevelUp;
 
-		//update money
-//		GlobalData.accountInfo.Money = rspLevelUp.money;
 
-		// update unitlist
-		uint userId = GlobalData.userInfo.UserId;
-		if (rspLevelUp.unitList != null) {
-			GlobalData.myUnitList.Clear();	//TODO: maybe havenot to clear all, just for simple right now.
-			//GlobalData.userUnitList.Clear(); //TODO: only update the baseUnit
-			foreach(UserUnit unit in rspLevelUp.unitList) {
-				GlobalData.myUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
-				//GlobalData.userUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
-			}
-			LogHelper.Log("rspLevelUp add to myUserUnit.count: {0}", rspLevelUp.unitList.Count);
-		}
 
 //		LogHelper.Log("reponse userId:"+rspLevelUp.user.userId);
 
 
-		//send response to caller
-		OnResposeEnd (InstanceObj);
 	}
 
 	int GetMaxExpByLv(int level) {

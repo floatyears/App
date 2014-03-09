@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class LevelUpReadyPoolUI : ConcreteComponent {
 	public LevelUpReadyPoolUI(string uiName):base(uiName) {}
@@ -28,7 +29,26 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 	}
 
 	void NetCallback(object data) {
-//		Debug.LogError (data);
+		//TODO: moving to logic
+		if( data != null ) {
+			bbproto.RspLevelUp rspLevelUp = new bbproto.RspLevelUp();
+			//update money
+			GlobalData.accountInfo.Money = (int)rspLevelUp.money;
+			
+			// update unitlist
+			uint userId = GlobalData.userInfo.UserId;
+			if (rspLevelUp.unitList != null) {
+				GlobalData.myUnitList.Clear();	//TODO: maybe havenot to clear all, just for simple right now.
+				//GlobalData.userUnitList.Clear(); //TODO: only update the baseUnit
+				foreach(UserUnit unit in rspLevelUp.unitList) {
+					GlobalData.myUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+					//GlobalData.userUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+				}
+				LogHelper.Log("rspLevelUp add to myUserUnit.count: {0}", rspLevelUp.unitList.Count);
+			}
+
+		}
+
 		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 	}
