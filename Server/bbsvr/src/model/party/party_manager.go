@@ -9,9 +9,15 @@ import (
 	"data"
 	"model/user"
 	//proto "code.google.com/p/goprotobuf/proto"
+	"code.google.com/p/goprotobuf/proto"
 )
 
 func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.Error) {
+	if party == nil || len(party.PartyList) < 1 {
+		log.T("invalid party==nil")
+		return Error.New(EC.INVALID_PARAMS)
+	}
+
 	if db == nil {
 		db = &data.Data{}
 		err := db.Open(consts.TABLE_USER)
@@ -33,6 +39,20 @@ func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.E
 	}
 	if !isExists {
 		return Error.New(EC.EU_USER_NOT_EXISTS)
+	}
+
+	for k, partyInfo :=range party.PartyList {
+		if partyInfo.Id == nil {
+			partyInfo.Id = proto.Int32(0)
+			for i, item :=range partyInfo.Items {
+				if item.UnitPos == nil {
+					item.UnitPos = proto.Int32(0)
+					log.T("i:%v %v pos==nil convert to 0/", i, item)
+				}
+
+			}
+			log.T("k[%v] partyInfo.Id==nil force to 0.", k)
+		}
 	}
 
 	userDetail.Party = party

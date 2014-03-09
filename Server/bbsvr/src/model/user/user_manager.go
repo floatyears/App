@@ -83,7 +83,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	}
 	userUnit1 := &bbproto.UserUnit{
 		UniqueId:  proto.Uint32(unitId1),
-		UnitId:    proto.Uint32(uint32(common.Rand(1, 20))),
+		UnitId:    proto.Uint32(uint32(1)), //uint32(common.Rand(1, 20))
 		Exp:       proto.Int32(1),
 		Level:     proto.Int32(1),
 		GetTime:   &tNow,
