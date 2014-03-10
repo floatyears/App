@@ -46,7 +46,7 @@ func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
 	e = handler.ProcessLogic(&reqMsg, rspMsg)
 
 	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
-	log.Printf("sendrsp err:%v, AuthUser rspMsg.Header:\n%+v nickName:%v\n\n", e, rspMsg.Header, rspMsg.User.NickName)
+	log.Printf("sendrsp err:%v, AuthUser rspMsg.Header:\n%+v nickName:%v\n\n", e, rspMsg.Header, *rspMsg.User.NickName)
 }
 
 /////////////////////////////////////////////////////////////////////////////
