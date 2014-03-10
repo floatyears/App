@@ -32,7 +32,7 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 	void NetCallback(object data) {
 		//TODO: moving to logic
 		if( data != null ) {
-			bbproto.RspLevelUp rspLevelUp = new bbproto.RspLevelUp();
+			bbproto.RspLevelUp rspLevelUp = data as bbproto.RspLevelUp;
 //			Debug.LogError(rspLevelUp);
 			//update money
 			GlobalData.accountInfo.Money = (int)rspLevelUp.money;

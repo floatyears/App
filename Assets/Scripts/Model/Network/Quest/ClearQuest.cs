@@ -85,6 +85,7 @@ public class ClearQuest: ProtoManager {
 	protected override void OnResposeEnd (object data) {
 		if ( data != null ) {
 			TRspClearQuest cq = new TRspClearQuest();
+			rspClearQuest = data as RspClearQuest;
 			cq.rank 		= rspClearQuest.rank;
 			cq.exp 			= rspClearQuest.exp;
 			cq.money 		= rspClearQuest.money;

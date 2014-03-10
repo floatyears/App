@@ -28,6 +28,7 @@ public class EnemyItem : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.AddListener (CommandEnum.BePosion, BePosion);
 		MsgCenter.Instance.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
+		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 	}
 
 	void OnDisable () {
@@ -38,6 +39,7 @@ public class EnemyItem : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.RemoveListener (CommandEnum.BePosion, BePosion);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ReduceDefense, ReduceDefense);
+		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
 	}
 
 	GameObject prevObject = null;
@@ -136,13 +138,19 @@ public class EnemyItem : UIBaseUnity {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		OnDisable ();
+
 		Destroy (gameObject);
 	}
 
-	public void DropItem () {
-		dropTexture.enabled = true;
-		iTween.ShakeRotation (dropTexture.gameObject, iTween.Hash ("z",20,"time",0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
-		GameTimer.GetInstance ().AddCountDown (1f, DorpEnd);
+	public void DropItem (object data) {
+		int pos = (int)data;
+		Debug.LogError ("pos : " + pos + " enemysymbol : " + enemyInfo.EnemySymbol);
+		if (pos == enemyInfo.EnemySymbol) {
+			dropTexture.enabled = true;
+			iTween.ShakeRotation (dropTexture.gameObject, iTween.Hash ("z",20,"time",0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
+			GameTimer.GetInstance ().AddCountDown (1f, DorpEnd);
+		}
+
 	}
 
 	void DorpEnd () {
@@ -157,7 +165,7 @@ public class EnemyItem : UIBaseUnity {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
 		//DestoryUI ();
 		texture.enabled = false;
-		DropItem ();
+//		DropItem ();
 	}
 	Queue<TEnemyInfo> tempQue = new Queue<TEnemyInfo>();
 	void EnemyRefresh(object data) {

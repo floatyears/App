@@ -130,6 +130,7 @@ public enum CommandEnum
 	StateInfo					= 3048,
 	StopInput					= 3049,
 	GridEnd						= 3050,
+	DropItem					= 3051,
 
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn

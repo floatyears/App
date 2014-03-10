@@ -184,6 +184,7 @@ public class TQuestGrid : ProtobufDataBase {
 	public EGridStar Star { get { return instance.star; } }
 	public EQuestGridType Type { get { return instance.type; } }
 	public uint	TrapId { get { return instance.trapId; } }
+	public int DropPos{get{return instance.dropPos;}}
 	public TrapBase	TrapInfo { get { 
 			if (!GlobalData.trapInfo.ContainsKey(instance.trapId) ) {
 //				UnityEngine.Debug.LogError("instance.trapId : " + instance.trapId);

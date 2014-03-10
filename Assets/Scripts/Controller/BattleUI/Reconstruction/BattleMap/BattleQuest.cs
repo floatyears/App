@@ -215,7 +215,6 @@ public class BattleQuest : UIBase {
 				break;
 			case EQuestGridType.Q_QUESTION:
 				battleMap.waitMove = true;
-//				Debug.LogError(Time.realtimeSinceStartup + " Q_TRAP : " + battleMap.waitMove);
 				battleMap.RotateAnim(MeetQuestion);
 				break;
 			case EQuestGridType.Q_EXCLAMATION : 
@@ -223,7 +222,6 @@ public class BattleQuest : UIBase {
 				battleMap.RotateAnim(MapItemExclamation);
 				break;
 			default:
-//				Debug.LogError("RoleCoordinate default : " + currentMapData.Type);
 				battleMap.waitMove = false;
 				MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 					break;
@@ -232,11 +230,9 @@ public class BattleQuest : UIBase {
 	}
 
 	void GridEnd(object data) {
-
 		if (currentMapData.Drop != null && currentMapData.Drop.DropId != 0) {
 			questData.getUnit.Add (currentMapData.Drop.DropId);	
 		}
-
 	}
 
 	void MeetQuestion () {
