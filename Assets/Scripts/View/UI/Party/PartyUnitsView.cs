@@ -228,7 +228,8 @@ public class PartyUnitsView : UIComponentUnity {
 	void RefreshDragPanel(object args){
 //		ClearDragItem();
 //		List<TUserUnit> itemDataList = args as List<TUserUnit>;
-//		dragItemViewDic.Clear();
+////		dragItemViewDic.Clear();
+//		List<Texture2D> textureList = new List<Texture2D>();
 	}
 
 
@@ -249,7 +250,9 @@ public class PartyUnitsView : UIComponentUnity {
 		}
 	}
 
+	List<TUserUnit> GetTextureList(List<TUserUnit> tuuList){
 
+	}
 }
 
 
