@@ -28,12 +28,12 @@ public class UnitBriefInfoLogic : ConcreteComponent {
 
         void ReceiveShowBriefRquest(object msg){
 
-		Debug.Log("SelectInfoUILogic.ReceiveShowBriefRquest(), receive command, to show unit brief Info...");
+		Debug.Log("UnitBriefInfoLogic.ReceiveShowBriefRquest(), receive command, to show unit brief Info...");
 
 		BriefUnitInfo briefInfo = msg as BriefUnitInfo;
 		lastMsgFrom = briefInfo.tag;
 
-		Debug.LogError("SelectInfoUILogic.ReceiveShowBriefRquest(), lastMsgFrom is " + lastMsgFrom);
+		Debug.LogError("UnitBriefInfoLogic.ReceiveShowBriefRquest(), lastMsgFrom is " + lastMsgFrom);
 
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshPanelView", briefInfo.data);
 
@@ -44,38 +44,40 @@ public class UnitBriefInfoLogic : ConcreteComponent {
 	public override void Callback(object data){
 		base.Callback(data);
 
-		CallBackDispatcherArgs cbd = data as CallBackDispatcherArgs;
+		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
-		switch (cbd.funcName){
+		switch (cbdArgs.funcName){
 			case "Choose" : 
-				SendBackChooseMsg();
+				CallBackDispatcherHelper.DispatchCallBack(SendBackChooseMsg, cbdArgs);
 				break;
 			case "ViewDetailInfo" : 
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFocusUnitDetail, null);
 				break;
-
 			default:
 				break;
 		}
 	}
 	
-	void SendBackChooseMsg(){
+	void SendBackChooseMsg(object args){
 		if(lastMsgFrom == null){
-			Debug.LogError("SelectInfoUILogic.SendBackChooseMsg(), lastMsgFrom is NULL, return!!!");
+			Debug.LogError("UnitBriefInfoLogic.SendBackChooseMsg(), lastMsgFrom is NULL, return!!!");
 			return;
 		}
 
 		if(lastMsgFrom == "PartyItem"){
+			Debug.Log("UnitBriefInfoLogic.SendBackChooseMsg(), receive choose button click, activate the function of partying...");
 			MsgCenter.Instance.Invoke(CommandEnum.EnsureFocusOnPartyItem, null);
 			MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
 		}
 
-		if(lastMsgFrom == "MyUnitItem")
+		if(lastMsgFrom == "MyUnitItem"){
+			Debug.Log("UnitBriefInfoLogic.SendBackChooseMsg(), receive choose button click, message to party panel replace item...");
 			MsgCenter.Instance.Invoke(CommandEnum.EnsureSubmitUnitToParty, null);
+		}
 
 		lastMsgFrom = null;
 
-		Debug.LogError("SelectInfoUILogic.SendBackChooseMsg(), End...");
+		Debug.LogError("UnitBriefInfoLogic.SendBackChooseMsg(), End...");
 	}
 
 

@@ -1,4 +1,4 @@
-﻿using bbproto;
+using bbproto;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,13 +25,13 @@ public class PartyInfoLogic : ConcreteComponent {
 
 	void AddCmdListener(){
 		Debug.Log("PartyInfoUILogic.AddCmdListener(), Start...");
-		MsgCenter.Instance.AddListener(CommandEnum.UpdatePartyInfoPanel, Recive);
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyPanelInfo, Recive);
 		Debug.Log("PartyInfoUILogic.AddCmdListener(), End...");
 	}
 
 	void RmvCmdListener(){
 		Debug.Log("PartyInfoUILogic.RmvCmdListener(), Start...");
-		MsgCenter.Instance.RemoveListener(CommandEnum.UpdatePartyInfoPanel, Recive);
+		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyPanelInfo, Recive);
 		Debug.Log("PartyInfoUILogic.RmvCmdListener(), End...");
 	}
 

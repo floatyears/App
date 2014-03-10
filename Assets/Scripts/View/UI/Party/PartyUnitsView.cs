@@ -7,7 +7,7 @@ public class PartyUnitsView : UIComponentUnity {
 	bool exchange = false;
         List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	Dictionary<GameObject, TUserUnit> myUnitInfoDic = new Dictionary<GameObject, TUserUnit>();
+	Dictionary<GameObject, TUserUnit> dragItemViewDic = new Dictionary<GameObject, TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -18,9 +18,9 @@ public class PartyUnitsView : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 
-//		InvokeCrossShow(0.1f, 1.0f);
-//		OnLightDragItem(true);
-//		ShowTween();
+		InvokeCrossShow(0.1f, 1.0f);
+		OnLightDragItem(true);
+		ShowTween();
 	}
 
 	public override void HideUI(){
@@ -55,6 +55,15 @@ public class PartyUnitsView : UIComponentUnity {
 		FillDragPanel( dragPanel );
 
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
+
+//		string rootPath = "Prefabs/UI/Friend/";
+//		GameObject unitItem = Resources.Load(rootPath + "UnitItem") as GameObject;
+//		GameObject rejectItem = Resources.Load(rootPath + "RejectItem") as GameObject;
+//
+//		InitDragPanelArgs();
+//		dragPanel = new DragPanel("UnitScroller", unitItem);
+//		dragPanel.CreatUI();
+//		dragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 
 	protected DragPanel CreateDragPanel( string name, int count, GameObject item){
@@ -80,7 +89,7 @@ public class PartyUnitsView : UIComponentUnity {
 			}
 
 			TUserUnit uuItem = userUnitInfoList[ i - 1 ] ;
-			myUnitInfoDic.Add( scrollItem, uuItem );
+			dragItemViewDic.Add( scrollItem, uuItem );
 			
 			StoreLabelInfo( scrollItem);
 			ShowItem( scrollItem );
@@ -93,27 +102,27 @@ public class PartyUnitsView : UIComponentUnity {
 		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		
-		uint uid = myUnitInfoDic[item].UnitID;
+		uint uid = dragItemViewDic[item].UnitID;
 		avatarTex.mainTexture = GlobalData.unitInfo[ uid ].GetAsset(UnitAssetType.Avatar);
 		
-		int addAttack = myUnitInfoDic[ item ].AddAttack;
+		int addAttack = dragItemViewDic[ item ].AddAttack;
 
-		int addHp = myUnitInfoDic[ item ].AddHP;
+		int addHp = dragItemViewDic[ item ].AddHP;
 
-		int level = myUnitInfoDic[ item ].Level;
+		int level = dragItemViewDic[ item ].Level;
 
 		int addPoint = addAttack + addHp;
 	}
 
 	void ClickItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ItemClick", myUnitInfoDic[ item ]);
+		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ItemClick", dragItemViewDic[ item ]);
 		LogHelper.Log("PartyUnitsView.ClickDragItem(), click drag item, call view respone...");
 		ExcuteCallback( cbd );
 	}
 
 	void PressItem(GameObject item ){
-		TUserUnit unitInfo = myUnitInfoDic[ item ];
+		TUserUnit unitInfo = dragItemViewDic[ item ];
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);	
 	}
@@ -129,7 +138,7 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void StoreLabelInfo(GameObject item){
-		TUserUnit tuu = myUnitInfoDic[ item ];
+		TUserUnit tuu = dragItemViewDic[ item ];
 		UnitInfoStruct infoStruct = new UnitInfoStruct();
 		infoStruct.text1 = tuu.Level.ToString();
 		infoStruct.text2 = (tuu.AddHP + tuu.AddAttack).ToString();
@@ -188,7 +197,7 @@ public class PartyUnitsView : UIComponentUnity {
 
         void OnLightDragItem(bool b){
 		LogHelper.Log("PartyUnitsView.ActivateAllMask(), Receive callBack from Logic, to activate panel...");
-		foreach (var item in myUnitInfoDic)
+		foreach (var item in dragItemViewDic)
 			ShowMask(item.Key, b);
 
 		LogHelper.Log("PartyUnitsView.ActivateAllMask(), End...");
@@ -203,15 +212,43 @@ public class PartyUnitsView : UIComponentUnity {
 	
 	public override void Callback(object data){
 		base.Callback(data);
-		CallBackDispatcherArgs cbd = data as CallBackDispatcherArgs;
-		switch (cbd.funcName){
+		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (cbdArgs.funcName){
 			case "activate" : 
-                        OnLightDragItem(false);
-                        break; 
-                default:
-                        break;
+				OnLightDragItem(false);
+                        	break; 
+			case "RefreshDragList" : 
+				CallBackDispatcherHelper.DispatchCallBack(RefreshDragPanel, cbdArgs);
+				break;
+			default:
+                        	break;
                 }	
         }
+
+	void RefreshDragPanel(object args){
+//		ClearDragItem();
+//		List<TUserUnit> itemDataList = args as List<TUserUnit>;
+//		dragItemViewDic.Clear();
+	}
+
+
+	void ClearDragItem(){
+		Debug.LogError("ClearDragItem(), Clear Before : Drag Item Count is : " + dragPanel.ScrollItem.Count);
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			GameObject dragItem = dragPanel.ScrollItem[ i ];
+			dragPanel.RemoveItem(dragItem);
+		}
+		Debug.LogError("ClearDragItem(), Clear After : Drag Item Count is : " + dragPanel.ScrollItem.Count);
+	}
+
+	void AddDragItem(List<Texture2D> texList){
+		for(int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			GameObject dragItem = dragPanel.ScrollItem[ i ];
+			UITexture uiTexture = dragItem.transform.FindChild( "Texture_Avatar").gameObject.GetComponent<UITexture>();
+			uiTexture.mainTexture = texList[ i ];
+		}
+	}
+
 
 }
 

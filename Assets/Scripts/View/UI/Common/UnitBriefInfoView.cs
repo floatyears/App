@@ -76,8 +76,8 @@ public class UnitBriefInfoView : UIComponentUnity {
 
 	void Choose(GameObject btn){
 
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("Choose", null);
-		ExcuteCallback( cbd );
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Choose", null);
+		ExcuteCallback( cbdArgs );
 		ShowSelf(false);
 	}
 

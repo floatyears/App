@@ -147,7 +147,7 @@ public enum CommandEnum
 	UpdateNickName			= 4011,
 	ErrorMsgShow				= 4012,
 	ShowUnitBriefInfo			= 4013,
-	UpdatePartyInfoPanel			= 4014,
+	RefreshPartyPanelInfo			= 4014,
 	ShowFocusUnitDetail			= 4015,
 	NoticeFuncParty				= 4016,
 	OnPartySelectUnit			= 4017,
@@ -158,12 +158,11 @@ public enum CommandEnum
 	EnsureFocusOnPartyItem		= 4022,
 	EnsureSubmitUnitToParty		= 4023,
 	ReplacePartyFocusItem		= 4024,
-	RejectPartyPageFocusItem		= 4025,
-
-
 	BaseAlreadySelect			= 4025,
 	MaterialSelect				= 4026,
 	ShieldMaterial				= 4027,
+	RejectPartyPageFocusItem		= 4028,
+	RefreshPartyUnitList			= 4029,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

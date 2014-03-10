@@ -169,6 +169,11 @@ public class PartyPageView : UIComponentUnity {
 		Debug.Log("PartyPagePanel.SetHighLight() : End...");
 	}
 
+	
+	void OnLightSprite(GameObject target){
+		target.transform.FindChild("High_Light").gameObject.SetActive(false);
+	}
+
 	void ShowTween(){
 		TweenPosition[ ] list = 
 			gameObject.GetComponentsInChildren< TweenPosition >();
@@ -182,7 +187,7 @@ public class PartyPageView : UIComponentUnity {
 		}
 	}
 
-	void RefreshIndexLabel(object args){
+	void RefreshIndexView(object args){
 		int index = ( int )args;
 		Debug.Log("PartyPagePanel.RefreshIndexLabel(), index is " + index);	
 		
@@ -191,12 +196,13 @@ public class PartyPageView : UIComponentUnity {
 		curPartyIndexLabel.text = index.ToString();
 	}
 	
-	void RefreshItemTexture(object args){
+	void RefreshItemView(object args){
 		List<Texture2D> tex2dList = args as List<Texture2D>;
 		Debug.Log("PartyPagePanel.UpdateTexture(), Start...");
 		for (int i = 0; i < tex2dList.Count; i++) {
 			if(tex2dList[ i ] == null){
-				Debug.LogError(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] source is null, do nothing!", i));
+				Debug.LogError(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] data is null, clear!", i));
+				texureList[ i ].mainTexture = null;
 				continue;
 			} 
 			else {
@@ -204,6 +210,11 @@ public class PartyPageView : UIComponentUnity {
 				Debug.Log(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] texture is showing", i));
 			}
 		}
+
+		foreach (var item in itemDic){
+			OnLightSprite(item.Key);
+		}
+
 		Debug.Log("PartyPagePanel.UpdateTexture(), End...");
 	}
 
@@ -213,11 +224,11 @@ public class PartyPageView : UIComponentUnity {
 		
 		switch ( cbdArgs.funcName ){
 			case "RefreshPartyIndexView" : 
-				CallBackDispatcherHelper.DispatchCallBack(RefreshIndexLabel, cbdArgs);
+				CallBackDispatcherHelper.DispatchCallBack(RefreshIndexView, cbdArgs);
 				break;
 			case "RefreshPartyItemView" : 
-				CallBackDispatcherHelper.DispatchCallBack(RefreshItemTexture, cbdArgs);
-                        break;
+				CallBackDispatcherHelper.DispatchCallBack(RefreshItemView, cbdArgs);
+                        	break;
                	 	case "LightCurSprite" :
 				CallBackDispatcherHelper.DispatchCallBack(SetHighLight, cbdArgs);
                         	break;
@@ -238,6 +249,13 @@ public class PartyPageView : UIComponentUnity {
 
 	void ClearItemView(object args){
 		int position = (int)args;
+		Debug.LogError("ClearItemView, to clear position : " + position);
+		foreach (var item in itemDic){
+			if(item.Value == position){
+				item.Key.transform.FindChild("role").GetComponent<UITexture>().mainTexture = null;
+			}
+		}
+
 		Debug.Log("PartyPagePanel.ClearItemView(), receive the call, to clear the view of item " + position);
 	}
 
