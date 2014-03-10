@@ -24,9 +24,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	
 	UnitItemInfo baseUnitInfo;
 	UnitItemInfo[] unitItemInfo = new UnitItemInfo[4];
-
 	TUserUnit friendUnitInfo;
-	List<TUserUnit> materialUnitInfo = new List<TUserUnit>();
+//	List<TUserUnit> materialUnitInfo = new List<TUserUnit>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		InitUI();
@@ -132,8 +131,11 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	void ClearData(){
 		baseUnitInfo = null;
+	
 		friendUnitInfo = null;
-		materialUnitInfo.Clear();
+		for (int i = 0; i < unitItemInfo.Length; i++) {
+			unitItemInfo[i] = null;
+		}
 	}
 	
 	void InitTab()	{
@@ -227,15 +229,15 @@ public class LevelUpReadyPanel: UIComponentUnity {
 //		MsgCenter.Instance.RemoveListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
 	}
 	
-	void EnableLevelUp(object info){
-		Dictionary<string, object> levelUpInfo = PackLevelUpInfo();
-		if( levelUpInfo == null){	
-			levelUpButton.isEnabled = false;
-		}
-		else{
-			levelUpButton.isEnabled = true;
-		}
-	}
+//	void EnableLevelUp(object info){
+//		Dictionary<string, object> levelUpInfo = PackLevelUpInfo();
+//		if( levelUpInfo == null){	
+//			levelUpButton.isEnabled = false;
+//		}
+//		else{
+//			levelUpButton.isEnabled = true;
+//		}
+//	}
 	
 	void InitButton(){
 		levelUpButton = FindChild<UIImageButton>("Button_LevelUp");
@@ -344,21 +346,21 @@ public class LevelUpReadyPanel: UIComponentUnity {
 //
 //	}
 
-	Dictionary<string, object> PackLevelUpInfo(){
-		//condition : exist base && material && friend
-		if(baseUnitInfo == null)		
-			return null;
-		if(friendUnitInfo == null)	
-			return null;
-		if( materialUnitInfo.Count < 1)
-			return null;
-		Dictionary<string, object> levelUpInfo = new Dictionary<string, object>();
-		levelUpInfo.Add("BaseInfo", baseUnitInfo);
-		levelUpInfo.Add("FriendInfo", friendUnitInfo);
-		levelUpInfo.Add("MaterialInfo",materialUnitInfo);
-
-		return levelUpInfo;
-	}
+//	Dictionary<string, object> PackLevelUpInfo(){
+//		//condition : exist base && material && friend
+//		if(baseUnitInfo == null)		
+//			return null;
+//		if(friendUnitInfo == null)	
+//			return null;
+//		if( materialUnitInfo.Count < 1)
+//			return null;
+//		Dictionary<string, object> levelUpInfo = new Dictionary<string, object>();
+//		levelUpInfo.Add("BaseInfo", baseUnitInfo);
+//		levelUpInfo.Add("FriendInfo", friendUnitInfo);
+//		levelUpInfo.Add("MaterialInfo",materialUnitInfo);
+//
+//		return levelUpInfo;
+//	}
 
 }
 

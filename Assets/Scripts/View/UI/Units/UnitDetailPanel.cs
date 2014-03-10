@@ -98,17 +98,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void InitTabStatus() {
 		string rootPath = "UnitInfoTabs/Content_Status/";
 
-		noLabel				= FindChild<UILabel> (rootPath + "InputFrame_No"		);
+		noLabel			= FindChild<UILabel> (rootPath + "InputFrame_No"	);
 		nameLabel		= FindChild<UILabel> (rootPath + "InputFrame_Name"	);
-		levelLabel		= FindChild<UILabel> (rootPath + "InputFrame_Lv"		);
+		levelLabel		= FindChild<UILabel> (rootPath + "InputFrame_Lv"	);
 		typeLabel		= FindChild<UILabel> (rootPath + "InputFrame_Type"	);
 		raceLabel		= FindChild<UILabel> (rootPath + "InputFrame_Race"	);
-		hpLabel		= FindChild<UILabel> (rootPath + "InputFrame_HP"		);
+		hpLabel			= FindChild<UILabel> (rootPath + "InputFrame_HP"	);
 		costLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Cost"	);
 		rareLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Rare"	);
 		atkLabel 		= FindChild<UILabel> (rootPath + "InputFrame_ATK"	);
 		needExpLabel	= FindChild<UILabel>( rootPath + "Label_Exp_Need"	);
-		expSlider		= FindChild<UISlider>	(rootPath + "ExperenceBar"		);
+		expSlider		= FindChild<UISlider>	(rootPath + "ExperenceBar"	);
 
 		statusToggle = FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
 	}
@@ -119,10 +119,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		// skill_1
 		rootPath 				=  "UnitInfoTabs/Content_Skill1/Label_Vaule/";
-		leaderSkillNameLabel		= FindChild<UILabel>(rootPath + "Leader_Skill");
-		leaderSkillDscpLabel		= FindChild<UILabel>(rootPath + "Leader_Skill_Dscp");
-		activeSkillNameLabel		= FindChild<UILabel>(rootPath + "Active_Skill");
-		activeSkillDscpLabel		= FindChild<UILabel>(rootPath + "Active_Skill_Dscp");
+		leaderSkillNameLabel	= FindChild<UILabel>(rootPath + "Leader_Skill");
+		leaderSkillDscpLabel	= FindChild<UILabel>(rootPath + "Leader_Skill_Dscp");
+		activeSkillNameLabel	= FindChild<UILabel>(rootPath + "Active_Skill");
+		activeSkillDscpLabel	= FindChild<UILabel>(rootPath + "Active_Skill_Dscp");
 		// skill_2
 		rootPath 				= "UnitInfoTabs/Content_Skill2/Label_Vaule/";
 		normalSkill1NameLabel	= FindChild<UILabel>(rootPath + "Normal_Skill1");
@@ -170,9 +170,15 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	//----------deal with effect----------
 	void ClearEffectCache(){
-		foreach (var item in effectCache){
-			Destroy( item );
-			effectCache.Remove(item);
+//		foreach (var item in effectCache){
+//			Destroy( item );
+//			effectCache.Remove(item);
+//		}
+
+		for (int i = effectCache.Count - 1; i >= 0 ; i--) {
+			GameObject go = effectCache[i];
+			Destroy( go );
+			effectCache.Remove(go);
 		}
 	}
 
@@ -308,6 +314,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		profileLabel.text = unitInfo.Profile;
 	}
 
+	//--------------interface function-------------------------------------
 	public void Callback(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
 		if (userUnit != null) {
@@ -320,10 +327,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			PlayLevelUp(rlu);
 		}
 	}
+
+	//------------------levelup-----------------------------------------
 	RspLevelUp levelUpData;
 	void PlayLevelUp(RspLevelUp rlu) {
 		levelUpData = rlu;
+//		Debug.LogError ("levelUpData.blendExp : " + levelUpData.blendExp);
+//		Debug.LogError ("levelUpData.blendUniqueId : " + levelUpData.blendUniqueId);
+//		Debug.LogError ("levelUpData.money : " + levelUpData.money);
+//		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
 		unitInfoTabs.SetActive (false);
+
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}
 
@@ -333,8 +347,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		if (effectCache.Count > 2) {
 			CancelInvoke("CreatEffect");
+			unitInfoTabs.SetActive (true);
 		}
 	}
+	
+	//------------------end-----------------------------------------
 
 	void ShowInfo(TUserUnit userUnit) {
 		ShowBodyTexture( userUnit ); 

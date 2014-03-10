@@ -6,9 +6,15 @@ public class AttackController {
 	private MsgCenter msgCenter;
 	private BattleUseData bud;
 	private List<AttackInfo> attackInfo = new List<AttackInfo>();
+
 	public List<TEnemyInfo> enemyInfo = new List<TEnemyInfo>();
 	private TUnitParty upi;
 	private float countDownTime = 0f;
+	private TQuestGrid grid;
+	public TQuestGrid Grid {
+		get{return grid;}
+		set{grid = value; enemyInfo = value.Enemy;}
+	}
 	IExcutePassiveSkill passiveSkill;
 
 	public AttackController (BattleUseData bud,IExcutePassiveSkill ips) {
