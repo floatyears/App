@@ -26,10 +26,11 @@ public class ConfigUnitInfo {
 			uiitem.powerType.attackType = TPowerTableInfo.UnitInfoAttackType1;
 			uiitem.powerType.expType = TPowerTableInfo.UnitInfoExpType1;
 			uiitem.powerType.hpType = TPowerTableInfo.UnitInfoHPType1;
-			uiitem.cost = (i % 5);
-			uiitem.race 		= (EUnitRace)(i%6);
+			uiitem.cost = (i % 5) + 1;
+			uiitem.race 		= (EUnitRace)(i%7) + 1;
 			uiitem.rare 		= i%6;
 			uiitem.maxLevel 	= 10;
+			uiitem.devourValue = UnityEngine.Random.Range(1, 5) * 100;
 			if(i == 1){
 				uiitem.leaderSkill = 21;
 				uiitem.activeSkill = 32;
@@ -44,13 +45,11 @@ public class ConfigUnitInfo {
 			uiitem.passiveSkill = 49;
 			TUnitInfo tui = new TUnitInfo(uiitem);
 			GlobalData.unitInfo.Add(uiitem.id, tui);
+
+			tui.SerialToFile();
 		}
 
-//		GlobalData.unitInfo [1].unitBaseInfoID = 181;
-//		GlobalData.unitInfo [2].unitBaseInfoID = 85;
-//		GlobalData.unitInfo [3].unitBaseInfoID = 89;
-//		GlobalData.unitInfo [4].unitBaseInfoID = 80;
-//		GlobalData.unitInfo [5].unitBaseInfoID = 87;
+	
 	}
 
 	//Lynn Add

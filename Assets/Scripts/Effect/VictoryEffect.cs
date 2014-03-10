@@ -90,7 +90,7 @@ public class VictoryEffect : UIBaseUnity {
 	}
 
 	IEnumerator UpdateLevelNumber () {
-//		Debug.LogError ("UpdateLevelNumber gotExp : " + gotExp);
+		Debug.LogError ("UpdateLevelNumber gotExp : " + gotExp);
 		while (gotExp > 0) {
 			float addNum = gotExp - add;
 			Debug.LogError ("UpdateLevelNumber addNum : " + addNum);
@@ -147,10 +147,10 @@ public class VictoryEffect : UIBaseUnity {
 //	}
 	
 	public void ShowInfo(VictoryInfo vi) {
-		coinNumber = vi.Coin;
-		empireNumber = vi.maxEmpire;
-		StartCoroutine( UpdateCoinNumber (vi.startCoin, coinNumber));
-		StartCoroutine (UpdateLevelNumber (vi.currentEmpire, empireNumber));
+//		coinNumber = vi.Coin;
+//		empireNumber = vi.maxEmpire;
+//		StartCoroutine( UpdateCoinNumber (vi.startCoin, coinNumber));
+//		StartCoroutine (UpdateLevelNumber (vi.currentEmpire, empireNumber));
 	}
 	VictoryInfo tempVictory;
 	public void PlayAnimation (Callback callback,VictoryInfo vi) {
@@ -194,7 +194,7 @@ public class VictoryEffect : UIBaseUnity {
 	
 	void StartRotateWing () {
 		canPlayAnimation = true;
-		ShowInfo (tempVictory);
+//		ShowInfo (tempVictory);
 		iTween.RotateTo(leftWing.gameObject,iTween.Hash("rotation",leftWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"delay",0.3f));
 		iTween.RotateTo(rightWing.gameObject,iTween.Hash("rotation",rightWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"oncomplete","PlayNext","oncompletetarget",gameObject,"delay",0.3f));
 	}

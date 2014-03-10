@@ -130,6 +130,7 @@ public enum CommandEnum
 	StateInfo					= 3048,
 	StopInput					= 3049,
 	GridEnd						= 3050,
+	DropItem					= 3051,
 
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
@@ -161,9 +162,9 @@ public enum CommandEnum
 	RejectPartyPageFocusItem		= 4025,
 
 
-	BaseAlreadySelect			= 4025,
-	MaterialSelect				= 4026,
-	ShieldMaterial				= 4027,
+	BaseAlreadySelect			= 4026,
+	MaterialSelect				= 4027,
+	ShieldMaterial				= 4028,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

@@ -41,8 +41,7 @@ public class BattleMap : UIBaseUnity {
 		box.SetActive (false);
 	}
 
-	public override void CreatUI ()
-	{
+	public override void CreatUI () {
 		LogHelper.Log("battle map creat ui" );
 		base.CreatUI ();
 		//StartMap ();
@@ -162,7 +161,7 @@ public class BattleMap : UIBaseUnity {
 		for (int i = 0; i < map.GetLength(0); i++) {
 			for (int j = 0; j < map.GetLength(1); j++) {
 				map[i,j].RotateOneCircle();
-				yield return 2;
+				yield return 3 ;
 			}
 		}
 	}
