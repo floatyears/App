@@ -159,6 +159,7 @@ public enum CommandEnum
 	EnsureFocusOnPartyItem		= 4022,
 	EnsureSubmitUnitToParty		= 4023,
 	ReplacePartyFocusItem		= 4024,
+	RejectPartyPageFocusItem		= 4025,
 
 
 	BaseAlreadySelect			= 4025,
