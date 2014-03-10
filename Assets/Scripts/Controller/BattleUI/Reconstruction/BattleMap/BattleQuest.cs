@@ -52,6 +52,7 @@ public class BattleQuest : UIBase {
 		AddSelfObject (background);
 
 		questData = new ClearQuestParam ();
+		questData.questId = questDungeonData.QuestId;
 	}
 
 	void InitData() {
@@ -349,6 +350,7 @@ public class BattleQuest : UIBase {
 
 	void RequestData () {
 		INetBase netBase = new ClearQuest ();
+
 		netBase.OnRequest (questData, ResponseClearQuest);
 	}
 

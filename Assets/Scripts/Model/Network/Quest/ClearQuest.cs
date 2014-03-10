@@ -86,6 +86,12 @@ public class ClearQuest: ProtoManager {
 		if ( data != null ) {
 			TRspClearQuest cq = new TRspClearQuest();
 			rspClearQuest = data as RspClearQuest;
+			if (rspClearQuest.header.code != 0 ){ 
+				Debug.LogError("Response info is error : " + rspClearQuest.header.error + " header code : " + rspClearQuest.header.code);
+				base.OnResposeEnd( null );
+				return;
+			}
+			Debug.LogError("RspClearQuest : " + rspClearQuest.rank + "  rspClearQuest.exp : " +rspClearQuest.exp + " rspClearQuest.money : " +rspClearQuest.money );
 			cq.rank 		= rspClearQuest.rank;
 			cq.exp 			= rspClearQuest.exp;
 			cq.money 		= rspClearQuest.money;
@@ -98,7 +104,9 @@ public class ClearQuest: ProtoManager {
 			cq.gotChip		= rspClearQuest.gotChip;
 			cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
 			foreach (UserUnit uu in rspClearQuest.gotUnit ) {
+
 				TUserUnit tuu = new TUserUnit(uu);
+				Debug.LogError("tuu : " + tuu.ID);
 				cq.gotUnit.Add(tuu);
 			}
 
@@ -111,11 +119,12 @@ public class ClearQuest: ProtoManager {
 
 	protected override void OnReceiveCommand(object data) {
 		questParam = data as ClearQuestParam;
+//		Debug.LogError ("clear quest : " + questParam);
 		if (questParam == null) {
 			LogHelper.Log ("ClearQuest: Invalid param data.");
 			return;
 		}
-
+//		Debug.LogError ("OnReceiveCommand");
 		LogHelper.Log ("OnReceiveCommand(ClearQuest): questId:{0} getMoney:{1} getUnit.count:{2} hitGrid.count{3}",
 		               questParam.questId, questParam.getMoney, questParam.getUnit.Count, questParam.hitGrid.Count);
 

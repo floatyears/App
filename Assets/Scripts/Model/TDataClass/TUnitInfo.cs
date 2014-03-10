@@ -1,5 +1,6 @@
 ﻿ using bbproto;
 using UnityEngine;
+using System.IO;
 using System.Collections.Generic;
 
 public class TUnitInfo : ProtobufDataBase {
@@ -203,5 +204,17 @@ public class TUnitInfo : ProtobufDataBase {
 		
 	}
 	
-	
+
+	public void SerialToFile () {
+		byte[] unitinfo = SerializeObject<UnitInfo> (instance);
+//		Debug.LogError (unitinfo.Length);
+		FileStream fs = new FileStream (("/Users/leiliang/Desktop/protobuf-unitinfo/" + instance.id), FileMode.OpenOrCreate, FileAccess.Write);
+		fs.Write (unitinfo, 0, unitinfo.Length);
+		fs.Close ();
+//		StreamWriter sw = new StreamWriter (("/Users/leiliang/Desktop/protobuf-unitinfo/" + instance.id), false);
+//		sw.Write (unitinfo);
+//		sw.Close ();
+	}
+
+
 }

@@ -60,7 +60,7 @@ public class PartyPageLogic : ConcreteComponent{
 
 	void RejectCurrentFocusPartyMember(object msg){
 		LogHelper.Log("PartyPageUILogic.RejectCurrentFocusPartyMember(), Receive message from PartyDragPanel...");
-
+		Debug.LogError ("msg : " + msg);
 		//Notice server to update data
 		uint focusUnitUniqueId = GlobalData.partyInfo.CurrentParty.GetUserUnit()[ currentFoucsPosition - 1 ].ID;
 		GlobalData.partyInfo.ChangeParty( 0, focusUnitUniqueId );

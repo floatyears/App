@@ -90,7 +90,7 @@ public class VictoryEffect : UIBaseUnity {
 	}
 
 	IEnumerator UpdateLevelNumber () {
-//		Debug.LogError ("UpdateLevelNumber gotExp : " + gotExp);
+		Debug.LogError ("UpdateLevelNumber gotExp : " + gotExp);
 		while (gotExp > 0) {
 			float addNum = gotExp - add;
 			Debug.LogError ("UpdateLevelNumber addNum : " + addNum);

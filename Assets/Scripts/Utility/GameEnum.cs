@@ -162,9 +162,9 @@ public enum CommandEnum
 	RejectPartyPageFocusItem		= 4025,
 
 
-	BaseAlreadySelect			= 4025,
-	MaterialSelect				= 4026,
-	ShieldMaterial				= 4027,
+	BaseAlreadySelect			= 4026,
+	MaterialSelect				= 4027,
+	ShieldMaterial				= 4028,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

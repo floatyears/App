@@ -1,7 +1,7 @@
 ﻿using System;
 
 public class ProtobufDataBase : IOriginModel {
-	protected byte[] originData;
+	public byte[] originData;
 
 	private ErrorMsg errorMsgInfo = null;
 

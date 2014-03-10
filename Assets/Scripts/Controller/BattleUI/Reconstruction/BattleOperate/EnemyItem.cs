@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class EnemyItem : UIBaseUnity {
-	private TEnemyInfo enemyInfo;
+	[HideInInspector]
+	public TEnemyInfo enemyInfo;
 	[HideInInspector]
 	public UITexture texture;
 	private UITexture dropTexture;
@@ -137,15 +138,14 @@ public class EnemyItem : UIBaseUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		OnDisable ();
 
+		OnDisable ();
 		Destroy (gameObject);
 	}
-
+	
 	public void DropItem (object data) {
 		int pos = (int)data;
-		Debug.LogError ("pos : " + pos + " enemysymbol : " + enemyInfo.EnemySymbol);
-		if (pos == enemyInfo.EnemySymbol) {
+		if (pos == enemyInfo.EnemySymbol && !texture.enabled) {
 			dropTexture.enabled = true;
 			iTween.ShakeRotation (dropTexture.gameObject, iTween.Hash ("z",20,"time",0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
 			GameTimer.GetInstance ().AddCountDown (1f, DorpEnd);
@@ -165,6 +165,7 @@ public class EnemyItem : UIBaseUnity {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
 		//DestoryUI ();
 		texture.enabled = false;
+		nextLabel.text = "";
 //		DropItem ();
 	}
 	Queue<TEnemyInfo> tempQue = new Queue<TEnemyInfo>();
