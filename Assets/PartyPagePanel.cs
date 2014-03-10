@@ -243,11 +243,18 @@ public class PartyPagePanel : UIComponentUnity {
 				TUserUnit tuu4 = cbd.callBackContent as TUserUnit;
 				ReplaceItemView(4, tuu4 );
                         	break;
+			case "ClearItem" :
+				ClearItemView((int)cbd.callBackContent);
+				break;
                 default:
                         break;
                 }
                 
         }
+
+	void ClearItemView(int pos){
+		Debug.Log("PartyPagePanel.ClearItemView(), receive the call, to clear the view of item " + pos);
+	}
 
 	void ReplaceItemView(int pos, TUserUnit tuu){
 		Debug.Log("PartyPagePanel.ReplaceItemView(), Start...");

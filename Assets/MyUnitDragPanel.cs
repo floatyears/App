@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 public class MyUnitDragPanel : UIComponentUnity {
 
-	GameObject rejectItem;
 	DragPanel dragPanel;
 	bool exchange = false;
         List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
@@ -51,15 +50,16 @@ public class MyUnitDragPanel : UIComponentUnity {
 //		Debug.Log("My Unit Count : " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject unitItem =  Resources.Load( itemSourcePath ) as GameObject;
-		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject ;
-		
+		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject ;
+
 		InitDragPanelArgs();
 
 		dragPanel =new DragPanel("MyUnitDragPanel", unitItem);
 		dragPanel.CreatUI();
-		dragPanel.AddItem(1,rejectItem);
-		dragPanel.AddItem(unitCount,unitItem);
+		dragPanel.AddItem(1, rejectItem);
+		dragPanel.AddItem(unitCount, unitItem);
 		FillDragPanel( dragPanel );
+
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 
@@ -75,9 +75,15 @@ public class MyUnitDragPanel : UIComponentUnity {
 			Debug.LogError( "MyUnitDragPanel.FillDragPanel(), DragPanel is null, return!");
 			return;
 		}
+	
+		for( int i = 0; i < panel.ScrollItem.Count; i++){
 
-		for( int i = 1; i < panel.ScrollItem.Count; i++){
 			GameObject scrollItem = panel.ScrollItem[ i ];
+
+			if( i == 0 ){
+				UIEventListenerCustom.Get( scrollItem ).onClick = ClickRejectItem;
+				continue;
+			}
 
 			TUserUnit uuItem = userUnitInfoList[ i - 1 ] ;
 			myUnitInfoDic.Add( scrollItem, uuItem );
@@ -129,7 +135,7 @@ public class MyUnitDragPanel : UIComponentUnity {
 	}
 
 	void AddEventListener( GameObject item){
-		UIEventListener.Get( item ).onClick = ClickDragItem;
+		UIEventListenerCustom.Get( item ).onClick = ClickDragItem;
 		UIEventListenerCustom.Get( item ).LongPress = PressItem;
 	}
 
@@ -205,13 +211,19 @@ public class MyUnitDragPanel : UIComponentUnity {
 
 		LogHelper.Log("MyUnitDragPanel.ActivateAllMask(), Receive callBack from Logic, to activate panel...");
 
-		rejectItem.transform.FindChild("Mask").gameObject.SetActive( b );
+		//rejectItem.transform.FindChild("Mask").gameObject.SetActive( b );
 
 		foreach (var item in myUnitInfoDic){
 			ShowMask(item.Key, b);
 		}
 
 		LogHelper.Log("MyUnitDragPanel.ActivateAllMask(), End...");
+	}
+
+	void ClickRejectItem(GameObject go){
+		Debug.Log("MyUnitDragPanel.ClickRejectItem(), Receive reject item click, request logic...");
+		CallBackDeliver cbd = new CallBackDeliver("ClickReject", null);
+		ExcuteCallback(cbd);
 	}
 
 }

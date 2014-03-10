@@ -68,6 +68,9 @@ public class MyUnitDragUILogic : ConcreteComponent {
 				TUserUnit tuu = cbd.callBackContent as TUserUnit;
 				RspUnitPickFromView( tuu );
 				break;
+			case "ClickReject" :
+				SendRejectMessage();
+				break;
 			default:
 				break;
 		}
@@ -100,12 +103,11 @@ public class MyUnitDragUILogic : ConcreteComponent {
 		MsgCenter.Instance.Invoke(CommandEnum.ReplacePartyFocusItem, currentPickedUnit);
 	}
 
-	void RejectPartyItem(){
-		//notice sever reject data
-		int pos = 0;
-		GlobalData.partyInfo.ChangeParty( pos, 0);
+	void SendRejectMessage(){
+	
+		Debug.Log("MyUnitDragPanel.SendRejectMessage(), send the message that reject party current foucs member to PartyPage...");
 
-		//call view to empty
+		MsgCenter.Instance.Invoke(CommandEnum.RejectPartyPageFocusItem, null);
 	}
 
 

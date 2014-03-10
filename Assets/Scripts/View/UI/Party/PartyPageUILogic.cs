@@ -71,8 +71,14 @@ public class PartyPageUILogic : ConcreteComponent {
 			default:
 				break;
 		}
-				
+
+		if( GlobalData.partyInfo.CurrentParty == null ){
+			Debug.LogError("GlobalData.partyInfoCurrentParty == null, return...");
+			return;
+		}
+
 		int focusIndex = (int)curFocusState;
+		Debug.LogError("FocusIndex is : " + focusIndex);
 		TUserUnit curUnitInfo = GlobalData.partyInfo.CurrentParty.GetUserUnit()[ focusIndex - 1 ];
 		BriefUnitInfo briefInfo = new BriefUnitInfo("PartyItem", curUnitInfo);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
@@ -85,19 +91,31 @@ public class PartyPageUILogic : ConcreteComponent {
 		ExcuteCallback( cbd );
 
 	}
+
+	void RejectCurrentFocusPartyMember(object msg){
+		Debug.Log("PartyPageUILogic.RejectCurrentFocusPartyMember(), Receive message from PartyDragPanel...");
+
+		//Notice server to update data
+		uint focusUnitUniqueId = GlobalData.partyInfo.CurrentParty.GetUserUnit()[ (int)curFocusState - 1 ].ID;
+		GlobalData.partyInfo.ChangeParty( 0, focusUnitUniqueId );
+
+		//Notice view to clear
+		CallBackDeliver cbd = new CallBackDeliver("ClearItem", (int)curFocusState);
+		ExcuteCallback( cbd );
+	}
 	
 	void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.ShowFocusUnitDetail, ShowFocusUnitDetail);
 		MsgCenter.Instance.AddListener(CommandEnum.OnSubmitChangePartyItem, ReplaceFocusPartyItem);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureFocusOnPartyItem, EnsureFocusOnCurrentPick);
-		MsgCenter.Instance.AddListener(CommandEnum.ReplacePartyFocusItem, ReplaceFocusPartyItem);
+		MsgCenter.Instance.AddListener(CommandEnum.RejectPartyPageFocusItem, RejectCurrentFocusPartyMember);
 	}
 
 	void RemoveCommandListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFocusUnitDetail, ShowFocusUnitDetail);
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnSubmitChangePartyItem, ReplaceFocusPartyItem);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureFocusOnPartyItem, EnsureFocusOnCurrentPick);
-                MsgCenter.Instance.RemoveListener(CommandEnum.ReplacePartyFocusItem, ReplaceFocusPartyItem);
+		MsgCenter.Instance.AddListener(CommandEnum.RejectPartyPageFocusItem, RejectCurrentFocusPartyMember);
                 
         }
         
@@ -174,35 +192,34 @@ public class PartyPageUILogic : ConcreteComponent {
 		Debug.Log("PartyPageUILogic.NoticeInfoPanel(), End...");
 	}
 
-	void ReceiveClickEvent(int pos){
-		List<TUserUnit> tuuList = GlobalData.partyInfo.CurrentParty.GetUserUnit();
-		currentFocusUserUnit = tuuList[ pos ];
-//		currentFocusPos = pos + 1;
-
-		switch (UIManager.Instance.baseScene.CurrentScene){
-			case SceneEnum.Units : 
-				//do nothing
-				break;
-			case SceneEnum.FriendSelect :
-				//do nothing
-				break;
-			case SceneEnum.Party : 
-				BriefUnitInfo briefInfo = new BriefUnitInfo("page", currentFocusUserUnit );
-				NoticeShowUnitInfo(briefInfo);
-				break;
-			default:
-				break;
-		}
-	}
-
-	void NoticeShowUnitInfo(BriefUnitInfo briefinfo){
+//	void ReceiveClickEvent(int pos){
 //		List<TUserUnit> tuuList = GlobalData.partyInfo.CurrentParty.GetUserUnit();
-		if(briefinfo.data == null){
-			Debug.LogError("PartyPageUILogic.NoticeShowUnitInfo(), UnitInfo is Null, do nothing!");
-			return;
-		}
-		//MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefinfo);
-	}
+//		currentFocusUserUnit = tuuList[ pos ];
+//
+//		switch (UIManager.Instance.baseScene.CurrentScene){
+//			case SceneEnum.Units : 
+//				//do nothing
+//				break;
+//			case SceneEnum.FriendSelect :
+//				//do nothing
+//				break;
+//			case SceneEnum.Party : 
+//				BriefUnitInfo briefInfo = new BriefUnitInfo("page", currentFocusUserUnit );
+//				NoticeShowUnitInfo(briefInfo);
+//				break;
+//			default:
+//				break;
+//		}
+//	}
+
+//	void NoticeShowUnitInfo(BriefUnitInfo briefinfo){
+////		List<TUserUnit> tuuList = GlobalData.partyInfo.CurrentParty.GetUserUnit();
+//		if(briefinfo.data == null){
+//			Debug.LogError("PartyPageUILogic.NoticeShowUnitInfo(), UnitInfo is Null, do nothing!");
+//			return;
+//		}
+//		//MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefinfo);
+//	}
 
 	void ShowFocusUnitDetail(object data){
 		//Turn to UnitDetai Scene to show
