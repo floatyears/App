@@ -7,7 +7,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 	private bool pickableState;
 	private TUserUnit currentPickedUnit;
 
-	public PartyUnitsLogic(string uiName):base(uiName) {}
+	public PartyUnitsLogic(string uiName):base(uiName){}
 
 	public override void ShowUI(){
 		base.ShowUI();
@@ -41,8 +41,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 		pickableState = false;
 		LogHelper.Log("MyUnitDragUILogic.ResetDragUIState(), End...CanPick : " + pickableState);
 	}
-
-
+	
 	void ActivatePickableState(object data){
 		bool state = (bool)data;
 
