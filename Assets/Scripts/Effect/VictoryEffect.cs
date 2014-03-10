@@ -73,6 +73,7 @@ public class VictoryEffect : UIBaseUnity {
 		if (clearQuest == null) {
 			return;	
 		}
+
 		int nextEmp = GlobalData.userInfo.NextExp;
 		int maxEmp = clearQuest.exp;
 
@@ -81,7 +82,7 @@ public class VictoryEffect : UIBaseUnity {
 		currentExp = GlobalData.userInfo.CurRankExp;
 		currentTotalExp = GlobalData.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 		add = (float)gotExp / 10f;
-
+		Debug.LogError ("UpdateLevelNumber");
 		StartCoroutine (UpdateLevelNumber ());
 //		int curCoin = GlobalData.accountInfo.Money;
 //		int maxCoin = clearQuest.money;
@@ -89,8 +90,10 @@ public class VictoryEffect : UIBaseUnity {
 	}
 
 	IEnumerator UpdateLevelNumber () {
+//		Debug.LogError ("UpdateLevelNumber gotExp : " + gotExp);
 		while (gotExp > 0) {
 			float addNum = gotExp - add;
+			Debug.LogError ("UpdateLevelNumber addNum : " + addNum);
 			if (addNum <= 0) {
 				add = gotExp;
 			} else {
@@ -101,6 +104,8 @@ public class VictoryEffect : UIBaseUnity {
 			currentExp += add;
 			int showValue = (int)currentExp;
 			empiricalLabel.text = showValue.ToString ();
+			Debug.LogError ("UpdateLevelNumber showValue : " + addNum);
+//			Debug.LogError(empiricalLabel.text);
 			float progress = currentExp / currentTotalExp;
 			levelProgress.fillAmount = progress;
 			if(currentExp >= currentTotalExp) {

@@ -232,7 +232,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void GridEnd(object data) {
-		if (currentMapData.Drop.DropId != 0) {
+
+		if (currentMapData.Drop != null && currentMapData.Drop.DropId != 0) {
 			questData.getUnit.Add (currentMapData.Drop.DropId);	
 		}
 
@@ -252,8 +253,9 @@ public class BattleQuest : UIBase {
 			tei.EnemySymbol = (uint)i;
 			temp.Add(tei);
 		}
+
 //		 = questDungeonData.Boss; //bud.GetEnemyInfo(mapConfig.BossID);
-		bud.InitEnemyInfo (temp);
+		bud.InitBoss (questDungeonData.Boss);
 		battle.ShowEnemy(temp);
 	}
 
@@ -299,13 +301,13 @@ public class BattleQuest : UIBase {
 			tei.EnemySymbol = (uint)i;
 			temp.Add(tei);
 		}
-		bud.InitEnemyInfo (temp);
+		bud.InitEnemyInfo (currentMapData);
 		battle.ShowEnemy (temp);
 	}
 
 	void ShowBattle() {
 		if(battle == null) {	
-			battle = new Battle("Battle"); 
+			battle = new Battle("Battle");
 			battle.CreatUI();
 		}
 		if(battle.GetState == UIState.UIShow)
@@ -330,6 +332,7 @@ public class BattleQuest : UIBase {
 		obj.transform.localScale = tempScale;
 		VictoryEffect ve = obj.GetComponent<VictoryEffect>();
 		ve.Init("Victory");
+		Debug.LogError ("clearQuest : " + clearQuest);
 		ve.ShowData (clearQuest);
 		ve.PlayAnimation(QuestEnd,new VictoryInfo(100,0,0,100));
 	}

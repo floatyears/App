@@ -217,8 +217,16 @@ public class BattleUseData {
 //		return showEnemy;
 //	}
 
-	public void InitEnemyInfo(List<TEnemyInfo> enemyInfo) {
-		ac.enemyInfo = enemyInfo;
+//	public void InitEnemyInfo(List<TEnemyInfo> enemyInfo) {
+//		ac.enemyInfo = enemyInfo;
+//	}
+
+	public void InitEnemyInfo(TQuestGrid grid) {
+		ac.Grid = grid;
+	}
+
+	public void InitBoss(List<TEnemyInfo> boss) {
+		ac.enemyInfo = boss;
 	}
 
 	public List<AttackImageUtility> CaculateFight (int areaItem, int id) {

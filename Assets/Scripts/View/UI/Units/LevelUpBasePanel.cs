@@ -27,6 +27,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 	public override void ShowUI(){
 		AddListener();
+		ClearData ();
 		base.ShowUI();
 		this.gameObject.SetActive(true);
 
@@ -35,6 +36,22 @@ public class LevelUpBasePanel : UIComponentUnity {
 	public override void HideUI(){
 		RemoveListener();
 		base.HideUI();
+	}
+
+	void ClearData() {
+		for (int i = 0; i < partyItem.Count; i++) {
+			SetFalse(partyItem[i]);
+		}
+
+		for (int i = 0; i < materialItem.Count; i++) {
+			SetFalse(materialItem[i]);
+		}
+	}
+
+	void SetFalse(UnitItemInfo uii) {
+		uii.isSelect = false;
+		uii.stateLabel.text = "";
+		ShowMask (uii.scrollItem, false);
 	}
 
 	private void InitUI(){
@@ -146,7 +163,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	private void ClickBaseItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		UnitItemInfo uui = baseUnitInfoDic [item];
-		if (uui.isCollect) {
+		if (uui.isCollect || CheckIsMaterial(uui)) {
 			return;		
 		}
 
@@ -162,25 +179,24 @@ public class LevelUpBasePanel : UIComponentUnity {
 			return;	
 		}
 
-		if (selectMaterial.Count == 4) {
-			for (int i = 0; i < selectMaterial.Count; i++) {
-				if(selectMaterial[i].Equals(uui)) {
-					MsgCenter.Instance.Invoke (CommandEnum.PickBaseUnitInfo, uui);
-					return;
-				}
-			}
-
+		if (selectMaterial.Count == 4 && CheckIsMaterial(uui)) {
+			MsgCenter.Instance.Invoke (CommandEnum.PickBaseUnitInfo, uui);
 			return;
 		}
 
 		MsgCenter.Instance.Invoke (CommandEnum.PickBaseUnitInfo, uui);
 	}
 
-	void DisposeBaseClick(UnitItemInfo uui) {
-		if (!uui.isPartyItem) {
-			return;	
+	bool CheckIsMaterial(UnitItemInfo uii) {
+		for (int i = 0; i < selectMaterial.Count; i++) {
+			if(selectMaterial[i].Equals(uii)) {	
+				return true;
+			}
 		}
+		return false;
+	}
 
+	void DisposeBaseClick(UnitItemInfo uui) {
 		bool first = baseSelectItem != null;
 
 		if (first && !baseSelectItem.Equals(uui)) {
