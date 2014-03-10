@@ -352,8 +352,15 @@ public class UserUnitList {
 			Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
 			return null;
 		}
-//		Debug.LogError("uniqueId : " +uniqueId + " GlobalData.userInfo.UserId : " + GlobalData.userInfo.UserId);
 		return Get(GlobalData.userInfo.UserId, uniqueId);
+	}
+
+	public  void DelMyUnit(uint uniqueId) {
+		if (GlobalData.userInfo == null){
+			Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
+			return ;
+		}
+		Del(GlobalData.userInfo.UserId, uniqueId);
 	}
 
 	public  void Add(uint userId, uint uniqueId, TUserUnit uu) {

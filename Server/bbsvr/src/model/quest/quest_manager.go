@@ -154,7 +154,7 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 	userDetail.Quest.EndTime = proto.Uint32(common.Now())
 
 	//TODO: verity getMoney
-	*userDetail.Quest.GetMoney = getMoney
+	userDetail.Quest.GetMoney = proto.Int32(getMoney)
 
 	//verify getUnit
 	isAllValidUnit := true
@@ -224,7 +224,9 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 
 	gotMoney = *userDetail.Quest.GetMoney
 	gotExp = *userDetail.Quest.GetExp
-	gotFriendPt = *userDetail.Quest.GetFriendPoint
+	if userDetail.Quest.GetFriendPoint != nil {
+		gotFriendPt = *userDetail.Quest.GetFriendPoint
+	}
 
 	userDetail.Quest = nil
 

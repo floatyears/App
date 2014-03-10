@@ -2672,6 +2672,7 @@ type EvolveInfo struct {
 	EvolveUnitId     *int32         `protobuf:"varint,1,req,name=evolveUnitId" json:"evolveUnitId,omitempty"`
 	MaterialUnitId   []int32        `protobuf:"varint,2,rep,name=materialUnitId" json:"materialUnitId,omitempty"`
 	HelperRequire    *HelperRequire `protobuf:"bytes,3,opt,name=helperRequire" json:"helperRequire,omitempty"`
+	EvolveQuestId    *uint32        `protobuf:"varint,4,opt,name=evolveQuestId" json:"evolveQuestId,omitempty"`
 	XXX_unrecognized []byte         `json:"-"`
 }
 
@@ -2698,6 +2699,13 @@ func (m *EvolveInfo) GetHelperRequire() *HelperRequire {
 		return m.HelperRequire
 	}
 	return nil
+}
+
+func (m *EvolveInfo) GetEvolveQuestId() uint32 {
+	if m != nil && m.EvolveQuestId != nil {
+		return *m.EvolveQuestId
+	}
+	return 0
 }
 
 type ReqGetUnitResource struct {
@@ -2863,9 +2871,10 @@ func (m *ReqLevelUp) GetHelperPremium() int32 {
 type RspLevelUp struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	UnitList         []*UserUnit  `protobuf:"bytes,2,rep,name=unitList" json:"unitList,omitempty"`
-	Money            *uint32      `protobuf:"varint,3,opt,name=money" json:"money,omitempty"`
+	Money            *int32       `protobuf:"varint,3,opt,name=money" json:"money,omitempty"`
 	BlendUniqueId    *uint32      `protobuf:"varint,4,opt,name=blendUniqueId" json:"blendUniqueId,omitempty"`
 	BlendExp         *int32       `protobuf:"varint,5,opt,name=blendExp" json:"blendExp,omitempty"`
+	PartUniqueId     []uint32     `protobuf:"varint,6,rep,name=partUniqueId" json:"partUniqueId,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -2887,7 +2896,7 @@ func (m *RspLevelUp) GetUnitList() []*UserUnit {
 	return nil
 }
 
-func (m *RspLevelUp) GetMoney() uint32 {
+func (m *RspLevelUp) GetMoney() int32 {
 	if m != nil && m.Money != nil {
 		return *m.Money
 	}
@@ -2906,6 +2915,293 @@ func (m *RspLevelUp) GetBlendExp() int32 {
 		return *m.BlendExp
 	}
 	return 0
+}
+
+func (m *RspLevelUp) GetPartUniqueId() []uint32 {
+	if m != nil {
+		return m.PartUniqueId
+	}
+	return nil
+}
+
+type ReqEvolveStart struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	BaseUniqueId     *uint32      `protobuf:"varint,2,opt,name=baseUniqueId" json:"baseUniqueId,omitempty"`
+	PartUniqueId     []uint32     `protobuf:"varint,3,rep,name=partUniqueId" json:"partUniqueId,omitempty"`
+	HelperUserId     *uint32      `protobuf:"varint,4,opt,name=helperUserId" json:"helperUserId,omitempty"`
+	HelperUnit       *UserUnit    `protobuf:"bytes,5,opt,name=helperUnit" json:"helperUnit,omitempty"`
+	HelperPremium    *int32       `protobuf:"varint,6,opt,name=helperPremium" json:"helperPremium,omitempty"`
+	EvolveQuestId    *uint32      `protobuf:"varint,7,opt,name=evolveQuestId" json:"evolveQuestId,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqEvolveStart) Reset()         { *m = ReqEvolveStart{} }
+func (m *ReqEvolveStart) String() string { return proto.CompactTextString(m) }
+func (*ReqEvolveStart) ProtoMessage()    {}
+
+func (m *ReqEvolveStart) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqEvolveStart) GetBaseUniqueId() uint32 {
+	if m != nil && m.BaseUniqueId != nil {
+		return *m.BaseUniqueId
+	}
+	return 0
+}
+
+func (m *ReqEvolveStart) GetPartUniqueId() []uint32 {
+	if m != nil {
+		return m.PartUniqueId
+	}
+	return nil
+}
+
+func (m *ReqEvolveStart) GetHelperUserId() uint32 {
+	if m != nil && m.HelperUserId != nil {
+		return *m.HelperUserId
+	}
+	return 0
+}
+
+func (m *ReqEvolveStart) GetHelperUnit() *UserUnit {
+	if m != nil {
+		return m.HelperUnit
+	}
+	return nil
+}
+
+func (m *ReqEvolveStart) GetHelperPremium() int32 {
+	if m != nil && m.HelperPremium != nil {
+		return *m.HelperPremium
+	}
+	return 0
+}
+
+func (m *ReqEvolveStart) GetEvolveQuestId() uint32 {
+	if m != nil && m.EvolveQuestId != nil {
+		return *m.EvolveQuestId
+	}
+	return 0
+}
+
+type RspEvolveStart struct {
+	Header           *ProtoHeader      `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	StaminaNow       *int32            `protobuf:"varint,2,opt,name=staminaNow" json:"staminaNow,omitempty"`
+	StaminaRecover   *uint32           `protobuf:"varint,3,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	DungeonData      *QuestDungeonData `protobuf:"bytes,4,opt,name=dungeonData" json:"dungeonData,omitempty"`
+	XXX_unrecognized []byte            `json:"-"`
+}
+
+func (m *RspEvolveStart) Reset()         { *m = RspEvolveStart{} }
+func (m *RspEvolveStart) String() string { return proto.CompactTextString(m) }
+func (*RspEvolveStart) ProtoMessage()    {}
+
+func (m *RspEvolveStart) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspEvolveStart) GetStaminaNow() int32 {
+	if m != nil && m.StaminaNow != nil {
+		return *m.StaminaNow
+	}
+	return 0
+}
+
+func (m *RspEvolveStart) GetStaminaRecover() uint32 {
+	if m != nil && m.StaminaRecover != nil {
+		return *m.StaminaRecover
+	}
+	return 0
+}
+
+func (m *RspEvolveStart) GetDungeonData() *QuestDungeonData {
+	if m != nil {
+		return m.DungeonData
+	}
+	return nil
+}
+
+type ReqEvolveDone struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	QuestId          *uint32      `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
+	SecurityKey      *uint32      `protobuf:"varint,3,opt,name=securityKey" json:"securityKey,omitempty"`
+	GetMoney         *int32       `protobuf:"varint,4,opt,name=getMoney" json:"getMoney,omitempty"`
+	GetUnit          []uint32     `protobuf:"varint,5,rep,name=getUnit" json:"getUnit,omitempty"`
+	HitGrid          []uint32     `protobuf:"varint,6,rep,name=hitGrid" json:"hitGrid,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqEvolveDone) Reset()         { *m = ReqEvolveDone{} }
+func (m *ReqEvolveDone) String() string { return proto.CompactTextString(m) }
+func (*ReqEvolveDone) ProtoMessage()    {}
+
+func (m *ReqEvolveDone) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqEvolveDone) GetQuestId() uint32 {
+	if m != nil && m.QuestId != nil {
+		return *m.QuestId
+	}
+	return 0
+}
+
+func (m *ReqEvolveDone) GetSecurityKey() uint32 {
+	if m != nil && m.SecurityKey != nil {
+		return *m.SecurityKey
+	}
+	return 0
+}
+
+func (m *ReqEvolveDone) GetGetMoney() int32 {
+	if m != nil && m.GetMoney != nil {
+		return *m.GetMoney
+	}
+	return 0
+}
+
+func (m *ReqEvolveDone) GetGetUnit() []uint32 {
+	if m != nil {
+		return m.GetUnit
+	}
+	return nil
+}
+
+func (m *ReqEvolveDone) GetHitGrid() []uint32 {
+	if m != nil {
+		return m.HitGrid
+	}
+	return nil
+}
+
+type RspEvolveDone struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Rank             *int32       `protobuf:"varint,2,opt,name=rank" json:"rank,omitempty"`
+	Exp              *int32       `protobuf:"varint,3,opt,name=exp" json:"exp,omitempty"`
+	Money            *int32       `protobuf:"varint,4,opt,name=money" json:"money,omitempty"`
+	FriendPoint      *int32       `protobuf:"varint,5,opt,name=friendPoint" json:"friendPoint,omitempty"`
+	StaminaNow       *int32       `protobuf:"varint,6,opt,name=staminaNow" json:"staminaNow,omitempty"`
+	StaminaMax       *int32       `protobuf:"varint,7,opt,name=staminaMax" json:"staminaMax,omitempty"`
+	StaminaRecover   *uint32      `protobuf:"varint,8,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	GotMoney         *int32       `protobuf:"varint,9,opt,name=gotMoney" json:"gotMoney,omitempty"`
+	GotExp           *int32       `protobuf:"varint,10,opt,name=gotExp" json:"gotExp,omitempty"`
+	GotChip          *int32       `protobuf:"varint,11,opt,name=gotChip" json:"gotChip,omitempty"`
+	GotFriendPoint   *int32       `protobuf:"varint,12,opt,name=gotFriendPoint" json:"gotFriendPoint,omitempty"`
+	GotUnit          []*UserUnit  `protobuf:"bytes,13,rep,name=gotUnit" json:"gotUnit,omitempty"`
+	EvolvedUnit      *UserUnit    `protobuf:"bytes,14,opt,name=evolvedUnit" json:"evolvedUnit,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspEvolveDone) Reset()         { *m = RspEvolveDone{} }
+func (m *RspEvolveDone) String() string { return proto.CompactTextString(m) }
+func (*RspEvolveDone) ProtoMessage()    {}
+
+func (m *RspEvolveDone) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspEvolveDone) GetRank() int32 {
+	if m != nil && m.Rank != nil {
+		return *m.Rank
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetExp() int32 {
+	if m != nil && m.Exp != nil {
+		return *m.Exp
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetMoney() int32 {
+	if m != nil && m.Money != nil {
+		return *m.Money
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetFriendPoint() int32 {
+	if m != nil && m.FriendPoint != nil {
+		return *m.FriendPoint
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetStaminaNow() int32 {
+	if m != nil && m.StaminaNow != nil {
+		return *m.StaminaNow
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetStaminaMax() int32 {
+	if m != nil && m.StaminaMax != nil {
+		return *m.StaminaMax
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetStaminaRecover() uint32 {
+	if m != nil && m.StaminaRecover != nil {
+		return *m.StaminaRecover
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetGotMoney() int32 {
+	if m != nil && m.GotMoney != nil {
+		return *m.GotMoney
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetGotExp() int32 {
+	if m != nil && m.GotExp != nil {
+		return *m.GotExp
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetGotChip() int32 {
+	if m != nil && m.GotChip != nil {
+		return *m.GotChip
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetGotFriendPoint() int32 {
+	if m != nil && m.GotFriendPoint != nil {
+		return *m.GotFriendPoint
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetGotUnit() []*UserUnit {
+	if m != nil {
+		return m.GotUnit
+	}
+	return nil
+}
+
+func (m *RspEvolveDone) GetEvolvedUnit() *UserUnit {
+	if m != nil {
+		return m.EvolvedUnit
+	}
+	return nil
 }
 
 type UserInfo struct {
