@@ -9,13 +9,13 @@ import (
 
 import (
 	"bbproto"
+	proto "code.google.com/p/goprotobuf/proto"
 	"common"
+	"common/EC"
 	"common/Error"
 	"common/consts"
-	"common/EC"
 	"data"
-	//"user/usermanage"
-	proto "code.google.com/p/goprotobuf/proto"
+	"model/friend"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ func (t AcceptFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqAcceptFriend, rspM
 	uid := *reqMsg.Header.UserId
 	fUid := *reqMsg.FriendUid
 
-	e = AddFriend(db, uid, fUid, bbproto.EFriendState_ISFRIEND, common.Now())
+	e = friend.AddFriend(db, uid, fUid, bbproto.EFriendState_ISFRIEND, common.Now())
 	if e.IsError() {
 		log.Printf("[ERROR] user:%v AcceptFriend(%v) failed: %v", uid, fUid, e.Error())
 		return e

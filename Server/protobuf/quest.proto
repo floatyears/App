@@ -136,9 +136,10 @@ message QuestGrid {
 	optional int32			color		= 3; // star color
 	optional EQuestGridType	type		= 4; // enemy, coin, enemy, empty
 	repeated uint32			enemyId		= 5; // enemy uniqueId list
-	repeated uint32			dropId		= 6;
-	optional int32			coins		= 7; 
-	optional uint32			trapId		= 8; 
+	optional uint32			dropId		= 6; // pos in QuestDungeonData.DropUnit
+	optional int32			dropPos		= 7; // pos in grid.enemylist
+	optional int32			coins		= 8; 
+	optional uint32			trapId		= 9; 
 }
 
 message QuestFloor {

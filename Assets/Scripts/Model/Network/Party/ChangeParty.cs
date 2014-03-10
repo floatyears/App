@@ -36,17 +36,9 @@ public class ChangeParty: ProtoManager {
 
 	public override void OnResponse (bool success) {
 		if (!success) { return; }
-
-		rspChangeParty = InstanceObj as bbproto.RspChangeParty;
-
-		LogHelper.Log ("rspChangeParty code:{0}, error:{1}", rspChangeParty.header.code, rspChangeParty.header.error);
-		success = (rspChangeParty.header.code == 0 );
-		//send response to caller
-//		MsgCenter.Instance.Invoke (CommandEnum.RspChangeParty, success);
-		OnResposeEnd (success);
 	}
 
-	void OnReceiveCommand(object data) {
+	protected override void OnReceiveCommand(object data) {
 		partyInfo = data as TPartyInfo;
 		if (partyInfo == null) {
 			LogHelper.LogError ("ChangeParty: Invalid param data.");
@@ -58,9 +50,5 @@ public class ChangeParty: ProtoManager {
 		Send (); //send request to server
 	}
 
-	public override void OnRequest (object data, DataListener callback) {
-		OnRequestBefoure (callback);
-		OnReceiveCommand (data);
-	}
 }
 

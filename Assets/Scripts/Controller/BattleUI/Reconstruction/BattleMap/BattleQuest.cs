@@ -232,7 +232,10 @@ public class BattleQuest : UIBase {
 	}
 
 	void GridEnd(object data) {
-		questData.getUnit.Add (currentMapData.Drop.DropId);
+		if (currentMapData.Drop.DropId != 0) {
+			questData.getUnit.Add (currentMapData.Drop.DropId);	
+		}
+
 	}
 
 	void MeetQuestion () {
@@ -351,8 +354,10 @@ public class BattleQuest : UIBase {
 	}
 
 	void ResponseClearQuest (object data) {
-		TRspClearQuest clearQuest = data as TRspClearQuest;
-		End (clearQuest);
-		GlobalData.Instance.RefreshUserInfo (clearQuest);
+		if ( data != null ) {
+			TRspClearQuest clearQuest = data as TRspClearQuest;
+			End (clearQuest);
+			GlobalData.Instance.RefreshUserInfo (clearQuest);
+		}
 	}
 }

@@ -14,8 +14,7 @@ import (
 	"common/consts"
 	"common/log"
 	"data"
-	"unit"
-	//"user/usermanage"
+	"model/unit"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
@@ -159,16 +158,16 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 
 	//verify getUnit
 	isAllValidUnit := true
-	for _, unitIdGot := range getUnit {
+	for _, dropIdGot := range getUnit {
 		isValidOne := false
 		for _, unitDrop := range userDetail.Quest.DropUnits {
-			if *unitDrop.DropId == unitIdGot {
+			if *unitDrop.DropId == dropIdGot {
 				isValidOne = true
 				break
 			}
 		}
 		if !isValidOne {
-			log.Error("ClearQuest :: unitGot is invalid: %+v", unitIdGot)
+			log.Error("ClearQuest :: unitGot is invalid: %+v", dropIdGot)
 			isAllValidUnit = false
 			break
 		}

@@ -1,29 +1,62 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using bbproto;
 
 public class LevelUp: ProtoManager {
-	private bbproto.ReqAuthUser reqLevelUp;
-	private bbproto.RspAuthUser rspLevelUp;
+	private bbproto.ReqLevelUp reqLevelUp;
+	private bbproto.RspLevelUp rspLevelUp;
 
-	public LevelUp(){
-//		MsgCenter.Instance.AddListener (CommandEnum.ReqLevelUp, OnReceiveCommand);
+	private uint baseUniqueId;
+	private List<uint> partUniqueId = new List<uint>();
+	private uint helperUserId;
+	private TUserUnit helperUserUnit;
+
+	//////////////////////////////////////////////////
+	//Property:  request parameters
+	public uint BaseUniqueId {
+		get { return baseUniqueId; } 
+		set { baseUniqueId = value; }
 	}
 
-	~LevelUp() {
-//		MsgCenter.Instance.RemoveListener (CommandEnum.ReqLevelUp, OnReceiveCommand);
+	public List<uint> PartUniqueId {
+		get { return partUniqueId; } 
+		set { partUniqueId = value; }
 	}
+
+	public uint HelperUserId {
+		get { return helperUserId; } 
+		set { helperUserId = value; }
+	}
+
+	public TUserUnit HelperUserUnit {
+		get { return helperUserUnit; } 
+		set { helperUserUnit = value; }
+	}
+
+	//Response property
+	public int BlendExp {
+		get { return rspLevelUp.blendExp ;}
+	}
+	//////////////////////////////////////////////////
+
+	public LevelUp(){}
+	~LevelUp() {}
 
 	public override bool MakePacket () {
 		LogHelper.Log ("LevelUp.MakePacket()...");
 
-		Proto = "auth_user";
-		reqType = typeof(ReqAuthUser);
-		rspType = typeof(RspAuthUser);
+		Proto = Protocol.LEVEL_UP;
+		reqType = typeof(ReqLevelUp);
+		rspType = typeof(RspLevelUp);
 
-		reqLevelUp = new ReqAuthUser ();
+		reqLevelUp = new ReqLevelUp ();
 		reqLevelUp.header = new ProtoHeader ();
 		reqLevelUp.header.apiVer = "1.0";
+		reqLevelUp.baseUniqueId = baseUniqueId;
+		reqLevelUp.partUniqueId.AddRange(partUniqueId);
+		reqLevelUp.helperUserId = helperUserId;
+		reqLevelUp.helperUnit = helperUserUnit.Object;
 
 		ErrorMsg err = SerializeData (reqLevelUp); // save to Data for send out
 		
@@ -31,19 +64,18 @@ public class LevelUp: ProtoManager {
 	}
 
 	public override void OnResponse (bool success) {
-		if (!success) { return; }
+		if (!success) { //Unserialize data fail
+			//TODO: show error window for user to retry
+			return; 
+		}
 
-//		rspLevelUp = InstanceObj as bbproto.RspAuthUser;
+		rspLevelUp = InstanceObj as bbproto.RspLevelUp;
+
+
+
 //		LogHelper.Log("reponse userId:"+rspLevelUp.user.userId);
 
 
-		//send response to caller
-//		MsgCenter.Instance.Invoke (CommandEnum.RspLevelUp, rspLevelUp);
-		OnResposeEnd (InstanceObj);
-	}
-
-	void OnReceiveCommand(object data) {
-		Send (); //send request to server
 	}
 
 	int GetMaxExpByLv(int level) {
@@ -77,10 +109,4 @@ public class LevelUp: ProtoManager {
 		
 		return riseLv;
 	}
-
-	public override void OnRequest (object data, DataListener callback) {
-		OnRequestBefoure (callback);
-		OnReceiveCommand (data);
-	}
 }
-

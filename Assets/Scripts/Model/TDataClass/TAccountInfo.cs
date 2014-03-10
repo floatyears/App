@@ -12,7 +12,7 @@ public class TAccountInfo : ProtobufDataBase {
 	/// 
 	public	int		PayTotal { get { return instance.payTotal; } }
 	public	int		PayMonth { get { return instance.payMonth; } }
-	public	int		Money { get { return instance.money; } }
+	public	int		Money { get { return instance.money; } set { instance.money = value; } }
 	public	int		StonePay { get { return instance.stonePay; } }
 	public	int		StoneFree { get { return instance.stoneFree; } }
 	public	int		Stone { get { return instance.stone; } }

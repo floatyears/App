@@ -285,6 +285,7 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 
 				enemyNum := common.Rand(*starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
 				log.T("randn:%v enemys: ", enemyNum)
+
 				for x := int32(0); x < enemyNum; x++ {
 					nn := int32(len(starConf.EnemyPool))
 					nn = common.Randn(nn) % (nn - 1)
@@ -293,7 +294,7 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 					log.T("\t--randnn:%v enemyId:%v ", nn, starConf.EnemyPool[nn])
 
 					//fill drop unit by dropRate
-					if len(grid.DropId) == 0 { //only drop one unit
+					if grid.DropId == nil { //only drop one unit
 						enemyConf, e := qm.getEnemyConf(enemyId, config.Enemys)
 						if !e.IsError() && enemyConf != nil {
 							if common.HitRandomRate(*enemyConf.DropRate) {
@@ -311,9 +312,10 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 								}
 								log.T("\t -- append dropUnit:%+v", dropUnit)
 
-								dropUnit.DropId = proto.Uint32(uint32(len(questData.Drop)))
+								dropUnit.DropId = proto.Uint32(uint32(len(questData.Drop) + 1))
 
-								grid.DropId = append(grid.DropId, *dropUnit.DropId)
+								grid.DropId = proto.Uint32(*dropUnit.DropId)
+								grid.DropPos = proto.Int32(x)
 								questData.Drop = append(questData.Drop, dropUnit)
 							}
 						}

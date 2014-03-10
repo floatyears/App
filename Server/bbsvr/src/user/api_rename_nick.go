@@ -10,7 +10,7 @@ import (
 	"common/EC"
 	"common/Error"
 	"common/log"
-	"user/usermanage"
+	"model/user"
 
 	proto "code.google.com/p/goprotobuf/proto"
 )
@@ -79,7 +79,7 @@ func (t RenameNick) FillResponseMsg(reqMsg *bbproto.ReqRenameNick, rspMsg *bbpro
 
 func (t RenameNick) ProcessLogic(reqMsg *bbproto.ReqRenameNick, rspMsg *bbproto.RspRenameNick) (e Error.Error) {
 	log.T("Rename ...")
-	e = usermanage.RenameUser(*reqMsg.Header.UserId, *reqMsg.NewNickName)
+	e = user.RenameUser(*reqMsg.Header.UserId, *reqMsg.NewNickName)
 	if e.IsError() {
 		return e
 	}

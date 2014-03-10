@@ -39,31 +39,15 @@ public class RenameNick: ProtoManager {
 
 	public override void OnResponse (bool success) {
 		if (!success) { return; }
-
-		rspRenameNick = InstanceObj as bbproto.RspRenameNick;
-		LogHelper.Log("rename response newNickName : "+rspRenameNick.newNickName );
-
-		//send response to caller
-		bool renameSuccess = (rspRenameNick.header.code == 0);
-		if( renameSuccess && rspRenameNick.newNickName != null)
-			GlobalData.userInfo.NickName = rspRenameNick.newNickName;
-//		MsgCenter.Instance.Invoke (CommandEnum.RspRenameNick, renameSuccess);
-
-		// leiliang -----------------------------------------------------------
-		OnResposeEnd (renameSuccess);
 	}
 
-	void OnReceiveCommand(object data) {
+	protected override void OnReceiveCommand(object data) {
 		this.newNickName = data as string;
 
 		LogHelper.Log ("OnReceiveCommand rename to: {0}", newNickName);
 		Send (); //send request to server
 	}
 
-	// leiliang -----------------------------------------------------------
-	public override void OnRequest (object data, DataListener callback) {
-		OnRequestBefoure (callback);
-		OnReceiveCommand (data);
-	}
+
 }
 

@@ -193,11 +193,20 @@ public class PlayerInfoBar : UIComponentUnity {
 	
 
 	void ReName( object data ){
-		bool state = (bool)data;
-		Debug.LogError("PlayerInfoBar.ReName(), NickName : " + GlobalData.userInfo.NickName);
-		if(state){
-			VUserNameLabel.text = GlobalData.userInfo.NickName;
+		if ( data != null && GlobalData.userInfo != null ) {
+			bbproto.RspRenameNick rspRenameNick = data as bbproto.RspRenameNick;
+			LogHelper.Log("rename response newNickName : "+rspRenameNick.newNickName );
+			
+			bool renameSuccess = (rspRenameNick.header.code == 0);
+			if( renameSuccess && rspRenameNick.newNickName != null) {
+				GlobalData.userInfo.NickName = rspRenameNick.newNickName;
+
+				VUserNameLabel.text = GlobalData.userInfo.NickName;
+			}else {
+				//TODO: show error msgbox.
+			}
 		}
+
 		UIManager.Instance.ChangeScene( SceneEnum.Quest );
 	}
 

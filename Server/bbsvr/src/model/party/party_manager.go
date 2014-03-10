@@ -7,11 +7,17 @@ import (
 	"common/consts"
 	"common/log"
 	"data"
-	"user/usermanage"
+	"model/user"
 	//proto "code.google.com/p/goprotobuf/proto"
+	"code.google.com/p/goprotobuf/proto"
 )
 
 func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.Error) {
+	if party == nil || len(party.PartyList) < 1 {
+		log.T("invalid party==nil")
+		return Error.New(EC.INVALID_PARAMS)
+	}
+
 	if db == nil {
 		db = &data.Data{}
 		err := db.Open(consts.TABLE_USER)
@@ -26,7 +32,7 @@ func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.E
 		}
 	}
 
-	userDetail, isExists, err := usermanage.GetUserInfo(db, uid)
+	userDetail, isExists, err := user.GetUserInfo(db, uid)
 	if err != nil {
 		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret err:%v", uid, e.Error())
 		return Error.New(err)
@@ -35,10 +41,24 @@ func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.E
 		return Error.New(EC.EU_USER_NOT_EXISTS)
 	}
 
+	for k, partyInfo :=range party.PartyList {
+		if partyInfo.Id == nil {
+			partyInfo.Id = proto.Int32(0)
+			for i, item :=range partyInfo.Items {
+				if item.UnitPos == nil {
+					item.UnitPos = proto.Int32(0)
+					log.T("i:%v %v pos==nil convert to 0/", i, item)
+				}
+
+			}
+			log.T("k[%v] partyInfo.Id==nil force to 0.", k)
+		}
+	}
+
 	userDetail.Party = party
 	userDetail.GetUser()
 	//save data
-	e = usermanage.UpdateUserInfo(db, &userDetail)
+	e = user.UpdateUserInfo(db, &userDetail)
 
 	log.T("user:%v changeParty success.", uid)
 	return e

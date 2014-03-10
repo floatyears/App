@@ -8,4 +8,5 @@ class Protocol {
 	public const string START_QUEST = "start_quest";
 	public const string CLEAR_QUEST = "clear_quest";
 	public const string CHANGE_PARTY = "change_party";
+	public const string LEVEL_UP = "level_up";
 }

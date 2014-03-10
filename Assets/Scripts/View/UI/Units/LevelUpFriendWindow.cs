@@ -36,12 +36,27 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	}
 
 	void InitDragPanel(){
-		if ( GlobalData.FriendBaseInfo != null)
+		if ( GlobalData.friends != null)
 			friendInfoList.AddRange(GlobalData.friends);
 
+		//temp add friend info----------------------------------------
+		FriendInfo fi = new FriendInfo ();
+		fi.unit = new UserUnit ();
+		fi.unit.unitId = 1;
+		fi.unit.addAttack = 1;
+		fi.unit.addDefence = 1;
+		fi.unit.addHp = 1;
+		fi.unit.exp = 100;
+		fi.unit.isFavorite = 2;
+		fi.unit.level = 1;
+		fi.unit.uniqueId = 1;
+		fi.userId = 9999999;
+		TFriendInfo tfrend = new TFriendInfo (fi);
+		friendInfoList.Add (tfrend);
+		//end---------------------------------------------------------
+
 		string name = "FriendDragPanel";
-		int count = GlobalData.friends.Count;
-//		Debug.Log( string.Format("The Friend count to add is : " + count) );
+		int count = friendInfoList.Count;//GlobalData.friends.Count;
 		string itemSourcePath = "Prefabs/UI/Friend/AvailFriendItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		InitDragPanelArgs();
@@ -142,7 +157,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 		TUserUnit tempInfo = friendUnitInfoDic[ item ].UserUnit;
 		//Debug.LogError( tempInfo.name );
 		MsgCenter.Instance.Invoke( CommandEnum.PickFriendUnitInfo, tempInfo );
-                MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
+//                MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
 	}
 
 	void PressItem(GameObject item ){

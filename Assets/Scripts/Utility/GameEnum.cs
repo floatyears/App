@@ -160,7 +160,9 @@ public enum CommandEnum
 	ReplacePartyFocusItem		= 4024,
 
 
-	BaseAlreadySelect			= 4020,
+	BaseAlreadySelect			= 4025,
+	MaterialSelect				= 4026,
+	ShieldMaterial				= 4027,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

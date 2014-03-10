@@ -9,10 +9,11 @@ import (
 
 import (
 	"bbproto"
-	"common/Error"
 	"common/EC"
+	"common/Error"
 	//"data"
-	"user/usermanage"
+	"model/user"
+	//"model/friend"
 
 	proto "code.google.com/p/goprotobuf/proto"
 	//redis "github.com/garyburd/redigo/redis"
@@ -85,7 +86,7 @@ func (t FindFriend) ProcessLogic(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.
 	friendUid := *reqMsg.FriendUid
 
 	//get user's rank from user table
-	userdetail, isUserExists, err := usermanage.GetUserInfo(nil, friendUid)
+	userdetail, isUserExists, err := user.GetUserInfo(nil, friendUid)
 	if err != nil {
 		return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", friendUid, err.Error()))
 	}
