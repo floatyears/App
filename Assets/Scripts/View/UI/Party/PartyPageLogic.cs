@@ -115,6 +115,9 @@ public class PartyPageLogic : ConcreteComponent{
 
 		SetFocusPostion(0);
 		TUnitParty curParty = GetPartyBySignal(partyType);
+		if(curParty == null){
+			LogHelper.Log("RefreshCurrentPartyInfo(), curParty is null, return!!!");
+		}
 		if( curParty.GetUserUnit() == null )	return;
 		List<TUserUnit> curUserUnitList = curParty.GetUserUnit();
 		List<Texture2D> curPartyTexList = GetPartyTexture( curUserUnitList );

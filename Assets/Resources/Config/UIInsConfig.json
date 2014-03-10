@@ -1,8 +1,7 @@
 {
-
     "PlayerInfo": {
         "uiName":"PlayerInfoBar",
-        "resoucePath": "Prefabs/UI/Share/",
+        "resoucePath": "Prefabs/UI/Common/",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
@@ -10,7 +9,7 @@
     },
     "ErrorMsgBox": {
         "uiName":"ErrorMsgBox",
-        "resoucePath": "Prefabs/UI/Share/",
+        "resoucePath": "Prefabs/UI/Common/",
         "parent": 0,
         "positionx": 0,
         "positiony": 100,
@@ -18,7 +17,7 @@
     },
      "SceneInfo": {
         "uiName":"SceneInfoBar",
-        "resoucePath": "Prefabs/UI/Share/",
+        "resoucePath": "Prefabs/UI/Common/",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
@@ -26,7 +25,7 @@
     },
      "MainBackground": {
         "uiName":"MenuBg",
-        "resoucePath": "Prefabs/UI/Share/",
+        "resoucePath": "Prefabs/UI/Common/",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
@@ -34,7 +33,7 @@
     },
      "TipsBar": {
         "uiName":"TipsBar",
-        "resoucePath": "Prefabs/UI/Share/",
+        "resoucePath": "Prefabs/UI/Common/",
         "parent": 2,
         "positionx": 0,
         "positiony": 0,
@@ -42,7 +41,7 @@
     },
     "UnitBriefInfoWindow": {
         "uiName":"UnitBriefInfoWindow",
-        "resoucePath": "Prefabs/UI/Share/",
+        "resoucePath": "Prefabs/UI/Common/",
         "parent": 1,
         "positionx": 0,
         "positiony": -475,
@@ -50,7 +49,7 @@
     },
      "BottomMenu": {
         "uiName":"MenuBottom",
-        "resoucePath": "Prefabs/UI/Share/",
+        "resoucePath": "Prefabs/UI/Common/",
         "parent": 3,
         "positionx": 0,
         "positiony": 0,
@@ -98,14 +97,6 @@
     },
      "UnitsWindow": {
         "uiName":"UnitsWindow",
-        "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
-        "positionx": 0,
-        "positiony": 0,
-        "positionz": 0
-    },
-     "PartyWindow": {
-        "uiName":"PartyWindow",
         "resoucePath": "Prefabs/UI/Units/",
         "parent": 0,
         "positionx": 0,

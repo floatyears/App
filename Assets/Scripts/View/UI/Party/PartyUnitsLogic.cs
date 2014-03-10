@@ -11,14 +11,12 @@ public class PartyUnitsLogic : ConcreteComponent {
 
 	public override void ShowUI(){
 		base.ShowUI();
-
 		ResetPickableState();
 		AddCmdListener();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-
 		RmvCmdListener();
 	}
 
@@ -28,7 +26,6 @@ public class PartyUnitsLogic : ConcreteComponent {
 	}
 
 	void RmvCmdListener(){
-
 		MsgCenter.Instance.RemoveListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureSubmitUnitToParty, SubmitPickedUnitToParty);
 	}
@@ -60,9 +57,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 
 	public override void Callback(object data){
 		base.Callback(data);
-
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-
 		switch (cbdArgs.funcName){
 			case "ItemClick" : 
 				CallBackDispatcherHelper.DispatchCallBack(CallbackRspUnitPickFromView, cbdArgs);
@@ -96,8 +91,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 
 		LogHelper.LogError("MyUnitDragUILogic.RspUnitPickFromView(), End...");
 	}
-
-
+	
 	void SubmitPickedUnitToParty( object data){
 		if(currentPickedUnit == null){
 			Debug.LogError("MyUnitDragPanel.SubmitPickedUnitToParty(), currentPickedUnit is Null, return!!!");
