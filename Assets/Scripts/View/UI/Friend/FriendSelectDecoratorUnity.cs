@@ -60,8 +60,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 	}
 
 	
-	public void Callback(object data)
-	{
+	public void Callback(object data) {
 		if (data == null){
 			ShowPartyInfo(null);
 		} else{

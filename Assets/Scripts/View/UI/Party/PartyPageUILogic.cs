@@ -161,17 +161,17 @@ public class PartyPageUILogic : ConcreteComponent {
 
 
 	void NoticeServerUpdatePartyInfo(){
-		Debug.LogError("PartyPageUILogic.NoticeServerUpdatePartyInfo(), Start...");
+//		Debug.LogError("PartyPageUILogic.NoticeServerUpdatePartyInfo(), Start...");
 		GlobalData.partyInfo.ExitParty();
-		Debug.LogError("PartyPageUILogic.NoticeServerUpdatePartyInfo(), End...");
+//		Debug.LogError("PartyPageUILogic.NoticeServerUpdatePartyInfo(), End...");
 	}
 
 	
 	//notice PartyInfoPanel to update data
 	void NoticeInfoPanel(TUnitParty tup){
-		Debug.Log("PartyPageUILogic.NoticeInfoPanel(), Start...");
+//		Debug.Log("PartyPageUILogic.NoticeInfoPanel(), Start...");
 		MsgCenter.Instance.Invoke(CommandEnum.UpdatePartyInfoPanel, tup);
-		Debug.Log("PartyPageUILogic.NoticeInfoPanel(), End...");
+//		Debug.Log("PartyPageUILogic.NoticeInfoPanel(), End...");
 	}
 
 	void ReceiveClickEvent(int pos){

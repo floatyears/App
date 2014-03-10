@@ -22,6 +22,7 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 			netBase.PartUniqueId.Add(item.ID);
 		}
 		netBase.BaseUniqueId = baseUserUnit.ID;
+//		Debug.LogError ("netBase.BaseUniqueId  : " + netBase.BaseUniqueId);
 		netBase.HelperUserId = friendUserUnit.ID;
 		netBase.HelperUserUnit = friendUserUnit;
 
@@ -32,6 +33,7 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 		//TODO: moving to logic
 		if( data != null ) {
 			bbproto.RspLevelUp rspLevelUp = new bbproto.RspLevelUp();
+//			Debug.LogError(rspLevelUp);
 			//update money
 			GlobalData.accountInfo.Money = (int)rspLevelUp.money;
 			
