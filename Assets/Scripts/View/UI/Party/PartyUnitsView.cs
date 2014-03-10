@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 public class PartyUnitsView : UIComponentUnity {
+
 	DragPanel dragPanel;
 	bool exchange = false;
         List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
@@ -17,9 +18,9 @@ public class PartyUnitsView : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 
-		InvokeCrossShow(0.1f, 1.0f);
-		OnLightDragItem(true);
-		ShowTween();
+//		InvokeCrossShow(0.1f, 1.0f);
+//		OnLightDragItem(true);
+//		ShowTween();
 	}
 
 	public override void HideUI(){
@@ -47,7 +48,7 @@ public class PartyUnitsView : UIComponentUnity {
 
 		InitDragPanelArgs();
 
-		dragPanel =new DragPanel("UnitScroller", unitItem);
+		dragPanel = new DragPanel("UnitScroller", unitItem);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(1, rejectItem);
 		dragPanel.AddItem(unitCount, unitItem);
