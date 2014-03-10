@@ -4,32 +4,49 @@ using System.Collections.Generic;
 
 public class PartyUnitsLogic : ConcreteComponent {
 
-	private bool pickableState;
-	private TUserUnit currentPickedUnit;
+	bool pickableState;
+	TUserUnit currentPickedUnit;
+	List<TUserUnit> playerPossessUnitList = new List<TUserUnit>();
+//	userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
 
 	public PartyUnitsLogic(string uiName):base(uiName){}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		ResetPickableState();
+
+		GetUnitList();
 		AddCmdListener();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+		ResetPickableState();
+		ClearUnitList();
 		RmvCmdListener();
 	}
 
 	void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureSubmitUnitToParty, SubmitPickedUnitToParty);
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyUnitList, RefreshUnitList);
 	}
 
 	void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureSubmitUnitToParty, SubmitPickedUnitToParty);
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyUnitList, RefreshUnitList);
 	}
-	
+
+	void GetUnitList(){
+		playerPossessUnitList.AddRange(GlobalData.myUnitList.GetAll().Values);
+		Debug.LogError("GetUnitList(), UnitList Count : " + playerPossessUnitList.Count);
+	}
+
+	void ClearUnitList(){
+		playerPossessUnitList.Clear();
+		Debug.LogError("ClearUnitList(), UnitList Count : " + playerPossessUnitList.Count);
+	}
+
 	void ActivateItem(object data){
 		string tag = data as string;
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("activate", null);
@@ -37,9 +54,9 @@ public class PartyUnitsLogic : ConcreteComponent {
 	}
 
 	void ResetPickableState(){
-		LogHelper.Log("MyUnitDragUILogic.ResetDragUIState(), Start...");
+		LogHelper.Log("PartyUnitsLogic.ResetDragUIState(), Start...");
 		pickableState = false;
-		LogHelper.Log("MyUnitDragUILogic.ResetDragUIState(), End...CanPick : " + pickableState);
+		LogHelper.Log("PartyUnitsLogic.ResetDragUIState(), End...CanPick : " + pickableState);
 	}
 	
 	void ActivatePickableState(object data){
@@ -50,7 +67,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("activate", null);
 		ExcuteCallback(cbd);
 
-		LogHelper.Log("MyUnitDragUILogic.ActivatePickableState(), " +
+		LogHelper.Log("PartyUnitsLogic.ActivatePickableState(), " +
 			"Receive Msg, change current pickableState to : " + pickableState);
 	}
 
@@ -77,7 +94,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 
 	void RspUnitPickFromView(TUserUnit tuu){
 		if( !pickableState ){
-			LogHelper.LogError(string.Format("MyUnitDragUILogic.RspUnitPickFromView(), " +
+			LogHelper.LogError(string.Format("PartyUnitsLogic.RspUnitPickFromView(), " +
 				"pickable state is : {0}, do nothing!", pickableState));
 			return;
 		}
@@ -88,15 +105,16 @@ public class PartyUnitsLogic : ConcreteComponent {
 
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
 
-		LogHelper.LogError("MyUnitDragUILogic.RspUnitPickFromView(), End...");
+		LogHelper.LogError("PartyUnitsLogic.RspUnitPickFromView(), End...");
 	}
 	
 	void SubmitPickedUnitToParty( object data){
 		if(currentPickedUnit == null){
-			Debug.LogError("MyUnitDragPanel.SubmitPickedUnitToParty(), currentPickedUnit is Null, return!!!");
+			LogHelper.LogError("PartyUnitsLogicSubmitPickedUnitToParty(), currentPickedUnit is Null, return!!!");
 			return;
 		}
 
+		LogHelper.Log("PartyUnitsLogicSubmitPickedUnitToParty(), sure to message PartyParge to change party member!");
 		MsgCenter.Instance.Invoke(CommandEnum.ReplacePartyFocusItem, currentPickedUnit);
 	}
 
@@ -107,7 +125,14 @@ public class PartyUnitsLogic : ConcreteComponent {
 		MsgCenter.Instance.Invoke(CommandEnum.RejectPartyPageFocusItem, null);
 	}
 
-
+	void RefreshUnitList(object msg){
+		Debug.LogError("RefreshUnitList(), Callback the list data to view...");
+		pickableState = false;
+		//Callback the list data to view
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", playerPossessUnitList);
+		ExcuteCallback(cbdArgs);
+		Debug.LogError("RefreshUnitList(), End...");
+	}
 
 
 }

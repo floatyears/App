@@ -159,12 +159,11 @@ public enum CommandEnum
 	EnsureFocusOnPartyItem		= 4022,
 	EnsureSubmitUnitToParty		= 4023,
 	ReplacePartyFocusItem		= 4024,
-	RejectPartyPageFocusItem		= 4025,
-
-
-	BaseAlreadySelect			= 4026,
-	MaterialSelect				= 4027,
-	ShieldMaterial				= 4028,
+	BaseAlreadySelect			= 4025,
+	MaterialSelect				= 4026,
+	ShieldMaterial				= 4027,
+	RejectPartyPageFocusItem		= 4028,
+	RefreshPartyUnitList			= 4029,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
