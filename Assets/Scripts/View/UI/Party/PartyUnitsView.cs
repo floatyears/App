@@ -32,20 +32,20 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void InitDragPanel(){
-//		if ( GlobalData.myUnitList != null)
-//			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
-//		else{
-//			Debug.Log("GlobalData.myUnitList is null, return");
-//			return;
-//		}
-//
-//		if(userUnitInfoList == null ){
-//			Debug.LogWarning("userUnitInfoList is null ");
-//			return;
-//		}
-//
-//		int unitCount = userUnitInfoList.Count;
+		if ( GlobalData.myUnitList != null)
+			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
+		else{
+			Debug.Log("GlobalData.myUnitList is null, return");
+			return;
+		}
 
+		if(userUnitInfoList == null ){
+			Debug.LogWarning("userUnitInfoList is null ");
+			return;
+		}
+//
+		int unitCount = userUnitInfoList.Count;
+		Debug.LogError("unitCount: " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		unitItem = Resources.Load( itemSourcePath ) as GameObject;
 		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject ;
@@ -53,8 +53,8 @@ public class PartyUnitsView : UIComponentUnity {
 		dragPanel = new DragPanel("UnitScroller", unitItem);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(1, rejectItem);
-//		dragPanel.AddItem(unitCount, unitItem);
-		//FillDragPanel( dragPanel );
+		dragPanel.AddItem(unitCount, unitItem);
+		FillDragPanel( dragPanel );
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 

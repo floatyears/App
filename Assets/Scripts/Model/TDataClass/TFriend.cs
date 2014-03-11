@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 public class TFriendInfo : ProtobufDataBase {
     private FriendInfo	instance;
-    public TFriendInfo (FriendInfo inst) : base (inst) { 
+    public TFriendInfo(FriendInfo inst) : base (inst) { 
         instance = inst;
         if (instance.unit != null) {
-            unit = new TUserUnit (instance.unit);
+            unit = new TUserUnit(instance.unit);
         }
     }
 
@@ -34,52 +34,82 @@ public class TFriendList : ProtobufDataBase {
     private List<TFriendInfo> friend;
     private List<TFriendInfo> friendIn;
     private List<TFriendInfo> friendOut;
+
+    private TFriendInfo searchResult;
 	
     //// property ////
     public List<TFriendInfo> Helper { get { return helper; } }
     public List<TFriendInfo> Friend { get { return friend; } }
     public List<TFriendInfo> FriendIn { get { return friendIn; } }
     public List<TFriendInfo> FriendOut { get { return friendOut; } }
-	
+    public TFriendInfo SearchResult { get { return searchResult; } }
 
     //constructor
-    public TFriendList (FriendList inst) : base (inst) { 
-        instance = inst;
+    public TFriendList(FriendList inst) : base (inst) { 
+        setNewInstance(inst);
         assignFriendList();
     }
 
-    private void assignFriend() {
-        friend = new List<TFriendInfo> ();
-        foreach (FriendInfo fi in instance.friend) {
-            TFriendInfo tfi = new TFriendInfo (fi);
-            friend.Add(tfi);
-        }
+    #region outter funcs
+    public void GetFriendList() {
+
     }
 
-    private void assignHelper() {
-        helper = new List<TFriendInfo> ();
-        foreach (FriendInfo fi in instance.helper) {
-            TFriendInfo tfi = new TFriendInfo (fi);
-            helper.Add(tfi);
-        }
+    public void AddFriend() {
+
     }
 
-    
-    private void assignFriendIn() {
-        friendIn = new List<TFriendInfo> ();
-        foreach (FriendInfo fi in instance.friendIn) {
-            TFriendInfo tfi = new TFriendInfo (fi);
-            friendIn.Add(tfi);
-        }
+    public void DelFriend() {
+
     }
 
-    
-    private void assignFriendOut() {
-        friendOut = new List<TFriendInfo> ();
-        foreach (FriendInfo fi in instance.friendOut) {
-            TFriendInfo tfi = new TFriendInfo (fi);
-            friendOut.Add(tfi);
-        }
+    public void FindFriend() {
+
+    }
+
+    public void RefuseFriendApplication() {
+
+    }
+
+    public void DelFriendApplication() {
+
+    }
+
+    public void AcceptFriendApplication() {
+
+    }
+
+    #endregion
+
+    #region inner calls
+    /// inner calls
+    private void getFriendList() {
+
+    }
+
+    private void addFriend() {
+
+    }
+
+    private void delFriend() {
+
+    }
+
+    private void findFriend() {
+
+    }
+    #endregion
+
+    private void refresh(object data) {
+        LogHelper.Log("TFriendList.Refresh() begin");
+        LogHelper.Log(data);
+        FriendList inst = data as FriendList;
+        setNewInstance(inst);
+        assignFriendList();
+    }  
+
+    private void setNewInstance(FriendList inst) {
+        instance = inst;
     }
 
     private void assignFriendList() {
@@ -88,6 +118,41 @@ public class TFriendList : ProtobufDataBase {
         assignFriendIn();
         assignFriendOut();
     }
+
+    private void assignFriend() {
+        friend = new List<TFriendInfo>();
+        foreach (FriendInfo fi in instance.friend) {
+            TFriendInfo tfi = new TFriendInfo(fi);
+            friend.Add(tfi);
+        }
+    }
+
+    private void assignHelper() {
+        helper = new List<TFriendInfo>();
+        foreach (FriendInfo fi in instance.helper) {
+            TFriendInfo tfi = new TFriendInfo(fi);
+            helper.Add(tfi);
+        }
+    }
+
+    
+    private void assignFriendIn() {
+        friendIn = new List<TFriendInfo>();
+        foreach (FriendInfo fi in instance.friendIn) {
+            TFriendInfo tfi = new TFriendInfo(fi);
+            friendIn.Add(tfi);
+        }
+    }
+
+    
+    private void assignFriendOut() {
+        friendOut = new List<TFriendInfo>();
+        foreach (FriendInfo fi in instance.friendOut) {
+            TFriendInfo tfi = new TFriendInfo(fi);
+            friendOut.Add(tfi);
+        }
+    }
+
 	
 }
 
