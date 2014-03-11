@@ -30,6 +30,7 @@ public class PartyUnitItemView{
 		get{ return isCollected;}
 	}
         
+        private GameObject viewItem;
 	private TUserUnit dataItem;
 	private PartyUnitItemView(){}
 
@@ -59,12 +60,17 @@ public class PartyUnitItemView{
         
         private void initWithTUserUnit(TUserUnit dataItem){
 		InitDataItem(dataItem);
+		InitItemResource();
  		InitWithArgs();
                 InitAvatar();
         }
        
 	private void InitDataItem(TUserUnit dataItem){
 		this.dataItem = dataItem;
+	}
+
+	private void InitItemResource(){
+		viewItem = Resources.Load(UIConfig.PartyUnitViewItemPath) as GameObject;
 	}
 
 	private void InitWithArgs(){
@@ -75,7 +81,12 @@ public class PartyUnitItemView{
                 
                 RefreshStates(initArgs);
 	}
-	
+
+        private void InitAvatar(){
+		UITexture avatarTex = viewItem.transform.FindChild("role").GetComponent<UITexture>();
+		avatarTex.mainTexture = dataItem.UnitInfo.GetAsset(UnitAssetType.Avatar);
+        }
+
         private void ClickViewItem(GameObject item){
 		if(!isEnable)	return;
 	}

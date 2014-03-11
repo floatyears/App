@@ -11,19 +11,19 @@ public class TPartyInfo : ProtobufDataBase {
     private bool isPartyGroupModified = false;
     private int originalPartyId = 0;
 
-    public TPartyInfo (PartyInfo inst) : base (inst) { 
+    public TPartyInfo(PartyInfo inst) : base (inst) { 
         instance = inst;
 
         assignParty();
     }
 
-    public bool IsInCurrentParty(uint uniqueId) {
-        return CurrentParty.HasMember(uniqueId);
+    public bool UnitIsInCurrentParty(uint uniqueId) {
+        return CurrentParty.HasUnit(uniqueId);
     }
 
-    public bool IsInParty(uint uniqueId) {
+    public bool UnitIsInParty(uint uniqueId) {
         foreach (var party in partyList) {
-            if (party.HasMember(uniqueId)) {
+            if (party.HasUnit(uniqueId)) {
                 return true;
             }
         }
