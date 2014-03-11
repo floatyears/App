@@ -3,8 +3,7 @@ using System.Collections;
 using bbproto;
 
 
-public class GetFriendList: ProtoManager
-{
+public class GetFriendList: ProtoManager {
     // req && rsp
     private bbproto.ReqGetFriend reqGetFriend;
     private bbproto.RspGetFriend rspGetFriend;
@@ -14,11 +13,9 @@ public class GetFriendList: ProtoManager
     // data
     private TFriendList friendList;
 
-    public GetFriendList ()
-    {
+    public GetFriendList() {
     }
-    ~GetFriendList ()
-    {
+    ~GetFriendList () {
     }
 
 
@@ -28,9 +25,7 @@ public class GetFriendList: ProtoManager
 
 
     //make request packet==>TODO rename to request
-    public override bool MakePacket ()
-    {
-
+    public override bool MakePacket() {
         Proto = Protocol.GET_FRIEND;
         reqType = typeof(ReqGetFriend);
         rspType = typeof(RspGetFriend);
@@ -44,13 +39,12 @@ public class GetFriendList: ProtoManager
         reqGetFriend.getFriend = ToGetFriend;
         reqGetFriend.getHelper = ToGetHelper;
 
-        ErrorMsg err = SerializeData (reqGetFriend); // save to Data for send out
+        ErrorMsg err = SerializeData(reqGetFriend); // save to Data for send out
 		
         return (err.Code == ErrorCode.Succeed);
     }
 
-    public override void OnResponse (bool success)
-    {
+    public override void OnResponse(bool success) {
         if (!success) {
             return;
         }

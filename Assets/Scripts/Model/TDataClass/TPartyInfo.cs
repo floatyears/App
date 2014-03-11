@@ -22,7 +22,7 @@ public class TPartyInfo : ProtobufDataBase {
     }
 
     public bool UnitIsInParty(uint uniqueId) {
-        foreach (var party in partyList) {
+        foreach (TUnitParty party in partyList) {
             if (party.HasUnit(uniqueId)) {
                 return true;
             }
@@ -33,10 +33,10 @@ public class TPartyInfo : ProtobufDataBase {
     private void assignParty() {
         originalPartyId = instance.currentParty;
 
-        this.partyList = new List<TUnitParty> ();
+        this.partyList = new List<TUnitParty>();
 
         foreach (UnitParty party in instance.partyList) {
-            Dictionary<EUnitType, int> atkVal = new Dictionary<EUnitType, int> ();
+            Dictionary<EUnitType, int> atkVal = new Dictionary<EUnitType, int>();
 
 //			foreach(PartyItem item in party.items) {
 //				LogHelper.Log("--before sort ==> item{0}: {1}", item.unitPos, item.unitUniqueId);
@@ -44,7 +44,7 @@ public class TPartyInfo : ProtobufDataBase {
 			
             party.items.Sort(SortParty);
 			
-            TUnitParty tup = new TUnitParty (party);
+            TUnitParty tup = new TUnitParty(party);
             partyList.Add(tup);
         }
     }
@@ -81,7 +81,7 @@ public class TPartyInfo : ProtobufDataBase {
 //					LogHelper.LogError("CurrentParty[{0}].UserUnit[{1}].UniqueId: {2}", CurrentPartyId, pos, this.partyList[CurrentPartyId].GetUserUnit()[ pos ].ID);
 //			}
 		
-            return this.partyList [CurrentPartyId];
+            return this.partyList[CurrentPartyId];
         } 
     }
 
@@ -105,7 +105,7 @@ public class TPartyInfo : ProtobufDataBase {
 
             isPartyGroupModified = (CurrentPartyId != originalPartyId);
             instance.currentParty = CurrentPartyId;
-            return this.partyList [CurrentPartyId]; 
+            return this.partyList[CurrentPartyId]; 
         } 
     }
 
@@ -124,7 +124,7 @@ public class TPartyInfo : ProtobufDataBase {
 
             isPartyGroupModified = (CurrentPartyId != originalPartyId);
             instance.currentParty = CurrentPartyId;
-            return this.partyList [CurrentPartyId]; 
+            return this.partyList[CurrentPartyId]; 
         } 
     }
 
@@ -134,7 +134,7 @@ public class TPartyInfo : ProtobufDataBase {
             return false;
         }
 
-        if (pos >= instance.partyList [CurrentPartyId].items.Count) {
+        if (pos >= instance.partyList[CurrentPartyId].items.Count) {
             LogHelper.LogError("TPartyInfo.ChangeParty:: item.unitPos:{0} is invalid.", pos);
             return false;
         }
@@ -145,10 +145,10 @@ public class TPartyInfo : ProtobufDataBase {
         CurrentParty.SetPartyItem(pos, unitUniqueId);
 
         //updte 
-        PartyItem item = new PartyItem ();
+        PartyItem item = new PartyItem();
         item.unitPos = pos;
         item.unitUniqueId = unitUniqueId;
-        instance.partyList [CurrentPartyId].items [pos] = item;
+        instance.partyList[CurrentPartyId].items[pos] = item;
 
         return true;
     }
@@ -159,7 +159,7 @@ public class TPartyInfo : ProtobufDataBase {
 
     public void ExitParty() {
         if (IsModified) {
-            ChangeParty cp = new ChangeParty ();
+            ChangeParty cp = new ChangeParty();
             cp.OnRequest(this, onRspChangeParty);
         }
     }
