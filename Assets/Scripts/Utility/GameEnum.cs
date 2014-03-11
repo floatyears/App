@@ -130,6 +130,7 @@ public enum CommandEnum
 	StateInfo					= 3048,
 	StopInput					= 3049,
 	GridEnd						= 3050,
+	DropItem					= 3051,
 
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
@@ -158,12 +159,12 @@ public enum CommandEnum
 	EnsureFocusOnPartyItem		= 4022,
 	EnsureSubmitUnitToParty		= 4023,
 	ReplacePartyFocusItem		= 4024,
-
-
 	BaseAlreadySelect			= 4025,
 	MaterialSelect				= 4026,
 	ShieldMaterial				= 4027,
-
+	RejectPartyPageFocusItem	= 4028,
+	RefreshPartyUnitList		= 4029,
+	RefreshPartyPanelInfo		= 4030,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

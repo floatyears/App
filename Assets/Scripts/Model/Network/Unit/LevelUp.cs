@@ -52,7 +52,11 @@ public class LevelUp: ProtoManager {
 
 		reqLevelUp = new ReqLevelUp ();
 		reqLevelUp.header = new ProtoHeader ();
-		reqLevelUp.header.apiVer = "1.0";
+		reqLevelUp.header.apiVer = Protocol.API_VERSION;
+
+		if (  GlobalData.userInfo != null )
+			reqLevelUp.header.userId = GlobalData.userInfo.UserId;
+
 		reqLevelUp.baseUniqueId = baseUniqueId;
 		reqLevelUp.partUniqueId.AddRange(partUniqueId);
 		reqLevelUp.helperUserId = helperUserId;

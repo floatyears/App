@@ -58,11 +58,18 @@ public class TPartyInfo : ProtobufDataBase {
 	public	TUnitParty	CurrentParty { 
 		get { 
 			if(this.partyList == null || CurrentPartyId > this.partyList.Count -1 ){
-				LogHelper.Log("invalid partyList==null or CurrentPartyId:{0} is invalid.", CurrentPartyId);
+				//LogHelper.Log("invalid partyList==null or CurrentPartyId:{0} is invalid.", CurrentPartyId);
 				return null;
 			}
 
-			return this.partyList[CurrentPartyId]; } 
+			//LogHelper.LogError("CurrentParty[{0}].UserUnit.Count: {1}", CurrentPartyId,this.partyList[CurrentPartyId].GetUserUnit().Count);
+//			for(int pos=0; pos<4; pos++){
+//				if (pos < this.partyList[CurrentPartyId].GetUserUnit().Count )
+//					LogHelper.LogError("CurrentParty[{0}].UserUnit[{1}].UniqueId: {2}", CurrentPartyId, pos, this.partyList[CurrentPartyId].GetUserUnit()[ pos ].ID);
+//			}
+		
+			return this.partyList[CurrentPartyId];
+		} 
 	}
 
 	public List<TUnitParty> AllParty {
@@ -110,7 +117,7 @@ public class TPartyInfo : ProtobufDataBase {
 
 	public	bool ChangeParty(int pos, uint unitUniqueId) { 
 		if( CurrentPartyId >= instance.partyList.Count ){
-			LogHelper.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:{0} is invalid.", CurrentPartyId);
+			//LogHelper.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:{0} is invalid.", CurrentPartyId);
 			return false;
 		}
 
@@ -119,7 +126,7 @@ public class TPartyInfo : ProtobufDataBase {
 			return false;
 		}
 
-		LogHelper.LogError("TPartyInfo.ChangeParty: pos:{0} uniqueId:{1}", pos, unitUniqueId);
+		//LogHelper.LogError("TPartyInfo.ChangeParty: pos:{0} uniqueId:{1}", pos, unitUniqueId);
 
 		isPartyItemModified = true;
 		CurrentParty.SetPartyItem(pos, unitUniqueId);

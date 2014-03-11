@@ -25,7 +25,7 @@ public class DragPanel : UIBase
 	public DragPanel(string name,GameObject obj) : base(name){
 		sourceObject = obj;
 		if(dragObject == null){
-			dragObject = Resources.Load("Prefabs/UI/Share/DragPanelView") as GameObject;
+			dragObject = Resources.Load("Prefabs/UI/Common/DragPanelView") as GameObject;
 		}
 	}
 	public override void CreatUI () {

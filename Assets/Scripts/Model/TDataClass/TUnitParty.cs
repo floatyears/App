@@ -237,11 +237,11 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 			instance.items[item.unitPos] = item;
 			if( userUnit!=null && userUnit.ContainsKey(item.unitPos) )
 				userUnit[item.unitPos] = GlobalData.userUnitList.GetMyUnit(item.unitUniqueId);
-
+			//LogHelper.LogError(" SetPartyItem:: => pos:{0} uniqueId:{1}",item.unitPos, item.unitUniqueId);
 			this.reAssignData();
 		}
 		else {
-			LogHelper.LogError ("SetPartyItem :: item.unitPos:{0} is invalid.", pos);
+			//LogHelper.LogError ("SetPartyItem :: item.unitPos:{0} is invalid.", pos);
 		}
 	}
 

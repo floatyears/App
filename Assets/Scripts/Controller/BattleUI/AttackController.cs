@@ -232,7 +232,6 @@ public class AttackController {
 		}
 		for (int i = enemyInfo.Count - 2; i > -1; i--) {
 			TEnemyInfo te = enemyInfo[i];
-//			Debug.LogError("CheckEnemyDead te : " +te.EnemySymbol + " `` " + te.GetBlood());
 			if(te.GetBlood() <= 0) {
 				deadEnemy.Add(te);
 				enemyInfo.Remove(te);
@@ -243,16 +242,16 @@ public class AttackController {
 	bool CheckTempEnemy() {
 		for (int i = 0; i < deadEnemy.Count; i++) {
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, deadEnemy[i]);
+			MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 		}
 		deadEnemy.Clear ();
 		for (int i = enemyInfo.Count - 1; i > -1; i--) {
 			int blood = enemyInfo[i].GetBlood();
-//			Debug.LogError("CheckEnemyDead te : " +enemyInfo[i].EnemySymbol + " `` " + blood);
 			if(blood <= 0){
-//				Debug.LogError(enemyInfo[i].GetID() + " Enemy " + enemyInfo[i].GetBlood()); 
 				TEnemyInfo te = enemyInfo[i];
 				enemyInfo.RemoveAt(i);
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
+				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 			}
 		}
 		if (enemyInfo.Count == 0) {
