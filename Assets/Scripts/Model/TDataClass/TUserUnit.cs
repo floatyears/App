@@ -236,6 +236,13 @@ public class TUserUnit : ProtobufDataBase {
 		}
 	}
 
+	public int CurExp {
+		get {
+			int curExp = GlobalData.Instance.GetUnitValueTotal (UnitInfo.ExpType, instance.level) - NextExp;
+			return curExp;
+		}
+	}
+
 	public int NextExp {
 		get {
 			int nextexp = GlobalData.Instance.GetUnitValueTotal (UnitInfo.ExpType, instance.level) - instance.exp;
@@ -352,8 +359,15 @@ public class UserUnitList {
 			Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
 			return null;
 		}
-//		Debug.LogError("uniqueId : " +uniqueId + " GlobalData.userInfo.UserId : " + GlobalData.userInfo.UserId);
 		return Get(GlobalData.userInfo.UserId, uniqueId);
+	}
+
+	public  void DelMyUnit(uint uniqueId) {
+		if (GlobalData.userInfo == null){
+			Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
+			return ;
+		}
+		Del(GlobalData.userInfo.UserId, uniqueId);
 	}
 
 	public  void Add(uint userId, uint uniqueId, TUserUnit uu) {

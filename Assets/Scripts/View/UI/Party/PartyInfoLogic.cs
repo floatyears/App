@@ -8,13 +8,16 @@ public class PartyInfoLogic : ConcreteComponent {
 	public PartyInfoLogic(string uiName):base(uiName) {}
 
 	public override void CreatUI(){
+//		Debug.LogError("PartyInfoLogic creat ui start  ");
 		base.CreatUI();
+//		Debug.LogError("PartyInfoLogic creat ui end ");
 	}
 	public override void ShowUI(){
-
+//		Debug.LogError("PartyInfoLogic show ui  start ");
 		base.ShowUI();
-
+//		Debug.LogError("PartyInfoLogic show ui  end ");
 		AddCmdListener();
+//		Debug.LogError("AddCmdListener end ");
 	}
 
 	public override void HideUI(){

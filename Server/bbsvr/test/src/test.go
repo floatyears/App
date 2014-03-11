@@ -1,16 +1,16 @@
 package main
 
 import (
-	"log"
-)
-import (
 	//bbproto "./bbproto"
-	//"./common"
-	"../src/data"
-	//proto "code.google.com/p/goprotobuf/proto"
+	proto "code.google.com/p/goprotobuf/proto"
+	"common"
+	"common/consts"
+	"common/log"
+	"data"
 	//"io/ioutil"
 	//"strconv"
 	//"time"
+	"bbproto"
 )
 
 type Base struct {
@@ -75,4 +75,43 @@ func testRedis() error {
 	//log.Printf("after parse ret:%v, msg: %+v", err, msg)
 
 	return err
+}
+
+func LoadUnitInfoToDB(path string) {
+
+	db := &data.Data{}
+	err := db.Open(consts.TABLE_UNIT)
+	if err != nil {
+		log.Error("open db failed.")
+		return
+	}
+	defer db.Close()
+
+	for i := 1; i <= 29; i++ {
+		filename := path + common.Itoa(i)
+		zData, err := common.ReadFile(filename)
+		if err != nil {
+			log.Error("readfile error:%v", err)
+			continue
+		}
+		log.T("[%v] readfile(%v) zData: %+v", i, filename, len(zData))
+
+		unitinfo := &bbproto.UnitInfo{}
+		if err = proto.Unmarshal(zData, unitinfo); err != nil {
+			log.T("[ERROR] unmarshal error from unit[%v].", i)
+			continue
+		}
+
+		log.T("[%v] unitinfo: %+v", i, unitinfo)
+
+		if err = db.Set(consts.X_UNIT_INFO+common.Itoa(i), zData); err != nil {
+			log.Error("[%v] unitinfo save failed.", i)
+		}
+	}
+}
+
+func main() {
+	path := "/Users/kory/Downloads/protobuf-unitinfo/"
+
+	LoadUnitInfoToDB(path)
 }
