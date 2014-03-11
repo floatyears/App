@@ -8,6 +8,8 @@ public class PartyUnitsLogic : ConcreteComponent {
 	TUserUnit currentPickedUnit;
 	List<TUserUnit> playerPossessUnitList = new List<TUserUnit>();
 
+	List<PartyUnitItemView> viewList = new List<PartyUnitItemView>();
+
 	public PartyUnitsLogic(string uiName):base(uiName){}
 
 	public override void ShowUI(){
