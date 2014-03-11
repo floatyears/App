@@ -47,8 +47,8 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 				}
 
 				// update blendUnit in the userUnitList
-				TUserUnit blendUnit = GlobalData.userUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
-				blendUnit = GlobalData.myUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
+//				TUserUnit blendUnit = GlobalData.userUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
+//				blendUnit = GlobalData.myUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
 
 				//remove partUniqueId from userUnitList
 				foreach(uint partUniqueId in rspLevelUp.partUniqueId) {

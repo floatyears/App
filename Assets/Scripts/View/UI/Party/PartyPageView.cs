@@ -64,7 +64,8 @@ public class PartyPageView : UIComponentUnity {
 			tex = FindChild< UITexture >("Unit" + i.ToString() + "/role" );
 			texureList.Add(tex);
 			go = transform.FindChild("Unit" + i.ToString() ).gameObject;
-			UIEventListener.Get(go).onClick = ClickItem;
+			UIEventListenerCustom.Get(go).onClick = ClickItem;
+			UIEventListenerCustom.Get(go).LongPress = PressItem;
 			itemDic.Add( go, i );
 		}
 	}
@@ -96,12 +97,24 @@ public class PartyPageView : UIComponentUnity {
 			return;
 		}
 
-		string callName = "PickItem";
+		string callName = "Click";
 		int pos = itemDic[ go ];
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( callName, pos );
 		LogHelper.Log("PartyPagePanel.ClickItem(), click the item" + itemDic[ go ].ToString() + ", wait respone...");
 		ExcuteCallback( cbd );
 
+	}
+
+	void PressItem(GameObject go){
+		if( !itemDic.ContainsKey(go) ){
+			Debug.Log("PartyPagePanel.ClickItem(), PressItem NOT ContainsKey : " + go.name);
+			return;
+		}
+		LogHelper.Log("PartyPageView.PressItem(), press the item" + itemDic[ go ].ToString() + ", wait respone...");
+
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", itemDic[ go ]);
+
+		ExcuteCallback(cbdArgs);
 	}
 
 

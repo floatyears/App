@@ -7,13 +7,11 @@ public class PartyUnitsLogic : ConcreteComponent {
 	bool pickableState;
 	TUserUnit currentPickedUnit;
 	List<TUserUnit> playerPossessUnitList = new List<TUserUnit>();
-//	userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
 
 	public PartyUnitsLogic(string uiName):base(uiName){}
 
 	public override void ShowUI(){
 		base.ShowUI();
-
 		GetUnitList();
 		AddCmdListener();
 	}
@@ -84,7 +82,6 @@ public class PartyUnitsLogic : ConcreteComponent {
 			default:
 				break;
 		}
-
 	}
 
 	void CallbackRspUnitPickFromView(object args){
@@ -119,9 +116,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 	}
 
 	void CallBackSendRejectMessage(object args){
-	
 		Debug.Log("MyUnitDragPanel.SendRejectMessage(), send the message that reject party current foucs member to PartyPage...");
-
 		MsgCenter.Instance.Invoke(CommandEnum.RejectPartyPageFocusItem, null);
 	}
 

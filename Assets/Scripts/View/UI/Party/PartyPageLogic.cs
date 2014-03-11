@@ -214,6 +214,23 @@ public class PartyPageLogic : ConcreteComponent{
 
 	}
 
+	void ViewPartyMemberUnitDetail(object args){
+		LogHelper.Log("PartyPageLogic.ViewPartyMemberUnitDetail(), Start...");
+		int position = (int)args;
+		TUserUnit tuu = null;
+		
+		if(GlobalData.partyInfo.CurrentParty.GetUserUnit()[ position - 1 ] == null){
+			LogHelper.LogError(string.Format("The position[{0}] of the current don't exist, do nothing!", position -1));
+			return;
+		}
+		else{
+			tuu = GlobalData.partyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
+		}
+
+		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
+	}
+
 	public override void Callback(object data){
 		base.Callback(data);
 				
@@ -223,9 +240,12 @@ public class PartyPageLogic : ConcreteComponent{
 			case "TurnPage" : 
 				CallBackDispatcherHelper.DispatchCallBack(RefreshCurrentPartyInfo, cbdArgs);
 				break;
-			case "PickItem" : 
+			case "ClickItem" : 
 				CallBackDispatcherHelper.DispatchCallBack(FocusOnPositionFromView, cbdArgs);
                         	break;
+			case "PressItem" : 
+				CallBackDispatcherHelper.DispatchCallBack(ViewPartyMemberUnitDetail, cbdArgs);
+				break;
                 	default:
                         	break;
                 }

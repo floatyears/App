@@ -30,7 +30,7 @@ public class PartyUnitsView : UIComponentUnity {
 	void InitDragPanel(){
 		if ( GlobalData.myUnitList != null)
 			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
-		else {
+		else{
 			Debug.Log("GlobalData.myUnitList is null, return");
 			return;
 		}
@@ -80,9 +80,7 @@ public class PartyUnitsView : UIComponentUnity {
 		}
 	
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
-
 			GameObject scrollItem = panel.ScrollItem[ i ];
-
 			if( i == 0 ){
 				UIEventListenerCustom.Get( scrollItem ).onClick = ClickRejectItem;
 				continue;
@@ -228,17 +226,18 @@ public class PartyUnitsView : UIComponentUnity {
 	void RefreshDragPanel(object args){
 //		ClearDragItem();
 //		List<TUserUnit> itemDataList = args as List<TUserUnit>;
-//		dragItemViewDic.Clear();
+////		dragItemViewDic.Clear();
+//		List<Texture2D> textureList = new List<Texture2D>();
 	}
 
 
 	void ClearDragItem(){
-		Debug.LogError("ClearDragItem(), Clear Before : Drag Item Count is : " + dragPanel.ScrollItem.Count);
+		LogHelper.Log("ClearDragItem(), Clear Before : Drag Item Count is : " + dragPanel.ScrollItem.Count);
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject dragItem = dragPanel.ScrollItem[ i ];
 			dragPanel.RemoveItem(dragItem);
 		}
-		Debug.LogError("ClearDragItem(), Clear After : Drag Item Count is : " + dragPanel.ScrollItem.Count);
+		LogHelper.Log("ClearDragItem(), Clear After : Drag Item Count is : " + dragPanel.ScrollItem.Count);
 	}
 
 	void AddDragItem(List<Texture2D> texList){
@@ -248,8 +247,10 @@ public class PartyUnitsView : UIComponentUnity {
 			uiTexture.mainTexture = texList[ i ];
 		}
 	}
-
-
+//
+//	List<TUserUnit> GetTextureList(List<TUserUnit> tuuList){
+//
+//	}
 }
 
 
