@@ -83,6 +83,6 @@ func main() {
 		pi.PartyList = append(pi.PartyList, party)
 	}
 
-	ChangeParty(104, pi)
+	ChangeParty(156, pi)
 	log.Fatal("bbsvr test client finish.")
 }

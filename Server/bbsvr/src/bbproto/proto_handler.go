@@ -38,7 +38,7 @@ func (t BaseProtoHandler) ParseInput(req *http.Request, reqMsg proto.Message) (e
 		return Error.New(EC.UNMARSHAL_ERROR, err.Error())
 	}
 	log.T("==================================================")
-	log.T("recv reqMsg: %+v", reflect.TypeOf(reqMsg), reqMsg)
+	log.T("recv reqMsg(%v): %+v", reflect.TypeOf(reqMsg), reqMsg)
 
 	return Error.OK()
 }
