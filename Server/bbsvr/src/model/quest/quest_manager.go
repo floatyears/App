@@ -104,11 +104,6 @@ func CheckQuestRecord(db *data.Data, stageId, questId uint32, userDetail *bbprot
 		return 0, Error.New(EC.INVALID_PARAMS, "invalid db pointer or userDetail pointer")
 	}
 
-	if userDetail.Quest != nil && userDetail.Quest.State != nil {
-		log.T("user(%v) is playing quest:%+v", *userDetail.User.UserId, userDetail.Quest)
-		//return 0, Error.New(EC.EQ_QUEST_IS_PLAYING)
-	}
-
 	if err := db.Select(consts.TABLE_QUEST); err != nil {
 		return 0, Error.New(EC.READ_DB_ERROR, err)
 	}

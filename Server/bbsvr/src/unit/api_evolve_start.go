@@ -1,4 +1,4 @@
-package quest
+package unit
 
 import (
 	"fmt"
@@ -13,6 +13,7 @@ import (
 	"common/log"
 	"data"
 	"model/quest"
+	"model/unit"
 	"model/user"
 
 	"code.google.com/p/goprotobuf/proto"
@@ -20,11 +21,11 @@ import (
 
 /////////////////////////////////////////////////////////////////////////////
 
-func StartQuestHandler(rsp http.ResponseWriter, req *http.Request) {
-	var reqMsg bbproto.ReqStartQuest
-	rspMsg := &bbproto.RspStartQuest{}
+func EvolveStartHandler(rsp http.ResponseWriter, req *http.Request) {
+	var reqMsg bbproto.ReqEvolveStart
+	rspMsg := &bbproto.RspEvolveStart{}
 
-	handler := &StartQuest{}
+	handler := &EvolveStart{}
 	e := handler.ParseInput(req, &reqMsg)
 	if e.IsError() {
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, Error.New(EC.INVALID_PARAMS, e.Error())))
@@ -47,11 +48,11 @@ func StartQuestHandler(rsp http.ResponseWriter, req *http.Request) {
 
 /////////////////////////////////////////////////////////////////////////////
 
-type StartQuest struct {
+type EvolveStart struct {
 	bbproto.BaseProtoHandler
 }
 
-func (t StartQuest) FillResponseMsg(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.RspStartQuest, rspErr Error.Error) (outbuffer []byte) {
+func (t EvolveStart) FillResponseMsg(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbproto.RspEvolveStart, rspErr Error.Error) (outbuffer []byte) {
 	// fill protocol header
 	{
 		rspMsg.Header = reqMsg.Header //including the sessionId
@@ -67,32 +68,25 @@ func (t StartQuest) FillResponseMsg(reqMsg *bbproto.ReqStartQuest, rspMsg *bbpro
 	return outbuffer
 }
 
-func (t StartQuest) verifyParams(reqMsg *bbproto.ReqStartQuest) (err Error.Error) {
+func (t EvolveStart) verifyParams(reqMsg *bbproto.ReqEvolveStart) (err Error.Error) {
 	//TODO: input params validation
-	if reqMsg.Header.UserId == nil || reqMsg.StageId == nil || reqMsg.QuestId == nil ||
+	if reqMsg.Header.UserId == nil || reqMsg.BaseUniqueId == nil || reqMsg.PartUniqueId == nil ||
 		reqMsg.HelperUserId == nil || reqMsg.HelperUnit == nil {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
-	//!!IMPORTANT!!: client protobuf.net cannot serialize when value='0', so convert nil to 0.
-	if reqMsg.CurrentParty == nil {
-		reqMsg.CurrentParty = proto.Int32(0)
-	}
-
-	if *reqMsg.Header.UserId == 0 || *reqMsg.StageId == 0 || *reqMsg.QuestId == 0 ||
+	if *reqMsg.Header.UserId == 0 || len(reqMsg.PartUniqueId) > 3 ||
 		*reqMsg.HelperUserId == 0 {
-		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params value is invalid.")
 	}
 
 	return Error.OK()
 }
 
-func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.RspStartQuest) (e Error.Error) {
+func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbproto.RspEvolveStart) (e Error.Error) {
 	cost := &common.Cost{}
 	cost.Begin()
 
-	stageId := *reqMsg.StageId
-	questId := *reqMsg.QuestId
 	uid := *reqMsg.Header.UserId
 
 	db := &data.Data{}
@@ -114,10 +108,27 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 
 	// check user is already playing
 	if userDetail.Quest != nil && userDetail.Quest.State != nil {
-		e = Error.New(EC.EQ_QUEST_IS_PLAYING, fmt.Sprintf("user(%v) is playing quest:%v", *userDetail.User.UserId, *userDetail.Quest.QuestId) )
-		log.T( e.Error() )
+		e = Error.New(EC.EQ_QUEST_IS_PLAYING, fmt.Sprintf("user(%v) is playing quest:%+v", *userDetail.User.UserId, *userDetail.Quest.QuestId))
+		log.T(e.Error())
 		return e
 	}
+
+	// getUnitInfo of baseUniqueId
+	baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, *reqMsg.BaseUniqueId)
+	if e.IsError() {
+		log.Error("GetUserUnitInfo(%v) failed: %v", *reqMsg.BaseUniqueId, e.Error())
+		return e
+	}
+	baseUnit, e := unit.GetUnitInfo(db, *baseUserUnit.UnitId)
+	if e.IsError() {
+		log.Error("GetUnitInfo(%v) failed: %v", *baseUserUnit.UnitId, e.Error())
+		return e
+	}
+	log.Error("baseUserUnit:(%+v).", baseUserUnit)
+	log.Error("baseUnit:(%+v).", baseUnit)
+
+	// getQuestId
+	stageId, questId := unit.GetEvolveQuestId(*baseUnit.Type, *baseUnit.Rare)
 
 	//check userDetail.Quest if exists (quest is playing)
 	questState, e := quest.CheckQuestRecord(db, stageId, questId, &userDetail)
@@ -171,13 +182,10 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	//TODO:try getFriendState(helperUid) -> getFriendPoint
 
 	//update latest quest record of userDetail
-	if e = quest.FillQuestLog(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
+	if e = quest.FillQuestLog(&userDetail, *userDetail.Party.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
 		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}
-
-	//update currParty
-	userDetail.Party.CurrentParty = reqMsg.CurrentParty
 
 	//save updated userinfo
 	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
@@ -189,7 +197,7 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	rspMsg.StaminaRecover = userDetail.User.StaminaRecover
 	rspMsg.DungeonData = &questData
 
-	log.T("=========== StartQuest total cost %v ms. ============\n\n", cost.Cost())
+	log.T("=========== EvolveStart total cost %v ms. ============\n\n", cost.Cost())
 
 	log.T(">>>>>>>>>>>>rspMsg begin<<<<<<<<<<<<<")
 	log.T("--StaminaNow:%v", *rspMsg.StaminaNow)
@@ -213,7 +221,7 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 			log.T("\t--[%+v] \n", grid)
 		}
 	}
-	log.T(">>>>>>>>>>>>rspMsg end.<<<<<<<<<<<<<")
+	log.T(">>>>>>>>>>>>EvolveStart rspMsg end.<<<<<<<<<<<<<")
 
 	return Error.OK()
 }

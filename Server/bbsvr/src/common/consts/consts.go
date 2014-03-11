@@ -38,6 +38,7 @@ const (
 )
 
 const (
+	N_MAX_RARE				= 6
 	N_DUNGEON_GRID_COUNT    = 25
 	N_USER_SPACE_PARTS      = 10
 	N_HELPER_RANK_RANGE     = 5

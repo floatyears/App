@@ -3,6 +3,7 @@ package user
 import (
 	"net/http"
 	//"time"
+	"reflect"
 )
 
 import (
@@ -61,9 +62,15 @@ func (t ChangeParty) verifyParams(reqMsg *bbproto.ReqChangeParty) (err Error.Err
 	return Error.OK()
 }
 
+//func (t ChangeParty) FillResponseMsg(reqMsg *bbproto.ReqChangeParty, rspMsg interface{}, rspErr Error.Error) (outbuffer []byte) {
 func (t ChangeParty) FillResponseMsg(reqMsg *bbproto.ReqChangeParty, rspMsg *bbproto.RspChangeParty, rspErr Error.Error) (outbuffer []byte) {
 	// fill protocol header
 	{
+		//ty := reflect.TypeOf(rspMsg)
+		//ty := reflect.ValueOf(rspMsg)
+		log.T("rsp :=%v ", reflect.TypeOf(rspMsg))
+		//rsp:=rspMsg.(ty.Type() )
+		//log.T("rsp :=%v ty=%v", rsp, ty)
 		rspMsg.Header = reqMsg.Header //including the sessionId
 		rspMsg.Header.Code = proto.Int(rspErr.Code())
 		rspMsg.Header.Error = proto.String(rspErr.Error())
@@ -82,7 +89,7 @@ func (t ChangeParty) ProcessLogic(reqMsg *bbproto.ReqChangeParty, rspMsg *bbprot
 	for _, p := range reqMsg.Party.PartyList {
 		if p.Id != nil {
 			log.T("id[%v]: %+v", *p.Id, p.Items)
-		}else {
+		} else {
 			log.T("%+v", p)
 		}
 	}
