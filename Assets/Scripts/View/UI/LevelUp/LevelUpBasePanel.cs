@@ -236,13 +236,10 @@ public class LevelUpBasePanel : UIComponentUnity {
 		}
 		int count = userUnitInfoList.Count;
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
-//		Debug.LogError ("userUnitInfoList.count : " + count);
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
-//		Debug.LogError ("itemGo : " + itemGo);
 		InitDragPanelArgs();
 		baseDragPanel = CreateDragPanel( name, count, itemGo) ;
 		FillDragPanel (baseDragPanel);
-//		return;
 		baseDragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 	
