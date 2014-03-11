@@ -332,14 +332,16 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	RspLevelUp levelUpData;
 	void PlayLevelUp(RspLevelUp rlu) {
 		levelUpData = rlu;
-		Debug.LogError ("levelUpData.blendExp : " + levelUpData.blendExp);
-		Debug.LogError ("levelUpData.blendUniqueId : " + levelUpData.blendUniqueId);
-		Debug.LogError ("levelUpData.money : " + levelUpData.money);
-		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
-//		levelUpData.
+
+//		Debug.LogError ("levelUpData.blendExp : " + levelUpData.blendExp);
+//		Debug.LogError ("levelUpData.blendUniqueId : " + levelUpData.blendUniqueId);
+//		Debug.LogError ("levelUpData.money : " + levelUpData.money);
+//		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
+//		TUserUnit tuu = GlobalData
+//		TUserUnit blendUnit = GlobalData.userUnitList.GetMyUnit(levelUpData.blendUniqueId);
+//		gotExp = levelUpData.blendExp;
 
 		unitInfoTabs.SetActive (false);
-
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}
 
@@ -350,6 +352,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if (effectCache.Count > 2) {
 			CancelInvoke("CreatEffect");
 			unitInfoTabs.SetActive (true);
+			TUserUnit blendUnit = GlobalData.userUnitList.GetMyUnit(levelUpData.blendUniqueId);
+			ShowInfo(blendUnit);
+			gotExp = levelUpData.blendExp;
+			curExp = blendUnit.CurExp;
+			expRiseStep =10;
+			curLevel = blendUnit.Level;
+			currMaxExp = gotExp + curExp;
+
 		}
 	}
 	
@@ -390,10 +400,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if(gotExp <= 0)	
 			return;
 
-		currMaxExp = GetMaxExpByLv( curLevel );
+//		currMaxExp = GetMaxExpByLv( curLevel );
 
 		if(gotExp < expRiseStep){
 			//remain less than step, add remain
+
 			curExp += gotExp;
 			gotExp = 0;
 		} else {
@@ -407,7 +418,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 			curExp = 0;
 			curLevel++;
-			currMaxExp = GetMaxExpByLv( curLevel );
+//			currMaxExp = GetMaxExpByLv( curLevel );
 		}
 
 		int needExp = currMaxExp - curExp;
@@ -416,8 +427,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		expSlider.value = progress;
 	}
 
-	int GetMaxExpByLv( int level) {
-		return level*level + 1000; 
+	void GetMaxExpByLv(TUserUnit tuu) {
+//		currMaxExp = 
 	}
 	
 }

@@ -229,12 +229,14 @@ public class UnitsDecorator : DecoratorBase {
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPageLogic partyPage = CreatComponent<PartyPageLogic>( UIConfig.partyPagePanelName);
 
-		partyInfo.SetComponent( sceneInfoBar );
-		partyPage.SetComponent( partyInfo );
-		units.SetComponent( partyPage );
+		partyPage.SetComponent( sceneInfoBar );
+		partyInfo.SetComponent( partyPage );
+
+		units.SetComponent( partyInfo );
 
 
 		lastDecorator = units;
+//		return;
 		lastDecorator.CreatUI();
 	
 	}

@@ -22,7 +22,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 	public override void Init(UIInsConfig config, IUICallback origin){
 		InitUI();
 		base.Init(config, origin);
-//		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
 	}
 
 	public override void ShowUI(){
@@ -75,18 +74,15 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	void AddListener(){
-//		Debug.Log("LevelUpBasePanel.AddListener()");
 		MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, ShowMyself);
 		MsgCenter.Instance.AddListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
 		MsgCenter.Instance.AddListener (CommandEnum.ShieldMaterial, ShieldMaterial);
-//		MsgCenter.Instance.AddListener (CommandEnum.MaterialSelect, MaterialSelect);
 	}
 
 	void RemoveListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, ShowMyself);
 		MsgCenter.Instance.RemoveListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMaterial, ShieldMaterial);
-//		MsgCenter.Instance.AddListener (CommandEnum.MaterialSelect, MaterialSelect);
 	}
 
 	void ShieldMaterial(object data) {
@@ -233,26 +229,24 @@ public class LevelUpBasePanel : UIComponentUnity {
 	void InitDragPanel(){
 		if ( GlobalData.myUnitList != null)
 			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
-
 		string name = "BaseDragPanel";
-		//Debug.LogError("GlobalData.myUnitList.Count : " + GlobalData.myUnitList.Count );
 		if(userUnitInfoList == null ){
 			Debug.LogWarning("userUnitInfoList is null ");
 			return;
 		}
-		//Debug.Log("GlobalData.myUnitList count is " + GlobalData.myUnitList.Count);
 		int count = userUnitInfoList.Count;
-		//Debug.Log( string.Format("Base Panel: The count to add is : " + count) );
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
+//		Debug.LogError ("userUnitInfoList.count : " + count);
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
+//		Debug.LogError ("itemGo : " + itemGo);
 		InitDragPanelArgs();
 		baseDragPanel = CreateDragPanel( name, count, itemGo) ;
-		StartCoroutine( FillDragPanel( baseDragPanel ));
+		FillDragPanel (baseDragPanel);
+//		return;
 		baseDragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){
-		//Debug.Log(string.Format("Create Drag Panel -> {0}, Item's count is {1}", name, count) );
 		DragPanel panel = new DragPanel(name,item);
 		panel.CreatUI();
 		panel.AddItem( count);
@@ -260,51 +254,69 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	//Fill Unit Item by with config data
-	IEnumerator FillDragPanel(DragPanel panel){
+	void FillDragPanel(DragPanel panel){
 		if( panel == null ){
 			Debug.LogError( "LevelUpBasePanel.FillDragPanel(), DragPanel is null, return!");
-			yield break;
+			return;
 		}
-
 		List<TUserUnit> temp = new List<TUserUnit> ();
 		List<TUnitParty> allParty = GlobalData.partyInfo.AllParty;
-
 		for (int i = 0; i < allParty.Count; i++) {
-			List<TUserUnit> dic =  allParty[i].GetUserUnit();
+			List<TUserUnit> dic = allParty [i].GetUserUnit ();
 			foreach (var item in dic) {
-				temp.Add(item);
+				if(item != null) {
+					temp.Add (item);
+				}
 			}
 		}
+		StartCoroutine (Fill (panel, temp));
+	}
 
+	IEnumerator Fill (DragPanel panel,List<TUserUnit> temp ) {
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
+			
 			GameObject scrollItem = panel.ScrollItem[ i ];
 			TUserUnit uuItem = userUnitInfoList[ i ] ;
 			UnitItemInfo uii = new UnitItemInfo();
 			uii.userUnitItem = uuItem;
 			uii.isCollect = false;
 			uii.stateLabel = scrollItem.transform.Find("Label_Party").GetComponent<UILabel>();
-
 			if(!uii.isCollect) {
-				int index = temp.FindIndex(a=>a.ID == uuItem.ID);
-				if(index > -1) {
+//				int index = temp.FindIndex(a=>a.ID == uuItem.ID);
+//
+//				if(index > -1) {
+//					uii.isPartyItem = true;
+//					int indexTwo = partyItem.FindIndex(a=>a.userUnitItem.ID == uii.userUnitItem.ID);
+//					if(indexTwo == -1) {
+//						partyItem.Add(uii);
+//					}
+//				}
+//				else{
+//					materialItem.Add(uii);
+//				}
+//				Debug.LogError(temp + " uuItem :  " + uuItem);
+				TUserUnit tuu = temp.Find(a=>a.ID == uuItem.ID);
+
+				if(tuu == default(TUserUnit)) {
+					materialItem.Add(uii);
+				}
+				else{
 					uii.isPartyItem = true;
 					int indexTwo = partyItem.FindIndex(a=>a.userUnitItem.ID == uii.userUnitItem.ID);
 					if(indexTwo == -1) {
 						partyItem.Add(uii);
 					}
 				}
-				else{
-					materialItem.Add(uii);
-				}
 			}else{
 				ShowMask(uii.scrollItem,true);
 			}
-
+			
 			uii.scrollItem = scrollItem;
 			baseUnitInfoDic.Add( scrollItem, uii );
 			StoreLabelInfo( uii);
 			ShowItem(uii);
 			AddEventListener(uii);
+			
 			if(i > 0 && i % 20 == 0)
 				yield return 0;
 		}
@@ -326,21 +338,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		TUserUnit uu = item.userUnitItem;
 		uint uid = uu.UnitID;
-		avatarTex.mainTexture = GlobalData.unitInfo[ uid ].GetAsset(UnitAssetType.Avatar);
-		
-//		int addAttack = uu.AddAttack;
-		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  addAttack is " + addAttack);
-		
-//		int addHp = uu.AddHP;
-		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  addHp is " + addHp);
-		
-//		int level = uu.Level;
-		//Debug.Log("LevelUpBasePanel.ShowAvatar(),  level is " + level );
-		
-//		int addPoint = addAttack + addHp;
-		
-		//UILabel crossFadeLabel = item.transform.FindChild("Label_Info").GetComponent<UILabel>();
-		
+		avatarTex.mainTexture = GlobalData.unitInfo [uid].GetAsset (UnitAssetType.Avatar);
 	}
 	
 	private void AddEventListener( UnitItemInfo item){
