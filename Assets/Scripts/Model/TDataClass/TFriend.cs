@@ -52,8 +52,9 @@ public class TFriendList : ProtobufDataBase {
 
     #region outter funcs
     public void GetFriendList() {
-
+        getFriendList();
     }
+
 
     public void AddFriend() {
 
@@ -80,11 +81,22 @@ public class TFriendList : ProtobufDataBase {
     }
 
     #endregion
+    public void OnRspGetFriend(object data) {
+        if (data == null)
+            return;
+        
+        LogHelper.Log("TFriendList.Refresh() begin");
+        LogHelper.Log(data);
+        RspGetFriend rsp = data as RspGetFriend;
+        FriendList inst = rsp.friends;
+        setNewInstance(inst);
+        assignFriendList();
+    }  
 
     #region inner calls
     /// inner calls
     private void getFriendList() {
-
+        GetFriendList.SendRequest(OnRefresh);
     }
 
     private void addFriend() {
@@ -100,13 +112,7 @@ public class TFriendList : ProtobufDataBase {
     }
     #endregion
 
-    private void refresh(object data) {
-        LogHelper.Log("TFriendList.Refresh() begin");
-        LogHelper.Log(data);
-        FriendList inst = data as FriendList;
-        setNewInstance(inst);
-        assignFriendList();
-    }  
+
 
     private void setNewInstance(FriendList inst) {
         instance = inst;
@@ -120,7 +126,11 @@ public class TFriendList : ProtobufDataBase {
     }
 
     private void assignFriend() {
-        friend = new List<TFriendInfo>();
+        if (friend != null) {
+            friend.Clear();
+        } else {
+            friend = new List<TFriendInfo>();
+        }
         foreach (FriendInfo fi in instance.friend) {
             TFriendInfo tfi = new TFriendInfo(fi);
             friend.Add(tfi);
@@ -128,6 +138,11 @@ public class TFriendList : ProtobufDataBase {
     }
 
     private void assignHelper() {
+        if (helper != null) {
+            helper.Clear();
+        } else {
+            helper = new List<TFriendInfo>();
+        }
         helper = new List<TFriendInfo>();
         foreach (FriendInfo fi in instance.helper) {
             TFriendInfo tfi = new TFriendInfo(fi);
@@ -137,7 +152,11 @@ public class TFriendList : ProtobufDataBase {
 
     
     private void assignFriendIn() {
-        friendIn = new List<TFriendInfo>();
+        if (friendIn != null) {
+            friendIn.Clear();
+        } else {
+            friendIn = new List<TFriendInfo>();
+        }
         foreach (FriendInfo fi in instance.friendIn) {
             TFriendInfo tfi = new TFriendInfo(fi);
             friendIn.Add(tfi);
@@ -146,7 +165,15 @@ public class TFriendList : ProtobufDataBase {
 
     
     private void assignFriendOut() {
-        friendOut = new List<TFriendInfo>();
+        if (friendOut != null) {
+            friendOut.Clear();
+        } else {
+            friendOut = new List<TFriendInfo>();
+        }
+        foreach (FriendInfo fi in instance.friendIn) {
+            TFriendInfo tfi = new TFriendInfo(fi);
+            friendOut.Add(tfi);
+        }
         foreach (FriendInfo fi in instance.friendOut) {
             TFriendInfo tfi = new TFriendInfo(fi);
             friendOut.Add(tfi);

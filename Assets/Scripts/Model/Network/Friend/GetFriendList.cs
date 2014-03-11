@@ -9,15 +9,20 @@ public class GetFriendList: ProtoManager {
     private bbproto.RspGetFriend rspGetFriend;
     // state for req
     private bool bGetHelper = false;
-    private bool bGetFriend = false;
+    private bool bGetFriend = true;
     // data
     private TFriendList friendList;
 
     public GetFriendList() {
     }
+
     ~GetFriendList () {
     }
 
+    public static void SendRequest(DataListener callBack) {
+        GetFriendList getFriends = new GetFriendList();
+        getFriends.OnRequest(null, callBack);
+    }
 
     //Property: request server parameters
     public bool ToGetHelper { get { return bGetHelper; } set { bGetHelper = value; } }
@@ -30,8 +35,8 @@ public class GetFriendList: ProtoManager {
         reqType = typeof(ReqGetFriend);
         rspType = typeof(RspGetFriend);
 
-        reqGetFriend = new ReqGetFriend ();
-        reqGetFriend.header = new ProtoHeader ();
+        reqGetFriend = new ReqGetFriend();
+        reqGetFriend.header = new ProtoHeader();
         reqGetFriend.header.apiVer = Protocol.API_VERSION;
         reqGetFriend.header.userId = GlobalData.userInfo.UserId;
 
