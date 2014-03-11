@@ -336,6 +336,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		Debug.LogError ("levelUpData.blendUniqueId : " + levelUpData.blendUniqueId);
 		Debug.LogError ("levelUpData.money : " + levelUpData.money);
 		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
+//		levelUpData.
+
 		unitInfoTabs.SetActive (false);
 
 		InvokeRepeating ("CreatEffect", 0f, 2f);
