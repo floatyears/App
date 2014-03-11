@@ -22,8 +22,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 
     public bool HasUnit(uint uniqueId) {
         foreach (TUserUnit tUserUnit in userUnit.Values) {
-            LogHelper.Log("HasUnit(), foreach: judge Id{0} ResultId {1}", uniqueId, tUserUnit.UnitInfo.ID);
-            if (tUserUnit.UnitInfo.ID == uniqueId) {
+            LogHelper.Log("HasUnit(), foreach: judge Id{0} ResultId {1}", uniqueId, tUserUnit.ID);
+            if (tUserUnit.ID == uniqueId) {
                 return true;
             }
         }
