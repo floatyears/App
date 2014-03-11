@@ -38,21 +38,21 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	void InitDragPanel(){
 		if ( GlobalData.friends != null)
 			friendInfoList.AddRange(GlobalData.friends);
-
+//		Debug.LogError ("friendInfoList.Count : " + friendInfoList.Count);
 		//temp add friend info----------------------------------------
-		FriendInfo fi = new FriendInfo ();
-		fi.unit = new UserUnit ();
-		fi.unit.unitId = 1;
-		fi.unit.addAttack = 1;
-		fi.unit.addDefence = 1;
-		fi.unit.addHp = 1;
-		fi.unit.exp = 100;
-		fi.unit.isFavorite = 2;
-		fi.unit.level = 1;
-		fi.unit.uniqueId = 1;
-		fi.userId = 9999999;
-		TFriendInfo tfrend = new TFriendInfo (fi);
-		friendInfoList.Add (tfrend);
+//		FriendInfo fi = new FriendInfo ();
+//		fi.unit = new UserUnit ();
+//		fi.unit.unitId = 1;
+//		fi.unit.addAttack = 1;
+//		fi.unit.addDefence = 1;
+//		fi.unit.addHp = 1;
+//		fi.unit.exp = 100;
+//		fi.unit.isFavorite = 2;
+//		fi.unit.level = 1;
+//		fi.unit.uniqueId = 1;
+//		fi.userId = 9999999;
+//		TFriendInfo tfrend = new TFriendInfo (fi);
+//		friendInfoList.Add (tfrend);
 		//end---------------------------------------------------------
 
 		string name = "FriendDragPanel";

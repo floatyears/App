@@ -55,6 +55,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
 
 	public virtual void OnRequest (object data, DataListener callback) {
 		OnRequestBefoure (callback);
+//		Debug.LogError ("OnReceiveCommand");
 		OnReceiveCommand (data);
 	}
 

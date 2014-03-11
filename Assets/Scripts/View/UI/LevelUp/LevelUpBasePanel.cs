@@ -79,12 +79,14 @@ public class LevelUpBasePanel : UIComponentUnity {
 		MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, ShowMyself);
 		MsgCenter.Instance.AddListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
 		MsgCenter.Instance.AddListener (CommandEnum.ShieldMaterial, ShieldMaterial);
+//		MsgCenter.Instance.AddListener (CommandEnum.MaterialSelect, MaterialSelect);
 	}
 
 	void RemoveListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, ShowMyself);
 		MsgCenter.Instance.RemoveListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMaterial, ShieldMaterial);
+//		MsgCenter.Instance.AddListener (CommandEnum.MaterialSelect, MaterialSelect);
 	}
 
 	void ShieldMaterial(object data) {
@@ -97,6 +99,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 				selectMaterial.Remove(unitItem[i]);
 			}
 		}
+
 		for (int i = 0; i < selectMaterial.Count; i++) {
 			ShowMask(selectMaterial[i].scrollItem,false);
 			selectMaterial.RemoveAt(i);
@@ -126,7 +129,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 			for (int i = 0; i < materialItem.Count; i++) {
 				if(selectMaterial.Contains(materialItem [i])) {
 					ShowMask (materialItem [i].scrollItem, !isShield);
-				}else{
+				}else if(!materialItem[i].Equals(baseSelectItem)){
 					ShowMask (materialItem [i].scrollItem, isShield);
 					materialItem[i].stateLabel.text = "";
 				}
@@ -163,7 +166,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	private void ClickBaseItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		UnitItemInfo uui = baseUnitInfoDic [item];
-		if (uui.isCollect || CheckIsMaterial(uui)) {
+		if (uui.isCollect) {
 			return;		
 		}
 
@@ -178,12 +181,12 @@ public class LevelUpBasePanel : UIComponentUnity {
 		if (uui.isPartyItem) {
 			return;	
 		}
-
-		if (selectMaterial.Count == 4 && CheckIsMaterial(uui)) {
-			MsgCenter.Instance.Invoke (CommandEnum.PickBaseUnitInfo, uui);
+		if (baseSelectItem != null && baseSelectItem.Equals (uui)) {
 			return;
 		}
-
+		if (selectMaterial.Count == 4 && !CheckIsMaterial(uui)) {
+			return;	
+		}
 		MsgCenter.Instance.Invoke (CommandEnum.PickBaseUnitInfo, uui);
 	}
 
@@ -384,14 +387,5 @@ public class UnitInfoStruct{
 	public UILabel targetLabel;
 }
 
-public class UnitItemInfo {
-	public GameObject scrollItem;
-	public UILabel stateLabel;
-	public UIEventListenerCustom listener;
-	public TUserUnit userUnitItem;
-	public bool isCollect 	= false;
-	public bool isPartyItem = false;
-	public bool isSelect = false;
-}
 
 

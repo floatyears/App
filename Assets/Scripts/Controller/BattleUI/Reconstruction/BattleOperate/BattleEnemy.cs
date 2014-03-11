@@ -31,6 +31,7 @@ public class BattleEnemy : UIBaseUnity {
 		gameObject.SetActive (false);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
+		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
 	}
 
 	public override void ShowUI () {
@@ -38,6 +39,7 @@ public class BattleEnemy : UIBaseUnity {
 		gameObject.SetActive (true);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
+		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 	}
 
 	void AttackEnemyEnd(object data) {
@@ -68,6 +70,14 @@ public class BattleEnemy : UIBaseUnity {
 			monster.Add(enemy[i].EnemySymbol,ei);
 		}
 		SortEnemyItem (temp);
+	}
+
+	void DropItem(object data) {
+		int pos = (int)data;
+		uint posSymbol = (uint)pos;
+		if (monster.ContainsKey (posSymbol)) {
+			monster.Remove (posSymbol);	
+		}
 	}
 
 	void Clear() {

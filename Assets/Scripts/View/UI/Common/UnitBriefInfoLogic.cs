@@ -28,12 +28,12 @@ public class UnitBriefInfoLogic : ConcreteComponent {
 
         void ReceiveShowBriefRquest(object msg){
 
-		Debug.Log("UnitBriefInfoLogic.ReceiveShowBriefRquest(), receive command, to show unit brief Info...");
+		//Debug.Log("UnitBriefInfoLogic.ReceiveShowBriefRquest(), receive command, to show unit brief Info...");
 
 		BriefUnitInfo briefInfo = msg as BriefUnitInfo;
 		lastMsgFrom = briefInfo.tag;
 
-		Debug.LogError("UnitBriefInfoLogic.ReceiveShowBriefRquest(), lastMsgFrom is " + lastMsgFrom);
+		//Debug.LogError("UnitBriefInfoLogic.ReceiveShowBriefRquest(), lastMsgFrom is " + lastMsgFrom);
 
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshPanelView", briefInfo.data);
 
@@ -77,7 +77,7 @@ public class UnitBriefInfoLogic : ConcreteComponent {
 
 		lastMsgFrom = null;
 
-		Debug.LogError("UnitBriefInfoLogic.SendBackChooseMsg(), End...");
+//		Debug.LogError("UnitBriefInfoLogic.SendBackChooseMsg(), End...");
 	}
 
 
