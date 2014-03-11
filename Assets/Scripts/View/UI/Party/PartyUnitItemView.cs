@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-
 public class UnitItemInfo {
 	public GameObject scrollItem;
 	public UILabel stateLabel;
@@ -16,7 +15,7 @@ public class UnitItemInfo {
 
 public class PartyUnitItemView{
 	private bool isEnable;
-	public bool IsEnabel{
+	public bool IsEnable{
 		get{ return isEnable;}
 	}
 
@@ -30,7 +29,13 @@ public class PartyUnitItemView{
 		get{ return isCollected;}
 	}
         
-        private GameObject viewItem;
+	private Texture2D avatar;
+	public Texture2D Avatar{
+		get{
+			return avatar;
+		}
+	}
+
 	private TUserUnit dataItem;
 	private PartyUnitItemView(){}
 
@@ -58,73 +63,40 @@ public class PartyUnitItemView{
                 }
         }
         
-        private void initWithTUserUnit(TUserUnit dataItem){
+	private void initWithTUserUnit(TUserUnit dataItem){
 		InitDataItem(dataItem);
-		InitItemResource();
  		InitWithArgs();
-                InitAvatar();
-        }
+        	GetAvatar();
+	}
        
 	private void InitDataItem(TUserUnit dataItem){
 		this.dataItem = dataItem;
 	}
 
-	private void InitItemResource(){
-		viewItem = Resources.Load(UIConfig.PartyUnitViewItemPath) as GameObject;
-	}
-
 	private void InitWithArgs(){
 		Dictionary <string, object> initArgs = new Dictionary<string, object>();
 		initArgs.Add("collect", true);
-		initArgs.Add("enable", true);
-		initArgs.Add("party", false);
-                
-                RefreshStates(initArgs);
-	}
+		initArgs.Add("enable", false);
+		initArgs.Add("party", true);
 
-        private void InitAvatar(){
-		UITexture avatarTex = viewItem.transform.FindChild("role").GetComponent<UITexture>();
-		avatarTex.mainTexture = dataItem.UnitInfo.GetAsset(UnitAssetType.Avatar);
-        }
-
-        private void ClickViewItem(GameObject item){
-		if(!isEnable)	return;
+        	RefreshStates(initArgs);
 	}
 	
-	private void PressViewItem(GameObject item){
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, dataItem);
-        }
-   
+	private void GetAvatar(){
+		avatar = dataItem.UnitInfo.GetAsset(UnitAssetType.Avatar);
+	}
+	
         private void RefreshPartyState(bool state){
-                UILabel label = viewItem.transform.FindChild("Label_Party").GetComponent<UILabel>();
-		label.enabled = state;
+		this.isParty = state;
         }
 
 	private void RefreshMarkState(bool state){
 		this.isCollected = state;
-		UISprite starMarkSpr = viewItem.transform.FindChild("StarMark").GetComponent<UISprite>();
-		starMarkSpr.enabled = state;
         }
 		
 	private void RefreshEnableState(bool state){
-		if(state)	
-			AddEventListener();
-		else
-			RemoveEventListner();
-		UISprite maskSpr = viewItem.transform.FindChild("Mask").GetComponent<UISprite>();
-                maskSpr.enabled = state;
+		this.isEnable = state;
         }
 
-	private void AddEventListener(){
-		UIEventListenerCustom.Get(viewItem).onClick += ClickViewItem;
-		UIEventListenerCustom.Get(viewItem).LongPress += PressViewItem;
-        }
-
-	private void RemoveEventListner(){
-		UIEventListenerCustom.Get(viewItem).onClick -= ClickViewItem;
-		UIEventListenerCustom.Get(viewItem).LongPress -= PressViewItem;
-	}
-        
 }
 

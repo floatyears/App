@@ -4,11 +4,15 @@ using System.Collections.Generic;
 public class PartyUnitsView : UIComponentUnity {
 
 	DragPanel dragPanel;
+	GameObject unitItem;
+	GameObject rejectItem;
+
 	bool exchange = false;
         List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	Dictionary<GameObject, TUserUnit> dragItemViewDic = new Dictionary<GameObject, TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
+
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -28,42 +32,30 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void InitDragPanel(){
-		if ( GlobalData.myUnitList != null)
-			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
-		else{
-			Debug.Log("GlobalData.myUnitList is null, return");
-			return;
-		}
+//		if ( GlobalData.myUnitList != null)
+//			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
+//		else{
+//			Debug.Log("GlobalData.myUnitList is null, return");
+//			return;
+//		}
+//
+//		if(userUnitInfoList == null ){
+//			Debug.LogWarning("userUnitInfoList is null ");
+//			return;
+//		}
+//
+//		int unitCount = userUnitInfoList.Count;
 
-		if(userUnitInfoList == null ){
-			Debug.LogWarning("userUnitInfoList is null ");
-			return;
-		}
-
-		int unitCount = userUnitInfoList.Count;
-		LogHelper.Log("My Unit Count : " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
-		GameObject unitItem =  Resources.Load( itemSourcePath ) as GameObject;
-		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject ;
-
+		unitItem = Resources.Load( itemSourcePath ) as GameObject;
+		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject ;
 		InitDragPanelArgs();
-
 		dragPanel = new DragPanel("UnitScroller", unitItem);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(1, rejectItem);
-		dragPanel.AddItem(unitCount, unitItem);
-		FillDragPanel( dragPanel );
-
+//		dragPanel.AddItem(unitCount, unitItem);
+		//FillDragPanel( dragPanel );
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
-
-//		string rootPath = "Prefabs/UI/Friend/";
-//		GameObject unitItem = Resources.Load(rootPath + "UnitItem") as GameObject;
-//		GameObject rejectItem = Resources.Load(rootPath + "RejectItem") as GameObject;
-//
-//		InitDragPanelArgs();
-//		dragPanel = new DragPanel("UnitScroller", unitItem);
-//		dragPanel.CreatUI();
-//		dragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 
 	protected DragPanel CreateDragPanel( string name, int count, GameObject item){
@@ -85,13 +77,13 @@ public class PartyUnitsView : UIComponentUnity {
 				UIEventListenerCustom.Get( scrollItem ).onClick = ClickRejectItem;
 				continue;
 			}
-
-			TUserUnit uuItem = userUnitInfoList[ i - 1 ] ;
-			dragItemViewDic.Add( scrollItem, uuItem );
-			
-			StoreLabelInfo( scrollItem);
-			ShowItem( scrollItem );
-			AddEventListener( scrollItem );
+//
+//			TUserUnit uuItem = userUnitInfoList[ i - 1 ] ;
+//			dragItemViewDic.Add( scrollItem, uuItem );
+//			
+//			StoreLabelInfo( scrollItem);
+//			ShowItem( scrollItem );
+//			AddEventListener( scrollItem );
 		}
 	}
 
@@ -206,7 +198,6 @@ public class PartyUnitsView : UIComponentUnity {
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickReject", null);
 		ExcuteCallback(cbd);
 	}
-
 	
 	public override void Callback(object data){
 		base.Callback(data);
@@ -223,14 +214,8 @@ public class PartyUnitsView : UIComponentUnity {
                 }	
         }
 
-	void RefreshDragPanel(object args){
-//		ClearDragItem();
-//		List<TUserUnit> itemDataList = args as List<TUserUnit>;
-////		dragItemViewDic.Clear();
-//		List<Texture2D> textureList = new List<Texture2D>();
-	}
 
-
+	
 	void ClearDragItem(){
 		LogHelper.Log("ClearDragItem(), Clear Before : Drag Item Count is : " + dragPanel.ScrollItem.Count);
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
@@ -240,17 +225,48 @@ public class PartyUnitsView : UIComponentUnity {
 		LogHelper.Log("ClearDragItem(), Clear After : Drag Item Count is : " + dragPanel.ScrollItem.Count);
 	}
 
-	void AddDragItem(List<Texture2D> texList){
-		for(int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			GameObject dragItem = dragPanel.ScrollItem[ i ];
-			UITexture uiTexture = dragItem.transform.FindChild( "Texture_Avatar").gameObject.GetComponent<UITexture>();
-			uiTexture.mainTexture = texList[ i ];
-		}
+	void AddDragItem(int count){
+		dragPanel.AddItem(count);
 	}
-//
-//	List<TUserUnit> GetTextureList(List<TUserUnit> tuuList){
-//
-//	}
+
+	void RefreshDragPanel(object args){
+		//ClearDragItem();
+
+		List<PartyUnitItemView> itemDataList = args as List<PartyUnitItemView>;
+
+		//AddDragItem(itemDataList.Count);
+		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = dragPanel.ScrollItem[ i ];
+			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+			uiTexture.mainTexture = itemDataList[ i-1 ].Avatar;
+
+			UILabel partyLabel = scrollItem.transform.FindChild("Label_Party").GetComponent<UILabel>();
+			if(itemDataList[ i -1 ].IsParty){
+				partyLabel.text = "Party";
+				partyLabel.color = Color.red;
+			}
+			else{
+				partyLabel.text = string.Empty;
+			}
+
+			UISprite starSpr = scrollItem.transform.FindChild("StarMark").GetComponent<UISprite>();
+			if(itemDataList[ i -1 ].IsCollected){
+				starSpr.enabled = true;
+			}
+			else{
+				starSpr.enabled = false;
+			}
+
+			UISprite maskSpr = scrollItem.transform.FindChild("Mask").GetComponent<UISprite>();
+			if(itemDataList[ i -1 ].IsEnable){
+				maskSpr.enabled = false;
+			}
+			else{
+				maskSpr.enabled = true;
+			}
+                }
+		
+	}
 }
 
 

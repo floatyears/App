@@ -11,7 +11,7 @@ public class UIConfig
 	public static string emptyLabelTextFormat = "---";
 	public static string stageDragPanelItemPath = "Stage/StageDragPanelItem";
 	public static string questDragPanelItemPath = "Prefabs/UI/Quest/QuestItem";
-	public static string PartyUnitViewItemPath = "Prefabs/UI/Unit/UnitItem";
+	public static string PartyUnitViewItemPath = "Prefabs/UI/Friend/UnitItem";
 
 	public static string Lab_T_Rank = "Rank:";
 	public static string Lab_V_Rank = "12";

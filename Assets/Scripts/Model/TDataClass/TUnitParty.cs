@@ -21,7 +21,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     }
 
     public bool HasUnit(uint uniqueId) {
-        return userUnit.ContainsKey(uniqueId);
+        return userUnit.ContainsKey((int)uniqueId);
     }
 
     public Dictionary<uint,ProtobufDataBase> LeadSkill {

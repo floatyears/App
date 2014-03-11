@@ -6,22 +6,24 @@ public class PartyUnitsLogic : ConcreteComponent {
 
 	bool pickableState;
 	TUserUnit currentPickedUnit;
-	List<TUserUnit> playerPossessUnitList = new List<TUserUnit>();
+	
+	List<PartyUnitItemView> partyUnitItemViewList = new List<PartyUnitItemView>();
 
-	List<PartyUnitItemView> viewList = new List<PartyUnitItemView>();
+	public PartyUnitsLogic(string uiName):base(uiName){
 
-	public PartyUnitsLogic(string uiName):base(uiName){}
+	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		GetUnitList();
+
+		CallBackViewRefresh();
 		AddCmdListener();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		ResetPickableState();
-		ClearUnitList();
+
 		RmvCmdListener();
 	}
 
@@ -37,15 +39,21 @@ public class PartyUnitsLogic : ConcreteComponent {
 		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyUnitList, RefreshUnitList);
 	}
 
-	void GetUnitList(){
-		playerPossessUnitList.AddRange(GlobalData.myUnitList.GetAll().Values);
-		Debug.LogError("GetUnitList(), UnitList Count : " + playerPossessUnitList.Count);
+	void GetUnitItemViewList(){
+		List<TUserUnit> userUnitList = new List<TUserUnit>();
+		partyUnitItemViewList.Clear();
+		userUnitList.AddRange(GlobalData.myUnitList.GetAll().Values);
+		long msNow = TimeHelper.MillionSecondsNow();
+		for(int i = 0; i < userUnitList.Count; i++){
+			PartyUnitItemView viewItem = PartyUnitItemView.Create(userUnitList[ i ]);
+			partyUnitItemViewList.Add(viewItem);
+
+		}
+		LogHelper.Log("loop end {0}",  TimeHelper.MillionSecondsNow() - msNow);
+		Debug.LogError("GetUnitItemViewList(), ViewList count : " + partyUnitItemViewList.Count);
+
 	}
 
-	void ClearUnitList(){
-		playerPossessUnitList.Clear();
-		Debug.LogError("ClearUnitList(), UnitList Count : " + playerPossessUnitList.Count);
-	}
 
 	void ActivateItem(object data){
 		string tag = data as string;
@@ -123,10 +131,13 @@ public class PartyUnitsLogic : ConcreteComponent {
 	}
 
 	void RefreshUnitList(object msg){
+		CallBackViewRefresh();
+	}
+
+	void CallBackViewRefresh(){
 		Debug.LogError("RefreshUnitList(), Callback the list data to view...");
-		pickableState = false;
-		//Callback the list data to view
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", playerPossessUnitList);
+		GetUnitItemViewList();
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", partyUnitItemViewList);
 		ExcuteCallback(cbdArgs);
 		Debug.LogError("RefreshUnitList(), End...");
 	}
