@@ -175,7 +175,8 @@ func GetFriendsData(db *data.Data, sUid string, isGetOnlyFriends bool, friendsIn
 			return err
 		}
 
-		if isGetOnlyFriends && *friendData.FriendState != bbproto.EFriendState_ISFRIEND {
+		if isGetOnlyFriends && *friendData.FriendState != bbproto.EFriendState_ISFRIEND &&
+		 *friendData.FriendState != bbproto.EFriendState_FRIENDHELPER {
 			log.T("isGetOnlyFriends:  skip -> (fid:%v, friendState:%v)", sFid, *friendData.FriendState)
 			continue
 		}

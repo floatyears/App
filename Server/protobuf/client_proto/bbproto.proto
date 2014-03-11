@@ -414,7 +414,7 @@ message UnitResource {
 	optional int32			size		= 3; // resource size in bytes
     repeated string         fileName    = 4; // file name list
     optional int32          version     = 5; // file version
-};
+}
 
 message UserUnit {  //unit instance
 	required uint32 uniqueId	= 1;
@@ -427,7 +427,7 @@ message UserUnit {  //unit instance
 	optional int32 limitbreakLv	= 8;
 	optional uint32 getTime		= 9;
 	optional int32	isFavorite	= 10;
-};
+}
 
 message UnitInfo { 	
 	required uint32			id				= 1;
@@ -484,6 +484,7 @@ message EvolveInfo {
     required int32      		evolveUnitId    = 1;
     repeated int32		      	materialUnitId  = 2;
 	optional HelperRequire		helperRequire	= 3;
+	optional uint32				evolveQuestId	= 4;
 }
 
 //=================================================================================================//
@@ -491,23 +492,23 @@ message EvolveInfo {
 message ReqGetUnitResource {
 	optional ProtoHeader	header	= 1;
 	repeated uint32			unitId	= 2;
-};
+}
 
 message RspGetUnitResource {
 	optional ProtoHeader	header	= 1;
 	optional string			server	= 2; // server address
 	repeated UnitResource	unitres	= 3; // unit download path list
-};
+}
 
 message ReqGetUserUnit {	// get unit instance info
 	optional ProtoHeader	header	= 1;
 	repeated uint32			unitId	= 2;
-};
+}
 
 message RspGetUserUnit {
 	optional ProtoHeader	header	= 1;
 	repeated UserUnit		unit	= 2;
-};
+}
 
 message ReqLevelUp {	
 	optional ProtoHeader	header			= 1;
@@ -516,15 +517,61 @@ message ReqLevelUp {
 	optional uint32			helperUserId	= 4; 
 	optional UserUnit		helperUnit		= 5;
 	optional int32			helperPremium	= 6;
-};
+}
 
 message RspLevelUp {
 	optional ProtoHeader	header			= 1;
 	repeated UserUnit		unitList		= 2;
-	optional uint32			money			= 3;
+	optional int32			money			= 3;
 	optional uint32			blendUniqueId	= 4;
 	optional int32			blendExp		= 5;
-};
+	repeated uint32			partUniqueId	= 6;
+}
+
+
+message ReqEvolveStart {	
+	optional ProtoHeader	header			= 1;
+	optional uint32			baseUniqueId	= 2;
+	repeated uint32			partUniqueId	= 3;
+	optional uint32			helperUserId	= 4;
+	optional UserUnit		helperUnit		= 5;
+	optional int32			helperPremium	= 6;
+	optional uint32			evolveQuestId	= 7;
+}
+
+message RspEvolveStart {
+	optional ProtoHeader		header			= 1;
+	optional int32				staminaNow		= 2; // current stamina
+	optional uint32				staminaRecover	= 3; // stamina recover time
+	optional QuestDungeonData	dungeonData		= 4;
+}
+
+message ReqEvolveDone {	
+	optional ProtoHeader	header			= 1;
+	optional uint32			questId			= 2; 
+	optional uint32			securityKey		= 3; 
+	optional int32			getMoney		= 4;
+	repeated uint32			getUnit			= 5;
+	repeated uint32			hitGrid			= 6;
+}
+
+message RspEvolveDone {	
+	optional ProtoHeader	header			= 1;
+	optional int32			rank			= 2;
+	optional int32			exp				= 3;
+	optional int32			money			= 4;
+	optional int32			friendPoint		= 5;
+	optional int32			staminaNow		= 6;
+	optional int32			staminaMax		= 7;
+	optional uint32			staminaRecover	= 8;
+	optional int32			gotMoney		= 9;
+	optional int32			gotExp			= 10;
+	optional int32			gotChip			= 11;
+	optional int32			gotFriendPoint	= 12;
+	repeated UserUnit		gotUnit			= 13;
+	optional UserUnit		evolvedUnit		= 14;
+}
+
 
 //=====================================================
 

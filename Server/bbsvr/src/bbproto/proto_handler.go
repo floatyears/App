@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	//"strconv"
+	"reflect"
 )
 import (
 	proto "code.google.com/p/goprotobuf/proto"
@@ -37,7 +38,7 @@ func (t BaseProtoHandler) ParseInput(req *http.Request, reqMsg proto.Message) (e
 		return Error.New(EC.UNMARSHAL_ERROR, err.Error())
 	}
 	log.T("==================================================")
-	log.T("recv reqMsg: %+v", reqMsg)
+	log.T("recv reqMsg(%v): %+v", reflect.TypeOf(reqMsg), reqMsg)
 
 	return Error.OK()
 }

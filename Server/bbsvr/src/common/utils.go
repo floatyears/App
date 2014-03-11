@@ -2,7 +2,7 @@ package common
 
 import (
 	"common/log"
-	"fmt"
+//	"fmt"
 	"math/rand"
 	"os"
 	"strconv"
@@ -12,7 +12,7 @@ import (
 func WriteFile(data []byte, filename string) error {
 	file, err := os.Create(filename)
 	if err != nil {
-		fmt.Println("Failed to create the output file: ", filename)
+		log.Printf("Failed to create the output file: ", filename)
 		return err
 	}
 	defer file.Close()
@@ -28,13 +28,14 @@ func WriteFile(data []byte, filename string) error {
 func ReadFile(filename string) (data []byte, err error) {
 	file, err := os.Open(filename)
 	if err != nil {
-		fmt.Println("Failed to open file: ", filename)
+		log.Printf("Failed to open file: ", filename)
 		return nil, err
 	}
 	defer file.Close()
-	_, err = file.Read(data)
-
-	return data, err
+	data=make([]byte, 10240)
+	n, err := file.Read(data)
+	log.Printf("file.Read ret:%v err:%v",n, err)
+	return data[:n], err
 }
 
 func Itoa(n int) string {

@@ -9,4 +9,9 @@ class Protocol {
 	public const string CLEAR_QUEST = "clear_quest";
 	public const string CHANGE_PARTY = "change_party";
 	public const string LEVEL_UP = "level_up";
+	public const string GET_FRIEND = "get_friend";
+	public const string ADD_FRIEND = "add_friend";
+	public const string DEL_FRIEND = "del_friend";
+	public const string FIND_FRIEND = "find_friend";
+	public const string ACCEPT_FRIEND = "accept_friend";
 }

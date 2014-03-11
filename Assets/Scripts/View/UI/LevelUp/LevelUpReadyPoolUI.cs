@@ -31,23 +31,30 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 	void NetCallback(object data) {
 		//TODO: moving to logic
 		if( data != null ) {
-
-
 			bbproto.RspLevelUp rspLevelUp = data as bbproto.RspLevelUp;
 			Debug.LogError("rspLevelUp.header.error : " + rspLevelUp.header.error + " rspLevelUp.header.code : " + rspLevelUp.header.code);
-//			Debug.LogError(rspLevelUp);
+
 			//update money
 			GlobalData.accountInfo.Money = (int)rspLevelUp.money;
 			
 			// update unitlist
 			uint userId = GlobalData.userInfo.UserId;
 			if (rspLevelUp.unitList != null) {
-				GlobalData.myUnitList.Clear();	//TODO: maybe havenot to clear all, just for simple right now.
-				//GlobalData.userUnitList.Clear(); //TODO: only update the baseUnit
+				//update myUnitList
+				GlobalData.myUnitList.Clear();
 				foreach(UserUnit unit in rspLevelUp.unitList) {
 					GlobalData.myUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
-					//GlobalData.userUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
 				}
+
+				// update blendUnit in the userUnitList
+				TUserUnit blendUnit = GlobalData.userUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
+				blendUnit = GlobalData.myUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
+
+				//remove partUniqueId from userUnitList
+				foreach(uint partUniqueId in rspLevelUp.partUniqueId) {
+					GlobalData.userUnitList.DelMyUnit(partUniqueId);
+				}
+
 				LogHelper.Log("rspLevelUp add to myUserUnit.count: {0}", rspLevelUp.unitList.Count);
 			}
 

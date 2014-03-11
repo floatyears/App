@@ -46,7 +46,7 @@ func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
 	e = handler.ProcessLogic(&reqMsg, rspMsg)
 
 	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
-	log.Printf("sendrsp err:%v, AuthUser rspMsg.Header:\n%+v nickName:%v\n\n", e, rspMsg.Header, rspMsg.User.NickName)
+	log.Printf("sendrsp err:%v, AuthUser rspMsg.Header:\n%+v nickName:%v\n\n", e, rspMsg.Header, *rspMsg.User.NickName)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -214,11 +214,8 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		log.T("\t [%v]: %+v", k, friend)
 	}
 	log.T("\tParty: ")
-	for _, party := range rspMsg.Party.PartyList {
-		log.T("\t*party:%+v: ", *party)
-		if party.Id!=nil && party.Items != nil {
-			log.T("\t%v: %+v", *party.Id, party.Items)
-		}
+	for k, party := range rspMsg.Party.PartyList {
+		log.T("\tparty[%v]: %+v", k, *party)
 	}
 	log.T("\tLogin: %+v", rspMsg.Login)
 	log.T("\tUnitList: count=%v", len(rspMsg.UnitList))
