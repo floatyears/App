@@ -23,7 +23,10 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     public bool HasUnit(uint uniqueId) {
         foreach (TUserUnit tUserUnit in userUnit.Values) {
             LogHelper.Log("HasUnit(), foreach: judge Id{0} ResultId {1}", uniqueId, tUserUnit.ID);
-            if (tUserUnit.ID == uniqueId) {
+            if (tUserUnit == null) {
+                continue;
+            }
+            if (uniqueId == tUserUnit.ID) {
                 return true;
             }
         }
