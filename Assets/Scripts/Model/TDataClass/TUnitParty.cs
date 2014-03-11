@@ -20,7 +20,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         MsgCenter.Instance.RemoveListener(CommandEnum.ActiveReduceHurt, ReduceHurt);
     }
 
-    public bool HasMember(uint uniqueId) {
+    public bool HasUnit(uint uniqueId) {
         return userUnit.ContainsKey(uniqueId);
     }
 
