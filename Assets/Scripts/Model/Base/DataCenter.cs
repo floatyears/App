@@ -283,34 +283,18 @@ public class DataCenter {
             totalValue += pti.GetValue(level);
         return totalValue;
     }
-    
-    //Temp
-    //public static List<int> HaveFriend = new List<int>(){};
-    
-//    private static UnitBaseInfo friendBaseInfo ;
-//    public static UnitBaseInfo FriendBaseInfo {
-//        get {
-//            if (friendBaseInfo == null) {
-//                friendBaseInfo = unitBaseInfo[195];
-//                
-//            }
-//            return friendBaseInfo;
-//        }
-//    }
-    
-    
-    //  public static object GetEffect (Effect effect) {
-    //      int type = (int)effect;
-    //      object obj = null;
-    
-    //      if (effect == Effect.DragCard) {
-    //          if (!tempEffect.TryGetValue (type, out obj)) {
-    //              string path = GetEffectPath(type);
-    //              obj = Resources.Load(path);
-    //              tempEffect.Add(type,obj);
-    //          }
-    //      }
-    //  }
+
+    public TUnitInfo GetUnitInfo(uint unitID) {
+        if (UnitInfo.ContainsKey(unitID)) {
+            TUnitInfo tui = UnitInfo[unitID];
+            return tui;
+        }
+        else {
+            Debug.LogError("unitid is invalid");
+            return null;
+        }
+    }
+
 
     
     private void setData(ModelEnum modelType, object modelData) {

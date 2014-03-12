@@ -63,7 +63,7 @@ public class GlobalData {
     public static int UserCost {
         get {
             const int TYPE_MAXCOST_OF_RANK = 4; //type = 4: userRank -> cost
-            return GlobalData.Instance.GetUnitValue(TYPE_MAXCOST_OF_RANK, GlobalData.userInfo.Rank); 
+            return DataCenter.Instance.GetUnitValue(TYPE_MAXCOST_OF_RANK, DataCenter.Instance.UserInfo.Rank); 
         }
     }
 

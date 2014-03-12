@@ -43,7 +43,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 	}
 
 	private void InitUI(){
-		friendBaseInfo = GlobalData.FriendBaseInfo;
+		friendBaseInfo = DataCenter.Instance.FriendBaseInfo;
 		InitPartyLabel();
 		InitPartyArrow();
 		InitPartyUnits();
@@ -259,8 +259,8 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback{
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
 		if( rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null ) {
 
-			GlobalData.userInfo.StaminaNow = rspStartQuest.staminaNow;
-			GlobalData.userInfo.StaminaRecover = rspStartQuest.staminaRecover;
+			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
+			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 
 			LogHelper.Log ("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 

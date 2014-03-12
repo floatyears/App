@@ -32,10 +32,10 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void InitDragPanel(){
-		if ( GlobalData.myUnitList != null)
-			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
+		if ( DataCenter.Instance.MyUnitList != null)
+			userUnitInfoList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
 		else{
-			Debug.Log("GlobalData.myUnitList is null, return");
+			Debug.Log("DataCenter.Instance.MyUnitList is null, return");
 			return;
 		}
 
@@ -93,7 +93,7 @@ public class PartyUnitsView : UIComponentUnity {
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		
 		uint uid = dragItemViewDic[item].UnitID;
-		avatarTex.mainTexture = GlobalData.unitInfo[ uid ].GetAsset(UnitAssetType.Avatar);
+		avatarTex.mainTexture = DataCenter.Instance.UnitInfo[ uid ].GetAsset(UnitAssetType.Avatar);
 		
 		int addAttack = dragItemViewDic[ item ].AddAttack;
 

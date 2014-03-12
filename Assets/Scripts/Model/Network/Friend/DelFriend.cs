@@ -46,7 +46,7 @@ public class DelFriend: ProtoManager {
         reqDelFriend = new ReqDelFriend();
         reqDelFriend.header = new ProtoHeader();
         reqDelFriend.header.apiVer = Protocol.API_VERSION;
-        reqDelFriend.header.userId = GlobalData.userInfo.UserId;
+        reqDelFriend.header.userId = DataCenter.Instance.UserInfo.UserId;
         
         //request params
         reqDelFriend.friendUid = friendUid;

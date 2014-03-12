@@ -77,8 +77,8 @@ public class PartyUnitItemView{
 		Dictionary <string, object> initArgs = new Dictionary<string, object>();
 		initArgs.Add("collect", true);
 		initArgs.Add("enable", false);
-		initArgs.Add("party", GlobalData.partyInfo.UnitIsInParty(dataItem.ID));
-		Debug.LogError("11111111111111111.........." + GlobalData.partyInfo.UnitIsInParty(dataItem.ID));
+		initArgs.Add("party", DataCenter.Instance.PartyInfo.UnitIsInParty(dataItem.ID));
+		Debug.LogError("11111111111111111.........." + DataCenter.Instance.PartyInfo.UnitIsInParty(dataItem.ID));
         	RefreshStates(initArgs);
 	}
 	

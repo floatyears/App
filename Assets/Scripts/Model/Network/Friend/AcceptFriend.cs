@@ -46,7 +46,7 @@ public class AcceptFriend: ProtoManager {
         reqAcceptFriend = new ReqAcceptFriend();
         reqAcceptFriend.header = new ProtoHeader();
         reqAcceptFriend.header.apiVer = Protocol.API_VERSION;
-        reqAcceptFriend.header.userId = GlobalData.userInfo.UserId;
+        reqAcceptFriend.header.userId = DataCenter.Instance.UserInfo.UserId;
         
         //request params
         reqAcceptFriend.friendUid = friendUid;

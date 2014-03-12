@@ -53,7 +53,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 //				Debug.LogError("TUnitParty :: userunit is null. new it..");
                 userUnit = new Dictionary<int,TUserUnit>();
                 for (int i = 0; i < partyItem.Count; i++) {
-                    TUserUnit uui = GlobalData.userUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+                    TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
                     userUnit.Add(partyItem[i].unitPos, uui);
 //					Debug.LogError("TUnitParty :: userunit.add "+i);
                 }
@@ -140,7 +140,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         float attackV = attackValue * Proportion;
         float hurtValue = 0;
         for (int i = 0; i < partyItem.Count; i++) {
-            TUserUnit unitInfo = GlobalData.userUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+            TUserUnit unitInfo = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
             hurtValue += unitInfo.CalculateInjured(attackType, attackV);
         }
 		
@@ -172,7 +172,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                     tempAttack.Add(recoverHp);
                 }
             }
-            tempUnitInfo = GlobalData.userUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+            tempUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
             tempAttack.AddRange(tempUnitInfo.CaculateAttack(skillUtility.haveCard, skillUtility.alreadyUseSkill));
             if (tempAttack.Count > 0) {
                 for (int j = 0; j < tempAttack.Count; j++) {
@@ -182,7 +182,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                     skillUtility.alreadyUseSkill.Add(ai.SkillID);
                     AttackImageUtility aiu = new AttackImageUtility();
                     aiu.attackProperty = ai.AttackType;
-                    aiu.userProperty = GlobalData.userUnitList.GetMyUnit(ai.UserUnitID).UnitType;
+                    aiu.userProperty = DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID).UnitType;
                     aiu.skillID = ai.SkillID;
                     aiu.attackID = ai.AttackID;
                     tempAttackType.Add(aiu);
@@ -226,8 +226,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	
     void AddLeadSkill(uint id) {
         if (id != -1) {
-            TUserUnit firstLeader = GlobalData.userUnitList.GetMyUnit(id);
-            ProtobufDataBase pdb = GlobalData.skill[firstLeader.LeadSKill];
+            TUserUnit firstLeader = DataCenter.Instance.UserUnitList.GetMyUnit(id);
+            ProtobufDataBase pdb = DataCenter.Instance.Skill[firstLeader.LeadSKill];
             if (leaderSkill.ContainsKey(id)) {
                 leaderSkill[id] = pdb;
             } else {
@@ -254,7 +254,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
             //update instance and userUnit
             instance.items[item.unitPos] = item;
             if (userUnit != null && userUnit.ContainsKey(item.unitPos))
-                userUnit[item.unitPos] = GlobalData.userUnitList.GetMyUnit(item.unitUniqueId);
+                userUnit[item.unitPos] = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
             //LogHelper.LogError(" SetPartyItem:: => pos:{0} uniqueId:{1}",item.unitPos, item.unitUniqueId);
             this.reAssignData();
         } else {
@@ -281,7 +281,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         int bloodNum = 0;
         for (int i = 0; i < instance.items.Count; i++) {
             uint unitUniqueID = instance.items[i].unitUniqueId;
-            bloodNum += GlobalData.userUnitList.GetMyUnit(unitUniqueID).InitBlood;
+            bloodNum += DataCenter.Instance.UserUnitList.GetMyUnit(unitUniqueID).InitBlood;
         }
         return bloodNum;
     }
@@ -291,7 +291,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         int bloodNum = 0;
         for (int i = 0; i < instance.items.Count; i++) {
             uint unitUniqueID = instance.items[i].unitUniqueId;
-            bloodNum += GlobalData.userUnitList.GetMyUnit(unitUniqueID).Blood;
+            bloodNum += DataCenter.Instance.UserUnitList.GetMyUnit(unitUniqueID).Blood;
         }
         return bloodNum;
     }
@@ -327,13 +327,13 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     }
 	
     NormalSkill GetSecondSkill(PartyItem pi) {
-        TUserUnit tuu = GlobalData.userUnitList.GetMyUnit(pi.unitUniqueId);
+        TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(pi.unitUniqueId);
 	if( tuu == null ){
 		return null;
 	}
         UserUnit uu1 = tuu.Object;
-        UnitInfo ui1 = tuu.UnitInfo.Object;			 //GlobalData.unitInfo[uu1.unitId].DeserializeData<UnitInfo>();
-        TNormalSkill ns = GlobalData.skill[ui1.skill2] as TNormalSkill;
+        UnitInfo ui1 = tuu.UnitInfo.Object;			 //DataCenter.Instance.UnitInfo[uu1.unitId].DeserializeData<UnitInfo>();
+        TNormalSkill ns = DataCenter.Instance.Skill[ui1.skill2] as TNormalSkill;
         return ns.Object;
     }
 	
@@ -342,18 +342,18 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 
         List<TUserUnit> temp = new List<TUserUnit>();
         foreach (var item in instance.items) {
-            TUserUnit uui = GlobalData.userUnitList.GetMyUnit(item.unitUniqueId);
+            TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
             temp.Add(uui);
         }
         return temp;
     }
 
     public SkillBase GetLeaderSkillInfo() {
-        TUserUnit uui = GlobalData.userUnitList.GetMyUnit(instance.items[0].unitUniqueId);
+        TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(instance.items[0].unitUniqueId);
         if (uui == null)
             return null;
 
-        SkillBaseInfo sbi = GlobalData.skill[uui.LeadSKill];
+        SkillBaseInfo sbi = DataCenter.Instance.Skill[uui.LeadSKill];
         if (sbi == null)
             return null;
         return sbi.GetSkillInfo();
@@ -364,7 +364,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         Dictionary<int,TUserUnit> temp = new Dictionary<int,TUserUnit>();
         foreach (var item in instance.items) {
 //			Debug.LogError("item.unitUniqueId : " + item.unitUniqueId);
-            TUserUnit uui = GlobalData.userUnitList.GetMyUnit(item.unitUniqueId);
+            TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
 //			Debug.LogError("GetPosUnitInfo : " + uui);
             temp.Add(item.unitPos, uui);
         }

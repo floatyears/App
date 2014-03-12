@@ -39,7 +39,7 @@ public class GetFriendList: ProtoManager {
         reqGetFriend = new ReqGetFriend();
         reqGetFriend.header = new ProtoHeader();
         reqGetFriend.header.apiVer = Protocol.API_VERSION;
-        reqGetFriend.header.userId = GlobalData.userInfo.UserId;
+        reqGetFriend.header.userId = DataCenter.Instance.UserInfo.UserId;
 
         //request params
         reqGetFriend.getFriend = ToGetFriend;

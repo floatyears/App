@@ -36,8 +36,8 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	}
 
 	void InitDragPanel(){
-		if ( GlobalData.friends != null)
-			friendInfoList.AddRange(GlobalData.friends);
+		if ( DataCenter.Instance.Friends != null)
+			friendInfoList.AddRange(DataCenter.Instance.Friends);
 //		Debug.LogError ("friendInfoList.Count : " + friendInfoList.Count);
 		//temp add friend info----------------------------------------
 //		FriendInfo fi = new FriendInfo ();
@@ -56,7 +56,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 		//end---------------------------------------------------------
 
 		string name = "FriendDragPanel";
-		int count = friendInfoList.Count;//GlobalData.friends.Count;
+		int count = friendInfoList.Count;//DataCenter.Instance.Friends.Count;
 		string itemSourcePath = "Prefabs/UI/Friend/AvailFriendItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		InitDragPanelArgs();
@@ -112,7 +112,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 		//
 		uint curUnitId = friendUnitInfoDic[item].UserUnit.UnitID;
 //		Debug.LogError("Base Show Avatar : curUnitId is : " + curUnitId);
-		avatarTex.mainTexture = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		avatarTex.mainTexture = DataCenter.Instance.UnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
 
 		int addAttack = tfriendInfo.UserUnit.AddAttack;
 		int addHp = tfriendInfo.UserUnit.AddHP;

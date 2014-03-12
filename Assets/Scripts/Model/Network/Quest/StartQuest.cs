@@ -34,15 +34,15 @@ public class StartQuest: ProtoManager {
 		reqStartQuest.header = new ProtoHeader ();
 		reqStartQuest.header.apiVer = Protocol.API_VERSION;
 
-		if (  GlobalData.userInfo != null )
-			reqStartQuest.header.userId = GlobalData.userInfo.UserId;
+		if (  DataCenter.Instance.UserInfo != null )
+			reqStartQuest.header.userId = DataCenter.Instance.UserInfo.UserId;
 
 
 		reqStartQuest.stageId = questParam.stageId;
 		reqStartQuest.questId = questParam.questId;
 		reqStartQuest.helperUserId = questParam.helperUserId;
 		reqStartQuest.currentParty = 0;//questParam.currPartyId;
-		TUserUnit userunit = GlobalData.userUnitList.GetMyUnit (questParam.helperUniqueId);
+		TUserUnit userunit = DataCenter.Instance.UserUnitList.GetMyUnit (questParam.helperUniqueId);
 		if ( userunit != null )
 			reqStartQuest.helperUnit = userunit.Object;
 

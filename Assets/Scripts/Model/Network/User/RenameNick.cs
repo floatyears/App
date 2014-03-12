@@ -24,8 +24,8 @@ public class RenameNick: ProtoManager {
 		reqRenameNick = new ReqRenameNick ();
 		reqRenameNick.header = new ProtoHeader ();
 		reqRenameNick.header.apiVer = Protocol.API_VERSION;
-		if (GlobalData.userInfo != null && GlobalData.userInfo.UserId > 0) {
-			reqRenameNick.header.userId = GlobalData.userInfo.UserId;
+		if (DataCenter.Instance.UserInfo != null && DataCenter.Instance.UserInfo.UserId > 0) {
+			reqRenameNick.header.userId = DataCenter.Instance.UserInfo.UserId;
 		} else {
 			reqRenameNick.header.userId = GameDataStore.Instance.GetUInt (GameDataStore.USER_ID);
 		}

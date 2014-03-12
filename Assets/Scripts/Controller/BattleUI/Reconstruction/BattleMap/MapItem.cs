@@ -100,7 +100,7 @@ public class MapItem : UIBaseUnity
 			case bbproto.EQuestGridType.Q_ENEMY:
 
 				uint unitID = gridItem.Enemy [0].UnitID;
-				TUnitInfo tui = GlobalData.Instance.GetUnitInfo (unitID);
+				TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 				if (tui != null) {
 					UITexture tex = mapBackSprite.gameObject.AddComponent<UITexture>();
 //					mapItemTexture.enabled = true;

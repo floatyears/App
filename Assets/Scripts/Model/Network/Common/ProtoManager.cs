@@ -55,7 +55,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
     private DataListener netDoneCallback;
 
     public virtual void OnRequest(object data, DataListener callback) {
-        OnRequestBefoure(callback);
+        OnRequestBefore(callback);
 //		Debug.LogError ("OnReceiveCommand");
         OnReceiveCommand(data);
     }
@@ -64,7 +64,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
         Send(); //send request to server
     }
 
-    protected virtual void OnRequestBefoure(DataListener callback) {
+    protected virtual void OnRequestBefore(DataListener callback) {
         netDoneCallback = callback;
     }
 

@@ -46,7 +46,7 @@ public class FindFriend: ProtoManager {
         reqFindFriend = new ReqFindFriend();
         reqFindFriend.header = new ProtoHeader();
         reqFindFriend.header.apiVer = Protocol.API_VERSION;
-        reqFindFriend.header.userId = GlobalData.userInfo.UserId;
+        reqFindFriend.header.userId = DataCenter.Instance.UserInfo.UserId;
         
         //request params
         reqFindFriend.friendUid = friendUid;

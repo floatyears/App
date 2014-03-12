@@ -173,7 +173,7 @@ public class DGTools {
 	}
 
 	static int GetValue (UserUnit uu, UnitInfo ui) {
-		return GlobalData.Instance.GetUnitValue(ui.powerType.attackType,uu.level);
+		return DataCenter.Instance.GetUnitValue(ui.powerType.attackType,uu.level);
 	}
 
 
