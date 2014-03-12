@@ -187,7 +187,7 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 	}
 
 	//update latest quest record of userDetail
-	if e = quest.FillQuestLog(&userDetail, *userDetail.Party.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
+	if e = quest.FillUserQuest(&userDetail, *userDetail.Party.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
 		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}

@@ -100,7 +100,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	//2.
 	reqEvolveStart, e:= CheckEvolveSession(db, uid)
 
-	//2. getUnitInfo of baseUniqueId
+	//3. getUnitInfo of baseUniqueId
 	baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, *reqEvolveStart.BaseUniqueId)
 	if e.IsError() {
 		log.Error("GetUserUnitInfo(%v) failed: %v", *reqEvolveStart.BaseUniqueId, e.Error())
@@ -111,10 +111,10 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 		log.Error("GetUnitInfo(%v) failed: %v", *baseUserUnit.UnitId, e.Error())
 		return e
 	}
-	log.Error("baseUserUnit:(%+v).", baseUserUnit)
-	log.Error("baseUnit:(%+v).", baseUnit)
+	log.T("baseUserUnit:(%+v).", baseUserUnit)
+	log.T("baseUnit:(%+v).", baseUnit)
 
-	//malloc new evolved unit
+	//4. malloc new evolved unit
 	newUniqueId, e := unit.GetUnitUniqueId(db, uid, len(userDetail.UnitList) )
 	rspMsg.EvolvedUnit = &bbproto.UserUnit{}
 	rspMsg.EvolvedUnit.UniqueId = proto.Uint32(newUniqueId)
@@ -128,7 +128,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	rspMsg.EvolvedUnit.GetTime = proto.Uint32(common.Now())
 
 
-	//6. remove BaseUnit & partUnits
+	//5. remove BaseUnit & partUnits
 	reqEvolveStart.PartUniqueId = append(reqEvolveStart.PartUniqueId, *reqEvolveStart.BaseUniqueId)
 	if e = unit.RemoveMyUnit(userDetail.UnitList, reqEvolveStart.PartUniqueId);e.IsError() {
 		return e

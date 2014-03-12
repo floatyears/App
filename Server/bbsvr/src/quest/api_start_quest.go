@@ -171,7 +171,7 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	//TODO:try getFriendState(helperUid) -> getFriendPoint
 
 	//update latest quest record of userDetail
-	if e = quest.FillQuestLog(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
+	if e = quest.FillUserQuest(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
 		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}
