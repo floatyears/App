@@ -48,35 +48,21 @@ public class PartyUnitsView : UIComponentUnity {
 
 	void ClickItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ItemClick", dragPanel.ScrollItem.IndexOf(item));
-		LogHelper.Log("PartyUnitsView.ClickDragItem(), click drag item, call view respone...");
+		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
+		//LogHelper.Log("PartyUnitsView.ClickItem(), click drag item, call view respone...");
 		ExcuteCallback( cbd );
 	}
 
 	void PressItem(GameObject item ){
-		TUserUnit unitInfo = dragItemViewDic[ item ];
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);	
+		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("PressItem", dragPanel.ScrollItem.IndexOf(item));
+//		LogHelper.Log("PartyUnitsView.PressItem(), click drag item, call view respone...");
+		ExcuteCallback( cbd );
 	}
-//
-//	void ShowMask( GameObject target, bool canMask) {
-//		GameObject maskSpr = target.transform.FindChild("Mask").gameObject;
-//		maskSpr.gameObject.SetActive( canMask );
-//	}
 
 	void AddEventListener( GameObject item){
 		UIEventListenerCustom.Get( item ).onClick = ClickItem;
 		UIEventListenerCustom.Get( item ).LongPress = PressItem;
 	}
-//
-//	void StoreLabelInfo(GameObject item){
-//		TUserUnit tuu = dragItemViewDic[ item ];
-//		UnitInfoStruct infoStruct = new UnitInfoStruct();
-//		infoStruct.text1 = tuu.Level.ToString();
-//		infoStruct.text2 = (tuu.AddHP + tuu.AddAttack).ToString();
-//		infoStruct.targetLabel = item.transform.FindChild("Label_Info").GetComponent<UILabel>();
-//		unitInfoStruct.Add(infoStruct);
-//	}
 
 	void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans",	transform);
@@ -203,7 +189,7 @@ public class PartyUnitsView : UIComponentUnity {
 		base.Callback(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName){
-			case "activate" : 
+			case "Activate" : 
 				CallBackDispatcherHelper.DispatchCallBack(UpdateUnitItemMask, cbdArgs);
 				break; 
 			case "RefreshDragList" : 
@@ -252,6 +238,8 @@ public class PartyUnitsView : UIComponentUnity {
 			crossShowLabelList.Add(label);
 		}
 	}
+
+
 
 }
 

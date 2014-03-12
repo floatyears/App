@@ -103,4 +103,16 @@ public class FriendListLogic : ConcreteComponent{
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", null);
 		ExcuteCallback(cbdArgs);
 	}
+
+	void ActivateUpdateFriendList(){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ActivateUpdateButton", null);
+		ExcuteCallback(cbdArgs);
+	}
+
+	void RefreshFriendList(object args){
+		LogHelper.Log("RspUpdateFriendClick(), receive the click, to refresh FriendList...");
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateFriendList", null);
+		ExcuteCallback(cbdArgs);
+	}
+
 }

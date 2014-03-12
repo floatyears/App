@@ -226,7 +226,10 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	
     void AddLeadSkill(uint id) {
         if (id != -1) {
+		if (GlobalData.userUnitList == null ) return;
             TUserUnit firstLeader = GlobalData.userUnitList.GetMyUnit(id);
+		if (firstLeader == null ) return;
+
             ProtobufDataBase pdb = GlobalData.skill[firstLeader.LeadSKill];
             if (leaderSkill.ContainsKey(id)) {
                 leaderSkill[id] = pdb;

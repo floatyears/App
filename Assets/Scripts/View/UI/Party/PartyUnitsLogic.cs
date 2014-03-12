@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PartyUnitsLogic : ConcreteComponent {
 
-	TUserUnit currentPickedUnit;
+	UnitItemViewInfo currentPickedUnit;
 	
 	List<UnitItemViewInfo> partyUnitItemViewList = new List<UnitItemViewInfo>();
 
@@ -75,7 +75,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 			}
 		}
 
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("activate", partyUnitItemViewList);
+		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("Activate", partyUnitItemViewList);
 		ExcuteCallback(cbd);
 
 	}
@@ -84,8 +84,11 @@ public class PartyUnitsLogic : ConcreteComponent {
 		base.Callback(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName){
-			case "ItemClick" : 
+			case "ClickItem" : 
 				CallBackDispatcherHelper.DispatchCallBack(CallbackRspUnitPickFromView, cbdArgs);
+				break;
+			case "PressItem" : 
+				CallBackDispatcherHelper.DispatchCallBack(ViewUnitDetailInfo, cbdArgs);
 				break;
 			case "ClickReject" :
 				CallBackDispatcherHelper.DispatchCallBack(CallBackSendRejectMessage, cbdArgs);
@@ -96,9 +99,16 @@ public class PartyUnitsLogic : ConcreteComponent {
 	}
 
 	void CallbackRspUnitPickFromView(object args){
-//		TUserUnit tuu = args as TUserUnit;
 		int position = (int)args;
 		RspUnitPickFromView( partyUnitItemViewList[ position - 1 ] );
+	}
+
+	void ViewUnitDetailInfo(object args){
+		int position = (int)args;
+		TUserUnit unitInfo = partyUnitItemViewList[ position - 1 ].DataItem;
+		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);	
+
 	}
 
 	void RspUnitPickFromView(UnitItemViewInfo itemView){
@@ -110,21 +120,27 @@ public class PartyUnitsLogic : ConcreteComponent {
 
 		BriefUnitInfo briefInfo = new BriefUnitInfo("MyUnitItem", itemView.DataItem );
 
-		currentPickedUnit = itemView.DataItem;
+		currentPickedUnit = itemView;
 
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
 
 		//LogHelper.LogError("PartyUnitsLogic.RspUnitPickFromView(), End...");
 	}
 	
-	void SubmitPickedUnitToParty( object data){
-		if(currentPickedUnit == null){
+	void SubmitPickedUnitToParty(object data){
+		if(currentPickedUnit.DataItem == null){
 			LogHelper.LogError("PartyUnitsLogicSubmitPickedUnitToParty(), currentPickedUnit is Null, return!!!");
 			return;
 		}
 
-		//LogHelper.Log("PartyUnitsLogicSubmitPickedUnitToParty(), sure to message PartyParge to change party member!");
-		MsgCenter.Instance.Invoke(CommandEnum.ReplacePartyFocusItem, currentPickedUnit);
+		Dictionary<string, object> newArgs = new Dictionary<string, object>();
+		newArgs.Add("enable", false);
+		newArgs.Add("party", true);
+		currentPickedUnit.RefreshStates(newArgs);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", partyUnitItemViewList);
+
+		//LogHelper.Log("PartyUnitsLogicSubmitPickedUnitToParty(), sure to message PartyPage to change party member!");
+		MsgCenter.Instance.Invoke(CommandEnum.ReplacePartyFocusItem, currentPickedUnit.DataItem);
 	}
 
 	void CallBackSendRejectMessage(object args){
