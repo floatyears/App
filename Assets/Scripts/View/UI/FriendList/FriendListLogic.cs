@@ -30,9 +30,15 @@ public class FriendListLogic : ConcreteComponent{
 			case "PressItem" : 
 				CallBackDispatcherHelper.DispatchCallBack(ViewUnitDetailInfo, cbdArgs);
 				break;
+			case "ClickItem" : 
+				CallBackDispatcherHelper.DispatchCallBack(ViewUnitBriefInfo, cbdArgs);
+				break;
 			default:
 				break;
 		}
+	}
+	void ViewUnitBriefInfo(object args){
+		int position = (int)args;
 	}
 
 	void ViewUnitDetailInfo(object args){

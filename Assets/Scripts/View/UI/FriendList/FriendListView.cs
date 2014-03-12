@@ -6,6 +6,14 @@ public class FriendListView : UIComponentUnity{
 
 	DragPanel dragPanel;
 	GameObject unitItem;
+
+	UIButton sortButton;
+	UIButton updateFriendButton;
+	UIButton refuseAllApplyButton;
+
+	UILabel curCountLabel;
+	UILabel maxCountLabel;
+
 	bool exchange = false;
 	List<UILabel> crossShowLabelList = new List<UILabel>();
 	List<UnitItemViewInfo> friendViewInfoList = new List<UnitItemViewInfo>();
@@ -49,6 +57,12 @@ public class FriendListView : UIComponentUnity{
 	void InitUIElement(){
 		string itemSourcePath = "Prefabs/UI/Friend/AvailFriendItem";
 		unitItem = Resources.Load( itemSourcePath ) as GameObject;
+		refuseAllApplyButton = FindChild<UIButton>("Button_Refuse");
+		sortButton = FindChild<UIButton>("Button_Sort");
+		updateFriendButton = FindChild<UIButton>("Button_Update");
+		curCountLabel = FindChild<UILabel>("UnitItemCount/Label_Count_Cur");
+		maxCountLabel = FindChild<UILabel>("UnitItemCount/Label_Count_Max");
+
 		InitDragPanelArgs();
 	}
 
@@ -67,6 +81,7 @@ public class FriendListView : UIComponentUnity{
 		dragPanel = CreateDragPanel("FriendDragPanel", viewInfoList.Count);
 		FindCrossShowLabelList();
 		UpdateAvatarTexture(viewInfoList);
+		UpdateCountLabel(viewInfoList.Count, 50);
 		UpdateEventListener();
 		//UpdateStarSprite(viewInfoList);
 		UpdateCrossShow();
@@ -122,6 +137,11 @@ public class FriendListView : UIComponentUnity{
 			uiTexture.mainTexture = dataItemList[ i ].Avatar;
 		}
 	}
+
+	void UpdateCountLabel(int cur, int max){
+		curCountLabel.text = cur.ToString();
+		maxCountLabel.text = max.ToString();
+	}
 	
 	void UpdateCrossShow(){
 		if(IsInvoking("CrossShow")) {
@@ -168,7 +188,11 @@ public class FriendListView : UIComponentUnity{
 		}
 	}
 
-	void ClickItem(GameObject item){}
+	void ClickItem(GameObject item){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
+		ExcuteCallback(cbdArgs);
+	}
+
 	void PressItem(GameObject item){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", dragPanel.ScrollItem.IndexOf(item));
 		ExcuteCallback(cbdArgs);
