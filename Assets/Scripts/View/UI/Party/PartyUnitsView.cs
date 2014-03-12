@@ -23,7 +23,6 @@ public class PartyUnitsView : UIComponentUnity {
 		base.ShowUI();
 
 		InvokeCrossShow(0.1f, 1.0f);
-		OnLightDragItem(true);
 		ShowTween();
 	}
 
@@ -43,7 +42,7 @@ public class PartyUnitsView : UIComponentUnity {
 			Debug.LogWarning("userUnitInfoList is null ");
 			return;
 		}
-//
+
 		int unitCount = userUnitInfoList.Count;
 		Debug.LogError("unitCount: " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
@@ -54,7 +53,7 @@ public class PartyUnitsView : UIComponentUnity {
 		dragPanel.CreatUI();
 		dragPanel.AddItem(1, rejectItem);
 		dragPanel.AddItem(unitCount, unitItem);
-		FillDragPanel( dragPanel );
+//		FillDragPanel( dragPanel );
 		dragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 
@@ -106,7 +105,7 @@ public class PartyUnitsView : UIComponentUnity {
 
 	void ClickItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ItemClick", dragItemViewDic[ item ]);
+		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ItemClick", dragPanel.ScrollItem.IndexOf(item));
 		LogHelper.Log("PartyUnitsView.ClickDragItem(), click drag item, call view respone...");
 		ExcuteCallback( cbd );
 	}
@@ -199,74 +198,112 @@ public class PartyUnitsView : UIComponentUnity {
 		ExcuteCallback(cbd);
 	}
 	
-	public override void Callback(object data){
-		base.Callback(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
-			case "activate" : 
-				OnLightDragItem(false);
-                        	break; 
-			case "RefreshDragList" : 
-				CallBackDispatcherHelper.DispatchCallBack(RefreshDragPanel, cbdArgs);
-				break;
-			default:
-                        	break;
-                }	
-        }
 
-
-	
-	void ClearDragItem(){
-		LogHelper.Log("ClearDragItem(), Clear Before : Drag Item Count is : " + dragPanel.ScrollItem.Count);
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			GameObject dragItem = dragPanel.ScrollItem[ i ];
-			dragPanel.RemoveItem(dragItem);
+	void ResetDragPanel(int itemCount){
+//		ResetRejectItem();
+//		ResetUnitListItem(itemCount);
+		Debug.LogError("1111111111111111.......clear drag panel, before....count : " + dragPanel.ScrollItem.Count);
+		foreach (var item in dragPanel.ScrollItem){
+			GameObject.Destroy(item);
 		}
-		LogHelper.Log("ClearDragItem(), Clear After : Drag Item Count is : " + dragPanel.ScrollItem.Count);
+		dragPanel.ScrollItem.Clear();
+		Debug.LogError("1111111111111111.......clear drag panel, after.... count : " + dragPanel.ScrollItem.Count);
+
+		dragPanel.AddItem(1, rejectItem);
+		dragPanel.AddItem(itemCount, unitItem);
+
+		dragPanel.RootObject.grid.enabled = true;
 	}
 
-	void AddDragItem(int count){
-		dragPanel.AddItem(count);
+	void ResetRejectItem(){
+		dragPanel.AddItem(1, rejectItem, true);
 	}
 
-	void RefreshDragPanel(object args){
-		//ClearDragItem();
-
-		List<PartyUnitItemView> itemDataList = args as List<PartyUnitItemView>;
-
-		//AddDragItem(itemDataList.Count);
+	void ResetUnitListItem(int count){
+		dragPanel.AddItem(count, unitItem);
+	}
+	
+	void UpdateMask(object args){
+	
+		List<PartyUnitItemView> dataItemList = args as List<PartyUnitItemView>;
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-			uiTexture.mainTexture = itemDataList[ i-1 ].Avatar;
-
+			UISprite maskSpr = scrollItem.transform.FindChild("Mask").GetComponent<UISprite>();
+			Debug.LogError("3333333333......IsEnable : " + dataItemList[ i - 1 ].IsEnable);
+			if(dataItemList[ i - 1 ].IsEnable){
+				maskSpr.enabled = false;
+			}
+			else{
+				maskSpr.enabled = true;
+			}
+		}
+	}
+	
+	void UpdatePartyLabel(List<PartyUnitItemView> dataItemList){
+		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UILabel partyLabel = scrollItem.transform.FindChild("Label_Party").GetComponent<UILabel>();
-			if(itemDataList[ i -1 ].IsParty){
+			if(dataItemList[ i - 1 ].IsParty){
 				partyLabel.text = "Party";
 				partyLabel.color = Color.red;
 			}
 			else{
 				partyLabel.text = string.Empty;
 			}
-
-			UISprite starSpr = scrollItem.transform.FindChild("StarMark").GetComponent<UISprite>();
-			if(itemDataList[ i -1 ].IsCollected){
-				starSpr.enabled = true;
-			}
-			else{
-				starSpr.enabled = false;
-			}
-
-			UISprite maskSpr = scrollItem.transform.FindChild("Mask").GetComponent<UISprite>();
-			if(itemDataList[ i -1 ].IsEnable){
-				maskSpr.enabled = false;
-			}
-			else{
-				maskSpr.enabled = true;
-			}
-                }
-		
+		}
 	}
+	
+	void UpdateStarSprite(List<PartyUnitItemView> dataItemList){
+		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = dragPanel.ScrollItem[ i ];
+			UISprite starSpr = scrollItem.transform.FindChild("StarMark").GetComponent<UISprite>();
+			if(dataItemList[ i - 1 ].IsCollected)
+				starSpr.enabled = true;
+			else
+				starSpr.enabled = false;
+		}
+	}
+	
+	void UpdateAvatarTexture(List<PartyUnitItemView> dataItemList){
+		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = dragPanel.ScrollItem[ i ];
+			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+			uiTexture.mainTexture = dataItemList[ i - 1 ].Avatar;
+		}
+	}
+	
+	void UpdateEventListener(){
+		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = dragPanel.ScrollItem[ i ];
+			AddEventListener(scrollItem);
+		}
+	}
+
+	void UpdateDragPanel(object args){
+		List<PartyUnitItemView> itemDataList = args as List<PartyUnitItemView>;
+		//ResetDragPanel(itemDataList.Count);
+		UpdateAvatarTexture(itemDataList);
+		UpdateEventListener();
+		UpdatePartyLabel(itemDataList);
+		UpdateMask(itemDataList);
+		UpdateStarSprite(itemDataList);
+	}
+
+	public override void Callback(object data){
+		base.Callback(data);
+		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (cbdArgs.funcName){
+			case "activate" : 
+				CallBackDispatcherHelper.DispatchCallBack(UpdateMask, cbdArgs);
+				break; 
+			case "RefreshDragList" : 
+				CallBackDispatcherHelper.DispatchCallBack(UpdateDragPanel, cbdArgs);
+				break;
+			default:
+				break;
+		}	
+	}
+	 
 }
 
 

@@ -97,7 +97,7 @@ public class PartyPageView : UIComponentUnity {
 			return;
 		}
 
-		string callName = "Click";
+		string callName = "ClickItem";
 		int pos = itemDic[ go ];
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( callName, pos );
 		LogHelper.Log("PartyPagePanel.ClickItem(), click the item" + itemDic[ go ].ToString() + ", wait respone...");

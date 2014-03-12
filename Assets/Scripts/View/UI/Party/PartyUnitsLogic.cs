@@ -15,15 +15,13 @@ public class PartyUnitsLogic : ConcreteComponent {
 
 	public override void ShowUI(){
 		base.ShowUI();
-
 		CallBackViewRefresh();
 		AddCmdListener();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		ResetPickableState();
-
+		//ResetPickableState();
 		RmvCmdListener();
 	}
 
@@ -47,6 +45,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 		for(int i = 0; i < userUnitList.Count; i++){
 			PartyUnitItemView viewItem = PartyUnitItemView.Create(userUnitList[ i ]);
 			partyUnitItemViewList.Add(viewItem);
+			Debug.LogError("22222222222.....viewItem isEnable : " + viewItem.IsEnable);
 
 		}
 		LogHelper.Log("loop end {0}",  TimeHelper.MillionSecondsNow() - msNow);
@@ -69,14 +68,25 @@ public class PartyUnitsLogic : ConcreteComponent {
 	
 	void ActivatePickableState(object data){
 		bool state = (bool)data;
+		//pickableState = state;
+		foreach (var item in partyUnitItemViewList){
+			if(item.IsParty){
+				Dictionary<string,object> args = new Dictionary<string, object>();
+				args.Add("enable", false);
+				item.RefreshStates(args);
+			}
+			else{
+				Dictionary<string,object> args = new Dictionary<string, object>();
+				args.Add("enable", true);
+				item.RefreshStates(args);
+			}
+		}
 
-		pickableState = state;
-
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("activate", null);
+		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("activate", partyUnitItemViewList);
 		ExcuteCallback(cbd);
 
-		LogHelper.Log("PartyUnitsLogic.ActivatePickableState(), " +
-			"Receive Msg, change current pickableState to : " + pickableState);
+//		LogHelper.Log("PartyUnitsLogic.ActivatePickableState(), " +
+//			"Receive Msg, change current pickableState to : " + pickableState);
 	}
 
 	public override void Callback(object data){
@@ -95,20 +105,21 @@ public class PartyUnitsLogic : ConcreteComponent {
 	}
 
 	void CallbackRspUnitPickFromView(object args){
-		TUserUnit tuu = args as TUserUnit;
-		RspUnitPickFromView( tuu );
+//		TUserUnit tuu = args as TUserUnit;
+		int position = (int)args;
+		RspUnitPickFromView( partyUnitItemViewList[ position - 1 ] );
 	}
 
-	void RspUnitPickFromView(TUserUnit tuu){
-		if( !pickableState ){
+	void RspUnitPickFromView(PartyUnitItemView itemView){
+		if( !itemView.IsEnable ){
 			LogHelper.LogError(string.Format("PartyUnitsLogic.RspUnitPickFromView(), " +
-				"pickable state is : {0}, do nothing!", pickableState));
+			                                 "pickable state is : {0}, do nothing!", itemView.IsEnable));
 			return;
 		}
 
-		BriefUnitInfo briefInfo = new BriefUnitInfo("MyUnitItem", tuu );
+		BriefUnitInfo briefInfo = new BriefUnitInfo("MyUnitItem", itemView.DataItem );
 
-		currentPickedUnit = tuu;
+		currentPickedUnit = itemView.DataItem;
 
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
 
@@ -135,11 +146,9 @@ public class PartyUnitsLogic : ConcreteComponent {
 	}
 
 	void CallBackViewRefresh(){
-		Debug.LogError("RefreshUnitList(), Callback the list data to view...");
 		GetUnitItemViewList();
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", partyUnitItemViewList);
 		ExcuteCallback(cbdArgs);
-		Debug.LogError("RefreshUnitList(), End...");
 	}
 
 

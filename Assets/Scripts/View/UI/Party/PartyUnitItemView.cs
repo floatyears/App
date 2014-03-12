@@ -37,6 +37,11 @@ public class PartyUnitItemView{
 	}
 
 	private TUserUnit dataItem;
+	public TUserUnit DataItem{
+		get{
+			return dataItem;
+		}
+	}
 	private PartyUnitItemView(){}
 
 	public static PartyUnitItemView Create(TUserUnit dataItem){
@@ -78,7 +83,6 @@ public class PartyUnitItemView{
 		initArgs.Add("collect", true);
 		initArgs.Add("enable", false);
 		initArgs.Add("party", GlobalData.partyInfo.UnitIsInParty(dataItem.ID));
-		Debug.LogError("11111111111111111.........." + GlobalData.partyInfo.UnitIsInParty(dataItem.ID));
         	RefreshStates(initArgs);
 	}
 	

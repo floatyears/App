@@ -23,7 +23,7 @@ public class TPartyInfo : ProtobufDataBase {
 
     public bool UnitIsInParty(uint uniqueId) {
         foreach (TUnitParty party in partyList) {
-			LogHelper.Log("UnitIsInParty() start uniqueId{0}", uniqueId);
+			//LogHelper.Log("UnitIsInParty() start uniqueId{0}", uniqueId);
             if (party.HasUnit(uniqueId)) {
                 return true;
             }
