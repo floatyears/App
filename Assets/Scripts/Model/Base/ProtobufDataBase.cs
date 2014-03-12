@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 public class ProtobufDataBase : IOriginModel {
 	public byte[] originData;
@@ -81,10 +81,10 @@ public class ProtobufDataBase : IOriginModel {
 
 	ErrorMsg Dipose(object ins,string name) {
 		if (ins == null) {
-			errorMsgInfo.Code = ErrorCode.IllegalData;
+			errorMsgInfo.Code = ErrorCode.ILLEGAL_DATA;
 			LogHelper.Log( " sorry ! " + name +" is illegal instance !");
 		} else {
-			errorMsgInfo.Code = ErrorCode.Succeed;
+			errorMsgInfo.Code = ErrorCode.SUCCESS;
 			LogHelper.Log("congratulations ! " + name +" instance  success !");
 		}
 

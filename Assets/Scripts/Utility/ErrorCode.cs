@@ -11,28 +11,72 @@
 using System;
 
 public enum ErrorCode {
-    Succeed = 0,
+    SUCCESS = 0,
+
+    ERROR_BASE       = -100,
+    FAILED           = -101,
+    INVALID_PARAMS   = -102,
+    MARSHAL_ERROR    = -103,
+    UNMARSHAL_ERROR  = -104,
+    IOREAD_ERROR     = -105,
+    IOWRITE_ERROR    = -106,
+    CONNECT_DB_ERROR = -107,
+    READ_DB_ERROR    = -108,
+    SET_DB_ERROR     = -109,
+    DATA_NOT_EXISTS  = -110,
+
+
+    EU_USER_BASE             = -200,
+    EU_INVALID_USERID        = -201,
+    EU_GET_USERINFO_FAIL     = -202,
+    EU_USER_NOT_EXISTS       = -203,
+    EU_GET_NEWUSERID_FAIL    = -204,
+    EU_UPDATE_USERINFO_ERROR = -205,
+
+    EF_FRIEND_BASE          = -300,
+    EF_FRIEND_NOT_EXISTS    = -301,
+    EF_GET_FRIENDINFO_FAIL  = -302,
+    EF_ADD_FRIEND_FAIL      = -303,
+    EF_DEL_FRIEND_FAIL      = -304,
+    EF_IS_ALREADY_FRIEND    = -305,
+    EF_IS_ALREADY_FRIENDOUT = -306,
+    EF_INVALID_FRIEND_STATE = -307,
+
+    EQ_QUEST_BASE                = -400,
+    EQ_QUEST_ID_INVALID          = -401,
+    EQ_GET_QUESTINFO_ERROR       = -402,
+    EQ_STAMINA_NOT_ENOUGH        = -403,
+    EQ_GET_QUEST_CONFIG_ERROR    = -404,
+    EQ_GET_QUEST_LOG_ERROR       = -405,
+    EQ_UPDATE_QUEST_RECORD_ERROR = -406,
+    EQ_INVALID_DROP_UNIT         = -407,
+    EQ_QUEST_IS_PLAYING          = -408,
+
+    E_UNIT_BASE                 = -500,
+    E_UNIT_ID_ERROR             = -501,
+    E_LEVELUP_NO_ENOUGH_MONEY   = -502,
+    E_GET_UNIT_INFO_ERROR       = -503,
 
     // usual
-    IllegalParam = -1000,
+    ILLEGAL_PARAM = -1000,
 
     // network
-    NetWork = -2000,
-    TimeOut = -2001,
-    InvalidSessionId = -2002,
+    NETWORK = -2000,
+    TIMEOUT = -2001,
+    INVALID_SESSIONID = -2002,
 
     // model
-    Model = -3000,
-    Encrypt = -3001,
-    Decrypt = - 3002, 
-    IllegalData = -3003,
-    InvalidModelName = -3004,
+    MODEL = -3000,
+    ENCRYPT = -3001,
+    DECRYPT = - 3002, 
+    ILLEGAL_DATA = -3003,
+    INVALID_MODEL_NAME = -3004,
 
     // controller
-    Controller = -4000,
+    CONTROLLER = -4000,
 
     // view
-    View = -5000,
+    VIEW = -5000,
 };
 
 /// <summary>
@@ -43,7 +87,7 @@ public class ErrorMsg {
     /// <summary>
     /// The code.
     /// </summary>
-    private ErrorCode code = ErrorCode.Succeed;
+    private ErrorCode code = ErrorCode.SUCCESS;
     public ErrorCode Code {
         get { return code; }
         set { code = value; }
@@ -59,10 +103,10 @@ public class ErrorMsg {
     }
 
 
-    public ErrorMsg(){
+    public ErrorMsg() {
     }
 
-    public ErrorMsg(ErrorCode errorCode, string message){
+    public ErrorMsg(ErrorCode errorCode, string message) {
         code = errorCode;
         msg = message;
     }

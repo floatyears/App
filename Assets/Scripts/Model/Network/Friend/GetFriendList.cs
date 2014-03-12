@@ -24,6 +24,7 @@ public class GetFriendList: ProtoManager {
         getFriends.OnRequest(null, callBack);
     }
 
+
     //Property: request server parameters
     public bool ToGetHelper { get { return bGetHelper; } set { bGetHelper = value; } }
     public bool ToGetFriend { get { return bGetFriend; } set { bGetFriend = value; } }
@@ -46,15 +47,8 @@ public class GetFriendList: ProtoManager {
 
         ErrorMsg err = SerializeData(reqGetFriend); // save to Data for send out
 		
-        return (err.Code == ErrorCode.Succeed);
+        return (err.Code == ErrorCode.SUCCESS);
     }
 
-    public override void OnResponse(bool success) {
-        if (!success) {
-            return;
-        }
-    }
-   
-    
 }
 

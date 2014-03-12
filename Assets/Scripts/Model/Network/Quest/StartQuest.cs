@@ -50,7 +50,7 @@ public class StartQuest: ProtoManager {
 
 		ErrorMsg err = SerializeData (reqStartQuest); // save to Data for send out
 		
-		return err.Code == ErrorCode.Succeed;
+		return err.Code == ErrorCode.SUCCESS;
 	}
 
 	public override void OnResponse (bool success) {

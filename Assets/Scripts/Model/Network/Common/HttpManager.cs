@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System;
 
@@ -37,10 +37,10 @@ public class HttpManager : INetSendPost {
 		try {
 			string protoSessionId = (string)t.GetProperty("sessionId").GetValue(protobufModel, null);
 			if (protoSessionId != sessionId){
-				errMsg.Code = ErrorCode.InvalidSessionId;
+				errMsg.Code = ErrorCode.INVALID_SESSIONID;
 			}
 		} catch (Exception ex) {
-			errMsg.Code = ErrorCode.IllegalParam;
+			errMsg.Code = ErrorCode.ILLEGAL_PARAM;
 			errMsg.Msg = "request or response not has field sessionId";
 		}
 		return errMsg;

@@ -34,7 +34,7 @@ public class RenameNick: ProtoManager {
 
 		ErrorMsg err = SerializeData (reqRenameNick); // save to Data for send out
 		
-		return err.Code == ErrorCode.Succeed;
+		return err.Code == ErrorCode.SUCCESS;
 	}
 
 	public override void OnResponse (bool success) {

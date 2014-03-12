@@ -64,7 +64,7 @@ public class LevelUp: ProtoManager {
 
 		ErrorMsg err = SerializeData (reqLevelUp); // save to Data for send out
 		
-		return err.Code == ErrorCode.Succeed;
+		return err.Code == ErrorCode.SUCCESS;
 	}
 
 	public override void OnResponse (bool success) {

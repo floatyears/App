@@ -59,10 +59,10 @@ public class HttpClient
         try {
             string protoSessionId = (string)t.GetProperty("sessionId").GetValue(protobufModel, null);
             if (protoSessionId != sessionId){
-                errMsg.Code = ErrorCode.InvalidSessionId;
+                errMsg.Code = ErrorCode.INVALID_SESSIONID;
             }
         } catch (Exception ex) {
-            errMsg.Code = ErrorCode.IllegalParam;
+            errMsg.Code = ErrorCode.ILLEGAL_PARAM;
             errMsg.Msg = "request or response not has field sessionId";
         }
         return errMsg;
@@ -146,8 +146,8 @@ public class HttpClient
 
         // validate
         if (url == null || url == ""){
-            LogHelper.Log("request url is" + url + ", error code is " + ErrorCode.IllegalParam);
-            errorMsg.Code = ErrorCode.IllegalParam;
+            LogHelper.Log("request url is" + url + ", error code is " + ErrorCode.ILLEGAL_PARAM);
+            errorMsg.Code = ErrorCode.ILLEGAL_PARAM;
             errorMsg.Msg = "request url is null";
             return;
         }
@@ -155,14 +155,14 @@ public class HttpClient
 
         // validate func arguments
         else if (failedFunc == null || succeedFunc == null){
-            errorMsg.Code = ErrorCode.IllegalParam;
+            errorMsg.Code = ErrorCode.ILLEGAL_PARAM;
             if (failedFunc == null ){
                 errorMsg.Msg = "response failed callback is null, ErrorCode";
-                LogHelper.Log("response failed callback is null, ErrorCode" + ErrorCode.IllegalParam);
+                LogHelper.Log("response failed callback is null, ErrorCode" + ErrorCode.ILLEGAL_PARAM);
             }
             else {
                 errorMsg.Msg = "response succeed callback is null, ErrorCode";
-                LogHelper.Log("response succeed callback is null, ErrorCode" + ErrorCode.IllegalParam);
+                LogHelper.Log("response succeed callback is null, ErrorCode" + ErrorCode.ILLEGAL_PARAM);
             }
             return;
         }
@@ -170,7 +170,7 @@ public class HttpClient
         else {
             byte[] sendBytes = ProtobufSerializer.SerializeToBytes<T1>(instance);
             if (sendBytes == null){
-                errorMsg.Code = ErrorCode.IllegalParam;
+                errorMsg.Code = ErrorCode.ILLEGAL_PARAM;
                 errorMsg.Msg = "Serializer get invalid instance";
                 return;
             }

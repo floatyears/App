@@ -46,7 +46,7 @@ public class AuthUser: ProtoManager {
 
 		ErrorMsg err = SerializeData (reqAuthUser); // save to Data for send out
 		
-		return err.Code == ErrorCode.Succeed;
+		return err.Code == ErrorCode.SUCCESS;
 	}
 
 	public override void OnResponse (bool success) {
