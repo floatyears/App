@@ -14,15 +14,22 @@ public class PartyUnitsLogic : ConcreteComponent {
 	}
 
 	public override void ShowUI(){
+	
 		base.ShowUI();
-		CallBackViewRefresh();
+
+		GetUnitItemViewList();
+		CreateUnitList();
+
 		AddCmdListener();
+	
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		//ResetPickableState();
 		RmvCmdListener();
+
+		DestoryUnitList();
 	}
 
 	void AddCmdListener(){
@@ -45,11 +52,11 @@ public class PartyUnitsLogic : ConcreteComponent {
 		for(int i = 0; i < userUnitList.Count; i++){
 			PartyUnitItemView viewItem = PartyUnitItemView.Create(userUnitList[ i ]);
 			partyUnitItemViewList.Add(viewItem);
-			Debug.LogError("22222222222.....viewItem isEnable : " + viewItem.IsEnable);
+			//Debug.LogError(".....viewItem isEnable : " + viewItem.IsEnable);
 
 		}
 		LogHelper.Log("loop end {0}",  TimeHelper.MillionSecondsNow() - msNow);
-		Debug.LogError("GetUnitItemViewList(), ViewList count : " + partyUnitItemViewList.Count);
+		//Debug.LogError("GetUnitItemViewList(), ViewList count : " + partyUnitItemViewList.Count);
 
 	}
 
@@ -142,14 +149,19 @@ public class PartyUnitsLogic : ConcreteComponent {
 	}
 
 	void RefreshUnitList(object msg){
-		CallBackViewRefresh();
-	}
-
-	void CallBackViewRefresh(){
 		GetUnitItemViewList();
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", partyUnitItemViewList);
 		ExcuteCallback(cbdArgs);
 	}
+	
+	void CreateUnitList(){
+		Debug.LogError("CreateUnitList(), partyUnitItemViewList count is " + partyUnitItemViewList.Count);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", partyUnitItemViewList);
+		ExcuteCallback(cbdArgs);
+	}
 
-
+	void DestoryUnitList(){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", partyUnitItemViewList);
+		ExcuteCallback(cbdArgs);
+	}
 }

@@ -224,13 +224,14 @@ public class UnitsDecorator : DecoratorBase {
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
+
 		UnitsComponent units = CreatComponent< UnitsComponent >( UIConfig.unitsWindowName );
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPageLogic partyPage = CreatComponent<PartyPageLogic>( UIConfig.partyPagePanelName);
 
-		partyInfo.SetComponent( partyPage );
-		partyPage.SetComponent( sceneInfoBar );
-		units.SetComponent( partyInfo );
+		partyInfo.SetComponent( sceneInfoBar );
+		partyPage.SetComponent( partyInfo );
+		units.SetComponent( partyPage );
 		lastDecorator = units;
 		lastDecorator.CreatUI();
 	}

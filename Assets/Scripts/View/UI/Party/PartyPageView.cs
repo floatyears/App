@@ -119,29 +119,29 @@ public class PartyPageView : UIComponentUnity {
 
 
 	void PagePrev(GameObject button){
-		Debug.Log("PartyPagePanel.PagePrev() : Start");
+		//Debug.Log("PartyPagePanel.PagePrev() : Start");
 
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "prev" );
 		LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
 
 		ExcuteCallback( cbd );
 
-		Debug.Log("PartyPagePanel.ExcuteCallback() : End");
+		//Debug.Log("PartyPagePanel.ExcuteCallback() : End");
 	} 
 
 	void PageNext(GameObject go){
-		Debug.Log("PartyPagePanel.PageNext() : Start");
+		//Debug.Log("PartyPagePanel.PageNext() : Start");
 
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "next" );
 		LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
 		ExcuteCallback( cbd );
 
-		Debug.Log("PartyPagePanel.PageNext() : End");
+		//Debug.Log("PartyPagePanel.PageNext() : End");
 	}
 	
 	void ResetUIElement(){
-		Debug.Log("PartyPagePanel.ResetUIElement() : Start");
-		Debug.Log("PartyPagePanel.ResetUIElement() : End");
+//		Debug.Log("PartyPagePanel.ResetUIElement() : Start");
+//		Debug.Log("PartyPagePanel.ResetUIElement() : End");
 	}
 	
 	void ChangeTexure(int pos,Texture2D tex){
@@ -269,7 +269,7 @@ public class PartyPageView : UIComponentUnity {
 			}
 		}
 
-		Debug.Log("PartyPagePanel.ClearItemView(), receive the call, to clear the view of item " + position);
+		Debug.LogError("PartyPagePanel.ClearItemView(), receive the call, to clear the view of item " + position);
 	}
 
 	void ReplaceItemView(object args){

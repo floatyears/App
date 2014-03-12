@@ -13,6 +13,9 @@ public class PartyUnitsView : UIComponentUnity {
 	Dictionary<GameObject, TUserUnit> dragItemViewDic = new Dictionary<GameObject, TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
+	List<UILabel> crossShowLabelList = new List<UILabel>();
+	List<string> crossShowTextList = new List<string>();
+	List<PartyUnitItemView> tempDataList = new List<PartyUnitItemView>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -21,8 +24,6 @@ public class PartyUnitsView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-
-		InvokeCrossShow(0.1f, 1.0f);
 		ShowTween();
 	}
 
@@ -31,76 +32,18 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void InitDragPanel(){
-		if ( GlobalData.myUnitList != null)
-			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
-		else{
-			Debug.Log("GlobalData.myUnitList is null, return");
-			return;
-		}
-
-		if(userUnitInfoList == null ){
-			Debug.LogWarning("userUnitInfoList is null ");
-			return;
-		}
-
-		int unitCount = userUnitInfoList.Count;
-		Debug.LogError("unitCount: " + unitCount);
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		unitItem = Resources.Load( itemSourcePath ) as GameObject;
 		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject ;
 		InitDragPanelArgs();
-		dragPanel = new DragPanel("UnitScroller", unitItem);
-		dragPanel.CreatUI();
-		dragPanel.AddItem(1, rejectItem);
-		dragPanel.AddItem(unitCount, unitItem);
-//		FillDragPanel( dragPanel );
-		dragPanel.RootObject.SetScrollView(dragPanelArgs);
 	}
 
-	protected DragPanel CreateDragPanel( string name, int count, GameObject item){
-		DragPanel panel = new DragPanel(name,item);
+	DragPanel CreateDragPanel( string name, int count){
+		DragPanel panel = new DragPanel(name, unitItem);
 		panel.CreatUI();
-		panel.AddItem( count, item);
+		panel.AddItem( 1, rejectItem);
+		panel.AddItem( count, unitItem);
 		return panel;
-	}
-
-	void FillDragPanel(DragPanel panel){
-		if( panel == null ){
-			Debug.LogError( "PartyUnitsView.FillDragPanel(), DragPanel is null, return!");
-			return;
-		}
-	
-		for( int i = 0; i < panel.ScrollItem.Count; i++){
-			GameObject scrollItem = panel.ScrollItem[ i ];
-			if( i == 0 ){
-				UIEventListenerCustom.Get( scrollItem ).onClick = ClickRejectItem;
-				continue;
-			}
-//
-//			TUserUnit uuItem = userUnitInfoList[ i - 1 ] ;
-//			dragItemViewDic.Add( scrollItem, uuItem );
-//			
-//			StoreLabelInfo( scrollItem);
-//			ShowItem( scrollItem );
-//			AddEventListener( scrollItem );
-		}
-	}
-
-	void ShowItem( GameObject item){
-		ShowMask(item,true);
-		GameObject avatarGo = item.transform.FindChild( "Texture_Avatar").gameObject;
-		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
-		
-		uint uid = dragItemViewDic[item].UnitID;
-		avatarTex.mainTexture = GlobalData.unitInfo[ uid ].GetAsset(UnitAssetType.Avatar);
-		
-		int addAttack = dragItemViewDic[ item ].AddAttack;
-
-		int addHp = dragItemViewDic[ item ].AddHP;
-
-		int level = dragItemViewDic[ item ].Level;
-
-		int addPoint = addAttack + addHp;
 	}
 
 	void ClickItem(GameObject item){
@@ -150,19 +93,21 @@ public class PartyUnitsView : UIComponentUnity {
 
 	void CrossShow(){
 		if(exchange){
-			for (int i = 0 ; i< unitInfoStruct.Count; i++) {
-				unitInfoStruct[ i ].targetLabel.text = string.Format( "+{0}", unitInfoStruct[ i ].text2);
-				unitInfoStruct[ i ].targetLabel.color = Color.yellow;
+			for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
+				GameObject scrollItem = dragPanel.ScrollItem[ i ];
+				crossShowLabelList[ i - 1 ].text = "Lv" + tempDataList[ i -1 ].CrossShowTextBefore;
+				crossShowLabelList[ i - 1 ].color = Color.yellow;
 			}
 			exchange = false;
 		}
 		else{
-			for (int i = 0 ; i< unitInfoStruct.Count; i++) {
-				unitInfoStruct[ i ].targetLabel.text = string.Format( "Lv{0}", unitInfoStruct[ i ].text1);
-				unitInfoStruct[ i ].targetLabel.color = Color.red;                          
+			for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
+				GameObject scrollItem = dragPanel.ScrollItem[ i ];
+				crossShowLabelList[ i - 1 ].text = "+" + tempDataList[ i -1 ].CrossShowTextAfter;
+				crossShowLabelList[ i - 1 ].color = Color.red;
 			}
-                        exchange = true;
-                }
+			exchange = true;
+		}
         }
 
 	void ShowTween(){
@@ -176,60 +121,19 @@ public class PartyUnitsView : UIComponentUnity {
 			tweenPos.PlayForward();
 		}
 	}
-
-	void InvokeCrossShow(float start, float cycle){
-		if(IsInvoking("CrossShow")) {
-			CancelInvoke("CrossShow");
-		}
-                InvokeRepeating("CrossShow", start, cycle);
-        }
-
-        void OnLightDragItem(bool b){
-		LogHelper.Log("PartyUnitsView.ActivateAllMask(), Receive callBack from Logic, to activate panel...");
-		foreach (var item in dragItemViewDic)
-			ShowMask(item.Key, b);
-
-		LogHelper.Log("PartyUnitsView.ActivateAllMask(), End...");
-	}
-
+	
 	void ClickRejectItem(GameObject go){
 		Debug.Log("PartyUnitsView.ClickRejectItem(), Receive reject item click, request logic...");
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickReject", null);
 		ExcuteCallback(cbd);
 	}
-	
 
-	void ResetDragPanel(int itemCount){
-//		ResetRejectItem();
-//		ResetUnitListItem(itemCount);
-		Debug.LogError("1111111111111111.......clear drag panel, before....count : " + dragPanel.ScrollItem.Count);
-		foreach (var item in dragPanel.ScrollItem){
-			GameObject.Destroy(item);
-		}
-		dragPanel.ScrollItem.Clear();
-		Debug.LogError("1111111111111111.......clear drag panel, after.... count : " + dragPanel.ScrollItem.Count);
-
-		dragPanel.AddItem(1, rejectItem);
-		dragPanel.AddItem(itemCount, unitItem);
-
-		dragPanel.RootObject.grid.enabled = true;
-	}
-
-	void ResetRejectItem(){
-		dragPanel.AddItem(1, rejectItem, true);
-	}
-
-	void ResetUnitListItem(int count){
-		dragPanel.AddItem(count, unitItem);
-	}
-	
-	void UpdateMask(object args){
+	void UpdateUnitItemMask(object args){
 	
 		List<PartyUnitItemView> dataItemList = args as List<PartyUnitItemView>;
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UISprite maskSpr = scrollItem.transform.FindChild("Mask").GetComponent<UISprite>();
-			Debug.LogError("3333333333......IsEnable : " + dataItemList[ i - 1 ].IsEnable);
 			if(dataItemList[ i - 1 ].IsEnable){
 				maskSpr.enabled = false;
 			}
@@ -264,6 +168,13 @@ public class PartyUnitsView : UIComponentUnity {
 		}
 	}
 	
+	void UpdateCrossShow(){
+		if(IsInvoking("CrossShow")) {
+			CancelInvoke("CrossShow");
+		}
+		InvokeRepeating("CrossShow", 0f, 1f);
+	}
+	
 	void UpdateAvatarTexture(List<PartyUnitItemView> dataItemList){
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
@@ -273,6 +184,7 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 	
 	void UpdateEventListener(){
+		UIEventListenerCustom.Get(dragPanel.ScrollItem[ 0 ]).onClick = ClickRejectItem;
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			AddEventListener(scrollItem);
@@ -281,11 +193,9 @@ public class PartyUnitsView : UIComponentUnity {
 
 	void UpdateDragPanel(object args){
 		List<PartyUnitItemView> itemDataList = args as List<PartyUnitItemView>;
-		//ResetDragPanel(itemDataList.Count);
-		UpdateAvatarTexture(itemDataList);
-		UpdateEventListener();
+
 		UpdatePartyLabel(itemDataList);
-		UpdateMask(itemDataList);
+		UpdateUnitItemMask(itemDataList);
 		UpdateStarSprite(itemDataList);
 	}
 
@@ -294,16 +204,55 @@ public class PartyUnitsView : UIComponentUnity {
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName){
 			case "activate" : 
-				CallBackDispatcherHelper.DispatchCallBack(UpdateMask, cbdArgs);
+				CallBackDispatcherHelper.DispatchCallBack(UpdateUnitItemMask, cbdArgs);
 				break; 
 			case "RefreshDragList" : 
 				CallBackDispatcherHelper.DispatchCallBack(UpdateDragPanel, cbdArgs);
+				break;
+			case "CreateDragView" : 
+				CallBackDispatcherHelper.DispatchCallBack(CreateDragView, cbdArgs);
+				break;
+			case "DestoryDragView" : 
+				CallBackDispatcherHelper.DispatchCallBack(DestoryDragView, cbdArgs);
 				break;
 			default:
 				break;
 		}	
 	}
-	 
+
+	void CreateDragView(object args){
+		List<PartyUnitItemView> itemDataList = args as List<PartyUnitItemView>;
+		tempDataList = itemDataList;
+		dragPanel = CreateDragPanel("DragPanel", itemDataList.Count);
+		FindCrossShowLabelList();
+		UpdateAvatarTexture(itemDataList);
+		UpdateEventListener();
+		UpdatePartyLabel(itemDataList);
+		UpdateUnitItemMask(itemDataList);
+		UpdateStarSprite(itemDataList);
+		UpdateCrossShow();
+		dragPanel.RootObject.SetScrollView(dragPanelArgs);
+	}
+
+	void DestoryDragView(object args){
+		crossShowLabelList.Clear();
+		tempDataList.Clear();
+
+		foreach (var item in dragPanel.ScrollItem){
+			GameObject.Destroy(item);
+		}
+		dragPanel.ScrollItem.Clear();
+		GameObject.Destroy(dragPanel.RootObject.gameObject);
+	}
+	
+	void FindCrossShowLabelList(){
+		for(int i = 1; i < dragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = dragPanel.ScrollItem[ i ];
+			UILabel label = scrollItem.transform.FindChild("Label_Info").GetComponent<UILabel>();
+			crossShowLabelList.Add(label);
+		}
+	}
+
 }
 
 
