@@ -31,7 +31,7 @@ public class ChangeParty: ProtoManager {
 
         ErrorMsg err = SerializeData(reqChangeParty); // save to Data for send out
 		
-        return (err.Code == ErrorCode.SUCCESS);
+        return (err.Code == (int)ErrorCode.SUCCESS);
     }
 
     public override void OnResponse(bool success) {
@@ -50,6 +50,26 @@ public class ChangeParty: ProtoManager {
         LogHelper.Log("OnReceiveCommand(ChangeParty)...");
 
         Send(); //send request to server
+    }
+
+    protected override void OnResponseEnd(object data) {
+        if (data == null) {
+            Debug.LogError("OnResponseEnd(), data == null");
+            return;
+        }
+        //        Debug.LogError("Login Success : " + Time.realtimeSinceStartup);
+        //        Debug.LogError("data=" + data);
+        
+        bbproto.RspChangeParty rsp = data as bbproto.RspChangeParty;
+        errMsg.SetErrorMsg(rsp.header.code);
+        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+            return;
+        }
+        if (rsp == null) {
+            //                errMsg.SetErrorMsg(ErrorCode.ILLEGAL_PARAM, ErrorMsgType.RSP_AUTHUSER_NULL);
+            LogHelper.Log("RspChangeParty OnResponseEnd() response rsp == null");
+            return;
+        }
     }
 
 }

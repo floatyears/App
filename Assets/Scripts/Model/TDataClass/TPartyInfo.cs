@@ -23,7 +23,7 @@ public class TPartyInfo : ProtobufDataBase {
 
     public bool UnitIsInParty(uint uniqueId) {
         foreach (TUnitParty party in partyList) {
-			LogHelper.Log("UnitIsInParty() start uniqueId{0}", uniqueId);
+            LogHelper.Log("UnitIsInParty() start uniqueId{0}", uniqueId);
             if (party.HasUnit(uniqueId)) {
                 return true;
             }
@@ -53,7 +53,8 @@ public class TPartyInfo : ProtobufDataBase {
     private static int SortParty(PartyItem item1, PartyItem item2) {
         if (item1.unitPos > item2.unitPos) {
             return 1;
-        } else if (item1.unitPos < item2.unitPos) {
+        }
+        else if (item1.unitPos < item2.unitPos) {
             return -1;
         }
         return 0;
@@ -165,14 +166,9 @@ public class TPartyInfo : ProtobufDataBase {
         }
     }
 
-    public void onRspChangeParty(object data) {
+    public void onRspChangeParty(ErrorMsg errorMsg) {
         //nothing to do
-        if (data != null) {
-            bbproto.RspChangeParty rspChangeParty = data as bbproto.RspChangeParty;
-			
-            LogHelper.Log("rspChangeParty code:{0}, error:{1}", rspChangeParty.header.code, rspChangeParty.header.error);
-//			bool success = (rspChangeParty.header.code == 0 );
-        }
+        LogHelper.Log("rspChangeParty code:{0}, error:{1}", errorMsg.Code, errorMsg.Msg);
 
     }
 }

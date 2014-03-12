@@ -12,25 +12,22 @@ using UnityEngine;
 using System.Collections;
 using ProtoBuf;
 
-public delegate object PostCallbackFailed(string rspError, ErrorMsg errorMsg, params object[] values); 
-public delegate object PostCallbackSucceed<T>(T instance, ErrorMsg errorMsg, params object[] values); 
+public delegate object PostCallbackFailed(string rspError,ErrorMsg errorMsg,params object[] values); 
+public delegate object PostCallbackSucceed<T>(T instance,ErrorMsg errorMsg,params object[] values); 
 
-public delegate object GetCallbackFailed(string rspError, ErrorMsg errorMsg, params object[] values);
-public delegate object GetCallbackSucceed(byte[] response, ErrorMsg errorMsg, params object[] values); 
+public delegate object GetCallbackFailed(string rspError,ErrorMsg errorMsg,params object[] values);
+public delegate object GetCallbackSucceed(byte[] response,ErrorMsg errorMsg,params object[] values); 
 
 
 /// <summary>
 /// Http client.
 /// </summary>
-public class HttpClient
-{
+public class HttpClient {
 
     private static HttpClient instance;
-    public static HttpClient Instance
-    {
-        get
-        {
-            if(instance  == null)
+    public static HttpClient Instance {
+        get {
+            if (instance == null)
                 instance = new HttpClient();
             
             return instance;
@@ -41,8 +38,7 @@ public class HttpClient
     /// The session identifier.
     /// </summary>
     private string sessionId = "";
-    public string SessionId
-    {
+    public string SessionId {
         get { return sessionId; }
         set { sessionId = value; }
     }
@@ -53,16 +49,17 @@ public class HttpClient
     /// </summary>
     /// <returns>The session identifier.</returns>
     /// <param name="protobufModel">Protobuf model.</param>
-    public ErrorMsg ValidateSessionId(object protobufModel){
+    public ErrorMsg ValidateSessionId(object protobufModel) {
         ErrorMsg errMsg = new ErrorMsg();
         Type t = protobufModel.GetType();
         try {
             string protoSessionId = (string)t.GetProperty("sessionId").GetValue(protobufModel, null);
-            if (protoSessionId != sessionId){
-                errMsg.Code = ErrorCode.INVALID_SESSIONID;
+            if (protoSessionId != sessionId) {
+                errMsg.Code = (int)ErrorCode.INVALID_SESSIONID;
             }
-        } catch (Exception ex) {
-            errMsg.Code = ErrorCode.ILLEGAL_PARAM;
+        }
+        catch (Exception ex) {
+            errMsg.Code = (int)ErrorCode.ILLEGAL_PARAM;
             errMsg.Msg = "request or response not has field sessionId";
         }
         return errMsg;
@@ -77,29 +74,27 @@ public class HttpClient
     /// <param name="succeedFunc">Succeed func.</param>
     /// <param name="errorMsg">Error message.</param>
     /// <typeparam name="T">The 1st type parameter.</typeparam>
-    IEnumerator POST<T>(string url, byte[] buffer, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values)
-    {
+    IEnumerator POST<T>(string url, byte[] buffer, PostCallbackFailed failedFunc, PostCallbackSucceed<T> succeedFunc, ErrorMsg errorMsg, params object[] values) {
 
         LogHelper.Log("send:" + buffer + ", length of bytes sended: " + buffer.Length);
         WWW www = new WWW(url, buffer);
         yield return www;
 
         // when return
-        if (www.error != null)
-        {
+        if (www.error != null) {
             // POST request faild
-            LogHelper.Log("error is :"+ www.error);
+            LogHelper.Log("error is :" + www.error);
             failedFunc(www.error, errorMsg, values);
             // TODO: record error code
-        } else
-        {
+        }
+        else {
             // POST request succeed
             LogHelper.Log("request ok : text is " + www.bytes);
 
             // deserilize
             T instance = ProtobufSerializer.ParseFormBytes<T>(www.bytes);
             // parse to current instance
-            if (instance != null){
+            if (instance != null) {
                 succeedFunc(instance, errorMsg, values);
             }
         }
@@ -112,20 +107,18 @@ public class HttpClient
     /// <param name="failedFunc">Failed func.</param>
     /// <param name="succeedFunc">Succeed func.</param>
     /// <param name="errorMsg">Error message.</param>
-    IEnumerator GET(string url, GetCallbackFailed failedFunc, GetCallbackSucceed succeedFunc, ErrorMsg errorMsg, params object[] values)
-    {
+    IEnumerator GET(string url, GetCallbackFailed failedFunc, GetCallbackSucceed succeedFunc, ErrorMsg errorMsg, params object[] values) {
         WWW www = new WWW(url);
         yield return www;
 
         // deal
-        if (www.error != null)
-        {
+        if (www.error != null) {
             // POST request faild
-            LogHelper.Log("error is :"+ www.error);
+            LogHelper.Log("error is :" + www.error);
             failedFunc(www.error, errorMsg, values);
             // TODO: record error code
-        } else
-        {
+        }
+        else {
             // POST request succeed
             LogHelper.Log("request ok : text is " + www.bytes);
             succeedFunc(www.bytes, errorMsg, values);
@@ -142,21 +135,21 @@ public class HttpClient
     /// <param name="succeedFunc">Succeed func.</param>
     /// <param name="errorMsg">Error message.</param>
     /// <typeparam name="T">The 1st type parameter.</typeparam>
-    public void sendPost<T1, T2>(MonoBehaviour sender, string url, T1 instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T2> succeedFunc, ErrorMsg errorMsg, params object[] values){
+    public void sendPost<T1, T2>(MonoBehaviour sender, string url, T1 instance, PostCallbackFailed failedFunc, PostCallbackSucceed<T2> succeedFunc, ErrorMsg errorMsg, params object[] values) {
 
         // validate
-        if (url == null || url == ""){
+        if (url == null || url == "") {
             LogHelper.Log("request url is" + url + ", error code is " + ErrorCode.ILLEGAL_PARAM);
-            errorMsg.Code = ErrorCode.ILLEGAL_PARAM;
+            errorMsg.Code = (int)ErrorCode.ILLEGAL_PARAM;
             errorMsg.Msg = "request url is null";
             return;
         }
 
 
         // validate func arguments
-        else if (failedFunc == null || succeedFunc == null){
-            errorMsg.Code = ErrorCode.ILLEGAL_PARAM;
-            if (failedFunc == null ){
+        else if (failedFunc == null || succeedFunc == null) {
+            errorMsg.Code = (int)ErrorCode.ILLEGAL_PARAM;
+            if (failedFunc == null) {
                 errorMsg.Msg = "response failed callback is null, ErrorCode";
                 LogHelper.Log("response failed callback is null, ErrorCode" + ErrorCode.ILLEGAL_PARAM);
             }
@@ -166,11 +159,10 @@ public class HttpClient
             }
             return;
         }
-
         else {
             byte[] sendBytes = ProtobufSerializer.SerializeToBytes<T1>(instance);
-            if (sendBytes == null){
-                errorMsg.Code = ErrorCode.ILLEGAL_PARAM;
+            if (sendBytes == null) {
+                errorMsg.Code = (int)ErrorCode.ILLEGAL_PARAM;
                 errorMsg.Msg = "Serializer get invalid instance";
                 return;
             }

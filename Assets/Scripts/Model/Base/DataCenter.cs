@@ -5,6 +5,8 @@ using bbproto;
 public enum ModelEnum {
     UserInfo = 100,
     AccountInfo,
+    SupportFriends,
+    FriendList,
     PartyInfo,
     MyUnitList,
     UserUnitList,
@@ -62,10 +64,15 @@ public class DataCenter {
         get { return getData(ModelEnum.AccountInfo) as TAccountInfo; }
         set { setData(ModelEnum.AccountInfo, value); }
     }
-    public List<TFriendInfo> Friends { 
-        get { return getData(ModelEnum.AccountInfo) as List<TFriendInfo>; }
-        set { setData(ModelEnum.AccountInfo, value); } 
+    public List<TFriendInfo> SupportFriends { 
+        get { return getData(ModelEnum.SupportFriends) as List<TFriendInfo>; }
+        set { setData(ModelEnum.SupportFriends, value); } 
     }
+    public TFriendList FriendList { 
+        get { return getData(ModelEnum.FriendList) as TFriendList; }
+        set { setData(ModelEnum.FriendList, value); } 
+    }
+
     public TPartyInfo PartyInfo { 
         get { return getData(ModelEnum.PartyInfo) as TPartyInfo; }
         set { setData(ModelEnum.PartyInfo, value); }
@@ -305,6 +312,5 @@ public class DataCenter {
         ErrorMsg errMsg = new ErrorMsg();
         return ModelManager.Instance.GetData(modelType, errMsg);
     }
-
 
 }

@@ -27,7 +27,7 @@ public class DelFriend: ProtoManager {
     ~DelFriend () {
     }
     
-    public static void SendRequest(DataListener callBack, uint friendUid) {
+    public static void SendRequest(ResponseCallback callBack, uint friendUid) {
         DelFriend delFriend = new DelFriend();
         delFriend.friendUid = friendUid;
         delFriend.OnRequest(null, callBack);
@@ -53,7 +53,7 @@ public class DelFriend: ProtoManager {
         
         ErrorMsg err = SerializeData(reqDelFriend); // save to Data for send out
         
-        return (err.Code == ErrorCode.SUCCESS);
+        return (err.Code == (int)ErrorCode.SUCCESS);
     }
     
 }

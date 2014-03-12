@@ -27,7 +27,7 @@ public class FindFriend: ProtoManager {
     ~FindFriend () {
     }
     
-    public static void SendRequest(DataListener callBack, uint friendUid) {
+    public static void SendRequest(ResponseCallback callBack, uint friendUid) {
         FindFriend findFriend = new FindFriend();
         findFriend.friendUid = friendUid;
         findFriend.OnRequest(null, callBack);
@@ -53,7 +53,7 @@ public class FindFriend: ProtoManager {
         
         ErrorMsg err = SerializeData(reqFindFriend); // save to Data for send out
         
-        return (err.Code == ErrorCode.SUCCESS);
+        return (err.Code == (int)ErrorCode.SUCCESS);
     }
     
 }

@@ -19,7 +19,7 @@ public class GetFriendList: ProtoManager {
     ~GetFriendList () {
     }
 
-    public static void SendRequest(DataListener callBack) {
+    public static void SendRequest(ResponseCallback callBack) {
         GetFriendList getFriends = new GetFriendList();
         getFriends.OnRequest(null, callBack);
     }
@@ -47,9 +47,26 @@ public class GetFriendList: ProtoManager {
 
         ErrorMsg err = SerializeData(reqGetFriend); // save to Data for send out
 		
-        return (err.Code == ErrorCode.SUCCESS);
+        return (err.Code == (int)ErrorCode.SUCCESS);
     }
 
+    public void OnRspGetFriend(object data) {
 
+    }  
+
+    protected override void OnResponseEnd(object data) {
+        if (data == null)
+            return;
+        
+        LogHelper.Log("TFriendList.Refresh() begin");
+        LogHelper.Log(data);
+        RspGetFriend rsp = data as RspGetFriend;
+        errMsg.SetErrorMsg(rsp.header.code);
+
+        FriendList inst = rsp.friends;
+//        DataCenter.Instance.Friends
+//        setNewInstance(inst);
+//        assignFriendList();
+    }
 }
 

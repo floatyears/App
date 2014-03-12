@@ -15,7 +15,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
        
         reAssignData();
 	
-	GetSkillCollection();
+        GetSkillCollection();
     }
 	
     public void RemoveListener() {
@@ -23,15 +23,15 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     }
 
     public bool HasUnit(uint uniqueId) {
-		//Debug.LogError("HasUnit() ");
-		//Debug.Log(UserUnit);
-		if (UserUnit == null){
-			return false;
-		}
+        //Debug.LogError("HasUnit() ");
+        //Debug.Log(UserUnit);
+        if (UserUnit == null) {
+            return false;
+        }
                 
-		foreach (TUserUnit tUserUnit in UserUnit.Values) {
-			//LogHelper.Log("HasUnit(), foreach: judge Id{0} ResultId {1}", uniqueId, tUserUnit.ID);
-                        if (tUserUnit == null) {
+        foreach (TUserUnit tUserUnit in UserUnit.Values) {
+            //LogHelper.Log("HasUnit(), foreach: judge Id{0} ResultId {1}", uniqueId, tUserUnit.ID);
+            if (tUserUnit == null) {
                 continue;
             }
             if (uniqueId == tUserUnit.ID) {
@@ -57,7 +57,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                     userUnit.Add(partyItem[i].unitPos, uui);
 //					Debug.LogError("TUnitParty :: userunit.add "+i);
                 }
-            } else {
+            }
+            else {
 //				Debug.LogError("TUnitParty :: userunit is not null" + userUnit.Count);
             }
             return userUnit;
@@ -217,7 +218,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
             AddLeadSkill(id);
 
 
-        } else if (instance.items.Count > 4) {
+        }
+        else if (instance.items.Count > 4) {
             uint id = instance.items[4].unitUniqueId;
             AddLeadSkill(id);
         }
@@ -226,11 +228,16 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	
     void AddLeadSkill(uint id) {
         if (id != -1) {
+            if (DataCenter.Instance.UserUnitList == null)
+                return;
             TUserUnit firstLeader = DataCenter.Instance.UserUnitList.GetMyUnit(id);
+            if (firstLeader == null)
+                return;
             ProtobufDataBase pdb = DataCenter.Instance.Skill[firstLeader.LeadSKill];
             if (leaderSkill.ContainsKey(id)) {
                 leaderSkill[id] = pdb;
-            } else {
+            }
+            else {
                 leaderSkill.Add(id, pdb);
             }
         }
@@ -257,7 +264,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                 userUnit[item.unitPos] = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
             //LogHelper.LogError(" SetPartyItem:: => pos:{0} uniqueId:{1}",item.unitPos, item.unitUniqueId);
             this.reAssignData();
-        } else {
+        }
+        else {
             //LogHelper.LogError ("SetPartyItem :: item.unitPos:{0} is invalid.", pos);
         }
     }
@@ -267,12 +275,12 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         PartyItem secondUU = (PartyItem)second;
         NormalSkill ns1 = GetSecondSkill(firstUU);
         NormalSkill ns2 = GetSecondSkill(secondUU);
-	if(ns1==null && ns2==null )
-		return 0;
-	else if(ns1==null )
-		return 1;
-	else
-		return -1;
+        if (ns1 == null && ns2 == null)
+            return 0;
+        else if (ns1 == null)
+            return 1;
+        else
+            return -1;
         return ns1.activeBlocks.Count.CompareTo(ns2.activeBlocks.Count);
     }
 	
@@ -328,9 +336,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	
     NormalSkill GetSecondSkill(PartyItem pi) {
         TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(pi.unitUniqueId);
-	if( tuu == null ){
-		return null;
-	}
+        if (tuu == null) {
+            return null;
+        }
         UserUnit uu1 = tuu.Object;
         UnitInfo ui1 = tuu.UnitInfo.Object;			 //DataCenter.Instance.UnitInfo[uu1.unitId].DeserializeData<UnitInfo>();
         TNormalSkill ns = DataCenter.Instance.Skill[ui1.skill2] as TNormalSkill;

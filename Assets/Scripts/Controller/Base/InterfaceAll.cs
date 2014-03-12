@@ -163,7 +163,8 @@ public interface IUIFriendList : IUICallback {
 }
 
 public interface INetBase {
-    void OnRequest(object data, DataListener callback);
+    void OnRequest(object data, ResponseCallback callback);
+    void OnRequest(ResponseCallback callback);
 //	void OnResponse(IWWWPost post);
 }
 

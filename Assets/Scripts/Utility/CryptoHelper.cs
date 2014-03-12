@@ -16,7 +16,7 @@ using UnityEngine;
 
 public sealed class CryptoHelper {
 
-    private CryptoHelper(){
+    private CryptoHelper() {
         
     }
     
@@ -30,18 +30,16 @@ public sealed class CryptoHelper {
     /// <param name="encryptKey">required: 8bit</param>
     /// <param name="errorMsg">for errorMsg</param>
     /// <returns>succeed: encrypted String; failed: source string</returns>
-    public static string EncryptDES(string sourceString, string encryptKey, ErrorMsg errorMsg)
-    {
+    public static string EncryptDES(string sourceString, string encryptKey, ErrorMsg errorMsg) {
         string result = sourceString;
 
-        if (sourceString == null || encryptKey == null || encryptKey.Length < CRYPTO_KEY_LENGTH){
-            errorMsg.Code = ErrorCode.ILLEGAL_PARAM;
+        if (sourceString == null || encryptKey == null || encryptKey.Length < CRYPTO_KEY_LENGTH) {
+            errorMsg.Code = (int)ErrorCode.ILLEGAL_PARAM;
             errorMsg.Msg = "string encrpt get illegal encryptString or encryptKey";
             return result;
         }
 
-        try
-        {
+        try {
             byte[] rgbKey = Encoding.UTF8.GetBytes(encryptKey.Substring(0, CRYPTO_KEY_LENGTH));
             byte[] rgbIV = desKeys;
             byte[] inputByteArray = Encoding.UTF8.GetBytes(sourceString);
@@ -52,11 +50,10 @@ public sealed class CryptoHelper {
             cStream.FlushFinalBlock();
             cStream.Close();
             result = Convert.ToBase64String(mStream.ToArray());
-            errorMsg.Code = ErrorCode.SUCCESS;
+            errorMsg.Code = (int)ErrorCode.SUCCESS;
         }
-        catch
-        {
-            errorMsg.Code = ErrorCode.ENCRYPT;
+        catch {
+            errorMsg.Code = (int)ErrorCode.ENCRYPT;
             LogHelper.Log(errorMsg);
         }
         return result;
@@ -69,18 +66,16 @@ public sealed class CryptoHelper {
     /// <param name="decryptKey">decryptKey, 8bit, same as encryptKey</param>
     /// <param name="errorMsg">for errorMsg</param>
     /// <returns>succeed: decrypted string; failed: source string</returns>
-    public static string DecryptDES(string sourceString, string encryptKey, ErrorMsg errorMsg)
-    {
+    public static string DecryptDES(string sourceString, string encryptKey, ErrorMsg errorMsg) {
         string result = sourceString;
 
-        if (sourceString == null || encryptKey == null || encryptKey.Length < CRYPTO_KEY_LENGTH){
-            errorMsg.Code = ErrorCode.ILLEGAL_PARAM;
+        if (sourceString == null || encryptKey == null || encryptKey.Length < CRYPTO_KEY_LENGTH) {
+            errorMsg.Code = (int)ErrorCode.ILLEGAL_PARAM;
             errorMsg.Msg = "string encrpt get illegal decryptString or decryptKey";
             return result;
         }
 
-        try
-        {
+        try {
             byte[] rgbKey = Encoding.UTF8.GetBytes(encryptKey);
             byte[] rgbIV = desKeys;
             byte[] inputByteArray = Convert.FromBase64String(sourceString);
@@ -91,11 +86,10 @@ public sealed class CryptoHelper {
             cStream.FlushFinalBlock();
             cStream.Close();
             result = Encoding.UTF8.GetString(mStream.ToArray());
-            errorMsg.Code = ErrorCode.SUCCESS;
+            errorMsg.Code = (int)ErrorCode.SUCCESS;
         }
-        catch
-        {
-            errorMsg.Code = ErrorCode.DECRYPT;
+        catch {
+            errorMsg.Code = (int)ErrorCode.DECRYPT;
             errorMsg.Msg = "DES encryptError";
             LogHelper.Log(errorMsg);
         }
@@ -104,45 +98,42 @@ public sealed class CryptoHelper {
     #endregion
 
     #region RSA
-    public static byte[] EncryptRSA(string sourceString, string encryptKey, ErrorMsg errorMsg){
+    public static byte[] EncryptRSA(string sourceString, string encryptKey, ErrorMsg errorMsg) {
         byte[] result = Encoding.UTF8.GetBytes(sourceString);
 
-        if (sourceString == null || encryptKey == null){
-            errorMsg.Code = ErrorCode.ILLEGAL_PARAM;
+        if (sourceString == null || encryptKey == null) {
+            errorMsg.Code = (int)ErrorCode.ILLEGAL_PARAM;
             errorMsg.Msg = "string encrpt get illegal encryptString or encryptKey";
             return result;
         }
         
-        try
-        {
+        try {
             CspParameters cspParams = new CspParameters();
             
             cspParams.KeyContainerName = encryptKey;
             RSACryptoServiceProvider provider = new RSACryptoServiceProvider(cspParams);
 
             result = provider.Encrypt(result, true);
-            errorMsg.Code = ErrorCode.SUCCESS;
+            errorMsg.Code = (int)ErrorCode.SUCCESS;
         }
-        catch
-        {
-            errorMsg.Code = ErrorCode.ENCRYPT;
+        catch {
+            errorMsg.Code = (int)ErrorCode.ENCRYPT;
             errorMsg.Msg = "RSA encryptError";
             LogHelper.Log(errorMsg);
         }
         return result;
     }
 
-    public string DecryptRSA(byte[] source, string encryptKey, ErrorMsg errorMsg){
+    public string DecryptRSA(byte[] source, string encryptKey, ErrorMsg errorMsg) {
         string result = ConvertHelper.BytesToString(source);
         
-        if (result == null || encryptKey == null){
-            errorMsg.Code = ErrorCode.ILLEGAL_PARAM;
+        if (result == null || encryptKey == null) {
+            errorMsg.Code = (int)ErrorCode.ILLEGAL_PARAM;
             errorMsg.Msg = "string encrpt get illegal decryptString or decryptKey";
             return result;
         }
         
-        try
-        {
+        try {
             CspParameters cspParams = new CspParameters();
             
             cspParams.KeyContainerName = encryptKey;
@@ -150,11 +141,10 @@ public sealed class CryptoHelper {
 
             result = System.Text.Encoding.UTF8.GetString(
                 provider.Decrypt(source, true));    
-            errorMsg.Code = ErrorCode.SUCCESS;
+            errorMsg.Code = (int)ErrorCode.SUCCESS;
         }
-        catch
-        {
-            errorMsg.Code = ErrorCode.DECRYPT;
+        catch {
+            errorMsg.Code = (int)ErrorCode.DECRYPT;
             errorMsg.Msg = "RSA encryptError";
             LogHelper.Log(errorMsg);
         }
@@ -164,21 +154,18 @@ public sealed class CryptoHelper {
 
     #region MD5
     //32 bit
-    public string GetMD5_32(string s, string _input_charset) 
-    { 
+    public string GetMD5_32(string s, string _input_charset) { 
         MD5 md5 = new MD5CryptoServiceProvider(); 
         byte[] t = md5.ComputeHash(Encoding.GetEncoding(_input_charset).GetBytes(s)); 
         StringBuilder sb = new StringBuilder(32); 
-        for (int i = 0; i < t.Length; i++) 
-        { 
+        for (int i = 0; i < t.Length; i++) { 
             sb.Append(t[i].ToString("x").PadLeft(2, '0')); 
         } 
         return sb.ToString(); 
     } 
     
     // 16 bit
-    public static string GetMd5_16(string ConvertString) 
-    { 
+    public static string GetMd5_16(string ConvertString) { 
         MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider(); 
         string t2 = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(ConvertString)), 4, 8); 
         t2 = t2.Replace("-", ""); 

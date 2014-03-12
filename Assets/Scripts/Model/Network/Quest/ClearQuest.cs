@@ -38,6 +38,10 @@ public class ClearQuest: ProtoManager {
 //		MsgCenter.Instance.RemoveListener (CommandEnum.ReqClearQuest, OnReceiveCommand);
     }
 
+    public ClearQuestParam Param {
+        set { questParam = value;}
+    }
+
     public override bool MakePacket() {
 //		LogHelper.Log ("ClearQuest.MakePacket()...");
 
@@ -63,7 +67,7 @@ public class ClearQuest: ProtoManager {
 
         ErrorMsg err = SerializeData(reqClearQuest); // save to Data for send out
 		
-        return err.Code == ErrorCode.SUCCESS;
+        return err.Code == (int)ErrorCode.SUCCESS;
     }
 
     public override void OnResponse(bool success) {
@@ -133,6 +137,5 @@ public class ClearQuest: ProtoManager {
 
         Send(); //send request to server
     }
-
 }
 

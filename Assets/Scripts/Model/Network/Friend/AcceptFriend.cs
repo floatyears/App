@@ -27,7 +27,7 @@ public class AcceptFriend: ProtoManager {
     ~AcceptFriend () {
     }
     
-    public static void SendRequest(DataListener callBack, uint friendUid) {
+    public static void SendRequest(ResponseCallback callBack, uint friendUid) {
         AcceptFriend acceptFriend = new AcceptFriend();
         acceptFriend.friendUid = friendUid;
         acceptFriend.OnRequest(null, callBack);
@@ -53,7 +53,7 @@ public class AcceptFriend: ProtoManager {
         
         ErrorMsg err = SerializeData(reqAcceptFriend); // save to Data for send out
         
-        return (err.Code == ErrorCode.SUCCESS);
+        return (err.Code == (int)ErrorCode.SUCCESS);
     }
     
 }

@@ -96,7 +96,7 @@ public class ModelManager {
         object origin = null;
 
         if (!modelDataDic.TryGetValue(modelType, out origin)) {
-            erroMsg.Code = ErrorCode.INVALID_MODEL_NAME;
+            erroMsg.Code = (int)ErrorCode.INVALID_MODEL_NAME;
             erroMsg.Msg = string.Format("required key {0}, but it not exist in ModelManager", modelType);
         }
 
