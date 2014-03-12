@@ -4,14 +4,6 @@ using System.Collections.Generic;
 using ProtoBuf;
 using UnityEngine;
 
-public enum ModelEnum {
-    User			= 1000,
-    UnitPartyInfo	= 1001,
-
-    UIInsConfig		= 2000,
-    MapConfig		= 2001,
-}
-
 public class ModelManager {
     private static ModelManager instance;
     

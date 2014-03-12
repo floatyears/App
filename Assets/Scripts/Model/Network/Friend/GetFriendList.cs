@@ -50,5 +50,6 @@ public class GetFriendList: ProtoManager {
         return (err.Code == ErrorCode.SUCCESS);
     }
 
+
 }
 

@@ -34,12 +34,13 @@ public class ProtoManager: ProtobufDataBase, INetBase {
         instObj = ProtobufSerializer.ParseFormBytes(post.WwwInfo.bytes, rspType);
         if (instObj != null) {
             OnResponse(true);
-        } else {
+        }
+        else {
             OnResponse(false);
             LogHelper.LogError("++++++proto.ParseFormBytes failed.++++++");
         }
 
-        OnResposeEnd(this.instObj);
+        OnResponseEnd(this.instObj);
     }
 
     public virtual void OnResponse(bool success) {
@@ -67,7 +68,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
         netDoneCallback = callback;
     }
 
-    protected virtual void OnResposeEnd(object data) {
+    protected virtual void OnResponseEnd(object data) {
         if (netDoneCallback != null) {
             netDoneCallback(data);
         }

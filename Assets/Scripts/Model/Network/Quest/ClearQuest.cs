@@ -82,13 +82,13 @@ public class ClearQuest: ProtoManager {
 
 	}
 
-	protected override void OnResposeEnd (object data) {
+	protected override void OnResponseEnd (object data) {
 		if ( data != null ) {
 			TRspClearQuest cq = new TRspClearQuest();
 			rspClearQuest = data as RspClearQuest;
 			if (rspClearQuest.header.code != 0 ){ 
 				Debug.LogError("Response info is error : " + rspClearQuest.header.error + " header code : " + rspClearQuest.header.code);
-				base.OnResposeEnd( null );
+				base.OnResponseEnd( null );
 				return;
 			}
 			Debug.LogError("RspClearQuest : " + rspClearQuest.rank + "  rspClearQuest.exp : " +rspClearQuest.exp + " rspClearQuest.money : " +rspClearQuest.money );
@@ -110,10 +110,10 @@ public class ClearQuest: ProtoManager {
 				cq.gotUnit.Add(tuu);
 			}
 
-			base.OnResposeEnd( cq );
+			base.OnResponseEnd( cq );
 
 		} else {
-			base.OnResposeEnd( null );
+			base.OnResponseEnd( null );
 		}
 	}
 

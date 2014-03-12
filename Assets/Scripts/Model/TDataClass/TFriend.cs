@@ -185,8 +185,8 @@ public class TFriendList : ProtobufDataBase {
         searchResult = null;
         if (rsp.header.code != (int)ErrorCode.SUCCESS) {
             LogHelper.Log("OnRspFindFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            if (rsp.header.code == (int)ErrorCode)
-                return;
+//            if (rsp.header.code == (int)ErrorCode.EF_FRIEND_NOT_EXISTS)
+//                return;
         }
         searchResult = new TUserInfo(rsp.friend);
     }
