@@ -119,8 +119,8 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 		return e
 	}
 
-	//check userDetail.Quest if exists (quest is playing)
-	questState, e := quest.CheckQuestRecord(db, stageId, questId, &userDetail)
+	//check Quest record for QuestState
+	questState, e := quest.CheckQuestRecord(db, stageId, questId, uid)
 	if e.IsError() {
 		return e
 	}

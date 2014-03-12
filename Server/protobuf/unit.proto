@@ -76,8 +76,8 @@ message HelperRequire {
 }
 
 message EvolveInfo {
-    required int32      		evolveUnitId    = 1;
-    repeated int32		      	materialUnitId  = 2;
+    required uint32      		evolveUnitId    = 1;
+    repeated uint32		      	materialUnitId  = 2;
 	optional HelperRequire		helperRequire	= 3;
 	optional uint32				evolveQuestId	= 4;
 }

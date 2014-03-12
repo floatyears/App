@@ -897,27 +897,35 @@ func (m *QuestStatus) GetPlayTime() []uint32 {
 }
 
 type QuestLog struct {
-	QuestId          *uint32      `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
-	StartTime        *uint32      `protobuf:"varint,2,opt,name=startTime" json:"startTime,omitempty"`
-	EndTime          *uint32      `protobuf:"varint,3,opt,name=endTime" json:"endTime,omitempty"`
-	HelperUserId     *uint32      `protobuf:"varint,4,opt,name=helperUserId" json:"helperUserId,omitempty"`
-	HelperUnit       *UserUnit    `protobuf:"bytes,5,opt,name=helperUnit" json:"helperUnit,omitempty"`
-	CurrentParty     *int32       `protobuf:"varint,6,opt,name=currentParty" json:"currentParty,omitempty"`
-	DropUnits        []*DropUnit  `protobuf:"bytes,7,rep,name=dropUnits" json:"dropUnits,omitempty"`
-	GetUnit          []*UserUnit  `protobuf:"bytes,8,rep,name=getUnit" json:"getUnit,omitempty"`
-	GetExp           *int32       `protobuf:"varint,9,opt,name=getExp" json:"getExp,omitempty"`
-	GetMoney         *int32       `protobuf:"varint,10,opt,name=getMoney" json:"getMoney,omitempty"`
-	GetFriendPoint   *int32       `protobuf:"varint,11,opt,name=getFriendPoint" json:"getFriendPoint,omitempty"`
-	ContinueTimes    *int32       `protobuf:"varint,12,opt,name=continueTimes" json:"continueTimes,omitempty"`
-	State            *EQuestState `protobuf:"varint,13,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
-	PlayTotal        *int32       `protobuf:"varint,14,opt,name=playTotal" json:"playTotal,omitempty"`
-	PlayToday        *int32       `protobuf:"varint,15,opt,name=playToday" json:"playToday,omitempty"`
+	StageId          *uint32      `protobuf:"varint,1,opt,name=stageId" json:"stageId,omitempty"`
+	QuestId          *uint32      `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
+	StartTime        *uint32      `protobuf:"varint,3,opt,name=startTime" json:"startTime,omitempty"`
+	EndTime          *uint32      `protobuf:"varint,4,opt,name=endTime" json:"endTime,omitempty"`
+	HelperUserId     *uint32      `protobuf:"varint,5,opt,name=helperUserId" json:"helperUserId,omitempty"`
+	HelperUnit       *UserUnit    `protobuf:"bytes,6,opt,name=helperUnit" json:"helperUnit,omitempty"`
+	CurrentParty     *int32       `protobuf:"varint,7,opt,name=currentParty" json:"currentParty,omitempty"`
+	DropUnits        []*DropUnit  `protobuf:"bytes,8,rep,name=dropUnits" json:"dropUnits,omitempty"`
+	GetUnit          []*UserUnit  `protobuf:"bytes,9,rep,name=getUnit" json:"getUnit,omitempty"`
+	GetExp           *int32       `protobuf:"varint,10,opt,name=getExp" json:"getExp,omitempty"`
+	GetMoney         *int32       `protobuf:"varint,11,opt,name=getMoney" json:"getMoney,omitempty"`
+	GetFriendPoint   *int32       `protobuf:"varint,12,opt,name=getFriendPoint" json:"getFriendPoint,omitempty"`
+	ContinueTimes    *int32       `protobuf:"varint,13,opt,name=continueTimes" json:"continueTimes,omitempty"`
+	State            *EQuestState `protobuf:"varint,14,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
+	PlayTotal        *int32       `protobuf:"varint,15,opt,name=playTotal" json:"playTotal,omitempty"`
+	PlayToday        *int32       `protobuf:"varint,16,opt,name=playToday" json:"playToday,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
 func (m *QuestLog) Reset()         { *m = QuestLog{} }
 func (m *QuestLog) String() string { return proto.CompactTextString(m) }
 func (*QuestLog) ProtoMessage()    {}
+
+func (m *QuestLog) GetStageId() uint32 {
+	if m != nil && m.StageId != nil {
+		return *m.StageId
+	}
+	return 0
+}
 
 func (m *QuestLog) GetQuestId() uint32 {
 	if m != nil && m.QuestId != nil {
@@ -2693,8 +2701,8 @@ func (m *HelperRequire) GetType() EUnitType {
 }
 
 type EvolveInfo struct {
-	EvolveUnitId     *int32         `protobuf:"varint,1,req,name=evolveUnitId" json:"evolveUnitId,omitempty"`
-	MaterialUnitId   []int32        `protobuf:"varint,2,rep,name=materialUnitId" json:"materialUnitId,omitempty"`
+	EvolveUnitId     *uint32        `protobuf:"varint,1,req,name=evolveUnitId" json:"evolveUnitId,omitempty"`
+	MaterialUnitId   []uint32       `protobuf:"varint,2,rep,name=materialUnitId" json:"materialUnitId,omitempty"`
 	HelperRequire    *HelperRequire `protobuf:"bytes,3,opt,name=helperRequire" json:"helperRequire,omitempty"`
 	EvolveQuestId    *uint32        `protobuf:"varint,4,opt,name=evolveQuestId" json:"evolveQuestId,omitempty"`
 	XXX_unrecognized []byte         `json:"-"`
@@ -2704,14 +2712,14 @@ func (m *EvolveInfo) Reset()         { *m = EvolveInfo{} }
 func (m *EvolveInfo) String() string { return proto.CompactTextString(m) }
 func (*EvolveInfo) ProtoMessage()    {}
 
-func (m *EvolveInfo) GetEvolveUnitId() int32 {
+func (m *EvolveInfo) GetEvolveUnitId() uint32 {
 	if m != nil && m.EvolveUnitId != nil {
 		return *m.EvolveUnitId
 	}
 	return 0
 }
 
-func (m *EvolveInfo) GetMaterialUnitId() []int32 {
+func (m *EvolveInfo) GetMaterialUnitId() []uint32 {
 	if m != nil {
 		return m.MaterialUnitId
 	}

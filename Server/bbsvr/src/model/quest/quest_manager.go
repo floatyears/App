@@ -10,11 +10,9 @@ import (
 	"data"
 	"model/unit"
 
-	proto "code.google.com/p/goprotobuf/proto"
-	//redis "github.com/garyburd/redigo/redis"
+	"code.google.com/p/goprotobuf/proto"
 )
 
-//update tRecover, userStamina
 
 type TUsedValue struct {
 	Value int32

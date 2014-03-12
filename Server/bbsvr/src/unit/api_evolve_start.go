@@ -130,8 +130,8 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 	// getQuestId
 	stageId, questId := unit.GetEvolveQuestId(*baseUnit.Type, *baseUnit.Rare)
 
-	//check userDetail.Quest if exists (quest is playing)
-	questState, e := quest.CheckQuestRecord(db, stageId, questId, &userDetail)
+	//check Quest record for QuestState
+	questState, e := quest.CheckQuestRecord(db, stageId, questId, uid)
 	if e.IsError() {
 		return e
 	}
@@ -181,7 +181,7 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 
 	//TODO:try getFriendState(helperUid) -> getFriendPoint
 
-
+	reqMsg.EvolveQuestId = &questId
 	if e = unit.SaveEvolveSession(db, reqMsg); e.IsError() {
 		return e
 	}
