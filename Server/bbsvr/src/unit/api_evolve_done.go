@@ -1,6 +1,7 @@
 package unit
 
 import (
+	"fmt"
 	"net/http"
 	//"time"
 )
@@ -108,15 +109,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	gotChip := int32(0)
 	gotFriendPt := int32(0)
 
-	//3. update questPlayRecord (also add dropUnits to user.UnitList)
-
-	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e =
-		quest.UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
-	if e.IsError() {
-		return e
-	}
-
-	//4. getUnitInfo of baseUniqueId
+	//3. getUnitInfo of baseUniqueId
 	baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, *reqEvolveStart.BaseUniqueId)
 	if e.IsError() {
 		log.Error("GetUserUnitInfo(%v) failed: %v", *reqEvolveStart.BaseUniqueId, e.Error())
@@ -129,6 +122,22 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	}
 	log.T("baseUserUnit:(%+v).", baseUserUnit)
 	log.T("baseUnit:(%+v).", baseUnit)
+
+	if baseUnit.EvolveInfo == nil {
+		e = Error.New(EC.E_UNIT_HAS_NO_EVOLVEINFO, fmt.Sprintf("unit(%v) has no evolve info.", *baseUnit.Id))
+		log.Error(e.Error())
+		return e
+	}
+
+
+	//4. update questPlayRecord (also add dropUnits to user.UnitList)
+
+	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e =
+		quest.UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
+	if e.IsError() {
+		return e
+	}
+
 
 	//5. malloc new evolved unit
 	newUniqueId, e := unit.GetUnitUniqueId(db, uid, len(userDetail.UnitList))

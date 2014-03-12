@@ -96,7 +96,7 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 		return Error.New(EC.CONNECT_DB_ERROR, err.Error())
 	}
 
-	//get userinfo from user table
+	//1. get userinfo from user table
 	userDetail, isUserExists, err := user.GetUserInfo(db, uid)
 	if err != nil {
 		return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", uid, err.Error()))
@@ -104,16 +104,16 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 	if !isUserExists {
 		return Error.New(EC.EU_USER_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", uid))
 	}
-	log.T(" getUser(%v) ret userinfo: %v", uid, userDetail.User)
+	log.T("\t===== 1. getUser(%v) ret userinfo: %v", uid, userDetail.User)
 
-	// check user is already playing
+	//2. check user is already playing
 	if userDetail.Quest != nil && userDetail.Quest.State != nil {
 		e = Error.New(EC.EQ_QUEST_IS_PLAYING, fmt.Sprintf("user(%v) is playing quest:%+v", *userDetail.User.UserId, *userDetail.Quest.QuestId))
 		log.T(e.Error())
 		return e
 	}
 
-	// getUnitInfo of baseUniqueId
+	//3. getUnitInfo of baseUniqueId
 	baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, *reqMsg.BaseUniqueId)
 	if e.IsError() {
 		log.Error("GetUserUnitInfo(%v) failed: %v", *reqMsg.BaseUniqueId, e.Error())
@@ -124,19 +124,31 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 		log.Error("GetUnitInfo(%v) failed: %v", *baseUserUnit.UnitId, e.Error())
 		return e
 	}
-	log.Error("baseUserUnit:(%+v).", baseUserUnit)
-	log.Error("baseUnit:(%+v).", baseUnit)
+	log.Error("\t===== 2. getUnitInfo ret baseUserUnit:(%+v).", baseUserUnit)
+	log.Error("\t=====    baseUnit:(%+v).", baseUnit)
 
-	// getQuestId
+	if baseUnit.EvolveInfo == nil {
+		e = Error.New(EC.E_UNIT_HAS_NO_EVOLVEINFO, fmt.Sprintf("unit(%v) has no evolve info.", *baseUnit.Id))
+		log.Error(e.Error())
+		return e
+	}
+
+	//TODO: check base & material & helperUnit validation
+	{
+
+	}
+
+	//4. getQuestId
 	stageId, questId := unit.GetEvolveQuestId(*baseUnit.Type, *baseUnit.Rare)
-
+	log.T("\t===== 3. GetEvolveQuestId(%v,%v) return stageId:%v questId:%v",
+		*baseUnit.Type, *baseUnit.Rare, stageId, questId)
 	//check Quest record for QuestState
 	questState, e := quest.CheckQuestRecord(db, stageId, questId, uid)
 	if e.IsError() {
 		return e
 	}
 
-	//get questInfo
+	//5. get questInfo
 	stageInfo, e := quest.GetStageInfo(db, stageId)
 	if e.IsError() {
 		return e
@@ -149,9 +161,11 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 	if questInfo == nil {
 		return Error.New(EC.EQ_GET_QUESTINFO_ERROR, "GetQuestInfo ret ok, but result is nil.")
 	}
-	log.T("questInfo:%+v", questInfo)
+	log.T("\t===== 4. GetStageInfo ret:%+v", stageInfo)
+	log.T("\t===== 		 questInfo ret:%+v", questInfo)
 
-	//update stamina
+
+	//6. update stamina
 	log.T("--Old Stamina:%v staminaRecover:%v", *userDetail.User.StaminaNow, *userDetail.User.StaminaRecover)
 	e = user.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax)
 	if e.IsError() {
@@ -165,7 +179,7 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 	}
 	*userDetail.User.StaminaNow -= *questInfo.Stamina
 
-	//get quest config
+	//7. get quest config
 	questConf, e := quest.GetQuestConfig(db, questId)
 	log.T(" questConf:%+v", questConf)
 	if e.IsError() {
@@ -173,31 +187,31 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 	}
 
 	questDataMaker := &quest.QuestDataMaker{}
-	//make quest data
+	//8. make quest data
 	questData, e := questDataMaker.MakeData(&questConf)
 	if e.IsError() {
 		return e
 	}
 
-	//TODO:try getFriendState(helperUid) -> getFriendPoint
+	//TODO: 9.try getFriendState(helperUid) -> getFriendPoint
 
 	reqMsg.EvolveQuestId = &questId
 	if e = unit.SaveEvolveSession(db, reqMsg); e.IsError() {
 		return e
 	}
 
-	//update latest quest record of userDetail
+	//10. update latest quest record of userDetail
 	if e = quest.FillUserQuest(&userDetail, *userDetail.Party.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
 		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}
 
-	//save updated userinfo
+	//11. save updated userinfo
 	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
 		return e
 	}
 
-	//fill response
+	//12. fill response
 	rspMsg.StaminaNow = userDetail.User.StaminaNow
 	rspMsg.StaminaRecover = userDetail.User.StaminaRecover
 	rspMsg.DungeonData = &questData

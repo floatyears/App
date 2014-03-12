@@ -3236,6 +3236,70 @@ func (m *RspEvolveDone) GetEvolvedUnit() *UserUnit {
 	return nil
 }
 
+type ReqGacha struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	GachaId          *int32       `protobuf:"varint,2,opt,name=gachaId" json:"gachaId,omitempty"`
+	GachaCount       *int32       `protobuf:"varint,3,opt,name=gachaCount" json:"gachaCount,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqGacha) Reset()         { *m = ReqGacha{} }
+func (m *ReqGacha) String() string { return proto.CompactTextString(m) }
+func (*ReqGacha) ProtoMessage()    {}
+
+func (m *ReqGacha) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqGacha) GetGachaId() int32 {
+	if m != nil && m.GachaId != nil {
+		return *m.GachaId
+	}
+	return 0
+}
+
+func (m *ReqGacha) GetGachaCount() int32 {
+	if m != nil && m.GachaCount != nil {
+		return *m.GachaCount
+	}
+	return 0
+}
+
+type RspGacha struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	UnitList         []*UserUnit  `protobuf:"bytes,2,rep,name=unitList" json:"unitList,omitempty"`
+	UnitUniqueId     []uint32     `protobuf:"varint,3,rep,name=unitUniqueId" json:"unitUniqueId,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspGacha) Reset()         { *m = RspGacha{} }
+func (m *RspGacha) String() string { return proto.CompactTextString(m) }
+func (*RspGacha) ProtoMessage()    {}
+
+func (m *RspGacha) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspGacha) GetUnitList() []*UserUnit {
+	if m != nil {
+		return m.UnitList
+	}
+	return nil
+}
+
+func (m *RspGacha) GetUnitUniqueId() []uint32 {
+	if m != nil {
+		return m.UnitUniqueId
+	}
+	return nil
+}
+
 type UserInfo struct {
 	Uuid             *string   `protobuf:"bytes,1,opt,name=uuid" json:"uuid,omitempty"`
 	UserId           *uint32   `protobuf:"varint,2,opt,name=userId" json:"userId,omitempty"`

@@ -34,7 +34,7 @@ func (qm *QuestDataMaker) makeColors(colorPercent []*bbproto.ColorPercent, count
 			cp := e.Value.(bbproto.ColorPercent)
 			//log.T("\t ===>  loop list: (randNum:%v) {%+v %+v}", randNum, *cp.Color, *cp.Percent)
 			if float32(randNum) < *cp.Percent {
-				log.T("\t \t >>>  found match: randNum:%v < %v, color:%v", randNum, *cp.Percent, *cp.Color)
+//				log.T("\t \t >>>  found match: randNum:%v < %v, color:%v", randNum, *cp.Percent, *cp.Color)
 				colors[i] = byte(*cp.Color)
 				break
 			}

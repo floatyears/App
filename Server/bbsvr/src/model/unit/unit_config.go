@@ -50,8 +50,12 @@ func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, ques
 		return 0, 0
 	}
 
-	baseQuestId := uint32(1100)
+	stageId+= 20
+
+	baseQuestId := uint32(1)
 	switch unitRare {
+	case 1:
+		questId = baseQuestId + 0
 	case 2:
 		questId = baseQuestId + 1
 	case 3:
@@ -65,6 +69,8 @@ func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, ques
 	default:
 		return 0, 0
 	}
+
+	questId += stageId*100 + questId
 
 	return stageId, questId
 }
