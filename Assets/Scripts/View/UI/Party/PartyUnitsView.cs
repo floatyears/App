@@ -15,7 +15,7 @@ public class PartyUnitsView : UIComponentUnity {
 
 	List<UILabel> crossShowLabelList = new List<UILabel>();
 	List<string> crossShowTextList = new List<string>();
-	List<PartyUnitItemView> tempDataList = new List<PartyUnitItemView>();
+	List<UnitItemViewInfo> viewInfoList = new List<UnitItemViewInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -58,25 +58,25 @@ public class PartyUnitsView : UIComponentUnity {
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);	
 	}
-
-	void ShowMask( GameObject target, bool canMask) {
-		GameObject maskSpr = target.transform.FindChild("Mask").gameObject;
-		maskSpr.gameObject.SetActive( canMask );
-	}
+//
+//	void ShowMask( GameObject target, bool canMask) {
+//		GameObject maskSpr = target.transform.FindChild("Mask").gameObject;
+//		maskSpr.gameObject.SetActive( canMask );
+//	}
 
 	void AddEventListener( GameObject item){
 		UIEventListenerCustom.Get( item ).onClick = ClickItem;
 		UIEventListenerCustom.Get( item ).LongPress = PressItem;
 	}
-
-	void StoreLabelInfo(GameObject item){
-		TUserUnit tuu = dragItemViewDic[ item ];
-		UnitInfoStruct infoStruct = new UnitInfoStruct();
-		infoStruct.text1 = tuu.Level.ToString();
-		infoStruct.text2 = (tuu.AddHP + tuu.AddAttack).ToString();
-		infoStruct.targetLabel = item.transform.FindChild("Label_Info").GetComponent<UILabel>();
-		unitInfoStruct.Add(infoStruct);
-	}
+//
+//	void StoreLabelInfo(GameObject item){
+//		TUserUnit tuu = dragItemViewDic[ item ];
+//		UnitInfoStruct infoStruct = new UnitInfoStruct();
+//		infoStruct.text1 = tuu.Level.ToString();
+//		infoStruct.text2 = (tuu.AddHP + tuu.AddAttack).ToString();
+//		infoStruct.targetLabel = item.transform.FindChild("Label_Info").GetComponent<UILabel>();
+//		unitInfoStruct.Add(infoStruct);
+//	}
 
 	void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans",	transform);
@@ -95,7 +95,7 @@ public class PartyUnitsView : UIComponentUnity {
 		if(exchange){
 			for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem[ i ];
-				crossShowLabelList[ i - 1 ].text = "Lv" + tempDataList[ i -1 ].CrossShowTextBefore;
+				crossShowLabelList[ i - 1 ].text = "Lv" + viewInfoList[ i -1 ].CrossShowTextBefore;
 				crossShowLabelList[ i - 1 ].color = Color.yellow;
 			}
 			exchange = false;
@@ -103,7 +103,7 @@ public class PartyUnitsView : UIComponentUnity {
 		else{
 			for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem[ i ];
-				crossShowLabelList[ i - 1 ].text = "+" + tempDataList[ i -1 ].CrossShowTextAfter;
+				crossShowLabelList[ i - 1 ].text = "+" + viewInfoList[ i -1 ].CrossShowTextAfter;
 				crossShowLabelList[ i - 1 ].color = Color.red;
 			}
 			exchange = true;
@@ -130,7 +130,7 @@ public class PartyUnitsView : UIComponentUnity {
 
 	void UpdateUnitItemMask(object args){
 	
-		List<PartyUnitItemView> dataItemList = args as List<PartyUnitItemView>;
+		List<UnitItemViewInfo> dataItemList = args as List<UnitItemViewInfo>;
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UISprite maskSpr = scrollItem.transform.FindChild("Mask").GetComponent<UISprite>();
@@ -143,7 +143,7 @@ public class PartyUnitsView : UIComponentUnity {
 		}
 	}
 	
-	void UpdatePartyLabel(List<PartyUnitItemView> dataItemList){
+	void UpdatePartyLabel(List<UnitItemViewInfo> dataItemList){
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UILabel partyLabel = scrollItem.transform.FindChild("Label_Party").GetComponent<UILabel>();
@@ -157,7 +157,7 @@ public class PartyUnitsView : UIComponentUnity {
 		}
 	}
 	
-	void UpdateStarSprite(List<PartyUnitItemView> dataItemList){
+	void UpdateStarSprite(List<UnitItemViewInfo> dataItemList){
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UISprite starSpr = scrollItem.transform.FindChild("StarMark").GetComponent<UISprite>();
@@ -175,7 +175,7 @@ public class PartyUnitsView : UIComponentUnity {
 		InvokeRepeating("CrossShow", 0f, 1f);
 	}
 	
-	void UpdateAvatarTexture(List<PartyUnitItemView> dataItemList){
+	void UpdateAvatarTexture(List<UnitItemViewInfo> dataItemList){
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
@@ -192,7 +192,7 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void UpdateDragPanel(object args){
-		List<PartyUnitItemView> itemDataList = args as List<PartyUnitItemView>;
+		List<UnitItemViewInfo> itemDataList = args as List<UnitItemViewInfo>;
 
 		UpdatePartyLabel(itemDataList);
 		UpdateUnitItemMask(itemDataList);
@@ -221,8 +221,8 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void CreateDragView(object args){
-		List<PartyUnitItemView> itemDataList = args as List<PartyUnitItemView>;
-		tempDataList = itemDataList;
+		List<UnitItemViewInfo> itemDataList = args as List<UnitItemViewInfo>;
+		viewInfoList = itemDataList;
 		dragPanel = CreateDragPanel("DragPanel", itemDataList.Count);
 		FindCrossShowLabelList();
 		UpdateAvatarTexture(itemDataList);
@@ -236,7 +236,7 @@ public class PartyUnitsView : UIComponentUnity {
 
 	void DestoryDragView(object args){
 		crossShowLabelList.Clear();
-		tempDataList.Clear();
+		viewInfoList.Clear();
 
 		foreach (var item in dragPanel.ScrollItem){
 			GameObject.Destroy(item);

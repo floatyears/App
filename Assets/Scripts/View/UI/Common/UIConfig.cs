@@ -72,6 +72,8 @@ public class UIConfig
 	public const string questSelectWindowName = "QuestSelectWindow";
 	public const string friendSelectWindowName = "FriendSelectWindow";
 	public const string applyWindowName = "ApplyWindow";
+	public const string friendListWindowName = "FriendListWindow";
+
 	public const string userIDWindowName = "UserIDWindow";
 	public const string informationWindowName = "InformationWindow";
 	public const string unitDetailPanelName = "UnitDetailPanel";

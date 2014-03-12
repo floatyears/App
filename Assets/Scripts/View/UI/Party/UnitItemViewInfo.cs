@@ -13,7 +13,7 @@ public class UnitItemInfo {
 	public bool isEnable = false;
 }
 
-public class PartyUnitItemView{
+public class UnitItemViewInfo{
 	private bool isEnable;
 	public bool IsEnable{
 		get{ return isEnable;}
@@ -62,10 +62,10 @@ public class PartyUnitItemView{
 			return dataItem;
 		}
 	}
-	private PartyUnitItemView(){}
+	private UnitItemViewInfo(){}
 
-	public static PartyUnitItemView Create(TUserUnit dataItem){
-		PartyUnitItemView partyUnitItemView = new PartyUnitItemView();
+	public static UnitItemViewInfo Create(TUserUnit dataItem){
+		UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
 		partyUnitItemView.initWithTUserUnit(dataItem);
 		return partyUnitItemView;
 	}

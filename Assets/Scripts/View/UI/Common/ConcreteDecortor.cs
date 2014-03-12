@@ -524,13 +524,13 @@ public class FriendListDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		ApplyLogic friendListPanel = CreatComponent< ApplyLogic >( UIConfig.applyWindowName);
+		sceneInfoBar = CreatComponent<SceneInfoComponent>( UIConfig.sceneInfoBarName );
+		FriendListLogic friendList = CreatComponent<FriendListLogic>(UIConfig.friendListWindowName);
 
 		sceneInfoBar.SetComponent( decorator );
-		friendListPanel.SetComponent( sceneInfoBar );
+		friendList.SetComponent(sceneInfoBar);
 
-		lastDecorator = friendListPanel;
+		lastDecorator = friendList;
 		lastDecorator.CreatUI();
 	}
 }
