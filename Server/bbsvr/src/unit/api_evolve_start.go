@@ -181,6 +181,11 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 
 	//TODO:try getFriendState(helperUid) -> getFriendPoint
 
+
+	if e = unit.SaveEvolveSession(db, reqMsg); e.IsError() {
+		return e
+	}
+
 	//update latest quest record of userDetail
 	if e = quest.FillQuestLog(&userDetail, *userDetail.Party.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
 		questData.Drop, stageInfo, questInfo, questState); e.IsError() {

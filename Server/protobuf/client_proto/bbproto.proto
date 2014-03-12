@@ -98,6 +98,7 @@ message ReqAddFriend {
 
 message RspAddFriend {
 	optional ProtoHeader	header				= 1;
+	optional FriendList		friends				= 2;	
 };
 
 //-------------------------------------------------
@@ -108,6 +109,7 @@ message ReqDelFriend {
 
 message RspDelFriend {
 	optional ProtoHeader	header				= 1;
+	optional FriendList		friends				= 2;
 };
 
 //-------------------------------------------------
@@ -118,6 +120,7 @@ message ReqAcceptFriend {
 
 message RspAcceptFriend {
 	optional ProtoHeader	header				= 1;
+	optional FriendList		friends				= 2;	
 };
 //-------------------------------------------------
 

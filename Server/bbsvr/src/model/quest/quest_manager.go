@@ -212,11 +212,6 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 		return 0, 0, 0, gotUnit, Error.New(EC.READ_DB_ERROR)
 	}
 
-	//clear userDetail.Quest, then save userDetail
-	*userDetail.User.Exp += *userDetail.Quest.GetExp
-	*userDetail.Account.Money += (*userDetail.Quest.GetMoney)
-	log.T("==Account :: addMoney:%v -> %v addExp:%v -> %v", *userDetail.Quest.GetMoney, *userDetail.Account.Money, *userDetail.Quest.GetExp, *userDetail.User.Exp)
-
 	gotMoney = *userDetail.Quest.GetMoney
 	gotExp = *userDetail.Quest.GetExp
 	if userDetail.Quest.GetFriendPoint != nil {

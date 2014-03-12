@@ -118,18 +118,24 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 		return e
 	}
 
-	//3. calculate stamina
+	//3. update exp, account
+	*userDetail.User.Exp += *userDetail.Quest.GetExp
+	*userDetail.Account.Money += (*userDetail.Quest.GetMoney)
+	log.T("==Account :: addMoney:%v -> %v addExp:%v -> %v", gotMoney, *userDetail.Account.Money, gotExp, *userDetail.User.Exp)
+
+
+	//4. calculate stamina
 	if e = user.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {
 		return e
 	}
 
-	//4. update userinfo (include: unitList, exp, money, stamina)
+	//5. update userinfo (include: unitList, exp, money, stamina)
 	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
 		return Error.New(EC.EU_UPDATE_USERINFO_ERROR, "update userinfo failed.")
 	}
 	log.T("UpdateUserInfo(%v) ret OK.", uid)
 
-	//5. fill response
+	//6. fill response
 	rspMsg.Rank = userDetail.User.Rank
 	rspMsg.Exp = userDetail.User.Exp
 	rspMsg.StaminaNow = userDetail.User.StaminaNow

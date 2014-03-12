@@ -29,6 +29,7 @@ const (
 	//unit
 	X_UNIT_INFO    = "X_UNIT_"
 	X_SKILL_INFO   = "X_SKILL_"
+	X_EVOLVE_SESSION   = "X_EVOLVE_"
 )
 
 const (

@@ -163,7 +163,7 @@ func UpdateUserInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.
 	}
 
 	if err = db.Set(common.Utoa(*userdetail.User.UserId), zUserData); err != nil {
-		return Error.New(EC.READ_DB_ERROR, err.Error())
+		return Error.New(EC.SET_DB_ERROR, err.Error())
 	}
 	log.T("UpdateUserInfo for (%v) , return OK", *userdetail.User.UserId)
 

@@ -752,6 +752,7 @@ func (m *ReqAddFriend) GetFriendUid() uint32 {
 
 type RspAddFriend struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Friends          *FriendList  `protobuf:"bytes,2,opt,name=friends" json:"friends,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -762,6 +763,13 @@ func (*RspAddFriend) ProtoMessage()    {}
 func (m *RspAddFriend) GetHeader() *ProtoHeader {
 	if m != nil {
 		return m.Header
+	}
+	return nil
+}
+
+func (m *RspAddFriend) GetFriends() *FriendList {
+	if m != nil {
+		return m.Friends
 	}
 	return nil
 }
@@ -793,6 +801,7 @@ func (m *ReqDelFriend) GetFriendUid() uint32 {
 
 type RspDelFriend struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Friends          *FriendList  `protobuf:"bytes,2,opt,name=friends" json:"friends,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -803,6 +812,13 @@ func (*RspDelFriend) ProtoMessage()    {}
 func (m *RspDelFriend) GetHeader() *ProtoHeader {
 	if m != nil {
 		return m.Header
+	}
+	return nil
+}
+
+func (m *RspDelFriend) GetFriends() *FriendList {
+	if m != nil {
+		return m.Friends
 	}
 	return nil
 }
@@ -834,6 +850,7 @@ func (m *ReqAcceptFriend) GetFriendUid() uint32 {
 
 type RspAcceptFriend struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Friends          *FriendList  `protobuf:"bytes,2,opt,name=friends" json:"friends,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -844,6 +861,13 @@ func (*RspAcceptFriend) ProtoMessage()    {}
 func (m *RspAcceptFriend) GetHeader() *ProtoHeader {
 	if m != nil {
 		return m.Header
+	}
+	return nil
+}
+
+func (m *RspAcceptFriend) GetFriends() *FriendList {
+	if m != nil {
+		return m.Friends
 	}
 	return nil
 }
