@@ -186,13 +186,13 @@ public class TQuestGrid : ProtobufDataBase {
 	public uint	TrapId { get { return instance.trapId; } }
 	public int DropPos{get{return instance.dropPos;}}
 	public TrapBase	TrapInfo { get { 
-			if (!GlobalData.trapInfo.ContainsKey(instance.trapId) ) {
+			if (!DataCenter.Instance.TrapInfo.ContainsKey(instance.trapId) ) {
 //				UnityEngine.Debug.LogError("instance.trapId : " + instance.trapId);
 				LogHelper.LogError("TQuestGrid.TrapInfo :: cannot find trapId({0}) in Global.trapInfo.", instance.trapId);
 				return null;
 			}
 				
-			return GlobalData.trapInfo[instance.trapId]; 
+			return DataCenter.Instance.TrapInfo[instance.trapId]; 
 		} 
 	}
 }
@@ -212,7 +212,7 @@ public class TDropUnit : ProtobufDataBase {
 	public int	AddDefence{ get { return instance.addDefence; } }
 
 	public TUnitInfo UnitInfo {
-		get { return GlobalData.unitInfo [instance.unitId]; }
+		get { return DataCenter.Instance.UnitInfo [instance.unitId]; }
 	}
 }
 

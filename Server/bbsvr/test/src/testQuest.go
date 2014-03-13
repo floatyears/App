@@ -341,17 +341,34 @@ func modify(v st) (re *st) {
 	return &r
 }
 
-func qmain() {
+func main() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
 
 	Init()
-	//DataAddStageInfo(11, "Fire City")
-	//DataAddStageInfo(12, "Water City")
-	//DataAddStageInfo(13, "Win City")
+	DataAddStageInfo(11, "Fire City")
+	DataAddStageInfo(12, "Water City")
+	DataAddStageInfo(13, "Win City")
+	for stage := uint32(11); stage <= 13; stage++ {
+		for questId := uint32(100*stage + 1); questId <= 100*stage+5; questId++ {
+			DataAddQuestConfig(questId)
+		}
+	}
 
-	//DataAddQuestConfig(1101)
-	StartQuest(101, 11, 1101, 102)
+	//evolve city
+	DataAddStageInfo(21, "Evolve Wind City")
+	DataAddStageInfo(22, "Evolve Fire City")
+	DataAddStageInfo(23, "Evolve Water City")
+	DataAddStageInfo(24, "Evolve Light City")
+	DataAddStageInfo(25, "Evolve Dark City")
+	DataAddStageInfo(26, "Evolve None City")
+
+	for stage := uint32(21); stage <= 26; stage++ {
+		for questId := uint32(100*stage + 1); questId <= 100*stage+5; questId++ {
+			DataAddQuestConfig(questId)
+		}
+	}
+	//StartQuest(101, 11, 1101, 102)
 
 	log.Fatal("bbsvr test client finish.")
 }

@@ -71,6 +71,14 @@
         "positiony": 0,
         "positionz": 0
     },
+    "FriendListWindow": {
+        "uiName":"FriendListWindow",
+        "resoucePath": "Prefabs/UI/FriendList/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
      "ScratchWindow": {
         "uiName":"ScratchWindow",
         "resoucePath": "Prefabs/UI/Scratch/",

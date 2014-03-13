@@ -19,8 +19,7 @@ public class DragPanelView : UIBaseUnity {
 		grid = FindChild<UIGrid>("Scroll View/UIGrid");
 	}
 
-	public override void CreatUI ()
-	{
+	public override void CreatUI (){
 		base.CreatUI ();
 	
 	}
@@ -184,7 +183,7 @@ public class DragPanelView : UIBaseUnity {
 		grid.cellWidth = cellWidth;
 		grid.cellHeight = cellHeight;
 
-		LogHelper.Log( "  " + gameObject.name + " have finlished SetScrollView(dic)");
+		//LogHelper.Log( "  " + gameObject.name + " have finlished SetScrollView(dic)");
 
 	}
 	

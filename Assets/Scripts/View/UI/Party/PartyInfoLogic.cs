@@ -27,20 +27,20 @@ public class PartyInfoLogic : ConcreteComponent {
 	}
 
 	void AddCmdListener(){
-		Debug.Log("PartyInfoUILogic.AddCmdListener(), Start...");
+//		Debug.Log("PartyInfoUILogic.AddCmdListener(), Start...");
 		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyPanelInfo, Recive);
-		Debug.Log("PartyInfoUILogic.AddCmdListener(), End...");
+//		Debug.Log("PartyInfoUILogic.AddCmdListener(), End...");
 	}
 
 	void RmvCmdListener(){
-		Debug.Log("PartyInfoUILogic.RmvCmdListener(), Start...");
+//		Debug.Log("PartyInfoUILogic.RmvCmdListener(), Start...");
 		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyPanelInfo, Recive);
-		Debug.Log("PartyInfoUILogic.RmvCmdListener(), End...");
+//		Debug.Log("PartyInfoUILogic.RmvCmdListener(), End...");
 	}
 
 
 	void Recive(object data){
-		Debug.Log("PartyInfoUILogic.Recive(), Start...");
+//		Debug.Log("PartyInfoUILogic.Recive(), Start...");
 		TUnitParty tup = data as TUnitParty;
 		if(tup == null){
 			Debug.LogError("PartyInfoUILogic.Recive(), TUnitParty is NULL!");
@@ -48,11 +48,11 @@ public class PartyInfoLogic : ConcreteComponent {
 		}
 
 		UpdateData(GetData(tup));
-		Debug.Log("PartyInfoUILogic.Recive(), End...");
+//		Debug.Log("PartyInfoUILogic.Recive(), End...");
 	}
 
 	Dictionary<string,string> GetData(TUnitParty tup){
-		Debug.Log("PartyInfoUILogic.GetData(), Start...");
+//		Debug.Log("PartyInfoUILogic.GetData(), Start...");
 
 		//Get Skill Name
 		string leaderSkillName = tup.GetLeaderSkillInfo().name;
@@ -63,7 +63,7 @@ public class PartyInfoLogic : ConcreteComponent {
 		//Get cur cost
 		string curCost = tup.TotalCost.ToString();
 		//Get maxCost
-		string maxCost = GlobalData.UserCost.ToString();
+		string maxCost = DataCenter.Instance.UserCost.ToString();
 		//Get fireAtk vaule
 		string fireAtk = tup.TypeAttack[ EUnitType.UFIRE ].ToString();
 		//Get waterAtk vaule

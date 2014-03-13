@@ -29,6 +29,7 @@ const (
 	//unit
 	X_UNIT_INFO    = "X_UNIT_"
 	X_SKILL_INFO   = "X_SKILL_"
+	X_EVOLVE_SESSION   = "X_EVOLVE_"
 )
 
 const (
@@ -38,6 +39,9 @@ const (
 )
 
 const (
+	N_MAX_RARE				= 6
+	N_MAX_USER_RANK			= 500
+
 	N_DUNGEON_GRID_COUNT    = 25
 	N_USER_SPACE_PARTS      = 10
 	N_HELPER_RANK_RANGE     = 5

@@ -277,25 +277,32 @@ func main() {
 	//GetFriend(130)
 	//FindFriend(101, 130)
 
-	//AddFriend(162, 143)
-	//AddFriend(162, 144)
-	//AddFriend(162, 146)
-	//AddFriend(162, 147)
-	//AddFriend(162, 148)
-	//AddFriend(162, 149)
-	//AddFriend(162, 150)
-	//AddFriend(162, 151)
-	//AddFriend(162, 156)
+	//AddFriend(156, 143)
+	//AddFriend(156, 144)
+	//AddFriend(156, 146)
+	//AddFriend(156, 147)
+	//AddFriend(156, 148)
+	//AddFriend(156, 149)
+	//AddFriend(156, 150)
+	//AddFriend(156, 151)
 
-	//AcceptFriend(162, 1)
-	AcceptFriend(143, 162)
-	AcceptFriend(144, 162)
-	AcceptFriend(146, 162)
-	AcceptFriend(147, 162)
-	AcceptFriend(148, 162)
-	AcceptFriend(149, 162)
-	AcceptFriend(156, 162)
-	GetFriend(162)
+	for fid := uint32(110); fid <= 135; fid++ {
+		AddFriend(156, fid)
+		AcceptFriend(fid, 156)
+	}
+
+	//for fid := uint32(146); fid < 162; fid++ {
+	//	AddFriend(fid, 156)
+	//}
+
+	//AcceptFriend(143, 156)
+	//AcceptFriend(144, 156)
+	//AcceptFriend(146, 156)
+	//AcceptFriend(147, 156)
+	//AcceptFriend(148, 156)
+	//AcceptFriend(149, 156)
+	//AcceptFriend(156, 156)
+	GetFriend(156)
 
 	//DelFriend(120, 101)
 	//GetFriend(120)
