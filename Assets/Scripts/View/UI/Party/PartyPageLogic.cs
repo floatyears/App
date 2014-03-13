@@ -32,26 +32,29 @@ public class PartyPageLogic : ConcreteComponent{
 
 	void FocusOnPositionFromView(object args){
 		if(UIManager.Instance.baseScene.CurrentScene != SceneEnum.Party){
-			//Debug.LogError("PartyPageUILogic.FocusOnPositionFromView(), only party scene recive focus, thus do nothing...");
+			Debug.LogError("PartyPageUILogic.FocusOnPositionFromView(), only party scene recive focus, thus do nothing...");
 			return;
 		}
 
 		int position = (int)args;
+		SetFocusPostion(position);
+		LogHelper.LogError("currentFoucsPosition is : " + currentFoucsPosition);
 		TUserUnit tuu = null;
 
 		if(GlobalData.partyInfo.CurrentParty.GetUserUnit()[ position - 1 ] == null){
-			Debug.LogError(string.Format("The position[{0}] of the current don't exist, do nothing!", position -1));
-			return;
+//			Debug.LogError(string.Format("The position[{0}] of the current don't exist, do nothing!", position -1));
+//			return;
+			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs( "LightCurSprite", currentFoucsPosition );
+			ExcuteCallback( cbdArgs );
+			MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
 		}
 		else{
 			tuu = GlobalData.partyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
+			BriefUnitInfo briefInfo = new BriefUnitInfo("PartyItem", tuu);
+			MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
 		}
 		
-		LogHelper.LogError("currentFoucsPosition is : " + currentFoucsPosition);
-		SetFocusPostion(position);
-		BriefUnitInfo briefInfo = new BriefUnitInfo("PartyItem", tuu);
 
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
 	}
 	
 	void EnsureFocusOnCurrentPick(object msg){
@@ -62,6 +65,12 @@ public class PartyPageLogic : ConcreteComponent{
 	void RejectCurrentFocusPartyMember(object msg){
 		LogHelper.Log("PartyPageUILogic.RejectCurrentFocusPartyMember(), Receive message from PartyDragPanel...");
 		Debug.LogError ("msg : " + msg);
+
+		if(currentFoucsPosition == 1){
+			LogHelper.Log("RejectCurrentFocusPartyMember(), current focus is leader, can't reject, return...");
+			return;
+		}
+
 		//Notice server to update data
 		Debug.Log("RejectCurrentFocusPartyMember(), Current id : " + (currentFoucsPosition -1));
 		uint focusUnitUniqueId = GlobalData.partyInfo.CurrentParty.GetUserUnit()[ currentFoucsPosition - 1 ].ID;
@@ -73,6 +82,8 @@ public class PartyPageLogic : ConcreteComponent{
 		//Notice view to clear
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClearItem", currentFoucsPosition);
 		ExcuteCallback( cbd );
+
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, GlobalData.partyInfo.CurrentParty);
 	}
 	
 	void AddCommandListener(){
@@ -150,7 +161,7 @@ public class PartyPageLogic : ConcreteComponent{
 			} 
 			else {
 				Texture2D t2d = tuuList[ i ].UnitInfo.GetAsset(UnitAssetType.Avatar);
-				LogHelper.Log( string.Format("PartyPageUILogic.GetPartyTexture(), Pos[{0}] texture name is {1}", i, t2d.name ) );
+				//LogHelper.Log( string.Format("PartyPageUILogic.GetPartyTexture(), Pos[{0}] texture name is {1}", i, t2d.name ) );
 				textureList.Add( t2d );
 			}
 		}
@@ -211,6 +222,7 @@ public class PartyPageLogic : ConcreteComponent{
 		ExcuteCallback( cbdArgs );
 
 		LogHelper.Log("PartyPageUILogic.ReplaceFocusPartyItem(), End...");
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, GlobalData.partyInfo.CurrentParty);
 
 	}
 

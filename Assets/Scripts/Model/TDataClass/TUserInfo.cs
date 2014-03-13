@@ -14,7 +14,7 @@ public class TUserInfo : ProtobufDataBase {
 	//////////////////////////////////////////////////////////////
 	/// 
 	public	string	Uuid { get { return instance.uuid; } }
-	public	uint	UserId { get { return instance.userId; } }
+	public	uint		UserId { get { return instance.userId; } }
 	public	string	NickName { get { return instance.nickName; } set {instance.nickName = value; }}
 	public	int		Rank { get { return instance.rank; } }
 	public	int		Exp { get { return instance.exp; } }
