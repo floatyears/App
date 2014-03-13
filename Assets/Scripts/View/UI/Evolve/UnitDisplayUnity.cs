@@ -29,6 +29,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	void InitUI () {
 		unitItem = Resources.Load("Prefabs/UI/Friend/UnitItem");
+
 	}
 
 
