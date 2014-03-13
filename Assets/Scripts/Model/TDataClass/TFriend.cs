@@ -220,23 +220,23 @@ public class TFriendList : ProtobufDataBase {
     #region inner calls
     /// inner calls
     private void getFriends() {
-        GetFriendList.SendRequest(OnRspGetFriend);
+//        GetFriendList.SendRequest(OnRspGetFriend);
     }
 
     private void addFriend(uint friendUid) {
-        AddFriend.SendRequest(OnRspAddFriend, friendUid);
+//        AddFriend.SendRequest(OnRspAddFriend, friendUid);
     }
 
     private void delFriend(uint friendUid) {
-        DelFriend.SendRequest(OnRspDelFriend, friendUid);
+//        DelFriend.SendRequest(OnRspDelFriend, friendUid);
     }
 
     private void findFriend(uint friendUid) {
-        FindFriend.SendRequest(OnRspFindFriend, friendUid);
+//        FindFriend.SendRequest(OnRspFindFriend, friendUid);
     }
 
     private void acceptFriend(uint friendUid) {
-        AcceptFriend.SendRequest(OnRspAcceptFriend, friendUid);
+//        AcceptFriend.SendRequest(OnRspAcceptFriend, friendUid);
     }
     #endregion
 

@@ -30,7 +30,7 @@ public class DelFriend: ProtoManager {
     public static void SendRequest(ResponseCallback callBack, uint friendUid) {
         DelFriend delFriend = new DelFriend();
         delFriend.friendUid = friendUid;
-        delFriend.OnRequest(null, callBack);
+//        delFriend.OnRequest(null, callBack);
     }
     
     //Property: request server parameters

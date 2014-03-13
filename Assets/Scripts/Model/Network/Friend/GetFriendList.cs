@@ -21,7 +21,7 @@ public class GetFriendList: ProtoManager {
 
     public static void SendRequest(ResponseCallback callBack) {
         GetFriendList getFriends = new GetFriendList();
-        getFriends.OnRequest(null, callBack);
+//        getFriends.OnRequest(null, callBack);
     }
 
 
@@ -58,12 +58,12 @@ public class GetFriendList: ProtoManager {
         if (data == null)
             return;
         
-        LogHelper.Log("TFriendList.Refresh() begin");
-        LogHelper.Log(data);
-        RspGetFriend rsp = data as RspGetFriend;
-        errMsg.SetErrorMsg(rsp.header.code);
-
-        FriendList inst = rsp.friends;
+//        LogHelper.Log("TFriendList.Refresh() begin");
+//        LogHelper.Log(data);
+//        RspGetFriend rsp = data as RspGetFriend;
+//        errMsg.SetErrorMsg(rsp.header.code);
+//
+//        FriendList inst = rsp.friends;
 //        DataCenter.Instance.Friends
 //        setNewInstance(inst);
 //        assignFriendList();

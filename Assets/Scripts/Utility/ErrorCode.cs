@@ -11,128 +11,78 @@
 using System;
 using System.Collections.Generic;
 
-public enum ErrorCode {
-    SUCCESS = 0,
+public class ErrorCode {
+    public const int SUCCESS = 0;
 
-    ERROR_BASE       = -100,
-    FAILED           = -101,
-    INVALID_PARAMS   = -102,
-    MARSHAL_ERROR    = -103,
-    UNMARSHAL_ERROR  = -104,
-    IOREAD_ERROR     = -105,
-    IOWRITE_ERROR    = -106,
-    CONNECT_DB_ERROR = -107,
-    READ_DB_ERROR    = -108,
-    SET_DB_ERROR     = -109,
-    DATA_NOT_EXISTS  = -110,
+    public const int ERROR_BASE = -100;
+    public const int  FAILED = -101;
+    public const int INVALID_PARAMS = -102;
+    public const int MARSHAL_ERROR = -103;
+    public const int UNMARSHAL_ERROR = -104;
+    public const int IOREAD_ERROR = -105;
+    public const int IOWRITE_ERROR = -106;
+    public const int CONNECT_DB_ERROR = -107;
+    public const int READ_DB_ERROR = -108;
+    public const int SET_DB_ERROR = -109;
+    public const int DATA_NOT_EXISTS = -110;
+        
 
+    public const int EU_USER_BASE = -200;
+    public const int EU_INVALID_USERID = -201;
+    public const int EU_GET_USERINFO_FAIL = -202;
+    public const int EU_USER_NOT_EXISTS = -203;
+    public const int EU_GET_NEWUSERID_FAIL = -204;
+    public const int EU_UPDATE_USERINFO_ERROR = -205;
 
-    EU_USER_BASE             = -200,
-    EU_INVALID_USERID        = -201,
-    EU_GET_USERINFO_FAIL     = -202,
-    EU_USER_NOT_EXISTS       = -203,
-    EU_GET_NEWUSERID_FAIL    = -204,
-    EU_UPDATE_USERINFO_ERROR = -205,
+    public const int EF_FRIEND_BASE = -300;
+    public const int EF_FRIEND_NOT_EXISTS = -301;
+    public const int EF_GET_FRIENDINFO_FAIL = -302;
+    public const int EF_ADD_FRIEND_FAIL = -303;
+    public const int EF_DEL_FRIEND_FAIL = -304;
+    public const int EF_IS_ALREADY_FRIEND = -305;
+    public const int EF_IS_ALREADY_FRIENDOUT = -306;
+    public const int EF_INVALID_FRIEND_STATE = -307;
 
-    EF_FRIEND_BASE          = -300,
-    EF_FRIEND_NOT_EXISTS    = -301,
-    EF_GET_FRIENDINFO_FAIL  = -302,
-    EF_ADD_FRIEND_FAIL      = -303,
-    EF_DEL_FRIEND_FAIL      = -304,
-    EF_IS_ALREADY_FRIEND    = -305,
-    EF_IS_ALREADY_FRIENDOUT = -306,
-    EF_INVALID_FRIEND_STATE = -307,
+    public const int EQ_QUEST_BASE = -400;
+    public const int EQ_QUEST_ID_INVALID = -401;
+    public const int EQ_GET_QUESTINFO_ERROR = -402;
+    public const int EQ_STAMINA_NOT_ENOUGH = -403;
+    public const int EQ_GET_QUEST_CONFIG_ERROR = -404;
+    public const int EQ_GET_QUEST_LOG_ERROR = -405;
+    public const int EQ_UPDATE_QUEST_RECORD_ERROR = -406;
+    public const int EQ_INVALID_DROP_UNIT = -407;
+    public const int EQ_QUEST_IS_PLAYING = -408;
 
-    EQ_QUEST_BASE                = -400,
-    EQ_QUEST_ID_INVALID          = -401,
-    EQ_GET_QUESTINFO_ERROR       = -402,
-    EQ_STAMINA_NOT_ENOUGH        = -403,
-    EQ_GET_QUEST_CONFIG_ERROR    = -404,
-    EQ_GET_QUEST_LOG_ERROR       = -405,
-    EQ_UPDATE_QUEST_RECORD_ERROR = -406,
-    EQ_INVALID_DROP_UNIT         = -407,
-    EQ_QUEST_IS_PLAYING          = -408,
-
-    E_UNIT_BASE                 = -500,
-    E_UNIT_ID_ERROR             = -501,
-    E_LEVELUP_NO_ENOUGH_MONEY   = -502,
-    E_GET_UNIT_INFO_ERROR       = -503,
+    public const int E_UNIT_BASE = -500;
+    public const int E_UNIT_ID_ERROR = -501;
+    public const int E_LEVELUP_NO_ENOUGH_MONEY = -502;
+    public const int E_GET_UNIT_INFO_ERROR = -503;
 
     // usual
-    ILLEGAL_PARAM = -1000,
+    public const int ILLEGAL_PARAM = -1000;
 
     // network
-    NETWORK = -2000,
-    TIMEOUT = -2001,
-    INVALID_SESSIONID = -2002,
+    public const int NETWORK = -2000;
+    public const int TIMEOUT = -2001;
+    public const int INVALID_SESSIONID = -2002;
 
     // model
-    MODEL = -3000,
-    ENCRYPT = -3001,
-    DECRYPT = - 3002, 
-    ILLEGAL_DATA = -3003,
-    INVALID_MODEL_NAME = -3004,
+    public const int   MODEL = -3000;
+    public const int ENCRYPT = -3001;
+    public const int DECRYPT = - 3002; 
+    public const int ILLEGAL_DATA = -3003;
+    public const int INVALID_MODEL_NAME = -3004;
 
     // controller
-    CONTROLLER = -4000,
+    public const int CONTROLLER = -4000;
 
     // view
-    VIEW = -5000,
+    public const int VIEW = -5000;
 };
 
-public enum ErrorMsgType {
-    SUCCEES = 0,
-    // network error comes from 
-    ERROR_BASE       = -100,
-    FAILED           = -101,
-    INVALID_PARAMS   = -102,
-    MARSHAL_ERROR    = -103,
-    UNMARSHAL_ERROR  = -104,
-    IOREAD_ERROR     = -105,
-    IOWRITE_ERROR    = -106,
-    CONNECT_DB_ERROR = -107,
-    READ_DB_ERROR    = -108,
-    SET_DB_ERROR     = -109,
-    DATA_NOT_EXISTS  = -110,
-    
-    
-    EU_USER_BASE             = -200,
-    EU_INVALID_USERID        = -201,
-    EU_GET_USERINFO_FAIL     = -202,
-    EU_USER_NOT_EXISTS       = -203,
-    EU_GET_NEWUSERID_FAIL    = -204,
-    EU_UPDATE_USERINFO_ERROR = -205,
-    
-    EF_FRIEND_BASE          = -300,
-    EF_FRIEND_NOT_EXISTS    = -301,
-    EF_GET_FRIENDINFO_FAIL  = -302,
-    EF_ADD_FRIEND_FAIL      = -303,
-    EF_DEL_FRIEND_FAIL      = -304,
-    EF_IS_ALREADY_FRIEND    = -305,
-    EF_IS_ALREADY_FRIENDOUT = -306,
-    EF_INVALID_FRIEND_STATE = -307,
-    
-    EQ_QUEST_BASE                = -400,
-    EQ_QUEST_ID_INVALID          = -401,
-    EQ_GET_QUESTINFO_ERROR       = -402,
-    EQ_STAMINA_NOT_ENOUGH        = -403,
-    EQ_GET_QUEST_CONFIG_ERROR    = -404,
-    EQ_GET_QUEST_LOG_ERROR       = -405,
-    EQ_UPDATE_QUEST_RECORD_ERROR = -406,
-    EQ_INVALID_DROP_UNIT         = -407,
-    EQ_QUEST_IS_PLAYING          = -408,
-    
-    E_UNIT_BASE                 = -500,
-    E_UNIT_ID_ERROR             = -501,
-    E_LEVELUP_NO_ENOUGH_MONEY   = -502,
-    E_GET_UNIT_INFO_ERROR       = -503,
-
-    PARAM_VERIFY_FAILED = -1000,
-    RSP_AUTHUSER_NULL = -1001,
-}
 
 /// <summary>
-/// Error message.
+///public const int Error message.
 /// </summary>
 public class ErrorMsg {
 
@@ -164,22 +114,12 @@ public class ErrorMsg {
         set { msg = value; }
     }
 
-    public static string GetErrorMsgInfo(ErrorCode code) {
-        string msg = "";
-        ErrorMsg.msgStringDic.TryGetValue((int)code, out msg);
-        return msg;
-    }
-
     public static string GetErrorMsgInfo(int code) {
         string msg = "";
         ErrorMsg.msgStringDic.TryGetValue(code, out msg);
         return msg;
     }
 
-    public void SetErrorMsg(ErrorCode code) {
-        Code = (int)code;
-        Msg = GetErrorMsgInfo(code);
-    }
 
     public void SetErrorMsg(int code) {
         Code = code;
@@ -221,7 +161,7 @@ public class ErrorMsg {
         ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_QUEST_ID_INVALID, "EQ_QUEST_ID_INVALID");
         ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_GET_QUESTINFO_ERROR, "EQ_GET_QUESTINFO_ERROR");
         ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_STAMINA_NOT_ENOUGH, "EQ_STAMINA_NOT_ENOUGH");
-//        ErrorMsg.msgStringDic.Add((int)ErrorCode.SUCCEES, "success");
+//       public const int ErrorMsg.msgStringDic.Add((int)ErrorCode.SUCCEES, "success");
 
     }
 }

@@ -30,7 +30,7 @@ public class AcceptFriend: ProtoManager {
     public static void SendRequest(ResponseCallback callBack, uint friendUid) {
         AcceptFriend acceptFriend = new AcceptFriend();
         acceptFriend.friendUid = friendUid;
-        acceptFriend.OnRequest(null, callBack);
+//        acceptFriend.OnRequest(null, callBack);
     }
     
     //Property: request server parameters
