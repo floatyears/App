@@ -6,13 +6,13 @@ import (
 	"common"
 	"common/EC"
 	"common/Error"
-	"common/config"
 	"common/consts"
 	"common/log"
 	"data"
+	"fmt"
 )
 
-func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e Error.Error) {
+func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (uniqueId uint32, e Error.Error) {
 	if db == nil {
 		db = &data.Data{}
 		err := db.Open(consts.TABLE_UNIT)
@@ -37,13 +37,13 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (unitId uint32, e
 		}
 	}
 
-	unitId = uint32(maxId + 1)
-	log.Printf("get getNewUnitId ret: %v ", unitId)
-	if err = db.SetUInt(consts.KEY_MAX_UNIT_ID+common.Utoa(uid), unitId); err != nil {
+	uniqueId = uint32(maxId + 1)
+	log.Printf("get getNewUnitId ret: %v ", uniqueId)
+	if err = db.SetUInt(consts.KEY_MAX_UNIT_ID+common.Utoa(uid), uniqueId); err != nil {
 		return 0, Error.New(EC.READ_DB_ERROR)
 	}
 
-	return unitId, Error.OK()
+	return uniqueId, Error.OK()
 }
 
 func GetUnitInfo(db *data.Data, unitId uint32) (unit bbproto.UnitInfo, e Error.Error) {
@@ -68,12 +68,13 @@ func GetUnitInfo(db *data.Data, unitId uint32) (unit bbproto.UnitInfo, e Error.E
 
 	if !isExists {
 		log.Error("getUnitInfo: unitId(%v) not exists.", unitId)
-		return unit, Error.New(EC.E_UNIT_ID_ERROR)
+		return unit, Error.New(EC.E_UNIT_ID_ERROR, fmt.Sprintf("unitId:%v not exists in db.", unitId))
 	}
 
 	err = proto.Unmarshal(value, &unit)
 	if err != nil {
 		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", unit, err)
+		return unit, Error.New(EC.UNMARSHAL_ERROR, err)
 	}
 
 	return unit, Error.OK()
@@ -87,17 +88,17 @@ func GetUserUnitInfo(userDetail *bbproto.UserInfoDetail, uniqueId uint32) (useru
 		}
 	}
 
-	return userunit, Error.New(EC.DATA_NOT_EXISTS)
+	return userunit, Error.New(EC.DATA_NOT_EXISTS, fmt.Sprintf("uniqueId:%v not exists in myUnitList.", uniqueId))
 }
 
 func CalculateDevourExp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseUnit *bbproto.UnitInfo,
-partUniqueIds []uint32) (blendExp, addAtk, addHp, addDef int32, e Error.Error) {
+	partUniqueIds []uint32) (blendExp, addAtk, addHp, addDef int32, e Error.Error) {
 	blendExp = int32(0)
 	addAtk = int32(0)
 	addHp = int32(0)
 	addDef = int32(0)
 
-	if userDetail==nil || baseUnit == nil {
+	if userDetail == nil || baseUnit == nil {
 		log.Error("Invalid userDetail or baseUnit pointer.")
 		return -1, -1, -1, -1, Error.New(EC.INVALID_PARAMS)
 	}
@@ -131,7 +132,7 @@ partUniqueIds []uint32) (blendExp, addAtk, addHp, addDef int32, e Error.Error) {
 
 		blendExp += int32(float32(*partUnit.DevourValue) * float32(*partUU.Level) * multiple)
 
-		log.T("Add partUnit:[%v | %v] DevourExp = (%v * %v) => %v", partUU.UniqueId, partUU.UnitId,
+		log.T("Add partUnit:[%v | %v] DevourExp = (%v * %v) => %v", *partUU.UniqueId, *partUU.UnitId,
 			(*partUnit.DevourValue)*(*partUU.Level), multiple, int32(float32(*partUnit.DevourValue)*float32(*partUU.Level)*multiple))
 	}
 
@@ -156,32 +157,22 @@ func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, cur
 	return addLevel, Error.OK()
 }
 
-func GetLevelUpMoney(level int32, count int32) int32 {
-
-	if level<=0 || level > int32(len(config.TableDevourCostCoin)-1) {
-		return -1
-	}
-
-	return config.TableDevourCostCoin[level-1]
-}
-
-func getUnitExpValue(expType int32, level int32) (levelExp int32) {
-	//TODO: read from global exp type table
-	if level > int32(len(config.TableUnitExpType)) {
-		return -1
-	}
-
-	return  config.TableUnitExpType[level-1]
-}
-
 func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32) (e Error.Error) {
+	for k, unit := range unitList {
+		log.T("before remove, unitList[%v]: %+v", k, unit)
+	}
+
 	for i := 0; i < len(partUniqueId); i++ {
 		for pos, userunit := range unitList {
 			if *userunit.UniqueId == partUniqueId[i] {
 				unitList = append(unitList[:pos], unitList[pos+1:]...)
-				log.T("after remove[pos:%v | uniqId:%v], unitList is: %+v", pos, partUniqueId, unitList)
 			}
 		}
+	}
+
+	log.T("============after remove:===============")
+	for k, unit := range unitList {
+		log.T("\tunitList[%v]: %+v", k, unit)
 	}
 
 	return Error.OK()

@@ -107,29 +107,59 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	}
 	log.T("getUser(%v) ret userinfo: %v", uid, userDetail.User)
 
-	//2. update questPlayRecord (include )
+	if userDetail.Quest == nil {
+		log.Error("user(%v) not playing quest now, cannot clear quest.", uid)
+		return Error.New(EC.EQ_USER_QUEST_NOT_PLAYING, "user not playing quest now, cannot clear quest.")
+	}
+
 	gotMoney := *reqMsg.GetMoney
 	gotExp := int32(0)
+	gotChip := int32(0)
 	gotFriendPt := int32(0)
 
+	//2. check stage isClear or not, give GotChip gift
+	stageId := *userDetail.Quest.StageId
+	stageInfo, e := quest.GetStageInfo(db, stageId)
+	if e.IsError() {
+		log.Error("GetStageInfo(%v) error: %v", stageId, e.Error())
+		return e
+	}
+
+	if _, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo); e.IsError() {
+		return e
+	} else if lastNotClear {
+		gotChip = 1
+		if e = quest.SetQuestCleared(db, uid, stageId, questId); e.IsError(){
+			return e
+		}
+	}
+
+	//3. update questPlayRecord (also add dropUnits to user.UnitList)
 	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e =
 		quest.UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
 	if e.IsError() {
 		return e
 	}
 
-	//3. calculate stamina
+	//4. update exp, rank, account
+	*userDetail.User.Exp += *userDetail.Quest.GetExp
+	*userDetail.Account.Money += (*userDetail.Quest.GetMoney)
+	user.RefreshRank(userDetail.User)
+
+	log.T("==Account :: addMoney:%v -> %v addExp:%v -> %v", gotMoney, *userDetail.Account.Money, gotExp, *userDetail.User.Exp)
+
+	//5. calculate stamina
 	if e = user.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {
 		return e
 	}
 
-	//4. update userinfo (include: unitList, exp, money, stamina)
+	//6. update userinfo (include: unitList, exp, money, stamina)
 	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
 		return Error.New(EC.EU_UPDATE_USERINFO_ERROR, "update userinfo failed.")
 	}
 	log.T("UpdateUserInfo(%v) ret OK.", uid)
 
-	//5. fill response
+	//6. fill response
 	rspMsg.Rank = userDetail.User.Rank
 	rspMsg.Exp = userDetail.User.Exp
 	rspMsg.StaminaNow = userDetail.User.StaminaNow
@@ -138,6 +168,7 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	rspMsg.Money = userDetail.Account.Money
 	rspMsg.FriendPoint = userDetail.Account.FriendPoint
 	rspMsg.GotExp = proto.Int32(gotExp)
+	rspMsg.GotChip = proto.Int32(gotChip)
 	rspMsg.GotMoney = proto.Int32(gotMoney)
 	//rspMsg.GotUnit = gotUnit
 	rspMsg.GotFriendPoint = proto.Int32(gotFriendPt)

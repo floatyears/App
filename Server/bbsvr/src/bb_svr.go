@@ -43,6 +43,8 @@ const (
 
 	//unit
 	_PROTO_LEVEL_UP = "/level_up"
+	_PROTO_EVOLVE_START = "/evolve_start"
+	_PROTO_EVOLVE_DONE = "/evolve_done"
 )
 
 func safeHandler(fn http.HandlerFunc) http.HandlerFunc {
@@ -103,6 +105,8 @@ func main() {
 
 	/** unit protocol **/
 	http.HandleFunc(_PROTO_LEVEL_UP, safeHandler(unit.LevelUpHandler))
+	http.HandleFunc(_PROTO_EVOLVE_START, safeHandler(unit.EvolveStartHandler))
+	http.HandleFunc(_PROTO_EVOLVE_DONE, safeHandler(unit.EvolveDoneHandler))
 
 	ret := http.ListenAndServe(":6666", nil)
 	log.Fatal("http.ListenAndServe ret:%d", ret)
