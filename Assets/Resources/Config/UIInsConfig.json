@@ -47,6 +47,15 @@
         "positiony": -475,
         "positionz": 0
     },
+      "UserBriefInfoWindow": {
+        "uiName":"UserBriefInfoWindow",
+        "resoucePath": "Prefabs/UI/Common/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": -475,
+        "positionz": 0
+    },
+    
      "BottomMenu": {
         "uiName":"MenuBottom",
         "resoucePath": "Prefabs/UI/Common/",

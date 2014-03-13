@@ -17,7 +17,7 @@ public class TPartyInfo : ProtobufDataBase {
         assignParty();
     }
 
-    public bool UnityIsInCurrentParty(uint uniqueId) {
+    public bool UnitIsInCurrentParty(uint uniqueId) {
         return CurrentParty.HasUnit(uniqueId);
     }
 

@@ -1,6 +1,8 @@
 using bbproto;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 public class TFriendInfo : ProtobufDataBase {
@@ -48,57 +50,66 @@ public class TFriendList : ProtobufDataBase {
 
     //constructor
     public TFriendList(FriendList inst) : base (inst) { 
+        RefreshFriendList(inst);
+    }
+//    //constructor
+//    public TFriendList() : base () { 
+//        RefreshFriendList(inst);
+//    }
+
+    public void RefreshFriendList(FriendList inst) {
+        LogHelper.Log("TFriendList () inst is " + inst);
         setNewInstance(inst);
         assignFriendList();
     }
-
     #region outter funcs
     public void GetFriends() {
         getFriends();
     }
-
-
-    public void SendFriendApplication(uint friendUid) {
-        addFriend(friendUid);
-    }
-
-    public void RemoveFriend(uint friendUid) {
-        delFriend(friendUid);
-    }
-
-    public void SearchFriend(uint friendUid) {
-        findFriend(friendUid);
-    }
-
-    public void RefuseFriendApplication(uint friendUid) {
-        delFriend(friendUid);
-    }
-
-    public void DelFriendApplication(uint friendUid) {
-        delFriend(friendUid);
-    }
-
-    public void AcceptFriendApplication(uint friendUid) {
-        delFriend(friendUid);
-    }
+//
+//
+//    public void SendFriendApplication(uint friendUid) {
+//        addFriend(friendUid);
+//    }
+//
+//    public void RemoveFriend(uint friendUid) {
+//        delFriend(friendUid);
+//    }
+//
+//    public void SearchFriend(uint friendUid) {
+//        findFriend(friendUid);
+//    }
+//
+//    public void RefuseFriendApplication(uint friendUid) {
+//        delFriend(friendUid);
+//    }
+//
+//    public void DelFriendApplication(uint friendUid) {
+//        delFriend(friendUid);
+//    }
+//
+//    public void AcceptFriendApplication(uint friendUid) {
+//        delFriend(friendUid);
+//    }
 
     #endregion
     public void OnRspGetFriend(object data) {
-        if (data == null)
-            return;
-        
-        LogHelper.Log("TFriendList.Refresh() begin");
-        LogHelper.Log(data);
-        RspGetFriend rsp = data as RspGetFriend;
 
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("RspGetFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-
-        FriendList inst = rsp.friends;
-        setNewInstance(inst);
-        assignFriendList();
+//        if (data == null)
+//            return;
+//        
+//        LogHelper.Log("TFriendList.Refresh() begin");
+//        LogHelper.Log(data);
+//        RspGetFriend rsp = data as RspGetFriend;
+//
+//        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+//            LogHelper.Log("RspGetFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+//            return;
+//        }
+//
+//        FriendList inst = rsp.friends;
+//        setNewInstance(inst);
+//        assignFriendList();
     }  
 
     public void OnRspAddFriend(object data) {
@@ -262,6 +273,7 @@ public class TFriendList : ProtobufDataBase {
         }
         foreach (FriendInfo fi in instance.friend) {
             TFriendInfo tfi = new TFriendInfo(fi);
+            Debug.Log("friend: NickName " + tfi.NickName);
             friend.Add(tfi);
         }
     }
@@ -276,6 +288,7 @@ public class TFriendList : ProtobufDataBase {
         helper = new List<TFriendInfo>();
         foreach (FriendInfo fi in instance.helper) {
             TFriendInfo tfi = new TFriendInfo(fi);
+            Debug.Log("helper: NickName " + tfi.NickName);
             helper.Add(tfi);
         }
     }
@@ -290,6 +303,7 @@ public class TFriendList : ProtobufDataBase {
         }
         foreach (FriendInfo fi in instance.friendIn) {
             TFriendInfo tfi = new TFriendInfo(fi);
+            Debug.Log("helper: NickName " + tfi.NickName);
             friendIn.Add(tfi);
         }
     }
