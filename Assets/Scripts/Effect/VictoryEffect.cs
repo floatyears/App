@@ -74,17 +74,17 @@ public class VictoryEffect : UIBaseUnity {
 			return;	
 		}
 
-		int nextEmp = GlobalData.userInfo.NextExp;
+		int nextEmp = DataCenter.Instance.UserInfo.NextExp;
 		int maxEmp = clearQuest.exp;
 
 		gotExp= clearQuest.gotExp;
-		rank = GlobalData.userInfo.Rank;
-		currentExp = GlobalData.userInfo.CurRankExp;
-		currentTotalExp = GlobalData.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
+		rank = DataCenter.Instance.UserInfo.Rank;
+		currentExp = DataCenter.Instance.UserInfo.CurRankExp;
+		currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 		add = (float)gotExp / 10f;
 		Debug.LogError ("UpdateLevelNumber");
 		StartCoroutine (UpdateLevelNumber ());
-//		int curCoin = GlobalData.accountInfo.Money;
+//		int curCoin = DataCenter.Instance.AccountInfo.Money;
 //		int maxCoin = clearQuest.money;
 //		int gotCoin = clearQuest.gotMoney;
 	}
@@ -111,7 +111,7 @@ public class VictoryEffect : UIBaseUnity {
 			if(currentExp >= currentTotalExp) {
 				currentExp -= currentTotalExp;
 				rank++;
-				currentTotalExp = GlobalData.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
+				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 			}
 			yield return 0;
 		}

@@ -228,11 +228,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelLabel.text = data.Level.ToString();
 		
 		//hp
-		int hp = GlobalData.Instance.GetUnitValue( unitInfo.HPType, data.Level );
+		int hp = DataCenter.Instance.GetUnitValue( unitInfo.HPType, data.Level );
 		hpLabel.text = hp.ToString();
 		
 		//atk
-		int atk = GlobalData.Instance.GetUnitValue(unitInfo.AttackType, data.Level);
+		int atk = DataCenter.Instance.GetUnitValue(unitInfo.AttackType, data.Level);
 		atkLabel.text = atk.ToString();
 		
 		//name
@@ -261,7 +261,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowSkill1Content( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.NormalSkill1;
-		SkillBaseInfo sbi = GlobalData.skill[ skillId ];
+		SkillBaseInfo sbi = DataCenter.Instance.Skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
 
 		normalSkill1NameLabel.text = skill.name;
@@ -278,7 +278,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowSkill2Content( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.NormalSkill2;
-		SkillBaseInfo sbi = GlobalData.skill[ skillId ];
+		SkillBaseInfo sbi = DataCenter.Instance.Skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
                 
                 normalSkill2NameLabel.text = skill.name;
@@ -295,7 +295,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowLeaderSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.LeaderSkill;
-		SkillBase skill = GlobalData.skill[ skillId ].GetSkillInfo();
+		SkillBase skill = DataCenter.Instance.Skill[ skillId ].GetSkillInfo();
                 
                 leaderSkillNameLabel.text = skill.name;
 		leaderSkillDscpLabel.text = skill.description;
@@ -304,7 +304,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowActiveSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.ActiveSkill;
-		SkillBase skill = GlobalData.skill[ skillId ].GetSkillInfo();		
+		SkillBase skill = DataCenter.Instance.Skill[ skillId ].GetSkillInfo();		
 		activeSkillNameLabel.text = skill.name;
 		activeSkillDscpLabel.text = skill.description;
     }
@@ -338,7 +338,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		Debug.LogError ("levelUpData.money : " + levelUpData.money);
 //		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
 //		TUserUnit tuu = GlobalData
-//		TUserUnit blendUnit = GlobalData.userUnitList.GetMyUnit(levelUpData.blendUniqueId);
+//		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 //		gotExp = levelUpData.blendExp;
 
 		unitInfoTabs.SetActive (false);
@@ -352,7 +352,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if (effectCache.Count > 2) {
 			CancelInvoke("CreatEffect");
 			unitInfoTabs.SetActive (true);
-			TUserUnit blendUnit = GlobalData.userUnitList.GetMyUnit(levelUpData.blendUniqueId);
+			TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 			ShowInfo(blendUnit);
 			gotExp = levelUpData.blendExp;
 			curExp = blendUnit.CurExp;

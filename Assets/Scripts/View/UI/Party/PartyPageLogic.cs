@@ -39,12 +39,12 @@ public class PartyPageLogic : ConcreteComponent{
 		int position = (int)args;
 		TUserUnit tuu = null;
 
-		if(GlobalData.partyInfo.CurrentParty.GetUserUnit()[ position - 1 ] == null){
+		if(DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ position - 1 ] == null){
 			Debug.LogError(string.Format("The position[{0}] of the current don't exist, do nothing!", position -1));
 			return;
 		}
 		else{
-			tuu = GlobalData.partyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
+			tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
 		}
 		
 		LogHelper.LogError("currentFoucsPosition is : " + currentFoucsPosition);
@@ -62,12 +62,18 @@ public class PartyPageLogic : ConcreteComponent{
 	void RejectCurrentFocusPartyMember(object msg){
 		LogHelper.Log("PartyPageUILogic.RejectCurrentFocusPartyMember(), Receive message from PartyDragPanel...");
 		Debug.LogError ("msg : " + msg);
+
+		if(currentFoucsPosition == 1){
+			LogHelper.Log("RejectCurrentFocusPartyMember(), current focus is leader, can't reject, return...");
+			return;
+		}
+
 		//Notice server to update data
 		Debug.Log("RejectCurrentFocusPartyMember(), Current id : " + (currentFoucsPosition -1));
-		uint focusUnitUniqueId = GlobalData.partyInfo.CurrentParty.GetUserUnit()[ currentFoucsPosition - 1 ].ID;
+		uint focusUnitUniqueId = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ currentFoucsPosition - 1 ].ID;
 
 		//Debug.LogError("PartyPageUILogic.RejectCurrentFocusPartyMember(), ChangeParty Before....");
-		GlobalData.partyInfo.ChangeParty(currentFoucsPosition - 1, 0);
+		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0);
 		//Debug.LogError("PartyPageUILogic.RejectCurrentFocusPartyMember(), ChangeParty Before....");
 
 		//Notice view to clear
@@ -94,15 +100,15 @@ public class PartyPageLogic : ConcreteComponent{
 		switch (signal){
 			case "current" : 
 				LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to current party");
-				currentParty = GlobalData.partyInfo.CurrentParty;
+				currentParty = DataCenter.Instance.PartyInfo.CurrentParty;
 				break;
 			case "prev":
 				LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to prev party");
-				currentParty = GlobalData.partyInfo.PrevParty;
+				currentParty = DataCenter.Instance.PartyInfo.PrevParty;
 				break;
 			case "next":
 				LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to next party");
-				currentParty = GlobalData.partyInfo.NextParty;
+				currentParty = DataCenter.Instance.PartyInfo.NextParty;
 				break;
 			default:
 				break;
@@ -113,8 +119,8 @@ public class PartyPageLogic : ConcreteComponent{
         void RefreshCurrentPartyInfo(object args){
 		//LogHelper.Log("PartyPageLogic.RefreshCurrentPartyInfo(),");
 		string partyType = args as string;
-		if(GlobalData.partyInfo.CurrentParty == null){
-			//LogHelper.LogError("GlobalData.partyInfo.CurrentParty == null");
+		if(DataCenter.Instance.PartyInfo.CurrentParty == null){
+			//LogHelper.LogError("DataCenter.Instance.PartyInfo.CurrentParty == null");
 			return;
 		}
 
@@ -158,13 +164,13 @@ public class PartyPageLogic : ConcreteComponent{
 	}
 
 	int GetPartyIndex(){
-		return GlobalData.partyInfo.CurrentPartyId + 1;
+		return DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
 	}
 
 
 	void NoticeServerUpdatePartyInfo(){
 		//LogHelper.LogError("PartyPageUILogic.NoticeServerUpdatePartyInfo(), Start...");
-		GlobalData.partyInfo.ExitParty();
+		DataCenter.Instance.PartyInfo.ExitParty();
 		//LogHelper.LogError("PartyPageUILogic.NoticeServerUpdatePartyInfo(), End...");
 	}
 
@@ -183,7 +189,7 @@ public class PartyPageLogic : ConcreteComponent{
 			return;
 		}
 
-		TUserUnit targetUnit = GlobalData.partyInfo.CurrentParty.GetUserUnit()[ currentFoucsPosition - 1 ];
+		TUserUnit targetUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ currentFoucsPosition - 1 ];
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, targetUnit);
 		//LogHelper.LogError("To unitdetail");
@@ -198,7 +204,7 @@ public class PartyPageLogic : ConcreteComponent{
 
 		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty Before....");
 //		Debug.lo
-		GlobalData.partyInfo.ChangeParty( currentFoucsPosition - 1, uniqueId );
+		DataCenter.Instance.PartyInfo.ChangeParty( currentFoucsPosition - 1, uniqueId );
 		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty After....");
 
 		LogHelper.LogError("PartyPageLogic.ReplaceFocusPartyItem(), The position to  repace : " + currentFoucsPosition );
@@ -219,12 +225,12 @@ public class PartyPageLogic : ConcreteComponent{
 		int position = (int)args;
 		TUserUnit tuu = null;
 		
-		if(GlobalData.partyInfo.CurrentParty.GetUserUnit()[ position - 1 ] == null){
+		if(DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ position - 1 ] == null){
 			LogHelper.LogError(string.Format("The position[{0}] of the current don't exist, do nothing!", position -1));
 			return;
 		}
 		else{
-			tuu = GlobalData.partyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
+			tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
 		}
 
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
