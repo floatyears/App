@@ -17,9 +17,9 @@ import (
 	"common/Error"
 	"common/log"
 	"data"
-	"event"
 	"model/friend"
 	"model/user"
+	"model/unit"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -204,7 +204,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 	}
 
-	rspMsg.EvolveType = event.GetEvolveType()
+	rspMsg.EvolveType = unit.GetTodayEvolveType()
 
 	log.T(">>>>>>>>>>>>AuthUser RspMsg<<<<<<<<<<<<<<")
 	log.T("\tUserinfo: %+v", rspMsg.User)
