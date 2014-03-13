@@ -83,10 +83,13 @@ public class FriendListLogic : ConcreteComponent {
         bbproto.FriendList inst = rsp.friends;
 
         DataCenter.Instance.FriendList.RefreshFriendList(inst);
+        // test
         LogHelper.Log("OnGetFriendList, test first friend. nick name" + CurrentFriendListData()[1].NickName);
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshFriendListView", null);
         ExcuteCallback(cbdArgs);
     }
+
+
 
     void ViewUnitBriefInfo(object args) {
         int position = (int)args;
@@ -176,6 +179,12 @@ public class FriendListLogic : ConcreteComponent {
         LogHelper.Log("RspUpdateFriendClick(), receive the click, to refresh FriendList...");
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateFriendList", null);
         ExcuteCallback(cbdArgs);
+    }
+
+    void testCurrentFriend() {
+        foreach (TFriendInfo item in CurrentFriendListData()) {
+            LogHelper.Log("OnGetFriendList, test friend. nick name " + item.NickName);
+        }
     }
 
 }

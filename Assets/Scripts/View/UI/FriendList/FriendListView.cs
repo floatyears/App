@@ -60,9 +60,9 @@ public class FriendListView : UIComponentUnity {
 
     }
 
-    void RefreshFriendListView(object args){
+    void RefreshFriendListView(object args) {
 
-    };
+    }
 
     void EnableUpdateButton(object args) {
         updateFriendButton.gameObject.SetActive(true);
