@@ -146,7 +146,7 @@ public enum CommandEnum
 	TryEnableLevelUp			= 4009,
 	CrossFade					= 4010,
 	UpdateNickName			= 4011,
-	ErrorMsgShow				= 4012,
+	NoteFriendUpdate			= 4012,
 	ShowUnitBriefInfo			= 4013,
 	UpdatePartyInfoPanel			= 4014,
 	ShowFocusUnitDetail			= 4015,
@@ -166,6 +166,11 @@ public enum CommandEnum
 	RefreshPartyUnitList			= 4029,
 	RefreshPartyPanelInfo			= 4030,
 	ShowUserUnitBriefInfo		= 4031,
+	EnsureUpdateFriend			= 4032,
+
+
+
+
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

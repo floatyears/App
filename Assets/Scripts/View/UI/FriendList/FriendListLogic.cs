@@ -36,7 +36,7 @@ public class FriendListLogic : ConcreteComponent{
 				CallBackDispatcherHelper.DispatchCallBack(ViewUnitBriefInfo, cbdArgs);
 				break;
 			case "UpdateFriendButtonClick" : 
-				CallBackDispatcherHelper.DispatchCallBack(GetNewestFriendList, cbdArgs);
+				CallBackDispatcherHelper.DispatchCallBack(NoteFriendUpdate, cbdArgs);
 				break;
 			default:
 				break;
@@ -44,11 +44,15 @@ public class FriendListLogic : ConcreteComponent{
 	}
 
 	void AddCommandListener(){
-		
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
 	}
 
 	void RemoveCommandListenr(){
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
+	}
 
+	void NoteFriendUpdate(object args){
+		MsgCenter.Instance.Invoke(CommandEnum.NoteFriendUpdate, null);
 	}
 
 	void GetNewestFriendList(object args){
