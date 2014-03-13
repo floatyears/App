@@ -85,7 +85,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		materialDragPanel = CreateDragPanel( name, count, itemGo) ;
 		FillDragPanel( materialDragPanel );
 		InitDragPanelArgs();
-		materialDragPanel.RootObject.SetScrollView(dragPanelArgs);
+		materialDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){

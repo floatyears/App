@@ -1,4 +1,4 @@
-﻿using bbproto;
+using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -47,13 +47,13 @@ public class QuestDecoratorUnity : UIComponentUnity {
 		storyDragPanel = CreateDragPanel(storyStageInfoList.Count);
 		FillDragPanel(storyDragPanel, storyStageInfoList);
 		InitStoryPanelArgs();
-		storyDragPanel.RootObject.SetScrollView(storyDragPanelArgsDic);
+		storyDragPanel.DragPanelView.SetScrollView(storyDragPanelArgsDic);
 
 		eventStageInfoList = GetStageInfo( 1 );
 		eventDragPanel = CreateDragPanel( eventStageInfoList.Count );
 		FillDragPanel( eventDragPanel, eventStageInfoList );
 		InitEventPanelArgs();
-		eventDragPanel.RootObject.SetScrollView(eventDragPanelArgsDic);
+		eventDragPanel.DragPanelView.SetScrollView(eventDragPanelArgsDic);
 	}
 
 	DragPanel CreateDragPanel(int count){

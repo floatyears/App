@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -85,7 +85,7 @@ public class FriendListView : UIComponentUnity{
 		UpdateEventListener();
 		//UpdateStarSprite(viewInfoList);
 		UpdateCrossShow();
-		dragPanel.RootObject.SetScrollView(dragPanelArgs);
+		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 	}
 
 	void ShowFriendName(object args){
@@ -207,7 +207,7 @@ public class FriendListView : UIComponentUnity{
 			GameObject.Destroy(item);
 		}
 		dragPanel.ScrollItem.Clear();
-		GameObject.Destroy(dragPanel.RootObject.gameObject);
+		GameObject.Destroy(dragPanel.DragPanelView.gameObject);
 	}
 }
 

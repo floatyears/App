@@ -217,7 +217,7 @@ public class PartyUnitsView : UIComponentUnity {
 		UpdateUnitItemMask(itemDataList);
 		UpdateStarSprite(itemDataList);
 		UpdateCrossShow();
-		dragPanel.RootObject.SetScrollView(dragPanelArgs);
+		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 	}
 
 	void DestoryDragView(object args){
@@ -228,7 +228,7 @@ public class PartyUnitsView : UIComponentUnity {
 			GameObject.Destroy(item);
 		}
 		dragPanel.ScrollItem.Clear();
-		GameObject.Destroy(dragPanel.RootObject.gameObject);
+		GameObject.Destroy(dragPanel.DragPanelView.gameObject);
 	}
 	
 	void FindCrossShowLabelList(){

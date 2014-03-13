@@ -440,7 +440,10 @@ public class EvolveDecorator : DecoratorBase {
 		EvolveComponent evolve = CreatComponent< EvolveComponent >( UIConfig.evolveWindowName);
 		evolve.SetComponent( sceneInfoBar );
 
-		lastDecorator = evolve;
+		UnitDisplay unitdisplay =  CreatComponent< UnitDisplay >( UIConfig.unitDisplay);
+		unitdisplay.SetComponent (evolve);
+
+		lastDecorator = unitdisplay;
 		lastDecorator.CreatUI();
 	}
 }
@@ -470,6 +473,7 @@ public class CatalogDecorator : DecoratorBase {
 		CatalogComponent catalog = CreatComponent< CatalogComponent >( UIConfig.catalogWindowName);
 		catalog.SetComponent( sceneInfoBar );
 	
+
 		lastDecorator = catalog;
 		lastDecorator.CreatUI();
 	}

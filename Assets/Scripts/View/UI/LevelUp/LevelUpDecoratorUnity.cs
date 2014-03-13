@@ -156,7 +156,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
             ulc.LongPress = LongPressPickBase;
         }
 
-        baseScroller.RootObject.SetScrollView(baseScrollerArgs);
+        baseScroller.DragPanelView.SetScrollView(baseScrollerArgs);
     }
 
     void LongPressPickBase(GameObject go) {
@@ -187,7 +187,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
             ulc.LongPress = LongPressPickMaterial;
             materialItemInfo.Add(target, ubi);
         }
-        materialScroller.RootObject.SetScrollView(materialScrollerArgs);
+        materialScroller.DragPanelView.SetScrollView(materialScrollerArgs);
     }
 
     void LongPressPickMaterial(GameObject go) {
@@ -214,7 +214,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
         UIEventListenerCustom ulc = UIEventListenerCustom.Get(target);
         ulc.onClick = PickFriend;
         ulc.LongPress = LongPressPickFriend;
-        friendScroller.RootObject.SetScrollView(friendcrollerArgs);
+        friendScroller.DragPanelView.SetScrollView(friendcrollerArgs);
     }
 
     void LongPressPickFriend(GameObject go) {

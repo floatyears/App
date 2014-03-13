@@ -39,6 +39,7 @@ public class BaseComponent :RootComponent, IUIComponent{
 	}
 	
 	public virtual void CreatUI () {
+
 	}
 
 	public virtual void ShowUI () {
