@@ -241,9 +241,9 @@ func ResetStamina(uid uint32) (e Error.Error) {
 
 func main() {
 	Init()
-	AddUsers()
+	//AddUsers()
 
-	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220201", 0)
+	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220201", 162)
 	//ResetStamina(154)
 	//LoginPack(101)
 

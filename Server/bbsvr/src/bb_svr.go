@@ -10,6 +10,7 @@ import (
 	"runtime/debug"
 	"time"
 )
+
 import (
 	//"data"
 	"common/config"
@@ -42,9 +43,10 @@ const (
 	_PROTO_FIND_FRIEND   = "/find_friend"
 
 	//unit
-	_PROTO_LEVEL_UP = "/level_up"
+	_PROTO_LEVEL_UP     = "/level_up"
 	_PROTO_EVOLVE_START = "/evolve_start"
-	_PROTO_EVOLVE_DONE = "/evolve_done"
+	_PROTO_EVOLVE_DONE  = "/evolve_done"
+	_PROTO_GACHA        = "/gacha"
 )
 
 func safeHandler(fn http.HandlerFunc) http.HandlerFunc {
@@ -107,6 +109,7 @@ func main() {
 	http.HandleFunc(_PROTO_LEVEL_UP, safeHandler(unit.LevelUpHandler))
 	http.HandleFunc(_PROTO_EVOLVE_START, safeHandler(unit.EvolveStartHandler))
 	http.HandleFunc(_PROTO_EVOLVE_DONE, safeHandler(unit.EvolveDoneHandler))
+	http.HandleFunc(_PROTO_GACHA, safeHandler(unit.GachaHandler))
 
 	ret := http.ListenAndServe(":6666", nil)
 	log.Fatal("http.ListenAndServe ret:%d", ret)

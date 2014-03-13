@@ -82,6 +82,20 @@ message EvolveInfo {
 	optional uint32				evolveQuestId	= 4;
 }
 
+enum EGachaType {
+	E_FRIEND_GACHA		= 1;
+	E_BUY_GACHA			= 2;
+	E_BUY_GACHA_EVENT	= 3;
+}
+
+message GachaConfig {
+	optional int32			gachaId		= 1;
+	optional EGachaType		gachaType	= 2; //by friendPoint, by chip， by chip(event)
+	optional uint32			beginTime	= 3; 
+	optional uint32			endTime		= 4; 
+	optional int32			eventId		= 5; 	
+}
+
 //=================================================================================================//
 
 message ReqGetUnitResource {
