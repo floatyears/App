@@ -1,6 +1,10 @@
 Rails.application.routes.draw do  
   
-  resources :unit_infos
+  resources :unit_infos do
+    collection do
+      post 'update_redis'
+    end
+  end
   resources :skills
 
   root "unit_infos#index"
