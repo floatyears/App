@@ -41,8 +41,7 @@ public class DragPanelView : UIBaseUnity {
 		base.DestoryUI ();
 	}
 	int a = 0;
-	public GameObject AddObject(GameObject obj)
-	{
+	public GameObject AddObject(GameObject obj) {
 
 		tempObject = NGUITools.AddChild (grid.gameObject, obj);
 
@@ -135,6 +134,21 @@ public class DragPanelView : UIBaseUnity {
 //			UpdateScrollArgument(key, argsDic[key]);
 //		}
 //	}
+
+	public void SetDragPanel(DragPanelSetInfo dpsi) {
+		gameObject.transform.parent = dpsi.parentTrans;
+		gameObject.transform.localPosition = dpsi.scrollerLocalPos;
+		gameObject.transform.localScale = dpsi.scrollerScale;
+		scrollView.transform.localPosition = dpsi.position;
+		clip.clipRange = dpsi.clipRange;
+		scrollBar.transform.localPosition = dpsi.scrollBarPosition;
+		grid.arrangement = dpsi.gridArrange;
+		grid.maxPerLine = dpsi.maxPerLine;
+		grid.cellWidth = dpsi.cellWidth;
+		grid.cellHeight = dpsi.cellHeight;
+		grid.enabled = true;
+		grid.Reposition ();
+	}
 
 	public void SetScrollView(Dictionary< string, object > argsDic)
 	{

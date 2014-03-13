@@ -3,15 +3,11 @@ using System.Collections.Generic;
 
 public class UnitDisplay : ConcreteComponent {
 	public UnitDisplay (string name) : base (name) {
-
 	}
-
-	public override void Callback (object data) {
-		base.Callback (data);
-	}
-
+	
 	public override void ShowUI () {
 		base.ShowUI ();
+		ReadData ();
 	}
 
 	public override void HideUI () {
@@ -20,31 +16,57 @@ public class UnitDisplay : ConcreteComponent {
 
 	public override void CreatUI () {
 		base.CreatUI ();
+		InitDragpanel ();
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
+
+	public override void Callback (object data) {
+		base.Callback (data);
+	}
 	
 	//========================================interface =================================
 
 	public Dictionary<string, object> TransferData = new Dictionary<string, object> ();
+	public List<TUserUnit> unitItemData = new List<TUserUnit>();
+	private DragPanelSetInfo dpsi;
 
+	void CreatArgs () {
+		if (dpsi != null) {
+			return;	
+		}
+		dpsi = new DragPanelSetInfo ();
+		dpsi.parentTrans = viewComponent.transform;
+		dpsi.scrollerScale = Vector3.one;
+		dpsi.position = -28 * Vector3.up;
+		dpsi.clipRange = new Vector4 (0, -120, 640, 400);
+		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
+		dpsi.maxPerLine = 3;
+		dpsi.scrollBarPosition = new Vector3 (-320, -315, 0);
+		dpsi.cellWidth = 110;
+		dpsi.cellHeight = 110;
+	}
 
+	void InitDragpanel () {
+
+		CreatArgs ();
+		TransferData.Clear ();
+		TransferData.Add (UnitDisplayUnity.SetDragPanel, dpsi);
+		ExcuteCallback (TransferData);
+	}
+
+	void ReadData () {
+		unitItemData.Clear ();
+		unitItemData.AddRange (DataCenter.Instance.MyUnitList.GetAll ().Values);
+		TransferData.Clear ();
+		TransferData.Add (UnitDisplayUnity.RefreshData, unitItemData);
+		ExcuteCallback (TransferData);
+	}
 }
 
-
 public class DragPanelSetInfo {
-//	dragPanelArgs.Add("parentTrans",	transform);
-//	dragPanelArgs.Add("scrollerScale",	Vector3.one);
-//	dragPanelArgs.Add("scrollerLocalPos",	-28 * Vector3.up);
-//	dragPanelArgs.Add("position", 		Vector3.zero);
-//	dragPanelArgs.Add("clipRange", 		new Vector4(0, -120, 640, 400));
-//	dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
-//	dragPanelArgs.Add("maxPerLine",		3);
-//	dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
-//	dragPanelArgs.Add("cellWidth", 		110);
-//	dragPanelArgs.Add("cellHeight",		110);
 	public Transform parentTrans;
 	public Vector3 scrollerScale;
 	public Vector3 scrollerLocalPos;

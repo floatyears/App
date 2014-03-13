@@ -62,7 +62,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
         InitDragPanelArgs();
         friendDragPanel = CreateDrag(name, count, itemGo);
         FillDragPanel(friendDragPanel);
-        friendDragPanel.RootObject.SetScrollView(dragPanelArgs);
+        friendDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 
         //StartCoroutine( CrossShow(unitInfoStruct));
     }

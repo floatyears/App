@@ -62,13 +62,14 @@ public class UIConfig
 
 	public const string partyDragPanelName = "PartyDragPanel";
 	public const string partyInfoPanelName = "PartyInfoPanel";
-        public const string partyPagePanelName = "PartyPagePanel";
+	public const string partyPagePanelName = "PartyPagePanel";
 	public const string partyWindowName = "PartyWindow";
 	public const string catalogWindowName = "CatalogWindow";
 	public const string levelUpWindowName = "LevelUpWindow";
 	public const string sellWindowName = "SellWindow";
 	public const string unitListWindowName = "UnitListWindow";
 	public const string evolveWindowName = "EvolveWindow";
+	public const string unitDisplay = "UnitDisplay";
 	public const string questSelectWindowName = "QuestSelectWindow";
 	public const string friendSelectWindowName = "FriendSelectWindow";
 	public const string applyWindowName = "ApplyWindow";
