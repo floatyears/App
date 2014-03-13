@@ -56,9 +56,9 @@
 		EvolveInfo<br/>
 		evolveUnitId:<%= select_tag :evolveUnitId,options_for_select(@units,:selected => @unit_info.try(:evolveInfo).try(:evolveUnitId))%><br/>
 		materialUnitId:
-		<%= select_tag :materialUnitId1,options_for_select(@units,:selected => @unit_info.try(:evolveInfo).try(:materialUnitId)[0])%>
-		<%= select_tag :materialUnitId2,options_for_select(@units,:selected => @unit_info.try(:evolveInfo).try(:materialUnitId)[1])%>
-		<%= select_tag :materialUnitId3,options_for_select(@units,:selected => @unit_info.try(:evolveInfo).try(:materialUnitId)[2])%>
+		<%= select_tag :materialUnitId1,options_for_select(@units,:selected => (@unit_info.try(:evolveInfo).try(:materialUnitId)[0] if @unit_info.try(:evolveInfo).try(:materialUnitId)))%>
+		<%= select_tag :materialUnitId2,options_for_select(@units,:selected => (@unit_info.try(:evolveInfo).try(:materialUnitId)[1] if @unit_info.try(:evolveInfo).try(:materialUnitId)))%>
+		<%= select_tag :materialUnitId3,options_for_select(@units,:selected => (@unit_info.try(:evolveInfo).try(:materialUnitId)[2] if @unit_info.try(:evolveInfo).try(:materialUnitId)))%>
 		<br/>
 		<fieldset>
 			helperRequire<br/>
