@@ -57,6 +57,11 @@ func (t LevelUp) verifyParams(reqMsg *bbproto.ReqLevelUp) (err Error.Error) {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
+	materialCount := len( reqMsg.PartUniqueId )
+	if materialCount==0 || materialCount > 4 {
+		return Error.New(EC.INVALID_PARAMS, "ERROR: params PartUniqueId's length invalid.")
+	}
+
 	if *reqMsg.Header.UserId == 0 {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: userId is invalid.")
 	}
@@ -110,7 +115,6 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	log.Error("baseUserUnit:(%+v).", baseUserUnit)
 	log.Error("baseUnit:(%+v).", baseUnit)
 
-
 	//3. check acount.money is enough or not
 	needMoney := unit.GetLevelUpMoney(*baseUserUnit.Level, int32(len(reqMsg.PartUniqueId)))
 	if *userDetail.Account.Money < needMoney {
@@ -163,10 +167,12 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	rspMsg.BlendExp = proto.Int32(addExp)
 	rspMsg.BlendUniqueId = reqMsg.BaseUniqueId
 	rspMsg.UnitList = userDetail.UnitList
+	rspMsg.PartUniqueId = reqMsg.PartUniqueId
 
 	log.T("=================rspMsg begin==================")
 	log.T("\t BlendExp:%v", *rspMsg.BlendExp)
 	log.T("\t BlendUniqueId:%v", *rspMsg.BlendUniqueId)
+	log.T("\t PartUniqueId:%v", rspMsg.PartUniqueId)
 
 	for k, unit := range rspMsg.UnitList {
 		log.T("\t [%v] unit: %+v", k, unit)

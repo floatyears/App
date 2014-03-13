@@ -258,7 +258,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		pickedUserUnitInfo.Add (friendUnitInfo);
 		//TODO add base unit info .....
 //		pickedUserUnitInfo.Add(baseUnitInfo);
-		pickedUserUnitInfo.Add(friendUnitInfo);
 		foreach (var item in unitItemInfo){
 			if(item != null) {
 				pickedUserUnitInfo.Add(item.userUnitItem);

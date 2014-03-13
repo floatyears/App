@@ -76,8 +76,8 @@ message HelperRequire {
 }
 
 message EvolveInfo {
-    required int32      		evolveUnitId    = 1;
-    repeated int32		      	materialUnitId  = 2;
+    required uint32      		evolveUnitId    = 1;
+    repeated uint32		      	materialUnitId  = 2;
 	optional HelperRequire		helperRequire	= 3;
 	optional uint32				evolveQuestId	= 4;
 }
@@ -167,3 +167,14 @@ message RspEvolveDone {
 	optional UserUnit		evolvedUnit		= 14;
 }
 
+message ReqGacha {	
+	optional ProtoHeader	header			= 1;
+	optional int32			gachaId			= 2;
+	optional int32			gachaCount		= 3;
+}
+
+message RspGacha {	
+	optional ProtoHeader	header			= 1;
+	repeated UserUnit		unitList		= 2;
+	repeated uint32			unitUniqueId	= 3;
+}
