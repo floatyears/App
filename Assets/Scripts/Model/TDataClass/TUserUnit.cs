@@ -348,7 +348,7 @@ public class UserUnitList {
     public  TUserUnit Get(uint userId, uint uniqueId) {
         string key = MakeUserUnitKey(userId, uniqueId);
         if (!userUnitInfo.ContainsKey(key)) {
-            LogHelper.Log("Cannot find key {0} in Global.userUnitInfo.", key);
+            //LogHelper.Log("Cannot find key {0} in Global.userUnitInfo.",key);
             return null;
         }
 			
@@ -357,7 +357,7 @@ public class UserUnitList {
 
     public  TUserUnit GetMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
-            Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
+            //Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return null;
         }
         return Get(DataCenter.Instance.UserInfo.UserId, uniqueId);
@@ -365,7 +365,7 @@ public class UserUnitList {
 
     public  void DelMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
-            Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
+            //Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return;
         }
         Del(DataCenter.Instance.UserInfo.UserId, uniqueId);

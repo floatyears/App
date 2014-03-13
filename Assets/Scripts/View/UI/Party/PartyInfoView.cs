@@ -25,7 +25,7 @@ public class PartyInfoView : UIComponentUnity {
 	}
 
 	void FindUIElement(){
-		Debug.Log("PartyInfoPanel.FindUIElement(), Start...");
+//		Debug.Log("PartyInfoPanel.FindUIElement(), Start...");
 		UILabel label;
 
 		label = FindChild<UILabel>("content_status/VauleLabel/Label_HP_Value");
@@ -63,19 +63,19 @@ public class PartyInfoView : UIComponentUnity {
 
 		focus = FindChild<UIToggle>("tab_status");
 
-		Debug.Log("PartyInfoPanel.FindUIElement(), End...");
+//		Debug.Log("PartyInfoPanel.FindUIElement(), End...");
 	}
 
 	void SetUIElement(){
-		Debug.Log("PartyInfoPanel.SetUIElement(), Start...");
+//		Debug.Log("PartyInfoPanel.SetUIElement(), Start...");
 
-		Debug.Log("PartyInfoPanel.SetUIElement(), End...");
+//		Debug.Log("PartyInfoPanel.SetUIElement(), End...");
 	}
 
 	void ResetUIElement(){
-		Debug.Log("PartyInfoPanel.ResetUIElement(), Start...");
+//		Debug.Log("PartyInfoPanel.ResetUIElement(), Start...");
 		ResetTabFocus();
-		Debug.Log("PartyInfoPanel.ResetUIElement(), End...");
+//		Debug.Log("PartyInfoPanel.ResetUIElement(), End...");
 	}
 
 	void ResetTabFocus(){
@@ -83,7 +83,7 @@ public class PartyInfoView : UIComponentUnity {
 	}
 
 	void UpdateLabel(Dictionary<string, string> text){
-		Debug.Log("PartyInfoPanel.UpdateLabel(), Start...");
+//		Debug.Log("PartyInfoPanel.UpdateLabel(), Start...");
 
 		foreach (var item in text.Keys){
 			if( viewLabel.ContainsKey(item)){
@@ -91,7 +91,7 @@ public class PartyInfoView : UIComponentUnity {
 			}
 		}
 	
-		Debug.Log("PartyInfoPanel.UpdateLabel(), End...");
+//		Debug.Log("PartyInfoPanel.UpdateLabel(), End...");
 	}
 
 	public override void Callback(object data){

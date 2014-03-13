@@ -49,8 +49,8 @@ public class ClearQuest: ProtoManager {
         reqClearQuest.header = new ProtoHeader();
         reqClearQuest.header.apiVer = Protocol.API_VERSION;
 
-        if (GlobalData.userInfo != null)
-            reqClearQuest.header.userId = GlobalData.userInfo.UserId;
+        if (DataCenter.Instance.UserInfo != null)
+            reqClearQuest.header.userId = DataCenter.Instance.UserInfo.UserId;
 
 
         reqClearQuest.questId = questParam.questId;
@@ -75,8 +75,8 @@ public class ClearQuest: ProtoManager {
             rspClearQuest = InstanceObj as bbproto.RspClearQuest;
             //		LogHelper.Log("reponse userId:"+rspClearQuest.user.userId);
 			
-            GlobalData.userInfo.StaminaNow = rspClearQuest.staminaNow;
-            GlobalData.userInfo.StaminaRecover = rspClearQuest.staminaRecover;
+            DataCenter.Instance.UserInfo.StaminaNow = rspClearQuest.staminaNow;
+            DataCenter.Instance.UserInfo.StaminaRecover = rspClearQuest.staminaRecover;
 
         }
 

@@ -233,6 +233,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
             TUserUnit firstLeader = DataCenter.Instance.UserUnitList.GetMyUnit(id);
             if (firstLeader == null)
                 return;
+
             ProtobufDataBase pdb = DataCenter.Instance.Skill[firstLeader.LeadSKill];
             if (leaderSkill.ContainsKey(id)) {
                 leaderSkill[id] = pdb;
