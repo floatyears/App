@@ -61,21 +61,21 @@ public class PlayerInfoBar : UIComponentUnity {
 
 	void TurnToReName(){
 //		Debug.Log("PlayerInfoBar.TurnToReName() : Start");
-		if(GlobalData.userInfo == null ){
-			Debug.LogError("GlobalData.userInfo is null");
+		if(DataCenter.Instance.UserInfo == null ){
+			Debug.LogError("DataCenter.Instance.UserInfo is null");
 			return;
 		}
 		
-		if(GlobalData.userInfo.NickName == null ) {
-			Debug.LogError("GlobalData.userInfo.NickName is null");
+		if(DataCenter.Instance.UserInfo.NickName == null ) {
+			Debug.LogError("DataCenter.Instance.UserInfo.NickName is null");
 			return;
 		}
 		
-		if(GlobalData.userInfo.NickName.Length == 0){
+		if(DataCenter.Instance.UserInfo.NickName.Length == 0){
 			UIManager.Instance.ChangeScene( SceneEnum.Others );
 			Debug.Log ("PlayerInfoBar.ChangeScene( Others ).");
 		}
-			Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + GlobalData.userInfo.NickName);
+			Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.NickName);
         }
 
         private void InitUI() {
@@ -154,54 +154,54 @@ public class PlayerInfoBar : UIComponentUnity {
 
 
 	void UpdateData() {
-		if( GlobalData.userInfo == null ){
+		if( DataCenter.Instance.UserInfo == null ){
 			Debug.Log("PlayerInfoBar.UpdateData() , userInfo is null , return ");
 			return;
 		}
 		//Rank
-		VRankLabel.text = GlobalData.userInfo.Rank.ToString();
-		VRankHideLabel.text = GlobalData.userInfo.Rank.ToString();
+		VRankLabel.text = DataCenter.Instance.UserInfo.Rank.ToString();
+		VRankHideLabel.text = DataCenter.Instance.UserInfo.Rank.ToString();
 		//Name
-		VUserNameLabel.text = GlobalData.userInfo.NickName;
+		VUserNameLabel.text = DataCenter.Instance.UserInfo.NickName;
 		//Exp
-		int nextExp = GlobalData.userInfo.NextExp;
-		int curTotalExp = GlobalData.userInfo.CurRankExp;
+		int nextExp = DataCenter.Instance.UserInfo.NextExp;
+		int curTotalExp = DataCenter.Instance.UserInfo.CurRankExp;
 		VNeedExpHideLabel.text = nextExp.ToString();
 		VTotalExpHideLabel.text = curTotalExp.ToString();
 		//TODO Get current rank max exp 
 		expSprite.fillAmount = CountFillCount( curTotalExp - nextExp, curTotalExp );
 		//Cion
-		if ( GlobalData.accountInfo != null ){
-			VCionCountLabel.text = GlobalData.accountInfo.Money.ToString();
-			VChipCountLabel.text = GlobalData.accountInfo.Stone.ToString();
+		if ( DataCenter.Instance.AccountInfo != null ){
+			VCionCountLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
+			VChipCountLabel.text = DataCenter.Instance.AccountInfo.Stone.ToString();
 		}
 		//Stamina
-		int staminaNow = GlobalData.userInfo.StaminaNow;
-		int staminaMax = GlobalData.userInfo.StaminaMax;
+		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
+		int staminaMax = DataCenter.Instance.UserInfo.StaminaMax;
 		VStamMaxLabel.text = staminaNow.ToString();
 		VStaminaNowLabel.text = staminaMax.ToString();
 		staminaSprite.fillAmount = CountFillCount(staminaNow, staminaMax);
 
 		//Evo
-		int evoType = (int)GlobalData.userInfo.EvolveType;
+		int evoType = (int)DataCenter.Instance.UserInfo.EvolveType;
 		evolveTypeSprite.spriteName = evoType.ToString();
 
-		//Debug.Log("PlayerInfoBar,GlobalData.userInfo.EvolveType : " + evoType.ToString());
+		//Debug.Log("PlayerInfoBar,DataCenter.Instance.UserInfo.EvolveType : " + evoType.ToString());
 		TurnToReName();
 
 	}
 	
 
 	void ReName( object data ){
-		if ( data != null && GlobalData.userInfo != null ) {
+		if ( data != null && DataCenter.Instance.UserInfo != null ) {
 			bbproto.RspRenameNick rspRenameNick = data as bbproto.RspRenameNick;
 			LogHelper.Log("rename response newNickName : "+rspRenameNick.newNickName );
 			
 			bool renameSuccess = (rspRenameNick.header.code == 0);
 			if( renameSuccess && rspRenameNick.newNickName != null) {
-				GlobalData.userInfo.NickName = rspRenameNick.newNickName;
+				DataCenter.Instance.UserInfo.NickName = rspRenameNick.newNickName;
 
-				VUserNameLabel.text = GlobalData.userInfo.NickName;
+				VUserNameLabel.text = DataCenter.Instance.UserInfo.NickName;
 			}else {
 				//TODO: show error msgbox.
 			}

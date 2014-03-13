@@ -30,7 +30,7 @@ public class ProtobufSerializer
 		{
             // validate
 			if (instance == null){
-                LogHelper.Log("try to serialize null instance, errorcode: " + ErrorCode.IllegalParam);
+                LogHelper.Log("try to serialize null instance, errorcode: " + ErrorCode.ILLEGAL_PARAM);
 				return null;
 			}
             LogHelper.Log("start serialize instance");
@@ -53,7 +53,7 @@ public class ProtobufSerializer
 
         // validate
         if (retInstance == null){
-            LogHelper.Log("Deserialize instance failed, errorcode: " + ErrorCode.IllegalParam);
+            LogHelper.Log("Deserialize instance failed, errorcode: " + ErrorCode.ILLEGAL_PARAM);
         }
         return retInstance;
     }
@@ -64,7 +64,7 @@ public class ProtobufSerializer
 	{
 		using (MemoryStream ms = new MemoryStream ()) {
 			if (instance == null){
-				LogHelper.Log("try to serialize null instance, errorcode: " + ErrorCode.IllegalParam);
+				LogHelper.Log("try to serialize null instance, errorcode: " + ErrorCode.ILLEGAL_PARAM);
 				return null;
 			}
 			LogHelper.Log("start serialize instance");
@@ -81,7 +81,7 @@ public class ProtobufSerializer
 		
 		// validate
 		if (retInstance == null){
-			LogHelper.Log("Deserialize instance failed, errorcode: " + ErrorCode.IllegalParam);
+			LogHelper.Log("Deserialize instance failed, errorcode: " + ErrorCode.ILLEGAL_PARAM);
 		}
 		return retInstance;
 	}

@@ -9,13 +9,19 @@ public class GetFriendList: ProtoManager {
     private bbproto.RspGetFriend rspGetFriend;
     // state for req
     private bool bGetHelper = false;
-    private bool bGetFriend = false;
+    private bool bGetFriend = true;
     // data
     private TFriendList friendList;
 
     public GetFriendList() {
     }
+
     ~GetFriendList () {
+    }
+
+    public static void SendRequest(ResponseCallback callBack) {
+        GetFriendList getFriends = new GetFriendList();
+//        getFriends.OnRequest(null, callBack);
     }
 
 
@@ -30,10 +36,10 @@ public class GetFriendList: ProtoManager {
         reqType = typeof(ReqGetFriend);
         rspType = typeof(RspGetFriend);
 
-        reqGetFriend = new ReqGetFriend ();
-        reqGetFriend.header = new ProtoHeader ();
+        reqGetFriend = new ReqGetFriend();
+        reqGetFriend.header = new ProtoHeader();
         reqGetFriend.header.apiVer = Protocol.API_VERSION;
-        reqGetFriend.header.userId = GlobalData.userInfo.UserId;
+        reqGetFriend.header.userId = DataCenter.Instance.UserInfo.UserId;
 
         //request params
         reqGetFriend.getFriend = ToGetFriend;
@@ -41,15 +47,26 @@ public class GetFriendList: ProtoManager {
 
         ErrorMsg err = SerializeData(reqGetFriend); // save to Data for send out
 		
-        return (err.Code == ErrorCode.Succeed);
+        return (err.Code == (int)ErrorCode.SUCCESS);
     }
 
-    public override void OnResponse(bool success) {
-        if (!success) {
+    public void OnRspGetFriend(object data) {
+
+    }  
+
+    protected override void OnResponseEnd(object data) {
+        if (data == null)
             return;
-        }
+        
+//        LogHelper.Log("TFriendList.Refresh() begin");
+//        LogHelper.Log(data);
+//        RspGetFriend rsp = data as RspGetFriend;
+//        errMsg.SetErrorMsg(rsp.header.code);
+//
+//        FriendList inst = rsp.friends;
+//        DataCenter.Instance.Friends
+//        setNewInstance(inst);
+//        assignFriendList();
     }
-   
-    
 }
 

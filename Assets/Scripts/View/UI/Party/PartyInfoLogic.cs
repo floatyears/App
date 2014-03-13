@@ -63,7 +63,7 @@ public class PartyInfoLogic : ConcreteComponent {
 		//Get cur cost
 		string curCost = tup.TotalCost.ToString();
 		//Get maxCost
-		string maxCost = GlobalData.UserCost.ToString();
+		string maxCost = DataCenter.Instance.UserCost.ToString();
 		//Get fireAtk vaule
 		string fireAtk = tup.TypeAttack[ EUnitType.UFIRE ].ToString();
 		//Get waterAtk vaule

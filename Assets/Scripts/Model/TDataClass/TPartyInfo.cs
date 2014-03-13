@@ -17,13 +17,12 @@ public class TPartyInfo : ProtobufDataBase {
         assignParty();
     }
 
-    public bool UnitIsInCurrentParty(uint uniqueId) {
+    public bool UnityIsInCurrentParty(uint uniqueId) {
         return CurrentParty.HasUnit(uniqueId);
     }
 
     public bool UnitIsInParty(uint uniqueId) {
-        foreach (TUnitParty party in partyList) {
-			//LogHelper.Log("UnitIsInParty() start uniqueId{0}", uniqueId);
+        foreach (var party in partyList) {
             if (party.HasUnit(uniqueId)) {
                 return true;
             }
@@ -53,7 +52,8 @@ public class TPartyInfo : ProtobufDataBase {
     private static int SortParty(PartyItem item1, PartyItem item2) {
         if (item1.unitPos > item2.unitPos) {
             return 1;
-        } else if (item1.unitPos < item2.unitPos) {
+        }
+        else if (item1.unitPos < item2.unitPos) {
             return -1;
         }
         return 0;

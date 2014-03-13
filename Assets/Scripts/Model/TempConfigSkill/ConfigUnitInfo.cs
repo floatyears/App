@@ -44,7 +44,7 @@ public class ConfigUnitInfo {
 
 			uiitem.passiveSkill = 49;
 			TUnitInfo tui = new TUnitInfo(uiitem);
-			GlobalData.unitInfo.Add(uiitem.id, tui);
+			DataCenter.Instance.UnitInfo.Add(uiitem.id, tui);
 
 			tui.SerialToFile();
 		}
@@ -82,8 +82,8 @@ public class ConfigUnitInfo {
 //			uu.limitbreakLv 	= 2;
 //			uu.getTime 			= 0;
 //			TUserUnit uui 	= new TUserUnit (uu);
-////			if ( GlobalData.userInfo!=null )
-////				GlobalData.userUnitList.Add (GlobalData.userInfo.UserId,uu.uniqueId, uui);
+////			if ( DataCenter.Instance.UserInfo!=null )
+////				DataCenter.Instance.UserUnitList.Add (DataCenter.Instance.UserInfo.UserId,uu.uniqueId, uui);
 //		}
 //		GlobalData.userUnitInfo [1].unitBaseInfo = 181;
 //		GlobalData.userUnitInfo [2].unitBaseInfo = 85;

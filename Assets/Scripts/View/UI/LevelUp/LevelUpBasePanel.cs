@@ -227,8 +227,8 @@ public class LevelUpBasePanel : UIComponentUnity {
         }
 
 	void InitDragPanel(){
-		if ( GlobalData.myUnitList != null)
-			userUnitInfoList.AddRange(GlobalData.myUnitList.GetAll().Values);
+		if ( DataCenter.Instance.MyUnitList != null)
+			userUnitInfoList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
 		string name = "BaseDragPanel";
 		if(userUnitInfoList == null ){
 			Debug.LogWarning("userUnitInfoList is null ");
@@ -257,7 +257,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 			return;
 		}
 		List<TUserUnit> temp = new List<TUserUnit> ();
-		List<TUnitParty> allParty = GlobalData.partyInfo.AllParty;
+		List<TUnitParty> allParty = DataCenter.Instance.PartyInfo.AllParty;
 		for (int i = 0; i < allParty.Count; i++) {
 			List<TUserUnit> dic = allParty [i].GetUserUnit ();
 			foreach (var item in dic) {
@@ -335,7 +335,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		TUserUnit uu = item.userUnitItem;
 		uint uid = uu.UnitID;
-		avatarTex.mainTexture = GlobalData.unitInfo [uid].GetAsset (UnitAssetType.Avatar);
+		avatarTex.mainTexture = DataCenter.Instance.UnitInfo [uid].GetAsset (UnitAssetType.Avatar);
 	}
 	
 	private void AddEventListener( UnitItemInfo item){

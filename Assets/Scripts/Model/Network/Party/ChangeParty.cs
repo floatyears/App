@@ -23,15 +23,15 @@ public class ChangeParty: ProtoManager {
         reqType = typeof(ReqChangeParty);
         rspType = typeof(RspChangeParty);
 
-        reqChangeParty = new ReqChangeParty ();
-        reqChangeParty.header = new ProtoHeader ();
+        reqChangeParty = new ReqChangeParty();
+        reqChangeParty.header = new ProtoHeader();
         reqChangeParty.header.apiVer = Protocol.API_VERSION;
-        reqChangeParty.header.userId = GlobalData.userInfo.UserId;
+        reqChangeParty.header.userId = DataCenter.Instance.UserInfo.UserId;
         reqChangeParty.party = partyInfo.Object;
 
         ErrorMsg err = SerializeData(reqChangeParty); // save to Data for send out
 		
-        return (err.Code == ErrorCode.Succeed);
+        return (err.Code == ErrorCode.SUCCESS);
     }
 
     public override void OnResponse(bool success) {

@@ -64,28 +64,28 @@ public class FriendListLogic : ConcreteComponent{
 	}
 
 	List<TUserUnit> GetFriendUnitItemList(){
-		if(GlobalData.friends == null){
-			LogHelper.LogError("FriendListLogic.GetFriendUnitItemList(), GlobalData.friends == null!!!");
+		if(DataCenter.Instance.SupportFriends == null){
+			LogHelper.LogError("FriendListLogic.GetFriendUnitItemList(), DataCenter.Instance.SupportFriends == null!!!");
 			return null;
 		}
 
 		List<TUserUnit> tuuList = new List<TUserUnit>();
-		for (int i = 0; i < GlobalData.friends.Count; i++){
-			tuuList.Add(GlobalData.friends[ i ].UserUnit);
+		for (int i = 0; i < DataCenter.Instance.SupportFriends.Count; i++){
+			tuuList.Add(DataCenter.Instance.SupportFriends[ i ].UserUnit);
 		}
 
 		return tuuList;
 	}
 
 	List<string> GetFriendNickNameList(){
-		if(GlobalData.friends == null){
-			LogHelper.LogError("FriendListLogic.GetFriendNickNameList(), GlobalData.friends == null!!!");
+		if(DataCenter.Instance.SupportFriends == null){
+			LogHelper.LogError("FriendListLogic.GetFriendNickNameList(), DataCenter.Instance.SupportFriends == null!!!");
 			return null;
 		}
 
 		List<string> nameList = new List<string>();
-		for (int i = 0; i < GlobalData.friends.Count; i++){
-			nameList.Add(GlobalData.friends[ i ].NickName);
+		for (int i = 0; i < DataCenter.Instance.SupportFriends.Count; i++){
+			nameList.Add(DataCenter.Instance.SupportFriends[ i ].NickName);
 		}
 
 		return nameList;

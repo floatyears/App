@@ -8,7 +8,7 @@ public class ExcuteActiveSkill {
 		leaderSkill = ils;
 //		Debug.Log("this userunit : " + ils.UserUnit.Count);
 		foreach (var item in ils.UserUnit.Values) {
-			ProtobufDataBase pudb = GlobalData.skill[item.ActiveSkill];
+			ProtobufDataBase pudb = DataCenter.Instance.Skill[item.ActiveSkill];
 			IActiveSkillExcute skill = pudb as IActiveSkillExcute;
 //			Debug.Log("pudb : " + skill + " active skill id is error : " +item.ActiveSkill);
 			if(skill == null) {

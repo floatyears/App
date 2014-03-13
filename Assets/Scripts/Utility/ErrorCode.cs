@@ -9,61 +9,159 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 
-public enum ErrorCode {
-    Succeed = 0,
+public class ErrorCode {
+    public const int SUCCESS = 0;
+
+    public const int ERROR_BASE = -100;
+    public const int  FAILED = -101;
+    public const int INVALID_PARAMS = -102;
+    public const int MARSHAL_ERROR = -103;
+    public const int UNMARSHAL_ERROR = -104;
+    public const int IOREAD_ERROR = -105;
+    public const int IOWRITE_ERROR = -106;
+    public const int CONNECT_DB_ERROR = -107;
+    public const int READ_DB_ERROR = -108;
+    public const int SET_DB_ERROR = -109;
+    public const int DATA_NOT_EXISTS = -110;
+        
+
+    public const int EU_USER_BASE = -200;
+    public const int EU_INVALID_USERID = -201;
+    public const int EU_GET_USERINFO_FAIL = -202;
+    public const int EU_USER_NOT_EXISTS = -203;
+    public const int EU_GET_NEWUSERID_FAIL = -204;
+    public const int EU_UPDATE_USERINFO_ERROR = -205;
+
+    public const int EF_FRIEND_BASE = -300;
+    public const int EF_FRIEND_NOT_EXISTS = -301;
+    public const int EF_GET_FRIENDINFO_FAIL = -302;
+    public const int EF_ADD_FRIEND_FAIL = -303;
+    public const int EF_DEL_FRIEND_FAIL = -304;
+    public const int EF_IS_ALREADY_FRIEND = -305;
+    public const int EF_IS_ALREADY_FRIENDOUT = -306;
+    public const int EF_INVALID_FRIEND_STATE = -307;
+
+    public const int EQ_QUEST_BASE = -400;
+    public const int EQ_QUEST_ID_INVALID = -401;
+    public const int EQ_GET_QUESTINFO_ERROR = -402;
+    public const int EQ_STAMINA_NOT_ENOUGH = -403;
+    public const int EQ_GET_QUEST_CONFIG_ERROR = -404;
+    public const int EQ_GET_QUEST_LOG_ERROR = -405;
+    public const int EQ_UPDATE_QUEST_RECORD_ERROR = -406;
+    public const int EQ_INVALID_DROP_UNIT = -407;
+    public const int EQ_QUEST_IS_PLAYING = -408;
+
+    public const int E_UNIT_BASE = -500;
+    public const int E_UNIT_ID_ERROR = -501;
+    public const int E_LEVELUP_NO_ENOUGH_MONEY = -502;
+    public const int E_GET_UNIT_INFO_ERROR = -503;
 
     // usual
-    IllegalParam = -1000,
+    public const int ILLEGAL_PARAM = -1000;
 
     // network
-    NetWork = -2000,
-    TimeOut = -2001,
-    InvalidSessionId = -2002,
+    public const int NETWORK = -2000;
+    public const int TIMEOUT = -2001;
+    public const int INVALID_SESSIONID = -2002;
 
     // model
-    Model = -3000,
-    Encrypt = -3001,
-    Decrypt = - 3002, 
-    IllegalData = -3003,
-    InvalidModelName = -3004,
+    public const int   MODEL = -3000;
+    public const int ENCRYPT = -3001;
+    public const int DECRYPT = - 3002; 
+    public const int ILLEGAL_DATA = -3003;
+    public const int INVALID_MODEL_NAME = -3004;
 
     // controller
-    Controller = -4000,
+    public const int CONTROLLER = -4000;
 
     // view
-    View = -5000,
+    public const int VIEW = -5000;
 };
 
+
 /// <summary>
-/// Error message.
+///public const int Error message.
 /// </summary>
 public class ErrorMsg {
 
+    private static Dictionary<int, string> msgStringDic;
+    private int code = (int)ErrorCode.SUCCESS;
+    private string msg = "";
+
+    public ErrorMsg() {
+        initMsgDic();
+    }
+
+    public ErrorMsg(int errorCode, string message) {
+        code = errorCode;
+        msg = message;
+    }
     /// <summary>
     /// The code.
     /// </summary>
-    private ErrorCode code = ErrorCode.Succeed;
-    public ErrorCode Code {
+    public int Code {
         get { return code; }
         set { code = value; }
     }
-
+    
     /// <summary>
     /// The message.
     /// </summary>
-    private string msg = "";
     public string Msg {
         get { return msg; }
         set { msg = value; }
     }
 
-
-    public ErrorMsg(){
+    public static string GetErrorMsgInfo(int code) {
+        string msg = "";
+        ErrorMsg.msgStringDic.TryGetValue(code, out msg);
+        return msg;
     }
 
-    public ErrorMsg(ErrorCode errorCode, string message){
-        code = errorCode;
-        msg = message;
+
+    public void SetErrorMsg(int code) {
+        Code = code;
+        Msg = GetErrorMsgInfo(code);
+    }
+
+    private void initMsgDic() {
+        if (ErrorMsg.msgStringDic != null) {
+            return;
+        }
+
+        ErrorMsg.msgStringDic = new Dictionary<int, string>();
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.SUCCESS, "success");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.ERROR_BASE, "ERROR_BASE");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.FAILED, "FAILED");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.INVALID_PARAMS, "INVALID_PARAMS");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.MARSHAL_ERROR, "MARSHAL_ERROR");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.UNMARSHAL_ERROR, "UNMARSHAL_ERROR");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.IOREAD_ERROR, "IOREAD_ERROR");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.IOWRITE_ERROR, "IOWRITE_ERROR");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.CONNECT_DB_ERROR, "CONNECT_DB_ERROR");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.READ_DB_ERROR, "READ_DB_ERROR");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.SET_DB_ERROR, "SET_DB_ERROR");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.DATA_NOT_EXISTS, "DATA_NOT_EXISTS");
+
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_USER_BASE, "success");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_INVALID_USERID, "success");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_GET_USERINFO_FAIL, "success");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_USER_NOT_EXISTS, "EU_USER_NOT_EXISTS");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_GET_NEWUSERID_FAIL, "EU_GET_NEWUSERID_FAIL");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_UPDATE_USERINFO_ERROR, "EU_UPDATE_USERINFO_ERROR");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_FRIEND_BASE, "EF_FRIEND_NOT_EXISTS");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_GET_FRIENDINFO_FAIL, "EF_ADD_FRIEND_FAIL");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_DEL_FRIEND_FAIL, "EF_DEL_FRIEND_FAIL");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_IS_ALREADY_FRIEND, "EF_IS_ALREADY_FRIEND");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_INVALID_FRIEND_STATE, "EF_INVALID_FRIEND_STATE");
+
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_QUEST_BASE, "EQ_QUEST_BASE");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_QUEST_ID_INVALID, "EQ_QUEST_ID_INVALID");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_GET_QUESTINFO_ERROR, "EQ_GET_QUESTINFO_ERROR");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_STAMINA_NOT_ENOUGH, "EQ_STAMINA_NOT_ENOUGH");
+//       public const int ErrorMsg.msgStringDic.Add((int)ErrorCode.SUCCEES, "success");
+
     }
 }

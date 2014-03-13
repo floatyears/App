@@ -4,78 +4,79 @@ using bbproto;
 
 
 public class ProtoManager: ProtobufDataBase, INetBase {
-	private string protoName;
-	private object instObj;
-	protected System.Type reqType;
-	protected System.Type rspType;
+    private string protoName;
+    private object instObj;
+    protected System.Type reqType;
+    protected System.Type rspType;
 	
-	public ProtoManager() {
-	}
+    public ProtoManager() {
+    }
 	
-	protected object InstanceObj {
-		get { return instObj; }
-		set { instObj = value; }
-	}
+    protected object InstanceObj {
+        get { return instObj; }
+        set { instObj = value; }
+    }
 
-	protected string Proto {
-		set { protoName = value; }
-	}
+    protected string Proto {
+        set { protoName = value; }
+    }
 
-	public void Send () {
-		IWWWPost http = new HttpNetBase ();
+    public void Send() {
+        IWWWPost http = new HttpNetBase();
 
-		if( MakePacket () ) { //make proto packet to Data
+        if (MakePacket()) { //make proto packet to Data
 //			LogHelper.Log ("MakePacket => proto:{0} InstanceType:{1}",protoName, reqType);
-			http.Send (this, protoName, Data);
-		}
-	}
+            http.Send(this, protoName, Data);
+        }
+    }
 	
-	public void Receive (IWWWPost post) {
-		instObj = ProtobufSerializer.ParseFormBytes(post.WwwInfo.bytes, rspType);
-		if (instObj != null) {
-			OnResponse (true);
-		} else {
-			OnResponse (false);
-			LogHelper.LogError("++++++proto.ParseFormBytes failed.++++++");
-		}
+    public void Receive(IWWWPost post) {
+        instObj = ProtobufSerializer.ParseFormBytes(post.WwwInfo.bytes, rspType);
+        if (instObj != null) {
+            OnResponse(true);
+        }
+        else {
+            OnResponse(false);
+            LogHelper.LogError("++++++proto.ParseFormBytes failed.++++++");
+        }
 
-		OnResposeEnd( this.instObj );
-	}
+        OnResponseEnd(this.instObj);
+    }
 
-	public virtual void OnResponse (bool success) {
-		// implement in derived class
-	}
+    public virtual void OnResponse(bool success) {
+        // implement in derived class
+    }
 
-	public virtual bool MakePacket () {
-		//make packet to Data for send to server
-		return true;
-	}
+    public virtual bool MakePacket() {
+        //make packet to Data for send to server
+        return true;
+    }
 
-	private DataListener netDoneCallback;
+    private DataListener netDoneCallback;
 
-	public virtual void OnRequest (object data, DataListener callback) {
-		OnRequestBefoure (callback);
+    public virtual void OnRequest(object data, DataListener callback) {
+        OnRequestBefore(callback);
 //		Debug.LogError ("OnReceiveCommand");
-		OnReceiveCommand (data);
-	}
+        OnReceiveCommand(data);
+    }
 
-	protected virtual void OnReceiveCommand(object data) {
-		Send (); //send request to server
-	}
+    protected virtual void OnReceiveCommand(object data) {
+        Send(); //send request to server
+    }
 
-	protected virtual void OnRequestBefoure (DataListener callback) {
-		netDoneCallback = callback;
-	}
+    protected virtual void OnRequestBefore(DataListener callback) {
+        netDoneCallback = callback;
+    }
 
-	protected virtual void OnResposeEnd(object data) {
-		if (netDoneCallback != null) {
-			netDoneCallback(data);
-		}
-	}
+    protected virtual void OnResponseEnd(object data) {
+        if (netDoneCallback != null) {
+            netDoneCallback(data);
+        }
+    }
 }
 
 public abstract class NetDataBase {
-	protected INetBase netBase;
+    protected INetBase netBase;
 
 }
 
