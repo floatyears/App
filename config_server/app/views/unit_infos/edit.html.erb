@@ -8,18 +8,18 @@
 	name:<%= text_field_tag :name ,@unit_info.try(:name)%>
 </p>
 <p>
-	race:<%= select_tag :race,options_for_select(UnitInfo::UNITRACE) %>
+	race:<%= select_tag :race,options_for_select(UnitInfo::UNITRACE,:selected => @unit_info.try(:race))  %>
 </p>
 <p>
-	type:<%= select_tag :type,options_for_select(UnitInfo::UNITTYPE) %>
+	type:<%= select_tag :type,options_for_select(UnitInfo::UNITTYPE,:selected => @unit_info.try(:type)) %>
 </p>
 <p>
-	rare:1<%= radio_button_tag(:rare, 1) %>
-	2<%= radio_button_tag(:rare, 2) %>
-	3<%= radio_button_tag(:rare, 3) %>
-	4<%= radio_button_tag(:rare, 4) %>
-	5<%= radio_button_tag(:rare, 5) %>
-	6<%= radio_button_tag(:rare, 6) %>
+	rare:1<%= radio_button_tag(:rare, 1,(@unit_info.try(:rare).to_i == 1)) %>
+	2<%= radio_button_tag(:rare, 2, (@unit_info.try(:rare).to_i == 2)) %>
+	3<%= radio_button_tag(:rare, 3, (@unit_info.try(:rare).to_i == 3)) %>
+	4<%= radio_button_tag(:rare, 4, (@unit_info.try(:rare).to_i == 4)) %>
+	5<%= radio_button_tag(:rare, 5, (@unit_info.try(:rare).to_i == 5)) %>
+	6<%= radio_button_tag(:rare, 6, (@unit_info.try(:rare).to_i == 6)) %>
 </p>
 <p>
 	skill1:<%= text_field_tag :skill1,@unit_info.try(:skill1) %>
@@ -54,17 +54,17 @@
 <p>
 	<fieldset>
 		EvolveInfo<br/>
-		evolveUnitId:<%= select_tag :evolveUnitId,options_for_select(@units)%><br/>
+		evolveUnitId:<%= select_tag :evolveUnitId,options_for_select(@units,:selected => @unit_info.try(:evolveInfo).try(:evolveUnitId))%><br/>
 		materialUnitId:
-		<%= select_tag :materialUnitId1,options_for_select(@units)%>
-		<%= select_tag :materialUnitId2,options_for_select(@units)%>
-		<%= select_tag :materialUnitId3,options_for_select(@units)%>
+		<%= select_tag :materialUnitId1,options_for_select(@units,:selected => @unit_info.try(:evolveInfo).try(:materialUnitId)[0])%>
+		<%= select_tag :materialUnitId2,options_for_select(@units,:selected => @unit_info.try(:evolveInfo).try(:materialUnitId)[1])%>
+		<%= select_tag :materialUnitId3,options_for_select(@units,:selected => @unit_info.try(:evolveInfo).try(:materialUnitId)[2])%>
 		<br/>
 		<fieldset>
 			helperRequire<br/>
-			level:<%= text_field_tag :level,@unit_info.try(:helperRequire).try(:level) %><br/>
-			helper_race:<%= select_tag :helper_race,options_for_select(UnitInfo::UNITRACE) %><br/>
-			helper_type:<%= select_tag :helper_type,options_for_select(UnitInfo::UNITTYPE) %><br/>
+			level:<%= text_field_tag :level,@unit_info.try(:evolveInfo).try(:helperRequire).try(:level) %><br/>
+			helper_race:<%= select_tag :helper_race,options_for_select(UnitInfo::UNITRACE,:selected => @unit_info.try(:evolveInfo).try(:helperRequire).try(:race)) %><br/>
+			helper_type:<%= select_tag :helper_type,options_for_select(UnitInfo::UNITTYPE,:selected => @unit_info.try(:evolveInfo).try(:helperRequire).try(:type)) %><br/>
 		</fieldset>
 	</fieldset>
 </p>
@@ -78,7 +78,7 @@
 	devourValue:<%= text_field_tag :devourValue,@unit_info.try(:devourValue) %>
 </p>
 <p>
-	getWay:<%= select_tag :getWay,options_for_select(UnitInfo::EUNIT_GETWAY) %>
+	getWay:<%= select_tag :getWay,options_for_select(UnitInfo::EUNIT_GETWAY,:selected => @unit_info.try(:getWay)) %>
 </p>
 <div class="actions">
 	<%= submit_tag '提交',class: "btn btn-primary" %>
