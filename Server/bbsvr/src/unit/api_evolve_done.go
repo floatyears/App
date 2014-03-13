@@ -99,10 +99,21 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 		return Error.New(EC.EU_GET_USERINFO_FAIL, err)
 	}
 
+	if userDetail.Quest == nil {
+		log.Error("user(%v) not playing quest now, cannot clear quest.", uid)
+		return Error.New(EC.EQ_USER_QUEST_NOT_PLAYING, "user not playing quest now, cannot finish evolve quest.")
+	}
+
+	log.T("userDetail.Quest:%+v", userDetail.Quest)
+
 	//2. get evolve_start info
 	reqEvolveStart, e := unit.CheckEvolveSession(db, uid)
+	if e.IsError() {
+		return e
+	}
 
 
+	stageId := *userDetail.Quest.StageId
 	questId := *reqEvolveStart.EvolveQuestId
 	gotMoney := *reqMsg.GetMoney
 	gotExp := int32(0)
@@ -129,6 +140,11 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 		return e
 	}
 
+	// verify unit type
+	if unit.GetTodayEvolveType() != baseUnit.Type {
+		e = Error.New(EC.E_UNIT_CANNOT_EVOLVE_TODAY, fmt.Sprintf("unit type %v cannot evolve today.", baseUnit.Type))
+		return e
+	}
 
 	//4. update questPlayRecord (also add dropUnits to user.UnitList)
 
@@ -163,7 +179,6 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	user.RefreshRank(userDetail.User)
 
 	//check stage isClear or not, give GotChip gift
-	stageId := *userDetail.Quest.StageId
 	stageInfo, e := quest.GetStageInfo(db, stageId)
 	if e.IsError() {
 		log.Error("GetStageInfo(%v) error: %v", stageId, e.Error())

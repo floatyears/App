@@ -52,7 +52,7 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 			return;
 		}
 
-		unitPartyInfo = GlobalData.partyInfo.CurrentParty; //ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as TUnitParty;
+		unitPartyInfo = DataCenter.Instance.PartyInfo.CurrentParty; //ModelManager.Instance.GetData( ModelEnum.UnitPartyInfo, errMsg ) as TUnitParty;
 
 		Dictionary< int, uint > temp = unitPartyInfo.GetPartyItem();
 		Dictionary< string, object > viewInfo = new Dictionary<string, object>();
@@ -63,11 +63,11 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 		{
 			//deal avatar
 			foreach (var item in temp) {
-				TUserUnit userUnitInfo = GlobalData.userUnitList.GetMyUnit(item.Value);
+				TUserUnit userUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit(item.Value);
 				if( !userUnit.ContainsKey( item.Key )) {
 					userUnit.Add( item.Key, userUnitInfo );
 				}
-				UnitBaseInfo unitBaseInfo = GlobalData.unitBaseInfo[ userUnitInfo.unitBaseInfo ];
+				UnitBaseInfo unitBaseInfo = DataCenter.Instance.UnitBaseInfo[ userUnitInfo.unitBaseInfo ];
 				avatarInfoDic.Add( item.Key, unitBaseInfo );
 			}
 

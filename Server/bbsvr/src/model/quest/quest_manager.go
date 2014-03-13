@@ -131,6 +131,7 @@ func FillUserQuest(userDetail *bbproto.UserInfoDetail, currParty int32, helperUi
 	if userDetail.Quest == nil {
 		userDetail.Quest = &bbproto.QuestLog{}
 		userDetail.Quest.QuestId = quest.Id
+		userDetail.Quest.StageId = stage.Id
 		userDetail.Quest.StartTime = proto.Uint32(common.Now())
 		//userDetail.Quest.EndTime = proto.Uint32(common.Now())
 	}

@@ -103,9 +103,10 @@ func EvolveDone(uid uint32, questId uint32, getMoney int32) error {
 
 	msg.QuestId = proto.Uint32(questId)
 	msg.GetMoney = proto.Int32(int32(getMoney))
-	msg.GetUnit = append(msg.GetUnit, uint32(3))
+	msg.GetUnit = append(msg.GetUnit, uint32(5))
 	msg.GetUnit = append(msg.GetUnit, uint32(4))
 	msg.GetUnit = append(msg.GetUnit, uint32(6))
+	msg.GetUnit = append(msg.GetUnit, uint32(8))
 
 	msg.HitGrid = append(msg.HitGrid, uint32(6))
 
@@ -143,12 +144,12 @@ func main() {
 
 	Init()
 
-	uid := uint32(102)
+	uid := uint32(141)
 	questId := uint32(2202)
-	helperUid := uint32(156)
+	//helperUid := uint32(120)
 
-	EvolveStart(uid, questId, helperUid)
-	//EvolveDone(uid, questId, 12930)
+	//EvolveStart(uid, questId, helperUid)
+	EvolveDone(uid, questId, 12930)
 
 	log.Fatal("bbsvr test client finish.")
 }

@@ -11,20 +11,19 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 			Debug.LogError("level up network data is error");	
 			return;
 		}
+//		Debug.LogError (temp.Count);
 		LevelUp netBase = new LevelUp ();
 		TUserUnit baseUserUnit = temp [0];
-
 		temp.Remove (baseUserUnit);
 		TUserUnit friendUserUnit = temp [1];
-
 		temp.Remove (friendUserUnit);
+//		Debug.LogError (temp.Count);
 		foreach (var item in temp) {
 			netBase.PartUniqueId.Add(item.ID);
 		}
 		netBase.BaseUniqueId = baseUserUnit.ID;
 		netBase.HelperUserId = friendUserUnit.ID;
 		netBase.HelperUserUnit = friendUserUnit;
-
 		netBase.OnRequest (null, NetCallback);
 	}
 
@@ -35,24 +34,24 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 			Debug.LogError("rspLevelUp.header.error : " + rspLevelUp.header.error + " rspLevelUp.header.code : " + rspLevelUp.header.code);
 
 			//update money
-			GlobalData.accountInfo.Money = (int)rspLevelUp.money;
+			DataCenter.Instance.AccountInfo.Money = (int)rspLevelUp.money;
 			
 			// update unitlist
-			uint userId = GlobalData.userInfo.UserId;
+			uint userId = DataCenter.Instance.UserInfo.UserId;
 			if (rspLevelUp.unitList != null) {
 				//update myUnitList
-				GlobalData.myUnitList.Clear();
+				DataCenter.Instance.MyUnitList.Clear();
 				foreach(UserUnit unit in rspLevelUp.unitList) {
-					GlobalData.myUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
 				}
 
 				// update blendUnit in the userUnitList
-//				TUserUnit blendUnit = GlobalData.userUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
-//				blendUnit = GlobalData.myUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
+//				TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
+//				blendUnit = DataCenter.Instance.MyUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
 
 				//remove partUniqueId from userUnitList
 				foreach(uint partUniqueId in rspLevelUp.partUniqueId) {
-					GlobalData.userUnitList.DelMyUnit(partUniqueId);
+					DataCenter.Instance.UserUnitList.DelMyUnit(partUniqueId);
 				}
 
 				LogHelper.Log("rspLevelUp add to myUserUnit.count: {0}", rspLevelUp.unitList.Count);

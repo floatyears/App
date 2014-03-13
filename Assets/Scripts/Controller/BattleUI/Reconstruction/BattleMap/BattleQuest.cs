@@ -358,7 +358,7 @@ public class BattleQuest : UIBase {
 		if ( data != null ) {
 			TRspClearQuest clearQuest = data as TRspClearQuest;
 			End (clearQuest);
-			GlobalData.Instance.RefreshUserInfo (clearQuest);
+			DataCenter.Instance.RefreshUserInfo (clearQuest);
 		}
 	}
 }

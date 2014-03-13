@@ -8,14 +8,20 @@ public class GetFriendList: ProtoManager {
     private bbproto.ReqGetFriend reqGetFriend;
     private bbproto.RspGetFriend rspGetFriend;
     // state for req
-    private bool bGetHelper = false;
-    private bool bGetFriend = false;
+    private bool bGetHelper = true;
+    private bool bGetFriend = true;
     // data
     private TFriendList friendList;
 
     public GetFriendList() {
     }
+
     ~GetFriendList () {
+    }
+
+    public static void SendRequest(DataListener callBack) {
+        GetFriendList getFriends = new GetFriendList();
+        getFriends.OnRequest(null, callBack);
     }
 
 
@@ -30,10 +36,10 @@ public class GetFriendList: ProtoManager {
         reqType = typeof(ReqGetFriend);
         rspType = typeof(RspGetFriend);
 
-        reqGetFriend = new ReqGetFriend ();
-        reqGetFriend.header = new ProtoHeader ();
+        reqGetFriend = new ReqGetFriend();
+        reqGetFriend.header = new ProtoHeader();
         reqGetFriend.header.apiVer = Protocol.API_VERSION;
-        reqGetFriend.header.userId = GlobalData.userInfo.UserId;
+        reqGetFriend.header.userId = DataCenter.Instance.UserInfo.UserId;
 
         //request params
         reqGetFriend.getFriend = ToGetFriend;
@@ -41,15 +47,8 @@ public class GetFriendList: ProtoManager {
 
         ErrorMsg err = SerializeData(reqGetFriend); // save to Data for send out
 		
-        return (err.Code == ErrorCode.Succeed);
+        return (err.Code == (int)ErrorCode.SUCCESS);
     }
 
-    public override void OnResponse(bool success) {
-        if (!success) {
-            return;
-        }
-    }
-   
-    
 }
 

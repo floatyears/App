@@ -66,11 +66,11 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, null);
 		} else {
 			TUserUnit tuu = itemInfo.userUnitItem;
-			TUnitInfo tu = GlobalData.unitInfo[ tuu.UnitID ];
+			TUnitInfo tu = DataCenter.Instance.UnitInfo[ tuu.UnitID ];
 			tex.mainTexture = tu.GetAsset(UnitAssetType.Avatar);			
-			int hp = GlobalData.Instance.GetUnitValue(tu.HPType,tuu.Level);
+			int hp = DataCenter.Instance.GetUnitValue(tu.HPType,tuu.Level);
 			hpLabel.text = hp.ToString();			
-			int atk =  GlobalData.Instance.GetUnitValue(tu.AttackType, tuu.Level);
+			int atk =  DataCenter.Instance.GetUnitValue(tu.AttackType, tuu.Level);
 			atkLabel.text = atk.ToString();			
 			expNeedLabel.text = "16918";			
 			expCurGotLabel.text = "0";			
@@ -94,7 +94,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		UITexture tex = Tabs [1].GetComponentInChildren<UITexture> ();
 		if (friendUnitInfo == null) {
 			friendUnitInfo = unitInfo;
-			tex.mainTexture = GlobalData.unitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
+			tex.mainTexture = DataCenter.Instance.UnitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
 		} 
 		else if(friendUnitInfo == unitInfo) {
 			friendUnitInfo = null;
@@ -258,7 +258,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		pickedUserUnitInfo.Add (friendUnitInfo);
 		//TODO add base unit info .....
 //		pickedUserUnitInfo.Add(baseUnitInfo);
-		pickedUserUnitInfo.Add(friendUnitInfo);
 		foreach (var item in unitItemInfo){
 			if(item != null) {
 				pickedUserUnitInfo.Add(item.userUnitItem);
@@ -325,7 +324,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		if (uui == null) {
 			tex.mainTexture = null;
 		} else {
-			tex.mainTexture = GlobalData.unitInfo [uui.userUnitItem.UnitID].GetAsset (UnitAssetType.Avatar);
+			tex.mainTexture = DataCenter.Instance.UnitInfo [uui.userUnitItem.UnitID].GetAsset (UnitAssetType.Avatar);
 		}
 	}
 

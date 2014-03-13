@@ -8,6 +8,7 @@ import (
 	"common/config"
 	"common/consts"
 	//"common/log"
+	"event"
 )
 
 func GetLevelUpMoney(level int32, count int32) int32 {
@@ -73,4 +74,8 @@ func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, ques
 	questId += stageId*100 + questId
 
 	return stageId, questId
+}
+
+func GetTodayEvolveType() (etype *bbproto.EUnitType) {
+	return event.GetEvolveType()
 }

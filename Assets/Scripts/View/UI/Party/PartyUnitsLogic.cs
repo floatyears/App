@@ -40,7 +40,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 	void GetUnitItemViewList(){
 		List<TUserUnit> userUnitList = new List<TUserUnit>();
 		partyUnitItemViewList.Clear();
-		userUnitList.AddRange(GlobalData.myUnitList.GetAll().Values);
+		userUnitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
 		long msNow = TimeHelper.MillionSecondsNow();
 		for(int i = 0; i < userUnitList.Count; i++){
 			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(userUnitList[ i ]);

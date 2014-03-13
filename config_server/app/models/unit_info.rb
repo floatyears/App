@@ -126,7 +126,7 @@ class HelperRequire
 end
 
 class EvolveInfo
-  required :evolveUnitId, :int32, 1
-  repeated :materialUnitId, :int32, 2
+  required :evolveUnitId, :uint32, 1
+  repeated :materialUnitId, :uint32, 2
   optional :helperRequire, HelperRequire, 3
 end
