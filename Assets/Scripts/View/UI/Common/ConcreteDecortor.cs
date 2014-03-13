@@ -623,10 +623,11 @@ public class ApplyDecorator : DecoratorBase {
 	public override void DecoratorScene () {
 
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		ApplyComponent applyWindow = CreatComponent< ApplyComponent >( UIConfig.applyWindowName );
+		ApplyLogic applyWindow = CreatComponent< ApplyLogic >( UIConfig.friendListWindowName );
 
 		sceneInfoBar.SetComponent( decorator );
 		applyWindow.SetComponent( sceneInfoBar );
+
 		lastDecorator = applyWindow;
 
 		lastDecorator.CreatUI();
@@ -653,7 +654,7 @@ public class ReceptionDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		ReceptionComponent receptionWindow = CreatComponent< ReceptionComponent >( UIConfig.applyWindowName );
+		ReceptionLogic receptionWindow = CreatComponent< ReceptionLogic >( UIConfig.friendListWindowName );
 
 		sceneInfoBar.SetComponent( decorator );
 		receptionWindow.SetComponent( sceneInfoBar );

@@ -23,5 +23,8 @@ public sealed class TimeHelper {
 //
 //	public static string UnixTimeToLocalTime(uint unixTime){
 //		return System.DateTime.Now.ToString()
+//	System.DateTime dtDateTime = new System.DateTime(1970,1,1,0,0,0,0).AddSeconds(1394713370).ToLocalTime();
+//	Debug.LogError("Local time : " + (System.DateTime.Now - dtDateTime).Minutes.ToString());
+
 //	}
 }

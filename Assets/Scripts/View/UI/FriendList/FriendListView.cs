@@ -51,7 +51,10 @@ public class FriendListView : UIComponentUnity{
 			case "EnableUpdateButton" : 
 				CallBackDispatcherHelper.DispatchCallBack(EnableUpdateButton, cbdArgs);
 				break;
-			default:
+			case "EnableRefuseButton" : 
+				CallBackDispatcherHelper.DispatchCallBack(EnableRefuseButton, cbdArgs);
+                        break;
+                default:
 				break;
 		}
 
@@ -61,7 +64,7 @@ public class FriendListView : UIComponentUnity{
 		updateFriendButton.gameObject.SetActive(true);
 		UIEventListener.Get(updateFriendButton.gameObject).onClick = ClickUpdateFriendButton;
 	}
-
+	
 	void ClickUpdateFriendButton(GameObject button){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateFriendButtonClick", null);
 		ExcuteCallback(cbdArgs);

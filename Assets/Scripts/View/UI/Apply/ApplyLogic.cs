@@ -1,42 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class ApplyLogic : ConcreteComponent ,IUIFriendList{
+public class ApplyLogic : ConcreteComponent {
 
-	private bool isCustomMadeButton = true;
+	List<UnitItemViewInfo> friendUnitItemViewList = new List<UnitItemViewInfo>();
+	List<string> friendNickNameList = new List<string>();
+
 
 	public ApplyLogic( string uiName ) : base( uiName ) {}
-
-	public override void CreatUI() {
-		base.CreatUI();
-	}
-	public override void ShowUI() {
+	public override void ShowUI(){
 		base.ShowUI();
+		AddCommandListener();
 	}
 
-	public override void HideUI() {
+	public override void HideUI(){
 		base.HideUI();
+		RemoveCommandListener();
 	}
 
-	public override void DestoryUI() {
-		base.DestoryUI();
+	public override void Callback(object data){
+		base.Callback(data);
+	}
+
+	void AddCommandListener(){
+	}
+	
+	void RemoveCommandListener(){
 	}
 	
 
-	public void Callback(object data)
-	{
 
-	}
-
-	public void CustomExtraFunction(object message)
-	{
-		bool isRequest = (bool)message;
-		if(!isRequest)
-			return;
-		IUIFriendList callBack = viewComponent as IUIFriendList;
-		if( callBack == null )
-			return;
-		//Debug.Log("FriendList Logic Answer");
-		callBack.CustomExtraFunction("Update");
-	}
 }

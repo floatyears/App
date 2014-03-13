@@ -19,7 +19,7 @@ public class FriendListLogic : ConcreteComponent{
 
 	public override void HideUI() {
 		base.HideUI();
-		RemoveCommandListenr();
+		RemoveCommandListener();
 		DestoryUnitList();
 	}
 
@@ -47,7 +47,7 @@ public class FriendListLogic : ConcreteComponent{
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
 	}
 
-	void RemoveCommandListenr(){
+	void RemoveCommandListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
 	}
 
