@@ -11,13 +11,15 @@ public class FriendListLogic : ConcreteComponent{
 
 	public override void ShowUI() {
 		base.ShowUI();
-
+		AddCommandListener();
 		GetFriendUnitItemViewList();
 		CallViewCreateDragList();
+		EnableUpdateFriend();
 	}
 
 	public override void HideUI() {
 		base.HideUI();
+		RemoveCommandListenr();
 		DestoryUnitList();
 	}
 
@@ -33,12 +35,36 @@ public class FriendListLogic : ConcreteComponent{
 			case "ClickItem" : 
 				CallBackDispatcherHelper.DispatchCallBack(ViewUnitBriefInfo, cbdArgs);
 				break;
+			case "UpdateFriendButtonClick" : 
+				CallBackDispatcherHelper.DispatchCallBack(GetNewestFriendList, cbdArgs);
+				break;
 			default:
 				break;
 		}
 	}
+
+	void AddCommandListener(){
+		
+	}
+
+	void RemoveCommandListenr(){
+
+	}
+
+	void GetNewestFriendList(object args){
+		//ReqSever
+
+	}
+
 	void ViewUnitBriefInfo(object args){
 		int position = (int)args;
+		TFriendInfo tfi = GlobalData.friends[ position ];
+		if( tfi == null ){
+			Debug.LogError("ViewUnitBriefInfo(), pos : " + position + " TfriendInfo is null, return!!!");
+			return;
+		}
+//		if(friendUnitItemViewList[ position ] == null)
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUserUnitBriefInfo, tfi);
 	}
 
 	void ViewUnitDetailInfo(object args){
@@ -53,7 +79,10 @@ public class FriendListLogic : ConcreteComponent{
 		friendUnitItemViewList.Clear();
 		//Then, get the newest from DataCenter
 		List<TUserUnit> unitList = GetFriendUnitItemList();
-		if(unitList == null)	return;
+		if(unitList == null)	{
+			LogHelper.LogError("GetFriendUnitItemViewList GetUnitList return null.");
+			return;
+		}
 		for(int i = 0; i < unitList.Count; i++){
 			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(unitList[ i ]);
 			friendUnitItemViewList.Add(viewItem);
@@ -71,6 +100,8 @@ public class FriendListLogic : ConcreteComponent{
 
 		List<TUserUnit> tuuList = new List<TUserUnit>();
 		for (int i = 0; i < GlobalData.friends.Count; i++){
+//			LogHelper.LogError("Global.friends:i={0}, friends:{1} fUserId:{2}", i, GlobalData.friends[ i ],GlobalData.friends[ i ].UserId);
+//			LogHelper.LogError("Global.friends:i={0}, friends.UserUnit:{1}", i, GlobalData.friends[ i ].UserUnit);
 			tuuList.Add(GlobalData.friends[ i ].UserUnit);
 		}
 
@@ -104,8 +135,8 @@ public class FriendListLogic : ConcreteComponent{
 		ExcuteCallback(cbdArgs);
 	}
 
-	void ActivateUpdateFriendList(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ActivateUpdateButton", null);
+	void EnableUpdateFriend(){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableUpdateButton", null);
 		ExcuteCallback(cbdArgs);
 	}
 

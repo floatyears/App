@@ -3,14 +3,13 @@ package user
 
 import (
 	"bbproto"
-	proto "code.google.com/p/goprotobuf/proto"
+	"code.google.com/p/goprotobuf/proto"
 	"common"
 	"common/EC"
 	"common/Error"
 	"common/consts"
 	"common/log"
 	"data"
-	_ "fmt"
 	"model/unit"
 )
 
@@ -148,88 +147,6 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	return userdetail, Error.OK()
 }
 
-func UpdateUserInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.Error) {
-	if db == nil {
-		return Error.New(EC.INVALID_PARAMS, "invalid db pointer")
-	}
-
-	if err := db.Select(consts.TABLE_USER); err != nil {
-		return Error.New(EC.READ_DB_ERROR, err.Error())
-	}
-
-	zUserData, err := proto.Marshal(userdetail)
-	if err != nil {
-		return Error.New(EC.MARSHAL_ERROR, err.Error())
-	}
-
-	if err = db.Set(common.Utoa(*userdetail.User.UserId), zUserData); err != nil {
-		return Error.New(EC.READ_DB_ERROR, err.Error())
-	}
-	log.T("UpdateUserInfo for (%v) , return OK", *userdetail.User.UserId)
-
-	return Error.OK()
-}
-
-//TODO: may return *bbproto.UserInfoDetail
-func GetUserInfo(db *data.Data, uid uint32) (userInfo bbproto.UserInfoDetail, isUserExists bool, err error) {
-	isUserExists = false
-
-	if db == nil {
-		db = &data.Data{}
-		err = db.Open(consts.TABLE_USER)
-		defer db.Close()
-		if err != nil {
-			return
-		}
-	} else {
-		if err := db.Select(consts.TABLE_USER); err != nil {
-			return userInfo, isUserExists, err
-		}
-	}
-
-	var value []byte
-	value, err = db.Gets(common.Utoa(uid))
-	if err != nil {
-		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
-		return userInfo, isUserExists, err
-	}
-	isUserExists = len(value) != 0
-	//log.T("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
-
-	if isUserExists {
-		err = proto.Unmarshal(value, &userInfo)
-		if err != nil {
-			log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
-		}
-	}
-
-	return userInfo, isUserExists, err
-}
-
-func GetUserInfoByUuid(uuid string) (userInfo bbproto.UserInfoDetail, isUserExists bool, err error) {
-	db := &data.Data{}
-	err = db.Open(consts.TABLE_USER)
-	defer db.Close()
-	if err != nil || len(uuid) <= 0 {
-		return
-	}
-
-	var sUid string
-	sUid, err = db.Get(consts.X_UUID + uuid)
-	if err != nil {
-		return
-	}
-	if len(sUid) == 0 {
-		isUserExists = false
-		return
-	}
-
-	uid := common.Atou(sUid)
-	log.Printf("get uid by uuid('%v') ret err:%v, uid: %v", uuid, err, uid)
-
-	return GetUserInfo(db, uid)
-}
-
 //get a new userid from db
 func GetNewUserId() (userid uint32, err error) {
 	db := &data.Data{}
@@ -298,77 +215,5 @@ func RenameUser(uid uint32, newNickName string) (e Error.Error) {
 	}
 
 	log.T("rename success: now nickName is:%v", *userDetail.User.NickName)
-	return Error.OK()
-}
-
-func RetoreStamina(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e Error.Error) {
-	if db == nil {
-		db = &data.Data{}
-		err := db.Open(consts.TABLE_USER)
-		defer db.Close()
-		if err != nil {
-			log.Error("[ERROR] CONNECT_DB_ERROR err:%v", err)
-			return nil, Error.New(EC.CONNECT_DB_ERROR, err)
-		}
-	} else {
-		if err := db.Select(consts.TABLE_USER); err != nil {
-			return nil, Error.New(EC.READ_DB_ERROR, err.Error())
-		}
-	}
-
-	var value []byte
-	value, err := db.Gets(common.Utoa(uid))
-	if err != nil {
-		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
-		return nil, Error.New(EC.READ_DB_ERROR, err)
-	}
-
-	if len(value) == 0 {
-		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret value is empty.", uid)
-		return nil, Error.New(EC.EU_USER_NOT_EXISTS, err)
-	}
-
-	userDetail = &bbproto.UserInfoDetail{}
-	err = proto.Unmarshal(value, userDetail)
-	if err != nil {
-		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
-		return nil, Error.New(EC.UNMARSHAL_ERROR)
-	}
-
-	//restore stamina
-	userDetail.User.StaminaNow = userDetail.User.StaminaMax
-
-	//save data
-	zUserData, err := proto.Marshal(userDetail)
-	if err != nil {
-		return nil, Error.New(EC.MARSHAL_ERROR, err)
-	}
-
-	if err = db.Set(common.Utoa(*userDetail.User.UserId), zUserData); err != nil {
-		log.Error("SET_DB_ERROR for userDetail: %v", *userDetail.User.UserId)
-		return nil, Error.New(EC.READ_DB_ERROR, err)
-	}
-
-	log.T("user:%v restore stamina success, now stamina is: %v/%v", uid, *userDetail.User.StaminaNow, *userDetail.User.StaminaMax)
-	return userDetail, Error.OK()
-}
-
-func RefreshStamina(tRecover *uint32, userStamina *int32, userStaminaMax int32) (e Error.Error) {
-	if tRecover == nil || userStamina == nil {
-		return Error.New(EC.INVALID_PARAMS, "invalid params")
-	}
-
-	tNow := common.Now()
-	tElapse := int32(tNow - *tRecover)
-	log.T("Old Stamina:%v tRecover:%v tElapse:%v ", userStamina, *tRecover, tElapse)
-	*userStamina += (tElapse/consts.N_STAMINA_TIME + 1)
-	log.T("Now Stamina:%v userStaminaMax:%v", *userStamina, userStaminaMax)
-
-	if *userStamina > userStaminaMax {
-		*userStamina = userStaminaMax
-	}
-
-	*tRecover = tNow + uint32(consts.N_STAMINA_TIME-tElapse%consts.N_STAMINA_TIME)
-
 	return Error.OK()
 }

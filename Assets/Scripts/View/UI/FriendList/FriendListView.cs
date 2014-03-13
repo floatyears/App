@@ -48,10 +48,33 @@ public class FriendListView : UIComponentUnity{
 			case "DestoryDragView" : 
 				CallBackDispatcherHelper.DispatchCallBack(DestoryDragView, cbdArgs);
 				break;
+			case "EnableUpdateButton" : 
+				CallBackDispatcherHelper.DispatchCallBack(EnableUpdateButton, cbdArgs);
+				break;
 			default:
 				break;
 		}
 
+	}
+
+	void EnableUpdateButton(object args){
+		updateFriendButton.gameObject.SetActive(true);
+		UIEventListener.Get(updateFriendButton.gameObject).onClick = ClickUpdateFriendButton;
+	}
+
+	void ClickUpdateFriendButton(GameObject button){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateFriendButtonClick", null);
+		ExcuteCallback(cbdArgs);
+	}
+
+	void EnableRefuseButton(object args){
+		refuseAllApplyButton.gameObject.SetActive(true);
+		UIEventListener.Get(refuseAllApplyButton.gameObject).onClick = ClickRefuseButton;
+	}
+
+	void ClickRefuseButton(GameObject args){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefuseApplyButtonClick", null);
+		ExcuteCallback(cbdArgs);
 	}
 
 	void InitUIElement(){
@@ -60,8 +83,8 @@ public class FriendListView : UIComponentUnity{
 		refuseAllApplyButton = FindChild<UIButton>("Button_Refuse");
 		sortButton = FindChild<UIButton>("Button_Sort");
 		updateFriendButton = FindChild<UIButton>("Button_Update");
-		curCountLabel = FindChild<UILabel>("UnitItemCount/Label_Count_Cur");
-		maxCountLabel = FindChild<UILabel>("UnitItemCount/Label_Count_Max");
+		curCountLabel = FindChild<UILabel>("CountItem/Label_Count_Cur");
+		maxCountLabel = FindChild<UILabel>("CountItem/Label_Count_Max");
 
 		InitDragPanelArgs();
 	}

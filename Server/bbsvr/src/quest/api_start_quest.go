@@ -112,6 +112,19 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	}
 	log.T(" getUser(%v) ret userinfo: %v", uid, userDetail.User)
 
+	// check user is already playing
+	if userDetail.Quest != nil && userDetail.Quest.State != nil {
+		e = Error.New(EC.EQ_QUEST_IS_PLAYING, fmt.Sprintf("user(%v) is playing quest:%v", *userDetail.User.UserId, *userDetail.Quest.QuestId) )
+		log.T( e.Error() )
+		return e
+	}
+
+	//check Quest record for QuestState
+	questState, e := quest.CheckQuestRecord(db, stageId, questId, uid)
+	if e.IsError() {
+		return e
+	}
+
 	//get questInfo
 	stageInfo, e := quest.GetStageInfo(db, stageId)
 	if e.IsError() {
@@ -155,19 +168,16 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 		return e
 	}
 
-	//check userDetail.Quest if exists (quest is playing)
-	questState, e := quest.CheckQuestRecord(db, stageId, questId, &userDetail)
-	if e.IsError() {
-		return e
-	}
-
 	//TODO:try getFriendState(helperUid) -> getFriendPoint
 
 	//update latest quest record of userDetail
-	if e = quest.FillQuestLog(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
+	if e = quest.FillUserQuest(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
 		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}
+
+	//update currParty
+	userDetail.Party.CurrentParty = reqMsg.CurrentParty
 
 	//save updated userinfo
 	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {

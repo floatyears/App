@@ -114,6 +114,10 @@ public class UnitItemViewInfo{
 		Dictionary <string, object> initArgs = new Dictionary<string, object>();
 		initArgs.Add("collect", true);
 		initArgs.Add("enable", false);
+		if(GlobalData.partyInfo == null || dataItem == null){
+			Debug.LogError("InitWithArgs(), GlobalData.partyInfo == null, return");
+			return;
+		}
 		initArgs.Add("party", GlobalData.partyInfo.UnitIsInCurrentParty(dataItem.ID));
 
 		List<string> textList = new List<string>();
