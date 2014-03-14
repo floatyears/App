@@ -85,11 +85,11 @@ func (t ChangeParty) FillResponseMsg(reqMsg *bbproto.ReqChangeParty, rspMsg *bbp
 }
 
 func (t ChangeParty) ProcessLogic(reqMsg *bbproto.ReqChangeParty, rspMsg *bbproto.RspChangeParty) (e Error.Error) {
-	log.T("Req.ChangeParty: currParty:%v", *reqMsg.Party.CurrentParty)
 
 	if reqMsg.Party.CurrentParty == nil {
 		reqMsg.Party.CurrentParty = proto.Int32(0)
 	}
+	log.T("Req.ChangeParty: currParty:%v", *reqMsg.Party.CurrentParty)
 	for _, p := range reqMsg.Party.PartyList {
 		if p.Id != nil {
 			log.T("id[%v]: %+v", *p.Id, p.Items)
