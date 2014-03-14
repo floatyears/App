@@ -107,7 +107,7 @@ public class UIManager {
 
 	public void ChangeScene(SceneEnum sEnum)
 	{
-		Debug.LogError("sEnum : "  + sEnum);
+//		Debug.LogError("sEnum : "  + sEnum);
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
 		}
