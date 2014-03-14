@@ -740,6 +740,7 @@ message RspAuthUser {
 	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 10;
 	optional EUnitType		evolveType			= 11;
+	optional int32			isNewUser			= 12;
 };
 
 //-------------------------------------------------

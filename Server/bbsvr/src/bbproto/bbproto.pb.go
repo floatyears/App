@@ -4101,6 +4101,7 @@ type RspAuthUser struct {
 	Friends          []*FriendInfo  `protobuf:"bytes,9,rep,name=friends" json:"friends,omitempty"`
 	Present          []*PresentInfo `protobuf:"bytes,10,rep,name=present" json:"present,omitempty"`
 	EvolveType       *EUnitType     `protobuf:"varint,11,opt,name=evolveType,enum=bbproto.EUnitType" json:"evolveType,omitempty"`
+	IsNewUser        *int32         `protobuf:"varint,12,opt,name=isNewUser" json:"isNewUser,omitempty"`
 	XXX_unrecognized []byte         `json:"-"`
 }
 
@@ -4183,6 +4184,13 @@ func (m *RspAuthUser) GetEvolveType() EUnitType {
 		return *m.EvolveType
 	}
 	return EUnitType_UALL
+}
+
+func (m *RspAuthUser) GetIsNewUser() int32 {
+	if m != nil && m.IsNewUser != nil {
+		return *m.IsNewUser
+	}
+	return 0
 }
 
 // -------------------------------------------------
