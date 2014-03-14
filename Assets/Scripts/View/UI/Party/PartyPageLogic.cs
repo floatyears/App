@@ -139,6 +139,7 @@ public class PartyPageLogic : ConcreteComponent {
 
         if (curParty.GetUserUnit() == null)
             return;
+
         List<TUserUnit> curUserUnitList = curParty.GetUserUnit();
         List<Texture2D> curPartyTexList = GetPartyTexture(curUserUnitList);
         int curPartyIndex = GetPartyIndex();
