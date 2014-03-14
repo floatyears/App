@@ -95,7 +95,7 @@ func GetGachaConfig(db *data.Data, gachaId int32) (gachaConf *bbproto.GachaConfi
 		return gachaConf, Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 
-	value, err := db.Gets(consts.X_GACHA_UNIT + common.Ntoa(gachaId))
+	value, err := db.Gets(consts.X_GACHA_CONF + common.Ntoa(gachaId))
 	if err != nil {
 		log.Error("GetGachaConf for '%v' ret err:%v", gachaId, err)
 		return gachaConf, Error.New(EC.READ_DB_ERROR, err.Error())

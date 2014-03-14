@@ -31,6 +31,7 @@ const (
 	X_SKILL_INFO     = "X_SKILL_"
 	X_EVOLVE_SESSION = "X_EVOLVE_"
 	X_GACHA_UNIT     = "X_GACHA_"
+	X_GACHA_CONF     = "X_GACHA_CONF"
 )
 
 const (

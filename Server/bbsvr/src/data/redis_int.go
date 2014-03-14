@@ -179,7 +179,7 @@ func (t *Data) ListGet(key string, index int) (value []byte, err error) {
 	return value, err
 }
 
-func (t *Data) ListLen(key string, index int) (count int, err error) {
+func (t *Data) LLen(key string, index int) (count int, err error) {
 
 	count, err = redis.Int(t.conn.Do("LLEN", key))
 	if err == redis.ErrNil {
@@ -190,13 +190,19 @@ func (t *Data) ListLen(key string, index int) (count int, err error) {
 	return count, err
 }
 
-func (t *Data) ListAdd(key string, value []byte) (err error) {
-	_, err = redis.Values(t.conn.Do("LPUSH", key, value))
+func (t *Data) LPush(key string, value []byte) (err error) {
+	_, err = t.conn.Do("LPUSH", key, value)
 
 	return err
 }
 
-func (t *Data) LiastRemove(key string, removeValue []byte) (err error) {
+func (t *Data) LPushInt(key string, value int32) (err error) {
+	_, err = t.conn.Do("LPUSH", key, value)
+
+	return err
+}
+
+func (t *Data) LRem(key string, removeValue []byte) (err error) {
 
 	_, err = redis.Values(t.conn.Do("LREM", 0, removeValue))
 	return err
@@ -231,6 +237,13 @@ func (t *Data) HMSet(key string, fields ...[]byte) (err error) {
 }
 
 func (t *Data) HDel(key string, field string) (num int, err error) {
+	num, err = redis.Int(t.conn.Do("HDEL", key, field))
+	return num, err
+}
+
+//func (t *Data) HDel(key string, field ...interface {}) (num int, err error) {
+//TODO: HMDel still has problems
+func (t *Data) HMDel(key string, field []string) (num int, err error) {
 	num, err = redis.Int(t.conn.Do("HDEL", key, field))
 	return num, err
 }

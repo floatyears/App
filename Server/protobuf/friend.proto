@@ -72,7 +72,7 @@ message RspAddFriend {
 //-------------------------------------------------
 message ReqDelFriend {
 	optional ProtoHeader	header				= 1;
-	optional uint32			friendUid			= 2;
+	repeated uint32			friendUid			= 2;
 };
 
 message RspDelFriend {

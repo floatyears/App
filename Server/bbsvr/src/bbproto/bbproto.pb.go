@@ -813,7 +813,7 @@ func (m *RspAddFriend) GetFriends() *FriendList {
 // -------------------------------------------------
 type ReqDelFriend struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	FriendUid        *uint32      `protobuf:"varint,2,opt,name=friendUid" json:"friendUid,omitempty"`
+	FriendUid        []uint32     `protobuf:"varint,2,rep,name=friendUid" json:"friendUid,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -828,11 +828,11 @@ func (m *ReqDelFriend) GetHeader() *ProtoHeader {
 	return nil
 }
 
-func (m *ReqDelFriend) GetFriendUid() uint32 {
-	if m != nil && m.FriendUid != nil {
-		return *m.FriendUid
+func (m *ReqDelFriend) GetFriendUid() []uint32 {
+	if m != nil {
+		return m.FriendUid
 	}
-	return 0
+	return nil
 }
 
 type RspDelFriend struct {
@@ -3380,6 +3380,70 @@ func (m *RspGacha) GetUnitList() []*UserUnit {
 func (m *RspGacha) GetUnitUniqueId() []uint32 {
 	if m != nil {
 		return m.UnitUniqueId
+	}
+	return nil
+}
+
+type ReqSellUnit struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	UnitUniqueId     []uint32     `protobuf:"varint,2,rep,name=unitUniqueId" json:"unitUniqueId,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqSellUnit) Reset()         { *m = ReqSellUnit{} }
+func (m *ReqSellUnit) String() string { return proto.CompactTextString(m) }
+func (*ReqSellUnit) ProtoMessage()    {}
+
+func (m *ReqSellUnit) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqSellUnit) GetUnitUniqueId() []uint32 {
+	if m != nil {
+		return m.UnitUniqueId
+	}
+	return nil
+}
+
+type RspSellUnit struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Money            *int32       `protobuf:"varint,2,opt,name=money" json:"money,omitempty"`
+	GotMoney         *int32       `protobuf:"varint,3,opt,name=gotMoney" json:"gotMoney,omitempty"`
+	UnitList         []*UserUnit  `protobuf:"bytes,4,rep,name=unitList" json:"unitList,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspSellUnit) Reset()         { *m = RspSellUnit{} }
+func (m *RspSellUnit) String() string { return proto.CompactTextString(m) }
+func (*RspSellUnit) ProtoMessage()    {}
+
+func (m *RspSellUnit) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspSellUnit) GetMoney() int32 {
+	if m != nil && m.Money != nil {
+		return *m.Money
+	}
+	return 0
+}
+
+func (m *RspSellUnit) GetGotMoney() int32 {
+	if m != nil && m.GotMoney != nil {
+		return *m.GotMoney
+	}
+	return 0
+}
+
+func (m *RspSellUnit) GetUnitList() []*UserUnit {
+	if m != nil {
+		return m.UnitList
 	}
 	return nil
 }
