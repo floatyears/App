@@ -67,21 +67,21 @@ public class EvolveStart: ProtoManager {
         return (err.Code == (int)ErrorCode.SUCCESS);
     }
 
-//    private void OnRspEvolveStart(object data) {
-//        if (data == null)
-//            return;
-//        
-//        LogHelper.Log("ReqEvolveStart() begin");
-//        LogHelper.Log(data);
-//        bbproto.ReqEvolveStart rsp = data as bbproto.ReqEvolveStart;
-//        
-//        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-//            LogHelper.Log("ReqEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-//            return;
-//        }
-//        
-//        // TODO do evolve start over;
-//    }
+    private void OnRspEvolveStart(object data) {
+        if (data == null)
+            return;
+        
+        LogHelper.Log("ReqEvolveStart() begin");
+        LogHelper.Log(data);
+        bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
+        
+        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+            LogHelper.Log("ReqEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            return;
+        }
+        
+        // TODO do evolve start over;
+    }
 }
 
 
@@ -134,22 +134,25 @@ public class EvolveDone: ProtoManager {
         
         return (err.Code == (int)ErrorCode.SUCCESS);
     }
-//    private void OnRspEvolveDone(object data) {
-//        if (data == null)
-//            return;
-//            
-//        LogHelper.Log("OnRspEvolveDone() begin");
-//        LogHelper.Log(data);
-//        bbproto.ReqEvolveDone rsp = data as bbproto.ReqEvolveDone;
-//            
-//        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-//            LogHelper.Log("ReqEvolveDone code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-//            return;
-//        }
-//            
-//        // TODO do evolve start over;
-//    }
+    private void OnRspEvolveDone(object data) {
+        if (data == null)
+            return;
+            
+        LogHelper.Log("OnRspEvolveDone() begin");
+        LogHelper.Log(data);
+        bbproto.RspEvolveDone rsp = data as bbproto.RspEvolveDone;
+            
+        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+            LogHelper.Log("ReqEvolveDone code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            return;
+        }
+            
+        // TODO do evolve start over;
+    }
 }
 
+public class NetWorkEvovleTester {
+//    public static Test
+}
 
 
