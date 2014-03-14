@@ -2,6 +2,7 @@
 <table class="table table-bordered table-hover">
 	<thead>
 		<tr>
+      <th>操作</th>
 			<th>Id</th>
 			<th>Name</th>
 			<th>Race</th>
@@ -27,6 +28,7 @@
 	<tbody>
 		<% @units.each do |unit| %>
 		<tr>
+      <td><%= link_to '更新',edit_unit_info_path(id: unit.try(:id)) %></td>
 			<td><%= unit.try(:id) %></td>
 			<td><%= unit.try(:name) %></td>
 			<td><%= unit.try(:race) %></td>
@@ -65,5 +67,5 @@
 </table>
 
 <%= link_to '新建卡牌', new_unit_info_path,style: "font-size: 20px;" %><br/>
-<%= link_to '新建基本技能', new_skill_path,style: "font-size: 20px;" %>
+<%= link_to '所有技能', skills_path,style: "font-size: 20px;" %>
 

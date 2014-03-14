@@ -32,14 +32,15 @@ public class StartDecorator : DecoratorBase {
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent> (UIConfig.TipsBarName);
 		tipsBar.SetComponent (playerInfoBar);
 
-		ErrorMsgComponent errorMsgBox = CreatComponent<ErrorMsgComponent>(UIConfig.errorMsgBoxName);
-		errorMsgBox.SetComponent(tipsBar);
+		CommonNoteLogic noteWindow = CreatComponent<CommonNoteLogic>(UIConfig.commonNoteWindowName);
+		noteWindow.SetComponent(tipsBar);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
-		selectUnitInfo.SetComponent(errorMsgBox);
+		selectUnitInfo.SetComponent(noteWindow);
 
-		selectUnitInfo.CreatUI();
 		lastDecorator = selectUnitInfo;
+		lastDecorator.CreatUI();
+
 	}
 }
 
@@ -232,11 +233,8 @@ public class UnitsDecorator : DecoratorBase {
 		partyInfo.SetComponent( sceneInfoBar );
 		partyPage.SetComponent( partyInfo );
 		units.SetComponent( partyPage );
-
-
 		lastDecorator = units;
 		lastDecorator.CreatUI();
-	
 	}
 }
 
@@ -443,7 +441,10 @@ public class EvolveDecorator : DecoratorBase {
 		EvolveComponent evolve = CreatComponent< EvolveComponent >( UIConfig.evolveWindowName);
 		evolve.SetComponent( sceneInfoBar );
 
-		lastDecorator = evolve;
+		UnitDisplay unitdisplay =  CreatComponent< UnitDisplay >( UIConfig.unitDisplay);
+		unitdisplay.SetComponent (evolve);
+
+		lastDecorator = unitdisplay;
 		lastDecorator.CreatUI();
 	}
 }
@@ -473,6 +474,7 @@ public class CatalogDecorator : DecoratorBase {
 		CatalogComponent catalog = CreatComponent< CatalogComponent >( UIConfig.catalogWindowName);
 		catalog.SetComponent( sceneInfoBar );
 	
+
 		lastDecorator = catalog;
 		lastDecorator.CreatUI();
 	}
@@ -527,13 +529,16 @@ public class FriendListDecorator : DecoratorBase {
 	}
 	
 	public override void DecoratorScene () {
-		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		ApplyLogic friendListPanel = CreatComponent< ApplyLogic >( UIConfig.applyWindowName);
+		sceneInfoBar = CreatComponent<SceneInfoComponent>( UIConfig.sceneInfoBarName );
+		FriendListLogic friendList = CreatComponent<FriendListLogic>(UIConfig.friendListWindowName);
 
 		sceneInfoBar.SetComponent( decorator );
-		friendListPanel.SetComponent( sceneInfoBar );
+		friendList.SetComponent(sceneInfoBar);
 
-		lastDecorator = friendListPanel;
+		UserBriefInfoLogic briefInfo = CreatComponent<UserBriefInfoLogic>(UIConfig.userBriefInfoWindowName);
+		briefInfo.SetComponent(friendList);
+
+		lastDecorator = briefInfo;
 		lastDecorator.CreatUI();
 	}
 }
@@ -624,10 +629,11 @@ public class ApplyDecorator : DecoratorBase {
 	public override void DecoratorScene () {
 
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		ApplyComponent applyWindow = CreatComponent< ApplyComponent >( UIConfig.applyWindowName );
+		FriendListLogic applyWindow = CreatComponent< FriendListLogic >( UIConfig.friendListWindowName );
 
 		sceneInfoBar.SetComponent( decorator );
 		applyWindow.SetComponent( sceneInfoBar );
+
 		lastDecorator = applyWindow;
 
 		lastDecorator.CreatUI();
@@ -654,7 +660,7 @@ public class ReceptionDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		ReceptionComponent receptionWindow = CreatComponent< ReceptionComponent >( UIConfig.applyWindowName );
+		FriendListLogic receptionWindow = CreatComponent< FriendListLogic >( UIConfig.friendListWindowName );
 
 		sceneInfoBar.SetComponent( decorator );
 		receptionWindow.SetComponent( sceneInfoBar );

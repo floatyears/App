@@ -1,10 +1,10 @@
 class UnitInfosController < ApplicationController
-  before_action :set_unit_info, only: [:show, :edit, :update, :destroy]
+  before_action :set_unit_info, only: [:show, :edit, :update, :destroy,:update_redis]
 
   # GET /unit_infos
   # GET /unit_infos.json
   def index
-    @units =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact.map{|key| UnitInfo.decode($redis.get key)}
+    @units =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact.sort.map{|key| UnitInfo.decode($redis.get key)}
   end
 
   # GET /unit_infos/1
@@ -20,6 +20,8 @@ class UnitInfosController < ApplicationController
 
   # GET /unit_infos/1/edit
   def edit
+    unit_keys =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact
+    @units = {"请选择卡牌信息" => "请选择卡牌信息" }.merge unit_keys.inject({}){|hsh,key| hsh[key] = key.split("_")[2].to_i;hsh}
   end
 
   # POST /unit_infos
@@ -27,7 +29,7 @@ class UnitInfosController < ApplicationController
   def create
     unit_info = UnitInfo.create_with_params(params)
     if unit_info.save_to_file && unit_info.save_to_redis
-      redirect_to new_unit_info_path
+      redirect_to unit_infos_path
     else
       
     end
@@ -46,6 +48,15 @@ class UnitInfosController < ApplicationController
       end
     end
   end
+  
+  def update_redis
+    unit_info = UnitInfo.create_with_params(params)
+    if unit_info.save_to_file && unit_info.save_to_redis
+      redirect_to unit_infos_path
+    else
+      
+    end
+  end
 
   # DELETE /unit_infos/1
   # DELETE /unit_infos/1.json
@@ -60,7 +71,7 @@ class UnitInfosController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_unit_info
-    @unit_info = UnitInfo.find(params[:id])
+    @unit_info = UnitInfo.decode($redis.get("X_UNIT_" + params[:id]))#UnitInfo.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,4 +1,4 @@
-﻿using bbproto;
+using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -113,7 +113,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		questDragPanel = CreateDragPanel(questInfoList.Count);
 		FillDragPanel(questDragPanel, questInfoList);
 		InitQuestSelectScrollArgs();
-		questDragPanel.RootObject.SetScrollView(questSelectScrollerArgsDic);
+		questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 	}
 
 	GameObject GetScrollItem( string resourcePath ){

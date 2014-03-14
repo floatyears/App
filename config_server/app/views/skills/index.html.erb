@@ -1,2 +1,32 @@
-<h1>Skills#index</h1>
-<p>Find me in app/views/skills/index.html.erb</p>
+<h1 id="skills">Skills</h1>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>baseInfo</th>
+			<th>attackType</th>
+			<th>activeBlocks</th>
+			<th>attackValue</th>
+			<th>attackUnitType</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @skills.each do |skill| %>
+		<tr>
+			<td>
+        BaseInfo{
+        id:<%= skill.try(:baseInfo).try(:id) %>;
+        name:<%= skill.try(:baseInfo).try(:name) %>;
+        description:<%= skill.try(:baseInfo).try(:description) %>;
+        skillCooling:<%= skill.try(:baseInfo).try(:skillCooling) %>;
+        }
+      </td>
+      <td><%= skill.try(:attackType) %></td>
+      <td><%= skill.try(:activeBlocks) %></td>
+      <td><%= skill.try(:attackValue) %></td>
+      <td><%= skill.try(:attackUnitType) %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+<%= link_to '新建基本技能', new_skill_path,style: "font-size: 20px;" %>

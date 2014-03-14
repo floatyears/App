@@ -1,6 +1,92 @@
-<h1>Editing unit_info</h1>
+<h1 >修改卡牌信息</h1>
+<%= form_tag(update_redis_unit_infos_path) %>
 
-<%= render 'form' %>
+<p>
+	id:<%= text_field_tag :id,@unit_info.try(:id)%>
+</p>
+<p>
+	name:<%= text_field_tag :name ,@unit_info.try(:name)%>
+</p>
+<p>
+	race:<%= select_tag :race,options_for_select(UnitInfo::UNITRACE,:selected => @unit_info.try(:race))  %>
+</p>
+<p>
+	type:<%= select_tag :type,options_for_select(UnitInfo::UNITTYPE,:selected => @unit_info.try(:type)) %>
+</p>
+<p>
+	rare:1<%= radio_button_tag(:rare, 1,(@unit_info.try(:rare).to_i == 1)) %>
+	2<%= radio_button_tag(:rare, 2, (@unit_info.try(:rare).to_i == 2)) %>
+	3<%= radio_button_tag(:rare, 3, (@unit_info.try(:rare).to_i == 3)) %>
+	4<%= radio_button_tag(:rare, 4, (@unit_info.try(:rare).to_i == 4)) %>
+	5<%= radio_button_tag(:rare, 5, (@unit_info.try(:rare).to_i == 5)) %>
+	6<%= radio_button_tag(:rare, 6, (@unit_info.try(:rare).to_i == 6)) %>
+</p>
+<p>
+	skill1:<%= text_field_tag :skill1,@unit_info.try(:skill1) %>
+</p>
 
-<%= link_to 'Show', @unit_info %> |
+<p>
+	skill2:<%= text_field_tag :skill2,@unit_info.try(:skill2) %>
+</p>
+<p>
+	leaderSkill:<%= text_field_tag :leaderSkill,@unit_info.try(:leaderSkill) %>
+</p>
+<p>
+	activeSkill:<%= text_field_tag :activeSkill ,@unit_info.try(:activeSkill)%>
+</p>
+<p>
+	passiveSkill:<%= text_field_tag :passiveSkill,@unit_info.try(:passiveSkill) %>
+</p>
+<p>
+  activeSkillLevel:<%= text_field_tag :activeSkillLevel,@unit_info.try(:activeSkillLevel)%>
+</p>
+
+<p>
+	maxLevel:<%= text_field_tag :maxLevel,@unit_info.try(:maxLevel) %>
+</p>
+<p>
+	profile:<%= text_area_tag :profile,@unit_info.try(:profile) %>
+</p>
+<p>
+	<fieldset>
+		PowerType<br/>
+		attackType:<%= text_field_tag :attackType,@unit_info.try(:powerType).try(:attackType)%><br/>
+		hpType:<%= text_field_tag :hpType ,@unit_info.try(:powerType).try(:hpType)%><br/>
+		expType:<%= text_field_tag :expType,@unit_info.try(:powerType).try(:expType) %>
+	</fieldset>
+</p>
+<p>
+	<fieldset>
+		EvolveInfo<br/>
+		evolveUnitId:<%= select_tag :evolveUnitId,options_for_select(@units,:selected => @unit_info.try(:evolveInfo).try(:evolveUnitId))%><br/>
+		materialUnitId:
+		<%= select_tag :materialUnitId1,options_for_select(@units,:selected => (@unit_info.try(:evolveInfo).try(:materialUnitId)[0] if @unit_info.try(:evolveInfo).try(:materialUnitId)))%>
+		<%= select_tag :materialUnitId2,options_for_select(@units,:selected => (@unit_info.try(:evolveInfo).try(:materialUnitId)[1] if @unit_info.try(:evolveInfo).try(:materialUnitId)))%>
+		<%= select_tag :materialUnitId3,options_for_select(@units,:selected => (@unit_info.try(:evolveInfo).try(:materialUnitId)[2] if @unit_info.try(:evolveInfo).try(:materialUnitId)))%>
+		<br/>
+		<fieldset>
+			helperRequire<br/>
+			level:<%= text_field_tag :level,@unit_info.try(:evolveInfo).try(:helperRequire).try(:level) %><br/>
+			helper_race:<%= select_tag :helper_race,options_for_select(UnitInfo::UNITRACE,:selected => @unit_info.try(:evolveInfo).try(:helperRequire).try(:race)) %><br/>
+			helper_type:<%= select_tag :helper_type,options_for_select(UnitInfo::UNITTYPE,:selected => @unit_info.try(:evolveInfo).try(:helperRequire).try(:type)) %><br/>
+		</fieldset>
+	</fieldset>
+</p>
+<p>
+	cost:<%= text_field_tag :cost,@unit_info.try(:cost) %>
+</p>
+<p>
+	saleValue:<%= text_field_tag :saleValue ,@unit_info.try(:saleValue)%>
+</p>
+<p>
+	devourValue:<%= text_field_tag :devourValue,@unit_info.try(:devourValue) %>
+</p>
+<p>
+	getWay:<%= select_tag :getWay,options_for_select(UnitInfo::EUNIT_GETWAY,:selected => @unit_info.try(:getWay)) %>
+</p>
+<div class="actions">
+	<%= submit_tag '提交',class: "btn btn-primary" %>
+</div>
+
+
 <%= link_to 'Back', unit_infos_path %>

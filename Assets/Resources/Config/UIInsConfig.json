@@ -7,12 +7,12 @@
         "positiony": 0,
         "positionz": 0
     },
-    "ErrorMsgBox": {
-        "uiName":"ErrorMsgBox",
+    "CommonNoteWindow": {
+        "uiName":"CommonNoteWindow",
         "resoucePath": "Prefabs/UI/Common/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
-        "positiony": 100,
+        "positiony": -565,
         "positionz": 0
     },
      "SceneInfo": {
@@ -47,6 +47,15 @@
         "positiony": -475,
         "positionz": 0
     },
+      "UserBriefInfoWindow": {
+        "uiName":"UserBriefInfoWindow",
+        "resoucePath": "Prefabs/UI/Common/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": -475,
+        "positionz": 0
+    },
+    
      "BottomMenu": {
         "uiName":"MenuBottom",
         "resoucePath": "Prefabs/UI/Common/",
@@ -66,6 +75,14 @@
      "FriendWindow": {
         "uiName":"FriendWindow",
         "resoucePath": "Prefabs/UI/Friend/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+    "FriendListWindow": {
+        "uiName":"FriendListWindow",
+        "resoucePath": "Prefabs/UI/FriendList/",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
@@ -270,6 +287,13 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
+    },
+	  "UnitDisplay": {
+        "uiName":"UnitDisplay",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
-
 }

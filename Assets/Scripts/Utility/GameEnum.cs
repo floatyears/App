@@ -131,6 +131,11 @@ public enum CommandEnum
 	StopInput					= 3049,
 	GridEnd						= 3050,
 	DropItem					= 3051,
+	SelectUnitBase				= 3052,
+	selectUnitMaterial			= 3053,
+	UnitDisplayState			= 3054,
+	UnitDisplayBaseData			= 3055,
+	UnitDisplayMaterialData		= 3056,
 
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
@@ -146,7 +151,7 @@ public enum CommandEnum
 	TryEnableLevelUp			= 4009,
 	CrossFade					= 4010,
 	UpdateNickName			= 4011,
-	ErrorMsgShow				= 4012,
+	NoteFriendUpdate			= 4012,
 	ShowUnitBriefInfo			= 4013,
 	UpdatePartyInfoPanel			= 4014,
 	ShowFocusUnitDetail			= 4015,
@@ -162,9 +167,14 @@ public enum CommandEnum
 	BaseAlreadySelect			= 4025,
 	MaterialSelect				= 4026,
 	ShieldMaterial				= 4027,
-	RejectPartyPageFocusItem	= 4028,
-	RefreshPartyUnitList		= 4029,
-	RefreshPartyPanelInfo		= 4030,
+	RejectPartyPageFocusItem		= 4028,
+	RefreshPartyUnitList			= 4029,
+	RefreshPartyPanelInfo			= 4030,
+	FriendBriefInfoShow		= 4031,
+	EnsureUpdateFriend			= 4032,
+	CancelSelectunitbrief		= 4033,
+
+
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

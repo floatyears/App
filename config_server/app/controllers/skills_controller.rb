@@ -12,5 +12,6 @@ class SkillsController < ApplicationController
   end
 
   def index
+    @skills =  $redis.keys.map{|k|k if k.start_with?("X_SKILL_")}.compact.sort.map{|key| NormalSkill.decode($redis.get key)}
   end
 end

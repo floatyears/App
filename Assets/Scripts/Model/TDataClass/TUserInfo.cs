@@ -14,7 +14,7 @@ public class TUserInfo : ProtobufDataBase {
 	//////////////////////////////////////////////////////////////
 	/// 
 	public	string	Uuid { get { return instance.uuid; } }
-	public	uint	UserId { get { return instance.userId; } }
+	public	uint		UserId { get { return instance.userId; } }
 	public	string	NickName { get { return instance.nickName; } set {instance.nickName = value; }}
 	public	int		Rank { get { return instance.rank; } }
 	public	int		Exp { get { return instance.exp; } }
@@ -23,11 +23,11 @@ public class TUserInfo : ProtobufDataBase {
 			int nextLevel = Rank + 2;
 			int totalExp = 0;
 			for (int i = 1; i < nextLevel; i++) {
-				totalExp += GlobalData.Instance.GetUnitValue(TPowerTableInfo.UserExpType,i);
+				totalExp += DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType,i);
 			}
 			return totalExp - Exp;
 
-//			return GlobalData.Instance.GetUnitValue(TPowerTableInfo.UserExpType,Rank + 1); 
+//			return DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType,Rank + 1); 
 		}
 	} //TODO: get exp for current rank
 	public	int		CurRankExp{ 
@@ -35,7 +35,7 @@ public class TUserInfo : ProtobufDataBase {
 			int curLevel = Rank + 1;
 			int totalExp = 0;
 			for (int i = 1; i < curLevel; i++) {
-				totalExp += GlobalData.Instance.GetUnitValue(TPowerTableInfo.UserExpType,i);
+				totalExp += DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType,i);
 			}
 			return Exp - totalExp;
 		}

@@ -47,7 +47,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		
 		uint curUnitId = materialUnitInfoDic[item].unitId;
 //		Debug.LogError("Material Show Avatar : curUnitId is : " + curUnitId);
-		avatarTex.mainTexture = GlobalData.unitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		avatarTex.mainTexture = DataCenter.Instance.UnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
 
 		int addAttack = materialUnitInfoDic[ item ].addAttack;
 		int addHp = materialUnitInfoDic[ item ].addHp;
@@ -85,7 +85,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		materialDragPanel = CreateDragPanel( name, count, itemGo) ;
 		FillDragPanel( materialDragPanel );
 		InitDragPanelArgs();
-		materialDragPanel.RootObject.SetScrollView(dragPanelArgs);
+		materialDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){

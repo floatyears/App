@@ -17,7 +17,7 @@ public class TempTest : MonoBehaviour
 //        LogHelper.Log("deserialized info: person's id is " + modifiedPerson.id);
 //        LogHelper.Log("deserialized info: person's email is " + modifiedPerson.email);
 //
-//        errorMsg = new ErrorMsg(ErrorCode.Succeed, "");
+//        errorMsg = new ErrorMsg(ErrorCode.SUCCESS, "");
 //        return errorMsg;
 //    }
 

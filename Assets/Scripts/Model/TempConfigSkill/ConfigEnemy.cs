@@ -25,7 +25,7 @@ public class ConfigEnermy {
 		ei.hp = 200;
 		ei.type = (EUnitType)1;
 		TEnemyInfo te = new TEnemyInfo (ei);
-		GlobalData.enemyInfo.Add (ei.enemyId,te);
+		DataCenter.Instance.EnemyInfo.Add (ei.enemyId,te);
 		
 		ei = new EnemyInfo ();
 		ei.enemyId = 2;
@@ -36,7 +36,7 @@ public class ConfigEnermy {
 		ei.hp = 200;
 		ei.type = (EUnitType)2;
 		te = new TEnemyInfo (ei);
-		GlobalData.enemyInfo.Add (ei.enemyId,te);
+		DataCenter.Instance.EnemyInfo.Add (ei.enemyId,te);
 		
 		ei = new EnemyInfo();
 		ei.enemyId = 3;
@@ -47,7 +47,7 @@ public class ConfigEnermy {
 		ei.hp = 200;
 		ei.nextAttack = 1;
 		te = new TEnemyInfo (ei);
-		GlobalData.enemyInfo.Add (ei.enemyId,te);
+		DataCenter.Instance.EnemyInfo.Add (ei.enemyId,te);
 
 		ei = new EnemyInfo();
 		ei.enemyId = 4;
@@ -58,7 +58,7 @@ public class ConfigEnermy {
 		ei.hp = 200;
 		ei.nextAttack = 1;
 		te = new TEnemyInfo (ei);
-		GlobalData.enemyInfo.Add (ei.enemyId,te);
+		DataCenter.Instance.EnemyInfo.Add (ei.enemyId,te);
 
 		ei = new EnemyInfo();
 		ei.enemyId = 5;
@@ -69,6 +69,6 @@ public class ConfigEnermy {
 		ei.hp = 200;
 		ei.nextAttack = 1;
 		te = new TEnemyInfo (ei);
-		GlobalData.enemyInfo.Add (ei.enemyId,te);
+		DataCenter.Instance.EnemyInfo.Add (ei.enemyId,te);
 	}
 }

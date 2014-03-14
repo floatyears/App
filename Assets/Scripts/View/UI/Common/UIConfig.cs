@@ -11,6 +11,8 @@ public class UIConfig
 	public static string emptyLabelTextFormat = "---";
 	public static string stageDragPanelItemPath = "Stage/StageDragPanelItem";
 	public static string questDragPanelItemPath = "Prefabs/UI/Quest/QuestItem";
+	public static string PartyUnitViewItemPath = "Prefabs/UI/Friend/UnitItem";
+
 	public static string Lab_T_Rank = "Rank:";
 	public static string Lab_V_Rank = "12";
 	public static string Lab_V_PlayerName = "Orca Chen";
@@ -60,16 +62,19 @@ public class UIConfig
 
 	public const string partyDragPanelName = "PartyDragPanel";
 	public const string partyInfoPanelName = "PartyInfoPanel";
-        public const string partyPagePanelName = "PartyPagePanel";
+	public const string partyPagePanelName = "PartyPagePanel";
 	public const string partyWindowName = "PartyWindow";
 	public const string catalogWindowName = "CatalogWindow";
 	public const string levelUpWindowName = "LevelUpWindow";
 	public const string sellWindowName = "SellWindow";
 	public const string unitListWindowName = "UnitListWindow";
 	public const string evolveWindowName = "EvolveWindow";
+	public const string unitDisplay = "UnitDisplay";
 	public const string questSelectWindowName = "QuestSelectWindow";
 	public const string friendSelectWindowName = "FriendSelectWindow";
 	public const string applyWindowName = "ApplyWindow";
+	public const string friendListWindowName = "FriendListWindow";
+
 	public const string userIDWindowName = "UserIDWindow";
 	public const string informationWindowName = "InformationWindow";
 	public const string unitDetailPanelName = "UnitDetailPanel";
@@ -81,9 +86,9 @@ public class UIConfig
 	public const string levelUpMaterialWindowName = "LevelUpMaterialWindow";
 	public const string levelUpFriendWindowName = "LevelUpFriendWindow";
 	public const string levelUpBasePanelName = "LevelUpBasePanel";
-	public const string errorMsgBoxName = "ErrorMsgBox";
+	public const string commonNoteWindowName = "CommonNoteWindow";
 	public const string unitBriefInfoWindowName = "UnitBriefInfoWindow";
-
+	public const string userBriefInfoWindowName = "UserBriefInfoWindow";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;

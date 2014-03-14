@@ -49,7 +49,7 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 			return;		
 		}
 		if (partyID == 1) {
-			upi = GlobalData.partyInfo.CurrentParty; //ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, errMsg) as TUnitParty;
+			upi = DataCenter.Instance.PartyInfo.CurrentParty; //ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, errMsg) as TUnitParty;
 			if (upi == null) {
 				Debug.LogError("ModelManager.GetData( UnitPartyInfo ) return null");
 				return;
@@ -57,11 +57,11 @@ public class FriendSelectComponent : ConcreteComponent, IUICallback {
 			Dictionary<int,uint> temp = upi.GetPartyItem();
 			Dictionary<int,UnitBaseInfo> viewInfo = new Dictionary<int, UnitBaseInfo>();
 			foreach(var item in temp) {
-				TUserUnit uui =  GlobalData.userUnitList.GetMyUnit(item.Value);
+				TUserUnit uui =  DataCenter.Instance.UserUnitList.GetMyUnit(item.Value);
 				if(!userUnit.ContainsKey(item.Key)) {
 					userUnit.Add(item.Key,uui);
 				}
-//				UnitBaseInfo ubi = GlobalData.unitBaseInfo[uui.unitBaseInfo];
+//				UnitBaseInfo ubi = DataCenter.Instance.UnitBaseInfo[uui.unitBaseInfo];
 //				viewInfo.Add(item.Key,ubi);
 			}
 			call.Callback (viewInfo);
