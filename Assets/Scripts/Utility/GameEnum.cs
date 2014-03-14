@@ -165,9 +165,8 @@ public enum CommandEnum
 	RejectPartyPageFocusItem		= 4028,
 	RefreshPartyUnitList			= 4029,
 	RefreshPartyPanelInfo			= 4030,
-	ShowUserUnitBriefInfo		= 4031,
+	FriendBriefInfoShow		= 4031,
 	EnsureUpdateFriend			= 4032,
-
 
 
 

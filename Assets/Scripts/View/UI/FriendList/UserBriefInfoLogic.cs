@@ -50,11 +50,11 @@ public class UserBriefInfoLogic : ConcreteComponent{
 	} 
 
 	void AddEventListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.ShowUserUnitBriefInfo, ReceiveShowBriefRquest);
+		MsgCenter.Instance.AddListener(CommandEnum.FriendBriefInfoShow, ReceiveShowBriefRquest);
 	}
 
 	void RemoveEventListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUserUnitBriefInfo, ReceiveShowBriefRquest);
+		MsgCenter.Instance.RemoveListener(CommandEnum.FriendBriefInfoShow, ReceiveShowBriefRquest);
 	}
 
 	void ReceiveShowBriefRquest(object msg){
@@ -65,6 +65,27 @@ public class UserBriefInfoLogic : ConcreteComponent{
 		RefreshUserName(tfi.NickName);
 		RefreshLastLogin(tfi.LastPlayTime);
 	}
+
+//	void SupportExtraFeature(){
+//		SceneEnum current = UIManager.Instance.baseScene.CurrentScene;
+//		switch (current){
+//			case SceneEnum.FriendList : 
+//				SupportDeleteFriend(true);
+//				break;
+//			default:
+//				break;
+//		}
+//	}
+//
+//	void SupportDeleteFriend(bool support){
+//		if(support){
+//			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableDeleteFriend", null);
+//			ExcuteCallback(cbdArgs);
+//		}
+//		else{
+//
+//		}
+//	}
 
 	void RefreshUnitInfo(TUserUnit tuu){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshUnitInfoView", tuu);

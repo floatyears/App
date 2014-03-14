@@ -237,7 +237,7 @@ public class PlayerInfoBar : UIComponentUnity {
 
 	// leiliang--------------------------------------------------------------------
 	private INetBase changeName;
-	public void ChangeName(object  name) {
+	 public void ChangeName(object  name) {
 		if (changeName == null) {
 			changeName = new RenameNick();
 			changeName.OnRequest(name,ReName);
