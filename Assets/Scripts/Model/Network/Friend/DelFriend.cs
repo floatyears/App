@@ -57,7 +57,12 @@ public class DelFriend: ProtoManager {
         reqDelFriend.header.userId = DataCenter.Instance.UserInfo.UserId;
         
         //request params
-        reqDelFriend.friendUid = friendUids;
+        reqDelFriend.friendUid.Clear();
+        for (int i = 0; i < friendUids.Count; i++) {
+            reqDelFriend.friendUid.Add(friendUids[i]);
+        }
+        Debug.Log("DelFriend() request, del friend count = " + reqDelFriend.friendUid.Count);
+//        reqDelFriend.friendUid = friendUids;
         
         ErrorMsg err = SerializeData(reqDelFriend); // save to Data for send out
         
