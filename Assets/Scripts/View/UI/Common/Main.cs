@@ -166,8 +166,30 @@ public class Main : MonoBehaviour {
             }
         }
         Debug.Log("UIManager.Instance.ChangeScene before");
-        UIManager.Instance.ChangeScene(SceneEnum.Start);
+		UIManager.Instance.ChangeScene(SceneEnum.Start);
+		TurnToReName();
+       
     }
+
+	void TurnToReName(){
+		//		Debug.Log("PlayerInfoBar.TurnToReName() : Start");
+		if(DataCenter.Instance.UserInfo == null ){
+			Debug.LogError("DataCenter.Instance.UserInfo is null");
+			return;
+		}
+		
+		if(DataCenter.Instance.UserInfo.NickName == null ) {
+			Debug.LogError("DataCenter.Instance.UserInfo.NickName is null");
+			return;
+		}
+		
+		if(DataCenter.Instance.UserInfo.NickName.Length == 0){
+			UIManager.Instance.ChangeScene( SceneEnum.Others );
+			Debug.Log ("PlayerInfoBar.ChangeScene( Others ).");
+		}
+
+		Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.NickName);
+	}
 
     void OnDisable() {
         sui.RemoveListener();

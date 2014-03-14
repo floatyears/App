@@ -70,19 +70,20 @@ public class FriendListLogic : ConcreteComponent
 		switch (UIManager.Instance.baseScene.CurrentScene)
 		{
 			case SceneEnum.FriendList : 
-				Debug.Log("CurrentFriendListData()" + DataCenter.Instance.FriendList.Friend); 
+				Debug.Log("CurrentFriendListData() friend Count {0} " + DataCenter.Instance.FriendList.Friend.Count); 
 				return DataCenter.Instance.FriendList.Friend;
 				break;
 			case SceneEnum.Apply : 
-				Debug.Log("CurrentFriendListData()" + DataCenter.Instance.FriendList.FriendIn); 
+				Debug.Log("CurrentFriendListData() friendIn Count {1}" + DataCenter.Instance.FriendList.FriendIn.Count); 
 				return DataCenter.Instance.FriendList.FriendIn;
 				break;
 			case SceneEnum.Reception : 
-				Debug.Log("CurrentFriendListData()" + DataCenter.Instance.FriendList.FriendOut); 
+				Debug.Log("CurrentFriendListData() friendOut Count {2}" + DataCenter.Instance.FriendList.FriendOut.Count); 
 				return DataCenter.Instance.FriendList.FriendOut;
 				break;
 			
 			default:
+				Debug.Log("CurrentFriendListData(), no return, UIManager.Instance.baseScene.CurrentScene");
 				return new List<TFriendInfo>();
 				break;
 		}
@@ -115,7 +116,12 @@ public class FriendListLogic : ConcreteComponent
 
 		DataCenter.Instance.FriendList.RefreshFriendList(inst);
 		// test
-		LogHelper.Log("OnGetFriendList, test first friend. nick name" + CurrentFriendListData() [1].NickName);
+		LogHelper.LogError("OnGetFriendList, response friendCount {0}" + rsp.friends.friend.Count);
+		for (int i = 0; i < rsp.friends.friend.Count; i++){
+			LogHelper.LogError("OnGetFriendList, test first friend. nick name" + rsp.friends.friend[i].nickName);
+
+		}
+
 		HideUI();
 		ShowUI();
 	}
@@ -156,7 +162,7 @@ public class FriendListLogic : ConcreteComponent
 		DataCenter.Instance.FriendList.RefreshFriendList(inst);
 
 		// test
-		LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData() [1].NickName);
+//		LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData() [1].NickName);
 		HideUI();
 		ShowUI();
 	}
@@ -214,6 +220,8 @@ public class FriendListLogic : ConcreteComponent
 			LogHelper.LogError("GetFriendUnitItemViewList GetUnitList return null.");
 			return;
 		}
+		LogHelper.Log("FriendListLogic.GetFriendUnitItemViewList(), unitList Count is : " + unitList.Count);
+
 		for (int i = 0; i < unitList.Count; i++)
 		{
 			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(unitList [i]);
@@ -233,10 +241,12 @@ public class FriendListLogic : ConcreteComponent
 		}
 
 		List<TUserUnit> tuuList = new List<TUserUnit>();
+		LogHelper.LogError("GetFriendUnitItemViewList() CurrentFriendListData().Count {0}", CurrentFriendListData().Count);
+
 		for (int i = 0; i < CurrentFriendListData().Count; i++)
 		{
 //			LogHelper.LogError("Global.friends:i={0}, friends:{1} fUserId:{2}", i, DataCenter.Instance.FriendList[ i ],DataCenter.Instance.FriendList[ i ].UserId);
-//			LogHelper.LogError("Global.friends:i={0}, friends.UserUnit:{1}", i, DataCenter.Instance.FriendList[ i ].UserUnit);
+			LogHelper.LogError("Global.friends:i={0}, friends.UserUnit:{1}", i, CurrentFriendListData() [i].UserUnit);
 			tuuList.Add(CurrentFriendListData() [i].UserUnit);
 		}
 

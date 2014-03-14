@@ -59,26 +59,9 @@ public class PlayerInfoBar : UIComponentUnity {
 		base.DestoryUI ();
 	}
 
-	void TurnToReName(){
-//		Debug.Log("PlayerInfoBar.TurnToReName() : Start");
-		if(DataCenter.Instance.UserInfo == null ){
-			Debug.LogError("DataCenter.Instance.UserInfo is null");
-			return;
-		}
-		
-		if(DataCenter.Instance.UserInfo.NickName == null ) {
-			Debug.LogError("DataCenter.Instance.UserInfo.NickName is null");
-			return;
-		}
-		
-		if(DataCenter.Instance.UserInfo.NickName.Length == 0){
-			UIManager.Instance.ChangeScene( SceneEnum.Others );
-			Debug.Log ("PlayerInfoBar.ChangeScene( Others ).");
-		}
-			Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.NickName);
-        }
 
-        private void InitUI() {
+
+	private void InitUI() {
 		FindObject();
 		FindLabel();
 
@@ -187,7 +170,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		evolveTypeSprite.spriteName = evoType.ToString();
 
 		//Debug.Log("PlayerInfoBar,DataCenter.Instance.UserInfo.EvolveType : " + evoType.ToString());
-		TurnToReName();
+//		TurnToReName();
 
 	}
 	
@@ -207,7 +190,7 @@ public class PlayerInfoBar : UIComponentUnity {
 			}
 		}
 
-		UIManager.Instance.ChangeScene( SceneEnum.Quest );
+		UIManager.Instance.ChangeScene( SceneEnum.Start );
 	}
 
 	void AddCommandListener(){
@@ -241,7 +224,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		if (changeName == null) {
 			changeName = new RenameNick();
 			changeName.OnRequest(name,ReName);
-			UIManager.Instance.ChangeScene(SceneEnum.Quest);
+//			UIManager.Instance.ChangeScene(SceneEnum.Start);
 		}
 	}
 }
