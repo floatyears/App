@@ -263,6 +263,9 @@ public class LevelUpReadyPanel: UIComponentUnity {
 				pickedUserUnitInfo.Add(item.userUnitItem);
 			}
 		}
+//		for (int i = 0; i < pickedUserUnitInfo.Count; i++) {
+////			Debug.LogError("PackUserUnitInfo : " + i + "       " + pickedUserUnitInfo[i].ID);
+//		}
 		return pickedUserUnitInfo;
 	}
 

@@ -131,6 +131,11 @@ public enum CommandEnum
 	StopInput					= 3049,
 	GridEnd						= 3050,
 	DropItem					= 3051,
+	SelectUnitBase				= 3052,
+	selectUnitMaterial			= 3053,
+	UnitDisplayState			= 3054,
+	UnitDisplayBaseData			= 3055,
+	UnitDisplayMaterialData		= 3056,
 
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
@@ -167,7 +172,7 @@ public enum CommandEnum
 	RefreshPartyPanelInfo			= 4030,
 	ShowUserUnitBriefInfo		= 4031,
 	EnsureUpdateFriend			= 4032,
-
+	CancelSelectunitbrief		= 4033,
 
 
 

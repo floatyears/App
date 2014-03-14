@@ -9,10 +9,14 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
+		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
+		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
+		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 	}
 
 	public override void DestoryUI () {
@@ -30,6 +34,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	public const string SetDragPanel = "setDragPanel";
 	public const string RefreshData = "refreshData";
+	public const string SelectBase = "selectBase";
 	//==========================================interface end ==========================
 
 	private GameObject unitItem;
@@ -37,6 +42,49 @@ public class UnitDisplayUnity : UIComponentUnity {
 	private List<TUserUnit> allData = new List<TUserUnit>();
 	private List<UnitItemInfo> allItem = new List<UnitItemInfo>();
 	private List<UnitItemInfo> partyItem = new List<UnitItemInfo>();
+	private List<UnitItemInfo> normalItem = new List<UnitItemInfo> ();
+	private List<UnitItemInfo> evolveItem = new List<UnitItemInfo> ();
+	private TUserUnit selectBase  = null;
+	private TUserUnit baseData = null;
+	List<TUserUnit> materialInfo = new List<TUserUnit> ();
+
+	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
+
+	void UnitDisplayBaseData (object data) {
+		TUserUnit tuu = data as TUserUnit;
+		if (tuu == null) {
+			return;
+		}
+
+		baseData = tuu;
+		materialInfo.Clear ();
+		for (int i = 0; i < tuu.UnitInfo.evolveInfo.materialUnitId.Count; i++) {
+			uint id = tuu.UnitInfo.evolveInfo.materialUnitId[i];
+			for (int j = 0; j < normalItem.Count; j++) {
+				UnitItemInfo uii = normalItem[i];
+				if(uii.userUnitItem.ID == id) {
+					materialInfo.Add(uii.userUnitItem);
+				}
+			}
+		}
+		MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, materialInfo);
+	}
+
+
+
+	void UnitDisplayState (object data) {
+		EvolveState es = (EvolveState)data;
+		switch (es) {
+		case EvolveState.BaseState:
+			break;
+		case EvolveState.FriendState:
+			break;
+		case EvolveState.MaterialState:
+			break;
+		default:
+				break;
+		}
+	}
 
 	void InitUI () {
 		CreatPanel ();
@@ -112,10 +160,49 @@ public class UnitDisplayUnity : UIComponentUnity {
 		uii.IsFavorate (uii.userUnitItem.isFavorate);
 		bool b = DataCenter.Instance.PartyInfo.UnitIsInParty (uii.userUnitItem.ID);
 		uii.IsPartyItem(b);
+		if (b) {
+			partyItem.Add(uii);		
+		}
+
+		if (uii.userUnitItem.isFavorate == 0 && !b) {
+			normalItem.Add(uii);	
+		}
+
+		bbproto.EvolveInfo ei = uii.userUnitItem.UnitInfo.evolveInfo;
+		if (ei == null) {
+			uii.SetMask (true);	
+		} else {
+			uii.SetMask(false);
+			evolveItem.Add(uii);
+		}
+
+
 	}
 
 	void ClickItem (GameObject go) {
+		UnitItemInfo uii = evolveItem.Find (a => a.scrollItem == go);
+		if (uii == default(UnitItemInfo)) {
+			return;
+		}
+		selectBase = uii.userUnitItem;
+		BriefUnitInfo bui = new BriefUnitInfo (UnitBriefInfoView.EnsureCommand, selectBase);
+		MsgCenter.Instance.AddListener (CommandEnum.EnsureSubmitUnitToParty, EnsureFocusOnPartyItem);
+		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitBriefInfo, bui);
+	}
 
+	void EnsureFocusOnPartyItem(object data) {
+		MsgCenter.Instance.RemoveListener (CommandEnum.EnsureSubmitUnitToParty, EnsureFocusOnPartyItem);
+		if (data == null) {
+			return;
+		}
+
+		bool b = (bool)data;
+
+		if (b) {
+			TranferData.Clear();
+			TranferData.Add(SelectBase,selectBase);
+			ExcuteCallback(TranferData);
+		}
 	}
 
 	void RefreshDragPanelView () {
@@ -126,7 +213,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 			for (int i = scroll.Count - 1; i > endValue; i++) {
 				unitItemDragPanel.RemoveItem (scroll [i]);
 			}		
-		} 
+		}
 		else if(value < 0) {
 			int endValue = Mathf.Abs(value);
 			unitItemDragPanel.AddItem(endValue);

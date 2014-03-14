@@ -25,6 +25,11 @@ public class UnitDisplay : ConcreteComponent {
 
 	public override void Callback (object data) {
 		base.Callback (data);
+		Dictionary<string, object> dicData = data as Dictionary<string, object>;
+		foreach (var item in dicData) {
+			DisposeCallback (item);
+		}
+
 	}
 	
 	//========================================interface =================================
@@ -63,6 +68,16 @@ public class UnitDisplay : ConcreteComponent {
 		TransferData.Clear ();
 		TransferData.Add (UnitDisplayUnity.RefreshData, unitItemData);
 		ExcuteCallback (TransferData);
+	}
+
+	void DisposeCallback (KeyValuePair<string, object> key) {
+		switch (key.Key) {
+		case UnitDisplayUnity.SelectBase:
+			MsgCenter.Instance.Invoke(CommandEnum.SelectUnitBase,key.Value);
+			break;
+		default:
+			break;
+		}
 	}
 }
 
