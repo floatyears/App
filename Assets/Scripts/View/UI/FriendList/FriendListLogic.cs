@@ -178,7 +178,7 @@ public class FriendListLogic : ConcreteComponent
 			return;
 		}
 
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUserUnitBriefInfo, tfi);
+		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, tfi);
 	}
 
 	void ViewUnitDetailInfo(object args){
