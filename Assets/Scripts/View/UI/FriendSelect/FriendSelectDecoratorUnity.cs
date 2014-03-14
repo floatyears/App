@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
@@ -31,7 +31,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 
         ShowTween();
         btnStart.isEnabled = false;
-        friendsScroller.RootObject.gameObject.SetActive(true);
+        friendsScroller.DragPanelView.gameObject.SetActive(true);
     }
 	
     public override void HideUI() {
@@ -156,10 +156,10 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
         friendsScroller = new DragPanel("FriendSelectScroller", friendItem);
         friendsScroller.CreatUI();
         friendsScroller.AddItem(1);
-        friendsScroller.RootObject.SetItemWidth(140);
-        friendsScroller.RootObject.gameObject.transform.parent = gameObject.transform.FindChild("ScrollView");
-        friendsScroller.RootObject.gameObject.transform.localScale = Vector3.one;
-        friendsScroller.RootObject.gameObject.transform.localPosition = -115 * Vector3.up;
+        friendsScroller.DragPanelView.SetItemWidth(140);
+        friendsScroller.DragPanelView.gameObject.transform.parent = gameObject.transform.FindChild("ScrollView");
+        friendsScroller.DragPanelView.gameObject.transform.localScale = Vector3.one;
+        friendsScroller.DragPanelView.gameObject.transform.localPosition = -115 * Vector3.up;
         for (int i = 0; i < friendsScroller.ScrollItem.Count; i++) {
             friendsScroller.ScrollItem[i].GetComponentInChildren<UITexture>().mainTexture 
 				= Resources.Load(friendBaseInfo.GetHeadPath) as Texture2D;

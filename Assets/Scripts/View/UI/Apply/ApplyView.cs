@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -63,7 +63,7 @@ public class ApplyView : UIComponentUnity, IUIFriendList {
 		}
 
 		Dictionary<string, object> scrollerArgs = InitScrollerArgs();
-		scroller.RootObject.SetScrollView( scrollerArgs );
+		scroller.DragPanelView.SetScrollView( scrollerArgs );
 
 	}
 

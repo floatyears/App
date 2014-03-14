@@ -287,6 +287,13 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
+    },
+	  "UnitDisplay": {
+        "uiName":"UnitDisplay",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
-
 }

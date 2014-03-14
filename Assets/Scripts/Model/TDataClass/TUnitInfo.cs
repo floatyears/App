@@ -174,21 +174,29 @@ public class TUnitInfo : ProtobufDataBase {
 			return instance.powerType.expType;
 		}
 	}
+
+	private Texture2D avatarTexture;
+	private Texture2D profileTexture;
 	
 	public Texture2D GetAsset(UnitAssetType uat) {
 		string path = string.Empty;
-		switch (uat) {
-		case UnitAssetType.Avatar:
-			path = string.Format("Avatar/{0}_1", ID) ;
-			break;
-		case UnitAssetType.Profile:
-			path = string.Format("Profile/{0}_2", ID) ;
-			break;
-			
+
+		if (uat == UnitAssetType.Avatar) {
+			if (avatarTexture == null) {
+				path = string.Format ("Avatar/{0}_1", ID);
+				avatarTexture = Resources.Load (path) as Texture2D;
+//				Debug.LogError(avatarTexture + " path : " + path);
+			}
+			return avatarTexture;	
+		} 
+		else  {
+			if(profileTexture == null) {
+				path = string.Format("Profile/{0}_2", ID) ;
+				profileTexture =  Resources.Load(path) as Texture2D;
+				
+			}
+			return profileTexture;
 		}
-//		Debug.LogError ("path : " + path);
-		Texture2D tex2d = Resources.Load(path) as Texture2D;
-		return tex2d;
 	}
 	
 	public void Send () {

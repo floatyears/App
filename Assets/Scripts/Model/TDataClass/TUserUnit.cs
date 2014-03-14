@@ -288,6 +288,12 @@ public class TUserUnit : ProtobufDataBase {
         }
     }
 
+	public string AddNumber {
+		get {
+			return (AddHP + AddAttack).ToString();
+		}
+	}
+
     public int Attack {
         get {
             return DGTools.CaculateAddAttack(instance.addAttack, instance, UnitInfo.Object);
@@ -324,6 +330,16 @@ public class TUserUnit : ProtobufDataBase {
             return instance.addHp;
         }
     }
+
+	/// <summary>
+	///  0 = false. 1 = true.
+	/// </summary>
+	/// <value>The is favorate.</value>
+	public int isFavorate {
+		get {
+			return instance.isFavorite;
+		}
+	} 
 }
 
 //A wrapper to manage userUnitInfo list

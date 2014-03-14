@@ -3,14 +3,57 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UnitItemInfo {
-    public GameObject scrollItem;
+	public GameObject scrollItem ;
     public UILabel stateLabel;
-    public UIEventListenerCustom listener;
+	public UISprite mask;
+	public UISprite star;
     public TUserUnit userUnitItem;
-    public bool isCollect = false;
-    public bool isPartyItem = false;
+
+    private bool _isCollect = false;
+	public bool isCollect {
+		get { return _isCollect; }
+		set { _isCollect = value; }
+	}
+
+	private bool _isPartyItem = false;
+	public bool isPartyItem {
+		get { return _isPartyItem; }
+		set { _isPartyItem = value; }
+	}
+
     public bool isSelect = false;
     public bool isEnable = false;
+
+	public void SetMask(bool b) {
+		mask.enabled = b;
+		if (star != null) {
+			star.enabled = b;		
+		}
+	}
+
+	public void SetLabelInfo (string info) {
+		stateLabel.text = info;
+	}
+
+	public void IsFavorate (int value) {
+//		Debug.LogError ("value : " + value);
+		bool b = false;
+
+		if (value == 1) {
+			b = true;		
+		}
+		_isCollect = b;
+		if (star != null) {
+			star.enabled = b;
+		}
+	}
+
+	public void IsPartyItem (bool b) {
+		if (b && stateLabel != null) {
+			stateLabel.text = "Party";	
+		}
+		isPartyItem = b;
+	}
 }
 
 public class UnitItemViewInfo {
