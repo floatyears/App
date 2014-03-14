@@ -2,13 +2,16 @@ package unit
 
 import (
 	"bbproto"
-	//"common"
-	//"common/EC"
-	//"common/Error"
+	"code.google.com/p/goprotobuf/proto"
+	"common"
+	"common/EC"
+	"common/Error"
 	"common/config"
 	"common/consts"
-	//"common/log"
+	"common/log"
+	"data"
 	"event"
+	"fmt"
 )
 
 func GetLevelUpMoney(level int32, count int32) int32 {
@@ -51,7 +54,7 @@ func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, ques
 		return 0, 0
 	}
 
-	stageId+= 20
+	stageId += 20
 
 	baseQuestId := uint32(1)
 	switch unitRare {
@@ -78,4 +81,39 @@ func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, ques
 
 func GetTodayEvolveType() (etype *bbproto.EUnitType) {
 	return event.GetEvolveType()
+}
+
+func GetGachaConfig(db *data.Data, gachaId int32) (gachaConf *bbproto.GachaConfig, e Error.Error) {
+	if db == nil {
+		db = &data.Data{}
+		err := db.Open(consts.TABLE_UNIT)
+		defer db.Close()
+		if err != nil {
+			return gachaConf, Error.New(EC.READ_DB_ERROR, err)
+		}
+	} else if err := db.Select(consts.TABLE_UNIT); err != nil {
+		return gachaConf, Error.New(EC.READ_DB_ERROR, err.Error())
+	}
+
+	value, err := db.Gets(consts.X_GACHA_CONF + common.Ntoa(gachaId))
+	if err != nil {
+		log.Error("GetGachaConf for '%v' ret err:%v", gachaId, err)
+		return gachaConf, Error.New(EC.READ_DB_ERROR, err.Error())
+	}
+	isExists := len(value) != 0
+
+	if !isExists {
+		log.Error("GetGachaConf: unitId(%v) not exists.", gachaId)
+		return gachaConf, Error.New(EC.DATA_NOT_EXISTS, fmt.Sprintf("gachaId:%v not exists in db.", gachaId))
+	}
+
+	gachaConf = &bbproto.GachaConfig{}
+
+	err = proto.Unmarshal(value, gachaConf)
+	if err != nil {
+		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", gachaId, err)
+		return gachaConf, Error.New(EC.UNMARSHAL_ERROR, err)
+	}
+
+	return gachaConf, Error.OK()
 }

@@ -418,6 +418,42 @@ func (x *EUnitGetWay) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type EGachaType int32
+
+const (
+	EGachaType_E_FRIEND_GACHA    EGachaType = 1
+	EGachaType_E_BUY_GACHA       EGachaType = 2
+	EGachaType_E_BUY_GACHA_EVENT EGachaType = 3
+)
+
+var EGachaType_name = map[int32]string{
+	1: "E_FRIEND_GACHA",
+	2: "E_BUY_GACHA",
+	3: "E_BUY_GACHA_EVENT",
+}
+var EGachaType_value = map[string]int32{
+	"E_FRIEND_GACHA":    1,
+	"E_BUY_GACHA":       2,
+	"E_BUY_GACHA_EVENT": 3,
+}
+
+func (x EGachaType) Enum() *EGachaType {
+	p := new(EGachaType)
+	*p = x
+	return p
+}
+func (x EGachaType) String() string {
+	return proto.EnumName(EGachaType_name, int32(x))
+}
+func (x *EGachaType) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(EGachaType_value, data, "EGachaType")
+	if err != nil {
+		return err
+	}
+	*x = EGachaType(value)
+	return nil
+}
+
 // general response protocol
 type ProtoHeader struct {
 	ApiVer           *string `protobuf:"bytes,1,req,name=apiVer" json:"apiVer,omitempty"`
@@ -777,7 +813,7 @@ func (m *RspAddFriend) GetFriends() *FriendList {
 // -------------------------------------------------
 type ReqDelFriend struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	FriendUid        *uint32      `protobuf:"varint,2,opt,name=friendUid" json:"friendUid,omitempty"`
+	FriendUid        []uint32     `protobuf:"varint,2,rep,name=friendUid" json:"friendUid,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -792,11 +828,11 @@ func (m *ReqDelFriend) GetHeader() *ProtoHeader {
 	return nil
 }
 
-func (m *ReqDelFriend) GetFriendUid() uint32 {
-	if m != nil && m.FriendUid != nil {
-		return *m.FriendUid
+func (m *ReqDelFriend) GetFriendUid() []uint32 {
+	if m != nil {
+		return m.FriendUid
 	}
-	return 0
+	return nil
 }
 
 type RspDelFriend struct {
@@ -2740,6 +2776,54 @@ func (m *EvolveInfo) GetEvolveQuestId() uint32 {
 	return 0
 }
 
+type GachaConfig struct {
+	GachaId          *int32      `protobuf:"varint,1,opt,name=gachaId" json:"gachaId,omitempty"`
+	GachaType        *EGachaType `protobuf:"varint,2,opt,name=gachaType,enum=bbproto.EGachaType" json:"gachaType,omitempty"`
+	BeginTime        *uint32     `protobuf:"varint,3,opt,name=beginTime" json:"beginTime,omitempty"`
+	EndTime          *uint32     `protobuf:"varint,4,opt,name=endTime" json:"endTime,omitempty"`
+	EventId          *int32      `protobuf:"varint,5,opt,name=eventId" json:"eventId,omitempty"`
+	XXX_unrecognized []byte      `json:"-"`
+}
+
+func (m *GachaConfig) Reset()         { *m = GachaConfig{} }
+func (m *GachaConfig) String() string { return proto.CompactTextString(m) }
+func (*GachaConfig) ProtoMessage()    {}
+
+func (m *GachaConfig) GetGachaId() int32 {
+	if m != nil && m.GachaId != nil {
+		return *m.GachaId
+	}
+	return 0
+}
+
+func (m *GachaConfig) GetGachaType() EGachaType {
+	if m != nil && m.GachaType != nil {
+		return *m.GachaType
+	}
+	return EGachaType_E_FRIEND_GACHA
+}
+
+func (m *GachaConfig) GetBeginTime() uint32 {
+	if m != nil && m.BeginTime != nil {
+		return *m.BeginTime
+	}
+	return 0
+}
+
+func (m *GachaConfig) GetEndTime() uint32 {
+	if m != nil && m.EndTime != nil {
+		return *m.EndTime
+	}
+	return 0
+}
+
+func (m *GachaConfig) GetEventId() int32 {
+	if m != nil && m.EventId != nil {
+		return *m.EventId
+	}
+	return 0
+}
+
 type ReqGetUnitResource struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	UnitId           []uint32     `protobuf:"varint,2,rep,name=unitId" json:"unitId,omitempty"`
@@ -3272,6 +3356,8 @@ type RspGacha struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	UnitList         []*UserUnit  `protobuf:"bytes,2,rep,name=unitList" json:"unitList,omitempty"`
 	UnitUniqueId     []uint32     `protobuf:"varint,3,rep,name=unitUniqueId" json:"unitUniqueId,omitempty"`
+	Stone            *int32       `protobuf:"varint,4,opt,name=stone" json:"stone,omitempty"`
+	FriendPoint      *int32       `protobuf:"varint,5,opt,name=friendPoint" json:"friendPoint,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -3296,6 +3382,84 @@ func (m *RspGacha) GetUnitList() []*UserUnit {
 func (m *RspGacha) GetUnitUniqueId() []uint32 {
 	if m != nil {
 		return m.UnitUniqueId
+	}
+	return nil
+}
+
+func (m *RspGacha) GetStone() int32 {
+	if m != nil && m.Stone != nil {
+		return *m.Stone
+	}
+	return 0
+}
+
+func (m *RspGacha) GetFriendPoint() int32 {
+	if m != nil && m.FriendPoint != nil {
+		return *m.FriendPoint
+	}
+	return 0
+}
+
+type ReqSellUnit struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	UnitUniqueId     []uint32     `protobuf:"varint,2,rep,name=unitUniqueId" json:"unitUniqueId,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqSellUnit) Reset()         { *m = ReqSellUnit{} }
+func (m *ReqSellUnit) String() string { return proto.CompactTextString(m) }
+func (*ReqSellUnit) ProtoMessage()    {}
+
+func (m *ReqSellUnit) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqSellUnit) GetUnitUniqueId() []uint32 {
+	if m != nil {
+		return m.UnitUniqueId
+	}
+	return nil
+}
+
+type RspSellUnit struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Money            *int32       `protobuf:"varint,2,opt,name=money" json:"money,omitempty"`
+	GotMoney         *int32       `protobuf:"varint,3,opt,name=gotMoney" json:"gotMoney,omitempty"`
+	UnitList         []*UserUnit  `protobuf:"bytes,4,rep,name=unitList" json:"unitList,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspSellUnit) Reset()         { *m = RspSellUnit{} }
+func (m *RspSellUnit) String() string { return proto.CompactTextString(m) }
+func (*RspSellUnit) ProtoMessage()    {}
+
+func (m *RspSellUnit) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspSellUnit) GetMoney() int32 {
+	if m != nil && m.Money != nil {
+		return *m.Money
+	}
+	return 0
+}
+
+func (m *RspSellUnit) GetGotMoney() int32 {
+	if m != nil && m.GotMoney != nil {
+		return *m.GotMoney
+	}
+	return 0
+}
+
+func (m *RspSellUnit) GetUnitList() []*UserUnit {
+	if m != nil {
+		return m.UnitList
 	}
 	return nil
 }
@@ -4233,4 +4397,5 @@ func init() {
 	proto.RegisterEnum("bbproto.EGridStar", EGridStar_name, EGridStar_value)
 	proto.RegisterEnum("bbproto.QuestBoostType", QuestBoostType_name, QuestBoostType_value)
 	proto.RegisterEnum("bbproto.EUnitGetWay", EUnitGetWay_name, EUnitGetWay_value)
+	proto.RegisterEnum("bbproto.EGachaType", EGachaType_name, EGachaType_value)
 }

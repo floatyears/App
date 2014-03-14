@@ -34,11 +34,12 @@ const (
 	_PROTO_LEVEL_UP     = "/level_up"
 	_PROTO_EVOLVE_START = "/evolve_start"
 	_PROTO_EVOLVE_DONE  = "/evolve_done"
+	_PROTO_GACHA        = "/gacha"
 )
 
-//const WEB_SERVER_ADDR = "http://127.0.0.1:6666"
+const WEB_SERVER_ADDR = "http://127.0.0.1:6666"
 
-const WEB_SERVER_ADDR = "http://107.170.243.127:6666"
+//const WEB_SERVER_ADDR = "http://107.170.243.127:6666"
 
 func Init() {
 	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)

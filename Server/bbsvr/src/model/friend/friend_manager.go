@@ -100,15 +100,25 @@ func innerAddFriend(db *data.Data, sUid string, fid uint32, friendState bbproto.
 	return err
 }
 
-func DelFriend(db *data.Data, uid uint32, fid uint32) (num int, err error) {
+func DelFriend(db *data.Data, uid uint32, fids []uint32) (num int, err error) {
 	//delete friend from me
-	num, err = db.HDel(common.Utoa(uid), common.Utoa(fid))
-	if err != nil {
-		return num, err
+	sFids := make([]string, len(fids))
+	for k, uFid := range fids {
+		sFid:=common.Utoa(uFid)
+		sFids[k] = sFid
+		num, err = db.HDel(common.Utoa(uid), sFid)
+		if err != nil {
+			return num, err
+		}
+		log.T("uid(%v) DelFriend: fids:%v ret delNum:%v", uid, sFids, num)
 	}
 
 	//delete me from friend
-	num, err = db.HDel(common.Utoa(fid), common.Utoa(uid))
+	for k, fid := range sFids {
+		num, err = db.HDel(fid, common.Utoa(uid))
+		log.T("Del me(%v) from Friend[%v]: fid=%v ret delNum:%v", uid, k, fid, num)
+	}
+
 	return num, err
 }
 
@@ -176,7 +186,7 @@ func GetFriendsData(db *data.Data, sUid string, isGetOnlyFriends bool, friendsIn
 		}
 
 		if isGetOnlyFriends && *friendData.FriendState != bbproto.EFriendState_ISFRIEND &&
-		 *friendData.FriendState != bbproto.EFriendState_FRIENDHELPER {
+			*friendData.FriendState != bbproto.EFriendState_FRIENDHELPER {
 			log.T("isGetOnlyFriends:  skip -> (fid:%v, friendState:%v)", sFid, *friendData.FriendState)
 			continue
 		}

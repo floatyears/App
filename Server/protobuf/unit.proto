@@ -82,6 +82,20 @@ message EvolveInfo {
 	optional uint32				evolveQuestId	= 4;
 }
 
+enum EGachaType {
+	E_FRIEND_GACHA		= 1;
+	E_BUY_GACHA			= 2;
+	E_BUY_GACHA_EVENT	= 3;
+}
+
+message GachaConfig {
+	optional int32			gachaId		= 1;
+	optional EGachaType		gachaType	= 2; //by friendPoint, by chip， by chip(event)
+	optional uint32			beginTime	= 3; 
+	optional uint32			endTime		= 4; 
+	optional int32			eventId		= 5; 	
+}
+
 //=================================================================================================//
 
 message ReqGetUnitResource {
@@ -177,4 +191,29 @@ message RspGacha {
 	optional ProtoHeader	header			= 1;
 	repeated UserUnit		unitList		= 2;
 	repeated uint32			unitUniqueId	= 3;
+	repeated uint32			blankUnitId		= 4;
+	optional int32			stone			= 5;
+	optional int32			friendPoint		= 6;
+}
+
+
+message ReqSellUnit {	
+	optional ProtoHeader	header			= 1;
+	repeated uint32			unitUniqueId	= 2;
+}	
+
+message RspSellUnit {	
+	optional ProtoHeader	header			= 1;
+	optional int32			money			= 2;
+	optional int32			gotMoney		= 3;
+	repeated UserUnit		unitList		= 4;	
+}
+
+message ReqUnitMaxExpand {
+	optional ProtoHeader	header			= 1;
+}
+
+message RspUnitMaxExpand {
+	optional ProtoHeader	header			= 1;
+	optional int32			unitMax			= 2;	
 }

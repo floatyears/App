@@ -27,9 +27,11 @@ const (
 	X_QUEST_RECORD = "X_Q_REC_"
 
 	//unit
-	X_UNIT_INFO    = "X_UNIT_"
-	X_SKILL_INFO   = "X_SKILL_"
-	X_EVOLVE_SESSION   = "X_EVOLVE_"
+	X_UNIT_INFO      = "X_UNIT_"
+	X_SKILL_INFO     = "X_SKILL_"
+	X_EVOLVE_SESSION = "X_EVOLVE_"
+	X_GACHA_UNIT     = "X_GACHA_"
+	X_GACHA_CONF     = "X_GACHA_CONF"
 )
 
 const (
@@ -39,12 +41,14 @@ const (
 )
 
 const (
-	N_MAX_RARE				= 6
-	N_MAX_USER_RANK			= 500
+	N_MAX_RARE      = 6
+	N_MAX_USER_RANK = 500
 
 	N_DUNGEON_GRID_COUNT    = 25
 	N_USER_SPACE_PARTS      = 10
 	N_HELPER_RANK_RANGE     = 5
 	N_STAMINA_TIME          = 600 // seconds
 	N_QUEST_COLOR_BLOCK_NUM = 120 //2400
+	N_GACHA_FRIEND_COST		= 200 // cost 200 friend points
+	N_GACHA_BUY_COST		= 5   // cost 5 chip for a gacha
 )

@@ -41,13 +41,13 @@ enum EFriendState{
 	FRIENDOUT		= 2; // I request add one as friend
 	FRIENDIN		= 3; // others request add me as friend
 	FRIENDHELPER	= 4; // friends allocated by system  
-};
+}
 
 message FriendData {
 	optional uint32			userId				= 1;
 	optional EFriendState	friendState			= 2; 
 	optional uint32			friendStateUpdate 	= 3; // friend state updated time
-};
+}
 
 message FriendInfo {
 	optional uint32			userId				= 1;
@@ -58,71 +58,79 @@ message FriendInfo {
 	optional uint32			friendStateUpdate 	= 6; // friend state updated time
 	optional int32			friendPoint			= 7;
 	optional UserUnit		unit				= 8;
-};
+}
 
 message FriendList {
 	repeated FriendInfo		friend				= 1;
 	repeated FriendInfo		helper				= 2;
 	repeated FriendInfo		friendIn			= 3;
 	repeated FriendInfo		friendOut			= 4;
-};
+}
 
 //-------------------------------------------------
 message ReqGetFriend {
 	optional ProtoHeader	header				= 1;
 	optional bool			getFriend			= 2;
 	optional bool			getHelper			= 3;
-};
+}
 
 message RspGetFriend {
 	optional ProtoHeader	header				= 1;
 	optional FriendList		friends				= 2;
-};
+}
 
 //-------------------------------------------------
 message ReqFindFriend {
 	optional ProtoHeader	header				= 1;
 	optional uint32			friendUid			= 2;
-};
+}
 
 message RspFindFriend {
 	optional ProtoHeader	header				= 1;
 	optional UserInfo		friend				= 2;
-};
+}
 
 //-------------------------------------------------
 message ReqAddFriend {
 	optional ProtoHeader	header				= 1;
 	optional uint32			friendUid			= 2;
-};
+}
 
 message RspAddFriend {
 	optional ProtoHeader	header				= 1;
 	optional FriendList		friends				= 2;	
-};
+}
 
 //-------------------------------------------------
 message ReqDelFriend {
 	optional ProtoHeader	header				= 1;
-	optional uint32			friendUid			= 2;
-};
+	repeated uint32			friendUid			= 2;
+}
 
 message RspDelFriend {
 	optional ProtoHeader	header				= 1;
 	optional FriendList		friends				= 2;
-};
+}
 
 //-------------------------------------------------
 message ReqAcceptFriend {
 	optional ProtoHeader	header				= 1;
 	optional uint32			friendUid			= 2;
-};
+}
 
 message RspAcceptFriend {
 	optional ProtoHeader	header				= 1;
 	optional FriendList		friends				= 2;	
-};
+}
 //-------------------------------------------------
+message ReqFriendMaxExpand {
+	optional ProtoHeader	header				= 1;
+}
+
+message RspFriendMaxExpand {
+	optional ProtoHeader	header				= 1;
+	optional int32			friendMax			= 2;	
+}
 
 //=====================================================
 
@@ -491,6 +499,20 @@ message EvolveInfo {
 	optional uint32				evolveQuestId	= 4;
 }
 
+enum EGachaType {
+	E_FRIEND_GACHA		= 1;
+	E_BUY_GACHA			= 2;
+	E_BUY_GACHA_EVENT	= 3;
+}
+
+message GachaConfig {
+	optional int32			gachaId		= 1;
+	optional EGachaType		gachaType	= 2; //by friendPoint, by chip， by chip(event)
+	optional uint32			beginTime	= 3; 
+	optional uint32			endTime		= 4; 
+	optional int32			eventId		= 5; 	
+}
+
 //=================================================================================================//
 
 message ReqGetUnitResource {
@@ -586,6 +608,31 @@ message RspGacha {
 	optional ProtoHeader	header			= 1;
 	repeated UserUnit		unitList		= 2;
 	repeated uint32			unitUniqueId	= 3;
+	repeated uint32			blankUnitId		= 4;
+	optional int32			stone			= 5;
+	optional int32			friendPoint		= 6;
+}
+
+
+message ReqSellUnit {	
+	optional ProtoHeader	header			= 1;
+	repeated uint32			unitUniqueId	= 2;
+}	
+
+message RspSellUnit {	
+	optional ProtoHeader	header			= 1;
+	optional int32			money			= 2;
+	optional int32			gotMoney		= 3;
+	repeated UserUnit		unitList		= 4;	
+}
+
+message ReqUnitMaxExpand {
+	optional ProtoHeader	header			= 1;
+}
+
+message RspUnitMaxExpand {
+	optional ProtoHeader	header			= 1;
+	optional int32			unitMax			= 2;	
 }
 
 //=====================================================
@@ -599,7 +646,9 @@ message UserInfo {
 	optional int32		staminaNow			= 6;
 	optional int32		staminaMax			= 7;
 	optional uint32		staminaRecover		= 8; //recover time
-	optional UserUnit	unit				= 9; //leader unit	
+	optional int32		friendMax			= 9;
+	optional int32		unitMax				= 10;
+	optional UserUnit	unit				= 11; //leader unit	
 }
 
 message UserInfoDetail {
