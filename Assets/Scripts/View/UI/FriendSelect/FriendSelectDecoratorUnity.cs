@@ -270,7 +270,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 
 	
     void PickFriend(GameObject btn) {
-        Debug.LogError("PickFriend");
+//        Debug.LogError("PickFriend");
         AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         msgBox.SetActive(true);
     }

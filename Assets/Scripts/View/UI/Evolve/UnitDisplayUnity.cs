@@ -102,18 +102,15 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	void RefreshView (UnitItemInfo uii) {
 		Transform go = uii.scrollItem.transform;
-//		Debug.LogError ("go : " + go);
 		UITexture tex = go.Find ("Texture_Avatar").GetComponent<UITexture> ();
 		Texture2D texture = uii.userUnitItem.UnitInfo.GetAsset (UnitAssetType.Avatar);
 		tex.mainTexture = texture;
-//		Debug.LogError ("tex : " + tex + " texture : " + texture);
 		uii.stateLabel = go.Find ("Label_Party").GetComponent<UILabel> ();
 		uii.mask = go.Find ("Mask").GetComponent<UISprite> ();
 		uii.star = go.Find ("StarMark").GetComponent<UISprite> ();
 		UIEventListener.Get (go.gameObject).onClick = ClickItem;
 		uii.IsFavorate (uii.userUnitItem.isFavorate);
 		bool b = DataCenter.Instance.PartyInfo.UnitIsInParty (uii.userUnitItem.ID);
-		uii.SetMask (false);
 		uii.IsPartyItem(b);
 	}
 

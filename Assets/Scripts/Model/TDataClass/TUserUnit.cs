@@ -401,6 +401,8 @@ public class UserUnitList {
         if (userUnitInfo.ContainsKey(key))
             userUnitInfo.Remove(key);
     }
+
+
 }
 
 //public class PartyItemInfo : ProtobufDataBase {
