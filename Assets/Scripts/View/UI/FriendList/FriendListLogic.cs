@@ -20,7 +20,7 @@ public class FriendListLogic : ConcreteComponent {
 
     public override void HideUI() {
         base.HideUI();
-        RemoveCommandListenr();
+        RemoveCommandListener();
         DestoryUnitList();
     }
 
@@ -37,7 +37,7 @@ public class FriendListLogic : ConcreteComponent {
             CallBackDispatcherHelper.DispatchCallBack(ViewUnitBriefInfo, cbdArgs);
             break;
         case "UpdateFriendButtonClick": 
-            CallBackDispatcherHelper.DispatchCallBack(GetNewestFriendList, cbdArgs);
+            CallBackDispatcherHelper.DispatchCallBack(NoteFriendUpdate, cbdArgs);
             break;
         default:
             break;
@@ -45,17 +45,20 @@ public class FriendListLogic : ConcreteComponent {
     }
 
     void AddCommandListener() {
+        MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
+    }
 		
+    void RemoveCommandListener() {
+        MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
     }
-
-    void RemoveCommandListenr() {
-
+    void NoteFriendUpdate(object args) {
+        MsgCenter.Instance.Invoke(CommandEnum.NoteFriendUpdate, null);
     }
-
+	
     List<TFriendInfo> CurrentFriendListData() {
         Debug.Log("CurrentFriendListData()" + DataCenter.Instance.FriendList.Friend); 
         return DataCenter.Instance.FriendList.Friend;
-    } 
+    }
 
     void GetNewestFriendList(object args) {
         //ReqSever
@@ -90,6 +93,50 @@ public class FriendListLogic : ConcreteComponent {
     }
 
 
+    void OnAcceptFriend(object data) {
+        if (data == null)
+            return;
+        
+        LogHelper.Log("TFriendList.OnRspAddFriend() begin");
+        LogHelper.Log(data);
+        bbproto.RspAddFriend rsp = data as bbproto.RspAddFriend;
+        
+        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+            LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            return;
+        }
+
+        bbproto.FriendList inst = rsp.friends;
+        
+        DataCenter.Instance.FriendList.RefreshFriendList(inst);
+
+        // test
+        LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData()[1].NickName);
+        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshFriendListViewOnAccept", null);
+        ExcuteCallback(cbdArgs);
+    }
+
+    void OnDelFriend(object data) {
+        if (data == null)
+            return;
+        
+        LogHelper.Log("TFriendList.OnDelFriend() begin");
+        LogHelper.Log(data);
+        bbproto.RspDelFriend rsp = data as bbproto.RspDelFriend;
+        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+            LogHelper.Log("OnRspDelFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            return;
+        }
+
+        bbproto.FriendList inst = rsp.friends;
+        
+        DataCenter.Instance.FriendList.RefreshFriendList(inst);
+        
+        // test
+        LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData()[1].NickName);
+        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshFriendListViewOnDelete", null);
+        ExcuteCallback(cbdArgs);
+    }
 
     void ViewUnitBriefInfo(object args) {
         int position = (int)args;

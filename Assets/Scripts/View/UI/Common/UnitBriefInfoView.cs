@@ -85,7 +85,6 @@ public class UnitBriefInfoView : UIComponentUnity {
 	}
 
 	void Exit(GameObject btn){
-		Debug.Log("SelectUnitInfoWindow.Exit() : ");
 		ShowSelf(false);
 	}
 

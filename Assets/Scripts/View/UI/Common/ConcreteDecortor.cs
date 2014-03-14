@@ -32,11 +32,11 @@ public class StartDecorator : DecoratorBase {
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent> (UIConfig.TipsBarName);
 		tipsBar.SetComponent (playerInfoBar);
 
-		ErrorMsgComponent errorMsgBox = CreatComponent<ErrorMsgComponent>(UIConfig.errorMsgBoxName);
-		errorMsgBox.SetComponent(tipsBar);
+		CommonNoteLogic noteWindow = CreatComponent<CommonNoteLogic>(UIConfig.commonNoteWindowName);
+		noteWindow.SetComponent(tipsBar);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
-		selectUnitInfo.SetComponent(errorMsgBox);
+		selectUnitInfo.SetComponent(noteWindow);
 
 		selectUnitInfo.CreatUI();
 		lastDecorator = selectUnitInfo;
@@ -627,10 +627,11 @@ public class ApplyDecorator : DecoratorBase {
 	public override void DecoratorScene () {
 
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		ApplyComponent applyWindow = CreatComponent< ApplyComponent >( UIConfig.applyWindowName );
+		ApplyLogic applyWindow = CreatComponent< ApplyLogic >( UIConfig.friendListWindowName );
 
 		sceneInfoBar.SetComponent( decorator );
 		applyWindow.SetComponent( sceneInfoBar );
+
 		lastDecorator = applyWindow;
 
 		lastDecorator.CreatUI();
@@ -657,7 +658,7 @@ public class ReceptionDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		ReceptionComponent receptionWindow = CreatComponent< ReceptionComponent >( UIConfig.applyWindowName );
+		ReceptionLogic receptionWindow = CreatComponent< ReceptionLogic >( UIConfig.friendListWindowName );
 
 		sceneInfoBar.SetComponent( decorator );
 		receptionWindow.SetComponent( sceneInfoBar );
