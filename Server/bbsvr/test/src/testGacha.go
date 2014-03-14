@@ -42,7 +42,7 @@ func Gacha(uid uint32, gachaId, gachaCount int32) error {
 	}
 
 	//decode rsp msg
-	log.Printf("-----------------------Response----------------------")
+	log.Printf("-----------------------Response (DataLen:%v)----------------------", len(rspbuff))
 	rspmsg := &bbproto.RspGacha{}
 	if err = proto.Unmarshal(rspbuff, rspmsg); err != nil {
 		log.Printf("ERROR: rsp Unmarshal ret err:%v", err)
@@ -52,6 +52,7 @@ func Gacha(uid uint32, gachaId, gachaCount int32) error {
 	log.Printf("Reponse : [%v] error: %v", *rspmsg.Header.Code, *rspmsg.Header.Error)
 	log.T("=================rspMsg begin==================")
 	log.T("\t unitUniqueId: %+v", rspmsg.UnitUniqueId)
+	log.T("\t BlankUnitId: %+v", rspmsg.BlankUnitId)
 	log.T("\t Stone: %v", *rspmsg.Stone)
 	log.T("\t FriendPoint: %v", *rspmsg.FriendPoint)
 
@@ -100,7 +101,7 @@ func AddGachaConfig(db *data.Data, gachaId int32, gachaConf *bbproto.GachaConfig
 func AddSomeGachaConf() {
 	gachaConf := &bbproto.GachaConfig{}
 	gachaConf.BeginTime = proto.Uint32(common.Now() - 1000)
-	gachaConf.EndTime = proto.Uint32(common.Now() + 3600)
+	gachaConf.EndTime = proto.Uint32(0)
 	gachaConf.GachaId = proto.Int32(1)
 	gachaType := bbproto.EGachaType_E_FRIEND_GACHA
 	gachaConf.GachaType = &gachaType
@@ -123,7 +124,7 @@ func main() {
 	//AddGachaPool(2)
 	//AddSomeGachaConf()
 
-	uid := uint32(126)
+	uid := uint32(141)
 	gachaId := int32(1)
 	gachaCount := int32(4)
 	Gacha(uid, gachaId, gachaCount)

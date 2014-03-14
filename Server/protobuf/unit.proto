@@ -175,7 +175,7 @@ message RspEvolveDone {
 	optional uint32			staminaRecover	= 8;
 	optional int32			gotMoney		= 9;
 	optional int32			gotExp			= 10;
-	optional int32			gotChip			= 11;
+	optional int32			gotStone		= 11;
 	optional int32			gotFriendPoint	= 12;
 	repeated UserUnit		gotUnit			= 13;
 	optional UserUnit		evolvedUnit		= 14;

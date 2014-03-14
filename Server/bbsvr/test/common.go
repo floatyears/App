@@ -35,6 +35,7 @@ const (
 	_PROTO_EVOLVE_START = "/evolve_start"
 	_PROTO_EVOLVE_DONE  = "/evolve_done"
 	_PROTO_GACHA        = "/gacha"
+	_PROTO_SELL_UNIT    = "/sell_unit"
 )
 
 const WEB_SERVER_ADDR = "http://127.0.0.1:6666"

@@ -117,7 +117,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	questId := *reqEvolveStart.EvolveQuestId
 	gotMoney := *reqMsg.GetMoney
 	gotExp := int32(0)
-	gotChip := int32(0)
+	gotStone := int32(0)
 	gotFriendPt := int32(0)
 
 	//3. getUnitInfo of baseUniqueId
@@ -178,7 +178,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	*userDetail.User.Exp += gotExp
 	user.RefreshRank(userDetail.User)
 
-	//check stage isClear or not, give GotChip gift
+	//check stage isClear or not, give gotStone gift
 	stageInfo, e := quest.GetStageInfo(db, stageId)
 	if e.IsError() {
 		log.Error("GetStageInfo(%v) error: %v", stageId, e.Error())
@@ -188,7 +188,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	if _, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo); e.IsError() {
 		return e
 	} else if lastNotClear {
-		gotChip = 1
+		gotStone = 1
 		if e = quest.SetQuestCleared(db, uid, stageId, questId); e.IsError(){
 			return e
 		}
@@ -204,7 +204,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	rspMsg.Rank = userDetail.User.Rank
 	rspMsg.Money = userDetail.Account.Money
 	rspMsg.GotExp = proto.Int32(gotExp)
-	rspMsg.GotChip = proto.Int32(gotChip)
+	rspMsg.gotStone = proto.Int32(gotStone)
 	rspMsg.GotMoney = proto.Int32(gotMoney)
 	rspMsg.GotFriendPoint = proto.Int32(gotFriendPt)
 	rspMsg.StaminaNow = userDetail.User.StaminaNow

@@ -387,7 +387,7 @@ message RspClearQuest {
 	optional uint32			staminaRecover	= 8; //recover time
 	optional int32			gotMoney		= 9;
 	optional int32			gotExp			= 10;
-	optional int32			gotChip			= 11;
+	optional int32			gotStone		= 11;
 	optional int32			gotFriendPoint	= 12;
 	repeated UserUnit		gotUnit			= 13; //with uniqueId 
 }
@@ -592,7 +592,7 @@ message RspEvolveDone {
 	optional uint32			staminaRecover	= 8;
 	optional int32			gotMoney		= 9;
 	optional int32			gotExp			= 10;
-	optional int32			gotChip			= 11;
+	optional int32			gotStone		= 11;
 	optional int32			gotFriendPoint	= 12;
 	repeated UserUnit		gotUnit			= 13;
 	optional UserUnit		evolvedUnit		= 14;
@@ -794,8 +794,9 @@ message ReqRestoreStamina {
 message RspRestoreStamina {
 	optional ProtoHeader	header				= 1;
 	optional int32			staminaNow			= 2; // current stamina
-	optional uint32			staminaRecover		= 3; // stamina recover time
-	optional AccountInfo	account				= 4;
+	optional int32			staminaMax			= 3; 	
+	optional uint32			staminaRecover		= 4; // stamina recover time
+	optional int32			stone				= 5;
 };
 
 //-------------------------------------------------
