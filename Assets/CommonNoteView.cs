@@ -39,6 +39,8 @@ public class CommonNoteView : UIComponentUnity{
 		noteContentLabel = FindChild<UILabel>("Window/Label_Note_Content");
 
 		UIEventListener.Get(cancelButton.gameObject).onClick = ClickCancelButton;
+		UIEventListener.Get(sureButton.gameObject).onClick = ClickSureButton;
+
                 originLayer = Main.Instance.NguiCamera.eventReceiverMask;
 	}
 
@@ -99,6 +101,7 @@ public class CommonNoteView : UIComponentUnity{
         }
 
 	void ClickSureButton(GameObject btn){
+		ShowSelf(false);
 		MsgCenter.Instance.Invoke(CommandEnum.EnsureUpdateFriend, null);
 	}
 

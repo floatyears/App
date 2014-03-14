@@ -48,54 +48,49 @@ public class FriendListLogic : ConcreteComponent{
 	}
 		
 	void RemoveCommandListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
 	}
 	void NoteFriendUpdate(object args){
 		MsgCenter.Instance.Invoke(CommandEnum.NoteFriendUpdate, null);
 	}
-	
-    List<TFriendInfo> CurrentFriendListData() {
-        Debug.Log("CurrentFriendListData()" + DataCenter.Instance.FriendList.Friend); 
-        return DataCenter.Instance.FriendList.Friend;
+
+	List<TFriendInfo> CurrentFriendListData() {
+		Debug.Log("CurrentFriendListData()" + DataCenter.Instance.FriendList.Friend); 
+        	return DataCenter.Instance.FriendList.Friend;
 	}
 
 	void GetNewestFriendList(object args){
 		//ReqSever
-        GetFriendList.SendRequest(OnGetFriendList);
+        	GetFriendList.SendRequest(OnGetFriendList);
     }
-//
-//    void GetNewestFriendListIn(object args) {
-//        //ReqSever
-//        GetFriendList.SendRequest(OnGetFriendList);
-//    }
+	
 
     void OnGetFriendList(object data) {
-        if (data == null)
-            return;
-        
-        LogHelper.Log("TFriendList.Refresh() begin");
-        LogHelper.Log(data);
-        bbproto.RspGetFriend rsp = data as bbproto.RspGetFriend;
-        
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("RspGetFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-        
-        bbproto.FriendList inst = rsp.friends;
+	        if (data == null)
+	            return;
+	        
+	        LogHelper.Log("TFriendList.Refresh() begin");
+	        LogHelper.Log(data);
+	        bbproto.RspGetFriend rsp = data as bbproto.RspGetFriend;
+	        
+	        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+	            LogHelper.Log("RspGetFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+	            return;
+	        }
+	        
+	        bbproto.FriendList inst = rsp.friends;
 
-        DataCenter.Instance.FriendList.RefreshFriendList(inst);
-        // test
-        LogHelper.Log("OnGetFriendList, test first friend. nick name" + CurrentFriendListData()[1].NickName);
-        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshFriendListView", null);
-        ExcuteCallback(cbdArgs);
+	        DataCenter.Instance.FriendList.RefreshFriendList(inst);
+	        // test
+	        LogHelper.Log("OnGetFriendList, test first friend. nick name" + CurrentFriendListData()[1].NickName);
+	
+		HideUI();
+		ShowUI();
 	}
-
-
-
+	
 	void ViewUnitBriefInfo(object args){
 		int position = (int)args;
-        TFriendInfo tfi = CurrentFriendListData()[position];
+        	TFriendInfo tfi = CurrentFriendListData()[position];
 		if( tfi == null ){
 			Debug.LogError("ViewUnitBriefInfo(), pos : " + position + " TfriendInfo is null, return!!!");
 			return;
@@ -130,30 +125,30 @@ public class FriendListLogic : ConcreteComponent{
 	}
 
 	List<TUserUnit> GetFriendUnitItemList(){
-        if (CurrentFriendListData() == null) {
-            LogHelper.LogError("FriendListLogic.GetFriendUnitItemList(), DataCenter.Instance.FriendList == null!!!");
+		if (CurrentFriendListData() == null) {
+            		LogHelper.LogError("FriendListLogic.GetFriendUnitItemList(), DataCenter.Instance.FriendList == null!!!");
 			return null;
 		}
 
 		List<TUserUnit> tuuList = new List<TUserUnit>();
-        for (int i = 0; i < CurrentFriendListData().Count; i++) {
-			LogHelper.LogError("Global.friends:i={0}, friends:{1} fUserId:{2}", i, CurrentFriendListData()[i].UserId,CurrentFriendListData()[i].UserId);
-			LogHelper.LogError("Global.friends:i={0}, friends.UserUnit:{1}", i, CurrentFriendListData()[ i ].UserUnit);
-            tuuList.Add(CurrentFriendListData()[i].UserUnit);
+		for (int i = 0; i < CurrentFriendListData().Count; i++) {
+//			LogHelper.LogError("Global.friends:i={0}, friends:{1} fUserId:{2}", i, CurrentFriendListData()[i].UserId,CurrentFriendListData()[i].UserId);
+//			LogHelper.LogError("Global.friends:i={0}, friends.UserUnit:{1}", i, CurrentFriendListData()[ i ].UserUnit);
+           	 	tuuList.Add(CurrentFriendListData()[i].UserUnit);
 		}
 
 		return tuuList;
 	}
 
 	List<string> GetFriendNickNameList(){
-        if (CurrentFriendListData() == null) {
-            LogHelper.LogError("FriendListLogic.GetFriendNickNameList(), DCurrentFriendListData() == null!!!");
+        	if (CurrentFriendListData() == null) {
+            		LogHelper.LogError("FriendListLogic.GetFriendNickNameList(), DCurrentFriendListData() == null!!!");
 			return null;
 		}
 
 		List<string> nameList = new List<string>();
-        for (int i = 0; i < CurrentFriendListData().Count; i++) {
-            nameList.Add(CurrentFriendListData()[i].NickName);
+        	for (int i = 0; i < CurrentFriendListData().Count; i++) {
+            		nameList.Add(CurrentFriendListData()[i].NickName);
 		}
 
 		return nameList;
@@ -183,10 +178,5 @@ public class FriendListLogic : ConcreteComponent{
 		ExcuteCallback(cbdArgs);
 	}
 
-    void testCurrentFriend() {
-        foreach (TFriendInfo item in CurrentFriendListData()) {
-            LogHelper.Log("OnGetFriendList, test friend. nick name " + item.NickName);
-        }
-    }
 
 }
