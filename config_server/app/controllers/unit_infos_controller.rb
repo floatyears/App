@@ -4,7 +4,7 @@ class UnitInfosController < ApplicationController
   # GET /unit_infos
   # GET /unit_infos.json
   def index
-    @units =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact.map{|key| UnitInfo.decode($redis.get key)}
+    @units =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact.sort.map{|key| UnitInfo.decode($redis.get key)}
   end
 
   # GET /unit_infos/1
