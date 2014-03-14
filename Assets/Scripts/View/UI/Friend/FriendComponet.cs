@@ -81,7 +81,7 @@ public class FriendComponent : ConcreteComponent
 
 		DataCenter.Instance.FriendList = new TFriendList(inst);
 //        DataCenter.Instance.FriendList.RefreshFriendList(inst);
-		Debug.Log("OnGetFriendList, test first friend. nick name" + DataCenter.Instance.FriendList.Friend [0].NickName);
+//			Debug.Log("OnGetFriendList, test first friend. nick name" + DataCenter.Instance.FriendList.Friend [0].NickName);
 		callTurnToNextScene();
 	}
 

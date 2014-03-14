@@ -135,6 +135,7 @@ public class PartyPageLogic : ConcreteComponent {
 
         if (curParty == null) {
             //LogHelper.Log("RefreshCurrentPartyInfo(), curParty is null, return!!!");
+			return;
         }
 
         if (curParty.GetUserUnit() == null)
