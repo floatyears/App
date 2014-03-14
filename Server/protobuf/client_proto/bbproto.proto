@@ -104,7 +104,7 @@ message RspAddFriend {
 //-------------------------------------------------
 message ReqDelFriend {
 	optional ProtoHeader	header				= 1;
-	optional uint32			friendUid			= 2;
+	repeated uint32			friendUid			= 2;
 };
 
 message RspDelFriend {
@@ -600,6 +600,21 @@ message RspGacha {
 	optional ProtoHeader	header			= 1;
 	repeated UserUnit		unitList		= 2;
 	repeated uint32			unitUniqueId	= 3;
+	optional int32			stone			= 4;
+	optional int32			friendPoint		= 5;
+}
+
+
+message ReqSellUnit {	
+	optional ProtoHeader	header			= 1;
+	repeated uint32			unitUniqueId	= 2;
+}	
+
+message RspSellUnit {	
+	optional ProtoHeader	header			= 1;
+	optional int32			money			= 2;
+	optional int32			gotMoney		= 3;
+	repeated UserUnit		unitList		= 4;	
 }
 
 //=====================================================

@@ -3356,6 +3356,8 @@ type RspGacha struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	UnitList         []*UserUnit  `protobuf:"bytes,2,rep,name=unitList" json:"unitList,omitempty"`
 	UnitUniqueId     []uint32     `protobuf:"varint,3,rep,name=unitUniqueId" json:"unitUniqueId,omitempty"`
+	Stone            *int32       `protobuf:"varint,4,opt,name=stone" json:"stone,omitempty"`
+	FriendPoint      *int32       `protobuf:"varint,5,opt,name=friendPoint" json:"friendPoint,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -3382,6 +3384,20 @@ func (m *RspGacha) GetUnitUniqueId() []uint32 {
 		return m.UnitUniqueId
 	}
 	return nil
+}
+
+func (m *RspGacha) GetStone() int32 {
+	if m != nil && m.Stone != nil {
+		return *m.Stone
+	}
+	return 0
+}
+
+func (m *RspGacha) GetFriendPoint() int32 {
+	if m != nil && m.FriendPoint != nil {
+		return *m.FriendPoint
+	}
+	return 0
 }
 
 type ReqSellUnit struct {

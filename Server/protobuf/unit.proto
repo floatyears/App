@@ -191,6 +191,8 @@ message RspGacha {
 	optional ProtoHeader	header			= 1;
 	repeated UserUnit		unitList		= 2;
 	repeated uint32			unitUniqueId	= 3;
+	optional int32			stone			= 4;
+	optional int32			friendPoint		= 5;
 }
 
 

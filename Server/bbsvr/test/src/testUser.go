@@ -243,7 +243,7 @@ func main() {
 	Init()
 	//AddUsers()
 
-	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220201", 162)
+	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220162", 0)
 	//ResetStamina(154)
 	//LoginPack(101)
 

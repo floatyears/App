@@ -149,9 +149,13 @@ func (t Gacha) ProcessLogic(reqMsg *bbproto.ReqGacha, rspMsg *bbproto.RspGacha) 
 
 	//9. fill response
 	rspMsg.UnitList = userDetail.UnitList
+	rspMsg.Stone = userDetail.Account.Stone
+	rspMsg.FriendPoint = userDetail.Account.FriendPoint
 
 	log.T("=================rspMsg begin==================")
 	log.T("\t unitUniqueId: %+v", rspMsg.UnitUniqueId)
+	log.T("\t Stone: %v", *rspMsg.Stone)
+	log.T("\t FriendPoint: %v", *rspMsg.FriendPoint)
 
 	for k, unit := range rspMsg.UnitList {
 		log.T("\t unit[%v]: %+v", k, unit)

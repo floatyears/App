@@ -10,19 +10,21 @@ import (
 	"common/log"
 	"data"
 	"github.com/garyburd/redigo/redis"
-	//"fmt"
+	"fmt"
 )
 
 func UpdateAcountForGacha(userDetail *bbproto.UserInfoDetail, gachaType bbproto.EGachaType, gachaCount int32) (e Error.Error) {
 	if gachaType == bbproto.EGachaType_E_FRIEND_GACHA {
 		if *userDetail.Account.FriendPoint < consts.N_GACHA_FRIEND_COST*gachaCount {
-			return Error.New(EC.E_NO_ENOUGH_MONEY)
+			log.Error("FRIEND_GACHA: userDetail.Account:%v", userDetail.Account)
+			return Error.New(EC.E_NO_ENOUGH_MONEY, fmt.Sprintf("user.Account.FriendPoint(%v) is not enough for gacha.",*userDetail.Account.FriendPoint))
 		} else {
 			*userDetail.Account.FriendPoint -= consts.N_GACHA_FRIEND_COST * gachaCount
 		}
 	} else { // if gachaType == bbproto.EGachaType_E_BUY_GACHA
 		if *userDetail.Account.Stone < consts.N_GACHA_BUY_COST*gachaCount {
-			return Error.New(EC.E_NO_ENOUGH_MONEY)
+			log.Error("BUY_GACHA: userDetail.Account:%v", userDetail.Account)
+			return Error.New(EC.E_NO_ENOUGH_MONEY, fmt.Sprintf("user.Account.Stone(%v) is not enough for gacha.",*userDetail.Account.Stone))
 		} else {
 			*userDetail.Account.Stone -= consts.N_GACHA_BUY_COST * gachaCount
 		}
@@ -38,7 +40,7 @@ func CheckGachaAvailble(gachaConf *bbproto.GachaConfig, gachaId int32) (e Error.
 
 	tNow := common.Now()
 	if tNow < *gachaConf.BeginTime || tNow > *gachaConf.EndTime {
-		log.Error("gacha tNow:%v is not invalid experiod[%v - %v]", tNow, *gachaConf.BeginTime, *gachaConf.EndTime)
+		log.Error("gacha tNow:%v is not invalid period[%v - %v]", tNow, *gachaConf.BeginTime, *gachaConf.EndTime)
 		return Error.New(EC.E_GACHA_TIME_INVALID)
 	}
 
@@ -75,16 +77,48 @@ func LoadGachaPool(db *data.Data, gachaId int32) (unitIdList []uint32, e Error.E
 	return unitIdList, Error.OK()
 }
 
+func SetGachaPool(db *data.Data, gachaId int32, unitIdList []uint32) (e Error.Error) {
+	if db == nil {
+		db = &data.Data{}
+		err := db.Open(consts.TABLE_UNIT)
+		defer db.Close()
+		if err != nil {
+			return Error.New(EC.READ_DB_ERROR, err)
+		}
+	} else if err := db.Select(consts.TABLE_UNIT); err != nil {
+		return Error.New(EC.READ_DB_ERROR, err.Error())
+	}
+
+	for k, unitId := range unitIdList {
+
+		//sUnitId := []byte(common.Utoa(unitId))
+		log.T("SetGachaPool(%v): %v ", k, unitId)
+		if err := db.LPushInt(consts.X_GACHA_UNIT+common.Ntoa(gachaId), int32(unitId)); err != nil {
+			log.Error("db.ListPush ret err:%v", err)
+			return Error.New(EC.READ_DB_ERROR, err)
+		}
+	}
+
+	return Error.OK()
+}
+
 func GetGachaUnit(db *data.Data, gachaId, gachaCount int32) (gotUnitId []uint32, e Error.Error) {
 
 	unitIdPool, e := LoadGachaPool(db, gachaId)
 	if e.IsError() {
 		log.Error("LoadGachaPool( gachaId:%v ) ret error:%v", gachaId, e.Error())
-		return gotUnitId, e
+		return gotUnitId, Error.New(EC.E_LOAD_GACHA_POOL_FAIL, e.Error())
+	}
+
+	poolSize := int32(len(unitIdPool))
+	log.T("GetGachaUnit:: return unitIdPool[poolSize:%v]: %+v", poolSize, unitIdPool)
+	if poolSize == 0 {
+		return gotUnitId, Error.New(EC.E_LOAD_GACHA_POOL_FAIL, "LoadGachaPool return empty.")
 	}
 
 	for i := int32(0); i < gachaCount; i++ {
-		randNum := common.Randn(int32(len(unitIdPool)))
+		randNum := common.Randn(poolSize)
+		log.T("GetGachaUnit::[%v] ret randNum:%v", i, randNum)
 		log.T("GetGachaUnit:: randNum:%v => unitId:%v", randNum, unitIdPool[randNum])
 		gotUnitId = append(gotUnitId, unitIdPool[randNum])
 	}

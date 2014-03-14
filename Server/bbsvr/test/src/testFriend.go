@@ -174,7 +174,11 @@ func DelFriend(myUid uint32, fUid uint32) error {
 	msg.Header.SessionId = proto.String("S10298090290")
 	msg.Header.UserId = proto.Uint32(myUid)
 
-	msg.FriendUid = proto.Uint32(fUid)
+	//msg.FriendUid = append(msg.FriendUid, fUid)
+	msg.FriendUid = append(msg.FriendUid, uint32(111))
+	msg.FriendUid = append(msg.FriendUid, uint32(120))
+	msg.FriendUid = append(msg.FriendUid, uint32(122))
+	msg.FriendUid = append(msg.FriendUid, uint32(117))
 
 	buffer, err := proto.Marshal(msg)
 	if err != nil {
@@ -306,12 +310,12 @@ func main() {
 	//AcceptFriend(149, 156)
 	//AcceptFriend(156, 156)
 
-	//DelFriend(120, 101)
+	//uid := uint32(104)
+	//num := uint32(40)
+	//AddBundleFriends(uid, num)
 
-	uid := uint32(174)
-	num := uint32(40)
-	AddBundleFriends(uid, num)
-	//GetFriend(120)
+	//DelFriend(104, 123)
+	GetFriend(111)
 
 	log.Fatal("bbsvr test client finish.")
 }
