@@ -68,18 +68,18 @@ public class PartyInfoView : UIComponentUnity {
 
 	void SetUIElement(){
 //		Debug.Log("PartyInfoPanel.SetUIElement(), Start...");
-
-//		Debug.Log("PartyInfoPanel.SetUIElement(), End...");
+		ResetTabFocus();
+//		Debug.LogError("PartyInfoPanel.SetUIElement(), End...");
 	}
 
 	void ResetUIElement(){
 //		Debug.Log("PartyInfoPanel.ResetUIElement(), Start...");
 		ResetTabFocus();
-//		Debug.Log("PartyInfoPanel.ResetUIElement(), End...");
+//		Debug.LogError("PartyInfoPanel.ResetUIElement(), End...");
 	}
 
 	void ResetTabFocus(){
-		focus.startsActive = true;
+		focus.value = true;
 	}
 
 	void UpdateLabel(Dictionary<string, string> text){

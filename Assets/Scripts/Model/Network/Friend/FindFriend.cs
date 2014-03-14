@@ -27,10 +27,10 @@ public class FindFriend: ProtoManager {
     ~FindFriend () {
     }
     
-    public static void SendRequest(ResponseCallback callBack, uint friendUid) {
+    public static void SendRequest(DataListener callBack, uint friendUid) {
         FindFriend findFriend = new FindFriend();
         findFriend.friendUid = friendUid;
-//        findFriend.OnRequest(null, callBack);
+        findFriend.OnRequest(null, callBack);
     }
     
     //Property: request server parameters

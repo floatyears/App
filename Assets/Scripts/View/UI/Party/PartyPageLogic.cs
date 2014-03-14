@@ -32,7 +32,7 @@ public class PartyPageLogic : ConcreteComponent {
 
     void FocusOnPositionFromView(object args) {
         if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.Party) {
-            Debug.LogError("PartyPageUILogic.FocusOnPositionFromView(), only party scene recive focus, thus do nothing...");
+//            Debug.LogError("PartyPageUILogic.FocusOnPositionFromView(), only party scene recive focus, thus do nothing...");
             return;
         }
 

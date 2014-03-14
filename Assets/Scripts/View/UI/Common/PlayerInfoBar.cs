@@ -241,7 +241,7 @@ public class PlayerInfoBar : UIComponentUnity {
 		if (changeName == null) {
 			changeName = new RenameNick();
 			changeName.OnRequest(name,ReName);
-			UIManager.Instance.ChangeScene(SceneEnum.Start);
+			UIManager.Instance.ChangeScene(SceneEnum.Quest);
 		}
 	}
 }
