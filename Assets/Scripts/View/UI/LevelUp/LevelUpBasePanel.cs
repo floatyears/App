@@ -165,7 +165,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		if (uui.isCollect) {
 			return;		
 		}
-
+//		Debug.LogError ("uui.userUnitItem.ID : " + uui.userUnitItem.ID);
 		if (currentState == "Tab_Base") {
 			DisposeBaseClick (uui);
 		} else if (currentState == "Tab_Material") {
@@ -338,7 +338,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		dragPanelArgs.Add("position", 		Vector3.zero);
 		dragPanelArgs.Add("clipRange", 		new Vector4(0, -120, 640, 400));
 		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
-		dragPanelArgs.Add("maxPerLine",		5);
+		dragPanelArgs.Add("maxPerLine",		3);
 		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
 		dragPanelArgs.Add("cellWidth", 		110);
 		dragPanelArgs.Add("cellHeight",		110);

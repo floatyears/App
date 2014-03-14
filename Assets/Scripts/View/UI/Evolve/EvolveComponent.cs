@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class EvolveComponent : ConcreteComponent {
 
@@ -11,14 +11,42 @@ public class EvolveComponent : ConcreteComponent {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+		MsgCenter.Instance.AddListener (CommandEnum.SelectUnitBase, SelectUnit);
+		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
+		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 	}
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
+	}
+
+	//================================================================================
+	private Dictionary<string, object> TransferData = new Dictionary<string, object> ();
+
+	void selectUnitMaterial(object data) {
+		if (data == null) {
+			return;	
+		}
+
+		TransferData.Clear ();
+		TransferData.Add(EvolveDecoratorUnity.MaterialData, data);
+
+		ExcuteCallback (TransferData);
+	}
+
+	void SelectUnit (object data) {
+		if (data == null) {
+			return;	
+		}
+		TransferData.Clear ();
+		TransferData.Add(EvolveDecoratorUnity.BaseData, data);
+
+		ExcuteCallback (TransferData);
 	}
 
 	uint GetEvolveStageID (bbproto.EUnitType unitType, int  unitRare) {

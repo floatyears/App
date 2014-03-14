@@ -59,6 +59,7 @@ public class UserBriefInfoLogic : ConcreteComponent{
 
 	void ReceiveShowBriefRquest(object msg){
 		TFriendInfo tfi = msg as TFriendInfo;
+		Debug.LogError ("ReceiveShowBriefRquest : " + tfi);
 		currentPickedUserUnit = tfi.UserUnit;
 		RefreshUnitInfo(tfi.UserUnit);
 		RefreshRank(tfi.Rank);
