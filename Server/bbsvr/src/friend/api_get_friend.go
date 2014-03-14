@@ -55,8 +55,15 @@ type GetFriend struct {
 
 func (t GetFriend) verifyParams(reqMsg *bbproto.ReqGetFriend) (err Error.Error) {
 	//TODO: input params validation
-	if reqMsg.Header.UserId == nil || reqMsg.GetFriend == nil || reqMsg.GetHelper == nil {
+	if reqMsg.Header.UserId == nil {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
+	}
+
+	if reqMsg.GetFriend == nil {
+		reqMsg.GetFriend = proto.Bool(false)
+	}
+	if reqMsg.GetHelper == nil {
+		reqMsg.GetHelper = proto.Bool(false)
 	}
 
 	if *reqMsg.Header.UserId == 0 {

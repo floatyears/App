@@ -71,8 +71,10 @@ public class UnitDisplay : ConcreteComponent {
 	}
 
 	void DisposeCallback (KeyValuePair<string, object> key) {
+
 		switch (key.Key) {
 		case UnitDisplayUnity.SelectBase:
+//			Debug.LogError ("DisposeCallback : " + key);
 			MsgCenter.Instance.Invoke(CommandEnum.SelectUnitBase,key.Value);
 			break;
 		default:

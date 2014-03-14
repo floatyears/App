@@ -57,7 +57,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public override void ShowUI () {
 
 		base.ShowUI ();
-	
 		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 	}
@@ -297,7 +296,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		int skillId = unitInfo.LeaderSkill;
 		SkillBase skill = DataCenter.Instance.Skill[ skillId ].GetSkillInfo();
                 
-                leaderSkillNameLabel.text = skill.name;
+        leaderSkillNameLabel.text = skill.name;
 		leaderSkillDscpLabel.text = skill.description;
 	}
 
@@ -333,10 +332,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void PlayLevelUp(RspLevelUp rlu) {
 		levelUpData = rlu;
 
-		Debug.LogError ("levelUpData.blendExp : " + levelUpData.blendExp);
-		Debug.LogError ("levelUpData.blendUniqueId : " + levelUpData.blendUniqueId);
-		Debug.LogError ("levelUpData.money : " + levelUpData.money);
-		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
+//		Debug.LogError ("levelUpData.blendExp : " + levelUpData.blendExp);
+//		Debug.LogError ("levelUpData.blendUniqueId : " + levelUpData.blendUniqueId);
+//		Debug.LogError ("levelUpData.money : " + levelUpData.money);
+//		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
 //		TUserUnit tuu = GlobalData
 		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		gotExp = levelUpData.blendExp;

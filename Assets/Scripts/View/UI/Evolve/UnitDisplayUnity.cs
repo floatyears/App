@@ -67,6 +67,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 				}
 			}
 		}
+
 		MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, materialInfo);
 	}
 

@@ -120,6 +120,21 @@ public class FriendListLogic : ConcreteComponent
 		ShowUI();
 	}
 
+    void RefuseFriend(uint friendUid) {
+        DelFriend.SendRequest(OnDelFriend, friendUid);
+    }
+
+    void RefuseFriendAll() {
+        List <uint> refuseList = new List<uint>();
+        for (int i = 0; i < DataCenter.Instance.FriendList.FriendIn.Count; i++) {
+            refuseList.Add(DataCenter.Instance.FriendList.FriendIn[i].UserId);
+        }
+        DelFriend.SendRequest(OnDelFriend, refuseList);
+    }
+
+    void AcceptFriendRequest(uint friendUid) {
+        AcceptFriend.SendRequest(OnAcceptFriend, friendUid);
+    }
 
 	void OnAcceptFriend(object data)
 	{

@@ -20,7 +20,7 @@ public class TRspClearQuest {
     public uint			staminaRecover;	
     public int			gotMoney;
     public int			gotExp;	
-    public int			gotChip;
+    public int			gotStone;
     public int			gotFriendPoint;
     public List<TUserUnit>		gotUnit;
 }
@@ -103,7 +103,7 @@ public class ClearQuest: ProtoManager {
             cq.staminaRecover = rspClearQuest.staminaRecover;
 			
             cq.gotExp = rspClearQuest.gotExp;
-            cq.gotChip = rspClearQuest.gotChip;
+            cq.gotStone = rspClearQuest.gotStone;
             cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
             foreach (UserUnit uu in rspClearQuest.gotUnit) {
 

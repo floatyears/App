@@ -48,7 +48,7 @@ public class PartyUnitsLogic : ConcreteComponent {
 			//Debug.LogError(".....viewItem isEnable : " + viewItem.IsEnable);
 
 		}
-		LogHelper.Log("loop end {0}",  TimeHelper.MillionSecondsNow() - msNow);
+		//LogHelper.Log("loop end {0}",  TimeHelper.MillionSecondsNow() - msNow);
 		//Debug.LogError("GetUnitItemViewList(), ViewList count : " + partyUnitItemViewList.Count);
 
 	}

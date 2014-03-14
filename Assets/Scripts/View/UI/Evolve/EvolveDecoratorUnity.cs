@@ -21,9 +21,14 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 	public override void Callback (object data) {
 		Dictionary<string, object> dataDic = data as Dictionary<string, object>;
-//		foreach (var item in dataDic) {
-//			DisposeCallback(item);
-//		}
+		List<KeyValuePair<string,object>> datalist = new List<KeyValuePair<string, object>> ();
+
+		foreach (var item in dataDic) {
+			datalist.Add(new KeyValuePair< string, object >( item.Key, item.Value));
+		}
+		for (int i = datalist.Count - 1; i > -1; i--) {
+			DisposeCallback(datalist[i]);
+		}
 	}
 
 	//==========================================interface end ==========================
@@ -55,7 +60,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			DisposeSelectData(tuu);
 			break;
 		case MaterialData:
-			List<TUserUnit> itemInfo = new List<TUserUnit>();
+			List<TUserUnit> itemInfo = keyValue.Value as List<TUserUnit>;
 			DisposeMaterial(itemInfo);
 			break;
 		default:
@@ -67,7 +72,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		if (itemInfo == null || baseUserUnit == null) {
 			return;	
 		}
-
+		Debug.LogError ("DisposeMaterial : " + itemInfo.Count);
 		for (int i = 0; i < itemInfo.Count; i++) {
 			foreach (var item in evolveItem.Values) {
 				if(item.index == i + 2) {
@@ -206,6 +211,7 @@ public class EvolveItem {
 
 	public void Refresh (TUserUnit tuu) {
 		userUnit = tuu;
+		Debug.LogError ("eVOLVE : " + tuu);
 		if (tuu == null) {
 			showTexture = null;
 		} else {

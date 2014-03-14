@@ -86,7 +86,9 @@ func (t RestoreStamina) ProcessLogic(reqMsg *bbproto.ReqRestoreStamina, rspMsg *
 	}
 
 	rspMsg.StaminaNow = userDetail.User.StaminaNow
-	rspMsg.Account = userDetail.Account
+	rspMsg.StaminaMax = userDetail.User.StaminaMax
+	rspMsg.StaminaRecover = userDetail.User.StaminaRecover
+	rspMsg.Stone = userDetail.Account.Stone
 
 	return e
 }

@@ -18,7 +18,7 @@ public class EvolveComponent : ConcreteComponent {
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
-		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 	}
 	
 	public override void DestoryUI () {
@@ -32,7 +32,7 @@ public class EvolveComponent : ConcreteComponent {
 		if (data == null) {
 			return;	
 		}
-
+//		Debug.LogError("selectUnitMaterial : " + Time.realtimeSinceStartup);
 		TransferData.Clear ();
 		TransferData.Add(EvolveDecoratorUnity.MaterialData, data);
 
@@ -43,6 +43,7 @@ public class EvolveComponent : ConcreteComponent {
 		if (data == null) {
 			return;	
 		}
+//		Debug.LogError("select : " + Time.realtimeSinceStartup);
 		TransferData.Clear ();
 		TransferData.Add(EvolveDecoratorUnity.BaseData, data);
 
