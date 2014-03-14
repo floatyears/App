@@ -38,8 +38,9 @@ public class StartDecorator : DecoratorBase {
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
 		selectUnitInfo.SetComponent(noteWindow);
 
-		selectUnitInfo.CreatUI();
 		lastDecorator = selectUnitInfo;
+		lastDecorator.CreatUI();
+
 	}
 }
 
@@ -440,7 +441,10 @@ public class EvolveDecorator : DecoratorBase {
 		EvolveComponent evolve = CreatComponent< EvolveComponent >( UIConfig.evolveWindowName);
 		evolve.SetComponent( sceneInfoBar );
 
-		lastDecorator = evolve;
+		UnitDisplay unitdisplay =  CreatComponent< UnitDisplay >( UIConfig.unitDisplay);
+		unitdisplay.SetComponent (evolve);
+
+		lastDecorator = unitdisplay;
 		lastDecorator.CreatUI();
 	}
 }
@@ -470,6 +474,7 @@ public class CatalogDecorator : DecoratorBase {
 		CatalogComponent catalog = CreatComponent< CatalogComponent >( UIConfig.catalogWindowName);
 		catalog.SetComponent( sceneInfoBar );
 	
+
 		lastDecorator = catalog;
 		lastDecorator.CreatUI();
 	}
@@ -526,10 +531,11 @@ public class FriendListDecorator : DecoratorBase {
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent<SceneInfoComponent>( UIConfig.sceneInfoBarName );
 		FriendListLogic friendList = CreatComponent<FriendListLogic>(UIConfig.friendListWindowName);
-		UserBriefInfoLogic briefInfo = CreatComponent<UserBriefInfoLogic>(UIConfig.userBriefInfoWindowName);
 
 		sceneInfoBar.SetComponent( decorator );
 		friendList.SetComponent(sceneInfoBar);
+
+		UserBriefInfoLogic briefInfo = CreatComponent<UserBriefInfoLogic>(UIConfig.userBriefInfoWindowName);
 		briefInfo.SetComponent(friendList);
 
 		lastDecorator = briefInfo;
@@ -623,7 +629,7 @@ public class ApplyDecorator : DecoratorBase {
 	public override void DecoratorScene () {
 
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		ApplyLogic applyWindow = CreatComponent< ApplyLogic >( UIConfig.friendListWindowName );
+		FriendListLogic applyWindow = CreatComponent< FriendListLogic >( UIConfig.friendListWindowName );
 
 		sceneInfoBar.SetComponent( decorator );
 		applyWindow.SetComponent( sceneInfoBar );
@@ -654,7 +660,7 @@ public class ReceptionDecorator : DecoratorBase {
 	
 	public override void DecoratorScene () {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
-		ReceptionLogic receptionWindow = CreatComponent< ReceptionLogic >( UIConfig.friendListWindowName );
+		FriendListLogic receptionWindow = CreatComponent< FriendListLogic >( UIConfig.friendListWindowName );
 
 		sceneInfoBar.SetComponent( decorator );
 		receptionWindow.SetComponent( sceneInfoBar );

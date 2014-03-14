@@ -70,29 +70,30 @@ class UnitInfo
   optional :getWay,  EUnitGetWay, 19
   
   def self.create_with_params(params)
-    power_type = PowerType.new(attackType:  params[:attackType].to_i,hpType: params[:hpType].to_i,expType: params[:expType].to_i)
-    hepler_require = HelperRequire.new(level: params[:level].to_i,race: params[:helper_race].to_i,type: params[:helper_type].to_i)
+    power_type = PowerType.new(attackType:  params_to_i(params[:attackType]),hpType: params_to_i(params[:hpType]),expType: params_to_i(params[:expType]))
+    hepler_require = HelperRequire.new(level: params_to_i(params[:level]),race: params_to_i(params[:helper_race]),type: params_to_i(params[:helper_type]))
     materialUnitId = build_materialUnitId(params[:materialUnitId1],params[:materialUnitId2],params[:materialUnitId3])
-    envolve_info = EvolveInfo.new(evolveUnitId: params[:evolveUnitId].to_i ,materialUnitId: materialUnitId,helperRequire: hepler_require)
+    envolve_info = EvolveInfo.new(evolveUnitId: params_to_i(params[:evolveUnitId]) ,materialUnitId: materialUnitId,helperRequire: hepler_require)
     unit_info =  UnitInfo.new(
-    id: params[:id].to_i,
+    id: params_to_i(params[:id]),
     name: params[:name],
-    race: params[:race].to_i,
-    type: params[:type].to_i,
-    rare: params[:rare].to_i,
-    skill1: params[:skill1].to_i,
-    skill2: params[:skill2].to_i,
-    leaderSkill: params[:leaderSkill].to_i,
-    activeSkill: params[:activeSkill].to_i,
-    passiveSkill: params[:passiveSkill].to_i,
-    maxLevel: params[:maxLevel].to_i,
+    race: params_to_i(params[:race]),
+    type: params_to_i(params[:type]),
+    rare: params_to_i(params[:rare]),
+    skill1: params_to_i(params[:skill1]),
+    skill2: params_to_i(params[:skill2]),
+    leaderSkill: params_to_i(params[:leaderSkill]),
+    activeSkill: params_to_i(params[:activeSkill]),
+    passiveSkill: params_to_i(params[:passiveSkill]),  
+    activeSkillLevel: params_to_i(params[:activeSkillLevel]),
+    maxLevel: params_to_i(params[:maxLevel]),
     profile: params[:profile],
     powerType: power_type,
     evolveInfo: envolve_info,
-    cost: params[:cost].to_i,
-    saleValue: params[:saleValue].to_i,
-    devourValue: params[:devourValue].to_i,
-    getWay: params[:getWay].to_i
+    cost: params_to_i(params[:cost]),
+    saleValue: params_to_i(params[:saleValue]),
+    devourValue: params_to_i(params[:devourValue]),
+    getWay: params_to_i(params[:getWay])
     )
   end
   
@@ -102,6 +103,10 @@ class UnitInfo
     materialUnitId << p2.to_i if p2 != "请选择卡牌信息"
     materialUnitId << p3.to_i if p3 != "请选择卡牌信息"
     materialUnitId.uniq
+  end
+  
+  def self.params_to_i(s)
+    (s == "") ? nil : s.to_i
   end
   
   def save_to_file

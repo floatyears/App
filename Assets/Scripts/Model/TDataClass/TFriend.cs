@@ -59,132 +59,12 @@ public class TFriendList : ProtobufDataBase {
 
     public void RefreshFriendList(FriendList inst) {
         LogHelper.Log("TFriendList () inst is " + inst);
+        if (inst == null)
+            return;
         setNewInstance(inst);
         assignFriendList();
     }
-    #region outter funcs
-    public void GetFriends() {
-        getFriends();
-    }
-//
-//
-//    public void SendFriendApplication(uint friendUid) {
-//        addFriend(friendUid);
-//    }
-//
-//    public void RemoveFriend(uint friendUid) {
-//        delFriend(friendUid);
-//    }
-//
-//    public void SearchFriend(uint friendUid) {
-//        findFriend(friendUid);
-//    }
-//
-//    public void RefuseFriendApplication(uint friendUid) {
-//        delFriend(friendUid);
-//    }
-//
-//    public void DelFriendApplication(uint friendUid) {
-//        delFriend(friendUid);
-//    }
-//
-//    public void AcceptFriendApplication(uint friendUid) {
-//        delFriend(friendUid);
-//    }
 
-    #endregion
-    public void OnRspGetFriend(object data) {
-
-//        if (data == null)
-//            return;
-//        
-//        LogHelper.Log("TFriendList.Refresh() begin");
-//        LogHelper.Log(data);
-//        RspGetFriend rsp = data as RspGetFriend;
-//
-//        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-//            LogHelper.Log("RspGetFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-//            return;
-//        }
-//
-//        FriendList inst = rsp.friends;
-//        setNewInstance(inst);
-//        assignFriendList();
-    }  
-
-    public void OnRspAddFriend(object data) {
-        if (data == null)
-            return;
-
-        LogHelper.Log("TFriendList.OnRspAddFriend() begin");
-        LogHelper.Log(data);
-        RspAddFriend rsp = data as RspAddFriend;
-
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-
-        // TODO
-        if (RspFriendsRefreshedList(data)) {
-            LogHelper.Log("OnRspAddFriend(), do refresh list");
-//            FriendList inst = rsp.friends;
-//            setNewInstance(inst);
-//            assignFriendList();
-        }
-        else {
-            LogHelper.Log("OnRspAddFriend(), not refresh list");
-        }
-    }
-
-    public void OnRspDelFriend(object data) {
-        if (data == null)
-            return;
-        
-        LogHelper.Log("TFriendList.OnRspDelFriend() begin");
-        LogHelper.Log(data);
-        RspDelFriend rsp = data as RspDelFriend;
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("OnRspDelFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-        
-        // TODO
-        if (RspFriendsRefreshedList(data)) {
-            LogHelper.Log("OnRspDelFriend(), do refresh list");
-            //            FriendList inst = rsp.friends;
-            //            setNewInstance(inst);
-            //            assignFriendList();
-        }
-        else {
-            LogHelper.Log("OnRspDelFriend(), not refresh list");
-        }
-    }
-
-    public void OnRspAcceptFriend(object data) {
-        if (data == null)
-            return;
-        
-        LogHelper.Log("TFriendList.OnRspAcceptFriend() begin");
-        LogHelper.Log(data);
-        RspAcceptFriend rsp = data as RspAcceptFriend;
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("OnRspAcceptFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-        
-        // TODO
-        if (RspFriendsRefreshedList(data)) {
-            LogHelper.Log("OnRspAcceptFriend(), do refresh list");
-            //            FriendList inst = rsp.friends;
-            //            setNewInstance(inst);
-            //            assignFriendList();
-        }
-        else {
-            LogHelper.Log("OnRspAcceptFriend(), not refresh list");
-        }
-    }
-    
     public void OnRspFindFriend(object data) {
         if (data == null)
             return;
@@ -227,30 +107,6 @@ public class TFriendList : ProtobufDataBase {
         }
         return false;
     } 
-
-    #region inner calls
-    /// inner calls
-    private void getFriends() {
-//        GetFriendList.SendRequest(OnRspGetFriend);
-    }
-
-    private void addFriend(uint friendUid) {
-//        AddFriend.SendRequest(OnRspAddFriend, friendUid);
-    }
-
-    private void delFriend(uint friendUid) {
-//        DelFriend.SendRequest(OnRspDelFriend, friendUid);
-    }
-
-    private void findFriend(uint friendUid) {
-//        FindFriend.SendRequest(OnRspFindFriend, friendUid);
-    }
-
-    private void acceptFriend(uint friendUid) {
-//        AcceptFriend.SendRequest(OnRspAcceptFriend, friendUid);
-    }
-    #endregion
-
 
 
     private void setNewInstance(FriendList inst) {

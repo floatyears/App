@@ -5,7 +5,7 @@ public class DragPanel : UIBase
 {
 	public event UICallback DragCallback;
 	private DragPanelView dragPanelView;
-	public DragPanelView RootObject{
+	public DragPanelView DragPanelView{
 		get{
 			return dragPanelView;
 		}
@@ -30,9 +30,7 @@ public class DragPanel : UIBase
 	}
 	public override void CreatUI () {
 		base.CreatUI ();
-		dragPanelView = NGUITools.AddChild(
-			viewManager.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); 
-		dragPanelView.Init (uiName);
+		CreatPanel ();
 	}
 	public override void ShowUI () {
 		base.ShowUI ();
@@ -54,6 +52,15 @@ public class DragPanel : UIBase
 		GameObject.Destroy (scrollBar.gameObject);
 		GameObject.Destroy (itemContain.gameObject);
 	}
+
+	void CreatPanel() {
+		dragPanelView = NGUITools.AddChild(
+			viewManager.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); 
+		dragPanelView.Init (uiName);
+	}
+
+
+
 	public void AddItem(int count,GameObject obj = null ,bool isClean = false) {
 		if (obj != null) {
 			sourceObject = obj;	
@@ -69,16 +76,18 @@ public class DragPanel : UIBase
 			                    " scroll view item is null. don't creat drag panel");
 			return ;
 		}
-
+		if (dragPanelView == null) {
+			CreatPanel();		
+		}
 		for (int i = 0; i < count; i++) {
+//			Debug.LogError(sourceObject.name);
 			GameObject go = dragPanelView.AddObject(sourceObject);
 			if(go != null){
 				scrollItem.Add(go);
 			}
-
 		}
-
 	}
+
 	public GameObject AddScrollerItem( GameObject obj ,bool isClean = false) {
 		if (obj != null) {
 			sourceObject = obj;	
@@ -99,6 +108,13 @@ public class DragPanel : UIBase
 			scrollItem.Add(go);
 
 		return go;
+	}
+
+	public void Refresh() {
+		for (int i = 0; i < scrollItem.Count; i++) {
+			scrollItem[i].name = i.ToString();
+		}
+		dragPanelView.grid.Reposition ();
 	}
 	
 	public void RemoveItem (GameObject target){

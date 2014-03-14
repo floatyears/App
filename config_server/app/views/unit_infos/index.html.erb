@@ -2,6 +2,7 @@
 <table class="table table-bordered table-hover">
 	<thead>
 		<tr>
+      <th>操作</th>
 			<th>Id</th>
 			<th>Name</th>
 			<th>Race</th>
@@ -21,13 +22,13 @@
 			<th>SaleValue</th>
 			<th>DevourValue</th>
 			<th>GetWay</th>
-      <th>操作</th>
 		</tr>
 	</thead>
 
 	<tbody>
 		<% @units.each do |unit| %>
 		<tr>
+      <td><%= link_to '更新',edit_unit_info_path(id: unit.try(:id)) %></td>
 			<td><%= unit.try(:id) %></td>
 			<td><%= unit.try(:name) %></td>
 			<td><%= unit.try(:race) %></td>
@@ -60,7 +61,6 @@
 			<td><%= unit.try(:saleValue) %></td>
 			<td><%= unit.try(:devourValue) %></td>
 			<td><%= unit.try(:getWay) %></td>
-      <td><%= link_to '更新',edit_unit_info_path(id: unit.try(:id)) %></td>
 		</tr>
 		<% end %>
 	</tbody>

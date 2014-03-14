@@ -31,6 +31,9 @@ public class FriendListView : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
+
+		updateFriendButton.gameObject.SetActive(false);
+		refuseAllApplyButton.gameObject.SetActive(false);
 	}
 
 	public override void Callback(object data){
@@ -51,25 +54,25 @@ public class FriendListView : UIComponentUnity{
 			case "EnableUpdateButton" : 
 				CallBackDispatcherHelper.DispatchCallBack(EnableUpdateButton, cbdArgs);
 				break;
-        		case "RefreshFriendListView": 
-           			 CallBackDispatcherHelper.DispatchCallBack(RefreshFriendListView, cbdArgs);
+//        	case "RefreshFriendListView": 
+//            	CallBackDispatcherHelper.DispatchCallBack(RefreshFriendListView, cbdArgs);
 				break;
 			case "EnableRefuseButton" : 
 				CallBackDispatcherHelper.DispatchCallBack(EnableRefuseButton, cbdArgs);
-                        	break;
+                break;
 			default:
 				break;
 		}
 
 	}
 
-    void RefreshFriendListView(object args) {
-
-    }
+//    void RefreshFriendListView(object args) {
+//
+//    }
 
 	void EnableUpdateButton(object args){
 		updateFriendButton.gameObject.SetActive(true);
-		UIEventListener.Get(updateFriendButton.gameObject).onClick = ClickUpdateFriendButton;
+		UIEventListener.Get(updateFriendButton.gameObject).onClick += ClickUpdateFriendButton;
 	}
 
 	void ClickUpdateFriendButton(GameObject button){
@@ -79,7 +82,7 @@ public class FriendListView : UIComponentUnity{
 
 	void EnableRefuseButton(object args){
 		refuseAllApplyButton.gameObject.SetActive(true);
-		UIEventListener.Get(refuseAllApplyButton.gameObject).onClick = ClickRefuseButton;
+		UIEventListener.Get(refuseAllApplyButton.gameObject).onClick += ClickRefuseButton;
 	}
 
 	void ClickRefuseButton(GameObject args){
@@ -118,7 +121,7 @@ public class FriendListView : UIComponentUnity{
 		UpdateEventListener();
 		//UpdateStarSprite(viewInfoList);
 		UpdateCrossShow();
-		dragPanel.RootObject.SetScrollView(dragPanelArgs);
+        dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 	}
 
 	void ShowFriendName(object args){
@@ -240,7 +243,7 @@ public class FriendListView : UIComponentUnity{
 			GameObject.Destroy(item);
 		}
 		dragPanel.ScrollItem.Clear();
-		GameObject.Destroy(dragPanel.RootObject.gameObject);
+        GameObject.Destroy(dragPanel.DragPanelView.gameObject);
 	}
 }
 

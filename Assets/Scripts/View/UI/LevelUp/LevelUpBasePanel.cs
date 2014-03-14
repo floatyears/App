@@ -240,7 +240,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		InitDragPanelArgs();
 		baseDragPanel = CreateDragPanel( name, count, itemGo) ;
 		FillDragPanel (baseDragPanel);
-		baseDragPanel.RootObject.SetScrollView(dragPanelArgs);
+		baseDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){
@@ -271,7 +271,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 	IEnumerator Fill (DragPanel panel,List<TUserUnit> temp ) {
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
-			
 			GameObject scrollItem = panel.ScrollItem[ i ];
 			TUserUnit uuItem = userUnitInfoList[ i ] ;
 			UnitItemInfo uii = new UnitItemInfo();
@@ -279,19 +278,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 			uii.isCollect = false;
 			uii.stateLabel = scrollItem.transform.Find("Label_Party").GetComponent<UILabel>();
 			if(!uii.isCollect) {
-//				int index = temp.FindIndex(a=>a.ID == uuItem.ID);
-//
-//				if(index > -1) {
-//					uii.isPartyItem = true;
-//					int indexTwo = partyItem.FindIndex(a=>a.userUnitItem.ID == uii.userUnitItem.ID);
-//					if(indexTwo == -1) {
-//						partyItem.Add(uii);
-//					}
-//				}
-//				else{
-//					materialItem.Add(uii);
-//				}
-//				Debug.LogError(temp + " uuItem :  " + uuItem);
 				TUserUnit tuu = temp.Find(a=>a.ID == uuItem.ID);
 
 				if(tuu == default(TUserUnit)) {
@@ -340,7 +326,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	
 	private void AddEventListener( UnitItemInfo item){
 		UIEventListenerCustom uiEventListener = UIEventListenerCustom.Get (item.scrollItem);
-		item.listener = uiEventListener;
+//		item.listener = uiEventListener;
 		uiEventListener.LongPress = PressItem;
 		uiEventListener.onClick = ClickBaseItem;
 	}
@@ -352,7 +338,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		dragPanelArgs.Add("position", 		Vector3.zero);
 		dragPanelArgs.Add("clipRange", 		new Vector4(0, -120, 640, 400));
 		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
-		dragPanelArgs.Add("maxPerLine",		3);
+		dragPanelArgs.Add("maxPerLine",		5);
 		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
 		dragPanelArgs.Add("cellWidth", 		110);
 		dragPanelArgs.Add("cellHeight",		110);

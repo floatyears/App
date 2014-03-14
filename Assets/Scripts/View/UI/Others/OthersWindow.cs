@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class OthersWindow : UIComponentUnity {
@@ -68,7 +68,7 @@ public class OthersWindow : UIComponentUnity {
 		nickNameOption.GetComponentInChildren<UILabel>().text = "NickName";
 		options.Add( nickNameOption, nickNamePanel );
 
-		othersScroller.RootObject.SetScrollView( otherScrollerArgsDic );
+		othersScroller.DragPanelView.SetScrollView( otherScrollerArgsDic );
 		
 		for(int i = 0; i < othersScroller.ScrollItem.Count; i++)
 			UIEventListener.Get( othersScroller.ScrollItem[ i ].gameObject ).onClick = ClickOption;
@@ -165,7 +165,7 @@ public class OthersWindow : UIComponentUnity {
         
         void SetUIActive(bool active) {
 
-		othersScroller.RootObject.gameObject.SetActive( active );
+		othersScroller.DragPanelView.gameObject.SetActive( active );
 
 		musicPanel.SetActive( active );
 
