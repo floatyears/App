@@ -262,7 +262,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
         if (data == null || tqdd == null) {
             Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
             //TODO: show failed window for user to retry
-//            return;
+            return;
         }
 
         UIManager.Instance.EnterBattle();

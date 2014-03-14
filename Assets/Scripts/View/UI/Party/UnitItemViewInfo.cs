@@ -158,7 +158,11 @@ public class UnitItemViewInfo {
         Dictionary <string, object> initArgs = new Dictionary<string, object>();
         initArgs.Add("collect", true);
         initArgs.Add("enable", false);
-        initArgs.Add("party", DataCenter.Instance.PartyInfo.UnityIsInCurrentParty(dataItem.ID));
+        if (DataCenter.Instance.PartyInfo == null || dataItem == null) {
+            Debug.LogError("InitWithArgs(), GlobalData.PartyInfo == null, return");
+            return;
+        }
+        initArgs.Add("party", DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(dataItem.ID));
 
         List<string> textList = new List<string>();
         textList.Add(dataItem.Level.ToString());

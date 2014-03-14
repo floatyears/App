@@ -86,9 +86,9 @@ public class UIConfig
 	public const string levelUpMaterialWindowName = "LevelUpMaterialWindow";
 	public const string levelUpFriendWindowName = "LevelUpFriendWindow";
 	public const string levelUpBasePanelName = "LevelUpBasePanel";
-	public const string errorMsgBoxName = "ErrorMsgBox";
+	public const string commonNoteWindowName = "CommonNoteWindow";
 	public const string unitBriefInfoWindowName = "UnitBriefInfoWindow";
-
+	public const string userBriefInfoWindowName = "UserBriefInfoWindow";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;
