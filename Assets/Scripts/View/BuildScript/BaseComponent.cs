@@ -89,7 +89,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		if (component != null) {
 			component.HideUI();		
 		}
-	
+		Debug.LogError("viewComponent : " + viewComponent);
 		if (viewComponent != null) {
 			viewComponent.HideUI ();
 		}

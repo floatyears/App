@@ -147,15 +147,15 @@ public class OthersWindow : UIComponentUnity {
         }
 
 	void SetNickNamePanel(){
-		Debug.Log( "OthersWindow SetNickNamePanel() : Start");
+//		Debug.Log( "OthersWindow SetNickNamePanel() : Start");
 //		nickNameInput.defaultText = UIConfig.TextNickNameInputDefault;
 		UIEventListener.Get( okButton.gameObject ).onClick = ClickOkButton;
-		Debug.Log( "OthersWindow SetNickNamePanel() : End");
+//		Debug.Log( "OthersWindow SetNickNamePanel() : End");
 	}
         
 	void ClickOkButton( GameObject go ){
 		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
-		Debug.Log("OthersWindow ClickOkButton(), nickNameInput is " + nickNameInput.value);
+//		Debug.Log("OthersWindow ClickOkButton(), nickNameInput is " + nickNameInput.value);
 	}
 
 	//----------Reset UI----------

@@ -69,7 +69,7 @@ public class QuestDecorator : DecoratorBase {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
 
-		UnityEngine.Debug.Log("QuestDecorator");
+//		UnityEngine.Debug.Log("QuestDecorator");
 
 		QuestComponent quest = CreatComponent< QuestComponent > ( UIConfig.questWindowName );
 		quest.SetComponent ( sceneInfoBar );
@@ -184,6 +184,7 @@ public class OthersDecorator : DecoratorBase {
 	}
 	
 	public override void HideScene () {
+		UnityEngine.Debug.LogError("HideScene");
 		base.HideScene ();
 	}
 	
@@ -195,7 +196,7 @@ public class OthersDecorator : DecoratorBase {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >( UIConfig.sceneInfoBarName );
 		sceneInfoBar.SetComponent( decorator );
 
-		OthersComponent others = CreatComponent< OthersComponent >( UIConfig.othersWindowName );
+		OthersComponent others = CreatComponent<OthersComponent>(UIConfig.othersWindowName);
 		others.SetComponent( sceneInfoBar );
 
 		lastDecorator = others;
