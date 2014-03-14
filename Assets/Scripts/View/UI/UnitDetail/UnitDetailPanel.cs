@@ -333,10 +333,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void PlayLevelUp(RspLevelUp rlu) {
 		levelUpData = rlu;
 
-		Debug.LogError ("levelUpData.blendExp : " + levelUpData.blendExp);
-		Debug.LogError ("levelUpData.blendUniqueId : " + levelUpData.blendUniqueId);
-		Debug.LogError ("levelUpData.money : " + levelUpData.money);
-		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
+//		Debug.LogError ("levelUpData.blendExp : " + levelUpData.blendExp);
+//		Debug.LogError ("levelUpData.blendUniqueId : " + levelUpData.blendUniqueId);
+//		Debug.LogError ("levelUpData.money : " + levelUpData.money);
+//		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
 //		TUserUnit tuu = GlobalData
 		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		gotExp = levelUpData.blendExp;
