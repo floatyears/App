@@ -137,8 +137,8 @@ public class FriendListLogic : ConcreteComponent{
 
 		List<TUserUnit> tuuList = new List<TUserUnit>();
         for (int i = 0; i < CurrentFriendListData().Count; i++) {
-//			LogHelper.LogError("Global.friends:i={0}, friends:{1} fUserId:{2}", i, DataCenter.Instance.FriendList[ i ],DataCenter.Instance.FriendList[ i ].UserId);
-//			LogHelper.LogError("Global.friends:i={0}, friends.UserUnit:{1}", i, DataCenter.Instance.FriendList[ i ].UserUnit);
+			LogHelper.LogError("Global.friends:i={0}, friends:{1} fUserId:{2}", i, CurrentFriendListData()[i].UserId,CurrentFriendListData()[i].UserId);
+			LogHelper.LogError("Global.friends:i={0}, friends.UserUnit:{1}", i, CurrentFriendListData()[ i ].UserUnit);
             tuuList.Add(CurrentFriendListData()[i].UserUnit);
 		}
 
