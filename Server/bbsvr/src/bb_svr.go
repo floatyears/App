@@ -41,6 +41,7 @@ const (
 	_PROTO_DEL_FRIEND    = "/del_friend"
 	_PROTO_ACCEPT_FRIEND = "/accept_friend"
 	_PROTO_FIND_FRIEND   = "/find_friend"
+	_PROTO_FRIEND_MAX_EXPAND   = "/friend_max_expand"
 
 	//unit
 	_PROTO_LEVEL_UP     = "/level_up"
@@ -48,6 +49,7 @@ const (
 	_PROTO_EVOLVE_DONE  = "/evolve_done"
 	_PROTO_GACHA        = "/gacha"
 	_PROTO_SELL_UNIT  = "/sell_unit"
+	_PROTO_UNIT_MAX_EXPAND  = "/unit_max_expand"
 )
 
 func safeHandler(fn http.HandlerFunc) http.HandlerFunc {
@@ -90,8 +92,10 @@ func main() {
 	http.HandleFunc(_PROTO_LOGIN_PACK, safeHandler(user.LoginPackHandler))
 	http.HandleFunc(_PROTO_AUTH_USER, safeHandler(user.AuthUserHandler))
 	http.HandleFunc(_PROTO_RENAME_NICK, safeHandler(user.RenameNickHandler))
-	http.HandleFunc(_PROTO_RESTORE_STAMINA, safeHandler(user.RestoreStaminaHandler))
 	http.HandleFunc(_PROTO_CHANGE_PARTY, safeHandler(user.ChangePartyHandler))
+	http.HandleFunc(_PROTO_RESTORE_STAMINA, safeHandler(user.RestoreStaminaHandler))
+	http.HandleFunc(_PROTO_UNIT_MAX_EXPAND, safeHandler(user.UnitMaxExpandHandler))
+	http.HandleFunc(_PROTO_FRIEND_MAX_EXPAND, safeHandler(user.FriendMaxExpandHandler))
 
 	/** friend protocol **/
 	http.HandleFunc(_PROTO_GET_FRIEND, safeHandler(friend.GetFriendHandler))
@@ -112,6 +116,7 @@ func main() {
 	http.HandleFunc(_PROTO_EVOLVE_DONE, safeHandler(unit.EvolveDoneHandler))
 	http.HandleFunc(_PROTO_GACHA, safeHandler(unit.GachaHandler))
 	http.HandleFunc(_PROTO_SELL_UNIT, safeHandler(unit.SellUnitHandler))
+
 
 	ret := http.ListenAndServe(":6666", nil)
 	log.Fatal("http.ListenAndServe ret:%d", ret)

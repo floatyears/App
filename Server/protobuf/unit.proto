@@ -209,11 +209,3 @@ message RspSellUnit {
 	repeated UserUnit		unitList		= 4;	
 }
 
-message ReqUnitMaxExpand {
-	optional ProtoHeader	header			= 1;
-}
-
-message RspUnitMaxExpand {
-	optional ProtoHeader	header			= 1;
-	optional int32			unitMax			= 2;	
-}

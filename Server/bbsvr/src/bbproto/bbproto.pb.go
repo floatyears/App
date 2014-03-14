@@ -908,47 +908,6 @@ func (m *RspAcceptFriend) GetFriends() *FriendList {
 	return nil
 }
 
-// -------------------------------------------------
-type ReqFriendMaxExpand struct {
-	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	XXX_unrecognized []byte       `json:"-"`
-}
-
-func (m *ReqFriendMaxExpand) Reset()         { *m = ReqFriendMaxExpand{} }
-func (m *ReqFriendMaxExpand) String() string { return proto.CompactTextString(m) }
-func (*ReqFriendMaxExpand) ProtoMessage()    {}
-
-func (m *ReqFriendMaxExpand) GetHeader() *ProtoHeader {
-	if m != nil {
-		return m.Header
-	}
-	return nil
-}
-
-type RspFriendMaxExpand struct {
-	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	FriendMax        *int32       `protobuf:"varint,2,opt,name=friendMax" json:"friendMax,omitempty"`
-	XXX_unrecognized []byte       `json:"-"`
-}
-
-func (m *RspFriendMaxExpand) Reset()         { *m = RspFriendMaxExpand{} }
-func (m *RspFriendMaxExpand) String() string { return proto.CompactTextString(m) }
-func (*RspFriendMaxExpand) ProtoMessage()    {}
-
-func (m *RspFriendMaxExpand) GetHeader() *ProtoHeader {
-	if m != nil {
-		return m.Header
-	}
-	return nil
-}
-
-func (m *RspFriendMaxExpand) GetFriendMax() int32 {
-	if m != nil && m.FriendMax != nil {
-		return *m.FriendMax
-	}
-	return 0
-}
-
 type QuestStatus struct {
 	State            *EQuestState `protobuf:"varint,1,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
 	PlayTime         []uint32     `protobuf:"varint,2,rep,name=playTime" json:"playTime,omitempty"`
@@ -3513,46 +3472,6 @@ func (m *RspSellUnit) GetUnitList() []*UserUnit {
 	return nil
 }
 
-type ReqUnitMaxExpand struct {
-	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	XXX_unrecognized []byte       `json:"-"`
-}
-
-func (m *ReqUnitMaxExpand) Reset()         { *m = ReqUnitMaxExpand{} }
-func (m *ReqUnitMaxExpand) String() string { return proto.CompactTextString(m) }
-func (*ReqUnitMaxExpand) ProtoMessage()    {}
-
-func (m *ReqUnitMaxExpand) GetHeader() *ProtoHeader {
-	if m != nil {
-		return m.Header
-	}
-	return nil
-}
-
-type RspUnitMaxExpand struct {
-	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	UnitMax          *int32       `protobuf:"varint,2,opt,name=unitMax" json:"unitMax,omitempty"`
-	XXX_unrecognized []byte       `json:"-"`
-}
-
-func (m *RspUnitMaxExpand) Reset()         { *m = RspUnitMaxExpand{} }
-func (m *RspUnitMaxExpand) String() string { return proto.CompactTextString(m) }
-func (*RspUnitMaxExpand) ProtoMessage()    {}
-
-func (m *RspUnitMaxExpand) GetHeader() *ProtoHeader {
-	if m != nil {
-		return m.Header
-	}
-	return nil
-}
-
-func (m *RspUnitMaxExpand) GetUnitMax() int32 {
-	if m != nil && m.UnitMax != nil {
-		return *m.UnitMax
-	}
-	return 0
-}
-
 type UserInfo struct {
 	Uuid             *string   `protobuf:"bytes,1,opt,name=uuid" json:"uuid,omitempty"`
 	UserId           *uint32   `protobuf:"varint,2,opt,name=userId" json:"userId,omitempty"`
@@ -3564,7 +3483,8 @@ type UserInfo struct {
 	StaminaRecover   *uint32   `protobuf:"varint,8,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
 	FriendMax        *int32    `protobuf:"varint,9,opt,name=friendMax" json:"friendMax,omitempty"`
 	UnitMax          *int32    `protobuf:"varint,10,opt,name=unitMax" json:"unitMax,omitempty"`
-	Unit             *UserUnit `protobuf:"bytes,11,opt,name=unit" json:"unit,omitempty"`
+	CostMax          *int32    `protobuf:"varint,11,opt,name=costMax" json:"costMax,omitempty"`
+	Unit             *UserUnit `protobuf:"bytes,12,opt,name=unit" json:"unit,omitempty"`
 	XXX_unrecognized []byte    `json:"-"`
 }
 
@@ -3638,6 +3558,13 @@ func (m *UserInfo) GetFriendMax() int32 {
 func (m *UserInfo) GetUnitMax() int32 {
 	if m != nil && m.UnitMax != nil {
 		return *m.UnitMax
+	}
+	return 0
+}
+
+func (m *UserInfo) GetCostMax() int32 {
+	if m != nil && m.CostMax != nil {
+		return *m.CostMax
 	}
 	return 0
 }
@@ -4498,6 +4425,104 @@ func (m *RspChangeParty) GetHeader() *ProtoHeader {
 		return m.Header
 	}
 	return nil
+}
+
+// -------------------------------------------------
+type ReqUnitMaxExpand struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqUnitMaxExpand) Reset()         { *m = ReqUnitMaxExpand{} }
+func (m *ReqUnitMaxExpand) String() string { return proto.CompactTextString(m) }
+func (*ReqUnitMaxExpand) ProtoMessage()    {}
+
+func (m *ReqUnitMaxExpand) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+type RspUnitMaxExpand struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	UnitMax          *int32       `protobuf:"varint,2,opt,name=unitMax" json:"unitMax,omitempty"`
+	Stone            *int32       `protobuf:"varint,3,opt,name=stone" json:"stone,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspUnitMaxExpand) Reset()         { *m = RspUnitMaxExpand{} }
+func (m *RspUnitMaxExpand) String() string { return proto.CompactTextString(m) }
+func (*RspUnitMaxExpand) ProtoMessage()    {}
+
+func (m *RspUnitMaxExpand) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspUnitMaxExpand) GetUnitMax() int32 {
+	if m != nil && m.UnitMax != nil {
+		return *m.UnitMax
+	}
+	return 0
+}
+
+func (m *RspUnitMaxExpand) GetStone() int32 {
+	if m != nil && m.Stone != nil {
+		return *m.Stone
+	}
+	return 0
+}
+
+// -------------------------------------------------
+type ReqFriendMaxExpand struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqFriendMaxExpand) Reset()         { *m = ReqFriendMaxExpand{} }
+func (m *ReqFriendMaxExpand) String() string { return proto.CompactTextString(m) }
+func (*ReqFriendMaxExpand) ProtoMessage()    {}
+
+func (m *ReqFriendMaxExpand) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+type RspFriendMaxExpand struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	FriendMax        *int32       `protobuf:"varint,2,opt,name=friendMax" json:"friendMax,omitempty"`
+	Stone            *int32       `protobuf:"varint,3,opt,name=stone" json:"stone,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspFriendMaxExpand) Reset()         { *m = RspFriendMaxExpand{} }
+func (m *RspFriendMaxExpand) String() string { return proto.CompactTextString(m) }
+func (*RspFriendMaxExpand) ProtoMessage()    {}
+
+func (m *RspFriendMaxExpand) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspFriendMaxExpand) GetFriendMax() int32 {
+	if m != nil && m.FriendMax != nil {
+		return *m.FriendMax
+	}
+	return 0
+}
+
+func (m *RspFriendMaxExpand) GetStone() int32 {
+	if m != nil && m.Stone != nil {
+		return *m.Stone
+	}
+	return 0
 }
 
 func init() {
