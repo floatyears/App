@@ -27,9 +27,4 @@ public sealed class TimeHelper {
 //	Debug.LogError("Local time : " + (System.DateTime.Now - dtDateTime).Minutes.ToString());
 
 //	}
-
-//	public static string DeltaTimeLastLoginToNow(uint unixTime){
-//		System.DateTime dtLastLoginTo1970 = new DateTime(1970,1,1).AddSeconds(unixTime).ToLocalTime;
-//		System.DateTime dtNowToLas
-//	}
 }

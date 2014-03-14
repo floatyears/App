@@ -21,6 +21,6 @@ public class TAccountInfo : ProtobufDataBase {
 	public void RefreshAcountInfo(TRspClearQuest clearQuest) {
 		instance.money = clearQuest.money;
 		instance.friendPoint = clearQuest.friendPoint;
-		instance.stone += clearQuest.gotChip;
+		instance.stone += clearQuest.gotStone;
 	}
 }
