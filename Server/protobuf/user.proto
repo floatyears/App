@@ -12,7 +12,9 @@ message UserInfo {
 	optional int32		staminaNow			= 6;
 	optional int32		staminaMax			= 7;
 	optional uint32		staminaRecover		= 8; //recover time
-	optional UserUnit	unit				= 9; //leader unit	
+	optional int32		friendMax			= 9;
+	optional int32		unitMax				= 10;
+	optional UserUnit	unit				= 11; //leader unit	
 }
 
 message UserInfoDetail {
