@@ -47,7 +47,7 @@ public class PartyInfoLogic : ConcreteComponent {
 			Debug.LogError("PartyInfoUILogic.Recive(), TUnitParty is NULL!");
 			return;
 		}
-		Dictionary<string,string> dic = new Dictionary<string, string> ();
+//		Dictionary<string,string> dic = new Dictionary<string, string> ();
 		UpdateData (GetData (tup));
 //		Debug.Log("PartyInfoUILogic.Recive(), End...");
 	}

@@ -144,6 +144,10 @@ public class PartyPageLogic : ConcreteComponent {
         List<TUserUnit> curUserUnitList = curParty.GetUserUnit();
 	
         List<Texture2D> curPartyTexList = GetPartyTexture(curUserUnitList);
+
+
+//			Debug.LogError("curUserUnitList : " + curUserUnitList.Count);
+
         int curPartyIndex = GetPartyIndex();
 
         CallBackDispatcherArgs cbdIndex = new CallBackDispatcherArgs("RefreshPartyIndexView", curPartyIndex);
