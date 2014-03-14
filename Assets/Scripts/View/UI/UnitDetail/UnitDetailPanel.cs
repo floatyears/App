@@ -57,7 +57,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public override void ShowUI () {
 
 		base.ShowUI ();
-	
 		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 	}
@@ -297,7 +296,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		int skillId = unitInfo.LeaderSkill;
 		SkillBase skill = DataCenter.Instance.Skill[ skillId ].GetSkillInfo();
                 
-                leaderSkillNameLabel.text = skill.name;
+        leaderSkillNameLabel.text = skill.name;
 		leaderSkillDscpLabel.text = skill.description;
 	}
 

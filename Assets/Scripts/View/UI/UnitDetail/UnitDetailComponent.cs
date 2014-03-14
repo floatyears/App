@@ -29,7 +29,6 @@ public class UnitDetailComponent : ConcreteComponent {
 	}
 
 	void AddMsgCmd () {
-
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 		MsgCenter.Instance.AddListener (CommandEnum.LevelUp, LevelUpFunc);
 	}

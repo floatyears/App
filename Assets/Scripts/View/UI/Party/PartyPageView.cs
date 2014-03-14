@@ -202,7 +202,7 @@ public class PartyPageView : UIComponentUnity {
 
 	void RefreshIndexView(object args){
 		int index = ( int )args;
-		Debug.Log("PartyPagePanel.RefreshIndexLabel(), index is " + index);	
+//		Debug.Log("PartyPagePanel.RefreshIndexLabel(), index is " + index);	
 		
 		curPartyPrefixLabel.text = index.ToString();
 		curPartysuffixLabel.text = partyIndexDic[ index ].ToString();
@@ -211,16 +211,16 @@ public class PartyPageView : UIComponentUnity {
 	
 	void RefreshItemView(object args){
 		List<Texture2D> tex2dList = args as List<Texture2D>;
-		Debug.Log("PartyPagePanel.UpdateTexture(), Start...");
+//		Debug.Log("PartyPagePanel.UpdateTexture(), Start...");
 		for (int i = 0; i < tex2dList.Count; i++) {
 			if(tex2dList[ i ] == null){
-				Debug.LogError(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] data is null, clear!", i));
+//				Debug.LogError(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] data is null, clear!", i));
 				texureList[ i ].mainTexture = null;
 				continue;
 			} 
 			else {
 				texureList[ i ].mainTexture = tex2dList[ i ];
-				Debug.Log(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] texture is showing", i));
+//				Debug.Log(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] texture is showing", i));
 			}
 		}
 
@@ -228,7 +228,7 @@ public class PartyPageView : UIComponentUnity {
 			OnLightSprite(item.Key);
 		}
 
-		Debug.Log("PartyPagePanel.UpdateTexture(), End...");
+//		Debug.Log("PartyPagePanel.UpdateTexture(), End...");
 	}
 
 	public override void Callback(object data){
@@ -262,14 +262,14 @@ public class PartyPageView : UIComponentUnity {
 
 	void ClearItemView(object args){
 		int position = (int)args;
-		Debug.LogError("ClearItemView, to clear position : " + position);
+//		Debug.LogError("ClearItemView, to clear position : " + position);
 		foreach (var item in itemDic){
 			if(item.Value == position){
 				item.Key.transform.FindChild("role").GetComponent<UITexture>().mainTexture = null;
 			}
 		}
 
-		Debug.LogError("PartyPagePanel.ClearItemView(), receive the call, to clear the view of item " + position);
+//		Debug.LogError("PartyPagePanel.ClearItemView(), receive the call, to clear the view of item " + position);
 	}
 
 	void ReplaceItemView(object args){
@@ -281,7 +281,7 @@ public class PartyPageView : UIComponentUnity {
 	
 		ChangeTexure(position, texture);
 
-		Debug.Log("PartyPagePanel.ReplaceItemView(), End...");
+//		Debug.Log("PartyPagePanel.ReplaceItemView(), End...");
 	}
 	
 }
