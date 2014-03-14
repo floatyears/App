@@ -38,7 +38,7 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (uniqueId uint32,
 	}
 
 	uniqueId = uint32(maxId + 1)
-	log.Printf("get getNewUnitId ret: %v ", uniqueId)
+	log.T("uid(%v) get getNewUniqueId ret: %v ",uid, uniqueId)
 	if err = db.SetUInt(consts.KEY_MAX_UNIT_ID+common.Utoa(uid), uniqueId); err != nil {
 		return 0, Error.New(EC.READ_DB_ERROR)
 	}
@@ -158,9 +158,9 @@ func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, cur
 }
 
 func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32) (e Error.Error) {
-	for k, unit := range unitList {
-		log.T("before remove, unitList[%v]: %+v", k, unit)
-	}
+//	for k, unit := range unitList {
+//		log.T("before remove, unitList[%v]: %+v", k, unit)
+//	}
 
 	for i := 0; i < len(partUniqueId); i++ {
 		for pos, userunit := range unitList {
@@ -170,10 +170,13 @@ func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32) (e Error.
 		}
 	}
 
-	log.T("============after remove:===============")
-	for k, unit := range unitList {
-		log.T("\tunitList[%v]: %+v", k, unit)
-	}
+//	log.T("============after remove:===============")
+//	for k, unit := range unitList {
+//		log.T("\tunitList[%v]: %+v", k, unit)
+//	}
 
 	return Error.OK()
 }
+
+
+

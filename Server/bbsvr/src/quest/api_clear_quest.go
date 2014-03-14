@@ -114,10 +114,10 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 
 	gotMoney := *reqMsg.GetMoney
 	gotExp := int32(0)
-	gotChip := int32(0)
+	gotStone := int32(0)
 	gotFriendPt := int32(0)
 
-	//2. check stage isClear or not, give GotChip gift
+	//2. check stage isClear or not, give gotStone gift
 	stageId := *userDetail.Quest.StageId
 	stageInfo, e := quest.GetStageInfo(db, stageId)
 	if e.IsError() {
@@ -128,7 +128,7 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	if _, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo); e.IsError() {
 		return e
 	} else if lastNotClear {
-		gotChip = 1
+		gotStone = 1
 		if e = quest.SetQuestCleared(db, uid, stageId, questId); e.IsError(){
 			return e
 		}
@@ -168,7 +168,7 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	rspMsg.Money = userDetail.Account.Money
 	rspMsg.FriendPoint = userDetail.Account.FriendPoint
 	rspMsg.GotExp = proto.Int32(gotExp)
-	rspMsg.GotChip = proto.Int32(gotChip)
+	rspMsg.GotStone = proto.Int32(gotStone)
 	rspMsg.GotMoney = proto.Int32(gotMoney)
 	//rspMsg.GotUnit = gotUnit
 	rspMsg.GotFriendPoint = proto.Int32(gotFriendPt)

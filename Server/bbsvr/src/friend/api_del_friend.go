@@ -74,7 +74,7 @@ func (t DelFriendProtocol) verifyParams(reqMsg *bbproto.ReqDelFriend) (e Error.E
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
-	if *reqMsg.Header.UserId == 0 || *reqMsg.FriendUid == 0 {
+	if *reqMsg.Header.UserId == 0 || len(reqMsg.FriendUid) == 0 {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: userId is invalid.")
 	}
 
@@ -90,15 +90,15 @@ func (t DelFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqDelFriend, rspMsg *bb
 	}
 
 	uid := *reqMsg.Header.UserId
-	fUid := *reqMsg.FriendUid
+	fUids := reqMsg.FriendUid
 
-	num, err := friend.DelFriend(db, uid, fUid)
+	num, err := friend.DelFriend(db, uid, fUids)
 	if err != nil {
-		log.Printf("[ERROR] user:%v DelFriend(%v) failed: %v", uid, fUid, err)
+		log.Printf("[ERROR] user:%v DelFriend(%v) failed: %v", uid, fUids, err)
 		return Error.New(EC.EF_DEL_FRIEND_FAIL, err.Error())
 	}
 
-	log.Printf("[TRACE] user:%v DelFriend(%v) ok (del %v item).", uid, fUid, num)
+	log.Printf("[TRACE] user:%v DelFriend(%v) ok (del %v item).", uid, fUids, num)
 
 	return Error.OK()
 }
