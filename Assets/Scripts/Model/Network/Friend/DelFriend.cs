@@ -9,6 +9,7 @@
 // ------------------------------------------------------------------------------
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using bbproto;
 
 
@@ -17,7 +18,7 @@ public class DelFriend: ProtoManager {
     private bbproto.ReqDelFriend reqDelFriend;
     private bbproto.RspDelFriend rspDelFriend;
     // state for req
-    private uint friendUid;
+    private List<uint> friendUids;
     // data
     private TFriendList friendList;
     
@@ -27,14 +28,21 @@ public class DelFriend: ProtoManager {
     ~DelFriend () {
     }
     
-    public static void SendRequest(ResponseCallback callBack, uint friendUid) {
+    public static void SendRequest(DataListener callBack, List<uint> friendUids) {
         DelFriend delFriend = new DelFriend();
-        delFriend.friendUid = friendUid;
-//        delFriend.OnRequest(null, callBack);
+        delFriend.friendUids = friendUids;
+        delFriend.OnRequest(null, callBack);
+    }
+
+    public static void SendRequest(DataListener callBack, params uint[] friendUids) {
+        DelFriend delFriend = new DelFriend();
+        List <uint> friendUidList = new List<uint>(friendUids);
+        delFriend.friendUids = friendUidList;
+        delFriend.OnRequest(null, callBack);
     }
     
     //Property: request server parameters
-    public uint FriendUid { get { return friendUid; } set { friendUid = value; } }
+    public List<uint> FriendUids { get { return friendUids; } set { friendUids = value; } }
     
     
     //make request packet==>TODO rename to request
@@ -49,7 +57,7 @@ public class DelFriend: ProtoManager {
         reqDelFriend.header.userId = DataCenter.Instance.UserInfo.UserId;
         
         //request params
-        reqDelFriend.friendUid = friendUid;
+        reqDelFriend.friendUid = friendUids;
         
         ErrorMsg err = SerializeData(reqDelFriend); // save to Data for send out
         
