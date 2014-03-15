@@ -223,7 +223,7 @@ public class OthersDecorator : DecoratorBase
 	
 	public override void HideScene()
 	{
-		UnityEngine.Debug.LogError("HideScene");
+//		UnityEngine.Debug.LogError("HideScene");
 		base.HideScene();
 	}
 	

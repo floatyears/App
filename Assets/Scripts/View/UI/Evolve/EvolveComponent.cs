@@ -50,7 +50,12 @@ public class EvolveComponent : ConcreteComponent {
 		ExcuteCallback (TransferData);
 	}
 
-	uint GetEvolveStageID (bbproto.EUnitType unitType, int  unitRare) {
+	public static uint GetEvolveQuestID(bbproto.EUnitType unitType, int  unitRare) {
+		return EvolveComponent.GetEvolveQuestID(unitRare, EvolveComponent.GetEvolveStageID(unitType, unitRare));
+	}
+
+
+	static uint GetEvolveStageID (bbproto.EUnitType unitType, int  unitRare) {
 		uint stageID = 0;
 		if (unitRare > 6) {
 			return stageID;	
@@ -82,8 +87,8 @@ public class EvolveComponent : ConcreteComponent {
 
 		return stageID;
 	}
-
-	uint GetEvolveQuestID (int  unitRare,uint stageID) {
+	 
+	static uint GetEvolveQuestID (int  unitRare,uint stageID) {
 		uint questID = 0;
 		if (unitRare > 6) {
 			return questID;	

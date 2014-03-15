@@ -111,15 +111,10 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback
 			component.HideUI();		
 		}
 //		Debug.LogError("viewComponent : " + viewComponent);
-<<<<<<< HEAD
+
 		if (viewComponent != null) {
-			viewComponent.HideUI ();
-=======
-		if (viewComponent != null)
-		{
-			viewComponent.HideUI();
->>>>>>> 972bea4fad5644a633e06306cb9a599a8ad925a0
-		}
+						viewComponent.HideUI ();
+				}
 	}
 
 	public virtual void DestoryUI()
