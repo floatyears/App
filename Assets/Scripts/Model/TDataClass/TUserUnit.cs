@@ -17,6 +17,11 @@ using bbproto;
 
 public class TUserUnit : ProtobufDataBase {
     private UserUnit instance;
+
+    public UserUnit Unit {
+        get { return instance;}
+    }
+
     public TUserUnit(UserUnit instance) : base (instance) { 
         MsgCenter.Instance.AddListener(CommandEnum.StrengthenTargetType, StrengthenTargetType);
         this.instance = instance as UserUnit;
@@ -288,11 +293,11 @@ public class TUserUnit : ProtobufDataBase {
         }
     }
 
-	public string AddNumber {
-		get {
-			return (AddHP + AddAttack).ToString();
-		}
-	}
+    public string AddNumber {
+        get {
+            return (AddHP + AddAttack).ToString();
+        }
+    }
 
     public int Attack {
         get {
@@ -331,15 +336,15 @@ public class TUserUnit : ProtobufDataBase {
         }
     }
 
-	/// <summary>
-	///  0 = false. 1 = true.
-	/// </summary>
-	/// <value>The is favorate.</value>
-	public int isFavorate {
-		get {
-			return instance.isFavorite;
-		}
-	} 
+    /// <summary>
+    ///  0 = false. 1 = true.
+    /// </summary>
+    /// <value>The is favorate.</value>
+    public int isFavorate {
+        get {
+            return instance.isFavorite;
+        }
+    } 
 }
 
 //A wrapper to manage userUnitInfo list
@@ -369,22 +374,26 @@ public class UserUnitList {
         string key = MakeUserUnitKey(userId, uniqueId);
 //		Debug.LogError ("get key behind : " + key);
         if (!userUnitInfo.ContainsKey(key)) {
-			Debug.Log("Cannot find key " + key + " in Global.userUnitInfo");
+            Debug.Log("Cannot find key " + key + " in Global.userUnitInfo");
             return null;
         }
-		TUserUnit tuu = userUnitInfo [key];
+        TUserUnit tuu = userUnitInfo[key];
 //		Debug.LogError ("Get tuu : " + tuu);
-		return tuu;
+        return tuu;
     }
 
     public  TUserUnit GetMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
-            Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
+            Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return null;
         }
 		
         return Get(DataCenter.Instance.UserInfo.UserId, uniqueId);
     }
+
+//    public bool HasUnit(uint uniqueId){
+//        !userUnitInfo.ContainsKey(key)
+//    }
 
     public  void DelMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
@@ -401,6 +410,10 @@ public class UserUnitList {
         else {
             userUnitInfo[key] = uu;
         }
+    }
+
+    public void AddMyUnit(UserUnit unit) {
+        Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, new TUserUnit(unit));
     }
 
     public  void Del(uint userId, uint uniqueId) {

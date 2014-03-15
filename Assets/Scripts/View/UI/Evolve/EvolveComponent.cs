@@ -81,7 +81,7 @@ public class EvolveComponent : ConcreteComponent {
             break;
         }
 
-        return stageID;
+        return stageID + 20;
     }
 
     public static uint GetEvolveQuestID(int  unitRare, uint stageID) {
@@ -113,7 +113,7 @@ public class EvolveComponent : ConcreteComponent {
             return 0;
             break;
         }
-        questID += stageID * 100 + questID;
+        questID = stageID * 100 + questID;
         return questID;
 
     }
