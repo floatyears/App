@@ -50,6 +50,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	/// </summary>
 	private Dictionary<GameObject,EvolveItem> evolveItem = new Dictionary<GameObject, EvolveItem> ();
 	private Dictionary<int,EvolveItem> materialItem = new Dictionary<int, EvolveItem> ();
+	private UIImageButton evolveButton ;
+
 	private EvolveItem baseItem;
 	private EvolveItem friendItem;
 
@@ -201,6 +203,9 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 		temp = transform.Find(path + needLabel).GetComponent<UILabel>();
 		showInfoLabel.Add (needLabel, temp);
+
+		evolveButton = FindChild<UILabel> ("Window/Evolve");
+		evolveButton.gameObject.SetActive (false);
 	}
 }
 
