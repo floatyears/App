@@ -114,7 +114,7 @@ public class TUserUnit : ProtobufDataBase {
     void InitSkill() {
 //		UserUnit uu 				= DeserializeData<UserUnit> ();
 //		TUnitInfo tui 			= DataCenter.Instance.UnitInfo[instance.unitId];
-        UnitInfo ui = DataCenter.Instance.UnitInfo[instance.unitId].Object;
+		UnitInfo ui = DataCenter.Instance.GetUnitInfo (instance.unitId).Object;//UnitInfo[instance.unitId].Object;
         TNormalSkill firstSkill = null;
         TNormalSkill secondSkill = null;
         if (ui.skill1 > -1) {
@@ -132,8 +132,8 @@ public class TUserUnit : ProtobufDataBase {
         if (normalSkill[0] == null) {
             InitSkill();	
         }
-        TUnitInfo tui = DataCenter.Instance.UnitInfo[instance.unitId];
-        UnitInfo ui = DataCenter.Instance.UnitInfo[instance.unitId].Object;
+		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (instance.unitId); //UnitInfo[instance.unitId];
+		UnitInfo ui = tui.Object;
         for (int i = 0; i < normalSkill.Length; i++) {
             TNormalSkill tns = normalSkill[i];
 //			Debug.LogError("tns : " + tns.SkillID );
@@ -231,7 +231,7 @@ public class TUserUnit : ProtobufDataBase {
     public TUnitInfo UnitInfo {
         get {
 //		UserUnit userUnit = instance;//DeserializeData () as UserUnit;
-            return DataCenter.Instance.UnitInfo[instance.unitId];
+			return DataCenter.Instance.GetUnitInfo(instance.unitId); //UnitInfo[instance.unitId];
         }
     }
 

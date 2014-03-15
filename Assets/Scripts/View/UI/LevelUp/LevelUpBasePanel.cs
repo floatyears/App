@@ -25,26 +25,34 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	public override void ShowUI(){
+		InitDragPanel();
 		AddListener();
-		ClearData ();
+	
+
 		base.ShowUI();
 		this.gameObject.SetActive(true);
 
 	}
 	
 	public override void HideUI(){
+		ClearData ();
 		RemoveListener();
 		base.HideUI();
 	}
 
 	void ClearData() {
-		for (int i = 0; i < partyItem.Count; i++) {
-			SetFalse(partyItem[i]);
+		if (baseDragPanel != null) {
+			baseDragPanel.DestoryUI ();
 		}
 
-		for (int i = 0; i < materialItem.Count; i++) {
-			SetFalse(materialItem[i]);
-		}
+		baseUnitInfoDic.Clear ();
+		userUnitInfoList.Clear ();
+		unitInfoStruct.Clear ();
+		baseSelectItem = null;
+		materialDic.Clear ();
+		partyItem.Clear ();
+		materialItem.Clear ();
+		selectMaterial.Clear ();
 	}
 
 	void SetFalse(UnitItemInfo uii) {
@@ -54,7 +62,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	private void InitUI(){
-		InitDragPanel();
+		InitDragPanelArgs();
 	}
 
 	//CommandEnum.PanelFocus
@@ -237,7 +245,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		int count = userUnitInfoList.Count;
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
-		InitDragPanelArgs();
+
 		baseDragPanel = CreateDragPanel( name, count, itemGo) ;
 		FillDragPanel (baseDragPanel);
 		baseDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
@@ -311,7 +319,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 		UnitInfoStruct infoStruct = new UnitInfoStruct();
 		infoStruct.text1 = tuu.Level.ToString();
 		infoStruct.text2 = (tuu.AddHP + tuu.AddAttack).ToString();
-//		Debug.LogError("TUserUnit.Level : " + tuu.Level.ToString());
 		infoStruct.targetLabel = item.scrollItem.transform.FindChild("Label_Info").GetComponent<UILabel>();
 		unitInfoStruct.Add(infoStruct);
 	}
@@ -321,12 +328,12 @@ public class LevelUpBasePanel : UIComponentUnity {
 		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 		TUserUnit uu = item.userUnitItem;
 		uint uid = uu.UnitID;
-		avatarTex.mainTexture = DataCenter.Instance.UnitInfo [uid].GetAsset (UnitAssetType.Avatar);
+		avatarTex.mainTexture = DataCenter.Instance.GetUnitInfo (uid).GetAsset (UnitAssetType.Avatar); //UnitInfo [uid].GetAsset (UnitAssetType.Avatar);
+		ShowMask (item.scrollItem, false);
 	}
 	
 	private void AddEventListener( UnitItemInfo item){
 		UIEventListenerCustom uiEventListener = UIEventListenerCustom.Get (item.scrollItem);
-//		item.listener = uiEventListener;
 		uiEventListener.LongPress = PressItem;
 		uiEventListener.onClick = ClickBaseItem;
 	}
