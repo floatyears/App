@@ -1,7 +1,7 @@
 using System;
 
 public class ProtobufDataBase : IOriginModel {
-    public byte[] originData;
+	public byte[] originData ;
 
     private ErrorMsg errorMsgInfo = null;
 
@@ -48,6 +48,11 @@ public class ProtobufDataBase : IOriginModel {
         LogHelper.LogWarning("DeserializeData origindata : " + originData.Length);
         return ProtobufSerializer.ParseFormBytes(originData, type);
     }
+
+
+	public static T DeserializeData<T>(byte[] data) {
+		return ProtobufSerializer.ParseFormBytes<T>(data);
+	}
 
     /// <summary>
     /// get data by T

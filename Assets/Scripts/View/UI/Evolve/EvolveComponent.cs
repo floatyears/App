@@ -32,7 +32,7 @@ public class EvolveComponent : ConcreteComponent {
 		if (data == null) {
 			return;	
 		}
-//		Debug.LogError("selectUnitMaterial : " + Time.realtimeSinceStartup);
+
 		TransferData.Clear ();
 		TransferData.Add(EvolveDecoratorUnity.MaterialData, data);
 
