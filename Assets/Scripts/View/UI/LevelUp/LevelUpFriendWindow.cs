@@ -12,12 +12,13 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
     public override void Init(UIInsConfig config, IUICallback origin) {
         base.Init(config, origin);
+
         InitUI();
     }
 
     public override void ShowUI() {
         base.ShowUI();
-        this.gameObject.SetActive(false);
+        
         MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, FocusOnPanel);
     }
 
@@ -138,7 +139,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
     }
 
 
-    void ClickFriendItem(GameObject item) {
+    protected virtual void ClickFriendItem(GameObject item) {
 
         AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         TUserUnit tempInfo = friendUnitInfoDic[item].UserUnit;

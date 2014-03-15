@@ -9,10 +9,12 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+		MsgCenter.Instance.AddListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
 	}
 	
 	public override void DestoryUI () {
@@ -48,6 +50,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	/// </summary>
 	private Dictionary<GameObject,EvolveItem> evolveItem = new Dictionary<GameObject, EvolveItem> ();
 	private Dictionary<int,EvolveItem> materialItem = new Dictionary<int, EvolveItem> ();
+	private UIImageButton evolveButton ;
+
 	private EvolveItem baseItem;
 	private EvolveItem friendItem;
 
@@ -57,7 +61,12 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 //	private TUserUnit baseUserUnit = null;
 	private List<TUserUnit> materialUnit = new List<TUserUnit>();
 	private int ClickIndex = 0;
-	
+
+	void PickFriendUnitInfo(object data) {
+		TUserUnit tuu = data as TUserUnit;
+		friendItem.Refresh (tuu);
+	}
+
 	void DisposeCallback (KeyValuePair<string, object> keyValue) {
 		switch (keyValue.Key) {
 		case BaseData:
@@ -122,10 +131,15 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			break;
 		case "5":
 			clickState = EvolveState.FriendState;
+			TUserUnit tuu = null;
+			if(baseItem != null) {
+				tuu = baseItem.userUnit;
+			}
+			MsgCenter.Instance.Invoke(CommandEnum.EvolveFriend, tuu);
 			break;
 		}
 		if (prevItem != null) {
-			prevItem.highLight.enabled = false;		
+			prevItem.highLight.enabled = false;	
 		}
 		EvolveItem ei = evolveItem [go];
 		ei.highLight.enabled = true;
@@ -189,6 +203,9 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 		temp = transform.Find(path + needLabel).GetComponent<UILabel>();
 		showInfoLabel.Add (needLabel, temp);
+
+		evolveButton = FindChild<UILabel> ("Window/Evolve");
+		evolveButton.gameObject.SetActive (false);
 	}
 }
 
@@ -207,13 +224,12 @@ public class EvolveItem {
 	public int index;
 
 	public void Refresh (TUserUnit tuu) {
-//		Debug.LogError (itemObject);
 		userUnit = tuu;
-//		Debug.LogError ("eVOLVE : " + tuu);
 		if (tuu == null) {
-			showTexture = null;
+			showTexture.mainTexture = null;
 		} else {
-			showTexture.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+			Texture2D tex = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+			showTexture.mainTexture = tex;
 		}
 	}
 }
