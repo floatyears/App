@@ -65,8 +65,20 @@ func Gacha(uid uint32, gachaId, gachaCount int32) error {
 
 func AddGachaPool(gachaId int32) {
 	unitList := []uint32{}
-	for i := int32(1); i <= 10; i++ {
-		unitList = append(unitList, uint32(gachaId*i))
+	if gachaId == 3 {
+		for i := int32(1); i <= 20; i++ {
+			unitList = append(unitList, uint32(1))
+		}
+		for i := int32(1); i <= 20; i++ {
+			unitList = append(unitList, uint32(11))
+			unitList = append(unitList, uint32(12))
+		}
+
+	} else {
+		for i := int32(1); i <= 10; i++ {
+			unitList = append(unitList, uint32(gachaId*i))
+		}
+
 	}
 
 	//unitList := []uint32{21, 22, 23, 24, 25, 26, 27, 28}
@@ -112,6 +124,11 @@ func AddSomeGachaConf() {
 	gachaType = bbproto.EGachaType_E_BUY_GACHA
 	gachaConf.GachaType = &gachaType
 	AddGachaConfig(nil, 2, gachaConf)
+
+	gachaConf.GachaId = proto.Int32(3)
+	gachaType = bbproto.EGachaType_E_BUY_GACHA_EVENT
+	gachaConf.GachaType = &gachaType
+	AddGachaConfig(nil, 3, gachaConf)
 }
 
 func main() {
@@ -122,11 +139,12 @@ func main() {
 
 	//AddGachaPool(1)
 	//AddGachaPool(2)
-	//AddSomeGachaConf()
+	AddGachaPool(3) // for unitId 1
+	AddSomeGachaConf()
 
-	uid := uint32(141)
-	gachaId := int32(1)
-	gachaCount := int32(4)
+	uid := uint32(174)
+	gachaId := int32(3)
+	gachaCount := int32(20)
 	Gacha(uid, gachaId, gachaCount)
 
 	log.Fatal("bbsvr test client finish.")

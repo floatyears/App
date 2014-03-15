@@ -2,7 +2,6 @@ package friend
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	//"time"
 )
@@ -12,6 +11,7 @@ import (
 	"common/EC"
 	"common/Error"
 	"common/consts"
+	"common/log"
 	"data"
 	"model/friend"
 	"model/user"
@@ -152,6 +152,25 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 				}
 			}
 		}
+
+		log.T("=========================================")
+		log.T("response:")
+		for k, friend:=range rspMsg.Friends.Friend {
+			log.T("Friend[%v]: %+v ", k, friend)
+		}
+
+		for k, friend:=range rspMsg.Friends.Helper {
+			log.T("Helper[%v]: %+v ", k, friend)
+		}
+
+		for k, friend:=range rspMsg.Friends.FriendIn {
+			log.T("FriendIn[%v]: %+v ", k, friend)
+		}
+
+		for k, friend:=range rspMsg.Friends.FriendOut {
+			log.T("FriendOut[%v]: %+v ", k, friend)
+		}
+		log.T("=========================================")
 	}
 
 	return Error.OK()

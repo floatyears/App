@@ -125,7 +125,7 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 		return e
 	}
 	log.Error("\t===== 2. getUnitInfo ret baseUserUnit:(%+v).", baseUserUnit)
-	log.Error("\t=====    baseUnit:(%+v).", baseUnit)
+	log.Error("\t=====    baseUnit: type:%v rare:%v (%+v).",*baseUnit.Type, *baseUnit.Rare, baseUnit)
 
 	if baseUnit.EvolveInfo == nil {
 		e = Error.New(EC.E_UNIT_HAS_NO_EVOLVEINFO, fmt.Sprintf("unit(%v) has no evolve info.", *baseUnit.Id))

@@ -78,24 +78,10 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		return nil, Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 
-	//malloc 3 default unit, TODO: let user to select a actor.
-	unitId1, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, 0)
-	if e.IsError() {
-		return nil, e
-	}
-	userUnit1 := &bbproto.UserUnit{
-		UniqueId:  proto.Uint32(unitId1),
-		UnitId:    proto.Uint32(uint32(1)), //uint32(common.Rand(1, 20))
-		Exp:       proto.Int32(1),
-		Level:     proto.Int32(1),
-		GetTime:   &tNow,
-		AddAttack: proto.Int32(3),
-		AddHp:     proto.Int32(2),
-	}
-	userdetail.UnitList = append(userdetail.UnitList, userUnit1)
+	//TODO: let user to select a actor.
 
 	for i := 1; i <= 28; i++ {
-		unitId2, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i)
+		unitId2, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i-1)
 		if e.IsError() {
 			return nil, e
 		}
@@ -111,7 +97,8 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		userdetail.UnitList = append(userdetail.UnitList, userUnit2)
 	}
 
-	userdetail.User.Unit = userUnit1
+	randNum:=common.Randn(20)
+	userdetail.User.Unit = userdetail.UnitList[randNum] //currParty's leader
 
 	//make default party
 	userdetail.Party = &bbproto.PartyInfo{}
@@ -122,7 +109,11 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		for pos := int32(0); pos < 4; pos++ {
 			item := &bbproto.PartyItem{}
 			item.UnitPos = proto.Int32(pos)
-			item.UnitUniqueId = userdetail.UnitList[pos].UniqueId
+			if i==*userdetail.Party.CurrentParty && pos == 0 { //currParty's leader
+				item.UnitUniqueId = userdetail.User.Unit.UniqueId
+			}else {
+				item.UnitUniqueId = userdetail.UnitList[pos].UniqueId
+			}
 			party.Items = append(party.Items, item)
 		}
 		userdetail.Party.PartyList = append(userdetail.Party.PartyList, party)

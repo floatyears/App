@@ -19,7 +19,8 @@ import (
 	"common/consts"
 	"common/log"
 	"data"
-	//"src/model/user"
+	"model/friend"
+	"model/user"
 	//redis "github.com/garyburd/redigo/redis"
 )
 
@@ -153,16 +154,10 @@ func AuthUser(uuid string, uid uint32) {
 //	return err
 //}
 
-func AddUsers() {
-	for i := 0; i < 10; i++ {
-		AuthUser("b2c4adfd-e6a9-4782-814d-67ce3422011"+common.Itoa(i), 0)
-		//uint32(i+100))
+func AddUsers(startNum int, count int) {
+	for i := startNum + 0; i < startNum+count; i++ {
+		AuthUser("b2c4adfd-e6a9-4782-814d-67ce3422x"+common.Itoa(i), 0)
 	}
-	for i := 10; i < 50; i++ {
-		AuthUser("b2c4adfd-e6a9-4782-814d-67ce342201"+common.Itoa(i), 0)
-		//uint32(i+100))
-	}
-
 }
 
 type MyTp struct {
@@ -239,11 +234,37 @@ func ResetStamina(uid uint32) (e Error.Error) {
 	return Error.OK()
 }
 
+func UpdateHelperUidRank() {
+	db := &data.Data{}
+	err := db.Open(consts.TABLE_USER)
+	defer db.Close()
+	if err != nil {
+		return
+	}
+
+	for uid := uint32(101); uid < 500; uid++ {
+		userDetail, _, err := user.GetUserInfo(db, uid)
+		if err != nil {
+			log.Error("GetUser(%v) ret err:%v", uid, err.Error())
+			continue
+		}
+		if userDetail.User != nil {
+			rank := *userDetail.User.Rank
+			e := friend.SetHelperUidRank(db, uid, uint32(rank))
+			if e.IsError() {
+				log.Error("SetHelperUidRank(%v) ret err:%v", uid, e.Error())
+			}
+		}
+	}
+}
+
 func main() {
 	Init()
-	//AddUsers()
+	//	AddUsers(197, 200)
 
-	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220162", 0)
+	UpdateHelperUidRank()
+
+	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220162", 0)
 	//ResetStamina(154)
 	//LoginPack(101)
 
