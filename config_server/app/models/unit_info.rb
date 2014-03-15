@@ -109,7 +109,7 @@ class UnitInfo
   def self.to_zip
     directory = Rails.root.join("public/unit")
     zipfile_name = Rails.root.join("public/unit/units.zip")
-    File.delete(Rails.root.join("public/unit/units.zip"))
+    File.delete(zipfile_name) if File.exist?(zipfile_name)
     
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
       Dir[File.join(directory, '**', '**')].each do |file|
