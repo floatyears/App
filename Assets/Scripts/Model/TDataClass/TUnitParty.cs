@@ -351,7 +351,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 
         List<TUserUnit> temp = new List<TUserUnit>();
         foreach (var item in instance.items) {
+
             TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
+//			UnityEngine.Debug.LogError("uui : " + uui + " `` " + item.unitUniqueId); 
             temp.Add(uui);
         }
         return temp;

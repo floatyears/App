@@ -32,6 +32,13 @@ public class ConfigUnitInfo {
 			uiitem.maxLevel 	= 10;
 			uiitem.devourValue = UnityEngine.Random.Range(1, 5) * 100;
 			if(i == 1){
+				EvolveInfo ei = new EvolveInfo();
+				ei.evolveUnitId = 1;
+				ei.materialUnitId.Add(2);
+				ei.materialUnitId.Add(3);
+				ei.materialUnitId.Add(4);
+				uiitem.evolveInfo = ei;
+
 				uiitem.leaderSkill = 21;
 				uiitem.activeSkill = 32;
 			}

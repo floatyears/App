@@ -185,6 +185,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 	} else { //create new user
 		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
 
+		rspMsg.IsNewUser = proto.Int32(1) // is new User
 		rspMsg.ServerTime = proto.Uint32(common.Now())
 
 		//TODO:save userinfo to db through goroutine
@@ -213,7 +214,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 	for k, friend:=range rspMsg.Friends{
 		log.T("\t friend[%v]: %+v", k, friend)
 	}
-	log.T("\tParty: ")
+	log.T("\tParty: CurrParty: %v", *rspMsg.Party.CurrentParty)
 	for k, party := range rspMsg.Party.PartyList {
 		log.T("\tparty[%v]: %+v", k, *party)
 	}

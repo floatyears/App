@@ -41,41 +41,65 @@ public class PartyInfoLogic : ConcreteComponent {
 
 	void Recive(object data){
 //		Debug.Log("PartyInfoUILogic.Recive(), Start...");
+
 		TUnitParty tup = data as TUnitParty;
 		if(tup == null){
 			Debug.LogError("PartyInfoUILogic.Recive(), TUnitParty is NULL!");
 			return;
 		}
-
-		UpdateData(GetData(tup));
+//		Dictionary<string,string> dic = new Dictionary<string, string> ();
+		UpdateData (GetData (tup));
 //		Debug.Log("PartyInfoUILogic.Recive(), End...");
 	}
 
 	Dictionary<string,string> GetData(TUnitParty tup){
-//		Debug.Log("PartyInfoUILogic.GetData(), Start...");
+		SkillBase sb = tup.GetLeaderSkillInfo ();
+		string leaderSkillName = "";
+		string leaderSkillDscp = "";
+		if (sb != null) {
+			leaderSkillName = sb.name;
+			leaderSkillDscp = sb.description;
+		}
 
-		//Get Skill Name
-		string leaderSkillName = tup.GetLeaderSkillInfo().name;
-		//Get skill dscp
-		string leaderSkillDscp = tup.GetLeaderSkillInfo().description;
-		//Get total hp
 		string hp = tup.TotalHp.ToString();
 		//Get cur cost
 		string curCost = tup.TotalCost.ToString();
 		//Get maxCost
 		string maxCost = DataCenter.Instance.UserCost.ToString();
+
+		int value = 0;
+		tup.TypeAttack.TryGetValue (EUnitType.UFIRE, out value);
 		//Get fireAtk vaule
-		string fireAtk = tup.TypeAttack[ EUnitType.UFIRE ].ToString();
+		string fireAtk = value.ToString();
+
+		tup.TypeAttack.TryGetValue (EUnitType.UWATER, out value);
 		//Get waterAtk vaule
-		string waterAtk = tup.TypeAttack[ EUnitType.UWATER ].ToString();
+		string waterAtk =  value.ToString();
+
+		tup.TypeAttack.TryGetValue (EUnitType.UWIND, out value);
+		//Get waterAtk vaule
+		string windAtk =  value.ToString();
+
+		tup.TypeAttack.TryGetValue (EUnitType.UNONE, out value);
+		//Get waterAtk vaule
+		string wuAtk =  value.ToString();
+
+		tup.TypeAttack.TryGetValue (EUnitType.ULIGHT, out value);
+		//Get waterAtk vaule
+		string lightAtk =  value.ToString();
+
+		tup.TypeAttack.TryGetValue (EUnitType.UDARK, out value);
+		//Get waterAtk vaule
+		string darkAtk =  value.ToString();
+		
 		//Get windAtk vaule
-		string windAtk = tup.TypeAttack[ EUnitType.UWIND ].ToString();
-		//Get wuAtk vaule
-		string wuAtk = tup.TypeAttack[ EUnitType.UNONE ].ToString();
-		//Get lightAtk vaule
-		string lightAtk = tup.TypeAttack[ EUnitType.ULIGHT ].ToString();
-		//Get drakAtk vaule
-		string darkAtk = tup.TypeAttack[ EUnitType.UDARK ].ToString();
+//		string windAtk = tup.TypeAttack[ EUnitType.UWIND ].ToString();
+//		//Get wuAtk vaule
+//		string wuAtk = tup.TypeAttack[ EUnitType.UNONE ].ToString();
+//		//Get lightAtk vaule
+//		string lightAtk = tup.TypeAttack[ EUnitType.ULIGHT ].ToString();
+//		//Get drakAtk vaule
+//		string darkAtk = tup.TypeAttack[ EUnitType.UDARK ].ToString();
 
 		Dictionary<string,string> text = new Dictionary<string, string>();
 		text.Add("hp",hp);

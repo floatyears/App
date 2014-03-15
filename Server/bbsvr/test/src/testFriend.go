@@ -174,7 +174,11 @@ func DelFriend(myUid uint32, fUid uint32) error {
 	msg.Header.SessionId = proto.String("S10298090290")
 	msg.Header.UserId = proto.Uint32(myUid)
 
-	msg.FriendUid = proto.Uint32(fUid)
+	//msg.FriendUid = append(msg.FriendUid, fUid)
+	msg.FriendUid = append(msg.FriendUid, uint32(111))
+	msg.FriendUid = append(msg.FriendUid, uint32(120))
+	msg.FriendUid = append(msg.FriendUid, uint32(122))
+	msg.FriendUid = append(msg.FriendUid, uint32(117))
 
 	buffer, err := proto.Marshal(msg)
 	if err != nil {
@@ -266,6 +270,14 @@ func AcceptFriend(myUid uint32, fUid uint32) error {
 	return err
 }
 
+func AddBundleFriends(uid uint32, num uint32) {
+	for fid := uint32(110); fid <= 110+num; fid++ {
+		AddFriend(uid, fid)
+		AcceptFriend(fid, uid)
+	}
+	GetFriend(uid)
+}
+
 func main() {
 	log.Printf("==============================================")
 	log.Printf("bbsvr test client begin...")
@@ -286,11 +298,6 @@ func main() {
 	//AddFriend(156, 150)
 	//AddFriend(156, 151)
 
-	for fid := uint32(110); fid <= 135; fid++ {
-		AddFriend(156, fid)
-		AcceptFriend(fid, 156)
-	}
-
 	//for fid := uint32(146); fid < 162; fid++ {
 	//	AddFriend(fid, 156)
 	//}
@@ -302,10 +309,13 @@ func main() {
 	//AcceptFriend(148, 156)
 	//AcceptFriend(149, 156)
 	//AcceptFriend(156, 156)
-	GetFriend(156)
 
-	//DelFriend(120, 101)
-	//GetFriend(120)
+	//uid := uint32(104)
+	//num := uint32(40)
+	//AddBundleFriends(uid, num)
+
+	//DelFriend(104, 123)
+	GetFriend(111)
 
 	log.Fatal("bbsvr test client finish.")
 }

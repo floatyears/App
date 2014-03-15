@@ -109,10 +109,10 @@ public class Main : MonoBehaviour {
                 LogHelper.Log("rspAuthUser return error: {0} {1}", rspAuthUser.header.code, rspAuthUser.header.error);
                 return;
             }
-			
-            uint userId = GameDataStore.Instance.GetUInt(GameDataStore.USER_ID);
-            if (userId == 0) {
-                userId = rspAuthUser.user.userId;
+
+			uint userId = rspAuthUser.user.userId;
+
+			if (rspAuthUser.isNewUser == 1) {
                 LogHelper.Log("New user registeed, save userid:" + userId);
                 GameDataStore.Instance.StoreData(GameDataStore.USER_ID, rspAuthUser.user.userId);
             }
@@ -166,8 +166,30 @@ public class Main : MonoBehaviour {
             }
         }
         Debug.Log("UIManager.Instance.ChangeScene before");
-        UIManager.Instance.ChangeScene(SceneEnum.Start);
+		UIManager.Instance.ChangeScene(SceneEnum.Start);
+		TurnToReName();
+       
     }
+
+	void TurnToReName(){
+		//		Debug.Log("PlayerInfoBar.TurnToReName() : Start");
+		if(DataCenter.Instance.UserInfo == null ){
+			Debug.LogError("DataCenter.Instance.UserInfo is null");
+			return;
+		}
+		
+		if(DataCenter.Instance.UserInfo.NickName == null ) {
+			Debug.LogError("DataCenter.Instance.UserInfo.NickName is null");
+			return;
+		}
+		
+		if(DataCenter.Instance.UserInfo.NickName.Length == 0){
+			UIManager.Instance.ChangeScene( SceneEnum.Others );
+			Debug.Log ("PlayerInfoBar.ChangeScene( Others ).");
+		}
+
+		Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.NickName);
+	}
 
     void OnDisable() {
         sui.RemoveListener();

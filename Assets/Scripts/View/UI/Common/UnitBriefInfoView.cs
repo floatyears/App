@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UnitBriefInfoView : UIComponentUnity {
+	public const string CancelCommand = "Cancel";
+	public const string EnsureCommand = "Select";
+
 	GameObject window;
 	GameObject buttonChoose;
 	GameObject buttonViewInfo;
@@ -85,6 +88,7 @@ public class UnitBriefInfoView : UIComponentUnity {
 	}
 
 	void Exit(GameObject btn){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs(CancelCommand, null);
 		ShowSelf(false);
 	}
 

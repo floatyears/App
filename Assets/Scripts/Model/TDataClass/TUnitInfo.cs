@@ -9,10 +9,16 @@ public class TUnitInfo : ProtobufDataBase {
 		this.instance = instance as UnitInfo;
 	}
 	
-	public int unitBaseInfoID = 0;
+//	public int unitBaseInfoID = 0;
 	public UnitInfo Object{
 		get{
 			return instance;
+		}
+	}
+
+	public EvolveInfo evolveInfo {
+		get {
+			return instance.evolveInfo;
 		}
 	}
 

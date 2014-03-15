@@ -20,14 +20,13 @@ public class AuthUser: ProtoManager {
     public override bool MakePacket() {
         LogHelper.Log("AuthUser.MakePacket()...");
 
-
-		
         Proto = Protocol.AUTH_USER;
         reqType = typeof(ReqAuthUser);
         rspType = typeof(RspAuthUser);
-
+		bool b = PlayerPrefs.HasKey (GameDataStore.USER_ID);
         this.userId = GameDataStore.Instance.GetUInt(GameDataStore.USER_ID);
         string uuid = GameDataStore.Instance.GetData(GameDataStore.UUID);
+//		Debug.LogError ("userId " + userId + "  uuid : " + uuid);
         if (userId == 0 && uuid.Length == 0) {
             uuid = System.Guid.NewGuid().ToString();
             GameDataStore.Instance.StoreData(GameDataStore.UUID, uuid);
