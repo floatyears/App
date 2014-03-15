@@ -86,13 +86,9 @@ public class Main : MonoBehaviour {
         INetBase netBase = new AuthUser();
         Debug.Log("connect net to login : " + Time.realtimeSinceStartup);
         netBase.OnRequest(null, LoginSuccess);
-
+//
         AudioManager.Instance.PlayAudio(AudioEnum.music_home);
         EffectManager em = EffectManager.Instance;
-        //ProtoManager<bbproto.ReqAuthUser> authUser = new ProtoManager<bbproto.ReqAuthUser> ();
-//		string info =  GameSingleDataStore.Instance.GetSingleData ("aa");
-//		Debug.LogError (info);
-
     }
 
     void LoginSuccess(object data) {
@@ -110,9 +106,9 @@ public class Main : MonoBehaviour {
                 return;
             }
 
-			uint userId = rspAuthUser.user.userId;
+            uint userId = rspAuthUser.user.userId;
 
-			if (rspAuthUser.isNewUser == 1) {
+            if (rspAuthUser.isNewUser == 1) {
                 LogHelper.Log("New user registeed, save userid:" + userId);
                 GameDataStore.Instance.StoreData(GameDataStore.USER_ID, rspAuthUser.user.userId);
             }
@@ -164,9 +160,32 @@ public class Main : MonoBehaviour {
                 //TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.PartyInfo.CurrentParty
                 ModelManager.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
             }
+            NetWorkTestHelper.Test();
         }
         Debug.Log("UIManager.Instance.ChangeScene before");
         UIManager.Instance.ChangeScene(SceneEnum.Start);
+        TurnToReName();
+       
+    }
+
+    void TurnToReName() {
+        //		Debug.Log("PlayerInfoBar.TurnToReName() : Start");
+        if (DataCenter.Instance.UserInfo == null) {
+            Debug.LogError("DataCenter.Instance.UserInfo is null");
+            return;
+        }
+		
+        if (DataCenter.Instance.UserInfo.NickName == null) {
+            Debug.LogError("DataCenter.Instance.UserInfo.NickName is null");
+            return;
+        }
+		
+        if (DataCenter.Instance.UserInfo.NickName.Length == 0) {
+            UIManager.Instance.ChangeScene(SceneEnum.Others);
+            Debug.Log("PlayerInfoBar.ChangeScene( Others ).");
+        }
+
+        Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.NickName);
     }
 
     void OnDisable() {

@@ -1,3 +1,4 @@
+require 'zip'
 module EUnitType
   UALL = 0
   UFIRE = 1
@@ -105,12 +106,30 @@ class UnitInfo
     materialUnitId.uniq
   end
   
+  def self.to_zip
+    directory = Rails.root.join("public/unit")
+    zipfile_name = Rails.root.join("public/unit/units.zip")
+    File.delete(zipfile_name) if File.exist?(zipfile_name)
+    
+    Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
+      Dir[File.join(directory, '**', '**')].each do |file|
+        zipfile.add(File.basename(file),file )
+      end
+    end
+  end
+  
   def self.params_to_i(s)
     (s == "") ? nil : s.to_i
   end
   
+  def self.redis_to_file
+    $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact.each do |key|
+      File.open(Rails.root.join("public/unit/#{key}.bytes"), "wb") { | file|  file.write($redis.get key) } 
+    end
+  end
+  
   def save_to_file
-    File.open(Rails.root.join("public/unit/X_UNIT_#{self["id"]}"), "wb") { | file|  file.write(self.encode) } 
+    File.open(Rails.root.join("public/unit/X_UNIT_#{self["id"]}.bytes"), "wb") { | file|  file.write(self.encode) } 
   end
   
   def save_to_redis

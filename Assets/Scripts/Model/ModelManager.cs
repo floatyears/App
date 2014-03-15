@@ -59,7 +59,7 @@ public class ModelManager {
     }
 
     public void InitData() {
-        ConfigUnitInfo cui = new ConfigUnitInfo();
+//        ConfigUnitInfo cui = new ConfigUnitInfo();
 //		Debug.LogError ("InitData ConfigSkill");
         ConfigSkill cs = new ConfigSkill();
         ConfigEnermy ce = new ConfigEnermy();

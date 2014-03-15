@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 public class FriendListLogic : ConcreteComponent
 {
-
+	TFriendInfo currentFriendPicked;
 	List<UnitItemViewInfo> friendUnitItemViewList = new List<UnitItemViewInfo>();
 	List<string> friendNickNameList = new List<string>();
 
-	public FriendListLogic(string uiName) : base( uiName ){
-
+	public FriendListLogic(string uiName) : base( uiName )
+	{
 	}
 
 	public override void ShowUI()
@@ -23,7 +23,8 @@ public class FriendListLogic : ConcreteComponent
 		EnableExtraFunction();
 	}
 
-	public override void HideUI(){
+	public override void HideUI()
+	{
 		base.HideUI();
 		RemoveCommandListener();
 		DestoryUnitList();
@@ -36,7 +37,8 @@ public class FriendListLogic : ConcreteComponent
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		
-		switch (cbdArgs.funcName){
+		switch (cbdArgs.funcName)
+		{
 			case "PressItem": 
 				CallBackDispatcherHelper.DispatchCallBack(ViewUnitDetailInfo, cbdArgs);
 				break;
@@ -46,19 +48,47 @@ public class FriendListLogic : ConcreteComponent
 			case "UpdateFriendButtonClick": 
 				CallBackDispatcherHelper.DispatchCallBack(NoteFriendUpdate, cbdArgs);
 				break;
+			case "RefuseApplyButtonClick": 
+				CallBackDispatcherHelper.DispatchCallBack(NoteRefuseAll, cbdArgs);
+				break;
 			default:
 				break;
 		}
 	}
 
+	void NoteRefuseAll(object args)
+	{
+		MsgCenter.Instance.Invoke(CommandEnum.NoteRefuseAll, null);
+	}
+
+	void EnsureRefuseAllReception(object msg)
+	{
+		Debug.LogError("66666666666666666666");
+		RefuseFriendAll();
+	}
+
 	void AddCommandListener()
 	{
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteFriend, DeleteFriendCurrentPicked);          
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteApply, EnsureDeleteApply);
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseAll, EnsureRefuseAllReception);
+	}
+
+	void EnsureDeleteApply(object msg)
+	{
+		CancelFriendRequest(currentFriendPicked.UserId);
 	}
 		
 	void RemoveCommandListener()
 	{
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureUpdateFriend, GetNewestFriendList);
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteFriend, DeleteFriendCurrentPicked);
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteApply, EnsureDeleteApply);
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureRefuseAll, EnsureRefuseAllReception);
+
+
+                
 	}
 	void NoteFriendUpdate(object args)
 	{
@@ -69,24 +99,31 @@ public class FriendListLogic : ConcreteComponent
 	{
 		switch (UIManager.Instance.baseScene.CurrentScene)
 		{
-			case SceneEnum.FriendList : 
-				Debug.Log("CurrentFriendListData()" + DataCenter.Instance.FriendList.Friend); 
+			case SceneEnum.FriendList: 
+				Debug.Log("CurrentFriendListData() friend Count {0} " + DataCenter.Instance.FriendList.Friend.Count); 
 				return DataCenter.Instance.FriendList.Friend;
 				break;
-			case SceneEnum.Apply : 
-				Debug.Log("CurrentFriendListData()" + DataCenter.Instance.FriendList.FriendIn); 
+			case SceneEnum.Apply: 
+				Debug.Log("CurrentFriendListData() friendIn Count {1}" + DataCenter.Instance.FriendList.FriendIn.Count); 
 				return DataCenter.Instance.FriendList.FriendIn;
 				break;
-			case SceneEnum.Reception : 
-				Debug.Log("CurrentFriendListData()" + DataCenter.Instance.FriendList.FriendOut); 
+			case SceneEnum.Reception: 
+				Debug.Log("CurrentFriendListData() friendOut Count {2}" + DataCenter.Instance.FriendList.FriendOut.Count); 
 				return DataCenter.Instance.FriendList.FriendOut;
 				break;
 			
 			default:
+				Debug.Log("CurrentFriendListData(), no return, UIManager.Instance.baseScene.CurrentScene");
 				return new List<TFriendInfo>();
 				break;
 		}
 
+	}
+
+	void DeleteFriendCurrentPicked(object msg)
+	{
+		Debug.LogError("FriendListLogic.DeleteFriendCurrentPicked(), Start...");
+		DelFriend.SendRequest(OnDelFriend, currentFriendPicked.UserId);
 	}
 
 	void GetNewestFriendList(object args)
@@ -115,26 +152,47 @@ public class FriendListLogic : ConcreteComponent
 
 		DataCenter.Instance.FriendList.RefreshFriendList(inst);
 		// test
-		LogHelper.Log("OnGetFriendList, test first friend. nick name" + CurrentFriendListData() [1].NickName);
+		LogHelper.LogError("OnGetFriendList, response friendCount {0}", rsp.friends.friend.Count);
+		for (int i = 0; i < rsp.friends.friend.Count; i++)
+		{
+			LogHelper.LogError("OnGetFriendList, test first friend. nick name", rsp.friends.friend [i].nickName);
+
+		}
+
 		HideUI();
 		ShowUI();
 	}
 
-    void RefuseFriend(uint friendUid) {
-        DelFriend.SendRequest(OnDelFriend, friendUid);
-    }
+	void RefuseFriend(uint friendUid)
+	{
+		DelFriend.SendRequest(OnDelFriend, friendUid);
+	}
 
-    void RefuseFriendAll() {
-        List <uint> refuseList = new List<uint>();
-        for (int i = 0; i < DataCenter.Instance.FriendList.FriendIn.Count; i++) {
-            refuseList.Add(DataCenter.Instance.FriendList.FriendIn[i].UserId);
-        }
-        DelFriend.SendRequest(OnDelFriend, refuseList);
-    }
+	void CancelFriendRequest(uint friendUid)
+	{
+		DelFriend.SendRequest(OnDelFriend, friendUid);
+	}
+        
+	void RefuseFriendAll()
+	{
+		List <uint> refuseList = new List<uint>();
+		for (int i = 0; i < DataCenter.Instance.FriendList.FriendIn.Count; i++)
+		{
+			refuseList.Add(DataCenter.Instance.FriendList.FriendIn [i].UserId);
+		}
+		for (int i = 0; i < refuseList.Count; i++)
+		{
+			LogHelper.LogError("refuseList, {0}, friendId {1}", i, refuseList [i]);
 
-    void AcceptFriendRequest(uint friendUid) {
-        AcceptFriend.SendRequest(OnAcceptFriend, friendUid);
-    }
+		}
+
+		DelFriend.SendRequest(OnDelFriend, refuseList);
+	}
+
+	void AcceptFriendRequest(uint friendUid)
+	{
+		AcceptFriend.SendRequest(OnAcceptFriend, friendUid);
+	}
 
 	void OnAcceptFriend(object data)
 	{
@@ -156,7 +214,7 @@ public class FriendListLogic : ConcreteComponent
 		DataCenter.Instance.FriendList.RefreshFriendList(inst);
 
 		// test
-		LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData() [1].NickName);
+//		LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData() [1].NickName);
 		HideUI();
 		ShowUI();
 	}
@@ -171,13 +229,18 @@ public class FriendListLogic : ConcreteComponent
 		bbproto.RspDelFriend rsp = data as bbproto.RspDelFriend;
 		if (rsp.header.code != (int)ErrorCode.SUCCESS)
 		{
-			LogHelper.Log("OnRspDelFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			LogHelper.LogError("OnRspDelFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
 			return;
 		}
 
 		bbproto.FriendList inst = rsp.friends;
+		LogHelper.LogError("OnRspDelFriend friends {0}", rsp.friends);
         
 		DataCenter.Instance.FriendList.RefreshFriendList(inst);
+		if (DataCenter.Instance.FriendList.Friend.Count == 1)
+		{
+			DataCenter.Instance.FriendList.clearFriend();
+		}
         
 		// test
 		LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData() [1].NickName);
@@ -185,18 +248,26 @@ public class FriendListLogic : ConcreteComponent
 		ShowUI();
 	}
 
-	void ViewUnitBriefInfo(object args){
+	void ViewUnitBriefInfo(object args)
+	{
 		int position = (int)args;
-		TFriendInfo tfi = CurrentFriendListData() [position];
-		if (tfi == null){
+//		TFriendInfo tfi = CurrentFriendListData() [position];
+		currentFriendPicked = CurrentFriendListData() [position];
+		if (currentFriendPicked == null)
+		{
 			Debug.LogError("ViewUnitBriefInfo(), pos : " + position + " TfriendInfo is null, return!!!");
 			return;
 		}
-
-		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, tfi);
+		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendList)
+			MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, currentFriendPicked);
+		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.Apply)
+			MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, currentFriendPicked);
+//		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.Reception)
+//			MsgCenter.Instance.Invoke(CommandEnum.NoteRefuseAll, currentFriendPicked);
 	}
 
-	void ViewUnitDetailInfo(object args){
+	void ViewUnitDetailInfo(object args)
+	{
 		int position = (int)args;
 		TUserUnit tuu = friendUnitItemViewList [position].DataItem;
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
@@ -214,6 +285,8 @@ public class FriendListLogic : ConcreteComponent
 			LogHelper.LogError("GetFriendUnitItemViewList GetUnitList return null.");
 			return;
 		}
+		LogHelper.Log("FriendListLogic.GetFriendUnitItemViewList(), unitList Count is : " + unitList.Count);
+
 		for (int i = 0; i < unitList.Count; i++)
 		{
 			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(unitList [i]);
@@ -233,10 +306,12 @@ public class FriendListLogic : ConcreteComponent
 		}
 
 		List<TUserUnit> tuuList = new List<TUserUnit>();
+		LogHelper.LogError("GetFriendUnitItemViewList() CurrentFriendListData().Count {0}", CurrentFriendListData().Count);
+
 		for (int i = 0; i < CurrentFriendListData().Count; i++)
 		{
 //			LogHelper.LogError("Global.friends:i={0}, friends:{1} fUserId:{2}", i, DataCenter.Instance.FriendList[ i ],DataCenter.Instance.FriendList[ i ].UserId);
-//			LogHelper.LogError("Global.friends:i={0}, friends.UserUnit:{1}", i, DataCenter.Instance.FriendList[ i ].UserUnit);
+			LogHelper.LogError("Global.friends:i={0}, friends.UserUnit:{1}", i, CurrentFriendListData() [i].UserUnit);
 			tuuList.Add(CurrentFriendListData() [i].UserUnit);
 		}
 
@@ -275,13 +350,15 @@ public class FriendListLogic : ConcreteComponent
 		ExcuteCallback(cbdArgs);
 	}
 
-	void EnableExtraFunction(){
-		switch (UIManager.Instance.baseScene.CurrentScene){
-			case SceneEnum.FriendList :
+	void EnableExtraFunction()
+	{
+		switch (UIManager.Instance.baseScene.CurrentScene)
+		{
+			case SceneEnum.FriendList:
 				CallBackDispatcherArgs updateCbdArgs = new CallBackDispatcherArgs("EnableUpdateButton", null);
 				ExcuteCallback(updateCbdArgs);
 				break;
-			case SceneEnum.Reception :
+			case SceneEnum.Reception:
 				CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableRefuseButton", null);
 				ExcuteCallback(cbdArgs);
 				break;

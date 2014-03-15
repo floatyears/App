@@ -4,14 +4,11 @@ using System.Collections.Generic;
 using bbproto;
 
 public class LevelUpFriendWindow : UIComponentUnity {
-
-    DragPanel friendDragPanel;
-    Dictionary<GameObject,TFriendInfo> friendUnitInfoDic = new Dictionary<GameObject, TFriendInfo>();
-    Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-    List<TFriendInfo> friendInfoList = new List<TFriendInfo>();
-
-    List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
-
+    protected DragPanel friendDragPanel;
+	protected Dictionary<GameObject,TFriendInfo> friendUnitInfoDic = new Dictionary<GameObject, TFriendInfo>();
+	protected Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
+	protected List<TFriendInfo> friendInfoList = new List<TFriendInfo>();
+	protected List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
     public override void Init(UIInsConfig config, IUICallback origin) {
         base.Init(config, origin);
@@ -21,7 +18,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
     public override void ShowUI() {
         base.ShowUI();
-        this.gameObject.SetActive(false);
+        
         MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, FocusOnPanel);
     }
 
@@ -38,32 +35,15 @@ public class LevelUpFriendWindow : UIComponentUnity {
     void InitDragPanel() {
         if (DataCenter.Instance.SupportFriends != null)
             friendInfoList.AddRange(DataCenter.Instance.SupportFriends);
-//		Debug.LogError ("friendInfoList.Count : " + friendInfoList.Count);
-        //temp add friend info----------------------------------------
-//		FriendInfo fi = new FriendInfo ();
-//		fi.unit = new UserUnit ();
-//		fi.unit.unitId = 1;
-//		fi.unit.addAttack = 1;
-//		fi.unit.addDefence = 1;
-//		fi.unit.addHp = 1;
-//		fi.unit.exp = 100;
-//		fi.unit.isFavorite = 2;
-//		fi.unit.level = 1;
-//		fi.unit.uniqueId = 1;
-//		fi.userId = 9999999;
-//		TFriendInfo tfrend = new TFriendInfo (fi);
-//		friendInfoList.Add (tfrend);
-        //end---------------------------------------------------------
-
         string name = "FriendDragPanel";
         int count = friendInfoList.Count;//DataCenter.Instance.Friends.Count;
         string itemSourcePath = "Prefabs/UI/Friend/AvailFriendItem";
         GameObject itemGo = Resources.Load(itemSourcePath) as GameObject;
         InitDragPanelArgs();
         friendDragPanel = CreateDrag(name, count, itemGo);
+
         FillDragPanel(friendDragPanel);
         friendDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
-
         //StartCoroutine( CrossShow(unitInfoStruct));
     }
 
@@ -84,13 +64,20 @@ public class LevelUpFriendWindow : UIComponentUnity {
     private void FillDragPanel(DragPanel panel) {
         if (panel == null)
             return;
+//		GameObject scrollItem = panel.ScrollItem[0];
+//
+//	    TFriendInfo tfiItem = friendInfoList[0];	
+//	    friendUnitInfoDic.Add(scrollItem, tfiItem);
+//
+//		StoreLabelInfo(scrollItem,tfiItem.UserUnit);
+//		return;
+//		ShowItem(scrollItem);
+//	    AddEventListener(scrollItem);
         for (int i = 0; i < panel.ScrollItem.Count; i++) {
             GameObject scrollItem = panel.ScrollItem[i];
-            //Get target data of each panel item
             TFriendInfo tfiItem = friendInfoList[i];	
             friendUnitInfoDic.Add(scrollItem, tfiItem);
-            StoreLabelInfo(scrollItem);
-//			Debug.Log("LevelUpFriendWindow.FillDragPanel(), unitInfoStruct cout is : " + unitInfoStruct.Count);
+            StoreLabelInfo(scrollItem, tfiItem.UserUnit);
             ShowItem(scrollItem);
             AddEventListener(scrollItem);
         }
@@ -113,7 +100,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
         //
         uint curUnitId = friendUnitInfoDic[item].UserUnit.UnitID;
 //		Debug.LogError("Base Show Avatar : curUnitId is : " + curUnitId);
-        avatarTex.mainTexture = DataCenter.Instance.UnitInfo[curUnitId].GetAsset(UnitAssetType.Avatar);
+		avatarTex.mainTexture = DataCenter.Instance.GetUnitInfo (curUnitId).GetAsset (UnitAssetType.Avatar);//UnitInfo[curUnitId].GetAsset(UnitAssetType.Avatar);
 
         int addAttack = tfriendInfo.UserUnit.AddAttack;
         int addHp = tfriendInfo.UserUnit.AddHP;
@@ -152,7 +139,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
     }
 
 
-    void ClickFriendItem(GameObject item) {
+    protected virtual void ClickFriendItem(GameObject item) {
 
         AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         TUserUnit tempInfo = friendUnitInfoDic[item].UserUnit;
@@ -244,8 +231,11 @@ public class LevelUpFriendWindow : UIComponentUnity {
         }
     }//End
         
-    void StoreLabelInfo(GameObject item) {
-        TUserUnit tuu = friendUnitInfoDic[item].UserUnit;
+    void StoreLabelInfo(GameObject item,TUserUnit tuu) {
+
+		if (tuu == null) {
+			return;	
+		}
         UnitInfoStruct infoStruct = new UnitInfoStruct();
         infoStruct.text1 = tuu.Level.ToString();
         infoStruct.text2 = (tuu.AddHP + tuu.AddAttack).ToString();

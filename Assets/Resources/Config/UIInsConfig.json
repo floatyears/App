@@ -152,6 +152,14 @@
         "positiony": 0,
         "positionz": 0
     },
+     "EvolveFriend": {
+        "uiName":"EvolveFriend",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 108,
+        "positionz": 0
+    },
     "UnitListWindow": {
         "uiName":"UnitListWindow",
         "resoucePath": "Prefabs/UI/Units/",
@@ -294,6 +302,15 @@
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
+        "positionz": 0
+    },
+    
+      "ApplyMessageWindow": {
+        "uiName":"ApplyMessageWindow",
+        "resoucePath": "Prefabs/UI/FriendList/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": -565,
         "positionz": 0
     }
 }

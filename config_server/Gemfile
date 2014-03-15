@@ -6,6 +6,7 @@ gem 'rails', '4.1.0.beta1'
 gem 'redis-rails'
 gem 'beefcake'
 gem "twitter-bootstrap-rails"
+gem 'rubyzip', '>= 1.0.0'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'

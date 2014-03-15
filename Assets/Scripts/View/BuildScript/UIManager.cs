@@ -107,10 +107,13 @@ public class UIManager {
 
 	public void ChangeScene(SceneEnum sEnum)
 	{
+//		Debug.LogError("sEnum : "  + sEnum);
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
 		}
 		else {
+
+
 			if(current != null) {
 				current.HideScene();
 			}
@@ -120,8 +123,12 @@ public class UIManager {
 
 		if(HasUIObject(sEnum))
 			current = GetUI(sEnum);
-		else
-			current = CreatScene(sEnum);
+		else{
+
+			DecoratorBase db = CreatScene(sEnum);
+			current = db;
+		}
+			
 
 		if (current != null) {
 			current.ShowScene();		

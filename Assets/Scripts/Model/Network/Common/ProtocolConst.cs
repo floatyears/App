@@ -14,4 +14,7 @@ class Protocol {
     public const string DEL_FRIEND = "del_friend";
     public const string FIND_FRIEND = "find_friend";
     public const string ACCEPT_FRIEND = "accept_friend";
+    public const string EVOLVE_START = "evolve_start";
+    public const string EVOLVE_DONE = "evolve_done";
+    public const string SELL_UNIT = "sell_unit";
 }

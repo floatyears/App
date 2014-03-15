@@ -103,8 +103,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                 continue;
 
 //			Debug.LogError("uu[item.unitPos].UnitInfo="+uu[item.unitPos].UnitInfo);
+			TUnitInfo ui = uu[item.unitPos].UnitInfo;
 
-            EUnitType unitType = uu[item.unitPos].UnitInfo.Type;
+            EUnitType unitType = ui.Type;
 
             typeAttackValue[unitType] += uu[item.unitPos].Attack;
             totalHp += uu[item.unitPos].Hp;

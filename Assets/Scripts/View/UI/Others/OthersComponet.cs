@@ -17,6 +17,7 @@ public class OthersComponent : ConcreteComponent
         }
 	
         public override void HideUI(){
+//		UnityEngine.Debug.LogError("HideScene");
 		base.HideUI();
 
 	}

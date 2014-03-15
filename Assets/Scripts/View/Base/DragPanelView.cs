@@ -39,6 +39,7 @@ public class DragPanelView : UIBaseUnity {
 	public override void DestoryUI ()
 	{
 		base.DestoryUI ();
+	
 	}
 	int a = 0;
 	public GameObject AddObject(GameObject obj) {

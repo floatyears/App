@@ -136,7 +136,7 @@ public enum CommandEnum
 	UnitDisplayState			= 3054,
 	UnitDisplayBaseData			= 3055,
 	UnitDisplayMaterialData		= 3056,
-
+	EvolveFriend				= 3057,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -173,7 +173,12 @@ public enum CommandEnum
 	FriendBriefInfoShow		= 4031,
 	EnsureUpdateFriend			= 4032,
 	CancelSelectunitbrief		= 4033,
-
+	EnsureDeleteFriend					= 4034,
+	ViewApplyInfo					= 4035,
+	ShowApplyInfo				= 4036,
+	EnsureDeleteApply			= 4037,
+	NoteRefuseAll				= 4038,
+	EnsureRefuseAll				= 4039,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
@@ -199,7 +204,8 @@ public enum CommandEnum
 	//-----------------Server Protocol-----------------------//
 }
 
-public enum MapItemEnum {
+public enum MapItemEnum
+{
 	None					= 0,
 	Enemy					= 1,
 	Trap					= 2,
@@ -209,7 +215,8 @@ public enum MapItemEnum {
 	Exclamation 			= 6,
 }
 
-public enum UIParentEnum : byte {
+public enum UIParentEnum : byte
+{
 	/// <summary>
 	/// screen center anchor
 	/// </summary>
@@ -259,7 +266,8 @@ public enum CardPoolEnum
 	FightCard,
 }
 
-public enum CardColorType : byte {
+public enum CardColorType : byte
+{
 
 	fire = 0,
 
@@ -277,7 +285,8 @@ public enum CardColorType : byte {
 }
 
 
-public enum AudioEnum {
+public enum AudioEnum
+{
 	music_home 				= 0,
 	music_dungeon  			= 1,
 	music_fight				= 2,
@@ -320,12 +329,14 @@ public enum AudioEnum {
 }
 
 
-public enum showTurn{
+public enum showTurn
+{
 	FirstTurn,
 	SecondTurn	
 }
 
-public enum UnitAssetType {
+public enum UnitAssetType
+{
 	Avatar 	= 0,
 	Profile	= 1,
 }

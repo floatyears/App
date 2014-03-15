@@ -18,7 +18,7 @@ public class BattleBottom : MonoBehaviour {
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.GetPosUnitInfo ();
 		foreach (var item in userUnitInfo) {
-			TUnitInfo tui = DataCenter.Instance.UnitInfo[item.Value.UnitID];
+			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(item.Value.UnitID); //UnitInfo[item.Value.UnitID];
 			actorObject[item.Key].renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
 		}
 		List<int> haveInfo = new List<int> (userUnitInfo.Keys);
