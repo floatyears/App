@@ -287,7 +287,7 @@ public class NetWorkEvovleTester {
 
         DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
 
-        LogHelper.Log("")
+//        LogHelper.Log("");
     }
 }
 
