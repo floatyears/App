@@ -16,4 +16,6 @@
 /tmp
 
 /public/skills/X_SKILL_*
+/public/skills/*.zip
 /public/unit/X_UNIT_*
+/public/unit/*.zip

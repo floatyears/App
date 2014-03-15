@@ -4,7 +4,7 @@ class UnitInfosController < ApplicationController
   # GET /unit_infos
   # GET /unit_infos.json
   def index
-    @units =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact.sort.map{|key| UnitInfo.decode($redis.get key)}
+    @units =  $redis.keys.map{|k|k.split("_")[2].to_i if k.start_with?("X_UNIT_")}.compact.sort.map{|key| UnitInfo.decode($redis.get("X_UNIT_#{key}"))}
   end
 
   # GET /unit_infos/1
@@ -50,8 +50,9 @@ class UnitInfosController < ApplicationController
   end
   
   def download
-    file_path = "#{Rails.root}/public/unit/X_UNIT_#{params[:id]}"
-    send_file file_path, :filename => "X_UNIT_"+params[:id], :disposition => 'attachment'
+    UnitInfo.to_zip
+    file_path = "#{Rails.root}/public/unit/units.zip"
+    send_file file_path, :filename => "units.zip", :disposition => 'attachment'
   end
   
   def update_redis

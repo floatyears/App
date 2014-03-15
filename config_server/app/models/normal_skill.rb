@@ -57,11 +57,28 @@ class NormalSkill
   end
   
   def save_to_file
-    File.open(Rails.root.join("public/skills/X_SKILL_#{self.baseInfo.id}"), "wb") { | file|  file.write(self.encode) } 
+    File.open(Rails.root.join("public/skills/X_SKILL_#{self.baseInfo.id}.bytes"), "wb") { | file|  file.write(self.encode) } 
   end
   
   def save_to_redis
     $redis.set "X_SKILL_"+self.baseInfo.id.to_s,self.encode
+  end
+  
+  def self.to_zip
+    directory = Rails.root.join("public/skills")
+    zipfile_name = Rails.root.join("public/skills/skills.zip")
+    
+    Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
+      Dir[File.join(directory, '**', '**')].each do |file|
+        zipfile.add(File.basename(file),file )
+      end
+    end
+  end
+  
+  def self.redis_to_file
+    $redis.keys.map{|k|k if k.start_with?("X_SKILL_")}.compact.each do |key|
+      File.open(Rails.root.join("public/skills/#{key}.bytes"), "wb") { | file|  file.write($redis.get key) } 
+    end
   end
   
 end
