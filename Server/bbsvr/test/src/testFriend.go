@@ -289,7 +289,7 @@ func main() {
 	//GetFriend(130)
 	//FindFriend(101, 130)
 
-	//AddFriend(156, 143)
+	AddFriend(156, 143)
 	//AddFriend(156, 144)
 	//AddFriend(156, 146)
 	//AddFriend(156, 147)
@@ -298,8 +298,9 @@ func main() {
 	//AddFriend(156, 150)
 	//AddFriend(156, 151)
 
-	//for fid := uint32(146); fid < 162; fid++ {
-	//	AddFriend(fid, 156)
+	//for fid := uint32(140); fid < 160; fid++ {
+	//	AddFriend(fid, 132)
+	//	AddFriend(fid, 133)
 	//}
 
 	//AcceptFriend(143, 156)
@@ -310,12 +311,12 @@ func main() {
 	//AcceptFriend(149, 156)
 	//AcceptFriend(156, 156)
 
-	//uid := uint32(104)
-	//num := uint32(40)
-	//AddBundleFriends(uid, num)
+	uid := uint32(197)
+	num := uint32(20)
+	AddBundleFriends(uid, num)
 
 	//DelFriend(104, 123)
-	GetFriend(111)
+	GetFriend(197)
 
 	log.Fatal("bbsvr test client finish.")
 }
