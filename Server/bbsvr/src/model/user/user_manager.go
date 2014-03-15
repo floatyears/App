@@ -42,6 +42,9 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		StaminaNow:     &staminaNow,
 		StaminaMax:     &staminaMax,
 		StaminaRecover: &staminaRecover,
+		FriendMax:    proto.Int32(consts.N_DEFAULT_FRIEND_MAX),
+		UnitMax:     proto.Int32(consts.N_DEFAULT_UNIT_MAX),
+		CostMax:     proto.Int32(consts.N_DEFAULT_COST_MAX),
 	}
 
 	userdetail.Account = &bbproto.AccountInfo{

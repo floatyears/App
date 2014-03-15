@@ -127,6 +127,7 @@ public class TFriendList : ProtobufDataBase {
         else {
             friend = new List<TFriendInfo>();
         }
+		Debug.LogError("friend count " + instance.friend.Count);
         foreach (FriendInfo fi in instance.friend) {
             TFriendInfo tfi = new TFriendInfo(fi);
             Debug.Log("friend: NickName " + tfi.NickName);
@@ -161,7 +162,7 @@ public class TFriendList : ProtobufDataBase {
         }
         foreach (FriendInfo fi in instance.friendIn) {
             TFriendInfo tfi = new TFriendInfo(fi);
-            Debug.Log("helper: NickName " + tfi.NickName);
+//            Debug.Log("helper: NickName " + tfi.NickName);
             friendIn.Add(tfi);
         }
     }

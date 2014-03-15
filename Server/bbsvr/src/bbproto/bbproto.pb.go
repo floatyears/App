@@ -2106,7 +2106,7 @@ type RspClearQuest struct {
 	StaminaRecover   *uint32      `protobuf:"varint,8,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
 	GotMoney         *int32       `protobuf:"varint,9,opt,name=gotMoney" json:"gotMoney,omitempty"`
 	GotExp           *int32       `protobuf:"varint,10,opt,name=gotExp" json:"gotExp,omitempty"`
-	GotChip          *int32       `protobuf:"varint,11,opt,name=gotChip" json:"gotChip,omitempty"`
+	GotStone         *int32       `protobuf:"varint,11,opt,name=gotStone" json:"gotStone,omitempty"`
 	GotFriendPoint   *int32       `protobuf:"varint,12,opt,name=gotFriendPoint" json:"gotFriendPoint,omitempty"`
 	GotUnit          []*UserUnit  `protobuf:"bytes,13,rep,name=gotUnit" json:"gotUnit,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
@@ -2186,9 +2186,9 @@ func (m *RspClearQuest) GetGotExp() int32 {
 	return 0
 }
 
-func (m *RspClearQuest) GetGotChip() int32 {
-	if m != nil && m.GotChip != nil {
-		return *m.GotChip
+func (m *RspClearQuest) GetGotStone() int32 {
+	if m != nil && m.GotStone != nil {
+		return *m.GotStone
 	}
 	return 0
 }
@@ -3211,7 +3211,7 @@ type RspEvolveDone struct {
 	StaminaRecover   *uint32      `protobuf:"varint,8,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
 	GotMoney         *int32       `protobuf:"varint,9,opt,name=gotMoney" json:"gotMoney,omitempty"`
 	GotExp           *int32       `protobuf:"varint,10,opt,name=gotExp" json:"gotExp,omitempty"`
-	GotChip          *int32       `protobuf:"varint,11,opt,name=gotChip" json:"gotChip,omitempty"`
+	GotStone         *int32       `protobuf:"varint,11,opt,name=gotStone" json:"gotStone,omitempty"`
 	GotFriendPoint   *int32       `protobuf:"varint,12,opt,name=gotFriendPoint" json:"gotFriendPoint,omitempty"`
 	GotUnit          []*UserUnit  `protobuf:"bytes,13,rep,name=gotUnit" json:"gotUnit,omitempty"`
 	EvolvedUnit      *UserUnit    `protobuf:"bytes,14,opt,name=evolvedUnit" json:"evolvedUnit,omitempty"`
@@ -3292,9 +3292,9 @@ func (m *RspEvolveDone) GetGotExp() int32 {
 	return 0
 }
 
-func (m *RspEvolveDone) GetGotChip() int32 {
-	if m != nil && m.GotChip != nil {
-		return *m.GotChip
+func (m *RspEvolveDone) GetGotStone() int32 {
+	if m != nil && m.GotStone != nil {
+		return *m.GotStone
 	}
 	return 0
 }
@@ -3356,8 +3356,9 @@ type RspGacha struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	UnitList         []*UserUnit  `protobuf:"bytes,2,rep,name=unitList" json:"unitList,omitempty"`
 	UnitUniqueId     []uint32     `protobuf:"varint,3,rep,name=unitUniqueId" json:"unitUniqueId,omitempty"`
-	Stone            *int32       `protobuf:"varint,4,opt,name=stone" json:"stone,omitempty"`
-	FriendPoint      *int32       `protobuf:"varint,5,opt,name=friendPoint" json:"friendPoint,omitempty"`
+	BlankUnitId      []uint32     `protobuf:"varint,4,rep,name=blankUnitId" json:"blankUnitId,omitempty"`
+	Stone            *int32       `protobuf:"varint,5,opt,name=stone" json:"stone,omitempty"`
+	FriendPoint      *int32       `protobuf:"varint,6,opt,name=friendPoint" json:"friendPoint,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -3382,6 +3383,13 @@ func (m *RspGacha) GetUnitList() []*UserUnit {
 func (m *RspGacha) GetUnitUniqueId() []uint32 {
 	if m != nil {
 		return m.UnitUniqueId
+	}
+	return nil
+}
+
+func (m *RspGacha) GetBlankUnitId() []uint32 {
+	if m != nil {
+		return m.BlankUnitId
 	}
 	return nil
 }
@@ -3473,7 +3481,10 @@ type UserInfo struct {
 	StaminaNow       *int32    `protobuf:"varint,6,opt,name=staminaNow" json:"staminaNow,omitempty"`
 	StaminaMax       *int32    `protobuf:"varint,7,opt,name=staminaMax" json:"staminaMax,omitempty"`
 	StaminaRecover   *uint32   `protobuf:"varint,8,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
-	Unit             *UserUnit `protobuf:"bytes,9,opt,name=unit" json:"unit,omitempty"`
+	FriendMax        *int32    `protobuf:"varint,9,opt,name=friendMax" json:"friendMax,omitempty"`
+	UnitMax          *int32    `protobuf:"varint,10,opt,name=unitMax" json:"unitMax,omitempty"`
+	CostMax          *int32    `protobuf:"varint,11,opt,name=costMax" json:"costMax,omitempty"`
+	Unit             *UserUnit `protobuf:"bytes,12,opt,name=unit" json:"unit,omitempty"`
 	XXX_unrecognized []byte    `json:"-"`
 }
 
@@ -3533,6 +3544,27 @@ func (m *UserInfo) GetStaminaMax() int32 {
 func (m *UserInfo) GetStaminaRecover() uint32 {
 	if m != nil && m.StaminaRecover != nil {
 		return *m.StaminaRecover
+	}
+	return 0
+}
+
+func (m *UserInfo) GetFriendMax() int32 {
+	if m != nil && m.FriendMax != nil {
+		return *m.FriendMax
+	}
+	return 0
+}
+
+func (m *UserInfo) GetUnitMax() int32 {
+	if m != nil && m.UnitMax != nil {
+		return *m.UnitMax
+	}
+	return 0
+}
+
+func (m *UserInfo) GetCostMax() int32 {
+	if m != nil && m.CostMax != nil {
+		return *m.CostMax
 	}
 	return 0
 }
@@ -4069,6 +4101,7 @@ type RspAuthUser struct {
 	Friends          []*FriendInfo  `protobuf:"bytes,9,rep,name=friends" json:"friends,omitempty"`
 	Present          []*PresentInfo `protobuf:"bytes,10,rep,name=present" json:"present,omitempty"`
 	EvolveType       *EUnitType     `protobuf:"varint,11,opt,name=evolveType,enum=bbproto.EUnitType" json:"evolveType,omitempty"`
+	IsNewUser        *int32         `protobuf:"varint,12,opt,name=isNewUser" json:"isNewUser,omitempty"`
 	XXX_unrecognized []byte         `json:"-"`
 }
 
@@ -4151,6 +4184,13 @@ func (m *RspAuthUser) GetEvolveType() EUnitType {
 		return *m.EvolveType
 	}
 	return EUnitType_UALL
+}
+
+func (m *RspAuthUser) GetIsNewUser() int32 {
+	if m != nil && m.IsNewUser != nil {
+		return *m.IsNewUser
+	}
+	return 0
 }
 
 // -------------------------------------------------
@@ -4309,8 +4349,9 @@ func (m *ReqRestoreStamina) GetHeader() *ProtoHeader {
 type RspRestoreStamina struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	StaminaNow       *int32       `protobuf:"varint,2,opt,name=staminaNow" json:"staminaNow,omitempty"`
-	StaminaRecover   *uint32      `protobuf:"varint,3,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
-	Account          *AccountInfo `protobuf:"bytes,4,opt,name=account" json:"account,omitempty"`
+	StaminaMax       *int32       `protobuf:"varint,3,opt,name=staminaMax" json:"staminaMax,omitempty"`
+	StaminaRecover   *uint32      `protobuf:"varint,4,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	Stone            *int32       `protobuf:"varint,5,opt,name=stone" json:"stone,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -4332,6 +4373,13 @@ func (m *RspRestoreStamina) GetStaminaNow() int32 {
 	return 0
 }
 
+func (m *RspRestoreStamina) GetStaminaMax() int32 {
+	if m != nil && m.StaminaMax != nil {
+		return *m.StaminaMax
+	}
+	return 0
+}
+
 func (m *RspRestoreStamina) GetStaminaRecover() uint32 {
 	if m != nil && m.StaminaRecover != nil {
 		return *m.StaminaRecover
@@ -4339,11 +4387,11 @@ func (m *RspRestoreStamina) GetStaminaRecover() uint32 {
 	return 0
 }
 
-func (m *RspRestoreStamina) GetAccount() *AccountInfo {
-	if m != nil {
-		return m.Account
+func (m *RspRestoreStamina) GetStone() int32 {
+	if m != nil && m.Stone != nil {
+		return *m.Stone
 	}
-	return nil
+	return 0
 }
 
 // -------------------------------------------------
@@ -4385,6 +4433,104 @@ func (m *RspChangeParty) GetHeader() *ProtoHeader {
 		return m.Header
 	}
 	return nil
+}
+
+// -------------------------------------------------
+type ReqUnitMaxExpand struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqUnitMaxExpand) Reset()         { *m = ReqUnitMaxExpand{} }
+func (m *ReqUnitMaxExpand) String() string { return proto.CompactTextString(m) }
+func (*ReqUnitMaxExpand) ProtoMessage()    {}
+
+func (m *ReqUnitMaxExpand) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+type RspUnitMaxExpand struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	UnitMax          *int32       `protobuf:"varint,2,opt,name=unitMax" json:"unitMax,omitempty"`
+	Stone            *int32       `protobuf:"varint,3,opt,name=stone" json:"stone,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspUnitMaxExpand) Reset()         { *m = RspUnitMaxExpand{} }
+func (m *RspUnitMaxExpand) String() string { return proto.CompactTextString(m) }
+func (*RspUnitMaxExpand) ProtoMessage()    {}
+
+func (m *RspUnitMaxExpand) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspUnitMaxExpand) GetUnitMax() int32 {
+	if m != nil && m.UnitMax != nil {
+		return *m.UnitMax
+	}
+	return 0
+}
+
+func (m *RspUnitMaxExpand) GetStone() int32 {
+	if m != nil && m.Stone != nil {
+		return *m.Stone
+	}
+	return 0
+}
+
+// -------------------------------------------------
+type ReqFriendMaxExpand struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqFriendMaxExpand) Reset()         { *m = ReqFriendMaxExpand{} }
+func (m *ReqFriendMaxExpand) String() string { return proto.CompactTextString(m) }
+func (*ReqFriendMaxExpand) ProtoMessage()    {}
+
+func (m *ReqFriendMaxExpand) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+type RspFriendMaxExpand struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	FriendMax        *int32       `protobuf:"varint,2,opt,name=friendMax" json:"friendMax,omitempty"`
+	Stone            *int32       `protobuf:"varint,3,opt,name=stone" json:"stone,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspFriendMaxExpand) Reset()         { *m = RspFriendMaxExpand{} }
+func (m *RspFriendMaxExpand) String() string { return proto.CompactTextString(m) }
+func (*RspFriendMaxExpand) ProtoMessage()    {}
+
+func (m *RspFriendMaxExpand) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspFriendMaxExpand) GetFriendMax() int32 {
+	if m != nil && m.FriendMax != nil {
+		return *m.FriendMax
+	}
+	return 0
+}
+
+func (m *RspFriendMaxExpand) GetStone() int32 {
+	if m != nil && m.Stone != nil {
+		return *m.Stone
+	}
+	return 0
 }
 
 func init() {

@@ -3820,6 +3820,14 @@ namespace bbproto
       get { return _evolveType; }
       set { _evolveType = value; }
     }
+    private int _isNewUser = default(int);
+    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"isNewUser", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int isNewUser
+    {
+      get { return _isNewUser; }
+      set { _isNewUser = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

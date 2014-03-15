@@ -38,10 +38,17 @@ func CheckGachaAvailble(gachaConf *bbproto.GachaConfig, gachaId int32) (e Error.
 		return Error.New(EC.INVALID_PARAMS)
 	}
 
+	if gachaConf.BeginTime == nil || gachaConf.EndTime == nil {
+		return Error.OK()
+	}
+	if *gachaConf.BeginTime == 0 || *gachaConf.EndTime == 0 {
+		return Error.OK()
+	}
+
 	tNow := common.Now()
 	if tNow < *gachaConf.BeginTime || tNow > *gachaConf.EndTime {
 		log.Error("gacha tNow:%v is not invalid period[%v - %v]", tNow, *gachaConf.BeginTime, *gachaConf.EndTime)
-		return Error.New(EC.E_GACHA_TIME_INVALID)
+		return Error.New(EC.E_GACHA_TIME_EXPIRED, "The gacha is expired.")
 	}
 
 	return Error.OK()

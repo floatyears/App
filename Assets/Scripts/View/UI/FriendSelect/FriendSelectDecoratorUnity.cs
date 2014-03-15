@@ -155,6 +155,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
         friendItem = Resources.Load("Prefabs/UI/Friend/AvailFriendItem") as GameObject;
         friendsScroller = new DragPanel("FriendSelectScroller", friendItem);
         friendsScroller.CreatUI();
+
         friendsScroller.AddItem(1);
         friendsScroller.DragPanelView.SetItemWidth(140);
         friendsScroller.DragPanelView.gameObject.transform.parent = gameObject.transform.FindChild("ScrollView");
@@ -238,10 +239,10 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
         p.currPartyId = 0;
         p.questId = 1101;
         p.stageId = 11;
-        p.helperUserId = 103;
-        p.helperUniqueId = 2;
-
-        startQuestNetBase.OnRequest(p, RspStartQuest);
+		TFriendInfo tfi = DataCenter.Instance.SupportFriends [0];
+		p.helperUserId = tfi.UserId;
+		p.helperUniqueId = tfi.UserUnit.ID;
+		startQuestNetBase.OnRequest(p, RspStartQuest);
     }
 
     void RspStartQuest(object data) {
@@ -270,7 +271,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 
 	
     void PickFriend(GameObject btn) {
-        Debug.LogError("PickFriend");
+//        Debug.LogError("PickFriend");
         AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         msgBox.SetActive(true);
     }

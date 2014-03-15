@@ -123,14 +123,6 @@ message RspAcceptFriend {
 	optional FriendList		friends				= 2;	
 }
 //-------------------------------------------------
-message ReqFriendMaxExpand {
-	optional ProtoHeader	header				= 1;
-}
-
-message RspFriendMaxExpand {
-	optional ProtoHeader	header				= 1;
-	optional int32			friendMax			= 2;	
-}
 
 //=====================================================
 
@@ -387,7 +379,7 @@ message RspClearQuest {
 	optional uint32			staminaRecover	= 8; //recover time
 	optional int32			gotMoney		= 9;
 	optional int32			gotExp			= 10;
-	optional int32			gotChip			= 11;
+	optional int32			gotStone		= 11;
 	optional int32			gotFriendPoint	= 12;
 	repeated UserUnit		gotUnit			= 13; //with uniqueId 
 }
@@ -592,7 +584,7 @@ message RspEvolveDone {
 	optional uint32			staminaRecover	= 8;
 	optional int32			gotMoney		= 9;
 	optional int32			gotExp			= 10;
-	optional int32			gotChip			= 11;
+	optional int32			gotStone		= 11;
 	optional int32			gotFriendPoint	= 12;
 	repeated UserUnit		gotUnit			= 13;
 	optional UserUnit		evolvedUnit		= 14;
@@ -626,14 +618,6 @@ message RspSellUnit {
 	repeated UserUnit		unitList		= 4;	
 }
 
-message ReqUnitMaxExpand {
-	optional ProtoHeader	header			= 1;
-}
-
-message RspUnitMaxExpand {
-	optional ProtoHeader	header			= 1;
-	optional int32			unitMax			= 2;	
-}
 
 //=====================================================
 
@@ -648,7 +632,8 @@ message UserInfo {
 	optional uint32		staminaRecover		= 8; //recover time
 	optional int32		friendMax			= 9;
 	optional int32		unitMax				= 10;
-	optional UserUnit	unit				= 11; //leader unit	
+	optional int32		costMax				= 11;	
+	optional UserUnit	unit				= 12; //leader unit	
 }
 
 message UserInfoDetail {
@@ -755,6 +740,7 @@ message RspAuthUser {
 	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 10;
 	optional EUnitType		evolveType			= 11;
+	optional int32			isNewUser			= 12;
 };
 
 //-------------------------------------------------
@@ -794,8 +780,9 @@ message ReqRestoreStamina {
 message RspRestoreStamina {
 	optional ProtoHeader	header				= 1;
 	optional int32			staminaNow			= 2; // current stamina
-	optional uint32			staminaRecover		= 3; // stamina recover time
-	optional AccountInfo	account				= 4;
+	optional int32			staminaMax			= 3; 	
+	optional uint32			staminaRecover		= 4; // stamina recover time
+	optional int32			stone				= 5;
 };
 
 //-------------------------------------------------
@@ -807,4 +794,26 @@ message ReqChangeParty {
 message RspChangeParty {
 	optional ProtoHeader	header				= 1;
 };
+
+//-------------------------------------------------
+message ReqUnitMaxExpand {
+	optional ProtoHeader	header				= 1;
+}
+
+message RspUnitMaxExpand {
+	optional ProtoHeader	header				= 1;
+	optional int32			unitMax				= 2;
+	optional int32			stone				= 3;
+}
+
+//-------------------------------------------------
+message ReqFriendMaxExpand {
+	optional ProtoHeader	header				= 1;
+}
+
+message RspFriendMaxExpand {
+	optional ProtoHeader	header				= 1;
+	optional int32			friendMax			= 2;	
+	optional int32			stone				= 3;
+}
 

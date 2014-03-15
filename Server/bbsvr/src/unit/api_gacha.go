@@ -16,6 +16,7 @@ import (
 	"data"
 	"model/unit"
 	"model/user"
+	"common/consts"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -117,37 +118,41 @@ func (t Gacha) ProcessLogic(reqMsg *bbproto.ReqGacha, rspMsg *bbproto.RspGacha) 
 	}
 
 	//5. get random unit from target pool
-	gotUnitIds, e := unit.GetGachaUnit(db, gachaId, gachaCount)
+	allUnitIds, e := unit.GetGachaUnit(db, gachaId, consts.N_GACHA_MAX_COUNT)
 	if e.IsError() {
 		return e
 	}
 
-	//6. add gacha unit
-	for _, unitId := range gotUnitIds {
-		uniqueId, e := unit.GetUnitUniqueId(db, uid, len(userDetail.UnitList))
-		if e.IsError() {
-			return e
-		}
-		userUnit := &bbproto.UserUnit{}
-		userUnit.UniqueId = proto.Uint32(uniqueId)
-		userUnit.UnitId = proto.Uint32(unitId)
-		userUnit.AddAttack = proto.Int32(0)
-		userUnit.AddHp = proto.Int32(0)
-		userUnit.AddDefence = proto.Int32(0)
-		userUnit.Exp = proto.Int32(0)
-		userUnit.Level = proto.Int32(1)
-		userUnit.GetTime = proto.Uint32(common.Now())
+	//6. add got gacha unit & blank unit
+	for _, unitId := range allUnitIds {
+		if len( rspMsg.UnitUniqueId ) < int(gachaCount) {
+			uniqueId, e := unit.GetUnitUniqueId(db, uid, len(userDetail.UnitList))
+			if e.IsError() {
+				return e
+			}
+			userUnit := &bbproto.UserUnit{}
+			userUnit.UniqueId = proto.Uint32(uniqueId)
+			userUnit.UnitId = proto.Uint32(unitId)
+			userUnit.AddAttack = proto.Int32(0)
+			userUnit.AddHp = proto.Int32(0)
+			userUnit.AddDefence = proto.Int32(0)
+			userUnit.Exp = proto.Int32(0)
+			userUnit.Level = proto.Int32(1)
+			userUnit.GetTime = proto.Uint32(common.Now())
 
-		rspMsg.UnitUniqueId = append(rspMsg.UnitUniqueId, uniqueId)
-		userDetail.UnitList = append(userDetail.UnitList, userUnit)
+			rspMsg.UnitUniqueId = append(rspMsg.UnitUniqueId, uniqueId)
+			userDetail.UnitList = append(userDetail.UnitList, userUnit)
+		}else {
+			rspMsg.BlankUnitId = append(rspMsg.BlankUnitId, unitId)
+		}
 	}
 
-	//8. update userinfo
+	//7. update userinfo
 	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
 		return e
 	}
 
-	//9. fill response
+	//8. fill response
 	rspMsg.UnitList = userDetail.UnitList
 	rspMsg.Stone = userDetail.Account.Stone
 	rspMsg.FriendPoint = userDetail.Account.FriendPoint

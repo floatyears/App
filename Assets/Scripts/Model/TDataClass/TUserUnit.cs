@@ -362,20 +362,27 @@ public class UserUnitList {
     }
 
     public  TUserUnit Get(uint userId, uint uniqueId) {
+//		foreach (var item in userUnitInfo) {
+//			Debug.LogError(item.Key + " value : " + item.Value);
+//		}
+//		Debug.LogError ("get key befoure : " );
         string key = MakeUserUnitKey(userId, uniqueId);
+//		Debug.LogError ("get key behind : " + key);
         if (!userUnitInfo.ContainsKey(key)) {
-            //LogHelper.Log("Cannot find key {0} in Global.userUnitInfo.",key);
+			Debug.Log("Cannot find key " + key + " in Global.userUnitInfo");
             return null;
         }
-			
-        return userUnitInfo[key];
+		TUserUnit tuu = userUnitInfo [key];
+//		Debug.LogError ("Get tuu : " + tuu);
+		return tuu;
     }
 
     public  TUserUnit GetMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
-            //Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
+            Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return null;
         }
+		
         return Get(DataCenter.Instance.UserInfo.UserId, uniqueId);
     }
 
@@ -401,6 +408,8 @@ public class UserUnitList {
         if (userUnitInfo.ContainsKey(key))
             userUnitInfo.Remove(key);
     }
+
+
 }
 
 //public class PartyItemInfo : ProtobufDataBase {

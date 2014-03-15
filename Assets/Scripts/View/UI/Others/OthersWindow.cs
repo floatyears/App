@@ -49,7 +49,7 @@ public class OthersWindow : UIComponentUnity {
 	}
 	
 	void SetOption() {
-		Debug.Log( "OthersWindow SetOption() : Start");
+//		Debug.Log( "OthersWindow SetOption() : Start");
 
 		string itemPath = "Prefabs/UI/Others/OtherOptions";
 		GameObject item = Resources.Load( itemPath ) as GameObject;
@@ -73,15 +73,15 @@ public class OthersWindow : UIComponentUnity {
 		for(int i = 0; i < othersScroller.ScrollItem.Count; i++)
 			UIEventListener.Get( othersScroller.ScrollItem[ i ].gameObject ).onClick = ClickOption;
 
-		Debug.Log( "OthersWindow SetOption() : End");
+//		Debug.Log( "OthersWindow SetOption() : End");
 	}
 
 
 	void ClickOption( GameObject go) {
-		Debug.Log( "OthersWindow ClickOption() : Start");
-		Debug.Log( "OthersWindow ClickOption() : Click Option's name : " + go.name);
+//		Debug.Log( "OthersWindow ClickOption() : Start");
+//		Debug.Log( "OthersWindow ClickOption() : Click Option's name : " + go.name);
 		SwicthOption( go );
-		Debug.Log( "OthersWindow ClickOption() : Start");
+//		Debug.Log( "OthersWindow ClickOption() : Start");
 	}
 
 	void SwicthOption( GameObject target ){
@@ -93,13 +93,13 @@ public class OthersWindow : UIComponentUnity {
 
 	//----------Find UI----------
 	void FindUIElement() {
-		Debug.Log( "OthersWindow FindUIElement() : Start");
+//		Debug.Log( "OthersWindow FindUIElement() : Start");
 		FindMusicPanel();
 		FindNickNamePanel();
 	}
 
 	void FindMusicPanel(){
-		Debug.Log( "OthersWindow FindMusicPanel() : Start");
+//		Debug.Log( "OthersWindow FindMusicPanel() : Start");
 
 		string rootPath;
 		rootPath =  "InfoPanel/";
@@ -115,11 +115,11 @@ public class OthersWindow : UIComponentUnity {
 		maskOn = FindChild< UISprite >( rootPath + "On/Mask");
 		maskOff = FindChild< UISprite >( rootPath + "Off/Mask");
 
-		Debug.Log( "OthersWindow FindMusicPanel() : End");
+//		Debug.Log( "OthersWindow FindMusicPanel() : End");
 	}
 
 	void FindNickNamePanel(){
-		Debug.Log( "OthersWindow FindNickNamePanel() : Start");
+//		Debug.Log( "OthersWindow FindNickNamePanel() : Start");
 		string rootPath;
 		rootPath =  "InfoPanel/";
 		nickNamePanel = FindChild( rootPath + "NickNamePanel" );
@@ -127,7 +127,7 @@ public class OthersWindow : UIComponentUnity {
 		rootPath = "InfoPanel/NickNamePanel/";
 		okButton = FindChild< UIButton >( rootPath + "OKButton" );
 		nickNameInput = FindChild< UIInput >( rootPath + "NickNameInput" );
-		Debug.Log( "OthersWindow FindNickNamePanel() : End");
+//		Debug.Log( "OthersWindow FindNickNamePanel() : End");
         }
 
 
@@ -147,15 +147,15 @@ public class OthersWindow : UIComponentUnity {
         }
 
 	void SetNickNamePanel(){
-		Debug.Log( "OthersWindow SetNickNamePanel() : Start");
+//		Debug.Log( "OthersWindow SetNickNamePanel() : Start");
 //		nickNameInput.defaultText = UIConfig.TextNickNameInputDefault;
 		UIEventListener.Get( okButton.gameObject ).onClick = ClickOkButton;
-		Debug.Log( "OthersWindow SetNickNamePanel() : End");
+//		Debug.Log( "OthersWindow SetNickNamePanel() : End");
 	}
         
 	void ClickOkButton( GameObject go ){
 		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
-		Debug.Log("OthersWindow ClickOkButton(), nickNameInput is " + nickNameInput.value);
+//		Debug.Log("OthersWindow ClickOkButton(), nickNameInput is " + nickNameInput.value);
 	}
 
 	//----------Reset UI----------

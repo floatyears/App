@@ -57,7 +57,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public override void ShowUI () {
 
 		base.ShowUI ();
-	
 		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 	}
@@ -297,7 +296,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		int skillId = unitInfo.LeaderSkill;
 		SkillBase skill = DataCenter.Instance.Skill[ skillId ].GetSkillInfo();
                 
-                leaderSkillNameLabel.text = skill.name;
+        leaderSkillNameLabel.text = skill.name;
 		leaderSkillDscpLabel.text = skill.description;
 	}
 
@@ -338,28 +337,32 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		Debug.LogError ("levelUpData.money : " + levelUpData.money);
 //		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
 //		TUserUnit tuu = GlobalData
-//		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-//		gotExp = levelUpData.blendExp;
+		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+		gotExp = levelUpData.blendExp;
 
 		unitInfoTabs.SetActive (false);
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}
 
 	void CreatEffect() {
+		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
+		GameObject ProfileTexture = go.transform.Find ("ProfileTexture").gameObject;
+		ProfileTexture.renderer.material.mainTexture = blendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
 		effectCache.Add (go);
+	
 
 		if (effectCache.Count > 2) {
 			CancelInvoke("CreatEffect");
 			unitInfoTabs.SetActive (true);
-			TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-			ShowInfo(blendUnit);
+
+			ShowLevelInfo(blendUnit);
 			gotExp = levelUpData.blendExp;
 			curExp = blendUnit.CurExp;
 			expRiseStep =10;
 			curLevel = blendUnit.Level;
 			currMaxExp = gotExp + curExp;
-
+			ExpRise();
 		}
 	}
 	
@@ -367,6 +370,16 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void ShowInfo(TUserUnit userUnit) {
 		ShowBodyTexture( userUnit ); 
+		ShowUnitScale();
+		ShowStatusContent( userUnit );
+		ShowSkill1Content( userUnit );
+		ShowSkill2Content( userUnit );
+		ShowLeaderSkillContent( userUnit );
+		ShowActiveSkillContent( userUnit );
+		ShowProfileContent( userUnit );
+	}
+
+	void ShowLevelInfo (TUserUnit userUnit) {
 		ShowUnitScale();
 		ShowStatusContent( userUnit );
 		ShowSkill1Content( userUnit );

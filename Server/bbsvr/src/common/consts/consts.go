@@ -1,7 +1,10 @@
 package consts
 
 const (
-	DEFAULT_USER_NAME = ""
+	DEFAULT_USER_NAME    = ""
+	N_DEFAULT_COST_MAX   = 50
+	N_DEFAULT_UNIT_MAX   = 50
+	N_DEFAULT_FRIEND_MAX = 50
 )
 
 //redis table name list
@@ -41,14 +44,29 @@ const (
 )
 
 const (
-	N_MAX_RARE      = 6
-	N_MAX_USER_RANK = 500
+	N_MAX_RARE       = 6
+	N_MAX_USER_RANK  = 500
+	N_MAX_UNIT_NUM   = 400
+	N_MAX_FRIEND_NUM = 200
 
 	N_DUNGEON_GRID_COUNT    = 25
 	N_USER_SPACE_PARTS      = 10
 	N_HELPER_RANK_RANGE     = 5
 	N_STAMINA_TIME          = 600 // seconds
 	N_QUEST_COLOR_BLOCK_NUM = 120 //2400
-	N_GACHA_FRIEND_COST		= 200 // cost 200 friend points
-	N_GACHA_BUY_COST		= 5   // cost 5 chip for a gacha
+	N_GACHA_MAX_COUNT       = 9
+
+	N_UNITMAX_EXPAND_COUNT   = 5
+	N_FRIENDMAX_EXPAND_COUNT = 5
+)
+
+// consume cost
+const (
+	N_GACHA_FRIEND_COST = 200 // cost 200 friend points
+	N_GACHA_BUY_COST    = 5   // cost 5 stone for a gacha
+
+	N_UNITMAX_EXPAND_COST   = 1 // cost 1 stone
+	N_FRIENDMAX_EXPAND_COST = 1 // cost 1 stone
+	N_REDO_QUEST_COST       = 1 // cost 1 stone
+	N_RESUME_BATTLE_COST    = 1 // cost 1 stone
 )

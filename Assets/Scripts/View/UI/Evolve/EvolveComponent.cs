@@ -1,93 +1,121 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class EvolveComponent : ConcreteComponent {
 
-    public EvolveComponent(string uiName):base(uiName) {
-    }
+	public EvolveComponent(string uiName):base(uiName) {}
 	
-    public override void CreatUI() {
-        base.CreatUI();
-    }
+	public override void CreatUI () {
+		base.CreatUI ();
+	}
 	
-    public override void ShowUI() {
-        base.ShowUI();
-    }
+	public override void ShowUI () {
+		base.ShowUI ();
+		MsgCenter.Instance.AddListener (CommandEnum.SelectUnitBase, SelectUnit);
+		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+	}
 	
-    public override void HideUI() {
-        base.HideUI();
-    }
+	public override void HideUI () {
+		base.HideUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
+		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+	}
 	
-    public override void DestoryUI() {
-        base.DestoryUI();
-    }
+	public override void DestoryUI () {
+		base.DestoryUI ();
+	}
 
-    public static uint GetEvolveStageID(bbproto.EUnitType unitType, int  unitRare) {
-        uint stageID = 0;
-        if (unitRare > 6) {
-            return stageID;	
-        }
+	//================================================================================
+	private Dictionary<string, object> TransferData = new Dictionary<string, object> ();
 
-        switch (unitType) {
-        case bbproto.EUnitType.UWIND:
-            stageID = 1;
-            break;
-        case bbproto.EUnitType.UFIRE: 
-            stageID = 2;
-            break;
-        case bbproto.EUnitType.UWATER:
-            stageID = 3;
-            break;
-        case bbproto.EUnitType.ULIGHT:
-            stageID = 4;
-            break;
-        case bbproto.EUnitType.UDARK:
-            stageID = 5;
-            break;
-        case bbproto.EUnitType.UNONE:
-            stageID = 6;
-            break;
-        default:
-            stageID = 0;
-            break;
-        }
+	void selectUnitMaterial(object data) {
+		if (data == null) {
+			return;	
+		}
+//		Debug.LogError("selectUnitMaterial : " + Time.realtimeSinceStartup);
+		TransferData.Clear ();
+		TransferData.Add(EvolveDecoratorUnity.MaterialData, data);
 
-        return stageID;
-    }
+		ExcuteCallback (TransferData);
+	}
 
-    public static uint GetEvolveQuestID(int  unitRare, uint stageID) {
-        uint questID = 0;
-        if (unitRare > 6) {
-            return questID;	
-        }
+	void SelectUnit (object data) {
+		if (data == null) {
+			return;	
+		}
+//		Debug.LogError("select : " + Time.realtimeSinceStartup);
+		TransferData.Clear ();
+		TransferData.Add(EvolveDecoratorUnity.BaseData, data);
 
-        switch (unitRare) {
-        case 1:
-            questID = 1;
-            break;
-        case 2:
-            questID = 1;
-            break;
-        case 3:
-            questID = 2;
-            break;
-        case 4:
-            questID = 3;
-            break;
-        case 5:
-            questID = 4;
-            break;
-        case 6:
-            questID = 5;
-            break;
-        default:
-            return 0;
-            break;
-        }
-        questID += stageID * 100 + questID;
-        return questID;
+		ExcuteCallback (TransferData);
+	}
 
-    }
+	uint GetEvolveStageID (bbproto.EUnitType unitType, int  unitRare) {
+		uint stageID = 0;
+		if (unitRare > 6) {
+			return stageID;	
+		}
+
+		switch (unitType) {
+		case bbproto.EUnitType.UWIND :
+			stageID = 1;
+			break;
+		case bbproto.EUnitType.UFIRE : 
+			stageID = 2;
+			break;
+		case bbproto.EUnitType.UWATER:
+			stageID = 3;
+			break;
+		case bbproto.EUnitType.ULIGHT:
+			stageID = 4;
+			break;
+		case bbproto.EUnitType.UDARK:
+			stageID = 5;
+			break;
+		case bbproto.EUnitType.UNONE:
+			stageID = 6;
+			break;
+		default:
+			stageID = 0;
+			break;
+		}
+
+		return stageID;
+	}
+
+	uint GetEvolveQuestID (int  unitRare,uint stageID) {
+		uint questID = 0;
+		if (unitRare > 6) {
+			return questID;	
+		}
+
+		switch (unitRare) {
+		case 1:
+			questID = 1;
+			break;
+		case 2:
+			questID =  1;
+			break;
+		case 3:
+			questID =  2;
+			break;
+		case 4:
+			questID =  3;
+			break;
+		case 5:
+			questID =  4;
+			break;
+		case 6:
+			questID =  5;
+			break;
+		default:
+			return 0;
+			break;
+		}
+		questID += stageID * 100 + questID;
+		return questID;
+
+	}
 
 //	func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, questId uint32) {
 //		if unitRare > consts.N_MAX_RARE {

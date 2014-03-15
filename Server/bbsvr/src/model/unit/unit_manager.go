@@ -158,9 +158,9 @@ func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, cur
 }
 
 func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32) (e Error.Error) {
-	for k, unit := range unitList {
-		log.T("before remove, unitList[%v]: %+v", k, unit)
-	}
+//	for k, unit := range unitList {
+//		log.T("before remove, unitList[%v]: %+v", k, unit)
+//	}
 
 	for i := 0; i < len(partUniqueId); i++ {
 		for pos, userunit := range unitList {
@@ -170,10 +170,10 @@ func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32) (e Error.
 		}
 	}
 
-	log.T("============after remove:===============")
-	for k, unit := range unitList {
-		log.T("\tunitList[%v]: %+v", k, unit)
-	}
+//	log.T("============after remove:===============")
+//	for k, unit := range unitList {
+//		log.T("\tunitList[%v]: %+v", k, unit)
+//	}
 
 	return Error.OK()
 }

@@ -14,7 +14,8 @@ message UserInfo {
 	optional uint32		staminaRecover		= 8; //recover time
 	optional int32		friendMax			= 9;
 	optional int32		unitMax				= 10;
-	optional UserUnit	unit				= 11; //leader unit	
+	optional int32		costMax				= 11;	
+	optional UserUnit	unit				= 12; //leader unit	
 }
 
 message UserInfoDetail {
@@ -121,6 +122,7 @@ message RspAuthUser {
 	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 10;
 	optional EUnitType		evolveType			= 11;
+	optional int32			isNewUser			= 12;
 };
 
 //-------------------------------------------------
@@ -160,8 +162,9 @@ message ReqRestoreStamina {
 message RspRestoreStamina {
 	optional ProtoHeader	header				= 1;
 	optional int32			staminaNow			= 2; // current stamina
-	optional uint32			staminaRecover		= 3; // stamina recover time
-	optional AccountInfo	account				= 4;
+	optional int32			staminaMax			= 3; 	
+	optional uint32			staminaRecover		= 4; // stamina recover time
+	optional int32			stone				= 5;
 };
 
 //-------------------------------------------------
@@ -173,4 +176,26 @@ message ReqChangeParty {
 message RspChangeParty {
 	optional ProtoHeader	header				= 1;
 };
+
+//-------------------------------------------------
+message ReqUnitMaxExpand {
+	optional ProtoHeader	header				= 1;
+}
+
+message RspUnitMaxExpand {
+	optional ProtoHeader	header				= 1;
+	optional int32			unitMax				= 2;
+	optional int32			stone				= 3;
+}
+
+//-------------------------------------------------
+message ReqFriendMaxExpand {
+	optional ProtoHeader	header				= 1;
+}
+
+message RspFriendMaxExpand {
+	optional ProtoHeader	header				= 1;
+	optional int32			friendMax			= 2;	
+	optional int32			stone				= 3;
+}
 
