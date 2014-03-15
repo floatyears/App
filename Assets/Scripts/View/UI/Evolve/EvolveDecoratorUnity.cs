@@ -204,7 +204,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		temp = transform.Find(path + needLabel).GetComponent<UILabel>();
 		showInfoLabel.Add (needLabel, temp);
 
-		evolveButton = FindChild<UILabel> ("Window/Evolve");
+		evolveButton = FindChild<UIImageButton> ("Window/Evolve");
 		evolveButton.gameObject.SetActive (false);
 	}
 }
