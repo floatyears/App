@@ -74,7 +74,7 @@ func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, ques
 		return 0, 0
 	}
 
-	questId += stageId*100 + questId
+	questId = stageId*100 + questId
 
 	return stageId, questId
 }
