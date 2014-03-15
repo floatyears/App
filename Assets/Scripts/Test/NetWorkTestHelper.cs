@@ -12,7 +12,7 @@ using System;
 
 public class NetWorkTestHelper {
     public static void Test() {
-//        NetWorkEvovleTester tester = new NetWorkEvovleTester();
+        NetWorkEvovleTester tester = new NetWorkEvovleTester();
 //        tester.TestEvovleStart();
 //        tester.TestEvovleDone();
 //        NetWorkTestHelper tester 

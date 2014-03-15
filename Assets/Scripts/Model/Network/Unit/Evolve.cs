@@ -273,11 +273,11 @@ public class NetWorkEvovleTester {
 
         //
         DataCenter.Instance.MyUnitList.DelMyUnit(baseUnitUniqueId);
-        DataCenter.Instance.UserUnitList.DelMyUnit(rsp.gotUnit[i]);
+        DataCenter.Instance.UserUnitList.DelMyUnit(baseUnitUniqueId);
 
         for (int i = 0; i < partUnitIdList.Count; i++) {
             DataCenter.Instance.MyUnitList.DelMyUnit(partUnitIdList[i]);
-            DataCenter.Instance.UserUnitList.AddMyUnit(partUnitIdList[i]);
+            DataCenter.Instance.UserUnitList.DelMyUnit(partUnitIdList[i]);
         }
         // 
         for (int i = 0; i < rsp.gotUnit.Count; i++) {
