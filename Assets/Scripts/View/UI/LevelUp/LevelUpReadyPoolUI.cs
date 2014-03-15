@@ -11,9 +11,7 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 			Debug.LogError("level up network data is error");	
 			return;
 		}
-//		for (int i = 0; i < temp.Count; i++) {
-////			Debug.LogError("temp : " + i + "   " + temp[i].ID);
-//				}
+
 		LevelUp netBase = new LevelUp ();
 		TUserUnit baseUserUnit = temp [0];
 		temp.RemoveAt (0);

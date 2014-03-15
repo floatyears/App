@@ -28,17 +28,21 @@ public class LevelUpReadyPanel: UIComponentUnity {
 //	List<TUserUnit> materialUnitInfo = new List<TUserUnit>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
-		InitUI();
 		base.Init(config, origin);
+		InitUI();
 	}
 
 	public override void ShowUI(){
 
 		base.ShowUI();
+	
 		FoucsOnTab( Tabs[0] );
+	
 		AddListener();
 		levelUpButton.isEnabled = false;
+
 		levelUpButton.gameObject.SetActive (false);
+
 		ClearTexture();
 		ClearLabel();
 		ClearData();
@@ -50,6 +54,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void InitUI(){
+
 		InitTab();
 		InitButton();
 		FindInfoPanelLabel();

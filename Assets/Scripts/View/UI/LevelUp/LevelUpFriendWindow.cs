@@ -15,7 +15,6 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
     public override void Init(UIInsConfig config, IUICallback origin) {
         base.Init(config, origin);
-
         InitUI();
     }
 
@@ -61,9 +60,9 @@ public class LevelUpFriendWindow : UIComponentUnity {
         GameObject itemGo = Resources.Load(itemSourcePath) as GameObject;
         InitDragPanelArgs();
         friendDragPanel = CreateDrag(name, count, itemGo);
+
         FillDragPanel(friendDragPanel);
         friendDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
-
         //StartCoroutine( CrossShow(unitInfoStruct));
     }
 
@@ -84,13 +83,20 @@ public class LevelUpFriendWindow : UIComponentUnity {
     private void FillDragPanel(DragPanel panel) {
         if (panel == null)
             return;
+//		GameObject scrollItem = panel.ScrollItem[0];
+//
+//	    TFriendInfo tfiItem = friendInfoList[0];	
+//	    friendUnitInfoDic.Add(scrollItem, tfiItem);
+//
+//		StoreLabelInfo(scrollItem,tfiItem.UserUnit);
+//		return;
+//		ShowItem(scrollItem);
+//	    AddEventListener(scrollItem);
         for (int i = 0; i < panel.ScrollItem.Count; i++) {
             GameObject scrollItem = panel.ScrollItem[i];
-            //Get target data of each panel item
             TFriendInfo tfiItem = friendInfoList[i];	
             friendUnitInfoDic.Add(scrollItem, tfiItem);
-            StoreLabelInfo(scrollItem);
-//			Debug.Log("LevelUpFriendWindow.FillDragPanel(), unitInfoStruct cout is : " + unitInfoStruct.Count);
+            StoreLabelInfo(scrollItem, tfiItem.UserUnit);
             ShowItem(scrollItem);
             AddEventListener(scrollItem);
         }
@@ -244,8 +250,11 @@ public class LevelUpFriendWindow : UIComponentUnity {
         }
     }//End
         
-    void StoreLabelInfo(GameObject item) {
-        TUserUnit tuu = friendUnitInfoDic[item].UserUnit;
+    void StoreLabelInfo(GameObject item,TUserUnit tuu) {
+
+		if (tuu == null) {
+			return;	
+		}
         UnitInfoStruct infoStruct = new UnitInfoStruct();
         infoStruct.text1 = tuu.Level.ToString();
         infoStruct.text2 = (tuu.AddHP + tuu.AddAttack).ToString();
