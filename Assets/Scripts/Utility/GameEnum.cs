@@ -173,7 +173,12 @@ public enum CommandEnum
 	FriendBriefInfoShow		= 4031,
 	EnsureUpdateFriend			= 4032,
 	CancelSelectunitbrief		= 4033,
-	DeleteFriend					= 4034,
+	EnsureDeleteFriend					= 4034,
+	ViewApplyInfo					= 4035,
+	ShowApplyInfo				= 4036,
+	EnsureDeleteApply			= 4037,
+	NoteRefuseAll				= 4038,
+	EnsureRefuseAll				= 4039,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

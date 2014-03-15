@@ -764,11 +764,13 @@ public class ApplyDecorator : DecoratorBase
 
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		FriendListLogic applyWindow = CreatComponent< FriendListLogic >(UIConfig.friendListWindowName);
+		CancelFriendApply cancelApply = CreatComponent<CancelFriendApply>(UIConfig.applyMessageWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		applyWindow.SetComponent(sceneInfoBar);
+		cancelApply.SetComponent(applyWindow);
 
-		lastDecorator = applyWindow;
+		lastDecorator = cancelApply;
 
 		lastDecorator.CreatUI();
 	}

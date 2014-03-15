@@ -144,7 +144,7 @@ public class UserBriefInfoView : UIComponentUnity
 
 	void EnableDeleteFriend(object args)
 	{
-		Debug.LogError("Receive Enable Friend Delete From logic ....");
+//		Debug.LogError("Receive Enable Friend Delete From logic ....");
 		buttonDelete.gameObject.SetActive(true);
 		UIEventListener.Get(buttonDelete.gameObject).onClick = ClickDelete;
 	}

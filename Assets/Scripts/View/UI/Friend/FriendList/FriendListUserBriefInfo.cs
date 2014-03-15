@@ -33,12 +33,12 @@ public class FriendListUserBriefInfo : UserBriefInfoLogic
 	{
 //		int position = (int)args;
 		Debug.LogError("Delete Friend.... ");
-		MsgCenter.Instance.Invoke(CommandEnum.DeleteFriend, null);
+		MsgCenter.Instance.Invoke(CommandEnum.EnsureDeleteFriend, null);
 	}
 
 	void EnableDeleteFriend()
 	{
-		Debug.LogError("Call View to Enable Delete Friend...");
+//		Debug.LogError("Call View to Enable Delete Friend...");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableDeleteFriend", null);
 		ExcuteCallback(cbdArgs);
 	}

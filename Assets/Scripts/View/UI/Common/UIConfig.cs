@@ -21,7 +21,7 @@ public class UIConfig
 	public static string Lab_T_NextExp = "Next Exp:";
 	public static string Lab_T_CurTotalExp = "Total Exp:";
 	
-	public static string Lab_V_NextExp ="5555";
+	public static string Lab_V_NextExp = "5555";
 	public static string Lab_V_CurTotalExp = "8888";
 
 	public static string Lab_V_CurStamina = "24";
@@ -89,6 +89,8 @@ public class UIConfig
 	public const string commonNoteWindowName = "CommonNoteWindow";
 	public const string unitBriefInfoWindowName = "UnitBriefInfoWindow";
 	public const string userBriefInfoWindowName = "UserBriefInfoWindow";
+	public const string applyMessageWindowName = "ApplyMessageWindow";
+
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;
@@ -103,75 +105,82 @@ public class UIConfig
 }
 
 
-public class UIIns : JsonOriginData {
+public class UIIns : JsonOriginData
+{
 
 	private Dictionary<string,UIInsConfig> uiInsData = new Dictionary<string, UIInsConfig>(); 
 
-	public UIIns(string info) :base(info) {
+	public UIIns(string info) :base(info)
+	{
 		//init data and fill the dicitionay
-		DeserializeData ();
+		DeserializeData();
 
 		// release Useless memory
 		jsonData = null;
 		info = null;
 	}
 
-	public UIInsConfig GetData(string uiName) {
+	public UIInsConfig GetData(string uiName)
+	{
 		UIInsConfig ins = null;
 
-		if (uiInsData.TryGetValue (uiName,out ins)) {
+		if (uiInsData.TryGetValue(uiName, out ins))
+		{
 			return ins;
 		}
 
 		return ins;
 	}
 
-	public override object DeserializeData ()
+	public override object DeserializeData()
 	{
-		base.DeserializeData ();
+		base.DeserializeData();
 
 		UIInsConfig ins;
 
-		for (int i = 0; i < jsonData.Count; i++) {
+		for (int i = 0; i < jsonData.Count; i++)
+		{
 			ins = new UIInsConfig();
-			ins.uiName = (string)jsonData[i]["uiName"];
-			ins.resourcePath = (string)jsonData[i]["resoucePath"] + ins.uiName;
-			ins.localPosition.x = (int)jsonData[i]["positionx"];
-			ins.localPosition.y = (int)jsonData[i]["positiony"];
-			ins.localPosition.z = (int)jsonData[i]["positionz"];
-			byte parent = (byte)((int)jsonData[i]["parent"]);
+			ins.uiName = (string)jsonData [i] ["uiName"];
+			ins.resourcePath = (string)jsonData [i] ["resoucePath"] + ins.uiName;
+			ins.localPosition.x = (int)jsonData [i] ["positionx"];
+			ins.localPosition.y = (int)jsonData [i] ["positiony"];
+			ins.localPosition.z = (int)jsonData [i] ["positionz"];
+			byte parent = (byte)((int)jsonData [i] ["parent"]);
 			ins.parent = GetParentTrans(parent);
-			uiInsData.Add(ins.uiName,ins);
+			uiInsData.Add(ins.uiName, ins);
 //			Debug.LogError(ins.uiName);
 		}
 
 		return uiInsData;
 	}
 
-	public override ErrorMsg SerializeData (object instance)
+	public override ErrorMsg SerializeData(object instance)
 	{
-		return base.SerializeData (instance);
+		return base.SerializeData(instance);
 	}
 
-	Transform GetParentTrans(byte parentEnum) {
+	Transform GetParentTrans(byte parentEnum)
+	{
 		ViewManager vm = ViewManager.Instance;
 
 		UIParentEnum uipe = (UIParentEnum)parentEnum;
 		Transform trans = null;
-		switch (uipe) {
-		case UIParentEnum.Bottom:
-			trans = vm.BottomPanel.transform;
-			break;
-		case UIParentEnum.Center:
-			trans = vm.CenterPanel.transform;
-			break;
-		case UIParentEnum.Top:
-			trans = vm.TopPanel.transform;
-			break;
-		case UIParentEnum.BottomNoPanel:
-			trans = vm.ParentPanel.transform;
-			break;
-		default:
+		switch (uipe)
+		{
+			case UIParentEnum.Bottom:
+				trans = vm.BottomPanel.transform;
+				break;
+			case UIParentEnum.Center:
+				trans = vm.CenterPanel.transform;
+				break;
+			case UIParentEnum.Top:
+				trans = vm.TopPanel.transform;
+				break;
+			case UIParentEnum.BottomNoPanel:
+				trans = vm.ParentPanel.transform;
+				break;
+			default:
 				break;
 		}
 
@@ -179,7 +188,8 @@ public class UIIns : JsonOriginData {
 	}
 }
 
-public class UIInsConfig {
+public class UIInsConfig
+{
 	public string uiName = string.Empty;
 	public string resourcePath = string.Empty;
 	public Transform parent = null;

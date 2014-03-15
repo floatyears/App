@@ -45,14 +45,14 @@ public class CallBackDispatcherHelper
 	public static void DispatchCallBack(dispatchFunc func, CallBackDispatcherArgs dispatcherArgs)
 	{
 		Dictionary<string, object> argsDic = dispatcherArgs.ArgsDic;
-		LogHelper.LogError("CallBackDispatcherHelper(), funcName {0}", dispatcherArgs.funcName);
+		//LogHelper.LogError("CallBackDispatcherHelper(), funcName {0}", dispatcherArgs.funcName);
 		if (argsDic == null)
 		{
-			LogHelper.Log(string.Format("CallBackDispatcherHelper.DispatchCallBack(), argsDic == null, args is {0}", dispatcherArgs.Args));
+			//LogHelper.Log(string.Format("CallBackDispatcherHelper.DispatchCallBack(), argsDic == null, args is {0}", dispatcherArgs.Args));
 			func(dispatcherArgs.Args);
 		} else
 		{
-			LogHelper.Log(string.Format("CallBackDispatcherHelper.DispatchCallBack(), argsDic == null, argsDic is {0}", argsDic));
+			//LogHelper.Log(string.Format("CallBackDispatcherHelper.DispatchCallBack(), argsDic == null, argsDic is {0}", argsDic));
 			func(argsDic);
 		}
 	}
