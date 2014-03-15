@@ -81,33 +81,20 @@ public class TFriendList : ProtobufDataBase {
         }
         searchResult = new TUserInfo(rsp.friend);
     }
-    
-    
     /// <summary>
-    /// Friends responses refreshed list or not.
+    /// Clears the friend. only call in last friend deleted.
     /// </summary>
-    /// <returns><c>true</c>, if friends refreshed list was rsped, <c>false</c> otherwise.</returns>
-    /// <param name="data">Data.</param>
-    private bool RspFriendsRefreshedList(object data) {
-        RspGetFriend rspGetFriend = data as RspGetFriend;
-        RspAddFriend rspAddFriend = data as RspAddFriend;
-        RspAcceptFriend rspAcceptFriend = data as RspAcceptFriend;
-        RspDelFriend rspDelFriend = data as RspDelFriend;
-        if (rspGetFriend != null && rspGetFriend.friends != null) {
-            return true;
-        }
-        else if (rspAddFriend != null) {
-            LogHelper.Log("RspFriendsRefreshedList(), rspAddFriend get refresh msg");
-        }
-        else if (rspAcceptFriend != null) {
-            LogHelper.Log("RspFriendsRefreshedList(), rspAcceptFriend get refresh msg");
-        }
-        else if (rspDelFriend != null) {
-            LogHelper.Log("RspFriendsRefreshedList(), rspDelFriend get refresh msg");
-        }
-        return false;
+    public void clearFriend() {
+        friend.Clear();
+    }
+    
+    public void clearFriendIn() {
+        friendIn.Clear();
     } 
 
+    public void clearFriendOut() {
+        friendOut.Clear();
+    } 
 
     private void setNewInstance(FriendList inst) {
         instance = inst;
@@ -127,7 +114,7 @@ public class TFriendList : ProtobufDataBase {
         else {
             friend = new List<TFriendInfo>();
         }
-		Debug.LogError("friend count " + instance.friend.Count);
+        Debug.LogError("friend count " + instance.friend.Count);
         foreach (FriendInfo fi in instance.friend) {
             TFriendInfo tfi = new TFriendInfo(fi);
             Debug.Log("friend: NickName " + tfi.NickName);
@@ -152,7 +139,6 @@ public class TFriendList : ProtobufDataBase {
         }
     }
 
-    
     private void assignFriendIn() {
         if (friendIn != null) {
             friendIn.Clear();
