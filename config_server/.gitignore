@@ -14,3 +14,6 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+/public/skills/X_SKILL_*
+/public/unit/X_UNIT_*

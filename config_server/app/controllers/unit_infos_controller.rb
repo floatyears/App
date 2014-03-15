@@ -49,6 +49,11 @@ class UnitInfosController < ApplicationController
     end
   end
   
+  def download
+    file_path = "#{Rails.root}/public/unit/X_UNIT_#{params[:id]}"
+    send_file file_path, :filename => "X_UNIT_"+params[:id], :disposition => 'attachment'
+  end
+  
   def update_redis
     unit_info = UnitInfo.create_with_params(params)
     if unit_info.save_to_file && unit_info.save_to_redis

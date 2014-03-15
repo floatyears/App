@@ -29,7 +29,7 @@
 		<% @units.each do |unit| %>
 		<tr>
       <td><%= link_to '更新',edit_unit_info_path(id: unit.try(:id)) %></td>
-			<td><%= unit.try(:id) %></td>
+			<td><%= link_to unit.try(:id),download_unit_infos_path(id: unit.try(:id))%></td>
 			<td><%= unit.try(:name) %></td>
 			<td><%= unit.try(:race) %></td>
 			<td><%= unit.try(:type) %></td>
