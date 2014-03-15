@@ -43,7 +43,6 @@ public class EvolveComponent : ConcreteComponent {
 		if (data == null) {
 			return;	
 		}
-//		Debug.LogError("select : " + Time.realtimeSinceStartup);
 		TransferData.Clear ();
 		TransferData.Add(EvolveDecoratorUnity.BaseData, data);
 

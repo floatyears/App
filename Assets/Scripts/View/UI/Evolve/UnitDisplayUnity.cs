@@ -11,12 +11,14 @@ public class UnitDisplayUnity : UIComponentUnity {
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
+//		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 	}
 
 	public override void DestoryUI () {
@@ -47,8 +49,8 @@ public class UnitDisplayUnity : UIComponentUnity {
 	private TUserUnit selectBase  = null;
 	private TUserUnit baseData = null;
 	List<TUserUnit> materialInfo = new List<TUserUnit> ();
-
 	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
+
 
 	void UnitDisplayBaseData (object data) {
 		TUserUnit tuu = data as TUserUnit;
@@ -58,9 +60,12 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 		baseData = tuu;
 		materialInfo.Clear ();
-		for (int i = 0; i < tuu.UnitInfo.evolveInfo.materialUnitId.Count; i++) {
+		int count = tuu.UnitInfo.evolveInfo.materialUnitId.Count;
+		int value = 3 - count;
+		for (int i = 0; i < count; i++) {
 			uint id = tuu.UnitInfo.evolveInfo.materialUnitId[i];
-			UnitItemInfo uii = normalItem.Find(a=>a.userUnitItem.ID == id);
+			UnitItemInfo uii = normalItem.Find(a=>a.userUnitItem.UnitInfo.ID == id);
+//			Debug.LogError(id + " uii : " + uii);
 			if(uii != default(UnitItemInfo)) {
 				materialInfo.Add(uii.userUnitItem);
 			}
@@ -69,19 +74,30 @@ public class UnitDisplayUnity : UIComponentUnity {
 			}
 		}
 
+		for (int i = 0; i < value; i++) {
+			materialInfo.Add(null);
+		}
+
 		MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, materialInfo);
 	}
-
-
 
 	void UnitDisplayState (object data) {
 		EvolveState es = (EvolveState)data;
 		switch (es) {
 		case EvolveState.BaseState:
+			if(!gameObject.activeSelf){
+				gameObject.SetActive(true);
+			}
 			break;
 		case EvolveState.FriendState:
+			if(gameObject.activeSelf){
+				gameObject.SetActive(false);
+			}
 			break;
 		case EvolveState.MaterialState:
+			if(!gameObject.activeSelf){
+				gameObject.SetActive(true);
+			}
 			break;
 		default:
 				break;
