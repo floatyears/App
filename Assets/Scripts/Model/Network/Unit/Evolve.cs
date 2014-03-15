@@ -20,9 +20,9 @@ public class EvolveStart: ProtoManager {
     private bbproto.RspEvolveStart rspEvolveStart;
 
     public uint BaseUnitId { set { baseUnitId = value; } }
-    public List<uint> PartUnitId { set { partUnitId = value; } }
+    public List<uint> PartUnitId { get { return partUnitId; } set { partUnitId = value; } }
     public uint HelperUserId { set { helperUserId = value; } }
-    public UserUnit HelperUnit { set { helperUnit = value; } }
+    public UserUnit HelperUnit { get { return helperUnit; } set { helperUnit = value; } }
     public int HelperPremium { set { helperPremium = value; } }
     public uint EvolveQuestId { set { evolveQuestId = value; } }
     
@@ -81,6 +81,11 @@ public class EvolveStart: ProtoManager {
         }
         
         // TODO do evolve start over;
+        int staminaNow = rsp.staminaNow;
+        uint staminaRecover = rsp.staminaRecover;
+        bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
+        LogHelper.Log("OnRspEvolveStart() finished, staminaNow {0}, staminaRecover {1}," +
+            "questDungeonData.boss {2}", staminaNow, staminaRecover, questDungeonData.boss);
     }
 }
 
@@ -93,14 +98,14 @@ public class EvolveDone: ProtoManager {
     public uint QuestId { set { questId = value; } }
     public uint SecurityKey { set { securityKey = value; } }
     public int GetMoney { set { getMoney = value; } }
-    public uint GetUnit { set { getUnit = value; } }
-    public uint HitGrid { set { HitGrid = value; } }
+    public List<uint> GetUnit { get { return getUnit; } set { getUnit = value; } }
+    public List<uint> HitGrid { get { return HitGrid; } set { HitGrid = value; } }
     
     private uint questId;
     private uint securityKey;
     private int getMoney;
-    private uint getUnit;
-    private uint hitGrid;
+    private List<uint> getUnit;
+    private List<uint> hitGrid;
     
     public EvolveDone() {
     }
@@ -125,12 +130,12 @@ public class EvolveDone: ProtoManager {
         reqEvolveDone.questId = questId;
         reqEvolveDone.securityKey = securityKey;
         reqEvolveDone.getMoney = getMoney;
-        reqEvolveDone.getUnit = getUnit;
-        reqEvolveDone.hitGrid = hitGrid;
-        
+        CollectionHelper.ResetReadOnlyList(reqEvolveDone.getUnit, getUnit);
+        CollectionHelper.ResetReadOnlyList(reqEvolveDone.hitGrid, hitGrid);
+
         //        reqEvolveStart.partUniqueId
         
-        ErrorMsg err = SerializeData(reqEvolveStart); // save to Data for send out
+        ErrorMsg err = SerializeData(reqEvolveDone); // save to Data for send out
         
         return (err.Code == (int)ErrorCode.SUCCESS);
     }
@@ -148,11 +153,65 @@ public class EvolveDone: ProtoManager {
         }
             
         // TODO do evolve start over;
+        LogHelper.Log("OnRspEvolveDone() finished, rank {0}, exp {1}," +
+            "money {2}, friendPoint {3}, staminaNow {4}, staminaMax {5}, staminaRecover {6}" +
+            "gotMoney {7}, gotChip {8}, gotFriendPoint {9}, gotUnit {10}, evolvedUnit {11}"
+                      , rsp.rank, rsp.exp, rsp.money, rsp.friendPoint, rsp.staminaNow, rsp.staminaMax,
+                      rsp.staminaRecover, rsp.gotMoney, rsp.gotStone, rsp.gotFriendPoint, rsp.gotUnit, rsp.evolvedUnit);
+        DataCenter.Instance.UserInfo.Rank = rsp.rank;
+        DataCenter.Instance.UserInfo.Exp = rsp.exp;
+        DataCenter.Instance.AccountInfo.Money = rsp.money;
+        DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
+        DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
+        DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
+        DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
     }
 }
 
 public class NetWorkEvovleTester {
-//    public static Test
+    public void TestEvovleStart() {
+        EvolveStart evolveStart = new EvolveStart();
+        evolveStart.BaseUnitId = 1;
+//        evolveStart.EvolveQuestId = EvolveComponent.GetEvolveQuestID(2, EvolveComponent.GetEvolveStageID());
+
+//        List <uint> partUnitIdList = new List<uint>();
+//        partUnitIdList.Add(11);
+//        partUnitIdList.Add(12);
+//        evolveStart.PartUnitId = partUnitIdList;
+//
+//        evolveStart.HelperPremium = 0;
+//        Debug.Log(string.Format("TestEvovleStart(), evolve count {0}", DataCenter.Instance.SupportFriends.Count));
+//        TFriendInfo friend = DataCenter.Instance.SupportFriends[0];
+//        evolveStart.HelperUnit = friend.UserUnit;
+//        evolveStart.HelperUserId = friend.UserId;
+
+        evolveStart.OnRequest(null, OnRspEvolveStart);
+    }
+
+    private void OnRspEvolveStart(object data) {
+        if (data == null)
+            return;
+        
+        LogHelper.Log("ReqEvolveStart() begin");
+        LogHelper.Log(data);
+        bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
+        
+        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+            LogHelper.Log("ReqEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            return;
+        }
+        
+        // TODO do evolve start over;
+        int staminaNow = rsp.staminaNow;
+        uint staminaRecover = rsp.staminaRecover;
+        bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
+        LogHelper.Log("OnRspEvolveStart() finished, staminaNow {0}, staminaRecover {1}," +
+            "questDungeonData.boss {2}", staminaNow, staminaRecover, questDungeonData.boss);
+    }
+
+    public static void TestEvovleDone() {
+
+    }
 }
 
 

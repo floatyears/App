@@ -145,6 +145,8 @@ public class TFriendList : ProtobufDataBase {
         foreach (FriendInfo fi in instance.helper) {
             TFriendInfo tfi = new TFriendInfo(fi);
             Debug.Log("helper: NickName " + tfi.NickName);
+            Debug.Log("helper: userId " + tfi.UserId);
+            Debug.Log("helper: userUnit: id" + tfi.UserUnit);
             helper.Add(tfi);
         }
     }
