@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.IO;
 using bbproto;
 
 public class DGTools {
@@ -256,6 +257,17 @@ public class DGTools {
 
 	public static bool IsOddNumber(int number) {
 		return System.Convert.ToBoolean (number & 1);
+	}
+
+	private const string path = "Protobuf/X_UNIT_";
+	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
+		string url = path + unitID;
+		TextAsset ta = Resources.Load (url, typeof(TextAsset)) as TextAsset;
+//		Debug.LogError (ta.bytes.Length);
+		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
+		TUnitInfo tui = new TUnitInfo (ui);
+
+		return tui;
 	}
 }
 

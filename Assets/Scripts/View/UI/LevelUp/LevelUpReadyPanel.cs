@@ -33,16 +33,11 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	public override void ShowUI(){
-
 		base.ShowUI();
-	
 		FoucsOnTab( Tabs[0] );
-	
 		AddListener();
 		levelUpButton.isEnabled = false;
-
 		levelUpButton.gameObject.SetActive (false);
-
 		ClearTexture();
 		ClearLabel();
 		ClearData();
@@ -60,8 +55,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		FindInfoPanelLabel();
 		FindCollectorTexture();
 	}
-
-
+	
 	void UpdateBaseInfoView( UnitItemInfo itemInfo){
 
 		UITexture tex = Tabs [0].GetComponentInChildren<UITexture> ();
@@ -71,7 +65,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, null);
 		} else {
 			TUserUnit tuu = itemInfo.userUnitItem;
-			TUnitInfo tu = DataCenter.Instance.UnitInfo[ tuu.UnitID ];
+			TUnitInfo tu = DataCenter.Instance.GetUnitInfo(tuu.UnitID);//UnitInfo[ tuu.UnitID ];
 			tex.mainTexture = tu.GetAsset(UnitAssetType.Avatar);			
 			int hp = DataCenter.Instance.GetUnitValue(tu.HPType,tuu.Level);
 			hpLabel.text = hp.ToString();			
@@ -99,7 +93,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		UITexture tex = Tabs [1].GetComponentInChildren<UITexture> ();
 		if (friendUnitInfo == null) {
 			friendUnitInfo = unitInfo;
-			tex.mainTexture = DataCenter.Instance.UnitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
+			tex.mainTexture = DataCenter.Instance.GetUnitInfo(unitInfo.UnitID).GetAsset(UnitAssetType.Avatar); //UnitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
 		} 
 		else if(friendUnitInfo == unitInfo) {
 			friendUnitInfo = null;
@@ -332,7 +326,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		if (uui == null) {
 			tex.mainTexture = null;
 		} else {
-			tex.mainTexture = DataCenter.Instance.UnitInfo [uui.userUnitItem.UnitID].GetAsset (UnitAssetType.Avatar);
+			tex.mainTexture = DataCenter.Instance.GetUnitInfo(uui.userUnitItem.UnitID).GetAsset(UnitAssetType.Avatar);//UnitInfo [uui.userUnitItem.UnitID].GetAsset (UnitAssetType.Avatar);
 		}
 	}
 

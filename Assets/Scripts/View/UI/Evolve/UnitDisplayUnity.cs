@@ -60,11 +60,12 @@ public class UnitDisplayUnity : UIComponentUnity {
 		materialInfo.Clear ();
 		for (int i = 0; i < tuu.UnitInfo.evolveInfo.materialUnitId.Count; i++) {
 			uint id = tuu.UnitInfo.evolveInfo.materialUnitId[i];
-			for (int j = 0; j < normalItem.Count; j++) {
-				UnitItemInfo uii = normalItem[i];
-				if(uii.userUnitItem.ID == id) {
-					materialInfo.Add(uii.userUnitItem);
-				}
+			UnitItemInfo uii = normalItem.Find(a=>a.userUnitItem.ID == id);
+			if(uii != default(UnitItemInfo)) {
+				materialInfo.Add(uii.userUnitItem);
+			}
+			else{
+				materialInfo.Add(null);
 			}
 		}
 
@@ -166,6 +167,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 
 		if (uii.userUnitItem.isFavorate == 0 && !b) {
+//			Debug.LogError("normalItem.Add : " + uii.userUnitItem.ID);
 			normalItem.Add(uii);	
 		}
 
