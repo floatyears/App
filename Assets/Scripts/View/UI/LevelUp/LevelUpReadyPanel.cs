@@ -247,6 +247,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void ClickLevelUpButton(GameObject go){
 		List<TUserUnit> temp = PackUserUnitInfo ();
 		ExcuteCallback (temp);
+		levelUpButton.isEnabled = false;
 //		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);//before
 //		MsgCenter.Instance.Invoke(CommandEnum.LevelUp, PackUserUnitInfo());//after
 	}

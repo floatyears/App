@@ -51,21 +51,16 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	private Dictionary<GameObject,EvolveItem> evolveItem = new Dictionary<GameObject, EvolveItem> ();
 	private Dictionary<int,EvolveItem> materialItem = new Dictionary<int, EvolveItem> ();
 	private UIImageButton evolveButton ;
-
 	private EvolveItem baseItem;
 	private EvolveItem friendItem;
-
 	private EvolveItem prevItem = null;
 	private EvolveState clickState = EvolveState.BaseState;
-
-//	private TUserUnit baseUserUnit = null;
 	private List<TUserUnit> materialUnit = new List<TUserUnit>();
 	private int ClickIndex = 0;
 
 	void PickFriendUnitInfo(object data) {
 		TUserUnit tuu = data as TUserUnit;
 		friendItem.Refresh (tuu);
-
 		CheckCanEvolve ();
 	}
 
@@ -79,7 +74,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 				break;
 			}
 		}
-//		Debug.LogError ("haveBase : " + haveBase + " haveFriend : " + haveFriend + "haveMaterial : " + haveMaterial);
 		if (haveBase && haveFriend && haveMaterial) {
 			evolveButton.isEnabled = true;
 		} else {

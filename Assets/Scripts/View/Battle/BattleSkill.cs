@@ -17,6 +17,7 @@ public class BattleSkill : UIBaseUnity {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
+
 	private string[] SKill = new string[5]{ "LeaderSkill","NormalSkill1","NormalSkill2","ActiveSkill","PassiveSKill"};
 	private const string path = "/Label";
 	private const string pathName = "/SkillName";
@@ -33,13 +34,15 @@ public class BattleSkill : UIBaseUnity {
 			si.skillTypeLabel = FindChild<UILabel> (info + path);
 			si.skillName = FindChild<UILabel>(info + pathName);
 			si.skillDescribeLabel = FindChild<UILabel>(info + pathDescribe);
+
+			if(i == 1 || i == 2) {
+				List<UISprite> temp = new List<UISprite> ();
+				for (int j = 1; j < 6; i++) {
+					temp.Add(FindChild<UISprite> (info + info + "/" + j));
+				}
+				si.skillSprite = temp;
+			}
 			skillDic.Add(SKill[i], si);
-		}
-
-		info = SKill [1];
-		si = skillDic[info];
-		for (int i = 0; i < 5; i++) {
-
 		}
 	}
 }
@@ -53,7 +56,7 @@ public class SkillItem {
 	public UILabel skillName;
 	public UILabel skillDescribeLabel;
 
-	private List<UISprite> skillSprite;
+	public List<UISprite> skillSprite;
 
 	public void ShowSkillInfo (SkillBaseInfo sbi) {
 		if (sbi == null) {
