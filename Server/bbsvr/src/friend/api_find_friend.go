@@ -94,7 +94,13 @@ func (t FindFriend) ProcessLogic(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.
 
 	// get FriendInfo
 	if isUserExists {
-		rspMsg.Friend = userdetail.User
+		rspMsg.Friend = &bbproto.FriendInfo{}
+		rspMsg.Friend.UserId = userdetail.User.UserId
+		rspMsg.Friend.NickName = userdetail.User.NickName
+		rspMsg.Friend.Rank = userdetail.User.Rank
+		rspMsg.Friend.LastPlayTime = userdetail.Login.LastPlayTime
+		rspMsg.Friend.Unit = userdetail.User.Unit
+
 	} else {
 		return Error.New(EC.EF_FRIEND_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", friendUid))
 	}

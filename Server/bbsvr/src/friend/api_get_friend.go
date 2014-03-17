@@ -124,50 +124,26 @@ func (t GetFriend) ProcessLogic(reqMsg *bbproto.ReqGetFriend, rspMsg *bbproto.Rs
 	// get FriendInfo
 	if isGetFriend || isGetHelper {
 
-		friendsInfo, e := friend.GetFriendInfo(db, uid, rank, false, isGetFriend, isGetHelper)
-		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", err, len(friendsInfo))
+		rspMsg.Friends, e = friend.GetFriendList(db, uid)
 		if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
 			return Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
 		}
 
-		//fill rspMsg
-		rspMsg.Friends = &bbproto.FriendList{}
-		if friendsInfo != nil && len(friendsInfo) > 0 {
-			for _, friend := range friendsInfo {
-				if friend.NickName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
-					log.Printf("[ERROR] unexcepted error: skip invalid friend(%v): %+v", *friend.UserId, friend)
-					continue
-				}
-
-				//log.Printf("[TRACE] fid:%v friend:%v", fid, *friend.UserId)
-				pFriend := friend
-				if *friend.FriendState == bbproto.EFriendState_FRIENDHELPER {
-					rspMsg.Friends.Helper = append(rspMsg.Friends.Helper, &pFriend)
-				} else if *friend.FriendState == bbproto.EFriendState_ISFRIEND {
-					rspMsg.Friends.Friend = append(rspMsg.Friends.Friend, &pFriend)
-				} else if *friend.FriendState == bbproto.EFriendState_FRIENDIN {
-					rspMsg.Friends.FriendIn = append(rspMsg.Friends.FriendIn, &pFriend)
-				} else if *friend.FriendState == bbproto.EFriendState_FRIENDOUT {
-					rspMsg.Friends.FriendOut = append(rspMsg.Friends.FriendOut, &pFriend)
-				}
-			}
-		}
-
 		log.T("=========================================")
 		log.T("response:")
-		for k, friend:=range rspMsg.Friends.Friend {
+		for k, friend := range rspMsg.Friends.Friend {
 			log.T("Friend[%v]: %+v ", k, friend)
 		}
 
-		for k, friend:=range rspMsg.Friends.Helper {
+		for k, friend := range rspMsg.Friends.Helper {
 			log.T("Helper[%v]: %+v ", k, friend)
 		}
 
-		for k, friend:=range rspMsg.Friends.FriendIn {
+		for k, friend := range rspMsg.Friends.FriendIn {
 			log.T("FriendIn[%v]: %+v ", k, friend)
 		}
 
-		for k, friend:=range rspMsg.Friends.FriendOut {
+		for k, friend := range rspMsg.Friends.FriendOut {
 			log.T("FriendOut[%v]: %+v ", k, friend)
 		}
 		log.T("=========================================")

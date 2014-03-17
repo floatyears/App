@@ -146,6 +146,7 @@ message ReqEvolveStart {
 	optional UserUnit		helperUnit		= 5;
 	optional int32			helperPremium	= 6;
 	optional uint32			evolveQuestId	= 7;
+	optional int32			restartNew		= 8;
 }
 
 message RspEvolveStart {

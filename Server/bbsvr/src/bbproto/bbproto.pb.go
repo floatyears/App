@@ -739,7 +739,7 @@ func (m *ReqFindFriend) GetFriendUid() uint32 {
 
 type RspFindFriend struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	Friend           *UserInfo    `protobuf:"bytes,2,opt,name=friend" json:"friend,omitempty"`
+	Friend           *FriendInfo  `protobuf:"bytes,2,opt,name=friend" json:"friend,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -754,7 +754,7 @@ func (m *RspFindFriend) GetHeader() *ProtoHeader {
 	return nil
 }
 
-func (m *RspFindFriend) GetFriend() *UserInfo {
+func (m *RspFindFriend) GetFriend() *FriendInfo {
 	if m != nil {
 		return m.Friend
 	}
@@ -1631,6 +1631,30 @@ func (m *Position) GetY() int32 {
 	return 0
 }
 
+type QuestBoost struct {
+	Type             *QuestBoostType `protobuf:"varint,1,opt,name=type,enum=bbproto.QuestBoostType" json:"type,omitempty"`
+	Value            *int32          `protobuf:"varint,2,opt,name=value" json:"value,omitempty"`
+	XXX_unrecognized []byte          `json:"-"`
+}
+
+func (m *QuestBoost) Reset()         { *m = QuestBoost{} }
+func (m *QuestBoost) String() string { return proto.CompactTextString(m) }
+func (*QuestBoost) ProtoMessage()    {}
+
+func (m *QuestBoost) GetType() QuestBoostType {
+	if m != nil && m.Type != nil {
+		return *m.Type
+	}
+	return QuestBoostType_QB_BOOST_NONE
+}
+
+func (m *QuestBoost) GetValue() int32 {
+	if m != nil && m.Value != nil {
+		return *m.Value
+	}
+	return 0
+}
+
 type QuestInfo struct {
 	Id               *uint32      `protobuf:"varint,1,req,name=id" json:"id,omitempty"`
 	State            *EQuestState `protobuf:"varint,2,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
@@ -1725,30 +1749,6 @@ func (m *QuestInfo) GetEnemyId() []uint32 {
 		return m.EnemyId
 	}
 	return nil
-}
-
-type QuestBoost struct {
-	Type             *QuestBoostType `protobuf:"varint,1,opt,name=type,enum=bbproto.QuestBoostType" json:"type,omitempty"`
-	Value            *int32          `protobuf:"varint,2,opt,name=value" json:"value,omitempty"`
-	XXX_unrecognized []byte          `json:"-"`
-}
-
-func (m *QuestBoost) Reset()         { *m = QuestBoost{} }
-func (m *QuestBoost) String() string { return proto.CompactTextString(m) }
-func (*QuestBoost) ProtoMessage()    {}
-
-func (m *QuestBoost) GetType() QuestBoostType {
-	if m != nil && m.Type != nil {
-		return *m.Type
-	}
-	return QuestBoostType_QB_BOOST_NONE
-}
-
-func (m *QuestBoost) GetValue() int32 {
-	if m != nil && m.Value != nil {
-		return *m.Value
-	}
-	return 0
 }
 
 type StageInfo struct {
@@ -1950,6 +1950,7 @@ type ReqStartQuest struct {
 	HelperUserId     *uint32      `protobuf:"varint,4,opt,name=helperUserId" json:"helperUserId,omitempty"`
 	HelperUnit       *UserUnit    `protobuf:"bytes,5,opt,name=helperUnit" json:"helperUnit,omitempty"`
 	CurrentParty     *int32       `protobuf:"varint,6,opt,name=currentParty" json:"currentParty,omitempty"`
+	RestartNew       *int32       `protobuf:"varint,7,opt,name=restartNew" json:"restartNew,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -1995,6 +1996,13 @@ func (m *ReqStartQuest) GetHelperUnit() *UserUnit {
 func (m *ReqStartQuest) GetCurrentParty() int32 {
 	if m != nil && m.CurrentParty != nil {
 		return *m.CurrentParty
+	}
+	return 0
+}
+
+func (m *ReqStartQuest) GetRestartNew() int32 {
+	if m != nil && m.RestartNew != nil {
+		return *m.RestartNew
 	}
 	return 0
 }
@@ -3048,6 +3056,7 @@ type ReqEvolveStart struct {
 	HelperUnit       *UserUnit    `protobuf:"bytes,5,opt,name=helperUnit" json:"helperUnit,omitempty"`
 	HelperPremium    *int32       `protobuf:"varint,6,opt,name=helperPremium" json:"helperPremium,omitempty"`
 	EvolveQuestId    *uint32      `protobuf:"varint,7,opt,name=evolveQuestId" json:"evolveQuestId,omitempty"`
+	RestartNew       *int32       `protobuf:"varint,8,opt,name=restartNew" json:"restartNew,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -3100,6 +3109,13 @@ func (m *ReqEvolveStart) GetHelperPremium() int32 {
 func (m *ReqEvolveStart) GetEvolveQuestId() uint32 {
 	if m != nil && m.EvolveQuestId != nil {
 		return *m.EvolveQuestId
+	}
+	return 0
+}
+
+func (m *ReqEvolveStart) GetRestartNew() int32 {
+	if m != nil && m.RestartNew != nil {
+		return *m.RestartNew
 	}
 	return 0
 }

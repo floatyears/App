@@ -1,7 +1,7 @@
 package friend
 
 import (
-	//"fmt"
+	"fmt"
 	"log"
 	"net/http"
 	//"time"
@@ -97,8 +97,12 @@ func (t DelFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqDelFriend, rspMsg *bb
 		log.Printf("[ERROR] user:%v DelFriend(%v) failed: %v", uid, fUids, err)
 		return Error.New(EC.EF_DEL_FRIEND_FAIL, err.Error())
 	}
-
 	log.Printf("[TRACE] user:%v DelFriend(%v) ok (del %v item).", uid, fUids, num)
+
+	rspMsg.Friends, e = friend.GetFriendList(db, uid)
+	if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
+		return Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v", uid))
+	}
 
 	return Error.OK()
 }

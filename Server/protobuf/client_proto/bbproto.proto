@@ -87,7 +87,7 @@ message ReqFindFriend {
 
 message RspFindFriend {
 	optional ProtoHeader	header				= 1;
-	optional UserInfo		friend				= 2;
+	optional FriendInfo		friend				= 2;
 }
 
 //-------------------------------------------------
@@ -282,21 +282,7 @@ message QuestDungeonData {
 message Position {
 	optional int32			x = 1;
 	optional int32			y = 2;	
-};
-
-message QuestInfo {
-	required uint32			id			= 1; 
-	optional EQuestState	state		= 2; // CLEAR or NEW
-	optional int32			no			= 3; // number: 1, 2, 3...
-	optional string			name		= 4; // quest name
-	optional string			story		= 5; // story description
-	optional int32			stamina		= 6; // cost stamina
-	optional int32			floor		= 7;		
-	optional int32			rewardExp	= 8;
-	optional int32			rewardMoney	= 9;
-	repeated uint32			bossId		= 10; // boss unitid
-	repeated uint32			enemyId		= 11; // enemy unitid
-};
+}
 
 enum QuestBoostType {
 	QB_BOOST_NONE		= 0;
@@ -311,6 +297,20 @@ message QuestBoost {
 	optional int32			value	= 2; //2, 3...
 }
 
+message QuestInfo {
+	required uint32			id			= 1; 
+	optional EQuestState	state		= 2; // CLEAR or NEW
+	optional int32			no			= 3; // number: 1, 2, 3...
+	optional string			name		= 4; // quest name
+	optional string			story		= 5; // story description
+	optional int32			stamina		= 6; // cost stamina
+	optional int32			floor		= 7;		
+	optional int32			rewardExp	= 8;
+	optional int32			rewardMoney	= 9;
+	repeated uint32			bossId		= 10; // boss unitid
+	repeated uint32			enemyId		= 11; // enemy unitid
+}
+
 message StageInfo {
 	optional int32			version		= 1;
 	optional uint32			id			= 2;	
@@ -323,7 +323,7 @@ message StageInfo {
 	optional QuestBoost		boost		= 9;
 	optional Position		pos			= 10; // stage position of the city	
 	repeated QuestInfo		quests		= 11; 
-};
+}
 
 message CityInfo {
 	optional int32		version			= 1;
@@ -333,13 +333,13 @@ message CityInfo {
 	optional string		description		= 5; //
 	optional Position	pos				= 6; // city position of the worldmap
 	repeated StageInfo	stages			= 7;
-};
+}
 
 message WorldMapInfo {
 	optional int32		version			= 1;
 	optional uint32		id				= 2;	
 	repeated CityInfo	citys			= 3;
-};
+}
 
 //-------------------------------------------------------------
 
@@ -347,9 +347,10 @@ message ReqStartQuest {
 	optional ProtoHeader	header			= 1;
 	optional uint32			stageId			= 2; 
 	optional uint32			questId			= 3; 
-	optional uint32			helperUserId	= 4; 
-	optional UserUnit		helperUnit		= 5; 
-	optional int32			currentParty	= 6; 	
+	optional uint32			helperUserId	= 4;
+	optional UserUnit		helperUnit		= 5;
+	optional int32			currentParty	= 6;
+	optional int32			restartNew		= 7;
 }
 
 message RspStartQuest {
@@ -392,14 +393,14 @@ message RspGetQuestInfo {
 	optional ProtoHeader 	header 			= 1;
 	optional uint32			questId			= 2; // 
 	optional uint32			currentStatus	= 3; // current quest status
-};
+}
 
 //=========== Trap ====================================================================//
 message TrapInjuredValue {
 	optional int32			trapIndex		= 1;
 	optional int32			trapLevel		= 2;
 	optional float			trapValue		= 3;
-};
+}
 
 message TrapInfo {
 	required uint32				trapID		= 1;
@@ -407,7 +408,7 @@ message TrapInfo {
 	optional int32				valueIndex	= 3;
 	repeated TrapInjuredValue	injuredInfo	= 4;
 	optional int32				effectType	= 5;
-};
+}
 
 
 //=====================================================
@@ -555,6 +556,7 @@ message ReqEvolveStart {
 	optional UserUnit		helperUnit		= 5;
 	optional int32			helperPremium	= 6;
 	optional uint32			evolveQuestId	= 7;
+	optional int32			restartNew		= 8;
 }
 
 message RspEvolveStart {

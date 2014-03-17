@@ -55,7 +55,7 @@ message ReqFindFriend {
 
 message RspFindFriend {
 	optional ProtoHeader	header				= 1;
-	optional UserInfo		friend				= 2;
+	optional FriendInfo		friend				= 2;
 }
 
 //-------------------------------------------------

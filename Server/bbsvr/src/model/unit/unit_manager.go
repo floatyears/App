@@ -38,7 +38,7 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (uniqueId uint32,
 	}
 
 	uniqueId = uint32(maxId + 1)
-//	log.T("uid(%v) get getNewUniqueId ret: %v ",uid, uniqueId)
+	//	log.T("uid(%v) get getNewUniqueId ret: %v ",uid, uniqueId)
 	if err = db.SetUInt(consts.KEY_MAX_UNIT_ID+common.Utoa(uid), uniqueId); err != nil {
 		return 0, Error.New(EC.READ_DB_ERROR)
 	}
@@ -158,25 +158,29 @@ func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, cur
 }
 
 func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32) (e Error.Error) {
-//	for k, unit := range unitList {
-//		log.T("before remove, unitList[%v]: %+v", k, unit)
-//	}
+	//	for k, unit := range unitList {
+	//		log.T("before remove, unitList[%v]: %+v", k, unit)
+	//	}
 
 	for i := 0; i < len(partUniqueId); i++ {
 		for pos, userunit := range unitList {
 			if *userunit.UniqueId == partUniqueId[i] {
-				unitList = append(unitList[:pos], unitList[pos+1:]...)
+				if pos > len(unitList)-1 {
+					log.Error("Unexcepted ERROR:  RemoveMyUnit :: Invalid remove pos:%v len(unitList)=%v", pos, len(unitList))
+					break
+				} else if pos == len(unitList)-1 { // is LastOne
+					unitList = unitList[:pos]
+				} else {
+					unitList = append(unitList[:pos], unitList[pos+1:]...)
+				}
 			}
 		}
 	}
 
-//	log.T("============after remove:===============")
-//	for k, unit := range unitList {
-//		log.T("\tunitList[%v]: %+v", k, unit)
-//	}
+	//	log.T("============after remove:===============")
+	//	for k, unit := range unitList {
+	//		log.T("\tunitList[%v]: %+v", k, unit)
+	//	}
 
 	return Error.OK()
 }
-
-
-

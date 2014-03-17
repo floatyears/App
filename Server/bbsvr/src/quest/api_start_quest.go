@@ -113,10 +113,13 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	log.T(" getUser(%v) ret userinfo: %v", uid, userDetail.User)
 
 	// check user is already playing
-	if userDetail.Quest != nil && userDetail.Quest.State != nil {
-		e = Error.New(EC.EQ_QUEST_IS_PLAYING, fmt.Sprintf("user(%v) is playing quest:%v", *userDetail.User.UserId, *userDetail.Quest.QuestId) )
-		log.T( e.Error() )
-		return e
+	isRestartNewQuest := ( reqMsg.RestartNew != nil && *reqMsg.RestartNew != 0 )
+	if isRestartNewQuest == false {
+		if userDetail.Quest != nil && userDetail.Quest.State != nil {
+			e = Error.New(EC.EQ_QUEST_IS_PLAYING, fmt.Sprintf("user(%v) is playing quest:%v", *userDetail.User.UserId, *userDetail.Quest.QuestId) )
+			log.T( e.Error() )
+			return e
+		}
 	}
 
 	//check Quest record for QuestState

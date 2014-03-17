@@ -18,7 +18,6 @@ import (
 	redis "github.com/garyburd/redigo/redis"
 )
 
-
 func GetFriendsData(db *data.Data, sUid string, isGetOnlyFriends bool, friendsInfo map[string]bbproto.FriendInfo) (err error) {
 	if db == nil {
 		return fmt.Errorf("[ERROR] db pointer is nil.")
@@ -126,6 +125,45 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 func GetOnlyFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {
 	//get all friends & helper, but NOT include friendIn & friendOut
 	return GetFriendInfo(db, uid, rank, true, true, true)
+}
+
+func GetFriendList(db *data.Data, uid uint32) (friendList *bbproto.FriendList, e Error.Error) {
+	isGetFriend := true
+	isGetHelper := false
+	isGetOnlyFriends := false
+	rank := uint32(0)
+
+	friendsInfo, e := GetFriendInfo(db, uid, rank, isGetOnlyFriends, isGetFriend, isGetHelper)
+
+	log.T("GetFriendInfo ret err:%v. friends num=%v  ", e.Error(), len(friendsInfo))
+	if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
+		return friendList, Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
+	}
+
+	//fill response
+	friendList = &bbproto.FriendList{}
+	if friendsInfo != nil && len(friendsInfo) > 0 {
+		for _, friend := range friendsInfo {
+			if friend.NickName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
+				log.Printf("[ERROR] unexcepted error: skip invalid friend(%v): %+v", *friend.UserId, friend)
+				continue
+			}
+
+			//log.T("fid:%v friend:%v", fid, *friend.UserId)
+			pFriend := friend
+			if *friend.FriendState == bbproto.EFriendState_FRIENDHELPER {
+				friendList.Helper = append(friendList.Helper, &pFriend)
+			} else if *friend.FriendState == bbproto.EFriendState_ISFRIEND {
+				friendList.Friend = append(friendList.Friend, &pFriend)
+			} else if *friend.FriendState == bbproto.EFriendState_FRIENDIN {
+				friendList.FriendIn = append(friendList.FriendIn, &pFriend)
+			} else if *friend.FriendState == bbproto.EFriendState_FRIENDOUT {
+				friendList.FriendOut = append(friendList.FriendOut, &pFriend)
+			}
+		}
+	}
+
+	return friendList, Error.OK()
 }
 
 func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool, isGetFriend bool, isGetHelper bool) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {

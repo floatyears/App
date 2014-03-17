@@ -3,16 +3,17 @@ package main
 import (
 	"bytes"
 	"code.google.com/p/goprotobuf/proto"
+	"flag"
 	"fmt"
-	_ "html"
-	"log"
 	//"math/rand"
 	"time"
 )
 import (
 	"bbproto"
 	//"../src/common"
+	"common"
 	"common/consts"
+	"common/log"
 	"data"
 	"model/friend"
 	//redis "github.com/garyburd/redigo/redis"
@@ -271,10 +272,25 @@ func AcceptFriend(myUid uint32, fUid uint32) error {
 }
 
 func AddBundleFriends(uid uint32, num uint32) {
-	for fid := uint32(110); fid <= 110+num; fid++ {
+	//Add friends
+	startUid := uint32(110)
+	for fid := uint32(startUid); fid <= startUid+num; fid++ {
 		AddFriend(uid, fid)
 		AcceptFriend(fid, uid)
 	}
+
+	//Add FriendOUt
+	startUid += num
+	for fid := uint32(startUid); fid <= startUid+num; fid++ {
+		AddFriend(uid, fid)
+	}
+
+	//Add FriendIn
+	startUid += num
+	for fid := uint32(startUid); fid <= startUid+num; fid++ {
+		AddFriend(fid, uid)
+	}
+
 	GetFriend(uid)
 }
 
@@ -289,7 +305,7 @@ func main() {
 	//GetFriend(130)
 	//FindFriend(101, 130)
 
-	AddFriend(156, 143)
+	//AddFriend(156, 143)
 	//AddFriend(156, 144)
 	//AddFriend(156, 146)
 	//AddFriend(156, 147)
@@ -310,13 +326,22 @@ func main() {
 	//AcceptFriend(148, 156)
 	//AcceptFriend(149, 156)
 	//AcceptFriend(156, 156)
+	//DelFriend(104, 123)
 
-	uid := uint32(197)
+	flag.Parse()
+	args := flag.Args()
+
+	if args == nil || len(args) < 1 {
+		log.T("usage: input param: {uid}")
+		return
+	}
+
+	//uid := uint32(197)
+	uid := common.Atou(args[0])
 	num := uint32(20)
 	AddBundleFriends(uid, num)
 
-	//DelFriend(104, 123)
-	GetFriend(197)
+	GetFriend(uid)
 
 	log.Fatal("bbsvr test client finish.")
 }
