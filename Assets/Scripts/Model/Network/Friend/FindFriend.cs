@@ -55,6 +55,5 @@ public class FindFriend: ProtoManager {
         
         return (err.Code == (int)ErrorCode.SUCCESS);
     }
-    
 }
 
