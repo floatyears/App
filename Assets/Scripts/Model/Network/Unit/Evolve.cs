@@ -225,6 +225,7 @@ public class NetWorkEvovleTester {
         bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
         LogHelper.Log("OnRspEvolveStart() finished, staminaNow {0}, staminaRecover {1}," +
             "questDungeonData.boss {2}, unit count", staminaNow, staminaRecover, questDungeonData.boss, DataCenter.Instance.MyUnitList);
+        TestEvovleDone();
     }
 
     public void TestEvovleDone() {

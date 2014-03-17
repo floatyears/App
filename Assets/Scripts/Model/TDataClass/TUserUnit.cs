@@ -403,7 +403,7 @@ public class UserUnitList {
         LogHelper.LogError("============================before DelMyUnit(), count {0}", userUnitInfo.Count);
         Del(DataCenter.Instance.UserInfo.UserId, uniqueId);
         // test
-        LogHelper.LogError("============================after DelMyUnit(), count {1}", userUnitInfo.Count);
+        LogHelper.LogError("============================after DelMyUnit(), count {0}", userUnitInfo.Count);
         foreach (var item in userUnitInfo) {
             TUserUnit tUnit = item.Value as TUserUnit;
             LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);

@@ -13,10 +13,9 @@ using UnityEngine;
 
 public class NetWorkTestHelper {
     public static void Test() {
-        Debug.Log("NNNNNNNNNNNNNNNN NetWorkTestHelper.Test() start");
-        NetWorkEvovleTester tester = new NetWorkEvovleTester();
-        tester.TestEvovleStart();
-        tester.TestEvovleDone();
+//        Debug.Log("NNNNNNNNNNNNNNNN NetWorkTestHelper.Test() start");
+//        NetWorkEvovleTester tester = new NetWorkEvovleTester();
+//        tester.TestEvovleStart();
 //        NetWorkTestHelper tester 
 //        SearchFriendController.TestSearchFriendReq();
     }
