@@ -163,7 +163,13 @@ public class FriendListLogic : ConcreteComponent
 		ShowUI();
 	}
 
-	void RefuseFriend(uint friendUid)
+    void AddFriendApplication(uint friendUid){
+        LogHelper.Log("AddFriendApplication () start");
+        AddFriend.SendRequest(OnAddFriend, friendUid);
+    }
+    
+
+    void RefuseFriend(uint friendUid)
 	{
 		DelFriend.SendRequest(OnDelFriend, friendUid);
 	}
@@ -192,12 +198,9 @@ public class FriendListLogic : ConcreteComponent
 	void AcceptFriendRequest(uint friendUid){
 		AcceptFriend.SendRequest(OnAcceptFriend, friendUid);
 	}
+    
 
-    void AddFriendApplication(uint friendUid){
-        AddFriend.SendRequest(OnAddFriend, friendUid);
-    }
-
-
+ 
     void OnAddFriend(object data){
         if (data == null)
             return;
