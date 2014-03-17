@@ -46,8 +46,9 @@ public class SearchFriendController : ConcreteComponent
 
 	}
 
-    public void onRearchFriendWithId(uint friendId){
-        FindFriend.SendRequest(OnRspFindFriend, GetSearchFindId());
+    public void OnRearchFriendWithId(uint friendId){
+        LogHelper.Log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OnRearchFriendWithId(), friendId {0}", friendId);
+        FindFriend.SendRequest(OnRspFindFriend, friendId);
     }
 
     public void OnRspFindFriend(object data) {
@@ -58,12 +59,11 @@ public class SearchFriendController : ConcreteComponent
         LogHelper.Log(data);
         bbproto.RspFindFriend rsp = data as bbproto.RspFindFriend;
         // first set it to null
-        searchResult = null;
         if (rsp.header.code != (int)ErrorCode.SUCCESS) {
             LogHelper.Log("OnRspFindFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
             //            if (rsp.header.code == (int)ErrorCode.EF_FRIEND_NOT_EXISTS)
             //                return;
-            if (rsp.code == ErrorCode.EF_FRIEND_NOT_EXISTS){
+            if (rsp.header.code == ErrorCode.EF_FRIEND_NOT_EXISTS){
                 ShowFriendNotExist();
             }
             return;
@@ -77,10 +77,21 @@ public class SearchFriendController : ConcreteComponent
 
     public void ShowSearchFriendResult(TUserInfo resultInfo){
         // TODO show result here
-
+        LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  ShowSearchFriendResult() start");
     }
 
     public void ShowFriendNotExist(){
         // 
+        LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  ShowFriendNotExist() start");
     }
+
+//    //////////////////Test
+//    public static void TestSearchFriendReq(){
+//        LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  TestSearchFriendReq() start");
+//        // Test exists
+//        SearchFriendController controller = new SearchFriendController("ssss");
+//        controller.OnRearchFriendWithId(174);
+//        controller.OnRearchFriendWithId(999);
+//
+//    }
 }
