@@ -8,6 +8,7 @@ public class ConfigNoteMessage
 	public static Dictionary<string,string> inputIDEmpty = new Dictionary<string, string>();
 	public static Dictionary<string,string> friendUpdateSubmit = new Dictionary<string, string>();
 	public static Dictionary<string,string> refuseAllFriendIn = new Dictionary<string, string>();
+	public static Dictionary<string,string> alreadyFriend = new Dictionary<string, string>();
 
 	public ConfigNoteMessage(){
 		Config();
@@ -25,6 +26,9 @@ public class ConfigNoteMessage
 		
 		refuseAllFriendIn.Add("title", "Refuse Apply");
 		refuseAllFriendIn.Add("content", "Are you sure to refuse all friend apply?");
+
+		alreadyFriend.Add("title", "Search Note");
+		alreadyFriend.Add("content", "This user you search is already friend!");
 	}
 
 

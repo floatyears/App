@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class FriendListView : UIComponentUnity
 {
-
 	DragPanel dragPanel;
 	GameObject unitItem;
 
@@ -60,8 +59,6 @@ public class FriendListView : UIComponentUnity
 			case "EnableUpdateButton": 
 				CallBackDispatcherHelper.DispatchCallBack(EnableUpdateButton, cbdArgs);
 				break;
-//        	case "RefreshFriendListView": 
-//            	CallBackDispatcherHelper.DispatchCallBack(RefreshFriendListView, cbdArgs);
 				break;
 			case "EnableRefuseButton": 
 				CallBackDispatcherHelper.DispatchCallBack(EnableRefuseButton, cbdArgs);
@@ -71,11 +68,7 @@ public class FriendListView : UIComponentUnity
 		}
 
 	}
-
-//    void RefreshFriendListView(object args) {
-//
-//    }
-
+	
 	void EnableUpdateButton(object args)
 	{
 		updateFriendButton.gameObject.SetActive(true);

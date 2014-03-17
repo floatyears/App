@@ -400,9 +400,10 @@ public class UserUnitList {
             Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return;
         }
+        LogHelper.LogError("============================before DelMyUnit(), count {0}", userUnitInfo.Count);
         Del(DataCenter.Instance.UserInfo.UserId, uniqueId);
         // test
-        LogHelper.LogError("============================after DelMyUnit()");
+        LogHelper.LogError("============================after DelMyUnit(), count {0}", userUnitInfo.Count);
         foreach (var item in userUnitInfo) {
             TUserUnit tUnit = item.Value as TUserUnit;
             LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);
@@ -419,9 +420,10 @@ public class UserUnitList {
     }
 
     public void AddMyUnit(UserUnit unit) {
+        LogHelper.LogError("============================before AddMyUnit(), count {0}", userUnitInfo.Count);
         Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, new TUserUnit(unit));
         // test
-        LogHelper.LogError("============================after AddMyUnit()");
+        LogHelper.LogError("============================after AddMyUnit(), count {0}", userUnitInfo.Count);
         foreach (var item in userUnitInfo) {
             TUserUnit tUnit = item.Value as TUserUnit;
             LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);

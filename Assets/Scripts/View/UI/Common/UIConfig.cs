@@ -91,7 +91,7 @@ public class UIConfig
 	public const string unitBriefInfoWindowName = "UnitBriefInfoWindow";
 	public const string userBriefInfoWindowName = "UserBriefInfoWindow";
 	public const string applyMessageWindowName = "ApplyMessageWindow";
-
+	public const string acceptApplyMessageWindowName = "AcceptApplyMessageWindow";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;

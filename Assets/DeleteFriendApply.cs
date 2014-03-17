@@ -2,11 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CancelFriendApply : ApplyMessage
+public class DeleteFriendApply : ApplyMessage
 {
-	public CancelFriendApply(string uiName) : base(uiName)
+	public DeleteFriendApply(string uiName) : base(uiName)
 	{
 
+	}
+
+	public override void ShowUI()
+	{
+		base.ShowUI();
+		CustomizeWindow();
 	}
 
 	public override void Callback(object data)

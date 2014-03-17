@@ -182,6 +182,9 @@ public enum CommandEnum
 	ErrorIDInputEmpty			= 4040,
 	SubmitFriendApply			= 4041,
 	NoteInformation				= 4042,
+	EnsureRefuseSingleApply			= 4043,
+	EnsureAcceptApply				= 4044,
+
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

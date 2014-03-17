@@ -63,6 +63,7 @@ public class ApplyMessageView : UIComponentUnity
 		}
 
 	}
+
 	void HidePanel(object args)
 	{
 		ShowSelf(false);
@@ -81,7 +82,7 @@ public class ApplyMessageView : UIComponentUnity
 		avatarTexture = FindChild<UITexture>("Window/Avatar/Texture");
 		sureButton = FindChild<UIButton>("Window/Button_Sure");
 		cancelButton = FindChild<UIButton>("Window/Button_Cancel");
-
+	
 		UIEventListener.Get(sureButton.gameObject).onClick = ClickSure;
 		UIEventListener.Get(cancelButton.gameObject).onClick = ClickCancel;
 
@@ -132,8 +133,7 @@ public class ApplyMessageView : UIComponentUnity
 	{
 		titleLabel.text = args as string;
 	}
-	void ShowNote(object args)
-	{
+	void ShowNote(object args){
 		noteLabel.text = args as string;
 	}
 

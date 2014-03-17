@@ -82,6 +82,9 @@ public class SearchFriendController : ConcreteComponent
 			{
 				ShowFriendNotExist();
 			}
+			else if (rsp.header.code == ErrorCode.EF_IS_ALREADY_FRIEND){
+				ShowAlreadyFriend();
+			}
 			return;
 		}
 
@@ -104,6 +107,14 @@ public class SearchFriendController : ConcreteComponent
 		// 
 		LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  ShowFriendNotExist() start");
 
+		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.searchFriendNotExist);
+	}
+
+	public void ShowAlreadyFriend()
+	{
+		// 
+		LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  ShowFriendNotExist() start");
+		
 		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.searchFriendNotExist);
 	}
 
