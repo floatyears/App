@@ -5,9 +5,7 @@ public class SearchFriendController : ConcreteComponent
 {
 	TFriendInfo currentSearchFriend;
 
-	public SearchFriendController(string uiName) : base( uiName )
-	{
-	}
+	public SearchFriendController(string uiName) : base( uiName ){}
 
 	public override void CreatUI()
 	{
@@ -40,13 +38,7 @@ public class SearchFriendController : ConcreteComponent
 				break;
 		}
 	}
-
-
-	uint GetSearchFindId(object args)
-	{
-		// TODO logic here;
-		return 0;
-	}
+	
 	void SearchFriendWithID(object args)
 	{ 
 		string idString = args as string;
@@ -62,12 +54,9 @@ public class SearchFriendController : ConcreteComponent
 			Debug.LogError("SearchFriendController.SearchFriendWithID(), The ID input is " + id);
 			OnRearchFriendWithId(id);
 		}
-
 	}
 
-	public void OnRearchFriendWithId(uint friendId)
-	{
-		LogHelper.Log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OnRearchFriendWithId(), friendId {0}", friendId);
+	public void OnRearchFriendWithId(uint friendId){
 		FindFriend.SendRequest(OnRspFindFriend, friendId);
 	}
 
@@ -83,8 +72,6 @@ public class SearchFriendController : ConcreteComponent
 		if (rsp.header.code != (int)ErrorCode.SUCCESS)
 		{
 			LogHelper.Log("OnRspFindFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-			//            if (rsp.header.code == (int)ErrorCode.EF_FRIEND_NOT_EXISTS)
-			//                return;
 			if (rsp.header.code == ErrorCode.EF_FRIEND_NOT_EXISTS)
 			{
 				ShowFriendNotExist();
@@ -95,32 +82,25 @@ public class SearchFriendController : ConcreteComponent
 			return;
 		}
 
-		LogHelper.LogError("=========================OnRspFindFriend(), friendId {0}, friendName {1}", rsp.friend.userId, rsp.friend.nickName);
-
 		TFriendInfo searchResult = new TFriendInfo(rsp.friend);
 		ShowSearchFriendResult(searchResult);
 	}
 
 	public void ShowSearchFriendResult(TFriendInfo resultInfo)
 	{
-		// TODO show result here
-		LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  ShowSearchFriendResult() start");
 		currentSearchFriend = resultInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, resultInfo);
 	}
 
 	public void ShowFriendNotExist()
 	{
-		// 
-		LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  ShowFriendNotExist() start");
 		currentSearchFriend = null;
 		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.searchFriendNotExist);
 	}
 
 	public void ShowAlreadyFriend()
 	{
-		// 
-		LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  ShowFriendNotExist() start");
+
 		currentSearchFriend = null;
 		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.alreadyFriend);
 	}
@@ -137,11 +117,11 @@ public class SearchFriendController : ConcreteComponent
 
 
 	void AddCommandListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.SubmitFriendApply, SubmitFriendApply)
+		MsgCenter.Instance.AddListener(CommandEnum.SubmitFriendApply, SubmitFriendApply);
 	}
 
 	void RmvCommandListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.SubmitFriendApply, SubmitFriendApply)
+		MsgCenter.Instance.RemoveListener(CommandEnum.SubmitFriendApply, SubmitFriendApply);
 	}
 
 	void SubmitFriendApply(object msg){
