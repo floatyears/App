@@ -397,10 +397,16 @@ public class UserUnitList {
 
     public  void DelMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
-            //Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
+            Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return;
         }
         Del(DataCenter.Instance.UserInfo.UserId, uniqueId);
+        // test
+        LogHelper.LogError("============================after DelMyUnit()");
+        foreach (var item in userUnitInfo) {
+            TUserUnit tUnit = item.Value as TUserUnit;
+            LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);
+        }
     }
 
     public  void Add(uint userId, uint uniqueId, TUserUnit uu) {
@@ -414,6 +420,12 @@ public class UserUnitList {
 
     public void AddMyUnit(UserUnit unit) {
         Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, new TUserUnit(unit));
+        // test
+        LogHelper.LogError("============================after AddMyUnit()");
+        foreach (var item in userUnitInfo) {
+            TUserUnit tUnit = item.Value as TUserUnit;
+            LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);
+        }
     }
 
     public  void Del(uint userId, uint uniqueId) {

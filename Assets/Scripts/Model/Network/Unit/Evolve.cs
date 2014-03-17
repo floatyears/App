@@ -182,7 +182,7 @@ public class NetWorkEvovleTester {
     
     public void TestEvovleStart() {
         EvolveStart evolveStart = new EvolveStart();
-        baseUnitUniqueId = 63;
+        baseUnitUniqueId = 74;
         TUserUnit baseUnit = DataCenter.Instance.UserUnitList.GetMyUnit(baseUnitUniqueId);
         evolveStart.BaseUnitId = baseUnit.ID;
         evolveStart.EvolveQuestId = EvolveComponent.GetEvolveQuestID(bbproto.EUnitType.UNONE, 2);
@@ -191,8 +191,8 @@ public class NetWorkEvovleTester {
         LogHelper.LogError("TestEvovleStart(), questId {0}", evolveStart.EvolveQuestId);
 
         partUnitIdList = new List<uint>();
-        partUnitIdList.Add(61);
-        partUnitIdList.Add(62);
+        partUnitIdList.Add(66);
+        partUnitIdList.Add(67);
         evolveStart.PartUnitId = partUnitIdList;
 
         evolveStart.HelperPremium = 0;
@@ -205,9 +205,11 @@ public class NetWorkEvovleTester {
     }
 
     private void OnRspEvolveStart(object data) {
-        if (data == null)
+        if (data == null){
+            Debug.Log("OnRspEvolveStart(), response null");
             return;
-        
+        }
+
         LogHelper.Log("ReqEvolveStart() begin");
         LogHelper.Log(data);
         bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
