@@ -65,22 +65,7 @@ public class TFriendList : ProtobufDataBase {
         assignFriendList();
     }
 
-    public void OnRspFindFriend(object data) {
-        if (data == null)
-            return;
-        
-        LogHelper.Log("TFriendList.OnRspDelFriend() begin");
-        LogHelper.Log(data);
-        RspFindFriend rsp = data as RspFindFriend;
-        // first set it to null
-        searchResult = null;
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("OnRspFindFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-//            if (rsp.header.code == (int)ErrorCode.EF_FRIEND_NOT_EXISTS)
-//                return;
-        }
-        searchResult = new TUserInfo(rsp.friend);
-    }
+
     /// <summary>
     /// Clears the friend. only call in last friend deleted.
     /// </summary>

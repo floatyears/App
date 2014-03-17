@@ -182,7 +182,7 @@ public class NetWorkEvovleTester {
     
     public void TestEvovleStart() {
         EvolveStart evolveStart = new EvolveStart();
-        baseUnitUniqueId = 74;
+        baseUnitUniqueId = 79;
         TUserUnit baseUnit = DataCenter.Instance.UserUnitList.GetMyUnit(baseUnitUniqueId);
         evolveStart.BaseUnitId = baseUnit.ID;
         evolveStart.EvolveQuestId = EvolveComponent.GetEvolveQuestID(bbproto.EUnitType.UNONE, 2);
@@ -191,8 +191,8 @@ public class NetWorkEvovleTester {
         LogHelper.LogError("TestEvovleStart(), questId {0}", evolveStart.EvolveQuestId);
 
         partUnitIdList = new List<uint>();
-        partUnitIdList.Add(66);
-        partUnitIdList.Add(67);
+        partUnitIdList.Add(65);
+        partUnitIdList.Add(64);
         evolveStart.PartUnitId = partUnitIdList;
 
         evolveStart.HelperPremium = 0;
@@ -210,12 +210,12 @@ public class NetWorkEvovleTester {
             return;
         }
 
-        LogHelper.Log("ReqEvolveStart() begin");
+        LogHelper.Log("RspEvolveStart() begin");
         LogHelper.Log(data);
         bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
         
         if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("ReqEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            LogHelper.LogError("RspEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
             return;
         }
         
@@ -228,6 +228,7 @@ public class NetWorkEvovleTester {
     }
 
     public void TestEvovleDone() {
+        LogHelper.Log("TTTTTTTTTTTTTTTTTTTTTTTTTTT TestEvovleDone() start:");
         EvolveDone evolveDone = new EvolveDone();
 
         evolveDone.QuestId = EvolveComponent.GetEvolveQuestID(bbproto.EUnitType.UNONE, 2);
