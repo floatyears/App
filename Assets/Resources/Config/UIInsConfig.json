@@ -221,7 +221,7 @@
         "resoucePath": "Prefabs/UI/Friend/",
         "parent": 0,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": 100,
         "positionz": 0
     },
      "SearchInfoWindow": {
@@ -312,5 +312,14 @@
         "positionx": 0,
         "positiony": -565,
         "positionz": 0
+    },
+       "AcceptApplyMessageWindow": {
+        "uiName":"AcceptApplyMessageWindow",
+        "resoucePath": "Prefabs/UI/FriendList/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": -565,
+        "positionz": 0
     }
+    
 }

@@ -163,7 +163,7 @@ public class FriendListLogic : ConcreteComponent
 		ShowUI();
 	}
 
-	void RefuseFriend(uint friendUid)
+    void RefuseFriend(uint friendUid)
 	{
 		DelFriend.SendRequest(OnDelFriend, friendUid);
 	}
@@ -189,36 +189,10 @@ public class FriendListLogic : ConcreteComponent
 		DelFriend.SendRequest(OnDelFriend, refuseList);
 	}
 
-	void AcceptFriendRequest(uint friendUid)
-	{
+	void AcceptFriendRequest(uint friendUid){
 		AcceptFriend.SendRequest(OnAcceptFriend, friendUid);
 	}
-
-    void AddFriendApplication(uint friendUid){
-        AddFriend.SendRequest(OnAddFriend, friendUid);
-    }
-
-
-    void OnAddFriend(object data){
-        if (data == null)
-            return;
-        
-        LogHelper.Log("TFriendList.OnRspAddFriend() begin");
-        LogHelper.Log(data);
-        bbproto.RspAddFriend rsp = data as bbproto.RspAddFriend;
-        
-        if (rsp.header.code != (int)ErrorCode.SUCCESS)
-        {
-            LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-        
-        bbproto.FriendList inst = rsp.friends;
-        
-        DataCenter.Instance.FriendList.RefreshFriendList(inst);
-
-    }
-
+    
 	void OnAcceptFriend(object data)
 	{
 		if (data == null)

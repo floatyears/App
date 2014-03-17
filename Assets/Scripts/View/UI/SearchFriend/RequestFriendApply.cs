@@ -38,7 +38,7 @@ public class RequestFriendApply : ApplyMessage
 	void EnsureRequestApply(object args)
 	{
 		Debug.LogError("Receive view click, to ensure delete friend apply of player....");
-		MsgCenter.Instance.Invoke(CommandEnum.EnsureDeleteApply, null);
+		MsgCenter.Instance.Invoke(CommandEnum.SubmitFriendApply, null);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null); 
 		ExcuteCallback(cbdArgs);
 		

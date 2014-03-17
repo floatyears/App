@@ -43,7 +43,6 @@ public class ApplyMessage : ConcreteComponent
 
 	void ApplyCancel(object args)
 	{
-
 		Debug.LogError("ApplyCancel(), call view to close the window ...");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Cancel", null);
 		ExcuteCallback(cbdArgs);

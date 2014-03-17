@@ -70,6 +70,8 @@ public class ModelManager {
         ConfigAudio audioConfig = new ConfigAudio();
         ConfigStage stage = new ConfigStage();
         ConfigViewData tempViewData = new ConfigViewData();
+
+		ConfigNoteMessage noteMsgConfig = new ConfigNoteMessage();
     }
 	
     /// <summary>

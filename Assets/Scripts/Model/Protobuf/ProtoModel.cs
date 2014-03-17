@@ -312,10 +312,10 @@ namespace bbproto
       get { return _header; }
       set { _header = value; }
     }
-    private bbproto.UserInfo _friend = null;
+    private bbproto.FriendInfo _friend = null;
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"friend", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
-    public bbproto.UserInfo friend
+    public bbproto.FriendInfo friend
     {
       get { return _friend; }
       set { _friend = value; }
@@ -1212,6 +1212,32 @@ namespace bbproto
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"QuestBoost")]
+  public partial class QuestBoost : global::ProtoBuf.IExtensible
+  {
+    public QuestBoost() {}
+    
+    private bbproto.QuestBoostType _type = bbproto.QuestBoostType.QB_BOOST_NONE;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"type", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.QuestBoostType.QB_BOOST_NONE)]
+    public bbproto.QuestBoostType type
+    {
+      get { return _type; }
+      set { _type = value; }
+    }
+    private int _value = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"value", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int value
+    {
+      get { return _value; }
+      set { _value = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"QuestInfo")]
   public partial class QuestInfo : global::ProtoBuf.IExtensible
   {
@@ -1302,32 +1328,6 @@ namespace bbproto
       get { return _enemyId; }
     }
   
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"QuestBoost")]
-  public partial class QuestBoost : global::ProtoBuf.IExtensible
-  {
-    public QuestBoost() {}
-    
-    private bbproto.QuestBoostType _type = bbproto.QuestBoostType.QB_BOOST_NONE;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"type", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(bbproto.QuestBoostType.QB_BOOST_NONE)]
-    public bbproto.QuestBoostType type
-    {
-      get { return _type; }
-      set { _type = value; }
-    }
-    private int _value = default(int);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"value", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int value
-    {
-      get { return _value; }
-      set { _value = value; }
-    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1580,6 +1580,14 @@ namespace bbproto
     {
       get { return _currentParty; }
       set { _currentParty = value; }
+    }
+    private int _restartNew = default(int);
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"restartNew", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int restartNew
+    {
+      get { return _restartNew; }
+      set { _restartNew = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -2710,6 +2718,14 @@ namespace bbproto
     {
       get { return _evolveQuestId; }
       set { _evolveQuestId = value; }
+    }
+    private int _restartNew = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"restartNew", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int restartNew
+    {
+      get { return _restartNew; }
+      set { _restartNew = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

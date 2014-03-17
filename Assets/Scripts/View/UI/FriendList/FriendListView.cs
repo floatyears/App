@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class FriendListView : UIComponentUnity
 {
-
 	DragPanel dragPanel;
 	GameObject unitItem;
 
@@ -60,8 +59,6 @@ public class FriendListView : UIComponentUnity
 			case "EnableUpdateButton": 
 				CallBackDispatcherHelper.DispatchCallBack(EnableUpdateButton, cbdArgs);
 				break;
-//        	case "RefreshFriendListView": 
-//            	CallBackDispatcherHelper.DispatchCallBack(RefreshFriendListView, cbdArgs);
 				break;
 			case "EnableRefuseButton": 
 				CallBackDispatcherHelper.DispatchCallBack(EnableRefuseButton, cbdArgs);
@@ -71,11 +68,7 @@ public class FriendListView : UIComponentUnity
 		}
 
 	}
-
-//    void RefreshFriendListView(object args) {
-//
-//    }
-
+	
 	void EnableUpdateButton(object args)
 	{
 		updateFriendButton.gameObject.SetActive(true);
@@ -96,7 +89,6 @@ public class FriendListView : UIComponentUnity
 
 	void ClickRefuseButton(GameObject args)
 	{
-		Debug.LogError("77777777777777");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefuseApplyButtonClick", null);
 		ExcuteCallback(cbdArgs);
 	}
@@ -174,8 +166,7 @@ public class FriendListView : UIComponentUnity
 		}
 	}
 
-	void InitDragPanelArgs()
-	{
+	void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans", transform);
 		dragPanelArgs.Add("scrollerScale", Vector3.one);
 		dragPanelArgs.Add("scrollerLocalPos", 220 * Vector3.up);
@@ -188,9 +179,7 @@ public class FriendListView : UIComponentUnity
 		dragPanelArgs.Add("cellHeight", 140);
 	}
 
-	void UpdateAvatarTexture(List<UnitItemViewInfo> dataItemList)
-	{
-		//LogHelper.Log("UpdateAvatarTexture(), ....");
+	void UpdateAvatarTexture(List<UnitItemViewInfo> dataItemList){
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++)
 		{
 			GameObject scrollItem = dragPanel.ScrollItem [i];

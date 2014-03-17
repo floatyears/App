@@ -358,7 +358,7 @@ public class FriendSelectDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 		
-		FriendSelectComponent friendSelect = CreatComponent< FriendSelectComponent >(UIConfig.friendSelectWindowName);
+		FriendSupportLogic friendSelect = CreatComponent< FriendSupportLogic >(UIConfig.friendSelectWindowName);
 
 		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 
@@ -770,13 +770,13 @@ public class ApplyDecorator : DecoratorBase
 
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		FriendListLogic applyWindow = CreatComponent< FriendListLogic >(UIConfig.friendListWindowName);
-		CancelFriendApply cancelApply = CreatComponent<CancelFriendApply>(UIConfig.applyMessageWindowName);
+		DeleteFriendApply deleteApply = CreatComponent<DeleteFriendApply>(UIConfig.applyMessageWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		applyWindow.SetComponent(sceneInfoBar);
-		cancelApply.SetComponent(applyWindow);
+		deleteApply.SetComponent(applyWindow);
 
-		lastDecorator = cancelApply;
+		lastDecorator = deleteApply;
 
 		lastDecorator.CreatUI();
 	}
@@ -786,9 +786,7 @@ public class ApplyDecorator : DecoratorBase
 public class ReceptionDecorator : DecoratorBase
 {
 	private SceneInfoComponent sceneInfoBar;
-	public ReceptionDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public ReceptionDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene()
 	{
@@ -810,11 +808,13 @@ public class ReceptionDecorator : DecoratorBase
 	{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		FriendListLogic receptionWindow = CreatComponent< FriendListLogic >(UIConfig.friendListWindowName);
+		AccpetFriendApply acceptApply = CreatComponent<AccpetFriendApply>(UIConfig.acceptApplyMessageWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		receptionWindow.SetComponent(sceneInfoBar);
-		
-		lastDecorator = receptionWindow;
+		acceptApply.SetComponent(receptionWindow);
+
+		lastDecorator = acceptApply;
 		lastDecorator.CreatUI();
 	}
 }
