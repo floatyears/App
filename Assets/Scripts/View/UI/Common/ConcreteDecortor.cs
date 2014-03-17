@@ -358,7 +358,7 @@ public class FriendSelectDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 		
-		FriendSelectComponent friendSelect = CreatComponent< FriendSelectComponent >(UIConfig.friendSelectWindowName);
+		FriendSupportLogic friendSelect = CreatComponent< FriendSupportLogic >(UIConfig.friendSelectWindowName);
 
 		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 
