@@ -65,6 +65,26 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	void PickFriendUnitInfo(object data) {
 		TUserUnit tuu = data as TUserUnit;
 		friendItem.Refresh (tuu);
+
+		CheckCanEvolve ();
+	}
+
+	void CheckCanEvolve () {
+		bool haveBase = baseItem.userUnit != null; 
+		bool haveFriend = friendItem.userUnit != null;
+		bool haveMaterial = false;
+		foreach (var item in materialItem) {
+			if(item.Value.userUnit != null) {
+				haveMaterial = true;
+				break;
+			}
+		}
+//		Debug.LogError ("haveBase : " + haveBase + " haveFriend : " + haveFriend + "haveMaterial : " + haveMaterial);
+		if (haveBase && haveFriend && haveMaterial) {
+			evolveButton.isEnabled = true;
+		} else {
+			evolveButton.isEnabled = false;
+		}
 	}
 
 	void DisposeCallback (KeyValuePair<string, object> keyValue) {
@@ -119,22 +139,40 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		ClickIndex = System.Int32.Parse (go.name);
 		switch (go.name) {
 		case "1":
+			if(clickState == EvolveState.BaseState) {
+				return;
+			}
+			if(evolveButton.gameObject.activeSelf) {
+				evolveButton.gameObject.SetActive(false);
+			}
 			clickState = EvolveState.BaseState;
 			break;
 		case "2":
 		case "3":
 		case "4":
+			if(evolveButton.gameObject.activeSelf) {
+				evolveButton.gameObject.SetActive(false);
+			}
 			if(baseItem == null) {
 				return;
 			}
 			clickState = EvolveState.MaterialState;
 			break;
 		case "5":
+			if(clickState == EvolveState.FriendState) {
+				return;
+			}
+			CheckCanEvolve();
 			clickState = EvolveState.FriendState;
 			TUserUnit tuu = null;
 			if(baseItem != null) {
 				tuu = baseItem.userUnit;
 			}
+
+			if(!evolveButton.gameObject.activeSelf) {
+				evolveButton.gameObject.SetActive(true);
+			}
+
 			MsgCenter.Instance.Invoke(CommandEnum.EvolveFriend, tuu);
 			break;
 		}

@@ -63,14 +63,12 @@ public class HttpManager : INetSendPost {
         if (count == 0) {
             return;	
         }
-
         for (int i = wwwRequst.Count - 1; i >= 0; i--) {
             WWW www = wwwRequst[i].WwwInfo;
             if (www.isDone && string.IsNullOrEmpty(www.error)) {
                 RequestDone(wwwRequst[i]);
             }
             else if (!string.IsNullOrEmpty(www.error)) {
-                Debug.LogError("Download Error : " + www.error + " url : " + wwwRequst[i].Url);
                 wwwRequst.RemoveAt(i);
             }
         }

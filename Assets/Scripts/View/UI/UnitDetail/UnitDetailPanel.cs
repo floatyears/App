@@ -330,16 +330,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//------------------levelup-----------------------------------------
 	RspLevelUp levelUpData;
 	void PlayLevelUp(RspLevelUp rlu) {
+		unitBodyTex.mainTexture = null;
 		levelUpData = rlu;
-
-//		Debug.LogError ("levelUpData.blendExp : " + levelUpData.blendExp);
-//		Debug.LogError ("levelUpData.blendUniqueId : " + levelUpData.blendUniqueId);
-//		Debug.LogError ("levelUpData.money : " + levelUpData.money);
-//		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
-//		TUserUnit tuu = GlobalData
+		Debug.LogError ("levelUpData : " + levelUpData.blendUniqueId);
 		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		gotExp = levelUpData.blendExp;
-
 		unitInfoTabs.SetActive (false);
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}

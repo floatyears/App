@@ -10,4 +10,12 @@ public class SkillBaseInfo : ProtobufDataBase {
 	public SkillBase GetSkillInfo () {
 		return skillBase;
 	}
+
+	public string SkillName {
+		get { return skillBase.name; }
+	}
+
+	public string SkillDescribe {
+		get {return skillBase.description;}
+	}
 }
