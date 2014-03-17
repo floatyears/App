@@ -168,7 +168,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 
 	//6. remove BaseUnit & partUnits
 	reqEvolveStart.PartUniqueId = append(reqEvolveStart.PartUniqueId, *reqEvolveStart.BaseUniqueId)
-	if e = unit.RemoveMyUnit(userDetail.UnitList, reqEvolveStart.PartUniqueId); e.IsError() {
+	if e = unit.RemoveMyUnit(&userDetail.UnitList, reqEvolveStart.PartUniqueId); e.IsError() {
 		return e
 	}
 

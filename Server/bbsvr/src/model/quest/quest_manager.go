@@ -58,26 +58,33 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 	}
 
 	//append unit to userinfo.UnitList
-	for _, unitDrop := range userDetail.Quest.DropUnits {
-		uniqueId, e := unit.GetUnitUniqueId(db, *userDetail.User.UserId, len(userDetail.UnitList))
-		if e.IsError() {
-			return 0, 0, 0, gotUnit, e
+	for _, clientDropId := range getUnit {
+
+		for _, unitDrop := range userDetail.Quest.DropUnits {
+			if *unitDrop.DropId != clientDropId {
+				continue
+			}
+
+			uniqueId, e := unit.GetUnitUniqueId(db, *userDetail.User.UserId, len(userDetail.UnitList))
+			if e.IsError() {
+				return 0, 0, 0, gotUnit, e
+			}
+
+			userUnit := &bbproto.UserUnit{}
+			userUnit.UniqueId = proto.Uint32(uniqueId)
+			userUnit.UnitId = unitDrop.UnitId
+			userUnit.Exp = proto.Int32(0)
+			userUnit.Level = unitDrop.Level
+			userUnit.AddHp = unitDrop.AddHp
+			userUnit.AddAttack = unitDrop.AddAttack
+			userUnit.AddDefence = unitDrop.AddDefence
+			userUnit.GetTime = proto.Uint32(common.Now())
+
+			userDetail.UnitList = append(userDetail.UnitList, userUnit)
+			userDetail.Quest.GetUnit = append(userDetail.Quest.GetUnit, userUnit)
+
+			gotUnit = append(gotUnit, userUnit) //return value
 		}
-
-		userUnit := &bbproto.UserUnit{}
-		userUnit.UniqueId = proto.Uint32(uniqueId)
-		userUnit.UnitId = unitDrop.UnitId
-		userUnit.Exp = proto.Int32(0)
-		userUnit.Level = unitDrop.Level
-		userUnit.AddHp = unitDrop.AddHp
-		userUnit.AddAttack = unitDrop.AddAttack
-		userUnit.AddDefence = unitDrop.AddDefence
-		userUnit.GetTime = proto.Uint32(common.Now())
-
-		userDetail.UnitList = append(userDetail.UnitList, userUnit)
-		userDetail.Quest.GetUnit = append(userDetail.Quest.GetUnit, userUnit)
-
-		gotUnit = append(gotUnit, userUnit) //return value
 	}
 
 	//already fill in getUnit, so empty dropUnit before save to QuestLog

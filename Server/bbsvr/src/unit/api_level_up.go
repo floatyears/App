@@ -149,10 +149,12 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	log.T("userDetail.UnitList[x] => NOW value: %+v", userDetail.UnitList)
 
 	//6. remove partUnits
-	e = unit.RemoveMyUnit(userDetail.UnitList, reqMsg.PartUniqueId)
+	log.T("------ before RemoveMyUnit userDetail.UnitList len:%v", len(userDetail.UnitList) )
+	e = unit.RemoveMyUnit(&userDetail.UnitList, reqMsg.PartUniqueId)
 	if e.IsError() {
 		return e
 	}
+	log.T("------ after RemoveMyUnit userDetail.UnitList len:%v", len(userDetail.UnitList) )
 
 	//7. deduct user money
 	log.T("deduct money: %v - %v ", *userDetail.Account.Money, needMoney)

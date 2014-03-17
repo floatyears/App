@@ -46,7 +46,7 @@ func AuthUserHandler(rsp http.ResponseWriter, req *http.Request) {
 	e = handler.ProcessLogic(&reqMsg, rspMsg)
 
 	e = handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
-	log.Printf("sendrsp err:%v, AuthUser rspMsg.Header:\n%+v nickName:%v\n\n", e, rspMsg.Header, *rspMsg.User.NickName)
+	log.Printf("sendrsp err:%v, AuthUser rspMsg.Header:%+v nickName:%v\n\n", e, rspMsg.Header, *rspMsg.User.NickName)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -212,7 +212,8 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 	rspMsg.EvolveType = unit.GetTodayEvolveType()
 
-	log.T(">>>>>>>>>>>>AuthUser RspMsg<<<<<<<<<<<<<<")
+	log.T(" ")
+	log.T(">>>>>>>>>>>>AuthUser RspMsg (uid:%v)<<<<<<<<<<<<<<", *rspMsg.User.UserId)
 	log.T("\tUserinfo: %+v", rspMsg.User)
 	log.T("\tAccount: %+v", rspMsg.Account)
 	log.T("\tFriends: ")
@@ -231,7 +232,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 	log.T("\tQuest: %+v", rspMsg.Quest)
 	log.T("\tEvolveType: %+v", rspMsg.EvolveType)
 
-	log.T(">>>>>>>>>>>>AuthUser RspMsg<<<<<<<<<<<<<<")
+	log.T(">>>>>>>>>>>>AuthUser RspMsg End (uid:%v) <<<<<<<<<<<<<<", *rspMsg.User.UserId)
 
 	return Error.OK()
 }

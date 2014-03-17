@@ -109,6 +109,10 @@ func resetAccount(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail
 	userDetail.Account.FriendPoint = proto.Int32(5000)
 	*userDetail.User.StaminaNow = *userDetail.User.StaminaMax
 
+	rank := *userDetail.User.Rank
+	*userDetail.User.Exp = (1+rank)*200*rank/2 + 200*rank/8*common.Rand(1, 7)
+	log.T("User.Exp:%v", *userDetail.User.Exp)
+
 	//save data
 	zUserData, err := proto.Marshal(userDetail)
 	if err != nil {

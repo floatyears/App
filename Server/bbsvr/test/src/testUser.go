@@ -262,9 +262,9 @@ func main() {
 	Init()
 	//	AddUsers(197, 200)
 
-	UpdateHelperUidRank()
+	//UpdateHelperUidRank()
 
-	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220162", 0)
+	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220162", 0)
 	//ResetStamina(154)
 	//LoginPack(101)
 

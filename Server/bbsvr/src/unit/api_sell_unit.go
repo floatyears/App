@@ -110,7 +110,7 @@ func (t SellUnit) ProcessLogic(reqMsg *bbproto.ReqSellUnit, rspMsg *bbproto.RspS
 		}
 
 		log.T("[%v] baseUserUnit:(%+v).", k, baseUserUnit)
-		log.T("[%v] baseUnit[%v]: (%+v).", k,*baseUnit.Id, baseUnit)
+		log.T("[%v] baseUnit[%v]: (%+v).", k, *baseUnit.Id, baseUnit)
 		log.T("    baseUnit:(%v) sellValue:%v.", *baseUnit.Id, *baseUnit.SaleValue)
 		gotMoney += *baseUnit.SaleValue
 
@@ -119,7 +119,7 @@ func (t SellUnit) ProcessLogic(reqMsg *bbproto.ReqSellUnit, rspMsg *bbproto.RspS
 	log.T("total sell Money: %v.", gotMoney)
 
 	//3. remove selled uniqueIds from user's UnitList
-	e = unit.RemoveMyUnit(userDetail.UnitList, reqMsg.UnitUniqueId)
+	e = unit.RemoveMyUnit(&userDetail.UnitList, reqMsg.UnitUniqueId)
 	if e.IsError() {
 		return e
 	}

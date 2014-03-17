@@ -7,14 +7,14 @@ import (
 	_ "html"
 	//"io"
 	//"io/ioutil"
-	"log"
+
 	//"math/rand"
 	//"net/http"
 	//"time"
 )
 import (
 	"bbproto"
-	//"src/common"
+	"common/log"
 	//"src/common/consts"
 	//"src/data"
 	//"src/model/user"
@@ -29,9 +29,11 @@ func LevelUp(uid uint32) error {
 	msg.Header.UserId = proto.Uint32(uid)
 
 	msg.BaseUniqueId = proto.Uint32(3)
-	msg.PartUniqueId = append(msg.PartUniqueId, 5)
-	msg.PartUniqueId = append(msg.PartUniqueId, 6)
-	msg.PartUniqueId = append(msg.PartUniqueId, 7)
+	//msg.PartUniqueId = append(msg.PartUniqueId, 5)
+	//msg.PartUniqueId = append(msg.PartUniqueId, 12)
+	msg.PartUniqueId = append(msg.PartUniqueId, 8)
+	msg.PartUniqueId = append(msg.PartUniqueId, 9)
+	msg.PartUniqueId = append(msg.PartUniqueId, 10)
 	msg.HelperUserId = proto.Uint32(150)
 	msg.HelperUnit = &bbproto.UserUnit{}
 	msg.HelperUnit.UniqueId = proto.Uint32(5)
@@ -65,7 +67,12 @@ func LevelUp(uid uint32) error {
 
 func main() {
 	Init()
-	LevelUp(153)
+	//uu := []int{0, 1, 2, 3, 4, 5}
+	//pos := 5
+	//log.T("uu[:pos]=%v uu[pos+1:]=%v uu[5:]=%v", uu[:pos], uu[pos+1:], uu[5:])
+	//uu = append(uu[:pos], uu[pos+1:]...)
+	//log.T("uu[]=%v", uu)
+	LevelUp(194)
 
 	log.Fatal("bbsvr test client finish.")
 }
