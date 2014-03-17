@@ -17,6 +17,13 @@ public class SearchFriendController : ConcreteComponent
 	public override void ShowUI()
 	{
 		base.ShowUI();
+		AddCommandListener();
+	}
+
+	public override void HideUI()
+	{
+		base.HideUI();
+		RmvCommandListener();
 	}
 
 	public override void Callback(object data)
@@ -41,7 +48,7 @@ public class SearchFriendController : ConcreteComponent
 		return 0;
 	}
 	void SearchFriendWithID(object args)
-	{
+	{ 
 		string idString = args as string;
 		Debug.LogError("Receive the click, to search the friend with the id ....");
 		if (idString == string.Empty)
@@ -98,7 +105,7 @@ public class SearchFriendController : ConcreteComponent
 	{
 		// TODO show result here
 		LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  ShowSearchFriendResult() start");
-
+		currentSearchFriend = resultInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, resultInfo);
 	}
 
@@ -106,7 +113,7 @@ public class SearchFriendController : ConcreteComponent
 	{
 		// 
 		LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  ShowFriendNotExist() start");
-
+		currentSearchFriend = null;
 		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.searchFriendNotExist);
 	}
 
@@ -114,8 +121,8 @@ public class SearchFriendController : ConcreteComponent
 	{
 		// 
 		LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  ShowFriendNotExist() start");
-		
-		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.searchFriendNotExist);
+		currentSearchFriend = null;
+		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.alreadyFriend);
 	}
 
 //    //////////////////Test
@@ -128,5 +135,23 @@ public class SearchFriendController : ConcreteComponent
 //
 //    }
 
+
+	void AddCommandListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.SubmitFriendApply, SubmitFriendApply)
+	}
+
+	void RmvCommandListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.SubmitFriendApply, SubmitFriendApply)
+	}
+
+	void SubmitFriendApply(object msg){
+		Debug.LogError("SearchFriendController.SubmitFriendApply(), to request to make friend with the search...");
+		if(currentSearchFriend == null){
+			Debug.LogError("SearchFriendController.SubmitFriendApply(), currentSearchFriend is null, return....");
+			return;
+		}
+
+		
+	}
 
 }
