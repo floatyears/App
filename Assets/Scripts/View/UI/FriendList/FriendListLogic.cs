@@ -150,7 +150,7 @@ public class FriendListLogic : ConcreteComponent
         
 		bbproto.FriendList inst = rsp.friends;
 
-		DataCenter.Instance.FriendList.RefreshFriendList(inst);
+		DataCenter.Instance.SetFriendList(inst);
 		// test
 		LogHelper.LogError("OnGetFriendList, response friendCount {0}", rsp.friends.friend.Count);
 		for (int i = 0; i < rsp.friends.friend.Count; i++)
@@ -209,8 +209,8 @@ public class FriendListLogic : ConcreteComponent
 		}
 
 		bbproto.FriendList inst = rsp.friends;
-        
-		DataCenter.Instance.FriendList.RefreshFriendList(inst);
+
+        DataCenter.Instance.SetFriendList(inst);
 
 		// test
 //		LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData() [1].NickName);
@@ -235,7 +235,7 @@ public class FriendListLogic : ConcreteComponent
 		bbproto.FriendList inst = rsp.friends;
 		LogHelper.LogError("OnRspDelFriend friends {0}", rsp.friends);
         
-
+        DataCenter.Instance.SetFriendList(inst);
 		// test
 		LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData() [1].NickName);
 		HideUI();

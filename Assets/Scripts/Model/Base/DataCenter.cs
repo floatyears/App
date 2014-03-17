@@ -262,6 +262,15 @@ public class DataCenter {
         UserInfo.RefreshUserInfo(clearQuest);
         AccountInfo.RefreshAcountInfo(clearQuest);
     }
+
+    public void SetFriendList(FriendList friendList){
+        if (FriendList == null){
+            FriendList = new TFriendList(friendList);
+        }
+        else {
+            FriendList.RefreshFriendList(friendList);
+        }
+    }
     
     // return UserCost of curr Rank.
     public int UserCost {
