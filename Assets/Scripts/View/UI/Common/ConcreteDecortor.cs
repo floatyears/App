@@ -358,7 +358,7 @@ public class FriendSelectDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 		
-		FriendSelectComponent friendSelect = CreatComponent< FriendSelectComponent >(UIConfig.friendSelectWindowName);
+		FriendSupportLogic friendSelect = CreatComponent< FriendSupportLogic >(UIConfig.friendSelectWindowName);
 
 		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 
@@ -448,17 +448,18 @@ public class LevelUpDecorator : DecoratorBase
 	public override void DecoratorScene()
 	{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+
 		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
 		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
 		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
-		basePanel.SetComponent(sceneInfoBar);
+		friendPanel.SetComponent(sceneInfoBar);
+		basePanel.SetComponent(friendPanel);
 		readyPanel.SetComponent(basePanel);
-	
-		friendPanel.SetComponent(readyPanel);
 
-		lastDecorator = friendPanel;
+
+		lastDecorator = readyPanel;
 		lastDecorator.CreatUI();
 
 	}

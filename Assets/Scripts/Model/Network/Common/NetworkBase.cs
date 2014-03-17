@@ -41,7 +41,7 @@ public class HttpNetBase : IWWWPost {
 	public void Send (ProtoManager nettemp, string urlPath, byte[] data) {
 		callback = nettemp.Receive;
 		Url = urlPath;
-
+//		Debug.LogError ("send : " + Url);
 		www = new WWW (Url, data);
 		HttpManager.Instance.SendHttpPost (this);
 	}

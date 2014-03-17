@@ -35,7 +35,13 @@ public class TNormalSkill : SkillBaseInfo {
 	public int GetActiveBlocks() {
 		return instance.activeBlocks.Count;
 	}
-	
+
+	public List<uint> Blocks {
+		get {
+			return instance.activeBlocks;
+		}
+	}
+
 	public void DisposeUseSkillID (List<int> skillID) {
 		if (skillID.Contains (instance.baseInfo.id)) {
 			skillID.Remove(instance.baseInfo.id);

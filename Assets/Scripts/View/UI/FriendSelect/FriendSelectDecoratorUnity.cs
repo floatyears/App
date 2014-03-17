@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
+public class FriendSelectDecoratorUnity : UIComponentUnity/*,IUICallback */{
     private GameObject msgBox;
     private UIImageButton btnStart;
     private UIButton btnSure;
@@ -11,7 +11,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
     private UILabel labelPartyTotalCount;
     private GameObject leftArrowBtn;
     private GameObject rightArrowBtn;
-    private DragPanel friendsScroller;
+//    private DragPanel friendsScroller;
     private GameObject friendItem;
     private int currentPartyIndex;
     private int partyTotalCount;
@@ -20,8 +20,91 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
     private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo>();
     private UITexture friendSprite;
     private UnitBaseInfo friendBaseInfo;
+	
+	GameObject dragPanelCell;
+	DragPanel dragPanel;
+	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
+	
+	public override void Callback(object data){
+		base.Callback(data);
 
-    public override void Init(UIInsConfig config, IUICallback origin) {
+		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (cbdArgs.funcName){
+			case "CreateDragList" : 
+				CallBackDispatcherHelper.DispatchCallBack(CreateDragView, cbdArgs);
+				break;
+			default:
+				break;
+		}
+	}
+
+	void InitDragPanelArgs(){
+		dragPanelArgs.Add("parentTrans", 			transform);
+		dragPanelArgs.Add("scrollerScale", 			Vector3.one);
+		dragPanelArgs.Add("scrollerLocalPos", 		-105 * Vector3.up);
+		dragPanelArgs.Add("position", 					Vector3.zero);
+		dragPanelArgs.Add("clipRange", 				new Vector4(0, 0, 640, 220));
+		dragPanelArgs.Add("gridArrange", 			UIGrid.Arrangement.Horizontal);
+		dragPanelArgs.Add("maxPerLine", 			0);
+		dragPanelArgs.Add("scrollBarPosition",		new Vector3(-320, -120, 0));
+        dragPanelArgs.Add("cellWidth", 				140);
+        dragPanelArgs.Add("cellHeight", 				140);
+    }
+        
+	DragPanel CreateDragPanel(string name, int count){
+		DragPanel panel = new DragPanel(name, dragPanelCell);
+		panel.CreatUI();
+		panel.AddItem(count, dragPanelCell);
+		return panel;
+	}
+
+	void CreateDragView(object args){
+		LogHelper.Log("FriendSelectDecoratorUnity.CreateDragView(), receive call from logic, to create drag list...");
+		List<TFriendInfo> friendInfoList = args as List<TFriendInfo>;
+	
+		dragPanel = CreateDragPanel("SupportFriendList", friendInfoList.Count);
+
+		UpdateAvatarTexture(friendInfoList);
+		UpdateCountLabel(friendInfoList.Count, 50);
+		UpdateEventListener();
+
+//		UpdateCrossShow();
+		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+	}
+
+	void ClickItem(GameObject item){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
+		ExcuteCallback(cbdArgs);
+	}
+	
+	void PressItem(GameObject item){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", dragPanel.ScrollItem.IndexOf(item));
+                ExcuteCallback(cbdArgs);
+    }
+	
+	void UpdateEventListener(){
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = dragPanel.ScrollItem [i];
+			UIEventListenerCustom.Get(scrollItem).onClick = ClickItem;
+                        UIEventListenerCustom.Get(scrollItem).LongPress = PressItem;
+                }
+        }
+
+	void UpdateCountLabel(int cur, int max){
+//		curCountLabel.text = cur.ToString();
+//		maxCountLabel.text = max.ToString();
+	}
+
+	void UpdateAvatarTexture(List<TFriendInfo> friendInfoList){
+
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = dragPanel.ScrollItem [i];
+			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+                        uiTexture.mainTexture = friendInfoList [i].UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+                }
+        }
+
+        public override void Init(UIInsConfig config, IUICallback origin) {
         base.Init(config, origin);
         InitUI();
     }
@@ -31,7 +114,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 
         ShowTween();
         btnStart.isEnabled = false;
-        friendsScroller.DragPanelView.gameObject.SetActive(true);
+//        friendsScroller.DragPanelView.gameObject.SetActive(true);
     }
 	
     public override void HideUI() {
@@ -49,6 +132,9 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
         InitPartyUnits();
         InitMsgBox();
         InitFriendList();
+
+		dragPanelCell = Resources.Load("Prefabs/UI/Friend/AvailFriendItem") as GameObject;
+		InitDragPanelArgs();
     }
 	
     private void SendUnitPage(int pageIndex) {
@@ -59,19 +145,19 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
         call.Callback(pageIndex);
     }
 
-	
-    public void Callback(object data) {
-        if (data == null) {
-            ShowPartyInfo(null);
-        }
-        else {
-            Dictionary<int,UnitBaseInfo> upi = data as Dictionary<int,UnitBaseInfo>;
-            if (upi == null) {
-                return;
-            }
-            ShowPartyInfo(upi);
-        }
-    }
+//	
+//    public void Callback(object data) {
+//        if (data == null) {
+//            ShowPartyInfo(null);
+//        }
+//        else {
+//            Dictionary<int,UnitBaseInfo> upi = data as Dictionary<int,UnitBaseInfo>;
+//            if (upi == null) {
+//                return;
+//            }
+//            ShowPartyInfo(upi);
+//        }
+//    }
 
     private void ShowPartyInfo(Dictionary<int,UnitBaseInfo> name) {
         unitBaseInfo = name;
@@ -134,6 +220,7 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
         labelCurrentPartyIndex.text = currentPartyIndex.ToString();
         labelPartyTotalCount.text = partyTotalCount.ToString();
     }
+
     private void InitPartyInfoPanel() {
     }
 
@@ -152,22 +239,22 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
 
     //Friend List
     private void InitFriendList() {
-        friendItem = Resources.Load("Prefabs/UI/Friend/AvailFriendItem") as GameObject;
-        friendsScroller = new DragPanel("FriendSelectScroller", friendItem);
-        friendsScroller.CreatUI();
-
-        friendsScroller.AddItem(1);
-        friendsScroller.DragPanelView.SetItemWidth(140);
-        friendsScroller.DragPanelView.gameObject.transform.parent = gameObject.transform.FindChild("ScrollView");
-        friendsScroller.DragPanelView.gameObject.transform.localScale = Vector3.one;
-        friendsScroller.DragPanelView.gameObject.transform.localPosition = -115 * Vector3.up;
-        for (int i = 0; i < friendsScroller.ScrollItem.Count; i++) {
-            friendsScroller.ScrollItem[i].GetComponentInChildren<UITexture>().mainTexture 
-				= Resources.Load(friendBaseInfo.GetHeadPath) as Texture2D;
-            UIEventListenerCustom ulc = UIEventListenerCustom.Get(friendsScroller.ScrollItem[i].gameObject);
-            ulc.LongPress = PickFriendLongpress;
-            ulc.onClick = PickFriend;
-        }
+//        friendItem = Resources.Load("Prefabs/UI/Friend/AvailFriendItem") as GameObject;
+//        friendsScroller = new DragPanel("FriendSelectScroller", friendItem);
+//        friendsScroller.CreatUI();
+//
+//        friendsScroller.AddItem(1);
+//        friendsScroller.DragPanelView.SetItemWidth(140);
+//        friendsScroller.DragPanelView.gameObject.transform.parent = gameObject.transform.FindChild("ScrollView");
+//        friendsScroller.DragPanelView.gameObject.transform.localScale = Vector3.one;
+//        friendsScroller.DragPanelView.gameObject.transform.localPosition = -115 * Vector3.up;
+//        for (int i = 0; i < friendsScroller.ScrollItem.Count; i++) {
+//            friendsScroller.ScrollItem[i].GetComponentInChildren<UITexture>().mainTexture 
+//				= Resources.Load(friendBaseInfo.GetHeadPath) as Texture2D;
+//            UIEventListenerCustom ulc = UIEventListenerCustom.Get(friendsScroller.ScrollItem[i].gameObject);
+//            ulc.LongPress = PickFriendLongpress;
+//            ulc.onClick = PickFriend;
+//        }
 
         //Get Friend List Data Interface
 //		for (int i = 0; i < ConfigFriendList.selectableFriendList.Count; i++){
@@ -288,5 +375,6 @@ public class FriendSelectDecoratorUnity : UIComponentUnity,IUICallback {
             tweenPos.PlayForward();
         }
     }
+	
 
 }

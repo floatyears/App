@@ -221,7 +221,6 @@ public class DGTools {
 		}
 		int length = target.Count;
 		for (int i = 1; i < length; i++) {
-
 			for (int j = 0; j < i; j++) {
 				int compare = compareObject.Compare(target[i], target[j]);
 				if(sort && compare > 0) {
@@ -235,8 +234,6 @@ public class DGTools {
 						temp = temp1;
 						k++;
 					}
-
-					//target[j] = temp;
 					continue;
 				}
 				
@@ -263,10 +260,8 @@ public class DGTools {
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
 		string url = path + unitID;
 		TextAsset ta = Resources.Load (url, typeof(TextAsset)) as TextAsset;
-//		Debug.LogError (ta.bytes.Length);
 		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
 		TUnitInfo tui = new TUnitInfo (ui);
-
 		return tui;
 	}
 }

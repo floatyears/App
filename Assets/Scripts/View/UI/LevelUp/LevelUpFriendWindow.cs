@@ -18,7 +18,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
     public override void ShowUI() {
         base.ShowUI();
-        
+		Debug.LogError("levelup friend window ShowUI");
         MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, FocusOnPanel);
     }
 
@@ -156,7 +156,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
     void FocusOnPanel(object data) {
         string msg = (string)data;
-//		Debug.Log("Friend Window receive : " + msg);
+		Debug.Log("Friend Window receive : " + msg);
         if (msg == "Tab_Friend") {
             this.gameObject.SetActive(true);
 

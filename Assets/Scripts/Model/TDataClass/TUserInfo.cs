@@ -21,6 +21,11 @@ public class TUserInfo : ProtobufDataBase
 	public	int		Rank { get { return instance.rank; } set { instance.rank = value; } }
 	public	int		Exp { get { return instance.exp; } set { instance.exp = value; } }
 
+	public	int		FriendMax { get { return instance.friendMax; } set { instance.friendMax = value; } }
+	public	int		CostMax { get { return instance.costMax; } set { instance.costMax = value; } }
+	public	int		UnitMax { get { return instance.unitMax; } set { instance.unitMax = value; } }
+	public	int		StaminaMax {  get { return instance.staminaMax; } set { instance.staminaMax = value; } }
+
 	// NextExp return the exp need to Rise to next rank.
 	public	int		NextExp
 	{ 
@@ -71,11 +76,7 @@ public class TUserInfo : ProtobufDataBase
 		get { return instance.staminaNow; } 
 		set { instance.staminaNow = value; } 
 	}
-	public	int		StaminaMax
-	{ 
-		get { return instance.staminaMax; } 
-		set { instance.staminaMax = value; } 
-	}
+
 	public	uint	StaminaRecover
 	{ 
 		get { return instance.staminaRecover; } 
