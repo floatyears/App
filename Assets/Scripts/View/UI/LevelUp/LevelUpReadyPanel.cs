@@ -210,7 +210,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		curFocusTab.transform.FindChild("Light_Frame").gameObject.SetActive(true);
 		curFocusTab.transform.FindChild("Label_Title").GetComponent< UILabel >().color = Color.yellow;
 		//activate focus tab content= 
-//		Debug.LogError ("CommandEnum.PanelFocus : " + focus.name);
+		Debug.LogError ("CommandEnum.PanelFocus : " + focus.name);
 		MsgCenter.Instance.Invoke(CommandEnum.PanelFocus, curFocusTab.name );
 //		Debug.Log("FoucsOnTab() :  ");
 	}
@@ -247,6 +247,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void ClickLevelUpButton(GameObject go){
 		List<TUserUnit> temp = PackUserUnitInfo ();
 		ExcuteCallback (temp);
+		levelUpButton.isEnabled = false;
 //		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);//before
 //		MsgCenter.Instance.Invoke(CommandEnum.LevelUp, PackUserUnitInfo());//after
 	}
