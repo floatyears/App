@@ -721,16 +721,18 @@ public class SearchFriendDecorator : DecoratorBase
 	public override void DecoratorScene()
 	{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		SearchFriendUI searchMainUI = CreatComponent< SearchFriendUI >(UIConfig.searchMainWindowName);
-		SearchInfoUI infoUI = CreatComponent<  SearchInfoUI >(UIConfig.searchInfoWindowName);
+		SearchFriendController searchMainUI = CreatComponent< SearchFriendController >(UIConfig.searchMainWindowName);
+//		SearchInfoUI infoUI = CreatComponent<  SearchInfoUI >(UIConfig.searchInfoWindowName);
+		RequestFriendApply requestApply = CreatComponent<RequestFriendApply>(UIConfig.applyMessageWindowName);
 
-		TempNetwork.infoUI = infoUI;
+//		TempNetwork.infoUI = infoUI;
 
 		sceneInfoBar.SetComponent(decorator);
 		searchMainUI.SetComponent(sceneInfoBar);
-		infoUI.SetComponent(searchMainUI);
+//		infoUI.SetComponent(searchMainUI);
+		requestApply.SetComponent(searchMainUI);
 
-		lastDecorator = infoUI;
+		lastDecorator = requestApply;
 		lastDecorator.CreatUI();
 	}
 }
