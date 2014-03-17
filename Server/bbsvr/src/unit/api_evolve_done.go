@@ -140,7 +140,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	}
 
 	// verify unit type
-	if unit.GetTodayEvolveType() != baseUnit.Type {
+	if *unit.GetTodayEvolveType() != *baseUnit.Type {
 		e = Error.New(EC.E_UNIT_CANNOT_EVOLVE_TODAY, fmt.Sprintf("unit type %v cannot evolve today.", baseUnit.Type))
 		return e
 	}

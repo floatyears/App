@@ -136,7 +136,7 @@ public enum CommandEnum
 	UnitDisplayState			= 3054,
 	UnitDisplayBaseData			= 3055,
 	UnitDisplayMaterialData		= 3056,
-
+	EvolveFriend				= 3057,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -179,6 +179,9 @@ public enum CommandEnum
 	EnsureDeleteApply			= 4037,
 	NoteRefuseAll				= 4038,
 	EnsureRefuseAll				= 4039,
+	ErrorIDInputEmpty			= 4040,
+	SubmitFriendApply			= 4041,
+	NoteInformation				= 4042,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

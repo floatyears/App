@@ -70,6 +70,7 @@ public class UIConfig
 	public const string unitListWindowName = "UnitListWindow";
 	public const string evolveWindowName = "EvolveWindow";
 	public const string unitDisplay = "UnitDisplay";
+	public const string evolveFriend = "EvolveFriend";
 	public const string questSelectWindowName = "QuestSelectWindow";
 	public const string friendSelectWindowName = "FriendSelectWindow";
 	public const string applyWindowName = "ApplyWindow";
@@ -100,6 +101,8 @@ public class UIConfig
 
 	public const int otherMusicSettingIndex = 1;
 	public const string otherMusicSettingName = "Music";
+
+
 
 
 }

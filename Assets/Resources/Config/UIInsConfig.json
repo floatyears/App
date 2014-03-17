@@ -152,6 +152,14 @@
         "positiony": 0,
         "positionz": 0
     },
+     "EvolveFriend": {
+        "uiName":"EvolveFriend",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 108,
+        "positionz": 0
+    },
     "UnitListWindow": {
         "uiName":"UnitListWindow",
         "resoucePath": "Prefabs/UI/Units/",
@@ -213,7 +221,7 @@
         "resoucePath": "Prefabs/UI/Friend/",
         "parent": 0,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": 100,
         "positionz": 0
     },
      "SearchInfoWindow": {

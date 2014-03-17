@@ -127,7 +127,7 @@ public class DataCenter {
         set { setData(ModelEnum.Skill, value); } 
     }
 
-    public Dictionary<uint, TUnitInfo>  UnitInfo {
+    private Dictionary<uint, TUnitInfo>  UnitInfo {
         get { 
             Dictionary<uint, TUnitInfo> ret = getData(ModelEnum.UnitInfo) as Dictionary<uint, TUnitInfo>;
             if (ret == null) {
@@ -297,8 +297,15 @@ public class DataCenter {
             return tui;
         }
         else {
-            Debug.LogError("unitid is invalid");
-            return null;
+
+			TUnitInfo tui = DGTools.LoadUnitInfoProtobuf(unitID);
+//			Debug.LogError(unitID + " " + tui + "    " + tui.Type);
+			if(tui == null) {
+				Debug.LogError("uintid : " + unitID + " is invalid");
+				return null;
+			}
+			UnitInfo.Add(tui.ID,tui);
+			return tui;
         }
     }
 

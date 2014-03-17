@@ -4,7 +4,7 @@ using System.Collections;
 public class SearchFriendWindow : UIComponentUnity
 {
 	UIButton buttonSearch;
-	UILabel labelInput;
+	UIInput input;
 
 
 	public override void Init(UIInsConfig config, IUICallback origin)
@@ -22,15 +22,15 @@ public class SearchFriendWindow : UIComponentUnity
 	{
 		buttonSearch = FindChild< UIButton >("Button_Search");
 		UIEventListener.Get(buttonSearch.gameObject).onClick = ClickButton;
-		labelInput = FindChild< UILabel >("Input/Label");
-		labelInput.text = string.Empty;
+		input = FindChild< UIInput >("Input");
+		input.value = string.Empty;
 	}
 
 	void ClickButton(GameObject btn)
 	{
 		Debug.LogError("SearchFriendWindow.ClickButton(),  call controller respones....");
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSearch");
-//		ExcuteCallback(cbdArgs);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSearch", input.value);
+		ExcuteCallback(cbdArgs);
 	}
 
 

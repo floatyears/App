@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :unit_infos do
     collection do
       post 'update_redis'
+      get 'download'
     end
   end
   resources :skills

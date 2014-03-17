@@ -74,7 +74,7 @@ func ProtoHandler(rsp http.ResponseWriter, req *http.Request) {
 }
 
 func Init() {
-	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)
+	log.SetFlags(log.Ldate|log.Ltime | log.Lmicroseconds | log.Lshortfile)
 
 	rand.Seed(time.Now().UTC().UnixNano())
 

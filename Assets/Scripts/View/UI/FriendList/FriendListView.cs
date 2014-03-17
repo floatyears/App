@@ -96,7 +96,6 @@ public class FriendListView : UIComponentUnity
 
 	void ClickRefuseButton(GameObject args)
 	{
-		Debug.LogError("77777777777777");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefuseApplyButtonClick", null);
 		ExcuteCallback(cbdArgs);
 	}

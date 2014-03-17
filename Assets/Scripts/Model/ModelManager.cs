@@ -59,7 +59,7 @@ public class ModelManager {
     }
 
     public void InitData() {
-        ConfigUnitInfo cui = new ConfigUnitInfo();
+//        ConfigUnitInfo cui = new ConfigUnitInfo();
 //		Debug.LogError ("InitData ConfigSkill");
         ConfigSkill cs = new ConfigSkill();
         ConfigEnermy ce = new ConfigEnermy();
@@ -70,6 +70,8 @@ public class ModelManager {
         ConfigAudio audioConfig = new ConfigAudio();
         ConfigStage stage = new ConfigStage();
         ConfigViewData tempViewData = new ConfigViewData();
+
+		ConfigNoteMessage noteMsgConfig = new ConfigNoteMessage();
     }
 	
     /// <summary>

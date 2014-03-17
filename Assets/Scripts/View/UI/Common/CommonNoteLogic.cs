@@ -4,11 +4,8 @@ using System.Collections.Generic;
 
 public class CommonNoteLogic : ConcreteComponent
 {
-	
-	public CommonNoteLogic(string uiName):base(uiName)
-	{
-	}
-	
+	public CommonNoteLogic(string uiName):base(uiName){}
+
 	public override void ShowUI()
 	{
 		base.ShowUI();
@@ -28,18 +25,33 @@ public class CommonNoteLogic : ConcreteComponent
 
 	void AddListener()
 	{
-		MsgCenter.Instance.AddListener(CommandEnum.NoteFriendUpdate, ShowFriendUpdateNote);
-		MsgCenter.Instance.AddListener(CommandEnum.NoteRefuseAll, ShowRefuseApplyNote);
+//		MsgCenter.Instance.AddListener(CommandEnum.NoteFriendUpdate, ShowFriendUpdateNote);
+//		MsgCenter.Instance.AddListener(CommandEnum.NoteRefuseAll, ShowRefuseApplyNote);
+//		MsgCenter.Instance.AddListener(CommandEnum.ErrorIDInputEmpty, ShowEmptyIDInputError);
+
+		MsgCenter.Instance.AddListener(CommandEnum.NoteInformation, ShowNoteInformation);
+	
 	}
 
 
 	void RemoveListener()
 	{
-		MsgCenter.Instance.RemoveListener(CommandEnum.NoteFriendUpdate, ShowFriendUpdateNote);
-		MsgCenter.Instance.RemoveListener(CommandEnum.NoteRefuseAll, ShowRefuseApplyNote);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.NoteFriendUpdate, ShowFriendUpdateNote);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.NoteRefuseAll, ShowRefuseApplyNote);
+//		MsgCenter.Instance.AddListener(CommandEnum.ErrorIDInputEmpty, ShowEmptyIDInputError);
 
+		MsgCenter.Instance.RemoveListener(CommandEnum.NoteInformation, ShowNoteInformation);
+	
 	}
 
+	void ShowEmptyIDInputError(object msg)
+	{
+		Dictionary<string,string> noteDic = new Dictionary<string, string>();
+		noteDic.Add("title", "ID Input Empty Error");
+		noteDic.Add("content", "Could not Input empty ID!");
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("NoteIDInputError", noteDic);
+		ExcuteCallback(cbdArgs);
+	}
 	void ShowFriendUpdateNote(object msg)
 	{
 		Dictionary<string,string> noteDic = new Dictionary<string, string>();
@@ -74,14 +86,18 @@ public class CommonNoteLogic : ConcreteComponent
 
 	void SendMessage(object args)
 	{
-		Debug.LogError("88888888888888");
 		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendList)
 			MsgCenter.Instance.Invoke(CommandEnum.EnsureUpdateFriend, null);
 		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.Reception)
 			MsgCenter.Instance.Invoke(CommandEnum.EnsureRefuseAll, null);
+
 	}
 
-
+	void ShowNoteInformation(object msg){
+		Dictionary<string,string> noteMsg = msg as Dictionary<string,string>;
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowNote", noteMsg);
+		ExcuteCallback(cbdArgs);
+	}
 
 
 }

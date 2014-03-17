@@ -9,10 +9,12 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+		MsgCenter.Instance.AddListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
 	}
 	
 	public override void DestoryUI () {
@@ -47,12 +49,24 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	/// 1: base. 2, 3, 4: material. 5: friend
 	/// </summary>
 	private Dictionary<GameObject,EvolveItem> evolveItem = new Dictionary<GameObject, EvolveItem> ();
+	private Dictionary<int,EvolveItem> materialItem = new Dictionary<int, EvolveItem> ();
+	private UIImageButton evolveButton ;
+
+	private EvolveItem baseItem;
+	private EvolveItem friendItem;
+
 	private EvolveItem prevItem = null;
 	private EvolveState clickState = EvolveState.BaseState;
 
-	private TUserUnit baseUserUnit = null;
+//	private TUserUnit baseUserUnit = null;
 	private List<TUserUnit> materialUnit = new List<TUserUnit>();
-	
+	private int ClickIndex = 0;
+
+	void PickFriendUnitInfo(object data) {
+		TUserUnit tuu = data as TUserUnit;
+		friendItem.Refresh (tuu);
+	}
+
 	void DisposeCallback (KeyValuePair<string, object> keyValue) {
 		switch (keyValue.Key) {
 		case BaseData:
@@ -69,18 +83,12 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void DisposeMaterial (List<TUserUnit> itemInfo) {
-		if (itemInfo == null || baseUserUnit == null) {
+		if (itemInfo == null || baseItem == null) {
 			return;	
 		}
-		Debug.LogError ("DisposeMaterial : " + itemInfo.Count);
+
 		for (int i = 0; i < itemInfo.Count; i++) {
-			foreach (var item in evolveItem.Values) {
-				if(item.index == i + 2) {
-					materialUnit.Add(itemInfo[i]);
-					item.Refresh(itemInfo[i]);
-					break;
-				}
-			}
+			materialItem[i + 2].Refresh(itemInfo[i]);
 		}
 	}
 
@@ -90,14 +98,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		}
 	
 		if (clickState == EvolveState.BaseState && tuu.UnitInfo.evolveInfo != null) {
-			foreach (var item in evolveItem.Values) {
-				if(item.index == 1) {
-					item.Refresh(tuu);
-					baseUserUnit = tuu;
-
-					MsgCenter.Instance.Invoke(CommandEnum.UnitDisplayBaseData, tuu);
-				}
-			}
+			baseItem.Refresh(tuu);
+			MsgCenter.Instance.Invoke(CommandEnum.UnitDisplayBaseData, tuu);
 		}
 	}
 
@@ -106,7 +108,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			item.Refresh(null);
 		}
 		materialUnit.Clear();
-
 	}
  
 	void LongPress (GameObject go) {
@@ -115,6 +116,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void ClickItem (GameObject go) {
+		ClickIndex = System.Int32.Parse (go.name);
 		switch (go.name) {
 		case "1":
 			clickState = EvolveState.BaseState;
@@ -122,22 +124,26 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		case "2":
 		case "3":
 		case "4":
-			if(baseUserUnit == null) {
+			if(baseItem == null) {
 				return;
 			}
 			clickState = EvolveState.MaterialState;
 			break;
 		case "5":
 			clickState = EvolveState.FriendState;
+			TUserUnit tuu = null;
+			if(baseItem != null) {
+				tuu = baseItem.userUnit;
+			}
+			MsgCenter.Instance.Invoke(CommandEnum.EvolveFriend, tuu);
 			break;
 		}
 		if (prevItem != null) {
-			prevItem.highLight.enabled = false;		
+			prevItem.highLight.enabled = false;	
 		}
 		EvolveItem ei = evolveItem [go];
 		ei.highLight.enabled = true;
 		prevItem = ei;
-
 		MsgCenter.Instance.Invoke (CommandEnum.UnitDisplayState, clickState);
 	}
 
@@ -162,13 +168,18 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			ei.highLight.enabled = false;
 			evolveItem.Add(ei.itemObject, ei);
 			if(i == 1 ) {
+				baseItem = ei;
 				ei.highLight.enabled = true;
 				clickState = EvolveState.BaseState;
 				prevItem = ei;
 				continue;
 			}
 			else if (i == 5) {
+				friendItem = ei;
 				continue;
+			}
+			else{
+				materialItem.Add(i,ei);
 			}
 			
 			ei.haveLabel = go.transform.Find("HaveLabel").GetComponent<UILabel>();
@@ -192,6 +203,9 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 		temp = transform.Find(path + needLabel).GetComponent<UILabel>();
 		showInfoLabel.Add (needLabel, temp);
+
+		evolveButton = FindChild<UIImageButton> ("Window/Evolve");
+		evolveButton.gameObject.SetActive (false);
 	}
 }
 
@@ -211,11 +225,11 @@ public class EvolveItem {
 
 	public void Refresh (TUserUnit tuu) {
 		userUnit = tuu;
-		Debug.LogError ("eVOLVE : " + tuu);
 		if (tuu == null) {
-			showTexture = null;
+			showTexture.mainTexture = null;
 		} else {
-			showTexture.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+			Texture2D tex = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+			showTexture.mainTexture = tex;
 		}
 	}
 }

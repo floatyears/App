@@ -10,8 +10,7 @@ public class DragPanel : UIBase
 			return dragPanelView;
 		}
 	}
-	private UIScrollBar scrollBar;
-	private UIGrid itemContain;
+
 	private List<GameObject> scrollItem = new List<GameObject> ();
 	public List<GameObject> ScrollItem {
 		get{ return scrollItem; }
@@ -49,8 +48,7 @@ public class DragPanel : UIBase
 			GameObject.Destroy(scrollItem[i]);
 			scrollItem.RemoveAt(i);
 		}
-		GameObject.Destroy (scrollBar.gameObject);
-		GameObject.Destroy (itemContain.gameObject);
+		GameObject.Destroy (dragPanelView.gameObject);
 	}
 
 	void CreatPanel() {

@@ -130,8 +130,10 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 	var isUserExists bool
 	if uid > 0 {
 		userDetail, isUserExists, err = user.GetUserInfo(db, uid)
+		log.T("GetUserInfo by uid(%v) ret isExists=%v ", uid, isUserExists)
 	} else {
 		userDetail, isUserExists, err = user.GetUserInfoByUuid(uuid)
+		log.T("GetUserInfo by uuid(%v) ret isExists=%v ", uuid, isUserExists)
 	}
 
 	log.T("GetUserInfo(%v) ret err(%v). isExists=%v userDetail: ['%v']  ",
@@ -183,14 +185,17 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		//rspMsg.Present = userDetail.Present
 
 	} else { //create new user
-		log.Printf("Cannot find data for user uuid:%v, create new user...", uuid)
+		log.Printf("Cannot find data for user ( uid:%v uuid:%v ), create new user...",uid, uuid)
 
 		rspMsg.IsNewUser = proto.Int32(1) // is new User
 		rspMsg.ServerTime = proto.Uint32(common.Now())
 
 		//TODO:save userinfo to db through goroutine
 		userDetail, e := user.AddNewUser(db, uuid)
-		if !e.IsError() && userDetail != nil {
+		if e.IsError() {
+			return e
+		}
+		if userDetail != nil {
 			rspMsg.Account = userDetail.Account
 			rspMsg.UnitList = userDetail.UnitList
 			rspMsg.Party = userDetail.Party

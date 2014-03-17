@@ -38,7 +38,7 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (uniqueId uint32,
 	}
 
 	uniqueId = uint32(maxId + 1)
-	log.T("uid(%v) get getNewUniqueId ret: %v ",uid, uniqueId)
+//	log.T("uid(%v) get getNewUniqueId ret: %v ",uid, uniqueId)
 	if err = db.SetUInt(consts.KEY_MAX_UNIT_ID+common.Utoa(uid), uniqueId); err != nil {
 		return 0, Error.New(EC.READ_DB_ERROR)
 	}

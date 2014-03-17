@@ -58,12 +58,11 @@ public class FriendListLogic : ConcreteComponent
 
 	void NoteRefuseAll(object args)
 	{
-		MsgCenter.Instance.Invoke(CommandEnum.NoteRefuseAll, null);
+		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.refuseAllFriendIn);
 	}
 
 	void EnsureRefuseAllReception(object msg)
 	{
-		Debug.LogError("66666666666666666666");
 		RefuseFriendAll();
 	}
 
@@ -87,12 +86,10 @@ public class FriendListLogic : ConcreteComponent
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteApply, EnsureDeleteApply);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureRefuseAll, EnsureRefuseAllReception);
 
-
-                
 	}
 	void NoteFriendUpdate(object args)
 	{
-		MsgCenter.Instance.Invoke(CommandEnum.NoteFriendUpdate, null);
+		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.friendUpdateSubmit);
 	}
 	
 	List<TFriendInfo> CurrentFriendListData()
@@ -105,11 +102,11 @@ public class FriendListLogic : ConcreteComponent
 				break;
 			case SceneEnum.Apply: 
 				Debug.Log("CurrentFriendListData() friendIn Count {1}" + DataCenter.Instance.FriendList.FriendIn.Count); 
-				return DataCenter.Instance.FriendList.FriendIn;
+				return DataCenter.Instance.FriendList.FriendOut;
 				break;
 			case SceneEnum.Reception: 
 				Debug.Log("CurrentFriendListData() friendOut Count {2}" + DataCenter.Instance.FriendList.FriendOut.Count); 
-				return DataCenter.Instance.FriendList.FriendOut;
+				return DataCenter.Instance.FriendList.FriendIn;
 				break;
 			
 			default:
@@ -243,7 +240,7 @@ public class FriendListLogic : ConcreteComponent
 		}
         
 		// test
-		LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData() [1].NickName);
+//		LogHelper.Log("OnAcceptFriend, test first friend. nick name" + CurrentFriendListData() [1].NickName);
 		HideUI();
 		ShowUI();
 	}

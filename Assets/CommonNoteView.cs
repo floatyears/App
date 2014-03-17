@@ -100,10 +100,7 @@ public class CommonNoteView : UIComponentUnity
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName)
 		{
-			case "NoteUpdateFriend": 
-				CallBackDispatcherHelper.DispatchCallBack(UpdateNotePanel, cbdArgs);
-				break;
-			case "NoteRefuseApply": 
+			case "ShowNote": 
 				CallBackDispatcherHelper.DispatchCallBack(UpdateNotePanel, cbdArgs);
 				break;
 			default:
@@ -118,7 +115,6 @@ public class CommonNoteView : UIComponentUnity
 
 	void ClickSureButton(GameObject btn)
 	{
-//		MsgCenter.Instance.Invoke(CommandEnum.EnsureUpdateFriend, null);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSure", null);
 		ExcuteCallback(cbdArgs);
 		ShowSelf(false);

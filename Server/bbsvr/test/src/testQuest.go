@@ -6,16 +6,17 @@ import (
 	//"fmt"
 	//"errors"
 	_ "html"
-	"log"
+
 	"math/rand"
 	//"time"
 )
 import (
 	"bbproto"
 	"common"
-	//"src/common/Error"
 	"common/consts"
+	"common/log"
 	"data"
+	"model/unit"
 	//"src/quest"
 	//"src/model/user"
 	//"src/friend"
@@ -346,29 +347,32 @@ func main() {
 	log.Printf("bbsvr test client begin...")
 
 	Init()
-	DataAddStageInfo(11, "Fire City")
-	DataAddStageInfo(12, "Water City")
-	DataAddStageInfo(13, "Win City")
-	for stage := uint32(11); stage <= 13; stage++ {
-		for questId := uint32(100*stage + 1); questId <= 100*stage+5; questId++ {
-			DataAddQuestConfig(questId)
-		}
-	}
+	//DataAddStageInfo(11, "Fire City")
+	//DataAddStageInfo(12, "Water City")
+	//DataAddStageInfo(13, "Win City")
+	//for stage := uint32(11); stage <= 13; stage++ {
+	//	for questId := uint32(100*stage + 1); questId <= 100*stage+5; questId++ {
+	//		DataAddQuestConfig(questId)
+	//	}
+	//}
 
-	//evolve city
-	DataAddStageInfo(21, "Evolve Wind City")
-	DataAddStageInfo(22, "Evolve Fire City")
-	DataAddStageInfo(23, "Evolve Water City")
-	DataAddStageInfo(24, "Evolve Light City")
-	DataAddStageInfo(25, "Evolve Dark City")
-	DataAddStageInfo(26, "Evolve None City")
+	////evolve city
+	//DataAddStageInfo(21, "Evolve Wind City")
+	//DataAddStageInfo(22, "Evolve Fire City")
+	//DataAddStageInfo(23, "Evolve Water City")
+	//DataAddStageInfo(24, "Evolve Light City")
+	//DataAddStageInfo(25, "Evolve Dark City")
+	//DataAddStageInfo(26, "Evolve None City")
 
-	for stage := uint32(21); stage <= 26; stage++ {
-		for questId := uint32(100*stage + 1); questId <= 100*stage+5; questId++ {
-			DataAddQuestConfig(questId)
-		}
-	}
+	//for stage := uint32(21); stage <= 26; stage++ {
+	//	for questId := uint32(100*stage + 1); questId <= 100*stage+5; questId++ {
+	//		DataAddQuestConfig(questId)
+	//	}
+	//}
 	//StartQuest(101, 11, 1101, 102)
+
+	stageId, questId := unit.GetEvolveQuestId(bbproto.EUnitType_UWATER, 3)
+	log.T("return  stageId:%v questId:%v", stageId, questId)
 
 	log.Fatal("bbsvr test client finish.")
 }

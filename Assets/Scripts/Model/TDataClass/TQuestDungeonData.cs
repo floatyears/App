@@ -212,7 +212,7 @@ public class TDropUnit : ProtobufDataBase {
 	public int	AddDefence{ get { return instance.addDefence; } }
 
 	public TUnitInfo UnitInfo {
-		get { return DataCenter.Instance.UnitInfo [instance.unitId]; }
+		get { return DataCenter.Instance.GetUnitInfo (instance.unitId); }
 	}
 }
 
