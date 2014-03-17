@@ -189,8 +189,7 @@ public class FriendListLogic : ConcreteComponent
 		DelFriend.SendRequest(OnDelFriend, refuseList);
 	}
 
-	void AcceptFriendRequest(uint friendUid)
-	{
+	void AcceptFriendRequest(uint friendUid){
 		AcceptFriend.SendRequest(OnAcceptFriend, friendUid);
 	}
 
