@@ -1,34 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UserIDComponent : ConcreteComponent,IUICallback {
+public class UserIDComponent : ConcreteComponent
+{
 
-	string userID = "110.119.120";
-	public UserIDComponent( string uiName ) : base( uiName ) {}
-	
-	public override void CreatUI() {
-		base.CreatUI();
+	public UserIDComponent(string uiName) : base( uiName )
+	{
 	}
+
 	public override void ShowUI()
 	{
 		base.ShowUI();
+		ShowUsedID();
 	}
 	
 	public override void HideUI()
 	{
 		base.HideUI();
 	}
-	
-	public override void DestoryUI()
+
+
+	void ShowUsedID()
 	{
-		base.DestoryUI();
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowUserID", DataCenter.Instance.UserInfo.UserId);
+		ExcuteCallback(cbdArgs);
 	}
 
-	public void Callback(object data)
-	{
-		IUICallback id = viewComponent as IUICallback;
-		if( id == null )	return;
-		//Debug.Log("Comp call back");
-		id.Callback( userID );
-	}
+
+
 }

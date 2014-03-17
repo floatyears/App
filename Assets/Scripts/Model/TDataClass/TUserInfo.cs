@@ -48,7 +48,10 @@ public class TUserInfo : ProtobufDataBase
 			for (int i = 1; i <= curLevel; i++)
 			{
 				totalExp += DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, i);
+//				UnityEngine.Debug.LogError("totalExp :: " + totalExp);
 			}
+//			UnityEngine.Debug.LogError("Exp :: " + Exp);
+//			UnityEngine.Debug.LogError("CurRankExp :: " + (Exp - totalExp));
 			return Exp - totalExp;
 		}
 	} 
@@ -58,6 +61,7 @@ public class TUserInfo : ProtobufDataBase
 		get
 		{ 
 			int curLevel = Rank;
+			//UnityEngine.Debug.LogError("CurRankExpMax :: " + DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, curLevel));
 			return DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, curLevel);
 		}
 	} 
