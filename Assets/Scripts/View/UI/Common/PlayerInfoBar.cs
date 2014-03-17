@@ -163,6 +163,7 @@ public class PlayerInfoBar : UIComponentUnity
 		//Exp
 		int nextExp = DataCenter.Instance.UserInfo.NextExp;
 		int curRankExp = DataCenter.Instance.UserInfo.CurRankExp;
+
 		int totalExp = DataCenter.Instance.UserInfo.Exp;
 
 		VNeedExpHideLabel.text = nextExp.ToString();

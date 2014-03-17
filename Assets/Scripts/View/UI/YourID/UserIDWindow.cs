@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UserIDWindow : UIComponentUnity, IUICallback {
+public class UserIDWindow : UIComponentUnity, IUICallback
+{
 
+	UILabel idLabel;
 
 	public override void Init(UIInsConfig config, IUICallback origin)
 	{
@@ -13,8 +15,6 @@ public class UserIDWindow : UIComponentUnity, IUICallback {
 	public override void ShowUI()
 	{
 		base.ShowUI();
-
-		GetUserID();
 		ShowTween();
 	}
 
@@ -28,33 +28,50 @@ public class UserIDWindow : UIComponentUnity, IUICallback {
 		base.DestoryUI();
 	}
 
-	private void InitUI(){
-		UIButton buttonOK = FindChild< UIButton >("Button_OK");
-		UIEventListener.Get( buttonOK.gameObject ).onClick = ClickButton;
-	}
+	public override void Callback(object data)
+	{
+		base.Callback(data);
 
-	void ClickButton(GameObject go){
-		UIManager.Instance.ChangeScene( SceneEnum.Friends );
-	}
-
-	void GetUserID() {
-		IUICallback call = origin as IUICallback;
-		if (call == null)	return;
-		//Debug.Log("origin is IUICallback is" + origin is IUICallback);
-		call.Callback( origin is IUICallback );
+		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (cbdArgs.funcName)
+		{
+			case "ShowUserID": 
+				CallBackDispatcherHelper.DispatchCallBack(ShowUserID, cbdArgs);
+				break;
+			default:
+				break;
+		}
 	}
 	
-	public void Callback(object data){
-		string id = (string) data;
-		UILabel idLabel = FindChild< UILabel >("Label_ID_Vaule");
-		idLabel.text = id;
+	void ShowUserID(object args)
+	{
+		uint id = (uint)args;
+		Debug.LogError("IDSURE : " + id);
+		idLabel.text = id.ToString();
 	}
 
-	private void ShowTween(){
+	private void InitUI()
+	{
+		idLabel = FindChild<UILabel>("Label_ID_Vaule");
+
+		UIButton buttonOK = FindChild< UIButton >("Button_OK");
+		UIEventListener.Get(buttonOK.gameObject).onClick = ClickButton;
+	}
+
+	void ClickButton(GameObject go)
+	{
+		UIManager.Instance.ChangeScene(SceneEnum.Friends);
+	}
+
+	private void ShowTween()
+	{
 		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)	return;
-		foreach (var tweenPos in list){		
-			if (tweenPos == null)	continue;
+		if (list == null)
+			return;
+		foreach (var tweenPos in list)
+		{		
+			if (tweenPos == null)
+				continue;
 			tweenPos.Reset();
 			tweenPos.PlayForward();
 		}
