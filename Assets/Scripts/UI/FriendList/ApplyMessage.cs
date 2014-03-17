@@ -3,7 +3,6 @@ using System.Collections;
 
 public class ApplyMessage : ConcreteComponent
 {
-	protected TFriendInfo curPickedApplyFriend;
 	public ApplyMessage(string uiName) : base( uiName )
 	{
 	}
@@ -38,7 +37,6 @@ public class ApplyMessage : ConcreteComponent
 
 	void ShowApplyInfo(object msg)
 	{
-		Debug.LogError("333333333333");
 		TFriendInfo tfi = msg as TFriendInfo;
 		RefreshApplyFriendInfo(tfi);
 	}

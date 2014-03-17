@@ -1,39 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SearchFriendWindow : UIComponentUnity {
+public class SearchFriendWindow : UIComponentUnity
+{
 	UIButton buttonSearch;
 	UILabel labelInput;
 
 
-	public override void Init(UIInsConfig config, IUICallback origin){
+	public override void Init(UIInsConfig config, IUICallback origin)
+	{
 		base.Init(config, origin);
 		InitWindow();
 	}
 
-	public override void ShowUI(){
+	public override void ShowUI()
+	{
 		base.ShowUI();
 	}
 
-	void InitWindow(){
+	void InitWindow()
+	{
 		buttonSearch = FindChild< UIButton >("Button_Search");
-		UIEventListener.Get( buttonSearch.gameObject ).onClick = ClickButton;
+		UIEventListener.Get(buttonSearch.gameObject).onClick = ClickButton;
 		labelInput = FindChild< UILabel >("Input/Label");
 		labelInput.text = string.Empty;
 	}
 
-	void ClickButton( GameObject button ){
-//		Debug.Log( "Click Button,Call.......");
-		IUICallback buttonBacker = origin as IUICallback;
-		bool isBacker;
-		isBacker = origin is IUICallback;
-		if( !isBacker )	return;
-		string strInput = labelInput.text;
-		buttonBacker.Callback( strInput );
-	}
-
-	void SetActive( GameObject target, bool isActive ){
-		target.SetActive( isActive );
+	void ClickButton(GameObject btn)
+	{
+		Debug.LogError("SearchFriendWindow.ClickButton(),  call controller respones....");
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSearch");
+//		ExcuteCallback(cbdArgs);
 	}
 
 

@@ -21,9 +21,6 @@ public class Gacha: ProtoManager {
     private int gachaId;
     private int gachaCount;
 
-    public List<uint> UnitUniqueIdList { get { return unitUniqueIdList; } set { unitUniqueIdList = value; } }
-    
-    
     public Gacha() {
     }
     
@@ -51,9 +48,9 @@ public class Gacha: ProtoManager {
         reqGacha.header.userId = DataCenter.Instance.UserInfo.UserId;
         
         //request params
-        CollectionHelper.ResetReadOnlyList(reqGacha.unitUniqueId, unitUniqueIdList);
-        
-        
+
+        reqGacha.gachaId = gachaId;
+        reqGacha.gachaCount = gachaCount;
         //        reqGacha.partUniqueId
         
         ErrorMsg err = SerializeData(reqGacha); // save to Data for send out
