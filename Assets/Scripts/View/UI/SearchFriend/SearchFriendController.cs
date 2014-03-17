@@ -85,6 +85,31 @@ public class SearchFriendController : ConcreteComponent
 		TFriendInfo searchResult = new TFriendInfo(rsp.friend);
 		ShowSearchFriendResult(searchResult);
 	}
+	
+	void AddFriendApplication(uint friendUid){
+		LogHelper.Log("AddFriendApplication () start");
+		AddFriend.SendRequest(OnAddFriend, friendUid);
+	}
+
+	void OnAddFriend(object data){
+		if (data == null)
+			return;
+		
+		LogHelper.Log("TFriendList.OnRspAddFriend() begin");
+		LogHelper.Log(data);
+		bbproto.RspAddFriend rsp = data as bbproto.RspAddFriend;
+		
+		if (rsp.header.code != (int)ErrorCode.SUCCESS)
+		{
+			LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			return;
+		}
+		
+		bbproto.FriendList inst = rsp.friends;
+		
+		DataCenter.Instance.FriendList.RefreshFriendList(inst);
+		
+	}
 
 	public void ShowSearchFriendResult(TFriendInfo resultInfo)
 	{
@@ -131,7 +156,7 @@ public class SearchFriendController : ConcreteComponent
 			return;
 		}
 
-		
+		AddFriendApplication(currentSearchFriend.UserId);
 	}
 
 }
