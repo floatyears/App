@@ -51,5 +51,24 @@ public class TextCenter {
         //
         textDict.Add("error", "error");
         textDict.Add("error1", "error {0}");
+        textDict.Add("OK", "OK");
+        textDict.Add("Cancel", "Cancel");
+
+        textDict.Add("SearchError", "Search Error");
+        textDict.Add("UserNotExist", "The Friend {0} you search not exist");
+
+        textDict.Add("InputError", "Input Error");
+        textDict.Add("InputEmpty", "Could not Input empty ID!");
+
+//        textDict.Add("SearchError", "Input Error");
+        textDict.Add("UserAlreadyFriend", "The ID {0} you searched is already your friend!");
+
+        textDict.Add("RefuseAll", "The ID {0} you searched is already your friend!");
+        textDict.Add("ConfirmRefuseAll", "Are you sure to refuse all friend apply?");
+
+        textDict.Add("RefreshFriend", "Friend Update");
+        textDict.Add("ConfirmRefreshFriend", "Are you sure to update friend list?");
+
+
     }
 }

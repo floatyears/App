@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SearchFriendController : ConcreteComponent
 {
 	TFriendInfo currentSearchFriend;
+    uint searchFriendUid;
 
 	public SearchFriendController(string uiName) : base( uiName ){}
 
@@ -38,7 +40,34 @@ public class SearchFriendController : ConcreteComponent
 				break;
 		}
 	}
-	
+
+    MsgWindowParams GetSearchIdEmptyMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("InputError");
+        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("InputEmpty");
+//        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParam = new BtnParam();
+        return msgWindowParam;
+    }
+
+    MsgWindowParams GetSearchIdNotExistMsgWindowParams(){
+//        LogHelper.Log("GetSearchIdAlreadyFriendMsgWindowParams(), searchFriendUid {0}", searchFriendUid);
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("SearchError");
+        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UserNotExist", searchFriendUid);
+//        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParam = new BtnParam();
+        return msgWindowParam;
+    }
+
+    MsgWindowParams GetSearchIdAlreadyFriendMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("SearchError");
+        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UserAlreadyFriend", searchFriendUid);
+        msgWindowParam.btnParam = new BtnParam();
+        return msgWindowParam;
+    }
+
 	void SearchFriendWithID(object args)
 	{ 
 		string idString = args as string;
@@ -46,13 +75,13 @@ public class SearchFriendController : ConcreteComponent
 		if (idString == string.Empty)
 		{
 			Debug.LogError("Search ID Input can't be empty!!!!!");
-			MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.inputIDEmpty);
+			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdEmptyMsgWindowParams());
 
 		} else
 		{
-			uint id = System.Convert.ToUInt32(idString);
-			Debug.LogError("SearchFriendController.SearchFriendWithID(), The ID input is " + id);
-			OnRearchFriendWithId(id);
+            searchFriendUid = System.Convert.ToUInt32(idString);
+            Debug.LogError("SearchFriendController.SearchFriendWithID(), The ID input is " + searchFriendUid);
+            OnRearchFriendWithId(searchFriendUid);
 		}
 	}
 
@@ -102,6 +131,9 @@ public class SearchFriendController : ConcreteComponent
 		if (rsp.header.code != (int)ErrorCode.SUCCESS)
 		{
 			LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            if (rsp.header.code == ErrorCode.EF_IS_ALREADY_FRIEND){
+                ShowAlreadyFriend();
+            }
 			return;
 		}
 		
@@ -119,16 +151,17 @@ public class SearchFriendController : ConcreteComponent
 
 	public void ShowFriendNotExist()
 	{
+        LogHelper.Log("ShowFriendNotExist() start");
 		currentSearchFriend = null;
-		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.searchFriendNotExist);
-	}
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdNotExistMsgWindowParams());
+    }
 
 	public void ShowAlreadyFriend()
 	{
 
 		currentSearchFriend = null;
-		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.alreadyFriend);
-	}
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdAlreadyFriendMsgWindowParams());
+    }
 
 //    //////////////////Test
 //    public static void TestSearchFriendReq(){

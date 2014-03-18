@@ -1,4 +1,4 @@
-﻿//public enum 
+//public enum 
 
 public enum SceneEnum
 {
@@ -181,9 +181,10 @@ public enum CommandEnum
 	EnsureRefuseAll				= 4039,
 	ErrorIDInputEmpty			= 4040,
 	SubmitFriendApply			= 4041,
-	NoteInformation				= 4042,
+	OpenMsgWindow				= 4042,
 	EnsureRefuseSingleApply			= 4043,
 	EnsureAcceptApply				= 4044,
+    NoteInformation                 = 4045,
 
 
 	//-----------------Server Protocol-----------------------//

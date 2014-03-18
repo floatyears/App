@@ -56,9 +56,22 @@ public class FriendListLogic : ConcreteComponent
 		}
 	}
 
+    MsgWindowParams GetRefuseAllFriendInMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RefuseAll");
+        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("ConfirmRefuseAll");
+        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParams[0].callback = CallbackRefuseAll;
+        return msgWindowParam;
+    }
+
+    void CallbackRefuseAll(object args){
+        MsgCenter.Instance.Invoke(CommandEnum.EnsureRefuseAll);
+    }
+
 	void NoteRefuseAll(object args)
 	{
-		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.refuseAllFriendIn);
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRefuseAllFriendInMsgWindowParams());
 	}
 
 	void RefuseAllApplyFromOthers(object msg)
@@ -103,9 +116,25 @@ public class FriendListLogic : ConcreteComponent
 		RefuseFriend(currentFriendPicked.UserId);
 	}
 
+    MsgWindowParams GetRefreshFriendListMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RefreshFriend");
+//        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("ConfirmRefreshFriend");
+        string context1 = TextCenter.Instace.GetCurrentText("ConfirmRefreshFriend");
+        string context2 = TextCenter.Instace.GetCurrentText("RefreshFriend");
+        msgWindowParam.contentTexts = new string[2]{ context1, context2 };
+        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParams[0].callback = CallbackRefuseAll;
+        return msgWindowParam;
+    }
+
+    void CallbackRefreshFriend(object args){
+        MsgCenter.Instance.Invoke(CommandEnum.EnsureUpdateFriend);
+    }
+
 	void NoteFriendUpdate(object args)
 	{
-		MsgCenter.Instance.Invoke(CommandEnum.NoteInformation, ConfigNoteMessage.friendUpdateSubmit);
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRefreshFriendListMsgWindowParams());
 	}
 	
 	List<TFriendInfo> CurrentFriendListData()
