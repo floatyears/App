@@ -15,6 +15,7 @@ import (
 	"data"
 	"model/unit"
 	"model/user"
+	"model/friend"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -160,12 +161,17 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	log.T("deduct money: %v - %v ", *userDetail.Account.Money, needMoney)
 	*userDetail.Account.Money -= needMoney
 
-	//8. update userinfo
+	//8. update helper used time
+	if e = friend.UpdateHelperUsedRecord(db, uid, *reqMsg.HelperUserId); e.IsError() {
+		return e
+	}
+
+	//9. update userinfo
 	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 
-	//9. fill response
+	//10. fill response
 	rspMsg.BlendExp = proto.Int32(addExp)
 	rspMsg.BlendUniqueId = reqMsg.BaseUniqueId
 	rspMsg.UnitList = userDetail.UnitList

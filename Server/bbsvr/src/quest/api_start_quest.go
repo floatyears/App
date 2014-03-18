@@ -14,6 +14,7 @@ import (
 	"data"
 	"model/quest"
 	"model/user"
+	"model/friend"
 
 	"code.google.com/p/goprotobuf/proto"
 )
@@ -178,6 +179,13 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}
+	friendPoint, e := friend.GetFriendPoint(db, uid, *reqMsg.HelperUserId)
+	if e.IsError() {
+		return e
+	}
+	log.T("record fid:%v => friendPoint: %v", *reqMsg.HelperUserId, friendPoint)
+	userDetail.Quest.GetFriendPoint = proto.Int32( friendPoint )
+
 
 	//update currParty
 	userDetail.Party.CurrentParty = reqMsg.CurrentParty

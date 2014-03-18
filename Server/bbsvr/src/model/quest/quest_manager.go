@@ -9,6 +9,7 @@ import (
 	"common/log"
 	"data"
 	"model/unit"
+	"model/friend"
 
 	"code.google.com/p/goprotobuf/proto"
 )
@@ -92,6 +93,11 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 
 	//save userDetail.Quest to QuestLog
 	if e = SaveQuestLog(db, userDetail); e.IsError() {
+		return
+	}
+
+	//update helper used time
+	if e = friend.UpdateHelperUsedRecord(db, *userDetail.User.UserId, *userDetail.Quest.HelperUserId); e.IsError() {
 		return
 	}
 

@@ -21,6 +21,9 @@ func UpdateUserInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.
 		return Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 
+	//Update LastPlayTime
+	userdetail.Login.LastPlayTime = proto.Uint32(common.Now())
+
 	zUserData, err := proto.Marshal(userdetail)
 	if err != nil {
 		return Error.New(EC.MARSHAL_ERROR, err.Error())

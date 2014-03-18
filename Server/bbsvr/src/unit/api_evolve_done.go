@@ -15,6 +15,7 @@ import (
 	"common"
 	"common/log"
 	"data"
+	"model/friend"
 	"model/quest"
 	"model/unit"
 	"model/user"
@@ -180,6 +181,17 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	stageInfo, e := quest.GetStageInfo(db, stageId)
 	if e.IsError() {
 		log.Error("GetStageInfo(%v) error: %v", stageId, e.Error())
+		return e
+	}
+
+	//TODO: 9.try getFriendState(helperUid) -> getFriendPoint
+	friendPoint, e := friend.GetFriendPoint(db, uid, *reqEvolveStart.HelperUserId)
+	if e.IsError() {
+		return e
+	}
+	rspMsg.FriendPoint = proto.Int32(friendPoint)
+
+	if e = friend.UpdateHelperUsedRecord(db, uid, *reqEvolveStart.HelperUserId); e.IsError() {
 		return e
 	}
 

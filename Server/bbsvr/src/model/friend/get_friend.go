@@ -18,6 +18,30 @@ import (
 	redis "github.com/garyburd/redigo/redis"
 )
 
+func GetOneFriendData(db *data.Data, uid uint32, fid uint32) (friendData *bbproto.FriendData, e Error.Error) {
+	if db == nil {
+		return friendData, Error.New(EC.INVALID_PARAMS, "[ERROR] db pointer is nil.")
+	}
+	if err := db.Select(consts.TABLE_FRIEND); err != nil {
+		return friendData, Error.New(EC.READ_DB_ERROR, err.Error())
+	}
+
+	sUid := common.Utoa(uid)
+	zFriendData, err := db.HGet(sUid, common.Utoa(fid))
+	if err != nil {
+		log.Fatal(" HGetAll('%v') ret err:%v", sUid, err)
+		return friendData, Error.New(EC.READ_DB_ERROR, err)
+	}
+
+	friendData = &bbproto.FriendData{}
+	err = proto.Unmarshal(zFriendData, friendData)
+	if err != nil {
+		return friendData, Error.New(EC.READ_DB_ERROR, err)
+	}
+
+	return friendData, Error.OK()
+}
+
 func GetFriendsData(db *data.Data, sUid string, isGetOnlyFriends bool, friendsInfo map[string]bbproto.FriendInfo) (err error) {
 	if db == nil {
 		return fmt.Errorf("[ERROR] db pointer is nil.")
@@ -124,7 +148,27 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 
 func GetSupportFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {
 	//get all friends & helper, but NOT include friendIn & friendOut
-	return GetFriendInfo(db, uid, rank, true, true, true)
+	friendsInfo, e = GetFriendInfo(db, uid, rank, true, true, true)
+	if e.IsError() {
+		return friendsInfo, e
+	}
+
+	// fill friend point
+	for _, friInfo := range friendsInfo {
+		if *friInfo.FriendState != bbproto.EFriendState_ISFRIEND {
+			continue
+		}
+		//TODO: read multi-fid once from db (use HMGET)
+		if usedTime, e := GetHelperUsedRecord(db, uid, *friInfo.UserId); !e.IsError() {
+			if common.IsToday(usedTime) {
+				friInfo.FriendPoint = proto.Int32(0)
+			} else {
+				friInfo.FriendPoint = proto.Int32(consts.N_FRIEND_HELPER_POINT)
+			}
+		}
+	}
+
+	return friendsInfo, e
 }
 
 func GetFriendList(db *data.Data, uid uint32) (friendList *bbproto.FriendList, e Error.Error) {

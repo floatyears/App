@@ -59,13 +59,13 @@ message TerminalInfo {
 	optional string	deviceName					= 2; // 
 	optional string	uuid						= 3; 
 	optional string	os		 					= 4; // android / ios
-};
+}
 
 message LoginBonus {
 	optional int32		type					= 1;
 	optional int32		value					= 2;
 	optional int32		bonusType				= 3;	
-};
+}
 
 message LoginInfo {
 	optional int32		loginTotal				= 1;
@@ -75,7 +75,7 @@ message LoginInfo {
 	optional int32		friendPointGet			= 5;
 	optional int32		friendHelpCount			= 6;
 	repeated LoginBonus bonus					= 7;
-};
+}
 
 message PresentInfo {
 	optional uint32		serialId				= 1;
@@ -84,31 +84,31 @@ message PresentInfo {
 	optional uint32		value1					= 4;
 	optional uint32		value2					= 5;
 	optional string		message					= 6;
-};
+}
 
 message SessionInfo {
 	optional string		sessionId				= 1;
 	optional string		uuid					= 2;
 	optional uint32		userId					= 3;
 	optional uint32		questId					= 4;
-};
+}
 //-------------------------------------------------
 
 message ReqGetUserInfo {
 	optional ProtoHeader	header				= 1;
 	optional uint32			userId				= 2;
-};
+}
 
 message RspGetUserInfo {
 	optional ProtoHeader	header				= 1;
 	optional UserInfo		user				= 2;
-};
+}
 
 //-------------------------------------------------
 message ReqAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional TerminalInfo	terminal			= 2;	
-};
+}
 
 message RspAuthUser {
 	optional ProtoHeader	header				= 1;
@@ -123,7 +123,7 @@ message RspAuthUser {
 	repeated PresentInfo	present				= 10;
 	optional EUnitType		evolveType			= 11;
 	optional int32			isNewUser			= 12;
-};
+}
 
 //-------------------------------------------------
 message ReqLoginPack {
@@ -132,32 +132,32 @@ message ReqLoginPack {
 	optional bool			getFriend			= 3;
 	optional bool			getHelper			= 4;
 	optional bool			getPresent			= 5;
-};
+}
 
 message RspLoginPack {
 	optional ProtoHeader	header				= 1;
 	optional LoginInfo		login				= 2;
 	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 4;
-};
+}
 
 //-------------------------------------------------
 
 message ReqRenameNick {
 	optional ProtoHeader	header				= 1;
 	optional string			newNickName			= 2;
-};
+}
 
 message RspRenameNick {
 	optional ProtoHeader	header				= 1;
 	optional string			newNickName			= 2;
-};
+}
 
 //-------------------------------------------------
 
 message ReqRestoreStamina {
 	optional ProtoHeader	header				= 1;
-};
+}
 
 message RspRestoreStamina {
 	optional ProtoHeader	header				= 1;
@@ -165,17 +165,17 @@ message RspRestoreStamina {
 	optional int32			staminaMax			= 3; 	
 	optional uint32			staminaRecover		= 4; // stamina recover time
 	optional int32			stone				= 5;
-};
+}
 
 //-------------------------------------------------
 message ReqChangeParty {
 	optional ProtoHeader	header				= 1;
 	optional PartyInfo		party				= 2;
-};
+}
 
 message RspChangeParty {
 	optional ProtoHeader	header				= 1;
-};
+}
 
 //-------------------------------------------------
 message ReqUnitMaxExpand {

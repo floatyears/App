@@ -20,8 +20,9 @@ const (
 //key prefix
 const (
 	X_UUID      = "X_UUID_"
-	X_HELPER_MY = "X_HELPER_MY_" // A user's helpers
+	X_HELPER_RECORD = "X_HELPER_REC_" // A user's helpers
 	X_USER_RANK = "X_USER_RANK_" // ZSET: uid - rank
+
 
 	//quest
 	X_QUEST_STAGE  = "X_STAGE_"
@@ -58,6 +59,9 @@ const (
 
 	N_UNITMAX_EXPAND_COUNT   = 5
 	N_FRIENDMAX_EXPAND_COUNT = 5
+
+	N_FRIEND_HELPER_POINT	= 10
+	N_SUPPORT_HELPER_POINT	= 5
 )
 
 // consume cost

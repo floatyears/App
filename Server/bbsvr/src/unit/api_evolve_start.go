@@ -195,8 +195,6 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 		return e
 	}
 
-	//TODO: 9.try getFriendState(helperUid) -> getFriendPoint
-
 	reqMsg.EvolveQuestId = &questId
 	if e = unit.SaveEvolveSession(db, reqMsg); e.IsError() {
 		return e
