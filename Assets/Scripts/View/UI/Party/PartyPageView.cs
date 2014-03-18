@@ -155,7 +155,9 @@ public class PartyPageView : UIComponentUnity {
 		ExcuteCallback( cbd );
 	}
 	
-	void ResetUIElement(){}
+	void ResetUIElement(){
+		ClearItemLeft();
+	}
 	
 	void ChangeTexure(int pos,Texture2D tex){
 		if(tex == null ){
@@ -167,6 +169,7 @@ public class PartyPageView : UIComponentUnity {
 				texureList[ pos-1 ].mainTexture = tex;
 			} 
 		}
+
 	}
 	
 	void LoseFocus(object args){
@@ -275,7 +278,13 @@ public class PartyPageView : UIComponentUnity {
 		Texture2D texture = tuu.UnitInfo.GetAsset( UnitAssetType.Avatar );
 	
 		ChangeTexure(position, texture);
-
 	}
+
+	
+	void ClearItemLeft(){
+		UITexture uiTexture = itemLeft.transform.FindChild("Texture").GetComponent<UITexture>();
+		uiTexture.mainTexture = null;
+	}
+
 	
 }

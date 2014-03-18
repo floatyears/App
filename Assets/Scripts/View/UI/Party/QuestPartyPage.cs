@@ -38,6 +38,4 @@ public class QuestPartyPage : PartyPageLogic{
 	void RemoveCommandListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.AddHelperItem, AddHelperItem);
 	}
-
-
 }

@@ -97,7 +97,7 @@ public class FriendHelperView : UIComponentUnity{
 		UpdateAvatarTexture(viewInfoList);
 		UpdateEventListener();
 		ShowFriendName(viewInfoList);
-		//UpdateSupportInfo(viewInfoList);
+		UpdateSupportInfo(viewInfoList);
 		UpdateCrossShow();
 
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
@@ -110,15 +110,14 @@ public class FriendHelperView : UIComponentUnity{
 		InvokeRepeating("CrossShow", 0f, 1f);
 	}
 
-	void UpdateSupportInfo(List<TFriendInfo> friendInfoList){
+	void UpdateSupportInfo(List<UnitItemViewInfo> friendInfoList){
 		Debug.Log("UpdateSupportType(), Start...");
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem [i];
 			UILabel typeLabel = scrollItem.transform.FindChild("Label_Friend_Type").GetComponent<UILabel>();
 			UILabel pointLabel = scrollItem.transform.FindChild("Label_Friend_Point").GetComponent<UILabel>();
 
-			Debug.Log(string.Format("UpdateSupportType(), Friend[{0}] FriendState is {1} : ", i, friendInfoList[ i ].FriendState.ToString()));
-			switch (friendInfoList[ i ].FriendState) {
+			switch (friendInfoList[ i ].HelperItem.FriendState) {
 				case bbproto.EFriendState.FRIENDHELPER : 
 					typeLabel.text = "Support";
 					typeLabel.color = Color.green;
@@ -133,8 +132,8 @@ public class FriendHelperView : UIComponentUnity{
 					typeLabel.text = string.Empty;
 					break;
 			}
-			if(friendInfoList[ i ].FriendPoint != 0){
-				pointLabel.text = string.Format("{0}pt", friendInfoList[ i ].FriendPoint.ToString());
+			if(friendInfoList[ i ].HelperItem.FriendPoint != 0){
+				pointLabel.text = string.Format("{0}pt", friendInfoList[ i ].HelperItem.FriendPoint.ToString());
 			}
 			else{
 				pointLabel.text = string.Empty;
@@ -180,7 +179,6 @@ public class FriendHelperView : UIComponentUnity{
 
 	void ClickItem(GameObject item){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
-//		Debug.LogError("Index : " + dragPanel.ScrollItem.IndexOf(item));
 		ExcuteCallback(cbdArgs);
 	}
 	
