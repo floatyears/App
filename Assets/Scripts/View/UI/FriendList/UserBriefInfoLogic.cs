@@ -6,24 +6,19 @@ public class UserBriefInfoLogic : ConcreteComponent
 
 	TUserUnit currentPickedUserUnit;
 
-	public UserBriefInfoLogic(string uiName):base(uiName)
-	{
-	}
+	public UserBriefInfoLogic(string uiName):base(uiName){}
 
-	public override void ShowUI()
-	{
+	public override void ShowUI(){
 		base.ShowUI();
 		AddEventListener();
 	}
 
-	public override void HideUI()
-	{
+	public override void HideUI(){
 		base.HideUI();
 		RemoveEventListener();
 	}
 
-	public override void Callback(object data)
-	{
+	public override void Callback(object data){
 		base.Callback(data);
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
@@ -70,10 +65,8 @@ public class UserBriefInfoLogic : ConcreteComponent
 		MsgCenter.Instance.RemoveListener(CommandEnum.FriendBriefInfoShow, ReceiveShowBriefRquest);
 	}
 
-	void ReceiveShowBriefRquest(object msg)
-	{
+	void ReceiveShowBriefRquest(object msg){
 		TFriendInfo tfi = msg as TFriendInfo;
-//		Debug.LogError ("ReceiveShowBriefRquest : " + tfi);
 		currentPickedUserUnit = tfi.UserUnit;
 		RefreshUnitInfo(tfi.UserUnit);
 		RefreshRank(tfi.Rank);

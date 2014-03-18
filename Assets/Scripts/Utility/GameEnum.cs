@@ -184,8 +184,8 @@ public enum CommandEnum
 	NoteInformation				= 4042,
 	EnsureRefuseSingleApply			= 4043,
 	EnsureAcceptApply				= 4044,
-
-
+	AddHelperItem				= 4045,
+	ChooseHelper					= 4046,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

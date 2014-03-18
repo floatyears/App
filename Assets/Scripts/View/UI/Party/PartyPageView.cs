@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PartyPageView : UIComponentUnity {
-//	int currentPos = -1;
+
 	UILabel curPartyIndexLabel;
 	UILabel partyCountLabel;
 	UILabel curPartyPrefixLabel;
@@ -28,7 +28,7 @@ public class PartyPageView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-//		currentPos = -1;
+
 		SetUIElement();
 		ShowTween();
 	}
@@ -40,20 +40,14 @@ public class PartyPageView : UIComponentUnity {
 	}
 	
 	void FindUIElement(){
-		Debug.Log("PartyPagePanel.FindUIElement() : Start...");
-
 		FindLabel();
 		FindButton();
 		FindTexture();
 		FindItemLeft();
-
-		Debug.Log("PartyPagePanel.FindUIElement() : End...");
 	}
 
 	void FindLabel(){
-
 		labelLeft = transform.FindChild("Label_Left").gameObject;
-
 		curPartyPrefixLabel = FindChild<UILabel>("Label_Left/Label_Bofore");
 		curPartysuffixLabel = FindChild<UILabel>("Label_Left/Label_After");
 
@@ -108,7 +102,9 @@ public class PartyPageView : UIComponentUnity {
 	}
 
 	void ShowItemLeft(object args){
-
+		Texture2D tex2d = args as Texture2D;
+		UITexture uiTexture = itemLeft.transform.FindChild("Texture").GetComponent<UITexture>();
+		uiTexture.mainTexture = tex2d;
 	}
 
 	void InitIndexTextDic() {
@@ -145,33 +141,21 @@ public class PartyPageView : UIComponentUnity {
 
 		ExcuteCallback(cbdArgs);
 	}
-
-
+	
 	void PagePrev(GameObject button){
-		//Debug.Log("PartyPagePanel.PagePrev() : Start");
-
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "prev" );
 		LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
 
 		ExcuteCallback( cbd );
-
-		//Debug.Log("PartyPagePanel.ExcuteCallback() : End");
 	} 
 
 	void PageNext(GameObject go){
-		//Debug.Log("PartyPagePanel.PageNext() : Start");
-
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "next" );
 		LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
 		ExcuteCallback( cbd );
-
-		//Debug.Log("PartyPagePanel.PageNext() : End");
 	}
 	
-	void ResetUIElement(){
-//		Debug.Log("PartyPagePanel.ResetUIElement() : Start");
-//		Debug.Log("PartyPagePanel.ResetUIElement() : End");
-	}
+	void ResetUIElement(){}
 	
 	void ChangeTexure(int pos,Texture2D tex){
 		if(tex == null ){
@@ -194,22 +178,6 @@ public class PartyPageView : UIComponentUnity {
 
 		Debug.Log("PartyPagePanel.LoseFocus() : End...");
 	}  
-
-//	//Light the click Item
-//	void SetHighLight(object args){
-//		int pos = (int)args;
-//		Debug.Log("PartyPagePanel.SetHighLight() : Sprite Pos is : " + pos);
-//		foreach (var item in itemDic) {
-//			if( pos == item.Value ){
-//				currentPos = pos;
-//				item.Key.transform.FindChild("High_Light").gameObject.SetActive(true);
-//			} else {
-//				item.Key.transform.FindChild("High_Light").gameObject.SetActive(false);
-//			}
-//		}
-//
-//		Debug.Log("PartyPagePanel.SetHighLight() : End...");
-//	}
 
 	
 	void OnLightSprite(GameObject target){
@@ -234,28 +202,21 @@ public class PartyPageView : UIComponentUnity {
 		curPartyIndexLabel.text = index.ToString();
 	}
 
-
-	
 	void RefreshItemView(object args){
 		List<Texture2D> tex2dList = args as List<Texture2D>;
-//		Debug.Log("PartyPagePanel.UpdateTexture(), Start...");
 		for (int i = 0; i < tex2dList.Count; i++) {
 			if(tex2dList[ i ] == null){
-//				Debug.LogError(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] data is null, clear!", i));
 				texureList[ i ].mainTexture = null;
 				continue;
 			} 
 			else {
 				texureList[ i ].mainTexture = tex2dList[ i ];
-//				Debug.Log(string.Format("PartyPagePanel.UpdateTexture(), Pos[{0}] texture is showing", i));
 			}
 		}
 
 		foreach (var item in itemDic){
 			OnLightSprite(item.Key);
 		}
-
-//		Debug.Log("PartyPagePanel.UpdateTexture(), End...");
 	}
 
 	public override void Callback(object data){
@@ -265,9 +226,8 @@ public class PartyPageView : UIComponentUnity {
 		switch ( cbdArgs.funcName ){
 			case "RefreshPartyIndexView" : 
 				CallBackDispatcherHelper.DispatchCallBack(RefreshIndexView, cbdArgs);
+				CallBackDispatcherHelper.DispatchCallBack(ShowLabelLeft, cbdArgs);
 				break;
-
-
 			case "EnableLabelLeft" : 
 				CallBackDispatcherHelper.DispatchCallBack(EnableLabelLeft, cbdArgs);
 				break;
@@ -280,15 +240,9 @@ public class PartyPageView : UIComponentUnity {
 			case "ShowItemLeft" : 
 				CallBackDispatcherHelper.DispatchCallBack(ShowItemLeft, cbdArgs);
 				break;
-
-
-
 			case "RefreshPartyItemView" : 
 				CallBackDispatcherHelper.DispatchCallBack(RefreshItemView, cbdArgs);
                 break;
-//            case "LightCurSprite" :
-//				CallBackDispatcherHelper.DispatchCallBack(SetHighLight, cbdArgs);
-//               	break;
              case "DrakAllSprite" :
 				CallBackDispatcherHelper.DispatchCallBack(LoseFocus, cbdArgs);
             	break;
@@ -300,20 +254,17 @@ public class PartyPageView : UIComponentUnity {
 				break;
                 default:
                         break;
-                }
-                
+                }  
         }
 
 	void ClearItemView(object args){
 		int position = (int)args;
-//		Debug.LogError("ClearItemView, to clear position : " + position);
 		foreach (var item in itemDic){
 			if(item.Value == position){
 				item.Key.transform.FindChild("role").GetComponent<UITexture>().mainTexture = null;
 			}
 		}
 
-//		Debug.LogError("PartyPagePanel.ClearItemView(), receive the call, to clear the view of item " + position);
 	}
 
 	void ReplaceItemView(object args){
@@ -325,7 +276,6 @@ public class PartyPageView : UIComponentUnity {
 	
 		ChangeTexure(position, texture);
 
-//		Debug.Log("PartyPagePanel.ReplaceItemView(), End...");
 	}
 	
 }

@@ -15,4 +15,6 @@ public class UnitPartyPage : PartyPageLogic{
 		ExcuteCallback(cbdArgs);
 	}
 
+
+
 }

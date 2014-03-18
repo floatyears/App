@@ -2,45 +2,46 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class FriendSupportLogic : ConcreteComponent{
-
-
-//	TUnitParty upi;
+public class FriendHelperController : ConcreteComponent{
+	TFriendInfo selectedHelper;
 	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
-
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 	
-	public FriendSupportLogic(string uiName):base(uiName) {
-
-	}
+	public FriendHelperController(string uiName):base(uiName) {}
 	
-	public override void CreatUI () {
-		base.CreatUI ();
-	}
+	public override void CreatUI () { base.CreatUI (); }
 
 	public override void ShowUI () {
 		base.ShowUI ();
-
-
-//		StartQuestParam p= new StartQuestParam();
-//		p.currPartyId=0;
-//		p.questId=101;
-//		p.stageId=11;
-//		p.helperUserId=103;
-//		p.helperUniqueId=2;
-//		MsgCenter.Instance.Invoke (CommandEnum.ReqStartQuest, p);
-		    
 		GetSupportFriendInfoList();
-		CreateSupportFriendViewList();
+		CreateFriendHelperViewList();
+		AddCommandListener();
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-		DestorySupportFriendList();
+		DestoryFriendHelperList();
+		ClearSelectedHelper();
+		RemoveCommandListener();
 	}
-	
-	public override void DestoryUI () {
-		base.DestoryUI ();
+
+	public override void Callback(object data){
+		base.Callback(data);
+		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+
+		switch (cbdArgs.funcName){
+			case "ClickItem" :
+				CallBackDispatcherHelper.DispatchCallBack(ShowHelperInfo, cbdArgs);
+				break;
+			case "ClickBottomButton" :
+				CallBackDispatcherHelper.DispatchCallBack(QuestStart, cbdArgs);
+				break;
+			default:
+				break;
+		}
+	}
+
+	void QuestStart(object args){
 
 	}
 
@@ -59,14 +60,8 @@ public class FriendSupportLogic : ConcreteComponent{
 		return tuuList;
 	}
 
-	void GetFriendList(){
-
-	}
-
 	void GetSupportFriendInfoList(){
-		//First, clear the current if exist
 		supportFriendViewList.Clear();
-		//Then, get the newest from DataCenter
 		List<TUserUnit> unitList = GetSupportFriendList();
 		if (unitList == null){
 			LogHelper.LogError("GetFriendUnitItemViewList GetUnitList return null.");
@@ -84,16 +79,43 @@ public class FriendSupportLogic : ConcreteComponent{
 	}
 
 
-	void CreateSupportFriendViewList(){
-		//LogHelper.LogError("FriendSupportLogic.CreateSupportFriendViewList(), DataCenter.Instance.SupportFriends Exist, Call View Crate Drag List...");
-
+	void CreateFriendHelperViewList(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", supportFriendViewList);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void DestorySupportFriendList(){
+	void DestoryFriendHelperList(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", null);
 		ExcuteCallback(cbdArgs);
+	}
+
+	void ShowHelperInfo(object args){
+		TFriendInfo helper = DataCenter.Instance.SupportFriends[ (int)args ];
+		RecordSelectedHelper(helper);
+		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helper);
+	}
+
+	void RecordSelectedHelper(TFriendInfo tfi){
+		selectedHelper = tfi;
+	}
+
+	void ClearSelectedHelper(){
+		selectedHelper = null;
+	}
+
+	void AddCommandListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.ChooseHelper, ChooseHelper);
+	}
+
+	void RemoveCommandListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
+	}
+
+	void ChooseHelper(object msg){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableBottomButton", null);
+		ExcuteCallback(cbdArgs);
+		if(selectedHelper != null)
+			MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
 	}
 
 }

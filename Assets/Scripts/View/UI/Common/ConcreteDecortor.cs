@@ -358,11 +358,13 @@ public class FriendSelectDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 		
-		FriendSupportLogic friendSelect = CreatComponent< FriendSupportLogic >(UIConfig.friendSelectWindowName);
+		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
 
 		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 
 		QuestPartyPage page = CreatComponent<QuestPartyPage>(UIConfig.partyPagePanelName);
+
+		FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
 
 		infoPanel.SetComponent(sceneInfoBar);
 
@@ -370,7 +372,9 @@ public class FriendSelectDecorator : DecoratorBase
 
 		friendSelect.SetComponent(page);
 
-		lastDecorator = friendSelect;
+		helperBriefInfo.SetComponent(friendSelect);
+
+		lastDecorator = helperBriefInfo;
 		lastDecorator.CreatUI();
 		
 	}

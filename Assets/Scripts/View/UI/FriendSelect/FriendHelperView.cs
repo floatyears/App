@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class FriendSupportView : UIComponentUnity/*,IUICallback */{
+public class FriendHelperView : UIComponentUnity{
     private GameObject msgBox;
-    private UIImageButton btnStart;
+
+    UIImageButton bottomButton;
+
     private UIButton btnSure;
     private UIButton btnCancel;
     private UIButton btnSeeInfo;
@@ -11,7 +13,6 @@ public class FriendSupportView : UIComponentUnity/*,IUICallback */{
     private UILabel labelPartyTotalCount;
     private GameObject leftArrowBtn;
     private GameObject rightArrowBtn;
-//    private DragPanel friendsScroller;
     private GameObject friendItem;
     private int currentPartyIndex;
     private int partyTotalCount;
@@ -20,8 +21,6 @@ public class FriendSupportView : UIComponentUnity/*,IUICallback */{
     private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo>();
     private UITexture friendSprite;
     private UnitBaseInfo friendBaseInfo;
-
-
 	
 	GameObject dragPanelCell;
 	DragPanel dragPanel;
@@ -34,6 +33,20 @@ public class FriendSupportView : UIComponentUnity/*,IUICallback */{
 		base.Init(config, origin);
 		InitUI();
 	}
+	
+	public override void ShowUI() {
+		base.ShowUI();
+		
+		gameObject.transform.localPosition = new Vector3(-1000, -567, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "easetype", iTween.EaseType.linear));        
+		
+		SetBottomButtonActive(false);
+	}
+	
+	public override void HideUI() {
+		base.HideUI();
+		SetBottomButtonActive(false);
+	}
 
 	public override void Callback(object data){
 		base.Callback(data);
@@ -45,8 +58,11 @@ public class FriendSupportView : UIComponentUnity/*,IUICallback */{
 				break;
 			case "DestoryDragView": 
 				CallBackDispatcherHelper.DispatchCallBack(DestoryDragView, cbdArgs);
-                        break;
-                default:
+                break;
+			case "EnableBottomButton":
+				CallBackDispatcherHelper.DispatchCallBack(EnableBottomButton, cbdArgs);
+				break;
+            default:
 				break;
 		}
 	}
@@ -72,7 +88,7 @@ public class FriendSupportView : UIComponentUnity/*,IUICallback */{
 	}
 
 	void CreateDragView(object args){
-		LogHelper.Log("FriendSelectDecoratorUnity.CreateDragView(), receive call from logic, to create drag list...");
+		Debug.Log("FriendSelectDecoratorUnity.CreateDragView(), receive call from logic, to create drag list...");
 		List<UnitItemViewInfo> viewInfoList = args as List<UnitItemViewInfo>;
 		supportViewList = viewInfoList;
 		dragPanel = CreateDragPanel("SupportFriendList", viewInfoList.Count);
@@ -164,6 +180,7 @@ public class FriendSupportView : UIComponentUnity/*,IUICallback */{
 
 	void ClickItem(GameObject item){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
+//		Debug.LogError("Index : " + dragPanel.ScrollItem.IndexOf(item));
 		ExcuteCallback(cbdArgs);
 	}
 	
@@ -188,36 +205,25 @@ public class FriendSupportView : UIComponentUnity/*,IUICallback */{
 		}
 	}
 
-    public override void ShowUI() {
-        base.ShowUI();
-
-//        ShowTween();
-		gameObject.transform.localPosition = new Vector3(-1000, -567, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "easetype", iTween.EaseType.linear));        
-
-//        btnStart.isEnabled = false;
-//        friendsScroller.DragPanelView.gameObject.SetActive(true);
-    }
-	
-    public override void HideUI() {
-        base.HideUI();
-    }
-	
-    public override void DestoryUI() {
-        base.DestoryUI();
-    }
 
     private void InitUI() {
         friendBaseInfo = DataCenter.Instance.FriendBaseInfo;
-//        InitPartyLabel();
-//        InitPartyArrow();
-//        InitPartyUnits();
-//        InitMsgBox();
-//        InitFriendList();
+		bottomButton = FindChild<UIImageButton>("Button_QuestStart");
+		//bottomButton.isEnabled = false;
 
 		dragPanelCell = Resources.Load("Prefabs/UI/Friend/AvailFriendItem") as GameObject;
 		InitDragPanelArgs();
     }
+
+	void EnableBottomButton(object args){
+		bottomButton.isEnabled = true;
+		UIEventListener.Get(bottomButton.gameObject).onClick = ClickBottomButton;
+	}
+
+	void ClickBottomButton(GameObject btn){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickBottomButton", null);
+		ExcuteCallback(cbdArgs);
+	}
 
     void ClickCancelBtn(GameObject btn) {
         AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
@@ -229,7 +235,6 @@ public class FriendSupportView : UIComponentUnity/*,IUICallback */{
         msgBox.SetActive(false);
         friendSprite.enabled = true;
         friendSprite.mainTexture = Resources.Load(friendBaseInfo.GetHeadPath) as Texture2D;
-//        btnStart.isEnabled = true;
     }
 
     void ClickSeeInfoBtn(GameObject btn) {
@@ -239,8 +244,6 @@ public class FriendSupportView : UIComponentUnity/*,IUICallback */{
 
     void ClickStartBtn(GameObject btn) {
         AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//        btnStart.isEnabled = false;
-
         RequestStartQuest();
     }
 
@@ -299,6 +302,10 @@ public class FriendSupportView : UIComponentUnity/*,IUICallback */{
 		}
 		dragPanel.ScrollItem.Clear();
 		GameObject.Destroy(dragPanel.DragPanelView.gameObject);
+	}
+
+	void SetBottomButtonActive(bool active){
+		bottomButton.isEnabled = active;
 	}
 
 }

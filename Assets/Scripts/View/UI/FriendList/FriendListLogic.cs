@@ -2,15 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class FriendListLogic : ConcreteComponent
-{
+public class FriendListLogic : ConcreteComponent{
 	TFriendInfo currentFriendPicked;
 	List<UnitItemViewInfo> friendUnitItemViewList = new List<UnitItemViewInfo>();
 	List<string> friendNickNameList = new List<string>();
 
-	public FriendListLogic(string uiName) : base( uiName )
-	{
-	}
+	public FriendListLogic(string uiName) : base( uiName ){}
 
 	public override void ShowUI()
 	{
