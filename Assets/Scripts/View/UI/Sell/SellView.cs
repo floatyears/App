@@ -3,13 +3,11 @@ using System.Collections.Generic;
 
 public class SellView : UIComponentUnity
 {
-	public override void Init(UIInsConfig config, IUICallback origin)
-	{
+	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 	}
 	
-	public override void ShowUI()
-	{
+	public override void ShowUI(){
 		base.ShowUI();
 
 		gameObject.transform.localPosition = new Vector3(-1000, 267, 0);

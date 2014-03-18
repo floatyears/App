@@ -137,14 +137,13 @@ public class ApplyMessageView : UIComponentUnity
 		noteLabel.text = args as string;
 	}
 
-	void ShowCenterContent(object args)
-	{
+	void ShowCenterContent(object args){
 		TFriendInfo tfi = args as TFriendInfo;
 
 		avatarTexture.mainTexture = tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
 		nameLabel.text = tfi.NickName;
 		rankLabel.text = tfi.Rank.ToString();
-		timeLabel.text = tfi.LastPlayTime.ToString();
+		timeLabel.text = TimeHelper.GetLatestPlayTime(tfi.LastPlayTime);
 		idLabel.text = tfi.UserId.ToString();
 	}
         

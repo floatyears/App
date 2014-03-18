@@ -280,14 +280,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		SkillBaseInfo sbi = DataCenter.Instance.Skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
                 
-                normalSkill2NameLabel.text = skill.name;
+        normalSkill2NameLabel.text = skill.name;
 		normalSkill2DscpLabel.text = skill.description;
 
 		TNormalSkill ns = sbi as TNormalSkill;
 		List<uint> sprNameList2 = ns.Object.activeBlocks;
 		for( int i = 0; i < sprNameList2.Count; i++ ){
-			blockLsit1[ i ].enabled = true;
-			blockLsit1[ i ].spriteName = sprNameList2[ i ].ToString();
+			blockLsit2[ i ].enabled = true;
+			blockLsit2[ i ].spriteName = sprNameList2[ i ].ToString();
         }
 	}
 

@@ -20,11 +20,32 @@ public sealed class TimeHelper {
     public static string FormattedTimeNow(){
         return System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
     }
-//
-//	public static string UnixTimeToLocalTime(uint unixTime){
-//		return System.DateTime.Now.ToString()
-//	System.DateTime dtDateTime = new System.DateTime(1970,1,1,0,0,0,0).AddSeconds(1394713370).ToLocalTime();
-//	Debug.LogError("Local time : " + (System.DateTime.Now - dtDateTime).Minutes.ToString());
 
-//	}
+	public static string GetLatestPlayTime(uint unixTime){
+		string text = string.Empty;
+		
+		System.DateTime latestPlayTime = new System.DateTime(1970,1,1).AddSeconds(unixTime).ToLocalTime();
+		int days = (System.DateTime.Now - latestPlayTime).Days;
+		int hours = (System.DateTime.Now - latestPlayTime).Hours;
+		int minutes = (System.DateTime.Now - latestPlayTime).Minutes;
+		
+		if(days > 0){
+			text = string.Format("Latest Play: {0} days before", days);
+			return text;
+		}
+		else if(hours > 0){
+			text = string.Format("Latest Play: {0} hours before", hours);
+			return text;
+		}
+		else if(minutes >= 1){
+			text = string.Format("Latest Play: {0} minutes before", minutes);      
+			return text;
+		}
+		else{
+			text = "Latest Play: less than 1 minutes";
+			return text;
+		}
+	}
+
+
 }

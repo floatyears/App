@@ -106,14 +106,27 @@ public class UnitItemViewInfo {
             return dataItem;
         }
     }
-    private UnitItemViewInfo() {
-    }
+
+	private TFriendInfo helperItem;
+	public TFriendInfo HelperItem {
+		get {
+			return helperItem;
+		}
+	}
+
+    private UnitItemViewInfo(){}
 
     public static UnitItemViewInfo Create(TUserUnit dataItem) {
         UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
         partyUnitItemView.initWithTUserUnit(dataItem);
         return partyUnitItemView;
     }
+
+	public static UnitItemViewInfo Create(TFriendInfo friendItem){
+		UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
+		partyUnitItemView.initWithTFriendInfo(friendItem);
+		return partyUnitItemView;
+	}
 
     public void RefreshStates(Dictionary <string, object> statesDic) {
         foreach (var key in statesDic.Keys) {
@@ -145,6 +158,13 @@ public class UnitItemViewInfo {
         InitWithArgs();
         GetAvatar();
     }
+
+	private void initWithTFriendInfo(TFriendInfo dataItem) {
+		this.dataItem = dataItem.UserUnit;
+		this.helperItem = dataItem;
+		InitWithArgs();
+		GetAvatar();
+	}
        
     private void InitDataItem(TUserUnit dataItem) {
         this.dataItem = dataItem;

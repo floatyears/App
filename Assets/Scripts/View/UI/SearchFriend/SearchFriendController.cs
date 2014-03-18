@@ -65,7 +65,7 @@ public class SearchFriendController : ConcreteComponent
 		if (data == null)
 			return;
         
-		LogHelper.Log("TFriendList.OnRspDelFriend() begin");
+        LogHelper.Log("TFriendList.OnRspFindFriend() begin");
 		LogHelper.Log(data);
 		bbproto.RspFindFriend rsp = data as bbproto.RspFindFriend;
 		// first set it to null
@@ -106,9 +106,9 @@ public class SearchFriendController : ConcreteComponent
 		}
 		
 		bbproto.FriendList inst = rsp.friends;
-		
-		DataCenter.Instance.FriendList.RefreshFriendList(inst);
-		
+        LogHelper.Log("OnAddFriend(), rsp.friends {0}", inst);
+        LogHelper.Log("OnAddFriend(), friendlist {0}, friendList == null {1}", DataCenter.Instance.FriendList, DataCenter.Instance.FriendList == null);
+        DataCenter.Instance.SetFriendList(inst);
 	}
 
 	public void ShowSearchFriendResult(TFriendInfo resultInfo)

@@ -23,25 +23,13 @@ public class CommonNoteLogic : ConcreteComponent
 		base.DestoryUI();
 	}
 
-	void AddListener()
-	{
-//		MsgCenter.Instance.AddListener(CommandEnum.NoteFriendUpdate, ShowFriendUpdateNote);
-//		MsgCenter.Instance.AddListener(CommandEnum.NoteRefuseAll, ShowRefuseApplyNote);
-//		MsgCenter.Instance.AddListener(CommandEnum.ErrorIDInputEmpty, ShowEmptyIDInputError);
-
+	void AddListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.NoteInformation, ShowNoteInformation);
-	
 	}
 
 
-	void RemoveListener()
-	{
-//		MsgCenter.Instance.RemoveListener(CommandEnum.NoteFriendUpdate, ShowFriendUpdateNote);
-//		MsgCenter.Instance.RemoveListener(CommandEnum.NoteRefuseAll, ShowRefuseApplyNote);
-//		MsgCenter.Instance.AddListener(CommandEnum.ErrorIDInputEmpty, ShowEmptyIDInputError);
-
+	void RemoveListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.NoteInformation, ShowNoteInformation);
-	
 	}
 
 	void ShowEmptyIDInputError(object msg)

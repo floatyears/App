@@ -160,7 +160,7 @@ public class Main : MonoBehaviour {
                 //TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.PartyInfo.CurrentParty
                 ModelManager.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
             }
-            NetWorkTestHelper.Test();
+            TestUtility.Test();
         }
         Debug.Log("UIManager.Instance.ChangeScene before");
         UIManager.Instance.ChangeScene(SceneEnum.Start);

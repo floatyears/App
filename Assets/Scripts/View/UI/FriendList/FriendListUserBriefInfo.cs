@@ -1,26 +1,19 @@
 using UnityEngine;
 using System.Collections;
 
-public class FriendListUserBriefInfo : UserBriefInfoLogic
-{
+public class FriendListUserBriefInfo : UserBriefInfoLogic{
 	
-	public FriendListUserBriefInfo(string uiName):base(uiName)
-	{
+	public FriendListUserBriefInfo(string uiName):base(uiName){}
 
-	}
-
-	public override void ShowUI()
-	{
+	public override void ShowUI(){
 		base.ShowUI();
 		EnableDeleteFriend();
 	}
 
-	public override void Callback(object data)
-	{
+	public override void Callback(object data){
 		base.Callback(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName)
-		{
+		switch (cbdArgs.funcName){
 			case "ClickDelete": 
 				CallBackDispatcherHelper.DispatchCallBack(DeleteFriend, cbdArgs);
 				break;
@@ -29,15 +22,13 @@ public class FriendListUserBriefInfo : UserBriefInfoLogic
 		}
 	}
 	
-	void DeleteFriend(object args)
-	{
+	void DeleteFriend(object args){
 //		int position = (int)args;
 		Debug.LogError("Delete Friend.... ");
 		MsgCenter.Instance.Invoke(CommandEnum.EnsureDeleteFriend, null);
 	}
 
-	void EnableDeleteFriend()
-	{
+	void EnableDeleteFriend(){
 //		Debug.LogError("Call View to Enable Delete Friend...");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableDeleteFriend", null);
 		ExcuteCallback(cbdArgs);

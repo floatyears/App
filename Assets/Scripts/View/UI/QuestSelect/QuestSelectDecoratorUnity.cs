@@ -45,7 +45,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		ShowTween();
 		btnSelect.isEnabled = false;
 
-		firstFocus.startsActive = true;
+		firstFocus.value = true;
 
 		MsgCenter.Instance.AddListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
 	}
@@ -107,7 +107,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 
 	void InitDragPanel(){
 		if(questDragPanel != null){
-//			Debug.LogError("Not Need Create Drag Panel");
 			return ;
 		}
 		questDragPanel = CreateDragPanel(questInfoList.Count);
