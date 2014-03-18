@@ -81,37 +81,15 @@ public class UserBriefInfoLogic : ConcreteComponent
 		RefreshLastLogin(tfi.LastPlayTime);
 	}
 
-//	void SupportExtraFeature(){
-//		SceneEnum current = UIManager.Instance.baseScene.CurrentScene;
-//		switch (current){
-//			case SceneEnum.FriendList : 
-//				SupportDeleteFriend(true);
-//				break;
-//			default:
-//				break;
-//		}
-//	}
-//
-//	void SupportDeleteFriend(bool support){
-//		if(support){
-//			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableDeleteFriend", null);
-//			ExcuteCallback(cbdArgs);
-//		}
-//		else{
-//
-//		}
-//	}
-
 	void RefreshUnitInfo(TUserUnit tuu)
 	{
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshUnitInfoView", tuu);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void RefreshLastLogin(uint hourCount)
+	void RefreshLastLogin(uint unixTime)
 	{
-		string text = hourCount.ToString();
-		TimeHelper.FormattedTimeNow();
+		string text = TimeHelper.GetLatestPlayTime(unixTime).ToString();
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshLastLogin", text);
 		ExcuteCallback(cbdArgs);
 	}

@@ -280,14 +280,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		SkillBaseInfo sbi = DataCenter.Instance.Skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
                 
-                normalSkill2NameLabel.text = skill.name;
+        normalSkill2NameLabel.text = skill.name;
 		normalSkill2DscpLabel.text = skill.description;
 
 		TNormalSkill ns = sbi as TNormalSkill;
 		List<uint> sprNameList2 = ns.Object.activeBlocks;
 		for( int i = 0; i < sprNameList2.Count; i++ ){
-			blockLsit1[ i ].enabled = true;
-			blockLsit1[ i ].spriteName = sprNameList2[ i ].ToString();
+			blockLsit2[ i ].enabled = true;
+			blockLsit2[ i ].spriteName = sprNameList2[ i ].ToString();
         }
 	}
 
@@ -330,16 +330,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//------------------levelup-----------------------------------------
 	RspLevelUp levelUpData;
 	void PlayLevelUp(RspLevelUp rlu) {
+		unitBodyTex.mainTexture = null;
 		levelUpData = rlu;
-
-//		Debug.LogError ("levelUpData.blendExp : " + levelUpData.blendExp);
-//		Debug.LogError ("levelUpData.blendUniqueId : " + levelUpData.blendUniqueId);
-//		Debug.LogError ("levelUpData.money : " + levelUpData.money);
-//		Debug.LogError ("levelUpData.Count : " + levelUpData.unitList.Count);
-//		TUserUnit tuu = GlobalData
+		Debug.LogError ("levelUpData : " + levelUpData.blendUniqueId);
 		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		gotExp = levelUpData.blendExp;
-
 		unitInfoTabs.SetActive (false);
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}

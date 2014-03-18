@@ -86,7 +86,6 @@ public class Main : MonoBehaviour {
     /// </summary>
     void OnEnable() {
         INetBase netBase = new AuthUser();
-        Debug.Log("connect net to login : " + Time.realtimeSinceStartup);
         netBase.OnRequest(null, LoginSuccess);
 //
         AudioManager.Instance.PlayAudio(AudioEnum.music_home);
@@ -94,7 +93,6 @@ public class Main : MonoBehaviour {
     }
 
     void LoginSuccess(object data) {
-        Debug.Log("Login Success : " + Time.realtimeSinceStartup);
         if (data != null) {
             bbproto.RspAuthUser rspAuthUser = data as bbproto.RspAuthUser;
             if (rspAuthUser == null) {
@@ -162,7 +160,7 @@ public class Main : MonoBehaviour {
                 //TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.PartyInfo.CurrentParty
                 ModelManager.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
             }
-            NetWorkTestHelper.Test();
+            TestUtility.Test();
         }
         Debug.Log("UIManager.Instance.ChangeScene before");
         UIManager.Instance.ChangeScene(SceneEnum.Start);

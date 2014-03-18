@@ -6,7 +6,7 @@ public class FriendSupportLogic : ConcreteComponent{
 
 
 //	TUnitParty upi;
-
+	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
 
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 	
@@ -20,6 +20,8 @@ public class FriendSupportLogic : ConcreteComponent{
 
 	public override void ShowUI () {
 		base.ShowUI ();
+
+
 //		StartQuestParam p= new StartQuestParam();
 //		p.currPartyId=0;
 //		p.questId=101;
@@ -27,64 +29,70 @@ public class FriendSupportLogic : ConcreteComponent{
 //		p.helperUserId=103;
 //		p.helperUniqueId=2;
 //		MsgCenter.Instance.Invoke (CommandEnum.ReqStartQuest, p);
-		CreateSupportFriendList();
+		    
+		GetSupportFriendInfoList();
+		CreateSupportFriendViewList();
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+		DestorySupportFriendList();
 	}
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
-	}
-	
-//	public void Callback (object data)
-//	{
-//		int partyID = 0;
-//		try {
-//			partyID = (int)data;
-//		} 
-//		catch (System.Exception ex) {
-//			Debug.LogError(ex.Message);
-//			return;
-//		}
-//		IUICallback call = viewComponent as IUICallback;
-//		//Debug.LogError( "Comp : " +viewComponent.ToString());
-//		if (call == null) {
-//			return;		
-//		}
-//		if (partyID == 1) {
-//			upi = DataCenter.Instance.PartyInfo.CurrentParty; //ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, errMsg) as TUnitParty;
-//			if (upi == null) {
-//				Debug.LogError("ModelManager.GetData( UnitPartyInfo ) return null");
-//				return;
-//			}
-//			Dictionary<int,uint> temp = upi.GetPartyItem();
-//			Dictionary<int,UnitBaseInfo> viewInfo = new Dictionary<int, UnitBaseInfo>();
-//			foreach(var item in temp) {
-//				TUserUnit uui =  DataCenter.Instance.UserUnitList.GetMyUnit(item.Value);
-//				if(!userUnit.ContainsKey(item.Key)) {
-//					userUnit.Add(item.Key,uui);
-//				}
-////				UnitBaseInfo ubi = DataCenter.Instance.UnitBaseInfo[uui.unitBaseInfo];
-////				viewInfo.Add(item.Key,ubi);
-//			}
-//			call.Callback (viewInfo);
-//		}
-//		else {
-//			call.Callback (null);
-//		}
-//	}
 
-	void CreateSupportFriendList(){
-		if(DataCenter.Instance.SupportFriends == null){
-			LogHelper.LogError("FriendSupportLogic.CreateSupportFriendList(), DataCenter.Instance.SupportFriends == null, return!!!");
+	}
+
+	List<TUserUnit> GetSupportFriendList(){
+		if (DataCenter.Instance.SupportFriends == null){
+			LogHelper.LogError("GetFriendUnitItemList(), DataCenter.Instance.SupportFriends == null!!!");
+			return null;
+		}
+		
+		List<TUserUnit> tuuList = new List<TUserUnit>();
+
+		for (int i = 0; i < DataCenter.Instance.SupportFriends.Count; i++){
+			tuuList.Add(DataCenter.Instance.SupportFriends[ i ].UserUnit);
+		}
+		
+		return tuuList;
+	}
+
+	void GetFriendList(){
+
+	}
+
+	void GetSupportFriendInfoList(){
+		//First, clear the current if exist
+		supportFriendViewList.Clear();
+		//Then, get the newest from DataCenter
+		List<TUserUnit> unitList = GetSupportFriendList();
+		if (unitList == null){
+			LogHelper.LogError("GetFriendUnitItemViewList GetUnitList return null.");
 			return;
 		}
 
-		LogHelper.LogError("FriendSupportLogic.CreateSupportFriendList(), DataCenter.Instance.SupportFriends Exist, Call View Crate Drag List...");
+		LogHelper.Log("FriendListLogic.GetFriendUnitItemViewList(), unitList Count is : " + unitList.Count);
+		
+		for (int i = 0; i < unitList.Count; i++){
+			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(unitList [i]);
+			supportFriendViewList.Add(viewItem);
+		}
+		
+		LogHelper.Log("FriendListLogic.GetFriendUnitItemViewList(), ViewItem Count is : " + supportFriendViewList.Count);
+	}
 
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragList", DataCenter.Instance.SupportFriends);
+
+	void CreateSupportFriendViewList(){
+		//LogHelper.LogError("FriendSupportLogic.CreateSupportFriendViewList(), DataCenter.Instance.SupportFriends Exist, Call View Crate Drag List...");
+
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", supportFriendViewList);
+		ExcuteCallback(cbdArgs);
+	}
+
+	void DestorySupportFriendList(){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", null);
 		ExcuteCallback(cbdArgs);
 	}
 

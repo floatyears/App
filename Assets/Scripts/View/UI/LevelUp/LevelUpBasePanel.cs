@@ -25,6 +25,10 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	public override void ShowUI(){
+		if (!gameObject.activeSelf) {
+			gameObject.SetActive(true);	
+		}
+
 		InitDragPanel();
 		AddListener();
 	

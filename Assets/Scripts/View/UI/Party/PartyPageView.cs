@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PartyPageView : UIComponentUnity {
-	int currentPos = -1;
+//	int currentPos = -1;
 	UILabel curPartyIndexLabel;
 	UILabel partyCountLabel;
 	UILabel curPartyPrefixLabel;
 	UILabel curPartysuffixLabel;
 	UIButton leftButton;
 	UIButton rightButton;
+
+	GameObject itemLeft;
+	GameObject labelLeft;
+
 	Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 	Dictionary<GameObject, int> itemDic = new Dictionary<GameObject, int>();
 
@@ -24,7 +28,7 @@ public class PartyPageView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		currentPos = -1;
+//		currentPos = -1;
 		SetUIElement();
 		ShowTween();
 	}
@@ -41,20 +45,30 @@ public class PartyPageView : UIComponentUnity {
 		FindLabel();
 		FindButton();
 		FindTexture();
+		FindItemLeft();
 
 		Debug.Log("PartyPagePanel.FindUIElement() : End...");
 	}
 
 	void FindLabel(){
+
+		labelLeft = transform.FindChild("Label_Left").gameObject;
+
+		curPartyPrefixLabel = FindChild<UILabel>("Label_Left/Label_Bofore");
+		curPartysuffixLabel = FindChild<UILabel>("Label_Left/Label_After");
+
 		curPartyIndexLabel = FindChild<UILabel>("Label_Cur_Party");
 		partyCountLabel = FindChild<UILabel>("Label_Party_Count");
-		curPartyPrefixLabel = FindChild<UILabel>("Label_Party_Index_Prefix");
-		curPartysuffixLabel = FindChild<UILabel>("Label_Party_Index_Suffix");
+
 	}
 
 	void FindButton(){
 		leftButton = FindChild<UIButton>("Button_Left");
 		rightButton = FindChild<UIButton>("Button_Right");
+	}
+
+	void FindItemLeft(){
+		itemLeft = transform.FindChild("Item_Left").gameObject;
 	}
 
 	void FindTexture() {
@@ -76,10 +90,25 @@ public class PartyPageView : UIComponentUnity {
 	}
 
 	void SetUIElement(){
-		Debug.Log("PartyPagePanel.SetUIElement() : Start...");
 		UIEventListener.Get(leftButton.gameObject).onClick = PagePrev;
 		UIEventListener.Get(rightButton.gameObject).onClick = PageNext;
-		Debug.Log("PartyPagePanel.SetUIElement() : End...");
+	}
+	
+	void EnableLabelLeft(object args){
+		labelLeft.SetActive(true);
+	}
+
+	void ShowLabelLeft(object args){
+		curPartyPrefixLabel.text = ((int)args).ToString();
+		curPartysuffixLabel.text = partyIndexDic[(int)args].ToString();
+	}
+	
+	void EnableItemLeft(object args){
+		itemLeft.SetActive(true);
+	}
+
+	void ShowItemLeft(object args){
+
 	}
 
 	void InitIndexTextDic() {
@@ -166,21 +195,21 @@ public class PartyPageView : UIComponentUnity {
 		Debug.Log("PartyPagePanel.LoseFocus() : End...");
 	}  
 
-	//Light the click Item
-	void SetHighLight(object args){
-		int pos = (int)args;
-		Debug.Log("PartyPagePanel.SetHighLight() : Sprite Pos is : " + pos);
-		foreach (var item in itemDic) {
-			if( pos == item.Value ){
-				currentPos = pos;
-				item.Key.transform.FindChild("High_Light").gameObject.SetActive(true);
-			} else {
-				item.Key.transform.FindChild("High_Light").gameObject.SetActive(false);
-			}
-		}
-
-		Debug.Log("PartyPagePanel.SetHighLight() : End...");
-	}
+//	//Light the click Item
+//	void SetHighLight(object args){
+//		int pos = (int)args;
+//		Debug.Log("PartyPagePanel.SetHighLight() : Sprite Pos is : " + pos);
+//		foreach (var item in itemDic) {
+//			if( pos == item.Value ){
+//				currentPos = pos;
+//				item.Key.transform.FindChild("High_Light").gameObject.SetActive(true);
+//			} else {
+//				item.Key.transform.FindChild("High_Light").gameObject.SetActive(false);
+//			}
+//		}
+//
+//		Debug.Log("PartyPagePanel.SetHighLight() : End...");
+//	}
 
 	
 	void OnLightSprite(GameObject target){
@@ -202,12 +231,10 @@ public class PartyPageView : UIComponentUnity {
 
 	void RefreshIndexView(object args){
 		int index = ( int )args;
-//		Debug.Log("PartyPagePanel.RefreshIndexLabel(), index is " + index);	
-		
-		curPartyPrefixLabel.text = index.ToString();
-		curPartysuffixLabel.text = partyIndexDic[ index ].ToString();
 		curPartyIndexLabel.text = index.ToString();
 	}
+
+
 	
 	void RefreshItemView(object args){
 		List<Texture2D> tex2dList = args as List<Texture2D>;
@@ -239,15 +266,32 @@ public class PartyPageView : UIComponentUnity {
 			case "RefreshPartyIndexView" : 
 				CallBackDispatcherHelper.DispatchCallBack(RefreshIndexView, cbdArgs);
 				break;
+
+
+			case "EnableLabelLeft" : 
+				CallBackDispatcherHelper.DispatchCallBack(EnableLabelLeft, cbdArgs);
+				break;
+			case "ShowLabelLeft" : 
+				CallBackDispatcherHelper.DispatchCallBack(ShowLabelLeft, cbdArgs);
+				break;
+			case "EnableItemLeft" : 
+				CallBackDispatcherHelper.DispatchCallBack(EnableItemLeft, cbdArgs);
+				break;
+			case "ShowItemLeft" : 
+				CallBackDispatcherHelper.DispatchCallBack(ShowItemLeft, cbdArgs);
+				break;
+
+
+
 			case "RefreshPartyItemView" : 
 				CallBackDispatcherHelper.DispatchCallBack(RefreshItemView, cbdArgs);
-                        	break;
-               	 	case "LightCurSprite" :
-				CallBackDispatcherHelper.DispatchCallBack(SetHighLight, cbdArgs);
-                        	break;
-                	case "DrakAllSprite" :
+                break;
+//            case "LightCurSprite" :
+//				CallBackDispatcherHelper.DispatchCallBack(SetHighLight, cbdArgs);
+//               	break;
+             case "DrakAllSprite" :
 				CallBackDispatcherHelper.DispatchCallBack(LoseFocus, cbdArgs);
-                        	break;
+            	break;
 			case "ReplaceItemView" :
 				CallBackDispatcherHelper.DispatchCallBack(ReplaceItemView, cbdArgs);
 				break;

@@ -42,8 +42,6 @@ public class PartyPageLogic : ConcreteComponent {
         TUserUnit tuu = null;
 
         if (DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[position - 1] == null) {
-//			Debug.LogError(string.Format("The position[{0}] of the current don't exist, do nothing!", position -1));
-//			return;
             CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("LightCurSprite", currentFoucsPosition);
             ExcuteCallback(cbdArgs);
             MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
@@ -273,14 +271,5 @@ public class PartyPageLogic : ConcreteComponent {
         }
     }
 
-}
-
-public class BriefUnitInfo {
-    public BriefUnitInfo(string tag, TUserUnit data) {
-        this.tag = tag;
-        this.data = data;
-    }
-    public string tag;
-    public TUserUnit data;
 }
 

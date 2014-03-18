@@ -169,9 +169,8 @@ public class UserBriefInfoView : UIComponentUnity
 		avatarTex.mainTexture = tuu.UnitInfo.GetAsset(UnitAssetType.Avatar);
 	}
 
-	void RefreshLastLogin(object args)
-	{
-		lastLoginLabel.text = "Last Login Time : " + args as string;
+	void RefreshLastLogin(object args){
+		lastLoginLabel.text = args as string;
 	}
 
 	void RefreshRank(object args)

@@ -79,8 +79,7 @@ public class FriendComponent : ConcreteComponent
 			return;
 		}
 
-		DataCenter.Instance.FriendList = new TFriendList(inst);
-//        DataCenter.Instance.FriendList.RefreshFriendList(inst);
+        DataCenter.Instance.SetFriendList(inst);
 //			Debug.Log("OnGetFriendList, test first friend. nick name" + DataCenter.Instance.FriendList.Friend [0].NickName);
 		callTurnToNextScene();
 	}
