@@ -119,12 +119,9 @@ public class FriendListLogic : ConcreteComponent
     MsgWindowParams GetRefreshFriendListMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
         msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RefreshFriend");
-//        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("ConfirmRefreshFriend");
-        string context1 = TextCenter.Instace.GetCurrentText("ConfirmRefreshFriend");
-        string context2 = TextCenter.Instace.GetCurrentText("RefreshFriend");
-        msgWindowParam.contentTexts = new string[2]{ context1, context2 };
+        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("ConfirmRefreshFriend");
         msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
-        msgWindowParam.btnParams[0].callback = CallbackRefuseAll;
+        msgWindowParam.btnParams[0].callback = CallbackRefreshFriend;
         return msgWindowParam;
     }
 

@@ -69,6 +69,13 @@ public class TextCenter {
         textDict.Add("RefreshFriend", "Friend Update");
         textDict.Add("ConfirmRefreshFriend", "Are you sure to update friend list?");
 
+        textDict.Add("FriendExpand", "Friend Max Expansion");
+        textDict.Add("ConfirmFriendExpansion", "Are you sure to user 1 coin to expand your friend limit?");
+
+        textDict.Add("FriendExpansionInfo", "Now friends {0}/{1}");
+        textDict.Add("DoFriendExpand", "Expand");
+
+
 
     }
 }

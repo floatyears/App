@@ -184,7 +184,9 @@ public enum CommandEnum
 	OpenMsgWindow				= 4042,
 	EnsureRefuseSingleApply			= 4043,
 	EnsureAcceptApply				= 4044,
-    NoteInformation                 = 4045,
+    FriendExpansion                 = 4045,
+    StaminaRecover                  = 4046,
+    UnitExpansion                   = 4047,
 
 
 	//-----------------Server Protocol-----------------------//

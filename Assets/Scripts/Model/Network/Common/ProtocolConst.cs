@@ -17,4 +17,7 @@ class Protocol {
     public const string EVOLVE_START = "evolve_start";
     public const string EVOLVE_DONE = "evolve_done";
     public const string SELL_UNIT = "sell_unit";
+    public const string FRIEND_MAX_EXPAND = "friend_max_expand";
+    public const string RESTORE_STAMINA = "sell_unit";
+    public const string UNIT_MAX_EXPAND = "unit_max_expand";
 }

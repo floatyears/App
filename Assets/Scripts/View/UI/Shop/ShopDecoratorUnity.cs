@@ -6,6 +6,12 @@ public class ShopDecoratorUnity : UIComponentUnity {
 
 	private Dictionary<string,UIButton> buttonDic = new Dictionary<string, UIButton>();
 
+    private UIButton btnFriendsExpansion;
+
+    private UIButton btnStaminaRecover;
+
+    private UIButton btnUnitExpansion;
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		InitUI();
@@ -31,37 +37,34 @@ public class ShopDecoratorUnity : UIComponentUnity {
 			buttonDic.Add( string.Format("Chip{0}", i), buttons[ i ] );
 			UIEventListener.Get( buttons[ i ].gameObject ).onClick = ClickButton;
 		}
+
+        btnFriendsExpansion = FindChild<UIButton>("top/FriendsExpansion");
+        btnStaminaRecover = FindChild<UIButton>("top/StaminaRecover");
+        btnUnitExpansion = FindChild<UIButton>("top/UnitExpansion");
+//
+        UIEventListener.Get(btnFriendsExpansion.gameObject).onClick = OnClickFriendExpansion;
+        UIEventListener.Get(btnStaminaRecover.gameObject).onClick = OnClickStaminaRecover;
+        UIEventListener.Get(btnUnitExpansion.gameObject).onClick = OnClickUnitExpansion;
 	}
 
 	private void ClickButton( GameObject button) {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 	}
 
-//	private void ShowTweenPostion( float mDelay = 0f, UITweener.Method mMethod = UITweener.Method.Linear ) 
-//	{
-//		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
-//		
-//		if( list == null )
-//			return;
-//		
-//		foreach( var tweenPos in list)
-//		{		
-//			if( tweenPos == null )
-//				continue;
-//			
-//			Vector3 temp;
-//			temp = tweenPos.to;
-//			tweenPos.to = tweenPos.from;
-//			tweenPos.from = temp;
-//			
-//			tweenPos.delay = mDelay;
-//			tweenPos.method = mMethod;
-//			
-//			tweenPos.Reset();
-//			tweenPos.PlayForward();
-//			
-//		}
-//	}
+    private void OnClickFriendExpansion( GameObject button ){
+        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoFriendExpansion", null);
+        ExcuteCallback(cbdArgs);
+    }
+
+    private void OnClickStaminaRecover( GameObject button ){
+        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoStaminaRecover", null);
+        ExcuteCallback(cbdArgs);
+    }
+
+    private void OnClickUnitExpansion( GameObject button ){
+        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoUnitExpansion", null);
+        ExcuteCallback(cbdArgs);
+    }
 
 	private void ShowTween(){
 		TweenPosition[ ] list = 
