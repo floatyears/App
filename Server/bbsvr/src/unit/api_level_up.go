@@ -57,8 +57,8 @@ func (t LevelUp) verifyParams(reqMsg *bbproto.ReqLevelUp) (err Error.Error) {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
-	materialCount := len( reqMsg.PartUniqueId )
-	if materialCount==0 || materialCount > 4 {
+	materialCount := len(reqMsg.PartUniqueId)
+	if materialCount == 0 || materialCount > 4 {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params PartUniqueId's length invalid.")
 	}
 
@@ -102,7 +102,7 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	}
 
 	//2. getUnitInfo of baseUniqueId
-	baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, *reqMsg.BaseUniqueId)
+	baseUserUnit, e := unit.GetUserUnitInfo(userDetail, *reqMsg.BaseUniqueId)
 	if e.IsError() {
 		log.Error("GetUserUnitInfo(%v) failed: %v", *reqMsg.BaseUniqueId, e.Error())
 		return e
@@ -123,7 +123,7 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	}
 
 	//4. getUnitInfo of all material part to caculate exp
-	addExp, addAtk, addHp, addDef, e := unit.CalculateDevourExp(db, &userDetail, &baseUnit, reqMsg.PartUniqueId)
+	addExp, addAtk, addHp, addDef, e := unit.CalculateDevourExp(db, userDetail, &baseUnit, reqMsg.PartUniqueId)
 	log.T("OrigExp:%v addExp:%v (addAtk:%v addHp:%v addDef:%v)", *baseUserUnit.Exp, addExp, addAtk, addHp, addDef)
 	if e.IsError() {
 		return e
@@ -149,19 +149,19 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	log.T("userDetail.UnitList[x] => NOW value: %+v", userDetail.UnitList)
 
 	//6. remove partUnits
-	log.T("------ before RemoveMyUnit userDetail.UnitList len:%v", len(userDetail.UnitList) )
+	log.T("------ before RemoveMyUnit userDetail.UnitList len:%v", len(userDetail.UnitList))
 	e = unit.RemoveMyUnit(&userDetail.UnitList, reqMsg.PartUniqueId)
 	if e.IsError() {
 		return e
 	}
-	log.T("------ after RemoveMyUnit userDetail.UnitList len:%v", len(userDetail.UnitList) )
+	log.T("------ after RemoveMyUnit userDetail.UnitList len:%v", len(userDetail.UnitList))
 
 	//7. deduct user money
 	log.T("deduct money: %v - %v ", *userDetail.Account.Money, needMoney)
 	*userDetail.Account.Money -= needMoney
 
 	//8. update userinfo
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 

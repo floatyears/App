@@ -114,7 +114,7 @@ func (t FriendMaxExpand) ProcessLogic(reqMsg *bbproto.ReqFriendMaxExpand, rspMsg
 	log.T("after update: stone=%v FriendMax=%v", *userDetail.Account.Stone, *userDetail.User.FriendMax)
 
 	//4. update userinfo
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 

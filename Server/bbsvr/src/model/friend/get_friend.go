@@ -122,7 +122,7 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 	return
 }
 
-func GetOnlyFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {
+func GetSupportFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {
 	//get all friends & helper, but NOT include friendIn & friendOut
 	return GetFriendInfo(db, uid, rank, true, true, true)
 }

@@ -18,8 +18,8 @@ import (
 	"common/log"
 	"data"
 	"model/friend"
-	"model/user"
 	"model/unit"
+	"model/user"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		return Error.New(EC.CONNECT_DB_ERROR, err)
 	}
 
-	var userDetail bbproto.UserInfoDetail
+	var userDetail *bbproto.UserInfoDetail = nil
 	var isUserExists bool
 	if uid > 0 {
 		userDetail, isUserExists, err = user.GetUserInfo(db, uid)
@@ -138,14 +138,38 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 	log.T("GetUserInfo(%v) ret err(%v). isExists=%v userDetail: ['%v']  ",
 		uuid, err, isUserExists, userDetail)
-	if isUserExists && err == nil {
-		uid = *userDetail.User.UserId
+	if err != nil {
+		log.Error("GetUserInfo ret err:%v", err)
+		return Error.New(EC.EU_GET_USERINFO_FAIL, err)
+	}
+
+	if !isUserExists { //create new user
+		log.Printf("Cannot find data for user ( uid:%v uuid:%v ), create new user...", uid, uuid)
+
+		rspMsg.IsNewUser = proto.Int32(1) // is new User
+
+		//TODO:save userinfo to db through goroutine
+		userDetail, e = user.AddNewUser(db, uuid)
+		if e.IsError() {
+			return e
+		}
+		if userDetail == nil {
+			log.Fatal("Unexcepted Error: create new user ok, but userDetail is nil.")
+			return Error.New(EC.EU_GET_NEWUSERID_FAIL)
+		}
+		log.T("create NewUser ret UserId: %v", *userDetail.User.UserId)
+	}
+
+	if isUserExists {
 		log.T("+++exists user: %v", *userDetail.User.UserId)
+	}
 
-		rank := uint32(*userDetail.User.Rank)
+	uid = *userDetail.User.UserId
+	rank := uint32(*userDetail.User.Rank)
 
+	{
 		// get FriendInfo
-		friendsInfo, e := friend.GetOnlyFriends(db, uid, rank)
+		friendsInfo, e := friend.GetSupportFriends(db, uid, rank)
 		log.T("GetFriendInfo ret err:%v. friends num=%v  ", e.Error(), len(friendsInfo))
 		if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
 			return Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
@@ -166,58 +190,33 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 			return e
 		}
 
-		//TODO: remove the testing code
-		//if *userDetail.User.UserId == 103 {
-		//	user.TestAddMyUnits(db, &userDetail)
-		//}
-
 		//TODO: call update in goroutine
-		user.UpdateLoginInfo(db, &userDetail)
-
-		rspMsg.Account = userDetail.Account
-		rspMsg.UnitList = userDetail.UnitList
-		rspMsg.Party = userDetail.Party
-		rspMsg.Login = userDetail.Login
-		rspMsg.Quest = userDetail.Quest
-		rspMsg.User = userDetail.User
+		user.UpdateLoginInfo(db, userDetail)
 
 		//TODO: get present
 		//rspMsg.Present = userDetail.Present
 
-	} else { //create new user
-		log.Printf("Cannot find data for user ( uid:%v uuid:%v ), create new user...",uid, uuid)
-
-		rspMsg.IsNewUser = proto.Int32(1) // is new User
-		rspMsg.ServerTime = proto.Uint32(common.Now())
-
-		//TODO:save userinfo to db through goroutine
-		userDetail, e := user.AddNewUser(db, uuid)
-		if e.IsError() {
-			return e
-		}
-		if userDetail != nil {
-			rspMsg.Account = userDetail.Account
-			rspMsg.UnitList = userDetail.UnitList
-			rspMsg.Party = userDetail.Party
-			rspMsg.Login = userDetail.Login
-			rspMsg.Quest = userDetail.Quest
-			rspMsg.User = userDetail.User
-
-			reqMsg.Header.UserId = userDetail.User.UserId
-		}
-
-		log.T("create NewUser rspMsg.UserId: %v", *reqMsg.Header.UserId)
-
 	}
 
+	//fill response
+	rspMsg.Account = userDetail.Account
+	rspMsg.UnitList = userDetail.UnitList
+	rspMsg.Party = userDetail.Party
+	rspMsg.Login = userDetail.Login
+	rspMsg.Quest = userDetail.Quest
+	rspMsg.User = userDetail.User
+
+	reqMsg.Header.UserId = userDetail.User.UserId
+
 	rspMsg.EvolveType = unit.GetTodayEvolveType()
+	rspMsg.ServerTime = proto.Uint32(common.Now())
 
 	log.T(" ")
 	log.T(">>>>>>>>>>>>AuthUser RspMsg (uid:%v)<<<<<<<<<<<<<<", *rspMsg.User.UserId)
 	log.T("\tUserinfo: %+v", rspMsg.User)
 	log.T("\tAccount: %+v", rspMsg.Account)
 	log.T("\tFriends: ")
-	for k, friend:=range rspMsg.Friends{
+	for k, friend := range rspMsg.Friends {
 		log.T("\t friend[%v]: %+v", k, friend)
 	}
 	log.T("\tParty: CurrParty: %v", *rspMsg.Party.CurrentParty)

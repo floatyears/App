@@ -120,7 +120,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	gotFriendPt := int32(0)
 
 	//3. getUnitInfo of baseUniqueId
-	baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, *reqEvolveStart.BaseUniqueId)
+	baseUserUnit, e := unit.GetUserUnitInfo(userDetail, *reqEvolveStart.BaseUniqueId)
 	if e.IsError() {
 		log.Error("GetUserUnitInfo(%v) failed: %v", *reqEvolveStart.BaseUniqueId, e.Error())
 		return e
@@ -148,7 +148,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	//4. update questPlayRecord (also add dropUnits to user.UnitList)
 
 	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e =
-		quest.UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
+		quest.UpdateQuestLog(db, userDetail, questId, reqMsg.GetUnit, gotMoney)
 	if e.IsError() {
 		return e
 	}
@@ -193,7 +193,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	}
 
 	//8. update userinfo
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 

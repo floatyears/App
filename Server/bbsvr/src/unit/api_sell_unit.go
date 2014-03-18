@@ -98,7 +98,7 @@ func (t SellUnit) ProcessLogic(reqMsg *bbproto.ReqSellUnit, rspMsg *bbproto.RspS
 	//2. getUnitInfo of baseUniqueId
 	gotMoney := int32(0)
 	for k, uniqueId := range reqMsg.UnitUniqueId {
-		baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, uniqueId)
+		baseUserUnit, e := unit.GetUserUnitInfo(userDetail, uniqueId)
 		if e.IsError() {
 			log.Error("user:%v GetUserUnitInfo(%v) failed: %v", uid, uniqueId, e.Error())
 			return e
@@ -128,7 +128,7 @@ func (t SellUnit) ProcessLogic(reqMsg *bbproto.ReqSellUnit, rspMsg *bbproto.RspS
 	*userDetail.Account.Money += gotMoney
 
 	//5. update userinfo
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 

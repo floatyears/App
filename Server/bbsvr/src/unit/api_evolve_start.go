@@ -107,7 +107,7 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 	log.T("\t===== 1. getUser(%v) ret userinfo: %v", uid, userDetail.User)
 
 	//2. check user is already playing
-	isRestartNewQuest := ( reqMsg.RestartNew != nil && *reqMsg.RestartNew != 0 )
+	isRestartNewQuest := (reqMsg.RestartNew != nil && *reqMsg.RestartNew != 0)
 	if isRestartNewQuest == false {
 		if userDetail.Quest != nil && userDetail.Quest.State != nil {
 			e = Error.New(EC.EQ_QUEST_IS_PLAYING, fmt.Sprintf("user(%v) is playing quest:%+v", *userDetail.User.UserId, *userDetail.Quest.QuestId))
@@ -117,7 +117,7 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 	}
 
 	//3. getUnitInfo of baseUniqueId
-	baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, *reqMsg.BaseUniqueId)
+	baseUserUnit, e := unit.GetUserUnitInfo(userDetail, *reqMsg.BaseUniqueId)
 	if e.IsError() {
 		log.Error("GetUserUnitInfo(%v) failed: %v", *reqMsg.BaseUniqueId, e.Error())
 		return e
@@ -128,7 +128,7 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 		return e
 	}
 	log.Error("\t===== 2. getUnitInfo ret baseUserUnit:(%+v).", baseUserUnit)
-	log.Error("\t=====    baseUnit: type:%v rare:%v (%+v).",*baseUnit.Type, *baseUnit.Rare, baseUnit)
+	log.Error("\t=====    baseUnit: type:%v rare:%v (%+v).", *baseUnit.Type, *baseUnit.Rare, baseUnit)
 
 	if baseUnit.EvolveInfo == nil {
 		e = Error.New(EC.E_UNIT_HAS_NO_EVOLVEINFO, fmt.Sprintf("unit(%v) has no evolve info.", *baseUnit.Id))
@@ -167,7 +167,6 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 	log.T("\t===== 4. GetStageInfo ret:%+v", stageInfo)
 	log.T("\t===== 		 questInfo ret:%+v", questInfo)
 
-
 	//6. update stamina
 	log.T("--Old Stamina:%v staminaRecover:%v", *userDetail.User.StaminaNow, *userDetail.User.StaminaRecover)
 	e = user.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax)
@@ -204,13 +203,13 @@ func (t EvolveStart) ProcessLogic(reqMsg *bbproto.ReqEvolveStart, rspMsg *bbprot
 	}
 
 	//10. update latest quest record of userDetail
-	if e = quest.FillUserQuest(&userDetail, *userDetail.Party.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
+	if e = quest.FillUserQuest(userDetail, *userDetail.Party.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
 		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}
 
 	//11. save updated userinfo
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 

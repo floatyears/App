@@ -129,14 +129,14 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 		return e
 	} else if lastNotClear {
 		gotStone = 1
-		if e = quest.SetQuestCleared(db, uid, stageId, questId); e.IsError(){
+		if e = quest.SetQuestCleared(db, uid, stageId, questId); e.IsError() {
 			return e
 		}
 	}
 
 	//3. update questPlayRecord (also add dropUnits to user.UnitList)
 	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e =
-		quest.UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
+		quest.UpdateQuestLog(db, userDetail, questId, reqMsg.GetUnit, gotMoney)
 	if e.IsError() {
 		return e
 	}
@@ -154,7 +154,7 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	}
 
 	//6. update userinfo (include: unitList, exp, money, stamina)
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return Error.New(EC.EU_UPDATE_USERINFO_ERROR, "update userinfo failed.")
 	}
 	log.T("UpdateUserInfo(%v) ret OK.", uid)

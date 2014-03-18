@@ -144,12 +144,15 @@ func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, cur
 	for level := *userUnit.Level; level < *unit.MaxLevel; level++ {
 		nextLevelExp := getUnitExpValue(*unit.PowerType.ExpType, *userUnit.Level)
 		if nextLevelExp <= 0 { // nextLevelExp<=0 means it reach MAX_LEVEL
+			log.T("nextLevelExp=%v => reach MaxLevel: %v.", nextLevelExp, level)
 			break
 		}
 
 		if currExp+addExp >= nextLevelExp {
 			addLevel += 1
+			log.T("currExp+addExp: %v + %v  >= level[%v].nextLevelExp: %v, add Level: %v ", currExp, addExp, level, nextLevelExp, addLevel)
 		} else {
+			log.T("currExp+addExp: %v + %v  < level[%v].nextLevelExp: %v. return addLevel: %v ", currExp, addExp, level, nextLevelExp, addLevel)
 			break
 		}
 	}
