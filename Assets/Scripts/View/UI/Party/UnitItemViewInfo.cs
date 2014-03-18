@@ -8,6 +8,7 @@ public class UnitItemInfo {
 	public UISprite mask;
 	public UISprite star;
     public TUserUnit userUnitItem;
+	public UISprite hightLight;
 
     private bool _isCollect = false;
 	public bool isCollect {

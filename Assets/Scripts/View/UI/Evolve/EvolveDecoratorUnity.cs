@@ -54,7 +54,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	private EvolveItem baseItem;
 	private EvolveItem friendItem;
 	private EvolveItem prevItem = null;
-	private EvolveState clickState = EvolveState.BaseState;
+//	private EvolveState clickState = EvolveState.BaseState;
 	private List<TUserUnit> materialUnit = new List<TUserUnit>();
 	private int ClickIndex = 0;
 
@@ -89,7 +89,18 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			break;
 		case MaterialData:
 			List<TUserUnit> itemInfo = keyValue.Value as List<TUserUnit>;
-			DisposeMaterial(itemInfo);
+			if(itemInfo != null) {
+				DisposeMaterial(itemInfo);
+			}
+			else{
+				TUserUnit userUnit = keyValue.Value as TUserUnit;
+				materialItem[state].Refresh(userUnit);
+				List<TUserUnit> temp = new List<TUserUnit>();
+				for (int i = 2; i < 5; i++) {
+					temp.Add(materialItem[i].userUnit);
+				}
+				MsgCenter.Instance.Invoke(CommandEnum.UnitMaterialList, temp);
+			}
 			break;
 		default:
 				break;
@@ -107,11 +118,18 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void DisposeSelectData (TUserUnit tuu) {
-		if(tuu == null) {
+//		Debug.LogError (" DisposeSelectData : " + tuu.ID);
+		if(tuu == null ) {
 			return;
 		}
+
+		if (baseItem.userUnit != null && baseItem.userUnit.ID == tuu.ID) {
+			return;	
+		}
 	
-		if (clickState == EvolveState.BaseState && tuu.UnitInfo.evolveInfo != null) {
+
+
+		if (state == 1 && tuu.UnitInfo.evolveInfo != null) {
 			baseItem.Refresh(tuu);
 			MsgCenter.Instance.Invoke(CommandEnum.UnitDisplayBaseData, tuu);
 		}
@@ -129,20 +147,42 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 //		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
 	}
 
+	int state = 0;
 	void ClickItem (GameObject go) {
+		if (baseItem.userUnit == null) {
+			return;	
+		}
+
 		ClickIndex = System.Int32.Parse (go.name);
+//		Debug.LogError ("state :" + state + " go.name : " + go.name);
 		switch (go.name) {
 		case "1":
-			if(clickState == EvolveState.BaseState) {
+			if(state == 1) {
 				return;
 			}
 			if(evolveButton.gameObject.activeSelf) {
 				evolveButton.gameObject.SetActive(false);
 			}
-			clickState = EvolveState.BaseState;
+			state = 1;
 			break;
 		case "2":
+			if(evolveButton.gameObject.activeSelf) {
+				evolveButton.gameObject.SetActive(false);
+			}
+			if(baseItem == null) {
+				return;
+			}
+			state =2;
+			break;
 		case "3":
+			if(evolveButton.gameObject.activeSelf) {
+				evolveButton.gameObject.SetActive(false);
+			}
+			if(baseItem == null) {
+				return;
+			}
+			state =3;
+			break;
 		case "4":
 			if(evolveButton.gameObject.activeSelf) {
 				evolveButton.gameObject.SetActive(false);
@@ -150,14 +190,13 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(baseItem == null) {
 				return;
 			}
-			clickState = EvolveState.MaterialState;
+			state =4;
 			break;
 		case "5":
-			if(clickState == EvolveState.FriendState) {
+			if(state == 5) {
 				return;
 			}
 			CheckCanEvolve();
-			clickState = EvolveState.FriendState;
 			TUserUnit tuu = null;
 			if(baseItem != null) {
 				tuu = baseItem.userUnit;
@@ -166,7 +205,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(!evolveButton.gameObject.activeSelf) {
 				evolveButton.gameObject.SetActive(true);
 			}
-
+			state =5;
 			MsgCenter.Instance.Invoke(CommandEnum.EvolveFriend, tuu);
 			break;
 		}
@@ -176,7 +215,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		EvolveItem ei = evolveItem [go];
 		ei.highLight.enabled = true;
 		prevItem = ei;
-		MsgCenter.Instance.Invoke (CommandEnum.UnitDisplayState, clickState);
+		MsgCenter.Instance.Invoke (CommandEnum.UnitDisplayState, state);
 	}
 
 
@@ -202,7 +241,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(i == 1 ) {
 				baseItem = ei;
 				ei.highLight.enabled = true;
-				clickState = EvolveState.BaseState;
+//				clickState = EvolveState.BaseState;
+				state = 1;
 				prevItem = ei;
 				continue;
 			}
@@ -241,11 +281,11 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 }
 
-public enum EvolveState {
-	BaseState = 0,
-	MaterialState = 1,
-	FriendState = 2,
-}
+//public enum EvolveState {
+//	BaseState = 0,
+//	MaterialState = 1,
+//	FriendState = 2,
+//}
 
 public class EvolveItem {
 	public GameObject itemObject;

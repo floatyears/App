@@ -11,14 +11,14 @@ public class UnitDisplayUnity : UIComponentUnity {
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
-//		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
+		MsgCenter.Instance.AddListener (CommandEnum.UnitMaterialList, UnitMaterialList);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
+		MsgCenter.Instance.RemoveListener (CommandEnum.UnitMaterialList, UnitMaterialList);
 	}
 
 	public override void DestoryUI () {
@@ -30,13 +30,12 @@ public class UnitDisplayUnity : UIComponentUnity {
 		foreach (var item in dic) {
 			DisposeCallback(item);
 		}
-
 	}
-
-
+	
 	public const string SetDragPanel = "setDragPanel";
 	public const string RefreshData = "refreshData";
 	public const string SelectBase = "selectBase";
+	public const string SelectMaterial = "selectMaterial";
 	//==========================================interface end ==========================
 
 	private GameObject unitItem;
@@ -47,27 +46,52 @@ public class UnitDisplayUnity : UIComponentUnity {
 	private List<UnitItemInfo> normalItem = new List<UnitItemInfo> ();
 	private List<UnitItemInfo> evolveItem = new List<UnitItemInfo> ();
 	private TUserUnit selectBase  = null;
-	private TUserUnit baseData = null;
-	List<TUserUnit> materialInfo = new List<TUserUnit> ();
-	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
+	private UnitItemInfo baseData = null;
 
+	List<UnitItemInfo> materialInfo = new List<UnitItemInfo> ();
+	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
+	int state = 1;
+
+	void ClickItem (GameObject go) {
+		UnitItemInfo uii = evolveItem.Find (a => a.scrollItem == go);
+//		Debug.LogError ("unit : " + state);
+		if (uii != default(UnitItemInfo) && state == 1) {
+			selectBase = uii.userUnitItem;
+			TranferData.Clear();
+			TranferData.Add(SelectBase, selectBase);
+			ExcuteCallback(TranferData);
+			return;
+		}
+		uii = normalItem.Find (a => a.scrollItem == go);
+		bool b = state != 1 && state != 5;
+		if (uii != default(UnitItemInfo) && b) {
+			if(CheckBaseNeedMaterial (uii.userUnitItem,state)) {
+				TranferData.Clear();
+				TranferData.Add(SelectMaterial, uii.userUnitItem);
+				ExcuteCallback(TranferData);
+			}
+		}
+	}
 
 	void UnitDisplayBaseData (object data) {
 		TUserUnit tuu = data as TUserUnit;
 		if (tuu == null) {
 			return;
 		}
+		if (baseData != null) {
+			baseData.hightLight.enabled = false;	
+		}
+		baseData = evolveItem.Find (a => a.userUnitItem.ID == tuu.ID);
+		baseData.hightLight.enabled = true;
 
-		baseData = tuu;
 		materialInfo.Clear ();
 		int count = tuu.UnitInfo.evolveInfo.materialUnitId.Count;
 		int value = 3 - count;
 		for (int i = 0; i < count; i++) {
 			uint id = tuu.UnitInfo.evolveInfo.materialUnitId[i];
 			UnitItemInfo uii = normalItem.Find(a=>a.userUnitItem.UnitInfo.ID == id);
-//			Debug.LogError(id + " uii : " + uii);
 			if(uii != default(UnitItemInfo)) {
-				materialInfo.Add(uii.userUnitItem);
+				materialInfo.Add(uii);
 			}
 			else{
 				materialInfo.Add(null);
@@ -78,32 +102,130 @@ public class UnitDisplayUnity : UIComponentUnity {
 			materialInfo.Add(null);
 		}
 
-		MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, materialInfo);
+		List<TUserUnit> temp = new List<TUserUnit> ();
+		for (int i = 0; i < materialInfo.Count; i++) {
+			if(materialInfo[i] == null) {
+				temp.Add(null);
+			}else{
+				temp.Add(materialInfo[i].userUnitItem);
+			}
+		}
+
+		MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, temp);
 	}
 
 	void UnitDisplayState (object data) {
-		EvolveState es = (EvolveState)data;
-		switch (es) {
-		case EvolveState.BaseState:
-			if(!gameObject.activeSelf){
-				gameObject.SetActive(true);
-			}
-			break;
-		case EvolveState.FriendState:
+		state = (int)data;
+		if (state != 5) {
+			if (!gameObject.activeSelf) {
+					gameObject.SetActive (true);
+			}	
+		} else {
 			if(gameObject.activeSelf){
 				gameObject.SetActive(false);
 			}
+		}
+
+		switch (state) {
+		case 1:
+			ShowEvolve();
 			break;
-		case EvolveState.MaterialState:
-			if(!gameObject.activeSelf){
-				gameObject.SetActive(true);
-			}
+		case 2:
+		case 3:
+		case 4:
+			ShowMaterial();
+			break;
+		case 5:
 			break;
 		default:
 				break;
 		}
 	}
 
+	void UnitMaterialList(object data) {
+		List<TUserUnit> material = data as List<TUserUnit>;
+		materialInfo.Clear ();
+		for (int i = 0; i < material.Count; i++) {
+			if(material[i] == null) {
+				materialInfo.Add(null);
+			}
+			else{
+				UnitItemInfo uii = normalItem.Find(a=>a.userUnitItem.ID == material[i].ID) ;
+				materialInfo.Add(uii);
+
+			}
+		}
+		ShowMaterial();
+	}
+
+	void ShowEvolve () {
+		for (int i = 0; i < allItem.Count; i++) {
+			UnitItemInfo uii = allItem[i];
+			if(evolveItem.Contains(uii)) {
+				uii.SetMask(false);
+			}
+			else{
+				uii.SetMask(true);
+			}
+		}
+
+		baseData.hightLight.enabled = true;
+		if (uiima != null) {
+			uiima.hightLight.enabled = false;
+		}
+	}
+
+	bool CheckMaterialInfoNull () {
+		int index = state - 2;
+		UnitItemInfo uii = materialInfo [index];
+		if (uii == null) {
+			return 	true;
+		} else {
+			return false;
+		}
+	}
+
+	UnitItemInfo uiima;
+	void ShowMaterial () {
+		if (CheckMaterialInfoNull ()) {
+			if(uiima != null) {
+				uiima.hightLight.enabled = false;
+			}
+			for (int i = 0; i < allItem.Count; i++) {
+				allItem[i].SetMask(true);
+			}
+			return;
+		}
+
+		int index = state - 2;
+		UnitItemInfo temp = materialInfo [index];
+		if (temp == null) {
+			return;
+		}
+
+		if (uiima != null) {
+			uiima.hightLight.enabled = false;
+		}
+		uiima = temp;
+		List<UnitItemInfo> tempMaterial = new List<UnitItemInfo> ();
+		uint id = uiima.userUnitItem.UnitID;
+		tempMaterial = normalItem.FindAll(a=>a.userUnitItem.UnitID == id);
+		if (tempMaterial.Count == 1) {
+			tempMaterial.Clear();
+		}
+		for (int i = 0; i < allItem.Count; i++) {
+			UnitItemInfo uii = allItem[i];
+			if(tempMaterial.Contains(uii)) {
+				uii.SetMask(false);
+			}
+			else{
+				uii.SetMask(true);
+			}
+		}
+		uiima.hightLight.enabled = true;
+		baseData.hightLight.enabled = false;
+	}
+	
 	void InitUI () {
 		CreatPanel ();
 	}
@@ -151,14 +273,12 @@ public class UnitDisplayUnity : UIComponentUnity {
 			}
 			allItem.Add(uii);
 		}
-
 		RefreshItem ();
 	}
 
 	void RefreshItem () {
 		RefreshDragPanelView ();
 		List<GameObject> scroll = unitItemDragPanel.ScrollItem;
-
 		for (int i = 0; i < allItem.Count; i++) {
 			UnitItemInfo uii = allItem[i];
 			uii.scrollItem = scroll[i];
@@ -174,6 +294,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		uii.stateLabel = go.Find ("Label_Party").GetComponent<UILabel> ();
 		uii.mask = go.Find ("Mask").GetComponent<UISprite> ();
 		uii.star = go.Find ("StarMark").GetComponent<UISprite> ();
+		uii.hightLight = go.Find ("HighLight").GetComponent<UISprite> ();
 		UIEventListener.Get (go.gameObject).onClick = ClickItem;
 		uii.IsFavorate (uii.userUnitItem.isFavorate);
 		bool b = DataCenter.Instance.PartyInfo.UnitIsInParty (uii.userUnitItem.ID);
@@ -183,7 +304,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 
 		if (uii.userUnitItem.isFavorate == 0 && !b) {
-//			Debug.LogError("normalItem.Add : " + uii.userUnitItem.ID);
 			normalItem.Add(uii);	
 		}
 
@@ -194,33 +314,23 @@ public class UnitDisplayUnity : UIComponentUnity {
 			uii.SetMask(false);
 			evolveItem.Add(uii);
 		}
-
-
 	}
 
-	void ClickItem (GameObject go) {
-		UnitItemInfo uii = evolveItem.Find (a => a.scrollItem == go);
-		if (uii == default(UnitItemInfo)) {
-			return;
-		}
-		selectBase = uii.userUnitItem;
-		BriefUnitInfo bui = new BriefUnitInfo (UnitBriefInfoView.EnsureCommand, selectBase);
-		MsgCenter.Instance.AddListener (CommandEnum.EnsureSubmitUnitToParty, EnsureFocusOnPartyItem);
-		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitBriefInfo, bui);
-	}
 
-	void EnsureFocusOnPartyItem(object data) {
-		MsgCenter.Instance.RemoveListener (CommandEnum.EnsureSubmitUnitToParty, EnsureFocusOnPartyItem);
-		if (data == null) {
-			return;
-		}
 
-		bool b = (bool)data;
-
-		if (b) {
-			TranferData.Clear();
-			TranferData.Add(SelectBase,selectBase);
-			ExcuteCallback(TranferData);
+	bool CheckBaseNeedMaterial (TUserUnit tuu, int index) {
+		int tempIndex = index - 2;
+		List<uint> temp = baseData.userUnitItem.UnitInfo.evolveInfo.materialUnitId;
+		if (tempIndex < temp.Count) {
+			uint materialNeed = temp [tempIndex];
+			if (materialNeed == tuu.UnitID) {
+				return true;	
+			} else {
+				return false;	
+			}
+		} 
+		else {
+			return false;	
 		}
 	}
 

@@ -10,11 +10,9 @@ public class AuthUser: ProtoManager {
     private uint userId;
 
     public AuthUser() {
-//		MsgCenter.Instance.AddListener (CommandEnum.ReqAuthUser, OnReceiveCommand);
     }
 
     ~AuthUser() {
-//		MsgCenter.Instance.RemoveListener (CommandEnum.ReqAuthUser, OnReceiveCommand);
     }
 
     public override bool MakePacket() {
@@ -24,9 +22,8 @@ public class AuthUser: ProtoManager {
         reqType = typeof(ReqAuthUser);
         rspType = typeof(RspAuthUser);
 		bool b = PlayerPrefs.HasKey (GameDataStore.USER_ID);
-        this.userId = GameDataStore.Instance.GetUInt(GameDataStore.USER_ID);
+		this.userId = GameDataStore.Instance.GetUInt(GameDataStore.USER_ID);
         string uuid = GameDataStore.Instance.GetData(GameDataStore.UUID);
-//		Debug.LogError ("userId " + userId + "  uuid : " + uuid);
         if (userId == 0 && uuid.Length == 0) {
             uuid = System.Guid.NewGuid().ToString();
             GameDataStore.Instance.StoreData(GameDataStore.UUID, uuid);
@@ -54,9 +51,6 @@ public class AuthUser: ProtoManager {
             LogHelper.Log("authUser response failed.");
             return;
         }
-
-
-
     }
 
     protected override void OnReceiveCommand(object data) {
