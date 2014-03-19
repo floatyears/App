@@ -122,7 +122,7 @@ public class FriendListView : UIComponentUnity
 		dragPanel = CreateDragPanel("FriendDragPanel", viewInfoList.Count);
 		FindCrossShowLabelList();
 		UpdateAvatarTexture(viewInfoList);
-		UpdateCountLabel(viewInfoList.Count, 50);
+		UpdateCountLabel(viewInfoList.Count, DataCenter.Instance.UserInfo.FriendMax);
 		UpdateEventListener();
 		//UpdateStarSprite(viewInfoList);
 		UpdateCrossShow();
