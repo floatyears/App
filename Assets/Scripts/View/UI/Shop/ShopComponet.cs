@@ -64,7 +64,7 @@ public class ShopComponent : ConcreteComponent {
         msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendExpand");
 
         string context1 = TextCenter.Instace.GetCurrentText("ConfirmFriendExpansion");
-        string context2 = TextCenter.Instace.GetCurrentText("FriendExpansionInfo", DataCenter.Instance.FriendList.Friend.Count,
+        string context2 = TextCenter.Instace.GetCurrentText("FriendExpansionInfo", DataCenter.Instance.FriendCount,
                                                           DataCenter.Instance.UserInfo.FriendMax);
 
         msgWindowParam.contentTexts = new string[2]{ context1, context2 };
