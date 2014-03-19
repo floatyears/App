@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScratchDecoratorUnity : UIComponentUnity {
+public class ScratchView : UIComponentUnity {
 
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);

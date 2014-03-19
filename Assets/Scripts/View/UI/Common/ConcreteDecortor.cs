@@ -159,10 +159,13 @@ public class ScratchDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		ScratchComponent scratch = CreatComponent< ScratchComponent >(UIConfig.scratchWindowName);
+
+//        LogHelper.Log("ScratchDecoratorUnity start Decddddddd");
+		ScratchView scratch = CreatComponent< ScratchLogic >(UIConfig.scratchWindowName);
 		scratch.SetComponent(sceneInfoBar);
 
-		lastDecorator = scratch;
+//        LogHelper.Log("ScratchDecoratorUnity end Decddddddd");
+        lastDecorator = scratch;
 		lastDecorator.CreatUI();
 
 	}

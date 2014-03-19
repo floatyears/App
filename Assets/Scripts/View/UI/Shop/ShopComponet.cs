@@ -17,6 +17,7 @@ public class ShopComponent : ConcreteComponent {
 	public ShopComponent(string uiName):base(uiName) {}
 	
 	public override void CreatUI () {
+
 		base.CreatUI ();
 	}
 	

@@ -16,6 +16,6 @@ public class NetWorkTestHelper {
         Debug.Log("NNNNNNNNNNNNNNNN NetWorkTestHelper.Test() start");
 //        NetWorkEvovleTester tester = new NetWorkEvovleTester();
 //        tester.TestEvovleStart();
-        NetWorkGachaTester.Test();
+//        NetWorkGachaTester.Test();
     }
 }

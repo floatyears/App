@@ -98,7 +98,7 @@ public class NetWorkGachaTester {
     public static void Test(){
         LogHelper.Log("NetWorkGachaTester.Test() start");
         NetWorkGachaTester tester = new NetWorkGachaTester();
-        Gacha.SendRequest(tester.OnRspGacha, 1, 1);
+//        Gacha.SendRequest(tester.OnRspGacha, 1, 1);
         Gacha.SendRequest(tester.OnRspGacha, 2, 9);
     }
     public void OnRspGacha(object data) {

@@ -150,6 +150,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback
 				return;
 			viewCallback = viewComponent;
 			viewComponent.Init(uiConfig, this);
+            Debug.LogError("CreatViewComponent()" + viewComponent);
 		}
 	}
 
