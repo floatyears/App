@@ -161,7 +161,7 @@ public class ScratchDecorator : DecoratorBase
 
 
 //        LogHelper.Log("ScratchDecoratorUnity start Decddddddd");
-		ScratchView scratch = CreatComponent< ScratchLogic >(UIConfig.scratchWindowName);
+        ScratchLogic scratch = CreatComponent< ScratchLogic >(UIConfig.scratchWindowName);
 		scratch.SetComponent(sceneInfoBar);
 
 //        LogHelper.Log("ScratchDecoratorUnity end Decddddddd");
