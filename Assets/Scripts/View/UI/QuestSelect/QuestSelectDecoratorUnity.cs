@@ -2,7 +2,7 @@ using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback {
+public class QuestSelectDecoratorUnity : UIComponentUnity{
 	StageInfo stageInfo;
 	public static UIImageButton btnSelect;
 	IUICallback iuiCallback;
@@ -27,6 +27,11 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback {
 	private DragPanel questDragPanel;
 	private GameObject scrollerItem;
 	private GameObject scrollView;
+
+
+	GameObject questViewItem;
+
+
 	List<UITexture> pickEnemiesList = new List<UITexture>();
 	UIToggle firstFocus;
 	private Dictionary< string, object > questSelectScrollerArgsDic = new Dictionary< string, object >();
@@ -37,6 +42,9 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback {
 		base.Init(config, origin);
 		temp = origin is IUICallback;
 		InitUI();
+		InitQuestSelectScrollArgs();
+		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
+		Debug.LogError("xxx...." + (questViewItem == null));
 	}
 	
 	public override void ShowUI(){
@@ -48,16 +56,15 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback {
 
 		MsgCenter.Instance.AddListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
 	}
+
+
 	
 	public override void HideUI(){
 		base.HideUI();
 		CleanQuestInfo();
 		MsgCenter.Instance.RemoveListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
 	}
-	
-	public override void DestoryUI(){
-		base.DestoryUI();
-	}
+
 
 	void ReceiveStageInfo( object data ){
 		StageInfo receivedStageInfo = data as StageInfo;
@@ -100,6 +107,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback {
 		foreach (var item in texs){
 			pickEnemiesList.Add(item);
 		} 
+
 		UIEventListener.Get(btnSelect.gameObject).onClick = ChangeScene;
 	}
 
@@ -109,7 +117,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback {
 		}
 		questDragPanel = CreateDragPanel(questInfoList.Count);
 		FillDragPanel(questDragPanel, questInfoList);
-		InitQuestSelectScrollArgs();
+
 		questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 	}
 
@@ -198,10 +206,47 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback {
 		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
 	}
 	
-	public void Callback(object data){
-		bool b = (bool)data;
-		btnSelect.isEnabled = b;
+
+	public override void Callback(object data){
+		base.Callback(data);
+
+		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+
+		switch (cbdArgs.funcName){
+
+			case "CreateQuestList" : 
+				CallBackDispatcherHelper.DispatchCallBack(CreateQuestDragList, cbdArgs);
+				break;
+			default:
+				break;
+		}
 	}
+
+
+	void CreateQuestDragList(object args){
+		TStageInfo tsi = args as TStageInfo;
+		questDragPanel = new DragPanel("QuestDragPanel", questViewItem);
+		questDragPanel.CreatUI();
+		questDragPanel.AddItem(tsi.QuestInfo.Count);
+		Debug.Log("CreateQuestDragList(), count is : " + tsi.QuestInfo.Count);
+		questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
+
+		for (int i = 0; i < questDragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = questDragPanel.ScrollItem[ i ];
+			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
+//			uint bossId =  tsi.QuestInfo[ i ].BossID[ 0 ];
+
+//			Debug.LogError("BossID : " + bossId);
+			string sourcePath = string.Format("Avatar/{0}_1", GetBossID());
+			tex.mainTexture = Resources.Load(sourcePath) as Texture2D;
+		}
+
+	}
+
+	uint GetBossID(){
+		return 11;
+	}
+
 
 	void CleanQuestInfo(){
 		labStaminaVaule.text = string.Empty;
@@ -236,7 +281,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback {
 	}
 	
 	private void InitQuestSelectScrollArgs(){
-		if( isInitDragPanelArgs )	return;
 		questSelectScrollerArgsDic.Add("parentTrans",		scrollView.transform);
 		questSelectScrollerArgsDic.Add("scrollerScale",		Vector3.one);
 		questSelectScrollerArgsDic.Add("scrollerLocalPos",		-96 * Vector3.up);
@@ -248,6 +292,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback {
 		questSelectScrollerArgsDic.Add("cellWidth",			130);
 		questSelectScrollerArgsDic.Add("cellHeight",			130);
 
-		isInitDragPanelArgs = true;
 	}
+	
+
 }

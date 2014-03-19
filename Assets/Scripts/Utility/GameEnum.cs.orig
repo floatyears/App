@@ -1,4 +1,4 @@
-﻿//public enum 
+//public enum 
 
 public enum SceneEnum
 {
@@ -185,6 +185,7 @@ public enum CommandEnum
 	OpenMsgWindow				= 4042,
 	EnsureRefuseSingleApply			= 4043,
 	EnsureAcceptApply				= 4044,
+<<<<<<< HEAD
     FriendExpansion                 = 4045,
     StaminaRecover                  = 4046,
     UnitExpansion                   = 4047,
@@ -193,7 +194,11 @@ public enum CommandEnum
     RspUnitExpansion                = 4050,
 	AddHelperItem				= 4051,
 	ChooseHelper					= 4052,
-    GetSelectedStage				= 4053,
+=======
+	AddHelperItem				= 4045,
+	ChooseHelper					= 4046,
+	GetSelectedStage				= 4047,
+>>>>>>> ab31df31b5b5f3833cd2cc26b2446012e3a8f239
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

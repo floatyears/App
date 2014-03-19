@@ -187,8 +187,8 @@ public class DragPanelView : UIBaseUnity {
 		if( argsDic.ContainsKey("cellHeight"))
 			cellHeight = (int)argsDic["cellHeight"];
 
-		gameObject.transform.parent = parentTrans;
-		gameObject.transform.localPosition = scrollerLocalPos;
+		gameObject.transform.parent = parentTrans;                
+        gameObject.transform.localPosition = scrollerLocalPos;
 		gameObject.transform.localScale = scrollerScale;
 		scrollView.transform.localPosition = position;
 		clip.clipRange = clipRange;
@@ -198,7 +198,7 @@ public class DragPanelView : UIBaseUnity {
 		grid.cellWidth = cellWidth;
 		grid.cellHeight = cellHeight;
 
-		//LogHelper.Log( "  " + gameObject.name + " have finlished SetScrollView(dic)");
+		//Debug.LogError( "  " + gameObject.name + " have finlished SetScrollView(dic)");
 
 	}
 	

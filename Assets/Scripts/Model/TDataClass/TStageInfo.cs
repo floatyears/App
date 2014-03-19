@@ -5,6 +5,16 @@ using bbproto;
 public class TStageInfo : ProtobufDataBase {
 	private StageInfo instance;
 	private List<TQuestInfo> questInfo;
+	private string stageId;
+
+	public string StageId
+	{
+		get
+		{
+			return stageId;
+		}
+
+	}
 
 	public TStageInfo (StageInfo si) : base (si) {
 		instance = si;
@@ -72,4 +82,9 @@ public class TStageInfo : ProtobufDataBase {
 	public List<TQuestInfo> QuestInfo {
 		get {return questInfo;}
 	}
+
+	public void InitStageId(uint cityId){
+		stageId = string.Format("{0}_{1}", cityId, ID);
+	}
+
 }
