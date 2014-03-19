@@ -256,6 +256,30 @@ public class DGTools {
 		return System.Convert.ToBoolean (number & 1);
 	}
 
+	public static float TypeMultiple (TUserUnit baseUnit, TUserUnit friend) {
+		if (baseUnit.UnitInfo.Type == friend.UnitInfo.Type) {
+			return 1.5f;	
+		} else {
+			return 1f;
+		}
+	}
+	
+	public static float RaceMultiple (TUserUnit baseUnit, TUserUnit friend) {
+		if (baseUnit.UnitInfo.Race == friend.UnitInfo.Race) {
+			return 1.5f;
+		} else {
+			return 1f;
+		}
+	}
+	
+	public static float AllMultiple (float type, float race) {
+		return type + race - 1;
+	}
+
+	public static float AllMultiple (TUserUnit baseUnit, TUserUnit friend) {
+		return AllMultiple (TypeMultiple (baseUnit, friend), RaceMultiple (baseUnit, friend));
+	}
+
 	private const string path = "Protobuf/";
 	private const string unitInfoPath = "X_UNIT_";
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {

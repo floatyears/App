@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using bbproto;
 
 public class LevelUpBasePanel : UIComponentUnity {
-
 	DragPanel baseDragPanel;
 	Dictionary<GameObject, UnitItemInfo> baseUnitInfoDic = new Dictionary<GameObject, UnitItemInfo>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
@@ -25,17 +24,14 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	public override void ShowUI(){
+		base.ShowUI();
 		if (!gameObject.activeSelf) {
 			gameObject.SetActive(true);	
 		}
-
+//		Debug.LogError("LevelUpBasePanel start showui");
 		InitDragPanel();
 		AddListener();
-	
-
-		base.ShowUI();
-		this.gameObject.SetActive(true);
-
+//		Debug.LogError("LevelUpBasePanel end showui");
 	}
 	
 	public override void HideUI(){
@@ -248,6 +244,7 @@ public class LevelUpBasePanel : UIComponentUnity {
         }
 
 	void InitDragPanel(){
+//		Debug.LogError(" start levelup base panel InitDragPanel ");
 		if ( DataCenter.Instance.MyUnitList != null)
 			userUnitInfoList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
 		string name = "BaseDragPanel";
@@ -270,8 +267,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		panel.AddItem( count);
 		return panel;
 	}
-
-	//Fill Unit Item by with config data
+	
 	void FillDragPanel(DragPanel panel){
 		if( panel == null ){
 			Debug.LogError( "LevelUpBasePanel.FillDragPanel(), DragPanel is null, return!");

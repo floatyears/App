@@ -21,11 +21,45 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	UnitItemInfo baseUnitInfo;
 	UnitItemInfo[] unitItemInfo = new UnitItemInfo[4];
 	TUserUnit friendUnitInfo;
-
 	private const int CoinBase = 100;
-	int devorExp = 0;
-	int coin = 0;
-//	List<TUserUnit> materialUnitInfo = new List<TUserUnit>();
+	int _devorExp = 0;
+	int devorExp {
+		get {return _devorExp;}
+		set {
+			_devorExp = value;
+			if(expCurGotLabel != null) {
+				expCurGotLabel.text = value.ToString();
+			}
+		}
+	}
+	int _coin = 0;
+	int coin {
+		get {
+			return _coin;
+		}
+		set {
+			_coin =value;
+			if(cionNeedLabel != null) {
+				cionNeedLabel.text = value.ToString ();
+			}
+		}
+	}
+
+	float _multiple = 1;
+	float multiple {
+		get {return _multiple;}
+		set {
+			int number = (int)value; 
+			if(number == 1){
+				devorExp = System.Convert.ToInt32(_devorExp / _multiple);
+			}
+			else{
+				devorExp = System.Convert.ToInt32(_devorExp * value);
+			}
+			_multiple = value;
+
+		}
+	}
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -79,8 +113,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 					coin += tuu.Level * CoinBase;
 				}
 			}
-			expCurGotLabel.text = devorExp.ToString();	
-			cionNeedLabel.text = coin.ToString();
+//			expCurGotLabel.text = devorExp.ToString();	
+//			cionNeedLabel.text = coin.ToString();
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, itemInfo);
 			FoucsOnTab(Tabs[2]);
 		}
@@ -93,17 +127,21 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		expCurGotLabel.text = UIConfig.emptyLabelTextFormat;
 		cionNeedLabel.text = UIConfig.emptyLabelTextFormat;
 	}
- 
+	UITexture tex ;
 	void UpdateFriendInfo(TUserUnit unitInfo){
-		UITexture tex = Tabs [1].GetComponentInChildren<UITexture> ();
+		if (tex == null) {
+			tex = Tabs [1].GetComponentInChildren<UITexture> ();
+		}
+
 		if (friendUnitInfo == null) {
 			friendUnitInfo = unitInfo;
-			tex.mainTexture = DataCenter.Instance.GetUnitInfo(unitInfo.UnitID).GetAsset(UnitAssetType.Avatar); //UnitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
-		} 
-		else if(friendUnitInfo == unitInfo) {
+			tex.mainTexture = DataCenter.Instance.GetUnitInfo (friendUnitInfo.UnitID).GetAsset (UnitAssetType.Avatar); //UnitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
+			CaculateDevorExp ();
+		} else if (friendUnitInfo == unitInfo) {
 			friendUnitInfo = null;
 			tex.mainTexture = null;	
-		}
+			CaculateDevorExp ();
+		} 
 	}
 
 	void FindInfoPanelLabel(){
@@ -120,7 +158,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 		for( int i = 1; i <= 4; i++ ){
 			string path = string.Format( "Tab_Material/Material{0}/Avatar", i );
-			//Debug.Log("Ready Panel,FindAvatarTexture, Path is " + path);
 			UITexture tex = FindChild< UITexture >( path );
 			materialCollectorTex.Add( tex );
 		}
@@ -135,8 +172,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	void ClearData(){
 		baseUnitInfo = null;
-	
 		friendUnitInfo = null;
+		CaculateDevorExp();
 		for (int i = 0; i < unitItemInfo.Length; i++) {
 			unitItemInfo[i] = null;
 		}
@@ -183,11 +220,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			}
 		}
 		bool firendBool = friendUnitInfo != null;
-//		Debug.LogError (baseBool + " -- " + materialBool + " -- " + firendBool);
 		if (baseBool && materialBool && firendBool) {
-
-			levelUpButton.isEnabled = true;
-//			Debug.LogError(levelUpButton.isEnabled );
+		levelUpButton.isEnabled = true;
 		} else {
 			levelUpButton.isEnabled = false;
 		}
@@ -210,27 +244,20 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			tab.transform.FindChild("Label_Title").GetComponent< UILabel >().color = Color.white;
 		}
 
-		//activate focus tab
 		curFocusTab = focus.gameObject;
 		curFocusTab.transform.FindChild("Light_Frame").gameObject.SetActive(true);
 		curFocusTab.transform.FindChild("Label_Title").GetComponent< UILabel >().color = Color.yellow;
-		//activate focus tab content= 
-//		Debug.LogError ("CommandEnum.PanelFocus : " + focus.name);
 		MsgCenter.Instance.Invoke(CommandEnum.PanelFocus, curFocusTab.name );
-//		Debug.Log("FoucsOnTab() :  ");
 	}
 	
 	void AddListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.PickBaseUnitInfo, PickBaseUnitInfo );
 		MsgCenter.Instance.AddListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
-//		MsgCenter.Instance.AddListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
-
 	}
 	
 	void RemoveListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickBaseUnitInfo, PickBaseUnitInfo );
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
-//		MsgCenter.Instance.RemoveListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
 	}
 	
 	void InitButton(){
@@ -243,8 +270,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		List<TUserUnit> temp = PackUserUnitInfo ();
 		ExcuteCallback (temp);
 		levelUpButton.isEnabled = false;
-//		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);//before
-//		MsgCenter.Instance.Invoke(CommandEnum.LevelUp, PackUserUnitInfo());//after
 	}
 	
 	List<TUserUnit> PackUserUnitInfo(){
@@ -265,15 +290,13 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		if( curFocusTab.name == "Tab_Base" ){
 			UnitItemInfo uui = info as UnitItemInfo;
 
-//			if(baseUnitInfo != null && baseUnitInfo != uui) {
-//				return;
-//			}
-
 			if(uui.isSelect) {
 				baseUnitInfo = uui;
+				CaculateDevorExp();
 			}
 			else{
 				baseUnitInfo = null;
+				CaculateDevorExp();
 			}
 			UpdateBaseInfoView( baseUnitInfo );
 		}else{
@@ -294,10 +317,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			}
 			if(unitItemInfo[i].Equals(uui)) {
 				devorExp -= unitItemInfo[i].userUnitItem.UnitInfo.DevourExp;
-				expCurGotLabel.text = devorExp.ToString ();
 				if(baseUnitInfo != null) {
 					coin -= CoinBase * baseUnitInfo.userUnitItem.Level;
-					cionNeedLabel.text = coin.ToString();
 				}
 				unitItemInfo[i] = null;
 				MsgCenter.Instance.Invoke(CommandEnum.MaterialSelect, false);
@@ -312,12 +333,9 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		for (int i = 0; i < unitItemInfo.Length; i++) {
 			if(unitItemInfo[i] == null) {
 				unitItemInfo[i] = uui;
-
 				devorExp += uui.userUnitItem.UnitInfo.DevourExp;
-				expCurGotLabel.text = devorExp.ToString ();
 				if(baseUnitInfo != null) {
 					coin += CoinBase * baseUnitInfo.userUnitItem.Level;
-					cionNeedLabel.text = coin.ToString();
 				}
 				MsgCenter.Instance.Invoke(CommandEnum.MaterialSelect, true);
 				UpdateMaterialInfoView(uui,i + 1);
@@ -333,43 +351,24 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		if (uui == null) {
 			tex.mainTexture = null;
 		} else {
-			tex.mainTexture = DataCenter.Instance.GetUnitInfo(uui.userUnitItem.UnitID).GetAsset(UnitAssetType.Avatar);//UnitInfo [uui.userUnitItem.UnitID].GetAsset (UnitAssetType.Avatar);
+			tex.mainTexture = DataCenter.Instance.GetUnitInfo(uui.userUnitItem.UnitID).GetAsset(UnitAssetType.Avatar);
 		}
 	}
 
 	void PickFriendUnitInfo(object info){
-		//if(friendUnitInfo != null)	return;
-//		friendUnitInfo = info as TUserUnit;
-
 		TUserUnit tuu =  info as TUserUnit;
 		UpdateFriendInfo(tuu);
 		CheckCanLevelUp ();
 	}
 
-//	void PickMaterialUnitInfo(object info){
-//		if( materialUnitInfo.Count == 4)	return;
-//		TUserUnit tempInfo = info as TUserUnit;
-//		materialUnitInfo.Add(tempInfo);
-//		UpdateMaterialInfoView( tempInfo );
-//
-//	}
+	protected virtual void CaculateDevorExp () {
+		if (friendUnitInfo == null || baseUnitInfo == null) {
+			multiple = 1;
+			return;	
+		}
 
-//	Dictionary<string, object> PackLevelUpInfo(){
-//		//condition : exist base && material && friend
-//		if(baseUnitInfo == null)		
-//			return null;
-//		if(friendUnitInfo == null)	
-//			return null;
-//		if( materialUnitInfo.Count < 1)
-//			return null;
-//		Dictionary<string, object> levelUpInfo = new Dictionary<string, object>();
-//		levelUpInfo.Add("BaseInfo", baseUnitInfo);
-//		levelUpInfo.Add("FriendInfo", friendUnitInfo);
-//		levelUpInfo.Add("MaterialInfo",materialUnitInfo);
-//
-//		return levelUpInfo;
-//	}
-
+		multiple = DGTools.AllMultiple (baseUnitInfo.userUnitItem, friendUnitInfo);
+	}
 }
 
 

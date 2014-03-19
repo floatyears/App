@@ -118,7 +118,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void DisposeSelectData (TUserUnit tuu) {
-//		Debug.LogError (" DisposeSelectData : " + tuu.ID);
 		if(tuu == null ) {
 			return;
 		}
@@ -127,10 +126,10 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			return;	
 		}
 	
-
-
 		if (state == 1 && tuu.UnitInfo.evolveInfo != null) {
 			baseItem.Refresh(tuu);
+			showInfoLabel[preAtkLabel].text = tuu.Attack.ToString();
+			showInfoLabel[preHPLabel].text = tuu.Hp.ToString();
 			MsgCenter.Instance.Invoke(CommandEnum.UnitDisplayBaseData, tuu);
 		}
 	}
