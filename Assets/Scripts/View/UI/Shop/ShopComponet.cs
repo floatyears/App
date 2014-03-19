@@ -225,10 +225,41 @@ public class ShopComponent : ConcreteComponent {
 
     void OnUnitExpansion(object args){
         LogHelper.Log("start OnUnitExpansion()");
+
+        if (DataCenter.Instance.UserInfo.UnitMax >= DataCenter.maxUnitLimit) {
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.UnitExpansion, BuyFailType.NoNeedToBuy));
+            return;
+        }
+        else if (DataCenter.Instance.AccountInfo.Stone < DataCenter.unitExpansionStone){
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.UnitExpansion, BuyFailType.StoneNotEnough));
+            return;
+        }
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitExpansionMsgWindowParams());
+
+    }
+
+    MsgWindowParams GetUnitExpansionMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("UnitExpand");
+        
+        string context1 = TextCenter.Instace.GetCurrentText("ConfirmUnitExpansion");
+        string context2 = TextCenter.Instace.GetCurrentText("UnitExpansionInfo", DataCenter.Instance.MyUnitList.Count,
+                                                            DataCenter.Instance.UserInfo.UnitMax);
+        
+        msgWindowParam.contentTexts = new string[2]{ context1, context2 };
+        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParams[0].callback = CallbackUnitpansion;
+        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("DoUnitExpand");
+        return msgWindowParam;
     }
 
     void DoUnitExpansion(object args){
         UnitMaxExpand.SendRequest(OnRspUnitExpansion);
+    }
+
+    void CallbackUnitpansion(object args){
+        MsgCenter.Instance.Invoke(CommandEnum.UnitExpansion);
     }
 
     void OnRspUnitExpansion(object data){

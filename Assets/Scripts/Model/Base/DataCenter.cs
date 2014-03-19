@@ -57,7 +57,7 @@ public class DataCenter {
     public const int minNeedCard = 2;
     public const int maxNeedCard = 5;
     public const int maxFriendLimit = 200;
-    public const int maxUnitCount = 400;
+    public const int maxUnitLimit = 400;
     public const int friendExpansionStone = 1;
     public const int unitExpansionStone = 1;
     public const int staminaRecoverStone = 1;

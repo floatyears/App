@@ -366,6 +366,10 @@ public class UserUnitList {
         userUnitInfo.Clear();
     }
 
+    public int Count{
+        get { return userUnitInfo.Count;}
+    }
+
     public  TUserUnit Get(uint userId, uint uniqueId) {
 //		foreach (var item in userUnitInfo) {
 //			Debug.LogError(item.Key + " value : " + item.Value);
