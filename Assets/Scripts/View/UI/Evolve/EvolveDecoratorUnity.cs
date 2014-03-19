@@ -128,9 +128,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	
 		if (state == 1 && tuu.UnitInfo.evolveInfo != null) {
 			baseItem.Refresh(tuu);
-			showInfoLabel[preAtkLabel].text = tuu.Attack;
-			showInfoLabel[preHPLabel].text = tuu.Hp;
-//			showInfoLabel[evolveAtkLabel].text = tuu.UnitInfo.evolveInfo.
+			showInfoLabel[preAtkLabel].text = tuu.Attack.ToString();
+			showInfoLabel[preHPLabel].text = tuu.Hp.ToString();
 			MsgCenter.Instance.Invoke(CommandEnum.UnitDisplayBaseData, tuu);
 		}
 	}

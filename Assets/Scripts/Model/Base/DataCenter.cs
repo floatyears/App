@@ -79,6 +79,8 @@ public class DataCenter {
         set { setData(ModelEnum.PartyInfo, value); }
     }
 
+	public TUserUnit oldUserUnitInfo = null;
+
     //TODO: reconstruct myUnitList
     public UserUnitList MyUnitList { 
         get { 

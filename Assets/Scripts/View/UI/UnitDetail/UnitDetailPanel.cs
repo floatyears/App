@@ -5,9 +5,7 @@ using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//----------UI elements list----------
-
 	private GameObject unitInfoTabs;
-
 	protected UILabel noLabel;
 	protected UILabel hpLabel;
 	protected UILabel atkLabel;
@@ -45,6 +43,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	protected List<UISprite> blockLsit2 = new List<UISprite>();
         
 	protected int currMaxExp, curExp, gotExp, expRiseStep;
+
+	protected int _curLevel = 0; 
+	protected int curLevel {
+		get {return _curLevel;}
+		set {
+			_curLevel = value;
+			if(levelLabel != null) {
+				levelLabel.text = value.ToString();
+			}
+		}
+	}
 
 	
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
@@ -220,11 +229,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		
 	void ShowStatusContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
-		//no
+
 		noLabel.text = data.UnitID.ToString();
-		
-		//level
-		levelLabel.text = data.Level.ToString();
 		
 		//hp
 		int hp = DataCenter.Instance.GetUnitValue( unitInfo.HPType, data.Level );
@@ -245,15 +251,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		
 		//race  
 		raceLabel.text = unitInfo.UnitRace.ToString();
-//		Debug.LogError("unitInfo.Race : "+unitInfo.Race.ToString());
 
 		//rare
 		rareLabel.text = unitInfo.Rare.ToString();
-//		Debug.LogError("unitInfo.Rare : "+unitInfo.Rare.ToString());
 		
 		//next level need
 		needExpLabel.text = data.NextExp.ToString();
-//		Debug.LogError("unitInfo.NextExp : "+data.NextExp.ToString());
 	}
 
 
@@ -318,6 +321,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		TUserUnit userUnit = data as TUserUnit;
 		if (userUnit != null) {
 			ShowInfo (userUnit);
+			levelLabel.text = userUnit.Level.ToString();
 		} else {
 			RspLevelUp rlu = data as RspLevelUp;
 			if(rlu ==null) {
@@ -332,32 +336,38 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void PlayLevelUp(RspLevelUp rlu) {
 		unitBodyTex.mainTexture = null;
 		levelUpData = rlu;
-		Debug.LogError ("levelUpData : " + levelUpData.blendUniqueId);
+
 		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		gotExp = levelUpData.blendExp;
 		unitInfoTabs.SetActive (false);
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}
 
+	TUserUnit oldBlendUnit = null;
+	TUserUnit newBlendUnit = null;
+
 	void CreatEffect() {
-		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
+		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
 		GameObject ProfileTexture = go.transform.Find ("ProfileTexture").gameObject;
-		ProfileTexture.renderer.material.mainTexture = blendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
+		ProfileTexture.renderer.material.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
 		effectCache.Add (go);
 	
-
 		if (effectCache.Count > 2) {
 			CancelInvoke("CreatEffect");
 			unitInfoTabs.SetActive (true);
-
-			ShowLevelInfo(blendUnit);
+			ShowLevelInfo(newBlendUnit);
+			curLevel = oldBlendUnit.Level;
 			gotExp = levelUpData.blendExp;
-			curExp = blendUnit.CurExp;
-			expRiseStep =10;
-			curLevel = blendUnit.Level;
-			currMaxExp = gotExp + curExp;
 
+			Debug.LogError ("gotextp : " + gotExp);
+			Debug.LogError("level : " + newBlendUnit.Level);
+			Debug.LogError("CurExp : " + newBlendUnit.CurExp);
+
+			curExp = oldBlendUnit.CurExp;
+			Calculate();
 		}
 	}
 	
@@ -384,21 +394,21 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ShowProfileContent( userUnit );
 	}
         
-        void ClearBlock(List<UISprite> blocks){
+	void ClearBlock(List<UISprite> blocks){
 		foreach (var item in blocks){
 			item.enabled = false;
 			item.spriteName = string.Empty;
 		}
 	}
 
-        protected int curLevel;
-	//---------Exp increase----------
-	void InitExpSlider(){
-		curExp = 460;
-		curLevel = 10;
-		gotExp = 3000;
-		expRiseStep = currMaxExp / 120;
+	void Calculate () {
+		currMaxExp = DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
+		expRiseStep = (int)(currMaxExp * 0.01f);
 	}
+
+
+	//---------Exp increase----------
+
 	
 	void Update(){
 		ExpRise();
@@ -408,36 +418,25 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if(gotExp <= 0)	
 			return;
 
-//		currMaxExp = GetMaxExpByLv( curLevel );
-
 		if(gotExp < expRiseStep){
-			//remain less than step, add remain
-
 			curExp += gotExp;
 			gotExp = 0;
-		} else {
+		} 
+		else {
 			gotExp -= expRiseStep;
 			curExp += expRiseStep;
 		}
 
 		if(curExp >= currMaxExp) {
-			//current overflow,add back
 			gotExp += curExp - currMaxExp;
-
 			curExp = 0;
 			curLevel++;
-//			currMaxExp = GetMaxExpByLv( curLevel );
+			Calculate();
 		}
 
 		int needExp = currMaxExp - curExp;
 		needExpLabel.text = needExp.ToString();
 		float progress = (float)curExp / (float)currMaxExp;
-
 		expSlider.value = progress;
 	}
-
-	void GetMaxExpByLv(TUserUnit tuu) {
-//		currMaxExp = 
-	}
-	
 }

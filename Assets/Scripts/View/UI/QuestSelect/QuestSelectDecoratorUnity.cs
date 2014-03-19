@@ -2,8 +2,7 @@ using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
-{
+public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback {
 	StageInfo stageInfo;
 	public static UIImageButton btnSelect;
 	IUICallback iuiCallback;
@@ -101,7 +100,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		foreach (var item in texs){
 			pickEnemiesList.Add(item);
 		} 
-
 		UIEventListener.Get(btnSelect.gameObject).onClick = ChangeScene;
 	}
 

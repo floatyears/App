@@ -291,6 +291,9 @@ public class TUserUnit : ProtobufDataBase {
         get {
             return instance.level;
         }
+		set {
+
+		}
     }
 
     public string AddNumber {
