@@ -177,7 +177,7 @@ enum EGridStar {
 }
 
 message QuestStatus {
-	optional EQuestState	state			= 1;
+	optional uint32			questId			= 1;
 	repeated uint32			playTime		= 2;
 }
 
@@ -332,16 +332,17 @@ message QuestInfo {
 
 message StageInfo {
 	optional int32			version		= 1;
-	optional uint32			id			= 2;	
-	optional EQuestState	state		= 3; // CLEAR or NEW
-	optional QuestType		type		= 4; // 0=story  1=event 2=evolve
-	optional string			stageName	= 5; //
-	optional string			description	= 6; //	 
-	optional uint32			startTime	= 7;	
-	optional uint32			endTime		= 8;
-	optional QuestBoost		boost		= 9;
-	optional Position		pos			= 10; // stage position of the city	
-	repeated QuestInfo		quests		= 11; 
+	optional uint32			cityId		= 2;
+	optional uint32			id			= 3;	
+	optional EQuestState	state		= 4; // CLEAR or NEW
+	optional QuestType		type		= 5; // 0=story  1=event 2=evolve
+	optional string			stageName	= 6; //
+	optional string			description	= 7; //	 
+	optional uint32			startTime	= 8;	
+	optional uint32			endTime		= 9;
+	optional QuestBoost		boost		= 10;
+	optional Position		pos			= 11; // stage position of the city	
+	repeated QuestInfo		quests		= 12; 
 }
 
 message CityInfo {
@@ -695,14 +696,9 @@ message StageClearItem {
 	optional uint32	questId						= 2;
 }
 
-message EventClearInfo {
-	optional uint32				cityId			= 1;
-	repeated StageClearItem 	clearStage		= 2;
-}
-
 message QuestClearInfo {
-	optional StageClearItem	storyClear			= 1;
-	repeated EventClearInfo	eventClear			= 2;
+	optional StageClearItem		storyClear		= 1;
+	repeated StageClearItem		eventClear		= 2;
 }
 
 message PartyItem {
@@ -788,7 +784,8 @@ message RspAuthUser {
 	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 10;
 	optional EUnitType		evolveType			= 11;
-	optional int32			isNewUser			= 12;
+	optional QuestClearInfo	questClear			= 12;
+	optional int32			isNewUser			= 13;
 }
 
 //-------------------------------------------------

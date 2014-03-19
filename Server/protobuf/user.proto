@@ -46,14 +46,9 @@ message StageClearItem {
 	optional uint32	questId						= 2;
 }
 
-message EventClearInfo {
-	optional uint32				cityId			= 1;
-	repeated StageClearItem 	clearStage		= 2;
-}
-
 message QuestClearInfo {
-	optional StageClearItem	storyClear			= 1;
-	repeated EventClearInfo	eventClear			= 2;
+	optional StageClearItem		storyClear		= 1;
+	repeated StageClearItem		eventClear		= 2;
 }
 
 message PartyItem {
@@ -139,7 +134,8 @@ message RspAuthUser {
 	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 10;
 	optional EUnitType		evolveType			= 11;
-	optional int32			isNewUser			= 12;
+	optional QuestClearInfo	questClear			= 12;
+	optional int32			isNewUser			= 13;
 }
 
 //-------------------------------------------------

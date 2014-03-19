@@ -1011,20 +1011,20 @@ func (m *RspGetPremiumHelper) GetFriends() *FriendList {
 }
 
 type QuestStatus struct {
-	State            *EQuestState `protobuf:"varint,1,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
-	PlayTime         []uint32     `protobuf:"varint,2,rep,name=playTime" json:"playTime,omitempty"`
-	XXX_unrecognized []byte       `json:"-"`
+	QuestId          *uint32  `protobuf:"varint,1,opt,name=questId" json:"questId,omitempty"`
+	PlayTime         []uint32 `protobuf:"varint,2,rep,name=playTime" json:"playTime,omitempty"`
+	XXX_unrecognized []byte   `json:"-"`
 }
 
 func (m *QuestStatus) Reset()         { *m = QuestStatus{} }
 func (m *QuestStatus) String() string { return proto.CompactTextString(m) }
 func (*QuestStatus) ProtoMessage()    {}
 
-func (m *QuestStatus) GetState() EQuestState {
-	if m != nil && m.State != nil {
-		return *m.State
+func (m *QuestStatus) GetQuestId() uint32 {
+	if m != nil && m.QuestId != nil {
+		return *m.QuestId
 	}
-	return EQuestState_QS_NEW
+	return 0
 }
 
 func (m *QuestStatus) GetPlayTime() []uint32 {
@@ -1855,16 +1855,17 @@ func (m *QuestInfo) GetEnemyId() []uint32 {
 
 type StageInfo struct {
 	Version          *int32       `protobuf:"varint,1,opt,name=version" json:"version,omitempty"`
-	Id               *uint32      `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
-	State            *EQuestState `protobuf:"varint,3,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
-	Type             *QuestType   `protobuf:"varint,4,opt,name=type,enum=bbproto.QuestType" json:"type,omitempty"`
-	StageName        *string      `protobuf:"bytes,5,opt,name=stageName" json:"stageName,omitempty"`
-	Description      *string      `protobuf:"bytes,6,opt,name=description" json:"description,omitempty"`
-	StartTime        *uint32      `protobuf:"varint,7,opt,name=startTime" json:"startTime,omitempty"`
-	EndTime          *uint32      `protobuf:"varint,8,opt,name=endTime" json:"endTime,omitempty"`
-	Boost            *QuestBoost  `protobuf:"bytes,9,opt,name=boost" json:"boost,omitempty"`
-	Pos              *Position    `protobuf:"bytes,10,opt,name=pos" json:"pos,omitempty"`
-	Quests           []*QuestInfo `protobuf:"bytes,11,rep,name=quests" json:"quests,omitempty"`
+	CityId           *uint32      `protobuf:"varint,2,opt,name=cityId" json:"cityId,omitempty"`
+	Id               *uint32      `protobuf:"varint,3,opt,name=id" json:"id,omitempty"`
+	State            *EQuestState `protobuf:"varint,4,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
+	Type             *QuestType   `protobuf:"varint,5,opt,name=type,enum=bbproto.QuestType" json:"type,omitempty"`
+	StageName        *string      `protobuf:"bytes,6,opt,name=stageName" json:"stageName,omitempty"`
+	Description      *string      `protobuf:"bytes,7,opt,name=description" json:"description,omitempty"`
+	StartTime        *uint32      `protobuf:"varint,8,opt,name=startTime" json:"startTime,omitempty"`
+	EndTime          *uint32      `protobuf:"varint,9,opt,name=endTime" json:"endTime,omitempty"`
+	Boost            *QuestBoost  `protobuf:"bytes,10,opt,name=boost" json:"boost,omitempty"`
+	Pos              *Position    `protobuf:"bytes,11,opt,name=pos" json:"pos,omitempty"`
+	Quests           []*QuestInfo `protobuf:"bytes,12,rep,name=quests" json:"quests,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -1875,6 +1876,13 @@ func (*StageInfo) ProtoMessage()    {}
 func (m *StageInfo) GetVersion() int32 {
 	if m != nil && m.Version != nil {
 		return *m.Version
+	}
+	return 0
+}
+
+func (m *StageInfo) GetCityId() uint32 {
+	if m != nil && m.CityId != nil {
+		return *m.CityId
 	}
 	return 0
 }
@@ -3911,33 +3919,9 @@ func (m *StageClearItem) GetQuestId() uint32 {
 	return 0
 }
 
-type EventClearInfo struct {
-	CityId           *uint32           `protobuf:"varint,1,opt,name=cityId" json:"cityId,omitempty"`
-	ClearStage       []*StageClearItem `protobuf:"bytes,2,rep,name=clearStage" json:"clearStage,omitempty"`
-	XXX_unrecognized []byte            `json:"-"`
-}
-
-func (m *EventClearInfo) Reset()         { *m = EventClearInfo{} }
-func (m *EventClearInfo) String() string { return proto.CompactTextString(m) }
-func (*EventClearInfo) ProtoMessage()    {}
-
-func (m *EventClearInfo) GetCityId() uint32 {
-	if m != nil && m.CityId != nil {
-		return *m.CityId
-	}
-	return 0
-}
-
-func (m *EventClearInfo) GetClearStage() []*StageClearItem {
-	if m != nil {
-		return m.ClearStage
-	}
-	return nil
-}
-
 type QuestClearInfo struct {
 	StoryClear       *StageClearItem   `protobuf:"bytes,1,opt,name=storyClear" json:"storyClear,omitempty"`
-	EventClear       []*EventClearInfo `protobuf:"bytes,2,rep,name=eventClear" json:"eventClear,omitempty"`
+	EventClear       []*StageClearItem `protobuf:"bytes,2,rep,name=eventClear" json:"eventClear,omitempty"`
 	XXX_unrecognized []byte            `json:"-"`
 }
 
@@ -3952,7 +3936,7 @@ func (m *QuestClearInfo) GetStoryClear() *StageClearItem {
 	return nil
 }
 
-func (m *QuestClearInfo) GetEventClear() []*EventClearInfo {
+func (m *QuestClearInfo) GetEventClear() []*StageClearItem {
 	if m != nil {
 		return m.EventClear
 	}
@@ -4337,19 +4321,20 @@ func (m *ReqAuthUser) GetTerminal() *TerminalInfo {
 }
 
 type RspAuthUser struct {
-	Header           *ProtoHeader   `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	User             *UserInfo      `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
-	Account          *AccountInfo   `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
-	Quest            *QuestLog      `protobuf:"bytes,4,opt,name=quest" json:"quest,omitempty"`
-	UnitList         []*UserUnit    `protobuf:"bytes,5,rep,name=unitList" json:"unitList,omitempty"`
-	Party            *PartyInfo     `protobuf:"bytes,6,opt,name=party" json:"party,omitempty"`
-	ServerTime       *uint32        `protobuf:"varint,7,opt,name=serverTime" json:"serverTime,omitempty"`
-	Login            *LoginInfo     `protobuf:"bytes,8,opt,name=login" json:"login,omitempty"`
-	Friends          []*FriendInfo  `protobuf:"bytes,9,rep,name=friends" json:"friends,omitempty"`
-	Present          []*PresentInfo `protobuf:"bytes,10,rep,name=present" json:"present,omitempty"`
-	EvolveType       *EUnitType     `protobuf:"varint,11,opt,name=evolveType,enum=bbproto.EUnitType" json:"evolveType,omitempty"`
-	IsNewUser        *int32         `protobuf:"varint,12,opt,name=isNewUser" json:"isNewUser,omitempty"`
-	XXX_unrecognized []byte         `json:"-"`
+	Header           *ProtoHeader    `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	User             *UserInfo       `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	Account          *AccountInfo    `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
+	Quest            *QuestLog       `protobuf:"bytes,4,opt,name=quest" json:"quest,omitempty"`
+	UnitList         []*UserUnit     `protobuf:"bytes,5,rep,name=unitList" json:"unitList,omitempty"`
+	Party            *PartyInfo      `protobuf:"bytes,6,opt,name=party" json:"party,omitempty"`
+	ServerTime       *uint32         `protobuf:"varint,7,opt,name=serverTime" json:"serverTime,omitempty"`
+	Login            *LoginInfo      `protobuf:"bytes,8,opt,name=login" json:"login,omitempty"`
+	Friends          []*FriendInfo   `protobuf:"bytes,9,rep,name=friends" json:"friends,omitempty"`
+	Present          []*PresentInfo  `protobuf:"bytes,10,rep,name=present" json:"present,omitempty"`
+	EvolveType       *EUnitType      `protobuf:"varint,11,opt,name=evolveType,enum=bbproto.EUnitType" json:"evolveType,omitempty"`
+	QuestClear       *QuestClearInfo `protobuf:"bytes,12,opt,name=questClear" json:"questClear,omitempty"`
+	IsNewUser        *int32          `protobuf:"varint,13,opt,name=isNewUser" json:"isNewUser,omitempty"`
+	XXX_unrecognized []byte          `json:"-"`
 }
 
 func (m *RspAuthUser) Reset()         { *m = RspAuthUser{} }
@@ -4431,6 +4416,13 @@ func (m *RspAuthUser) GetEvolveType() EUnitType {
 		return *m.EvolveType
 	}
 	return EUnitType_UALL
+}
+
+func (m *RspAuthUser) GetQuestClear() *QuestClearInfo {
+	if m != nil {
+		return m.QuestClear
+	}
+	return nil
 }
 
 func (m *RspAuthUser) GetIsNewUser() int32 {

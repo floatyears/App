@@ -20,6 +20,7 @@ import (
 	"model/friend"
 	"model/unit"
 	"model/user"
+	"model/quest"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -197,6 +198,9 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 		//rspMsg.Present = userDetail.Present
 
 	}
+
+	// get quest clear flag
+	rspMsg.QuestClear, e = quest.GetQuestClearFlag(db, userDetail)
 
 	//fill response
 	rspMsg.Account = userDetail.Account
