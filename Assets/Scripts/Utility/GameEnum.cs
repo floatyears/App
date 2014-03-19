@@ -187,6 +187,9 @@ public enum CommandEnum
     FriendExpansion                 = 4045,
     StaminaRecover                  = 4046,
     UnitExpansion                   = 4047,
+    RspFriendExpansion              = 4048,
+    RspStaminaRecover               = 4049,
+    RspUnitExpansion                = 4050,
 
 
 	//-----------------Server Protocol-----------------------//

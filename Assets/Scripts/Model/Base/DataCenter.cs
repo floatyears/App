@@ -56,6 +56,11 @@ public class DataCenter {
     public const int posEnd = 5;
     public const int minNeedCard = 2;
     public const int maxNeedCard = 5;
+    public const int maxFriendLimit = 200;
+    public const int maxUnitCount = 400;
+    public const int friendExpansionStone = 1;
+    public const int unitExpansionStone = 1;
+    public const int staminaRecoverStone = 1;
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 

@@ -70,12 +70,29 @@ public class TextCenter {
         textDict.Add("ConfirmRefreshFriend", "Are you sure to update friend list?");
 
         textDict.Add("FriendExpand", "Friend Max Expansion");
-        textDict.Add("ConfirmFriendExpansion", "Are you sure to user 1 coin to expand your friend limit?");
-
+        textDict.Add("ConfirmFriendExpansion", "Are you sure to use 1 coin to expand your friend limit?");
         textDict.Add("FriendExpansionInfo", "Now friends {0}/{1}");
         textDict.Add("DoFriendExpand", "Expand");
 
+        textDict.Add("StaminaRecover", "Recover your stamina");
+        textDict.Add("ConfirmStaminaRecover", "Are you sure to use 1 coin to make your stamina full?");
+        textDict.Add("DoStaminaRecover", "Recover");
 
+        textDict.Add("UnitExpansion", "Units count limit expand");
+        textDict.Add("ConfirmUnitExpansion", "Are you sure to use 1 coin to expand your unit limit?");
+        textDict.Add("DoUnitExpansion", "Expand");
+
+        textDict.Add("FriendExpansionFailed", "Friend Max Expansion Failed");
+        textDict.Add("FriendCountLimitReachedMax", "Now your friend limit has reached max.");
+        textDict.Add("FriendExpandStonesNotEnough", "Now your stone not enough to expand friend limit.");
+
+        textDict.Add("StaminaRecoverFailed", "Stamina Recovering Failed");
+        textDict.Add("StaminaStillFull", "Now your stamina still full, not need to recover it.");
+        textDict.Add("StaminaRecoverStonesNotEnough", "Now your stone not enough to recover stamina.");
+
+        textDict.Add("UnitExpansionFailed", "Unit Max Expansion Failed");
+        textDict.Add("UnitCountLimitReachedMax", "Now your unit limit has reached max.");
+        textDict.Add("UnitExpandStonesNotEnough", "Now your stone not enough to expand unit limit.");
 
     }
 }

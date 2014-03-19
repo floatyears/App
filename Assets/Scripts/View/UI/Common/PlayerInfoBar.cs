@@ -221,6 +221,10 @@ public class PlayerInfoBar : UIComponentUnity
 
 		// leiliang---------------------------------------------------------------
 		MsgCenter.Instance.AddListener(CommandEnum.ReqRenameNick, ChangeName);
+        MsgCenter.Instance.AddListener(CommandEnum.RspFriendExpansion, SyncChips);
+        MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncChips);
+        MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncStamina);
+        MsgCenter.Instance.AddListener(CommandEnum.RspUnitExpansion, SyncChips);
 	}
 	
 	void RemoveCommandListener()
@@ -229,6 +233,10 @@ public class PlayerInfoBar : UIComponentUnity
 
 		// leiliang---------------------------------------------------------------
 		MsgCenter.Instance.RemoveListener(CommandEnum.ReqRenameNick, ChangeName);
+        MsgCenter.Instance.RemoveListener(CommandEnum.RspFriendExpansion, SyncChips);
+        MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncChips);
+        MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncStamina);
+        MsgCenter.Instance.RemoveListener(CommandEnum.RspUnitExpansion, SyncChips);
 	}
 
 	void RequestData()
@@ -256,4 +264,16 @@ public class PlayerInfoBar : UIComponentUnity
 //			UIManager.Instance.ChangeScene(SceneEnum.Start);
 		}
 	}
+
+    void SyncChips(object args){
+        VChipCountLabel.text = DataCenter.Instance.AccountInfo.Stone.ToString();
+    }
+
+    void SyncStamina(object args){
+        int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
+        int staminaMax = DataCenter.Instance.UserInfo.StaminaMax;
+        VStamMaxLabel.text = staminaNow.ToString();
+        VStaminaNowLabel.text = staminaMax.ToString();
+        staminaSprite.fillAmount = CountFillCount(staminaNow, staminaMax);
+    }
 }
