@@ -6,24 +6,19 @@ public class UserBriefInfoLogic : ConcreteComponent
 
 	TUserUnit currentPickedUserUnit;
 
-	public UserBriefInfoLogic(string uiName):base(uiName)
-	{
-	}
+	public UserBriefInfoLogic(string uiName):base(uiName){}
 
-	public override void ShowUI()
-	{
+	public override void ShowUI(){
 		base.ShowUI();
 		AddEventListener();
 	}
 
-	public override void HideUI()
-	{
+	public override void HideUI(){
 		base.HideUI();
 		RemoveEventListener();
 	}
 
-	public override void Callback(object data)
-	{
+	public override void Callback(object data){
 		base.Callback(data);
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
@@ -70,10 +65,8 @@ public class UserBriefInfoLogic : ConcreteComponent
 		MsgCenter.Instance.RemoveListener(CommandEnum.FriendBriefInfoShow, ReceiveShowBriefRquest);
 	}
 
-	void ReceiveShowBriefRquest(object msg)
-	{
+	void ReceiveShowBriefRquest(object msg){
 		TFriendInfo tfi = msg as TFriendInfo;
-//		Debug.LogError ("ReceiveShowBriefRquest : " + tfi);
 		currentPickedUserUnit = tfi.UserUnit;
 		RefreshUnitInfo(tfi.UserUnit);
 		RefreshRank(tfi.Rank);
@@ -81,37 +74,15 @@ public class UserBriefInfoLogic : ConcreteComponent
 		RefreshLastLogin(tfi.LastPlayTime);
 	}
 
-//	void SupportExtraFeature(){
-//		SceneEnum current = UIManager.Instance.baseScene.CurrentScene;
-//		switch (current){
-//			case SceneEnum.FriendList : 
-//				SupportDeleteFriend(true);
-//				break;
-//			default:
-//				break;
-//		}
-//	}
-//
-//	void SupportDeleteFriend(bool support){
-//		if(support){
-//			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableDeleteFriend", null);
-//			ExcuteCallback(cbdArgs);
-//		}
-//		else{
-//
-//		}
-//	}
-
 	void RefreshUnitInfo(TUserUnit tuu)
 	{
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshUnitInfoView", tuu);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void RefreshLastLogin(uint hourCount)
+	void RefreshLastLogin(uint unixTime)
 	{
-		string text = hourCount.ToString();
-		TimeHelper.FormattedTimeNow();
+		string text = TimeHelper.GetLatestPlayTime(unixTime).ToString();
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshLastLogin", text);
 		ExcuteCallback(cbdArgs);
 	}

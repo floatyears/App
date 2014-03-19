@@ -225,10 +225,8 @@ public class FriendListView : UIComponentUnity
 		}
 	}
 
-	void UpdateStarSprite(List<UnitItemViewInfo> dataItemList)
-	{
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++)
-		{
+	void UpdateStarSprite(List<UnitItemViewInfo> dataItemList){
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem [i];
 			UISprite starSpr = scrollItem.transform.FindChild("StarMark").GetComponent<UISprite>();
 			if (dataItemList [i].IsCollected)
@@ -238,38 +236,31 @@ public class FriendListView : UIComponentUnity
 		}
 	}
 
-	void UpdateEventListener()
-	{
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++)
-		{
+	void UpdateEventListener(){
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem [i];
 			UIEventListenerCustom.Get(scrollItem).onClick = ClickItem;
 			UIEventListenerCustom.Get(scrollItem).LongPress = PressItem;
 		}
 	}
 
-	void ClickItem(GameObject item)
-	{
+	void ClickItem(GameObject item){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
 		ExcuteCallback(cbdArgs);
 	}
 
-	void PressItem(GameObject item)
-	{
+	void PressItem(GameObject item){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", dragPanel.ScrollItem.IndexOf(item));
 		ExcuteCallback(cbdArgs);
 	}
 
-	void DestoryDragView(object args)
-	{
+	void DestoryDragView(object args){
 		crossShowLabelList.Clear();
 		friendViewInfoList.Clear();
-		crossShowLabelList.Clear();
-		
+
 		foreach (var item in dragPanel.ScrollItem)
-		{
 			GameObject.Destroy(item);
-		}
+
 		dragPanel.ScrollItem.Clear();
 		GameObject.Destroy(dragPanel.DragPanelView.gameObject);
 	}

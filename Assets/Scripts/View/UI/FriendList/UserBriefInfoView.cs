@@ -91,11 +91,11 @@ public class UserBriefInfoView : UIComponentUnity
 			Main.Instance.NguiCamera.eventReceiverMask = originLayer;
 	}
 	
-	void Choose(GameObject btn)
-	{
+	void Choose(GameObject btn){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Choose", null);
 		ExcuteCallback(cbdArgs);
 		ShowSelf(false);
+
 	}
 	
 	void ViewInfo(GameObject btn)
@@ -116,8 +116,7 @@ public class UserBriefInfoView : UIComponentUnity
 		base.Callback(data);
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName)
-		{
+		switch (cbdArgs.funcName){
 			case "RefreshUnitInfoView": 
 				ShowSelf(true);
 				CallBackDispatcherHelper.DispatchCallBack(RefreshUnitInfoView, cbdArgs);
@@ -137,8 +136,20 @@ public class UserBriefInfoView : UIComponentUnity
 			case "EnableDeleteFriend": 
 				CallBackDispatcherHelper.DispatchCallBack(EnableDeleteFriend, cbdArgs);
 				break;
+//			case "Stylize": 
+//				CallBackDispatcherHelper.DispatchCallBack(Stylize, cbdArgs);
+//				break;
+
 			default:
 				break;
+		}
+	}
+
+
+	void Stylize(object args){
+		Dictionary<string,string> stylizeArgs = args as Dictionary<string,string>;
+		if(stylizeArgs.ContainsKey("ButtonTop")){
+			buttonChoose.transform.FindChild("Label").GetComponent<UILabel>().text = stylizeArgs["Button_Choose"];
 		}
 	}
 
@@ -169,9 +180,8 @@ public class UserBriefInfoView : UIComponentUnity
 		avatarTex.mainTexture = tuu.UnitInfo.GetAsset(UnitAssetType.Avatar);
 	}
 
-	void RefreshLastLogin(object args)
-	{
-		lastLoginLabel.text = "Last Login Time : " + args as string;
+	void RefreshLastLogin(object args){
+		lastLoginLabel.text = args as string;
 	}
 
 	void RefreshRank(object args)

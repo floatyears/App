@@ -57,8 +57,8 @@ public class EvolveFriendUnity : LevelUpFriendWindow {
 
 	
 	void UnitDisplayState (object data) {
-		EvolveState es = (EvolveState)data;
-		if (es != EvolveState.FriendState) {
+		int es = (int)data;
+		if (es != 5) {
 			ClearData ();
 			if (gameObject.activeSelf) {
 				gameObject.SetActive (false);	

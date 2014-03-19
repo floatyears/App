@@ -181,6 +181,12 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 
+	public int DevourExp {
+		get {
+			return instance.devourValue;
+		}
+	}
+
 	private Texture2D avatarTexture;
 	private Texture2D profileTexture;
 	
@@ -191,9 +197,8 @@ public class TUnitInfo : ProtobufDataBase {
 			if (avatarTexture == null) {
 				path = string.Format ("Avatar/{0}_1", ID);
 				avatarTexture = Resources.Load (path) as Texture2D;
-//				Debug.LogError(avatarTexture + " path : " + path);
 			}
-			return avatarTexture;	
+			return avatarTexture;
 		} 
 		else  {
 			if(profileTexture == null) {
@@ -206,29 +211,12 @@ public class TUnitInfo : ProtobufDataBase {
 	}
 	
 	public void Send () {
-		
-//		HttpNetBase hnb = new HttpNetBase ();
-//		hnb.Url = "aaa";
-//		WWWForm wf = new WWWForm ();
-//		//		hnb.WwwInfo = new WWW (hnb.Url, wf);
-//		hnb.Send (this,wf);
 	}
 	
 	public void Receive (IWWWPost post) {
 		
 	}
-	
 
 	public void SerialToFile () {
-//		byte[] unitinfo = SerializeObject<UnitInfo> (instance);
-////		Debug.LogError (unitinfo.Length);
-//		FileStream fs = new FileStream (("/Users/leiliang/Desktop/protobuf-unitinfo/" + instance.id), FileMode.OpenOrCreate, FileAccess.Write);
-//		fs.Write (unitinfo, 0, unitinfo.Length);
-//		fs.Close ();
-////		StreamWriter sw = new StreamWriter (("/Users/leiliang/Desktop/protobuf-unitinfo/" + instance.id), false);
-////		sw.Write (unitinfo);
-////		sw.Close ();
 	}
-
-
 }

@@ -149,7 +149,13 @@ public class LevelUpBasePanel : UIComponentUnity {
 		if (data == null) {
 			ShieldParty(false);
 			if(baseSelectItem != null) {
-				baseSelectItem.stateLabel.text = "";
+				if(partyItem.Contains(baseSelectItem)) {
+					baseSelectItem.stateLabel.text = "Party";
+				}
+				else{
+					baseSelectItem.stateLabel.text = "";
+				}
+
 				baseSelectItem = null;
 			}
 		} else {
@@ -209,9 +215,13 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 	void DisposeBaseClick(UnitItemInfo uui) {
 		bool first = baseSelectItem != null;
-
 		if (first && !baseSelectItem.Equals(uui)) {
 			return;	
+		}
+		UnitItemInfo temp = selectMaterial.Find (a => a.userUnitItem.ID == uui.userUnitItem.ID);
+		if (temp != default(UnitItemInfo)) {
+			Debug.LogError("temp : " + temp.userUnitItem.ID);
+			return;		
 		}
 
 		if (!uui.isSelect) {
@@ -227,7 +237,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 	
 	void ShowMask( GameObject target, bool canMask) {
 		GameObject maskSpr = target.transform.FindChild("Mask").gameObject;
-//		Debug.LogError (target.name + "```" + maskSpr);
 		maskSpr.gameObject.SetActive( canMask );
 	}
 
@@ -300,6 +309,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 					int indexTwo = partyItem.FindIndex(a=>a.userUnitItem.ID == uii.userUnitItem.ID);
 					if(indexTwo == -1) {
 						partyItem.Add(uii);
+						uii.stateLabel.text = "Party";
 					}
 				}
 			}else{

@@ -137,6 +137,7 @@ public enum CommandEnum
 	UnitDisplayBaseData			= 3055,
 	UnitDisplayMaterialData		= 3056,
 	EvolveFriend				= 3057,
+	UnitMaterialList 			= 3058,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -190,8 +191,8 @@ public enum CommandEnum
     RspFriendExpansion              = 4048,
     RspStaminaRecover               = 4049,
     RspUnitExpansion                = 4050,
-
-
+	AddHelperItem				= 4051,
+	ChooseHelper					= 4052,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

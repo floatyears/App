@@ -30,6 +30,7 @@ public enum ModelEnum {
     HaveCard,
     ItemObject,
 
+	CityInfo,
 }
 
 public enum Effect {
@@ -193,6 +194,18 @@ public class DataCenter {
         set { setData(ModelEnum.UnitBaseInfo, value); } 
     }
 
+	public Dictionary<uint, TCityInfo> CityInfo {
+		get {
+			Dictionary<uint, TCityInfo> ret = getData(ModelEnum.CityInfo) as Dictionary<uint, TCityInfo>;
+			if (ret == null) {
+				ret = new Dictionary<uint, TCityInfo>();
+				setData(ModelEnum.CityInfo, ret);
+			}
+			return ret;
+		}
+		set { setData(ModelEnum.UnitBaseInfo, value); }
+	}
+
     public Dictionary<uint, TrapBase> TrapInfo {
         get { 
             Dictionary<uint, TrapBase> ret = getData(ModelEnum.TrapInfo) as Dictionary<uint, TrapBase>;
@@ -336,9 +349,7 @@ public class DataCenter {
             return tui;
         }
         else {
-
 			TUnitInfo tui = DGTools.LoadUnitInfoProtobuf(unitID);
-//			Debug.LogError(unitID + " " + tui + "    " + tui.Type);
 			if(tui == null) {
 				Debug.LogError("uintid : " + unitID + " is invalid");
 				return null;
@@ -348,6 +359,22 @@ public class DataCenter {
         }
     }
 
+	public TCityInfo GetCityInfo (uint cityID) {
+		if (CityInfo.ContainsKey(cityID)) {
+			TCityInfo tui = CityInfo[cityID];
+			return tui;
+		}
+		else {
+			
+			TCityInfo tui = DGTools.LoadCityInfo(cityID);
+			if(tui == null) {
+				Debug.LogError("city id : " + cityID + " is invalid");
+				return null;
+			}
+			CityInfo.Add(tui.ID,tui);
+			return tui;
+		}
+	}
 
     
     private void setData(ModelEnum modelType, object modelData) {

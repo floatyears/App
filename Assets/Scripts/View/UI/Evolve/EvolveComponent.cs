@@ -43,7 +43,6 @@ public class EvolveComponent : ConcreteComponent {
 		if (data == null) {
 			return;	
 		}
-//		Debug.LogError("select : " + Time.realtimeSinceStartup);
 		TransferData.Clear ();
 		TransferData.Add(EvolveDecoratorUnity.BaseData, data);
 
@@ -53,8 +52,7 @@ public class EvolveComponent : ConcreteComponent {
 	public static uint GetEvolveQuestID(bbproto.EUnitType unitType, int  unitRare) {
 		return EvolveComponent.GetEvolveQuestID(unitRare, EvolveComponent.GetEvolveStageID(unitType, unitRare));
 	}
-
-
+	
 	static uint GetEvolveStageID (bbproto.EUnitType unitType, int  unitRare) {
 		uint stageID = 0;
 		if (unitRare > 6) {
@@ -68,16 +66,16 @@ public class EvolveComponent : ConcreteComponent {
 		case bbproto.EUnitType.UFIRE : 
 			stageID = 2;
 			break;
-		case bbproto.EUnitType.UWATER:
+		case bbproto.EUnitType.UWATER :
 			stageID = 3;
 			break;
-		case bbproto.EUnitType.ULIGHT:
+		case bbproto.EUnitType.ULIGHT :
 			stageID = 4;
 			break;
-		case bbproto.EUnitType.UDARK:
+		case bbproto.EUnitType.UDARK :
 			stageID = 5;
 			break;
-		case bbproto.EUnitType.UNONE:
+		case bbproto.EUnitType.UNONE :
 			stageID = 6;
 			break;
 		default:

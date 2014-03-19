@@ -277,7 +277,7 @@ public class UnitsDecorator : DecoratorBase
 
 		UnitsComponent units = CreatComponent< UnitsComponent >(UIConfig.unitsWindowName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-		PartyPageLogic partyPage = CreatComponent<PartyPageLogic>(UIConfig.partyPagePanelName);
+		UnitPartyPage partyPage = CreatComponent<UnitPartyPage>(UIConfig.partyPagePanelName);
 
 		partyInfo.SetComponent(sceneInfoBar);
 		partyPage.SetComponent(partyInfo);
@@ -358,11 +358,13 @@ public class FriendSelectDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 		
-		FriendSupportLogic friendSelect = CreatComponent< FriendSupportLogic >(UIConfig.friendSelectWindowName);
+		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
 
 		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 
-		PartyPageLogic page = CreatComponent<PartyPageLogic>(UIConfig.partyPagePanelName);
+		QuestPartyPage page = CreatComponent<QuestPartyPage>(UIConfig.partyPagePanelName);
+
+		FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
 
 		infoPanel.SetComponent(sceneInfoBar);
 
@@ -370,7 +372,9 @@ public class FriendSelectDecorator : DecoratorBase
 
 		friendSelect.SetComponent(page);
 
-		lastDecorator = friendSelect;
+		helperBriefInfo.SetComponent(friendSelect);
+
+		lastDecorator = helperBriefInfo;
 		lastDecorator.CreatUI();
 		
 	}
@@ -406,7 +410,7 @@ public class PartyDecorator : DecoratorBase
 		sceneInfoBar.SetComponent(decorator);
 
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-		PartyPageLogic partyPage = CreatComponent<PartyPageLogic>(UIConfig.partyPagePanelName);
+		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.partyPagePanelName);
 		PartyUnitsLogic dragPanel = CreatComponent<PartyUnitsLogic>(UIConfig.partyDragPanelName);
 	
 		partyInfo.SetComponent(sceneInfoBar);

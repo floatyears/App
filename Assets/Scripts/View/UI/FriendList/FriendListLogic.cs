@@ -2,15 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class FriendListLogic : ConcreteComponent
-{
+public class FriendListLogic : ConcreteComponent{
 	TFriendInfo currentFriendPicked;
 	List<UnitItemViewInfo> friendUnitItemViewList = new List<UnitItemViewInfo>();
 	List<string> friendNickNameList = new List<string>();
 
-	public FriendListLogic(string uiName) : base( uiName )
-	{
-	}
+	public FriendListLogic(string uiName) : base( uiName ){}
 
 	public override void ShowUI()
 	{
@@ -143,11 +140,11 @@ public class FriendListLogic : ConcreteComponent
 				return DataCenter.Instance.FriendList.Friend;
 				break;
 			case SceneEnum.Apply: 
-				Debug.Log("CurrentFriendListData() friendIn Count {1}" + DataCenter.Instance.FriendList.FriendIn.Count); 
+				Debug.Log("CurrentFriendListData() friendIn Count {1}" + DataCenter.Instance.FriendList.FriendOut.Count); 
 				return DataCenter.Instance.FriendList.FriendOut;
 				break;
 			case SceneEnum.Reception: 
-				Debug.Log("CurrentFriendListData() friendOut Count {2}" + DataCenter.Instance.FriendList.FriendOut.Count); 
+				Debug.Log("CurrentFriendListData() friendOut Count {2}" + DataCenter.Instance.FriendList.FriendIn.Count); 
 				return DataCenter.Instance.FriendList.FriendIn;
 				break;
 			
@@ -313,8 +310,7 @@ public class FriendListLogic : ConcreteComponent
 		friendUnitItemViewList.Clear();
 		//Then, get the newest from DataCenter
 		List<TUserUnit> unitList = GetFriendUnitItemList();
-		if (unitList == null)
-		{
+		if (unitList == null){
 			LogHelper.LogError("GetFriendUnitItemViewList GetUnitList return null.");
 			return;
 		}
@@ -342,12 +338,8 @@ public class FriendListLogic : ConcreteComponent
 		LogHelper.LogError("GetFriendUnitItemViewList() CurrentFriendListData().Count {0}", CurrentFriendListData().Count);
 
 		for (int i = 0; i < CurrentFriendListData().Count; i++)
-		{
-//			LogHelper.LogError("Global.friends:i={0}, friends:{1} fUserId:{2}", i, DataCenter.Instance.FriendList[ i ],DataCenter.Instance.FriendList[ i ].UserId);
-			//LogHelper.LogError("Global.friends:i={0}, friends.UserUnit:{1}", i, CurrentFriendListData() [i].UserUnit);
-			tuuList.Add(CurrentFriendListData() [i].UserUnit);
-		}
-
+			tuuList.Add(CurrentFriendListData() [ i ].UserUnit);
+	
 		return tuuList;
 	}
 
@@ -360,8 +352,7 @@ public class FriendListLogic : ConcreteComponent
 		}
 
 		List<string> nameList = new List<string>();
-		for (int i = 0; i < CurrentFriendListData().Count; i++)
-		{
+		for (int i = 0; i < CurrentFriendListData().Count; i++){
 			nameList.Add(CurrentFriendListData() [i].NickName);
 		}
 
