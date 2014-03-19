@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class QuestSelectComponent : ConcreteComponent{
+	TStageInfo currentStageInfo;
 	public QuestSelectComponent(string uiName):base(uiName){}
 	
 	public override void CreatUI(){
@@ -25,8 +26,8 @@ public class QuestSelectComponent : ConcreteComponent{
 	}
 
 	void SelectedStage(object data) {
-		TStageInfo tsi = data as TStageInfo;
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateQuestList", tsi);
+		currentStageInfo = data as TStageInfo;
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateQuestList", currentStageInfo);
 		ExcuteCallback(cbdArgs);
 	}
 
@@ -39,10 +40,24 @@ public class QuestSelectComponent : ConcreteComponent{
 			case "ClickFriendSelect" : 
 				CallBackDispatcherHelper.DispatchCallBack(TurnToFriendSelect, cbdArgs);
 				break;
+			case "ClickQuestItem" : 
+				CallBackDispatcherHelper.DispatchCallBack(ShowQuestInfo, cbdArgs);
+				break;
  			default:
 				break;
 		}
 	}
+
+	void ShowQuestInfo(object args){
+		int index = (int)args;
+		Dictionary<string, object> info = new Dictionary<string, object>();
+		info.Add("position", index);
+		info.Add("data", currentStageInfo);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowInfoPanel",  info);
+		ExcuteCallback(cbdArgs);
+		Debug.LogError("ShowQuestInfo(), index is " + index);
+	}
+
 
 	void TurnToFriendSelect(object args){
 		//change scene to friendSelect
