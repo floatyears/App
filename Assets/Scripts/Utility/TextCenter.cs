@@ -78,7 +78,7 @@ public class TextCenter {
         textDict.Add("ConfirmStaminaRecover", "Are you sure to use 1 coin to make your stamina full?");
         textDict.Add("DoStaminaRecover", "Recover");
 
-        textDict.Add("UnitExpansion", "Units count limit expand");
+        textDict.Add("UnitExpand", "Units count limit expand");
         textDict.Add("ConfirmUnitExpansion", "Are you sure to use 1 coin to expand your unit limit?");
         textDict.Add("UnitExpansionInfo", "Now Units {0}/{1}");
         textDict.Add("DoUnitExpansion", "Expand");
