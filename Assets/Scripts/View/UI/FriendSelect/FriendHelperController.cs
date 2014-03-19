@@ -62,22 +62,12 @@ public class FriendHelperController : ConcreteComponent{
 
 	void GetSupportFriendInfoList(){
 		supportFriendViewList.Clear();
-//		List<TUserUnit> unitList = GetSupportFriendList();
-//		if (unitList == null){
-//			LogHelper.LogError("GetFriendUnitItemViewList GetUnitList return null.");
-//			return;
-//		}
-
 		List<TFriendInfo> helperList = DataCenter.Instance.SupportFriends;
-
-//		LogHelper.Log("FriendListLogic.GetFriendUnitItemViewList(), unitList Count is : " + unitList.Count);
-		
+				
 		for (int i = 0; i < helperList.Count; i++){
 			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(helperList[ i ]);
 			supportFriendViewList.Add(viewItem);
 		}
-		
-		LogHelper.Log("FriendListLogic.GetFriendUnitItemViewList(), ViewItem Count is : " + supportFriendViewList.Count);
 	}
 
 
