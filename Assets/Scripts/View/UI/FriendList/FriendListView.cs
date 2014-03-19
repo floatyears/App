@@ -59,7 +59,6 @@ public class FriendListView : UIComponentUnity
 			case "EnableUpdateButton": 
 				CallBackDispatcherHelper.DispatchCallBack(EnableUpdateButton, cbdArgs);
 				break;
-				break;
 			case "EnableRefuseButton": 
 				CallBackDispatcherHelper.DispatchCallBack(EnableRefuseButton, cbdArgs);
 				break;

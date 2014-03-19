@@ -38,7 +38,7 @@ public class StartDecorator : DecoratorBase
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
 		tipsBar.SetComponent(playerInfoBar);
 
-		CommonNoteLogic noteWindow = CreatComponent<CommonNoteLogic>(UIConfig.commonNoteWindowName);
+        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
 		noteWindow.SetComponent(tipsBar);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
