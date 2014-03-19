@@ -74,6 +74,7 @@ public class EvolveFriendUnity : LevelUpFriendWindow {
 		int level = hr.level;
 		EUnitRace race = hr.race;
 		EUnitType type = hr.type;
+		Debug.LogError ("level : " + level + " race : " + race + " type : " + type);
 		if (level == 0) {
 			levelLabel.text = "-";	
 		} else {

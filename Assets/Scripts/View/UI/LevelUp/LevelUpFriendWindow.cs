@@ -12,13 +12,11 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
     public override void Init(UIInsConfig config, IUICallback origin) {
         base.Init(config, origin);
-
         InitUI();
     }
 
     public override void ShowUI() {
         base.ShowUI();
-//		Debug.LogError("levelup friend window ShowUI");
         MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, FocusOnPanel);
     }
 
