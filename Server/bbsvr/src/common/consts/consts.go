@@ -25,6 +25,7 @@ const (
 
 
 	//quest
+	X_QUEST_CITY  = "X_CITY_"
 	X_QUEST_STAGE  = "X_STAGE_"
 	X_QUEST_CONFIG = "X_CONFIG_"
 	X_QUEST_LOG    = "X_Q_LOG_"

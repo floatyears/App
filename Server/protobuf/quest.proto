@@ -170,6 +170,12 @@ enum QuestBoostType {
 	QB_BOOST_DROPPLUS	= 4;
 }
 
+enum QuestType {
+	E_QUEST_STORY		= 0;
+	E_QUEST_EVENT		= 1;
+	E_QUEST_EVOLVE		= 2;
+}
+
 message QuestBoost {
 	optional QuestBoostType	type	= 1; //money , exp , dropRate, drop+
 	optional int32			value	= 2; //2, 3...
@@ -193,7 +199,7 @@ message StageInfo {
 	optional int32			version		= 1;
 	optional uint32			id			= 2;	
 	optional EQuestState	state		= 3; // CLEAR or NEW
-	optional int32			type		= 4; // story or event
+	optional QuestType		type		= 4; // 0=story  1=event 2=evolve
 	optional string			stageName	= 5; //
 	optional string			description	= 6; //	 
 	optional uint32			startTime	= 7;	
@@ -261,6 +267,15 @@ message RspClearQuest {
 	optional int32			gotStone		= 11;
 	optional int32			gotFriendPoint	= 12;
 	repeated UserUnit		gotUnit			= 13; //with uniqueId 
+}
+
+message ReqRetireQuest {
+	optional ProtoHeader	header 			= 1;
+	optional uint32			questId			= 2; // 
+}
+
+message RspRetireQuest {
+	optional ProtoHeader 	header 			= 1;
 }
 
 message ReqGetQuestInfo {

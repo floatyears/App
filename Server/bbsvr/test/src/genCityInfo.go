@@ -23,6 +23,12 @@ import (
 	//redis "github.com/garyburd/redigo/redis"
 )
 
+const (
+	QUEST_STORY  = 0
+	QUEST_EVENT  = 1
+	QUEST_EVOLVE = 2
+)
+
 func DataAddQuestConfig(questId uint32) error {
 
 	conf := &bbproto.QuestConfig{}
@@ -192,13 +198,7 @@ func DataAddQuestConfig(questId uint32) error {
 	return err
 }
 
-func DataAddStageInfo(stageId uint32, stageName string) (stageInfo *bbproto.StageInfo, err error) {
-	db := &data.Data{}
-	err = db.Open(string(consts.TABLE_QUEST))
-	if err != nil {
-		return nil, err
-	}
-	defer db.Close()
+func DataAddStageInfo(db *data.Data, stageId uint32, stageName string, stageType bbproto.QuestType) (stageInfo *bbproto.StageInfo, err error) {
 
 	state := bbproto.EQuestState_QS_NEW
 
@@ -206,7 +206,7 @@ func DataAddStageInfo(stageId uint32, stageName string) (stageInfo *bbproto.Stag
 	stageInfo.Version = proto.Int(1)
 	stageInfo.Id = proto.Uint32(stageId)
 	stageInfo.State = &state
-	stageInfo.Type = proto.Int(1) // story or event
+	stageInfo.Type = &stageType // story or event
 	stageInfo.StageName = proto.String(stageName)
 	stageInfo.Description = proto.String("it is :" + stageName)
 	stageInfo.StartTime = proto.Uint32(0)
@@ -327,9 +327,15 @@ func StartQuest(uid uint32, stageId uint32, questId uint32, helperUid uint32) er
 }
 
 func DataAddEvolveCity() (err error) {
+	db := &data.Data{}
+	err = db.Open(string(consts.TABLE_QUEST))
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
 	CITY_ID := uint32(100)
 	evolveCity := &bbproto.CityInfo{}
-	//evolveCity.Pos = proto.Int32(100)
 	evolveCity.Id = proto.Uint32(CITY_ID)
 	evolveCity.CityName = proto.String("EvolveCity")
 
@@ -338,15 +344,15 @@ func DataAddEvolveCity() (err error) {
 	stageNames := []string{"Wind", "Fire", "Water", "Light", "Dark", "NONE"}
 
 	for k := uint32(0); k < stageNum; k++ {
-		stageId := uint32(CITY_ID + k + 1)
-		stage, err := DataAddStageInfo(stageId, "Evolve "+stageNames[k]+" Stage")
+		stageId := uint32(CITY_ID*10 + k + 1)
+		stage, err := DataAddStageInfo(db, stageId, "Evolve "+stageNames[k]+" Stage", QUEST_EVOLVE)
 		if err != nil {
 			return err
 		}
 		evolveCity.Stages = append(evolveCity.Stages, stage)
 
 		//Add Quest Config
-		for questId := uint32(CITY_ID*stageId + 1); questId <= (CITY_ID*stageId + questNum); questId++ {
+		for questId := uint32(stageId*10 + 1); questId <= (stageId*10 + questNum); questId++ {
 			log.T("Add Quest Config for stageId:%v questId:%v", stageId, questId)
 			DataAddQuestConfig(questId)
 		}
@@ -356,6 +362,13 @@ func DataAddEvolveCity() (err error) {
 	zCityData, err := proto.Marshal(evolveCity)
 	if err != nil {
 		log.Error("marshal error.")
+		return err
+	}
+
+	//TODO: slim zCityData.stages to only have satgeId
+	err = db.Set(consts.X_QUEST_CITY+common.Utoa(*evolveCity.Id), zCityData)
+	if err != nil {
+		log.Error("db.set X_QUEST_CITY error.")
 		return err
 	}
 
@@ -369,6 +382,13 @@ func DataAddEvolveCity() (err error) {
 }
 
 func DataAddPrisonCity() (err error) {
+	db := &data.Data{}
+	err = db.Open(string(consts.TABLE_QUEST))
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
 	CITY_ID := uint32(1)
 	city := &bbproto.CityInfo{}
 	//city.Pos = proto.Int32(1)
@@ -380,15 +400,15 @@ func DataAddPrisonCity() (err error) {
 	stageNames := []string{"One", "Two", "Three", "Four", "Five", "Six", "Seven"}
 
 	for k := uint32(0); k < stageNum; k++ {
-		stageId := CITY_ID + k + 1
-		stage, err := DataAddStageInfo(stageId, "Prison "+stageNames[k])
+		stageId := CITY_ID*10 + k + 1
+		stage, err := DataAddStageInfo(db, stageId, "Prison "+stageNames[k], QUEST_STORY)
 		if err != nil {
 			return err
 		}
 		city.Stages = append(city.Stages, stage)
 
 		//Add Quest Config
-		for questId := uint32(CITY_ID*stageId + 1); questId <= CITY_ID*stageId+questNum; questId++ {
+		for questId := uint32(stageId*10 + 1); questId <= stageId*10+questNum; questId++ {
 			log.T("Add Quest Config for stageId:%v questId:%v", stageId, questId)
 			DataAddQuestConfig(questId)
 		}
@@ -398,6 +418,13 @@ func DataAddPrisonCity() (err error) {
 	zCityData, err := proto.Marshal(city)
 	if err != nil {
 		log.Error("marshal error.")
+		return err
+	}
+
+	//TODO: slim zCityData.stages to only have satgeId
+	err = db.Set(consts.X_QUEST_CITY+common.Utoa(*city.Id), zCityData)
+	if err != nil {
+		log.Error("db.set X_QUEST_CITY error.")
 		return err
 	}
 
@@ -415,9 +442,6 @@ func main() {
 	log.Printf("bbsvr test client begin...")
 
 	Init()
-	//DataAddStageInfo(11, "Fire City")
-	//DataAddStageInfo(12, "Water City")
-	//DataAddStageInfo(13, "Win City")
 	//for stage := uint32(11); stage <= 13; stage++ {
 	//	for questId := uint32(100*stage + 1); questId <= 100*stage+5; questId++ {
 	//		DataAddQuestConfig(questId)

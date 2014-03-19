@@ -6,16 +6,17 @@ package bbproto;
 message UserInfo {
 	optional string		uuid				= 1;
 	optional uint32		userId				= 2;
-	optional string		nickName			= 3;
-	optional int32		rank				= 4;
-	optional int32		exp					= 5;
-	optional int32		staminaNow			= 6;
-	optional int32		staminaMax			= 7;
-	optional uint32		staminaRecover		= 8; //recover time
-	optional int32		friendMax			= 9;
-	optional int32		unitMax				= 10;
-	optional int32		costMax				= 11;	
-	optional UserUnit	unit				= 12; //leader unit	
+	optional string		password			= 3;
+	optional string		nickName			= 4;
+	optional int32		rank				= 5;
+	optional int32		exp					= 6;
+	optional int32		staminaNow			= 7;
+	optional int32		staminaMax			= 8;
+	optional uint32		staminaRecover		= 9; //recover time
+	optional int32		friendMax			= 10;
+	optional int32		unitMax				= 11;
+	optional int32		costMax				= 12;	
+	optional UserUnit	unit				= 13; //leader unit	
 }
 
 message UserInfoDetail {
@@ -25,28 +26,44 @@ message UserInfoDetail {
 	repeated UserUnit		unitList			= 4;
 	optional PartyInfo		party				= 5;
 	optional LoginInfo		login				= 6;
+	optional QuestClearInfo	questClear			= 7;
 }
 
 message AccountInfo {
-	optional int32	review				= 1;
-	optional int32	payTotal			= 2;
-	optional int32	payMonth			= 3;
-	optional int32	money				= 4;
-	optional int32	stonePay			= 5;
-	optional int32	stoneFree			= 6;
-	optional int32	stone				= 7;
-	optional int32	friendPoint			= 8;
-	optional int32	firstSelectNum		= 9;
+	optional int32	review						= 1;
+	optional int32	payTotal					= 2;
+	optional int32	payMonth					= 3;
+	optional int32	money						= 4;
+	optional int32	stonePay					= 5;
+	optional int32	stoneFree					= 6;
+	optional int32	stone						= 7;
+	optional int32	friendPoint					= 8;
+	optional int32	firstSelectNum				= 9;
+}
+
+message StageClearItem {
+	optional uint32	stageId						= 1;
+	optional uint32	questId						= 2;
+}
+
+message EventClearInfo {
+	optional uint32				cityId			= 1;
+	repeated StageClearItem 	clearStage		= 2;
+}
+
+message QuestClearInfo {
+	optional StageClearItem	storyClear			= 1;
+	repeated EventClearInfo	eventClear			= 2;
 }
 
 message PartyItem {
-	optional int32 unitPos				= 1;
-	optional uint32 unitUniqueId		= 2;
+	optional int32 unitPos						= 1;
+	optional uint32 unitUniqueId				= 2;
 }
 
 message UnitParty {
-    optional int32      id				= 1;
-	repeated PartyItem  items			= 2;
+    optional int32      id						= 1;
+	repeated PartyItem  items					= 2;
 }
 
 message PartyInfo {

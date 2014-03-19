@@ -195,13 +195,15 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 		return e
 	}
 
-	if _, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo); e.IsError() {
+	_, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo)
+	if e.IsError() {
 		return e
 	} else if lastNotClear {
 		gotStone = 1
-		if e = quest.SetQuestCleared(db, uid, stageId, questId); e.IsError() {
-			return e
-		}
+	}
+
+	if e = quest.SetQuestCleared(db, userDetail, stageId, questId, stageInfo, lastNotClear); e.IsError() {
+		return e
 	}
 
 	//8. update userinfo

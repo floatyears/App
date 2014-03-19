@@ -125,13 +125,15 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 		return e
 	}
 
-	if _, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo); e.IsError() {
+	_, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo)
+	if e.IsError() {
 		return e
 	} else if lastNotClear {
 		gotStone = 1
-		if e = quest.SetQuestCleared(db, uid, stageId, questId); e.IsError() {
-			return e
-		}
+	}
+
+	if e = quest.SetQuestCleared(db, userDetail, stageId, questId, stageInfo, lastNotClear); e.IsError() {
+		return e
 	}
 
 	//3. update questPlayRecord (also add dropUnits to user.UnitList)

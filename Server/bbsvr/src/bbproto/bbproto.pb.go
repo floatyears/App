@@ -376,6 +376,42 @@ func (x *QuestBoostType) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type QuestType int32
+
+const (
+	QuestType_E_QUEST_STORY  QuestType = 0
+	QuestType_E_QUEST_EVENT  QuestType = 1
+	QuestType_E_QUEST_EVOLVE QuestType = 2
+)
+
+var QuestType_name = map[int32]string{
+	0: "E_QUEST_STORY",
+	1: "E_QUEST_EVENT",
+	2: "E_QUEST_EVOLVE",
+}
+var QuestType_value = map[string]int32{
+	"E_QUEST_STORY":  0,
+	"E_QUEST_EVENT":  1,
+	"E_QUEST_EVOLVE": 2,
+}
+
+func (x QuestType) Enum() *QuestType {
+	p := new(QuestType)
+	*p = x
+	return p
+}
+func (x QuestType) String() string {
+	return proto.EnumName(QuestType_name, int32(x))
+}
+func (x *QuestType) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(QuestType_value, data, "QuestType")
+	if err != nil {
+		return err
+	}
+	*x = QuestType(value)
+	return nil
+}
+
 type EUnitGetWay int32
 
 const (
@@ -462,6 +498,7 @@ type ProtoHeader struct {
 	PacketId         *int32  `protobuf:"varint,4,opt,name=packetId" json:"packetId,omitempty"`
 	Code             *int32  `protobuf:"varint,5,opt,name=code" json:"code,omitempty"`
 	Error            *string `protobuf:"bytes,6,opt,name=error" json:"error,omitempty"`
+	ExtraTag         *int32  `protobuf:"varint,7,opt,name=extraTag" json:"extraTag,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -509,6 +546,13 @@ func (m *ProtoHeader) GetError() string {
 		return *m.Error
 	}
 	return ""
+}
+
+func (m *ProtoHeader) GetExtraTag() int32 {
+	if m != nil && m.ExtraTag != nil {
+		return *m.ExtraTag
+	}
+	return 0
 }
 
 type FriendData struct {
@@ -902,6 +946,64 @@ func (m *RspAcceptFriend) GetHeader() *ProtoHeader {
 }
 
 func (m *RspAcceptFriend) GetFriends() *FriendList {
+	if m != nil {
+		return m.Friends
+	}
+	return nil
+}
+
+// -------------------------------------------------
+// used for LevelUp helper
+type ReqGetPremiumHelper struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Race             *EUnitRace   `protobuf:"varint,2,opt,name=race,enum=bbproto.EUnitRace" json:"race,omitempty"`
+	Type             *EUnitType   `protobuf:"varint,3,opt,name=type,enum=bbproto.EUnitType" json:"type,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqGetPremiumHelper) Reset()         { *m = ReqGetPremiumHelper{} }
+func (m *ReqGetPremiumHelper) String() string { return proto.CompactTextString(m) }
+func (*ReqGetPremiumHelper) ProtoMessage()    {}
+
+func (m *ReqGetPremiumHelper) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqGetPremiumHelper) GetRace() EUnitRace {
+	if m != nil && m.Race != nil {
+		return *m.Race
+	}
+	return EUnitRace_ALL
+}
+
+func (m *ReqGetPremiumHelper) GetType() EUnitType {
+	if m != nil && m.Type != nil {
+		return *m.Type
+	}
+	return EUnitType_UALL
+}
+
+type RspGetPremiumHelper struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	Friends          *FriendList  `protobuf:"bytes,2,opt,name=friends" json:"friends,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspGetPremiumHelper) Reset()         { *m = RspGetPremiumHelper{} }
+func (m *RspGetPremiumHelper) String() string { return proto.CompactTextString(m) }
+func (*RspGetPremiumHelper) ProtoMessage()    {}
+
+func (m *RspGetPremiumHelper) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *RspGetPremiumHelper) GetFriends() *FriendList {
 	if m != nil {
 		return m.Friends
 	}
@@ -1755,7 +1857,7 @@ type StageInfo struct {
 	Version          *int32       `protobuf:"varint,1,opt,name=version" json:"version,omitempty"`
 	Id               *uint32      `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
 	State            *EQuestState `protobuf:"varint,3,opt,name=state,enum=bbproto.EQuestState" json:"state,omitempty"`
-	Type             *int32       `protobuf:"varint,4,opt,name=type" json:"type,omitempty"`
+	Type             *QuestType   `protobuf:"varint,4,opt,name=type,enum=bbproto.QuestType" json:"type,omitempty"`
 	StageName        *string      `protobuf:"bytes,5,opt,name=stageName" json:"stageName,omitempty"`
 	Description      *string      `protobuf:"bytes,6,opt,name=description" json:"description,omitempty"`
 	StartTime        *uint32      `protobuf:"varint,7,opt,name=startTime" json:"startTime,omitempty"`
@@ -1791,11 +1893,11 @@ func (m *StageInfo) GetState() EQuestState {
 	return EQuestState_QS_NEW
 }
 
-func (m *StageInfo) GetType() int32 {
+func (m *StageInfo) GetType() QuestType {
 	if m != nil && m.Type != nil {
 		return *m.Type
 	}
-	return 0
+	return QuestType_E_QUEST_STORY
 }
 
 func (m *StageInfo) GetStageName() string {
@@ -2215,6 +2317,46 @@ func (m *RspClearQuest) GetGotUnit() []*UserUnit {
 	return nil
 }
 
+type ReqRetireQuest struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	QuestId          *uint32      `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *ReqRetireQuest) Reset()         { *m = ReqRetireQuest{} }
+func (m *ReqRetireQuest) String() string { return proto.CompactTextString(m) }
+func (*ReqRetireQuest) ProtoMessage()    {}
+
+func (m *ReqRetireQuest) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *ReqRetireQuest) GetQuestId() uint32 {
+	if m != nil && m.QuestId != nil {
+		return *m.QuestId
+	}
+	return 0
+}
+
+type RspRetireQuest struct {
+	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *RspRetireQuest) Reset()         { *m = RspRetireQuest{} }
+func (m *RspRetireQuest) String() string { return proto.CompactTextString(m) }
+func (*RspRetireQuest) ProtoMessage()    {}
+
+func (m *RspRetireQuest) GetHeader() *ProtoHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
 type ReqGetQuestInfo struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
@@ -2397,12 +2539,13 @@ type UserUnit struct {
 	UnitId           *uint32 `protobuf:"varint,2,opt,name=unitId" json:"unitId,omitempty"`
 	Exp              *int32  `protobuf:"varint,3,opt,name=exp" json:"exp,omitempty"`
 	Level            *int32  `protobuf:"varint,4,opt,name=level" json:"level,omitempty"`
-	AddAttack        *int32  `protobuf:"varint,5,opt,name=addAttack" json:"addAttack,omitempty"`
-	AddDefence       *int32  `protobuf:"varint,6,opt,name=addDefence" json:"addDefence,omitempty"`
-	AddHp            *int32  `protobuf:"varint,7,opt,name=addHp" json:"addHp,omitempty"`
-	LimitbreakLv     *int32  `protobuf:"varint,8,opt,name=limitbreakLv" json:"limitbreakLv,omitempty"`
-	GetTime          *uint32 `protobuf:"varint,9,opt,name=getTime" json:"getTime,omitempty"`
-	IsFavorite       *int32  `protobuf:"varint,10,opt,name=isFavorite" json:"isFavorite,omitempty"`
+	ActiveSkillLevel *int32  `protobuf:"varint,5,opt,name=activeSkillLevel" json:"activeSkillLevel,omitempty"`
+	AddAttack        *int32  `protobuf:"varint,6,opt,name=addAttack" json:"addAttack,omitempty"`
+	AddDefence       *int32  `protobuf:"varint,7,opt,name=addDefence" json:"addDefence,omitempty"`
+	AddHp            *int32  `protobuf:"varint,8,opt,name=addHp" json:"addHp,omitempty"`
+	LimitbreakLv     *int32  `protobuf:"varint,9,opt,name=limitbreakLv" json:"limitbreakLv,omitempty"`
+	GetTime          *uint32 `protobuf:"varint,10,opt,name=getTime" json:"getTime,omitempty"`
+	IsFavorite       *int32  `protobuf:"varint,11,opt,name=isFavorite" json:"isFavorite,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -2434,6 +2577,13 @@ func (m *UserUnit) GetExp() int32 {
 func (m *UserUnit) GetLevel() int32 {
 	if m != nil && m.Level != nil {
 		return *m.Level
+	}
+	return 0
+}
+
+func (m *UserUnit) GetActiveSkillLevel() int32 {
+	if m != nil && m.ActiveSkillLevel != nil {
+		return *m.ActiveSkillLevel
 	}
 	return 0
 }
@@ -2491,15 +2641,14 @@ type UnitInfo struct {
 	LeaderSkill      *int32       `protobuf:"varint,8,opt,name=leaderSkill" json:"leaderSkill,omitempty"`
 	ActiveSkill      *int32       `protobuf:"varint,9,opt,name=activeSkill" json:"activeSkill,omitempty"`
 	PassiveSkill     *int32       `protobuf:"varint,10,opt,name=passiveSkill" json:"passiveSkill,omitempty"`
-	ActiveSkillLevel *int32       `protobuf:"varint,11,opt,name=activeSkillLevel" json:"activeSkillLevel,omitempty"`
-	MaxLevel         *int32       `protobuf:"varint,12,opt,name=maxLevel" json:"maxLevel,omitempty"`
-	Profile          *string      `protobuf:"bytes,13,opt,name=profile" json:"profile,omitempty"`
-	PowerType        *PowerType   `protobuf:"bytes,14,opt,name=powerType" json:"powerType,omitempty"`
-	EvolveInfo       *EvolveInfo  `protobuf:"bytes,15,opt,name=evolveInfo" json:"evolveInfo,omitempty"`
-	Cost             *int32       `protobuf:"varint,16,opt,name=cost" json:"cost,omitempty"`
-	SaleValue        *int32       `protobuf:"varint,17,opt,name=saleValue" json:"saleValue,omitempty"`
-	DevourValue      *int32       `protobuf:"varint,18,opt,name=devourValue" json:"devourValue,omitempty"`
-	GetWay           *EUnitGetWay `protobuf:"varint,19,opt,name=getWay,enum=bbproto.EUnitGetWay" json:"getWay,omitempty"`
+	MaxLevel         *int32       `protobuf:"varint,11,opt,name=maxLevel" json:"maxLevel,omitempty"`
+	Profile          *string      `protobuf:"bytes,12,opt,name=profile" json:"profile,omitempty"`
+	PowerType        *PowerType   `protobuf:"bytes,13,opt,name=powerType" json:"powerType,omitempty"`
+	EvolveInfo       *EvolveInfo  `protobuf:"bytes,14,opt,name=evolveInfo" json:"evolveInfo,omitempty"`
+	Cost             *int32       `protobuf:"varint,15,opt,name=cost" json:"cost,omitempty"`
+	SaleValue        *int32       `protobuf:"varint,16,opt,name=saleValue" json:"saleValue,omitempty"`
+	DevourValue      *int32       `protobuf:"varint,17,opt,name=devourValue" json:"devourValue,omitempty"`
+	GetWay           *EUnitGetWay `protobuf:"varint,18,opt,name=getWay,enum=bbproto.EUnitGetWay" json:"getWay,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -2573,13 +2722,6 @@ func (m *UnitInfo) GetActiveSkill() int32 {
 func (m *UnitInfo) GetPassiveSkill() int32 {
 	if m != nil && m.PassiveSkill != nil {
 		return *m.PassiveSkill
-	}
-	return 0
-}
-
-func (m *UnitInfo) GetActiveSkillLevel() int32 {
-	if m != nil && m.ActiveSkillLevel != nil {
-		return *m.ActiveSkillLevel
 	}
 	return 0
 }
@@ -2992,6 +3134,7 @@ func (m *ReqLevelUp) GetHelperPremium() int32 {
 	return 0
 }
 
+// TODO: only return baseUnit, but no other unitList.
 type RspLevelUp struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	UnitList         []*UserUnit  `protobuf:"bytes,2,rep,name=unitList" json:"unitList,omitempty"`
@@ -3491,16 +3634,17 @@ func (m *RspSellUnit) GetUnitList() []*UserUnit {
 type UserInfo struct {
 	Uuid             *string   `protobuf:"bytes,1,opt,name=uuid" json:"uuid,omitempty"`
 	UserId           *uint32   `protobuf:"varint,2,opt,name=userId" json:"userId,omitempty"`
-	NickName         *string   `protobuf:"bytes,3,opt,name=nickName" json:"nickName,omitempty"`
-	Rank             *int32    `protobuf:"varint,4,opt,name=rank" json:"rank,omitempty"`
-	Exp              *int32    `protobuf:"varint,5,opt,name=exp" json:"exp,omitempty"`
-	StaminaNow       *int32    `protobuf:"varint,6,opt,name=staminaNow" json:"staminaNow,omitempty"`
-	StaminaMax       *int32    `protobuf:"varint,7,opt,name=staminaMax" json:"staminaMax,omitempty"`
-	StaminaRecover   *uint32   `protobuf:"varint,8,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
-	FriendMax        *int32    `protobuf:"varint,9,opt,name=friendMax" json:"friendMax,omitempty"`
-	UnitMax          *int32    `protobuf:"varint,10,opt,name=unitMax" json:"unitMax,omitempty"`
-	CostMax          *int32    `protobuf:"varint,11,opt,name=costMax" json:"costMax,omitempty"`
-	Unit             *UserUnit `protobuf:"bytes,12,opt,name=unit" json:"unit,omitempty"`
+	Password         *string   `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
+	NickName         *string   `protobuf:"bytes,4,opt,name=nickName" json:"nickName,omitempty"`
+	Rank             *int32    `protobuf:"varint,5,opt,name=rank" json:"rank,omitempty"`
+	Exp              *int32    `protobuf:"varint,6,opt,name=exp" json:"exp,omitempty"`
+	StaminaNow       *int32    `protobuf:"varint,7,opt,name=staminaNow" json:"staminaNow,omitempty"`
+	StaminaMax       *int32    `protobuf:"varint,8,opt,name=staminaMax" json:"staminaMax,omitempty"`
+	StaminaRecover   *uint32   `protobuf:"varint,9,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	FriendMax        *int32    `protobuf:"varint,10,opt,name=friendMax" json:"friendMax,omitempty"`
+	UnitMax          *int32    `protobuf:"varint,11,opt,name=unitMax" json:"unitMax,omitempty"`
+	CostMax          *int32    `protobuf:"varint,12,opt,name=costMax" json:"costMax,omitempty"`
+	Unit             *UserUnit `protobuf:"bytes,13,opt,name=unit" json:"unit,omitempty"`
 	XXX_unrecognized []byte    `json:"-"`
 }
 
@@ -3520,6 +3664,13 @@ func (m *UserInfo) GetUserId() uint32 {
 		return *m.UserId
 	}
 	return 0
+}
+
+func (m *UserInfo) GetPassword() string {
+	if m != nil && m.Password != nil {
+		return *m.Password
+	}
+	return ""
 }
 
 func (m *UserInfo) GetNickName() string {
@@ -3593,13 +3744,14 @@ func (m *UserInfo) GetUnit() *UserUnit {
 }
 
 type UserInfoDetail struct {
-	User             *UserInfo    `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Account          *AccountInfo `protobuf:"bytes,2,opt,name=account" json:"account,omitempty"`
-	Quest            *QuestLog    `protobuf:"bytes,3,opt,name=quest" json:"quest,omitempty"`
-	UnitList         []*UserUnit  `protobuf:"bytes,4,rep,name=unitList" json:"unitList,omitempty"`
-	Party            *PartyInfo   `protobuf:"bytes,5,opt,name=party" json:"party,omitempty"`
-	Login            *LoginInfo   `protobuf:"bytes,6,opt,name=login" json:"login,omitempty"`
-	XXX_unrecognized []byte       `json:"-"`
+	User             *UserInfo       `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Account          *AccountInfo    `protobuf:"bytes,2,opt,name=account" json:"account,omitempty"`
+	Quest            *QuestLog       `protobuf:"bytes,3,opt,name=quest" json:"quest,omitempty"`
+	UnitList         []*UserUnit     `protobuf:"bytes,4,rep,name=unitList" json:"unitList,omitempty"`
+	Party            *PartyInfo      `protobuf:"bytes,5,opt,name=party" json:"party,omitempty"`
+	Login            *LoginInfo      `protobuf:"bytes,6,opt,name=login" json:"login,omitempty"`
+	QuestClear       *QuestClearInfo `protobuf:"bytes,7,opt,name=questClear" json:"questClear,omitempty"`
+	XXX_unrecognized []byte          `json:"-"`
 }
 
 func (m *UserInfoDetail) Reset()         { *m = UserInfoDetail{} }
@@ -3644,6 +3796,13 @@ func (m *UserInfoDetail) GetParty() *PartyInfo {
 func (m *UserInfoDetail) GetLogin() *LoginInfo {
 	if m != nil {
 		return m.Login
+	}
+	return nil
+}
+
+func (m *UserInfoDetail) GetQuestClear() *QuestClearInfo {
+	if m != nil {
+		return m.QuestClear
 	}
 	return nil
 }
@@ -3726,6 +3885,78 @@ func (m *AccountInfo) GetFirstSelectNum() int32 {
 		return *m.FirstSelectNum
 	}
 	return 0
+}
+
+type StageClearItem struct {
+	StageId          *uint32 `protobuf:"varint,1,opt,name=stageId" json:"stageId,omitempty"`
+	QuestId          *uint32 `protobuf:"varint,2,opt,name=questId" json:"questId,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *StageClearItem) Reset()         { *m = StageClearItem{} }
+func (m *StageClearItem) String() string { return proto.CompactTextString(m) }
+func (*StageClearItem) ProtoMessage()    {}
+
+func (m *StageClearItem) GetStageId() uint32 {
+	if m != nil && m.StageId != nil {
+		return *m.StageId
+	}
+	return 0
+}
+
+func (m *StageClearItem) GetQuestId() uint32 {
+	if m != nil && m.QuestId != nil {
+		return *m.QuestId
+	}
+	return 0
+}
+
+type EventClearInfo struct {
+	CityId           *uint32           `protobuf:"varint,1,opt,name=cityId" json:"cityId,omitempty"`
+	ClearStage       []*StageClearItem `protobuf:"bytes,2,rep,name=clearStage" json:"clearStage,omitempty"`
+	XXX_unrecognized []byte            `json:"-"`
+}
+
+func (m *EventClearInfo) Reset()         { *m = EventClearInfo{} }
+func (m *EventClearInfo) String() string { return proto.CompactTextString(m) }
+func (*EventClearInfo) ProtoMessage()    {}
+
+func (m *EventClearInfo) GetCityId() uint32 {
+	if m != nil && m.CityId != nil {
+		return *m.CityId
+	}
+	return 0
+}
+
+func (m *EventClearInfo) GetClearStage() []*StageClearItem {
+	if m != nil {
+		return m.ClearStage
+	}
+	return nil
+}
+
+type QuestClearInfo struct {
+	StoryClear       *StageClearItem   `protobuf:"bytes,1,opt,name=storyClear" json:"storyClear,omitempty"`
+	EventClear       []*EventClearInfo `protobuf:"bytes,2,rep,name=eventClear" json:"eventClear,omitempty"`
+	XXX_unrecognized []byte            `json:"-"`
+}
+
+func (m *QuestClearInfo) Reset()         { *m = QuestClearInfo{} }
+func (m *QuestClearInfo) String() string { return proto.CompactTextString(m) }
+func (*QuestClearInfo) ProtoMessage()    {}
+
+func (m *QuestClearInfo) GetStoryClear() *StageClearItem {
+	if m != nil {
+		return m.StoryClear
+	}
+	return nil
+}
+
+func (m *QuestClearInfo) GetEventClear() []*EventClearInfo {
+	if m != nil {
+		return m.EventClear
+	}
+	return nil
 }
 
 type PartyItem struct {
@@ -4558,6 +4789,7 @@ func init() {
 	proto.RegisterEnum("bbproto.EQuestGridType", EQuestGridType_name, EQuestGridType_value)
 	proto.RegisterEnum("bbproto.EGridStar", EGridStar_name, EGridStar_value)
 	proto.RegisterEnum("bbproto.QuestBoostType", QuestBoostType_name, QuestBoostType_value)
+	proto.RegisterEnum("bbproto.QuestType", QuestType_name, QuestType_value)
 	proto.RegisterEnum("bbproto.EUnitGetWay", EUnitGetWay_name, EUnitGetWay_value)
 	proto.RegisterEnum("bbproto.EGachaType", EGachaType_name, EGachaType_value)
 }

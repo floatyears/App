@@ -26,6 +26,7 @@ func GetLevelUpMoney(level int32, count int32) int32 {
 func getUnitExpValue(expType int32, level int32) (levelExp int32) {
 	//TODO: read from global exp type table
 	if level > int32(len(config.TableUnitExpType)) {
+		log.Error("getUnitExpValue(%v, %v):: level excceed max Exp Level.", expType, level)
 		return -1
 	}
 
@@ -103,7 +104,7 @@ func GetGachaConfig(db *data.Data, gachaId int32) (gachaConf *bbproto.GachaConfi
 	isExists := len(value) != 0
 
 	if !isExists {
-		log.Error("GetGachaConf: unitId(%v) not exists.", gachaId)
+		log.Error("GetGachaConf: gachaId(%v) not exists.", gachaId)
 		return gachaConf, Error.New(EC.DATA_NOT_EXISTS, fmt.Sprintf("gachaId:%v not exists in db.", gachaId))
 	}
 
