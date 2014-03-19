@@ -68,7 +68,7 @@ public class ModelManager {
 
         ConfigFriendList configFriendList = new ConfigFriendList();
         ConfigAudio audioConfig = new ConfigAudio();
-        ConfigStage stage = new ConfigStage();
+//        ConfigStage stage = new ConfigStage();
         ConfigViewData tempViewData = new ConfigViewData();
 
 		ConfigNoteMessage noteMsgConfig = new ConfigNoteMessage();

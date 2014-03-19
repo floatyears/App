@@ -44,11 +44,14 @@ public class DragPanel : UIBase
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		RemoveEvent ();
-		for (int i = 0; i < scrollItem.Count; i++) {
-			GameObject.Destroy(scrollItem[i]);
-			scrollItem.RemoveAt(i);
+		int count = scrollItem.Count;
+		for (int i = 0; i < count; i++) {
+			GameObject go = scrollItem[i];
+			GameObject.Destroy(go);
 		}
+		scrollItem.Clear();
 		GameObject.Destroy (dragPanelView.gameObject);
+
 	}
 
 	void CreatPanel() {

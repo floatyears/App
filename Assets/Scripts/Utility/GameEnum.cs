@@ -137,6 +137,7 @@ public enum CommandEnum
 	UnitDisplayBaseData			= 3055,
 	UnitDisplayMaterialData		= 3056,
 	EvolveFriend				= 3057,
+	UnitMaterialList 			= 3058,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -186,6 +187,7 @@ public enum CommandEnum
 	EnsureAcceptApply				= 4044,
 	AddHelperItem				= 4045,
 	ChooseHelper					= 4046,
+	GetSelectedStage				= 4047,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

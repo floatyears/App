@@ -79,7 +79,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitInfoTabs = transform.Find("UnitInfoTabs").gameObject;
 		InitTabSkill();
 		InitTabStatus ();
-		InitExpSlider ();
+//		InitExpSlider ();
 		InitTexture ();
 		InitProfile();
 	}
@@ -357,7 +357,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			expRiseStep =10;
 			curLevel = blendUnit.Level;
 			currMaxExp = gotExp + curExp;
-			ExpRise();
+
 		}
 	}
 	
@@ -401,7 +401,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	void Update(){
-		//ExpRise();
+		ExpRise();
 	} 
 
 	void ExpRise () {
@@ -432,6 +432,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		int needExp = currMaxExp - curExp;
 		needExpLabel.text = needExp.ToString();
 		float progress = (float)curExp / (float)currMaxExp;
+
 		expSlider.value = progress;
 	}
 

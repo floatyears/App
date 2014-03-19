@@ -256,13 +256,26 @@ public class DGTools {
 		return System.Convert.ToBoolean (number & 1);
 	}
 
-	private const string path = "Protobuf/X_UNIT_";
+	private const string path = "Protobuf/";
+	private const string unitInfoPath = "X_UNIT_";
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
-		string url = path + unitID;
-		TextAsset ta = Resources.Load (url, typeof(TextAsset)) as TextAsset;
+		string url = path +unitInfoPath + unitID;
+		TextAsset ta = LoadTextAsset (url);
 		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
 		TUnitInfo tui = new TUnitInfo (ui);
 		return tui;
+	}
+	private const string CityPath = "City_";
+	public static TCityInfo LoadCityInfo (uint cityID) {
+		string url = path + CityPath + cityID;
+		TextAsset ta = LoadTextAsset (url);
+		CityInfo ci = ProtobufSerializer.ParseFormBytes<CityInfo> (ta.bytes);
+		TCityInfo tci = new TCityInfo(ci);
+		return tci;
+	}
+
+	static TextAsset LoadTextAsset (string url) {
+		return Resources.Load (url, typeof(TextAsset)) as TextAsset;
 	}
 }
 

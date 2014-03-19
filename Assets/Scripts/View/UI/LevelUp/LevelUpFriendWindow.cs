@@ -18,7 +18,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
     public override void ShowUI() {
         base.ShowUI();
-		Debug.LogError("levelup friend window ShowUI");
+//		Debug.LogError("levelup friend window ShowUI");
         MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, FocusOnPanel);
     }
 
