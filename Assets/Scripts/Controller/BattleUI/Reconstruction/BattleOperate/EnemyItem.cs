@@ -4,8 +4,7 @@ using System.Collections;
 
 public class EnemyItem : UIBaseUnity {
     [HideInInspector]
-    public TEnemyInfo
-        enemyInfo;
+    public TEnemyInfo enemyInfo;
     [HideInInspector]
     public UITexture
         texture;
@@ -139,10 +138,14 @@ public class EnemyItem : UIBaseUnity {
     }
 
     public override void DestoryUI() {
+		if (currentState == UIState.UIDestory) {
+			return;
+		}
         base.DestoryUI();
-
-        OnDisable();
-        Destroy(gameObject);
+		Debug.LogError ("DestoryUI : " + enemyInfo.EnemySymbol);
+		if (gameObject != null) {
+			Destroy(gameObject);
+		}
     }
 	
     public void DropItem(object data) {

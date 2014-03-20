@@ -186,6 +186,7 @@ public class BattleQuest : UIBase {
 			currentMapData =  questDungeonData.GetSingleFloor(coor);  //mapConfig.mapData[coor.x,coor.y];
 			role.Stop();
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
+
 			if(currentMapData.Star == EGridStar.GS_KEY) {
 				battleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemKey);

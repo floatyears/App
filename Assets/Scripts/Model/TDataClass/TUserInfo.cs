@@ -50,22 +50,20 @@ public class TUserInfo : ProtobufDataBase
 		{ 
 			int curLevel = Rank;
 			int totalExp = 0;
-			for (int i = 1; i <= curLevel; i++)
-			{
+			for (int i = 1; i <= curLevel; i++) {
 				totalExp += DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, i);
-//				UnityEngine.Debug.LogError("totalExp :: " + totalExp);
+				UnityEngine.Debug.LogError("totalExp :: " + totalExp);
 			}
-//			UnityEngine.Debug.LogError("Exp :: " + Exp);
-//			UnityEngine.Debug.LogError("CurRankExp :: " + (Exp - totalExp));
-			return Exp - totalExp;
+//			
+			return totalExp;
 		}
 	} 
 
-	public	int		CurRankExpMax
+	public int	CurRankExpMax
 	{ 
 		get
 		{ 
-			int curLevel = Rank;
+			int curLevel = Rank + 1;
 			//UnityEngine.Debug.LogError("CurRankExpMax :: " + DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, curLevel));
 			return DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, curLevel);
 		}

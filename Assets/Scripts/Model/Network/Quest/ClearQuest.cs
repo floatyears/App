@@ -22,7 +22,7 @@ public class TRspClearQuest {
     public int			gotExp;	
     public int			gotStone;
     public int			gotFriendPoint;
-    public List<TUserUnit>		gotUnit;
+    public List<TUserUnit>		gotUnit = new List<TUserUnit>();
 }
 
 public class ClearQuest: ProtoManager {

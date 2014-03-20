@@ -125,6 +125,7 @@ public class MapItem : UIBaseUnity
 			}
 			mapBackSprite.spriteName = spriteName;
 
+			mapBackSprite.enabled = false;
 		}
 	}
 

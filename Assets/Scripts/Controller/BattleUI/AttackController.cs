@@ -241,6 +241,7 @@ public class AttackController {
 
 	bool CheckTempEnemy() {
 		for (int i = 0; i < deadEnemy.Count; i++) {
+			deadEnemy[i].IsDead = true;
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, deadEnemy[i]);
 			MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 		}
@@ -249,7 +250,8 @@ public class AttackController {
 			int blood = enemyInfo[i].GetBlood();
 			if(blood <= 0){
 				TEnemyInfo te = enemyInfo[i];
-				enemyInfo.RemoveAt(i);
+				enemyInfo.Remove(te);
+				te.IsDead = true;
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 			}

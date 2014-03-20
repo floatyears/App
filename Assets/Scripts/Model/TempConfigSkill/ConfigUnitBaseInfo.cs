@@ -78,10 +78,10 @@ public class ConfigUnitBaseInfo {
 
     void GenerateUserExp() {
         PowerTable pt = new PowerTable();
-        for (int i = 1; i < 200; i++) {
+        for (int i = 1; i < 500; i++) {
             PowerValue pv = new PowerValue();
             pv.level = i;
-            pv.value = i * 200;
+			pv.value = 100*(i+1);
             pt.power.Add(pv);
         }
         TPowerTableInfo tbi = new TPowerTableInfo(pt);

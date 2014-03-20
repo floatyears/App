@@ -60,7 +60,7 @@ public class FriendHelperController : ConcreteComponent{
 		sqp.helperUserUnit = selectedHelper;
 		sqp.questId = questID;
 		sqp.stageId = stageID;
-
+		sqp.startNew = 1;
 		sq.OnRequest (sqp, RspStartQuest);
 	}
 

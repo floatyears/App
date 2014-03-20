@@ -79,11 +79,20 @@ public class VictoryEffect : UIBaseUnity {
 
 		gotExp= clearQuest.gotExp;
 		rank = DataCenter.Instance.UserInfo.Rank;
-		currentExp = DataCenter.Instance.UserInfo.CurRankExp;
+		currentExp = clearQuest.exp - DataCenter.Instance.UserInfo.CurRankExp; 
 		currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
-		add = (float)gotExp / 10f;
+		add = (float)gotExp * 0.1f;
 		Debug.LogError ("UpdateLevelNumber");
+
+		Debug.LogError ("clearQuest.exp  : " + clearQuest.exp );
+		Debug.LogError ("gotexp : " + gotExp);
+		Debug.LogError ("currentExp : " + currentExp);
+		Debug.LogError ("rank : " + rank);
+		Debug.LogError ("currentTotalExp : " + currentTotalExp);
+		Debug.LogError ("add : " + add);
+
 		StartCoroutine (UpdateLevelNumber ());
+
 //		int curCoin = DataCenter.Instance.AccountInfo.Money;
 //		int maxCoin = clearQuest.money;
 //		int gotCoin = clearQuest.gotMoney;
@@ -91,21 +100,16 @@ public class VictoryEffect : UIBaseUnity {
 
 	IEnumerator UpdateLevelNumber () {
 		Debug.LogError ("UpdateLevelNumber gotExp : " + gotExp);
-		while (gotExp > 0) {
-			float addNum = gotExp - add;
-			Debug.LogError ("UpdateLevelNumber addNum : " + addNum);
-			if (addNum <= 0) {
+		while (gotExp > 0) {	
+			if(gotExp - add<= 0) {
 				add = gotExp;
-			} else {
-				gotExp = addNum;
-				currentExp += add;
 			}
 			gotExp -= add;
 			currentExp += add;
+
 			int showValue = (int)currentExp;
 			empiricalLabel.text = showValue.ToString ();
-			Debug.LogError ("UpdateLevelNumber showValue : " + addNum);
-//			Debug.LogError(empiricalLabel.text);
+			Debug.LogError ("UpdateLevelNumber showValue : " + showValue);
 			float progress = currentExp / currentTotalExp;
 			levelProgress.fillAmount = progress;
 			if(currentExp >= currentTotalExp) {
