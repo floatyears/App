@@ -52,6 +52,9 @@ public class FriendHelperController : ConcreteComponent{
 		battleReadyInfo.Add("Helper", selectedHelper);
 		//TODO Change to Battle here
 
+		StartQuest sq = new StartQuest ();
+
+
 	}
 
 	List<TUserUnit> GetSupportFriendList(){
