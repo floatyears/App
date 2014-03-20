@@ -44,7 +44,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		InitUI();
 		InitQuestSelectScrollArgs();
 		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
-		Debug.LogError("xxx...." + (questViewItem == null));
+//		Debug.LogError("xxx...." + (questViewItem == null));
 	}
 	
 	public override void ShowUI(){
@@ -192,7 +192,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 	void ClickQuestItem(GameObject go ){
 		int index = questDragPanel.ScrollItem.IndexOf( go );
-		Debug.LogError("ClickQuestItem(), click item pos : " + index);
+//		Debug.LogError("ClickQuestItem(), click item pos : " + index);
 
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickQuestItem", index);
 		ExcuteCallback(cbdArgs);

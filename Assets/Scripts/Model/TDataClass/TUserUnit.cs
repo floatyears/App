@@ -374,18 +374,15 @@ public class UserUnitList {
     }
 
     public  TUserUnit Get(uint userId, uint uniqueId) {
-//		foreach (var item in userUnitInfo) {
-//			Debug.LogError(item.Key + " value : " + item.Value);
-//		}
-//		Debug.LogError ("get key befoure : " );
         string key = MakeUserUnitKey(userId, uniqueId);
-//		Debug.LogError ("get key behind : " + key);
+//		Debug.LogError (" key : " + key);
         if (!userUnitInfo.ContainsKey(key)) {
             Debug.Log("Cannot find key " + key + " in Global.userUnitInfo");
             return null;
         }
+	
         TUserUnit tuu = userUnitInfo[key];
-//		Debug.LogError ("Get tuu : " + tuu);
+		Debug.LogError (" tuu : " + tuu);
         return tuu;
     }
 

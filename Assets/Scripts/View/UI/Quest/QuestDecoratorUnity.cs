@@ -26,9 +26,9 @@ public class QuestDecoratorUnity : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
-		Debug.LogError(storyDragPanel.ScrollItem.Count);
+//		Debug.LogError(storyDragPanel.ScrollItem.Count);
 		storyDragPanel.DestoryUI();
-		Debug.LogError(storyDragPanel.ScrollItem.Count);
+//		Debug.LogError(storyDragPanel.ScrollItem.Count);
 //		eventDragPanel.DestoryUI();
 	}
 	
@@ -52,9 +52,9 @@ public class QuestDecoratorUnity : UIComponentUnity{
 	}
 	
 	void CreateStoryView(object args){
-		Debug.LogError("Receive controller call, to show stage ...");
+//		Debug.LogError("Receive controller call, to show stage ...");
 		List<TCityInfo> tciList = args as List<TCityInfo>;
-		Debug.LogError("Data count is : " + tciList.Count);
+//		Debug.LogError("Data count is : " + tciList.Count);
 		storyDragPanel = new DragPanel("StageDragPanel", dragItemPrefab);
 		CreateScrollView(storyDragPanel, tciList);
 	}
@@ -96,7 +96,7 @@ public class QuestDecoratorUnity : UIComponentUnity{
 		for (int cityIndex = 0; cityIndex < cityList.Count; cityIndex++){
 			count += cityList[ cityIndex ].Stages.Count;
 		}
-		Debug.LogError("GetCount : " + count);
+//		Debug.LogError("GetCount : " + count);
 		return count;
 	}
 

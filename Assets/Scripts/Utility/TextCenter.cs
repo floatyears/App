@@ -95,5 +95,11 @@ public class TextCenter {
         textDict.Add("UnitCountLimitReachedMax", "Now your unit limit has reached max.");
         textDict.Add("UnitExpandStonesNotEnough", "Now your stone not enough to expand unit limit.");
 
+		//================== leiliang start
+
+		textDict.Add ("StartQuestFail", "Start quest request failed");
+
+		//================== leiliang end
+
     }
 }

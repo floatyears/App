@@ -57,7 +57,7 @@ public class QuestSelectComponent : ConcreteComponent{
 		info.Add("data", currentStageInfo);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowInfoPanel",  info);
 		ExcuteCallback(cbdArgs);
-		Debug.LogError("ShowQuestInfo(), index is " + index);
+//		Debug.LogError("ShowQuestInfo(), index is " + index);
 	}
 
 
