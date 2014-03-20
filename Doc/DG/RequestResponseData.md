@@ -5544,7 +5544,7 @@ response:
 }
 ```
 
-## compose_unit(Level Up)
+## compose_unit(LevelUp)
 ```
 request:
 {
