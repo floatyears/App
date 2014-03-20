@@ -93,7 +93,8 @@ public class DataCenter {
     public bool InEventGacha {
         get {
             bool ret = false;
-            if (getData(ModelEnum.InEventGacha) != null){
+            if (getData(ModelEnum.InEventGacha) == null){
+                setData(ModelEnum.InEventGacha, false);
                 ret = false;
             }
             else {
@@ -430,11 +431,13 @@ public class DataCenter {
     }
     
     public int GetAvailableEventGachaTimes(){
-        if (InEventGacha)
+        if (!InEventGacha)
             return 0;
         if (GetEventGachaNeedStones() == 0)
             return 0;
-        return AccountInfo.Stone / GetEventGachaNeedStones();
+        LogHelper.Log("GetAvailableEventGachaTimes(), InEventGacha, AccountInfo.Stone / GetEventGachaNeedStones()");
+        return 0;
+//        return AccountInfo.Stone / GetEventGachaNeedStones();
     }
 
     
