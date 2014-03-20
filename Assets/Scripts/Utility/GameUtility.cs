@@ -281,7 +281,7 @@ public class DGTools {
 	}
 
 	private const string path = "Protobuf/";
-	private const string unitInfoPath = "X_UNIT_";
+	private const string unitInfoPath = "UNIT/";
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
 		string url = path +unitInfoPath + unitID;
 		TextAsset ta = LoadTextAsset (url);
@@ -289,7 +289,7 @@ public class DGTools {
 		TUnitInfo tui = new TUnitInfo (ui);
 		return tui;
 	}
-	private const string CityPath = "City_";
+	private const string CityPath = "City/";
 	public static TCityInfo LoadCityInfo (uint cityID) {
 		string url = path + CityPath + cityID;
 		TextAsset ta = LoadTextAsset (url);
