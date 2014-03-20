@@ -91,11 +91,20 @@ public class SellUnit: ProtoManager {
 
         LogHelper.LogError("before sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
         // delete unit;
-        foreach (uint unitUniqueId in unitUniqueIdList) {
-            LogHelper.LogError("====================sell unit, so remove it , uniqueId {0}============", unitUniqueId);
-            DataCenter.Instance.MyUnitList.DelMyUnit(unitUniqueId);
-        }
+        DataCenter.Instance.MyUnitList.DelMyUnitList(unitUniqueIdList);
+//        foreach (uint unitUniqueId in unitUniqueIdList) {
+//            LogHelper.LogError("====================sell unit, so remove it , uniqueId {0}============", unitUniqueId);
+//            DataCenter.Instance.MyUnitList.DelMyUnit(unitUniqueId);
+//        }
 
         LogHelper.LogError("after sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
+    }
+}
+
+
+public class NetWorkSellUnitTester {
+    private List<uint> unitUniqueIdList;
+    public NetWorkSellUnitTester() {
+        
     }
 }

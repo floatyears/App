@@ -28,6 +28,7 @@ public enum ModelEnum {
     /// temp
     TempEffect      = 10000, 
     HaveCard,
+    InEventGacha,
     ItemObject,
 
 	CityInfo,
@@ -62,6 +63,9 @@ public class DataCenter {
     public const int friendExpansionStone = 1;
     public const int unitExpansionStone = 1;
     public const int staminaRecoverStone = 1;
+    public const int friendGachaFriendPoint = 200;
+    public const int rareGachaStone = 5;
+    public const int eventGachaStone = 5;
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
@@ -78,6 +82,22 @@ public class DataCenter {
     public TFriendList FriendList { 
         get { return getData(ModelEnum.FriendList) as TFriendList; }
         set { setData(ModelEnum.FriendList, value); } 
+    }
+
+    public bool InEventGacha {
+        get {
+            bool ret = false;
+            if (getData(ModelEnum.InEventGacha) != null){
+                ret = false;
+            }
+            else {
+                ret = (bool)getData(ModelEnum.InEventGacha);
+            }
+            return ret;
+        }
+        set {
+            setData(ModelEnum.InEventGacha, value);
+        }
     }
 
     public int FriendCount {
@@ -377,6 +397,39 @@ public class DataCenter {
 			return tui;
 		}
 	}
+
+    
+    public int GetFriendGachaNeedPoints(){
+        return DataCenter.friendGachaFriendPoint;
+    }
+    
+    public int GetAvailableFriendGachaTimes(){
+        if (GetFriendGachaNeedPoints() == 0)
+            return 0;
+        return AccountInfo.FriendPoint / GetFriendGachaNeedPoints();
+    }
+
+    public int GetRareGachaNeedStones(){
+        return DataCenter.rareGachaStone;
+    }
+    
+    public int GetAvailableRareGachaTimes(){
+        if (GetRareGachaNeedStones() == 0)
+            return 0;
+        return AccountInfo.Stone / GetRareGachaNeedStones();
+    }
+
+    public int GetEventGachaNeedStones(){
+        return DataCenter.rareGachaStone;
+    }
+    
+    public int GetAvailableEventGachaTimes(){
+        if (InEventGacha)
+            return 0;
+        if (GetEventGachaNeedStones() == 0)
+            return 0;
+        return AccountInfo.Stone / GetEventGachaNeedStones();
+    }
 
     
     private void setData(ModelEnum modelType, object modelData) {
