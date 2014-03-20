@@ -34,7 +34,7 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
 		count --;
-		Debug.LogError ("battle enemy hideui " + count);
+//		Debug.LogError ("battle enemy hideui " + count);
 	}
 
 	public override void ShowUI () {
