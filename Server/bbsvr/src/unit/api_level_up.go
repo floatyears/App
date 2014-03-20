@@ -135,6 +135,8 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	if e.IsError() {
 		return e
 	}
+	log.T("Calc ret baseUserUnit.Level(%v) + addLevel(%v)", *baseUserUnit.Level, addLevel)
+
 	*baseUserUnit.Exp += addExp
 	*baseUserUnit.Level += addLevel
 	if baseUserUnit.AddAttack != nil {

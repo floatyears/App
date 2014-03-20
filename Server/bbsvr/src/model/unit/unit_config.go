@@ -23,10 +23,10 @@ func GetLevelUpMoney(level int32, count int32) int32 {
 	return config.TableDevourCostCoin[level-1]
 }
 
-func getUnitExpValue(expType int32, level int32) (levelExp int32) {
+func GetUnitExpValue(expType int32, level int32) (levelExp int32) {
 	//TODO: read from global exp type table
 	if level > int32(len(config.TableUnitExpType)) {
-		log.Error("getUnitExpValue(%v, %v):: level excceed max Exp Level.", expType, level)
+		log.Error("GetUnitExpValue(%v, %v):: level excceed max Exp Level.", expType, level)
 		return -1
 	}
 

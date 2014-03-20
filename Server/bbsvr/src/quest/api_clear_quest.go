@@ -72,12 +72,16 @@ func (t ClearQuest) FillResponseMsg(reqMsg *bbproto.ReqClearQuest, rspMsg *bbpro
 func (t ClearQuest) verifyParams(reqMsg *bbproto.ReqClearQuest) (err Error.Error) {
 	//TODO: input params validation
 	if reqMsg.Header.UserId == nil || //reqMsg.HitGrid == nil ||
-		reqMsg.GetUnit == nil || reqMsg.QuestId == nil {
+	 reqMsg.QuestId == nil {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
 	}
 
 	if reqMsg.GetMoney == nil {
 		reqMsg.GetMoney = proto.Int32(0)
+	}
+
+	if reqMsg.GetUnit == nil {
+		reqMsg.GetUnit = []uint32{}
 	}
 
 	if *reqMsg.Header.UserId == 0 || *reqMsg.QuestId == 0 {

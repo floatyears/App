@@ -29,7 +29,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	defaultName := consts.DEFAULT_USER_NAME
 	tNow := common.Now()
 	rank := int32(30 + common.Randn(10)) //int32(1)
-	exp := (1+rank)*200*rank/2 + 200*rank/8*common.Rand(1, 7)
+	exp := ((1+rank)*100*rank/2) + (100*rank/8*common.Rand(1, 7))
 	staminaNow := int32(100)
 	staminaMax := int32(100)
 	staminaRecover := uint32(tNow + 600) //10 minutesx`
