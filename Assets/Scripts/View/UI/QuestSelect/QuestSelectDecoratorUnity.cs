@@ -193,7 +193,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 	void ClickQuestItem(GameObject go ){
 		int index = questDragPanel.ScrollItem.IndexOf( go );
-		Debug.LogError("ClickQuestItem(), click item pos : " + index);
+//		Debug.LogError("ClickQuestItem(), click item pos : " + index);
 
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickQuestItem", index);
 		ExcuteCallback(cbdArgs);

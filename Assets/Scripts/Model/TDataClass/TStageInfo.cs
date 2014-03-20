@@ -43,7 +43,7 @@ public class TStageInfo : ProtobufDataBase {
 		get {return instance.state;}
 	}
 
-	public int Type {
+	public QuestType Type {
 		get {return instance.type; }
 	}
 

@@ -216,10 +216,12 @@ public class FriendHelperView : UIComponentUnity{
 	void EnableBottomButton(object args){
 		bottomButton.isEnabled = true;
 		UIEventListener.Get(bottomButton.gameObject).onClick = ClickBottomButton;
+
 	}
 
 	void ClickBottomButton(GameObject btn){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickBottomButton", null);
+		bottomButton.isEnabled = false;
 		ExcuteCallback(cbdArgs);
 	}
 
@@ -242,48 +244,18 @@ public class FriendHelperView : UIComponentUnity{
 
     void ClickStartBtn(GameObject btn) {
         AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-        RequestStartQuest();
+//        RequestStartQuest();
     }
 
-    INetBase startQuestNetBase; 
-    void RequestStartQuest() {
-        if (startQuestNetBase == null) {
-            startQuestNetBase = new StartQuest();
-        }
+//    INetBase startQuestNetBase; 
+//    void RequestStartQuest() {
+//        if (startQuestNetBase == null) {
+//            startQuestNetBase = new StartQuest();
+//        }
+//
+//    }
 
-        StartQuestParam p = new StartQuestParam();
-        p.currPartyId = 0;
-        p.questId = 1101;
-        p.stageId = 11;
-		TFriendInfo tfi = DataCenter.Instance.SupportFriends [0];
-		p.helperUserId = tfi.UserId;
-		p.helperUniqueId = tfi.UserUnit.ID;
-		startQuestNetBase.OnRequest(p, RspStartQuest);
-    }
-
-    void RspStartQuest(object data) {
-        TQuestDungeonData tqdd = null;
-        bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
-        if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
-
-            DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
-            DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
-
-            LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-
-            tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
-				
-            ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
-        }
-
-        if (data == null || tqdd == null) {
-            Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
-            //TODO: show failed window for user to retry
-            return;
-        }
-
-        UIManager.Instance.EnterBattle();
-    } 
+   
 
 	
     void PickFriend(GameObject btn) {

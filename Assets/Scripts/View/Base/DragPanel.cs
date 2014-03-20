@@ -80,13 +80,15 @@ public class DragPanel : UIBase
 		if (dragPanelView == null) {
 			CreatPanel();		
 		}
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < 20; i++) {
 //			Debug.LogError(sourceObject.name);
 			GameObject go = dragPanelView.AddObject(sourceObject);
 			if(go != null){
 				scrollItem.Add(go);
 			}
 		}
+//		dragPanelView.grid.sorted = true;
+		dragPanelView.grid.repositionNow = true;
 	}
 
 	public GameObject AddScrollerItem( GameObject obj ,bool isClean = false) {

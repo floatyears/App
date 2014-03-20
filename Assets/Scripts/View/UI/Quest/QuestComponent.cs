@@ -38,7 +38,6 @@ public class QuestComponent : ConcreteComponent{
 	void GetStoryCityList(){
 		storyCityList.Add(DataCenter.Instance.GetCityInfo(1));
 //		Debug.LogError("storyCityList(), storyStageList's count is " + storyCityList.Count);
-
 		GetStoryStageList();
 	}
 
