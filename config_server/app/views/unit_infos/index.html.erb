@@ -13,7 +13,7 @@
 			<th>LeaderSkill</th>
 			<th>ActiveSkill</th>
 			<th>PassiveSkill</th>
-			<th>ActiveSkillLevel</th>
+      <!-- <th>ActiveSkillLevel</th> -->
 			<th>MaxLevel</th>
 			<th>Profile</th>
 			<th>PowerType</th>
@@ -39,7 +39,7 @@
 			<td><%= unit.try(:leaderSkill) %></td>
 			<td><%= unit.try(:activeSkill) %></td>
 			<td><%= unit.try(:passiveSkill) %></td>
-			<td><%= unit.try(:activeSkillLevel) %></td>
+      <!-- <td><%= unit.try(:activeSkillLevel) %></td> -->
 			<td><%= unit.try(:maxLevel) %></td>
 			<td><%= unit.try(:profile) %></td>
 			<td>{
@@ -56,6 +56,7 @@
 					race:<%= unit.try(:evolveInfo).try(:helperRequire).try(:race)%>
 					type:<%= unit.try(:evolveInfo).try(:helperRequire).try(:type)%>
 				}
+        evolveQuestId:<%= unit.try(:evolveInfo).try(:evolveQuestId)%>
 			</td>
 			<td><%= unit.try(:cost) %></td>
 			<td><%= unit.try(:saleValue) %></td>

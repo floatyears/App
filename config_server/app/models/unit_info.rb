@@ -60,7 +60,7 @@ class UnitInfo
   optional :leaderSkill, :int32, 8
   optional :activeSkill, :int32, 9
   optional :passiveSkill, :int32, 10
-  optional :activeSkillLevel,:int32, 11;
+  #optional :activeSkillLevel,:int32, 11;
   optional :maxLevel, :int32, 12
   optional :profile, :string, 13
   optional :powerType, PowerType, 14
@@ -74,7 +74,7 @@ class UnitInfo
     power_type = PowerType.new(attackType:  params_to_i(params[:attackType]),hpType: params_to_i(params[:hpType]),expType: params_to_i(params[:expType]))
     hepler_require = HelperRequire.new(level: params_to_i(params[:level]),race: params_to_i(params[:helper_race]),type: params_to_i(params[:helper_type]))
     materialUnitId = build_materialUnitId(params[:materialUnitId1],params[:materialUnitId2],params[:materialUnitId3])
-    envolve_info = EvolveInfo.new(evolveUnitId: params_to_i(params[:evolveUnitId]) ,materialUnitId: materialUnitId,helperRequire: hepler_require)
+    envolve_info = EvolveInfo.new(evolveUnitId: params_to_i(params[:evolveUnitId]) ,materialUnitId: materialUnitId,helperRequire: hepler_require,evolveQuestId: params_to_i(params[:evolveQuestId]))
     unit_info =  UnitInfo.new(
     id: params_to_i(params[:id]),
     name: params[:name],
@@ -86,7 +86,7 @@ class UnitInfo
     leaderSkill: params_to_i(params[:leaderSkill]),
     activeSkill: params_to_i(params[:activeSkill]),
     passiveSkill: params_to_i(params[:passiveSkill]),  
-    activeSkillLevel: params_to_i(params[:activeSkillLevel]),
+    #activeSkillLevel: params_to_i(params[:activeSkillLevel]),
     maxLevel: params_to_i(params[:maxLevel]),
     profile: params[:profile],
     powerType: power_type,
@@ -153,4 +153,5 @@ class EvolveInfo
   required :evolveUnitId, :uint32, 1
   repeated :materialUnitId, :uint32, 2
   optional :helperRequire, HelperRequire, 3
+  optional :evolveQuestId, :uint32, 4
 end

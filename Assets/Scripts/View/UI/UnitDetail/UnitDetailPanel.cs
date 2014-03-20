@@ -363,8 +363,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			gotExp = levelUpData.blendExp;
 
 			Debug.LogError ("gotextp : " + gotExp);
-			if ( newBlendUnit == null)
-				Debug.LogError("newBlendUnit is null ");
 			Debug.LogError("level : " + newBlendUnit.Level);
 			Debug.LogError("CurExp : " + newBlendUnit.CurExp);
 
