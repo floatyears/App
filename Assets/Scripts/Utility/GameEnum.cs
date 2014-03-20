@@ -193,7 +193,8 @@ public enum CommandEnum
     RspUnitExpansion                = 4050,
 	AddHelperItem				= 4051,
 	ChooseHelper					= 4052,
-    GetSelectedStage				= 4053,
+	GetSelectedStage				= 4053,
+	GetSelectedQuest				= 4054,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

@@ -108,7 +108,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			pickEnemiesList.Add(item);
 		} 
 
-		UIEventListener.Get(btnSelect.gameObject).onClick = ChangeScene;
+		UIEventListener.Get(btnSelect.gameObject).onClick = ClickFriendSelect;
 	}
 
 	void InitDragPanel(){
@@ -170,40 +170,63 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		UIEventListener.Get( item).onClick = ClickQuestItem;
 	}
 
+	void UpdatePanelInfo(object args){
+		Dictionary<string,object> info = args as Dictionary<string, object>;
+		int index = (int)info["position"];
+		TStageInfo tsi = info["data"] as TStageInfo;
+
+		labStaminaVaule.text = tsi.QuestInfo[index].Stamina.ToString();
+		labFloorVaule.text = tsi.QuestInfo[index].Floor.ToString();
+		labDoorName.text = tsi.StageName;
+		labStoryContent.text = tsi.QuestInfo[index].Story;
+		rewardLineLabel.text = "/";
+		rewardCoinLabel.text = "Cion " + tsi.QuestInfo[index].RewardMoney.ToString();
+		labQuestInfo.text = tsi.QuestInfo[index].Name;
+		rewardExpLabel.text = "Exp " + tsi.QuestInfo[index].RewardExp.ToString();
+		storyTextLabel.text = tsi.Description;
+
+
+		btnSelect.isEnabled = true;
+
+	}
 
 	void ClickQuestItem(GameObject go ){
 		int index = questDragPanel.ScrollItem.IndexOf( go );
-//		Debug.LogError("Index : " + index);
-//		Debug.LogError("questInfoList Count: " + questInfoList.Count);
-		QuestInfo currentInfo = questInfoList[ index ];
+		Debug.LogError("ClickQuestItem(), click item pos : " + index);
 
-		labStaminaVaule.text = currentInfo.stamina.ToString();
-		labFloorVaule.text = currentInfo.floor.ToString();
-		labQuestInfo.text = currentInfo.name;
-		questNameLabel.text = string.Format("Quest : {0}",currentInfo.no);
-		labDoorName.text = stageInfo.stageName;
-		rewardExpLabel.text = string.Format( "Exp : {0}", currentInfo.rewardExp.ToString() );
-		rewardLineLabel.text = "/";
-		rewardCoinLabel.text = string.Format("Cion : {0}", currentInfo.rewardMoney.ToString() );
-
-		string avatarTexturePath = "Avatar/" + currentInfo.no.ToString() + "_1";
-		avatarTexture.mainTexture = Resources.Load( avatarTexturePath ) as Texture2D;
-
-		int enemyCount = 4;
-		for (int i = 0; i < enemyCount; i++){
-			string enemyAvatarTexturePath = "Avatar/" + i.ToString() + "_1";
-			pickEnemiesList[ i ].mainTexture = Resources.Load(enemyAvatarTexturePath) as Texture2D;
-		}
-
-		labStoryContent.text = currentInfo.story;
-
-		btnSelect.isEnabled = true;
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickQuestItem", index);
+		ExcuteCallback(cbdArgs);
+//		QuestInfo currentInfo = questInfoList[ index ];
+//
+//		labStaminaVaule.text = currentInfo.stamina.ToString();
+//		labFloorVaule.text = currentInfo.floor.ToString();
+//		labQuestInfo.text = currentInfo.name;
+//		questNameLabel.text = string.Format("Quest : {0}",currentInfo.no);
+//		labDoorName.text = stageInfo.stageName;
+//		rewardExpLabel.text = string.Format( "Exp : {0}", currentInfo.rewardExp.ToString() );
+//		rewardLineLabel.text = "/";
+//		rewardCoinLabel.text = string.Format("Cion : {0}", currentInfo.rewardMoney.ToString() );
+//
+//		string avatarTexturePath = "Avatar/" + currentInfo.no.ToString() + "_1";
+//		avatarTexture.mainTexture = Resources.Load( avatarTexturePath ) as Texture2D;
+//
+//		int enemyCount = 4;
+//		for (int i = 0; i < enemyCount; i++){
+//			string enemyAvatarTexturePath = "Avatar/" + i.ToString() + "_1";
+//			pickEnemiesList[ i ].mainTexture = Resources.Load(enemyAvatarTexturePath) as Texture2D;
+//		}
+//
+//		labStoryContent.text = currentInfo.story;
+//
+//		btnSelect.isEnabled = true;
 	}
 
 
-	private void ChangeScene(GameObject btn){
+	private void ClickFriendSelect(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
+//		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", null);
+		ExcuteCallback(cbdArgs);
 	}
 	
 
@@ -216,6 +239,9 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 			case "CreateQuestList" : 
 				CallBackDispatcherHelper.DispatchCallBack(CreateQuestDragList, cbdArgs);
+				break;
+			case "ShowInfoPanel" : 
+				CallBackDispatcherHelper.DispatchCallBack(UpdatePanelInfo, cbdArgs);
 				break;
 			default:
 				break;
@@ -234,11 +260,13 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		for (int i = 0; i < questDragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = questDragPanel.ScrollItem[ i ];
 			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
-//			uint bossId =  tsi.QuestInfo[ i ].BossID[ 0 ];
-
-//			Debug.LogError("BossID : " + bossId);
 			string sourcePath = string.Format("Avatar/{0}_1", GetBossID());
 			tex.mainTexture = Resources.Load(sourcePath) as Texture2D;
+
+			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
+			label.text = "Quest : " + (i+1).ToString();
+
+			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
 		}
 
 	}
