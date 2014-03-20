@@ -86,6 +86,7 @@ public class Main : MonoBehaviour {
     /// </summary>
     void OnEnable() {
         INetBase netBase = new AuthUser();
+//		Debug.LogError("login ");
         netBase.OnRequest(null, LoginSuccess);
 //
         AudioManager.Instance.PlayAudio(AudioEnum.music_home);
@@ -168,6 +169,8 @@ public class Main : MonoBehaviour {
             TestUtility.Test();
         }
         Debug.Log("UIManager.Instance.ChangeScene before");
+
+//		Debug.LogError("login end");
         UIManager.Instance.ChangeScene(SceneEnum.Start);
         TurnToReName();
        

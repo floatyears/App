@@ -221,13 +221,10 @@ public class Battle : UIBase
 
 	int GenerateCardIndex () {
 		int index = BattleQuest.questDungeonData.Colors [colorIndex];
-//		Debug.LogError ("GenerateCardIndex : " + index);
 		currentColor.Add (index);
 		if (currentColor.Count > 5) {
 			currentColor.RemoveAt(0);
 		}
-//		BattleQuest.questDungeonData.Colors.RemoveAt (0);
-//		Debug.LogError ("GenerateCardIndex : " + index);
 		colorIndex++;
 		return index;
 	}

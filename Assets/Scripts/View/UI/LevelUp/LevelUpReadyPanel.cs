@@ -49,15 +49,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	float multiple {
 		get {return _multiple;}
 		set {
-			int number = (int)value; 
-			if(number == 1){
-				devorExp = System.Convert.ToInt32(_devorExp / _multiple);
-			}
-			else{
-				devorExp = System.Convert.ToInt32(_devorExp * value);
-			}
 			_multiple = value;
-
 		}
 	}
 
@@ -109,12 +101,10 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			expNeedLabel.text = tuu.NextExp.ToString();
 			for (int i = 0; i < unitItemInfo.Length; i++) {
 				if(unitItemInfo[i] != null) {
-					devorExp += unitItemInfo[i].userUnitItem.UnitInfo.DevourExp;
+					devorExp += unitItemInfo[i].userUnitItem.MultipleDevorExp(baseUnitInfo.userUnitItem);
 					coin += tuu.Level * CoinBase;
 				}
 			}
-//			expCurGotLabel.text = devorExp.ToString();	
-//			cionNeedLabel.text = coin.ToString();
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, itemInfo);
 			FoucsOnTab(Tabs[2]);
 		}
@@ -136,11 +126,11 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		if (friendUnitInfo == null) {
 			friendUnitInfo = unitInfo;
 			tex.mainTexture = DataCenter.Instance.GetUnitInfo (friendUnitInfo.UnitID).GetAsset (UnitAssetType.Avatar); //UnitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
-			CaculateDevorExp ();
+			CaculateDevorExp (true);
 		} else if (friendUnitInfo == unitInfo) {
 			friendUnitInfo = null;
 			tex.mainTexture = null;	
-			CaculateDevorExp ();
+			CaculateDevorExp (false);
 		} 
 	}
 
@@ -173,7 +163,9 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void ClearData(){
 		baseUnitInfo = null;
 		friendUnitInfo = null;
-		CaculateDevorExp();
+		CaculateDevorExp(false);
+		devorExp = 0;
+		multiple = 1;
 		for (int i = 0; i < unitItemInfo.Length; i++) {
 			unitItemInfo[i] = null;
 		}
@@ -292,11 +284,11 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 			if(uui.isSelect) {
 				baseUnitInfo = uui;
-				CaculateDevorExp();
+				CaculateDevorExp(true);
 			}
 			else{
 				baseUnitInfo = null;
-				CaculateDevorExp();
+				CaculateDevorExp(false);
 			}
 			UpdateBaseInfoView( baseUnitInfo );
 		}else{
@@ -316,7 +308,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 				continue;
 			}
 			if(unitItemInfo[i].Equals(uui)) {
-				devorExp -= unitItemInfo[i].userUnitItem.UnitInfo.DevourExp;
+				devorExp -= unitItemInfo[i].userUnitItem.MultipleDevorExp(baseUnitInfo.userUnitItem);
 				if(baseUnitInfo != null) {
 					coin -= CoinBase * baseUnitInfo.userUnitItem.Level;
 				}
@@ -333,7 +325,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		for (int i = 0; i < unitItemInfo.Length; i++) {
 			if(unitItemInfo[i] == null) {
 				unitItemInfo[i] = uui;
-				devorExp += uui.userUnitItem.UnitInfo.DevourExp;
+				devorExp += unitItemInfo[i].userUnitItem.MultipleDevorExp(baseUnitInfo.userUnitItem);
 				if(baseUnitInfo != null) {
 					coin += CoinBase * baseUnitInfo.userUnitItem.Level;
 				}
@@ -361,13 +353,22 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		CheckCanLevelUp ();
 	}
 
-	protected virtual void CaculateDevorExp () {
+	protected virtual void CaculateDevorExp (bool Add) {
 		if (friendUnitInfo == null || baseUnitInfo == null) {
+			devorExp = System.Convert.ToInt32(_devorExp / multiple);
 			multiple = 1;
 			return;	
 		}
 
-		multiple = DGTools.AllMultiple (baseUnitInfo.userUnitItem, friendUnitInfo);
+		if (Add) {
+			float value = DGTools.AllMultiple (baseUnitInfo.userUnitItem, friendUnitInfo);
+			devorExp = System.Convert.ToInt32( _devorExp * value);
+			multiple = value;	
+		} 
+		else {
+			devorExp = System.Convert.ToInt32(_devorExp / multiple);
+			multiple = 1;
+		}
 	}
 }
 

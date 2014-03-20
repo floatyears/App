@@ -186,6 +186,7 @@ public class BattleQuest : UIBase {
 			currentMapData =  questDungeonData.GetSingleFloor(coor);  //mapConfig.mapData[coor.x,coor.y];
 			role.Stop();
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
+
 			if(currentMapData.Star == EGridStar.GS_KEY) {
 				battleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemKey);
@@ -329,7 +330,6 @@ public class BattleQuest : UIBase {
 		obj.transform.localScale = tempScale;
 		VictoryEffect ve = obj.GetComponent<VictoryEffect>();
 		ve.Init("Victory");
-		Debug.LogError ("clearQuest : " + clearQuest);
 		ve.ShowData (clearQuest);
 		ve.PlayAnimation(QuestEnd,new VictoryInfo(100,0,0,100));
 	}
@@ -356,6 +356,7 @@ public class BattleQuest : UIBase {
 
 	void ResponseClearQuest (object data) {
 		if ( data != null ) {
+			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
 			End (clearQuest);
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
