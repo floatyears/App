@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"code.google.com/p/goprotobuf/proto"
-	"flag"
+	//"flag"
 	"fmt"
 	//"math/rand"
 	"time"
@@ -11,7 +11,7 @@ import (
 import (
 	"bbproto"
 	//"../src/common"
-	"common"
+	//"common"
 	"common/consts"
 	"common/log"
 	"data"
@@ -151,10 +151,7 @@ func DataAddFriends(uid uint32, num uint32) error {
 		}
 		updatetime := uint32(time.Now().Unix())
 
-		if fid%4 == 1 {
-			fState := bbproto.EFriendState_FRIENDHELPER
-			friend.AddHelper(db, uid, fid, fState, updatetime)
-		} else {
+		{
 			fState := bbproto.EFriendState_ISFRIEND
 			if fid%5 == 2 {
 				fState = bbproto.EFriendState_FRIENDIN
@@ -313,26 +310,25 @@ func main() {
 	//}
 
 	//AcceptFriend(143, 156)
-	//AcceptFriend(144, 156)
-	//AcceptFriend(146, 156)
-	//AcceptFriend(147, 156)
-	//AcceptFriend(148, 156)
-	//AcceptFriend(149, 156)
-	//AcceptFriend(156, 156)
+
 	//DelFriend(104, 123)
 
-	flag.Parse()
-	args := flag.Args()
+	//flag.Parse()
+	//args := flag.Args()
 
-	if args == nil || len(args) < 1 {
-		log.T("usage: input param: {uid}")
-		return
-	}
+	//if args == nil || len(args) < 1 {
+	//	log.T("usage: input param: {uid}")
+	//	return
+	//}
 
-	//uid := uint32(197)
-	uid := common.Atou(args[0])
-	num := uint32(20)
-	AddBundleFriends(uid, num)
+	//uid := common.Atou(args[0])
+	//num := uint32(20)
+	//AddBundleFriends(uid, num)
+
+	uid := uint32(1101)
+	fid := uint32(106)
+	AddFriend(uid, fid)
+	AcceptFriend(fid, uid)
 
 	GetFriend(uid)
 

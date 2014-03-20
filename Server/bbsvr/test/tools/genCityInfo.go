@@ -37,8 +37,8 @@ func DataAddQuestConfig(questId uint32) error {
 	boss := &bbproto.EnemyInfoConf{}
 	enemy := &bbproto.EnemyInfo{}
 
-	enemy.EnemyId = proto.Uint32(1001)
-	enemy.UnitId = proto.Uint32(2)
+	enemy.EnemyId = proto.Uint32(901)
+	enemy.UnitId = proto.Uint32(uint32(common.Rand(1, 5)))
 	unitType := bbproto.EUnitType_UFIRE
 	enemy.Type = &unitType
 	enemy.Hp = proto.Int32(1200)
@@ -46,11 +46,11 @@ func DataAddQuestConfig(questId uint32) error {
 	enemy.Defense = proto.Int32(100)
 	enemy.NextAttack = proto.Int32(2)
 	boss.Enemy = enemy
-	boss.DropUnitId = proto.Uint32(11)
-	boss.DropUnitLevel = proto.Int32(1)
-	boss.DropRate = proto.Float32(0.5)
-	boss.AddHpRate = proto.Float32(0.1)
-	boss.AddAttackRate = proto.Float32(0.1)
+	boss.DropUnitId = enemy.UnitId
+	boss.DropUnitLevel = proto.Int32(common.Rand(1, 5))
+	boss.DropRate = proto.Float32(0.8)
+	boss.AddHpRate = proto.Float32(0.3)
+	boss.AddAttackRate = proto.Float32(0.3)
 
 	conf.Boss = append(conf.Boss, boss)
 
@@ -59,7 +59,7 @@ func DataAddQuestConfig(questId uint32) error {
 		enemy := &bbproto.EnemyInfo{}
 
 		enemy.EnemyId = proto.Uint32(uint32(900 + i))
-		enemy.UnitId = proto.Uint32(2 + uint32(i))
+		enemy.UnitId = proto.Uint32(uint32(common.Rand(6, 28)))
 		enemy.Type = &unitType
 		enemy.Hp = proto.Int32(1000 + int32(rand.Intn(100)*10))
 		enemy.Attack = proto.Int32(300 + int32(rand.Intn(10)*10))
@@ -69,9 +69,9 @@ func DataAddQuestConfig(questId uint32) error {
 		enemyConf.Enemy = enemy
 		enemyConf.DropUnitId = proto.Uint32(*enemy.UnitId)
 		enemyConf.DropUnitLevel = proto.Int32(1)
-		enemyConf.DropRate = proto.Float32(0.1 * float32(1+rand.Intn(9)))
-		enemyConf.AddHpRate = proto.Float32(0.1)
-		enemyConf.AddAttackRate = proto.Float32(0.1)
+		enemyConf.DropRate = proto.Float32(0.1 * float32(common.Rand(1, 9)))
+		enemyConf.AddHpRate = proto.Float32(0.3)
+		enemyConf.AddAttackRate = proto.Float32(0.3)
 		//enemy.AddDefence = proto.Float32(0)
 
 		conf.Enemys = append(conf.Enemys, enemyConf)
@@ -219,14 +219,14 @@ func DataAddStageInfo(db *data.Data, stageId uint32, stageName string, stageType
 
 	for i := 1; i <= 5; i++ {
 		qusetInfo := &bbproto.QuestInfo{}
-		qusetInfo.Id = proto.Uint32(100*stageId + uint32(i))
+		qusetInfo.Id = proto.Uint32(10*stageId + uint32(i))
 		qusetInfo.State = &state
 		qusetInfo.No = proto.Int32(1)
 		qusetInfo.Name = proto.String("quest name" + common.Itoa(i))   // quest name
 		qusetInfo.Story = proto.String("it is quest" + common.Itoa(i)) // story description
 		qusetInfo.Stamina = proto.Int32(5)                             // cost stamina
 		qusetInfo.Floor = proto.Int32(2)
-		qusetInfo.RewardExp = proto.Int32(100)
+		qusetInfo.RewardExp = proto.Int32(200)
 		qusetInfo.RewardMoney = proto.Int32(2000)
 		for b := 1; b <= 3; b++ {
 			qusetInfo.BossId = append(qusetInfo.BossId, uint32(1000+b))
@@ -442,16 +442,9 @@ func main() {
 	log.Printf("bbsvr test client begin...")
 
 	Init()
-	//for stage := uint32(11); stage <= 13; stage++ {
-	//	for questId := uint32(100*stage + 1); questId <= 100*stage+5; questId++ {
-	//		DataAddQuestConfig(questId)
-	//	}
-	//}
 
 	DataAddEvolveCity()
 	DataAddPrisonCity()
-
-	//StartQuest(101, 11, 1101, 102)
 
 	log.Fatal("Generate city.bytes finish.")
 }

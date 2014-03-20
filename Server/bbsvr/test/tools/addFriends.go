@@ -151,10 +151,7 @@ func DataAddFriends(uid uint32, num uint32) error {
 		}
 		updatetime := uint32(time.Now().Unix())
 
-		if fid%4 == 1 {
-			fState := bbproto.EFriendState_FRIENDHELPER
-			friend.AddHelper(db, uid, fid, fState, updatetime)
-		} else {
+		{
 			fState := bbproto.EFriendState_ISFRIEND
 			if fid%5 == 2 {
 				fState = bbproto.EFriendState_FRIENDIN
@@ -296,37 +293,9 @@ func AddBundleFriends(uid uint32, num uint32) {
 
 func main() {
 	log.Printf("==============================================")
-	log.Printf("bbsvr test client begin...")
+	log.Printf(" AddFriends begin...")
 
 	Init()
-	//DataAddFriends(101, 39)
-
-	//protocol test
-	//GetFriend(130)
-	//FindFriend(101, 130)
-
-	//AddFriend(156, 143)
-	//AddFriend(156, 144)
-	//AddFriend(156, 146)
-	//AddFriend(156, 147)
-	//AddFriend(156, 148)
-	//AddFriend(156, 149)
-	//AddFriend(156, 150)
-	//AddFriend(156, 151)
-
-	//for fid := uint32(140); fid < 160; fid++ {
-	//	AddFriend(fid, 132)
-	//	AddFriend(fid, 133)
-	//}
-
-	//AcceptFriend(143, 156)
-	//AcceptFriend(144, 156)
-	//AcceptFriend(146, 156)
-	//AcceptFriend(147, 156)
-	//AcceptFriend(148, 156)
-	//AcceptFriend(149, 156)
-	//AcceptFriend(156, 156)
-	//DelFriend(104, 123)
 
 	flag.Parse()
 	args := flag.Args()

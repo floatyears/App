@@ -168,7 +168,7 @@ func GenerateUnit(path string) {
 			log.Error("[%v] unitinfo save failed.", i)
 		}
 
-		if err = common.WriteFile(zData, path+common.Ntoa(i)); err != nil {
+		if err = common.WriteFile(zData, path+common.Ntoa(i)+".bytes"); err != nil {
 			log.Error("writefile fail for unit(%v)", i)
 		}
 		log.T("unit:%+v", uiitem)

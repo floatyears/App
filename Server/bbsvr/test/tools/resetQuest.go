@@ -2,7 +2,7 @@ package main
 
 import (
 	"code.google.com/p/goprotobuf/proto"
-	//"fmt"
+	"flag"
 	_ "html"
 )
 import (
@@ -71,8 +71,19 @@ func resetQuest(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, 
 }
 
 func main() {
-	Init()
-	resetQuest(nil, 141)
+	flag.Parse()
+	args := flag.Args()
 
-	log.Fatal("bbsvr test client finish.")
+	if args == nil || len(args) < 1 {
+		log.T("usage: input param: {uid}")
+		return
+	}
+
+	Init()
+
+	uid := common.Atou(args[0])
+
+	resetQuest(nil, uid)
+
+	log.Fatal("reset Quest=nil for uid:%v finish.", uid)
 }
