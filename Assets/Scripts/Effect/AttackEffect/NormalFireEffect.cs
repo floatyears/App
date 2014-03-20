@@ -14,6 +14,7 @@ public class NormalFireEffect : IEffectConcrete {
 		List<Vector3> position = new List<Vector3>();
 		Vector3 temp = effectManager.DisposeActorPosition(BattleBackground.ActorTransform[ai.UserUnitID]);
 		position.Add(temp);
+//		Debug.LogError ("ai.EnemyID : " + ai.EnemyID);
 		temp = effectManager.DisposeEnemyPosition(BattleEnemy.Monster[ai.EnemyID].transform);
 		position.Add(temp);
 		temp = effectManager.DisposeEnemyPosition(BattleEnemy.Monster[ai.EnemyID].transform);

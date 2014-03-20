@@ -235,6 +235,9 @@ public class TUserUnit : ProtobufDataBase {
         }
     }
 
+	public int MultipleDevorExp (TUserUnit baseUser) {
+		return System.Convert.ToInt32 (DGTools.AllMultiple (baseUser, this) * UnitInfo.DevourExp);
+	}
 
     public int Exp {
         get {

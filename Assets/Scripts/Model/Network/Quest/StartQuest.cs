@@ -7,6 +7,7 @@ public class StartQuestParam {
     public uint questId;
 	public TFriendInfo helperUserUnit;
     public int currPartyId;
+	public int startNew;
 }
 
 public class StartQuest: ProtoManager {
@@ -41,13 +42,15 @@ public class StartQuest: ProtoManager {
         reqStartQuest.questId = questParam.questId;
 		reqStartQuest.helperUserId = questParam.helperUserUnit.UserId;
         reqStartQuest.currentParty = questParam.currPartyId;
-
+		reqStartQuest.restartNew = questParam.startNew;
 //		TUserUnit userunit = DataCenter.Instance.UserUnitList.Get(questParam.helperUserId, questParam.helperUniqueId);
 //		Debug.LogError ("userunit : " + userunit);
 //        if (userunit != null)
 		reqStartQuest.helperUnit = questParam.helperUserUnit.UserUnit.Object;
 
 //        LogHelper.Log("helperUserId:{0} currParty:{1} userunit:{2}", reqStartQuest.helperUserId, reqStartQuest.currentParty, userunit);
+
+		
 
         ErrorMsg err = SerializeData(reqStartQuest); // save to Data for send out
 		

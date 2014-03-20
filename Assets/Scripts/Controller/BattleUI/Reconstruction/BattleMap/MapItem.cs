@@ -14,6 +14,7 @@ public class MapItem : UIBaseUnity
 	private FloorRotate floorRotate;
 	private UISprite mapItemSprite;
 	string spriteName = "";
+	string backSpriteName = "";
 
 	private Vector3 initPosition = Vector3.zero;
 	private Vector3 initRotation = Vector3.zero;
@@ -86,7 +87,8 @@ public class MapItem : UIBaseUnity
 				break;
 			}
 			mapItemSprite.spriteName = spriteName;
-			spriteName = "";
+//			spriteName = "";
+			backSpriteName = "";
 			switch (gridItem.Type) {
 			case bbproto.EQuestGridType.Q_NONE:
 //				Destroy(mapItemTexture);
@@ -113,18 +115,19 @@ public class MapItem : UIBaseUnity
 			case bbproto.EQuestGridType.Q_TRAP:
 //				Destroy(mapItemTexture);
 //				mapBackSprite.enabled = true;
-				spriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
+				backSpriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
 				break;
 			case bbproto.EQuestGridType.Q_TREATURE:
 //				Destroy(mapItemTexture);
 //				mapBackSprite.enabled = true;
-				spriteName = "s";
+				backSpriteName = "s";
 				break;
 			default:
 				break;
 			}
-			mapBackSprite.spriteName = spriteName;
+			mapBackSprite.spriteName = backSpriteName;
 
+			mapBackSprite.enabled = false;
 		}
 	}
 

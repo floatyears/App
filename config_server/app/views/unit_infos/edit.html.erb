@@ -37,9 +37,9 @@
 <p>
 	passiveSkill:<%= text_field_tag :passiveSkill,@unit_info.try(:passiveSkill) %>
 </p>
-<p>
+<!-- <p>
   activeSkillLevel:<%= text_field_tag :activeSkillLevel,@unit_info.try(:activeSkillLevel)%>
-</p>
+</p> -->
 
 <p>
 	maxLevel:<%= text_field_tag :maxLevel,@unit_info.try(:maxLevel) %>
@@ -70,6 +70,7 @@
 			helper_race:<%= select_tag :helper_race,options_for_select(UnitInfo::UNITRACE,:selected => @unit_info.try(:evolveInfo).try(:helperRequire).try(:race)) %><br/>
 			helper_type:<%= select_tag :helper_type,options_for_select(UnitInfo::UNITTYPE,:selected => @unit_info.try(:evolveInfo).try(:helperRequire).try(:type)) %><br/>
 		</fieldset>
+    evolveQuestId:<%= text_field_tag :evolveQuestId,@unit_info.try(:evolveInfo).try(:evolveQuestId) %>
 	</fieldset>
 </p>
 <p>

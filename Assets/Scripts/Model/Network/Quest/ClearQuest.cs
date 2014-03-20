@@ -22,7 +22,7 @@ public class TRspClearQuest {
     public int			gotExp;	
     public int			gotStone;
     public int			gotFriendPoint;
-    public List<TUserUnit>		gotUnit;
+    public List<TUserUnit>		gotUnit = new List<TUserUnit>();
 }
 
 public class ClearQuest: ProtoManager {
@@ -55,9 +55,7 @@ public class ClearQuest: ProtoManager {
 
         reqClearQuest.questId = questParam.questId;
         reqClearQuest.getMoney = questParam.getMoney;
-//		reqClearQuest.getUnit = new List<uint>();
         reqClearQuest.getUnit.AddRange(questParam.getUnit);
-//		reqClearQuest.hitGrid = new List<uint>();
         reqClearQuest.hitGrid.AddRange(questParam.hitGrid);
 
 
@@ -73,7 +71,6 @@ public class ClearQuest: ProtoManager {
 
         if (InstanceObj != null) {
             rspClearQuest = InstanceObj as bbproto.RspClearQuest;
-            //		LogHelper.Log("reponse userId:"+rspClearQuest.user.userId);
 			
             DataCenter.Instance.UserInfo.StaminaNow = rspClearQuest.staminaNow;
             DataCenter.Instance.UserInfo.StaminaRecover = rspClearQuest.staminaRecover;
@@ -108,7 +105,7 @@ public class ClearQuest: ProtoManager {
             foreach (UserUnit uu in rspClearQuest.gotUnit) {
 
                 TUserUnit tuu = new TUserUnit(uu);
-                Debug.LogError("tuu : " + tuu.ID);
+//                Debug.LogError("tuu : " + tuu.ID);
                 cq.gotUnit.Add(tuu);
             }
 

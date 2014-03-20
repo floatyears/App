@@ -137,6 +137,14 @@ public class DataCenter {
         set { setData(ModelEnum.PartyInfo, value); }
     }
 
+	/// <summary>
+	/// store operate befoure account info
+	/// </summary>
+	public TUserInfo oldAccountInfo = null;
+
+	/// <summary>
+	/// store befoure levelup's level
+	/// </summary>
 	public TUserUnit oldUserUnitInfo = null;
 
     //TODO: reconstruct myUnitList

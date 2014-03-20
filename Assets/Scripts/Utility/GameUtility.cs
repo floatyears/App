@@ -258,7 +258,7 @@ public class DGTools {
 
 	public static float TypeMultiple (TUserUnit baseUnit, TUserUnit friend) {
 		if (baseUnit.UnitInfo.Type == friend.UnitInfo.Type) {
-			return 1.5f;	
+			return 1.25f;	
 		} else {
 			return 1f;
 		}
@@ -266,7 +266,7 @@ public class DGTools {
 	
 	public static float RaceMultiple (TUserUnit baseUnit, TUserUnit friend) {
 		if (baseUnit.UnitInfo.Race == friend.UnitInfo.Race) {
-			return 1.5f;
+			return 1.25f;
 		} else {
 			return 1f;
 		}
