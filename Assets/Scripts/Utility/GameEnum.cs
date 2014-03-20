@@ -182,15 +182,19 @@ public enum CommandEnum
 	EnsureRefuseAll				= 4039,
 	ErrorIDInputEmpty			= 4040,
 	SubmitFriendApply			= 4041,
-	NoteInformation				= 4042,
+	OpenMsgWindow				= 4042,
 	EnsureRefuseSingleApply			= 4043,
 	EnsureAcceptApply				= 4044,
-	AddHelperItem				= 4045,
-	ChooseHelper					= 4046,
-	GetSelectedStage				= 4047,
-	GetSelectedQuest				= 4048,
-
-
+    FriendExpansion                 = 4045,
+    StaminaRecover                  = 4046,
+    UnitExpansion                   = 4047,
+    RspFriendExpansion              = 4048,
+    RspStaminaRecover               = 4049,
+    RspUnitExpansion                = 4050,
+	AddHelperItem				= 4051,
+	ChooseHelper					= 4052,
+	GetSelectedStage				= 4053,
+	GetSelectedQuest				= 4054,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

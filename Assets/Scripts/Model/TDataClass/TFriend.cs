@@ -115,6 +115,7 @@ public class TFriendList : ProtobufDataBase {
             friend = new List<TFriendInfo>();
         }
         Debug.LogError("friend count " + instance.friend.Count);
+        DataCenter.Instance.FriendCount = instance.friend.Count;
         foreach (FriendInfo fi in instance.friend) {
             TFriendInfo tfi = new TFriendInfo(fi);
             Debug.Log("friend: NickName " + tfi.NickName);

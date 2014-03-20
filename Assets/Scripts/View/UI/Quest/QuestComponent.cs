@@ -61,12 +61,10 @@ public class QuestComponent : ConcreteComponent{
 	void CreateStage(){
 		CallBackDispatcherArgs storyArgs = new CallBackDispatcherArgs("CreateStoryView", storyCityList);
 		ExcuteCallback(storyArgs);
-//		CallBackDispatcherArgs eventArgs = new CallBackDispatcherArgs("CreateEventView", eventStage);
-//		ExcuteCallback(eventArgs);
 	}
 
 	void ClearStage(){
-		storyCityList.Clear();
+		//storyCityList.Clear();
 	}
 
 	void TurnToSelectQuest(object args){

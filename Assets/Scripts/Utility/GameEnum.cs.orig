@@ -131,7 +131,13 @@ public enum CommandEnum
 	StopInput					= 3049,
 	GridEnd						= 3050,
 	DropItem					= 3051,
-
+	SelectUnitBase				= 3052,
+	selectUnitMaterial			= 3053,
+	UnitDisplayState			= 3054,
+	UnitDisplayBaseData			= 3055,
+	UnitDisplayMaterialData		= 3056,
+	EvolveFriend				= 3057,
+	UnitMaterialList 			= 3058,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -146,9 +152,9 @@ public enum CommandEnum
 	TryEnableLevelUp			= 4009,
 	CrossFade					= 4010,
 	UpdateNickName			= 4011,
-	ErrorMsgShow				= 4012,
+	NoteFriendUpdate			= 4012,
 	ShowUnitBriefInfo			= 4013,
-	RefreshPartyPanelInfo			= 4014,
+	UpdatePartyInfoPanel			= 4014,
 	ShowFocusUnitDetail			= 4015,
 	NoticeFuncParty				= 4016,
 	OnPartySelectUnit			= 4017,
@@ -159,21 +165,44 @@ public enum CommandEnum
 	EnsureFocusOnPartyItem		= 4022,
 	EnsureSubmitUnitToParty		= 4023,
 	ReplacePartyFocusItem		= 4024,
-<<<<<<< HEAD
-	RejectPartyPageFocusItem		= 4025,
-
-
-	BaseAlreadySelect			= 4026,
-	MaterialSelect				= 4027,
-	ShieldMaterial				= 4028,
-=======
 	BaseAlreadySelect			= 4025,
 	MaterialSelect				= 4026,
 	ShieldMaterial				= 4027,
 	RejectPartyPageFocusItem		= 4028,
 	RefreshPartyUnitList			= 4029,
->>>>>>> b6fb89ce3f9ed6de0411d909120d6aa20e7062a4
+	RefreshPartyPanelInfo			= 4030,
+	FriendBriefInfoShow		= 4031,
+	EnsureUpdateFriend			= 4032,
+	CancelSelectunitbrief		= 4033,
+	EnsureDeleteFriend					= 4034,
+	ViewApplyInfo					= 4035,
+	ShowApplyInfo				= 4036,
+	EnsureDeleteApply			= 4037,
+	NoteRefuseAll				= 4038,
+	EnsureRefuseAll				= 4039,
+	ErrorIDInputEmpty			= 4040,
+	SubmitFriendApply			= 4041,
+	OpenMsgWindow				= 4042,
+	EnsureRefuseSingleApply			= 4043,
+	EnsureAcceptApply				= 4044,
+<<<<<<< HEAD
+    FriendExpansion                 = 4045,
+    StaminaRecover                  = 4046,
+    UnitExpansion                   = 4047,
+    RspFriendExpansion              = 4048,
+    RspStaminaRecover               = 4049,
+    RspUnitExpansion                = 4050,
+	AddHelperItem				= 4051,
+	ChooseHelper					= 4052,
+    GetSelectedStage				= 4053,
+=======
+	AddHelperItem				= 4045,
+	ChooseHelper					= 4046,
+	GetSelectedStage				= 4047,
+	GetSelectedQuest				= 4048,
 
+
+>>>>>>> f563e4f419b58343442f85b7b68e380f4195eabe
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,
@@ -198,7 +227,8 @@ public enum CommandEnum
 	//-----------------Server Protocol-----------------------//
 }
 
-public enum MapItemEnum {
+public enum MapItemEnum
+{
 	None					= 0,
 	Enemy					= 1,
 	Trap					= 2,
@@ -208,7 +238,8 @@ public enum MapItemEnum {
 	Exclamation 			= 6,
 }
 
-public enum UIParentEnum : byte {
+public enum UIParentEnum : byte
+{
 	/// <summary>
 	/// screen center anchor
 	/// </summary>
@@ -258,7 +289,8 @@ public enum CardPoolEnum
 	FightCard,
 }
 
-public enum CardColorType : byte {
+public enum CardColorType : byte
+{
 
 	fire = 0,
 
@@ -276,7 +308,8 @@ public enum CardColorType : byte {
 }
 
 
-public enum AudioEnum {
+public enum AudioEnum
+{
 	music_home 				= 0,
 	music_dungeon  			= 1,
 	music_fight				= 2,
@@ -319,12 +352,14 @@ public enum AudioEnum {
 }
 
 
-public enum showTurn{
+public enum showTurn
+{
 	FirstTurn,
 	SecondTurn	
 }
 
-public enum UnitAssetType {
+public enum UnitAssetType
+{
 	Avatar 	= 0,
 	Profile	= 1,
 }

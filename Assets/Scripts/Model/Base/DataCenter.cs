@@ -20,6 +20,7 @@ public enum ModelEnum {
 
     User            = 1000,
     UnitPartyInfo   = 1001,
+    FriendCount     = 1002,
     
     UIInsConfig     = 2000,
     MapConfig       = 2001,
@@ -56,6 +57,11 @@ public class DataCenter {
     public const int posEnd = 5;
     public const int minNeedCard = 2;
     public const int maxNeedCard = 5;
+    public const int maxFriendLimit = 200;
+    public const int maxUnitLimit = 400;
+    public const int friendExpansionStone = 1;
+    public const int unitExpansionStone = 1;
+    public const int staminaRecoverStone = 1;
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
@@ -74,10 +80,36 @@ public class DataCenter {
         set { setData(ModelEnum.FriendList, value); } 
     }
 
+    public int FriendCount {
+        get {
+            int ret = 0;
+            if (getData(ModelEnum.FriendCount) != null){
+                ret = (int)getData(ModelEnum.FriendCount);
+            }
+            else{
+                List<TFriendInfo> supporters = SupportFriends;
+                if (supporters != null){
+                    for (int i = 0; i < supporters.Count; i++){
+                        if (supporters[i].FriendState == EFriendState.ISFRIEND){
+                            ret += 1;
+                        }
+                    }
+                    LogHelper.Log("total friends from supporters = {0}", ret);
+                }
+                setData(ModelEnum.FriendCount, ret);
+            }
+            return ret;
+        }
+        set {
+            setData(ModelEnum.FriendCount, value);
+        }
+    }
     public TPartyInfo PartyInfo { 
         get { return getData(ModelEnum.PartyInfo) as TPartyInfo; }
         set { setData(ModelEnum.PartyInfo, value); }
     }
+
+	public TUserUnit oldUserUnitInfo = null;
 
     //TODO: reconstruct myUnitList
     public UserUnitList MyUnitList { 

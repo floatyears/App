@@ -71,7 +71,7 @@ public class ModelManager {
 //        ConfigStage stage = new ConfigStage();
         ConfigViewData tempViewData = new ConfigViewData();
 
-		ConfigNoteMessage noteMsgConfig = new ConfigNoteMessage();
+//		ConfigNoteMessage noteMsgConfig = new ConfigNoteMessage();
     }
 	
     /// <summary>

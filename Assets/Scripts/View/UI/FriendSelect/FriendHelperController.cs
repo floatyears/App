@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class FriendHelperController : ConcreteComponent{
 	TFriendInfo selectedHelper;
-
 	uint questID;
 	uint stageID;
 

@@ -28,29 +28,30 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 		netBase.OnRequest (null, NetCallback);
 	}
 
+
 	void NetCallback(object data) {
 		//TODO: moving to logic
 		if( data != null ) {
 			bbproto.RspLevelUp rspLevelUp = data as bbproto.RspLevelUp;
-			Debug.LogError("rspLevelUp.header.error : " + rspLevelUp.header.error + " rspLevelUp.header.code : " + rspLevelUp.header.code);
+//			Debug.LogError("rspLevelUp.header.error : " + rspLevelUp.header.error + " rspLevelUp.header.code : " + rspLevelUp.header.code);
 
-			//update money
+//			update money
 			DataCenter.Instance.AccountInfo.Money = (int)rspLevelUp.money;
 			
 			// update unitlist
+
 			uint userId = DataCenter.Instance.UserInfo.UserId;
 			if (rspLevelUp.unitList != null) {
-				//update myUnitList
+//				update myUnitList
+
+				DataCenter.Instance.oldUserUnitInfo = DataCenter.Instance.MyUnitList.GetMyUnit(rspLevelUp.blendUniqueId);
+
 				DataCenter.Instance.MyUnitList.Clear();
 				foreach(UserUnit unit in rspLevelUp.unitList) {
 					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+
 				}
 
-				// update blendUnit in the userUnitList
-//				TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
-//				blendUnit = DataCenter.Instance.MyUnitList.GetMyUnit( rspLevelUp.blendUniqueId );
-
-				//remove partUniqueId from userUnitList
 				foreach(uint partUniqueId in rspLevelUp.partUniqueId) {
 					DataCenter.Instance.UserUnitList.DelMyUnit(partUniqueId);
 				}
@@ -58,10 +59,11 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 				LogHelper.Log("rspLevelUp add to myUserUnit.count: {0}", rspLevelUp.unitList.Count);
 			}
 
+			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 		}
 
-		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
-		MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
+
 	}
 }
 

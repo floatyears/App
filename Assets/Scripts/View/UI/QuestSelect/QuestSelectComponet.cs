@@ -69,7 +69,6 @@ public class QuestSelectComponent : ConcreteComponent{
 		Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
 		idArgs.Add("QuestID", questID);
 		idArgs.Add("StageID", stageID);
-
 		MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
 
 	}

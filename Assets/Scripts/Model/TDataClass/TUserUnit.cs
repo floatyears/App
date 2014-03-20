@@ -291,6 +291,9 @@ public class TUserUnit : ProtobufDataBase {
         get {
             return instance.level;
         }
+		set {
+
+		}
     }
 
     public string AddNumber {
@@ -364,6 +367,10 @@ public class UserUnitList {
 
     public  void Clear() {
         userUnitInfo.Clear();
+    }
+
+    public int Count{
+        get { return userUnitInfo.Count;}
     }
 
     public  TUserUnit Get(uint userId, uint uniqueId) {
