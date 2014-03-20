@@ -95,8 +95,8 @@ public class ScratchView : UIComponentUnity {
 
     private void UpdateGachaTimes(){
         UpdateFriendGachaTimes();
-        UpdateRareGachaTimes();
-        UpdateEventGachaTimes();
+//        UpdateRareGachaTimes();
+//        UpdateEventGachaTimes();
     }
 
     private void UpdateFriendGachaTimes(){

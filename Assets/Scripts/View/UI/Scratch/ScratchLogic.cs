@@ -51,8 +51,9 @@ public class ScratchLogic : ConcreteComponent {
 
 
     private void DoFriendGacha(object args){
-        int gachaCout = (int)args;
-        Gacha.SendRequest(OnRspGacha, 2, gachaCout);
+        LogHelper.Log("DoFriendGacha() start");
+        int gachaCount = (int)args;
+        Gacha.SendRequest(OnRspGacha, 2, gachaCount);
     }
     
     public void OnRspGacha(object data) {
