@@ -291,6 +291,9 @@ public class TUserUnit : ProtobufDataBase {
         get {
             return instance.level;
         }
+		set {
+
+		}
     }
 
     public string AddNumber {
@@ -366,19 +369,20 @@ public class UserUnitList {
         userUnitInfo.Clear();
     }
 
+    public int Count{
+        get { return userUnitInfo.Count;}
+    }
+
     public  TUserUnit Get(uint userId, uint uniqueId) {
-//		foreach (var item in userUnitInfo) {
-//			Debug.LogError(item.Key + " value : " + item.Value);
-//		}
-//		Debug.LogError ("get key befoure : " );
         string key = MakeUserUnitKey(userId, uniqueId);
-//		Debug.LogError ("get key behind : " + key);
+//		Debug.LogError (" key : " + key);
         if (!userUnitInfo.ContainsKey(key)) {
             Debug.Log("Cannot find key " + key + " in Global.userUnitInfo");
             return null;
         }
+	
         TUserUnit tuu = userUnitInfo[key];
-//		Debug.LogError ("Get tuu : " + tuu);
+//		Debug.LogError (" tuu : " + tuu);
         return tuu;
     }
 
@@ -397,10 +401,17 @@ public class UserUnitList {
 
     public  void DelMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
-            //Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
+            Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return;
         }
+//        LogHelper.LogError("============================before DelMyUnit(), count {0}, del uniqueId {1}", userUnitInfo.Count, uniqueId);
         Del(DataCenter.Instance.UserInfo.UserId, uniqueId);
+        // test
+//        LogHelper.LogError("============================after DelMyUnit(), count {0}", userUnitInfo.Count);
+        foreach (var item in userUnitInfo) {
+            TUserUnit tUnit = item.Value as TUserUnit;
+//            LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);
+        }
     }
 
     public  void Add(uint userId, uint uniqueId, TUserUnit uu) {
@@ -413,7 +424,15 @@ public class UserUnitList {
     }
 
     public void AddMyUnit(UserUnit unit) {
+//        LogHelper.LogError("============================before AddMyUnit(), count {0}, new unitId {1} new uniqueID  {2}",
+//                           userUnitInfo.Count, unit.unitId, unit.uniqueId);
         Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, new TUserUnit(unit));
+        // test
+//        LogHelper.LogError("============================after AddMyUnit(), count {0}", userUnitInfo.Count);
+        foreach (var item in userUnitInfo) {
+            TUserUnit tUnit = item.Value as TUserUnit;
+//            LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);
+        }
     }
 
     public  void Del(uint userId, uint uniqueId) {

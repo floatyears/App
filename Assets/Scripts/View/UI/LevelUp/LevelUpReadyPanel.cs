@@ -8,24 +8,58 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	UILabel expNeedLabel;
 	UILabel expCurGotLabel;
 	UILabel cionNeedLabel;
-
 	GameObject curFocusTab;
 	GameObject baseTab;
 	GameObject friendTab;
 	GameObject materialTab;
-
 	UIImageButton levelUpButton;
 	List<GameObject> Tabs = new List<GameObject>();
 	Dictionary<int,GameObject> materialPoolDic = new Dictionary<int,GameObject>();
-
 	UITexture baseCollectorTex;
 	UITexture friendCollectorTex;
 	List<UITexture> materialCollectorTex = new List<UITexture>();
-	
 	UnitItemInfo baseUnitInfo;
 	UnitItemInfo[] unitItemInfo = new UnitItemInfo[4];
 	TUserUnit friendUnitInfo;
-//	List<TUserUnit> materialUnitInfo = new List<TUserUnit>();
+	private const int CoinBase = 100;
+	int _devorExp = 0;
+	int devorExp {
+		get {return _devorExp;}
+		set {
+			_devorExp = value;
+			if(expCurGotLabel != null) {
+				expCurGotLabel.text = value.ToString();
+			}
+		}
+	}
+	int _coin = 0;
+	int coin {
+		get {
+			return _coin;
+		}
+		set {
+			_coin =value;
+			if(cionNeedLabel != null) {
+				cionNeedLabel.text = value.ToString ();
+			}
+		}
+	}
+
+	float _multiple = 1;
+	float multiple {
+		get {return _multiple;}
+		set {
+			int number = (int)value; 
+			if(number == 1){
+				devorExp = System.Convert.ToInt32(_devorExp / _multiple);
+			}
+			else{
+				devorExp = System.Convert.ToInt32(_devorExp * value);
+			}
+			_multiple = value;
+
+		}
+	}
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -49,7 +83,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void InitUI(){
-
 		InitTab();
 		InitButton();
 		FindInfoPanelLabel();
@@ -57,10 +90,12 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 	
 	void UpdateBaseInfoView( UnitItemInfo itemInfo){
-
 		UITexture tex = Tabs [0].GetComponentInChildren<UITexture> ();
-//		Debug.LogError ("tex : " + tex + " itemInfo : " + itemInfo);
 		if (itemInfo == null) {
+			hpLabel.text = "0";
+			atkLabel.text = "0";
+			expNeedLabel.text = "0";
+			cionNeedLabel.text = "0";
 			tex.mainTexture = null;
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, null);
 		} else {
@@ -71,13 +106,17 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			hpLabel.text = hp.ToString();			
 			int atk =  DataCenter.Instance.GetUnitValue(tu.AttackType, tuu.Level);
 			atkLabel.text = atk.ToString();			
-			expNeedLabel.text = "16918";			
-			expCurGotLabel.text = "0";			
-			cionNeedLabel.text = "0";
-//			Debug.LogError("tex : "+ tex + " maintexture : " + tex.mainTexture);
+			expNeedLabel.text = tuu.NextExp.ToString();
+			for (int i = 0; i < unitItemInfo.Length; i++) {
+				if(unitItemInfo[i] != null) {
+					devorExp += unitItemInfo[i].userUnitItem.UnitInfo.DevourExp;
+					coin += tuu.Level * CoinBase;
+				}
+			}
+//			expCurGotLabel.text = devorExp.ToString();	
+//			cionNeedLabel.text = coin.ToString();
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, itemInfo);
 			FoucsOnTab(Tabs[2]);
-
 		}
 	}
 
@@ -88,17 +127,21 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		expCurGotLabel.text = UIConfig.emptyLabelTextFormat;
 		cionNeedLabel.text = UIConfig.emptyLabelTextFormat;
 	}
- 
+	UITexture tex ;
 	void UpdateFriendInfo(TUserUnit unitInfo){
-		UITexture tex = Tabs [1].GetComponentInChildren<UITexture> ();
+		if (tex == null) {
+			tex = Tabs [1].GetComponentInChildren<UITexture> ();
+		}
+
 		if (friendUnitInfo == null) {
 			friendUnitInfo = unitInfo;
-			tex.mainTexture = DataCenter.Instance.GetUnitInfo(unitInfo.UnitID).GetAsset(UnitAssetType.Avatar); //UnitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
-		} 
-		else if(friendUnitInfo == unitInfo) {
+			tex.mainTexture = DataCenter.Instance.GetUnitInfo (friendUnitInfo.UnitID).GetAsset (UnitAssetType.Avatar); //UnitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
+			CaculateDevorExp ();
+		} else if (friendUnitInfo == unitInfo) {
 			friendUnitInfo = null;
 			tex.mainTexture = null;	
-		}
+			CaculateDevorExp ();
+		} 
 	}
 
 	void FindInfoPanelLabel(){
@@ -115,7 +158,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 		for( int i = 1; i <= 4; i++ ){
 			string path = string.Format( "Tab_Material/Material{0}/Avatar", i );
-			//Debug.Log("Ready Panel,FindAvatarTexture, Path is " + path);
 			UITexture tex = FindChild< UITexture >( path );
 			materialCollectorTex.Add( tex );
 		}
@@ -130,8 +172,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	void ClearData(){
 		baseUnitInfo = null;
-	
 		friendUnitInfo = null;
+		CaculateDevorExp();
 		for (int i = 0; i < unitItemInfo.Length; i++) {
 			unitItemInfo[i] = null;
 		}
@@ -178,11 +220,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			}
 		}
 		bool firendBool = friendUnitInfo != null;
-//		Debug.LogError (baseBool + " -- " + materialBool + " -- " + firendBool);
 		if (baseBool && materialBool && firendBool) {
-
-			levelUpButton.isEnabled = true;
-//			Debug.LogError(levelUpButton.isEnabled );
+		levelUpButton.isEnabled = true;
 		} else {
 			levelUpButton.isEnabled = false;
 		}
@@ -205,38 +244,21 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			tab.transform.FindChild("Label_Title").GetComponent< UILabel >().color = Color.white;
 		}
 
-		//activate focus tab
 		curFocusTab = focus.gameObject;
 		curFocusTab.transform.FindChild("Light_Frame").gameObject.SetActive(true);
 		curFocusTab.transform.FindChild("Label_Title").GetComponent< UILabel >().color = Color.yellow;
-		//activate focus tab content= 
-//		Debug.LogError ("CommandEnum.PanelFocus : " + focus.name);
 		MsgCenter.Instance.Invoke(CommandEnum.PanelFocus, curFocusTab.name );
-//		Debug.Log("FoucsOnTab() :  ");
 	}
 	
 	void AddListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.PickBaseUnitInfo, PickBaseUnitInfo );
 		MsgCenter.Instance.AddListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
-//		MsgCenter.Instance.AddListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
-
 	}
 	
 	void RemoveListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickBaseUnitInfo, PickBaseUnitInfo );
 		MsgCenter.Instance.RemoveListener(CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo );
-//		MsgCenter.Instance.RemoveListener(CommandEnum.TryEnableLevelUp, EnableLevelUp);
 	}
-	
-//	void EnableLevelUp(object info){
-//		Dictionary<string, object> levelUpInfo = PackLevelUpInfo();
-//		if( levelUpInfo == null){	
-//			levelUpButton.isEnabled = false;
-//		}
-//		else{
-//			levelUpButton.isEnabled = true;
-//		}
-//	}
 	
 	void InitButton(){
 		levelUpButton = FindChild<UIImageButton>("Button_LevelUp");
@@ -247,8 +269,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	void ClickLevelUpButton(GameObject go){
 		List<TUserUnit> temp = PackUserUnitInfo ();
 		ExcuteCallback (temp);
-//		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);//before
-//		MsgCenter.Instance.Invoke(CommandEnum.LevelUp, PackUserUnitInfo());//after
+		levelUpButton.isEnabled = false;
 	}
 	
 	List<TUserUnit> PackUserUnitInfo(){
@@ -256,29 +277,26 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		pickedUserUnitInfo.Add (baseUnitInfo.userUnitItem);
 		pickedUserUnitInfo.Add (friendUnitInfo);
 		//TODO add base unit info .....
-//		pickedUserUnitInfo.Add(baseUnitInfo);
 		foreach (var item in unitItemInfo){
 			if(item != null) {
 				pickedUserUnitInfo.Add(item.userUnitItem);
 			}
 		}
-//		for (int i = 0; i < pickedUserUnitInfo.Count; i++) {
-////			Debug.LogError("PackUserUnitInfo : " + i + "       " + pickedUserUnitInfo[i].ID);
-//		}
+
 		return pickedUserUnitInfo;
 	}
 
 	void PickBaseUnitInfo(object info){
 		if( curFocusTab.name == "Tab_Base" ){
 			UnitItemInfo uui = info as UnitItemInfo;
-			if(baseUnitInfo != null && baseUnitInfo != uui) {
-				return;
-			}
+
 			if(uui.isSelect) {
 				baseUnitInfo = uui;
+				CaculateDevorExp();
 			}
 			else{
 				baseUnitInfo = null;
+				CaculateDevorExp();
 			}
 			UpdateBaseInfoView( baseUnitInfo );
 		}else{
@@ -298,6 +316,10 @@ public class LevelUpReadyPanel: UIComponentUnity {
 				continue;
 			}
 			if(unitItemInfo[i].Equals(uui)) {
+				devorExp -= unitItemInfo[i].userUnitItem.UnitInfo.DevourExp;
+				if(baseUnitInfo != null) {
+					coin -= CoinBase * baseUnitInfo.userUnitItem.Level;
+				}
 				unitItemInfo[i] = null;
 				MsgCenter.Instance.Invoke(CommandEnum.MaterialSelect, false);
 				UpdateMaterialInfoView(null,i + 1);
@@ -311,6 +333,10 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		for (int i = 0; i < unitItemInfo.Length; i++) {
 			if(unitItemInfo[i] == null) {
 				unitItemInfo[i] = uui;
+				devorExp += uui.userUnitItem.UnitInfo.DevourExp;
+				if(baseUnitInfo != null) {
+					coin += CoinBase * baseUnitInfo.userUnitItem.Level;
+				}
 				MsgCenter.Instance.Invoke(CommandEnum.MaterialSelect, true);
 				UpdateMaterialInfoView(uui,i + 1);
 				return true;
@@ -320,49 +346,29 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void UpdateMaterialInfoView( UnitItemInfo uui, int index){
-//		Debug.LogError (index + "  materialPoolDic : " + materialPoolDic.Count);
 		GameObject materialTab = materialPoolDic[index];
 		UITexture tex = materialTab.GetComponentInChildren<UITexture>();
 		if (uui == null) {
 			tex.mainTexture = null;
 		} else {
-			tex.mainTexture = DataCenter.Instance.GetUnitInfo(uui.userUnitItem.UnitID).GetAsset(UnitAssetType.Avatar);//UnitInfo [uui.userUnitItem.UnitID].GetAsset (UnitAssetType.Avatar);
+			tex.mainTexture = DataCenter.Instance.GetUnitInfo(uui.userUnitItem.UnitID).GetAsset(UnitAssetType.Avatar);
 		}
 	}
 
 	void PickFriendUnitInfo(object info){
-		//if(friendUnitInfo != null)	return;
-//		friendUnitInfo = info as TUserUnit;
-
 		TUserUnit tuu =  info as TUserUnit;
 		UpdateFriendInfo(tuu);
 		CheckCanLevelUp ();
 	}
 
-//	void PickMaterialUnitInfo(object info){
-//		if( materialUnitInfo.Count == 4)	return;
-//		TUserUnit tempInfo = info as TUserUnit;
-//		materialUnitInfo.Add(tempInfo);
-//		UpdateMaterialInfoView( tempInfo );
-//
-//	}
+	protected virtual void CaculateDevorExp () {
+		if (friendUnitInfo == null || baseUnitInfo == null) {
+			multiple = 1;
+			return;	
+		}
 
-//	Dictionary<string, object> PackLevelUpInfo(){
-//		//condition : exist base && material && friend
-//		if(baseUnitInfo == null)		
-//			return null;
-//		if(friendUnitInfo == null)	
-//			return null;
-//		if( materialUnitInfo.Count < 1)
-//			return null;
-//		Dictionary<string, object> levelUpInfo = new Dictionary<string, object>();
-//		levelUpInfo.Add("BaseInfo", baseUnitInfo);
-//		levelUpInfo.Add("FriendInfo", friendUnitInfo);
-//		levelUpInfo.Add("MaterialInfo",materialUnitInfo);
-//
-//		return levelUpInfo;
-//	}
-
+		multiple = DGTools.AllMultiple (baseUnitInfo.userUnitItem, friendUnitInfo);
+	}
 }
 
 

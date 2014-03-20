@@ -38,7 +38,7 @@ public class StartDecorator : DecoratorBase
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
 		tipsBar.SetComponent(playerInfoBar);
 
-		CommonNoteLogic noteWindow = CreatComponent<CommonNoteLogic>(UIConfig.commonNoteWindowName);
+        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
 		noteWindow.SetComponent(tipsBar);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
@@ -277,7 +277,7 @@ public class UnitsDecorator : DecoratorBase
 
 		UnitsComponent units = CreatComponent< UnitsComponent >(UIConfig.unitsWindowName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-		PartyPageLogic partyPage = CreatComponent<PartyPageLogic>(UIConfig.partyPagePanelName);
+		UnitPartyPage partyPage = CreatComponent<UnitPartyPage>(UIConfig.partyPagePanelName);
 
 		partyInfo.SetComponent(sceneInfoBar);
 		partyPage.SetComponent(partyInfo);
@@ -358,11 +358,13 @@ public class FriendSelectDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 		
-		FriendSelectComponent friendSelect = CreatComponent< FriendSelectComponent >(UIConfig.friendSelectWindowName);
+		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
 
 		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 
-		PartyPageLogic page = CreatComponent<PartyPageLogic>(UIConfig.partyPagePanelName);
+		QuestPartyPage page = CreatComponent<QuestPartyPage>(UIConfig.partyPagePanelName);
+
+		FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
 
 		infoPanel.SetComponent(sceneInfoBar);
 
@@ -370,7 +372,9 @@ public class FriendSelectDecorator : DecoratorBase
 
 		friendSelect.SetComponent(page);
 
-		lastDecorator = friendSelect;
+		helperBriefInfo.SetComponent(friendSelect);
+
+		lastDecorator = helperBriefInfo;
 		lastDecorator.CreatUI();
 		
 	}
@@ -406,7 +410,7 @@ public class PartyDecorator : DecoratorBase
 		sceneInfoBar.SetComponent(decorator);
 
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-		PartyPageLogic partyPage = CreatComponent<PartyPageLogic>(UIConfig.partyPagePanelName);
+		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.partyPagePanelName);
 		PartyUnitsLogic dragPanel = CreatComponent<PartyUnitsLogic>(UIConfig.partyDragPanelName);
 	
 		partyInfo.SetComponent(sceneInfoBar);
@@ -448,19 +452,19 @@ public class LevelUpDecorator : DecoratorBase
 	public override void DecoratorScene()
 	{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
-		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
+
 		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
+		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
+		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
-		basePanel.SetComponent(sceneInfoBar);
+		friendPanel.SetComponent(sceneInfoBar);
+		basePanel.SetComponent(friendPanel);
 		readyPanel.SetComponent(basePanel);
-	
-		friendPanel.SetComponent(readyPanel);
 
-		lastDecorator = friendPanel;
+
+		lastDecorator = readyPanel;
 		lastDecorator.CreatUI();
-
 	}
 }
 
@@ -724,16 +728,18 @@ public class SearchFriendDecorator : DecoratorBase
 	public override void DecoratorScene()
 	{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		SearchFriendUI searchMainUI = CreatComponent< SearchFriendUI >(UIConfig.searchMainWindowName);
-		SearchInfoUI infoUI = CreatComponent<  SearchInfoUI >(UIConfig.searchInfoWindowName);
+		SearchFriendController searchMainUI = CreatComponent< SearchFriendController >(UIConfig.searchMainWindowName);
+//		SearchInfoUI infoUI = CreatComponent<  SearchInfoUI >(UIConfig.searchInfoWindowName);
+		RequestFriendApply requestApply = CreatComponent<RequestFriendApply>(UIConfig.applyMessageWindowName);
 
-		TempNetwork.infoUI = infoUI;
+//		TempNetwork.infoUI = infoUI;
 
 		sceneInfoBar.SetComponent(decorator);
 		searchMainUI.SetComponent(sceneInfoBar);
-		infoUI.SetComponent(searchMainUI);
+//		infoUI.SetComponent(searchMainUI);
+		requestApply.SetComponent(searchMainUI);
 
-		lastDecorator = infoUI;
+		lastDecorator = requestApply;
 		lastDecorator.CreatUI();
 	}
 }
@@ -767,13 +773,13 @@ public class ApplyDecorator : DecoratorBase
 
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		FriendListLogic applyWindow = CreatComponent< FriendListLogic >(UIConfig.friendListWindowName);
-		CancelFriendApply cancelApply = CreatComponent<CancelFriendApply>(UIConfig.applyMessageWindowName);
+		DeleteFriendApply deleteApply = CreatComponent<DeleteFriendApply>(UIConfig.applyMessageWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		applyWindow.SetComponent(sceneInfoBar);
-		cancelApply.SetComponent(applyWindow);
+		deleteApply.SetComponent(applyWindow);
 
-		lastDecorator = cancelApply;
+		lastDecorator = deleteApply;
 
 		lastDecorator.CreatUI();
 	}
@@ -783,9 +789,7 @@ public class ApplyDecorator : DecoratorBase
 public class ReceptionDecorator : DecoratorBase
 {
 	private SceneInfoComponent sceneInfoBar;
-	public ReceptionDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public ReceptionDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene()
 	{
@@ -807,11 +811,13 @@ public class ReceptionDecorator : DecoratorBase
 	{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		FriendListLogic receptionWindow = CreatComponent< FriendListLogic >(UIConfig.friendListWindowName);
+		AccpetFriendApply acceptApply = CreatComponent<AccpetFriendApply>(UIConfig.acceptApplyMessageWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		receptionWindow.SetComponent(sceneInfoBar);
-		
-		lastDecorator = receptionWindow;
+		acceptApply.SetComponent(receptionWindow);
+
+		lastDecorator = acceptApply;
 		lastDecorator.CreatUI();
 	}
 }

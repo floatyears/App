@@ -182,7 +182,7 @@ public class NetWorkEvovleTester {
     
     public void TestEvovleStart() {
         EvolveStart evolveStart = new EvolveStart();
-        baseUnitUniqueId = 63;
+        baseUnitUniqueId = 88;
         TUserUnit baseUnit = DataCenter.Instance.UserUnitList.GetMyUnit(baseUnitUniqueId);
         evolveStart.BaseUnitId = baseUnit.ID;
         evolveStart.EvolveQuestId = EvolveComponent.GetEvolveQuestID(bbproto.EUnitType.UNONE, 2);
@@ -191,8 +191,8 @@ public class NetWorkEvovleTester {
         LogHelper.LogError("TestEvovleStart(), questId {0}", evolveStart.EvolveQuestId);
 
         partUnitIdList = new List<uint>();
-        partUnitIdList.Add(61);
-        partUnitIdList.Add(62);
+        partUnitIdList.Add(85);
+        partUnitIdList.Add(90);
         evolveStart.PartUnitId = partUnitIdList;
 
         evolveStart.HelperPremium = 0;
@@ -205,15 +205,17 @@ public class NetWorkEvovleTester {
     }
 
     private void OnRspEvolveStart(object data) {
-        if (data == null)
+        if (data == null){
+            Debug.Log("OnRspEvolveStart(), response null");
             return;
-        
-        LogHelper.Log("ReqEvolveStart() begin");
+        }
+
+        LogHelper.Log("RspEvolveStart() begin");
         LogHelper.Log(data);
         bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
         
         if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("ReqEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            LogHelper.LogError("RspEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
             return;
         }
         
@@ -221,25 +223,36 @@ public class NetWorkEvovleTester {
         int staminaNow = rsp.staminaNow;
         uint staminaRecover = rsp.staminaRecover;
         bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
+//        if (questDungeonData..Count > 0){
+        List<uint> dropIds = new List<uint>();
+        List<uint> hitGrids = new List<uint>();
+        foreach (var item in questDungeonData.floors[0].gridInfo) {
+            hitGrids.Add((uint)item.position);
+            LogHelper.Log("TTTTTTTTT test position {0}", item.position);
+            if (item.dropId > 0){
+                dropIds.Add(item.dropId);
+                LogHelper.Log("TTTTTTTTT test drop dropId {0}", item.dropId);
+                break;
+            }
+        }
+
         LogHelper.Log("OnRspEvolveStart() finished, staminaNow {0}, staminaRecover {1}," +
-            "questDungeonData.boss {2}, unit count", staminaNow, staminaRecover, questDungeonData.boss, DataCenter.Instance.MyUnitList);
+                      "questDungeonData.boss {2}", staminaNow, staminaRecover, questDungeonData.boss);
+        TestEvovleDone(dropIds, hitGrids);
     }
 
-    public void TestEvovleDone() {
+    public void TestEvovleDone(List<uint> dropIds, List<uint> hitGrids) {
+        LogHelper.Log("TTTTTTTTTTTTTTTTTTTTTTTTTTT TestEvovleDone() start:");
         EvolveDone evolveDone = new EvolveDone();
 
         evolveDone.QuestId = EvolveComponent.GetEvolveQuestID(bbproto.EUnitType.UNONE, 2);
         evolveDone.GetMoney = 1000000;
         evolveDone.GetUnit = new List<uint>();
-
-        uint[] getUnits;
-        getUnits = new uint[1]{1};
-
-        evolveDone.GetUnit.AddRange(getUnits);
         evolveDone.HitGrid = new List<uint>();
 
-        getUnits = new uint[1]{0};
-        evolveDone.HitGrid.AddRange(getUnits);
+//        getUnits = new uint[1]{0};
+        evolveDone.GetUnit.AddRange(dropIds);
+        evolveDone.HitGrid.AddRange(hitGrids);
 
         evolveDone.OnRequest(null, OnRspEvolveDone);
     }
@@ -260,9 +273,9 @@ public class NetWorkEvovleTester {
         // TODO do evolve start over;
         LogHelper.Log("OnRspEvolveDone() finished, rank {0}, exp {1}," +
             "money {2}, friendPoint {3}, staminaNow {4}, staminaMax {5}, staminaRecover {6}" +
-            "gotMoney {7}, gotChip {8}, gotFriendPoint {9}, gotUnit {10}, evolvedUnit {11}"
+            "gotMoney {7}, gotChip {8}, gotFriendPoint {9}, gotUnitCount {10}, evolvedUnit {11}"
                       , rsp.rank, rsp.exp, rsp.money, rsp.friendPoint, rsp.staminaNow, rsp.staminaMax,
-                      rsp.staminaRecover, rsp.gotMoney, rsp.gotStone, rsp.gotFriendPoint, rsp.gotUnit, rsp.evolvedUnit.uniqueId);
+                      rsp.staminaRecover, rsp.gotMoney, rsp.gotStone, rsp.gotFriendPoint, rsp.gotUnit.Count, rsp.evolvedUnit.uniqueId);
         DataCenter.Instance.UserInfo.Rank = rsp.rank;
         DataCenter.Instance.UserInfo.Exp = rsp.exp;
         DataCenter.Instance.AccountInfo.Money = rsp.money;

@@ -1,6 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum BuyType{
+    FriendExpansion = 1,
+    StaminaRecover = 2,
+    UnitExpansion   = 3,
+}
+
+public enum BuyFailType {
+    StoneNotEnough = 1,
+    NoNeedToBuy    = 2,
+}
+
 public class ShopComponent : ConcreteComponent {
 	
 	public ShopComponent(string uiName):base(uiName) {}
@@ -11,14 +22,265 @@ public class ShopComponent : ConcreteComponent {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+        AddListener();
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+        RemoveListener();
 	}
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
-	
+
+    public override void Callback(object data)
+    {
+        base.Callback(data);
+        
+        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+        
+        switch (cbdArgs.funcName)
+        {
+        case "DoFriendExpansion": 
+            CallBackDispatcherHelper.DispatchCallBack(OnFriendExpansion, cbdArgs);
+            break;
+        case "DoStaminaRecover": 
+            CallBackDispatcherHelper.DispatchCallBack(OnStaminaRecover, cbdArgs);
+            break;
+        case "DoUnitExpansion": 
+            CallBackDispatcherHelper.DispatchCallBack(OnUnitExpansion, cbdArgs);
+            break;
+        default:
+            break;
+        }
+    }
+
+    void AddListener(){
+        MsgCenter.Instance.AddListener(CommandEnum.FriendExpansion, DoFriendExpansion);
+        MsgCenter.Instance.AddListener(CommandEnum.StaminaRecover, DoStaminaRecover);          
+        MsgCenter.Instance.AddListener(CommandEnum.UnitExpansion, DoUnitExpansion);
+    }
+
+    void RemoveListener(){
+        MsgCenter.Instance.RemoveListener(CommandEnum.FriendExpansion, DoFriendExpansion);
+        MsgCenter.Instance.RemoveListener(CommandEnum.StaminaRecover, DoStaminaRecover);          
+        MsgCenter.Instance.RemoveListener(CommandEnum.UnitExpansion, DoUnitExpansion);
+    }
+
+
+    MsgWindowParams GetFriendExpansionMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendExpand");
+
+        string context1 = TextCenter.Instace.GetCurrentText("ConfirmFriendExpansion");
+        string context2 = TextCenter.Instace.GetCurrentText("FriendExpansionInfo", DataCenter.Instance.FriendCount,
+                                                          DataCenter.Instance.UserInfo.FriendMax);
+
+        msgWindowParam.contentTexts = new string[2]{ context1, context2 };
+        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParams[0].callback = CallbackFriendExpansion;
+        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("DoFriendExpand");
+        return msgWindowParam;
+    }
+
+    MsgWindowParams GetBuyFailMsgWindowParams(BuyType buyType, BuyFailType failType){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+
+        string title = "";
+        string content = "";
+
+        switch (buyType) {
+        case BuyType.FriendExpansion:
+            title = "FriendExpansionFailed";
+            content = failType == BuyFailType.NoNeedToBuy ? "FriendCountLimitReachedMax" : "FriendExpandStonesNotEnough";
+            break;
+        case BuyType.StaminaRecover:
+            title = "StaminaRecoverFailed";
+            content = failType == BuyFailType.NoNeedToBuy ? "StaminaStillFull" : "StaminaRecoverStonesNotEnough" ;
+            break;
+        case BuyType.UnitExpansion:
+            title = "UnitExpansionFailed";
+            content = failType == BuyFailType.NoNeedToBuy ? "UnitCountLimitReachedMax": "UnitExpandStonesNotEnough";
+            break;
+        default:
+            break;
+        }
+        if (title != ""){
+            title = TextCenter.Instace.GetCurrentText(title);
+        }
+        if (content != ""){
+            content = TextCenter.Instace.GetCurrentText(content);
+        }
+        msgWindowParam.titleText = title;
+        
+        msgWindowParam.contentText = content;
+        msgWindowParam.btnParam = new BtnParam();
+        return msgWindowParam;
+    }
+
+    void CallbackFriendExpansion(object args){
+        MsgCenter.Instance.Invoke(CommandEnum.FriendExpansion);
+    }
+
+    void OnFriendExpansion(object args){
+        LogHelper.Log("start OnFriendExpansion()");
+        if (DataCenter.Instance.UserInfo.FriendMax >= DataCenter.maxFriendLimit) {
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.FriendExpansion, BuyFailType.NoNeedToBuy));
+            return;
+        }
+        else if (DataCenter.Instance.AccountInfo.Stone < DataCenter.friendExpansionStone){
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.FriendExpansion, BuyFailType.StoneNotEnough));
+            return;
+        }
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendExpansionMsgWindowParams());
+    }
+
+    void DoFriendExpansion(object args){
+        FriendMaxExpand.SendRequest(OnRspFriendExpansion);
+    }
+
+    void OnRspFriendExpansion(object data){
+        if (data == null)
+            return;
+        
+        LogHelper.Log("OnRspFriendExpansion begin");
+        LogHelper.Log(data);
+        bbproto.RspFriendMaxExpand rsp = data as bbproto.RspFriendMaxExpand;
+        
+        if (rsp.header.code != (int)ErrorCode.SUCCESS)
+        {
+            LogHelper.Log("OnRspFriendExpansion code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            return;
+        }
+        
+        DataCenter.Instance.UserInfo.FriendMax = rsp.friendMax;
+        DataCenter.Instance.AccountInfo.Stone = rsp.stone;
+        MsgCenter.Instance.Invoke(CommandEnum.RspFriendExpansion);
+        HideUI();
+        ShowUI(); 
+    }
+
+    void OnStaminaRecover(object args){
+        LogHelper.Log("start OnStaminaRecover()");
+
+        if (DataCenter.Instance.UserInfo.StaminaNow >= DataCenter.Instance.UserInfo.StaminaMax) {
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.StaminaRecover, BuyFailType.NoNeedToBuy));
+            return;
+        }
+        else if (DataCenter.Instance.AccountInfo.Stone < DataCenter.staminaRecoverStone){
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.StaminaRecover, BuyFailType.StoneNotEnough));
+            return;
+        }
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaMsgWindowParams());
+    }
+
+    MsgWindowParams GetStaminaMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("StaminaRecover");
+
+        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("ConfirmStaminaRecover");
+        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParams[0].callback = CallbackStaminaRecover;
+        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("DoStaminaRecover");
+        return msgWindowParam;
+    }
+    
+    void DoStaminaRecover(object args){
+        RestoreStamina.SendRequest(OnRspStartminaRecover);
+    }
+
+    void CallbackStaminaRecover(object args){
+        MsgCenter.Instance.Invoke(CommandEnum.StaminaRecover);
+    }
+
+    void OnRspStartminaRecover(object data){
+        if (data == null)
+            return;
+        
+        LogHelper.Log("OnRspStartminaRecover() begin");
+        LogHelper.Log(data);
+        bbproto.RspRestoreStamina rsp = data as bbproto.RspRestoreStamina;
+        
+        if (rsp.header.code != (int)ErrorCode.SUCCESS)
+        {
+            LogHelper.Log("OnRspStartminaRecover code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            return;
+        }
+
+        LogHelper.Log("OnRspStartminaRecover StaminaNow:{0}", rsp.staminaNow);
+
+        DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
+        DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
+        DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
+
+        DataCenter.Instance.AccountInfo.Stone = rsp.stone;
+        MsgCenter.Instance.Invoke(CommandEnum.RspStaminaRecover);
+
+        HideUI();
+        ShowUI(); 
+    }
+
+    void OnUnitExpansion(object args){
+        LogHelper.Log("start OnUnitExpansion()");
+
+        if (DataCenter.Instance.UserInfo.UnitMax >= DataCenter.maxUnitLimit) {
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.UnitExpansion, BuyFailType.NoNeedToBuy));
+            return;
+        }
+        else if (DataCenter.Instance.AccountInfo.Stone < DataCenter.unitExpansionStone){
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.UnitExpansion, BuyFailType.StoneNotEnough));
+            return;
+        }
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitExpansionMsgWindowParams());
+
+    }
+
+    MsgWindowParams GetUnitExpansionMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("UnitExpand");
+        
+        string context1 = TextCenter.Instace.GetCurrentText("ConfirmUnitExpansion");
+        string context2 = TextCenter.Instace.GetCurrentText("UnitExpansionInfo", DataCenter.Instance.MyUnitList.Count,
+                                                            DataCenter.Instance.UserInfo.UnitMax);
+        
+        msgWindowParam.contentTexts = new string[2]{ context1, context2 };
+        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParams[0].callback = CallbackUnitpansion;
+        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("DoUnitExpand");
+        return msgWindowParam;
+    }
+
+    void DoUnitExpansion(object args){
+        UnitMaxExpand.SendRequest(OnRspUnitExpansion);
+    }
+
+    void CallbackUnitpansion(object args){
+        MsgCenter.Instance.Invoke(CommandEnum.UnitExpansion);
+    }
+
+    void OnRspUnitExpansion(object data){
+        if (data == null)
+            return;
+        
+        LogHelper.Log("OnRspUnitExpansion() begin");
+        LogHelper.Log(data);
+        bbproto.RspUnitMaxExpand rsp = data as bbproto.RspUnitMaxExpand;
+        
+        if (rsp.header.code != (int)ErrorCode.SUCCESS)
+        {
+            LogHelper.Log("RspUnitMaxExpand code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            return;
+        }
+        
+        DataCenter.Instance.UserInfo.UnitMax = rsp.unitMax;
+        DataCenter.Instance.AccountInfo.Stone = rsp.stone;
+        
+        HideUI();
+        ShowUI(); 
+    }
+
 }

@@ -2,8 +2,7 @@ using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
-{
+public class QuestSelectDecoratorUnity : UIComponentUnity{
 	StageInfo stageInfo;
 	public static UIImageButton btnSelect;
 	IUICallback iuiCallback;
@@ -28,6 +27,11 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 	private DragPanel questDragPanel;
 	private GameObject scrollerItem;
 	private GameObject scrollView;
+
+
+	GameObject questViewItem;
+
+
 	List<UITexture> pickEnemiesList = new List<UITexture>();
 	UIToggle firstFocus;
 	private Dictionary< string, object > questSelectScrollerArgsDic = new Dictionary< string, object >();
@@ -38,6 +42,9 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		base.Init(config, origin);
 		temp = origin is IUICallback;
 		InitUI();
+		InitQuestSelectScrollArgs();
+		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
+//		Debug.LogError("xxx...." + (questViewItem == null));
 	}
 	
 	public override void ShowUI(){
@@ -45,20 +52,19 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		ShowTween();
 		btnSelect.isEnabled = false;
 
-		firstFocus.startsActive = true;
+		firstFocus.value = true;
 
 		MsgCenter.Instance.AddListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
 	}
+
+
 	
 	public override void HideUI(){
 		base.HideUI();
 		CleanQuestInfo();
 		MsgCenter.Instance.RemoveListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
 	}
-	
-	public override void DestoryUI(){
-		base.DestoryUI();
-	}
+
 
 	void ReceiveStageInfo( object data ){
 		StageInfo receivedStageInfo = data as StageInfo;
@@ -102,17 +108,16 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 			pickEnemiesList.Add(item);
 		} 
 
-		UIEventListener.Get(btnSelect.gameObject).onClick = ChangeScene;
+		UIEventListener.Get(btnSelect.gameObject).onClick = ClickFriendSelect;
 	}
 
 	void InitDragPanel(){
 		if(questDragPanel != null){
-//			Debug.LogError("Not Need Create Drag Panel");
 			return ;
 		}
 		questDragPanel = CreateDragPanel(questInfoList.Count);
 		FillDragPanel(questDragPanel, questInfoList);
-		InitQuestSelectScrollArgs();
+
 		questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 	}
 
@@ -165,46 +170,111 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		UIEventListener.Get( item).onClick = ClickQuestItem;
 	}
 
+	void UpdatePanelInfo(object args){
+		Dictionary<string,object> info = args as Dictionary<string, object>;
+		int index = (int)info["position"];
+		TStageInfo tsi = info["data"] as TStageInfo;
+
+		labStaminaVaule.text = tsi.QuestInfo[index].Stamina.ToString();
+		labFloorVaule.text = tsi.QuestInfo[index].Floor.ToString();
+		labDoorName.text = tsi.StageName;
+		labStoryContent.text = tsi.QuestInfo[index].Story;
+		rewardLineLabel.text = "/";
+		rewardCoinLabel.text = "Cion " + tsi.QuestInfo[index].RewardMoney.ToString();
+		labQuestInfo.text = tsi.QuestInfo[index].Name;
+		rewardExpLabel.text = "Exp " + tsi.QuestInfo[index].RewardExp.ToString();
+		storyTextLabel.text = tsi.Description;
+
+
+		btnSelect.isEnabled = true;
+
+	}
 
 	void ClickQuestItem(GameObject go ){
 		int index = questDragPanel.ScrollItem.IndexOf( go );
-//		Debug.LogError("Index : " + index);
-//		Debug.LogError("questInfoList Count: " + questInfoList.Count);
-		QuestInfo currentInfo = questInfoList[ index ];
+//		Debug.LogError("ClickQuestItem(), click item pos : " + index);
 
-		labStaminaVaule.text = currentInfo.stamina.ToString();
-		labFloorVaule.text = currentInfo.floor.ToString();
-		labQuestInfo.text = currentInfo.name;
-		questNameLabel.text = string.Format("Quest : {0}",currentInfo.no);
-		labDoorName.text = stageInfo.stageName;
-		rewardExpLabel.text = string.Format( "Exp : {0}", currentInfo.rewardExp.ToString() );
-		rewardLineLabel.text = "/";
-		rewardCoinLabel.text = string.Format("Cion : {0}", currentInfo.rewardMoney.ToString() );
-
-		string avatarTexturePath = "Avatar/" + currentInfo.no.ToString() + "_1";
-		avatarTexture.mainTexture = Resources.Load( avatarTexturePath ) as Texture2D;
-
-		int enemyCount = 4;
-		for (int i = 0; i < enemyCount; i++){
-			string enemyAvatarTexturePath = "Avatar/" + i.ToString() + "_1";
-			pickEnemiesList[ i ].mainTexture = Resources.Load(enemyAvatarTexturePath) as Texture2D;
-		}
-
-		labStoryContent.text = currentInfo.story;
-
-		btnSelect.isEnabled = true;
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickQuestItem", index);
+		ExcuteCallback(cbdArgs);
+//		QuestInfo currentInfo = questInfoList[ index ];
+//
+//		labStaminaVaule.text = currentInfo.stamina.ToString();
+//		labFloorVaule.text = currentInfo.floor.ToString();
+//		labQuestInfo.text = currentInfo.name;
+//		questNameLabel.text = string.Format("Quest : {0}",currentInfo.no);
+//		labDoorName.text = stageInfo.stageName;
+//		rewardExpLabel.text = string.Format( "Exp : {0}", currentInfo.rewardExp.ToString() );
+//		rewardLineLabel.text = "/";
+//		rewardCoinLabel.text = string.Format("Cion : {0}", currentInfo.rewardMoney.ToString() );
+//
+//		string avatarTexturePath = "Avatar/" + currentInfo.no.ToString() + "_1";
+//		avatarTexture.mainTexture = Resources.Load( avatarTexturePath ) as Texture2D;
+//
+//		int enemyCount = 4;
+//		for (int i = 0; i < enemyCount; i++){
+//			string enemyAvatarTexturePath = "Avatar/" + i.ToString() + "_1";
+//			pickEnemiesList[ i ].mainTexture = Resources.Load(enemyAvatarTexturePath) as Texture2D;
+//		}
+//
+//		labStoryContent.text = currentInfo.story;
+//
+//		btnSelect.isEnabled = true;
 	}
 
 
-	private void ChangeScene(GameObject btn){
+	private void ClickFriendSelect(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
+//		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", null);
+		ExcuteCallback(cbdArgs);
 	}
 	
-	public void Callback(object data){
-		bool b = (bool)data;
-		btnSelect.isEnabled = b;
+
+	public override void Callback(object data){
+		base.Callback(data);
+
+		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+
+		switch (cbdArgs.funcName){
+
+			case "CreateQuestList" : 
+				CallBackDispatcherHelper.DispatchCallBack(CreateQuestDragList, cbdArgs);
+				break;
+			case "ShowInfoPanel" : 
+				CallBackDispatcherHelper.DispatchCallBack(UpdatePanelInfo, cbdArgs);
+				break;
+			default:
+				break;
+		}
 	}
+
+
+	void CreateQuestDragList(object args){
+		TStageInfo tsi = args as TStageInfo;
+		questDragPanel = new DragPanel("QuestDragPanel", questViewItem);
+		questDragPanel.CreatUI();
+		questDragPanel.AddItem(tsi.QuestInfo.Count);
+		Debug.Log("CreateQuestDragList(), count is : " + tsi.QuestInfo.Count);
+		questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
+
+		for (int i = 0; i < questDragPanel.ScrollItem.Count; i++){
+			GameObject scrollItem = questDragPanel.ScrollItem[ i ];
+			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
+			string sourcePath = string.Format("Avatar/{0}_1", GetBossID());
+			tex.mainTexture = Resources.Load(sourcePath) as Texture2D;
+
+			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
+			label.text = "Quest : " + (i+1).ToString();
+
+			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
+		}
+
+	}
+
+	uint GetBossID(){
+		return 11;
+	}
+
 
 	void CleanQuestInfo(){
 		labStaminaVaule.text = string.Empty;
@@ -239,7 +309,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 	}
 	
 	private void InitQuestSelectScrollArgs(){
-		if( isInitDragPanelArgs )	return;
 		questSelectScrollerArgsDic.Add("parentTrans",		scrollView.transform);
 		questSelectScrollerArgsDic.Add("scrollerScale",		Vector3.one);
 		questSelectScrollerArgsDic.Add("scrollerLocalPos",		-96 * Vector3.up);
@@ -251,6 +320,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity ,IUICallback
 		questSelectScrollerArgsDic.Add("cellWidth",			130);
 		questSelectScrollerArgsDic.Add("cellHeight",			130);
 
-		isInitDragPanelArgs = true;
 	}
+	
+
 }

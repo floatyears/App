@@ -221,7 +221,6 @@ public class DGTools {
 		}
 		int length = target.Count;
 		for (int i = 1; i < length; i++) {
-
 			for (int j = 0; j < i; j++) {
 				int compare = compareObject.Compare(target[i], target[j]);
 				if(sort && compare > 0) {
@@ -235,8 +234,6 @@ public class DGTools {
 						temp = temp1;
 						k++;
 					}
-
-					//target[j] = temp;
 					continue;
 				}
 				
@@ -259,15 +256,50 @@ public class DGTools {
 		return System.Convert.ToBoolean (number & 1);
 	}
 
-	private const string path = "Protobuf/X_UNIT_";
+	public static float TypeMultiple (TUserUnit baseUnit, TUserUnit friend) {
+		if (baseUnit.UnitInfo.Type == friend.UnitInfo.Type) {
+			return 1.5f;	
+		} else {
+			return 1f;
+		}
+	}
+	
+	public static float RaceMultiple (TUserUnit baseUnit, TUserUnit friend) {
+		if (baseUnit.UnitInfo.Race == friend.UnitInfo.Race) {
+			return 1.5f;
+		} else {
+			return 1f;
+		}
+	}
+	
+	public static float AllMultiple (float type, float race) {
+		return type + race - 1;
+	}
+
+	public static float AllMultiple (TUserUnit baseUnit, TUserUnit friend) {
+		return AllMultiple (TypeMultiple (baseUnit, friend), RaceMultiple (baseUnit, friend));
+	}
+
+	private const string path = "Protobuf/";
+	private const string unitInfoPath = "Unit/";
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
-		string url = path + unitID;
-		TextAsset ta = Resources.Load (url, typeof(TextAsset)) as TextAsset;
-//		Debug.LogError (ta.bytes.Length);
+		string url = path +unitInfoPath + unitID;
+		TextAsset ta = LoadTextAsset (url);
 		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
 		TUnitInfo tui = new TUnitInfo (ui);
-
 		return tui;
+	}
+	private const string CityPath = "City/";
+	public static TCityInfo LoadCityInfo (uint cityID) {
+		string url = path + CityPath + cityID;
+		TextAsset ta = LoadTextAsset (url);
+		CityInfo ci = ProtobufSerializer.ParseFormBytes<CityInfo> (ta.bytes);
+		TCityInfo tci = new TCityInfo(ci);
+		return tci;
+	}
+
+	static TextAsset LoadTextAsset (string url) {
+		return Resources.Load (url, typeof(TextAsset)) as TextAsset;
 	}
 }
 

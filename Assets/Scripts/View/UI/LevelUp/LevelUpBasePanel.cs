@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using bbproto;
 
 public class LevelUpBasePanel : UIComponentUnity {
-
 	DragPanel baseDragPanel;
 	Dictionary<GameObject, UnitItemInfo> baseUnitInfoDic = new Dictionary<GameObject, UnitItemInfo>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
@@ -25,13 +24,14 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	public override void ShowUI(){
+		base.ShowUI();
+		if (!gameObject.activeSelf) {
+			gameObject.SetActive(true);	
+		}
+//		Debug.LogError("LevelUpBasePanel start showui");
 		InitDragPanel();
 		AddListener();
-	
-
-		base.ShowUI();
-		this.gameObject.SetActive(true);
-
+//		Debug.LogError("LevelUpBasePanel end showui");
 	}
 	
 	public override void HideUI(){
@@ -145,7 +145,13 @@ public class LevelUpBasePanel : UIComponentUnity {
 		if (data == null) {
 			ShieldParty(false);
 			if(baseSelectItem != null) {
-				baseSelectItem.stateLabel.text = "";
+				if(partyItem.Contains(baseSelectItem)) {
+					baseSelectItem.stateLabel.text = "Party";
+				}
+				else{
+					baseSelectItem.stateLabel.text = "";
+				}
+
 				baseSelectItem = null;
 			}
 		} else {
@@ -205,9 +211,13 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 	void DisposeBaseClick(UnitItemInfo uui) {
 		bool first = baseSelectItem != null;
-
 		if (first && !baseSelectItem.Equals(uui)) {
 			return;	
+		}
+		UnitItemInfo temp = selectMaterial.Find (a => a.userUnitItem.ID == uui.userUnitItem.ID);
+		if (temp != default(UnitItemInfo)) {
+			Debug.LogError("temp : " + temp.userUnitItem.ID);
+			return;		
 		}
 
 		if (!uui.isSelect) {
@@ -223,7 +233,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 	
 	void ShowMask( GameObject target, bool canMask) {
 		GameObject maskSpr = target.transform.FindChild("Mask").gameObject;
-//		Debug.LogError (target.name + "```" + maskSpr);
 		maskSpr.gameObject.SetActive( canMask );
 	}
 
@@ -235,6 +244,7 @@ public class LevelUpBasePanel : UIComponentUnity {
         }
 
 	void InitDragPanel(){
+//		Debug.LogError(" start levelup base panel InitDragPanel ");
 		if ( DataCenter.Instance.MyUnitList != null)
 			userUnitInfoList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
 		string name = "BaseDragPanel";
@@ -257,8 +267,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		panel.AddItem( count);
 		return panel;
 	}
-
-	//Fill Unit Item by with config data
+	
 	void FillDragPanel(DragPanel panel){
 		if( panel == null ){
 			Debug.LogError( "LevelUpBasePanel.FillDragPanel(), DragPanel is null, return!");
@@ -296,6 +305,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 					int indexTwo = partyItem.FindIndex(a=>a.userUnitItem.ID == uii.userUnitItem.ID);
 					if(indexTwo == -1) {
 						partyItem.Add(uii);
+						uii.stateLabel.text = "Party";
 					}
 				}
 			}else{

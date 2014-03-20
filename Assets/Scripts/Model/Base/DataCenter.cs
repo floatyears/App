@@ -20,6 +20,7 @@ public enum ModelEnum {
 
     User            = 1000,
     UnitPartyInfo   = 1001,
+    FriendCount     = 1002,
     
     UIInsConfig     = 2000,
     MapConfig       = 2001,
@@ -29,6 +30,7 @@ public enum ModelEnum {
     HaveCard,
     ItemObject,
 
+	CityInfo,
 }
 
 public enum Effect {
@@ -55,6 +57,11 @@ public class DataCenter {
     public const int posEnd = 5;
     public const int minNeedCard = 2;
     public const int maxNeedCard = 5;
+    public const int maxFriendLimit = 200;
+    public const int maxUnitLimit = 400;
+    public const int friendExpansionStone = 1;
+    public const int unitExpansionStone = 1;
+    public const int staminaRecoverStone = 1;
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
@@ -73,10 +80,36 @@ public class DataCenter {
         set { setData(ModelEnum.FriendList, value); } 
     }
 
+    public int FriendCount {
+        get {
+            int ret = 0;
+            if (getData(ModelEnum.FriendCount) != null){
+                ret = (int)getData(ModelEnum.FriendCount);
+            }
+            else{
+                List<TFriendInfo> supporters = SupportFriends;
+                if (supporters != null){
+                    for (int i = 0; i < supporters.Count; i++){
+                        if (supporters[i].FriendState == EFriendState.ISFRIEND){
+                            ret += 1;
+                        }
+                    }
+                    LogHelper.Log("total friends from supporters = {0}", ret);
+                }
+                setData(ModelEnum.FriendCount, ret);
+            }
+            return ret;
+        }
+        set {
+            setData(ModelEnum.FriendCount, value);
+        }
+    }
     public TPartyInfo PartyInfo { 
         get { return getData(ModelEnum.PartyInfo) as TPartyInfo; }
         set { setData(ModelEnum.PartyInfo, value); }
     }
+
+	public TUserUnit oldUserUnitInfo = null;
 
     //TODO: reconstruct myUnitList
     public UserUnitList MyUnitList { 
@@ -162,6 +195,18 @@ public class DataCenter {
         }
         set { setData(ModelEnum.UnitBaseInfo, value); } 
     }
+
+	public Dictionary<uint, TCityInfo> CityInfo {
+		get {
+			Dictionary<uint, TCityInfo> ret = getData(ModelEnum.CityInfo) as Dictionary<uint, TCityInfo>;
+			if (ret == null) {
+				ret = new Dictionary<uint, TCityInfo>();
+				setData(ModelEnum.CityInfo, ret);
+			}
+			return ret;
+		}
+		set { setData(ModelEnum.UnitBaseInfo, value); }
+	}
 
     public Dictionary<uint, TrapBase> TrapInfo {
         get { 
@@ -262,6 +307,15 @@ public class DataCenter {
         UserInfo.RefreshUserInfo(clearQuest);
         AccountInfo.RefreshAcountInfo(clearQuest);
     }
+
+    public void SetFriendList(FriendList friendList){
+        if (FriendList == null){
+            FriendList = new TFriendList(friendList);
+        }
+        else {
+            FriendList.RefreshFriendList(friendList);
+        }
+    }
     
     // return UserCost of curr Rank.
     public int UserCost {
@@ -297,9 +351,7 @@ public class DataCenter {
             return tui;
         }
         else {
-
 			TUnitInfo tui = DGTools.LoadUnitInfoProtobuf(unitID);
-//			Debug.LogError(unitID + " " + tui + "    " + tui.Type);
 			if(tui == null) {
 				Debug.LogError("uintid : " + unitID + " is invalid");
 				return null;
@@ -309,6 +361,22 @@ public class DataCenter {
         }
     }
 
+	public TCityInfo GetCityInfo (uint cityID) {
+		if (CityInfo.ContainsKey(cityID)) {
+			TCityInfo tui = CityInfo[cityID];
+			return tui;
+		}
+		else {
+			
+			TCityInfo tui = DGTools.LoadCityInfo(cityID);
+			if(tui == null) {
+				Debug.LogError("city id : " + cityID + " is invalid");
+				return null;
+			}
+			CityInfo.Add(tui.ID,tui);
+			return tui;
+		}
+	}
 
     
     private void setData(ModelEnum modelType, object modelData) {

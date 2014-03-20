@@ -5,8 +5,7 @@ using bbproto;
 public class StartQuestParam {
     public uint stageId;
     public uint questId;
-    public uint helperUserId;
-    public uint helperUniqueId;
+	public TFriendInfo helperUserUnit;
     public int currPartyId;
 }
 
@@ -40,13 +39,15 @@ public class StartQuest: ProtoManager {
 
         reqStartQuest.stageId = questParam.stageId;
         reqStartQuest.questId = questParam.questId;
-        reqStartQuest.helperUserId = questParam.helperUserId;
-        reqStartQuest.currentParty = 0;//questParam.currPartyId;
-        TUserUnit userunit = DataCenter.Instance.UserUnitList.GetMyUnit(questParam.helperUniqueId);
-        if (userunit != null)
-            reqStartQuest.helperUnit = userunit.Object;
+		reqStartQuest.helperUserId = questParam.helperUserUnit.UserId;
+        reqStartQuest.currentParty = questParam.currPartyId;
 
-        LogHelper.Log("helperUserId:{0} currParty:{1} userunit:{2}", reqStartQuest.helperUserId, reqStartQuest.currentParty, userunit);
+//		TUserUnit userunit = DataCenter.Instance.UserUnitList.Get(questParam.helperUserId, questParam.helperUniqueId);
+//		Debug.LogError ("userunit : " + userunit);
+//        if (userunit != null)
+		reqStartQuest.helperUnit = questParam.helperUserUnit.UserUnit.Object;
+
+//        LogHelper.Log("helperUserId:{0} currParty:{1} userunit:{2}", reqStartQuest.helperUserId, reqStartQuest.currentParty, userunit);
 
         ErrorMsg err = SerializeData(reqStartQuest); // save to Data for send out
 		
@@ -67,8 +68,8 @@ public class StartQuest: ProtoManager {
             return;
         }
 
-        LogHelper.Log("OnReceiveCommand(StartQuest): stageId:{0} questId:{1} helperUserId:{2} helperUniqueId:{3} currParty:{4}",
-			questParam.stageId, questParam.questId, questParam.helperUserId, questParam.helperUniqueId, questParam.currPartyId);
+//        LogHelper.Log("OnReceiveCommand(StartQuest): stageId:{0} questId:{1} helperUserId:{2} helperUniqueId:{3} currParty:{4}",
+//			questParam.stageId, questParam.questId, questParam.helperUserId, questParam.helperUniqueId, questParam.currPartyId);
 
         Send(); //send request to server
     }

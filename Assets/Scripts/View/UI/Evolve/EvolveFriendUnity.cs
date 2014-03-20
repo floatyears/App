@@ -7,9 +7,13 @@ public class EvolveFriendUnity : LevelUpFriendWindow {
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config, origin);
 
-		levelLabel = transform.Find ("Info_Panel/VauleLabel/" + 0).GetComponent<UILabel>();
+		transform.Find("Info_Panel/TextLabel/" + 1).GetComponent<UILabel>().text = "Type : ";
+		transform.Find("Info_Panel/TextLabel/" + 2).GetComponent<UILabel>().text = "Race : ";
+		transform.Find("Info_Panel/TextLabel/" + 3).GetComponent<UILabel>().text = "Level : ";
+
+		typeLabel = transform.Find ("Info_Panel/VauleLabel/" + 0).GetComponent<UILabel>();
+		levelLabel = transform.Find ("Info_Panel/VauleLabel/" + 2).GetComponent<UILabel>();
 		raceLabel = transform.Find ("Info_Panel/VauleLabel/" + 1).GetComponent<UILabel>();
-		typeLabel = transform.Find ("Info_Panel/VauleLabel/" + 2).GetComponent<UILabel>();
 	}
 
 	public override void ShowUI () {
@@ -57,8 +61,8 @@ public class EvolveFriendUnity : LevelUpFriendWindow {
 
 	
 	void UnitDisplayState (object data) {
-		EvolveState es = (EvolveState)data;
-		if (es != EvolveState.FriendState) {
+		int es = (int)data;
+		if (es != 5) {
 			ClearData ();
 			if (gameObject.activeSelf) {
 				gameObject.SetActive (false);	
@@ -74,11 +78,7 @@ public class EvolveFriendUnity : LevelUpFriendWindow {
 		int level = hr.level;
 		EUnitRace race = hr.race;
 		EUnitType type = hr.type;
-		if (level == 0) {
-			levelLabel.text = "-";	
-		} else {
-			levelLabel.text = level.ToString();
-		}
+		levelLabel.text = level + " up";
 
 		if (race == EUnitRace.ALL) {
 			raceLabel.text = "-";

@@ -225,7 +225,7 @@ public class BattleQuest : UIBase {
 			default:
 				battleMap.waitMove = false;
 				MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-					break;
+				break;
 			}
 		}
 	}

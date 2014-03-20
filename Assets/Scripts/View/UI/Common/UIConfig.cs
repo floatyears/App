@@ -63,6 +63,7 @@ public class UIConfig
 	public const string partyDragPanelName = "PartyDragPanel";
 	public const string partyInfoPanelName = "PartyInfoPanel";
 	public const string partyPagePanelName = "PartyPagePanel";
+
 	public const string partyWindowName = "PartyWindow";
 	public const string catalogWindowName = "CatalogWindow";
 	public const string levelUpWindowName = "LevelUpWindow";
@@ -91,7 +92,7 @@ public class UIConfig
 	public const string unitBriefInfoWindowName = "UnitBriefInfoWindow";
 	public const string userBriefInfoWindowName = "UserBriefInfoWindow";
 	public const string applyMessageWindowName = "ApplyMessageWindow";
-
+	public const string acceptApplyMessageWindowName = "AcceptApplyMessageWindow";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;
@@ -102,6 +103,7 @@ public class UIConfig
 	public const int otherMusicSettingIndex = 1;
 	public const string otherMusicSettingName = "Music";
 
+	
 
 }
 

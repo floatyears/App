@@ -10,25 +10,33 @@ public class LevelUpFriendWindow : UIComponentUnity {
 	protected List<TFriendInfo> friendInfoList = new List<TFriendInfo>();
 	protected List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
+	private Dictionary<int, UILabel> infoLabel = new Dictionary<int, UILabel> ();
+	private UnitItemInfo baseItemInfo = null;
+	private TUserUnit friendUnit = null;
+
     public override void Init(UIInsConfig config, IUICallback origin) {
         base.Init(config, origin);
-
         InitUI();
     }
 
     public override void ShowUI() {
         base.ShowUI();
-        
+		MsgCenter.Instance.AddListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
         MsgCenter.Instance.AddListener(CommandEnum.PanelFocus, FocusOnPanel);
     }
 
     public override void HideUI() {
         base.HideUI();
+		MsgCenter.Instance.AddListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
         MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, FocusOnPanel);
     }
 
     void InitUI() {
         InitDragPanel();
+		for (int i = 0; i < 3; i++) {
+			UILabel label = FindChild<UILabel>("Info_Panel/VauleLabel/" + i);
+			infoLabel.Add(i,label);
+		}
         this.gameObject.SetActive(false);
     }
 
@@ -44,11 +52,9 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
         FillDragPanel(friendDragPanel);
         friendDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
-        //StartCoroutine( CrossShow(unitInfoStruct));
     }
 
     private DragPanel CreateDrag(string name, int count, GameObject item) {
-        //Debug.Log("Create Drag Panel");
         DragPanel panel = new DragPanel(name, item);
         panel.CreatUI();
         panel.AddItem(count);
@@ -64,15 +70,6 @@ public class LevelUpFriendWindow : UIComponentUnity {
     private void FillDragPanel(DragPanel panel) {
         if (panel == null)
             return;
-//		GameObject scrollItem = panel.ScrollItem[0];
-//
-//	    TFriendInfo tfiItem = friendInfoList[0];	
-//	    friendUnitInfoDic.Add(scrollItem, tfiItem);
-//
-//		StoreLabelInfo(scrollItem,tfiItem.UserUnit);
-//		return;
-//		ShowItem(scrollItem);
-//	    AddEventListener(scrollItem);
         for (int i = 0; i < panel.ScrollItem.Count; i++) {
             GameObject scrollItem = panel.ScrollItem[i];
             TFriendInfo tfiItem = friendInfoList[i];	
@@ -86,7 +83,6 @@ public class LevelUpFriendWindow : UIComponentUnity {
     private void ShowItem(GameObject item) {
         GameObject avatarGo = item.transform.FindChild("Texture_Avatar").gameObject;
         UITexture avatarTex = avatarGo.GetComponent< UITexture >();
-//		if(friendUnitInfoDic.ContainsKey(item))
         TFriendInfo tfriendInfo;
         if (!friendUnitInfoDic.TryGetValue(item, out tfriendInfo)) {
             Debug.Log("ShowItem(),Not Exist vaule");
@@ -133,39 +129,44 @@ public class LevelUpFriendWindow : UIComponentUnity {
             Debug.Log("friendUnitInfoDic[ item ].FriendPoint is Null  ");
             return;
         }
-//		Debug.Log("friendUnitInfoDic[ item ].FriendPoint is : " + friendUnitInfoDic[ item ].FriendPoint);
         UILabel friendPointLabel = item.transform.FindChild("Label_Friend_Point").GetComponent<UILabel>();
         friendPointLabel.text = string.Format("{0}pt", tfriendInfo.FriendPoint);
     }
 
 
     protected virtual void ClickFriendItem(GameObject item) {
-
         AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-        TUserUnit tempInfo = friendUnitInfoDic[item].UserUnit;
-        //Debug.LogError( tempInfo.name );
-        MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, tempInfo);
-//                MsgCenter.Instance.Invoke(CommandEnum.TryEnableLevelUp, true);
+		TUserUnit temp = friendUnitInfoDic[item].UserUnit;
+		if (friendUnit == null) {
+			friendUnit = temp;
+		} else if (temp.Equals (friendUnit)) {
+			friendUnit = null;
+		}
+		ShowInfo();
+		MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, temp);
     }
 
     void PressItem(GameObject item) {
-        TUserUnit unitInfo = friendUnitInfoDic[item].UserUnit;
+       TUserUnit temp = friendUnitInfoDic[item].UserUnit;
+
         UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);//before
-        MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);//after
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, temp);//after
     }
+
+	void BaseAlreadySelect(object data) {
+		baseItemInfo = data as UnitItemInfo;
+	}
 
     void FocusOnPanel(object data) {
         string msg = (string)data;
-//		Debug.Log("Friend Window receive : " + msg);
+		Debug.Log("Friend Window receive : " + msg);
         if (msg == "Tab_Friend") {
             this.gameObject.SetActive(true);
-
             if (IsInvoking("CrossShow")) {
                 CancelInvoke("CrossShow");
             }
-//			Debug.LogError("InvokeRepeating");
-
             InvokeRepeating("CrossShow", 0.1f, 1f);
+			ShowInfo();
         }
         else {
             this.gameObject.SetActive(false);
@@ -185,39 +186,25 @@ public class LevelUpFriendWindow : UIComponentUnity {
         dragPanelArgs.Add("cellHeight", 130);
     }
 
-//	//Cross Show Label
-//	IEnumerator CrossShow(List<UnitInfoStruct> infoStruct){
-//		//		Debug.Log("CrossShow() : Start");
-//		float timer = 0.0f;
-//		float cycle = 1.0f;
-//		bool exchange = false;
-//		Debug.LogError("infoStruct.Count : " + infoStruct.Count);
-//		while(true){
-//			timer += Time.deltaTime;
-//			if(exchange){
-//				foreach (var item in infoStruct) {
-//					item.targetLabel.text = string.Format( "+{0}", item.text2);
-//					Debug.LogError("Text2 : " + item.text2);
-//				}
-//			} else {
-//				foreach (var item in infoStruct) {
-//					item.targetLabel.text = string.Format("Lv: {0}", item.text1);
-//					Debug.LogError("Text1 : " + item.text1);
-//				}
-//			}
-//			yield return new WaitForSeconds(cycle);
-//			exchange = !exchange;
-//		} 
-//	}//End 
-
+	void ShowInfo () {
+		if (friendUnit == null || baseItemInfo == null) {
+			infoLabel [0].text = "x 0.00";
+			infoLabel [1].text = "x 0.00";
+			infoLabel [2].text = "x 0.00";
+			return;	
+		}
+		float tValue = DGTools.TypeMultiple (baseItemInfo.userUnitItem, friendUnit);
+		float rValue = DGTools.RaceMultiple (baseItemInfo.userUnitItem, friendUnit);
+		infoLabel [0].text = "x " + tValue.ToString("0.00");
+		infoLabel [1].text = "x " + rValue.ToString("0.00");
+		infoLabel [2].text = "x " +  DGTools.AllMultiple (tValue, rValue).ToString("0.00");
+	}
 
     bool exchange = false;
     void CrossShow() {
         if (exchange) {
-            //				target.text = text2;
             for (int i = 0; i< unitInfoStruct.Count; i++) {
                 unitInfoStruct[i].targetLabel.text = string.Format("+{0}", unitInfoStruct[i].text2);
-                //Debug.LogError("Text2 : " + item.text2);
             }
             exchange = false;
         }
@@ -239,8 +226,6 @@ public class LevelUpFriendWindow : UIComponentUnity {
         UnitInfoStruct infoStruct = new UnitInfoStruct();
         infoStruct.text1 = tuu.Level.ToString();
         infoStruct.text2 = (tuu.AddHP + tuu.AddAttack).ToString();
-//		Debug.LogError("TUserUnit.Level : " + tuu.Level.ToString());
-//		Debug.LogError("TUserUnit.Add : " + (tuu.AddHP + tuu.AddAttack).ToString());
         infoStruct.targetLabel = item.transform.FindChild("Label_Info").GetComponent<UILabel>();
         unitInfoStruct.Add(infoStruct);
     }
