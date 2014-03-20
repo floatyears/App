@@ -120,9 +120,6 @@ public class TextCenter {
         textDict.Add("EventGachaDescription", "Use stones to get units");
         textDict.Add("EventGachaStatus", "1 gacha: {0} stones {1} gachas: {2} stones\nnow stones {3}");
 
-        textDict.Add("ConfirmOneRareGacha", "Gacha 1 time");
-        textDict.Add("ConfirmMaxRareGacha", "Gacha {0} times");
-
         textDict.Add("EventGachaFailed", "Event Gacha Failed");
         textDict.Add("EventGachaStoneNotEnough", "1 event gacha need {0} stones\nYour stones not enough.");
 

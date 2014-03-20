@@ -363,6 +363,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			gotExp = levelUpData.blendExp;
 
 			Debug.LogError ("gotextp : " + gotExp);
+			if ( newBlendUnit == null)
+				Debug.LogError("newBlendUnit is null ");
 			Debug.LogError("level : " + newBlendUnit.Level);
 			Debug.LogError("CurExp : " + newBlendUnit.CurExp);
 
@@ -402,6 +404,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void Calculate () {
+
+		LogHelper.LogError("Calculate() :: oldBlendUnit:{0}", oldBlendUnit);
+		if ( oldBlendUnit!= null)
+			LogHelper.LogError("Calculate() :: oldBlendUnit.UnitInfo:{0}", oldBlendUnit.UnitInfo);
+
 		currMaxExp = DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
 		expRiseStep = (int)(currMaxExp * 0.01f);
 	}
