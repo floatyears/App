@@ -225,6 +225,7 @@ public class PlayerInfoBar : UIComponentUnity
         MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncChips);
         MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncStamina);
         MsgCenter.Instance.AddListener(CommandEnum.RspUnitExpansion, SyncChips);
+        MsgCenter.Instance.AddListener(CommandEnum.RspStoneGachaOver, SyncChips);
 	}
 	
 	void RemoveCommandListener()
@@ -237,6 +238,7 @@ public class PlayerInfoBar : UIComponentUnity
         MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncChips);
         MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncStamina);
         MsgCenter.Instance.RemoveListener(CommandEnum.RspUnitExpansion, SyncChips);
+        MsgCenter.Instance.RemoveListener(CommandEnum.RspStoneGachaOver, SyncChips);
 	}
 
 	void RequestData()

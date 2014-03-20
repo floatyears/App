@@ -12,6 +12,12 @@ public enum SceneEnum
 
 	Scratch,
 
+    FriendGacha,
+
+    RareGacha,
+
+    EventGacha,
+
 	Shop,
 
 	Others,
@@ -195,6 +201,11 @@ public enum CommandEnum
 	ChooseHelper					= 4052,
 	GetSelectedStage				= 4053,
 	GetSelectedQuest				= 4054,
+    RspStoneGachaOver               = 4055,
+    EnterFriendGachaWindow          = 4056,
+    EnterRareGachaWindow            = 4057,
+    EnterEventGachaWindow            = 4058,
+
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,
