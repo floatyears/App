@@ -402,6 +402,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void Calculate () {
+		Debug.LogError (oldBlendUnit);
 		currMaxExp = DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
 		expRiseStep = (int)(currMaxExp * 0.01f);
 	}
