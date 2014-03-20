@@ -281,7 +281,7 @@ public class DGTools {
 	}
 
 	private const string path = "Protobuf/";
-	private const string unitInfoPath = "UNIT/";
+	private const string unitInfoPath = "Unit/";
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
 		string url = path +unitInfoPath + unitID;
 		TextAsset ta = LoadTextAsset (url);
