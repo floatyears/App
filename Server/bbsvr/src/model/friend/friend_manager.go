@@ -88,6 +88,20 @@ func UpdateHelperUsedRecord(db *data.Data, uid uint32, fid uint32) (e Error.Erro
 		return Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 
+	value, err := db.HGet(consts.X_HELPER_RECORD+common.Utoa(uid), common.Utoa(fid))
+	if err != nil {
+		log.Error("db.HGet(%v,%v) failed.", uid, fid)
+		return Error.New(EC.READ_DB_ERROR, err)
+	}
+
+	if len(value) > 0 {
+		usedTime := common.Atou(string(value))
+		if common.IsToday( usedTime ) {
+			log.T("UpdateHelperUsedRecord:: [uid:%v fid:%v] already has usedTime(%v) today, skip update it.", uid, fid, usedTime)
+			return Error.OK()
+		}
+	}
+
 	sUsedTime := common.Utoa(common.Now())
 	if err := db.HSet(consts.X_HELPER_RECORD+common.Utoa(uid), common.Utoa(fid), []byte(sUsedTime)); err != nil {
 		log.Error("db.HSet(%v,%v,%v) failed.", uid, fid, sUsedTime)
@@ -98,6 +112,7 @@ func UpdateHelperUsedRecord(db *data.Data, uid uint32, fid uint32) (e Error.Erro
 }
 
 func GetHelperUsedRecord(db *data.Data, uid uint32, fid uint32) (usedTime uint32, e Error.Error) {
+	usedTime = 0
 	if db == nil {
 		return 0, Error.New(EC.INVALID_PARAMS, "invalid db pointer")
 	}
@@ -111,7 +126,9 @@ func GetHelperUsedRecord(db *data.Data, uid uint32, fid uint32) (usedTime uint32
 		return 0, Error.New(EC.READ_DB_ERROR, err)
 	}
 
-	usedTime = common.Atou(string(value))
+	if len(value) > 0 {
+		usedTime = common.Atou(string(value))
+	}
 
 	return usedTime, Error.OK()
 }

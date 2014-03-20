@@ -144,11 +144,11 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	}
 
 	//4. update exp, rank, account
-	*userDetail.User.Exp += *userDetail.Quest.GetExp
-	*userDetail.Account.Money += (*userDetail.Quest.GetMoney)
+	*userDetail.User.Exp += gotExp
+	*userDetail.Account.Money += gotMoney
 	user.RefreshRank(userDetail.User)
 
-	log.T("==Account :: addMoney:%v -> %v addExp:%v -> %v", gotMoney, *userDetail.Account.Money, gotExp, *userDetail.User.Exp)
+	log.T("==Account :: addMoney:+%v -> %v addExp:+%v -> user.Exp:%v", gotMoney, *userDetail.Account.Money, gotExp, *userDetail.User.Exp)
 
 	//5. calculate stamina
 	if e = user.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {

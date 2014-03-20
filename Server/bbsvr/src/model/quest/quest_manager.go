@@ -175,5 +175,7 @@ func FillUserQuest(userDetail *bbproto.UserInfoDetail, currParty int32, helperUi
 		}
 	}
 
+	log.T("userDetail.Quest: %+v", userDetail.Quest)
+
 	return Error.OK()
 }

@@ -225,7 +225,9 @@ func GetQuestClearFlag(db *data.Data, userDetail *bbproto.UserInfoDetail) (clear
 	uid := *userDetail.User.UserId
 
 	clearInfo = &bbproto.QuestClearInfo{}
-	clearInfo.StoryClear = userDetail.QuestClear.StoryClear
+	if userDetail.QuestClear != nil {
+		clearInfo.StoryClear = userDetail.QuestClear.StoryClear
+	}
 
 	//get event clear flag
 
@@ -233,11 +235,11 @@ func GetQuestClearFlag(db *data.Data, userDetail *bbproto.UserInfoDetail) (clear
 	zDatas, err := db.HGetAll(consts.X_QUEST_RECORD + common.Utoa(uid))
 	if err != nil {
 		log.Printf("[ERROR] GetQuestRecord for '%v' ret err:%v", uid, err)
-		return nil, Error.New(EC.READ_DB_ERROR, "read quest log fail")
+		return clearInfo, Error.New(EC.READ_DB_ERROR, "read quest log fail")
 	}
 
 	if len(value) == 0 {
-		return nil, Error.OK() //no records
+		return clearInfo, Error.OK() //no records
 	}
 
 	for i := 0; len(zDatas) > 0; i++ {

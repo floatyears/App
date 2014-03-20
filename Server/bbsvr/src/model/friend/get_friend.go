@@ -100,7 +100,7 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 	sUserSpace := consts.X_USER_RANK + strconv.Itoa(int(uid%consts.N_USER_SPACE_PARTS))
 
 	offset := 0 //rand.Intn(2)
-	count := 3 + rand.Intn(3)
+	count := 10 + rand.Intn(3)
 
 	minRank := 1
 	if rank > consts.N_HELPER_RANK_RANGE {
