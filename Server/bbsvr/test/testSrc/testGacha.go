@@ -150,10 +150,10 @@ func main() {
 	AddGachaPool(3) // for unitId 1
 	AddSomeGachaConf()
 
-	uid := uint32(174)
-	gachaId := int32(3)
-	gachaCount := int32(2)
-	Gacha(uid, gachaId, gachaCount)
+	//uid := uint32(174)
+	//gachaId := int32(3)
+	//gachaCount := int32(2)
+	//Gacha(uid, gachaId, gachaCount)
 
 	log.Fatal("bbsvr test client finish.")
 }
