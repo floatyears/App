@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
+public enum GachaFailedType {
+    FriendGachaPointNotEnough = 1,
+    FriendGachaUnitCountReachedMax,
+    RareGachaStoneNotEnough,
+    RareGachaUnitCountReachedMax,
+    EventGachaStoneNotEnough,
+    EventGachaUnitCountReachedMax,
+}
+
 public class ScratchLogic : ConcreteComponent {
 	
 	public ScratchLogic(string uiName):base(uiName) {}
@@ -50,12 +59,6 @@ public class ScratchLogic : ConcreteComponent {
     }
 
 
-    private void DoFriendGacha(object args){
-        LogHelper.Log("DoFriendGacha() start");
-        int gachaCount = (int)args;
-        Gacha.SendRequest(OnRspGacha, 2, gachaCount);
-    }
-    
     public void OnRspGacha(object data) {
         if (data == null)
             return;
@@ -87,15 +90,61 @@ public class ScratchLogic : ConcreteComponent {
         LogHelper.LogError("after gacha, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
     }
 
+    MsgWindowParams GetFriendGachaFailedMsgWindowParams(GachaFailedType failedType){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendGacha");
+//        string content1 = TextCenter.Instace.GetCurrentText("FriendGachaDescription");
+        
+//        int maxGachaTimes = Mathf.Min(DataCenter.maxGachaPerTime, DataCenter.Instance.GetAvailableFriendGachaTimes());
+//        LogHelper.Log("GetFriendGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
+//        string content2 = TextCenter.Instace.GetCurrentText("FriendGachaStatus", DataCenter.friendGachaFriendPoint, 
+//                                                            maxGachaTimes, maxGachaTimes * DataCenter.friendGachaFriendPoint,
+//                                                            DataCenter.Instance.AccountInfo.FriendPoint);
+//        msgWindowParam.contentTexts = new string[2]{content1, content2}; 
+//        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+//        msgWindowParam.btnParams[0].callback = CallbackFriendGacha;
+//        msgWindowParam.btnParams[1].args = 1;
+//        msgWindowParam.btnParams[0].callback = CallbackFriendGacha;
+//        msgWindowParam.btnParams[1].args = DataCenter.Instance.GetAvailableFriendGachaTimes();
 
+        return msgWindowParam;
+    }
+
+    MsgWindowParams GetFriendGachaMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendGacha");
+        string content1 = TextCenter.Instace.GetCurrentText("FriendGachaDescription");
+
+        int maxGachaTimes = Mathf.Min(DataCenter.maxGachaPerTime, DataCenter.Instance.GetAvailableFriendGachaTimes());
+        LogHelper.Log("GetFriendGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
+        string content2 = TextCenter.Instace.GetCurrentText("FriendGachaStatus", DataCenter.friendGachaFriendPoint, 
+                                                            maxGachaTimes, maxGachaTimes * DataCenter.friendGachaFriendPoint,
+                                                            DataCenter.Instance.AccountInfo.FriendPoint);
+        msgWindowParam.contentTexts = new string[2]{content1, content2}; 
+        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParams[0].callback = CallbackFriendGacha;
+        msgWindowParam.btnParams[1].args = 1;
+        msgWindowParam.btnParams[0].callback = CallbackFriendGacha;
+        msgWindowParam.btnParams[1].args = DataCenter.Instance.GetAvailableFriendGachaTimes();
+
+        return msgWindowParam;
+    }
+
+    private void CallbackFriendGacha(object args){
+        LogHelper.Log("CallbackFriendGacha() start");
+        int gachaCount = (int)args;
+        Gacha.SendRequest(OnRspGacha, 2, gachaCount);
+    }
+    
     private void OpenFriendGachaWindow(object args){
         LogHelper.Log("OnFriendGacha() start");
 
 
-//        if (DataCenter.Instance.UserInfo.StaminaNow >= DataCenter.Instance.UserInfo.StaminaMax) {
-//            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.StaminaRecover, BuyFailType.NoNeedToBuy));
-//            return;
-//        }
+        if (DataCenter.Instance.GetAvailableFriendGachaTimes() < 1) {
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaFailedMsgWindowParams(GachaFailedType.FriendGachaPointNotEnough));
+            return;
+        }
 //        else if (DataCenter.Instance.AccountInfo.Stone < DataCenter.staminaRecoverStone){
 //            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.StaminaRecover, BuyFailType.StoneNotEnough));
 //            return;

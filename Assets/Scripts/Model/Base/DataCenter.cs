@@ -67,6 +67,7 @@ public class DataCenter {
     public const int friendGachaFriendPoint = 200;
     public const int rareGachaStone = 5;
     public const int eventGachaStone = 5;
+    public const int maxGachaPerTime = 9;
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
