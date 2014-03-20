@@ -188,6 +188,9 @@ public enum CommandEnum
 	AddHelperItem				= 4045,
 	ChooseHelper					= 4046,
 	GetSelectedStage				= 4047,
+	GetSelectedQuest				= 4048,
+
+
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

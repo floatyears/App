@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class FriendHelperController : ConcreteComponent{
 	TFriendInfo selectedHelper;
+
+	int questID;
+	int stageID;
+
 	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 	
@@ -42,6 +46,12 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void QuestStart(object args){
+		Dictionary<string, object> battleReadyInfo = new Dictionary<string, object>();
+		battleReadyInfo.Add("QuestID", questID);
+		battleReadyInfo.Add("StageID", stageID);
+		battleReadyInfo.Add("PartyID", DataCenter.Instance.PartyInfo.CurrentPartyId);
+		battleReadyInfo.Add("Helper", selectedHelper);
+		//TODO Change to Battle here
 
 	}
 
@@ -97,17 +107,26 @@ public class FriendHelperController : ConcreteComponent{
 
 	void AddCommandListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.ChooseHelper, ChooseHelper);
+		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 	}
 
 	void RemoveCommandListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
+		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 	}
 
 	void ChooseHelper(object msg){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableBottomButton", null);
 		ExcuteCallback(cbdArgs);
-		if(selectedHelper != null)
+		if(selectedHelper != null){
 			MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
+		}
+	}
+	
+	void RecordSelectedQuest(object msg){
+		Dictionary<string,int> idArgs = msg as Dictionary<string,int>;
+		questID = idArgs["QuestID"];
+		stageID = idArgs["StageID"];
 	}
 
 }

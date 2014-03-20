@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class QuestSelectComponent : ConcreteComponent{
 	TStageInfo currentStageInfo;
+	int currentQuestIndex;
 	public QuestSelectComponent(string uiName):base(uiName){}
 	
 	public override void CreatUI(){
@@ -50,6 +51,7 @@ public class QuestSelectComponent : ConcreteComponent{
 
 	void ShowQuestInfo(object args){
 		int index = (int)args;
+		currentQuestIndex = index;
 		Dictionary<string, object> info = new Dictionary<string, object>();
 		info.Add("position", index);
 		info.Add("data", currentStageInfo);
@@ -61,5 +63,14 @@ public class QuestSelectComponent : ConcreteComponent{
 
 	void TurnToFriendSelect(object args){
 		//change scene to friendSelect
+		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
+		uint questID = currentStageInfo.QuestInfo[ currentQuestIndex ].ID;
+		uint stageID = currentStageInfo.ID;
+		Dictionary<string,int> idArgs = new Dictionary<string, int>();
+		idArgs.Add("QuestID", questID);
+		idArgs.Add("StageID", stageID);
+
+		MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
+
 	}
 }

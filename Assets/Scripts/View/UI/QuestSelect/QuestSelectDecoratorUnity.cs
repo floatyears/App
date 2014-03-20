@@ -108,7 +108,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			pickEnemiesList.Add(item);
 		} 
 
-		UIEventListener.Get(btnSelect.gameObject).onClick = ChangeScene;
+		UIEventListener.Get(btnSelect.gameObject).onClick = ClickFriendSelect;
 	}
 
 	void InitDragPanel(){
@@ -180,16 +180,13 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		labDoorName.text = tsi.StageName;
 		labStoryContent.text = tsi.QuestInfo[index].Story;
 		rewardLineLabel.text = "/";
-		rewardCoinLabel.text = tsi.QuestInfo[index].RewardMoney.ToString();
+		rewardCoinLabel.text = "Cion " + tsi.QuestInfo[index].RewardMoney.ToString();
 		labQuestInfo.text = tsi.QuestInfo[index].Name;
-		rewardExpLabel.text = tsi.QuestInfo[index].RewardExp.ToString();
+		rewardExpLabel.text = "Exp " + tsi.QuestInfo[index].RewardExp.ToString();
 		storyTextLabel.text = tsi.Description;
 
 
 		btnSelect.isEnabled = true;
-
-
-
 
 	}
 
@@ -225,9 +222,11 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	}
 
 
-	private void ChangeScene(GameObject btn){
+	private void ClickFriendSelect(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
+//		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", null);
+		ExcuteCallback(cbdArgs);
 	}
 	
 
