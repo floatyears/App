@@ -372,7 +372,7 @@ func DataAddEvolveCity() (err error) {
 		return err
 	}
 
-	err = common.WriteFile(zCityData, "./EvolveCity.pd")
+	err = common.WriteFile(zCityData, "./100.bytes")
 	if err != nil {
 		log.Error("WriteFile error.")
 		return err
@@ -428,7 +428,7 @@ func DataAddPrisonCity() (err error) {
 		return err
 	}
 
-	err = common.WriteFile(zCityData, "./PrisonCity.pd")
+	err = common.WriteFile(zCityData, "./1.bytes")
 	if err != nil {
 		log.Error("WriteFile error.")
 		return err
@@ -453,5 +453,5 @@ func main() {
 
 	//StartQuest(101, 11, 1101, 102)
 
-	log.Fatal("bbsvr test client finish.")
+	log.Fatal("Generate city.bytes finish.")
 }

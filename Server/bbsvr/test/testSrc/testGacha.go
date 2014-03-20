@@ -6,7 +6,7 @@ import (
 	//"fmt"
 	_ "html"
 	//"math/rand"
-	//"time"
+	"strings"
 )
 import (
 	"bbproto"
@@ -137,14 +137,22 @@ func main() {
 
 	Init()
 
-	//AddGachaPool(1)
-	//AddGachaPool(2)
+	str := "102123"
+	ss := strings.Split(str, "_")
+	log.T("sslen:%v ss=%v", len(ss), ss)
+	log.T("sslen:%v ss[0]=%v", len(ss), ss[0])
+	log.T("ss:[%v],[%v]", ss[0], ss[1])
+
+	return
+
+	AddGachaPool(1)
+	AddGachaPool(2)
 	AddGachaPool(3) // for unitId 1
 	AddSomeGachaConf()
 
 	uid := uint32(174)
 	gachaId := int32(3)
-	gachaCount := int32(20)
+	gachaCount := int32(2)
 	Gacha(uid, gachaId, gachaCount)
 
 	log.Fatal("bbsvr test client finish.")

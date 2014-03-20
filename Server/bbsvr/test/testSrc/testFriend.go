@@ -306,13 +306,6 @@ func main() {
 	//FindFriend(101, 130)
 
 	//AddFriend(156, 143)
-	//AddFriend(156, 144)
-	//AddFriend(156, 146)
-	//AddFriend(156, 147)
-	//AddFriend(156, 148)
-	//AddFriend(156, 149)
-	//AddFriend(156, 150)
-	//AddFriend(156, 151)
 
 	//for fid := uint32(140); fid < 160; fid++ {
 	//	AddFriend(fid, 132)
