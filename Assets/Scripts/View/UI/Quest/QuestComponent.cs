@@ -8,8 +8,7 @@ public class QuestComponent : ConcreteComponent{
 	List<TCityInfo> storyCityList = new List<TCityInfo>();
 	List<TStageInfo> storyStageList = new List<TStageInfo>();
 
-	public QuestComponent(string uiName):base(uiName){	
-	}
+	public QuestComponent(string uiName):base(uiName){}
 	public override void CreatUI(){ base.CreatUI();}
 	
 	public override void ShowUI(){
@@ -38,7 +37,7 @@ public class QuestComponent : ConcreteComponent{
 
 	void GetStoryCityList(){
 		storyCityList.Add(DataCenter.Instance.GetCityInfo(1));
-		Debug.LogError("storyCityList(), storyStageList's count is " + storyCityList.Count);
+//		Debug.LogError("storyCityList(), storyStageList's count is " + storyCityList.Count);
 
 		GetStoryStageList();
 	}
@@ -55,7 +54,7 @@ public class QuestComponent : ConcreteComponent{
 			}
 		}
 
-		Debug.LogError("GetStoryStageList(), storyStageList's count is " + storyStageList.Count);
+//		Debug.LogError("GetStoryStageList(), storyStageList's count is " + storyStageList.Count);
 	}
 
 	void CreateStage(){
@@ -64,7 +63,7 @@ public class QuestComponent : ConcreteComponent{
 	}
 
 	void ClearStage(){
-		//storyCityList.Clear();
+		storyCityList.Clear();
 	}
 
 	void TurnToSelectQuest(object args){
@@ -73,7 +72,7 @@ public class QuestComponent : ConcreteComponent{
 			return;
 		}
 
-		Debug.LogError("TurnToSelectQuest(), selected Stage's index is " + stageSelected);
+//		Debug.LogError("TurnToSelectQuest(), selected Stage's index is " + stageSelected);
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
 	}
