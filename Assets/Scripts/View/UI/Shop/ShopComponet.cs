@@ -126,7 +126,7 @@ public class ShopComponent : ConcreteComponent {
     }
 
     void OnFriendExpansion(object args){
-        LogHelper.Log("start OnFriendExpansion()");
+//        LogHelper.Log("start OnFriendExpansion()");
         if (DataCenter.Instance.UserInfo.FriendMax >= DataCenter.maxFriendLimit) {
             MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.FriendExpansion, BuyFailType.NoNeedToBuy));
             return;
@@ -146,7 +146,7 @@ public class ShopComponent : ConcreteComponent {
         if (data == null)
             return;
         
-        LogHelper.Log("OnRspFriendExpansion begin");
+//        LogHelper.Log("OnRspFriendExpansion begin");
         LogHelper.Log(data);
         bbproto.RspFriendMaxExpand rsp = data as bbproto.RspFriendMaxExpand;
         
@@ -164,7 +164,7 @@ public class ShopComponent : ConcreteComponent {
     }
 
     void OnStaminaRecover(object args){
-        LogHelper.Log("start OnStaminaRecover()");
+//        LogHelper.Log("start OnStaminaRecover()");
 
         if (DataCenter.Instance.UserInfo.StaminaNow >= DataCenter.Instance.UserInfo.StaminaMax) {
             MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.StaminaRecover, BuyFailType.NoNeedToBuy));
@@ -225,7 +225,7 @@ public class ShopComponent : ConcreteComponent {
     }
 
     void OnUnitExpansion(object args){
-        LogHelper.Log("start OnUnitExpansion()");
+//        LogHelper.Log("start OnUnitExpansion()");
 
         if (DataCenter.Instance.UserInfo.UnitMax >= DataCenter.maxUnitLimit) {
             MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.UnitExpansion, BuyFailType.NoNeedToBuy));

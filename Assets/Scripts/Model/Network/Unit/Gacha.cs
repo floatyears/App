@@ -57,37 +57,37 @@ public class Gacha: ProtoManager {
         
         return (err.Code == (int)ErrorCode.SUCCESS);
     }
-    
-    private void OnRspGacha(object data) {
-        if (data == null)
-            return;
-        
-        LogHelper.Log("OnRspGacha() begin");
-        LogHelper.Log(data);
-        bbproto.RspGacha rsp = data as bbproto.RspGacha;
-        
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("RspGacha code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-        
-        DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
-        DataCenter.Instance.AccountInfo.Stone = rsp.stone;
-
-        // TODO do evolve start over;
-        LogHelper.Log("OnRspGacha() finished, friendPoint {0}, stone {1}"
-                      ,  DataCenter.Instance.AccountInfo.FriendPoint, DataCenter.Instance.AccountInfo.Stone);
-        
-        // record
-        List<UserUnit> unitList = rsp.unitList;
-
-        LogHelper.LogError("before gacha, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
-        // delete unit;
-        DataCenter.Instance.MyUnitList.AddMyUnitList(unitList);
-        DataCenter.Instance.UserUnitList.AddMyUnitList(unitList);
-        
-        LogHelper.LogError("after sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
-    }
+//    
+//    private void OnRspGacha(object data) {
+//        if (data == null)
+//            return;
+//        
+//        LogHelper.Log("OnRspGacha() begin");
+//        LogHelper.Log(data);
+//        bbproto.RspGacha rsp = data as bbproto.RspGacha;
+//        
+//        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+//            LogHelper.Log("RspGacha code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+//            return;
+//        }
+//        
+//        DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
+//        DataCenter.Instance.AccountInfo.Stone = rsp.stone;
+//
+//        // TODO do evolve start over;
+//        LogHelper.Log("OnRspGacha() finished, friendPoint {0}, stone {1}"
+//                      ,  DataCenter.Instance.AccountInfo.FriendPoint, DataCenter.Instance.AccountInfo.Stone);
+//        
+//        // record
+//        List<UserUnit> unitList = rsp.unitList;
+//
+//        LogHelper.LogError("before gacha, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
+//        // delete unit;
+//        DataCenter.Instance.MyUnitList.AddMyUnitList(unitList);
+//        DataCenter.Instance.UserUnitList.AddMyUnitList(unitList);
+//        
+//        LogHelper.LogError("after sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
+//    }
 }
 
 public class NetWorkGachaTester {
@@ -97,38 +97,9 @@ public class NetWorkGachaTester {
 
     public static void Test(){
         LogHelper.Log("NetWorkGachaTester.Test() start");
-        NetWorkGachaTester tester = new NetWorkGachaTester();
+//        NetWorkGachaTester tester = new NetWorkGachaTester();
 //        Gacha.SendRequest(tester.OnRspGacha, 1, 1);
-        Gacha.SendRequest(tester.OnRspGacha, 2, 9);
+//        Gacha.SendRequest(tester.OnRspGacha, 2, 9);
     }
-    public void OnRspGacha(object data) {
-        if (data == null)
-            return;
-        
-        LogHelper.Log("OnRspGacha() begin");
-        LogHelper.Log(data);
-        bbproto.RspGacha rsp = data as bbproto.RspGacha;
-        
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("RspGacha code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-        
-        DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
-        DataCenter.Instance.AccountInfo.Stone = rsp.stone;
-        
-        // TODO do evolve start over;
-        LogHelper.Log("OnRspGacha() finished, friendPoint {0}, stone {1}"
-                      ,  DataCenter.Instance.AccountInfo.FriendPoint, DataCenter.Instance.AccountInfo.Stone);
-        
-        // record
-        List<UserUnit> unitList = rsp.unitList;
-        
-        LogHelper.LogError("before gacha, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
-        // delete unit;
-        DataCenter.Instance.MyUnitList.AddMyUnitList(unitList);
-        DataCenter.Instance.UserUnitList.AddMyUnitList(unitList);
-        
-        LogHelper.LogError("after sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
-    }
+
 }
