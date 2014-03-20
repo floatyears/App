@@ -43,7 +43,7 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 		count ++;
-		Debug.LogError ("battle enemy ShowUI " + count);
+//		Debug.LogError ("battle enemy ShowUI " + count);
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 	}
 

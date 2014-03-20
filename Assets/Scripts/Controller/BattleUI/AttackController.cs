@@ -253,7 +253,9 @@ public class AttackController {
 				enemyInfo.Remove(te);
 				te.IsDead = true;
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
-				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
+				if(grid != null) {
+					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
+				}
 			}
 		}
 		if (enemyInfo.Count == 0) {

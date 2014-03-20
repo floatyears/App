@@ -142,7 +142,7 @@ public class EnemyItem : UIBaseUnity {
 			return;
 		}
         base.DestoryUI();
-		Debug.LogError ("DestoryUI : " + enemyInfo.EnemySymbol);
+//		Debug.LogError ("DestoryUI : " + enemyInfo.EnemySymbol);
 		if (gameObject != null) {
 			Destroy(gameObject);
 		}
