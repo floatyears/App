@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class FriendHelperController : ConcreteComponent{
 	TFriendInfo selectedHelper;
 
-	int questID;
-	int stageID;
+	uint questID;
+	uint stageID;
 
 	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
@@ -124,9 +124,12 @@ public class FriendHelperController : ConcreteComponent{
 	}
 	
 	void RecordSelectedQuest(object msg){
-		Dictionary<string,int> idArgs = msg as Dictionary<string,int>;
+		Dictionary<string,uint> idArgs = msg as Dictionary<string,uint>;
 		questID = idArgs["QuestID"];
 		stageID = idArgs["StageID"];
+	}
+
+	void ClearBattleReadyData(){
 	}
 
 }

@@ -66,7 +66,7 @@ public class QuestSelectComponent : ConcreteComponent{
 		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
 		uint questID = currentStageInfo.QuestInfo[ currentQuestIndex ].ID;
 		uint stageID = currentStageInfo.ID;
-		Dictionary<string,int> idArgs = new Dictionary<string, int>();
+		Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
 		idArgs.Add("QuestID", questID);
 		idArgs.Add("StageID", stageID);
 
