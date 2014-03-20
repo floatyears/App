@@ -160,6 +160,11 @@ public class Main : MonoBehaviour {
                 //TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.PartyInfo.CurrentParty
                 ModelManager.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
             }
+
+			if (rspAuthUser.questClear != null) {
+				DataCenter.Instance.QuestClearInfo = new TQuestClearInfo(rspAuthUser.questClear);
+			}
+
             TestUtility.Test();
         }
         Debug.Log("UIManager.Instance.ChangeScene before");

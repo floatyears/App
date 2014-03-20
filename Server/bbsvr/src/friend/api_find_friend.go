@@ -31,6 +31,7 @@ func FindFriendHandler(rsp http.ResponseWriter, req *http.Request) {
 
 	e = handler.verifyParams(&reqMsg)
 	if e.IsError() {
+		log.T("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
 		return
 	}

@@ -17,6 +17,7 @@ public enum ModelEnum {
     UnitBaseInfo,
     TrapInfo,
     FriendBaseInfo,
+	QuestClearInfo,
 
     User            = 1000,
     UnitPartyInfo   = 1001,
@@ -83,6 +84,11 @@ public class DataCenter {
         get { return getData(ModelEnum.FriendList) as TFriendList; }
         set { setData(ModelEnum.FriendList, value); } 
     }
+
+	public TQuestClearInfo QuestClearInfo {
+		get { return getData(ModelEnum.QuestClearInfo) as TQuestClearInfo; }
+		set { setData(ModelEnum.QuestClearInfo, value); } 
+	}
 
     public bool InEventGacha {
         get {

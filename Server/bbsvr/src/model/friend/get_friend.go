@@ -154,19 +154,32 @@ func GetSupportFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[
 	}
 
 	// fill friend point
-	for _, friInfo := range friendsInfo {
+	for k, friInfo := range friendsInfo {
+
 		if *friInfo.FriendState != bbproto.EFriendState_ISFRIEND {
+
+			friInfo.FriendPoint = proto.Int32(consts.N_SUPPORT_HELPER_POINT) //5 points
+			friendsInfo[k]=friInfo
+			log.T("GetSupportFriends :: FriendPoint:%+v", *friInfo.FriendPoint)
 			continue
 		}
+
 		//TODO: read multi-fid once from db (use HMGET)
 		if usedTime, e := GetHelperUsedRecord(db, uid, *friInfo.UserId); !e.IsError() {
 			if common.IsToday(usedTime) {
+				log.T("GetHelperUsedRecord ret IsToday(%v)=true, set(uid:%v fid:%v) FriendPoint=0",usedTime, uid, *friInfo.UserId)
 				friInfo.FriendPoint = proto.Int32(0)
+				friendsInfo[k]=friInfo
 			} else {
-				friInfo.FriendPoint = proto.Int32(consts.N_FRIEND_HELPER_POINT)
+				log.T("GetHelperUsedRecord ret IsToday(%v)=false, set(uid:%v fid:%v) FriendPoint=0",usedTime, uid, *friInfo.UserId)
+				friInfo.FriendPoint = proto.Int32(consts.N_FRIEND_HELPER_POINT) // 10 points
+				friendsInfo[k]=friInfo
 			}
+		}else {
+			log.T("GetHelperUsedRecord ret usedTime:%v, err:%v", usedTime, e.Error())
 		}
 	}
+	log.T("GetSupportFriends :: friendsInfo:%+v", friendsInfo)
 
 	return friendsInfo, e
 }

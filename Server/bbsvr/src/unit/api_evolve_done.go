@@ -56,9 +56,13 @@ type EvolveDone struct {
 
 func (t EvolveDone) verifyParams(reqMsg *bbproto.ReqEvolveDone) (err Error.Error) {
 	//TODO: input params validation
-	if reqMsg.QuestId == nil || reqMsg.GetMoney == nil || reqMsg.GetUnit == nil ||
+	if reqMsg.QuestId == nil || reqMsg.GetUnit == nil ||
 		reqMsg.HitGrid == nil {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
+	}
+
+	if reqMsg.GetMoney == nil {
+		reqMsg.GetMoney = proto.Int32(0)
 	}
 
 	if *reqMsg.Header.UserId == 0 {
