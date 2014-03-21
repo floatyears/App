@@ -103,7 +103,7 @@ func (t SellUnit) ProcessLogic(reqMsg *bbproto.ReqSellUnit, rspMsg *bbproto.RspS
 			log.Error("user:%v GetUserUnitInfo(%v) failed: %v", uid, uniqueId, e.Error())
 			return e
 		}
-		baseUnit, e := unit.GetUnitInfo(db, *baseUserUnit.UnitId)
+		baseUnit, e := unit.GetUnitInfo(*baseUserUnit.UnitId)
 		if e.IsError() {
 			log.Error("user:%v GetUnitInfo(%v) failed: %v", uid, *baseUserUnit.UnitId, e.Error())
 			return e

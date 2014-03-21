@@ -402,7 +402,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void Calculate () {
-		Debug.LogError (oldBlendUnit);
+		if( oldBlendUnit == null ) {
+			Debug.LogError("Calculate() :: oldBlendUnit=null");
+			return;
+		}
+
+		if ( oldBlendUnit!= null)
+			Debug.LogError("Calculate() :: oldBlendUnit.UnitInfo:"+oldBlendUnit.UnitInfo);
+
 		currMaxExp = DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
 		expRiseStep = (int)(currMaxExp * 0.01f);
 	}

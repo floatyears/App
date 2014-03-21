@@ -58,8 +58,29 @@ public class DragPanelView : UIBaseUnity {
 			uidrag.scrollView = scrollView;
 		}
 
-		grid.enabled = true;
-		grid.Reposition ();
+//		grid.enabled = true;
+//		grid.Reposition ();
+		//Debug.LogError("tempObject : " + tempObject);
+		return tempObject;
+	}
+
+	public GameObject AddObject(GameObject obj, int name) {
+		
+		tempObject = NGUITools.AddChild (grid.gameObject, obj);
+		
+		tempObject.name = name.ToString();
+		UIDragScrollView uidrag = tempObject.GetComponent<UIDragScrollView> ();
+		if (uidrag == null) {
+			Debug.LogError("drag item is illegal");
+			Destroy(tempObject);
+			return null;
+		}
+		if(uidrag.scrollView  == null) {
+			uidrag.scrollView = scrollView;
+		}
+		
+//		grid.enabled = true;
+//		grid.Reposition ();
 		//Debug.LogError("tempObject : " + tempObject);
 		return tempObject;
 	}

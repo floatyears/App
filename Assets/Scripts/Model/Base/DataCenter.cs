@@ -369,6 +369,11 @@ public class DataCenter {
     /// <param name="level">Level.</param>
     
     public int GetUnitValue(int type, int level) {
+		if ( !UnitValue.ContainsKey(type)) {
+			Debug.LogError("FATAL ERROR: GetUnitValue() :: type:"+type+" not exists in UnitValue.");
+			return 0;
+		}
+
         TPowerTableInfo pti = UnitValue[type];
         return pti.GetValue(level);
     }
@@ -403,7 +408,6 @@ public class DataCenter {
 			return tui;
 		}
 		else {
-			
 			TCityInfo tui = DGTools.LoadCityInfo(cityID);
 			if(tui == null) {
 				Debug.LogError("city id : " + cityID + " is invalid");

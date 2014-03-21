@@ -63,6 +63,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		base.HideUI();
 		CleanQuestInfo();
 		MsgCenter.Instance.RemoveListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
+		questDragPanel.DestoryUI();
 	}
 
 
@@ -254,7 +255,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		questDragPanel = new DragPanel("QuestDragPanel", questViewItem);
 		questDragPanel.CreatUI();
 		questDragPanel.AddItem(tsi.QuestInfo.Count);
-		Debug.Log("CreateQuestDragList(), count is : " + tsi.QuestInfo.Count);
+//		Debug.Log("CreateQuestDragList(), count is : " + tsi.QuestInfo.Count);
 		questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 
 		for (int i = 0; i < questDragPanel.ScrollItem.Count; i++){

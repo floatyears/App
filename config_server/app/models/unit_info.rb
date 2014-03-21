@@ -61,14 +61,14 @@ class UnitInfo
   optional :activeSkill, :int32, 9
   optional :passiveSkill, :int32, 10
   #optional :activeSkillLevel,:int32, 11;
-  optional :maxLevel, :int32, 12
-  optional :profile, :string, 13
-  optional :powerType, PowerType, 14
-  optional :evolveInfo, EvolveInfo, 15
-  optional :cost, :int32, 16
-  optional :saleValue, :int32, 17
-  optional :devourValue, :int32, 18
-  optional :getWay,  EUnitGetWay, 19
+  optional :maxLevel, :int32, 11
+  optional :profile, :string, 12
+  optional :powerType, PowerType, 13
+  optional :evolveInfo, EvolveInfo, 14
+  optional :cost, :int32, 15
+  optional :saleValue, :int32, 16
+  optional :devourValue, :int32, 17
+  optional :getWay,  EUnitGetWay, 18
   
   def self.create_with_params(params)
     power_type = PowerType.new(attackType:  params_to_i(params[:attackType]),hpType: params_to_i(params[:hpType]),expType: params_to_i(params[:expType]))

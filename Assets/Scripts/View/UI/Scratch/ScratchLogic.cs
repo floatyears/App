@@ -22,7 +22,7 @@ public enum GachaType{
 public class GachaWindowInfo{
     public int totalChances = 1;
     public List<uint> blankList = new List<uint>();
-    public List<UserUnit> unitList = new List<UserUnit>();
+    public List<uint> unitList = new List<uint>();
 }
 
 public class ScratchLogic : ConcreteComponent {
@@ -73,9 +73,10 @@ public class ScratchLogic : ConcreteComponent {
         }
     }
 
-    GachaWindowInfo GetGachaWindowInfo(GachaType gachaType, int gachaCount, List<UserUnit> unitList, List<uint> blankList){
+    GachaWindowInfo GetGachaWindowInfo(GachaType gachaType, int gachaCount, List<uint> unitList, List<uint> blankList){
         GachaWindowInfo info = new GachaWindowInfo();
         info.blankList = blankList;
+        LogHelper.Log("GetGachaWindowInfo() blank count {0}", blankList.Count);
         info.unitList = unitList;
         info.totalChances = gachaCount;
         return info;
@@ -107,6 +108,7 @@ public class ScratchLogic : ConcreteComponent {
         
         LogHelper.LogError("before gacha, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
         // delete unit;
+
         DataCenter.Instance.MyUnitList.AddMyUnitList(unitList);
         DataCenter.Instance.UserUnitList.AddMyUnitList(unitList);
         
@@ -128,7 +130,7 @@ public class ScratchLogic : ConcreteComponent {
         UIManager.Instance.ChangeScene(nextScene);
 
         LogHelper.Log("MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow");
-        MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow, GetGachaWindowInfo(gachaType, gachaCount, unitList, blankList));
+        MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow, GetGachaWindowInfo(gachaType, gachaCount, rsp.unitUniqueId, blankList));
     }
     
     void EnterGachaWindow(GachaType gachaType){

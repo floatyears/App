@@ -550,7 +550,7 @@ public class SellDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		SellComponent sell = CreatComponent< SellComponent >(UIConfig.sellWindowName);
+		OnSaleUnitsController sell = CreatComponent< OnSaleUnitsController >(UIConfig.sellWindowName);
 		sell.SetComponent(sceneInfoBar);
 
 		lastDecorator = sell;

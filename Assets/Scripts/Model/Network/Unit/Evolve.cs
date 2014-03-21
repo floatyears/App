@@ -13,8 +13,6 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-
-
 public class EvolveStart: ProtoManager {
     // req && rsp
     private bbproto.ReqEvolveStart reqEvolveStart;
@@ -173,6 +171,29 @@ public class EvolveDone: ProtoManager {
 //    }
 }
 
+
+//================================ add by leiliang start==========================
+
+/// <summary>
+/// use to trasmission evolve info
+/// </summary>
+public class TEvolveStart : ProtobufDataBase {
+	private TStageInfo stageInfo;
+	public TStageInfo StageInfo {
+		get { return stageInfo; }
+		set { stageInfo = value; }
+	}
+	
+	private EvolveStart evolveStart;
+	public EvolveStart EvolveStart {
+		get { return evolveStart; }
+		set { evolveStart = value; }
+	}
+}
+
+//================================ add by leiliang end==========================
+
+
 public class NetWorkEvovleTester {
     private List <uint> partUnitIdList;
     private uint baseUnitUniqueId;
@@ -186,8 +207,6 @@ public class NetWorkEvovleTester {
         TUserUnit baseUnit = DataCenter.Instance.UserUnitList.GetMyUnit(baseUnitUniqueId);
         evolveStart.BaseUnitId = baseUnit.ID;
         evolveStart.EvolveQuestId = EvolveComponent.GetEvolveQuestID(bbproto.EUnitType.UNONE, 2);
-//        evolveStart.EvolveQuestId = EvolveComponent.GetEvolveQuestID(baseUnit.UnitInfo.Type, baseUnit.UnitInfo.Rare);
-//        evolveStart.EvolveQuestId = 2303;
         LogHelper.LogError("TestEvovleStart(), questId {0}", evolveStart.EvolveQuestId);
 
         partUnitIdList = new List<uint>();

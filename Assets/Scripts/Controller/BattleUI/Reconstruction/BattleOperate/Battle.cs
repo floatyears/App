@@ -345,29 +345,23 @@ public class Battle : UIBase
 		ResetClick();
 	}
 
-	void TweenCallback(GameObject go)
-	{
+	void TweenCallback(GameObject go) {
 		main.GInput.IsCheckInput = true;
 	}
-
-
+	
 	private BattleCardAreaItem prevTempBCA;
 
-	void DisposeOnDrag(Vector2 obj)
-	{
+	void DisposeOnDrag(Vector2 obj) {
 		SetDrag();
 		Vector3 vec = ChangeCameraPosition(Input.mousePosition) - viewManager.ParentPanel.transform.localPosition;
 
-		for (int i = 0; i < selectTarget.Count; i++) 
-		{
+		for (int i = 0; i < selectTarget.Count; i++) {
 			selectTarget[i].OnDrag(vec,i);
 		}
 		bool b = Check(GameLayer.ActorCard);
 
-		if(b)
-		{
-			for (int i = 0; i < rayCastHit.Length; i++)
-			{
+		if(b) {
+			for (int i = 0; i < rayCastHit.Length; i++) {
 				tempObject = rayCastHit[i].collider.gameObject;
 				
 				ClickObject(tempObject);
@@ -375,16 +369,10 @@ public class Battle : UIBase
 		}
 	}
 
-	void DisposePress()
-	{
-		//IgnoreLayer(true);
-
-		if(Check(GameLayer.ActorCard))
-		{
-			for (int i = 0; i < rayCastHit.Length; i++)
-			{
-				if(rayCastHit[i].collider.gameObject.layer == GameLayer.ActorCard)
-				{
+	void DisposePress() {
+		if(Check(GameLayer.ActorCard)) {
+			for (int i = 0; i < rayCastHit.Length; i++) {
+				if(rayCastHit[i].collider.gameObject.layer == GameLayer.ActorCard) {
 					tempObject= rayCastHit[i].collider.gameObject;
 					break;
 				}
@@ -398,14 +386,12 @@ public class Battle : UIBase
 		}
 	}
 
-	void SetDrag()
-	{
+	void SetDrag() {
 		if(selectTarget.Count > 0)
 			battleCard.DisposeDrag(selectTarget[0].location,selectTarget[0].itemID);
 	}
 
-	void IgnoreLayer(bool isPress)
-	{
+	void IgnoreLayer(bool isPress) {
 		battleCard.IgnoreCollider(isPress);
 		battleCardPool.IgnoreCollider(isPress);
 	}

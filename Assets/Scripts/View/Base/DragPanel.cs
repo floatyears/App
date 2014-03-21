@@ -87,6 +87,8 @@ public class DragPanel : UIBase
 				scrollItem.Add(go);
 			}
 		}
+//		dragPanelView.grid.sorted = true;
+		dragPanelView.grid.repositionNow = true;
 	}
 
 	public GameObject AddScrollerItem( GameObject obj ,bool isClean = false) {

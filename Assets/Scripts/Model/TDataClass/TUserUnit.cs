@@ -426,16 +426,27 @@ public class UserUnitList {
         }
     }
 
+    public List<uint> GetMyUnitUniqueIdList(){
+        List <uint> uniqueIdList = new List<uint>();
+        foreach (var item in userUnitInfo) {
+            TUserUnit tUnit = item.Value as TUserUnit;
+            if (GetMyUnit(tUnit.UnitID) != null){
+                uniqueIdList.Add(tUnit.UnitID);
+            }
+        }
+        return uniqueIdList;
+    }
+
     public void AddMyUnit(UserUnit unit) {
 //        LogHelper.LogError("============================before AddMyUnit(), count {0}, new unitId {1} new uniqueID  {2}",
 //                           userUnitInfo.Count, unit.unitId, unit.uniqueId);
         Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, new TUserUnit(unit));
         // test
 //        LogHelper.LogError("============================after AddMyUnit(), count {0}", userUnitInfo.Count);
-        foreach (var item in userUnitInfo) {
-            TUserUnit tUnit = item.Value as TUserUnit;
-//            LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);
-        }
+//        foreach (var item in userUnitInfo) {
+//            TUserUnit tUnit = item.Value as TUserUnit;
+////            LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);
+//        }
     }
 
     public void AddMyUnitList(List <UserUnit> unitList){

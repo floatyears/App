@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class GachaWindowView : UIComponentUnity {
-
     private UILabel chancesLabel;
     private UILabel titleLabel;
     private int originLayer;
     private bool displayingResult = false; // when 
     private int tryCount = 0;
     private GachaWindowInfo gachaInfo;
+    private List<int> pickedBtnIdList = new List<int>();
 
     private Dictionary<GameObject, int> buttonDic = new Dictionary<GameObject, int>();
 
@@ -58,14 +59,19 @@ public class GachaWindowView : UIComponentUnity {
             break;
         }
     }
-    
+
+    private UIButton FindButtonById(int id){
+        return FindChild<UIButton>("Board/Buttons/Button" + id);
+    }
+
     private void InitUI() {
         titleLabel = FindChild<UILabel>("TitleBackground/TitleLabel");
         chancesLabel = FindChild<UILabel>("TitleBackground/ChancesLabel");
 
         UIButton[] buttons = FindChild("Board/Buttons").GetComponentsInChildren< UIButton >();
         for (int i = 0; i < buttons.Length; i++){
-            buttonDic.Add( buttons[i].gameObject, i );
+            UIButton button = FindButtonById(i);
+            buttonDic.Add( button.gameObject, i);
             UIEventListener.Get( buttons[i].gameObject ).onClick = ClickButton;
         }
 
@@ -93,7 +99,7 @@ public class GachaWindowView : UIComponentUnity {
         GachaWindowInfo gachaWindowInfo = args as GachaWindowInfo;
         if (gachaWindowInfo != null){
             gachaInfo = gachaWindowInfo;
-            SyncGachaInfos(gachaWindowInfo);
+            SyncGachaInfos();
         }
     }
 
@@ -103,11 +109,57 @@ public class GachaWindowView : UIComponentUnity {
 
     private void ClickButton(GameObject btn){
         int index = buttonDic[btn];
+        if (pickedBtnIdList.Contains(index)){
+            return;
+        }
         LogHelper.Log("ClickButton() {0}", index);
+        if (tryCount < gachaInfo.totalChances){
+            showUnitByUserUnitID(btn, gachaInfo.unitList[index]);
+        }
+        else if (tryCount < DataCenter.maxGachaPerTime){
+            int blankId = tryCount - gachaInfo.totalChances;
+            if (blankId > gachaInfo.blankList.Count - 1){
+                return;
+            }
+            showUnitByBlankId(btn, gachaInfo.blankList[blankId]);
+        }
     }
 
     private void Reset(){
         displayingResult = false;
         tryCount = 0;
+        pickedBtnIdList.Clear();
+    }
+
+    private void showUnitByUserUnitID(GameObject btn, uint uniqueId){
+        LogHelper.Log("showUnitByUserUnit(), uniqueId {0}", uniqueId);
+//        TUserUnit userUnit = DataCenter.Instance.MyUnitList.GetMyUnit(uniqueId);
+        ShowUnitById(btn, userUnit.UnitInfo.ID, userUnit);
+        DealAfterShowUnit(buttonDic[btn]);
+    }
+
+    private void showUnitByBlankId(GameObject btn, uint unitId){
+//        LogHelper.Log("showUnitByUnitId(), unitId {0}", unitId);
+        ShowUnitById(btn, unitId, null);
+        DealAfterShowUnit(buttonDic[btn]);
+    }
+
+    private void ShowUnitById(GameObject btn, int unitId, TUserUnit userUnit){
+        LogHelper.Log("ShowUnitById(), unitId {0}, userUnit not null {1}", unitId, userUnit != null);
+    }
+
+    private void DealAfterShowUnit(int index){
+        LogHelper.Log("DealAfterShowUnit(), index {0}", index);
+        if (tryCount < DataCenter.maxGachaPerTime){
+            pickedBtnIdList.Add(index);
+            tryCount += 1;
+        }
+        else {
+            FinishShowGachaWindow();
+        }
+    }
+
+    private void FinishShowGachaWindow(){
+        LogHelper.Log("FinishShowGachaWindow()");
     }
 }
