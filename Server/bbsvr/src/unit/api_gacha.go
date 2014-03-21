@@ -142,6 +142,7 @@ func (t Gacha) ProcessLogic(reqMsg *bbproto.ReqGacha, rspMsg *bbproto.RspGacha) 
 
 			rspMsg.UnitUniqueId = append(rspMsg.UnitUniqueId, uniqueId)
 			userDetail.UnitList = append(userDetail.UnitList, userUnit)
+			rspMsg.UnitList = append(rspMsg.UnitList, userUnit)
 		} else {
 			rspMsg.BlankUnitId = append(rspMsg.BlankUnitId, unitId)
 		}
@@ -153,12 +154,13 @@ func (t Gacha) ProcessLogic(reqMsg *bbproto.ReqGacha, rspMsg *bbproto.RspGacha) 
 	}
 
 	//8. fill response
-	rspMsg.UnitList = userDetail.UnitList
+//	rspMsg.UnitList = userDetail.UnitList
 	rspMsg.Stone = userDetail.Account.Stone
 	rspMsg.FriendPoint = userDetail.Account.FriendPoint
 
 	log.T("=================rspMsg begin==================")
 	log.T("\t unitUniqueId: %+v", rspMsg.UnitUniqueId)
+	log.T("\t BlankUnitId: %+v", rspMsg.BlankUnitId)
 	log.T("\t Stone: %v", *rspMsg.Stone)
 	log.T("\t FriendPoint: %v", *rspMsg.FriendPoint)
 
