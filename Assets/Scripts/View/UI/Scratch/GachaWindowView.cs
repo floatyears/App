@@ -135,6 +135,10 @@ public class GachaWindowView : UIComponentUnity {
         displayingResult = false;
         tryCount = 0;
         pickedBtnIdList.Clear();
+
+        foreach (var item in buttonDic) {
+            ResetOneBtn(item.Key);
+        }
     }
 
     private void showUnitByUserUnitID(GameObject btn, uint uniqueId){
@@ -168,6 +172,17 @@ public class GachaWindowView : UIComponentUnity {
         SyncGachaInfos();
     }
 
+    private void ResetOneBtn(GameObject btn){
+        UITexture texture = btn.transform.FindChild("Texture").GetComponent<UITexture>();
+        UISprite background = btn.transform.FindChild("Background").GetComponent<UISprite>();
+        background.spriteName = "playerInfoMsg";
+        
+        UILabel label = btn.transform.FindChild("Label").GetComponent<UILabel>();
+        label.text = TextCenter.Instace.GetCurrentText("Open");
+        
+        texture.mainTexture = null;
+    }
+
     private void SetAddInfo(GameObject btn, TUserUnit userUnit){
         //
         LogHelper.Log("SetAddInfo() ");
@@ -187,5 +202,6 @@ public class GachaWindowView : UIComponentUnity {
 
     private void FinishShowGachaWindow(){
         LogHelper.Log("FinishShowGachaWindow()");
+        UIManager.Instance.ChangeScene(SceneEnum.Scratch);
     }
 }

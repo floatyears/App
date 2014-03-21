@@ -53,6 +53,7 @@ public class TextCenter {
         textDict.Add("OK", "OK");
         textDict.Add("Cancel", "Cancel");
         textDict.Add("Back", "Back");
+        textDict.Add("Open", "Open");
 
         textDict.Add("SearchError", "Search Error");
         textDict.Add("UserNotExist", "The Friend {0} you search not exist");
