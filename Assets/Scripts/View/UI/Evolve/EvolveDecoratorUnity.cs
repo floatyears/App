@@ -37,7 +37,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 	public const string BaseData = "SelectData";
 	public const string MaterialData = "MaterialData";
-
 	private const string preAtkLabel = "PrevAtkLabel";
 	private const string preHPLabel = "PrevHPLabel";
 	private const string evolveAtkLabel = "NextAtkLabel";
@@ -159,33 +158,37 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(state == 1) {
 				return;
 			}
-			if(evolveButton.gameObject.activeSelf) {
-				evolveButton.gameObject.SetActive(false);
-			}
+//			if(evolveButton.gameObject.activeSelf) {
+//				evolveButton.gameObject.SetActive(false);
+//			}
+			ShieldEvolveButton(false);
 			state = 1;
 			break;
 		case "2":
-			if(evolveButton.gameObject.activeSelf) {
-				evolveButton.gameObject.SetActive(false);
-			}
+//			if(evolveButton.gameObject.activeSelf) {
+//				evolveButton.gameObject.SetActive(false);
+//			}
+			ShieldEvolveButton(false);
 			if(baseItem == null) {
 				return;
 			}
 			state =2;
 			break;
 		case "3":
-			if(evolveButton.gameObject.activeSelf) {
-				evolveButton.gameObject.SetActive(false);
-			}
+//			if(evolveButton.gameObject.activeSelf) {
+//				evolveButton.gameObject.SetActive(false);
+//			}
+			ShieldEvolveButton(false);
 			if(baseItem == null) {
 				return;
 			}
 			state =3;
 			break;
 		case "4":
-			if(evolveButton.gameObject.activeSelf) {
-				evolveButton.gameObject.SetActive(false);
-			}
+//			if(evolveButton.gameObject.activeSelf) {
+//				evolveButton.gameObject.SetActive(false);
+//			}
+			ShieldEvolveButton(false);
 			if(baseItem == null) {
 				return;
 			}
@@ -200,10 +203,11 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(baseItem != null) {
 				tuu = baseItem.userUnit;
 			}
+			ShieldEvolveButton(true);
 
-			if(!evolveButton.gameObject.activeSelf) {
-				evolveButton.gameObject.SetActive(true);
-			}
+//			if(!evolveButton.gameObject.activeSelf) {
+//				evolveButton.gameObject.SetActive(true);
+//			}
 			state =5;
 			MsgCenter.Instance.Invoke(CommandEnum.EvolveFriend, tuu);
 			break;
@@ -276,7 +280,18 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		showInfoLabel.Add (needLabel, temp);
 
 		evolveButton = FindChild<UIImageButton> ("Window/Evolve");
-		evolveButton.gameObject.SetActive (false);
+		ShieldEvolveButton (false);
+		UIEventListener.Get (evolveButton.gameObject).onClick = Evolve;
+	}
+
+	void Evolve(GameObject go) {
+		ExcuteCallback (baseItem);
+	}
+
+	void ShieldEvolveButton (bool b) {
+		if (evolveButton.gameObject.activeSelf == !b) {
+			evolveButton.gameObject.SetActive(b);
+		}
 	}
 }
 

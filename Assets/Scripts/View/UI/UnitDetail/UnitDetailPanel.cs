@@ -161,7 +161,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ResetStartToggle( UIToggle target) {
 		target.value = true;
 	}
-
 	
 	void GetUnitMaterial(){
 		unitMaterial = Resources.Load("Materials/UnitMaterial") as Material;
@@ -336,9 +335,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void PlayLevelUp(RspLevelUp rlu) {
 		unitBodyTex.mainTexture = null;
 		levelUpData = rlu;
-
-		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-		gotExp = levelUpData.blendExp;
 		unitInfoTabs.SetActive (false);
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}
@@ -347,9 +343,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	TUserUnit newBlendUnit = null;
 
 	void CreatEffect() {
-		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
+		Debug.LogError ("creat effect : " + oldBlendUnit + " data source : " + DataCenter.Instance.oldUserUnitInfo + " time : " + Time.realtimeSinceStartup);
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
 		GameObject ProfileTexture = go.transform.Find ("ProfileTexture").gameObject;
 		ProfileTexture.renderer.material.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
@@ -357,6 +352,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	
 		if (effectCache.Count > 2) {
 			CancelInvoke("CreatEffect");
+			oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 			unitInfoTabs.SetActive (true);
 			ShowLevelInfo(newBlendUnit);
 			curLevel = oldBlendUnit.Level;
@@ -402,15 +398,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void Calculate () {
-		Debug.LogError (oldBlendUnit);
+		Debug.LogError ("Calculate : " + oldBlendUnit + " data source : " + DataCenter.Instance.oldUserUnitInfo + " time : " + Time.realtimeSinceStartup);
 		currMaxExp = DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
 		expRiseStep = (int)(currMaxExp * 0.01f);
 	}
-
-
 	//---------Exp increase----------
-
-	
 	void Update(){
 		ExpRise();
 	} 

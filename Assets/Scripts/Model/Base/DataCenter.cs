@@ -375,7 +375,6 @@ public class DataCenter {
 			return tui;
 		}
 		else {
-			
 			TCityInfo tui = DGTools.LoadCityInfo(cityID);
 			if(tui == null) {
 				Debug.LogError("city id : " + cityID + " is invalid");

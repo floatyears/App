@@ -137,18 +137,18 @@ public class LevelUpFriendWindow : UIComponentUnity {
     protected virtual void ClickFriendItem(GameObject item) {
         AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TUserUnit temp = friendUnitInfoDic[item].UserUnit;
-		if (friendUnit == null) {
-			friendUnit = temp;
-		} else if (temp.Equals (friendUnit)) {
+		if (temp.Equals (friendUnit)) {
 			friendUnit = null;
+		} else {
+			friendUnit = temp;
 		}
+
 		ShowInfo();
 		MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, temp);
     }
 
     void PressItem(GameObject item) {
-       TUserUnit temp = friendUnitInfoDic[item].UserUnit;
-
+		TUserUnit temp = friendUnitInfoDic [item].UserUnit;
         UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);//before
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, temp);//after
     }
