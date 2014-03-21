@@ -9,12 +9,9 @@ public class PartyUnitsLogic : ConcreteComponent
 	
 	List<UnitItemViewInfo> partyUnitItemViewList = new List<UnitItemViewInfo>();
 
-	public PartyUnitsLogic(string uiName):base(uiName)
-	{
-	}
+	public PartyUnitsLogic(string uiName):base(uiName){}
 
-	public override void ShowUI()
-	{
+	public override void ShowUI(){
 		base.ShowUI();
 
 		GetUnitItemViewList();
@@ -22,36 +19,30 @@ public class PartyUnitsLogic : ConcreteComponent
 		AddCmdListener();
 	}
 
-	public override void HideUI()
-	{
+	public override void HideUI(){
 		base.HideUI();
-
 		RmvCmdListener();
 		DestoryUnitList();
 	}
 
-	void AddCmdListener()
-	{
+	void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureSubmitUnitToParty, SubmitPickedUnitToParty);
 		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyUnitList, RefreshUnitList);
 	}
 
-	void RmvCmdListener()
-	{
+	void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureSubmitUnitToParty, SubmitPickedUnitToParty);
 		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyUnitList, RefreshUnitList);
 	}
 
-	void GetUnitItemViewList()
-	{
+	void GetUnitItemViewList(){
 		List<TUserUnit> userUnitList = new List<TUserUnit>();
 		partyUnitItemViewList.Clear();
 		userUnitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
 //		long msNow = TimeHelper.MillionSecondsNow();
-		for (int i = 0; i < userUnitList.Count; i++)
-		{
+		for (int i = 0; i < userUnitList.Count; i++){
 			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(userUnitList [i]);
 			partyUnitItemViewList.Add(viewItem);
 			//Debug.LogError(".....viewItem isEnable : " + viewItem.IsEnable);
@@ -63,25 +54,21 @@ public class PartyUnitsLogic : ConcreteComponent
 	}
 
 
-	void ActivateItem(object data)
-	{
+	void ActivateItem(object data){
 		string tag = data as string;
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("activate", null);
 		ExcuteCallback(cbd);
 	}
 	
-	void ActivatePickableState(object data)
-	{
+	void ActivatePickableState(object data){
 		bool state = (bool)data;
-		foreach (var item in partyUnitItemViewList)
-		{
-			if (item.IsParty)
-			{
+		foreach (var item in partyUnitItemViewList){
+			if (item.IsParty){
 				Dictionary<string,object> args = new Dictionary<string, object>();
 				args.Add("enable", false);
 				item.RefreshStates(args);
-			} else
-			{
+			} 
+			else{
 				Dictionary<string,object> args = new Dictionary<string, object>();
 				args.Add("enable", true);
 				item.RefreshStates(args);
@@ -146,10 +133,8 @@ public class PartyUnitsLogic : ConcreteComponent
 		//LogHelper.LogError("PartyUnitsLogic.RspUnitPickFromView(), End...");
 	}
 	
-	void SubmitPickedUnitToParty(object data)
-	{
-		if (currentPickedUnit.DataItem == null)
-		{
+	void SubmitPickedUnitToParty(object data){
+		if (currentPickedUnit.DataItem == null){
 			LogHelper.LogError("PartyUnitsLogicSubmitPickedUnitToParty(), currentPickedUnit is Null, return!!!");
 			return;
 		}
@@ -164,28 +149,24 @@ public class PartyUnitsLogic : ConcreteComponent
 		MsgCenter.Instance.Invoke(CommandEnum.ReplacePartyFocusItem, currentPickedUnit.DataItem);
 	}
 
-	void CallBackSendRejectMessage(object args)
-	{
+	void CallBackSendRejectMessage(object args){
 		//Debug.Log("MyUnitDragPanel.SendRejectMessage(), send the message that reject party current foucs member to PartyPage...");
 		MsgCenter.Instance.Invoke(CommandEnum.RejectPartyPageFocusItem, null);
 	}
 
-	void RefreshUnitList(object msg)
-	{
+	void RefreshUnitList(object msg){
 		GetUnitItemViewList();
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", partyUnitItemViewList);
 		ExcuteCallback(cbdArgs);
 	}
 	
-	void CreateUnitList()
-	{
+	void CreateUnitList(){
 		//Debug.LogError("CreateUnitList(), partyUnitItemViewList count is " + partyUnitItemViewList.Count);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", partyUnitItemViewList);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void DestoryUnitList()
-	{
+	void DestoryUnitList(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", partyUnitItemViewList);
 		ExcuteCallback(cbdArgs);
 	}
