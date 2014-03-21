@@ -202,9 +202,9 @@ public enum CommandEnum
 	GetSelectedStage				= 4053,
 	GetSelectedQuest				= 4054,
     RspStoneGachaOver               = 4055,
-    EnterFriendGachaWindow          = 4056,
-    EnterRareGachaWindow            = 4057,
-    EnterEventGachaWindow            = 4058,
+    EnterGachaWindow                  = 4056,
+//    EnterRareGachaWindow            = 4057,
+//    EnterEventGachaWindow            = 4058,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

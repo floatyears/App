@@ -15,12 +15,20 @@ public enum GachaFailedType {
 
 public enum GachaType{
     FriendGacha = 1,
-    RareGacha,
-    EventGacha,
+    RareGacha = 2,
+    EventGacha = 3,
+}
+
+public class GachaWindowInfo{
+    public int totalChances = 1;
+    public List<uint> blankList = new List<uint>();
+    public List<UserUnit> unitList = new List<UserUnit>();
 }
 
 public class ScratchLogic : ConcreteComponent {
-	
+	private GachaType gachaType;
+    private int gachaCount;
+
 	public ScratchLogic(string uiName):base(uiName) {}
 
     public override void CreatUI () {
@@ -65,6 +73,13 @@ public class ScratchLogic : ConcreteComponent {
         }
     }
 
+    GachaWindowInfo GetGachaWindowInfo(GachaType gachaType, int gachaCount, List<UserUnit> unitList, List<uint> blankList){
+        GachaWindowInfo info = new GachaWindowInfo();
+        info.blankList = blankList;
+        info.unitList = unitList;
+        info.totalChances = gachaCount;
+        return info;
+    }
 
     public void OnRspGacha(object data) {
         if (data == null)
@@ -87,6 +102,7 @@ public class ScratchLogic : ConcreteComponent {
                       ,  DataCenter.Instance.AccountInfo.FriendPoint, DataCenter.Instance.AccountInfo.Stone);
         
         // record
+        List<uint> blankList = rsp.blankUnitId;
         List<UserUnit> unitList = rsp.unitList;
         
         LogHelper.LogError("before gacha, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
@@ -96,6 +112,23 @@ public class ScratchLogic : ConcreteComponent {
         
         LogHelper.LogError("after gacha, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
 
+        SceneEnum nextScene = SceneEnum.FriendScratch;
+        if (gachaType == GachaType.FriendGacha){
+            nextScene = SceneEnum.FriendScratch;
+        }
+        else if (gachaType == GachaType.RareGacha){
+            nextScene = SceneEnum.RareScratch;
+        }
+        else if (gachaType == GachaType.EventGacha){
+            nextScene = SceneEnum.EventScratch;
+        }
+        else {
+            return;
+        }
+        UIManager.Instance.ChangeScene(nextScene);
+
+        LogHelper.Log("MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow");
+        MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow, GetGachaWindowInfo(gachaType, gachaCount, unitList, blankList));
     }
     
     void EnterGachaWindow(GachaType gachaType){
@@ -167,34 +200,36 @@ public class ScratchLogic : ConcreteComponent {
 
     private void CallbackFriendGacha(object args){
         LogHelper.Log("CallbackFriendGacha() start");
-        int gachaCount = (int)args;
-//        Gacha.SendRequest(OnRspGacha, 1, gachaCount);
-        UIManager.Instance.ChangeScene(SceneEnum.FriendScratch);
+        gachaType = GachaType.FriendGacha;
+        gachaCount = (int)args;
+        Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
     }
 
     private void CallbackRareGacha(object args){
         LogHelper.Log("CallbackRareGacha() start");
-        int gachaCount = (int)args;
-        Gacha.SendRequest(OnRspGacha, 2, gachaCount);
+        gachaType = GachaType.RareGacha;
+        gachaCount = (int)args;
+        Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
     }
 
     private void CallbackEventGacha(object args){
-        LogHelper.Log("CallbackRareGacha() start");
-        int gachaCount = (int)args;
-        Gacha.SendRequest(OnRspGacha, 3, gachaCount);
+        gachaType = GachaType.EventGacha;
+        gachaCount = (int)args;
+        Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
     }
     
     private void OpenFriendGachaWindow(object args){
         LogHelper.Log("OnFriendGacha() start");
 
-
         if (DataCenter.Instance.GetAvailableFriendGachaTimes() < 1) {
             LogHelper.Log("OnFriendGacha() friend point not enough");
-            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaFailedMsgWindowParams(GachaFailedType.FriendGachaPointNotEnough));
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+                                      GetFriendGachaFailedMsgWindowParams(GachaFailedType.FriendGachaPointNotEnough));
             return;
         }
         else if (DataCenter.Instance.MyUnitList.Count > DataCenter.Instance.UserInfo.UnitMax){
-            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaFailedMsgWindowParams(GachaFailedType.FriendGachaUnitCountReachedMax));
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+                                      GetFriendGachaFailedMsgWindowParams(GachaFailedType.FriendGachaUnitCountReachedMax));
             return;
         }
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaMsgWindowParams());

@@ -15,6 +15,7 @@ using bbproto;
 public class GachaWindowLogic : ConcreteComponent {
 
     protected string titleText = "";
+
     public GachaWindowLogic(string uiName):base(uiName) {}
 
     public override void CreatUI () {
@@ -24,14 +25,12 @@ public class GachaWindowLogic : ConcreteComponent {
     
     public override void ShowUI () {
         base.ShowUI ();
-        SetMenuBtnEnable(false);
         BeforeSetTitleView();
         SetTitleView();
     }
     
     public override void HideUI () {
         base.HideUI ();
-        SetMenuBtnEnable(true);
     }
     
     public override void DestoryUI () {
@@ -60,12 +59,9 @@ public class GachaWindowLogic : ConcreteComponent {
 
     }
 
-    private void SetMenuBtnEnable(bool newState){
-        MenuBtnsComponent.SetEnable(newState);
-    }
-
     private void SetTitleView(){
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("SetTitleView", titleText);
         ExcuteCallback(cbdArgs);
     }
+
 }

@@ -142,6 +142,8 @@ public class TextCenter {
         textDict.Add("RareScratch", "Rare Scratch");
         textDict.Add("EventScratch", "Event Scratch");
 
+        textDict.Add("GachaChances", "chances {0}/{1}");
+
         ///
 	    textDict.Add ("StartQuestFail", "Start quest request failed");
 
