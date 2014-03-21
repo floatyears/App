@@ -191,7 +191,7 @@ message ReqGacha {
 
 message RspGacha {	
 	optional ProtoHeader	header			= 1;
-	repeated UserUnit		unitList		= 2;
+	repeated UserUnit		unitList		= 2; // only the gacha got units
 	repeated uint32			unitUniqueId	= 3;
 	repeated uint32			blankUnitId		= 4;
 	optional int32			stone			= 5;

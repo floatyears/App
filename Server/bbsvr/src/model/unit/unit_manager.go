@@ -116,21 +116,26 @@ func CalculateDevourExp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseU
 
 func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, currExp int32, addExp int32) (addLevel int32, e Error.Error) {
 	addLevel = int32(0)
-	for level := *userUnit.Level; level < *unit.MaxLevel; level++ {
-		nextLevelExp := GetUnitExpByExpType(*unit.PowerType.ExpType, level)
+	currLevel := int32(1)
+	nextLevelExp := int32(0)
+	for level := int32(1); level <= *unit.MaxLevel; level++ {
+		nextLevelExp += GetUnitExpByExpType(*unit.PowerType.ExpType, level)
 		if nextLevelExp <= 0 { // nextLevelExp<=0 means it reach MAX_LEVEL
 			log.T("nextLevelExp=%v => reach MaxLevel: %v.", nextLevelExp, level)
 			break
 		}
 
 		if currExp+addExp >= nextLevelExp {
-			addLevel += 1
-			log.T("currExp+addExp: %v + %v  >= level[%v].nextLevelExp: %v, add Level: %v ", currExp, addExp, level, nextLevelExp, addLevel)
+			currLevel += 1
+			log.T("currLevel:%v currExp+addExp: %v + %v  >= level[%v].nextLevelExp: %v, add Level: %v ",currLevel, currExp, addExp, level, nextLevelExp, addLevel)
 		} else {
-			log.T("currExp+addExp: %v + %v  < level[%v].nextLevelExp: %v. return addLevel: %v ", currExp, addExp, level, nextLevelExp, addLevel)
+			log.T("currLevel:%v currExp+addExp: %v + %v  < level[%v].nextLevelExp: %v. return addLevel: %v ",currLevel, currExp, addExp, level, nextLevelExp, addLevel)
 			break
 		}
 	}
+
+	addLevel = currLevel - *userUnit.Level;
+	log.T("nextLevelExp:%v - currExp+addExp:%v = nextExp:%v", nextLevelExp, currExp+addExp, nextLevelExp-(currExp+addExp))
 
 	return addLevel, Error.OK()
 }
