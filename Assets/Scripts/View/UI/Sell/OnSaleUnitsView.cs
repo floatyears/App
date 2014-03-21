@@ -10,7 +10,9 @@ public class OnSaleUnitsView : UIComponentUnity{
 	List<string> crossShowTextList = new List<string>();
 	List<UnitItemViewInfo> viewInfoList = new List<UnitItemViewInfo>();
 	List<GameObject> topItemList = new List<GameObject>();
-	UIImageButton imgBtn;
+	UIImageButton sellImgBtn;
+	UIImageButton clearImgBtn;
+
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUIElement();
@@ -18,7 +20,8 @@ public class OnSaleUnitsView : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		imgBtn.isEnabled = false;
+		sellImgBtn.isEnabled = false;
+		clearImgBtn.isEnabled = false;
 		ShowUIAnimation();	              
 	}
 	
@@ -107,7 +110,20 @@ public class OnSaleUnitsView : UIComponentUnity{
 		itemPrefab = Resources.Load( itemSourcePath ) as GameObject;
 		InitDragPanelArgs();
 		InitTopItem();
-		imgBtn = transform.FindChild("ImgBtn_Sell").GetComponent<UIImageButton>();
+		sellImgBtn = transform.FindChild("ImgBtn_Sell").GetComponent<UIImageButton>();
+		clearImgBtn = transform.FindChild("ImgBtn_Clear").GetComponent<UIImageButton>();
+		UIEventListener.Get(sellImgBtn.gameObject).onClick = ClickSellBtn;
+		UIEventListener.Get(clearImgBtn.gameObject).onClick = ClickClearBtn;
+	}
+
+	void ClickSellBtn(GameObject btn){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", null);
+		ExcuteCallback(cbdArgs);
+	}
+
+	void ClickClearBtn(GameObject btn){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickClear", null);
+		ExcuteCallback(cbdArgs);
 	}
 
 	void InitTopItem(){
@@ -188,8 +204,6 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void ResetUI(){
-
-
 		for (int i = 0; i < 12; i++){
 			FindTextureWithPosition(i).mainTexture = null;
 			FindLabelWithPosition(i).text = string.Empty;
@@ -198,7 +212,8 @@ public class OnSaleUnitsView : UIComponentUnity{
 
 	void ActivateButton(object args){
 		bool canActivate = (bool)args;
-		imgBtn.isEnabled = canActivate;
+		sellImgBtn.isEnabled = canActivate;
+		clearImgBtn.isEnabled = canActivate;
 	}
 
 	void CrossShow(){

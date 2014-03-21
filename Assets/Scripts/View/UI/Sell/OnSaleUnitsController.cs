@@ -6,7 +6,6 @@ public class OnSaleUnitsController : ConcreteComponent {
 	int maxPickCount = 12;
 
 	List<UnitItemViewInfo> onSaleUnitList = new List<UnitItemViewInfo>();
-//	Dictionary<int, TUserUnit> pickedUnitDic = new Dictionary<int, TUserUnit>();
 	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
 
 	public OnSaleUnitsController(string uiName):base(uiName) {}
@@ -32,11 +31,30 @@ public class OnSaleUnitsController : ConcreteComponent {
 			case "ClickItem" : 
 				CallBackDispatcherHelper.DispatchCallBack(PickOnSaleUnit, cbdArgs);
 				break;
+			case "ClickSell" : 
+				CallBackDispatcherHelper.DispatchCallBack(GiveSellNote, cbdArgs);
+				break;
+			case "ClickClear" : 
+				CallBackDispatcherHelper.DispatchCallBack(ClearPickedUnits, cbdArgs);
+				break;
 			default:
 				break;
 		}
 	}
-	
+
+
+	void GiveSellNote(object args){
+
+	}
+
+	void ClearPickedUnits(object args){
+//		pickedUnitList.Clear();
+//		for (int i = 0; i < pickedUnitList.Count; i++){
+//			PickOnSaleUnit(i);
+////			PickOnSaleUnit(i);
+//		}
+	}
+
 	void GetUnitCellViewList(){
 		List<TUserUnit> userUnitList = new List<TUserUnit>();
 		
@@ -128,17 +146,11 @@ public class OnSaleUnitsController : ConcreteComponent {
 		else
 			return false;
 	}
-
-
+	
 	bool CanBePick(UnitItemViewInfo info){
 		bool ret = true;
 		if(info.IsParty || info.IsCollected) ret = false;
 		else{
-//			int pickedCount = 0;
-//			for (int i = 0; i < pickedUnitList.Count; i++){
-//				if(pickedUnitList[ i ] !=null) pickedCount++;
-//			}
-//			
 			if(GetCurPickedUnitCount() >= maxPickCount) ret = false;
 		}
 		return ret;
