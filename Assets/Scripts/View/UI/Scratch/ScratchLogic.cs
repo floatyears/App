@@ -169,7 +169,7 @@ public class ScratchLogic : ConcreteComponent {
         LogHelper.Log("CallbackFriendGacha() start");
         int gachaCount = (int)args;
 //        Gacha.SendRequest(OnRspGacha, 1, gachaCount);
-        UIManager.Instance.ChangeScene(SceneEnum.FriendGacha);
+        UIManager.Instance.ChangeScene(SceneEnum.FriendScratch);
     }
 
     private void CallbackRareGacha(object args){

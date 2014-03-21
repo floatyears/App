@@ -15,4 +15,9 @@ using bbproto;
 public class FriendGachaWindowLogic: GachaWindowLogic{
     public FriendGachaWindowLogic(string uiName):base(uiName) {}
 
+    public override void HideUI () {
+        LogHelper.Log("HideUI(), hide");
+        base.HideUI ();
+    }
+
 }

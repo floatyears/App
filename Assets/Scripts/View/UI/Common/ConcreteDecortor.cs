@@ -201,10 +201,10 @@ public class GachaWindowDecorator : DecoratorBase
 
         GachaWindowLogic gachaWin;
         switch (currentDecoratorScene) {
-        case SceneEnum.FriendGacha:
+        case SceneEnum.FriendScratch:
             gachaWin = CreatComponent< FriendGachaWindowLogic >(UIConfig.gachaWindowName);
             break;
-        case SceneEnum.RareGacha:
+        case SceneEnum.RareScratch:
             gachaWin = CreatComponent< FriendGachaWindowLogic >(UIConfig.gachaWindowName);
             break;
         case SceneEnum.EventGacha:

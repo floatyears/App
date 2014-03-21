@@ -12,11 +12,11 @@ public enum SceneEnum
 
 	Scratch,
 
-    FriendGacha,
+    FriendScratch,
 
-    RareGacha,
+    RareScratch,
 
-    EventGacha,
+    EventScratch,
 
 	Shop,
 

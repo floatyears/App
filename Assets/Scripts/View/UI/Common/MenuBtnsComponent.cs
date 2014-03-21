@@ -2,7 +2,11 @@
 using System.Collections;
 
 public class MenuBtnsComponent : ConcreteComponent, IUICallback {
+    public static bool enable = true;
 
+    public static void SetEnable(bool newState){
+        enable = newState;
+    }
 	public MenuBtnsComponent (string uiName) : base(uiName) {
 
 	}
@@ -26,6 +30,9 @@ public class MenuBtnsComponent : ConcreteComponent, IUICallback {
 
 	public void Callback (object data)
 	{
+        if (!MenuBtnsComponent.enable){
+            return;
+        }
 		try {
 			SceneEnum se = (SceneEnum)data;
 			UIManager.Instance.ChangeScene(se);

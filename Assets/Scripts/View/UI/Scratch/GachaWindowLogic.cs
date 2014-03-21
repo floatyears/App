@@ -13,22 +13,33 @@ using System.Collections.Generic;
 using bbproto;
 
 public class GachaWindowLogic : ConcreteComponent {
-    
+
+    private UILabel titleLabel;
+    private UILabel chanceLabel;
+
     public GachaWindowLogic(string uiName):base(uiName) {}
-    
+
     public override void CreatUI () {
         base.CreatUI ();
+        InitUI();
     }
     
     public override void ShowUI () {
         base.ShowUI ();
+        MenuBtnsComponent.SetEnable(false);
     }
     
     public override void HideUI () {
         base.HideUI ();
+        MenuBtnsComponent.SetEnable(true);
     }
     
     public override void DestoryUI () {
         base.DestoryUI ();
     }
+
+    public virtual void InitUI(){
+
+    }
+
 }
