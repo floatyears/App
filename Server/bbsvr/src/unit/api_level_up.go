@@ -149,7 +149,7 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 		*baseUserUnit.AddDefence += addDef
 	}
 	log.T("baseUserUnit ref to userDetail.UnitList[x] => after Assign value: %+v", baseUserUnit)
-	log.T("userDetail.UnitList[x] => NOW value: %+v", userDetail.UnitList)
+//	log.T("userDetail.UnitList[x] => NOW value: %+v", userDetail.UnitList)
 
 	//6. remove partUnits
 	log.T("------ before RemoveMyUnit userDetail.UnitList len:%v", len(userDetail.UnitList))

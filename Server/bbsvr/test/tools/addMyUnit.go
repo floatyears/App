@@ -13,11 +13,10 @@ import (
 	"common/consts"
 	"common/log"
 	"data"
-	_ "quest"
 	"model/unit"
+	_ "quest"
 	//redis "github.com/garyburd/redigo/redis"
 )
-
 
 func addMyUnit(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e Error.Error) {
 	if db == nil {
@@ -58,11 +57,13 @@ func addMyUnit(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e
 		if e.IsError() {
 			return nil, e
 		}
+		level:=common.Rand(1, int32(i))
+		exp := unit.GetUnitExpValue(1, level)
 		userUnit2 := &bbproto.UserUnit{
 			UniqueId:  proto.Uint32(unitId2),
 			UnitId:    proto.Uint32(uint32(i)),
-			Exp:       proto.Int32(1),
-			Level:     proto.Int32(common.Rand(1, int32(i))),
+			Exp:       proto.Int32(exp),
+			Level:     proto.Int32(level),
 			GetTime:   proto.Uint32(common.Now()),
 			AddAttack: proto.Int32(common.Randn(int32(i) % 10)),
 			AddHp:     proto.Int32(common.Randn(int32(i) % 10)),
@@ -74,6 +75,10 @@ func addMyUnit(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e
 	zUserData, err := proto.Marshal(userDetail)
 	if err != nil {
 		return nil, Error.New(EC.MARSHAL_ERROR, err)
+	}
+
+	if err := db.Select(consts.TABLE_USER); err != nil {
+		return nil, Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 
 	if err = db.Set(common.Utoa(*userDetail.User.UserId), zUserData); err != nil {

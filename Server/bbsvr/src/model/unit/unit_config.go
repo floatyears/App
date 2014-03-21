@@ -33,6 +33,17 @@ func GetUnitExpValue(expType int32, level int32) (levelExp int32) {
 	return config.TableUnitExpType[level-1]
 }
 
+func GetUnitExpByLevel(unitId uint32, level int32) (exp int32, e Error.Error) {
+	exp = 0;
+	unitInfo, e := GetUnitInfo(nil, unitId)
+	if e.IsError() {
+		return exp, e
+	}
+	exp = GetUnitExpValue(*unitInfo.PowerType.ExpType, level)
+
+	return exp, Error.OK()
+}
+
 func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, questId uint32) {
 	if unitRare > consts.N_MAX_RARE {
 		return 0, 0

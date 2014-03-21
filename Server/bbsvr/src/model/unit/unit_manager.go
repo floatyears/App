@@ -46,6 +46,7 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (uniqueId uint32,
 	return uniqueId, Error.OK()
 }
 
+//TODO: use global object to store unitinfo, avoiding read db.
 func GetUnitInfo(db *data.Data, unitId uint32) (unit bbproto.UnitInfo, e Error.Error) {
 	if db == nil {
 		db = &data.Data{}
