@@ -123,14 +123,19 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			tex = Tabs [1].GetComponentInChildren<UITexture> ();
 		}
 
-		if (friendUnitInfo == null) {
-			friendUnitInfo = unitInfo;
-			tex.mainTexture = DataCenter.Instance.GetUnitInfo (friendUnitInfo.UnitID).GetAsset (UnitAssetType.Avatar); //UnitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
-			CaculateDevorExp (true);
-		} else if (friendUnitInfo == unitInfo) {
+		if (friendUnitInfo == unitInfo) {
 			friendUnitInfo = null;
 			tex.mainTexture = null;	
 			CaculateDevorExp (false);
+		} 
+		else{
+			if(friendUnitInfo != null) {
+				CaculateDevorExp (false);
+			}
+
+			friendUnitInfo = unitInfo;
+			tex.mainTexture = DataCenter.Instance.GetUnitInfo (friendUnitInfo.UnitID).GetAsset (UnitAssetType.Avatar); //UnitInfo [unitInfo.UnitID].GetAsset (UnitAssetType.Avatar);
+			CaculateDevorExp (true);
 		} 
 	}
 
@@ -188,12 +193,12 @@ public class LevelUpReadyPanel: UIComponentUnity {
                         materialPoolDic.Add( i, item);
         }
                 
-        foreach (var item in Tabs)
-                UIEventListener.Get(item.gameObject).onClick = ClickTab;
+		foreach (var item in Tabs) {
+			UIEventListener.Get(item.gameObject).onClick = ClickTab;	
+		}           
 	}
-
-
-	void ClickTab(GameObject tab){
+	
+	void ClickTab(GameObject tab) {
 		FoucsOnTab(tab);
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 	}
@@ -280,24 +285,22 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	void PickBaseUnitInfo(object info){
 		if( curFocusTab.name == "Tab_Base" ){
-			UnitItemInfo uui = info as UnitItemInfo;
-
-			if(uui.isSelect) {
-				baseUnitInfo = uui;
-				CaculateDevorExp(true);
-			}
-			else{
+			if(info == null) {
 				baseUnitInfo = null;
 				CaculateDevorExp(false);
 			}
-			UpdateBaseInfoView( baseUnitInfo );
-		}else{
+			else{
+				UnitItemInfo uui = info as UnitItemInfo;
+				baseUnitInfo = uui;
+				CaculateDevorExp(true);
+			}
+			UpdateBaseInfoView(baseUnitInfo);
+		}
+		else{
 			UnitItemInfo uui = info as UnitItemInfo;
-
 			if(!CancelMaterialClick(uui)) {
 				MaterialClick(uui);
 			}
-
 			MsgCenter.Instance.Invoke(CommandEnum.ShieldMaterial, unitItemInfo);
 		}
 	}

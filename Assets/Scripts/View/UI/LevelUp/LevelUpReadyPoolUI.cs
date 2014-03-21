@@ -45,7 +45,7 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 //				update myUnitList
 
 				DataCenter.Instance.oldUserUnitInfo = DataCenter.Instance.MyUnitList.GetMyUnit(rspLevelUp.blendUniqueId);
-
+				Debug.LogError(" NetCallback : " + DataCenter.Instance.oldUserUnitInfo  + " time : " + Time.realtimeSinceStartup);
 				DataCenter.Instance.MyUnitList.Clear();
 				foreach(UserUnit unit in rspLevelUp.unitList) {
 					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
