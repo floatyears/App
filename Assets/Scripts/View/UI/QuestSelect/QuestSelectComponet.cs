@@ -14,11 +14,13 @@ public class QuestSelectComponent : ConcreteComponent{
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, SelectedStage);
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
 	}
 	
 	public override void HideUI() {
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, SelectedStage);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveStart, EvolveStartQuest);
 	}
 	
 	public override void DestoryUI(){
@@ -29,6 +31,11 @@ public class QuestSelectComponent : ConcreteComponent{
 		currentStageInfo = data as TStageInfo;
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateQuestList", currentStageInfo);
 		ExcuteCallback(cbdArgs);
+	}
+
+	void EvolveStartQuest (object data) {
+		TEvolveStart tes = data as TEvolveStart;
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EvolveQuestList", tes.StageInfo);
 	}
 
 

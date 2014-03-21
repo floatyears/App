@@ -244,9 +244,17 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			case "ShowInfoPanel" : 
 				CallBackDispatcherHelper.DispatchCallBack(UpdatePanelInfo, cbdArgs);
 				break;
+			case "EvolveQuestList":
+			CallBackDispatcherHelper.DispatchCallBack(EvolveInfoShow, cbdArgs);
+				break;
 			default:
 				break;
 		}
+	}
+
+	void EvolveInfoShow (object args) {
+		TStageInfo tsi = args as TStageInfo;
+
 	}
 
 
@@ -255,7 +263,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		questDragPanel = new DragPanel("QuestDragPanel", questViewItem);
 		questDragPanel.CreatUI();
 		questDragPanel.AddItem(tsi.QuestInfo.Count);
-//		Debug.Log("CreateQuestDragList(), count is : " + tsi.QuestInfo.Count);
 		questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 
 		for (int i = 0; i < questDragPanel.ScrollItem.Count; i++){

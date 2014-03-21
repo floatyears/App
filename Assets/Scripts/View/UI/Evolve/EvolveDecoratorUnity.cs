@@ -52,14 +52,16 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	private UIImageButton evolveButton ;
 	private EvolveItem baseItem;
 	private EvolveItem friendItem;
+	private TFriendInfo friendInfo;
 	private EvolveItem prevItem = null;
 //	private EvolveState clickState = EvolveState.BaseState;
 	private List<TUserUnit> materialUnit = new List<TUserUnit>();
 	private int ClickIndex = 0;
 
 	void PickFriendUnitInfo(object data) {
-		TUserUnit tuu = data as TUserUnit;
-		friendItem.Refresh (tuu);
+		TFriendInfo tuu = data as TFriendInfo;
+		friendInfo = tuu;
+		friendItem.Refresh (tuu.UserUnit);
 		CheckCanEvolve ();
 	}
 
@@ -285,7 +287,17 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void Evolve(GameObject go) {
-		ExcuteCallback (baseItem);
+		List<ProtobufDataBase> evolveInfoList = new List<ProtobufDataBase> ();
+		evolveInfoList.Add (baseItem.userUnit);
+		evolveInfoList.Add (friendInfo);
+		foreach (var item in materialItem.Values) {
+			TUserUnit tuu = item.userUnit;
+			if(tuu != null) {
+				evolveInfoList.Add(tuu);
+			}
+		}
+
+		ExcuteCallback (evolveInfoList);
 	}
 
 	void ShieldEvolveButton (bool b) {
