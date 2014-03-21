@@ -36,6 +36,7 @@ public class QuestSelectComponent : ConcreteComponent{
 	void EvolveStartQuest (object data) {
 		TEvolveStart tes = data as TEvolveStart;
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EvolveQuestList", tes.StageInfo);
+		ExcuteCallback(cbdArgs);
 	}
 
 

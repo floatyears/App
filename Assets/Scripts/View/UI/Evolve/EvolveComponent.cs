@@ -89,31 +89,30 @@ public class EvolveComponent : ConcreteComponent {
 		if (unitRare > 6) {
 			return stageID;	
 		}
-
 		switch (unitType) {
-		case bbproto.EUnitType.UWIND :
-			stageID = 1;
-			break;
-		case bbproto.EUnitType.UFIRE : 
-			stageID = 2;
-			break;
-		case bbproto.EUnitType.UWATER :
-			stageID = 3;
-			break;
-		case bbproto.EUnitType.ULIGHT :
-			stageID = 4;
-			break;
-		case bbproto.EUnitType.UDARK :
-			stageID = 5;
-			break;
-		case bbproto.EUnitType.UNONE :
-			stageID = 6;
-			break;
-		default:
-			stageID = 0;
-			break;
+			case bbproto.EUnitType.UWIND:
+				stageID = 1;
+				break;
+			case bbproto.EUnitType.UFIRE:
+				stageID = 2;
+				break;
+			case bbproto.EUnitType.UWATER:
+				stageID = 3;
+				break;
+			case bbproto.EUnitType.ULIGHT:
+				stageID = 4;
+				break;
+			case bbproto.EUnitType.UDARK:
+				stageID = 5;
+				break;
+			case bbproto.EUnitType.UNONE:
+				stageID = 6;
+				break;
+			default:
+				stageID = 0;
+				break;
 		}
-
+		stageID += 1000;
 		return stageID;
 	}
 	 
@@ -124,30 +123,29 @@ public class EvolveComponent : ConcreteComponent {
 		}
 
 		switch (unitRare) {
-		case 1:
-			questID = 1;
-			break;
-		case 2:
-			questID =  1;
-			break;
-		case 3:
-			questID =  2;
-			break;
-		case 4:
-			questID =  3;
-			break;
-		case 5:
-			questID =  4;
-			break;
-		case 6:
-			questID =  5;
-			break;
-		default:
-			return 0;
-			break;
+			case 1:
+				questID = 1;
+				break;
+			case 2:
+				questID =  1;
+				break;
+			case 3:
+				questID =  2;
+				break;
+			case 4:
+				questID =  3;
+				break;
+			case 5:
+				questID =  4;
+				break;
+			case 6:
+				questID =  5;
+				break;
+			default:
+				return 0;
+				break;
 		}
-		questID += stageID * 100 + questID;
+		questID = stageID*10 + questID;
 		return questID;
-
 	}
 }
