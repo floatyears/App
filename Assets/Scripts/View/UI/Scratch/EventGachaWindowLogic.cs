@@ -12,23 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class GachaWindowLogic : ConcreteComponent {
-    
-    public GachaWindowLogic(string uiName):base(uiName) {}
-    
-    public override void CreatUI () {
-        base.CreatUI ();
-    }
-    
-    public override void ShowUI () {
-        base.ShowUI ();
-    }
-    
-    public override void HideUI () {
-        base.HideUI ();
-    }
-    
-    public override void DestoryUI () {
-        base.DestoryUI ();
-    }
+public class EventGachaWindowLogic: GachaWindowLogic{
+    public EventGachaWindowLogic(string uiName):base(uiName) {}
+
 }

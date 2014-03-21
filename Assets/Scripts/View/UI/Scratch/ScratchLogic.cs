@@ -168,7 +168,8 @@ public class ScratchLogic : ConcreteComponent {
     private void CallbackFriendGacha(object args){
         LogHelper.Log("CallbackFriendGacha() start");
         int gachaCount = (int)args;
-        Gacha.SendRequest(OnRspGacha, 1, gachaCount);
+//        Gacha.SendRequest(OnRspGacha, 1, gachaCount);
+        UIManager.Instance.ChangeScene(SceneEnum.FriendGacha);
     }
 
     private void CallbackRareGacha(object args){

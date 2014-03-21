@@ -198,11 +198,23 @@ public class GachaWindowDecorator : DecoratorBase
         
         sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
         sceneInfoBar.SetComponent(decorator);
-        
-        
-        GachaWindowLogic gachaWin = CreatComponent< GachaWindowLogic >(UIConfig.gachaWindowName);
+
+        GachaWindowLogic gachaWin;
+        switch (currentDecoratorScene) {
+        case SceneEnum.FriendGacha:
+            gachaWin = CreatComponent< FriendGachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        case SceneEnum.RareGacha:
+            gachaWin = CreatComponent< FriendGachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        case SceneEnum.EventGacha:
+            gachaWin = CreatComponent< EventGachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        default:
+            gachaWin = CreatComponent< GachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        }
         gachaWin.SetComponent(sceneInfoBar);
-        
         lastDecorator = gachaWin;
         lastDecorator.CreatUI();
         
