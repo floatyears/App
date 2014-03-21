@@ -19,10 +19,12 @@ public class ConfigUnitBaseInfo {
     // exp attack defense hp
     void GenerateUnitBaseExp() {
         PowerTable pt = new PowerTable();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 99; i++) {
             PowerValue pv = new PowerValue();
             pv.level = i + 1;
 			pv.value = 100 * ((i+1)*(i+1)/3);
+			if (pv.value==0)
+				pv.value = 10;
             pt.power.Add(pv);
         }
         TPowerTableInfo tbi = new TPowerTableInfo(pt);

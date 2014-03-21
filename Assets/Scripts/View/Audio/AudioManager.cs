@@ -19,6 +19,9 @@ public class AudioManager {
 	
 	public void PlayAudio(AudioEnum audioEnum){
 		int audioID = (int)audioEnum;
+		if ( ConfigAudio.audioList == null ) {
+			Debug.LogError("ERROR: ConfigAudio.audioList==null");
+		}
 		AudioConfigItem configItem = ConfigAudio.audioList.Find( item=>item.id == audioID );
 		if(configItem == default( AudioConfigItem ) )	
 			return;
