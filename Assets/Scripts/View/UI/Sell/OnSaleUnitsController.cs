@@ -43,16 +43,15 @@ public class OnSaleUnitsController : ConcreteComponent {
 	}
 
 
-	void GiveSellNote(object args){
-
-	}
+	void GiveSellNote(object args){}
 
 	void ClearPickedUnits(object args){
-//		pickedUnitList.Clear();
-//		for (int i = 0; i < pickedUnitList.Count; i++){
-//			PickOnSaleUnit(i);
-////			PickOnSaleUnit(i);
-//		}
+		for (int i = 0; i < onSaleUnitList.Count; i++){
+			UnitItemViewInfo viewInfo = onSaleUnitList[i];
+			if (CanBeCancel(viewInfo.DataItem)){
+				CancelPick(i, viewInfo.DataItem);
+			}
+		}
 	}
 
 	void GetUnitCellViewList(){
