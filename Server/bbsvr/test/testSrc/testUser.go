@@ -234,7 +234,7 @@ func ResetStamina(uid uint32) (e Error.Error) {
 	return Error.OK()
 }
 
-func UpdateHelperUidRank() {
+func UpdateHelperUidRank(maxUserId uint32) {
 	db := &data.Data{}
 	err := db.Open(consts.TABLE_USER)
 	defer db.Close()
@@ -242,7 +242,7 @@ func UpdateHelperUidRank() {
 		return
 	}
 
-	for uid := uint32(101); uid < 500; uid++ {
+	for uid := uint32(101); uid < maxUserId; uid++ {
 		userDetail, _, err := user.GetUserInfo(db, uid)
 		if err != nil {
 			log.Error("GetUser(%v) ret err:%v", uid, err.Error())
@@ -260,11 +260,11 @@ func UpdateHelperUidRank() {
 
 func main() {
 	Init()
-	//	AddUsers(197, 200)
+	//AddUsers(100, 1000)
 
-	UpdateHelperUidRank()
+	//UpdateHelperUidRank(1000)
 
-	//AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220162", 0)
+	AuthUser("b2c4adfd-e6a9-4782-814d-67ce34220162", 0) //1101
 	//ResetStamina(154)
 	//LoginPack(101)
 

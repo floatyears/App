@@ -3,16 +3,17 @@ package main
 import (
 	"bytes"
 	"code.google.com/p/goprotobuf/proto"
+	"flag"
 	"fmt"
-	_ "html"
-	"log"
 	//"math/rand"
 	"time"
 )
 import (
 	"bbproto"
 	//"../src/common"
+	"common"
 	"common/consts"
+	"common/log"
 	"data"
 	"model/friend"
 	//redis "github.com/garyburd/redigo/redis"
@@ -150,10 +151,7 @@ func DataAddFriends(uid uint32, num uint32) error {
 		}
 		updatetime := uint32(time.Now().Unix())
 
-		if fid%4 == 1 {
-			fState := bbproto.EFriendState_FRIENDHELPER
-			friend.AddHelper(db, uid, fid, fState, updatetime)
-		} else {
+		{
 			fState := bbproto.EFriendState_ISFRIEND
 			if fid%5 == 2 {
 				fState = bbproto.EFriendState_FRIENDIN
@@ -271,51 +269,48 @@ func AcceptFriend(myUid uint32, fUid uint32) error {
 }
 
 func AddBundleFriends(uid uint32, num uint32) {
-	for fid := uint32(110); fid <= 110+num; fid++ {
+	//Add friends
+	startUid := uint32(110)
+	for fid := uint32(startUid); fid <= startUid+num; fid++ {
 		AddFriend(uid, fid)
 		AcceptFriend(fid, uid)
 	}
+
+	//Add FriendOUt
+	startUid += num
+	for fid := uint32(startUid); fid <= startUid+num; fid++ {
+		AddFriend(uid, fid)
+	}
+
+	//Add FriendIn
+	startUid += num
+	for fid := uint32(startUid); fid <= startUid+num; fid++ {
+		AddFriend(fid, uid)
+	}
+
 	GetFriend(uid)
 }
 
 func main() {
 	log.Printf("==============================================")
-	log.Printf("bbsvr test client begin...")
+	log.Printf(" AddFriends begin...")
 
 	Init()
-	//DataAddFriends(101, 39)
 
-	//protocol test
-	//GetFriend(130)
-	//FindFriend(101, 130)
+	flag.Parse()
+	args := flag.Args()
 
-	//AddFriend(156, 143)
-	//AddFriend(156, 144)
-	//AddFriend(156, 146)
-	//AddFriend(156, 147)
-	//AddFriend(156, 148)
-	//AddFriend(156, 149)
-	//AddFriend(156, 150)
-	//AddFriend(156, 151)
+	if args == nil || len(args) < 1 {
+		log.T("usage: input param: {uid}")
+		return
+	}
 
-	//for fid := uint32(146); fid < 162; fid++ {
-	//	AddFriend(fid, 156)
-	//}
+	//uid := uint32(197)
+	uid := common.Atou(args[0])
+	num := uint32(20)
+	AddBundleFriends(uid, num)
 
-	//AcceptFriend(143, 156)
-	//AcceptFriend(144, 156)
-	//AcceptFriend(146, 156)
-	//AcceptFriend(147, 156)
-	//AcceptFriend(148, 156)
-	//AcceptFriend(149, 156)
-	//AcceptFriend(156, 156)
+	GetFriend(uid)
 
-	//uid := uint32(104)
-	//num := uint32(40)
-	//AddBundleFriends(uid, num)
-
-	//DelFriend(104, 123)
-	GetFriend(111)
-
-	log.Fatal("bbsvr test client finish.")
+	log.Fatal("AddFriends finish.")
 }

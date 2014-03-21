@@ -12,16 +12,17 @@ message UnitResource {
 }
 
 message UserUnit {  //unit instance
-	required uint32 uniqueId	= 1;
-	optional uint32 unitId		= 2;
-	optional int32 exp			= 3;
-	optional int32 level		= 4;
-	optional int32 addAttack	= 5;
-	optional int32 addDefence	= 6;
-	optional int32 addHp		= 7;
-	optional int32 limitbreakLv	= 8;
-	optional uint32 getTime		= 9;
-	optional int32	isFavorite	= 10;
+	required uint32 uniqueId			= 1;
+	optional uint32 unitId				= 2;
+	optional int32 exp					= 3;
+	optional int32 level				= 4;
+	optional int32 activeSkillLevel		= 5; 
+	optional int32 addAttack			= 6;
+	optional int32 addDefence			= 7;
+	optional int32 addHp				= 8;
+	optional int32 limitbreakLv			= 9;
+	optional uint32 getTime				= 10;
+	optional int32	isFavorite			= 11;
 }
 
 message UnitInfo { 	
@@ -35,15 +36,14 @@ message UnitInfo {
 	optional int32			leaderSkill		= 8;
 	optional int32			activeSkill		= 9;
 	optional int32			passiveSkill	= 10;
-	optional int32			activeSkillLevel= 11; 
-	optional int32			maxLevel		= 12;
-	optional string			profile			= 13;
-	optional PowerType		powerType		= 14; //include: hpType,atkType,expType
-	optional EvolveInfo		evolveInfo		= 15;
-	optional int32			cost			= 16;
-	optional int32			saleValue		= 17;
-	optional int32			devourValue		= 18;
-	optional EUnitGetWay	getWay			= 19;	
+	optional int32			maxLevel		= 11;
+	optional string			profile			= 12;
+	optional PowerType		powerType		= 13; //include: hpType,atkType,expType
+	optional EvolveInfo		evolveInfo		= 14;
+	optional int32			cost			= 15;
+	optional int32			saleValue		= 16;
+	optional int32			devourValue		= 17;
+	optional EUnitGetWay	getWay			= 18;	
 }
 
 enum EUnitGetWay {
@@ -128,6 +128,7 @@ message ReqLevelUp {
 	optional int32			helperPremium	= 6;
 }
 
+//TODO: only return baseUnit, but no other unitList.
 message RspLevelUp {
 	optional ProtoHeader	header			= 1;
 	repeated UserUnit		unitList		= 2;
@@ -146,6 +147,7 @@ message ReqEvolveStart {
 	optional UserUnit		helperUnit		= 5;
 	optional int32			helperPremium	= 6;
 	optional uint32			evolveQuestId	= 7;
+	optional int32			restartNew		= 8;
 }
 
 message RspEvolveStart {

@@ -235,9 +235,12 @@ public class TUserUnit : ProtobufDataBase {
         }
     }
 
+	public int MultipleDevorExp (TUserUnit baseUser) {
+		return System.Convert.ToInt32 (DGTools.AllMultiple (baseUser, this) * UnitInfo.DevourExp);
+	}
 
     public int Exp {
-        get {
+        get{
             return instance.exp;
         }
     }
@@ -248,6 +251,7 @@ public class TUserUnit : ProtobufDataBase {
             return curExp;
         }
     }
+
 
     public int NextExp {
         get {
@@ -432,6 +436,18 @@ public class UserUnitList {
         foreach (var item in userUnitInfo) {
             TUserUnit tUnit = item.Value as TUserUnit;
 //            LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);
+        }
+    }
+
+    public void AddMyUnitList(List <UserUnit> unitList){
+        for (int i = 0; i < unitList.Count; i++){
+            AddMyUnit(unitList[i]);
+        }
+    }
+
+    public void DelMyUnitList(List <uint> uniqueIds){
+        for (int i = 0; i < uniqueIds.Count; i++){
+            DelMyUnit(uniqueIds[i]);
         }
     }
 

@@ -2,21 +2,18 @@ package friend
 
 import (
 	"fmt"
-	"log"
 	"net/http"
-	//"time"
 )
 
 import (
 	"bbproto"
 	"common/EC"
 	"common/Error"
-	//"data"
+	"common/log"
 	"model/user"
 	//"model/friend"
 
 	proto "code.google.com/p/goprotobuf/proto"
-	//redis "github.com/garyburd/redigo/redis"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -34,6 +31,7 @@ func FindFriendHandler(rsp http.ResponseWriter, req *http.Request) {
 
 	e = handler.verifyParams(&reqMsg)
 	if e.IsError() {
+		log.T("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
 		return
 	}
@@ -86,15 +84,24 @@ func (t FindFriend) ProcessLogic(reqMsg *bbproto.ReqFindFriend, rspMsg *bbproto.
 	friendUid := *reqMsg.FriendUid
 
 	//get user's rank from user table
-	userdetail, isUserExists, err := user.GetUserInfo(nil, friendUid)
+	userDetail, isUserExists, err := user.GetUserInfo(nil, friendUid)
 	if err != nil {
 		return Error.New(EC.EU_GET_USERINFO_FAIL, fmt.Sprintf("GetUserInfo failed for userId %v. err:%v", friendUid, err.Error()))
 	}
-	log.Printf("[TRACE] getUser(%v) ret userinfo: %v", friendUid, userdetail.User)
 
 	// get FriendInfo
 	if isUserExists {
-		rspMsg.Friend = userdetail.User
+		rspMsg.Friend = &bbproto.FriendInfo{}
+		if userDetail != nil {
+			log.T("getUser(%v) ret userinfo: %v", friendUid, userDetail.User)
+
+			rspMsg.Friend.UserId = userDetail.User.UserId
+			rspMsg.Friend.NickName = userDetail.User.NickName
+			rspMsg.Friend.Rank = userDetail.User.Rank
+			rspMsg.Friend.LastPlayTime = userDetail.Login.LastPlayTime
+			rspMsg.Friend.Unit = userDetail.User.Unit
+
+		}
 	} else {
 		return Error.New(EC.EF_FRIEND_NOT_EXISTS, fmt.Sprintf("userId: %v not exists", friendUid))
 	}

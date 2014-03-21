@@ -17,6 +17,7 @@ func RefreshRank(user *bbproto.UserInfo ) (e Error.Error ){
 	if user == nil {
 		return Error.New(EC.INVALID_PARAMS, "user is null")
 	}
+	log.T("user: %v old rank=%v.", *user.UserId, *user.Rank)
 	user.Rank = proto.Int32( GetRankByExp(*user.Exp) )
 	return Error.OK()
 }
@@ -27,6 +28,7 @@ func GetRankByExp(exp int32) (rank int32) {
 	for rank:=int32(1); rank < consts.N_MAX_USER_RANK; rank++{
 		totalExp += config.TableUserRankExp[rank]
 		if totalExp >= exp {
+			log.T("GetRankByExp( exp=%v) return new rank=%v.", exp, rank)
 			return rank
 		}
 	}

@@ -162,9 +162,8 @@ public class PlayerInfoBar : UIComponentUnity
 		VUserNameLabel.text = DataCenter.Instance.UserInfo.NickName;
 		//Exp
 		int nextExp = DataCenter.Instance.UserInfo.NextExp;
-		int curRankExp = DataCenter.Instance.UserInfo.CurRankExp;
-
 		int totalExp = DataCenter.Instance.UserInfo.Exp;
+		int curRankExp = totalExp - DataCenter.Instance.UserInfo.CurRankExp;
 
 		VNeedExpHideLabel.text = nextExp.ToString();
 		VTotalExpHideLabel.text = totalExp.ToString();
@@ -225,6 +224,7 @@ public class PlayerInfoBar : UIComponentUnity
         MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncChips);
         MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncStamina);
         MsgCenter.Instance.AddListener(CommandEnum.RspUnitExpansion, SyncChips);
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshPlayerCoin, SyncCoins);
 	}
 	
 	void RemoveCommandListener()
@@ -237,6 +237,12 @@ public class PlayerInfoBar : UIComponentUnity
         MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncChips);
         MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncStamina);
         MsgCenter.Instance.RemoveListener(CommandEnum.RspUnitExpansion, SyncChips);
+		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPlayerCoin, SyncCoins);
+	}
+
+
+	void SyncCoins(object args){
+		VCionCountLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
 	}
 
 	void RequestData()

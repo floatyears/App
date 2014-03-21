@@ -107,7 +107,12 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 
             EUnitType unitType = ui.Type;
 
-            typeAttackValue[unitType] += uu[item.unitPos].Attack;
+			if ( typeAttackValue.ContainsKey(unitType) ) {
+				typeAttackValue[unitType] += uu[item.unitPos].Attack;
+			}else {
+				Debug.LogError("FATAL ERROR: unknown unitType:"+unitType+" in typeAttackValue.");
+			}
+            
             totalHp += uu[item.unitPos].Hp;
             totalCost += uu[item.unitPos].UnitInfo.Cost;
         }

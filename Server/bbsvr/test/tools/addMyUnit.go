@@ -2,7 +2,7 @@ package main
 
 import (
 	"code.google.com/p/goprotobuf/proto"
-	//"fmt"
+	"flag"
 	_ "html"
 )
 import (
@@ -13,12 +13,12 @@ import (
 	"common/consts"
 	"common/log"
 	"data"
+	"model/unit"
 	_ "quest"
-	//"src/model/user"
 	//redis "github.com/garyburd/redigo/redis"
 )
 
-func resetQuest(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e Error.Error) {
+func addMyUnit(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e Error.Error) {
 	if db == nil {
 		db = &data.Data{}
 		err := db.Open(consts.TABLE_USER)
@@ -52,13 +52,33 @@ func resetQuest(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, 
 		return nil, Error.New(EC.UNMARSHAL_ERROR)
 	}
 
-	//restore stamina
-	userDetail.Quest = nil
+	for i := 1; i <= 28; i++ {
+		unitId2, e := unit.GetUnitUniqueId(db, *userDetail.User.UserId, i-1)
+		if e.IsError() {
+			return nil, e
+		}
+		level:=common.Rand(1, int32(i))
+		exp := unit.GetUnitExpValue(1, level)
+		userUnit2 := &bbproto.UserUnit{
+			UniqueId:  proto.Uint32(unitId2),
+			UnitId:    proto.Uint32(uint32(i)),
+			Exp:       proto.Int32(exp),
+			Level:     proto.Int32(level),
+			GetTime:   proto.Uint32(common.Now()),
+			AddAttack: proto.Int32(common.Randn(int32(i) % 10)),
+			AddHp:     proto.Int32(common.Randn(int32(i) % 10)),
+		}
+		userDetail.UnitList = append(userDetail.UnitList, userUnit2)
+	}
 
 	//save data
 	zUserData, err := proto.Marshal(userDetail)
 	if err != nil {
 		return nil, Error.New(EC.MARSHAL_ERROR, err)
+	}
+
+	if err := db.Select(consts.TABLE_USER); err != nil {
+		return nil, Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 
 	if err = db.Set(common.Utoa(*userDetail.User.UserId), zUserData); err != nil {
@@ -71,8 +91,19 @@ func resetQuest(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, 
 }
 
 func main() {
-	Init()
-	resetQuest(nil, 141)
+	flag.Parse()
+	args := flag.Args()
 
-	log.Fatal("bbsvr test client finish.")
+	if args == nil || len(args) < 1 {
+		log.T("usage: input param: {uid}")
+		return
+	}
+
+	Init()
+
+	uid := common.Atou(args[0])
+	log.T("resetAccount for: {uid}", uid)
+	addMyUnit(nil, uid)
+
+	log.Fatal("done.")
 }

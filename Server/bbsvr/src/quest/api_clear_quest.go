@@ -34,6 +34,7 @@ func ClearQuestHandler(rsp http.ResponseWriter, req *http.Request) {
 
 	e = handler.verifyParams(&reqMsg)
 	if e.IsError() {
+		log.T("sendrsp err:%v, rspMsg:\n%+v", e, rspMsg)
 		handler.SendResponse(rsp, handler.FillResponseMsg(&reqMsg, rspMsg, e))
 		return
 	}
@@ -70,9 +71,17 @@ func (t ClearQuest) FillResponseMsg(reqMsg *bbproto.ReqClearQuest, rspMsg *bbpro
 
 func (t ClearQuest) verifyParams(reqMsg *bbproto.ReqClearQuest) (err Error.Error) {
 	//TODO: input params validation
-	if reqMsg.Header.UserId == nil || reqMsg.GetMoney == nil || //reqMsg.HitGrid == nil ||
-		reqMsg.GetUnit == nil || reqMsg.QuestId == nil {
+	if reqMsg.Header.UserId == nil || //reqMsg.HitGrid == nil ||
+	 reqMsg.QuestId == nil {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
+	}
+
+	if reqMsg.GetMoney == nil {
+		reqMsg.GetMoney = proto.Int32(0)
+	}
+
+	if reqMsg.GetUnit == nil {
+		reqMsg.GetUnit = []uint32{}
 	}
 
 	if *reqMsg.Header.UserId == 0 || *reqMsg.QuestId == 0 {
@@ -125,28 +134,30 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 		return e
 	}
 
-	if _, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo); e.IsError() {
+	_, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo)
+	if e.IsError() {
 		return e
 	} else if lastNotClear {
 		gotStone = 1
-		if e = quest.SetQuestCleared(db, uid, stageId, questId); e.IsError(){
-			return e
-		}
+	}
+
+	if e = quest.SetQuestCleared(db, userDetail, stageId, questId, stageInfo, lastNotClear); e.IsError() {
+		return e
 	}
 
 	//3. update questPlayRecord (also add dropUnits to user.UnitList)
 	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e =
-		quest.UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
+		quest.UpdateQuestLog(db, userDetail, questId, reqMsg.GetUnit, gotMoney)
 	if e.IsError() {
 		return e
 	}
 
 	//4. update exp, rank, account
-	*userDetail.User.Exp += *userDetail.Quest.GetExp
-	*userDetail.Account.Money += (*userDetail.Quest.GetMoney)
+	*userDetail.User.Exp += gotExp
+	*userDetail.Account.Money += gotMoney
 	user.RefreshRank(userDetail.User)
 
-	log.T("==Account :: addMoney:%v -> %v addExp:%v -> %v", gotMoney, *userDetail.Account.Money, gotExp, *userDetail.User.Exp)
+	log.T("==Account :: addMoney:+%v -> %v addExp:+%v -> user.Exp:%v", gotMoney, *userDetail.Account.Money, gotExp, *userDetail.User.Exp)
 
 	//5. calculate stamina
 	if e = user.RefreshStamina(userDetail.User.StaminaRecover, userDetail.User.StaminaNow, *userDetail.User.StaminaMax); e.IsError() {
@@ -154,7 +165,7 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	}
 
 	//6. update userinfo (include: unitList, exp, money, stamina)
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return Error.New(EC.EU_UPDATE_USERINFO_ERROR, "update userinfo failed.")
 	}
 	log.T("UpdateUserInfo(%v) ret OK.", uid)

@@ -66,36 +66,13 @@ public class SellUnit: ProtoManager {
         return (err.Code == (int)ErrorCode.SUCCESS);
     }
     
-    private void OnRspSellUnit(object data) {
-        if (data == null)
-            return;
+
+}
+
+
+public class NetWorkSellUnitTester {
+    private List<uint> unitUniqueIdList;
+    public NetWorkSellUnitTester() {
         
-        LogHelper.Log("OnRspSellUnit() begin");
-        LogHelper.Log(data);
-        bbproto.RspSellUnit rsp = data as bbproto.RspSellUnit;
-        
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("RspSellUnit code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-
-        int money = rsp.money;
-        int gotMoney = rsp.gotMoney;
-        List<UserUnit> unitList = rsp.unitList;
-        // TODO do evolve start over;
-        LogHelper.Log("OnRspSellUnit() finished, money {0}, gotMoney {1}, unitList {2}"
-                      , money, gotMoney, unitList);
-
-        // record
-        DataCenter.Instance.AccountInfo.Money = rsp.money;
-
-        LogHelper.LogError("before sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
-        // delete unit;
-        foreach (uint unitUniqueId in unitUniqueIdList) {
-            LogHelper.LogError("====================sell unit, so remove it , uniqueId {0}============", unitUniqueId);
-            DataCenter.Instance.MyUnitList.DelMyUnit(unitUniqueId);
-        }
-
-        LogHelper.LogError("after sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
     }
 }

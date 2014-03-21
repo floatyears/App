@@ -25,6 +25,7 @@ public class BattleEnemy : UIBaseUnity {
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
 	}
 
+	int count = 0;
 	public override void HideUI () {
 		base.HideUI ();
 		Clear ();
@@ -32,6 +33,8 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
+		count --;
+//		Debug.LogError ("battle enemy hideui " + count);
 	}
 
 	public override void ShowUI () {
@@ -39,6 +42,8 @@ public class BattleEnemy : UIBaseUnity {
 		gameObject.SetActive (true);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
+		count ++;
+//		Debug.LogError ("battle enemy ShowUI " + count);
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 	}
 
@@ -75,7 +80,8 @@ public class BattleEnemy : UIBaseUnity {
 	void DropItem(object data) {
 		int pos = (int)data;
 		uint posSymbol = (uint)pos;
-		if (monster.ContainsKey (posSymbol)) {
+
+		if (monster.ContainsKey (posSymbol) && monster[posSymbol].enemyInfo.IsDead) {
 			monster.Remove (posSymbol);	
 		}
 	}

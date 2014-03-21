@@ -80,7 +80,7 @@ public class DragPanel : UIBase
 		if (dragPanelView == null) {
 			CreatPanel();		
 		}
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < count; i++) {
 //			Debug.LogError(sourceObject.name);
 			GameObject go = dragPanelView.AddObject(sourceObject);
 			if(go != null){

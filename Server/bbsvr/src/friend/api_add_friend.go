@@ -1,8 +1,7 @@
 package friend
 
 import (
-	//"fmt"
-	"log"
+	"fmt"
 	"net/http"
 	//"time"
 )
@@ -14,6 +13,7 @@ import (
 	"common/EC"
 	"common/Error"
 	"common/consts"
+	"common/log"
 	"data"
 	"model/friend"
 )
@@ -94,11 +94,16 @@ func (t AddFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqAddFriend, rspMsg *bb
 
 	e = friend.AddFriend(db, uid, fUid, bbproto.EFriendState_FRIENDOUT, common.Now())
 	if e.IsError() {
-		log.Printf("[ERROR] user:%v AddFriend(%v) failed: %v", uid, fUid, e.Error())
+		log.Error("user:%v AddFriend(%v) failed: %v", uid, fUid, e.Error())
 		return e
 	}
 
-	log.Printf("[TRACE] user:%v AddFriend(%v) ok.", uid, fUid)
+	log.T("user:%v AddFriend(%v) ok.", uid, fUid)
+
+	rspMsg.Friends, e = friend.GetFriendList(db, uid)
+	if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
+		return Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v", uid))
+	}
 
 	return Error.OK()
 }

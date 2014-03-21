@@ -38,7 +38,7 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (uniqueId uint32,
 	}
 
 	uniqueId = uint32(maxId + 1)
-//	log.T("uid(%v) get getNewUniqueId ret: %v ",uid, uniqueId)
+	//	log.T("uid(%v) get getNewUniqueId ret: %v ",uid, uniqueId)
 	if err = db.SetUInt(consts.KEY_MAX_UNIT_ID+common.Utoa(uid), uniqueId); err != nil {
 		return 0, Error.New(EC.READ_DB_ERROR)
 	}
@@ -46,6 +46,7 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (uniqueId uint32,
 	return uniqueId, Error.OK()
 }
 
+//TODO: use global object to store unitinfo, avoiding read db.
 func GetUnitInfo(db *data.Data, unitId uint32) (unit bbproto.UnitInfo, e Error.Error) {
 	if db == nil {
 		db = &data.Data{}
@@ -142,14 +143,17 @@ func CalculateDevourExp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseU
 func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, currExp int32, addExp int32) (addLevel int32, e Error.Error) {
 	addLevel = int32(0)
 	for level := *userUnit.Level; level < *unit.MaxLevel; level++ {
-		nextLevelExp := getUnitExpValue(*unit.PowerType.ExpType, *userUnit.Level)
+		nextLevelExp := GetUnitExpValue(*unit.PowerType.ExpType, level)
 		if nextLevelExp <= 0 { // nextLevelExp<=0 means it reach MAX_LEVEL
+			log.T("nextLevelExp=%v => reach MaxLevel: %v.", nextLevelExp, level)
 			break
 		}
 
 		if currExp+addExp >= nextLevelExp {
 			addLevel += 1
+			log.T("currExp+addExp: %v + %v  >= level[%v].nextLevelExp: %v, add Level: %v ", currExp, addExp, level, nextLevelExp, addLevel)
 		} else {
+			log.T("currExp+addExp: %v + %v  < level[%v].nextLevelExp: %v. return addLevel: %v ", currExp, addExp, level, nextLevelExp, addLevel)
 			break
 		}
 	}
@@ -157,26 +161,31 @@ func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, cur
 	return addLevel, Error.OK()
 }
 
-func RemoveMyUnit(unitList []*bbproto.UserUnit, partUniqueId []uint32) (e Error.Error) {
-//	for k, unit := range unitList {
-//		log.T("before remove, unitList[%v]: %+v", k, unit)
-//	}
+func RemoveMyUnit(unitList *[]*bbproto.UserUnit, partUniqueId []uint32) (e Error.Error) {
+	//	for k, unit := range *unitList {
+	//		log.T("before remove, unitList[%v]: %+v", k, unit)
+	//	}
 
+	//	log.T("============before remove (Len:%v):===============", len(*unitList))
 	for i := 0; i < len(partUniqueId); i++ {
-		for pos, userunit := range unitList {
+		for pos, userunit := range *unitList {
 			if *userunit.UniqueId == partUniqueId[i] {
-				unitList = append(unitList[:pos], unitList[pos+1:]...)
+				if pos >= len(*unitList)-1 { // is LastOne
+					//log.T("[%v]loop unitList pos:%v  len(*unitList)=%v isLastOne!!", i, pos, len(*unitList))
+					*unitList = (*unitList)[:pos]
+				} else {
+					//log.T("[%v]loop unitList pos:%v  len(*unitList)=%v", i, pos, len(*unitList))
+					*unitList = append((*unitList)[:pos], (*unitList)[pos+1:]...)
+				}
+				break
 			}
 		}
 	}
 
-//	log.T("============after remove:===============")
-//	for k, unit := range unitList {
-//		log.T("\tunitList[%v]: %+v", k, unit)
-//	}
+	//	log.T("============after remove (Len:%v):===============", len(*unitList))
+	//	for k, unit := range *unitList {
+	//		log.T("\tunitList[%v]: %+v", k, unit)
+	//	}
 
 	return Error.OK()
 }
-
-
-

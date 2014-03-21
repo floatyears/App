@@ -13,6 +13,8 @@ public class VictoryEffect : UIBaseUnity {
 	private UISprite backCircle;
 
 	private UIButton sureButton;
+	private GameObject parent;
+	private GameObject dropItem;
 
 //	private Vector3 localScale;
 //	private Vector3 targetScale;
@@ -31,6 +33,8 @@ public class VictoryEffect : UIBaseUnity {
 	private Vector3 rightWingAngle2 	= new Vector3 (0f, 0f, -3f);
 	private Vector3 rightWingAngle3 	= new Vector3 (0f, 0f, 15f);
 	private Callback sureButtonCallback;
+
+
 
 //	//------------------------------------------------------------------------------------------------
 //	 test data
@@ -58,9 +62,9 @@ public class VictoryEffect : UIBaseUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-//		Debug.LogError ("DestoryUI");
 		Destroy (gameObject);
 	}
+
 
 	float currentExp = 0;
 	float gotExp = 0;
@@ -76,36 +80,52 @@ public class VictoryEffect : UIBaseUnity {
 
 		int nextEmp = DataCenter.Instance.UserInfo.NextExp;
 		int maxEmp = clearQuest.exp;
-
 		gotExp= clearQuest.gotExp;
-		rank = DataCenter.Instance.UserInfo.Rank;
-		currentExp = DataCenter.Instance.UserInfo.CurRankExp;
+		rank = DataCenter.Instance.oldAccountInfo.Rank;
+		int totleExp = DataCenter.Instance.oldAccountInfo.CurRankExp; 
+		currentExp = clearQuest.exp - totleExp ;
 		currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
-		add = (float)gotExp / 10f;
-		Debug.LogError ("UpdateLevelNumber");
+		add = (float)gotExp * 0.05f;
+		int curCoin = DataCenter.Instance.AccountInfo.Money;
+		int maxCoin = clearQuest.money;
+		int gotCoin = clearQuest.gotMoney;
+		float addCoin = gotCoin * 0.05f;
+
+		Debug.LogError ("======= ShowData =======================");
+		Debug.LogError ("clearQuest.exp  : " + clearQuest.exp );
+		Debug.LogError ("gotexp : " + gotExp);
+		Debug.LogError ("currentExp : " + currentExp);
+		Debug.LogError ("rank : " + rank);
+		Debug.LogError ("currentTotalExp : " + currentTotalExp);
+		Debug.LogError ("add : " + add);
+		Debug.LogError ("curcoin : " + curCoin);
+		Debug.LogError ("maxCoin : " + maxCoin);
+		Debug.LogError ("gotCoin : " + gotCoin);
+		Debug.LogError ("addCoin : " + addCoin);
+		Debug.LogError ("=======================================");
+
 		StartCoroutine (UpdateLevelNumber ());
-//		int curCoin = DataCenter.Instance.AccountInfo.Money;
-//		int maxCoin = clearQuest.money;
-//		int gotCoin = clearQuest.gotMoney;
+		StartCoroutine (UpdateCoinNumber (addCoin, curCoin, gotCoin));
+
+		for (int i = 0; i < clearQuest.gotUnit.Count; i++) {
+			GameObject go = NGUITools.AddChild(parent, dropItem);
+			go.SetActive(true);
+			go.transform.Find("Texture").GetComponent<UITexture>().mainTexture = clearQuest.gotUnit[i].UnitInfo.GetAsset(UnitAssetType.Avatar);
+			go.name = i.ToString();
+		}
+
+		parent.GetComponent<UIGrid> ().repositionNow = true;
 	}
 
 	IEnumerator UpdateLevelNumber () {
-		Debug.LogError ("UpdateLevelNumber gotExp : " + gotExp);
-		while (gotExp > 0) {
-			float addNum = gotExp - add;
-			Debug.LogError ("UpdateLevelNumber addNum : " + addNum);
-			if (addNum <= 0) {
+		yield return new WaitForSeconds (1f);
+		while (gotExp > 0) {	
+			if(gotExp - add<= 0) {
 				add = gotExp;
-			} else {
-				gotExp = addNum;
-				currentExp += add;
 			}
 			gotExp -= add;
 			currentExp += add;
 			int showValue = (int)currentExp;
-			empiricalLabel.text = showValue.ToString ();
-			Debug.LogError ("UpdateLevelNumber showValue : " + addNum);
-//			Debug.LogError(empiricalLabel.text);
 			float progress = currentExp / currentTotalExp;
 			levelProgress.fillAmount = progress;
 			if(currentExp >= currentTotalExp) {
@@ -113,13 +133,29 @@ public class VictoryEffect : UIBaseUnity {
 				rank++;
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 			}
-			yield return 0;
+			yield return new WaitForSeconds(0.1f);
 		}
+	}
+
+	
+	IEnumerator UpdateCoinNumber (float addCoin, float curCoin, float gotCoin) {
+		yield return new WaitForSeconds (1f);
+		while (gotCoin > 0) {
+			if(gotCoin - addCoin <= 0) {
+				addCoin = gotCoin;
+			}	
+			gotCoin-= addCoin;
+			curCoin += addCoin;
+
+			coinLabel.text = ((int)curCoin).ToString ();
+			yield return new WaitForSeconds(0.1f);
+		}
+
+		coinLabel.text = ((int)curCoin).ToString ();
 	}
 
 	void FindComponent () {
 		MsgCenter.Instance.Invoke (CommandEnum.StopInput, null);
-//		localScale = transform.localScale;
 		levelProgress = FindChild<UISprite> ("LvProgress");
 		coinLabel = FindChild<UILabel>("CoinValue");
 		empiricalLabel = FindChild<UILabel>("EmpiricalValue");
@@ -132,6 +168,10 @@ public class VictoryEffect : UIBaseUnity {
 		UIEventListener.Get (sureButton.gameObject).onClick = Sure;
 		niuJiaoCurrent = niuJiao.transform.localPosition;
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);
+		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
+		dropItem = parent.transform.Find ("DragItem").gameObject;
+		dropItem.transform.parent = parent.transform.parent;
+		dropItem.SetActive (false);
 	}
 
 	void Sure(GameObject go) {
@@ -241,5 +281,24 @@ public struct VictoryInfo {
 		currentEmpire = cEmpire;
 		startCoin = sCoin;
 		Coin = coin;
+	}
+}
+
+public class VictoryDropItem {
+	private GameObject dropItem;
+	public GameObject DropItem {
+		get { return dropItem; }
+		set { dropItem = value; }
+	}
+
+	private TUserUnit dropItemInfo;
+	public TUserUnit DropItemInfo {
+		get { return dropItemInfo; }
+		set { dropItemInfo = value; }
+	}
+
+	public void Refresh(GameObject item, TUserUnit info) {
+		UITexture tex = item.transform.Find ("Texture").GetComponent<UITexture> ();
+		tex.mainTexture = info.UnitInfo.GetAsset (UnitAssetType.Avatar);
 	}
 }

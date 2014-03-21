@@ -16,11 +16,17 @@ import (
 	"common/consts"
 	"common/log"
 	"data"
-	"model/unit"
+	//"model/unit"
 	//"src/quest"
 	//"src/model/user"
 	//"src/friend"
 	//redis "github.com/garyburd/redigo/redis"
+)
+
+const (
+	QUEST_STORY  = 0
+	QUEST_EVENT  = 1
+	QUEST_EVOLVE = 2
 )
 
 func DataAddQuestConfig(questId uint32) error {
@@ -31,8 +37,8 @@ func DataAddQuestConfig(questId uint32) error {
 	boss := &bbproto.EnemyInfoConf{}
 	enemy := &bbproto.EnemyInfo{}
 
-	enemy.EnemyId = proto.Uint32(1001)
-	enemy.UnitId = proto.Uint32(2)
+	enemy.EnemyId = proto.Uint32(901)
+	enemy.UnitId = proto.Uint32(uint32(common.Rand(1, 5)))
 	unitType := bbproto.EUnitType_UFIRE
 	enemy.Type = &unitType
 	enemy.Hp = proto.Int32(1200)
@@ -40,11 +46,11 @@ func DataAddQuestConfig(questId uint32) error {
 	enemy.Defense = proto.Int32(100)
 	enemy.NextAttack = proto.Int32(2)
 	boss.Enemy = enemy
-	boss.DropUnitId = proto.Uint32(11)
-	boss.DropUnitLevel = proto.Int32(1)
-	boss.DropRate = proto.Float32(0.5)
-	boss.AddHpRate = proto.Float32(0.1)
-	boss.AddAttackRate = proto.Float32(0.1)
+	boss.DropUnitId = enemy.UnitId
+	boss.DropUnitLevel = proto.Int32(common.Rand(1, 5))
+	boss.DropRate = proto.Float32(0.8)
+	boss.AddHpRate = proto.Float32(0.3)
+	boss.AddAttackRate = proto.Float32(0.3)
 
 	conf.Boss = append(conf.Boss, boss)
 
@@ -53,7 +59,7 @@ func DataAddQuestConfig(questId uint32) error {
 		enemy := &bbproto.EnemyInfo{}
 
 		enemy.EnemyId = proto.Uint32(uint32(900 + i))
-		enemy.UnitId = proto.Uint32(2 + uint32(i))
+		enemy.UnitId = proto.Uint32(uint32(common.Rand(6, 28)))
 		enemy.Type = &unitType
 		enemy.Hp = proto.Int32(1000 + int32(rand.Intn(100)*10))
 		enemy.Attack = proto.Int32(300 + int32(rand.Intn(10)*10))
@@ -63,9 +69,9 @@ func DataAddQuestConfig(questId uint32) error {
 		enemyConf.Enemy = enemy
 		enemyConf.DropUnitId = proto.Uint32(*enemy.UnitId)
 		enemyConf.DropUnitLevel = proto.Int32(1)
-		enemyConf.DropRate = proto.Float32(0.1 * float32(1+rand.Intn(9)))
-		enemyConf.AddHpRate = proto.Float32(0.1)
-		enemyConf.AddAttackRate = proto.Float32(0.1)
+		enemyConf.DropRate = proto.Float32(0.1 * float32(common.Rand(1, 9)))
+		enemyConf.AddHpRate = proto.Float32(0.3)
+		enemyConf.AddAttackRate = proto.Float32(0.3)
 		//enemy.AddDefence = proto.Float32(0)
 
 		conf.Enemys = append(conf.Enemys, enemyConf)
@@ -192,21 +198,15 @@ func DataAddQuestConfig(questId uint32) error {
 	return err
 }
 
-func DataAddStageInfo(stageId uint32, stageName string) error {
-	db := &data.Data{}
-	err := db.Open(string(consts.TABLE_QUEST))
-	if err != nil {
-		return err
-	}
-	defer db.Close()
+func DataAddStageInfo(db *data.Data, stageId uint32, stageName string, stageType bbproto.QuestType) (stageInfo *bbproto.StageInfo, err error) {
 
 	state := bbproto.EQuestState_QS_NEW
 
-	stageInfo := &bbproto.StageInfo{}
+	stageInfo = &bbproto.StageInfo{}
 	stageInfo.Version = proto.Int(1)
 	stageInfo.Id = proto.Uint32(stageId)
 	stageInfo.State = &state
-	stageInfo.Type = proto.Int(1) // story or event
+	stageInfo.Type = &stageType // story or event
 	stageInfo.StageName = proto.String(stageName)
 	stageInfo.Description = proto.String("it is :" + stageName)
 	stageInfo.StartTime = proto.Uint32(0)
@@ -219,14 +219,14 @@ func DataAddStageInfo(stageId uint32, stageName string) error {
 
 	for i := 1; i <= 5; i++ {
 		qusetInfo := &bbproto.QuestInfo{}
-		qusetInfo.Id = proto.Uint32(100*stageId + uint32(i))
+		qusetInfo.Id = proto.Uint32(10*stageId + uint32(i))
 		qusetInfo.State = &state
 		qusetInfo.No = proto.Int32(1)
 		qusetInfo.Name = proto.String("quest name" + common.Itoa(i))   // quest name
 		qusetInfo.Story = proto.String("it is quest" + common.Itoa(i)) // story description
 		qusetInfo.Stamina = proto.Int32(5)                             // cost stamina
 		qusetInfo.Floor = proto.Int32(2)
-		qusetInfo.RewardExp = proto.Int32(100)
+		qusetInfo.RewardExp = proto.Int32(200)
 		qusetInfo.RewardMoney = proto.Int32(2000)
 		for b := 1; b <= 3; b++ {
 			qusetInfo.BossId = append(qusetInfo.BossId, uint32(1000+b))
@@ -245,15 +245,15 @@ func DataAddStageInfo(stageId uint32, stageName string) error {
 	zStageInfo, err := proto.Marshal(stageInfo)
 	if err != nil {
 		log.Printf("unmarshal error.")
-		return err
+		return nil, err
 	}
 
 	err = db.Set(consts.X_QUEST_STAGE+common.Utoa(stageId), zStageInfo)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return err
+	return stageInfo, err
 }
 
 func StartQuest(uid uint32, stageId uint32, questId uint32, helperUid uint32) error {
@@ -326,20 +326,115 @@ func StartQuest(uid uint32, stageId uint32, questId uint32, helperUid uint32) er
 	return err
 }
 
-type st struct {
-	s string
-	i int
+func DataAddEvolveCity() (err error) {
+	db := &data.Data{}
+	err = db.Open(string(consts.TABLE_QUEST))
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	CITY_ID := uint32(100)
+	evolveCity := &bbproto.CityInfo{}
+	evolveCity.Id = proto.Uint32(CITY_ID)
+	evolveCity.CityName = proto.String("EvolveCity")
+
+	stageNum := uint32(6)
+	questNum := uint32(5)
+	stageNames := []string{"Wind", "Fire", "Water", "Light", "Dark", "NONE"}
+
+	for k := uint32(0); k < stageNum; k++ {
+		stageId := uint32(CITY_ID*10 + k + 1)
+		stage, err := DataAddStageInfo(db, stageId, "Evolve "+stageNames[k]+" Stage", QUEST_EVOLVE)
+		if err != nil {
+			return err
+		}
+		evolveCity.Stages = append(evolveCity.Stages, stage)
+
+		//Add Quest Config
+		for questId := uint32(stageId*10 + 1); questId <= (stageId*10 + questNum); questId++ {
+			log.T("Add Quest Config for stageId:%v questId:%v", stageId, questId)
+			DataAddQuestConfig(questId)
+		}
+
+	}
+
+	zCityData, err := proto.Marshal(evolveCity)
+	if err != nil {
+		log.Error("marshal error.")
+		return err
+	}
+
+	//TODO: slim zCityData.stages to only have satgeId
+	err = db.Set(consts.X_QUEST_CITY+common.Utoa(*evolveCity.Id), zCityData)
+	if err != nil {
+		log.Error("db.set X_QUEST_CITY error.")
+		return err
+	}
+
+	err = common.WriteFile(zCityData, "./100.bytes")
+	if err != nil {
+		log.Error("WriteFile error.")
+		return err
+	}
+
+	return err
 }
 
-func modify(v st) (re *st) {
-	v.i = 110
-	v.s = "valuein"
+func DataAddPrisonCity() (err error) {
+	db := &data.Data{}
+	err = db.Open(string(consts.TABLE_QUEST))
+	if err != nil {
+		return err
+	}
+	defer db.Close()
 
-	r := st{}
-	r.i = 33
-	r.s = "kory"
-	log.Printf("inner func v:%+v r:%+v", v, r)
-	return &r
+	CITY_ID := uint32(1)
+	city := &bbproto.CityInfo{}
+	//city.Pos = proto.Int32(1)
+	city.Id = proto.Uint32(CITY_ID)
+	city.CityName = proto.String("PrisonCity")
+
+	stageNum := uint32(7)
+	questNum := uint32(5)
+	stageNames := []string{"One", "Two", "Three", "Four", "Five", "Six", "Seven"}
+
+	for k := uint32(0); k < stageNum; k++ {
+		stageId := CITY_ID*10 + k + 1
+		stage, err := DataAddStageInfo(db, stageId, "Prison "+stageNames[k], QUEST_STORY)
+		if err != nil {
+			return err
+		}
+		city.Stages = append(city.Stages, stage)
+
+		//Add Quest Config
+		for questId := uint32(stageId*10 + 1); questId <= stageId*10+questNum; questId++ {
+			log.T("Add Quest Config for stageId:%v questId:%v", stageId, questId)
+			DataAddQuestConfig(questId)
+		}
+
+	}
+
+	zCityData, err := proto.Marshal(city)
+	if err != nil {
+		log.Error("marshal error.")
+		return err
+	}
+
+	//TODO: slim zCityData.stages to only have satgeId
+	err = db.Set(consts.X_QUEST_CITY+common.Utoa(*city.Id), zCityData)
+	if err != nil {
+		log.Error("db.set X_QUEST_CITY error.")
+		return err
+	}
+
+	err = common.WriteFile(zCityData, "./1.bytes")
+	if err != nil {
+		log.Error("WriteFile error.")
+		return err
+	}
+
+	return err
 }
 
 func main() {
@@ -347,32 +442,9 @@ func main() {
 	log.Printf("bbsvr test client begin...")
 
 	Init()
-	//DataAddStageInfo(11, "Fire City")
-	//DataAddStageInfo(12, "Water City")
-	//DataAddStageInfo(13, "Win City")
-	//for stage := uint32(11); stage <= 13; stage++ {
-	//	for questId := uint32(100*stage + 1); questId <= 100*stage+5; questId++ {
-	//		DataAddQuestConfig(questId)
-	//	}
-	//}
 
-	////evolve city
-	//DataAddStageInfo(21, "Evolve Wind City")
-	//DataAddStageInfo(22, "Evolve Fire City")
-	//DataAddStageInfo(23, "Evolve Water City")
-	//DataAddStageInfo(24, "Evolve Light City")
-	//DataAddStageInfo(25, "Evolve Dark City")
-	//DataAddStageInfo(26, "Evolve None City")
+	DataAddEvolveCity()
+	DataAddPrisonCity()
 
-	//for stage := uint32(21); stage <= 26; stage++ {
-	//	for questId := uint32(100*stage + 1); questId <= 100*stage+5; questId++ {
-	//		DataAddQuestConfig(questId)
-	//	}
-	//}
-	//StartQuest(101, 11, 1101, 102)
-
-	stageId, questId := unit.GetEvolveQuestId(bbproto.EUnitType_UWATER, 3)
-	log.T("return  stageId:%v questId:%v", stageId, questId)
-
-	log.Fatal("bbsvr test client finish.")
+	log.Fatal("Generate city.bytes finish.")
 }

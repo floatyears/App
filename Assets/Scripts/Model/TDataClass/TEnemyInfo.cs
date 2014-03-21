@@ -156,6 +156,12 @@ public class TEnemyInfo : ProtobufDataBase {
 	public int GetUnitType () {
 		return (int)EnemyInfo ().type;
 	}
+
+	private bool isDead = false;
+	public bool IsDead {
+		get { return isDead; }
+		set { isDead = value; }
+	}
 }
 
 public class EnemySortByHP : IComparer {
