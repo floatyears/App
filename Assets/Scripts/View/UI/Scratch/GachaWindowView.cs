@@ -120,7 +120,7 @@ public class GachaWindowView : UIComponentUnity {
         }
         LogHelper.Log("ClickButton() {0}", index);
         if (tryCount < gachaInfo.totalChances){
-            showUnitByUserUnitID(btn, gachaInfo.unitList[index]);
+            showUnitByUserUnitID(btn, gachaInfo.unitList[tryCount]);
         }
         else if (tryCount < DataCenter.maxGachaPerTime){
             int blankId = tryCount - gachaInfo.totalChances;
@@ -151,9 +151,26 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void ShowUnitById(GameObject btn, uint unitId, TUserUnit userUnit){
-        LogHelper.Log("ShowUnitById(), unitId {0}, userUnit not null {1}", unitId, userUnit != null);
+        LogHelper.Log("ShowUnitById(), unitId {0}, userUnit not null {1} btn not null {2}", unitId, userUnit != null, btn != null);
         // 
+        UITexture texture = btn.transform.FindChild("Texture").GetComponent<UITexture>();
+        UISprite background = btn.transform.FindChild("Background").GetComponent<UISprite>();
+        background.spriteName = string.Empty;
+
+        UILabel label = btn.transform.FindChild("Label").GetComponent<UILabel>();
+        label.text = string.Empty;
+
+        texture.mainTexture = DataCenter.Instance.GetUnitInfo(unitId).GetAsset(UnitAssetType.Avatar);
+
+        if (userUnit != null){
+            SetAddInfo(btn, userUnit);
+        }
         SyncGachaInfos();
+    }
+
+    private void SetAddInfo(GameObject btn, TUserUnit userUnit){
+        //
+        LogHelper.Log("SetAddInfo() ");
     }
 
     private void DealAfterShowUnit(int index){
@@ -162,6 +179,7 @@ public class GachaWindowView : UIComponentUnity {
             pickedBtnIdList.Add(index);
             tryCount += 1;
         }
+        LogHelper.Log("DealAfterShowUnit(), tryCount {0}", tryCount);
         if (tryCount == DataCenter.maxGachaPerTime){
             FinishShowGachaWindow();
         }
