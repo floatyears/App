@@ -200,12 +200,10 @@ public class GachaWindowDecorator : DecoratorBase
         sceneInfoBar.SetComponent(decorator);
         
         
-        //        LogHelper.Log("ScratchDecoratorUnity start Decddddddd");
-        GachaWindowLogic gachaWin = CreatComponent< ScratchLogic >(UIConfig.gachaWindowName);
+        GachaWindowLogic gachaWin = CreatComponent< GachaWindowLogic >(UIConfig.gachaWindowName);
         gachaWin.SetComponent(sceneInfoBar);
         
-        //        LogHelper.Log("ScratchDecoratorUnity end Decddddddd");
-        lastDecorator = scratch;
+        lastDecorator = gachaWin;
         lastDecorator.CreatUI();
         
     }
