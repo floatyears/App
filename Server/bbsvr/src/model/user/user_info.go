@@ -21,6 +21,9 @@ func UpdateUserInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.
 		return Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 
+	//Update LastPlayTime
+	userdetail.Login.LastPlayTime = proto.Uint32(common.Now())
+
 	zUserData, err := proto.Marshal(userdetail)
 	if err != nil {
 		return Error.New(EC.MARSHAL_ERROR, err.Error())
@@ -35,7 +38,7 @@ func UpdateUserInfo(db *data.Data, userdetail *bbproto.UserInfoDetail) (e Error.
 }
 
 //TODO: may return *bbproto.UserInfoDetail
-func GetUserInfo(db *data.Data, uid uint32) (userInfo bbproto.UserInfoDetail, isUserExists bool, err error) {
+func GetUserInfo(db *data.Data, uid uint32) (userInfo *bbproto.UserInfoDetail, isUserExists bool, err error) {
 	isUserExists = false
 
 	if db == nil {
@@ -61,7 +64,8 @@ func GetUserInfo(db *data.Data, uid uint32) (userInfo bbproto.UserInfoDetail, is
 	//log.T("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
 
 	if isUserExists {
-		err = proto.Unmarshal(value, &userInfo)
+		userInfo = &bbproto.UserInfoDetail{}
+		err = proto.Unmarshal(value, userInfo)
 		if err != nil {
 			log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
 		}
@@ -70,7 +74,7 @@ func GetUserInfo(db *data.Data, uid uint32) (userInfo bbproto.UserInfoDetail, is
 	return userInfo, isUserExists, err
 }
 
-func GetUserInfoByUuid(uuid string) (userInfo bbproto.UserInfoDetail, isUserExists bool, err error) {
+func GetUserInfoByUuid(uuid string) (userInfo *bbproto.UserInfoDetail, isUserExists bool, err error) {
 	db := &data.Data{}
 	err = db.Open(consts.TABLE_USER)
 	defer db.Close()

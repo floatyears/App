@@ -438,6 +438,18 @@ public class UserUnitList {
         }
     }
 
+    public void AddMyUnitList(List <UserUnit> unitList){
+        for (int i = 0; i < unitList.Count; i++){
+            AddMyUnit(unitList[i]);
+        }
+    }
+
+    public void DelMyUnitList(List <uint> uniqueIds){
+        for (int i = 0; i < uniqueIds.Count; i++){
+            DelMyUnit(uniqueIds[i]);
+        }
+    }
+
     public  void Del(uint userId, uint uniqueId) {
         string key = MakeUserUnitKey(userId, uniqueId);
         if (userUnitInfo.ContainsKey(key))

@@ -15,6 +15,7 @@ import (
 	"common"
 	"common/log"
 	"data"
+	"model/friend"
 	"model/quest"
 	"model/unit"
 	"model/user"
@@ -55,9 +56,13 @@ type EvolveDone struct {
 
 func (t EvolveDone) verifyParams(reqMsg *bbproto.ReqEvolveDone) (err Error.Error) {
 	//TODO: input params validation
-	if reqMsg.QuestId == nil || reqMsg.GetMoney == nil || reqMsg.GetUnit == nil ||
+	if reqMsg.QuestId == nil || reqMsg.GetUnit == nil ||
 		reqMsg.HitGrid == nil {
 		return Error.New(EC.INVALID_PARAMS, "ERROR: params is invalid.")
+	}
+
+	if reqMsg.GetMoney == nil {
+		reqMsg.GetMoney = proto.Int32(0)
 	}
 
 	if *reqMsg.Header.UserId == 0 {
@@ -120,12 +125,12 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	gotFriendPt := int32(0)
 
 	//3. getUnitInfo of baseUniqueId
-	baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, *reqEvolveStart.BaseUniqueId)
+	baseUserUnit, e := unit.GetUserUnitInfo(userDetail, *reqEvolveStart.BaseUniqueId)
 	if e.IsError() {
 		log.Error("GetUserUnitInfo(%v) failed: %v", *reqEvolveStart.BaseUniqueId, e.Error())
 		return e
 	}
-	baseUnit, e := unit.GetUnitInfo(db, *baseUserUnit.UnitId)
+	baseUnit, e := unit.GetUnitInfo(*baseUserUnit.UnitId)
 	if e.IsError() {
 		log.Error("GetUnitInfo(%v) failed: %v", *baseUserUnit.UnitId, e.Error())
 		return e
@@ -148,7 +153,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 	//4. update questPlayRecord (also add dropUnits to user.UnitList)
 
 	gotMoney, gotExp, gotFriendPt, rspMsg.GotUnit, e =
-		quest.UpdateQuestLog(db, &userDetail, questId, reqMsg.GetUnit, gotMoney)
+		quest.UpdateQuestLog(db, userDetail, questId, reqMsg.GetUnit, gotMoney)
 	if e.IsError() {
 		return e
 	}
@@ -168,7 +173,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 
 	//6. remove BaseUnit & partUnits
 	reqEvolveStart.PartUniqueId = append(reqEvolveStart.PartUniqueId, *reqEvolveStart.BaseUniqueId)
-	if e = unit.RemoveMyUnit(userDetail.UnitList, reqEvolveStart.PartUniqueId); e.IsError() {
+	if e = unit.RemoveMyUnit(&userDetail.UnitList, reqEvolveStart.PartUniqueId); e.IsError() {
 		return e
 	}
 
@@ -183,17 +188,30 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 		return e
 	}
 
-	if _, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo); e.IsError() {
+	//TODO: 9.try getFriendState(helperUid) -> getFriendPoint
+	friendPoint, e := friend.GetFriendPoint(db, uid, *reqEvolveStart.HelperUserId)
+	if e.IsError() {
+		return e
+	}
+	rspMsg.FriendPoint = proto.Int32(friendPoint)
+
+	if e = friend.UpdateHelperUsedRecord(db, uid, *reqEvolveStart.HelperUserId); e.IsError() {
+		return e
+	}
+
+	_, lastNotClear, e := quest.IsStageCleared(db, uid, stageId, stageInfo)
+	if e.IsError() {
 		return e
 	} else if lastNotClear {
 		gotStone = 1
-		if e = quest.SetQuestCleared(db, uid, stageId, questId); e.IsError() {
-			return e
-		}
+	}
+
+	if e = quest.SetQuestCleared(db, userDetail, stageId, questId, stageInfo, lastNotClear); e.IsError() {
+		return e
 	}
 
 	//8. update userinfo
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 

@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 /// <summary>
 /// All children added to the game object with this script will be repositioned to be on a grid of specified dimensions.
@@ -91,6 +92,16 @@ public class UIGrid : UIWidgetContainer
 
 	static public int SortByName (Transform a, Transform b) { return string.Compare(a.name, b.name); }
 
+	static public int SortByNumber (Transform a, Transform b) { 
+		try{
+			int aNumber = Int32.Parse(a.name) ;
+			int bNumber = Int32.Parse(b.name);
+			return aNumber.CompareTo(bNumber);
+		}
+		catch (Exception ex) {
+			return SortByName(a, b);
+		}
+	}
 	/// <summary>
 	/// Recalculate the position of all elements within the grid, sorting them alphabetically if necessary.
 	/// </summary>
@@ -98,6 +109,7 @@ public class UIGrid : UIWidgetContainer
 	[ContextMenu("Execute")]
 	public void Reposition ()
 	{
+//		Debug.LogError("Reposition : " + Time.realtimeSinceStartup);
 		if (Application.isPlaying && !mStarted)
 		{
 			mReposition = true;
@@ -119,14 +131,21 @@ public class UIGrid : UIWidgetContainer
 				Transform t = myTrans.GetChild(i);
 				if (t && (!hideInactive || NGUITools.GetActive(t.gameObject))) list.Add(t);
 			}
-			list.Sort(SortByName);
+
+			foreach (var item in list) {
+//				Debug.LogError(" sort befoure : " + item.name);
+			}
+
+			list.Sort(SortByNumber);
+
+			foreach (var item in list) {
+//				Debug.LogError(" sort behind : " + item.name);
+			}
 
 			for (int i = 0, imax = list.Count; i < imax; ++i)
 			{
 				Transform t = list[i];
-
 				if (!NGUITools.GetActive(t.gameObject) && hideInactive) continue;
-
 				float depth = t.localPosition.z;
 				Vector3 pos = (arrangement == Arrangement.Horizontal) ?
 					new Vector3(cellWidth * x, -cellHeight * y, depth) :

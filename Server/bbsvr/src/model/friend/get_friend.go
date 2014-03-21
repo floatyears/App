@@ -18,6 +18,29 @@ import (
 	redis "github.com/garyburd/redigo/redis"
 )
 
+func GetOneFriendData(db *data.Data, uid uint32, fid uint32) (friendData *bbproto.FriendData, e Error.Error) {
+	if db == nil {
+		return friendData, Error.New(EC.INVALID_PARAMS, "[ERROR] db pointer is nil.")
+	}
+	if err := db.Select(consts.TABLE_FRIEND); err != nil {
+		return friendData, Error.New(EC.READ_DB_ERROR, err.Error())
+	}
+
+	sUid := common.Utoa(uid)
+	zFriendData, err := db.HGet(sUid, common.Utoa(fid))
+	if err != nil {
+		log.Fatal(" HGetAll('%v') ret err:%v", sUid, err)
+		return friendData, Error.New(EC.READ_DB_ERROR, err)
+	}
+
+	friendData = &bbproto.FriendData{}
+	err = proto.Unmarshal(zFriendData, friendData)
+	if err != nil {
+		return friendData, Error.New(EC.READ_DB_ERROR, err)
+	}
+
+	return friendData, Error.OK()
+}
 
 func GetFriendsData(db *data.Data, sUid string, isGetOnlyFriends bool, friendsInfo map[string]bbproto.FriendInfo) (err error) {
 	if db == nil {
@@ -77,7 +100,7 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 	sUserSpace := consts.X_USER_RANK + strconv.Itoa(int(uid%consts.N_USER_SPACE_PARTS))
 
 	offset := 0 //rand.Intn(2)
-	count := 3 + rand.Intn(3)
+	count := 10 + rand.Intn(3)
 
 	minRank := 1
 	if rank > consts.N_HELPER_RANK_RANGE {
@@ -123,9 +146,81 @@ func GetHelperData(db *data.Data, uid uint32, rank uint32, friendsInfo map[strin
 	return
 }
 
-func GetOnlyFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {
+func GetSupportFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {
 	//get all friends & helper, but NOT include friendIn & friendOut
-	return GetFriendInfo(db, uid, rank, true, true, true)
+	friendsInfo, e = GetFriendInfo(db, uid, rank, true, true, true)
+	if e.IsError() {
+		return friendsInfo, e
+	}
+
+	// fill friend point
+	for k, friInfo := range friendsInfo {
+
+		if *friInfo.FriendState != bbproto.EFriendState_ISFRIEND {
+
+			friInfo.FriendPoint = proto.Int32(consts.N_SUPPORT_HELPER_POINT) //5 points
+			friendsInfo[k]=friInfo
+			log.T("GetSupportFriends :: FriendPoint:%+v", *friInfo.FriendPoint)
+			continue
+		}
+
+		//TODO: read multi-fid once from db (use HMGET)
+		if usedTime, e := GetHelperUsedRecord(db, uid, *friInfo.UserId); !e.IsError() {
+			if common.IsToday(usedTime) {
+				log.T("GetHelperUsedRecord ret IsToday(%v)=true, set(uid:%v fid:%v) FriendPoint=0",usedTime, uid, *friInfo.UserId)
+				friInfo.FriendPoint = proto.Int32(0)
+				friendsInfo[k]=friInfo
+			} else {
+				log.T("GetHelperUsedRecord ret IsToday(%v)=false, set(uid:%v fid:%v) FriendPoint=0",usedTime, uid, *friInfo.UserId)
+				friInfo.FriendPoint = proto.Int32(consts.N_FRIEND_HELPER_POINT) // 10 points
+				friendsInfo[k]=friInfo
+			}
+		}else {
+			log.T("GetHelperUsedRecord ret usedTime:%v, err:%v", usedTime, e.Error())
+		}
+	}
+	log.T("GetSupportFriends :: friendsInfo:%+v", friendsInfo)
+
+	return friendsInfo, e
+}
+
+func GetFriendList(db *data.Data, uid uint32) (friendList *bbproto.FriendList, e Error.Error) {
+	isGetFriend := true
+	isGetHelper := false
+	isGetOnlyFriends := false
+	rank := uint32(0)
+
+	friendsInfo, e := GetFriendInfo(db, uid, rank, isGetOnlyFriends, isGetFriend, isGetHelper)
+
+	log.T("GetFriendInfo ret err:%v. friends num=%v  ", e.Error(), len(friendsInfo))
+	if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
+		return friendList, Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
+	}
+
+	//fill response
+	friendList = &bbproto.FriendList{}
+	if friendsInfo != nil && len(friendsInfo) > 0 {
+		for _, friend := range friendsInfo {
+			if friend.NickName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
+				log.Printf("[ERROR] unexcepted error: skip invalid friend(%v): %+v", *friend.UserId, friend)
+				continue
+			}
+
+			//log.T("fid:%v friend:%v", fid, *friend.UserId)
+			pFriend := friend
+			if *friend.FriendState == bbproto.EFriendState_FRIENDHELPER {
+				friendList.Helper = append(friendList.Helper, &pFriend)
+			} else if *friend.FriendState == bbproto.EFriendState_ISFRIEND {
+				friendList.Friend = append(friendList.Friend, &pFriend)
+			} else if *friend.FriendState == bbproto.EFriendState_FRIENDIN {
+				friendList.FriendIn = append(friendList.FriendIn, &pFriend)
+			} else if *friend.FriendState == bbproto.EFriendState_FRIENDOUT {
+				friendList.FriendOut = append(friendList.FriendOut, &pFriend)
+			}
+		}
+	}
+
+	return friendList, Error.OK()
 }
 
 func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool, isGetFriend bool, isGetHelper bool) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {

@@ -20,10 +20,12 @@ const (
 //key prefix
 const (
 	X_UUID      = "X_UUID_"
-	X_HELPER_MY = "X_HELPER_MY_" // A user's helpers
+	X_HELPER_RECORD = "X_HELPER_REC_" // A user's helpers
 	X_USER_RANK = "X_USER_RANK_" // ZSET: uid - rank
 
+
 	//quest
+	X_QUEST_CITY  = "X_CITY_"
 	X_QUEST_STAGE  = "X_STAGE_"
 	X_QUEST_CONFIG = "X_CONFIG_"
 	X_QUEST_LOG    = "X_Q_LOG_"
@@ -53,11 +55,14 @@ const (
 	N_USER_SPACE_PARTS      = 10
 	N_HELPER_RANK_RANGE     = 5
 	N_STAMINA_TIME          = 600 // seconds
-	N_QUEST_COLOR_BLOCK_NUM = 120 //2400
+	N_QUEST_COLOR_BLOCK_NUM = 2400
 	N_GACHA_MAX_COUNT       = 9
 
 	N_UNITMAX_EXPAND_COUNT   = 5
 	N_FRIENDMAX_EXPAND_COUNT = 5
+
+	N_FRIEND_HELPER_POINT	= 10
+	N_SUPPORT_HELPER_POINT	= 5
 )
 
 // consume cost

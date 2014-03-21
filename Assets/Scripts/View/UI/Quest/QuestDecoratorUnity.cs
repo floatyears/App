@@ -8,7 +8,7 @@ public class QuestDecoratorUnity : UIComponentUnity{
 	GameObject dragItemPrefab;
 	DragPanel storyDragPanel;
 	DragPanel eventDragPanel;
-	
+
 	Dictionary< string, object > storyDragPanelArgsDic = new Dictionary< string, object >();
 	Dictionary< string, object > eventDragPanelArgsDic = new Dictionary< string, object >();
 	Dictionary< GameObject, VStageItemInfo> stageInfo = new Dictionary<GameObject, VStageItemInfo> ();
@@ -28,6 +28,7 @@ public class QuestDecoratorUnity : UIComponentUnity{
 		base.HideUI();
 //		Debug.LogError(storyDragPanel.ScrollItem.Count);
 		storyDragPanel.DestoryUI();
+
 //		Debug.LogError(storyDragPanel.ScrollItem.Count);
 //		eventDragPanel.DestoryUI();
 	}
@@ -39,16 +40,20 @@ public class QuestDecoratorUnity : UIComponentUnity{
 			case "CreateStoryView": 
 				CallBackDispatcherHelper.DispatchCallBack(CreateStoryView, cbdArgs);
 				break;
+		
 			default:
 				break;
 		}
 	}
+
+
 
 	void InitUI(){
 		storyRoot = FindChild("story_window");
 		eventRoot = FindChild("event_window");
 		StylizeStoryPanel(); 
 		dragItemPrefab = Resources.Load("Stage/StageDragPanelItem") as GameObject;
+
 	}
 	
 	void CreateStoryView(object args){
@@ -172,11 +177,8 @@ public class QuestDecoratorUnity : UIComponentUnity{
 		ExcuteCallback(cbdArgs);
 	}
 
-	void ClickEventItem(GameObject item){
-		
-	}
-
-
+	void ClickEventItem(GameObject item){}
+	
 	void ShowTween(){
 		TweenPosition[ ] list = 
 			gameObject.GetComponentsInChildren< TweenPosition >();

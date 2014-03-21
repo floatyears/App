@@ -1,10 +1,10 @@
 package data
 
 import (
-	"log"
+	"common/log"
 	"time"
+	"github.com/garyburd/redigo/redis"
 )
-import redis "github.com/garyburd/redigo/redis"
 
 const (
 	SERVERADDR = "127.0.0.1:9999"
@@ -57,11 +57,33 @@ func (t *Data) Select(table string) (err error) {
 	_, err = t.conn.Do("SELECT", table)
 	if err != nil {
 		log.Printf("[ERROR] redis.Select(%v) ret err:%v", table, err)
+		return err
 	}
+	log.T("db.select(%v) ok.", table)
+
 	return err
 }
 
 //================= String ==================
+
+func (t *Data) GetKeys(keyword string) (keys []string, err error) {
+	if t.conn != nil {
+		if keyword=="" {
+			keyword="*"
+		}
+
+		keys, err = redis.Strings(t.conn.Do("KEYS", keyword))
+		if err == redis.ErrNil {
+			err = nil
+		}
+		return keys, err
+	} else {
+		log.Fatal("invalid redis conn:%v", t.conn)
+	}
+
+	return keys, err
+}
+
 func (t *Data) Get(key string) (value string, err error) {
 	if t.conn != nil {
 		value, err := redis.String(t.conn.Do("GET", key))

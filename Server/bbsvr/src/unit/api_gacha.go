@@ -12,11 +12,11 @@ import (
 	"common/Error"
 	//"common/consts"
 	"common"
+	"common/consts"
 	"common/log"
 	"data"
 	"model/unit"
 	"model/user"
-	"common/consts"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ func (t Gacha) ProcessLogic(reqMsg *bbproto.ReqGacha, rspMsg *bbproto.RspGacha) 
 	}
 
 	//3. check & update userDetail.Acount
-	if e = unit.UpdateAcountForGacha(&userDetail, *gachaConf.GachaType, gachaCount); e.IsError() {
+	if e = unit.UpdateAcountForGacha(userDetail, *gachaConf.GachaType, gachaCount); e.IsError() {
 		return e
 	}
 
@@ -125,7 +125,7 @@ func (t Gacha) ProcessLogic(reqMsg *bbproto.ReqGacha, rspMsg *bbproto.RspGacha) 
 
 	//6. add got gacha unit & blank unit
 	for _, unitId := range allUnitIds {
-		if len( rspMsg.UnitUniqueId ) < int(gachaCount) {
+		if len(rspMsg.UnitUniqueId) < int(gachaCount) {
 			uniqueId, e := unit.GetUnitUniqueId(db, uid, len(userDetail.UnitList))
 			if e.IsError() {
 				return e
@@ -142,13 +142,13 @@ func (t Gacha) ProcessLogic(reqMsg *bbproto.ReqGacha, rspMsg *bbproto.RspGacha) 
 
 			rspMsg.UnitUniqueId = append(rspMsg.UnitUniqueId, uniqueId)
 			userDetail.UnitList = append(userDetail.UnitList, userUnit)
-		}else {
+		} else {
 			rspMsg.BlankUnitId = append(rspMsg.BlankUnitId, unitId)
 		}
 	}
 
 	//7. update userinfo
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 

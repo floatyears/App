@@ -19,6 +19,7 @@ import (
 	"quest"
 	"unit"
 	"user"
+	"common/Error"
 )
 
 const (
@@ -73,16 +74,21 @@ func ProtoHandler(rsp http.ResponseWriter, req *http.Request) {
 	glog.Info("handleFunc :", req.URL.Path)
 }
 
-func Init() {
+func Init() (e Error.Error) {
 	log.SetFlags(log.Ldate|log.Ltime | log.Lmicroseconds | log.Lshortfile)
+	log.Normal("Server start...")
 
 	rand.Seed(time.Now().UTC().UnixNano())
 
-	config.InitConfig()
+	e = config.InitConfig()
+
+	return e
 }
 
 func main() {
-	Init()
+	if e:=Init(); e.IsError() {
+		return
+	}
 
 	//testRedis()
 	//Test()

@@ -8,8 +8,7 @@ public class QuestComponent : ConcreteComponent{
 	List<TCityInfo> storyCityList = new List<TCityInfo>();
 	List<TStageInfo> storyStageList = new List<TStageInfo>();
 
-	public QuestComponent(string uiName):base(uiName){	
-	}
+	public QuestComponent(string uiName):base(uiName){}
 	public override void CreatUI(){ base.CreatUI();}
 	
 	public override void ShowUI(){
@@ -39,7 +38,6 @@ public class QuestComponent : ConcreteComponent{
 	void GetStoryCityList(){
 		storyCityList.Add(DataCenter.Instance.GetCityInfo(1));
 //		Debug.LogError("storyCityList(), storyStageList's count is " + storyCityList.Count);
-
 		GetStoryStageList();
 	}
 
@@ -64,7 +62,7 @@ public class QuestComponent : ConcreteComponent{
 	}
 
 	void ClearStage(){
-		//storyCityList.Clear();
+		storyCityList.Clear();
 	}
 
 	void TurnToSelectQuest(object args){

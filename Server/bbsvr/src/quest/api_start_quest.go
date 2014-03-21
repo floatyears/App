@@ -14,6 +14,7 @@ import (
 	"data"
 	"model/quest"
 	"model/user"
+	"model/friend"
 
 	"code.google.com/p/goprotobuf/proto"
 )
@@ -113,10 +114,13 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	log.T(" getUser(%v) ret userinfo: %v", uid, userDetail.User)
 
 	// check user is already playing
-	if userDetail.Quest != nil && userDetail.Quest.State != nil {
-		e = Error.New(EC.EQ_QUEST_IS_PLAYING, fmt.Sprintf("user(%v) is playing quest:%v", *userDetail.User.UserId, *userDetail.Quest.QuestId) )
-		log.T( e.Error() )
-		return e
+	isRestartNewQuest := (reqMsg.RestartNew != nil && *reqMsg.RestartNew != 0)
+	if isRestartNewQuest == false {
+		if userDetail.Quest != nil && userDetail.Quest.State != nil {
+			e = Error.New(EC.EQ_QUEST_IS_PLAYING, fmt.Sprintf("user(%v) is playing quest:%v", *userDetail.User.UserId, *userDetail.Quest.QuestId))
+			log.T(e.Error())
+			return e
+		}
 	}
 
 	//check Quest record for QuestState
@@ -171,16 +175,23 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 	//TODO:try getFriendState(helperUid) -> getFriendPoint
 
 	//update latest quest record of userDetail
-	if e = quest.FillUserQuest(&userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
+	if e = quest.FillUserQuest(userDetail, *reqMsg.CurrentParty, *reqMsg.HelperUserId, reqMsg.HelperUnit,
 		questData.Drop, stageInfo, questInfo, questState); e.IsError() {
 		return e
 	}
+	friendPoint, e := friend.GetFriendPoint(db, uid, *reqMsg.HelperUserId)
+	if e.IsError() {
+		return e
+	}
+	log.T("record fid:%v => friendPoint: %v", *reqMsg.HelperUserId, friendPoint)
+	userDetail.Quest.GetFriendPoint = proto.Int32( friendPoint )
+
 
 	//update currParty
 	userDetail.Party.CurrentParty = reqMsg.CurrentParty
 
 	//save updated userinfo
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 

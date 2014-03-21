@@ -30,5 +30,6 @@ message ProtoHeader {
 	optional int32	packetId	= 4;
 	optional int32	code		= 5; // result code
 	optional string error		= 6; // result error description
+	optional int32	extraTag	= 7; // addtional logic for future use
 };
 
