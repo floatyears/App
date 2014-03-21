@@ -207,7 +207,7 @@ public class GachaWindowDecorator : DecoratorBase
         case SceneEnum.RareScratch:
             gachaWin = CreatComponent< FriendGachaWindowLogic >(UIConfig.gachaWindowName);
             break;
-        case SceneEnum.EventGacha:
+        case SceneEnum.EventScratch:
             gachaWin = CreatComponent< EventGachaWindowLogic >(UIConfig.gachaWindowName);
             break;
         default:

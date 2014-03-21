@@ -13,6 +13,10 @@ using System.Collections.Generic;
 using bbproto;
 
 public class RareGachaWindowLogic: GachaWindowLogic{
+
     public RareGachaWindowLogic(string uiName):base(uiName) {}
 
+    protected override void BeforeSetTitleView(){
+        titleText = TextCenter.Instace.GetCurrentText("RareScratch");
+    }
 }

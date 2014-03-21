@@ -19,5 +19,8 @@ public class FriendGachaWindowLogic: GachaWindowLogic{
         LogHelper.Log("HideUI(), hide");
         base.HideUI ();
     }
+    protected override void BeforeSetTitleView(){
+        titleText = TextCenter.Instace.GetCurrentText("FriendScratch");
+    }
 
 }

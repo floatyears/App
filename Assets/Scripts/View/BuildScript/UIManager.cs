@@ -224,15 +224,15 @@ public class UIManager {
 			temp = new UnitDetailDecorator( sEnum );
 			break;
 
-        case SceneEnum.FriendGacha:
+        case SceneEnum.FriendScratch:
             temp = new GachaWindowDecorator( sEnum );
             break;
 
-        case SceneEnum.RareGacha:
+        case SceneEnum.RareScratch:
             temp = new GachaWindowDecorator( sEnum );
             break;
 
-        case SceneEnum.EventGacha:
+        case SceneEnum.EventScratch:
             temp = new GachaWindowDecorator( sEnum );
             break;
         }

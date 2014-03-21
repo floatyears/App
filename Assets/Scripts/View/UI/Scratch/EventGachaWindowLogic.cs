@@ -13,6 +13,10 @@ using System.Collections.Generic;
 using bbproto;
 
 public class EventGachaWindowLogic: GachaWindowLogic{
+
     public EventGachaWindowLogic(string uiName):base(uiName) {}
 
+    protected override void BeforeSetTitleView(){
+        titleText = TextCenter.Instace.GetCurrentText("EventScratch");
+    }
 }

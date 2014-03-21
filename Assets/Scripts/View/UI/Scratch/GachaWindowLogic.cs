@@ -14,9 +14,7 @@ using bbproto;
 
 public class GachaWindowLogic : ConcreteComponent {
 
-    private UILabel titleLabel;
-    private UILabel chanceLabel;
-
+    protected string titleText = "";
     public GachaWindowLogic(string uiName):base(uiName) {}
 
     public override void CreatUI () {
@@ -26,20 +24,48 @@ public class GachaWindowLogic : ConcreteComponent {
     
     public override void ShowUI () {
         base.ShowUI ();
-        MenuBtnsComponent.SetEnable(false);
+        SetMenuBtnEnable(false);
+        BeforeSetTitleView();
+        SetTitleView();
     }
     
     public override void HideUI () {
         base.HideUI ();
-        MenuBtnsComponent.SetEnable(true);
+        SetMenuBtnEnable(true);
     }
     
     public override void DestoryUI () {
         base.DestoryUI ();
     }
 
+    protected virtual void BeforeSetTitleView(){
+
+    }
+//    public override void Callback(object data)
+//    {
+//        base.Callback(data);
+//        
+//        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+//        
+//        switch (cbdArgs.funcName)
+//        {
+//        case "DoFriendExpansion": 
+//            CallBackDispatcherHelper.DispatchCallBack(OnFriendExpansion, cbdArgs);
+//            break;
+//        default:
+//            break;
+//        }
+//    }
     public virtual void InitUI(){
 
     }
 
+    private void SetMenuBtnEnable(bool newState){
+        MenuBtnsComponent.SetEnable(newState);
+    }
+
+    private void SetTitleView(){
+        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("SetTitleView", titleText);
+        ExcuteCallback(cbdArgs);
+    }
 }

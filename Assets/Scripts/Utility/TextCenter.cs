@@ -138,8 +138,12 @@ public class TextCenter {
         textDict.Add("EventGachaFailed", "Event Gacha Failed");
         textDict.Add("EventGachaStoneNotEnough", "1 event gacha need {0} stones\nYour stones not enough.");
 
+        textDict.Add("FriendScratch", "Friend Scratch");
+        textDict.Add("RareScratch", "Rare Scratch");
+        textDict.Add("EventScratch", "Event Scratch");
 
-	textDict.Add ("StartQuestFail", "Start quest request failed");
+        ///
+	    textDict.Add ("StartQuestFail", "Start quest request failed");
 
     }
 }
