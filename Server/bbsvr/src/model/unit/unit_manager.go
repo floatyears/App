@@ -2,11 +2,12 @@ package unit
 
 import (
 	"bbproto"
-	"code.google.com/p/goprotobuf/proto"
+//	"code.google.com/p/goprotobuf/proto"
 	"common"
 	"common/EC"
 	"common/Error"
 	"common/consts"
+	"common/config"
 	"common/log"
 	"data"
 	"fmt"
@@ -47,36 +48,9 @@ func GetUnitUniqueId(db *data.Data, uid uint32, unitCount int) (uniqueId uint32,
 }
 
 //TODO: use global object to store unitinfo, avoiding read db.
-func GetUnitInfo(db *data.Data, unitId uint32) (unit bbproto.UnitInfo, e Error.Error) {
-	if db == nil {
-		db = &data.Data{}
-		err := db.Open(consts.TABLE_UNIT)
-		defer db.Close()
-		if err != nil {
-			return unit, Error.New(EC.READ_DB_ERROR, err)
-		}
-	} else if err := db.Select(consts.TABLE_UNIT); err != nil {
-		return unit, Error.New(EC.READ_DB_ERROR, err.Error())
-	}
+func GetUnitInfo(unitId uint32) (unit *bbproto.UnitInfo, e Error.Error) {
 
-	value, err := db.Gets(consts.X_UNIT_INFO + common.Utoa(unitId))
-	if err != nil {
-		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", unitId, err)
-		return unit, Error.New(EC.READ_DB_ERROR, err.Error())
-	}
-	isExists := len(value) != 0
-	//log.T("isUserExists=%v value len=%v value: ['%v']  ", isUserExists, len(value), value)
-
-	if !isExists {
-		log.Error("getUnitInfo: unitId(%v) not exists.", unitId)
-		return unit, Error.New(EC.E_UNIT_ID_ERROR, fmt.Sprintf("unitId:%v not exists in db.", unitId))
-	}
-
-	err = proto.Unmarshal(value, &unit)
-	if err != nil {
-		log.Error("[ERROR] GetUserInfo for '%v' ret err:%v", unit, err)
-		return unit, Error.New(EC.UNMARSHAL_ERROR, err)
-	}
+	unit = config.GUnitInfoList[unitId]
 
 	return unit, Error.OK()
 }
@@ -108,7 +82,7 @@ func CalculateDevourExp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseU
 		if e.IsError() {
 			return -1, -1, -1, -1, e
 		}
-		partUnit, e := GetUnitInfo(db, *partUU.UnitId)
+		partUnit, e := GetUnitInfo( *partUU.UnitId)
 		if e.IsError() {
 			return -1, -1, -1, -1, e
 		}
@@ -143,7 +117,7 @@ func CalculateDevourExp(db *data.Data, userDetail *bbproto.UserInfoDetail, baseU
 func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, currExp int32, addExp int32) (addLevel int32, e Error.Error) {
 	addLevel = int32(0)
 	for level := *userUnit.Level; level < *unit.MaxLevel; level++ {
-		nextLevelExp := GetUnitExpValue(*unit.PowerType.ExpType, level)
+		nextLevelExp := GetUnitExpByExpType(*unit.PowerType.ExpType, level)
 		if nextLevelExp <= 0 { // nextLevelExp<=0 means it reach MAX_LEVEL
 			log.T("nextLevelExp=%v => reach MaxLevel: %v.", nextLevelExp, level)
 			break

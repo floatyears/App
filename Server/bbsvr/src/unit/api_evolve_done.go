@@ -130,7 +130,7 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 		log.Error("GetUserUnitInfo(%v) failed: %v", *reqEvolveStart.BaseUniqueId, e.Error())
 		return e
 	}
-	baseUnit, e := unit.GetUnitInfo(db, *baseUserUnit.UnitId)
+	baseUnit, e := unit.GetUnitInfo(*baseUserUnit.UnitId)
 	if e.IsError() {
 		log.Error("GetUnitInfo(%v) failed: %v", *baseUserUnit.UnitId, e.Error())
 		return e

@@ -23,7 +23,7 @@ func GetLevelUpMoney(level int32, count int32) int32 {
 	return config.TableDevourCostCoin[level-1]
 }
 
-func GetUnitExpValue(expType int32, level int32) (levelExp int32) {
+func GetUnitExpByExpType(expType int32, level int32) (levelExp int32) {
 	//TODO: read from global exp type table
 	if level > int32(len(config.TableUnitExpType)) {
 		log.Error("GetUnitExpValue(%v, %v):: level excceed max Exp Level.", expType, level)
@@ -33,15 +33,21 @@ func GetUnitExpValue(expType int32, level int32) (levelExp int32) {
 	return config.TableUnitExpType[level-1]
 }
 
-func GetUnitExpByLevel(unitId uint32, level int32) (exp int32, e Error.Error) {
+func GetUnitExpByUnitId(unitId uint32, level int32) (exp int32) {
 	exp = 0;
-	unitInfo, e := GetUnitInfo(nil, unitId)
-	if e.IsError() {
-		return exp, e
+	unitInfo, e:= GetUnitInfo(unitId)
+	if unitInfo == nil || e.IsError() {
+		log.Error(" GetUnitInfo(%v) failed: err=%v ", unitId, e.Error())
+		return exp
 	}
-	exp = GetUnitExpValue(*unitInfo.PowerType.ExpType, level)
 
-	return exp, Error.OK()
+	if unitInfo.PowerType!=nil && unitInfo.PowerType.ExpType!=nil {
+		exp = GetUnitExpByExpType(*unitInfo.PowerType.ExpType, level)
+	}else{
+		log.Fatal("Unexcept Error: unitInfo(%v).PowerType is nil.", unitId)
+	}
+
+	return exp
 }
 
 func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, questId uint32) {

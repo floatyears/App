@@ -108,7 +108,7 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 		log.Error("GetUserUnitInfo(%v) failed: %v", *reqMsg.BaseUniqueId, e.Error())
 		return e
 	}
-	baseUnit, e := unit.GetUnitInfo(db, *baseUserUnit.UnitId)
+	baseUnit, e := unit.GetUnitInfo(*baseUserUnit.UnitId)
 	if e.IsError() {
 		log.Error("GetUnitInfo(%v) failed: %v", *baseUserUnit.UnitId, e.Error())
 		return e
@@ -124,14 +124,14 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	}
 
 	//4. getUnitInfo of all material part to caculate exp
-	addExp, addAtk, addHp, addDef, e := unit.CalculateDevourExp(db, userDetail, &baseUnit, reqMsg.PartUniqueId)
+	addExp, addAtk, addHp, addDef, e := unit.CalculateDevourExp(db, userDetail, baseUnit, reqMsg.PartUniqueId)
 	log.T("OrigExp:%v addExp:%v (addAtk:%v addHp:%v addDef:%v)", *baseUserUnit.Exp, addExp, addAtk, addHp, addDef)
 	if e.IsError() {
 		return e
 	}
 
 	//5. calculate Level growup
-	addLevel, e := unit.CalcLevelUpAddLevel(baseUserUnit, &baseUnit, *baseUserUnit.Exp, addExp)
+	addLevel, e := unit.CalcLevelUpAddLevel(baseUserUnit, baseUnit, *baseUserUnit.Exp, addExp)
 	if e.IsError() {
 		return e
 	}

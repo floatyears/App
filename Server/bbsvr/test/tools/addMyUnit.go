@@ -53,15 +53,21 @@ func addMyUnit(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e
 	}
 
 	for i := 1; i <= 28; i++ {
-		unitId2, e := unit.GetUnitUniqueId(db, *userDetail.User.UserId, i-1)
+		uuId2, e := unit.GetUnitUniqueId(db, *userDetail.User.UserId, i-1)
 		if e.IsError() {
 			return nil, e
 		}
+
+		uintId :=uint32(i)
 		level:=common.Rand(1, int32(i))
-		exp := unit.GetUnitExpValue(1, level)
+		exp:= unit.GetUnitExpByUnitId(uintId, level)
+		if exp == 0 {
+			log.Error("GetUnitExpByUnitId fail for unitId: %v", unitId)
+			continue
+		}
 		userUnit2 := &bbproto.UserUnit{
-			UniqueId:  proto.Uint32(unitId2),
-			UnitId:    proto.Uint32(uint32(i)),
+			UniqueId:  proto.Uint32(uuId2),
+			UnitId:    proto.Uint32(uintId),
 			Exp:       proto.Int32(exp),
 			Level:     proto.Int32(level),
 			GetTime:   proto.Uint32(common.Now()),
