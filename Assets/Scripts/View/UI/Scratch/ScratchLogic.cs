@@ -150,7 +150,8 @@ public class ScratchLogic : ConcreteComponent {
             break;
         case GachaFailedType.FriendGachaUnitCountReachedMax:
             msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendGachaFailed");
-            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UnitCountReachedMax");
+            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UnitCountReachedMax",
+                DataCenter.Instance.MyUnitList.Count, DataCenter.Instance.UserInfo.UnitMax);
             break;
         case GachaFailedType.RareGachaStoneNotEnough:
             msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RareGachaFailed");
@@ -158,7 +159,8 @@ public class ScratchLogic : ConcreteComponent {
             break;
         case GachaFailedType.RareGachaUnitCountReachedMax:
             msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RareGachaFailed");
-            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UnitCountReachedMax");
+            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UnitCountReachedMax",
+                DataCenter.Instance.MyUnitList.Count, DataCenter.Instance.UserInfo.UnitMax);
             break;
         case GachaFailedType.EventGachaStoneNotEnough:
             msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("EventGachaFailed");
@@ -166,7 +168,8 @@ public class ScratchLogic : ConcreteComponent {
             break;
         case GachaFailedType.EventGachaUnitCountReachedMax:
             msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("EventGachaFailed");
-            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UnitCountReachedMax");
+            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UnitCountReachedMax",
+                DataCenter.Instance.MyUnitList.Count, DataCenter.Instance.UserInfo.UnitMax);
             break;
         default:
             break;

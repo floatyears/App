@@ -99,14 +99,20 @@ public class GachaWindowView : UIComponentUnity {
         GachaWindowInfo gachaWindowInfo = args as GachaWindowInfo;
         if (gachaWindowInfo != null){
             gachaInfo = gachaWindowInfo;
-            SyncGachaInfos();
+            SyncGachaInfosAtStart();
         }
     }
 
-    private void SyncGachaInfos(){
+    private void SyncGachaInfosAtStart(){
         chancesLabel.text = TextCenter.Instace.GetCurrentText("GachaChances", 0, gachaInfo.totalChances);
     }
 
+    private void SyncGachaInfos(){
+        int nowChance = Mathf.Min(tryCount + 1, gachaInfo.totalChances);
+        chancesLabel.text = TextCenter.Instace.GetCurrentText("GachaChances", nowChance, gachaInfo.totalChances);
+    }
+
+    
     private void ClickButton(GameObject btn){
         int index = buttonDic[btn];
         if (pickedBtnIdList.Contains(index)){
@@ -132,8 +138,8 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void showUnitByUserUnitID(GameObject btn, uint uniqueId){
-        LogHelper.Log("showUnitByUserUnit(), uniqueId {0}", uniqueId);
-//        TUserUnit userUnit = DataCenter.Instance.MyUnitList.GetMyUnit(uniqueId);
+//        LogHelper.Log("showUnitByUserUnit(), uniqueId {0}", uniqueId);
+        TUserUnit userUnit = DataCenter.Instance.MyUnitList.GetMyUnit(uniqueId);
         ShowUnitById(btn, userUnit.UnitInfo.ID, userUnit);
         DealAfterShowUnit(buttonDic[btn]);
     }
@@ -144,8 +150,10 @@ public class GachaWindowView : UIComponentUnity {
         DealAfterShowUnit(buttonDic[btn]);
     }
 
-    private void ShowUnitById(GameObject btn, int unitId, TUserUnit userUnit){
+    private void ShowUnitById(GameObject btn, uint unitId, TUserUnit userUnit){
         LogHelper.Log("ShowUnitById(), unitId {0}, userUnit not null {1}", unitId, userUnit != null);
+        // 
+        SyncGachaInfos();
     }
 
     private void DealAfterShowUnit(int index){
@@ -154,7 +162,7 @@ public class GachaWindowView : UIComponentUnity {
             pickedBtnIdList.Add(index);
             tryCount += 1;
         }
-        else {
+        if (tryCount == DataCenter.maxGachaPerTime){
             FinishShowGachaWindow();
         }
     }
