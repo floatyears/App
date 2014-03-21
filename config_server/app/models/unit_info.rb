@@ -107,6 +107,8 @@ class UnitInfo
   end
   
   def self.to_zip
+    FileUtils.rm_rf(Rails.root.join("public/unit/."))
+    redis_to_file
     directory = Rails.root.join("public/unit")
     zipfile_name = Rails.root.join("public/unit/units.zip")
     File.delete(zipfile_name) if File.exist?(zipfile_name)
