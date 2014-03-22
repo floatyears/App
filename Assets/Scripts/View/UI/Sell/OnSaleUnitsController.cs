@@ -185,7 +185,7 @@ public class OnSaleUnitsController : ConcreteComponent {
 		if (onSaleUnitList.Count > 0) onSaleUnitList.Clear();
 		userUnitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
 		for (int i = 0; i < userUnitList.Count; i++){
-			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(userUnitList [i]);
+			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(userUnitList [i], true);
 			onSaleUnitList.Add(viewItem);
 		}
 
