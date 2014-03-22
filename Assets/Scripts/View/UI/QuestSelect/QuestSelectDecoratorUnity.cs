@@ -56,16 +56,13 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		Debug.LogError("QuestSelectDecoratorUnity ShowUI end");
 	}
 
-
-	
 	public override void HideUI(){
 		base.HideUI();
 		CleanQuestInfo();
 	
 		questDragPanel.DestoryUI();
 	}
-
-
+	
 	void ReceiveStageInfo( object data ){
 		StageInfo receivedStageInfo = data as StageInfo;
 		stageInfo = receivedStageInfo;
@@ -364,7 +361,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		questSelectScrollerArgsDic.Add("parentTrans",		scrollView.transform);
 		questSelectScrollerArgsDic.Add("scrollerScale",		Vector3.one);
 		questSelectScrollerArgsDic.Add("scrollerLocalPos",		-96 * Vector3.up);
-		questSelectScrollerArgsDic.Add("position",			Vector3.zero);
+		questSelectScrollerArgsDic.Add("position",				Vector3.zero);
 		questSelectScrollerArgsDic.Add("clipRange",			new Vector4(0, 0, 640, 200));
 		questSelectScrollerArgsDic.Add("gridArrange",		UIGrid.Arrangement.Horizontal);
 		questSelectScrollerArgsDic.Add("maxPerLine",		0);

@@ -81,10 +81,14 @@ public class Main : MonoBehaviour {
 //		Debug.LogError (System.Guid.NewGuid ().ToString ());
     }
 
+
+	int count = 0;
     /// <summary>
     /// start game
     /// </summary>
     void OnEnable() {
+		count++;
+//		Debug.LogError("Main.OnEnable(), invoke times : " + count);
         INetBase netBase = new AuthUser();
 //		Debug.LogError("login ");
         netBase.OnRequest(null, LoginSuccess);
