@@ -107,6 +107,8 @@ class UnitInfo
   end
   
   def self.to_zip
+    FileUtils.rm_rf(Rails.root.join("public/unit/."))
+    redis_to_file
     directory = Rails.root.join("public/unit")
     zipfile_name = Rails.root.join("public/unit/units.zip")
     File.delete(zipfile_name) if File.exist?(zipfile_name)
@@ -124,12 +126,12 @@ class UnitInfo
   
   def self.redis_to_file
     $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact.each do |key|
-      File.open(Rails.root.join("public/unit/#{key}.bytes"), "wb") { | file|  file.write($redis.get key) } 
+      File.open(Rails.root.join("public/unit/#{key.split("_")[2]}.bytes"), "wb") { | file|  file.write($redis.get key) } 
     end
   end
   
   def save_to_file
-    File.open(Rails.root.join("public/unit/X_UNIT_#{self["id"]}.bytes"), "wb") { | file|  file.write(self.encode) } 
+    File.open(Rails.root.join("public/unit/#{self["id"]}.bytes"), "wb") { | file|  file.write(self.encode) } 
   end
   
   def save_to_redis

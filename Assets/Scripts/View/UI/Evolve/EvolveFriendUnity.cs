@@ -116,7 +116,7 @@ public class EvolveFriendUnity : LevelUpFriendWindow {
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TFriendInfo tfi;
 		if (evolveFridn.TryGetValue (item, out tfi)) {
-			MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, tfi.UserUnit);
+			MsgCenter.Instance.Invoke(CommandEnum.PickFriendUnitInfo, tfi);
 		}
 
 	}

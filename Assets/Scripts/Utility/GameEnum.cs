@@ -144,6 +144,8 @@ public enum CommandEnum
 	UnitDisplayMaterialData		= 3056,
 	EvolveFriend				= 3057,
 	UnitMaterialList 			= 3058,
+	EvolveStart	,
+
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,

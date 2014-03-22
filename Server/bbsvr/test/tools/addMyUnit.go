@@ -12,6 +12,7 @@ import (
 	"common/Error"
 	"common/consts"
 	"common/log"
+	"common/config"
 	"data"
 	"model/unit"
 	_ "quest"
@@ -51,6 +52,7 @@ func addMyUnit(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e
 		log.Error("[UNMARSHAL_ERROR] GetUserInfo for '%v' ret err:%v", uid, err)
 		return nil, Error.New(EC.UNMARSHAL_ERROR)
 	}
+	userDetail.UnitList=[]*bbproto.UserUnit{}
 
 	for i := 1; i <= 28; i++ {
 		uuId2, e := unit.GetUnitUniqueId(db, *userDetail.User.UserId, i-1)
@@ -58,16 +60,16 @@ func addMyUnit(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail, e
 			return nil, e
 		}
 
-		uintId :=uint32(i)
+		unitId :=uint32(i)
 		level:=common.Rand(1, int32(i))
-		exp:= unit.GetUnitExpByUnitId(uintId, level)
+		exp:= unit.GetUnitExpByUnitId(unitId, level)
 		if exp == 0 {
 			log.Error("GetUnitExpByUnitId fail for unitId: %v", unitId)
 			continue
 		}
 		userUnit2 := &bbproto.UserUnit{
 			UniqueId:  proto.Uint32(uuId2),
-			UnitId:    proto.Uint32(uintId),
+			UnitId:    proto.Uint32(unitId),
 			Exp:       proto.Int32(exp),
 			Level:     proto.Int32(level),
 			GetTime:   proto.Uint32(common.Now()),
@@ -106,6 +108,8 @@ func main() {
 	}
 
 	Init()
+
+	config.InitConfig()
 
 	uid := common.Atou(args[0])
 	log.T("resetAccount for: {uid}", uid)
