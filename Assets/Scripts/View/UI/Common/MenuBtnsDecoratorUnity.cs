@@ -16,6 +16,7 @@ public class MenuBtnsDecoratorUnity : UIComponentUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
+        AddListener();
 	}
 
 	public override void HideUI () {
@@ -25,6 +26,15 @@ public class MenuBtnsDecoratorUnity : UIComponentUnity {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
+
+    private void AddListener(){
+        MsgCenter.Instance.AddListener(CommandEnum.EnableMenuBtns, SetMenuValid);
+    }
+
+    private void RemoveListener(){
+        MsgCenter.Instance.RemoveListener(CommandEnum.EnableMenuBtns, SetMenuValid);
+    }
+
 
 	void InitButton() {
 		GameObject go = FindChild ("ImgBtn_Friends");
@@ -64,4 +74,15 @@ public class MenuBtnsDecoratorUnity : UIComponentUnity {
 
 		iuiCallback.Callback(se);
 	}
+
+    void SetMenuValid(object args){
+        bool valid = (bool)args;
+        foreach (var item in buttonInfo.Keys) {
+          UIButtonScale btnScale = item.GetComponent<UIButtonScale>() ;
+            btnScale.enabled = valid;
+            Debug.LogError("SetMenuValid(), btnScale is : " + valid);
+            if(valid)  UIEventListener.Get(item).onClick += OnClickCallback; 
+            else UIEventListener.Get(item).onClick -= OnClickCallback;
+        }
+    }
 }

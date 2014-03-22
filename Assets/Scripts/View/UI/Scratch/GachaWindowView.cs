@@ -80,12 +80,7 @@ public class GachaWindowView : UIComponentUnity {
     
     
     private void SetMenuBtnEnable(bool enable){
-//        if (enable){
-//            Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer("ScreenShelt") << 15;
-//        }
-//        else {
-//            Main.Instance.NguiCamera.eventReceiverMask = originLayer;
-//        }
+        MsgCenter.Instance.Invoke(CommandEnum.EnableMenuBtns, enable);
     }
 
     private void SetTitleLabel(object args){
