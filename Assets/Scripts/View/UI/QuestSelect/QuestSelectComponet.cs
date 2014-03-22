@@ -11,13 +11,16 @@ public class QuestSelectComponent : ConcreteComponent{
 	public QuestSelectComponent(string uiName):base(uiName){}
 	
 	public override void CreatUI(){
+
 		base.CreatUI();
+
 	}
 	
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, SelectedStage);
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
+
 	}
 	
 	public override void HideUI() {
