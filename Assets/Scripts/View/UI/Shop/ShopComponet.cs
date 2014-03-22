@@ -86,6 +86,35 @@ public class ShopComponent : ConcreteComponent {
         return msgWindowParam;
     }
 
+    MsgWindowParams GetBuySuccessWindowParams(BuyType buyType){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        
+        string title = "";
+        string content = "";
+        
+        switch (buyType) {
+        case BuyType.FriendExpansion:
+            title = "FriendExpansionFinish";
+            content = TextCenter.Instace.GetCurrentText("FriendExpansionResult", DataCenter.Instance.UserInfo.FriendMax);
+            break;
+        case BuyType.StaminaRecover:
+            title = "StaminaRecoverFinish";
+            content = TextCenter.Instace.GetCurrentText("StaminaRecoverResult");
+            break;
+        case BuyType.UnitExpansion:
+            title = "UnitExpansionFinish";
+            content = TextCenter.Instace.GetCurrentText("UnitExpansionResult", DataCenter.Instance.UserInfo.UnitMax);
+            break;
+        default:
+            break;
+        }
+        msgWindowParam.titleText = title;
+        
+        msgWindowParam.contentText = content;
+        msgWindowParam.btnParam = new BtnParam();
+        return msgWindowParam;
+    }
+
     MsgWindowParams GetBuyFailMsgWindowParams(BuyType buyType, BuyFailType failType){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
 
@@ -159,8 +188,8 @@ public class ShopComponent : ConcreteComponent {
         DataCenter.Instance.UserInfo.FriendMax = rsp.friendMax;
         DataCenter.Instance.AccountInfo.Stone = rsp.stone;
         MsgCenter.Instance.Invoke(CommandEnum.RspFriendExpansion);
-        HideUI();
-        ShowUI(); 
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuySuccessWindowParams(BuyType.FriendExpansion));
+
     }
 
     void OnStaminaRecover(object args){
@@ -219,9 +248,7 @@ public class ShopComponent : ConcreteComponent {
 
         DataCenter.Instance.AccountInfo.Stone = rsp.stone;
         MsgCenter.Instance.Invoke(CommandEnum.RspStaminaRecover);
-
-        HideUI();
-        ShowUI(); 
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuySuccessWindowParams(BuyType.StaminaRecover));
     }
 
     void OnUnitExpansion(object args){
@@ -279,9 +306,8 @@ public class ShopComponent : ConcreteComponent {
         
         DataCenter.Instance.UserInfo.UnitMax = rsp.unitMax;
         DataCenter.Instance.AccountInfo.Stone = rsp.stone;
-        
-        HideUI();
-        ShowUI(); 
+        MsgCenter.Instance.Invoke(CommandEnum.RspUnitExpansion);
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuySuccessWindowParams(BuyType.UnitExpansion));
     }
 
 }

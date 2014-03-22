@@ -12,6 +12,12 @@ public enum SceneEnum
 
 	Scratch,
 
+    FriendScratch,
+
+    RareScratch,
+
+    EventScratch,
+
 	Shop,
 
 	Others,
@@ -197,7 +203,14 @@ public enum CommandEnum
 	ChooseHelper					= 4052,
 	GetSelectedStage				= 4053,
 	GetSelectedQuest				= 4054,
-	EvolveSelectQuest ,
+    RspStoneGachaOver               = 4055,
+    EnterGachaWindow                  = 4056,
+    SyncChips                       = 4057,
+    SyncCoins                       = 4058,
+	RefreshPlayerCoin				= 4059,
+
+		EvolveSelectQuest ,
+	SeletEvolveInfo					= 4050,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

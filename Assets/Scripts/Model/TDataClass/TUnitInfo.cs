@@ -38,7 +38,13 @@ public class TUnitInfo : ProtobufDataBase {
 			return instance.cost;
 		}
 	}
-	
+
+	public int SaleValue{
+		get{
+			return instance.saleValue;
+		}
+	}
+
 	public int Rare {
 		get{
 			return instance.rare;

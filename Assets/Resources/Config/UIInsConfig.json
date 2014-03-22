@@ -320,6 +320,14 @@
         "positionx": 0,
         "positiony": -565,
         "positionz": 0
+    },
+         "GachaWindow": {
+        "uiName":"GachaWindow",
+        "resoucePath": "Prefabs/UI/Scratch/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": -245,
+        "positionz": 0
     }
     
 }

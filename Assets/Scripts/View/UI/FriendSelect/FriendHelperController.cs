@@ -9,7 +9,7 @@ public class FriendHelperController : ConcreteComponent{
 
 	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
-
+	
 	private bool isEvolve = false;
 	private TEvolveStart evolveStart = null;
 
@@ -59,17 +59,17 @@ public class FriendHelperController : ConcreteComponent{
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} 
 		else {
-			StartQuest sq = new StartQuest ();
-			
-			StartQuestParam sqp = new StartQuestParam ();
-			
-			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
-			sqp.helperUserUnit = selectedHelper;
-			sqp.questId = questID;
-			sqp.stageId = stageID;
-			sqp.startNew = 1;
-			sq.OnRequest (sqp, RspStartQuest);	
-		}
+		StartQuest sq = new StartQuest ();
+
+		StartQuestParam sqp = new StartQuestParam ();
+
+		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+		sqp.helperUserUnit = selectedHelper;
+		sqp.questId = questID;
+		sqp.stageId = stageID;
+		sqp.startNew = 1;
+		sq.OnRequest (sqp, RspStartQuest);
+	}
 
 
 	}
@@ -207,7 +207,7 @@ public class FriendHelperController : ConcreteComponent{
 			MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
 		}
 	}
-
+	
 	void EvolveSelectQuest(object data) {
 		evolveStart = data as TEvolveStart;
 		isEvolve = true;

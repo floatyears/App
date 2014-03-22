@@ -227,10 +227,12 @@ public class PlayerInfoBar : UIComponentUnity
         MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncChips);
         MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncStamina);
         MsgCenter.Instance.AddListener(CommandEnum.RspUnitExpansion, SyncChips);
-        MsgCenter.Instance.AddListener(CommandEnum.RspStoneGachaOver, SyncChips);
+<<<<<<< HEAD
 		MsgCenter.Instance.AddListener(CommandEnum.RefreshPlayerCoin, SyncCoins);
-
-		}
+=======
+        MsgCenter.Instance.AddListener(CommandEnum.RspStoneGachaOver, SyncChips);
+>>>>>>> 1b16e20b0108ea6672456a3b36a954b01f7fbd74
+	}
 	
 	void RemoveCommandListener()
 	{
@@ -245,12 +247,16 @@ public class PlayerInfoBar : UIComponentUnity
         MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncChips);
         MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncStamina);
         MsgCenter.Instance.RemoveListener(CommandEnum.RspUnitExpansion, SyncChips);
+<<<<<<< HEAD
 		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPlayerCoin, SyncCoins);
-
-                MsgCenter.Instance.RemoveListener(CommandEnum.RspStoneGachaOver, SyncChips);
 	}
+
+
 	void SyncCoins(object args){
 		VCionCountLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
+=======
+        MsgCenter.Instance.RemoveListener(CommandEnum.RspStoneGachaOver, SyncChips);
+>>>>>>> 1b16e20b0108ea6672456a3b36a954b01f7fbd74
 	}
 
 	void RequestData()

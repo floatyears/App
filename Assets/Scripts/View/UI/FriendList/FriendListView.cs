@@ -113,8 +113,7 @@ public class FriendListView : UIComponentUnity
 		return panel;
 	}
 
-	void CreateDragView(object args)
-	{
+	void CreateDragView(object args){
 		LogHelper.Log("FriendListView.CreateDragView(), receive call from logic, to create ui...");
 		List<UnitItemViewInfo> viewInfoList = args as List<UnitItemViewInfo>;
 		
@@ -187,14 +186,12 @@ public class FriendListView : UIComponentUnity
 		}
 	}
 
-	void UpdateCountLabel(int cur, int max)
-	{
+	void UpdateCountLabel(int cur, int max){
 		curCountLabel.text = cur.ToString();
 		maxCountLabel.text = max.ToString();
 	}
 	
-	void UpdateCrossShow()
-	{
+	void UpdateCrossShow(){
 		if (IsInvoking("CrossShow"))
 		{
 			CancelInvoke("CrossShow");

@@ -223,7 +223,19 @@ public class UIManager {
 		case SceneEnum.UnitDetail:
 			temp = new UnitDetailDecorator( sEnum );
 			break;
-		}
+
+        case SceneEnum.FriendScratch:
+            temp = new GachaWindowDecorator( sEnum );
+            break;
+
+        case SceneEnum.RareScratch:
+            temp = new GachaWindowDecorator( sEnum );
+            break;
+
+        case SceneEnum.EventScratch:
+            temp = new GachaWindowDecorator( sEnum );
+            break;
+        }
 		if (temp != null) {
 				temp.SetDecorator (baseScene);
 				temp.DecoratorScene ();
