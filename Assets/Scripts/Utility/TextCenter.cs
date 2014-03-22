@@ -100,6 +100,14 @@ public class TextCenter {
         textDict.Add("UnitExpansionInfo", "Now Units {0}/{1}");
         textDict.Add("DoUnitExpansion", "Expand");
 
+//        textDict.Add("FriendExpansionFailed", "Friend Max Expansion Failed");
+//        textDict.Add("FriendCountLimitReachedMax", "Now your friend limit has reached max.");
+//        textDict.Add("FriendExpandStonesNotEnough", "Now your stone not enough to expand friend limit.");
+
+//        textDict.Add("StaminaRecoverFailed", "Stamina Recovering Failed");
+//        textDict.Add("StaminaStillFull", "Now your stamina still full, not need to recover it.");
+//        textDict.Add("StaminaRecoverStonesNotEnough", "Now your stone not enough to recover stamina.");
+
         textDict.Add("UnitExpansionFailed", "Unit Max Expansion Failed");
         textDict.Add("UnitCountLimitReachedMax", "Now your unit limit has reached max.");
         textDict.Add("UnitExpandStonesNotEnough", "Now your stone not enough to expand unit limit.");
@@ -144,7 +152,7 @@ public class TextCenter {
         textDict.Add("RareScratch", "Rare Scratch");
         textDict.Add("EventScratch", "Event Scratch");
 
-		textDict.Add ("StartQuestFail", "Start quest request failed");
+	textDict.Add ("StartQuestFail", "Start quest request failed");
 
 		textDict.Add("BigRareWarning", "Rare Warning");
 		textDict.Add("BigRareWarningText", "Include the unit whose rare bigger than 3.\nAre you sure to sell?");

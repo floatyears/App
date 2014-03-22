@@ -208,6 +208,8 @@ public enum CommandEnum
     SyncChips                       = 4057,
     SyncCoins                       = 4058,
 	RefreshPlayerCoin				= 4059,
+
+		EvolveSelectQuest ,
 	SeletEvolveInfo					= 4050,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
