@@ -124,11 +124,23 @@ public class UnitItemViewInfo {
         partyUnitItemView.initWithTUserUnit(dataItem);
         return partyUnitItemView;
     }
+	public static UnitItemViewInfo Create(TUserUnit dataItem, bool inAllParty) {
+		UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
+		partyUnitItemView.initWithTUserUnit(dataItem);
+		if (inAllParty){
+			partyUnitItemView.SetStateInAllParty();
+		}
+		return partyUnitItemView;
+	}
 
 	public static UnitItemViewInfo Create(TFriendInfo friendItem){
 		UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
 		partyUnitItemView.initWithTFriendInfo(friendItem);
 		return partyUnitItemView;
+	}
+
+	public void SetStateInAllParty(){
+		IsParty = DataCenter.Instance.PartyInfo.UnitIsInParty(dataItem.ID);
 	}
 
     public void RefreshStates(Dictionary <string, object> statesDic) {

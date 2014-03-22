@@ -2,19 +2,15 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PartyUnitsLogic : ConcreteComponent
-{
+public class UnitListForPartyLogic : ConcreteComponent{
 
 	UnitItemViewInfo currentPickedUnit;
-	
-	List<UnitItemViewInfo> partyUnitItemViewList = new List<UnitItemViewInfo>();
-
-	public PartyUnitsLogic(string uiName):base(uiName){}
+	List<UnitItemViewInfo> onPartyViewItemList = new List<UnitItemViewInfo>();
+	public UnitListForPartyLogic(string uiName):base(uiName){}
 
 	public override void ShowUI(){
 		base.ShowUI();
-
-		GetUnitItemViewList();
+		GetOnPartyViewItemList();
 		CreateUnitList();
 		AddCmdListener();
 	}
@@ -28,29 +24,27 @@ public class PartyUnitsLogic : ConcreteComponent
 	void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureSubmitUnitToParty, SubmitPickedUnitToParty);
-		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyUnitList, RefreshUnitList);
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyUnitList, RefreshOnPartyUnitList);
 	}
 
 	void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureSubmitUnitToParty, SubmitPickedUnitToParty);
-		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyUnitList, RefreshUnitList);
+		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyUnitList, RefreshOnPartyUnitList);
 	}
 
-	void GetUnitItemViewList(){
-		List<TUserUnit> userUnitList = new List<TUserUnit>();
-		partyUnitItemViewList.Clear();
-		userUnitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
-//		long msNow = TimeHelper.MillionSecondsNow();
-		for (int i = 0; i < userUnitList.Count; i++){
-			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(userUnitList [i]);
-			partyUnitItemViewList.Add(viewItem);
-			//Debug.LogError(".....viewItem isEnable : " + viewItem.IsEnable);
 
+	//Get the dragPanel's viewItem list
+	void GetOnPartyViewItemList(){
+		onPartyViewItemList.Clear();
+		List<TUserUnit> tuuList = new List<TUserUnit>();
+		tuuList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
+
+		for (int i = 0; i < tuuList.Count; i++){
+			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(tuuList [i]);
+			onPartyViewItemList.Add(viewItem);
 		}
-		//LogHelper.Log("loop end {0}",  TimeHelper.MillionSecondsNow() - msNow);
-		//Debug.LogError("GetUnitItemViewList(), ViewList count : " + partyUnitItemViewList.Count);
-
+	
 	}
 
 
@@ -62,7 +56,7 @@ public class PartyUnitsLogic : ConcreteComponent
 	
 	void ActivatePickableState(object data){
 		bool state = (bool)data;
-		foreach (var item in partyUnitItemViewList){
+		foreach (var item in onPartyViewItemList){
 			if (item.IsParty){
 				Dictionary<string,object> args = new Dictionary<string, object>();
 				args.Add("enable", false);
@@ -75,7 +69,7 @@ public class PartyUnitsLogic : ConcreteComponent
 			}
 		}
 
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("Activate", partyUnitItemViewList);
+		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("Activate", onPartyViewItemList);
 		ExcuteCallback(cbd);
 
 	}
@@ -103,13 +97,13 @@ public class PartyUnitsLogic : ConcreteComponent
 	void CallbackRspUnitPickFromView(object args)
 	{
 		int position = (int)args;
-		RspUnitPickFromView(partyUnitItemViewList [position - 1]);
+		RspUnitPickFromView(onPartyViewItemList [position - 1]);
 	}
 
 	void ViewUnitDetailInfo(object args)
 	{
 		int position = (int)args;
-		TUserUnit unitInfo = partyUnitItemViewList [position - 1].DataItem;
+		TUserUnit unitInfo = onPartyViewItemList [position - 1].DataItem;
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);	
 
@@ -143,7 +137,7 @@ public class PartyUnitsLogic : ConcreteComponent
 		newArgs.Add("enable", false);
 		newArgs.Add("party", true);
 		currentPickedUnit.RefreshStates(newArgs);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", partyUnitItemViewList);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", onPartyViewItemList);
 
 		//LogHelper.Log("PartyUnitsLogicSubmitPickedUnitToParty(), sure to message PartyPage to change party member!");
 		MsgCenter.Instance.Invoke(CommandEnum.ReplacePartyFocusItem, currentPickedUnit.DataItem);
@@ -154,20 +148,20 @@ public class PartyUnitsLogic : ConcreteComponent
 		MsgCenter.Instance.Invoke(CommandEnum.RejectPartyPageFocusItem, null);
 	}
 
-	void RefreshUnitList(object msg){
-		GetUnitItemViewList();
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", partyUnitItemViewList);
+	void RefreshOnPartyUnitList(object msg){
+		GetOnPartyViewItemList();
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshDragList", onPartyViewItemList);
 		ExcuteCallback(cbdArgs);
 	}
 	
 	void CreateUnitList(){
 		//Debug.LogError("CreateUnitList(), partyUnitItemViewList count is " + partyUnitItemViewList.Count);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", partyUnitItemViewList);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", onPartyViewItemList);
 		ExcuteCallback(cbdArgs);
 	}
 
 	void DestoryUnitList(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", partyUnitItemViewList);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", onPartyViewItemList);
 		ExcuteCallback(cbdArgs);
 	}
 }
