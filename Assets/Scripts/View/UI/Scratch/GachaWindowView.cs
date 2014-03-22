@@ -120,14 +120,14 @@ public class GachaWindowView : UIComponentUnity {
         }
         LogHelper.Log("ClickButton() {0}", index);
         if (tryCount < gachaInfo.totalChances){
-            showUnitByUserUnitID(btn, gachaInfo.unitList[tryCount]);
+            ShowUnitByUserUnitID(btn, gachaInfo.unitList[tryCount]);
         }
         else if (tryCount < DataCenter.maxGachaPerTime){
             int blankId = tryCount - gachaInfo.totalChances;
             if (blankId > gachaInfo.blankList.Count - 1){
                 return;
             }
-            showUnitByBlankId(btn, gachaInfo.blankList[blankId]);
+            ShowUnitByBlankId(btn, gachaInfo.blankList[blankId]);
         }
     }
 
@@ -141,14 +141,14 @@ public class GachaWindowView : UIComponentUnity {
         }
     }
 
-    private void showUnitByUserUnitID(GameObject btn, uint uniqueId){
+    private void ShowUnitByUserUnitID(GameObject btn, uint uniqueId){
 //        LogHelper.Log("showUnitByUserUnit(), uniqueId {0}", uniqueId);
         TUserUnit userUnit = DataCenter.Instance.MyUnitList.GetMyUnit(uniqueId);
         ShowUnitById(btn, userUnit.UnitInfo.ID, userUnit);
         DealAfterShowUnit(buttonDic[btn]);
     }
 
-    private void showUnitByBlankId(GameObject btn, uint unitId){
+    private void ShowUnitByBlankId(GameObject btn, uint unitId){
 //        LogHelper.Log("showUnitByUnitId(), unitId {0}", unitId);
         ShowUnitById(btn, unitId, null);
         DealAfterShowUnit(buttonDic[btn]);
@@ -195,8 +195,13 @@ public class GachaWindowView : UIComponentUnity {
             tryCount += 1;
         }
         LogHelper.Log("DealAfterShowUnit(), tryCount {0}", tryCount);
-        if (tryCount == DataCenter.maxGachaPerTime){
+        if (tryCount == gachaInfo.totalChances){
+        }
+        else if (tryCount == DataCenter.maxGachaPerTime){
             FinishShowGachaWindow();
+        }
+        else {
+
         }
     }
 
