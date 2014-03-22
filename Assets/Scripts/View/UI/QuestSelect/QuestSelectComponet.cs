@@ -73,6 +73,7 @@ public class QuestSelectComponent : ConcreteComponent{
 		bool b = (bool)args;
 		TStageInfo tsi = null;
 		uint questID = 0;
+
 		if (b) {
 			tsi = evolveStageInfo.StageInfo;
 			questID = tsi.QuestId;
