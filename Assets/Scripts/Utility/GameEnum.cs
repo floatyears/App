@@ -1,4 +1,4 @@
-﻿//public enum 
+//public enum 
 
 public enum SceneEnum
 {
@@ -205,8 +205,11 @@ public enum CommandEnum
     SyncChips                       = 4057,
     SyncCoins                       = 4058,
 	RefreshPlayerCoin				= 4059,
-	SeletEvolveInfo					= 4060,
+
+    SeletEvolveInfo					= 4060,
     EnableMenuBtns                  = 4061,
+	EvolveSelectQuest 				= 4062,
+
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,
