@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public class QuestSelectDecoratorUnity : UIComponentUnity{
 	StageInfo stageInfo;
-	public static UIImageButton btnSelect;
-	IUICallback iuiCallback;
-	bool temp = false;
+	UIImageButton btnSelect;
+
 	private UILabel labDoorName;
 	private UILabel labDoorType;
 	private UILabel labFloorVaule;
@@ -23,7 +22,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	private GameObject detail_low_light;
 	private GameObject story_low_light;
 	private UILabel clearLabel;
-	bool isInitDragPanelArgs = false;
 	private DragPanel questDragPanel;
 	private GameObject scrollerItem;
 	private GameObject scrollView;
@@ -40,7 +38,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-		temp = origin is IUICallback;
 		InitUI();
 		InitQuestSelectScrollArgs();
 		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
@@ -54,7 +51,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 		firstFocus.value = true;
 
-		MsgCenter.Instance.AddListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
 	}
 
 
@@ -62,7 +58,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	public override void HideUI(){
 		base.HideUI();
 		CleanQuestInfo();
-		MsgCenter.Instance.RemoveListener(CommandEnum.TransmitStageInfo, ReceiveStageInfo);
+	
 		questDragPanel.DestoryUI();
 	}
 
