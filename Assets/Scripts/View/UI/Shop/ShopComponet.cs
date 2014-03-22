@@ -187,7 +187,7 @@ public class ShopComponent : ConcreteComponent {
         
         DataCenter.Instance.UserInfo.FriendMax = rsp.friendMax;
         DataCenter.Instance.AccountInfo.Stone = rsp.stone;
-        MsgCenter.Instance.Invoke(CommandEnum.RspFriendExpansion);
+        MsgCenter.Instance.Invoke(CommandEnum.SyncChips);
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuySuccessWindowParams(BuyType.FriendExpansion));
 
     }
@@ -247,7 +247,8 @@ public class ShopComponent : ConcreteComponent {
         DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
 
         DataCenter.Instance.AccountInfo.Stone = rsp.stone;
-        MsgCenter.Instance.Invoke(CommandEnum.RspStaminaRecover);
+        MsgCenter.Instance.Invoke(CommandEnum.SyncStamina, null);
+        MsgCenter.Instance.Invoke(CommandEnum.SyncChips, null);
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuySuccessWindowParams(BuyType.StaminaRecover));
     }
 
@@ -306,7 +307,7 @@ public class ShopComponent : ConcreteComponent {
         
         DataCenter.Instance.UserInfo.UnitMax = rsp.unitMax;
         DataCenter.Instance.AccountInfo.Stone = rsp.stone;
-        MsgCenter.Instance.Invoke(CommandEnum.RspUnitExpansion);
+        MsgCenter.Instance.Invoke(CommandEnum.SyncChips, null);
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuySuccessWindowParams(BuyType.UnitExpansion));
     }
 
