@@ -6,13 +6,12 @@ using bbproto;
 public class GachaWindowView : UIComponentUnity {
     private UILabel chancesLabel;
     private UILabel titleLabel;
-    private int originLayer;
     private bool displayingResult = false; // when 
     private int tryCount = 0;
     private GachaWindowInfo gachaInfo;
-    private List<int> pickedBtnIdList = new List<int>();
+    private List<int> pickedGridIdList = new List<int>();
 
-    private Dictionary<GameObject, int> buttonDic = new Dictionary<GameObject, int>();
+    private Dictionary<GameObject, int> gridDict = new Dictionary<GameObject, int>();
 
     public override void Init ( UIInsConfig config, IUICallback origin ) {
         base.Init (config, origin);
@@ -60,25 +59,30 @@ public class GachaWindowView : UIComponentUnity {
         }
     }
 
-    private UIButton FindButtonById(int id){
-        return FindChild<UIButton>("Board/Buttons/Button" + id);
-    }
+//    private UIButton FindButtonById(int id){
+//        return FindChild<UIButton>("Board/Buttons/Button" + id);
+//    }
 
     private void InitUI() {
         titleLabel = FindChild<UILabel>("TitleBackground/TitleLabel");
         chancesLabel = FindChild<UILabel>("TitleBackground/ChancesLabel");
 
-        UIButton[] buttons = FindChild("Board/Buttons").GetComponentsInChildren< UIButton >();
-        for (int i = 0; i < buttons.Length; i++){
-            UIButton button = FindButtonById(i);
-            buttonDic.Add( button.gameObject, i);
-            UIEventListener.Get( buttons[i].gameObject ).onClick = ClickButton;
+        float side = 180.0f;
+        UISprite bg = FindChild<UISprite>("Board/Bg");
+        for (int i = 0; i < DataCenter.maxGachaPerTime; i++){
+            GameObject gachaGrid = Resources.Load("Prefabs/UI/Scratch/GachaGrid") as GameObject;
+            gachaGrid = NGUITools.AddChild(bg.gameObject, gachaGrid);
+            UIButton button = gachaGrid.GetComponent<UIButton>();
+            button.gameObject.transform.localPosition = new Vector3(-side + (i % 3) * side, side - (i / 3) * side, 0);
+            gridDict.Add( button.gameObject, i);
+            UIEventListener.Get( button.gameObject ).onClick = ClickButton;
         }
-
-        originLayer = Main.Instance.NguiCamera.eventReceiverMask;
     }
     
-    
+//    private UITexture GetTextueByBtn(){
+//
+//    }
+
     private void SetMenuBtnEnable(bool enable){
         MsgCenter.Instance.Invoke(CommandEnum.EnableMenuBtns, enable);
     }
@@ -109,8 +113,8 @@ public class GachaWindowView : UIComponentUnity {
 
     
     private void ClickButton(GameObject btn){
-        int index = buttonDic[btn];
-        if (pickedBtnIdList.Contains(index)){
+        int index = gridDict[btn];
+        if (pickedGridIdList.Contains(index)){
             return;
         }
         LogHelper.Log("ClickButton() {0}", index);
@@ -129,53 +133,53 @@ public class GachaWindowView : UIComponentUnity {
     private void Reset(){
         displayingResult = false;
         tryCount = 0;
-        pickedBtnIdList.Clear();
+        pickedGridIdList.Clear();
 
-        foreach (var item in buttonDic) {
-            ResetOneBtn(item.Key);
-        }
+//        foreach (var item in gridDict) {
+//            ResetOneBtn(item.Key);
+//        }
     }
 
     private void ShowUnitByUserUnitID(GameObject btn, uint uniqueId){
 //        LogHelper.Log("showUnitByUserUnit(), uniqueId {0}", uniqueId);
         TUserUnit userUnit = DataCenter.Instance.MyUnitList.GetMyUnit(uniqueId);
         ShowUnitById(btn, userUnit.UnitInfo.ID, userUnit);
-        DealAfterShowUnit(buttonDic[btn]);
+        DealAfterShowUnit(gridDict[btn]);
     }
 
     private void ShowUnitByBlankId(GameObject btn, uint unitId){
 //        LogHelper.Log("showUnitByUnitId(), unitId {0}", unitId);
         ShowUnitById(btn, unitId, null);
-        DealAfterShowUnit(buttonDic[btn]);
+        DealAfterShowUnit(gridDict[btn]);
     }
 
     private void ShowUnitById(GameObject btn, uint unitId, TUserUnit userUnit){
         LogHelper.Log("ShowUnitById(), unitId {0}, userUnit not null {1} btn not null {2}", unitId, userUnit != null, btn != null);
         // 
-        UITexture texture = btn.transform.FindChild("Texture").GetComponent<UITexture>();
+        UILabel label = btn.transform.FindChild("Label").GetComponent<UILabel>();
+        label.text = string.Empty;
         UISprite background = btn.transform.FindChild("Background").GetComponent<UISprite>();
         background.spriteName = string.Empty;
 
-        UILabel label = btn.transform.FindChild("Label").GetComponent<UILabel>();
-        label.text = string.Empty;
 
-        texture.mainTexture = DataCenter.Instance.GetUnitInfo(unitId).GetAsset(UnitAssetType.Avatar);
+        UITexture texture = btn.transform.FindChild("Cell/Texture").GetComponent<UITexture>();
+        TUnitInfo currentUnitInfo;
+        int level;
 
         if (userUnit != null){
+            currentUnitInfo = userUnit.UnitInfo;
+            level = userUnit.Level;
             SetAddInfo(btn, userUnit);
         }
-        SyncGachaInfos();
-    }
+        else {
+            currentUnitInfo = DataCenter.Instance.GetUnitInfo(unitId);
+            level = 1;
+        }
+        texture.mainTexture = currentUnitInfo.GetAsset(UnitAssetType.Avatar);
+        UILabel rightBottom = btn.transform.FindChild("Cell/Label_Right_Bottom").GetComponent<UILabel>();
+        rightBottom.text = TextCenter.Instace.GetCurrentText("Lv", level);
 
-    private void ResetOneBtn(GameObject btn){
-        UITexture texture = btn.transform.FindChild("Texture").GetComponent<UITexture>();
-        UISprite background = btn.transform.FindChild("Background").GetComponent<UISprite>();
-        background.spriteName = "playerInfoMsg";
-        
-        UILabel label = btn.transform.FindChild("Label").GetComponent<UILabel>();
-        label.text = TextCenter.Instace.GetCurrentText("Open");
-        
-        texture.mainTexture = null;
+        SyncGachaInfos();
     }
 
     private void SetAddInfo(GameObject btn, TUserUnit userUnit){
@@ -186,7 +190,7 @@ public class GachaWindowView : UIComponentUnity {
     private void DealAfterShowUnit(int index){
         LogHelper.Log("DealAfterShowUnit(), index {0}", index);
         if (tryCount < DataCenter.maxGachaPerTime){
-            pickedBtnIdList.Add(index);
+            pickedGridIdList.Add(index);
             tryCount += 1;
         }
         LogHelper.Log("DealAfterShowUnit(), tryCount {0}", tryCount);

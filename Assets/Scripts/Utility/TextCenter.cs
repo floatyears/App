@@ -147,6 +147,7 @@ public partial class TextCenter {
         textDict.Add("EventScratch", "Event Scratch");
 
         textDict.Add("GachaChances", "chances {0}/{1}");
+        textDict.Add("Lv", "Lv {0}");
 
         ///
 	    textDict.Add ("StartQuestFail", "Start quest request failed");
