@@ -10,11 +10,11 @@ public class FriendHelperController : ConcreteComponent{
 	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 	
-	public FriendHelperController(string uiName):base(uiName) {}
-
 	private bool isEvolve = false;
-	private TEvolveStart evolveInfo;
+	private TEvolveStart evolveStart = null;
 
+	public FriendHelperController(string uiName):base(uiName) {}
+	
 	public override void CreatUI () { base.CreatUI (); }
 
 	public override void ShowUI () {
@@ -55,28 +55,57 @@ public class FriendHelperController : ConcreteComponent{
 //		battleReadyInfo.Add("Helper", selectedHelper);
 		//TODO Change to Battle here
 
-
 		if (isEvolve) {
-			evolveInfo.EvolveStart.OnRequest(null, RspEvolveStart);
+			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} 
 		else {
-			StartQuest sq = new StartQuest ();
-			
-			StartQuestParam sqp = new StartQuestParam ();
-			
-			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
-			sqp.helperUserUnit = selectedHelper;
-			sqp.questId = questID;
-			sqp.stageId = stageID;
-			sqp.startNew = 1;
-			sq.OnRequest (sqp, RspStartQuest);	
-		}
+		StartQuest sq = new StartQuest ();
+
+		StartQuestParam sqp = new StartQuestParam ();
+
+		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+		sqp.helperUserUnit = selectedHelper;
+		sqp.questId = questID;
+		sqp.stageId = stageID;
+		sqp.startNew = 1;
+		sq.OnRequest (sqp, RspStartQuest);
+	}
 
 
 	}
 
-	void RspEvolveStart(object data) {
+	void RspEvolveStartQuest (object data) {
+		if (data == null){
+			Debug.Log("OnRspEvolveStart(), response null");
+			return;
+		}
+		bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
+			
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			LogHelper.LogError("RspEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			return;
+		}
+		// TODO do evolve start over;
+		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
+		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 
+			//        if (questDungeonData..Count > 0){
+//			List<uint> dropIds = new List<uint>();
+//			List<uint> hitGrids = new List<uint>();
+//			foreach (var item in questDungeonData.floors[0].gridInfo) {
+//				hitGrids.Add((uint)item.position);
+//				LogHelper.Log("TTTTTTTTT test position {0}", item.position);
+//				if (item.dropId > 0){
+//					dropIds.Add(item.dropId);
+//					LogHelper.Log("TTTTTTTTT test drop dropId {0}", item.dropId);
+//					break;
+//				}
+//			}
+//			
+//			LogHelper.Log("OnRspEvolveStart() finished, staminaNow {0}, staminaRecover {1}," +
+//			              "questDungeonData.boss {2}", staminaNow, staminaRecover, questDungeonData.boss);
+//			TestEvovleDone(dropIds, hitGrids);
 	}
 
 	void RspStartQuest(object data) {
@@ -161,13 +190,14 @@ public class FriendHelperController : ConcreteComponent{
 	void AddCommandListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
-		MsgCenter.Instance.AddListener (CommandEnum.SeletEvolveInfo, SeletEvolveInfo);
+		MsgCenter.Instance.AddListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
+
 	}
 
 	void RemoveCommandListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
-		MsgCenter.Instance.RemoveListener (CommandEnum.SeletEvolveInfo, SeletEvolveInfo);
+		MsgCenter.Instance.RemoveListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 	}
 
 	void ChooseHelper(object msg){
@@ -177,17 +207,17 @@ public class FriendHelperController : ConcreteComponent{
 			MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
 		}
 	}
-
-	void SeletEvolveInfo (object data) {
-		evolveInfo = data as TEvolveStart;
+	
+	void EvolveSelectQuest(object data) {
+		evolveStart = data as TEvolveStart;
 		isEvolve = true;
 	}
 	
 	void RecordSelectedQuest(object msg){
-		isEvolve = false;
 		Dictionary<string,uint> idArgs = msg as Dictionary<string,uint>;
 		questID = idArgs["QuestID"];
 		stageID = idArgs["StageID"];
+		isEvolve = false;
 	}
 
 	void ClearBattleReadyData(){

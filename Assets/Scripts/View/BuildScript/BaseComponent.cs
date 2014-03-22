@@ -132,19 +132,13 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback
 		ViewManager.Instance.RemoveComponent(uiConfig.uiName);
 	}
 
-	protected void CreatViewComponent()
-	{
-
-		if (viewComponent == null)
-		{
-
+	protected void CreatViewComponent() {
+		if (viewComponent == null) {
 			Object o = ResourceManager.Instance.LoadLocalAsset(uiConfig.resourcePath) as Object;
-			
 			if (o == null)
 				return;
 			
 			GameObject go = GameObject.Instantiate(o) as GameObject;
-
 			viewComponent = go.GetComponent<UIComponentUnity>();
 			if (viewComponent == null)
 				return;
@@ -152,9 +146,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback
 			viewComponent.Init(uiConfig, this);
 		}
 	}
-
-
-
+	
 	protected IUIComponent component;
 	
 	/// <summary>
