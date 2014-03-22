@@ -203,8 +203,8 @@ public enum CommandEnum
 	GetSelectedQuest				= 4054,
     RspStoneGachaOver               = 4055,
     EnterGachaWindow                  = 4056,
-//    EnterRareGachaWindow            = 4057,
-//    EnterEventGachaWindow            = 4058,
+    SyncChips                       = 4057,
+    SyncCoins                       = 4058,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

@@ -137,6 +137,7 @@ public class TextCenter {
         textDict.Add("ConfirmMaxEventGacha", "Gacha {0} times");
 
         textDict.Add("EventGachaFailed", "Event Gacha Failed");
+        textDict.Add("EventGachaNotOpen", "Our next event gacha will coming soon, please wait it!");
         textDict.Add("EventGachaStoneNotEnough", "1 event gacha need {0} stones\nYour stones not enough.");
 
         textDict.Add("FriendScratch", "Friend Scratch");

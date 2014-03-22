@@ -220,6 +220,9 @@ public class PlayerInfoBar : UIComponentUnity
 
 		// leiliang---------------------------------------------------------------
 		MsgCenter.Instance.AddListener(CommandEnum.ReqRenameNick, ChangeName);
+
+        MsgCenter.Instance.AddListener(CommandEnum.SyncChips, SyncChips);
+
         MsgCenter.Instance.AddListener(CommandEnum.RspFriendExpansion, SyncChips);
         MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncChips);
         MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncStamina);
@@ -233,6 +236,9 @@ public class PlayerInfoBar : UIComponentUnity
 
 		// leiliang---------------------------------------------------------------
 		MsgCenter.Instance.RemoveListener(CommandEnum.ReqRenameNick, ChangeName);
+
+        MsgCenter.Instance.RemoveListener(CommandEnum.SyncChips, SyncChips);
+
         MsgCenter.Instance.RemoveListener(CommandEnum.RspFriendExpansion, SyncChips);
         MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncChips);
         MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncStamina);

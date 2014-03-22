@@ -38,9 +38,7 @@ public class ScratchLogic : ConcreteComponent {
     }
 
     public override void ShowUI () {
-//        LogHelper.Log("ScratchDecoratorUnity ShowUI Decddddddd1");
 		base.ShowUI ();
-//        LogHelper.Log("ScratchDecoratorUnity ShowUI Decddddddd2");
 	}
 	
 	public override void HideUI () {
@@ -131,17 +129,10 @@ public class ScratchLogic : ConcreteComponent {
 
         LogHelper.Log("MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow");
         MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow, GetGachaWindowInfo(gachaType, gachaCount, rsp.unitUniqueId, blankList));
+        MsgCenter.Instance.Invoke(CommandEnum.SyncChips, null);
     }
     
-    void EnterGachaWindow(GachaType gachaType){
-
-    }
-
-    void UpdateViewAfterGacha(){
-
-    }
-
-    MsgWindowParams GetFriendGachaFailedMsgWindowParams(GachaFailedType failedType){
+    MsgWindowParams GetGachaFailedMsgWindowParams(GachaFailedType failedType){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
         switch (failedType) {
         case GachaFailedType.FriendGachaPointNotEnough:
@@ -161,6 +152,10 @@ public class ScratchLogic : ConcreteComponent {
             msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RareGachaFailed");
             msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UnitCountReachedMax",
                 DataCenter.Instance.MyUnitList.Count, DataCenter.Instance.UserInfo.UnitMax);
+            break;
+        case GachaFailedType.EventGachaNotOpen:
+            msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("EventGachaFailed");
+            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("EventGachaNotOpen");
             break;
         case GachaFailedType.EventGachaStoneNotEnough:
             msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("EventGachaFailed");
@@ -203,6 +198,51 @@ public class ScratchLogic : ConcreteComponent {
         return msgWindowParam;
     }
 
+    MsgWindowParams GetRareGachaMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RareGacha");
+        string content1 = TextCenter.Instace.GetCurrentText("RareGachaDescription");
+        
+        int maxGachaTimes = Mathf.Min(DataCenter.maxGachaPerTime, DataCenter.Instance.GetAvailableRareGachaTimes());
+        LogHelper.Log("GetRareGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
+        string content2 = TextCenter.Instace.GetCurrentText("RareGachaStatus", DataCenter.rareGachaStone, 
+                                                            maxGachaTimes, maxGachaTimes * DataCenter.rareGachaStone,
+                                                            DataCenter.Instance.AccountInfo.Stone);
+        msgWindowParam.contentTexts = new string[2]{content1, content2}; 
+        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParams[0].callback = CallbackRareGacha;
+        msgWindowParam.btnParams[0].args = 1;
+        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("ConfirmOneRareGacha");
+        msgWindowParam.btnParams[1].callback = CallbackRareGacha;
+        msgWindowParam.btnParams[1].args = maxGachaTimes;
+        msgWindowParam.btnParams[1].text = TextCenter.Instace.GetCurrentText("ConfirmMaxRareGacha", msgWindowParam.btnParams[1].args);
+        
+        return msgWindowParam;
+    }
+
+    MsgWindowParams GetEventGachaMsgWindowParams(){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("EventGacha");
+        string content1 = TextCenter.Instace.GetCurrentText("EventGachaDescription");
+        
+        int maxGachaTimes = Mathf.Min(DataCenter.maxGachaPerTime, DataCenter.Instance.GetAvailableEventGachaTimes());
+        LogHelper.Log("GetEventGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
+        string content2 = TextCenter.Instace.GetCurrentText("EventGachaStatus", DataCenter.eventGachaStone, 
+                                                            maxGachaTimes, maxGachaTimes * DataCenter.eventGachaStone,
+                                                            DataCenter.Instance.AccountInfo.Stone);
+        msgWindowParam.contentTexts = new string[2]{content1, content2}; 
+        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+        msgWindowParam.btnParams[0].callback = CallbackEventGacha;
+        msgWindowParam.btnParams[0].args = 1;
+        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("ConfirmOneEventGacha");
+        msgWindowParam.btnParams[1].callback = CallbackEventGacha;
+        msgWindowParam.btnParams[1].args = maxGachaTimes;
+        msgWindowParam.btnParams[1].text = TextCenter.Instace.GetCurrentText("ConfirmMaxEventGacha", msgWindowParam.btnParams[1].args);
+        
+        return msgWindowParam;
+    }
     private void CallbackFriendGacha(object args){
         LogHelper.Log("CallbackFriendGacha() start");
         gachaType = GachaType.FriendGacha;
@@ -229,12 +269,12 @@ public class ScratchLogic : ConcreteComponent {
         if (DataCenter.Instance.GetAvailableFriendGachaTimes() < 1) {
             LogHelper.Log("OnFriendGacha() friend point not enough");
             MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
-                                      GetFriendGachaFailedMsgWindowParams(GachaFailedType.FriendGachaPointNotEnough));
+                                      GetGachaFailedMsgWindowParams(GachaFailedType.FriendGachaPointNotEnough));
             return;
         }
         else if (DataCenter.Instance.MyUnitList.Count > DataCenter.Instance.UserInfo.UnitMax){
             MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
-                                      GetFriendGachaFailedMsgWindowParams(GachaFailedType.FriendGachaUnitCountReachedMax));
+                                      GetGachaFailedMsgWindowParams(GachaFailedType.FriendGachaUnitCountReachedMax));
             return;
         }
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaMsgWindowParams());
@@ -242,9 +282,40 @@ public class ScratchLogic : ConcreteComponent {
 
     private void OpenRareGachaWindow(object args){
         LogHelper.Log("OnRareGacha() start");
+        if (DataCenter.Instance.GetAvailableRareGachaTimes() < 1) {
+            LogHelper.Log("OpenRareGachaWindow() stone not enough");
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+                                      GetGachaFailedMsgWindowParams(GachaFailedType.RareGachaStoneNotEnough));
+            return;
+        }
+        else if (DataCenter.Instance.MyUnitList.Count > DataCenter.Instance.UserInfo.UnitMax){
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+                                      GetGachaFailedMsgWindowParams(GachaFailedType.RareGachaUnitCountReachedMax));
+            return;
+        }
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRareGachaMsgWindowParams());
     }
 
     private void OpenEventGachaWindow(object args){
         LogHelper.Log("OnEventGacha() start");
+        if (!DataCenter.Instance.InEventGacha) {
+            LogHelper.Log("OpenEventGachaWindow()  not in EventGacha");
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+                                      GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaNotOpen));
+            return;
+        }
+        else if (DataCenter.Instance.GetAvailableEventGachaTimes() < 1) {
+            LogHelper.Log("OpenEventGachaWindow() stone not enough");
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+                                      GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaStoneNotEnough));
+            return;
+        }
+        else if (DataCenter.Instance.MyUnitList.Count > DataCenter.Instance.UserInfo.UnitMax){
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+                                      GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaUnitCountReachedMax));
+            return;
+        }
+        // TODO eventGacha
+        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetEventGachaMsgWindowParams());
     }
 }
