@@ -337,8 +337,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitBodyTex.mainTexture = null;
 		levelUpData = rlu;
 
-		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-		gotExp = levelUpData.blendExp;
+//		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+//		gotExp = levelUpData.blendExp;
 		unitInfoTabs.SetActive (false);
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}
@@ -361,12 +361,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			ShowLevelInfo(newBlendUnit);
 			curLevel = oldBlendUnit.Level;
 			gotExp = levelUpData.blendExp;
-
-			Debug.LogError ("gotextp : " + gotExp);
-			Debug.LogError("level : " + newBlendUnit.Level);
-			Debug.LogError("CurExp : " + newBlendUnit.CurExp);
-
 			curExp = oldBlendUnit.CurExp;
+
+			Debug.LogError("CreatEffect :: gotExp : " + gotExp);
+			Debug.LogError("CreatEffect :: level : " + newBlendUnit.Level);
+			Debug.LogError("CreatEffect :: CurExp : " + curExp);
+
 			Calculate();
 		}
 	}
@@ -407,9 +407,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			return;
 		}
 
-		if ( oldBlendUnit!= null)
-			Debug.LogError("Calculate() :: oldBlendUnit.UnitInfo:"+oldBlendUnit.UnitInfo);
-
 		currMaxExp = DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
 		expRiseStep = (int)(currMaxExp * 0.01f);
 	}
@@ -425,6 +422,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ExpRise () {
 		if(gotExp <= 0)	
 			return;
+//		LogHelper.LogError("<<<<<<<<gotExp:{0} expRiseStep:{1} - curExp:{2}  currMaxExp:{3}",gotExp, expRiseStep, curExp, currMaxExp);
 
 		if(gotExp < expRiseStep){
 			curExp += gotExp;
@@ -436,11 +434,24 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 
 		if(curExp >= currMaxExp) {
+			LogHelper.LogError("-------gotExp:{0} curExp:{1} - currMaxExp:{2} = {3}",gotExp, curExp, currMaxExp, curExp - currMaxExp);
 			gotExp += curExp - currMaxExp;
 			curExp = 0;
-			curLevel++;
+			if ( curLevel < oldBlendUnit.UnitInfo.MaxLevel ){
+				curLevel++;
+			}
+			else { // reach MaxLevel
+				//TODO: show MAX on the progress bar
+				curExp = currMaxExp;
+				gotExp = 0;
+			}
+
+			LogHelper.LogError("=======gotExp:{0} curExp:{1} curLevel:{2} ",gotExp, curExp, curLevel);
+
 			Calculate();
 		}
+
+//		LogHelper.LogError(">>>>>>>>>currMaxExp:{0} curExp:{1} curLevel:{2} ",currMaxExp, curExp, curLevel);
 
 		int needExp = currMaxExp - curExp;
 		needExpLabel.text = needExp.ToString();
