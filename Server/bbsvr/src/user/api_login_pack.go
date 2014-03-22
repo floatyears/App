@@ -121,7 +121,7 @@ func (t LoginPack) ProcessLogic(reqMsg *bbproto.ReqLoginPack, rspMsg *bbproto.Rs
 	// get FriendInfo
 	if isGetFriend || isGetHelper {
 
-		friendsInfo, e := friend.GetOnlyFriends(db, uid, rank)
+		friendsInfo, e := friend.GetSupportFriends(db, uid, rank)
 		log.Printf("[TRACE] GetFriendInfo ret err:%v. friends num=%v  ", e.Error(), len(friendsInfo))
 		if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
 			return Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))

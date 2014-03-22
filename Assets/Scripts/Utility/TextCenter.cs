@@ -49,10 +49,10 @@ public class TextCenter {
         textDict = new Dictionary<string, string>();
 
         //
-        textDict.Add("error", "error");
-        textDict.Add("error1", "error {0}");
+
         textDict.Add("OK", "OK");
         textDict.Add("Cancel", "Cancel");
+        textDict.Add("Back", "Back");
 
         textDict.Add("SearchError", "Search Error");
         textDict.Add("UserNotExist", "The Friend {0} you search not exist");
@@ -78,7 +78,7 @@ public class TextCenter {
         textDict.Add("ConfirmStaminaRecover", "Are you sure to use 1 coin to make your stamina full?");
         textDict.Add("DoStaminaRecover", "Recover");
 
-        textDict.Add("UnitExpansion", "Units count limit expand");
+        textDict.Add("UnitExpand", "Units count limit expand");
         textDict.Add("ConfirmUnitExpansion", "Are you sure to use 1 coin to expand your unit limit?");
         textDict.Add("UnitExpansionInfo", "Now Units {0}/{1}");
         textDict.Add("DoUnitExpansion", "Expand");
@@ -95,11 +95,36 @@ public class TextCenter {
         textDict.Add("UnitCountLimitReachedMax", "Now your unit limit has reached max.");
         textDict.Add("UnitExpandStonesNotEnough", "Now your stone not enough to expand unit limit.");
 
-		//================== leiliang start
+        textDict.Add("FriendGacha", "Start Friend Point Gacha");
+        textDict.Add("FriendGachaDescription", "Use friend point to get units");
+        textDict.Add("FriendGachaStatus", "1 gacha: {0} points  {1} gachas: {2} points\nnow friend points {3}");
 
-		textDict.Add ("StartQuestFail", "Start quest request failed");
+        textDict.Add("ConfirmOneFriendGacha", "Gacha 1 time");
+        textDict.Add("ConfirmMaxFriendGacha", "Gacha {0} times");
 
-		//================== leiliang end
+        textDict.Add("FriendGachaFailed", "Friend Gacha Failed");
+        textDict.Add("UnitCountReachedMax", "Now your units owned overed unit limit:{0}/{1}, can't do any gacha.");
+        textDict.Add("GachaFriendPointNotEnough", "1 friend gacha need {0} friend points\nYour friend points not enough.");
+
+        textDict.Add("RareGacha", "Start Rare Gacha");
+        textDict.Add("RareGachaDescription", "Use stones to get units");
+        textDict.Add("RareGachaStatus", "1 gacha: {0} stones {1} gachas: {2} stones\nnow stones {3}");
+
+        textDict.Add("ConfirmOneRareGacha", "Gacha 1 time");
+        textDict.Add("ConfirmMaxRareGacha", "Gacha {0} times");
+
+        textDict.Add("RareGachaFailed", "Rare Gacha Failed");
+        textDict.Add("RareGachaStoneNotEnough", "1 rare gacha need {0} stones\nYour stones not enough.");
+
+        textDict.Add("EventGacha", "Start Event Gacha");
+        textDict.Add("EventGachaDescription", "Use stones to get units");
+        textDict.Add("EventGachaStatus", "1 gacha: {0} stones {1} gachas: {2} stones\nnow stones {3}");
+
+        textDict.Add("EventGachaFailed", "Event Gacha Failed");
+        textDict.Add("EventGachaStoneNotEnough", "1 event gacha need {0} stones\nYour stones not enough.");
+
+
+	textDict.Add ("StartQuestFail", "Start quest request failed");
 
     }
 }

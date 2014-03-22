@@ -31,6 +31,7 @@ message ProtoHeader {
 	optional int32	packetId	= 4;
 	optional int32	code		= 5; // result code
 	optional string error		= 6; // result error description
+	optional int32	extraTag	= 7; // addtional logic for future use
 };
 
 
@@ -87,7 +88,7 @@ message ReqFindFriend {
 
 message RspFindFriend {
 	optional ProtoHeader	header				= 1;
-	optional UserInfo		friend				= 2;
+	optional FriendInfo		friend				= 2;
 }
 
 //-------------------------------------------------
@@ -121,6 +122,18 @@ message ReqAcceptFriend {
 message RspAcceptFriend {
 	optional ProtoHeader	header				= 1;
 	optional FriendList		friends				= 2;	
+}
+//-------------------------------------------------
+//used for LevelUp helper
+message ReqGetPremiumHelper {
+	optional ProtoHeader	header				= 1;
+	optional EUnitRace		race				= 2;
+	optional EUnitType		type				= 3;
+}
+
+message RspGetPremiumHelper {
+	optional ProtoHeader	header				= 1;
+	optional FriendList		friends				= 2;
 }
 //-------------------------------------------------
 
@@ -164,7 +177,7 @@ enum EGridStar {
 }
 
 message QuestStatus {
-	optional EQuestState	state			= 1;
+	optional uint32			questId			= 1;
 	repeated uint32			playTime		= 2;
 }
 
@@ -282,7 +295,26 @@ message QuestDungeonData {
 message Position {
 	optional int32			x = 1;
 	optional int32			y = 2;	
-};
+}
+
+enum QuestBoostType {
+	QB_BOOST_NONE		= 0;
+	QB_BOOST_MONEY		= 1;
+	QB_BOOST_EXP		= 2;
+	QB_BOOST_DROPRATE	= 3;
+	QB_BOOST_DROPPLUS	= 4;
+}
+
+enum QuestType {
+	E_QUEST_STORY		= 0;
+	E_QUEST_EVENT		= 1;
+	E_QUEST_EVOLVE		= 2;
+}
+
+message QuestBoost {
+	optional QuestBoostType	type	= 1; //money , exp , dropRate, drop+
+	optional int32			value	= 2; //2, 3...
+}
 
 message QuestInfo {
 	required uint32			id			= 1; 
@@ -296,34 +328,22 @@ message QuestInfo {
 	optional int32			rewardMoney	= 9;
 	repeated uint32			bossId		= 10; // boss unitid
 	repeated uint32			enemyId		= 11; // enemy unitid
-};
-
-enum QuestBoostType {
-	QB_BOOST_NONE		= 0;
-	QB_BOOST_MONEY		= 1;
-	QB_BOOST_EXP		= 2;
-	QB_BOOST_DROPRATE	= 3;
-	QB_BOOST_DROPPLUS	= 4;
-}
-
-message QuestBoost {
-	optional QuestBoostType	type	= 1; //money , exp , dropRate, drop+
-	optional int32			value	= 2; //2, 3...
 }
 
 message StageInfo {
 	optional int32			version		= 1;
-	optional uint32			id			= 2;	
-	optional EQuestState	state		= 3; // CLEAR or NEW
-	optional int32			type		= 4; // story or event
-	optional string			stageName	= 5; //
-	optional string			description	= 6; //	 
-	optional uint32			startTime	= 7;	
-	optional uint32			endTime		= 8;
-	optional QuestBoost		boost		= 9;
-	optional Position		pos			= 10; // stage position of the city	
-	repeated QuestInfo		quests		= 11; 
-};
+	optional uint32			cityId		= 2;
+	optional uint32			id			= 3;	
+	optional EQuestState	state		= 4; // CLEAR or NEW
+	optional QuestType		type		= 5; // 0=story  1=event 2=evolve
+	optional string			stageName	= 6; //
+	optional string			description	= 7; //	 
+	optional uint32			startTime	= 8;	
+	optional uint32			endTime		= 9;
+	optional QuestBoost		boost		= 10;
+	optional Position		pos			= 11; // stage position of the city	
+	repeated QuestInfo		quests		= 12; 
+}
 
 message CityInfo {
 	optional int32		version			= 1;
@@ -333,13 +353,13 @@ message CityInfo {
 	optional string		description		= 5; //
 	optional Position	pos				= 6; // city position of the worldmap
 	repeated StageInfo	stages			= 7;
-};
+}
 
 message WorldMapInfo {
 	optional int32		version			= 1;
 	optional uint32		id				= 2;	
 	repeated CityInfo	citys			= 3;
-};
+}
 
 //-------------------------------------------------------------
 
@@ -347,9 +367,10 @@ message ReqStartQuest {
 	optional ProtoHeader	header			= 1;
 	optional uint32			stageId			= 2; 
 	optional uint32			questId			= 3; 
-	optional uint32			helperUserId	= 4; 
-	optional UserUnit		helperUnit		= 5; 
-	optional int32			currentParty	= 6; 	
+	optional uint32			helperUserId	= 4;
+	optional UserUnit		helperUnit		= 5;
+	optional int32			currentParty	= 6;
+	optional int32			restartNew		= 7;
 }
 
 message RspStartQuest {
@@ -384,6 +405,15 @@ message RspClearQuest {
 	repeated UserUnit		gotUnit			= 13; //with uniqueId 
 }
 
+message ReqRetireQuest {
+	optional ProtoHeader	header 			= 1;
+	optional uint32			questId			= 2; // 
+}
+
+message RspRetireQuest {
+	optional ProtoHeader 	header 			= 1;
+}
+
 message ReqGetQuestInfo {
 	optional ProtoHeader	header 			= 1;
 }
@@ -392,14 +422,14 @@ message RspGetQuestInfo {
 	optional ProtoHeader 	header 			= 1;
 	optional uint32			questId			= 2; // 
 	optional uint32			currentStatus	= 3; // current quest status
-};
+}
 
 //=========== Trap ====================================================================//
 message TrapInjuredValue {
 	optional int32			trapIndex		= 1;
 	optional int32			trapLevel		= 2;
 	optional float			trapValue		= 3;
-};
+}
 
 message TrapInfo {
 	required uint32				trapID		= 1;
@@ -407,7 +437,7 @@ message TrapInfo {
 	optional int32				valueIndex	= 3;
 	repeated TrapInjuredValue	injuredInfo	= 4;
 	optional int32				effectType	= 5;
-};
+}
 
 
 //=====================================================
@@ -421,16 +451,17 @@ message UnitResource {
 }
 
 message UserUnit {  //unit instance
-	required uint32 uniqueId	= 1;
-	optional uint32 unitId		= 2;
-	optional int32 exp			= 3;
-	optional int32 level		= 4;
-	optional int32 addAttack	= 5;
-	optional int32 addDefence	= 6;
-	optional int32 addHp		= 7;
-	optional int32 limitbreakLv	= 8;
-	optional uint32 getTime		= 9;
-	optional int32	isFavorite	= 10;
+	required uint32 uniqueId			= 1;
+	optional uint32 unitId				= 2;
+	optional int32 exp					= 3;
+	optional int32 level				= 4;
+	optional int32 activeSkillLevel		= 5; 
+	optional int32 addAttack			= 6;
+	optional int32 addDefence			= 7;
+	optional int32 addHp				= 8;
+	optional int32 limitbreakLv			= 9;
+	optional uint32 getTime				= 10;
+	optional int32	isFavorite			= 11;
 }
 
 message UnitInfo { 	
@@ -444,15 +475,14 @@ message UnitInfo {
 	optional int32			leaderSkill		= 8;
 	optional int32			activeSkill		= 9;
 	optional int32			passiveSkill	= 10;
-	optional int32			activeSkillLevel= 11; 
-	optional int32			maxLevel		= 12;
-	optional string			profile			= 13;
-	optional PowerType		powerType		= 14; //include: hpType,atkType,expType
-	optional EvolveInfo		evolveInfo		= 15;
-	optional int32			cost			= 16;
-	optional int32			saleValue		= 17;
-	optional int32			devourValue		= 18;
-	optional EUnitGetWay	getWay			= 19;	
+	optional int32			maxLevel		= 11;
+	optional string			profile			= 12;
+	optional PowerType		powerType		= 13; //include: hpType,atkType,expType
+	optional EvolveInfo		evolveInfo		= 14;
+	optional int32			cost			= 15;
+	optional int32			saleValue		= 16;
+	optional int32			devourValue		= 17;
+	optional EUnitGetWay	getWay			= 18;	
 }
 
 enum EUnitGetWay {
@@ -537,6 +567,7 @@ message ReqLevelUp {
 	optional int32			helperPremium	= 6;
 }
 
+//TODO: only return baseUnit, but no other unitList.
 message RspLevelUp {
 	optional ProtoHeader	header			= 1;
 	repeated UserUnit		unitList		= 2;
@@ -555,6 +586,7 @@ message ReqEvolveStart {
 	optional UserUnit		helperUnit		= 5;
 	optional int32			helperPremium	= 6;
 	optional uint32			evolveQuestId	= 7;
+	optional int32			restartNew		= 8;
 }
 
 message RspEvolveStart {
@@ -624,16 +656,17 @@ message RspSellUnit {
 message UserInfo {
 	optional string		uuid				= 1;
 	optional uint32		userId				= 2;
-	optional string		nickName			= 3;
-	optional int32		rank				= 4;
-	optional int32		exp					= 5;
-	optional int32		staminaNow			= 6;
-	optional int32		staminaMax			= 7;
-	optional uint32		staminaRecover		= 8; //recover time
-	optional int32		friendMax			= 9;
-	optional int32		unitMax				= 10;
-	optional int32		costMax				= 11;	
-	optional UserUnit	unit				= 12; //leader unit	
+	optional string		password			= 3;
+	optional string		nickName			= 4;
+	optional int32		rank				= 5;
+	optional int32		exp					= 6;
+	optional int32		staminaNow			= 7;
+	optional int32		staminaMax			= 8;
+	optional uint32		staminaRecover		= 9; //recover time
+	optional int32		friendMax			= 10;
+	optional int32		unitMax				= 11;
+	optional int32		costMax				= 12;	
+	optional UserUnit	unit				= 13; //leader unit	
 }
 
 message UserInfoDetail {
@@ -643,28 +676,39 @@ message UserInfoDetail {
 	repeated UserUnit		unitList			= 4;
 	optional PartyInfo		party				= 5;
 	optional LoginInfo		login				= 6;
+	optional QuestClearInfo	questClear			= 7;
 }
 
 message AccountInfo {
-	optional int32	review				= 1;
-	optional int32	payTotal			= 2;
-	optional int32	payMonth			= 3;
-	optional int32	money				= 4;
-	optional int32	stonePay			= 5;
-	optional int32	stoneFree			= 6;
-	optional int32	stone				= 7;
-	optional int32	friendPoint			= 8;
-	optional int32	firstSelectNum		= 9;
+	optional int32	review						= 1;
+	optional int32	payTotal					= 2;
+	optional int32	payMonth					= 3;
+	optional int32	money						= 4;
+	optional int32	stonePay					= 5;
+	optional int32	stoneFree					= 6;
+	optional int32	stone						= 7;
+	optional int32	friendPoint					= 8;
+	optional int32	firstSelectNum				= 9;
+}
+
+message StageClearItem {
+	optional uint32	stageId						= 1;
+	optional uint32	questId						= 2;
+}
+
+message QuestClearInfo {
+	optional StageClearItem		storyClear		= 1;
+	repeated StageClearItem		eventClear		= 2;
 }
 
 message PartyItem {
-	optional int32 unitPos				= 1;
-	optional uint32 unitUniqueId		= 2;
+	optional int32 unitPos						= 1;
+	optional uint32 unitUniqueId				= 2;
 }
 
 message UnitParty {
-    optional int32      id				= 1;
-	repeated PartyItem  items			= 2;
+    optional int32      id						= 1;
+	repeated PartyItem  items					= 2;
 }
 
 message PartyInfo {
@@ -677,13 +721,13 @@ message TerminalInfo {
 	optional string	deviceName					= 2; // 
 	optional string	uuid						= 3; 
 	optional string	os		 					= 4; // android / ios
-};
+}
 
 message LoginBonus {
 	optional int32		type					= 1;
 	optional int32		value					= 2;
 	optional int32		bonusType				= 3;	
-};
+}
 
 message LoginInfo {
 	optional int32		loginTotal				= 1;
@@ -693,7 +737,7 @@ message LoginInfo {
 	optional int32		friendPointGet			= 5;
 	optional int32		friendHelpCount			= 6;
 	repeated LoginBonus bonus					= 7;
-};
+}
 
 message PresentInfo {
 	optional uint32		serialId				= 1;
@@ -702,31 +746,31 @@ message PresentInfo {
 	optional uint32		value1					= 4;
 	optional uint32		value2					= 5;
 	optional string		message					= 6;
-};
+}
 
 message SessionInfo {
 	optional string		sessionId				= 1;
 	optional string		uuid					= 2;
 	optional uint32		userId					= 3;
 	optional uint32		questId					= 4;
-};
+}
 //-------------------------------------------------
 
 message ReqGetUserInfo {
 	optional ProtoHeader	header				= 1;
 	optional uint32			userId				= 2;
-};
+}
 
 message RspGetUserInfo {
 	optional ProtoHeader	header				= 1;
 	optional UserInfo		user				= 2;
-};
+}
 
 //-------------------------------------------------
 message ReqAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional TerminalInfo	terminal			= 2;	
-};
+}
 
 message RspAuthUser {
 	optional ProtoHeader	header				= 1;
@@ -740,8 +784,9 @@ message RspAuthUser {
 	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 10;
 	optional EUnitType		evolveType			= 11;
-	optional int32			isNewUser			= 12;
-};
+	optional QuestClearInfo	questClear			= 12;
+	optional int32			isNewUser			= 13;
+}
 
 //-------------------------------------------------
 message ReqLoginPack {
@@ -750,32 +795,32 @@ message ReqLoginPack {
 	optional bool			getFriend			= 3;
 	optional bool			getHelper			= 4;
 	optional bool			getPresent			= 5;
-};
+}
 
 message RspLoginPack {
 	optional ProtoHeader	header				= 1;
 	optional LoginInfo		login				= 2;
 	repeated FriendInfo		friends				= 9;
 	repeated PresentInfo	present				= 4;
-};
+}
 
 //-------------------------------------------------
 
 message ReqRenameNick {
 	optional ProtoHeader	header				= 1;
 	optional string			newNickName			= 2;
-};
+}
 
 message RspRenameNick {
 	optional ProtoHeader	header				= 1;
 	optional string			newNickName			= 2;
-};
+}
 
 //-------------------------------------------------
 
 message ReqRestoreStamina {
 	optional ProtoHeader	header				= 1;
-};
+}
 
 message RspRestoreStamina {
 	optional ProtoHeader	header				= 1;
@@ -783,17 +828,17 @@ message RspRestoreStamina {
 	optional int32			staminaMax			= 3; 	
 	optional uint32			staminaRecover		= 4; // stamina recover time
 	optional int32			stone				= 5;
-};
+}
 
 //-------------------------------------------------
 message ReqChangeParty {
 	optional ProtoHeader	header				= 1;
 	optional PartyInfo		party				= 2;
-};
+}
 
 message RspChangeParty {
 	optional ProtoHeader	header				= 1;
-};
+}
 
 //-------------------------------------------------
 message ReqUnitMaxExpand {

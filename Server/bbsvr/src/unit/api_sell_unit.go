@@ -98,19 +98,19 @@ func (t SellUnit) ProcessLogic(reqMsg *bbproto.ReqSellUnit, rspMsg *bbproto.RspS
 	//2. getUnitInfo of baseUniqueId
 	gotMoney := int32(0)
 	for k, uniqueId := range reqMsg.UnitUniqueId {
-		baseUserUnit, e := unit.GetUserUnitInfo(&userDetail, uniqueId)
+		baseUserUnit, e := unit.GetUserUnitInfo(userDetail, uniqueId)
 		if e.IsError() {
 			log.Error("user:%v GetUserUnitInfo(%v) failed: %v", uid, uniqueId, e.Error())
 			return e
 		}
-		baseUnit, e := unit.GetUnitInfo(db, *baseUserUnit.UnitId)
+		baseUnit, e := unit.GetUnitInfo(*baseUserUnit.UnitId)
 		if e.IsError() {
 			log.Error("user:%v GetUnitInfo(%v) failed: %v", uid, *baseUserUnit.UnitId, e.Error())
 			return e
 		}
 
 		log.T("[%v] baseUserUnit:(%+v).", k, baseUserUnit)
-		log.T("[%v] baseUnit[%v]: (%+v).", k,*baseUnit.Id, baseUnit)
+		log.T("[%v] baseUnit[%v]: (%+v).", k, *baseUnit.Id, baseUnit)
 		log.T("    baseUnit:(%v) sellValue:%v.", *baseUnit.Id, *baseUnit.SaleValue)
 		gotMoney += *baseUnit.SaleValue
 
@@ -119,7 +119,7 @@ func (t SellUnit) ProcessLogic(reqMsg *bbproto.ReqSellUnit, rspMsg *bbproto.RspS
 	log.T("total sell Money: %v.", gotMoney)
 
 	//3. remove selled uniqueIds from user's UnitList
-	e = unit.RemoveMyUnit(userDetail.UnitList, reqMsg.UnitUniqueId)
+	e = unit.RemoveMyUnit(&userDetail.UnitList, reqMsg.UnitUniqueId)
 	if e.IsError() {
 		return e
 	}
@@ -128,7 +128,7 @@ func (t SellUnit) ProcessLogic(reqMsg *bbproto.ReqSellUnit, rspMsg *bbproto.RspS
 	*userDetail.Account.Money += gotMoney
 
 	//5. update userinfo
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 

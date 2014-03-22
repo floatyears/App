@@ -8,7 +8,7 @@ public class PartyUnitsView : UIComponentUnity {
 	GameObject rejectItem;
 
 	bool exchange = false;
-        List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
+    List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	Dictionary<GameObject, TUserUnit> dragItemViewDic = new Dictionary<GameObject, TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
@@ -94,7 +94,7 @@ public class PartyUnitsView : UIComponentUnity {
 			}
 			exchange = true;
 		}
-        }
+	}
 
 	void ShowTween(){
 		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
@@ -115,7 +115,6 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void UpdateUnitItemMask(object args){
-	
 		List<UnitItemViewInfo> dataItemList = args as List<UnitItemViewInfo>;
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];

@@ -55,7 +55,7 @@ message ReqFindFriend {
 
 message RspFindFriend {
 	optional ProtoHeader	header				= 1;
-	optional UserInfo		friend				= 2;
+	optional FriendInfo		friend				= 2;
 }
 
 //-------------------------------------------------
@@ -89,5 +89,17 @@ message ReqAcceptFriend {
 message RspAcceptFriend {
 	optional ProtoHeader	header				= 1;
 	optional FriendList		friends				= 2;	
+}
+//-------------------------------------------------
+//used for LevelUp helper
+message ReqGetPremiumHelper {
+	optional ProtoHeader	header				= 1;
+	optional EUnitRace		race				= 2;
+	optional EUnitType		type				= 3;
+}
+
+message RspGetPremiumHelper {
+	optional ProtoHeader	header				= 1;
+	optional FriendList		friends				= 2;
 }
 //-------------------------------------------------

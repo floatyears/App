@@ -23,13 +23,31 @@ func GetLevelUpMoney(level int32, count int32) int32 {
 	return config.TableDevourCostCoin[level-1]
 }
 
-func getUnitExpValue(expType int32, level int32) (levelExp int32) {
+func GetUnitExpByExpType(expType int32, level int32) (levelExp int32) {
 	//TODO: read from global exp type table
 	if level > int32(len(config.TableUnitExpType)) {
+		log.Error("GetUnitExpValue(%v, %v):: level excceed max Exp Level.", expType, level)
 		return -1
 	}
 
 	return config.TableUnitExpType[level-1]
+}
+
+func GetUnitExpByUnitId(unitId uint32, level int32) (exp int32) {
+	exp = 0;
+	unitInfo, e:= GetUnitInfo(unitId)
+	if unitInfo == nil || e.IsError() {
+		log.Error(" GetUnitInfo(%v) failed: err=%v ", unitId, e.Error())
+		return exp
+	}
+
+	if unitInfo.PowerType!=nil && unitInfo.PowerType.ExpType!=nil {
+		exp = GetUnitExpByExpType(*unitInfo.PowerType.ExpType, level)
+	}else{
+		log.Fatal("Unexcept Error: unitInfo(%v).PowerType is nil.", unitId)
+	}
+
+	return exp
 }
 
 func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, questId uint32) {
@@ -54,7 +72,8 @@ func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, ques
 		return 0, 0
 	}
 
-	stageId += 20
+	CITY_ID := uint32(100) //evolveCityId=100
+	stageId += CITY_ID*10
 
 	baseQuestId := uint32(1)
 	switch unitRare {
@@ -74,7 +93,7 @@ func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, ques
 		return 0, 0
 	}
 
-	questId = stageId*100 + questId
+	questId = stageId*10 + questId
 
 	return stageId, questId
 }
@@ -103,7 +122,7 @@ func GetGachaConfig(db *data.Data, gachaId int32) (gachaConf *bbproto.GachaConfi
 	isExists := len(value) != 0
 
 	if !isExists {
-		log.Error("GetGachaConf: unitId(%v) not exists.", gachaId)
+		log.Error("GetGachaConf: gachaId(%v) not exists.", gachaId)
 		return gachaConf, Error.New(EC.DATA_NOT_EXISTS, fmt.Sprintf("gachaId:%v not exists in db.", gachaId))
 	}
 

@@ -80,8 +80,79 @@ func AddFriend(db *data.Data, uid uint32, fid uint32, friendState bbproto.EFrien
 	return Error.OK()
 }
 
-func AddHelper(db *data.Data, uid uint32, fid uint32, friendState bbproto.EFriendState, updateTime uint32) error {
-	return innerAddFriend(db, consts.X_HELPER_MY+common.Utoa(uid), fid, friendState, updateTime)
+func UpdateHelperUsedRecord(db *data.Data, uid uint32, fid uint32) (e Error.Error) {
+	if db == nil {
+		return Error.New(EC.INVALID_PARAMS, "invalid db pointer")
+	}
+	if err := db.Select(consts.TABLE_FRIEND); err != nil {
+		return Error.New(EC.READ_DB_ERROR, err.Error())
+	}
+
+	value, err := db.HGet(consts.X_HELPER_RECORD+common.Utoa(uid), common.Utoa(fid))
+	if err != nil {
+		log.Error("db.HGet(%v,%v) failed.", uid, fid)
+		return Error.New(EC.READ_DB_ERROR, err)
+	}
+
+	if len(value) > 0 {
+		usedTime := common.Atou(string(value))
+		if common.IsToday( usedTime ) {
+			log.T("UpdateHelperUsedRecord:: [uid:%v fid:%v] already has usedTime(%v) today, skip update it.", uid, fid, usedTime)
+			return Error.OK()
+		}
+	}
+
+	sUsedTime := common.Utoa(common.Now())
+	if err := db.HSet(consts.X_HELPER_RECORD+common.Utoa(uid), common.Utoa(fid), []byte(sUsedTime)); err != nil {
+		log.Error("db.HSet(%v,%v,%v) failed.", uid, fid, sUsedTime)
+		return Error.New(EC.SET_DB_ERROR, err)
+	}
+
+	return Error.OK()
+}
+
+func GetHelperUsedRecord(db *data.Data, uid uint32, fid uint32) (usedTime uint32, e Error.Error) {
+	usedTime = 0
+	if db == nil {
+		return 0, Error.New(EC.INVALID_PARAMS, "invalid db pointer")
+	}
+	if err := db.Select(consts.TABLE_FRIEND); err != nil {
+		return 0, Error.New(EC.READ_DB_ERROR, err.Error())
+	}
+
+	value, err := db.HGet(consts.X_HELPER_RECORD+common.Utoa(uid), common.Utoa(fid))
+	if err != nil {
+		log.Error("db.HGet(%v,%v) failed.", uid, fid)
+		return 0, Error.New(EC.READ_DB_ERROR, err)
+	}
+
+	if len(value) > 0 {
+		usedTime = common.Atou(string(value))
+	}
+
+	return usedTime, Error.OK()
+}
+
+func GetFriendPoint(db *data.Data, uid uint32, fid uint32)  (friendPoint int32, e Error.Error) {
+	friendPoint = 0
+	usedTime, e := GetHelperUsedRecord(db, uid, fid)
+	if e.IsError() {
+		return friendPoint, e
+	} else if usedTime==0 || !common.IsToday(usedTime) {
+		friendData, e := GetOneFriendData(db, uid, fid)
+		if e.IsError() {
+			return friendPoint, e
+		}
+
+		if friendData != nil && friendData.FriendState!=nil && *friendData.FriendState == bbproto.EFriendState_ISFRIEND {
+			friendPoint = consts.N_FRIEND_HELPER_POINT //10 points
+		}else {
+			friendPoint = consts.N_SUPPORT_HELPER_POINT //5 points
+		}
+	}
+	log.T("GetFriendPoint :: uid:%v fid:%v, usedTime:%v => friendPoint:%v",uid, fid, usedTime, friendPoint)
+
+	return friendPoint, e
 }
 
 func innerAddFriend(db *data.Data, sUid string, fid uint32, friendState bbproto.EFriendState, updateTime uint32) error {

@@ -9,6 +9,8 @@ import (
 	"common/log"
 	"data"
 	"model/unit"
+	"model/friend"
+	"fmt"
 
 	"code.google.com/p/goprotobuf/proto"
 )
@@ -58,26 +60,39 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 	}
 
 	//append unit to userinfo.UnitList
-	for _, unitDrop := range userDetail.Quest.DropUnits {
-		uniqueId, e := unit.GetUnitUniqueId(db, *userDetail.User.UserId, len(userDetail.UnitList))
-		if e.IsError() {
-			return 0, 0, 0, gotUnit, e
+	for _, clientDropId := range getUnit {
+
+		for _, unitDrop := range userDetail.Quest.DropUnits {
+			if *unitDrop.DropId != clientDropId {
+				continue
+			}
+
+			uniqueId, e := unit.GetUnitUniqueId(db, *userDetail.User.UserId, len(userDetail.UnitList))
+			if e.IsError() {
+				return 0, 0, 0, gotUnit, e
+			}
+
+			exp := unit.GetUnitExpByUnitId(*unitDrop.UnitId, *unitDrop.Level)
+			if exp == 0 {
+				log.Error("GetUnitExpByUnitId fail:%v", *unitDrop.UnitId)
+				return 0, 0, 0, gotUnit, Error.New(EC.E_UNIT_ID_ERROR, fmt.Sprintf("cannot find unitinfo for:%v", *unitDrop.UnitId))
+			}
+
+			userUnit := &bbproto.UserUnit{}
+			userUnit.UniqueId = proto.Uint32(uniqueId)
+			userUnit.UnitId = unitDrop.UnitId
+			userUnit.Exp = proto.Int32(exp)
+			userUnit.Level = unitDrop.Level
+			userUnit.AddHp = unitDrop.AddHp
+			userUnit.AddAttack = unitDrop.AddAttack
+			userUnit.AddDefence = unitDrop.AddDefence
+			userUnit.GetTime = proto.Uint32(common.Now())
+
+			userDetail.UnitList = append(userDetail.UnitList, userUnit)
+			userDetail.Quest.GetUnit = append(userDetail.Quest.GetUnit, userUnit)
+
+			gotUnit = append(gotUnit, userUnit) //return value
 		}
-
-		userUnit := &bbproto.UserUnit{}
-		userUnit.UniqueId = proto.Uint32(uniqueId)
-		userUnit.UnitId = unitDrop.UnitId
-		userUnit.Exp = proto.Int32(0)
-		userUnit.Level = unitDrop.Level
-		userUnit.AddHp = unitDrop.AddHp
-		userUnit.AddAttack = unitDrop.AddAttack
-		userUnit.AddDefence = unitDrop.AddDefence
-		userUnit.GetTime = proto.Uint32(common.Now())
-
-		userDetail.UnitList = append(userDetail.UnitList, userUnit)
-		userDetail.Quest.GetUnit = append(userDetail.Quest.GetUnit, userUnit)
-
-		gotUnit = append(gotUnit, userUnit) //return value
 	}
 
 	//already fill in getUnit, so empty dropUnit before save to QuestLog
@@ -85,6 +100,11 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 
 	//save userDetail.Quest to QuestLog
 	if e = SaveQuestLog(db, userDetail); e.IsError() {
+		return
+	}
+
+	//update helper used time
+	if e = friend.UpdateHelperUsedRecord(db, *userDetail.User.UserId, *userDetail.Quest.HelperUserId); e.IsError() {
 		return
 	}
 
@@ -161,6 +181,8 @@ func FillUserQuest(userDetail *bbproto.UserInfoDetail, currParty int32, helperUi
 			userDetail.Quest.DropUnits = append(userDetail.Quest.DropUnits, dropUnit)
 		}
 	}
+
+	log.T("userDetail.Quest: %+v", userDetail.Quest)
 
 	return Error.OK()
 }

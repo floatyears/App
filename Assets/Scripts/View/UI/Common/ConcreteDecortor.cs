@@ -159,10 +159,13 @@ public class ScratchDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		ScratchComponent scratch = CreatComponent< ScratchComponent >(UIConfig.scratchWindowName);
+
+//        LogHelper.Log("ScratchDecoratorUnity start Decddddddd");
+        ScratchLogic scratch = CreatComponent< ScratchLogic >(UIConfig.scratchWindowName);
 		scratch.SetComponent(sceneInfoBar);
 
-		lastDecorator = scratch;
+//        LogHelper.Log("ScratchDecoratorUnity end Decddddddd");
+        lastDecorator = scratch;
 		lastDecorator.CreatUI();
 
 	}
@@ -497,7 +500,7 @@ public class SellDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		SellComponent sell = CreatComponent< SellComponent >(UIConfig.sellWindowName);
+		OnSaleUnitsController sell = CreatComponent< OnSaleUnitsController >(UIConfig.sellWindowName);
 		sell.SetComponent(sceneInfoBar);
 
 		lastDecorator = sell;

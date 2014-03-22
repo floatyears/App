@@ -41,10 +41,10 @@ func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.E
 		return Error.New(EC.EU_USER_NOT_EXISTS)
 	}
 
-	for k, partyInfo :=range party.PartyList {
+	for k, partyInfo := range party.PartyList {
 		if partyInfo.Id == nil {
 			partyInfo.Id = proto.Int32(0)
-			for i, item :=range partyInfo.Items {
+			for i, item := range partyInfo.Items {
 				if item.UnitPos == nil {
 					item.UnitPos = proto.Int32(0)
 					log.T("i:%v %v pos==nil convert to 0/", i, item)
@@ -58,7 +58,7 @@ func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.E
 	userDetail.Party = party
 	userDetail.GetUser()
 	//save data
-	e = user.UpdateUserInfo(db, &userDetail)
+	e = user.UpdateUserInfo(db, userDetail)
 
 	log.T("user:%v changeParty success.", uid)
 	return e

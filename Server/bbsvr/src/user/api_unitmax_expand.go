@@ -114,7 +114,7 @@ func (t UnitMaxExpand) ProcessLogic(reqMsg *bbproto.ReqUnitMaxExpand, rspMsg *bb
 	log.T("before update: stone=%v UnitMax=%v", *userDetail.Account.Stone, *userDetail.User.UnitMax)
 
 	//4. update userinfo
-	if e = user.UpdateUserInfo(db, &userDetail); e.IsError() {
+	if e = user.UpdateUserInfo(db, userDetail); e.IsError() {
 		return e
 	}
 

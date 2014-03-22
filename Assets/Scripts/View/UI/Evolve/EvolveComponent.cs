@@ -27,11 +27,34 @@ public class EvolveComponent : ConcreteComponent {
 	}
 
 	public override void Callback (object data) {
-		UnitItemInfo baseItem = data as UnitItemInfo;
-		TUnitInfo ui = baseItem.userUnitItem.UnitInfo;
+		List<ProtobufDataBase> evolveInfoLisst = data as List<ProtobufDataBase>;
+		TUserUnit baseItem = evolveInfoLisst [0] as TUserUnit ;
+		TFriendInfo firendItem = evolveInfoLisst [1] as TFriendInfo;
+		TUserUnit tuu = baseItem;
+		TUnitInfo tui = tuu.UnitInfo;
 		TCityInfo tci = DataCenter.Instance.GetCityInfo (EvolveCityID);
-		uint stageID = GetEvolveStageID (ui.Type, ui.Rare);
-		uint questID = GetEvolveQuestID (ui.Type, ui.Rare);
+		uint stageID = GetEvolveStageID (tui.Type, tui.Rare);
+		uint questID = GetEvolveQuestID (tui.Type, tui.Rare);
+		List<uint> partyID = new List<uint> ();
+		for (int i = 2; i < evolveInfoLisst.Count; i++) {
+			TUserUnit temp = evolveInfoLisst[i] as TUserUnit;
+			partyID.Add(temp.ID);
+		}
+		EvolveStart es = new EvolveStart ();
+		es.BaseUnitId = baseItem.ID;
+		es.EvolveQuestId = questID;
+		es.PartUnitId = partyID;
+		es.HelperPremium = 0;
+		es.HelperUnit = firendItem.UserUnit.Unit;
+		es.HelperUserId = firendItem.UserId;
+
+		TEvolveStart tes = new TEvolveStart ();
+		tes.EvolveStart = es;
+		tes.StageInfo = tci.GetStage (stageID);
+		tes.StageInfo.QuestId = questID;
+
+		UIManager.Instance.ChangeScene (SceneEnum.QuestSelect);
+		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
 	}
 
 	//================================================================================
@@ -66,31 +89,30 @@ public class EvolveComponent : ConcreteComponent {
 		if (unitRare > 6) {
 			return stageID;	
 		}
-
 		switch (unitType) {
-		case bbproto.EUnitType.UWIND :
-			stageID = 1;
-			break;
-		case bbproto.EUnitType.UFIRE : 
-			stageID = 2;
-			break;
-		case bbproto.EUnitType.UWATER :
-			stageID = 3;
-			break;
-		case bbproto.EUnitType.ULIGHT :
-			stageID = 4;
-			break;
-		case bbproto.EUnitType.UDARK :
-			stageID = 5;
-			break;
-		case bbproto.EUnitType.UNONE :
-			stageID = 6;
-			break;
-		default:
-			stageID = 0;
-			break;
+			case bbproto.EUnitType.UWIND:
+				stageID = 1;
+				break;
+			case bbproto.EUnitType.UFIRE:
+				stageID = 2;
+				break;
+			case bbproto.EUnitType.UWATER:
+				stageID = 3;
+				break;
+			case bbproto.EUnitType.ULIGHT:
+				stageID = 4;
+				break;
+			case bbproto.EUnitType.UDARK:
+				stageID = 5;
+				break;
+			case bbproto.EUnitType.UNONE:
+				stageID = 6;
+				break;
+			default:
+				stageID = 0;
+				break;
 		}
-
+		stageID += 1000;
 		return stageID;
 	}
 	 
@@ -101,30 +123,29 @@ public class EvolveComponent : ConcreteComponent {
 		}
 
 		switch (unitRare) {
-		case 1:
-			questID = 1;
-			break;
-		case 2:
-			questID =  1;
-			break;
-		case 3:
-			questID =  2;
-			break;
-		case 4:
-			questID =  3;
-			break;
-		case 5:
-			questID =  4;
-			break;
-		case 6:
-			questID =  5;
-			break;
-		default:
-			return 0;
-			break;
+			case 1:
+				questID = 1;
+				break;
+			case 2:
+				questID =  1;
+				break;
+			case 3:
+				questID =  2;
+				break;
+			case 4:
+				questID =  3;
+				break;
+			case 5:
+				questID =  4;
+				break;
+			case 6:
+				questID =  5;
+				break;
+			default:
+				return 0;
+				break;
 		}
-		questID += stageID * 100 + questID;
+		questID = stageID*10 + questID;
 		return questID;
-
 	}
 }

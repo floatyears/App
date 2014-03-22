@@ -61,16 +61,19 @@ public class UnitItemViewInfo {
     private bool isEnable;
     public bool IsEnable {
         get{ return isEnable;}
+		set{ isEnable = value;}
     }
 
     private bool isParty;
     public bool IsParty {
         get{ return isParty; }
+		set{ isParty = value;}
     }
 
     private bool isCollected;
     public bool IsCollected {
         get{ return isCollected;}
+		set{ isCollected = value;}
     }
         
     private string crossShowTextBefore;
@@ -177,7 +180,7 @@ public class UnitItemViewInfo {
 
     private void InitWithArgs() {
         Dictionary <string, object> initArgs = new Dictionary<string, object>();
-        initArgs.Add("collect", true);
+        initArgs.Add("collect", false);
         initArgs.Add("enable", false);
         if (DataCenter.Instance.PartyInfo == null || dataItem == null) {
             Debug.LogError("InitWithArgs(), GlobalData.PartyInfo == null, return");
@@ -202,7 +205,7 @@ public class UnitItemViewInfo {
 
     private void RefreshMarkState(bool state) {
         this.isCollected = state;
-    }
+	}
 		
     private void RefreshEnableState(bool state) {
         this.isEnable = state;
