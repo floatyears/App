@@ -189,13 +189,13 @@ public class GachaWindowView : UIComponentUnity {
         }
         LogHelper.Log("DealAfterShowUnit(), tryCount {0}, maxGachaPerTime {1}", tryCount, DataCenter.maxGachaPerTime);
 
-        if (tryCount >= DataCenter.maxGachaPerTime){
+        if (tryCount >= DataCenter.maxGachaPerTime || tryCount == gachaInfo.totalChances){
             LogHelper.Log("DealAfterShowUnit(), tryCount {0}", tryCount);
             FinishShowGachaWindow();
         }
-        else if (tryCount == gachaInfo.totalChances){
-            AutoShowOpenBlankUnit();
-        }
+//        else if (tryCount == gachaInfo.totalChances){
+//            AutoShowOpenBlankUnit();
+//        }
         else {
             LogHelper.Log("DealAfterShowUnit() last case, tryCount {0}, maxGachaPerTime {1}", tryCount, DataCenter.maxGachaPerTime);
         }
@@ -238,7 +238,7 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     IEnumerator LastOperation(){
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(1f);
         UIManager.Instance.ChangeScene(SceneEnum.Scratch);
         yield return null;
     }
