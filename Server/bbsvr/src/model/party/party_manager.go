@@ -44,14 +44,17 @@ func ChangeParty(db *data.Data, uid uint32, party *bbproto.PartyInfo) (e Error.E
 	for k, partyInfo := range party.PartyList {
 		if partyInfo.Id == nil {
 			partyInfo.Id = proto.Int32(0)
-			for i, item := range partyInfo.Items {
-				if item.UnitPos == nil {
-					item.UnitPos = proto.Int32(0)
-					log.T("i:%v %v pos==nil convert to 0/", i, item)
-				}
-
-			}
 			log.T("k[%v] partyInfo.Id==nil force to 0.", k)
+		}
+		for i, item := range partyInfo.Items {
+			if item.UnitPos == nil {
+				item.UnitPos = proto.Int32(0)
+				log.T("i:%v %v item.pos==nil convert to 0", i, item)
+			}
+			if item.UnitUniqueId == nil {
+				item.UnitUniqueId = proto.Uint32(0)
+				log.T("i:%v %v item.UniqueId==nil convert to 0", i, item)
+			}
 		}
 	}
 
