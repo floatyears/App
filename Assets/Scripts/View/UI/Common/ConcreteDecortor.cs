@@ -160,15 +160,65 @@ public class ScratchDecorator : DecoratorBase
 		sceneInfoBar.SetComponent(decorator);
 
 
-//        LogHelper.Log("ScratchDecoratorUnity start Decddddddd");
         ScratchLogic scratch = CreatComponent< ScratchLogic >(UIConfig.scratchWindowName);
 		scratch.SetComponent(sceneInfoBar);
 
-//        LogHelper.Log("ScratchDecoratorUnity end Decddddddd");
         lastDecorator = scratch;
 		lastDecorator.CreatUI();
 
 	}
+}
+
+
+public class GachaWindowDecorator : DecoratorBase
+{
+    private SceneInfoComponent sceneInfoBar;
+    public GachaWindowDecorator(SceneEnum sEnum) : base(sEnum)
+    {
+    }
+    
+    public override void ShowScene()
+    {
+        base.ShowScene();
+        sceneInfoBar.SetBackScene(SceneEnum.None);
+    }
+    
+    public override void HideScene()
+    {
+        base.HideScene();
+    }
+    
+    public override void DestoryScene()
+    {
+        base.DestoryScene();
+    }
+    
+    public override void DecoratorScene()
+    {
+        
+        sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+        sceneInfoBar.SetComponent(decorator);
+
+        GachaWindowLogic gachaWin;
+        switch (currentDecoratorScene) {
+        case SceneEnum.FriendScratch:
+            gachaWin = CreatComponent< FriendGachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        case SceneEnum.RareScratch:
+            gachaWin = CreatComponent< FriendGachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        case SceneEnum.EventScratch:
+            gachaWin = CreatComponent< EventGachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        default:
+            gachaWin = CreatComponent< GachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        }
+        gachaWin.SetComponent(sceneInfoBar);
+        lastDecorator = gachaWin;
+        lastDecorator.CreatUI();
+        
+    }
 }
 
 //--------------------------------Shop-----------------------------------------
@@ -413,7 +463,7 @@ public class PartyDecorator : DecoratorBase
 
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.partyPagePanelName);
-		PartyUnitsLogic dragPanel = CreatComponent<PartyUnitsLogic>(UIConfig.partyDragPanelName);
+		UnitListForPartyLogic dragPanel = CreatComponent<UnitListForPartyLogic>(UIConfig.partyDragPanelName);
 	
 		partyInfo.SetComponent(sceneInfoBar);
 		partyPage.SetComponent(partyInfo);
@@ -617,10 +667,10 @@ public class UnitListDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		UnitListComponent list = CreatComponent< UnitListComponent >(UIConfig.unitListWindowName);
-		list.SetComponent(sceneInfoBar);
+		OwnedUnitListLogic unitList = CreatComponent< OwnedUnitListLogic >(UIConfig.unitListWindowName);
+		unitList.SetComponent(sceneInfoBar);
 
-		lastDecorator = list;
+		lastDecorator = unitList;
 		lastDecorator.CreatUI();
 	}
 }

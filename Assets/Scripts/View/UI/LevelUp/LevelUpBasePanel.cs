@@ -176,13 +176,13 @@ public class LevelUpBasePanel : UIComponentUnity {
 	private void ClickBaseItem(GameObject item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		UnitItemInfo uui = baseUnitInfoDic [item];
-		if (uui.isCollect) {
-			return;		
-		}
-//		Debug.LogError ("uui.userUnitItem.ID : " + uui.userUnitItem.ID);
+
 		if (currentState == "Tab_Base") {
 			DisposeBaseClick (uui);
 		} else if (currentState == "Tab_Material") {
+			if (uui.isCollect) {
+				return;		
+			}
 			DisposeMaterialClick(uui);
 		}
 	}
@@ -210,25 +210,28 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	void DisposeBaseClick(UnitItemInfo uui) {
-		bool first = baseSelectItem != null;
-		if (first && !baseSelectItem.Equals(uui)) {
-			return;	
-		}
 		UnitItemInfo temp = selectMaterial.Find (a => a.userUnitItem.ID == uui.userUnitItem.ID);
 		if (temp != default(UnitItemInfo)) {
 			Debug.LogError("temp : " + temp.userUnitItem.ID);
 			return;		
 		}
-
-		if (!uui.isSelect) {
-			uui.isSelect = true;
+		if (baseSelectItem == null) {
+			baseSelectItem = uui;
 			ShowMask (uui.scrollItem, true);
-		} else {
-			uui.isSelect = false;
-			ShowMask(uui.scrollItem, false);
+		} 
+		else if (baseSelectItem.Equals (uui)) {
+			baseSelectItem.stateLabel.text = "Party";
+			ShowMask (uui.scrollItem, false);
+			baseSelectItem = null;
+		} 
+		else {
+			baseSelectItem.stateLabel.text = "Party";
+			ShowMask(baseSelectItem.scrollItem,false);
+			baseSelectItem = uui;
+			ShowMask(baseSelectItem.scrollItem,true);
 		}
 
-		MsgCenter.Instance.Invoke (CommandEnum.PickBaseUnitInfo, uui);
+		MsgCenter.Instance.Invoke (CommandEnum.PickBaseUnitInfo, baseSelectItem);
 	}
 	
 	void ShowMask( GameObject target, bool canMask) {

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class EvolveComponent : ConcreteComponent {
 
@@ -25,17 +26,47 @@ public class EvolveComponent : ConcreteComponent {
 		base.DestoryUI ();
 	}
 
+	public override void Callback (object data) {
+		List<ProtobufDataBase> evolveInfoLisst = data as List<ProtobufDataBase>;
+		TUserUnit baseItem = evolveInfoLisst [0] as TUserUnit ;
+		TFriendInfo firendItem = evolveInfoLisst [1] as TFriendInfo;
+		TUserUnit tuu = baseItem;
+		TUnitInfo tui = tuu.UnitInfo;
+		TCityInfo tci = DataCenter.Instance.GetCityInfo (EvolveCityID);
+		uint stageID = GetEvolveStageID (tui.Type, tui.Rare);
+		uint questID = GetEvolveQuestID (tui.Type, tui.Rare);
+		List<uint> partyID = new List<uint> ();
+		for (int i = 2; i < evolveInfoLisst.Count; i++) {
+			TUserUnit temp = evolveInfoLisst[i] as TUserUnit;
+			partyID.Add(temp.ID);
+		}
+		EvolveStart es = new EvolveStart ();
+		es.BaseUnitId = baseItem.ID;
+		es.EvolveQuestId = questID;
+		es.PartUnitId = partyID;
+		es.HelperPremium = 0;
+		es.HelperUnit = firendItem.UserUnit.Unit;
+		es.HelperUserId = firendItem.UserId;
+
+		TEvolveStart tes = new TEvolveStart ();
+		tes.EvolveStart = es;
+		tes.StageInfo = tci.GetStage (stageID);
+		tes.StageInfo.QuestId = questID;
+
+		UIManager.Instance.ChangeScene (SceneEnum.QuestSelect);
+		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
+	}
+
 	//================================================================================
 	private Dictionary<string, object> TransferData = new Dictionary<string, object> ();
+	private const uint EvolveCityID = 100;
 
 	void selectUnitMaterial(object data) {
 		if (data == null) {
 			return;	
 		}
-
 		TransferData.Clear ();
 		TransferData.Add(EvolveDecoratorUnity.MaterialData, data);
-
 		ExcuteCallback (TransferData);
 	}
 
@@ -49,121 +80,72 @@ public class EvolveComponent : ConcreteComponent {
 		ExcuteCallback (TransferData);
 	}
 
-	public static uint GetEvolveQuestID(bbproto.EUnitType unitType, int  unitRare) {
-		return EvolveComponent.GetEvolveQuestID(unitRare, EvolveComponent.GetEvolveStageID(unitType, unitRare));
+	public static uint GetEvolveQuestID(EUnitType unitType, int  unitRare) {
+		return GetEvolveQuestID(unitRare, GetEvolveStageID(unitType, unitRare));
 	}
 	
-	static uint GetEvolveStageID (bbproto.EUnitType unitType, int  unitRare) {
+	static uint GetEvolveStageID (EUnitType unitType, int  unitRare) {
 		uint stageID = 0;
 		if (unitRare > 6) {
 			return stageID;	
 		}
-
 		switch (unitType) {
-		case bbproto.EUnitType.UWIND :
-			stageID = 1;
-			break;
-		case bbproto.EUnitType.UFIRE : 
-			stageID = 2;
-			break;
-		case bbproto.EUnitType.UWATER :
-			stageID = 3;
-			break;
-		case bbproto.EUnitType.ULIGHT :
-			stageID = 4;
-			break;
-		case bbproto.EUnitType.UDARK :
-			stageID = 5;
-			break;
-		case bbproto.EUnitType.UNONE :
-			stageID = 6;
-			break;
-		default:
-			stageID = 0;
-			break;
+			case bbproto.EUnitType.UWIND:
+				stageID = 1;
+				break;
+			case bbproto.EUnitType.UFIRE:
+				stageID = 2;
+				break;
+			case bbproto.EUnitType.UWATER:
+				stageID = 3;
+				break;
+			case bbproto.EUnitType.ULIGHT:
+				stageID = 4;
+				break;
+			case bbproto.EUnitType.UDARK:
+				stageID = 5;
+				break;
+			case bbproto.EUnitType.UNONE:
+				stageID = 6;
+				break;
+			default:
+				stageID = 0;
+				break;
 		}
-
+		stageID += 1000;
 		return stageID;
 	}
 	 
-	static uint GetEvolveQuestID (int  unitRare,uint stageID) {
+	static uint GetEvolveQuestID (int unitRare,uint stageID) {
 		uint questID = 0;
 		if (unitRare > 6) {
 			return questID;	
 		}
 
 		switch (unitRare) {
-		case 1:
-			questID = 1;
-			break;
-		case 2:
-			questID =  1;
-			break;
-		case 3:
-			questID =  2;
-			break;
-		case 4:
-			questID =  3;
-			break;
-		case 5:
-			questID =  4;
-			break;
-		case 6:
-			questID =  5;
-			break;
-		default:
-			return 0;
-			break;
+			case 1:
+				questID = 1;
+				break;
+			case 2:
+				questID =  1;
+				break;
+			case 3:
+				questID =  2;
+				break;
+			case 4:
+				questID =  3;
+				break;
+			case 5:
+				questID =  4;
+				break;
+			case 6:
+				questID =  5;
+				break;
+			default:
+				return 0;
+				break;
 		}
-		questID += stageID * 100 + questID;
+		questID = stageID*10 + questID;
 		return questID;
-
 	}
-
-//	func GetEvolveQuestId(unitType bbproto.EUnitType, unitRare int32) (stageId, questId uint32) {
-//		if unitRare > consts.N_MAX_RARE {
-//			return 0, 0
-//		}
-//		
-//		switch unitType {
-//		case bbproto.EUnitType_UWIND:
-//			stageId = 1
-//				case bbproto.EUnitType_UFIRE:
-//				stageId = 2
-//					case bbproto.EUnitType_UWATER:
-//					stageId = 3
-//					case bbproto.EUnitType_ULIGHT:
-//					stageId = 4
-//					case bbproto.EUnitType_UDARK:
-//					stageId = 5
-//					case bbproto.EUnitType_UNONE:
-//					stageId = 6
-//					default:
-//					return 0, 0
-//		}
-//		
-//		stageId += 20
-//			
-//			baseQuestId := uint32(1)
-//			switch unitRare {
-//				case 1:
-//				questId = baseQuestId + 0
-//				case 2:
-//				questId = baseQuestId + 1
-//				case 3:
-//				questId = baseQuestId + 2
-//				case 4:
-//				questId = baseQuestId + 3
-//				case 5:
-//				questId = baseQuestId + 4
-//				case 6:
-//				questId = baseQuestId + 5
-//				default:
-//				return 0, 0
-//			}
-//		
-//		questId += stageId*100 + questId
-//			
-//			return stageId, questId
-//	}
 }

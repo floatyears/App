@@ -81,16 +81,26 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	//TODO: let user to select a actor.
 
 	for i := 1; i <= 28; i++ {
-		unitId2, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i-1)
+		uniqueId, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i-1)
 		if e.IsError() {
 			return nil, e
 		}
+
+		uintId :=uint32(i)
+		level:=common.Rand(1, int32(i))
+		exp := unit.GetUnitExpByUnitId(uintId, level)
+		if exp == 0 {
+			log.Error("GetUnitExpByUnitId fail:%v",uintId)
+			continue
+		}
+		log.T("make userunit level:%v exp:%v", level, exp-1)
+
 		userUnit2 := &bbproto.UserUnit{
-			UniqueId:  proto.Uint32(unitId2),
-			UnitId:    proto.Uint32(uint32(i)),
-			Exp:       proto.Int32(1),
-			Level:     proto.Int32(common.Rand(1, int32(i))),
-			GetTime:   &tNow,
+			UniqueId:  proto.Uint32(uniqueId),
+			UnitId:    proto.Uint32(uintId),
+			Exp:       proto.Int32(exp-1),
+			Level:     proto.Int32(level),
+			GetTime:   proto.Uint32(tNow),
 			AddAttack: proto.Int32(common.Randn(int32(i) % 10)),
 			AddHp:     proto.Int32(common.Randn(int32(i) % 10)),
 		}

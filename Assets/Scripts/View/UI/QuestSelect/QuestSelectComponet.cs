@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class QuestSelectComponent : ConcreteComponent{
 	TStageInfo currentStageInfo;
 	int currentQuestIndex;
+
+	private TEvolveStart evolveStageInfo;
+
 	public QuestSelectComponent(string uiName):base(uiName){}
 	
 	public override void CreatUI(){
@@ -14,11 +17,13 @@ public class QuestSelectComponent : ConcreteComponent{
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, SelectedStage);
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
 	}
 	
-	public override void HideUI(){
+	public override void HideUI() {
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, SelectedStage);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveStart, EvolveStartQuest);
 	}
 	
 	public override void DestoryUI(){
@@ -28,6 +33,12 @@ public class QuestSelectComponent : ConcreteComponent{
 	void SelectedStage(object data) {
 		currentStageInfo = data as TStageInfo;
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateQuestList", currentStageInfo);
+		ExcuteCallback(cbdArgs);
+	}
+
+	void EvolveStartQuest (object data) {
+		evolveStageInfo = data as TEvolveStart;
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EvolveQuestList", evolveStageInfo.StageInfo);
 		ExcuteCallback(cbdArgs);
 	}
 
@@ -59,16 +70,21 @@ public class QuestSelectComponent : ConcreteComponent{
 //		Debug.LogError("ShowQuestInfo(), index is " + index);
 	}
 
-
 	void TurnToFriendSelect(object args){
-		//change scene to friendSelect
+		bool b = (bool)args;
+		uint questID = 0;
 		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
-		uint questID = currentStageInfo.QuestInfo[ currentQuestIndex ].ID;
-		uint stageID = currentStageInfo.ID;
-		Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
-		idArgs.Add("QuestID", questID);
-		idArgs.Add("StageID", stageID);
-		MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
+		if (b) {
+			MsgCenter.Instance.Invoke(CommandEnum.SeletEvolveInfo,evolveStageInfo);
 
+		}
+		else {
+			questID = currentStageInfo.QuestInfo[ currentQuestIndex ].ID;
+			uint stageID = currentStageInfo.ID;
+			Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
+			idArgs.Add("QuestID", questID);
+			idArgs.Add("StageID", stageID);
+			MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
+		}
 	}
 }

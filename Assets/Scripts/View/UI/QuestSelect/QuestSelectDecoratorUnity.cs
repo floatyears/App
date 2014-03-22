@@ -28,6 +28,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 
 	GameObject questViewItem;
+	private bool isEvolve = false;
 
 
 	List<UITexture> pickEnemiesList = new List<UITexture>();
@@ -53,16 +54,13 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 	}
 
-
-	
 	public override void HideUI(){
 		base.HideUI();
 		CleanQuestInfo();
 	
 		questDragPanel.DestoryUI();
 	}
-
-
+	
 	void ReceiveStageInfo( object data ){
 		StageInfo receivedStageInfo = data as StageInfo;
 		stageInfo = receivedStageInfo;
@@ -188,6 +186,9 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	}
 
 	void ClickQuestItem(GameObject go ){
+		if (isEvolve) {
+			return;	
+		}
 		int index = questDragPanel.ScrollItem.IndexOf( go );
 //		Debug.LogError("ClickQuestItem(), click item pos : " + index);
 
@@ -222,7 +223,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	private void ClickFriendSelect(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 //		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", null);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", isEvolve);
 		ExcuteCallback(cbdArgs);
 	}
 	
@@ -240,32 +241,81 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			case "ShowInfoPanel" : 
 				CallBackDispatcherHelper.DispatchCallBack(UpdatePanelInfo, cbdArgs);
 				break;
+			case "EvolveQuestList":
+				CallBackDispatcherHelper.DispatchCallBack(EvolveInfoShow, cbdArgs);
+				break;
 			default:
 				break;
 		}
 	}
 
+	void EvolveInfoShow (object args) {
+		TStageInfo tsi = args as TStageInfo;
+		isEvolve = true;
+		Debug.LogError ("EvolveInfoShow : ");
+		if (questDragPanel != null) {
+			questDragPanel.DestoryUI ();
+		} 
+		else {
+			questDragPanel = new DragPanel("QuestDragPanel",questViewItem);
+			questDragPanel.CreatUI();
+			questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
+		}
 
+		Debug.LogError (tsi.QuestInfo.Count);
+
+		questDragPanel.AddItem (tsi.QuestInfo.Count);
+		RefreshQuestInfo (tsi.QuestInfo);
+		Dictionary<string, object> tempDic = new Dictionary<string, object> ();
+		int inedx = tsi.QuestInfo.FindIndex (a => a.ID == tsi.QuestId);
+		tempDic.Add ("position", inedx);
+		tempDic.Add ("data", tsi);
+		UpdatePanelInfo (tempDic);
+		btnSelect.isEnabled = true;
+	}
+	
 	void CreateQuestDragList(object args){
 		TStageInfo tsi = args as TStageInfo;
+		isEvolve = false;
 		questDragPanel = new DragPanel("QuestDragPanel", questViewItem);
 		questDragPanel.CreatUI();
 		questDragPanel.AddItem(tsi.QuestInfo.Count);
-//		Debug.Log("CreateQuestDragList(), count is : " + tsi.QuestInfo.Count);
 		questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 
-		for (int i = 0; i < questDragPanel.ScrollItem.Count; i++){
-			GameObject scrollItem = questDragPanel.ScrollItem[ i ];
-			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
-			string sourcePath = string.Format("Avatar/{0}_1", GetBossID());
-			tex.mainTexture = Resources.Load(sourcePath) as Texture2D;
+		RefreshQuestInfo (tsi.QuestInfo);
 
-			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
-			label.text = "Quest : " + (i+1).ToString();
+//		for (int i = 0; i < questDragPanel.ScrollItem.Count; i++){
+//			GameObject scrollItem = questDragPanel.ScrollItem[ i ];
+//			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
+//			TQuestInfo tqi = tsi.QuestInfo[i];
+//			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(tqi.BossID[0]);
+//			tex.mainTexture = tui.GetAsset(UnitAssetType.Avatar);
+//
+//			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
+//			label.text = "Quest : " + (i+1).ToString();
+//
+//			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
+//		}
 
-			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
+	}
+
+	void RefreshQuestInfo(List<TQuestInfo> questInfo) {
+		if (questDragPanel == null) {
+			return;	
 		}
 
+		for (int i = 0, m = questDragPanel.ScrollItem.Count; i < m; i++) {
+			GameObject scrollItem = questDragPanel.ScrollItem[ i ];
+			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
+			TQuestInfo tqi = questInfo[i];
+			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(11);
+			tex.mainTexture = tui.GetAsset(UnitAssetType.Avatar);
+			
+			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
+			label.text = "Quest : " + (i+1).ToString();
+			
+			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
+		}
 	}
 
 	uint GetBossID(){

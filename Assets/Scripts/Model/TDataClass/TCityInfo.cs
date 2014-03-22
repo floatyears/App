@@ -24,15 +24,11 @@ public class TCityInfo : ProtobufDataBase {
 	}
 
 	public uint ID {
-		get {
-			return instance.id;
-		}
+		get { return instance.id; }
 	}
 
 	public int State {
-		get {
-			return instance.state;
-		}
+		get { return instance.state; }
 	}
 
 	public string CityName {
@@ -69,5 +65,20 @@ public class TCityInfo : ProtobufDataBase {
 		get {
 			return stageInfo;
 		}
+	}
+
+	public TStageInfo GetStage(uint stageID) {
+		if (stageInfo == null) {
+			LogHelper.Log("City : {0} stage list is null ! ", instance.id);
+			return null;
+		}
+
+		TStageInfo tsi = stageInfo.Find (a => a.ID == stageID);
+		if (tsi == default(TStageInfo)) {
+			LogHelper.Log("City : {0} stage list not containt this stage {1} ! ", instance.id, stageID);
+			return null;
+		}
+
+		return tsi;
 	}
 }

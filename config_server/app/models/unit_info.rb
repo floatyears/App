@@ -61,14 +61,14 @@ class UnitInfo
   optional :activeSkill, :int32, 9
   optional :passiveSkill, :int32, 10
   #optional :activeSkillLevel,:int32, 11;
-  optional :maxLevel, :int32, 12
-  optional :profile, :string, 13
-  optional :powerType, PowerType, 14
-  optional :evolveInfo, EvolveInfo, 15
-  optional :cost, :int32, 16
-  optional :saleValue, :int32, 17
-  optional :devourValue, :int32, 18
-  optional :getWay,  EUnitGetWay, 19
+  optional :maxLevel, :int32, 11
+  optional :profile, :string, 12
+  optional :powerType, PowerType, 13
+  optional :evolveInfo, EvolveInfo, 14
+  optional :cost, :int32, 15
+  optional :saleValue, :int32, 16
+  optional :devourValue, :int32, 17
+  optional :getWay,  EUnitGetWay, 18
   
   def self.create_with_params(params)
     power_type = PowerType.new(attackType:  params_to_i(params[:attackType]),hpType: params_to_i(params[:hpType]),expType: params_to_i(params[:expType]))
@@ -107,6 +107,8 @@ class UnitInfo
   end
   
   def self.to_zip
+    FileUtils.rm_rf(Rails.root.join("public/unit/."))
+    redis_to_file
     directory = Rails.root.join("public/unit")
     zipfile_name = Rails.root.join("public/unit/units.zip")
     File.delete(zipfile_name) if File.exist?(zipfile_name)
@@ -124,12 +126,12 @@ class UnitInfo
   
   def self.redis_to_file
     $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact.each do |key|
-      File.open(Rails.root.join("public/unit/#{key}.bytes"), "wb") { | file|  file.write($redis.get key) } 
+      File.open(Rails.root.join("public/unit/#{key.split("_")[2]}.bytes"), "wb") { | file|  file.write($redis.get key) } 
     end
   end
   
   def save_to_file
-    File.open(Rails.root.join("public/unit/X_UNIT_#{self["id"]}.bytes"), "wb") { | file|  file.write(self.encode) } 
+    File.open(Rails.root.join("public/unit/#{self["id"]}.bytes"), "wb") { | file|  file.write(self.encode) } 
   end
   
   def save_to_redis

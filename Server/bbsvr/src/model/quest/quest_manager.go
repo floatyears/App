@@ -10,6 +10,7 @@ import (
 	"data"
 	"model/unit"
 	"model/friend"
+	"fmt"
 
 	"code.google.com/p/goprotobuf/proto"
 )
@@ -71,10 +72,16 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 				return 0, 0, 0, gotUnit, e
 			}
 
+			exp := unit.GetUnitExpByUnitId(*unitDrop.UnitId, *unitDrop.Level)
+			if exp == 0 {
+				log.Error("GetUnitExpByUnitId fail:%v", *unitDrop.UnitId)
+				return 0, 0, 0, gotUnit, Error.New(EC.E_UNIT_ID_ERROR, fmt.Sprintf("cannot find unitinfo for:%v", *unitDrop.UnitId))
+			}
+
 			userUnit := &bbproto.UserUnit{}
 			userUnit.UniqueId = proto.Uint32(uniqueId)
 			userUnit.UnitId = unitDrop.UnitId
-			userUnit.Exp = proto.Int32(0)
+			userUnit.Exp = proto.Int32(exp)
 			userUnit.Level = unitDrop.Level
 			userUnit.AddHp = unitDrop.AddHp
 			userUnit.AddAttack = unitDrop.AddAttack

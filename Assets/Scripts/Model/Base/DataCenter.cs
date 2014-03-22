@@ -67,6 +67,7 @@ public class DataCenter {
     public const int friendGachaFriendPoint = 200;
     public const int rareGachaStone = 5;
     public const int eventGachaStone = 5;
+    public const int maxGachaPerTime = 9;
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
@@ -93,7 +94,8 @@ public class DataCenter {
     public bool InEventGacha {
         get {
             bool ret = false;
-            if (getData(ModelEnum.InEventGacha) != null){
+            if (getData(ModelEnum.InEventGacha) == null){
+                setData(ModelEnum.InEventGacha, false);
                 ret = false;
             }
             else {
@@ -406,7 +408,6 @@ public class DataCenter {
 			return tui;
 		}
 		else {
-			
 			TCityInfo tui = DGTools.LoadCityInfo(cityID);
 			if(tui == null) {
 				Debug.LogError("city id : " + cityID + " is invalid");
@@ -443,11 +444,13 @@ public class DataCenter {
     }
     
     public int GetAvailableEventGachaTimes(){
-        if (InEventGacha)
+        if (!InEventGacha)
             return 0;
         if (GetEventGachaNeedStones() == 0)
             return 0;
-        return AccountInfo.Stone / GetEventGachaNeedStones();
+        LogHelper.Log("GetAvailableEventGachaTimes(), InEventGacha, AccountInfo.Stone / GetEventGachaNeedStones()");
+        return 0;
+//        return AccountInfo.Stone / GetEventGachaNeedStones();
     }
 
     

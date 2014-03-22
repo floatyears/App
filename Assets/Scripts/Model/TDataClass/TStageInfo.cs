@@ -7,18 +7,12 @@ public class TStageInfo : ProtobufDataBase {
 	private List<TQuestInfo> questInfo;
 	private string stageId;
 
-	public string StageId
-	{
-		get
-		{
-			return stageId;
-		}
-
+	public string StageId {
+		get { return stageId; }
 	}
 
 	public TStageInfo (StageInfo si) : base (si) {
 		instance = si;
-
 		InitQuestInfo (si);
 	}
 
@@ -87,4 +81,9 @@ public class TStageInfo : ProtobufDataBase {
 		stageId = string.Format("{0}_{1}", cityId, ID);
 	}
 
+	private uint questID;
+	public uint QuestId {
+		get { return questID; }
+		set { questID = value; }
+	}
 }
