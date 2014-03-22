@@ -16,8 +16,7 @@ public class QuestSelectComponent : ConcreteComponent{
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, SelectedStage);
 	}
 	
-	public override void HideUI()
-	{
+	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, SelectedStage);
 	}
