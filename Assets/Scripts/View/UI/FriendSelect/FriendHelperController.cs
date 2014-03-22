@@ -11,7 +11,10 @@ public class FriendHelperController : ConcreteComponent{
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 	
 	public FriendHelperController(string uiName):base(uiName) {}
-	
+
+	private bool isEvolve = false;
+	private TEvolveStart evolveInfo;
+
 	public override void CreatUI () { base.CreatUI (); }
 
 	public override void ShowUI () {
@@ -52,16 +55,28 @@ public class FriendHelperController : ConcreteComponent{
 //		battleReadyInfo.Add("Helper", selectedHelper);
 		//TODO Change to Battle here
 
-		StartQuest sq = new StartQuest ();
 
-		StartQuestParam sqp = new StartQuestParam ();
+		if (isEvolve) {
+			evolveInfo.EvolveStart.OnRequest(null, RspEvolveStart);
+		} 
+		else {
+			StartQuest sq = new StartQuest ();
+			
+			StartQuestParam sqp = new StartQuestParam ();
+			
+			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+			sqp.helperUserUnit = selectedHelper;
+			sqp.questId = questID;
+			sqp.stageId = stageID;
+			sqp.startNew = 1;
+			sq.OnRequest (sqp, RspStartQuest);	
+		}
 
-		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
-		sqp.helperUserUnit = selectedHelper;
-		sqp.questId = questID;
-		sqp.stageId = stageID;
-		sqp.startNew = 1;
-		sq.OnRequest (sqp, RspStartQuest);
+
+	}
+
+	void RspEvolveStart(object data) {
+
 	}
 
 	void RspStartQuest(object data) {
@@ -146,11 +161,13 @@ public class FriendHelperController : ConcreteComponent{
 	void AddCommandListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
+		MsgCenter.Instance.AddListener (CommandEnum.SeletEvolveInfo, SeletEvolveInfo);
 	}
 
 	void RemoveCommandListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
+		MsgCenter.Instance.RemoveListener (CommandEnum.SeletEvolveInfo, SeletEvolveInfo);
 	}
 
 	void ChooseHelper(object msg){
@@ -160,8 +177,14 @@ public class FriendHelperController : ConcreteComponent{
 			MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
 		}
 	}
+
+	void SeletEvolveInfo (object data) {
+		evolveInfo = data as TEvolveStart;
+		isEvolve = true;
+	}
 	
 	void RecordSelectedQuest(object msg){
+		isEvolve = false;
 		Dictionary<string,uint> idArgs = msg as Dictionary<string,uint>;
 		questID = idArgs["QuestID"];
 		stageID = idArgs["StageID"];

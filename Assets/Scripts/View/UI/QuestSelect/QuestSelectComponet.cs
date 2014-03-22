@@ -72,27 +72,19 @@ public class QuestSelectComponent : ConcreteComponent{
 
 	void TurnToFriendSelect(object args){
 		bool b = (bool)args;
-		TStageInfo tsi = null;
 		uint questID = 0;
-
+		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
 		if (b) {
-			tsi = evolveStageInfo.StageInfo;
-			questID = tsi.QuestId;
+			MsgCenter.Instance.Invoke(CommandEnum.SeletEvolveInfo,evolveStageInfo);
+
 		}
 		else {
-			tsi = currentStageInfo;
-			questID = tsi.QuestInfo[ currentQuestIndex ].ID;
+			questID = currentStageInfo.QuestInfo[ currentQuestIndex ].ID;
+			uint stageID = currentStageInfo.ID;
+			Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
+			idArgs.Add("QuestID", questID);
+			idArgs.Add("StageID", stageID);
+			MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
 		}
-
-	void TurnToFriendSelect(object args){
-		//change scene to friendSelect
-		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
-		uint questID = currentStageInfo.QuestInfo[ currentQuestIndex ].ID;
-		uint stageID = currentStageInfo.ID;
-		Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
-		idArgs.Add("QuestID", questID);
-		idArgs.Add("StageID", stageID);
-		MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
-
 	}
 }

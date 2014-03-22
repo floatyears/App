@@ -160,15 +160,65 @@ public class ScratchDecorator : DecoratorBase
 		sceneInfoBar.SetComponent(decorator);
 
 
-//        LogHelper.Log("ScratchDecoratorUnity start Decddddddd");
         ScratchLogic scratch = CreatComponent< ScratchLogic >(UIConfig.scratchWindowName);
 		scratch.SetComponent(sceneInfoBar);
 
-//        LogHelper.Log("ScratchDecoratorUnity end Decddddddd");
         lastDecorator = scratch;
 		lastDecorator.CreatUI();
 
 	}
+}
+
+
+public class GachaWindowDecorator : DecoratorBase
+{
+    private SceneInfoComponent sceneInfoBar;
+    public GachaWindowDecorator(SceneEnum sEnum) : base(sEnum)
+    {
+    }
+    
+    public override void ShowScene()
+    {
+        base.ShowScene();
+        sceneInfoBar.SetBackScene(SceneEnum.None);
+    }
+    
+    public override void HideScene()
+    {
+        base.HideScene();
+    }
+    
+    public override void DestoryScene()
+    {
+        base.DestoryScene();
+    }
+    
+    public override void DecoratorScene()
+    {
+        
+        sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+        sceneInfoBar.SetComponent(decorator);
+
+        GachaWindowLogic gachaWin;
+        switch (currentDecoratorScene) {
+        case SceneEnum.FriendScratch:
+            gachaWin = CreatComponent< FriendGachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        case SceneEnum.RareScratch:
+            gachaWin = CreatComponent< FriendGachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        case SceneEnum.EventScratch:
+            gachaWin = CreatComponent< EventGachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        default:
+            gachaWin = CreatComponent< GachaWindowLogic >(UIConfig.gachaWindowName);
+            break;
+        }
+        gachaWin.SetComponent(sceneInfoBar);
+        lastDecorator = gachaWin;
+        lastDecorator.CreatUI();
+        
+    }
 }
 
 //--------------------------------Shop-----------------------------------------
