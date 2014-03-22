@@ -230,7 +230,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	private void ClickFriendSelect(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 //		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", null);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", isEvolve);
 		ExcuteCallback(cbdArgs);
 	}
 	
@@ -274,7 +274,8 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		questDragPanel.AddItem (tsi.QuestInfo.Count);
 		RefreshQuestInfo (tsi.QuestInfo);
 		Dictionary<string, object> tempDic = new Dictionary<string, object> ();
-		tempDic.Add ("position", tsi.QuestId);
+		int inedx = tsi.QuestInfo.FindIndex (a => a.ID == tsi.QuestId);
+		tempDic.Add ("position", inedx);
 		tempDic.Add ("data", tsi);
 		UpdatePanelInfo (tempDic);
 		btnSelect.isEnabled = true;
@@ -314,7 +315,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			GameObject scrollItem = questDragPanel.ScrollItem[ i ];
 			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
 			TQuestInfo tqi = questInfo[i];
-			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(tqi.BossID[0]);
+			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(11);
 			tex.mainTexture = tui.GetAsset(UnitAssetType.Avatar);
 			
 			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
