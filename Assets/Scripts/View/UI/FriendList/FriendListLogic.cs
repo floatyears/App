@@ -9,8 +9,7 @@ public class FriendListLogic : ConcreteComponent{
 
 	public FriendListLogic(string uiName) : base( uiName ){}
 
-	public override void ShowUI()
-	{
+	public override void ShowUI(){
 		base.ShowUI();
 
 		AddCommandListener();
@@ -296,8 +295,7 @@ public class FriendListLogic : ConcreteComponent{
 			MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, currentFriendPicked);
 	}
 
-	void ViewUnitDetailInfo(object args)
-	{
+	void ViewUnitDetailInfo(object args){
 		int position = (int)args;
 		TUserUnit tuu = friendUnitItemViewList [position].DataItem;
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);

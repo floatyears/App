@@ -124,7 +124,10 @@ public class TextCenter {
         textDict.Add("EventGachaStoneNotEnough", "1 event gacha need {0} stones\nYour stones not enough.");
 
 
-	textDict.Add ("StartQuestFail", "Start quest request failed");
+		textDict.Add ("StartQuestFail", "Start quest request failed");
+
+		textDict.Add("BigRareWarning", "Rare Warning");
+		textDict.Add("BigRareWarningText", "Include the unit whose rare bigger than 3.\nAre you sure to sell?");
 
     }
 }

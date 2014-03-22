@@ -5,13 +5,23 @@ public class OnSaleUnitsView : UIComponentUnity{
 	DragPanel dragPanel;
 	GameObject itemPrefab;
 	bool exchange = false;
+	GameObject mainRoot;
+	GameObject submitRoot;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	List<UILabel> crossShowLabelList = new List<UILabel>();
 	List<string> crossShowTextList = new List<string>();
 	List<UnitItemViewInfo> viewInfoList = new List<UnitItemViewInfo>();
-	List<GameObject> topItemList = new List<GameObject>();
+	List<GameObject> pickItemList = new List<GameObject>();
+	List<GameObject> readyItemList = new List<GameObject>();
+
+	UIButton lastSureOkButton;
+	UIButton lastSureCancelButton;
 	UIImageButton sellImgBtn;
 	UIImageButton clearImgBtn;
+	UILabel coinLabel;
+	UILabel readyCoinLabel;
+	UILabel curCountLabel;
+	UILabel maxCountLabel;
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -22,18 +32,19 @@ public class OnSaleUnitsView : UIComponentUnity{
 		base.ShowUI();
 		sellImgBtn.isEnabled = false;
 		clearImgBtn.isEnabled = false;
+		coinLabel.text = "0";
 		ShowUIAnimation();	              
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
-		ResetUI();
+		ResetUIElement();
 	}
 
 	public override void Callback(object data){
 		base.Callback(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
+		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName){
 			case "CreateDragView" : 
 				CallBackDispatcherHelper.DispatchCallBack(CreateDragView, cbdArgs);
@@ -50,9 +61,63 @@ public class OnSaleUnitsView : UIComponentUnity{
 			case "ButtonActive":
 				CallBackDispatcherHelper.DispatchCallBack(ActivateButton, cbdArgs);
 				break;
+			case "UpdateCoinLabel" : 
+				CallBackDispatcherHelper.DispatchCallBack(UpdateCoinLabel, cbdArgs);
+				break;
+			case "ShowLastSureWindow" : 
+				CallBackDispatcherHelper.DispatchCallBack(ShowLastSureWindow, cbdArgs);
+				break;
+			case "BackToMainWindow" : 
+				CallBackDispatcherHelper.DispatchCallBack(BackToMainWindow, cbdArgs);
+				break;
 			default:
 				break;
 		}
+	}
+
+	void BackToMainWindow(object args){
+		mainRoot.SetActive(true);
+		submitRoot.SetActive(false);
+		ShowUIAnimation();
+	}
+
+	void ShowLastSureWindow(object args){
+//		Debug.LogError("ShowLastSureWindow().....");
+		mainRoot.SetActive(false);
+		submitRoot.SetActive(true);
+		submitRoot.transform.localPosition = new Vector3(-1000, -200, 0);
+		iTween.MoveTo(submitRoot, iTween.Hash("x", 0, "time", 0.4f, "easetype", iTween.EaseType.linear));
+
+		List<TUserUnit> readySaleList = args as List<TUserUnit>;
+		FillLastSureWindow(readySaleList);
+	}
+
+	void FillLastSureWindow(List<TUserUnit> dataInfoList){
+		Debug.LogError("dataInfoList.Count : " + dataInfoList.Count);
+		for (int i = 0; i < dataInfoList.Count; i++){
+			Texture2D tex2d = dataInfoList[ i ].UnitInfo.GetAsset(UnitAssetType.Avatar);
+			string level = dataInfoList[ i ].Level.ToString();
+			FindTextureWithPosition( i, readyItemList).mainTexture = tex2d ;
+			FindLabelWithPosition(i, readyItemList).text = "Lv: " + level;
+		}
+
+	}
+
+	void ClickSellOk(GameObject btn){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellOk", null);
+		ExcuteCallback(cbdArgs);
+	}
+
+	void ClickSellCancel(GameObject btn){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellCancel", null);
+		ExcuteCallback(cbdArgs);
+	}
+
+	void UpdateCoinLabel(object args){
+		int coin = (int)args;
+//		Debug.LogError("UpdateCoinLabel(), current coin is : " + coin.ToString());
+		coinLabel.text = coin.ToString();
+		readyCoinLabel.text = coin.ToString();
 	}
 
 	void MarkDragItem(int clickPos ,int poolPos){
@@ -74,9 +139,9 @@ public class OnSaleUnitsView : UIComponentUnity{
 		Dictionary<string, object> info = args as Dictionary<string,object>;
 		int poolPos = (int)info["poolPos"];
 		int clickPos = (int)info["clickPos"];
-		Debug.LogError("AddViewItem(), position is : " + poolPos);
-		FindTextureWithPosition(poolPos).mainTexture = info["texture"] as Texture2D;
-		FindLabelWithPosition(poolPos).text = "Lv: " + info["label"] as string;
+//		Debug.LogError("AddViewItem(), position is : " + poolPos);
+		FindTextureWithPosition(poolPos, pickItemList).mainTexture = info["texture"] as Texture2D;
+		FindLabelWithPosition(poolPos, pickItemList).text = "Lv: " + info["label"] as string;
 
 		MarkDragItem(clickPos, poolPos);
 	}
@@ -85,19 +150,18 @@ public class OnSaleUnitsView : UIComponentUnity{
 		Dictionary<string, int> info = args as Dictionary<string, int>;
 		int poolPos = (int)info["poolPos"];
 		int clickPos = (int)info["clickPos"];
-		FindTextureWithPosition(poolPos).mainTexture = null;
-		FindLabelWithPosition(poolPos).text = string.Empty;
+		FindTextureWithPosition(poolPos, pickItemList).mainTexture = null;
+		FindLabelWithPosition(poolPos, pickItemList).text = string.Empty;
 
 		CancelMarkDragItem(clickPos);
 	}
-
-
-	UITexture FindTextureWithPosition(int position){
-		return topItemList[ position ].transform.FindChild("Texture").GetComponent<UITexture>();
+	
+	UITexture FindTextureWithPosition(int position, List<GameObject> target){
+		return target[ position ].transform.FindChild("Texture").GetComponent<UITexture>();
 	}
 
-	UILabel FindLabelWithPosition(int position){
-		return topItemList[ position].transform.FindChild("Label_Right_Bottom").GetComponent<UILabel>();
+	UILabel FindLabelWithPosition(int position, List<GameObject> target){
+		return target[ position ].transform.FindChild("Label_Right_Bottom").GetComponent<UILabel>();
 	}
 	
 	void ShowUIAnimation(){
@@ -108,12 +172,22 @@ public class OnSaleUnitsView : UIComponentUnity{
 	void InitUIElement(){
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		itemPrefab = Resources.Load( itemSourcePath ) as GameObject;
-		InitDragPanelArgs();
-		InitTopItem();
-		sellImgBtn = transform.FindChild("ImgBtn_Sell").GetComponent<UIImageButton>();
-		clearImgBtn = transform.FindChild("ImgBtn_Clear").GetComponent<UIImageButton>();
+		mainRoot = transform.Find("MainWindow").gameObject;
+		submitRoot = transform.Find("EnsureWindow").gameObject;
+		coinLabel = transform.FindChild("MainWindow/SellCount/Label_Value").GetComponent<UILabel>();
+		readyCoinLabel = transform.FindChild("EnsureWindow/Label_GetCoinValue").GetComponent<UILabel>();
+		sellImgBtn = transform.FindChild("MainWindow/ImgBtn_Sell").GetComponent<UIImageButton>();
+		clearImgBtn = transform.FindChild("MainWindow/ImgBtn_Clear").GetComponent<UIImageButton>();
+		lastSureCancelButton = FindChild<UIButton>("EnsureWindow/Button_Cancel");
+		lastSureOkButton = FindChild<UIButton>("EnsureWindow/Button_Ok");
+		curCountLabel = FindChild<UILabel>("MainWindow/CountItem/Label_Count_Cur");
+		maxCountLabel = FindChild<UILabel>("MainWindow/CountItem/Label_Count_Max");
 		UIEventListener.Get(sellImgBtn.gameObject).onClick = ClickSellBtn;
 		UIEventListener.Get(clearImgBtn.gameObject).onClick = ClickClearBtn;
+		UIEventListener.Get(lastSureOkButton.gameObject).onClick = ClickSellOk;
+		UIEventListener.Get(lastSureCancelButton.gameObject).onClick = ClickSellCancel;
+		InitDragPanelArgs();
+		InitCells();
 	}
 
 	void ClickSellBtn(GameObject btn){
@@ -126,12 +200,22 @@ public class OnSaleUnitsView : UIComponentUnity{
 		ExcuteCallback(cbdArgs);
 	}
 
-	void InitTopItem(){
+	void InitCells(){
 		for (int i = 0; i < 12; i++){
-			GameObject go = transform.FindChild("Cells/" + i.ToString()).gameObject;
-			topItemList.Add(go);
+			string path;
+			GameObject go;
+
+			path = "MainWindow/Cells/" + i.ToString();
+			go = transform.FindChild(path).gameObject;
+			pickItemList.Add(go);
+
+			path = "EnsureWindow/Cells/" + i.ToString();
+			go = transform.FindChild(path).gameObject;
+			readyItemList.Add(go);
+
 		}
-		Debug.LogError("InitTopItem, count is : " + topItemList.Count);
+
+//		Debug.Log(string.Format("PickedCount : {0}---ReadtCount : {1}  ........",pickItemList.Count, readyItemList.Count ));
 	}
 
 	void CreateDragView(object args){
@@ -142,10 +226,17 @@ public class OnSaleUnitsView : UIComponentUnity{
 		dragPanel.CreatUI();
 		dragPanel.AddItem(itemCount);
 		FindCrossShowLabelList();
-		AddEventLisenter();
+		UpdateCountLabel(viewInfoList.Count, DataCenter.Instance.UserInfo.FriendMax);
+        AddEventLisenter();
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 		RefreshItemView(viewItemList);
 		UpdateCrossShow();
+	}
+
+	
+	void UpdateCountLabel(int cur, int max){
+		curCountLabel.text = cur.ToString();
+		maxCountLabel.text = max.ToString();
 	}
 
 	void RefreshItemView(List<UnitItemViewInfo> dataItemList){
@@ -188,6 +279,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject item = dragPanel.ScrollItem[ i ];
 			UIEventListener.Get(item).onClick = ClickItem;
+			UIEventListenerCustom.Get(item).LongPress = PressItem;
 		}
 	}
 
@@ -203,11 +295,17 @@ public class OnSaleUnitsView : UIComponentUnity{
 		dragPanel.DestoryUI();
 	}
 
-	void ResetUI(){
+	void ResetUIElement(){
 		for (int i = 0; i < 12; i++){
-			FindTextureWithPosition(i).mainTexture = null;
-			FindLabelWithPosition(i).text = string.Empty;
+			FindTextureWithPosition(i, pickItemList).mainTexture = null;
+			FindLabelWithPosition(i, pickItemList).text = string.Empty;
+
+			FindTextureWithPosition(i, readyItemList).mainTexture = null;
+			FindLabelWithPosition(i, readyItemList).text = string.Empty;
 		}
+
+		mainRoot.SetActive(true);
+		submitRoot.SetActive(false);
 	}
 
 	void ActivateButton(object args){
@@ -235,8 +333,13 @@ public class OnSaleUnitsView : UIComponentUnity{
 		}
 	}
 
+	void PressItem(GameObject item){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", dragPanel.ScrollItem.IndexOf(item));
+		ExcuteCallback(cbdArgs);
+	}
+
 	void InitDragPanelArgs(){
-		dragPanelArgs.Add("parentTrans",			transform);
+		dragPanelArgs.Add("parentTrans",			mainRoot.transform);
 		dragPanelArgs.Add("scrollerScale",			Vector3.one);
 		dragPanelArgs.Add("scrollerLocalPos",		-240 * Vector3.up);
 		dragPanelArgs.Add("position", 					Vector3.zero);
@@ -247,7 +350,5 @@ public class OnSaleUnitsView : UIComponentUnity{
 		dragPanelArgs.Add("cellWidth", 				120);
 		dragPanelArgs.Add("cellHeight",				120);
 	}
-
-
 
 }

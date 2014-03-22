@@ -67,8 +67,9 @@ public class QuestSelectComponent : ConcreteComponent{
 		info.Add("data", currentStageInfo);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowInfoPanel",  info);
 		ExcuteCallback(cbdArgs);
+//		Debug.LogError("ShowQuestInfo(), index is " + index);
 	}
-	
+
 	void TurnToFriendSelect(object args){
 		bool b = (bool)args;
 		TStageInfo tsi = null;
@@ -83,12 +84,15 @@ public class QuestSelectComponent : ConcreteComponent{
 			questID = tsi.QuestInfo[ currentQuestIndex ].ID;
 		}
 
+	void TurnToFriendSelect(object args){
+		//change scene to friendSelect
 		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
-
-		uint stageID = tsi.ID;
+		uint questID = currentStageInfo.QuestInfo[ currentQuestIndex ].ID;
+		uint stageID = currentStageInfo.ID;
 		Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
 		idArgs.Add("QuestID", questID);
 		idArgs.Add("StageID", stageID);
 		MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
+
 	}
 }

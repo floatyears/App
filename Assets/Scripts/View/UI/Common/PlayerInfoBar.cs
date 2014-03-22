@@ -224,6 +224,7 @@ public class PlayerInfoBar : UIComponentUnity
         MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncChips);
         MsgCenter.Instance.AddListener(CommandEnum.RspStaminaRecover, SyncStamina);
         MsgCenter.Instance.AddListener(CommandEnum.RspUnitExpansion, SyncChips);
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshPlayerCoin, SyncCoins);
 	}
 	
 	void RemoveCommandListener()
@@ -236,6 +237,12 @@ public class PlayerInfoBar : UIComponentUnity
         MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncChips);
         MsgCenter.Instance.RemoveListener(CommandEnum.RspStaminaRecover, SyncStamina);
         MsgCenter.Instance.RemoveListener(CommandEnum.RspUnitExpansion, SyncChips);
+		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPlayerCoin, SyncCoins);
+	}
+
+
+	void SyncCoins(object args){
+		VCionCountLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
 	}
 
 	void RequestData()

@@ -241,7 +241,7 @@ public class TUserUnit : ProtobufDataBase {
 	}
 
     public int Exp {
-        get {
+        get{
             return instance.exp;
         }
     }
@@ -252,6 +252,7 @@ public class TUserUnit : ProtobufDataBase {
             return curExp;
         }
     }
+
 
     public int NextExp {
         get {
