@@ -96,6 +96,7 @@ public class UIConfig
 	public const string acceptApplyMessageWindowName = "AcceptApplyMessageWindow";
 
 	public const string screenMaskName = "ScreenMask";
+	public const string itemCounterBarName = "ItemCounterBar";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;

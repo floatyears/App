@@ -17,6 +17,7 @@ public class FriendListLogic : ConcreteComponent{
 		GetFriendUnitItemViewList();
 		CallViewCreateDragList();
 		EnableExtraFunction();
+		RefreshFriendCount();
 	}
 
 	public override void HideUI()
@@ -61,17 +62,23 @@ public class FriendListLogic : ConcreteComponent{
         return msgWindowParam;
     }
 
+	void RefreshFriendCount(){
+		Dictionary<string, object> countArgs = new Dictionary<string, object>();
+		countArgs.Add("title", TextCenter.Instace.GetCurrentText("FriendCounterTitle"));
+		countArgs.Add("current", DataCenter.Instance.FriendCount);
+		countArgs.Add("max", DataCenter.Instance.UserInfo.FriendMax);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+	}
+
     void CallbackRefuseAll(object args){
         MsgCenter.Instance.Invoke(CommandEnum.EnsureRefuseAll);
     }
 
-	void NoteRefuseAll(object args)
-	{
+	void NoteRefuseAll(object args){
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRefuseAllFriendInMsgWindowParams());
 	}
 
-	void RefuseAllApplyFromOthers(object msg)
-	{
+	void RefuseAllApplyFromOthers(object msg){
 		RefuseFriendAll();
 	}
 

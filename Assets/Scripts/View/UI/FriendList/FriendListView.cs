@@ -11,8 +11,8 @@ public class FriendListView : UIComponentUnity
 	UIButton updateFriendButton;
 	UIButton refuseAllApplyButton;
 
-	UILabel curCountLabel;
-	UILabel maxCountLabel;
+//	UILabel curCountLabel;
+//	UILabel maxCountLabel;
 
 	bool exchange = false;
 	List<UILabel> crossShowLabelList = new List<UILabel>();
@@ -99,8 +99,8 @@ public class FriendListView : UIComponentUnity
 		refuseAllApplyButton = FindChild<UIButton>("Button_Refuse");
 		sortButton = FindChild<UIButton>("Button_Sort");
 		updateFriendButton = FindChild<UIButton>("Button_Update");
-		curCountLabel = FindChild<UILabel>("CountItem/Label_Count_Cur");
-		maxCountLabel = FindChild<UILabel>("CountItem/Label_Count_Max");
+//		curCountLabel = FindChild<UILabel>("CountItem/Label_Count_Cur");
+//		maxCountLabel = FindChild<UILabel>("CountItem/Label_Count_Max");
 
 		InitDragPanelArgs();
 	}
@@ -121,7 +121,7 @@ public class FriendListView : UIComponentUnity
 		dragPanel = CreateDragPanel("FriendDragPanel", viewInfoList.Count);
 		FindCrossShowLabelList();
 		UpdateAvatarTexture(viewInfoList);
-		UpdateCountLabel(viewInfoList.Count, DataCenter.Instance.UserInfo.FriendMax);
+//		UpdateCountLabel(viewInfoList.Count, DataCenter.Instance.UserInfo.FriendMax);
 		UpdateEventListener();
 		//UpdateStarSprite(viewInfoList);
 		UpdateCrossShow();
@@ -186,10 +186,10 @@ public class FriendListView : UIComponentUnity
 		}
 	}
 
-	void UpdateCountLabel(int cur, int max){
-		curCountLabel.text = cur.ToString();
-		maxCountLabel.text = max.ToString();
-	}
+//	void UpdateCountLabel(int cur, int max){
+//		curCountLabel.text = cur.ToString();
+//		maxCountLabel.text = max.ToString();
+//	}
 	
 	void UpdateCrossShow(){
 		if (IsInvoking("CrossShow"))

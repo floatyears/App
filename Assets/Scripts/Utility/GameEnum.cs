@@ -210,6 +210,8 @@ public enum CommandEnum
     EnableMenuBtns                  = 4061,
 	EvolveSelectQuest 				= 4062,
 
+	RefreshItemCount				= 4063,
+
     WaitResponse,
     SetBlocker,
 

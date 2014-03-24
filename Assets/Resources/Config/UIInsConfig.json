@@ -336,6 +336,14 @@
         "positionx": 0,
         "positiony": -245,
         "positionz": 0
+    },
+       "ItemCounterBar": {
+        "uiName":"ItemCounterBar",
+        "resoucePath": "Prefabs/UI/Common/",
+        "parent": 0,
+        "positionx": -200,
+        "positiony": -360,
+        "positionz": 0
     }
     
 }
