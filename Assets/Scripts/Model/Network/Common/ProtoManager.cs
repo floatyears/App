@@ -59,7 +59,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
         OnRequestBefore(callback);
 //		Debug.LogError ("OnReceiveCommand");
         OnReceiveCommand(data);
-        MsgCenter.Instance.Invoke(CommandEnum.StartRequest);
+        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, true);
     }
 
     protected virtual void OnReceiveCommand(object data) {
@@ -74,7 +74,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
         if (netDoneCallback != null) {
             netDoneCallback(data);
         }
-        MsgCenter.Instance.Invoke(CommandEnum.FinishResponse);
+        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, false);
     }
 }
 
