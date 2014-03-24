@@ -337,8 +337,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitBodyTex.mainTexture = null;
 		levelUpData = rlu;
 
-		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-		gotExp = levelUpData.blendExp;
+//		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+//		gotExp = levelUpData.blendExp;
 		unitInfoTabs.SetActive (false);
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}

@@ -34,7 +34,7 @@ public class PartyUnitsLogic : ConcreteComponent
 	void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureSubmitUnitToParty, SubmitPickedUnitToParty);
-		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyUnitList, RefreshUnitList);
+		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyUnitList, RefreshUnitList);
 	}
 
 	void GetUnitItemViewList(){

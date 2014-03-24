@@ -28,7 +28,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 
 	GameObject questViewItem;
-	private bool isEvolve = false;
+//	private bool isEvolve = false;
 
 
 	List<UITexture> pickEnemiesList = new List<UITexture>();
@@ -191,9 +191,10 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	}
 
 	void ClickQuestItem(GameObject go ){
-		if (isEvolve) {
+		if (DataCenter.gameStage == GameState.Evolve) {
 			return;	
 		}
+
 		int index = questDragPanel.ScrollItem.IndexOf( go );
 //		Debug.LogError("ClickQuestItem(), click item pos : " + index);
 
@@ -228,7 +229,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	private void ClickFriendSelect(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 //		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", isEvolve);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", (DataCenter.gameStage == GameState.Evolve));
 		ExcuteCallback(cbdArgs);
 	}
 	
@@ -256,18 +257,15 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 	void EvolveInfoShow (object args) {
 		TStageInfo tsi = args as TStageInfo;
-		isEvolve = true;
-		Debug.LogError ("EvolveInfoShow : ");
+//		isEvolve = true;
 		if (questDragPanel != null) {
 			questDragPanel.DestoryUI ();
-		} 
+		}
 		else {
 			questDragPanel = new DragPanel("QuestDragPanel",questViewItem);
 			questDragPanel.CreatUI();
 			questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 		}
-
-		Debug.LogError (tsi.QuestInfo.Count);
 
 		questDragPanel.AddItem (tsi.QuestInfo.Count);
 		RefreshQuestInfo (tsi.QuestInfo);
@@ -281,27 +279,13 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	
 	void CreateQuestDragList(object args){
 		TStageInfo tsi = args as TStageInfo;
-		isEvolve = false;
+//		isEvolve = false;
 		questDragPanel = new DragPanel("QuestDragPanel", questViewItem);
 		questDragPanel.CreatUI();
 		questDragPanel.AddItem(tsi.QuestInfo.Count);
 		questDragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 
 		RefreshQuestInfo (tsi.QuestInfo);
-
-//		for (int i = 0; i < questDragPanel.ScrollItem.Count; i++){
-//			GameObject scrollItem = questDragPanel.ScrollItem[ i ];
-//			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
-//			TQuestInfo tqi = tsi.QuestInfo[i];
-//			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(tqi.BossID[0]);
-//			tex.mainTexture = tui.GetAsset(UnitAssetType.Avatar);
-//
-//			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
-//			label.text = "Quest : " + (i+1).ToString();
-//
-//			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
-//		}
-
 	}
 
 	void RefreshQuestInfo(List<TQuestInfo> questInfo) {

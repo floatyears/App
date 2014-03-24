@@ -61,6 +61,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		if( UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail ) {
 			SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
+			MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, preScene);
 			UIManager.Instance.ChangeScene( preScene );
 			return;
 		}

@@ -133,12 +133,9 @@ public class MapItem : UIBaseUnity
 
 	public override void ShowUI() {
 		isOld = false;
-
-		//mapItemTexture.color = Color.white;
 	}
 
 	public void HideEnvirment(bool b) {
-//		Debug.Log ("isOld : " + isOld + " b : " + b);
 		if (!isOld) {
 			if(b) {
 				mapItemSprite.spriteName = "6";
@@ -159,6 +156,7 @@ public class MapItem : UIBaseUnity
 		if (!isRotate) {
 			isRotate = true;
 			floorRotate.RotateFloor ();	
+			mapBackSprite.enabled = true;
 		}
 	}     
 

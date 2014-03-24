@@ -145,7 +145,8 @@ public enum CommandEnum
 	EvolveFriend				= 3057,
 	UnitMaterialList 			= 3058,
 	EvolveStart	,
-
+	ReturnPreScene,
+	RefreshFriendHelper,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
