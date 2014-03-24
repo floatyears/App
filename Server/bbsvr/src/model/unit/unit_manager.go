@@ -136,6 +136,9 @@ func CalcLevelUpAddLevel(userUnit *bbproto.UserUnit, unit *bbproto.UnitInfo, cur
 
 	addLevel = currLevel - *userUnit.Level;
 	log.T("nextLevelExp:%v - currExp+addExp:%v = nextExp:%v", nextLevelExp, currExp+addExp, nextLevelExp-(currExp+addExp))
+	if currLevel == *unit.MaxLevel {
+		log.T("!!! reached maxLevel:%v", currLevel)
+	}
 
 	return addLevel, Error.OK()
 }

@@ -248,7 +248,7 @@ public class TUserUnit : ProtobufDataBase {
 
     public int CurExp {
         get {
-            int curExp = DataCenter.Instance.GetUnitValueTotal(UnitInfo.ExpType, instance.level) - NextExp;
+            int curExp = DataCenter.Instance.GetUnitValue(UnitInfo.ExpType, instance.level) - NextExp;
             return curExp;
         }
     }
@@ -297,7 +297,7 @@ public class TUserUnit : ProtobufDataBase {
             return instance.level;
         }
 		set {
-
+			instance.level = value;
 		}
     }
 

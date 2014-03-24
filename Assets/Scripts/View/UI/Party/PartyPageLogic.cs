@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PartyPageLogic : ConcreteComponent {
-	private int currentFoucsPosition;
+public class PartyPageLogic : ConcreteComponent{
+	int currentFoucsPosition;
 
-    public PartyPageLogic(string uiName):base(uiName) {
+    public PartyPageLogic(string uiName):base(uiName){
 		SetFocusPostion(0);
 	}
 
@@ -45,21 +45,21 @@ public class PartyPageLogic : ConcreteComponent {
 
     TUnitParty GetPartyBySignal(string signal) {
         TUnitParty currentParty = null;
-        switch (signal) {
-        case "current": 
-            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to current party");
-            currentParty = DataCenter.Instance.PartyInfo.CurrentParty;
-            break;
+		switch (signal) {
+			case "current": 
+				LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to current party");
+		        currentParty = DataCenter.Instance.PartyInfo.CurrentParty;
+		        break;
         case "prev":
-            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to prev party");
-            currentParty = DataCenter.Instance.PartyInfo.PrevParty;
-            break;
+	            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to prev party");
+	            currentParty = DataCenter.Instance.PartyInfo.PrevParty;
+	            break;
         case "next":
-            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to next party");
-            currentParty = DataCenter.Instance.PartyInfo.NextParty;
-            break;
+	            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to next party");
+	            currentParty = DataCenter.Instance.PartyInfo.NextParty;
+	            break;
         default:
-            break;
+            	break;
         }
         return currentParty;
     }
