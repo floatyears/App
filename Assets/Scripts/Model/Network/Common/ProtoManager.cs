@@ -60,6 +60,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
 //		Debug.LogError ("OnReceiveCommand");
         OnReceiveCommand(data);
         MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, true));
+        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, true);
     }
 
     protected virtual void OnReceiveCommand(object data) {
@@ -75,6 +76,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
             netDoneCallback(data);
         }
         MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, false));
+        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, false);
     }
 }
 

@@ -7,7 +7,7 @@ public class MaskView : UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-
+		InitUI();
 	}
 
 	public override void ShowUI(){
