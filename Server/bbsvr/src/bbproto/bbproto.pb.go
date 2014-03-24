@@ -1280,7 +1280,8 @@ type QuestFloorConfig struct {
 	TreasureNum      *int32        `protobuf:"varint,2,opt,name=treasureNum" json:"treasureNum,omitempty"`
 	TrapNum          *int32        `protobuf:"varint,3,opt,name=trapNum" json:"trapNum,omitempty"`
 	EnemyNum         *int32        `protobuf:"varint,4,opt,name=enemyNum" json:"enemyNum,omitempty"`
-	Stars            []*StarConfig `protobuf:"bytes,5,rep,name=stars" json:"stars,omitempty"`
+	KeyNum           *int32        `protobuf:"varint,5,opt,name=keyNum" json:"keyNum,omitempty"`
+	Stars            []*StarConfig `protobuf:"bytes,6,rep,name=stars" json:"stars,omitempty"`
 	XXX_unrecognized []byte        `json:"-"`
 }
 
@@ -1312,6 +1313,13 @@ func (m *QuestFloorConfig) GetTrapNum() int32 {
 func (m *QuestFloorConfig) GetEnemyNum() int32 {
 	if m != nil && m.EnemyNum != nil {
 		return *m.EnemyNum
+	}
+	return 0
+}
+
+func (m *QuestFloorConfig) GetKeyNum() int32 {
+	if m != nil && m.KeyNum != nil {
+		return *m.KeyNum
 	}
 	return 0
 }
@@ -1441,9 +1449,7 @@ type EnemyInfoConf struct {
 	DropUnitId       *uint32    `protobuf:"varint,2,opt,name=dropUnitId" json:"dropUnitId,omitempty"`
 	DropUnitLevel    *int32     `protobuf:"varint,3,opt,name=dropUnitLevel" json:"dropUnitLevel,omitempty"`
 	DropRate         *float32   `protobuf:"fixed32,4,opt,name=dropRate" json:"dropRate,omitempty"`
-	AddHpRate        *float32   `protobuf:"fixed32,5,opt,name=addHpRate" json:"addHpRate,omitempty"`
-	AddAttackRate    *float32   `protobuf:"fixed32,6,opt,name=addAttackRate" json:"addAttackRate,omitempty"`
-	AddDefenceRate   *float32   `protobuf:"fixed32,7,opt,name=addDefenceRate" json:"addDefenceRate,omitempty"`
+	AddRate          *float32   `protobuf:"fixed32,5,opt,name=addRate" json:"addRate,omitempty"`
 	XXX_unrecognized []byte     `json:"-"`
 }
 
@@ -1479,23 +1485,9 @@ func (m *EnemyInfoConf) GetDropRate() float32 {
 	return 0
 }
 
-func (m *EnemyInfoConf) GetAddHpRate() float32 {
-	if m != nil && m.AddHpRate != nil {
-		return *m.AddHpRate
-	}
-	return 0
-}
-
-func (m *EnemyInfoConf) GetAddAttackRate() float32 {
-	if m != nil && m.AddAttackRate != nil {
-		return *m.AddAttackRate
-	}
-	return 0
-}
-
-func (m *EnemyInfoConf) GetAddDefenceRate() float32 {
-	if m != nil && m.AddDefenceRate != nil {
-		return *m.AddDefenceRate
+func (m *EnemyInfoConf) GetAddRate() float32 {
+	if m != nil && m.AddRate != nil {
+		return *m.AddRate
 	}
 	return 0
 }
