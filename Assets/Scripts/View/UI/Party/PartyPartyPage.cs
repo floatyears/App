@@ -79,7 +79,12 @@ public class PartyPartyPage : PartyPageLogic{
 			return;
 		}
 
-		uint focusUnitUniqueId = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[currentFoucsPosition - 1].ID;
+		List<TUserUnit> partyUserUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
+		if ( partyUserUnit == null || currentFoucsPosition-1 > partyUserUnit.Count-1) {
+			Debug.LogError("Error: partyUserUnit"+partyUserUnit);
+			return;
+		}
+		uint focusUnitUniqueId = partyUserUnit[currentFoucsPosition - 1].ID;
 	
 		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0);
 

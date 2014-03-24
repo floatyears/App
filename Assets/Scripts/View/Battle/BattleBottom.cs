@@ -17,9 +17,22 @@ public class BattleBottom : MonoBehaviour {
 			actorObject.Add(i,tex);
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.GetPosUnitInfo ();
+		LogHelper.LogError("userUnitInfo:"+userUnitInfo);
 		foreach (var item in userUnitInfo) {
-			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(item.Value.UnitID); //UnitInfo[item.Value.UnitID];
-			actorObject[item.Key].renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
+			LogHelper.LogError("item:"+item);
+			LogHelper.LogError("item.Value:"+item.Value);
+			TUnitInfo tui = null; //UnitInfo[item.Value.UnitID];
+			if ( item.Value != null ) {
+				tui = DataCenter.Instance.GetUnitInfo(item.Value.UnitID);
+				if (tui!=null) {
+					actorObject[item.Key].renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
+				}else {
+					Debug.LogError("Cannot find unitId:"+item.Value.UnitID+" in DataCenter.GetUnitInfo()");
+				}
+			}else {
+				//it's empty userunit in the pos, show empty texture.
+			}
+				
 		}
 		List<int> haveInfo = new List<int> (userUnitInfo.Keys);
 		for (int i = 0; i < 5; i++) {
