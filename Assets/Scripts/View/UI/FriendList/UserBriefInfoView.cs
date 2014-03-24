@@ -24,7 +24,7 @@ public class UserBriefInfoView : UIComponentUnity
 	
 	UITexture avatarTex;
 	
-	int originLayer;
+	int originLayer = 1;
 	public override void Init(UIInsConfig config, IUICallback origin)
 	{
 		base.Init(config, origin);
@@ -74,22 +74,24 @@ public class UserBriefInfoView : UIComponentUnity
 		this.gameObject.SetActive(canShow);
 		if (canShow)
 		{
-			SetScreenShelt("ScreenShelt");
+//			SetScreenShelt("ScreenShelt");
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, true));
 			window.transform.localScale = new Vector3(1f, 0f, 1f);
 			iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
-		} else
-		{
-			SetScreenShelt("Default");
+		} 
+		else{
+//			SetScreenShelt("Default");
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, false));            
 		}
 	}
 	
-	void SetScreenShelt(string layerName)
-	{
-		if (layerName == "ScreenShelt")
-			Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
-		else
-			Main.Instance.NguiCamera.eventReceiverMask = originLayer;
-	}
+//	void SetScreenShelt(string layerName)
+//	{
+//		if (layerName == "ScreenShelt")
+//			Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
+//		else
+//			Main.Instance.NguiCamera.eventReceiverMask = originLayer;
+//	}
 	
 	void Choose(GameObject btn){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Choose", null);

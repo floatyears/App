@@ -35,7 +35,7 @@ public class MsgWindowView : UIComponentUnity
     BtnParam btnLeftParam;
     BtnParam btnRightParam;
 
-    int originLayer;
+//    int originLayer;
     
     public override void Init(UIInsConfig config, IUICallback origin)
     {
@@ -77,21 +77,20 @@ public class MsgWindowView : UIComponentUnity
         UIEventListener.Get(btnRight.gameObject).onClick = ClickRightButton;
         UIEventListener.Get(btnLeft.gameObject).onClick = ClickLeftButton;
         UIEventListener.Get(btnCenter.gameObject).onClick = ClickLeftButton;
-        originLayer = Main.Instance.NguiCamera.eventReceiverMask;
+//        originLayer = Main.Instance.NguiCamera.eventReceiverMask;
     }
     
-    void ShowSelf(bool canShow)
-    {
+    void ShowSelf(bool canShow){
         this.gameObject.SetActive(canShow);
-        if (canShow)
-        {
-            SetScreenShelt("ScreenShelt");
+        if (canShow){
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
             window.transform.localScale = new Vector3(1f, 0f, 1f);
             iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
-        } else
-        {
+        } 
+		else{
             Reset();
-            SetScreenShelt("Default");
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
+                        
         }
     }
 
@@ -112,14 +111,16 @@ public class MsgWindowView : UIComponentUnity
         msgLabelTop.text = string.Empty;
         msgLabelBottom.text = string.Empty;
     }
-    
-    void SetScreenShelt(string layerName)
-    {
-        if (layerName == "ScreenShelt")
-            Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
-        else
-            Main.Instance.NguiCamera.eventReceiverMask = originLayer;
-    }
+//    
+//    void SetScreenShelt(string layerName){
+//        if (layerName == "ScreenShelt")
+//            Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
+//        else{
+//			if(TouchEventBlocker.Instance.IsBlocked)	return;
+//			Main.Instance.NguiCamera.eventReceiverMask = originLayer;
+//
+//		}
+//    }
     
     void SetUIElement()
     {
@@ -132,8 +133,7 @@ public class MsgWindowView : UIComponentUnity
         titleLabel.text = string.Empty;
     }
     
-    public override void Callback(object data)
-    {
+    public override void Callback(object data){
         ShowSelf(true);  
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         switch (cbdArgs.funcName)

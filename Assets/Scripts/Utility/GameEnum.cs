@@ -211,6 +211,7 @@ public enum CommandEnum
 	EvolveSelectQuest 				= 4062,
 
     WaitResponse,
+    SetBlocker,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

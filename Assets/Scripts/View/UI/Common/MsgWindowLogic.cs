@@ -58,15 +58,7 @@ public class MsgWindowLogic : ConcreteComponent
         }
     }
     
-//    void SendMessage(object args)
-//    {
-//        if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendList)
-//            MsgCenter.Instance.Invoke(CommandEnum.EnsureUpdateFriend, null);
-//        if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.Reception)
-//            MsgCenter.Instance.Invoke(CommandEnum.EnsureRefuseAll, null);
-//        
-//    }
-//    
+
     void OpenMsgWindow(object msg){
 //        Dictionary<string,string> noteMsg = msg as Dictionary<string,string>;
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
