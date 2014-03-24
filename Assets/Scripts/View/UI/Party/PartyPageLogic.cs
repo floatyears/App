@@ -130,7 +130,7 @@ public class PartyPageLogic : ConcreteComponent {
 		for (int i = textureList.Count; i < 4; i++) {
 			textureList.Add(null);
 		}
-		Debug.LogError (textureList.Count);
+//		Debug.LogError (textureList.Count);
         return textureList;
     }
 

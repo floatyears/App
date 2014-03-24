@@ -34,24 +34,21 @@ public class PlayerInfoBar : UIComponentUnity
 	Vector3 leftPosition;
 	Vector3 rightPosition;
 
-	public override void Init(UIInsConfig config, IUICallback origin)
-	{
+	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 
 		InitUI();
 		RequestData();
 	}
 
-	public override void ShowUI()
-	{
+	public override void ShowUI() {
 		UpdateData();
 		AddCommandListener();
 		base.ShowUI();
                 
 	}
 
-	public override void HideUI()
-	{
+	public override void HideUI() {
 		RemoveCommandListener();
 		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail)
 			return;
@@ -117,11 +114,9 @@ public class PlayerInfoBar : UIComponentUnity
 	{
 		infoBox.SetActive(isPressed);
 		
-		if (go.name == "Left_Collider")
-		{
+		if (go.name == "Left_Collider") {
 			infoBox.transform.localPosition = rightPosition;
-		} else if (go.name == "Right_Collider")
-		{
+		} else if (go.name == "Right_Collider") {
 			infoBox.transform.localPosition = leftPosition;
 		}
 	}
@@ -136,15 +131,12 @@ public class PlayerInfoBar : UIComponentUnity
 		VStamMaxLabel.text = curStamina.ToString();
 		VStaminaNowLabel.text = maxStamina.ToString();
 		float percent = (float)curStamina / maxStamina;
-		//Debug.LogError(percent);
 		staminaSprite.fillAmount = percent;
 	}
 
-	private void ShowExpInfo()
-	{
+	private void ShowExpInfo() {
 		float percent = (float)curExp / nextRandNeedExp;
 		expSprite.fillAmount = percent;
-		//Debug.LogError(percent);
 	}
 
 

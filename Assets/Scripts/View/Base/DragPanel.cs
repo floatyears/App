@@ -50,8 +50,9 @@ public class DragPanel : UIBase
 			GameObject.Destroy(go);
 		}
 		scrollItem.Clear();
-		GameObject.Destroy (dragPanelView.gameObject);
-
+		if (dragPanelView != null) {
+			GameObject.Destroy (dragPanelView.gameObject);	
+		}
 	}
 
 	void CreatPanel() {

@@ -8,9 +8,9 @@ public class MapItem : UIBaseUnity
 		get{ return coor; }
 		set{ coor = value; }
 	}
-//	private UITexture mapItemTexture;
-	private UISprite mapBackSprite;
 
+	private GameObject mapBack;
+	private UISprite mapBackSprite;
 	private FloorRotate floorRotate;
 	private UISprite mapItemSprite;
 	string spriteName = "";
@@ -52,11 +52,8 @@ public class MapItem : UIBaseUnity
 		base.Init (name);
 		initPosition = transform.localPosition;
 		initRotation = transform.rotation.eulerAngles;
-//		mapItemTexture = FindChild<UITexture>("Floor/MapItem/Texture");
 		mapBackSprite = FindChild<UISprite>("Floor/MapItem/Texture");
-//		mapItemTexture.enabled = false;
-		mapBackSprite.spriteName = "";
-//		mapBackSprite.enabled = false;
+		mapBack = mapBackSprite.gameObject;
 		mapItemSprite = FindChild<UISprite>("Sprite");
 		floorRotate = GetComponent<FloorRotate> ();
 		floorRotate.Init ();
@@ -104,12 +101,13 @@ public class MapItem : UIBaseUnity
 				uint unitID = gridItem.Enemy [0].UnitID;
 				TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 				if (tui != null) {
-					UITexture tex = mapBackSprite.gameObject.AddComponent<UITexture>();
+					UITexture tex = mapBack.AddComponent<UITexture>();
+					tex.depth = -1;
 //					mapItemTexture.enabled = true;
 					Destroy(mapBackSprite);
 					tex.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
-					tex.width = 125;
-					tex.height = 125;
+					tex.width = 110;
+					tex.height = 110;
 				}
 				break;
 			case bbproto.EQuestGridType.Q_TRAP:
@@ -125,9 +123,11 @@ public class MapItem : UIBaseUnity
 			default:
 				break;
 			}
-			mapBackSprite.spriteName = backSpriteName;
+			if(mapBackSprite != null) {
+				mapBackSprite.spriteName = backSpriteName;
+			}
 
-			mapBackSprite.enabled = false;
+			mapBack.SetActive(false);
 		}
 	}
 
@@ -156,7 +156,9 @@ public class MapItem : UIBaseUnity
 		if (!isRotate) {
 			isRotate = true;
 			floorRotate.RotateFloor ();	
-			mapBackSprite.enabled = true;
+			if(!mapBack.activeSelf) {
+				mapBack.SetActive(true);;
+			}
 		}
 	}     
 

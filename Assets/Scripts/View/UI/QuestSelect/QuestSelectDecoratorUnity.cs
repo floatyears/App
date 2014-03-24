@@ -38,22 +38,22 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	List<QuestInfo> questInfoList = new List<QuestInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
-		Debug.LogError("QuestSelectDecoratorUnity init start");
+//		Debug.LogError("QuestSelectDecoratorUnity init start");
 		base.Init(config, origin);
 		InitUI();
 		InitQuestSelectScrollArgs();
 		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
-		Debug.LogError("QuestSelectDecoratorUnity init end");
+//		Debug.LogError("QuestSelectDecoratorUnity init end");
 	}
 	
 	public override void ShowUI(){
-		Debug.LogError("QuestSelectDecoratorUnity ShowUI start");
+//		Debug.LogError("QuestSelectDecoratorUnity ShowUI start");
 		base.ShowUI();
 		ShowTween();
 		btnSelect.isEnabled = false;
 
 		firstFocus.value = true;
-		Debug.LogError("QuestSelectDecoratorUnity ShowUI end");
+//		Debug.LogError("QuestSelectDecoratorUnity ShowUI end");
 	}
 
 

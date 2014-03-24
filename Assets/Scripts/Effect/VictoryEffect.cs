@@ -168,8 +168,7 @@ public class VictoryEffect : UIBaseUnity {
 			sureButtonCallback();
 		}
 
-//		ControllerManager.Instance.ExitBattle ();
-//		UIManager.Instance.ExitBattle ();
+//		
 	}
 
 	public void PlayAnimation (Callback callback) {

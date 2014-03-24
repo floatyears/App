@@ -26,6 +26,7 @@ public class BattleQuest : UIBase {
 	private Camera mainCamera;
 	private BossAppear bossAppear;
 	private ClearQuestParam questData;
+	private TUserUnit evolveUser;
 	string backgroundName = "BattleBackground";
 
 	public BattleQuest (string name) : base(name) {
@@ -141,6 +142,7 @@ public class BattleQuest : UIBase {
 	  
 	void Exit() {
 		controllerManger.ExitBattle();
+		UIManager.Instance.baseScene.PrevScene = SceneEnum.Evolve;
 		UIManager.Instance.ExitBattle();
 	}
 
@@ -171,7 +173,9 @@ public class BattleQuest : UIBase {
 	}
 
 	void EvolveEnd () {
-
+		ControllerManager.Instance.ExitBattle ();
+		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, evolveUser);
 	}
 
 	public void RoleCoordinate(Coordinate coor) {
@@ -318,7 +322,6 @@ public class BattleQuest : UIBase {
 		if (battleEnemy) {
 			RequestData();
 			battleMap.BattleEndRotate();
-//			GameTimer.GetInstance().AddCountDown(2f,End);
 		}
 	}
 
@@ -380,20 +383,33 @@ public class BattleQuest : UIBase {
 		}
 		DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
 		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
-
-
+		evolveUser = new TUserUnit (rsp.evolvedUnit);
+		TRspClearQuest trcq = new TRspClearQuest ();
+		trcq.exp = rsp.exp;
+		trcq.gotExp = rsp.gotExp;
+		trcq.money = rsp.money;
+		trcq.gotMoney = rsp.gotMoney;
+		trcq.gotStone = rsp.gotStone;
+		List<TUserUnit> temp = new List<TUserUnit> ();
+		for (int i = 0; i <  rsp.gotUnit.Count; i++) {
+			TUserUnit tuu = new TUserUnit(rsp.gotUnit[i]);
+			temp.Add(tuu);
+		}
+		trcq.gotUnit = temp;
+		trcq.rank = rsp.rank;
+		End (trcq, EvolveEnd);
 	}
 
 	void ResponseClearQuest (object data) {
 		if ( data != null ) {
 			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
-			End (clearQuest);
+			End (clearQuest,QuestEnd);
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
 		}
 	}
 
-	void End(TRspClearQuest clearQuest) {
+	void End(TRspClearQuest clearQuest,Callback questEnd) {
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
 		GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
@@ -403,6 +419,6 @@ public class BattleQuest : UIBase {
 		VictoryEffect ve = obj.GetComponent<VictoryEffect>();
 		ve.Init("Victory");
 		ve.ShowData (clearQuest);
-		ve.PlayAnimation(QuestEnd);
+		ve.PlayAnimation(questEnd);
 	}
 }
