@@ -381,8 +381,11 @@ public class DataCenter {
     public int GetUnitValueTotal(int type, int level) {
         TPowerTableInfo pti = UnitValue[type];
         int totalValue = 0;
-        for (int i=1; i<=level; i++)
-            totalValue += pti.GetValue(level);
+
+        for (int i=1; i<=level; i++) {
+			totalValue += pti.GetValue(i);
+		}
+
         return totalValue;
     }
 

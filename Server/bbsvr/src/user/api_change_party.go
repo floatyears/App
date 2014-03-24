@@ -90,13 +90,8 @@ func (t ChangeParty) ProcessLogic(reqMsg *bbproto.ReqChangeParty, rspMsg *bbprot
 		reqMsg.Party.CurrentParty = proto.Int32(0)
 	}
 	log.T("Req.ChangeParty: currParty:%v", *reqMsg.Party.CurrentParty)
-	for _, p := range reqMsg.Party.PartyList {
-		if p.Id != nil {
-			log.T("id[%v]: %+v", *p.Id, p.Items)
-		} else {
-			log.T("party.Id=nil, force to 0. %+v", p)
-			p.Id = proto.Int32(0)
-		}
+	for k, p := range reqMsg.Party.PartyList {
+		log.T("[%v] party:%+v", k, p)
 	}
 
 	e = party.ChangeParty(nil, *reqMsg.Header.UserId, reqMsg.Party)

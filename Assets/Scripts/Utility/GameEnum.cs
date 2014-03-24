@@ -210,6 +210,9 @@ public enum CommandEnum
     EnableMenuBtns                  = 4061,
 	EvolveSelectQuest 				= 4062,
 
+    StartRequest,
+    FinishResponse,
+
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

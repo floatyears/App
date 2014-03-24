@@ -86,18 +86,22 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 			return nil, e
 		}
 
-		uintId :=uint32(i)
-		level:=common.Rand(1, int32(i))
-		exp := unit.GetUnitExpByUnitId(uintId, level)
+		unitId :=uint32(i)
+		unitInfo, e :=unit.GetUnitInfo(unitId)
+		if e.IsError() {
+			continue
+		}
+		level:=common.Rand(1, int32(*unitInfo.MaxLevel))
+		exp := unit.GetUnitExpByUnitId(unitId, level)
 		if exp == 0 {
-			log.Error("GetUnitExpByUnitId fail:%v",uintId)
+			log.Error("GetUnitExpByUnitId fail:%v",unitId)
 			continue
 		}
 		log.T("make userunit level:%v exp:%v", level, exp-1)
 
 		userUnit2 := &bbproto.UserUnit{
 			UniqueId:  proto.Uint32(uniqueId),
-			UnitId:    proto.Uint32(uintId),
+			UnitId:    proto.Uint32(unitId),
 			Exp:       proto.Int32(exp-1),
 			Level:     proto.Int32(level),
 			GetTime:   proto.Uint32(tNow),

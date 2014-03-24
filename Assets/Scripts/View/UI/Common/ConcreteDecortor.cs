@@ -2,30 +2,22 @@
 //--------------------------------Decorator-----------------------------------
 
 //--------------------------------Start---------------------------------------
-public class StartDecorator : DecoratorBase
-{
-	public StartDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+public class StartDecorator : DecoratorBase{
+	public StartDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
-
+	public override void DecoratorScene(){
 		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
 		background.SetComponent(decorator);
 		
@@ -40,6 +32,7 @@ public class StartDecorator : DecoratorBase
 
         MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
 		noteWindow.SetComponent(tipsBar);
+
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
 		selectUnitInfo.SetComponent(noteWindow);
