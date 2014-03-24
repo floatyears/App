@@ -15,6 +15,14 @@
         "positiony": -565,
         "positionz": 0
     },
+    "ScreenMask": {
+        "uiName":"ScreenMask",
+        "resoucePath": "Prefabs/UI/Common/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": -565,
+        "positionz": 0
+    },
      "SceneInfo": {
         "uiName":"SceneInfoBar",
         "resoucePath": "Prefabs/UI/Common/",

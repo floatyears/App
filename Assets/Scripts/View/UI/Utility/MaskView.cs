@@ -14,4 +14,22 @@ public class MaskView : UIComponentUnity {
 		base.HideUI();
 	}
 
+	public override void Callback(object data){
+		base.Callback(data);
+		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
+
+		switch (call.funcName){
+			case "ShowMask" :
+				CallBackDispatcherHelper.DispatchCallBack(SetUIActive, call);
+				break;
+			default:
+				break;
+		}
+	}
+
+	void SetUIActive(object args){
+		bool isActive = (bool)args;
+		gameObject.SetActive(isActive);
+	}
+
 }

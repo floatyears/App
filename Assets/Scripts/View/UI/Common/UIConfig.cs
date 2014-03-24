@@ -95,6 +95,8 @@ public class UIConfig
 	public const string applyMessageWindowName = "ApplyMessageWindow";
 	public const string acceptApplyMessageWindowName = "AcceptApplyMessageWindow";
 
+	public const string screenMaskName = "ScreenMask";
+
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;
 

@@ -33,9 +33,11 @@ public class StartDecorator : DecoratorBase{
         MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
 		noteWindow.SetComponent(tipsBar);
 
+		NetWorkMaskController maskController = CreatComponent<NetWorkMaskController>(UIConfig.screenMaskName);
+		maskController.SetComponent(noteWindow);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
-		selectUnitInfo.SetComponent(noteWindow);
+		selectUnitInfo.SetComponent(maskController);
 
 		lastDecorator = selectUnitInfo;
 		lastDecorator.CreatUI();

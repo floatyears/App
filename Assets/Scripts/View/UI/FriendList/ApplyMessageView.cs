@@ -17,7 +17,7 @@ public class ApplyMessageView : UIComponentUnity
 
 	UITexture avatarTexture;
 
-	int originLayer;
+//	int originLayer = 1;
 
 	public override void Init(UIInsConfig config, IUICallback origin)
 	{
@@ -86,7 +86,7 @@ public class ApplyMessageView : UIComponentUnity
 		UIEventListener.Get(sureButton.gameObject).onClick = ClickSure;
 		UIEventListener.Get(cancelButton.gameObject).onClick = ClickCancel;
 
-		originLayer = Main.Instance.NguiCamera.eventReceiverMask;
+//		originLayer = Main.Instance.NguiCamera.eventReceiverMask;
                 
 	}
 
@@ -110,24 +110,25 @@ public class ApplyMessageView : UIComponentUnity
 	void ShowSelf(bool canShow)
 	{
 		this.gameObject.SetActive(canShow);
-		if (canShow)
-		{
-			SetScreenShelt("ScreenShelt");
+		if (canShow){
+//			SetScreenShelt("ScreenShelt");
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, true));
 			rootPanel.transform.localScale = new Vector3(1f, 0f, 1f);
 			iTween.ScaleTo(rootPanel, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
-		} else
-		{
-			SetScreenShelt("Default");
+		}
+		else{
+//			SetScreenShelt("Default");
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, false));
+                        
 		}
 	}
 	
-	void SetScreenShelt(string layerName)
-	{
-		if (layerName == "ScreenShelt")
-			Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
-		else
-			Main.Instance.NguiCamera.eventReceiverMask = originLayer;
-	}
+//	void SetScreenShelt(string layerName){
+//		if (layerName == "ScreenShelt")
+//			Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
+//		else
+//			Main.Instance.NguiCamera.eventReceiverMask = originLayer;
+//	}
 
 	void ShowTitle(object args)
 	{

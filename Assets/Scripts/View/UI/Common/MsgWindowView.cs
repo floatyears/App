@@ -35,7 +35,7 @@ public class MsgWindowView : UIComponentUnity
     BtnParam btnLeftParam;
     BtnParam btnRightParam;
 
-    int originLayer;
+//    int originLayer;
     
     public override void Init(UIInsConfig config, IUICallback origin)
     {
@@ -77,21 +77,20 @@ public class MsgWindowView : UIComponentUnity
         UIEventListener.Get(btnRight.gameObject).onClick = ClickRightButton;
         UIEventListener.Get(btnLeft.gameObject).onClick = ClickLeftButton;
         UIEventListener.Get(btnCenter.gameObject).onClick = ClickLeftButton;
-        originLayer = Main.Instance.NguiCamera.eventReceiverMask;
+//        originLayer = Main.Instance.NguiCamera.eventReceiverMask;
     }
     
     void ShowSelf(bool canShow){
         this.gameObject.SetActive(canShow);
         if (canShow){
-//            SetScreenShelt("ScreenShelt");
-			TouchEventBlocker.Instance.SetState(BlockerReason.MessageWindow, true);
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
             window.transform.localScale = new Vector3(1f, 0f, 1f);
             iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
         } 
 		else{
             Reset();
-//            SetScreenShelt("Default");
-			TouchEventBlocker.Instance.SetState(BlockerReason.MessageWindow, false);
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
+                        
         }
     }
 

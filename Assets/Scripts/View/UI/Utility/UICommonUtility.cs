@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 public enum BlockerReason{
 	MessageWindow,
+	BriefInfoWindow,
 	Connecting
+
 }
 
 public class TouchEventBlocker{
@@ -13,7 +15,7 @@ public class TouchEventBlocker{
 	private TouchEventBlocker(){
 		nguiCamera = Camera.main.GetComponent<UICamera>();
 	}
-	private int originLayer;
+	private int originLayer = 1;
 	
 	private UICamera nguiCamera ;
 
