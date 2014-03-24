@@ -34,12 +34,15 @@ public class MaskController : ConcreteComponent {
 	void ShowMask(object msg){
 		BlockerMaskParams bmArgs = msg as BlockerMaskParams;
 
-//		bmArgs.isMaskActive = !bmArgs.isBlocked ? false : bmArgs.isMaskActive;
 		SetBlocker(bmArgs.reason, bmArgs.isBlocked);
         SetMaskActive(TouchEventBlocker.Instance.IsBlocked);
 	}
 
-	void SetBlocker(BlockerReason reason, bool isBlocker){
+	void ShowConnect(object msg){
+		SetConnectActive((bool)msg);
+    }
+        
+    void SetBlocker(BlockerReason reason, bool isBlocker){
 		TouchEventBlocker.Instance.SetState(reason, isBlocker);
 	}
 	
@@ -48,12 +51,19 @@ public class MaskController : ConcreteComponent {
         ExcuteCallback(call);
 	}
 
-	private void AddCommandListener(){
+	void SetConnectActive(bool isActive){
+		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowConnect", isActive);
+		ExcuteCallback(call);
+    }
+            
+    void AddCommandListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.SetBlocker, ShowMask);
+		MsgCenter.Instance.AddListener(CommandEnum.WaitResponse, ShowConnect);
 	}
 	
-	private void RemoveCommandListener(){
+	void RemoveCommandListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.SetBlocker, ShowMask);
-	}
+		MsgCenter.Instance.RemoveListener(CommandEnum.WaitResponse, ShowConnect);
+    }
 
 }
