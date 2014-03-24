@@ -16,6 +16,7 @@ public class MenuBtnsComponent : ConcreteComponent, IUICallback {
 	}
 
 	public override void HideUI () {
+        LogHelper.Log("MenuBtnsComponent.HideUI()");
 		base.HideUI ();
 	}
 

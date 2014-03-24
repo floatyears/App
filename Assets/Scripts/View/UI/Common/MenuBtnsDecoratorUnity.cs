@@ -84,5 +84,6 @@ public class MenuBtnsDecoratorUnity : UIComponentUnity {
             if(valid)  UIEventListener.Get(item).onClick += OnClickCallback; 
             else UIEventListener.Get(item).onClick -= OnClickCallback;
         }
+        this.gameObject.SetActive(valid);
     }
 }
