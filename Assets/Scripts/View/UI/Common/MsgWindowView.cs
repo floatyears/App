@@ -80,18 +80,18 @@ public class MsgWindowView : UIComponentUnity
         originLayer = Main.Instance.NguiCamera.eventReceiverMask;
     }
     
-    void ShowSelf(bool canShow)
-    {
+    void ShowSelf(bool canShow){
         this.gameObject.SetActive(canShow);
-        if (canShow)
-        {
-            SetScreenShelt("ScreenShelt");
+        if (canShow){
+//            SetScreenShelt("ScreenShelt");
+			TouchEventBlocker.Instance.SetState(BlockerReason.MessageWindow, true);
             window.transform.localScale = new Vector3(1f, 0f, 1f);
             iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
-        } else
-        {
+        } 
+		else{
             Reset();
-            SetScreenShelt("Default");
+//            SetScreenShelt("Default");
+			TouchEventBlocker.Instance.SetState(BlockerReason.MessageWindow, false);
         }
     }
 
@@ -112,14 +112,16 @@ public class MsgWindowView : UIComponentUnity
         msgLabelTop.text = string.Empty;
         msgLabelBottom.text = string.Empty;
     }
-    
-    void SetScreenShelt(string layerName)
-    {
-        if (layerName == "ScreenShelt")
-            Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
-        else
-            Main.Instance.NguiCamera.eventReceiverMask = originLayer;
-    }
+//    
+//    void SetScreenShelt(string layerName){
+//        if (layerName == "ScreenShelt")
+//            Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
+//        else{
+//			if(TouchEventBlocker.Instance.IsBlocked)	return;
+//			Main.Instance.NguiCamera.eventReceiverMask = originLayer;
+//
+//		}
+//    }
     
     void SetUIElement()
     {
@@ -132,8 +134,7 @@ public class MsgWindowView : UIComponentUnity
         titleLabel.text = string.Empty;
     }
     
-    public override void Callback(object data)
-    {
+    public override void Callback(object data){
         ShowSelf(true);  
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         switch (cbdArgs.funcName)

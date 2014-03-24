@@ -123,10 +123,10 @@ public class FriendListLogic : ConcreteComponent{
 
     void CallbackRefreshFriend(object args){
         MsgCenter.Instance.Invoke(CommandEnum.EnsureUpdateFriend);
+//		TouchEventBlocker.Instance.SetBlocked(true);
     }
 
-	void NoteFriendUpdate(object args)
-	{
+	void NoteFriendUpdate(object args){
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRefreshFriendListMsgWindowParams());
 	}
 	
@@ -161,15 +161,14 @@ public class FriendListLogic : ConcreteComponent{
 		DelFriend.SendRequest(OnDelFriend, currentFriendPicked.UserId);
 	}
 
-	void UpdateFriendList(object args)
-	{
+	void UpdateFriendList(object args){
 		//ReqSever
+//		TouchEventBlocker.Instance.SetState(BlockerReason.Connecting, true);
 		GetFriendList.SendRequest(OnGetFriendList);
 	}
 
 
-	void OnGetFriendList(object data)
-	{
+	void OnGetFriendList(object data){
 		if (data == null)
 			return;
         
@@ -196,6 +195,9 @@ public class FriendListLogic : ConcreteComponent{
 
 		HideUI();
 		ShowUI();
+//		TouchEventBlocker.Instance.SetState(BlockerReason.Connecting, false);
+
+//		TouchEventBlocker.Instance.SetBlocked(false);
 	}
 
 	void RefuseFriend(uint friendUid)

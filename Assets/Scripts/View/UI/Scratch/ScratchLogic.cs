@@ -130,6 +130,8 @@ public class ScratchLogic : ConcreteComponent {
         LogHelper.Log("MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow");
         MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow, GetGachaWindowInfo(gachaType, gachaCount, rsp.unitUniqueId, blankList));
         MsgCenter.Instance.Invoke(CommandEnum.SyncChips, null);
+
+//		TouchEventBlocker.Instance.SetState(BlockerReason.Connecting, false);
     }
     
     MsgWindowParams GetGachaFailedMsgWindowParams(GachaFailedType failedType){
@@ -248,6 +250,7 @@ public class ScratchLogic : ConcreteComponent {
         gachaType = GachaType.FriendGacha;
         gachaCount = (int)args;
         Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
+//		TouchEventBlocker.Instance.SetState(BlockerReason.Connecting, true);
     }
 
     private void CallbackRareGacha(object args){
