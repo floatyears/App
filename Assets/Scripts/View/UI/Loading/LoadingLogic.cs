@@ -114,7 +114,7 @@ public class LoadingLogic : ConcreteComponent {
         
         //      Debug.LogError("login end");
         UIManager.Instance.ChangeScene(SceneEnum.Start);
-//        TurnToReName();
+        TurnToReName();
         
     }
 
