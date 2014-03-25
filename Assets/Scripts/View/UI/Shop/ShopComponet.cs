@@ -35,14 +35,12 @@ public class ShopComponent : ConcreteComponent {
 		base.DestoryUI ();
 	}
 
-    public override void Callback(object data)
-    {
+    public override void Callback(object data){
         base.Callback(data);
         
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         
-        switch (cbdArgs.funcName)
-        {
+        switch (cbdArgs.funcName){
         case "DoFriendExpansion": 
             CallBackDispatcherHelper.DispatchCallBack(OnFriendExpansion, cbdArgs);
             break;

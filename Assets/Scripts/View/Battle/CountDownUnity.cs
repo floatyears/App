@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class CountDownUnity : UIBaseUnity {
@@ -54,7 +54,7 @@ public class CountDownUnity : UIBaseUnity {
 			Stop = true;	
 		}
 
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_count_time);
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_count_down);
 		iTween.ScaleFrom (gameObject, new Vector3 (1.25f, 1.25f, 1.25f), 0.3f);
 		countDownValue = 1f;
 		numberSprite.spriteName = time.ToString ();

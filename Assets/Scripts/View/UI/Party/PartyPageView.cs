@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PartyPageView : UIComponentUnity {
-
 	UILabel curPartyIndexLabel;
 	UILabel partyCountLabel;
 	UILabel curPartyPrefixLabel;
@@ -116,7 +115,6 @@ public class PartyPageView : UIComponentUnity {
 	}
 
 	void ClickItem(GameObject go){
-
 		if( !itemDic.ContainsKey(go) ){
 			Debug.Log("PartyPagePanel.ClickItem(), itemDic NOT ContainsKey : " + go.name);
 			return;
@@ -125,9 +123,8 @@ public class PartyPageView : UIComponentUnity {
 		string callName = "ClickItem";
 		int pos = itemDic[ go ];
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( callName, pos );
-		LogHelper.Log("PartyPagePanel.ClickItem(), click the item" + itemDic[ go ].ToString() + ", wait respone...");
+		//LogHelper.Log("PartyPagePanel.ClickItem(), click the item" + itemDic[ go ].ToString() + ", wait respone...");
 		ExcuteCallback( cbd );
-
 	}
 
 	void PressItem(GameObject go){
@@ -135,7 +132,7 @@ public class PartyPageView : UIComponentUnity {
 			Debug.Log("PartyPagePanel.ClickItem(), PressItem NOT ContainsKey : " + go.name);
 			return;
 		}
-		LogHelper.Log("PartyPageView.PressItem(), press the item" + itemDic[ go ].ToString() + ", wait respone...");
+		//LogHelper.Log("PartyPageView.PressItem(), press the item" + itemDic[ go ].ToString() + ", wait respone...");
 
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", itemDic[ go ]);
 
@@ -143,15 +140,19 @@ public class PartyPageView : UIComponentUnity {
 	}
 	
 	void PagePrev(GameObject button){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "prev" );
-		LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
+		//LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
 
 		ExcuteCallback( cbd );
 	} 
 
 	void PageNext(GameObject go){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "next" );
-		LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
+		//LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
 		ExcuteCallback( cbd );
 	}
 	
@@ -173,13 +174,13 @@ public class PartyPageView : UIComponentUnity {
 	}
 	
 	void LoseFocus(object args){
-		Debug.Log("PartyPagePanel.LoseFocus() : Start...");
+		//Debug.Log("PartyPagePanel.LoseFocus() : Start...");
 
 		foreach (var item in itemDic) {
 			item.Key.transform.FindChild("High_Light").gameObject.SetActive(false);
 		}
 
-		Debug.Log("PartyPagePanel.LoseFocus() : End...");
+		//Debug.Log("PartyPagePanel.LoseFocus() : End...");
 	}  
 
 	

@@ -1,18 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
-public class UnitsComponent : ConcreteComponent, IUICallback {
-	TUnitParty unitPartyInfo;
-	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
-
-	public UnitsComponent(string uiName):base(uiName) {}
+public class MainMenuController : ConcreteComponent, IUICallback {
+	public MainMenuController (string uiName) : base(uiName) {}
 
 	public override void ShowUI () {
 		base.ShowUI ();
 	}
-	
+
 	public override void HideUI () {
+        //LogHelper.Log("MenuBtnsComponent.HideUI()");
 		base.HideUI ();
 	}
 
@@ -25,5 +22,4 @@ public class UnitsComponent : ConcreteComponent, IUICallback {
 			LogHelper.LogException(ex);
 		}
 	}
-
 }

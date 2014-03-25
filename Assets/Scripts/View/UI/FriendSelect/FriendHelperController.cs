@@ -48,6 +48,7 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void QuestStart(object args){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		Dictionary<string, object> battleReadyInfo = new Dictionary<string, object>();
 //		battleReadyInfo.Add("QuestID", questID);
 //		battleReadyInfo.Add("StageID", stageID);
@@ -174,6 +175,7 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void ShowHelperInfo(object args){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TFriendInfo helper = DataCenter.Instance.SupportFriends[ (int)args ];
 		RecordSelectedHelper(helper);
 		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helper);

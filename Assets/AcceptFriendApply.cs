@@ -39,16 +39,14 @@ public class AccpetFriendApply : ApplyMessage
 		}
 	}
 
-	void Exit(object args)
-	{
-		Debug.LogError("Receive view click, to cancel delete friend apply of player....");
+	void Exit(object args){
+//		Debug.LogError("Receive view click, to cancel delete friend apply of player....");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null);   
 		ExcuteCallback(cbdArgs);
 	}
 
-	void EnsureAcceptApply(object args)
-	{
-		Debug.LogError("Receive view click, to ensure delete friend apply of player....");
+	void EnsureAcceptApply(object args){
+//		Debug.LogError("Receive view click, to ensure delete friend apply of player....");
 		MsgCenter.Instance.Invoke(CommandEnum.EnsureAcceptApply, null);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null); 
 		ExcuteCallback(cbdArgs);
@@ -60,25 +58,21 @@ public class AccpetFriendApply : ApplyMessage
 		ExcuteCallback(cbdArgs);
 	}
 
-	void CustomizeWindow()
-	{
+	void CustomizeWindow(){
 		CustomizeTitle();
 		CustomizeNote();
 	}
 
-	void CustomizeTitle()
-	{
+	void CustomizeTitle(){
 		string title = "Accept Apply";
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("StylizeTitle", title);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void CustomizeNote()
-	{
+	void CustomizeNote(){
 		string note = "Are you sure to accept this apply?";
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("StylizeNote", note);
 		ExcuteCallback(cbdArgs);
 	}
-
-
+	
 }

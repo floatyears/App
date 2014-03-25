@@ -21,7 +21,7 @@ public class StartDecorator : DecoratorBase{
 		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
 		background.SetComponent(decorator);
 		
-		MenuBtnsComponent bottom = CreatComponent< MenuBtnsComponent >(UIConfig.menuBottomName);
+		MainMenuController bottom = CreatComponent< MainMenuController >(UIConfig.menuBottomName);
 		bottom.SetComponent(background);
 		
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
@@ -428,31 +428,24 @@ public class FriendSelectDecorator : DecoratorBase
 }
 
 //--------------------------------Party----------------------------------------
-public class PartyDecorator : DecoratorBase
-{
+public class PartyDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public PartyDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public PartyDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 

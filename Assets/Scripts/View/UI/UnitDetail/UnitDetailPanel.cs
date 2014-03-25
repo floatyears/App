@@ -4,48 +4,53 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
-	//----------UI elements list----------
-	private GameObject unitInfoTabs;
-	protected UILabel noLabel;
-	protected UILabel hpLabel;
-	protected UILabel atkLabel;
-	protected UILabel raceLabel;
-	protected UILabel costLabel;
-	protected UILabel rareLabel;
-	protected UILabel levelLabel;
-	protected UILabel typeLabel;
-	protected UILabel nameLabel;
-	protected UILabel needExpLabel;
-	protected UISlider expSlider;
 
-	protected UILabel normalSkill1DscpLabel;
-	protected UILabel normalSkill1NameLabel;
+	GameObject unitInfoTabs;
+	UILabel noLabel;
+	UILabel hpLabel;
+	UILabel atkLabel;
+	UILabel raceLabel;
+	UILabel costLabel;
+	UILabel rareLabel;
+	UILabel levelLabel;
+	UILabel typeLabel;
+	UILabel nameLabel;
+	UILabel needExpLabel;
+	UISlider expSlider;
+
+	UILabel normalSkill1DscpLabel;
+	UILabel normalSkill1NameLabel;
 	
-	protected UILabel normalSkill2DscpLabel;
-	protected UILabel normalSkill2NameLabel;
+	UILabel normalSkill2DscpLabel;
+	UILabel normalSkill2NameLabel;
 
-	protected UILabel leaderSkillNameLabel;
-	protected UILabel leaderSkillDscpLabel;
+	UILabel leaderSkillNameLabel;
+	UILabel leaderSkillDscpLabel;
 
-	protected UILabel activeSkillNameLabel;
-	protected UILabel activeSkillDscpLabel;
+	UILabel activeSkillNameLabel;
+	UILabel activeSkillDscpLabel;
 
-	protected UILabel profileLabel;
+	UILabel profileLabel;
 
-	protected UIToggle statusToggle;
-	protected UITexture unitBodyTex;
+	GameObject tabSkill1;
+	GameObject tabSkill2;
+	GameObject tabStatus;
+	GameObject tabProfile;
 
-	protected GameObject levelUpEffect;
-	protected Material unitMaterial;
-	protected List<GameObject> effectCache = new List<GameObject>();
+	UIToggle statusToggle;
+	UITexture unitBodyTex;
 
-	protected List<UISprite> blockLsit1 = new List<UISprite>();
-	protected List<UISprite> blockLsit2 = new List<UISprite>();
+	GameObject levelUpEffect;
+	Material unitMaterial;
+	List<GameObject> effectCache = new List<GameObject>();
+
+	List<UISprite> blockLsit1 = new List<UISprite>();
+	List<UISprite> blockLsit2 = new List<UISprite>();
         
-	protected int currMaxExp, curExp, gotExp, expRiseStep;
+	int currMaxExp, curExp, gotExp, expRiseStep;
 
-	protected int _curLevel = 0; 
-	protected int curLevel {
+	int _curLevel = 0; 
+	int curLevel {
 		get {return _curLevel;}
 		set {
 			_curLevel = value;
@@ -54,7 +59,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			}
 		}
 	}
-
 	
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
@@ -86,13 +90,29 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//----------Init functions of UI Elements----------
 	void InitUI() {
 		unitInfoTabs = transform.Find("UnitInfoTabs").gameObject;
+		tabSkill1 = transform.Find("UnitInfoTabs/Tab_Skill1").gameObject;
+		UIEventListener.Get(tabSkill1).onClick = ClickTab;
+
+		tabSkill2 = transform.Find("UnitInfoTabs/Tab_Skill2").gameObject;
+		UIEventListener.Get(tabSkill2).onClick = ClickTab;
+
+		tabProfile = transform.Find("UnitInfoTabs/Tab_Profile").gameObject;
+		UIEventListener.Get(tabProfile).onClick = ClickTab;
+
+		tabStatus = transform.Find("UnitInfoTabs/Tab_Status").gameObject;
+		UIEventListener.Get(tabStatus).onClick = ClickTab;
+
 		InitTabSkill();
 		InitTabStatus ();
 //		InitExpSlider ();
 		InitTexture ();
 		InitProfile();
 	}
-	
+
+	void ClickTab(GameObject tab){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+	}
+
 	void InitProfile() {
 		string rootPath			= "UnitInfoTabs/Content_Profile/";
 		profileLabel			= FindChild<UILabel>(rootPath + "Label_info"	);
@@ -155,6 +175,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 		ClearBlock( blockLsit2 );
 //                Debug.LogError( "BlockList2 count : " + blockLsit2.Count);
+
 	}
 	
 	//Make panel focus on the same tab every time when this ui show
@@ -162,7 +183,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		target.value = true;
 	}
 
-	
 	void GetUnitMaterial(){
 		unitMaterial = Resources.Load("Materials/UnitMaterial") as Material;
 		if( unitMaterial == null )
@@ -194,9 +214,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		string path = "Prefabs/UI/UnitDetail/LevelUpEffect";
 		levelUpEffect = Resources.Load( path ) as GameObject;
 	}
-	//----------end deal with effect----------
-	
-
 
 	void ClickTexture( GameObject go ){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
@@ -204,13 +221,13 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		UIManager.Instance.ChangeScene( preScene );
 	}
 
+	void ShowUnitScale(){
 
-	//----------deal with animation---------- 
-	private void ShowUnitScale(){
-		TweenScale unitScale = 
-			gameObject.GetComponentInChildren< TweenScale >();
-		TweenAlpha unitAlpha =
-			gameObject.GetComponentInChildren< TweenAlpha >();
+		TweenScale unitScale = gameObject.GetComponentInChildren< TweenScale >();
+		TweenAlpha unitAlpha = gameObject.GetComponentInChildren< TweenAlpha >();
+
+		unitAlpha.eventReceiver = this.gameObject;
+		unitAlpha.callWhenFinished = "PlayCheckRoleAudio";
 
 		if( unitScale == null || unitAlpha == null )
 			return;
@@ -220,6 +237,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		unitAlpha.Reset();
 		unitAlpha.PlayForward();
+	}
+
+	void PlayCheckRoleAudio(){
+		//Debug.LogError("callWhenFinished...PlayCheckRoleAudio()");
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
 
 	void ShowBodyTexture( TUserUnit data ){

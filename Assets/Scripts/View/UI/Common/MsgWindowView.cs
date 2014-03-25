@@ -17,8 +17,7 @@ public class MsgWindowParams {
     public string[] contentTexts;
 }
 
-public class MsgWindowView : UIComponentUnity
-{
+public class MsgWindowView : UIComponentUnity{
     GameObject window;
 
     UILabel titleLabel;
@@ -111,33 +110,20 @@ public class MsgWindowView : UIComponentUnity
         msgLabelTop.text = string.Empty;
         msgLabelBottom.text = string.Empty;
     }
-//    
-//    void SetScreenShelt(string layerName){
-//        if (layerName == "ScreenShelt")
-//            Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
-//        else{
-//			if(TouchEventBlocker.Instance.IsBlocked)	return;
-//			Main.Instance.NguiCamera.eventReceiverMask = originLayer;
-//
-//		}
-//    }
-    
-    void SetUIElement()
-    {
+	    
+    void SetUIElement(){
         this.gameObject.SetActive(false);
         Reset();
     }
     
-    void ResetUIElement()
-    {
+    void ResetUIElement(){
         titleLabel.text = string.Empty;
     }
     
     public override void Callback(object data){
         ShowSelf(true);  
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-        switch (cbdArgs.funcName)
-        {
+        switch (cbdArgs.funcName){
         case "ShowMsg": 
             CallBackDispatcherHelper.DispatchCallBack(UpdateNotePanel, cbdArgs);
             break;
@@ -146,8 +132,8 @@ public class MsgWindowView : UIComponentUnity
         }
     }
     
-    void ClickRightButton(GameObject btn)
-    {
+    void ClickRightButton(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnRightParam != null){
             DataListener callback = btnRightParam.callback;
             if (callback != null){
@@ -157,8 +143,8 @@ public class MsgWindowView : UIComponentUnity
         ShowSelf(false);
     }
     
-    void ClickLeftButton(GameObject btn)
-    {
+    void ClickLeftButton(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnLeftParam != null){
             DataListener callback = btnLeftParam.callback;
             if (callback != null){
@@ -169,6 +155,7 @@ public class MsgWindowView : UIComponentUnity
     }
 
     void ClickCenterButton(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnCenterParam != null){
             DataListener callback = btnCenterParam.callback;
             if (callback != null){

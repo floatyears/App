@@ -21,26 +21,18 @@ public class OthersWindow : UIComponentUnity {
 	Dictionary< string, object > otherScrollerArgsDic = new Dictionary< string, object >();
 
 	public override void Init ( UIInsConfig config, IUICallback origin ){
-//		Debug.LogError("Init_Before");
 		FindUIElement();
 		SetOption();
-
 		base.Init (config, origin);
-//		Debug.LogError("Init_After");
 	}
 	
 	public override void ShowUI(){
-//		Debug.LogError("Show_Before");
 		base.ShowUI ();
-//		Debug.LogError("Show_After");
 		SetUIElement();
-
 	}
 	
 	public override void HideUI(){
-//		Debug.LogError("Hide_Before");
 		base.HideUI ();
-//		Debug.LogError("Hide_After");
 		ResetUIElement();
 	}
 	
@@ -49,8 +41,6 @@ public class OthersWindow : UIComponentUnity {
 	}
 	
 	void SetOption() {
-//		Debug.Log( "OthersWindow SetOption() : Start");
-
 		string itemPath = "Prefabs/UI/Others/OtherOptions";
 		GameObject item = Resources.Load( itemPath ) as GameObject;
 		
@@ -72,16 +62,13 @@ public class OthersWindow : UIComponentUnity {
 		
 		for(int i = 0; i < othersScroller.ScrollItem.Count; i++)
 			UIEventListener.Get( othersScroller.ScrollItem[ i ].gameObject ).onClick = ClickOption;
-
-//		Debug.Log( "OthersWindow SetOption() : End");
 	}
 
 
 	void ClickOption( GameObject go) {
-//		Debug.Log( "OthersWindow ClickOption() : Start");
-//		Debug.Log( "OthersWindow ClickOption() : Click Option's name : " + go.name);
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+
 		SwicthOption( go );
-//		Debug.Log( "OthersWindow ClickOption() : Start");
 	}
 
 	void SwicthOption( GameObject target ){
@@ -89,18 +76,13 @@ public class OthersWindow : UIComponentUnity {
 			item.Value.SetActive( false );
 		options[ target ].SetActive( true );
 	}
-
-
-	//----------Find UI----------
+	
 	void FindUIElement() {
-//		Debug.Log( "OthersWindow FindUIElement() : Start");
 		FindMusicPanel();
 		FindNickNamePanel();
 	}
 
 	void FindMusicPanel(){
-//		Debug.Log( "OthersWindow FindMusicPanel() : Start");
-
 		string rootPath;
 		rootPath =  "InfoPanel/";
 		musicPanel = FindChild( rootPath + "MusicPanel" );
@@ -109,17 +91,15 @@ public class OthersWindow : UIComponentUnity {
 
 		rootPath = "InfoPanel/MusicPanel/";
 		bgmOnBtn = FindChild< UIButton >(rootPath + "BGM/On" );
-                bgmOffBtn = FindChild< UIButton >(rootPath + "BGM/Off" );
+        bgmOffBtn = FindChild< UIButton >(rootPath + "BGM/Off" );
 
 		rootPath = "InfoPanel/MusicPanel/BGM/";
 		maskOn = FindChild< UISprite >( rootPath + "On/Mask");
 		maskOff = FindChild< UISprite >( rootPath + "Off/Mask");
 
-//		Debug.Log( "OthersWindow FindMusicPanel() : End");
 	}
 
 	void FindNickNamePanel(){
-//		Debug.Log( "OthersWindow FindNickNamePanel() : Start");
 		string rootPath;
 		rootPath =  "InfoPanel/";
 		nickNamePanel = FindChild( rootPath + "NickNamePanel" );
@@ -127,11 +107,9 @@ public class OthersWindow : UIComponentUnity {
 		rootPath = "InfoPanel/NickNamePanel/";
 		okButton = FindChild< UIButton >( rootPath + "OKButton" );
 		nickNameInput = FindChild< UIInput >( rootPath + "NickNameInput" );
-//		Debug.Log( "OthersWindow FindNickNamePanel() : End");
         }
 
 
-	//----------Set UI----------
 	void SetUIElement(){
 		SetMusicPanel();
 		SetNickNamePanel();
@@ -140,40 +118,32 @@ public class OthersWindow : UIComponentUnity {
 	}
 
 	void SetMusicPanel() {
-                maskOn.enabled = false;
-                maskOff.enabled = true;
+        maskOn.enabled = false;
+        maskOff.enabled = true;
 		UIEventListener.Get( bgmOnBtn.gameObject ).onClick = ClickBgmBtn;
 		UIEventListener.Get( bgmOffBtn.gameObject ).onClick = ClickBgmBtn;
-        }
+    }
 
 	void SetNickNamePanel(){
-//		Debug.Log( "OthersWindow SetNickNamePanel() : Start");
-//		nickNameInput.defaultText = UIConfig.TextNickNameInputDefault;
 		UIEventListener.Get( okButton.gameObject ).onClick = ClickOkButton;
-//		Debug.Log( "OthersWindow SetNickNamePanel() : End");
 	}
         
 	void ClickOkButton( GameObject go ){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
-//		Debug.Log("OthersWindow ClickOkButton(), nickNameInput is " + nickNameInput.value);
 	}
 
-	//----------Reset UI----------
-        void ResetUIElement(){
-                nickNameInput.label.text = string.Empty;
-        }
+    void ResetUIElement(){
+        nickNameInput.label.text = string.Empty;
+    }
         
-        void SetUIActive(bool active) {
+    void SetUIActive(bool active) {
 
 		othersScroller.DragPanelView.gameObject.SetActive( active );
-
 		musicPanel.SetActive( active );
-
 		nickNamePanel.SetActive( active );
-        }
+    }
 
-
-	//----------UI animation----------
 	void ShowTween() {
 		TweenPosition[ ] list = 
 			gameObject.GetComponentsInChildren< TweenPosition >();
@@ -188,6 +158,8 @@ public class OthersWindow : UIComponentUnity {
         }
 
 	void ClickBgmBtn( GameObject btn ){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+
 		if( btn.name == "On") {
 			AudioManager.Instance.PlayAudio(AudioEnum.music_home);
 			maskOn.enabled = false;
@@ -200,6 +172,8 @@ public class OthersWindow : UIComponentUnity {
         }
 
 	void ClickNameChangeButton( GameObject go ){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+
 		Debug.Log( "OthersWindow ClickNameChangeButton() : Start");
 		RequestNameChange( GetInputText() );
 		Debug.Log( "OthersWindow ClickNameChangeButton() : End");

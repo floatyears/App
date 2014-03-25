@@ -157,15 +157,15 @@ public class FriendListLogic : ConcreteComponent{
 	List<TFriendInfo> CurrentFriendListData(){
 		switch (UIManager.Instance.baseScene.CurrentScene){
 			case SceneEnum.FriendList: 
-				Debug.Log("CurrentFriendListData() friend Count {0} " + DataCenter.Instance.FriendList.Friend.Count); 
+//				Debug.Log("CurrentFriendListData() friend Count {0} " + DataCenter.Instance.FriendList.Friend.Count); 
 				return DataCenter.Instance.FriendList.Friend;
 				break;
 			case SceneEnum.Apply: 
-				Debug.Log("CurrentFriendListData() friendIn Count {1}" + DataCenter.Instance.FriendList.FriendOut.Count); 
+//				Debug.Log("CurrentFriendListData() friendIn Count {1}" + DataCenter.Instance.FriendList.FriendOut.Count); 
 				return DataCenter.Instance.FriendList.FriendOut;
 				break;
 			case SceneEnum.Reception: 
-				Debug.Log("CurrentFriendListData() friendOut Count {2}" + DataCenter.Instance.FriendList.FriendIn.Count); 
+//				Debug.Log("CurrentFriendListData() friendOut Count {2}" + DataCenter.Instance.FriendList.FriendIn.Count); 
 				return DataCenter.Instance.FriendList.FriendIn;
 				break;
 			default:
