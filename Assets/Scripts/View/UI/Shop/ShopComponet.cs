@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum BuyType{
     FriendExpansion = 1,
@@ -115,38 +116,42 @@ public class ShopComponent : ConcreteComponent {
         return msgWindowParam;
     }
 
+    MsgWindowParams GetFriendExpansionBuyFailParams(BuyFailType failType){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendExpansionFailed");
+        string content = failType == BuyFailType.NoNeedToBuy ? "FriendCountLimitReachedMax" : "FriendExpandStonesNotEnough";
+        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText(content);;
+        msgWindowParam.btnParam = new BtnParam();
+        return msgWindowParam;
+    }
+ 
+    MsgWindowParams GetStaminaRecoverBuyFailParams(BuyFailType failType){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("StaminaRecoverFailed");
+        string content = failType == BuyFailType.NoNeedToBuy ? "StaminaStillFull" : "StaminaRecoverStonesNotEnough";
+        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText(content);;
+        msgWindowParam.btnParam = new BtnParam();
+        return msgWindowParam;
+    }
+
+    MsgWindowParams GetUnitExpansionBuyFailParams(BuyFailType failType){
+        MsgWindowParams msgWindowParam = new MsgWindowParams();
+        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("UnitExpansionFailed");
+        string content = failType == BuyFailType.NoNeedToBuy ? "UnitCountLimitReachedMax" : "UnitExpandStonesNotEnough";
+        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText(content);;
+        msgWindowParam.btnParam = new BtnParam();
+        return msgWindowParam;
+    }
+
     MsgWindowParams GetBuyFailMsgWindowParams(BuyType buyType, BuyFailType failType){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
-
-        string title = "";
-        string content = "";
-
-        switch (buyType) {
-        case BuyType.FriendExpansion:
-            title = "FriendExpansionFailed";
-            content = failType == BuyFailType.NoNeedToBuy ? "FriendCountLimitReachedMax" : "FriendExpandStonesNotEnough";
-            break;
-        case BuyType.StaminaRecover:
-            title = "StaminaRecoverFailed";
-            content = failType == BuyFailType.NoNeedToBuy ? "StaminaStillFull" : "StaminaRecoverStonesNotEnough" ;
-            break;
-        case BuyType.UnitExpansion:
-            title = "UnitExpansionFailed";
-            content = failType == BuyFailType.NoNeedToBuy ? "UnitCountLimitReachedMax": "UnitExpandStonesNotEnough";
-            break;
-        default:
-            break;
+        Dictionary<BuyType, MsgWindowParams> paramsDict = new Dictionary<BuyType, MsgWindowParams>();
+        paramsDict.Add(BuyType.FriendExpansion, GetFriendExpansionBuyFailParams(failType));
+        paramsDict.Add(BuyType.StaminaRecover, GetStaminaRecoverBuyFailParams(failType));
+        paramsDict.Add(BuyType.UnitExpansion, GetUnitExpansionBuyFailParams(failType));
+        if (paramsDict.ContainsKey(buyType)){
+            return paramsDict[buyType];
         }
-        if (title != ""){
-            title = TextCenter.Instace.GetCurrentText(title);
-        }
-        if (content != ""){
-            content = TextCenter.Instace.GetCurrentText(content);
-        }
-        msgWindowParam.titleText = title;
-        
-        msgWindowParam.contentText = content;
-        msgWindowParam.btnParam = new BtnParam();
         return msgWindowParam;
     }
 

@@ -70,6 +70,10 @@ public class HttpManager : INetSendPost {
             }
             else if (!string.IsNullOrEmpty(www.error)) {
                 wwwRequst.RemoveAt(i);
+//                LogHelper.Log("HttpUpdate(), received error, {0}", www.error);
+            }
+            else {
+//                LogHelper.Log("HttpUpdate(), not done or done and error");
             }
         }
     }
@@ -78,4 +82,5 @@ public class HttpManager : INetSendPost {
         wwwRequst.Remove(wwwPost);
         wwwPost.ExcuteCallback();
     }
+
 }
