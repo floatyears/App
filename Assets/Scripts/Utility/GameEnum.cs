@@ -4,6 +4,8 @@ public enum SceneEnum
 {
 	None,
 
+    Loading,
+
 	Start,
 
 	Quest,
@@ -144,8 +146,10 @@ public enum CommandEnum
 	UnitDisplayMaterialData		= 3056,
 	EvolveFriend				= 3057,
 	UnitMaterialList 			= 3058,
-	EvolveStart	,
-
+	EvolveStart,
+	ReturnPreScene,
+	RefreshFriendHelper,
+	PlayerDead,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -209,6 +213,8 @@ public enum CommandEnum
     SeletEvolveInfo					= 4060,
     EnableMenuBtns                  = 4061,
 	EvolveSelectQuest 				= 4062,
+
+	RefreshItemCount				= 4063,
 
     WaitResponse,
     SetBlocker,

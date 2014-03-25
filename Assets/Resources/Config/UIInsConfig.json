@@ -72,6 +72,14 @@
         "positiony": 0,
         "positionz": 0
     },
+    "LoadingWindow": {
+        "uiName":"Loading",
+        "resoucePath": "Prefabs/UI/Loading/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
     "QuestWindow": {
         "uiName":"QuestWindow",
         "resoucePath": "Prefabs/UI/Quest/",
@@ -335,6 +343,14 @@
         "parent": 1,
         "positionx": 0,
         "positiony": -245,
+        "positionz": 0
+    },
+       "ItemCounterBar": {
+        "uiName":"ItemCounterBar",
+        "resoucePath": "Prefabs/UI/Common/",
+        "parent": 0,
+        "positionx": -200,
+        "positiony": -360,
         "positionz": 0
     }
     

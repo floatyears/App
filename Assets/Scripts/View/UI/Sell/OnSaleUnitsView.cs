@@ -20,8 +20,8 @@ public class OnSaleUnitsView : UIComponentUnity{
 	UIImageButton clearImgBtn;
 	UILabel coinLabel;
 	UILabel readyCoinLabel;
-	UILabel curCountLabel;
-	UILabel maxCountLabel;
+//	UILabel curCountLabel;
+//	UILabel maxCountLabel;
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -180,8 +180,8 @@ public class OnSaleUnitsView : UIComponentUnity{
 		clearImgBtn = transform.FindChild("MainWindow/ImgBtn_Clear").GetComponent<UIImageButton>();
 		lastSureCancelButton = FindChild<UIButton>("EnsureWindow/Button_Cancel");
 		lastSureOkButton = FindChild<UIButton>("EnsureWindow/Button_Ok");
-		curCountLabel = FindChild<UILabel>("MainWindow/CountItem/Label_Count_Cur");
-		maxCountLabel = FindChild<UILabel>("MainWindow/CountItem/Label_Count_Max");
+//		curCountLabel = FindChild<UILabel>("MainWindow/CountItem/Label_Count_Cur");
+//		maxCountLabel = FindChild<UILabel>("MainWindow/CountItem/Label_Count_Max");
 		UIEventListener.Get(sellImgBtn.gameObject).onClick = ClickSellBtn;
 		UIEventListener.Get(clearImgBtn.gameObject).onClick = ClickClearBtn;
 		UIEventListener.Get(lastSureOkButton.gameObject).onClick = ClickSellOk;
@@ -226,7 +226,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 		dragPanel.CreatUI();
 		dragPanel.AddItem(itemCount);
 		FindCrossShowLabelList();
-		UpdateCountLabel(viewInfoList.Count, DataCenter.Instance.UserInfo.FriendMax);
+		//UpdateCountLabel(viewInfoList.Count, DataCenter.Instance.UserInfo.FriendMax);
         AddEventLisenter();
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 		RefreshItemView(viewItemList);
@@ -234,10 +234,10 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	
-	void UpdateCountLabel(int cur, int max){
-		curCountLabel.text = cur.ToString();
-		maxCountLabel.text = max.ToString();
-	}
+//	void UpdateCountLabel(int cur, int max){
+//		curCountLabel.text = cur.ToString();
+//		maxCountLabel.text = max.ToString();
+//	}
 
 	void RefreshItemView(List<UnitItemViewInfo> dataItemList){
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){

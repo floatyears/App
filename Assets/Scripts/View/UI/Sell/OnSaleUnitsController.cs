@@ -17,6 +17,7 @@ public class OnSaleUnitsController : ConcreteComponent {
 		base.ShowUI ();
 		GetUnitCellViewList();
 		CreateOnSaleUnitViewList();
+		RefreshOwnedUnitCount();
 	}
 	
 	public override void HideUI () {
@@ -66,9 +67,7 @@ public class OnSaleUnitsController : ConcreteComponent {
 	private void OnRspSellUnit(object data) {
 		if (data == null)
 			return;
-		
-//		LogHelper.Log("OnRspSellUnit() begin");
-//		LogHelper.Log(data);
+
 		bbproto.RspSellUnit rsp = data as bbproto.RspSellUnit;
 		
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
@@ -89,7 +88,13 @@ public class OnSaleUnitsController : ConcreteComponent {
 
 //		LogHelper.LogError("after sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
 		UpdateViewAfterRspSellUnit();
+
+		RefreshOwnedUnitCount();
+
 	}
+
+
+
 
 	void UpdateViewAfterRspSellUnit(){
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin, null);
@@ -179,6 +184,15 @@ public class OnSaleUnitsController : ConcreteComponent {
 			}
 		}
 	}
+
+	void RefreshOwnedUnitCount(){
+		Dictionary<string, object> countArgs = new Dictionary<string, object>();
+		countArgs.Add("title", TextCenter.Instace.GetCurrentText("UnitCounterTitle"));
+		countArgs.Add("current", DataCenter.Instance.MyUnitList.Count);
+		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+	}
+
 
 	void GetUnitCellViewList(){
 		List<TUserUnit> userUnitList = new List<TUserUnit>();	

@@ -2,8 +2,12 @@
 using System.Collections;
 
 public class MaskView : UIComponentUnity {
+	UISprite background;
+	UISprite connecting;
+
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
+		InitUI();
 	}
 
 	public override void ShowUI(){
@@ -20,16 +24,30 @@ public class MaskView : UIComponentUnity {
 
 		switch (call.funcName){
 			case "ShowMask" :
-				CallBackDispatcherHelper.DispatchCallBack(SetUIActive, call);
+				CallBackDispatcherHelper.DispatchCallBack(SetMaskActive, call);
+				break;
+			case "ShowConnect" :
+				CallBackDispatcherHelper.DispatchCallBack(SetConnectActive, call);
 				break;
 			default:
 				break;
 		}
 	}
 
-	void SetUIActive(object args){
+	void InitUI(){
+		background = FindChild<UISprite>("Sprite_Mask");
+		connecting = FindChild<UISprite>("Sprite_Connect");
+		background.enabled = false;
+		connecting.enabled = false;
+	}
+	void SetMaskActive(object args){
 		bool isActive = (bool)args;
-		gameObject.SetActive(isActive);
+		background.enabled = isActive;
+	}
+
+	void SetConnectActive(object args){
+		bool isActive = (bool)args;
+		connecting.enabled = isActive;
 	}
 
 }

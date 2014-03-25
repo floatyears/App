@@ -12,6 +12,16 @@ public partial class TextCenter {
     void InitSecond(){
         textDict.Add("BigRareWarning", "Rare Warning");
         textDict.Add("BigRareWarningText", "Include the unit whose rare bigger than 3.\nAre you sure to sell?");
+
+		textDict.Add("FriendCounterTitle", "Friends :");
+		textDict.Add("ApplyCounterTitle", "Apply :");
+		textDict.Add("ReceptionCounterTitle", "Recept :");
+		textDict.Add("UnitCounterTitle", "Units :");
+
+
+		textDict.Add("CounterCurrent",  "{0}");
+		textDict.Add("CounterMax",  "/{0}");
+
     }
 }
 

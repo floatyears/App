@@ -76,7 +76,7 @@ public class MsgWindowView : UIComponentUnity
 
         UIEventListener.Get(btnRight.gameObject).onClick = ClickRightButton;
         UIEventListener.Get(btnLeft.gameObject).onClick = ClickLeftButton;
-        UIEventListener.Get(btnCenter.gameObject).onClick = ClickLeftButton;
+        UIEventListener.Get(btnCenter.gameObject).onClick = ClickCenterButton;
 //        originLayer = Main.Instance.NguiCamera.eventReceiverMask;
     }
     
@@ -203,6 +203,15 @@ public class MsgWindowView : UIComponentUnity
         btnCenterParam = btnParam;
         SetButtonLabelText(btnCenter, btnParam.text);
     }
+    
+    void ResetBtnCallback(){
+        btnCenter.gameObject.SetActive(false);
+        btnLeft.gameObject.SetActive(false);
+        btnRight.gameObject.SetActive(false);
+        btnCenterParam = null;
+        btnLeftParam = null;
+        btnRightParam = null;
+    }
 
 
     void UpdateBtnLeftRightCallback(BtnParam[] btnParam){
@@ -235,6 +244,7 @@ public class MsgWindowView : UIComponentUnity
         BtnParam btnParam = msgWindowParams.btnParam as BtnParam;
         BtnParam[] btnParams = msgWindowParams.btnParams as BtnParam[];
         LogHelper.Log("btnParam {0}, btnParams {1}", btnParam, btnParams);
+        ResetBtnCallback();
         if (btnParam != null){
             UpdateBtnCenterCallback(btnParam);
         }

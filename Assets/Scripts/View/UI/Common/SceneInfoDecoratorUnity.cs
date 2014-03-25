@@ -38,8 +38,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 		UIEventListener.Get( btnBackScene.gameObject ).onClick = BackPreScene;
 	}
 	
-	public void Callback (object data)
-	{
+	public void Callback (object data) {
 		string info = string.Empty;
 		try {
 			info = (string)data;
@@ -56,11 +55,11 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 		btnBackScene.isEnabled = b;
 	}
 
-	void BackPreScene (GameObject go)
-	{
+	void BackPreScene (GameObject go) {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		if( UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail ) {
 			SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
+			MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, preScene);
 			UIManager.Instance.ChangeScene( preScene );
 			return;
 		}

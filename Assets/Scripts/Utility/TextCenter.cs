@@ -57,6 +57,9 @@ public partial class TextCenter {
         textDict.Add("Back", "Back");
         textDict.Add("Open", "Open");
 
+        textDict.Add("retry", "Retry");
+        textDict.Add("error", "error");
+
         textDict.Add("SearchError", "Search Error");
         textDict.Add("UserNotExist", "The Friend {0} you search not exist");
 
@@ -195,5 +198,8 @@ public partial class TextCenter {
         textDict.Add("E_UNIT_ID_ERROR", "E_UNIT_ID_ERROR");
         textDict.Add("E_LEVELUP_NO_ENOUGH_MONEY", "E_LEVELUP_NO_ENOUGH_MONEY");
         textDict.Add("E_GET_UNIT_INFO_ERROR", "E_GET_UNIT_INFO_ERROR");
+
+        textDict.Add("CONNECT_ERROR", "Connect network error. Please confirm your networking and try again.");
+        textDict.Add("SERVER_500", "Now server is busying. Please wait and try again.");
     }
 }

@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class StartScene : BaseComponent {
-	StartDecorator dis;
+//	StartDecorator dis;
+    StartDecorator dis;
 	public StartScene(string uiName) : base(uiName) {}
 	
 	public override void CreatUI () {}
@@ -26,6 +27,7 @@ public class StartScene : BaseComponent {
 	private SceneEnum prevScene;
 	public SceneEnum PrevScene {
 		get { return prevScene; }
+		set { prevScene = value; }
 
 	}
 

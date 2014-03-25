@@ -18,9 +18,9 @@ public class EvolveStart: ProtoManager {
     private bbproto.ReqEvolveStart reqEvolveStart;
     private bbproto.RspEvolveStart rspEvolveStart;
 
-    public uint BaseUnitId { set { baseUnitId = value; } }
+	public uint BaseUnitId { get{ return baseUnitId; } set { baseUnitId = value; } }
     public List<uint> PartUnitId { get { return partUnitId; } set { partUnitId = value; } }
-    public uint HelperUserId { set { helperUserId = value; } }
+	public uint HelperUserId { get{return helperUserId; } set { helperUserId = value; } }
     public UserUnit HelperUnit { get { return helperUnit; } set { helperUnit = value; } }
     public int HelperPremium { set { helperPremium = value; } }
     public uint EvolveQuestId { get { return evolveQuestId; } set { evolveQuestId = value; } }
@@ -32,6 +32,8 @@ public class EvolveStart: ProtoManager {
     private int helperPremium;
     private uint evolveQuestId;
     
+	public int restartNew = 0;
+
     public EvolveStart() {
     }
     
@@ -58,7 +60,8 @@ public class EvolveStart: ProtoManager {
         reqEvolveStart.helperUnit = helperUnit;
         reqEvolveStart.helperPremium = helperPremium;
         reqEvolveStart.evolveQuestId = evolveQuestId;
-
+	
+		reqEvolveStart.restartNew = restartNew;
 //        reqEvolveStart.partUniqueId
         
         ErrorMsg err = SerializeData(reqEvolveStart); // save to Data for send out
@@ -188,6 +191,20 @@ public class TEvolveStart : ProtobufDataBase {
 	public EvolveStart EvolveStart {
 		get { return evolveStart; }
 		set { evolveStart = value; }
+	}
+
+	private TUnitParty evolveParty;
+	public TUnitParty EvolvePary {
+		get {return evolveParty;}
+		set {evolveParty = value;}
+	}
+
+	public void StoreData () {
+		DataCenter.evolveInfo = this;
+	}
+
+	public void ClearData () {
+		DataCenter.evolveInfo = null;
 	}
 }
 

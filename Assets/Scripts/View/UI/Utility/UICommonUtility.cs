@@ -88,17 +88,17 @@ public class TouchEventBlocker{
 		}
 		else{
 			nguiCamera.eventReceiverMask = originLayer;
-			Debug.LogError("TouchEventBlocker.SetBlocked(), when false, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
+//			Debug.LogError("TouchEventBlocker.SetBlocked(), when false, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
 
 		}
 	}
 
 	private void Test(bool result){
 		//Test
-		Debug.LogError("CalculateFinalState.Test(), result is : " + result);
-		foreach (var item in stateDic){
-			Debug.LogError(string.Format("Test, Key is {0}, Value is {1}", item.Key, item.Value));
-		}
+//		Debug.LogError("CalculateFinalState.Test(), result is : " + result);
+//		foreach (var item in stateDic){
+//			Debug.LogError(string.Format("Test, Key is {0}, Value is {1}", item.Key, item.Value));
+//		}
 	}
 
 }

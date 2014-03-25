@@ -16,9 +16,6 @@ public class VictoryEffect : UIBaseUnity {
 	private GameObject parent;
 	private GameObject dropItem;
 
-//	private Vector3 localScale;
-//	private Vector3 targetScale;
-
 	private int coinNumber = 0;
 	private int empireNumber = 0;
 
@@ -33,15 +30,6 @@ public class VictoryEffect : UIBaseUnity {
 	private Vector3 rightWingAngle2 	= new Vector3 (0f, 0f, -3f);
 	private Vector3 rightWingAngle3 	= new Vector3 (0f, 0f, 15f);
 	private Callback sureButtonCallback;
-
-
-
-//	//------------------------------------------------------------------------------------------------
-//	 test data
-//	private int maxEmpirical = 100;
-//	private int currentEmpirical = 50;
-//	private int addEmpirical = 20;
-//	//------------------------------------------------------------------------------------------------
 
 	public override void Init (string name) {
 		base.Init (name);
@@ -176,26 +164,16 @@ public class VictoryEffect : UIBaseUnity {
 
 	void Sure(GameObject go) {
 		DestoryUI ();
-		ControllerManager.Instance.ExitBattle ();
-		UIManager.Instance.ExitBattle ();
+		if (sureButtonCallback != null) {
+			sureButtonCallback();
+		}
+
+//		
 	}
-//
-//	void Start() {
-//		Init("aa");
-//		PlayAnimation (TempFun,new VictoryInfo(100,0,0,100));
-//
-//	}
-	
-	public void ShowInfo(VictoryInfo vi) {
-//		coinNumber = vi.Coin;
-//		empireNumber = vi.maxEmpire;
-//		StartCoroutine( UpdateCoinNumber (vi.startCoin, coinNumber));
-//		StartCoroutine (UpdateLevelNumber (vi.currentEmpire, empireNumber));
-	}
-	VictoryInfo tempVictory;
-	public void PlayAnimation (Callback callback,VictoryInfo vi) {
+
+	public void PlayAnimation (Callback callback) {
 		sureButtonCallback = callback;
-		tempVictory = vi;
+
 		if (currentState == UIState.UIHide) {
 			ShowUI();	
 		}
@@ -234,7 +212,6 @@ public class VictoryEffect : UIBaseUnity {
 	
 	void StartRotateWing () {
 		canPlayAnimation = true;
-//		ShowInfo (tempVictory);
 		iTween.RotateTo(leftWing.gameObject,iTween.Hash("rotation",leftWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"delay",0.3f));
 		iTween.RotateTo(rightWing.gameObject,iTween.Hash("rotation",rightWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"oncomplete","PlayNext","oncompletetarget",gameObject,"delay",0.3f));
 	}
@@ -267,20 +244,6 @@ public class VictoryEffect : UIBaseUnity {
 			frontCircle.transform.Rotate (Vector3.forward, 30f * Time.deltaTime, Space.Self);
 			backCircle.transform.Rotate (Vector3.forward, -30f * Time.deltaTime, Space.Self);	
 		}
-	}
-
-}
-
-public struct VictoryInfo {
-	public int maxEmpire;
-	public int currentEmpire ;
-	public int startCoin;
-	public int Coin;
-	public VictoryInfo(int mEmpire, int cEmpire,int sCoin,int coin) {
-		maxEmpire = mEmpire;
-		currentEmpire = cEmpire;
-		startCoin = sCoin;
-		Coin = coin;
 	}
 }
 

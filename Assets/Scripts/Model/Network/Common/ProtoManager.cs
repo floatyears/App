@@ -27,6 +27,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
         if (MakePacket()) { //make proto packet to Data
 //			LogHelper.Log ("MakePacket => proto:{0} InstanceType:{1}",protoName, reqType);
             http.Send(this, protoName, Data);
+            SetBlockMask(true);
         }
     }
 	
@@ -42,6 +43,13 @@ public class ProtoManager: ProtobufDataBase, INetBase {
         }
 
         OnResponseEnd(this.instObj);
+        SetBlockMask(false);
+    }
+
+    public void SetBlockMask(bool flag){
+        LogHelper.LogError("SetBlockMask(), {0}", flag);
+        MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, flag));
+        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, flag);
     }
 
     public virtual void OnResponse(bool success) {
@@ -59,8 +67,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
         OnRequestBefore(callback);
 //		Debug.LogError ("OnReceiveCommand");
         OnReceiveCommand(data);
-        MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, true));
-        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, true);
+
     }
 
     protected virtual void OnReceiveCommand(object data) {
@@ -75,8 +82,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
         if (netDoneCallback != null) {
             netDoneCallback(data);
         }
-        MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, false));
-        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, false);
+
     }
 }
 
