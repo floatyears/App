@@ -119,13 +119,13 @@ public class BattleUseData {
     }
 
     void RecoveHPByActiveSkill(object data) {
-        int value = (int)data;
+		float value = (float)data;
         int add = 0;
-        if (value < 1) {
-            add = blood * value + blood;
+        if (value <= 1) {
+            add = maxBlood * value + blood;
         }
         else {
-            add = value + blood;
+            add = (int)value + blood;
         }
         RecoverHP(add);
     }

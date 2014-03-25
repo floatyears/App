@@ -361,7 +361,7 @@ public class AttackController {
 		}
 		enemyIndex ++;
 		if (enemyIndex == enemyInfo.Count) {
-			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]);
+			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
 			GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
 		}
 		else {

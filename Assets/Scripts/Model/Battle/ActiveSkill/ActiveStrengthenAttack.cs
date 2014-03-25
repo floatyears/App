@@ -31,6 +31,7 @@ public class ActiveStrengthenAttack : ActiveSkill, IActiveSkillExcute {
 		ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackType = (int)instance.targetType;
+		ai.AttackRace = (int)instance.targetRace;
 		ai.AttackValue = instance.value;
 		ai.AttackRound = instance.periodValue;
 		MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, ai);
@@ -43,7 +44,7 @@ public class ActiveStrengthenAttack : ActiveSkill, IActiveSkillExcute {
 		if (ai == null) {
 			return;	
 		}
-		if (ai.AttackRound == 0) {
+		if (ai.AttackRound <= 0) {
 			MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, ai);
 			MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 		}

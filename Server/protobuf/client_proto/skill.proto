@@ -87,6 +87,7 @@ message SkillStrengthenAttack {
 	optional float			value			= 3;
 	optional int32			periodValue		= 4;
 	optional EUnitType		targetType		= 5;
+	optional EUnitRace		targetRace		= 6;
 }
 
 message SkillKillHP { //kill all people's HP
@@ -271,4 +272,33 @@ message SkillMultipleAttack {
 //};
 
 //==========================================================================================
+
+message AllSkillConfig {
+	repeated NormalSkill				Normal					= 1;
+
+	//active skill
+	repeated SkillSingleAttack			SingleAttack			= 2;
+	repeated SkillSingleAtkRecoverHP	SingleAtkRecoverHP		= 3;
+	repeated SkillSuicideAttack			SuicideAttack			= 4;
+	repeated SkillTargetTypeAttack		TargetTypeAttack		= 5;
+	repeated SkillStrengthenAttack		StrengthenAttack		= 6;
+	repeated SkillKillHP				KillHP					= 7;
+	repeated SkillRecoverHP				RecoverHP				= 8;
+	repeated SkillRecoverSP				RecoverSP				= 9;
+	repeated SkillReduceHurt			ReduceHurt				= 10;
+	repeated SkillReduceDefence			ReduceDefence			= 11;
+	repeated SkillDeferAttackRound		DeferAttackRound		= 12;
+	repeated SkillPoison				Poison					= 13;
+	repeated SkillDelayTime				DelayTime				= 14;
+	
+	repeated SkillConvertUnitType		ConvertUnitType			= 15;
+	//passive skill
+	repeated SkillDodgeTrap				DodgeTrap				= 16;
+	repeated SkillAntiAttack			AntiAttack				= 17;
+
+	//leader skill
+	repeated SkillBoost					Boost					= 18;
+	repeated SkillExtraAttack			Extraattack				= 19;
+	repeated SkillMultipleAttack		MultipleAttack			= 20;
+}
 
