@@ -11,9 +11,7 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-
 		SceneEnum se = UIManager.Instance.baseScene.CurrentScene;
-
 		Output(se.ToString());
 	}
 	
@@ -32,15 +30,14 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 		}
 	}
 
-	public void Callback (object data)
-	{
+	public void Callback (object data) {
+		MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, backScene);
 		UIManager.Instance.ChangeScene(backScene);
 	}
 
 	private SceneEnum backScene = SceneEnum.None;
 
 	public void SetBackScene(SceneEnum se) {
-	
 		if( viewComponent is IUISetBool) {
 			IUISetBool sb = viewComponent as IUISetBool;
 			if(se == SceneEnum.None) {

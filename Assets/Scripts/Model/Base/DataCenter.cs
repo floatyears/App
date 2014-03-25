@@ -35,8 +35,13 @@ public enum ModelEnum {
 	CityInfo,
 }
 
-public enum Effect {
-    DragCard = 8,
+/// <summary>
+/// game state, tag current game in any state.
+/// </summary>
+public enum GameState {
+	Normal,
+
+	Evolve,
 }
 
 public class DataCenter {
@@ -53,6 +58,9 @@ public class DataCenter {
     private static DataCenter instance;
     private DataCenter() {
     }
+
+	public static GameState gameStage = GameState.Normal;
+	public static TEvolveStart evolveInfo = null;
 
     public const int maxEnergyPoint = 20;
     public const int posStart = 0;

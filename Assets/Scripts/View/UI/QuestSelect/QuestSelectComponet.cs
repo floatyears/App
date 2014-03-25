@@ -20,7 +20,6 @@ public class QuestSelectComponent : ConcreteComponent{
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, SelectedStage);
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
-
 	}
 	
 	public override void HideUI() {

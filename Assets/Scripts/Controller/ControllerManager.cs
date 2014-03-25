@@ -114,6 +114,8 @@ public class ControllerManager
 		IUIInterface temp;
 		switch (sEnum) {	
 		case SceneEnum.Fight:
+
+
 			temp = new BattleQuest(uiName);
 			break;
 		default:
@@ -124,6 +126,13 @@ public class ControllerManager
 		temp.CreatUI();
 		AddUIObject(uiName,temp);
 		return temp;
+	}
+
+	void EnterBattle () {
+		Application.LoadLevel("Battle");
+		GameObject ui = GameObject.Find("UI");
+		ViewManager.Instance.BattleBottom = ui.transform.Find ("Anchor/Panel/Bottom").gameObject;
+		ViewManager.Instance.BattleCamera = ui.transform.Find ("Camera").GetComponent<UICamera> ();
 	}
 	
 	#region global ui

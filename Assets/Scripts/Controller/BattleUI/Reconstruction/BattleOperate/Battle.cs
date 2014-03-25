@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Battle : UIBase
-{
+public class Battle : UIBase {
 	private static UIRoot uiRoot;
 	private static Camera mainCamera;
 	private UICamera nguiMainCamera;
@@ -142,15 +141,10 @@ public class Battle : UIBase
 
 	void CreatCard() {
 		tempObject = GetPrefabsObject(Config.battleCardName);
-
 		tempObject.layer = GameLayer.ActorCard;
-
 		battleCard = tempObject.AddComponent<BattleCard>();
-
 		battleCard.CardPosition = battleCardPool.CardPosition;
-
 		battleCard.Init(Config.battleCardName);
-
 	}
 
 	void ShowCard() {
@@ -164,18 +158,13 @@ public class Battle : UIBase
 		}
 	}
 
-	void CreatArea()
-	{
+	void CreatArea() {
 		string areaName = "BattleCardArea";
-
 		tempObject = GetPrefabsObject(areaName);
-
 		tempObject.layer = GameLayer.BattleCard;
-
 		battleCardArea = tempObject.AddComponent<BattleCardArea>();
 		battleCardArea.BQuest = this;
 		battleCardArea.Init(areaName);
-
 		battleCardArea.CreatArea(battleCardPool.CardPosition,cardHeight);
 	}
 

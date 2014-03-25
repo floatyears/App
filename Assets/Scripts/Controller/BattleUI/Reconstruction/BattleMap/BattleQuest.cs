@@ -25,10 +25,8 @@ public class BattleQuest : UIBase {
 	public static BattleUseData bud;
 	private Camera mainCamera;
 	private BossAppear bossAppear;
-//	private int questFloor = 0;
-
 	private ClearQuestParam questData;
-
+	private TUserUnit evolveUser;
 	string backgroundName = "BattleBackground";
 
 	public BattleQuest (string name) : base(name) {
@@ -50,7 +48,6 @@ public class BattleQuest : UIBase {
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
-
 		questData = new ClearQuestParam ();
 		questData.questId = questDungeonData.QuestId;
 	}
@@ -84,6 +81,7 @@ public class BattleQuest : UIBase {
 
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.GridEnd, GridEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, BattleFail);
 	}
 
 	public override void HideUI () {
@@ -96,6 +94,7 @@ public class BattleQuest : UIBase {
 		
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.GridEnd, GridEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.PlayerDead, BattleFail);
 	}
 
 	void Reset () {
@@ -145,13 +144,12 @@ public class BattleQuest : UIBase {
 	  
 	void Exit() {
 		controllerManger.ExitBattle();
+		UIManager.Instance.baseScene.PrevScene = SceneEnum.Evolve;
 		UIManager.Instance.ExitBattle();
 	}
 
 	bool battleEnemy = false;
 	public void ClickDoor () {
-//		Debug.LogError ("ClickDoor : " + questFloor + " mapConfig.floor : " + mapConfig.floor);
-//		if (questFloor == mapConfig.floor) {
 		if(questDungeonData.currentFloor == questDungeonData.Floors.Count - 1){
 			QuestStop ();
 		} else {
@@ -171,7 +169,16 @@ public class BattleQuest : UIBase {
 		battleEnemy = true;
 	}
 
-	void QuestEnd () { }
+	void QuestEnd () { 
+		ControllerManager.Instance.ExitBattle ();
+		UIManager.Instance.ExitBattle ();
+	}
+
+	void EvolveEnd () {
+		ControllerManager.Instance.ExitBattle ();
+		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, evolveUser);
+	}
 
 	public void RoleCoordinate(Coordinate coor) {
 		if(!battleMap.ReachMapItem (coor)) {
@@ -317,21 +324,7 @@ public class BattleQuest : UIBase {
 		if (battleEnemy) {
 			RequestData();
 			battleMap.BattleEndRotate();
-//			GameTimer.GetInstance().AddCountDown(2f,End);
 		}
-	}
-
-	void End(TRspClearQuest clearQuest) {
-		Battle.colorIndex = 0;
-		Battle.isShow = false;
-		GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
-		Vector3 tempScale = obj.transform.localScale;
-		obj = NGUITools.AddChild(viewManager.CenterPanel,obj);
-		obj.transform.localScale = tempScale;
-		VictoryEffect ve = obj.GetComponent<VictoryEffect>();
-		ve.Init("Victory");
-		ve.ShowData (clearQuest);
-		ve.PlayAnimation(QuestEnd,new VictoryInfo(100,0,0,100));
 	}
 
 
@@ -349,17 +342,90 @@ public class BattleQuest : UIBase {
 	}
 
 	void RequestData () {
-		INetBase netBase = new ClearQuest ();
+		if (DataCenter.gameStage == GameState.Evolve) {
+			EvolveDone evolveDone = new EvolveDone ();
+			evolveDone.QuestId = questData.questId;
+			evolveDone.GetMoney = questData.getMoney;
+			evolveDone.GetUnit = questData.getUnit;
+			evolveDone.HitGrid = questData.hitGrid;
+			evolveDone.OnRequest (null, ResponseEvolveQuest);
+		} else {
+			INetBase netBase = new ClearQuest ();
+			netBase.OnRequest (questData, ResponseClearQuest);
+		}
+	}
 
-		netBase.OnRequest (questData, ResponseClearQuest);
+	void ResponseEvolveQuest (object data) {
+		if (data == null)
+			return;
+		bbproto.RspEvolveDone rsp = data as bbproto.RspEvolveDone;
+
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			LogHelper.Log("ReqEvolveDone code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			return;
+		}
+
+		DataCenter.Instance.UserInfo.Rank = rsp.rank;
+		DataCenter.Instance.UserInfo.Exp = rsp.exp;
+		DataCenter.Instance.AccountInfo.Money = rsp.money;
+		DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
+		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
+		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;	
+		TEvolveStart tes = DataCenter.evolveInfo;
+		DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.BaseUnitId);
+		DataCenter.Instance.UserUnitList.DelMyUnit(tes.EvolveStart.BaseUnitId);
+		for (int i = 0; i < tes.EvolveStart.PartUnitId.Count; i++) {
+			DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.PartUnitId[i]);
+			DataCenter.Instance.UserUnitList.DelMyUnit(tes.EvolveStart.PartUnitId[i]);
+		}
+		for (int i = 0; i < rsp.gotUnit.Count; i++) {
+			DataCenter.Instance.MyUnitList.AddMyUnit(rsp.gotUnit[i]);
+			DataCenter.Instance.UserUnitList.AddMyUnit(rsp.gotUnit[i]);
+		}
+		DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
+		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
+		evolveUser = new TUserUnit (rsp.evolvedUnit);
+		TRspClearQuest trcq = new TRspClearQuest ();
+		trcq.exp = rsp.exp;
+		trcq.gotExp = rsp.gotExp;
+		trcq.money = rsp.money;
+		trcq.gotMoney = rsp.gotMoney;
+		trcq.gotStone = rsp.gotStone;
+		List<TUserUnit> temp = new List<TUserUnit> ();
+		for (int i = 0; i <  rsp.gotUnit.Count; i++) {
+			TUserUnit tuu = new TUserUnit(rsp.gotUnit[i]);
+			temp.Add(tuu);
+		}
+		trcq.gotUnit = temp;
+		trcq.rank = rsp.rank;
+		DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
+		End (trcq, EvolveEnd);
 	}
 
 	void ResponseClearQuest (object data) {
 		if ( data != null ) {
 			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
-			End (clearQuest);
+			End (clearQuest,QuestEnd);
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
 		}
+	}
+
+	void End(TRspClearQuest clearQuest,Callback questEnd) {
+		Battle.colorIndex = 0;
+		Battle.isShow = false;
+		GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
+		Vector3 tempScale = obj.transform.localScale;
+		obj = NGUITools.AddChild(viewManager.CenterPanel,obj);
+		obj.transform.localScale = tempScale;
+		VictoryEffect ve = obj.GetComponent<VictoryEffect>();
+		ve.Init("Victory");
+		ve.ShowData (clearQuest);
+		ve.PlayAnimation(questEnd);
+	}
+
+	void BattleFail(object data) {
+
 	}
 }
