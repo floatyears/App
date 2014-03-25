@@ -179,6 +179,7 @@ public partial class TextCenter {
         textDict.Add("EU_USER_NOT_EXISTS", "EU_USER_NOT_EXISTS");
         textDict.Add("EU_GET_NEWUSERID_FAIL", "EU_GET_NEWUSERID_FAIL");
         textDict.Add("EU_UPDATE_USERINFO_ERROR", "EU_UPDATE_USERINFO_ERROR");
+        textDict.Add("EF_FRIEND_BASE", "EF_FRIEND_BASE");
         textDict.Add("EF_FRIEND_NOT_EXISTS", "EF_FRIEND_NOT_EXISTS");
         textDict.Add("EF_ADD_FRIEND_FAIL", "EF_ADD_FRIEND_FAIL");
         textDict.Add("EF_DEL_FRIEND_FAIL", "EF_DEL_FRIEND_FAIL");

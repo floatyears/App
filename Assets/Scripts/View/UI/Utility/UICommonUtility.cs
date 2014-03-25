@@ -77,13 +77,13 @@ public class TouchEventBlocker{
 	}
 	
 	private void SetBlocked(bool isBlocked){
-		Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
+//		Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
 		if (isBlocked){	
 			if(nguiCamera.eventReceiverMask != LayerMask.NameToLayer(blockerLayerName) << blockerLayer){
 				originLayer = nguiCamera.eventReceiverMask;
 			}
 			nguiCamera.eventReceiverMask = LayerMask.NameToLayer(blockerLayerName) << blockerLayer;
-			Debug.LogError("TouchEventBlocker.SetBlocked(), when true, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
+//			Debug.LogError("TouchEventBlocker.SetBlocked(), when true, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
 
 		}
 		else{

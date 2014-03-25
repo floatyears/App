@@ -92,6 +92,7 @@ public class ErrorMsgCenter {
     public string GetErrorMsgText(int errorCode){
         string msg = "";
         msgStringDic.TryGetValue(errorCode, out msg);
+        LogHelper.LogError("GetErrorMsgText() code {1} msg {0}, msgStringCount {2}", msg, errorCode, msgStringDic.Count);
         return msg;
     }
 
@@ -127,7 +128,8 @@ public class ErrorMsgCenter {
         msgStringDic.Add((int)ErrorCode.EU_USER_NOT_EXISTS, TextCenter.Instace.GetCurrentText("EU_USER_NOT_EXISTS"));
         msgStringDic.Add((int)ErrorCode.EU_GET_NEWUSERID_FAIL, TextCenter.Instace.GetCurrentText("EU_GET_NEWUSERID_FAIL"));
         msgStringDic.Add((int)ErrorCode.EU_UPDATE_USERINFO_ERROR, TextCenter.Instace.GetCurrentText("EU_UPDATE_USERINFO_ERROR"));
-        msgStringDic.Add((int)ErrorCode.EF_FRIEND_BASE, TextCenter.Instace.GetCurrentText("EF_FRIEND_NOT_EXISTS"));
+        msgStringDic.Add((int)ErrorCode.EF_FRIEND_BASE, TextCenter.Instace.GetCurrentText("EF_FRIEND_BASE"));
+        msgStringDic.Add((int)ErrorCode.EF_FRIEND_NOT_EXISTS, TextCenter.Instace.GetCurrentText("EF_FRIEND_NOT_EXISTS"));
         msgStringDic.Add((int)ErrorCode.EF_GET_FRIENDINFO_FAIL, TextCenter.Instace.GetCurrentText("EF_ADD_FRIEND_FAIL"));
         msgStringDic.Add((int)ErrorCode.EF_DEL_FRIEND_FAIL, TextCenter.Instace.GetCurrentText("EF_DEL_FRIEND_FAIL"));
         msgStringDic.Add((int)ErrorCode.EF_IS_ALREADY_FRIEND, TextCenter.Instace.GetCurrentText("EF_IS_ALREADY_FRIEND"));
@@ -152,12 +154,12 @@ public class ErrorMsgCenter {
         msgStringDic.Add((int)ErrorCode.SERVER_500, TextCenter.Instace.GetCurrentText("SERVER_500"));
     }
 
-    public void OpenNetWorkErrorMsgWindow(int errorCode, params object[] args){
+    public void OpenNetWorkErrorMsgWindow(int errorCode){
 
         MsgWindowParams msgWindowParams = new MsgWindowParams();
 
         ErrorMsg errMsg = new ErrorMsg(errorCode);
-        errMsg.Msg = string.Format(errMsg.Msg, args);
+//        errMsg.Msg = string.Format(errMsg.Msg, args);
         msgWindowParams.titleText = TextCenter.Instace.GetCurrentText("error");
         msgWindowParams.contentText = errMsg.Msg;
 
