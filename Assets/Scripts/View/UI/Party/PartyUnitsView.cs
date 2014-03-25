@@ -47,7 +47,6 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void ClickItem(GameObject item){
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
 		//LogHelper.Log("PartyUnitsView.ClickItem(), click drag item, call view respone...");
 		ExcuteCallback( cbd );

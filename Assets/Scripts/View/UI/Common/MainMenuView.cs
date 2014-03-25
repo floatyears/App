@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class MenuBtnsDecoratorUnity : UIComponentUnity {
+public class MainMenuView : UIComponentUnity {
 	IUICallback iuiCallback;
 	bool temp = false;
 

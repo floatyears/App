@@ -322,58 +322,49 @@ public enum CardColorType : byte
 }
 
 
-public enum AudioEnum
-{
-	music_home 				= 0,
-	music_dungeon  			= 1,
-	music_fight				= 2,
-	sound_click				= 3,
-	sound_ui_back			= 4,
-	sound_dungeon_ready 	= 5,
-	sound_explore_ready		= 6,
-	sound_explore_start		= 7,
-	sound_explore_done		= 8,
-	sound_chess_move_hurt	= 9,
-	sound_flip_grid			= 10,
-	sound_get_treasure		= 11,
-	sound_trigger_trap		= 12,
-	sound_get_key			= 13,
-	sound_door_open			= 14,
-	sound_enemy_battle		= 15,
-	sound_first_attack		= 16,
-	sound_after_attack		= 17,
-	sound_skill_activate	= 18,
-	sound_water_attack		= 19,
-	sound_fire_attack		= 20,
-	sound_wind_attack		= 21,
-	sound_light_attack		= 22,
-	sound_dark_attack		= 23,
-	sound_wu_attack			= 24,
-	sound_count_time		= 25,
-	sound_drag_tile			= 26,
-	sound_combo				= 27,
-	sound_hp_recover		= 28,
-	sound_enemy_attack		= 29,
-	sound_enemy_die			= 30,
-	sound_get_chess			= 31,
-	sound_boss_battle		= 32,
-	sound_quest_over		= 33,
-	sound_swallow_card		= 34,
-	sound_exp_increase		= 35,
-	sound_level_up			= 36,
-	sound_check_role		= 37,
-	sound_chess_move		= 38
+public enum AudioEnum{
+	music_home 					= 0,
+	sound_click					= 1,
+	sound_ui_back				= 2,
+	sound_dungeon_ready 	= 3,
+	sound_quest_ready			= 4,
+	sound_quest_go				= 5,
+	sound_walk					= 6,
+	sound_walk_hurt				= 7,
+	sound_grid_turn				= 8,
+	sound_get_treasure			= 9,
+	sound_trigger_trap			= 10,
+	sound_get_key				= 11,
+	sound_door_open			= 12,
+	sound_enemy_battle		= 13,
+	sound_first_attack			= 14,
+	sound_back_attack			= 15,
+	sound_active_skill			= 16,
+	sound_water_attack			= 17,
+	sound_fire_attack			= 18,
+	sound_wind_attack			= 19,
+	sound_light_attack			= 20,
+	sound_dark_attack			= 21,
+	sound_zero_attack			= 22,
+	sound_count_down			= 23,
+	sound_drag_tile				= 24,
+	sound_combo					= 25,
+	sound_hp_recover			= 26,
+	sound_enemy_attack		= 27,
+	sound_enemy_die			= 28,
+	sound_get_chess			= 29,
+	sound_boss_battle			= 30,
+	sound_quest_over			= 31,
+	sound_devour_unit			= 32,
+	sound_get_exp				= 33,
+	sound_level_up				= 34,
+	sound_check_role			= 35,
+	sound_sold_out				= 135,
+	sound_use_chip				= 37,
+	
 }
 
-
-public enum showTurn
-{
-	FirstTurn,
-	SecondTurn	
-}
-
-public enum UnitAssetType
-{
+public enum UnitAssetType{
 	Avatar 	= 0,
 	Profile	= 1,
 }

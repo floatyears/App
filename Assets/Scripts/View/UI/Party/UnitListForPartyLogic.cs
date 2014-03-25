@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UnitListForPartyLogic : ConcreteComponent{
-
 	UnitItemViewInfo currentPickedUnit;
 	List<UnitItemViewInfo> onPartyViewItemList = new List<UnitItemViewInfo>();
 	public UnitListForPartyLogic(string uiName):base(uiName){}
@@ -74,12 +73,10 @@ public class UnitListForPartyLogic : ConcreteComponent{
 
 	}
 
-	public override void Callback(object data)
-	{
+	public override void Callback(object data){
 		base.Callback(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName)
-		{
+		switch (cbdArgs.funcName){
 			case "ClickItem": 
 				CallBackDispatcherHelper.DispatchCallBack(CallbackRspUnitPickFromView, cbdArgs);
 				break;
@@ -94,36 +91,27 @@ public class UnitListForPartyLogic : ConcreteComponent{
 		}
 	}
 
-	void CallbackRspUnitPickFromView(object args)
-	{
+	void CallbackRspUnitPickFromView(object args){
 		int position = (int)args;
 		RspUnitPickFromView(onPartyViewItemList [position - 1]);
 	}
 
-	void ViewUnitDetailInfo(object args)
-	{
+	void ViewUnitDetailInfo(object args){
 		int position = (int)args;
 		TUserUnit unitInfo = onPartyViewItemList [position - 1].DataItem;
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);	
-
 	}
 
-	void RspUnitPickFromView(UnitItemViewInfo itemView)
-	{
-		if (!itemView.IsEnable)
-		{
-			LogHelper.LogError(string.Format("PartyUnitsLogic.RspUnitPickFromView(), " +
-				"pickable state is : {0}, do nothing!", itemView.IsEnable));
+	void RspUnitPickFromView(UnitItemViewInfo itemView){
+		if (!itemView.IsEnable){
+			//LogHelper.LogError(string.Format("PartyUnitsLogic.RspUnitPickFromView(), " +"pickable state is : {0}, do nothing!", itemView.IsEnable));
 			return;
 		}
 
 		BriefUnitInfo briefInfo = new BriefUnitInfo("MyUnitItem", itemView.DataItem);
-
 		currentPickedUnit = itemView;
-
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
-
 		//LogHelper.LogError("PartyUnitsLogic.RspUnitPickFromView(), End...");
 	}
 	

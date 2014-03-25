@@ -9,7 +9,7 @@ public class FriendHelperController : ConcreteComponent{
 
 	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
-
+	
 	private TEvolveStart evolveStart = null;
 	public FriendHelperController(string uiName):base(uiName) {}
 	public override void CreatUI () { base.CreatUI (); }
@@ -44,20 +44,22 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void QuestStart(object args){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+
 		if (DataCenter.gameStage == GameState.Evolve) {
 			evolveStart.EvolveStart.restartNew = 1;
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} 
 		else {
-			StartQuest sq = new StartQuest ();
-			StartQuestParam sqp = new StartQuestParam ();
-			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
-			sqp.helperUserUnit = selectedHelper;
-			sqp.questId = questID;
-			sqp.stageId = stageID;
-			sqp.startNew = 1;
-			sq.OnRequest (sqp, RspStartQuest);
-		}
+		StartQuest sq = new StartQuest ();
+		StartQuestParam sqp = new StartQuestParam ();
+		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+		sqp.helperUserUnit = selectedHelper;
+		sqp.questId = questID;
+		sqp.stageId = stageID;
+		sqp.startNew = 1;
+		sq.OnRequest (sqp, RspStartQuest);
+	}
 	}
 
 	void RspEvolveStartQuest (object data) {
@@ -103,11 +105,11 @@ public class FriendHelperController : ConcreteComponent{
 		}
 		EnterBattle ();
 	} 
-
+		
 	void EnterBattle () {
 		DataCenter.Instance.BattleFriend = selectedHelper;
 		UIManager.Instance.EnterBattle();
-	}
+	} 
 
 	MsgWindowParams GetStartQuestError () {
 		MsgWindowParams mwp = new MsgWindowParams ();
@@ -139,28 +141,29 @@ public class FriendHelperController : ConcreteComponent{
 			supportFriendViewList.Add(viewItem);
 		}
 	}
-	
-	void CreateFriendHelperViewList() {
+
+	void CreateFriendHelperViewList(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", supportFriendViewList);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void DestoryFriendHelperList() {
+	void DestoryFriendHelperList(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", null);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void ShowHelperInfo(object args) {
+	void ShowHelperInfo(object args){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TFriendInfo helper = DataCenter.Instance.SupportFriends[ (int)args ];
 		RecordSelectedHelper(helper);
 		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helper);
 	}
 
-	void RecordSelectedHelper(TFriendInfo tfi) {
+	void RecordSelectedHelper(TFriendInfo tfi){
 		selectedHelper = tfi;
 	}
 
-	void ClearSelectedHelper() {
+	void ClearSelectedHelper(){
 		selectedHelper = null;
 	}
 
@@ -179,11 +182,13 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void ChooseHelper(object msg){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableBottomButton", null);
+		ExcuteCallback(cbdArgs);
 		if(selectedHelper != null){
 			MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
 		}
 	}
-
+	
 	void RefreshFriendHelper(object data) {
 		CanEnterBattle ();
 	}

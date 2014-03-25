@@ -66,6 +66,7 @@ public class QuestComponent : ConcreteComponent{
 	}
 
 	void TurnToSelectQuest(object args){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TStageInfo stageSelected =args as TStageInfo ; 
 		if(stageSelected == null) {
 			return;

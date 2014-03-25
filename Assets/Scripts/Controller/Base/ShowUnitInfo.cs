@@ -42,6 +42,7 @@ public class ShowUnitInfo {
         }
         UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
         AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
+		Debug.LogError("1111xxxxxx");
     }
 
     void DisposeBaseInfo(UnitBaseInfo ubi) {

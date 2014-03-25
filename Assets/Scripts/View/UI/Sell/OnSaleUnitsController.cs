@@ -90,11 +90,8 @@ public class OnSaleUnitsController : ConcreteComponent {
 		UpdateViewAfterRspSellUnit();
 
 		RefreshOwnedUnitCount();
-
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_sold_out);
 	}
-
-
-
 
 	void UpdateViewAfterRspSellUnit(){
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin, null);

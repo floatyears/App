@@ -122,6 +122,7 @@ public class GachaWindowView : UIComponentUnity {
 
     
     private void ClickButton(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         int index = gridDict[btn];
         if (pickedGridIdList.Contains(index)){
             return;
@@ -142,7 +143,6 @@ public class GachaWindowView : UIComponentUnity {
         foreach (var item in gridDict) {
             ResetOneGrid(item.Key as GameObject);
         }
-//        StopAllCoroutines();
     }
 
     private void ResetOneGrid(GameObject grid){

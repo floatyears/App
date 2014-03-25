@@ -3,19 +3,17 @@ using System.Collections.Generic;
 
 public class FriendDecoratorUnity : UIComponentUnity {
 
-    private Dictionary< GameObject, SceneEnum > btns = new Dictionary< GameObject, SceneEnum >();
-    private SceneEnum nextScene;
+    Dictionary< GameObject, SceneEnum > btns = new Dictionary< GameObject, SceneEnum >();
+    SceneEnum nextScene;
 	
     public override void Init(UIInsConfig config, IUICallback origin) {
         base.Init(config, origin);
-
         InitUI();
     }
 	
     public override void ShowUI() {
         base.ShowUI();
         ShowTween();
-
     }
 	
     public override void HideUI() {
@@ -31,12 +29,12 @@ public class FriendDecoratorUnity : UIComponentUnity {
         
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         
-        switch (cbdArgs.funcName) {
-        case "TurnRequiredFriendListScene": 
-            CallBackDispatcherHelper.DispatchCallBack(TurnToNextScene, cbdArgs);
-            break;
-        default:
-            break;
+        switch (cbdArgs.funcName){
+        	case "TurnRequiredFriendListScene": 
+            	CallBackDispatcherHelper.DispatchCallBack(TurnToNextScene, cbdArgs);
+           		break;
+        	default:
+            	break;
         }
         
     }
@@ -67,36 +65,36 @@ public class FriendDecoratorUnity : UIComponentUnity {
         }
     }
 
-    private void ClickBtn(GameObject btn) {
-        Debug.Log("default Scene is " + nextScene);
+    void ClickBtn(GameObject btn) {
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+
         nextScene = btns[btn];
         switch (nextScene) {
-        case SceneEnum.Apply:
-            SyncFriendListFromServer();
-            break;
-        case SceneEnum.FriendList:
-            SyncFriendListFromServer();
-            break;
-        case SceneEnum.Reception:
-            SyncFriendListFromServer();
-            break;
-        default:
-            UIManager.Instance.ChangeScene(nextScene);
-            AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-            break;
+			case SceneEnum.Apply:
+				SyncFriendListFromServer();
+            	break;
+        	case SceneEnum.FriendList:
+            	SyncFriendListFromServer();
+            	break;
+        	case SceneEnum.Reception:
+            	SyncFriendListFromServer();
+            	break;
+        	default:
+				UIManager.Instance.ChangeScene(nextScene);
+            	break;
         }
     }
 
-    private void SyncFriendListFromServer() {
+    void SyncFriendListFromServer() {
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("SyncFriendList", nextScene);
         ExcuteCallback(cbdArgs);
     }
 
-    private void TurnToNextScene(object obj) {
+    void TurnToNextScene(object obj) {
         UIManager.Instance.ChangeScene(nextScene);
     }
 
-    private void ShowTween() {
+    void ShowTween() {
         TweenPosition[ ] list = 
 			gameObject.GetComponentsInChildren< TweenPosition >();
         if (list == null)
