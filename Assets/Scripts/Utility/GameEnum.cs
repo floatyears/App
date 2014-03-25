@@ -357,8 +357,9 @@ public enum AudioEnum{
 	sound_get_exp				= 33,
 	sound_level_up				= 34,
 	sound_check_role			= 35,
-	sound_sold_out				= 36,
+	sound_sold_out				= 135,
 	sound_use_chip				= 37,
+	
 }
 
 public enum UnitAssetType{

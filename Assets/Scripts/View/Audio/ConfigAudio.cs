@@ -227,7 +227,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 0;
-		audioItem.name 				= "home";
+		audioItem.name 				= "bgm_01_home";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.LOOP;
 		audioList.Add(audioItem);	
@@ -300,6 +300,14 @@ public class ConfigAudio {
 		audioItem.version 			= 1;
 		audioItem.id 					= 22;
 		audioItem.name 				= "zero_attack";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);	
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 135;
+		audioItem.name 				= "se_35_sold_out";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
