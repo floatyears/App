@@ -12,14 +12,12 @@ public class PartyPageView : UIComponentUnity {
 
 	GameObject itemLeft;
 	GameObject labelLeft;
-
+	
+	List<UITexture> texureList = new List<UITexture>();
 	Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 	Dictionary<GameObject, int> itemDic = new Dictionary<GameObject, int>();
 
-	List<UITexture> texureList = new List<UITexture>();
-	bool InitSymbol = false;
 	public override void Init(UIInsConfig config, IUICallback origin){
-
 		base.Init(config, origin);
 		FindUIElement();
 		InitUIElement();
@@ -27,15 +25,50 @@ public class PartyPageView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-
 		SetUIElement();
 		ShowTween();
 	}
 
 	public override void HideUI(){
-     
 		base.HideUI();
 		ResetUIElement();
+	}
+	
+	public override void Callback(object data){
+		base.Callback(data);
+		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch ( cbdArgs.funcName ){
+			case "RefreshPartyIndexView" : 
+				CallBackDispatcherHelper.DispatchCallBack(RefreshIndexView, cbdArgs);
+				CallBackDispatcherHelper.DispatchCallBack(ShowLabelLeft, cbdArgs);
+				break;
+			case "EnableLabelLeft" : 
+				CallBackDispatcherHelper.DispatchCallBack(EnableLabelLeft, cbdArgs);
+				break;
+			case "ShowLabelLeft" : 
+				CallBackDispatcherHelper.DispatchCallBack(ShowLabelLeft, cbdArgs);
+				break;
+			case "EnableItemLeft" : 
+				CallBackDispatcherHelper.DispatchCallBack(EnableItemLeft, cbdArgs);
+				break;
+			case "ShowItemLeft" : 
+				CallBackDispatcherHelper.DispatchCallBack(ShowItemLeft, cbdArgs);
+				break;
+			case "RefreshPartyItemView" : 
+				CallBackDispatcherHelper.DispatchCallBack(RefreshItemView, cbdArgs);
+				break;
+			case "ReplaceItemView" :
+				CallBackDispatcherHelper.DispatchCallBack(ReplaceItemView, cbdArgs);
+				break;
+			case "ClearItem" :
+				CallBackDispatcherHelper.DispatchCallBack(ClearItemView, cbdArgs);
+				break;
+			case "LightCurSprite" : 
+				CallBackDispatcherHelper.DispatchCallBack(LightCurSprite, cbdArgs);
+				break;
+			default:
+				break;
+		}  
 	}
 	
 	void FindUIElement(){
@@ -173,17 +206,25 @@ public class PartyPageView : UIComponentUnity {
 
 	}
 	
-	void LoseFocus(object args){
-		//Debug.Log("PartyPagePanel.LoseFocus() : Start...");
+//	void LoseFocus(object args){
+//		foreach (var item in itemDic) {
+//			item.Key.transform.FindChild("High_Light").gameObject.SetActive(false);
+//		}
+//	}  
 
-		foreach (var item in itemDic) {
-			item.Key.transform.FindChild("High_Light").gameObject.SetActive(false);
+	void LightCurSprite(object args){
+		int posiotion = (int)args;
+		foreach (var item in itemDic){
+			if(item.Value == posiotion){
+				Debug.LogError("Find the high light position : " + posiotion);
+				item.Key.transform.FindChild("High_Light").gameObject.SetActive(true);
+			}
+			else{
+				item.Key.transform.FindChild("High_Light").gameObject.SetActive(false);
+			}
 		}
+	}
 
-		//Debug.Log("PartyPagePanel.LoseFocus() : End...");
-	}  
-
-	
 	void OnLightSprite(GameObject target){
 		target.transform.FindChild("High_Light").gameObject.SetActive(false);
 	}
@@ -222,45 +263,7 @@ public class PartyPageView : UIComponentUnity {
 			OnLightSprite(item.Key);
 		}
 	}
-
-	public override void Callback(object data){
-		base.Callback(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		
-		switch ( cbdArgs.funcName ){
-			case "RefreshPartyIndexView" : 
-				CallBackDispatcherHelper.DispatchCallBack(RefreshIndexView, cbdArgs);
-				CallBackDispatcherHelper.DispatchCallBack(ShowLabelLeft, cbdArgs);
-				break;
-			case "EnableLabelLeft" : 
-				CallBackDispatcherHelper.DispatchCallBack(EnableLabelLeft, cbdArgs);
-				break;
-			case "ShowLabelLeft" : 
-				CallBackDispatcherHelper.DispatchCallBack(ShowLabelLeft, cbdArgs);
-				break;
-			case "EnableItemLeft" : 
-				CallBackDispatcherHelper.DispatchCallBack(EnableItemLeft, cbdArgs);
-				break;
-			case "ShowItemLeft" : 
-				CallBackDispatcherHelper.DispatchCallBack(ShowItemLeft, cbdArgs);
-				break;
-			case "RefreshPartyItemView" : 
-				CallBackDispatcherHelper.DispatchCallBack(RefreshItemView, cbdArgs);
-                break;
-             case "DrakAllSprite" :
-				CallBackDispatcherHelper.DispatchCallBack(LoseFocus, cbdArgs);
-            	break;
-			case "ReplaceItemView" :
-				CallBackDispatcherHelper.DispatchCallBack(ReplaceItemView, cbdArgs);
-				break;
-			case "ClearItem" :
-				CallBackDispatcherHelper.DispatchCallBack(ClearItemView, cbdArgs);
-				break;
-                default:
-                        break;
-                }  
-        }
-
+	
 	void ClearItemView(object args){
 		int position = (int)args;
 		foreach (var item in itemDic){
