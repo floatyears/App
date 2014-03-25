@@ -132,36 +132,45 @@ public class ErrorMsg {
         }
 
         ErrorMsg.msgStringDic = new Dictionary<int, string>();
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.SUCCESS, "success");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.ERROR_BASE, "ERROR_BASE");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.FAILED, "FAILED");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.INVALID_PARAMS, "INVALID_PARAMS");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.MARSHAL_ERROR, "MARSHAL_ERROR");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.UNMARSHAL_ERROR, "UNMARSHAL_ERROR");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.IOREAD_ERROR, "IOREAD_ERROR");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.IOWRITE_ERROR, "IOWRITE_ERROR");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.CONNECT_DB_ERROR, "CONNECT_DB_ERROR");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.READ_DB_ERROR, "READ_DB_ERROR");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.SET_DB_ERROR, "SET_DB_ERROR");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.DATA_NOT_EXISTS, "DATA_NOT_EXISTS");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.SUCCESS, TextCenter.Instace.GetCurrentText("success"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.ERROR_BASE, TextCenter.Instace.GetCurrentText("ERROR_BASE"));
 
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_USER_BASE, "success");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_INVALID_USERID, "success");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_GET_USERINFO_FAIL, "success");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_USER_NOT_EXISTS, "EU_USER_NOT_EXISTS");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_GET_NEWUSERID_FAIL, "EU_GET_NEWUSERID_FAIL");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_UPDATE_USERINFO_ERROR, "EU_UPDATE_USERINFO_ERROR");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_FRIEND_BASE, "EF_FRIEND_NOT_EXISTS");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_GET_FRIENDINFO_FAIL, "EF_ADD_FRIEND_FAIL");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_DEL_FRIEND_FAIL, "EF_DEL_FRIEND_FAIL");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_IS_ALREADY_FRIEND, "EF_IS_ALREADY_FRIEND");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_INVALID_FRIEND_STATE, "EF_INVALID_FRIEND_STATE");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.FAILED, TextCenter.Instace.GetCurrentText("FAILED"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.INVALID_PARAMS, TextCenter.Instace.GetCurrentText("INVALID_PARAMS"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.MARSHAL_ERROR, TextCenter.Instace.GetCurrentText("MARSHAL_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.UNMARSHAL_ERROR, TextCenter.Instace.GetCurrentText("UNMARSHAL_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.IOREAD_ERROR, TextCenter.Instace.GetCurrentText("IOREAD_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.IOWRITE_ERROR, TextCenter.Instace.GetCurrentText("IOWRITE_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.CONNECT_DB_ERROR, TextCenter.Instace.GetCurrentText("CONNECT_DB_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.READ_DB_ERROR, TextCenter.Instace.GetCurrentText("READ_DB_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.SET_DB_ERROR, TextCenter.Instace.GetCurrentText("SET_DB_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.DATA_NOT_EXISTS, TextCenter.Instace.GetCurrentText("DATA_NOT_EXISTS"));
 
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_QUEST_BASE, "EQ_QUEST_BASE");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_QUEST_ID_INVALID, "EQ_QUEST_ID_INVALID");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_GET_QUESTINFO_ERROR, "EQ_GET_QUESTINFO_ERROR");
-        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_STAMINA_NOT_ENOUGH, "EQ_STAMINA_NOT_ENOUGH");
-//       public const int ErrorMsg.msgStringDic.Add((int)ErrorCode.SUCCEES, "success");
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_USER_BASE, TextCenter.Instace.GetCurrentText("EU_USER_BASE"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_INVALID_USERID, TextCenter.Instace.GetCurrentText("EU_INVALID_USERID"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_GET_USERINFO_FAIL, TextCenter.Instace.GetCurrentText("EU_GET_USERINFO_FAIL"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_USER_NOT_EXISTS, TextCenter.Instace.GetCurrentText("EU_USER_NOT_EXISTS"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_GET_NEWUSERID_FAIL, TextCenter.Instace.GetCurrentText("EU_GET_NEWUSERID_FAIL"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EU_UPDATE_USERINFO_ERROR, TextCenter.Instace.GetCurrentText("EU_UPDATE_USERINFO_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_FRIEND_BASE, TextCenter.Instace.GetCurrentText("EF_FRIEND_NOT_EXISTS"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_GET_FRIENDINFO_FAIL, TextCenter.Instace.GetCurrentText("EF_ADD_FRIEND_FAIL"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_DEL_FRIEND_FAIL, TextCenter.Instace.GetCurrentText("EF_DEL_FRIEND_FAIL"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_IS_ALREADY_FRIEND, TextCenter.Instace.GetCurrentText("EF_IS_ALREADY_FRIEND"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EF_INVALID_FRIEND_STATE, TextCenter.Instace.GetCurrentText("EF_INVALID_FRIEND_STATE"));
+
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_QUEST_BASE, TextCenter.Instace.GetCurrentText("EQ_QUEST_BASE"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_QUEST_ID_INVALID, TextCenter.Instace.GetCurrentText("EQ_QUEST_ID_INVALID"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_GET_QUESTINFO_ERROR, TextCenter.Instace.GetCurrentText("EQ_GET_QUESTINFO_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_STAMINA_NOT_ENOUGH, TextCenter.Instace.GetCurrentText("EQ_STAMINA_NOT_ENOUGH"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_GET_QUEST_CONFIG_ERROR, TextCenter.Instace.GetCurrentText("EQ_GET_QUEST_CONFIG_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_GET_QUEST_LOG_ERROR, TextCenter.Instace.GetCurrentText("EQ_GET_QUEST_LOG_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_UPDATE_QUEST_RECORD_ERROR, TextCenter.Instace.GetCurrentText("EQ_UPDATE_QUEST_RECORD_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_INVALID_DROP_UNIT, TextCenter.Instace.GetCurrentText("EQ_INVALID_DROP_UNIT"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.EQ_QUEST_IS_PLAYING, TextCenter.Instace.GetCurrentText("EQ_QUEST_IS_PLAYING"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.E_UNIT_BASE, TextCenter.Instace.GetCurrentText("E_UNIT_BASE"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.E_UNIT_ID_ERROR, TextCenter.Instace.GetCurrentText("E_UNIT_ID_ERROR"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.E_LEVELUP_NO_ENOUGH_MONEY, TextCenter.Instace.GetCurrentText("E_LEVELUP_NO_ENOUGH_MONEY"));
+        ErrorMsg.msgStringDic.Add((int)ErrorCode.E_GET_UNIT_INFO_ERROR, TextCenter.Instace.GetCurrentText("E_GET_UNIT_INFO_ERROR"));
 
     }
 }
