@@ -78,7 +78,8 @@ public class FriendHelperController : ConcreteComponent{
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
 		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
-		UIManager.Instance.EnterBattle ();
+
+		EnterBattle ();
 	}
 
 	void RspStartQuest(object data) {
@@ -100,9 +101,13 @@ public class FriendHelperController : ConcreteComponent{
 
 			return;
 		}
-		
-		UIManager.Instance.EnterBattle();
+		EnterBattle ();
 	} 
+
+	void EnterBattle () {
+		DataCenter.Instance.BattleFriend = selectedHelper;
+		UIManager.Instance.EnterBattle();
+	}
 
 	MsgWindowParams GetStartQuestError () {
 		MsgWindowParams mwp = new MsgWindowParams ();
@@ -134,29 +139,28 @@ public class FriendHelperController : ConcreteComponent{
 			supportFriendViewList.Add(viewItem);
 		}
 	}
-
-
-	void CreateFriendHelperViewList(){
+	
+	void CreateFriendHelperViewList() {
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", supportFriendViewList);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void DestoryFriendHelperList(){
+	void DestoryFriendHelperList() {
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", null);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void ShowHelperInfo(object args){
+	void ShowHelperInfo(object args) {
 		TFriendInfo helper = DataCenter.Instance.SupportFriends[ (int)args ];
 		RecordSelectedHelper(helper);
 		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helper);
 	}
 
-	void RecordSelectedHelper(TFriendInfo tfi){
+	void RecordSelectedHelper(TFriendInfo tfi) {
 		selectedHelper = tfi;
 	}
 
-	void ClearSelectedHelper(){
+	void ClearSelectedHelper() {
 		selectedHelper = null;
 	}
 
@@ -175,7 +179,6 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void ChooseHelper(object msg){
-
 		if(selectedHelper != null){
 			MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
 		}
@@ -198,10 +201,8 @@ public class FriendHelperController : ConcreteComponent{
 		Dictionary<string,uint> idArgs = msg as Dictionary<string,uint>;
 		questID = idArgs["QuestID"];
 		stageID = idArgs["StageID"];
-//		isEvolve = false;
 	}
 
 	void ClearBattleReadyData(){
 	}
-
 }

@@ -7,7 +7,7 @@ public sealed class DebugHelper
 	/// The DEBUG. When development overed, set debug = false
 	/// </summary>
 
-	public static bool DEBUG = true;
+	public static bool DEBUG = false;
 
 
 	private DebugHelper()

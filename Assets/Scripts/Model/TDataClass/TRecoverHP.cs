@@ -16,7 +16,6 @@ public class TSkillRecoverHP : SkillBaseInfo {
 	/// <param name="blood">Blood.</param>
 	/// <param name="type">1 = right now. 2 = every round. 3 = every step.</param>
 	public int RecoverHP (int blood,int type) {
-//		SkillRecoverHP srhp = DeserializeData<SkillRecoverHP> ();
 		if(type == (int)instance.period){
 			float tempBlood = blood;
 			if(instance.type == EValueType.FIXED) {

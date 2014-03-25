@@ -44,13 +44,10 @@ public class TSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 	
 		if (initSkillCooling == 0) {
 			coolingDone = true;
-//			Debug.LogError("ActiveSkillSingleAttack ---------" + "ActiveSkillSingleAttack coolingDone : " + initSkillCooling);
 		}
-//		Debug.LogError ("ActiveSkillSingleAttack ---------" + initSkillCooling + "ActiveSkillSingleAttack coolingDone : " + coolingDone);
 	}
 
 	public void RefreashCooling () {
-//		Debug.LogError ("ActiveSkillSingleAttack RefreashCooling : ");
 		DisposeCooling ();
 	}
 	
@@ -59,7 +56,6 @@ public class TSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 			return null;		
 		}
 		InitCooling ();
-//		SkillSingleAttack ssa = instance;//DeserializeData<SkillSingleAttack> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackType = (int)instance.unitType;

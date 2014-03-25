@@ -44,22 +44,17 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     public Dictionary<uint,ProtobufDataBase> LeadSkill {
         get { return leaderSkill; }
     }
-    private Dictionary<int,TUserUnit> userUnit ;
 
-    //!!! UserUnit Only Avaiable after called GetSkillCollection()
+    private Dictionary<int,TUserUnit> userUnit;
     public Dictionary<int,TUserUnit> UserUnit {
         get {
             if (userUnit == null) {
-//				Debug.LogError("TUnitParty :: userunit is null. new it..");
                 userUnit = new Dictionary<int,TUserUnit>();
                 for (int i = 0; i < partyItem.Count; i++) {
                     TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
                     userUnit.Add(partyItem[i].unitPos, uui);
-//					Debug.LogError("TUnitParty :: userunit.add "+i);
                 }
-            }
-            else {
-//				Debug.LogError("TUnitParty :: userunit is not null" + userUnit.Count);
+				userUnit.Add(DataCenter.friendPos, DataCenter.Instance.BattleFriend.UserUnit);
             }
             return userUnit;
         }
@@ -209,29 +204,28 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	
     public void GetSkillCollection() {
         partyItem = new List<PartyItem>();
-//		UnitParty up 	= DeserializeData<UnitParty> ();
         for (int i 		= 0; i < instance.items.Count; i++) {
             partyItem.Add(instance.items[i]);
+
         }
+
         GetLeaderSkill();
         DGTools.InsertSort<PartyItem,IComparer>(partyItem, this);
     }
 	
     void GetLeaderSkill() {
-//		UnitParty up = DeserializeData<UnitParty> ();
         if (instance.items.Count > 0) {
             uint id = instance.items[0].unitUniqueId;
             AddLeadSkill(id);
-
-
         }
-        else if (instance.items.Count > 4) {
-            uint id = instance.items[4].unitUniqueId;
-            AddLeadSkill(id);
-        }
-	
+		if (DataCenter.Instance.BattleFriend != null) {
+			ProtobufDataBase pdb = DataCenter.Instance.Skill[DataCenter.Instance.BattleFriend.UserUnit.LeadSKill];
+//			leaderSkill.Add(id, pdb);
+		}
     }
-	
+
+
+
     void AddLeadSkill(uint id) {
         if (id != -1) {
             if (DataCenter.Instance.UserUnitList == null)

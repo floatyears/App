@@ -45,7 +45,7 @@ public class AttackController {
 	}
 
 	void DrawHP(object data) {
-		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, tempPreHurtValue);
+		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, (float)tempPreHurtValue);
 	}
 
 	void Gravity(object data) {

@@ -88,13 +88,18 @@ public class Main : MonoBehaviour {
     /// </summary>
     void OnEnable() {
 		count++;
-//		Debug.LogError("Main.OnEnable(), invoke times : " + count);
+		Debug.LogError("Main.OnEnable(), invoke times : " + count);
         INetBase netBase = new AuthUser();
-//		Debug.LogError("login ");
         netBase.OnRequest(null, LoginSuccess);
-//
         AudioManager.Instance.PlayAudio(AudioEnum.music_home);
         EffectManager em = EffectManager.Instance;
+
+//		GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
+//		Vector3 tempScale = obj.transform.localScale;
+//		obj = NGUITools.AddChild(ViewManager.Instance.CenterPanel,obj);
+//		obj.transform.localScale = tempScale;
+//		VictoryEffect ve = obj.GetComponent<VictoryEffect>();
+//		ve.Init("Victory");
     }
 
     void LoginSuccess(object data) {

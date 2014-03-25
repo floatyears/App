@@ -80,12 +80,9 @@ public class Battle : UIBase {
 		battleRootGameObject.SetActive(false);
 	}
 
-	public void StartBattle ()
-	{
+	public void StartBattle () {
 		ResetClick();
-
 		Attack();
-
 	}
 
 	void ChangeCard(object data) {
@@ -95,7 +92,6 @@ public class Battle : UIBase {
 		}
 
 		if (ccc.targetType == -1) {
-//			ShowCard ();	
 			GenerateShowCard();
 		} 
 		else {
@@ -168,8 +164,7 @@ public class Battle : UIBase {
 		battleCardArea.CreatArea(battleCardPool.CardPosition,cardHeight);
 	}
 
-	void CreatEnemy()
-	{
+	void CreatEnemy() {
 		string enemyName = "BattleEnemy";
 
 		tempObject = GetPrefabsObject(enemyName);
@@ -219,7 +214,7 @@ public class Battle : UIBase {
 	}
 
 
-	void SwitchInput(bool isShield) {
+	public void SwitchInput(bool isShield) {
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;

@@ -1007,6 +1007,7 @@ public class UICamera : MonoBehaviour
 
 	public void ProcessMouse ()
 	{
+
 		lastTouchPosition = Input.mousePosition;
 		bool highlightChanged = (mMouse[0].last != mMouse[0].current);
 
@@ -1033,7 +1034,7 @@ public class UICamera : MonoBehaviour
 				break;
 			}
 		}
-
+//		Debug.LogError ("usemouse : " + useMouse + "  isPressed : " + isPressed);
 		if (isPressed)
 		{
 			// A button was pressed -- cancel the tooltip
@@ -1090,6 +1091,7 @@ public class UICamera : MonoBehaviour
 			mTooltipTime = RealTime.time + tooltipDelay;
 			mHover = mMouse[0].current;
 			Highlight(mHover, true);
+		
 		}
 
 		// Update the last value
@@ -1254,6 +1256,7 @@ public class UICamera : MonoBehaviour
 		float click  = isMouse ? mouseClickThreshold : touchClickThreshold;
 
 		// Send out the press message
+//		Debug.LogError ("ProcessTouch : " + pressed + "  currentTouch : " + currentTouch.current);
 		if (pressed)
 		{
 			if (mTooltip != null) ShowTooltip(false);

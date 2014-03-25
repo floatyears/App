@@ -119,15 +119,17 @@ public class BattleUseData {
     }
 
     void RecoveHPByActiveSkill(object data) {
-        int value = (int)data;
-        int add = 0;
-        if (value < 1) {
+        float value = (float)data;
+        float add = 0;
+        if (value <= 1) {
             add = blood * value + blood;
         }
         else {
             add = value + blood;
         }
-        RecoverHP(add);
+		AttackInfo ai = new AttackInfo ();
+		ai.AttackValue = add;
+		RecoverHP(ai);
     }
 
     void DelayCountDownTime(object data) {
@@ -192,31 +194,6 @@ public class BattleUseData {
         }
     }
 
-//	public List<TEnemyInfo> GetEnemyInfo (List<uint> monster) {
-//		currentEnemy.Clear ();
-//		int j = showEnemy.Count - monster.Count;
-//
-//		for (int i = j - 1; i > -1; i--) {
-////			Debug.LogError (showEnemy.Count + "  monster.Count : " + monster.Count + " monster.Count + i : " + (monster.Count + i));
-//			showEnemy.RemoveAt(monster.Count + i);
-//		}
-//		for (int i = 0; i < monster.Count; i++) {
-//			TEnemyInfo te = DataCenter.Instance.EnemyInfo[monster[i]];
-//			te.Reset();
-//			if(i == showEnemy.Count) {
-//				showEnemy.Add(te);
-//			} 
-//			showEnemy[i] = te;
-//			currentEnemy.Add(te);
-//		}
-//		ac.enemyInfo = currentEnemy;
-//		return showEnemy;
-//	}
-
-//	public void InitEnemyInfo(List<TEnemyInfo> enemyInfo) {
-//		ac.enemyInfo = enemyInfo;
-//	}
-
     public void InitEnemyInfo(TQuestGrid grid) {
         ac.Grid = grid;
     }
@@ -231,9 +208,7 @@ public class BattleUseData {
 
     public void StartAttack(object data) {
         attackInfo = upi.Attack;
-//		Debug.LogError ("StartAttack  " + attackInfo.Count);
         List<AttackInfo> temp = SortAttackSequence();
-//		Debug.LogError ("StartAttack temp : " + temp.Count);
         ac.LeadSkillReduceHurt(els);
         ac.StartAttack(temp, upi);
     }

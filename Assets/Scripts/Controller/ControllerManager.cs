@@ -114,8 +114,6 @@ public class ControllerManager
 		IUIInterface temp;
 		switch (sEnum) {	
 		case SceneEnum.Fight:
-
-
 			temp = new BattleQuest(uiName);
 			break;
 		default:

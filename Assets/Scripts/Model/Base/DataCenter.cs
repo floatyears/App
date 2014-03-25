@@ -76,6 +76,13 @@ public class DataCenter {
     public const int rareGachaStone = 5;
     public const int eventGachaStone = 5;
     public const int maxGachaPerTime = 9;
+	public const int friendPos = 4;
+
+	private TFriendInfo battleFriend;
+	public TFriendInfo BattleFriend {
+		set { battleFriend = value; }
+		get { return battleFriend; }
+	}
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 

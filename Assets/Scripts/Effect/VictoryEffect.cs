@@ -154,6 +154,7 @@ public class VictoryEffect : UIBaseUnity {
 		backCircle = FindChild<UISprite>("BackCircle");
 		sureButton = FindChild<UIButton>("Button");
 		UIEventListener.Get (sureButton.gameObject).onClick = Sure;
+		Debug.LogWarning ("sureButton.gameObject : " + sureButton);
 		niuJiaoCurrent = niuJiao.transform.localPosition;
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);
 		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
@@ -163,12 +164,11 @@ public class VictoryEffect : UIBaseUnity {
 	}
 
 	void Sure(GameObject go) {
-		DestoryUI ();
+		Debug.LogError ("sureButtonCallback : " + sureButtonCallback);
 		if (sureButtonCallback != null) {
 			sureButtonCallback();
 		}
-
-//		
+		DestoryUI ();
 	}
 
 	public void PlayAnimation (Callback callback) {
