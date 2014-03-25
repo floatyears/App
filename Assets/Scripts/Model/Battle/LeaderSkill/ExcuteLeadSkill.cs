@@ -3,19 +3,15 @@ using System.Collections.Generic;
 
 public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, ILeaderSkillSwitchCard,ILeaderSkillRecoverHP, ILeaderSkillMultipleAttack {
 	ILeaderSkill leadSkill;
-	List<uint> RemoveSkill = new List<uint> ();
+	List<string> RemoveSkill = new List<string> ();
 
 	public ExcuteLeadSkill (ILeaderSkill lead) {
 		leadSkill = lead;
 	}
 
 	public void Excute() {
-//		if (leadSkill.LeadSkill.Count > 0) {
-//			DisposeBoostSkill (leadSkill.LeadSkill [0]);	
-//		}
-
 		foreach (var item in leadSkill.LeadSkill) {
-			if(DisposeBoostSkill(item.Value)){
+			if(DisposeBoostSkill(item.Value)) {
 				RemoveSkill.Add(item.Key);
 			}
 		}
@@ -23,8 +19,8 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	}
 
 	void RemoveLeaderSkill () {
-		for (uint i = 0; i < (uint)RemoveSkill.Count; i++) {
-			leadSkill.LeadSkill.Remove(i);
+		for (int i = 0; i < RemoveSkill.Count; i++) {
+			leadSkill.LeadSkill.Remove(RemoveSkill[i]);
 		}
 	}
 	
@@ -77,10 +73,10 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			if(tsea == null) {
 				continue;
 			}
-			uint id = item.Key;
+			string id = item.Key;
 			foreach (var item1 in leadSkill.UserUnit) {
-				if(item1.Value.ID == id) {
-					AttackInfo attack = tsea.AttackValue(item1.Value.Attack, id);
+				if(item1.Value.MakeUserUnitKey() == id) {
+					AttackInfo attack = tsea.AttackValue(item1.Value.Attack, item1.Value);
 					ai.Add(attack);
 					break;
 				}

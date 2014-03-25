@@ -62,9 +62,9 @@ public class AttackController {
 		CheckTempEnemy ();
 	}
 
-	TClass<int,int,float> reduceInfo = null;
+	TClass<string,int,float> reduceInfo = null;
 	void ReduceDefense(object data) {
-		reduceInfo = data as TClass<int,int,float>;
+		reduceInfo = data as TClass<string,int,float>;
 		if (reduceInfo == null) {
 			return;		
 		}

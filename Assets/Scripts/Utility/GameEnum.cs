@@ -1,5 +1,3 @@
-//public enum 
-
 public enum SceneEnum
 {
 	None,
@@ -148,6 +146,8 @@ public enum CommandEnum
 	ReturnPreScene,
 	RefreshFriendHelper,
 	PlayerDead,
+	EnterBattle,
+	LeftBattle,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,

@@ -45,15 +45,13 @@ public enum GameState {
 }
 
 public class DataCenter {
-
     public static DataCenter Instance {
         get {
             if (instance == null) {
                 instance = new DataCenter();
             }
             return instance;
-        }
-        
+        } 
     }
     private static DataCenter instance;
     private DataCenter() {
@@ -210,6 +208,14 @@ public class DataCenter {
         }
         set { setData(ModelEnum.Skill, value); } 
     }
+
+	public SkillBaseInfo GetSkill(int skillID) {
+		if (skillID == 0) {
+			return null;	
+		} else {
+			return Skill [skillID];
+		}
+	}
 
     private Dictionary<uint, TUnitInfo>  UnitInfo {
         get { 

@@ -479,7 +479,7 @@ public class ConfigSkill  {
 	void ConfigActiveSkill1 () {
 		SkillKillHP skh = new SkillKillHP ();
 		skh.baseInfo = new SkillBase ();
-		skh.baseInfo.id = 36;
+		skh.baseInfo.id = 38;
 		skh.baseInfo.name = "no 36 gravity";
 		skh.baseInfo.description = "gravity kill enemy hp";
 		skh.baseInfo.skillCooling = 0;
@@ -501,7 +501,7 @@ public class ConfigSkill  {
 
 		SkillPoison sp = new SkillPoison ();
 		sp.baseInfo = new SkillBase ();
-		sp.baseInfo.id = 38;
+		sp.baseInfo.id =36 ;
 		sp.baseInfo.name = "no 38 skill poison";
 		sp.baseInfo.description = "poison attack";
 		sp.baseInfo.skillCooling = 0;

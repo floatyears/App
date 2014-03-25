@@ -9,12 +9,12 @@ public class TSkillExtraAttack : SkillBaseInfo {
 		skillBase = this.instance.baseInfo;
 	}
 	
-	public AttackInfo AttackValue (float attackValue, uint id) {
+	public AttackInfo AttackValue (float attackValue, TUserUnit id) {
 		AttackInfo ai = new AttackInfo ();
 		ai.AttackValue = attackValue * instance.attackValue;
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = 1;//attack all enemy
-		ai.UserUnitID = id;
+		ai.UserUnitID = id.MakeUserUnitKey();
 		return ai;
 	}
 }

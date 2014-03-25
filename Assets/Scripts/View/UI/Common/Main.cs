@@ -88,7 +88,7 @@ public class Main : MonoBehaviour {
     /// </summary>
     void OnEnable() {
 		count++;
-		Debug.LogError("Main.OnEnable(), invoke times : " + count);
+//		Debug.LogError("Main.OnEnable(), invoke times : " + count);
         INetBase netBase = new AuthUser();
         netBase.OnRequest(null, LoginSuccess);
         AudioManager.Instance.PlayAudio(AudioEnum.music_home);
@@ -158,8 +158,9 @@ public class Main : MonoBehaviour {
 			
             if (rspAuthUser.unitList != null) {
                 foreach (UserUnit unit in rspAuthUser.unitList) {
-                    DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
-                    DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+					TUserUnit tuu = TUserUnit.GetUserUnit(userId, unit);
+					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, tuu);
+                    DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, tuu);
                 }
                 LogHelper.Log("rspAuthUser add to myUserUnit.count: {0}", rspAuthUser.unitList.Count);
             }
@@ -179,7 +180,7 @@ public class Main : MonoBehaviour {
         }
         Debug.Log("UIManager.Instance.ChangeScene before");
 
-//		Debug.LogError("login end");
+
         UIManager.Instance.ChangeScene(SceneEnum.Start);
         TurnToReName();
        

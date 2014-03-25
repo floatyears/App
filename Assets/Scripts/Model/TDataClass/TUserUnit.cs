@@ -27,6 +27,12 @@ public class TUserUnit : ProtobufDataBase {
         this.instance = instance as UserUnit;
     } 
 
+	public static TUserUnit GetUserUnit(uint id, UserUnit uu)  {
+		TUserUnit tuu =  new TUserUnit(uu);
+		tuu.userID = id;
+		return tuu;
+	}
+		
     public void RemovevListener() {
         MsgCenter.Instance.RemoveListener(CommandEnum.StrengthenTargetType, StrengthenTargetType);
     }
@@ -40,6 +46,16 @@ public class TUserUnit : ProtobufDataBase {
     }
     private float hpMultiple = 1;
     public int unitBaseInfo = -1;
+
+	public uint userID ;
+	private string userUnitID = string.Empty;
+	public  string MakeUserUnitKey() {
+		if (string.IsNullOrEmpty (userUnitID)) {
+			return userID.ToString () + "_" + ID.ToString ();	
+		} else {
+			return 	userUnitID;
+		}
+	} 
 
     TNormalSkill[] normalSkill = new TNormalSkill[2];
 
@@ -133,23 +149,21 @@ public class TUserUnit : ProtobufDataBase {
             InitSkill();	
         }
 		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (instance.unitId); //UnitInfo[instance.unitId];
+
 		UnitInfo ui = tui.Object;
         for (int i = 0; i < normalSkill.Length; i++) {
             TNormalSkill tns = normalSkill[i];
-//			Debug.LogError("tns : " + tns.SkillID );
             tns.DisposeUseSkillID(ignorSkillID);
             int count = tns.CalculateCard(copyCard);
             for (int j = 0; j < count; j++) {
                 AttackInfo attack = new AttackInfo();
                 attack.AttackValue = CaculateAttack(instance, ui, tns);
                 attack.AttackType = tns.AttackType;
-                attack.UserUnitID = instance.uniqueId;
+                attack.UserUnitID = MakeUserUnitKey();
                 tns.GetSkillInfo(attack);
                 returnInfo.Add(attack);
             }
         }
-
-//		Debug.LogError ("instance.uniqueId : " + instance.uniqueId + " returnInfo.Count: " + returnInfo.Count);
         return returnInfo;
     }
 
@@ -391,6 +405,16 @@ public class UserUnitList {
         return tuu;
     }
 
+	public TUserUnit Get (string UserId) {
+		if (!userUnitInfo.ContainsKey(UserId)) {
+			Debug.Log("Cannot find key " + UserId + " in Global.userUnitInfo");
+			return null;
+		}
+		
+		TUserUnit tuu = userUnitInfo[UserId];
+		return tuu;
+	}
+
     public  TUserUnit GetMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
             Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
@@ -399,6 +423,15 @@ public class UserUnitList {
 		
         return Get(DataCenter.Instance.UserInfo.UserId, uniqueId);
     }
+
+	public  TUserUnit GetMyUnit(string id) {
+		if (DataCenter.Instance.UserInfo == null) {
+			Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
+			return null;
+		}
+
+		return Get(id);
+	}
 
 //    public bool HasUnit(uint uniqueId){
 //        !userUnitInfo.ContainsKey(key)
@@ -440,15 +473,8 @@ public class UserUnitList {
     }
 
     public void AddMyUnit(UserUnit unit) {
-//        LogHelper.LogError("============================before AddMyUnit(), count {0}, new unitId {1} new uniqueID  {2}",
-//                           userUnitInfo.Count, unit.unitId, unit.uniqueId);
-        Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, new TUserUnit(unit));
-        // test
-//        LogHelper.LogError("============================after AddMyUnit(), count {0}", userUnitInfo.Count);
-//        foreach (var item in userUnitInfo) {
-//            TUserUnit tUnit = item.Value as TUserUnit;
-////            LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);
-//        }
+		TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, unit); 
+		Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, tuu);
     }
 
     public void AddMyUnitList(List <UserUnit> unitList){

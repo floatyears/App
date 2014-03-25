@@ -22,7 +22,7 @@ public class TSkillRecoverSP : ActiveSkill, IActiveSkillExcute {
 		DisposeCooling ();
 	}
 
-	public object Excute (uint userUnitID, int atk = -1) {
+	public object Excute (string userUnitID, int atk = -1) {
 //		Debug.LogError ("RecoverSP excute : " + coolingDone);
 		if (!coolingDone) {
 			return null;	

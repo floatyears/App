@@ -85,12 +85,14 @@ public class UIManager {
 	public void EnterBattle () {
 		current.HideScene();
 		baseScene.HideBase ();
+		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
 		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 	}
 
 	public void ExitBattle () {
 		baseScene.ShowBase ();
 		current.ShowScene();
+		MsgCenter.Instance.Invoke (CommandEnum.LeftBattle, null);
 	}
 
 	public void HideBaseScene () {

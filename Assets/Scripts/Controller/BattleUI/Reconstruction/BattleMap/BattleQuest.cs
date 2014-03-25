@@ -20,7 +20,7 @@ public class BattleQuest : UIBase {
 	public static TQuestDungeonData questDungeonData;
 	private BattleMap battleMap;
 	private Role role;
-	private Battle battle;
+	public Battle battle;
 	private BattleBackground background;
 	public static BattleUseData bud;
 	private Camera mainCamera;
@@ -45,6 +45,7 @@ public class BattleQuest : UIBase {
 		background.transform.parent = viewManager.CenterPanel.transform.parent;
 		background.transform.localPosition = Vector3.zero;
 		background.Init (backgroundName);
+		background.SetBattleQuest (this);
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
@@ -322,6 +323,7 @@ public class BattleQuest : UIBase {
 
 	void BattleEnd(object data) {
 		if (battleEnemy) {
+			battle.SwitchInput(true);
 			RequestData();
 			battleMap.BattleEndRotate();
 		}
@@ -385,7 +387,8 @@ public class BattleQuest : UIBase {
 		}
 		DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
 		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
-		evolveUser = new TUserUnit (rsp.evolvedUnit);
+		evolveUser = TUserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
+//		evolveUser.userID = DataCenter.Instance.UserInfo.UserId;
 		TRspClearQuest trcq = new TRspClearQuest ();
 		trcq.exp = rsp.exp;
 		trcq.gotExp = rsp.gotExp;
@@ -394,7 +397,7 @@ public class BattleQuest : UIBase {
 		trcq.gotStone = rsp.gotStone;
 		List<TUserUnit> temp = new List<TUserUnit> ();
 		for (int i = 0; i <  rsp.gotUnit.Count; i++) {
-			TUserUnit tuu = new TUserUnit(rsp.gotUnit[i]);
+			TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId,rsp.gotUnit[i]);
 			temp.Add(tuu);
 		}
 		trcq.gotUnit = temp;

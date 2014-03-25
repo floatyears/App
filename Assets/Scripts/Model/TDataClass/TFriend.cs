@@ -10,7 +10,7 @@ public class TFriendInfo : ProtobufDataBase {
     public TFriendInfo(FriendInfo inst) : base (inst) { 
         instance = inst;
         if (instance.unit != null) {
-            unit = new TUserUnit(instance.unit);
+			unit = TUserUnit.GetUserUnit(instance.userId, instance.unit); //new TUserUnit(instance.unit);
         }
     }
 
@@ -118,6 +118,7 @@ public class TFriendList : ProtobufDataBase {
         DataCenter.Instance.FriendCount = instance.friend.Count;
         foreach (FriendInfo fi in instance.friend) {
             TFriendInfo tfi = new TFriendInfo(fi);
+
             Debug.Log("friend: NickName " + tfi.NickName);
             friend.Add(tfi);
         }
@@ -133,6 +134,7 @@ public class TFriendList : ProtobufDataBase {
         helper = new List<TFriendInfo>();
         foreach (FriendInfo fi in instance.helper) {
             TFriendInfo tfi = new TFriendInfo(fi);
+
             Debug.Log("helper: NickName " + tfi.NickName);
             Debug.Log("helper: userId " + tfi.UserId);
             Debug.Log("helper: userUnit: id" + tfi.UserUnit);
@@ -149,6 +151,7 @@ public class TFriendList : ProtobufDataBase {
         }
         foreach (FriendInfo fi in instance.friendIn) {
             TFriendInfo tfi = new TFriendInfo(fi);
+
 //            Debug.Log("helper: NickName " + tfi.NickName);
             friendIn.Add(tfi);
         }

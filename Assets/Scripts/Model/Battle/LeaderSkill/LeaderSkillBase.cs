@@ -4,6 +4,11 @@ using bbproto;
 
 public class SkillBaseInfo : ProtobufDataBase {
 	protected SkillBase skillBase;
+	public SkillBase BaseInfo {
+		get {
+			return skillBase;
+		}
+	}
 	public SkillBaseInfo(object instance) : base (instance) {
 		
 	}

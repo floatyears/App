@@ -20,6 +20,7 @@ public class ActiveSkill : SkillBaseInfo {
 
 	protected void InitCooling() {
 		skillBase.skillCooling = initSkillCooling;
+//		Debug.LogError ("InitCooling : " + skillBase.skillCooling);
 		if (skillBase.skillCooling > 0) {
 			coolingDone = false;
 		}
@@ -51,7 +52,7 @@ public class TSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 		DisposeCooling ();
 	}
 	
-	public object Excute (uint userUnitID, int atk = -1) {
+	public object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;		
 		}
