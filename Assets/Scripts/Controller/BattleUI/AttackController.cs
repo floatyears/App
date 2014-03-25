@@ -197,9 +197,7 @@ public class AttackController {
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
-
 		CheckEnemyDead();
-
 		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
 		MultipleAttack ();
 		AttackInfo ai = attackInfo [0];
@@ -296,9 +294,7 @@ public class AttackController {
 		int hurtValue = te.CalculateInjured (ai, restraint);
 		ai.InjuryValue = hurtValue;
 		tempPreHurtValue = hurtValue;
-//		ai.EnemyID = te.EnemyID;//GetID();
 		ai.EnemyID = te.EnemySymbol;
-
 		AttackEnemyEnd (ai);
 	}
 

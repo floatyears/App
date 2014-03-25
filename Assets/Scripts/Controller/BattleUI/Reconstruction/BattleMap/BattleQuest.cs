@@ -81,6 +81,7 @@ public class BattleQuest : UIBase {
 
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.GridEnd, GridEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, BattleFail);
 	}
 
 	public override void HideUI () {
@@ -93,6 +94,7 @@ public class BattleQuest : UIBase {
 		
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.GridEnd, GridEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.PlayerDead, BattleFail);
 	}
 
 	void Reset () {
@@ -397,6 +399,7 @@ public class BattleQuest : UIBase {
 		}
 		trcq.gotUnit = temp;
 		trcq.rank = rsp.rank;
+		DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 		End (trcq, EvolveEnd);
 	}
 
@@ -420,5 +423,9 @@ public class BattleQuest : UIBase {
 		ve.Init("Victory");
 		ve.ShowData (clearQuest);
 		ve.PlayAnimation(questEnd);
+	}
+
+	void BattleFail(object data) {
+
 	}
 }

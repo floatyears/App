@@ -58,6 +58,22 @@ public class ViewManager
 		get{return mainUICamera;}
 	}
 
+	private UICamera battleCamera;
+	public UICamera BattleCamera {
+		set { battleCamera = value; }
+		get { return battleCamera; }
+	}
+
+	private GameObject battleBottom;
+	/// <summary>
+	/// battle bottom parent object.
+	/// </summary>
+	/// <value>The battle bottom.</value>
+	public GameObject BattleBottom {
+		get { return battleBottom; }
+		set { battleBottom = value; }
+	}
+
 	private Font dynamicFont;
 
 	public Font DynamicFont
@@ -86,8 +102,7 @@ public class ViewManager
 
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
 
-	public void RegistUIBaseUnity(UIBaseUnity obj)
-	{
+	public void RegistUIBaseUnity(UIBaseUnity obj) {
 		if(uiObjectDic.ContainsKey(obj.UIName))
 			uiObjectDic[obj.UIName] = obj;
 		else
