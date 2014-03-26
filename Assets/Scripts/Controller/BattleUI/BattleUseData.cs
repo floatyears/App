@@ -12,7 +12,7 @@ public class BattleUseData {
 			if(blood < 1) {
 				MsgCenter.Instance.Invoke(CommandEnum.PlayerDead, null);
 			} 
-		}
+        }
         get { return blood; }
     }
     private int recoverHP = 0;

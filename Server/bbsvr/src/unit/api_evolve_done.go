@@ -144,11 +144,11 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 		return e
 	}
 
-	// verify unit type
-	if *unit.GetTodayEvolveType() != *baseUnit.Type {
-		e = Error.New(EC.E_UNIT_CANNOT_EVOLVE_TODAY, fmt.Sprintf("unit type %v cannot evolve today.", baseUnit.Type))
-		return e
-	}
+//	// verify unit type
+//	if *unit.GetTodayEvolveType() != *baseUnit.Type {
+//		e = Error.New(EC.E_UNIT_CANNOT_EVOLVE_TODAY, fmt.Sprintf("unit type %v cannot evolve today.", *baseUnit.Type))
+//		return e
+//	}
 
 	//4. update questPlayRecord (also add dropUnits to user.UnitList)
 
@@ -179,7 +179,15 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 
 	//7. update exp, rank
 	*userDetail.User.Exp += gotExp
-	user.RefreshRank(userDetail.User)
+
+	addRank,addCostMax, addFriendMax, addUnitMax,addStaminaMax, e := user.RefreshRank(userDetail.User)
+	if e.IsError() { return e }
+	if addRank > 0 { rspMsg.RankAdd = proto.Int32( addRank ) }
+	if addCostMax > 0 { rspMsg.CostMaxAdd = proto.Int32( addCostMax ) }
+	if addFriendMax > 0 { rspMsg.FriendMaxAdd = proto.Int32( addFriendMax ) }
+	if addStaminaMax > 0 { rspMsg.StaminaMaxAdd = proto.Int32( addStaminaMax ) }
+	if addUnitMax > 0 { rspMsg.UnitMaxAdd = proto.Int32( addUnitMax ) }
+
 
 	//check stage isClear or not, give gotStone gift
 	stageInfo, e := quest.GetStageInfo(db, stageId)

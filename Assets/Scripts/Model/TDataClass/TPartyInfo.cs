@@ -129,26 +129,44 @@ public class TPartyInfo : ProtobufDataBase {
         } 
     }
 
-    public	bool ChangeParty(int pos, uint unitUniqueId) { 
+	public bool IsCostOverflow(int pos, uint newUniqueId) {
+		if( newUniqueId != 0 ) { // check cost max
+			int newCost = DataCenter.Instance.UserUnitList.GetMyUnit( newUniqueId ).UnitInfo.Cost;
+			int oldCost = 0;
+			if( CurrentParty.UserUnit[pos] != null ) {
+				oldCost = CurrentParty.UserUnit[pos].UnitInfo.Cost;
+			}
+			
+			if ( (CurrentParty.TotalCost - oldCost + newCost) > DataCenter.Instance.UserInfo.CostMax ) {
+				Debug.LogError("TPartyInfo.ChangeParty:: costTotal="+(CurrentParty.TotalCost - oldCost + newCost)+" > "+DataCenter.Instance.UserInfo.CostMax);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public	bool ChangeParty(int pos, uint newUniqueId) { 
         if (CurrentPartyId >= instance.partyList.Count) {
-            //LogHelper.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:{0} is invalid.", CurrentPartyId);
+			Debug.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:"+CurrentPartyId+" is invalid.");
             return false;
         }
 
         if (pos >= instance.partyList[CurrentPartyId].items.Count) {
-            LogHelper.LogError("TPartyInfo.ChangeParty:: item.unitPos:{0} is invalid.", pos);
+			Debug.LogError("TPartyInfo.ChangeParty:: item.unitPos:"+pos+" is invalid.");
             return false;
         }
 
-        //LogHelper.LogError("TPartyInfo.ChangeParty: pos:{0} uniqueId:{1}", pos, unitUniqueId);
+		if( IsCostOverflow(pos, newUniqueId) ) 
+			return false;
 
         isPartyItemModified = true;
-        CurrentParty.SetPartyItem(pos, unitUniqueId);
+		CurrentParty.SetPartyItem(pos, newUniqueId);
 
-        //updte 
+        //update instance
         PartyItem item = new PartyItem();
         item.unitPos = pos;
-        item.unitUniqueId = unitUniqueId;
+		item.unitUniqueId = newUniqueId;
         instance.partyList[CurrentPartyId].items[pos] = item;
 
         return true;
@@ -171,7 +189,10 @@ public class TPartyInfo : ProtobufDataBase {
             bbproto.RspChangeParty rsp = data as bbproto.RspChangeParty;
 			
             LogHelper.Log("rspChangeParty code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			if (rsp.header.code != ErrorCode.SUCCESS){
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+
+			}
 //			bool success = (rspChangeParty.header.code == 0 );
         }
 

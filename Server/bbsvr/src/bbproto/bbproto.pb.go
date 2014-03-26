@@ -1280,7 +1280,8 @@ type QuestFloorConfig struct {
 	TreasureNum      *int32        `protobuf:"varint,2,opt,name=treasureNum" json:"treasureNum,omitempty"`
 	TrapNum          *int32        `protobuf:"varint,3,opt,name=trapNum" json:"trapNum,omitempty"`
 	EnemyNum         *int32        `protobuf:"varint,4,opt,name=enemyNum" json:"enemyNum,omitempty"`
-	Stars            []*StarConfig `protobuf:"bytes,5,rep,name=stars" json:"stars,omitempty"`
+	KeyNum           *int32        `protobuf:"varint,5,opt,name=keyNum" json:"keyNum,omitempty"`
+	Stars            []*StarConfig `protobuf:"bytes,6,rep,name=stars" json:"stars,omitempty"`
 	XXX_unrecognized []byte        `json:"-"`
 }
 
@@ -1312,6 +1313,13 @@ func (m *QuestFloorConfig) GetTrapNum() int32 {
 func (m *QuestFloorConfig) GetEnemyNum() int32 {
 	if m != nil && m.EnemyNum != nil {
 		return *m.EnemyNum
+	}
+	return 0
+}
+
+func (m *QuestFloorConfig) GetKeyNum() int32 {
+	if m != nil && m.KeyNum != nil {
+		return *m.KeyNum
 	}
 	return 0
 }
@@ -1441,9 +1449,7 @@ type EnemyInfoConf struct {
 	DropUnitId       *uint32    `protobuf:"varint,2,opt,name=dropUnitId" json:"dropUnitId,omitempty"`
 	DropUnitLevel    *int32     `protobuf:"varint,3,opt,name=dropUnitLevel" json:"dropUnitLevel,omitempty"`
 	DropRate         *float32   `protobuf:"fixed32,4,opt,name=dropRate" json:"dropRate,omitempty"`
-	AddHpRate        *float32   `protobuf:"fixed32,5,opt,name=addHpRate" json:"addHpRate,omitempty"`
-	AddAttackRate    *float32   `protobuf:"fixed32,6,opt,name=addAttackRate" json:"addAttackRate,omitempty"`
-	AddDefenceRate   *float32   `protobuf:"fixed32,7,opt,name=addDefenceRate" json:"addDefenceRate,omitempty"`
+	AddRate          *float32   `protobuf:"fixed32,5,opt,name=addRate" json:"addRate,omitempty"`
 	XXX_unrecognized []byte     `json:"-"`
 }
 
@@ -1479,23 +1485,9 @@ func (m *EnemyInfoConf) GetDropRate() float32 {
 	return 0
 }
 
-func (m *EnemyInfoConf) GetAddHpRate() float32 {
-	if m != nil && m.AddHpRate != nil {
-		return *m.AddHpRate
-	}
-	return 0
-}
-
-func (m *EnemyInfoConf) GetAddAttackRate() float32 {
-	if m != nil && m.AddAttackRate != nil {
-		return *m.AddAttackRate
-	}
-	return 0
-}
-
-func (m *EnemyInfoConf) GetAddDefenceRate() float32 {
-	if m != nil && m.AddDefenceRate != nil {
-		return *m.AddDefenceRate
+func (m *EnemyInfoConf) GetAddRate() float32 {
+	if m != nil && m.AddRate != nil {
+		return *m.AddRate
 	}
 	return 0
 }
@@ -2216,17 +2208,22 @@ func (m *ReqClearQuest) GetHitGrid() []uint32 {
 type RspClearQuest struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	Rank             *int32       `protobuf:"varint,2,opt,name=rank" json:"rank,omitempty"`
-	Exp              *int32       `protobuf:"varint,3,opt,name=exp" json:"exp,omitempty"`
-	Money            *int32       `protobuf:"varint,4,opt,name=money" json:"money,omitempty"`
-	FriendPoint      *int32       `protobuf:"varint,5,opt,name=friendPoint" json:"friendPoint,omitempty"`
-	StaminaNow       *int32       `protobuf:"varint,6,opt,name=staminaNow" json:"staminaNow,omitempty"`
-	StaminaMax       *int32       `protobuf:"varint,7,opt,name=staminaMax" json:"staminaMax,omitempty"`
-	StaminaRecover   *uint32      `protobuf:"varint,8,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
-	GotMoney         *int32       `protobuf:"varint,9,opt,name=gotMoney" json:"gotMoney,omitempty"`
-	GotExp           *int32       `protobuf:"varint,10,opt,name=gotExp" json:"gotExp,omitempty"`
-	GotStone         *int32       `protobuf:"varint,11,opt,name=gotStone" json:"gotStone,omitempty"`
-	GotFriendPoint   *int32       `protobuf:"varint,12,opt,name=gotFriendPoint" json:"gotFriendPoint,omitempty"`
-	GotUnit          []*UserUnit  `protobuf:"bytes,13,rep,name=gotUnit" json:"gotUnit,omitempty"`
+	RankAdd          *int32       `protobuf:"varint,3,opt,name=rankAdd" json:"rankAdd,omitempty"`
+	Exp              *int32       `protobuf:"varint,4,opt,name=exp" json:"exp,omitempty"`
+	Money            *int32       `protobuf:"varint,5,opt,name=money" json:"money,omitempty"`
+	FriendPoint      *int32       `protobuf:"varint,6,opt,name=friendPoint" json:"friendPoint,omitempty"`
+	StaminaNow       *int32       `protobuf:"varint,7,opt,name=staminaNow" json:"staminaNow,omitempty"`
+	StaminaMax       *int32       `protobuf:"varint,8,opt,name=staminaMax" json:"staminaMax,omitempty"`
+	StaminaRecover   *uint32      `protobuf:"varint,9,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	GotMoney         *int32       `protobuf:"varint,10,opt,name=gotMoney" json:"gotMoney,omitempty"`
+	GotExp           *int32       `protobuf:"varint,11,opt,name=gotExp" json:"gotExp,omitempty"`
+	GotStone         *int32       `protobuf:"varint,12,opt,name=gotStone" json:"gotStone,omitempty"`
+	GotFriendPoint   *int32       `protobuf:"varint,13,opt,name=gotFriendPoint" json:"gotFriendPoint,omitempty"`
+	GotUnit          []*UserUnit  `protobuf:"bytes,14,rep,name=gotUnit" json:"gotUnit,omitempty"`
+	CostMaxAdd       *int32       `protobuf:"varint,15,opt,name=costMaxAdd" json:"costMaxAdd,omitempty"`
+	UnitMaxAdd       *int32       `protobuf:"varint,16,opt,name=unitMaxAdd" json:"unitMaxAdd,omitempty"`
+	FriendMaxAdd     *int32       `protobuf:"varint,17,opt,name=friendMaxAdd" json:"friendMaxAdd,omitempty"`
+	StaminaMaxAdd    *int32       `protobuf:"varint,18,opt,name=staminaMaxAdd" json:"staminaMaxAdd,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -2244,6 +2241,13 @@ func (m *RspClearQuest) GetHeader() *ProtoHeader {
 func (m *RspClearQuest) GetRank() int32 {
 	if m != nil && m.Rank != nil {
 		return *m.Rank
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetRankAdd() int32 {
+	if m != nil && m.RankAdd != nil {
+		return *m.RankAdd
 	}
 	return 0
 }
@@ -2323,6 +2327,34 @@ func (m *RspClearQuest) GetGotUnit() []*UserUnit {
 		return m.GotUnit
 	}
 	return nil
+}
+
+func (m *RspClearQuest) GetCostMaxAdd() int32 {
+	if m != nil && m.CostMaxAdd != nil {
+		return *m.CostMaxAdd
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetUnitMaxAdd() int32 {
+	if m != nil && m.UnitMaxAdd != nil {
+		return *m.UnitMaxAdd
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetFriendMaxAdd() int32 {
+	if m != nil && m.FriendMaxAdd != nil {
+		return *m.FriendMaxAdd
+	}
+	return 0
+}
+
+func (m *RspClearQuest) GetStaminaMaxAdd() int32 {
+	if m != nil && m.StaminaMaxAdd != nil {
+		return *m.StaminaMaxAdd
+	}
+	return 0
 }
 
 type ReqRetireQuest struct {
@@ -3370,18 +3402,23 @@ func (m *ReqEvolveDone) GetHitGrid() []uint32 {
 type RspEvolveDone struct {
 	Header           *ProtoHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	Rank             *int32       `protobuf:"varint,2,opt,name=rank" json:"rank,omitempty"`
-	Exp              *int32       `protobuf:"varint,3,opt,name=exp" json:"exp,omitempty"`
-	Money            *int32       `protobuf:"varint,4,opt,name=money" json:"money,omitempty"`
-	FriendPoint      *int32       `protobuf:"varint,5,opt,name=friendPoint" json:"friendPoint,omitempty"`
-	StaminaNow       *int32       `protobuf:"varint,6,opt,name=staminaNow" json:"staminaNow,omitempty"`
-	StaminaMax       *int32       `protobuf:"varint,7,opt,name=staminaMax" json:"staminaMax,omitempty"`
-	StaminaRecover   *uint32      `protobuf:"varint,8,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
-	GotMoney         *int32       `protobuf:"varint,9,opt,name=gotMoney" json:"gotMoney,omitempty"`
-	GotExp           *int32       `protobuf:"varint,10,opt,name=gotExp" json:"gotExp,omitempty"`
-	GotStone         *int32       `protobuf:"varint,11,opt,name=gotStone" json:"gotStone,omitempty"`
-	GotFriendPoint   *int32       `protobuf:"varint,12,opt,name=gotFriendPoint" json:"gotFriendPoint,omitempty"`
-	GotUnit          []*UserUnit  `protobuf:"bytes,13,rep,name=gotUnit" json:"gotUnit,omitempty"`
-	EvolvedUnit      *UserUnit    `protobuf:"bytes,14,opt,name=evolvedUnit" json:"evolvedUnit,omitempty"`
+	RankAdd          *int32       `protobuf:"varint,3,opt,name=rankAdd" json:"rankAdd,omitempty"`
+	Exp              *int32       `protobuf:"varint,4,opt,name=exp" json:"exp,omitempty"`
+	Money            *int32       `protobuf:"varint,5,opt,name=money" json:"money,omitempty"`
+	FriendPoint      *int32       `protobuf:"varint,6,opt,name=friendPoint" json:"friendPoint,omitempty"`
+	StaminaNow       *int32       `protobuf:"varint,7,opt,name=staminaNow" json:"staminaNow,omitempty"`
+	StaminaMax       *int32       `protobuf:"varint,8,opt,name=staminaMax" json:"staminaMax,omitempty"`
+	StaminaRecover   *uint32      `protobuf:"varint,9,opt,name=staminaRecover" json:"staminaRecover,omitempty"`
+	GotMoney         *int32       `protobuf:"varint,10,opt,name=gotMoney" json:"gotMoney,omitempty"`
+	GotExp           *int32       `protobuf:"varint,11,opt,name=gotExp" json:"gotExp,omitempty"`
+	GotStone         *int32       `protobuf:"varint,12,opt,name=gotStone" json:"gotStone,omitempty"`
+	GotFriendPoint   *int32       `protobuf:"varint,13,opt,name=gotFriendPoint" json:"gotFriendPoint,omitempty"`
+	GotUnit          []*UserUnit  `protobuf:"bytes,14,rep,name=gotUnit" json:"gotUnit,omitempty"`
+	EvolvedUnit      *UserUnit    `protobuf:"bytes,15,opt,name=evolvedUnit" json:"evolvedUnit,omitempty"`
+	CostMaxAdd       *int32       `protobuf:"varint,16,opt,name=costMaxAdd" json:"costMaxAdd,omitempty"`
+	UnitMaxAdd       *int32       `protobuf:"varint,17,opt,name=unitMaxAdd" json:"unitMaxAdd,omitempty"`
+	FriendMaxAdd     *int32       `protobuf:"varint,18,opt,name=friendMaxAdd" json:"friendMaxAdd,omitempty"`
+	StaminaMaxAdd    *int32       `protobuf:"varint,19,opt,name=staminaMaxAdd" json:"staminaMaxAdd,omitempty"`
 	XXX_unrecognized []byte       `json:"-"`
 }
 
@@ -3399,6 +3436,13 @@ func (m *RspEvolveDone) GetHeader() *ProtoHeader {
 func (m *RspEvolveDone) GetRank() int32 {
 	if m != nil && m.Rank != nil {
 		return *m.Rank
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetRankAdd() int32 {
+	if m != nil && m.RankAdd != nil {
+		return *m.RankAdd
 	}
 	return 0
 }
@@ -3485,6 +3529,34 @@ func (m *RspEvolveDone) GetEvolvedUnit() *UserUnit {
 		return m.EvolvedUnit
 	}
 	return nil
+}
+
+func (m *RspEvolveDone) GetCostMaxAdd() int32 {
+	if m != nil && m.CostMaxAdd != nil {
+		return *m.CostMaxAdd
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetUnitMaxAdd() int32 {
+	if m != nil && m.UnitMaxAdd != nil {
+		return *m.UnitMaxAdd
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetFriendMaxAdd() int32 {
+	if m != nil && m.FriendMaxAdd != nil {
+		return *m.FriendMaxAdd
+	}
+	return 0
+}
+
+func (m *RspEvolveDone) GetStaminaMaxAdd() int32 {
+	if m != nil && m.StaminaMaxAdd != nil {
+		return *m.StaminaMaxAdd
+	}
+	return 0
 }
 
 type ReqGacha struct {
@@ -4299,6 +4371,7 @@ func (m *RspGetUserInfo) GetUser() *UserInfo {
 type ReqAuthUser struct {
 	Header           *ProtoHeader  `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
 	Terminal         *TerminalInfo `protobuf:"bytes,2,opt,name=terminal" json:"terminal,omitempty"`
+	SelectRole       *uint32       `protobuf:"varint,3,opt,name=selectRole" json:"selectRole,omitempty"`
 	XXX_unrecognized []byte        `json:"-"`
 }
 
@@ -4318,6 +4391,13 @@ func (m *ReqAuthUser) GetTerminal() *TerminalInfo {
 		return m.Terminal
 	}
 	return nil
+}
+
+func (m *ReqAuthUser) GetSelectRole() uint32 {
+	if m != nil && m.SelectRole != nil {
+		return *m.SelectRole
+	}
+	return 0
 }
 
 type RspAuthUser struct {

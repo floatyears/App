@@ -90,7 +90,8 @@ message QuestFloorConfig {
 	optional int32		treasureNum		= 2;
 	optional int32		trapNum			= 3;
 	optional int32		enemyNum		= 4;
-	repeated StarConfig stars			= 5; // 1 - 6, !, ?
+	optional int32		keyNum			= 5;
+	repeated StarConfig stars			= 6; // 1 - 6, !, ?
 }
 
 message QuestConfig {
@@ -117,9 +118,7 @@ message EnemyInfoConf {
 	optional uint32		dropUnitId		= 2;
 	optional int32		dropUnitLevel	= 3;
 	optional float		dropRate		= 4;
-	optional float		addHpRate		= 5; // "+" rate
-	optional float		addAttackRate	= 6; //
-	optional float		addDefenceRate	= 7; // 
+	optional float		addRate			= 5; // "+" rate
 }
 
 message DropUnit{
@@ -257,17 +256,22 @@ message ReqClearQuest {
 message RspClearQuest {
 	optional ProtoHeader	header			= 1;
 	optional int32			rank			= 2;
-	optional int32			exp				= 3;
-	optional int32			money			= 4;
-	optional int32			friendPoint		= 5;
-	optional int32			staminaNow		= 6;
-	optional int32			staminaMax		= 7;
-	optional uint32			staminaRecover	= 8; //recover time
-	optional int32			gotMoney		= 9;
-	optional int32			gotExp			= 10;
-	optional int32			gotStone		= 11;
-	optional int32			gotFriendPoint	= 12;
-	repeated UserUnit		gotUnit			= 13; //with uniqueId 
+	optional int32			rankAdd			= 3;	
+	optional int32			exp				= 4;
+	optional int32			money			= 5;
+	optional int32			friendPoint		= 6;
+	optional int32			staminaNow		= 7;
+	optional int32			staminaMax		= 8;
+	optional uint32			staminaRecover	= 9; //recover time
+	optional int32			gotMoney		= 10;
+	optional int32			gotExp			= 11;
+	optional int32			gotStone		= 12;
+	optional int32			gotFriendPoint	= 13;
+	repeated UserUnit		gotUnit			= 14; //with uniqueId 
+	optional int32			costMaxAdd		= 15;
+	optional int32			unitMaxAdd		= 16;
+	optional int32			friendMaxAdd	= 17;
+	optional int32			staminaMaxAdd	= 18;
 }
 
 message ReqRetireQuest {
