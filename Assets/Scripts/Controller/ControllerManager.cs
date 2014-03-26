@@ -125,6 +125,13 @@ public class ControllerManager
 		AddUIObject(uiName,temp);
 		return temp;
 	}
+
+	void EnterBattle () {
+		Application.LoadLevel("Battle");
+		GameObject ui = GameObject.Find("UI");
+		ViewManager.Instance.BattleBottom = ui.transform.Find ("Anchor/Panel/Bottom").gameObject;
+		ViewManager.Instance.BattleCamera = ui.transform.Find ("Camera").GetComponent<UICamera> ();
+	}
 	
 	#region global ui
 	private string actorName = "ActorShow";

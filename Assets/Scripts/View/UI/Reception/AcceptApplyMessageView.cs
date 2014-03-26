@@ -1,30 +1,23 @@
 using UnityEngine;
 using System.Collections;
 
-public class AcceptApplyMessageView : ApplyMessageView
-{
-
+public class AcceptApplyMessageView : ApplyMessageView{
 	UIButton deleteButton;
 
-	public override void Init(UIInsConfig config, IUICallback origin)
-	{
+	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-
 		InitUIElement();
 	}
 
-	public override void ShowUI()
-	{
+	public override void ShowUI(){
 		base.ShowUI();
 	}
 
-	public override void HideUI()
-	{
+	public override void HideUI(){
 		base.HideUI();
 	}
 
-	public override void Callback(object data)
-	{
+	public override void Callback(object data){
 		base.Callback(data);
 	}
 
@@ -34,7 +27,8 @@ public class AcceptApplyMessageView : ApplyMessageView
 	}
 
 	void ClickDeleteButton(GameObject btn){
-		Debug.LogError("Click the delete button, call controller to response...");
+		//Debug.LogError("Click the delete button, call controller to response...");
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickDelete", null);
 		ExcuteCallback(cbdArgs);
 	}

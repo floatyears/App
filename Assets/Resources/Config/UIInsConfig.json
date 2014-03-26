@@ -15,6 +15,14 @@
         "positiony": -565,
         "positionz": 0
     },
+    "ScreenMask": {
+        "uiName":"ScreenMask",
+        "resoucePath": "Prefabs/UI/Common/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": -565,
+        "positionz": 0
+    },
      "SceneInfo": {
         "uiName":"SceneInfoBar",
         "resoucePath": "Prefabs/UI/Common/",
@@ -60,6 +68,14 @@
         "uiName":"MenuBottom",
         "resoucePath": "Prefabs/UI/Common/",
         "parent": 3,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+    "LoadingWindow": {
+        "uiName":"Loading",
+        "resoucePath": "Prefabs/UI/Loading/",
+        "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -327,6 +343,14 @@
         "parent": 1,
         "positionx": 0,
         "positiony": -245,
+        "positionz": 0
+    },
+       "ItemCounterBar": {
+        "uiName":"ItemCounterBar",
+        "resoucePath": "Prefabs/UI/Common/",
+        "parent": 0,
+        "positionx": -200,
+        "positiony": -360,
         "positionz": 0
     }
     

@@ -52,16 +52,19 @@ public class ShopDecoratorUnity : UIComponentUnity {
 	}
 
     private void OnClickFriendExpansion( GameObject button ){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoFriendExpansion", null);
         ExcuteCallback(cbdArgs);
     }
 
     private void OnClickStaminaRecover( GameObject button ){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoStaminaRecover", null);
         ExcuteCallback(cbdArgs);
     }
 
     private void OnClickUnitExpansion( GameObject button ){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoUnitExpansion", null);
         ExcuteCallback(cbdArgs);
     }

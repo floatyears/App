@@ -20,6 +20,7 @@ public enum GachaType{
 }
 
 public class GachaWindowInfo{
+    public GachaType gachaType;
     public int totalChances = 1;
     public List<uint> blankList = new List<uint>();
     public List<uint> unitList = new List<uint>();
@@ -73,6 +74,7 @@ public class ScratchLogic : ConcreteComponent {
 
     GachaWindowInfo GetGachaWindowInfo(GachaType gachaType, int gachaCount, List<uint> unitList, List<uint> blankList){
         GachaWindowInfo info = new GachaWindowInfo();
+        info.gachaType = gachaType;
         info.blankList = blankList;
         LogHelper.Log("GetGachaWindowInfo() blank count {0}", blankList.Count);
         info.unitList = unitList;
@@ -90,6 +92,7 @@ public class ScratchLogic : ConcreteComponent {
         
         if (rsp.header.code != (int)ErrorCode.SUCCESS) {
             LogHelper.Log("RspGacha code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
             return;
         }
         
@@ -112,24 +115,26 @@ public class ScratchLogic : ConcreteComponent {
         
         LogHelper.LogError("after gacha, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
 
-        SceneEnum nextScene = SceneEnum.FriendScratch;
-        if (gachaType == GachaType.FriendGacha){
-            nextScene = SceneEnum.FriendScratch;
-        }
-        else if (gachaType == GachaType.RareGacha){
-            nextScene = SceneEnum.RareScratch;
-        }
-        else if (gachaType == GachaType.EventGacha){
-            nextScene = SceneEnum.EventScratch;
-        }
-        else {
-            return;
-        }
-        UIManager.Instance.ChangeScene(nextScene);
+//        SceneEnum nextScene = SceneEnum.FriendScratch;
+//        if (gachaType == GachaType.FriendGacha){
+//            nextScene = SceneEnum.FriendScratch;
+//        }
+//        else if (gachaType == GachaType.RareGacha){
+//            nextScene = SceneEnum.RareScratch;
+//        }
+//        else if (gachaType == GachaType.EventGacha){
+//            nextScene = SceneEnum.EventScratch;
+//        }
+//        else {
+//            return;
+//        }
+//        UIManager.Instance.ChangeScene(nextScene);
 
         LogHelper.Log("MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow");
         MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow, GetGachaWindowInfo(gachaType, gachaCount, rsp.unitUniqueId, blankList));
         MsgCenter.Instance.Invoke(CommandEnum.SyncChips, null);
+
+//		TouchEventBlocker.Instance.SetState(BlockerReason.Connecting, false);
     }
     
     MsgWindowParams GetGachaFailedMsgWindowParams(GachaFailedType failedType){
@@ -248,6 +253,7 @@ public class ScratchLogic : ConcreteComponent {
         gachaType = GachaType.FriendGacha;
         gachaCount = (int)args;
         Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
+//		TouchEventBlocker.Instance.SetState(BlockerReason.Connecting, true);
     }
 
     private void CallbackRareGacha(object args){
@@ -277,6 +283,8 @@ public class ScratchLogic : ConcreteComponent {
                                       GetGachaFailedMsgWindowParams(GachaFailedType.FriendGachaUnitCountReachedMax));
             return;
         }
+        SceneEnum nextScene = SceneEnum.FriendScratch;
+        UIManager.Instance.ChangeScene(nextScene);
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaMsgWindowParams());
     }
 
@@ -293,6 +301,8 @@ public class ScratchLogic : ConcreteComponent {
                                       GetGachaFailedMsgWindowParams(GachaFailedType.RareGachaUnitCountReachedMax));
             return;
         }
+        SceneEnum nextScene = SceneEnum.RareScratch;
+        UIManager.Instance.ChangeScene(nextScene);
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRareGachaMsgWindowParams());
     }
 
@@ -316,6 +326,8 @@ public class ScratchLogic : ConcreteComponent {
             return;
         }
         // TODO eventGacha
+        SceneEnum nextScene = SceneEnum.EventScratch;
+        UIManager.Instance.ChangeScene(nextScene);
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetEventGachaMsgWindowParams());
     }
 }

@@ -54,6 +54,7 @@ public class UIConfig
 	public const string TipsBarName = "TipsBar";
 
 	public const string questWindowName = "QuestWindow";
+    public const string loadingWindowName = "Loading";
 	public const string friendWindowName = "FriendWindow";
 	public const string scratchWindowName = "ScratchWindow";
     public const string gachaWindowName = "GachaWindow";
@@ -94,6 +95,9 @@ public class UIConfig
 	public const string userBriefInfoWindowName = "UserBriefInfoWindow";
 	public const string applyMessageWindowName = "ApplyMessageWindow";
 	public const string acceptApplyMessageWindowName = "AcceptApplyMessageWindow";
+
+	public const string screenMaskName = "ScreenMask";
+	public const string itemCounterBarName = "ItemCounterBar";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;
@@ -144,6 +148,7 @@ public class UIIns : JsonOriginData
 
 		for (int i = 0; i < jsonData.Count; i++)
 		{
+//            Debug.LogError("json config DeserializeData uiName " + (string)jsonData [i] ["uiName"]);
 			ins = new UIInsConfig();
 			ins.uiName = (string)jsonData [i] ["uiName"];
 			ins.resourcePath = (string)jsonData [i] ["resoucePath"] + ins.uiName;

@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class FriendListView : UIComponentUnity
-{
+public class FriendListView : UIComponentUnity{
 	DragPanel dragPanel;
 	GameObject unitItem;
 
@@ -11,42 +10,34 @@ public class FriendListView : UIComponentUnity
 	UIButton updateFriendButton;
 	UIButton refuseAllApplyButton;
 
-	UILabel curCountLabel;
-	UILabel maxCountLabel;
-
 	bool exchange = false;
 	List<UILabel> crossShowLabelList = new List<UILabel>();
 	List<UnitItemViewInfo> friendViewInfoList = new List<UnitItemViewInfo>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 
-	public override void Init(UIInsConfig config, IUICallback origin)
-	{
+	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUIElement();
 	}
 
-	public override void ShowUI()
-	{
+	public override void ShowUI(){
 		base.ShowUI();
 		ShowTween();
 	}
 
-	public override void HideUI()
-	{
+	public override void HideUI(){
 		base.HideUI();
 
 		updateFriendButton.gameObject.SetActive(false);
 		refuseAllApplyButton.gameObject.SetActive(false);
 	}
 
-	public override void Callback(object data)
-	{
+	public override void Callback(object data){
 		base.Callback(data);
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
-		switch (cbdArgs.funcName)
-		{
+		switch (cbdArgs.funcName){
 			case "CreateDragView": 
 				CallBackDispatcherHelper.DispatchCallBack(CreateDragView, cbdArgs);
 				break;
@@ -68,45 +59,39 @@ public class FriendListView : UIComponentUnity
 
 	}
 	
-	void EnableUpdateButton(object args)
-	{
+	void EnableUpdateButton(object args){
 		updateFriendButton.gameObject.SetActive(true);
 		UIEventListener.Get(updateFriendButton.gameObject).onClick += ClickUpdateFriendButton;
 	}
 
-	void ClickUpdateFriendButton(GameObject button)
-	{
+	void ClickUpdateFriendButton(GameObject button){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateFriendButtonClick", null);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void EnableRefuseButton(object args)
-	{
+	void EnableRefuseButton(object args){
 		refuseAllApplyButton.gameObject.SetActive(true);
 		UIEventListener.Get(refuseAllApplyButton.gameObject).onClick += ClickRefuseButton;
 	}
 
-	void ClickRefuseButton(GameObject args)
-	{
+	void ClickRefuseButton(GameObject args){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefuseApplyButtonClick", null);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void InitUIElement()
-	{
+	void InitUIElement(){
 		string itemSourcePath = "Prefabs/UI/Friend/AvailFriendItem";
 		unitItem = Resources.Load(itemSourcePath) as GameObject;
 		refuseAllApplyButton = FindChild<UIButton>("Button_Refuse");
 		sortButton = FindChild<UIButton>("Button_Sort");
 		updateFriendButton = FindChild<UIButton>("Button_Update");
-		curCountLabel = FindChild<UILabel>("CountItem/Label_Count_Cur");
-		maxCountLabel = FindChild<UILabel>("CountItem/Label_Count_Max");
 
 		InitDragPanelArgs();
 	}
 
-	DragPanel CreateDragPanel(string name, int count)
-	{
+	DragPanel CreateDragPanel(string name, int count){
 		DragPanel panel = new DragPanel(name, unitItem);
 		panel.CreatUI();
 		panel.AddItem(count, unitItem);
@@ -114,51 +99,43 @@ public class FriendListView : UIComponentUnity
 	}
 
 	void CreateDragView(object args){
-		LogHelper.Log("FriendListView.CreateDragView(), receive call from logic, to create ui...");
+		//LogHelper.Log("FriendListView.CreateDragView(), receive call from logic, to create ui...");
 		List<UnitItemViewInfo> viewInfoList = args as List<UnitItemViewInfo>;
 		
 		friendViewInfoList = viewInfoList;
 		dragPanel = CreateDragPanel("FriendDragPanel", viewInfoList.Count);
 		FindCrossShowLabelList();
 		UpdateAvatarTexture(viewInfoList);
-		UpdateCountLabel(viewInfoList.Count, DataCenter.Instance.UserInfo.FriendMax);
 		UpdateEventListener();
 		//UpdateStarSprite(viewInfoList);
 		UpdateCrossShow();
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 	}
 
-	void ShowFriendName(object args)
-	{
+	void ShowFriendName(object args){
 		List<string> nameList = args as List<string>;
 
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++)
-		{
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem [i];
 			UILabel label = scrollItem.transform.FindChild("Label_Name").GetComponent<UILabel>();
 			label.text = nameList [i];
 		}
 	}
 
-	void FindCrossShowLabelList()
-	{
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++)
-		{
+	void FindCrossShowLabelList(){
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem [i];
 			UILabel label = scrollItem.transform.FindChild("Label_Info").GetComponent<UILabel>();
 			crossShowLabelList.Add(label);
 		}
 	}
 
-	void ShowTween()
-	{
+	void ShowTween(){
 		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
 		if (list == null)
 			return;
-		foreach (var tweenPos in list)
-		{		
-			if (tweenPos == null)
-				continue;
+		foreach (var tweenPos in list){		
+			if (tweenPos == null) continue;
 			tweenPos.Reset();
 			tweenPos.PlayForward();
 		}
@@ -178,42 +155,31 @@ public class FriendListView : UIComponentUnity
 	}
 
 	void UpdateAvatarTexture(List<UnitItemViewInfo> dataItemList){
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++)
-		{
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem [i];
 			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
 			uiTexture.mainTexture = dataItemList [i].Avatar;
 		}
 	}
 
-	void UpdateCountLabel(int cur, int max){
-		curCountLabel.text = cur.ToString();
-		maxCountLabel.text = max.ToString();
-	}
-	
 	void UpdateCrossShow(){
-		if (IsInvoking("CrossShow"))
-		{
+		if (IsInvoking("CrossShow")){
 			CancelInvoke("CrossShow");
 		}
 		InvokeRepeating("CrossShow", 0f, 1f);
 	}
 
-	void CrossShow()
-	{
-		if (exchange)
-		{
-			for (int i = 0; i < dragPanel.ScrollItem.Count; i++)
-			{
+	void CrossShow(){
+		if (exchange){
+			for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem [i];
 				crossShowLabelList [i].text = "Lv" + friendViewInfoList [i].CrossShowTextBefore;
 				crossShowLabelList [i].color = Color.yellow;
 			}
 			exchange = false;
-		} else
-		{
-			for (int i = 0; i < dragPanel.ScrollItem.Count; i++)
-			{
+		} 
+		else{
+			for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem [i];
 				crossShowLabelList [i].text = "+" + friendViewInfoList [i].CrossShowTextAfter;
 				crossShowLabelList [i].color = Color.red;
@@ -242,6 +208,7 @@ public class FriendListView : UIComponentUnity
 	}
 
 	void ClickItem(GameObject item){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
 		ExcuteCallback(cbdArgs);
 	}

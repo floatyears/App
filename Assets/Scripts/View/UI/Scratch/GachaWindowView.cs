@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
@@ -20,6 +20,9 @@ public class GachaWindowView : UIComponentUnity {
     
     public override void ShowUI () {
         base.ShowUI ();
+//        UIManager.Instance.HideBaseScene();
+        SetActive(false);
+
         SetMenuBtnEnable(false);
         AddListener();
     }
@@ -85,7 +88,7 @@ public class GachaWindowView : UIComponentUnity {
 
     private void Enter(object args){
         LogHelper.Log("Enter invoke SyncGachaInfos()");
-
+        SetActive(true);
         GachaWindowInfo gachaWindowInfo = args as GachaWindowInfo;
         if (gachaWindowInfo != null){
             gachaInfo = gachaWindowInfo;
@@ -95,6 +98,21 @@ public class GachaWindowView : UIComponentUnity {
 
     private void SyncGachaInfosAtStart(){
         chancesLabel.text = TextCenter.Instace.GetCurrentText("GachaChances", 0, gachaInfo.totalChances);
+        string title = "";
+        switch (gachaInfo.gachaType) {
+        case GachaType.FriendGacha:
+            title = TextCenter.Instace.GetCurrentText("FriendGachaTitle"); 
+            break;
+        case GachaType.RareGacha:
+            title = TextCenter.Instace.GetCurrentText("RareGachaTitle"); 
+            break;
+        case GachaType.EventGacha:
+            title = TextCenter.Instace.GetCurrentText("EventGachaTitle"); 
+            break;
+        default:
+            break;
+        }
+        titleLabel.text = title;
     }
 
     private void SyncGachaInfos(){
@@ -104,6 +122,7 @@ public class GachaWindowView : UIComponentUnity {
 
     
     private void ClickButton(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         int index = gridDict[btn];
         if (pickedGridIdList.Contains(index)){
             return;
@@ -124,7 +143,6 @@ public class GachaWindowView : UIComponentUnity {
         foreach (var item in gridDict) {
             ResetOneGrid(item.Key as GameObject);
         }
-//        StopAllCoroutines();
     }
 
     private void ResetOneGrid(GameObject grid){
@@ -246,5 +264,9 @@ public class GachaWindowView : UIComponentUnity {
     private void FinishShowGachaWindow(){
         LogHelper.Log("FinishShowGachaWindow()");
         StartCoroutine(LastOperation());
+    }
+
+    private void SetActive(bool active){
+        this.gameObject.SetActive(active);
     }
 }

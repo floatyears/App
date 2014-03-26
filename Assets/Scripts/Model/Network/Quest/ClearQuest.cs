@@ -103,14 +103,10 @@ public class ClearQuest: ProtoManager {
             cq.gotStone = rspClearQuest.gotStone;
             cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
             foreach (UserUnit uu in rspClearQuest.gotUnit) {
-
-                TUserUnit tuu = new TUserUnit(uu);
-//                Debug.LogError("tuu : " + tuu.ID);
+				TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
                 cq.gotUnit.Add(tuu);
             }
-
             base.OnResponseEnd(cq);
-
         }
         else {
             base.OnResponseEnd(null);

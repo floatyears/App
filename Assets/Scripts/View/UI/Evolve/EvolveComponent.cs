@@ -14,12 +14,14 @@ public class EvolveComponent : ConcreteComponent {
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.SelectUnitBase, SelectUnit);
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+		MsgCenter.Instance.AddListener (CommandEnum.ReturnPreScene, ReturnPreScene);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
 		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ReturnPreScene, ReturnPreScene);
 	}
 	
 	public override void DestoryUI () {
@@ -52,7 +54,7 @@ public class EvolveComponent : ConcreteComponent {
 		tes.EvolveStart = es;
 		tes.StageInfo = tci.GetStage (stageID);
 		tes.StageInfo.QuestId = questID;
-
+		DataCenter.gameStage = GameState.Evolve;
 		UIManager.Instance.ChangeScene (SceneEnum.QuestSelect);
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
 	}
@@ -60,6 +62,15 @@ public class EvolveComponent : ConcreteComponent {
 	//================================================================================
 	private Dictionary<string, object> TransferData = new Dictionary<string, object> ();
 	private const uint EvolveCityID = 100;
+
+	void ReturnPreScene(object data) {
+		SceneEnum se = (SceneEnum)data;
+		bool showDetail = se == SceneEnum.UnitDetail;
+		bool enterEvolve = se == SceneEnum.QuestSelect;
+		if (!showDetail && !enterEvolve) {
+			DataCenter.gameStage = GameState.Normal;
+		}
+	}
 
 	void selectUnitMaterial(object data) {
 		if (data == null) {

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class ExcutePassiveSkill : IExcutePassiveSkill  {
 	private ILeaderSkill leaderSkill;
 	private ExcuteTrap excuteTrap;
-	private Dictionary<uint,IPassiveExcute> passiveSkill = new Dictionary<uint,IPassiveExcute> ();
-	private Dictionary<uint,float> multipe = new Dictionary<uint, float> ();
+	private Dictionary<string,IPassiveExcute> passiveSkill = new Dictionary<string,IPassiveExcute> ();
+	private Dictionary<string,float> multipe = new Dictionary<string, float> ();
 
 	public ExcutePassiveSkill(ILeaderSkill ls) {
 		leaderSkill = ls;
@@ -33,8 +33,8 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			if(ipe == null) {
 				continue;
 			}
-			passiveSkill.Add(item.ID,ipe);
-			multipe.Add(item.ID,item.AttackMultiple);
+			passiveSkill.Add(item.MakeUserUnitKey(),ipe);
+			multipe.Add(item.MakeUserUnitKey(),item.AttackMultiple);
 		}
 	}
 

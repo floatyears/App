@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -124,7 +124,7 @@ public class DGTools {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_dark_attack);
 			break;
 		case 6:
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_wu_attack);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_zero_attack);
 			break;
 		case 7:
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);

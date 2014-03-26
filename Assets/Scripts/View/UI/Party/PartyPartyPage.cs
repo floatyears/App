@@ -56,8 +56,9 @@ public class PartyPartyPage : PartyPageLogic{
 		SetFocusPostion(position);
 		LogHelper.LogError("currentFoucsPosition is : " + currentFoucsPosition);
 		TUserUnit tuu = null;
-		
-		if (DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[position - 1] == null) {
+		List<TUserUnit> temp = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit ();
+		Debug.LogError ("temp.count : " + temp.Count + " position - 1 : " + (position - 1));
+		if (temp[position - 1] == null) {
 			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("LightCurSprite", currentFoucsPosition);
 			ExcuteCallback(cbdArgs);
 			MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
@@ -79,12 +80,9 @@ public class PartyPartyPage : PartyPageLogic{
 			return;
 		}
 
-		List<TUserUnit> partyUserUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
-		if ( partyUserUnit == null || currentFoucsPosition-1 > partyUserUnit.Count-1) {
-			Debug.LogError("Error: partyUserUnit"+partyUserUnit);
-			return;
-		}
-		uint focusUnitUniqueId = partyUserUnit[currentFoucsPosition - 1].ID;
+		List<TUserUnit> tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
+		Debug.LogError ("currentFoucsPosition : " + currentFoucsPosition + " tuu : " + tuu.Count);
+		uint focusUnitUniqueId = tuu[currentFoucsPosition - 1].ID;
 	
 		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0);
 

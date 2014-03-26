@@ -30,19 +30,19 @@ public sealed class TimeHelper {
 		int minutes = (System.DateTime.Now - latestPlayTime).Minutes;
 		
 		if(days > 0){
-			text = string.Format("Latest Play: {0} days before", days);
+			text = string.Format("Latest: {0} days ago", days);
 			return text;
 		}
 		else if(hours > 0){
-			text = string.Format("Latest Play: {0} hours before", hours);
+			text = string.Format("Latest: {0} hours ago", hours);
 			return text;
 		}
 		else if(minutes >= 1){
-			text = string.Format("Latest Play: {0} minutes before", minutes);      
+			text = string.Format("Latest : {0} minutes ago", minutes);      
 			return text;
 		}
 		else{
-			text = "Latest Play: less than 1 minutes";
+			text = "Latest: less than 1 minutes";
 			return text;
 		}
 	}

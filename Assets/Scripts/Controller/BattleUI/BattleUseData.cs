@@ -7,9 +7,13 @@ public class BattleUseData {
     private int maxBlood = 0;
     private int blood = 0;
     public int Blood {
-        get {
-            return blood;
+		set { 
+			blood = value; 
+			if(blood < 1) {
+				MsgCenter.Instance.Invoke(CommandEnum.PlayerDead, null);
+			} 
         }
+        get { return blood; }
     }
     private int recoverHP = 0;
     private int maxEnergyPoint = 0;
@@ -36,23 +40,19 @@ public class BattleUseData {
         ListenEvent();
         errorMsg = new ErrorMsg();
         upi = DataCenter.Instance.PartyInfo.CurrentParty; 
-//		TUnitParty up =  ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo,errorMsg) as TUnitParty;
         upi.GetSkillCollection();
         els = new ExcuteLeadSkill(upi);
         skillRecoverHP = els;
         els.Excute();
         eas = new ExcuteActiveSkill(upi);
-//		Debug.LogError (" BattleUseData : ");
         eps = new ExcutePassiveSkill(upi);
         ac = new AttackController(this, eps);
-        maxBlood = blood = upi.GetInitBlood();
+        maxBlood = Blood = upi.GetInitBlood();
         maxEnergyPoint = DataCenter.maxEnergyPoint;
         Config.Instance.SwitchCard(els);	
     }
 
     ~BattleUseData() {
-
-        //RemoveListen ();
     }
 
     void ListenEvent() {
@@ -104,37 +104,37 @@ public class BattleUseData {
     void TrapInjuredDead(object data) {
         float value = (float)data;
         int hurtValue = System.Convert.ToInt32(value);
-        blood -= hurtValue;
+        Blood -= hurtValue;
         RefreshBlood();
     }
 
     void InjuredNotDead(object data) {
         float probability = (float)data;
         float residualBlood = blood - maxBlood * probability;
-        if (blood < 1) {
-            blood = 1;	
+		if (residualBlood < 1) {
+			residualBlood = 1;	
         }
-        blood = System.Convert.ToInt32(residualBlood);
+        Blood = System.Convert.ToInt32(residualBlood);
         RefreshBlood();
     }
 
     void RecoveHPByActiveSkill(object data) {
-		float value = (float)data;
-        int add = 0;
+        float value = (float)data;
+        float add = 0;
         if (value <= 1) {
-            add = maxBlood * value + blood;
+            add = blood * value + blood;
         }
         else {
-            add = (int)value + blood;
+            add = value + blood;
         }
-        RecoverHP(add);
+		AttackInfo ai = new AttackInfo ();
+		ai.AttackValue = add;
+		RecoverHP(ai);
     }
 
     void DelayCountDownTime(object data) {
         float addTime = (float)data;
-
         countDown += addTime;
-//		Debug.LogError ("addTime : " + addTime + " countDown : " + countDown);
     }
 
 
@@ -146,10 +146,8 @@ public class BattleUseData {
     List<AttackInfo> SortAttackSequence() {
         List<AttackInfo> sortAttack = new List<AttackInfo>();
         foreach (var item in attackInfo.Values) {
-//			Debug.LogError("SortAttackSequence foreach : " + item.Count);
             sortAttack.AddRange(item);
         }
-//		Debug.LogError ("SortAttackSequence 1 : " + sortAttack.Count);
         attackInfo.Clear();
         int tempCount = 0;
         for (int i = DataCenter.posStart; i < DataCenter.posEnd; i++) {
@@ -196,31 +194,6 @@ public class BattleUseData {
         }
     }
 
-//	public List<TEnemyInfo> GetEnemyInfo (List<uint> monster) {
-//		currentEnemy.Clear ();
-//		int j = showEnemy.Count - monster.Count;
-//
-//		for (int i = j - 1; i > -1; i--) {
-////			Debug.LogError (showEnemy.Count + "  monster.Count : " + monster.Count + " monster.Count + i : " + (monster.Count + i));
-//			showEnemy.RemoveAt(monster.Count + i);
-//		}
-//		for (int i = 0; i < monster.Count; i++) {
-//			TEnemyInfo te = DataCenter.Instance.EnemyInfo[monster[i]];
-//			te.Reset();
-//			if(i == showEnemy.Count) {
-//				showEnemy.Add(te);
-//			} 
-//			showEnemy[i] = te;
-//			currentEnemy.Add(te);
-//		}
-//		ac.enemyInfo = currentEnemy;
-//		return showEnemy;
-//	}
-
-//	public void InitEnemyInfo(List<TEnemyInfo> enemyInfo) {
-//		ac.enemyInfo = enemyInfo;
-//	}
-
     public void InitEnemyInfo(TQuestGrid grid) {
         ac.Grid = grid;
     }
@@ -235,9 +208,7 @@ public class BattleUseData {
 
     public void StartAttack(object data) {
         attackInfo = upi.Attack;
-//		Debug.LogError ("StartAttack  " + attackInfo.Count);
         List<AttackInfo> temp = SortAttackSequence();
-//		Debug.LogError ("StartAttack temp : " + temp.Count);
         ac.LeadSkillReduceHurt(els);
         ac.StartAttack(temp, upi);
     }
@@ -282,7 +253,7 @@ public class BattleUseData {
 
     void ConsumeEnergyPoint() {
         if (maxEnergyPoint == 0) {
-            blood -= ReductionBloodByProportion(0.2f);
+            Blood -= ReductionBloodByProportion(0.2f);
             if (blood < 1) {
                 blood = 1;
             }
@@ -295,7 +266,7 @@ public class BattleUseData {
     }
 
     public void Hurt(int hurtValue) {
-        blood -= hurtValue;
+		Blood -= hurtValue;
         RefreshBlood();
     }
 

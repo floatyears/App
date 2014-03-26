@@ -77,7 +77,7 @@ public interface IUISetBool {
 }
 
 public interface ILeaderSkill {
-    Dictionary<uint,ProtobufDataBase> LeadSkill { get; }
+    Dictionary<string, ProtobufDataBase> LeadSkill { get; }
     Dictionary<int,TUserUnit> UserUnit { get ; }
 }
 
@@ -111,7 +111,7 @@ public interface ILeaderSkillRecoverHP {
 public interface IActiveSkillExcute {
     bool CoolingDone{ get; }
     void RefreashCooling();
-    object Excute(uint userUnitID, int atk = -1);
+    object Excute(string userUnitID, int atk = -1);
 }
 
 public interface IEffectConcrete {

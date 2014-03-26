@@ -17,8 +17,7 @@ public class MsgWindowParams {
     public string[] contentTexts;
 }
 
-public class MsgWindowView : UIComponentUnity
-{
+public class MsgWindowView : UIComponentUnity{
     GameObject window;
 
     UILabel titleLabel;
@@ -35,7 +34,7 @@ public class MsgWindowView : UIComponentUnity
     BtnParam btnLeftParam;
     BtnParam btnRightParam;
 
-    int originLayer;
+//    int originLayer;
     
     public override void Init(UIInsConfig config, IUICallback origin)
     {
@@ -76,22 +75,21 @@ public class MsgWindowView : UIComponentUnity
 
         UIEventListener.Get(btnRight.gameObject).onClick = ClickRightButton;
         UIEventListener.Get(btnLeft.gameObject).onClick = ClickLeftButton;
-        UIEventListener.Get(btnCenter.gameObject).onClick = ClickLeftButton;
-        originLayer = Main.Instance.NguiCamera.eventReceiverMask;
+        UIEventListener.Get(btnCenter.gameObject).onClick = ClickCenterButton;
+//        originLayer = Main.Instance.NguiCamera.eventReceiverMask;
     }
     
-    void ShowSelf(bool canShow)
-    {
+    void ShowSelf(bool canShow){
         this.gameObject.SetActive(canShow);
-        if (canShow)
-        {
-            SetScreenShelt("ScreenShelt");
+        if (canShow){
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
             window.transform.localScale = new Vector3(1f, 0f, 1f);
             iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
-        } else
-        {
+        } 
+		else{
             Reset();
-            SetScreenShelt("Default");
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
+                        
         }
     }
 
@@ -112,32 +110,20 @@ public class MsgWindowView : UIComponentUnity
         msgLabelTop.text = string.Empty;
         msgLabelBottom.text = string.Empty;
     }
-    
-    void SetScreenShelt(string layerName)
-    {
-        if (layerName == "ScreenShelt")
-            Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
-        else
-            Main.Instance.NguiCamera.eventReceiverMask = originLayer;
-    }
-    
-    void SetUIElement()
-    {
+	    
+    void SetUIElement(){
         this.gameObject.SetActive(false);
         Reset();
     }
     
-    void ResetUIElement()
-    {
+    void ResetUIElement(){
         titleLabel.text = string.Empty;
     }
     
-    public override void Callback(object data)
-    {
+    public override void Callback(object data){
         ShowSelf(true);  
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-        switch (cbdArgs.funcName)
-        {
+        switch (cbdArgs.funcName){
         case "ShowMsg": 
             CallBackDispatcherHelper.DispatchCallBack(UpdateNotePanel, cbdArgs);
             break;
@@ -146,8 +132,8 @@ public class MsgWindowView : UIComponentUnity
         }
     }
     
-    void ClickRightButton(GameObject btn)
-    {
+    void ClickRightButton(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnRightParam != null){
             DataListener callback = btnRightParam.callback;
             if (callback != null){
@@ -157,8 +143,8 @@ public class MsgWindowView : UIComponentUnity
         ShowSelf(false);
     }
     
-    void ClickLeftButton(GameObject btn)
-    {
+    void ClickLeftButton(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnLeftParam != null){
             DataListener callback = btnLeftParam.callback;
             if (callback != null){
@@ -169,6 +155,7 @@ public class MsgWindowView : UIComponentUnity
     }
 
     void ClickCenterButton(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnCenterParam != null){
             DataListener callback = btnCenterParam.callback;
             if (callback != null){
@@ -203,6 +190,15 @@ public class MsgWindowView : UIComponentUnity
         btnCenterParam = btnParam;
         SetButtonLabelText(btnCenter, btnParam.text);
     }
+    
+    void ResetBtnCallback(){
+        btnCenter.gameObject.SetActive(false);
+        btnLeft.gameObject.SetActive(false);
+        btnRight.gameObject.SetActive(false);
+        btnCenterParam = null;
+        btnLeftParam = null;
+        btnRightParam = null;
+    }
 
 
     void UpdateBtnLeftRightCallback(BtnParam[] btnParam){
@@ -235,6 +231,7 @@ public class MsgWindowView : UIComponentUnity
         BtnParam btnParam = msgWindowParams.btnParam as BtnParam;
         BtnParam[] btnParams = msgWindowParams.btnParams as BtnParam[];
         LogHelper.Log("btnParam {0}, btnParams {1}", btnParam, btnParams);
+        ResetBtnCallback();
         if (btnParam != null){
             UpdateBtnCenterCallback(btnParam);
         }

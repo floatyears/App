@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PartyInfoView : UIComponentUnity {
-	
+	GameObject tabStatus;
+	GameObject tabSkill;
 	UIToggle focus;
-
 	Dictionary<string, UILabel> viewLabel = new Dictionary<string, UILabel>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -61,9 +61,17 @@ public class PartyInfoView : UIComponentUnity {
 		label = FindChild<UILabel>("content_leader_skill/VauleLabel/Label_LeaderSkillDscp");
 		viewLabel.Add("skillDscp", label);
 
+		tabStatus = transform.FindChild("tab_status").gameObject;
+		tabSkill = transform.FindChild("tab_leader_skill").gameObject;
+		UIEventListener.Get(tabStatus).onClick = ClickTab;
+		UIEventListener.Get(tabSkill).onClick = ClickTab;
 		focus = FindChild<UIToggle>("tab_status");
 
 //		Debug.Log("PartyInfoPanel.FindUIElement(), End...");
+	}
+
+	void ClickTab(GameObject tab){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 	}
 
 	void SetUIElement(){
@@ -83,15 +91,11 @@ public class PartyInfoView : UIComponentUnity {
 	}
 
 	void UpdateLabel(Dictionary<string, string> text){
-//		Debug.Log("PartyInfoPanel.UpdateLabel(), Start...");
-
 		foreach (var item in text.Keys){
 			if( viewLabel.ContainsKey(item)){
 				viewLabel[item].text = text[item];
 			}
 		}
-	
-//		Debug.Log("PartyInfoPanel.UpdateLabel(), End...");
 	}
 
 	public override void Callback(object data){
@@ -105,8 +109,7 @@ public class PartyInfoView : UIComponentUnity {
 		UpdateLabel(viewInfoDic);
 	}
 
-	void ShowTween()
-	{
+	void ShowTween(){
 		TweenPosition[ ] list = 
 			gameObject.GetComponentsInChildren< TweenPosition >();
 		if (list == null)

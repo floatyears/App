@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ApplyMessageView : UIComponentUnity
-{
+public class ApplyMessageView : UIComponentUnity{
 	GameObject rootPanel;
 
 	UILabel titleLabel;
@@ -16,35 +15,26 @@ public class ApplyMessageView : UIComponentUnity
 	UIButton cancelButton;
 
 	UITexture avatarTexture;
-
-	int originLayer;
-
-	public override void Init(UIInsConfig config, IUICallback origin)
-	{
+	
+	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUIElement();
 	}
 
-	public override void ShowUI()
-	{
+	public override void ShowUI(){
 		base.ShowUI();
 		ShowSelf(false);
-                
 	}
 
-	public override void HideUI()
-	{
+	public override void HideUI(){
 		base.HideUI();
-		ShowSelf(false);
-                
+		ShowSelf(false);  
 	}
 
-	public override void Callback(object data)
-	{
+	public override void Callback(object data){
 		base.Callback(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName)
-		{
+		switch (cbdArgs.funcName){
 			case "StylizeTitle": 
 				CallBackDispatcherHelper.DispatchCallBack(ShowTitle, cbdArgs);
 				break;
@@ -61,16 +51,13 @@ public class ApplyMessageView : UIComponentUnity
 			default:
 				break;
 		}
-
 	}
 
-	void HidePanel(object args)
-	{
+	void HidePanel(object args){
 		ShowSelf(false);
 	}
 
-	void InitUIElement()
-	{
+	void InitUIElement(){
 		rootPanel = FindChild("Window");
 
 		titleLabel = FindChild<UILabel>("Window/Label_Title");
@@ -84,55 +71,41 @@ public class ApplyMessageView : UIComponentUnity
 		cancelButton = FindChild<UIButton>("Window/Button_Cancel");
 	
 		UIEventListener.Get(sureButton.gameObject).onClick = ClickSure;
-		UIEventListener.Get(cancelButton.gameObject).onClick = ClickCancel;
-
-		originLayer = Main.Instance.NguiCamera.eventReceiverMask;
-                
+		UIEventListener.Get(cancelButton.gameObject).onClick = ClickCancel;                
 	}
 
 
-	void ClickSure(GameObject btn)
-	{
+	void ClickSure(GameObject btn){
 		Debug.LogError("ApplyMessageView.ClickSure(),  click...");
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSure", null);
 		ExcuteCallback(cbdArgs);
 	}
 
 	
-	void ClickCancel(GameObject btn)
-	{
-		Debug.LogError("ApplyMessageView.ClickCancel(),  click...");
+	void ClickCancel(GameObject btn){
+//		Debug.LogError("ApplyMessageView.ClickCancel(),  click...");
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickCancel", null);
 		ExcuteCallback(cbdArgs);
-       
 	}
 
-	void ShowSelf(bool canShow)
-	{
+	void ShowSelf(bool canShow){
 		this.gameObject.SetActive(canShow);
-		if (canShow)
-		{
-			SetScreenShelt("ScreenShelt");
+		if (canShow){
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, true));
 			rootPanel.transform.localScale = new Vector3(1f, 0f, 1f);
 			iTween.ScaleTo(rootPanel, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
-		} else
-		{
-			SetScreenShelt("Default");
+		}
+		else{
+			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, false));        
 		}
 	}
-	
-	void SetScreenShelt(string layerName)
-	{
-		if (layerName == "ScreenShelt")
-			Main.Instance.NguiCamera.eventReceiverMask = LayerMask.NameToLayer(layerName) << 15;
-		else
-			Main.Instance.NguiCamera.eventReceiverMask = originLayer;
-	}
 
-	void ShowTitle(object args)
-	{
+	void ShowTitle(object args){
 		titleLabel.text = args as string;
 	}
+
 	void ShowNote(object args){
 		noteLabel.text = args as string;
 	}

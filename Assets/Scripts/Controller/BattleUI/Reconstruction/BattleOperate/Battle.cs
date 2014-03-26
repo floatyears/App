@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Battle : UIBase
-{
+public class Battle : UIBase {
 	private static UIRoot uiRoot;
 	private static Camera mainCamera;
 	private UICamera nguiMainCamera;
@@ -81,12 +80,9 @@ public class Battle : UIBase
 		battleRootGameObject.SetActive(false);
 	}
 
-	public void StartBattle ()
-	{
+	public void StartBattle () {
 		ResetClick();
-
 		Attack();
-
 	}
 
 	void ChangeCard(object data) {
@@ -96,7 +92,6 @@ public class Battle : UIBase
 		}
 
 		if (ccc.targetType == -1) {
-//			ShowCard ();	
 			GenerateShowCard();
 		} 
 		else {
@@ -142,15 +137,10 @@ public class Battle : UIBase
 
 	void CreatCard() {
 		tempObject = GetPrefabsObject(Config.battleCardName);
-
 		tempObject.layer = GameLayer.ActorCard;
-
 		battleCard = tempObject.AddComponent<BattleCard>();
-
 		battleCard.CardPosition = battleCardPool.CardPosition;
-
 		battleCard.Init(Config.battleCardName);
-
 	}
 
 	void ShowCard() {
@@ -164,23 +154,17 @@ public class Battle : UIBase
 		}
 	}
 
-	void CreatArea()
-	{
+	void CreatArea() {
 		string areaName = "BattleCardArea";
-
 		tempObject = GetPrefabsObject(areaName);
-
 		tempObject.layer = GameLayer.BattleCard;
-
 		battleCardArea = tempObject.AddComponent<BattleCardArea>();
 		battleCardArea.BQuest = this;
 		battleCardArea.Init(areaName);
-
 		battleCardArea.CreatArea(battleCardPool.CardPosition,cardHeight);
 	}
 
-	void CreatEnemy()
-	{
+	void CreatEnemy() {
 		string enemyName = "BattleEnemy";
 
 		tempObject = GetPrefabsObject(enemyName);
@@ -230,7 +214,7 @@ public class Battle : UIBase
 	}
 
 
-	void SwitchInput(bool isShield) {
+	public void SwitchInput(bool isShield) {
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;

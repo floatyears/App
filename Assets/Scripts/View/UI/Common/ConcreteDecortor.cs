@@ -1,54 +1,84 @@
 
+using UnityEngine;
 //--------------------------------Decorator-----------------------------------
 
 //--------------------------------Start---------------------------------------
-public class StartDecorator : DecoratorBase
-{
-	public StartDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+public class StartDecorator : DecoratorBase{
+	public StartDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
-
+	public override void DecoratorScene(){
 		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
 		background.SetComponent(decorator);
 		
-		MenuBtnsComponent bottom = CreatComponent< MenuBtnsComponent >(UIConfig.menuBottomName);
+		MainMenuController bottom = CreatComponent< MainMenuController >(UIConfig.menuBottomName);
 		bottom.SetComponent(background);
 		
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent(bottom);
 
-		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
-		tipsBar.SetComponent(playerInfoBar);
-
         MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-		noteWindow.SetComponent(tipsBar);
+        noteWindow.SetComponent(playerInfoBar);
+        
+        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+        maskController.SetComponent(noteWindow);
+
+		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
+        tipsBar.SetComponent(maskController);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
-		selectUnitInfo.SetComponent(noteWindow);
+        selectUnitInfo.SetComponent(tipsBar);
 
 		lastDecorator = selectUnitInfo;
 		lastDecorator.CreatUI();
 
 	}
 }
+
+//--------------------------------Loading---------------------------------------
+public class LoadingDecorator : DecoratorBase{
+    public LoadingDecorator(SceneEnum sEnum) : base(sEnum){}
+    
+    public override void ShowScene(){
+        base.ShowScene();
+    }
+    
+    public override void HideScene(){
+        base.HideScene();
+    }
+    
+    public override void DestoryScene(){
+        base.DestoryScene();
+    }
+    
+    public override void DecoratorScene(){
+
+        LoadingLogic background = CreatComponent< LoadingLogic >(UIConfig.loadingWindowName);
+        background.SetComponent(decorator);
+
+        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
+        noteWindow.SetComponent(background);
+        
+        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+        maskController.SetComponent(noteWindow);
+        
+        lastDecorator = maskController;
+        lastDecorator.CreatUI();
+        
+    }
+}
+
 
 //--------------------------------Quest---------------------------------------
 public class QuestDecorator : DecoratorBase
@@ -433,31 +463,24 @@ public class FriendSelectDecorator : DecoratorBase
 }
 
 //--------------------------------Party----------------------------------------
-public class PartyDecorator : DecoratorBase
-{
+public class PartyDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public PartyDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public PartyDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
@@ -521,36 +544,31 @@ public class LevelUpDecorator : DecoratorBase
 }
 
 //--------------------------------Sell------------------------------------------
-public class SellDecorator : DecoratorBase
-{
+public class SellDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public SellDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public SellDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		sceneInfoBar.SetComponent(decorator);
-
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		OnSaleUnitsController sell = CreatComponent< OnSaleUnitsController >(UIConfig.sellWindowName);
-		sell.SetComponent(sceneInfoBar);
+
+		sceneInfoBar.SetComponent(decorator);
+		counter.SetComponent(sceneInfoBar);
+		sell.SetComponent(counter);
 
 		lastDecorator = sell;
 		lastDecorator.CreatUI();
@@ -676,41 +694,36 @@ public class UnitListDecorator : DecoratorBase
 }
 
 //--------------------------------FriendList------------------------------------------
-public class FriendListDecorator : DecoratorBase
-{
+public class FriendListDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public FriendListDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public FriendListDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent<SceneInfoComponent>(UIConfig.sceneInfoBarName);
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		FriendListLogic friendList = CreatComponent<FriendListLogic>(UIConfig.friendListWindowName);
+		FriendListUserBriefInfo briefInfo = CreatComponent<FriendListUserBriefInfo>(UIConfig.userBriefInfoWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
-		friendList.SetComponent(sceneInfoBar);
-
-		FriendListUserBriefInfo briefInfo = CreatComponent<FriendListUserBriefInfo>(UIConfig.userBriefInfoWindowName);
+		counter.SetComponent(sceneInfoBar);
+		friendList.SetComponent(counter);
 		briefInfo.SetComponent(friendList);
 
 		lastDecorator = briefInfo;
+
 		lastDecorator.CreatUI();
 	}
 }
@@ -757,38 +770,29 @@ public class InformationDecorator : DecoratorBase
 public class SearchFriendDecorator : DecoratorBase
 {
 	private SceneInfoComponent sceneInfoBar;
-	public SearchFriendDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public SearchFriendDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		SearchFriendController searchMainUI = CreatComponent< SearchFriendController >(UIConfig.searchMainWindowName);
-//		SearchInfoUI infoUI = CreatComponent<  SearchInfoUI >(UIConfig.searchInfoWindowName);
 		RequestFriendApply requestApply = CreatComponent<RequestFriendApply>(UIConfig.applyMessageWindowName);
-
-//		TempNetwork.infoUI = infoUI;
 
 		sceneInfoBar.SetComponent(decorator);
 		searchMainUI.SetComponent(sceneInfoBar);
-//		infoUI.SetComponent(searchMainUI);
+
 		requestApply.SetComponent(searchMainUI);
 
 		lastDecorator = requestApply;
@@ -797,38 +801,32 @@ public class SearchFriendDecorator : DecoratorBase
 }
 
 //--------------------------------Apply------------------------------------------
-public class ApplyDecorator : DecoratorBase
-{
+public class ApplyDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public ApplyDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public ApplyDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
-
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		FriendListLogic applyWindow = CreatComponent< FriendListLogic >(UIConfig.friendListWindowName);
 		DeleteFriendApply deleteApply = CreatComponent<DeleteFriendApply>(UIConfig.applyMessageWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
-		applyWindow.SetComponent(sceneInfoBar);
+		counter.SetComponent(sceneInfoBar);
+		applyWindow.SetComponent(counter);
 		deleteApply.SetComponent(applyWindow);
 
 		lastDecorator = deleteApply;
@@ -838,35 +836,32 @@ public class ApplyDecorator : DecoratorBase
 }
 
 //--------------------------------Reception------------------------------------------
-public class ReceptionDecorator : DecoratorBase
-{
+public class ReceptionDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
 	public ReceptionDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		FriendListLogic receptionWindow = CreatComponent< FriendListLogic >(UIConfig.friendListWindowName);
 		AccpetFriendApply acceptApply = CreatComponent<AccpetFriendApply>(UIConfig.acceptApplyMessageWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
-		receptionWindow.SetComponent(sceneInfoBar);
+		counter.SetComponent(sceneInfoBar);
+		receptionWindow.SetComponent(counter);
 		acceptApply.SetComponent(receptionWindow);
 
 		lastDecorator = acceptApply;
@@ -875,31 +870,24 @@ public class ReceptionDecorator : DecoratorBase
 }
 
 //--------------------------------YourID------------------------------------------
-public class UserIDDecorator : DecoratorBase
-{
+public class UserIDDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public UserIDDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public UserIDDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		UserIDComponent userIDWindow = CreatComponent< UserIDComponent >(UIConfig.userIDWindowName);
 
@@ -914,36 +902,26 @@ public class UserIDDecorator : DecoratorBase
 
 
 //--------------------------------UnitDetail------------------------------------------
-public class UnitDetailDecorator : DecoratorBase
-{
+public class UnitDetailDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public UnitDetailDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public UnitDetailDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.LevelUp);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
-
-//		PlayerInfoBarComponent playerInfoBar = CreatComponent< PlayerInfoBarComponent >( UIConfig.topBackgroundName );
-//		playerInfoBar.SetComponent( sceneInfoBar );
 
 		UnitDetailComponent unitDetailPanel = CreatComponent< UnitDetailComponent >(UIConfig.unitDetailPanelName);
 		unitDetailPanel.SetComponent(sceneInfoBar);

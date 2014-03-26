@@ -20,7 +20,6 @@ public class QuestSelectComponent : ConcreteComponent{
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, SelectedStage);
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
-
 	}
 	
 	public override void HideUI() {
@@ -63,6 +62,7 @@ public class QuestSelectComponent : ConcreteComponent{
 	}
 
 	void ShowQuestInfo(object args){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		int index = (int)args;
 		currentQuestIndex = index;
 		Dictionary<string, object> info = new Dictionary<string, object>();
@@ -73,6 +73,7 @@ public class QuestSelectComponent : ConcreteComponent{
 	}
 	
 	void TurnToFriendSelect(object args){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		bool b = (bool)args;
 		TStageInfo tsi = null;
 		uint questID = 0;

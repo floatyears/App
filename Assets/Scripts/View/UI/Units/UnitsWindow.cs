@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 public class UnitsWindow : UIComponentUnity{
 	IUICallback iuiCallback;
-
-
 	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum>();
 	
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -16,21 +14,15 @@ public class UnitsWindow : UIComponentUnity{
 	}
 	
 	public override void ShowUI(){
-//		Debug.LogError("UnitsWindow.ShowUI(), Start...");
 		base.ShowUI();
 		ShowTween();
-//		Debug.LogError("UnitsWindow.ShowUI(), End...");
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
 	}
-	
-	public override void DestoryUI(){
-		base.DestoryUI();
-	}
 
-	private void InitChildScenes(){
+	void InitChildScenes(){
 		GameObject go;
 
 		go = FindChild("Bottom/Catalog");
@@ -56,6 +48,7 @@ public class UnitsWindow : UIComponentUnity{
 	}
 
 	void OnClickCallback(GameObject caller){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		if (iuiCallback == null)
 			return;
 		SceneEnum se = buttonInfo [caller];

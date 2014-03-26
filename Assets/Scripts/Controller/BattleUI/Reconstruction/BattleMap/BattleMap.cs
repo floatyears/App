@@ -16,6 +16,7 @@ public class BattleMap : UIBaseUnity {
 	public static GameObject Box {
 		get { return box; }
 	}
+
 	[HideInInspector]
 	private bool wMove = false;
 
@@ -78,9 +79,6 @@ public class BattleMap : UIBaseUnity {
 	public override void HideUI ()
 	{
 		base.HideUI ();
-//		for (int i = 0; i < useMapItem.Count; i++) {
-//			useMapItem[i].Reset();
-//		}
 		useMapItem.Clear ();
 		gameObject.SetActive (false);
 		for (int i = 0; i < map.GetLength(0); i++) {
@@ -94,18 +92,14 @@ public class BattleMap : UIBaseUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-//		MapConfig mc = ModelManager.Instance.GetData(ModelEnum.MapConfig,new ErrorMsg()) as MapConfig;
-//		ReachMapItem (new Coordinate (mc.characterInitCoorX, mc.characterInitCoorY));
 		door.ShowUI ();
 		gameObject.SetActive (true);
 		StartMap ();
-
 		MsgCenter.Instance.AddListener (CommandEnum.ShieldMap, ShieldMap);
 	}
 
 	void ShieldMap(object data) {
 		bool b = (bool)data;
-//		Debug.LogError ("ShieldMap : " + b + "map.GetLength(0) : " + map.GetLength (0) + " map.GetLength(1) : " + map.GetLength (1));
 		for (int i = 0; i < map.GetLength(0); i++) {
 			for (int j = 0; j < map.GetLength(1); j++) {
 				map[i,j].HideEnvirment(b);
@@ -116,11 +110,11 @@ public class BattleMap : UIBaseUnity {
 	void ClickDoor(GameObject go) {
 		if (prevMapItem.Coor.x == MapConfig.endPointX && prevMapItem.Coor.y == MapConfig.endPointY) {
 			bQuest.ClickDoor();
+			Destroy(door.GetComponent<UIEventListener>());
 		}
 	}
 	  
 	void OnClickMapItem(GameObject go) {
-//		Debug.LogError ("OnClickMapItem: " + waitMove);
 		if (!waitMove) {
 			temp = go.GetComponent<MapItem>();
 			bQuest.TargetItem(temp.Coor);

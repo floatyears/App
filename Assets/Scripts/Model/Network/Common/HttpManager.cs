@@ -69,7 +69,13 @@ public class HttpManager : INetSendPost {
                 RequestDone(wwwRequst[i]);
             }
             else if (!string.IsNullOrEmpty(www.error)) {
+                IWWWPost post = wwwRequst[i];
                 wwwRequst.RemoveAt(i);
+                OpenMsgWindowByError(www.error, post);
+                //                LogHelper.Log("HttpUpdate(), received error, {0}", www.error);
+            }
+            else {
+//                LogHelper.Log("HttpUpdate(), not done or done and error");
             }
         }
     }
@@ -77,5 +83,55 @@ public class HttpManager : INetSendPost {
     void RequestDone(IWWWPost wwwPost) {
         wwwRequst.Remove(wwwPost);
         wwwPost.ExcuteCallback();
+    }
+
+    void OpenMsgWindowByError(string text, IWWWPost post){
+        LogHelper.Log("OpenMsgWindowByError(), received error, {0}", text);
+
+        MsgWindowParams msgParams = null;
+
+        if (text.StartsWith("Failed to connect to ")){
+            LogHelper.Log("OpenMsgWindowByError(), failed to connect server");
+            msgParams = new MsgWindowParams();
+            msgParams.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
+            ErrorMsg errMsg = new ErrorMsg(ErrorCode.CONNECT_ERROR);
+            msgParams.contentText = errMsg.Msg;
+            msgParams.btnParams[0].text = TextCenter.Instace.GetCurrentText("retry");
+            msgParams.btnParams[0].callback = CallbackRetry;
+            msgParams.btnParams[0].args = post;
+            msgParams.btnParams[1].callback = CallbackCancelRequest;
+        }
+        else if (text.StartsWith("500 Internal Server Error")){
+            LogHelper.Log("OpenMsgWindowByError(), 500 Internal Server Error");
+            msgParams = new MsgWindowParams();
+            ErrorMsg errMsg = new ErrorMsg(ErrorCode.SERVER_500);
+            msgParams.contentText = errMsg.Msg;
+            msgParams.btnParam = new BtnParam();
+            msgParams.btnParam.callback = CallbackCancelRequest;
+        }
+        else {
+            LogHelper.Log("OpenMsgWindowByError(), unknown Error");
+
+        }
+        if (msgParams != null){
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, msgParams);
+            WWW www = post.WwwInfo;
+            www.Dispose();
+            return;
+        }
+    }
+
+    void CallbackRetry(object args){
+        Debug.LogError("CallbackRetry()");
+        HttpNetBase networkBase = args as HttpNetBase;
+        if (networkBase != null){
+            networkBase.ReSend();
+        }
+    }
+
+    void CallbackCancelRequest(object args){
+        Debug.LogError("CallbackCancelRequest()");
+        MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, false));
+        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, false);
     }
 }

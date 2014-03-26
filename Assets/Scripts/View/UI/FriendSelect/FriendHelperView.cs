@@ -178,6 +178,10 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void ClickItem(GameObject item){
+		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendSelect && DataCenter.gameStage == GameState.Evolve) {
+			return;
+		}
+
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
 		ExcuteCallback(cbdArgs);
 	}

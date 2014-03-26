@@ -6,8 +6,7 @@ public class RecoverSP : ActiveSkill, IActiveSkillExcute {
 	private SkillRecoverSP instance;
 	public RecoverSP (object instance) : base (instance) { 
 		this.instance = instance as SkillRecoverSP;
-		skillBase = this.instance.baseInfo;
-//		skillBase = DeserializeData<SkillRecoverSP> ().baseInfo;	
+		skillBase = this.instance.baseInfo;	
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -23,7 +22,7 @@ public class RecoverSP : ActiveSkill, IActiveSkillExcute {
 		DisposeCooling ();
 	}
 
-	public object Excute (uint userUnitID, int atk = -1) {
+	public object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;	
 		}

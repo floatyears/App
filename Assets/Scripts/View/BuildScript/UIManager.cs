@@ -73,13 +73,10 @@ public class UIManager {
 	/// Remove UI
 	/// </summary>
 	/// <param name="uiName">User interface name.</param>
-	public void RemoveUI(SceneEnum sEnum)
-	{
-		if(sceneDecorator.ContainsKey(sEnum))
-		{
+	public void RemoveUI(SceneEnum sEnum) {
+		if(sceneDecorator.ContainsKey(sEnum)) {
 			if(current == sceneDecorator[sEnum])
 				return;
-			
 			sceneDecorator[sEnum].DestoryScene();
 			sceneDecorator.Remove(sEnum);
 		}
@@ -88,13 +85,14 @@ public class UIManager {
 	public void EnterBattle () {
 		current.HideScene();
 		baseScene.HideBase ();
-		//AudioManager.Instance.PlayAudio (AudioEnum.sound_ui_back);
+		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
 		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 	}
 
 	public void ExitBattle () {
 		baseScene.ShowBase ();
 		current.ShowScene();
+		MsgCenter.Instance.Invoke (CommandEnum.LeftBattle, null);
 	}
 
 	public void HideBaseScene () {
@@ -107,13 +105,10 @@ public class UIManager {
 
 	public void ChangeScene(SceneEnum sEnum)
 	{
-//		Debug.LogError("sEnum : "  + sEnum);
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
 		}
 		else {
-
-
 			if(current != null) {
 				current.HideScene();
 			}
@@ -140,6 +135,11 @@ public class UIManager {
 		DecoratorBase temp = null;
 		switch (sEnum)
 		{
+
+        case SceneEnum.Loading:
+            temp = new LoadingDecorator( sEnum );
+            break;
+
 		case SceneEnum.Quest:
 			temp = new QuestDecorator( sEnum );
 			break;

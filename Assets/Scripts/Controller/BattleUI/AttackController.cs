@@ -45,7 +45,7 @@ public class AttackController {
 	}
 
 	void DrawHP(object data) {
-		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, tempPreHurtValue);
+		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, (float)tempPreHurtValue);
 	}
 
 	void Gravity(object data) {
@@ -62,9 +62,9 @@ public class AttackController {
 		CheckTempEnemy ();
 	}
 
-	TClass<int,int,float> reduceInfo = null;
+	TClass<string,int,float> reduceInfo = null;
 	void ReduceDefense(object data) {
-		reduceInfo = data as TClass<int,int,float>;
+		reduceInfo = data as TClass<string,int,float>;
 		if (reduceInfo == null) {
 			return;		
 		}
@@ -197,9 +197,7 @@ public class AttackController {
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
-
 		CheckEnemyDead();
-
 		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
 		MultipleAttack ();
 		AttackInfo ai = attackInfo [0];
@@ -296,9 +294,7 @@ public class AttackController {
 		int hurtValue = te.CalculateInjured (ai, restraint);
 		ai.InjuryValue = hurtValue;
 		tempPreHurtValue = hurtValue;
-//		ai.EnemyID = te.EnemyID;//GetID();
 		ai.EnemyID = te.EnemySymbol;
-
 		AttackEnemyEnd (ai);
 	}
 

@@ -45,6 +45,10 @@ public class HttpNetBase : IWWWPost {
 		www = new WWW (Url, data);
 		HttpManager.Instance.SendHttpPost (this);
 	}
+
+    public void ReSend(){
+        HttpManager.Instance.SendHttpPost (this);
+    }
 	
 	public void ExcuteCallback () {
 		if (callback != null) {

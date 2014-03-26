@@ -18,8 +18,8 @@ public class AttackInfo {
 		get {return attackID;}
 	}
 	
-	private uint userUnitID = 0;
-	public uint UserUnitID {
+	private string userUnitID = null;
+	public string UserUnitID {
 		get { return userUnitID; }
 		set { userUnitID = value; }
 	}

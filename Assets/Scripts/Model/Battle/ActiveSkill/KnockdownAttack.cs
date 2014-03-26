@@ -22,7 +22,7 @@ public class KnockdownAttack : ActiveSkill, IActiveSkillExcute {
 		DisposeCooling ();
 	}
 
-	public object Excute (uint userUnitID, int atk = -1) {
+	public object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;	
 		}

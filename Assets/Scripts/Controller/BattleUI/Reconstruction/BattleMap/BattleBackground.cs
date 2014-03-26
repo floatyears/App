@@ -15,8 +15,8 @@ public class BattleBackground : UIBaseUnity {
 	private int initEnergyPoint = -1;
 	private int currentEnergyPoint = -1;
 
-	private static Dictionary<uint,Transform> actorTransform = new Dictionary<uint, Transform> ();
-	public static Dictionary<uint,Transform> ActorTransform {
+	private static Dictionary<string,Transform> actorTransform = new Dictionary<string, Transform> ();
+	public static Dictionary<string,Transform> ActorTransform {
 		get {
 			return actorTransform;
 		}
@@ -28,6 +28,8 @@ public class BattleBackground : UIBaseUnity {
 			return actorPosition;
 		}
 	}
+
+	private BattleQuest battleQuest;
 
 	public override void Init (string name){
 		base.Init (name);
@@ -58,14 +60,18 @@ public class BattleBackground : UIBaseUnity {
 		InitTransform ();
 	}
 
+	public void SetBattleQuest (BattleQuest bq) {
+		battleQuest = bq;
+		battleBottomScript.battleQuest = bq;
+	}
+
 	void InitTransform() {
 		TUnitParty upi = DataCenter.Instance.PartyInfo.CurrentParty; //ModelManager.Instance.GetData (ModelEnum.UnitPartyInfo, new ErrorMsg ()) as TUnitParty;
-		Dictionary<int,TUserUnit> userUnitInfo = upi.GetPosUnitInfo ();
+		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
 		Transform trans = FindChild<Transform>("Bottom/1");
 		foreach (var item in userUnitInfo) {
-//			Debug.LogError(item.Value);
 			if( item.Value != null )
-				actorTransform.Add(item.Value.ID,trans);
+				actorTransform.Add(item.Value.MakeUserUnitKey(),trans);
 		}
 	}
 

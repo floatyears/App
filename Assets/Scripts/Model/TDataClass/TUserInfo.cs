@@ -3,10 +3,9 @@ using System.Collections;
 
 public class TUserInfo : ProtobufDataBase
 {
-	public TUserInfo(UserInfo inst) : base (inst)
-	{ 
+	public TUserInfo(UserInfo inst) : base (inst){ 
 		instance = inst;
-		unit = new TUserUnit(instance.unit);
+		unit = TUserUnit.GetUserUnit (instance.userId, instance.unit);
 	}
 
 	private UserInfo	instance;

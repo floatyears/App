@@ -20,6 +20,7 @@ public class ActiveSkill : SkillBaseInfo {
 
 	protected void InitCooling() {
 		skillBase.skillCooling = initSkillCooling;
+//		Debug.LogError ("InitCooling : " + skillBase.skillCooling);
 		if (skillBase.skillCooling > 0) {
 			coolingDone = false;
 		}
@@ -44,22 +45,18 @@ public class TSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 	
 		if (initSkillCooling == 0) {
 			coolingDone = true;
-//			Debug.LogError("ActiveSkillSingleAttack ---------" + "ActiveSkillSingleAttack coolingDone : " + initSkillCooling);
 		}
-//		Debug.LogError ("ActiveSkillSingleAttack ---------" + initSkillCooling + "ActiveSkillSingleAttack coolingDone : " + coolingDone);
 	}
 
 	public void RefreashCooling () {
-//		Debug.LogError ("ActiveSkillSingleAttack RefreashCooling : ");
 		DisposeCooling ();
 	}
 	
-	public object Excute (uint userUnitID, int atk = -1) {
+	public object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;		
 		}
 		InitCooling ();
-//		SkillSingleAttack ssa = instance;//DeserializeData<SkillSingleAttack> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackType = (int)instance.unitType;

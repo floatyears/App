@@ -20,9 +20,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 	UIImageButton clearImgBtn;
 	UILabel coinLabel;
 	UILabel readyCoinLabel;
-	UILabel curCountLabel;
-	UILabel maxCountLabel;
-
+	int maxItemCount = 12;
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUIElement();
@@ -104,11 +102,13 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void ClickSellOk(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellOk", null);
 		ExcuteCallback(cbdArgs);
 	}
 
 	void ClickSellCancel(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellCancel", null);
 		ExcuteCallback(cbdArgs);
 	}
@@ -180,8 +180,6 @@ public class OnSaleUnitsView : UIComponentUnity{
 		clearImgBtn = transform.FindChild("MainWindow/ImgBtn_Clear").GetComponent<UIImageButton>();
 		lastSureCancelButton = FindChild<UIButton>("EnsureWindow/Button_Cancel");
 		lastSureOkButton = FindChild<UIButton>("EnsureWindow/Button_Ok");
-		curCountLabel = FindChild<UILabel>("MainWindow/CountItem/Label_Count_Cur");
-		maxCountLabel = FindChild<UILabel>("MainWindow/CountItem/Label_Count_Max");
 		UIEventListener.Get(sellImgBtn.gameObject).onClick = ClickSellBtn;
 		UIEventListener.Get(clearImgBtn.gameObject).onClick = ClickClearBtn;
 		UIEventListener.Get(lastSureOkButton.gameObject).onClick = ClickSellOk;
@@ -191,17 +189,19 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void ClickSellBtn(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", null);
 		ExcuteCallback(cbdArgs);
 	}
 
 	void ClickClearBtn(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickClear", null);
 		ExcuteCallback(cbdArgs);
 	}
 
 	void InitCells(){
-		for (int i = 0; i < 12; i++){
+		for (int i = 0; i < maxItemCount; i++){
 			string path;
 			GameObject go;
 
@@ -212,9 +212,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 			path = "EnsureWindow/Cells/" + i.ToString();
 			go = transform.FindChild(path).gameObject;
 			readyItemList.Add(go);
-
 		}
-
 //		Debug.Log(string.Format("PickedCount : {0}---ReadtCount : {1}  ........",pickItemList.Count, readyItemList.Count ));
 	}
 
@@ -226,17 +224,10 @@ public class OnSaleUnitsView : UIComponentUnity{
 		dragPanel.CreatUI();
 		dragPanel.AddItem(itemCount);
 		FindCrossShowLabelList();
-		UpdateCountLabel(viewInfoList.Count, DataCenter.Instance.UserInfo.FriendMax);
         AddEventLisenter();
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 		RefreshItemView(viewItemList);
 		UpdateCrossShow();
-	}
-
-	
-	void UpdateCountLabel(int cur, int max){
-		curCountLabel.text = cur.ToString();
-		maxCountLabel.text = max.ToString();
 	}
 
 	void RefreshItemView(List<UnitItemViewInfo> dataItemList){
@@ -256,7 +247,6 @@ public class OnSaleUnitsView : UIComponentUnity{
 			else{
 				maskSpr.enabled = false;
 			}
-
 		}
 	}
 	
@@ -284,8 +274,9 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void ClickItem(GameObject item){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		int itemIndex = dragPanel.ScrollItem.IndexOf(item);
-		Debug.LogError("OnSaleUnitsView.ClickItem(), item index is : " + itemIndex);
+		//Debug.LogError("OnSaleUnitsView.ClickItem(), item index is : " + itemIndex);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", itemIndex);
 		ExcuteCallback(cbdArgs);
 	}
@@ -296,7 +287,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void ResetUIElement(){
-		for (int i = 0; i < 12; i++){
+		for (int i = 0; i < maxItemCount; i++){
 			FindTextureWithPosition(i, pickItemList).mainTexture = null;
 			FindLabelWithPosition(i, pickItemList).text = string.Empty;
 

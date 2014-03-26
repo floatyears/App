@@ -10,13 +10,9 @@ public class FriendHelperController : ConcreteComponent{
 	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 	
-	private bool isEvolve = false;
 	private TEvolveStart evolveStart = null;
-
 	public FriendHelperController(string uiName):base(uiName) {}
-	
 	public override void CreatUI () { base.CreatUI (); }
-
 	public override void ShowUI () {
 		base.ShowUI ();
 		GetSupportFriendInfoList();
@@ -48,21 +44,15 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void QuestStart(object args){
-//		Dictionary<string, object> battleReadyInfo = new Dictionary<string, object>();
-//		battleReadyInfo.Add("QuestID", questID);
-//		battleReadyInfo.Add("StageID", stageID);
-//		battleReadyInfo.Add("PartyID", DataCenter.Instance.PartyInfo.CurrentPartyId);
-//		battleReadyInfo.Add("Helper", selectedHelper);
-		//TODO Change to Battle here
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
-		if (isEvolve) {
+		if (DataCenter.gameStage == GameState.Evolve) {
+			evolveStart.EvolveStart.restartNew = 1;
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} 
 		else {
 		StartQuest sq = new StartQuest ();
-
 		StartQuestParam sqp = new StartQuestParam ();
-
 		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
 		sqp.helperUserUnit = selectedHelper;
 		sqp.questId = questID;
@@ -70,8 +60,6 @@ public class FriendHelperController : ConcreteComponent{
 		sqp.startNew = 1;
 		sq.OnRequest (sqp, RspStartQuest);
 	}
-
-
 	}
 
 	void RspEvolveStartQuest (object data) {
@@ -79,8 +67,9 @@ public class FriendHelperController : ConcreteComponent{
 			Debug.Log("OnRspEvolveStart(), response null");
 			return;
 		}
+		evolveStart.StoreData ();
+
 		bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
-			
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
 			LogHelper.LogError("RspEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
 			return;
@@ -89,23 +78,10 @@ public class FriendHelperController : ConcreteComponent{
 		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
+		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
+		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 
-			//        if (questDungeonData..Count > 0){
-//			List<uint> dropIds = new List<uint>();
-//			List<uint> hitGrids = new List<uint>();
-//			foreach (var item in questDungeonData.floors[0].gridInfo) {
-//				hitGrids.Add((uint)item.position);
-//				LogHelper.Log("TTTTTTTTT test position {0}", item.position);
-//				if (item.dropId > 0){
-//					dropIds.Add(item.dropId);
-//					LogHelper.Log("TTTTTTTTT test drop dropId {0}", item.dropId);
-//					break;
-//				}
-//			}
-//			
-//			LogHelper.Log("OnRspEvolveStart() finished, staminaNow {0}, staminaRecover {1}," +
-//			              "questDungeonData.boss {2}", staminaNow, staminaRecover, questDungeonData.boss);
-//			TestEvovleDone(dropIds, hitGrids);
+		EnterBattle ();
 	}
 
 	void RspStartQuest(object data) {
@@ -127,7 +103,11 @@ public class FriendHelperController : ConcreteComponent{
 
 			return;
 		}
+		EnterBattle ();
+	} 
 		
+	void EnterBattle () {
+		DataCenter.Instance.BattleFriend = selectedHelper;
 		UIManager.Instance.EnterBattle();
 	} 
 
@@ -162,7 +142,6 @@ public class FriendHelperController : ConcreteComponent{
 		}
 	}
 
-
 	void CreateFriendHelperViewList(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", supportFriendViewList);
 		ExcuteCallback(cbdArgs);
@@ -174,6 +153,7 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void ShowHelperInfo(object args){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TFriendInfo helper = DataCenter.Instance.SupportFriends[ (int)args ];
 		RecordSelectedHelper(helper);
 		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helper);
@@ -191,13 +171,14 @@ public class FriendHelperController : ConcreteComponent{
 		MsgCenter.Instance.AddListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 		MsgCenter.Instance.AddListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
-
+		MsgCenter.Instance.AddListener (CommandEnum.RefreshFriendHelper, RefreshFriendHelper);
 	}
 
 	void RemoveCommandListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
+		MsgCenter.Instance.RemoveListener (CommandEnum.RefreshFriendHelper, RefreshFriendHelper);
 	}
 
 	void ChooseHelper(object msg){
@@ -208,19 +189,25 @@ public class FriendHelperController : ConcreteComponent{
 		}
 	}
 	
+	void RefreshFriendHelper(object data) {
+		CanEnterBattle ();
+	}
+
+	void CanEnterBattle () {
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableBottomButton", null);
+		ExcuteCallback(cbdArgs);
+	}
+	
 	void EvolveSelectQuest(object data) {
 		evolveStart = data as TEvolveStart;
-		isEvolve = true;
 	}
 	
 	void RecordSelectedQuest(object msg){
 		Dictionary<string,uint> idArgs = msg as Dictionary<string,uint>;
 		questID = idArgs["QuestID"];
 		stageID = idArgs["StageID"];
-		isEvolve = false;
 	}
 
 	void ClearBattleReadyData(){
 	}
-
 }

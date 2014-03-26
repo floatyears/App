@@ -10,7 +10,7 @@ public class TFriendInfo : ProtobufDataBase {
     public TFriendInfo(FriendInfo inst) : base (inst) { 
         instance = inst;
         if (instance.unit != null) {
-            unit = new TUserUnit(instance.unit);
+			unit = TUserUnit.GetUserUnit(instance.userId, instance.unit); //new TUserUnit(instance.unit);
         }
     }
 
@@ -114,11 +114,11 @@ public class TFriendList : ProtobufDataBase {
         else {
             friend = new List<TFriendInfo>();
         }
-        Debug.LogError("friend count " + instance.friend.Count);
+//        Debug.LogError("friend count " + instance.friend.Count);
         DataCenter.Instance.FriendCount = instance.friend.Count;
         foreach (FriendInfo fi in instance.friend) {
             TFriendInfo tfi = new TFriendInfo(fi);
-            Debug.Log("friend: NickName " + tfi.NickName);
+//            Debug.Log("friend: NickName " + tfi.NickName);
             friend.Add(tfi);
         }
     }

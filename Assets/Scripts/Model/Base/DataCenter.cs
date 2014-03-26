@@ -35,24 +35,30 @@ public enum ModelEnum {
 	CityInfo,
 }
 
-public enum Effect {
-    DragCard = 8,
+/// <summary>
+/// game state, tag current game in any state.
+/// </summary>
+public enum GameState {
+	Normal,
+
+	Evolve,
 }
 
 public class DataCenter {
-
     public static DataCenter Instance {
         get {
             if (instance == null) {
                 instance = new DataCenter();
             }
             return instance;
-        }
-        
+        } 
     }
     private static DataCenter instance;
     private DataCenter() {
     }
+
+	public static GameState gameStage = GameState.Normal;
+	public static TEvolveStart evolveInfo = null;
 
     public const int maxEnergyPoint = 20;
     public const int posStart = 0;
@@ -68,6 +74,13 @@ public class DataCenter {
     public const int rareGachaStone = 5;
     public const int eventGachaStone = 5;
     public const int maxGachaPerTime = 9;
+	public const int friendPos = 4;
+
+	private TFriendInfo battleFriend;
+	public TFriendInfo BattleFriend {
+		set { battleFriend = value; }
+		get { return battleFriend; }
+	}
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
@@ -93,10 +106,10 @@ public class DataCenter {
 
     public bool InEventGacha {
         get {
-            bool ret = false;
+            bool ret = true;
             if (getData(ModelEnum.InEventGacha) == null){
-                setData(ModelEnum.InEventGacha, false);
-                ret = false;
+                setData(ModelEnum.InEventGacha, true);
+                ret = true;
             }
             else {
                 ret = (bool)getData(ModelEnum.InEventGacha);
@@ -195,6 +208,14 @@ public class DataCenter {
         }
         set { setData(ModelEnum.Skill, value); } 
     }
+
+	public SkillBaseInfo GetSkill(int skillID) {
+		if (skillID == 0) {
+			return null;	
+		} else {
+			return Skill [skillID];
+		}
+	}
 
     private Dictionary<uint, TUnitInfo>  UnitInfo {
         get { 
@@ -452,8 +473,8 @@ public class DataCenter {
         if (GetEventGachaNeedStones() == 0)
             return 0;
         LogHelper.Log("GetAvailableEventGachaTimes(), InEventGacha, AccountInfo.Stone / GetEventGachaNeedStones()");
-        return 0;
-//        return AccountInfo.Stone / GetEventGachaNeedStones();
+//        return 0;
+        return AccountInfo.Stone / GetEventGachaNeedStones();
     }
 
     
