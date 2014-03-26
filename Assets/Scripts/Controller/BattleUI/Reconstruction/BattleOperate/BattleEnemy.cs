@@ -140,8 +140,10 @@ public class BattleEnemy : UIBaseUnity {
 				temp [i].texture.height = (int)tempHeight;
 			}	
 		} else { // allWidth <= screenWidth
-//			interv = 10;
-			interv = (screenWidth - allWidth) / (temp.Count-1);
+			if( temp.Count > 1)
+				interv = (screenWidth - allWidth) / (temp.Count-1);
+			else
+				interv = 10;
 		}
 	}
 
