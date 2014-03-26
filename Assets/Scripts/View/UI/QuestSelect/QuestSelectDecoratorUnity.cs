@@ -27,8 +27,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	private GameObject scrollView;
 
 	GameObject questViewItem;
-//	private bool isEvolve = false;
-
 
 	List<UITexture> pickEnemiesList = new List<UITexture>();
 	UIToggle firstFocus;
@@ -37,30 +35,24 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	List<QuestInfo> questInfoList = new List<QuestInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
-//		Debug.LogError("QuestSelectDecoratorUnity init start");
 		base.Init(config, origin);
 		InitUI();
 		InitQuestSelectScrollArgs();
 		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
-//		Debug.LogError("QuestSelectDecoratorUnity init end");
 	}
 	
 	public override void ShowUI(){
-//		Debug.LogError("QuestSelectDecoratorUnity ShowUI start");
 		base.ShowUI();
 		ShowTween();
 		btnSelect.isEnabled = false;
-
 		firstFocus.value = true;
-//		Debug.LogError("QuestSelectDecoratorUnity ShowUI end");
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		CleanQuestInfo();
-		dragPanel.DestoryUI();
+
 	}
-	
+
 	void ReceiveStageInfo( object data ){
 		StageInfo receivedStageInfo = data as StageInfo;
 		stageInfo = receivedStageInfo;
@@ -111,7 +103,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		}
 		dragPanel = CreateDragPanel(questInfoList.Count);
 		FillDragPanel(dragPanel, questInfoList);
-
 		dragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 	}
 
@@ -168,7 +159,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		Dictionary<string,object> info = args as Dictionary<string, object>;
 		int index = (int)info["position"];
 		TStageInfo tsi = info["data"] as TStageInfo;
-
 		labStaminaVaule.text = tsi.QuestInfo[index].Stamina.ToString();
 		labFloorVaule.text = tsi.QuestInfo[index].Floor.ToString();
 		labDoorName.text = tsi.StageName;
@@ -178,10 +168,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		labQuestInfo.text = tsi.QuestInfo[index].Name;
 		rewardExpLabel.text = "Exp " + tsi.QuestInfo[index].RewardExp.ToString();
 		storyTextLabel.text = tsi.Description;
-
-
 		btnSelect.isEnabled = true;
-
 	}
 
 	void ClickQuestItem(GameObject go ){
@@ -190,7 +177,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		}
 		int index = dragPanel.ScrollItem.IndexOf( go );
 		LightClickItem(index);
-//		Debug.LogError("ClickQuestItem(), click item pos : " + index);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickQuestItem", index);
 		ExcuteCallback(cbdArgs);
 	}
@@ -216,11 +202,16 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 	void ClickFriendSelect(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-//		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", (DataCenter.gameStage == GameState.Evolve));
 		ExcuteCallback(cbdArgs);
 	}
-	
+    
+    public void ResetUIWhenChange(){
+        LogHelper.Log("ResetUIWhenChange()");
+        CleanQuestInfo();
+        dragPanel.DestoryUI();
+    }	
+
 	public override void Callback(object data) {
 		base.Callback(data);
 
@@ -242,8 +233,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 	void EvolveInfoShow (object args) {
 		TStageInfo tsi = args as TStageInfo;
-//		isEvolve = true;
-		Debug.LogError ("EvolveInfoShow : ");
 		if (dragPanel != null) {
 			dragPanel.DestoryUI ();
 		} 
@@ -252,9 +241,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			dragPanel.CreatUI();
 			dragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 		}
-
-		Debug.LogError (tsi.QuestInfo.Count);
-
 		dragPanel.AddItem (tsi.QuestInfo.Count);
 		RefreshQuestInfo (tsi.QuestInfo);
 		Dictionary<string, object> tempDic = new Dictionary<string, object> ();
@@ -267,7 +253,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	
 	void CreateQuestDragList(object args){
 		TStageInfo tsi = args as TStageInfo;
-//		isEvolve = false;
 		dragPanel = new DragPanel("QuestDragPanel", questViewItem);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(tsi.QuestInfo.Count);
@@ -280,17 +265,14 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		if (dragPanel == null) {
 			return;	
 		}
-
 		for (int i = 0, m = dragPanel.ScrollItem.Count; i < m; i++) {
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
 			TQuestInfo tqi = questInfo[i];
-			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(11);
+			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(tqi.BossID[0]);
 			tex.mainTexture = tui.GetAsset(UnitAssetType.Avatar);
-			
 			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
 			label.text = "Quest : " + (i+1).ToString();
-			
 			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
 		}
 	}
@@ -298,7 +280,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	uint GetBossID(){
 		return 11;
 	}
-
 
 	void CleanQuestInfo(){
 		labStaminaVaule.text = string.Empty;
@@ -333,16 +314,15 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	void InitQuestSelectScrollArgs(){
 		questSelectScrollerArgsDic.Add("parentTrans",		scrollView.transform);
 		questSelectScrollerArgsDic.Add("scrollerScale",		Vector3.one);
-		questSelectScrollerArgsDic.Add("scrollerLocalPos",		-96 * Vector3.up);
+		questSelectScrollerArgsDic.Add("scrollerLocalPos",	-90 * Vector3.up);
 		questSelectScrollerArgsDic.Add("position",				Vector3.zero);
 		questSelectScrollerArgsDic.Add("clipRange",			new Vector4(0, 0, 640, 200));
 		questSelectScrollerArgsDic.Add("gridArrange",		UIGrid.Arrangement.Horizontal);
 		questSelectScrollerArgsDic.Add("maxPerLine",		0);
 		questSelectScrollerArgsDic.Add("scrollBarPosition",	new Vector3(-320, -120, 0));
-		questSelectScrollerArgsDic.Add("cellWidth",			130);
-		questSelectScrollerArgsDic.Add("cellHeight",			130);
+		questSelectScrollerArgsDic.Add("cellWidth",			125);
+		questSelectScrollerArgsDic.Add("cellHeight",			125);
 
 	}
-	
 
 }

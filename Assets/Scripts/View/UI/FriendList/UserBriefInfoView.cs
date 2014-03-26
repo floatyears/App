@@ -159,19 +159,18 @@ public class UserBriefInfoView : UIComponentUnity{
 		nameLabel.text = tuu.UnitInfo.Name;
 		raceLabel.text = tuu.UnitInfo.UnitRace.ToString();
 		avatarTex.mainTexture = tuu.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		slvLabel.text = tuu.UnitInfo.ActiveSkill.ToString();
 	}
 
 	void RefreshLastLogin(object args){
 		lastLoginLabel.text = args as string;
 	}
 
-	void RefreshRank(object args)
-	{
+	void RefreshRank(object args){
 		rankLabel.text = "Rank : " + args as string;
 	}
 
-	void RefreshUserName(object args)
-	{
+	void RefreshUserName(object args){
 		nickNameLabel.text = args as string;
 	}
 

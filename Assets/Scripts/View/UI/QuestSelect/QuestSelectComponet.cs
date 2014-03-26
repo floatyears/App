@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,7 +8,9 @@ public class QuestSelectComponent : ConcreteComponent{
 
 	private TEvolveStart evolveStageInfo;
 
-	public QuestSelectComponent(string uiName):base(uiName){}
+	public QuestSelectComponent(string uiName):base(uiName){
+        MsgCenter.Instance.AddListener(CommandEnum.ChangeScene, ResetUI);
+    }
 	
 	public override void CreatUI(){
 
@@ -85,14 +87,25 @@ public class QuestSelectComponent : ConcreteComponent{
 		else {
 			tsi = currentStageInfo;
 			questID = tsi.QuestInfo[ currentQuestIndex ].ID;
-		uint stageID = tsi.ID;
-		Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
-		idArgs.Add("QuestID", questID);
-		idArgs.Add("StageID", stageID);
-		MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
+			uint stageID = tsi.ID;
+			Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
+			idArgs.Add("QuestID", questID);
+			idArgs.Add("StageID", stageID);
+			MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
+		}
 	}
 
+    void ResetUI(object args){
+        SceneEnum nextScene = (SceneEnum)args;
+        LogHelper.Log("ResetUI(), nextScene {0}", nextScene);
+        if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.QuestSelect){
+            return;
+        }
+        if (nextScene == SceneEnum.FriendSelect){
+            return;
+        }
+        QuestSelectDecoratorUnity view = viewComponent as QuestSelectDecoratorUnity;
+        view.ResetUIWhenChange();
+    }
 
-
-	}
 }

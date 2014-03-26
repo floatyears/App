@@ -201,14 +201,14 @@ public class TUnitInfo : ProtobufDataBase {
 
 		if (uat == UnitAssetType.Avatar) {
 			if (avatarTexture == null) {
-				path = string.Format ("Avatar/{0}_1", ID);
+				path = string.Format ("Avatar/{0}", ID);
 				avatarTexture = Resources.Load (path) as Texture2D;
 			}
 			return avatarTexture;
 		} 
 		else  {
 			if(profileTexture == null) {
-				path = string.Format("Profile/{0}_2", ID) ;
+				path = string.Format("Profile/{0}", ID) ;
 				profileTexture =  Resources.Load(path) as Texture2D;
 				
 			}

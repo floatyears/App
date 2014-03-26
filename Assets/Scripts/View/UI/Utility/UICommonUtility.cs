@@ -72,7 +72,7 @@ public class TouchEventBlocker{
 			}
 		}
 
-		Test(result);
+//		Test(result);
 		return result;
 	}
 	
@@ -83,6 +83,7 @@ public class TouchEventBlocker{
 				originLayer = nguiCamera.eventReceiverMask;
 			}
 			nguiCamera.eventReceiverMask = LayerMask.NameToLayer(blockerLayerName) << blockerLayer;
+
 //			Debug.LogError("TouchEventBlocker.SetBlocked(), when true, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
 
 		}
@@ -95,10 +96,10 @@ public class TouchEventBlocker{
 
 	private void Test(bool result){
 		//Test
-//		Debug.LogError("CalculateFinalState.Test(), result is : " + result);
-//		foreach (var item in stateDic){
-//			Debug.LogError(string.Format("Test, Key is {0}, Value is {1}", item.Key, item.Value));
-//		}
+		Debug.LogError("CalculateFinalState.Test(), result is : " + result);
+		foreach (var item in stateDic){
+			Debug.LogError(string.Format("Test, Key is {0}, Value is {1}", item.Key, item.Value));
+		}
 	}
 
 }

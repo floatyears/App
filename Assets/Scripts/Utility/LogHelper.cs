@@ -21,9 +21,9 @@ public sealed class LogHelper {
 	}
 
 	public static void LogError(string format, params object[] args){
-//        if (!DebugHelper.DEBUG){
-//            return;
-//        }
+        if (!DebugHelper.DEBUG){
+            return;
+        }
 		Debug.LogError("["+TimeHelper.FormattedTimeNow()+"]  " + string.Format(format,args));
     }
 

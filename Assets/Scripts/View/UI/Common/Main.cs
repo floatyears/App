@@ -75,12 +75,7 @@ public class Main : MonoBehaviour {
         TempConfig.InitEventQuests();
         TempConfig.InitPlayerUnits();
         TempConfig.InitUnitAvatarSprite();
-
-
-//		GameSingleDataStore.Instance.StoreSingleData ("aa", "bb");
-//		Debug.LogError (System.Guid.NewGuid ().ToString ());
     }
-
 
 	int count = 0;
     /// <summary>
@@ -88,13 +83,11 @@ public class Main : MonoBehaviour {
     /// </summary>
     void OnEnable() {
 		count++;
-
         AudioManager.Instance.PlayAudio(AudioEnum.music_home);
         EffectManager em = EffectManager.Instance;
         UIManager.Instance.ChangeScene(SceneEnum.Loading);
     }
-
-
+	
     void OnDisable() {
         sui.RemoveListener();
     }
