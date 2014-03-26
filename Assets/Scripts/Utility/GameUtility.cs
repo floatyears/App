@@ -285,7 +285,6 @@ public class DGTools {
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
 		string url = path +unitInfoPath + unitID;
 		TextAsset ta = LoadTextAsset (url);
-//		Debug.LogError (ta + " url : " + url);
 		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
 		TUnitInfo tui = new TUnitInfo (ui);
 		return tui;
@@ -303,32 +302,37 @@ public class DGTools {
 		return Resources.Load (url, typeof(TextAsset)) as TextAsset;
 	}
 
-	public static Color TypeToColor (EUnitType type) {
+	private static Dictionary<EUnitType, Color> typeColor = new Dictionary<EUnitType, Color> ();
+	public static Color32 TypeToColor (EUnitType type) {
+		Color value = new Color();
+		if (!typeColor.TryGetValue (type, out value)) {
+			value = Generate(type);
+			typeColor.Add(type, value);
+		}
+		return value;
+	}
+
+	private static Color Generate(EUnitType type) {
 		switch (type) {
-		case EUnitType.UDARK:
-			return Color.black;
-
 		case EUnitType.UFIRE:
-			return Color.red;
-
+			return new Color(171.0f/ 255, 73.0f / 255, 82.0f / 255, 1f);
 		case EUnitType.UWATER:
-			return Color.blue;
-
+			return new Color(73.0f / 255, 152.0f / 255, 171.0f / 255, 1f);
 		case EUnitType.UWIND:
-			return Color.green;
-
+			return new Color(77.0f / 255, 167.0f / 255,120.0f / 255, 1f);
 		case EUnitType.UHeart:
-			return Color.magenta;
-				
+			return new Color(77.0f / 255,167.0f / 255, 120.0f / 255, 1f);
 		case EUnitType.ULIGHT:
-			return Color.yellow;
-					
+			return new Color(214.0f / 255, 213.0f / 255, 159.0f / 255, 1f);
+		case EUnitType.UDARK:
+			return new Color(161.0f / 255, 73.0f / 255, 171.0f / 255, 1f);
 		case EUnitType.UNONE:
+			return new Color(122.0f / 255, 122.0f / 255, 122.0f / 255,1f);
 		case EUnitType.UALL:
 		default:
-			return Color.white;
-			}
+			return new Color(0,0,0,1f);
 		}
+	}
 }
 
 public class GameLayer

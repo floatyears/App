@@ -27,8 +27,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	private GameObject scrollView;
 
 	GameObject questViewItem;
-//	private bool isEvolve = false;
-
 
 	List<UITexture> pickEnemiesList = new List<UITexture>();
 	UIToggle firstFocus;
@@ -230,7 +228,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 	void EvolveInfoShow (object args) {
 		TStageInfo tsi = args as TStageInfo;
-//		Debug.LogError ("EvolveInfoShow : ");
 		if (dragPanel != null) {
 			dragPanel.DestoryUI ();
 		} 
@@ -239,7 +236,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			dragPanel.CreatUI();
 			dragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
 		}
-//		Debug.LogError (tsi.QuestInfo.Count);
 		dragPanel.AddItem (tsi.QuestInfo.Count);
 		RefreshQuestInfo (tsi.QuestInfo);
 		Dictionary<string, object> tempDic = new Dictionary<string, object> ();
@@ -252,7 +248,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	
 	void CreateQuestDragList(object args){
 		TStageInfo tsi = args as TStageInfo;
-//		isEvolve = false;
 		dragPanel = new DragPanel("QuestDragPanel", questViewItem);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(tsi.QuestInfo.Count);
@@ -265,17 +260,14 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		if (dragPanel == null) {
 			return;	
 		}
-
 		for (int i = 0, m = dragPanel.ScrollItem.Count; i < m; i++) {
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
 			TQuestInfo tqi = questInfo[i];
-//			Debug.LogError("tqi : " + tqi.BossID[0]);
 			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(11);
 			tex.mainTexture = tui.GetAsset(UnitAssetType.Avatar);
 			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
 			label.text = "Quest : " + (i+1).ToString();
-			
 			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
 		}
 	}
@@ -283,7 +275,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	uint GetBossID(){
 		return 11;
 	}
-
 
 	void CleanQuestInfo(){
 		labStaminaVaule.text = string.Empty;

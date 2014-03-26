@@ -33,7 +33,7 @@ public class UIEventListenerCustom : MonoBehaviour {
 	void OnHover (bool isOver)		{ if (ShieldInput) return; if (onHover != null) onHover(gameObject, isOver);}
 	void OnSelect (bool selected)	{ if (ShieldInput) return; if (onSelect != null) onSelect(gameObject, selected); }
 	void OnScroll (float delta)		{ if (ShieldInput) return; if (onScroll != null) onScroll(gameObject, delta); }
-	void OnDrag (Vector2 delta)		{ if (ShieldInput) return; if (onDrag != null) onDrag(gameObject, delta); }
+	void OnDrag (Vector2 delta)		{ if (ShieldInput) return; GameTimer.GetInstance ().ExitCountDonw(CountDonw); if (onDrag != null) onDrag(gameObject, delta); }
 	void OnDrop (GameObject go)		{ if (ShieldInput) return; if (onDrop != null) onDrop(gameObject, go); }
 	void OnInput (string text)		{ if (ShieldInput) return; if (onInput != null) onInput(gameObject, text); }
 	void OnKey (KeyCode key)		{ if (ShieldInput) return; if (onKey != null) onKey(gameObject, key); }
