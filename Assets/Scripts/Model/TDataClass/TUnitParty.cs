@@ -12,7 +12,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         MsgCenter.Instance.AddListener(CommandEnum.ActiveReduceHurt, ReduceHurt);      
 		MsgCenter.Instance.AddListener (CommandEnum.EnterBattle, EnterBattle);
 		MsgCenter.Instance.AddListener (CommandEnum.LeftBattle, LeftBattle);
-
         reAssignData();
         GetSkillCollection();
     }
@@ -202,7 +201,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                     AttackImageUtility aiu = new AttackImageUtility();
                     aiu.attackProperty = ai.AttackType;
 
-					Debug.LogError("ai.UserUnitID:"+ai.UserUnitID);
 					if ( DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID) == null)
 						Debug.LogError("DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID)== null");
 

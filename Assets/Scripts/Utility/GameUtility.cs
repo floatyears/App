@@ -102,7 +102,6 @@ public class DGTools {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -300,6 +299,38 @@ public class DGTools {
 
 	static TextAsset LoadTextAsset (string url) {
 		return Resources.Load (url, typeof(TextAsset)) as TextAsset;
+	}
+
+	private static Dictionary<EUnitType, Color> typeColor = new Dictionary<EUnitType, Color> ();
+	public static Color TypeToColor (EUnitType type) {
+		Color value = new Color();
+		if (!typeColor.TryGetValue (type, out value)) {
+			value = Generate(type);
+			typeColor.Add(type, value);
+		}
+		return value;
+	}
+
+	private static Color Generate(EUnitType type) {
+		switch (type) {
+		case EUnitType.UFIRE:
+			return new Color(171.0f/ 255, 73.0f / 255, 82.0f / 255, 1f);
+		case EUnitType.UWATER:
+			return new Color(73.0f / 255, 152.0f / 255, 171.0f / 255, 1f);
+		case EUnitType.UWIND:
+			return new Color(77.0f / 255, 167.0f / 255,120.0f / 255, 1f);
+		case EUnitType.UHeart:
+			return new Color(77.0f / 255,167.0f / 255, 120.0f / 255, 1f);
+		case EUnitType.ULIGHT:
+			return new Color(214.0f / 255, 213.0f / 255, 159.0f / 255, 1f);
+		case EUnitType.UDARK:
+			return new Color(161.0f / 255, 73.0f / 255, 171.0f / 255, 1f);
+		case EUnitType.UNONE:
+			return new Color(122.0f / 255, 122.0f / 255, 122.0f / 255,1f);
+		case EUnitType.UALL:
+		default:
+			return new Color(0,0,0,1f);
+		}
 	}
 }
 

@@ -15,7 +15,6 @@ public class TSkillAntiAttack : SkillBaseInfo, IPassiveExcute {
 			return null;	
 		}
 
-//		SkillAntiAttack saa = DeserializeData<SkillAntiAttack> ();
 		int type = (int)trapBase;
 		EUnitType et = (EUnitType)type;
 		if (instance.attackSource == EUnitType.UALL || et == instance.attackSource) {
