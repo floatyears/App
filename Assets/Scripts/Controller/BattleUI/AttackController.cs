@@ -101,7 +101,7 @@ public class AttackController {
 
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			TEnemyInfo te = enemyInfo[i];
-			if(te.GetUnitType() == att.targetType) {
+			if(te.GetUnitType() == att.targetType || att.targetType == (int)bbproto.EUnitType.UALL) {
 				AttackInfo ai = att.attackInfo;
 				int restraintType = DGTools.RestraintType(ai.AttackType);
 				bool b = restraintType == te.GetUnitType();
@@ -257,7 +257,7 @@ public class AttackController {
 			}
 		}
 		if (enemyInfo.Count == 0) {
-			GameTimer.GetInstance().AddCountDown(2f, BattleEnd);
+			GameTimer.GetInstance().AddCountDown(2f, BattleEnd); //TODO: set time in const config
 			return false;
 		}
 		return true;

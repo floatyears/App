@@ -105,15 +105,15 @@ public class BattleEnemy : UIBaseUnity {
 		}
 		int centerIndex = 0;
 		if (DGTools.IsOddNumber (count)) {
-			centerIndex = ((count + 1) >> 1) - 1;		
+			centerIndex = ((count + 1) >> 1) - 1;
 			temp[centerIndex].transform.localPosition = Vector3.zero;
 			DisposeCenterLeft(centerIndex, temp);
 			DisposeCenterRight(centerIndex,temp);
 		} else {
 			centerIndex = (count >> 1) - 1;
 			int centerRightIndex = centerIndex + 1;
-			temp[centerIndex].transform.localPosition = new Vector3(0f - (temp[centerIndex].texture.width >> 2),0f,0f);
-			temp[centerRightIndex].transform.localPosition = new Vector3(0f + (temp[centerRightIndex].texture.width >> 2),0f,0f);
+			temp[centerIndex].transform.localPosition = new Vector3(0f - (temp[centerIndex].texture.width ),0f,0f);
+			temp[centerRightIndex].transform.localPosition = new Vector3(0f + (temp[centerRightIndex].texture.width ),0f,0f);
 			DisposeCenterLeft(centerIndex--, temp);
 			centerRightIndex++;
 			DisposeCenterRight(centerRightIndex , temp);
@@ -121,17 +121,17 @@ public class BattleEnemy : UIBaseUnity {
 	}
 
 	void CompressTextureWidth (List<EnemyItem> temp) {
-		int width = Screen.width;
+		int screenWidth = Screen.width;
 		int allWidth = 0;
 		for (int i = 0; i < temp.Count; i++) {
 			allWidth += temp[i].texture.width;
 		}
-		float probability = (float)width / allWidth;
-		if (probability * 2 < 1) {
-			probability *= 2;
-		}
+		float probability = (float)screenWidth / allWidth;
+//		if (probability * 2 < 1) {
+//			probability *= 2;
+//		}
 //		Debug.LogError (" probability : " + probability + "  width :" + width + " allWidth : " + allWidth);
-		if (probability < 1f) {
+		if (probability <= 1f) { // allWidth > screenWidth
 			interv *= probability;
 			for (int i = 0; i < temp.Count; i++) {
 				float tempWidth = temp [i].texture.width * probability;
@@ -139,8 +139,9 @@ public class BattleEnemy : UIBaseUnity {
 				temp [i].texture.width = (int)tempWidth;
 				temp [i].texture.height = (int)tempHeight;
 			}	
-		} else {
-			interv = 10;
+		} else { // allWidth <= screenWidth
+//			interv = 10;
+			interv = (screenWidth - allWidth) / (temp.Count-1);
 		}
 	}
 
@@ -148,7 +149,7 @@ public class BattleEnemy : UIBaseUnity {
 		int tempIndex = centerIndex - 1;
 		while(tempIndex >= 0) {
 			Vector3 localPosition = temp[tempIndex + 1].transform.localPosition;
-			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - ((temp[tempIndex].texture.width >> 1) + interv) , 0f, 0f);
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - ((temp[tempIndex].texture.width ) + interv) , 0f, 0f);
 			tempIndex--;
 		}
 	}
@@ -158,7 +159,7 @@ public class BattleEnemy : UIBaseUnity {
 
 		while(tempIndex < temp.Count) {
 			Vector3 localPosition = temp[tempIndex - 1].transform.localPosition;
-			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + ((temp[tempIndex].texture.width >> 1) + interv), 0f, 0f);
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + ((temp[tempIndex].texture.width ) + interv), 0f, 0f);
 			tempIndex++;
 		}
 	}
