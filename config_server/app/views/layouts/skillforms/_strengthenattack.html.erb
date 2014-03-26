@@ -1,0 +1,16 @@
+<%= render 'layouts/skillforms/skill_base'%>
+<p>
+	type:<%= select_tag :type,options_for_select(AllSkillConfig::EVALUE_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:type)) %>
+</p>
+<p>
+	value:<%= text_field_tag :value, @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:value) %>
+</p>
+<p>
+  periodValue:<%= text_field_tag :periodValue, @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:periodValue)%>
+</p>
+<p>
+	targetType:<%= select_tag :targetType,options_for_select(AllSkillConfig::EUNIT_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:targetType)) %>
+</p>
+<p>
+	targetRace:<%= select_tag :targetRace,options_for_select(AllSkillConfig::EUNIT_RACE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:targetRace)) %>
+</p

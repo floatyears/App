@@ -1,3 +1,21 @@
+enum EUnitType{
+	UALL	= 0; // all type
+	UFIRE 	= 1;
+	UWATER	= 2;
+	UWIND	= 3;
+	ULIGHT	= 4;
+	UDARK	= 5;
+	UNONE	= 6;
+    UHeart  = 7;
+};
+
+enum ETrapType {
+	Move			= 0;
+	StateException	= 1;
+	ChangeEnvir		= 2;
+	Injured			= 3;
+};
+
 enum EValueType{
 	FIXED 			= 1;
 	MULTIPLE		= 2;
@@ -30,7 +48,6 @@ enum EPeriod {
 	EP_EVERY_STEP 	= 2; // every moving step
 };
 
-//==================Active Skills: 14 kinds=====================================================
 message SkillBase {
     optional int32	id				= 1;
     optional string	name			= 2;
@@ -48,12 +65,6 @@ message SkillSingleAttack {
 	optional bool			ignoreDefense	= 6; // ignore enemy defense.
 };
 
-//message SkillAllAttack {
-//    optional SkillBase  baseInfo    = 1;
-//	optional EValueType	type		= 2; //FIXED | MULTIPLE
-//	optional float		value 		= 3; //fixed:1000,10000,150000 | 100xATK
-//	optional EUnitType	unitType 	= 4; //
-//};
 
 message SkillSingleAtkRecoverHP { //single attack & recover HP to 100%
     optional SkillBase  baseInfo    = 1;
@@ -149,49 +160,6 @@ message SkillConvertUnitType { //convert one type to another type
 	optional EUnitType 	unitType2	= 4;  //target type
 };
 
-//---------------------------------------------------------------------------
-
-//message ActiveSkill {
-	//optional int32  no				= 1; //skill number
-	//optional string name			= 2; //skill name
-	//optional string description		= 3; //skill description
-
-	//optional int32  singleAttack		= 4;
-	//optional int32  allAttack			= 5;
-	//optional int32  singleAtkRecoverHP	= 6;	//single attack & recover HP to 100%
-	//optional int32  suicideAttack		= 7;
-	//optional int32  targetTypeAttack	= 8;
-	//optional int32  killHP				= 9;
-	//optional int32  recoverHP			= 10;
-	//optional int32  recoverSP			= 11;
-	//optional int32  reduceHurt			= 12;
-	//optional int32  reduceDefence		= 13;
-	//optional int32  eferAttackRound 	= 14;
-	//optional int32  poison				= 15;
-	//optional int32  delayTime			= 16; 	//increase time for moving color block
-	//optional int32  convertUnitType		= 17;	//convert one type to another
-
-
-    //total 14 active skills
-	//optional SkillSingleAttack 			singleAttack		= 4;
-	//optional SkillAllAttack 			allAttack			= 5;
-	//optional SkillSingleAtkRecoverHP 	singleAtkRecoverHP	= 6;	//single attack & recover HP to 100%
-	//optional SkillSuicideAttack			suicideAttack		= 7;
-	//optional SkillTargetTypeAttack		targetTypeAttack	= 8;
-	//optional SkillKillHP 				killHP				= 9;
-	//optional SkillRecoverHP				recoverHP			= 10;
-	//optional SkillRecoverSP				recoverSP			= 11;
-	//optional SkillReduceHurt 			reduceHurt			= 12;
-	//optional SkillReduceDefence			reduceDefence		= 13;
-	//optional SkillDeferAttackRound 		deferAttackRound	= 14;
-	//optional SkillPoison				poison				= 15;
-	//optional SkillDelayTime 			delayTime			= 16; 	//increase time for moving color block
-	//optional SkillConvertUnitType 		convertUnitType		= 17;	//convert one type to another type	
-//};
-
-
-//==================PassiveSkill Skills: 2 kinds=====================================================
-//
 message SkillDodgeTrap {
         optional SkillBase	baseInfo    = 1;
 		optional int32		trapLevel	= 2;
@@ -206,15 +174,6 @@ message SkillAntiAttack {
 		optional float		antiAtkRatio	= 5;
 };
 
-//message PassiveSkill {
-	//optional SkillBase  baseInfo    = 1;
-    //optional int32      antiAttack      = 2;
-    //optional int32      dodgeTrap       = 3;
-	//optional SkillAntiAttack	antiAttack	= 4;
-	//optional SkillDodgeTrap		dodgeTrap	= 5;
-//};
-
-//==================NormalSkill Skills=====================================================
 
 message NormalSkill {
 	optional SkillBase      baseInfo        = 1;
@@ -224,9 +183,6 @@ message NormalSkill {
 	optional float          attackValue     = 4; //1.5xATK | 10%
     optional EUnitType      attackUnitType  = 5; //EUnitType 
 };
-
-
-//==================LeaderSkill Skills=====================================================
 
 message SkillBoost {
 	optional SkillBase		baseInfo    = 1;
@@ -242,30 +198,39 @@ message SkillExtraAttack {
 	optional float		attackValue	= 3; //1.5x, 2.0x, 2.5x
 };
 
-//=================add by leiliang===========================================================
 message SkillMultipleAttack {
 	optional SkillBase	baseInfo		= 1;
 	optional int32		unitTypeCount	= 2;
 	optional float		value			= 3;
 }
 
-//message LeaderSkill {
-	//optional int32  no				= 1; //skill number
-	//optional string name			= 2; //skill name
-	//optional string description		= 3; //skill description
-	//optional int32  raceBoost		= 4;
-	//optional int32  recoverHP		= 5; //recover HP every round
-	//optional int32  reduceHurt		= 6; 
-	//optional int32  delayTime		= 7;
-	//optional int32  convertUnitType	= 8;
-	//optional int32  extraAttack		= 9;
-	//optional SkillBoost                raceBoost        = 4;
-    //optional SkillRecoverHP            recoverHP        = 5; //recover HP every round
-    //optional SkillReduceHurt        reduceHurt        = 6; 
-    //optional SkillDelayTime            delayTime        = 7;
-    //optional SkillConvertUnitType    convertUnitType    = 8;
-    //optional SkillExtraAttack        extraAttack        = 9;
-//};
+message AllSkillConfig {
+	repeated NormalSkill				Normal					= 1;
 
-//==========================================================================================
+	//active skill
+	repeated SkillSingleAttack			SingleAttack			= 2;
+	repeated SkillSingleAtkRecoverHP	SingleAtkRecoverHP		= 3;
+	repeated SkillSuicideAttack			SuicideAttack			= 4;
+	repeated SkillTargetTypeAttack		TargetTypeAttack		= 5;
+	repeated SkillStrengthenAttack		StrengthenAttack		= 6;
+	repeated SkillKillHP				KillHP					= 7;
+	repeated SkillRecoverHP				RecoverHP				= 8;
+	repeated SkillRecoverSP				RecoverSP				= 9;
+	repeated SkillReduceHurt			ReduceHurt				= 10;
+	repeated SkillReduceDefence			ReduceDefence			= 11;
+	repeated SkillDeferAttackRound		DeferAttackRound		= 12;
+	repeated SkillPoison				Poison					= 13;
+	repeated SkillDelayTime				DelayTime				= 14;
+	
+	repeated SkillConvertUnitType		ConvertUnitType			= 15;
+	//passive skill
+	repeated SkillDodgeTrap				DodgeTrap				= 16;
+	repeated SkillAntiAttack			AntiAttack				= 17;
+
+	//leader skill
+	repeated SkillBoost					Boost					= 18;
+	repeated SkillExtraAttack			Extraattack				= 19;
+	repeated SkillMultipleAttack		MultipleAttack			= 20;
+}
+
 

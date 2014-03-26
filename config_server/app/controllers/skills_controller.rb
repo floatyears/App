@@ -1,17 +1,53 @@
 class SkillsController < ApplicationController
   def new
-    @unit_type = {"请选择" => "请选择" }.merge NormalSkill::EUNIT_TYPE
+    @type = params[:skillType].downcase
   end
 
   def create
-    normal_skill = NormalSkill.create_with_params(params)
-    if normal_skill.save_to_file && normal_skill.save_to_redis
-      redirect_to new_skill_path
+    if AllSkillConfig.save(params)
+      redirect_to skills_path
     else
+      
     end
   end
 
   def index
-    @skills =  $redis.keys.map{|k|k if k.start_with?("X_SKILL_")}.compact.sort.map{|key| NormalSkill.decode($redis.get key)}
+    skills = $redis.get("X_SKILL_CONF")
+    if skills.nil?
+    else
+      @all_skills =  AllSkillConfig.decode(skills)
+    end
+    @skillpath = params[:skillpath] || "layouts/skillforms/normal"
+    
   end
+  
+  def skill_type
+    
+  end
+  
+  def type
+    redirect_to new_skill_path(skillType: params[:skillType])
+  end
+  
+  def edit
+    @all_skills =  AllSkillConfig.decode($redis.get("X_SKILL_CONF"))
+    @type = params[:skillType].downcase
+    @index = params[:id].to_i
+    @method = params[:method]
+    @skill_type = params[:skillType]
+  end
+  
+  def update
+    if AllSkillConfig.save(params,true)
+        redirect_to skills_path
+    else
+    end
+  end
+  
+  def download
+    AllSkillConfig.save_to_file
+    file_path = "#{Rails.root}/public/skills/X_SKILL_CONF"
+    send_file file_path, :filename => "X_SKILL_CONF", :disposition => 'attachment'
+  end
+  
 end

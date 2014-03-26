@@ -1,0 +1,10 @@
+<%= render 'layouts/skillforms/skill_base'%>
+<p>
+	type:<%= select_tag :type,options_for_select(AllSkillConfig::EVALUE_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:type)) %>
+</p>
+<p>
+	value:<%= text_field_tag :value , @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:value)%>
+</p>
+<p>
+	period:<%= text_field_tag :period , @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:period)%>
+</p>

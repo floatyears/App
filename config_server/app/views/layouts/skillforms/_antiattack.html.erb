@@ -1,0 +1,13 @@
+<%= render 'layouts/skillforms/skill_base'%>
+<p>
+	probability:<%= text_field_tag :probability, @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:probability)%>
+</p>
+<p>
+	attackSource:<%= select_tag :attackSource,options_for_select(AllSkillConfig::EUNIT_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:attackSource)) %>
+</p>
+<p>
+	antiAttack:<%= select_tag :antiAttack,options_for_select(AllSkillConfig::EUNIT_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:antiAttack)) %>)
+</p>
+<p>
+	antiAtkRatio:<%= text_field_tag :antiAtkRatio ,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:antiAtkRatio)%>
+</p>

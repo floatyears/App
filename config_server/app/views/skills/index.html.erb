@@ -1,32 +1,36 @@
-<h1 id="skills">Skills</h1>
-<table class="table table-bordered table-hover">
-	<thead>
-		<tr>
-			<th>baseInfo</th>
-			<th>attackType</th>
-			<th>activeBlocks</th>
-			<th>attackValue</th>
-			<th>attackUnitType</th>
-		</tr>
-	</thead>
+<h1 id="选择技能类型">选择技能类型</h1>
+<%= form_tag(type_skills_path) %>
 
-	<tbody>
-		<% @skills.each do |skill| %>
-		<tr>
-			<td>
-        BaseInfo{
-        id:<%= skill.try(:baseInfo).try(:id) %>;
-        name:<%= skill.try(:baseInfo).try(:name) %>;
-        description:<%= skill.try(:baseInfo).try(:description) %>;
-        skillCooling:<%= skill.try(:baseInfo).try(:skillCooling) %>;
-        }
-      </td>
-      <td><%= skill.try(:attackType) %></td>
-      <td><%= skill.try(:activeBlocks) %></td>
-      <td><%= skill.try(:attackValue) %></td>
-      <td><%= skill.try(:attackUnitType) %></td>
-		</tr>
-		<% end %>
-	</tbody>
-</table>
-<%= link_to '新建基本技能', new_skill_path,style: "font-size: 20px;" %>
+<p>
+	选择技能：<%= select_tag :skillType,options_for_select(AllSkillConfig::ALL_SKILL),onchange: 'skilltypechange()' %>
+</p>
+
+<div class="actions">
+	<%= submit_tag "添加技能" %>
+</div>
+
+<% if @all_skills.present? %>
+<%= render "layouts/skilltables/normal" %>
+<%= render "layouts/skilltables/singleattack"%>
+<%= render "layouts/skilltables/singleatkrecoverhp"%>
+<%= render "layouts/skilltables/suicideattack"%>
+<%= render "layouts/skilltables/targettypeattack"%>
+<%= render "layouts/skilltables/strengthenattack"%>
+<%= render "layouts/skilltables/killhp"%>
+<%= render "layouts/skilltables/recoverhp"%>
+<%= render "layouts/skilltables/recoversp"%>
+<%= render "layouts/skilltables/reducehurt"%>
+<%= render "layouts/skilltables/reducedefence"%>
+<%= render "layouts/skilltables/deferattackround"%>
+<%= render "layouts/skilltables/poison"%>
+<%= render "layouts/skilltables/delaytime"%>
+<%= render "layouts/skilltables/convertunittype"%>
+<%= render "layouts/skilltables/dodgetrap"%>
+<%= render "layouts/skilltables/antiattack"%>
+<%= render "layouts/skilltables/boost"%>
+<%= render "layouts/skilltables/extraattack"%>
+<%= render "layouts/skilltables/multipleattack"%>
+<% end %>
+
+
+

@@ -1,0 +1,7 @@
+<%= render 'layouts/skillforms/skill_base'%>
+<p>
+	unitTypeCount:<%= text_field_tag :unitTypeCount , @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:unitTypeCount)%>
+</p>
+<p>
+	value:<%= text_field_tag :value , @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:value)%>
+</p>

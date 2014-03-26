@@ -1,0 +1,14 @@
+<%= render 'layouts/skillforms/skill_base'%>
+<p>
+	boostType:<%= select_tag :boostType,options_for_select(AllSkillConfig::EBOOST_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:boostType)) %>
+</p>
+<p>
+	boostValue:<%= text_field_tag :boostValue ,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:boostValue)%>
+</p>
+
+<p>
+	targetType:<%= select_tag :targetType,options_for_select(AllSkillConfig::EBOOST_TARGET,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:targetType)) %>
+</p>
+<p>
+	targetValue:<%= text_field_tag :targetValue,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:targetValue)%>
+</p>

@@ -1,0 +1,36 @@
+<h2>SingleAttack</h2>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+      <th>baseInfo</th>
+      <th>type</th>
+      <th>value</th>
+      <th>unitType</th>
+      <th>attackRange</th>
+      <th>ignoreDefense</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+	<tbody>
+    <% if @all_skills[:SingleAttack].present?%>
+    <% @all_skills[:SingleAttack].each_with_index do |normal_skill,index|%>
+    <tr>
+      <td>
+        {
+          id:<%= normal_skill[:baseInfo][:id]%>,
+          name:<%= normal_skill[:baseInfo][:name]%>,
+          description:<%= normal_skill[:baseInfo][:description]%>,
+          skillCooling:<%= normal_skill[:baseInfo][:skillCooling]%>
+        }
+      </td>
+      <td><%=normal_skill[:type] %></td>
+      <td><%=normal_skill[:value] %></td>
+      <td><%=normal_skill[:unitType] %></td>
+      <td><%=normal_skill[:attackRange] %></td>
+      <td><%=normal_skill[:ignoreDefense] %></td>
+      <td><%=link_to "修改",edit_skill_path(skillType: "SingleAttack",id: index,method: "PATCH") %></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
