@@ -12,7 +12,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         MsgCenter.Instance.AddListener(CommandEnum.ActiveReduceHurt, ReduceHurt);      
 		MsgCenter.Instance.AddListener (CommandEnum.EnterBattle, EnterBattle);
 		MsgCenter.Instance.AddListener (CommandEnum.LeftBattle, LeftBattle);
-
         reAssignData();
         GetSkillCollection();
     }

@@ -264,7 +264,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
 			TQuestInfo tqi = questInfo[i];
-			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(11);
+			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(tqi.BossID[0]);
 			tex.mainTexture = tui.GetAsset(UnitAssetType.Avatar);
 			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
 			label.text = "Quest : " + (i+1).ToString();

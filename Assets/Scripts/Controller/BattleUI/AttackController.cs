@@ -17,11 +17,13 @@ public class AttackController {
 	}
 	IExcutePassiveSkill passiveSkill;
 
+
 	public AttackController (BattleUseData bud,IExcutePassiveSkill ips) {
 		msgCenter = MsgCenter.Instance;
 		this.bud = bud;
 		passiveSkill = ips;
 		RegisterEvent ();
+
 	}
 
 	public void RemoveListener () {
@@ -159,7 +161,7 @@ public class AttackController {
 
 	float GetIntervTime () {
 		if (enemyInfo == null || enemyInfo.Count == 0) {
-			return 0.5f;		
+			return 0.8f;		
 		}
 		else {
 			return 0.8f;		
@@ -208,7 +210,7 @@ public class AttackController {
 
 	int tempPreHurtValue = 0;
 	void BeginAttack(AttackInfo ai) {
-//		Debug.LogError ("BeginAttack : " + ai.AttackRange + " ```` " + Time.realtimeSinceStartup);
+
 		switch (ai.AttackRange) {
 		case 0:
 			DisposeAttackSingle(ai);
@@ -318,10 +320,11 @@ public class AttackController {
 	}
 
 	void AttackEnemyEnd (AttackInfo ai){
-//		Debug.LogError ("AttackController AttackEnemyEnd : " + ai.EnemyID);
 		msgCenter.Invoke (CommandEnum.AttackEnemy, ai);
 	}
 
+
+	
 	void AttackPlayer () {
 		if (CheckTempEnemy ()) {
 			LoopEnemyAttack ();	
@@ -372,7 +375,7 @@ public class AttackController {
 	}
 
 	void LoopAntiAttack() {
-		float intervTime = 0.4f;
+		float intervTime = 0.8f;
 		GameTimer.GetInstance ().AddCountDown (intervTime, AntiAttack);
 	}
 

@@ -94,13 +94,10 @@ public class BattleSkill : UIBaseUnity {
 		TUnitInfo tui = userUnitInfo.UnitInfo;
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (tui.LeaderSkill);
 		Refresh (0, sbi);
-//		Debug.LogError ("leaderskill : " + sbi);
 		sbi = DataCenter.Instance.GetSkill (tui.NormalSkill1);
 		Refresh (1, sbi);
-//		Debug.LogError ("NormalSkill1 : " + sbi);
 		sbi = DataCenter.Instance.GetSkill (tui.NormalSkill2);
 		Refresh (2, sbi);
-//		Debug.LogError ("NormalSkill2 : " + sbi);
 		sbi = DataCenter.Instance.GetSkill (tui.ActiveSkill);
 		Refresh (3, sbi);
 		if (sbi == null) {
@@ -109,17 +106,13 @@ public class BattleSkill : UIBaseUnity {
 		else {
 			roundLabel.text =  sbi.BaseInfo.skillCooling + "  round";
 		}
-//		Debug.LogError ("ActiveSkill : " + sbi);
 		sbi = DataCenter.Instance.GetSkill (tui.PassiveSkill);
 		Refresh (4, sbi);
-
-//		Debug.LogError ("PassiveSkill : " + sbi);
 	}
 
 	void Refresh(int index, SkillBaseInfo sbi) {
 		skillDic [SKill [index]].ShowSkillInfo (sbi);
 	}
-
 }
 
 public class SkillItem {
@@ -149,7 +142,6 @@ public class SkillItem {
 	}
 
 	void Clear() {
-
 		skillTypeLabel.enabled = false;
 		skillName.text = string.Empty;
 		skillDescribeLabel.text = string.Empty;
@@ -170,8 +162,9 @@ public class SkillItem {
 
 		for (int i = 0; i < blocks.Count; i++) {
 			skillSprite[i].spriteName = blocks[i].ToString();
+//			Debug.LogError(" i : " + i + "  skillSprite[i] : " + skillSprite[i] + " name : " + skillSprite[i].spriteName);
 		}
-		for (int i = blocks.Count - 1; i < skillSprite.Count; i++) {
+		for (int i = blocks.Count; i < skillSprite.Count; i++) {
 			skillSprite[i].spriteName = string.Empty;	
 		}
 	}

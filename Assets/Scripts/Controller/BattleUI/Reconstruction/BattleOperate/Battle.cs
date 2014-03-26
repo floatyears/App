@@ -21,9 +21,11 @@ public class Battle : UIBase {
 	public static int colorIndex = 0;
 	public static bool isShow = false;
 	private List<int> currentColor = new List<int>();
-	//end-----------------------------------------------------------
+	//end------------------------------------------------------------
 	public int cardHeight = 0;
 	private Vector3 localPosition = new Vector3 (-0.18f, -17f, 0f);
+
+	private AttackEffect attackEffect;
 
 	public Battle(string name):base(name) {
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
@@ -43,6 +45,7 @@ public class Battle : UIBase {
 	}
 	
 	public override void CreatUI () {
+		CreatEffect ();
 		CreatBack();
 		CreatCard();
 		CreatArea();
@@ -63,11 +66,11 @@ public class Battle : UIBase {
 			isShow = true;
 			GenerateShowCard();
 		}
-//		battleRootGameObject.SetActive(true);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
+		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 	}
 
 	public override void HideUI () {
@@ -77,7 +80,23 @@ public class Battle : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
+		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		battleRootGameObject.SetActive(false);
+	}
+
+	void CreatEffect () {
+		GameObject go = Resources.Load("Effect/AttackEffect") as GameObject;
+		go = NGUITools.AddChild (battleRootGameObject, go);
+		go.transform.localPosition = ViewManager.HidePos;
+		attackEffect = go.GetComponent<AttackEffect> ();
+	}
+
+	void AttackEnemy (object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;		
+		}
+		attackEffect.RefreshItem (ai);
 	}
 
 	public void StartBattle () {
@@ -168,17 +187,14 @@ public class Battle : UIBase {
 		string enemyName = "BattleEnemy";
 
 		tempObject = GetPrefabsObject(enemyName);
-
 		tempObject.layer = GameLayer.EnemyCard;
-
 		battleEnemy = tempObject.AddComponent<BattleEnemy>();
 		battleEnemy.battle = this;
 		battleEnemy.Init(enemyName);
 		battleEnemy.ShowUI ();
 	}
 
-	public void ShowEnemy(List<TEnemyInfo> count)
-	{
+	public void ShowEnemy(List<TEnemyInfo> count) {
 		battleEnemy.Refresh(count);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}

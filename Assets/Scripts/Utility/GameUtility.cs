@@ -102,7 +102,6 @@ public class DGTools {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -303,7 +302,7 @@ public class DGTools {
 	}
 
 	private static Dictionary<EUnitType, Color> typeColor = new Dictionary<EUnitType, Color> ();
-	public static Color32 TypeToColor (EUnitType type) {
+	public static Color TypeToColor (EUnitType type) {
 		Color value = new Color();
 		if (!typeColor.TryGetValue (type, out value)) {
 			value = Generate(type);

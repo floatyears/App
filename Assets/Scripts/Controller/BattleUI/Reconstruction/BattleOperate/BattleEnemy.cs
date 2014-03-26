@@ -94,7 +94,9 @@ public class BattleEnemy : UIBaseUnity {
 		}
 		monster.Clear();
 	}
+
 	float interv = 10f;
+
 	void SortEnemyItem(List<EnemyItem> temp) {
 		int count = temp.Count;
 		if (count == 0) {	return;	}

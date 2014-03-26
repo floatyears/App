@@ -26,7 +26,13 @@ public class BattleBottom : MonoBehaviour {
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
 		for (int i = 0; i < 5; i++) {
+
 			GameObject temp = transform.Find("Actor/" + i).gameObject;	
+			if(userUnitInfo[i] == null) {
+				temp.gameObject.SetActive(false);
+				continue;
+			}
+
 			TUnitInfo tui = userUnitInfo[i].UnitInfo;
 			temp.renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
 			UITexture tex =  transform.Find("ActorP/" + i).GetComponent<UITexture>();
@@ -63,7 +69,7 @@ public class BattleBottom : MonoBehaviour {
 			Debug.LogError("upi is null");
 			return;	
 		}
-		Debug.LogError ("name : " + name);
+//		Debug.LogError ("name : " + name);
 		int id = System.Int32.Parse (name);
 		battleQuest.battle.SwitchInput (true);
 		if (upi.UserUnit.ContainsKey (id)) {

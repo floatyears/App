@@ -34,7 +34,9 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 				continue;
 			}
 			passiveSkill.Add(item.MakeUserUnitKey(),ipe);
-			multipe.Add(item.MakeUserUnitKey(),item.AttackMultiple);
+			string name = item.MakeUserUnitKey();
+		
+			multipe.Add(name,item.AttackMultiple);
 		}
 	}
 
@@ -50,6 +52,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			DisposeTrap (false);
 		} else {
 			foreach (var item in passiveSkill.Values) {
+				Debug.LogError(tb);
 				item.Excute(tb, this);
 			}
 		}
