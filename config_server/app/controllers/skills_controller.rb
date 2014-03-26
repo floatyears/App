@@ -16,9 +16,7 @@ class SkillsController < ApplicationController
     if skills.nil?
     else
       @all_skills =  AllSkillConfig.decode(skills)
-    end
-    @skillpath = params[:skillpath] || "layouts/skillforms/normal"
-    
+    end    
   end
   
   def skill_type

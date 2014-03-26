@@ -21,20 +21,20 @@
 	6<%= radio_button_tag(:rare, 6) %>
 </p>
 <p>
-	skill1:<%= text_field_tag :skill1 %>
+	skill1:<%= select_tag :skill1,options_for_select(@skills) %>
 </p>
 
 <p>
-	skill2:<%= text_field_tag :skill2 %>
+	skill2:<%= select_tag :skill2,options_for_select(@skills) %>
 </p>
 <p>
-	leaderSkill:<%= text_field_tag :leaderSkill %>
+	leaderSkill:<%= select_tag :leaderSkill,options_for_select(@skills) %>
 </p>
 <p>
-	activeSkill:<%= text_field_tag :activeSkill %>
+	activeSkill:<%= select_tag :activeSkill,options_for_select(@skills) %>
 </p>
 <p>
-	passiveSkill:<%= text_field_tag :passiveSkill %>
+	passiveSkill:<%= select_tag :passiveSkill,options_for_select(@skills) %>
 </p>
 <!-- <p>
   activeSkillLevel:<%= text_field_tag :activeSkillLevel%>

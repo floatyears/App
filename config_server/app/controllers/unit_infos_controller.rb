@@ -16,12 +16,36 @@ class UnitInfosController < ApplicationController
   def new
     unit_keys =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact
     @units = {"请选择卡牌信息" => "请选择卡牌信息" }.merge unit_keys.inject({}){|hsh,key| hsh[key] = key.split("_")[2].to_i;hsh}
+    @skills = {}
+    allskills = $redis.get("X_SKILL_CONF")
+    unless allskills.nil?
+      @allskills = AllSkillConfig.decode($redis.get("X_SKILL_CONF"))
+      AllSkillConfig::ALL_SKILL.each do |key|
+        if @allskills[key].present?
+          @allskills[key].each do |skill|
+            @skills[skill.try(:baseInfo).try(:description)] = skill.try(:baseInfo).try(:id)
+          end
+        end
+      end
+    end
   end
 
   # GET /unit_infos/1/edit
   def edit
     unit_keys =  $redis.keys.map{|k|k if k.start_with?("X_UNIT_")}.compact
     @units = {"请选择卡牌信息" => "请选择卡牌信息" }.merge unit_keys.inject({}){|hsh,key| hsh[key] = key.split("_")[2].to_i;hsh}
+    @skills = {}
+    allskills = $redis.get("X_SKILL_CONF")
+    unless allskills.nil?
+      @allskills = AllSkillConfig.decode($redis.get("X_SKILL_CONF"))
+      AllSkillConfig::ALL_SKILL.each do |key|
+        if @allskills[key].present?
+          @allskills[key].each do |skill|
+            @skills[skill.try(:baseInfo).try(:description)] = skill.try(:baseInfo).try(:id)
+          end
+        end
+      end
+    end
   end
 
   # POST /unit_infos
