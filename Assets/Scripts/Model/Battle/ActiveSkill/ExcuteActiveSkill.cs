@@ -7,6 +7,10 @@ public class ExcuteActiveSkill {
 	public ExcuteActiveSkill(ILeaderSkill ils) {
 		leaderSkill = ils;
 		foreach (var item in ils.UserUnit.Values) {
+			if (item==null ){
+				continue;
+			}
+
 			ProtobufDataBase pudb = DataCenter.Instance.Skill[item.ActiveSkill];
 			IActiveSkillExcute skill = pudb as IActiveSkillExcute;
 			if(skill == null) {

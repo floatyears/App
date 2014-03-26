@@ -51,7 +51,7 @@ public class BattleBottom : MonoBehaviour {
 
 	void OnRealease () {
 		Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-		if (Physics.Raycast (ray, out rch,100f, GameLayer.Bottom << 31)) {
+		if (Physics.Raycast (ray, out rch,100f,GameLayer.Bottom << 31)) {
 			string name = rch.collider.name;
 			CheckCollider(name);
 		}

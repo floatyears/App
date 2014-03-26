@@ -151,6 +151,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         float attackV = attackValue * Proportion;
         float hurtValue = 0;
         for (int i = 0; i < partyItem.Count; i++) {
+			if(partyItem[i]==null || partyItem[i].unitUniqueId==0) {
+				continue;
+			}
             TUserUnit unitInfo = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
             hurtValue += unitInfo.CalculateInjured(attackType, attackV);
         }
@@ -175,6 +178,10 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         List<AttackImageUtility> tempAttackType = new List<AttackImageUtility>();
 		
         for (int i = 0; i < partyItem.Count; i++) {
+			if (partyItem[i]==null || partyItem[i].unitUniqueId == 0 ){
+				LogHelper.Log("skip empty partyItem:"+i+" partyItem[i]:"+partyItem[i]);
+				continue;
+			}
             if (i == 0) {
                 AttackInfo recoverHp = crh.RecoverHP(skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
                 if (recoverHp != null) {
@@ -300,7 +307,13 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         int bloodNum = 0;
         for (int i = 0; i < instance.items.Count; i++) {
             uint unitUniqueID = instance.items[i].unitUniqueId;
-            bloodNum += DataCenter.Instance.UserUnitList.GetMyUnit(unitUniqueID).InitBlood;
+			if ( unitUniqueID == 0 ) {
+				continue;
+			}
+			TUserUnit uu = DataCenter.Instance.UserUnitList.GetMyUnit(unitUniqueID);
+			if (uu != null ) {
+				bloodNum += uu.InitBlood;
+			}
         }
         return bloodNum;
     }

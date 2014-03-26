@@ -28,6 +28,9 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		TSkillBoost tbs = pdb as TSkillBoost;
 		if (tbs != null) {
 			foreach (var item in leadSkill.UserUnit.Values) {
+				if( item == null) {
+					continue;
+				}
 				item.SetAttack(tbs.GetBoostValue, tbs.GetTargetValue, tbs.GetTargetType, tbs.GetBoostType);
 			}
 			return true;
