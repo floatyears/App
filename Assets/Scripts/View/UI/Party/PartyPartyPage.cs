@@ -105,6 +105,11 @@ public class PartyPartyPage : PartyPageLogic{
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, targetUnit);
 	}
 
+	bool CheckCostLimit(){
+		bool isLimited = false;
+		return isLimited;
+	}
+
 	void ReplaceFocusPartyItem(object data) {
 		LogHelper.Log("PartyPageUILogic.ReplaceFocusPartyItem(), Start...");
 		
@@ -112,7 +117,7 @@ public class PartyPartyPage : PartyPageLogic{
 		uint uniqueId = newPartyUnit.ID;
 		
 		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty Before....");
-		
+
 		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, uniqueId);
 		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty After....");
 		
@@ -129,8 +134,7 @@ public class PartyPartyPage : PartyPageLogic{
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
 		
 	}
-
-
+	
 	void AddCommandListener() {
 		MsgCenter.Instance.AddListener(CommandEnum.ShowFocusUnitDetail, ShowFocusUnitDetail);
 		MsgCenter.Instance.AddListener(CommandEnum.ReplacePartyFocusItem, ReplaceFocusPartyItem);
