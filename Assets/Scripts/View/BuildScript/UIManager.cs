@@ -135,6 +135,11 @@ public class UIManager {
 		DecoratorBase temp = null;
 		switch (sEnum)
 		{
+
+        case SceneEnum.Loading:
+            temp = new LoadingDecorator( sEnum );
+            break;
+
 		case SceneEnum.Quest:
 			temp = new QuestDecorator( sEnum );
 			break;

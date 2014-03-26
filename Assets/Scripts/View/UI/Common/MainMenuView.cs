@@ -84,6 +84,6 @@ public class MainMenuView : UIComponentUnity {
             if(valid)  UIEventListener.Get(item).onClick += OnClickCallback; 
             else UIEventListener.Get(item).onClick -= OnClickCallback;
         }
-        this.gameObject.SetActive(valid);
+//        this.gameObject.SetActive(valid);
     }
 }

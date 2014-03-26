@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -101,13 +101,16 @@ public class SearchFriendController : ConcreteComponent
 		if (rsp.header.code != (int)ErrorCode.SUCCESS)
 		{
 			LogHelper.Log("OnRspFindFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-			if (rsp.header.code == ErrorCode.EF_FRIEND_NOT_EXISTS)
-			{
-				ShowFriendNotExist();
-			}
-			else if (rsp.header.code == ErrorCode.EF_IS_ALREADY_FRIEND){
-				ShowAlreadyFriend();
-			}
+            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+//			if (rsp.header.code == ErrorCode.EF_FRIEND_NOT_EXISTS)
+//			{
+//				ShowFriendNotExist();
+//			}
+//			else if (rsp.header.code == ErrorCode.EF_IS_ALREADY_FRIEND){
+//				ShowAlreadyFriend();
+//			}
+//            
+
 			return;
 		}
 

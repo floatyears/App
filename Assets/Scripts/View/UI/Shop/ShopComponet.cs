@@ -185,6 +185,7 @@ public class ShopComponent : ConcreteComponent {
         if (rsp.header.code != (int)ErrorCode.SUCCESS)
         {
             LogHelper.Log("OnRspFriendExpansion code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
             return;
         }
         
@@ -240,6 +241,7 @@ public class ShopComponent : ConcreteComponent {
         if (rsp.header.code != (int)ErrorCode.SUCCESS)
         {
             LogHelper.Log("OnRspStartminaRecover code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
             return;
         }
 
@@ -305,6 +307,7 @@ public class ShopComponent : ConcreteComponent {
         if (rsp.header.code != (int)ErrorCode.SUCCESS)
         {
             LogHelper.Log("RspUnitMaxExpand code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
             return;
         }
         

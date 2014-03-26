@@ -1,4 +1,5 @@
 
+using UnityEngine;
 //--------------------------------Decorator-----------------------------------
 
 //--------------------------------Start---------------------------------------
@@ -27,23 +28,57 @@ public class StartDecorator : DecoratorBase{
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent(bottom);
 
-		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
-		tipsBar.SetComponent(playerInfoBar);
-
         MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-		noteWindow.SetComponent(tipsBar);
+        noteWindow.SetComponent(playerInfoBar);
+        
+        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+        maskController.SetComponent(noteWindow);
 
-		MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-		maskController.SetComponent(noteWindow);
+		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
+        tipsBar.SetComponent(maskController);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
-		selectUnitInfo.SetComponent(maskController);
+        selectUnitInfo.SetComponent(tipsBar);
 
 		lastDecorator = selectUnitInfo;
 		lastDecorator.CreatUI();
 
 	}
 }
+
+//--------------------------------Loading---------------------------------------
+public class LoadingDecorator : DecoratorBase{
+    public LoadingDecorator(SceneEnum sEnum) : base(sEnum){}
+    
+    public override void ShowScene(){
+        base.ShowScene();
+    }
+    
+    public override void HideScene(){
+        base.HideScene();
+    }
+    
+    public override void DestoryScene(){
+        base.DestoryScene();
+    }
+    
+    public override void DecoratorScene(){
+
+        LoadingLogic background = CreatComponent< LoadingLogic >(UIConfig.loadingWindowName);
+        background.SetComponent(decorator);
+
+        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
+        noteWindow.SetComponent(background);
+        
+        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+        maskController.SetComponent(noteWindow);
+        
+        lastDecorator = maskController;
+        lastDecorator.CreatUI();
+        
+    }
+}
+
 
 //--------------------------------Quest---------------------------------------
 public class QuestDecorator : DecoratorBase

@@ -168,9 +168,10 @@ public class TPartyInfo : ProtobufDataBase {
     public void onRspChangeParty(object data) {
         //nothing to do
         if (data != null) {
-            bbproto.RspChangeParty rspChangeParty = data as bbproto.RspChangeParty;
+            bbproto.RspChangeParty rsp = data as bbproto.RspChangeParty;
 			
-            LogHelper.Log("rspChangeParty code:{0}, error:{1}", rspChangeParty.header.code, rspChangeParty.header.error);
+            LogHelper.Log("rspChangeParty code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 //			bool success = (rspChangeParty.header.code == 0 );
         }
 

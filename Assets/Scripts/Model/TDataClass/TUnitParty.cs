@@ -194,6 +194,11 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                     skillUtility.alreadyUseSkill.Add(ai.SkillID);
                     AttackImageUtility aiu = new AttackImageUtility();
                     aiu.attackProperty = ai.AttackType;
+
+					Debug.LogError("ai.UserUnitID:"+ai.UserUnitID);
+					if ( DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID) == null)
+						Debug.LogError("DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID)== null");
+
                     aiu.userProperty = DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID).UnitType;
                     aiu.skillID = ai.SkillID;
                     aiu.attackID = ai.AttackID;

@@ -57,6 +57,9 @@ public partial class TextCenter {
         textDict.Add("Back", "Back");
         textDict.Add("Open", "Open");
 
+        textDict.Add("retry", "Retry");
+        textDict.Add("error", "error");
+
         textDict.Add("SearchError", "Search Error");
         textDict.Add("UserNotExist", "The Friend {0} you search not exist");
 
@@ -155,5 +158,49 @@ public partial class TextCenter {
         ///
 	    textDict.Add ("StartQuestFail", "Start quest request failed");
 
+
+        // net error
+        textDict.Add("success", "success");
+        textDict.Add("ERROR_BASE", "ERROR_BASE");
+        textDict.Add("FAILED", "FAILED");
+        textDict.Add("INVALID_PARAMS", "INVALID_PARAMS");
+        textDict.Add("MARSHAL_ERROR", "MARSHAL_ERROR");
+        textDict.Add("UNMARSHAL_ERROR", "UNMARSHAL_ERROR");
+        textDict.Add("IOREAD_ERROR", "IOREAD_ERROR");
+        textDict.Add("IOWRITE_ERROR", "IOWRITE_ERROR");
+        textDict.Add("CONNECT_DB_ERROR", "CONNECT_DB_ERROR");
+        textDict.Add("READ_DB_ERROR", "READ_DB_ERROR");
+        textDict.Add("SET_DB_ERROR", "SET_DB_ERROR");
+        textDict.Add("DATA_NOT_EXISTS", "DATA_NOT_EXISTS");
+        
+        textDict.Add("EU_USER_BASE", "EU_USER_BASE");
+        textDict.Add("EU_INVALID_USERID", "EU_INVALID_USERID");
+        textDict.Add("EU_GET_USERINFO_FAIL", "EU_GET_USERINFO_FAIL");
+        textDict.Add("EU_USER_NOT_EXISTS", "EU_USER_NOT_EXISTS");
+        textDict.Add("EU_GET_NEWUSERID_FAIL", "EU_GET_NEWUSERID_FAIL");
+        textDict.Add("EU_UPDATE_USERINFO_ERROR", "EU_UPDATE_USERINFO_ERROR");
+        textDict.Add("EF_FRIEND_BASE", "EF_FRIEND_BASE");
+        textDict.Add("EF_FRIEND_NOT_EXISTS", "EF_FRIEND_NOT_EXISTS");
+        textDict.Add("EF_ADD_FRIEND_FAIL", "EF_ADD_FRIEND_FAIL");
+        textDict.Add("EF_DEL_FRIEND_FAIL", "EF_DEL_FRIEND_FAIL");
+        textDict.Add("EF_IS_ALREADY_FRIEND", "EF_IS_ALREADY_FRIEND");
+        textDict.Add("EF_INVALID_FRIEND_STATE", "EF_INVALID_FRIEND_STATE");
+        
+        textDict.Add("EQ_QUEST_BASE", "EQ_QUEST_BASE");
+        textDict.Add("EQ_QUEST_ID_INVALID", "EQ_QUEST_ID_INVALID");
+        textDict.Add("EQ_GET_QUESTINFO_ERROR", "EQ_GET_QUESTINFO_ERROR");
+        textDict.Add("EQ_STAMINA_NOT_ENOUGH", "EQ_STAMINA_NOT_ENOUGH");
+        textDict.Add("EQ_GET_QUEST_CONFIG_ERROR", "EQ_GET_QUEST_CONFIG_ERROR");
+        textDict.Add("EQ_GET_QUEST_LOG_ERROR", "EQ_GET_QUEST_LOG_ERROR");
+        textDict.Add("EQ_UPDATE_QUEST_RECORD_ERROR", "EQ_UPDATE_QUEST_RECORD_ERROR");
+        textDict.Add("EQ_INVALID_DROP_UNIT", "EQ_INVALID_DROP_UNIT");
+        textDict.Add("EQ_QUEST_IS_PLAYING", "EQ_QUEST_IS_PLAYING");
+        textDict.Add("E_UNIT_BASE", "E_UNIT_BASE");
+        textDict.Add("E_UNIT_ID_ERROR", "E_UNIT_ID_ERROR");
+        textDict.Add("E_LEVELUP_NO_ENOUGH_MONEY", "E_LEVELUP_NO_ENOUGH_MONEY");
+        textDict.Add("E_GET_UNIT_INFO_ERROR", "E_GET_UNIT_INFO_ERROR");
+
+        textDict.Add("CONNECT_ERROR", "Connect network error. Please confirm your networking and try again.");
+        textDict.Add("SERVER_500", "Now server is busying. Please wait and try again.");
     }
 }

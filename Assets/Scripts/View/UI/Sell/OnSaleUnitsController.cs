@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
@@ -72,6 +72,7 @@ public class OnSaleUnitsController : ConcreteComponent {
 		
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
 //			LogHelper.Log("RspSellUnit code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 			return;
 		}
 		

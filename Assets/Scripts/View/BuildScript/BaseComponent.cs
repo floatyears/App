@@ -24,7 +24,6 @@ public class RootComponent
 
 	public RootComponent(string name)
 	{
-
 		config = GetUIInsConfig(name, errMsg);
 	}
 

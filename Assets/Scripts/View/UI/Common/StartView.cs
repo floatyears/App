@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class StartScene : BaseComponent {
-	StartDecorator dis;
+//	StartDecorator dis;
+    StartDecorator dis;
 	public StartScene(string uiName) : base(uiName) {}
 	
 	public override void CreatUI () {}

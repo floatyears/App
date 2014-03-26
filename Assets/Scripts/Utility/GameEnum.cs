@@ -2,6 +2,8 @@ public enum SceneEnum
 {
 	None,
 
+    Loading,
+
 	Start,
 
 	Quest,

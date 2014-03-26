@@ -69,26 +69,26 @@ public class EvolveStart: ProtoManager {
         return (err.Code == (int)ErrorCode.SUCCESS);
     }
 
-    private void OnRspEvolveStart(object data) {
-        if (data == null)
-            return;
-        
-        LogHelper.Log("ReqEvolveStart() begin");
-        LogHelper.Log(data);
-        bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
-        
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("ReqEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-        
-        // TODO do evolve start over;
-        int staminaNow = rsp.staminaNow;
-        uint staminaRecover = rsp.staminaRecover;
-        bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
-        LogHelper.Log("OnRspEvolveStart() finished, staminaNow {0}, staminaRecover {1}," +
-            "questDungeonData.boss {2}", staminaNow, staminaRecover, questDungeonData.boss);
-    }
+//    private void OnRspEvolveStart(object data) {
+//        if (data == null)
+//            return;
+//        
+//        LogHelper.Log("ReqEvolveStart() begin");
+//        LogHelper.Log(data);
+//        bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
+//        
+//        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+//            LogHelper.Log("ReqEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+//            return;
+//        }
+//        
+//        // TODO do evolve start over;
+//        int staminaNow = rsp.staminaNow;
+//        uint staminaRecover = rsp.staminaRecover;
+//        bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
+//        LogHelper.Log("OnRspEvolveStart() finished, staminaNow {0}, staminaRecover {1}," +
+//            "questDungeonData.boss {2}", staminaNow, staminaRecover, questDungeonData.boss);
+//    }
 }
 
 
@@ -241,40 +241,40 @@ public class NetWorkEvovleTester {
     }
 
     private void OnRspEvolveStart(object data) {
-        if (data == null){
-            Debug.Log("OnRspEvolveStart(), response null");
-            return;
-        }
-
-        LogHelper.Log("RspEvolveStart() begin");
-        LogHelper.Log(data);
-        bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
-        
-        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.LogError("RspEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            return;
-        }
-        
-        // TODO do evolve start over;
-        int staminaNow = rsp.staminaNow;
-        uint staminaRecover = rsp.staminaRecover;
-        bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
-//        if (questDungeonData..Count > 0){
-        List<uint> dropIds = new List<uint>();
-        List<uint> hitGrids = new List<uint>();
-        foreach (var item in questDungeonData.floors[0].gridInfo) {
-            hitGrids.Add((uint)item.position);
-            LogHelper.Log("TTTTTTTTT test position {0}", item.position);
-            if (item.dropId > 0){
-                dropIds.Add(item.dropId);
-                LogHelper.Log("TTTTTTTTT test drop dropId {0}", item.dropId);
-                break;
-            }
-        }
-
-        LogHelper.Log("OnRspEvolveStart() finished, staminaNow {0}, staminaRecover {1}," +
-                      "questDungeonData.boss {2}", staminaNow, staminaRecover, questDungeonData.boss);
-        TestEvovleDone(dropIds, hitGrids);
+//        if (data == null){
+//            Debug.Log("OnRspEvolveStart(), response null");
+//            return;
+//        }
+//
+//        LogHelper.Log("RspEvolveStart() begin");
+//        LogHelper.Log(data);
+//        bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
+//        
+//        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+//            LogHelper.LogError("RspEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+//            return;
+//        }
+//        
+//        // TODO do evolve start over;
+//        int staminaNow = rsp.staminaNow;
+//        uint staminaRecover = rsp.staminaRecover;
+//        bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
+////        if (questDungeonData..Count > 0){
+//        List<uint> dropIds = new List<uint>();
+//        List<uint> hitGrids = new List<uint>();
+//        foreach (var item in questDungeonData.floors[0].gridInfo) {
+//            hitGrids.Add((uint)item.position);
+//            LogHelper.Log("TTTTTTTTT test position {0}", item.position);
+//            if (item.dropId > 0){
+//                dropIds.Add(item.dropId);
+//                LogHelper.Log("TTTTTTTTT test drop dropId {0}", item.dropId);
+//                break;
+//            }
+//        }
+//
+//        LogHelper.Log("OnRspEvolveStart() finished, staminaNow {0}, staminaRecover {1}," +
+//                      "questDungeonData.boss {2}", staminaNow, staminaRecover, questDungeonData.boss);
+//        TestEvovleDone(dropIds, hitGrids);
     }
 
     public void TestEvovleDone(List<uint> dropIds, List<uint> hitGrids) {
@@ -303,6 +303,7 @@ public class NetWorkEvovleTester {
         
         if (rsp.header.code != (int)ErrorCode.SUCCESS) {
             LogHelper.Log("ReqEvolveDone code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
             return;
         }
         

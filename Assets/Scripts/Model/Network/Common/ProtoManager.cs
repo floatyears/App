@@ -26,10 +26,8 @@ public class ProtoManager: ProtobufDataBase, INetBase {
 
         if (MakePacket()) { //make proto packet to Data
 //			LogHelper.Log ("MakePacket => proto:{0} InstanceType:{1}",protoName, reqType);
-			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, true));
-			MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, true);
-
             http.Send(this, protoName, Data);
+            SetBlockMask(true);
         }
     }
 	
@@ -43,15 +41,23 @@ public class ProtoManager: ProtobufDataBase, INetBase {
             OnResponse(false);
             LogHelper.LogError("++++++proto.ParseFormBytes failed.++++++");
         }
-		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, false));
-		MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, false);
+
         OnResponseEnd(this.instObj);
+        SetBlockMask(false);
+    }
+
+    public void SetBlockMask(bool flag){
+//        LogHelper.LogError("SetBlockMask(), {0}", flag);
+        MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, flag));
+        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, flag);
     }
 
     public virtual void OnResponse(bool success) {
+        // implement in derived class
     }
 
     public virtual bool MakePacket() {
+        //make packet to Data for send to server
         return true;
     }
 
@@ -59,7 +65,9 @@ public class ProtoManager: ProtobufDataBase, INetBase {
 
     public virtual void OnRequest(object data, DataListener callback) {
         OnRequestBefore(callback);
+//		Debug.LogError ("OnReceiveCommand");
         OnReceiveCommand(data);
+
     }
 
     protected virtual void OnReceiveCommand(object data) {
@@ -74,6 +82,12 @@ public class ProtoManager: ProtobufDataBase, INetBase {
         if (netDoneCallback != null) {
             netDoneCallback(data);
         }
+
     }
+}
+
+public abstract class NetDataBase {
+    protected INetBase netBase;
+
 }
 
