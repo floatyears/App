@@ -7,13 +7,14 @@ import (
 	"common"
 	"common/EC"
 	"common/Error"
+	"common/config"
 	"common/consts"
 	"common/log"
 	"data"
 	"model/unit"
 )
 
-func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail, e Error.Error) {
+func AddNewUser(db *data.Data, uuid string, selectRole uint32) (userdetail *bbproto.UserInfoDetail, e Error.Error) {
 	if db == nil {
 		return nil, Error.New(EC.INVALID_PARAMS, "invalid db pointer")
 	}
@@ -29,9 +30,9 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 	defaultName := consts.DEFAULT_USER_NAME
 	tNow := common.Now()
 	rank := int32(1) //int32(30 + common.Randn(10)) //
-	exp := int32(0)//((1+rank)*100*rank/2) + (100*rank/8*common.Rand(1, 7))
-	staminaNow := int32(100)
-	staminaMax := int32(100)
+	exp := config.GetUserRankExp(rank) //((1+rank)*100*rank/2) + (100*rank/8*common.Rand(1, 7))
+	staminaMax := config.GetStaminaMax( rank )
+	staminaNow := staminaMax
 	staminaRecover := uint32(tNow + 600) //10 minutes
 
 	userdetail.User = &bbproto.UserInfo{
@@ -42,9 +43,9 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		StaminaNow:     &staminaNow,
 		StaminaMax:     &staminaMax,
 		StaminaRecover: &staminaRecover,
-		FriendMax:    proto.Int32(consts.N_DEFAULT_FRIEND_MAX),
-		UnitMax:     proto.Int32(consts.N_DEFAULT_UNIT_MAX),
-		CostMax:     proto.Int32(consts.N_DEFAULT_COST_MAX),
+		FriendMax:    proto.Int32(config.GetFriendMax(rank)),
+		UnitMax:     proto.Int32(config.GetUnitMax(rank)),
+		CostMax:     proto.Int32(config.GetCostMax(rank)),
 	}
 
 	userdetail.Account = &bbproto.AccountInfo{
@@ -55,7 +56,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		StoneFree:      proto.Int32(200),
 		Stone:          proto.Int32(200),
 		FriendPoint:    proto.Int32(10000),
-		FirstSelectNum: proto.Int32(1),
+		FirstSelectNum: proto.Int32(int32(selectRole)),
 	}
 
 	//TODO: fill other default values
@@ -99,7 +100,7 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 		}
 		log.T("make userunit level:%v exp:%v", level, exp-1)
 
-		userUnit2 := &bbproto.UserUnit{
+		userUnit := &bbproto.UserUnit{
 			UniqueId:  proto.Uint32(uniqueId),
 			UnitId:    proto.Uint32(unitId),
 			Exp:       proto.Int32(exp-1),
@@ -107,12 +108,15 @@ func AddNewUser(db *data.Data, uuid string) (userdetail *bbproto.UserInfoDetail,
 			GetTime:   proto.Uint32(tNow),
 			AddAttack: proto.Int32(common.Randn(int32(i) % 10)),
 			AddHp:     proto.Int32(common.Randn(int32(i) % 10)),
+			//ActiveSkillLevel: proto.Int32(1), //TODO: only assign it when levelUp match uprate
 		}
-		userdetail.UnitList = append(userdetail.UnitList, userUnit2)
+		userdetail.UnitList = append(userdetail.UnitList, userUnit)
+
+		if( unitId == selectRole ) {
+			userdetail.User.Unit = userdetail.UnitList[len(userdetail.UnitList)-1] //currParty's leader
+		}
 	}
 
-	randNum:=common.Randn(20)
-	userdetail.User.Unit = userdetail.UnitList[randNum] //currParty's leader
 
 	//make default party
 	userdetail.Party = &bbproto.PartyInfo{}

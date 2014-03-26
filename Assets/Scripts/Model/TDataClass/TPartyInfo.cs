@@ -189,7 +189,10 @@ public class TPartyInfo : ProtobufDataBase {
             bbproto.RspChangeParty rsp = data as bbproto.RspChangeParty;
 			
             LogHelper.Log("rspChangeParty code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			if (rsp.header.code != ErrorCode.SUCCESS){
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+
+			}
 //			bool success = (rspChangeParty.header.code == 0 );
         }
 

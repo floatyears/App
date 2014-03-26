@@ -8,6 +8,7 @@ public class AuthUser: ProtoManager {
     private bbproto.ReqAuthUser reqAuthUser;
     private bbproto.RspAuthUser rspAuthUser;
     private uint userId;
+	private uint userSelectRole;
 
     public AuthUser() {
     }
@@ -40,6 +41,7 @@ public class AuthUser: ProtoManager {
         reqAuthUser.terminal = new TerminalInfo();
         reqAuthUser.header.userId = userId;
         reqAuthUser.terminal.uuid = uuid;
+		reqAuthUser.selectRole = userSelectRole;
 
         ErrorMsg err = SerializeData(reqAuthUser); // save to Data for send out
 		
@@ -55,6 +57,9 @@ public class AuthUser: ProtoManager {
 
     protected override void OnReceiveCommand(object data) {
 //		LogHelper.Log ("OnReceiveCommand authUser...");
+		if (data != null ) {
+			userSelectRole = (uint)data;
+		}
         Send(); //send request to server
     }
 
