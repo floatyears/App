@@ -391,8 +391,7 @@ public class QuestSelectDecorator : DecoratorBase
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
@@ -759,8 +758,7 @@ public class InformationDecorator : DecoratorBase
 }
 
 //--------------------------------SearchFriend------------------------------------------
-public class SearchFriendDecorator : DecoratorBase
-{
+public class SearchFriendDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
 	public SearchFriendDecorator(SceneEnum sEnum) : base(sEnum){}
 	
