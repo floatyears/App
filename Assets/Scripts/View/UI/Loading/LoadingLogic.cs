@@ -91,8 +91,8 @@ public class LoadingLogic : ConcreteComponent {
             
             if (rspAuthUser.unitList != null) {
                 foreach (UserUnit unit in rspAuthUser.unitList) {
-                    DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
-                    DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
+					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
                 }
                 LogHelper.Log("rspAuthUser add to myUserUnit.count: {0}", rspAuthUser.unitList.Count);
             }

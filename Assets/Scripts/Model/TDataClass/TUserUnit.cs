@@ -317,13 +317,14 @@ public class TUserUnit : ProtobufDataBase {
     }
 
     public int Level {
-        get {
-            return instance.level;
-        }
-		set {
-			instance.level = value;
-		}
+        get { return instance.level; }
+		set { instance.level = value; }
     }
+
+	public int ActiveSkillLevel {
+		get { return instance.activeSkillLevel; }
+		set { instance.activeSkillLevel = value; }
+	}
 
     public string AddNumber {
         get {
