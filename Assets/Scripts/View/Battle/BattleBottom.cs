@@ -22,16 +22,17 @@ public class BattleBottom : MonoBehaviour {
 		battleSkillObject.SetActive (false);
 
 		if (upi == null) {
-			upi = DataCenter.Instance.PartyInfo.CurrentParty; //ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo,new ErrorMsg()) as TUnitParty;		
-		}
-		for (int i = 0; i < 5; i++) {
-			GameObject tex = transform.Find("Actor/" + i).gameObject;	
-			actorObject.Add(i,tex);
+			upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
-		foreach (var item in userUnitInfo) {
-			actorObject[item.Key].renderer.material.SetTexture("_MainTex",item.Value.UnitInfo.GetAsset(UnitAssetType.Profile));
+		for (int i = 0; i < 5; i++) {
+			GameObject temp = transform.Find("Actor/" + i).gameObject;	
+			TUnitInfo tui = userUnitInfo[i].UnitInfo;
+			temp.renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
+			temp = transform.Find("Actor/ + " + i + "Top").gameObject;
+			temp.renderer.material.SetColor("_MainColor",  DGTools.TypeToColor(tui.Type));
 		}
+
 		List<int> haveInfo = new List<int> (userUnitInfo.Keys);
 		for (int i = 0; i < 5; i++) {
 			if(!haveInfo.Contains(i)) {

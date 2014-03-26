@@ -285,6 +285,7 @@ public class DGTools {
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
 		string url = path +unitInfoPath + unitID;
 		TextAsset ta = LoadTextAsset (url);
+		Debug.LogError (ta + " url : " + url);
 		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
 		TUnitInfo tui = new TUnitInfo (ui);
 		return tui;
@@ -301,6 +302,33 @@ public class DGTools {
 	static TextAsset LoadTextAsset (string url) {
 		return Resources.Load (url, typeof(TextAsset)) as TextAsset;
 	}
+
+	public static Color TypeToColor (EUnitType type) {
+		switch (type) {
+		case EUnitType.UDARK:
+			return Color.black;
+
+		case EUnitType.UFIRE:
+			return Color.red;
+
+		case EUnitType.UWATER:
+			return Color.blue;
+
+		case EUnitType.UWIND:
+			return Color.green;
+
+		case EUnitType.UHeart:
+			return Color.magenta;
+				
+		case EUnitType.ULIGHT:
+			return Color.yellow;
+					
+		case EUnitType.UNONE:
+		case EUnitType.UALL:
+		default:
+			return Color.white;
+			}
+		}
 }
 
 public class GameLayer

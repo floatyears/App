@@ -15,15 +15,17 @@ public class BlockerMaskParams{
 
 public class MaskController : ConcreteComponent {
 
-	public MaskController(string name) : base(name){}
+	public MaskController(string name) : base(name){
+		AddCommandListener();
+	}
 	public override void ShowUI(){
 		base.ShowUI();
-		AddCommandListener();
+
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		RemoveCommandListener();
+//		RemoveCommandListener();
 	} 
 
 	public override void Callback(object data){

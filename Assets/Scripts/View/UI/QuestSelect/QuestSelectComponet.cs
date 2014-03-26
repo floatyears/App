@@ -85,14 +85,11 @@ public class QuestSelectComponent : ConcreteComponent{
 		else {
 			tsi = currentStageInfo;
 			questID = tsi.QuestInfo[ currentQuestIndex ].ID;
-		uint stageID = tsi.ID;
-		Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
-		idArgs.Add("QuestID", questID);
-		idArgs.Add("StageID", stageID);
-		MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
-	}
-
-
-
+			uint stageID = tsi.ID;
+			Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
+			idArgs.Add("QuestID", questID);
+			idArgs.Add("StageID", stageID);
+			MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
+		}
 	}
 }
