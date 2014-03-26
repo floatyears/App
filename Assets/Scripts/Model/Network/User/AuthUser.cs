@@ -8,7 +8,7 @@ public class AuthUser: ProtoManager {
     private bbproto.ReqAuthUser reqAuthUser;
     private bbproto.RspAuthUser rspAuthUser;
     private uint userId;
-	private int userSelectRole;
+	private uint userSelectRole;
 
     public AuthUser() {
     }
@@ -58,7 +58,7 @@ public class AuthUser: ProtoManager {
     protected override void OnReceiveCommand(object data) {
 //		LogHelper.Log ("OnReceiveCommand authUser...");
 		if (data != null ) {
-			userSelectRole = data as int;
+			userSelectRole = (uint)data;
 		}
         Send(); //send request to server
     }

@@ -26,7 +26,7 @@ func RefreshRank(user *bbproto.UserInfo ) (addRank, addCostMax, addFriendMax, ad
 	oldFriendMax := *user.FriendMax
 	oldStaminaMax := *user.StaminaMax
 
-	user.Rank = proto.Int32( GetRankByExp(*user.Exp) )
+	user.Rank = proto.Int32( config.GetRankByExp(*user.Exp) )
 	*user.CostMax = config.GetCostMax(*user.Rank)
 	*user.FriendMax = config.GetFriendMax(*user.Rank)
 	*user.UnitMax = config.GetUnitMax(*user.Rank)
@@ -42,19 +42,6 @@ func RefreshRank(user *bbproto.UserInfo ) (addRank, addCostMax, addFriendMax, ad
 		*user.UserId, addRank, addCostMax, addUnitMax, addFriendMax, addStaminaMax)
 
 	return addRank, addCostMax, addFriendMax, addUnitMax,addStaminaMax, Error.OK()
-}
-
-//return user rank by exp (in total)
-func GetRankByExp(exp int32) (rank int32) {
-	totalExp := int32(0)
-	for rank:=int32(1); rank < consts.N_MAX_USER_RANK; rank++{
-		totalExp += config.GetUserRankExp(rank)
-		if totalExp >= exp {
-			log.T("GetRankByExp( exp=%v) return new rank=%v.", exp, rank)
-			return rank
-		}
-	}
-	return 1
 }
 
 //update tRecover, userStamina

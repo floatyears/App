@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -31,7 +31,7 @@ public class ActiveStrengthenAttack : ActiveSkill, IActiveSkillExcute {
 		ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackType = (int)instance.targetType;
-//		ai.AttackRace = (int)instance.targetRace;
+		ai.AttackRace = (int)instance.targetRace;
 		ai.AttackValue = instance.value;
 		ai.AttackRound = instance.periodValue;
 		MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, ai);

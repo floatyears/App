@@ -11,6 +11,7 @@ import (
 	"common/EC"
 	"common/Error"
 	"common/consts"
+	"common/config"
 	"common/log"
 	"data"
 	_ "quest"
@@ -104,16 +105,26 @@ func resetAccount(db *data.Data, uid uint32) (userDetail *bbproto.UserInfoDetail
 		return nil, Error.New(EC.UNMARSHAL_ERROR)
 	}
 
+	rank := *userDetail.User.Rank
+	
 	userDetail.Account.Money = proto.Int32(5000)
 	userDetail.Account.Stone = proto.Int32(500)
 	userDetail.Account.FriendPoint = proto.Int32(5000)
+
+	*userDetail.User.StaminaMax = config.GetStaminaMax(rank)
+	*userDetail.User.CostMax = config.GetCostMax(rank) 
+	*userDetail.User.UnitMax = config.GetUnitMax(rank)
+	*userDetail.User.FriendMax = config.GetFriendMax(rank)
+
+
 	*userDetail.User.StaminaNow = *userDetail.User.StaminaMax
 
-	rank := *userDetail.User.Rank
-	*userDetail.User.Exp = (1+rank)*200*rank/2 + 200*rank/8*common.Rand(1, 7)
-	log.T("User.Exp:%v", *userDetail.User.Exp)
+	randExp:= int32(1)
 
-	//save data
+	//log.T("User.Exp:%v rank:%v oldExp:%v randExp(%v) ", *userDetail.User.Exp, rank,*userDetail.User.Exp, randExp)
+	*userDetail.User.Exp = config.GetTotalRankExp(rank) + randExp
+
+//save data
 	zUserData, err := proto.Marshal(userDetail)
 	if err != nil {
 		return nil, Error.New(EC.MARSHAL_ERROR, err)
@@ -141,7 +152,9 @@ func main() {
 
 	uid := common.Atou(args[0])
 	log.T("resetAccount for: {uid}", uid)
+	for uid=100; uid<2016; uid++{
 	resetAccount(nil, uid)
+	}
 
 	log.Fatal("done.")
 }

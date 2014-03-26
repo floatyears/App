@@ -108,6 +108,7 @@ func AddNewUser(db *data.Data, uuid string, selectRole uint32) (userdetail *bbpr
 			GetTime:   proto.Uint32(tNow),
 			AddAttack: proto.Int32(common.Randn(int32(i) % 10)),
 			AddHp:     proto.Int32(common.Randn(int32(i) % 10)),
+			//ActiveSkillLevel: proto.Int32(1), //TODO: only assign it when levelUp match uprate
 		}
 		userdetail.UnitList = append(userdetail.UnitList, userUnit)
 
