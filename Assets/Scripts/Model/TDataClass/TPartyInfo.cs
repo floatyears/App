@@ -129,7 +129,24 @@ public class TPartyInfo : ProtobufDataBase {
         } 
     }
 
-    public	bool ChangeParty(int pos, uint unitUniqueId) { 
+	public bool IsCostOverflow(int pos, uint newUniqueId) {
+		if( newUniqueId != 0 ) { // check cost max
+			int newCost = DataCenter.Instance.UserUnitList.GetMyUnit( newUniqueId ).UnitInfo.Cost;
+			int oldCost = 0;
+			if( CurrentParty.UserUnit[pos] != null ) {
+				oldCost = CurrentParty.UserUnit[pos].UnitInfo.Cost;
+			}
+			
+			if ( (CurrentParty.TotalCost - oldCost + newCost) > DataCenter.Instance.UserInfo.CostMax ) {
+				Debug.LogError("TPartyInfo.ChangeParty:: costTotal="+(CurrentParty.TotalCost - oldCost + newCost)+" > "+DataCenter.Instance.UserInfo.CostMax);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public	bool ChangeParty(int pos, uint newUniqueId) { 
         if (CurrentPartyId >= instance.partyList.Count) {
 			Debug.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:"+CurrentPartyId+" is invalid.");
             return false;
@@ -140,26 +157,16 @@ public class TPartyInfo : ProtobufDataBase {
             return false;
         }
 
-		if( unitUniqueId != 0 ) { // check cost max
-			int newCost = DataCenter.Instance.UserUnitList.GetMyUnit( unitUniqueId ).UnitInfo.Cost;
-			int oldCost = 0;
-			if( CurrentParty.UserUnit[pos] != null ) {
-				oldCost = CurrentParty.UserUnit[pos].UnitInfo.Cost;
-			}
-			
-			if ( (CurrentParty.TotalCost - oldCost + newCost) > DataCenter.Instance.UserInfo.CostMax ) {
-				Debug.LogError("TPartyInfo.ChangeParty:: costTotal="+(CurrentParty.TotalCost - oldCost + newCost)+" > "+DataCenter.Instance.UserInfo.CostMax);
-				return false;
-			}
-		}
+		if( IsCostOverflow(pos, newUniqueId) ) 
+			return false;
 
         isPartyItemModified = true;
-        CurrentParty.SetPartyItem(pos, unitUniqueId);
+		CurrentParty.SetPartyItem(pos, newUniqueId);
 
         //update instance
         PartyItem item = new PartyItem();
         item.unitPos = pos;
-        item.unitUniqueId = unitUniqueId;
+		item.unitUniqueId = newUniqueId;
         instance.partyList[CurrentPartyId].items[pos] = item;
 
         return true;
