@@ -87,8 +87,10 @@ public class BattleQuest : UIBase {
 
 	public override void HideUI () {
 		battleEnemy = false;
-		bud.RemoveListen ();
-		bud = null;
+		if( bud != null ) {
+			bud.RemoveListen ();
+			bud = null;
+		}
 		Camera.main.clearFlags = CameraClearFlags.Skybox;
 		RemoveListener ();
 		base.HideUI ();

@@ -70,7 +70,8 @@ public class BattleBackground : UIBaseUnity {
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
 		Transform trans = FindChild<Transform>("Bottom/1");
 		foreach (var item in userUnitInfo) {
-			actorTransform.Add(item.Value.MakeUserUnitKey(),trans);
+			if( item.Value != null )
+				actorTransform.Add(item.Value.MakeUserUnitKey(),trans);
 		}
 	}
 

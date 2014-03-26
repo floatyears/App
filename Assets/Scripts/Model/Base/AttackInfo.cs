@@ -47,7 +47,13 @@ public class AttackInfo {
 		get { return attackType; }
 		set {attackType = value; }
 	}
-	
+
+	private int attackRace = -1;
+	public int AttackRace {
+		get { return attackRace; }
+		set {attackRace = value; }
+	}
+
 	private int attackRange ;
 	/// <summary>
 	/// 0 = single attack

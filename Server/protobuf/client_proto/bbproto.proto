@@ -225,7 +225,8 @@ message QuestFloorConfig {
 	optional int32		treasureNum		= 2;
 	optional int32		trapNum			= 3;
 	optional int32		enemyNum		= 4;
-	repeated StarConfig stars			= 5; // 1 - 6, !, ?
+	optional int32		keyNum			= 5;
+	repeated StarConfig stars			= 6; // 1 - 6, !, ?
 }
 
 message QuestConfig {
@@ -252,9 +253,7 @@ message EnemyInfoConf {
 	optional uint32		dropUnitId		= 2;
 	optional int32		dropUnitLevel	= 3;
 	optional float		dropRate		= 4;
-	optional float		addHpRate		= 5; // "+" rate
-	optional float		addAttackRate	= 6; //
-	optional float		addDefenceRate	= 7; // 
+	optional float		addRate			= 5; // "+" rate
 }
 
 message DropUnit{
@@ -630,7 +629,7 @@ message ReqGacha {
 
 message RspGacha {	
 	optional ProtoHeader	header			= 1;
-	repeated UserUnit		unitList		= 2;
+	repeated UserUnit		unitList		= 2; // only the gacha got units
 	repeated uint32			unitUniqueId	= 3;
 	repeated uint32			blankUnitId		= 4;
 	optional int32			stone			= 5;

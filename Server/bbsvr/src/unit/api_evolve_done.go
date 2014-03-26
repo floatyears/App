@@ -144,11 +144,11 @@ func (t EvolveDone) ProcessLogic(reqMsg *bbproto.ReqEvolveDone, rspMsg *bbproto.
 		return e
 	}
 
-	// verify unit type
-	if *unit.GetTodayEvolveType() != *baseUnit.Type {
-		e = Error.New(EC.E_UNIT_CANNOT_EVOLVE_TODAY, fmt.Sprintf("unit type %v cannot evolve today.", baseUnit.Type))
-		return e
-	}
+//	// verify unit type
+//	if *unit.GetTodayEvolveType() != *baseUnit.Type {
+//		e = Error.New(EC.E_UNIT_CANNOT_EVOLVE_TODAY, fmt.Sprintf("unit type %v cannot evolve today.", *baseUnit.Type))
+//		return e
+//	}
 
 	//4. update questPlayRecord (also add dropUnits to user.UnitList)
 

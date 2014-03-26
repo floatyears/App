@@ -79,8 +79,11 @@ public class PartyPartyPage : PartyPageLogic{
 			LogHelper.Log("RejectCurrentFocusPartyMember(), current focus is leader, can't reject, return...");
 			return;
 		}
-	
+
 		List<TUserUnit> tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
+		if (tuu[currentFoucsPosition - 1]==null)
+			return;
+
 		Debug.LogError ("currentFoucsPosition : " + currentFoucsPosition + " tuu : " + tuu.Count);
 		uint focusUnitUniqueId = tuu[currentFoucsPosition - 1].ID;
 	
