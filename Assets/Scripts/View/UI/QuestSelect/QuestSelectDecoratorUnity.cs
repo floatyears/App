@@ -57,10 +57,9 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
-		CleanQuestInfo();
-		dragPanel.DestoryUI();
+
 	}
-	
+
 	void ReceiveStageInfo( object data ){
 		StageInfo receivedStageInfo = data as StageInfo;
 		stageInfo = receivedStageInfo;
@@ -220,7 +219,13 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", (DataCenter.gameStage == GameState.Evolve));
 		ExcuteCallback(cbdArgs);
 	}
-	
+    
+    public void ResetUIWhenChange(){
+        LogHelper.Log("ResetUIWhenChange()");
+        CleanQuestInfo();
+        dragPanel.DestoryUI();
+    }	
+
 	public override void Callback(object data) {
 		base.Callback(data);
 
@@ -343,6 +348,5 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		questSelectScrollerArgsDic.Add("cellHeight",			130);
 
 	}
-	
 
 }

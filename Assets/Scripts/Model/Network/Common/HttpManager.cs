@@ -111,6 +111,11 @@ public class HttpManager : INetSendPost {
         }
         else {
             LogHelper.Log("OpenMsgWindowByError(), unknown Error");
+            msgParams = new MsgWindowParams();
+            ErrorMsg errMsg = new ErrorMsg(ErrorCode.SERVER_500);
+            msgParams.contentText = errMsg.Msg;
+            msgParams.btnParam = new BtnParam();
+            msgParams.btnParam.callback = CallbackCancelRequest;
 
         }
         if (msgParams != null){

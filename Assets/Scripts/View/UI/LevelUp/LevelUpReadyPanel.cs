@@ -62,11 +62,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		base.ShowUI();
 		FoucsOnTab( Tabs[0] );
 		AddListener();
-		levelUpButton.isEnabled = false;
-		levelUpButton.gameObject.SetActive (false);
-		ClearTexture();
-		ClearLabel();
-		ClearData();
+
 	}
 
 	public override void HideUI(){
@@ -373,6 +369,14 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			multiple = 1;
 		}
 	}
+
+    public void ResetData(){
+        levelUpButton.isEnabled = false;
+        levelUpButton.gameObject.SetActive (false);
+        ClearTexture();
+        ClearLabel();
+        ClearData();
+    }
 }
 
 

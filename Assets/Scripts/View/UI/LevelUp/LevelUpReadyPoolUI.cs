@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using bbproto;
 
 public class LevelUpReadyPoolUI : ConcreteComponent {
-	public LevelUpReadyPoolUI(string uiName):base(uiName) {}
+	public LevelUpReadyPoolUI(string uiName):base(uiName) {
+        Debug.LogError("LevelUpReadyPoolUI");   
+        MsgCenter.Instance.AddListener(CommandEnum.ChangeScene, ResetUI);
+    }
 
 	public override void Callback (object data) {
 		List<TUserUnit> temp = data as List<TUserUnit>;
@@ -69,5 +72,17 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 
 
 	}
+
+    void ResetUI(object args){
+        if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.LevelUp){
+            return;
+        }
+        SceneEnum nextScene = (SceneEnum)args;
+        if (nextScene == SceneEnum.UnitDetail){
+            return;
+        }
+        LevelUpReadyPanel view = viewComponent as LevelUpReadyPanel;
+        view.ResetData();
+    }
 }
 

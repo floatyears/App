@@ -10,7 +10,9 @@ public class OnSaleUnitsController : ConcreteComponent {
 	List<UnitItemViewInfo> onSaleUnitList = new List<UnitItemViewInfo>();
 	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
 
-	public OnSaleUnitsController(string uiName):base(uiName) {}
+	public OnSaleUnitsController(string uiName):base(uiName) {
+        MsgCenter.Instance.AddListener(CommandEnum.ChangeScene, ResetUI);
+    }
 	public override void CreatUI () { base.CreatUI (); }
 	
 	public override void ShowUI () {
@@ -22,7 +24,7 @@ public class OnSaleUnitsController : ConcreteComponent {
 	
 	public override void HideUI () {
 		base.HideUI ();
-		DestoryOnSaleUnitViewList();
+//		DestoryOnSaleUnitViewList();
 	}
 
 	public override void Callback(object data){
@@ -342,5 +344,16 @@ public class OnSaleUnitsController : ConcreteComponent {
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
 	}
+
+    void ResetUI(object args){
+        if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.Sell){
+            return;
+        }
+        SceneEnum nextScene = (SceneEnum)args;
+        if (nextScene == SceneEnum.UnitDetail){
+            return;
+        }
+        DestoryOnSaleUnitViewList();
+    }
 
 }

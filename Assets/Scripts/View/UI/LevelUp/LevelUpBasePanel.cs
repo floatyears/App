@@ -10,6 +10,12 @@ public class LevelUpBasePanel : UIComponentUnity {
 	List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
+    private bool needReInit = true;
+    public bool NeedReInit{
+        get {return needReInit;}
+        set {needReInit = value;}
+    }
+
 	private UnitItemInfo baseSelectItem;
 	private Dictionary<int, UnitItemInfo> materialDic = new Dictionary<int, UnitItemInfo> ();	// key is item pos.
 
@@ -29,22 +35,23 @@ public class LevelUpBasePanel : UIComponentUnity {
 			gameObject.SetActive(true);	
 		}
 //		Debug.LogError("LevelUpBasePanel start showui");
-		InitDragPanel();
+        if (needReInit){
+            InitDragPanel();
+        }
 		AddListener();
 //		Debug.LogError("LevelUpBasePanel end showui");
 	}
 	
 	public override void HideUI(){
-		ClearData ();
+//		ClearData ();
 		RemoveListener();
 		base.HideUI();
 	}
 
-	void ClearData() {
+	public void ClearData() {
 		if (baseDragPanel != null) {
 			baseDragPanel.DestoryUI ();
 		}
-
 		baseUnitInfoDic.Clear ();
 		userUnitInfoList.Clear ();
 		unitInfoStruct.Clear ();

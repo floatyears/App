@@ -8,7 +8,9 @@ public class QuestSelectComponent : ConcreteComponent{
 
 	private TEvolveStart evolveStageInfo;
 
-	public QuestSelectComponent(string uiName):base(uiName){}
+	public QuestSelectComponent(string uiName):base(uiName){
+        MsgCenter.Instance.AddListener(CommandEnum.ChangeScene, ResetUI);
+    }
 	
 	public override void CreatUI(){
 
@@ -90,9 +92,20 @@ public class QuestSelectComponent : ConcreteComponent{
 		idArgs.Add("QuestID", questID);
 		idArgs.Add("StageID", stageID);
 		MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
+	    }
 	}
 
+    void ResetUI(object args){
+        SceneEnum nextScene = (SceneEnum)args;
+        LogHelper.Log("ResetUI(), nextScene {0}", nextScene);
+        if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.QuestSelect){
+            return;
+        }
+        if (nextScene == SceneEnum.FriendSelect){
+            return;
+        }
+        QuestSelectDecoratorUnity view = viewComponent as QuestSelectDecoratorUnity;
+        view.ResetUIWhenChange();
+    }
 
-
-	}
 }
