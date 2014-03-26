@@ -48,10 +48,8 @@ public class PartyPartyPage : PartyPageLogic{
 	}
 
 	void FocusOnPositionFromView(object args) {
-		if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.Party) {
-			return;
-		}
-		
+		if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.Party) return;
+				
 		int position = (int)args;
 		SetFocusPostion(position);
 		LogHelper.LogError("currentFoucsPosition is : " + currentFoucsPosition);
@@ -79,8 +77,11 @@ public class PartyPartyPage : PartyPageLogic{
 			LogHelper.Log("RejectCurrentFocusPartyMember(), current focus is leader, can't reject, return...");
 			return;
 		}
-	
+
 		List<TUserUnit> tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
+		if (tuu[currentFoucsPosition - 1]==null)
+			return;
+
 		Debug.LogError ("currentFoucsPosition : " + currentFoucsPosition + " tuu : " + tuu.Count);
 		uint focusUnitUniqueId = tuu[currentFoucsPosition - 1].ID;
 	
@@ -105,9 +106,13 @@ public class PartyPartyPage : PartyPageLogic{
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, targetUnit);
 	}
 
-	bool CheckCostLimit(){
-		bool isLimited = false;
-		return isLimited;
+	MsgWindowParams GetPartyCostLimitMsgParams(){
+		MsgWindowParams msgParams = new MsgWindowParams();
+		msgParams.titleText = TextCenter.Instace.GetCurrentText("CostLimit");
+		msgParams.contentText = TextCenter.Instace.GetCurrentText("CostLimitText");
+		msgParams.btnParam = new BtnParam();
+		msgParams.btnParam.text = TextCenter.Instace.GetCurrentText("I Know");
+		return msgParams;
 	}
 
 	void ReplaceFocusPartyItem(object data) {
@@ -118,7 +123,13 @@ public class PartyPartyPage : PartyPageLogic{
 		
 		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty Before....");
 
-		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, uniqueId);
+		//Check Cost Limit
+		if(!DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, uniqueId)){
+			Debug.LogError("The current party's cost is bigger than your max cost...");
+			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetPartyCostLimitMsgParams());
+			return;
+		}
+
 		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty After....");
 		
 		LogHelper.LogError("PartyPageLogic.ReplaceFocusPartyItem(), The position to  repace : " + currentFoucsPosition);

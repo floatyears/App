@@ -246,7 +246,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void ShowBodyTexture( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
-		unitBodyTex.mainTexture = unitInfo.GetAsset( UnitAssetType.Profile);
+		Texture2D target = unitInfo.GetAsset( UnitAssetType.Profile);
+		unitBodyTex.mainTexture = target;
+		unitBodyTex.width = target.width;
+		unitBodyTex.height = target.height;
 	}
 		
 	void ShowStatusContent( TUserUnit data ){

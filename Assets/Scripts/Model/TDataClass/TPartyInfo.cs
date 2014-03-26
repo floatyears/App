@@ -131,21 +131,32 @@ public class TPartyInfo : ProtobufDataBase {
 
     public	bool ChangeParty(int pos, uint unitUniqueId) { 
         if (CurrentPartyId >= instance.partyList.Count) {
-            //LogHelper.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:{0} is invalid.", CurrentPartyId);
+			Debug.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:"+CurrentPartyId+" is invalid.");
             return false;
         }
 
         if (pos >= instance.partyList[CurrentPartyId].items.Count) {
-            LogHelper.LogError("TPartyInfo.ChangeParty:: item.unitPos:{0} is invalid.", pos);
+			Debug.LogError("TPartyInfo.ChangeParty:: item.unitPos:"+pos+" is invalid.");
             return false;
         }
 
-        //LogHelper.LogError("TPartyInfo.ChangeParty: pos:{0} uniqueId:{1}", pos, unitUniqueId);
+		if( unitUniqueId != 0 ) { // check cost max
+			int newCost = DataCenter.Instance.UserUnitList.GetMyUnit( unitUniqueId ).UnitInfo.Cost;
+			int oldCost = 0;
+			if( CurrentParty.UserUnit[pos] != null ) {
+				oldCost = CurrentParty.UserUnit[pos].UnitInfo.Cost;
+			}
+			
+			if ( (CurrentParty.TotalCost - oldCost + newCost) > DataCenter.Instance.UserInfo.CostMax ) {
+				Debug.LogError("TPartyInfo.ChangeParty:: costTotal="+(CurrentParty.TotalCost - oldCost + newCost)+" > "+DataCenter.Instance.UserInfo.CostMax);
+				return false;
+			}
+		}
 
         isPartyItemModified = true;
         CurrentParty.SetPartyItem(pos, unitUniqueId);
 
-        //updte 
+        //update instance
         PartyItem item = new PartyItem();
         item.unitPos = pos;
         item.unitUniqueId = unitUniqueId;

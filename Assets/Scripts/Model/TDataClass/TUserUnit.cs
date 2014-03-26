@@ -173,9 +173,13 @@ public class TUserUnit : ProtobufDataBase {
         if (ai == null) {
             return;	
         }
-        if (ai.AttackType != UnitType) {
+		if (ai.AttackType >= 0 && ai.AttackType!=(int)EUnitType.UALL && ai.AttackType != UnitType) {
             return;	
         }
+		if (ai.AttackRace >= 0 && ai.AttackRace!=(int)EUnitRace.ALL && ai.AttackRace != UnitRace) {
+			return;	
+		}
+
         if (ai.AttackRound == 0) {
             strengthenInfo = null;
             return;
@@ -223,6 +227,12 @@ public class TUserUnit : ProtobufDataBase {
             return (int)UnitInfo.Object.type;
         }
     }
+
+	public int UnitRace {
+		get {
+			return (int)UnitInfo.Object.race;
+		}
+	}
 
     public int LeadSKill {
         get {
@@ -307,13 +317,14 @@ public class TUserUnit : ProtobufDataBase {
     }
 
     public int Level {
-        get {
-            return instance.level;
-        }
-		set {
-			instance.level = value;
-		}
+        get { return instance.level; }
+		set { instance.level = value; }
     }
+
+	public int ActiveSkillLevel {
+		get { return instance.activeSkillLevel; }
+		set { instance.activeSkillLevel = value; }
+	}
 
     public string AddNumber {
         get {

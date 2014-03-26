@@ -109,6 +109,8 @@ public class UIManager {
 			return;		
 		}
 		else {
+
+
 			if(current != null) {
 				current.HideScene();
 			}

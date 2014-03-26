@@ -14,7 +14,13 @@ public partial class TextCenter {
         textDict.Add("BigRareWarningText", "Include the unit whose rare bigger than 3.\nAre you sure to sell?");
 
 		textDict.Add("UnitOverflow", "Unit Overflow");
-		textDict.Add("UnitOverflowText", "Your current unit capacity is {0}/{1}.\nWould you like to do expansion?");
+		textDict.Add("UnitOverflowText", "Your current unit capacity is {0}/{1}.\nWould you like to do unit expansion?");
+
+		textDict.Add("FirendOverflow", "Firend Overflow");
+		textDict.Add("FriendOverflowText", "Your current unit capacity is {0}/{1}.\nWould you like to do friend expansion?");
+
+		textDict.Add("CostLimit", "Current Cost Limit");
+		textDict.Add("CostLimitText", "Sorry to tell you,\nyou can't replace this unit! ");
 
 		textDict.Add("FriendCounterTitle", "Friends :");
 		textDict.Add("ApplyCounterTitle", "Apply :");

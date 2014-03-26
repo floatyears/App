@@ -301,15 +301,15 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 								dropUnit := &bbproto.DropUnit{}
 								dropUnit.UnitId = enemyConf.DropUnitId
 								dropUnit.Level = enemyConf.DropUnitLevel
-								if enemyConf.AddHpRate != nil && common.HitRandomRate(*enemyConf.AddHpRate) {
-									dropUnit.AddHp = proto.Int32(1)
+								if enemyConf.AddRate != nil && common.HitRandomRate(*enemyConf.AddRate) {
+									iRandAdd := common.Randn(2)
+									if iRandAdd == 0 {
+										dropUnit.AddHp = proto.Int32(1)	
+									}else {
+										dropUnit.AddAttack = proto.Int32(1)
+									}
 								}
-								if enemyConf.AddAttackRate != nil && common.HitRandomRate(*enemyConf.AddAttackRate) {
-									dropUnit.AddAttack = proto.Int32(1)
-								}
-								if enemyConf.AddDefenceRate != nil && common.HitRandomRate(*enemyConf.AddDefenceRate) {
-									dropUnit.AddDefence = proto.Int32(1)
-								}
+								
 								log.T("\t -- append dropUnit:%+v", dropUnit)
 
 								dropUnit.DropId = proto.Uint32(uint32(len(questData.Drop) + 1))
