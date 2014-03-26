@@ -81,6 +81,9 @@ public class PartyPartyPage : PartyPageLogic{
 		}
 
 		List<TUserUnit> tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
+		if (tuu[currentFoucsPosition - 1]==null)
+			return;
+
 		Debug.LogError ("currentFoucsPosition : " + currentFoucsPosition + " tuu : " + tuu.Count);
 		uint focusUnitUniqueId = tuu[currentFoucsPosition - 1].ID;
 	
