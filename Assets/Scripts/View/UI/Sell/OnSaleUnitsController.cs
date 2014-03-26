@@ -24,7 +24,7 @@ public class OnSaleUnitsController : ConcreteComponent {
 	
 	public override void HideUI () {
 		base.HideUI ();
-//		DestoryOnSaleUnitViewList();
+		DestoryOnSaleUnitViewList();
 	}
 
 	public override void Callback(object data){
@@ -346,14 +346,14 @@ public class OnSaleUnitsController : ConcreteComponent {
 	}
 
     void ResetUI(object args){
-        if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.Sell){
-            return;
-        }
-        SceneEnum nextScene = (SceneEnum)args;
-        if (nextScene == SceneEnum.UnitDetail){
-            return;
-        }
-        DestoryOnSaleUnitViewList();
+//        if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.Sell){
+//            return;
+//        }
+//        SceneEnum nextScene = (SceneEnum)args;
+//        if (nextScene == SceneEnum.UnitDetail){
+//            return;
+//        }
+//        DestoryOnSaleUnitViewList();
     }
 
 }

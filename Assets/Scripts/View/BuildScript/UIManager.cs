@@ -110,6 +110,7 @@ public class UIManager {
 		}
 		else {
             MsgCenter.Instance.Invoke(CommandEnum.ChangeScene, sEnum);
+
 			if(current != null) {
 				current.HideScene();
 			}

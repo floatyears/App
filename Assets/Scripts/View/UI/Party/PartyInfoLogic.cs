@@ -65,7 +65,7 @@ public class PartyInfoLogic : ConcreteComponent {
 		//Get cur cost
 		string curCost = tup.TotalCost.ToString();
 		//Get maxCost
-		string maxCost = DataCenter.Instance.UserCost.ToString();
+		string maxCost = DataCenter.Instance.UserInfo.CostMax.ToString();
 
 		int value = 0;
 		tup.TypeAttack.TryGetValue (EUnitType.UFIRE, out value);

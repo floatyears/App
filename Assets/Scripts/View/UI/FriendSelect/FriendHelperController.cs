@@ -51,15 +51,15 @@ public class FriendHelperController : ConcreteComponent{
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} 
 		else {
-		StartQuest sq = new StartQuest ();
-		StartQuestParam sqp = new StartQuestParam ();
-		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
-		sqp.helperUserUnit = selectedHelper;
-		sqp.questId = questID;
-		sqp.stageId = stageID;
-		sqp.startNew = 1;
-		sq.OnRequest (sqp, RspStartQuest);
-	}
+			StartQuest sq = new StartQuest ();
+			StartQuestParam sqp = new StartQuestParam ();
+			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+			sqp.helperUserUnit = selectedHelper;
+			sqp.questId = questID;
+			sqp.stageId = stageID;
+			sqp.startNew = 1;
+			sq.OnRequest (sqp, RspStartQuest);
+		}
 	}
 
 	void RspEvolveStartQuest (object data) {
@@ -182,11 +182,10 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void ChooseHelper(object msg){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableBottomButton", null);
+		if(selectedHelper == null) return;
+		MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateViewAfterChooseHelper", null);
 		ExcuteCallback(cbdArgs);
-		if(selectedHelper != null){
-			MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
-		}
 	}
 	
 	void RefreshFriendHelper(object data) {

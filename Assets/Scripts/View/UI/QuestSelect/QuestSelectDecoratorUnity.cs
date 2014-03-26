@@ -282,19 +282,17 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	}
 
 	void RefreshQuestInfo(List<TQuestInfo> questInfo) {
-		if (dragPanel == null) {
-			return;	
-		}
+		if (dragPanel == null) return;	
 
 		for (int i = 0, m = dragPanel.ScrollItem.Count; i < m; i++) {
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
-			TQuestInfo tqi = questInfo[i];
+			TQuestInfo tqi = questInfo[ i ];
 			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(11);
 			tex.mainTexture = tui.GetAsset(UnitAssetType.Avatar);
 			
 			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
-			label.text = "Quest : " + (i+1).ToString();
+			label.text = "Quest : " + (i + 1).ToString();
 			
 			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
 		}
@@ -338,14 +336,14 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	void InitQuestSelectScrollArgs(){
 		questSelectScrollerArgsDic.Add("parentTrans",		scrollView.transform);
 		questSelectScrollerArgsDic.Add("scrollerScale",		Vector3.one);
-		questSelectScrollerArgsDic.Add("scrollerLocalPos",		-96 * Vector3.up);
+		questSelectScrollerArgsDic.Add("scrollerLocalPos",	-90 * Vector3.up);
 		questSelectScrollerArgsDic.Add("position",				Vector3.zero);
 		questSelectScrollerArgsDic.Add("clipRange",			new Vector4(0, 0, 640, 200));
 		questSelectScrollerArgsDic.Add("gridArrange",		UIGrid.Arrangement.Horizontal);
 		questSelectScrollerArgsDic.Add("maxPerLine",		0);
 		questSelectScrollerArgsDic.Add("scrollBarPosition",	new Vector3(-320, -120, 0));
-		questSelectScrollerArgsDic.Add("cellWidth",			130);
-		questSelectScrollerArgsDic.Add("cellHeight",			130);
+		questSelectScrollerArgsDic.Add("cellWidth",			125);
+		questSelectScrollerArgsDic.Add("cellHeight",			125);
 
 	}
 

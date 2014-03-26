@@ -41,6 +41,7 @@ public class FriendHelperView : UIComponentUnity{
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "easetype", iTween.EaseType.linear));        
 		
 		SetBottomButtonActive(false);
+		prevPosition = -1;
 	}
 	
 	public override void HideUI() {
@@ -59,8 +60,8 @@ public class FriendHelperView : UIComponentUnity{
 			case "DestoryDragView": 
 				CallBackDispatcherHelper.DispatchCallBack(DestoryDragView, cbdArgs);
                 break;
-			case "EnableBottomButton":
-				CallBackDispatcherHelper.DispatchCallBack(EnableBottomButton, cbdArgs);
+			case "UpdateViewAfterChooseHelper":
+				CallBackDispatcherHelper.DispatchCallBack(UpdateViewAfterChooseHelper, cbdArgs);
 				break;
             default:
 				break;
@@ -88,7 +89,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void CreateDragView(object args){
-		Debug.Log("FriendSelectDecoratorUnity.CreateDragView(), receive call from logic, to create drag list...");
+//		Debug.Log("FriendSelectDecoratorUnity.CreateDragView(), receive call from logic, to create drag list...");
 		List<UnitItemViewInfo> viewInfoList = args as List<UnitItemViewInfo>;
 		supportViewList = viewInfoList;
 		dragPanel = CreateDragPanel("SupportFriendList", viewInfoList.Count);
@@ -111,7 +112,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void UpdateSupportInfo(List<UnitItemViewInfo> friendInfoList){
-		Debug.Log("UpdateSupportType(), Start...");
+//		Debug.Log("UpdateSupportType(), Start...");
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem [i];
 			UILabel typeLabel = scrollItem.transform.FindChild("Label_Friend_Type").GetComponent<UILabel>();
@@ -184,6 +185,7 @@ public class FriendHelperView : UIComponentUnity{
 
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
 		ExcuteCallback(cbdArgs);
+		prevPosition = dragPanel.ScrollItem.IndexOf(item);
 	}
 	
 	void PressItem(GameObject item){
@@ -217,10 +219,31 @@ public class FriendHelperView : UIComponentUnity{
 		InitDragPanelArgs();
     }
 
-	void EnableBottomButton(object args){
+	void UpdateViewAfterChooseHelper(object args){
 		bottomButton.isEnabled = true;
 		UIEventListener.Get(bottomButton.gameObject).onClick = ClickBottomButton;
+		LightClickItem();
+	}
 
+	int prevPosition = -1;
+	UISprite prevSprite;
+	void LightClickItem(){
+		if(prevPosition == -1) return;
+		GameObject pickedItem = dragPanel.ScrollItem[ prevPosition ];
+		UISprite lightSpr = pickedItem.transform.FindChild("Sprite_Light").GetComponent<UISprite>();
+		if(lightSpr == null) {
+			Debug.LogError("lightSpr is null");
+			return;
+		}
+		if(prevSprite != null) {
+			if(lightSpr.Equals( prevSprite))
+				return;
+			else
+				prevSprite.enabled = false;
+		}
+		
+		lightSpr.enabled = true;
+		prevSprite = lightSpr;
 	}
 
 	void ClickBottomButton(GameObject btn){

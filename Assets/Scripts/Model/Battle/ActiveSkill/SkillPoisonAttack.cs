@@ -11,7 +11,7 @@ public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
 			coolingDone = true;
 		}
 
-		Debug.LogError ("TSkillPoison : " + skillBase.skillCooling);
+//		Debug.LogError ("TSkillPoison : " + skillBase.skillCooling);
 	}
 
 	public bool CoolingDone {
