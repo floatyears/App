@@ -1,9 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class UserBriefInfoLogic : ConcreteComponent
-{
-
+public class UserBriefInfoLogic : ConcreteComponent{
 	TUserUnit currentPickedUserUnit;
 
 	public UserBriefInfoLogic(string uiName):base(uiName){}
@@ -22,8 +20,7 @@ public class UserBriefInfoLogic : ConcreteComponent
 		base.Callback(data);
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName)
-		{
+		switch (cbdArgs.funcName){
 			case "ViewDetailInfo": 
 				CallBackDispatcherHelper.DispatchCallBack(ViewUserUnitDetailInfo, cbdArgs);
 				break;
@@ -32,36 +29,28 @@ public class UserBriefInfoLogic : ConcreteComponent
 		}
 	}
 
-	void ViewUserUnitDetailInfo(object args)
-	{
+	void ViewUserUnitDetailInfo(object args){
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
-		if (currentPickedUserUnit == null)
-		{
-			return;
-		}
+		if (currentPickedUserUnit == null) return;
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, currentPickedUserUnit);
 	}
 
-	void Exit()
-	{
+	void Exit(){
 		ClearInfo();
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void ClearInfo()
-	{
+	void ClearInfo(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClearPanel", null);
 		ExcuteCallback(cbdArgs);
 	} 
 
-	void AddEventListener()
-	{
+	void AddEventListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.FriendBriefInfoShow, ReceiveShowBriefRquest);
 	}
 
-	void RemoveEventListener()
-	{
+	void RemoveEventListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.FriendBriefInfoShow, ReceiveShowBriefRquest);
 	}
 
@@ -74,27 +63,23 @@ public class UserBriefInfoLogic : ConcreteComponent
 		RefreshLastLogin(tfi.LastPlayTime);
 	}
 
-	void RefreshUnitInfo(TUserUnit tuu)
-	{
+	void RefreshUnitInfo(TUserUnit tuu){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshUnitInfoView", tuu);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void RefreshLastLogin(uint unixTime)
-	{
+	void RefreshLastLogin(uint unixTime){
 		string text = TimeHelper.GetLatestPlayTime(unixTime).ToString();
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshLastLogin", text);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void RefreshRank(int rank)
-	{
+	void RefreshRank(int rank){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshRank", rank.ToString());
 		ExcuteCallback(cbdArgs);
 	}
 
-	void RefreshUserName(string userName)
-	{
+	void RefreshUserName(string userName){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshUserName", userName);
 		ExcuteCallback(cbdArgs);
 	}

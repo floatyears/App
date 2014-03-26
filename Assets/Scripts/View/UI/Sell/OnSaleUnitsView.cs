@@ -91,14 +91,13 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void FillLastSureWindow(List<TUserUnit> dataInfoList){
-		Debug.LogError("dataInfoList.Count : " + dataInfoList.Count);
+//		Debug.LogError("dataInfoList.Count : " + dataInfoList.Count);
 		for (int i = 0; i < dataInfoList.Count; i++){
 			Texture2D tex2d = dataInfoList[ i ].UnitInfo.GetAsset(UnitAssetType.Avatar);
 			string level = dataInfoList[ i ].Level.ToString();
 			FindTextureWithPosition( i, readyItemList).mainTexture = tex2d ;
 			FindLabelWithPosition(i, readyItemList).text = "Lv: " + level;
 		}
-
 	}
 
 	void ClickSellOk(GameObject btn){
