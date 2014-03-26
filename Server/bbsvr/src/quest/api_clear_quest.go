@@ -155,7 +155,14 @@ func (t ClearQuest) ProcessLogic(reqMsg *bbproto.ReqClearQuest, rspMsg *bbproto.
 	//4. update exp, rank, account
 	*userDetail.User.Exp += gotExp
 	*userDetail.Account.Money += gotMoney
-	user.RefreshRank(userDetail.User)
+
+	addRank,addCostMax, addFriendMax, addUnitMax,addStaminaMax, e := user.RefreshRank(userDetail.User)
+	if e.IsError() { return e }
+	if addRank > 0 { rspMsg.RankAdd = proto.Int32( addRank ) }
+	if addCostMax > 0 { rspMsg.CostMaxAdd = proto.Int32( addCostMax ) }
+	if addFriendMax > 0 { rspMsg.FriendMaxAdd = proto.Int32( addFriendMax ) }
+	if addStaminaMax > 0 { rspMsg.StaminaMaxAdd = proto.Int32( addStaminaMax ) }
+	if addUnitMax > 0 { rspMsg.UnitMaxAdd = proto.Int32( addUnitMax ) }
 
 	log.T("==Account :: addMoney:+%v -> %v addExp:+%v -> user.Exp:%v", gotMoney, *userDetail.Account.Money, gotExp, *userDetail.User.Exp)
 

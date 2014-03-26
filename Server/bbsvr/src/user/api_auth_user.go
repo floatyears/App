@@ -149,8 +149,11 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 		rspMsg.IsNewUser = proto.Int32(1) // is new User
 
-		//TODO:save userinfo to db through goroutine
-		userDetail, e = user.AddNewUser(db, uuid)
+		selectRole:= uint32(1)
+		if reqMsg.SelectRole != nil {
+			selectRole = *reqMsg.SelectRole
+		}
+		userDetail, e = user.AddNewUser(db, uuid, selectRole)
 		if e.IsError() {
 			return e
 		}

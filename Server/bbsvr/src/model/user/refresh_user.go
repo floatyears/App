@@ -13,20 +13,42 @@ import (
 )
 
 //calculate rank by current user.Exp
-func RefreshRank(user *bbproto.UserInfo ) (e Error.Error ){
+func RefreshRank(user *bbproto.UserInfo ) (addRank, addCostMax, addFriendMax, addUnitMax,addStaminaMax int32, e Error.Error ){
 	if user == nil {
-		return Error.New(EC.INVALID_PARAMS, "user is null")
+		return 0,0,0,0,0, Error.New(EC.INVALID_PARAMS, "user is null")
 	}
-	log.T("user: %v old rank=%v.", *user.UserId, *user.Rank)
+	log.T("user: %v OLD rank=%v CostMax:%v UnitMax:%v FriendMax:%v StaminaMax:%v",
+		*user.UserId, *user.Rank, *user.CostMax, *user.UnitMax, *user.FriendMax,  *user.StaminaMax)
+
+	oldRank := *user.Rank
+	oldCostMax := *user.CostMax
+	oldUnitMax := *user.UnitMax
+	oldFriendMax := *user.FriendMax
+	oldStaminaMax := *user.StaminaMax
+
 	user.Rank = proto.Int32( GetRankByExp(*user.Exp) )
-	return Error.OK()
+	*user.CostMax = config.GetCostMax(*user.Rank)
+	*user.FriendMax = config.GetFriendMax(*user.Rank)
+	*user.UnitMax = config.GetUnitMax(*user.Rank)
+	*user.StaminaMax = config.GetStaminaMax(*user.Rank)
+
+	addRank = *user.Rank - oldRank
+	addCostMax = *user.CostMax - oldCostMax
+	addUnitMax = *user.UnitMax - oldUnitMax
+	addFriendMax = *user.FriendMax - oldFriendMax
+	addStaminaMax = *user.StaminaMax - oldStaminaMax
+
+	log.T("user: %v OLD addRank=%v addCostMax:%v addUnitMax:%v addFriendMax:%v addStaminaMax:%v",
+		*user.UserId, addRank, addCostMax, addUnitMax, addFriendMax, addStaminaMax)
+
+	return addRank, addCostMax, addFriendMax, addUnitMax,addStaminaMax, Error.OK()
 }
 
 //return user rank by exp (in total)
 func GetRankByExp(exp int32) (rank int32) {
 	totalExp := int32(0)
 	for rank:=int32(1); rank < consts.N_MAX_USER_RANK; rank++{
-		totalExp += config.TableUserRankExp[rank]
+		totalExp += config.GetUserRankExp(rank)
 		if totalExp >= exp {
 			log.T("GetRankByExp( exp=%v) return new rank=%v.", exp, rank)
 			return rank

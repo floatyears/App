@@ -169,18 +169,23 @@ message ReqEvolveDone {
 message RspEvolveDone {	
 	optional ProtoHeader	header			= 1;
 	optional int32			rank			= 2;
-	optional int32			exp				= 3;
-	optional int32			money			= 4;
-	optional int32			friendPoint		= 5;
-	optional int32			staminaNow		= 6;
-	optional int32			staminaMax		= 7;
-	optional uint32			staminaRecover	= 8;
-	optional int32			gotMoney		= 9;
-	optional int32			gotExp			= 10;
-	optional int32			gotStone		= 11;
-	optional int32			gotFriendPoint	= 12;
-	repeated UserUnit		gotUnit			= 13;
-	optional UserUnit		evolvedUnit		= 14;
+	optional int32			rankAdd			= 3;
+	optional int32			exp				= 4;
+	optional int32			money			= 5;
+	optional int32			friendPoint		= 6;
+	optional int32			staminaNow		= 7;
+	optional int32			staminaMax		= 8;
+	optional uint32			staminaRecover	= 9;
+	optional int32			gotMoney		= 10;
+	optional int32			gotExp			= 11;
+	optional int32			gotStone		= 12;
+	optional int32			gotFriendPoint	= 13;
+	repeated UserUnit		gotUnit			= 14;
+	optional UserUnit		evolvedUnit		= 15;
+	optional int32			costMaxAdd		= 16;
+	optional int32			unitMaxAdd		= 17;
+	optional int32			friendMaxAdd	= 18;
+	optional int32			staminaMaxAdd	= 19;	
 }
 
 message ReqGacha {	
