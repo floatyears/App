@@ -88,8 +88,11 @@ public class PartyUnitsView : UIComponentUnity {
 		else{
 			for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem[ i ];
-				crossShowLabelList[ i - 1 ].text = "+" + viewInfoList[ i -1 ].CrossShowTextAfter;
-				crossShowLabelList[ i - 1 ].color = Color.red;
+				if(viewInfoList[ i -1 ].CrossShowTextAfter == "0") continue;
+				else{
+					crossShowLabelList[ i - 1 ].text = "+" + viewInfoList[ i -1 ].CrossShowTextAfter;
+					crossShowLabelList[ i - 1 ].color = Color.red;
+				}
 			}
 			exchange = true;
 		}

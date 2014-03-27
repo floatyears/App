@@ -162,8 +162,11 @@ public class FriendHelperView : UIComponentUnity{
 		else{
 			for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem [i];
-				crossShowLabelList [ i ].text = "+" + supportViewList [i].CrossShowTextAfter;
-				crossShowLabelList [ i ].color = Color.red;
+				if(supportViewList [i].CrossShowTextAfter == "0") continue;
+				else{
+					crossShowLabelList [ i ].text = "+" + supportViewList [i].CrossShowTextAfter;
+					crossShowLabelList [ i ].color = Color.red;
+				}
 			}
 			exchange = true;
 		}

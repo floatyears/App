@@ -316,8 +316,11 @@ public class OnSaleUnitsView : UIComponentUnity{
 		else{
 			for( int i = 0; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem[ i ];
-				crossShowLabelList[ i ].text = "+" + viewInfoList[ i ].CrossShowTextAfter;
-				crossShowLabelList[ i ].color = Color.red;
+				if(viewInfoList[ i  ].CrossShowTextAfter == "0") continue;
+				else{
+					crossShowLabelList[ i ].text = "+" + viewInfoList[ i ].CrossShowTextAfter;
+					crossShowLabelList[ i ].color = Color.red;
+				}
 			}
 			exchange = true;
 		}
