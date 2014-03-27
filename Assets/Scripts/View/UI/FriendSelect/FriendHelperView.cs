@@ -77,8 +77,8 @@ public class FriendHelperView : UIComponentUnity{
 		dragPanelArgs.Add("gridArrange", 			UIGrid.Arrangement.Horizontal);
 		dragPanelArgs.Add("maxPerLine", 			0);
 		dragPanelArgs.Add("scrollBarPosition",		new Vector3(-320, -120, 0));
-        dragPanelArgs.Add("cellWidth", 				140);
-        dragPanelArgs.Add("cellHeight", 				140);
+        dragPanelArgs.Add("cellWidth", 				120);
+        dragPanelArgs.Add("cellHeight", 				120);
     }
         
 	DragPanel CreateDragPanel(string name, int count){

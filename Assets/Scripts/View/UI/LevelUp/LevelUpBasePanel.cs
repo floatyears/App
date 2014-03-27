@@ -371,7 +371,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
 		dragPanelArgs.Add("maxPerLine",		3);
 		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
-		dragPanelArgs.Add("cellWidth", 		110);
+		dragPanelArgs.Add("cellWidth", 		120);
 		dragPanelArgs.Add("cellHeight",		110);
 	}
 	bool exchange = false;
