@@ -101,6 +101,7 @@ public class AttackController {
 			return;	
 		}
 
+		tempPreHurtValue = 0;
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			TEnemyInfo te = enemyInfo[i];
 			if(te.GetUnitType() == att.targetType || att.targetType == (int)bbproto.EUnitType.UALL) {
@@ -109,7 +110,7 @@ public class AttackController {
 				bool b = restraintType == te.GetUnitType();
 				int hurtValue = te.CalculateInjured(ai, b);
 				ai.InjuryValue = hurtValue;
-				tempPreHurtValue = hurtValue;
+				tempPreHurtValue += hurtValue;
 //				ai.EnemyID = te.EnemyID;//te.GetID();
 				ai.EnemyID = te.EnemySymbol;
 				AttackEnemyEnd (ai);
