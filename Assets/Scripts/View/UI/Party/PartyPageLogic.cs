@@ -15,12 +15,16 @@ public class PartyPageLogic : ConcreteComponent{
 
     public override void ShowUI() {
         base.ShowUI();
-        RefreshCurrentPartyInfo("current");
+        RefreshCurrentParty();
     }
 	
     public override void HideUI() {
         base.HideUI();
         NoticeServerUpdatePartyInfo();
+    }
+
+    public virtual void RefreshCurrentParty(){
+        RefreshCurrentPartyInfo("current");
     }
 
 	public override void Callback(object data) {

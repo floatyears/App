@@ -4,6 +4,12 @@ using System;
 
 public class DecoratorBase {
 
+    private bool resetStateFlag = true;
+    public bool ResetStateFlag {
+        get { return resetStateFlag; }
+        set { resetStateFlag = value; }
+    }
+
 	public DecoratorBase(SceneEnum sEnum) {
 		currentDecoratorScene = sEnum;
 	}
@@ -29,9 +35,21 @@ public class DecoratorBase {
 	}
 
 	public virtual void ShowScene () {
+        ResetSceneState();
 		if(lastDecorator != null)
 			lastDecorator.ShowUI ();
 	}
+
+    public virtual void ResetSceneState () {
+        LogHelper.Log("DecoratorBase.ResetSceneState(), clear {0}", resetStateFlag);
+        if(lastDecorator != null){
+            ConcreteComponent controller = lastDecorator as ConcreteComponent;
+            if (controller != null){
+                controller.ResetUIState(resetStateFlag);
+            }
+            resetStateFlag = true;
+        }
+    }
 
 	public virtual void DestoryScene () {
 		if(lastDecorator != null)
@@ -42,12 +60,19 @@ public class DecoratorBase {
 		this.decorator = decorator;
 	}
 
+    /// <summary>
+    /// Sets the state of the keep. call when sub class will keep state
+    /// </summary>
+    public void SetKeepState(object args){
+        LogHelper.Log("SetKeepState, clear to true");
+        ResetStateFlag = false;
+    }
+
 	protected T CreatComponent<T>(string name) where T : ConcreteComponent {
 		T component = ViewManager.Instance.GetComponent (name) as T;
 		if (component == null) {
 			component = Activator.CreateInstance(typeof(T), name) as T;
 		}
-		
 		return component;
 	}
 }

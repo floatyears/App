@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class RootComponent
@@ -62,8 +62,6 @@ public class BaseComponent :RootComponent, IUIComponent
 	{
 	}
 	
-
-
 }
 
 /// <summary>
@@ -71,6 +69,12 @@ public class BaseComponent :RootComponent, IUIComponent
 /// </summary>
 public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback
 {	
+
+    protected bool willClearState = true;
+    public bool WillClearState{
+        get { return willClearState; }
+        set { willClearState = value; }
+    }
 
 	public ConcreteComponent(string name) : base(name)
 	{
@@ -103,6 +107,8 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback
 		}
 	}
 
+//    public virtual void Clear
+
 	public virtual void HideUI()
 	{
 		if (component != null)
@@ -130,6 +136,23 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback
 
 		ViewManager.Instance.RemoveComponent(uiConfig.uiName);
 	}
+
+    public virtual void ResetUIState(bool clear = true) {
+//        LogHelper.Log("Controller.ClearUIState(), clearFlag {0}", clear);
+        if (!clear){
+            return;
+        }
+        if (component != null) {
+            ConcreteComponent controller = component as ConcreteComponent;
+            if (controller != null){
+                controller.ResetUIState(clear);
+            }
+        }
+
+        if (viewComponent != null) {
+            viewComponent.ResetUIState();
+        }
+    }
 
 	protected void CreatViewComponent() {
 		if (viewComponent == null) {

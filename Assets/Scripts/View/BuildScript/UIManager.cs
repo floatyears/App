@@ -109,8 +109,7 @@ public class UIManager {
 			return;		
 		}
 		else {
-            MsgCenter.Instance.Invoke(CommandEnum.ChangeScene, sEnum);
-
+            InvokeSceneClear(sEnum);
 			if(current != null) {
 				current.HideScene();
 			}
@@ -247,4 +246,20 @@ public class UIManager {
 		return temp;
 	}
 
+    private void InvokeSceneClear(SceneEnum nextScene){
+        if (baseScene.CurrentScene == SceneEnum.FriendSelect && nextScene == SceneEnum.QuestSelect){
+            MsgCenter.Instance.Invoke(CommandEnum.QuestSelectSaveState);
+        }
+        else if (baseScene.CurrentScene == SceneEnum.UnitDetail){
+            if (nextScene == SceneEnum.LevelUp){
+                MsgCenter.Instance.Invoke(CommandEnum.LevelUpSaveState);
+            }
+            else if (nextScene == SceneEnum.Sell){
+                MsgCenter.Instance.Invoke(CommandEnum.SellUnitSaveState);
+            }
+            else if (nextScene == SceneEnum.Party){
+                MsgCenter.Instance.Invoke(CommandEnum.PartySaveState);
+            }
+        }
+    }
 }
