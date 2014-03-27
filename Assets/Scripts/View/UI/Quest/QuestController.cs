@@ -3,12 +3,12 @@ using System.Collections;
 using bbproto;
 using System.Collections.Generic;
 
-public class QuestComponent : ConcreteComponent{
+public class QuestController : ConcreteComponent{
 
 	List<TCityInfo> storyCityList = new List<TCityInfo>();
 	List<TStageInfo> storyStageList = new List<TStageInfo>();
 
-	public QuestComponent(string uiName):base(uiName){}
+	public QuestController(string uiName):base(uiName){}
 	public override void CreatUI(){ base.CreatUI();}
 	
 	public override void ShowUI(){
@@ -36,24 +36,23 @@ public class QuestComponent : ConcreteComponent{
 	}
 
 	void GetStoryCityList(){
-		storyCityList.Add(DataCenter.Instance.GetCityInfo(1));
+		uint nowCityIDForTemp = 1;
+		storyCityList.Add(DataCenter.Instance.GetCityInfo(nowCityIDForTemp));
 //		Debug.LogError("storyCityList(), storyStageList's count is " + storyCityList.Count);
 		GetStoryStageList();
 	}
 
 	void GetStoryStageList(){
+		//Debug.LogError("QuestController.GetStoryStageList()......Story City Count : " + storyCityList.Count);
 		for (int cityIndex = 0; cityIndex < storyCityList.Count; cityIndex++){
 			TCityInfo tci = storyCityList[ cityIndex ];
-//			Debug.LogError("tci id : " + tci.ID);
-			//TODO
-			for (int stageIndex = 0;  stageIndex < tci.Stages.Count; stageIndex ++) {
+			for (int stageIndex = 0; stageIndex < tci.Stages.Count; stageIndex++) {
 				TStageInfo tsi = tci.Stages[ stageIndex ];
 				storyStageList.Add(tsi);
-//				Debug.LogError("tsi id : " + tsi.ID);
+				//Debug.LogError("tsi id : " + tsi.State.ToString());
 			}
 		}
-
-//		Debug.LogError("GetStoryStageList(), storyStageList's count is " + storyStageList.Count);
+		//Debug.LogError("QuestController.GetStoryStageList()......Story Stage Count is " + storyStageList.Count);
 	}
 
 	void CreateStage(){

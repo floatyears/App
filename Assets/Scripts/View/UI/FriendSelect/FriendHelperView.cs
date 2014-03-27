@@ -16,7 +16,6 @@ public class FriendHelperView : UIComponentUnity{
     private GameObject friendItem;
     private int currentPartyIndex;
     private int partyTotalCount;
-    private int initPartyPage = 1;
     private Dictionary<int, UITexture> partySprite = new Dictionary<int,UITexture>();
     private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo>();
     private UITexture friendSprite;
@@ -37,7 +36,7 @@ public class FriendHelperView : UIComponentUnity{
 	public override void ShowUI() {
 		base.ShowUI();
 		
-		gameObject.transform.localPosition = new Vector3(-1000, -567, 0);
+		gameObject.transform.localPosition = new Vector3(-1000, 0, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "easetype", iTween.EaseType.linear));        
 		
 		SetBottomButtonActive(false);

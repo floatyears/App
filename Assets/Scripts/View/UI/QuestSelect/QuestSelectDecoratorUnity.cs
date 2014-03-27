@@ -173,6 +173,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		ShowEnemiesAvatar(tsi.QuestInfo[ index ].EnemyID);
 	}
 
+
 	void ShowBossAvatar(uint bossId){
 		TUnitInfo bossInfo = DataCenter.Instance.GetUnitInfo(bossId);
 		if(bossInfo == null){
@@ -355,16 +356,16 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	}
 	
 	void InitQuestSelectScrollArgs(){
-		questSelectScrollerArgsDic.Add("parentTrans",		scrollView.transform);
-		questSelectScrollerArgsDic.Add("scrollerScale",		Vector3.one);
-		questSelectScrollerArgsDic.Add("scrollerLocalPos",	-90 * Vector3.up);
-		questSelectScrollerArgsDic.Add("position",				Vector3.zero);
-		questSelectScrollerArgsDic.Add("clipRange",			new Vector4(0, 0, 640, 200));
-		questSelectScrollerArgsDic.Add("gridArrange",		UIGrid.Arrangement.Horizontal);
-		questSelectScrollerArgsDic.Add("maxPerLine",		0);
+		questSelectScrollerArgsDic.Add("parentTrans",			scrollView.transform);
+		questSelectScrollerArgsDic.Add("scrollerScale",			Vector3.one);
+		questSelectScrollerArgsDic.Add("scrollerLocalPos",		-60 * Vector3.up);
+		questSelectScrollerArgsDic.Add("position",					Vector3.zero);
+		questSelectScrollerArgsDic.Add("clipRange",				new Vector4(0, 0, 640, 200));
+		questSelectScrollerArgsDic.Add("gridArrange",			UIGrid.Arrangement.Horizontal);
+		questSelectScrollerArgsDic.Add("maxPerLine",			0);
 		questSelectScrollerArgsDic.Add("scrollBarPosition",	new Vector3(-320, -120, 0));
-		questSelectScrollerArgsDic.Add("cellWidth",			125);
-		questSelectScrollerArgsDic.Add("cellHeight",			125);
+		questSelectScrollerArgsDic.Add("cellWidth",				125);
+		questSelectScrollerArgsDic.Add("cellHeight",				125);
 
 	}
 
