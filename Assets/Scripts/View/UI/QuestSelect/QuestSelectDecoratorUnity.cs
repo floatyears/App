@@ -44,7 +44,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	public override void ShowUI(){
 		base.ShowUI();
 		ShowTween();
-		btnSelect.isEnabled = false;
 		firstFocus.value = true;
 	}
 
@@ -208,6 +207,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
     
     public void ResetUIWhenChange(){
         LogHelper.Log("ResetUIWhenChange()");
+        btnSelect.isEnabled = false;
         CleanQuestInfo();
         dragPanel.DestoryUI();
     }	

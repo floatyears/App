@@ -97,11 +97,14 @@ public class QuestSelectComponent : ConcreteComponent{
 
     void ResetUI(object args){
         SceneEnum nextScene = (SceneEnum)args;
-        LogHelper.Log("ResetUI(), nextScene {0}", nextScene);
-        if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.QuestSelect){
+        LogHelper.Log("ResetUI(), currentScene {0}, nextScene {1}", UIManager.Instance.baseScene.CurrentScene, nextScene);
+        if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendSelect && nextScene == SceneEnum.QuestSelect){
+            LogHelper.Log("QuestSelect ResetUI(), no reset");
             return;
         }
-        if (nextScene == SceneEnum.FriendSelect){
+
+        if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.QuestSelect && nextScene == SceneEnum.FriendSelect){
+            LogHelper.Log("QuestSelect ResetUI(), no reset");
             return;
         }
         QuestSelectDecoratorUnity view = viewComponent as QuestSelectDecoratorUnity;
