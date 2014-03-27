@@ -114,7 +114,7 @@ public class QuestDecorator : DecoratorBase
 
 //		UnityEngine.Debug.Log("QuestDecorator");
 
-		QuestComponent quest = CreatComponent< QuestComponent >(UIConfig.questWindowName);
+		QuestController quest = CreatComponent< QuestController >(UIConfig.questWindowName);
 		quest.SetComponent(sceneInfoBar);
 
 		lastDecorator = quest;

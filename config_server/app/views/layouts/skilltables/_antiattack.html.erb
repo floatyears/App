@@ -1,0 +1,34 @@
+<h2 id="SkillAntiAttack">SkillAntiAttack</h2>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+      <th>baseInfo</th>
+      <th>probability</th>
+      <th>attackSource</th>
+      <th>antiAttack</th>
+      <th>antiAtkRatio</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+	<tbody>
+    <% if @all_skills[:AntiAttack].present?%>
+    <% @all_skills[:AntiAttack].each_with_index do |skill,index|%>
+    <tr>
+      <td>
+        {
+          id:<%= skill[:baseInfo][:id]%>,
+          name:<%= skill[:baseInfo][:name]%>,
+          description:<%= skill[:baseInfo][:description]%>,
+          skillCooling:<%= skill[:baseInfo][:skillCooling]%>
+        }
+      </td>
+      <td><%=skill[:probability] %></td>
+      <td><%=skill.try(:attackSource) %></td>
+      <td><%=skill.try(:antiAttack) %></td>
+      <td><%=skill.try(:antiAtkRatio) %></td>
+      <td><%=link_to "修改",edit_skill_path(skillType: "AntiAttack",id: index,method: "PATCH") %></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>

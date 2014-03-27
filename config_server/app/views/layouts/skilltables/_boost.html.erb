@@ -1,0 +1,35 @@
+<h2 id="SkillBoost">SkillBoost</h2>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+      <th>baseInfo</th>
+      <th>boostType</th>
+      <th>boostValue</th>
+      <th>targetType</th>
+      <th>targetValue</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+	<tbody>
+    <% if @all_skills[:Boost].present? %>
+    <% @all_skills[:Boost].each_with_index do |skill,index|%>
+    <tr>
+      <td>
+        {
+          id:<%= skill[:baseInfo][:id]%>,
+          name:<%= skill[:baseInfo][:name]%>,
+          description:<%= skill[:baseInfo][:description]%>,
+          skillCooling:<%= skill[:baseInfo][:skillCooling]%>
+        }
+      </td>
+      <td><%=skill.try(:boostType) %></td>
+      <td><%=skill.try(:boostValue) %></td>
+      <td><%=skill.try(:targetType) %></td>
+      <td><%=skill.try(:targetValue) %></td>
+      <td><%=link_to "修改",edit_skill_path(skillType: "Boost",id: index,method: "PATCH") %></td>
+    </tr>
+    <% end %>
+    <% end %>
+    
+  </tbody>
+</table>

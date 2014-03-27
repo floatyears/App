@@ -366,18 +366,22 @@ public class LevelUpBasePanel : UIComponentUnity {
 		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
 		dragPanelArgs.Add("maxPerLine",		3);
 		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
-		dragPanelArgs.Add("cellWidth", 		110);
+		dragPanelArgs.Add("cellWidth", 		120);
 		dragPanelArgs.Add("cellHeight",		110);
 	}
 	bool exchange = false;
 	void CrossShow(){
 		if(exchange){
 			for (int i = 0 ; i< unitInfoStruct.Count; i++) {
-				unitInfoStruct[ i ].targetLabel.text = string.Format( "+{0}", unitInfoStruct[ i ].text2);
-				unitInfoStruct[ i ].targetLabel.color = Color.yellow;
+				if(unitInfoStruct[ i ].text2 == "0") continue;
+				else{
+					unitInfoStruct[ i ].targetLabel.text = string.Format( "+{0}", unitInfoStruct[ i ].text2);
+					unitInfoStruct[ i ].targetLabel.color = Color.yellow;
+				}
 			}
 			exchange = false;
-		} else {
+		}
+		else {
 			for (int i = 0 ; i< unitInfoStruct.Count; i++) {
 				unitInfoStruct[ i ].targetLabel.text = string.Format( "Lv{0}", unitInfoStruct[ i ].text1);
 				unitInfoStruct[ i ].targetLabel.color = Color.red;

@@ -2,7 +2,7 @@ using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class QuestDecoratorUnity : UIComponentUnity{
+public class QuestView : UIComponentUnity{
 	GameObject storyRoot;
 	GameObject eventRoot;
 	GameObject dragItemPrefab;
@@ -26,11 +26,7 @@ public class QuestDecoratorUnity : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
-//		Debug.LogError(storyDragPanel.ScrollItem.Count);
 		storyDragPanel.DestoryUI();
-
-//		Debug.LogError(storyDragPanel.ScrollItem.Count);
-//		eventDragPanel.DestoryUI();
 	}
 	
 	public override void Callback(object data){
@@ -40,26 +36,20 @@ public class QuestDecoratorUnity : UIComponentUnity{
 			case "CreateStoryView": 
 				CallBackDispatcherHelper.DispatchCallBack(CreateStoryView, cbdArgs);
 				break;
-		
 			default:
 				break;
 		}
 	}
-
-
-
+	
 	void InitUI(){
 		storyRoot = FindChild("story_window");
 		eventRoot = FindChild("event_window");
 		StylizeStoryPanel(); 
 		dragItemPrefab = Resources.Load("Stage/StageDragPanelItem") as GameObject;
-
 	}
 	
 	void CreateStoryView(object args){
-//		Debug.LogError("Receive controller call, to show stage ...");
 		List<TCityInfo> tciList = args as List<TCityInfo>;
-//		Debug.LogError("Data count is : " + tciList.Count);
 		storyDragPanel = new DragPanel("StageDragPanel", dragItemPrefab);
 		CreateScrollView(storyDragPanel, tciList);
 	}
@@ -68,10 +58,6 @@ public class QuestDecoratorUnity : UIComponentUnity{
 		panel.CreatUI();
 		panel.AddItem(GetDragPanelCellCount(cityList));               
         panel.DragPanelView.SetScrollView(storyDragPanelArgsDic);
-//		UpdateTexture(panel, GetTextureList(cityList));
-//		UpdateLabelTop(panel, GetClearInfoTextList(cityList));
-//		UpdateLabelBottom(panel, GetCityNameTextList(cityList));
-
 		UpdateInfo (panel, cityList);
 
 		foreach (var item in panel.ScrollItem)

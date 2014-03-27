@@ -1,0 +1,33 @@
+<%= form_tag(skills_path) %>
+<p>
+	baseInfo:<br/>
+	<fieldset>
+		id:<%= text_field_tag :id %>
+		name:<%= text_field_tag :name %>
+		description:<%= text_field_tag :description %>
+		skillCooling:<%= text_field_tag :skillCooling %>
+	</fieldset>
+</p>
+<p>
+	attackType:<%= select_tag :attackType,options_for_select(NormalSkill::EATTACK_TYPE) %>
+</p>
+<p>
+	activeBlocks:
+	<%= select_tag :activeBlocks1,options_for_select(@unit_type) %>
+	<%= select_tag :activeBlocks2,options_for_select(@unit_type) %>
+	<%= select_tag :activeBlocks3,options_for_select(@unit_type) %>
+	<%= select_tag :activeBlocks4,options_for_select(@unit_type) %>
+	<%= select_tag :activeBlocks5,options_for_select(@unit_type) %>
+</p>
+
+<p>
+	attackValue:<%= text_field_tag :attackValue %>
+</p>
+
+<p>
+	attackUnitType:<%= select_tag :attackUnitType,options_for_select(NormalSkill::EUNIT_TYPE) %>
+</p>
+
+<div class="actions">
+	<%= submit_tag '提交' %>
+</div>

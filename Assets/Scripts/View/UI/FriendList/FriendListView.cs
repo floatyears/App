@@ -181,8 +181,11 @@ public class FriendListView : UIComponentUnity{
 		else{
 			for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem [i];
-				crossShowLabelList [i].text = "+" + friendViewInfoList [i].CrossShowTextAfter;
-				crossShowLabelList [i].color = Color.red;
+				if(friendViewInfoList [ i ].CrossShowTextAfter == "0") continue;
+				else{
+					crossShowLabelList [ i ].text = "+" + friendViewInfoList [i].CrossShowTextAfter;
+					crossShowLabelList [ i ].color = Color.red;
+				}
 			}
 			exchange = true;
 		}

@@ -1,0 +1,36 @@
+<h2>SkillReduceHurt</h2>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+      <th>baseInfo</th>
+      <th>type</th>
+      <th>value</th>
+      <th>period</th>
+      <th>periodValue</th>
+      <th>unitType</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+	<tbody>
+    <% if @all_skills[:ReduceHurt] %>
+    <% @all_skills[:ReduceHurt].each_with_index do |skill,index|%>
+    <tr>
+      <td>
+        {
+          id:<%= skill[:baseInfo][:id]%>,
+          name:<%= skill[:baseInfo][:name]%>,
+          description:<%= skill[:baseInfo][:description]%>,
+          skillCooling:<%= skill[:baseInfo][:skillCooling]%>
+        }
+      </td>
+      <td><%=skill[:type] %></td>
+      <td><%=skill[:value] %></td>
+      <td><%=skill.try(:period) %></td>
+      <td><%=skill.try(:periodValue) %></td>
+      <td><%=skill.try(:unitType) %></td>
+      <td><%=link_to "修改",edit_skill_path(skillType: "ReduceHurt",id: index,method: "PATCH") %></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>

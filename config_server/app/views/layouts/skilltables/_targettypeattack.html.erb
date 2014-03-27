@@ -1,0 +1,34 @@
+<h2>SkillTargetTypeAttack</h2>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+      <th>baseInfo</th>
+      <th>type</th>
+      <th>value</th>
+      <th>targetUnitType</th>
+      <th>hurtUnitType</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+	<tbody>
+    <% if  @all_skills[:TargetTypeAttack].present? %>
+    <% @all_skills[:TargetTypeAttack].each_with_index do |skill,index|%>
+    <tr>
+      <td>
+        {
+          id:<%= skill[:baseInfo][:id]%>,
+          name:<%= skill[:baseInfo][:name]%>,
+          description:<%= skill[:baseInfo][:description]%>,
+          skillCooling:<%= skill[:baseInfo][:skillCooling]%>
+        }
+      </td>
+      <td><%=skill[:type] %></td>
+      <td><%=skill[:value] %></td>
+      <td><%=skill[:targetUnitType] %></td>
+      <td><%=skill[:hurtUnitType] %></td>
+      <td><%=link_to "修改",edit_skill_path(skillType: "TargetTypeAttack",id: index,method: "PATCH") %></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>

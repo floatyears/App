@@ -1,0 +1,31 @@
+<h2>SkillKillHP</h2>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+      <th>baseInfo</th>
+      <th>type</th>
+      <th>value</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+	<tbody>
+    <% if @all_skills[:KillHP].present? %>
+    <% @all_skills[:KillHP].each_with_index do |skill,index|%>
+    <tr>
+      <td>
+        {
+          id:<%= skill[:baseInfo][:id]%>,
+          name:<%= skill[:baseInfo][:name]%>,
+          description:<%= skill[:baseInfo][:description]%>,
+          skillCooling:<%= skill[:baseInfo][:skillCooling]%>
+        }
+      </td>
+      <td><%=skill[:type] %></td>
+      <td><%=skill[:value] %></td>
+      <td><%=link_to "修改",edit_skill_path(skillType: "KillHP",id: index,method: "PATCH") %></td>
+    </tr>
+    <% end %>
+    <% end %>
+    
+  </tbody>
+</table>

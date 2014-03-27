@@ -1,0 +1,8 @@
+<%= render 'layouts/skillforms/skill_base'%>
+
+<p>
+	trapLevel:<%= text_field_tag :trapLevel,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:trapLevel)%>
+</p>
+<p>
+	trapType:<%= select_tag :trapType,options_for_select(AllSkillConfig::ETRAP_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:trapType)) %>
+</p>

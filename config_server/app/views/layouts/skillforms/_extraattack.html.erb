@@ -1,0 +1,7 @@
+<%= render 'layouts/skillforms/skill_base'%>
+<p>
+	unitType:<%= select_tag :unitType,options_for_select(AllSkillConfig::EUNIT_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:unitType)) %>
+</p>
+<p>
+	attackValue:<%= text_field_tag :attackValue , @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:attackValue)%>
+</p>
