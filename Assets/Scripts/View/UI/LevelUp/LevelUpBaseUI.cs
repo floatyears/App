@@ -20,23 +20,29 @@ public class LevelUpBaseUI : ConcreteComponent {
 	public override void DestoryUI(){
 		base.DestoryUI();
 	}
+
+    bool CheckIfSaveStatusOrNot(SceneEnum nextScene){
+        bool ret = false;
+        if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail || nextScene == SceneEnum.UnitDetail){
+            ret = true;
+        }
+        return ret;
+    }
+
     void ResetUI(object args){
         SceneEnum nextScene = (SceneEnum)args;
         LogHelper.Log("ResetUI(), nextScene {0}", nextScene);
-        if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.LevelUp){
-            return;
-        }
-        Debug.LogError(viewComponent);
         LevelUpBasePanel view = viewComponent as LevelUpBasePanel;
-        if (nextScene == SceneEnum.UnitDetail){
+        if (!CheckIfSaveStatusOrNot(nextScene)){
             if (view != null){
-                view.NeedReInit = false;
+                view.NeedInit = false;
             }
             return;
         }
+        Debug.LogError(viewComponent);
         if (view != null){
-            view.NeedReInit = true;
             view.ClearData();
+            view.NeedInit = true;
         }
     }
 

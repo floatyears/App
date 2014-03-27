@@ -10,10 +10,10 @@ public class LevelUpBasePanel : UIComponentUnity {
 	List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
-    private bool needReInit = true;
-    public bool NeedReInit{
-        get {return needReInit;}
-        set {needReInit = value;}
+    private bool needInit = true;
+    public bool NeedInit{
+        get {return needInit;}
+        set {needInit = value;}
     }
 
 	private UnitItemInfo baseSelectItem;
@@ -35,8 +35,8 @@ public class LevelUpBasePanel : UIComponentUnity {
 			gameObject.SetActive(true);	
 		}
 //		Debug.LogError("LevelUpBasePanel start showui");
-        if (needReInit){
-            InitDragPanel();
+        if (needInit){
+            InitAll();
         }
 		AddListener();
 //		Debug.LogError("LevelUpBasePanel end showui");
@@ -47,6 +47,10 @@ public class LevelUpBasePanel : UIComponentUnity {
 		RemoveListener();
 		base.HideUI();
 	}
+
+    public void InitAll(){
+        InitDragPanel();
+    }
 
 	public void ClearData() {
 		if (baseDragPanel != null) {
