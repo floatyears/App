@@ -51,7 +51,11 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                 userUnit = new Dictionary<int,TUserUnit>();
                 for (int i = 0; i < partyItem.Count; i++) {
                     TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+//					Debug.LogError("UserUnit : " + partyItem[i].unitUniqueId);
                     userUnit.Add(partyItem[i].unitPos, uui);
+//					if(uui != null) {
+////						Debug.LogError("TUnitParty : " + uui.MakeUserUnitKey());
+//					}
                 }
 			
             }
@@ -60,6 +64,13 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     }
 
 	void EnterBattle(object data) {
+		string name = DataCenter.Instance.BattleFriend.UserUnit.MakeUserUnitKey ();
+		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (name);
+//		Debug.LogError ("EnterBattle : " + tuu + " name : " + name);
+
+//		for (int i = 0; i < DataCenter.Instance.SupportFriends.Count; i++) {
+////			Debug.LogError("DataCenter.Instance.SupportFriends : " + DataCenter.Instance.SupportFriends[i].UserUnit.MakeUserUnitKey());
+//		}
 		UserUnit.Add(DataCenter.friendPos, DataCenter.Instance.BattleFriend.UserUnit);
 	}
 

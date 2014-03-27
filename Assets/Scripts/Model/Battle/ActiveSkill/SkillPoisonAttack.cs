@@ -10,8 +10,6 @@ public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
-
-//		Debug.LogError ("TSkillPoison : " + skillBase.skillCooling);
 	}
 
 	public bool CoolingDone {

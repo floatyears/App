@@ -18,7 +18,7 @@ public class AttackEffect : MonoBehaviour {
 
 		AttackInfo ai = data as AttackInfo;
 		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (ai.UserUnitID);
-		Debug.LogError (tuu + "tuu : " + ai.UserUnitID);
+//		Debug.LogError (tuu + "tuu : " + ai.UserUnitID);
 		backgroundTexture.color = DGTools.TypeToColor (tuu.UnitInfo.Type);
 		AvatarTexture.mainTexture =  tuu.UnitInfo.GetAsset (UnitAssetType.Avatar);
 		Tween ();

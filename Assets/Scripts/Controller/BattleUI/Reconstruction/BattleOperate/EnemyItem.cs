@@ -120,12 +120,15 @@ public class EnemyItem : UIBaseUnity {
     public void Init(TEnemyInfo te) {
         texture = FindChild<UITexture>("Texture");
 		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
-        texture.mainTexture = tui.GetAsset(UnitAssetType.Profile);
+		Texture2D tex = tui.GetAsset(UnitAssetType.Profile);
+		texture.mainTexture = tex;
+		texture.width = tex.width;
+		texture.height = tex.height;
+
         dropTexture = FindChild<UITexture>("Drop");
         dropTexture.enabled = false;
         localPosition = texture.transform.localPosition;
         attackPosition = new Vector3(localPosition.x, BattleBackground.ActorPosition.y, localPosition.z);
-//		bloodLabel 				= FindChild<UILabel> ("BloodLabel");
         bloodSprite = FindChild<UISprite>("BloodSprite");
         nextLabel = FindChild<UILabel>("NextLabel");
         effect = FindChild<UIPanel>("Effect");

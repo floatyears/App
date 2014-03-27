@@ -98,6 +98,7 @@ public class BattleEnemy : UIBaseUnity {
 	float interv = 10f;
 
 	void SortEnemyItem(List<EnemyItem> temp) {
+		interv = 10f;
 		int count = temp.Count;
 		if (count == 0) {	return;	}
 		CompressTextureWidth (temp);
@@ -118,6 +119,7 @@ public class BattleEnemy : UIBaseUnity {
 			temp[centerRightIndex].transform.localPosition = new Vector3(0f + (temp[centerRightIndex].texture.width ),0f,0f);
 			DisposeCenterLeft(centerIndex--, temp);
 			centerRightIndex++;
+
 			DisposeCenterRight(centerRightIndex , temp);
 		}
 	}
@@ -129,21 +131,21 @@ public class BattleEnemy : UIBaseUnity {
 			allWidth += temp[i].texture.width;
 		}
 		float probability = (float)screenWidth / allWidth;
-//		if (probability * 2 < 1) {
-//			probability *= 2;
-//		}
-//		Debug.LogError (" probability : " + probability + "  width :" + width + " allWidth : " + allWidth);
-		if (probability <= 1f) { // allWidth > screenWidth
+		if (probability <= 1f) { 
 			interv *= probability;
+			Debug.LogError("CompressTextureWidth : " + probability);
 			for (int i = 0; i < temp.Count; i++) {
-				float tempWidth = temp [i].texture.width * probability;
-				float tempHeight = temp [i].texture.height * probability;
-				temp [i].texture.width = (int)tempWidth;
-				temp [i].texture.height = (int)tempHeight;
+				UITexture tex = temp [i].texture;
+				float tempWidth = tex.width * probability;
+				float tempHeight = tex.height * probability;
+//				Debug.LogError("beffoure " + tex.mainTexture + " width : " + tex.width + " height : " + tex.height);
+				tex.width = (int)tempWidth;
+				tex.height = (int)tempHeight;
+//				Debug.LogError("end " + tex.mainTexture + " width : " + tex.width + " height : " + tex.height);
 			}	
-		} else { // allWidth <= screenWidth
+		} else { 
 			if( temp.Count > 1)
-				interv = (screenWidth - allWidth) / (temp.Count-1);
+				interv = (screenWidth - allWidth) * 1f / (temp.Count-1);
 			else
 				interv = 10;
 		}
@@ -153,17 +155,21 @@ public class BattleEnemy : UIBaseUnity {
 		int tempIndex = centerIndex - 1;
 		while(tempIndex >= 0) {
 			Vector3 localPosition = temp[tempIndex + 1].transform.localPosition;
-			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - ((temp[tempIndex].texture.width ) + interv) , 0f, 0f);
+			float leftwidth = temp[tempIndex + 1].texture.width * 0.5f;
+			float rightWidth = temp[tempIndex].texture.width * 0.5f + leftwidth + interv;
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - rightWidth , 0f, 0f);
 			tempIndex--;
 		}
 	}
 
 	void DisposeCenterRight (int centerIndex, List<EnemyItem> temp) {
 		int tempIndex = centerIndex;
-
+//		Debug.LogError ("tempIndex : " + tempIndex + " temp.Count : " + temp.Count);
 		while(tempIndex < temp.Count) {
 			Vector3 localPosition = temp[tempIndex - 1].transform.localPosition;
-			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + ((temp[tempIndex].texture.width ) + interv), 0f, 0f);
+			float leftwidth = temp[tempIndex - 1].texture.width * 0.5f;
+			float rightWidth = temp[tempIndex].texture.width * 0.5f + leftwidth + interv;
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + rightWidth, 0f, 0f);
 			tempIndex++;
 		}
 	}
