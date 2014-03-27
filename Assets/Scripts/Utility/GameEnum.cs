@@ -55,6 +55,8 @@ public enum SceneEnum
 	UnitDetail,
 
 	Fight,
+
+	UnitSelect,
 }
 
 public enum CommandEnum
