@@ -93,6 +93,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 
 	void GenerateFightCardImmelity(int id) {
 		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
+
 		InstnaceCard ();
 	}
 
