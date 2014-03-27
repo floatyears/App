@@ -18,7 +18,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	private UILabel rewardCoinLabel;
 	private UILabel rewardLineLabel;
 	private UILabel questNameLabel;
-	private UITexture avatarTexture;
+	private UITexture bossAvatar;
 	private GameObject detail_low_light;
 	private GameObject story_low_light;
 	private UILabel clearLabel;
@@ -43,15 +43,24 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
+        firstFocus.value = true;
 		ShowTween();
-		btnSelect.isEnabled = false;
-		firstFocus.value = true;
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 
 	}
+
+    public override void ResetUIState(){
+        LogHelper.Log("QuestSelectDecoratorUnity.ClearUIState()");
+        CleanQuestInfo();
+        if (dragPanel != null){
+            dragPanel.DestoryUI();
+        }
+        btnSelect.isEnabled = false;
+        InitDragPanel();
+    }   
 
 	void ReceiveStageInfo( object data ){
 		StageInfo receivedStageInfo = data as StageInfo;
@@ -85,7 +94,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		rewardCoinLabel.text= string.Empty;
 		questNameLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_quest_name");
 		questNameLabel.text = string.Empty;
-		avatarTexture = FindChild<UITexture>("Window/window_left/Texture_Avatar");
+		bossAvatar = FindChild<UITexture>("Window/window_left/Texture_Avatar");
 
 		GameObject pickEnemies;
 		pickEnemies = FindChild("Window/window_right/content_detail/pickEnemies");
@@ -169,6 +178,50 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		rewardExpLabel.text = "Exp " + tsi.QuestInfo[index].RewardExp.ToString();
 		storyTextLabel.text = tsi.Description;
 		btnSelect.isEnabled = true;
+
+		ShowBossAvatar(tsi.QuestInfo[ index ].BossID[ 0 ]);
+		ShowEnemiesAvatar(tsi.QuestInfo[ index ].EnemyID);
+	}
+
+
+	void ShowBossAvatar(uint bossId){
+		TUnitInfo bossInfo = DataCenter.Instance.GetUnitInfo(bossId);
+		if(bossInfo == null){
+			Debug.LogError("Boss Info is null!!!");
+			return;
+		}
+		Texture2D sourceTex = bossInfo.GetAsset(UnitAssetType.Avatar);
+		if(sourceTex == null){
+			Debug.LogError("Source Texture NOT found!!!");
+			return;
+		}
+		bossAvatar.mainTexture = sourceTex;
+	}
+
+	int maxEnemyShowCount = 5;
+	void ShowEnemiesAvatar(List<uint> enemyIdList){
+		List<TUnitInfo> enemyInfoList = new List<TUnitInfo>();
+		for (int i = 0; i < maxEnemyShowCount; i++){
+//			Debug.LogError(i);
+			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(enemyIdList[ i ]);
+			if(tui == null)
+				return;
+			else
+				enemyInfoList.Add(tui);
+		}
+
+		List<Texture2D> texList = new List<Texture2D>();
+		for (int i = 0; i < enemyInfoList.Count; i++){
+			Texture2D tex = enemyInfoList[ i ].GetAsset(UnitAssetType.Avatar);
+			if(tex == null) return;
+			else
+				texList.Add(tex);
+		}
+
+		for (int i = 0; i < texList.Count; i++){
+//			Debug.LogError(i);
+			pickEnemiesList[ i ].mainTexture = texList[ i ];
+		}
 	}
 
 	void ClickQuestItem(GameObject go ){
@@ -206,12 +259,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		ExcuteCallback(cbdArgs);
 	}
     
-    public void ResetUIWhenChange(){
-        LogHelper.Log("ResetUIWhenChange()");
-        CleanQuestInfo();
-        dragPanel.DestoryUI();
-    }	
-
 	public override void Callback(object data) {
 		base.Callback(data);
 
@@ -273,7 +320,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 //			Debug.LogError("tqi.BossID[0] : " + tqi.BossID[0]);
 			tex.mainTexture = tui.GetAsset(UnitAssetType.Avatar);
 			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
-			label.text = "Quest : " + (i+1).ToString();
+			label.text = "Quest : " + (i + 1).ToString();
 			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
 		}
 	}
@@ -292,7 +339,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		rewardCoinLabel.text = string.Empty;
 		questNameLabel.text = string.Empty;
 		questNameLabel.text = string.Empty;
-		avatarTexture.mainTexture = null;
+		bossAvatar.mainTexture = null;
 		labDoorName.text = string.Empty;
 		foreach (var item in pickEnemiesList){
 			item.mainTexture = null;
@@ -313,16 +360,16 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	}
 	
 	void InitQuestSelectScrollArgs(){
-		questSelectScrollerArgsDic.Add("parentTrans",		scrollView.transform);
-		questSelectScrollerArgsDic.Add("scrollerScale",		Vector3.one);
-		questSelectScrollerArgsDic.Add("scrollerLocalPos",	-90 * Vector3.up);
-		questSelectScrollerArgsDic.Add("position",				Vector3.zero);
-		questSelectScrollerArgsDic.Add("clipRange",			new Vector4(0, 0, 640, 200));
-		questSelectScrollerArgsDic.Add("gridArrange",		UIGrid.Arrangement.Horizontal);
-		questSelectScrollerArgsDic.Add("maxPerLine",		0);
+		questSelectScrollerArgsDic.Add("parentTrans",			scrollView.transform);
+		questSelectScrollerArgsDic.Add("scrollerScale",			Vector3.one);
+		questSelectScrollerArgsDic.Add("scrollerLocalPos",		-60 * Vector3.up);
+		questSelectScrollerArgsDic.Add("position",					Vector3.zero);
+		questSelectScrollerArgsDic.Add("clipRange",				new Vector4(0, 0, 640, 200));
+		questSelectScrollerArgsDic.Add("gridArrange",			UIGrid.Arrangement.Horizontal);
+		questSelectScrollerArgsDic.Add("maxPerLine",			0);
 		questSelectScrollerArgsDic.Add("scrollBarPosition",	new Vector3(-320, -120, 0));
-		questSelectScrollerArgsDic.Add("cellWidth",			125);
-		questSelectScrollerArgsDic.Add("cellHeight",			125);
+		questSelectScrollerArgsDic.Add("cellWidth",				125);
+		questSelectScrollerArgsDic.Add("cellHeight",				125);
 
 	}
 

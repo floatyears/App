@@ -31,6 +31,10 @@ public partial class TextCenter {
 		textDict.Add("CounterCurrent",  "{0}");
 		textDict.Add("CounterMax",  "/{0}");
 
+		textDict.Add("StageStateNew", "New");
+		textDict.Add("StageStateClear", "Clear");
+		textDict.Add("StaminaLackNoteTitle", "Friendly Reminder");
+		textDict.Add("StaminaLackNoteContent", "Current Stamina is not enough to battle!");
     }
 }
 

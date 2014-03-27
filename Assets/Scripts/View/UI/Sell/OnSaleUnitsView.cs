@@ -28,15 +28,12 @@ public class OnSaleUnitsView : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		sellImgBtn.isEnabled = false;
-		clearImgBtn.isEnabled = false;
-		coinLabel.text = "0";
 		ShowUIAnimation();	              
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
-		ResetUIElement();
+//		ResetUIElement();
 	}
 
 	public override void Callback(object data){
@@ -73,7 +70,19 @@ public class OnSaleUnitsView : UIComponentUnity{
 		}
 	}
 
-	void BackToMainWindow(object args){
+    public override void ResetUIState() {
+        OnSaleUnitsController controller = origin as OnSaleUnitsController;
+        if (controller != null){
+            Debug.LogError(controller);
+            controller.ResetUI();
+        }
+        ResetUIElement();
+        sellImgBtn.isEnabled = false;
+        clearImgBtn.isEnabled = false;
+        coinLabel.text = "0";
+    }
+    
+    void BackToMainWindow(object args){
 		mainRoot.SetActive(true);
 		submitRoot.SetActive(false);
 		ShowUIAnimation();
@@ -282,7 +291,9 @@ public class OnSaleUnitsView : UIComponentUnity{
 
 	void DestoryDragView(object args){
 		crossShowLabelList.Clear();
-		dragPanel.DestoryUI();
+        if (dragPanel != null){
+            dragPanel.DestoryUI();
+        }
 	}
 
 	void ResetUIElement(){
@@ -316,8 +327,11 @@ public class OnSaleUnitsView : UIComponentUnity{
 		else{
 			for( int i = 0; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem[ i ];
-				crossShowLabelList[ i ].text = "+" + viewInfoList[ i ].CrossShowTextAfter;
-				crossShowLabelList[ i ].color = Color.red;
+				if(viewInfoList[ i  ].CrossShowTextAfter == "0") continue;
+				else{
+					crossShowLabelList[ i ].text = "+" + viewInfoList[ i ].CrossShowTextAfter;
+					crossShowLabelList[ i ].color = Color.red;
+				}
 			}
 			exchange = true;
 		}

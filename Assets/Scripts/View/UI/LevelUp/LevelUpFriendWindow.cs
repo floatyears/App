@@ -27,7 +27,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
     public override void HideUI() {
         base.HideUI();
-		MsgCenter.Instance.AddListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
+		MsgCenter.Instance.RemoveListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
         MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, FocusOnPanel);
     }
 

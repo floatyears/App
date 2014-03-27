@@ -9,13 +9,11 @@ public class QuestSelectComponent : ConcreteComponent{
 	private TEvolveStart evolveStageInfo;
 
 	public QuestSelectComponent(string uiName):base(uiName){
-        MsgCenter.Instance.AddListener(CommandEnum.ChangeScene, ResetUI);
+//        MsgCenter.Instance.AddListener(CommandEnum.ChangeScene, ResetUI);
     }
 	
 	public override void CreatUI(){
-
 		base.CreatUI();
-
 	}
 	
 	public override void ShowUI(){
@@ -73,12 +71,37 @@ public class QuestSelectComponent : ConcreteComponent{
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowInfoPanel",  info);
 		ExcuteCallback(cbdArgs);
 	}
+
 	
+	//MsgWindow show, note stamina is not enough.
+	bool CheckStaminaEnough(int staminaNeed, int staminaNow){
+		if(staminaNeed > staminaNow) return true;
+		else return false;
+	}
+
+	MsgWindowParams GetStaminaLackMsgParams(){
+		MsgWindowParams msgParams = new MsgWindowParams();
+		msgParams.titleText = TextCenter.Instace.GetCurrentText("StaminaLackNoteTitle");
+		msgParams.contentText = TextCenter.Instace.GetCurrentText("StaminaLackNoteContent");
+		msgParams.btnParam = new BtnParam();
+		return msgParams;
+	}
+
 	void TurnToFriendSelect(object args){
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		bool b = (bool)args;
 		TStageInfo tsi = null;
 		uint questID = 0;
+
+		int staminaNeed = currentStageInfo.QuestInfo[ currentQuestIndex ].Stamina;
+		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
+		Debug.Log("TurnToFriendSelect()......staminaNeed is : " + staminaNeed);
+		Debug.Log("TurnToFriendSelect()......staminaNow is : " + staminaNow);
+		if(CheckStaminaEnough(staminaNeed, staminaNow)){
+			Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
+			//MsgWindowShow
+			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
+			return;
+		}
 
 		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
 		if (b) {
@@ -95,17 +118,5 @@ public class QuestSelectComponent : ConcreteComponent{
 		}
 	}
 
-    void ResetUI(object args){
-        SceneEnum nextScene = (SceneEnum)args;
-        LogHelper.Log("ResetUI(), nextScene {0}", nextScene);
-        if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.QuestSelect){
-            return;
-        }
-        if (nextScene == SceneEnum.FriendSelect){
-            return;
-        }
-        QuestSelectDecoratorUnity view = viewComponent as QuestSelectDecoratorUnity;
-        view.ResetUIWhenChange();
-    }
 
 }
