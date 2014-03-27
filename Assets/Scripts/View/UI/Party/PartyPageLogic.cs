@@ -100,8 +100,12 @@ public class PartyPageLogic : ConcreteComponent{
 	//==add by lei liang start==================================================
 
 	protected void RefreshEvolvePartyInfo (TUnitParty unitParty) {
-		if (unitParty == null)	return;
-		if (unitParty.GetUserUnit() == null)	return;
+		if (unitParty == null)	{
+			return;
+		}
+		if (unitParty.GetUserUnit() == null){	
+			return;
+		}
 		
 		List<TUserUnit> curUserUnitList = unitParty.GetUserUnit();
 		List<Texture2D> curPartyTexList = GetPartyTexture(curUserUnitList);

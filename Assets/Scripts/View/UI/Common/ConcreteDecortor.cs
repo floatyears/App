@@ -924,4 +924,31 @@ public class UnitDetailDecorator : DecoratorBase{
 		lastDecorator = unitDetailPanel;
 		lastDecorator.CreatUI();
 	}
+
+	//--------------------------------UnitSelect------------------------------------------
+	public class UnitSelectDecorator : DecoratorBase{
+		private SceneInfoComponent sceneInfoBar;
+		public UnitSelectDecorator(SceneEnum sEnum) : base(sEnum){}
+		
+		public override void ShowScene(){
+			base.ShowScene();
+			sceneInfoBar.SetBackScene(SceneEnum.LevelUp);
+		}
+		
+		public override void HideScene(){
+			base.HideScene();
+		}
+		
+		public override void DestoryScene(){
+			base.DestoryScene();
+		}
+		
+		public override void DecoratorScene(){
+			sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+			sceneInfoBar.SetComponent(decorator);
+		
+			lastDecorator = sceneInfoBar;
+			lastDecorator.CreatUI();
+		}
+	}
 }

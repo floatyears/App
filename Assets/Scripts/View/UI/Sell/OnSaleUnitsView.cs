@@ -276,8 +276,9 @@ public class OnSaleUnitsView : UIComponentUnity{
 	void AddEventLisenter(){
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject item = dragPanel.ScrollItem[ i ];
-			UIEventListener.Get(item).onClick = ClickItem;
-			UIEventListenerCustom.Get(item).LongPress = PressItem;
+			UIEventListenerCustom cu = UIEventListenerCustom.Get(item);
+			cu.onClick = ClickItem;
+			cu.LongPress = PressItem;
 		}
 	}
 
