@@ -10,12 +10,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 	List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
-    private bool needInit = true;
-    public bool NeedInit{
-        get {return needInit;}
-        set {needInit = value;}
-    }
-
 	private UnitItemInfo baseSelectItem;
 	private Dictionary<int, UnitItemInfo> materialDic = new Dictionary<int, UnitItemInfo> ();	// key is item pos.
 
@@ -25,8 +19,9 @@ public class LevelUpBasePanel : UIComponentUnity {
 	private List<UnitItemInfo> selectMaterial = new List<UnitItemInfo> ();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
-		InitUI();
-		base.Init(config, origin);
+        InitUI();
+        MsgCenter.Instance.AddListener (CommandEnum.AfterLevelUp, ResetUIAfterLevelUp);
+        base.Init(config, origin);
 	}
 
 	public override void ShowUI(){
@@ -34,10 +29,6 @@ public class LevelUpBasePanel : UIComponentUnity {
 		if (!gameObject.activeSelf) {
 			gameObject.SetActive(true);	
 		}
-//		Debug.LogError("LevelUpBasePanel start showui");
-        if (needInit){
-            InitAll();
-        }
 		AddListener();
 //		Debug.LogError("LevelUpBasePanel end showui");
 	}
@@ -48,11 +39,15 @@ public class LevelUpBasePanel : UIComponentUnity {
 		base.HideUI();
 	}
 
-    public void InitAll(){
+    public override void ResetUIState(){
+        ClearData();
         InitDragPanel();
     }
 
-	public void ClearData() {
+    public void ResetUIAfterLevelUp(object args){
+    }
+    
+    public void ClearData() {
 		if (baseDragPanel != null) {
 			baseDragPanel.DestoryUI ();
 		}
@@ -102,9 +97,9 @@ public class LevelUpBasePanel : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.PanelFocus, ShowMyself);
 		MsgCenter.Instance.RemoveListener (CommandEnum.BaseAlreadySelect, BaseAlreadySelect);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMaterial, ShieldMaterial);
-	}
-
-	void ShieldMaterial(object data) {
+    }
+    
+    void ShieldMaterial(object data) {
 		UnitItemInfo[] unitItem = data as UnitItemInfo[];
 		for (int i = 0; i < unitItem.Length; i++) {
 			if(unitItem[i] == null) {
@@ -258,7 +253,7 @@ public class LevelUpBasePanel : UIComponentUnity {
         }
 
 	void InitDragPanel(){
-//		Debug.LogError(" start levelup base panel InitDragPanel ");
+		Debug.LogError(" start levelup base panel InitDragPanel ");
 		if ( DataCenter.Instance.MyUnitList != null)
 			userUnitInfoList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
 		string name = "BaseDragPanel";

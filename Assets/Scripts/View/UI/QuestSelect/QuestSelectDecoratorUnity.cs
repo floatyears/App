@@ -43,14 +43,24 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
+        firstFocus.value = true;
 		ShowTween();
-		firstFocus.value = true;
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 
 	}
+
+    public override void ResetUIState(){
+        LogHelper.Log("QuestSelectDecoratorUnity.ClearUIState()");
+        CleanQuestInfo();
+        if (dragPanel != null){
+            dragPanel.DestoryUI();
+        }
+        btnSelect.isEnabled = false;
+        InitDragPanel();
+    }   
 
 	void ReceiveStageInfo( object data ){
 		StageInfo receivedStageInfo = data as StageInfo;
@@ -249,13 +259,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		ExcuteCallback(cbdArgs);
 	}
     
-    public void ResetUIWhenChange(){
-        LogHelper.Log("ResetUIWhenChange()");
-        btnSelect.isEnabled = false;
-        CleanQuestInfo();
-        dragPanel.DestoryUI();
-    }	
-
 	public override void Callback(object data) {
 		base.Callback(data);
 

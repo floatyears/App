@@ -4,8 +4,6 @@ using bbproto;
 
 public class LevelUpReadyPoolUI : ConcreteComponent {
 	public LevelUpReadyPoolUI(string uiName):base(uiName) {
-        Debug.LogError("LevelUpReadyPoolUI");   
-        MsgCenter.Instance.AddListener(CommandEnum.ChangeScene, ResetUI);
     }
 
 	public override void Callback (object data) {
@@ -68,21 +66,10 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 
 			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
+            MsgCenter.Instance.Invoke (CommandEnum.AfterLevelUp);
 		}
 
 
 	}
-
-    void ResetUI(object args){
-        if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.LevelUp){
-            return;
-        }
-        SceneEnum nextScene = (SceneEnum)args;
-        if (nextScene == SceneEnum.UnitDetail){
-            return;
-        }
-        LevelUpReadyPanel view = viewComponent as LevelUpReadyPanel;
-        view.ResetData();
-    }
 }
 

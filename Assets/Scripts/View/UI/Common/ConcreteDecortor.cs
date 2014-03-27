@@ -378,8 +378,9 @@ public class QuestSelectDecorator : DecoratorBase
 
 	public QuestSelectDecorator(SceneEnum sEnum) : base(sEnum)
 	{
+        MsgCenter.Instance.AddListener(CommandEnum.QuestSelectSaveState, SetKeepState);
 	}
-	
+
 	public override void ShowScene()
 	{
 		base.ShowScene();
@@ -456,7 +457,9 @@ public class FriendSelectDecorator : DecoratorBase{
 //--------------------------------Party----------------------------------------
 public class PartyDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public PartyDecorator(SceneEnum sEnum) : base(sEnum){}
+	public PartyDecorator(SceneEnum sEnum) : base(sEnum){
+        MsgCenter.Instance.AddListener(CommandEnum.PartySaveState, SetKeepState);
+    }
 	
 	public override void ShowScene(){
 		base.ShowScene();
@@ -497,6 +500,7 @@ public class LevelUpDecorator : DecoratorBase
 	public LevelUpDecorator(SceneEnum sEnum) : base(sEnum)
 	{
 		LogHelper.Log("LevelUpDecorator : ");
+        MsgCenter.Instance.AddListener(CommandEnum.LevelUpSaveState, SetKeepState);
 	}
 	
 	public override void ShowScene()
@@ -541,6 +545,7 @@ public class SellDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
+        MsgCenter.Instance.AddListener(CommandEnum.SellUnitSaveState, SetKeepState);
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	

@@ -225,11 +225,14 @@ public class PartyUnitsView : UIComponentUnity {
 		crossShowLabelList.Clear();
 		viewInfoList.Clear();
 
-		foreach (var item in dragPanel.ScrollItem){
-			GameObject.Destroy(item);
-		}
-		dragPanel.ScrollItem.Clear();
-		GameObject.Destroy(dragPanel.DragPanelView.gameObject);
+        if (dragPanel != null){
+            foreach (var item in dragPanel.ScrollItem){
+                GameObject.Destroy(item);
+            }
+            dragPanel.ScrollItem.Clear();
+            GameObject.Destroy(dragPanel.DragPanelView.gameObject);
+        }
+
 	}
 	
 	void FindCrossShowLabelList(){

@@ -28,15 +28,12 @@ public class OnSaleUnitsView : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		sellImgBtn.isEnabled = false;
-		clearImgBtn.isEnabled = false;
-		coinLabel.text = "0";
 		ShowUIAnimation();	              
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
-		ResetUIElement();
+//		ResetUIElement();
 	}
 
 	public override void Callback(object data){
@@ -73,7 +70,19 @@ public class OnSaleUnitsView : UIComponentUnity{
 		}
 	}
 
-	void BackToMainWindow(object args){
+    public override void ResetUIState() {
+        OnSaleUnitsController controller = origin as OnSaleUnitsController;
+        if (controller != null){
+            Debug.LogError(controller);
+            controller.ResetUI();
+        }
+        ResetUIElement();
+        sellImgBtn.isEnabled = false;
+        clearImgBtn.isEnabled = false;
+        coinLabel.text = "0";
+    }
+    
+    void BackToMainWindow(object args){
 		mainRoot.SetActive(true);
 		submitRoot.SetActive(false);
 		ShowUIAnimation();
@@ -267,8 +276,9 @@ public class OnSaleUnitsView : UIComponentUnity{
 	void AddEventLisenter(){
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject item = dragPanel.ScrollItem[ i ];
-			UIEventListener.Get(item).onClick = ClickItem;
-			UIEventListenerCustom.Get(item).LongPress = PressItem;
+			UIEventListenerCustom cu = UIEventListenerCustom.Get(item);
+			cu.onClick = ClickItem;
+			cu.LongPress = PressItem;
 		}
 	}
 
@@ -282,7 +292,9 @@ public class OnSaleUnitsView : UIComponentUnity{
 
 	void DestoryDragView(object args){
 		crossShowLabelList.Clear();
-		dragPanel.DestoryUI();
+        if (dragPanel != null){
+            dragPanel.DestoryUI();
+        }
 	}
 
 	void ResetUIElement(){

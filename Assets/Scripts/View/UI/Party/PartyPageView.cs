@@ -25,14 +25,19 @@ public class PartyPageView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		SetUIElement();
+//		SetUIElement();
 		ShowTween();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		ResetUIElement();
+//		ResetUIElement();
 	}
+
+    public override void ResetUIState() {
+        ResetUIElement();
+        SetUIElement();
+    }
 	
 	public override void Callback(object data){
 		base.Callback(data);
