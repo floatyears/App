@@ -96,6 +96,7 @@ public class Battle : UIBase {
 		if (ai == null) {
 			return;		
 		}
+
 		attackEffect.RefreshItem (ai);
 	}
 

@@ -69,14 +69,20 @@ public class BattleBottom : MonoBehaviour {
 			Debug.LogError("upi is null");
 			return;	
 		}
-//		Debug.LogError ("name : " + name);
-		int id = System.Int32.Parse (name);
-		battleQuest.battle.SwitchInput (true);
-		if (upi.UserUnit.ContainsKey (id)) {
-			tuu = upi.UserUnit [id];
-			battleSkillObject.SetActive(true);
-			battleSkill.Refresh(tuu, Boost);
+		Debug.LogError ("name : " + name);
+		try{
+			int id = System.Int32.Parse (name);
+			battleQuest.battle.SwitchInput (true);
+			if (upi.UserUnit.ContainsKey (id)) {
+				tuu = upi.UserUnit [id];
+				battleSkillObject.SetActive(true);
+				battleSkill.Refresh(tuu, Boost);
+			}
 		}
+		catch(System.Exception ex) {
+				
+		}
+
 	}
 
 	void Boost() {
