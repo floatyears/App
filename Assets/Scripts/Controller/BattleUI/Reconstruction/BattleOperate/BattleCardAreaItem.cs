@@ -16,7 +16,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 	private float durationTime = 0.1f;
 	private Vector3 selfScale = new Vector3 (1.2f, 1.2f, 1f);
 	private Vector3 battleCardInitPos ;
-	private List<UITexture> battleCardTemplate = new List<UITexture>();
+	private List<UISprite> battleCardTemplate = new List<UISprite>();
 
 	private int areaItemID = -1;
 	public int AreaItemID {
@@ -24,7 +24,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 		set {areaItemID = value;}
 	}
 
-	private UITexture template;
+	private UISprite template;
 
 	public override void Init(string name) {
 		base.Init(name);
@@ -41,7 +41,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 	}
 
 	void InitFightCard() {
-		template = FindChild<UITexture> ("BattleCardTemplate");
+		template = FindChild<UISprite> ("BattleCardTemplate");
 		battleCardTemplate.Add(template);
 		battleCardInitPos = template.transform.localPosition;
 	}
@@ -89,7 +89,8 @@ public class BattleCardAreaItem : UIBaseUnity {
 
 		return maxLimit;
 	}
-	List <AttackImageUtility> attackImage = new List<AttackImageUtility> ();
+
+	List <AttackInfo> attackImage = new List<AttackInfo> ();
 
 	void GenerateFightCardImmelity(int id) {
 		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
@@ -107,10 +108,10 @@ public class BattleCardAreaItem : UIBaseUnity {
 			if(battleCardTemplate.Count == i) {
 				CreatCard();
 			}
-			UITexture tex = battleCardTemplate[i];
+			UISprite tex = battleCardTemplate[i];
 			tex.enabled = true;
-			tex.color = ItemData.GetColor (attackImage[i].attackProperty);
-			attackImage[i].attackUI = tex;
+			tex.spriteName = DGTools.GetNormalSkillSpriteName(attackImage[i]); //ItemData.GetColor (attackImage[i].AttackType);
+			attackImage[i].AttackSprite = tex;
 		}
 	}
 
@@ -120,12 +121,12 @@ public class BattleCardAreaItem : UIBaseUnity {
 		instance.transform.localScale = Vector3.one;
 		instance.layer = gameObject.layer;
 		instance.transform.localPosition = battleCardInitPos + new Vector3 (0f, battleCardTemplate.Count * 10f, 0f);
-		battleCardTemplate.Add(instance.GetComponent<UITexture>());
+		battleCardTemplate.Add(instance.GetComponent<UISprite>());
 	}
 
 	void BattleEnd(object data) {
 		for (int i = 0; i < attackImage.Count; i++) {
-			attackImage[i].attackUI.enabled = false;
+			attackImage[i].AttackSprite.enabled = false;
 		}
 	}
 
@@ -135,10 +136,10 @@ public class BattleCardAreaItem : UIBaseUnity {
 			return;		
 		}
 
-		AttackImageUtility aiu = attackImage.Find (a => a.attackID == ai.AttackID);
+		AttackInfo aiu = attackImage.Find (a => a.AttackID == ai.AttackID);
 
-		if (aiu != default(AttackImageUtility)) {
-			aiu.attackUI.enabled = false;	
+		if (aiu != default(AttackInfo)) {
+			aiu.AttackSprite.enabled = false;	
 		}
  	}
 
@@ -147,25 +148,18 @@ public class BattleCardAreaItem : UIBaseUnity {
 	}
 
 	bool isScale = false;
-	public void Scale(bool on)
-	{
-//		if (on) {
+	public void Scale(bool on) {
 		if (!isScale) {
 			isScale = true;
 			iTween.ScaleFrom (gameObject, iTween.Hash ("scale", selfScale, "time", 0.3f, "easetype", "easeoutback","oncompletetarget",gameObject,"oncomplete","ScaleDown"));
 		}
-//		} 
-//		else {
-//			iTween.ScaleTo(gameObject,iTween.Hash("scale",Vector3.one,"time",0.1f,"easetype","easeoutcubic"));
-//		}
 	}
 
 	void ScaleDown() {
 		isScale = false;
 	}
 
-	public void ClearCard()
-	{
+	public void ClearCard() {
 		for (int i = 0; i < cardItemList.Count; i++) {
 			cardItemList[i].HideUI();
 		}
@@ -190,7 +184,6 @@ public class BattleCardAreaItem : UIBaseUnity {
 	
 	Vector3 GetPosition(int sortID) {	
 		Vector3 tempPos = Vector3.zero;
-		
 		switch (sortID) {
 		case 0:
 			tempPos = new Vector3(pos.x - utilityScale.x,pos.y + utilityScale.y,pos.z);
@@ -210,7 +203,6 @@ public class BattleCardAreaItem : UIBaseUnity {
 		default:
 			break;
 		}
-
 		return tempPos - transform.localPosition;
 	}
 

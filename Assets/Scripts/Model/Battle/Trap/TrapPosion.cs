@@ -18,6 +18,9 @@ public class TrapPosion : TrapBase, ITrapExcute {
 	
 	void RoleMove(object data) {
 		ExcuteTrap ();
+		if (round != 0) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk_hurt);
+		}
 	}
 
 	void EnemyAttak (object data) {

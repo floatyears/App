@@ -17,6 +17,7 @@ public class AttackController {
 	}
 	IExcutePassiveSkill passiveSkill;
 
+	public bool isBoss = false;
 
 	public AttackController (BattleUseData bud,IExcutePassiveSkill ips) {
 		msgCenter = MsgCenter.Instance;
@@ -262,6 +263,9 @@ public class AttackController {
 			GameTimer.GetInstance().AddCountDown(2f, BattleEnd); //TODO: set time in const config
 			return false;
 		}
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
+
 		return true;
 	}
 
@@ -269,6 +273,7 @@ public class AttackController {
 		msgCenter.Invoke (CommandEnum.GridEnd, null);
 		msgCenter.Invoke(CommandEnum.BattleEnd, null);
 		bud.ClearData();
+		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}
 
 	void DisposeRecoverHP (AttackInfo value) {
@@ -342,7 +347,6 @@ public class AttackController {
 	List<AttackInfo> antiInfo = new List<AttackInfo>();
 	void EnemyAttack () {
 		if (te.GetRound () == 0) {
-//			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemyID);//GetID());
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
 			int attackType = te.GetUnitType ();
 			int attackValue = te.AttackValue;
@@ -353,9 +357,14 @@ public class AttackController {
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 			List<AttackInfo> temp = passiveSkill.Dispose(attackType,hurtValue);
 			for (int i = 0; i < temp.Count; i++) {
-//				temp[i].EnemyID = te.EnemyID;//GetID();
 				temp[i].EnemyID = te.EnemySymbol;
 				antiInfo.Add(temp[i]);
+			}
+
+			if(!isBoss) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_boss_battle);
 			}
 		}
 		enemyIndex ++;

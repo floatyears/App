@@ -106,6 +106,7 @@ public class DGTools {
 	}
 
 	public static void PlayAttackSound(int attackType) {
+//		Debug.LogError ("PlayAttackSound : " + attackType);
 		switch (attackType) {
 		case 1:
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_fire_attack);
@@ -174,6 +175,15 @@ public class DGTools {
 
 	static int GetValue (UserUnit uu, UnitInfo ui) {
 		return DataCenter.Instance.GetUnitValue(ui.powerType.attackType,uu.level);
+	}
+
+	public static string GetNormalSkillSpriteName (AttackInfo ai) {
+		if (ai.FixRecoverHP) {
+			return "7_1";
+		}
+		string name1 = ai.AttackType.ToString ();
+		string name2 = ai.AttackRange.ToString ();
+		return name1 + "_" + name2;
 	}
 
 

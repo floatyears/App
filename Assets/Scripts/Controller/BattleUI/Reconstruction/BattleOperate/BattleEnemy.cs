@@ -20,7 +20,7 @@ public class BattleEnemy : UIBaseUnity {
 		base.Init (name);
 		tempGameObject = transform.Find ("EnemyItem").gameObject;
 		tempGameObject.SetActive (false);
-		transform.localPosition += new Vector3 (0f, battle.cardHeight * 5.5f, 0f);
+		transform.localPosition += new Vector3 (0f, battle.cardHeight * 6.5f, 0f);
 		attackInfoLabel = FindChild<UILabel>("Label");
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
 	}
@@ -34,7 +34,6 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
 		count --;
-//		Debug.LogError ("battle enemy hideui " + count);
 	}
 
 	public override void ShowUI () {
@@ -43,7 +42,6 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 		count ++;
-//		Debug.LogError ("battle enemy ShowUI " + count);
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 	}
 
@@ -65,6 +63,7 @@ public class BattleEnemy : UIBaseUnity {
 	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
 		List<EnemyItem> temp = new List<EnemyItem> ();
+
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);
@@ -73,10 +72,13 @@ public class BattleEnemy : UIBaseUnity {
 			ei.Init(enemy[i]);
 			temp.Add(ei);
 			monster.Add(enemy[i].EnemySymbol,ei);
+			if(width < temp[i].texture.width) {
+				width = temp[i].texture.width;
+			}
 		}
 		SortEnemyItem (temp);
 	}
-
+	float width = 0;
 	void DropItem(object data) {
 		int pos = (int)data;
 		uint posSymbol = (uint)pos;
@@ -115,8 +117,9 @@ public class BattleEnemy : UIBaseUnity {
 		} else {
 			centerIndex = (count >> 1) - 1;
 			int centerRightIndex = centerIndex + 1;
-			temp[centerIndex].transform.localPosition = new Vector3(0f - (temp[centerIndex].texture.width ),0f,0f);
-			temp[centerRightIndex].transform.localPosition = new Vector3(0f + (temp[centerRightIndex].texture.width ),0f,0f);
+			float tempinterv = width * 0.5f;
+			temp[centerIndex].transform.localPosition = new Vector3(0f - tempinterv, 0f, 0f);
+			temp[centerRightIndex].transform.localPosition = new Vector3(0f + tempinterv, 0f, 0f);
 			DisposeCenterLeft(centerIndex--, temp);
 			centerRightIndex++;
 
@@ -126,22 +129,17 @@ public class BattleEnemy : UIBaseUnity {
 
 	void CompressTextureWidth (List<EnemyItem> temp) {
 		int screenWidth = Screen.width;
-		int allWidth = 0;
-		for (int i = 0; i < temp.Count; i++) {
-			allWidth += temp[i].texture.width;
-		}
-		float probability = (float)screenWidth / allWidth;
+		float allWidth =  temp.Count * width;
+
+		float probability = screenWidth / allWidth;
 		if (probability <= 1f) { 
-			interv *= probability;
-			Debug.LogError("CompressTextureWidth : " + probability);
+			width = (width + interv) * probability;
 			for (int i = 0; i < temp.Count; i++) {
 				UITexture tex = temp [i].texture;
 				float tempWidth = tex.width * probability;
 				float tempHeight = tex.height * probability;
-//				Debug.LogError("beffoure " + tex.mainTexture + " width : " + tex.width + " height : " + tex.height);
 				tex.width = (int)tempWidth;
 				tex.height = (int)tempHeight;
-//				Debug.LogError("end " + tex.mainTexture + " width : " + tex.width + " height : " + tex.height);
 			}	
 		} else { 
 			if( temp.Count > 1)
@@ -155,8 +153,7 @@ public class BattleEnemy : UIBaseUnity {
 		int tempIndex = centerIndex - 1;
 		while(tempIndex >= 0) {
 			Vector3 localPosition = temp[tempIndex + 1].transform.localPosition;
-			float leftwidth = temp[tempIndex + 1].texture.width * 0.5f;
-			float rightWidth = temp[tempIndex].texture.width * 0.5f + leftwidth + interv;
+			float rightWidth = width ;
 			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - rightWidth , 0f, 0f);
 			tempIndex--;
 		}
@@ -164,11 +161,9 @@ public class BattleEnemy : UIBaseUnity {
 
 	void DisposeCenterRight (int centerIndex, List<EnemyItem> temp) {
 		int tempIndex = centerIndex;
-//		Debug.LogError ("tempIndex : " + tempIndex + " temp.Count : " + temp.Count);
 		while(tempIndex < temp.Count) {
 			Vector3 localPosition = temp[tempIndex - 1].transform.localPosition;
-			float leftwidth = temp[tempIndex - 1].texture.width * 0.5f;
-			float rightWidth = temp[tempIndex].texture.width * 0.5f + leftwidth + interv;
+			float rightWidth = width ;
 			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + rightWidth, 0f, 0f);
 			tempIndex++;
 		}

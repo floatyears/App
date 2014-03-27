@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class AttackEffect : MonoBehaviour {
 	private UITexture AvatarTexture;
-	private UITexture backgroundTexture;
+	private UISprite backgroundTexture;
 	private Vector3 moveEndPosition;
 	private Vector3 dropEndPosition;
 
+	private Dictionary<EUnitType, UITexture> attackBack = new Dictionary<EUnitType, UITexture> ();
+
 	public void RefreshItem (AttackInfo data) {
 		if (backgroundTexture == null) {
-			backgroundTexture = GetComponent<UITexture> ();
+			backgroundTexture = GetComponent<UISprite> ();
 			AvatarTexture = transform.Find ("Avatar").GetComponent<UITexture> ();
 			transform.localPosition = BattleCardArea.startPosition;
 			moveEndPosition = new Vector3 (BattleCardArea.endPosition.x,  BattleCardArea.startPosition.y, BattleCardArea.endPosition.z - 10f);
@@ -18,16 +21,13 @@ public class AttackEffect : MonoBehaviour {
 
 		AttackInfo ai = data as AttackInfo;
 		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (ai.UserUnitID);
-//		Debug.LogError (tuu + "tuu : " + ai.UserUnitID);
-		backgroundTexture.color = DGTools.TypeToColor (tuu.UnitInfo.Type);
+		backgroundTexture.spriteName = tuu.UnitType.ToString ();
 		AvatarTexture.mainTexture =  tuu.UnitInfo.GetAsset (UnitAssetType.Avatar);
 		Tween ();
 	}
 
 	private void Tween () {
-//		Debug.LogError ("tween : " + Time.realtimeSinceStartup);
 		transform.localPosition = BattleCardArea.startPosition;
-
 		iTween.MoveTo(gameObject,iTween.Hash("position",moveEndPosition,"time",0.35f,"easetype",iTween.EaseType.easeInQuart,"islocal",true,"oncomplete","MoveComplete","oncompletetarget",gameObject));
 	}
 

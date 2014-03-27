@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapItem : UIBaseUnity
-{
+public class MapItem : UIBaseUnity {
 	private Coordinate coor; 
 	public Coordinate Coor {
 		get{ return coor; }
@@ -155,12 +154,16 @@ public class MapItem : UIBaseUnity
 	public void RotateAnim() {
 		if (!isRotate) {
 			isRotate = true;
-			floorRotate.RotateFloor ();	
+			floorRotate.RotateFloor (RotateEnd);	
 			if(!mapBack.activeSelf) {
-				mapBack.SetActive(true);;
+				mapBack.SetActive(true);
 			}
 		}
 	}     
+
+	void RotateEnd () {
+		mapBack.SetActive(false);
+	}
 
 	public void ShowBox() {
 		floorRotate.isShowBox = true;

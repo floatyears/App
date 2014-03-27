@@ -56,7 +56,6 @@ public class EnemyItem : UIBaseUnity {
     Queue<AttackInfo> attackQueue = new Queue<AttackInfo>();
     void Attack(object data) {
         AttackInfo ai = data as AttackInfo;
-//		Debug.LogError ("Attack : " + ai.EnemyID + "   enemyInfo.EnemySymbol : " + enemyInfo.EnemySymbol);
         if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol) {
             return;
         }
@@ -64,11 +63,13 @@ public class EnemyItem : UIBaseUnity {
             Destroy(prevObject);
         }
         attackQueue.Enqueue(ai);
-        GameTimer.GetInstance().AddCountDown(1f, Effect);
+        GameTimer.GetInstance().AddCountDown(0.3f, Effect);
     }
 
     void Effect() {
-        ShowHurtInfo(attackQueue.Dequeue().InjuryValue);
+		AttackInfo ai = attackQueue.Dequeue();
+		DGTools.PlayAttackSound (ai.AttackType);
+        ShowHurtInfo(ai.InjuryValue);
         InjuredShake();
     }
 
@@ -86,6 +87,7 @@ public class EnemyItem : UIBaseUnity {
         Destroy(hurtValueQueue.Dequeue());
     }
 
+	//================== old code. not use.
     void ShowInjuredEffect(int attackType) {
         GameObject obj = DataCenter.Instance.GetEffect(attackType) as GameObject;
         DGTools.PlayAttackSound(attackType);
@@ -95,6 +97,7 @@ public class EnemyItem : UIBaseUnity {
             InjuredShake();
         }
     }
+	//==================
 
     void InjuredShake() {
         iTween.ShakeScale(texture.gameObject, iTween.Hash("amount", new Vector3(0.5f, 0.5f, 0.5f), "time", 0.2f));
@@ -156,7 +159,9 @@ public class EnemyItem : UIBaseUnity {
         if (pos == enemyInfo.EnemySymbol && !texture.enabled) {
             dropTexture.enabled = true;
             iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
-            GameTimer.GetInstance().AddCountDown(1f, DorpEnd);
+            GameTimer.GetInstance().AddCountDown(0.5f, DorpEnd);
+
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_chess);
         }
 
     }
@@ -210,7 +215,7 @@ public class EnemyItem : UIBaseUnity {
         uint id = (uint)data;
 //		Debug.LogError (id + "enemyInfo.EnemyID : " + enemyInfo.EnemySymbol);
         if (id == enemyInfo.EnemySymbol) {
-            AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
+//            AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
             iTween.ScaleTo(gameObject, new Vector3(1.5f, 1.5f, 1f), 0.2f);
             iTween.MoveTo(texture.gameObject, iTween.Hash("position", attackPosition, "time", 0.2f, "oncomplete", "MoveBack", "oncompletetarget", gameObject, "islocal", true, "easetype", iTween.EaseType.easeInCubic));
         }

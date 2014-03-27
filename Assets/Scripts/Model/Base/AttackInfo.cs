@@ -108,6 +108,26 @@ public class AttackInfo {
 		get { return attackRound; }
 		set { attackRound = value; }
 	}
+
+	private UISprite attackSprite;
+	public UISprite AttackSprite {
+		get { return attackSprite; }
+		set { attackSprite = value; }
+	}
+
+	public void PlayAttack () {
+		if (attackSprite == null) {
+			return;	
+		}
+		attackSprite.spriteName = "";
+	}
+
+	private bool fixRecoverHP = false;
+	public bool FixRecoverHP {
+		get { return fixRecoverHP; }
+		set { fixRecoverHP = value; }
+	}
+
 	//------------test need data, delete it behind test done------------//
 	//------------------------------------------------------------------//
 	//public int originIndex = -1;
