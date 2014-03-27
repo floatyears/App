@@ -191,7 +191,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	void ShowEnemiesAvatar(List<uint> enemyIdList){
 		List<TUnitInfo> enemyInfoList = new List<TUnitInfo>();
 		for (int i = 0; i < maxEnemyShowCount; i++){
-			Debug.LogError(i);
+//			Debug.LogError(i);
 			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(enemyIdList[ i ]);
 			if(tui == null)
 				return;
@@ -208,7 +208,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		}
 
 		for (int i = 0; i < texList.Count; i++){
-			Debug.LogError(i);
+//			Debug.LogError(i);
 			pickEnemiesList[ i ].mainTexture = texList[ i ];
 		}
 	}
