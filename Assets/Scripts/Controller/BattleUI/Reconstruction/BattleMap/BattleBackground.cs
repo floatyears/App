@@ -118,7 +118,7 @@ public class BattleBackground : UIBaseUnity {
 	}
 
 	void SetBlood (int num) {
-		string info = num + "/" + initBlood;
+		string info = "HP:" + num + "/" + initBlood;
 		label.text = info;
 		float value = DGTools.IntegerSubtriction(num,initBlood);
 //		if (bloodBar.value < value) {

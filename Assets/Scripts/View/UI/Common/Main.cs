@@ -71,10 +71,10 @@ public class Main : MonoBehaviour {
         // init manager class
         ViewManager.Instance.Init(uiRoot);
         ModelManager.Instance.Init();
-        TempConfig.InitStoryQuests();
-        TempConfig.InitEventQuests();
-        TempConfig.InitPlayerUnits();
-        TempConfig.InitUnitAvatarSprite();
+//        TempConfig.InitStoryQuests();
+//        TempConfig.InitEventQuests();
+//        TempConfig.InitPlayerUnits();
+//        TempConfig.InitUnitAvatarSprite();
     }
 
 	int count = 0;

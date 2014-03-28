@@ -25,6 +25,19 @@ public class PartyPartyPage : PartyPageLogic{
 		RemoveCommandListener();
 	}
 
+    public override void RefreshCurrentParty(){
+        // do refresh in resetUIState
+    }
+
+    
+    public override void ResetUIState(bool clear) {
+        if (!clear){
+            return;
+        }
+        base.ResetUIState(clear);
+        RefreshCurrentPartyInfo("current");
+    }
+
 	public override void Callback(object data){
 		base.Callback(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;

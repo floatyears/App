@@ -55,12 +55,19 @@ public enum SceneEnum
 	UnitDetail,
 
 	Fight,
+
+	UnitSelect,
 }
 
 public enum CommandEnum
 {
 	None 						= 0,
 	ChangeScene 				= 1,
+    QuestSelectSaveState,
+    LevelUpSaveState,
+    SellUnitSaveState,
+    EvolveSaveState,
+    PartySaveState,
 	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 				= 1002,
 	StartAttack					= 1003,
@@ -218,6 +225,7 @@ public enum CommandEnum
 
     WaitResponse,
     SetBlocker,
+    AfterLevelUp,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

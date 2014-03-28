@@ -72,7 +72,7 @@ public class PartyUnitsView : UIComponentUnity {
 		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
 		dragPanelArgs.Add("maxPerLine",		3);
 		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
-		dragPanelArgs.Add("cellWidth", 		110);
+		dragPanelArgs.Add("cellWidth", 		120);
 		dragPanelArgs.Add("cellHeight",		110);
 	}
 
@@ -88,8 +88,11 @@ public class PartyUnitsView : UIComponentUnity {
 		else{
 			for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem[ i ];
-				crossShowLabelList[ i - 1 ].text = "+" + viewInfoList[ i -1 ].CrossShowTextAfter;
-				crossShowLabelList[ i - 1 ].color = Color.red;
+				if(viewInfoList[ i -1 ].CrossShowTextAfter == "0") continue;
+				else{
+					crossShowLabelList[ i - 1 ].text = "+" + viewInfoList[ i -1 ].CrossShowTextAfter;
+					crossShowLabelList[ i - 1 ].color = Color.red;
+				}
 			}
 			exchange = true;
 		}
@@ -222,11 +225,14 @@ public class PartyUnitsView : UIComponentUnity {
 		crossShowLabelList.Clear();
 		viewInfoList.Clear();
 
-		foreach (var item in dragPanel.ScrollItem){
-			GameObject.Destroy(item);
-		}
-		dragPanel.ScrollItem.Clear();
-		GameObject.Destroy(dragPanel.DragPanelView.gameObject);
+        if (dragPanel != null){
+            foreach (var item in dragPanel.ScrollItem){
+                GameObject.Destroy(item);
+            }
+            dragPanel.ScrollItem.Clear();
+            GameObject.Destroy(dragPanel.DragPanelView.gameObject);
+        }
+
 	}
 	
 	void FindCrossShowLabelList(){

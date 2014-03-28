@@ -16,7 +16,6 @@ public class FriendHelperView : UIComponentUnity{
     private GameObject friendItem;
     private int currentPartyIndex;
     private int partyTotalCount;
-    private int initPartyPage = 1;
     private Dictionary<int, UITexture> partySprite = new Dictionary<int,UITexture>();
     private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo>();
     private UITexture friendSprite;
@@ -37,7 +36,7 @@ public class FriendHelperView : UIComponentUnity{
 	public override void ShowUI() {
 		base.ShowUI();
 		
-		gameObject.transform.localPosition = new Vector3(-1000, -567, 0);
+		gameObject.transform.localPosition = new Vector3(-1000, 0, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "easetype", iTween.EaseType.linear));        
 		
 		SetBottomButtonActive(false);
@@ -77,8 +76,8 @@ public class FriendHelperView : UIComponentUnity{
 		dragPanelArgs.Add("gridArrange", 			UIGrid.Arrangement.Horizontal);
 		dragPanelArgs.Add("maxPerLine", 			0);
 		dragPanelArgs.Add("scrollBarPosition",		new Vector3(-320, -120, 0));
-        dragPanelArgs.Add("cellWidth", 				140);
-        dragPanelArgs.Add("cellHeight", 				140);
+        dragPanelArgs.Add("cellWidth", 				120);
+        dragPanelArgs.Add("cellHeight", 				120);
     }
         
 	DragPanel CreateDragPanel(string name, int count){
@@ -162,8 +161,11 @@ public class FriendHelperView : UIComponentUnity{
 		else{
 			for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 				GameObject scrollItem = dragPanel.ScrollItem [i];
-				crossShowLabelList [ i ].text = "+" + supportViewList [i].CrossShowTextAfter;
-				crossShowLabelList [ i ].color = Color.red;
+				if(supportViewList [i].CrossShowTextAfter == "0") continue;
+				else{
+					crossShowLabelList [ i ].text = "+" + supportViewList [i].CrossShowTextAfter;
+					crossShowLabelList [ i ].color = Color.red;
+				}
 			}
 			exchange = true;
 		}
