@@ -2,12 +2,14 @@
 using UnityEngine;
 //--------------------------------Decorator-----------------------------------
 
-//--------------------------------Start---------------------------------------
-public class StartDecorator : DecoratorBase{
-	public StartDecorator(SceneEnum sEnum) : base(sEnum){}
+//--------------------------------SelectRole------------------------------------------
+public class SelectRoleDecorator : DecoratorBase{
+	private SceneInfoComponent sceneInfoBar;
+	public SelectRoleDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
 		base.ShowScene();
+		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene(){
@@ -19,8 +21,53 @@ public class StartDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
+		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		sceneInfoBar.SetComponent(decorator);
+		
 		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
-		background.SetComponent(decorator);
+		background.SetComponent(sceneInfoBar);
+		
+		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
+		playerInfoBar.SetComponent(background);
+		
+		MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
+		noteWindow.SetComponent(playerInfoBar);
+		
+		MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+		maskController.SetComponent(noteWindow);
+		
+		SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
+		unitSelect.SetComponent(maskController);
+		
+		lastDecorator = unitSelect;
+		lastDecorator.CreatUI();
+	}
+}
+
+//--------------------------------Start---------------------------------------
+public class StartDecorator : DecoratorBase{
+	private SceneInfoComponent sceneInfoBar;
+	public StartDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+		sceneInfoBar.SetBackScene(SceneEnum.None);
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		sceneInfoBar.SetComponent(decorator);
+
+		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
+		background.SetComponent(sceneInfoBar);
 		
 		MainMenuController bottom = CreatComponent< MainMenuController >(UIConfig.menuBottomName);
 		bottom.SetComponent(background);
@@ -81,38 +128,26 @@ public class LoadingDecorator : DecoratorBase{
 
 
 //--------------------------------Quest---------------------------------------
-public class QuestDecorator : DecoratorBase
-{
+public class QuestDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public QuestDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public QuestDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-
 		base.ShowScene();
-
 	}
 		
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 		
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 
-	public override void DecoratorScene()
-	{
-
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
-
-//		UnityEngine.Debug.Log("QuestDecorator");
 
 		QuestController quest = CreatComponent< QuestController >(UIConfig.questWindowName);
 		quest.SetComponent(sceneInfoBar);
@@ -924,34 +959,6 @@ public class UnitDetailDecorator : DecoratorBase{
 		lastDecorator = unitDetailPanel;
 		lastDecorator.CreatUI();
 	}
-
-	//--------------------------------UnitSelect------------------------------------------
-	public class SelectRoleDecorator : DecoratorBase{
-		private SceneInfoComponent sceneInfoBar;
-		public SelectRoleDecorator(SceneEnum sEnum) : base(sEnum){}
-		
-		public override void ShowScene(){
-			base.ShowScene();
-			sceneInfoBar.SetBackScene(SceneEnum.LevelUp);
-		}
-		
-		public override void HideScene(){
-			base.HideScene();
-		}
-		
-		public override void DestoryScene(){
-			base.DestoryScene();
-		}
-		
-		public override void DecoratorScene(){
-			sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-			sceneInfoBar.SetComponent(decorator);
-		
-			SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
-			unitSelect.SetComponent(sceneInfoBar);
-
-			lastDecorator = unitSelect;
-			lastDecorator.CreatUI();
-		}
-	}
 }
+
+

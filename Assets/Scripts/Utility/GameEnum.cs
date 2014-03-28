@@ -60,8 +60,7 @@ public enum SceneEnum
 
 }
 
-public enum CommandEnum
-{
+public enum CommandEnum{
 	None 						= 0,
 	ChangeScene 				= 1,
     QuestSelectSaveState,

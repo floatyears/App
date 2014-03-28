@@ -236,6 +236,11 @@ public class UIManager {
         case SceneEnum.EventScratch:
             temp = new GachaWindowDecorator( sEnum );
             break;
+
+		case SceneEnum.SelectRole:
+			temp = new SelectRoleDecorator( sEnum );
+			break;
+
         }
 		if (temp != null) {
 				temp.SetDecorator (baseScene);
