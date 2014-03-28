@@ -159,7 +159,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
     void FocusOnPanel(object data) {
         string msg = (string)data;
-		Debug.Log("Friend Window receive : " + msg);
+//		Debug.Log("Friend Window receive : " + msg);
         if (msg == "Tab_Friend") {
             this.gameObject.SetActive(true);
             if (IsInvoking("CrossShow")) {

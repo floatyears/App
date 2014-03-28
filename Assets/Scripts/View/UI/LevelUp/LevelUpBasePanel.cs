@@ -41,6 +41,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 
     public override void ResetUIState(){
         ClearData();
+        gameObject.SetActive(true); 
         InitDragPanel();
     }
 
