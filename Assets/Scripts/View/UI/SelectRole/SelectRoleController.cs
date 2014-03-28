@@ -31,7 +31,10 @@ public class SelectRoleController : ConcreteComponent {
 			case "ClickTab" :
 				CallBackDispatcherHelper.DispatchCallBack(RecordSelectState,call);
 				break;
-			default:
+			case "ClickSelect" :
+				CallBackDispatcherHelper.DispatchCallBack(RecordSelectState,call);
+                        break;
+                default:
 				break;
 		}
 	}
@@ -53,5 +56,21 @@ public class SelectRoleController : ConcreteComponent {
 		curSelectPos = (int)args;
 		Debug.Log("receive the click from view, to select unit with the position of " + curSelectPos);
 	}
+
+	void SubmitSelectState(object args){
+
+	}
+
+	MsgWindowParams GetSelectRoleMsgParams(){
+		MsgWindowParams msgParams = new MsgWindowParams();
+		msgParams.titleText = TextCenter.Instace.GetCurrentText("SelectRoleTitle");
+		msgParams.contentText = TextCenter.Instace.GetCurrentText("SelectRoleContent",
+		                                                          DataCenter.Instance.MyUnitList.Count,
+		                                                          DataCenter.Instance.UserInfo.UnitMax);
+		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
+		msgParams.btnParams[ 0 ].callback = SubmitSelectState;
+                return msgParams;
+	}
+
 
 }
