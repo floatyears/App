@@ -8,3 +8,6 @@
 <p>
 	unitType:<%= select_tag :unitType,options_for_select(AllSkillConfig::EUNIT_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(:SingleAtkRecoverHP)[@index].try(:unitType)) %>
 </p>
+<p>
+	attackType:<%= select_tag :attackType,options_for_select(AllSkillConfig::EATTACK_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:attackType)) %>
+</p>

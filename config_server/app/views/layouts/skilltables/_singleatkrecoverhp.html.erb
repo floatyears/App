@@ -6,6 +6,7 @@
       <th>type</th>
       <th>value</th>
       <th>unitType</th>
+      <th>attackType</th>
       <th>操作</th>
     </tr>
   </thead>
@@ -24,6 +25,7 @@
       <td><%=skill[:type] %></td>
       <td><%=skill[:value] %></td>
       <td><%=skill[:unitType] %></td>
+      <td><%=skill[:attackType] %></td>
       <td><%=link_to "修改",edit_skill_path(skillType: "SingleAtkRecoverHP",id: index,method: "PATCH") %></td>
     </tr>
     <% end %>
