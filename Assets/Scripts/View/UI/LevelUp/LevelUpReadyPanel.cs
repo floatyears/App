@@ -54,7 +54,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	public override void Init(UIInsConfig config, IUICallback origin){
-        MsgCenter.Instance.AddListener (CommandEnum.AfterLevelUp, ResetAfterLevelUp);
+        MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetAfterLevelUp);
 		base.Init(config, origin);
 		InitUI();
 	}
@@ -89,6 +89,10 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
     void ResetAfterLevelUp(object args){
         //TODO 
+        levelUpButton.isEnabled = false;
+        levelUpButton.gameObject.SetActive (false);
+        ClearTexture(false);
+        ClearData(false);
     }
 	
 	void UpdateBaseInfoView( UnitItemInfo itemInfo){
@@ -168,21 +172,19 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		}
 	}
 
-	void ClearTexture(){
-		baseCollectorTex.mainTexture = null;
+	void ClearTexture(bool clearBase = true){
+        if (clearBase){
+            baseCollectorTex.mainTexture = null;
+        }
 		friendCollectorTex.mainTexture = null;
 		foreach (var item in materialCollectorTex)
 			item.mainTexture = null;
 	}
 
-    void ClearTextureExcludeBase(){
-        friendCollectorTex.mainTexture = null;
-        foreach (var item in materialCollectorTex)
-            item.mainTexture = null;
-    }
-
-	void ClearData(){
-		baseUnitInfo = null;
+    void ClearData(bool clearBase = true){
+        if (clearBase){
+            baseUnitInfo = null;
+        }
 		friendUnitInfo = null;
 		CaculateDevorExp(false);
 		devorExp = 0;
@@ -192,16 +194,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		}
 	}
 
-    void ClearDataExcludeBase(){
-        friendUnitInfo = null;
-        CaculateDevorExp(false);
-        devorExp = 0;
-        multiple = 1;
-        for (int i = 0; i < unitItemInfo.Length; i++) {
-            unitItemInfo[i] = null;
-        }
-    }
-	
 	void InitTab()	{
 		GameObject tab;
 

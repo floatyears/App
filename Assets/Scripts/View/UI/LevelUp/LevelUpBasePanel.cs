@@ -20,7 +20,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
         InitUI();
-        MsgCenter.Instance.AddListener (CommandEnum.AfterLevelUp, ResetUIAfterLevelUp);
+        MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
         base.Init(config, origin);
 	}
 
@@ -46,6 +46,7 @@ public class LevelUpBasePanel : UIComponentUnity {
     }
 
     public void ResetUIAfterLevelUp(object args){
+        ResetUIState();
     }
     
     public void ClearData() {

@@ -226,7 +226,7 @@ public enum CommandEnum
 
     WaitResponse,
     SetBlocker,
-    AfterLevelUp,
+    LevelUpSucceed,
     StartFirstLogin,
 
 	//-----------------Server Protocol-----------------------//

@@ -83,9 +83,9 @@ public class Main : MonoBehaviour {
     /// </summary>
     void OnEnable() {
 		count++;
-//		Debug.LogError("main befoure : " + count);
+		Debug.LogError("main befoure : " + count);
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
-//		Debug.LogError("main end : " + count);
+		Debug.LogError("main end : " + count);
         EffectManager em = EffectManager.Instance;
         UIManager.Instance.ChangeScene(SceneEnum.Loading);
     }
