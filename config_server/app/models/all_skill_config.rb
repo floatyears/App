@@ -1,4 +1,4 @@
-## Generated from skill.proto for 
+#encoding: utf-8
 require "beefcake"
 
 module EUnitRace
@@ -462,7 +462,8 @@ class AllSkillConfig
         update_to_redis("AntiAttack",skillAntiAttack,id)
       end
     when "boost"
-      skillBoost = SkillBoost.new(baseInfo: base_info,boostType: params_to_i(params[:boostType]),boostValue: params_to_f(params[:boostValue]),targetType: params_to_i(params[:targetType]),targetValue: params_to_i(params[:targetValue]))
+      targetValue =  (params_to_i(params[:targetType]) == 0) ? params_to_i(params[:targetValue]) : params_to_i(params[:targetValue1])
+      skillBoost = SkillBoost.new(baseInfo: base_info,boostType: params_to_i(params[:boostType]),boostValue: params_to_f(params[:boostValue]),targetType: params_to_i(params[:targetType]),targetValue: targetValue)
       if update.nil?
         save_to_redis("Boost",skillBoost)
       else
@@ -502,7 +503,8 @@ class AllSkillConfig
   end
   
   def self.params_to_f(s)
-    (s == "") ? nil : s.to_f
+    (s == "") ? nil : s.to_f.round(6)
+    p s.to_f.round(6)
   end
   
   def self.params_to_bool(s)
