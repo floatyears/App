@@ -93,6 +93,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
         levelUpButton.gameObject.SetActive (false);
         ClearTexture(false);
         ClearData(false);
+        curFocusTab = Tabs[0];
     }
 	
 	void UpdateBaseInfoView( UnitItemInfo itemInfo){
@@ -192,6 +193,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		for (int i = 0; i < unitItemInfo.Length; i++) {
 			unitItemInfo[i] = null;
 		}
+        coin = 0;
 	}
 
 	void InitTab()	{

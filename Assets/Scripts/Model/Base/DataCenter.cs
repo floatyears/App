@@ -472,7 +472,7 @@ public class DataCenter {
             return 0;
         if (GetEventGachaNeedStones() == 0)
             return 0;
-        LogHelper.Log("GetAvailableEventGachaTimes(), InEventGacha, AccountInfo.Stone / GetEventGachaNeedStones()");
+//        LogHelper.Log("GetAvailableEventGachaTimes(), InEventGacha, AccountInfo.Stone / GetEventGachaNeedStones()");
 //        return 0;
         return AccountInfo.Stone / GetEventGachaNeedStones();
     }

@@ -66,7 +66,7 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 
 			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
-            MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed);
+            MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
 		}
 
 
