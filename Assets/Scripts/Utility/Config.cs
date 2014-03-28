@@ -22,7 +22,7 @@ public class Config
 
 	public const byte cardCollectionCount = 5;
 
-	public const byte cardInterv = 3;
+	public const byte cardInterv = 11;
 
 	public const byte cardDepth = 3;
 
@@ -33,8 +33,7 @@ public class Config
 	
 	private Dictionary<int,ItemData> cardData = new Dictionary<int, ItemData>();
 
-	public Dictionary<int,ItemData> CardData
-	{
+	public Dictionary<int,ItemData> CardData {
 		get{return cardData;}
 	}
 

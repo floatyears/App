@@ -261,6 +261,7 @@ public class AttackController {
 			}
 		}
 		if (enemyInfo.Count == 0) {
+			BattleBottom.notClick = false;
 			GameTimer.GetInstance().AddCountDown(2f, BattleEnd); //TODO: set time in const config
 			return false;
 		}
@@ -379,6 +380,7 @@ public class AttackController {
 	}    
 
 	void EnemyAttackEnd () {
+		BattleBottom.notClick = false;
 		CheckTempEnemy ();
 		bud.ClearData();
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);

@@ -66,24 +66,22 @@ public class MapItem : UIBaseUnity {
 		if (gridItem != null) {
 			switch (gridItem.Star) {
 			case bbproto.EGridStar.GS_KEY:
-//				mapBackSprite.enabled = true;
-
 				spriteName = "key";
-//				Destroy(mapItemTexture);
+				mapItemSprite.enabled = true;
 				break;
 			case bbproto.EGridStar.GS_QUESTION:
 				break;
 			case bbproto.EGridStar.GS_EXCLAMATION:
-//				mapBackSprite.enabled = true;
-
 				spriteName = "d";
-//				Destroy(mapItemTexture);
+				mapItemSprite.enabled = true;
 				break;
 			default:
 				break;
 			}
+			if(mapItemSprite.enabled)
 			mapItemSprite.spriteName = spriteName;
-//			spriteName = "";
+
+			spriteName = "";
 			backSpriteName = "";
 			switch (gridItem.Type) {
 			case bbproto.EQuestGridType.Q_NONE:
@@ -157,6 +155,9 @@ public class MapItem : UIBaseUnity {
 			floorRotate.RotateFloor (RotateEnd);	
 			if(!mapBack.activeSelf) {
 				mapBack.SetActive(true);
+			}
+			if(mapItemSprite.enabled) {
+				mapItemSprite.enabled = false;
 			}
 		}
 	}     

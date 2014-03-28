@@ -51,6 +51,10 @@ public class BattleQuest : UIBase {
 		AddSelfObject (background);
 		questData = new ClearQuestParam ();
 		questData.questId = questDungeonData.QuestId;
+
+		battle = new Battle("Battle");
+		battle.CreatUI();
+		battle.HideUI ();
 	}
 
 	void InitData() {
@@ -198,41 +202,41 @@ public class BattleQuest : UIBase {
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 
 			if(currentMapData.Star == EGridStar.GS_KEY) {
-				battleMap.waitMove = true;
+				BattleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemKey);
 				return;
 			}
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_grid_turn);
 			switch (currentMapData.Type) {
 			case EQuestGridType.Q_NONE:
-				battleMap.waitMove = true;
+				BattleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemNone);
 				break;
 			case EQuestGridType.Q_ENEMY:
-				battleMap.waitMove = true;
+				BattleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemEnemy);
 				break;
 			case EQuestGridType.Q_KEY:
 				break;
 			case EQuestGridType.Q_TREATURE:				
-				battleMap.waitMove = true;
+				BattleMap.waitMove = true;
 				battleMap.ShowBox();
 				battleMap.RotateAnim(MapItemCoin);
 				break;
 			case EQuestGridType.Q_TRAP:
-				battleMap.waitMove = true;
+				BattleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemTrap);
 				break;
 			case EQuestGridType.Q_QUESTION:
-				battleMap.waitMove = true;
+				BattleMap.waitMove = true;
 				battleMap.RotateAnim(MeetQuestion);
 				break;
 			case EQuestGridType.Q_EXCLAMATION : 
-				battleMap.waitMove = true;
+				BattleMap.waitMove = true;
 				battleMap.RotateAnim(MapItemExclamation);
 				break;
 			default:
-				battleMap.waitMove = false;
+				BattleMap.waitMove = false;
 				MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 				break;
 			}
@@ -246,35 +250,33 @@ public class BattleQuest : UIBase {
 	}
 
 	void MeetQuestion () {
-		battleMap.waitMove = false;
+		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
 	void MeetBoss () {
-		battleMap.waitMove = false;
+		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
 		for (int i = 0; i < questDungeonData.Boss.Count; i++) {
-			TEnemyInfo tei = questDungeonData.Boss[i];
+			TEnemyInfo tei = questDungeonData.Boss [i];
 			tei.EnemySymbol = (uint)i;
-			temp.Add(tei);
+			temp.Add (tei);
 		}
 
 		bud.InitBoss (questDungeonData.Boss);
 		battle.ShowEnemy(temp);
-
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
 	}
 
 	void MapItemExclamation() {
-		battleMap.waitMove = false;
+		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 	
 	void MapItemTrap() {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
-
-		battleMap.waitMove = false;
+		BattleMap.waitMove = false;
 		TrapBase tb = currentMapData.TrapInfo;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
@@ -282,8 +284,7 @@ public class BattleQuest : UIBase {
 
 	void MapItemCoin() {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
-
-		battleMap.waitMove = false;
+		BattleMap.waitMove = false;
 		questData.getMoney += currentMapData.Coins;
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
@@ -291,19 +292,18 @@ public class BattleQuest : UIBase {
 
 	void MapItemKey() {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
-
-		battleMap.waitMove = false;
+		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
 	}
 
 	void MapItemNone () {
-		battleMap.waitMove = false;
+		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
 	void MapItemEnemy() {
-		battleMap.waitMove = false;
+		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
 		for (int i = 0; i < currentMapData.Enemy.Count; i++) {
@@ -313,7 +313,6 @@ public class BattleQuest : UIBase {
 		}
 		bud.InitEnemyInfo (currentMapData);
 		battle.ShowEnemy (temp);
-
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
 	}
 
