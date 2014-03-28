@@ -113,10 +113,10 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			int atk =  DataCenter.Instance.GetUnitValue(tu.AttackType, tuu.Level);
 			atkLabel.text = atk.ToString();			
 			expNeedLabel.text = tuu.NextExp.ToString();
+            coin = LevelUpTotalMoney();
 			for (int i = 0; i < unitItemInfo.Length; i++) {
 				if(unitItemInfo[i] != null) {
 					devorExp += unitItemInfo[i].userUnitItem.MultipleDevorExp(baseUnitInfo.userUnitItem);
-					coin += tuu.Level * CoinBase;
 				}
 			}
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, itemInfo);
