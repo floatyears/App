@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class LevelUpComponent : ConcreteComponent, IUICallback {
@@ -23,11 +23,11 @@ public class LevelUpComponent : ConcreteComponent, IUICallback {
 		base.DestoryUI ();
 	}
 
-	public void Callback (object data)
+	public void CallbackView (object data)
 	{
 		IUICallback call = viewComponent as IUICallback;
 		if(call != null) {
-			call.Callback(data);
+			call.CallbackView(data);
 		}
 	}
 }

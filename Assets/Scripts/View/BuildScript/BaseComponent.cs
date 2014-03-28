@@ -173,7 +173,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 	/// IUICallback implement. UI Part will use 
 	/// </summary>
 	/// <param name="data">Data.</param>
-	public virtual void Callback(object data)
+	public virtual void CallbackView(object data)
 	{
 
 	}
@@ -185,7 +185,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 //		Debug.LogError(viewCallback);
 		if (viewCallback != null)
 		{
-			viewCallback.Callback(data);
+			viewCallback.CallbackView(data);
 		}
 	}
 }

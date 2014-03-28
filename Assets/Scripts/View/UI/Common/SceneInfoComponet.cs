@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class SceneInfoComponent : ConcreteComponent, IUICallback {
@@ -26,11 +26,11 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	void Output(string sEnum) {
 		if(viewComponent is IUICallback) {
 			IUICallback uicall = viewComponent as IUICallback;
-			uicall.Callback(sEnum);
+			uicall.CallbackView(sEnum);
 		}
 	}
 
-	public void Callback (object data) {
+	public void CallbackView (object data) {
 		MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, backScene);
 		UIManager.Instance.ChangeScene(backScene);
 	}

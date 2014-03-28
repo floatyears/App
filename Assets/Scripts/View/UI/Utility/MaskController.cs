@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class BlockerMaskParams{
@@ -26,8 +26,8 @@ public class MaskController : ConcreteComponent {
 		base.HideUI();
 	} 
 
-	public override void Callback(object data){
-		base.Callback(data);
+	public override void CallbackView(object data){
+		base.CallbackView(data);
 	}
 
 

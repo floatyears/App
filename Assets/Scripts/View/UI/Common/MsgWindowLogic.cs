@@ -44,9 +44,9 @@ public class MsgWindowLogic : ConcreteComponent
         MsgCenter.Instance.RemoveListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
     }
     
-    public override void Callback(object data)
+    public override void CallbackView(object data)
     {
-        base.Callback(data);
+        base.CallbackView(data);
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         switch (cbdArgs.funcName)
         {

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class UIBaseUnity : MonoBehaviour ,IUIInterface
@@ -152,13 +152,13 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 		return targetpoint;
 	}
 	
-	public virtual void Callback (object data) {
+	public virtual void CallbackView (object data) {
 
 	}
 	
 	protected void ExcuteCallback (object data) {
 		if (origin != null) {
-			origin.Callback (data);	
+			origin.CallbackView (data);	
 		}
 	}
 

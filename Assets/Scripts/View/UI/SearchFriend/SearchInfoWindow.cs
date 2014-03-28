@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class SearchInfoWindow : UIComponentUnity,IUICallback {
@@ -20,7 +20,7 @@ public class SearchInfoWindow : UIComponentUnity,IUICallback {
 		target.SetActive( isActive );
 	}
 
-	public void Callback(object data) {
+	public void CallbackView(object data) {
 		//Debug.Log("Show Info Window");
 		bool isActive = (bool)data;
 		SetActive( this.gameObject, isActive);

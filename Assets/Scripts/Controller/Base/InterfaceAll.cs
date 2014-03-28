@@ -69,7 +69,7 @@ public interface IUIComponent :  IUIBaseComponent {
 /// ui callback interface
 /// </summary>
 public interface IUICallback {
-    void Callback(object data);
+    void CallbackView(object data);
 }
 
 public interface IUISetBool {

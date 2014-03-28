@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -103,8 +103,8 @@ public class PartyInfoView : UIComponentUnity {
 		}
 	}
 
-	public override void Callback(object data){
-		base.Callback(data);
+	public override void CallbackView(object data){
+		base.CallbackView(data);
 
 		Dictionary<string,string> viewInfoDic = data as Dictionary<string,string>;
 		if( viewInfoDic == null ){

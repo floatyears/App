@@ -17,8 +17,8 @@ public class AcceptApplyMessageView : ApplyMessageView{
 		base.HideUI();
 	}
 
-	public override void Callback(object data){
-		base.Callback(data);
+	public override void CallbackView(object data){
+		base.CallbackView(data);
 	}
 
 	void InitUIElement(){

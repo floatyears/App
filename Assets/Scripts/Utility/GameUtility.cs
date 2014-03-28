@@ -32,6 +32,20 @@ public class DGTools {
 		}
 	}
 
+	/// <summary>
+	/// show sprite. and set the size to texture size;
+	/// </summary>
+	/// <param name="sprite">Sprite.</param>
+	/// <param name="name">Name.</param>
+	public static void ShowSprite(UISprite sprite, string name) {
+		sprite.spriteName = name;
+		UIAtlas atlas = sprite.atlas;
+		UISpriteData sd = sprite.GetAtlasSprite ();
+		sprite.width = sd.width;
+		sprite.height = sd.height;
+		sprite.spriteName = name;
+	}
+
 	public static string SwitchUnitType (int unitType) {
 		string type = "";
 		switch (unitType) {

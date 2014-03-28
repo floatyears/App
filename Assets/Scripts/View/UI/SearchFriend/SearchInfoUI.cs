@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class SearchInfoUI : ConcreteComponent {
@@ -19,6 +19,6 @@ public class SearchInfoUI : ConcreteComponent {
 		isCaller = viewComponent is IUICallback;
 		//Debug.Log( viewComponent.ToString() );
 		if( !isCaller )	return;
-		caller.Callback( true );
+		caller.CallbackView( true );
 	}
 }

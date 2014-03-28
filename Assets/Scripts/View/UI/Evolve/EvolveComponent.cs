@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
@@ -28,7 +28,7 @@ public class EvolveComponent : ConcreteComponent {
 		base.DestoryUI ();
 	}
 
-	public override void Callback (object data) {
+	public override void CallbackView (object data) {
 		List<ProtobufDataBase> evolveInfoLisst = data as List<ProtobufDataBase>;
 		TUserUnit baseItem = evolveInfoLisst [0] as TUserUnit ;
 		TFriendInfo firendItem = evolveInfoLisst [1] as TFriendInfo;

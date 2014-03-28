@@ -342,7 +342,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	//--------------interface function-------------------------------------
-	public void Callback(object data)	{
+	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
 		if (userUnit != null) {
 			ShowInfo (userUnit);
