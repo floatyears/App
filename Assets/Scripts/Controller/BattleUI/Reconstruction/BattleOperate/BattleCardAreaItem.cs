@@ -28,7 +28,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 
 	public override void Init(string name) {
 		base.Init(name);
-		UITexture tex = GetComponent<UITexture>();
+		UISprite tex = GetComponent<UISprite>();
 		utilityScale = new Vector3 ((float)tex.width / 4f, (float)tex.height / 4f, 1f);
 		pos = transform.localPosition;
 		parentObject = transform.parent.gameObject;

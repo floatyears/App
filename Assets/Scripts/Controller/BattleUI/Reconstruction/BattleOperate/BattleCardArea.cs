@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class BattleCardArea : UIBaseUnity {
-	private UITexture backTexture;
+	private UISprite backTexture;
 	private BattleCardAreaItem[] battleCardAreaItem;
 
 	private UILabel stateLabel;
@@ -23,7 +23,7 @@ public class BattleCardArea : UIBaseUnity {
 
 	public override void Init (string name) {
 		base.Init (name); 
-		backTexture = FindChild<UITexture>("Back"); 
+		backTexture = FindChild<UISprite>("Back"); 
 		backTexture.gameObject.SetActive(false);
 		stateLabel = FindChild<UILabel>("StateLabel");
 		stateLabel.enabled = false;
@@ -60,7 +60,7 @@ public class BattleCardArea : UIBaseUnity {
 		if(position == null)
 			return;
 		battleCardAreaItem = new BattleCardAreaItem[position.Length];
-		float xOffset = backTexture.width * -0.5f;
+		float xOffset = backTexture.width * + 10f;
 		float yOffset = backTexture.height * 0.5f + stateLabel.height + height;
 		stateLabel.transform.localPosition = position [0] + new Vector3 (xOffset, yOffset, 0f);
 		stateLabel.enabled = true;
@@ -69,7 +69,7 @@ public class BattleCardArea : UIBaseUnity {
 			tempObject = NGUITools.AddChild(gameObject,backTexture.gameObject);
 			tempObject.SetActive(true);
 			tempObject.layer = GameLayer.BattleCard;
-			tempObject.transform.localPosition = new Vector3(position[i].x,position[i].y + height,position[i].z) ;
+			tempObject.transform.localPosition = new Vector3(position[i].x + 5f, position[i].y + 3f + height, position[i].z) ;
 			BattleCardAreaItem bca = tempObject.AddComponent<BattleCardAreaItem>();
 			bca.Init(tempObject.name);
 			bca.AreaItemID = i;

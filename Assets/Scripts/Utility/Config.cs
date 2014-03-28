@@ -19,13 +19,9 @@ public class Config
 	public const byte startCardID = 0;
 	public const byte endCardID = 4;
 	public const byte cardPoolSingle = 5;
-
 	public const byte cardCollectionCount = 5;
-
-	public const byte cardInterv = 11;
-
+	public const byte cardInterv = 15;
 	public const byte cardDepth = 3;
-
 	public const string battleCardName = "BattleCard";
 	public int[] cardTypeID = new int[4] {1,2,3,7};
 
