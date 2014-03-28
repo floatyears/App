@@ -947,7 +947,10 @@ public class UnitDetailDecorator : DecoratorBase{
 			sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 			sceneInfoBar.SetComponent(decorator);
 		
-			lastDecorator = sceneInfoBar;
+			UnitSelectController unitSelect = CreatComponent<UnitSelectController>(UIConfig.unitSelectWindowName);
+			unitSelect.SetComponent(sceneInfoBar);
+
+			lastDecorator = unitSelect;
 			lastDecorator.CreatUI();
 		}
 	}
