@@ -71,16 +71,11 @@ public class Main : MonoBehaviour {
         // init manager class
         ViewManager.Instance.Init(uiRoot);
         ModelManager.Instance.Init();
-        TempConfig.InitStoryQuests();
-        TempConfig.InitEventQuests();
-        TempConfig.InitPlayerUnits();
-        TempConfig.InitUnitAvatarSprite();
-
-
-//		GameSingleDataStore.Instance.StoreSingleData ("aa", "bb");
-//		Debug.LogError (System.Guid.NewGuid ().ToString ());
+//        TempConfig.InitStoryQuests();
+//        TempConfig.InitEventQuests();
+//        TempConfig.InitPlayerUnits();
+//        TempConfig.InitUnitAvatarSprite();
     }
-
 
 	int count = 0;
     /// <summary>
@@ -88,13 +83,13 @@ public class Main : MonoBehaviour {
     /// </summary>
     void OnEnable() {
 		count++;
-
-        AudioManager.Instance.PlayAudio(AudioEnum.music_home);
+//		Debug.LogError("main befoure : " + count);
+		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
+//		Debug.LogError("main end : " + count);
         EffectManager em = EffectManager.Instance;
         UIManager.Instance.ChangeScene(SceneEnum.Loading);
     }
-
-
+	
     void OnDisable() {
         sui.RemoveListener();
     }

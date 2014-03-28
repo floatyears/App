@@ -6,7 +6,13 @@ Rails.application.routes.draw do
       get 'download'
     end
   end
-  resources :skills
+  resources :skills do
+    collection do
+      get 'select_type'
+      post 'type'
+      get "download"
+    end
+  end
 
   root "unit_infos#index"
 

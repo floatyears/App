@@ -16,18 +16,84 @@ public class AudioManager {
 
 	//AudioSource Cache
 	private Dictionary< int, AudioSource> audioPlayerCache = new Dictionary<int, AudioSource>();
+
+	AudioSource prevBackground = null;
+
+	public void PlayBackgroundAudio (AudioEnum audioEnum) {
+		if (!IsBackgroundAuido(audioEnum)) {
+			return;	
+		}
+		if (prevBackground != null) {
+			prevBackground.Stop ();	
+		}
+		prevBackground = Play (audioEnum);
+	}
+
+	bool IsBackgroundAuido (AudioEnum audio) {
+		bool back = false;
+		switch (audio) {
+		case AudioEnum.music_boss_battle:
+		case AudioEnum.music_dungeon:
+		case AudioEnum.music_enemy_battle:
+		case AudioEnum.music_home:
+		case AudioEnum.music_victory:
+			back = true;
+			break;
+		}
+		return back;
+	}
+
+	bool CheckAudio(AudioEnum audioEnum) {
+		if (audioEnum == AudioEnum.sound_walk && CheckAudioIsPlay(AudioEnum.sound_walk_hurt)) {
+			return false;
+		}
+
+		if (audioEnum == AudioEnum.sound_walk_hurt) {
+			if(CheckAudioIsPlay(AudioEnum.sound_walk) && CheckAudioIsPlay(AudioEnum.sound_walk_hurt)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	bool CheckAudioIsPlay(AudioEnum audioEnum) {
+		int id = (int)audioEnum;
+		AudioSource audio = null;
+		if (!audioPlayerCache.TryGetValue (id, out audio)) {
+			return false;
+		}
+
+		if (audio.isPlaying) {
+			return true;	
+		} else {
+			return false;	
+		}
+	}
 	
 	public void PlayAudio(AudioEnum audioEnum){
+		if (IsBackgroundAuido (audioEnum)) {
+			return;	
+		}
+
+		if (!CheckAudio (audioEnum)) {
+			return;	
+		}
+
+		Play (audioEnum);
+	}
+
+	AudioSource Play(AudioEnum audioEnum) {
 		int audioID = (int)audioEnum;
 		if ( ConfigAudio.audioList == null ) {
 			Debug.LogError("ERROR: ConfigAudio.audioList==null");
 		}
 		AudioConfigItem configItem = ConfigAudio.audioList.Find( item=>item.id == audioID );
 		if(configItem == default( AudioConfigItem ) )	
-			return;
-
+			return null;
+		
 		if( !audioPlayerCache.ContainsKey( audioID )){
-//			Debug.Log( string.Format( "At present, NOT EXIST a audioPlayer Cache with the ID [{0}]. ADD IT", audioID) );
+			//			Debug.Log( string.Format( "At present, NOT EXIST a audioPlayer Cache with the ID [{0}]. ADD IT", audioID) );
 			GameObject go = new GameObject();
 			go.name = string.Format( "_{0}", audioEnum.ToString() );
 			AudioSource source = go.AddComponent< AudioSource >();
@@ -36,12 +102,14 @@ public class AudioManager {
 			audioPlayerCache.Add( audioID, source );
 			SetPlayType( configItem.type, source);
 		}
-
+		
 		if( audioPlayerCache[ audioID ] == null ){
 			Debug.LogError( string.Format( "The audioPlayer's GameObject with the ID [{0}] is NULL", audioID) );
-			return;
+			return null;
 		}	
-		audioPlayerCache[ audioID ].Play();
+		AudioSource audioSource = audioPlayerCache [audioID];
+		audioSource.Play();
+		return audioSource;
 	}
 
 	public void PauseAudio( AudioEnum audioEnum ) {

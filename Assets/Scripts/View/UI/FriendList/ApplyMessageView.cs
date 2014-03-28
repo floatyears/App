@@ -114,7 +114,11 @@ public class ApplyMessageView : UIComponentUnity{
 		TFriendInfo tfi = args as TFriendInfo;
 
 		avatarTexture.mainTexture = tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		nameLabel.text = tfi.NickName;
+		if(tfi.NickName == string.Empty)
+			nameLabel.text = "NoName";
+		else
+			nameLabel.text = tfi.NickName;
+
 		rankLabel.text = tfi.Rank.ToString();
 		timeLabel.text = TimeHelper.GetLatestPlayTime(tfi.LastPlayTime);
 		idLabel.text = tfi.UserId.ToString();

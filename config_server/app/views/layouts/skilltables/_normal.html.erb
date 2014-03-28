@@ -1,0 +1,35 @@
+<h1 id="所有技能">所有技能|<%= link_to '下载所有技能',download_skills_path%></h1>
+<h2>NormalSkill</h2>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+      <th>baseInfo</th>
+      <th>attackType</th>
+      <th>activeBlocks</th>
+      <th>attackValue</th>
+      <th>attackUnitType</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+	<tbody>
+    <% if @all_skills["Normal"].present?%>
+    <% @all_skills["Normal"].each_with_index do |normal_skill,index|%>
+    <tr>
+      <td>
+        {
+          id:<%= normal_skill[:baseInfo][:id]%>,
+          name:<%= normal_skill[:baseInfo][:name]%>,
+          description:<%= normal_skill[:baseInfo][:description]%>,
+          skillCooling:<%= normal_skill[:baseInfo][:skillCooling]%>
+        }
+      </td>
+      <td><%=normal_skill[:attackType] %></td>
+      <td><%=normal_skill[:activeBlocks] %></td>
+      <td><%=normal_skill[:attackValue] %></td>
+      <td><%=normal_skill[:attackUnitType] %></td>
+      <td><%=link_to "修改",edit_skill_path(skillType: "Normal",id: index,method: "PATCH") %></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>

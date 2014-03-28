@@ -1,0 +1,11 @@
+<%= render 'layouts/skillforms/skill_base'%>
+<p>
+	type:<%= select_tag :type,options_for_select(AllSkillConfig::EVALUE_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:type)) %>
+</p>
+
+<p>
+	unitType1:<%= select_tag :unitType1,options_for_select(AllSkillConfig::EUNIT_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:unitType1)) %>
+</p>
+<p>
+	unitType2:<%= select_tag :unitType2,options_for_select(AllSkillConfig::EUNIT_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:unitType2)) %>
+</p>

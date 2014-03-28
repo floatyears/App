@@ -111,7 +111,7 @@ public class FriendListLogic : ConcreteComponent{
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseAll, RefuseAllApplyFromOthers);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureAcceptApply, AcceptApplyFromOther);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseSingleApply, DeleteApplyFromOther);     
-                
+//		MsgCenter .Instance.AddListener(CommandEnum.ReturnPreScene, ReturnPreScene);
         }
 
 	void DeleteMyApply(object msg){
@@ -127,8 +127,40 @@ public class FriendListLogic : ConcreteComponent{
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureRefuseSingleApply, DeleteApplyFromOther);     
 	}
 
+	
+	bool CheckFriendCountLimit(){
+		if(DataCenter.Instance.FriendList.Friend.Count >= DataCenter.Instance.UserInfo.FriendMax){
+			Debug.LogError("Friend.Count > FriendMax!!! Refuse to add this friend...");
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	MsgWindowParams GetFriendExpansionMsgParams(){
+		MsgWindowParams msgParams = new MsgWindowParams();
+		msgParams.titleText = TextCenter.Instace.GetCurrentText("FirendOverflow");
+		msgParams.contentText = TextCenter.Instace.GetCurrentText("FriendOverflowText",
+		                                                          DataCenter.Instance.MyUnitList.Count,
+		                                                          DataCenter.Instance.UserInfo.UnitMax);
+		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
+		msgParams.btnParams[ 0 ].text = TextCenter.Instace.GetCurrentText("DoFriendExpand");
+		msgParams.btnParams[ 0 ].callback = CallBackScratchScene;
+		return msgParams;
+	}
+	
+	void CallBackScratchScene(object args){
+		UIManager.Instance.ChangeScene(SceneEnum.Shop);
+	}
+	
 	void AcceptApplyFromOther(object msg){
 		Debug.LogError("FriendListLogic.AcceptApplyFromOther(), receive the message, to accept apply from other player...");
+		if(CheckFriendCountLimit()){
+			Debug.LogError(string.Format("Friend Count limited. Current Friend count is :" + DataCenter.Instance.FriendCount));
+			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendExpansionMsgParams());
+			return;
+		}
+
 		AcceptFriendRequest(currentFriendPicked.UserId);
 	}
 

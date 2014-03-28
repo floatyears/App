@@ -2,8 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class Role : UIBaseUnity
-{
+public class Role : UIBaseUnity {
 	private Coordinate currentCoor;
 	public Coordinate CurrentCoor {
 		get{ return currentCoor; }
@@ -42,7 +41,6 @@ public class Role : UIBaseUnity
 		base.Init (name);
 		jump = GetComponent<Jump> ();
 		transform.localScale = Vector3.one;
-//		transform.localRotation = Quaternion.Euler(angle);
 	}
 
 	public override void CreatUI () {
@@ -51,11 +49,9 @@ public class Role : UIBaseUnity
 
 	void RoleStart() {
 		prevCoor = currentCoor = bQuest.RoleInitPosition;
-		
 		Vector3 pos = GetRolePosition(bQuest.GetPosition(currentCoor));
 		jump.Init (initPosition);
 		jump.GameStart (pos);
-		//transform.localPosition = new Vector3(pos.x,pos.y + YOffset ,pos.z + ZOffset);
 		SyncRoleCoordinate(currentCoor);
 		Stop();
 	}
@@ -69,7 +65,6 @@ public class Role : UIBaseUnity
 		base.ShowUI ();
 		gameObject.SetActive (true);
 		RoleStart ();
-
 		MsgCenter.Instance.AddListener (CommandEnum.TrapMove, TrapMove);
 		MsgCenter.Instance.AddListener (CommandEnum.NoSPMove, NoSPMove);
 	}
@@ -77,7 +72,6 @@ public class Role : UIBaseUnity
 	public override void HideUI () {
 		base.HideUI ();
 		gameObject.SetActive (false);
-
 		MsgCenter.Instance.RemoveListener (CommandEnum.TrapMove, TrapMove);
 		MsgCenter.Instance.RemoveListener (CommandEnum.NoSPMove, NoSPMove);
 	}

@@ -10,6 +10,8 @@ public class BattleBottom : MonoBehaviour {
 	private GameObject battleSkillObject;
 	private BattleSkill battleSkill;
 
+	public static bool notClick = false;
+
 	[HideInInspector]
 	public BattleQuest battleQuest;
 
@@ -22,16 +24,23 @@ public class BattleBottom : MonoBehaviour {
 		battleSkillObject.SetActive (false);
 
 		if (upi == null) {
-			upi = DataCenter.Instance.PartyInfo.CurrentParty; //ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo,new ErrorMsg()) as TUnitParty;		
-		}
-		for (int i = 0; i < 5; i++) {
-			GameObject tex = transform.Find("Actor/" + i).gameObject;	
-			actorObject.Add(i,tex);
+			upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
-		foreach (var item in userUnitInfo) {
-			actorObject[item.Key].renderer.material.SetTexture("_MainTex",item.Value.UnitInfo.GetAsset(UnitAssetType.Profile));
+		for (int i = 0; i < 5; i++) {
+
+			GameObject temp = transform.Find("Actor/" + i).gameObject;	
+			if(userUnitInfo[i] == null) {
+				temp.gameObject.SetActive(false);
+				continue;
+			}
+
+			TUnitInfo tui = userUnitInfo[i].UnitInfo;
+			temp.renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
+			UITexture tex =  transform.Find("ActorP/" + i).GetComponent<UITexture>();
+			tex.color =  DGTools.TypeToColor(tui.Type);
 		}
+
 		List<int> haveInfo = new List<int> (userUnitInfo.Keys);
 		for (int i = 0; i < 5; i++) {
 			if(!haveInfo.Contains(i)) {
@@ -41,18 +50,24 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnDisable () {
-		GameInput.OnReleaseEvent -= OnRealease;
+		GameInput.OnUpdate -= OnRealease;
 	}
 
 	void OnEnable () {
-		GameInput.OnReleaseEvent += OnRealease;
+		GameInput.OnUpdate += OnRealease;
 	}
 
 	void OnRealease () {
-		Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-		if (Physics.Raycast (ray, out rch,100f,GameLayer.Bottom << 31)) {
-			string name = rch.collider.name;
-			CheckCollider(name);
+		if (notClick) {
+			return;	
+		}
+
+		if (Input.GetMouseButtonDown (0)) {
+			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
+			if (Physics.Raycast (ray, out rch,100f,GameLayer.Bottom << 31)) {
+				string name = rch.collider.name;
+				CheckCollider(name);
+			}	
 		}
 	}
 
@@ -62,16 +77,27 @@ public class BattleBottom : MonoBehaviour {
 			Debug.LogError("upi is null");
 			return;	
 		}
-		int id = System.Int32.Parse (name);
-		battleQuest.battle.SwitchInput (true);
-		if (upi.UserUnit.ContainsKey (id)) {
-			tuu = upi.UserUnit [id];
-			battleSkillObject.SetActive(true);
-			battleSkill.Refresh(tuu, Boost);
+//		Debug.LogError ("name : " + name);
+		try{
+			int id = System.Int32.Parse (name);
+//			battleQuest.battle.SwitchInput (true);
+//			Debug.LogError(upi.UserUnit.Count + " id: " + id + " user unit : " + upi.UserUnit.ContainsKey (id));
+			if (upi.UserUnit.ContainsKey (id)) {
+				tuu = upi.UserUnit [id];
+				battleSkillObject.SetActive(true);
+				battleSkill.Refresh(tuu, Boost);
+				BattleMap.waitMove = true;
+				battleQuest.battle.SwitchInput(true);
+			}
 		}
+		catch(System.Exception ex) {
+//			Debug.LogError("exception : " + ex.Message);
+		}
+
 	}
 
 	void Boost() {
+		BattleMap.waitMove = false;
 		battleQuest.battle.SwitchInput (false);
 		battleSkillObject.SetActive(false);
 		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);

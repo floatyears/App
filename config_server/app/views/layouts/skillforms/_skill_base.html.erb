@@ -1,0 +1,20 @@
+<% if @method %>
+  <%= form_tag(skill_path)%>
+  <input name="_method" type="hidden" value="patch" />
+<% else %>
+  <%= form_tag(skills_path) %>
+<% end %>
+<p>
+  baseInfo:<br/>
+  <fieldset>
+    id:<%= text_field_tag :skill_id,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:baseInfo).try(:id) %>
+    name:<%= text_field_tag :name ,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:baseInfo).try(:name) %>
+    description:<%= text_field_tag :description,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:baseInfo).try(:description)  %>
+    skillCooling:<%= text_field_tag :skillCooling ,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:baseInfo).try(:skillCooling) %>
+  </fieldset>
+</p>
+<%= hidden_field_tag :skill_type,@type%>
+<%= @type %>
+<%= @index %>
+<%= @method%>
+<%= @skill_type%>

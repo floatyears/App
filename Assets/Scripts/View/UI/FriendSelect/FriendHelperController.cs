@@ -51,15 +51,15 @@ public class FriendHelperController : ConcreteComponent{
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} 
 		else {
-		StartQuest sq = new StartQuest ();
-		StartQuestParam sqp = new StartQuestParam ();
-		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
-		sqp.helperUserUnit = selectedHelper;
-		sqp.questId = questID;
-		sqp.stageId = stageID;
-		sqp.startNew = 1;
-		sq.OnRequest (sqp, RspStartQuest);
-	}
+			StartQuest sq = new StartQuest ();
+			StartQuestParam sqp = new StartQuestParam ();
+			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+			sqp.helperUserUnit = selectedHelper;
+			sqp.questId = questID;
+			sqp.stageId = stageID;
+			sqp.startNew = 1;
+			sq.OnRequest (sqp, RspStartQuest);
+		}
 	}
 
 	void RspEvolveStartQuest (object data) {
@@ -90,17 +90,14 @@ public class FriendHelperController : ConcreteComponent{
 		Debug.LogError (rspStartQuest.header.code  + "  " + rspStartQuest.header.error);
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
-			
 			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
 		if (data == null || tqdd == null) {
 			Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
-
 			return;
 		}
 		EnterBattle ();
@@ -182,11 +179,10 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void ChooseHelper(object msg){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableBottomButton", null);
+		if(selectedHelper == null) return;
+		MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateViewAfterChooseHelper", null);
 		ExcuteCallback(cbdArgs);
-		if(selectedHelper != null){
-			MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
-		}
 	}
 	
 	void RefreshFriendHelper(object data) {

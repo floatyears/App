@@ -279,7 +279,7 @@ message AllSkillConfig {
 
 	//active skill
 	repeated SkillSingleAttack			SingleAttack			= 2;
-	repeated SkillSingleAtkRecoverHP	SingleAtkRecoverHP		= 3;
+	repeated SkillAttackRecoverHP		attackRecoverHP			= 3;
 	repeated SkillSuicideAttack			SuicideAttack			= 4;
 	repeated SkillTargetTypeAttack		TargetTypeAttack		= 5;
 	repeated SkillStrengthenAttack		StrengthenAttack		= 6;

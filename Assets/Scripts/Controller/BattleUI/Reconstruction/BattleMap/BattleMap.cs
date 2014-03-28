@@ -17,10 +17,10 @@ public class BattleMap : UIBaseUnity {
 		get { return box; }
 	}
 
-	[HideInInspector]
-	private bool wMove = false;
 
-	public bool waitMove {
+	private static bool wMove = false;
+	[HideInInspector]
+	public static bool waitMove {
 		set{ wMove = value; }// Debug.LogError("wMove : " + wMove);}
 		get{return wMove;}
 	}
@@ -45,7 +45,6 @@ public class BattleMap : UIBaseUnity {
 	public override void CreatUI () {
 		LogHelper.Log("battle map creat ui" );
 		base.CreatUI ();
-		//StartMap ();
 	}
 
 	void StartMap() {
@@ -76,8 +75,7 @@ public class BattleMap : UIBaseUnity {
 		UIEventListener.Get (door.gameObject).onClick = ClickDoor;
 	}
 
-	public override void HideUI ()
-	{
+	public override void HideUI () {
 		base.HideUI ();
 		useMapItem.Clear ();
 		gameObject.SetActive (false);
@@ -115,7 +113,7 @@ public class BattleMap : UIBaseUnity {
 	}
 	  
 	void OnClickMapItem(GameObject go) {
-		if (!waitMove) {
+		if (!wMove) {
 			temp = go.GetComponent<MapItem>();
 			bQuest.TargetItem(temp.Coor);
 		}
@@ -195,10 +193,8 @@ public class BattleMap : UIBaseUnity {
 			DisposeAround(map[coor.x,coor.y + 1]);
 	}
 
-	void DisposeAround(MapItem item)
-	{
-		if(!item.IsOld)
-		{
+	void DisposeAround(MapItem item) {
+		if(!item.IsOld) {
 			item.Around(true);
 			prevAround.Add(item);
 		}

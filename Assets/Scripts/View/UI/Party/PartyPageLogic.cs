@@ -15,12 +15,16 @@ public class PartyPageLogic : ConcreteComponent{
 
     public override void ShowUI() {
         base.ShowUI();
-        RefreshCurrentPartyInfo("current");
+        RefreshCurrentParty();
     }
 	
     public override void HideUI() {
         base.HideUI();
         NoticeServerUpdatePartyInfo();
+    }
+
+    public virtual void RefreshCurrentParty(){
+        RefreshCurrentPartyInfo("current");
     }
 
 	public override void Callback(object data) {
@@ -50,16 +54,16 @@ public class PartyPageLogic : ConcreteComponent{
 				LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to current party");
 		        currentParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		        break;
-        case "prev":
-	            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to prev party");
-	            currentParty = DataCenter.Instance.PartyInfo.PrevParty;
-	            break;
-        case "next":
-	            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to next party");
-	            currentParty = DataCenter.Instance.PartyInfo.NextParty;
-	            break;
-        default:
-            	break;
+	        case "prev":
+		            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to prev party");
+		            currentParty = DataCenter.Instance.PartyInfo.PrevParty;
+		            break;
+	        case "next":
+		            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to next party");
+		            currentParty = DataCenter.Instance.PartyInfo.NextParty;
+		            break;
+	        default:
+	            	break;
         }
         return currentParty;
     }
@@ -96,13 +100,18 @@ public class PartyPageLogic : ConcreteComponent{
 	//==add by lei liang start==================================================
 
 	protected void RefreshEvolvePartyInfo (TUnitParty unitParty) {
-		if (unitParty == null)	return;
-		if (unitParty.GetUserUnit() == null)	return;
+		if (unitParty == null)	{
+			return;
+		}
+		if (unitParty.GetUserUnit() == null){	
+			return;
+		}
 		
 		List<TUserUnit> curUserUnitList = unitParty.GetUserUnit();
 		List<Texture2D> curPartyTexList = GetPartyTexture(curUserUnitList);
 		
-		int curPartyIndex = 1;
+//		int curPartyIndex = 1;
+		int curPartyIndex = GetPartyIndex();
 		
 		CallBackDispatcherArgs cbdIndex = new CallBackDispatcherArgs("RefreshPartyIndexView", curPartyIndex);
 		ExcuteCallback(cbdIndex);

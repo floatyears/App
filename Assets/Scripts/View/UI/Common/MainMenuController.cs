@@ -9,7 +9,6 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 	}
 
 	public override void HideUI () {
-        //LogHelper.Log("MenuBtnsComponent.HideUI()");
 		base.HideUI ();
 	}
 
@@ -34,8 +33,8 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 	}
 
 	bool CheckUnitCountLimit(){
-		Debug.LogError("Current MyUnitList count is " + DataCenter.Instance.MyUnitList.Count);
-		Debug.LogError("Current MyUnit Max is " + DataCenter.Instance.UserInfo.UnitMax);
+//		Debug.LogError("Current MyUnitList count is " + DataCenter.Instance.MyUnitList.Count);
+//		Debug.LogError("Current MyUnit Max is " + DataCenter.Instance.UserInfo.UnitMax);
 		if(DataCenter.Instance.MyUnitList.Count > DataCenter.Instance.UserInfo.UnitMax){
 			Debug.LogError("MyUnitList's count > MyMax!!! Refuse to scene of Quest...");
 			return true;

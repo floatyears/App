@@ -32,6 +32,8 @@ public class TSkillAttackRecoverHP : ActiveSkill ,IActiveSkillExcute{
 //		SkillSingleAtkRecoverHP ssarh = DeserializeData<SkillSingleAtkRecoverHP> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.AttackType = (int)instance.unitType;
+		ai.AttackRange = (int)instance.attackType;
+
 		if (instance.type == EValueType.MULTIPLE) {
 			ai.AttackValue = atk * instance.value;		
 		} else if(instance.type == EValueType.FIXED) {

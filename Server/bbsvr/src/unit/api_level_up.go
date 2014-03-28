@@ -178,11 +178,13 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	rspMsg.BlendUniqueId = reqMsg.BaseUniqueId
 	rspMsg.UnitList = userDetail.UnitList
 	rspMsg.PartUniqueId = reqMsg.PartUniqueId
+	rspMsg.Money = userDetail.Account.Money
 
 	log.T("=================rspMsg begin==================")
 	log.T("\t BlendExp:%v", *rspMsg.BlendExp)
 	log.T("\t BlendUniqueId:%v", *rspMsg.BlendUniqueId)
 	log.T("\t PartUniqueId:%v", rspMsg.PartUniqueId)
+	log.T("\t Money:%v", *rspMsg.Money)
 
 	for k, unit := range rspMsg.UnitList {
 		log.T("\t [%v] unit: %+v", k, unit)

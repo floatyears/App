@@ -26,13 +26,16 @@ public class FloorRotate : MonoBehaviour {
 		isRotate = false;
 	}
 
-	public void RotateFloor () {
+	Callback temp;
+
+	public void RotateFloor (Callback call) {
 		if (isRotate) {
 			return;	
 		}
 		if (targetObject == null) { 
 			return;	
 		}
+		temp = call;
 		isRotate = true;
 		float index = DGTools.RandomToFloat ();
 		if (index <= manyProbability) {
@@ -45,28 +48,19 @@ public class FloorRotate : MonoBehaviour {
 
 	void RotateMany () {
 		rotateState = 1;
-//		MoveComplete ();
 		countDownTime = multipetime;
 		oneangle = 225f;
 		manyAngle = 900f;
 	}
 
 	public void RotateOne () {
-//		MoveComplete ();
 		rotateState = 0;
 		countDownTime = time;	
 		oneangle = 300f;
 	}
 
 	int rotateState = -1;
-	
-//	void MoveComplete () {
-//		if (rotateState == 1) {
-//		
-//		} else {
-//
-//		}
-//	}
+
 	public bool isShowBox = false;
 	GameObject box;
 	public void ShowBox () {
@@ -91,6 +85,9 @@ public class FloorRotate : MonoBehaviour {
 	}
 
 	void FallComplete() {
+		if (temp != null) {
+			temp();	
+		}
 		MsgCenter.Instance.Invoke (CommandEnum.RotateDown, null);
 	}
 

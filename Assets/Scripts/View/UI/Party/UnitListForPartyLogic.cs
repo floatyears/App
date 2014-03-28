@@ -5,20 +5,33 @@ using System.Collections.Generic;
 public class UnitListForPartyLogic : ConcreteComponent{
 	UnitItemViewInfo currentPickedUnit;
 	List<UnitItemViewInfo> onPartyViewItemList = new List<UnitItemViewInfo>();
-	public UnitListForPartyLogic(string uiName):base(uiName){}
+	public UnitListForPartyLogic(string uiName):base(uiName){
+        MsgCenter.Instance.AddListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
+    }
 
 	public override void ShowUI(){
 		base.ShowUI();
-		GetOnPartyViewItemList();
-		CreateUnitList();
+//		GetOnPartyViewItemList();
+//		CreateUnitList();
 		AddCmdListener();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		RmvCmdListener();
-		DestoryUnitList();
+//		DestoryUnitList();
 	}
+
+    public override void ResetUIState(bool clear) {
+        if (!clear){
+            return;
+        }
+        base.ResetUIState(clear);
+        DestoryUnitList();
+        GetOnPartyViewItemList();
+        CreateUnitList();
+
+    }
 
 	void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);

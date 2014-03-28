@@ -1,0 +1,33 @@
+<%= render 'layouts/skillforms/skill_base'%>
+<p>
+	boostType:<%= select_tag :boostType,options_for_select(AllSkillConfig::EBOOST_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:boostType)) %>
+</p>
+<p>
+	boostValue:<%= text_field_tag :boostValue ,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:boostValue)%>
+</p>
+
+<p>
+  targetType:UNIT_RACE&nbsp;&nbsp;<%= radio_button_tag(:targetType, 0, @all_skills.nil? ? true : @all_skills.try(@skill_type)[@index].try(:targetType).to_i == 0) %>&nbsp;&nbsp;&nbsp;&nbsp;UNIT_TYPE&nbsp;&nbsp;<%= radio_button_tag(:targetType, 1,@all_skills.nil? ? false : @all_skills.try(@skill_type)[@index].try(:targetType).to_i == 1) %>
+</p>
+<p>
+	<!-- <%= text_field_tag :targetValue,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:targetValue)%> -->
+    targetValue:<br/>
+      <span id="targetrace"><%= select_tag :targetValue,options_for_select(AllSkillConfig::EUNIT_RACE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:targetValue)) %></span>
+      <span id="targettype" style="display:none;"><%= select_tag :targetValue1,options_for_select(AllSkillConfig::EUNIT_TYPE,:selected => @all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:targetValue)) %></span>
+  
+</p>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(){
+  $('input[type=radio][name=targetType]').change(function() {
+       if (this.value == 0) {
+         $("#targettype").css("display","none");
+         $("#targetrace").css("display","block")
+       }
+       else if (this.value == 1) {
+         $("#targettype").css("display","block");
+         $("#targetrace").css("display","none")
+       }
+   });
+});
+</script>

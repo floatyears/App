@@ -19,7 +19,6 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 	}
 
 	void InitPassiveSkill() {
-//		Debug.LogError("passive id : " + leaderSkill.UserUnit.Count);
 		foreach (var item in leaderSkill.UserUnit.Values) {
 			if (item==null) {
 				continue;
@@ -33,8 +32,10 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			if(ipe == null) {
 				continue;
 			}
-			passiveSkill.Add(item.MakeUserUnitKey(),ipe);
-			multipe.Add(item.MakeUserUnitKey(),item.AttackMultiple);
+			string name = item.MakeUserUnitKey();
+//			Debug.LogError("passive skill : " + name);
+			passiveSkill.Add(name,ipe);
+			multipe.Add(name,item.AttackMultiple);
 		}
 	}
 
@@ -44,12 +45,12 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 		if (tb == null) {
 			return;		
 		}
-//		Debug.LogError (tb);
 		trap.Enqueue (tb);
 		if (passiveSkill.Values.Count == 0) {
 			DisposeTrap (false);
 		} else {
 			foreach (var item in passiveSkill.Values) {
+				Debug.LogError(tb);
 				item.Excute(tb, this);
 			}
 		}

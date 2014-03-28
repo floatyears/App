@@ -10,19 +10,19 @@ public class OnSaleUnitsController : ConcreteComponent {
 	List<UnitItemViewInfo> onSaleUnitList = new List<UnitItemViewInfo>();
 	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
 
-	public OnSaleUnitsController(string uiName):base(uiName) {}
+	public OnSaleUnitsController(string uiName):base(uiName) {
+    }
 	public override void CreatUI () { base.CreatUI (); }
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		GetUnitCellViewList();
-		CreateOnSaleUnitViewList();
-		RefreshOwnedUnitCount();
+//		CreateOnSaleUnitViewList();
+//		RefreshOwnedUnitCount();
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-		DestoryOnSaleUnitViewList();
+//		DestoryOnSaleUnitViewList();
 	}
 
 	public override void Callback(object data){
@@ -343,4 +343,11 @@ public class OnSaleUnitsController : ConcreteComponent {
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
 	}
 
+    public void ResetUI(){
+        DestoryOnSaleUnitViewList();
+        GetUnitCellViewList();
+        CreateOnSaleUnitViewList();
+        RefreshOwnedUnitCount();
+    }
+    
 }
