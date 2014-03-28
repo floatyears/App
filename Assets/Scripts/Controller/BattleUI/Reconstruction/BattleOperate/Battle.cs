@@ -123,11 +123,12 @@ public class Battle : UIBase {
 
 	void EnemyAttckEnd (object data) {
 		SwitchInput(false);
+		ShieldInput (true);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
 	void BattleEnd (object data) {
-		ShieldInput (true);
+//		ShieldInput (true);
 		SwitchInput(true);
 		HideUI ();
 	}
@@ -232,6 +233,7 @@ public class Battle : UIBase {
 
 
 	public void SwitchInput(bool isShield) {
+//		Debug.LogError ("SwitchInput : " + isShield);
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
@@ -240,9 +242,6 @@ public class Battle : UIBase {
 	}
 
 	void ShieldInput (bool isShield) {
-//		nguiMainCamera.useMouse = isShield;
-//		nguiMainCamera.useKeyboard = isShield;
-//		nguiMainCamera.useTouch = isShield;
 		nguiMainCamera.enabled = isShield;
 		main.GInput.IsCheckInput = isShield;
 
@@ -294,6 +293,7 @@ public class Battle : UIBase {
 			if(generateCount > 0) {
 				MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
 				YieldStartBattle();
+
 				if(showCountDown) {
 					for(int i = 0;i < generateCount;i++) {
 						battleCard.GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
@@ -324,8 +324,7 @@ public class Battle : UIBase {
 		}
 	}
 
-	void HandleCallBack ()
-	{
+	void HandleCallBack () {
 		main.GInput.IsCheckInput = true;
 		ResetClick();
 	}
@@ -449,6 +448,7 @@ public class Battle : UIBase {
 		//battleCardArea.ShowCountDown (true, (int)time);
 		countDownUI.SetCurrentTime ((int)time);
 		if (time > 0) {
+			BattleBottom.notClick = true;
 			showCountDown = true;
 			time -= countDownTime;
 			GameTimer.GetInstance ().AddCountDown (countDownTime, CountDownBattle);

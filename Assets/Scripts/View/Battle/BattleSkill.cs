@@ -19,6 +19,14 @@ public class BattleSkill : UIBaseUnity {
 		base.DestoryUI ();
 	}
 
+	void OnEnable () {
+
+	}
+
+	void OnDisable () {
+
+	}
+
 	private string[] SKill = new string[5]{ "LeaderSkill","NormalSKill1","NormalSkill2","ActiveSkill","PassiveSKill"};
 	private const string path = "/Label";
 	private const string pathName = "/SkillName";

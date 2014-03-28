@@ -379,6 +379,7 @@ public class AttackController {
 	}    
 
 	void EnemyAttackEnd () {
+		BattleBottom.notClick = false;
 		CheckTempEnemy ();
 		bud.ClearData();
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
