@@ -23,8 +23,8 @@ public class SelectRoleController : ConcreteComponent {
 		base.HideUI();
 	}
 
-	public override void Callback(object data){
-		base.Callback(data);
+	public override void CallbackView(object data){
+		base.CallbackView(data);
 		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
 
 		switch (call.funcName){
