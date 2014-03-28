@@ -275,7 +275,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		costLabel.text = unitInfo.Cost.ToString();
 		
 		//race  
-		raceLabel.text = unitInfo.UnitRace.ToString();
+		raceLabel.text = unitInfo.UnitRace;
 
 		//rare
 		rareLabel.text = unitInfo.Rare.ToString();

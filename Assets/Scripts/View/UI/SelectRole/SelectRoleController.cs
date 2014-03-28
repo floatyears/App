@@ -12,8 +12,8 @@ public class SelectRoleController : ConcreteComponent {
 
 	public override void CreatUI(){
 		base.CreatUI();
-		InitSupportSelectData();
-	}
+		InitSupportSelectData();                
+    }
 	public override void ShowUI(){
 		base.ShowUI();
 		ShowInitialView();
@@ -29,11 +29,11 @@ public class SelectRoleController : ConcreteComponent {
 
 		switch (call.funcName){
 			case "ClickTab" :
-				CallBackDispatcherHelper.DispatchCallBack(RecordSelectState,call);
+				CallBackDispatcherHelper.DispatchCallBack(RecordSelectState, call);
 				break;
-			case "ClickSelect" :
-				CallBackDispatcherHelper.DispatchCallBack(RecordSelectState,call);
-                        break;
+			case "ClickButton" :
+				CallBackDispatcherHelper.DispatchCallBack(SubmitSelectState, call);
+                break;
                 default:
 				break;
 		}
@@ -58,19 +58,21 @@ public class SelectRoleController : ConcreteComponent {
 	}
 
 	void SubmitSelectState(object args){
-
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSelectRoleMsgParams());
 	}
 
 	MsgWindowParams GetSelectRoleMsgParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();
 		msgParams.titleText = TextCenter.Instace.GetCurrentText("SelectRoleTitle");
-		msgParams.contentText = TextCenter.Instace.GetCurrentText("SelectRoleContent",
-		                                                          DataCenter.Instance.MyUnitList.Count,
-		                                                          DataCenter.Instance.UserInfo.UnitMax);
+		msgParams.contentText = TextCenter.Instace.GetCurrentText("SelectRoleContent");
 		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
-		msgParams.btnParams[ 0 ].callback = SubmitSelectState;
-                return msgParams;
+		msgParams.btnParams[ 0 ].callback = CallbackMsgBtnOk;
+        return msgParams;
 	}
 
+	void CallbackMsgBtnOk(object args){
+		uint unitID = supportSelectUnits[ curSelectPos ].ID;
+		MsgCenter.Instance.Invoke(CommandEnum.StartFirstLogin, unitID);
+	}
 
 }

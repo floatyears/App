@@ -119,7 +119,8 @@ public class LoadingLogic : ConcreteComponent {
             TestUtility.Test();
             Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
-            UIManager.Instance.ChangeScene(SceneEnum.Start);
+			UIManager.Instance.ChangeScene(SceneEnum.Start);
+			UIManager.Instance.ChangeScene(SceneEnum.Quest);
             if (rspAuthUser.isNewUser == 1){
                 TurnToReName();
             }

@@ -37,7 +37,7 @@ public partial class TextCenter {
 		textDict.Add("StaminaLackNoteContent", "Current Stamina is not enough to battle!");
 
 		textDict.Add("SelectRoleTitle", "Select Role");
-		textDict.Add("SelectRoleContent", "Select a role to adventure with you!");
+		textDict.Add("SelectRoleContent", "Are you sure to select this role to adventure with you?");
     }
 }
 
