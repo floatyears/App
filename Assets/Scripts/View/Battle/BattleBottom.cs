@@ -10,6 +10,8 @@ public class BattleBottom : MonoBehaviour {
 	private GameObject battleSkillObject;
 	private BattleSkill battleSkill;
 
+	public static bool notClick = false;
+
 	[HideInInspector]
 	public BattleQuest battleQuest;
 
@@ -48,18 +50,24 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnDisable () {
-		GameInput.OnReleaseEvent -= OnRealease;
+		GameInput.OnUpdate -= OnRealease;
 	}
 
 	void OnEnable () {
-		GameInput.OnReleaseEvent += OnRealease;
+		GameInput.OnUpdate += OnRealease;
 	}
 
 	void OnRealease () {
-		Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-		if (Physics.Raycast (ray, out rch,100f,GameLayer.Bottom << 31)) {
-			string name = rch.collider.name;
-			CheckCollider(name);
+		if (notClick) {
+			return;	
+		}
+
+		if (Input.GetMouseButtonDown (0)) {
+			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
+			if (Physics.Raycast (ray, out rch,100f,GameLayer.Bottom << 31)) {
+				string name = rch.collider.name;
+				CheckCollider(name);
+			}	
 		}
 	}
 
@@ -69,23 +77,27 @@ public class BattleBottom : MonoBehaviour {
 			Debug.LogError("upi is null");
 			return;	
 		}
-		Debug.LogError ("name : " + name);
+//		Debug.LogError ("name : " + name);
 		try{
 			int id = System.Int32.Parse (name);
-			battleQuest.battle.SwitchInput (true);
+//			battleQuest.battle.SwitchInput (true);
+//			Debug.LogError(upi.UserUnit.Count + " id: " + id + " user unit : " + upi.UserUnit.ContainsKey (id));
 			if (upi.UserUnit.ContainsKey (id)) {
 				tuu = upi.UserUnit [id];
 				battleSkillObject.SetActive(true);
 				battleSkill.Refresh(tuu, Boost);
+				BattleMap.waitMove = true;
+				battleQuest.battle.SwitchInput(true);
 			}
 		}
 		catch(System.Exception ex) {
-				
+//			Debug.LogError("exception : " + ex.Message);
 		}
 
 	}
 
 	void Boost() {
+		BattleMap.waitMove = false;
 		battleQuest.battle.SwitchInput (false);
 		battleSkillObject.SetActive(false);
 		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);

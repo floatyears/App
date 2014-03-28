@@ -1,4 +1,4 @@
-## Generated from skill.proto for 
+#encoding: utf-8
 require "beefcake"
 
 module EUnitRace
@@ -70,7 +70,7 @@ class SkillSingleAttack
   include Beefcake::Message
 end
 
-class SkillSingleAtkRecoverHP
+class SkillAttackRecoverHP
   include Beefcake::Message
 end
 
@@ -166,11 +166,12 @@ class SkillSingleAttack
   optional :ignoreDefense, :bool, 6
 end
 
-class SkillSingleAtkRecoverHP
+class SkillAttackRecoverHP
   optional :baseInfo, SkillBase, 1
   optional :type, EValueType, 2
   optional :value, :float, 3
   optional :unitType, EUnitType, 4
+  optional :attackType, EAttackType, 5
 end
 
 class SkillSuicideAttack
@@ -317,7 +318,7 @@ class AllSkillConfig
   
   repeated :Normal, NormalSkill, 1
   repeated :SingleAttack, SkillSingleAttack, 2
-  repeated :SingleAtkRecoverHP, SkillSingleAtkRecoverHP, 3
+  repeated :SingleAtkRecoverHP, SkillAttackRecoverHP, 3
   repeated :SuicideAttack, SkillSuicideAttack, 4
   repeated :TargetTypeAttack, SkillTargetTypeAttack, 5
   repeated :StrengthenAttack, SkillStrengthenAttack, 6
@@ -356,7 +357,7 @@ class AllSkillConfig
         update_to_redis("SingleAttack",singleAttack,id)
       end
     when "singleatkrecoverhp"
-      skillSingleAtkRecoverHP =  SkillSingleAtkRecoverHP.new(baseInfo: base_info,type: params_to_i(params[:type]),value: params_to_f(params[:value]),unitType: params_to_i(params[:unitType]))
+      skillSingleAtkRecoverHP =  SkillAttackRecoverHP.new(baseInfo: base_info,type: params_to_i(params[:type]),value: params_to_f(params[:value]),unitType: params_to_i(params[:unitType]),attackType: params_to_i(params[:attackType]))
       if update.nil?
         save_to_redis("SingleAtkRecoverHP",skillSingleAtkRecoverHP)
       else
@@ -461,7 +462,8 @@ class AllSkillConfig
         update_to_redis("AntiAttack",skillAntiAttack,id)
       end
     when "boost"
-      skillBoost = SkillBoost.new(baseInfo: base_info,boostType: params_to_i(params[:boostType]),boostValue: params_to_f(params[:boostValue]),targetType: params_to_i(params[:targetType]),targetValue: params_to_i(params[:targetValue]))
+      targetValue =  (params_to_i(params[:targetType]) == 0) ? params_to_i(params[:targetValue]) : params_to_i(params[:targetValue1])
+      skillBoost = SkillBoost.new(baseInfo: base_info,boostType: params_to_i(params[:boostType]),boostValue: params_to_f(params[:boostValue]),targetType: params_to_i(params[:targetType]),targetValue: targetValue)
       if update.nil?
         save_to_redis("Boost",skillBoost)
       else
@@ -501,7 +503,8 @@ class AllSkillConfig
   end
   
   def self.params_to_f(s)
-    (s == "") ? nil : s.to_f
+    (s == "") ? nil : s.to_f.round(6)
+    p s.to_f.round(6)
   end
   
   def self.params_to_bool(s)

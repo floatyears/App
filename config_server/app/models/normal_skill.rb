@@ -1,4 +1,4 @@
-## Generated from app/models/normal_skill.proto for 
+#encoding: utf-8
 require "beefcake"
 
 

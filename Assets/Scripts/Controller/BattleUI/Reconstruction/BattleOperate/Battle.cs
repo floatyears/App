@@ -123,6 +123,7 @@ public class Battle : UIBase {
 
 	void EnemyAttckEnd (object data) {
 		SwitchInput(false);
+		ShieldInput (true);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
@@ -232,6 +233,7 @@ public class Battle : UIBase {
 
 
 	public void SwitchInput(bool isShield) {
+//		Debug.LogError ("SwitchInput : " + isShield);
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
@@ -240,9 +242,6 @@ public class Battle : UIBase {
 	}
 
 	void ShieldInput (bool isShield) {
-//		nguiMainCamera.useMouse = isShield;
-//		nguiMainCamera.useKeyboard = isShield;
-//		nguiMainCamera.useTouch = isShield;
 		nguiMainCamera.enabled = isShield;
 		main.GInput.IsCheckInput = isShield;
 
@@ -256,48 +255,34 @@ public class Battle : UIBase {
 		DisposeReleasePress();
 	}
 
-	void HandleOnStationaryEvent ()
-	{
+	void HandleOnStationaryEvent () {
 		
 	}
 
-	void HandleOnDragEvent (Vector2 obj)
-	{
+	void HandleOnDragEvent (Vector2 obj) {
 		DisposeOnDrag(obj);
 	}
 
-	void ResetClick()
-	{
-		for (int i = 0; i < selectTarget.Count; i++)
-		{
-			//selectTarget[i].gameObject.layer = GameLayer.ActorCard;
-		
+	void ResetClick() {
+		for (int i = 0; i < selectTarget.Count; i++) {
 			selectTarget[i].OnPress(false,-1);			
 		}
-
 		selectTarget.Clear();
-
 		battleCard.ResetDrag();
 	}
-	
 
 	void DisposeReleasePress() {
-		//IgnoreLayer(false);
-//		Debug.LogError ("battle : DisposeReleasePress : " + selectTarget.Count);
 		if(selectTarget.Count == 0) {
 			ResetClick();
 			return;
 		}
 
 		if(Check(GameLayer.BattleCard)) {
-//			Debug.LogError("battle : Check(GameLayer.BattleCard)");
 			BattleCardAreaItem bcai = null;
 
-			for (int i = 0; i < rayCastHit.Length; i++) 
-			{
+			for (int i = 0; i < rayCastHit.Length; i++) {
 				tempObject = rayCastHit[i].collider.gameObject;
 				bcai = tempObject.GetComponent<BattleCardAreaItem>();
-
 				if(bcai != null)
 					break;
 			}
@@ -305,13 +290,12 @@ public class Battle : UIBase {
 			if(bcai != null)
 				generateCount = bcai.GenerateCard(selectTarget);
 
-			if(generateCount > 0)
-			{
+			if(generateCount > 0) {
 				MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
 				YieldStartBattle();
+
 				if(showCountDown) {
 					for(int i = 0;i < generateCount;i++) {
-//						battleCard.GenerateCard(GenerateData(),selectTarget[i].location);
 						battleCard.GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
 					}
 				}
@@ -340,8 +324,7 @@ public class Battle : UIBase {
 		}
 	}
 
-	void HandleCallBack ()
-	{
+	void HandleCallBack () {
 		main.GInput.IsCheckInput = true;
 		ResetClick();
 	}
@@ -380,9 +363,7 @@ public class Battle : UIBase {
 				else
 					continue;
 			}
-
 			ClickObject(tempObject);
-			
 			SetDrag();
 		}
 	}
@@ -392,33 +373,16 @@ public class Battle : UIBase {
 			battleCard.DisposeDrag(selectTarget[0].location,selectTarget[0].itemID);
 	}
 
-	void IgnoreLayer(bool isPress) {
-		battleCard.IgnoreCollider(isPress);
-		battleCardPool.IgnoreCollider(isPress);
-	}
-
 	void ClickObject(GameObject go)
 	{
 		tempCard = go.GetComponent<CardItem>();
-		if(tempCard != null)
-		{
+		if(tempCard != null) {
 			if(selectTarget.Contains(tempCard))
 				return;
-			if(tempCard.CanDrag)
-			{
+			if(tempCard.CanDrag) {
 				tempCard.OnPress(true,selectTarget.Count);
 				tempCard.ActorTexture.depth = 5;
-				//tempCard.gameObject.layer =  GameLayer.IgnoreCard;
-				//tempCard.transform.parent = dragLayer
 				selectTarget.Add(tempCard);
-//				if(selectTarget.Count > 1) {
-//					for (int i = 1; i < selectTarget.Count; i++) {
-//						Vector3 pos = selectTarget[i-1].transform.localPosition;
-//						Vector3 newPos = new Vector3(pos.x + 62,pos.y - 62,pos.z);
-//						Debug.LogError("newPos : " + newPos);
-//						selectTarget[i].transform.localPosition = newPos;
-//					}
-//				}
 			}
 		}
 	}
@@ -484,6 +448,7 @@ public class Battle : UIBase {
 		//battleCardArea.ShowCountDown (true, (int)time);
 		countDownUI.SetCurrentTime ((int)time);
 		if (time > 0) {
+			BattleBottom.notClick = true;
 			showCountDown = true;
 			time -= countDownTime;
 			GameTimer.GetInstance ().AddCountDown (countDownTime, CountDownBattle);

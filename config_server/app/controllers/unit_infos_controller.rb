@@ -23,11 +23,12 @@ class UnitInfosController < ApplicationController
       AllSkillConfig::ALL_SKILL.each do |key|
         if @allskills[key].present?
           @allskills[key].each do |skill|
-            @skills[skill.try(:baseInfo).try(:description)] = skill.try(:baseInfo).try(:id)
+            @skills[skill.try(:baseInfo).try(:id).to_s + ":" + skill.try(:baseInfo).try(:description)] = skill.try(:baseInfo).try(:id)
           end
         end
       end
     end
+    @skills = {"选择技能" => nil }.merge @skills
   end
 
   # GET /unit_infos/1/edit
@@ -41,11 +42,12 @@ class UnitInfosController < ApplicationController
       AllSkillConfig::ALL_SKILL.each do |key|
         if @allskills[key].present?
           @allskills[key].each do |skill|
-            @skills[skill.try(:baseInfo).try(:description)] = skill.try(:baseInfo).try(:id)
+            @skills[skill.try(:baseInfo).try(:id).to_s + ":" + skill.try(:baseInfo).try(:description)] = skill.try(:baseInfo).try(:id)
           end
         end
       end
     end
+    @skills = {"选择技能" =>  nil }.merge @skills
   end
 
   # POST /unit_infos

@@ -59,7 +59,7 @@ public class AttackController {
 
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			int initBlood = enemyInfo[i].GetInitBlood();
-			int hurtValue = System.Convert.ToInt32(initBlood * ai.AttackValue);
+			int hurtValue = System.Convert.ToInt32(initBlood * ai.AttackValue); //eg: 15%*blood
 			enemyInfo[i].KillHP(hurtValue);
 		}
 		CheckTempEnemy ();
@@ -261,6 +261,7 @@ public class AttackController {
 			}
 		}
 		if (enemyInfo.Count == 0) {
+			BattleBottom.notClick = false;
 			GameTimer.GetInstance().AddCountDown(2f, BattleEnd); //TODO: set time in const config
 			return false;
 		}
@@ -379,6 +380,7 @@ public class AttackController {
 	}    
 
 	void EnemyAttackEnd () {
+		BattleBottom.notClick = false;
 		CheckTempEnemy ();
 		bud.ClearData();
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);

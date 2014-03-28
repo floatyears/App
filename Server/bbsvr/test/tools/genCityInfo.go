@@ -29,9 +29,9 @@ const (
 	QUEST_EVOLVE = 2
 )
 
-func DataAddQuestConfig(questId uint32) (bossId uint32, enemyId []uint32, err error) {
+func DataAddQuestConfig(questId uint32) (bossId uint32, enemyId []uint32, conf *bbproto.QuestConfig, err error) {
 
-	conf := &bbproto.QuestConfig{}
+	conf = &bbproto.QuestConfig{}
 	conf.QuestId = proto.Uint32(questId)
 
 	boss := &bbproto.EnemyInfoConf{}
@@ -106,18 +106,18 @@ func DataAddQuestConfig(questId uint32) (bossId uint32, enemyId []uint32, err er
 	floor1.EnemyNum = proto.Int32(10)
 
 	star1 := bbproto.EGridStar_GS_STAR_1
-	//star2 := bbproto.EGridStar_GS_STAR_2
+	star2 := bbproto.EGridStar_GS_STAR_2
 	star3 := bbproto.EGridStar_GS_STAR_3
-	//star4 := bbproto.EGridStar_GS_STAR_4
+	star4 := bbproto.EGridStar_GS_STAR_4
 	star5 := bbproto.EGridStar_GS_STAR_5
-	//star6 := bbproto.EGridStar_GS_STAR_6
+	star6 := bbproto.EGridStar_GS_STAR_6
 	starKey := bbproto.EGridStar_GS_KEY
 	starQ := bbproto.EGridStar_GS_QUESTION
 	starX := bbproto.EGridStar_GS_EXCLAMATION
 
 	star1Conf := &bbproto.StarConfig{}
 	star1Conf.Star = &star1
-	star1Conf.Repeat = proto.Int32(5)
+	star1Conf.Repeat = proto.Int32(3)
 	star1Conf.Coin = &bbproto.NumRange{proto.Int32(300), proto.Int32(600), nil}
 	star1Conf.EnemyNum = &bbproto.NumRange{proto.Int32(1), proto.Int32(2), nil}
 	star1Conf.EnemyPool = []uint32{901, 902, 903}
@@ -125,8 +125,8 @@ func DataAddQuestConfig(questId uint32) (bossId uint32, enemyId []uint32, err er
 	//star1Conf.Trap = []uint32{5}
 
 	star2Conf := &bbproto.StarConfig{}
-	star2Conf.Star = &star3
-	star2Conf.Repeat = proto.Int32(6)
+	star2Conf.Star = &star2
+	star2Conf.Repeat = proto.Int32(3)
 	star2Conf.Coin = &bbproto.NumRange{proto.Int32(700), proto.Int32(900), nil}
 	star2Conf.EnemyNum = &bbproto.NumRange{proto.Int32(2), proto.Int32(4), nil}
 	star2Conf.EnemyPool = []uint32{901, 902, 903, 904}
@@ -134,48 +134,74 @@ func DataAddQuestConfig(questId uint32) (bossId uint32, enemyId []uint32, err er
 	//star2Conf.Trap = []uint32{5}
 
 	star3Conf := &bbproto.StarConfig{}
-	star3Conf.Star = &star5
-	star3Conf.Repeat = proto.Int32(6)
+	star3Conf.Star = &star3
+	star3Conf.Repeat = proto.Int32(3)
 	star3Conf.Coin = &bbproto.NumRange{proto.Int32(2000), proto.Int32(3000), nil}
 	star3Conf.EnemyNum = &bbproto.NumRange{proto.Int32(3), proto.Int32(4), nil}
 	star3Conf.EnemyPool = []uint32{902, 903, 904, 905}
 	star3Conf.Trap = []uint32{1, 2, 5} //trapId
 	//star3Conf.Trap = []uint32{5}
 
+	star4Conf := &bbproto.StarConfig{}
+	star4Conf.Star = &star4
+	star4Conf.Repeat = proto.Int32(3)
+	star4Conf.Coin = &bbproto.NumRange{proto.Int32(4000), proto.Int32(4500), nil}
+	star4Conf.EnemyNum = &bbproto.NumRange{proto.Int32(1), proto.Int32(3), nil}
+	star4Conf.EnemyPool = []uint32{901, 902, 903, 904}
+
+	star5Conf := &bbproto.StarConfig{}
+	star5Conf.Star = &star5
+	star5Conf.Repeat = proto.Int32(3)
+	star5Conf.Coin = &bbproto.NumRange{proto.Int32(5000), proto.Int32(6000), nil}
+	star5Conf.EnemyNum = &bbproto.NumRange{proto.Int32(1), proto.Int32(2), nil}
+	star5Conf.EnemyPool = []uint32{901, 902, 903, 904}
+
+	star6Conf := &bbproto.StarConfig{}
+	star6Conf.Star = &star6
+	star6Conf.Repeat = proto.Int32(3)
+	star6Conf.Coin = &bbproto.NumRange{proto.Int32(6000), proto.Int32(8000), nil}
+	star6Conf.EnemyNum = &bbproto.NumRange{proto.Int32(2), proto.Int32(5), nil}
+	star6Conf.EnemyPool = []uint32{901, 902, 903, 904}
+
+
 	star0Conf := &bbproto.StarConfig{}
 	star0Conf.Star = &starKey
 	star0Conf.Repeat = proto.Int32(1)
 	star0Conf.Coin = &bbproto.NumRange{proto.Int32(2000), proto.Int32(3000), nil}
-	star0Conf.EnemyNum = &bbproto.NumRange{proto.Int32(3), proto.Int32(4), nil}
-	star0Conf.EnemyPool = []uint32{902, 903, 904, 905}
-	star0Conf.Trap = []uint32{1, 2, 4, 5, 6} //trapId
+	star0Conf.EnemyNum = &bbproto.NumRange{proto.Int32(0), proto.Int32(0), nil}
+//	star0Conf.EnemyPool = []uint32{902, 903, 904, 905}
+//	star0Conf.Trap = []uint32{1, 2, 4, 5, 6} //trapId
 	//star0Conf.Trap = []uint32{5}
 
 	starQConf := &bbproto.StarConfig{}
 	starQConf.Star = &starQ
-	starQConf.Repeat = proto.Int32(3)
+	starQConf.Repeat = proto.Int32(2)
 	starQConf.Coin = &bbproto.NumRange{proto.Int32(3000), proto.Int32(4000), nil}
 	starQConf.EnemyNum = &bbproto.NumRange{proto.Int32(5), proto.Int32(5), nil}
 	starQConf.EnemyPool = []uint32{901, 902, 903, 904, 905}
 	starQConf.Trap = []uint32{2, 4, 5, 6} //trapId
 	//starQConf.Trap = []uint32{5}
 
-	star_Conf := &bbproto.StarConfig{}
-	star_Conf.Star = &starX
-	star_Conf.Repeat = proto.Int32(1)
-	star_Conf.Coin = &bbproto.NumRange{proto.Int32(3000), proto.Int32(4000), nil}
-	star_Conf.EnemyNum = &bbproto.NumRange{proto.Int32(5), proto.Int32(5), nil}
-	star_Conf.EnemyPool = []uint32{901, 902, 903, 904, 905}
-	star_Conf.Trap = []uint32{2, 4, 5} //trapId
+	starX_Conf := &bbproto.StarConfig{}
+	starX_Conf.Star = &starX
+	starX_Conf.Repeat = proto.Int32(1)
+	starX_Conf.Coin = &bbproto.NumRange{proto.Int32(3000), proto.Int32(4000), nil}
+	starX_Conf.EnemyNum = &bbproto.NumRange{proto.Int32(5), proto.Int32(5), nil}
+	starX_Conf.EnemyPool = []uint32{901, 902, 903, 904, 905}
+	starX_Conf.Trap = []uint32{2, 4, 5} //trapId
 	//star_Conf.Trap = []uint32{5}
 
 	floor1.Stars = append(floor1.Stars, star1Conf)
 	floor1.Stars = append(floor1.Stars, star2Conf)
 	floor1.Stars = append(floor1.Stars, star3Conf)
+	floor1.Stars = append(floor1.Stars, star4Conf)
+	floor1.Stars = append(floor1.Stars, star5Conf)
+	floor1.Stars = append(floor1.Stars, star6Conf)
 	floor1.Stars = append(floor1.Stars, star0Conf) // key
 	floor1.Stars = append(floor1.Stars, starQConf) // ?
-	floor1.Stars = append(floor1.Stars, star_Conf) // !
+	floor1.Stars = append(floor1.Stars, starX_Conf) // !
 
+	conf.Floors = append(conf.Floors, floor1)
 	conf.Floors = append(conf.Floors, floor1)
 
 	log.Printf("QuestConfig: %+v", conf)
@@ -183,20 +209,20 @@ func DataAddQuestConfig(questId uint32) (bossId uint32, enemyId []uint32, err er
 	db := &data.Data{}
 	err = db.Open(string(consts.TABLE_QUEST))
 	if err != nil {
-		return bossId, enemyId,err
+		return bossId, enemyId, conf,err
 	}
 	defer db.Close()
 
 	zData, err := proto.Marshal(conf)
 	if err != nil {
 		log.Printf("unmarshal error.")
-		return bossId, enemyId,err
+		return bossId, enemyId,conf,err
 	}
 	if err = db.Set(consts.X_QUEST_CONFIG+common.Utoa(questId), zData); err != nil {
-		return bossId, enemyId,err
+		return bossId, enemyId,conf,err
 	}
 
-	return bossId, enemyId,err
+	return bossId, enemyId,conf,err
 }
 
 func DataAddStageInfo(db *data.Data, stageId uint32, stageName string, stageType bbproto.QuestType, questNum int) (stageInfo *bbproto.StageInfo, err error) {
@@ -222,7 +248,7 @@ func DataAddStageInfo(db *data.Data, stageId uint32, stageName string, stageType
 		questId := (10*stageId + uint32(i) )
 
 		//add quest config
-		bossId,enemyId,_ := DataAddQuestConfig(questId)
+		bossId,enemyId,conf,_ := DataAddQuestConfig(questId)
 
 		qusetInfo := &bbproto.QuestInfo{}
 		qusetInfo.Id = proto.Uint32(questId)
@@ -231,7 +257,7 @@ func DataAddStageInfo(db *data.Data, stageId uint32, stageName string, stageType
 		qusetInfo.Name = proto.String("quest name" + common.Itoa(i))   // quest name
 		qusetInfo.Story = proto.String("it is quest" + common.Itoa(i)) // story description
 		qusetInfo.Stamina = proto.Int32(5)                             // cost stamina
-		qusetInfo.Floor = proto.Int32(2)
+		qusetInfo.Floor = proto.Int32(int32(len(conf.Floors)))
 		qusetInfo.RewardExp = proto.Int32(200)
 		qusetInfo.RewardMoney = proto.Int32(2000)
 		for b := 1; b <= 1; b++ {

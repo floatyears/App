@@ -51,11 +51,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                 userUnit = new Dictionary<int,TUserUnit>();
                 for (int i = 0; i < partyItem.Count; i++) {
                     TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
-//					Debug.LogError("UserUnit : " + partyItem[i].unitUniqueId);
                     userUnit.Add(partyItem[i].unitPos, uui);
-//					if(uui != null) {
-////						Debug.LogError("TUnitParty : " + uui.MakeUserUnitKey());
-//					}
                 }
 			
             }
