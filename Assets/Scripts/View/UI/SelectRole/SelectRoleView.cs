@@ -64,7 +64,7 @@ public class SelectRoleView : UIComponentUnity {
 			texture.mainTexture = unitInfoList[ i ].GetAsset(UnitAssetType.Avatar);
 
 			label = tabList[ i ].transform.FindChild("Label_No").GetComponent<UILabel>();
-			label.text = "No : " + unitInfoList[ i ].ID.ToString();
+			label.text = "No : 00" + unitInfoList[ i ].ID.ToString();
 
 			label = tabList[ i ].transform.FindChild("Label_Name").GetComponent<UILabel>();
 			label.text = unitInfoList[ i ].Name;

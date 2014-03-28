@@ -117,6 +117,8 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void UpdateUnitItemMask(object args){
+		UISprite rejectSpr = dragPanel.ScrollItem[ 0 ].transform.FindChild("Mask").GetComponent<UISprite>();
+		rejectSpr.enabled = false;
 		List<UnitItemViewInfo> dataItemList = args as List<UnitItemViewInfo>;
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];

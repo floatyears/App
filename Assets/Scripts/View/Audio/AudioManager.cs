@@ -128,6 +128,8 @@ public class AudioManager {
 			audioPlayerCache[ audioID ].Pause();
 	}
 
+
+
 	public void StopAudio( AudioEnum audioEnum ) {
 		int audioID = (int)audioEnum;
 		if( !audioPlayerCache.ContainsKey( audioID )){
