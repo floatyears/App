@@ -275,7 +275,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		costLabel.text = unitInfo.Cost.ToString();
 		
 		//race  
-		raceLabel.text = unitInfo.UnitRace.ToString();
+		raceLabel.text = unitInfo.UnitRace;
 
 		//rare
 		rareLabel.text = unitInfo.Rare.ToString();
@@ -377,6 +377,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
 		GameObject ProfileTexture = go.transform.Find ("ProfileTexture").gameObject;
+//        LogHelper.Log("CreatEffect() levelUpData {0} uniqueId {1}", levelUpData, levelUpData.blendUniqueId);
 		ProfileTexture.renderer.material.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
 		effectCache.Add (go);
 	

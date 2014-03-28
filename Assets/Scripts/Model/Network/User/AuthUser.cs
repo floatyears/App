@@ -10,10 +10,20 @@ public class AuthUser: ProtoManager {
     private uint userId;
 	private uint userSelectRole;
 
+    public uint UserSelectRole {
+        set { userSelectRole = value; }
+    }
+
     public AuthUser() {
     }
 
     ~AuthUser() {
+    }
+
+    public static void FirstLogin(uint selectRole, DataListener callback) {
+        AuthUser authUser = new AuthUser();
+        authUser.UserSelectRole = selectRole;
+        authUser.OnRequest(null, callback);
     }
 
     public override bool MakePacket() {

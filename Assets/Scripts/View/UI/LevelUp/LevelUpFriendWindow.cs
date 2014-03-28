@@ -40,6 +40,12 @@ public class LevelUpFriendWindow : UIComponentUnity {
         this.gameObject.SetActive(false);
     }
 
+    public override void ResetUIState() {
+        base.ResetUIState();
+        friendUnit = null;
+        ShowInfo();
+    }
+
     void InitDragPanel() {
         if (DataCenter.Instance.SupportFriends != null)
             friendInfoList.AddRange(DataCenter.Instance.SupportFriends);
@@ -63,7 +69,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
 
     private void AddEventListener(GameObject item) {
-        UIEventListener.Get(item).onClick = ClickFriendItem;
+        UIEventListenerCustom.Get(item).onClick = ClickFriendItem;
         UIEventListenerCustom.Get(item).LongPress = PressItem;
     }
 
@@ -159,7 +165,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
     void FocusOnPanel(object data) {
         string msg = (string)data;
-		Debug.Log("Friend Window receive : " + msg);
+//		Debug.Log("Friend Window receive : " + msg);
         if (msg == "Tab_Friend") {
             this.gameObject.SetActive(true);
             if (IsInvoking("CrossShow")) {
@@ -187,10 +193,11 @@ public class LevelUpFriendWindow : UIComponentUnity {
     }
 
 	void ShowInfo () {
+//        LogHelper.Log("friend support level showInfo, baseItemInfo {0}", baseItemInfo);
 		if (friendUnit == null || baseItemInfo == null) {
-			infoLabel [0].text = "x 0.00";
-			infoLabel [1].text = "x 0.00";
-			infoLabel [2].text = "x 0.00";
+			infoLabel [0].text = "x 1.00";
+			infoLabel [1].text = "x 1.00";
+			infoLabel [2].text = "x 1.00";
 			return;	
 		}
 		float tValue = DGTools.TypeMultiple (baseItemInfo.userUnitItem, friendUnit);

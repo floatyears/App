@@ -5,9 +5,7 @@ using System.Collections.Generic;
 public class UnitListForPartyLogic : ConcreteComponent{
 	UnitItemViewInfo currentPickedUnit;
 	List<UnitItemViewInfo> onPartyViewItemList = new List<UnitItemViewInfo>();
-	public UnitListForPartyLogic(string uiName):base(uiName){
-        MsgCenter.Instance.AddListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
-    }
+	public UnitListForPartyLogic(string uiName):base(uiName){}
 
 	public override void ShowUI(){
 		base.ShowUI();

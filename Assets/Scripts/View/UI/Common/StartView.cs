@@ -12,8 +12,6 @@ public class StartScene : BaseComponent {
 //		MsgCenter.Instance.AddListener(CommandEnum.RspAuthUser, Login );
 	}
 
-
-	
 	public override void HideUI () {}
 
 	public override void DestoryUI () {}

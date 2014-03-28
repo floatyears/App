@@ -95,7 +95,7 @@ public class UIConfig
 	public const string userBriefInfoWindowName = "UserBriefInfoWindow";
 	public const string applyMessageWindowName = "ApplyMessageWindow";
 	public const string acceptApplyMessageWindowName = "AcceptApplyMessageWindow";
-
+	public const string selectRoleWindowName = "SelectRoleWindow";
 	public const string screenMaskName = "ScreenMask";
 	public const string itemCounterBarName = "ItemCounterBar";
 

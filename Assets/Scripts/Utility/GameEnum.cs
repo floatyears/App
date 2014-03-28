@@ -56,11 +56,11 @@ public enum SceneEnum
 
 	Fight,
 
-	UnitSelect,
+	SelectRole,
+
 }
 
-public enum CommandEnum
-{
+public enum CommandEnum{
 	None 						= 0,
 	ChangeScene 				= 1,
     QuestSelectSaveState,
@@ -225,7 +225,8 @@ public enum CommandEnum
 
     WaitResponse,
     SetBlocker,
-    AfterLevelUp,
+    LevelUpSucceed,
+    StartFirstLogin,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

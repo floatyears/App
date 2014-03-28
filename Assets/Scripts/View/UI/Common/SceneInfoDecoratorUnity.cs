@@ -17,13 +17,14 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 	
 	public override void ShowUI () {
-
+        LogHelper.Log("SceneInfobar.ShowUI()");
 		base.ShowUI ();
 		ShowTween();
 
 	}
 	
 	public override void HideUI () {
+        LogHelper.Log("SceneInfobar.HideUI()");
 		base.HideUI ();
 	}
 	

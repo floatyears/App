@@ -165,11 +165,11 @@ public class OthersWindow : UIComponentUnity {
 			maskOn.enabled = false;
 			maskOff.enabled = true;
 		}else if(btn.name == "Off"){
-			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
-                        maskOn.enabled = true;
-                        maskOff.enabled = false;
-                }
-        }
+			AudioManager.Instance.PauseAudio(AudioEnum.music_home);
+            maskOn.enabled = true;
+            maskOff.enabled = false;
+		}
+    }
 
 	void ClickNameChangeButton( GameObject go ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);

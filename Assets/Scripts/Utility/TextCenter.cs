@@ -155,6 +155,10 @@ public partial class TextCenter {
         textDict.Add("GachaChances", "chances {0}/{1}");
         textDict.Add("Lv", "Lv {0}");
 
+
+        textDict.Add("LevelUpMoneyNotEnough", "Level up need money {0}, your money is not enough.");
+        textDict.Add("MoneyNotEnoughTitle", "Money Not Enough");
+
         ///
 	    textDict.Add ("StartQuestFail", "Start quest request failed");
 

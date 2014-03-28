@@ -35,6 +35,12 @@ public partial class TextCenter {
 		textDict.Add("StageStateClear", "Clear");
 		textDict.Add("StaminaLackNoteTitle", "Friendly Reminder");
 		textDict.Add("StaminaLackNoteContent", "Current Stamina is not enough to battle!");
+
+		textDict.Add("SelectRoleTitle", "Select Role");
+		textDict.Add("SelectRoleContent", "Are you sure to select this role to adventure with you?");
+
+		textDict.Add("DeleteNoteTitle", "Delete Friend");
+		textDict.Add("DeleteNoteContent", "Are you sure to delete this friend?");
     }
 }
 

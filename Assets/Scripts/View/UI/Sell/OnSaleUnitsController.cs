@@ -57,11 +57,13 @@ public class OnSaleUnitsController : ConcreteComponent {
 //		Debug.Log("SubmitSell()......");
 		CallbackReqSell(null);
 	}
-
-	void CancelSell(object args){
-//		Debug.Log("CancelSell()......");
+	void ClearSellConfirmWindow(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("BackToMainWindow", null);
 		ExcuteCallback(cbdArgs);
+	}
+
+	void CancelSell(object args){
+		ClearSellConfirmWindow();
 	}
 
 	private void OnRspSellUnit(object data) {
@@ -96,7 +98,10 @@ public class OnSaleUnitsController : ConcreteComponent {
 
 	void UpdateViewAfterRspSellUnit(){
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin, null);
-		HideUI();	ShowUI();
+		HideUI();
+		OnSaleUnitsView view = viewComponent as OnSaleUnitsView;
+		view.ResetUIState();
+		ShowUI();
 	}
 
 	void PlanToSell(object args){
@@ -343,11 +348,30 @@ public class OnSaleUnitsController : ConcreteComponent {
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
 	}
 
+	void RefreshCounter(){
+		Debug.Log("OnSaleUnitList.RefreshCounter(), start...");
+		Dictionary<string, object> countArgs = new Dictionary<string, object>();
+		string title = "" ;
+		int current = 0;
+		int max = 0;
+		
+		title = TextCenter.Instace.GetCurrentText("UnitCounterTitle");
+		current = DataCenter.Instance.MyUnitList.Count;
+		max = DataCenter.Instance.UserInfo.UnitMax;
+		
+		countArgs.Add("title", title);
+		countArgs.Add("current", current);
+		countArgs.Add("max", max);
+		
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+	}
+
     public void ResetUI(){
         DestoryOnSaleUnitViewList();
         GetUnitCellViewList();
         CreateOnSaleUnitViewList();
         RefreshOwnedUnitCount();
+		RefreshCounter();
     }
     
 }

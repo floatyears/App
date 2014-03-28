@@ -50,42 +50,31 @@ public class BaseComponent :RootComponent, IUIComponent
 
 	}
 
-	public virtual void ShowUI()
-	{
-	}
+	public virtual void ShowUI(){}
 
-	public virtual void HideUI()
-	{
-	}
+	public virtual void HideUI(){}
 
-	public virtual void DestoryUI()
-	{
-	}
+	public virtual void DestoryUI(){}
 	
 }
 
 /// <summary>
 /// concrete decorate class
 /// </summary>
-public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback
-{	
-
+public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{	
     protected bool willClearState = true;
     public bool WillClearState{
         get { return willClearState; }
         set { willClearState = value; }
     }
 
-	public ConcreteComponent(string name) : base(name)
-	{
+	public ConcreteComponent(string name) : base(name){
 		ViewManager.Instance.AddComponent(this);
 	}
 	
-	public virtual void CreatUI()
-	{
+	public virtual void CreatUI(){
 //		Debug.LogError("CreatUI : 111  " + config.uiName);
-		if (component != null)
-		{
+		if (component != null){
 			component.CreatUI();
 		}
 //		Debug.LogError("CreatUI : 222  "  + config.uiName );
