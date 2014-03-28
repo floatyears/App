@@ -2,17 +2,17 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillSingleAtkRecoverHP : ActiveSkill ,IActiveSkillExcute{
-	private SkillSingleAtkRecoverHP instance;
+public class TSkillAttackRecoverHP : ActiveSkill ,IActiveSkillExcute{
+	private SkillAttackRecoverHP instance;
 	public bool CoolingDone {
 		get {
 			return coolingDone;
 		}
 	}
 
-	public TSkillSingleAtkRecoverHP(object instance) : base (instance) {
+	public TSkillAttackRecoverHP(object instance) : base (instance) {
 //		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
-		this.instance = instance as SkillSingleAtkRecoverHP;
+		this.instance = instance as SkillAttackRecoverHP;
 		skillBase = this.instance.baseInfo;
 		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {

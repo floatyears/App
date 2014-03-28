@@ -56,7 +56,7 @@ public class AttackController {
 
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			int initBlood = enemyInfo[i].GetInitBlood();
-			int hurtValue = System.Convert.ToInt32(initBlood * ai.AttackValue);
+			int hurtValue = System.Convert.ToInt32(initBlood * ai.AttackValue); //eg: 15%*blood
 			enemyInfo[i].KillHP(hurtValue);
 		}
 		CheckTempEnemy ();
