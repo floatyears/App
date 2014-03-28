@@ -55,6 +55,8 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 
 	void DisposeTrapping (TrapInfo ti) {
 		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_walk_hurt);
 	}
 	
 	void DisposeMine(TrapInfo ti) {
@@ -89,6 +91,8 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 			MsgCenter.Instance.Invoke(CommandEnum.NoSPMove, cd);
 		}
 		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_walk_hurt);
 	}
 }
 

@@ -12,7 +12,7 @@ public class BattleUseData {
 			if(blood < 1) {
 				MsgCenter.Instance.Invoke(CommandEnum.PlayerDead, null);
 			} 
-		}
+        }
         get { return blood; }
     }
     private int recoverHP = 0;
@@ -187,8 +187,8 @@ public class BattleUseData {
     }
 
     public void RecoverHP(int recoverBlood) {
-        AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
         if (blood < recoverBlood) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
             blood = recoverBlood > maxBlood ? maxBlood : recoverBlood;
             RefreshBlood();
         }
@@ -202,7 +202,7 @@ public class BattleUseData {
         ac.enemyInfo = boss;
     }
 
-    public List<AttackImageUtility> CaculateFight(int areaItem, int id) {
+    public List<AttackInfo> CaculateFight(int areaItem, int id) {
         return upi.CalculateSkill(areaItem, id, blood);
     }
 
@@ -258,8 +258,11 @@ public class BattleUseData {
                 blood = 1;
             }
             RefreshBlood();
+
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk_hurt);
         }
         else {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
             maxEnergyPoint--;
             MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
         }

@@ -17,11 +17,14 @@ public class AttackController {
 	}
 	IExcutePassiveSkill passiveSkill;
 
+	public bool isBoss = false;
+
 	public AttackController (BattleUseData bud,IExcutePassiveSkill ips) {
 		msgCenter = MsgCenter.Instance;
 		this.bud = bud;
 		passiveSkill = ips;
 		RegisterEvent ();
+
 	}
 
 	public void RemoveListener () {
@@ -99,15 +102,16 @@ public class AttackController {
 			return;	
 		}
 
+		tempPreHurtValue = 0;
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			TEnemyInfo te = enemyInfo[i];
-			if(te.GetUnitType() == att.targetType) {
+			if(te.GetUnitType() == att.targetType || att.targetType == (int)bbproto.EUnitType.UALL) {
 				AttackInfo ai = att.attackInfo;
 				int restraintType = DGTools.RestraintType(ai.AttackType);
 				bool b = restraintType == te.GetUnitType();
 				int hurtValue = te.CalculateInjured(ai, b);
 				ai.InjuryValue = hurtValue;
-				tempPreHurtValue = hurtValue;
+				tempPreHurtValue += hurtValue;
 //				ai.EnemyID = te.EnemyID;//te.GetID();
 				ai.EnemyID = te.EnemySymbol;
 				AttackEnemyEnd (ai);
@@ -159,7 +163,7 @@ public class AttackController {
 
 	float GetIntervTime () {
 		if (enemyInfo == null || enemyInfo.Count == 0) {
-			return 0.5f;		
+			return 0.8f;		
 		}
 		else {
 			return 0.8f;		
@@ -208,7 +212,7 @@ public class AttackController {
 
 	int tempPreHurtValue = 0;
 	void BeginAttack(AttackInfo ai) {
-//		Debug.LogError ("BeginAttack : " + ai.AttackRange + " ```` " + Time.realtimeSinceStartup);
+
 		switch (ai.AttackRange) {
 		case 0:
 			DisposeAttackSingle(ai);
@@ -257,9 +261,13 @@ public class AttackController {
 			}
 		}
 		if (enemyInfo.Count == 0) {
-			GameTimer.GetInstance().AddCountDown(2f, BattleEnd);
+			BattleBottom.notClick = false;
+			GameTimer.GetInstance().AddCountDown(2f, BattleEnd); //TODO: set time in const config
 			return false;
 		}
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
+
 		return true;
 	}
 
@@ -267,6 +275,7 @@ public class AttackController {
 		msgCenter.Invoke (CommandEnum.GridEnd, null);
 		msgCenter.Invoke(CommandEnum.BattleEnd, null);
 		bud.ClearData();
+		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}
 
 	void DisposeRecoverHP (AttackInfo value) {
@@ -318,10 +327,11 @@ public class AttackController {
 	}
 
 	void AttackEnemyEnd (AttackInfo ai){
-//		Debug.LogError ("AttackController AttackEnemyEnd : " + ai.EnemyID);
 		msgCenter.Invoke (CommandEnum.AttackEnemy, ai);
 	}
 
+
+	
 	void AttackPlayer () {
 		if (CheckTempEnemy ()) {
 			LoopEnemyAttack ();	
@@ -339,7 +349,6 @@ public class AttackController {
 	List<AttackInfo> antiInfo = new List<AttackInfo>();
 	void EnemyAttack () {
 		if (te.GetRound () == 0) {
-//			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemyID);//GetID());
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
 			int attackType = te.GetUnitType ();
 			int attackValue = te.AttackValue;
@@ -350,14 +359,19 @@ public class AttackController {
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 			List<AttackInfo> temp = passiveSkill.Dispose(attackType,hurtValue);
 			for (int i = 0; i < temp.Count; i++) {
-//				temp[i].EnemyID = te.EnemyID;//GetID();
 				temp[i].EnemyID = te.EnemySymbol;
 				antiInfo.Add(temp[i]);
+			}
+
+			if(!isBoss) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_boss_battle);
 			}
 		}
 		enemyIndex ++;
 		if (enemyIndex == enemyInfo.Count) {
-			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]);
+			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
 			GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
 		}
 		else {
@@ -366,13 +380,14 @@ public class AttackController {
 	}    
 
 	void EnemyAttackEnd () {
+		BattleBottom.notClick = false;
 		CheckTempEnemy ();
 		bud.ClearData();
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
 	}
 
 	void LoopAntiAttack() {
-		float intervTime = 0.4f;
+		float intervTime = 0.8f;
 		GameTimer.GetInstance ().AddCountDown (intervTime, AntiAttack);
 	}
 

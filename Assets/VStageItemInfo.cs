@@ -1,73 +1,54 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class VStageItemInfo{
 	private GameObject viewItem;
-
-	public GameObject ViewItem
-	{
-		get
-		{
+	public GameObject ViewItem{
+		get{
 			return viewItem;
 		}
-		set
-		{
+		set{
 			viewItem = value;
 		}
 	}
 
-	TStageInfo stageInfo;
-
-	public TStageInfo StageInfo
-	{
-		get
-		{
+	private TStageInfo stageInfo;
+	public TStageInfo StageInfo{
+		get{
 			return stageInfo;
 		}
-		set
-		{
+		set{
 			stageInfo = value;
 		}
 	}
 
 	private UILabel clearInfoLabel;
-
-	public UILabel ClearInfoLabel
-	{
-		get
-		{
+	public UILabel ClearInfoLabel{
+		get{
 			return clearInfoLabel;
 		}
-		set
-		{
+		set{
 			clearInfoLabel = value;
 		}
 	}
 
 	private UILabel nameLabel;
-
-	public UILabel NameLabel
-	{
-		get
-		{
+	public UILabel NameLabel{
+		get{
 			return nameLabel;
 		}
-		set
-		{
+		set{
 			nameLabel = value;
 		}
 	}
 
 	private UITexture texture;
-
-	public UITexture Texture
-	{
-		get
-		{
+	public UITexture Texture{
+		get{
 			return texture;
 		}
-		set
-		{
+		set{
 			texture = value;
 		}
 	}
@@ -80,11 +61,32 @@ public class VStageItemInfo{
 		nameLabel = viewItem.transform.Find("Label_Bottom").GetComponent<UILabel>();
 		texture = viewItem.transform.Find("Texture").GetComponent<UITexture>();
 
-		//TODO clearInfo
-//		clearInfoLabel = stageInfo
-
+		clearInfoLabel.text = GetStageStateText(stageInfo.State);
+		clearInfoLabel.color = GetStageStateTextColor(stageInfo.State);
 		nameLabel.text = stageInfo.StageName;
 		texture.mainTexture = Resources.Load("Stage/" + stageInfo.StageId) as Texture2D;
+	}
+
+	private string GetStageStateText(EQuestState state){
+		switch (state){
+			case EQuestState.QS_NEW :
+				return TextCenter.Instace.GetCurrentText("StageStateNew");
+			case EQuestState.QS_CLEARED : 
+				return TextCenter.Instace.GetCurrentText("StageStateClear");
+			default:
+				return string.Empty;
+		}
+	}
+
+	private Color GetStageStateTextColor(EQuestState state){
+		switch (state){
+			case EQuestState.QS_NEW :
+				return Color.green;
+			case EQuestState.QS_CLEARED : 
+				return Color.yellow;
+			default:
+				return Color.white;
+		}
 	}
 
 }

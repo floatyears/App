@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapItem : UIBaseUnity
-{
+public class MapItem : UIBaseUnity {
 	private Coordinate coor; 
 	public Coordinate Coor {
 		get{ return coor; }
@@ -67,24 +66,22 @@ public class MapItem : UIBaseUnity
 		if (gridItem != null) {
 			switch (gridItem.Star) {
 			case bbproto.EGridStar.GS_KEY:
-//				mapBackSprite.enabled = true;
-
 				spriteName = "key";
-//				Destroy(mapItemTexture);
+				mapItemSprite.enabled = true;
 				break;
 			case bbproto.EGridStar.GS_QUESTION:
 				break;
 			case bbproto.EGridStar.GS_EXCLAMATION:
-//				mapBackSprite.enabled = true;
-
 				spriteName = "d";
-//				Destroy(mapItemTexture);
+				mapItemSprite.enabled = true;
 				break;
 			default:
 				break;
 			}
+			if(mapItemSprite.enabled)
 			mapItemSprite.spriteName = spriteName;
-//			spriteName = "";
+
+			spriteName = "";
 			backSpriteName = "";
 			switch (gridItem.Type) {
 			case bbproto.EQuestGridType.Q_NONE:
@@ -155,12 +152,19 @@ public class MapItem : UIBaseUnity
 	public void RotateAnim() {
 		if (!isRotate) {
 			isRotate = true;
-			floorRotate.RotateFloor ();	
+			floorRotate.RotateFloor (RotateEnd);	
 			if(!mapBack.activeSelf) {
-				mapBack.SetActive(true);;
+				mapBack.SetActive(true);
+			}
+			if(mapItemSprite.enabled) {
+				mapItemSprite.enabled = false;
 			}
 		}
 	}     
+
+	void RotateEnd () {
+		mapBack.SetActive(false);
+	}
 
 	public void ShowBox() {
 		floorRotate.isShowBox = true;

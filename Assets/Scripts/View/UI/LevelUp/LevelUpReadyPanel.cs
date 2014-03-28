@@ -54,19 +54,16 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	public override void Init(UIInsConfig config, IUICallback origin){
+        MsgCenter.Instance.AddListener (CommandEnum.AfterLevelUp, ResetAfterLevelUp);
 		base.Init(config, origin);
 		InitUI();
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		FoucsOnTab( Tabs[0] );
+		FoucsOnTab( curFocusTab );
 		AddListener();
-		levelUpButton.isEnabled = false;
-		levelUpButton.gameObject.SetActive (false);
-		ClearTexture();
-		ClearLabel();
-		ClearData();
+
 	}
 
 	public override void HideUI(){
@@ -74,12 +71,25 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		RemoveListener();
 	}
 
+    public override void ResetUIState() {
+        curFocusTab = null;
+        levelUpButton.isEnabled = false;
+        levelUpButton.gameObject.SetActive (false);
+        ClearTexture();
+        ClearLabel();
+        ClearData();
+    }
+
 	void InitUI(){
 		InitTab();
 		InitButton();
 		FindInfoPanelLabel();
 		FindCollectorTexture();
 	}
+
+    void ResetAfterLevelUp(object args){
+        //TODO 
+    }
 	
 	void UpdateBaseInfoView( UnitItemInfo itemInfo){
 		UITexture tex = Tabs [0].GetComponentInChildren<UITexture> ();
@@ -165,6 +175,12 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			item.mainTexture = null;
 	}
 
+    void ClearTextureExcludeBase(){
+        friendCollectorTex.mainTexture = null;
+        foreach (var item in materialCollectorTex)
+            item.mainTexture = null;
+    }
+
 	void ClearData(){
 		baseUnitInfo = null;
 		friendUnitInfo = null;
@@ -175,6 +191,16 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			unitItemInfo[i] = null;
 		}
 	}
+
+    void ClearDataExcludeBase(){
+        friendUnitInfo = null;
+        CaculateDevorExp(false);
+        devorExp = 0;
+        multiple = 1;
+        for (int i = 0; i < unitItemInfo.Length; i++) {
+            unitItemInfo[i] = null;
+        }
+    }
 	
 	void InitTab()	{
 		GameObject tab;
@@ -225,6 +251,9 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void FoucsOnTab(GameObject focus){
+        if (focus == null){
+            focus = Tabs[0];
+        }
 		if(focus.name == "Tab_Friend") {
 			if(!levelUpButton.gameObject.activeSelf)
 				levelUpButton.gameObject.SetActive(true);
@@ -373,6 +402,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			multiple = 1;
 		}
 	}
+
 }
 
 

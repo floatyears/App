@@ -33,7 +33,7 @@ public class ProtobufSerializer
                 LogHelper.Log("try to serialize null instance, errorcode: " + ErrorCode.ILLEGAL_PARAM);
 				return null;
 			}
-            LogHelper.Log("start serialize instance");
+//            LogHelper.Log("start serialize instance");
 			Serializer.Serialize<T>(ms, instance);
 			return ConvertHelper.StreamToBytes(ms);
 		}
@@ -47,7 +47,7 @@ public class ProtobufSerializer
     /// <param name="source">Source.</param>
     /// <typeparam name="T">The 1st type parameter.</typeparam>
     public static T ParseFormBytes<T> (byte[] buffer){
-        LogHelper.Log("start dserialize instance, bytes " + buffer.Length);
+//        LogHelper.Log("start dserialize instance, bytes " + buffer.Length);
         MemoryStream ms = ConvertHelper.BytesToStream(buffer);
         T retInstance = Serializer.Deserialize<T>(ms);
 

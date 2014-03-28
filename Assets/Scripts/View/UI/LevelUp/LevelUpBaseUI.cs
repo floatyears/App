@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class LevelUpBaseUI : ConcreteComponent {
-	public LevelUpBaseUI(string uiName):base(uiName) {}
+	public LevelUpBaseUI(string uiName):base(uiName) {
+    }
 	public override void CreatUI(){
 		base.CreatUI();
 	}
@@ -18,5 +19,6 @@ public class LevelUpBaseUI : ConcreteComponent {
 	public override void DestoryUI(){
 		base.DestoryUI();
 	}
+
 }
 

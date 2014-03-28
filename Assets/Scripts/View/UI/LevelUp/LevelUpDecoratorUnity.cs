@@ -57,18 +57,21 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
     public override void ShowUI() {
         base.ShowUI();
         ShowTween();
-        isEmptyBase = true;
-        isEmptyFriend = true;
-        FocusOnPanel(baseTab);
     }
 	
     public override void HideUI() {
         base.HideUI();
-        CleanTabs();
     }
 	
     public override void DestoryUI() {
         base.DestoryUI();
+    }
+
+    public override void ResetUIState() {
+        CleanTabs();
+        isEmptyBase = true;
+        isEmptyFriend = true;
+        FocusOnPanel(baseTab);
     }
 
     void InitUI() {

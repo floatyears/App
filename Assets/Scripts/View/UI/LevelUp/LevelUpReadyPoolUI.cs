@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using bbproto;
 
 public class LevelUpReadyPoolUI : ConcreteComponent {
-	public LevelUpReadyPoolUI(string uiName):base(uiName) {}
+	public LevelUpReadyPoolUI(string uiName):base(uiName) {
+    }
 
 	public override void Callback (object data) {
 		List<TUserUnit> temp = data as List<TUserUnit>;
@@ -65,6 +66,7 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 
 			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
+            MsgCenter.Instance.Invoke (CommandEnum.AfterLevelUp);
 		}
 
 

@@ -173,9 +173,13 @@ public class TUserUnit : ProtobufDataBase {
         if (ai == null) {
             return;	
         }
-        if (ai.AttackType != UnitType) {
+		if (ai.AttackType >= 0 && ai.AttackType!=(int)EUnitType.UALL && ai.AttackType != UnitType) {
             return;	
         }
+		if (ai.AttackRace >= 0 && ai.AttackRace!=(int)EUnitRace.ALL && ai.AttackRace != UnitRace) {
+			return;	
+		}
+
         if (ai.AttackRound == 0) {
             strengthenInfo = null;
             return;
@@ -223,6 +227,12 @@ public class TUserUnit : ProtobufDataBase {
             return (int)UnitInfo.Object.type;
         }
     }
+
+	public int UnitRace {
+		get {
+			return (int)UnitInfo.Object.race;
+		}
+	}
 
     public int LeadSKill {
         get {
@@ -307,13 +317,14 @@ public class TUserUnit : ProtobufDataBase {
     }
 
     public int Level {
-        get {
-            return instance.level;
-        }
-		set {
-			instance.level = value;
-		}
+        get { return instance.level; }
+		set { instance.level = value; }
     }
+
+	public int ActiveSkillLevel {
+		get { return instance.activeSkillLevel; }
+		set { instance.activeSkillLevel = value; }
+	}
 
     public string AddNumber {
         get {
@@ -396,7 +407,7 @@ public class UserUnitList {
         string key = MakeUserUnitKey(userId, uniqueId);
 //		Debug.LogError (" key : " + key);
         if (!userUnitInfo.ContainsKey(key)) {
-            Debug.Log("Cannot find key " + key + " in Global.userUnitInfo");
+//            Debug.Log("Cannot find key " + key + " in Global.userUnitInfo");
             return null;
         }
 	
@@ -407,7 +418,7 @@ public class UserUnitList {
 
 	public TUserUnit Get (string UserId) {
 		if (!userUnitInfo.ContainsKey(UserId)) {
-			Debug.Log("Cannot find key " + UserId + " in Global.userUnitInfo");
+//			Debug.Log("Cannot find key " + UserId + " in Global.userUnitInfo");
 			return null;
 		}
 		
@@ -417,7 +428,7 @@ public class UserUnitList {
 
     public  TUserUnit GetMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
-            Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
+//            Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return null;
         }
 		
@@ -426,7 +437,7 @@ public class UserUnitList {
 
 	public  TUserUnit GetMyUnit(string id) {
 		if (DataCenter.Instance.UserInfo == null) {
-			Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
+//			Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
 			return null;
 		}
 

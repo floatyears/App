@@ -10,8 +10,6 @@ public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
-
-		Debug.LogError ("TSkillPoison : " + skillBase.skillCooling);
 	}
 
 	public bool CoolingDone {
@@ -35,7 +33,7 @@ public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
 		ai.AttackValue = atk * instance.value;
 		ai.AttackRound = instance.roundValue;
 		ai.IgnoreDefense = true;
-		ai.AttackType = 0;
+		ai.AttackType = 0; //0=ATK_SINGLE
 		posionInfo = ai;
 		MsgCenter.Instance.Invoke(CommandEnum.BePosion, ai);
 		return null;

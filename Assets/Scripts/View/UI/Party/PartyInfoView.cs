@@ -21,8 +21,13 @@ public class PartyInfoView : UIComponentUnity {
 
 	public override void HideUI(){
 		base.HideUI();
-		ResetUIElement();
+//		ResetUIElement();
 	}
+
+    public override void ResetUIState() {
+        ResetUIElement();
+        SetUIElement();
+    }
 
 	void FindUIElement(){
 //		Debug.Log("PartyInfoPanel.FindUIElement(), Start...");

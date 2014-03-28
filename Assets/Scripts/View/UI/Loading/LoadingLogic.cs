@@ -39,13 +39,13 @@ public class LoadingLogic : ConcreteComponent {
         if (data != null) {
             bbproto.RspAuthUser rspAuthUser = data as bbproto.RspAuthUser;
             if (rspAuthUser == null) {
-                LogHelper.Log("authUser response rspAuthUser == null");
+				Debug.LogError("authUser response rspAuthUser == null");
                 return;
             }
             
             if (rspAuthUser.header.code != 0) {
                 //TODO: showErrMsg()
-                LogHelper.Log("rspAuthUser return error: {0} {1}", rspAuthUser.header.code, rspAuthUser.header.error);
+				Debug.LogError("rspAuthUser return code: "+rspAuthUser.header.code+" error:" + rspAuthUser.header.error);
                 return;
             }
             
@@ -73,26 +73,27 @@ public class LoadingLogic : ConcreteComponent {
                 LogHelper.Log("authUser response userId:" + rspAuthUser.user.userId);
             }
             else {
-                LogHelper.Log("authUser response rspAuthUser.user == null");
+				Debug.LogError("authUser response rspAuthUser.user == null");
             }
             
             if (rspAuthUser.friends != null) {
-                LogHelper.Log("rsp.friends have {0} friends.", rspAuthUser.friends.Count);
+//                LogHelper.Log("rsp.friends have {0} friends.", rspAuthUser.friends.Count);
                 DataCenter.Instance.SupportFriends = new List<TFriendInfo>();
                 //              Debug.LogError(rspAuthUser.friends.Count);
                 foreach (FriendInfo fi in rspAuthUser.friends) {
                     TFriendInfo tfi = new TFriendInfo(fi);
                     DataCenter.Instance.SupportFriends.Add(tfi);
+					DataCenter.Instance.UserUnitList.Add(tfi.UserId, tfi.UserUnit.ID, tfi.UserUnit);
                 }
             }
             else {
-                LogHelper.Log("rsp.friends==null");
+                Debug.LogError("rsp.friends==null");
             }
             
             if (rspAuthUser.unitList != null) {
                 foreach (UserUnit unit in rspAuthUser.unitList) {
-                    DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
-                    DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, new TUserUnit(unit));
+					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
+					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
                 }
                 LogHelper.Log("rspAuthUser add to myUserUnit.count: {0}", rspAuthUser.unitList.Count);
             }
@@ -110,7 +111,7 @@ public class LoadingLogic : ConcreteComponent {
             
             TestUtility.Test();
         }
-        Debug.Log("UIManager.Instance.ChangeScene before");
+		Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
         
         //      Debug.LogError("login end");
         UIManager.Instance.ChangeScene(SceneEnum.Start);

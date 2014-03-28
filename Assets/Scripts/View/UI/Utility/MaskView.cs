@@ -38,7 +38,7 @@ public class MaskView : UIComponentUnity {
 		background = FindChild<UISprite>("Sprite_Mask");
 		connecting = FindChild<UISprite>("Sprite_Connect");
 		background.enabled = false;
-		connecting.enabled = false;
+		connecting.transform.parent.gameObject.SetActive(false);
 	}
 	void SetMaskActive(object args){
 		bool isActive = (bool)args;
@@ -47,7 +47,7 @@ public class MaskView : UIComponentUnity {
 
 	void SetConnectActive(object args){
 		bool isActive = (bool)args;
-		connecting.enabled = isActive;
+		connecting.transform.parent.gameObject.SetActive(isActive);
 	}
 
 }
