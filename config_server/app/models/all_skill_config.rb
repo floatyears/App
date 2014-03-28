@@ -1,4 +1,4 @@
-## Generated from skill.proto for 
+#encoding: utf-8
 require "beefcake"
 
 module EUnitRace
