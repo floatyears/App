@@ -24,6 +24,7 @@ public class CalculateRecoverHP {
 			 	ai = new AttackInfo ();
 				tns.GetSkillInfo(ai);
 				ai.AttackValue = tns.GetRecoverHP(blood);
+				ai.FixRecoverHP = true;
 				break;
 			}
 			else{

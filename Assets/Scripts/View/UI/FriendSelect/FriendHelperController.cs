@@ -90,17 +90,14 @@ public class FriendHelperController : ConcreteComponent{
 		Debug.LogError (rspStartQuest.header.code  + "  " + rspStartQuest.header.error);
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
-			
 			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
 		if (data == null || tqdd == null) {
 			Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
-
 			return;
 		}
 		EnterBattle ();

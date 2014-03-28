@@ -34,6 +34,7 @@ public class PartyPartyPage : PartyPageLogic{
         if (!clear){
             return;
         }
+        base.ResetUIState(clear);
         RefreshCurrentPartyInfo("current");
     }
 

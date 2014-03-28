@@ -11,7 +11,6 @@ public class TSkillSingleAtkRecoverHP : ActiveSkill ,IActiveSkillExcute{
 	}
 
 	public TSkillSingleAtkRecoverHP(object instance) : base (instance) {
-//		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
 		this.instance = instance as SkillSingleAtkRecoverHP;
 		skillBase = this.instance.baseInfo;
 		initSkillCooling = skillBase.skillCooling;
@@ -32,6 +31,9 @@ public class TSkillSingleAtkRecoverHP : ActiveSkill ,IActiveSkillExcute{
 //		SkillSingleAtkRecoverHP ssarh = DeserializeData<SkillSingleAtkRecoverHP> ();
 		AttackInfo ai = new AttackInfo ();
 		ai.AttackType = (int)instance.unitType;
+
+//		ai.AttackRange = 1; //(int)instance.attackType;
+
 		if (instance.type == EValueType.MULTIPLE) {
 			ai.AttackValue = atk * instance.value;		
 		} else if(instance.type == EValueType.FIXED) {

@@ -195,10 +195,8 @@ public class BattleMap : UIBaseUnity {
 			DisposeAround(map[coor.x,coor.y + 1]);
 	}
 
-	void DisposeAround(MapItem item)
-	{
-		if(!item.IsOld)
-		{
+	void DisposeAround(MapItem item) {
+		if(!item.IsOld) {
 			item.Around(true);
 			prevAround.Add(item);
 		}

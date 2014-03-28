@@ -193,7 +193,7 @@ public class BattleQuest : UIBase {
 			if(index != -1) {
 				questData.hitGrid.Add((uint)index);
 			}
-			currentMapData =  questDungeonData.GetSingleFloor(coor);  //mapConfig.mapData[coor.x,coor.y];
+			currentMapData =  questDungeonData.GetSingleFloor(coor);
 			role.Stop();
 			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 
@@ -202,7 +202,7 @@ public class BattleQuest : UIBase {
 				battleMap.RotateAnim(MapItemKey);
 				return;
 			}
-
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_grid_turn);
 			switch (currentMapData.Type) {
 			case EQuestGridType.Q_NONE:
 				battleMap.waitMove = true;
@@ -213,8 +213,6 @@ public class BattleQuest : UIBase {
 				battleMap.RotateAnim(MapItemEnemy);
 				break;
 			case EQuestGridType.Q_KEY:
-//				battleMap.waitMove = true;
-//				battleMap.RotateAnim(MapItemKey);
 				break;
 			case EQuestGridType.Q_TREATURE:				
 				battleMap.waitMove = true;
@@ -262,9 +260,10 @@ public class BattleQuest : UIBase {
 			temp.Add(tei);
 		}
 
-//		 = questDungeonData.Boss; //bud.GetEnemyInfo(mapConfig.BossID);
 		bud.InitBoss (questDungeonData.Boss);
 		battle.ShowEnemy(temp);
+
+		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
 	}
 
 	void MapItemExclamation() {
@@ -273,6 +272,8 @@ public class BattleQuest : UIBase {
 	}
 	
 	void MapItemTrap() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
+
 		battleMap.waitMove = false;
 		TrapBase tb = currentMapData.TrapInfo;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
@@ -280,15 +281,17 @@ public class BattleQuest : UIBase {
 	}
 
 	void MapItemCoin() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
+
 		battleMap.waitMove = false;
-
 		questData.getMoney += currentMapData.Coins;
-
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
 	void MapItemKey() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
+
 		battleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
@@ -296,7 +299,6 @@ public class BattleQuest : UIBase {
 
 	void MapItemNone () {
 		battleMap.waitMove = false;
-//		Debug.LogError(Time.realtimeSinceStartup + " Q_NONE : " + battleMap.waitMove);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
@@ -311,6 +313,8 @@ public class BattleQuest : UIBase {
 		}
 		bud.InitEnemyInfo (currentMapData);
 		battle.ShowEnemy (temp);
+
+		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
 	}
 
 	void ShowBattle() {
@@ -390,7 +394,7 @@ public class BattleQuest : UIBase {
 		DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
 		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
 		evolveUser = TUserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
-//		evolveUser.userID = DataCenter.Instance.UserInfo.UserId;
+
 		TRspClearQuest trcq = new TRspClearQuest ();
 		trcq.exp = rsp.exp;
 		trcq.gotExp = rsp.gotExp;
@@ -430,6 +434,8 @@ public class BattleQuest : UIBase {
 		ve.Init("Victory");
 		ve.ShowData (clearQuest);
 		ve.PlayAnimation(questEnd);
+
+		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_victory);
 	}
 
 	void BattleFail(object data) {

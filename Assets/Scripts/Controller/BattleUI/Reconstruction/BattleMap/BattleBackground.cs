@@ -15,13 +15,6 @@ public class BattleBackground : UIBaseUnity {
 	private int initEnergyPoint = -1;
 	private int currentEnergyPoint = -1;
 
-//	private static Dictionary<string,Transform> actorTransform = new Dictionary<string, Transform> ();
-//	public static Dictionary<string,Transform> ActorTransform {
-//		get {
-//			return actorTransform;
-//		}
-//	}
-
 	private static Dictionary<string, Vector3> attackPosition = new Dictionary<string, Vector3> ();
 	public static Dictionary<string, Vector3> AttackPosition {
 		get { return attackPosition; }
@@ -125,7 +118,7 @@ public class BattleBackground : UIBaseUnity {
 	}
 
 	void SetBlood (int num) {
-		string info = num + "/" + initBlood;
+		string info = "HP:" + num + "/" + initBlood;
 		label.text = info;
 		float value = DGTools.IntegerSubtriction(num,initBlood);
 //		if (bloodBar.value < value) {
@@ -133,9 +126,11 @@ public class BattleBackground : UIBaseUnity {
 //		}
 		bloodBar.value = value;
 	}
-
+	int preBlood = 0;
 	void ListenUnitBlood (object data) {
 		int currentBlood = (int)data;
+
+
 		SetBlood (currentBlood);
 	}
 

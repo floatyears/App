@@ -51,7 +51,11 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                 userUnit = new Dictionary<int,TUserUnit>();
                 for (int i = 0; i < partyItem.Count; i++) {
                     TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+//					Debug.LogError("UserUnit : " + partyItem[i].unitUniqueId);
                     userUnit.Add(partyItem[i].unitPos, uui);
+//					if(uui != null) {
+////						Debug.LogError("TUnitParty : " + uui.MakeUserUnitKey());
+//					}
                 }
 			
             }
@@ -60,6 +64,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     }
 
 	void EnterBattle(object data) {
+//		string name = DataCenter.Instance.BattleFriend.UserUnit.MakeUserUnitKey ();
+//		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (name);
 		UserUnit.Add(DataCenter.friendPos, DataCenter.Instance.BattleFriend.UserUnit);
 	}
 
@@ -165,7 +171,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         return System.Convert.ToInt32(hurtValue);
     }
 	
-    public List<AttackImageUtility> CalculateSkill(int areaItemID, int cardID, int blood) {
+	public List<AttackInfo> CalculateSkill(int areaItemID, int cardID, int blood) {
         if (crh == null) {
             crh = new CalculateRecoverHP();		
         }
@@ -174,46 +180,83 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         areaItemAttackInfo.Clear();
         TUserUnit tempUnitInfo;
         List<AttackInfo> tempAttack = new List<AttackInfo>();		
-        List<AttackImageUtility> tempAttackType = new List<AttackImageUtility>();
-		
-        for (int i = 0; i < partyItem.Count; i++) {
-			if (partyItem[i]==null || partyItem[i].unitUniqueId == 0 ){
-				LogHelper.Log("skip empty partyItem:"+i+" partyItem[i]:"+partyItem[i]);
+		List<AttackInfo> tempAttackType = new List<AttackInfo>();
+
+		//===== calculate fix recover hp.
+		AttackInfo recoverHp = crh.RecoverHP(skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
+		if (recoverHp != null) {
+//			TUserUnit tuu = DataCenter.Instance.MyUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+			recoverHp.UserUnitID = UserUnit[0].MakeUserUnitKey();
+			recoverHp.UserPos = 0; // 0 == self leder position
+			tempAttack.Add(recoverHp);
+		}
+
+		foreach (var item in UserUnit) {
+			if(item.Value == null) {
+				LogHelper.Log("skip empty partyItem:"+item.Key);
 				continue;
 			}
-            if (i == 0) {
-                AttackInfo recoverHp = crh.RecoverHP(skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
-                if (recoverHp != null) {
-					TUserUnit tuu = DataCenter.Instance.MyUnitList.GetMyUnit(partyItem[i].unitUniqueId);
-					recoverHp.UserUnitID = tuu.MakeUserUnitKey();
-                    recoverHp.UserPos = partyItem[i].unitPos;
-                    tempAttack.Add(recoverHp);
-                }
-            }
-            tempUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
-            tempAttack.AddRange(tempUnitInfo.CaculateAttack(skillUtility.haveCard, skillUtility.alreadyUseSkill));
-            if (tempAttack.Count > 0) {
-                for (int j = 0; j < tempAttack.Count; j++) {
-                    AttackInfo ai = tempAttack[j];
-                    ai.UserPos = partyItem[i].unitPos;
-                    areaItemAttackInfo.Add(ai);
-                    skillUtility.alreadyUseSkill.Add(ai.SkillID);
-                    AttackImageUtility aiu = new AttackImageUtility();
-                    aiu.attackProperty = ai.AttackType;
+			tempAttack.AddRange(item.Value.CaculateAttack(skillUtility.haveCard, skillUtility.alreadyUseSkill));
+			if (tempAttack.Count > 0) {
+				for (int j = 0; j < tempAttack.Count; j++) {
+					AttackInfo ai = tempAttack[j];
+					ai.UserPos = item.Key;
+					areaItemAttackInfo.Add(ai);
+					skillUtility.alreadyUseSkill.Add(ai.SkillID);
+					tempAttackType.Add(ai);
+//					AttackImageUtility aiu = new AttackImageUtility();
+//					aiu.attackProperty = ai.AttackType;
+//					aiu.userProperty = item.Value.UnitType;
+//					aiu.skillID = ai.SkillID;
+//					aiu.attackID = ai.AttackID;
 
-					if ( DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID) == null)
-						Debug.LogError("DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID)== null");
+//					tempAttackType.Add(aiu);
+				}     
+			}
+			tempAttack.Clear();
+		}
 
-                    aiu.userProperty = DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID).UnitType;
-                    aiu.skillID = ai.SkillID;
-                    aiu.attackID = ai.AttackID;
-                    tempAttackType.Add(aiu);
-                }     
-            }
-            tempAttack.Clear();
-        }
-		
         return tempAttackType;
+
+		//        for (int i = 0; i < partyItem.Count; i++) {
+		//			if (partyItem[i]==null || partyItem[i].unitUniqueId == 0 ){
+		//				LogHelper.Log("skip empty partyItem:"+i+" partyItem[i]:"+partyItem[i]);
+		//				continue;
+		//			}
+		
+		//            if (i == 0) {
+		//                AttackInfo recoverHp = crh.RecoverHP(skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
+		//                if (recoverHp != null) {
+		//					TUserUnit tuu = DataCenter.Instance.MyUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+		//					recoverHp.UserUnitID = tuu.MakeUserUnitKey();
+		//                    recoverHp.UserPos = partyItem[i].unitPos;
+		//                    tempAttack.Add(recoverHp);
+		//                }
+		//            }
+		
+		//            tempUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+		//
+		//            tempAttack.AddRange(tempUnitInfo.CaculateAttack(skillUtility.haveCard, skillUtility.alreadyUseSkill));
+		//            if (tempAttack.Count > 0) {
+		//                for (int j = 0; j < tempAttack.Count; j++) {
+		//                    AttackInfo ai = tempAttack[j];
+		//                    ai.UserPos = partyItem[i].unitPos;
+		//                    areaItemAttackInfo.Add(ai);
+		//                    skillUtility.alreadyUseSkill.Add(ai.SkillID);
+		//                    AttackImageUtility aiu = new AttackImageUtility();
+		//                    aiu.attackProperty = ai.AttackType;
+		//
+		//					if ( DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID) == null)
+		//						Debug.LogError("DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID)== null");
+		//
+		//                    aiu.userProperty = DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID).UnitType;
+		//                    aiu.skillID = ai.SkillID;
+		//                    aiu.attackID = ai.AttackID;
+		//                    tempAttackType.Add(aiu);
+		//                }     
+		//            }
+		//            tempAttack.Clear();
+		//        }
     }
 	
     public void ClearData() {

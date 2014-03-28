@@ -89,6 +89,8 @@ public class ControllerManager
 	public void ExitBattle () {
 		currentScene.HideUI();
 		Resources.UnloadUnusedAssets ();
+
+		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
 	}
 
 	public void ChangeScene(SceneEnum sEnum) {
@@ -108,6 +110,8 @@ public class ControllerManager
 		else
 			currentScene = CreatScene(sEnum,uiName);
 		currentScene.ShowUI();
+
+		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}
 
 	IUIInterface CreatScene(SceneEnum sEnum,string uiName) {
