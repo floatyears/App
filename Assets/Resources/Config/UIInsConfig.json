@@ -353,9 +353,9 @@
         "positiony": -360,
         "positionz": 0
     },
-       "UnitSelectWindow": {
-        "uiName":"UnitSelectWindow",
-        "resoucePath": "Prefabs/UI/UnitSelect/",
+       "SelectRoleWindow": {
+        "uiName":"SelectRoleWindow",
+        "resoucePath": "Prefabs/UI/SelectRole/",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,

@@ -926,9 +926,9 @@ public class UnitDetailDecorator : DecoratorBase{
 	}
 
 	//--------------------------------UnitSelect------------------------------------------
-	public class UnitSelectDecorator : DecoratorBase{
+	public class SelectRoleDecorator : DecoratorBase{
 		private SceneInfoComponent sceneInfoBar;
-		public UnitSelectDecorator(SceneEnum sEnum) : base(sEnum){}
+		public SelectRoleDecorator(SceneEnum sEnum) : base(sEnum){}
 		
 		public override void ShowScene(){
 			base.ShowScene();
@@ -947,7 +947,7 @@ public class UnitDetailDecorator : DecoratorBase{
 			sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 			sceneInfoBar.SetComponent(decorator);
 		
-			UnitSelectController unitSelect = CreatComponent<UnitSelectController>(UIConfig.unitSelectWindowName);
+			SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
 			unitSelect.SetComponent(sceneInfoBar);
 
 			lastDecorator = unitSelect;

@@ -31,8 +31,33 @@ public class LoadingView : UIComponentUnity {
         UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
     }
 
+    private bool CheckIfFirstLogin(){
+        bool ret = false;
+        uint userId = GameDataStore.Instance.GetUInt(GameDataStore.USER_ID);
+        string uuid = GameDataStore.Instance.GetData(GameDataStore.UUID);
+        if (userId == 0 && uuid.Length == 0) {
+            return true;
+        }
+        return ret;
+    }
+
     private void ClickToLogin(GameObject btn){
+        if (CheckIfFirstLogin()){
+            LogHelper.Log("firstLogin");
+            SelectRoleFirst();
+        }
+        else {
+            LogHelper.Log("login directly");
+            LoginDirectly();
+        }
+    }
+
+    private void LoginDirectly(){
         LoadingLogic loadingLogic = origin as LoadingLogic;
         loadingLogic.StartLogin();
+    }
+
+    private void SelectRoleFirst(){
+        UIManager.Instance.ChangeScene(SceneEnum.UnitSelect);
     }
 }

@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitSelectController : ConcreteComponent {
+public class SelectRoleController : ConcreteComponent {
 
 	int curSelectPos = 0;
 
 	List<TUnitInfo> supportSelectUnits = new List<TUnitInfo>();
 
-	public UnitSelectController(string name) : base(name){}
+	public SelectRoleController(string name) : base(name){}
 
 	public override void CreatUI(){
 		base.CreatUI();
@@ -28,7 +28,7 @@ public class UnitSelectController : ConcreteComponent {
 		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
 
 		switch (call.funcName){
-			case "ClickItem" :
+			case "ClickTab" :
 				CallBackDispatcherHelper.DispatchCallBack(RecordSelectState,call);
 				break;
 			default:
@@ -50,10 +50,8 @@ public class UnitSelectController : ConcreteComponent {
 	}
 
 	void RecordSelectState(object args){
-		int position = (int)args;
-		Debug.Log("receive the click from view, to select unit with the position of " + position);
-//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("UpdateSelectView", supportSelectUnits[ position ]);
-//		ExcuteCallback(call);
+		curSelectPos = (int)args;
+		Debug.Log("receive the click from view, to select unit with the position of " + curSelectPos);
 	}
 
 }
