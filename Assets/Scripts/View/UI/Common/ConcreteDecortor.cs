@@ -51,7 +51,7 @@ public class StartDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.None);
+//		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene(){
@@ -63,11 +63,11 @@ public class StartDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
-		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		sceneInfoBar.SetComponent(decorator);
+//		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar.SetComponent(decorator);
 
 		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
-		background.SetComponent(sceneInfoBar);
+        background.SetComponent(decorator);
 		
 		MainMenuController bottom = CreatComponent< MainMenuController >(UIConfig.menuBottomName);
 		bottom.SetComponent(background);

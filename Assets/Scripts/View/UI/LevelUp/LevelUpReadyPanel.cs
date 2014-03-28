@@ -284,8 +284,41 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		levelUpButton.isEnabled = false;
 	}
 
+    int LevelUpTotalMoney(){
+
+        if (baseUnitInfo == null){
+            return 0;
+        }
+        int totalMoney = 0;
+        foreach (var item in unitItemInfo) {
+            if (item != null){
+                totalMoney += CoinBase * baseUnitInfo.userUnitItem.Level;
+            }
+        }
+        return totalMoney;
+    }
+
+
+
+    bool CheckMoneyEnough(int totalMoney){
+        return DataCenter.Instance.AccountInfo.Money >= totalMoney;
+    }
+
+    MsgWindowParams GetMoneyNotEnoughMsgWindowParams(int totalMoney){
+        MsgWindowParams winParams = new MsgWindowParams();
+        winParams.titleText = TextCenter.Instace.GetCurrentText("MoneyNotEnoughTitle");
+        winParams.contentText = TextCenter.Instace.GetCurrentText("LevelUpMoneyNotEnough", totalMoney);
+        winParams.btnParam = new BtnParam();
+        return winParams;
+    }
+
 	void ClickLevelUpButton(GameObject go){
 		List<TUserUnit> temp = PackUserUnitInfo ();
+        int totalMoney = LevelUpTotalMoney();
+        if (!CheckMoneyEnough(totalMoney)){
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetMoneyNotEnoughMsgWindowParams(totalMoney));
+            return;
+        }
 		ExcuteCallback (temp);
 		levelUpButton.isEnabled = false;
 	}
