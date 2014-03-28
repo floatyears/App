@@ -15,7 +15,9 @@ using System.Collections.Generic;
 
 public class LoadingLogic : ConcreteComponent {
     
-    public LoadingLogic(string uiName):base(uiName) {}
+    public LoadingLogic(string uiName):base(uiName) {
+        MsgCenter.Instance.AddListener(CommandEnum.StartFirstLogin, StartFirstLogin);
+    }
     
     public override void CreatUI () {
         base.CreatUI ();
@@ -33,6 +35,11 @@ public class LoadingLogic : ConcreteComponent {
     public void StartLogin(){
         INetBase netBase = new AuthUser();
         netBase.OnRequest(null, LoginSuccess);
+    }
+
+    public void StartFirstLogin(object args){
+        uint roleSelected = (uint)args;
+        AuthUser.FirstLogin(roleSelected, LoginSuccess);
     }
 
     void LoginSuccess(object data) {
@@ -110,13 +117,13 @@ public class LoadingLogic : ConcreteComponent {
             }
             
             TestUtility.Test();
+            Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
+            //      Debug.LogError("login end");
+            UIManager.Instance.ChangeScene(SceneEnum.Start);
+            if (rspAuthUser.isNewUser){
+                TurnToReName();
+            }
         }
-		Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
-        
-        //      Debug.LogError("login end");
-        UIManager.Instance.ChangeScene(SceneEnum.Start);
-        TurnToReName();
-        
     }
 
     void TurnToReName() {

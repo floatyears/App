@@ -226,6 +226,7 @@ public enum CommandEnum
     WaitResponse,
     SetBlocker,
     AfterLevelUp,
+    StartFirstLogin,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
