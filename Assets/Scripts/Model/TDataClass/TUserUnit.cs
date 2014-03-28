@@ -2,19 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-//public class UserUnitParty {
-//	public static Dictionary<int,UnitParty> userUnitPartyInfo = new Dictionary<int, UnitParty> ();
-//
-//}
-//
-//public class AddBlood {
-//
-//
-//	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
-//		return null;
-//	}
-//}
-
 public class TUserUnit : ProtobufDataBase {
     private UserUnit instance;
 
