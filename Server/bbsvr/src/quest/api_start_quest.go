@@ -121,6 +121,10 @@ func (t StartQuest) ProcessLogic(reqMsg *bbproto.ReqStartQuest, rspMsg *bbproto.
 			log.T(e.Error())
 			return e
 		}
+	}else { // start a new quest (discard old playing quest)
+		if userDetail.Quest != nil {
+			userDetail.Quest = nil
+		}
 	}
 
 	//check Quest record for QuestState
