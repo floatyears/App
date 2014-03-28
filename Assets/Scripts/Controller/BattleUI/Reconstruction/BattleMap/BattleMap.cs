@@ -45,7 +45,6 @@ public class BattleMap : UIBaseUnity {
 	public override void CreatUI () {
 		LogHelper.Log("battle map creat ui" );
 		base.CreatUI ();
-		//StartMap ();
 	}
 
 	void StartMap() {
@@ -76,8 +75,7 @@ public class BattleMap : UIBaseUnity {
 		UIEventListener.Get (door.gameObject).onClick = ClickDoor;
 	}
 
-	public override void HideUI ()
-	{
+	public override void HideUI () {
 		base.HideUI ();
 		useMapItem.Clear ();
 		gameObject.SetActive (false);

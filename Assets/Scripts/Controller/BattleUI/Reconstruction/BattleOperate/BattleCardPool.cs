@@ -28,7 +28,6 @@ public class BattleCardPool : UIBaseUnity
 	public override void Init (string name) {
 		base.Init (name);
 		InitData();
-		//gameObject.transform.localPosition = localPosition;
 		for (int i = 0; i < cardPosition.Length; i++) {
 			tempObject = NGUITools.AddChild(gameObject, templateBackTexture.gameObject);
 			cardPosition[i] = new Vector3(initPosition.x + i *cardInterv,initPosition.y,initPosition.z);
@@ -49,8 +48,7 @@ public class BattleCardPool : UIBaseUnity
 		gameObject.SetActive(false);
 	}
 
-	void InitData()
-	{
+	void InitData() {
 		int count = Config.cardPoolSingle;
 
 		cardPosition = new Vector3[count];
