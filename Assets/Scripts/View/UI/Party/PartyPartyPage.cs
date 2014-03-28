@@ -68,14 +68,14 @@ public class PartyPartyPage : PartyPageLogic{
 		LogHelper.LogError("currentFoucsPosition is : " + currentFoucsPosition);
 		TUserUnit tuu = null;
 		List<TUserUnit> temp = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit ();
-		Debug.LogError ("temp.count : " + temp.Count + " position - 1 : " + (position - 1));
-		if (temp[position - 1] == null) {
+//		Debug.LogError ("temp.count : " + temp.Count + " position - 1 : " + (position - 1));
+		if (temp[ position - 1 ] == null) {
 			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("LightCurSprite", currentFoucsPosition);
 			ExcuteCallback(cbdArgs);
 			MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
 		}
 		else {
-			tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[position - 1];
+			tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
 			BriefUnitInfo briefInfo = new BriefUnitInfo("PartyItem", tuu);
 			MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
 		}

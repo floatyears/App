@@ -8,18 +8,17 @@ public class ItemCounterView : UIComponentUnity{
 	UILabel maxLabel;
 
 	public override void Init(UIInsConfig config,IUICallback origin) {
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
 		base.Init(config,origin);
 		InitUIElement();
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		AddCommandListener();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		RemoveCommandListener();
 	}
 	
 	void InitUIElement(){
@@ -44,15 +43,6 @@ public class ItemCounterView : UIComponentUnity{
 				curLabel.color = Color.red;
 			}
 		}
-
-	}
-
-	void AddCommandListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
-	}
-
-	void RemoveCommandListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshItemCount, UpdateView);
 	}
 	
 }

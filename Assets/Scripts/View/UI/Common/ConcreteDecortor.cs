@@ -607,31 +607,24 @@ public class SellDecorator : DecoratorBase{
 }
 
 //--------------------------------Evolve------------------------------------------
-public class EvolveDecorator : DecoratorBase
-{
+public class EvolveDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public EvolveDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public EvolveDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
@@ -650,8 +643,7 @@ public class EvolveDecorator : DecoratorBase
 }
 
 //--------------------------------Catalog------------------------------------------
-public class CatalogDecorator : DecoratorBase
-{
+public class CatalogDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
 	public CatalogDecorator(SceneEnum sEnum) : base(sEnum)
 	{

@@ -208,10 +208,21 @@ public class FriendListLogic : ConcreteComponent{
 
 	}
 
-	void DeleteFriendPicked(object msg)
-	{
-		Debug.LogError("FriendListLogic.DeleteFriendCurrentPicked(), Start...");
+	MsgWindowParams GetDeleteMsgParams(){
+		MsgWindowParams msgParams = new MsgWindowParams();
+		msgParams.titleText = TextCenter.Instace.GetCurrentText("DeleteNoteTitle");
+		msgParams.contentText = TextCenter.Instace.GetCurrentText("DeleteNoteContent");
+		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
+		msgParams.btnParams[ 0 ].callback = CallBackDeleteFriend;
+		return msgParams;
+	}
+
+	void CallBackDeleteFriend(object args){
 		DelFriend.SendRequest(OnDelFriend, currentFriendPicked.UserId);
+	}
+
+	void DeleteFriendPicked(object msg){
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetDeleteMsgParams());
 	}
 
 	void UpdateFriendList(object args){
