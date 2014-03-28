@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class UnitsWindow : UIComponentUnity{
@@ -52,7 +52,7 @@ public class UnitsWindow : UIComponentUnity{
 		if (iuiCallback == null)
 			return;
 		SceneEnum se = buttonInfo [caller];
-		iuiCallback.Callback(se);
+		iuiCallback.CallbackView(se);
 	}
 	
 	void ShowTween(){

@@ -6,6 +6,7 @@ public class MapDoor : UIBaseUnity {
 	private GameObject rightDoor;
 	private Quaternion leftRotation;
 	private Quaternion rightRotation;
+	public bool doorOpen = false;
 	public override void Init (string name) {
 		base.Init (name);
 		leftDoor = transform.Find("Left").gameObject;
@@ -39,6 +40,7 @@ public class MapDoor : UIBaseUnity {
 	}
 
 	void OpenDoor (object data) {
+		doorOpen = true;
 //		Debug.LogError("opendoor  data");
 		iTween.RotateTo (leftDoor, new Vector3 (-90f, -120f, 0f), 2f);
 		iTween.RotateTo (rightDoor, new Vector3 (90f, 120f, 0f), 2f);

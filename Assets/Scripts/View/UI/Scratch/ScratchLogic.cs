@@ -50,9 +50,9 @@ public class ScratchLogic : ConcreteComponent {
         base.DestoryUI ();
     }
 
-    public override void Callback(object data)
+    public override void CallbackView(object data)
     {
-        base.Callback(data);
+        base.CallbackView(data);
         
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         

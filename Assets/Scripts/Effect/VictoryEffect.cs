@@ -164,7 +164,7 @@ public class VictoryEffect : UIBaseUnity {
 	}
 
 	void Sure(GameObject go) {
-		Debug.LogError ("sureButtonCallback : " + sureButtonCallback);
+//		Debug.LogError ("sureButtonCallback : " + sureButtonCallback);
 		if (sureButtonCallback != null) {
 			sureButtonCallback();
 		}

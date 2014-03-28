@@ -26,9 +26,9 @@ public class ActiveSkill : SkillBaseInfo {
 		}
 	}
 
-	public SkillBase GetSkillInfo () {
-		return skillBase;
-	}
+//	public SkillBase GetSkillInfo () {
+//		return skillBase;
+//	}
 }
 
 public class TSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {

@@ -23,7 +23,6 @@ public class BattleCardAreaItem : UIBaseUnity {
 		get {return areaItemID;}
 		set {areaItemID = value;}
 	}
-
 	private UISprite template;
 
 	public override void Init(string name) {
@@ -33,9 +32,11 @@ public class BattleCardAreaItem : UIBaseUnity {
 		pos = transform.localPosition;
 		parentObject = transform.parent.gameObject;
 		InitFightCard ();
-		for (int i = 1; i < 6; i++) {
+		for (int i = 1; i < 7; i++) {
 			UISprite sprite = FindChild<UISprite>(i.ToString());
-			sprite.spriteName = "";
+			if(i != 6)
+				sprite.spriteName = "";
+
 			cardList.Add(sprite);
 		}
 	}
@@ -74,9 +75,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 		maxLimit = maxLimit > source.Count ? source.Count : maxLimit;
 		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
 		for (int i = 0; i < maxLimit; i++) {
-
 			GameObject go = cardList[cardItemList.Count].gameObject;
-
 			CardSprite ci = go.AddComponent<CardSprite>();
 			ci.Init("aaa");
 			DisposeTweenPosition(ci);
@@ -87,14 +86,15 @@ public class BattleCardAreaItem : UIBaseUnity {
 			GenerateFightCardImmelity(source[i].itemID);
 		}
 
+		if (cardItemList.Count == Config.cardCollectionCount) {
+			cardList[5].enabled = true;
+		}
 		return maxLimit;
 	}
 
 	List <AttackInfo> attackImage = new List<AttackInfo> ();
-
 	void GenerateFightCardImmelity(int id) {
 		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
-
 		InstnaceCard ();
 	}
 
@@ -110,17 +110,14 @@ public class BattleCardAreaItem : UIBaseUnity {
 			}
 			UISprite tex = battleCardTemplate[i];
 			tex.enabled = true;
-			tex.spriteName = DGTools.GetNormalSkillSpriteName(attackImage[i]); //ItemData.GetColor (attackImage[i].AttackType);
+			tex.spriteName = DGTools.GetNormalSkillSpriteName(attackImage[i]); 
 			attackImage[i].AttackSprite = tex;
 		}
 	}
 
 	void CreatCard(){
-		GameObject instance = Instantiate (template.gameObject) as GameObject;
-		instance.transform.parent = transform;
-		instance.transform.localScale = Vector3.one;
-		instance.layer = gameObject.layer;
-		instance.transform.localPosition = battleCardInitPos + new Vector3 (0f, battleCardTemplate.Count * 10f, 0f);
+		GameObject instance = NGUITools.AddChild (gameObject, template.gameObject);
+		instance.transform.localPosition = battleCardInitPos + new Vector3 (0f, battleCardTemplate.Count * 17f, 0f);
 		battleCardTemplate.Add(instance.GetComponent<UISprite>());
 	}
 
@@ -164,6 +161,8 @@ public class BattleCardAreaItem : UIBaseUnity {
 			cardItemList[i].HideUI();
 		}
 		cardItemList.Clear();
+
+		cardList [5].enabled = false; // cardlist[5] == full sprite
 	}
 
 	void DisposeTweenPosition(CardSprite ci) {
@@ -206,14 +205,9 @@ public class BattleCardAreaItem : UIBaseUnity {
 		return tempPos - transform.localPosition;
 	}
 
-	int GetDepth(int sortID)
-	{
+	int GetDepth(int sortID) {
 		if(sortID == -1)
 			return 0;
-
 		return sortID == 4 ? 2 : 1;
 	}
-
-
-
 }

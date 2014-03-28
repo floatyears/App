@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ReceptionComponent : ConcreteComponent ,IUIFriendList{
@@ -35,7 +35,7 @@ public class ReceptionComponent : ConcreteComponent ,IUIFriendList{
 		callBack.CustomExtraFunction("Refuse All");
 	}
 
-	public void Callback(object data){
+	public void CallbackView(object data){
 
 	}
 }

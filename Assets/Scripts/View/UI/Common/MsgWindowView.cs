@@ -120,7 +120,7 @@ public class MsgWindowView : UIComponentUnity{
         titleLabel.text = string.Empty;
     }
     
-    public override void Callback(object data){
+    public override void CallbackView(object data){
         ShowSelf(true);  
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         switch (cbdArgs.funcName){

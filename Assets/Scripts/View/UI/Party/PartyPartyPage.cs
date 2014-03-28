@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -38,8 +38,8 @@ public class PartyPartyPage : PartyPageLogic{
         RefreshCurrentPartyInfo("current");
     }
 
-	public override void Callback(object data){
-		base.Callback(data);
+	public override void CallbackView(object data){
+		base.CallbackView(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		
 		switch (cbdArgs.funcName){

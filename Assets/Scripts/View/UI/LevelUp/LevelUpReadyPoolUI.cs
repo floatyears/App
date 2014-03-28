@@ -6,7 +6,7 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 	public LevelUpReadyPoolUI(string uiName):base(uiName) {
     }
 
-	public override void Callback (object data) {
+	public override void CallbackView (object data) {
 		List<TUserUnit> temp = data as List<TUserUnit>;
 		if (temp == null) {
 			Debug.LogError("level up network data is error");	

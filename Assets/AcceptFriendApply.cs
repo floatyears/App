@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,9 +15,9 @@ public class AccpetFriendApply : ApplyMessage
         CustomizeWindow();
     }
 
-        public override void Callback(object data)
+        public override void CallbackView(object data)
 	{
-		base.Callback(data);
+		base.CallbackView(data);
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 

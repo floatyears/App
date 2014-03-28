@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class UnitDisplay : ConcreteComponent {
@@ -23,8 +23,8 @@ public class UnitDisplay : ConcreteComponent {
 		base.DestoryUI ();
 	}
 
-	public override void Callback (object data) {
-		base.Callback (data);
+	public override void CallbackView (object data) {
+		base.CallbackView (data);
 		Dictionary<string, object> dicData = data as Dictionary<string, object>;
 		foreach (var item in dicData) {
 			DisposeCallback (item);

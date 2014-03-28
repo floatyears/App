@@ -265,7 +265,7 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
         }
     }
 
-    public void Callback(object data) {
+    public void CallbackView(object data) {
     }
 
     private void LevelUp(GameObject go) {

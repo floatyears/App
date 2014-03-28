@@ -8,17 +8,13 @@ public class BattleCardPool : UIBaseUnity
 
 	private Vector3[] cardPosition;
 
-	public Vector3[] CardPosition
-	{
+	public Vector3[] CardPosition {
 		get{return cardPosition;}
 	}
 
 	private UISprite[] backTextureIns;
-
 	private int cardInterv = 0;
-
 	private Vector3 initPosition = Vector3.zero;
-
 	private float xStart = 0f;
 
 	public float XRange {
@@ -50,15 +46,10 @@ public class BattleCardPool : UIBaseUnity
 
 	void InitData() {
 		int count = Config.cardPoolSingle;
-
 		cardPosition = new Vector3[count];
-
-		backTextureIns = new UISprite[count];
-		
+		backTextureIns = new UISprite[count];		
 		templateBackTexture = FindChild<UISprite>("Back");
-
 		cardInterv = templateBackTexture.width + Config.cardInterv;
-
 		initPosition = Config.cardPoolInitPosition;
 	}
 

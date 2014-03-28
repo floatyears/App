@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class BgDecoratorUnity : UIComponentUnity {
@@ -28,7 +28,7 @@ public class BgDecoratorUnity : UIComponentUnity {
 //		Debug.LogError ("origin``" + origin == null + "```type``" + origin.GetType());
 		if(origin != null && origin is IUICallback){
 			IUICallback callback = origin as IUICallback;
-			callback.Callback (caller);	
+			callback.CallbackView (caller);	
 		}
 	}
 }
