@@ -261,6 +261,7 @@ public class AttackController {
 			}
 		}
 		if (enemyInfo.Count == 0) {
+			BattleBottom.notClick = false;
 			GameTimer.GetInstance().AddCountDown(2f, BattleEnd); //TODO: set time in const config
 			return false;
 		}

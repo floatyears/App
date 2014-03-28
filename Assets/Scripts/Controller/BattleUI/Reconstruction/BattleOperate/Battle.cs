@@ -128,7 +128,7 @@ public class Battle : UIBase {
 	}
 
 	void BattleEnd (object data) {
-//		ShieldInput (true);
+		ShieldInput (true);
 		SwitchInput(true);
 		HideUI ();
 	}
