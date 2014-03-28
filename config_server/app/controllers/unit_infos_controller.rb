@@ -28,7 +28,7 @@ class UnitInfosController < ApplicationController
         end
       end
     end
-    @skills = {"无技能" => nil }.merge @skills
+    @skills = {"选择技能" => nil }.merge @skills
   end
 
   # GET /unit_infos/1/edit
