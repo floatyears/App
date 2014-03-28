@@ -69,7 +69,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
 
 
     private void AddEventListener(GameObject item) {
-        UIEventListener.Get(item).onClick = ClickFriendItem;
+        UIEventListenerCustom.Get(item).onClick = ClickFriendItem;
         UIEventListenerCustom.Get(item).LongPress = PressItem;
     }
 
@@ -193,7 +193,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
     }
 
 	void ShowInfo () {
-        LogHelper.Log("friend support level showInfo");
+        LogHelper.Log("friend support level showInfo, baseItemInfo {0}", baseItemInfo);
 		if (friendUnit == null || baseItemInfo == null) {
 			infoLabel [0].text = "x 1.00";
 			infoLabel [1].text = "x 1.00";
