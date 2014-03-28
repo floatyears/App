@@ -57,6 +57,7 @@ public enum SceneEnum
 	Fight,
 
 	SelectRole,
+
 }
 
 public enum CommandEnum
