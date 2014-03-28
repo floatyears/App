@@ -232,7 +232,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 			baseSelectItem = null;
 		} 
 		else {
-			baseSelectItem.stateLabel.text = "Party";
+			baseSelectItem.stateLabel.text = "";
 			ShowMask(baseSelectItem.scrollItem,false);
 			baseSelectItem = uui;
 			ShowMask(baseSelectItem.scrollItem,true);
