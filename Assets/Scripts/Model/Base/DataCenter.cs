@@ -397,6 +397,9 @@ public class DataCenter {
     }
 
     public void SetFriendList(FriendList friendList){
+		if (friendList == null){
+			return;
+		}
         if (FriendList == null){
             FriendList = new TFriendList(friendList);
         }
@@ -473,6 +476,14 @@ public class DataCenter {
 		}
 	}
 
+	public TFriendInfo GetSupporterInfo(uint friendUid){
+		foreach (var item in SupportFriends) {
+			if (item.UserId == friendUid) {
+				return item;
+			}
+		}
+		return null;
+	}
     
     public int GetFriendGachaNeedPoints(){
         return DataCenter.friendGachaFriendPoint;

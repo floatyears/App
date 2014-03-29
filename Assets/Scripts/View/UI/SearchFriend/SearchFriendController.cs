@@ -2,37 +2,27 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SearchFriendController : ConcreteComponent
-{
+public class SearchFriendController : ConcreteComponent{
 	TFriendInfo currentSearchFriend;
     uint searchFriendUid;
 
 	public SearchFriendController(string uiName) : base( uiName ){}
 
-	public override void CreatUI()
-	{
-		base.CreatUI();
-	}
-
-	public override void ShowUI()
-	{
+	public override void ShowUI(){
 		base.ShowUI();
 		AddCommandListener();
 	}
 
-	public override void HideUI()
-	{
+	public override void HideUI(){
 		base.HideUI();
 		RmvCommandListener();
 	}
 
-	public override void CallbackView(object data)
-	{
+	public override void CallbackView(object data){
 		base.CallbackView(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
-		switch (cbdArgs.funcName)
-		{
+		switch (cbdArgs.funcName){
 			case "ClickSearch": 
 				CallBackDispatcherHelper.DispatchCallBack(SearchFriendWithID, cbdArgs);
 				break;
@@ -68,17 +58,15 @@ public class SearchFriendController : ConcreteComponent
         return msgWindowParam;
     }
 
-	void SearchFriendWithID(object args)
-	{ 
+	void SearchFriendWithID(object args){ 
 		string idString = args as string;
 		Debug.LogError("Receive the click, to search the friend with the id ....");
-		if (idString == string.Empty)
-		{
+		if (idString == string.Empty){
 			Debug.LogError("Search ID Input can't be empty!!!!!");
 			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdEmptyMsgWindowParams());
 
-		} else
-		{
+		}
+		else{
             searchFriendUid = System.Convert.ToUInt32(idString);
             Debug.LogError("SearchFriendController.SearchFriendWithID(), The ID input is " + searchFriendUid);
             OnRearchFriendWithId(searchFriendUid);
@@ -89,8 +77,7 @@ public class SearchFriendController : ConcreteComponent
 		FindFriend.SendRequest(OnRspFindFriend, friendId);
 	}
 
-	public void OnRspFindFriend(object data)
-	{
+	public void OnRspFindFriend(object data){
 		if (data == null)
 			return;
         
@@ -98,19 +85,9 @@ public class SearchFriendController : ConcreteComponent
 		LogHelper.Log(data);
 		bbproto.RspFindFriend rsp = data as bbproto.RspFindFriend;
 		// first set it to null
-		if (rsp.header.code != (int)ErrorCode.SUCCESS)
-		{
+		if (rsp.header.code != (int)ErrorCode.SUCCESS){
 			LogHelper.Log("OnRspFindFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
             ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
-//			if (rsp.header.code == ErrorCode.EF_FRIEND_NOT_EXISTS)
-//			{
-//				ShowFriendNotExist();
-//			}
-//			else if (rsp.header.code == ErrorCode.EF_IS_ALREADY_FRIEND){
-//				ShowAlreadyFriend();
-//			}
-//            
-
 			return;
 		}
 
@@ -131,8 +108,7 @@ public class SearchFriendController : ConcreteComponent
 		LogHelper.Log(data);
 		bbproto.RspAddFriend rsp = data as bbproto.RspAddFriend;
 		
-		if (rsp.header.code != (int)ErrorCode.SUCCESS)
-		{
+		if (rsp.header.code != (int)ErrorCode.SUCCESS){
 			LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
             if (rsp.header.code == ErrorCode.EF_IS_ALREADY_FRIEND){
                 ShowAlreadyFriend();
@@ -146,36 +122,21 @@ public class SearchFriendController : ConcreteComponent
         DataCenter.Instance.SetFriendList(inst);
 	}
 
-	public void ShowSearchFriendResult(TFriendInfo resultInfo)
-	{
+	public void ShowSearchFriendResult(TFriendInfo resultInfo){
 		currentSearchFriend = resultInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, resultInfo);
 	}
 
-	public void ShowFriendNotExist()
-	{
+	public void ShowFriendNotExist(){
         LogHelper.Log("ShowFriendNotExist() start");
 		currentSearchFriend = null;
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdNotExistMsgWindowParams());
     }
 
-	public void ShowAlreadyFriend()
-	{
-
+	public void ShowAlreadyFriend(){
 		currentSearchFriend = null;
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdAlreadyFriendMsgWindowParams());
     }
-
-//    //////////////////Test
-//    public static void TestSearchFriendReq(){
-//        LogHelper.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS  TestSearchFriendReq() start");
-//        // Test exists
-//        SearchFriendController controller = new SearchFriendController("ssss");
-//        controller.OnRearchFriendWithId(174);
-//        controller.OnRearchFriendWithId(999);
-//
-//    }
-
 
 	void AddCommandListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.SubmitFriendApply, SubmitFriendApply);

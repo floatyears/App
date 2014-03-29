@@ -18,6 +18,8 @@ public class LevelUpBasePanel : UIComponentUnity {
 	private List<UnitItemInfo> materialItem = new List<UnitItemInfo> ();
 	private List<UnitItemInfo> selectMaterial = new List<UnitItemInfo> ();
 
+    bool beginOnAfterLevelUp = false; // if == true, turn to material tab at start;
+
 	public override void Init(UIInsConfig config, IUICallback origin){
         InitUI();
         MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
@@ -30,6 +32,10 @@ public class LevelUpBasePanel : UIComponentUnity {
 			gameObject.SetActive(true);	
 		}
 		AddListener();
+        if (beginOnAfterLevelUp){
+            MsgCenter.Instance.Invoke(CommandEnum.FocusLevelUpPanel, 2);
+            beginOnAfterLevelUp = false;
+        }
 //		Debug.LogError("LevelUpBasePanel end showui");
 	}
 	
@@ -48,6 +54,7 @@ public class LevelUpBasePanel : UIComponentUnity {
     public void ResetUIAfterLevelUp(object args){
         ResetUIState();
         ShowMyself("Tab_Base");
+//        MsgCenter.Instance.Invoke(CommandEnum.FocusLevelUpPanel, 0);
         uint uniqueId = (uint)args;
         LogHelper.Log("ResetUIAfterLevelUp(), uniqueId {0}", uniqueId);
         if (uniqueId != 0){
@@ -55,6 +62,7 @@ public class LevelUpBasePanel : UIComponentUnity {
         }
         ShieldParty(true);
         baseSelectItem.stateLabel.text = "base";
+        beginOnAfterLevelUp = true;
     }
     
     public void ClearData() {
