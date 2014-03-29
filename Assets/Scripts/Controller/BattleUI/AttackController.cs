@@ -119,7 +119,6 @@ public class AttackController {
 	}
 
 	public void StartAttack (List<AttackInfo> attack, TUnitParty upi) {
-//		Debug.LogError ("leaderSkilllExtarAttack : " + leaderSkilllExtarAttack + " leaderSkilllExtarAttack.ExtraAttack () : " +leaderSkilllExtarAttack.ExtraAttack ());
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		attackInfo = attack;
 		this.upi = upi;
@@ -178,6 +177,10 @@ public class AttackController {
 		enemyIndex = 0;
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [2]);
 
+//		if (!CheckTempEnemy ()) {
+//			return;	
+//		}
+
 		GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
 
 	}
@@ -192,6 +195,8 @@ public class AttackController {
 	}
 
 	void AttackEnemy () {
+	
+
 		if (attackInfo.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.Blood, 1);	//1: every round.
 			bud.RecoverHP(blood);
@@ -244,6 +249,8 @@ public class AttackController {
 		for (int i = 0; i < deadEnemy.Count; i++) {
 			deadEnemy[i].IsDead = true;
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, deadEnemy[i]);
+			Debug.LogError("grid : " + grid);
+			if(grid != null)
 			MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 		}
 		deadEnemy.Clear ();

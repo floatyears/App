@@ -181,6 +181,7 @@ public class BattleUseData {
         AttackInfo ai = data as AttackInfo;
         float tempBlood = ai.AttackValue;
         int addBlood = System.Convert.ToInt32(tempBlood) + blood;
+//		Debug.LogError ("tempBlood : " + tempBlood + " blood : " + blood);
         RecoverHP(addBlood);
     }
 
@@ -201,7 +202,7 @@ public class BattleUseData {
     }
 
     public List<AttackInfo> CaculateFight(int areaItem, int id) {
-        return upi.CalculateSkill(areaItem, id, blood);
+		return upi.CalculateSkill(areaItem, id, maxBlood);
     }
 
     public void StartAttack(object data) {

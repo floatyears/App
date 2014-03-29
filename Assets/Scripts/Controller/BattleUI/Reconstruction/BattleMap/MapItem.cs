@@ -49,6 +49,7 @@ public class MapItem : UIBaseUnity {
 	}
 
 	private UITexture alreayQuestTexture;
+
 	public override void Init (string name) {
 		base.Init (name);
 		initPosition = transform.localPosition;
@@ -61,6 +62,7 @@ public class MapItem : UIBaseUnity {
 		floorRotate = GetComponent<FloorRotate> ();
 		floorRotate.Init ();
 		if (name == "SingleMap") {
+
 			return;
 		}
 		string[] info = name.Split('|');
@@ -97,7 +99,7 @@ public class MapItem : UIBaseUnity {
 			case bbproto.EQuestGridType.Q_EXCLAMATION:
 				break;
 			case bbproto.EQuestGridType.Q_ENEMY:
-				if(gridItem.Enemy.Count > 0) {
+				if(gridItem.Enemy.Count != 0) {
 					uint unitID = gridItem.Enemy [0].UnitID;
 					TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 					if (tui != null) {
@@ -108,7 +110,7 @@ public class MapItem : UIBaseUnity {
 						tex.width = 110;
 						tex.height = 110;
 					}
-				} 
+				}
 				break;
 			case bbproto.EQuestGridType.Q_TRAP:
 				backSpriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
@@ -125,6 +127,15 @@ public class MapItem : UIBaseUnity {
 
 			mapBack.SetActive(false);
 		}
+	}
+
+	void OnDisable() {
+		showStarSprite.Clear ();
+	}
+
+	void OnDestory() {
+		showStarSprite.Clear ();
+
 	}
 
 	void HideStarSprite (bool show) {
@@ -151,11 +162,26 @@ public class MapItem : UIBaseUnity {
 			HideStarSprite(false);
 			return;
 		}
+
+		for (int i = showStarSprite.Count - 1; i >= 0; i--) {
+			if(showStarSprite[i] == null) {
+				showStarSprite.RemoveAt(i);
+			}
+		}
+
 		List<int> spriteIndex = GetSpritIndex ();
 		string spriteName = GetStarSpriteName ();
+//		if (gridItem.Star == bbproto.EGridStar.GS_STAR_2) {
+//			foreach (var item in spriteIndex) {
+//				Debug.LogError("coor : " + coor.x + " " + coor.y +  "spriteIndex : " + item);
+//			}
+//		}
 		for (int i = 1; i < 8; i++) {
 			UISprite tmep = FindChild<UISprite>("star" + i);
 			int index = i - 1;
+
+//				Debug.Log("coor : " + coor.x + " " + coor.y + "spriteIndex : " + spriteIndex.Contains(index) + " index :" + index);
+
 			if(spriteIndex.Contains(index)) {
 				tmep.spriteName = spriteName;
 				showStarSprite.Add(tmep);
@@ -282,8 +308,8 @@ public class MapItem : UIBaseUnity {
 			index.Add(2);
 			break;
 		case bbproto.EGridStar.GS_STAR_2:
+			index.Add(5);
 			index.Add(6);
-			index.Add(7);
 			break;
 		case bbproto.EGridStar.GS_STAR_3:
 			index.Add(0);
