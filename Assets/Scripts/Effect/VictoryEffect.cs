@@ -70,7 +70,7 @@ public class VictoryEffect : UIBaseUnity {
 		int maxEmp = clearQuest.exp;
 		gotExp= clearQuest.gotExp;
 		rank = DataCenter.Instance.oldAccountInfo.Rank;
-		int totleExp = DataCenter.Instance.oldAccountInfo.CurRankExp; 
+		int totleExp = DataCenter.Instance.oldAccountInfo.CurPrevExp; 
 		currentExp = clearQuest.exp - totleExp ;
 		currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 		add = (float)gotExp * 0.05f;

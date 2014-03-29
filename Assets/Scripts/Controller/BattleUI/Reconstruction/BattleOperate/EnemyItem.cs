@@ -231,7 +231,7 @@ public class EnemyItem : UIBaseUnity {
     }
 
     IEnumerator CountBloodValue(float fillAmount) {
-		float value = (bloodSprite.fillAmount - fillAmount) / 10f;
+		float value = (bloodSprite.fillAmount - fillAmount) / 5f;
         while (bloodSprite.fillAmount > fillAmount) {
 			bloodSprite.fillAmount -= value;
             yield return 0;
