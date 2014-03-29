@@ -12,7 +12,13 @@ public class AttackController {
 	private TQuestGrid grid;
 	public TQuestGrid Grid {
 		get{return grid;}
-		set{grid = value; enemyInfo = value.Enemy;}
+		set{
+			grid = value;
+			enemyInfo = value.Enemy;
+			foreach (var item in enemyInfo) {
+				item.drop = grid.Drop;
+			}
+		}
 	}
 	IExcutePassiveSkill passiveSkill;
 
@@ -176,13 +182,7 @@ public class AttackController {
 		countDownTime = GetIntervTime ();
 		enemyIndex = 0;
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [2]);
-
-//		if (!CheckTempEnemy ()) {
-//			return;	
-//		}
-
 		GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
-
 	}
 	
 	void MultipleAttack () {
@@ -222,7 +222,6 @@ public class AttackController {
 			DisposeAttackSingle(ai);
 			break;
 		case 1:
-//			DisposeAttackSingle(ai);
 			DisposeAttackAll(ai);
 			break;
 		case 2:

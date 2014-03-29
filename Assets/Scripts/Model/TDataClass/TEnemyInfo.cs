@@ -28,6 +28,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	public bool isDeferAttackRound = false;
 	public bool isPosion = false;
 
+	public TDropUnit drop;
 
 	public bool IsInjured () {
 		if (EnemyInfo ().hp < initBlood) { return true; }
