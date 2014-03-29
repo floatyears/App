@@ -11,7 +11,7 @@ import (
 import (
 	"bbproto"
 	//"../src/common"
-	"common"
+	//"common"
 	"common/consts"
 	"common/log"
 	"data"
@@ -302,13 +302,19 @@ func main() {
 
 	if args == nil || len(args) < 1 {
 		log.T("usage: input param: {uid}")
-		return
+		//return
 	}
 
-	//uid := uint32(197)
-	uid := common.Atou(args[0])
-	num := uint32(20)
-	AddBundleFriends(uid, num)
+	
+	//uid := common.Atou(args[0])
+	uid := uint32(2036)
+	
+	//num := uint32(20)
+	//AddBundleFriends(uid, num)
+	fid:=uint32(101)
+	AddFriend(uid, fid)
+	AcceptFriend(fid, uid)
+
 
 	GetFriend(uid)
 
