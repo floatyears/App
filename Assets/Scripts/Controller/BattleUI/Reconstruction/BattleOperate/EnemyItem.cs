@@ -122,12 +122,6 @@ public class EnemyItem : UIBaseUnity {
 	
     public void Init(TEnemyInfo te) {
         texture = FindChild<UITexture>("Texture");
-		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
-		Texture2D tex = tui.GetAsset(UnitAssetType.Profile);
-		texture.mainTexture = tex;
-		texture.width = tex.width;
-		texture.height = tex.height;
-
         dropTexture = FindChild<UITexture>("Drop");
         dropTexture.enabled = false;
         localPosition = texture.transform.localPosition;
@@ -141,6 +135,15 @@ public class EnemyItem : UIBaseUnity {
         enemyInfo = te;
         hurtValueLabel.gameObject.SetActive(false);
         SetData(te);
+
+		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
+		Texture2D tex = tui.GetAsset(UnitAssetType.Profile);
+		texture.mainTexture = tex;
+		if (tex == null) {
+			return;		
+		}
+		texture.width = tex.width;
+		texture.height = tex.height;
     }
 
     public override void DestoryUI() {
