@@ -484,7 +484,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		int needExp = currMaxExp - curExp;
 		needExpLabel.text = needExp.ToString();
 
-		if (curLevel == oldBlendUnit.UnitInfo.MaxLevel && needExp == 0) {
+		if (curLevel > oldBlendUnit.UnitInfo.MaxLevel) {
+			levelLabel.text = oldBlendUnit.UnitInfo.MaxLevel.ToString();
+			needExpLabel.text = "Max Level";
+			return;
+		}
+		else if (curLevel == oldBlendUnit.UnitInfo.MaxLevel && needExp == 0) {
 			levelLabel.text = oldBlendUnit.UnitInfo.MaxLevel.ToString();
 			needExpLabel.text = "Max Level";
 			return;
