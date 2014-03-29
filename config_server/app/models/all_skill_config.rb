@@ -1,5 +1,6 @@
 #encoding: utf-8
 require "beefcake"
+require 'zip'
 
 module EUnitRace
   ALL = 0
