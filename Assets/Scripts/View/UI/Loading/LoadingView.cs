@@ -32,7 +32,6 @@ public class LoadingView : UIComponentUnity {
     }
 
     private bool CheckIfFirstLogin(){
-		return true;
         bool ret = false;
         uint userId = GameDataStore.Instance.GetUInt(GameDataStore.USER_ID);
         string uuid = GameDataStore.Instance.GetData(GameDataStore.UUID);
@@ -59,9 +58,6 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void SelectRoleFirst(){
-		LogHelper.Log("SelectRoleFirst start");
         UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
-		LogHelper.Log("SelectRoleFirst end");
-
     }
 }

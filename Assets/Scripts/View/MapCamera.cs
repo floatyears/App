@@ -2,14 +2,14 @@
 using System.Collections;
 
 public class MapCamera : MonoBehaviour {
-	private Camera camera ;
+	private Camera mapCamera ;
 	private GameInput gameInput;
 	private bool isClick = true;
 
 
 
 	void Awake () {
-		camera = GetComponent<Camera> ();
+		mapCamera = GetComponent<Camera> ();
 		gameInput = Main.Instance.GInput;
 
 	}
@@ -72,7 +72,7 @@ public class MapCamera : MonoBehaviour {
 
 	RaycastHit rayCastHit;
 	void Press () {
-		Ray ray = camera.ScreenPointToRay (Input.mousePosition);
+		Ray ray = mapCamera.ScreenPointToRay (Input.mousePosition);
 		bool haveObject = Physics.Raycast (ray, out rayCastHit);
 //		Debug.LogError ("Press" + haveObject);
 //		Debug.LogError ("haveObject : " + haveObject);

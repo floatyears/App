@@ -1,5 +1,6 @@
 #encoding: utf-8
 require "beefcake"
+require 'zip'
 
 module EUnitRace
   ALL = 0
@@ -537,5 +538,35 @@ class AllSkillConfig
     File.open(Rails.root.join("public/skills/X_SKILL_CONF"), "wb") { | file|  file.write($redis.get("X_SKILL_CONF")) } 
   end
   
+  def self.export_to_file_and_redis
+    @allskills = AllSkillConfig.decode($redis.get("X_SKILL_CONF"))
+    ALL_SKILL.each do |key|
+      if @allskills[key].present?
+          @allskills[key].each do |skill|
+            $redis.set "X_SKILL_CONF_#{skill.try(:baseInfo).try(:id)}",skill.encode
+            File.open(Rails.root.join("public/skills/#{skill.try(:baseInfo).try(:id)}.bytes"), "wb") { | file|  file.write(skill.encode) } 
+          end
+      end
+    end
+  end
   
+  def self.to_zip
+    FileUtils.rm_rf(Rails.root.join("public/skills/."))
+    redis_to_file
+    directory = Rails.root.join("public/skills")
+    zipfile_name = Rails.root.join("public/skills/skills.zip")
+    File.delete(zipfile_name) if File.exist?(zipfile_name)
+    
+    Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
+      Dir[File.join(directory, '**', '**')].each do |file|
+        zipfile.add(File.basename(file),file )
+      end
+    end
+  end
+  
+  def self.redis_to_file
+    $redis.keys.map{|k|k if k.start_with?("X_SKILL_CONF")}.compact.each do |key|
+      File.open(Rails.root.join("public/skills/#{key.split("_")[3]}.bytes"), "wb") { | file|  file.write($redis.get key) } 
+    end
+  end
 end

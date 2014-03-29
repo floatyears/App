@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class MapItem : UIBaseUnity {
 	private Coordinate coor; 
@@ -7,11 +7,13 @@ public class MapItem : UIBaseUnity {
 		get{ return coor; }
 		set{ coor = value; }
 	}
-
+	private FloorRotate floorRotate;
 	private GameObject mapBack;
 	private UISprite mapBackSprite;
-	private FloorRotate floorRotate;
 	private UISprite mapItemSprite;
+	List<UISprite> showStarSprite = new List<UISprite>();
+	UISprite[] allStarSprite = new UISprite[7];
+	
 	string spriteName = "";
 	string backSpriteName = "";
 
@@ -51,9 +53,11 @@ public class MapItem : UIBaseUnity {
 		base.Init (name);
 		initPosition = transform.localPosition;
 		initRotation = transform.rotation.eulerAngles;
-		mapBackSprite = FindChild<UISprite>("Floor/MapItem/Texture");
+		mapBackSprite = FindChild<UISprite>("Floor/Texture");
 		mapBack = mapBackSprite.gameObject;
 		mapItemSprite = FindChild<UISprite>("Sprite");
+//		mapItemSprite.enabled = false;
+
 		floorRotate = GetComponent<FloorRotate> ();
 		floorRotate.Init ();
 		if (name == "SingleMap") {
@@ -63,44 +67,41 @@ public class MapItem : UIBaseUnity {
 		int x = System.Int32.Parse (info[0]);
 		int y = System.Int32.Parse (info [1]);
 		gridItem = BattleQuest.questDungeonData.GetSingleFloor (new Coordinate (x, y));
+
+		InitStar ();
+
 		if (gridItem != null) {
 			switch (gridItem.Star) {
 			case bbproto.EGridStar.GS_KEY:
 				spriteName = "key";
-				mapItemSprite.enabled = true;
 				break;
 			case bbproto.EGridStar.GS_QUESTION:
+				spriteName = "key";
 				break;
 			case bbproto.EGridStar.GS_EXCLAMATION:
 				spriteName = "d";
-				mapItemSprite.enabled = true;
 				break;
 			default:
+				spriteName = "";
 				break;
 			}
-			if(mapItemSprite.enabled)
-			mapItemSprite.spriteName = spriteName;
+		
+			DGTools.ShowSprite(mapItemSprite, spriteName);
 
-			spriteName = "";
 			backSpriteName = "";
 			switch (gridItem.Type) {
 			case bbproto.EQuestGridType.Q_NONE:
-//				Destroy(mapItemTexture);
 				break;
 			case bbproto.EQuestGridType.Q_KEY:
-//				Destroy(mapItemTexture);
 				break;
 			case bbproto.EQuestGridType.Q_EXCLAMATION:
-//				Destroy(mapItemTexture);
 				break;
 			case bbproto.EQuestGridType.Q_ENEMY:
-
 				uint unitID = gridItem.Enemy [0].UnitID;
 				TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 				if (tui != null) {
 					UITexture tex = mapBack.AddComponent<UITexture>();
 					tex.depth = -1;
-//					mapItemTexture.enabled = true;
 					Destroy(mapBackSprite);
 					tex.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
 					tex.width = 110;
@@ -108,13 +109,9 @@ public class MapItem : UIBaseUnity {
 				}
 				break;
 			case bbproto.EQuestGridType.Q_TRAP:
-//				Destroy(mapItemTexture);
-//				mapBackSprite.enabled = true;
 				backSpriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
 				break;
 			case bbproto.EQuestGridType.Q_TREATURE:
-//				Destroy(mapItemTexture);
-//				mapBackSprite.enabled = true;
 				backSpriteName = "s";
 				break;
 			default:
@@ -128,14 +125,58 @@ public class MapItem : UIBaseUnity {
 		}
 	}
 
+	void HideStarSprite (bool show) {
+		for (int i = 1; i < 8; i++) {
+			if(allStarSprite[i - 1] == null) {
+				UISprite temp = FindChild<UISprite>("star" + i);
+				temp.enabled = show;
+				allStarSprite[i - 1] = temp;
+			}
+			else{
+				allStarSprite[i - 1].enabled = show;
+			}
+		}
+	}
+
+	void InitStar () {
+		if (gridItem == null) {
+			HideStarSprite(false);
+			return;
+		}
+		List<int> spriteIndex = GetSpritIndex ();
+		string spriteName = GetStarSpriteName ();
+		for (int i = 1; i < 8; i++) {
+			UISprite tmep = FindChild<UISprite>("star" + i);
+			int index = i - 1;
+			if(spriteIndex.Contains(index)) {
+				tmep.spriteName = spriteName;
+				showStarSprite.Add(tmep);
+			}
+			else {
+				tmep.spriteName = "";
+			}
+		}
+	}
+
+	GameObject floorObject = null;
+
+	public void ShowObject(GameObject go) {
+		GameObject parent = transform.Find("Floor").gameObject;
+		floorObject = Instantiate (go) as GameObject;
+		floorObject.transform.parent = parent.transform;
+		floorObject.transform.localPosition = Vector3.zero;
+		floorObject.SetActive (true);
+	}
+
 	public override void ShowUI() {
 		isOld = false;
 	}
 
 	public void HideEnvirment(bool b) {
 		if (!isOld) {
+			HideStarSprite(!b);
 			if(b) {
-				mapItemSprite.spriteName = "6";
+				mapItemSprite.spriteName = "EnvirmentTrap";
 			}else{
 				mapItemSprite.spriteName = spriteName;
 			}
@@ -164,6 +205,9 @@ public class MapItem : UIBaseUnity {
 
 	void RotateEnd () {
 		mapBack.SetActive(false);
+		mapItemSprite.enabled = false;
+		floorObject.SetActive (false);
+		HideStarSprite (false);
 	}
 
 	public void ShowBox() {
@@ -175,14 +219,80 @@ public class MapItem : UIBaseUnity {
 		gameObject.transform.rotation = Quaternion.Euler (initRotation);
 	}
 
-	public void Around(bool isAround)
-	{
+	int countShow = -1;
+	public void Around(bool isAround) {
 		if(isOld)
 			return;
 
-//		if(isAround)
-//			mapItemTexture.color = Color.yellow;
-//		else
-//			mapItemTexture.color = Color.white;
+		countShow++;
+		if (countShow == 3) {
+			countShow = 0;
+		}
+
+		string name = GetStarSpriteName ();
+		for (int i = 0; i < showStarSprite.Count; i++) {
+			showStarSprite[i].spriteName = name;
+		}
+	}
+
+	string GetStarSpriteName() {
+		if (countShow == -1) {
+			countShow = DGTools.RandomToInt(0, 3);	
+		}
+		string name = "";
+		switch (countShow) {
+		case 0:
+			name = "8";	// 8 == blue
+			break;
+		case 1:
+			name = "10"; // 10 == yellow
+			break;
+		case 2:
+			name = "9"; // 9 == red
+			break;
+		}
+
+		return name;
+	}
+	 
+	List<int> GetSpritIndex () {
+		List<int> index = new List<int> ();
+		switch (gridItem.Star) {
+		case  bbproto.EGridStar.GS_STAR_1:
+			index.Add(2);
+			break;
+		case bbproto.EGridStar.GS_STAR_2:
+			index.Add(6);
+			index.Add(7);
+			break;
+		case bbproto.EGridStar.GS_STAR_3:
+			index.Add(0);
+			index.Add(2);
+			index.Add(4);
+			break;
+		case bbproto.EGridStar.GS_STAR_4:
+			index.Add(0);
+			index.Add(1);
+			index.Add(3);
+			index.Add(4);
+			break;
+		case bbproto.EGridStar.GS_STAR_5:
+			index.Add(0);
+			index.Add(1);
+			index.Add(2);
+			index.Add(3);
+			index.Add(4);
+			break;
+		case bbproto.EGridStar.GS_STAR_6:
+			index.Add(0);
+			index.Add(1);
+			index.Add(3);
+			index.Add(4);
+			index.Add(5);
+			index.Add(6);
+			break;
+		}
+
+		return index;
 	}
 }

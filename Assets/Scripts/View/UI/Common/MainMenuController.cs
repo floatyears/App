@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class MainMenuController : ConcreteComponent, IUICallback {
@@ -12,7 +12,7 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 		base.HideUI ();
 	}
 
-	public void Callback (object data){
+	public void CallbackView (object data){
 		try {
 			SceneEnum se = (SceneEnum)data;
 

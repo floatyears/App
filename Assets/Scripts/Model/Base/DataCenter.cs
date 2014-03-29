@@ -442,6 +442,14 @@ public class DataCenter {
 		}
 	}
 
+	public TFriendInfo GetSupporterInfo(uint friendUid){
+		foreach (var item in SupportFriends) {
+			if (item.UserId == friendUid) {
+				return item;
+			}
+		}
+		return null;
+	}
     
     public int GetFriendGachaNeedPoints(){
         return DataCenter.friendGachaFriendPoint;
@@ -472,7 +480,7 @@ public class DataCenter {
             return 0;
         if (GetEventGachaNeedStones() == 0)
             return 0;
-        LogHelper.Log("GetAvailableEventGachaTimes(), InEventGacha, AccountInfo.Stone / GetEventGachaNeedStones()");
+//        LogHelper.Log("GetAvailableEventGachaTimes(), InEventGacha, AccountInfo.Stone / GetEventGachaNeedStones()");
 //        return 0;
         return AccountInfo.Stone / GetEventGachaNeedStones();
     }

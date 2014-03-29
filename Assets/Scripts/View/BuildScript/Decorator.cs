@@ -41,7 +41,7 @@ public class DecoratorBase {
 	}
 
     public virtual void ResetSceneState () {
-        LogHelper.Log("DecoratorBase.ResetSceneState(), clear {0}", resetStateFlag);
+//        LogHelper.Log("DecoratorBase.ResetSceneState(), clear {0}", resetStateFlag);
         if(lastDecorator != null){
             ConcreteComponent controller = lastDecorator as ConcreteComponent;
             if (controller != null){

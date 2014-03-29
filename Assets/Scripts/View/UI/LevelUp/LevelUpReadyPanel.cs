@@ -54,7 +54,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	public override void Init(UIInsConfig config, IUICallback origin){
-        MsgCenter.Instance.AddListener (CommandEnum.AfterLevelUp, ResetAfterLevelUp);
+        MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetAfterLevelUp);
 		base.Init(config, origin);
 		InitUI();
 	}
@@ -89,6 +89,11 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
     void ResetAfterLevelUp(object args){
         //TODO 
+        levelUpButton.isEnabled = false;
+        levelUpButton.gameObject.SetActive (false);
+        ClearTexture(false);
+        ClearData(false);
+        curFocusTab = Tabs[0];
     }
 	
 	void UpdateBaseInfoView( UnitItemInfo itemInfo){
@@ -109,10 +114,10 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			int atk =  DataCenter.Instance.GetUnitValue(tu.AttackType, tuu.Level);
 			atkLabel.text = atk.ToString();			
 			expNeedLabel.text = tuu.NextExp.ToString();
+            coin = LevelUpTotalMoney();
 			for (int i = 0; i < unitItemInfo.Length; i++) {
 				if(unitItemInfo[i] != null) {
 					devorExp += unitItemInfo[i].userUnitItem.MultipleDevorExp(baseUnitInfo.userUnitItem);
-					coin += tuu.Level * CoinBase;
 				}
 			}
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, itemInfo);
@@ -168,21 +173,19 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		}
 	}
 
-	void ClearTexture(){
-		baseCollectorTex.mainTexture = null;
+	void ClearTexture(bool clearBase = true){
+        if (clearBase){
+            baseCollectorTex.mainTexture = null;
+        }
 		friendCollectorTex.mainTexture = null;
 		foreach (var item in materialCollectorTex)
 			item.mainTexture = null;
 	}
 
-    void ClearTextureExcludeBase(){
-        friendCollectorTex.mainTexture = null;
-        foreach (var item in materialCollectorTex)
-            item.mainTexture = null;
-    }
-
-	void ClearData(){
-		baseUnitInfo = null;
+    void ClearData(bool clearBase = true){
+        if (clearBase){
+            baseUnitInfo = null;
+        }
 		friendUnitInfo = null;
 		CaculateDevorExp(false);
 		devorExp = 0;
@@ -190,18 +193,9 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		for (int i = 0; i < unitItemInfo.Length; i++) {
 			unitItemInfo[i] = null;
 		}
+        coin = 0;
 	}
 
-    void ClearDataExcludeBase(){
-        friendUnitInfo = null;
-        CaculateDevorExp(false);
-        devorExp = 0;
-        multiple = 1;
-        for (int i = 0; i < unitItemInfo.Length; i++) {
-            unitItemInfo[i] = null;
-        }
-    }
-	
 	void InitTab()	{
 		GameObject tab;
 
@@ -292,8 +286,41 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		levelUpButton.isEnabled = false;
 	}
 
+    int LevelUpTotalMoney(){
+
+        if (baseUnitInfo == null){
+            return 0;
+        }
+        int totalMoney = 0;
+        foreach (var item in unitItemInfo) {
+            if (item != null){
+                totalMoney += CoinBase * baseUnitInfo.userUnitItem.Level;
+            }
+        }
+        return totalMoney;
+    }
+
+
+
+    bool CheckMoneyEnough(int totalMoney){
+        return DataCenter.Instance.AccountInfo.Money >= totalMoney;
+    }
+
+    MsgWindowParams GetMoneyNotEnoughMsgWindowParams(int totalMoney){
+        MsgWindowParams winParams = new MsgWindowParams();
+        winParams.titleText = TextCenter.Instace.GetCurrentText("MoneyNotEnoughTitle");
+        winParams.contentText = TextCenter.Instace.GetCurrentText("LevelUpMoneyNotEnough", totalMoney);
+        winParams.btnParam = new BtnParam();
+        return winParams;
+    }
+
 	void ClickLevelUpButton(GameObject go){
 		List<TUserUnit> temp = PackUserUnitInfo ();
+        int totalMoney = LevelUpTotalMoney();
+        if (!CheckMoneyEnough(totalMoney)){
+            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetMoneyNotEnoughMsgWindowParams(totalMoney));
+            return;
+        }
 		ExcuteCallback (temp);
 		levelUpButton.isEnabled = false;
 	}

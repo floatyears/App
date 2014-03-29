@@ -11,6 +11,10 @@ public class CatalogComponent : ConcreteComponent {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+		uint friendID = 101;
+
+		UIManager.Instance.ChangeScene(SceneEnum.Result);
+//		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, );
 	}
 	
 	public override void HideUI () {

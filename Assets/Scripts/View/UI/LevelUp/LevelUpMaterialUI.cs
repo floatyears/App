@@ -46,7 +46,7 @@ public class LevelUpMaterialUI : ConcreteComponent, IUICallback{
 
 	}
 	
-	public void Callback(object data){
+	public void CallbackView(object data){
 //		IUICallback call = viewComponent as IUICallback;
 //		call.Callback( data );
 	}

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -21,8 +21,8 @@ public class UnitListDecoratorUnity : UIComponentUnity {
 		base.HideUI ();
 	}
 
-	public override void Callback(object data){
-		base.Callback(data);
+	public override void CallbackView(object data){
+		base.CallbackView(data);
 		CallBackDispatcherArgs callArgs = data as CallBackDispatcherArgs;
 		switch (callArgs.funcName){
 			case "CreateDragPanelView" : 

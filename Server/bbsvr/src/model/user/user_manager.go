@@ -80,8 +80,9 @@ func AddNewUser(db *data.Data, uuid string, selectRole uint32) (userdetail *bbpr
 	}
 
 	//TODO: let user to select a actor.
-	unitIdPool := []int32 {1,5,9,107,111,113,117,123,127,133,135,137,145,151,157,163,164,165,166,167,168,175,179,187,195,221,224,226,61,65,67,69,71,73,85,87,89,91}
-	for i := 1; i <= 28; i++ {
+//	unitIdPool := []uint32 {1,5,9,107,111,113,117,123,127,133,135,137,145,151,157,163,164,165,166,167,168,175,179,187,195,221,224,226,61,65,67,69,71,73,85,87,89,91}
+	unitIdPool := []uint32 {1,5,9,49,50,51,52,53,54,61,63,64,65,66,73,75,76,77,78,89,90,152,153}
+	for i := 1; i <= 22; i++ {
 		uniqueId, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i-1)
 		if e.IsError() {
 			return nil, e

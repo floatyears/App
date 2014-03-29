@@ -51,7 +51,7 @@ public class StartDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.None);
+//		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene(){
@@ -63,11 +63,11 @@ public class StartDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
-		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		sceneInfoBar.SetComponent(decorator);
+//		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar.SetComponent(decorator);
 
 		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
-		background.SetComponent(sceneInfoBar);
+        background.SetComponent(decorator);
 		
 		MainMenuController bottom = CreatComponent< MainMenuController >(UIConfig.menuBottomName);
 		bottom.SetComponent(background);
@@ -235,15 +235,11 @@ public class ScratchDecorator : DecoratorBase
 }
 
 
-public class GachaWindowDecorator : DecoratorBase
-{
+public class GachaWindowDecorator : DecoratorBase{
     private SceneInfoComponent sceneInfoBar;
-    public GachaWindowDecorator(SceneEnum sEnum) : base(sEnum)
-    {
-    }
+    public GachaWindowDecorator(SceneEnum sEnum) : base(sEnum){}
     
-    public override void ShowScene()
-    {
+    public override void ShowScene(){
         base.ShowScene();
         sceneInfoBar.SetBackScene(SceneEnum.None);
     }
@@ -951,6 +947,38 @@ public class UnitDetailDecorator : DecoratorBase{
 		lastDecorator = unitDetailPanel;
 		lastDecorator.CreatUI();
 	}
+
+}
+
+//--------------------------------Result------------------------------------------
+public class ResultDecorator : DecoratorBase{
+	private SceneInfoComponent sceneInfoBar;
+	public ResultDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+		sceneInfoBar.SetBackScene(SceneEnum.LevelUp);
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		sceneInfoBar.SetComponent(decorator);
+		
+		ResultController resultWindow = CreatComponent< ResultController >(UIConfig.resultWindowName);
+		resultWindow.SetComponent(sceneInfoBar);
+		
+		lastDecorator = resultWindow;
+		lastDecorator.CreatUI();
+	}
+
 }
 
 

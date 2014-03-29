@@ -35,14 +35,14 @@ public class AuthUser: ProtoManager {
 		bool b = PlayerPrefs.HasKey (GameDataStore.USER_ID);
 		this.userId = GameDataStore.Instance.GetUInt(GameDataStore.USER_ID);
         string uuid = GameDataStore.Instance.GetData(GameDataStore.UUID);
-//        if (userId == 0 && uuid.Length == 0) {
+        if (userId == 0 && uuid.Length == 0) {
             uuid = System.Guid.NewGuid().ToString();
             GameDataStore.Instance.StoreData(GameDataStore.UUID, uuid);
             LogHelper.Log("New user first run, generate uuid: " + uuid);
-//        }
-//        else {
+        }
+        else {
             LogHelper.Log("Exists userid:{0} uuid:{1} ", userId, uuid);
-//        }
+        }
 
         reqAuthUser = new ReqAuthUser();
         reqAuthUser.header = new ProtoHeader();

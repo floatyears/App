@@ -25,7 +25,7 @@ public class PartyComponent : ConcreteComponent, IUIParty {
 		base.DestoryUI ();
 	}
 
-	public void Callback (object data)
+	public void CallbackView (object data)
 	{
 		try {
 			SceneEnum scene = (SceneEnum)data;

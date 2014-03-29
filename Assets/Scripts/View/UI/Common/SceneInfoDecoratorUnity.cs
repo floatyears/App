@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool{
@@ -17,13 +17,14 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 	
 	public override void ShowUI () {
-
+        LogHelper.Log("SceneInfobar.ShowUI()");
 		base.ShowUI ();
 		ShowTween();
 
 	}
 	
 	public override void HideUI () {
+        LogHelper.Log("SceneInfobar.HideUI()");
 		base.HideUI ();
 	}
 	
@@ -38,7 +39,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 		UIEventListener.Get( btnBackScene.gameObject ).onClick = BackPreScene;
 	}
 	
-	public void Callback (object data) {
+	public void CallbackView (object data) {
 		string info = string.Empty;
 		try {
 			info = (string)data;
@@ -66,7 +67,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 
 		if(temp) {
 			IUICallback call = origin as IUICallback;
-			call.Callback(go);
+			call.CallbackView(go);
 		}
 	}
 

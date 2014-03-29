@@ -41,6 +41,11 @@ public partial class TextCenter {
 
 		textDict.Add("DeleteNoteTitle", "Delete Friend");
 		textDict.Add("DeleteNoteContent", "Are you sure to delete this friend?");
+
+		textDict.Add("ZeroFriendPoint", "Don't get friend point.");
+		textDict.Add("GotFriendPoint", "You have got {0} friend point.");
+
+
     }
 }
 

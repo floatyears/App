@@ -11,12 +11,12 @@ public class BattleMap : UIBaseUnity {
 	private List<MapItem> useMapItem = new List<MapItem>();
 	private MapItem prevMapItem;
 	private MapDoor door;
+	private GameObject[] mapItemObject = new GameObject[3];
 	private const float itemWidth = 127.5f;
 	private static GameObject box;
 	public static GameObject Box {
 		get { return box; }
 	}
-
 
 	private static bool wMove = false;
 	[HideInInspector]
@@ -36,6 +36,11 @@ public class BattleMap : UIBaseUnity {
 		template.Init("SingleMap");
 		door = FindChild<MapDoor>("Door_1");
 		door.Init ("Door_1");
+		for (int i = 0; i < 3; i++) {
+			GameObject go = transform.Find((i + 1).ToString()).gameObject;
+			mapItemObject[i] = go;
+			go.SetActive(false);
+		}
 		template.gameObject.SetActive(false);
 		gameObject.transform.localPosition += Vector3.right * 5f;
 		box = transform.Find ("magic_Box04").gameObject;
@@ -55,13 +60,15 @@ public class BattleMap : UIBaseUnity {
 				if(map[i,j] == null) {
 					tempObject = NGUITools.AddChild(gameObject, template.gameObject);
 					tempObject.SetActive(true);
-					float xp = template.InitPosition.x + i * itemWidth;//template.Width;
-					float yp = template.InitPosition.y + j * itemWidth;//template.Height;
+					float xp = template.InitPosition.x + i * itemWidth;
+					float yp = template.InitPosition.y + j * itemWidth;
 					tempObject.transform.localPosition = new Vector3(xp,yp,template.InitPosition.z);
 					temp = tempObject.GetComponent<MapItem>();
 					temp.Coor = new Coordinate(i, j);
 					temp.Init(i+"|"+j);
 					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
+					int index = DGTools.RandomToInt(0,3);
+					temp.ShowObject(mapItemObject[index]);
 					map[i,j] = temp;
 				}
 				else {
@@ -106,7 +113,7 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	void ClickDoor(GameObject go) {
-		if (prevMapItem.Coor.x == MapConfig.endPointX && prevMapItem.Coor.y == MapConfig.endPointY) {
+		if (prevMapItem.Coor.x == MapConfig.endPointX && prevMapItem.Coor.y == MapConfig.endPointY && door.doorOpen) {
 			bQuest.ClickDoor();
 			Destroy(door.GetComponent<UIEventListener>());
 		}

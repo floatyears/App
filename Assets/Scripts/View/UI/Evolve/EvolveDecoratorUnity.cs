@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class EvolveDecoratorUnity : UIComponentUnity {
@@ -21,7 +21,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		base.DestoryUI ();
 	}
 
-	public override void Callback (object data) {
+	public override void CallbackView (object data) {
 		Dictionary<string, object> dataDic = data as Dictionary<string, object>;
 		List<KeyValuePair<string,object>> datalist = new List<KeyValuePair<string, object>> ();
 

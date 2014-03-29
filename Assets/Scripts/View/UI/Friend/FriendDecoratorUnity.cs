@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class FriendDecoratorUnity : UIComponentUnity {
@@ -24,8 +24,8 @@ public class FriendDecoratorUnity : UIComponentUnity {
         base.DestoryUI();
     }
 
-    public override void Callback(object data) {
-        base.Callback(data);
+    public override void CallbackView(object data) {
+        base.CallbackView(data);
         
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         

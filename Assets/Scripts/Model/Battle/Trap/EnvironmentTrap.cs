@@ -24,6 +24,7 @@ public class EnvironmentTrap : TrapBase, ITrapExcute {
 
 	void RoleMove (object instance) {
 		if (round == 0) {
+			round = (int)GetInjuredValue.trapValue;
 			MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, RoleMove);
 			MsgCenter.Instance.Invoke (CommandEnum.ShieldMap, false);
 			return;

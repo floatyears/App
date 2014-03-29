@@ -9,8 +9,8 @@ public class RequestFriendApply : ApplyMessage{
 		base.CreatUI();
 		CustomizeWindow();
 	}
-	public override void Callback(object data){
-		base.Callback(data);
+	public override void CallbackView(object data){
+		base.CallbackView(data);
 		
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		

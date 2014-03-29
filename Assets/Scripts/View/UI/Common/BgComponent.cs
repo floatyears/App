@@ -23,7 +23,7 @@ public class BgComponent : ConcreteComponent , IUICallback {
 		base.DestoryUI ();
 	}
 	
-	public void Callback (object caller) {
+	public void CallbackView (object caller) {
 
 	}
 }

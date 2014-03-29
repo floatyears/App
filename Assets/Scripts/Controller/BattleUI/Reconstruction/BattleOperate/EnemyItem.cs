@@ -195,13 +195,7 @@ public class EnemyItem : UIBaseUnity {
 
         tempQue.Enqueue(te);
 
-        GameTimer.GetInstance().AddCountDown(1f, RefreshData);
-//		if (enemyInfo.GetBlood() > te.GetBlood ()) {
-//			InjuredShake();
-//		}
-
-        //SetBloodLabel (enemyInfo.GetBlood());
-
+        GameTimer.GetInstance().AddCountDown(0.5f, RefreshData);
     }
 
     void RefreshData() {
@@ -213,9 +207,7 @@ public class EnemyItem : UIBaseUnity {
 
     void EnemyAttack(object data) {
         uint id = (uint)data;
-//		Debug.LogError (id + "enemyInfo.EnemyID : " + enemyInfo.EnemySymbol);
         if (id == enemyInfo.EnemySymbol) {
-//            AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
             iTween.ScaleTo(gameObject, new Vector3(1.5f, 1.5f, 1f), 0.2f);
             iTween.MoveTo(texture.gameObject, iTween.Hash("position", attackPosition, "time", 0.2f, "oncomplete", "MoveBack", "oncompletetarget", gameObject, "islocal", true, "easetype", iTween.EaseType.easeInCubic));
         }
@@ -232,26 +224,23 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void SetBlood(float value) {
-        //bloodSprite.fillAmount = value; 
         StartCoroutine(CountBloodValue(value));
     }
 
     IEnumerator CountBloodValue(float fillAmount) {
+		float value = (bloodSprite.fillAmount - fillAmount) / 10f;
         while (bloodSprite.fillAmount > fillAmount) {
-            bloodSprite.fillAmount -= Time.deltaTime * 5;
-            yield return 1;
+			bloodSprite.fillAmount -= value;
+            yield return 0;
         }
 
         bloodSprite.fillAmount = fillAmount;
     }
 
     void SetBloodLabel(int seu) {
-//			bloodLabel.text = seu.ToString();	
     }
 
     void SetNextLabel(int seu) {
         nextLabel.text = "Next : " + seu;
     }
-
-
 }

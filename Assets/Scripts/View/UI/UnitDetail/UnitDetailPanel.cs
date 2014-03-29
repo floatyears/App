@@ -342,7 +342,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	//--------------interface function-------------------------------------
-	public void Callback(object data)	{
+	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
 		if (userUnit != null) {
 			ShowInfo (userUnit);
@@ -377,6 +377,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
 		GameObject ProfileTexture = go.transform.Find ("ProfileTexture").gameObject;
+//        LogHelper.Log("CreatEffect() levelUpData {0} uniqueId {1}", levelUpData, levelUpData.blendUniqueId);
 		ProfileTexture.renderer.material.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
 		effectCache.Add (go);
 	
