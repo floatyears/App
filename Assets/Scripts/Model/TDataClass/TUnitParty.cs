@@ -412,7 +412,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         }
 
         UnitInfo ui1 = tuu.UnitInfo.Object;		
-		Debug.LogError ("ui1.skill2 : " + ui1.skill2 + " ui1.id : " +ui1.id );
+//		Debug.LogError ("ui1.skill2 : " + ui1.skill2 + " ui1.id : " +ui1.id );
 		if (ui1.skill2 == 0) {
 			return null;		
 		}

@@ -138,6 +138,12 @@ public class MapItem : UIBaseUnity {
 		}
 	}
 
+	void HideShowSprite (bool show) {
+		foreach (var item in showStarSprite) {
+			item.enabled = show;
+		}
+	}
+
 	void InitStar () {
 		if (gridItem == null) {
 			HideStarSprite(false);
@@ -156,6 +162,8 @@ public class MapItem : UIBaseUnity {
 				tmep.spriteName = "";
 			}
 		}
+
+		HideShowSprite ();
 	}
 
 	GameObject floorObject = null;
@@ -176,9 +184,11 @@ public class MapItem : UIBaseUnity {
 		if (!isOld) {
 			HideStarSprite(!b);
 			if(b) {
-				mapItemSprite.spriteName = "EnvirmentTrap";
+				DGTools.ShowSprite(mapItemSprite,"EnvirmentTrap"); // "EnvirmentTrap" is hide envirment sprite name.
+//				mapItemSprite.spriteName = "EnvirmentTrap";
 			}else{
-				mapItemSprite.spriteName = spriteName;
+				DGTools.ShowSprite(mapItemSprite,spriteName);
+//				mapItemSprite.spriteName = spriteName;
 			}
 		}
 	}
@@ -223,16 +233,24 @@ public class MapItem : UIBaseUnity {
 	public void Around(bool isAround) {
 		if(isOld)
 			return;
+	
+		if (isAround) {
+			HideShowSprite(true);
 
-		countShow++;
-		if (countShow == 3) {
-			countShow = 0;
+			countShow++;
+			if (countShow == 3) {
+					countShow = 0;
+			}
+
+			string name = GetStarSpriteName ();
+			for (int i = 0; i < showStarSprite.Count; i++) {
+					showStarSprite [i].spriteName = name;
+			}	
+		} 
+		else {
+			HideShowSprite(false);	
 		}
 
-		string name = GetStarSpriteName ();
-		for (int i = 0; i < showStarSprite.Count; i++) {
-			showStarSprite[i].spriteName = name;
-		}
 	}
 
 	string GetStarSpriteName() {

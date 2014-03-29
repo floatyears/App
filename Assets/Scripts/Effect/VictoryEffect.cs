@@ -114,6 +114,7 @@ public class VictoryEffect : UIBaseUnity {
 			gotExp -= add;
 			currentExp += add;
 			int showValue = (int)currentExp;
+			empiricalLabel.text = showValue.ToString();
 			float progress = currentExp / currentTotalExp;
 			levelProgress.fillAmount = progress;
 			if(currentExp >= currentTotalExp) {
@@ -154,7 +155,7 @@ public class VictoryEffect : UIBaseUnity {
 		backCircle = FindChild<UISprite>("BackCircle");
 		sureButton = FindChild<UIButton>("Button");
 		UIEventListener.Get (sureButton.gameObject).onClick = Sure;
-		Debug.LogWarning ("sureButton.gameObject : " + sureButton);
+//		Debug.LogWarning ("sureButton.gameObject : " + sureButton);
 		niuJiaoCurrent = niuJiao.transform.localPosition;
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);
 		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;

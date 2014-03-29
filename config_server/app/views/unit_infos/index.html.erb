@@ -31,8 +31,8 @@
       <td><%= link_to '更新',edit_unit_info_path(id: unit.try(:id)) %></td>
 			<td><%= link_to unit.try(:id),download_unit_infos_path(id: unit.try(:id))%></td>
 			<td><%= unit.try(:name) %></td>
-			<td><%= unit.try(:race) %></td>
-			<td><%= unit.try(:type) %></td>
+			<td><%= UnitInfo::UNITRACE.invert[unit.try(:race).to_i] %></td>
+			<td><%= UnitInfo::UNITTYPE.invert[unit.try(:type).to_i] %></td>
 			<td><%= unit.try(:rare) %></td>
 			<td><%= unit.try(:skill1) %></td>
 			<td><%= unit.try(:skill2) %></td>
