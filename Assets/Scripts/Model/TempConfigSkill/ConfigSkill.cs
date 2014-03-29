@@ -4,96 +4,6 @@ using bbproto;
 
 public class ConfigSkill  {
 	public ConfigSkill() {
-//
-//		string path = "Protobuf/SKill/X_SKILL_CONF";
-//		TextAsset ta = Resources.Load (path, typeof(TextAsset)) as TextAsset;
-//		AllSkillConfig asc = ProtobufDataBase.DeserializeData<AllSkillConfig> (ta.bytes);
-//
-//
-//
-//		foreach (var item in asc.Normal) {
-//			TNormalSkill tns = new TNormalSkill(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tns);
-//		}
-//
-//		foreach (var item in asc.SingleAttack) {
-//			TSkillSingleAttack tssa = new TSkillSingleAttack(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tssa);
-//		}
-//
-//		foreach (var item in asc.SingleAtkRecoverHP) {
-//			TSkillSingleAtkRecoverHP tssah = new TSkillSingleAtkRecoverHP(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tssah);
-//		}
-//
-//		foreach (var item in asc.SuicideAttack) {
-//			TSkillSuicideAttack tssa = new TSkillSuicideAttack(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tssa);
-//		}
-//
-//		foreach (var item in asc.TargetTypeAttack) {
-//			ActiveAttackTargetType aatt = new ActiveAttackTargetType(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, aatt);
-//		}
-//
-//		foreach (var item in asc.StrengthenAttack) {
-//			ActiveStrengthenAttack asta = new ActiveStrengthenAttack(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, asta);
-//		}
-//
-//		foreach (var item in asc.KillHP) {
-//			GravityAttack ga = new GravityAttack(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, ga);
-//		}
-//
-//		foreach (var item in asc.RecoverHP) {
-//			TSkillRecoverHP trh = new TSkillRecoverHP(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, trh);
-//		}
-//
-//		foreach (var item in asc.RecoverSP) {
-//			TSkillRecoverSP tsrs = new TSkillRecoverSP(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tsrs);
-//		}
-//
-//		foreach (var item in asc.ReduceHurt) {
-//			TSkillReduceHurt tsrh = new TSkillReduceHurt(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tsrh);
-//		}
-//
-//		foreach (var item in asc.ReduceDefence) {
-//			ActiveReduceDefense ard = new ActiveReduceDefense(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, ard);
-//		}
-//
-//		foreach (var item in asc.DeferAttackRound) {
-//			ActiveDeferAttackRound adar = new ActiveDeferAttackRound(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, adar);
-//		}
-//
-//		foreach (var item in asc.Poison) {
-//			TSkillPoison tp = new TSkillPoison(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tp);
-//		}
-//
-//		foreach (var item in asc.DelayTime) {
-//			TSkillDelayTime tsdt = new TSkillDelayTime(item);
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tsdt);
-//		}
-//
-//		foreach (var item in asc.ConvertUnitType) {
-////			if(item.baseInfo.id > )
-//
-//			TSkillConvertUnitType tscut = new TSkillConvertUnitType(item);
-//
-//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tscut);
-//		}
-
-//		ConfigNormalSkill ();
-//		ConfigLeadSkill ();
-//		ConfigActiveSkill ();
-//		ConfigActiveSkill2 ();
-
 		ConfigHeartSkill ();
 	}
 
@@ -392,6 +302,8 @@ public class ConfigSkill  {
 			}
 			TNormalSkill tns = new TNormalSkill(ns);
 			DataCenter.Instance.Skill.Add(ns.baseInfo.id,tns);
+
+			Debug.LogWarning("ConfigHeartSkill : " + ns.baseInfo.id );
 		}
 	}
 	

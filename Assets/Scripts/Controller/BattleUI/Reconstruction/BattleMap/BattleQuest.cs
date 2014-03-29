@@ -443,7 +443,6 @@ public class BattleQuest : UIBase {
 
 	void End(TRspClearQuest clearQuest,Callback questEnd) {
 		battle.SwitchInput (true);
-
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
 		GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
@@ -459,6 +458,9 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleFail(object data) {
-
+		battle.SwitchInput (true);
+		Battle.colorIndex = 0;
+		Battle.isShow = false;
+		QuestEnd ();
 	}
 }

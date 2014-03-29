@@ -69,7 +69,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	public List<AttackInfo> ExtraAttack (){
 		List<AttackInfo> ai = new List<AttackInfo>();
 		if (leadSkill.LeadSkill.Count == 0) {
-			return null;
+			return ai;
 		}
 		foreach (var item in leadSkill.LeadSkill) {
 			TSkillExtraAttack tsea = item.Value as TSkillExtraAttack;

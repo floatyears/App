@@ -7,6 +7,7 @@ public class CalculateRecoverHP {
 
 	public CalculateRecoverHP() {
 		for (int i = 0; i < 4; i++) {
+//			Debug.LogError(29 - i);
 			TNormalSkill tns = DataCenter.Instance.Skill [29 - i] as TNormalSkill;
 			recoverHPSkill[i] = tns;
 		}

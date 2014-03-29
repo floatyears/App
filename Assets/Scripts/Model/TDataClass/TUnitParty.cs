@@ -345,26 +345,33 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     public int GetInitBlood() {
 //		UnitParty up = DeserializeData<UnitParty> ();
         int bloodNum = 0;
-        for (int i = 0; i < instance.items.Count; i++) {
-            uint unitUniqueID = instance.items[i].unitUniqueId;
-			if ( unitUniqueID == 0 ) {
-				continue;
-			}
-			TUserUnit uu = DataCenter.Instance.UserUnitList.GetMyUnit(unitUniqueID);
-			if (uu != null ) {
-				bloodNum += uu.InitBlood;
-			}
-        }
+//        for (int i = 0; i < instance.items.Count; i++) {
+//            uint unitUniqueID = instance.items[i].unitUniqueId;
+//			if ( unitUniqueID == 0 ) {
+//				continue;
+//			}
+//			TUserUnit uu = DataCenter.Instance.UserUnitList.GetMyUnit(unitUniqueID);
+//			if (uu != null ) {
+//				bloodNum += uu.InitBlood;
+//			}
+//        }
+
+		foreach (var item in UserUnit.Values) {
+			bloodNum += item.InitBlood;
+		}
         return bloodNum;
     }
 	
     public int GetBlood() {
 //		UnitParty up = DeserializeData<UnitParty> ();
         int bloodNum = 0;
-        for (int i = 0; i < instance.items.Count; i++) {
-            uint unitUniqueID = instance.items[i].unitUniqueId;
-            bloodNum += DataCenter.Instance.UserUnitList.GetMyUnit(unitUniqueID).Blood;
-        }
+//        for (int i = 0; i < instance.items.Count; i++) {
+//            uint unitUniqueID = instance.items[i].unitUniqueId;
+//            bloodNum += DataCenter.Instance.UserUnitList.GetMyUnit(unitUniqueID).Blood;
+//        }
+		foreach (var item in UserUnit.Values) {
+			bloodNum += item.Blood;
+		}
         return bloodNum;
     }
 	

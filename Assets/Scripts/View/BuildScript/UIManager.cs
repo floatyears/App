@@ -91,7 +91,8 @@ public class UIManager {
 
 	public void ExitBattle () {
 		baseScene.ShowBase ();
-		current.ShowScene();
+//		current.ShowScene();
+		ChangeScene (SceneEnum.Quest);
 		MsgCenter.Instance.Invoke (CommandEnum.LeftBattle, null);
 	}
 

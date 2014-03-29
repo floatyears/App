@@ -90,7 +90,7 @@ public interface ILeaderSkillMultipleAttack {
 }
 
 public interface ILeaderSkillExtraAttack {
-    List<AttackInfo> ExtraAttack();
+	List<AttackInfo> ExtraAttack();
 }
 
 public interface ILeaderSkillSwitchCard {
