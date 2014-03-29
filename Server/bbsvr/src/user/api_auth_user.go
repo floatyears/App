@@ -149,7 +149,9 @@ func (t AuthUser) ProcessLogic(reqMsg *bbproto.ReqAuthUser, rspMsg *bbproto.RspA
 
 		rspMsg.IsNewUser = proto.Int32(1) // is new User
 
-		selectRole:= uint32(1)
+		unitIdPool := []uint32 {1,5,9,49,50,51,52,53,54,61,63,64,65,66,73,75,76,77,78,89,90,152,153}
+		selectRole:= uint32(unitIdPool[common.Randn(20)]) //default selectRole
+
 		if reqMsg.SelectRole != nil {
 			selectRole = *reqMsg.SelectRole
 		}

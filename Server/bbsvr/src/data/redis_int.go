@@ -180,6 +180,16 @@ func (t *Data) SetUInt(key string, value uint32) error {
 	return nil
 }
 
+func (t *Data) Del(key string) error {
+	if t.conn != nil {
+		_, err := redis.String(t.conn.Do("DEL", key))
+		return err
+	} else {
+		log.Fatal("invalid redis conn:%v", t.conn)
+	}
+	return nil
+}
+
 //================= List ==================
 func (t *Data) ListGetAll(key string) (values []interface{}, err error) {
 

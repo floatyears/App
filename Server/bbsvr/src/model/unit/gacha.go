@@ -96,13 +96,21 @@ func SetGachaPool(db *data.Data, gachaId int32, unitIdList []uint32) (e Error.Er
 		return Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 
+	key := consts.X_GACHA_UNIT+common.Ntoa(gachaId)
+
+	err := db.Del(key)
+	if err == nil {
+		log.T("db.Del ret err:%v", err)
+		return Error.New(EC.SET_DB_ERROR, err)
+	}
+
 	for k, unitId := range unitIdList {
 
 		//sUnitId := []byte(common.Utoa(unitId))
 		log.T("SetGachaPool(%v): %v ", k, unitId)
-		if err := db.LPushInt(consts.X_GACHA_UNIT+common.Ntoa(gachaId), int32(unitId)); err != nil {
+		if err := db.LPushInt(key, int32(unitId)); err != nil {
 			log.Error("db.ListPush ret err:%v", err)
-			return Error.New(EC.READ_DB_ERROR, err)
+			return Error.New(EC.SET_DB_ERROR, err)
 		}
 	}
 
