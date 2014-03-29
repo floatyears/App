@@ -9,9 +9,7 @@ public class BattleUseData {
     public int Blood {
 		set { 
 			blood = value; 
-			if(blood < 1) {
-				MsgCenter.Instance.Invoke(CommandEnum.PlayerDead, null);
-			} 
+
         }
         get { return blood; }
     }

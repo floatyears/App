@@ -119,7 +119,7 @@ public class AttackController {
 	}
 
 	public void StartAttack (List<AttackInfo> attack, TUnitParty upi) {
-		Debug.LogError ("leaderSkilllExtarAttack : " + leaderSkilllExtarAttack + " leaderSkilllExtarAttack.ExtraAttack () : " +leaderSkilllExtarAttack.ExtraAttack ());
+//		Debug.LogError ("leaderSkilllExtarAttack : " + leaderSkilllExtarAttack + " leaderSkilllExtarAttack.ExtraAttack () : " +leaderSkilllExtarAttack.ExtraAttack ());
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		attackInfo = attack;
 		this.upi = upi;
@@ -318,7 +318,6 @@ public class AttackController {
 			int hurtValue = te.CalculateInjured (ai, b);
 			ai.InjuryValue = hurtValue;
 			tempPreHurtValue += hurtValue;
-//			ai.EnemyID = te.EnemyID;//GetID();
 			ai.EnemyID = te.EnemySymbol;
 
 			AttackEnemyEnd (ai);
@@ -371,7 +370,9 @@ public class AttackController {
 
 		if (enemyIndex == enemyInfo.Count) {
 			if(bud.Blood < 1) {
-				GameTimer.GetInstance ().AddCountDown (3f, Fail);
+
+				GameTimer.GetInstance ().AddCountDown (2f, Fail);
+
 			}
 			else{
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
