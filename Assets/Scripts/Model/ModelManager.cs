@@ -32,6 +32,7 @@ public class ModelManager {
     /// Init this instance.
     /// </summary>
     public void Init() {
+		Debug.LogWarning("model manager init");
         InitConfigData();
         InitData();
 
@@ -60,7 +61,7 @@ public class ModelManager {
 
     public void InitData() {
 //        ConfigUnitInfo cui = new ConfigUnitInfo();
-//		Debug.LogError ("InitData ConfigSkill");
+		Debug.LogWarning ("InitData ConfigSkill");
         ConfigSkill cs = new ConfigSkill();
         ConfigEnermy ce = new ConfigEnermy();
         ConfigUnitBaseInfo cubi = new ConfigUnitBaseInfo();

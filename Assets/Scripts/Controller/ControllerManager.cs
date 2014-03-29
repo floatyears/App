@@ -89,7 +89,6 @@ public class ControllerManager
 	public void ExitBattle () {
 		currentScene.HideUI();
 		Resources.UnloadUnusedAssets ();
-
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
 	}
 
@@ -149,8 +148,7 @@ public class ControllerManager
 		actor.ShowTextureID (id);
 	}
 
-	public void HideActor()
-	{
+	public void HideActor() {
 		if (actor != null) {
 			actor.HideUI ();
 		}
