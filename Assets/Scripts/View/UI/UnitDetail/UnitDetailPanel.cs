@@ -288,7 +288,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowSkill1Content( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.NormalSkill1;
-		SkillBaseInfo sbi = DataCenter.Instance.Skill[ skillId ];
+		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill); //Skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
 
 		normalSkill1NameLabel.text = skill.name;
@@ -305,7 +305,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowSkill2Content( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.NormalSkill2;
-		SkillBaseInfo sbi = DataCenter.Instance.Skill[ skillId ];
+		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill);//Skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
                 
         normalSkill2NameLabel.text = skill.name;
@@ -322,7 +322,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowLeaderSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.LeaderSkill;
-		SkillBase skill = DataCenter.Instance.Skill[ skillId ].GetSkillInfo();
+		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();//Skill[ skillId ].GetSkillInfo();
                 
         leaderSkillNameLabel.text = skill.name;
 		leaderSkillDscpLabel.text = skill.description;
@@ -331,7 +331,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowActiveSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.ActiveSkill;
-		SkillBase skill = DataCenter.Instance.Skill[ skillId ].GetSkillInfo();		
+		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();//.Skill[ skillId ].GetSkillInfo();		
 		activeSkillNameLabel.text = skill.name;
 		activeSkillDscpLabel.text = skill.description;
     }

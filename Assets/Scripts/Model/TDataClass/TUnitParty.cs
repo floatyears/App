@@ -278,9 +278,10 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 			TUserUnit tuu = DataCenter.Instance.MyUnitList.GetMyUnit(instance.items[0].unitUniqueId);
 			AddLeadSkill(tuu);
         }
+
 		if (DataCenter.Instance.BattleFriend != null) {
-			ProtobufDataBase pdb = DataCenter.Instance.Skill[DataCenter.Instance.BattleFriend.UserUnit.LeadSKill];
 			TUserUnit tuu = DataCenter.Instance.BattleFriend.UserUnit;
+//			ProtobufDataBase pdb = DataCenter.Instance.GetSkill(tuu.MakeUserUnitKey(), tuu.LeadSKill, SkillType.LeaderSkill); //Skill[DataCenter.Instance.BattleFriend.UserUnit.LeadSKill];
 			AddLeadSkill(tuu);
 		}
     }
@@ -290,7 +291,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 			return;
 		}
 		string uniqueID = tuu.MakeUserUnitKey();
-		ProtobufDataBase pdb = DataCenter.Instance.Skill[tuu.LeadSKill];
+		ProtobufDataBase pdb = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), tuu.LeadSKill, SkillType.LeaderSkill); //Skill[tuu.LeadSKill];
 			if (leaderSkill.ContainsKey(uniqueID)) {
 			leaderSkill[uniqueID] = pdb;
 	    }
@@ -329,6 +330,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     public int Compare(object first, object second) {
         PartyItem firstUU = (PartyItem)first;
         PartyItem secondUU = (PartyItem)second;
+	
         NormalSkill ns1 = GetSecondSkill(firstUU);
         NormalSkill ns2 = GetSecondSkill(secondUU);
         if (ns1 == null && ns2 == null)
@@ -401,9 +403,13 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         if (tuu == null) {
             return null;
         }
-        UserUnit uu1 = tuu.Object;
-        UnitInfo ui1 = tuu.UnitInfo.Object;			 //DataCenter.Instance.UnitInfo[uu1.unitId].DeserializeData<UnitInfo>();
-        TNormalSkill ns = DataCenter.Instance.Skill[ui1.skill2] as TNormalSkill;
+
+        UnitInfo ui1 = tuu.UnitInfo.Object;		
+		Debug.LogError ("ui1.skill2 : " + ui1.skill2 + " ui1.id : " +ui1.id );
+		if (ui1.skill2 == 0) {
+			return null;		
+		}
+		TNormalSkill ns = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), ui1.skill2, SkillType.NormalSkill) as TNormalSkill; //Skill[ui1.skill2] as TNormalSkill;
         return ns.Object;
     }
 	
@@ -421,7 +427,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         if (uui == null)
             return null;
 
-        SkillBaseInfo sbi = DataCenter.Instance.Skill[uui.LeadSKill];
+		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (uui.MakeUserUnitKey (), uui.LeadSKill, SkillType.LeaderSkill); //Skill[uui.LeadSKill];
         if (sbi == null)
             return null;
         return sbi.GetSkillInfo();

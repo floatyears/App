@@ -115,16 +115,14 @@ public class TUserUnit : ProtobufDataBase {
     }
 
     void InitSkill() {
-//		UserUnit uu 				= DeserializeData<UserUnit> ();
-//		TUnitInfo tui 			= DataCenter.Instance.UnitInfo[instance.unitId];
-		UnitInfo ui = DataCenter.Instance.GetUnitInfo (instance.unitId).Object;//UnitInfo[instance.unitId].Object;
+		UnitInfo ui = DataCenter.Instance.GetUnitInfo (instance.unitId).Object;
         TNormalSkill firstSkill = null;
         TNormalSkill secondSkill = null;
         if (ui.skill1 > -1) {
-            firstSkill = DataCenter.Instance.Skill[ui.skill1] as TNormalSkill;	
+			firstSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill1,SkillType.NormalSkill) as TNormalSkill; //Skill[ui.skill1] as TNormalSkill;	
         }
         if (ui.skill2 > -1) {
-            secondSkill = DataCenter.Instance.Skill[ui.skill2] as TNormalSkill;	
+			secondSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill1,SkillType.NormalSkill) as TNormalSkill; //.Skill[ui.skill2] as TNormalSkill;	
         }
         AddSkill(firstSkill, secondSkill);
     }
@@ -135,8 +133,7 @@ public class TUserUnit : ProtobufDataBase {
         if (normalSkill[0] == null) {
             InitSkill();	
         }
-		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (instance.unitId); //UnitInfo[instance.unitId];
-
+		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (instance.unitId);
 		UnitInfo ui = tui.Object;
         for (int i = 0; i < normalSkill.Length; i++) {
             TNormalSkill tns = normalSkill[i];

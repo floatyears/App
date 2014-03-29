@@ -11,7 +11,7 @@ public class ExcuteActiveSkill {
 				continue;
 			}
 
-			ProtobufDataBase pudb = DataCenter.Instance.Skill[item.ActiveSkill];
+			ProtobufDataBase pudb = DataCenter.Instance.GetSkill(item.MakeUserUnitKey(),item.ActiveSkill, SkillType.ActiveSkill); //Skill[item.ActiveSkill];
 			IActiveSkillExcute skill = pudb as IActiveSkillExcute;
 			if(skill == null) {
 				continue;
