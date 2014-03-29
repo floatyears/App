@@ -972,7 +972,7 @@ public class ResultDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 		
-		ResultController resultWindow = CreatComponent< ResultController >(UIConfig.resultWindowName);
+		ResultController resultWindow = CreatComponent<ResultController>(UIConfig.resultWindowName);
 		resultWindow.SetComponent(sceneInfoBar);
 		
 		lastDecorator = resultWindow;

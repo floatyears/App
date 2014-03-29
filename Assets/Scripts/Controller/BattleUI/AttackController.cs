@@ -6,7 +6,6 @@ public class AttackController {
 	private MsgCenter msgCenter;
 	private BattleUseData bud;
 	private List<AttackInfo> attackInfo = new List<AttackInfo>();
-
 	public List<TEnemyInfo> enemyInfo = new List<TEnemyInfo>();
 	private TUnitParty upi;
 	private float countDownTime = 0f;
@@ -112,7 +111,6 @@ public class AttackController {
 				int hurtValue = te.CalculateInjured(ai, b);
 				ai.InjuryValue = hurtValue;
 				tempPreHurtValue += hurtValue;
-//				ai.EnemyID = te.EnemyID;//te.GetID();
 				ai.EnemyID = te.EnemySymbol;
 				AttackEnemyEnd (ai);
 			}
@@ -121,6 +119,7 @@ public class AttackController {
 	}
 
 	public void StartAttack (List<AttackInfo> attack, TUnitParty upi) {
+//		Debug.LogError ("leaderSkilllExtarAttack : " + leaderSkilllExtarAttack + " leaderSkilllExtarAttack.ExtraAttack () : " +leaderSkilllExtarAttack.ExtraAttack ());
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		attackInfo = attack;
 		this.upi = upi;
@@ -319,7 +318,6 @@ public class AttackController {
 			int hurtValue = te.CalculateInjured (ai, b);
 			ai.InjuryValue = hurtValue;
 			tempPreHurtValue += hurtValue;
-//			ai.EnemyID = te.EnemyID;//GetID();
 			ai.EnemyID = te.EnemySymbol;
 
 			AttackEnemyEnd (ai);
@@ -330,8 +328,6 @@ public class AttackController {
 		msgCenter.Invoke (CommandEnum.AttackEnemy, ai);
 	}
 
-
-	
 	void AttackPlayer () {
 		if (CheckTempEnemy ()) {
 			LoopEnemyAttack ();	
@@ -369,15 +365,30 @@ public class AttackController {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_boss_battle);
 			}
 		}
+
 		enemyIndex ++;
+
 		if (enemyIndex == enemyInfo.Count) {
-			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
-			GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
+			if(bud.Blood < 1) {
+
+				GameTimer.GetInstance ().AddCountDown (2f, Fail);
+
+			}
+			else{
+				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
+				GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
+			}
 		}
 		else {
 			LoopEnemyAttack();
 		}
 	}    
+
+	void Fail () {
+		BattleEnd();
+		msgCenter.Invoke(CommandEnum.PlayerDead, null);
+		return;
+	}
 
 	void EnemyAttackEnd () {
 		BattleBottom.notClick = false;

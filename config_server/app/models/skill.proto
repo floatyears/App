@@ -221,9 +221,9 @@ message AllSkillConfig {
 	repeated SkillDeferAttackRound		DeferAttackRound		= 12;
 	repeated SkillPoison				Poison					= 13;
 	repeated SkillDelayTime				DelayTime				= 14;
-	
 	repeated SkillConvertUnitType		ConvertUnitType			= 15;
-	//passive skill
+	
+  //passive skill
 	repeated SkillDodgeTrap				DodgeTrap				= 16;
 	repeated SkillAntiAttack			AntiAttack				= 17;
 

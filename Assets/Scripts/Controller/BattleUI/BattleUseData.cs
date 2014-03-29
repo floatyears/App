@@ -9,9 +9,7 @@ public class BattleUseData {
     public int Blood {
 		set { 
 			blood = value; 
-			if(blood < 1) {
-				MsgCenter.Instance.Invoke(CommandEnum.PlayerDead, null);
-			} 
+
         }
         get { return blood; }
     }
@@ -139,7 +137,7 @@ public class BattleUseData {
 
 
     void Sucide(object data) {
-        blood = 1;
+        Blood = 1;
         RefreshBlood();
     }
 
@@ -189,7 +187,7 @@ public class BattleUseData {
     public void RecoverHP(int recoverBlood) {
         if (blood < recoverBlood) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
-            blood = recoverBlood > maxBlood ? maxBlood : recoverBlood;
+            Blood = recoverBlood > maxBlood ? maxBlood : recoverBlood;
             RefreshBlood();
         }
     }
@@ -254,8 +252,8 @@ public class BattleUseData {
     void ConsumeEnergyPoint() {
         if (maxEnergyPoint == 0) {
             Blood -= ReductionBloodByProportion(0.2f);
-            if (blood < 1) {
-                blood = 1;
+			if (Blood < 1) {
+				Blood = 1;
             }
             RefreshBlood();
 

@@ -12,6 +12,7 @@ public enum ModelEnum {
     UserUnitList,
     UnitValue,
     Skill,
+	AllSkill,
     UnitInfo,
     EnemyInfo,
     UnitBaseInfo,
@@ -209,13 +210,43 @@ public class DataCenter {
         set { setData(ModelEnum.Skill, value); } 
     }
 
-	public SkillBaseInfo GetSkill(int skillID) {
-		if (skillID == 0) {
-			return null;	
-		} else {
-			return Skill [skillID];
+	public Dictionary<string, SkillBaseInfo> AllSkill {
+		get { 
+			Dictionary<string, SkillBaseInfo> ret = getData(ModelEnum.AllSkill) as Dictionary<string, SkillBaseInfo>;
+			if (ret == null) {
+				ret = new Dictionary<string, SkillBaseInfo>();
+				setData(ModelEnum.AllSkill, ret);
+			}
+			return ret; 
 		}
+		set { setData(ModelEnum.AllSkill, value); } 
 	}
+
+	public SkillBaseInfo GetSkill(string userUnitID, int skillID, SkillType skillType) {
+		if (skillID == 0) {
+
+			return null;
+		}
+		SkillBaseInfo skill = null;
+		string skillUserID = GetSkillID (userUnitID, skillID);
+
+		if (!AllSkill.TryGetValue (skillUserID, out skill)) {
+			skill = DGTools.LoadSkill(skillID, skillType);
+			if(skill == null) {
+				Debug.LogError("load skill faile. not have this skill config ! " + userUnitID);
+				return null;
+			}
+			AllSkill.Add(skillUserID, skill);
+		}
+
+		return skill;
+	}
+
+	
+	 string GetSkillID (string userUnitID, int skillID) {
+		return userUnitID + "_" + skillID;
+	}
+
 
     private Dictionary<uint, TUnitInfo>  UnitInfo {
         get { 

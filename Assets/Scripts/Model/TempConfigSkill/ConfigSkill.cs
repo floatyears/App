@@ -4,10 +4,7 @@ using bbproto;
 
 public class ConfigSkill  {
 	public ConfigSkill() {
-		ConfigNormalSkill ();
-		ConfigLeadSkill ();
-		ConfigActiveSkill ();
-		ConfigActiveSkill2 ();
+		ConfigHeartSkill ();
 	}
 
 	void ConfigNormalSkill () {
@@ -305,6 +302,8 @@ public class ConfigSkill  {
 			}
 			TNormalSkill tns = new TNormalSkill(ns);
 			DataCenter.Instance.Skill.Add(ns.baseInfo.id,tns);
+
+			Debug.LogWarning("ConfigHeartSkill : " + ns.baseInfo.id );
 		}
 	}
 	
@@ -467,6 +466,7 @@ public class ConfigSkill  {
 		ssa.baseInfo.name = "no 35 knock down";
 		ssa.baseInfo.description = "knock down enemy";
 		ssa.baseInfo.skillCooling = 0;
+		ssa.type = EValueType.PERCENT;
 		ssa.value = 0.1f;
 		ssa.attackRange = EAttackType.ATK_SINGLE;
 		ssa.ignoreDefense = true;

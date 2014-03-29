@@ -306,7 +306,6 @@ end
 
 class AllSkillConfig
   
-  ALL_SKILL = %w( Normal SingleAttack SingleAtkRecoverHP SuicideAttack TargetTypeAttack  StrengthenAttack KillHP RecoverHP RecoverSP ReduceHurt ReduceDefence DeferAttackRound Poison DelayTime ConvertUnitType DodgeTrap AntiAttack Boost Extraattack MultipleAttack )
   EUNIT_TYPE    = { "UALL" => 0 , "UFIRE" => 1, "UWATER" => 2, "UWIND" => 3, "ULIGHT" => 4 ,"UDARK" => 5,"UNONE" => 6,"UHeart" => 7 }
   ETRAP_TYPE    = { "Move" => 0 , "StateException" => 1 , "ChangeEnvir" => 2 , "Injured" => 3 }
   EVALUE_TYPE   = { "FIXED" => 1 , "MULTIPLE" => 2 , "PERCENT" => 3 , "SECOND" => 4 , "ROUND" => 5 , "COLORTYPE" => 6 , "RANDOMCOLOR" => 7 }
@@ -315,7 +314,34 @@ class AllSkillConfig
   EBOOST_TARGET = { "UNIT_RACE" => 0 , "UNIT_TYPE" => 1 }
   EPERIOD       = { "EP_RIGHT_NOW" => 0 , "EP_EVERY_ROUND" => 1 , "EP_EVERY_STEP" => 2 }
   EUNIT_RACE    = { "ALL" => 0 , "HUMAN" => 1, "UNDEAD" =>2 , "MYTHIC" => 3 , "BEAST" => 4, "MONSTER" => 5 ,"LEGEND" => 6, "SCREAMCHEESE" => 7 }
-  
+  ALL_SKILL = %w( Normal SingleAttack SingleAtkRecoverHP SuicideAttack TargetTypeAttack  StrengthenAttack KillHP RecoverHP RecoverSP ReduceHurt ReduceDefence DeferAttackRound Poison DelayTime ConvertUnitType DodgeTrap AntiAttack Boost Extraattack MultipleAttack )
+  NORMAL_SKILL =  %w( Normal )
+  ACTIVE_SKILL =  %w( SingleAttack SingleAtkRecoverHP SuicideAttack TargetTypeAttack  StrengthenAttack KillHP RecoverHP RecoverSP ReduceHurt ReduceDefence DeferAttackRound Poison DelayTime ConvertUnitType )
+  PASSIVE_SKILL = %w( DodgeTrap AntiAttack ) 
+  LEADER_SKILL =  %w( Boost Extraattack MultipleAttack)
+  CLASS_HASH = 
+          {
+            "Normal" => "NormalSkill",
+            "SingleAttack" => "SkillSingleAttack",
+            "SingleAtkRecoverHP" => "SkillAttackRecoverHP",
+            "SuicideAttack"=>"SkillSuicideAttack",
+            "TargetTypeAttack" => "SkillTargetTypeAttack",
+            "StrengthenAttack" => "SkillStrengthenAttack",
+            "KillHP" =>"SkillKillHP",
+            "RecoverHP" =>"SkillRecoverHP",
+            "RecoverSP" => "SkillRecoverSP",
+            "ReduceHurt"=>"SkillReduceHurt",
+            "ReduceDefence" => "SkillReduceDefence",
+            "DeferAttackRound" => "SkillDeferAttackRound",
+            "Poison" => "SkillPoison",
+            "DelayTime" => "SkillDelayTime",
+            "ConvertUnitType" => "SkillConvertUnitType",
+            "DodgeTrap" => "SkillDodgeTrap",
+            "AntiAttack" => "SkillAntiAttack",
+            "Boost" => "SkillBoost",
+            "Extraattack" => "SkillExtraAttack",
+            "MultipleAttack"=> "SkillMultipleAttack"
+          }
   
   repeated :Normal, NormalSkill, 1
   repeated :SingleAttack, SkillSingleAttack, 2
@@ -568,5 +594,15 @@ class AllSkillConfig
     $redis.keys.map{|k|k if k.start_with?("X_SKILL_CONF")}.compact.each do |key|
       File.open(Rails.root.join("public/skills/#{key.split("_")[3]}.bytes"), "wb") { | file|  file.write($redis.get key) } 
     end
+    allskills = AllSkillConfig.decode($redis.get("X_SKILL_CONF"))
+    skills_json = {}
+    ALL_SKILL.each do |key|
+      if allskills[key].present?
+          allskills[key].each do |skill|
+            skills_json[skill.try(:baseInfo).try(:id)] = CLASS_HASH[key]
+          end
+      end
+    end
+    File.open(Rails.root.join("public/skills/skills.json"), "w") { | file|  file.write(skills_json.to_json) } 
   end
 end

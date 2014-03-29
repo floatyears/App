@@ -3,16 +3,17 @@ using System.Collections;
 
 public class ResultController : ConcreteComponent {
 	TFriendInfo curFriendInfo;
-	public ResultController(string name) : base(name){}
+	public ResultController(string uiName) : base(uiName){}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener(CommandEnum.ShowFriendPointUpdateResult, ShowFightResult);
+		MsgCenter.Instance.AddListener(CommandEnum.ShowFriendPointUpdateResult, ShowFriendPointUpdateResult);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFriendPointUpdateResult, ShowFightResult);
+		ClearData();
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFriendPointUpdateResult, ShowFriendPointUpdateResult);
 	}
 
 	public override void CallbackView(object data){
@@ -31,12 +32,19 @@ public class ResultController : ConcreteComponent {
 	void SendFriendApplyRequest(object args){
 		Debug.Log("Receive click, to send Friend apply request...");
 		if(curFriendInfo == null) return;
+
+		AddFriendApplication(curFriendInfo.UserId);
+		Debug.Log("ResultController.SendFriendApplyRequest(), friendApplying's id is : " + curFriendInfo.UserId);
 	}
 
 	//main process
-	void ShowFightResult(object info){
+	void ShowFriendPointUpdateResult(object info){
 		TFriendInfo friendInfo = info as TFriendInfo;
-		if(friendInfo == null) return;
+		if(friendInfo == null){
+			Debug.LogError("ShowFriendPointUpdateResult(), friendInfo is null!!!");
+			return;
+		}
+		curFriendInfo = friendInfo;
 		if(!CheckIsFriend(friendInfo)){
 			//support to send the apply of making friend
 			SupportApplyFriend(true);
@@ -78,6 +86,34 @@ public class ResultController : ConcreteComponent {
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowCenterView", friPoint);
 		ExcuteCallback(call);
 		Debug.Log("ResultController.ShowFriendPoint(), end...");	
+	}
+
+	void AddFriendApplication(uint friendUid){
+		LogHelper.Log("AddFriendApplication () start");
+		AddFriend.SendRequest(OnAddFriend, friendUid);
+	}
+
+	void OnAddFriend(object data){
+		if (data == null) return;
+		
+		LogHelper.Log("TFriendList.OnRspAddFriend() begin");
+		LogHelper.Log(data);
+		bbproto.RspAddFriend rsp = data as bbproto.RspAddFriend;
+		
+//		if (rsp.header.code != (int)ErrorCode.SUCCESS){
+//			LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+//			return;
+//		}
+//		
+		bbproto.FriendList inst = rsp.friends;
+		LogHelper.Log("OnAddFriend(), rsp.friends {0}", inst);
+		LogHelper.Log("OnAddFriend(), friendlist {0}, friendList == null {1}", DataCenter.Instance.FriendList, DataCenter.Instance.FriendList == null);
+		DataCenter.Instance.SetFriendList(inst);
+		UIManager.Instance.ChangeScene(SceneEnum.Quest);
+	}
+
+	void ClearData(){
+		curFriendInfo = null;
 	}
 
 }

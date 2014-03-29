@@ -27,22 +27,23 @@ public class ResultView : UIComponentUnity {
 		rootCenter = transform.FindChild("Center").gameObject;
 		rootBottom = transform.FindChild("Bottom").gameObject;
 
-		nameLabel = rootTop.transform.FindChild("Label_Name").GetComponent<UILabel>();
-		rankLabel = rootTop.transform.FindChild("Label_Rank").GetComponent<UILabel>();
-		latestPlayLabel = rootTop.transform.FindChild("Label_LatestPlay").GetComponent<UILabel>();
-		idLabel = rootTop.transform.FindChild("Label_ID").GetComponent<UILabel>();
+		nameLabel = rootTop.transform.FindChild("ValueLabels/Label_Name").GetComponent<UILabel>();
+		rankLabel = rootTop.transform.FindChild("ValueLabels/Label_Rank").GetComponent<UILabel>();
+		latestPlayLabel = rootTop.transform.FindChild("ValueLabels/Label_LatestPlay").GetComponent<UILabel>();
+		idLabel = rootTop.transform.FindChild("ValueLabels/Label_ID").GetComponent<UILabel>();
 
 		gotFriPointLabel = rootCenter.transform.FindChild("Label_Top").GetComponent<UILabel>();
 		totalFriPointLabel = rootCenter.transform.FindChild("Label_Bottom").GetComponent<UILabel>();
 
-		avatarTex = rootTop.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+		avatarTex = rootTop.transform.FindChild("Avatar/Texture").GetComponent<UITexture>();
 
-		checkBtn = transform.FindChild("Button_Check").GetComponent<UIButton>();
-		okBtn = transform.FindChild("Button_Ok").GetComponent<UIButton>();
-		cancelBtn = transform.FindChild("Button_Cancel").GetComponent<UIButton>();
+		checkBtn = rootBottom.transform.FindChild("Button_Check").GetComponent<UIButton>();
+		okBtn = rootBottom.transform.FindChild("Button_Ok").GetComponent<UIButton>();
+		cancelBtn = rootBottom.transform.FindChild("Button_Cancel").GetComponent<UIButton>();
+
 		UIEventListener.Get(checkBtn.gameObject).onClick = ClickCheck;
-		UIEventListener.Get(okBtn.gameObject).onClick = ClickCheck;
-		UIEventListener.Get(cancelBtn.gameObject).onClick = ClickCheck;
+		UIEventListener.Get(okBtn.gameObject).onClick = ClickOk;
+		UIEventListener.Get(cancelBtn.gameObject).onClick = ClickCancel;
 	}
 	public override void ShowUI(){
 		base.ShowUI();
@@ -77,6 +78,7 @@ public class ResultView : UIComponentUnity {
 	}
 
 	void ClickOk(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickOk", null);
 		ExcuteCallback(call);
 	}
@@ -96,7 +98,7 @@ public class ResultView : UIComponentUnity {
 		TFriendInfo viewData = msg as TFriendInfo;
 
 		avatarTex.mainTexture = viewData.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		nameLabel.text = viewData.NickName;
+		nameLabel.text = (viewData.NickName == string.Empty) ? "No Name" : viewData.NickName;
 		rankLabel.text = viewData.Rank.ToString();
 		latestPlayLabel.text = TimeHelper.GetLatestPlayTime(viewData.LastPlayTime);
 		idLabel.text = viewData.UserId.ToString();
@@ -110,8 +112,7 @@ public class ResultView : UIComponentUnity {
 		else{
 			gotFriPointLabel.text = TextCenter.Instace.GetCurrentText("GotFriendPoint", friPoint);
 		}
-
-		totalFriPointLabel.text = DataCenter.Instance.AccountInfo.FriendPoint.ToString();
+		totalFriPointLabel.text = TextCenter.Instace.GetCurrentText("TotalFriendPoint", DataCenter.Instance.AccountInfo.FriendPoint);
 	}
 
 	void SetButtonActive(bool active){

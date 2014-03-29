@@ -163,7 +163,7 @@ message SkillConvertUnitType { //convert one type to another type
 
 	//optional int32  singleAttack		= 4;
 	//optional int32  allAttack			= 5;
-	//optional int32  singleAtkRecoverHP	= 6;	//single attack & recover HP to 100%
+	//optional int32  SkillAttackRecoverHP	= 6;	//single attack & recover HP to 100%
 	//optional int32  suicideAttack		= 7;
 	//optional int32  targetTypeAttack	= 8;
 	//optional int32  killHP				= 9;
@@ -180,7 +180,7 @@ message SkillConvertUnitType { //convert one type to another type
     //total 14 active skills
 	//optional SkillSingleAttack 			singleAttack		= 4;
 	//optional SkillAllAttack 			allAttack			= 5;
-	//optional SkillSingleAtkRecoverHP 	singleAtkRecoverHP	= 6;	//single attack & recover HP to 100%
+	//optional SkillAttackRecoverHP 	singleAtkRecoverHP	= 6;	//single attack & recover HP to 100%
 	//optional SkillSuicideAttack			suicideAttack		= 7;
 	//optional SkillTargetTypeAttack		targetTypeAttack	= 8;
 	//optional SkillKillHP 				killHP				= 9;
@@ -291,8 +291,8 @@ message AllSkillConfig {
 	repeated SkillDeferAttackRound		DeferAttackRound		= 12;
 	repeated SkillPoison				Poison					= 13;
 	repeated SkillDelayTime				DelayTime				= 14;
-	
 	repeated SkillConvertUnitType		ConvertUnitType			= 15;
+	
 	//passive skill
 	repeated SkillDodgeTrap				DodgeTrap				= 16;
 	repeated SkillAntiAttack			AntiAttack				= 17;

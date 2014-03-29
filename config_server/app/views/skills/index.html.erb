@@ -1,8 +1,18 @@
 <h1 id="选择技能类型">选择技能类型</h1>
 <%= form_tag(type_skills_path) %>
-
 <p>
-	选择技能：<%= select_tag :skillType,options_for_select(AllSkillConfig::ALL_SKILL),onchange: 'skilltypechange()' %>
+  <h4>技能类型:</h4>
+  NormalSkill&nbsp;&nbsp;<%= radio_button_tag(:skillTag, 0,true)%>&nbsp;&nbsp;&nbsp;&nbsp;
+  ActiveSkill&nbsp;&nbsp;<%= radio_button_tag(:skillTag, 1)%>&nbsp;&nbsp;&nbsp;&nbsp;
+  PassiveSkill&nbsp;&nbsp;<%= radio_button_tag(:skillTag, 2)%>&nbsp;&nbsp;&nbsp;&nbsp;
+  LeaderSkill&nbsp;&nbsp;<%= radio_button_tag(:skillTag, 3)%>&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p>
+	<h4>选择技能:</h4>
+  <span id="normal"><%= select_tag :skillType0,options_for_select(AllSkillConfig::NORMAL_SKILL)%></span>
+  <span id="active" style="display:none;"><%= select_tag :skillType1,options_for_select(AllSkillConfig::ACTIVE_SKILL)%></span>
+  <span id="passive" style="display:none;"><%= select_tag :skillType2,options_for_select(AllSkillConfig::PASSIVE_SKILL)%></span>
+  <span id="leader" style="display:none;"><%= select_tag :skillType3,options_for_select(AllSkillConfig::LEADER_SKILL)%></span>
 </p>
 
 <div class="actions">
@@ -31,6 +41,37 @@
 <%= render "layouts/skilltables/extraattack"%>
 <%= render "layouts/skilltables/multipleattack"%>
 <% end %>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(){
+  $('input[type=radio][name=skillTag]').change(function() {
+       if (this.value == 0) {
+         $("#normal").css("display","block");
+         $("#active").css("display","none")
+         $("#passive").css("display","none");
+         $("#leader").css("display","none")
+       }
+       else if (this.value == 1) {
+         $("#normal").css("display","none");
+         $("#active").css("display","block")
+         $("#passive").css("display","none");
+         $("#leader").css("display","none")
+       }
+       else if (this.value == 2) {
+         $("#normal").css("display","none");
+         $("#active").css("display","none")
+         $("#passive").css("display","block");
+         $("#leader").css("display","none")
+       }
+       else if (this.value == 3) {
+         $("#normal").css("display","none");
+         $("#active").css("display","none")
+         $("#passive").css("display","none");
+         $("#leader").css("display","block")
+       }
+   });
+});
+</script>
 
 
 

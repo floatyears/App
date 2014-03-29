@@ -2,19 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-//public class UserUnitParty {
-//	public static Dictionary<int,UnitParty> userUnitPartyInfo = new Dictionary<int, UnitParty> ();
-//
-//}
-//
-//public class AddBlood {
-//
-//
-//	public List<AttackInfo> CaculateAttack (List<uint> card,List<int> ignorSkillID) {
-//		return null;
-//	}
-//}
-
 public class TUserUnit : ProtobufDataBase {
     private UserUnit instance;
 
@@ -128,16 +115,14 @@ public class TUserUnit : ProtobufDataBase {
     }
 
     void InitSkill() {
-//		UserUnit uu 				= DeserializeData<UserUnit> ();
-//		TUnitInfo tui 			= DataCenter.Instance.UnitInfo[instance.unitId];
-		UnitInfo ui = DataCenter.Instance.GetUnitInfo (instance.unitId).Object;//UnitInfo[instance.unitId].Object;
+		UnitInfo ui = DataCenter.Instance.GetUnitInfo (instance.unitId).Object;
         TNormalSkill firstSkill = null;
         TNormalSkill secondSkill = null;
-        if (ui.skill1 > -1) {
-            firstSkill = DataCenter.Instance.Skill[ui.skill1] as TNormalSkill;	
+        if (ui.skill1 > 0) {
+			firstSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill1,SkillType.NormalSkill) as TNormalSkill; //Skill[ui.skill1] as TNormalSkill;	
         }
-        if (ui.skill2 > -1) {
-            secondSkill = DataCenter.Instance.Skill[ui.skill2] as TNormalSkill;	
+        if (ui.skill2 > 0) {
+			secondSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill1,SkillType.NormalSkill) as TNormalSkill; //.Skill[ui.skill2] as TNormalSkill;	
         }
         AddSkill(firstSkill, secondSkill);
     }
@@ -148,11 +133,13 @@ public class TUserUnit : ProtobufDataBase {
         if (normalSkill[0] == null) {
             InitSkill();	
         }
-		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (instance.unitId); //UnitInfo[instance.unitId];
-
+		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (instance.unitId);
 		UnitInfo ui = tui.Object;
         for (int i = 0; i < normalSkill.Length; i++) {
             TNormalSkill tns = normalSkill[i];
+			if(tns == null) {
+				continue;
+			}
             tns.DisposeUseSkillID(ignorSkillID);
             int count = tns.CalculateCard(copyCard);
             for (int j = 0; j < count; j++) {
@@ -289,11 +276,10 @@ public class TUserUnit : ProtobufDataBase {
 
     public int InitBlood {
         get {
-            //		UserUnit uu = DeserializeData<UserUnit>();
             UnitInfo ui = UnitInfo.Object;
             int blood = 0;
+//			Debug.LogError(MakeUserUnitKey() + " instance.addHp : " + instance.addHp + " GetValue (uu, ui) : " +DGTools.GetValue (instance, ui.powerType.hpType));
             blood += DGTools.CaculateAddBlood(instance.addHp, instance, ui);
-            //		blood += DataCenter.Instance.GetUnitValue (ui.powerType.hpType, uu.level); //ui.power [uu.level].hp;
             float temp = blood * hpMultiple;
             return System.Convert.ToInt32(blood);
         }
