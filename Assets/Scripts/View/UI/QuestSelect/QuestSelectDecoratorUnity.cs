@@ -201,8 +201,8 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	int maxEnemyShowCount = 5;
 	void ShowEnemiesAvatar(List<uint> enemyIdList){
 		List<TUnitInfo> enemyInfoList = new List<TUnitInfo>();
-		for (int i = 0; i < maxEnemyShowCount; i++){
-//			Debug.LogError(i);
+		for (int i = 0; i < enemyIdList.Count; i++){
+			if(i >= maxEnemyShowCount) break;
 			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(enemyIdList[ i ]);
 			if(tui == null)
 				return;
