@@ -202,7 +202,7 @@ public class EnemyItem : UIBaseUnity {
             return;		
         }
         AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_die);
-        //DestoryUI ();
+        DestoryUI ();
         texture.enabled = false;
         nextLabel.text = "";
 //		DropItem ();
