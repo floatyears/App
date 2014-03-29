@@ -163,7 +163,7 @@ public class MapItem : UIBaseUnity {
 			}
 		}
 
-		HideShowSprite ();
+		HideShowSprite (false);
 	}
 
 	GameObject floorObject = null;
