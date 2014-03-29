@@ -121,7 +121,7 @@ public class BattleBackground : UIBaseUnity {
 		string info = "HP:" + num + "/" + initBlood;
 		label.text = info;
 		float value = DGTools.IntegerSubtriction(num,initBlood);
-		if (bloodBar.value < value) {
+		if (bloodBar.value <= value) {
 			spriteAnimation.Reset();
 		}
 		bloodBar.value = value;

@@ -73,7 +73,6 @@ public class BattleEnemy : UIBaseUnity {
 			if(width < temp[i].texture.width) {
 				width = temp[i].texture.width;
 			}
-//			LogHelper.LogError("width:{0}, texture[{1}].width:{2} x H:{3}", width, i, temp[i].texture.width, temp[i].texture.height);
 		}
 		SortEnemyItem (temp);
 	}
@@ -129,9 +128,7 @@ public class BattleEnemy : UIBaseUnity {
 	void CompressTextureWidth (List<EnemyItem> temp) {
 		int screenWidth = Screen.width;
 		int count = temp.Count;
-
 		float allWidth =  count * width + (count - 1) * interv ;
-//		LogHelper.LogError("screenWidth:{0}, allWidth:{1} width:{2}", screenWidth, allWidth, width);
 		float probability = screenWidth / allWidth;
 		if (probability <= 1f) { //screewidth <= allWidth
 			interv = 0;
@@ -156,7 +153,6 @@ public class BattleEnemy : UIBaseUnity {
 		while(tempIndex >= 0) {
 			Vector3 localPosition = temp[tempIndex + 1].transform.localPosition;
 			float rightWidth = width ;
-//			LogHelper.LogError("DisposeCenterLeft :: index=[{0}] localPosition.x:{1} -  width: {2} ", tempIndex, localPosition.x, width );
 			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - rightWidth , 0f, 0f);
 			tempIndex--;
 		}
@@ -167,8 +163,6 @@ public class BattleEnemy : UIBaseUnity {
 		while(tempIndex < temp.Count) {
 			Vector3 localPosition = temp[tempIndex - 1].transform.localPosition;
 			float rightWidth = width ;
-//			LogHelper.LogError("DisposeCenterRight :: index=[{0}] localPosition.x:{1} +  width: {2} ", tempIndex, localPosition.x, width );
-
 			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + rightWidth, 0f, 0f);
 			tempIndex++;
 		}

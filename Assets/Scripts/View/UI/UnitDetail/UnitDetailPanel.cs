@@ -4,7 +4,6 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
-
 	GameObject unitInfoTabs;
 	UILabel noLabel;
 	UILabel hpLabel;
@@ -198,11 +197,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	//----------deal with effect----------
 	void ClearEffectCache(){
-//		foreach (var item in effectCache){
-//			Destroy( item );
-//			effectCache.Remove(item);
-//		}
-
 		for (int i = effectCache.Count - 1; i >= 0 ; i--) {
 			GameObject go = effectCache[i];
 			Destroy( go );
@@ -222,7 +216,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void ShowUnitScale(){
-
+		Debug.LogWarning ("ShowUnitScale : " + Time.realtimeSinceStartup);
 		TweenScale unitScale = gameObject.GetComponentInChildren< TweenScale >();
 		TweenAlpha unitAlpha = gameObject.GetComponentInChildren< TweenAlpha >();
 
@@ -370,12 +364,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//------------------levelup-----------------------------------------
 	RspLevelUp levelUpData;
 	void PlayLevelUp(RspLevelUp rlu) {
-		unitBodyTex.mainTexture = null;
+		Debug.LogWarning ("PlayLevelUp : " + Time.realtimeSinceStartup);
 		levelUpData = rlu;
-
-//		TUserUnit blendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-//		gotExp = levelUpData.blendExp;
 		unitInfoTabs.SetActive (false);
+		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
+		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+		unitBodyTex.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}
 
@@ -383,15 +377,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	TUserUnit newBlendUnit = null;
 
 	void CreatEffect() {
-		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
-		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
-//		GameObject ProfileTexture = go.transform.Find ("ProfileTexture").gameObject;
-////        LogHelper.Log("CreatEffect() levelUpData {0} uniqueId {1}", levelUpData, levelUpData.blendUniqueId);
-//		ProfileTexture.renderer.material.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
 		effectCache.Add (go);
-	
 		if (effectCache.Count > 2) {
 			CancelInvoke("CreatEffect");
 			unitInfoTabs.SetActive (true);
@@ -399,11 +386,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			curLevel = oldBlendUnit.Level;
 			gotExp = levelUpData.blendExp;
 			curExp = oldBlendUnit.CurExp;
-
 			Debug.LogError("CreatEffect :: gotExp : " + gotExp);
 			Debug.LogError("CreatEffect :: level : " + newBlendUnit.Level);
 			Debug.LogError("CreatEffect :: CurExp : " + curExp);
-
 			Calculate();
 		}
 	}
@@ -422,7 +407,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void ShowLevelInfo (TUserUnit userUnit) {
-		ShowUnitScale();
+
+//		ShowUnitScale();
 		ShowStatusContent( userUnit );
 		ShowSkill1Content( userUnit );
 		ShowSkill2Content( userUnit );

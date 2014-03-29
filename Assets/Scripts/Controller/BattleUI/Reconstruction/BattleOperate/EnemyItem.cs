@@ -6,9 +6,8 @@ public class EnemyItem : UIBaseUnity {
     [HideInInspector]
     public TEnemyInfo enemyInfo;
     [HideInInspector]
-    public UITexture
-        texture;
-    private UITexture dropTexture;
+    public UITexture texture;
+    private UISprite dropTexture;
 
     private UILabel bloodLabel;
     private UISprite bloodSprite;
@@ -122,7 +121,7 @@ public class EnemyItem : UIBaseUnity {
 	
     public void Init(TEnemyInfo te) {
         texture = FindChild<UITexture>("Texture");
-        dropTexture = FindChild<UITexture>("Drop");
+        dropTexture = FindChild<UISprite>("Drop");
         dropTexture.enabled = false;
         localPosition = texture.transform.localPosition;
         attackPosition = new Vector3(localPosition.x, BattleBackground.ActorPosition.y, localPosition.z);
@@ -151,7 +150,6 @@ public class EnemyItem : UIBaseUnity {
 			return;
 		}
         base.DestoryUI();
-//		Debug.LogError ("DestoryUI : " + enemyInfo.EnemySymbol);
 		if (gameObject != null) {
 			Destroy(gameObject);
 		}
@@ -160,10 +158,35 @@ public class EnemyItem : UIBaseUnity {
     public void DropItem(object data) {
         int pos = (int)data;
         if (pos == enemyInfo.EnemySymbol && !texture.enabled) {
-            dropTexture.enabled = true;
+			if(enemyInfo.drop == null) {
+				return;
+			}
+
+			TUnitInfo tui = enemyInfo.drop.UnitInfo;
+			dropTexture.enabled = true;
+			switch (tui.Rare) {
+			case 1:
+				dropTexture.spriteName = "a";
+				break;
+			case 2:
+				dropTexture.spriteName = "b";
+				break;
+			case 3:
+				dropTexture.spriteName = "c";
+				break;
+			case 4:
+				dropTexture.spriteName = "d";
+				break;
+			case 5:
+				dropTexture.spriteName = "e";
+				break;
+			case 6:
+				dropTexture.spriteName = "f";
+				break;
+			}
+
             iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
             GameTimer.GetInstance().AddCountDown(0.5f, DorpEnd);
-
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_chess);
         }
 
