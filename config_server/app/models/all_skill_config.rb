@@ -530,8 +530,7 @@ class AllSkillConfig
   end
   
   def self.params_to_f(s)
-    (s == "") ? nil : s.to_f.round(6)
-    p s.to_f.round(6)
+    (s == "") ? nil : s.to_f.round(3)
   end
   
   def self.params_to_bool(s)

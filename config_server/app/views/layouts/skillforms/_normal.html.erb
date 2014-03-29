@@ -12,7 +12,7 @@
 </p>
 
 <p>
-	attackValue:<%= text_field_tag :attackValue,@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:attackValue) %>
+	attackValue:<%= text_field_tag :attackValue,@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:attackValue).to_f.round(3)  %>
 </p>
 
 <p>
