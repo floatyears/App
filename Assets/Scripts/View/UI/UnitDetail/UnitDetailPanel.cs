@@ -387,9 +387,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
-		GameObject ProfileTexture = go.transform.Find ("ProfileTexture").gameObject;
-//        LogHelper.Log("CreatEffect() levelUpData {0} uniqueId {1}", levelUpData, levelUpData.blendUniqueId);
-		ProfileTexture.renderer.material.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
+//		GameObject ProfileTexture = go.transform.Find ("ProfileTexture").gameObject;
+////        LogHelper.Log("CreatEffect() levelUpData {0} uniqueId {1}", levelUpData, levelUpData.blendUniqueId);
+//		ProfileTexture.renderer.material.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
 		effectCache.Add (go);
 	
 		if (effectCache.Count > 2) {
