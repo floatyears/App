@@ -357,6 +357,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 //        }
 
 		foreach (var item in UserUnit.Values) {
+			if(item != null)
 			bloodNum += item.InitBlood;
 		}
         return bloodNum;

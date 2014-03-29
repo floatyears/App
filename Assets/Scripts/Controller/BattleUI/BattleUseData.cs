@@ -198,6 +198,9 @@ public class BattleUseData {
     }
 
     public void InitBoss(List<TEnemyInfo> boss) {
+		foreach (var item in boss) {
+			Debug.LogError("boss : " + item.UnitID);
+				}
         ac.enemyInfo = boss;
     }
 
