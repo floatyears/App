@@ -58,6 +58,8 @@ public enum SceneEnum
 
 	SelectRole,
 
+	Result
+
 }
 
 public enum CommandEnum{
@@ -222,6 +224,8 @@ public enum CommandEnum{
 	EvolveSelectQuest 				= 4062,
 
 	RefreshItemCount				= 4063,
+
+	ShowFriendPointUpdateResult					= 4064,
 
     WaitResponse,
     SetBlocker,

@@ -91,8 +91,8 @@ public class UIManager {
 
 	public void ExitBattle () {
 		baseScene.ShowBase ();
-//		current.ShowScene();
-		ChangeScene (SceneEnum.Quest);
+		current.ShowScene();
+		
 		MsgCenter.Instance.Invoke (CommandEnum.LeftBattle, null);
 	}
 
@@ -240,6 +240,10 @@ public class UIManager {
 
 		case SceneEnum.SelectRole:
 			temp = new SelectRoleDecorator( sEnum );
+			break;
+
+		case SceneEnum.Result:
+			temp = new ResultDecorator( sEnum );
 			break;
 
         }

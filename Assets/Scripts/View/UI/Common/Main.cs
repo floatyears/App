@@ -71,21 +71,13 @@ public class Main : MonoBehaviour {
         // init manager class
         ViewManager.Instance.Init(uiRoot);
         ModelManager.Instance.Init();
-//        TempConfig.InitStoryQuests();
-//        TempConfig.InitEventQuests();
-//        TempConfig.InitPlayerUnits();
-//        TempConfig.InitUnitAvatarSprite();
     }
 
-	int count = 0;
     /// <summary>
     /// start game
     /// </summary>
     void OnEnable() {
-		count++;
-		Debug.LogError("main befoure : " + count);
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
-		Debug.LogError("main end : " + count);
         EffectManager em = EffectManager.Instance;
         UIManager.Instance.ChangeScene(SceneEnum.Loading);
     }
