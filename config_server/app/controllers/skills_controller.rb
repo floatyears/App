@@ -24,7 +24,9 @@ class SkillsController < ApplicationController
   end
   
   def type
-    redirect_to new_skill_path(skillType: params[:skillType])
+    skill_type = "skillType" + params[:skillTag]
+    #render json: params[skill_type]
+    redirect_to new_skill_path(skillType: params[skill_type])
   end
   
   def edit
