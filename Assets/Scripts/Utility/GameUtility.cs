@@ -176,19 +176,19 @@ public class DGTools {
 	}
 
 	public static int CaculateAddBlood (int addHP,UserUnit uu, UnitInfo ui) {
-		return addHP * 10 + GetValue (uu, ui);
+		return addHP * 10 + GetValue (uu, ui.powerType.hpType);
 	}
 
 	public static int CaculateAddAttack (int addAttack, UserUnit uu, UnitInfo ui) {
-		return addAttack * 5 + GetValue (uu, ui);
+		return addAttack * 5 + GetValue (uu, ui.powerType.attackType);
 	}
 
-	public static int CaculateAddDefense (int add, UserUnit uu, UnitInfo ui) {
-		return add * 10 + GetValue (uu, ui);
-	}
+//	public static int CaculateAddDefense (int add, UserUnit uu, UnitInfo ui) {
+////		return add * 10 + GetValue (uu, ui.powerType.);
+//	}
 
-	static int GetValue (UserUnit uu, UnitInfo ui) {
-		return DataCenter.Instance.GetUnitValue(ui.powerType.attackType,uu.level);
+	public static int GetValue (UserUnit uu, int type) {
+		return DataCenter.Instance.GetUnitValue(type,uu.level);
 	}
 
 	public static string GetNormalSkillSpriteName (AttackInfo ai) {

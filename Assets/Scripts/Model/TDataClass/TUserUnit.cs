@@ -118,10 +118,10 @@ public class TUserUnit : ProtobufDataBase {
 		UnitInfo ui = DataCenter.Instance.GetUnitInfo (instance.unitId).Object;
         TNormalSkill firstSkill = null;
         TNormalSkill secondSkill = null;
-        if (ui.skill1 > -1) {
+        if (ui.skill1 > 0) {
 			firstSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill1,SkillType.NormalSkill) as TNormalSkill; //Skill[ui.skill1] as TNormalSkill;	
         }
-        if (ui.skill2 > -1) {
+        if (ui.skill2 > 0) {
 			secondSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill1,SkillType.NormalSkill) as TNormalSkill; //.Skill[ui.skill2] as TNormalSkill;	
         }
         AddSkill(firstSkill, secondSkill);
@@ -137,6 +137,9 @@ public class TUserUnit : ProtobufDataBase {
 		UnitInfo ui = tui.Object;
         for (int i = 0; i < normalSkill.Length; i++) {
             TNormalSkill tns = normalSkill[i];
+			if(tns == null) {
+				continue;
+			}
             tns.DisposeUseSkillID(ignorSkillID);
             int count = tns.CalculateCard(copyCard);
             for (int j = 0; j < count; j++) {
@@ -273,11 +276,10 @@ public class TUserUnit : ProtobufDataBase {
 
     public int InitBlood {
         get {
-            //		UserUnit uu = DeserializeData<UserUnit>();
             UnitInfo ui = UnitInfo.Object;
             int blood = 0;
+			Debug.LogError(MakeUserUnitKey() + " instance.addHp : " + instance.addHp + " GetValue (uu, ui) : " +DGTools.GetValue (instance, ui.powerType.hpType));
             blood += DGTools.CaculateAddBlood(instance.addHp, instance, ui);
-            //		blood += DataCenter.Instance.GetUnitValue (ui.powerType.hpType, uu.level); //ui.power [uu.level].hp;
             float temp = blood * hpMultiple;
             return System.Convert.ToInt32(blood);
         }

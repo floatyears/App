@@ -43,23 +43,12 @@ public class ConfigUnitBaseInfo {
         DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoAttackType1, tbi); 
     }
 
-//	void GenerateUnitBaseDefense () {
-//		PowerTable pt = new PowerTable();
-//		for (int i = 1; i < 100; i++) {
-//			PowerValue pv = new PowerValue();
-//			pv.level = i;
-//			pv.value = i * 5;
-//			pt.power.Add(pv);
-//		}
-//		DataCenter.Instance.UnitValue .Add(3,new PowerTableInfo(pt)) ;
-//	}
-
     void GenerateUnitBaseHP() {
         PowerTable pt = new PowerTable();
         for (int i = 1; i < 100; i++) {
             PowerValue pv = new PowerValue();
             pv.level = i;
-            pv.value = i * 3000;
+            pv.value = i * 10;
             pt.power.Add(pv);
         }
         TPowerTableInfo tbi = new TPowerTableInfo(pt);
