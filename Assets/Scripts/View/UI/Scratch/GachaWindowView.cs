@@ -8,6 +8,9 @@ public class GachaWindowView : UIComponentUnity {
     private UILabel titleLabel;
     private bool displayingResult = false; // when 
     private int tryCount = 0;
+    private uint currentUid = 0;
+    private GameObject currentGrid = null;
+    private bool showing = false;
     private GachaWindowInfo gachaInfo;
     private List<int> pickedGridIdList = new List<int>();
 
@@ -76,6 +79,12 @@ public class GachaWindowView : UIComponentUnity {
             UIEventListener.Get( button.gameObject ).onClick = ClickButton;
         }
     }
+
+    private Texture2D GetChessStarTextureByRareLevel(int rare){
+        string path = string.Format("Texture/ChessStar{0}", rare);
+        Texture2D texture = Resources.Load (path) as Texture2D;
+        return texture;
+    }
     
     private void SetMenuBtnEnable(bool enable){
         MsgCenter.Instance.Invoke(CommandEnum.EnableMenuBtns, enable);
@@ -122,22 +131,28 @@ public class GachaWindowView : UIComponentUnity {
 
     
     private void ClickButton(GameObject btn){
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+        // when showing, not response click
+        if (showing) {
+            return;
+        }
         int index = gridDict[btn];
         if (pickedGridIdList.Contains(index)){
             return;
         }
+        AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         LogHelper.Log("ClickButton() {0}", index);
         if (tryCount >= gachaInfo.totalChances){
             return;
         }
-        ShowUnitByUserUnitID(btn, gachaInfo.unitList[tryCount]);
+        StartShowGachaGridResult(btn, gachaInfo.unitList[tryCount]);
 
     }
 
     private void Reset(){
         displayingResult = false;
         tryCount = 0;
+        currentUid = 0;
+        currentGrid = null;
         pickedGridIdList.Clear();
 
         foreach (var item in gridDict) {
@@ -152,6 +167,20 @@ public class GachaWindowView : UIComponentUnity {
         background.spriteName = "playerInfoMsg";
     }
 
+    private void StartShowGachaGridResult(GameObject btn, uint uniqueId){
+        LogHelper.Log("StartShowGachaGridResult()");
+        showing = true;
+        currentUid = uniqueId;
+        currentGrid = btn;
+//        ShowUnitByUserUnitID(btn, uniqueId);
+        StartCoroutine(ShowUnitRareById());
+    }
+
+    private void EndShowGachaGridResult(){
+        LogHelper.Log("EndShowGachaGridResult()");
+        showing = false;
+    }
+
     private void ShowUnitByUserUnitID(GameObject btn, uint uniqueId){
 //        LogHelper.Log("showUnitByUserUnit(), uniqueId {0}", uniqueId);
         TUserUnit userUnit = DataCenter.Instance.MyUnitList.GetMyUnit(uniqueId);
@@ -163,6 +192,19 @@ public class GachaWindowView : UIComponentUnity {
 //        LogHelper.Log("showUnitByUnitId(), unitId {0}", unitId);
         ShowUnitById(btn, unitId, null);
         DealAfterShowUnit(gridDict[btn]);
+    }
+
+    IEnumerator ShowUnitRareById(){
+        LogHelper.Log("ShowUnitRareById(),");
+        yield return new WaitForSeconds(1.0f);
+        TUnitInfo currentUnitInfo = DataCenter.Instance.GetUnitInfo(currentUid);
+
+        UITexture texture = currentGrid.transform.FindChild("Cell/Texture").GetComponent<UITexture>();
+        texture.mainTexture = GetChessStarTextureByRareLevel(currentUnitInfo.Rare);
+        yield return new WaitForSeconds(1.0f);
+        ShowUnitByUserUnitID(currentGrid, currentUid);
+        EndShowGachaGridResult();
+        yield return null;
     }
 
     private void ShowUnitById(GameObject grid, uint unitId, TUserUnit userUnit){

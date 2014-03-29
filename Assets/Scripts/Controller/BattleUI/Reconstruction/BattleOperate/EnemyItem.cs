@@ -171,6 +171,7 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void EnemyDead(object data) {
+        LogHelper.Log("EnemyDead(), data {0}", data);
         TEnemyInfo te = data as TEnemyInfo;
         if (te == null || te.EnemySymbol != enemyInfo.EnemySymbol) {
             return;		
@@ -205,10 +206,11 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void RefreshData() {
+        LogHelper.Log("RefreshData()");
         enemyInfo = tempQue.Dequeue();
         float value = (float)enemyInfo.GetBlood() / enemyInfo.GetInitBlood();
         SetBlood(value);
-        SetNextLabel(enemyInfo.GetRound());
+        SetNextLabel(enemyInfo);
     }
 
     void EnemyAttack(object data) {
@@ -228,7 +230,7 @@ public class EnemyItem : UIBaseUnity {
 
     void SetData(TEnemyInfo seu) {
         SetBloodLabel(seu.GetBlood());
-        SetNextLabel(seu.GetRound());
+        SetNextLabel(seu);
     }
 
     void SetBlood(float value) {
@@ -250,8 +252,16 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void SetNextLabel(int seu) {
+        LogHelper.Log("SetNextLabel() value {0}", seu);
         nextLabel.text = "Next : " + seu;
     }
 
-
+    void SetNextLabel(TEnemyInfo enemyInfo){
+        if (enemyInfo.GetBlood() == 0){
+            nextLabel.text = string.Empty;
+        }
+        else {
+            nextLabel.text = string.Format("Next : {0}", enemyInfo.GetRound());
+        }
+    }
 }
