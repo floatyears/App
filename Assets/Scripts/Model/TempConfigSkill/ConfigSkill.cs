@@ -523,7 +523,7 @@ public class ConfigSkill  {
 		TSkillSingleAttack tssa = new TSkillSingleAttack (ssa);
 		DataCenter.Instance.Skill.Add (ssa.baseInfo.id, tssa);
 
-		SkillSingleAtkRecoverHP ssarh = new SkillSingleAtkRecoverHP ();
+		SkillAttackRecoverHP ssarh = new SkillAttackRecoverHP ();
 		ssarh.baseInfo = new SkillBase ();
 		ssarh.baseInfo.id = 33;
 		ssarh.baseInfo.name = "no 33 SkillSingleAtkRecoverHP";
@@ -532,7 +532,7 @@ public class ConfigSkill  {
 		ssarh.type = EValueType.MULTIPLE;
 		ssarh.value = 5f;
 		ssarh.unitType = EUnitType.UFIRE;
-		TSkillSingleAtkRecoverHP arh = new TSkillSingleAtkRecoverHP (ssarh);
+		TSkillAttackRecoverHP arh = new TSkillAttackRecoverHP (ssarh);
 		DataCenter.Instance.Skill.Add (ssarh.baseInfo.id, arh);
 
 		SkillSuicideAttack sSucideAttack = new SkillSuicideAttack ();
