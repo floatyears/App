@@ -303,6 +303,53 @@ public class DGTools {
 		return AllMultiple (TypeMultiple (baseUnit, friend), RaceMultiple (baseUnit, friend));
 	}
 
+	//===========load skill=======================================================
+	private const string skillPath = "Skill/";
+	private static SkillJsonConfig skillJsonData;
+	public static SkillBaseInfo LoadSkill (int id, SkillType type) {
+		string reallyPath = path + skillPath;
+		if (skillJsonData == null) {
+			TextAsset json = LoadTextAsset(reallyPath + "skills");
+			Debug.LogError("json file : " + json);
+			skillJsonData = new SkillJsonConfig(json.text);
+		}
+
+		string className = skillJsonData.GetClassName (id);
+
+		TextAsset ta = LoadTextAsset(reallyPath + id);
+		if (ta == null) {
+			Debug.LogError("skill path : " + reallyPath + " not exist paorobuf file" + " id : " + id);
+			return null;
+		}
+
+		return DisposeByte(ta.bytes, className, type);
+	}
+
+	static SkillBaseInfo DisposeByte(byte[] data, string typeName,SkillType type) {
+		switch (typeName) {
+		case "NormalSkill" :
+			NormalSkill ns = ProtobufDataBase.DeserializeData<NormalSkill>(data);
+			return new TNormalSkill(ns);
+		case "SkillSingleAttack":
+			SkillSingleAttack ssa = ProtobufDataBase.DeserializeData<SkillSingleAttack>(data);
+			if(ssa.type == EValueType.PERCENT) {
+				return new KnockdownAttack(ssa);
+			}
+			else{
+				return new TSkillSingleAttack(ssa);
+			}
+		case "SkillBoost" : 
+			SkillBoost sb = ProtobufDataBase.DeserializeData<SkillBoost>(data);
+			return new TSkillBoost(sb);
+		case "SkillRecoverSP" : 
+			SkillRecoverSP srh = ProtobufDataBase.DeserializeData<SkillRecoverSP>(data);
+			return new TSkillRecoverSP(srh);
+		default:
+			return null;
+		}
+	}
+
+	//============load unitinfo====================================================
 	private const string path = "Protobuf/";
 	private const string unitInfoPath = "Unit/";
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
@@ -312,6 +359,8 @@ public class DGTools {
 		TUnitInfo tui = new TUnitInfo (ui);
 		return tui;
 	}
+
+	//============load questinfo====================================================
 	private const string CityPath = "City/";
 	public static TCityInfo LoadCityInfo (uint cityID) {
 		string url = path + CityPath + cityID;
