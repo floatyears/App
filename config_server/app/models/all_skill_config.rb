@@ -599,6 +599,6 @@ class AllSkillConfig
           end
       end
     end
-    File.open(Rails.root.join("public/skills/skills.json"), "w") { | file|  file.write(skills_json.as_json) } 
+    File.open(Rails.root.join("public/skills/skills.json"), "w") { | file|  file.write(skills_json.to_json) } 
   end
 end
