@@ -522,7 +522,7 @@ class AllSkillConfig
     active_blocks << p3.to_i if p3 != "请选择"
     active_blocks << p4.to_i if p4 != "请选择"
     active_blocks << p5.to_i if p5 != "请选择"
-    active_blocks.uniq
+    active_blocks
   end
   
   def self.params_to_i(s)
