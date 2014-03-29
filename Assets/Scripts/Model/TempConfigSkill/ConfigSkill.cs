@@ -303,7 +303,7 @@ public class ConfigSkill  {
 			TNormalSkill tns = new TNormalSkill(ns);
 			DataCenter.Instance.Skill.Add(ns.baseInfo.id,tns);
 
-			Debug.LogWarning("ConfigHeartSkill : " + ns.baseInfo.id );
+//			Debug.LogWarning("ConfigHeartSkill : " + ns.baseInfo.id );
 		}
 	}
 	

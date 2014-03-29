@@ -97,16 +97,18 @@ public class MapItem : UIBaseUnity {
 			case bbproto.EQuestGridType.Q_EXCLAMATION:
 				break;
 			case bbproto.EQuestGridType.Q_ENEMY:
-				uint unitID = gridItem.Enemy [0].UnitID;
-				TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
-				if (tui != null) {
-					UITexture tex = mapBack.AddComponent<UITexture>();
-					tex.depth = -1;
-					Destroy(mapBackSprite);
-					tex.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
-					tex.width = 110;
-					tex.height = 110;
-				}
+				if(gridItem.Enemy.Count > 0) {
+					uint unitID = gridItem.Enemy [0].UnitID;
+					TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
+					if (tui != null) {
+						UITexture tex = mapBack.AddComponent<UITexture>();
+						tex.depth = -1;
+						Destroy(mapBackSprite);
+						tex.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
+						tex.width = 110;
+						tex.height = 110;
+					}
+				} 
 				break;
 			case bbproto.EQuestGridType.Q_TRAP:
 				backSpriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
