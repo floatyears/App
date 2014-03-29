@@ -310,7 +310,7 @@ public class DGTools {
 		string reallyPath = path + skillPath;
 		if (skillJsonData == null) {
 			TextAsset json = LoadTextAsset(reallyPath + "skills");
-			Debug.LogError("json file : " + json);
+//			Debug.LogError("json file : " + json);
 			skillJsonData = new SkillJsonConfig(json.text);
 		}
 
@@ -355,7 +355,10 @@ public class DGTools {
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
 		string url = path +unitInfoPath + unitID;
 		TextAsset ta = LoadTextAsset (url);
-        LogHelper.Log("LoadUnitInfoProtobuf() {0}", ta);
+		if (ta == null) {
+			Debug.LogError( "load unit info fail : " + " url : " + url + "unit id : " + unitID);	
+			return null;
+		}
 		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
 		TUnitInfo tui = new TUnitInfo (ui);
 		return tui;

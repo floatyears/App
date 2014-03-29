@@ -69,7 +69,7 @@ public class BattleCardArea : UIBaseUnity {
 			tempObject = NGUITools.AddChild(gameObject,backTexture.gameObject);
 			tempObject.SetActive(true);
 			tempObject.layer = GameLayer.BattleCard;
-			tempObject.transform.localPosition = new Vector3(position[i].x + 5f, position[i].y + 3f + height, position[i].z) ;
+			tempObject.transform.localPosition = new Vector3(position[i].x + 3f, position[i].y + 3f + height, position[i].z) ;
 			BattleCardAreaItem bca = tempObject.AddComponent<BattleCardAreaItem>();
 			bca.Init(tempObject.name);
 			bca.AreaItemID = i;

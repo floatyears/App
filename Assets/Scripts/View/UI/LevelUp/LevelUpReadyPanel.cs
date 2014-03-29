@@ -95,6 +95,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
         ClearTexture(false);
         ClearData(false);
         curFocusTab = Tabs[0];
+        baseUnitInfo.userUnitItem = DataCenter.Instance.MyUnitList.GetMyUnit(baseUnitInfo.userUnitItem.ID);
+        UpdateBaseInfoView(baseUnitInfo);
     }
 	
 	void UpdateBaseInfoView( UnitItemInfo itemInfo){
@@ -115,6 +117,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			int atk =  DataCenter.Instance.GetUnitValue(tu.AttackType, tuu.Level);
 			atkLabel.text = atk.ToString();			
 			expNeedLabel.text = tuu.NextExp.ToString();
+            LogHelper.Log("UpdateBaseInfoView(), exp {0}", tuu.NextExp);
             coin = LevelUpTotalMoney();
 			for (int i = 0; i < unitItemInfo.Length; i++) {
 				if(unitItemInfo[i] != null) {

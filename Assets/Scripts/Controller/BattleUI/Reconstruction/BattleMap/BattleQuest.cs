@@ -69,6 +69,7 @@ public class BattleQuest : UIBase {
 		topUI.Init ("TopUI");
 ////		RefreshTopUI ();
 		topUI.RefreshTopUI (questDungeonData, questData);
+		AddSelfObject (topUI);
 	}
 
 

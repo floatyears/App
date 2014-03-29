@@ -25,7 +25,7 @@
       </td>
       <td><%=normal_skill[:attackType] %></td>
       <td><%=normal_skill[:activeBlocks] %></td>
-      <td><%=normal_skill[:attackValue] %></td>
+      <td><%=normal_skill[:attackValue].to_f.round(3) %></td>
       <td><%=normal_skill[:attackUnitType] %></td>
       <td><%=link_to "修改",edit_skill_path(skillType: "Normal",id: index,method: "PATCH") %></td>
     </tr>

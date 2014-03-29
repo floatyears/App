@@ -170,7 +170,6 @@ public class TQuestGrid : ProtobufDataBase {
 	public QuestGrid Object { get {return instance;} }
 
 	private TDropUnit	drop;
-
 	public TDropUnit	Drop { 
 		get { return this.drop; } 
 		set { this.drop = value; } 

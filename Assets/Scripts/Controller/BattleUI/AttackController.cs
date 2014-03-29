@@ -12,7 +12,13 @@ public class AttackController {
 	private TQuestGrid grid;
 	public TQuestGrid Grid {
 		get{return grid;}
-		set{grid = value; enemyInfo = value.Enemy;}
+		set{
+			grid = value;
+			enemyInfo = value.Enemy;
+			foreach (var item in enemyInfo) {
+				item.drop = grid.Drop;
+			}
+		}
 	}
 	IExcutePassiveSkill passiveSkill;
 
@@ -119,7 +125,6 @@ public class AttackController {
 	}
 
 	public void StartAttack (List<AttackInfo> attack, TUnitParty upi) {
-//		Debug.LogError ("leaderSkilllExtarAttack : " + leaderSkilllExtarAttack + " leaderSkilllExtarAttack.ExtraAttack () : " +leaderSkilllExtarAttack.ExtraAttack ());
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		attackInfo = attack;
 		this.upi = upi;
@@ -177,9 +182,7 @@ public class AttackController {
 		countDownTime = GetIntervTime ();
 		enemyIndex = 0;
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [2]);
-
 		GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
-
 	}
 	
 	void MultipleAttack () {
@@ -192,6 +195,8 @@ public class AttackController {
 	}
 
 	void AttackEnemy () {
+	
+
 		if (attackInfo.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.Blood, 1);	//1: every round.
 			bud.RecoverHP(blood);
@@ -217,7 +222,6 @@ public class AttackController {
 			DisposeAttackSingle(ai);
 			break;
 		case 1:
-//			DisposeAttackSingle(ai);
 			DisposeAttackAll(ai);
 			break;
 		case 2:
@@ -244,6 +248,8 @@ public class AttackController {
 		for (int i = 0; i < deadEnemy.Count; i++) {
 			deadEnemy[i].IsDead = true;
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, deadEnemy[i]);
+			Debug.LogError("grid : " + grid);
+			if(grid != null)
 			MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 		}
 		deadEnemy.Clear ();

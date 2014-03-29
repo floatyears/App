@@ -6,9 +6,8 @@ public class EnemyItem : UIBaseUnity {
     [HideInInspector]
     public TEnemyInfo enemyInfo;
     [HideInInspector]
-    public UITexture
-        texture;
-    private UITexture dropTexture;
+    public UITexture texture;
+    private UISprite dropTexture;
 
     private UILabel bloodLabel;
     private UISprite bloodSprite;
@@ -122,13 +121,7 @@ public class EnemyItem : UIBaseUnity {
 	
     public void Init(TEnemyInfo te) {
         texture = FindChild<UITexture>("Texture");
-		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
-		Texture2D tex = tui.GetAsset(UnitAssetType.Profile);
-		texture.mainTexture = tex;
-		texture.width = tex.width;
-		texture.height = tex.height;
-
-        dropTexture = FindChild<UITexture>("Drop");
+        dropTexture = FindChild<UISprite>("Drop");
         dropTexture.enabled = false;
         localPosition = texture.transform.localPosition;
         attackPosition = new Vector3(localPosition.x, BattleBackground.ActorPosition.y, localPosition.z);
@@ -141,6 +134,15 @@ public class EnemyItem : UIBaseUnity {
         enemyInfo = te;
         hurtValueLabel.gameObject.SetActive(false);
         SetData(te);
+
+		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
+		Texture2D tex = tui.GetAsset(UnitAssetType.Profile);
+		texture.mainTexture = tex;
+		if (tex == null) {
+			return;		
+		}
+		texture.width = tex.width;
+		texture.height = tex.height;
     }
 
     public override void DestoryUI() {
@@ -148,7 +150,6 @@ public class EnemyItem : UIBaseUnity {
 			return;
 		}
         base.DestoryUI();
-//		Debug.LogError ("DestoryUI : " + enemyInfo.EnemySymbol);
 		if (gameObject != null) {
 			Destroy(gameObject);
 		}
@@ -157,10 +158,35 @@ public class EnemyItem : UIBaseUnity {
     public void DropItem(object data) {
         int pos = (int)data;
         if (pos == enemyInfo.EnemySymbol && !texture.enabled) {
-            dropTexture.enabled = true;
+			if(enemyInfo.drop == null) {
+				return;
+			}
+
+			TUnitInfo tui = enemyInfo.drop.UnitInfo;
+			dropTexture.enabled = true;
+			switch (tui.Rare) {
+			case 1:
+				dropTexture.spriteName = "a";
+				break;
+			case 2:
+				dropTexture.spriteName = "b";
+				break;
+			case 3:
+				dropTexture.spriteName = "c";
+				break;
+			case 4:
+				dropTexture.spriteName = "d";
+				break;
+			case 5:
+				dropTexture.spriteName = "e";
+				break;
+			case 6:
+				dropTexture.spriteName = "f";
+				break;
+			}
+
             iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
             GameTimer.GetInstance().AddCountDown(0.5f, DorpEnd);
-
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_chess);
         }
 
@@ -171,7 +197,6 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void EnemyDead(object data) {
-        LogHelper.Log("EnemyDead(), data {0}", data);
         TEnemyInfo te = data as TEnemyInfo;
         if (te == null || te.EnemySymbol != enemyInfo.EnemySymbol) {
             return;		
@@ -196,28 +221,19 @@ public class EnemyItem : UIBaseUnity {
 
         tempQue.Enqueue(te);
 
-        GameTimer.GetInstance().AddCountDown(1f, RefreshData);
-//		if (enemyInfo.GetBlood() > te.GetBlood ()) {
-//			InjuredShake();
-//		}
-
-        //SetBloodLabel (enemyInfo.GetBlood());
-
+        GameTimer.GetInstance().AddCountDown(0.5f, RefreshData);
     }
 
     void RefreshData() {
-        LogHelper.Log("RefreshData()");
         enemyInfo = tempQue.Dequeue();
         float value = (float)enemyInfo.GetBlood() / enemyInfo.GetInitBlood();
         SetBlood(value);
-        SetNextLabel(enemyInfo);
+        SetNextLabel(enemyInfo.GetRound());
     }
 
     void EnemyAttack(object data) {
         uint id = (uint)data;
-//		Debug.LogError (id + "enemyInfo.EnemyID : " + enemyInfo.EnemySymbol);
         if (id == enemyInfo.EnemySymbol) {
-//            AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
             iTween.ScaleTo(gameObject, new Vector3(1.5f, 1.5f, 1f), 0.2f);
             iTween.MoveTo(texture.gameObject, iTween.Hash("position", attackPosition, "time", 0.2f, "oncomplete", "MoveBack", "oncompletetarget", gameObject, "islocal", true, "easetype", iTween.EaseType.easeInCubic));
         }
@@ -230,38 +246,27 @@ public class EnemyItem : UIBaseUnity {
 
     void SetData(TEnemyInfo seu) {
         SetBloodLabel(seu.GetBlood());
-        SetNextLabel(seu);
+        SetNextLabel(seu.GetRound());
     }
 
     void SetBlood(float value) {
-        //bloodSprite.fillAmount = value; 
         StartCoroutine(CountBloodValue(value));
     }
 
     IEnumerator CountBloodValue(float fillAmount) {
+		float value = (bloodSprite.fillAmount - fillAmount) / 5f;
         while (bloodSprite.fillAmount > fillAmount) {
-            bloodSprite.fillAmount -= Time.deltaTime * 5;
-            yield return 1;
+			bloodSprite.fillAmount -= value;
+            yield return 0;
         }
 
         bloodSprite.fillAmount = fillAmount;
     }
 
     void SetBloodLabel(int seu) {
-//			bloodLabel.text = seu.ToString();	
     }
 
     void SetNextLabel(int seu) {
-        LogHelper.Log("SetNextLabel() value {0}", seu);
         nextLabel.text = "Next : " + seu;
-    }
-
-    void SetNextLabel(TEnemyInfo enemyInfo){
-        if (enemyInfo.GetBlood() == 0){
-            nextLabel.text = string.Empty;
-        }
-        else {
-            nextLabel.text = string.Format("Next : {0}", enemyInfo.GetRound());
-        }
     }
 }
