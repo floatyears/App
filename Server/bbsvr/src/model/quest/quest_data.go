@@ -40,9 +40,19 @@ func (qm *QuestDataMaker) makeColors(colorPercent []*bbproto.ColorPercent, count
 			}
 		}
 	}
+
+	//for trace log
+	line:=""
+	log.T("origin colors:   \tcount=(%v)", len(colors))
 	for k, c := range colors {
-		log.T("c[%v]: %v", k, c)
+		if k % 40 == 0 && k>0 {
+			log.T("color[%v]: %v", k/40+1, line)
+			line = ""
+		}else {
+			line += common.Utoa(uint32(c))+" "
+		}
 	}
+
 	return qm.makePackColors(colors)
 }
 
@@ -105,9 +115,9 @@ func (qm *QuestDataMaker) makePackColors(colors []byte) (colorPack []byte, e Err
 		k += 3
 	}
 
-	for k, b := range result {
-		log.T("[%v] makePackColors result b=%v ", k, b)
-	}
+//	for k, b := range result {
+//		log.T("[%v] makePackColors result b=%v ", k, b)
+//	}
 
 	return result, Error.OK()
 }
@@ -201,7 +211,7 @@ func (qm *QuestDataMaker) getEnemyConf(enemyId uint32, confs []*bbproto.EnemyInf
 }
 
 func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbproto.QuestDungeonData, e Error.Error) {
-	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lshortfile)
+
 
 	questData.QuestId = config.QuestId
 	questData.QuestId = config.QuestId

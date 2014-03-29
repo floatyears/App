@@ -33,7 +33,7 @@ public class ActiveReduceDefense : ActiveSkill, IActiveSkillExcute {
 		tc = new TClass<string, int, float> ();
 		tc.arg1 = userUnitID;
 		tc.arg2 = (int)instance.period;
-		tc.arg3 = instance.value;
+		tc.arg3 = instance.value; // in percent
 		MsgCenter.Instance.Invoke (CommandEnum.ReduceDefense, tc);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 		return null;
