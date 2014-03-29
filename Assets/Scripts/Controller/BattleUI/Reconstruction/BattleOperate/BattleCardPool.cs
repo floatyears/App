@@ -4,21 +4,17 @@ using System.Collections;
 public class BattleCardPool : UIBaseUnity
 {
 	[HideInInspector]
-	public UITexture templateBackTexture ;
+	public UISprite templateBackTexture ;
 
 	private Vector3[] cardPosition;
 
-	public Vector3[] CardPosition
-	{
+	public Vector3[] CardPosition {
 		get{return cardPosition;}
 	}
 
-	private UITexture[] backTextureIns;
-
+	private UISprite[] backTextureIns;
 	private int cardInterv = 0;
-
 	private Vector3 initPosition = Vector3.zero;
-
 	private float xStart = 0f;
 
 	public float XRange {
@@ -30,9 +26,9 @@ public class BattleCardPool : UIBaseUnity
 		InitData();
 		for (int i = 0; i < cardPosition.Length; i++) {
 			tempObject = NGUITools.AddChild(gameObject, templateBackTexture.gameObject);
-			cardPosition[i] = new Vector3(initPosition.x + i *cardInterv,initPosition.y,initPosition.z);
+			cardPosition[i] = new Vector3(initPosition.x + i * cardInterv,initPosition.y,initPosition.z);
 			tempObject.transform.localPosition = cardPosition[i];
-			backTextureIns[i] = tempObject.GetComponent<UITexture>();
+			backTextureIns[i] = tempObject.GetComponent<UISprite>();
 		}
 		templateBackTexture.gameObject.SetActive(false);
 		tempObject = null;
@@ -50,15 +46,10 @@ public class BattleCardPool : UIBaseUnity
 
 	void InitData() {
 		int count = Config.cardPoolSingle;
-
 		cardPosition = new Vector3[count];
-
-		backTextureIns = new UITexture[count];
-		
-		templateBackTexture = FindChild<UITexture>("Back");
-
+		backTextureIns = new UISprite[count];		
+		templateBackTexture = FindChild<UISprite>("Back");
 		cardInterv = templateBackTexture.width + Config.cardInterv;
-
 		initPosition = Config.cardPoolInitPosition;
 	}
 

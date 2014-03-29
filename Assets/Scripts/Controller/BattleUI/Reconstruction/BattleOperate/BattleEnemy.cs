@@ -11,9 +11,7 @@ public class BattleEnemy : UIBaseUnity {
 	private GameObject tempGameObject;
 	[HideInInspector]
 	public Battle battle;
-
 	private UILabel attackInfoLabel;
-
 	private string[] attackInfo = new string[4] {"Nice", "Good", "Great", "Excellent"};
 
 	public override void Init (string name) {

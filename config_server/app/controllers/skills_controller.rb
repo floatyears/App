@@ -24,7 +24,9 @@ class SkillsController < ApplicationController
   end
   
   def type
-    redirect_to new_skill_path(skillType: params[:skillType])
+    skill_type = "skillType" + params[:skillTag]
+    #render json: params[skill_type]
+    redirect_to new_skill_path(skillType: params[skill_type])
   end
   
   def edit
@@ -43,9 +45,9 @@ class SkillsController < ApplicationController
   end
   
   def download
-    AllSkillConfig.save_to_file
-    file_path = "#{Rails.root}/public/skills/X_SKILL_CONF"
-    send_file file_path, :filename => "X_SKILL_CONF", :disposition => 'attachment'
+    AllSkillConfig.to_zip
+    file_path = "#{Rails.root}/public/skills/skills.zip"
+    send_file file_path, :filename => "skills.zip", :disposition => 'attachment'
   end
   
 end

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,8 +15,8 @@ public class OwnedUnitListLogic : ConcreteComponent {
 		DestoryOwnedUnitListView();
 	}
 
-	public override void Callback(object data){
-		base.Callback(data);
+	public override void CallbackView(object data){
+		base.CallbackView(data);
 	}
 
 	List<UnitItemViewInfo> GetOwnedUnitViewList(){

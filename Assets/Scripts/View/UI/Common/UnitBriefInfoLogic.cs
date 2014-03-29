@@ -39,8 +39,8 @@ public class UnitBriefInfoLogic : ConcreteComponent {
 	}
 
 
-	public override void Callback(object data){
-		base.Callback(data);
+	public override void CallbackView(object data){
+		base.CallbackView(data);
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 //		Debug.LogError ("lastmsg : " + lastMsgFrom + " cbdArgs.funcName : " + cbdArgs.funcName);

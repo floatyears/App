@@ -92,6 +92,8 @@ func UpdateQuestLog(db *data.Data, userDetail *bbproto.UserInfoDetail, questId u
 			userDetail.Quest.GetUnit = append(userDetail.Quest.GetUnit, userUnit)
 
 			gotUnit = append(gotUnit, userUnit) //return value
+
+			break
 		}
 	}
 
@@ -176,6 +178,7 @@ func FillUserQuest(userDetail *bbproto.UserInfoDetail, currParty int32, helperUi
 	userDetail.Quest.State = &questState
 
 	//fill drop unit
+	log.T("FillUserQuest :: drops.count: %v", len(drops))
 	for _, dropUnit := range drops {
 		if dropUnit != nil {
 			userDetail.Quest.DropUnits = append(userDetail.Quest.DropUnits, dropUnit)
@@ -183,6 +186,9 @@ func FillUserQuest(userDetail *bbproto.UserInfoDetail, currParty int32, helperUi
 	}
 
 	log.T("userDetail.Quest: %+v", userDetail.Quest)
+	for k, drop := range userDetail.Quest.DropUnits {
+		log.T("Quest.Drop[%v]: %+v", k , drop)
+	}
 
 	return Error.OK()
 }

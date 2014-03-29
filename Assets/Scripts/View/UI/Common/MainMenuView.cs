@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class MainMenuView : UIComponentUnity {
@@ -72,7 +72,7 @@ public class MainMenuView : UIComponentUnity {
 			iuiCallback = origin as IUICallback;
 		} 
 
-		iuiCallback.Callback(se);
+		iuiCallback.CallbackView(se);
 	}
 
     void SetMenuValid(object args){

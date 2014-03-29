@@ -4,10 +4,97 @@ using bbproto;
 
 public class ConfigSkill  {
 	public ConfigSkill() {
-		ConfigNormalSkill ();
-		ConfigLeadSkill ();
-		ConfigActiveSkill ();
-		ConfigActiveSkill2 ();
+//
+//		string path = "Protobuf/SKill/X_SKILL_CONF";
+//		TextAsset ta = Resources.Load (path, typeof(TextAsset)) as TextAsset;
+//		AllSkillConfig asc = ProtobufDataBase.DeserializeData<AllSkillConfig> (ta.bytes);
+//
+//
+//
+//		foreach (var item in asc.Normal) {
+//			TNormalSkill tns = new TNormalSkill(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tns);
+//		}
+//
+//		foreach (var item in asc.SingleAttack) {
+//			TSkillSingleAttack tssa = new TSkillSingleAttack(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tssa);
+//		}
+//
+//		foreach (var item in asc.SingleAtkRecoverHP) {
+//			TSkillSingleAtkRecoverHP tssah = new TSkillSingleAtkRecoverHP(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tssah);
+//		}
+//
+//		foreach (var item in asc.SuicideAttack) {
+//			TSkillSuicideAttack tssa = new TSkillSuicideAttack(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tssa);
+//		}
+//
+//		foreach (var item in asc.TargetTypeAttack) {
+//			ActiveAttackTargetType aatt = new ActiveAttackTargetType(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, aatt);
+//		}
+//
+//		foreach (var item in asc.StrengthenAttack) {
+//			ActiveStrengthenAttack asta = new ActiveStrengthenAttack(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, asta);
+//		}
+//
+//		foreach (var item in asc.KillHP) {
+//			GravityAttack ga = new GravityAttack(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, ga);
+//		}
+//
+//		foreach (var item in asc.RecoverHP) {
+//			TSkillRecoverHP trh = new TSkillRecoverHP(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, trh);
+//		}
+//
+//		foreach (var item in asc.RecoverSP) {
+//			TSkillRecoverSP tsrs = new TSkillRecoverSP(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tsrs);
+//		}
+//
+//		foreach (var item in asc.ReduceHurt) {
+//			TSkillReduceHurt tsrh = new TSkillReduceHurt(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tsrh);
+//		}
+//
+//		foreach (var item in asc.ReduceDefence) {
+//			ActiveReduceDefense ard = new ActiveReduceDefense(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, ard);
+//		}
+//
+//		foreach (var item in asc.DeferAttackRound) {
+//			ActiveDeferAttackRound adar = new ActiveDeferAttackRound(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, adar);
+//		}
+//
+//		foreach (var item in asc.Poison) {
+//			TSkillPoison tp = new TSkillPoison(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tp);
+//		}
+//
+//		foreach (var item in asc.DelayTime) {
+//			TSkillDelayTime tsdt = new TSkillDelayTime(item);
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tsdt);
+//		}
+//
+//		foreach (var item in asc.ConvertUnitType) {
+////			if(item.baseInfo.id > )
+//
+//			TSkillConvertUnitType tscut = new TSkillConvertUnitType(item);
+//
+//			DataCenter.Instance.Skill.Add(item.baseInfo.id, tscut);
+//		}
+
+//		ConfigNormalSkill ();
+//		ConfigLeadSkill ();
+//		ConfigActiveSkill ();
+//		ConfigActiveSkill2 ();
+
+		ConfigHeartSkill ();
 	}
 
 	void ConfigNormalSkill () {
@@ -436,7 +523,7 @@ public class ConfigSkill  {
 		TSkillSingleAttack tssa = new TSkillSingleAttack (ssa);
 		DataCenter.Instance.Skill.Add (ssa.baseInfo.id, tssa);
 
-		SkillSingleAtkRecoverHP ssarh = new SkillSingleAtkRecoverHP ();
+		SkillAttackRecoverHP ssarh = new SkillAttackRecoverHP ();
 		ssarh.baseInfo = new SkillBase ();
 		ssarh.baseInfo.id = 33;
 		ssarh.baseInfo.name = "no 33 SkillSingleAtkRecoverHP";
@@ -445,7 +532,7 @@ public class ConfigSkill  {
 		ssarh.type = EValueType.MULTIPLE;
 		ssarh.value = 5f;
 		ssarh.unitType = EUnitType.UFIRE;
-		TSkillSingleAtkRecoverHP arh = new TSkillSingleAtkRecoverHP (ssarh);
+		TSkillAttackRecoverHP arh = new TSkillAttackRecoverHP (ssarh);
 		DataCenter.Instance.Skill.Add (ssarh.baseInfo.id, arh);
 
 		SkillSuicideAttack sSucideAttack = new SkillSuicideAttack ();
@@ -467,6 +554,7 @@ public class ConfigSkill  {
 		ssa.baseInfo.name = "no 35 knock down";
 		ssa.baseInfo.description = "knock down enemy";
 		ssa.baseInfo.skillCooling = 0;
+		ssa.type = EValueType.PERCENT;
 		ssa.value = 0.1f;
 		ssa.attackRange = EAttackType.ATK_SINGLE;
 		ssa.ignoreDefense = true;

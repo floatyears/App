@@ -58,11 +58,12 @@ message SkillSingleAttack {
 //	optional EUnitType	unitType 	= 4; //
 //};
 
-message SkillSingleAtkRecoverHP { //single attack & recover HP to 100%
-    optional SkillBase  baseInfo    = 1;
-	optional EValueType	type		= 2; 	    // MULTIPLE
-	optional float		value		= 3; 	 	// 0.5x,1x,2x,3x,5x
-	optional EUnitType	unitType	= 4;
+message SkillAttackRecoverHP { // attack & recover HP with hurt-value
+    optional SkillBase  	baseInfo    = 1;
+	optional EValueType		type		= 2;    // MULTIPLE
+	optional float			value		= 3; 	// 0.5x,1x,2x,3x,5x
+	optional EUnitType		unitType	= 4;
+	optional EAttackType    attackType	= 5; 	//SINGLE,ALL,RECOVER_HP	
 };
 
 message SkillSuicideAttack { //attack target and HP reduce to 1
@@ -162,7 +163,7 @@ message SkillConvertUnitType { //convert one type to another type
 
 	//optional int32  singleAttack		= 4;
 	//optional int32  allAttack			= 5;
-	//optional int32  singleAtkRecoverHP	= 6;	//single attack & recover HP to 100%
+	//optional int32  SkillAttackRecoverHP	= 6;	//single attack & recover HP to 100%
 	//optional int32  suicideAttack		= 7;
 	//optional int32  targetTypeAttack	= 8;
 	//optional int32  killHP				= 9;
@@ -179,7 +180,7 @@ message SkillConvertUnitType { //convert one type to another type
     //total 14 active skills
 	//optional SkillSingleAttack 			singleAttack		= 4;
 	//optional SkillAllAttack 			allAttack			= 5;
-	//optional SkillSingleAtkRecoverHP 	singleAtkRecoverHP	= 6;	//single attack & recover HP to 100%
+	//optional SkillAttackRecoverHP 	singleAtkRecoverHP	= 6;	//single attack & recover HP to 100%
 	//optional SkillSuicideAttack			suicideAttack		= 7;
 	//optional SkillTargetTypeAttack		targetTypeAttack	= 8;
 	//optional SkillKillHP 				killHP				= 9;
@@ -278,7 +279,7 @@ message AllSkillConfig {
 
 	//active skill
 	repeated SkillSingleAttack			SingleAttack			= 2;
-	repeated SkillSingleAtkRecoverHP	SingleAtkRecoverHP		= 3;
+	repeated SkillAttackRecoverHP		attackRecoverHP			= 3;
 	repeated SkillSuicideAttack			SuicideAttack			= 4;
 	repeated SkillTargetTypeAttack		TargetTypeAttack		= 5;
 	repeated SkillStrengthenAttack		StrengthenAttack		= 6;
@@ -290,8 +291,8 @@ message AllSkillConfig {
 	repeated SkillDeferAttackRound		DeferAttackRound		= 12;
 	repeated SkillPoison				Poison					= 13;
 	repeated SkillDelayTime				DelayTime				= 14;
-	
 	repeated SkillConvertUnitType		ConvertUnitType			= 15;
+	
 	//passive skill
 	repeated SkillDodgeTrap				DodgeTrap				= 16;
 	repeated SkillAntiAttack			AntiAttack				= 17;

@@ -379,6 +379,14 @@ public enum AudioEnum{
 	
 }
 
+public enum SkillType {
+	ActiveSkill = 1,
+	PassiveSkill = 2,
+	LeaderSkill	= 3,
+	NormalSkill = 4,
+
+}
+
 public enum UnitAssetType{
 	Avatar 	= 0,
 	Profile	= 1,

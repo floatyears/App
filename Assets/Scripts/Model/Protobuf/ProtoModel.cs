@@ -4822,10 +4822,10 @@ namespace bbproto
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillSingleAtkRecoverHP")]
-  public partial class SkillSingleAtkRecoverHP : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillAttackRecoverHP")]
+  public partial class SkillAttackRecoverHP : global::ProtoBuf.IExtensible
   {
-    public SkillSingleAtkRecoverHP() {}
+    public SkillAttackRecoverHP() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -4858,6 +4858,14 @@ namespace bbproto
     {
       get { return _unitType; }
       set { _unitType = value; }
+    }
+    private bbproto.EAttackType _attackType = bbproto.EAttackType.ATK_SINGLE;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"attackType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EAttackType.ATK_SINGLE)]
+    public bbproto.EAttackType attackType
+    {
+      get { return _attackType; }
+      set { _attackType = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -5662,11 +5670,11 @@ namespace bbproto
       get { return _SingleAttack; }
     }
   
-    private readonly global::System.Collections.Generic.List<bbproto.SkillSingleAtkRecoverHP> _SingleAtkRecoverHP = new global::System.Collections.Generic.List<bbproto.SkillSingleAtkRecoverHP>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"SingleAtkRecoverHP", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<bbproto.SkillSingleAtkRecoverHP> SingleAtkRecoverHP
+    private readonly global::System.Collections.Generic.List<bbproto.SkillAttackRecoverHP> _SkillAttackRecoverHP = new global::System.Collections.Generic.List<bbproto.SkillAttackRecoverHP>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"SkillAttackRecoverHP", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.SkillAttackRecoverHP> SkillAttackRecoverHP
     {
-      get { return _SingleAtkRecoverHP; }
+      get { return _SkillAttackRecoverHP; }
     }
   
     private readonly global::System.Collections.Generic.List<bbproto.SkillSuicideAttack> _SuicideAttack = new global::System.Collections.Generic.List<bbproto.SkillSuicideAttack>();

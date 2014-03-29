@@ -27,7 +27,8 @@ public class BattleQuest : UIBase {
 	private BossAppear bossAppear;
 	private ClearQuestParam questData;
 	private TUserUnit evolveUser;
-	string backgroundName = "BattleBackground";
+	private TopUI topUI;
+	private string backgroundName = "BattleBackground";
 
 	public BattleQuest (string name) : base(name) {
 		InitData ();
@@ -51,11 +52,25 @@ public class BattleQuest : UIBase {
 		AddSelfObject (background);
 		questData = new ClearQuestParam ();
 		questData.questId = questDungeonData.QuestId;
+		InitTopUI ();
 
 		battle = new Battle("Battle");
 		battle.CreatUI();
 		battle.HideUI ();
 	}
+
+	void InitTopUI () {
+		GameObject go = Resources.Load ("Prefabs/Fight/TopUI") as GameObject;
+		go = GameObject.Instantiate (go) as GameObject;
+		go.transform.parent = viewManager.TopPanel.transform;
+		go.transform.localScale = Vector3.one;
+//		go = NGUITools.AddChild (viewManager.TopPanel, go);
+		topUI = go.GetComponent<TopUI> ();
+		topUI.Init ("TopUI");
+////		RefreshTopUI ();
+		topUI.RefreshTopUI (questDungeonData, questData);
+	}
+
 
 	void InitData() {
 		questDungeonData = ModelManager.Instance.GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
@@ -166,6 +181,7 @@ public class BattleQuest : UIBase {
 
 	void EnterNextFloor () {
 		questDungeonData.currentFloor ++;
+		topUI.SetFloor (questDungeonData.currentFloor + 1, questDungeonData.Floors.Count);
 		Reset ();
 	}
 
@@ -246,6 +262,8 @@ public class BattleQuest : UIBase {
 	void GridEnd(object data) {
 		if (currentMapData.Drop != null && currentMapData.Drop.DropId != 0) {
 			questData.getUnit.Add (currentMapData.Drop.DropId);	
+			topUI.Drop = questData.getUnit.Count;
+//			topUI.RefreshTopUI (questData, questDungeonData);
 		}
 	}
 
@@ -286,6 +304,9 @@ public class BattleQuest : UIBase {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
 		BattleMap.waitMove = false;
 		questData.getMoney += currentMapData.Coins;
+		topUI.Coin = questData.getMoney;
+//		topUI.RefreshTopUI (questData, questDungeonData);
+
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}

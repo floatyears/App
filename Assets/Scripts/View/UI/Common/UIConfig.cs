@@ -197,6 +197,31 @@ public class UIIns : JsonOriginData
 	}
 }
 
+public class SkillJsonConfig : JsonOriginData {
+	public Dictionary<string,string> data = new Dictionary<string, string> ();
+	public SkillJsonConfig(string info) : base (info) {
+		DeserializeData();
+
+		jsonData = null;
+		info = null;
+	}
+
+	public override object DeserializeData () {
+		data = JsonMapper.ToObject< Dictionary<string,string> > (originData);
+//		foreach (var item in data) {
+//			Debug.LogError(item.Key + "  " + item.Value);
+//		}
+		return data;
+	}
+
+	public string GetClassName (int id) {
+		string name = string.Empty;
+		string key = id.ToString ();
+		data.TryGetValue (key, out name);
+		return name;
+	}
+}
+
 public class UIInsConfig
 {
 	public string uiName = string.Empty;

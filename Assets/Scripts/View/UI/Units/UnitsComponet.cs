@@ -16,7 +16,7 @@ public class UnitsComponent : ConcreteComponent, IUICallback {
 		base.HideUI ();
 	}
 
-	public void Callback (object data){
+	public void CallbackView (object data){
 		try {
 			SceneEnum se = (SceneEnum)data;
 			UIManager.Instance.ChangeScene(se);

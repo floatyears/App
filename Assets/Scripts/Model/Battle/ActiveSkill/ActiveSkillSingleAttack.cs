@@ -3,11 +3,9 @@ using System.Collections;
 using bbproto;
 
 public class ActiveSkill : SkillBaseInfo {
-//	protected SkillBase skillBase;
 	protected int initSkillCooling = 0;
 	protected bool coolingDone = false;
 	public ActiveSkill (object instance) : base (instance) {
-//		skillBase = 
 	}
 
 	~ActiveSkill () {
@@ -20,14 +18,9 @@ public class ActiveSkill : SkillBaseInfo {
 
 	protected void InitCooling() {
 		skillBase.skillCooling = initSkillCooling;
-//		Debug.LogError ("InitCooling : " + skillBase.skillCooling);
 		if (skillBase.skillCooling > 0) {
 			coolingDone = false;
 		}
-	}
-
-	public SkillBase GetSkillInfo () {
-		return skillBase;
 	}
 }
 
