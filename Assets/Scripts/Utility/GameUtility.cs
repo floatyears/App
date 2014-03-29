@@ -310,7 +310,7 @@ public class DGTools {
 		string reallyPath = path + skillPath;
 		if (skillJsonData == null) {
 			TextAsset json = LoadTextAsset(reallyPath + "skills");
-			Debug.LogError("json file : " + json);
+//			Debug.LogError("json file : " + json);
 			skillJsonData = new SkillJsonConfig(json.text);
 		}
 

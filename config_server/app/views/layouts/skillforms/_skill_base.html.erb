@@ -7,7 +7,7 @@
 <p>
   baseInfo:<br/>
   <fieldset>
-    id:<%= text_field_tag :skill_id,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:baseInfo).try(:id) %>
+    id:<%= text_field_tag :skill_id,@all_skills.nil? ? @id : @all_skills.try(@skill_type)[@index].try(:baseInfo).try(:id)%>
     name:<%= text_field_tag :name ,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:baseInfo).try(:name) %>
     description:<%= text_field_tag :description,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:baseInfo).try(:description)  %>
     skillCooling:<%= text_field_tag :skillCooling ,@all_skills.nil? ? "" : @all_skills.try(@skill_type)[@index].try(:baseInfo).try(:skillCooling) %>
