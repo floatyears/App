@@ -145,6 +145,7 @@ public class GachaWindowView : UIComponentUnity {
             return;
         }
         StartShowGachaGridResult(btn, gachaInfo.unitList[tryCount]);
+//        ShowUnitByUserUnitID(btn, gachaInfo.unitList[tryCount]);
 
     }
 
@@ -164,7 +165,11 @@ public class GachaWindowView : UIComponentUnity {
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = TextCenter.Instace.GetCurrentText("Open");
         UISprite background = grid.transform.FindChild("Background").GetComponent<UISprite>();
-        background.spriteName = "playerInfoMsg";
+        background.spriteName = "avatar_mask";
+        UITexture texture = grid.transform.FindChild("Cell/Texture").GetComponent<UITexture>();
+        texture.mainTexture = null;
+        UILabel rightBottom = grid.transform.FindChild("Cell/Label_Right_Bottom").GetComponent<UILabel>();
+        rightBottom.text = string.Empty;
     }
 
     private void StartShowGachaGridResult(GameObject btn, uint uniqueId){
@@ -173,6 +178,7 @@ public class GachaWindowView : UIComponentUnity {
         currentUid = uniqueId;
         currentGrid = btn;
 //        ShowUnitByUserUnitID(btn, uniqueId);
+        LogHelper.Log("StartCoroutine, ShowUnitRareById(), currentUid {0}, currenGrid {1}", currentUid, currentGrid);
         StartCoroutine(ShowUnitRareById());
     }
 
@@ -196,19 +202,27 @@ public class GachaWindowView : UIComponentUnity {
 
     IEnumerator ShowUnitRareById(){
         LogHelper.Log("ShowUnitRareById(), currentUid {0}, currenGrid {1}", currentUid, currentGrid);
-        yield return new WaitForSeconds(1.0f);
-        TUnitInfo currentUnitInfo = DataCenter.Instance.GetUnitInfo(currentUid);
+        yield return new WaitForSeconds(0.5f);
+        TUserUnit userUnit = DataCenter.Instance.MyUnitList.GetMyUnit(currentUid);
+
+        UILabel label = currentGrid.transform.FindChild("Label").GetComponent<UILabel>();
+        label.text = string.Empty;
+        UISprite background = currentGrid.transform.FindChild("Background").GetComponent<UISprite>();
+        background.spriteName = string.Empty;
 
         UITexture texture = currentGrid.transform.FindChild("Cell/Texture").GetComponent<UITexture>();
-        texture.mainTexture = GetChessStarTextureByRareLevel(currentUnitInfo.Rare);
-        yield return new WaitForSeconds(1.0f);
-        ShowUnitByUserUnitID(currentGrid, currentUid);
+        texture.mainTexture = GetChessStarTextureByRareLevel(userUnit.UnitInfo.Rare);
+        LogHelper.Log("ShowUnitRareById(), rareTexture {0}", texture.mainTexture);
+
+        yield return new WaitForSeconds(1.5f);
+        ShowUnitById(currentGrid, currentUid, userUnit);
         EndShowGachaGridResult();
+        DealAfterShowUnit(gridDict[currentGrid]);
         yield return null;
     }
 
-    private void ShowUnitById(GameObject grid, uint unitId, TUserUnit userUnit){
-        LogHelper.Log("ShowUnitById(), unitId {0}, userUnit not null {1} btn not null {2}", unitId, userUnit != null, grid != null);
+    private void ShowUnitById(GameObject grid, uint unitId, TUserUnit userUnit = null){
+        LogHelper.Log("ShowUnitById(), unitId {0}, userUnit not null= {1} btn not null= {2}", unitId, userUnit != null, grid != null);
         // 
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;
@@ -229,6 +243,8 @@ public class GachaWindowView : UIComponentUnity {
             currentUnitInfo = DataCenter.Instance.GetUnitInfo(unitId);
             level = 1;
         }
+        LogHelper.Log("ShowUnitById(), unitId {0}", currentUnitInfo.ID);
+
         texture.mainTexture = currentUnitInfo.GetAsset(UnitAssetType.Avatar);
         UILabel rightBottom = grid.transform.FindChild("Cell/Label_Right_Bottom").GetComponent<UILabel>();
         rightBottom.text = TextCenter.Instace.GetCurrentText("Lv", level);

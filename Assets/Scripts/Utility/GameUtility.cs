@@ -355,6 +355,7 @@ public class DGTools {
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
 		string url = path +unitInfoPath + unitID;
 		TextAsset ta = LoadTextAsset (url);
+        LogHelper.Log("LoadUnitInfoProtobuf() {0}", ta);
 		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
 		TUnitInfo tui = new TUnitInfo (ui);
 		return tui;

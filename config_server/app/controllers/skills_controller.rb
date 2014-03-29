@@ -1,6 +1,7 @@
 class SkillsController < ApplicationController
   def new
     @type = params[:skillType].downcase
+    @id = params[:maxid].to_i + 1
   end
 
   def create
@@ -25,8 +26,17 @@ class SkillsController < ApplicationController
   
   def type
     skill_type = "skillType" + params[:skillTag]
-    #render json: params[skill_type]
-    redirect_to new_skill_path(skillType: params[skill_type])
+    case params[:skillTag].to_i
+    when 0
+      maxid = $redis.keys.map{|k|k.split("_")[3].to_i if k.start_with?("X_SKILL_CONF_4")}.compact.sort.last
+    when 1
+      maxid = $redis.keys.map{|k|k.split("_")[3].to_i if k.start_with?("X_SKILL_CONF_1")}.compact.sort.last
+    when 2
+      maxid = $redis.keys.map{|k|k.split("_")[3].to_i if k.start_with?("X_SKILL_CONF_3")}.compact.sort.last
+    when 3
+      maxid = $redis.keys.map{|k|k.split("_")[3].to_i if k.start_with?("X_SKILL_CONF_2")}.compact.sort.last
+    end
+    redirect_to new_skill_path(skillType: params[skill_type],maxid: maxid)
   end
   
   def edit

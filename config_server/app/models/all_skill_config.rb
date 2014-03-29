@@ -550,6 +550,7 @@ class AllSkillConfig
       allskill[type] = skill
       $redis.set "X_SKILL_CONF",allskill.encode
     end
+    export_to_file_and_redis
   end
   
   def self.update_to_redis(type,skill,id)
@@ -558,6 +559,7 @@ class AllSkillConfig
       allskill[type][id] = skill
       $redis.set "X_SKILL_CONF",allskill.encode
     end
+    export_to_file_and_redis
   end
   
   def self.save_to_file

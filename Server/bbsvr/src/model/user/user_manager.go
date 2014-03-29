@@ -82,7 +82,7 @@ func AddNewUser(db *data.Data, uuid string, selectRole uint32) (userdetail *bbpr
 	//TODO: let user to select a actor.
 //	unitIdPool := []uint32 {1,5,9,107,111,113,117,123,127,133,135,137,145,151,157,163,164,165,166,167,168,175,179,187,195,221,224,226,61,65,67,69,71,73,85,87,89,91}
 	unitIdPool := []uint32 {1,5,9,49,50,51,52,53,54,61,63,64,65,66,73,75,76,77,78,89,90,152,153}
-	for i := 1; i <= 22; i++ {
+	for i := 0; i < len(unitIdPool); i++ {
 		uniqueId, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i-1)
 		if e.IsError() {
 			return nil, e
@@ -93,13 +93,14 @@ func AddNewUser(db *data.Data, uuid string, selectRole uint32) (userdetail *bbpr
 		if e.IsError() {
 			continue
 		}
+		log.T("unitInfo[%v]:%+v", unitId,unitInfo)
 		level:=common.Rand(1, int32(*unitInfo.MaxLevel))
 		exp := unit.GetUnitExpByUnitId(unitId, level)
 		if exp == 0 {
 			log.Error("GetUnitExpByUnitId fail:%v",unitId)
 			continue
 		}
-		log.T("make userunit level:%v exp:%v", level, exp-1)
+		log.T("make userunit for unitId[%v] level:%v exp:%v", unitId, level, exp-1)
 
 		userUnit := &bbproto.UserUnit{
 			UniqueId:  proto.Uint32(uniqueId),
@@ -114,10 +115,12 @@ func AddNewUser(db *data.Data, uuid string, selectRole uint32) (userdetail *bbpr
 		userdetail.UnitList = append(userdetail.UnitList, userUnit)
 
 		if( unitId == selectRole ) {
+			log.T("unitId==selectRole=%v  assign user.unit", selectRole)
 			userdetail.User.Unit = userdetail.UnitList[len(userdetail.UnitList)-1] //currParty's leader
 		}
 	}
 
+	log.T("selectRole=%v", selectRole)
 
 	//make default party
 	userdetail.Party = &bbproto.PartyInfo{}
