@@ -295,7 +295,9 @@ public class FriendHelperView : UIComponentUnity{
 	void DestoryDragView(object args){
 		crossShowLabelList.Clear();
 		supportViewList.Clear();
-
+		if (dragPanel.DragPanelView == null) {
+			return;	
+		}
 		foreach (var item in dragPanel.ScrollItem){
 			GameObject.Destroy(item);
 		}

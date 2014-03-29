@@ -278,7 +278,7 @@ public class TUserUnit : ProtobufDataBase {
         get {
             UnitInfo ui = UnitInfo.Object;
             int blood = 0;
-			Debug.LogError(MakeUserUnitKey() + " instance.addHp : " + instance.addHp + " GetValue (uu, ui) : " +DGTools.GetValue (instance, ui.powerType.hpType));
+//			Debug.LogError(MakeUserUnitKey() + " instance.addHp : " + instance.addHp + " GetValue (uu, ui) : " +DGTools.GetValue (instance, ui.powerType.hpType));
             blood += DGTools.CaculateAddBlood(instance.addHp, instance, ui);
             float temp = blood * hpMultiple;
             return System.Convert.ToInt32(blood);
