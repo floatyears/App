@@ -223,7 +223,7 @@ public class DataCenter {
 
 	public SkillBaseInfo GetSkill(string userUnitID, int skillID, SkillType skillType) {
 		if (skillID == 0) {
-			Debug.LogError("skillID : " + skillID);
+
 			return null;
 		}
 		SkillBaseInfo skill = null;

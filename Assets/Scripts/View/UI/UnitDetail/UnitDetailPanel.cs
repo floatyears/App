@@ -248,6 +248,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		TUnitInfo unitInfo = data.UnitInfo;
 		Texture2D target = unitInfo.GetAsset( UnitAssetType.Profile);
 		unitBodyTex.mainTexture = target;
+		if (target == null) {
+			return;	
+		}
 		unitBodyTex.width = target.width;
 		unitBodyTex.height = target.height;
 	}
@@ -305,8 +308,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowSkill2Content( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.NormalSkill2;
+		if (skillId == 0) {
+			return;	
+		}
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill);//Skill[ skillId ];
-		SkillBase skill =sbi.GetSkillInfo();
+		SkillBase skill = sbi.GetSkillInfo();
                 
         normalSkill2NameLabel.text = skill.name;
 		normalSkill2DscpLabel.text = skill.description;
@@ -322,8 +328,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowLeaderSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.LeaderSkill;
+		if (skillId == 0) {
+			return;	
+		}
 		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();//Skill[ skillId ].GetSkillInfo();
-                
         leaderSkillNameLabel.text = skill.name;
 		leaderSkillDscpLabel.text = skill.description;
 	}
@@ -331,6 +339,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowActiveSkillContent( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.ActiveSkill;
+		if (skillId == 0) {
+			return;	
+		} 
 		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();//.Skill[ skillId ].GetSkillInfo();		
 		activeSkillNameLabel.text = skill.name;
 		activeSkillDscpLabel.text = skill.description;
