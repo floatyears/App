@@ -397,6 +397,9 @@ public class DataCenter {
     }
 
     public void SetFriendList(FriendList friendList){
+		if (friendList == null){
+			return;
+		}
         if (FriendList == null){
             FriendList = new TFriendList(friendList);
         }
