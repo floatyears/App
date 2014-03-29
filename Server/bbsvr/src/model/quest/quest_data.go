@@ -277,9 +277,13 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 
 				trapNum := len(starConf.Trap)
 				if starConf.Trap == nil || trapNum == 0 {
-					e = Error.New("invalid quest data config: starConf.Trap is empty.")
-					log.Fatal(e.Error())
-					return questData, e
+//					e = Error.New("invalid quest data config: starConf.Trap is empty.")
+					log.Error("invalid quest data config: starConf.Trap is empty.")
+
+					tmpType = bbproto.EQuestGridType_Q_NONE
+					grid.Type = &tmpType
+					questFloor.GridInfo = append(questFloor.GridInfo, grid)
+					continue
 				}
 
 				randn := common.Randn(int32(trapNum))
@@ -290,8 +294,11 @@ func (qm *QuestDataMaker) MakeData(config *bbproto.QuestConfig) (questData bbpro
 
 			} else if iType == int32(bbproto.EQuestGridType_Q_ENEMY) {
 				tmpType := bbproto.EQuestGridType_Q_ENEMY
+				if *starConf.EnemyNum.Max == 0 {
+					tmpType = bbproto.EQuestGridType_Q_NONE
+				}
 				grid.Type = &tmpType
-				log.T("EnemyNum: %v %v", *starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
+				log.T("EnemyNum: [min:%v max:%v]", *starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
 
 				enemyNum := common.Rand(*starConf.EnemyNum.Min, *starConf.EnemyNum.Max)
 				log.T("randn:%v enemys: ", enemyNum)
