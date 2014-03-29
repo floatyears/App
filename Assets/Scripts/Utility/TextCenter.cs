@@ -205,6 +205,6 @@ public partial class TextCenter {
         textDict.Add("E_GET_UNIT_INFO_ERROR", "E_GET_UNIT_INFO_ERROR");
 
         textDict.Add("CONNECT_ERROR", "Connect network error. Please confirm your networking and try again.");
-        textDict.Add("SERVER_500", "Now server is busying. Please wait and try again.");
+        textDict.Add("SERVER_500", "Now server is busy. Please wait and try again.");
     }
 }

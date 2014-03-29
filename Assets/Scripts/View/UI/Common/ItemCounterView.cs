@@ -42,6 +42,9 @@ public class ItemCounterView : UIComponentUnity{
 			if(current > max){
 				curLabel.color = Color.red;
 			}
+			else{
+				curLabel.color = Color.white;
+			}
 		}
 	}
 	

@@ -203,7 +203,7 @@ public class PlayerInfoBar : UIComponentUnity
 			}
 		}
 
-		UIManager.Instance.ChangeScene(SceneEnum.Start);
+		UIManager.Instance.ChangeScene(SceneEnum.Quest);
 	}
 
 	void AddCommandListener()

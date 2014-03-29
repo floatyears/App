@@ -360,6 +360,14 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
+    },
+     "ResultWindow": {
+        "uiName":"ResultWindow",
+        "resoucePath": "Prefabs/UI/Result/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
     
 }

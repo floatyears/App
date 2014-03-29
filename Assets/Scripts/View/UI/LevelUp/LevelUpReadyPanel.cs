@@ -55,6 +55,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
         MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetAfterLevelUp);
+        MsgCenter.Instance.AddListener (CommandEnum.FocusLevelUpPanel, CallFocusOnTab);
 		base.Init(config, origin);
 		InitUI();
 	}
@@ -94,6 +95,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
         ClearTexture(false);
         ClearData(false);
         curFocusTab = Tabs[0];
+        baseUnitInfo.userUnitItem = DataCenter.Instance.MyUnitList.GetMyUnit(baseUnitInfo.userUnitItem.ID);
+        UpdateBaseInfoView(baseUnitInfo);
     }
 	
 	void UpdateBaseInfoView( UnitItemInfo itemInfo){
@@ -114,6 +117,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			int atk =  DataCenter.Instance.GetUnitValue(tu.AttackType, tuu.Level);
 			atkLabel.text = atk.ToString();			
 			expNeedLabel.text = tuu.NextExp.ToString();
+            LogHelper.Log("UpdateBaseInfoView(), exp {0}", tuu.NextExp);
             coin = LevelUpTotalMoney();
 			for (int i = 0; i < unitItemInfo.Length; i++) {
 				if(unitItemInfo[i] != null) {
@@ -230,6 +234,12 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		FoucsOnTab(tab);
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 	}
+
+    // call by msgCenter(other UI call this to start focus)
+    void CallFocusOnTab(object args){
+        int target = (int)args;
+        FoucsOnTab(Tabs[target]);
+    }
 
 	void CheckCanLevelUp() {
 		if(!levelUpButton.gameObject.activeSelf) {
