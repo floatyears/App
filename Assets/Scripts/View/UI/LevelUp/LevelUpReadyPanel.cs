@@ -214,10 +214,18 @@ public class LevelUpReadyPanel: UIComponentUnity {
         }
                 
 		foreach (var item in Tabs) {
-			UIEventListener.Get(item.gameObject).onClick = ClickTab;	
+			UIEventListenerCustom custom = UIEventListenerCustom.Get(item.gameObject);	
+			custom.onClick = ClickTab;
+//			custom.LongPress = LongPress;
 		}           
 	}
-	
+
+//	void LongPress(GameObject longPress) {
+//		TUserUnit unitInfo = baseUnitInfoDic[ item ].userUnitItem;
+//		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
+//		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
+//	}
+
 	void ClickTab(GameObject tab) {
 		FoucsOnTab(tab);
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);

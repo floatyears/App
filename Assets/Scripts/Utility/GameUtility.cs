@@ -46,6 +46,12 @@ public class DGTools {
 		sprite.spriteName = name;
 	}
 
+	public static void ShowTexture(UITexture sprite, Texture2D tex) {
+		sprite.mainTexture = tex;
+		sprite.width = tex.width;
+		sprite.height = tex.height;
+	}
+
 	public static string SwitchUnitType (int unitType) {
 		string type = "";
 		switch (unitType) {
