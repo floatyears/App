@@ -78,6 +78,9 @@ public class ScratchLogic : ConcreteComponent {
         info.blankList = blankList;
         LogHelper.Log("GetGachaWindowInfo() blank count {0}", blankList.Count);
         info.unitList = unitList;
+        foreach (var item in unitList) {
+            LogHelper.Log("GetGachaWindowInfo() gacha item uint {0}", item);
+        }
         info.totalChances = gachaCount;
         return info;
     }

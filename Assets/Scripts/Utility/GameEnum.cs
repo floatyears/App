@@ -227,6 +227,7 @@ public enum CommandEnum{
     SetBlocker,
     LevelUpSucceed,
     StartFirstLogin,
+    FocusLevelUpPanel,
 
 	//-----------------Server Protocol-----------------------//
 	// user - 5000

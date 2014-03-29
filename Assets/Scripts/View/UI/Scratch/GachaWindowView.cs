@@ -195,7 +195,7 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     IEnumerator ShowUnitRareById(){
-        LogHelper.Log("ShowUnitRareById(),");
+        LogHelper.Log("ShowUnitRareById(), currentUid {0}, currenGrid {1}", currentUid, currentGrid);
         yield return new WaitForSeconds(1.0f);
         TUnitInfo currentUnitInfo = DataCenter.Instance.GetUnitInfo(currentUid);
 

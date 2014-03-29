@@ -55,6 +55,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
         MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetAfterLevelUp);
+        MsgCenter.Instance.AddListener (CommandEnum.FocusLevelUpPanel, CallFocusOnTab);
 		base.Init(config, origin);
 		InitUI();
 	}
@@ -222,6 +223,12 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		FoucsOnTab(tab);
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 	}
+
+    // call by msgCenter(other UI call this to start focus)
+    void CallFocusOnTab(object args){
+        int target = (int)args;
+        FoucsOnTab(Tabs[target]);
+    }
 
 	void CheckCanLevelUp() {
 		if(!levelUpButton.gameObject.activeSelf) {
