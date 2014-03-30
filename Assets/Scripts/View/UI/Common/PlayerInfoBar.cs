@@ -142,8 +142,7 @@ public class PlayerInfoBar : UIComponentUnity
 
 	void UpdateData()
 	{
-		if (DataCenter.Instance.UserInfo == null)
-		{
+		if (DataCenter.Instance.UserInfo == null){
 			Debug.Log("PlayerInfoBar.UpdateData() , userInfo is null , return ");
 			return;
 		}
@@ -162,8 +161,7 @@ public class PlayerInfoBar : UIComponentUnity
 		//TODO Get current rank max exp 
 		expSprite.fillAmount = CountFillCount(curRankExp, DataCenter.Instance.UserInfo.CurRankExpMax);
 		//Cion
-		if (DataCenter.Instance.AccountInfo != null)
-		{
+		if (DataCenter.Instance.AccountInfo != null){
 			VCionCountLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
 			VChipCountLabel.text = DataCenter.Instance.AccountInfo.Stone.ToString();
 		}
@@ -176,6 +174,7 @@ public class PlayerInfoBar : UIComponentUnity
 
 		//Evo
 		int evoType = (int)DataCenter.Instance.UserInfo.EvolveType;
+//		Debug.LogError("EvoType : " + evoType.ToString());
 		evolveTypeSprite.spriteName = evoType.ToString();
 
 		//Debug.Log("PlayerInfoBar,DataCenter.Instance.UserInfo.EvolveType : " + evoType.ToString());
