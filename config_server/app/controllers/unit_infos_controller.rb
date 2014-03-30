@@ -53,6 +53,7 @@ class UnitInfosController < ApplicationController
   # POST /unit_infos
   # POST /unit_infos.json
   def create
+    #TODO id name race rare skill1 powertype cost saleValue deveourValue getWay
     unit_info = UnitInfo.create_with_params(params)
     if unit_info.save_to_file && unit_info.save_to_redis
       redirect_to unit_infos_path
