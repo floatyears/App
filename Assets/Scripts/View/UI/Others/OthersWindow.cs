@@ -84,7 +84,7 @@ public class OthersWindow : UIComponentUnity {
 		options[ target ].SetActive( true );
 
         ///
-        LogHelper.Log("SwicthOption(), target {0} resetOption {1}", target, resetOption);
+//        LogHelper.Log("SwicthOption(), target {0} resetOption {1}", target, resetOption);
 
         if (target == resetOption){
             LogHelper.Log("SwicthOption(), target {0}", resetOption);
@@ -151,6 +151,7 @@ public class OthersWindow : UIComponentUnity {
         
 	void ClickOkButton( GameObject go ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+        LogHelper.Log("ClickOkButton to rename");
 		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
 	}
 
