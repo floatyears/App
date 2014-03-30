@@ -1,16 +1,16 @@
 <%= form_tag(unit_infos_path) %>
 
 <p>
-	id:<%= text_field_tag :id %>
+	id:<%= text_field_tag :id %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	name:<%= text_field_tag :name %>
+	name:<%= text_field_tag :name %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	race:<%= select_tag :race,options_for_select(UnitInfo::UNITRACE) %>
+	race:<%= select_tag :race,options_for_select(UnitInfo::UNITRACE) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	type:<%= select_tag :type,options_for_select(UnitInfo::UNITTYPE) %>
+	type:<%= select_tag :type,options_for_select(UnitInfo::UNITTYPE) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
 	rare:1<%= radio_button_tag(:rare, 1) %>
@@ -18,10 +18,10 @@
 	3<%= radio_button_tag(:rare, 3) %>
 	4<%= radio_button_tag(:rare, 4) %>
 	5<%= radio_button_tag(:rare, 5) %>
-	6<%= radio_button_tag(:rare, 6) %>
+	6<%= radio_button_tag(:rare, 6) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	skill1:<%= select_tag :skill1,options_for_select(@skills) %>
+	skill1:<%= select_tag :skill1,options_for_select(@skills) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 
 <p>
@@ -48,9 +48,9 @@
 <p>
 	<fieldset>
 		PowerType<br/>
-		attackType:<%= text_field_tag :attackType %><br/>
-		hpType:<%= text_field_tag :hpType %><br/>
-		expType:<%= text_field_tag :expType %>
+		attackType:<%= text_field_tag :attackType %><span color="red"><font color="red">(必填)</font><span><br/>
+		hpType:<%= text_field_tag :hpType %><span color="red"><font color="red">(必填)</font><span><br/>
+		expType:<%= text_field_tag :expType %><span color="red"><font color="red">(必填)</font><span>
 	</fieldset>
 </p>
 <p>
@@ -72,17 +72,27 @@
 	</fieldset>
 </p>
 <p>
-	cost:<%= text_field_tag :cost %>
+	cost:<%= text_field_tag :cost %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	saleValue:<%= text_field_tag :saleValue %>
+	saleValue:<%= text_field_tag :saleValue %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	devourValue:<%= text_field_tag :devourValue %>
+	devourValue:<%= text_field_tag :devourValue %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	getWay:<%= select_tag :getWay,options_for_select(UnitInfo::EUNIT_GETWAY) %>
+	getWay:<%= select_tag :getWay,options_for_select(UnitInfo::EUNIT_GETWAY) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <div class="actions">
 	<%= submit_tag '提交',class: "btn btn-primary" %>
 </div>
+
+
+<script type="text/javascript" charset="utf-8">
+  $("form").submit(function(e){
+    if($("#id").val()== "" || $("#name").val()== "" || $("#skill1").val()== "" || $("#attackType").val()== "" || $("#hpType").val()== "" || $("#expType").val()== "" || $("#cost").val()== "" || $("#saleValue").val()== "" || $("#devourValue").val()== ""){
+      alert("请填写完整信息!");
+      return false;  
+    }
+  });
+</script>

@@ -169,6 +169,11 @@ public class PartyUnitsView : UIComponentUnity {
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
 			uiTexture.mainTexture = dataItemList[ i - 1 ].Avatar;
+//			dataItemList[ i - 1 ].DataItem.UnitInfo.Type;
+
+			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
+			typeSpr.color = dataItemList[ i - 1 ].TypeColor;
+//			Debug.LogError("item " + i + "Color is : " + dataItemList[ i - 1 ].TypeColor.ToString());
 		}
 	}
 	

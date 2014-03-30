@@ -2,16 +2,16 @@
 <%= form_tag(update_redis_unit_infos_path) %>
 
 <p>
-	id:<%= text_field_tag :id,@unit_info.try(:id)%>
+	id:<%= text_field_tag :id,@unit_info.try(:id)%><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	name:<%= text_field_tag :name ,@unit_info.try(:name)%>
+	name:<%= text_field_tag :name ,@unit_info.try(:name)%><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	race:<%= select_tag :race,options_for_select(UnitInfo::UNITRACE,:selected => @unit_info.try(:race))  %>
+	race:<%= select_tag :race,options_for_select(UnitInfo::UNITRACE,:selected => @unit_info.try(:race))  %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	type:<%= select_tag :type,options_for_select(UnitInfo::UNITTYPE,:selected => @unit_info.try(:type)) %>
+	type:<%= select_tag :type,options_for_select(UnitInfo::UNITTYPE,:selected => @unit_info.try(:type)) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
 	rare:1<%= radio_button_tag(:rare, 1,(@unit_info.try(:rare).to_i == 1)) %>
@@ -19,10 +19,10 @@
 	3<%= radio_button_tag(:rare, 3, (@unit_info.try(:rare).to_i == 3)) %>
 	4<%= radio_button_tag(:rare, 4, (@unit_info.try(:rare).to_i == 4)) %>
 	5<%= radio_button_tag(:rare, 5, (@unit_info.try(:rare).to_i == 5)) %>
-	6<%= radio_button_tag(:rare, 6, (@unit_info.try(:rare).to_i == 6)) %>
+	6<%= radio_button_tag(:rare, 6, (@unit_info.try(:rare).to_i == 6)) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-		skill1:<%= select_tag :skill1,options_for_select(@skills,@unit_info.try(:skill1)) %>
+		skill1:<%= select_tag :skill1,options_for_select(@skills,@unit_info.try(:skill1)) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 
 <p>
@@ -50,9 +50,9 @@
 <p>
 	<fieldset>
 		PowerType<br/>
-		attackType:<%= text_field_tag :attackType,@unit_info.try(:powerType).try(:attackType)%><br/>
-		hpType:<%= text_field_tag :hpType ,@unit_info.try(:powerType).try(:hpType)%><br/>
-		expType:<%= text_field_tag :expType,@unit_info.try(:powerType).try(:expType) %>
+		attackType:<%= text_field_tag :attackType,@unit_info.try(:powerType).try(:attackType)%><span color="red"><font color="red">(必填)</font><span><br/>
+		hpType:<%= text_field_tag :hpType ,@unit_info.try(:powerType).try(:hpType)%><span color="red"><font color="red">(必填)</font><span><br/>
+		expType:<%= text_field_tag :expType,@unit_info.try(:powerType).try(:expType) %><span color="red"><font color="red">(必填)</font><span>
 	</fieldset>
 </p>
 <p>
@@ -74,16 +74,16 @@
 	</fieldset>
 </p>
 <p>
-	cost:<%= text_field_tag :cost,@unit_info.try(:cost) %>
+	cost:<%= text_field_tag :cost,@unit_info.try(:cost) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	saleValue:<%= text_field_tag :saleValue ,@unit_info.try(:saleValue)%>
+	saleValue:<%= text_field_tag :saleValue ,@unit_info.try(:saleValue)%><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	devourValue:<%= text_field_tag :devourValue,@unit_info.try(:devourValue) %>
+	devourValue:<%= text_field_tag :devourValue,@unit_info.try(:devourValue) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	getWay:<%= select_tag :getWay,options_for_select(UnitInfo::EUNIT_GETWAY,:selected => @unit_info.try(:getWay)) %>
+	getWay:<%= select_tag :getWay,options_for_select(UnitInfo::EUNIT_GETWAY,:selected => @unit_info.try(:getWay)) %><span color="red"><font color="red">(必填)</font><span>
 </p>
 <div class="actions">
 	<%= submit_tag '提交',class: "btn btn-primary" %>
@@ -91,3 +91,12 @@
 
 
 <%= link_to 'Back', unit_infos_path %>
+
+<script type="text/javascript" charset="utf-8">
+  $("form").submit(function(e){
+    if($("#id").val()== "" || $("#name").val()== "" || $("#skill1").val()== "" || $("#attackType").val()== "" || $("#hpType").val()== "" || $("#expType").val()== "" || $("#cost").val()== "" || $("#saleValue").val()== "" || $("#devourValue").val()== ""){
+      alert("请填写完整信息!");
+      return false;  
+    }
+  });
+</script>
