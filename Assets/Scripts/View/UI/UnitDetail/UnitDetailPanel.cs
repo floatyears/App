@@ -428,7 +428,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			Debug.LogError("Calculate() :: oldBlendUnit=null");
 			return;
 		}
-		Debug.LogError("curlevel : " +curLevel + " MaxLevel : "+ oldBlendUnit.UnitInfo.MaxLevel) ;
+//		Debug.LogError("curlevel : " +curLevel + " MaxLevel : "+ oldBlendUnit.UnitInfo.MaxLevel) ;
 
 		levelLabel.text = curLevel.ToString ();
 		currMaxExp = DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
