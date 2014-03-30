@@ -40,7 +40,7 @@ public class TrapPosion : TrapBase, ITrapExcute {
 	}
 
 	void CountDownRound () {
-		ViewManager.Instance.TrapLabel.text = "posion trap hurt:" +  GetInjuredValue.trapValue +" round : " + round;
+//		ViewManager.Instance.TrapLabel.text = "posion trap hurt:" +  GetInjuredValue.trapValue +" round : " + round;
 		MsgCenter.Instance.Invoke (CommandEnum.PlayerPosion, round);
 		MsgCenter.Instance.Invoke(CommandEnum.InjuredNotDead, GetInjuredValue.trapValue);
 		round--;
