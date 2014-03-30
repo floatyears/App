@@ -148,7 +148,7 @@ public class EnemyItem : UIBaseUnity {
     }
 
     public override void DestoryUI() {
-		Debug.LogError ("currentState : " + currentState + enemyInfo.EnemySymbol);
+//		Debug.LogError ("currentState : " + currentState + enemyInfo.EnemySymbol);
 		if (currentState == UIState.UIDestory) {
 			return;
 		}

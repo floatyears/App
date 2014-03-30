@@ -213,7 +213,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void ShowUnitScale(){
-//		Debug.LogWarning ("ShowUnitScale : " + Time.realtimeSinceStartup);
 		TweenScale unitScale = gameObject.GetComponentInChildren< TweenScale >();
 		TweenAlpha unitAlpha = gameObject.GetComponentInChildren< TweenAlpha >();
 
