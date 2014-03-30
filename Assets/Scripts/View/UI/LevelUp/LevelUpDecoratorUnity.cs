@@ -144,7 +144,6 @@ public class LevelUpDecoratorUnity : UIComponentUnity, IUICallback {
     private void CreateScrollerBase() {
         InitBaseScrollArgs();
         baseItem = Resources.Load("Prefabs/UI/Friend/UnitItem") as GameObject;
-        //baseItem = DataCenter.Instance.ItemObject;
         baseScroller = new DragPanel("BaseScroller", baseItem);
         baseScroller.CreatUI();
         baseScroller.AddItem(userUnitInfoList.Count);

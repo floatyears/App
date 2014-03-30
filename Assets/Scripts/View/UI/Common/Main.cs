@@ -85,10 +85,4 @@ public class Main : MonoBehaviour {
     void OnDisable() {
         sui.RemoveListener();
     }
-
-	void Update () {
-		if (Input.GetKeyDown (KeyCode.O)) {
-			Application.LoadLevel(0);
-		}
-	}
 }
