@@ -186,6 +186,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void QuestStop () {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
+
 		bossAppear.PlayBossAppera (MeetBoss);
 		role.Stop();
 		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
