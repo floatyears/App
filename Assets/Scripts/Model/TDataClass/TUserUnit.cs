@@ -72,8 +72,7 @@ public class TUserUnit : ProtobufDataBase {
     }
 
     void SetHPByRace(float value, int race) {
-        UnitBaseInfo ubi = DataCenter.Instance.UnitBaseInfo[unitBaseInfo];
-        if ((int)ubi.race == race || race == (int)EUnitRace.ALL) {
+		if ((int)UnitInfo.Race == race || UnitInfo.Race == EUnitRace.ALL) {
             hpMultiple *= value;
         }
     }
@@ -86,7 +85,7 @@ public class TUserUnit : ProtobufDataBase {
 
     void SetAttackMultipeByRace(float value, int race) {
         UnitBaseInfo ubi = DataCenter.Instance.UnitBaseInfo[unitBaseInfo];
-        if ((int)ubi.race == race || race == (int)EUnitRace.ALL) {
+		if ((int)UnitInfo.Race == race || UnitInfo.Race == EUnitRace.ALL) {
             attackMultiple *= value;
         }
     }
