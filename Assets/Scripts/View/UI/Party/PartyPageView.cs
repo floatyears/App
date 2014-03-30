@@ -257,6 +257,7 @@ public class PartyPageView : UIComponentUnity {
 		for (int i = 0; i < tex2dList.Count; i++) {
 			if(tex2dList[ i ] == null){
 				texureList[ i ].mainTexture = null;
+				texureList[ i ].transform.FindChild("Sprite_Type").GetComponent<UISprite>().color = Color.white;
 				continue;
 			} 
 			else {

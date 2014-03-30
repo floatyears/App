@@ -76,6 +76,20 @@ public class UnitItemViewInfo {
 		set{ isCollected = value;}
     }
         
+	private Color typeColor;
+
+	public Color TypeColor
+	{
+		get
+		{
+			return typeColor;
+		}
+		set
+		{
+			typeColor = value;
+		}
+	}
+
     private string crossShowTextBefore;
     public string CrossShowTextBefore {
         get {
@@ -172,6 +186,7 @@ public class UnitItemViewInfo {
         InitDataItem(dataItem);
         InitWithArgs();
         GetAvatar();
+		GetTypeColor();
     }
 
 	private void initWithTFriendInfo(TFriendInfo dataItem) {
@@ -179,6 +194,7 @@ public class UnitItemViewInfo {
 		this.helperItem = dataItem;
 		InitWithArgs();
 		GetAvatar();
+		GetTypeColor();
 	}
        
     private void InitDataItem(TUserUnit dataItem) {
@@ -210,6 +226,35 @@ public class UnitItemViewInfo {
     private void GetAvatar() {
         avatar = dataItem.UnitInfo.GetAsset(UnitAssetType.Avatar);
     }
+
+	private void GetTypeColor(){
+		switch (dataItem.UnitInfo.Type){
+			case bbproto.EUnitType.UFIRE : 
+				typeColor = Color.red;
+				break;
+			case bbproto.EUnitType.ULIGHT : 
+				typeColor = Color.yellow;
+				break;
+			case bbproto.EUnitType.UNONE :
+				typeColor = Color.gray;
+				break;
+			case bbproto.EUnitType.UDARK :
+				typeColor = Color.grey;
+				break;
+			case bbproto.EUnitType.UWATER : 
+				typeColor = Color.cyan;
+				break;
+			case bbproto.EUnitType.UWIND : 
+				typeColor = Color.green;
+				break;
+			default:
+				typeColor = Color.white;
+				break;
+		}
+		typeColor.a = 0.65f;
+//		Debug.LogError("typeColor : " + typeColor.ToString());
+
+	}
 	
     private void RefreshPartyState(bool state) {
         this.isParty = state;

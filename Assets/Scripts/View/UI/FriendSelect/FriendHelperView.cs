@@ -176,7 +176,7 @@ public class FriendHelperView : UIComponentUnity{
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem [i];
 			UILabel nameLabel = scrollItem.transform.FindChild("Label_Name").GetComponent<UILabel>();
-			nameLabel.text = friendInfoList[ i ].DataItem.UnitInfo.Name;
+			nameLabel.text = friendInfoList[ i ].HelperItem.NickName;
 		}
 	}
 
@@ -208,6 +208,9 @@ public class FriendHelperView : UIComponentUnity{
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
             uiTexture.mainTexture = friendInfoList[ i ].Avatar;
+
+			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
+			typeSpr.color = friendInfoList[ i ].TypeColor;
 		}
 	}
 
