@@ -106,12 +106,14 @@ public class SelectRoleView : UIComponentUnity {
 	}
 
 	void ClickTab(GameObject tab){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		int pos = tabList.IndexOf(tab);
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickTab", pos);
 		ExcuteCallback(call);
 	}
 
 	void ClickButton(GameObject btn){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickButton", null);
 		ExcuteCallback(call);
 	}
