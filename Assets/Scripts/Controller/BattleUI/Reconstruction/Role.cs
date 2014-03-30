@@ -16,15 +16,16 @@ public class Role : UIBaseUnity {
 	private bool isMove = false;
 	public bool waitMove = false;
 	private Vector3 targetPoint;
-	private const int YOffset = 25;
+	private const int xOffset = -5;
+	private const int YOffset = 20;
 	private const int ZOffset = -40;
-	private Vector3 scale = new Vector3(30f,25f,30f);
-	private Vector3 angle = new Vector3(330f,0f,0f);
+	private Vector3 scale = new Vector3(30f, 25f, 30f);
+	private Vector3 angle = new Vector3(330f, 0f, 0f);
 	private List<Coordinate> firstWay = new List<Coordinate>();
 	private Vector3 distance = Vector3.zero;
 	public Vector3 TargetPoint {
 		set {
-			targetPoint.x = value.x;
+			targetPoint.x = value.x + xOffset;
 			targetPoint.y = value.y + YOffset;
 			targetPoint.z = transform.localPosition.z;
 		}
@@ -36,11 +37,10 @@ public class Role : UIBaseUnity {
 	}
 
 	private Jump jump;
-	private Vector3 initPosition = new Vector3 (-1100f, 350f, -240f);
+	private Vector3 initPosition = new Vector3 (-1115f, 340f, -20f);
 	public override void Init (string name) {
 		base.Init (name);
 		jump = GetComponent<Jump> ();
-		transform.localScale = Vector3.one;
 	}
 
 	public override void CreatUI () {
@@ -49,9 +49,9 @@ public class Role : UIBaseUnity {
 
 	void RoleStart() {
 		prevCoor = currentCoor = bQuest.RoleInitPosition;
-		Vector3 pos = GetRolePosition(bQuest.GetPosition(currentCoor));
+		TargetPoint = bQuest.GetPosition(currentCoor);
 		jump.Init (initPosition);
-		jump.GameStart (pos);
+		jump.GameStart (targetPoint + new Vector3 (0f, 0f, -20f));
 		SyncRoleCoordinate(currentCoor);
 		Stop();
 	}
@@ -134,6 +134,7 @@ public class Role : UIBaseUnity {
 		currentCoor.x = tc.x;
 		currentCoor.y = tc.y;
 		TargetPoint = bQuest.GetPosition(tc);
+//		TargetPoint += new Vector3 (-10, -10, 0f);
 		if (isMove) {
 			jump.JumpAnim ();
 		}

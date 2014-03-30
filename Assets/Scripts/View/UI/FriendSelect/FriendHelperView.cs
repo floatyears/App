@@ -208,9 +208,9 @@ public class FriendHelperView : UIComponentUnity{
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
             uiTexture.mainTexture = friendInfoList[ i ].Avatar;
-
-			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
-			typeSpr.color = friendInfoList[ i ].TypeColor;
+//
+//			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
+//			typeSpr.color = friendInfoList[ i ].TypeColor;
 		}
 	}
 

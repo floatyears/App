@@ -245,8 +245,8 @@ public class OnSaleUnitsView : UIComponentUnity{
 			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
 			uiTexture.mainTexture = dataItemList[ i ].Avatar;
 
-			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
-			typeSpr.color = dataItemList[ i ].TypeColor;
+//			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
+//			typeSpr.color = dataItemList[ i ].TypeColor;
 
 			UISprite maskSpr = scrollItem.transform.FindChild("Mask").GetComponent<UISprite>();
 			UILabel partyLabel = scrollItem.transform.FindChild("Label_Party").GetComponent<UILabel>();

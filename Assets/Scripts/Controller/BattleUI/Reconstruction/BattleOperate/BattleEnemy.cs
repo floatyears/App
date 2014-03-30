@@ -27,11 +27,11 @@ public class BattleEnemy : UIBaseUnity {
 	public override void HideUI () {
 		base.HideUI ();
 		Clear ();
-		gameObject.SetActive (false);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
 		count --;
+		gameObject.SetActive (false);
 	}
 
 	public override void ShowUI () {
@@ -93,6 +93,11 @@ public class BattleEnemy : UIBaseUnity {
 			}
 		}
 		monster.Clear();
+
+		EnemyItem[] ei = transform.GetComponentsInChildren<EnemyItem> ();
+		foreach (var item in ei) {
+			item.DestoryUI();
+		}
 	}
 
 	float interv = 0f;

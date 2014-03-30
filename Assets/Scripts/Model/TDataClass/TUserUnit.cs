@@ -196,15 +196,12 @@ public class TUserUnit : ProtobufDataBase {
     }
 
     protected int CaculateAttack(UserUnit uu, UnitInfo ui, TNormalSkill tns) {
-        int addAttack = uu.addAttack * 50;
-
-        float attack = addAttack + DataCenter.Instance.GetUnitValue(ui.powerType.attackType, uu.level); //ui.power [uu.level].attack;
+		float attack = DGTools.CaculateAddAttack (uu.addAttack, uu, ui); //addAttack + DataCenter.Instance.GetUnitValue(ui.powerType.attackType, uu.level); //ui.power [uu.level].attack;
         attack = tns.GetAttack(attack) * attackMultiple;
 
         if (strengthenInfo != null) {
             attack *= strengthenInfo.AttackValue;
         }
-//		Debug.LogError ("addAttack : " + addAttack + "attack : " + uu.addAttack );
         int value = System.Convert.ToInt32(attack);
         return value;
     }
@@ -450,7 +447,7 @@ public class UserUnitList {
     }
 
     public  void Add(uint userId, uint uniqueId, TUserUnit uu) {
-        string key = MakeUserUnitKey(userId, uniqueId);
+		string key = uu.MakeUserUnitKey();
         if (!userUnitInfo.ContainsKey(key))
             userUnitInfo.Add(key, uu);
         else {
