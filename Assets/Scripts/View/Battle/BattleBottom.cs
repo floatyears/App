@@ -82,21 +82,30 @@ public class BattleBottom : MonoBehaviour {
 			if (upi.UserUnit.ContainsKey (id)) {
 				tuu = upi.UserUnit [id];
 				battleSkillObject.SetActive(true);
-				battleSkill.Refresh(tuu, Boost);
+				battleSkill.Refresh(tuu, Boost, Close);
 				BattleMap.waitMove = true;
 				battleQuest.battle.SwitchInput(true);
+//				Debug.LogError("tuu : " + tuu + " battleQuest.battle : " + battleQuest.battle + " battleSkill : " + battleSkill);
 			}
 		}
 		catch(System.Exception ex) {
-			Debug.LogError("exception : " + ex.Message);
+			Debug.LogError("exception : " + ex.Message + " name : " + name);
 		}
 
 	}
 
 	void Boost() {
+		CloseSkillWindow ();
+		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
+	}
+
+	void Close () {
+		CloseSkillWindow ();
+	}
+
+	void CloseSkillWindow () {
 		BattleMap.waitMove = false;
 		battleQuest.battle.SwitchInput (false);
 		battleSkillObject.SetActive(false);
-		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
 	}
 }
