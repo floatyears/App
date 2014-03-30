@@ -24,6 +24,9 @@ func New(vlist ...interface{}) Error {
 			}
 		case string:
 			{
+				if errno == 0 {
+					errno = -1
+				}
 				errstr = v //vlist[0].(string)
 			}
 		case error:

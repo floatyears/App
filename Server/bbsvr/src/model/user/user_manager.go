@@ -134,7 +134,22 @@ func AddNewUser(db *data.Data, uuid string, selectRole uint32) (userdetail *bbpr
 			if i==*userdetail.Party.CurrentParty && pos == 0 { //currParty's leader
 				item.UnitUniqueId = userdetail.User.Unit.UniqueId
 			}else {
-				item.UnitUniqueId = userdetail.UnitList[pos].UniqueId
+				for _, unit:= range userdetail.UnitList {
+					if *unit.UniqueId ==  *userdetail.User.Unit.UniqueId { //leader is used
+						continue
+					}
+					used:=false
+					for _, it := range party.Items{
+						if *unit.UniqueId == *it.UnitUniqueId { //other partyitem used
+							used=true
+							break
+						}
+					}
+					if used {
+						continue
+					}
+					item.UnitUniqueId = unit.UniqueId
+				}
 			}
 			party.Items = append(party.Items, item)
 		}

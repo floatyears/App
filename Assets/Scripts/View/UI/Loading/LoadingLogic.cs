@@ -84,9 +84,7 @@ public class LoadingLogic : ConcreteComponent {
             }
             
             if (rspAuthUser.friends != null) {
-//                LogHelper.Log("rsp.friends have {0} friends.", rspAuthUser.friends.Count);
                 DataCenter.Instance.SupportFriends = new List<TFriendInfo>();
-                //              Debug.LogError(rspAuthUser.friends.Count);
                 foreach (FriendInfo fi in rspAuthUser.friends) {
                     TFriendInfo tfi = new TFriendInfo(fi);
                     DataCenter.Instance.SupportFriends.Add(tfi);
@@ -107,7 +105,6 @@ public class LoadingLogic : ConcreteComponent {
             
             if (rspAuthUser.party != null && rspAuthUser.party.partyList != null) {
                 DataCenter.Instance.PartyInfo = new TPartyInfo(rspAuthUser.party);
-                
                 //TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.PartyInfo.CurrentParty
                 ModelManager.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
             }

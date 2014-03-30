@@ -172,8 +172,7 @@ public class DragPanelView : UIBaseUnity {
 		grid.Reposition ();
 	}
 
-	public void SetScrollView(Dictionary< string, object > argsDic)
-	{
+	public void SetScrollView(Dictionary< string, object > argsDic){
 		//default args List
 		Transform parentTrans = transform.parent;
 		Vector3 scrollerLocalPos = Vector3.zero;

@@ -6,7 +6,7 @@ import (
 	//"fmt"
 	_ "html"
 	//"math/rand"
-	"strings"
+	//"strings"
 )
 import (
 	"bbproto"
@@ -64,25 +64,30 @@ func Gacha(uid uint32, gachaId, gachaCount int32) error {
 }
 
 func AddGachaPool(gachaId int32) {
-	unitList := []uint32{}
+	//unitList := []uint32{}
+		unitList := []uint32 {1,5,9,49,50,51,52,53,54,61,63,64,65,66,73,75,76,77,78,89,90,152,153}
+
 	if gachaId == 3 {
+		unitList := []uint32{}
 		for i := int32(1); i <= 20; i++ {
 			unitList = append(unitList, uint32(1))
 		}
 		for i := int32(1); i <= 20; i++ {
-			unitList = append(unitList, uint32(11))
-			unitList = append(unitList, uint32(12))
+			unitList = append(unitList, uint32(51))
+			unitList = append(unitList, uint32(52))
 		}
+		unit.SetGachaPool(nil, gachaId, unitList)
 
 	} else {
+		
 		for i := int32(1); i <= 10; i++ {
 			unitList = append(unitList, uint32(gachaId*i))
 		}
 
-	}
+		unit.SetGachaPool(nil, gachaId, unitList)
 
-	//unitList := []uint32{21, 22, 23, 24, 25, 26, 27, 28}
-	unit.SetGachaPool(nil, gachaId, unitList)
+	}
+	
 }
 
 func AddGachaConfig(db *data.Data, gachaId int32, gachaConf *bbproto.GachaConfig) (e Error.Error) {
@@ -136,14 +141,6 @@ func main() {
 	log.Printf("bbsvr test client begin...")
 
 	Init()
-
-	str := "102123"
-	ss := strings.Split(str, "_")
-	log.T("sslen:%v ss=%v", len(ss), ss)
-	log.T("sslen:%v ss[0]=%v", len(ss), ss[0])
-	log.T("ss:[%v],[%v]", ss[0], ss[1])
-
-	return
 
 	AddGachaPool(1)
 	AddGachaPool(2)
