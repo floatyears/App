@@ -61,7 +61,7 @@ public class BattleCardArea : UIBaseUnity {
 			return;
 		battleCardAreaItem = new BattleCardAreaItem[position.Length];
 		float xOffset = backTexture.width * -0.5f;
-		float yOffset = backTexture.height * 2.5f;
+		float yOffset = backTexture.height * 1.5f;
 		stateLabel.transform.localPosition = position [0] + new Vector3 (xOffset, yOffset, 0f);
 		stateLabel.enabled = true;
 		int length = position.Length;
