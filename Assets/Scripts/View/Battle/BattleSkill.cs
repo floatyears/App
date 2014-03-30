@@ -32,6 +32,7 @@ public class BattleSkill : UIBaseUnity {
 	private const string pathName = "/SkillName";
 	private const string pathDescribe = "/DescribeLabel";
 	private Callback boostAcitveSkill;
+	private Callback CloseSkill;
 	private UILabel roundLabel;
 	
 	private Dictionary<string, SkillItem> skillDic = new Dictionary<string, SkillItem> ();
@@ -89,32 +90,69 @@ public class BattleSkill : UIBaseUnity {
 
 		GameObject go = transform.Find ("BoostButton").gameObject;
 		UIEventListener.Get (go).onClick = Boost;
+
+		Transform trans = FindChild<Transform>("Title/Button_Close");
+//		Debug.LogError ("trans : " + trans);
+		UIEventListener.Get (trans.gameObject).onClick = Close;
 	}
 
 	void Boost(GameObject go) {
-		if (boostAcitveSkill != null) {
+		if (boost && boostAcitveSkill != null) {
 			boostAcitveSkill();	
 		}
 	}
 
-	public void Refresh(TUserUnit userUnitInfo, Callback boostSKill) {
+	void Close(GameObject go) {
+		Debug.LogError ("CloseSkill : " + (CloseSkill == null));
+		if (CloseSkill != null) {
+			CloseSkill();
+		}
+	}
+
+	bool boost = false;
+
+	public void Refresh(TUserUnit userUnitInfo, Callback boostSKill,Callback close) {
 		boostAcitveSkill = boostSKill;
+		CloseSkill = close;
 		TUnitInfo tui = userUnitInfo.UnitInfo;
+
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.LeaderSkill, SkillType.LeaderSkill); //GetSkill (tui.LeaderSkill);
 		Refresh (0, sbi);
+
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill1, SkillType.NormalSkill); 				//.GetSkill (tui.NormalSkill1);
 		Refresh (1, sbi);
+
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill2, SkillType.NormalSkill); 				//.GetSkill (tui.NormalSkill2);
 		Refresh (2, sbi);
-		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill);  				//.GetSkill (tui.ActiveSkill);
+
+//		Debug.LogError ("NormalSkill2 : " + sbi );
+//		if (sbi != null) {
+//			Debug.LogError ("NormalSkill2 : " + sbi  + " id: " + sbi.BaseInfo.id );
+//		}
+
+		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill); 
+
 		Refresh (3, sbi);
+
+		if (sbi != null && sbi.BaseInfo.skillCooling == 0) {
+			boost = true;	
+		} 
+		else {
+			boost = false;
+		}
+
 		if (sbi == null) {
 			roundLabel.text = "";		
 		} 
 		else {
 			roundLabel.text =  sbi.BaseInfo.skillCooling + "  round";
 		}
+
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.PassiveSkill, SkillType.PassiveSkill);				//.GetSkill (tui.PassiveSkill);
+//		Debug.LogError ("passive skill : " + sbi);
+//		if (sbi != null) {
+//			Debug.LogError ("passive skill : " + sbi + " id : " + sbi.BaseInfo.id);
+//		}
 		Refresh (4, sbi);
 	}
 

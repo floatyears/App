@@ -182,7 +182,7 @@ public class DGTools {
 	}
 
 	public static int CaculateAddBlood (int addHP,UserUnit uu, UnitInfo ui) {
-		return addHP * 0 + GetValue (uu, ui.powerType.hpType);
+		return addHP * 10 + GetValue (uu, ui.powerType.hpType);
 	}
 
 	public static int CaculateAddAttack (int addAttack, UserUnit uu, UnitInfo ui) {
