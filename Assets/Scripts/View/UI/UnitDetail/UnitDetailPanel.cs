@@ -67,16 +67,16 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	public override void ShowUI () {
-
 		base.ShowUI ();
 		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 	}
 
 	public override void HideUI () {
-
 		base.HideUI ();
-
+		if (IsInvoking ("CreatEffect")) {
+			CancelInvoke("CreatEffect");
+		}
 		ClearEffectCache();
 		UIManager.Instance.ShowBaseScene();
 	}
@@ -103,7 +103,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		InitTabSkill();
 		InitTabStatus ();
-//		InitExpSlider ();
 		InitTexture ();
 		InitProfile();
 	}
@@ -141,9 +140,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void InitTabSkill(){
-
 		string rootPath;
-
 		// skill_1
 		rootPath 				=  "UnitInfoTabs/Content_Skill1/Label_Vaule/";
 		leaderSkillNameLabel	= FindChild<UILabel>(rootPath + "Leader_Skill");

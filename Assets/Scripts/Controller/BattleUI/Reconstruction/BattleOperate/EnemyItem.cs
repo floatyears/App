@@ -30,6 +30,7 @@ public class EnemyItem : UIBaseUnity {
         MsgCenter.Instance.AddListener(CommandEnum.BePosion, BePosion);
         MsgCenter.Instance.AddListener(CommandEnum.ReduceDefense, ReduceDefense);
         MsgCenter.Instance.AddListener(CommandEnum.DropItem, DropItem);
+//		Debug.LogWarning("enemy item add drop item event :" );
     }
 
     void OnDisable() {
@@ -41,6 +42,7 @@ public class EnemyItem : UIBaseUnity {
         MsgCenter.Instance.RemoveListener(CommandEnum.BePosion, BePosion);
         MsgCenter.Instance.RemoveListener(CommandEnum.ReduceDefense, ReduceDefense);
         MsgCenter.Instance.RemoveListener(CommandEnum.DropItem, DropItem);
+//		Debug.LogWarning("enemy item remove drop item event :");
     }
 
     GameObject prevObject = null;
@@ -146,6 +148,7 @@ public class EnemyItem : UIBaseUnity {
     }
 
     public override void DestoryUI() {
+		Debug.LogError ("currentState : " + currentState + enemyInfo.EnemySymbol);
 		if (currentState == UIState.UIDestory) {
 			return;
 		}
@@ -157,7 +160,9 @@ public class EnemyItem : UIBaseUnity {
 	
     public void DropItem(object data) {
         int pos = (int)data;
-        if (pos == enemyInfo.EnemySymbol && !texture.enabled) {
+//		Debug.LogError ("pos : " + pos + "  enemyInfo.EnemySymbol : " + enemyInfo.EnemySymbol + " enemyInfo.drop : " + enemyInfo.drop);
+        if (pos == (int)enemyInfo.EnemySymbol && !texture.enabled) {
+			Debug.LogError ("pos : " + pos + "  enemyInfo.EnemySymbol : " + enemyInfo.EnemySymbol + " enemyInfo.drop : " + enemyInfo.drop);
 			if(enemyInfo.drop == null) {
 				return;
 			}
@@ -202,10 +207,8 @@ public class EnemyItem : UIBaseUnity {
             return;		
         }
         AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_die);
-        DestoryUI ();
         texture.enabled = false;
         nextLabel.text = "";
-//		DropItem ();
     }
     Queue<TEnemyInfo> tempQue = new Queue<TEnemyInfo>();
     void EnemyRefresh(object data) {

@@ -88,6 +88,9 @@ public class ControllerManager
 
 	public void ExitBattle () {
 		currentScene.HideUI();
+//		currentScene.DestoryUI ();
+//		currentScene = null;
+		ViewManager.Instance.TrapLabel.text = "";
 		Resources.UnloadUnusedAssets ();
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
 	}

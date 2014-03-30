@@ -394,6 +394,7 @@ public class DataCenter {
         }
         UserInfo.RefreshUserInfo(clearQuest);
         AccountInfo.RefreshAcountInfo(clearQuest);
+	
     }
 
     public void SetFriendList(FriendList friendList){
