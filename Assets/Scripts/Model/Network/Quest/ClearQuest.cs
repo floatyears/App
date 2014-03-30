@@ -102,10 +102,16 @@ public class ClearQuest: ProtoManager {
             cq.gotExp = rspClearQuest.gotExp;
             cq.gotStone = rspClearQuest.gotStone;
             cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
+			Debug.LogWarning("uu : got befoure : " + DataCenter.Instance.UserUnitList.Count);
             foreach (UserUnit uu in rspClearQuest.gotUnit) {
+				DataCenter.Instance.UserUnitList.AddMyUnit(uu);
+				DataCenter.Instance.MyUnitList.AddMyUnit(uu);
+				Debug.LogWarning("uu : got update " + DataCenter.Instance.UserUnitList.Count);
 				TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
                 cq.gotUnit.Add(tuu);
             }
+
+			Debug.LogWarning("uu : got end " + DataCenter.Instance.UserUnitList.Count);
             base.OnResponseEnd(cq);
         }
         else {
@@ -115,12 +121,10 @@ public class ClearQuest: ProtoManager {
 
     protected override void OnReceiveCommand(object data) {
         questParam = data as ClearQuestParam;
-//		Debug.LogError ("clear quest : " + questParam);
         if (questParam == null) {
             LogHelper.Log("ClearQuest: Invalid param data.");
             return;
         }
-//		Debug.LogError ("OnReceiveCommand");
         LogHelper.Log("OnReceiveCommand(ClearQuest): questId:{0} getMoney:{1} getUnit.count:{2} hitGrid.count{3}",
 		               questParam.questId, questParam.getMoney, questParam.getUnit.Count, questParam.hitGrid.Count);
 

@@ -21,18 +21,18 @@ public class AttackController {
 		}
 	}
 	IExcutePassiveSkill passiveSkill;
+	public bool battleFail = false;
 
 	public bool isBoss = false;
-
 	public AttackController (BattleUseData bud,IExcutePassiveSkill ips) {
 		msgCenter = MsgCenter.Instance;
 		this.bud = bud;
 		passiveSkill = ips;
 		RegisterEvent ();
-
 	}
 
 	public void RemoveListener () {
+		battleFail = false;
 		RemoveEvent ();
 	}
 
@@ -195,8 +195,6 @@ public class AttackController {
 	}
 
 	void AttackEnemy () {
-	
-
 		if (attackInfo.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.Blood, 1);	//1: every round.
 			bud.RecoverHP(blood);
@@ -248,9 +246,12 @@ public class AttackController {
 		for (int i = 0; i < deadEnemy.Count; i++) {
 			deadEnemy[i].IsDead = true;
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, deadEnemy[i]);
-			Debug.LogError("grid : " + grid);
-			if(grid != null)
-			MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
+			Debug.LogWarning("CheckTempEnemy grid : " + grid);
+			if(grid != null) {
+				Debug.LogWarning(" invoke drop item : " + grid.DropPos);
+				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
+			}
+
 		}
 		deadEnemy.Clear ();
 		for (int i = enemyInfo.Count - 1; i > -1; i--) {
@@ -260,14 +261,16 @@ public class AttackController {
 				enemyInfo.Remove(te);
 				te.IsDead = true;
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
+				Debug.LogWarning("CheckTempEnemy grid : " + grid);
 				if(grid != null) {
+					Debug.LogWarning(" invoke drop item : " + grid.DropPos);
 					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 				}
 			}
 		}
 		if (enemyInfo.Count == 0) {
 			BattleBottom.notClick = false;
-			GameTimer.GetInstance().AddCountDown(2f, BattleEnd); //TODO: set time in const config
+			GameTimer.GetInstance().AddCountDown(1f, BattleEnd); //TODO: set time in const config
 			return false;
 		}
 
@@ -278,7 +281,7 @@ public class AttackController {
 
 	void BattleEnd() {
 		msgCenter.Invoke (CommandEnum.GridEnd, null);
-		msgCenter.Invoke(CommandEnum.BattleEnd, null);
+		msgCenter.Invoke(CommandEnum.BattleEnd, battleFail);
 		bud.ClearData();
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}
@@ -376,9 +379,7 @@ public class AttackController {
 
 		if (enemyIndex == enemyInfo.Count) {
 			if(bud.Blood < 1) {
-
-				GameTimer.GetInstance ().AddCountDown (2f, Fail);
-
+				GameTimer.GetInstance ().AddCountDown (1f, Fail);
 			}
 			else{
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
@@ -391,6 +392,7 @@ public class AttackController {
 	}    
 
 	void Fail () {
+		battleFail = true;
 		BattleEnd();
 		msgCenter.Invoke(CommandEnum.PlayerDead, null);
 		return;

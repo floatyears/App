@@ -29,6 +29,7 @@ public class MapDoor : UIBaseUnity {
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.OpenDoor, OpenDoor);
+		doorOpen = false;
 	}
 
 	public override void DestoryUI () {

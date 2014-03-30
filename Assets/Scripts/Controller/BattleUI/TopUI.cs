@@ -44,8 +44,12 @@ public class TopUI : UIBaseUnity {
 	}
 
 	public override void ShowUI () {
-		if(!gameObject.activeSelf)
-			gameObject.SetActive (true);
+		if (!gameObject.activeSelf) {
+			gameObject.SetActive (true);	
+			Coin= 0;
+			Drop = 0;
+		}
+			
 	}
 
 	public override void DestoryUI () {

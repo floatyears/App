@@ -201,8 +201,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
-	GameObject GetPrefabsObject(string name)
-	{
+	GameObject GetPrefabsObject(string name) {
 		tempObject = LoadAsset.Instance.LoadAssetFromResources(name, ResourceEuum.Prefab) as GameObject;
 
 		GameObject go = NGUITools.AddChild(battleRootGameObject,tempObject);
@@ -212,8 +211,7 @@ public class Battle : UIBase {
 		return go;
 	}
 
-	int GenerateData()
-	{
+	int GenerateData() {
 		ItemData id = Config.Instance.GetCard();
 
 		allItemData.Add(id);
@@ -244,7 +242,6 @@ public class Battle : UIBase {
 	void ShieldInput (bool isShield) {
 		nguiMainCamera.enabled = isShield;
 		main.GInput.IsCheckInput = isShield;
-
 	}
 
 	void HandleOnPressEvent () {
@@ -373,13 +370,14 @@ public class Battle : UIBase {
 			battleCard.DisposeDrag(selectTarget[0].location,selectTarget[0].itemID);
 	}
 
-	void ClickObject(GameObject go)
-	{
+	void ClickObject(GameObject go) {
 		tempCard = go.GetComponent<CardItem>();
 		if(tempCard != null) {
 			if(selectTarget.Contains(tempCard))
 				return;
 			if(tempCard.CanDrag) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
+
 				tempCard.OnPress(true,selectTarget.Count);
 				tempCard.ActorTexture.depth = 5;
 				selectTarget.Add(tempCard);

@@ -64,10 +64,8 @@ public class BattleQuest : UIBase {
 		go = GameObject.Instantiate (go) as GameObject;
 		go.transform.parent = viewManager.TopPanel.transform;
 		go.transform.localScale = Vector3.one;
-//		go = NGUITools.AddChild (viewManager.TopPanel, go);
 		topUI = go.GetComponent<TopUI> ();
 		topUI.Init ("TopUI");
-////		RefreshTopUI ();
 		topUI.RefreshTopUI (questDungeonData, questData);
 		AddSelfObject (topUI);
 	}
@@ -142,6 +140,7 @@ public class BattleQuest : UIBase {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		bossAppear.DestoryUI ();
+		Resources.UnloadUnusedAssets ();
 	}
 
 	void CreatBoosAppear () {
@@ -349,14 +348,18 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleEnd(object data) {
-		if (battleEnemy) {
+		bool b = false;
+		if (data != null) {
+			b = (bool)data;	
+		}
+
+		if (battleEnemy && !b) {
 			battle.SwitchInput(true);
 			RequestData();
 			battleMap.BattleEndRotate();
 		}
 	}
-
-
+	
 	void AddListener () {
 		MsgCenter.Instance.AddListener (CommandEnum.BattleBaseData, BattleBase);
 	}
@@ -437,8 +440,8 @@ public class BattleQuest : UIBase {
 		if ( data != null ) {
 			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
-			End (clearQuest,QuestEnd);
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
+			End (clearQuest,QuestEnd);
 		}
 	}
 
