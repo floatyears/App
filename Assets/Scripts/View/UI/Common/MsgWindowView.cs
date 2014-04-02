@@ -15,6 +15,7 @@ public class MsgWindowParams {
     public string titleText;
     public string contentText;
     public string[] contentTexts;
+    public bool inputEnable = false;
 }
 
 public class MsgWindowView : UIComponentUnity{
@@ -30,9 +31,13 @@ public class MsgWindowView : UIComponentUnity{
     UIButton btnLeft;
     UIButton btnRight;
 
+    UITexture mask;
+
     BtnParam btnCenterParam;
     BtnParam btnLeftParam;
     BtnParam btnRightParam;
+
+    MsgWindowParams msgWindowParams = new MsgWindowParams();
 
 //    int originLayer;
     
@@ -64,6 +69,8 @@ public class MsgWindowView : UIComponentUnity{
     void FindUIElement()
     {
         window = FindChild("Window");
+        mask = FindChild<UITexture>("Mask");
+
         btnLeft = FindChild<UIButton>("Window/Button_Left");
         btnRight = FindChild<UIButton>("Window/Button_Right");
         btnCenter = FindChild<UIButton>("Window/Button_Center");
@@ -78,18 +85,30 @@ public class MsgWindowView : UIComponentUnity{
         UIEventListener.Get(btnCenter.gameObject).onClick = ClickCenterButton;
 //        originLayer = Main.Instance.NguiCamera.eventReceiverMask;
     }
+
     
     void ShowSelf(bool canShow){
         this.gameObject.SetActive(canShow);
         if (canShow){
-			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
+            if (!msgWindowParams.inputEnable){
+                LogHelper.Log("open msgWindow and block input");
+                MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
+            }
+            else {
+                SetLayerToBlocker(false);
+            }
+            LogHelper.Log("open msgWindow showSelf true");
             window.transform.localScale = new Vector3(1f, 0f, 1f);
             iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
         } 
 		else{
             Reset();
-			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
-                        
+            if (!msgWindowParams.inputEnable){
+                LogHelper.Log("close msgWindow and resume input");
+                MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
+            }
+            SetLayerToBlocker(true);
+            LogHelper.Log("open msgWindow showSelf false");
         }
     }
 
@@ -118,17 +137,36 @@ public class MsgWindowView : UIComponentUnity{
     
     void ResetUIElement(){
         titleLabel.text = string.Empty;
+        SetLayerToBlocker(true);
     }
     
     public override void CallbackView(object data){
-        ShowSelf(true);  
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         switch (cbdArgs.funcName){
         case "ShowMsg": 
-            CallBackDispatcherHelper.DispatchCallBack(UpdateNotePanel, cbdArgs);
+            CallBackDispatcherHelper.DispatchCallBack(ShowMsgWindow, cbdArgs);
+            break;
+        case "CloseMsg": 
+            CallBackDispatcherHelper.DispatchCallBack(CloseMsgWindow, cbdArgs);
             break;
         default:
             break;
+        }
+    }
+
+    void SetLayerToBlocker(bool toBlocker){
+        LogHelper.Log("SetLayerToBlocker(), {0}", toBlocker);
+        if (toBlocker){
+            mask.gameObject.SetActive(true);
+            btnLeft.gameObject.layer = TouchEventBlocker.blockerLayer;
+            btnRight.gameObject.layer = TouchEventBlocker.blockerLayer;
+            btnCenter.gameObject.layer = TouchEventBlocker.blockerLayer;
+        }
+        else {
+            mask.gameObject.SetActive(false);
+            btnLeft.gameObject.layer = TouchEventBlocker.defaultLayer;
+            btnRight.gameObject.layer = TouchEventBlocker.defaultLayer;
+            btnCenter.gameObject.layer = TouchEventBlocker.defaultLayer;
         }
     }
     
@@ -216,7 +254,7 @@ public class MsgWindowView : UIComponentUnity{
         SetButtonLabelText(btnRight, btnParam[1].text);
     }
     
-    void UpdateLabels(MsgWindowParams msgWindowParams){
+    void UpdateLabels(){
         string text = msgWindowParams.contentText as string;
         string[] texts = msgWindowParams.contentTexts as string[];
         if (text != null) {
@@ -227,7 +265,7 @@ public class MsgWindowView : UIComponentUnity{
         }
     }
 
-    void UpdateBtnParams(MsgWindowParams msgWindowParams){
+    void UpdateBtnParams(){
         BtnParam btnParam = msgWindowParams.btnParam as BtnParam;
         BtnParam[] btnParams = msgWindowParams.btnParams as BtnParam[];
         LogHelper.Log("btnParam {0}, btnParams {1}", btnParam, btnParams);
@@ -239,15 +277,29 @@ public class MsgWindowView : UIComponentUnity{
             UpdateBtnLeftRightCallback(btnParams);
         }
     }
-    
-    void UpdateNotePanel(object args)
+
+    void UpdateTitleLabel(){
+        titleLabel.text = msgWindowParams.titleText;
+    }
+
+    void ShowMsgWindow(object args)
     {
+        MsgWindowParams nextMsgWindowParams = args as MsgWindowParams;
+        if (nextMsgWindowParams == null){
+            return;
+        }
+        msgWindowParams = nextMsgWindowParams;
+        ShowSelf(true);  
         LogHelper.Log("UpdateNotePanel() start");
-        MsgWindowParams msgWindowParams = args as MsgWindowParams;
 //        Dictionary<string, object> msgWindowParams = args as Dictionary<string, object>;
         titleLabel.text = msgWindowParams.titleText;
 
-        UpdateLabels(msgWindowParams);
-        UpdateBtnParams(msgWindowParams);
+        UpdateTitleLabel();
+        UpdateLabels();
+        UpdateBtnParams();
+    }
+
+    void CloseMsgWindow(object args){
+        ShowSelf(false);
     }
 }

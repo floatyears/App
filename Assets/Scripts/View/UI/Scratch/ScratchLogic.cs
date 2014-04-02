@@ -186,6 +186,7 @@ public class ScratchLogic : ConcreteComponent {
     MsgWindowParams GetFriendGachaMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
 
+        msgWindowParam.inputEnable = true;
         msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendGacha");
         string content1 = TextCenter.Instace.GetCurrentText("FriendGachaDescription");
 
@@ -208,7 +209,9 @@ public class ScratchLogic : ConcreteComponent {
 
     MsgWindowParams GetRareGachaMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
-        
+
+        msgWindowParam.inputEnable = true;
+
         msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RareGacha");
         string content1 = TextCenter.Instace.GetCurrentText("RareGachaDescription");
         
@@ -231,7 +234,8 @@ public class ScratchLogic : ConcreteComponent {
 
     MsgWindowParams GetEventGachaMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
-        
+
+        msgWindowParam.inputEnable = true;
         msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("EventGacha");
         string content1 = TextCenter.Instace.GetCurrentText("EventGachaDescription");
         

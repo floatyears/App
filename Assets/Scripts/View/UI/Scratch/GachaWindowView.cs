@@ -25,13 +25,13 @@ public class GachaWindowView : UIComponentUnity {
 //        UIManager.Instance.HideBaseScene();
         SetActive(false);
 
-        SetMenuBtnEnable(false);
         AddListener();
     }
     
     public override void HideUI () {
         base.HideUI ();
         Reset();
+        CloseChooseGachaWindow();
         SetMenuBtnEnable(true);
         RemoveListener();
     }
@@ -94,9 +94,14 @@ public class GachaWindowView : UIComponentUnity {
         titleLabel.text = titleText;
     }
 
+    private void CloseChooseGachaWindow(){
+        MsgCenter.Instance.Invoke(CommandEnum.CloseMsgWindow);
+    }
+
     private void Enter(object args){
         LogHelper.Log("Enter invoke SyncGachaInfos()");
         SetActive(true);
+        SetMenuBtnEnable(false);
         GachaWindowInfo gachaWindowInfo = args as GachaWindowInfo;
         if (gachaWindowInfo != null){
             gachaInfo = gachaWindowInfo;

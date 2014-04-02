@@ -121,8 +121,8 @@ public partial class TextCenter {
         textDict.Add("ConfirmOneFriendGacha", "Gacha 1 time");
         textDict.Add("ConfirmMaxFriendGacha", "Gacha {0} times");
 
-        textDict.Add("FriendGachaFailed", "Friend Gacha Failed");
-        textDict.Add("UnitCountReachedMax", "Now your units owned overed unit limit:{0}/{1}, can't do any gacha.");
+        textDict.Add("FriendGachaFailed", "[FF0000]Friend Gacha Failed[-]");
+        textDict.Add("UnitCountReachedMax", "Now your units owned overed unit limit:[FF0000]{0}/[-]{1}, can't do any gacha.");
         textDict.Add("GachaFriendPointNotEnough", "1 friend gacha need {0} friend points\nYour friend points not enough.");
 
         textDict.Add("RareGacha", "Start Rare Scratch");
@@ -133,7 +133,7 @@ public partial class TextCenter {
         textDict.Add("ConfirmOneRareGacha", "Gacha 1 time");
         textDict.Add("ConfirmMaxRareGacha", "Gacha {0} times");
 
-        textDict.Add("RareGachaFailed", "Rare Gacha Failed");
+        textDict.Add("RareGachaFailed", "[FF0000]Rare Gacha Failed[-]");
         textDict.Add("RareGachaStoneNotEnough", "1 rare gacha need {0} stones\nYour stones not enough.");
 
         textDict.Add("EventGacha", "Start Event Scratch");
@@ -144,7 +144,7 @@ public partial class TextCenter {
         textDict.Add("ConfirmOneEventGacha", "Gacha 1 time");
         textDict.Add("ConfirmMaxEventGacha", "Gacha {0} times");
 
-        textDict.Add("EventGachaFailed", "Event Gacha Failed");
+        textDict.Add("EventGachaFailed", "[FF0000]Event Gacha Failed[-]");
         textDict.Add("EventGachaNotOpen", "Our next event gacha will coming soon, please wait it!");
         textDict.Add("EventGachaStoneNotEnough", "1 event gacha need {0} stones\nYour stones not enough.");
 
