@@ -80,7 +80,7 @@ public class MainMenuView : UIComponentUnity {
         foreach (var item in buttonInfo.Keys) {
           UIButtonScale btnScale = item.GetComponent<UIButtonScale>() ;
             btnScale.enabled = valid;
-//            Debug.LogError("SetMenuValid(), btnScale is : " + valid);
+            Debug.LogError("SetMenuValid(), btnScale is : " + valid);
             if(valid)  UIEventListener.Get(item).onClick += OnClickCallback; 
             else UIEventListener.Get(item).onClick -= OnClickCallback;
         }

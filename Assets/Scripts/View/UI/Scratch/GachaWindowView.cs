@@ -101,6 +101,7 @@ public class GachaWindowView : UIComponentUnity {
     private void Enter(object args){
         LogHelper.Log("Enter invoke SyncGachaInfos()");
         SetActive(true);
+        MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);
         SetMenuBtnEnable(false);
         GachaWindowInfo gachaWindowInfo = args as GachaWindowInfo;
         if (gachaWindowInfo != null){

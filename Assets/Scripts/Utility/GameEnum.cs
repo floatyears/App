@@ -70,6 +70,7 @@ public enum CommandEnum{
     SellUnitSaveState,
     EvolveSaveState,
     PartySaveState,
+    BackSceneEnable,
 	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 				= 1002,
 	StartAttack					= 1003,
