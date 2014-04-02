@@ -273,9 +273,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		//rare
 		rareLabel.text = unitInfo.Rare.ToString();
-		
+
+		levelLabel.text = data.Level.ToString();
+
 		//next level need
-		needExpLabel.text = data.NextExp.ToString();
+		if ((data.Level > unitInfo.MaxLevel ) 
+		    || (data.Level == unitInfo.MaxLevel && data.NextExp <= 0) ) {
+			levelLabel.text = unitInfo.MaxLevel.ToString();
+			needExpLabel.text = "Max";
+		} else {
+			needExpLabel.text = data.NextExp.ToString();
+		}
 	}
 
 
@@ -348,7 +356,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		TUserUnit userUnit = data as TUserUnit;
 		if (userUnit != null) {
 			ShowInfo (userUnit);
-			levelLabel.text = userUnit.Level.ToString();
 		} else {
 			RspLevelUp rlu = data as RspLevelUp;
 			if(rlu ==null) {
@@ -434,6 +441,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelLabel.text = curLevel.ToString ();
 		currMaxExp = DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
 		expRiseStep = (int)(currMaxExp * 0.01f);
+		if ( expRiseStep < 1 )
+			expRiseStep = 1;
 //		Debug.LogError ("Calculate : " + currMaxExp + "  expRiseStep : " + expRiseStep);
 	}
 	
@@ -444,7 +453,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	} 
 
 	void ExpRise () {
-//		Debug.LogError ("ExpRise : " + gotExp);
 		if(gotExp <= 0)	
 			return;
 //		LogHelper.LogError("<<<<<<<<gotExp:{0} expRiseStep:{1} - curExp:{2}  currMaxExp:{3}",gotExp, expRiseStep, curExp, currMaxExp);
@@ -459,7 +467,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 
 		if(curExp >= currMaxExp) {
-			LogHelper.LogError("-------gotExp:{0} curExp:{1} - currMaxExp:{2} = {3}",gotExp, curExp, currMaxExp, curExp - currMaxExp);
+//			LogHelper.LogError("-------gotExp:{0} curExp:{1} - currMaxExp:{2} = {3}",gotExp, curExp, currMaxExp, curExp - currMaxExp);
 			gotExp += curExp - currMaxExp;
 			curExp = 0;
 			if ( curLevel < oldBlendUnit.UnitInfo.MaxLevel ){
@@ -471,7 +479,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 				gotExp = 0;
 			}
 
-			LogHelper.LogError("=======gotExp:{0} curExp:{1} curLevel:{2} ",gotExp, curExp, curLevel);
+//			LogHelper.LogError("=======gotExp:{0} curExp:{1} curLevel:{2} ",gotExp, curExp, curLevel);
 
 			Calculate();
 		}
@@ -479,17 +487,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		LogHelper.LogError(">>>>>>>>>currMaxExp:{0} curExp:{1} curLevel:{2} ",currMaxExp, curExp, curLevel);
 
 		int needExp = currMaxExp - curExp;
-		needExpLabel.text = needExp.ToString();
 
-		if (curLevel > oldBlendUnit.UnitInfo.MaxLevel) {
+		if ((curLevel > oldBlendUnit.UnitInfo.MaxLevel) 
+		    || (curLevel == oldBlendUnit.UnitInfo.MaxLevel && needExp <= 0) ) {
 			levelLabel.text = oldBlendUnit.UnitInfo.MaxLevel.ToString();
-			needExpLabel.text = "Max Level";
+			needExpLabel.text = "Max";
 			return;
-		}
-		else if (curLevel == oldBlendUnit.UnitInfo.MaxLevel && needExp == 0) {
-			levelLabel.text = oldBlendUnit.UnitInfo.MaxLevel.ToString();
-			needExpLabel.text = "Max Level";
-			return;
+		} else {
+			needExpLabel.text = needExp.ToString();
 		}
 
 		float progress = (float)curExp / (float)currMaxExp;
