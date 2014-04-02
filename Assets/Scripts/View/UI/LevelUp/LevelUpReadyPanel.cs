@@ -220,15 +220,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		foreach (var item in Tabs) {
 			UIEventListenerCustom custom = UIEventListenerCustom.Get(item.gameObject);	
 			custom.onClick = ClickTab;
-//			custom.LongPress = LongPress;
 		}           
 	}
-
-//	void LongPress(GameObject longPress) {
-//		TUserUnit unitInfo = baseUnitInfoDic[ item ].userUnitItem;
-//		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
-//		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
-//	}
 
 	void ClickTab(GameObject tab) {
 		FoucsOnTab(tab);
@@ -305,7 +298,6 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
     int LevelUpTotalMoney(){
-
         if (baseUnitInfo == null){
             return 0;
         }
@@ -317,9 +309,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
         }
         return totalMoney;
     }
-
-
-
+	
     bool CheckMoneyEnough(int totalMoney){
         return DataCenter.Instance.AccountInfo.Money >= totalMoney;
     }
@@ -385,7 +375,8 @@ public class LevelUpReadyPanel: UIComponentUnity {
 				continue;
 			}
 			if(unitItemInfo[i].Equals(uui)) {
-				devorExp -= unitItemInfo[i].userUnitItem.MultipleDevorExp(baseUnitInfo.userUnitItem);
+				devorExp -= GetDevorExp(uui.userUnitItem);
+
 				if(baseUnitInfo != null) {
 					coin -= CoinBase * baseUnitInfo.userUnitItem.Level;
 				}
@@ -398,11 +389,20 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		return false;
 	}
 
+	int GetDevorExp(TUserUnit materialItem) {
+		if(baseUnitInfo != null) {
+			return materialItem.MultipleDevorExp(baseUnitInfo.userUnitItem);
+		}
+		else{
+			return materialItem.MultipleDevorExp(null);
+		}
+	}
+
 	bool MaterialClick (UnitItemInfo uui) {
 		for (int i = 0; i < unitItemInfo.Length; i++) {
 			if(unitItemInfo[i] == null) {
 				unitItemInfo[i] = uui;
-				devorExp += unitItemInfo[i].userUnitItem.MultipleDevorExp(baseUnitInfo.userUnitItem);
+				devorExp += GetDevorExp(uui.userUnitItem);
 				if(baseUnitInfo != null) {
 					coin += CoinBase * baseUnitInfo.userUnitItem.Level;
 				}

@@ -1,14 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ViewManager 
-{
+public class ViewManager {
 	private static ViewManager instance;
 
-	public static ViewManager Instance
-	{
-		get
-		{
+	public static ViewManager Instance {
+		get {
 			if(instance == null)
 				instance = new ViewManager();
 			return instance;
@@ -88,8 +85,7 @@ public class ViewManager
 		}
 	}
 
-	public void Init(GameObject ui)
-	{
+	public void Init(GameObject ui){
 		mainUIRoot = ui;		
 		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();		
 		parentPanel = mainUIRoot.transform.Find("Bottom").gameObject;
@@ -204,5 +200,13 @@ public class ViewManager
 			UIComponentDic.Remove(name);
 			temp = null;
 		}
+	}
+
+	public void CleartComponent () {
+		foreach (var item in UIComponentDic.Values) {
+			ConcreteComponent cc = item as ConcreteComponent;
+			GameObject.Destroy(cc.ViewComponent.gameObject);
+		}
+		UIComponentDic.Clear ();
 	}
 }

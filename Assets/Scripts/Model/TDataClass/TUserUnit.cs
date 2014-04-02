@@ -243,9 +243,15 @@ public class TUserUnit : ProtobufDataBase {
     }
 
 	public int MultipleDevorExp (TUserUnit baseUser) {
-//		Debug.LogError("MultipleDevorExp :: unitId:"+UnitInfo.ID+" UnitInfo.DevourExp:"+UnitInfo.DevourExp);
-		return System.Convert.ToInt32 (DGTools.AllMultiple (baseUser, this) * UnitInfo.DevourExp * Level);
+		if (baseUser == null) {
+			return UnitInfo.DevourExp * Level;
+		}
+		else{
+			return System.Convert.ToInt32 (DGTools.AllMultiple (baseUser, this) * UnitInfo.DevourExp * Level);
+		}
 	}
+
+
 
     public int Exp {
         get{

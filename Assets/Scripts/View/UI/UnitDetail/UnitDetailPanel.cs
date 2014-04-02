@@ -367,8 +367,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ShowUnitScale();
 //		unitBodyTex.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
 		unitInfoTabs.SetActive (false);
-	
-
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}
 
