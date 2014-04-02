@@ -120,7 +120,7 @@ func (t LevelUp) ProcessLogic(reqMsg *bbproto.ReqLevelUp, rspMsg *bbproto.RspLev
 	needMoney := unit.GetLevelUpMoney(*baseUserUnit.Level, int32(len(reqMsg.PartUniqueId)))
 	if *userDetail.Account.Money < needMoney {
 		log.Error("no enough money: %v < %v", *userDetail.Account.Money, needMoney)
-		return Error.New(EC.E_NO_ENOUGH_MONEY)
+		return Error.New(EC.EU_NO_ENOUGH_MONEY)
 	}
 
 	//4. getUnitInfo of all material part to caculate exp

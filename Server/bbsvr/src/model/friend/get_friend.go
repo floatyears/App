@@ -184,17 +184,18 @@ func GetSupportFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[
 	return friendsInfo, e
 }
 
-func GetFriendList(db *data.Data, uid uint32) (friendList *bbproto.FriendList, e Error.Error) {
+func GetFriendList(db *data.Data, uid uint32) (friendList *bbproto.FriendList, isFriendNum int32, e Error.Error) {
 	isGetFriend := true
 	isGetHelper := false
 	isGetOnlyFriends := false
 	rank := uint32(0)
+	isFriendNum = int32(0)
 
 	friendsInfo, e := GetFriendInfo(db, uid, rank, isGetOnlyFriends, isGetFriend, isGetHelper)
 
 	log.T("GetFriendInfo ret err:%v. friends num=%v  ", e.Error(), len(friendsInfo))
 	if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
-		return friendList, Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
+		return friendList, isFriendNum, Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v, rank:%v", uid, rank))
 	}
 
 	//fill response
@@ -212,6 +213,7 @@ func GetFriendList(db *data.Data, uid uint32) (friendList *bbproto.FriendList, e
 				friendList.Helper = append(friendList.Helper, &pFriend)
 			} else if *friend.FriendState == bbproto.EFriendState_ISFRIEND {
 				friendList.Friend = append(friendList.Friend, &pFriend)
+				isFriendNum += 1
 			} else if *friend.FriendState == bbproto.EFriendState_FRIENDIN {
 				friendList.FriendIn = append(friendList.FriendIn, &pFriend)
 			} else if *friend.FriendState == bbproto.EFriendState_FRIENDOUT {
@@ -220,7 +222,7 @@ func GetFriendList(db *data.Data, uid uint32) (friendList *bbproto.FriendList, e
 		}
 	}
 
-	return friendList, Error.OK()
+	return friendList, isFriendNum, Error.OK()
 }
 
 func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool, isGetFriend bool, isGetHelper bool) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {

@@ -17,14 +17,14 @@ func UpdateAcountForGacha(userDetail *bbproto.UserInfoDetail, gachaType bbproto.
 	if gachaType == bbproto.EGachaType_E_FRIEND_GACHA {
 		if *userDetail.Account.FriendPoint < consts.N_GACHA_FRIEND_COST*gachaCount {
 			log.Error("FRIEND_GACHA: userDetail.Account:%v", userDetail.Account)
-			return Error.New(EC.E_NO_ENOUGH_MONEY, fmt.Sprintf("user.Account.FriendPoint(%v) is not enough for gacha.",*userDetail.Account.FriendPoint))
+			return Error.New(EC.EU_NO_ENOUGH_MONEY, fmt.Sprintf("user.Account.FriendPoint(%v) is not enough for gacha.",*userDetail.Account.FriendPoint))
 		} else {
 			*userDetail.Account.FriendPoint -= consts.N_GACHA_FRIEND_COST * gachaCount
 		}
 	} else { // if gachaType == bbproto.EGachaType_E_BUY_GACHA
 		if *userDetail.Account.Stone < consts.N_GACHA_BUY_COST*gachaCount {
 			log.Error("BUY_GACHA: userDetail.Account:%v", userDetail.Account)
-			return Error.New(EC.E_NO_ENOUGH_MONEY, fmt.Sprintf("user.Account.Stone(%v) is not enough for gacha.",*userDetail.Account.Stone))
+			return Error.New(EC.EU_NO_ENOUGH_MONEY, fmt.Sprintf("user.Account.Stone(%v) is not enough for gacha.",*userDetail.Account.Stone))
 		} else {
 			*userDetail.Account.Stone -= consts.N_GACHA_BUY_COST * gachaCount
 		}

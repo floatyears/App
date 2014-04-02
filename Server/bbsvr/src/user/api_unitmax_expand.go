@@ -104,7 +104,7 @@ func (t UnitMaxExpand) ProcessLogic(reqMsg *bbproto.ReqUnitMaxExpand, rspMsg *bb
 	if *userDetail.Account.Stone < consts.N_UNITMAX_EXPAND_COST {
 		rspMsg.Stone = userDetail.Account.Stone
 		rspMsg.UnitMax = userDetail.User.UnitMax
-		return Error.New(EC.E_NO_ENOUGH_MONEY, "stone is not enough.")
+		return Error.New(EC.EU_NO_ENOUGH_MONEY, "stone is not enough.")
 	}
 
 	//3. update account
