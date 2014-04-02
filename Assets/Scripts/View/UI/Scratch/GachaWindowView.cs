@@ -14,6 +14,7 @@ public class GachaWindowView : UIComponentUnity {
     private List<GameObject> clickedGrids = new List<GameObject>();
 
     private Dictionary<GameObject, int> gridDict = new Dictionary<GameObject, int>();
+    private Dictionary<GameObject, TUserUnit> gridUnitDict = new Dictionary<GameObject, TUserUnit>();
 
     public override void Init ( UIInsConfig config, IUICallback origin ) {
         base.Init (config, origin);
@@ -167,6 +168,7 @@ public class GachaWindowView : UIComponentUnity {
     private void Reset(){
         displayingResult = false;
         clickedGrids.Clear();
+        gridUnitDict.Clear();
         currentUid = 0;
         tryCount = 0;
         pickedGridIdList.Clear();
@@ -234,8 +236,9 @@ public class GachaWindowView : UIComponentUnity {
         texture.mainTexture = GetChessStarTextureByRareLevel(userUnit.UnitInfo.Rare);
         LogHelper.Log("ShowUnitRareById(), rareTexture {0}", texture.mainTexture);
 
-        yield return new WaitForSeconds(1.5f);
-        ShowUnitById(grid, currentUid, userUnit);
+//        yield return new WaitForSeconds(1.5f);
+//        ShowUnitById(grid, currentUid, userUnit);
+        gridUnitDict.Add(grid, userUnit);
         EndShowGachaGridResult();
         DealAfterShowUnit(gridDict[grid]);
 //        yield return null;
@@ -288,7 +291,8 @@ public class GachaWindowView : UIComponentUnity {
 
         if (tryCount >= DataCenter.maxGachaPerTime || tryCount == gachaInfo.totalChances){
             LogHelper.Log("DealAfterShowUnit(), GetTryCount() {0}", GetTryCount());
-            FinishShowGachaWindow();
+            StartAutoShowFinalResult();
+//            FinishShowGachaWindow();
         }
 //        else if (GetTryCount() == gachaInfo.totalChances){
 //            AutoShowOpenBlankUnit();
@@ -320,6 +324,35 @@ public class GachaWindowView : UIComponentUnity {
     private void AutoShowOpenBlankUnit(){
         List<GameObject> lastGrids = new List<GameObject>();
         StartCoroutine(ShowOpenBlankUnit());
+    }
+
+    private void StartAutoShowFinalResult(){
+        StartCoroutine(ShowUnitByGrid());
+    }
+
+    IEnumerator ShowUnitByGrid(){
+        int i = 0;
+        List<GameObject> sortedGrids = GetSortedGrids();
+        while (i < gachaInfo.totalChances){
+            yield return new WaitForSeconds(0.6f);
+            GameObject grid = sortedGrids[i];
+            ShowUnitById(grid, gridUnitDict[grid].UnitInfo.ID, gridUnitDict[grid]);
+            i += 1;
+        }
+        FinishShowGachaWindow();
+    }
+
+    List<GameObject> GetSortedGrids(){
+        List<GameObject> ret = new List<GameObject>();
+        for (int i = 0; i < DataCenter.maxGachaPerTime; i++) {
+            for (int j = 0; j < clickedGrids.Count; j++) {
+                if (gridDict[clickedGrids[j]] == i){
+                    ret.Add(clickedGrids[j]);
+                    LogHelper.Log("GetSortedGrids(), i {0}", i);
+                }
+            }
+        }
+        return ret;
     }
 
     IEnumerator ShowOpenBlankUnit(){
