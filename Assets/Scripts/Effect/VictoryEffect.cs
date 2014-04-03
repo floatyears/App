@@ -31,6 +31,8 @@ public class VictoryEffect : UIBaseUnity {
 	private Vector3 rightWingAngle3 	= new Vector3 (0f, 0f, 15f);
 	private Callback sureButtonCallback;
 
+	public BattleQuest battleQuest;
+
 	public override void Init (string name) {
 		base.Init (name);
 		FindComponent ();
@@ -52,15 +54,13 @@ public class VictoryEffect : UIBaseUnity {
 		base.DestoryUI ();
 		Destroy (gameObject);
 	}
-
-
+	
 	float currentExp = 0;
 	float gotExp = 0;
 	float add = 0;
 	int currentTotalExp = 0;
 	int rank = 0;
-
-
+	
 	public void ShowData(TRspClearQuest clearQuest){
 		if (clearQuest == null) {
 			return;	
@@ -120,12 +120,17 @@ public class VictoryEffect : UIBaseUnity {
 			if(currentExp >= currentTotalExp) {
 				currentExp -= currentTotalExp;
 				rank++;
+				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.RankUp,RankUp);
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 			}
 			yield return new WaitForSeconds(0.1f);
 		}
 	}
 
+				                                  
+	void RankUp() {
+		MsgCenter.Instance.Invoke (CommandEnum.MeetEnemy, false);
+	}
 	
 	IEnumerator UpdateCoinNumber (float addCoin, float curCoin, float gotCoin) {
 		yield return new WaitForSeconds (1f);
@@ -155,7 +160,6 @@ public class VictoryEffect : UIBaseUnity {
 		backCircle = FindChild<UISprite>("BackCircle");
 		sureButton = FindChild<UIButton>("Button");
 		UIEventListener.Get (sureButton.gameObject).onClick = Sure;
-//		Debug.LogWarning ("sureButton.gameObject : " + sureButton);
 		niuJiaoCurrent = niuJiao.transform.localPosition;
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);
 		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
@@ -165,7 +169,6 @@ public class VictoryEffect : UIBaseUnity {
 	}
 
 	void Sure(GameObject go) {
-//		Debug.LogError ("sureButtonCallback : " + sureButtonCallback);
 		if (sureButtonCallback != null) {
 			sureButtonCallback();
 		}

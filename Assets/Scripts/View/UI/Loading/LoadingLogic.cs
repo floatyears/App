@@ -45,7 +45,7 @@ public class LoadingLogic : ConcreteComponent {
     void LoginSuccess(object data) {
         if (data != null) {
             bbproto.RspAuthUser rspAuthUser = data as bbproto.RspAuthUser;
-			Debug.LogError(rspAuthUser.user.userId);
+//			Debug.LogError(rspAuthUser.user.userId);
             if (rspAuthUser == null) {
 				Debug.LogError("authUser response rspAuthUser == null");
                 return;
@@ -89,7 +89,7 @@ public class LoadingLogic : ConcreteComponent {
                 foreach (FriendInfo fi in rspAuthUser.friends) {
                     TFriendInfo tfi = new TFriendInfo(fi);
                     DataCenter.Instance.SupportFriends.Add(tfi);
-					Debug.LogError(tfi + "  FriendInfo : " + fi + " UserUnit : " + tfi.UserUnit) ;
+//					Debug.LogError(tfi + "  FriendInfo : " + fi + " UserUnit : " + tfi.UserUnit) ;
 					DataCenter.Instance.UserUnitList.Add(tfi.UserId, tfi.UserUnit.ID, tfi.UserUnit);
                 }
             }

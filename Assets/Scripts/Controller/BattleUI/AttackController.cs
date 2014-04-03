@@ -248,7 +248,7 @@ public class AttackController {
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, deadEnemy[i]);
 //			Debug.LogWarning("CheckTempEnemy grid : " + grid);
 			if(grid != null) {
-				Debug.LogWarning(" invoke drop item : " + grid.DropPos);
+//				Debug.LogWarning(" invoke drop item : " + grid.DropPos);
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 			}
 

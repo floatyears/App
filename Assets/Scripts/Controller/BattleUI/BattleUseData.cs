@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleUseData {
+	private BattleQuest battleQuest;
     private ErrorMsg errorMsg;
     private TUnitParty upi;
     private int maxBlood = 0;
@@ -34,7 +35,8 @@ public class BattleUseData {
         get { return countDown; }
     }
 
-    public BattleUseData() {
+    public BattleUseData(BattleQuest bq) {
+		battleQuest = bq;
         ListenEvent();
         errorMsg = new ErrorMsg();
         upi = DataCenter.Instance.PartyInfo.CurrentParty; 
@@ -181,7 +183,6 @@ public class BattleUseData {
         AttackInfo ai = data as AttackInfo;
         float tempBlood = ai.AttackValue;
         int addBlood = System.Convert.ToInt32(tempBlood) + blood;
-//		Debug.LogError ("tempBlood : " + tempBlood + " blood : " + blood);
         RecoverHP(addBlood);
     }
 
@@ -198,9 +199,6 @@ public class BattleUseData {
     }
 
     public void InitBoss(List<TEnemyInfo> boss) {
-//		foreach (var item in boss) {
-////			Debug.LogError("boss : " + item.UnitID);
-//				}
         ac.enemyInfo = boss;
     }
 
@@ -229,6 +227,11 @@ public class BattleUseData {
 
     void RecoverEnergePoint(object data) {
         int recover = (int)data;
+
+		if (maxEnergyPoint == 0 && recover > 0) {
+			isLimit = false;
+		}
+
         maxEnergyPoint += recover;
         if (maxEnergyPoint > DataCenter.maxEnergyPoint) {
             maxEnergyPoint = DataCenter.maxEnergyPoint;	
@@ -253,6 +256,8 @@ public class BattleUseData {
         ConsumeEnergyPoint();
     }
 
+	bool isLimit = false;
+
     void ConsumeEnergyPoint() {
         if (maxEnergyPoint == 0) {
             Blood -= ReductionBloodByProportion(0.2f);
@@ -260,13 +265,16 @@ public class BattleUseData {
 				Blood = 1;
             }
             RefreshBlood();
-
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk_hurt);
         }
         else {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
             maxEnergyPoint--;
             MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
+			if(maxEnergyPoint == 0 && !isLimit) {
+				isLimit = true;
+				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.SPLimit, null);
+			}
         }
     }
 

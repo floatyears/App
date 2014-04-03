@@ -100,7 +100,6 @@ public class UIManager {
 	}
 
 	public void ExitBattle () {
-
 		Resources.UnloadUnusedAssets ();
 		InitUIManager ();
 		ChangeScene (SceneEnum.Quest);

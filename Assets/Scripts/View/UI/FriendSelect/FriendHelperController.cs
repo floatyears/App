@@ -64,7 +64,7 @@ public class FriendHelperController : ConcreteComponent{
 
 	void RspEvolveStartQuest (object data) {
 		if (data == null){
-			Debug.Log("OnRspEvolveStart(), response null");
+//			Debug.Log("OnRspEvolveStart(), response null");
 			return;
 		}
 		evolveStart.StoreData ();
@@ -87,7 +87,7 @@ public class FriendHelperController : ConcreteComponent{
 	void RspStartQuest(object data) {
 		TQuestDungeonData tqdd = null;
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
-		Debug.LogError (rspStartQuest.header.code  + "  " + rspStartQuest.header.error);
+//		Debug.LogError (rspStartQuest.header.code  + "  " + rspStartQuest.header.error);
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
@@ -97,7 +97,7 @@ public class FriendHelperController : ConcreteComponent{
 		}
 		
 		if (data == null || tqdd == null) {
-			Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
+//			Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
 			return;
 		}
 		EnterBattle ();

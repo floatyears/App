@@ -2,17 +2,21 @@
 using System.Collections;
 
 public class MapDoor : UIBaseUnity {
-	private GameObject leftDoor;
-	private GameObject rightDoor;
-	private Quaternion leftRotation;
-	private Quaternion rightRotation;
+	public BattleMap battleMap;
+	private UISprite TapToBattle;
+	private TweenAlpha tween;
+	[HideInInspector]
 	public bool doorOpen = false;
+	[HideInInspector]
+	public bool canEnterDoor = false;
+
+	private bool isClick = false;
+
 	public override void Init (string name) {
 		base.Init (name);
-		leftDoor = transform.Find("Left").gameObject;
-		leftRotation = leftDoor.transform.rotation;
-		rightDoor = transform.Find ("Right").gameObject;
-		rightRotation = rightDoor.transform.rotation;
+		TapToBattle = FindChild<UISprite>("Sprite");
+		tween = FindChild<TweenAlpha>("Sprite");
+		UIEventListener.Get (gameObject).onClick = ClickDoor;
 	}
 
 	public override void CreatUI () {
@@ -22,14 +26,15 @@ public class MapDoor : UIBaseUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, OpenDoor);
-		leftDoor.transform.localRotation = leftRotation;
-		rightDoor.transform.localRotation = rightRotation;
+		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, QuestEnd);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.OpenDoor, OpenDoor);
+		MsgCenter.Instance.RemoveListener (CommandEnum.QuestEnd, QuestEnd);
 		doorOpen = false;
+		canEnterDoor = false;
 	}
 
 	public override void DestoryUI () {
@@ -42,8 +47,27 @@ public class MapDoor : UIBaseUnity {
 
 	void OpenDoor (object data) {
 		doorOpen = true;
-//		Debug.LogError("opendoor  data");
-		iTween.RotateTo (leftDoor, new Vector3 (-90f, -120f, 0f), 2f);
-		iTween.RotateTo (rightDoor, new Vector3 (90f, 120f, 0f), 2f);
+	}
+
+	void QuestEnd(object data) {
+		bool b = (bool)data;
+		canEnterDoor = b;
+		ShowTapToBattle ();
+	}
+
+	public void ShowTapToBattle () {
+		bool b = canEnterDoor && doorOpen;
+		TapToBattle.enabled = b;	
+		tween.enabled = b;
+	}
+	
+	void ClickDoor(GameObject go) {
+		if (TapToBattle.enabled && !isClick) {
+			battleMap.bQuest.ClickDoor();
+			Destroy(GetComponent<UIEventListener>());
+			TapToBattle.enabled = isClick;	
+			tween.enabled = isClick;
+			isClick = true;
+		}
 	}
 }
