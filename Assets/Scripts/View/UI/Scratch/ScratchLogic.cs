@@ -24,6 +24,7 @@ public class GachaWindowInfo{
     public int totalChances = 1;
     public List<uint> blankList = new List<uint>();
     public List<uint> unitList = new List<uint>();
+    public List<uint> newUnitIdList = new List<uint>();
 }
 
 public class ScratchLogic : ConcreteComponent {
@@ -72,12 +73,13 @@ public class ScratchLogic : ConcreteComponent {
         }
     }
 
-    GachaWindowInfo GetGachaWindowInfo(GachaType gachaType, int gachaCount, List<uint> unitList, List<uint> blankList){
+    GachaWindowInfo GetGachaWindowInfo(GachaType gachaType, int gachaCount, List<uint> unitList, List<uint> blankList, List<uint> newUnitIdList){
         GachaWindowInfo info = new GachaWindowInfo();
         info.gachaType = gachaType;
         info.blankList = blankList;
         LogHelper.Log("GetGachaWindowInfo() blank count {0}", blankList.Count);
         info.unitList = unitList;
+        info.newUnitIdList = newUnitIdList;
         foreach (var item in unitList) {
             LogHelper.Log("GetGachaWindowInfo() gacha item uint {0}", item);
         }
@@ -113,6 +115,7 @@ public class ScratchLogic : ConcreteComponent {
         LogHelper.LogError("before gacha, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
         // delete unit;
 
+        List<uint> newUnitIdList = DataCenter.Instance.MyUnitList.FirstGetUnits(unitList);
         DataCenter.Instance.MyUnitList.AddMyUnitList(unitList);
         DataCenter.Instance.UserUnitList.AddMyUnitList(unitList);
         
@@ -134,7 +137,7 @@ public class ScratchLogic : ConcreteComponent {
 //        UIManager.Instance.ChangeScene(nextScene);
 
         LogHelper.Log("MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow");
-        MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow, GetGachaWindowInfo(gachaType, gachaCount, rsp.unitUniqueId, blankList));
+        MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow, GetGachaWindowInfo(gachaType, gachaCount, rsp.unitUniqueId, blankList, newUnitIdList));
         MsgCenter.Instance.Invoke(CommandEnum.SyncChips, null);
 
 //		TouchEventBlocker.Instance.SetState(BlockerReason.Connecting, false);

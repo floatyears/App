@@ -20,20 +20,22 @@ public class GachaWindowView : UIComponentUnity {
         base.Init (config, origin);
         InitUI();
     }
+
+    public override void ResetUIState() {
+        base.ResetUIState();
+        SetActive(false);
+        Reset();
+        CloseChooseGachaWindow();
+        SetMenuBtnEnable(true);
+    }
     
     public override void ShowUI () {
         base.ShowUI ();
-//        UIManager.Instance.HideBaseScene();
-        SetActive(false);
-
         AddListener();
     }
     
     public override void HideUI () {
         base.HideUI ();
-        Reset();
-        CloseChooseGachaWindow();
-        SetMenuBtnEnable(true);
         RemoveListener();
     }
     
@@ -337,9 +339,21 @@ public class GachaWindowView : UIComponentUnity {
             yield return new WaitForSeconds(0.6f);
             GameObject grid = sortedGrids[i];
             ShowUnitById(grid, gridUnitDict[grid].UnitInfo.ID, gridUnitDict[grid]);
+//            yield return;
+            ShowNewUnitDetail(i);
             i += 1;
         }
         FinishShowGachaWindow();
+    }
+
+    void ShowNewUnitDetail(int index){
+        uint newUnitId = gachaInfo.newUnitIdList[index];
+        if (newUnitId == 0){
+            return;
+        }
+        UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+        TUserUnit unit = DataCenter.Instance.MyUnitList.GetMyUnit(newUnitId);
+        MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, unit);
     }
 
     List<GameObject> GetSortedGrids(){
