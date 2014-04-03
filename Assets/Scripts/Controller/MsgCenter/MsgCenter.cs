@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System;
 
-public class MsgCenter 
-{
+public class MsgCenter  {
 	private static MsgCenter instance;
-
 	private MsgCenter() {	}
-
 	public static MsgCenter Instance {
 		get {
 			if(instance == null)
@@ -24,8 +21,7 @@ public class MsgCenter
 		
 		Delegate d = msgDic[mEnum];
 		
-		if(d != null && d.GetType() != listener.GetType())
-		{
+		if(d != null && d.GetType() != listener.GetType()) {
 			return false;
 		}
 		

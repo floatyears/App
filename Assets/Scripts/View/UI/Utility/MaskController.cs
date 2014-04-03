@@ -26,6 +26,10 @@ public class MaskController : ConcreteComponent {
 		base.HideUI();
 	} 
 
+	public override void DestoryUI () {
+
+	}
+
 	public override void CallbackView(object data){
 		base.CallbackView(data);
 	}

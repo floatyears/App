@@ -57,21 +57,17 @@ public class MapItem : UIBaseUnity {
 		mapBackSprite = FindChild<UISprite>("Floor/Texture");
 		mapBack = mapBackSprite.gameObject;
 		mapItemSprite = FindChild<UISprite>("Sprite");
-//		mapItemSprite.enabled = false;
 
 		floorRotate = GetComponent<FloorRotate> ();
 		floorRotate.Init ();
 		if (name == "SingleMap") {
-
 			return;
 		}
 		string[] info = name.Split('|');
 		int x = System.Int32.Parse (info[0]);
 		int y = System.Int32.Parse (info [1]);
 		gridItem = BattleQuest.questDungeonData.GetSingleFloor (new Coordinate (x, y));
-
 		InitStar ();
-
 		if (gridItem != null) {
 			switch (gridItem.Star) {
 			case bbproto.EGridStar.GS_KEY:
@@ -87,9 +83,7 @@ public class MapItem : UIBaseUnity {
 				spriteName = "";
 				break;
 			}
-		
 			DGTools.ShowSprite(mapItemSprite, spriteName);
-
 			backSpriteName = "";
 			switch (gridItem.Type) {
 			case bbproto.EQuestGridType.Q_NONE:
@@ -135,7 +129,6 @@ public class MapItem : UIBaseUnity {
 
 	void OnDestory() {
 		showStarSprite.Clear ();
-
 	}
 
 	void HideStarSprite (bool show) {
@@ -171,16 +164,9 @@ public class MapItem : UIBaseUnity {
 
 		List<int> spriteIndex = GetSpritIndex ();
 		string spriteName = GetStarSpriteName ();
-//		if (gridItem.Star == bbproto.EGridStar.GS_STAR_2) {
-//			foreach (var item in spriteIndex) {
-//				Debug.LogError("coor : " + coor.x + " " + coor.y +  "spriteIndex : " + item);
-//			}
-//		}
 		for (int i = 1; i < 8; i++) {
 			UISprite tmep = FindChild<UISprite>("star" + i);
 			int index = i - 1;
-
-//				Debug.Log("coor : " + coor.x + " " + coor.y + "spriteIndex : " + spriteIndex.Contains(index) + " index :" + index);
 
 			if(spriteIndex.Contains(index)) {
 				tmep.spriteName = spriteName;
@@ -212,11 +198,9 @@ public class MapItem : UIBaseUnity {
 		if (!isOld) {
 			HideStarSprite(!b);
 			if(b) {
-				DGTools.ShowSprite(mapItemSprite,"EnvirmentTrap"); // "EnvirmentTrap" is hide envirment sprite name.
-//				mapItemSprite.spriteName = "EnvirmentTrap";
+				DGTools.ShowSprite(mapItemSprite,"EnvirmentTrap"); 
 			}else{
 				DGTools.ShowSprite(mapItemSprite,spriteName);
-//				mapItemSprite.spriteName = spriteName;
 			}
 		}
 	}

@@ -413,12 +413,16 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         }
 
         UnitInfo ui1 = tuu.UnitInfo.Object;		
-//		Debug.LogError ("ui1.skill2 : " + ui1.skill2 + " ui1.id : " +ui1.id );
 		if (ui1.skill2 == 0) {
 			return null;		
 		}
 		TNormalSkill ns = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), ui1.skill2, SkillType.NormalSkill) as TNormalSkill; //Skill[ui1.skill2] as TNormalSkill;
-        return ns.Object;
+		if (ns == null) {
+			return null;	
+		} 
+		else {
+			return ns.Object;
+		}
     }
 	
     public List<TUserUnit> GetUserUnit() {

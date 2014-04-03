@@ -102,16 +102,16 @@ public class ClearQuest: ProtoManager {
             cq.gotExp = rspClearQuest.gotExp;
             cq.gotStone = rspClearQuest.gotStone;
             cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
-			Debug.LogWarning("uu : got befoure : " + DataCenter.Instance.UserUnitList.Count);
+//			Debug.LogWarning("uu : got befoure : " + DataCenter.Instance.UserUnitList.Count);
             foreach (UserUnit uu in rspClearQuest.gotUnit) {
 				DataCenter.Instance.UserUnitList.AddMyUnit(uu);
 				DataCenter.Instance.MyUnitList.AddMyUnit(uu);
-				Debug.LogWarning("uu : got update " + DataCenter.Instance.UserUnitList.Count);
+//				Debug.LogWarning("uu : got update " + DataCenter.Instance.UserUnitList.Count);
 				TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
                 cq.gotUnit.Add(tuu);
             }
 
-			Debug.LogWarning("uu : got end " + DataCenter.Instance.UserUnitList.Count);
+//			Debug.LogWarning("uu : got end " + DataCenter.Instance.UserUnitList.Count);
             base.OnResponseEnd(cq);
         }
         else {

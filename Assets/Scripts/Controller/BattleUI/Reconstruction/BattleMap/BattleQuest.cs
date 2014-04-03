@@ -24,7 +24,7 @@ public class BattleQuest : UIBase {
 	private BattleBackground background;
 	public static BattleUseData bud;
 	private Camera mainCamera;
-	private BossAppear bossAppear;
+	public QuestFullScreenTips questFullScreenTips;
 	private ClearQuestParam questData;
 	private TUserUnit evolveUser;
 	private TopUI topUI;
@@ -69,9 +69,11 @@ public class BattleQuest : UIBase {
 		topUI.RefreshTopUI (questDungeonData, questData);
 		AddSelfObject (topUI);
 	}
-
-
+	
 	void InitData() {
+		if (questFullScreenTips == null) {
+			CreatBoosAppear();
+		}
 		questDungeonData = ModelManager.Instance.GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
 	}
 
@@ -85,7 +87,7 @@ public class BattleQuest : UIBase {
 
 	public override void ShowUI () {
 		Resources.UnloadUnusedAssets ();
-		bud = new BattleUseData ();
+		bud = new BattleUseData (this);
 		mainCamera = Camera.main;
 		mainCamera.clearFlags = CameraClearFlags.Depth;
 		mainCamera.enabled = false;
@@ -94,10 +96,6 @@ public class BattleQuest : UIBase {
 		base.ShowUI ();
 		AddListener ();
 		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
-		if (bossAppear == null) {
-			CreatBoosAppear();
-		}
-
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.GridEnd, GridEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, BattleFail);
@@ -121,7 +119,7 @@ public class BattleQuest : UIBase {
 	void Reset () {
 		battleEnemy = false;
 		bud.RemoveListen ();
-		bud = new BattleUseData ();
+		bud = new BattleUseData (this);
 		battleMap.HideUI ();
 		role.HideUI ();
 		background.HideUI ();
@@ -132,24 +130,24 @@ public class BattleQuest : UIBase {
 		GameTimer.GetInstance ().AddCountDown (1f, ShowScene);
 		InitData ();
 		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
-		if (bossAppear == null) {
+		if (questFullScreenTips == null) {
 			CreatBoosAppear();
 		}
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		bossAppear.DestoryUI ();
+		questFullScreenTips.DestoryUI ();
 		Resources.UnloadUnusedAssets ();
 	}
 
 	void CreatBoosAppear () {
-		GameObject obj = Resources.Load("Prefabs/BossAppear") as GameObject;
+		GameObject obj = Resources.Load("Prefabs/QuestFullScreenTips") as GameObject;
 		Vector3 pos = obj.transform.localPosition;
-		GameObject go = NGUITools.AddChild (viewManager.BottomPanel, obj);
+		GameObject go = NGUITools.AddChild (viewManager.CenterPanel, obj);
 		go.transform.localPosition = pos;
-		bossAppear = go.GetComponent<BossAppear> ();
-		bossAppear.Init("BossAppear");
+		questFullScreenTips = go.GetComponent<QuestFullScreenTips> ();
+		questFullScreenTips.Init("QuestFullScreenTips");
 	}
 
 	void ShowScene () {
@@ -171,6 +169,7 @@ public class BattleQuest : UIBase {
 	}
 
 	bool battleEnemy = false;
+
 	public void ClickDoor () {
 		if(questDungeonData.currentFloor == questDungeonData.Floors.Count - 1){
 			QuestStop ();
@@ -186,13 +185,21 @@ public class BattleQuest : UIBase {
 	}
 
 	void QuestStop () {
-		bossAppear.PlayBossAppera (MeetBoss);
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
+		questFullScreenTips.ShowTexture (QuestFullScreenTips.BossAppears, MeetBoss);
 		role.Stop();
-		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 		battleEnemy = true;
 	}
 
-	void QuestEnd () { 
+	void QuestClear () {
+		if (DataCenter.gameStage == GameState.Normal) {
+			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestEnd);
+		} else {
+			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, EvolveEnd);
+		}
+	}
+
+	void QuestEnd () {
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ExitBattle ();
 	}
@@ -203,67 +210,85 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, evolveUser);
 	}
 
-	public void RoleCoordinate(Coordinate coor) {
-		if(!battleMap.ReachMapItem (coor)) {
-			if(coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
-				battleMap.RotateAnim(null);
-				return;
-			}
-			int index = questDungeonData.GetGridIndex(coor);
-			if(index != -1) {
-				questData.hitGrid.Add((uint)index);
-			}
-			currentMapData =  questDungeonData.GetSingleFloor(coor);
-			role.Stop();
-			MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
+	private EQuestGridType gridType = EQuestGridType.Q_NONE;
+	private Coordinate currentCoor;
 
-			if(currentMapData.Star == EGridStar.GS_KEY) {
-				BattleMap.waitMove = true;
-				battleMap.RotateAnim(MapItemKey);
-				return;
+	public void RoleCoordinate(Coordinate coor) {
+		currentCoor = coor;
+		if (!battleMap.ReachMapItem (coor)) {
+			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
+					battleMap.RotateAnim (null);
+					questFullScreenTips.ShowTexture (QuestFullScreenTips.ReadyMove, null);
+					return;
 			}
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_grid_turn);
+			int index = questDungeonData.GetGridIndex (coor);
+			if (index != -1) {
+					questData.hitGrid.Add ((uint)index);
+			}
+			currentMapData = questDungeonData.GetSingleFloor (coor);
+			role.Stop ();
+			MsgCenter.Instance.Invoke (CommandEnum.MeetEnemy, true);
+
+			if (currentMapData.Type != EQuestGridType.Q_TRAP && DGTools.EqualCoordinate (coor, MapConfig.endCoor)) {
+					MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
+			} else {
+					MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, false);
+			}
+
+			if (currentMapData.Star == EGridStar.GS_KEY) {
+					BattleMap.waitMove = true;
+					battleMap.RotateAnim (MapItemKey);
+					return;
+			}
+			AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 			switch (currentMapData.Type) {
 			case EQuestGridType.Q_NONE:
-				BattleMap.waitMove = true;
-				battleMap.RotateAnim(MapItemNone);
-				break;
+					BattleMap.waitMove = true;
+					battleMap.RotateAnim (MapItemNone);
+					break;
 			case EQuestGridType.Q_ENEMY:
-				BattleMap.waitMove = true;
-				battleMap.RotateAnim(MapItemEnemy);
-				break;
+					BattleMap.waitMove = true;
+					battleMap.RotateAnim (MapItemEnemy);
+					break;
 			case EQuestGridType.Q_KEY:
-				break;
+					break;
 			case EQuestGridType.Q_TREATURE:				
-				BattleMap.waitMove = true;
-				battleMap.ShowBox();
-				battleMap.RotateAnim(MapItemCoin);
-				break;
+					BattleMap.waitMove = true;
+					battleMap.ShowBox ();
+					battleMap.RotateAnim (MapItemCoin);
+					break;
 			case EQuestGridType.Q_TRAP:
-				BattleMap.waitMove = true;
-				battleMap.RotateAnim(MapItemTrap);
-				break;
+					BattleMap.waitMove = true;
+					battleMap.RotateAnim (MapItemTrap);
+					break;
 			case EQuestGridType.Q_QUESTION:
-				BattleMap.waitMove = true;
-				battleMap.RotateAnim(MeetQuestion);
-				break;
-			case EQuestGridType.Q_EXCLAMATION : 
-				BattleMap.waitMove = true;
-				battleMap.RotateAnim(MapItemExclamation);
-				break;
+					BattleMap.waitMove = true;
+					battleMap.RotateAnim (MeetQuestion);
+					break;
+			case EQuestGridType.Q_EXCLAMATION: 
+					BattleMap.waitMove = true;
+					battleMap.RotateAnim (MapItemExclamation);
+					break;
 			default:
-				BattleMap.waitMove = false;
-				MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-				break;
+					BattleMap.waitMove = false;
+					MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+					break;
 			}
+		} else {
+
+			if(DGTools.EqualCoordinate (coor, MapConfig.endCoor)) {
+				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
+			} else {
+				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, false);
+			}
+
 		}
 	}
-
+	
 	void GridEnd(object data) {
 		if (currentMapData.Drop != null && currentMapData.Drop.DropId != 0) {
 			questData.getUnit.Add (currentMapData.Drop.DropId);	
 			topUI.Drop = questData.getUnit.Count;
-//			topUI.RefreshTopUI (questData, questDungeonData);
 		}
 	}
 
@@ -272,7 +297,57 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
+
+
+	void MapItemExclamation() {
+		BattleMap.waitMove = false;
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+	}
+	
+	void MapItemTrap() {
+		if (gridType == EQuestGridType.Q_TRAP) {
+			MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		}
+
+		gridType = EQuestGridType.Q_TRAP;
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
+		BattleMap.waitMove = false;
+		TrapBase tb = currentMapData.TrapInfo;
+		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		gridType = EQuestGridType.Q_NONE;
+		if (DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor)) {
+			MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
+		} else {
+			MsgCenter.Instance.Invoke(CommandEnum.QuestEnd, false);
+		}
+	}
+
+	void MapItemCoin() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
+		BattleMap.waitMove = false;
+		questData.getMoney += currentMapData.Coins;
+		topUI.Coin = questData.getMoney;
+//		Debug.LogError ("MapItemCoin : ");
+		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+	}
+
+	void MapItemKey() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
+		questFullScreenTips.ShowTexture (QuestFullScreenTips.OpenGate, null);
+		BattleMap.waitMove = false;
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
+	}
+
+	void MapItemNone() {
+		BattleMap.waitMove = false;
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+	}
+
 	void MeetBoss () {
+		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
@@ -281,46 +356,9 @@ public class BattleQuest : UIBase {
 			tei.EnemySymbol = (uint)i;
 			temp.Add (tei);
 		}
-
 		bud.InitBoss (questDungeonData.Boss);
 		battle.ShowEnemy(temp);
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
-	}
-
-	void MapItemExclamation() {
-		BattleMap.waitMove = false;
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-	}
-	
-	void MapItemTrap() {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
-		BattleMap.waitMove = false;
-		TrapBase tb = currentMapData.TrapInfo;
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
-	}
-
-	void MapItemCoin() {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
-		BattleMap.waitMove = false;
-		questData.getMoney += currentMapData.Coins;
-		topUI.Coin = questData.getMoney;
-//		topUI.RefreshTopUI (questData, questDungeonData);
-
-		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-	}
-
-	void MapItemKey() {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
-		BattleMap.waitMove = false;
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
-	}
-
-	void MapItemNone () {
-		BattleMap.waitMove = false;
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
 	void MapItemEnemy() {
@@ -352,7 +390,7 @@ public class BattleQuest : UIBase {
 		if (data != null) {
 			b = (bool)data;	
 		}
-
+//		Debug.LogError ("battleEnemy : " + battleEnemy + " b : " + b);
 		if (battleEnemy && !b) {
 			battle.SwitchInput(true);
 			RequestData();
@@ -433,7 +471,7 @@ public class BattleQuest : UIBase {
 		trcq.gotUnit = temp;
 		trcq.rank = rsp.rank;
 		DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
-		End (trcq, EvolveEnd);
+		End (trcq, QuestClear);
 	}
 
 	void ResponseClearQuest (object data) {
@@ -441,7 +479,7 @@ public class BattleQuest : UIBase {
 			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
-			End (clearQuest,QuestEnd);
+			End (clearQuest, QuestClear);
 		}
 	}
 
@@ -455,13 +493,17 @@ public class BattleQuest : UIBase {
 		obj.transform.localScale = tempScale;
 		VictoryEffect ve = obj.GetComponent<VictoryEffect>();
 		ve.Init("Victory");
+		ve.battleQuest = this;
 		ve.ShowData (clearQuest);
 		ve.PlayAnimation(questEnd);
-
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_victory);
 	}
 
 	void BattleFail(object data) {
+		questFullScreenTips.ShowTexture (QuestFullScreenTips.GameOver, BattleFail);
+	}
+
+	void BattleFail () {
 		battle.SwitchInput (true);
 		Battle.colorIndex = 0;
 		Battle.isShow = false;

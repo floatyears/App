@@ -211,6 +211,7 @@ public class PlayerInfoBar : UIComponentUnity
 
 		// leiliang---------------------------------------------------------------
 		MsgCenter.Instance.AddListener(CommandEnum.ReqRenameNick, ChangeName);
+        LogHelper.Log("AddCommandListener() for listener ChangeName");
 
         MsgCenter.Instance.AddListener(CommandEnum.SyncChips, SyncChips);
 
@@ -225,6 +226,7 @@ public class PlayerInfoBar : UIComponentUnity
 
 		// leiliang---------------------------------------------------------------
 		MsgCenter.Instance.RemoveListener(CommandEnum.ReqRenameNick, ChangeName);
+        LogHelper.Log("RemoveListener() for listener ChangeName");
 
         MsgCenter.Instance.RemoveListener(CommandEnum.SyncChips, SyncChips);
 
@@ -255,12 +257,13 @@ public class PlayerInfoBar : UIComponentUnity
 	private INetBase changeName;
 	public void ChangeName(object  name)
 	{
-		if (changeName == null)
-		{
-			changeName = new RenameNick();
-			changeName.OnRequest(name, ReName);
+//        LogHelper.Log("ChangeName(), start");
+//		if (changeName == null)
+//		{
+		changeName = new RenameNick();
+		changeName.OnRequest(name, ReName);
 //			UIManager.Instance.ChangeScene(SceneEnum.Start);
-		}
+//		}
 	}
 
     void SyncChips(object args){

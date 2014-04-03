@@ -41,11 +41,17 @@ public class MaskView : UIComponentUnity {
 		connecting.transform.parent.gameObject.SetActive(false);
 	}
 	void SetMaskActive(object args){
+		if (background == null) {
+			return;	
+		}
 		bool isActive = (bool)args;
 		background.enabled = isActive;
 	}
 
 	void SetConnectActive(object args){
+		if (connecting == null) {
+			return;	
+		}
 		bool isActive = (bool)args;
 		connecting.transform.parent.gameObject.SetActive(isActive);
 	}

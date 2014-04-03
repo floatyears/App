@@ -213,7 +213,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void ShowUnitScale(){
-//		Debug.LogWarning ("ShowUnitScale : " + Time.realtimeSinceStartup);
 		TweenScale unitScale = gameObject.GetComponentInChildren< TweenScale >();
 		TweenAlpha unitAlpha = gameObject.GetComponentInChildren< TweenAlpha >();
 
@@ -375,8 +374,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ShowUnitScale();
 //		unitBodyTex.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
 		unitInfoTabs.SetActive (false);
-	
-
 		InvokeRepeating ("CreatEffect", 0f, 2f);
 	}
 
@@ -436,7 +433,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			Debug.LogError("Calculate() :: oldBlendUnit=null");
 			return;
 		}
-		Debug.LogError("curlevel : " +curLevel + " MaxLevel : "+ oldBlendUnit.UnitInfo.MaxLevel) ;
+//		Debug.LogError("curlevel : " +curLevel + " MaxLevel : "+ oldBlendUnit.UnitInfo.MaxLevel) ;
 
 		levelLabel.text = curLevel.ToString ();
 		currMaxExp = DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
