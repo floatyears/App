@@ -340,7 +340,7 @@ public class GachaWindowView : UIComponentUnity {
             GameObject grid = sortedGrids[i];
             ShowUnitById(grid, gridUnitDict[grid].UnitInfo.ID, gridUnitDict[grid]);
 //            yield return;
-            ShowNewUnitDetail(i);
+//            ShowNewUnitDetail(i);
             i += 1;
         }
         FinishShowGachaWindow();
