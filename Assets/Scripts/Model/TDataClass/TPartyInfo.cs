@@ -192,6 +192,10 @@ public class TPartyInfo : ProtobufDataBase {
 			if (rsp.header.code != ErrorCode.SUCCESS){
 				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 
+			}else { //change party is success
+				originalPartyId = instance.currentParty;
+				isPartyItemModified = false;
+				isPartyGroupModified = false;
 			}
 //			bool success = (rspChangeParty.header.code == 0 );
         }
