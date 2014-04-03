@@ -6,10 +6,8 @@ public class FriendHelperController : ConcreteComponent{
 	TFriendInfo selectedHelper;
 	uint questID;
 	uint stageID;
-
 	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
-	
 	private TEvolveStart evolveStart = null;
 	public FriendHelperController(string uiName):base(uiName) {}
 	public override void CreatUI () { base.CreatUI (); }
