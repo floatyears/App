@@ -167,12 +167,12 @@ public class PartyUnitsView : UIComponentUnity {
 	void UpdateAvatarTexture(List<UnitItemViewInfo> dataItemList){
 		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-			uiTexture.mainTexture = dataItemList[ i - 1 ].Avatar;
+//			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+//			uiTexture.mainTexture = dataItemList[ i - 1 ].Avatar;
 //			dataItemList[ i - 1 ].DataItem.UnitInfo.Type;
 
-			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
-			typeSpr.color = dataItemList[ i - 1 ].TypeColor;
+//			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
+//			typeSpr.color = dataItemList[ i - 1 ].TypeColor;
 //			Debug.LogError("item " + i + "Color is : " + dataItemList[ i - 1 ].TypeColor.ToString());
 		}
 	}
@@ -226,6 +226,10 @@ public class PartyUnitsView : UIComponentUnity {
 		UpdateStarSprite(itemDataList);
 		UpdateCrossShow();
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+
+		for (int i = 0; i < itemDataList.Count; i++){
+			itemDataList[ i ].InitView(dragPanel.ScrollItem[ i+1 ]);
+		}
 	}
 
 	void DestoryDragView(object args){

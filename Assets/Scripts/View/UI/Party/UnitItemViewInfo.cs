@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitItemInfo {
+public class UnitItemInfo : MonoBehaviour{
 	public GameObject scrollItem ;
     public UILabel stateLabel;
 	public UISprite mask;
@@ -58,6 +58,16 @@ public class UnitItemInfo {
 }
 
 public class UnitItemViewInfo {
+	private GameObject viewItem;
+	public GameObject ViewItem{
+		get{
+			return viewItem;
+		}
+		set{
+			viewItem = value;
+		}
+	}
+
     private bool isEnable;
     public bool IsEnable {
         get{ return isEnable;}
@@ -67,7 +77,8 @@ public class UnitItemViewInfo {
     private bool isParty;
     public bool IsParty {
         get{ return isParty; }
-		set{ isParty = value;}
+		set{ isParty = value;
+		}
     }
 
     private bool isCollected;
@@ -77,15 +88,11 @@ public class UnitItemViewInfo {
     }
         
 	private Color typeColor;
-
-	public Color TypeColor
-	{
-		get
-		{
+	public Color TypeColor{
+		get{
 			return typeColor;
 		}
-		set
-		{
+		set{
 			typeColor = value;
 		}
 	}
@@ -110,8 +117,8 @@ public class UnitItemViewInfo {
         }
     }
 
-    private Texture2D avatar;
-    public Texture2D Avatar {
+    private UITexture avatar;
+    public UITexture Avatar {
         get {
             return avatar;
         }
@@ -135,21 +142,31 @@ public class UnitItemViewInfo {
 
     public static UnitItemViewInfo Create(TUserUnit dataItem) {
         UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
-        partyUnitItemView.initWithTUserUnit(dataItem);
+        partyUnitItemView.InitWithTUserUnit(dataItem);
         return partyUnitItemView;
     }
 	public static UnitItemViewInfo Create(TUserUnit dataItem, bool inAllParty) {
 		UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
-		partyUnitItemView.initWithTUserUnit(dataItem);
+		partyUnitItemView.InitWithTUserUnit(dataItem);
 		if (inAllParty){
 			partyUnitItemView.SetStateInAllParty();
 		}
 		return partyUnitItemView;
 	}
 
+	public void InitView(GameObject viewItem){
+		this.ViewItem = viewItem;
+
+		if(ViewItem == null) return;
+		avatar = ViewItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+		avatar.mainTexture = dataItem.UnitInfo.GetAsset(UnitAssetType.Avatar);
+	}
+
+
+
 	public static UnitItemViewInfo Create(TFriendInfo friendItem){
 		UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
-		partyUnitItemView.initWithTFriendInfo(friendItem);
+		partyUnitItemView.InitWithTFriendInfo(friendItem);
 		return partyUnitItemView;
 	}
 
@@ -178,22 +195,22 @@ public class UnitItemViewInfo {
         }
     }
     private void RefreshCrossTextState(List<string> textList) {
-        this.crossShowTextBefore = textList[0];
-        this.crossShowTextAfter = textList[1];
+        this.crossShowTextBefore = textList[ 0 ];
+        this.crossShowTextAfter = textList[ 1 ];
     }
 
-    private void initWithTUserUnit(TUserUnit dataItem) {
+    private void InitWithTUserUnit(TUserUnit dataItem) {
         InitDataItem(dataItem);
         InitWithArgs();
-        GetAvatar();
+//        GetAvatar();
 		GetTypeColor();
     }
 
-	private void initWithTFriendInfo(TFriendInfo dataItem) {
+	private void InitWithTFriendInfo(TFriendInfo dataItem) {
 		this.dataItem = dataItem.UserUnit;
 		this.helperItem = dataItem;
 		InitWithArgs();
-		GetAvatar();
+//		GetAvatar();
 		GetTypeColor();
 	}
        
@@ -224,7 +241,7 @@ public class UnitItemViewInfo {
     }
 	
     private void GetAvatar() {
-        avatar = dataItem.UnitInfo.GetAsset(UnitAssetType.Avatar);
+//        avatar = dataItem.UnitInfo.GetAsset(UnitAssetType.Avatar);
     }
 
 	private void GetTypeColor(){

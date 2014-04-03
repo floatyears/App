@@ -235,6 +235,11 @@ public class OnSaleUnitsView : UIComponentUnity{
         AddEventLisenter();
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 		RefreshItemView(viewItemList);
+
+		for (int i = 0; i < viewItemList.Count; i++){
+			viewItemList[ i ].InitView(dragPanel.ScrollItem[ i ]);
+		}
+
 		UpdateCrossShow();
 	}
 
@@ -242,8 +247,8 @@ public class OnSaleUnitsView : UIComponentUnity{
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 
-			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-			uiTexture.mainTexture = dataItemList[ i ].Avatar;
+//			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+//			uiTexture.mainTexture = dataItemList[ i ].Avatar;
 
 			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
 			typeSpr.color = dataItemList[ i ].TypeColor;

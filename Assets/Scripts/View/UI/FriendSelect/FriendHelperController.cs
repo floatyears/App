@@ -15,7 +15,7 @@ public class FriendHelperController : ConcreteComponent{
 	public override void CreatUI () { base.CreatUI (); }
 	public override void ShowUI () {
 		base.ShowUI ();
-		GetSupportFriendInfoList();
+//		GetSupportFriendInfoList();
 		CreateFriendHelperViewList();
 		AddCommandListener();
 	}
@@ -129,18 +129,18 @@ public class FriendHelperController : ConcreteComponent{
 		return tuuList;
 	}
 
-	void GetSupportFriendInfoList(){
-		supportFriendViewList.Clear();
-		List<TFriendInfo> helperList = DataCenter.Instance.SupportFriends;
-				
-		for (int i = 0; i < helperList.Count; i++){
-			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(helperList[ i ]);
-			supportFriendViewList.Add(viewItem);
-		}
-	}
+//	void GetSupportFriendInfoList(){
+//		supportFriendViewList.Clear();
+//		List<TFriendInfo> helperList = DataCenter.Instance.SupportFriends;
+//				
+//		for (int i = 0; i < helperList.Count; i++){
+//			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(helperList[ i ]);
+//			supportFriendViewList.Add(viewItem);
+//		}
+//	}
 
 	void CreateFriendHelperViewList(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", supportFriendViewList);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", null);
 		ExcuteCallback(cbdArgs);
 	}
 

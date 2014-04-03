@@ -88,19 +88,33 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void CreateDragView(object args){
-//		Debug.Log("FriendSelectDecoratorUnity.CreateDragView(), receive call from logic, to create drag list...");
-		List<UnitItemViewInfo> viewInfoList = args as List<UnitItemViewInfo>;
-		supportViewList = viewInfoList;
-		dragPanel = CreateDragPanel("SupportFriendList", viewInfoList.Count);
-		FindCrossShowLabelList();
+//		List<UnitItemViewInfo> viewInfoList = args as List<UnitItemViewInfo>;
+//		supportViewList = viewInfoList;
+//		dragPanel = CreateDragPanel("SupportFriendList", viewInfoList.Count);
+//		FindCrossShowLabelList();
+//		UpdateAvatarTexture(viewInfoList);
+//		UpdateEventListener();
+//		ShowFriendName(viewInfoList);
+//		UpdateSupportInfo(viewInfoList);
+//		UpdateCrossShow();
 
-		UpdateAvatarTexture(viewInfoList);
-		UpdateEventListener();
-		ShowFriendName(viewInfoList);
-		UpdateSupportInfo(viewInfoList);
-		UpdateCrossShow();
+//		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 
+//		for (int i = 0; i < viewInfoList.Count; i++){
+//			viewInfoList[ i ].InitView(dragPanel.ScrollItem[ i ]);
+//		}
+
+		List<TFriendInfo> data = DataCenter.Instance.SupportFriends;
+		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitView.ItemPrefab);
+		dragPanel.CreatUI();
+		dragPanel.AddItem(data.Count);
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+		
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			HelperUnitView.Inject(dragPanel.ScrollItem[ i ]).Init(data[ i ]);
+		}
+
+
 	}
 
 	void UpdateCrossShow(){
@@ -206,8 +220,8 @@ public class FriendHelperView : UIComponentUnity{
 	void UpdateAvatarTexture(List<UnitItemViewInfo> friendInfoList){
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-            uiTexture.mainTexture = friendInfoList[ i ].Avatar;
+//			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+//            uiTexture.mainTexture = friendInfoList[ i ].Avatar;
 
 			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
 			typeSpr.color = friendInfoList[ i ].TypeColor;

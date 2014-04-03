@@ -704,7 +704,7 @@ public class UnitListDecorator : DecoratorBase
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		OwnedUnitListLogic unitList = CreatComponent< OwnedUnitListLogic >(UIConfig.unitListWindowName);
+		MyUnitListLogic unitList = CreatComponent< MyUnitListLogic >(UIConfig.unitListWindowName);
 		unitList.SetComponent(sceneInfoBar);
 
 		lastDecorator = unitList;

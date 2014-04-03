@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class OwnedUnitListLogic : ConcreteComponent {
-	public OwnedUnitListLogic(string uiName):base(uiName){}
+public class MyUnitListLogic : ConcreteComponent {
+	public MyUnitListLogic(string uiName):base(uiName){}
 
 	public override void ShowUI(){
 		base.ShowUI();
@@ -50,7 +50,7 @@ public class OwnedUnitListLogic : ConcreteComponent {
 
 	void CreateOwnedUnitListView(){
 		if(GetOwnedUnitViewList() == null) return;
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("CreateDragPanelView", GetOwnedUnitViewList());
+		CallBackDispatcherArgs call = new CallBackDispatcherArgs("CreateDragPanelView", GetOwnedUnitDataList());
 		ExcuteCallback(call);
 	}
 

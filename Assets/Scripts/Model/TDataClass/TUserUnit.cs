@@ -309,9 +309,9 @@ public class TUserUnit : ProtobufDataBase {
 		set { instance.activeSkillLevel = value; }
 	}
 
-    public string AddNumber {
+    public int AddNumber {
         get {
-            return (AddHP + AddAttack).ToString();
+            return AddHP + AddAttack;
         }
     }
 

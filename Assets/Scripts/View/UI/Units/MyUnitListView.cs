@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitListDecoratorUnity : UIComponentUnity {
+public class MyUnitListView : UIComponentUnity {
 	GameObject dragItem;
 	DragPanel dragPanel;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
@@ -38,30 +38,26 @@ public class UnitListDecoratorUnity : UIComponentUnity {
 
 	void InitUIElement(){
 		InitDragPanelArgs();
-		dragItem = Resources.Load("Prefabs/UI/Friend/UnitItem") as GameObject;
 	}
 
 	void CreateDragPanel(object args){
-		List<UnitItemViewInfo> viewList = args as List<UnitItemViewInfo>;
-		dragPanel = new DragPanel("DragPanel", dragItem);
+		List<TUserUnit> data = args as List<TUserUnit>;
+		dragPanel = new DragPanel("DragPanel", MyUnitView.ItemPrefab);
 		dragPanel.CreatUI();
-		dragPanel.AddItem(viewList.Count);
+		dragPanel.AddItem(data.Count);
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
-		UpdateItemView(viewList);
+
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+//			UnitView.Inject(dragPanel.ScrollItem[ i ]).Init(data[ i ]);
+			MyUnitView.Inject(dragPanel.ScrollItem[ i ]).Init(data[ i ]);
+		}
+
 	}
 
 	void DestoryDragPanel(object args){
 		dragPanel.DestoryUI();
 	}
-
-	void UpdateItemView(List<UnitItemViewInfo> viewInfo){
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-
-			UITexture tex = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-			tex.mainTexture = viewInfo[ i ].Avatar;
-		}
-	}
+	
 
 	void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans", transform);

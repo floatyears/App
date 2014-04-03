@@ -105,11 +105,15 @@ public class FriendListView : UIComponentUnity{
 		friendViewInfoList = viewInfoList;
 		dragPanel = CreateDragPanel("FriendDragPanel", viewInfoList.Count);
 		FindCrossShowLabelList();
-		UpdateAvatarTexture(viewInfoList);
+//		UpdateAvatarTexture(viewInfoList);
 		UpdateEventListener();
 		//UpdateStarSprite(viewInfoList);
 		UpdateCrossShow();
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+
+		for (int i = 0; i < viewInfoList.Count; i++){
+			viewInfoList[ i ].InitView(dragPanel.ScrollItem[ i ]);
+		}
 	}
 
 	void ShowFriendName(object args){
@@ -157,8 +161,8 @@ public class FriendListView : UIComponentUnity{
 	void UpdateAvatarTexture(List<UnitItemViewInfo> dataItemList){
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem [i];
-			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-			uiTexture.mainTexture = dataItemList [i].Avatar;
+//			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+//			uiTexture.mainTexture = dataItemList [i].Avatar;
 
 			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
 			typeSpr.color = dataItemList[ i ].TypeColor;
