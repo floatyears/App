@@ -509,15 +509,17 @@ public class PartyDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.partyPagePanelName);
-		UnitListForPartyLogic dragPanel = CreatComponent<UnitListForPartyLogic>(UIConfig.partyDragPanelName);
-	
-		partyInfo.SetComponent(sceneInfoBar);
-		partyPage.SetComponent(partyInfo);
-		dragPanel.SetComponent(partyPage);
+//		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
+		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.newPartyPanelName);
+//		UnitListForPartyLogic dragPanel = CreatComponent<UnitListForPartyLogic>(UIConfig.partyDragPanelName);
+//	
+//		partyInfo.SetComponent(sceneInfoBar);
+		partyPage.SetComponent(sceneInfoBar);
+//		dragPanel.SetComponent(partyPage);
 
-		lastDecorator = dragPanel;
+
+
+		lastDecorator = partyPage;
 
 		lastDecorator.CreatUI();
 

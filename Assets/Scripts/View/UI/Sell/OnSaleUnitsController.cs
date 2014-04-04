@@ -18,10 +18,12 @@ public class OnSaleUnitsController : ConcreteComponent {
 		base.ShowUI ();
 //		CreateOnSaleUnitViewList();
 //		RefreshOwnedUnitCount();
+//		MsgCenter.Instance.AddListener(CommandEnum.PickOnSaleUnit, PickOnSaleUnit);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+//		MsgCenter.Instance.RemoveListener(CommandEnum.PickOnSaleUnit, PickOnSaleUnit);
 //		DestoryOnSaleUnitViewList();
 	}
 
@@ -223,10 +225,8 @@ public class OnSaleUnitsController : ConcreteComponent {
 
 	void PickOnSaleUnit(object args){
 		int viewItemPos = (int)args;
-//		Debug.LogError("OnSaleUnitsController(), receive click, to pick the item index is "  + viewItemPos);
 		UnitItemViewInfo clickItemInfo = onSaleUnitList[ viewItemPos ];
 		TUserUnit tuu = clickItemInfo.DataItem;
-//		Debug.LogError("TUserUnit : " + (tuu == null));
 		if(CanBeCancel(tuu))	
 			CancelPick(viewItemPos, tuu);
 		else if(CanBePick(clickItemInfo)) 
@@ -237,10 +237,8 @@ public class OnSaleUnitsController : ConcreteComponent {
 	}
 
 	bool CanBeCancel(TUserUnit info){
-//		Debug.LogError("CanBeCancel : .....");
 		bool ret = false;
 		ret = pickedUnitList.Contains(info);
-//		Debug.LogError("CanBeCancel(), ret is " + ret);
 		return ret;
 	}
 

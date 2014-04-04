@@ -30,7 +30,7 @@ public class MyUnitView : UnitView {
 	public static GameObject ItemPrefab {
 		get {
 			if(itemPrefab == null) {
-				itemPrefab = Resources.Load("Prefabs/UI/Friend/MyUnitPrefab") as GameObject ;
+				itemPrefab = Resources.Load("Prefabs/UI/UnitItem/MyUnitPrefab") as GameObject ;
 			}
 			return itemPrefab;
 		}
@@ -56,10 +56,7 @@ public class MyUnitView : UnitView {
 		IsParty = false;
 	}
 
-	protected override void ClickItem(GameObject item){
-		base.ClickItem(item);
-		Debug.Log("MyUnitView.ClickItem() ....");
-	}
+	protected override void ClickItem(GameObject item){}
 
 	private void UpdatePartyState(){
 		partyLabel.enabled = isParty;

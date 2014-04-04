@@ -226,6 +226,7 @@ public enum CommandEnum{
 	RefreshItemCount				= 4063,
 
 	ShowFriendPointUpdateResult					= 4064,
+	PickOnSaleUnit				= 4065,
 
     WaitResponse,
     SetBlocker,

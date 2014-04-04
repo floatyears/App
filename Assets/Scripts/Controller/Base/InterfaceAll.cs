@@ -186,6 +186,8 @@ public interface INetSendPost {
 
 public delegate void Callback();
 
+
+
 public delegate void UICallback(GameObject caller);
 
 public delegate Object UICallbackExtend(Object data);

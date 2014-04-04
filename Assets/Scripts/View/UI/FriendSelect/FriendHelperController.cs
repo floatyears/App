@@ -179,6 +179,7 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void ChooseHelper(object msg){
+		selectedHelper = msg as TFriendInfo;
 		if(selectedHelper == null) return;
 		MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateViewAfterChooseHelper", null);

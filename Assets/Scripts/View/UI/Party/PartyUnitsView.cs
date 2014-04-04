@@ -2,21 +2,19 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 public class PartyUnitsView : UIComponentUnity {
-
 	DragPanel dragPanel;
 	GameObject unitItem;
 	GameObject rejectItem;
-
 	bool exchange = false;
     List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	Dictionary<GameObject, TUserUnit> dragItemViewDic = new Dictionary<GameObject, TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
-
 	List<UILabel> crossShowLabelList = new List<UILabel>();
 	List<string> crossShowTextList = new List<string>();
 	List<UnitItemViewInfo> viewInfoList = new List<UnitItemViewInfo>();
-
+	List<TUserUnit> currentPaty = new List<TUserUnit>();
+	List<PartyUnitView> partyViewList = new List<PartyUnitView>();
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitDragPanel();
@@ -24,11 +22,28 @@ public class PartyUnitsView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyUnitList, RefreshOnPartyUnitList);
+
 		ShowTween();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyUnitList, RefreshOnPartyUnitList);
+	}
+
+	void RefreshOnPartyUnitList(object data) {
+		currentPaty = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
+		for (int i = 0; i < partyViewList.Count; i++) {
+			PartyUnitView puv = partyViewList[i];
+			TUserUnit tuu = currentPaty.Find(a=>a.MakeUserUnitKey() == puv.UserUnit.MakeUserUnitKey());
+			if(tuu != default(TUserUnit)) {
+				puv.IsParty = true;
+			}else{
+				puv.IsParty = false;
+			}
+			puv.IsEnable = false;
+		}
 	}
 
 	void InitDragPanel(){
@@ -46,9 +61,9 @@ public class PartyUnitsView : UIComponentUnity {
 		return panel;
 	}
 
-	void ClickItem(GameObject item){
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item));
-		//LogHelper.Log("PartyUnitsView.ClickItem(), click drag item, call view respone...");
+	void ClickItem(PartyUnitView puv){
+//		PartyUnitView puv = item.GetComponent<PartyUnitView>();
+		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickItem", puv);
 		ExcuteCallback( cbd );
 	}
 
@@ -59,7 +74,7 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void AddEventListener( GameObject item){
-		UIEventListenerCustom.Get( item ).onClick = ClickItem;
+//		UIEventListenerCustom.Get( item ).onClick = ClickItem;
 		UIEventListenerCustom.Get( item ).LongPress = PressItem;
 	}
 
@@ -116,19 +131,12 @@ public class PartyUnitsView : UIComponentUnity {
 		ExcuteCallback(cbd);
 	}
 
-	void UpdateUnitItemMask(object args){
-		UISprite rejectSpr = dragPanel.ScrollItem[ 0 ].transform.FindChild("Mask").GetComponent<UISprite>();
-		rejectSpr.enabled = false;
-		List<UnitItemViewInfo> dataItemList = args as List<UnitItemViewInfo>;
-		for( int i = 1; i < dragPanel.ScrollItem.Count; i++){
-			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-			UISprite maskSpr = scrollItem.transform.FindChild("Mask").GetComponent<UISprite>();
-			if(dataItemList[ i - 1 ].IsEnable){
-				maskSpr.enabled = false;
-			}
-			else{
-				maskSpr.enabled = true;
-			}
+	void UpdateUnitItemEnableState(object args){
+		for (int i = 0; i < partyViewList.Count; i++) {
+			if(partyViewList[ i ].IsParty)
+				partyViewList[ i ].IsEnable = false;
+			else
+				partyViewList[ i ].IsEnable = true;
 		}
 	}
 	
@@ -189,7 +197,7 @@ public class PartyUnitsView : UIComponentUnity {
 		List<UnitItemViewInfo> itemDataList = args as List<UnitItemViewInfo>;
 
 		UpdatePartyLabel(itemDataList);
-		UpdateUnitItemMask(itemDataList);
+		UpdateUnitItemEnableState(itemDataList);
 		UpdateStarSprite(itemDataList);
 	}
 
@@ -198,7 +206,7 @@ public class PartyUnitsView : UIComponentUnity {
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName){
 			case "Activate" : 
-				CallBackDispatcherHelper.DispatchCallBack(UpdateUnitItemMask, cbdArgs);
+				CallBackDispatcherHelper.DispatchCallBack(UpdateUnitItemEnableState, cbdArgs);
 				break; 
 			case "RefreshDragList" : 
 				CallBackDispatcherHelper.DispatchCallBack(UpdateDragPanel, cbdArgs);
@@ -215,21 +223,20 @@ public class PartyUnitsView : UIComponentUnity {
 	}
 
 	void CreateDragView(object args){
-		List<UnitItemViewInfo> itemDataList = args as List<UnitItemViewInfo>;
-		viewInfoList = itemDataList;
-		dragPanel = CreateDragPanel("DragPanel", itemDataList.Count);
-		FindCrossShowLabelList();
-		UpdateAvatarTexture(itemDataList);
-		UpdateEventListener();
-		UpdatePartyLabel(itemDataList);
-		UpdateUnitItemMask(itemDataList);
-		UpdateStarSprite(itemDataList);
-		UpdateCrossShow();
+		partyViewList.Clear();
+		List<TUserUnit> data = args as List<TUserUnit>;
+		dragPanel = new DragPanel("DragPanel", MyUnitView.ItemPrefab);
+		dragPanel.CreatUI();
+		dragPanel.AddItem(data.Count);
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
-
-		for (int i = 0; i < itemDataList.Count; i++){
-			itemDataList[ i ].InitView(dragPanel.ScrollItem[ i+1 ]);
+		
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			PartyUnitView puv = PartyUnitView.Inject(dragPanel.ScrollItem[ i ]);
+			puv.Init(data[ i ]);
+			partyViewList.Add(puv);
+			puv.callback = ClickItem;
 		}
+
 	}
 
 	void DestoryDragView(object args){

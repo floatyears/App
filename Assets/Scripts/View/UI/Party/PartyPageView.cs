@@ -17,6 +17,17 @@ public class PartyPageView : UIComponentUnity {
 	Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 	Dictionary<GameObject, int> itemDic = new Dictionary<GameObject, int>();
 
+	//--------------------------new ----------------
+	private List<TUserUnit> currentPartyData = new List<TUserUnit> ();
+
+	public void RefreshPartyData() {
+		TUnitParty party = DataCenter.Instance.PartyInfo.CurrentParty;
+		currentPartyData = party.GetUserUnit();
+	}
+
+
+	//-----------------------------------------------
+
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		FindUIElement();
@@ -281,6 +292,7 @@ public class PartyPageView : UIComponentUnity {
 	}
 
 	void ReplaceItemView(object args){
+//		Debug.LogError("ReplaceItemView : " + args);
 		Dictionary<string,object> argsDic = args as Dictionary<string, object>;
 
 		int position = (int)argsDic["position"] ;

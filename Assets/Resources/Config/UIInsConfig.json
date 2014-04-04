@@ -368,6 +368,14 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
+    },
+     "NewPartyPagePanel": {
+        "uiName":"NewPartyPagePanel",
+        "resoucePath": "Prefabs/UI/Party/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
     
 }

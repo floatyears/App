@@ -23,6 +23,7 @@ public class UnitView : MonoBehaviour {
 		}
 		set{
 			userUnit = value;
+			InitState();
 		}
 	}
 
@@ -70,8 +71,11 @@ public class UnitView : MonoBehaviour {
 
 	public void Init(TUserUnit userUnit){
 		this.userUnit = userUnit;
+//		Debug.LogError("userUnit");
 		InitUI();
+//		Debug.LogError("InitUI");
 		InitState();
+//		Debug.LogError("InitState");
 	}
 	
 	protected virtual void InitUI(){
@@ -83,8 +87,12 @@ public class UnitView : MonoBehaviour {
 	protected virtual void InitState(){
 		if(userUnit == null){
 			Debug.LogError("UnitView.Init(), userUnit is Null, return!");
+			IsEnable = false;
+			avatarTex.mainTexture = null;
+			CancelInvoke("UpdateCrossFadeState");
 			return;
 		}
+
 		IsEnable = true;
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
 		CurrentSortRule = SortRule.ByLevel;

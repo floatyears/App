@@ -48,7 +48,6 @@ public class MyUnitListView : UIComponentUnity {
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-//			UnitView.Inject(dragPanel.ScrollItem[ i ]).Init(data[ i ]);
 			MyUnitView.Inject(dragPanel.ScrollItem[ i ]).Init(data[ i ]);
 		}
 

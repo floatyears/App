@@ -10,7 +10,7 @@ public class HelperUnitView : UnitView {
 	public static GameObject ItemPrefab {
 		get { 
 			if(itemPrefab == null) {
-				itemPrefab = Resources.Load("Prefabs/UI/Friend/HelperUnitPrefab") as GameObject ;
+				itemPrefab = Resources.Load("Prefabs/UI/UnitItem/HelperUnitPrefab") as GameObject ;
 			}
 			return itemPrefab;
 		}
@@ -92,9 +92,15 @@ public class HelperUnitView : UnitView {
 
 	}
 
+
 	public void Init(TFriendInfo friendInfo){
 		this.friendInfo = friendInfo;
 		base.Init(friendInfo.UserUnit);
 
+	}
+
+	protected override void ClickItem(GameObject item){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+		MsgCenter.Instance.Invoke(CommandEnum.ChooseHelper, friendInfo);
 	}
 }
