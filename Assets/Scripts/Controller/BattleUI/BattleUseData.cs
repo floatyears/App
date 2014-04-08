@@ -39,23 +39,31 @@ public class BattleUseData {
 		battleQuest = bq;
         ListenEvent();
         errorMsg = new ErrorMsg();
-        upi = DataCenter.Instance.PartyInfo.CurrentParty; 
-        upi.GetSkillCollection();
-        els = new ExcuteLeadSkill(upi);
-        skillRecoverHP = els;
-        els.Excute();
-        eas = new ExcuteActiveSkill(upi);
-        eps = new ExcutePassiveSkill(upi);
-        ac = new AttackController(this, eps);
-        maxBlood = Blood = upi.GetInitBlood();
-        maxEnergyPoint = DataCenter.maxEnergyPoint;
-        Config.Instance.SwitchCard(els);	
+		upi = DataCenter.Instance.PartyInfo.CurrentParty; 
+		upi.GetSkillCollection();
+		maxBlood = Blood = upi.GetInitBlood();
+		maxEnergyPoint = DataCenter.maxEnergyPoint;
+		GetBaseData (null);
     }
+
+	public void InitBattleUseData () {
+		els = new ExcuteLeadSkill(upi);
+		skillRecoverHP = els;
+		els.Excute();
+		maxBlood = Blood = upi.GetInitBlood();
+		maxEnergyPoint = DataCenter.maxEnergyPoint;
+		GetBaseData (null);
+		eas = new ExcuteActiveSkill(upi);
+		eps = new ExcutePassiveSkill(upi);
+		ac = new AttackController(this, eps);
+		Config.Instance.SwitchCard(els);
+	}
 
     ~BattleUseData() {
     }
 
     void ListenEvent() {
+
         MsgCenter.Instance.AddListener(CommandEnum.InquiryBattleBaseData, GetBaseData);
         MsgCenter.Instance.AddListener(CommandEnum.MoveToMapItem, MoveToMapItem);
         MsgCenter.Instance.AddListener(CommandEnum.StartAttack, StartAttack);
@@ -173,8 +181,9 @@ public class BattleUseData {
         }
         DGTools.InsertSortBySequence(sortAttack, new AISortByCardNumber());
         for (int i = 0; i < sortAttack.Count; i++) {
-            sortAttack[i].AttackValue *= (1 + i * 0.25f);
-            sortAttack[i].ContinuAttackMultip += i;
+			sortAttack[i].AttackRate += i * 0.25f;
+			sortAttack[i].ContinuAttackMultip = i;
+			sortAttack[i].AttackValue *= (1 + sortAttack[i].AttackRate);
         }
         return sortAttack;
     }
@@ -219,10 +228,10 @@ public class BattleUseData {
     }
 
     public void GetBaseData(object data) {
-        BattleBaseData bud = new BattleBaseData();
-        bud.Blood = blood;
-        bud.EnergyPoint = maxEnergyPoint;
-        MsgCenter.Instance.Invoke(CommandEnum.BattleBaseData, bud);
+        BattleBaseData bbd = new BattleBaseData();
+		bbd.Blood = blood;
+		bbd.EnergyPoint = maxEnergyPoint;
+		MsgCenter.Instance.Invoke(CommandEnum.BattleBaseData, bbd);
     }
 
     void RecoverEnergePoint(object data) {

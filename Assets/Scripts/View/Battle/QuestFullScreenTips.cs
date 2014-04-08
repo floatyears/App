@@ -37,12 +37,9 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void HideUI(bool b) {
 		if (b) {
 			sprite.spriteName = string.Empty;	
-			Debug.LogError("HideUI befoure : " + LayerMask.LayerToName( uiCamera.eventReceiverMask.value));
 			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
-//			Debug.LogError("HideUI end : " + LayerMask.LayerToName( uiCamera.eventReceiverMask.value));
 			transform.localPosition = initLocalPosition;
 			transform.localScale = initLocalScale;
-
 			MapCamera.IsClick = true;
 		} else {
 			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
@@ -81,7 +78,7 @@ public class QuestFullScreenTips : UIBaseUnity {
 	}
 
 	void PlayEnd () {
-		GameTimer.GetInstance ().AddCountDown (0.5f, End);
+		GameTimer.GetInstance ().AddCountDown (0.8f, End);
 	}
 
 	void End() {
@@ -111,10 +108,8 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void BossAppearAnim() {
 		iTween.ScaleTo (gameObject, iTween.Hash ("y", 1f, "time", 0.3f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
-	
 	//---------------------------------------------appear-----------------------------------------------------
-
-
+	
 	public const string GameOver = "GAME-OVER-";
 	public const string BossAppears = "boss-APPEARS";
 	public const string OpenGate = "go-to-the-OPENED-GATE";
@@ -123,5 +118,5 @@ public class QuestFullScreenTips : UIBaseUnity {
 	public const string SPLimit = "SP-LIMIT-OVER!-";
 	public const string RankUp = "rank-up";
 	public const string ReadyMove = "Ready-to-move-on";
-	public const string QuestClear = "Quest--Clear";
+	public const string QuestClear = "Quest--Clear!";
 }

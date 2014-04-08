@@ -160,6 +160,8 @@ public enum CommandEnum{
 	EnterBattle,
 	LeftBattle,
 	QuestEnd,
+	LeaderSkillEnd,
+	ShowHands,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,

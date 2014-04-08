@@ -33,11 +33,15 @@ public class ExcuteActiveSkill {
 		TUserUnit uui = data as TUserUnit;
 		if (uui != null) {
 			string id = uui.MakeUserUnitKey();
-//			Debug.LogError("id : " + id);
 			IActiveSkillExcute iase ;
 			if(activeSkill.TryGetValue(id,out iase)) {
+				AttackInfo ai = new AttackInfo();
+				ai.UserUnitID = id;
+				MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
+				MsgCenter.Instance.Invoke(CommandEnum.StateInfo, DGTools.stateInfo[4]);
 				iase = activeSkill[id];
 				iase.Excute(id, uui.Attack);
+
 			}
 		}
 	}

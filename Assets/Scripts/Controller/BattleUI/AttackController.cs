@@ -125,6 +125,7 @@ public class AttackController {
 	}
 
 	public void StartAttack (List<AttackInfo> attack, TUnitParty upi) {
+		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		attackInfo = attack;
 		this.upi = upi;
@@ -167,10 +168,10 @@ public class AttackController {
 
 	float GetIntervTime () {
 		if (enemyInfo == null || enemyInfo.Count == 0) {
-			return 0.8f;		
+			return 0.7f;		
 		}
 		else {
-			return 0.8f;		
+			return 0.7f;		
 		}
 	}
 
@@ -246,9 +247,7 @@ public class AttackController {
 		for (int i = 0; i < deadEnemy.Count; i++) {
 			deadEnemy[i].IsDead = true;
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, deadEnemy[i]);
-//			Debug.LogWarning("CheckTempEnemy grid : " + grid);
 			if(grid != null) {
-//				Debug.LogWarning(" invoke drop item : " + grid.DropPos);
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 			}
 
@@ -261,9 +260,7 @@ public class AttackController {
 				enemyInfo.Remove(te);
 				te.IsDead = true;
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
-//				Debug.LogWarning("CheckTempEnemy grid : " + grid);
 				if(grid != null) {
-//					Debug.LogWarning(" invoke drop item : " + grid.DropPos);
 					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 				}
 			}
@@ -275,7 +272,6 @@ public class AttackController {
 		}
 
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
-
 		return true;
 	}
 
@@ -374,9 +370,7 @@ public class AttackController {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_boss_battle);
 			}
 		}
-
 		enemyIndex ++;
-
 		if (enemyIndex == enemyInfo.Count) {
 			if(bud.Blood < 1) {
 				GameTimer.GetInstance ().AddCountDown (1f, Fail);

@@ -102,7 +102,7 @@ public class BattleBackground : UIBaseUnity {
 	public void InitData (int blood, int energyPoint) {
 		initBlood = blood;
 		currentEnergyPoint = initEnergyPoint = energyPoint;
-		SetBlood (initBlood);
+		SetBlood (initBlood); 
 		InitSP ();
 	}
 

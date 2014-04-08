@@ -8,10 +8,11 @@ public class EnemyItem : UIBaseUnity {
     [HideInInspector]
     public UITexture texture;
     private UISprite dropTexture;
-
     private UILabel bloodLabel;
     private UISprite bloodSprite;
     private UILabel nextLabel;
+	private UISprite stateSprite;
+
     private UIPanel effect;
     private Vector3 attackPosition;
     private Vector3 localPosition;
@@ -30,7 +31,6 @@ public class EnemyItem : UIBaseUnity {
         MsgCenter.Instance.AddListener(CommandEnum.BePosion, BePosion);
         MsgCenter.Instance.AddListener(CommandEnum.ReduceDefense, ReduceDefense);
         MsgCenter.Instance.AddListener(CommandEnum.DropItem, DropItem);
-//		Debug.LogWarning("enemy item add drop item event :" );
     }
 
     void OnDisable() {
@@ -42,7 +42,6 @@ public class EnemyItem : UIBaseUnity {
         MsgCenter.Instance.RemoveListener(CommandEnum.BePosion, BePosion);
         MsgCenter.Instance.RemoveListener(CommandEnum.ReduceDefense, ReduceDefense);
         MsgCenter.Instance.RemoveListener(CommandEnum.DropItem, DropItem);
-//		Debug.LogWarning("enemy item remove drop item event :");
     }
 
     GameObject prevObject = null;
@@ -69,10 +68,38 @@ public class EnemyItem : UIBaseUnity {
 
     void Effect() {
 		AttackInfo ai = attackQueue.Dequeue();
+		DisposeRestraint (ai);
 		DGTools.PlayAttackSound (ai.AttackType);
         ShowHurtInfo(ai.InjuryValue);
-        InjuredShake();
+		ShowInjuredEffect (ai);
+//        InjuredShake();
     }
+
+	void DisposeRestraint(AttackInfo ai) {
+		if (!string.IsNullOrEmpty (stateSprite.spriteName)) {
+			stateSprite.spriteName = string.Empty;
+		}
+
+		int type = DGTools.RestraintType (ai.AttackType);
+		if (enemyInfo.GetUnitType() == type) {
+			DGTools.ShowSprite (stateSprite, "Weak"); // weak == attack count atlas sprite name.
+			ShakeStateSprite();
+		} else {
+			type = DGTools.BeRestraintType (ai.AttackType);
+			if(enemyInfo.GetUnitType() == type)  {
+				DGTools.ShowSprite (stateSprite, "Guard"); // weak == attack count atlas sprite name.
+				ShakeStateSprite();
+			}
+		}
+	}
+
+	void ShakeStateSprite () {
+		iTween.ScaleFrom (stateSprite.gameObject, iTween.Hash ("scale", new Vector3 (2f, 2f, 2f), "time", 0.4f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "HideStateSprite", "oncompletetarget", gameObject));
+	}
+
+	void HideStateSprite () {
+		stateSprite.spriteName = string.Empty;
+	}
 
     void ShowHurtInfo(int injuredValue) {
         GameObject hurtLabel = NGUITools.AddChild(gameObject, hurtValueLabel.gameObject);
@@ -89,13 +116,13 @@ public class EnemyItem : UIBaseUnity {
     }
 
 	//================== old code. not use.
-    void ShowInjuredEffect(int attackType) {
-        GameObject obj = DataCenter.Instance.GetEffect(attackType) as GameObject;
-        DGTools.PlayAttackSound(attackType);
+    void ShowInjuredEffect(AttackInfo ai) {
+		GameObject obj = DataCenter.Instance.GetEffect(ai) as GameObject;
+		DGTools.PlayAttackSound(ai.AttackType);
+		InjuredShake();
         if (obj != null) {
             prevObject = NGUITools.AddChild(effect.gameObject, obj);
             prevObject.transform.localScale = new Vector3(100f, 100f, 100f);
-            InjuredShake();
         }
     }
 	//==================
@@ -136,19 +163,19 @@ public class EnemyItem : UIBaseUnity {
         enemyInfo = te;
         hurtValueLabel.gameObject.SetActive(false);
         SetData(te);
-
 		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
 		Texture2D tex = tui.GetAsset(UnitAssetType.Profile);
-		texture.mainTexture = tex;
 		if (tex == null) {
+			texture.mainTexture = null;
 			return;		
 		}
-		texture.width = tex.width;
-		texture.height = tex.height;
+		DGTools.ShowTexture (texture, tex);
+		stateSprite = FindChild<UISprite>("StateSprite");
+		stateSprite.spriteName = string.Empty;
+		stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height, 0f);
     }
 
     public override void DestoryUI() {
-//		Debug.LogError ("currentState : " + currentState + enemyInfo.EnemySymbol);
 		if (currentState == UIState.UIDestory) {
 			return;
 		}
@@ -160,13 +187,10 @@ public class EnemyItem : UIBaseUnity {
 	
     public void DropItem(object data) {
         int pos = (int)data;
-//		Debug.LogError ("pos : " + pos + "  enemyInfo.EnemySymbol : " + enemyInfo.EnemySymbol + " enemyInfo.drop : " + enemyInfo.drop);
         if (pos == (int)enemyInfo.EnemySymbol && !texture.enabled) {
-//			Debug.LogError ("pos : " + pos + "  enemyInfo.EnemySymbol : " + enemyInfo.EnemySymbol + " enemyInfo.drop : " + enemyInfo.drop);
 			if(enemyInfo.drop == null) {
 				return;
 			}
-
 			TUnitInfo tui = enemyInfo.drop.UnitInfo;
 			dropTexture.enabled = true;
 			switch (tui.Rare) {
@@ -189,12 +213,10 @@ public class EnemyItem : UIBaseUnity {
 				dropTexture.spriteName = "f";
 				break;
 			}
-
             iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
             GameTimer.GetInstance().AddCountDown(0.5f, DorpEnd);
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_chess);
         }
-
     }
 
     void DorpEnd() {
@@ -210,6 +232,7 @@ public class EnemyItem : UIBaseUnity {
         texture.enabled = false;
         nextLabel.text = "";
     }
+
     Queue<TEnemyInfo> tempQue = new Queue<TEnemyInfo>();
     void EnemyRefresh(object data) {
         TEnemyInfo te = data as TEnemyInfo;
@@ -220,10 +243,7 @@ public class EnemyItem : UIBaseUnity {
         if (te.EnemySymbol != enemyInfo.EnemySymbol) {
             return;		
         }
-//		enemyInfo = te;
-
         tempQue.Enqueue(te);
-
         GameTimer.GetInstance().AddCountDown(0.5f, RefreshData);
     }
 

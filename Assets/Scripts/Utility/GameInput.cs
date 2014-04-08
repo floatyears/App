@@ -35,7 +35,12 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void StopInput(object data) {
-		isCheckInput = false;
+		if (data == null) {
+			isCheckInput = false;
+			return;
+		}
+		bool b = (bool)data;
+		isCheckInput = b;
 	}
 
 	void CatchException(string condition, string stackInfo, LogType lt) {
