@@ -1,0 +1,21 @@
+<h1>修改quest</h1>
+<%= form_tag(update_quest_city_infos_path,method: "patch") %>
+id: <%=text_field_tag :id,@quest.try(:id) %><br/>
+state:<%= select_tag :state,options_for_select(CityInfo::EQUEST_STATE,@quest.try(:state))%><br/>
+no: <%=text_field_tag :no ,@quest.try(:no)%><br/>
+name: <%=text_field_tag :name,@quest.try(:name) %><br/>
+story: <%=text_field_tag :story ,@quest.try(:story)%><br/>
+stamina: <%=text_field_tag :stamina ,@quest.try(:stamina)%><br/>
+floor: <%=text_field_tag :floor,@quest.try(:floor) %><br/>
+rewardExp: <%=text_field_tag :rewardExp ,@quest.try(:rewardExp)%><br/>
+rewardMoney: <%=text_field_tag :rewardMoney,@quest.try(:rewardMoney) %><br/>
+bossId: <%=text_field_tag :bossId ,@quest.try(:bossId).join(",")%>(多个ID用,隔开)<br/>
+enemyId: <%=text_field_tag :enemyId,@quest.try(:enemyId).join(",") %>(多个ID用,隔开)<br/>
+<%= hidden_field_tag :type,@type%>
+<%= hidden_field_tag :stage_id,@stage_id%>
+<%= hidden_field_tag :index,@index%>
+<%= hidden_field_tag :stage_index,@stage_index%>
+<%= hidden_field_tag :city_id,@city_id%>
+<div class="actions">
+	<%= submit_tag '修改',class: "btn btn-primary" %>
+</div>

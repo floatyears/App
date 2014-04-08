@@ -1,0 +1,17 @@
+<h1 id="修改star">修改star</h1>
+<%= form_tag update_config_city_infos_path ,method: "patch"%>
+repeat:<%= text_field_tag :repeat,@star.try(:repeat) %><br/>
+star:<%= select_tag :star,options_for_select(CityInfo::E_GRID_STAR,@star.try(:star))%><br/>
+coin:<br/>
+min:<%= text_field_tag :coin_min,@star.try(:coin).try(:min) %>&nbsp;&nbsp;&nbsp;&nbsp;max:<%= text_field_tag :coin_max ,@star.try(:coin).try(:max)%><br/>
+enemyPool:<%= text_field_tag :enemyPool,@star.try(:enemyPool).join(",") %>(多个用,隔开)<br/>
+enemyNum:<br/>
+min:<%= text_field_tag :enemyNum_min,@star.try(:enemyNum).try(:min) %>&nbsp;&nbsp;&nbsp;&nbsp;max:<%= text_field_tag :enemyNum_max,@star.try(:enemyNum).try(:max) %><br/>
+trap:<%= text_field_tag :trap,@star.try(:trap).join(",") %>(多个用,隔开)<br/>
+<%= hidden_field_tag :form_type,@type%>
+<%= hidden_field_tag :index,@index%>
+<%= hidden_field_tag :city_index,@city_index%>
+<%= hidden_field_tag :config_id,@config_id%>
+<div class="actions">
+  <%= submit_tag '修改',class: "btn btn-primary" %>
+</div>

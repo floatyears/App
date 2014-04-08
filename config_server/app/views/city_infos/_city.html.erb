@@ -1,0 +1,18 @@
+<h1 id="修改city">修改city</h1>
+<%= form_tag city_info_path,method: "patch"%>
+version:<%= text_field_tag :version,@city.try(:version)%>
+id:<%= text_field_tag :id,@city.try(:id)%>
+state:<%= text_field_tag :state,@city.try(:state)%>
+cityName:<%= text_field_tag :cityName,@city.try(:cityName)%>
+description:<%= text_area_tag :description,@city.try(:description)%>
+<fieldset>
+  pos:<br/>
+  x:<%= text_field_tag :x,@city.try(:pos).try(:x)%>
+  y:<%= text_field_tag :y,@city.try(:pos).try(:y)%>
+</fieldset>
+
+<%= hidden_field_tag :type,@type%>
+
+<div class="actions">
+	<%= submit_tag '修改',class: "btn btn-primary" %>
+</div>

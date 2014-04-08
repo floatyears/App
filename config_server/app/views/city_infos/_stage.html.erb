@@ -1,0 +1,29 @@
+<h1>修改stage</h1>
+<%= form_tag(update_stage_city_infos_path,method: "patch") %>
+version:<%= text_field_tag :version,@stage.try(:version)%><br/>
+cityId:<%= text_field_tag :cityId,@stage.try(:cityId)%><br/>
+id:<%= text_field_tag :id,@stage.try(:id)%><br/>
+state:<%= select_tag :state,options_for_select(CityInfo::EQUEST_STATE,@stage.try(:state))%><br/>
+type:<%= select_tag :type,options_for_select(CityInfo::QUEST_TYPE,@stage.try(:type))%><br/>
+stageName:<%= text_field_tag :stageName,@stage.try(:stageName)%><br/>
+description:<%= text_field_tag :description,@stage.try(:description)%><br/>
+startTime:<%= text_field_tag :startTime,@stage.try(:startTime)%><br/>
+endTime:<%= text_field_tag :endTime,@stage.try(:endTime)%>
+<fieldset>
+  boost:<br/>
+  type:<%= select_tag :boost_type,options_for_select(CityInfo::QUEST_BOOST_TYPE,@stage.try(:boost).try(:boost_type))%>
+  value:<%= text_field_tag :value,@stage.try(:boost).try(:value)%>
+</fieldset>
+<fieldset>
+  pos:<br/>
+  x:<%= text_field_tag :x,@stage.try(:pos).try(:x)%>
+  y:<%= text_field_tag :y,@stage.try(:pos).try(:y)%>
+    
+</fieldset>
+<%= hidden_field_tag :type,@type%>
+<%= hidden_field_tag :city_id,@city_id%>
+<%= hidden_field_tag :stage_index,@stage_index%>
+<%= hidden_field_tag :city_id,@city_id%>
+<div class="actions">
+  <%= submit_tag '修改',class: "btn btn-primary" %>
+</div>

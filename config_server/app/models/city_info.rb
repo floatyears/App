@@ -253,9 +253,6 @@ class QuestInfo
   repeated :bossId, :uint32, 10
   repeated :enemyId, :uint32, 11
   
-  def self.update(params)
-    @stage =  StageInfo.decode($redis.get("X_STAGE_"+params[:stage_id]))
-  end  
 end
 
 class StageInfo
@@ -279,6 +276,7 @@ class CityInfo
   EQUEST_STATE = { "QS_NEW" => 0 , "QS_QUESTING" => 1 , "QS_CLEARED" => 2 }  
   QUEST_BOOST_TYPE = { "QB_BOOST_NONE" => 0, "QB_BOOST_MONEY" => 1 , "QB_BOOST_EXP" => 2 , "QB_BOOST_DROPRATE" => 3, "QB_BOOST_DROPPLUS" => 4}
   E_GRID_STAR = { "GS_EMPTY" => 0 , "GS_STAR_1" => 1, "GS_STAR_2" => 2 , "GS_STAR_3" => 3 , "GS_STAR_4" => 4 , "GS_STAR_5" => 5 , "GS_STAR_6" => 6, "GS_KEY" => 7 , "GS_QUESTION" => 8 , "GS_EXCLAMATION" => 9 }
+  EUNIT_TYPE    = { "UALL" => 0 , "UFIRE" => 1, "UWATER" => 2, "UWIND" => 3, "ULIGHT" => 4 ,"UDARK" => 5,"UNONE" => 6,"UHeart" => 7 }
   optional :version, :int32, 1
   optional :id, :uint32, 2
   optional :state, :int32, 3
@@ -319,10 +317,12 @@ class CityInfo
     floors = []
     quest_config =  JSON.parse(params["quest_config"])
     quest_config["boss"].each do |item|
-      boss << EnemyInfoConf.new(enemyId: params_to_i(item["enemyId"]),unitId: params_to_i(item["unitId"]),type: params_to_i(item["type"]),hp: params_to_i(item["hp"]),attack: params_to_i(item["attack"]),defense: params_to_i(item["defense"]),nextAttack: params_to_i(item["nextAttack"]),dropUnitId: params_to_i(item["dropUnitId"]),dropUnitLevel: params_to_i(item["dropUnitLevel"]),dropRate: params_to_i(item["dropRate"]),addRate: params_to_i(item["addRate"]))
+      e = EnemyInfo.new(enemyId: params_to_i(item["enemyId"]),unitId: params_to_i(item["unitId"]),type: params_to_i(item["type"]),hp: params_to_i(item["hp"]),attack: params_to_i(item["attack"]),defense: params_to_i(item["defense"]),nextAttack: params_to_i(item["nextAttack"]))
+      boss << EnemyInfoConf.new(enemy: e,dropUnitId: params_to_i(item["dropUnitId"]),dropUnitLevel: params_to_i(item["dropUnitLevel"]),dropRate: params_to_i(item["dropRate"]),addRate: params_to_i(item["addRate"]))
     end
     quest_config["enemys"].each do |item|
-      enemys << EnemyInfoConf.new(enemyId: params_to_i(item["enemyId"]),unitId: params_to_i(item["unitId"]),type: params_to_i(item["type"]),hp: params_to_i(item["hp"]),attack: params_to_i(item["attack"]),defense: params_to_i(item["defense"]),nextAttack: params_to_i(item["nextAttack"]),dropUnitId: params_to_i(item["dropUnitId"]),dropUnitLevel: params_to_i(item["dropUnitLevel"]),dropRate: params_to_i(item["dropRate"]),addRate: params_to_i(item["addRate"]))
+      e = EnemyInfo.new(enemyId: params_to_i(item["enemyId"]),unitId: params_to_i(item["unitId"]),type: params_to_i(item["type"]),hp: params_to_i(item["hp"]),attack: params_to_i(item["attack"]),defense: params_to_i(item["defense"]),nextAttack: params_to_i(item["nextAttack"]))
+      enemys << EnemyInfoConf.new(enemy: e,dropUnitId: params_to_i(item["dropUnitId"]),dropUnitLevel: params_to_i(item["dropUnitLevel"]),dropRate: params_to_i(item["dropRate"]),addRate: params_to_i(item["addRate"]))
     end
     quest_config["colors"].each do |item|
       colors << ColorPercent.new(color: params_to_i(item["color"]),percent: params_to_f(item["percent"]))
@@ -342,12 +342,84 @@ class CityInfo
     $redis.set "X_CONFIG_#{id}",questConfig.encode
   end
   
-  
-  def self.update_quest(params)
-    @stage =  StageInfo.decode(@redis.get("X_STAGE_"+params["stage_id"]))
-    return params["stage_id"]
+  def self.update(params)
+    if params[:type] == "city"
+      id = params[:id]
+      @city = CityInfo.decode($redis.get("X_CITY_" + id ))
+      stages = @city.stages
+      pos = Position.new(x: params_to_i(params["x"]),y: params_to_i(params["y"]))
+      @city = CityInfo.new(version: params_to_i(params["version"]),id: params_to_i(id),state: params_to_i(params["state"]),cityName: params["cityName"].to_s,description: params["description"],pos: pos,stages: stages)
+      $redis.set "X_CITY_#{id}",@city.encode
+    else
+      stage_id = params[:type] == "quest" ? params[:stage_id] : params[:id]
+      stage_index  =  params[:stage_index].to_i
+      city_id = params[:city_id]
+      @city = CityInfo.decode($redis.get("X_CITY_" + city_id ))
+      @stage = StageInfo.decode($redis.get("X_STAGE_" + stage_id ))
+      if params[:type] == "quest"
+        @stage.quests[params[:index].to_i] = QuestInfo.new(id: params_to_i(params[:id]),state: params_to_i(params[:state]),no: params_to_i(params[:no]),name: params[:name],story: params[:story],stamina:  params_to_i(params["stamina"]),floor:  params_to_i(params["floor"]),rewardExp: params_to_i(params["rewardExp"]),rewardMoney: params_to_i(params["rewardMoney"]),bossId: params["bossId"].to_s.split(",").map{|i|i.to_i},enemyId: params["enemyId"].to_s.split(",").map{|i|i.to_i})
+        $redis.set "X_STAGE_#{params[:id]}",@stage.encode
+        @city.stages[stage_index] = @stage
+        $redis.set "X_CITY_#{city_id}",@city.encode
+      elsif params[:type] == "stage"
+        boost = QuestBoost.new(type: params_to_i(params["boost_type"]),value: params_to_i(params["value"]))
+        pos = Position.new(x: params_to_i(params["x"]),y: params_to_i(params["y"]))
+        quests = @stage.quests
+        @stage = StageInfo.new(version: params_to_i(params["version"]),cityId: params_to_i(params["cityId"]),id: params_to_i(params["id"]),state: params_to_i(params["state"]),type: params_to_i(params["type"]),stageName: params["stageName"].to_s,description: params["description"].to_s,startTime: params_to_i(params["startTime"]),endTime: params_to_i(params["endTime"]),boost: boost,pos: pos,quests: quests)
+        $redis.set "X_STAGE_#{stage_id}",@stage.encode
+        @city.stages[stage_index] = @stage
+        $redis.set "X_CITY_#{city_id}",@city.encode
+      end
+    end
   end
   
+  def self.update_config(params)
+    @type =  params[:form_type]
+    @index = params[:index].to_i
+    @config_id = params[:config_id].to_i
+    @floor_index =  params[:floor_index].to_i if @type == "star"
+    @configs = QuestConfig.decode($redis.get("X_CONFIG_#{@config_id}"))
+    case @type
+    when "boss"
+      enemy =  EnemyInfo.new(enemyId: params_to_i(params["enemyId"]),unitId: params_to_i(params["unitId"]),type: params_to_i(params["type"]),hp: params_to_i(params["hp"]),attack: params_to_i(params["attack"]),defense: params_to_i(params["defense"]),nextAttack: params_to_i(params["nextAttack"]))
+      @configs.boss[@index] = EnemyInfoConf.new(enemy: enemy,dropUnitId: params_to_i(params["dropUnitId"]),dropUnitLevel: params_to_i(params["dropUnitLevel"]),dropRate: params_to_i(params["dropRate"]),addRate: params_to_i(params["addRate"]))
+    when "enemy"
+      enemy =  EnemyInfo.new(enemyId: params_to_i(params["enemyId"]),unitId: params_to_i(params["unitId"]),type: params_to_i(params["type"]),hp: params_to_i(params["hp"]),attack: params_to_i(params["attack"]),defense: params_to_i(params["defense"]),nextAttack: params_to_i(params["nextAttack"]))
+      @configs.enemys[@index] = EnemyInfoConf.new(enemy: enemy,dropUnitId: params_to_i(params["dropUnitId"]),dropUnitLevel: params_to_i(params["dropUnitLevel"]),dropRate: params_to_i(params["dropRate"]),addRate: params_to_i(params["addRate"]))
+    when "color"
+      @configs.colors[@index] = ColorPercent.new(color: params_to_i(params["color"]),percent: params_to_f(params["percent"]))
+    when "floor"
+      @floor = @configs.floors[@index]
+      stars = @floor.stars
+      @configs.floors[@index] = QuestFloorConfig.new(version: params_to_i(params["version"]),treasureNum: params_to_i(params["treasureNum"]),trapNum: params_to_i(params["trapNum"]),enemyNum: params_to_i(params["enemyNum"]),keyNum:  params_to_i(params["keyNum"]),stars: stars)
+    when "star"
+      coin = NumRange.new(min: params_to_i(params["coin_min"]),max: params_to_i(params["coin_max"]))
+      enemyNum = NumRange.new(min: params_to_i(params["enemyNum_min"]),max: params_to_i(params["enemyNum_max"]))
+      @configs.floors[@floor_index].stars[@index] = StarConfig.new(repeat: params_to_i(params["repeat"]),star: params_to_i(params["star"]),coin: coin,enemyPool: params["enemyPool"].to_s.split(",").map{|i|i.to_i},enemyNum: enemyNum,trap: params["trap"].to_s.split(",").map{|i|i.to_i})
+    end
+    
+    $redis.set("X_CONFIG_#{@config_id}" ,@configs.encode)
+  end
+  
+  def self.to_zip
+     FileUtils.rm_rf(Rails.root.join("public/city/."))
+     redis_to_file
+     directory = Rails.root.join("public/city")
+     zipfile_name = Rails.root.join("public/city/city.zip")
+     File.delete(zipfile_name) if File.exist?(zipfile_name)
+    
+     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
+       Dir[File.join(directory, '**', '**')].each do |file|
+         zipfile.add(File.basename(file),file )
+       end
+     end
+  end
+  
+  def self.redis_to_file
+    $redis.keys.map{|k|k if k.start_with?("X_CITY_")}.compact.each do |key|
+      File.open(Rails.root.join("public/city/#{key.split("_")[2]}.bytes"), "wb") { | file|  file.write($redis.get key) } 
+    end
+  end
   
   def self.params_to_i(s)
     (s == "") ? nil : s.to_i
