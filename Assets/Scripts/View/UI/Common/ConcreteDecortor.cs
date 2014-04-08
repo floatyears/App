@@ -678,31 +678,24 @@ public class CatalogDecorator : DecoratorBase{
 }
 
 //--------------------------------UnitList------------------------------------------
-public class UnitListDecorator : DecoratorBase
-{
+public class UnitListDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public UnitListDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public UnitListDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 

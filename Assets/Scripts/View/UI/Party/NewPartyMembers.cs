@@ -2,142 +2,58 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class NewPartyMembers : UIComponentUnity
-{
-
-	public override void Init(UIInsConfig config, IUICallback origin)
-	{
-		Debug.LogError("Init 1");
-		base.Init(config, origin);
-		Debug.LogError("Init 2");
-	}
-
-	public override void ShowUI()
-	{
-		Debug.LogError("showui");
-		base.ShowUI();
-		InitParty();
-		Debug.LogError("showui 2");
-	}
-	
-//	List<PartyUnitView> partyMemberList = new List<PartyUnitView>();
-//
-//	PartyUnitView currentPick;
-//	public PartyUnitView CurrentPick{
-//		get{
-//			return currentPick;
-//		}
-//		set{
-//			currentPick = value;
-//		}
-//	}
-//
-//	PartyUnitView focus;
-//	public PartyUnitView Focus{
-//		get{
-//			return focus;
-//		}
-//		set{
-//			focus = value;
-//		}
-//	}
-//
-//	//接受当前点击
-//	void ReceiveInput(int clickPos){
-//		RecordInput(clickPos);
-//		DealInput();
-//	}
-//
-//	//记录当前点击
-//	void RecordInput(int clickPos ){
-//		//有可能点击位置所对应的partyMemeber为null
-//		currentPick = partyMemberList[clickPos];
-//	}
-//
-//	//处理当前点击
-//	void DealInput(){
-//		if(focus == null){
-//			//当前focus == null 说明没有选中任何member,
-//			//那么点击操作意味着应该只是记录focus状态
-//			if(currentPick == null){}
-//			else{}
-//
-//			focus = currentPick;
-//			//ShowFocusLightSpr
-//		}
-//		else{//focus != null
-//			//当前focus != null 说明已经有选中某一个partyMember了,
-//			//那么再次点击其他的member就意味着应该直接进行交换操作了
-//
-//			if( FocusIsLeader() && (currentPick == null) ){
-//				//如果focus是队长,当前选中的又是空的,那么就不执行互换,因为换了队长就为空了
-//				return;
-//			}
-//
-//
-//			//Exchange
-//			PartyUnitView temp = currentPick;
-//			currentPick = focus;
-//			focus = temp;
-//
-//			//clear focus
-//			ClearFocusState();
-//		}
-//
-//	}
-//
-//	void ClearFocusState(){
-//		//交换完了之后,应该清除focus状态
-//		focus = null;
-//	}
-//
-//	bool FocusIsLeader(){
-//		bool isLeader = false;
-//		return isLeader;
-//	}
-
+public class NewPartyMembers : UIComponentUnity{
+	private DragPanel dragPanel;
+	private GameObject rejectItem;
 	private UILabel pageLabel;
 	private UIButton prePageButton;
 	private UIButton nextPageButton;
-	private Dictionary<int,PartyUnitView> partyView = new Dictionary<int, PartyUnitView>();
 	private PartyUnitView currentPick;
 	private PartyUnitView recordPick;
+	private Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
+	private Dictionary<int, PartyUnitView> partyView = new Dictionary<int, PartyUnitView>();
+	
+	public override void Init(UIInsConfig config, IUICallback origin){
+		base.Init(config, origin);
+	}
 
-	private void InitParty()
-	{
+	public override void ShowUI(){
+		base.ShowUI();
+		InitPagePanel();
+		InitDragPanel();
+	}
+
+	private void InitPagePanel(){
 		pageLabel = FindChild<UILabel>("Label_Left/Label_Before");
 		prePageButton = FindChild<UIButton>("Button_Left");
 		UIEventListener.Get(prePageButton.gameObject).onClick = PrevPage;
 		nextPageButton = FindChild<UIButton>("Button_Right");
 		UIEventListener.Get(nextPageButton.gameObject).onClick = NextPage;
+		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
 
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++){
 			PartyUnitView puv = FindChild<PartyUnitView>(i.ToString());
 			partyView.Add(i, puv);
 			puv.callback = PartyCallback;
 		}
-
 		RefreshParty(DataCenter.Instance.PartyInfo.CurrentParty);
 	}
 
-	void PrevPage(GameObject go)
-	{
+	void PrevPage(GameObject go){
 		RefreshParty(DataCenter.Instance.PartyInfo.PrevParty);           
 	}
         
-	void NextPage(GameObject go)
-	{
+	void NextPage(GameObject go){
 		RefreshParty(DataCenter.Instance.PartyInfo.NextParty);
 	}
 
-	void RefreshParty(TUnitParty party)
-	{
+	void RefreshParty(TUnitParty party){
 		List<TUserUnit> partyData = party.GetUserUnit();
 		pageLabel.text = DataCenter.Instance.PartyInfo.CurrentPartyId.ToString();
-		for (int i = 0; i < partyData.Count; i++)
-		{
-			partyView [i].Init(partyData [i]);
+		for (int i = 0; i < partyData.Count; i++){
+			partyView [ i ].Init(partyData [ i ]);
+			partyView[ i ].IsEnable = true;
+			partyView[ i ].IsParty = false;
 		}
 	}
         
@@ -150,7 +66,8 @@ public class NewPartyMembers : UIComponentUnity
 		if (recordPick == null) {
 			recordPick = currentPick;
 			recordPick.IsFocus = true;
-		} else {
+		} 
+		else {
 			if (FocusIsLeader() && (currentPick == null)) {
 				return;
 			}
@@ -158,6 +75,9 @@ public class NewPartyMembers : UIComponentUnity
 			currentPick.Init(recordPick.UserUnit);
 			recordPick.Init(tuu);			                            
 			ClearFocusState();
+//			DataCenter.Instance.PartyInfo.ChangeParty();
+//			currentPick.IsParty = true;
+//			currentPick.IsEnable = false;
 		}		
 	}
 
@@ -178,4 +98,74 @@ public class NewPartyMembers : UIComponentUnity
 		recordPick = null;
 		return true;
 	}
+
+	private List<TUserUnit> GetUnitList(){
+		if(DataCenter.Instance.MyUnitList.GetAll() == null){
+			Debug.LogError("!!!Data Read Error!!! DataCenter.Instance.MyUnitList.GetAll() is return null!");
+			return null;
+		}
+
+		List<TUserUnit> partyMembers = new List<TUserUnit>();
+		partyMembers.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
+		Debug.Log("partyMember's count is : " + partyMembers.Count);
+		return partyMembers;
+	}
+
+	private void InitDragPanel(){
+		dragPanel = new DragPanel("PartyDragPanel", PartyUnitView.ItemPrefab);
+		dragPanel.CreatUI();
+		InitDragPanelArgs();
+		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+
+		InitReject();
+		InitUnitListView();
+	}
+
+	private void InitReject(){
+		dragPanel.AddItem(1, rejectItem);
+		GameObject rejectItemInstance = dragPanel.ScrollItem[ 0 ];
+		UIEventListener.Get(rejectItemInstance).onClick = RejectPartyMember;
+	}
+
+	private void InitUnitListView(){
+		List<TUserUnit> memberList = GetUnitList();
+		dragPanel.AddItem(memberList.Count, MyUnitView.ItemPrefab);
+		//Debug.LogError("memberList.Count : " + memberList.Count);
+		//Debug.LogError("dragPanel.ScrollItem.Count : " + dragPanel.ScrollItem.Count);
+
+		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
+			PartyUnitView puv = PartyUnitView.Inject(dragPanel.ScrollItem[ i ]);
+			puv.Init(memberList[ i - 1 ]);
+			puv.callback = PartyCallback;
+		}
+	}
+
+	private void RejectPartyMember(GameObject item){
+		Debug.Log("Click Reject item...");
+		CheckReject(partyView.Count - 1);
+	}
+
+	void InitDragPanelArgs(){
+		dragPanelArgs.Add("parentTrans",		transform);
+		dragPanelArgs.Add("scrollerScale",		Vector3.one);
+		dragPanelArgs.Add("scrollerLocalPos",	-28 * Vector3.up);
+		dragPanelArgs.Add("position", 				Vector3.zero);
+		dragPanelArgs.Add("clipRange", 			new Vector4(0, -120, 640, 400));
+		dragPanelArgs.Add("gridArrange", 		UIGrid.Arrangement.Vertical);
+		dragPanelArgs.Add("maxPerLine",			3);
+		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
+		dragPanelArgs.Add("cellWidth", 			120);
+		dragPanelArgs.Add("cellHeight",			110);
+	}
+
+	void CheckReject(int pos){
+		if(pos == 1) return;//Lead can not reject
+		if(partyView[ pos ].UserUnit == null){
+			pos--;
+			CheckReject(pos);
+		}
+		partyView[ pos ].UserUnit = null;
+		DataCenter.Instance.PartyInfo.ChangeParty(pos, 0);
+	}
+
 }

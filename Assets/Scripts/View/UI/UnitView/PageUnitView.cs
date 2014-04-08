@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PartyUnitView : MyUnitView {
+public class PageUnitView : MyUnitView {
 	private UISprite lightSpr;
-	public static PartyUnitView Inject(GameObject item){
-		PartyUnitView view = item.AddComponent<PartyUnitView>();
-		if (view == null) view = item.AddComponent<PartyUnitView>();
+
+	public static PageUnitView Inject(GameObject item){
+		PageUnitView view = item.AddComponent<PageUnitView>();
+		if (view == null) view = item.AddComponent<PageUnitView>();
 		return view;
 	}
-	public delegate void UnitItemCallback(PartyUnitView puv);
+	public delegate void UnitItemCallback(PageUnitView puv);
 	public UnitItemCallback callback;
 
 	protected override void ClickItem(GameObject item){

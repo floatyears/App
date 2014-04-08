@@ -22,8 +22,9 @@ public class UnitView : MonoBehaviour {
 			return userUnit;
 		}
 		set{
+			if(userUnit != null && userUnit.Equals(value)) return;
 			userUnit = value;
-			InitState();
+			RefreshState();
 		}
 	}
 
@@ -43,6 +44,7 @@ public class UnitView : MonoBehaviour {
 			return isEnable;
 		}
 		set{
+//			if(isEnable == value) return;
 			isEnable = value;
 			UpdatEnableState();
 		}
@@ -71,11 +73,8 @@ public class UnitView : MonoBehaviour {
 
 	public void Init(TUserUnit userUnit){
 		this.userUnit = userUnit;
-//		Debug.LogError("userUnit");
 		InitUI();
-//		Debug.LogError("InitUI");
 		InitState();
-//		Debug.LogError("InitState");
 	}
 	
 	protected virtual void InitUI(){
@@ -103,13 +102,32 @@ public class UnitView : MonoBehaviour {
 		}
 	}
 
+	private void RefreshState(){
+		if(userUnit == null){
+			Debug.LogError("UnitView.Init(), userUnit is Null, return!");
+			IsEnable = false;
+			avatarTex.mainTexture = null;
+			CancelInvoke("UpdateCrossFadeState");
+			return;
+		}
+		
+		IsEnable = true;
+		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		CurrentSortRule = SortRule.ByLevel;
+		if(canCrossed){
+			if (IsInvoking("UpdateCrossFadeState"))
+				CancelInvoke("UpdateCrossFadeState");
+			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
+		}
+	}
+
 	private void UpdatEnableState(){
 		maskSpr.enabled = !isEnable;
 		UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
 		if(isEnable)
-			UIEventListenerCustom.Get(this.gameObject).onClick += ClickItem;
+			UIEventListenerCustom.Get(this.gameObject).onClick = ClickItem;
 		else
-			UIEventListenerCustom.Get(this.gameObject).onClick -= ClickItem;
+			UIEventListenerCustom.Get(this.gameObject).onClick = null;
 	}
 	
 

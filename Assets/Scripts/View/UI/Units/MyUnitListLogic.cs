@@ -44,7 +44,7 @@ public class MyUnitListLogic : ConcreteComponent {
 		}
 		
 		tuuList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
-		Debug.Log("GenerateOwnedUnitListView(), the total count of this player owned is " + tuuList.Count);
+		//Debug.Log("GenerateOwnedUnitListView(), the total count of this player owned is " + tuuList.Count);
 		return tuuList;
 	}
 
