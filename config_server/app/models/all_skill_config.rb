@@ -318,7 +318,7 @@ class AllSkillConfig
   NORMAL_SKILL =  %w( Normal )
   ACTIVE_SKILL =  %w( SingleAttack SingleAtkRecoverHP SuicideAttack TargetTypeAttack  StrengthenAttack KillHP RecoverHP RecoverSP ReduceHurt ReduceDefence DeferAttackRound Poison DelayTime ConvertUnitType )
   PASSIVE_SKILL = %w( DodgeTrap AntiAttack ) 
-  LEADER_SKILL =  %w( Boost Extraattack MultipleAttack)
+  LEADER_SKILL =  %w( Boost Extraattack MultipleAttack RecoverHP ReduceHurt DelayTime ConvertUnitType)
   CLASS_HASH = 
           {
             "Normal" => "NormalSkill",

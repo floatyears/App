@@ -101,7 +101,7 @@ func (t AcceptFriendProtocol) ProcessLogic(reqMsg *bbproto.ReqAcceptFriend, rspM
 
 	log.T("user:%v AcceptFriend(%v) ok.", uid, fUid)
 
-	rspMsg.Friends, e = friend.GetFriendList(db, uid)
+	rspMsg.Friends, isFriendNum, e = friend.GetFriendList(db, uid)
 	if e.IsError() && e.Code() != EC.EF_FRIEND_NOT_EXISTS {
 		return Error.New(EC.EF_GET_FRIENDINFO_FAIL, fmt.Sprintf("GetFriends failed for uid %v", uid))
 	}

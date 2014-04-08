@@ -81,7 +81,9 @@ func AddNewUser(db *data.Data, uuid string, selectRole uint32) (userdetail *bbpr
 
 	//TODO: let user to select a actor.
 //	unitIdPool := []uint32 {1,5,9,107,111,113,117,123,127,133,135,137,145,151,157,163,164,165,166,167,168,175,179,187,195,221,224,226,61,65,67,69,71,73,85,87,89,91}
-	unitIdPool := []uint32 {1,5,9,49,50,51,52,53,54,61,63,64,65,66,73,75,76,77,78,89,90,152,153}
+	unitIdPool := []uint32 {1,5,9,65,75,88,49,50,51,52,53,54,61,63,64,66,73,76,77,78,89,90,152,153}
+
+	uuidParty:=[]uint32{}
 	for i := 0; i < 19; i++ {
 		uniqueId, e := unit.GetUnitUniqueId(db, *userdetail.User.UserId, i-1)
 		if e.IsError() {
@@ -117,6 +119,9 @@ func AddNewUser(db *data.Data, uuid string, selectRole uint32) (userdetail *bbpr
 		if( unitId == selectRole ) {
 			log.T("unitId==selectRole=%v  assign user.unit", selectRole)
 			userdetail.User.Unit = userdetail.UnitList[len(userdetail.UnitList)-1] //currParty's leader
+			uuidParty = append(uuidParty, uniqueId)
+		} else if (unitId == 65 || unitId==75 || unitId==88){
+			uuidParty = append(uuidParty, uniqueId)
 		}
 	}
 
@@ -128,29 +133,32 @@ func AddNewUser(db *data.Data, uuid string, selectRole uint32) (userdetail *bbpr
 	for i := int32(0); i < 5; i++ { //5 group
 		party := &bbproto.UnitParty{}
 		party.Id = proto.Int32(i)
+
 		for pos := int32(0); pos < 4; pos++ {
 			item := &bbproto.PartyItem{}
 			item.UnitPos = proto.Int32(pos)
-			if i==*userdetail.Party.CurrentParty && pos == 0 { //currParty's leader
-				item.UnitUniqueId = userdetail.User.Unit.UniqueId
-			}else {
-				for _, unit:= range userdetail.UnitList {
-					if *unit.UniqueId ==  *userdetail.User.Unit.UniqueId { //leader is used
-						continue
-					}
-					used:=false
-					for _, it := range party.Items{
-						if *unit.UniqueId == *it.UnitUniqueId { //other partyitem used
-							used=true
-							break
-						}
-					}
-					if used {
-						continue
-					}
-					item.UnitUniqueId = unit.UniqueId
-				}
-			}
+			item.UnitUniqueId = proto.Uint32( uuidParty[pos] )
+
+//			if i==*userdetail.Party.CurrentParty && pos == 0 { //currParty's leader
+//				item.UnitUniqueId = userdetail.User.Unit.UniqueId
+//			}else {
+//				for _, unit:= range userdetail.UnitList {
+//					if *unit.UniqueId ==  *userdetail.User.Unit.UniqueId { //leader is used
+//						continue
+//					}
+//					used:=false
+//					for _, it := range party.Items{
+//						if *unit.UniqueId == *it.UnitUniqueId { //other partyitem used
+//							used=true
+//							break
+//						}
+//					}
+//					if used {
+//						continue
+//					}
+//					item.UnitUniqueId = unit.UniqueId
+//				}
+//			}
 			party.Items = append(party.Items, item)
 		}
 		userdetail.Party.PartyList = append(userdetail.Party.PartyList, party)

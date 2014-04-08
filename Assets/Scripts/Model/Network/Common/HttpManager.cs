@@ -65,6 +65,11 @@ public class HttpManager : INetSendPost {
         }
         for (int i = wwwRequst.Count - 1; i >= 0; i--) {
             WWW www = wwwRequst[i].WwwInfo;
+			if (www==null) {
+				UnityEngine.Debug.LogError("remove null www["+i+"]. wwwRequst.Count="+wwwRequst.Count);	
+				wwwRequst.RemoveAt(i);
+				continue;
+			}
             if (www.isDone && string.IsNullOrEmpty(www.error)) {
                 RequestDone(wwwRequst[i]);
             }
