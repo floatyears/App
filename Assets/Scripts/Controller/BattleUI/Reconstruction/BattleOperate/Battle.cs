@@ -25,8 +25,6 @@ public class Battle : UIBase {
 	public int cardHeight = 0;
 	private Vector3 localPosition = new Vector3 (-0.18f, -17f, 0f);
 
-//	private AttackEffect attackEffect;
-
 	public Battle(string name):base(name) {
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
 		nguiMainCamera = ViewManager.Instance.MainUICamera;
@@ -45,7 +43,6 @@ public class Battle : UIBase {
 	}
 	
 	public override void CreatUI () {
-//		CreatEffect ();
 		CreatBack();
 		CreatCard();
 		CreatArea();
@@ -70,8 +67,6 @@ public class Battle : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
-
-//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 	}
 
 	public override void HideUI () {
@@ -221,6 +216,7 @@ public class Battle : UIBase {
 		nguiMainCamera.useTouch = isShield;
 		//Debug.LogError ("SwitchInput : " + nguiMainCamera);
 		main.GInput.IsCheckInput = !isShield;
+		MapCamera.IsClick = isShield;
 	}
 
 	void ShieldInput (bool isShield) {

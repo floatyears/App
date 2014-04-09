@@ -138,7 +138,7 @@ public class BattleQuest : UIBase {
 	}
 
 	void ReadyMove() {
-		bud.InitBattleUseData();
+
 	}
 
 	void AttackEnemy (object data) {
@@ -223,9 +223,7 @@ public class BattleQuest : UIBase {
 		role.Stop();
 		battleEnemy = true;
 	}
-
-
-
+	
 	void QuestEnd () {
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ExitBattle ();
@@ -240,13 +238,18 @@ public class BattleQuest : UIBase {
 	private EQuestGridType gridType = EQuestGridType.Q_NONE;
 	private Coordinate currentCoor;
 
+	void YieldShowAnim() {
+		int count = bud.Els.CheckLeaderSkillCount();
+		questFullScreenTips.ShowTexture (QuestFullScreenTips.ReadyMove, ReadyMove, count * AttackController.normalAttackInterv);
+		bud.InitBattleUseData();
+	}
+
 	public void RoleCoordinate(Coordinate coor) {
 		currentCoor = coor;
 		if (!battleMap.ReachMapItem (coor)) {
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
-				MsgCenter.Instance.Invoke(CommandEnum.StopInput, false);
 				battleMap.RotateAnim (null);
-				questFullScreenTips.ShowTexture (QuestFullScreenTips.ReadyMove, ReadyMove);
+				GameTimer.GetInstance().AddCountDown(0.2f,YieldShowAnim);
 				return;
 			}
 			int index = questDungeonData.GetGridIndex (coor);
@@ -413,7 +416,6 @@ public class BattleQuest : UIBase {
 		if (data != null) {
 			b = (bool)data;	
 		}
-//		Debug.LogError ("battleEnemy : " + battleEnemy + " b : " + b);
 		if (battleEnemy && !b) {
 			battle.SwitchInput(true);
 			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);

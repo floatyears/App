@@ -28,6 +28,8 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			leadSkill.LeadSkill.Remove(RemoveSkill[i]);
 		}
 	}
+
+
 	
 	bool DisposeBoostSkill (string userunit, ProtobufDataBase pdb) {
 		TSkillBoost tbs = pdb as TSkillBoost;
@@ -170,6 +172,21 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			multipe += trhp.MultipeAttack(attackInfo);
 		}
 		return multipe;
+	}
+
+	/// <summary>
+	/// utility ready move animation
+	/// </summary>
+	int tempLeaderSkillCount = 0;
+	public int CheckLeaderSkillCount () {
+		foreach (var item in leadSkill.LeadSkill.Values) {
+			if(item is TSkillBoost) {
+				tempLeaderSkillCount ++;
+			}else if(item is TSkillDelayTime){
+				tempLeaderSkillCount ++;
+			}
+		}
+		return tempLeaderSkillCount;
 	}
 }
 

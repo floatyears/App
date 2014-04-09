@@ -11,8 +11,7 @@ public class AttackEffect : MonoBehaviour {
 	private Dictionary<EUnitType, UITexture> attackBack = new Dictionary<EUnitType, UITexture> ();
 
 	public void RefreshItem (AttackInfo data) {
-//		Debug.LogWarning ("RefreshItem stopinput false " + Time.realtimeSinceStartup);
-		MsgCenter.Instance.Invoke (CommandEnum.StopInput, false);
+//		MsgCenter.Instance.Invoke (CommandEnum.StopInput, false);
 		if (backgroundTexture == null) {
 			backgroundTexture = GetComponent<UISprite> ();
 			AvatarTexture = transform.Find ("Avatar").GetComponent<UITexture> ();
@@ -43,7 +42,6 @@ public class AttackEffect : MonoBehaviour {
 
 	void DropComplete() {
 		transform.localPosition = ViewManager.HidePos;
-//		Debug.LogWarning ("RefreshItem stopinput true " + Time.realtimeSinceStartup);
-		MsgCenter.Instance.Invoke (CommandEnum.StopInput, true);
+//		MsgCenter.Instance.Invoke (CommandEnum.StopInput, true);
 	}
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Timers;
 
 public class AttackController {
+	public const float normalAttackInterv = 0.7f;
+	public const float deadAttackInterv = 0.5f;
+
 	private MsgCenter msgCenter;
 	private BattleUseData bud;
 	private List<AttackInfo> attackInfo = new List<AttackInfo>();
@@ -165,6 +168,8 @@ public class AttackController {
 			return true;		
 		}
 	}
+
+
 
 	float GetIntervTime () {
 		if (enemyInfo == null || enemyInfo.Count == 0) {

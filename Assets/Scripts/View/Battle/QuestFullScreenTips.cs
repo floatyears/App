@@ -46,9 +46,10 @@ public class QuestFullScreenTips : UIBaseUnity {
 			MapCamera.IsClick = false;
 		}
 	}
-	
-	public void ShowTexture(string name,Callback cb) {
+	float tempTime = 0f;
+	public void ShowTexture(string name,Callback cb,float time = 0f) {
 		ShowUI ();
+		tempTime = time;
 		sprite.spriteName = name;
 		callBack = cb;
 		PlayAnimation (name);
@@ -67,7 +68,7 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void PlayReadyMove() {
 		tweenAlpha.enabled = true;
 		tweenAlpha.Reset ();
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "delay", 0.2f, "time", 0.4f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
+		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
 
 	void PlayAll () {

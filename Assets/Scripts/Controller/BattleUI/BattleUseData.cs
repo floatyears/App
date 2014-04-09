@@ -21,6 +21,9 @@ public class BattleUseData {
     private List<TEnemyInfo> showEnemy = new List<TEnemyInfo>();
     private AttackController ac;
     private ExcuteLeadSkill els;
+	public ExcuteLeadSkill Els{
+		get {return els;}
+	}
     private ExcuteActiveSkill eas;
     private ExcutePassiveSkill eps;
     private ILeaderSkillRecoverHP skillRecoverHP;
@@ -44,11 +47,11 @@ public class BattleUseData {
 		maxBlood = Blood = upi.GetInitBlood();
 		maxEnergyPoint = DataCenter.maxEnergyPoint;
 		GetBaseData (null);
+		els = new ExcuteLeadSkill(upi);
+		skillRecoverHP = els;
     }
 
 	public void InitBattleUseData () {
-		els = new ExcuteLeadSkill(upi);
-		skillRecoverHP = els;
 		els.Excute();
 		maxBlood = Blood = upi.GetInitBlood();
 		maxEnergyPoint = DataCenter.maxEnergyPoint;
