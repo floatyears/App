@@ -2,9 +2,11 @@
 using System.Collections;
 
 public class MyUnitView : UnitView {
-	private UILabel partyLabel;
-	private UISprite collectedSpr;
-	private bool isParty;
+	protected UISprite lightSpr;
+	protected UILabel partyLabel;
+	protected UISprite collectedSpr;
+
+	protected bool isParty;
 	public bool IsParty{
 		get{
 			return isParty;
@@ -26,6 +28,18 @@ public class MyUnitView : UnitView {
 		}
 	}
 
+	private bool isFocus;
+	public bool IsFocus{
+		get{
+			return isFocus;
+		}
+		set{
+			if(isFocus == value) return;
+			isFocus = value;
+			UpdateFocus();
+		}
+	}
+
     private static GameObject itemPrefab;
 	public static GameObject ItemPrefab {
 		get {
@@ -44,8 +58,10 @@ public class MyUnitView : UnitView {
 
 	protected override void InitUI(){
 		base.InitUI();
+		lightSpr = transform.FindChild("Sprite_Light").GetComponent<UISprite>();
 		collectedSpr = transform.FindChild("Sprite_Collect").GetComponent<UISprite>();
 		partyLabel = transform.FindChild("Label_Party").GetComponent<UILabel>();
+		partyLabel.enabled = false;
 		partyLabel.text = "Party";
 		partyLabel.color = Color.red;
 	}
@@ -58,12 +74,12 @@ public class MyUnitView : UnitView {
 
 	protected override void ClickItem(GameObject item){}
 
-	private void UpdatePartyState(){
-		partyLabel.enabled = isParty;
-    }
+	protected virtual void UpdatePartyState(){}
 
 	private void UpdateCollectState(){
 		collectedSpr.enabled = isCollected;
 	}
+
+	protected virtual void UpdateFocus(){}
 
 }

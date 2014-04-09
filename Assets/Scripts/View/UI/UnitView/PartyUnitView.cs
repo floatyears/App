@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class PartyUnitView : MyUnitView {
-	private UISprite lightSpr;
 	public static PartyUnitView Inject(GameObject item){
 		PartyUnitView view = item.AddComponent<PartyUnitView>();
 		if (view == null) view = item.AddComponent<PartyUnitView>();
@@ -16,23 +15,9 @@ public class PartyUnitView : MyUnitView {
 			callback(this);
 		}
 	}
-	
-	private bool isFocus;
-
-	public bool IsFocus{
-		get{
-			return isFocus;
-		}
-		set{
-			if(isFocus == value) return;
-			isFocus = value;
-			lightSpr.enabled = isFocus;
-		}
-	}
 
 	protected override void InitUI(){
 		base.InitUI();
-		lightSpr = transform.FindChild("Sprite_Light").GetComponent<UISprite>();
 	}
 	
 	protected override void InitState(){
@@ -44,5 +29,20 @@ public class PartyUnitView : MyUnitView {
 		}
 	}
 
+	protected override void UpdatePartyState(){
+		partyLabel.enabled = IsParty;
+	}
+
+	protected override void UpdateFocus(){
+		lightSpr.enabled = IsFocus;
+	}
+
+	protected override void RefreshState(){
+		base.RefreshState();
+		if(userUnit != null){
+			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
+			IsEnable = !IsParty;
+		}
+	}
 
 }

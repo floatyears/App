@@ -2,14 +2,6 @@
 using System.Collections;
 
 public class UnitView : MonoBehaviour {
-	public enum SortRule{
-		ByLevel			= 0,
-		ByAttack		= 1,
-		ByHP				= 2,
-		ByAttribute		= 3,
-		ByRace			= 4
-	}
-	
 	public static UnitView Inject(GameObject item){
 		UnitView view = item.AddComponent<UnitView>();
 		if (view == null) view = item.AddComponent<UnitView>();
@@ -22,10 +14,26 @@ public class UnitView : MonoBehaviour {
 			return userUnit;
 		}
 		set{
-			if(userUnit != null && userUnit.Equals(value)) return;
-			userUnit = value;
-			RefreshState();
-		}
+//			if(userUnit != null) {
+//				if( userUnit.Equals(value)){
+//					Debug.LogError("Equals , return!!!");
+//					ExecuteCrossFade();
+//					return;
+//				}
+//				else{
+//					userUnit = value;
+//					RefreshState();
+//				}//else
+//			}//if
+			if(userUnit != null &&  userUnit.Equals(value)) {
+				ExecuteCrossFade();
+			}
+			else{
+				userUnit = value;
+				RefreshState();
+			}
+
+		}//set
 	}
 
 	private int index;
@@ -49,8 +57,7 @@ public class UnitView : MonoBehaviour {
 			UpdatEnableState();
 		}
 	}
-
-
+	
 	private SortRule currentSortRule;
 	public SortRule CurrentSortRule{
 		get{
@@ -63,14 +70,12 @@ public class UnitView : MonoBehaviour {
 	}
 
 
-	private bool canCrossed = true;
-	private bool isCrossed;
-	private UITexture avatarTex;
-	private UISprite maskSpr;
-    
-	private UILabel crossFadeLabel;
-
-
+	protected bool canCrossed = true;
+	protected bool isCrossed;
+	protected UITexture avatarTex;
+	protected UISprite maskSpr;
+	protected UILabel crossFadeLabel;
+	
 	public void Init(TUserUnit userUnit){
 		this.userUnit = userUnit;
 		InitUI();
@@ -85,35 +90,22 @@ public class UnitView : MonoBehaviour {
 
 	protected virtual void InitState(){
 		if(userUnit == null){
-			Debug.LogError("UnitView.Init(), userUnit is Null, return!");
-			IsEnable = false;
-			avatarTex.mainTexture = null;
-			CancelInvoke("UpdateCrossFadeState");
+			SetEmptyState();
 			return;
 		}
-
-		IsEnable = true;
-		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		CurrentSortRule = SortRule.ByLevel;
-		if(canCrossed){
-			if (IsInvoking("UpdateCrossFadeState"))
-				CancelInvoke("UpdateCrossFadeState");
-			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
-		}
+		SetCommonState();
 	}
 
-	private void RefreshState(){
+	protected virtual void RefreshState(){
 		if(userUnit == null){
-			Debug.LogError("UnitView.Init(), userUnit is Null, return!");
-			IsEnable = false;
-			avatarTex.mainTexture = null;
-			CancelInvoke("UpdateCrossFadeState");
+			SetEmptyState();
 			return;
 		}
-		
 		IsEnable = true;
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		CurrentSortRule = SortRule.ByLevel;
+		ExecuteCrossFade();
+	}
+	private void ExecuteCrossFade(){
 		if(canCrossed){
 			if (IsInvoking("UpdateCrossFadeState"))
 				CancelInvoke("UpdateCrossFadeState");
@@ -121,7 +113,7 @@ public class UnitView : MonoBehaviour {
 		}
 	}
 
-	private void UpdatEnableState(){
+	protected virtual void UpdatEnableState(){
 		maskSpr.enabled = !isEnable;
 		UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
 		if(isEnable)
@@ -129,8 +121,6 @@ public class UnitView : MonoBehaviour {
 		else
 			UIEventListenerCustom.Get(this.gameObject).onClick = null;
 	}
-	
-
 
 	private void UpdateCrossFadeState(){
 		if(isCrossed){
@@ -147,7 +137,7 @@ public class UnitView : MonoBehaviour {
 
 	protected virtual void ClickItem(GameObject item){}
 
-	private void PressItem(GameObject item){
+	protected virtual void PressItem(GameObject item){
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, userUnit);
 	}
@@ -157,42 +147,72 @@ public class UnitView : MonoBehaviour {
 	
 	private void UpdateCrossFadeText(){
 		switch (currentSortRule){
-			case SortRule.ByLevel : 
-				CrossFadeByLevel();
+			case SortRule.ByID : 
+				CrossFadeLevelFirst();
 				break;
 			case SortRule.ByAttack : 
-				CrossFadeByAttack();
+				CrossFadeAttackFirst();
 				break;
 			case SortRule.ByAttribute : 
-				CrossFadeByAttribute();
+				CrossFadeLevelFirst();
 				break;
 			case SortRule.ByHP : 
-				CrossFadeByHp();
+				CrossFadeHpFirst();
 				break;
 			case SortRule.ByRace :
-				CrossFadeByRace();
+				CrossFadeLevelFirst();
+				break;
+			case SortRule.ByGetTime : 
+				CrossFadeLevelFirst();
+				break;
+			case SortRule.ByAddPoint :
+				CrossFadeLevelFirst();
+				break;
+			case SortRule.ByIsCollected : 
+				CrossFadeLevelFirst();
 				break;
 			default:
 				break;
 		}
 	}
 	
-	private void CrossFadeByLevel(){
-		crossFadeBeforeText = "Lv" + userUnit.Level.ToString();
+	private void CrossFadeLevelFirst(){
+		crossFadeBeforeText = "Lv" + userUnit.Level;
 		if(userUnit.AddNumber == 0){ 
 			canCrossed = false;
 			crossFadeLabel.text = crossFadeBeforeText;
 			crossFadeLabel.color = Color.yellow;
 		}
 		else 
-			crossFadeAfterText = "+" + userUnit.AddNumber.ToString();
+			crossFadeAfterText = "+" + userUnit.AddNumber;
 	}
 
-	private void CrossFadeByHp(){}
-	private void CrossFadeByRace(){}
-	private void CrossFadeByAttack(){}
-	private void CrossFadeByAttribute(){}
+	private void CrossFadeHpFirst(){
+		crossFadeBeforeText = userUnit.Hp.ToString();
+		crossFadeAfterText = "+" + userUnit.AddNumber;
+	}
 
+	private void CrossFadeAttackFirst(){
+		crossFadeBeforeText = userUnit.Attack.ToString();
+		crossFadeAfterText = "+" + userUnit.AddNumber;
+	}
 
+	private void SetEmptyState(){
+		IsEnable = false;
+		avatarTex.mainTexture = null;
+		CancelInvoke("UpdateCrossFadeState");
+		crossFadeLabel.text = string.Empty;
+	}
+
+	private void SetCommonState(){
+		IsEnable = true;
+		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		CurrentSortRule = SortRule.ByGetTime;
+		if(canCrossed){
+			if (IsInvoking("UpdateCrossFadeState"))
+				CancelInvoke("UpdateCrossFadeState");
+			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
+		}
+	}
 
 }

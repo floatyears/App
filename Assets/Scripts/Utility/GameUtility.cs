@@ -231,7 +231,6 @@ public class DGTools {
 					T temp = target[i];
 					target[i] = target[j];
 					target[j] = temp;
-
 					continue;
 				}
 		

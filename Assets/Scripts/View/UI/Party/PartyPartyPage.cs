@@ -23,6 +23,7 @@ public class PartyPartyPage : PartyPageLogic{
 	public override void HideUI(){
 		base.HideUI();
 		RemoveCommandListener();
+//		DestoryUI();
 	}
 
     public override void RefreshCurrentParty(){

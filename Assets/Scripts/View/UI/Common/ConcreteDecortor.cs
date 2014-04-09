@@ -361,65 +361,54 @@ public class OthersDecorator : DecoratorBase
 }
 
 //--------------------------------Units----------------------------------------
-public class UnitsDecorator : DecoratorBase
-{
+public class UnitsDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public UnitsDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public UnitsDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
 		UnitsComponent units = CreatComponent< UnitsComponent >(UIConfig.unitsWindowName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-		UnitPartyPage partyPage = CreatComponent<UnitPartyPage>(UIConfig.partyPagePanelName);
+//		UnitPartyPage partyPage = CreatComponent<UnitPartyPage>(UIConfig.partyPagePanelName);
 
 		partyInfo.SetComponent(sceneInfoBar);
-		partyPage.SetComponent(partyInfo);
-		units.SetComponent(partyPage);
+//		partyPage.SetComponent(partyInfo);
+		units.SetComponent(partyInfo);
 		lastDecorator = units;
 		lastDecorator.CreatUI();
 	}
 }
 
 //--------------------------------QuestSelect----------------------------------------
-public class QuestSelectDecorator : DecoratorBase
-{
+public class QuestSelectDecorator : DecoratorBase{
 
 	private SceneInfoComponent sceneInfoBar;
 
-	public QuestSelectDecorator(SceneEnum sEnum) : base(sEnum)
-	{
+	public QuestSelectDecorator(SceneEnum sEnum) : base(sEnum){
         MsgCenter.Instance.AddListener(CommandEnum.QuestSelectSaveState, SetKeepState);
 	}
 
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Quest);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
@@ -509,12 +498,12 @@ public class PartyDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-//		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
+		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.newPartyPanelName);
 //		UnitListForPartyLogic dragPanel = CreatComponent<UnitListForPartyLogic>(UIConfig.partyDragPanelName);
 //	
-//		partyInfo.SetComponent(sceneInfoBar);
-		partyPage.SetComponent(sceneInfoBar);
+		partyInfo.SetComponent(sceneInfoBar);
+		partyPage.SetComponent(partyInfo);
 //		dragPanel.SetComponent(partyPage);
 
 

@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class PageUnitView : MyUnitView {
-	private UISprite lightSpr;
-
 	public static PageUnitView Inject(GameObject item){
 		PageUnitView view = item.AddComponent<PageUnitView>();
 		if (view == null) view = item.AddComponent<PageUnitView>();
@@ -17,33 +15,32 @@ public class PageUnitView : MyUnitView {
 			callback(this);
 		}
 	}
-	
-	private bool isFocus;
-
-	public bool IsFocus{
-		get{
-			return isFocus;
-		}
-		set{
-			if(isFocus == value) return;
-			isFocus = value;
-			lightSpr.enabled = isFocus;
-		}
-	}
 
 	protected override void InitUI(){
 		base.InitUI();
 		lightSpr = transform.FindChild("Sprite_Light").GetComponent<UISprite>();
+		maskSpr.enabled = false;
 	}
 	
 	protected override void InitState(){
 		base.InitState();
 		IsFocus = false;
-		if(userUnit != null){
-			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
-			IsEnable = !IsParty;
-		}
+		IsParty = true;
 	}
 
+	protected override void UpdatePartyState(){	}
 
+	protected override void UpdateFocus(){
+		lightSpr.enabled = IsFocus;
+	}
+
+	protected override void UpdatEnableState(){
+		UIEventListenerCustom.Get(this.gameObject).onClick = ClickItem;
+		if(IsEnable){
+			UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
+		}
+		else{
+			UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+		}
+	}
 }
