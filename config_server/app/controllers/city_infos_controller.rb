@@ -105,7 +105,7 @@ class CityInfosController < ApplicationController
   end
   
   def questconfig
-    @stages =  $redis.keys.map{|k|k.split("_")[2].to_i if k.start_with?("X_STAGE_")}.compact.sort
+    @quest_id = params[:quest_id]
   end
   
 end

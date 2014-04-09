@@ -68,7 +68,9 @@
                  rewardMoney:<%= quest.try(:rewardMoney)%>;
                  bossId:<%= quest.try(:bossId)%>;
                  enemyId:<%= quest.try(:enemyId)%>;
-                 <%= link_to '修改quest',edit_city_info_path(type: "quest",city_id: city.try(:id),id: index,stage_index: stage_index,stage_id: stage.try(:id))%>
+                 <%= link_to '修改quest',edit_city_info_path(type: "quest",city_id: city.try(:id),id: index,stage_index: stage_index,stage_id: stage.try(:id))%>|
+                 <%= link_to '添加配置',questconfig_city_infos_path(quest_id: quest.try(:id) )%>
+                 
                }
                <br/>
                <% end %>
