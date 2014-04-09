@@ -210,16 +210,14 @@ public class Battle : UIBase {
 
 
 	public void SwitchInput(bool isShield) {
-//		Debug.LogError ("SwitchInput : " + isShield);
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
-		//Debug.LogError ("SwitchInput : " + nguiMainCamera);
 		main.GInput.IsCheckInput = !isShield;
 		MapCamera.IsClick = isShield;
 	}
 
-	void ShieldInput (bool isShield) {
+	public void ShieldInput (bool isShield) {
 		nguiMainCamera.enabled = isShield;
 		main.GInput.IsCheckInput = isShield;
 	}

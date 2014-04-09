@@ -19,7 +19,7 @@ public class BattleUseData {
     private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
     private List<TEnemyInfo> currentEnemy = new List<TEnemyInfo>();
     private List<TEnemyInfo> showEnemy = new List<TEnemyInfo>();
-    private AttackController ac;
+    public AttackController ac;
     private ExcuteLeadSkill els;
 	public ExcuteLeadSkill Els{
 		get {return els;}
@@ -285,10 +285,15 @@ public class BattleUseData {
             MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
 			if(maxEnergyPoint == 0 && !isLimit) {
 				isLimit = true;
-				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.SPLimit, null);
+				battleQuest.battle.ShieldInput(false);
+				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.SPLimit, SPLimit);
 			}
         }
     }
+
+	void SPLimit () {
+		battleQuest.battle.ShieldInput(true);
+	}
 
     public void Hurt(int hurtValue) {
 		Blood -= hurtValue;

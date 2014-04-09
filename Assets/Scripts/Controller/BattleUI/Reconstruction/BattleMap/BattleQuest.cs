@@ -58,9 +58,7 @@ public class BattleQuest : UIBase {
 		battle.CreatUI();
 		battle.HideUI ();
 		CreatEffect ();
-
 		MapCamera.IsClick = false;
-
 		bud = new BattleUseData (this);
 	}
 
@@ -68,7 +66,6 @@ public class BattleQuest : UIBase {
 		GameObject go = Resources.Load("Effect/AttackEffect") as GameObject;
 		go = NGUITools.AddChild (ViewManager.Instance.ParentPanel, go);
 		go.transform.localPosition = battle.battleRootGameObject.transform.localPosition;
-		go.transform.localPosition = ViewManager.HidePos;
 		attackEffect = go.GetComponent<AttackEffect> ();
 	}
 	
@@ -138,7 +135,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void ReadyMove() {
-
+		battle.ShieldInput (true);
+		MapCamera.IsClick = true;
 	}
 
 	void AttackEnemy (object data) {
@@ -219,6 +217,7 @@ public class BattleQuest : UIBase {
 
 	void QuestStop () {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
+		battle.ShieldInput (false);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.BossAppears, MeetBoss);
 		role.Stop();
 		battleEnemy = true;
@@ -240,6 +239,7 @@ public class BattleQuest : UIBase {
 
 	void YieldShowAnim() {
 		int count = bud.Els.CheckLeaderSkillCount();
+		battle.ShieldInput (false);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.ReadyMove, ReadyMove, count * AttackController.normalAttackInterv);
 		bud.InitBattleUseData();
 	}
@@ -361,10 +361,15 @@ public class BattleQuest : UIBase {
 
 	void MapItemKey() {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
-		questFullScreenTips.ShowTexture (QuestFullScreenTips.OpenGate, null);
+		battle.ShieldInput (false);
+		questFullScreenTips.ShowTexture (QuestFullScreenTips.OpenGate, OpenGate);
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
+	}
+
+	void OpenGate() {
+		battle.ShieldInput (true);
 	}
 
 	void MapItemNone() {
@@ -373,6 +378,7 @@ public class BattleQuest : UIBase {
 	}
 
 	void MeetBoss () {
+		battle.ShieldInput (true);
 		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 		BattleMap.waitMove = false;
 		ShowBattle();
@@ -399,6 +405,28 @@ public class BattleQuest : UIBase {
 		bud.InitEnemyInfo (currentMapData);
 		battle.ShowEnemy (temp);
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
+		GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
+	}
+
+	void StartBattleEnemyAttack() {
+		EnemyAttackEnum eae = battleMap.FirstOrBackAttack ();
+		switch (eae) {
+		case EnemyAttackEnum.BackAttack:
+//			battle.ShieldInput(false);
+			questFullScreenTips.ShowTexture(QuestFullScreenTips.BackAttack,null);
+			bud.ac.AttackPlayer();
+			break;
+		case EnemyAttackEnum.FirstAttack:
+//			battle.ShieldInput(false);
+			questFullScreenTips.ShowTexture(QuestFullScreenTips.FirstAttack,null);
+			bud.ac.FirstAttack();
+			break;
+		default:
+			break;
+		}
+	}
+	void AttackEnd () {
+//		battle.ShieldInput(true);
 	}
 
 	void ShowBattle() {
@@ -418,11 +446,13 @@ public class BattleQuest : UIBase {
 		}
 		if (battleEnemy && !b) {
 			battle.SwitchInput(true);
+			battle.ShieldInput(false);
 			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
 		}
 	}
 
 	void QuestClear() {
+		battle.ShieldInput(true);
 		battleMap.BattleEndRotate();
 		RequestData();
 	}
@@ -529,6 +559,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleFail(object data) {
+		battle.ShieldInput(true);
+		battle.ShieldInput(false);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.GameOver, BattleFail);
 	}
 

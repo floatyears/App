@@ -6,7 +6,7 @@ public class MapCamera : MonoBehaviour {
 	private GameInput gameInput;
 	private static bool isClick = true;
 	public static bool IsClick {
-		set { SetIsClick (value); }
+		set { SetIsClick (value); } //Debug.LogError("MapCamera value : " + value);
 		get { return isClick; }
 	}
 	

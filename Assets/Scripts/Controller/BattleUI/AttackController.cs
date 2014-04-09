@@ -169,14 +169,12 @@ public class AttackController {
 		}
 	}
 
-
-
 	float GetIntervTime () {
-		if (enemyInfo == null || enemyInfo.Count == 0) {
-			return 0.7f;		
+		if (enemyInfo.Count == 1 && enemyInfo[0].GetBlood() <= 0) {
+			return 0.4f;		
 		}
 		else {
-			return 0.7f;		
+			return 0.6f;		
 		}
 	}
 
@@ -220,7 +218,6 @@ public class AttackController {
 
 	int tempPreHurtValue = 0;
 	void BeginAttack(AttackInfo ai) {
-
 		switch (ai.AttackRange) {
 		case 0:
 			DisposeAttackSingle(ai);
@@ -329,7 +326,6 @@ public class AttackController {
 			ai.InjuryValue = hurtValue;
 			tempPreHurtValue += hurtValue;
 			ai.EnemyID = te.EnemySymbol;
-
 			AttackEnemyEnd (ai);
 		}
 	}
@@ -338,7 +334,13 @@ public class AttackController {
 		msgCenter.Invoke (CommandEnum.AttackEnemy, ai);
 	}
 
-	void AttackPlayer () {
+	public void FirstAttack () {
+		foreach (var item in enemyInfo) {
+			item.FirstAttack();
+		}
+	}
+
+	public void AttackPlayer () {
 		if (CheckTempEnemy ()) {
 			LoopEnemyAttack ();	
 		}
@@ -349,7 +351,6 @@ public class AttackController {
 		countDownTime = 0.3f;
 		te = enemyInfo [enemyIndex];
 		te.Next ();
-		msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 		GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttack);
 	}
 	List<AttackInfo> antiInfo = new List<AttackInfo>();
@@ -363,7 +364,7 @@ public class AttackController {
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
-			List<AttackInfo> temp = passiveSkill.Dispose(attackType,hurtValue);
+			List<AttackInfo> temp = passiveSkill.Dispose(attackType, hurtValue);
 			for (int i = 0; i < temp.Count; i++) {
 				temp[i].EnemyID = te.EnemySymbol;
 				antiInfo.Add(temp[i]);
@@ -426,8 +427,6 @@ public class AttackController {
 		int hurtValue = te.CalculateInjured (ai, restaint);
 		ai.InjuryValue = hurtValue;
 		AttackEnemyEnd (ai);
-		//if (CheckEnemy ()) {
-			LoopAntiAttack ();		
-		//}
+		LoopAntiAttack ();		
 	}
 }

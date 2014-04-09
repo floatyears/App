@@ -37,13 +37,13 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void HideUI(bool b) {
 		if (b) {
 			sprite.spriteName = string.Empty;	
-			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
+//			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
 			transform.localPosition = initLocalPosition;
 			transform.localScale = initLocalScale;
-			MapCamera.IsClick = true;
+//			MapCamera.IsClick = true;
 		} else {
-			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
-			MapCamera.IsClick = false;
+//			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
+//			MapCamera.IsClick = false;
 		}
 	}
 	float tempTime = 0f;
@@ -120,4 +120,6 @@ public class QuestFullScreenTips : UIBaseUnity {
 	public const string RankUp = "rank-up";
 	public const string ReadyMove = "Ready-to-move-on";
 	public const string QuestClear = "Quest--Clear!";
+	public const string FirstAttack = "FIRST-ATTACK-";
+	public const string BackAttack = "BACK-ATTACK-";
 }

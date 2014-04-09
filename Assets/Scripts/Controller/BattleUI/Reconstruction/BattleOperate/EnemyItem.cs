@@ -251,7 +251,8 @@ public class EnemyItem : UIBaseUnity {
         enemyInfo = tempQue.Dequeue();
         float value = (float)enemyInfo.GetBlood() / enemyInfo.GetInitBlood();
         SetBlood(value);
-        SetNextLabel(enemyInfo.GetRound());
+//		Debug.LogError ("befoure first attack : " + nextLabel.text + "first attack : " + enemyInfo.GetRound ());
+		SetNextLabel(enemyInfo.GetRound());
     }
 
     void EnemyAttack(object data) {

@@ -159,6 +159,10 @@ public class BattleMap : UIBaseUnity {
 		prevMapItem.RotateAnim ();
 	}
 
+	public EnemyAttackEnum FirstOrBackAttack() {
+		return prevMapItem.TriggerAttack ();
+	}
+
 	public void BattleEndRotate () {
 		StartCoroutine (EndRotate ());
 	}

@@ -198,9 +198,9 @@ public class MapItem : UIBaseUnity {
 		if (!isOld) {
 			HideStarSprite(!b);
 			if(b) {
-				DGTools.ShowSprite(mapItemSprite,"EnvirmentTrap"); 
+				DGTools.ShowSprite(mapItemSprite, "EnvirmentTrap"); 
 			}else{
-				DGTools.ShowSprite(mapItemSprite,spriteName);
+				DGTools.ShowSprite(mapItemSprite, spriteName);
 			}
 		}
 	}
@@ -241,28 +241,54 @@ public class MapItem : UIBaseUnity {
 		gameObject.transform.rotation = Quaternion.Euler (initRotation);
 	}
 
+	public void EnemyAttack () {
+
+	}
+
+	public bool isLockAttack = false;
+	public EnemyAttackEnum TriggerAttack() {
+		EnemyAttackEnum eae = EnemyAttackEnum.None;
+		switch (countShow) {
+			case 0:
+				eae = EnemyAttackEnum.FirstAttack;
+				break;
+			case 1:
+				eae = EnemyAttackEnum.None;
+				break;
+			case 2:
+				float value = DGTools.RandomToFloat();
+				float temp = 0.33f;
+				if(isLockAttack) {
+					temp =0.01f;
+				}
+				if(value <= temp) {
+					eae = EnemyAttackEnum.BackAttack;
+				}else{
+					eae = EnemyAttackEnum.None;
+				}
+				break;
+		}
+		return eae;
+	}
+
 	int countShow = -1;
 	public void Around(bool isAround) {
 		if(isOld)
 			return;
-	
 		if (isAround) {
 			HideShowSprite(true);
-
 			countShow++;
 			if (countShow == 3) {
-					countShow = 0;
+				countShow = 0;
 			}
-
 			string name = GetStarSpriteName ();
 			for (int i = 0; i < showStarSprite.Count; i++) {
-					showStarSprite [i].spriteName = name;
-			}	
-		} 
+				showStarSprite [i].spriteName = name;
+			}
+		}
 		else {
 			HideShowSprite(false);	
 		}
-
 	}
 
 	string GetStarSpriteName() {
@@ -281,7 +307,6 @@ public class MapItem : UIBaseUnity {
 			name = "9"; // 9 == red
 			break;
 		}
-
 		return name;
 	}
 	 
