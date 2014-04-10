@@ -4,7 +4,7 @@ repeat:<%= text_field_tag :repeat,@star.try(:repeat) %><br/>
 star:<%= select_tag :star,options_for_select(CityInfo::E_GRID_STAR,@star.try(:star))%><br/>
 coin:<br/>
 min:<%= text_field_tag :coin_min,@star.try(:coin).try(:min) %>&nbsp;&nbsp;&nbsp;&nbsp;max:<%= text_field_tag :coin_max ,@star.try(:coin).try(:max)%><br/>
-enemyPool:<%= text_field_tag :enemyPool,@star.try(:enemyPool).to_s %><br/>
+enemyPool:<%= text_field_tag :enemyPool,@star.try(:enemyPool).to_s %><%=select_tag :enemy_id,options_for_select(@units_id) %> <button id="enemyid" class="btn btn-primary">增加enemyid</button><span id="enemy-info"></span><br/>
 enemyNum:<br/>
 min:<%= text_field_tag :enemyNum_min,@star.try(:enemyNum).try(:min) %>&nbsp;&nbsp;&nbsp;&nbsp;max:<%= text_field_tag :enemyNum_max,@star.try(:enemyNum).try(:max) %><br/>
 trap:<%= text_field_tag :trap,@star.try(:trap).join(",") %>(多个用,隔开)<br/>
@@ -19,7 +19,7 @@ trap:<%= text_field_tag :trap,@star.try(:trap).join(",") %>(多个用,隔开)<br
 
 <script type="text/javascript" charset="utf-8">
   $( document ).ready(function() { 
-    $("#enemyPool").val(localStorage["enemyids"]);
+    //$("#enemyPool").val(localStorage["enemyids"]);
     $("#trap").val("[1,2,3]");
   });
 </script>

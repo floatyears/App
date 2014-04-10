@@ -292,17 +292,17 @@ class CityInfo
       city["stages"].each do |stage|
         quests = []
         stage["quests"].each do |quest|
-          create_config(quest["quest_config"])
-          quests << QuestInfo.new(id: params_to_i(quest["quest_id"]),state: params_to_i(quest["quest_state"]),no: params_to_i(quest["no"]),name:  quest["name"].to_s,story:  quest["story"].to_s,stamina:  params_to_i(quest["stamina"]),floor:  params_to_i(quest["floor"]),rewardExp: params_to_i(quest["rewardExp"]),rewardMoney: params_to_i(quest["rewardMoney"]),bossId: quest["bossId"].uniq,enemyId: quest["enemyId"].uniq)
+          enemy_ids = create_config(quest["quest_config"])
+          quests << QuestInfo.new(id: params_to_i(quest["quest_id"]),state: params_to_i(quest["quest_state"]),no: params_to_i(quest["no"]),name:  quest["name"].to_s,story:  quest["story"].to_s,stamina:  params_to_i(quest["stamina"]),floor:  params_to_i(quest["floor"]),rewardExp: params_to_i(quest["rewardExp"]),rewardMoney: params_to_i(quest["rewardMoney"]),bossId: quest["bossId"].uniq,enemyId: enemy_ids.uniq)
         end
         boost = QuestBoost.new(type: params_to_i(stage["boost_type"]),value: params_to_i(stage["value"]))
-        pos = Position.new(x: params_to_i(stage["stage_x"]),y: params_to_i(stage["stage_y"]))
-        s =  StageInfo.new(version: params_to_i(stage["stage_version"]),cityId: params_to_i(stage["cityId"]),id: params_to_i(stage["stageInfoId"]),state: params_to_i(stage["state"]),type: params_to_i(stage["type"]),stageName: stage["stageName"].to_s,description: stage["description"].to_s,startTime: params_to_i(stage["startTime"]),endTime: params_to_i(stage["endTime"]),boost: boost,pos: pos,quests: quests)
+        #pos = Position.new(x: params_to_i(stage["stage_x"]),y: params_to_i(stage["stage_y"]))
+        s =  StageInfo.new(version: params_to_i(stage["stage_version"]),cityId: params_to_i(stage["cityId"]),id: params_to_i(stage["stageInfoId"]),state: params_to_i(stage["state"]),type: params_to_i(stage["type"]),stageName: stage["stageName"].to_s,description: stage["description"].to_s,startTime: params_to_i(stage["startTime"]),endTime: params_to_i(stage["endTime"]),boost: boost,quests: quests)
         stages << s
         save_to_redis("X_STAGE_"+stage["stageInfoId"].to_s,s.encode)
       end
-      city_pos = Position.new(x: params_to_i(city["x"]),y: params_to_i(city["y"]))
-      city_info =  CityInfo.new(version: params_to_i(city["version"]),id: params_to_i(city["id"]),state: params_to_i(city["state"]),cityName: city["cityName"].to_s,description: city["description"],pos: city_pos,stages: stages)
+      #city_pos = Position.new(x: params_to_i(city["x"]),y: params_to_i(city["y"]))
+      city_info =  CityInfo.new(version: params_to_i(city["version"]),id: params_to_i(city["id"]),state: params_to_i(city["state"]),cityName: city["cityName"].to_s,description: city["description"],stages: stages)
       save_to_redis("X_CITY_"+city["id"],city_info.encode)
       File.open(Rails.root.join("public/city/X_CITY_"+city["id"]+".bytes"), "wb") { | file|  file.write(city_info.encode) } 
     rescue Exception => e
@@ -313,6 +313,7 @@ class CityInfo
   
   def self.create_config(quest_config)
     $redis.select(3)
+    enemys_ids = []
     boss = []
     enemys = []
     colors =  []
@@ -334,13 +335,15 @@ class CityInfo
       item["stars"].each do |star|
         coin = NumRange.new(min: params_to_i(star["coin_min"]),max: params_to_i(star["coin_max"]))
         enemyNum = NumRange.new(min: params_to_i(star["enemyNum_min"]),max: params_to_i(star["enemyNum_max"]))
-        stars << StarConfig.new(repeat: params_to_i(star["repeat"]),star: params_to_i(star["star"]),coin: coin,enemyPool: star["enemyPool"].to_s.split(",").map{|i|i.to_i},enemyNum: enemyNum,trap: star["trap"].to_s.split(",").map{|i|i.to_i})
+        enemys_ids =  enemys_ids + JSON.parse(star["enemyPool"]);
+        stars << StarConfig.new(repeat: params_to_i(star["repeat"]),star: params_to_i(star["star"]),coin: coin,enemyPool: JSON.parse(star["enemyPool"]),enemyNum: enemyNum,trap: JSON.parse(star["trap"]))
       end
       floors << QuestFloorConfig.new(version: params_to_i(item["version"]),treasureNum: params_to_i(item["treasureNum"]),trapNum: params_to_i(item["trapNum"]),enemyNum: params_to_i(item["enemyNum"]),keyNum:  params_to_i(item["keyNum"]),stars: stars)
     end
     id = params_to_i(quest_config["questId"])
     questConfig =  QuestConfig.new(questId: id ,boss: boss,enemys: enemys,colors: colors,floors: floors)
     save_to_redis("X_CONFIG_#{id}",questConfig.encode)
+    enemys_ids
   end
   
   def self.update(params)
@@ -349,8 +352,8 @@ class CityInfo
       id = params[:id]
       @city = CityInfo.decode($redis.get("X_CITY_" + id ))
       stages = @city.stages
-      pos = Position.new(x: params_to_i(params["x"]),y: params_to_i(params["y"]))
-      @city = CityInfo.new(version: params_to_i(params["version"]),id: params_to_i(id),state: params_to_i(params["state"]),cityName: params["cityName"].to_s,description: params["description"],pos: pos,stages: stages)
+      #pos = Position.new(x: params_to_i(params["x"]),y: params_to_i(params["y"]))
+      @city = CityInfo.new(version: params_to_i(params["version"]),id: params_to_i(id),state: params_to_i(params["state"]),cityName: params["cityName"].to_s,description: params["description"],stages: stages)
       save_to_redis("X_CITY_#{id}",@city.encode)
     else
       stage_id = params[:type] == "quest" ? params[:stage_id] : params[:id]
@@ -365,9 +368,9 @@ class CityInfo
         save_to_redis("X_CITY_#{city_id}",@city.encode)
       elsif params[:type] == "stage"
         boost = QuestBoost.new(type: params_to_i(params["boost_type"]),value: params_to_i(params["value"]))
-        pos = Position.new(x: params_to_i(params["x"]),y: params_to_i(params["y"]))
+        #pos = Position.new(x: params_to_i(params["x"]),y: params_to_i(params["y"]))
         quests = @stage.quests
-        @stage = StageInfo.new(version: params_to_i(params["version"]),cityId: params_to_i(params["cityId"]),id: params_to_i(params["id"]),state: params_to_i(params["state"]),type: params_to_i(params["type"]),stageName: params["stageName"].to_s,description: params["description"].to_s,startTime: params_to_i(params["startTime"]),endTime: params_to_i(params["endTime"]),boost: boost,pos: pos,quests: quests)
+        @stage = StageInfo.new(version: params_to_i(params["version"]),cityId: params_to_i(params["cityId"]),id: params_to_i(params["id"]),state: params_to_i(params["state"]),type: params_to_i(params["type"]),stageName: params["stageName"].to_s,description: params["description"].to_s,startTime: params_to_i(params["startTime"]),endTime: params_to_i(params["endTime"]),boost: boost,quests: quests)
         $redis.set "X_STAGE_#{stage_id}",@stage.encode
         @city.stages[stage_index] = @stage
         save_to_redis("X_CITY_#{city_id}",@city.encode)
