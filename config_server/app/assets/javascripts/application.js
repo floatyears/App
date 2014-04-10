@@ -16,3 +16,5 @@
 //= require turbolinks
 //= require jquery.serializeJSON.min
 //= require_tree .
+
+$.fn.modal.Constructor.prototype.enforceFocus = function () {};

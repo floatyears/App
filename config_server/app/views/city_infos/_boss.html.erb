@@ -1,4 +1,4 @@
-<h1 id="">修改boss</h1>
+<h1 id=""><%= @op == "new" ? "新建" : "修改"%>boss</h1>
 <%= form_tag update_config_city_infos_path ,method: "patch"%>
 enemyId:<%= text_field_tag :enemyId,@boss.try(:enemy).try(:enemyId) %><br/>
 unitId:<%= text_field_tag :unitId ,@boss.try(:enemy).try(:unitId)%><br/>
@@ -14,6 +14,7 @@ addRate:<%= text_field_tag :addRate,@boss.try(:addRate) %><br>
 <%= hidden_field_tag :form_type,@type%>
 <%= hidden_field_tag :index,@index%>
 <%= hidden_field_tag :config_id,@config_id%>
+<%= hidden_field_tag :operation,@op %>
 <div class="actions">
-	<%= submit_tag '修改',class: "btn btn-primary" %>
+	<%= submit_tag '提交',class: "btn btn-primary" %>
 </div>

@@ -1,11 +1,17 @@
+require "city_info"
 class CityInfosController < ApplicationController
+  before_filter :set_redis
+  
   def new
-    
+    if params[:op] == "add"
+      @op = params[:op] 
+      @city_id =  params[:city_id]
+    end 
   end
 
   def index
     @city_infos =  $redis.keys.map{|k| CityInfo.decode($redis.get(k)) if k.start_with?("X_CITY_")}.compact
-    @quest_configs =  $redis.keys.map{|k| QuestConfig.decode($redis.get(k)) if k.start_with?("X_CONFIG_")}
+    @city_configs =  $redis.keys.map{|k| QuestConfig.decode($redis.get(k)) if k.start_with?("X_CONFIG_")}.compact
   end
 
   def create
@@ -35,6 +41,7 @@ class CityInfosController < ApplicationController
         @stage_id = params[:stage_id]
         @index = params[:id]
         @quest = StageInfo.decode($redis.get("X_STAGE_" + @stage_id).to_s).quests[@index.to_i]
+        @city_configs =  QuestConfig.decode($redis.get("X_CONFIG_" + @quest.id.to_s))
       else
         @stage = StageInfo.decode($redis.get("X_STAGE_" + params[:id]).to_s)
       end
@@ -58,7 +65,9 @@ class CityInfosController < ApplicationController
   end
   
   def edit_config
+    session[:return_to] = request.referer
     @type =  params[:type]
+    @op =  params[:operation]
     @index = params[:index].to_i
     @config_id = params[:city_index]
     @floor_index =  params[:floor_index].to_i if @type == "star"
@@ -79,7 +88,7 @@ class CityInfosController < ApplicationController
   
   def update_config    
     if CityInfo.update_config(params)
-      redirect_to config_index_city_infos_path
+      redirect_to session[:return_to] 
     else
       
     end
@@ -106,6 +115,14 @@ class CityInfosController < ApplicationController
   
   def questconfig
     @quest_id = params[:quest_id]
+  end
+  
+  private 
+  
+  def set_redis
+    $redis.select(2)
+    @units_id =  $redis.keys.map{|k|k.split("_")[2].to_i if k.start_with?("X_UNIT_")}.compact.sort
+    $redis.select 3
   end
   
 end

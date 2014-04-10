@@ -9,8 +9,8 @@ stamina: <%=text_field_tag :stamina ,@quest.try(:stamina)%><br/>
 floor: <%=text_field_tag :floor,@quest.try(:floor) %><br/>
 rewardExp: <%=text_field_tag :rewardExp ,@quest.try(:rewardExp)%><br/>
 rewardMoney: <%=text_field_tag :rewardMoney,@quest.try(:rewardMoney) %><br/>
-bossId: <%=text_field_tag :bossId ,@quest.try(:bossId).join(",")%>(多个ID用,隔开)<br/>
-enemyId: <%=text_field_tag :enemyId,@quest.try(:enemyId).join(",") %>(多个ID用,隔开)<br/>
+bossId: <%=text_field_tag :bossId ,@quest.try(:bossId).to_s%> <%=select_tag :boss_id,options_for_select(@units_id) %> <button id="bossid" class="btn btn-primary">增加boosid</button><span id="bossid-info"></span><br/><br/>
+enemyId: <%=text_field_tag :enemyId,@quest.try(:enemyId).to_s%><%=select_tag :enemy_id,options_for_select(@units_id) %> <button id="enemyid" class="btn btn-primary">增加enemyid</button><span id="enemy-info"></span><br/><br/>
 <%= hidden_field_tag :type,@type%>
 <%= hidden_field_tag :stage_id,@stage_id%>
 <%= hidden_field_tag :index,@index%>
@@ -19,3 +19,129 @@ enemyId: <%=text_field_tag :enemyId,@quest.try(:enemyId).join(",") %>(多个ID�
 <div class="actions">
 	<%= submit_tag '修改',class: "btn btn-primary" %>
 </div>
+
+<h1 id="管卡配置">关卡配置</h1>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>questId</th>
+      <th>boss</th>
+      <th>enemys</th>
+      <th>colors</th>
+      <th>floors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% if @city_configs.present? %>
+      <td><%= @city_configs.try(:questId)%></td>
+      <td>
+        <% if @city_configs.try(:boss).present? %>
+        <% @city_configs.try(:boss).each_with_index do |boss,boss_index|%>
+        {
+          enemyId:<%= boss.try(:enemy).try(:enemyId)%>;
+          unitId:<%= boss.try(:enemy).try(:unitId) %>;
+          type:<%= boss.try(:enemy).try(:type) %>;
+          hp:<%= boss.try(:enemy).try(:hp) %>;
+          attack:<%= boss.try(:enemy).try(:attack) %>;
+          defense:<%= boss.try(:enemy).try(:defense) %>;
+          nextAttack:<%= boss.try(:enemy).try(:nextAttack) %>;
+          dropUnitId:<%= boss.try(:dropUnitId)%>;
+          dropUnitLevel:<%= boss.try(:dropUnitLevel)%>;
+          dropRate: <%= boss.try(:dropRate)%>;
+          addRate: <%= boss.try(:addRate)%>;
+          <%= link_to "修改boss",edit_config_city_infos_path(operation: "edit",type: "boss",index: boss_index,city_index: @city_configs.try(:questId))%>|
+          <%= link_to "增加boss",edit_config_city_infos_path(operation: "new",type: "boss",index: boss_index,city_index: @city_configs.try(:questId))%>
+          
+        }<br/>
+        <% end %>
+        <% end %>
+      </td>
+      <td>
+        <% if @city_configs.try(:enemys).present? %>
+        <% @city_configs.try(:enemys).each_with_index do |enemy,enemy_index|%>
+        {
+          enemyId:<%= enemy.try(:enemy).try(:enemyId)%>;
+          unitId:<%= enemy.try(:enemy).try(:unitId) %>;
+          type:<%= enemy.try(:enemy).try(:type) %>;
+          hp:<%= enemy.try(:enemy).try(:hp) %>;
+          attack:<%= enemy.try(:enemy).try(:attack) %>;
+          defense:<%= enemy.try(:enemy).try(:defense) %>;
+          nextAttack:<%= enemy.try(:enemy).try(:nextAttack) %>;
+          dropUnitId:<%= enemy.try(:dropUnitId)%>;
+          dropUnitLevel:<%= enemy.try(:dropUnitLevel)%>;
+          dropRate: <%= enemy.try(:dropRate)%>;
+          addRate: <%= enemy.try(:addRate)%>;
+          <%= link_to "修改enemy",edit_config_city_infos_path(operation: "edit",type: "enemy",index: enemy_index,city_index: @city_configs.try(:questId))%>|
+          <%= link_to "增加enemy",edit_config_city_infos_path(operation: "new",type: "enemy",index: enemy_index,city_index: @city_configs.try(:questId))%>
+        }<br/>
+        <% end %>
+        <% end %>
+      </td>
+      <td>
+        <% if @city_configs.try(:colors).present? %>
+        <% @city_configs.try(:colors).each_with_index do |color,color_index|%>
+        {
+          color: <%= color.try(:color)%>;
+          percent: <%= color.try(:percent)%>;
+          <%= link_to "修改color",edit_config_city_infos_path(operation: "edit",type: "color",index: color_index,city_index: @city_configs.try(:questId))%>|
+           <%= link_to "增加color",edit_config_city_infos_path(operation: "new",type: "color",index: color_index,city_index: @city_configs.try(:questId))%>
+        }<br/>
+        <% end %>
+        <% end %>
+      </td>
+      <td>
+        <% if @city_configs.try(:floors).present? %>
+        <% @city_configs.try(:floors).each_with_index do |floor,floor_index|%>
+        {
+          version:<%= floor.try(:version)%>;
+          treasureNum:<%= floor.try(:treasureNum)%>;
+          trapNum:<%= floor.try(:trapNum)%>;
+          enemyNum:<%= floor.try(:enemyNum)%>;
+          keyNum:<%= floor.try(:keyNum)%>;
+          stars:
+          <% if floor.try(:stars).present? %>
+          <% floor.try(:stars).each_with_index do |star,star_index|%>
+          {
+            repeat:<%= star.try(:repeat)%>;
+            star:<%= star.try(:star)%>;
+            coin:{min:<%= star.try(:coin).try(:min)%>;max:<%= star.try(:coin).try(:max)%>}
+            enemyPool:<%= star.try(:enemyPool)%>;
+            enemyNum:{min:<%= star.try(:enemyNum).try(:min)%>;max:<%= star.try(:enemyNum).try(:max)%>}
+            trap:<%= star.try(:trap)%>;
+            <%= link_to "修改star",edit_config_city_infos_path(operation: "edit",type: "star",floor_index: floor_index,index: star_index,city_index: @city_configs.try(:questId))%>
+          }
+          <% end %>
+          <% end %>
+          <%= link_to "修改floor",edit_config_city_infos_path(operation: "edit",type: "floor",index: floor_index,city_index: @city_configs.try(:questId))%>|
+          <%= link_to "增加floor",edit_config_city_infos_path(operation: "new",type: "floor",index: floor_index,city_index: @city_configs.try(:questId))%>
+        }<br/>
+        <% end %>
+        <% end %>
+      </td>
+      <% end %>
+    </tr>
+    
+  </tbody>
+</table>
+<%= link_to "返回到关卡",city_infos_path,style: "font-size: 30px;"%>
+
+
+<script type="text/javascript" charset="utf-8">
+  $( document ).ready(function() { 
+    localStorage["enemyids"] = "<%= @quest.try(:enemyId).to_s %>";
+    $("#bossid").click(function(event) {
+      event.preventDefault();
+      var bossid = JSON.parse($("#bossId").val());
+      bossid.push(parseInt($("#boss_id").val()));
+      $("#bossId").val(JSON.stringify(bossid));
+    });
+    
+    $("#enemyid").click(function(event) {
+      event.preventDefault();
+      var enemyid = JSON.parse($("#enemyId").val());
+      enemyid.push(parseInt($("#enemy_id").val()));
+      $("#enemyId").val(JSON.stringify(enemyid));
+    });
+  });
+</script>
