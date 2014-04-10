@@ -8,7 +8,7 @@ public class QuestFullScreenTips : UIBaseUnity {
 		initLocalScale = transform.localScale;
 		sprite = FindChild<UISprite>("Sprite");
 		tweenAlpha = FindChild<TweenAlpha>("Sprite");
-		uiCamera = ViewManager.Instance.MainUICamera;
+//		uiCamera = ViewManager.Instance.MainUICamera;
 		HideUI ();
 	}
 	
@@ -24,10 +24,10 @@ public class QuestFullScreenTips : UIBaseUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		Destroy (gameObject);
+//		Destroy (gameObject);
 	}
 
-	private UICamera uiCamera;
+//	private UICamera uiCamera;
 	private UISprite sprite;
 	private TweenAlpha tweenAlpha;
 	private Vector3 initLocalPosition = Vector3.zero;

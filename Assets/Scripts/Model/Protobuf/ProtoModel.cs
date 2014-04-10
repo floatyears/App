@@ -610,8 +610,16 @@ namespace bbproto
       get { return _endTime; }
       set { _endTime = value; }
     }
+    private bbproto.QuestDungeonData _dungeonData = null;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"dungeonData", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.QuestDungeonData dungeonData
+    {
+      get { return _dungeonData; }
+      set { _dungeonData = value; }
+    }
     private uint _helperUserId = default(uint);
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"helperUserId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"helperUserId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(uint))]
     public uint helperUserId
     {
@@ -619,7 +627,7 @@ namespace bbproto
       set { _helperUserId = value; }
     }
     private bbproto.UserUnit _helperUnit = null;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"helperUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"helperUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
     public bbproto.UserUnit helperUnit
     {
@@ -627,7 +635,7 @@ namespace bbproto
       set { _helperUnit = value; }
     }
     private int _currentParty = default(int);
-    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"currentParty", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"currentParty", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int currentParty
     {
@@ -635,21 +643,21 @@ namespace bbproto
       set { _currentParty = value; }
     }
     private readonly global::System.Collections.Generic.List<bbproto.DropUnit> _dropUnits = new global::System.Collections.Generic.List<bbproto.DropUnit>();
-    [global::ProtoBuf.ProtoMember(8, Name=@"dropUnits", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(9, Name=@"dropUnits", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<bbproto.DropUnit> dropUnits
     {
       get { return _dropUnits; }
     }
   
     private readonly global::System.Collections.Generic.List<bbproto.UserUnit> _getUnit = new global::System.Collections.Generic.List<bbproto.UserUnit>();
-    [global::ProtoBuf.ProtoMember(9, Name=@"getUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(10, Name=@"getUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<bbproto.UserUnit> getUnit
     {
       get { return _getUnit; }
     }
   
     private int _getExp = default(int);
-    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"getExp", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"getExp", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int getExp
     {
@@ -657,7 +665,7 @@ namespace bbproto
       set { _getExp = value; }
     }
     private int _getMoney = default(int);
-    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"getMoney", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"getMoney", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int getMoney
     {
@@ -665,7 +673,7 @@ namespace bbproto
       set { _getMoney = value; }
     }
     private int _getFriendPoint = default(int);
-    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"getFriendPoint", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(13, IsRequired = false, Name=@"getFriendPoint", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int getFriendPoint
     {
@@ -673,15 +681,23 @@ namespace bbproto
       set { _getFriendPoint = value; }
     }
     private int _continueTimes = default(int);
-    [global::ProtoBuf.ProtoMember(13, IsRequired = false, Name=@"continueTimes", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(14, IsRequired = false, Name=@"continueTimes", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int continueTimes
     {
       get { return _continueTimes; }
       set { _continueTimes = value; }
     }
+    private int _resumeTimes = default(int);
+    [global::ProtoBuf.ProtoMember(15, IsRequired = false, Name=@"resumeTimes", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int resumeTimes
+    {
+      get { return _resumeTimes; }
+      set { _resumeTimes = value; }
+    }
     private bbproto.EQuestState _state = bbproto.EQuestState.QS_NEW;
-    [global::ProtoBuf.ProtoMember(14, IsRequired = false, Name=@"state", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(16, IsRequired = false, Name=@"state", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(bbproto.EQuestState.QS_NEW)]
     public bbproto.EQuestState state
     {
@@ -689,7 +705,7 @@ namespace bbproto
       set { _state = value; }
     }
     private int _playTotal = default(int);
-    [global::ProtoBuf.ProtoMember(15, IsRequired = false, Name=@"playTotal", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(17, IsRequired = false, Name=@"playTotal", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int playTotal
     {
@@ -697,7 +713,7 @@ namespace bbproto
       set { _playTotal = value; }
     }
     private int _playToday = default(int);
-    [global::ProtoBuf.ProtoMember(16, IsRequired = false, Name=@"playToday", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(18, IsRequired = false, Name=@"playToday", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int playToday
     {
@@ -1952,6 +1968,218 @@ namespace bbproto
       get { return _header; }
       set { _header = value; }
     }
+    private int _staminaNow = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"staminaNow", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int staminaNow
+    {
+      get { return _staminaNow; }
+      set { _staminaNow = value; }
+    }
+    private uint _staminaRecover = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"staminaRecover", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint staminaRecover
+    {
+      get { return _staminaRecover; }
+      set { _staminaRecover = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReqResumeQuest")]
+  public partial class ReqResumeQuest : global::ProtoBuf.IExtensible
+  {
+    public ReqResumeQuest() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private uint _questId = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"questId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint questId
+    {
+      get { return _questId; }
+      set { _questId = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RspResumeQuest")]
+  public partial class RspResumeQuest : global::ProtoBuf.IExtensible
+  {
+    public RspResumeQuest() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private int _stone = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"stone", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int stone
+    {
+      get { return _stone; }
+      set { _stone = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReqRedoQuest")]
+  public partial class ReqRedoQuest : global::ProtoBuf.IExtensible
+  {
+    public ReqRedoQuest() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private uint _questId = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"questId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint questId
+    {
+      get { return _questId; }
+      set { _questId = value; }
+    }
+    private int _floor = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"floor", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int floor
+    {
+      get { return _floor; }
+      set { _floor = value; }
+    }
+    private int _getColors = default(int);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"getColors", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int getColors
+    {
+      get { return _getColors; }
+      set { _getColors = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RspRedoQuest")]
+  public partial class RspRedoQuest : global::ProtoBuf.IExtensible
+  {
+    public RspRedoQuest() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private int _stone = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"stone", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int stone
+    {
+      get { return _stone; }
+      set { _stone = value; }
+    }
+    private bbproto.QuestDungeonData _dungeonData = null;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"dungeonData", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.QuestDungeonData dungeonData
+    {
+      get { return _dungeonData; }
+      set { _dungeonData = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReqGetQuestColors")]
+  public partial class ReqGetQuestColors : global::ProtoBuf.IExtensible
+  {
+    public ReqGetQuestColors() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private uint _questId = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"questId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint questId
+    {
+      get { return _questId; }
+      set { _questId = value; }
+    }
+    private int _count = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"count", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int count
+    {
+      get { return _count; }
+      set { _count = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RspGetQuestColors")]
+  public partial class RspGetQuestColors : global::ProtoBuf.IExtensible
+  {
+    public RspGetQuestColors() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private uint _questId = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"questId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint questId
+    {
+      get { return _questId; }
+      set { _questId = value; }
+    }
+    private byte[] _colors = null;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"colors", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] colors
+    {
+      get { return _colors; }
+      set { _colors = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -2775,8 +3003,16 @@ namespace bbproto
       get { return _unitList; }
     }
   
+    private bbproto.UserUnit _baseUnit = null;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"baseUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.UserUnit baseUnit
+    {
+      get { return _baseUnit; }
+      set { _baseUnit = value; }
+    }
     private int _money = default(int);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"money", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"money", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int money
     {
@@ -2784,7 +3020,7 @@ namespace bbproto
       set { _money = value; }
     }
     private uint _blendUniqueId = default(uint);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"blendUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"blendUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(uint))]
     public uint blendUniqueId
     {
@@ -2792,7 +3028,7 @@ namespace bbproto
       set { _blendUniqueId = value; }
     }
     private int _blendExp = default(int);
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"blendExp", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"blendExp", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int blendExp
     {
@@ -2800,7 +3036,7 @@ namespace bbproto
       set { _blendExp = value; }
     }
     private readonly global::System.Collections.Generic.List<uint> _partUniqueId = new global::System.Collections.Generic.List<uint>();
-    [global::ProtoBuf.ProtoMember(6, Name=@"partUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(7, Name=@"partUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     public global::System.Collections.Generic.List<uint> partUniqueId
     {
       get { return _partUniqueId; }
@@ -5670,11 +5906,11 @@ namespace bbproto
       get { return _SingleAttack; }
     }
   
-    private readonly global::System.Collections.Generic.List<bbproto.SkillAttackRecoverHP> _SkillAttackRecoverHP = new global::System.Collections.Generic.List<bbproto.SkillAttackRecoverHP>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"SkillAttackRecoverHP", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<bbproto.SkillAttackRecoverHP> SkillAttackRecoverHP
+    private readonly global::System.Collections.Generic.List<bbproto.SkillAttackRecoverHP> _attackRecoverHP = new global::System.Collections.Generic.List<bbproto.SkillAttackRecoverHP>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"attackRecoverHP", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.SkillAttackRecoverHP> attackRecoverHP
     {
-      get { return _SkillAttackRecoverHP; }
+      get { return _attackRecoverHP; }
     }
   
     private readonly global::System.Collections.Generic.List<bbproto.SkillSuicideAttack> _SuicideAttack = new global::System.Collections.Generic.List<bbproto.SkillSuicideAttack>();

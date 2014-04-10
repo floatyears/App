@@ -49,6 +49,7 @@ public class CardItem : UIBaseUnity
 	{
 		set{
 			canDrag = value;
+//			Debug.LogError("CanDrag : " + this);
 			if(canDrag) {
 				gameObject.layer = GameLayer.ActorCard;
 			}

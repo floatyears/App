@@ -9,6 +9,7 @@ public class Battle : UIBase {
 	private RaycastHit[] rayCastHit;
 	private CardItem tempCard;
 	private GameObject tempObject;
+
 	private BattleCardPool battleCardPool;
 	private BattleCard battleCard;
 	private BattleCardArea battleCardArea;
@@ -79,6 +80,16 @@ public class Battle : UIBase {
 		battleRootGameObject.SetActive(false);
 	}
 
+	public override void DestoryUI () {
+		GameInput.OnPressEvent -= HandleOnPressEvent;
+		GameInput.OnReleaseEvent -= HandleOnReleaseEvent;
+		GameInput.OnStationaryEvent -= HandleOnStationaryEvent;
+		GameInput.OnDragEvent -= HandleOnDragEvent;
+		base.DestoryUI ();
+		GameObject.Destroy (battleRootGameObject);
+		countDownUI.DestoryUI ();
+	}
+
 	public void StartBattle () {
 		ResetClick();
 		Attack();
@@ -107,6 +118,7 @@ public class Battle : UIBase {
 	}
 
 	void BattleEnd (object data) {
+		isShowEnemy = false;
 		ShieldInput (true);
 		SwitchInput(true);
 		HideUI ();
@@ -166,7 +178,6 @@ public class Battle : UIBase {
 
 	void CreatEnemy() {
 		string enemyName = "BattleEnemy";
-
 		tempObject = GetPrefabsObject(enemyName);
 		tempObject.layer = GameLayer.EnemyCard;
 		battleEnemy = tempObject.AddComponent<BattleEnemy>();
@@ -175,7 +186,9 @@ public class Battle : UIBase {
 		battleEnemy.ShowUI ();
 	}
 
+	bool isShowEnemy = false;
 	public void ShowEnemy(List<TEnemyInfo> count) {
+		isShowEnemy = true;
 		battleEnemy.Refresh(count);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
@@ -247,6 +260,10 @@ public class Battle : UIBase {
 	}
 
 	void DisposeReleasePress() {
+		if (!isShowEnemy) {
+			return;
+		}
+					
 		if(selectTarget.Count == 0) {
 			ResetClick();
 			return;

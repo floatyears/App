@@ -49,6 +49,12 @@ public class BattleBottom : MonoBehaviour {
 		}
 	}
 
+	void OnDestroy() {
+		if(battleSkill != null) 
+			Destroy (battleSkill.gameObject);
+		battleSkill = null;
+	} 
+
 	void OnDisable () {
 		GameInput.OnUpdate -= OnRealease;
 	}

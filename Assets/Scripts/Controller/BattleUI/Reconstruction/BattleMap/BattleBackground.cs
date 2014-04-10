@@ -97,6 +97,9 @@ public class BattleBackground : UIBaseUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		Destroy (battleBottom);
+		battleBottomScript = null;
+		attackPosition.Clear ();
 	}
 
 	public void InitData (int blood, int energyPoint) {

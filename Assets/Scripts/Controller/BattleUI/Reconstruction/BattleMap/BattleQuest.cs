@@ -22,16 +22,16 @@ public class BattleQuest : UIBase {
 	private Role role;
 	public Battle battle;
 	private BattleBackground background;
-	public static BattleUseData bud;
-	private Camera mainCamera;
 	public QuestFullScreenTips questFullScreenTips;
+	private TopUI topUI;
+	public static BattleUseData bud;
 	private ClearQuestParam questData;
 	private TUserUnit evolveUser;
-	private TopUI topUI;
 	private string backgroundName = "BattleBackground";
 	private AttackEffect attackEffect;
 
 	public BattleQuest (string name) : base(name) {
+		Debug.LogError ("new BattleQuest");
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
@@ -53,9 +53,7 @@ public class BattleQuest : UIBase {
 		background.transform.localPosition = Vector3.zero;
 		background.Init (backgroundName);
 		background.SetBattleQuest (this);
-		AddSelfObject (battleMap);
-		AddSelfObject (role);
-		AddSelfObject (background);
+
 		questData = new ClearQuestParam ();
 		questData.questId = questDungeonData.QuestId;
 		InitTopUI ();
@@ -65,6 +63,12 @@ public class BattleQuest : UIBase {
 		CreatEffect ();
 		MapCamera.IsClick = false;
 		bud = new BattleUseData (this);
+
+		AddSelfObject (battleMap);
+		AddSelfObject (role);
+		AddSelfObject (background);
+//		AddSelfObject (battle);
+//		AddSelfObject (questFullScreenTips);
 	}
 
 	void CreatEffect () {
@@ -104,8 +108,8 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 		Resources.UnloadUnusedAssets ();
-		mainCamera = Camera.main;
-		mainCamera.enabled = false;
+//		mainCamera = Camera.main;
+//		mainCamera.enabled = false;
 		GameTimer.GetInstance ().AddCountDown (0.5f, ShowScene);
 		InitData ();
 		base.ShowUI ();
@@ -135,6 +139,8 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 	}
 
+
+
 	void LeaderSkillEnd(object data) {
 		MsgCenter.Instance.RemoveListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 	}
@@ -159,7 +165,7 @@ public class BattleQuest : UIBase {
 		battleMap.HideUI ();
 		role.HideUI ();
 		background.HideUI ();
-		mainCamera.enabled = false;
+//		mainCamera.enabled = false;
 		battleMap.ShowUI ();
 		role.ShowUI ();
 		background.ShowUI ();
@@ -174,20 +180,22 @@ public class BattleQuest : UIBase {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		questFullScreenTips.DestoryUI ();
+		battle.DestoryUI ();
+		battle = null;
 		Resources.UnloadUnusedAssets ();
 	}
 
 	void CreatBoosAppear () {
 		GameObject obj = Resources.Load("Prefabs/QuestFullScreenTips") as GameObject;
 		Vector3 pos = obj.transform.localPosition;
-		GameObject go = NGUITools.AddChild (viewManager.CenterPanel, obj);
+		GameObject go = NGUITools.AddChild (viewManager.EffectPanel, obj);
 		go.transform.localPosition = pos;
 		questFullScreenTips = go.GetComponent<QuestFullScreenTips> ();
 		questFullScreenTips.Init("QuestFullScreenTips");
 	}
 
 	void ShowScene () {
-		mainCamera.enabled = true;
+//		mainCamera.enabled = true;
 	}
 	
 	public Vector3 GetPosition(Coordinate coor) {
