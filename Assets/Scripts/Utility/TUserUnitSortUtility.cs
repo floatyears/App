@@ -14,7 +14,7 @@ public enum SortRule {
 	ByAddPoint		= 7
 }
 
-public class UnitItemSort{
+public class SortUnitTool{
 	const int ruleCount = 8;
 	public static SortRule GetNextRule(SortRule currentRule){
 		SortRule nextRule;
@@ -23,6 +23,41 @@ public class UnitItemSort{
 		currentIndex = currentIndex % ruleCount;
 		nextRule = (SortRule)currentIndex;
 		return nextRule;
+	}
+
+	public static void SortByTargetRule(SortRule targetRule, List<TUserUnit> targetList){
+		//Debug.Log("Before :: memberList[ 4 ].Level ->" + targetList[ 4 ].Level);
+		
+		switch (targetRule){
+			case SortRule.ByAddPoint : 
+				DGTools.InsertSort(targetList, new TUserUnitSortAddPoint());
+				break;
+			case SortRule.ByAttack : 
+				DGTools.InsertSort(targetList, new TUserUnitSortAtk());
+				break;
+			case SortRule.ByAttribute : 
+				DGTools.InsertSort(targetList, new TUserUnitSortAttribute());
+				break;
+			case SortRule.ByGetTime : 
+				DGTools.InsertSort(targetList, new TUserUnitSortGetTime());
+				break;
+			case SortRule.ByHP : 
+				DGTools.InsertSort(targetList, new TUserUnitSortHP());
+				break;
+			case SortRule.ByID : 
+				DGTools.InsertSort(targetList, new TUserUnitSortID());
+				break;
+			case SortRule.ByIsCollected : 
+				DGTools.InsertSort(targetList, new TUserUnitSortFavourite());
+				break;
+			case SortRule.ByRace : 
+				DGTools.InsertSort(targetList, new TUserUnitSortRace());
+				break;
+			default:
+				break;
+		}
+
+		//Debug.Log("After :: memberList[ 4 ].Level ->" + targetList[ 4 ].Level);
 	}
 }
 
