@@ -7,6 +7,7 @@ public class NewPartyMembers : UIComponentUnity{
 	private DragPanel dragPanel;
 	private GameObject rejectItem;
 	private UILabel pageIndexLabel;
+	private UILabel rightIndexLabel;
 	private UILabel pageIndexSuffixLabel;
 	private UIButton prePageButton;
 	private UIButton nextPageButton;
@@ -28,11 +29,17 @@ public class NewPartyMembers : UIComponentUnity{
 
 	public override void ShowUI(){
 		base.ShowUI();
+
+		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
+		RefreshParty(curParty);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		DataCenter.Instance.PartyInfo.ExitParty();
+		Debug.Log("PartyScene.HideUI(), Record Party State Change...");
+		Debug.Log("PartyScene.HideUI(), current party id is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
 	}
 
 	public override void DestoryUI(){
@@ -43,7 +50,7 @@ public class NewPartyMembers : UIComponentUnity{
 	private void InitPagePanel(){
 		pageIndexLabel = FindChild<UILabel>("Label_Left/Label_Before");
 		pageIndexSuffixLabel = FindChild<UILabel>("Label_Left/Label_After");
-
+		rightIndexLabel = FindChild<UILabel>("Label_Cur_Party");
 		prePageButton = FindChild<UIButton>("Button_Left");
 		UIEventListener.Get(prePageButton.gameObject).onClick = PrevPage;
 		nextPageButton = FindChild<UIButton>("Button_Right");
@@ -59,32 +66,46 @@ public class NewPartyMembers : UIComponentUnity{
 			puv.callback = PartyItemClick;
 		}
 
-		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
-		RefreshParty(curParty);
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
 	}
 
 	void PrevPage(GameObject go){
 		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
 		RefreshParty(preParty);  
+		RefreshUnitListByCurId();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, preParty);
 	}
         
 	void NextPage(GameObject go){
 		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
 		RefreshParty(nextParty);
+		RefreshUnitListByCurId();
+
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, nextParty);
 	}
 
 	void RefreshParty(TUnitParty party){
 		List<TUserUnit> partyData = party.GetUserUnit();
-
+		//Debug.LogError("Partyed count is : " + partyData.Count);
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
 		pageIndexLabel.text = curPartyIndex.ToString();
+		rightIndexLabel.text = curPartyIndex.ToString();
 		pageIndexSuffixLabel.text = UnitsWindow.partyIndexDic[ curPartyIndex ].ToString();
 
 		for (int i = 0; i < partyData.Count; i++){
 			partyView [ i ].Init(partyData [ i ]);
+//			partyView[ i ].IsEnable = true;
+//			partyView[ i ].IsParty = false;
+//			partyView [ i + 1 ].UserUnit = memberList[ i ];
+		}
+	}
+
+
+	private void RefreshUnitListByCurId(){
+		//Debug.Log("RefreshUnitListByCurId()...curIndex is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
+		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
+			PartyUnitView puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
+			puv.IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(puv.UserUnit.ID);
+			//Debug.Log("puv.IsParty : " + puv.IsParty);
 		}
 	}
         
@@ -107,6 +128,8 @@ public class NewPartyMembers : UIComponentUnity{
 		else{
 			if(partyFocusUnit != null){
 				partyFocusUnit.IsFocus = false;
+
+				//Traverse unit list, change the state of focus unit which has on-party to out-party
 				for (int i = 1; i < dragPanel.ScrollItem.Count; i++) {
 					PartyUnitView partyUnitView = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
 					if(partyUnitView.UserUnit.Equals(partyFocusUnit.UserUnit)){
@@ -115,6 +138,25 @@ public class NewPartyMembers : UIComponentUnity{
 						break;
 					}
 				}
+
+				int onPartyPos = 0 ;
+				uint onPartyId = 0;
+				uint toReplaceId = puv.UserUnit.ID;
+
+				foreach (var item in partyView) {
+					if(item.Value.UserUnit == null) continue;
+					if(item.Value.UserUnit.Equals(partyFocusUnit.UserUnit)){
+						onPartyPos = item.Key;
+						onPartyId = item.Value.UserUnit.ID;
+						Debug.Log("Find afterClickItem...");
+					}
+				}
+//				Debug.Log("onPartyId is : " + onPartyId);
+//				Debug.Log("toReplaceId is : " + toReplaceId);
+//				Debug.Log("onPartyPos is : " + onPartyPos);
+				DataCenter.Instance.PartyInfo.ChangeParty(onPartyPos, 0);
+				DataCenter.Instance.PartyInfo.ChangeParty(onPartyPos, toReplaceId);
+
 				partyFocusUnit.UserUnit = puv.UserUnit;
 				puv.IsParty = true;
 				puv.IsEnable = false;
@@ -133,7 +175,16 @@ public class NewPartyMembers : UIComponentUnity{
 			partyFocusUnit.IsFocus = true;
 		} 
 		else {
-			if (FocusIsLeader() && (partyPickedUnit == null)) {
+			Debug.LogError("partyFocusUnit != null");
+			if (FocusIsLeader() && (partyPickedUnit.UserUnit == null)) {
+				Debug.Log("Check Focus is Leader... clear focus and return...");
+				ClearFocusState();
+				return;
+			}
+
+			if(CurrentPickedIsLeader() && partyFocusUnit.UserUnit == null){
+				Debug.Log("Check Picked is Leader... clear focus and return...");
+				ClearFocusState();
 				return;
 			}
 		
@@ -143,13 +194,17 @@ public class NewPartyMembers : UIComponentUnity{
 			uint afterId = 0;
 
 			foreach (var item in partyView) {
-				if(item.Value.Equals(partyPickedUnit.UserUnit)){
+				if(item.Value.UserUnit == null) continue;
+				if(item.Value.UserUnit.Equals(partyPickedUnit.UserUnit)){
 					afterPos = item.Key;
 					afterId = item.Value.UserUnit.ID;
+					//Debug.Log("Find afterClickItem...");
 				}
-				if(item.Value.Equals(partyFocusUnit.UserUnit)){
+				if(item.Value.UserUnit.Equals(partyFocusUnit.UserUnit)){
 					beforePos = item.Key;
 					beforeId = item.Value.UserUnit.ID;
+					//Debug.Log("Find beforeClickItem...");
+
 				}
 			}
 
@@ -157,23 +212,56 @@ public class NewPartyMembers : UIComponentUnity{
 			partyPickedUnit.Init(partyFocusUnit.UserUnit);
 			partyFocusUnit.Init(tuu);	
 
-//			DataCenter.Instance.PartyInfo.ChangeParty(afterPos, afterId);
-//			DataCenter.Instance.PartyInfo.ChangeParty(beforePos, beforeId);
+//			for (int i = 0; i < partyView.Count; i++) {
+//				if(partyView[ i ].UserUnit == null)
+//					Debug.LogError(string.Format("before :: party's member {0} is NULL...", i));
+//				else
+//					Debug.Log("before :: memberList" + i + "'s name is " + memberList[ i ].UnitInfo.Name);
+//			}
 
+			//Debug.Log("afterPos : " + afterPos);
+			//Debug.Log("beforePos : " + beforePos);
+			DataCenter.Instance.PartyInfo.ChangeParty(afterPos, beforeId);
+			DataCenter.Instance.PartyInfo.ChangeParty(beforePos, afterId);
+
+//			for (int i = 0; i < partyView.Count; i++) {
+//				if(partyView[ i ].UserUnit == null)
+//					Debug.LogError(string.Format("after :: party's member {0} is NULL...", i));
+//				else
+//					Debug.Log("after :: memberList" + i + "'s name is " + memberList[ i ].UnitInfo.Name);
+//			}
 			ClearFocusState();
 		}		
 	}
 
 	bool FocusIsLeader()	{
-		foreach (var item in partyView) {
-			if (partyFocusUnit.Equals(item.Value)){
-				if (item.Key == 0) 
-					return true;
-				else 
-					return false;
-			}
+		bool isLeader = false;
+//		if(partyFocusUnit.UserUnit == null) return isFocus;
+//		foreach (var item in partyView){
+//			if (partyFocusUnit.UserUnit.Equals(item.Value.UserUnit)){
+//				if (item.Key == 0)
+//					isFocus = true;
+//				else 
+//					isFocus = false;
+//			}
+//		}
+		if(partyFocusUnit.Equals(partyView[ 0 ])){
+			isLeader = true;
 		}
-		return false;
+		else{
+			isLeader = false;
+		}
+
+		Debug.Log("Check isFocusLeader : " + isLeader);
+		return isLeader;
+	}
+
+	bool CurrentPickedIsLeader(){
+		bool isLeader = false;
+		if(partyPickedUnit.Equals(partyView[ 0 ])){
+			isLeader = true;
+		}
+		return isLeader;
 	}
 
 	bool ClearFocusState() {
@@ -199,15 +287,15 @@ public class NewPartyMembers : UIComponentUnity{
 		dragPanel.CreatUI();
 		InitDragPanelArgs();
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+		InitRejectBtn();
 
-		InitReject();
 		InitUnitListView();
 	}
 
-	private void InitReject(){
+	private void InitRejectBtn(){
 		dragPanel.AddItem(1, rejectItem);
-		GameObject rejectItemInstance = dragPanel.ScrollItem[ 0 ];
-		UIEventListener.Get(rejectItemInstance).onClick = RejectPartyMember;
+		GameObject rejectItemIns = dragPanel.ScrollItem[ 0 ];
+		UIEventListener.Get(rejectItemIns).onClick = RejectPartyMember;
 	}
 
 	private void InitUnitListView(){
@@ -223,7 +311,34 @@ public class NewPartyMembers : UIComponentUnity{
 
 	private void RejectPartyMember(GameObject item){
 		Debug.Log("Click Reject item...");
-		CheckReject(partyView.Count - 1);
+		if(partyFocusUnit == null){
+			Debug.Log("RejectPartyMember(), partyFocusUnit == null, reject from the last one by one...");
+			RejectByOrder(partyView.Count - 1);
+		}
+		else{
+			Debug.Log("RejectPartyMember(), partyFocusUnit != null, reject the focus...");
+			int focusPos = IndexOfPartyMember(partyFocusUnit.UserUnit);
+			Debug.LogError("RejectPartyMember focusPos : " + focusPos);
+			if(focusPos == -1 || focusPos == 0)
+				ClearFocusState();
+			else{
+				RejectFocus(focusPos);
+			}
+		
+		}
+	}
+
+	private int IndexOfPartyMember(TUserUnit tuu){
+		int pos = -1;
+		if(tuu == null) return pos;
+		foreach (var item in partyView){
+			if(item.Value.UserUnit == null) continue;
+			if(item.Value.UserUnit.Equals(tuu)){
+				pos = item.Key;
+				return pos;
+			}
+		}
+		return pos;
 	}
 
 	void InitDragPanelArgs(){
@@ -239,13 +354,23 @@ public class NewPartyMembers : UIComponentUnity{
 		dragPanelArgs.Add("cellHeight",			110);
 	}
 	
-	void CheckReject(int pos){
-		if(pos == 1) return;//Leader can not reject
+	void RejectByOrder(int pos){
+		if(pos == 0) return;//Leader can not be rejected
 		if(partyView[ pos ].UserUnit == null){
 			pos--;
-			CheckReject(pos);
+			RejectByOrder(pos);
 		}
 
+		Reject(pos);
+
+	}
+
+	void RejectFocus(int pos){
+		if(pos == 0) return;//Leader can not be rejected
+		Reject(pos);
+	}
+
+	void Reject(int pos){
 		for (int i = 1; i < dragPanel.ScrollItem.Count; i++) {
 			PartyUnitView partyUnitView = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
 			if(partyUnitView.UserUnit.Equals(partyView[ pos ].UserUnit)){
@@ -255,8 +380,10 @@ public class NewPartyMembers : UIComponentUnity{
 				break;
 			}
 		}
-
+		//When reject every time, record party state change
 		DataCenter.Instance.PartyInfo.ChangeParty(pos, 0);
+		//Message to note to refresh party info panel view 
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
 	}
 	
 	void ClickSortButton(GameObject btn){

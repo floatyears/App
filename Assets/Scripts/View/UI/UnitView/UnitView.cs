@@ -90,6 +90,7 @@ public class UnitView : MonoBehaviour {
 
 	protected virtual void InitState(){
 		if(userUnit == null){
+			//Debug.LogError("UnitView.InitState(), userUnit is NULL, return...");
 			SetEmptyState();
 			return;
 		}

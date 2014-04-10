@@ -168,7 +168,7 @@ public class TPartyInfo : ProtobufDataBase {
         item.unitPos = pos;
 		item.unitUniqueId = newUniqueId;
         instance.partyList[CurrentPartyId].items[pos] = item;
-
+		//Debug.Log("TPartyInfo.ChangeParty(), end...");
         return true;
     }
 
@@ -181,6 +181,7 @@ public class TPartyInfo : ProtobufDataBase {
             ChangeParty cp = new ChangeParty();
             cp.OnRequest(this, onRspChangeParty);
         }
+		//Debug.Log("ExitParty(), IsModified is : " + IsModified);
     }
 
     public void onRspChangeParty(object data) {
