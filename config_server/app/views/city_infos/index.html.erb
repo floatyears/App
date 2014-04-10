@@ -1,0 +1,112 @@
+<h1>City配置|<%= link_to "下载city",download_city_infos_path%></h1>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>修改</th>
+      <th>version</th>
+      <th>id</th>
+      <th>state</th>
+      <th>cityName</th>
+      <th>description</th>
+      <th>pos</th>
+      <th>stages</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @city_infos.present?%>
+    <%@city_infos.each do |city|%>
+    <tr>
+      <td><%= link_to '修改city',edit_city_info_path(id: city.try(:id),type: "city")%></td>
+      <td><%= city.try(:version)%></td>
+      <td><%= city.try(:id)%></td>
+      <td><%= city.try(:state)%></td>
+      <td><%= city.try(:cityName) %></td>
+      <td><%= city.try(:description) %></td>
+      <td>
+        {
+          x:<%= city.try(:pos).try(:x)%>;
+          y:<%= city.try(:pos).try(:y)%>;
+        }
+      </td>
+      <td>
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>操作</th>
+              <th>version</th>
+              <th>cityid</th>
+              <th>id</th>
+              <th>state</th>
+              <th>type</th>
+              <th>stageName</th>
+              <th>description</th>
+              <th>startTime</th>
+              <th>endTime</th>
+              <th>boost</th>
+              <th>pos</th>
+              <th>quests</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if city.try(:stages).present?%>
+            <% city.try(:stages).each_with_index do |stage,stage_index|%>
+            <tr>
+              <td>
+                <%= link_to '修改',edit_city_info_path(type: "stage",stage_index: stage_index,city_id: city.try(:id),id: stage.try(:id))%>|
+                <%= link_to '增加',new_city_info_path(op: "add" , city_id: city.try(:id))%>
+              </td>
+              <td><%= stage.try(:version)%></td>
+              <td><%= stage.try(:cityId)%></td>
+              <td><%= stage.try(:id)%></td>
+              <td><%= stage.try(:state)%></td>
+              <td><%= stage.try(:type)%></td>
+              <td><%= stage.try(:stageName)%></td>
+              <td><%= stage.try(:description)%></td>
+              <td><%= stage.try(:startTime)%></td>
+              <td><%= stage.try(:endTime)%></td>
+              <td>
+                {
+                  type:<%= stage.try(:boost).try(:type)%>;
+                  valye:<%= stage.try(:boost).try(:value)%>;
+                }
+              
+              </td>
+              <td>
+                {
+                  x:<%= stage.try(:pos).try(:x)%>;
+                  y:<%= stage.try(:pos).try(:y)%>;
+                }
+              </td>
+              <td>
+                <% if stage[:quests].present? %>
+                <% stage[:quests].each_with_index do |quest,index|%>
+                {
+                  id:<%= quest.try(:id)%>;
+                  state:<%= quest.try(:state)%>;
+                  no:<%= quest.try(:no)%>;
+                  name:<%= quest.try(:name)%>;
+                  story:<%= quest.try(:story)%>;
+                  stamina:<%= quest.try(:stamina)%>;
+                  floor:<%= quest.try(:floor)%>;
+                  rewardExp:<%= quest.try(:rewardExp)%>;
+                  rewardMoney:<%= quest.try(:rewardMoney)%>;
+                  bossId:<%= quest.try(:bossId)%>;
+                  enemyId:<%= quest.try(:enemyId)%>;
+                  <%= link_to '修改quest',edit_city_info_path(type: "quest",city_id: city.try(:id),id: index,stage_index: stage_index,stage_id: stage.try(:id))%>                 
+                }
+                <br/>
+                <% end %>
+                <% end %>
+              </td>
+            </tr>
+            <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <% end %>
+    <% end %>    
+  </tbody>
+</table>
+<%= link_to "新建city",new_city_info_path(op: "new"),style: "font-size: 30px;"%>

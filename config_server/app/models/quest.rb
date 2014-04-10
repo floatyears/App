@@ -252,6 +252,10 @@ class QuestInfo
   optional :rewardMoney, :int32, 9
   repeated :bossId, :uint32, 10
   repeated :enemyId, :uint32, 11
+  
+  def self.update(params)
+    @stage =  StageInfo.decode($redis.get("X_STAGE_"+params[:stage_id]))
+  end  
 end
 
 class StageInfo
@@ -270,6 +274,11 @@ class StageInfo
 end
 
 class CityInfo
+    
+  QUEST_TYPE = { "E_QUEST_STORY" => 0 , "E_QUEST_EVENT" => 1 , "E_QUEST_EVOLVE" => 2 }
+  EQUEST_STATE = { "QS_NEW" => 0 , "QS_QUESTING" => 1 , "QS_CLEARED" => 2 }  
+  QUEST_BOOST_TYPE = { "QB_BOOST_NONE" => 0, "QB_BOOST_MONEY" => 1 , "QB_BOOST_EXP" => 2 , "QB_BOOST_DROPRATE" => 3, "QB_BOOST_DROPPLUS" => 4}
+  E_GRID_STAR = { "GS_EMPTY" => 0 , "GS_STAR_1" => 1, "GS_STAR_2" => 2 , "GS_STAR_3" => 3 , "GS_STAR_4" => 4 , "GS_STAR_5" => 5 , "GS_STAR_6" => 6, "GS_KEY" => 7 , "GS_QUESTION" => 8 , "GS_EXCLAMATION" => 9 }
   optional :version, :int32, 1
   optional :id, :uint32, 2
   optional :state, :int32, 3
@@ -277,10 +286,75 @@ class CityInfo
   optional :description, :string, 5
   optional :pos, Position, 6
   repeated :stages, StageInfo, 7
-end
-
-class WorldMapInfo
-  optional :version, :int32, 1
-  optional :id, :uint32, 2
-  repeated :citys, CityInfo, 3
+  
+  def self.create_with_params(params)
+    begin 
+      stages =  []
+      city = JSON.parse(params["city"])
+      city["stages"].each do |stage|
+        quests = []
+        stage["quests"].each do |quest|
+          quests << QuestInfo.new(id: params_to_i(quest["quest_id"]),state: params_to_i(quest["quest_state"]),no: params_to_i(quest["no"]),name:  quest["name"].to_s,story:  quest["story"].to_s,stamina:  params_to_i(quest["stamina"]),floor:  params_to_i(quest["floor"]),rewardExp: params_to_i(quest["rewardExp"]),rewardMoney: params_to_i(quest["rewardMoney"]),bossId: quest["bossId"].to_s.split(",").map{|i|i.to_i},enemyId: quest["enemyId"].to_s.split(",").map{|i|i.to_i})
+        end
+        boost = QuestBoost.new(type: params_to_i(stage["boost_type"]),value: params_to_i(stage["value"]))
+        pos = Position.new(x: params_to_i(stage["stage_x"]),y: params_to_i(stage["stage_y"]))
+        s =  StageInfo.new(version: params_to_i(stage["stage_version"]),cityId: params_to_i(stage["cityId"]),id: params_to_i(stage["stageInfoId"]),state: params_to_i(stage["state"]),type: params_to_i(stage["type"]),stageName: stage["stageName"].to_s,description: stage["description"].to_s,startTime: params_to_i(stage["startTime"]),endTime: params_to_i(stage["endTime"]),boost: boost,pos: pos,quests: quests)
+        stages << s
+        $redis.set("X_STAGE_"+stage["stageInfoId"].to_s,s.encode)
+      end
+      city_pos = Position.new(x: params_to_i(city["x"]),y: params_to_i(city["y"]))
+      city_info =  CityInfo.new(version: params_to_i(city["version"]),id: params_to_i(city["id"]),state: params_to_i(city["state"]),cityName: city["cityName"].to_s,description: city["description"],pos: city_pos,stages: stages)
+      $redis.set("X_CITY_"+city["id"],city_info.encode)
+      File.open(Rails.root.join("public/city/X_CITY_"+city["id"]+".bytes"), "wb") { | file|  file.write(city_info.encode) } 
+    rescue Exception => e
+      p e.to_s
+    end
+  end
+  
+  
+  def self.create_config(params)
+    boss = []
+    enemys = []
+    colors =  []
+    floors = []
+    quest_config =  JSON.parse(params["quest_config"])
+    quest_config["boss"].each do |item|
+      boss << EnemyInfoConf.new(enemyId: params_to_i(item["enemyId"]),unitId: params_to_i(item["unitId"]),type: params_to_i(item["type"]),hp: params_to_i(item["hp"]),attack: params_to_i(item["attack"]),defense: params_to_i(item["defense"]),nextAttack: params_to_i(item["nextAttack"]),dropUnitId: params_to_i(item["dropUnitId"]),dropUnitLevel: params_to_i(item["dropUnitLevel"]),dropRate: params_to_i(item["dropRate"]),addRate: params_to_i(item["addRate"]))
+    end
+    quest_config["enemys"].each do |item|
+      enemys << EnemyInfoConf.new(enemyId: params_to_i(item["enemyId"]),unitId: params_to_i(item["unitId"]),type: params_to_i(item["type"]),hp: params_to_i(item["hp"]),attack: params_to_i(item["attack"]),defense: params_to_i(item["defense"]),nextAttack: params_to_i(item["nextAttack"]),dropUnitId: params_to_i(item["dropUnitId"]),dropUnitLevel: params_to_i(item["dropUnitLevel"]),dropRate: params_to_i(item["dropRate"]),addRate: params_to_i(item["addRate"]))
+    end
+    quest_config["colors"].each do |item|
+      colors << ColorPercent.new(color: params_to_i(item["color"]),percent: params_to_f(item["percent"]))
+    end
+      
+    quest_config["floors"].each do |item|
+      stars = []
+      item["stars"].each do |star|
+        coin = NumRange.new(min: params_to_i(star["coin_min"]),max: params_to_i(star["coin_max"]))
+        enemyNum = NumRange.new(min: params_to_i(star["enemyNum_min"]),max: params_to_i(star["enemyNum_max"]))
+        stars << StarConfig.new(repeat: params_to_i(star["repeat"]),star: params_to_i(star["star"]),coin: coin,enemyPool: star["enemyPool"].to_s.split(",").map{|i|i.to_i},enemyNum: enemyNum,trap: star["trap"].to_s.split(",").map{|i|i.to_i})
+      end
+      floors << QuestFloorConfig.new(version: params_to_i(item["version"]),treasureNum: params_to_i(item["treasureNum"]),trapNum: params_to_i(item["trapNum"]),enemyNum: params_to_i(item["enemyNum"]),keyNum:  params_to_i(item["keyNum"]),stars: stars)
+    end
+    id = params_to_i(quest_config["questId"])
+    questConfig =  QuestConfig.new(questId: id ,boss: boss,enemys: enemys,colors: colors,floors: floors)
+    $redis.set "X_CONFIG_#{id}",questConfig.encode
+  end
+  
+  
+  def self.update_quest(params)
+    @stage =  StageInfo.decode(@redis.get("X_STAGE_"+params["stage_id"]))
+    return params["stage_id"]
+  end
+  
+  
+  def self.params_to_i(s)
+    (s == "") ? nil : s.to_i
+  end
+  
+  def self.params_to_f(s)
+    (s == "") ? nil : s.to_f.round(3)
+  end
+  
 end

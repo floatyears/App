@@ -63,7 +63,7 @@ public class ModelManager {
 //        ConfigUnitInfo cui = new ConfigUnitInfo();
 //		Debug.LogWarning ("InitData ConfigSkill");
         ConfigSkill cs = new ConfigSkill();
-        ConfigEnermy ce = new ConfigEnermy();
+//        ConfigEnermy ce = new ConfigEnermy();
         ConfigUnitBaseInfo cubi = new ConfigUnitBaseInfo();
         ConfigTrap ct = new ConfigTrap();
 

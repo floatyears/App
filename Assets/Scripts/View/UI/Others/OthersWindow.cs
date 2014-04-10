@@ -17,6 +17,8 @@ public class OthersWindow : UIComponentUnity {
 	UISprite maskOn;
 	UISprite maskOff;
 
+    GameObject resetOption;
+
 	Dictionary< GameObject, GameObject > options = new Dictionary< GameObject, GameObject>();
 	Dictionary< string, object > otherScrollerArgsDic = new Dictionary< string, object >();
 
@@ -58,6 +60,11 @@ public class OthersWindow : UIComponentUnity {
 		nickNameOption.GetComponentInChildren<UILabel>().text = "NickName";
 		options.Add( nickNameOption, nickNamePanel );
 
+        resetOption = othersScroller.AddScrollerItem( item );
+        resetOption.name = "ResetOption";
+        resetOption.GetComponentInChildren<UILabel>().text = "Reset Data";
+        options.Add( resetOption, nickNamePanel );
+
 		othersScroller.DragPanelView.SetScrollView( otherScrollerArgsDic );
 		
 		for(int i = 0; i < othersScroller.ScrollItem.Count; i++)
@@ -75,8 +82,22 @@ public class OthersWindow : UIComponentUnity {
 		foreach (var item in options)
 			item.Value.SetActive( false );
 		options[ target ].SetActive( true );
+
+        ///
+//        LogHelper.Log("SwicthOption(), target {0} resetOption {1}", target, resetOption);
+
+        if (target == resetOption){
+            LogHelper.Log("SwicthOption(), target {0}", resetOption);
+            ClickToResetData();
+        }
 	}
 	
+    void ClickToResetData(){
+        GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
+        GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
+        UIManager.Instance.ChangeScene(SceneEnum.Loading);
+    }
+
 	void FindUIElement() {
 		FindMusicPanel();
 		FindNickNamePanel();
@@ -130,6 +151,7 @@ public class OthersWindow : UIComponentUnity {
         
 	void ClickOkButton( GameObject go ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+        LogHelper.Log("ClickOkButton to rename");
 		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
 	}
 

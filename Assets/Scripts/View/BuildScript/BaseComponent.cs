@@ -15,6 +15,10 @@ public class RootComponent
 
 	protected UIComponentUnity viewComponent;
 
+	public UIComponentUnity ViewComponent {
+		get { return viewComponent; }
+	}
+
 	protected ErrorMsg errMsg = new ErrorMsg();
 
 	public RootComponent()
@@ -72,36 +76,24 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		ViewManager.Instance.AddComponent(this);
 	}
 	
-	public virtual void CreatUI(){
-//		Debug.LogError("CreatUI : 111  " + config.uiName);
+	public virtual void CreatUI() {
 		if (component != null){
 			component.CreatUI();
 		}
-//		Debug.LogError("CreatUI : 222  "  + config.uiName );
 		CreatViewComponent();
-//		Debug.LogError("CreatUI : 333  " + config.uiName );
 	}
 
-	public virtual void ShowUI()
-	{
-//		Debug.LogError ("component : " +component);
-		if (component != null)
-		{
+	public virtual void ShowUI() {
+		if (component != null) {
 			component.ShowUI();		
 		}
-//		Debug.LogError ("ConcreteComponent : " + viewComponent.gameObject.name);
-		if (viewComponent != null)
-		{
+		if (viewComponent != null) {
 			viewComponent.ShowUI();
 		}
 	}
 
-//    public virtual void Clear
-
-	public virtual void HideUI()
-	{
-		if (component != null)
-		{
+	public virtual void HideUI() {
+		if (component != null) {
 			component.HideUI();		
 		}
 //		Debug.LogError("viewComponent : " + viewComponent);

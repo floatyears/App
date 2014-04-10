@@ -1,0 +1,8 @@
+<%= form_tag(city_infos_path,id: "questconfig") %>
+<% if @op == "add"%>
+<h1 id="关卡配置">增加stage</h1>
+<%= render 'stage_form'%>
+<% else %>
+<h1>新建关卡</h1>
+<%= render 'form'%>
+<% end %>

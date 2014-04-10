@@ -1,0 +1,20 @@
+<h1 id=""><%= @op == "new" ? "新建" : "修改"%>boss</h1>
+<%= form_tag update_config_city_infos_path ,method: "patch"%>
+enemyId:<%= text_field_tag :enemyId,@boss.try(:enemy).try(:enemyId) %><br/>
+unitId:<%= text_field_tag :unitId ,@boss.try(:enemy).try(:unitId)%><br/>
+type:<%= select_tag :type,options_for_select(AllSkillConfig::EUNIT_TYPE,@boss.try(:enemy).try(:type))%><br/>
+hp:<%= text_field_tag :hp,@boss.try(:enemy).try(:hp) %><br/>
+attack:<%= text_field_tag :attack ,@boss.try(:enemy).try(:attack)%><br/>
+defense:<%= text_field_tag :defense,@boss.try(:enemy).try(:defense) %><br/>
+nextAttack:<%= text_field_tag :nextAttack,@boss.try(:enemy).try(:nextAttack) %><br/>
+dropUnitId:<%= text_field_tag :dropUnitId,@boss.try(:dropUnitId) %><br/>
+dropUnitLevel:<%= text_field_tag :dropUnitLevel ,@boss.try(:dropUnitLevel)%><br/>
+dropRate:<%= text_field_tag :dropRate ,@boss.try(:dropRate)%><br/>
+addRate:<%= text_field_tag :addRate,@boss.try(:addRate) %><br>
+<%= hidden_field_tag :form_type,@type%>
+<%= hidden_field_tag :index,@index%>
+<%= hidden_field_tag :config_id,@config_id%>
+<%= hidden_field_tag :operation,@op %>
+<div class="actions">
+	<%= submit_tag '提交',class: "btn btn-primary" %>
+</div>

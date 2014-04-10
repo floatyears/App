@@ -1,0 +1,289 @@
+<h1 id="关卡配置">关卡配置</h1>
+<%= form_tag(addconfig_city_infos_path,id: "questconfig") %>
+
+<a href="#bossModal" role="button" class="btn btn-primary" data-toggle="modal">增加boss</a>
+<a href="#enemysModal" role="button" class="btn btn-primary" data-toggle="modal">增加enemy</a>
+<a href="#colorsModal" role="button" class="btn btn-primary" data-toggle="modal">增加color</a>
+<a href="#floorsModal" role="button" class="btn btn-primary" data-toggle="modal">增加floor</a>
+
+<br/>
+
+boss:<div id="boss-data"></div>
+enemys:<div id="enmeys-data"></div>
+colors:<div id="colors-data"></div>
+floors:<div id="floors-data"></div>
+stars:<div id="stars-data"></div>
+
+<div id="bossModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">增加boss</h3>
+  </div>
+  <div class="modal-body">
+    <fieldset id="boss">
+      <fieldset>
+        EnemyInfo:<br/>  
+        enemyId:<%= text_field_tag :enemyId %><br/>
+        unitId:<%= text_field_tag :unitId %><br/>
+        type:<%= select_tag :type,options_for_select(AllSkillConfig::EUNIT_TYPE)%><br/>
+        hp:<%= text_field_tag :hp %><br/>
+        attack:<%= text_field_tag :attack %><br/>
+        defense:<%= text_field_tag :defense %><br/>
+        nextAttack:<%= text_field_tag :nextAttack %><br/>
+      </fieldset>
+      dropUnitId:<%= text_field_tag :dropUnitId %><br/>
+      dropUnitLevel:<%= text_field_tag :dropUnitLevel %><br/>
+      dropRate:<%= text_field_tag :dropRate %><br/>
+      addRate:<%= text_field_tag :addRate %><br>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <button id="boss-btn" class="btn btn-primary">保存</button>
+  </div>
+</div>
+
+
+<div id="enemysModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">增加enemy</h3>
+  </div>
+  <div class="modal-body">
+    <fieldset id="enemys">
+      <fieldset>
+        EnemyInfo:<br/>  
+        enemyId:<%= text_field_tag :enemyId %><br/>
+        unitId:<%= text_field_tag :unitId %><br/>
+        type:<%= select_tag :type,options_for_select(AllSkillConfig::EUNIT_TYPE)%><br/>
+        hp:<%= text_field_tag :hp %><br/>
+        attack:<%= text_field_tag :attack %><br/>
+        defense:<%= text_field_tag :defense %><br/>
+        nextAttack:<%= text_field_tag :nextAttack %><br/>
+      </fieldset>
+      dropUnitId:<%= text_field_tag :dropUnitId %><br/>
+      dropUnitLevel:<%= text_field_tag :dropUnitLevel %><br/>
+      dropRate:<%= text_field_tag :dropRate %><br/>
+      addRate:<%= text_field_tag :addRate %><br>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <button id="enemys-btn" class="btn btn-primary">保存</button>
+  </div>
+</div>
+
+<div id="colorsModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">增加color</h3>
+  </div>
+  <div class="modal-body">
+    <fieldset id="colors">
+      colors:<br/>  
+      color:<%= select_tag :color,options_for_select(AllSkillConfig::EUNIT_TYPE)%><br/>
+      percent:<%= text_field_tag :percent %><br/>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <button id="colors-btn" class="btn btn-primary">保存</button>
+  </div>
+</div>
+
+<div id="floorsModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">增加floor</h3>
+  </div>
+  <div class="modal-body">
+    <fieldset id="floor">
+      floors:<br/>  
+      version:<%= text_field_tag :version %><br/>
+      treasureNum:<%= text_field_tag :treasureNum %><br/>
+      trapNum:<%= text_field_tag :trapNum %><br/>
+      enemyNum:<%= text_field_tag :enemyNum %><br/>
+      keyNum:<%= text_field_tag :keyNum %><br/>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <button id="floors-btn" class="btn btn-primary">保存</button>
+  </div>
+</div>
+
+
+<div id="starsModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">增加star</h3>
+  </div>
+  <div class="modal-body">
+    <fieldset id="stars">
+      repeat:<%= text_field_tag :repeat %><br/>
+      star:<%= select_tag :star,options_for_select(CityInfo::E_GRID_STAR)%><br/>
+      coin:<br/>
+      min:<%= text_field_tag :coin_min %>&nbsp;&nbsp;&nbsp;&nbsp;max:<%= text_field_tag :coin_max %><br/>
+      enemyPool:<%= text_field_tag :enemyPool %>(多个用,隔开)<br/>
+      enemyNum:<br/>
+      min:<%= text_field_tag :enemyNum_min %>&nbsp;&nbsp;&nbsp;&nbsp;max:<%= text_field_tag :enemyNum_max %><br/>
+      trap:<%= text_field_tag :trap %>(多个用,隔开)<br/>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <button id="stars-btn" class="btn btn-primary">保存</button>
+  </div>
+</div>
+
+
+
+
+<div class="actions">
+  <button id="add-config" class="btn btn-primary">提交</button>
+  <button id="reset-form" class="btn btn-primary">清除数据</button>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+$( document ).ready(function() {
+   $("#boss-data").html(localStorage["boss"]);
+   $("#enmeys-data").html(localStorage["enemys"]);
+   $("#colors-data").html(localStorage["colors"]);
+   $("#floors-data").html(localStorage["floors"]);
+   $("#stars-data").html(localStorage["stars"]);
+  
+  $("#stars-btn").click(function(event) {
+    event.preventDefault();
+    stars = [];
+    floors = JSON.parse(localStorage["floors"])
+    if(floors[parseInt(localStorage["floor_index"])]["stars"] == undefined ){
+      stars.push($("#stars").serializeJSON());
+    }else{
+      stars = JSON.parse(localStorage["floors"])[parseInt(localStorage["floor_index"])]["stars"];
+      stars.push($("#stars").serializeJSON());
+    }
+    alert("增加stars成功");
+    $('#starsModal').modal('hide');
+    floors[parseInt(localStorage["floor_index"])]["stars"] = stars;
+    localStorage["floors"] = JSON.stringify(floors);
+    $("#stars-data").append(JSON.stringify($("#stars").serializeJSON()));
+    $("#questconfig")[0].reset();
+  });
+  
+  $("#floors-btn").click(function(event) {
+    event.preventDefault();
+    if(localStorage["floors"] == undefined ){
+      var jsons = [];
+      floors = $("#floor").serializeJSON();
+      jsons.push(floors);
+      localStorage["floors"] = JSON.stringify(jsons);
+    }else{
+      var arr = JSON.parse(localStorage["floors"]);
+      f = $("#floor").serializeJSON();
+      arr.push(f);
+      localStorage["floors"] = JSON.stringify(arr);
+    }
+    alert("增加floors成功");
+    $('#floorsModal').modal('hide');
+    var index = JSON.parse(localStorage["floors"]).length - 1 
+    $("#floors-data").append(JSON.stringify($("#floor").serializeJSON()) + "<a id=\"stars-add\" href=\"#starsModal\" role=\"button\" class=\"btn btn-primary\" data-index="+ index +" data-toggle=\"modal\">增加star</a>");
+    $("#questconfig")[0].reset();
+  });
+  
+  $(document).on("click", "#stars-add", function(event){
+    localStorage["floor_index"]  = parseInt($(this).attr("data-index"));
+  });
+  
+  
+  $("#colors-btn").click(function(event) {
+    event.preventDefault();
+    if(localStorage["colors"] == undefined ){
+      var jsons = [];
+      jsons.push($("#colors").serializeJSON());
+      localStorage["colors"] = JSON.stringify(jsons);
+    }else{
+      var arr = JSON.parse(localStorage["colors"]);
+      arr.push($("#colors").serializeJSON());
+      localStorage["colors"] = JSON.stringify(arr);
+    }
+    alert("增加colors成功");
+    $('#colorsModal').modal('hide');
+    $("#colors-data").html(localStorage["colors"]);
+    $("#questconfig")[0].reset();
+  });
+  
+  $("#enemys-btn").click(function(event) {
+    event.preventDefault();
+    if(localStorage["enemys"] == undefined ){
+      var jsons = [];
+      jsons.push($("#enemys").serializeJSON());
+      localStorage["enemys"] = JSON.stringify(jsons);
+    }else{
+      var arr = JSON.parse(localStorage["enemys"]);
+      arr.push($("#enemys").serializeJSON());
+      localStorage["enemys"] = JSON.stringify(arr);
+    }
+    alert("增加enemys成功");
+    $('#enemysModal').modal('hide');
+    $("#enmeys-data").html(localStorage["enemys"]);
+    $("#questconfig")[0].reset();
+  });
+  
+  $("#boss-btn").click(function(event) {
+    event.preventDefault();
+    if(localStorage["boss"] == undefined ){
+      var jsons = [];
+      jsons.push($("#boss").serializeJSON());
+      localStorage["boss"] = JSON.stringify(jsons);
+    }else{
+      var arr = JSON.parse(localStorage["boss"]);
+      arr.push($("#boss").serializeJSON());
+      localStorage["boss"] = JSON.stringify(arr);
+    }
+    alert("增加boss成功");
+    $('#bossModal').modal('hide');
+    $("#boss-data").html(localStorage["boss"]);
+    $("#questconfig")[0].reset();
+  });
+  
+  $( "#add-config" ).click(function(event) {
+    event.preventDefault();
+    quest_config = JSON.parse("{\"questId\" : <%= @quest_id%>}")
+    quest_config["boss"] = JSON.parse(localStorage["boss"]);
+    quest_config["enemys"] = JSON.parse(localStorage["enemys"]);
+    quest_config["colors"] = JSON.parse(localStorage["colors"]);
+    quest_config["floors"] = JSON.parse(localStorage["floors"]);
+    alert("<%= @quest_id%>");
+    $.ajax({
+      type: "POST",
+      url: "/city_infos/addconfig",
+      dataType: "json" ,
+      data: { quest_config: JSON.stringify(quest_config) }
+    })
+    .done(function( msg ) {
+      localStorage.removeItem("boss");
+      localStorage.removeItem("enemys");
+      localStorage.removeItem("colors");
+      localStorage.removeItem("floors");
+      $("#questconfig")[0].reset();
+      alert("添加配置成功");
+      window.location.href = "/city_infos/config_index"
+    })
+    .fail(function() {
+      alert( "添加失败" );
+    });
+  });
+  
+  $( "#reset-form" ).click(function(event) {
+    event.preventDefault();
+    localStorage.removeItem("boss");
+    localStorage.removeItem("enemys");
+    localStorage.removeItem("colors");
+    localStorage.removeItem("floors");
+    alert("清除成功");
+    $("#questconfig")[0].reset();
+  });
+  
+});
+</script>

@@ -1,0 +1,12 @@
+<h1 id=""><%= @op == "new" ? "新建" : "修改"%>color</h1>
+<%= form_tag update_config_city_infos_path ,method: "patch"%>
+color:<%= select_tag :color,options_for_select(AllSkillConfig::EUNIT_TYPE,@color.try(:color))%><br/>
+percent:<%= text_field_tag :percent ,@color.try(:percent)%><br/>
+<%= hidden_field_tag :form_type,@type%>
+<%= hidden_field_tag :index,@index%>
+<%= hidden_field_tag :config_id,@config_id%>
+<%= hidden_field_tag :operation,@op%>
+
+<div class="actions">
+  <%= submit_tag '提交',class: "btn btn-primary" %>
+</div>

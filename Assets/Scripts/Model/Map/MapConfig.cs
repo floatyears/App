@@ -11,6 +11,7 @@ public class MapConfig : IOriginModel {
 
 	public const int characterInitCoorX = 2;
 	public const int characterInitCoorY = 0;
+	public static Coordinate endCoor = new Coordinate (2, 4);
 	public const int MapWidth = 5;
 	public const int MapHeight = 5;
 

@@ -9,6 +9,7 @@ public class TFriendInfo : ProtobufDataBase {
     private FriendInfo	instance;
     public TFriendInfo(FriendInfo inst) : base (inst) { 
         instance = inst;
+//		Debug.LogError ("instance.unit : " + instance.unit);
         if (instance.unit != null) {
 			unit = TUserUnit.GetUserUnit(instance.userId, instance.unit); //new TUserUnit(instance.unit);
         }

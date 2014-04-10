@@ -27,19 +27,19 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 		TrapInjuredValue tiv = null;
 		switch (ti.effectType) {
 		case 1:
-			ViewManager.Instance.TrapLabel.text = "injured trap: mine";
+//			ViewManager.Instance.TrapLabel.text = "injured trap: mine";
 			DisposeMine(ti);
 			break;
 		case 2:
-			ViewManager.Instance.TrapLabel.text = "injured trap: trapping";
+//			ViewManager.Instance.TrapLabel.text = "injured trap: trapping";
 			DisposeTrapping (ti);
 			break;
 		case 3:
-			ViewManager.Instance.TrapLabel.text = "injured trap: Hungry";
+//			ViewManager.Instance.TrapLabel.text = "injured trap: Hungry";
 			DisposeHungry (ti);
 			break;
 		case 4:
-			ViewManager.Instance.TrapLabel.text = "injured trap: LostMoney";
+//			ViewManager.Instance.TrapLabel.text = "injured trap: LostMoney";
 			DisposeLostMoney (ti);
 			break;
 		}

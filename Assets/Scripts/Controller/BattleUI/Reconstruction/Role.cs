@@ -30,8 +30,8 @@ public class Role : UIBaseUnity {
 			targetPoint.z = transform.localPosition.z;
 		}
 	}
-	private BattleQuest bQuest;
 
+	private BattleQuest bQuest;
 	public BattleQuest BQuest {
 		set{ bQuest = value; }
 	}
@@ -102,7 +102,7 @@ public class Role : UIBaseUnity {
 			GoTarget ();
 		} else {
 			bQuest.RoleCoordinate(cd);
-			GoTarget();		
+			GoTarget();	
 		}
 	}
 
@@ -134,7 +134,6 @@ public class Role : UIBaseUnity {
 		currentCoor.x = tc.x;
 		currentCoor.y = tc.y;
 		TargetPoint = bQuest.GetPosition(tc);
-//		TargetPoint += new Vector3 (-10, -10, 0f);
 		if (isMove) {
 			jump.JumpAnim ();
 		}

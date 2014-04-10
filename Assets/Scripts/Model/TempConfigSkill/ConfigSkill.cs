@@ -301,7 +301,12 @@ public class ConfigSkill  {
 				ns.activeBlocks.Add(7);
 			}
 			TNormalSkill tns = new TNormalSkill(ns);
-			DataCenter.Instance.Skill.Add(ns.baseInfo.id,tns);
+			if(DataCenter.Instance.Skill.ContainsKey(ns.baseInfo.id)) {
+				DataCenter.Instance.Skill[ns.baseInfo.id] = tns;
+			}else{
+				DataCenter.Instance.Skill.Add(ns.baseInfo.id,tns);
+			}
+
 
 //			Debug.LogWarning("ConfigHeartSkill : " + ns.baseInfo.id );
 		}

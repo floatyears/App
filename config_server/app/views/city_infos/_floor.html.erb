@@ -1,0 +1,69 @@
+<h1 id=""><%= @op == "new" ? "新建" : "修改"%>floor</h1>
+<%= form_tag update_config_city_infos_path ,method: "patch"%>
+
+version:<%= text_field_tag :version,@floor.try(:version) %><br/>
+treasureNum:<%= text_field_tag :treasureNum ,@floor.try(:treasureNum)%><br/>
+trapNum:<%= text_field_tag :trapNum,@floor.try(:trapNum) %><br/>
+enemyNum:<%= text_field_tag :enemyNum ,@floor.try(:enemyNum)%><br/>
+keyNum:<%= text_field_tag :keyNum ,@floor.try(:keyNum)%><br/>
+<%= hidden_field_tag :floors_stars%>
+<%= hidden_field_tag :form_type,@type%>
+<%= hidden_field_tag :index,@index%>
+<%= hidden_field_tag :config_id,@config_id%>
+<%= hidden_field_tag :operation,@op%>
+<a href="#starsModal" role="button" class="btn btn-primary" data-toggle="modal">增加star</a>
+
+
+<div class="actions">
+  <%= submit_tag '提交',class: "btn btn-primary" %>
+</div>
+
+<div id="stars-info"></div>
+
+
+<div id="starsModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">增加star</h3>
+  </div>
+  <div class="modal-body">
+    <fieldset id="stars">
+      repeat:<%= text_field_tag :repeat %><br/>
+      star:<%= select_tag :star,options_for_select(CityInfo::E_GRID_STAR)%><br/>
+      coin:<br/>
+      min:<%= text_field_tag :coin_min %>&nbsp;&nbsp;&nbsp;&nbsp;max:<%= text_field_tag :coin_max %><br/>
+      enemyPool:<%= text_field_tag :enemyPool %><br/>
+      enemyNum:<br/>
+      min:<%= text_field_tag :enemyNum_min %>&nbsp;&nbsp;&nbsp;&nbsp;max:<%= text_field_tag :enemyNum_max %><br/>
+      trap:<%= text_field_tag :trap %>(多个用,隔开)<br/>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <button id="stars-btn" class="btn btn-primary">保存</button>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+  $( document ).ready(function() { 
+    $("#enemyPool").val(localStorage["enemyids"]);
+    $("#trap").val("[1,2,3]");
+    $("#stars-btn").click(function(event) {
+      event.preventDefault();
+      var stars = [];
+      if($("#floors_stars").val() == ""){
+        stars.push($("#stars").serializeJSON());
+      }
+      else{
+        stars = JSON.parse($("#floors_stars").val());
+        stars.push($("#stars").serializeJSON());
+      }
+      $("#floors_stars").val(JSON.stringify(stars));
+      
+      alert("增加star成功");
+      $("#stars-info").html($("#floors_stars").val());
+      $('#starsModal').modal('hide');
+      
+    });
+    
+  });
+</script>

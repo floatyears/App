@@ -1,4 +1,6 @@
 class SkillsController < ApplicationController
+  before_filter :set_redis
+  
   def new
     @type = params[:skillType].downcase
     @id = params[:maxid].to_i + 1
@@ -58,6 +60,12 @@ class SkillsController < ApplicationController
     AllSkillConfig.to_zip
     file_path = "#{Rails.root}/public/skills/skills.zip"
     send_file file_path, :filename => "skills.zip", :disposition => 'attachment'
+  end
+  
+  private 
+  
+  def set_redis
+    $redis.select(2)
   end
   
 end
