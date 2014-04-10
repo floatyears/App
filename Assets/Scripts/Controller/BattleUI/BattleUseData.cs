@@ -58,7 +58,7 @@ public class BattleUseData {
 		GetBaseData (null);
 		eas = new ExcuteActiveSkill(upi);
 		eps = new ExcutePassiveSkill(upi);
-		ac = new AttackController(this, eps);
+		ac = new AttackController(this, eps, upi);
 		Config.Instance.SwitchCard(els);
 	}
 
@@ -222,7 +222,7 @@ public class BattleUseData {
         attackInfo = upi.Attack;
         List<AttackInfo> temp = SortAttackSequence();
         ac.LeadSkillReduceHurt(els);
-        ac.StartAttack(temp, upi);
+        ac.StartAttack(temp);
     }
 
     public void ClearData() {

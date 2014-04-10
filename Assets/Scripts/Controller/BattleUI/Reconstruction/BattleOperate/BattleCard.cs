@@ -45,7 +45,7 @@ public class BattleCard : UIBaseUnity
 	{
 		templateItemCard = FindChild<UISprite>("Texture");
 
-		templateItemCard.depth = 1;
+//		templateItemCard.depth = 1;
 
 		int count = cardPosition.Length;
 		

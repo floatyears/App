@@ -27,7 +27,8 @@ public class AttackController {
 	public bool battleFail = false;
 
 	public bool isBoss = false;
-	public AttackController (BattleUseData bud,IExcutePassiveSkill ips) {
+	public AttackController (BattleUseData bud,IExcutePassiveSkill ips,TUnitParty tup) {
+		upi = tup;
 		msgCenter = MsgCenter.Instance;
 		this.bud = bud;
 		passiveSkill = ips;
@@ -127,11 +128,10 @@ public class AttackController {
 		CheckTempEnemy ();
 	}
 
-	public void StartAttack (List<AttackInfo> attack, TUnitParty upi) {
+	public void StartAttack (List<AttackInfo> attack) {
 		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		attackInfo = attack;
-		this.upi = upi;
 		Attack ();
 	}
 	
@@ -359,7 +359,13 @@ public class AttackController {
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
 			int attackType = te.GetUnitType ();
 			int attackValue = te.AttackValue;
-			float reduceValue = leadSkillReuduce.ReduceHurtValue(attackValue,attackType);
+			float reduceValue;
+			if(leadSkillReuduce != null) {
+				reduceValue = leadSkillReuduce.ReduceHurtValue(attackValue,attackType);
+			}
+			else{
+				reduceValue = attackValue;
+			}
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	

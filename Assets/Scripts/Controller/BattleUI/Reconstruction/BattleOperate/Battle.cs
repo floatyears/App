@@ -356,7 +356,7 @@ public class Battle : UIBase {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
 
 				tempCard.OnPress(true,selectTarget.Count);
-				tempCard.ActorTexture.depth = 5;
+				tempCard.ActorTexture.depth = tempCard.InitDepth;
 				selectTarget.Add(tempCard);
 			}
 		}

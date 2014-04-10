@@ -109,8 +109,8 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void BossAppearAnim() {
 		iTween.ScaleTo (gameObject, iTween.Hash ("y", 1f, "time", 0.3f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
+
 	//---------------------------------------------appear-----------------------------------------------------
-	
 	public const string GameOver = "GAME-OVER-";
 	public const string BossAppears = "boss-APPEARS";
 	public const string OpenGate = "go-to-the-OPENED-GATE";
@@ -122,4 +122,5 @@ public class QuestFullScreenTips : UIBaseUnity {
 	public const string QuestClear = "Quest--Clear!";
 	public const string FirstAttack = "FIRST-ATTACK-";
 	public const string BackAttack = "BACK-ATTACK-";
+	public const string standReady = "stand-ready";
 }

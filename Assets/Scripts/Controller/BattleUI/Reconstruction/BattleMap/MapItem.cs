@@ -7,10 +7,12 @@ public class MapItem : UIBaseUnity {
 		get{ return coor; }
 		set{ coor = value; }
 	}
-	private FloorRotate floorRotate;
+//	private FloorRotate floorRotate;
 	private GameObject mapBack;
 	private UISprite mapBackSprite;
 	private UISprite mapItemSprite;
+	private UISprite gridItemSprite;
+	private UISprite footTips;
 	List<UISprite> showStarSprite = new List<UISprite>();
 	UISprite[] allStarSprite = new UISprite[7];
 	
@@ -43,24 +45,21 @@ public class MapItem : UIBaseUnity {
 	}
 
 	private bool isRotate = false;
-
-	public Vector3 GetBoxPosition () {
-		return floorRotate.currentPoint;
-	}
-
 	private UITexture alreayQuestTexture;
 
 	public override void Init (string name) {
 		base.Init (name);
 		initPosition = transform.localPosition;
 		initRotation = transform.rotation.eulerAngles;
-		mapBackSprite = FindChild<UISprite>("Floor/Texture");
+		gridItemSprite = FindChild<UISprite>("GridBackground");
+		footTips = FindChild<UISprite> ("FootTips");
+		footTips.gameObject.SetActive (false);
+		mapBackSprite = FindChild<UISprite>("Shadow");
 		mapBack = mapBackSprite.gameObject;
 		mapItemSprite = FindChild<UISprite>("Sprite");
-
-		floorRotate = GetComponent<FloorRotate> ();
-		floorRotate.Init ();
 		if (name == "SingleMap") {
+			mapBackSprite.spriteName = string.Empty;
+			mapItemSprite.spriteName = string.Empty;
 			return;
 		}
 		string[] info = name.Split('|');
@@ -77,7 +76,7 @@ public class MapItem : UIBaseUnity {
 				spriteName = "key";
 				break;
 			case bbproto.EGridStar.GS_EXCLAMATION:
-				spriteName = "d";
+				spriteName = "gantanhao";
 				break;
 			default:
 				spriteName = "";
@@ -98,11 +97,11 @@ public class MapItem : UIBaseUnity {
 					TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 					if (tui != null) {
 						UITexture tex = mapBack.AddComponent<UITexture>();
-						tex.depth = -1;
+						tex.depth = 4;
 						Destroy(mapBackSprite);
 						tex.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
-						tex.width = 110;
-						tex.height = 110;
+						tex.width = 104;
+						tex.height = 104;
 					}
 				}
 				break;
@@ -110,7 +109,7 @@ public class MapItem : UIBaseUnity {
 				backSpriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
 				break;
 			case bbproto.EQuestGridType.Q_TREATURE:
-				backSpriteName = "s";
+				backSpriteName = "S";
 				break;
 			default:
 				break;
@@ -118,13 +117,8 @@ public class MapItem : UIBaseUnity {
 			if(mapBackSprite != null) {
 				mapBackSprite.spriteName = backSpriteName;
 			}
-
 			mapBack.SetActive(false);
 		}
-	}
-
-	void OnDisable() {
-		showStarSprite.Clear ();
 	}
 
 	void OnDestory() {
@@ -183,11 +177,11 @@ public class MapItem : UIBaseUnity {
 	GameObject floorObject = null;
 
 	public void ShowObject(GameObject go) {
-		GameObject parent = transform.Find("Floor").gameObject;
-		floorObject = Instantiate (go) as GameObject;
-		floorObject.transform.parent = parent.transform;
-		floorObject.transform.localPosition = Vector3.zero;
-		floorObject.SetActive (true);
+//		GameObject parent = transform.Find("Floor").gameObject;
+//		floorObject = Instantiate (go) as GameObject;
+//		floorObject.transform.parent = parent.transform;
+//		floorObject.transform.localPosition = Vector3.zero;
+//		floorObject.SetActive (true);
 	}
 
 	public override void ShowUI() {
@@ -205,35 +199,89 @@ public class MapItem : UIBaseUnity {
 		}
 	}
 
-	public void RotateOneCircle() {
-		if (!isRotate) {
-			isRotate = true;
-			floorRotate.RotateOne ();
-		}
-	}
+	Callback animEnd;
+	List<GameObject> gridAnim = new List<GameObject> ();
+	public void RotateAnim(Callback cb) {
+		if (isOld) return;
 
-	public void RotateAnim() {
-		if (!isRotate) {
-			isRotate = true;
-			floorRotate.RotateFloor (RotateEnd);	
-			if(!mapBack.activeSelf) {
-				mapBack.SetActive(true);
-			}
-			if(mapItemSprite.enabled) {
-				mapItemSprite.enabled = false;
-			}
+		isOld = true;
+		showStarSprite.Clear ();
+
+		if(!mapBack.activeSelf) {
+			mapBack.SetActive(true);
 		}
+
+		float time = 0.5f;
+		GameObject go = gridItemSprite.gameObject;
+		go.GetComponent<TweenAlpha> ().enabled = false;
+		for (int i = 0; i < 3; i++) {
+			GameObject temp = NGUITools.AddChild(go.transform.parent.gameObject, go);
+			TweenAlpha ta = temp.GetComponent<TweenAlpha> ();
+			ta.enabled = true;
+			ta.duration =time;
+			ta.delay = 0.15f * i;
+			ta.style = UITweener.Style.Once;
+
+			TweenScale ts = gridItemSprite.GetComponent<TweenScale> ();
+			ts.enabled = true;
+			ts.duration = time;
+			ts.delay = 0.15f * i;
+			ts.to = Vector3.one * 2f;
+			gridAnim.Add(temp);
+
+		}
+
+		go.SetActive (false);
+		TweenScale tws = gridAnim [2].GetComponent<TweenScale> ();
+		tws.eventReceiver = gameObject;
+		tws.callWhenFinished = "RotateEnd";
+
+	
+
+		TweenAlpha twa = mapBack.GetComponent<TweenAlpha> ();
+		twa.enabled = true;
+		twa.duration = time;
+		if (!string.IsNullOrEmpty (mapItemSprite.spriteName)) {
+			tws = mapItemSprite.GetComponent<TweenScale> ();
+			tws.Reset ();
+			tws.style = UITweener.Style.Once;
+			tws.duration = time;
+			tws.to = new Vector3 (2f, 2f, 2f);
+			
+			twa = mapItemSprite.GetComponent<TweenAlpha> ();
+			twa.enabled = true;
+			twa.duration = time;	
+		}
+
+
+		tws = mapBack.GetComponent<TweenScale> ();
+		tws.enabled = true;
+		tws.duration = time;
+
+		animEnd = cb;
 	}     
 
 	void RotateEnd () {
-		mapBack.SetActive(false);
-		mapItemSprite.enabled = false;
-		floorObject.SetActive (false);
-		HideStarSprite (false);
+		for (int i = gridAnim.Count - 1; i >= 0; i--) {
+			Destroy( gridAnim[i]);
+		}
+		gridAnim.Clear ();
+
+		HideGrid ();
+		if (animEnd != null) {
+			animEnd ();	
+		}
 	}
 
-	public void ShowBox() {
-		floorRotate.isShowBox = true;
+	void HideGrid () {
+		mapBack.SetActive(false);
+		mapItemSprite.enabled = false;
+		HideStarSprite (false);
+		gridItemSprite.gameObject.SetActive (false);
+	}
+
+	public void ShowGrid() {
+
 	}
 
 	public void Reset () {
@@ -273,8 +321,11 @@ public class MapItem : UIBaseUnity {
 
 	int countShow = -1;
 	public void Around(bool isAround) {
+		footTips.gameObject.SetActive (isAround);
+
 		if(isOld)
 			return;
+//		Debug.LogError (gameObject + " isAround : " + isAround + "showStarSprite : " + showStarSprite.Count);
 		if (isAround) {
 			HideShowSprite(true);
 			countShow++;

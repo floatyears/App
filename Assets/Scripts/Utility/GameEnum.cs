@@ -162,6 +162,7 @@ public enum CommandEnum{
 	QuestEnd,
 	LeaderSkillEnd,
 	ShowHands,
+	ActiveSkillStandReady,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
