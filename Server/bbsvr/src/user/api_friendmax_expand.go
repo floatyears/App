@@ -104,7 +104,7 @@ func (t FriendMaxExpand) ProcessLogic(reqMsg *bbproto.ReqFriendMaxExpand, rspMsg
 	if *userDetail.Account.Stone < consts.N_FRIENDMAX_EXPAND_COST {
 		rspMsg.Stone = userDetail.Account.Stone
 		rspMsg.FriendMax = userDetail.User.FriendMax
-		return Error.New(EC.E_NO_ENOUGH_MONEY, "stone is not enough.")
+		return Error.New(EC.EU_NO_ENOUGH_MONEY, "stone is not enough.")
 	}
 
 	//3. update account

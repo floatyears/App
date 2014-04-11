@@ -7,12 +7,11 @@ public class GachaWindowView : UIComponentUnity {
     private UILabel chancesLabel;
     private UILabel titleLabel;
     private bool displayingResult = false; // when 
-    private int tryCount = 0;
     private uint currentUid = 0;
-    private GameObject currentGrid = null;
-    private bool showing = false;
+    private int tryCount = 0;
     private GachaWindowInfo gachaInfo;
     private List<int> pickedGridIdList = new List<int>();
+    private List<GameObject> clickedGrids = new List<GameObject>();
 
     private Dictionary<GameObject, int> gridDict = new Dictionary<GameObject, int>();
 
@@ -125,35 +124,45 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void SyncGachaInfos(){
-        int nowChance = Mathf.Min(tryCount + 1, gachaInfo.totalChances);
+        int nowChance = Mathf.Min(GetTryCount() + 1, gachaInfo.totalChances);
         chancesLabel.text = TextCenter.Instace.GetCurrentText("GachaChances", nowChance, gachaInfo.totalChances);
     }
 
-    
-    private void ClickButton(GameObject btn){
+    private int GetTryCount(){
+        return clickedGrids.Count;
+    }
+
+    private bool GridAlreadyClicked(GameObject grid){
+        return clickedGrids.Contains(grid);
+    }
+
+    private void ClickButton(GameObject grid){
         // when showing, not response click
-        if (showing) {
+        if (GetTryCount() >= gachaInfo.totalChances){
             return;
         }
-        int index = gridDict[btn];
+        if (GridAlreadyClicked(grid)) {
+            return;
+        }
+        int index = gridDict[grid];
         if (pickedGridIdList.Contains(index)){
             return;
         }
         AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         LogHelper.Log("ClickButton() {0}", index);
-        if (tryCount >= gachaInfo.totalChances){
+        if (GetTryCount() >= gachaInfo.totalChances){
             return;
         }
-        StartShowGachaGridResult(btn, gachaInfo.unitList[tryCount]);
-//        ShowUnitByUserUnitID(btn, gachaInfo.unitList[tryCount]);
+        StartShowGachaGridResult(grid, gachaInfo.unitList[GetTryCount()]);
+//        ShowUnitByUserUnitID(btn, gachaInfo.unitList[GetTryCount()]);
 
     }
 
     private void Reset(){
         displayingResult = false;
-        tryCount = 0;
+        clickedGrids.Clear();
         currentUid = 0;
-        currentGrid = null;
+        tryCount = 0;
         pickedGridIdList.Clear();
 
         foreach (var item in gridDict) {
@@ -165,26 +174,30 @@ public class GachaWindowView : UIComponentUnity {
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = TextCenter.Instace.GetCurrentText("Open");
         UISprite background = grid.transform.FindChild("Background").GetComponent<UISprite>();
-        background.spriteName = "avatar_mask";
+//        background.spriteName = "avatar_mask";
+        background.gameObject.SetActive(true);
         UITexture texture = grid.transform.FindChild("Cell/Texture").GetComponent<UITexture>();
         texture.mainTexture = null;
         UILabel rightBottom = grid.transform.FindChild("Cell/Label_Right_Bottom").GetComponent<UILabel>();
         rightBottom.text = string.Empty;
     }
 
-    private void StartShowGachaGridResult(GameObject btn, uint uniqueId){
+    private void StartShowGachaGridResult(GameObject grid, uint uniqueId){
         LogHelper.Log("StartShowGachaGridResult()");
-        showing = true;
+        if (GridAlreadyClicked(grid)){
+            return;
+        }
+
+        clickedGrids.Add(grid);
         currentUid = uniqueId;
-        currentGrid = btn;
+//        grid = grid;
 //        ShowUnitByUserUnitID(btn, uniqueId);
-        LogHelper.Log("StartCoroutine, ShowUnitRareById(), currentUid {0}, currenGrid {1}", currentUid, currentGrid);
-        StartCoroutine(ShowUnitRareById());
+        LogHelper.Log("StartCoroutine, ShowUnitRareById(), currentUid {0}, currenGrid", currentUid);
+        StartCoroutine(ShowUnitRareById(grid));
     }
 
     private void EndShowGachaGridResult(){
         LogHelper.Log("EndShowGachaGridResult()");
-        showing = false;
     }
 
     private void ShowUnitByUserUnitID(GameObject btn, uint uniqueId){
@@ -200,25 +213,26 @@ public class GachaWindowView : UIComponentUnity {
         DealAfterShowUnit(gridDict[btn]);
     }
 
-    IEnumerator ShowUnitRareById(){
-        LogHelper.Log("ShowUnitRareById(), currentUid {0}, currenGrid {1}", currentUid, currentGrid);
+    IEnumerator ShowUnitRareById(GameObject grid){
+        LogHelper.Log("ShowUnitRareById(), currentUid {0}", currentUid);
         yield return new WaitForSeconds(0.5f);
         TUserUnit userUnit = DataCenter.Instance.MyUnitList.GetMyUnit(currentUid);
 
-        UILabel label = currentGrid.transform.FindChild("Label").GetComponent<UILabel>();
+        UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;
-        UISprite background = currentGrid.transform.FindChild("Background").GetComponent<UISprite>();
-        background.spriteName = string.Empty;
+        UISprite background = grid.transform.FindChild("Background").GetComponent<UISprite>();
+//        background.spriteName = string.Empty;
+        background.gameObject.SetActive(false);
 
-        UITexture texture = currentGrid.transform.FindChild("Cell/Texture").GetComponent<UITexture>();
+        UITexture texture = grid.transform.FindChild("Cell/Texture").GetComponent<UITexture>();
         texture.mainTexture = GetChessStarTextureByRareLevel(userUnit.UnitInfo.Rare);
         LogHelper.Log("ShowUnitRareById(), rareTexture {0}", texture.mainTexture);
 
         yield return new WaitForSeconds(1.5f);
-        ShowUnitById(currentGrid, currentUid, userUnit);
+        ShowUnitById(grid, currentUid, userUnit);
         EndShowGachaGridResult();
-        DealAfterShowUnit(gridDict[currentGrid]);
-        yield return null;
+        DealAfterShowUnit(gridDict[grid]);
+//        yield return null;
     }
 
     private void ShowUnitById(GameObject grid, uint unitId, TUserUnit userUnit = null){
@@ -227,7 +241,7 @@ public class GachaWindowView : UIComponentUnity {
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;
         UISprite background = grid.transform.FindChild("Background").GetComponent<UISprite>();
-        background.spriteName = string.Empty;
+//        background.spriteName = string.Empty;
 
 
         UITexture texture = grid.transform.FindChild("Cell/Texture").GetComponent<UITexture>();
@@ -258,22 +272,23 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void DealAfterShowUnit(int index){
-        LogHelper.Log("DealAfterShowUnit(), index {0}, tryCount {1}", index, tryCount);
-        if (tryCount < DataCenter.maxGachaPerTime){
+        LogHelper.Log("DealAfterShowUnit(), index {0}, GetTryCount() {1}", index, GetTryCount());
+        if (GetTryCount() < DataCenter.maxGachaPerTime){
             pickedGridIdList.Add(index);
-            tryCount += 1;
         }
-        LogHelper.Log("DealAfterShowUnit(), tryCount {0}, maxGachaPerTime {1}", tryCount, DataCenter.maxGachaPerTime);
+        LogHelper.Log("DealAfterShowUnit(), GetTryCount() {0}, maxGachaPerTime {1}", GetTryCount(), DataCenter.maxGachaPerTime);
+
+        tryCount += 1;
 
         if (tryCount >= DataCenter.maxGachaPerTime || tryCount == gachaInfo.totalChances){
-            LogHelper.Log("DealAfterShowUnit(), tryCount {0}", tryCount);
+            LogHelper.Log("DealAfterShowUnit(), GetTryCount() {0}", GetTryCount());
             FinishShowGachaWindow();
         }
-//        else if (tryCount == gachaInfo.totalChances){
+//        else if (GetTryCount() == gachaInfo.totalChances){
 //            AutoShowOpenBlankUnit();
 //        }
         else {
-            LogHelper.Log("DealAfterShowUnit() last case, tryCount {0}, maxGachaPerTime {1}", tryCount, DataCenter.maxGachaPerTime);
+            LogHelper.Log("DealAfterShowUnit() last case, GetTryCount() {0}, maxGachaPerTime {1}", GetTryCount(), DataCenter.maxGachaPerTime);
         }
     }
 
@@ -302,9 +317,9 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     IEnumerator ShowOpenBlankUnit(){
-        while(tryCount < DataCenter.maxGachaPerTime){
+        while(GetTryCount() < DataCenter.maxGachaPerTime){
             yield return new WaitForSeconds(0.6f);
-            int blankId = tryCount - gachaInfo.totalChances;
+            int blankId = GetTryCount() - gachaInfo.totalChances;
             if (blankId < gachaInfo.blankList.Count && blankId >= 0){
                 LogHelper.Log("ShowOpenBlankUnit() yield blankId {0}", blankId);
                 ShowUnitByBlankId(GetFirstRestGrid(), gachaInfo.blankList[blankId]);

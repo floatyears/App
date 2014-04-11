@@ -6,7 +6,7 @@ public class BattleMap : UIBaseUnity {
 	private MapItem template;
 	private MapItem[,] map;
 	private MapItem temp;
-	private BattleQuest bQuest;
+
 	private List<MapItem> prevAround = new List<MapItem>();
 	private List<MapItem> useMapItem = new List<MapItem>();
 	private MapItem prevMapItem;
@@ -18,10 +18,14 @@ public class BattleMap : UIBaseUnity {
 		get { return box; }
 	}
 
+	[HideInInspector]
+	public BattleQuest bQuest;
+
+
 	private static bool wMove = false;
 	[HideInInspector]
 	public static bool waitMove {
-		set{ wMove = value; }// Debug.LogError("wMove : " + wMove);}
+		set{ wMove = value; }
 		get{return wMove;}
 	}
 	
@@ -36,6 +40,7 @@ public class BattleMap : UIBaseUnity {
 		template.Init("SingleMap");
 		door = FindChild<MapDoor>("Door_1");
 		door.Init ("Door_1");
+		door.battleMap = this;
 		for (int i = 0; i < 3; i++) {
 			GameObject go = transform.Find((i + 1).ToString()).gameObject;
 			mapItemObject[i] = go;
@@ -79,7 +84,7 @@ public class BattleMap : UIBaseUnity {
 		float xCoor =  template.InitPosition.x + (x / 2) * itemWidth;
 		float yCoor = template.InitPosition.y + y * itemWidth;
 		door.SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
-		UIEventListener.Get (door.gameObject).onClick = ClickDoor;
+
 	}
 
 	public override void HideUI () {
@@ -93,6 +98,7 @@ public class BattleMap : UIBaseUnity {
 		}
 		door.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMap, ShieldMap);
+
 	}
 
 	public override void ShowUI () {
@@ -101,8 +107,9 @@ public class BattleMap : UIBaseUnity {
 		gameObject.SetActive (true);
 		StartMap ();
 		MsgCenter.Instance.AddListener (CommandEnum.ShieldMap, ShieldMap);
-	}
 
+	}
+	
 	void ShieldMap(object data) {
 		bool b = (bool)data;
 		for (int i = 0; i < map.GetLength(0); i++) {

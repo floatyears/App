@@ -13,6 +13,19 @@ Rails.application.routes.draw do
       get "download"
     end
   end
+  
+  resources :city_infos do
+    collection do
+      get "questconfig"
+      get "config_index"
+      get "edit_config"
+      post "addconfig"
+      patch "update_quest"
+      patch "update_stage"
+      patch "update_config"
+      get "download"
+    end
+  end
 
   root "unit_infos#index"
 

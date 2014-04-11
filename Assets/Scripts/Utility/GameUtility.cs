@@ -32,6 +32,10 @@ public class DGTools {
 		}
 	}
 
+	public static bool EqualCoordinate (Coordinate coorA, Coordinate coorB) {
+		return coorA.x == coorB.x && coorA.y == coorB.y;
+	}
+
 	/// <summary>
 	/// show sprite. and set the size to texture size;
 	/// </summary>
@@ -419,7 +423,7 @@ public class DGTools {
 public class GameLayer
 {
 
-//	private static LayerMask Default = 0;
+	public static LayerMask Default = 0;
 	
 	public static LayerMask TransparentFX = 1;
 	
@@ -442,6 +446,8 @@ public class GameLayer
 	public static LayerMask IgnoreCard = 10;
 
 	public static LayerMask EnemyCard = 11;
+
+	public static LayerMask blocker = 15;
 
 	public static LayerMask Bottom = 31;
 

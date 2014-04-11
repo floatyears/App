@@ -14,4 +14,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require turbolinks
+//= require jquery.serializeJSON.min
 //= require_tree .
+
+$.fn.modal.Constructor.prototype.enforceFocus = function () {};

@@ -1,0 +1,16 @@
+<p>
+  <fieldset id="questinfo">
+    version:<%= text_field_tag :version%>
+    id:<%= text_field_tag :id%>
+    state:<%= text_field_tag :state%>
+    cityName:<%= text_field_tag :cityName%>
+    description:<%= text_area_tag :description%>
+    <fieldset>
+      pos:<br/>
+      x:<%= text_field_tag :x%>
+      y:<%= text_field_tag :y%>
+    </fieldset>
+    <button id="city" class="btn btn-primary">增加city</button>
+  </fieldset>
+  
+ <%= render 'stage_form'%>

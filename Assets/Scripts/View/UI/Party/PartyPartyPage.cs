@@ -100,7 +100,7 @@ public class PartyPartyPage : PartyPageLogic{
 		Debug.LogError ("currentFoucsPosition : " + currentFoucsPosition + " tuu : " + tuu.Count);
 		uint focusUnitUniqueId = tuu[currentFoucsPosition - 1].ID;
 	
-		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0);
+//		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0); 
 
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClearItem", currentFoucsPosition);
 		ExcuteCallback(cbd);
@@ -139,11 +139,11 @@ public class PartyPartyPage : PartyPageLogic{
 //		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty Before....");
 
 		//Check Cost Limit
-		if(!DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, uniqueId)){
-//			Debug.LogError("The current party's cost is bigger than your max cost...");
-			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetPartyCostLimitMsgParams());
-			return;
-		}
+//		if(!DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, uniqueId)){
+////			Debug.LogError("The current party's cost is bigger than your max cost...");
+//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetPartyCostLimitMsgParams());
+//			return;
+//		}
 
 //		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty After....");
 //		

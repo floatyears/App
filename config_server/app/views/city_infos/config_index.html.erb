@@ -1,0 +1,102 @@
+<h1 id="管卡配置">关卡配置</h1>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>questId</th>
+      <th>boss</th>
+      <th>enemys</th>
+      <th>colors</th>
+      <th>floors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% if @city_configs.present? %>
+      <% @city_configs.each do |config|%>
+      <td><%= config.try(:questId)%></td>
+      <td>
+        <% if config.try(:boss).present? %>
+        <% config.try(:boss).each_with_index do |boss,boss_index|%>
+        {
+          enemyId:<%= boss.try(:enemy).try(:enemyId)%>;
+          unitId:<%= boss.try(:enemy).try(:unitId) %>;
+          type:<%= boss.try(:enemy).try(:type) %>;
+          hp:<%= boss.try(:enemy).try(:hp) %>;
+          attack:<%= boss.try(:enemy).try(:attack) %>;
+          defense:<%= boss.try(:enemy).try(:defense) %>;
+          nextAttack:<%= boss.try(:enemy).try(:nextAttack) %>;
+          dropUnitId:<%= boss.try(:dropUnitId)%>;
+          dropUnitLevel:<%= boss.try(:dropUnitLevel)%>;
+          dropRate: <%= boss.try(:dropRate)%>;
+          addRate: <%= boss.try(:addRate)%>;
+          <%= link_to "修改boss",edit_config_city_infos_path(type: "boss",index: boss_index,city_index: config.try(:questId))%>
+        }<br/>
+        <% end %>
+        <% end %>
+      </td>
+      <td>
+        <% if config.try(:enemys).present? %>
+        <% config.try(:enemys).each_with_index do |enemy,enemy_index|%>
+        {
+          enemyId:<%= enemy.try(:enemy).try(:enemyId)%>;
+          unitId:<%= enemy.try(:enemy).try(:unitId) %>;
+          type:<%= enemy.try(:enemy).try(:type) %>;
+          hp:<%= enemy.try(:enemy).try(:hp) %>;
+          attack:<%= enemy.try(:enemy).try(:attack) %>;
+          defense:<%= enemy.try(:enemy).try(:defense) %>;
+          nextAttack:<%= enemy.try(:enemy).try(:nextAttack) %>;
+          dropUnitId:<%= enemy.try(:dropUnitId)%>;
+          dropUnitLevel:<%= enemy.try(:dropUnitLevel)%>;
+          dropRate: <%= enemy.try(:dropRate)%>;
+          addRate: <%= enemy.try(:addRate)%>;
+          <%= link_to "修改enemy",edit_config_city_infos_path(type: "enemy",index: enemy_index,city_index: config.try(:questId))%>
+        }<br/>
+        <% end %>
+        <% end %>
+      </td>
+      <td>
+        <% if config.try(:colors).present? %>
+        <% config.try(:colors).each_with_index do |color,color_index|%>
+        {
+          color: <%= color.try(:color)%>;
+          percent: <%= color.try(:percent)%>;
+          <%= link_to "修改color",edit_config_city_infos_path(type: "color",index: color_index,city_index: config.try(:questId))%>
+        }<br/>
+        <% end %>
+        <% end %>
+      </td>
+      <td>
+        <% if config.try(:floors).present? %>
+        <% config.try(:floors).each_with_index do |floor,floor_index|%>
+        {
+          version:<%= floor.try(:version)%>;
+          treasureNum:<%= floor.try(:treasureNum)%>;
+          trapNum:<%= floor.try(:trapNum)%>;
+          enemyNum:<%= floor.try(:enemyNum)%>;
+          keyNum:<%= floor.try(:keyNum)%>;
+          stars:
+          <% if floor.try(:stars).present? %>
+          <% floor.try(:stars).each_with_index do |star,star_index|%>
+          {
+            repeat:<%= star.try(:repeat)%>;
+            star:<%= star.try(:star)%>;
+            coin:{min:<%= star.try(:coin).try(:min)%>;max:<%= star.try(:coin).try(:max)%>}
+            enemyPool:<%= star.try(:enemyPool)%>;
+            enemyNum:{min:<%= star.try(:enemyNum).try(:min)%>;max:<%= star.try(:enemyNum).try(:max)%>}
+            trap:<%= star.try(:trap)%>;
+            <%= link_to "修改star",edit_config_city_infos_path(type: "star",floor_index: floor_index,index: star_index,city_index: config.try(:questId))%>
+          }
+          <% end %>
+          <% end %>
+          <%= link_to "修改floor",edit_config_city_infos_path(type: "floor",index: floor_index,city_index: config.try(:questId))%>
+        }<br/>
+        <% end %>
+        <% end %>
+      </td>
+      <% end %>
+      <% end %>
+    </tr>
+    
+  </tbody>
+</table>
+<%= link_to "返回到关卡",city_infos_path,style: "font-size: 30px;"%>

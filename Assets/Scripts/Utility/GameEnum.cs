@@ -159,6 +159,7 @@ public enum CommandEnum{
 	PlayerDead,
 	EnterBattle,
 	LeftBattle,
+	QuestEnd,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,

@@ -28,7 +28,7 @@ public class Main : MonoBehaviour {
         get{ return gInput;}
     }
     private GameTimer gTimer;
-    private ShowUnitInfo sui;
+//    private ShowUnitInfo sui;
 
     private const float screenWidth = 640;
 
@@ -67,7 +67,7 @@ public class Main : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         texScale = screenWidth / Screen.width;
-        sui = new ShowUnitInfo();
+//        sui = new ShowUnitInfo();
         // init manager class
         ViewManager.Instance.Init(uiRoot);
         ModelManager.Instance.Init();
@@ -83,6 +83,6 @@ public class Main : MonoBehaviour {
     }
 	
     void OnDisable() {
-        sui.RemoveListener();
+//        sui.RemoveListener();
     }
 }

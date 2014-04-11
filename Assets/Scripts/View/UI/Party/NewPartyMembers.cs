@@ -83,14 +83,21 @@ public class NewPartyMembers : UIComponentUnity{
 
 	void RefreshParty(TUnitParty party){
 		List<TUserUnit> partyData = party.GetUserUnit();
-		//Debug.LogError("Partyed count is : " + partyData.Count);
+//		Debug.LogError("Partyed count is : " + partyData.Count);
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
 		pageIndexLabel.text = curPartyIndex.ToString();
 		rightIndexLabel.text = curPartyIndex.ToString();
 		pageIndexSuffixLabel.text = UnitsWindow.partyIndexDic[ curPartyIndex ].ToString();
 
-		for (int i = 0; i < partyData.Count; i++){
+		int cout = partyData.Count;
+		if(cout > partyView.Count) cout = partyView.Count;
+
+		for (int i = 0; i < cout; i++){
 			partyView [ i ].Init(partyData [ i ]);
+		}
+
+		for (int i = cout; i < partyView.Count; i++) {
+			partyView[i].Init(null);
 		}
 	}
 	
@@ -127,42 +134,43 @@ public class NewPartyMembers : UIComponentUnity{
 
 			if (FocusIsLeader() && (pickedUnitFromPartyMembers.UserUnit == null)) {
 				Debug.Log("Check Focus is Leader... clear focus and return...");
-				ClearFocusState();
+				ClearPartyFocusState();
 				return;
 			}
 
 			if(CurrentPickedIsLeader() && focusUnitInPartyMembers.UserUnit == null){
 				Debug.Log("Check Picked is Leader... clear focus and return...");
-				ClearFocusState();
+				ClearPartyFocusState();
 				return;
 			}
 		
-			int afterPos = 0;
-			int beforePos = 0;
-			uint beforeId = 0;
-			uint afterId = 0;
-
-			foreach (var item in partyView) {
-				if(item.Value.UserUnit == null) continue;
-				if(item.Value.UserUnit.Equals(pickedUnitFromPartyMembers.UserUnit)){
-					afterPos = item.Key;
-					afterId = item.Value.UserUnit.ID;
-					//Debug.Log("Find afterClickItem...");
-				}
-				if(item.Value.UserUnit.Equals(focusUnitInPartyMembers.UserUnit)){
-					beforePos = item.Key;
-					beforeId = item.Value.UserUnit.ID;
-					//Debug.Log("Find beforeClickItem...");
-				}
-			}
+//			int afterPos = 0;
+//			int beforePos = 0;
+//			uint beforeId = 0;
+//			uint afterId = 0;
+//
+//			foreach (var item in partyView) {
+//				if(item.Value.UserUnit == null) continue;
+//				if(item.Value.UserUnit.Equals(pickedUnitFromPartyMembers.UserUnit)){
+//					afterPos = item.Key;
+//					afterId = item.Value.UserUnit.ID;
+//					//Debug.Log("Find afterClickItem...");
+//				}
+//				if(item.Value.UserUnit.Equals(focusUnitInPartyMembers.UserUnit)){
+//					beforePos = item.Key;
+//					beforeId = item.Value.UserUnit.ID;
+//					//Debug.Log("Find beforeClickItem...");
+//				}
+//			}
 
 			TUserUnit tuu = pickedUnitFromPartyMembers.UserUnit; 
 			pickedUnitFromPartyMembers.UserUnit = focusUnitInPartyMembers.UserUnit;
 			focusUnitInPartyMembers.UserUnit = tuu;
 
-			DataCenter.Instance.PartyInfo.ChangeParty(afterPos, beforeId);
-			DataCenter.Instance.PartyInfo.ChangeParty(beforePos, afterId);
-			ClearFocusState();
+//			DataCenter.Instance.PartyInfo.ChangeParty(afterPos, beforeId);
+//			DataCenter.Instance.PartyInfo.ChangeParty(beforePos, afterId);
+			DataCenter.Instance.PartyInfo.ChangeParty(partyView);
+			ClearPartyFocusState();
 		}		
 	}
 
@@ -172,79 +180,84 @@ public class NewPartyMembers : UIComponentUnity{
 	/// </summary>
 	/// <param name="puv">Puv.</param>
 	void OutPartyItemClick(MyUnitView puv){
-		AddUnitToPartyByOrder(1, puv.UserUnit);
-//		if(pickedUnitFromUnitList != null){//have clicked bottom unit item before
-//			pickedUnitFromUnitList.IsFocus = false;
-//			if(pickedUnitFromUnitList.Equals(puv)){//click bottom unit item again, change focus state only
-//				pickedUnitFromUnitList = null;
-//			}
-//			else{
-//				pickedUnitFromUnitList = puv;
-//				pickedUnitFromUnitList.IsFocus = true;
-//			}
-//		}
-//		else{
-//			if(focusUnitInPartyMembers != null){
-//				focusUnitInPartyMembers.IsFocus = false;
-//				
-//				//Traverse unit list, change the state of focus unit which has on-party to out-party
-//				for (int i = 1; i < dragPanel.ScrollItem.Count; i++) {
-//					PartyUnitView partyUnitView = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
-//					if(partyUnitView.UserUnit.Equals(focusUnitInPartyMembers.UserUnit)){
-//						partyUnitView.IsParty = false;
-//						partyUnitView.IsEnable = true;
-//						break;
-//					}
-//				}
-//				
-//				int onPartyPos = 0 ;
-//				uint onPartyId = 0;
-//				uint toReplaceId = puv.UserUnit.ID;
-//				
-//				foreach (var item in partyView) {
-//					if(item.Value.UserUnit == null) continue;
-//					if(item.Value.UserUnit.Equals(focusUnitInPartyMembers.UserUnit)){
-//						onPartyPos = item.Key;
-//						onPartyId = item.Value.UserUnit.ID;
-//						Debug.Log("Find afterClickItem...");
-//					}
-//				}
-//				Debug.Log("onPartyId is : " + onPartyId);
-//				Debug.Log("toReplaceId is : " + toReplaceId);
-//				Debug.Log("onPartyPos is : " + onPartyPos);
-//				DataCenter.Instance.PartyInfo.ChangeParty(onPartyPos, 0);
-//				DataCenter.Instance.PartyInfo.ChangeParty(onPartyPos, toReplaceId);
-//				
-//				focusUnitInPartyMembers.UserUnit = puv.UserUnit;
-//				puv.IsParty = true;
-//				puv.IsEnable = false;
-//				focusUnitInPartyMembers = null;
-//			}
-//			else{
-//				pickedUnitFromUnitList = puv;
-//				pickedUnitFromUnitList.IsFocus = true;
-//			}
-//		}
+		//store picked info
+		if(pickedUnitFromUnitList != null){
+			pickedUnitFromUnitList.IsFocus = false;
+			if(pickedUnitFromUnitList.Equals(puv)){//click bottom unit item again, change focus state only
+				pickedUnitFromUnitList = null;
+			}
+			else{
+				pickedUnitFromUnitList = puv;
+				pickedUnitFromUnitList.IsFocus = true;
+			}
+		}
+		else{
+			pickedUnitFromUnitList = puv;
+			pickedUnitFromUnitList.IsFocus = true;
+		}
+		//store picked info
+
+		if(focusUnitInPartyMembers == null){
+			Debug.Log("focus on-party-unit is null");
+			AddUnitToPartyByOrder(1, puv);
+		}
+		else{
+			Debug.Log("focus on-party-unit is  not null");
+			if(focusUnitInPartyMembers.UserUnit != null){
+				ReplaceFocusWithPickedUnit();
+			}
+			else{
+				AddToFocusWithPickedUnit();
+			}
+		}
 	}
-	
-	private void AddUnitToPartyByOrder(int pos, TUserUnit target){
+
+	private void AddToFocusWithPickedUnit(){
+		int focusPos = GetUnitPosInParty(focusUnitInPartyMembers);
+		Debug.Log("AddToFocusWithPickedUnit(), focus pos is : " + focusPos);
+		DataCenter.Instance.PartyInfo.ChangeParty(partyView);
+		pickedUnitFromUnitList.IsParty = true;
+		partyView[ focusPos ].UserUnit = pickedUnitFromUnitList.UserUnit;
+		ClearPartyFocusState();
+	}
+
+	private void ReplaceFocusWithPickedUnit(){
+		Debug.Log("Replace Focus With PickedUnit...");
+	}
+
+	private void AddUnitToPartyByOrder(int pos, MyUnitView target){
 		if(pos > 3){
 			Debug.LogError("Party is full, can not add new member...return!!!");
-			pickedUnitFromUnitList.UserUnit = target;
-			pickedUnitFromUnitList.IsFocus = true;
+//			pickedUnitFromUnitList.UserUnit = target;
+//			pickedUnitFromUnitList.IsFocus = true;
 			return;
 		}
 
-		if(partyView[ pos ].UserUnit == null){
+		if(partyView[ pos ].UserUnit != null){
 			pos++;
 			AddUnitToPartyByOrder(pos, target);
 		}
 		else{
-			DataCenter.Instance.PartyInfo.ChangeParty(pos, target.ID);
-			partyView[ pos ].UserUnit = target;
+			//Access to add
+			partyView[ pos ].UserUnit = target.UserUnit;
+			//	DataCenter.Instance.PartyInfo.ChangeParty(pos, target.ID);
+			DataCenter.Instance.PartyInfo.ChangeParty(partyView);
+			target.IsParty = true;
+			target.IsFocus = false;
 		}
 	}
 
+	int GetUnitPosInParty(MyUnitView targetView){
+		int pos = -1;
+		foreach (var item in partyView){
+			MyUnitView muv = item.Value;
+			if(muv.Equals(targetView)){
+				pos = item.Key;
+				break;
+			}
+		}
+		return pos;
+	}
 
 	bool FocusIsLeader()	{
 		bool isLeader = false;
@@ -267,9 +280,19 @@ public class NewPartyMembers : UIComponentUnity{
 		return isLeader;
 	}
 
-	bool ClearFocusState() {
-		focusUnitInPartyMembers.IsFocus = false;
-		focusUnitInPartyMembers = null;
+	bool ClearPartyFocusState() {
+		if(focusUnitInPartyMembers != null){
+			focusUnitInPartyMembers.IsFocus = false;
+			focusUnitInPartyMembers = null;
+		}
+		return true;
+	}
+
+	bool ClearUnitListFocus(){
+		if(pickedUnitFromUnitList != null){
+			pickedUnitFromUnitList.IsFocus = false;
+			pickedUnitFromUnitList = null;
+		}
 		return true;
 	}
 
@@ -322,7 +345,7 @@ public class NewPartyMembers : UIComponentUnity{
 			int focusPos = GetPartyMemberPosition(focusUnitInPartyMembers.UserUnit);
 			Debug.LogError("RejectPartyMember focusPos : " + focusPos);
 			if(focusPos == -1 || focusPos == 0)
-				ClearFocusState();
+				ClearPartyFocusState();
 			else{
 				RejectFocus(focusPos);
 			}
@@ -356,15 +379,19 @@ public class NewPartyMembers : UIComponentUnity{
 	}
 	
 	void RejectByOrder(int pos){
+		Debug.Log("RejectByOrder : " + pos);
 		if(pos == 0) return;//Leader can not be rejected
 		if(partyView[ pos ].UserUnit == null){
 			pos--;
 			RejectByOrder(pos);
+		}else {
+			Reject(pos);
 		}
-		Reject(pos);
+
 	}
 
 	void RejectFocus(int pos){
+		Debug.Log("RejectFocus : " + pos);
 		if(pos == 0) return;//Leader can not be rejected
 		Reject(pos);
 	}
@@ -380,9 +407,12 @@ public class NewPartyMembers : UIComponentUnity{
 			}
 		}
 		//When reject every time, record party state change
-		DataCenter.Instance.PartyInfo.ChangeParty(pos, 0);
+		Debug.LogError("Reject pos : " + pos);
+		DataCenter.Instance.PartyInfo.ChangeParty(partyView);
+//		DataCenter.Instance.PartyInfo.ChangeParty(pos, 0); 
 		//Message to note to refresh party info panel view 
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
+		ClearPartyFocusState();
 	}
 	
 	void ClickSortButton(GameObject btn){

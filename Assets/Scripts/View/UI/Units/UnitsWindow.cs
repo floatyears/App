@@ -108,6 +108,7 @@ public class UnitsWindow : UIComponentUnity{
 		rightIndexLabel.text = curPartyIndex.ToString();
 		pageIndexSuffixLabel.text = partyIndexDic[ curPartyIndex ].ToString();
 
+		Debug.Log("Current party's member count is : " + partyMemberList.Count);
 		for (int i = 0; i < partyMemberList.Count; i++){
 			partyView[ i ].Init(partyMemberList [ i ]);
 			//partyView[ i ].IsEnable = true;

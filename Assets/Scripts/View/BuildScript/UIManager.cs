@@ -14,8 +14,15 @@ public class UIManager {
 	}
 
 	private UIManager () {
-
+//		InitUIManager ();
 		baseScene = new StartScene ("Game Start");
+	}
+
+	void InitUIManager () {
+		baseScene = new StartScene ("Game Start");
+		baseScene.CreatUI ();
+		baseScene.ShowUI ();
+		ChangeScene (SceneEnum.Start);
 	}
 
 	/// <summary>
@@ -83,16 +90,19 @@ public class UIManager {
 	}
 
 	public void EnterBattle () {
-		current.HideScene();
-		baseScene.HideBase ();
+//		current.HideScene();
+//		baseScene.HideBase ();
+
+		ClearAllUIObject ();
+		Resources.UnloadUnusedAssets ();
 		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
 		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
 	}
 
 	public void ExitBattle () {
-		baseScene.ShowBase ();
-		current.ShowScene();
-		
+		Resources.UnloadUnusedAssets ();
+		InitUIManager ();
+		ChangeScene (SceneEnum.Quest);
 		MsgCenter.Instance.Invoke (CommandEnum.LeftBattle, null);
 	}
 
@@ -248,10 +258,10 @@ public class UIManager {
 
         }
 		if (temp != null) {
-				temp.SetDecorator (baseScene);
-				temp.DecoratorScene ();
+			temp.SetDecorator (baseScene);
+			temp.DecoratorScene ();
 
-				AddUIObject (sEnum, temp);
+			AddUIObject (sEnum, temp);
 		}
 		return temp;
 	}
@@ -272,4 +282,9 @@ public class UIManager {
             }
         }
     }
+
+	public void ClearAllUIObject () {
+		sceneDecorator.Clear ();
+		ViewManager.Instance.CleartComponent ();
+	}
 }

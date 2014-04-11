@@ -1,5 +1,7 @@
 class UnitInfosController < ApplicationController
   before_action :set_unit_info, only: [:show, :edit, :update, :destroy,:update_redis]
+  before_filter :set_redis
+  
 
   # GET /unit_infos
   # GET /unit_infos.json
@@ -110,5 +112,9 @@ class UnitInfosController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def unit_info_params
     params[:unit_info]
+  end
+  
+  def set_redis
+    $redis.select(2)
   end
 end

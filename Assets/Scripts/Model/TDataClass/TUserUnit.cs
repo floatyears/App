@@ -72,8 +72,7 @@ public class TUserUnit : ProtobufDataBase {
     }
 
     void SetHPByRace(float value, int race) {
-        UnitBaseInfo ubi = DataCenter.Instance.UnitBaseInfo[unitBaseInfo];
-        if ((int)ubi.race == race || race == (int)EUnitRace.ALL) {
+		if ((int)UnitInfo.Race == race || UnitInfo.Race == EUnitRace.ALL) {
             hpMultiple *= value;
         }
     }
@@ -86,7 +85,7 @@ public class TUserUnit : ProtobufDataBase {
 
     void SetAttackMultipeByRace(float value, int race) {
         UnitBaseInfo ubi = DataCenter.Instance.UnitBaseInfo[unitBaseInfo];
-        if ((int)ubi.race == race || race == (int)EUnitRace.ALL) {
+		if ((int)UnitInfo.Race == race || UnitInfo.Race == EUnitRace.ALL) {
             attackMultiple *= value;
         }
     }
@@ -244,9 +243,15 @@ public class TUserUnit : ProtobufDataBase {
     }
 
 	public int MultipleDevorExp (TUserUnit baseUser) {
-//		Debug.LogError("MultipleDevorExp :: unitId:"+UnitInfo.ID+" UnitInfo.DevourExp:"+UnitInfo.DevourExp);
-		return System.Convert.ToInt32 (DGTools.AllMultiple (baseUser, this) * UnitInfo.DevourExp * Level);
+		if (baseUser == null) {
+			return UnitInfo.DevourExp * Level;
+		}
+		else{
+			return System.Convert.ToInt32 (DGTools.AllMultiple (baseUser, this) * UnitInfo.DevourExp * Level);
+		}
 	}
+
+
 
     public int Exp {
         get{

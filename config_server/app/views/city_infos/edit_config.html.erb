@@ -1,0 +1,11 @@
+<% if @type == "boss"%>
+<%= render 'boss'%>
+<%elsif @type == "enemy"%>
+<%= render 'enemy'%>
+<%elsif @type == "color"%>
+<%= render 'color'%>
+<%elsif @type == "floor"%>
+<%= render 'floor'%>
+<%elsif @type == "star"%>
+<%= render 'star'%>
+<%end %>

@@ -154,6 +154,14 @@ public class NcAttachPrefab : NcEffectBehaviour
 			CreateAttachPrefab();
 	}
 
+	void ChangeLayer (Transform target) {
+		int layer = target.parent.gameObject.layer;
+		target.gameObject.layer = layer;
+		foreach (Transform item in target) {
+			item.gameObject.layer = layer;
+		}
+	}
+
 	void CreateAttachGameObject()
 	{
 		GameObject createObj = (GameObject)CreateGameObject(GetTargetGameObject(), (GetTargetGameObject() == gameObject ? null : transform), m_AttachPrefab);
@@ -162,6 +170,8 @@ public class NcAttachPrefab : NcEffectBehaviour
 
 		if (createObj == null)
 			return;
+
+		ChangeLayer (createObj.transform);
 
 		if (m_AttachType == AttachType.Active)
 		{

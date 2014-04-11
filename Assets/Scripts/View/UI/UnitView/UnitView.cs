@@ -63,15 +63,19 @@ public class UnitView : MonoBehaviour {
 	protected UITexture avatarTex;
 	protected UISprite maskSpr;
 	protected UILabel crossFadeLabel;
-	
+
+	void Awake() {
+		InitUI();
+	}
+
 	public void Init(TUserUnit userUnit){
 		this.userUnit = userUnit;
-		InitUI();
 		InitState();
 	}
-	
+
 	protected virtual void InitUI(){
 		avatarTex = transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+//		Debug.LogError(" avatarTex : " + avatarTex);
 		crossFadeLabel = transform.FindChild("Label_Cross_Fade").GetComponent<UILabel>();
 		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
 	}
@@ -87,10 +91,13 @@ public class UnitView : MonoBehaviour {
 
 	protected virtual void RefreshState(){
 		if(userUnit == null){
+			//Debug.LogError("RefreshState(), userUnit == null");
 			SetEmptyState();
 			return;
 		}
+		//Debug.LogError("RefreshState(), userUnit != null");
 		IsEnable = true;
+		//Debug.LogError("avatarTex : " + avatarTex + "  userUnit.UnitInfo : " +userUnit.UnitInfo);
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
 		ExecuteCrossFade();
 	}

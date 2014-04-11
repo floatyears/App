@@ -148,7 +148,7 @@ public class EnemyItem : UIBaseUnity {
     }
 
     public override void DestoryUI() {
-		Debug.LogError ("currentState : " + currentState + enemyInfo.EnemySymbol);
+//		Debug.LogError ("currentState : " + currentState + enemyInfo.EnemySymbol);
 		if (currentState == UIState.UIDestory) {
 			return;
 		}
@@ -162,7 +162,7 @@ public class EnemyItem : UIBaseUnity {
         int pos = (int)data;
 //		Debug.LogError ("pos : " + pos + "  enemyInfo.EnemySymbol : " + enemyInfo.EnemySymbol + " enemyInfo.drop : " + enemyInfo.drop);
         if (pos == (int)enemyInfo.EnemySymbol && !texture.enabled) {
-			Debug.LogError ("pos : " + pos + "  enemyInfo.EnemySymbol : " + enemyInfo.EnemySymbol + " enemyInfo.drop : " + enemyInfo.drop);
+//			Debug.LogError ("pos : " + pos + "  enemyInfo.EnemySymbol : " + enemyInfo.EnemySymbol + " enemyInfo.drop : " + enemyInfo.drop);
 			if(enemyInfo.drop == null) {
 				return;
 			}
