@@ -22,24 +22,29 @@ public class BattleQuest : UIBase {
 	private Role role;
 	public Battle battle;
 	private BattleBackground background;
-	public static BattleUseData bud;
-	private Camera mainCamera;
 	public QuestFullScreenTips questFullScreenTips;
+	private TopUI topUI;
+	public static BattleUseData bud;
 	private ClearQuestParam questData;
 	private TUserUnit evolveUser;
-	private TopUI topUI;
 	private string backgroundName = "BattleBackground";
+	private AttackEffect attackEffect;
 
 	public BattleQuest (string name) : base(name) {
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
 		battleMap = viewManager.GetBattleMap(tempName) as BattleMap;
-		battleMap.transform.localPosition = new Vector3 (-1100f, 0f, 0f);
+		battleMap.transform.parent = viewManager.BottomPanel.transform.parent;
+		battleMap.transform.localPosition = Vector3.zero;
+		battleMap.transform.localScale = Vector3.one;
 		battleMap.BQuest = this;
 		Init(battleMap,tempName);
 		tempName = "Role";
 		role = viewManager.GetBattleMap(tempName) as Role;
+		role.transform.parent = viewManager.BottomPanel.transform.parent;
+		role.transform.localPosition = Vector3.zero;
+		role.transform.localScale = Vector3.one;
 		role.BQuest = this;
 		Init(role,tempName);
 		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
@@ -47,18 +52,29 @@ public class BattleQuest : UIBase {
 		background.transform.localPosition = Vector3.zero;
 		background.Init (backgroundName);
 		background.SetBattleQuest (this);
-		AddSelfObject (battleMap);
-		AddSelfObject (role);
-		AddSelfObject (background);
+
 		questData = new ClearQuestParam ();
 		questData.questId = questDungeonData.QuestId;
 		InitTopUI ();
-
 		battle = new Battle("Battle");
 		battle.CreatUI();
 		battle.HideUI ();
+		CreatEffect ();
+		MapCamera.IsClick = false;
+		bud = new BattleUseData (this);
+
+		AddSelfObject (battleMap);
+		AddSelfObject (role);
+		AddSelfObject (background);
 	}
 
+	void CreatEffect () {
+		GameObject go = Resources.Load("Effect/AttackEffect") as GameObject;
+		go = NGUITools.AddChild (ViewManager.Instance.ParentPanel, go);
+		go.transform.localPosition = battle.battleRootGameObject.transform.localPosition;
+		attackEffect = go.GetComponent<AttackEffect> ();
+	}
+	
 	void InitTopUI () {
 		GameObject go = Resources.Load ("Prefabs/Fight/TopUI") as GameObject;
 		go = GameObject.Instantiate (go) as GameObject;
@@ -86,19 +102,19 @@ public class BattleQuest : UIBase {
 	}
 
 	public override void ShowUI () {
+		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
+		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 		Resources.UnloadUnusedAssets ();
-		bud = new BattleUseData (this);
-		mainCamera = Camera.main;
-		mainCamera.clearFlags = CameraClearFlags.Depth;
-		mainCamera.enabled = false;
 		GameTimer.GetInstance ().AddCountDown (0.5f, ShowScene);
 		InitData ();
 		base.ShowUI ();
 		AddListener ();
-		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
+	
+		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData, null);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.GridEnd, GridEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, BattleFail);
+		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 	}
 
 	public override void HideUI () {
@@ -114,6 +130,25 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.GridEnd, GridEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.PlayerDead, BattleFail);
+		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
+	}
+	
+	void LeaderSkillEnd(object data) {
+		MsgCenter.Instance.RemoveListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
+	}
+
+	void ReadyMove() {
+		battle.ShieldInput (true);
+		MapCamera.IsClick = true;
+	}
+
+	void AttackEnemy (object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;		
+		}
+		attackEffect.RefreshItem (ai);
 	}
 
 	void Reset () {
@@ -123,7 +158,6 @@ public class BattleQuest : UIBase {
 		battleMap.HideUI ();
 		role.HideUI ();
 		background.HideUI ();
-		mainCamera.enabled = false;
 		battleMap.ShowUI ();
 		role.ShowUI ();
 		background.ShowUI ();
@@ -138,20 +172,22 @@ public class BattleQuest : UIBase {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		questFullScreenTips.DestoryUI ();
+		battle.DestoryUI ();
+		battle = null;
 		Resources.UnloadUnusedAssets ();
 	}
 
 	void CreatBoosAppear () {
 		GameObject obj = Resources.Load("Prefabs/QuestFullScreenTips") as GameObject;
 		Vector3 pos = obj.transform.localPosition;
-		GameObject go = NGUITools.AddChild (viewManager.CenterPanel, obj);
+		GameObject go = NGUITools.AddChild (viewManager.EffectPanel, obj);
 		go.transform.localPosition = pos;
 		questFullScreenTips = go.GetComponent<QuestFullScreenTips> ();
 		questFullScreenTips.Init("QuestFullScreenTips");
 	}
 
 	void ShowScene () {
-		mainCamera.enabled = true;
+//		mainCamera.enabled = true;
 	}
 	
 	public Vector3 GetPosition(Coordinate coor) {
@@ -186,19 +222,12 @@ public class BattleQuest : UIBase {
 
 	void QuestStop () {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
+		battle.ShieldInput (false);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.BossAppears, MeetBoss);
 		role.Stop();
 		battleEnemy = true;
 	}
-
-	void QuestClear () {
-		if (DataCenter.gameStage == GameState.Normal) {
-			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestEnd);
-		} else {
-			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, EvolveEnd);
-		}
-	}
-
+	
 	void QuestEnd () {
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ExitBattle ();
@@ -213,14 +242,22 @@ public class BattleQuest : UIBase {
 	private EQuestGridType gridType = EQuestGridType.Q_NONE;
 	private Coordinate currentCoor;
 
+	void YieldShowAnim() {
+		int count = bud.Els.CheckLeaderSkillCount();
+		battle.ShieldInput (false);
+		questFullScreenTips.ShowTexture (QuestFullScreenTips.ReadyMove, ReadyMove, count * AttackController.normalAttackInterv);
+		bud.InitBattleUseData();
+	}
+
 	public void RoleCoordinate(Coordinate coor) {
 		currentCoor = coor;
 		if (!battleMap.ReachMapItem (coor)) {
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
-					battleMap.RotateAnim (null);
-					questFullScreenTips.ShowTexture (QuestFullScreenTips.ReadyMove, null);
-					return;
+				battleMap.RotateAnim (null);
+				GameTimer.GetInstance().AddCountDown(0.2f,YieldShowAnim);
+				return;
 			}
+
 			int index = questDungeonData.GetGridIndex (coor);
 			if (index != -1) {
 					questData.hitGrid.Add ((uint)index);
@@ -254,7 +291,6 @@ public class BattleQuest : UIBase {
 					break;
 			case EQuestGridType.Q_TREATURE:				
 					BattleMap.waitMove = true;
-					battleMap.ShowBox ();
 					battleMap.RotateAnim (MapItemCoin);
 					break;
 			case EQuestGridType.Q_TRAP:
@@ -275,13 +311,11 @@ public class BattleQuest : UIBase {
 					break;
 			}
 		} else {
-
 			if(DGTools.EqualCoordinate (coor, MapConfig.endCoor)) {
 				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
 			} else {
 				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, false);
 			}
-
 		}
 	}
 	
@@ -296,9 +330,7 @@ public class BattleQuest : UIBase {
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
-
-
-
+	
 	void MapItemExclamation() {
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
@@ -328,17 +360,21 @@ public class BattleQuest : UIBase {
 		BattleMap.waitMove = false;
 		questData.getMoney += currentMapData.Coins;
 		topUI.Coin = questData.getMoney;
-//		Debug.LogError ("MapItemCoin : ");
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
 
 	void MapItemKey() {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
-		questFullScreenTips.ShowTexture (QuestFullScreenTips.OpenGate, null);
+		battle.ShieldInput (false);
+		questFullScreenTips.ShowTexture (QuestFullScreenTips.OpenGate, OpenGate);
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
+	}
+
+	void OpenGate() {
+		battle.ShieldInput (true);
 	}
 
 	void MapItemNone() {
@@ -347,6 +383,7 @@ public class BattleQuest : UIBase {
 	}
 
 	void MeetBoss () {
+		battle.ShieldInput (true);
 		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
 		BattleMap.waitMove = false;
 		ShowBattle();
@@ -358,6 +395,7 @@ public class BattleQuest : UIBase {
 		}
 		bud.InitBoss (questDungeonData.Boss);
 		battle.ShowEnemy(temp);
+		ExitFight (false);
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
 	}
 
@@ -372,7 +410,33 @@ public class BattleQuest : UIBase {
 		}
 		bud.InitEnemyInfo (currentMapData);
 		battle.ShowEnemy (temp);
+		ExitFight (false);
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
+		GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
+	}
+
+	void ExitFight(bool exit) {
+		battleMap.gameObject.SetActive (exit);
+		role.gameObject.SetActive (exit);
+	}
+
+	void StartBattleEnemyAttack() {
+		EnemyAttackEnum eae = battleMap.FirstOrBackAttack ();
+		switch (eae) {
+		case EnemyAttackEnum.BackAttack:
+			questFullScreenTips.ShowTexture(QuestFullScreenTips.BackAttack,null);
+			bud.ac.AttackPlayer();
+			break;
+		case EnemyAttackEnum.FirstAttack:
+			questFullScreenTips.ShowTexture(QuestFullScreenTips.FirstAttack,null);
+			bud.ac.FirstAttack();
+			break;
+		default:
+			break;
+		}
+	}
+	void AttackEnd () {
+//		battle.ShieldInput(true);
 	}
 
 	void ShowBattle() {
@@ -385,17 +449,29 @@ public class BattleQuest : UIBase {
 		battle.ShowUI();
 	}
 
+	void ActiveSkillStandReady(object data) {
+		TUserUnit tuu = data as TUserUnit;
+		questFullScreenTips.ShowTexture (QuestFullScreenTips.standReady, null);
+	}
+
 	void BattleEnd(object data) {
+		ExitFight (true);
 		bool b = false;
 		if (data != null) {
 			b = (bool)data;	
 		}
-//		Debug.LogError ("battleEnemy : " + battleEnemy + " b : " + b);
 		if (battleEnemy && !b) {
 			battle.SwitchInput(true);
-			RequestData();
-			battleMap.BattleEndRotate();
+			battle.ShieldInput(false);
+			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
 		}
+	}
+
+	void QuestClear() {
+		battle.ShieldInput(true);
+		battleMap.BattleEndRotate();
+
+		RequestData();
 	}
 	
 	void AddListener () {
@@ -407,8 +483,12 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleBase (object data) {
-		BattleBaseData bbd = (BattleBaseData)data;
+		BattleBaseData bbd = data as BattleBaseData;
 		background.InitData (bbd.Blood, bbd.EnergyPoint);
+	}
+
+	public void CheckOut () {
+		RequestData ();
 	}
 
 	void RequestData () {
@@ -471,7 +551,7 @@ public class BattleQuest : UIBase {
 		trcq.gotUnit = temp;
 		trcq.rank = rsp.rank;
 		DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
-		End (trcq, QuestClear);
+		End (trcq, EvolveEnd);
 	}
 
 	void ResponseClearQuest (object data) {
@@ -479,7 +559,7 @@ public class BattleQuest : UIBase {
 			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
-			End (clearQuest, QuestClear);
+			End (clearQuest, QuestEnd);
 		}
 	}
 
@@ -500,6 +580,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleFail(object data) {
+		battle.ShieldInput(true);
+		battle.ShieldInput(false);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.GameOver, BattleFail);
 	}
 

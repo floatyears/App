@@ -6,17 +6,11 @@ public class BattleMap : UIBaseUnity {
 	private MapItem template;
 	private MapItem[,] map;
 	private MapItem temp;
-
 	private List<MapItem> prevAround = new List<MapItem>();
 	private List<MapItem> useMapItem = new List<MapItem>();
 	private MapItem prevMapItem;
 	private MapDoor door;
-	private GameObject[] mapItemObject = new GameObject[3];
-	private const float itemWidth = 127.5f;
-	private static GameObject box;
-	public static GameObject Box {
-		get { return box; }
-	}
+	private const float itemWidth = 114f;
 
 	[HideInInspector]
 	public BattleQuest bQuest;
@@ -41,15 +35,8 @@ public class BattleMap : UIBaseUnity {
 		door = FindChild<MapDoor>("Door_1");
 		door.Init ("Door_1");
 		door.battleMap = this;
-		for (int i = 0; i < 3; i++) {
-			GameObject go = transform.Find((i + 1).ToString()).gameObject;
-			mapItemObject[i] = go;
-			go.SetActive(false);
-		}
 		template.gameObject.SetActive(false);
 		gameObject.transform.localPosition += Vector3.right * 5f;
-		box = transform.Find ("magic_Box04").gameObject;
-		box.SetActive (false);
 	}
 
 	public override void CreatUI () {
@@ -72,8 +59,6 @@ public class BattleMap : UIBaseUnity {
 					temp.Coor = new Coordinate(i, j);
 					temp.Init(i+"|"+j);
 					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
-					int index = DGTools.RandomToInt(0,3);
-					temp.ShowObject(mapItemObject[index]);
 					map[i,j] = temp;
 				}
 				else {
@@ -136,7 +121,7 @@ public class BattleMap : UIBaseUnity {
 	public Vector3 GetPosition(int x, int y) {
 		if(x > map.GetLength(0) || y > map.GetLength(1))
 			return Vector3.zero;
-		return map[x, y].transform.position;
+		return map[x, y].transform.localPosition;
 	}
 
 	public bool ReachMapItem(Coordinate coor) {
@@ -144,7 +129,6 @@ public class BattleMap : UIBaseUnity {
 		ChangeStyle(coor);
 		if(!useMapItem.Contains(prevMapItem)) {
 			useMapItem.Add(prevMapItem);
-			prevMapItem.IsOld = true;
 			return false;
 		}
 
@@ -152,11 +136,15 @@ public class BattleMap : UIBaseUnity {
 	}
 	private Callback callback = null;
 
-	Queue<Callback> callbackQueue = new Queue<Callback> ();
+
 	public void RotateAnim(Callback cb) {
-		MsgCenter.Instance.AddListener (CommandEnum.RotateDown, RotateDown);
-		callbackQueue.Enqueue(cb);
-		prevMapItem.RotateAnim ();
+//		MsgCenter.Instance.AddListener (CommandEnum.RotateDown, RotateDown);
+		prevMapItem.RotateAnim (cb);
+
+	}
+
+	public EnemyAttackEnum FirstOrBackAttack() {
+		return prevMapItem.TriggerAttack ();
 	}
 
 	public void BattleEndRotate () {
@@ -166,23 +154,18 @@ public class BattleMap : UIBaseUnity {
 	IEnumerator EndRotate () {
 		for (int i = 0; i < map.GetLength(0); i++) {
 			for (int j = 0; j < map.GetLength(1); j++) {
-				map[i,j].RotateOneCircle();
+				map[i,j].RotateAnim(null);
 				yield return 3 ;
 			}
 		}
 	}
 
-	public void ShowBox() {
-		prevMapItem.ShowBox ();
-	}
+//	public void ShowBox() {
+//		prevMapItem.ShowBox ();
+//	}
 
 	void RotateDown(object data) {
-		MsgCenter.Instance.RemoveListener (CommandEnum.RotateDown, RotateDown);
-		callback = callbackQueue.Dequeue ();
-		if (callback != null) {
-			callback ();	
-		}
-		callback = null;
+//		MsgCenter.Instance.RemoveListener (CommandEnum.RotateDown, RotateDown);
 	}
 
 	void ChangeStyle(Coordinate coor) {
@@ -196,7 +179,7 @@ public class BattleMap : UIBaseUnity {
 
 		if(coor.x > 0)
 			DisposeAround(map[coor.x - 1,coor.y]);
-
+//		Debug.LogError ("coor.x : " + coor.x + " coor.y : " + coor.y + "  map.GetLength(0) - 1 : " +  (map.GetLength(0) - 1) + " map.GetLength(1) - 1) : " + (map.GetLength(1) - 1));
 		if(coor.x < map.GetLength(0) - 1)
 			DisposeAround(map[coor.x + 1,coor.y]);
 
@@ -208,9 +191,7 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	void DisposeAround(MapItem item) {
-		if(!item.IsOld) {
-			item.Around(true);
-			prevAround.Add(item);
-		}
+		item.Around(true);
+		prevAround.Add(item);
 	}
 }

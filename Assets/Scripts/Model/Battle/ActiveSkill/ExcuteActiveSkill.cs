@@ -4,6 +4,10 @@ using System.Collections.Generic;
 public class ExcuteActiveSkill {
 	private Dictionary<string,IActiveSkillExcute> activeSkill = new Dictionary<string, IActiveSkillExcute> ();
 	private ILeaderSkill leaderSkill;
+
+	private IActiveSkillExcute iase;
+	private TUserUnit userUnit;
+
 	public ExcuteActiveSkill(ILeaderSkill ils) {
 		leaderSkill = ils;
 		foreach (var item in ils.UserUnit.Values) {
@@ -30,32 +34,41 @@ public class ExcuteActiveSkill {
 	}
 
 	void Excute(object data) {
-		TUserUnit uui = data as TUserUnit;
-		if (uui != null) {
-			string id = uui.MakeUserUnitKey();
-//			Debug.LogError("id : " + id);
-			IActiveSkillExcute iase ;
+		userUnit = data as TUserUnit;
+		if (userUnit != null) {
+			string id = userUnit.MakeUserUnitKey();
 			if(activeSkill.TryGetValue(id,out iase)) {
-				iase = activeSkill[id];
-				iase.Excute(id, uui.Attack);
+				GameTimer.GetInstance().AddCountDown(1f,Excute);
+				MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillStandReady, userUnit);
 			}
 		}
 	}
 
+	void Excute() {
+		if (iase == null || userUnit == null) {
+			return;	
+		} 
+
+		AttackInfo ai = new AttackInfo();
+		ai.UserUnitID = userUnit.MakeUserUnitKey();
+		MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
+		MsgCenter.Instance.Invoke(CommandEnum.StateInfo, DGTools.stateInfo[4]);
+		iase = activeSkill[ai.UserUnitID];
+		iase.Excute(ai.UserUnitID, userUnit.Attack);
+		iase = null;
+		userUnit = null;
+	}
+
 	void MoveToMapItem(object data) {
-//		Debug.LogError ("MoveToMapItem");
 		CoolingSkill ();
 	}
 
 	void BattleEnd(object data) {
-//		Debug.LogError ("BattleEnd");
 		CoolingSkill ();
 	}
 
 	public void CoolingSkill () {
-//		Debug.LogError (activeSkill.Values.Count);
 		foreach (var item in activeSkill.Values) {
-//			Debug.LogError("CoolingSkill : " + item);
 			item.RefreashCooling();
 		}
 	}

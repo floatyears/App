@@ -4,7 +4,7 @@ using System.Collections;
 public class MapDoor : UIBaseUnity {
 	public BattleMap battleMap;
 	private UISprite TapToBattle;
-	private TweenAlpha tween;
+	private TweenAlpha tweenA;
 	[HideInInspector]
 	public bool doorOpen = false;
 	[HideInInspector]
@@ -15,7 +15,7 @@ public class MapDoor : UIBaseUnity {
 	public override void Init (string name) {
 		base.Init (name);
 		TapToBattle = FindChild<UISprite>("Sprite");
-		tween = FindChild<TweenAlpha>("Sprite");
+		tweenA = FindChild<TweenAlpha>("Sprite");
 		UIEventListener.Get (gameObject).onClick = ClickDoor;
 	}
 
@@ -58,16 +58,28 @@ public class MapDoor : UIBaseUnity {
 	public void ShowTapToBattle () {
 		bool b = canEnterDoor && doorOpen;
 		TapToBattle.enabled = b;	
-		tween.enabled = b;
+		tweenA.enabled = b;
 	}
 	
 	void ClickDoor(GameObject go) {
-		if (TapToBattle.enabled && !isClick) {
+		if (TapToBattle.enabled) {
+			return;	
+		}
+		if (TapToBattle.spriteName == QuestFullScreenTips.BossBattle && !isClick) {
 			battleMap.bQuest.ClickDoor();
-			Destroy(GetComponent<UIEventListener>());
 			TapToBattle.enabled = isClick;	
-			tween.enabled = isClick;
+			tweenA.enabled = isClick;
 			isClick = true;
 		}
+
+		if (TapToBattle.spriteName == QuestFullScreenTips.CheckOut) {
+
+		}
+	}
+
+	public void ShowTapToCheckOut () {
+		TapToBattle.enabled = true;
+		tweenA.enabled = true;
+		TapToBattle.spriteName = QuestFullScreenTips.CheckOut;
 	}
 }

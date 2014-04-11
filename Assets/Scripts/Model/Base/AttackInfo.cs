@@ -79,7 +79,6 @@ public class AttackInfo {
 	}
 	
 	private uint enemyID = 0;
-	
 	public uint EnemyID {
 		get {return enemyID;}
 		set {enemyID = value;}
@@ -107,6 +106,12 @@ public class AttackInfo {
 	public int AttackRound {
 		get { return attackRound; }
 		set { attackRound = value; }
+	}
+
+	private float attackRate = 0f;
+	public float AttackRate {
+		get { return attackRate; }
+		set { attackRate = value; }
 	}
 
 	private UISprite attackSprite;

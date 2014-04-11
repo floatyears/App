@@ -11,10 +11,15 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 
 	public void Excute() {
 		foreach (var item in leadSkill.LeadSkill) {
-			if(DisposeBoostSkill(item.Value)) {
+			if(DisposeBoostSkill(item.Key, item.Value)) {
 				RemoveSkill.Add(item.Key);
 			}
 		}
+		if (RemoveSkill.Count == 0) {
+			MsgCenter.Instance.Invoke(CommandEnum.StopInput,true);
+		}
+
+		MsgCenter.Instance.Invoke (CommandEnum.LeaderSkillEnd, null);
 		RemoveLeaderSkill ();
 	}
 
@@ -23,10 +28,16 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			leadSkill.LeadSkill.Remove(RemoveSkill[i]);
 		}
 	}
+
+
 	
-	bool DisposeBoostSkill (ProtobufDataBase pdb) {
+	bool DisposeBoostSkill (string userunit, ProtobufDataBase pdb) {
 		TSkillBoost tbs = pdb as TSkillBoost;
 		if (tbs != null) {
+			AttackInfo ai = new AttackInfo();
+			ai.UserUnitID = userunit;
+			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
+
 			foreach (var item in leadSkill.UserUnit.Values) {
 				if( item == null) {
 					continue;
@@ -36,13 +47,16 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			return true;
 		}
 		else {
-			return DisposeDelayOperateTime(pdb);
+			return DisposeDelayOperateTime(userunit,pdb);
 		}
 	}
 
-	bool DisposeDelayOperateTime (ProtobufDataBase pdb) {
+	bool DisposeDelayOperateTime (string userunit, ProtobufDataBase pdb) {
 		TSkillDelayTime tst = pdb as TSkillDelayTime;
 		if (tst != null) {
+			AttackInfo ai = new AttackInfo();
+			ai.UserUnitID = userunit;
+			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			MsgCenter.Instance.Invoke(CommandEnum.LeaderSkillDelayTime, tst.DelayTime);
 			return true;
 		}
@@ -158,6 +172,21 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			multipe += trhp.MultipeAttack(attackInfo);
 		}
 		return multipe;
+	}
+
+	/// <summary>
+	/// utility ready move animation
+	/// </summary>
+	int tempLeaderSkillCount = 0;
+	public int CheckLeaderSkillCount () {
+		foreach (var item in leadSkill.LeadSkill.Values) {
+			if(item is TSkillBoost) {
+				tempLeaderSkillCount ++;
+			}else if(item is TSkillDelayTime){
+				tempLeaderSkillCount ++;
+			}
+		}
+		return tempLeaderSkillCount;
 	}
 }
 
