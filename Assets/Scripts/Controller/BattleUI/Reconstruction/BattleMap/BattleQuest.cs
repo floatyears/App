@@ -31,7 +31,6 @@ public class BattleQuest : UIBase {
 	private AttackEffect attackEffect;
 
 	public BattleQuest (string name) : base(name) {
-//		Debug.LogError ("new BattleQuest");
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
@@ -67,8 +66,6 @@ public class BattleQuest : UIBase {
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
-//		AddSelfObject (battle);
-//		AddSelfObject (questFullScreenTips);
 	}
 
 	void CreatEffect () {
@@ -108,8 +105,6 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 		Resources.UnloadUnusedAssets ();
-//		mainCamera = Camera.main;
-//		mainCamera.enabled = false;
 		GameTimer.GetInstance ().AddCountDown (0.5f, ShowScene);
 		InitData ();
 		base.ShowUI ();
@@ -163,7 +158,6 @@ public class BattleQuest : UIBase {
 		battleMap.HideUI ();
 		role.HideUI ();
 		background.HideUI ();
-//		mainCamera.enabled = false;
 		battleMap.ShowUI ();
 		role.ShowUI ();
 		background.ShowUI ();
@@ -297,7 +291,6 @@ public class BattleQuest : UIBase {
 					break;
 			case EQuestGridType.Q_TREATURE:				
 					BattleMap.waitMove = true;
-//					battleMap.ShowBox ();
 					battleMap.RotateAnim (MapItemCoin);
 					break;
 			case EQuestGridType.Q_TRAP:
@@ -431,12 +424,10 @@ public class BattleQuest : UIBase {
 		EnemyAttackEnum eae = battleMap.FirstOrBackAttack ();
 		switch (eae) {
 		case EnemyAttackEnum.BackAttack:
-//			battle.ShieldInput(false);
 			questFullScreenTips.ShowTexture(QuestFullScreenTips.BackAttack,null);
 			bud.ac.AttackPlayer();
 			break;
 		case EnemyAttackEnum.FirstAttack:
-//			battle.ShieldInput(false);
 			questFullScreenTips.ShowTexture(QuestFullScreenTips.FirstAttack,null);
 			bud.ac.FirstAttack();
 			break;
@@ -479,7 +470,8 @@ public class BattleQuest : UIBase {
 	void QuestClear() {
 		battle.ShieldInput(true);
 		battleMap.BattleEndRotate();
-//		RequestData();
+
+		RequestData();
 	}
 	
 	void AddListener () {
@@ -493,6 +485,10 @@ public class BattleQuest : UIBase {
 	void BattleBase (object data) {
 		BattleBaseData bbd = data as BattleBaseData;
 		background.InitData (bbd.Blood, bbd.EnergyPoint);
+	}
+
+	public void CheckOut () {
+		RequestData ();
 	}
 
 	void RequestData () {
