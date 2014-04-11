@@ -96,6 +96,7 @@ public class PartyInfoView : UIComponentUnity {
 	}
 
 	void UpdateLabel(Dictionary<string, string> text){
+		Debug.LogError("PartyInfoView.UpdateLabel().....");
 		foreach (var item in text.Keys){
 			if( viewLabel.ContainsKey(item)){
 				viewLabel[item].text = text[item];

@@ -146,53 +146,54 @@ public class TPartyInfo : ProtobufDataBase {
 		return false;
 	}
 
-//	public	bool ChangeParty(int pos, uint newUniqueId) { 
-//        if (CurrentPartyId >= instance.partyList.Count) {
-//			Debug.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:"+CurrentPartyId+" is invalid.");
-//            return false;
-//        }
-//
-//        if (pos >= instance.partyList[CurrentPartyId].items.Count) {
-//			Debug.LogError("TPartyInfo.ChangeParty:: item.unitPos:"+pos+" is invalid.");
-//            return false;
-//        }
-//
-//		if( IsCostOverflow(pos, newUniqueId) ) 
-//			return false;
-//
-//        isPartyItemModified = true;
-//		CurrentParty.SetPartyItem(pos, newUniqueId);
-//
-//        //update instance
-//        PartyItem item = new PartyItem();
-//        item.unitPos = pos;
-//		item.unitUniqueId = newUniqueId;
-//        instance.partyList[CurrentPartyId].items[pos] = item;
-//		//Debug.Log("TPartyInfo.ChangeParty(), end...");
-//        return true;
-//    }
+	public	bool ChangeParty(int pos, uint newUniqueId) { 
+        if (CurrentPartyId >= instance.partyList.Count) {
+			Debug.LogError("TPartyInfo.ChangeParty:: CurrentPartyId:"+CurrentPartyId+" is invalid.");
+            return false;
+        }
 
-	public void ChangeParty(Dictionary<int, PageUnitView> viewData) { 
-		TUnitParty tup = CurrentParty;
-		int count = viewData.Count;
-		for (int i = tup.Object.items.Count; i < count; i++) {
-			PartyItem pi = new PartyItem();
-			tup.Object.items.Add(pi);
-		}
+        if (pos >= instance.partyList[CurrentPartyId].items.Count) {
+			Debug.LogError("TPartyInfo.ChangeParty:: item.unitPos:"+pos+" is invalid.");
+            return false;
+        }
 
-		foreach (var item in viewData) {
-			//Debug.LogError("ChangeParty : " + item.Key);
+		if( IsCostOverflow(pos, newUniqueId) ) 
+			return false;
 
-			PartyItem pi = tup.Object.items[item.Key];
-			pi.unitPos = item.Key;
-			if(item.Value.UserUnit == null) {
-				pi.unitUniqueId = 0;
-			}
-			else {
-				pi.unitUniqueId = item.Value.UserUnit.ID;
-			}
-		}
-	}
+        isPartyItemModified = true;
+		CurrentParty.SetPartyItem(pos, newUniqueId);
+
+        //update instance
+        PartyItem item = new PartyItem();
+        item.unitPos = pos;
+		item.unitUniqueId = newUniqueId;
+        instance.partyList[CurrentPartyId].items[pos] = item;
+
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
+        return true;
+    }
+
+//	public void ChangeParty(Dictionary<int, PageUnitView> viewData) { 
+//		TUnitParty tup = CurrentParty;
+//		int count = viewData.Count;
+//		for (int i = tup.Object.items.Count; i < count; i++) {
+//			PartyItem pi = new PartyItem();
+//			tup.Object.items.Add(pi);
+//		}
+//
+//		foreach (var item in viewData) {
+//			//Debug.LogError("ChangeParty : " + item.Key);
+//
+//			PartyItem pi = tup.Object.items[item.Key];
+//			pi.unitPos = item.Key;
+//			if(item.Value.UserUnit == null) {
+//				pi.unitUniqueId = 0;
+//			}
+//			else {
+//				pi.unitUniqueId = item.Value.UserUnit.ID;
+//			}
+//		}
+//	}
 
     public bool IsModified {
         get { return this.isPartyItemModified || isPartyGroupModified; }
