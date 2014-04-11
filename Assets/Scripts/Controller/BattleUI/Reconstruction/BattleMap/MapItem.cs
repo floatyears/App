@@ -320,9 +320,18 @@ public class MapItem : UIBaseUnity {
 	}
 
 	int countShow = -1;
+	void ShowFootTips (bool Show) {
+		footTips.gameObject.SetActive (Show);
+		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha> ();
+		TweenAlpha currentTa = footTips.GetComponent<TweenAlpha> ();
+		ta.Reset ();
+		currentTa.alpha = ta.alpha;
+		currentTa.duration = ta.duration;
+		currentTa.from = ta.from;
+		currentTa.to = ta.to;
+	}
 	public void Around(bool isAround) {
-		footTips.gameObject.SetActive (isAround);
-
+		ShowFootTips (isAround);
 		if(isOld)
 			return;
 //		Debug.LogError (gameObject + " isAround : " + isAround + "showStarSprite : " + showStarSprite.Count);

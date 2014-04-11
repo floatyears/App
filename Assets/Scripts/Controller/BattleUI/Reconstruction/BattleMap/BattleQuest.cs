@@ -31,7 +31,7 @@ public class BattleQuest : UIBase {
 	private AttackEffect attackEffect;
 
 	public BattleQuest (string name) : base(name) {
-		Debug.LogError ("new BattleQuest");
+//		Debug.LogError ("new BattleQuest");
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
