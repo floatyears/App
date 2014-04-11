@@ -184,6 +184,10 @@ public class MapItem : UIBaseUnity {
 //		floorObject.SetActive (true);
 	}
 
+	void OnDisable () {
+
+	}
+
 	public override void ShowUI() {
 		isOld = false;
 	}

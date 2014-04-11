@@ -148,17 +148,17 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	public void BattleEndRotate () {
-//		StartCoroutine (EndRotate ());
+		StartCoroutine (EndRotate ());
 	}
 
-//	IEnumerator EndRotate () {
-//		for (int i = 0; i < map.GetLength(0); i++) {
-//			for (int j = 0; j < map.GetLength(1); j++) {
-//				map[i,j].RotateOneCircle();
-//				yield return 3 ;
-//			}
-//		}
-//	}
+	IEnumerator EndRotate () {
+		for (int i = 0; i < map.GetLength(0); i++) {
+			for (int j = 0; j < map.GetLength(1); j++) {
+				map[i,j].RotateAnim(null);
+				yield return 3 ;
+			}
+		}
+	}
 
 //	public void ShowBox() {
 //		prevMapItem.ShowBox ();

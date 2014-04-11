@@ -138,9 +138,7 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 	}
-
-
-
+	
 	void LeaderSkillEnd(object data) {
 		MsgCenter.Instance.RemoveListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 	}
@@ -481,7 +479,7 @@ public class BattleQuest : UIBase {
 	void QuestClear() {
 		battle.ShieldInput(true);
 		battleMap.BattleEndRotate();
-		RequestData();
+//		RequestData();
 	}
 	
 	void AddListener () {
