@@ -592,6 +592,8 @@ class AllSkillConfig
   end
   
   def self.redis_to_file
+    File.open(Rails.root.join("public/skills/all_skill.bytes"), "wb") { | file|  file.write($redis.get "X_SKILL_CONF") } 
+    
     $redis.keys.map{|k|k if k.start_with?("X_SKILL_CONF")}.compact.each do |key|
       File.open(Rails.root.join("public/skills/#{key.split("_")[3]}.bytes"), "wb") { | file|  file.write($redis.get key) } 
     end
