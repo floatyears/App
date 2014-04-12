@@ -9,18 +9,26 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		leadSkill = lead;
 	}
 
-	public void Excute() {
-		foreach (var item in leadSkill.LeadSkill) {
-			if(DisposeBoostSkill(item.Key, item.Value)) {
-				RemoveSkill.Add(item.Key);
-			}
-		}
-		if (RemoveSkill.Count == 0) {
-			MsgCenter.Instance.Invoke(CommandEnum.StopInput,true);
-		}
+	const float time = 0.5f;
+	Queue<string> leaderSkillQueue = new Queue<string> ();
 
-		MsgCenter.Instance.Invoke (CommandEnum.LeaderSkillEnd, null);
-		RemoveLeaderSkill ();
+	public void Excute() {
+		int temp = 0;
+		foreach (var item in leadSkill.LeadSkill) {
+			temp++;
+			leaderSkillQueue.Enqueue(item.Key);
+			GameTimer.GetInstance().AddCountDown(temp*time, ExcuteStartLeaderSkill);
+
+		}
+	}
+
+	void ExcuteStartLeaderSkill() {
+		string key = leaderSkillQueue.Dequeue ();
+		DisposeBoostSkill(key, leadSkill.LeadSkill[key]);
+		leadSkill.LeadSkill.Remove (key);
+		if (leaderSkillQueue.Count == 0) {
+			MsgCenter.Instance.Invoke (CommandEnum.LeaderSkillEnd, null);
+		}
 	}
 
 	void RemoveLeaderSkill () {
@@ -29,38 +37,32 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		}
 	}
 
-
-	
-	bool DisposeBoostSkill (string userunit, ProtobufDataBase pdb) {
+	void DisposeBoostSkill (string userunit, ProtobufDataBase pdb) {
 		TSkillBoost tbs = pdb as TSkillBoost;
 		if (tbs != null) {
 			AttackInfo ai = new AttackInfo();
 			ai.UserUnitID = userunit;
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
-
 			foreach (var item in leadSkill.UserUnit.Values) {
 				if( item == null) {
 					continue;
 				}
 				item.SetAttack(tbs.GetBoostValue, tbs.GetTargetValue, tbs.GetTargetType, tbs.GetBoostType);
 			}
-			return true;
 		}
 		else {
-			return DisposeDelayOperateTime(userunit,pdb);
+			DisposeDelayOperateTime(userunit,pdb);
 		}
 	}
 
-	bool DisposeDelayOperateTime (string userunit, ProtobufDataBase pdb) {
+	void DisposeDelayOperateTime (string userunit, ProtobufDataBase pdb) {
 		TSkillDelayTime tst = pdb as TSkillDelayTime;
 		if (tst != null) {
 			AttackInfo ai = new AttackInfo();
 			ai.UserUnitID = userunit;
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			MsgCenter.Instance.Invoke(CommandEnum.LeaderSkillDelayTime, tst.DelayTime);
-			return true;
 		}
-		return false;
 	}
 	
 	public float ReduceHurtValue (float hurt,int type) {

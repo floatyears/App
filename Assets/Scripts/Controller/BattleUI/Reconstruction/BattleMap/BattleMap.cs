@@ -9,14 +9,14 @@ public class BattleMap : UIBaseUnity {
 	private List<MapItem> prevAround = new List<MapItem>();
 	private List<MapItem> useMapItem = new List<MapItem>();
 	private MapItem prevMapItem;
-	private MapDoor door;
+	private static bool wMove = false;
 	private const float itemWidth = 114f;
 
 	[HideInInspector]
 	public BattleQuest bQuest;
+	[HideInInspector]
+	public MapDoor door;
 
-
-	private static bool wMove = false;
 	[HideInInspector]
 	public static bool waitMove {
 		set{ wMove = value; }
@@ -45,6 +45,7 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	void StartMap() {
+		Debug.LogError ("start map : ");
 		int x = map.GetLength(0);
 		int y = map.GetLength(1);
 		for (int i = 0; i < x; i++) {
@@ -79,8 +80,10 @@ public class BattleMap : UIBaseUnity {
 		for (int i = 0; i < map.GetLength(0); i++) {
 			for (int j = 0; j < map.GetLength(1); j++) {
 				Destroy(map[i,j].gameObject);
+				map[i,j] = null;
 			}
 		}
+
 		door.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMap, ShieldMap);
 
@@ -104,12 +107,12 @@ public class BattleMap : UIBaseUnity {
 		}
 	}
 
-	void ClickDoor(GameObject go) {
-		if (prevMapItem.Coor.x == MapConfig.endPointX && prevMapItem.Coor.y == MapConfig.endPointY && door.doorOpen) {
-			bQuest.ClickDoor();
-			Destroy(door.GetComponent<UIEventListener>());
-		}
-	}
+//	void ClickDoor(GameObject go) {
+//		if (prevMapItem.Coor.x == MapConfig.endPointX && prevMapItem.Coor.y == MapConfig.endPointY && door.doorOpen) {
+//			bQuest.ClickDoor();
+////			Destroy(door.GetComponent<UIEventListener>());
+//		}
+//	}
 	  
 	void OnClickMapItem(GameObject go) {
 		if (!wMove) {
@@ -139,23 +142,32 @@ public class BattleMap : UIBaseUnity {
 
 	public void RotateAnim(Callback cb) {
 //		MsgCenter.Instance.AddListener (CommandEnum.RotateDown, RotateDown);
-		prevMapItem.RotateAnim (cb);
+		prevMapItem.RotateSingle (cb);
+	}
 
+	public void RotateAll(Callback cb) {
+		prevMapItem.RotateAll (cb);
 	}
 
 	public EnemyAttackEnum FirstOrBackAttack() {
 		return prevMapItem.TriggerAttack ();
 	}
 
-	public void BattleEndRotate () {
+	private Callback cb;
+	public void BattleEndRotate (Callback callback) {
+		cb = callback;
 		StartCoroutine (EndRotate ());
 	}
 
 	IEnumerator EndRotate () {
 		for (int i = 0; i < map.GetLength(0); i++) {
 			for (int j = 0; j < map.GetLength(1); j++) {
-				map[i,j].RotateAnim(null);
-				yield return 3 ;
+				if(i == map.GetLength(0) - 1 && j == map.GetLength(1) - 1){
+					map[i,j].RotateAll(cb);
+				}else{
+					map[i,j].RotateAll(null);
+				}
+				yield return 10 ;
 			}
 		}
 	}

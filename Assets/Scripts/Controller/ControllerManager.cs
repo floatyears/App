@@ -87,6 +87,7 @@ public class ControllerManager
 	#endregion
 
 	public void ExitBattle () {
+		currentEnum = SceneEnum.None;
 		currentScene.HideUI ();
 		currentScene.DestoryUI();
 		Main.Instance.GInput.IsCheckInput = false;
@@ -95,7 +96,12 @@ public class ControllerManager
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
 	}
 
+	private SceneEnum currentEnum = SceneEnum.None;
 	public void ChangeScene(SceneEnum sEnum) {
+		if (currentEnum == sEnum) {
+			return;	
+		}
+		currentEnum = sEnum;
 		string uiName = sEnum.ToString();
 		currentScene = CreatScene(sEnum,uiName);
 		currentScene.ShowUI();

@@ -17,7 +17,11 @@ public class AttackController {
 		get{return grid;}
 		set{
 			grid = value;
-			enemyInfo = value.Enemy;
+			enemyInfo = new List<TEnemyInfo>();
+			foreach (var item in value.Enemy) {
+				enemyInfo.Add(item);
+			}
+
 			foreach (var item in enemyInfo) {
 				item.drop = grid.Drop;
 			}

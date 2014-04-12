@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class TFriendInfo : ProtobufDataBase {
     private FriendInfo	instance;
     public TFriendInfo(FriendInfo inst) : base (inst) { 

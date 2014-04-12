@@ -27,7 +27,8 @@ public class MaskController : ConcreteComponent {
 	} 
 
 	public override void DestoryUI () {
-
+		base.DestoryUI ();
+		RemoveCommandListener ();
 	}
 
 	public override void CallbackView(object data){
@@ -39,6 +40,7 @@ public class MaskController : ConcreteComponent {
 		BlockerMaskParams bmArgs = msg as BlockerMaskParams;
 
 		SetBlocker(bmArgs.reason, bmArgs.isBlocked);
+		Debug.LogError("bmArgs.reason : " + bmArgs.reason + " bmArgs.isBlocked : " + bmArgs.isBlocked);
         SetMaskActive(TouchEventBlocker.Instance.IsBlocked);
 	}
 

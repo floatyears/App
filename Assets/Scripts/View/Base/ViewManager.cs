@@ -209,14 +209,10 @@ public class ViewManager {
 	}
 
 	public void CleartComponent () {
-		System.Type ty = typeof(MsgWindowLogic);
 		List<ConcreteComponent> cclist = new List<ConcreteComponent> ();
 		foreach (var item in UIComponentDic.Values) {
 			ConcreteComponent cc = item as ConcreteComponent;
-			if(cc.GetType() == ty)
-				continue;
 			cclist.Add(cc);
-//			GameObject.Destroy(cc.ViewComponent.gameObject);
 		}
 
 		for (int i = cclist.Count - 1; i >= 0; i--) {

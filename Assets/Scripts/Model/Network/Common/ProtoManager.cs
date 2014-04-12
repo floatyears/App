@@ -41,9 +41,8 @@ public class ProtoManager: ProtobufDataBase, INetBase {
             OnResponse(false);
 //            LogHelper.LogError("++++++proto.ParseFormBytes failed.++++++");
         }
-
+		SetBlockMask(false);
         OnResponseEnd(this.instObj);
-        SetBlockMask(false);
     }
 
     public void SetBlockMask(bool flag){

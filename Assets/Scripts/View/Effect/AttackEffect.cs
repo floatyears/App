@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
+using System.Collections;
 
 public class AttackEffect : MonoBehaviour {
 
@@ -21,6 +22,7 @@ public class AttackEffect : MonoBehaviour {
 		} else {
 			aei = inactiveEffect.Dequeue();
 		}
+
 		aei.gameObject.SetActive (true);
 		aei.RefreshInfo(data,End);
 		attackEffectQueue.Enqueue(aei);

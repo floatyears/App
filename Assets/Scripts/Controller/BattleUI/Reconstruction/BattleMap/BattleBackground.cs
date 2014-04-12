@@ -72,7 +72,7 @@ public class BattleBackground : UIBaseUnity {
 				continue;
 			}
 			Vector3 pos =  FindChild<Transform>("Bottom/" + (i + 1)).localPosition;
-//			Debug.LogError("i : " + i + " tuu : " + tuu.MakeUserUnitKey());
+			Debug.LogError("i : " + i + " tuu : " + tuu.MakeUserUnitKey());
 			attackPosition.Add(tuu.MakeUserUnitKey(), pos);
 		}
 	}

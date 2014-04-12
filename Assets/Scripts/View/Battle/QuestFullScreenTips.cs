@@ -68,13 +68,13 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void PlayReadyMove() {
 		tweenAlpha.enabled = true;
 		tweenAlpha.Reset ();
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
+		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
 
 	void PlayAll () {
 		tweenAlpha.enabled = true;
 		tweenAlpha.Reset ();
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3(3f,3f,3f), "time", 0.4f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
+		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3(3f,3f,3f), "time", 0.4f, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 
 	}
 
@@ -114,8 +114,8 @@ public class QuestFullScreenTips : UIBaseUnity {
 	public const string GameOver = "GAME-OVER-";
 	public const string BossAppears = "boss-APPEARS";
 	public const string OpenGate = "go-to-the-OPENED-GATE";
-	public const string BossBattle = "tap-to-boss-battle";
-	public const string CheckOut = "tap-to-Check-Out";
+	public const string BossBattle = "tap-to-boss-battle!";
+	public const string CheckOut = "tap-to-Check-Out-!";
 	public const string SPLimit = "SP-LIMIT-OVER!-";
 	public const string RankUp = "rank-up";
 	public const string ReadyMove = "Ready-to-move-on";

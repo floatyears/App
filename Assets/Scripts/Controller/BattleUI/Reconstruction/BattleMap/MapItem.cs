@@ -188,6 +188,15 @@ public class MapItem : UIBaseUnity {
 
 	}
 
+	void OnEnable () {
+		if (gridItemSprite == null) {
+			return;		
+		}
+		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha>();
+		ta.Reset ();
+		ShowFootTips ();
+	}
+
 	public override void ShowUI() {
 		isOld = false;
 	}
@@ -203,11 +212,26 @@ public class MapItem : UIBaseUnity {
 		}
 	}
 
+	public void RotateSingle(Callback cb) {
+		RotateAnim (cb, "RotateEnd");
+	}
+
+	public void RotateAll(Callback cb) {
+		RotateAnim (cb, "AllRotateEnd");
+	}
+
+
 	Callback animEnd;
 	List<GameObject> gridAnim = new List<GameObject> ();
-	public void RotateAnim(Callback cb) {
-		if (isOld) return;
-
+	public void RotateAnim(Callback cb,string function) {
+		animEnd = cb;
+		if (isOld) {
+			if(animEnd != null) {
+				Invoke(function, 0.5f);
+			}	
+			return;
+		}
+			
 		isOld = true;
 		showStarSprite.Clear ();
 
@@ -237,11 +261,6 @@ public class MapItem : UIBaseUnity {
 
 		go.SetActive (false);
 		TweenScale tws = gridAnim [2].GetComponent<TweenScale> ();
-		tws.eventReceiver = gameObject;
-		tws.callWhenFinished = "RotateEnd";
-
-	
-
 		TweenAlpha twa = mapBack.GetComponent<TweenAlpha> ();
 		twa.enabled = true;
 		twa.duration = time;
@@ -256,32 +275,38 @@ public class MapItem : UIBaseUnity {
 			twa.enabled = true;
 			twa.duration = time;	
 		}
-
-
 		tws = mapBack.GetComponent<TweenScale> ();
 		tws.enabled = true;
 		tws.duration = time;
-
-		animEnd = cb;
+		tws.eventReceiver = gameObject;
+		tws.callWhenFinished = function;
 	}     
 
-	void RotateEnd () {
-		for (int i = gridAnim.Count - 1; i >= 0; i--) {
-			Destroy( gridAnim[i]);
-		}
-		gridAnim.Clear ();
-
-		HideGrid ();
+	void EndCallback () {
 		if (animEnd != null) {
 			animEnd ();	
 		}
 	}
 
-	void HideGrid () {
+	void AllRotateEnd () {
+		HideGrid ();
+	}
+
+	void RotateEnd () {
 		mapBack.SetActive(false);
+		HideGrid ();
+	}
+
+	void HideGrid () {
+		for (int i = gridAnim.Count - 1; i >= 0; i--) {
+			Destroy( gridAnim[i]);
+		}
+		gridAnim.Clear ();
 		mapItemSprite.enabled = false;
 		HideStarSprite (false);
 		gridItemSprite.gameObject.SetActive (false);
+
+		EndCallback ();
 	}
 
 	public void ShowGrid() {
@@ -324,8 +349,10 @@ public class MapItem : UIBaseUnity {
 	}
 
 	int countShow = -1;
-	void ShowFootTips (bool Show) {
-		footTips.gameObject.SetActive (Show);
+	void ShowFootTips () {
+		if (!footTips.gameObject.activeSelf) {
+			return;		
+		}
 		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha> ();
 		TweenAlpha currentTa = footTips.GetComponent<TweenAlpha> ();
 		ta.Reset ();
@@ -335,7 +362,8 @@ public class MapItem : UIBaseUnity {
 		currentTa.to = ta.to;
 	}
 	public void Around(bool isAround) {
-		ShowFootTips (isAround);
+		footTips.gameObject.SetActive (isAround);
+		ShowFootTips ();
 		if(isOld)
 			return;
 //		Debug.LogError (gameObject + " isAround : " + isAround + "showStarSprite : " + showStarSprite.Count);

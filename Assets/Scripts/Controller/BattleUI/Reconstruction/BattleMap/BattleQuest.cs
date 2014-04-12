@@ -403,6 +403,7 @@ public class BattleQuest : UIBase {
 		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+		Debug.LogError (currentMapData.Position + " currentMapData.Enemy : " + currentMapData.Enemy.Count);
 		for (int i = 0; i < currentMapData.Enemy.Count; i++) {
 			TEnemyInfo tei = currentMapData.Enemy[i];
 			tei.EnemySymbol = (uint)i;
@@ -425,6 +426,7 @@ public class BattleQuest : UIBase {
 		switch (eae) {
 		case EnemyAttackEnum.BackAttack:
 			questFullScreenTips.ShowTexture(QuestFullScreenTips.BackAttack,null);
+			battle.ShieldInput(false);
 			bud.ac.AttackPlayer();
 			break;
 		case EnemyAttackEnum.FirstAttack:
@@ -463,15 +465,15 @@ public class BattleQuest : UIBase {
 		if (battleEnemy && !b) {
 			battle.SwitchInput(true);
 			battle.ShieldInput(false);
-			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
+//			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
+			QuestClear();
 		}
 	}
 
 	void QuestClear() {
 		battle.ShieldInput(true);
-		battleMap.BattleEndRotate();
-
-		RequestData();
+		BattleMap.waitMove = false;
+		battleMap.BattleEndRotate(battleMap.door.ShowTapToCheckOut);
 	}
 	
 	void AddListener () {
@@ -488,6 +490,12 @@ public class BattleQuest : UIBase {
 	}
 
 	public void CheckOut () {
+		Reset ();
+//		questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClearShow);
+	}
+
+	void QuestClearShow() {
+
 		RequestData ();
 	}
 

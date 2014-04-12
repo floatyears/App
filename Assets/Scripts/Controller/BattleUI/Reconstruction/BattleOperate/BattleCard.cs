@@ -63,7 +63,7 @@ public class BattleCard : UIBaseUnity
 			CardItem ci = tempObject.AddComponent<CardItem>();
 			ci.location = i;
 			ci.Init(i.ToString());
-			Debug.LogError("InitParameter carditem : " + ci);
+//			Debug.LogError("InitParameter carditem : " + ci);
 			cardItemArray[i] = ci;
 		}
 
