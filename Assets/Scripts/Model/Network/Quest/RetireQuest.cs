@@ -20,10 +20,12 @@ public class RetireQuest: ProtoManager {
 	}
 	
 	public static void SendRequest(DataListener callBack, uint questid, bool gameover=false) {
-		this.questId = questid;
-		this.gameOver = gameover;
 
 		RetireQuest retireQuest = new RetireQuest();
+
+		retireQuest.questId = questid;
+		retireQuest.gameOver = gameover;
+
 		retireQuest.OnRequest(null, callBack);
 	}
 

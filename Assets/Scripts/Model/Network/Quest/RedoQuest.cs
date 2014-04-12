@@ -18,12 +18,13 @@ public class RedoQuest: ProtoManager {
 	~RedoQuest () {
 	}
 	
-	public static void SendRequest(DataListener callBack, uint questid, int floor) {
-		this.questId = questid;
-		this.floorNo = floor;
-		
-		RedoQuest retireQuest = new RedoQuest();
-		retireQuest.OnRequest(null, callBack);
+	public void SendRequest(DataListener callBack, uint questid, int floor) {
+		RedoQuest redoQuest = new RedoQuest();
+
+		redoQuest.questId = questid;
+		redoQuest.floorNo = floor;
+
+		redoQuest.OnRequest(null, callBack);
 	}
 	
 	public override bool MakePacket() {
