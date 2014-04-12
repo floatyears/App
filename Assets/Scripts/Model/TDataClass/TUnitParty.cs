@@ -119,7 +119,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 			}
             
             totalHp += uu[item.unitPos].Hp;
-			Debug.LogError(item.unitPos + "  " + uu[item.unitPos].UnitInfo.ID + " hp : " + uu[item.unitPos].Hp + "  totalHp : " + totalHp);
+			//Debug.LogError(item.unitPos + "  " + uu[item.unitPos].UnitInfo.ID + " hp : " + uu[item.unitPos].Hp + "  totalHp : " + totalHp);
             totalCost += uu[item.unitPos].UnitInfo.Cost;
         }
     }

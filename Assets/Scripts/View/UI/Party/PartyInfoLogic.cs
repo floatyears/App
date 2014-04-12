@@ -30,7 +30,7 @@ public class PartyInfoLogic : ConcreteComponent {
 	}
 	
 	void Refresh(object data){
-		Debug.Log("Receive the message of refresh party info panel.......");
+		//Debug.Log("Receive the message of refresh party info panel.......");
 		TUnitParty tup = data as TUnitParty;
 		if(tup == null){
 			Debug.LogError("PartyInfoUILogic.Recive(), TUnitParty is NULL!");

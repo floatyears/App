@@ -140,7 +140,7 @@ public class NewPartyMembers : UIComponentUnity{
 			}
 		} 
 		else {
-			Debug.LogError("partyFocusUnit != null");
+			//Debug.LogError("partyFocusUnit != null");
 			if (FocusIsLeader() && (pickedUnitFromPartyMembers.UserUnit == null)) {
 				Debug.Log("Check Focus is Leader... clear focus and return...");
 				ClearPartyFocusState();
@@ -244,7 +244,7 @@ public class NewPartyMembers : UIComponentUnity{
 		int focusPos = GetUnitPosInParty(focusUnitInPartyMembers);
 		Debug.Log("AddToFocusWithPickedUnit(), focus pos is : " + focusPos);
 		//		DataCenter.Instance.PartyInfo.ChangeParty(partyView);{}
-		if(DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedUnitFromUnitList.UserUnit.ID))  {
+		if(! DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedUnitFromUnitList.UserUnit.ID))  {
 			ClearUnitListFocus();
 			ClearPartyFocusState();
 			return;
@@ -331,7 +331,7 @@ public class NewPartyMembers : UIComponentUnity{
 			isLeader = false;
 		}
 
-		Debug.Log("Check isFocusLeader : " + isLeader);
+		//Debug.Log("Check isFocusLeader : " + isLeader);
 		return isLeader;
 	}
 
@@ -487,8 +487,8 @@ public class NewPartyMembers : UIComponentUnity{
 		SortUnitTool.SortByTargetRule(curSortRule, memberList);
 		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitView puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
-			puv.UserUnit = memberList[ i - 1 ];
-			puv.CurrentSortRule = curSortRule;
+			puv.UserUnit = memberList[ i - 1 ];//before
+			puv.CurrentSortRule = curSortRule;//after
 		}
 	}
 

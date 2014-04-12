@@ -15,7 +15,7 @@ public class UnitView : MonoBehaviour {
 		}
 		set{
 			if(userUnit != null &&  userUnit.Equals(value)) {
-				ExecuteCrossFade();
+//				ExecuteCrossFade();
 			}
 			else{
 				userUnit = value;
@@ -71,6 +71,7 @@ public class UnitView : MonoBehaviour {
 	public void Init(TUserUnit userUnit){
 		this.userUnit = userUnit;
 		InitState();
+		ExecuteCrossFade();
 	}
 
 	protected virtual void InitUI(){
@@ -99,19 +100,26 @@ public class UnitView : MonoBehaviour {
 		IsEnable = true;
 		//Debug.LogError("avatarTex : " + avatarTex + "  userUnit.UnitInfo : " +userUnit.UnitInfo);
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		ExecuteCrossFade();
+
+		//update beforeLabelText & afterLabelText
+		UpdateCrossFadeText();
+
+//		ExecuteCrossFade();
 	}
 	private void ExecuteCrossFade(){
 //		CheckCross();
 //	
 //		crossFadeLabel.text = crossFadeBeforeText = "Lv." + userUnit.Level;
 //		crossFadeLabel.color = Color.yellow;
-		CrossFadeLevelFirst();
-		if(canCrossed){
-			if (IsInvoking("UpdateCrossFadeState"))
-				CancelInvoke("UpdateCrossFadeState");
+
+//		CrossFadeLevelFirst();
+//		if(canCrossed){
+//			if (IsInvoking("UpdateCrossFadeState"))
+//				CancelInvoke("UpdateCrossFadeState");
+//			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
+//		}
+		if (! IsInvoking("UpdateCrossFadeState"))
 			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
-		}
 	}
 
 	void CheckCross() {
@@ -134,6 +142,16 @@ public class UnitView : MonoBehaviour {
 
 	private void UpdateCrossFadeState(){
 //		Debug.LogError("UpdateCrossFadeState : " + isCrossed + " gameobject : " + gameObject);
+		if( userUnit == null )
+			return;
+
+		if(userUnit.AddNumber==0) {
+			isCrossed = !isCrossed;
+			crossFadeLabel.text = crossFadeBeforeText;
+			crossFadeLabel.color = Color.yellow;
+			return;
+		}
+
 		if(isCrossed){
 			crossFadeLabel.text = crossFadeBeforeText;
 			crossFadeLabel.color = Color.yellow;
@@ -193,8 +211,8 @@ public class UnitView : MonoBehaviour {
 			canCrossed = false;
 			crossFadeLabel.text = crossFadeBeforeText;
 			crossFadeLabel.color = Color.yellow;
-			if(IsInvoking("UpdateCrossFadeState"))
-				CancelInvoke("UpdateCrossFadeState");
+//			if(IsInvoking("UpdateCrossFadeState"))
+//				CancelInvoke("UpdateCrossFadeState");
 		}
 		else {
 			canCrossed = true;
@@ -217,7 +235,7 @@ public class UnitView : MonoBehaviour {
 	private void SetEmptyState(){
 		IsEnable = false;
 		avatarTex.mainTexture = null;
-		CancelInvoke("UpdateCrossFadeState");
+//		CancelInvoke("UpdateCrossFadeState");
 		crossFadeLabel.text = string.Empty;
 	}
 
@@ -225,7 +243,6 @@ public class UnitView : MonoBehaviour {
 		IsEnable = true;
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
 		CurrentSortRule = SortRule.ByGetTime;
-		ExecuteCrossFade();
 	}
 
 }
