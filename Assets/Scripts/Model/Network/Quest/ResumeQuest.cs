@@ -18,10 +18,12 @@ public class ResumeQuest: ProtoManager {
 	}
 	
 	public static void SendRequest(DataListener callBack, uint questid, bool gameover=false) {
-		this.questId = questid;
 
-		ResumeQuest retireQuest = new ResumeQuest();
-		retireQuest.OnRequest(null, callBack);
+		ResumeQuest resumeQuest = new ResumeQuest();
+
+		resumeQuest.questId = questid;
+
+		resumeQuest.OnRequest(null, callBack);
 	}
 	
 	public override bool MakePacket() {

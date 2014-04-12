@@ -20,11 +20,14 @@ public class GetQuestColors: ProtoManager {
 	}
 	
 	public static void SendRequest(DataListener callBack, uint questid, int count=0) {
-		this.questId = questid;
-		this.colorCount = count;
-		
+
 		GetQuestColors getQuestColors = new GetQuestColors();
+
+		getQuestColors.questId = questid;
+		getQuestColors.colorCount = count;
+
 		getQuestColors.OnRequest(null, callBack);
+
 	}
 	
 	//Property: request server parameters
