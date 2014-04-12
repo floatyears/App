@@ -686,10 +686,12 @@ public class UnitListDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		sceneInfoBar.SetComponent(decorator);
-
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		MyUnitListLogic unitList = CreatComponent< MyUnitListLogic >(UIConfig.unitListWindowName);
-		unitList.SetComponent(sceneInfoBar);
+
+		sceneInfoBar.SetComponent(decorator);
+		counter.SetComponent(sceneInfoBar);
+		unitList.SetComponent(counter);
 
 		lastDecorator = unitList;
 		lastDecorator.CreatUI();
@@ -732,31 +734,24 @@ public class FriendListDecorator : DecoratorBase{
 }
 
 //--------------------------------Information------------------------------------------
-public class InformationDecorator : DecoratorBase
-{
+public class InformationDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public InformationDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public InformationDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		InformationComponent infoWindow = CreatComponent< InformationComponent >(UIConfig.informationWindowName);
 
