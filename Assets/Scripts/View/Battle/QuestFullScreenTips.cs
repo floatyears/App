@@ -8,7 +8,7 @@ public class QuestFullScreenTips : UIBaseUnity {
 		initLocalScale = transform.localScale;
 		sprite = FindChild<UISprite>("Sprite");
 		tweenAlpha = FindChild<TweenAlpha>("Sprite");
-		uiCamera = ViewManager.Instance.MainUICamera;
+//		uiCamera = ViewManager.Instance.MainUICamera;
 		HideUI ();
 	}
 	
@@ -24,10 +24,10 @@ public class QuestFullScreenTips : UIBaseUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		Destroy (gameObject);
+//		Destroy (gameObject);
 	}
 
-	private UICamera uiCamera;
+//	private UICamera uiCamera;
 	private UISprite sprite;
 	private TweenAlpha tweenAlpha;
 	private Vector3 initLocalPosition = Vector3.zero;
@@ -37,21 +37,19 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void HideUI(bool b) {
 		if (b) {
 			sprite.spriteName = string.Empty;	
-			Debug.LogError("HideUI befoure : " + LayerMask.LayerToName( uiCamera.eventReceiverMask.value));
-			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
-//			Debug.LogError("HideUI end : " + LayerMask.LayerToName( uiCamera.eventReceiverMask.value));
+//			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
 			transform.localPosition = initLocalPosition;
 			transform.localScale = initLocalScale;
-
-			MapCamera.IsClick = true;
+//			MapCamera.IsClick = true;
 		} else {
-			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
-			MapCamera.IsClick = false;
+//			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
+//			MapCamera.IsClick = false;
 		}
 	}
-	
-	public void ShowTexture(string name,Callback cb) {
+	float tempTime = 0f;
+	public void ShowTexture(string name,Callback cb,float time = 0f) {
 		ShowUI ();
+		tempTime = time;
 		sprite.spriteName = name;
 		callBack = cb;
 		PlayAnimation (name);
@@ -70,7 +68,7 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void PlayReadyMove() {
 		tweenAlpha.enabled = true;
 		tweenAlpha.Reset ();
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "delay", 0.2f, "time", 0.4f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
+		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
 
 	void PlayAll () {
@@ -81,7 +79,7 @@ public class QuestFullScreenTips : UIBaseUnity {
 	}
 
 	void PlayEnd () {
-		GameTimer.GetInstance ().AddCountDown (0.5f, End);
+		GameTimer.GetInstance ().AddCountDown (0.8f, End);
 	}
 
 	void End() {
@@ -111,10 +109,8 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void BossAppearAnim() {
 		iTween.ScaleTo (gameObject, iTween.Hash ("y", 1f, "time", 0.3f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
-	
+
 	//---------------------------------------------appear-----------------------------------------------------
-
-
 	public const string GameOver = "GAME-OVER-";
 	public const string BossAppears = "boss-APPEARS";
 	public const string OpenGate = "go-to-the-OPENED-GATE";
@@ -123,5 +119,8 @@ public class QuestFullScreenTips : UIBaseUnity {
 	public const string SPLimit = "SP-LIMIT-OVER!-";
 	public const string RankUp = "rank-up";
 	public const string ReadyMove = "Ready-to-move-on";
-	public const string QuestClear = "Quest--Clear";
+	public const string QuestClear = "Quest--Clear!";
+	public const string FirstAttack = "FIRST-ATTACK-";
+	public const string BackAttack = "BACK-ATTACK-";
+	public const string standReady = "stand-ready";
 }

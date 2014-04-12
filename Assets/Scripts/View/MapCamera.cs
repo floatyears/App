@@ -6,7 +6,7 @@ public class MapCamera : MonoBehaviour {
 	private GameInput gameInput;
 	private static bool isClick = true;
 	public static bool IsClick {
-		set { SetIsClick (value); }
+		set { SetIsClick (value); } //Debug.LogError("MapCamera value : " + value);
 		get { return isClick; }
 	}
 	
@@ -33,37 +33,37 @@ public class MapCamera : MonoBehaviour {
 	}
 
 	void StopInput(object data) {
-		SetIsClick (false);
+		if (data == null) {
+			SetIsClick (false);	
+			return;
+		}
+		bool b = (bool)data;
+		SetIsClick (b);	
+//		Debug.LogError ("isClick : " + isClick +" time: "+ Time.realtimeSinceStartup);
 	}
 
 	void HandleOnUpdate () {
 		if (!isClick) {
 			return;
 		}
-
 		ProcessMouse ();
 	}
 
 	void MeetEnemy (object data) {
-//		isClick = false;
 		SetIsClick (false);
 	}
 
 	void BattleEnd (object data) {
-//		Debug.LogWarning("MapCamera BattleEnd");
-//		isClick = true;
 		SetIsClick (true);
 	}
 
 	static void SetIsClick (bool b) {
-//		Debug.LogWarning ("set is click : " + b);
 		isClick = b;
 	}
 
 	void ProcessMouse() {
 		if(Input.GetMouseButtonDown(0)) {
 			Press();
-//			Debug.Log("ProcessMouse");
 		}
 	}
 
@@ -83,6 +83,7 @@ public class MapCamera : MonoBehaviour {
 	RaycastHit rayCastHit;
 
 	void Press () {
+//		Debug.LogError ("Press : " + isClick +" time: "+ Time.realtimeSinceStartup);
 		Ray ray = mapCamera.ScreenPointToRay (Input.mousePosition);
 		bool haveObject = Physics.Raycast (ray, out rayCastHit);
 		if(haveObject) {

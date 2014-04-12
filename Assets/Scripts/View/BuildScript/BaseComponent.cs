@@ -115,6 +115,10 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 			viewComponent.DestoryUI();
 		}
 
+		if (viewComponent != null) {
+			GameObject.Destroy (viewComponent.gameObject);	
+		}
+
 		ViewManager.Instance.RemoveComponent(uiConfig.uiName);
 	}
 

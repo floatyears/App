@@ -32,12 +32,12 @@
           type:<%= select_tag :boost_type,options_for_select(CityInfo::QUEST_BOOST_TYPE)%>
           value:<%= text_field_tag :value%>
         </fieldset>
-        <fieldset>
+        <!-- <fieldset>
           pos:<br/>
           x:<%= text_field_tag :stage_x%>
           y:<%= text_field_tag :stage_y%>
     
-        </fieldset>
+        </fieldset> -->
       </fieldset>
     </div>
     <div class="modal-footer">
@@ -67,7 +67,7 @@
         rewardMoney: <%=text_field_tag :rewardMoney %><br/>
       </fieldset>
       bossId: <%=select_tag :bossId,options_for_select(@units_id) %> <button id="bossid" class="btn btn-primary">增加boosid</button><span id="bossid-info"></span><br/>
-      enemyId: <%=select_tag :enemyId,options_for_select(@units_id) %> <button id="enemyid" class="btn btn-primary">增加enemyid</button><span id="enemy-info"></span><br/>
+      <!-- enemyId: <%=select_tag :enemyId,options_for_select(@units_id) %> <button id="enemyid" class="btn btn-primary">增加enemyid</button><br/> -->
       <fieldset>
         <a href="#bossModal" role="button" class="btn btn-primary" data-toggle="modal">增加boss</a>
         <a href="#enemysModal" role="button" class="btn btn-primary" data-toggle="modal">增加enemy</a>
@@ -204,10 +204,10 @@
         star:<%= select_tag :star,options_for_select(CityInfo::E_GRID_STAR)%><br/>
         coin:<br/>
         min:<%= text_field_tag :coin_min %>&nbsp;&nbsp;&nbsp;&nbsp;max:<%= text_field_tag :coin_max %><br/>
-        <!-- enemyPool:<%= text_field_tag :enemyPool %>(多个用,隔开)<br/> -->
+        enemyPool:<%= text_field_tag :enemyPool,@star.try(:enemyPool).to_s %><%=select_tag :enemy_id,options_for_select(@units_id) %> <button id="enemyid" class="btn btn-primary">增加enemyid</button><span id="enemy-info"></span><br/>
         enemyNum:<br/>
         min:<%= text_field_tag :enemyNum_min %>&nbsp;&nbsp;&nbsp;&nbsp;max:<%= text_field_tag :enemyNum_max %><br/>
-        trap:<%= text_field_tag :trap %>(多个用,隔开)<br/>
+        trap:<%= text_field_tag :trap,"[1,2,3]" %><br/>
       </fieldset>
     </div>
     <div class="modal-footer">
@@ -223,7 +223,9 @@
     $("#colors-data").html(localStorage["colors"]);
     $("#floors-data").html(localStorage["floors"]);
     $("#stars-data").html(localStorage["stars"]);
-    $("#cityinfo").html(localStorage["city"]+"<a href=\"#stageModal\" role=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\">增加stage</a>");
+    if(localStorage["city"] != undefined){
+      $("#cityinfo").html(localStorage["city"]+"<a href=\"#stageModal\" role=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\">增加stage</a>");
+    }
     $("#stageinfo").html(localStorage["stages"]);
     
     var op = "<%= @op %>";
@@ -242,21 +244,21 @@
       }
       localStorage["bossids"] = JSON.stringify(boss_ids);
       $("#bossid-info").html(localStorage["bossids"]);
-      alert("添加bossid成功");
     });
     
     $( "#enemyid" ).click(function(event) {
       event.preventDefault();
       enemy_ids = []
       if(localStorage["enemyids"] == undefined){
-        enemy_ids.push(parseInt($("#enemyId").val()));
+        enemy_ids.push(parseInt($("#enemy_id").val()));
       }else{
         enemy_ids  = JSON.parse(localStorage["enemyids"]);
-        enemy_ids.push(parseInt($("#enemyId").val()));
+        enemy_ids.push(parseInt($("#enemy_id").val()));
       }
       localStorage["enemyids"] = JSON.stringify(enemy_ids);
+      
+      $("#enemyPool").val(localStorage["enemyids"]);
       $("#enemy-info").html(localStorage["enemyids"]);
-      alert("添加enemyid成功");
     });
         
     $( "#addquest" ).click(function(event) {
@@ -265,11 +267,8 @@
         alert("请先添加bossids");
         return ;
       }
-      if(localStorage["enemyids"] == undefined){
-        alert("请先添加enemyids");
-        return ;
-      }
       
+            
       if(localStorage["boss"] == undefined || localStorage["enemys"] == undefined || localStorage["colors"]== undefined || localStorage["floors"] == undefined){
         alert("清先填写配置信息");
         return;
@@ -320,7 +319,6 @@
       if(localStorage["stages"] == undefined ){
         var stagearrs = []
         var stage = $("#stageForm").serializeJSON();
-        // stage["quests"] = JSON.parse(localStorage["quests"]);
         stagearrs.push(stage);
         localStorage["stages"] = JSON.stringify(stagearrs);
       }else{
@@ -375,8 +373,12 @@
       event.preventDefault();
       localStorage.removeItem("quests");
       localStorage.removeItem("stages");
-      $("#quest-data").html("");
-      $("#stage-data").html("");
+      localStorage.removeItem("city");
+      localStorage.removeItem("bossids");
+      localStorage.removeItem("enemyids");
+      $("#cityinfo").html("");
+      $("#stageinfo").html("");
+      $("#quest-info").html("");
       alert("清除成功");
       $("#questconfig")[0].reset();
     });
@@ -388,7 +390,6 @@
       stars = [];
       floors = JSON.parse(localStorage["floors"])
       var star = $("#stars").serializeJSON();
-      star["enemyPool"] = JSON.parse(localStorage["enemyids"]);
       if(floors[parseInt(localStorage["floor_index"])]["stars"] == undefined ){
         stars.push(star);
       }else{
@@ -505,15 +506,7 @@
         alert( "添加失败" );
       });
     });
-  
-    $( "#reset-form" ).click(function(event) {
-      event.preventDefault();
-      localStorage.removeItem("boss");
-      localStorage.removeItem("enemys");
-      localStorage.removeItem("colors");
-      localStorage.removeItem("floors");
-      alert("清除成功");
-    });
-  
+    
+    
   });
   </script>

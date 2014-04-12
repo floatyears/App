@@ -120,6 +120,8 @@ public class VictoryEffect : UIBaseUnity {
 			if(currentExp >= currentTotalExp) {
 				currentExp -= currentTotalExp;
 				rank++;
+				battleQuest.battle.ShieldInput(false);
+				
 				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.RankUp,RankUp);
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 			}
@@ -129,7 +131,8 @@ public class VictoryEffect : UIBaseUnity {
 
 				                                  
 	void RankUp() {
-		MsgCenter.Instance.Invoke (CommandEnum.MeetEnemy, false);
+		battleQuest.battle.ShieldInput(true);
+//		MsgCenter.Instance.Invoke (CommandEnum.MeetEnemy, false);
 	}
 	
 	IEnumerator UpdateCoinNumber (float addCoin, float curCoin, float gotCoin) {
