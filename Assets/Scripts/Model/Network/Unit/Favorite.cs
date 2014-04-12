@@ -20,10 +20,9 @@ public class UnitFavorite: ProtoManager {
 	}
 	
 	public static void SendRequest(DataListener callBack, uint uniqueid, EFavoriteAction action) {
-		this.uniqueId = uniqueid;
-		this.action = action;
-		
 		UnitFavorite retireQuest = new UnitFavorite();
+		retireQuest.uniqueId = uniqueid;
+		retireQuest.action = action;
 		retireQuest.OnRequest(null, callBack);
 	}
 	
