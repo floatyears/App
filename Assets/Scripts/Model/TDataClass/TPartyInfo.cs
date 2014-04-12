@@ -129,6 +129,10 @@ public class TPartyInfo : ProtobufDataBase {
         } 
     }
 
+	public bool IsCostOverflow() {
+		return  (CurrentParty.TotalCost > DataCenter.Instance.UserInfo.CostMax );
+	}
+
 	public bool IsCostOverflow(int pos, uint newUniqueId) {
 		if( newUniqueId != 0 ) { // check cost max
 			int newCost = DataCenter.Instance.UserUnitList.GetMyUnit( newUniqueId ).UnitInfo.Cost;
@@ -176,11 +180,15 @@ public class TPartyInfo : ProtobufDataBase {
         get { return this.isPartyItemModified || isPartyGroupModified; }
     }
 
-    public void ExitParty() {
-        if (IsModified) {
+    public bool ExitParty() {
+		if ( IsCostOverflow() )
+			return false;
+
+		if (IsModified) {
             ChangeParty cp = new ChangeParty();
             cp.OnRequest(this, onRspChangeParty);
         }
+		return true;
     }
 
     public void onRspChangeParty(object data) {
