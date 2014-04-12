@@ -176,28 +176,28 @@ public class UnitView : MonoBehaviour {
 	
 	private void UpdateCrossFadeText(){
 		switch (currentSortRule){
-			case SortRule.ByID : 
+			case SortRule.ID : 
 				CrossFadeLevelFirst();
 				break;
-			case SortRule.ByAttack : 
+			case SortRule.Attack : 
 				CrossFadeAttackFirst();
 				break;
-			case SortRule.ByAttribute : 
+			case SortRule.Attribute : 
 				CrossFadeLevelFirst();
 				break;
-			case SortRule.ByHP : 
+			case SortRule.HP : 
 				CrossFadeHpFirst();
 				break;
-			case SortRule.ByRace :
+			case SortRule.Race :
 				CrossFadeLevelFirst();
 				break;
-			case SortRule.ByGetTime : 
+			case SortRule.GetTime : 
 				CrossFadeLevelFirst();
 				break;
-			case SortRule.ByAddPoint :
+			case SortRule.AddPoint :
 				CrossFadeLevelFirst();
 				break;
-			case SortRule.ByIsCollected : 
+			case SortRule.Fav : 
 				CrossFadeLevelFirst();
 				break;
 			default:
@@ -242,7 +242,7 @@ public class UnitView : MonoBehaviour {
 	private void SetCommonState(){
 		IsEnable = true;
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		CurrentSortRule = SortRule.ByGetTime;
+		CurrentSortRule = SortRule.GetTime;
 	}
 
 }

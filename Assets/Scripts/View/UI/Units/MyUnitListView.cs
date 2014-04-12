@@ -3,9 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MyUnitListView : UIComponentUnity {
-	GameObject dragItem;
-	DragPanel dragPanel;
-	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
+	private GameObject dragItem;
+	private DragPanel dragPanel;
+	private UIButton sortBtn;
+	private UILabel sortRuleLabel;
+	private SortRule curSortRule;
+	private List<TUserUnit> memberList = new List<TUserUnit>();
+	private Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
@@ -38,6 +42,15 @@ public class MyUnitListView : UIComponentUnity {
 
 	void InitUIElement(){
 		InitDragPanelArgs();
+
+		memberList = GetUnitList();
+
+		sortBtn = transform.FindChild("Button_Sort").GetComponent<UIButton>();
+		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
+		sortRuleLabel = transform.FindChild("Button_Sort/Label_Rule").GetComponent<UILabel>();
+
+		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+		sortRuleLabel.text = curSortRule.ToString();
 	}
 
 	void CreateDragPanel(object args){
@@ -56,7 +69,6 @@ public class MyUnitListView : UIComponentUnity {
 	void DestoryDragPanel(object args){
 		dragPanel.DestoryUI();
 	}
-	
 
 	void InitDragPanelArgs(){
 		dragPanelArgs.Add("parentTrans", transform);
@@ -74,6 +86,28 @@ public class MyUnitListView : UIComponentUnity {
 	void ShowUIAnimation(){
 		transform.localPosition = new Vector3(-1000, 0 , 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));
+	}
+
+	private void ClickSortBtn(GameObject btn){
+		curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		sortRuleLabel.text = curSortRule.ToString();
+		SortUnitTool.SortByTargetRule(curSortRule, memberList);
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			MyUnitView puv = dragPanel.ScrollItem[ i ].GetComponent<MyUnitView>();
+			puv.UserUnit = memberList[ i ];//before
+			puv.CurrentSortRule = curSortRule;//after
+		}
+	}
+
+	private List<TUserUnit> GetUnitList(){
+		if(DataCenter.Instance.MyUnitList.GetAll() == null){
+			return null;
+		}
+		
+		List<TUserUnit> unitList = new List<TUserUnit>();
+		unitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
+		//Debug.LogError("GetUnitList(), unitList count : " + unitList.Count);
+		return unitList;
 	}
 	
 }

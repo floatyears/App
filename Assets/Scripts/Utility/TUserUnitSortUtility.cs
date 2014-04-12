@@ -2,25 +2,28 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public enum SortRule {
-	ByAttack			= 0,
-	ByHP					= 1,
-	ByAttribute			= 2,
-	ByRace				= 3,
-	ByGetTime			= 4,
-	ByID					= 5,
-	ByIsCollected		= 6,
-	ByAddPoint		= 7
+	Attack			= 0,
+	HP				= 1,
+	Attribute		= 2,
+	Race				= 3,
+	GetTime		= 4,
+	ID					= 5,
+	Fav				= 6,
+	AddPoint		= 7
 }
 
 public class SortUnitTool{
-	const int ruleCount = 8;
+	public const SortRule DEFAULT_SORT_RULE = SortRule.GetTime;
+	public const int RULE_KIND_COUNT = 8;
+
 	public static SortRule GetNextRule(SortRule currentRule){
 		SortRule nextRule;
 		int currentIndex = (int)currentRule;
 		currentIndex++;
-		currentIndex = currentIndex % ruleCount;
+		currentIndex = currentIndex % RULE_KIND_COUNT;
 		nextRule = (SortRule)currentIndex;
 		return nextRule;
 	}
@@ -29,28 +32,28 @@ public class SortUnitTool{
 		//Debug.Log("Before :: memberList[ 4 ].Level ->" + targetList[ 4 ].Level);
 		
 		switch (targetRule){
-			case SortRule.ByAddPoint : 
+			case SortRule.AddPoint : 
 				DGTools.InsertSort(targetList, new TUserUnitSortAddPoint());
 				break;
-			case SortRule.ByAttack : 
+			case SortRule.Attack : 
 				DGTools.InsertSort(targetList, new TUserUnitSortAtk());
 				break;
-			case SortRule.ByAttribute : 
+			case SortRule.Attribute : 
 				DGTools.InsertSort(targetList, new TUserUnitSortAttribute());
 				break;
-			case SortRule.ByGetTime : 
+			case SortRule.GetTime : 
 				DGTools.InsertSort(targetList, new TUserUnitSortGetTime());
 				break;
-			case SortRule.ByHP : 
+			case SortRule.HP : 
 				DGTools.InsertSort(targetList, new TUserUnitSortHP());
 				break;
-			case SortRule.ByID : 
+			case SortRule.ID : 
 				DGTools.InsertSort(targetList, new TUserUnitSortID());
 				break;
-			case SortRule.ByIsCollected : 
+			case SortRule.Fav : 
 				DGTools.InsertSort(targetList, new TUserUnitSortFavourite());
 				break;
-			case SortRule.ByRace : 
+			case SortRule.Race : 
 				DGTools.InsertSort(targetList, new TUserUnitSortRace());
 				break;
 			default:
@@ -103,18 +106,7 @@ public class TUserUnitSortFavourite : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
 		//TODO
-//		if(firstUserUnit.isFavorate !=0 && !secondUserUnit.isFavorate) {
-//			return 1;
-//		}
-//
-//		if(firstUserUnit.isFavorate && secondUserUnit.isFavorate) {
-//			return 0;
-//		}
-//
-//		if(!firstUserUnit.isFavorate && secondUserUnit.isFavorate) {
-//			return -1;
-//		}
-		return -1;
+		return 1;
 	}
 }
 
@@ -128,17 +120,18 @@ public class TUserUnitSortAddPoint : TUserUnitSortBase{
 public class TUserUnitSortAttribute : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		//TODO
-		return -1;
-
-	}
+		int first = (int)firstUserUnit.UnitInfo.Type;
+		int second = (int)secondUserUnit.UnitInfo.Type;
+		return first.CompareTo(second);
+	}		
 }
 
 public class TUserUnitSortRace : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		//TODO
-		return -1;
+		int first = (int)firstUserUnit.UnitInfo.Race;
+		int second = (int)secondUserUnit.UnitInfo.Race;
+		return first.CompareTo(second);
 
 	}
 }

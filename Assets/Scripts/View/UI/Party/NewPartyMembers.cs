@@ -9,6 +9,7 @@ public class NewPartyMembers : UIComponentUnity{
 	private UILabel pageIndexLabel;
 	private UILabel rightIndexLabel;
 	private UILabel pageIndexSuffixLabel;
+	private UILabel sortRuleLabel;
 	private UIButton prePageButton;
 	private UIButton nextPageButton;
 	private UIButton sortButton;
@@ -19,7 +20,7 @@ public class NewPartyMembers : UIComponentUnity{
 
 	private Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	private Dictionary<int, PageUnitView> partyView = new Dictionary<int, PageUnitView>();
-	List<TUserUnit> memberList = new List<TUserUnit>();
+	private List<TUserUnit> memberList = new List<TUserUnit>();
 	private List<PartyUnitView> partyUnitViewList = new List<PartyUnitView>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -33,6 +34,7 @@ public class NewPartyMembers : UIComponentUnity{
 
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
+		RefreshDragPanel();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
 	}
 
@@ -60,6 +62,7 @@ public class NewPartyMembers : UIComponentUnity{
 
 		sortButton = FindChild<UIButton>("PartyDragPanel/SortButton");
 		UIEventListener.Get(sortButton.gameObject).onClick = ClickSortButton;
+		sortRuleLabel = sortButton.transform.FindChild("Label").GetComponent<UILabel>();
 
 		for (int i = 0; i < 4; i++){
 			PageUnitView puv = FindChild<PageUnitView>(i.ToString());
@@ -394,9 +397,11 @@ public class NewPartyMembers : UIComponentUnity{
 			PartyUnitView puv = PartyUnitView.Inject(dragPanel.ScrollItem[ i ]);
 			puv.Init(memberList[ i - 1 ]);
 			puv.callback = OutPartyItemClick;
-
 			partyUnitViewList.Add(puv);
 		}
+
+		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+		sortRuleLabel.text = curSortRule.ToString();
 	}
 
 	private void RejectPartyMember(GameObject item){
@@ -482,13 +487,52 @@ public class NewPartyMembers : UIComponentUnity{
 	
 	void ClickSortButton(GameObject btn){
 		curSortRule = SortUnitTool.GetNextRule(curSortRule);
-		UILabel label = sortButton.transform.FindChild("Label").GetComponent<UILabel>();
-		label.text = curSortRule.ToString();
+		sortRuleLabel.text = curSortRule.ToString();
 		SortUnitTool.SortByTargetRule(curSortRule, memberList);
+		Debug.Log("xxxxx ....memberList : " + memberList.Count + " ragPanel.ScrollItem.Count : " + dragPanel.ScrollItem.Count);
 		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitView puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
 			puv.UserUnit = memberList[ i - 1 ];//before
 			puv.CurrentSortRule = curSortRule;//after
+		}
+	}
+
+	void RefreshDragPanel(){
+		memberList = GetUnitList();
+		int memCount = memberList.Count;
+		int dragCount = dragPanel.ScrollItem.Count - 1;
+		if( memCount >  dragCount){
+			int addItemCount = memberList.Count - dragCount;//the first one is reject item
+			dragPanel.AddItem(addItemCount, MyUnitView.ItemPrefab);
+			dragCount = dragPanel.ScrollItem.Count;
+			//Debug.Log("RefreshDragPanel(), dragPanel count : " + dragPanel.ScrollItem.Count + "  member list count : " + memberList.Count);
+			for (int i = 1; i < dragCount; i++) {
+				//RefreshData
+				PartyUnitView puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
+				if(puv == null){
+					puv.Init(memberList[ i - 1 ]);
+				}
+				else
+					puv.UserUnit = memberList[ i - 1 ];//before
+
+				puv.CurrentSortRule = curSortRule;//after	
+			}
+		}
+		else{
+//			Debug.Log("RefreshDragPanel memberList : " + memberList.Count + "  dragPanel.ScrollItem.Count " +dragCount
+			//Refresh
+			for (int i = 0; i < memCount; i++) {
+				PartyUnitView puv = dragPanel.ScrollItem[ i + 1 ].GetComponent<PartyUnitView>();
+				puv.UserUnit = memberList[ i];//before
+				puv.CurrentSortRule = curSortRule;//after
+			}
+
+			//Remove
+			for (int i = memCount + 1; i < dragPanel.ScrollItem.Count; i++) {
+				Debug.LogError("i : " + i + " dragPanel.ScrollItem[ i ] : " + dragPanel.ScrollItem[ i ]);
+				dragPanel.RemoveItem(dragPanel.ScrollItem[ i ]);
+			}
+			dragPanel.Refresh();
 		}
 	}
 
