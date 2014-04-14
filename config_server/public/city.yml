@@ -1,0 +1,105 @@
+city:
+  version: 1  
+  id: 1
+  state: 1
+  cityName: "City1"
+  description: "City1"
+  stages:
+    -
+      version: 1
+      cityId: 1
+      id: 1
+      state: 0
+      type: 1
+      stageName: "stage1"
+      description: "stage1"
+      startTime: 1397269535
+      endTime: 1397269535
+      boost:
+        type: 1
+        value: 1
+      quests:
+        -
+          id: 1
+          state: 0
+          no: 1
+          name: "quest1"
+          story: "quest1"
+          stamina: 1
+          floor: 1
+          rewardExp: 1
+          rewardMoney: 1
+          bossId: [1,2,3]
+          enemyId: [1,2,3]
+          quest_config:
+            boss:
+              -
+                enemyId: 1
+                unitId: 1
+                type: 1
+                hp: 100
+                attack: 100
+                defense: 100
+                nextAttack: 1
+                dropUnitId: 1
+                dropUnitLevel: 1
+                dropRate: 1
+                addRate: 1
+            enemys:
+              -
+                enemyId: 1
+                unitId: 1
+                type: 1
+                hp: 100
+                attack: 100
+                defense: 100
+                nextAttack: 1
+                dropUnitId: 1
+                dropUnitLevel: 1
+                dropRate: 1
+                addRate: 1
+            colors:
+              -
+                color: 1 
+                percent: 0.14
+              -
+                color: 2
+                percent: 0.14
+              -
+                color: 3
+                percent: 0.14
+              -
+                color: 4
+                percent: 0.14
+              -
+                color: 5
+                percent: 0.14
+              -
+                color: 6
+                percent: 0.14
+              -
+                color: 7
+                percent: 0.14
+            floors:
+              -
+                version: 1
+                treasureNum: 1
+                trapNum: 1
+                enemyNum: 1
+                keyNum: 1
+                stars:
+                  -
+                    repeat: 2
+                    star: 1
+                    coin: {min: 1,max: 2}
+                    enemyPool: [1,2,3]
+                    enemyNum: {min: 1,max: 2}
+                    trap: [1,2,3]
+                  -
+                    repeat: 3
+                    star: 5
+                    coin: {min: 4,max: 5}
+                    enemyPool: [4,5,10]
+                    enemyNum: {min: 1,max: 2}
+                    trap: [3,1,8]
+        
