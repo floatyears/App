@@ -160,9 +160,6 @@ public enum CommandEnum{
 	EnterBattle,
 	LeftBattle,
 	QuestEnd,
-	LeaderSkillEnd,
-	ShowHands,
-	ActiveSkillStandReady,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -237,7 +234,9 @@ public enum CommandEnum{
     LevelUpSucceed,
     StartFirstLogin,
     FocusLevelUpPanel,
-
+	LeaderSkillEnd,
+	ShowHands,
+	ActiveSkillStandReady,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,
@@ -407,3 +406,4 @@ public enum EnemyAttackEnum {
 	FirstAttack,
 	BackAttack,
 }
+

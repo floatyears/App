@@ -9,10 +9,14 @@ public class BattleSkill : UIBaseUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
+		MsgCenter.Instance.AddListener (CommandEnum.MeetEnemy, MeetEnemy);
+		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.MeetEnemy, MeetEnemy);
+		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
 	public override void DestoryUI () {
@@ -34,8 +38,17 @@ public class BattleSkill : UIBaseUnity {
 	private Callback boostAcitveSkill;
 	private Callback CloseSkill;
 	private UILabel roundLabel;
+	private UIButton boostButton;
 	
 	private Dictionary<string, SkillItem> skillDic = new Dictionary<string, SkillItem> ();
+
+	void MeetEnemy(object data) {
+		boost = true;	
+	}
+
+	void BattleEnd(object data) {
+		boost = false;	
+	}
 
 	void InitUI () {
 		SkillItem si = null;
@@ -78,21 +91,16 @@ public class BattleSkill : UIBaseUnity {
 		}
 		si.skillSprite = temp;
 		skillDic.Add(info, si);
-
 		info = SKill[3];
 		si = new SkillItem();
 		si.skillTypeLabel = FindChild<UILabel> ("ActiveSkill/Label");
 		si.skillName = FindChild<UILabel>("ActiveSkill/SkillName");
 		si.skillDescribeLabel = FindChild<UILabel>("ActiveSkill/DescribeLabel");
 		skillDic.Add(info, si);
-
 		roundLabel = FindChild<UILabel>("RoundLabel");
-
-		GameObject go = transform.Find ("BoostButton").gameObject;
-		UIEventListener.Get (go).onClick = Boost;
-
+		boostButton = FindChild<UIButton>("BoostButton");
+		UIEventListener.Get (boostButton.gameObject).onClick = Boost;
 		Transform trans = FindChild<Transform>("Title/Button_Close");
-//		Debug.LogError ("trans : " + trans);
 		UIEventListener.Get (trans.gameObject).onClick = Close;
 	}
 
@@ -103,7 +111,6 @@ public class BattleSkill : UIBaseUnity {
 	}
 
 	void Close(GameObject go) {
-		Debug.LogError ("CloseSkill : " + (CloseSkill == null));
 		if (CloseSkill != null) {
 			CloseSkill();
 		}
@@ -125,20 +132,15 @@ public class BattleSkill : UIBaseUnity {
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill2, SkillType.NormalSkill); 				//.GetSkill (tui.NormalSkill2);
 		Refresh (2, sbi);
 
-//		Debug.LogError ("NormalSkill2 : " + sbi );
-//		if (sbi != null) {
-//			Debug.LogError ("NormalSkill2 : " + sbi  + " id: " + sbi.BaseInfo.id );
-//		}
-
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill); 
-
 		Refresh (3, sbi);
 
 		if (sbi != null && sbi.BaseInfo.skillCooling == 0) {
-			boost = true;	
-		} 
+
+			boostButton.isEnabled = true;
+		}
 		else {
-			boost = false;
+			boostButton.isEnabled = false;
 		}
 
 		if (sbi == null) {
@@ -149,10 +151,7 @@ public class BattleSkill : UIBaseUnity {
 		}
 
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.PassiveSkill, SkillType.PassiveSkill);				//.GetSkill (tui.PassiveSkill);
-//		Debug.LogError ("passive skill : " + sbi);
-//		if (sbi != null) {
-//			Debug.LogError ("passive skill : " + sbi + " id : " + sbi.BaseInfo.id);
-//		}
+
 		Refresh (4, sbi);
 	}
 
