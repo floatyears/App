@@ -47,16 +47,16 @@ public class LoadAsset
 
 	public Object LoadAssetFromResources(string name,ResourceEuum rEnum)
 	{
-		Object obj = GetCache(name);
+//		Object obj = GetCache(name);
 
-		if(obj == null)
-		{
+//		if(obj == null)
+//		{
 			string reallyPath = DisposePathByType(rEnum) + name;
 
-			obj = Resources.Load(reallyPath);
+			Object obj = Resources.Load(reallyPath);
 			
-			objectDic.Add(name,obj);
-		}
+//			objectDic.Add(name,obj);
+//		}
 
 		return obj;
 	}

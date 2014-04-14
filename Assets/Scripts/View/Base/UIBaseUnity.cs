@@ -52,7 +52,7 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 	
 	public virtual void DestoryUI () {
 		currentState = UIState.UIDestory;
-
+		Destroy (gameObject);
 		//vManager.DestoryUI(this);
 	}
 

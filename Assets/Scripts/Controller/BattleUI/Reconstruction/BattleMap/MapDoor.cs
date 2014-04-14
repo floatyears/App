@@ -4,18 +4,18 @@ using System.Collections;
 public class MapDoor : UIBaseUnity {
 	public BattleMap battleMap;
 	private UISprite TapToBattle;
-	private TweenAlpha tween;
+	private TweenAlpha tweenA;
 	[HideInInspector]
 	public bool doorOpen = false;
 	[HideInInspector]
 	public bool canEnterDoor = false;
-
 	private bool isClick = false;
+	private bool checkOut = false;
 
 	public override void Init (string name) {
 		base.Init (name);
 		TapToBattle = FindChild<UISprite>("Sprite");
-		tween = FindChild<TweenAlpha>("Sprite");
+		tweenA = FindChild<TweenAlpha>("Sprite");
 		UIEventListener.Get (gameObject).onClick = ClickDoor;
 	}
 
@@ -35,6 +35,9 @@ public class MapDoor : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.QuestEnd, QuestEnd);
 		doorOpen = false;
 		canEnterDoor = false;
+		isClick = false;
+		checkOut = false;
+		TapToBattle.spriteName = QuestFullScreenTips.BossBattle;
 	}
 
 	public override void DestoryUI () {
@@ -58,16 +61,33 @@ public class MapDoor : UIBaseUnity {
 	public void ShowTapToBattle () {
 		bool b = canEnterDoor && doorOpen;
 		TapToBattle.enabled = b;	
-		tween.enabled = b;
+		tweenA.enabled = b;
 	}
 	
 	void ClickDoor(GameObject go) {
-		if (TapToBattle.enabled && !isClick) {
+		if (!TapToBattle.enabled) {
+			return;	
+		}
+		Debug.LogError ("TapToBattle.spriteName : " + TapToBattle.spriteName + "  QuestFullScreenTips.BossBattle : " + QuestFullScreenTips.BossBattle + " isclick : " + isClick);
+		if (TapToBattle.spriteName == QuestFullScreenTips.BossBattle && !isClick) {
 			battleMap.bQuest.ClickDoor();
-			Destroy(GetComponent<UIEventListener>());
 			TapToBattle.enabled = isClick;	
-			tween.enabled = isClick;
+			tweenA.enabled = isClick;
 			isClick = true;
 		}
+
+		if (TapToBattle.spriteName == QuestFullScreenTips.CheckOut && checkOut) {
+			checkOut = false;
+			TapToBattle.enabled = checkOut;	
+			tweenA.enabled = checkOut;
+			battleMap.bQuest.CheckOut();
+		}
+	}
+
+	public void ShowTapToCheckOut () {
+		TapToBattle.enabled = true;
+		tweenA.enabled = true;
+		TapToBattle.spriteName = QuestFullScreenTips.CheckOut;
+		checkOut = true;
 	}
 }
