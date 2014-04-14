@@ -469,4 +469,105 @@ class CityInfo
     end
   end
   
+  
+  def self.import_data_from_yaml(filepath)
+    city_data =  YAML.load_file(filepath)
+    
+  end
+  
+  def self.create_stars_config(configs)
+    enemy_ids = []
+    stars = []
+    unless configs.empty?
+      configs.each do |star|
+        stars << StarConfig.new(repeat: star["repeat"],star: star["star"],coin: NumRange.new(min: star["coin"]["min"],max: star["coin"]["max"]),enemyPool: star["enemyPool"],enemyNum: NumRange.new(min: star["enemyNum"]["min"],max: star["enemyNum"]["max"]),trap: star["trap"])
+        enemy_ids = enemy_ids + star["enemyPool"]
+      end
+    end
+    return stars,enemy_ids
+  end
+  
+  def self.create_quest_floor(configs)
+    floors = []
+    enemy_ids = []
+    unless configs.empty?
+      configs.each do |floor_config|
+        stars,enemy_id = create_stars_config(floor_config["stars"])
+        enemy_ids = enemy_ids + enemy_id
+        floors << QuestFloorConfig.new(version: floor_config["version"],treasureNum: floor_config["treasureNum"],trapNum: floor_config["trapNum"],enemyNum: floor_config["enemyNum"],keyNum: floor_config["keyNum"],stars: stars)
+      end
+    end
+    return floors,enemy_ids
+  end
+  
+  def self.create_colors(configs)
+    colors = []
+    unless configs.empty?
+      configs.each do |color_config|
+        colors << ColorPercent.new(color: color_config["color"],precent: color_config["precent"])
+      end
+    end
+    return colors
+  end
+  
+  def self.create_enemys(configs)
+    enemys = []
+    unless configs.empty?
+      configs.each do |enemy_config|
+        info = EnemyInfo.new(enemyId: enemy_config["enemyId"],unitId: enemy_config["unitId"],type: enemy_config["type"],hp: enemy_config["hp"],attack: enemy_config["attack"],defense: enemy_config["defense"],nextAttack: enemy_config["nextAttack"])
+        enemys << EnemyInfoConf.new(enemy: info ,dropUnitId: enemy_config["dropUnitId"],dropUnitLevel: enemy_config["dropUnitLevel"],dropRate: enemy_config["dropRate"],addRate: enemy_config["addRate"])
+      end
+    end
+    return enemys
+  end
+  
+  def self.create_boss(configs)
+    enemys = []
+    unless configs.empty?
+      configs.each do |enemy_config|
+        info = EnemyInfo.new(enemyId: enemy_config["enemyId"],unitId: enemy_config["unitId"],type: enemy_config["type"],hp: enemy_config["hp"],attack: enemy_config["attack"],defense: enemy_config["defense"],nextAttack: enemy_config["nextAttack"])
+        enemys << EnemyInfoConf.new(enemy: info ,dropUnitId: enemy_config["dropUnitId"],dropUnitLevel: enemy_config["dropUnitLevel"],dropRate: enemy_config["dropRate"],addRate: enemy_config["addRate"])
+      end
+    end
+    return enemys
+  end
+  
+  def self.create_quest(configs)
+    quests = []
+    unless configs.empty?
+      configs.each do |quest_config|
+         boss =  create_boss(quest_config["quest_config"]["boss"])
+         enemys = create_enemys(quest_config["quest_config"]["enemys"])   
+         colors =  create_colors(quest_config["quest_config"]["colors"])
+         floors,ids = create_quest_floor(quest_config["quest_config"]["floors"])
+         q_config = QuestConfig.new(questId: quest_config["id"],boss: boss,enemys: enemys,colors: colors,floors: floors)
+         save_to_redis("X_CONF_#{quest_config["id"]}",q_config.encode)
+         quests << QuestInfo.new(id: quest_config["id"],state: quest_config["state"],no: quest_config["no"],name: quest_config["name"],story: quest_config["story"],stamina: quest_config["stamina"],floor: quest_config["floor"],rewardExp: quest_config["rewardExp"],rewardMoney: quest_config["rewardMoney"],bossId: quest_config["bossId"],enemyId: ids.uniq)
+      end
+    end
+    return quests
+  end
+  
+  
+  def self.create_stage(configs)
+    stages = []
+    unless configs.empty?
+      configs.each do |stage_config|
+        quests = create_quest(stage_config["quests"])
+        stage = StageInfo.new(version: stage_config["version"],cityId: stage_config["cityId"],id: stage_config["id"],state: stage_config["state"],type: stage_config["type"],stageName: stage_config["stageName"],description: stage_config["description"],startTime: stage_config["startTime"],endTime: stage_config["endTime"],boots: QuestBoost.new(type: stage_config["boost"]["type"],value:  stage_config["boost"]["value"]),quests: quests)
+        save_to_redis("X_STAGE_#{stage_config["id"]}",stage.encode)
+        stages << stage
+      end
+    end
+    return stages
+  end
+  
+  def self.create_city_info(configs)
+    unless configs.nil?
+      stages =  create_stage(configs["stages"])
+      city  = CityInfo.new(version: configs["version"],id: configs["id"],state: configs["state"],cityName: configs["cityName"],description: configs["description"],stages: stages)
+      save_to_redis("X_CITY_#{configs["id"]}",city.encode)
+    end
+  end
+    
 end
