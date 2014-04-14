@@ -392,7 +392,6 @@ public class NewPartyMembers : UIComponentUnity{
 	private void InitUnitListView(){
 		memberList = GetUnitList();
 		dragPanel.AddItem(memberList.Count, MyUnitView.ItemPrefab);
-
 		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitView puv = PartyUnitView.Inject(dragPanel.ScrollItem[ i ]);
 			puv.Init(memberList[ i - 1 ]);

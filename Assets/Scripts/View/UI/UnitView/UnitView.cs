@@ -56,8 +56,7 @@ public class UnitView : MonoBehaviour {
 			UpdateCrossFadeText();
 		}
 	}
-
-
+	
 	protected bool canCrossed = true;
 	protected bool isCrossed;
 	protected UITexture avatarTex;
