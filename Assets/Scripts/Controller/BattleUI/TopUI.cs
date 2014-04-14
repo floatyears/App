@@ -9,6 +9,8 @@ public class TopUI : UIBaseUnity {
 	private UIAnchor leftAnchor;
 	private UIAnchor rightAnchor;
 
+	private UIButton retryButton;
+
 	[HideInInspector]
 	public BattleQuest battleQuest;
 
@@ -18,6 +20,8 @@ public class TopUI : UIBaseUnity {
 		coinLabel = FindChild<UILabel> ("Topleft/CoinLabel");
 		dropLabel = FindChild<UILabel> ("Topleft/DropLabel");
 		floorLabel = FindChild<UILabel> ("TopRight/FloorLabel");
+		retryButton = FindChild<UIButton>("TopRight/RetryButton");
+		UIEventListener.Get (retryButton.gameObject).onClick = Retry;
 
 		UISprite  sprite = FindChild<UISprite>("TopRight/Sprite");
 		UIEventListener.Get (sprite.gameObject).onClick = ShowMenu;
@@ -82,6 +86,10 @@ public class TopUI : UIBaseUnity {
 	public void Reset() {
 		coinLabel.text = "";
 		dropLabel.text = "";
+	}
+
+	void Retry(GameObject go) {
+		battleQuest.Retry ();
 	}
 
 	void ShowMenu (GameObject go) {
