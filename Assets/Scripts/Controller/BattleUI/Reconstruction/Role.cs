@@ -50,9 +50,8 @@ public class Role : UIBaseUnity {
 	void RoleStart() {
 		prevCoor = currentCoor = bQuest.RoleInitPosition;
 		TargetPoint = bQuest.GetPosition(currentCoor);
-//		Debug.LogError ("TargetPoint : " + targetPoint);
 		jump.Init (initPosition);
-		jump.GameStart (targetPoint);
+		jump.GameStart (targetPoint + new Vector3 (0f, 0f, -20f));
 		SyncRoleCoordinate(currentCoor);
 		Stop();
 	}

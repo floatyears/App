@@ -39,9 +39,6 @@ public class CardItem : UIBaseUnity
 	}
 	
 	private int initDepth;
-	public int InitDepth {
-		get { return initDepth;}
-	}
 
 	private bool canDrag = true;
 
@@ -49,7 +46,6 @@ public class CardItem : UIBaseUnity
 	{
 		set{
 			canDrag = value;
-//			Debug.LogError("CanDrag : " + this);
 			if(canDrag) {
 				gameObject.layer = GameLayer.ActorCard;
 			}
@@ -119,6 +115,52 @@ public class CardItem : UIBaseUnity
 	{
 		base.DestoryUI ();
 	}
+//	Texture texure ;
+//	public void SetTexture(Texture tex,int itemID)
+//	{
+//		//HideUI ();
+//		//actorTexture.enabled = false;
+//
+//		this.itemID = itemID;
+//
+//		//texure = tex;
+//
+//		actorTexture.width = 
+//			actorTexture.height = 125;
+//
+//		xOffset = (float)actorTexture.width / 4;
+//		actorTexture.mainTexture = tex;
+////		actorTexture.transform.localPosition = initActorPosition;
+//
+//		if (!actorTexture.enabled) {
+//			actorTexture.enabled = true;
+//		}
+//		//StartCoroutine (ActiveTexture ());
+//		//ActiveTextureImmediate ();
+//	}
+
+//	public void SetTexture(Texture tex,int itemID,int color)
+//	{
+//		//HideUI ();
+//		//actorTexture.enabled = false;
+//		
+//		this.itemID = itemID;
+//		
+//		//texure = tex;
+//		this.color = color;
+//		actorTexture.width = 
+//			actorTexture.height = 125;
+//		
+//		xOffset = (float)actorTexture.width / 4;
+//		actorTexture.mainTexture = tex;
+//		//		actorTexture.transform.localPosition = initActorPosition;
+//		
+//		if (!actorTexture.enabled) {
+//			actorTexture.enabled = true;
+//		}
+//		//StartCoroutine (ActiveTexture ());
+//		//ActiveTextureImmediate ();
+//	}
 
 	public void SetSprite(int index) {
 		itemID = index;

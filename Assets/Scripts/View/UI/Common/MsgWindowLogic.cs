@@ -25,12 +25,11 @@ public class MsgWindowLogic : ConcreteComponent
     public override void HideUI()
     {
         base.HideUI();
-//        RemoveListener();
+        RemoveListener();
     }
     
     public override void DestoryUI()
     {
-		Debug.LogError ("MsgWindowLogic : destoryUI ");
         base.DestoryUI();
     }
     
@@ -62,8 +61,6 @@ public class MsgWindowLogic : ConcreteComponent
 
     void OpenMsgWindow(object msg){
 //        Dictionary<string,string> noteMsg = msg as Dictionary<string,string>;
-		MsgWindowParams mwv = msg as MsgWindowParams;
-//		Debug.LogError ("OpenMsgWindow : " + mwv.contentText);
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
         ExcuteCallback(cbdArgs);
     }

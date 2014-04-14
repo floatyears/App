@@ -65,6 +65,7 @@ public class UIConfig
 	public const string partyDragPanelName = "PartyDragPanel";
 	public const string partyInfoPanelName = "PartyInfoPanel";
 	public const string partyPagePanelName = "PartyPagePanel";
+	public const string newPartyPanelName = "NewPartyPagePanel";
 
 	public const string partyWindowName = "PartyWindow";
 	public const string catalogWindowName = "CatalogWindow";

@@ -49,12 +49,6 @@ public class BattleBottom : MonoBehaviour {
 		}
 	}
 
-	void OnDestroy() {
-		if(battleSkill != null) 
-			Destroy (battleSkill.gameObject);
-		battleSkill = null;
-	} 
-
 	void OnDisable () {
 		GameInput.OnUpdate -= OnRealease;
 	}
@@ -91,6 +85,7 @@ public class BattleBottom : MonoBehaviour {
 				battleSkill.Refresh(tuu, Boost, Close);
 				BattleMap.waitMove = true;
 				battleQuest.battle.SwitchInput(true);
+//				Debug.LogError("tuu : " + tuu + " battleQuest.battle : " + battleQuest.battle + " battleSkill : " + battleSkill);
 			}
 		}
 		catch(System.Exception ex) {

@@ -103,7 +103,6 @@ public class UIBase : IUIInterface
 		foreach (var item in currentUIDic.Values){
 			item.DestoryUI();
 		}
-		currentUIDic.Clear ();
 	}
 
 	protected void ChangeScene(SceneEnum se)

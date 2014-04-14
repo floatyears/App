@@ -129,10 +129,6 @@ public class TPartyInfo : ProtobufDataBase {
         } 
     }
 
-	public bool IsCostOverflow() {
-		return  (CurrentParty.TotalCost > DataCenter.Instance.UserInfo.CostMax );
-	}
-
 	public bool IsCostOverflow(int pos, uint newUniqueId) {
 		if( newUniqueId != 0 ) { // check cost max
 			int newCost = DataCenter.Instance.UserUnitList.GetMyUnit( newUniqueId ).UnitInfo.Cost;
@@ -173,22 +169,42 @@ public class TPartyInfo : ProtobufDataBase {
 		item.unitUniqueId = newUniqueId;
         instance.partyList[CurrentPartyId].items[pos] = item;
 
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
         return true;
     }
+
+//	public void ChangeParty(Dictionary<int, PageUnitView> viewData) { 
+//		TUnitParty tup = CurrentParty;
+//		int count = viewData.Count;
+//		for (int i = tup.Object.items.Count; i < count; i++) {
+//			PartyItem pi = new PartyItem();
+//			tup.Object.items.Add(pi);
+//		}
+//
+//		foreach (var item in viewData) {
+//			//Debug.LogError("ChangeParty : " + item.Key);
+//
+//			PartyItem pi = tup.Object.items[item.Key];
+//			pi.unitPos = item.Key;
+//			if(item.Value.UserUnit == null) {
+//				pi.unitUniqueId = 0;
+//			}
+//			else {
+//				pi.unitUniqueId = item.Value.UserUnit.ID;
+//			}
+//		}
+//	}
 
     public bool IsModified {
         get { return this.isPartyItemModified || isPartyGroupModified; }
     }
 
-    public bool ExitParty() {
-		if ( IsCostOverflow() )
-			return false;
-
-		if (IsModified) {
+    public void ExitParty() {
+        if (IsModified) {
             ChangeParty cp = new ChangeParty();
             cp.OnRequest(this, onRspChangeParty);
         }
-		return true;
+		//Debug.Log("ExitParty(), IsModified is : " + IsModified);
     }
 
     public void onRspChangeParty(object data) {

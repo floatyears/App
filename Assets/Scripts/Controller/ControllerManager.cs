@@ -34,77 +34,85 @@ public class ControllerManager
 	/// </summary>
 	/// <param name="uiName">ui name.</param>
 	/// <param name="ui">ui object.</param>
-//	public void AddUIObject(string uiName,IUIInterface ui)
-//	{
-//		if(!uiDic.ContainsKey(uiName))
-//			uiDic.Add(uiName,ui);
-//		else
-//			uiDic[uiName] = ui;
-//	}
+	public void AddUIObject(string uiName,IUIInterface ui)
+	{
+		if(!uiDic.ContainsKey(uiName))
+			uiDic.Add(uiName,ui);
+		else
+			uiDic[uiName] = ui;
+	}
 
 	/// <summary>
 	/// have this ui object?
 	/// </summary>
 	/// <returns><c>true</c> if this instance has user interface object the specified uiName; otherwise, <c>false</c>.</returns>
 	/// <param name="uiName">ui name.</param>
-//	public bool HasUIObject(string uiName)
-//	{
-//		if(uiDic.ContainsKey(uiName))
-//			return true;
-//
-//		return false;
-//	}
+	public bool HasUIObject(string uiName)
+	{
+		if(uiDic.ContainsKey(uiName))
+			return true;
+
+		return false;
+	}
 
 	/// <summary>
 	/// get this ui object
 	/// </summary>
 	/// <returns>ui object.</returns>
 	/// <param name="uiName">ui name.</param>
-//	public IUIInterface GetUI(string uiName)
-//	{
-//		if(uiDic.ContainsKey(uiName))
-//			return uiDic[uiName];
-//		else
-//			return null;
-//	}
+	public IUIInterface GetUI(string uiName)
+	{
+		if(uiDic.ContainsKey(uiName))
+			return uiDic[uiName];
+		else
+			return null;
+	}
 
 	/// <summary>
 	/// Remove UI
 	/// </summary>
 	/// <param name="uiName">User interface name.</param>
-//	public void RemoveUI(string uiName)
-//	{
-//		if(uiDic.ContainsKey(uiName))
-//		{
-//			if(currentScene == uiDic[uiName])
-//				currentScene = null;
-//
-//			uiDic[uiName].DestoryUI();
-//			uiDic.Remove(uiName);
-//		}
-//	}
+	public void RemoveUI(string uiName)
+	{
+		if(uiDic.ContainsKey(uiName))
+		{
+			if(currentScene == uiDic[uiName])
+				currentScene = null;
+
+			uiDic[uiName].DestoryUI();
+			uiDic.Remove(uiName);
+		}
+	}
 	
 	#endregion
 
 	public void ExitBattle () {
-		currentEnum = SceneEnum.None;
-		currentScene.HideUI ();
-		currentScene.DestoryUI();
-		Main.Instance.GInput.IsCheckInput = false;
+		currentScene.HideUI();
+//		currentScene.DestoryUI ();
+//		currentScene = null;
 		ViewManager.Instance.TrapLabel.text = "";
 		Resources.UnloadUnusedAssets ();
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
 	}
 
-	private SceneEnum currentEnum = SceneEnum.None;
 	public void ChangeScene(SceneEnum sEnum) {
-		if (currentEnum == sEnum) {
-			return;	
-		}
-		currentEnum = sEnum;
 		string uiName = sEnum.ToString();
-		currentScene = CreatScene(sEnum,uiName);
+		if(currentScene != null) {
+			if(currentScene.UIName == uiName){
+				currentScene.ShowUI();
+				return;
+			}
+			else {		
+				prevScene = currentScene;
+				currentScene.HideUI();
+			}
+		}
+		if(HasUIObject(uiName))
+			currentScene = GetUI(uiName);
+		else
+			currentScene = CreatScene(sEnum,uiName);
 		currentScene.ShowUI();
+
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}
 
@@ -120,6 +128,7 @@ public class ControllerManager
 		}
 		temp.GetScene=sEnum;
 		temp.CreatUI();
+		AddUIObject(uiName,temp);
 		return temp;
 	}
 

@@ -233,7 +233,7 @@ public class DataCenter {
 		if (!AllSkill.TryGetValue (skillUserID, out skill)) {
 			skill = DGTools.LoadSkill(skillID, skillType);
 			if(skill == null) {
-				Debug.LogError("load skill faile. not have this skill config ! " + userUnitID + " skillID : " + skillID) ;
+				//Debug.LogError("load skill faile. not have this skill config ! " + userUnitID);
 				return null;
 			}
 			AllSkill.Add(skillUserID, skill);
@@ -321,11 +321,11 @@ public class DataCenter {
         set { setData(ModelEnum.FriendBaseInfo, value); } 
     }
 
-    public Dictionary<string, Object> TempEffect {
+    public Dictionary<int, Object> TempEffect {
         get { 
-			Dictionary<string, Object> ret = getData(ModelEnum.TempEffect) as Dictionary<string, Object>;
+            Dictionary<int, Object> ret = getData(ModelEnum.TempEffect) as Dictionary<int, Object>;
             if (ret == null) {
-				ret = new Dictionary<string, Object>();
+                ret = new Dictionary<int, Object>();
                 setData(ModelEnum.TempEffect, ret);
             }
             return ret; 
@@ -357,34 +357,27 @@ public class DataCenter {
         set { setData(ModelEnum.ItemObject, value); } 
     }
 
-    public Object GetEffect(AttackInfo ai) {
-		int type = ai.AttackType;
-		int attackRange = ai.AttackRange;
-		string name = type + "" + attackRange;
+    public Object GetEffect(int type) {
         Object obj = null;
-		if (!TempEffect.TryGetValue(name, out obj)) {
-            string path = GetEffectPath(type,attackRange);
+        if (!TempEffect.TryGetValue(type, out obj)) {
+            string path = GetEffectPath(type);
             obj = Resources.Load(path);
-			TempEffect.Add(name, obj);
+            TempEffect.Add(type, obj);
         }
         return obj;
     }
     
-    public string GetEffectPath(int type,int attackRange) {
+    public string GetEffectPath(int type) {
         string path = string.Empty;
         switch (type) {
         case 1:
-			if(attackRange == 0) {
-				path = "Effect/BOOM";
-			}else  {
-				path = "Effect/firerain";
-			}
+            path = "Effect/fire";
             break;
         case 2:
-            path = "Effect/daoguang";
+            path = "Effect/water";
             break;
         case 3:
-            path = "Effect/zhua";
+            path = "Effect/wind";
             break;
         case 8:
             path = "Effect/card_effect";

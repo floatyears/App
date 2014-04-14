@@ -14,8 +14,6 @@ public class BattleEnemy : UIBaseUnity {
 	private UILabel attackInfoLabel;
 	private string[] attackInfo = new string[4] {"Nice", "Good", "Great", "Excellent"};
 
-	private BattleAttackInfo battleAttackInfo;
-
 	public override void Init (string name) {
 		base.Init (name);
 		tempGameObject = transform.Find ("EnemyItem").gameObject;
@@ -23,8 +21,6 @@ public class BattleEnemy : UIBaseUnity {
 		transform.localPosition += new Vector3 (0f, battle.cardHeight * 6.5f, 0f);
 		attackInfoLabel = FindChild<UILabel>("Label");
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
-		battleAttackInfo = FindChild<BattleAttackInfo>("AttackInfo");
-		battleAttackInfo.Init ();
 	}
 
 	int count = 0;
@@ -35,7 +31,6 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
 		count --;
-		battleAttackInfo.HideUI ();
 		gameObject.SetActive (false);
 	}
 
@@ -45,7 +40,6 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 		count ++;
-		battleAttackInfo.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 	}
 
@@ -67,7 +61,7 @@ public class BattleEnemy : UIBaseUnity {
 	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
 		List<EnemyItem> temp = new List<EnemyItem> ();
-		Debug.LogError ("refresh : " + enemy.Count);
+
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);

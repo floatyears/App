@@ -30,14 +30,14 @@ public class SelectRoleDecorator : DecoratorBase{
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent(background);
 		
-//		MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-//		noteWindow.SetComponent(playerInfoBar);
+		MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
+		noteWindow.SetComponent(playerInfoBar);
 		
-//		MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-//		maskController.SetComponent(playerInfoBar);
+		MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+		maskController.SetComponent(noteWindow);
 		
 		SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
-		unitSelect.SetComponent(playerInfoBar);
+		unitSelect.SetComponent(maskController);
 		
 		lastDecorator = unitSelect;
 		lastDecorator.CreatUI();
@@ -75,14 +75,14 @@ public class StartDecorator : DecoratorBase{
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent(bottom);
 
-//        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-//        noteWindow.SetComponent(playerInfoBar);
+        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
+        noteWindow.SetComponent(playerInfoBar);
         
-//        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-//		maskController.SetComponent(playerInfoBar);
+        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+        maskController.SetComponent(noteWindow);
 
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
-		tipsBar.SetComponent(playerInfoBar);
+        tipsBar.SetComponent(maskController);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
         selectUnitInfo.SetComponent(tipsBar);
@@ -361,65 +361,54 @@ public class OthersDecorator : DecoratorBase
 }
 
 //--------------------------------Units----------------------------------------
-public class UnitsDecorator : DecoratorBase
-{
+public class UnitsDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public UnitsDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public UnitsDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
 		UnitsComponent units = CreatComponent< UnitsComponent >(UIConfig.unitsWindowName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-		UnitPartyPage partyPage = CreatComponent<UnitPartyPage>(UIConfig.partyPagePanelName);
+//		UnitPartyPage partyPage = CreatComponent<UnitPartyPage>(UIConfig.partyPagePanelName);
 
 		partyInfo.SetComponent(sceneInfoBar);
-		partyPage.SetComponent(partyInfo);
-		units.SetComponent(partyPage);
+//		partyPage.SetComponent(partyInfo);
+		units.SetComponent(partyInfo);
 		lastDecorator = units;
 		lastDecorator.CreatUI();
 	}
 }
 
 //--------------------------------QuestSelect----------------------------------------
-public class QuestSelectDecorator : DecoratorBase
-{
+public class QuestSelectDecorator : DecoratorBase{
 
 	private SceneInfoComponent sceneInfoBar;
 
-	public QuestSelectDecorator(SceneEnum sEnum) : base(sEnum)
-	{
+	public QuestSelectDecorator(SceneEnum sEnum) : base(sEnum){
         MsgCenter.Instance.AddListener(CommandEnum.QuestSelectSaveState, SetKeepState);
 	}
 
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Quest);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
@@ -467,15 +456,15 @@ public class FriendSelectDecorator : DecoratorBase{
 
 		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 
-		QuestPartyPage page = CreatComponent<QuestPartyPage>(UIConfig.partyPagePanelName);
+//		QuestPartyPage page = CreatComponent<QuestPartyPage>(UIConfig.partyPagePanelName);
 
 		FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
 
 		infoPanel.SetComponent(sceneInfoBar);
 
-		page.SetComponent(infoPanel);
+//		page.SetComponent(infoPanel);
 
-		friendSelect.SetComponent(page);
+		friendSelect.SetComponent(infoPanel);
 
 		helperBriefInfo.SetComponent(friendSelect);
 
@@ -510,14 +499,16 @@ public class PartyDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.partyPagePanelName);
-		UnitListForPartyLogic dragPanel = CreatComponent<UnitListForPartyLogic>(UIConfig.partyDragPanelName);
-	
+		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.newPartyPanelName);
+//		UnitListForPartyLogic dragPanel = CreatComponent<UnitListForPartyLogic>(UIConfig.partyDragPanelName);
+//	
 		partyInfo.SetComponent(sceneInfoBar);
 		partyPage.SetComponent(partyInfo);
-		dragPanel.SetComponent(partyPage);
+//		dragPanel.SetComponent(partyPage);
 
-		lastDecorator = dragPanel;
+
+
+		lastDecorator = partyPage;
 
 		lastDecorator.CreatUI();
 
@@ -676,36 +667,31 @@ public class CatalogDecorator : DecoratorBase{
 }
 
 //--------------------------------UnitList------------------------------------------
-public class UnitListDecorator : DecoratorBase
-{
+public class UnitListDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public UnitListDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public UnitListDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		sceneInfoBar.SetComponent(decorator);
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+		MyUnitListLogic unitList = CreatComponent< MyUnitListLogic >(UIConfig.unitListWindowName);
 
-		OwnedUnitListLogic unitList = CreatComponent< OwnedUnitListLogic >(UIConfig.unitListWindowName);
-		unitList.SetComponent(sceneInfoBar);
+		sceneInfoBar.SetComponent(decorator);
+		counter.SetComponent(sceneInfoBar);
+		unitList.SetComponent(counter);
 
 		lastDecorator = unitList;
 		lastDecorator.CreatUI();
@@ -748,31 +734,24 @@ public class FriendListDecorator : DecoratorBase{
 }
 
 //--------------------------------Information------------------------------------------
-public class InformationDecorator : DecoratorBase
-{
+public class InformationDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public InformationDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public InformationDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		InformationComponent infoWindow = CreatComponent< InformationComponent >(UIConfig.informationWindowName);
 

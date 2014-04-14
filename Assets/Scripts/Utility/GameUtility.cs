@@ -6,7 +6,7 @@ using System.IO;
 using bbproto;
 
 public class DGTools {
-	public static string[] stateInfo = new string[] {"Player-Phase","Enemy-Phase","Normal-Skill","Passive-Skill","Active-Skill"};
+	public static string[] stateInfo = new string[] {"PlayerPhase","EnemyPhase","NormalSkill","PassiveSkill","FirstAttack","BackAttack" };
 
 	public static int RandomToInt(int min,int max) {
 		return UnityEngine.Random.Range(min,max);
@@ -235,7 +235,6 @@ public class DGTools {
 					T temp = target[i];
 					target[i] = target[j];
 					target[j] = temp;
-
 					continue;
 				}
 		

@@ -46,11 +46,6 @@ public class ViewManager {
 	{
 		get{ return parentPanel; }
 	}
-
-	private GameObject effectPanel;
-	public GameObject EffectPanel {
-		get { return effectPanel; }
-	}
 	
 	private UICamera mainUICamera;
 	
@@ -96,7 +91,6 @@ public class ViewManager {
 		parentPanel = mainUIRoot.transform.Find("Bottom").gameObject;
 		topPanel = mainUIRoot.transform.Find ("Top/Panel").gameObject;
 		bottomPanel = mainUIRoot.transform.Find ("Bottom/Panel").gameObject;
-		effectPanel = mainUIRoot.transform.Find ("Bottom/EffectPanel").gameObject;
 		centerPanel = mainUIRoot.transform.Find ("Anchor/Panel").gameObject;
 		dynamicFont = Resources.Load("Font/Faerytale Woods",typeof(Font)) as Font;
 		trapLabel = mainUIRoot.transform.Find ("BottomLeft/Label").GetComponent<UILabel> ();
@@ -112,9 +106,9 @@ public class ViewManager {
 	}
 
 	public UIBaseUnity GetViewObject(string name) {
-//		if(uiObjectDic.ContainsKey(name)) {	
-//			return uiObjectDic[name];
-//		}
+		if(uiObjectDic.ContainsKey(name)) {	
+			return uiObjectDic[name];
+		}
 		return CreatObject(name);
 	}
 
@@ -134,7 +128,7 @@ public class ViewManager {
 		GameObject sourceObject = LoadAsset.Instance.LoadAssetFromResources(name,ResourceEuum.Prefab) as GameObject;
 		GameObject go = NGUITools.AddChild(centerPanel,sourceObject);
 		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
-//		uiObjectDic.Add(name,goScript);
+		uiObjectDic.Add(name,goScript);
 		return goScript;
 	}
 
@@ -195,7 +189,8 @@ public class ViewManager {
 	public void RemoveComponent(string name) {
 		if (!UIComponentDic.ContainsKey (name)) {
 			return;
-		}	
+		}
+		
 		UIComponentDic.Remove (name);
 	}
 	
@@ -208,28 +203,10 @@ public class ViewManager {
 	}
 
 	public void CleartComponent () {
-		List<ConcreteComponent> cclist = new List<ConcreteComponent> ();
-		List<string> ccID = new List<string> ();
-		System.Type ty = typeof(MsgWindowLogic);
-		System.Type ty1 = typeof(MaskController);
-		foreach (var item in UIComponentDic) {
-			string key = item.Key;
-			ConcreteComponent cc = item.Value as ConcreteComponent;
-			System.Type tempType = cc.GetType();
-			if(tempType == ty || tempType == ty1) {
-				continue;
-			}
-
-			ccID.Add(key);
-			cclist.Add(cc);
+		foreach (var item in UIComponentDic.Values) {
+			ConcreteComponent cc = item as ConcreteComponent;
+			GameObject.Destroy(cc.ViewComponent.gameObject);
 		}
-		for (int i = 0; i < ccID.Count; i++) {
-			UIComponentDic.Remove(ccID[i]);
-		}
-		for (int i = cclist.Count - 1; i >= 0; i--) {
-//			Debug.LogError("CleartComponent : " + cclist[i]);
-			cclist[i].DestoryUI();
-		}
-		cclist.Clear ();
+		UIComponentDic.Clear ();
 	}
 }
