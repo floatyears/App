@@ -9,6 +9,9 @@ public class TopUI : UIBaseUnity {
 	private UIAnchor leftAnchor;
 	private UIAnchor rightAnchor;
 
+	[HideInInspector]
+	public BattleQuest battleQuest;
+
 	public override void Init (string name) {
 		base.Init (name);
 
@@ -74,6 +77,11 @@ public class TopUI : UIBaseUnity {
 		Coin = questGet.getMoney;
 		Drop = questGet.getUnit.Count;
 		SetFloor (questData.currentFloor + 1, questData.Floors.Count);
+	}
+
+	public void Reset() {
+		coinLabel.text = "";
+		dropLabel.text = "";
 	}
 
 	void ShowMenu (GameObject go) {
