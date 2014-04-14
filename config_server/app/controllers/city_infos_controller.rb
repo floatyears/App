@@ -125,4 +125,5 @@ class CityInfosController < ApplicationController
     $redis.select 3
   end
   
+  
 end

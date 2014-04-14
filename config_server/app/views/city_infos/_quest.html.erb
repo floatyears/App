@@ -10,7 +10,7 @@ floor: <%=text_field_tag :floor,@quest.try(:floor) %><br/>
 rewardExp: <%=text_field_tag :rewardExp ,@quest.try(:rewardExp)%><br/>
 rewardMoney: <%=text_field_tag :rewardMoney,@quest.try(:rewardMoney) %><br/>
 bossId: <%=text_field_tag :bossId ,@quest.try(:bossId).to_s%> <%=select_tag :boss_id,options_for_select(@units_id) %> <button id="bossid" class="btn btn-primary">增加boosid</button><span id="bossid-info"></span><br/><br/>
-enemyId: <%=text_field_tag :enemyId,@quest.try(:enemyId).to_s%><%=select_tag :enemy_id,options_for_select(@units_id) %> <button id="enemyid" class="btn btn-primary">增加enemyid</button><span id="enemy-info"></span><br/><br/>
+enemyId: <%=text_field_tag :enemyId,@quest.try(:enemyId).to_s%><br/><br/>
 <%= hidden_field_tag :type,@type%>
 <%= hidden_field_tag :stage_id,@stage_id%>
 <%= hidden_field_tag :index,@index%>

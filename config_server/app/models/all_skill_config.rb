@@ -592,6 +592,8 @@ class AllSkillConfig
   end
   
   def self.redis_to_file
+    File.open(Rails.root.join("public/skills/all_skill.bytes"), "wb") { | file|  file.write($redis.get "X_SKILL_CONF") } 
+    
     $redis.keys.map{|k|k if k.start_with?("X_SKILL_CONF")}.compact.each do |key|
       File.open(Rails.root.join("public/skills/#{key.split("_")[3]}.bytes"), "wb") { | file|  file.write($redis.get key) } 
     end
@@ -605,5 +607,16 @@ class AllSkillConfig
       end
     end
     File.open(Rails.root.join("public/skills/skills.json"), "w") { | file|  file.write(skills_json.to_json) } 
+  end
+  
+  def self.file_to_redis(path)
+    all_skill_config =  self.decode(File.read(path))
+    
+    $redis.set("X_SKILL_CONF",File.read(path))
+     
+    all_skill_config["Normal"].each{|skill|  $redis.set("X_SKILL_CONF_#{skill.try(:baseInfo).try(:id)}",skill.encode) }
+    all_skill_config["SingleAttack"].each{|skill|  $redis.set("X_SKILL_CONF_#{skill.try(:baseInfo).try(:id)}",skill.encode) }
+    all_skill_config["Boost"].each{|skill|  $redis.set("X_SKILL_CONF_#{skill.try(:baseInfo).try(:id)}",skill.encode) }
+    
   end
 end

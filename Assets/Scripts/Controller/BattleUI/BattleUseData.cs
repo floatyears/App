@@ -6,21 +6,21 @@ public class BattleUseData {
     private ErrorMsg errorMsg;
     private TUnitParty upi;
     private int maxBlood = 0;
-    private int blood = 0;
-    public int Blood {
-		set { 
-			blood = value; 
-
-        }
+    private static int blood = 0;
+    public static int Blood {
+		set { blood = value; }
         get { return blood; }
     }
     private int recoverHP = 0;
-    private int maxEnergyPoint = 0;
+    public static int maxEnergyPoint = 0;
     private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
     private List<TEnemyInfo> currentEnemy = new List<TEnemyInfo>();
     private List<TEnemyInfo> showEnemy = new List<TEnemyInfo>();
-    private AttackController ac;
+    public AttackController ac;
     private ExcuteLeadSkill els;
+	public ExcuteLeadSkill Els{
+		get {return els;}
+	}
     private ExcuteActiveSkill eas;
     private ExcutePassiveSkill eps;
     private ILeaderSkillRecoverHP skillRecoverHP;
@@ -37,25 +37,41 @@ public class BattleUseData {
 
     public BattleUseData(BattleQuest bq) {
 		battleQuest = bq;
-        ListenEvent();
-        errorMsg = new ErrorMsg();
-        upi = DataCenter.Instance.PartyInfo.CurrentParty; 
-        upi.GetSkillCollection();
-        els = new ExcuteLeadSkill(upi);
-        skillRecoverHP = els;
-        els.Excute();
-        eas = new ExcuteActiveSkill(upi);
-        eps = new ExcutePassiveSkill(upi);
-        ac = new AttackController(this, eps);
-        maxBlood = Blood = upi.GetInitBlood();
-        maxEnergyPoint = DataCenter.maxEnergyPoint;
-        Config.Instance.SwitchCard(els);	
+		Reset ();
+		ResetBlood ();
     }
+
+	public void ResetBlood () {
+		maxBlood = Blood = upi.GetInitBlood();
+		maxEnergyPoint = DataCenter.maxEnergyPoint;
+	}
+
+	public void Reset () {
+		ListenEvent();
+		errorMsg = new ErrorMsg();
+		upi = DataCenter.Instance.PartyInfo.CurrentParty; 
+		upi.GetSkillCollection();
+		GetBaseData (null);
+		els = new ExcuteLeadSkill(upi);
+		skillRecoverHP = els;
+	}
+
+	public void InitBattleUseData () {
+		els.Excute();
+		maxBlood = Blood = upi.GetInitBlood();
+		maxEnergyPoint = DataCenter.maxEnergyPoint;
+		GetBaseData (null);
+		eas = new ExcuteActiveSkill(upi);
+		eps = new ExcutePassiveSkill(upi);
+		ac = new AttackController(this, eps, upi);
+		Config.Instance.SwitchCard(els);
+	}
 
     ~BattleUseData() {
     }
 
     void ListenEvent() {
+
         MsgCenter.Instance.AddListener(CommandEnum.InquiryBattleBaseData, GetBaseData);
         MsgCenter.Instance.AddListener(CommandEnum.MoveToMapItem, MoveToMapItem);
         MsgCenter.Instance.AddListener(CommandEnum.StartAttack, StartAttack);
@@ -173,8 +189,9 @@ public class BattleUseData {
         }
         DGTools.InsertSortBySequence(sortAttack, new AISortByCardNumber());
         for (int i = 0; i < sortAttack.Count; i++) {
-            sortAttack[i].AttackValue *= (1 + i * 0.25f);
-            sortAttack[i].ContinuAttackMultip += i;
+			sortAttack[i].AttackRate += i * 0.25f;
+			sortAttack[i].ContinuAttackMultip = i;
+			sortAttack[i].AttackValue *= (1 + sortAttack[i].AttackRate);
         }
         return sortAttack;
     }
@@ -210,7 +227,7 @@ public class BattleUseData {
         attackInfo = upi.Attack;
         List<AttackInfo> temp = SortAttackSequence();
         ac.LeadSkillReduceHurt(els);
-        ac.StartAttack(temp, upi);
+        ac.StartAttack(temp);
     }
 
     public void ClearData() {
@@ -219,10 +236,10 @@ public class BattleUseData {
     }
 
     public void GetBaseData(object data) {
-        BattleBaseData bud = new BattleBaseData();
-        bud.Blood = blood;
-        bud.EnergyPoint = maxEnergyPoint;
-        MsgCenter.Instance.Invoke(CommandEnum.BattleBaseData, bud);
+        BattleBaseData bbd = new BattleBaseData();
+		bbd.Blood = blood;
+		bbd.EnergyPoint = maxEnergyPoint;
+		MsgCenter.Instance.Invoke(CommandEnum.BattleBaseData, bbd);
     }
 
     void RecoverEnergePoint(object data) {
@@ -273,10 +290,15 @@ public class BattleUseData {
             MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
 			if(maxEnergyPoint == 0 && !isLimit) {
 				isLimit = true;
-				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.SPLimit, null);
+				battleQuest.battle.ShieldInput(false);
+				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.SPLimit, SPLimit);
 			}
         }
     }
+
+	void SPLimit () {
+		battleQuest.battle.ShieldInput(true);
+	}
 
     public void Hurt(int hurtValue) {
 		Blood -= hurtValue;

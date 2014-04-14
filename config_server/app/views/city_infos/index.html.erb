@@ -8,7 +8,6 @@
       <th>state</th>
       <th>cityName</th>
       <th>description</th>
-      <th>pos</th>
       <th>stages</th>
     </tr>
   </thead>
@@ -22,12 +21,6 @@
       <td><%= city.try(:state)%></td>
       <td><%= city.try(:cityName) %></td>
       <td><%= city.try(:description) %></td>
-      <td>
-        {
-          x:<%= city.try(:pos).try(:x)%>;
-          y:<%= city.try(:pos).try(:y)%>;
-        }
-      </td>
       <td>
         <table class="table table-bordered table-hover">
           <thead>
@@ -43,7 +36,6 @@
               <th>startTime</th>
               <th>endTime</th>
               <th>boost</th>
-              <th>pos</th>
               <th>quests</th>
             </tr>
           </thead>
@@ -68,13 +60,6 @@
                 {
                   type:<%= stage.try(:boost).try(:type)%>;
                   valye:<%= stage.try(:boost).try(:value)%>;
-                }
-              
-              </td>
-              <td>
-                {
-                  x:<%= stage.try(:pos).try(:x)%>;
-                  y:<%= stage.try(:pos).try(:y)%>;
                 }
               </td>
               <td>
