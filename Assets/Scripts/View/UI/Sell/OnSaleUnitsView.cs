@@ -190,7 +190,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 		InitDragPanelArgs();
 		InitCells();
 
-		sortButton = FindChild<UIButton>("SortButton");
+		sortButton = FindChild<UIButton>("MainWindow/SortButton");
 		UIEventListener.Get(sortButton.gameObject).onClick = ClickSortButton;
 		sortRuleLabel = sortButton.transform.FindChild("Label").GetComponent<UILabel>();
 
