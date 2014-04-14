@@ -30,12 +30,12 @@ public class FriendHelperController : ConcreteComponent{
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
 		switch (cbdArgs.funcName){
-			case "ClickItem" :
-				CallBackDispatcherHelper.DispatchCallBack(ShowHelperInfo, cbdArgs);
-				break;
-			case "ClickBottomButton" :
-				CallBackDispatcherHelper.DispatchCallBack(QuestStart, cbdArgs);
-				break;
+//			case "ClickItem" :
+//				CallBackDispatcherHelper.DispatchCallBack(ShowHelperInfo, cbdArgs);
+//				break;
+//			case "ClickBottomButton" :
+//				CallBackDispatcherHelper.DispatchCallBack(QuestStart, cbdArgs);
+//				break;
 			default:
 				break;
 		}
@@ -112,20 +112,20 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 
-	List<TUserUnit> GetSupportFriendList(){
-		if (DataCenter.Instance.SupportFriends == null){
-			LogHelper.LogError("GetFriendUnitItemList(), DataCenter.Instance.SupportFriends == null!!!");
-			return null;
-		}
-		
-		List<TUserUnit> tuuList = new List<TUserUnit>();
-
-		for (int i = 0; i < DataCenter.Instance.SupportFriends.Count; i++){
-			tuuList.Add(DataCenter.Instance.SupportFriends[ i ].UserUnit);
-		}
-		
-		return tuuList;
-	}
+//	List<TUserUnit> GetSupportFriendList(){
+//		if (DataCenter.Instance.SupportFriends == null){
+//			LogHelper.LogError("GetFriendUnitItemList(), DataCenter.Instance.SupportFriends == null!!!");
+//			return null;
+//		}
+//		
+//		List<TUserUnit> tuuList = new List<TUserUnit>();
+//
+//		for (int i = 0; i < DataCenter.Instance.SupportFriends.Count; i++){
+//			tuuList.Add(DataCenter.Instance.SupportFriends[ i ].UserUnit);
+//		}
+//		
+//		return tuuList;
+//	}
 
 //	void GetSupportFriendInfoList(){
 //		supportFriendViewList.Clear();
@@ -149,9 +149,7 @@ public class FriendHelperController : ConcreteComponent{
 
 	void ShowHelperInfo(object args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//		Debug.LogError("selectedFriend index is : " + (int)args);
 		TFriendInfo helper = DataCenter.Instance.SupportFriends[ (int)args ];
-//		Debug.LogError("helper == null" + helper == null);
 		RecordSelectedHelper(helper);
 		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helper);
 	}
