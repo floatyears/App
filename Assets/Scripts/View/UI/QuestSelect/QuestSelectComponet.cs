@@ -94,8 +94,8 @@ public class QuestSelectComponent : ConcreteComponent{
 
 		int staminaNeed = currentStageInfo.QuestInfo[ currentQuestIndex ].Stamina;
 		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
-		Debug.Log("TurnToFriendSelect()......staminaNeed is : " + staminaNeed);
-		Debug.Log("TurnToFriendSelect()......staminaNow is : " + staminaNow);
+//		Debug.Log("TurnToFriendSelect()......staminaNeed is : " + staminaNeed);
+//		Debug.Log("TurnToFriendSelect()......staminaNow is : " + staminaNow);
 		if(CheckStaminaEnough(staminaNeed, staminaNow)){
 			Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
 			//MsgWindowShow

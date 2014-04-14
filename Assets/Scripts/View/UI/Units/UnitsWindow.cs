@@ -8,6 +8,7 @@ public class UnitsWindow : UIComponentUnity{
 	private UILabel pageIndexSuffixLabel;
 	private UILabel rightIndexLabel;
 	IUICallback iuiCallback;
+
 	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum>();
 	private Dictionary<int, PageUnitView> partyView = new Dictionary<int, PageUnitView>();
 	public static Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
@@ -111,9 +112,6 @@ public class UnitsWindow : UIComponentUnity{
 		//Debug.Log("Current party's member count is : " + partyMemberList.Count);
 		for (int i = 0; i < partyMemberList.Count; i++){
 			partyView[ i ].Init(partyMemberList [ i ]);
-			//partyView[ i ].IsEnable = true;
-			//partyView[ i ].IsParty = false;
-			//Debug.Log(partyMemberList [ i ].UnitInfo.Name);
 		}
 	}
 

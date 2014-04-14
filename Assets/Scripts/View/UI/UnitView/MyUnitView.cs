@@ -13,6 +13,7 @@ public class MyUnitView : UnitView {
 		}
 		set{
 			isParty = value;
+			//Debug.LogError("my unit view isparty : " + value  + " gameobject : " + gameObject);
 			UpdatePartyState();
 		}
 	}
@@ -61,6 +62,7 @@ public class MyUnitView : UnitView {
 		lightSpr = transform.FindChild("Sprite_Light").GetComponent<UISprite>();
 		collectedSpr = transform.FindChild("Sprite_Collect").GetComponent<UISprite>();
 		partyLabel = transform.FindChild("Label_Party").GetComponent<UILabel>();
+//		Debug.LogError("InitUI : " + partyLabel + " gameobject : " + gameObject);
 		partyLabel.enabled = false;
 		partyLabel.text = "Party";
 		partyLabel.color = Color.red;

@@ -456,15 +456,15 @@ public class FriendSelectDecorator : DecoratorBase{
 
 		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 
-		QuestPartyPage page = CreatComponent<QuestPartyPage>(UIConfig.partyPagePanelName);
+//		QuestPartyPage page = CreatComponent<QuestPartyPage>(UIConfig.partyPagePanelName);
 
 		FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
 
 		infoPanel.SetComponent(sceneInfoBar);
 
-		page.SetComponent(infoPanel);
+//		page.SetComponent(infoPanel);
 
-		friendSelect.SetComponent(page);
+		friendSelect.SetComponent(infoPanel);
 
 		helperBriefInfo.SetComponent(friendSelect);
 

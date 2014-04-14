@@ -10,21 +10,15 @@ public class OnSaleUnitsController : ConcreteComponent {
 	List<UnitItemViewInfo> onSaleUnitList = new List<UnitItemViewInfo>();
 	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
 
-	public OnSaleUnitsController(string uiName):base(uiName) {
-    }
+	public OnSaleUnitsController(string uiName):base(uiName) {}
 	public override void CreatUI () { base.CreatUI (); }
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-//		CreateOnSaleUnitViewList();
-//		RefreshOwnedUnitCount();
-//		MsgCenter.Instance.AddListener(CommandEnum.PickOnSaleUnit, PickOnSaleUnit);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-//		MsgCenter.Instance.RemoveListener(CommandEnum.PickOnSaleUnit, PickOnSaleUnit);
-//		DestoryOnSaleUnitViewList();
 	}
 
 	public override void CallbackView(object data){
@@ -56,7 +50,6 @@ public class OnSaleUnitsController : ConcreteComponent {
 	}
 
 	void SubmitSell(object args){
-//		Debug.Log("SubmitSell()......");
 		CallbackReqSell(null);
 	}
 	void ClearSellConfirmWindow(){
@@ -107,6 +100,7 @@ public class OnSaleUnitsController : ConcreteComponent {
 	}
 
 	void PlanToSell(object args){
+		pickedUnitList = args as List<TUserUnit>;
 		if(CheckPickedUnitRare()) 
 			GiveRareWarning();
 		else 
@@ -115,9 +109,9 @@ public class OnSaleUnitsController : ConcreteComponent {
 
 	void GiveLastSaleEnsure(){
 //		Debug.LogError("GiveLastSaleEnsure...");
-		List<TUserUnit> readySaleList = GetReadySaleUnitList();
+//		List<TUserUnit> readySaleList = GetReadySaleUnitList();
 
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowLastSureWindow", readySaleList);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowLastSureWindow", pickedUnitList);
 		ExcuteCallback(cbdArgs);
 	}
 
@@ -203,18 +197,12 @@ public class OnSaleUnitsController : ConcreteComponent {
 		List<TUserUnit> userUnitList = new List<TUserUnit>();	
 		if (onSaleUnitList.Count > 0) onSaleUnitList.Clear();
 		userUnitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
-		for (int i = 0; i < userUnitList.Count; i++){
-			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(userUnitList [i], true);
-			onSaleUnitList.Add(viewItem);
-		}
-
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", userUnitList);
+		ExcuteCallback(cbdArgs);
 //		Debug.LogError("GetUnitCellViewList(), onSaleUnitList count is : " + onSaleUnitList.Count);
 	}
 	
-	void CreateOnSaleUnitViewList(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", onSaleUnitList);
-		ExcuteCallback(cbdArgs);
-	}
+	void CreateOnSaleUnitViewList(){}
 	
 	void DestoryOnSaleUnitViewList(){
 		totalSaleValue = 0;
@@ -347,7 +335,7 @@ public class OnSaleUnitsController : ConcreteComponent {
 	}
 
 	void RefreshCounter(){
-		Debug.Log("OnSaleUnitList.RefreshCounter(), start...");
+		//Debug.Log("OnSaleUnitList.RefreshCounter(), start...");
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		string title = "" ;
 		int current = 0;
@@ -367,7 +355,6 @@ public class OnSaleUnitsController : ConcreteComponent {
     public void ResetUI(){
         DestoryOnSaleUnitViewList();
         GetUnitCellViewList();
-        CreateOnSaleUnitViewList();
         RefreshOwnedUnitCount();
 		RefreshCounter();
     }

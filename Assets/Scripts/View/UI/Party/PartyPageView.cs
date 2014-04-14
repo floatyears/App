@@ -17,17 +17,13 @@ public class PartyPageView : UIComponentUnity {
 	Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 	Dictionary<GameObject, int> itemDic = new Dictionary<GameObject, int>();
 
-	//--------------------------new ----------------
 	private List<TUserUnit> currentPartyData = new List<TUserUnit> ();
 
 	public void RefreshPartyData() {
 		TUnitParty party = DataCenter.Instance.PartyInfo.CurrentParty;
 		currentPartyData = party.GetUserUnit();
 	}
-
-
-	//-----------------------------------------------
-
+	
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		FindUIElement();
@@ -268,7 +264,7 @@ public class PartyPageView : UIComponentUnity {
 		for (int i = 0; i < tex2dList.Count; i++) {
 			if(tex2dList[ i ] == null){
 				texureList[ i ].mainTexture = null;
-				texureList[ i ].transform.FindChild("Sprite_Type").GetComponent<UISprite>().color = Color.white;
+//				texureList[ i ].transform.FindChild("Sprite_Type").GetComponent<UISprite>().color = Color.white;
 				continue;
 			} 
 			else {

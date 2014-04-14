@@ -9,11 +9,11 @@ public class FriendHelperController : ConcreteComponent{
 	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 	private TEvolveStart evolveStart = null;
+
 	public FriendHelperController(string uiName):base(uiName) {}
 	public override void CreatUI () { base.CreatUI (); }
 	public override void ShowUI () {
 		base.ShowUI ();
-//		GetSupportFriendInfoList();
 		CreateFriendHelperViewList();
 		AddCommandListener();
 	}
@@ -149,7 +149,9 @@ public class FriendHelperController : ConcreteComponent{
 
 	void ShowHelperInfo(object args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+//		Debug.LogError("selectedFriend index is : " + (int)args);
 		TFriendInfo helper = DataCenter.Instance.SupportFriends[ (int)args ];
+//		Debug.LogError("helper == null" + helper == null);
 		RecordSelectedHelper(helper);
 		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helper);
 	}
@@ -177,8 +179,12 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void ChooseHelper(object msg){
-		selectedHelper = msg as TFriendInfo;
-		if(selectedHelper == null) return;
+//		selectedHelper = msg as TFriendInfo;
+		if(selectedHelper == null) { 
+			Debug.Log("selectedHelper is NULL, return...");
+			return;
+		}
+	
 		MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateViewAfterChooseHelper", null);
 		ExcuteCallback(cbdArgs);
@@ -203,6 +209,5 @@ public class FriendHelperController : ConcreteComponent{
 		stageID = idArgs["StageID"];
 	}
 
-	void ClearBattleReadyData(){
-	}
+	void ClearBattleReadyData(){}
 }

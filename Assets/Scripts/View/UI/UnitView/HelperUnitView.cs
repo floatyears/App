@@ -6,6 +6,15 @@ public class HelperUnitView : UnitView {
 	private UILabel typeLabel;
 	private UILabel pointLabel;
 
+	public delegate void UnitItemCallback(HelperUnitView huv);
+	public UnitItemCallback callback;
+	
+	protected override void ClickItem(GameObject item){
+		if(callback != null) {
+			callback(this);
+		}
+	}
+	
 	private static GameObject itemPrefab;
 	public static GameObject ItemPrefab {
 		get { 
@@ -18,39 +27,27 @@ public class HelperUnitView : UnitView {
 
 	public static HelperUnitView Inject(GameObject item){
 		HelperUnitView view = item.AddComponent<HelperUnitView>();
-		if (view == null) view = item.AddComponent<HelperUnitView>();
-                return view;
+		if (view == null)
+			view = item.AddComponent<HelperUnitView>();
+		return view;
 	}
 
 	private TFriendInfo friendInfo;
-
 	public TFriendInfo FriendInfo{
-		get{
-			return friendInfo;
-		}
-		set{
-			friendInfo = value;
-		}
+		get{ return friendInfo; }
+		set{ friendInfo = value; }
 	}
 
 	private string helperName;
 	public string HelperName{
-		get{
-			return helperName;
-		}
-		set{
-			helperName = value;
-		}
+		get{ return helperName; }
+		set{ helperName = value; }
 	}
 
 	private int friendPoint;
 	public int FriendPoint{
-		get{
-			return friendPoint;
-		}
-		set{
-			friendPoint = value;
-		}
+		get{ return friendPoint; }
+		set{ friendPoint = value;}
 	}
 
 	protected override void InitUI(){
@@ -62,11 +59,8 @@ public class HelperUnitView : UnitView {
 
 	protected override void InitState(){
 		base.InitState();
-		if(string.IsNullOrEmpty(friendInfo.NickName))
-			nameLabel.text = "NoName";
-		else
-			nameLabel.text = friendInfo.NickName;
-
+		if(string.IsNullOrEmpty(friendInfo.NickName)) nameLabel.text = "NoName";
+		else nameLabel.text = friendInfo.NickName;
 
 		switch (friendInfo.FriendState) {
 			case bbproto.EFriendState.FRIENDHELPER : 
@@ -89,18 +83,11 @@ public class HelperUnitView : UnitView {
 		else{
 			pointLabel.text = string.Empty;
 		}
-
 	}
-
-
+	
 	public void Init(TFriendInfo friendInfo){
 		this.friendInfo = friendInfo;
 		base.Init(friendInfo.UserUnit);
-
 	}
 
-	protected override void ClickItem(GameObject item){
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		MsgCenter.Instance.Invoke(CommandEnum.ChooseHelper, friendInfo);
-	}
 }

@@ -488,7 +488,7 @@ public class NewPartyMembers : UIComponentUnity{
 		curSortRule = SortUnitTool.GetNextRule(curSortRule);
 		sortRuleLabel.text = curSortRule.ToString();
 		SortUnitTool.SortByTargetRule(curSortRule, memberList);
-		Debug.Log("xxxxx ....memberList : " + memberList.Count + " ragPanel.ScrollItem.Count : " + dragPanel.ScrollItem.Count);
+		Debug.Log("xxxxx ....memberList : " + memberList.Count + " dragPanel.ScrollItem.Count : " + dragPanel.ScrollItem.Count);
 		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitView puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
 			puv.UserUnit = memberList[ i - 1 ];//before
@@ -522,7 +522,7 @@ public class NewPartyMembers : UIComponentUnity{
 			//Refresh
 			for (int i = 0; i < memCount; i++) {
 				PartyUnitView puv = dragPanel.ScrollItem[ i + 1 ].GetComponent<PartyUnitView>();
-				puv.UserUnit = memberList[ i];//before
+				puv.UserUnit = memberList[ i ];//before
 				puv.CurrentSortRule = curSortRule;//after
 			}
 

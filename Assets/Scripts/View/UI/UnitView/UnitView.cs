@@ -63,21 +63,29 @@ public class UnitView : MonoBehaviour {
 	protected UISprite maskSpr;
 	protected UILabel crossFadeLabel;
 
-	void Awake() {
-		InitUI();
+	public void Awake() {
+		if(maskSpr == null){
+			InitUI();
+		}
 	}
 
 	public void Init(TUserUnit userUnit){
+		Awake();
 		this.userUnit = userUnit;
 		InitState();
 		ExecuteCrossFade();
 	}
 
 	protected virtual void InitUI(){
+		FindUIElement();
+	}
+
+	void FindUIElement() {
 		avatarTex = transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-//		Debug.LogError(" avatarTex : " + avatarTex);
+		//		Debug.LogError(" avatarTex : " + avatarTex);
 		crossFadeLabel = transform.FindChild("Label_Cross_Fade").GetComponent<UILabel>();
 		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
+		//Debug.LogError(" avatarTex : " + avatarTex + " gameobject : " + gameObject);
 	}
 
 	protected virtual void InitState(){
@@ -131,6 +139,7 @@ public class UnitView : MonoBehaviour {
 	}
 
 	protected virtual void UpdatEnableState(){
+		//Debug.LogError("maskSpr : " + maskSpr);
 		maskSpr.enabled = !isEnable;
 		UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
 		if(isEnable)
