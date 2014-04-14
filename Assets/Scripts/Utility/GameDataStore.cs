@@ -50,4 +50,28 @@ public class GameDataStore {
 
 	public const string USER_ID = "userid";
 	public const string UUID = "uuid";
+
+	/// <summary>
+	/// store no encrypt data
+	/// </summary>
+	/// <param name="key">Key.</param>
+	/// <param name="value">Value.</param>
+	public void StoreDataNoEncrypt(string key, object value) {
+		string info = value.ToString ();
+		PlayerPrefs.SetString (key, info);
+	}
+
+	/// <summary>
+	/// get no encrypt data
+	/// </summary>
+	/// <param name="key">Key.</param>
+	/// <param name="value">Value.</param>
+	public string GetDataNoEncrypt(string key) {
+		string info = string.Empty;
+		if (PlayerPrefs.HasKey (key)) {
+			info = PlayerPrefs.GetString (key);
+		} 
+		return info;
+	}
+
 }

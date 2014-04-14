@@ -6,16 +6,13 @@ public class BattleUseData {
     private ErrorMsg errorMsg;
     private TUnitParty upi;
     private int maxBlood = 0;
-    private int blood = 0;
-    public int Blood {
-		set { 
-			blood = value; 
-
-        }
+    private static int blood = 0;
+    public static int Blood {
+		set { blood = value; }
         get { return blood; }
     }
     private int recoverHP = 0;
-    private int maxEnergyPoint = 0;
+    public static int maxEnergyPoint = 0;
     private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
     private List<TEnemyInfo> currentEnemy = new List<TEnemyInfo>();
     private List<TEnemyInfo> showEnemy = new List<TEnemyInfo>();
@@ -40,16 +37,24 @@ public class BattleUseData {
 
     public BattleUseData(BattleQuest bq) {
 		battleQuest = bq;
-        ListenEvent();
-        errorMsg = new ErrorMsg();
-		upi = DataCenter.Instance.PartyInfo.CurrentParty; 
-		upi.GetSkillCollection();
+		Reset ();
+		ResetBlood ();
+    }
+
+	public void ResetBlood () {
 		maxBlood = Blood = upi.GetInitBlood();
 		maxEnergyPoint = DataCenter.maxEnergyPoint;
+	}
+
+	public void Reset () {
+		ListenEvent();
+		errorMsg = new ErrorMsg();
+		upi = DataCenter.Instance.PartyInfo.CurrentParty; 
+		upi.GetSkillCollection();
 		GetBaseData (null);
 		els = new ExcuteLeadSkill(upi);
 		skillRecoverHP = els;
-    }
+	}
 
 	public void InitBattleUseData () {
 		els.Excute();

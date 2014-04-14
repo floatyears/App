@@ -56,7 +56,7 @@ public class BattleCard : UIBaseUnity
 		int count = cardPosition.Length;
 		
 		cardItemArray = new CardItem[count];
-		Debug.LogError ("InitParameter cardItemArray");
+//		Debug.LogError ("InitParameter cardItemArray");
 		for (int i = 0; i < count; i++) {
 			tempObject = NGUITools.AddChild(gameObject,templateItemCard.gameObject);
 			tempObject.transform.localPosition = cardPosition[i];

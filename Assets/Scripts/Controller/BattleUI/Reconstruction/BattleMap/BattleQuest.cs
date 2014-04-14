@@ -25,7 +25,16 @@ public class BattleQuest : UIBase {
 	public QuestFullScreenTips questFullScreenTips;
 	private TopUI topUI;
 	public static BattleUseData bud;
-	private ClearQuestParam questData;
+	private List<ClearQuestParam> _questData = new List<ClearQuestParam>();
+	public ClearQuestParam questData {
+		get { 
+			if(_questData.Count == 0) {
+				ClearQuestParam cqp = new ClearQuestParam();
+				_questData.Add(cqp);
+			}
+			return _questData[_questData.Count - 1];
+		}
+	}
 	private TUserUnit evolveUser;
 	private string backgroundName = "BattleBackground";
 	private AttackEffect attackEffect;
@@ -53,8 +62,8 @@ public class BattleQuest : UIBase {
 		background.Init (backgroundName);
 		background.SetBattleQuest (this);
 
-		questData = new ClearQuestParam ();
 		questData.questId = questDungeonData.QuestId;
+
 		InitTopUI ();
 		battle = new Battle("Battle");
 		battle.CreatUI();
@@ -82,6 +91,7 @@ public class BattleQuest : UIBase {
 		go.transform.localScale = Vector3.one;
 		topUI = go.GetComponent<TopUI> ();
 		topUI.Init ("TopUI");
+		topUI.battleQuest = this;
 		topUI.RefreshTopUI (questDungeonData, questData);
 		AddSelfObject (topUI);
 	}
@@ -154,7 +164,8 @@ public class BattleQuest : UIBase {
 	void Reset () {
 		battleEnemy = false;
 		bud.RemoveListen ();
-		bud = new BattleUseData (this);
+//		bud = new BattleUseData (this);
+		bud.Reset ();
 		battleMap.HideUI ();
 		role.HideUI ();
 		background.HideUI ();
@@ -163,6 +174,8 @@ public class BattleQuest : UIBase {
 		background.ShowUI ();
 		GameTimer.GetInstance ().AddCountDown (1f, ShowScene);
 		InitData ();
+		topUI.Reset ();
+		topUI.RefreshTopUI (questDungeonData, questData);
 		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
 		if (questFullScreenTips == null) {
 			CreatBoosAppear();
@@ -216,8 +229,16 @@ public class BattleQuest : UIBase {
 
 	void EnterNextFloor () {
 		questDungeonData.currentFloor ++;
+		ClearQuestParam cqp = new ClearQuestParam ();
+		_questData.Add (cqp);
 		topUI.SetFloor (questDungeonData.currentFloor + 1, questDungeonData.Floors.Count);
 		Reset ();
+		if (BattleUseData.maxEnergyPoint >= 10) {
+			BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
+		} 
+		else {
+			BattleUseData.maxEnergyPoint += 10;
+		}
 	}
 
 	void QuestStop () {
@@ -490,26 +511,85 @@ public class BattleQuest : UIBase {
 	}
 
 	public void CheckOut () {
+//		Reset ();
+
+		questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClearShow);
+	}
+
+	public void Retry () {
+		MsgWindowParams mwp = new MsgWindowParams ();
+		mwp.btnParams = new BtnParam[2];
+		mwp.titleText = "Retry";
+		mwp.contentText = "Use one stone to retry this floor of quest ?";
+
+		BtnParam sure = new BtnParam ();
+		sure.callback = SureRetry;
+		sure.text = "OK";
+		mwp.btnParams[0] = sure;
+
+		sure = new BtnParam ();
+		sure.callback = CancelRetry;
+		sure.text = "Cancel";
+		mwp.btnParams[1] = sure;
+
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+	}
+
+	void SureRetry(object data) {
+		battle.ShieldInput (false);
+		RedoQuest.SendRequest (RetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
+	}
+
+	void RetryNetWork(object data) {
+		battle.ShieldInput (true);
+		RspRedoQuest rrq = data as RspRedoQuest;
+		if (rrq == null) {
+			return;	
+		}
+		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
+		int count = _questData.Count -1;
+		_questData.RemoveAt (count);
+		ClearQuestParam cqp = new ClearQuestParam ();
+		_questData.Add (cqp);
+		TQuestDungeonData tqdd = new TQuestDungeonData (rrq.dungeonData);
+		int floor = questDungeonData.currentFloor;
+		List<TQuestGrid> reQuestGrid = tqdd.Floors[floor];
+		questDungeonData.Floors [floor] = reQuestGrid;
 		Reset ();
-//		questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClearShow);
+		bud.ResetBlood ();
+	}
+
+	void CancelRetry(object data) {
+
 	}
 
 	void QuestClearShow() {
-
 		RequestData ();
+	}
+
+	ClearQuestParam GetQuestData () {
+		ClearQuestParam cqp = new ClearQuestParam ();
+		cqp.questId = questDungeonData.QuestId;
+		foreach (var item in _questData) {
+			cqp.getMoney += item.getMoney;
+			cqp.getUnit.AddRange(item.getUnit);
+			cqp.hitGrid.AddRange(item.hitGrid);
+		}
+		return cqp;
 	}
 
 	void RequestData () {
 		if (DataCenter.gameStage == GameState.Evolve) {
 			EvolveDone evolveDone = new EvolveDone ();
-			evolveDone.QuestId = questData.questId;
-			evolveDone.GetMoney = questData.getMoney;
-			evolveDone.GetUnit = questData.getUnit;
-			evolveDone.HitGrid = questData.hitGrid;
+			ClearQuestParam cqp = GetQuestData();
+			evolveDone.QuestId = cqp.questId;
+			evolveDone.GetMoney = cqp.getMoney;
+			evolveDone.GetUnit = cqp.getUnit;
+			evolveDone.HitGrid = cqp.hitGrid;
 			evolveDone.OnRequest (null, ResponseEvolveQuest);
 		} else {
 			INetBase netBase = new ClearQuest ();
-			netBase.OnRequest (questData, ResponseClearQuest);
+			netBase.OnRequest (GetQuestData (), ResponseClearQuest);
 		}
 	}
 

@@ -45,7 +45,7 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	void StartMap() {
-		Debug.LogError ("start map : ");
+//		Debug.LogError ("start map : ");
 		int x = map.GetLength(0);
 		int y = map.GetLength(1);
 		for (int i = 0; i < x; i++) {

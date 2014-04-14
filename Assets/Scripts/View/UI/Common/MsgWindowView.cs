@@ -46,12 +46,13 @@ public class MsgWindowView : UIComponentUnity{
     public override void ShowUI()
     {
         base.ShowUI();
+		gameObject.SetActive (true);
         SetUIElement();
     }
     
     public override void HideUI()
     {
-        base.HideUI();
+//        base.HideUI();
         ResetUIElement();
         ShowSelf(false);
     }
@@ -81,12 +82,14 @@ public class MsgWindowView : UIComponentUnity{
     
     void ShowSelf(bool canShow){
         this.gameObject.SetActive(canShow);
+
         if (canShow){
 			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
             window.transform.localScale = new Vector3(1f, 0f, 1f);
             iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
         } 
 		else{
+//			Debug.LogError("ShowSelf false ");
             Reset();
 			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
                         

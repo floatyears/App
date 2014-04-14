@@ -195,8 +195,7 @@ public class ViewManager {
 	public void RemoveComponent(string name) {
 		if (!UIComponentDic.ContainsKey (name)) {
 			return;
-		}
-		
+		}	
 		UIComponentDic.Remove (name);
 	}
 	
@@ -210,14 +209,27 @@ public class ViewManager {
 
 	public void CleartComponent () {
 		List<ConcreteComponent> cclist = new List<ConcreteComponent> ();
-		foreach (var item in UIComponentDic.Values) {
-			ConcreteComponent cc = item as ConcreteComponent;
+		List<string> ccID = new List<string> ();
+		System.Type ty = typeof(MsgWindowLogic);
+		System.Type ty1 = typeof(MaskController);
+		foreach (var item in UIComponentDic) {
+			string key = item.Key;
+			ConcreteComponent cc = item.Value as ConcreteComponent;
+			System.Type tempType = cc.GetType();
+			if(tempType == ty || tempType == ty1) {
+				continue;
+			}
+
+			ccID.Add(key);
 			cclist.Add(cc);
 		}
-
+		for (int i = 0; i < ccID.Count; i++) {
+			UIComponentDic.Remove(ccID[i]);
+		}
 		for (int i = cclist.Count - 1; i >= 0; i--) {
+//			Debug.LogError("CleartComponent : " + cclist[i]);
 			cclist[i].DestoryUI();
 		}
-		UIComponentDic.Clear ();
+		cclist.Clear ();
 	}
 }

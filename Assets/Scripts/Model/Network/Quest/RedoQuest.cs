@@ -18,7 +18,7 @@ public class RedoQuest: ProtoManager {
 	~RedoQuest () {
 	}
 	
-	public void SendRequest(DataListener callBack, uint questid, int floor) {
+	public static void SendRequest(DataListener callBack, uint questid, int floor) {
 		RedoQuest redoQuest = new RedoQuest();
 
 		redoQuest.questId = questid;
