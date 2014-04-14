@@ -5,7 +5,8 @@ using System.Collections;
 public class BattleCardArea : UIBaseUnity {
 	private UISprite backTexture;
 	private BattleCardAreaItem[] battleCardAreaItem;
-	private UISprite stateLabel;
+
+	private UILabel stateLabel;
 	private Vector3 sourcePosition;
 	private const int oneWordSize = 42;
 
@@ -16,6 +17,7 @@ public class BattleCardArea : UIBaseUnity {
 	private Dictionary<int,List<CardItem>> battleAttack = new Dictionary<int, List<CardItem>>();
 	private static List<GameObject> battleCardIns = new List<GameObject>();
 	private GameObject cardItem;
+
 	public static Vector3 startPosition;
 	public static Vector3 endPosition;
 
@@ -23,8 +25,8 @@ public class BattleCardArea : UIBaseUnity {
 		base.Init (name); 
 		backTexture = FindChild<UISprite>("Back"); 
 		backTexture.gameObject.SetActive(false);
-		stateLabel = FindChild<UISprite>("StateLabel");
-		stateLabel.spriteName = string.Empty;
+		stateLabel = FindChild<UILabel>("StateLabel");
+		stateLabel.enabled = false;
 		if (cardItem == null) {
 			GameObject go = LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab) as GameObject;
 			cardItem = go.transform.Find("Texture").gameObject;
@@ -49,48 +51,18 @@ public class BattleCardArea : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.StateInfo, StateInfo);
 	}
 
-	Vector3 HidePosition;
-	Vector3 showPosition;
-
 	void StateInfo(object data) {
 		string info = (string)data;
-		if (string.IsNullOrEmpty (info) && !string.IsNullOrEmpty(stateLabel.spriteName)) {
-			HideStateLabel(string.Empty);
-			return;
-		}			
-
-		if (stateLabel.spriteName == info) {
-			return;	
-		}
-
-		if (stateLabel.spriteName == string.Empty) {
-			stateLabel.transform.localPosition = HidePosition;	
-			ShowStateLabel ();
-		} else {
-			HideStateLabel("ShowStateLabel");
-		}
-		DGTools.ShowSprite (stateLabel, info);
+		stateLabel.text = info;
 	}
-
-	void HideStateLabel (string nextFunction) {
-		float x = showPosition.x - stateLabel.width;
-		iTween.MoveTo(stateLabel.gameObject, iTween.Hash("x", x, "islocal", true,"time",0.15f,"easetype",iTween.EaseType.easeOutCubic,"oncompletetarget",gameObject,"oncomplete",nextFunction));
-	}
-
-	void ShowStateLabel () {
-		iTween.MoveTo (stateLabel.gameObject, iTween.Hash ("position", showPosition, "islocal", true, "time", 0.15f));
-	}	       
-	
 
 	public void CreatArea(Vector3[] position,int height) {
 		if(position == null)
 			return;
 		battleCardAreaItem = new BattleCardAreaItem[position.Length];
 		float xOffset = backTexture.width * -0.5f;
-		float yOffset = backTexture.height * 1.8f;
+		float yOffset = backTexture.height * 1.6f;
 		stateLabel.transform.localPosition = position [0] + new Vector3 (xOffset, yOffset, 0f);
-		showPosition = stateLabel.transform.localPosition;
-		HidePosition = stateLabel.transform.localPosition + Vector3.right * -500;
 		stateLabel.enabled = true;
 		int length = position.Length;
 		for (int i = 0; i < length; i++) {

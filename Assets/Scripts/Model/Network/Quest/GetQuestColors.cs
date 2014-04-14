@@ -11,7 +11,7 @@ public class GetQuestColors: ProtoManager {
 	// state for req
 	// data
 	private uint questId;
-	private bool colorCount;
+	private int colorCount;
 	
 	public GetQuestColors() {
 	}

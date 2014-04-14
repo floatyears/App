@@ -41,33 +41,33 @@ public class BattleCard : UIBaseUnity
 		gameObject.SetActive(false);
 	}
 
-	public override void DestoryUI ()
+	void InitParameter()
 	{
-		base.DestoryUI ();
-		for (int i = 0; i < cardItemArray.Length; i++) {
-			Destroy(cardItemArray[i].gameObject);
-		}
-		cardItemArray = null;
-		moveItem.Clear ();
-	}
-
-	void InitParameter() {
 		templateItemCard = FindChild<UISprite>("Texture");
+
+		templateItemCard.depth = 1;
+
 		int count = cardPosition.Length;
 		
 		cardItemArray = new CardItem[count];
-		Debug.LogError ("InitParameter cardItemArray");
-		for (int i = 0; i < count; i++) {
+		
+		for (int i = 0; i < count; i++) 
+		{
 			tempObject = NGUITools.AddChild(gameObject,templateItemCard.gameObject);
+			
 			tempObject.transform.localPosition = cardPosition[i];
+			
 			CardItem ci = tempObject.AddComponent<CardItem>();
+			
 			ci.location = i;
+			
 			ci.Init(i.ToString());
-			Debug.LogError("InitParameter carditem : " + ci);
+
 			cardItemArray[i] = ci;
 		}
 
 		templateItemCard.gameObject.SetActive(false);
+
 		cardInterv = Mathf.Abs(cardPosition[1].x - cardPosition[0].x);
 	}
 
@@ -137,11 +137,8 @@ public class BattleCard : UIBaseUnity
 
 	public void ResetDrag()
 	{
-		for (int i = 0; i < cardItemArray.Length; i++)  {
-//			Debug.LogError("ResetDrag : " + cardItemArray[i] +  " i : " + i + " BattleCard : " + this);
-			if(cardItemArray[i] == null) {
-				continue;
-			}
+		for (int i = 0; i < cardItemArray.Length; i++) 
+		{
 			cardItemArray[i].CanDrag = true;
 		}
 	}

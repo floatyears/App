@@ -10,7 +10,7 @@ public class GameInput : MonoBehaviour  {
 	public static event System.Action OnPressContinued;
 	private bool isCheckInput = false;
 	public bool IsCheckInput {
-		set{ isCheckInput = value;} //Debug.LogError("isCheckInput : " + value + " time : "+Time.realtimeSinceStartup);
+		set{ isCheckInput = value; }
 		get{ return isCheckInput; }
 	}
 
@@ -35,12 +35,7 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void StopInput(object data) {
-		if (data == null) {
-			IsCheckInput = false;
-			return;
-		}
-		bool b = (bool)data;
-		IsCheckInput = b;
+		isCheckInput = false;
 	}
 
 	void CatchException(string condition, string stackInfo, LogType lt) {

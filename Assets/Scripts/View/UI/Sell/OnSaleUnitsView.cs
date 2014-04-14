@@ -3,14 +3,9 @@ using System.Collections.Generic;
 
 public class OnSaleUnitsView : UIComponentUnity{
 	DragPanel dragPanel;
-	GameObject itemPrefab;
-	bool exchange = false;
 	GameObject mainRoot;
 	GameObject submitRoot;
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	List<UILabel> crossShowLabelList = new List<UILabel>();
-	List<string> crossShowTextList = new List<string>();
-	List<UnitItemViewInfo> viewInfoList = new List<UnitItemViewInfo>();
 	List<GameObject> pickItemList = new List<GameObject>();
 	List<GameObject> readyItemList = new List<GameObject>();
 
@@ -21,6 +16,15 @@ public class OnSaleUnitsView : UIComponentUnity{
 	UILabel coinLabel;
 	UILabel readyCoinLabel;
 	int maxItemCount = 12;
+	int totalSaleValue = 0;
+	//====================
+	List<SaleUnitView> saleUnitViewList = new List<SaleUnitView>();
+	List<SaleUnitView> pickUnitViewList = new List<SaleUnitView>();
+	//====================
+	UIButton sortButton;
+	private UILabel sortRuleLabel;
+	private SortRule curSortRule;
+
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUIElement();
@@ -33,7 +37,6 @@ public class OnSaleUnitsView : UIComponentUnity{
 	
 	public override void HideUI(){
 		base.HideUI();
-//		ResetUIElement();
 	}
 
 	public override void CallbackView(object data){
@@ -46,18 +49,6 @@ public class OnSaleUnitsView : UIComponentUnity{
 				break;
 			case "DestoryDragView" : 
 				CallBackDispatcherHelper.DispatchCallBack(DestoryDragView, cbdArgs);
-				break;
-			case "AddViewItem" : 
-				CallBackDispatcherHelper.DispatchCallBack(AddViewItem, cbdArgs);
-				break;
-			case "RmvViewItem" : 
-				CallBackDispatcherHelper.DispatchCallBack(RmvViewItem, cbdArgs);
-				break;
-			case "ButtonActive":
-				CallBackDispatcherHelper.DispatchCallBack(ActivateButton, cbdArgs);
-				break;
-			case "UpdateCoinLabel" : 
-				CallBackDispatcherHelper.DispatchCallBack(UpdateCoinLabel, cbdArgs);
 				break;
 			case "ShowLastSureWindow" : 
 				CallBackDispatcherHelper.DispatchCallBack(ShowLastSureWindow, cbdArgs);
@@ -73,7 +64,7 @@ public class OnSaleUnitsView : UIComponentUnity{
     public override void ResetUIState() {
         OnSaleUnitsController controller = origin as OnSaleUnitsController;
         if (controller != null){
-            Debug.LogError(controller);
+            //Debug.LogError(controller);
             controller.ResetUI();
         }
         ResetUIElement();
@@ -86,6 +77,13 @@ public class OnSaleUnitsView : UIComponentUnity{
 		mainRoot.SetActive(true);
 		submitRoot.SetActive(false);
 		ShowUIAnimation();
+	}
+
+	void ChangeTotalSaleValue(int value){
+		//		Debug.LogError("ChangeTotalSaleValue(), before TotalValue is " + totalSaleValue);
+		totalSaleValue += value;
+		//		Debug.LogError("ChangeTotalSaleValue(), after TotalValue is " + totalSaleValue);
+		UpdateCoinLabel(totalSaleValue);
 	}
 
 	void ShowLastSureWindow(object args){
@@ -121,8 +119,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 		ExcuteCallback(cbdArgs);
 	}
 
-	void UpdateCoinLabel(object args){
-		int coin = (int)args;
+	void UpdateCoinLabel(int coin){
 //		Debug.LogError("UpdateCoinLabel(), current coin is : " + coin.ToString());
 		coinLabel.text = coin.ToString();
 		readyCoinLabel.text = coin.ToString();
@@ -131,14 +128,14 @@ public class OnSaleUnitsView : UIComponentUnity{
 	void MarkDragItem(int clickPos ,int poolPos){
 		GameObject targetScrollItem = dragPanel.ScrollItem[ clickPos ];
 		targetScrollItem.transform.FindChild("Sprite_Clycle").GetComponent<UISprite>().enabled = true;
-		targetScrollItem.transform.FindChild("Mask").GetComponent<UISprite>().enabled = true;
+		targetScrollItem.transform.FindChild("Sprite_Mask").GetComponent<UISprite>().enabled = true;
 		targetScrollItem.transform.FindChild("Label_TopRight").GetComponent<UILabel>().text = (poolPos + 1).ToString();
 	}
 
 	void CancelMarkDragItem(int clickPos){
 		GameObject targetScrollItem = dragPanel.ScrollItem[ clickPos ];
 		targetScrollItem.transform.FindChild("Sprite_Clycle").GetComponent<UISprite>().enabled = false;
-		targetScrollItem.transform.FindChild("Mask").GetComponent<UISprite>().enabled = false;
+		targetScrollItem.transform.FindChild("Sprite_Mask").GetComponent<UISprite>().enabled = false;
 		targetScrollItem.transform.FindChild("Label_TopRight").GetComponent<UILabel>().text = string.Empty;
 	}
 
@@ -178,8 +175,6 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void InitUIElement(){
-		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
-		itemPrefab = Resources.Load( itemSourcePath ) as GameObject;
 		mainRoot = transform.Find("MainWindow").gameObject;
 		submitRoot = transform.Find("EnsureWindow").gameObject;
 		coinLabel = transform.FindChild("MainWindow/SellCount/Label_Value").GetComponent<UILabel>();
@@ -194,11 +189,26 @@ public class OnSaleUnitsView : UIComponentUnity{
 		UIEventListener.Get(lastSureCancelButton.gameObject).onClick = ClickSellCancel;
 		InitDragPanelArgs();
 		InitCells();
+
+		sortButton = FindChild<UIButton>("SortButton");
+		UIEventListener.Get(sortButton.gameObject).onClick = ClickSortButton;
+		sortRuleLabel = sortButton.transform.FindChild("Label").GetComponent<UILabel>();
+
+		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+		sortRuleLabel.text = curSortRule.ToString();
 	}
 
 	void ClickSellBtn(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", null);
+		List<TUserUnit> temp = new List<TUserUnit>();
+		for (int i = 0; i < pickUnitViewList.Count; i++) {
+			TUserUnit tuu = pickUnitViewList[i].UserUnit;
+			if(tuu == null)
+				continue;
+
+			temp.Add(tuu);
+		}
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", temp);
 		ExcuteCallback(cbdArgs);
 	}
 
@@ -225,76 +235,81 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void CreateDragView(object args){
-		List<UnitItemViewInfo> viewItemList = args as List<UnitItemViewInfo>;
-		viewInfoList = viewItemList;
-		int itemCount = viewItemList.Count;
-		dragPanel = new DragPanel("OnSaleDragPanel", itemPrefab);
+		for (int i = 0; i < saleUnitViewList.Count; i++) {
+			if(saleUnitViewList[i].gameObject !=null) {
+				Destroy( saleUnitViewList[ i ].gameObject);
+			}
+		}
+		saleUnitViewList.Clear();
+		List<TUserUnit> dataList = args as List<TUserUnit>;
+		dragPanel = new DragPanel("OnSaleDragPanel", SaleUnitView.ItemPrefab);
 		dragPanel.CreatUI();
-		dragPanel.AddItem(itemCount);
-		FindCrossShowLabelList();
-        AddEventLisenter();
+		dragPanel.AddItem(dataList.Count);
 		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
-		RefreshItemView(viewItemList);
-		UpdateCrossShow();
+		for(int i = 0; i< dragPanel.ScrollItem.Count; i++) {
+			SaleUnitView suv = SaleUnitView.Inject(dragPanel.ScrollItem[ i ]);
+			suv.Init(dataList[ i ]);
+			suv.callback = ClickItem;
+			saleUnitViewList.Add(suv);
+		}
 	}
 
-	void RefreshItemView(List<UnitItemViewInfo> dataItemList){
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-
-			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-			uiTexture.mainTexture = dataItemList[ i ].Avatar;
-
-//			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
-//			typeSpr.color = dataItemList[ i ].TypeColor;
-
-			UISprite maskSpr = scrollItem.transform.FindChild("Mask").GetComponent<UISprite>();
-			UILabel partyLabel = scrollItem.transform.FindChild("Label_Party").GetComponent<UILabel>();
-			if(dataItemList[ i ].IsParty){
-				maskSpr.enabled = true;
-				partyLabel.text = "Party";
-				partyLabel.color = Color.red;
-			}
-			else{
-				maskSpr.enabled = false;
+	int CheckExist(SaleUnitView item){
+		for (int i = 0; i < pickUnitViewList.Count; i++) {
+			if(pickUnitViewList[i] != null && pickUnitViewList[i].Equals(item)) {
+				return i;
 			}
 		}
-	}
-	
-	void FindCrossShowLabelList(){
-		for(int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-			UILabel label = scrollItem.transform.FindChild("Label_Info").GetComponent<UILabel>();
-			crossShowLabelList.Add(label);
-		}
+		return -1;
 	}
 
-	void UpdateCrossShow(){
-		if(IsInvoking("CrossShow")) {
-			CancelInvoke("CrossShow");
+	int CheckNull(SaleUnitView item){
+		for (int i = 0; i < pickUnitViewList.Count; i++) {
+			if(pickUnitViewList[i] == null) {
+				return i;
+			}
 		}
-		InvokeRepeating("CrossShow", 0f, 1f);
+		return -1;
 	}
 
-	void AddEventLisenter(){
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			GameObject item = dragPanel.ScrollItem[ i ];
-			UIEventListenerCustom cu = UIEventListenerCustom.Get(item);
-			cu.onClick = ClickItem;
-			cu.LongPress = PressItem;
-		}
-	}
-
-	void ClickItem(GameObject item){
+	void ClickItem(SaleUnitView item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		int itemIndex = dragPanel.ScrollItem.IndexOf(item);
-		//Debug.LogError("OnSaleUnitsView.ClickItem(), item index is : " + itemIndex);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", itemIndex);
-		ExcuteCallback(cbdArgs);
+		int clickPos = saleUnitViewList.IndexOf(item);
+		int poolPos = 0;
+		int index = CheckExist(item);
+		if(index == -1) {
+			index = CheckNull(item);
+				if(index == -1) {
+					poolPos = pickUnitViewList.Count;
+					pickUnitViewList.Add(item);
+				}
+				else{
+					poolPos = index;
+					pickUnitViewList[index] = item;
+				}
+			ChangeTotalSaleValue(item.UserUnit.UnitInfo.SaleValue);
+			Dictionary<string,object> temp = new Dictionary<string, object>();
+			temp.Add("poolPos", poolPos);
+			temp.Add("clickPos", clickPos);
+			Texture2D tex = item.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+			temp.Add("texture", tex);
+			temp.Add("label", item.UserUnit.Level.ToString());
+			AddViewItem(temp);
+		}
+		else{
+			poolPos = index;
+			SaleUnitView suv = pickUnitViewList[ index ];
+			pickUnitViewList[ index ] = null;
+			Dictionary<string, int> temp = new Dictionary<string, int>();
+			temp.Add("poolPos", poolPos);
+			temp.Add("clickPos", clickPos);
+			RmvViewItem(temp);
+			ChangeTotalSaleValue(-item.UserUnit.UnitInfo.SaleValue);
+		}
+		ActivateButton();
 	}
 
 	void DestoryDragView(object args){
-		crossShowLabelList.Clear();
         if (dragPanel != null){
             dragPanel.DestoryUI();
         }
@@ -313,37 +328,26 @@ public class OnSaleUnitsView : UIComponentUnity{
 		submitRoot.SetActive(false);
 	}
 
-	void ActivateButton(object args){
-		bool canActivate = (bool)args;
+	void ActivateButton(){
+		bool canActivate = CanActivateSellBtn();
 		sellImgBtn.isEnabled = canActivate;
 		clearImgBtn.isEnabled = canActivate;
 	}
 
-	void CrossShow(){
-		if(exchange){
-			for( int i = 0; i < dragPanel.ScrollItem.Count; i++){
-				GameObject scrollItem = dragPanel.ScrollItem[ i ];
-				crossShowLabelList[ i ].text = "Lv" + viewInfoList[ i ].CrossShowTextBefore;
-				crossShowLabelList[ i ].color = Color.yellow;
-			}
-			exchange = false;
-		}
-		else{
-			for( int i = 0; i < dragPanel.ScrollItem.Count; i++){
-				GameObject scrollItem = dragPanel.ScrollItem[ i ];
-				if(viewInfoList[ i  ].CrossShowTextAfter == "0") continue;
-				else{
-					crossShowLabelList[ i ].text = "+" + viewInfoList[ i ].CrossShowTextAfter;
-					crossShowLabelList[ i ].color = Color.red;
-				}
-			}
-			exchange = true;
-		}
+	bool CanActivateSellBtn(){
+		bool canActivate = false;
+		if(GetCurPickedUnitCount() > 0)	return true;
+		else
+			return false;
 	}
 
-	void PressItem(GameObject item){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", dragPanel.ScrollItem.IndexOf(item));
-		ExcuteCallback(cbdArgs);
+	int GetCurPickedUnitCount(){
+		int pickedCount = 0;
+		for (int i = 0; i < pickItemList.Count; i++){
+			if(pickItemList[ i ] !=null) 
+				pickedCount++;
+		}
+		return pickedCount;
 	}
 
 	void InitDragPanelArgs(){
@@ -357,6 +361,24 @@ public class OnSaleUnitsView : UIComponentUnity{
 		dragPanelArgs.Add("scrollBarPosition",		new Vector3(-320, -340, 0));
 		dragPanelArgs.Add("cellWidth", 				120);
 		dragPanelArgs.Add("cellHeight",				120);
+	}
+
+	void ClickSortButton(GameObject btn){
+		curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		sortRuleLabel.text = curSortRule.ToString();
+
+		List<TUserUnit> unitList = new List<TUserUnit>();
+		for (int i = 0; i < saleUnitViewList.Count; i++){
+			unitList.Add(saleUnitViewList[ i ].UserUnit);
+		}
+
+		SortUnitTool.SortByTargetRule(curSortRule, unitList);
+
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			SaleUnitView suv = dragPanel.ScrollItem[ i ].GetComponent<SaleUnitView>();
+			suv.UserUnit = unitList[ i ];//before
+			suv.CurrentSortRule = curSortRule;//after
+		}
 	}
 
 }

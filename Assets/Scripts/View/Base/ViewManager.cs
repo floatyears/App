@@ -46,11 +46,6 @@ public class ViewManager {
 	{
 		get{ return parentPanel; }
 	}
-
-	private GameObject effectPanel;
-	public GameObject EffectPanel {
-		get { return effectPanel; }
-	}
 	
 	private UICamera mainUICamera;
 	
@@ -96,7 +91,6 @@ public class ViewManager {
 		parentPanel = mainUIRoot.transform.Find("Bottom").gameObject;
 		topPanel = mainUIRoot.transform.Find ("Top/Panel").gameObject;
 		bottomPanel = mainUIRoot.transform.Find ("Bottom/Panel").gameObject;
-		effectPanel = mainUIRoot.transform.Find ("Bottom/EffectPanel").gameObject;
 		centerPanel = mainUIRoot.transform.Find ("Anchor/Panel").gameObject;
 		dynamicFont = Resources.Load("Font/Faerytale Woods",typeof(Font)) as Font;
 		trapLabel = mainUIRoot.transform.Find ("BottomLeft/Label").GetComponent<UILabel> ();
@@ -112,9 +106,9 @@ public class ViewManager {
 	}
 
 	public UIBaseUnity GetViewObject(string name) {
-//		if(uiObjectDic.ContainsKey(name)) {	
-//			return uiObjectDic[name];
-//		}
+		if(uiObjectDic.ContainsKey(name)) {	
+			return uiObjectDic[name];
+		}
 		return CreatObject(name);
 	}
 
@@ -134,7 +128,7 @@ public class ViewManager {
 		GameObject sourceObject = LoadAsset.Instance.LoadAssetFromResources(name,ResourceEuum.Prefab) as GameObject;
 		GameObject go = NGUITools.AddChild(centerPanel,sourceObject);
 		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
-//		uiObjectDic.Add(name,goScript);
+		uiObjectDic.Add(name,goScript);
 		return goScript;
 	}
 
@@ -209,18 +203,9 @@ public class ViewManager {
 	}
 
 	public void CleartComponent () {
-		System.Type ty = typeof(MsgWindowLogic);
-		List<ConcreteComponent> cclist = new List<ConcreteComponent> ();
 		foreach (var item in UIComponentDic.Values) {
 			ConcreteComponent cc = item as ConcreteComponent;
-			if(cc.GetType() == ty)
-				continue;
-			cclist.Add(cc);
-//			GameObject.Destroy(cc.ViewComponent.gameObject);
-		}
-
-		for (int i = cclist.Count - 1; i >= 0; i--) {
-			cclist[i].DestoryUI();
+			GameObject.Destroy(cc.ViewComponent.gameObject);
 		}
 		UIComponentDic.Clear ();
 	}

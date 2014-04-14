@@ -97,12 +97,6 @@ public class TEnemyInfo : ProtobufDataBase {
 
 	public void Next () {
 		initAttackRound --;
-		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
-	}
-
-	public void FirstAttack () {
-		initAttackRound++;
-		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
 
 	void DeferAttackRound(object data) {

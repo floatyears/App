@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PartyPartyPage : PartyPageLogic{
 
 	private int currentFoucsPosition;
-
+	
 	public PartyPartyPage(string uiName) : base(uiName){
 		SetFocusPostion(0);
 	}
@@ -23,6 +23,7 @@ public class PartyPartyPage : PartyPageLogic{
 	public override void HideUI(){
 		base.HideUI();
 		RemoveCommandListener();
+//		DestoryUI();
 	}
 
     public override void RefreshCurrentParty(){
@@ -66,19 +67,20 @@ public class PartyPartyPage : PartyPageLogic{
 		int position = (int)args;
 		SetFocusPostion(position);
 		LogHelper.LogError("currentFoucsPosition is : " + currentFoucsPosition);
-		TUserUnit tuu = null;
+//		TUserUnit tuu = null;
 		List<TUserUnit> temp = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit ();
 //		Debug.LogError ("temp.count : " + temp.Count + " position - 1 : " + (position - 1));
-		if (temp[ position - 1 ] == null) {
+//		if (temp[ position - 1 ] == null) {
 			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("LightCurSprite", currentFoucsPosition);
 			ExcuteCallback(cbdArgs);
+//			MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
+//		}
+//		else {
+//			tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
+//			BriefUnitInfo briefInfo = new BriefUnitInfo("PartyItem", tuu);
+//			MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
 			MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
-		}
-		else {
-			tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
-			BriefUnitInfo briefInfo = new BriefUnitInfo("PartyItem", tuu);
-			MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
-		}
+//		}
 
 	}
 
@@ -98,7 +100,7 @@ public class PartyPartyPage : PartyPageLogic{
 		Debug.LogError ("currentFoucsPosition : " + currentFoucsPosition + " tuu : " + tuu.Count);
 		uint focusUnitUniqueId = tuu[currentFoucsPosition - 1].ID;
 	
-		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0);
+//		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0); 
 
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClearItem", currentFoucsPosition);
 		ExcuteCallback(cbd);
@@ -129,23 +131,23 @@ public class PartyPartyPage : PartyPageLogic{
 	}
 
 	void ReplaceFocusPartyItem(object data) {
-		LogHelper.Log("PartyPageUILogic.ReplaceFocusPartyItem(), Start...");
+//		LogHelper.Log("PartyPageUILogic.ReplaceFocusPartyItem(), Start...");
 		
 		TUserUnit newPartyUnit = data as TUserUnit;
 		uint uniqueId = newPartyUnit.ID;
 		
-		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty Before....");
+//		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty Before....");
 
 		//Check Cost Limit
-		if(!DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, uniqueId)){
-			Debug.LogError("The current party's cost is bigger than your max cost...");
-			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetPartyCostLimitMsgParams());
-			return;
-		}
+//		if(!DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, uniqueId)){
+////			Debug.LogError("The current party's cost is bigger than your max cost...");
+//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetPartyCostLimitMsgParams());
+//			return;
+//		}
 
-		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty After....");
-		
-		LogHelper.LogError("PartyPageLogic.ReplaceFocusPartyItem(), The position to  repace : " + currentFoucsPosition);
+//		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty After....");
+//		
+//		LogHelper.LogError("PartyPageLogic.ReplaceFocusPartyItem(), The position to  repace : " + currentFoucsPosition);
 		
 		Dictionary<string,object> replaceArgsDic = new Dictionary<string, object>();
 		replaceArgsDic.Add("position", currentFoucsPosition);
@@ -154,7 +156,7 @@ public class PartyPartyPage : PartyPageLogic{
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ReplaceItemView", replaceArgsDic);
 		ExcuteCallback(cbdArgs);
 		
-		LogHelper.Log("PartyPageUILogic.ReplaceFocusPartyItem(), End...");
+//		LogHelper.Log("PartyPageUILogic.ReplaceFocusPartyItem(), End...");
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
 		
 	}
