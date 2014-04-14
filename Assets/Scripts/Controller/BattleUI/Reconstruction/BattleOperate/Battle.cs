@@ -5,11 +5,10 @@ public class Battle : UIBase {
 	private static UIRoot uiRoot;
 	private static Camera mainCamera;
 	private UICamera nguiMainCamera;
-	public GameObject battleRootGameObject;
+	private GameObject battleRootGameObject;
 	private RaycastHit[] rayCastHit;
 	private CardItem tempCard;
 	private GameObject tempObject;
-
 	private BattleCardPool battleCardPool;
 	private BattleCard battleCard;
 	private BattleCardArea battleCardArea;
@@ -25,6 +24,8 @@ public class Battle : UIBase {
 	//end------------------------------------------------------------
 	public int cardHeight = 0;
 	private Vector3 localPosition = new Vector3 (-0.18f, -17f, 0f);
+
+	private AttackEffect attackEffect;
 
 	public Battle(string name):base(name) {
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
@@ -44,6 +45,7 @@ public class Battle : UIBase {
 	}
 	
 	public override void CreatUI () {
+		CreatEffect ();
 		CreatBack();
 		CreatCard();
 		CreatArea();
@@ -68,6 +70,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
+		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 	}
 
 	public override void HideUI () {
@@ -77,17 +80,24 @@ public class Battle : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
+		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		battleRootGameObject.SetActive(false);
 	}
 
-	public override void DestoryUI () {
-		GameInput.OnPressEvent -= HandleOnPressEvent;
-		GameInput.OnReleaseEvent -= HandleOnReleaseEvent;
-		GameInput.OnStationaryEvent -= HandleOnStationaryEvent;
-		GameInput.OnDragEvent -= HandleOnDragEvent;
-		base.DestoryUI ();
-		GameObject.Destroy (battleRootGameObject);
-		countDownUI.DestoryUI ();
+	void CreatEffect () {
+		GameObject go = Resources.Load("Effect/AttackEffect") as GameObject;
+		go = NGUITools.AddChild (battleRootGameObject, go);
+		go.transform.localPosition = ViewManager.HidePos;
+		attackEffect = go.GetComponent<AttackEffect> ();
+	}
+
+	void AttackEnemy (object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;		
+		}
+
+		attackEffect.RefreshItem (ai);
 	}
 
 	public void StartBattle () {
@@ -118,7 +128,6 @@ public class Battle : UIBase {
 	}
 
 	void BattleEnd (object data) {
-		isShowEnemy = false;
 		ShieldInput (true);
 		SwitchInput(true);
 		HideUI ();
@@ -178,6 +187,7 @@ public class Battle : UIBase {
 
 	void CreatEnemy() {
 		string enemyName = "BattleEnemy";
+
 		tempObject = GetPrefabsObject(enemyName);
 		tempObject.layer = GameLayer.EnemyCard;
 		battleEnemy = tempObject.AddComponent<BattleEnemy>();
@@ -186,9 +196,7 @@ public class Battle : UIBase {
 		battleEnemy.ShowUI ();
 	}
 
-	bool isShowEnemy = false;
 	public void ShowEnemy(List<TEnemyInfo> count) {
-		isShowEnemy = true;
 		battleEnemy.Refresh(count);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
@@ -223,14 +231,15 @@ public class Battle : UIBase {
 
 
 	public void SwitchInput(bool isShield) {
+//		Debug.LogError ("SwitchInput : " + isShield);
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
+		//Debug.LogError ("SwitchInput : " + nguiMainCamera);
 		main.GInput.IsCheckInput = !isShield;
-		MapCamera.IsClick = isShield;
 	}
 
-	public void ShieldInput (bool isShield) {
+	void ShieldInput (bool isShield) {
 		nguiMainCamera.enabled = isShield;
 		main.GInput.IsCheckInput = isShield;
 	}
@@ -260,10 +269,6 @@ public class Battle : UIBase {
 	}
 
 	void DisposeReleasePress() {
-		if (!isShowEnemy) {
-			return;
-		}
-					
 		if(selectTarget.Count == 0) {
 			ResetClick();
 			return;
@@ -271,6 +276,7 @@ public class Battle : UIBase {
 
 		if(Check(GameLayer.BattleCard)) {
 			BattleCardAreaItem bcai = null;
+
 			for (int i = 0; i < rayCastHit.Length; i++) {
 				tempObject = rayCastHit[i].collider.gameObject;
 				bcai = tempObject.GetComponent<BattleCardAreaItem>();
@@ -373,7 +379,7 @@ public class Battle : UIBase {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
 
 				tempCard.OnPress(true,selectTarget.Count);
-				tempCard.ActorTexture.depth = tempCard.InitDepth;
+				tempCard.ActorTexture.depth = 5;
 				selectTarget.Add(tempCard);
 			}
 		}

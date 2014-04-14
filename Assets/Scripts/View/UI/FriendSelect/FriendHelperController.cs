@@ -28,6 +28,7 @@ public class FriendHelperController : ConcreteComponent{
 	public override void CallbackView(object data){
 		base.CallbackView(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+
 		switch (cbdArgs.funcName){
 			case "ClickItem" :
 				CallBackDispatcherHelper.DispatchCallBack(ShowHelperInfo, cbdArgs);
@@ -42,6 +43,7 @@ public class FriendHelperController : ConcreteComponent{
 
 	void QuestStart(object args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+
 		if (DataCenter.gameStage == GameState.Evolve) {
 			evolveStart.EvolveStart.restartNew = 1;
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
@@ -60,6 +62,7 @@ public class FriendHelperController : ConcreteComponent{
 
 	void RspEvolveStartQuest (object data) {
 		if (data == null){
+//			Debug.Log("OnRspEvolveStart(), response null");
 			return;
 		}
 		evolveStart.StoreData ();

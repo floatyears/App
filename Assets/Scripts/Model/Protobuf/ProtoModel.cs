@@ -1950,6 +1950,14 @@ namespace bbproto
       get { return _questId; }
       set { _questId = value; }
     }
+    private int _isGameOver = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"isGameOver", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int isGameOver
+    {
+      get { return _isGameOver; }
+      set { _isGameOver = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -3534,6 +3542,66 @@ namespace bbproto
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReqUnitFavorite")]
+  public partial class ReqUnitFavorite : global::ProtoBuf.IExtensible
+  {
+    public ReqUnitFavorite() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private uint _unitUniqueId = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"unitUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint unitUniqueId
+    {
+      get { return _unitUniqueId; }
+      set { _unitUniqueId = value; }
+    }
+    private bbproto.EFavoriteAction _action = bbproto.EFavoriteAction.ADD_FAVORITE;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"action", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.EFavoriteAction.ADD_FAVORITE)]
+    public bbproto.EFavoriteAction action
+    {
+      get { return _action; }
+      set { _action = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RspUnitFavorite")]
+  public partial class RspUnitFavorite : global::ProtoBuf.IExtensible
+  {
+    public RspUnitFavorite() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private uint _unitUniqueId = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"unitUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint unitUniqueId
+    {
+      get { return _unitUniqueId; }
+      set { _unitUniqueId = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UserInfo")]
   public partial class UserInfo : global::ProtoBuf.IExtensible
   {
@@ -3707,6 +3775,22 @@ namespace bbproto
     {
       get { return _questClear; }
       set { _questClear = value; }
+    }
+    private byte[] _unitFavoriteFlag = null;
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"unitFavoriteFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] unitFavoriteFlag
+    {
+      get { return _unitFavoriteFlag; }
+      set { _unitFavoriteFlag = value; }
+    }
+    private byte[] _unitCatalogFlag = null;
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"unitCatalogFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] unitCatalogFlag
+    {
+      get { return _unitCatalogFlag; }
+      set { _unitCatalogFlag = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -4355,6 +4439,22 @@ namespace bbproto
       get { return _isNewUser; }
       set { _isNewUser = value; }
     }
+    private byte[] _unitFavoriteFlag = null;
+    [global::ProtoBuf.ProtoMember(14, IsRequired = false, Name=@"unitFavoriteFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] unitFavoriteFlag
+    {
+      get { return _unitFavoriteFlag; }
+      set { _unitFavoriteFlag = value; }
+    }
+    private byte[] _unitCatalogFlag = null;
+    [global::ProtoBuf.ProtoMember(15, IsRequired = false, Name=@"unitCatalogFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] unitCatalogFlag
+    {
+      get { return _unitCatalogFlag; }
+      set { _unitCatalogFlag = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -4951,6 +5051,17 @@ namespace bbproto
             
       [global::ProtoBuf.ProtoEnum(Name=@"E_BUY_GACHA_EVENT", Value=3)]
       E_BUY_GACHA_EVENT = 3
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"EFavoriteAction")]
+    public enum EFavoriteAction
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ADD_FAVORITE", Value=1)]
+      ADD_FAVORITE = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"DEL_FAVORITE", Value=2)]
+      DEL_FAVORITE = 2
     }
   
 }

@@ -233,7 +233,7 @@ public class DataCenter {
 		if (!AllSkill.TryGetValue (skillUserID, out skill)) {
 			skill = DGTools.LoadSkill(skillID, skillType);
 			if(skill == null) {
-				Debug.LogError("load skill faile. not have this skill config ! " + userUnitID + " skillID : " + skillID) ;
+				//Debug.LogError("load skill faile. not have this skill config ! " + userUnitID);
 				return null;
 			}
 			AllSkill.Add(skillUserID, skill);

@@ -33,7 +33,6 @@ public class FriendHelperView : UIComponentUnity{
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
-
 	}
 	
 	public override void ShowUI() {
@@ -42,11 +41,7 @@ public class FriendHelperView : UIComponentUnity{
 		SetBottomButtonActive(false);
 		prevPosition = -1;
 		AddCommandListener();
-	
-		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
-		RefreshParty(curParty);
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
-
+		InitPagePanel();
 	}
 
 	private void ShowUIAnimation(){
@@ -240,7 +235,6 @@ public class FriendHelperView : UIComponentUnity{
 //		dragPanelCell = Resources.Load("Prefabs/UI/Friend/AvailFriendItem") as GameObject;
 		InitDragPanelArgs();
 		FindItemLeft();
-		InitPagePanel();
     }
 
 	void UpdateViewAfterChooseHelper(object args){
