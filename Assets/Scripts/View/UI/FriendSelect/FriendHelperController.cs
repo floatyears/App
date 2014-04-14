@@ -165,14 +165,14 @@ public class FriendHelperController : ConcreteComponent{
 	}
 
 	void AddCommandListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.ChooseHelper, ChooseHelper);
+//		MsgCenter.Instance.AddListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 		MsgCenter.Instance.AddListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 		MsgCenter.Instance.AddListener (CommandEnum.RefreshFriendHelper, RefreshFriendHelper);
 	}
 
 	void RemoveCommandListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 		MsgCenter.Instance.RemoveListener (CommandEnum.RefreshFriendHelper, RefreshFriendHelper);
