@@ -2,12 +2,13 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class OwnedUnitListLogic : ConcreteComponent {
-	public OwnedUnitListLogic(string uiName):base(uiName){}
+public class MyUnitListLogic : ConcreteComponent {
+	public MyUnitListLogic(string uiName):base(uiName){}
 
 	public override void ShowUI(){
 		base.ShowUI();
 		CreateOwnedUnitListView();
+		RefreshItemCounter();
 	}
 
 	public override void HideUI(){
@@ -44,13 +45,13 @@ public class OwnedUnitListLogic : ConcreteComponent {
 		}
 		
 		tuuList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
-		Debug.Log("GenerateOwnedUnitListView(), the total count of this player owned is " + tuuList.Count);
+		//Debug.Log("GenerateOwnedUnitListView(), the total count of this player owned is " + tuuList.Count);
 		return tuuList;
 	}
 
 	void CreateOwnedUnitListView(){
 		if(GetOwnedUnitViewList() == null) return;
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("CreateDragPanelView", GetOwnedUnitViewList());
+		CallBackDispatcherArgs call = new CallBackDispatcherArgs("CreateDragPanelView", GetOwnedUnitDataList());
 		ExcuteCallback(call);
 	}
 
@@ -58,5 +59,14 @@ public class OwnedUnitListLogic : ConcreteComponent {
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("DestoryDragPanelView", null);
 		ExcuteCallback(call);
 	}
+
+	void RefreshItemCounter(){
+		Dictionary<string, object> countArgs = new Dictionary<string, object>();
+		countArgs.Add("title", TextCenter.Instace.GetCurrentText("UnitCounterTitle"));
+		countArgs.Add("current", DataCenter.Instance.MyUnitList.Count);
+		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+	}
+
 
 }
