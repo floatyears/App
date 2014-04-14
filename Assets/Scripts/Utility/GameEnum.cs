@@ -234,7 +234,9 @@ public enum CommandEnum{
     LevelUpSucceed,
     StartFirstLogin,
     FocusLevelUpPanel,
-
+	LeaderSkillEnd,
+	ShowHands,
+	ActiveSkillStandReady,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,
@@ -398,3 +400,10 @@ public enum UnitAssetType{
 	Avatar 	= 0,
 	Profile	= 1,
 }
+
+public enum EnemyAttackEnum {
+	None,
+	FirstAttack,
+	BackAttack,
+}
+

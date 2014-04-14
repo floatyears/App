@@ -32,6 +32,7 @@ public class TopUI : UIBaseUnity {
 		StartCoroutine (Set ());
 	}
 
+
 	IEnumerator Set () {
 		yield return 0;
 		leftAnchor.runOnlyOnce = true;
