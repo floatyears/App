@@ -9,13 +9,26 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		leadSkill = lead;
 	}
 
+	const float time = 0.5f;
+	Queue<string> leaderSkillQueue = new Queue<string> ();
+
 	public void Excute() {
+		int temp = 0;
 		foreach (var item in leadSkill.LeadSkill) {
-			if(DisposeBoostSkill(item.Value)) {
-				RemoveSkill.Add(item.Key);
-			}
+			temp++;
+			leaderSkillQueue.Enqueue(item.Key);
+			GameTimer.GetInstance().AddCountDown(temp*time, ExcuteStartLeaderSkill);
+
 		}
-		RemoveLeaderSkill ();
+	}
+
+	void ExcuteStartLeaderSkill() {
+		string key = leaderSkillQueue.Dequeue ();
+		DisposeBoostSkill(key, leadSkill.LeadSkill[key]);
+		leadSkill.LeadSkill.Remove (key);
+		if (leaderSkillQueue.Count == 0) {
+			MsgCenter.Instance.Invoke (CommandEnum.LeaderSkillEnd, null);
+		}
 	}
 
 	void RemoveLeaderSkill () {
@@ -23,30 +36,33 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			leadSkill.LeadSkill.Remove(RemoveSkill[i]);
 		}
 	}
-	
-	bool DisposeBoostSkill (ProtobufDataBase pdb) {
+
+	void DisposeBoostSkill (string userunit, ProtobufDataBase pdb) {
 		TSkillBoost tbs = pdb as TSkillBoost;
 		if (tbs != null) {
+			AttackInfo ai = new AttackInfo();
+			ai.UserUnitID = userunit;
+			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			foreach (var item in leadSkill.UserUnit.Values) {
 				if( item == null) {
 					continue;
 				}
 				item.SetAttack(tbs.GetBoostValue, tbs.GetTargetValue, tbs.GetTargetType, tbs.GetBoostType);
 			}
-			return true;
 		}
 		else {
-			return DisposeDelayOperateTime(pdb);
+			DisposeDelayOperateTime(userunit,pdb);
 		}
 	}
 
-	bool DisposeDelayOperateTime (ProtobufDataBase pdb) {
+	void DisposeDelayOperateTime (string userunit, ProtobufDataBase pdb) {
 		TSkillDelayTime tst = pdb as TSkillDelayTime;
 		if (tst != null) {
+			AttackInfo ai = new AttackInfo();
+			ai.UserUnitID = userunit;
+			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			MsgCenter.Instance.Invoke(CommandEnum.LeaderSkillDelayTime, tst.DelayTime);
-			return true;
 		}
-		return false;
 	}
 	
 	public float ReduceHurtValue (float hurt,int type) {
@@ -158,6 +174,21 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			multipe += trhp.MultipeAttack(attackInfo);
 		}
 		return multipe;
+	}
+
+	/// <summary>
+	/// utility ready move animation
+	/// </summary>
+	int tempLeaderSkillCount = 0;
+	public int CheckLeaderSkillCount () {
+		foreach (var item in leadSkill.LeadSkill.Values) {
+			if(item is TSkillBoost) {
+				tempLeaderSkillCount ++;
+			}else if(item is TSkillDelayTime){
+				tempLeaderSkillCount ++;
+			}
+		}
+		return tempLeaderSkillCount;
 	}
 }
 

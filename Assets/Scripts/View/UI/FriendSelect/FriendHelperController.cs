@@ -98,11 +98,13 @@ public class FriendHelperController : ConcreteComponent{
 //			Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
 			return;
 		}
+//		HideUI ();
 		EnterBattle ();
 	} 
 		
 	void EnterBattle () {
 		DataCenter.Instance.BattleFriend = selectedHelper;
+		HideUI ();
 		UIManager.Instance.EnterBattle();
 	} 
 
