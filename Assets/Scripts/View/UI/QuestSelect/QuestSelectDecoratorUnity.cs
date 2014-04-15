@@ -37,7 +37,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUI();
-		InitQuestSelectScrollArgs();
+//		InitQuestSelectScrollArgs();
 		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
 	}
 	
@@ -112,7 +112,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		}
 		dragPanel = CreateDragPanel(questInfoList.Count);
 		FillDragPanel(dragPanel, questInfoList);
-		dragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
 	}
 
 	GameObject GetScrollItem( string resourcePath ){
@@ -286,7 +286,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		else {
 			dragPanel = new DragPanel("QuestDragPanel",questViewItem);
 			dragPanel.CreatUI();
-			dragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
+			dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
 		}
 		dragPanel.AddItem (tsi.QuestInfo.Count);
 		RefreshQuestInfo (tsi.QuestInfo);
@@ -303,7 +303,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		dragPanel = new DragPanel("QuestDragPanel", questViewItem);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(tsi.QuestInfo.Count);
-		dragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
 
 		RefreshQuestInfo (tsi.QuestInfo);
 	}
@@ -359,20 +359,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			tweenPos.Reset();
 			tweenPos.PlayForward();
 		}
-	}
-	
-	void InitQuestSelectScrollArgs(){
-		questSelectScrollerArgsDic.Add("parentTrans",			scrollView.transform);
-		questSelectScrollerArgsDic.Add("scrollerScale",			Vector3.one);
-		questSelectScrollerArgsDic.Add("scrollerLocalPos",		-60 * Vector3.up);
-		questSelectScrollerArgsDic.Add("position",					Vector3.zero);
-		questSelectScrollerArgsDic.Add("clipRange",				new Vector4(0, 0, 640, 200));
-		questSelectScrollerArgsDic.Add("gridArrange",			UIGrid.Arrangement.Horizontal);
-		questSelectScrollerArgsDic.Add("maxPerLine",			0);
-		questSelectScrollerArgsDic.Add("scrollBarPosition",	new Vector3(-320, -120, 0));
-		questSelectScrollerArgsDic.Add("cellWidth",				125);
-		questSelectScrollerArgsDic.Add("cellHeight",				125);
-
 	}
 
 }

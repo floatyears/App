@@ -86,7 +86,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	private void InitUI(){
-		InitDragPanelArgs();
+//		InitDragPanelArgs();
 	}
 
 	//CommandEnum.PanelFocus
@@ -311,7 +311,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 		baseDragPanel = CreateDragPanel( name, count, itemGo) ;
 		FillDragPanel (baseDragPanel);
-		baseDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+		baseDragPanel.DragPanelView.SetScrollView(dragPanelArgs, transform);
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){
@@ -400,19 +400,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		uiEventListener.LongPress = PressItem;
 		uiEventListener.onClick = ClickBaseItem;
 	}
-	
-	private void InitDragPanelArgs(){
-		dragPanelArgs.Add("parentTrans",	transform);
-		dragPanelArgs.Add("scrollerScale",	Vector3.one);
-		dragPanelArgs.Add("scrollerLocalPos",	-28 * Vector3.up);
-		dragPanelArgs.Add("position", 		Vector3.zero);
-		dragPanelArgs.Add("clipRange", 		new Vector4(0, -120, 640, 400));
-		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
-		dragPanelArgs.Add("maxPerLine",		3);
-		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
-		dragPanelArgs.Add("cellWidth", 		120);
-		dragPanelArgs.Add("cellHeight",		110);
-	}
+
 	bool exchange = false;
 	void CrossShow(){
 		if(exchange){

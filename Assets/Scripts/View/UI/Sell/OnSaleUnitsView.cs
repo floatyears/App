@@ -5,10 +5,9 @@ public class OnSaleUnitsView : UIComponentUnity{
 	DragPanel dragPanel;
 	GameObject mainRoot;
 	GameObject submitRoot;
-	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	List<GameObject> pickItemList = new List<GameObject>();
-	List<GameObject> readyItemList = new List<GameObject>();
-
+	UIButton sortButton;
+	private UILabel sortRuleLabel;
+	private SortRule curSortRule;
 	UIButton lastSureOkButton;
 	UIButton lastSureCancelButton;
 	UIImageButton sellImgBtn;
@@ -17,14 +16,11 @@ public class OnSaleUnitsView : UIComponentUnity{
 	UILabel readyCoinLabel;
 	int maxItemCount = 12;
 	int totalSaleValue = 0;
-	//====================
 	List<SaleUnitView> saleUnitViewList = new List<SaleUnitView>();
 	List<SaleUnitView> pickUnitViewList = new List<SaleUnitView>();
-	//====================
-	UIButton sortButton;
-	private UILabel sortRuleLabel;
-	private SortRule curSortRule;
-
+	List<GameObject> pickItemList = new List<GameObject>();
+	List<GameObject> readyItemList = new List<GameObject>();
+	
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUIElement();
@@ -32,7 +28,8 @@ public class OnSaleUnitsView : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		ShowUIAnimation();	              
+		ShowUIAnimation();	   
+		SortUnitByCurRule();
 	}
 	
 	public override void HideUI(){
@@ -80,9 +77,9 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void ChangeTotalSaleValue(int value){
-		//		Debug.LogError("ChangeTotalSaleValue(), before TotalValue is " + totalSaleValue);
+		//	Debug.LogError("ChangeTotalSaleValue(), before TotalValue is " + totalSaleValue);
 		totalSaleValue += value;
-		//		Debug.LogError("ChangeTotalSaleValue(), after TotalValue is " + totalSaleValue);
+		//Debug.LogError("ChangeTotalSaleValue(), after TotalValue is " + totalSaleValue);
 		UpdateCoinLabel(totalSaleValue);
 	}
 
@@ -187,7 +184,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 		UIEventListener.Get(clearImgBtn.gameObject).onClick = ClickClearBtn;
 		UIEventListener.Get(lastSureOkButton.gameObject).onClick = ClickSellOk;
 		UIEventListener.Get(lastSureCancelButton.gameObject).onClick = ClickSellCancel;
-		InitDragPanelArgs();
+//		InitDragPanelArgs();
 		InitCells();
 
 		sortButton = FindChild<UIButton>("MainWindow/SortButton");
@@ -245,7 +242,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 		dragPanel = new DragPanel("OnSaleDragPanel", SaleUnitView.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
-		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.OnSaleUnitDragPanelArgs, mainRoot.transform);
 		for(int i = 0; i< dragPanel.ScrollItem.Count; i++) {
 			SaleUnitView suv = SaleUnitView.Inject(dragPanel.ScrollItem[ i ]);
 			suv.Init(dataList[ i ]);
@@ -350,34 +347,23 @@ public class OnSaleUnitsView : UIComponentUnity{
 		return pickedCount;
 	}
 
-	void InitDragPanelArgs(){
-		dragPanelArgs.Add("parentTrans",			mainRoot.transform);
-		dragPanelArgs.Add("scrollerScale",			Vector3.one);
-		dragPanelArgs.Add("scrollerLocalPos",		-240 * Vector3.up);
-		dragPanelArgs.Add("position", 					Vector3.zero);
-		dragPanelArgs.Add("clipRange", 				new Vector4(0, -120, 640, 400));
-		dragPanelArgs.Add("gridArrange", 			UIGrid.Arrangement.Vertical);
-		dragPanelArgs.Add("maxPerLine",				3);
-		dragPanelArgs.Add("scrollBarPosition",		new Vector3(-320, -340, 0));
-		dragPanelArgs.Add("cellWidth", 				120);
-		dragPanelArgs.Add("cellHeight",				120);
-	}
-
 	void ClickSortButton(GameObject btn){
 		curSortRule = SortUnitTool.GetNextRule(curSortRule);
-		sortRuleLabel.text = curSortRule.ToString();
+		SortUnitByCurRule();
+	}
 
+	private void SortUnitByCurRule(){
+		sortRuleLabel.text = curSortRule.ToString();	
 		List<TUserUnit> unitList = new List<TUserUnit>();
 		for (int i = 0; i < saleUnitViewList.Count; i++){
 			unitList.Add(saleUnitViewList[ i ].UserUnit);
 		}
-
-		SortUnitTool.SortByTargetRule(curSortRule, unitList);
-
+		
+		SortUnitTool.SortByTargetRule(curSortRule, unitList);	
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			SaleUnitView suv = dragPanel.ScrollItem[ i ].GetComponent<SaleUnitView>();
-			suv.UserUnit = unitList[ i ];//before
-			suv.CurrentSortRule = curSortRule;//after
+			suv.UserUnit = unitList[ i ];
+			suv.CurrentSortRule = curSortRule;
 		}
 	}
 

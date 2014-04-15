@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HelperUnitView : UnitView {
-	private UILabel nameLabel;
+public class HelperUnitView : FriendUnitView {
 	private UILabel typeLabel;
 	private UILabel pointLabel;
-
 	public delegate void UnitItemCallback(HelperUnitView huv);
 	public UnitItemCallback callback;
 	
@@ -19,7 +17,8 @@ public class HelperUnitView : UnitView {
 	public static GameObject ItemPrefab {
 		get { 
 			if(itemPrefab == null) {
-				itemPrefab = Resources.Load("Prefabs/UI/UnitItem/HelperUnitPrefab") as GameObject ;
+				string sourcePath = "Prefabs/UI/UnitItem/HelperUnitPrefab";
+				itemPrefab = Resources.Load(sourcePath) as GameObject ;
 			}
 			return itemPrefab;
 		}
@@ -32,18 +31,6 @@ public class HelperUnitView : UnitView {
 		return view;
 	}
 
-	private TFriendInfo friendInfo;
-	public TFriendInfo FriendInfo{
-		get{ return friendInfo; }
-		set{ friendInfo = value; }
-	}
-
-	private string helperName;
-	public string HelperName{
-		get{ return helperName; }
-		set{ helperName = value; }
-	}
-
 	private int friendPoint;
 	public int FriendPoint{
 		get{ return friendPoint; }
@@ -52,16 +39,17 @@ public class HelperUnitView : UnitView {
 
 	protected override void InitUI(){
 		base.InitUI();
-		nameLabel = transform.FindChild("Label_Name").GetComponent<UILabel>();
 		typeLabel = transform.FindChild("Label_Friend_Type").GetComponent<UILabel>();
 		pointLabel = transform.FindChild("Label_Friend_Point").GetComponent<UILabel>();
 	}
 
 	protected override void InitState(){
 		base.InitState();
-		if(string.IsNullOrEmpty(friendInfo.NickName)) nameLabel.text = "NoName";
-		else nameLabel.text = friendInfo.NickName;
+		InitFriendType();
+		InitFriendPoint();
+	}
 
+	private void InitFriendType(){
 		switch (friendInfo.FriendState) {
 			case bbproto.EFriendState.FRIENDHELPER : 
 				typeLabel.text = "Support";
@@ -77,6 +65,9 @@ public class HelperUnitView : UnitView {
 				typeLabel.text = string.Empty;
 				break;
 		}
+	}
+
+	private void InitFriendPoint(){
 		if(friendInfo.FriendPoint != 0){
 			pointLabel.text = string.Format("{0}pt", friendInfo.FriendPoint.ToString());
 		}
@@ -84,10 +75,4 @@ public class HelperUnitView : UnitView {
 			pointLabel.text = string.Empty;
 		}
 	}
-	
-	public void Init(TFriendInfo friendInfo){
-		this.friendInfo = friendInfo;
-		base.Init(friendInfo.UserUnit);
-	}
-
 }
