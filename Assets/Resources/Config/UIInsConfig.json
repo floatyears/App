@@ -216,6 +216,14 @@
         "positiony": 0,
         "positionz": 0
     },
+     "ReceptionWindow": {
+        "uiName":"ReceptionWindow",
+        "resoucePath": "Prefabs/UI/Friend/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
      "UserIDWindow": {
         "uiName":"UserIDWindow",
         "resoucePath": "Prefabs/UI/Friend/",

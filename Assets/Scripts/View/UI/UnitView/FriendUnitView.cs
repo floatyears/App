@@ -31,10 +31,12 @@ public class FriendUnitView : UnitView {
 	
 	protected override void InitState(){
 		base.InitState();
-		if(string.IsNullOrEmpty(friendInfo.NickName))
+		if(string.IsNullOrEmpty(friendInfo.NickName)){
 			nameLabel.text = "NoName";
-		else
+		}
+		else{
 			nameLabel.text = friendInfo.NickName;
+		}
 	}
 
 	protected override void ClickItem(GameObject item){

@@ -89,8 +89,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 	
 	void CreateDragView(object args){
-
-		List<TFriendInfo> dataList = DataCenter.Instance.SupportFriends;
+		List<TFriendInfo> dataList = DataCenter.Instance.SupportFriends;//merge
 		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitView.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
@@ -100,9 +99,8 @@ public class FriendHelperView : UIComponentUnity{
 			HelperUnitView huv = HelperUnitView.Inject(dragPanel.ScrollItem[ i ]);
 			huv.Init(dataList[ i ]);
 			huv.callback = ClickItem;
-			helperDataList.Add(huv.FriendInfo);
+			helperDataList.Add(huv.FriendInfo);//merge
 		}
-
 		SortHelperByCurRule();
 	}
 
