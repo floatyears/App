@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class FriendListView : UIComponentUnity{
+	private SortRule curSortRule;
 	DragPanel dragPanel;
 	TFriendInfo curPickedFriend;
-	UIButton sortButton;
+	UIButton sortBtn;
 	UIButton updateBtn;
 	List<TFriendInfo> friendDataList = new List<TFriendInfo>();
 
@@ -34,11 +35,6 @@ public class FriendListView : UIComponentUnity{
 		updateBtn.gameObject.SetActive(true);
 		UIEventListener.Get(updateBtn.gameObject).onClick += ClickUpdateBtn;
 	}
-	
-	void EnableRefuseButton(object args){
-//		refuseAllApplyButton.gameObject.SetActive(true);
-//		UIEventListener.Get(refuseAllApplyButton.gameObject).onClick += ClickRefuseButton;
-	}
 
 	void ClickRefuseButton(GameObject args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
@@ -47,10 +43,10 @@ public class FriendListView : UIComponentUnity{
 	}
 
 	void InitUIElement(){
-//		refuseAllApplyButton = FindChild<UIButton>("Button_Refuse");
-		sortButton = FindChild<UIButton>("Button_Sort");
+		sortBtn = FindChild<UIButton>("Button_Sort");
 		updateBtn = FindChild<UIButton>("Button_Update");
 		UIEventListener.Get(updateBtn.gameObject).onClick = ClickUpdateBtn;
+		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
 	}
 
 	void CreateDragView(){
@@ -111,9 +107,6 @@ public class FriendListView : UIComponentUnity{
 	void OnGetFriendList(object data){
 		if (data == null)
 			return;
-		
-//		LogHelper.Log("TFriendList.Refresh() begin");
-//		LogHelper.Log(data);
 		bbproto.RspGetFriend rsp = data as bbproto.RspGetFriend;
 		
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
@@ -123,10 +116,6 @@ public class FriendListView : UIComponentUnity{
 		
 		bbproto.FriendList inst = rsp.friends;
 		DataCenter.Instance.SetFriendList(inst);
-//		LogHelper.LogError("OnGetFriendList, response friendCount {0}", rsp.friends.friend.Count);
-//		for (int i = 0; i < rsp.friends.friend.Count; i++)
-//			LogHelper.LogError("OnGetFriendList, test first friend. nick name", rsp.friends.friend [i].nickName);
-		
 		HideUI();
 		ShowUI();
 	}
@@ -179,7 +168,10 @@ public class FriendListView : UIComponentUnity{
 		countArgs.Add("max", max);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
-		
+
+	void ClickSortBtn(GameObject btn){
+
+	}
 }
 
 

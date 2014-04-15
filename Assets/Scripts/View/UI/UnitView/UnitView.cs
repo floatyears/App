@@ -14,9 +14,7 @@ public class UnitView : MonoBehaviour {
 			return userUnit;
 		}
 		set{
-			if(userUnit != null &&  userUnit.Equals(value)) {
-//				ExecuteCrossFade();
-			}
+			if(userUnit != null &&  userUnit.Equals(value)) {}
 			else{
 				userUnit = value;
 				RefreshState();
@@ -40,7 +38,6 @@ public class UnitView : MonoBehaviour {
 			return isEnable;
 		}
 		set{
-//			if(isEnable == value) return;
 			isEnable = value;
 			UpdatEnableState();
 		}
@@ -101,15 +98,9 @@ public class UnitView : MonoBehaviour {
 			SetEmptyState();
 			return;
 		}
-		//Debug.LogError("RefreshState(), userUnit != null");
 		IsEnable = true;
-		//Debug.LogError("avatarTex : " + avatarTex + "  userUnit.UnitInfo : " +userUnit.UnitInfo);
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-
-		//update beforeLabelText & afterLabelText
 		UpdateCrossFadeText();
-
-//		ExecuteCrossFade();
 	}
 	private void ExecuteCrossFade(){
 		if (! IsInvoking("UpdateCrossFadeState"))
@@ -158,7 +149,6 @@ public class UnitView : MonoBehaviour {
 	}
 
 	protected virtual void ClickItem(GameObject item){}
-
 	protected virtual void PressItem(GameObject item){
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, userUnit);
@@ -209,7 +199,6 @@ public class UnitView : MonoBehaviour {
 			canCrossed = true;
 			crossFadeAfterText = "+" + userUnit.AddNumber;
 		}
-			
 	}
 
 	private void CrossFadeHpFirst(){
