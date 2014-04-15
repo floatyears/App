@@ -68,7 +68,7 @@ public class MapDoor : UIBaseUnity {
 		if (!TapToBattle.enabled) {
 			return;	
 		}
-		Debug.LogError ("TapToBattle.spriteName : " + TapToBattle.spriteName + "  QuestFullScreenTips.BossBattle : " + QuestFullScreenTips.BossBattle + " isclick : " + isClick);
+//		Debug.LogError ("TapToBattle.spriteName : " + TapToBattle.spriteName + "  QuestFullScreenTips.BossBattle : " + QuestFullScreenTips.BossBattle + " isclick : " + isClick);
 		if (TapToBattle.spriteName == QuestFullScreenTips.BossBattle && !isClick) {
 			battleMap.bQuest.ClickDoor();
 			TapToBattle.enabled = isClick;	

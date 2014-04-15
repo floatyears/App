@@ -94,6 +94,8 @@ public class ControllerManager
 		ViewManager.Instance.TrapLabel.text = "";
 		Resources.UnloadUnusedAssets ();
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
+
+		UIManager.Instance.InitUIManager ();
 	}
 
 	private SceneEnum currentEnum = SceneEnum.None;

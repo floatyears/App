@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BattleMenu : UIBaseUnity {
 	private UIButton CloseButton;
@@ -8,6 +9,9 @@ public class BattleMenu : UIBaseUnity {
 	private UILabel areaNameLabel;
 	private UILabel questNameLabel;
 	private UILabel floorLabel;
+	private UIScrollView scrollView;
+	private GameObject itemObject;
+	private List<GameObject> itemList = new List<GameObject> ();
 	//============================================
 
 	//==================options component=======
@@ -44,11 +48,21 @@ public class BattleMenu : UIBaseUnity {
 
 		string Path = "Tabs/Content_QuestInfo";
 		areaNameLabel = FindChild<UILabel> (Path + "/AreaNameLabel");
-		questNameLabel = FindChild<UILabel>(Path + "/QuestNameLabel");
-		floorLabel = FindChild<UILabel>(Path + "/FloorLabel");
-		defaultToggle = FindChild<UIToggle> (Path);
-		Path = "Tabs/Content_Options/";
+		areaNameLabel.text = DataCenter.Instance.currentQuestInfo.Name;
 
+		questNameLabel = FindChild<UILabel>(Path + "/QuestNameLabel");
+		questNameLabel.text = DataCenter.Instance.currentStageInfo.StageName;
+
+		floorLabel = FindChild<UILabel>(Path + "/FloorLabel");
+		floorLabel.text = (BattleQuest.questDungeonData.currentFloor + 1) + "/" + BattleQuest.questDungeonData.Floors.Count;
+		string path = Path + "/GetUnitsDragPanel/ScrollView";
+		Debug.LogError ("path : " + path);
+		scrollView = FindChild<UIScrollView>(path);
+		itemObject = transform.Find (Path + "/GetUnitsDragPanel/ScrollView/UIGrid/Item").gameObject;
+
+		defaultToggle = FindChild<UIToggle> ("Tabs/Tab_QuestInfo");
+
+		Path = "Tabs/Content_Options/";
 		bgmOnButton = FindChild<UIButton> (Path + "Button_BGM_ON");
 		UIEventListener.Get (bgmOnButton.gameObject).onClick = BGMOn;
 
@@ -73,17 +87,50 @@ public class BattleMenu : UIBaseUnity {
 
 		cancelButton = FindChild<UIButton> (Path + "Button_Cancel");
 		UIEventListener.Get (cancelButton.gameObject).onClick = CancelButton;
+		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
+
+		RefreshDropItem ();
+	}
+
+	void RefreshDropItem () {
+		ClearQuestParam cqp = battleQuest.GetQuestData ();
+		int getUnitCount = cqp.getUnit.Count;
+		Debug.LogError ("getUnitCount : " + getUnitCount);
+		int count = getUnitCount - itemList.Count;
+		if (count > 0) {
+			for (int i = 0; i < count; i++) {
+				uint unitID = cqp.getUnit [itemList.Count + i];
+				GameObject go = NGUITools.AddChild (scrollView.gameObject, itemObject);
+				go.SetActive (true);
+				UISprite sprite = go.transform.Find ("ItemSprite").GetComponent<UISprite> ();
+				TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
+				sprite.spriteName = DGTools.GetUnitDropSpriteName (tui.Rare);
+				go.name = itemList.Count.ToString();
+				itemList.Add(go);
+			}	
+		} else {
+			count = -count;
+			for (int i = 0; i < count; i++) {
+				GameObject go = itemList[getUnitCount + i];
+				Destroy(go);
+				itemList.Remove(go);
+			}
+		}
+		scrollView.ResetPosition ();
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
 		gameObject.SetActive (true);
+		RefreshDropItem ();
 		defaultToggle.value = true;
+		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		gameObject.SetActive (false);
+		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
 	}
 
 	void BGMOn(GameObject go) {
@@ -120,6 +167,7 @@ public class BattleMenu : UIBaseUnity {
 	}
 
 	void CancelButton(GameObject go) {
+//		Debug.LogError ("cancel button : " + go);
 		audioManager.PlayAudio (AudioEnum.sound_click);
 		HideUI ();
 	}

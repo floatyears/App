@@ -193,32 +193,13 @@ public class EnemyItem : UIBaseUnity {
 			}
 			TUnitInfo tui = enemyInfo.drop.UnitInfo;
 			dropTexture.enabled = true;
-			switch (tui.Rare) {
-			case 1:
-				dropTexture.spriteName = "a";
-				break;
-			case 2:
-				dropTexture.spriteName = "b";
-				break;
-			case 3:
-				dropTexture.spriteName = "c";
-				break;
-			case 4:
-				dropTexture.spriteName = "d";
-				break;
-			case 5:
-				dropTexture.spriteName = "e";
-				break;
-			case 6:
-				dropTexture.spriteName = "f";
-				break;
-			}
+			dropTexture.spriteName = DGTools.GetUnitDropSpriteName(tui.Rare);
             iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
             GameTimer.GetInstance().AddCountDown(0.5f, DorpEnd);
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_chess);
         }
     }
-
+	
     void DorpEnd() {
         DestoryUI();
     }

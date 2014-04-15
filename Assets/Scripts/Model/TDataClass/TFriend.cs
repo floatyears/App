@@ -25,7 +25,7 @@ public class TFriendInfo : ProtobufDataBase {
     public	uint			LastPlayTime { get { return instance.lastPlayTime; } }
     public	EFriendState	FriendState { get { return instance.friendState; } }
     public	uint			FriendStateUpdate { get { return instance.friendStateUpdate; } }
-    public	int				FriendPoint { get { return instance.friendPoint; } }
+	public	int				FriendPoint { get { return instance.friendPoint; } set { instance.friendPoint = value; }}
 
     public	TUserUnit		UserUnit { get { return unit; } }
 }
