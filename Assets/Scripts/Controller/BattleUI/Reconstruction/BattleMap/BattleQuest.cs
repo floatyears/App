@@ -249,7 +249,7 @@ public class BattleQuest : UIBase {
 		battleEnemy = true;
 	}
 	
-	void QuestEnd () {
+	public void QuestEnd () {
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ExitBattle ();
 	}

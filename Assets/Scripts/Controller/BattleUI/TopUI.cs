@@ -14,6 +14,8 @@ public class TopUI : UIBaseUnity {
 	[HideInInspector]
 	public BattleQuest battleQuest;
 
+	private BattleMenu battleMenu;
+
 	public override void Init (string name) {
 		base.Init (name);
 
@@ -38,8 +40,7 @@ public class TopUI : UIBaseUnity {
 
 		StartCoroutine (Set ());
 	}
-
-
+	
 	IEnumerator Set () {
 		yield return 0;
 		leftAnchor.runOnlyOnce = true;
@@ -94,5 +95,12 @@ public class TopUI : UIBaseUnity {
 
 	void ShowMenu (GameObject go) {
 		//TODO show fight menu.
+		if (battleMenu == null) {
+			
+		}
+	}
+
+	void CreatBattleMenu () {
+
 	}
 }

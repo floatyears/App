@@ -19,6 +19,38 @@ public class AudioManager {
 
 	AudioSource prevBackground = null;
 
+	/// <summary>
+	/// background audio close
+	/// </summary>
+	private bool isCloseBackground = false;
+
+	/// <summary>
+	/// sound audio close
+	/// </summary>
+	private bool isCloseSound = false;
+
+	/// <summary>
+	/// Closes the background.
+	/// </summary>
+	/// <param name="close"> true is close background.  flase is play background</param>
+	public void CloseBackground(bool close) {
+		isCloseBackground = close;
+		if (isCloseBackground) {
+			prevBackground.Pause ();
+		} else {
+			prevBackground.Play ();	
+		}
+	}
+
+	/// <summary>
+	/// Closes the background.
+	/// </summary>
+	/// <param name="close"> true is close background.  flase is play background</param>
+	public void CloseSound(bool close) {
+		isCloseSound = close;
+	}
+	
+
 	public void PlayBackgroundAudio (AudioEnum audioEnum) {
 		if (!IsBackgroundAuido(audioEnum)) {
 			return;	
@@ -26,7 +58,12 @@ public class AudioManager {
 		if (prevBackground != null) {
 			prevBackground.Stop ();	
 		}
+
 		prevBackground = Play (audioEnum);
+
+		if (isCloseBackground) {
+			prevBackground.Pause();
+		}
 	}
 
 	bool IsBackgroundAuido (AudioEnum audio) {
@@ -72,7 +109,7 @@ public class AudioManager {
 	}
 	
 	public void PlayAudio(AudioEnum audioEnum){
-		if (IsBackgroundAuido (audioEnum)) {
+		if (IsBackgroundAuido (audioEnum) || isCloseSound) {
 			return;	
 		}
 
