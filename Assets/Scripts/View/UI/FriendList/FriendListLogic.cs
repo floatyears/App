@@ -6,7 +6,6 @@ public class FriendListLogic : ConcreteComponent{
 //	TFriendInfo currentFriendPicked;
 //	List<UnitItemViewInfo> friendUnitItemViewList = new List<UnitItemViewInfo>();
 //	List<string> friendNickNameList = new List<string>();
-//
 	public FriendListLogic(string uiName) : base( uiName ){}
 //
 //	public override void ShowUI(){

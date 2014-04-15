@@ -60,6 +60,7 @@ public class UnitView : MonoBehaviour {
 	protected bool canCrossed = true;
 	protected bool isCrossed;
 	protected UITexture avatarTex;
+	protected UISprite typeSpr;
 	protected UISprite maskSpr;
 	protected UILabel crossFadeLabel;
 
@@ -82,15 +83,13 @@ public class UnitView : MonoBehaviour {
 
 	void FindUIElement() {
 		avatarTex = transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-		//		Debug.LogError(" avatarTex : " + avatarTex);
 		crossFadeLabel = transform.FindChild("Label_Cross_Fade").GetComponent<UILabel>();
 		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
-		//Debug.LogError(" avatarTex : " + avatarTex + " gameobject : " + gameObject);
+		typeSpr = transform.FindChild("Sprite_Type").GetComponent<UISprite>();
 	}
 
 	protected virtual void InitState(){
 		if(userUnit == null){
-			//Debug.LogError("UnitView.InitState(), userUnit is NULL, return...");
 			SetEmptyState();
 			return;
 		}
@@ -99,7 +98,6 @@ public class UnitView : MonoBehaviour {
 
 	protected virtual void RefreshState(){
 		if(userUnit == null){
-			//Debug.LogError("RefreshState(), userUnit == null");
 			SetEmptyState();
 			return;
 		}
@@ -114,17 +112,6 @@ public class UnitView : MonoBehaviour {
 //		ExecuteCrossFade();
 	}
 	private void ExecuteCrossFade(){
-//		CheckCross();
-//	
-//		crossFadeLabel.text = crossFadeBeforeText = "Lv." + userUnit.Level;
-//		crossFadeLabel.color = Color.yellow;
-
-//		CrossFadeLevelFirst();
-//		if(canCrossed){
-//			if (IsInvoking("UpdateCrossFadeState"))
-//				CancelInvoke("UpdateCrossFadeState");
-//			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
-//		}
 		if (! IsInvoking("UpdateCrossFadeState"))
 			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
 	}
@@ -139,7 +126,6 @@ public class UnitView : MonoBehaviour {
 	}
 
 	protected virtual void UpdatEnableState(){
-		//Debug.LogError("maskSpr : " + maskSpr);
 		maskSpr.enabled = !isEnable;
 		UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
 		if(isEnable)
@@ -149,7 +135,6 @@ public class UnitView : MonoBehaviour {
 	}
 
 	private void UpdateCrossFadeState(){
-//		Debug.LogError("UpdateCrossFadeState : " + isCrossed + " gameobject : " + gameObject);
 		if( userUnit == null )
 			return;
 
@@ -219,12 +204,9 @@ public class UnitView : MonoBehaviour {
 			canCrossed = false;
 			crossFadeLabel.text = crossFadeBeforeText;
 			crossFadeLabel.color = Color.yellow;
-//			if(IsInvoking("UpdateCrossFadeState"))
-//				CancelInvoke("UpdateCrossFadeState");
 		}
 		else {
 			canCrossed = true;
-			//Debug.LogError(" userUnit.AddNumber : " +  userUnit.AddNumber + " userunit : " + userUnit.UnitID);
 			crossFadeAfterText = "+" + userUnit.AddNumber;
 		}
 			
@@ -243,13 +225,14 @@ public class UnitView : MonoBehaviour {
 	private void SetEmptyState(){
 		IsEnable = false;
 		avatarTex.mainTexture = null;
-//		CancelInvoke("UpdateCrossFadeState");
+		typeSpr.color = Color.white ;
 		crossFadeLabel.text = string.Empty;
 	}
 
 	private void SetCommonState(){
 		IsEnable = true;
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		typeSpr.color = DGTools.TypeToColor(userUnit.UnitInfo.Type);
 		CurrentSortRule = SortRule.GetTime;
 	}
 
