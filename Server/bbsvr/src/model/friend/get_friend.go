@@ -47,6 +47,7 @@ func GetFriendsData(db *data.Data, sUid string, isGetOnlyFriends bool, friendsIn
 		return fmt.Errorf("[ERROR] db pointer is nil.")
 	}
 
+
 	log.T("begin friendsInfo[%v] is: %v", sUid, len(friendsInfo))
 
 	zFriendDatas, err := db.HGetAll(sUid)
@@ -184,6 +185,33 @@ func GetSupportFriends(db *data.Data, uid uint32, rank uint32) (friendsInfo map[
 	return friendsInfo, e
 }
 
+func GetFriendNum(db *data.Data, uid uint32) (isFriendNum int32, e Error.Error) {
+	isGetOnlyFriends := true // Get IsFriend
+	isFriendNum = int32(0)
+
+	//get friends data
+	friendsInfo := make(map[string]bbproto.FriendInfo)
+	err := GetFriendsData(db, common.Utoa(uid), isGetOnlyFriends, friendsInfo)
+	if err != nil {
+		log.Error(" GetFriendsData('%v') ret err:%v", uid, err)
+		return isFriendNum, Error.New(err)
+	}
+
+	for _, friend := range friendsInfo {
+		if friend.NickName == nil || friend.Rank == nil /*|| friend.Unit == nil*/ {
+			log.Printf("[ERROR] unexcepted error: skip invalid friend(%v): %+v", *friend.UserId, friend)
+			continue
+		}
+
+		if *friend.FriendState == bbproto.EFriendState_ISFRIEND {
+			isFriendNum += 1
+		}
+	}
+
+	log.T("user:%v GetFriendNum ret FriendNum: %v", uid, isFriendNum)
+	return isFriendNum, Error.OK()
+}
+
 func GetFriendList(db *data.Data, uid uint32) (friendList *bbproto.FriendList, isFriendNum int32, e Error.Error) {
 	isGetFriend := true
 	isGetHelper := false
@@ -227,9 +255,13 @@ func GetFriendList(db *data.Data, uid uint32) (friendList *bbproto.FriendList, i
 
 func GetFriendInfo(db *data.Data, uid uint32, rank uint32, isGetOnlyFriends bool, isGetFriend bool, isGetHelper bool) (friendsInfo map[string]bbproto.FriendInfo, e Error.Error) {
 	if db == nil {
-		return friendsInfo, Error.New(EC.INVALID_PARAMS, "[ERROR] db pointer is nil.")
-	}
-	if err := db.Select(consts.TABLE_FRIEND); err != nil {
+		db = &data.Data{}
+		err := db.Open(consts.TABLE_FRIEND)
+		defer db.Close()
+		if err != nil {
+			return friendsInfo, Error.New(EC.READ_DB_ERROR, err.Error())
+		}
+	} else if err := db.Select(consts.TABLE_FRIEND); err != nil {
 		return friendsInfo, Error.New(EC.READ_DB_ERROR, err.Error())
 	}
 

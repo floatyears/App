@@ -369,6 +369,17 @@ public class DataCenter {
         }
         return obj;
     }
+
+	public Object GetMapEffect(string name) {
+		Object obj = null;
+//		Debug.LogError ("GetMapEffect : " + name);
+		if (!TempEffect.TryGetValue(name, out obj)) {
+			string path = EffectPath.Instance.GetEffectPath(name);
+			obj = Resources.Load(path);
+			TempEffect.Add(name, obj);
+		}
+		return obj;
+	}
     
     public string GetEffectPath(int type,int attackRange) {
         string path = string.Empty;

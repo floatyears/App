@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class MapItem : UIBaseUnity {
 	private Coordinate coor; 
@@ -7,8 +8,9 @@ public class MapItem : UIBaseUnity {
 		get{ return coor; }
 		set{ coor = value; }
 	}
-//	private FloorRotate floorRotate;
+
 	private GameObject mapBack;
+	private GameObject effectPanel;
 	private UISprite mapBackSprite;
 	private UISprite mapItemSprite;
 	private UISprite gridItemSprite;
@@ -57,6 +59,8 @@ public class MapItem : UIBaseUnity {
 		mapBackSprite = FindChild<UISprite>("Shadow");
 		mapBack = mapBackSprite.gameObject;
 		mapItemSprite = FindChild<UISprite>("Sprite");
+		effectPanel = FindChild<UIPanel> ("Effect").gameObject;
+
 		if (name == "SingleMap") {
 			mapBackSprite.spriteName = string.Empty;
 			mapItemSprite.spriteName = string.Empty;
@@ -213,18 +217,37 @@ public class MapItem : UIBaseUnity {
 	}
 
 	public void RotateSingle(Callback cb) {
-		RotateAnim (cb, "RotateEnd");
+		animEnd = cb;
+		StartCoroutine (MeetEffect ());
 	}
 
 	public void RotateAll(Callback cb) {
-		RotateAnim (cb, "AllRotateEnd");
+		animEnd = cb;
+		GridAnim ( "AllRotateEnd");
 	}
-
-
+	
+	IEnumerator MeetEffect () {
+		if (gridItem == null) {
+			GridAnim ("RotateEnd");	
+			yield break;
+		}
+		Object obj = DataCenter.Instance.GetMapEffect (gridItem.Type.ToString ());
+		if (obj == null) {
+			yield return 0;
+			GridAnim ("RotateEnd");	
+		} else {
+			GameObject effect = obj as GameObject;
+			GameObject go = NGUITools.AddChild(effectPanel, effect);
+			go.transform.localScale = new Vector3(100f,100f,1f);
+			yield return new WaitForSeconds(0.5f);
+			Destroy(go);
+			GridAnim ("RotateEnd");	
+		}
+	}
+	
 	Callback animEnd;
 	List<GameObject> gridAnim = new List<GameObject> ();
-	public void RotateAnim(Callback cb,string function) {
-		animEnd = cb;
+	public void GridAnim(string function) {
 		if (isOld) {
 			if(animEnd != null) {
 				Invoke(function, 0.5f);

@@ -115,7 +115,7 @@ public class EnemyItem : UIBaseUnity {
         Destroy(hurtValueQueue.Dequeue());
     }
 
-	//================== old code. not use.
+
     void ShowInjuredEffect(AttackInfo ai) {
 		GameObject obj = DataCenter.Instance.GetEffect(ai) as GameObject;
 		DGTools.PlayAttackSound(ai.AttackType);
@@ -125,7 +125,7 @@ public class EnemyItem : UIBaseUnity {
             prevObject.transform.localScale = new Vector3(100f, 100f, 100f);
         }
     }
-	//==================
+
 
     void InjuredShake() {
         iTween.ShakeScale(texture.gameObject, iTween.Hash("amount", new Vector3(0.5f, 0.5f, 0.5f), "time", 0.2f));
