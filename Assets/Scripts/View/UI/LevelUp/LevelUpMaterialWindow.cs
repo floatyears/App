@@ -84,8 +84,8 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		materialDragPanel = CreateDragPanel( name, count, itemGo) ;
 		FillDragPanel( materialDragPanel );
-		InitDragPanelArgs();
-		materialDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+//		InitDragPanelArgs();
+		materialDragPanel.DragPanelView.SetScrollView(dragPanelArgs, transform);
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){
@@ -103,19 +103,6 @@ public class LevelUpMaterialWindow : UIComponentUnity {
                         ShowAvatar( currentItem );
                         AddEventListener( currentItem );
                 }
-	}
-
-	private void InitDragPanelArgs(){
-		dragPanelArgs.Add("parentTrans",	transform);
-		dragPanelArgs.Add("scrollerScale",	Vector3.one);
-		dragPanelArgs.Add("scrollerLocalPos",	-28 * Vector3.up);
-		dragPanelArgs.Add("position", 		Vector3.zero);
-		dragPanelArgs.Add("clipRange", 		new Vector4(0, -120, 640, 400));
-		dragPanelArgs.Add("gridArrange", 	UIGrid.Arrangement.Vertical);
-		dragPanelArgs.Add("maxPerLine",		3);
-		dragPanelArgs.Add("scrollBarPosition",	new Vector3(-320, -315, 0));
-		dragPanelArgs.Add("cellWidth", 		110);
-		dragPanelArgs.Add("cellHeight",		110);
 	}
 
 

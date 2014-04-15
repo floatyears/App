@@ -228,7 +228,7 @@ public class PartyUnitsView : UIComponentUnity {
 		dragPanel = new DragPanel("DragPanel", MyUnitView.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(data.Count);
-		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+//		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitView puv = PartyUnitView.Inject(dragPanel.ScrollItem[ i ]);
@@ -260,9 +260,6 @@ public class PartyUnitsView : UIComponentUnity {
 			crossShowLabelList.Add(label);
 		}
 	}
-
-
-
 }
 
 

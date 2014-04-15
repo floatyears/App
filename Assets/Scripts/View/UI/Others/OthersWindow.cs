@@ -20,7 +20,7 @@ public class OthersWindow : UIComponentUnity {
     GameObject resetOption;
 
 	Dictionary< GameObject, GameObject > options = new Dictionary< GameObject, GameObject>();
-	Dictionary< string, object > otherScrollerArgsDic = new Dictionary< string, object >();
+//	Dictionary< string, object > otherScrollerArgsDic = new Dictionary< string, object >();
 
 	public override void Init ( UIInsConfig config, IUICallback origin ){
 		FindUIElement();
@@ -48,7 +48,7 @@ public class OthersWindow : UIComponentUnity {
 		
 		othersScroller = new DragPanel ( "OthersScroller", scrollerItem );
 		othersScroller.CreatUI ();
-		InitOtherScrollArgs();
+//		InitOtherScrollArgs();
 
 		GameObject musicOption = othersScroller.AddScrollerItem( item );
 		musicOption.name = "MusicOption";
@@ -65,7 +65,8 @@ public class OthersWindow : UIComponentUnity {
         resetOption.GetComponentInChildren<UILabel>().text = "Reset Data";
         options.Add( resetOption, nickNamePanel );
 
-		othersScroller.DragPanelView.SetScrollView( otherScrollerArgsDic );
+		Transform parentTrans = FindChild("OptionItems").transform;
+		othersScroller.DragPanelView.SetScrollView(ConfigDragPanel.OthersDragPanelArgs, parentTrans);
 		
 		for(int i = 0; i < othersScroller.ScrollItem.Count; i++)
 			UIEventListener.Get( othersScroller.ScrollItem[ i ].gameObject ).onClick = ClickOption;
@@ -212,21 +213,6 @@ public class OthersWindow : UIComponentUnity {
 //		MsgCenter.Instance.Invoke()
 		Debug.Log( "OthersWindow RequestNameChange() : End");
 	}
-
-	void InitOtherScrollArgs() {
-		Transform parentTrans = FindChild("OptionItems").transform;
-		otherScrollerArgsDic.Add( "parentTrans", 			parentTrans);
-		otherScrollerArgsDic.Add( "scrollerScale", 			Vector3.one);
-		otherScrollerArgsDic.Add( "scrollerLocalPos" ,		-190*Vector3.up);
-		otherScrollerArgsDic.Add( "position", 				Vector3.zero);
-		otherScrollerArgsDic.Add( "clipRange", 				new Vector4( 0, 0, 640, 200));
-		otherScrollerArgsDic.Add( "gridArrange", 			UIGrid.Arrangement.Horizontal);
-		otherScrollerArgsDic.Add( "maxPerLine", 			0);
-		otherScrollerArgsDic.Add( "scrollBarPosition", 		new Vector3(-320,-120,0));
-                otherScrollerArgsDic.Add( "cellWidth", 				150);
-                otherScrollerArgsDic.Add( "cellHeight",				130);
-        }
-
 
 
 }

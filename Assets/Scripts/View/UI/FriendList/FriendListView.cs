@@ -13,7 +13,6 @@ public class FriendListView : UIComponentUnity{
 	bool exchange = false;
 	List<UILabel> crossShowLabelList = new List<UILabel>();
 	List<UnitItemViewInfo> friendViewInfoList = new List<UnitItemViewInfo>();
-	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -87,8 +86,6 @@ public class FriendListView : UIComponentUnity{
 		refuseAllApplyButton = FindChild<UIButton>("Button_Refuse");
 		sortButton = FindChild<UIButton>("Button_Sort");
 		updateFriendButton = FindChild<UIButton>("Button_Update");
-
-		InitDragPanelArgs();
 	}
 
 	DragPanel CreateDragPanel(string name, int count){
@@ -105,11 +102,9 @@ public class FriendListView : UIComponentUnity{
 		friendViewInfoList = viewInfoList;
 		dragPanel = CreateDragPanel("FriendDragPanel", viewInfoList.Count);
 		FindCrossShowLabelList();
-//		UpdateAvatarTexture(viewInfoList);
 		UpdateEventListener();
-		//UpdateStarSprite(viewInfoList);
 		UpdateCrossShow();
-		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.FriendListDragPanelArgs, transform);
 
 		for (int i = 0; i < viewInfoList.Count; i++){
 			viewInfoList[ i ].InitView(dragPanel.ScrollItem[ i ]);
@@ -145,25 +140,10 @@ public class FriendListView : UIComponentUnity{
 		}
 	}
 
-	void InitDragPanelArgs(){
-		dragPanelArgs.Add("parentTrans", transform);
-		dragPanelArgs.Add("scrollerScale", Vector3.one);
-		dragPanelArgs.Add("scrollerLocalPos", 220 * Vector3.up);
-		dragPanelArgs.Add("position", Vector3.zero);
-		dragPanelArgs.Add("clipRange", new Vector4(0, -210, 640, 600));
-		dragPanelArgs.Add("gridArrange", UIGrid.Arrangement.Vertical);
-		dragPanelArgs.Add("maxPerLine", 4);
-		dragPanelArgs.Add("scrollBarPosition", new Vector3(-320, -540, 0));
-		dragPanelArgs.Add("cellWidth", 140);
-		dragPanelArgs.Add("cellHeight", 140);
-	}
 
 	void UpdateAvatarTexture(List<UnitItemViewInfo> dataItemList){
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			GameObject scrollItem = dragPanel.ScrollItem [i];
-//			UITexture uiTexture = scrollItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-//			uiTexture.mainTexture = dataItemList [i].Avatar;
-
+			GameObject scrollItem = dragPanel.ScrollItem [ i ];
 			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
 			typeSpr.color = dataItemList[ i ].TypeColor;
 		}

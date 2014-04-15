@@ -2,7 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class FriendHelperView : UIComponentUnity{
-//    private GameObject msgBox;
+	private UITexture friendSprite;
+	private UnitBaseInfo friendBaseInfo;
+	private GameObject itemLeft;
+	private DragPanel dragPanel;
     private UIImageButton bottomButton;
     private UIButton btnSure;
     private UIButton btnCancel;
@@ -11,37 +14,24 @@ public class FriendHelperView : UIComponentUnity{
 	private UILabel rightIndexLabel;
 	private UIButton prePageButton;
 	private UIButton nextPageButton;
-
-//    private GameObject friendItem;
     private int currentPartyIndex;
     private int partyTotalCount;
 
-	private Dictionary<int, PageUnitView> partyView = new Dictionary<int, PageUnitView>();
-
-    private Dictionary<int, UITexture> partySprite = new Dictionary<int,UITexture>();
-    private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo>();
-    private UITexture friendSprite;
-    private UnitBaseInfo friendBaseInfo;
-	GameObject itemLeft;
-//	GameObject dragPanelCell;
-	DragPanel dragPanel;
-	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-//	bool exchange = false;
-//	List<UILabel> crossShowLabelList = new List<UILabel>();
-	List<UnitItemViewInfo> supportViewList = new List<UnitItemViewInfo>();
-
-	private List<TFriendInfo> helperDataList = new List<TFriendInfo>();
-
-	UIButton sortButton;
+	private UIButton sortButton;
 	private UILabel sortRuleLabel;
 	private SortRule curSortRule;
 
-
-	TFriendInfo selectedHelper;
-	uint questID;
-	uint stageID;
-
+	private TFriendInfo selectedHelper;
+	private uint questID;
+    private uint stageID;
 	private TEvolveStart evolveStart = null;
+	private Dictionary<int, PageUnitView> partyView = new Dictionary<int, PageUnitView>();
+    private Dictionary<int, UITexture> partySprite = new Dictionary<int,UITexture>();
+    private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo>();
+   
+	private Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
+	private List<UnitItemViewInfo> supportViewList = new List<UnitItemViewInfo>();
+	private List<TFriendInfo> helperDataList = new List<TFriendInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
@@ -54,8 +44,6 @@ public class FriendHelperView : UIComponentUnity{
 		SetBottomButtonActive(false);
 		prevPosition = -1;
 		AddCommandListener();
-	
-
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
@@ -68,14 +56,12 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void AddCommandListener(){
-//		MsgCenter.Instance.AddListener(CommandEnum.AddHelperItem, AddHelperItem);
 		MsgCenter.Instance.AddListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 //		MsgCenter.Instance.AddListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 	}
 
 	void RemoveCommandListener(){
-//		MsgCenter.Instance.RemoveListener(CommandEnum.AddHelperItem, AddHelperItem);
 		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 //		MsgCenter.Instance.AddListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
@@ -98,41 +84,18 @@ public class FriendHelperView : UIComponentUnity{
 			case "DestoryDragView": 
 				CallBackDispatcherHelper.DispatchCallBack(DestoryDragView, cbdArgs);
                 break;
-//			case "UpdateViewAfterChooseHelper":
-//				CallBackDispatcherHelper.DispatchCallBack(UpdateViewAfterChooseHelper, cbdArgs);
-//				break;
             default:
 				break;
 		}
 	}
-
-	void InitDragPanelArgs(){
-		dragPanelArgs.Add("parentTrans", 			transform);
-		dragPanelArgs.Add("scrollerScale", 			Vector3.one);
-		dragPanelArgs.Add("scrollerLocalPos", 		-105 * Vector3.up);
-		dragPanelArgs.Add("position", 					Vector3.zero);
-		dragPanelArgs.Add("clipRange", 				new Vector4(0, 0, 640, 220));
-		dragPanelArgs.Add("gridArrange", 			UIGrid.Arrangement.Horizontal);
-		dragPanelArgs.Add("maxPerLine", 			0);
-		dragPanelArgs.Add("scrollBarPosition",		new Vector3(-320, -120, 0));
-        dragPanelArgs.Add("cellWidth", 				120);
-        dragPanelArgs.Add("cellHeight", 				120);
-    }
-        
-//	DragPanel CreateDragPanel(string name, int count){
-//		DragPanel panel = new DragPanel(name, dragPanelCell);
-//		panel.CreatUI();
-//		panel.AddItem(count, dragPanelCell);
-//		return panel;
-//	}
-
+	
 	void CreateDragView(object args){
 
 		List<TFriendInfo> dataList = DataCenter.Instance.SupportFriends;
 		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitView.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
-		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			HelperUnitView huv = HelperUnitView.Inject(dragPanel.ScrollItem[ i ]);
@@ -144,118 +107,16 @@ public class FriendHelperView : UIComponentUnity{
 		SortHelperByCurRule();
 	}
 
-//	void UpdateCrossShow(){
-//		if (IsInvoking("CrossShow")){
-//			CancelInvoke("CrossShow");
-//		}
-//		InvokeRepeating("CrossShow", 0f, 1f);
-//	}
-
-//	void UpdateSupportInfo(List<UnitItemViewInfo> friendInfoList){
-////		Debug.Log("UpdateSupportType(), Start...");
-//		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-//			GameObject scrollItem = dragPanel.ScrollItem [i];
-//			UILabel typeLabel = scrollItem.transform.FindChild("Label_Friend_Type").GetComponent<UILabel>();
-//			UILabel pointLabel = scrollItem.transform.FindChild("Label_Friend_Point").GetComponent<UILabel>();
-//
-//			switch (friendInfoList[ i ].HelperItem.FriendState) {
-//				case bbproto.EFriendState.FRIENDHELPER : 
-//					typeLabel.text = "Support";
-//					typeLabel.color = Color.green;
-//					pointLabel.color = Color.green;
-//					break;
-//				case bbproto.EFriendState.ISFRIEND : 
-//					typeLabel.text = "Friend";
-//					typeLabel.color = Color.yellow;
-//					pointLabel.color = Color.yellow;
-//					break;
-//				default:
-//					typeLabel.text = string.Empty;
-//					break;
-//			}
-//			if(friendInfoList[ i ].HelperItem.FriendPoint != 0){
-//				pointLabel.text = string.Format("{0}pt", friendInfoList[ i ].HelperItem.FriendPoint.ToString());
-//			}
-//			else{
-//				pointLabel.text = string.Empty;
-//			}
-//		}
-//	}
-
-//	void FindCrossShowLabelList(){
-//		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-//			GameObject scrollItem = dragPanel.ScrollItem [i];
-//			UILabel label = scrollItem.transform.FindChild("Label_Info").GetComponent<UILabel>();
-//			crossShowLabelList.Add(label);
-//		}
-//	}
-
-//	void CrossShow(){
-//		if (exchange){
-//			for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-//				GameObject scrollItem = dragPanel.ScrollItem [i];
-//				crossShowLabelList [i].text = "Lv" + supportViewList [i].CrossShowTextBefore;
-//				crossShowLabelList [i].color = Color.yellow;
-//			}
-//			exchange = false;
-//		}
-//		else{
-//			for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-//				GameObject scrollItem = dragPanel.ScrollItem [i];
-//				if(supportViewList [i].CrossShowTextAfter == "0") continue;
-//				else{
-//					crossShowLabelList [ i ].text = "+" + supportViewList [i].CrossShowTextAfter;
-//					crossShowLabelList [ i ].color = Color.red;
-//				}
-//			}
-//			exchange = true;
-//		}
-//	}
-
-
-//	void ShowFriendName(List<UnitItemViewInfo> friendInfoList){
-//		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-//			GameObject scrollItem = dragPanel.ScrollItem [i];
-//			UILabel nameLabel = scrollItem.transform.FindChild("Label_Name").GetComponent<UILabel>();
-//			nameLabel.text = friendInfoList[ i ].HelperItem.NickName;
-//		}
-//	}
-
 	void ClickItem(HelperUnitView item){
-		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendSelect && DataCenter.gameStage == GameState.Evolve) {
+		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendSelect 
+		    && DataCenter.gameStage == GameState.Evolve) {
 			return;
 		}
-
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickItem", dragPanel.ScrollItem.IndexOf(item.gameObject));
-//		ExcuteCallback(cbdArgs);
 		int pos = dragPanel.ScrollItem.IndexOf(item.gameObject);
 		ShowHelperInfo(pos);
 
 		prevPosition = dragPanel.ScrollItem.IndexOf(item.gameObject);
 	}
-//	
-//	void PressItem(GameObject item){
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", dragPanel.ScrollItem.IndexOf(item));
-//                ExcuteCallback(cbdArgs);
-//    }
-	
-//	void UpdateEventListener(){
-//		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-//			GameObject scrollItem = dragPanel.ScrollItem [i];
-//			UIEventListenerCustom.Get(scrollItem).onClick = ClickItem;
-//            UIEventListenerCustom.Get(scrollItem).LongPress = PressItem;
-//		}
-//	}
-
-//	void UpdateAvatarTexture(List<UnitItemViewInfo> friendInfoList){
-//		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-//			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-//
-//			UISprite typeSpr = scrollItem.transform.FindChild("Sprite_Type").GetComponent<UISprite>();
-//			typeSpr.color = friendInfoList[ i ].TypeColor;
-//		}
-//	}
-//
 
     private void InitUI() {
 		sortButton = FindChild<UIButton>("SortButton");
@@ -267,8 +128,7 @@ public class FriendHelperView : UIComponentUnity{
 
         friendBaseInfo = DataCenter.Instance.FriendBaseInfo;
 		bottomButton = FindChild<UIImageButton>("Button_QuestStart");
-//		dragPanelCell = Resources.Load("Prefabs/UI/Friend/AvailFriendItem") as GameObject;
-		InitDragPanelArgs();
+//		InitDragPanelArgs();
 		FindItemLeft();
 		InitPagePanel();
     }
@@ -303,19 +163,11 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void ClickBottomButton(GameObject btn){
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickBottomButton", null);
 		bottomButton.isEnabled = false;
 		QuestStart();
-//		ExcuteCallback(cbdArgs);
 	}
 
-//    void ClickStartBtn(GameObject btn) {
-//        AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-////        RequestStartQuest();
-//    }
-	
 	void DestoryDragView(object args){
-//		crossShowLabelList.Clear();
 		supportViewList.Clear();
 		if (dragPanel.DragPanelView == null) {
 			return;	
@@ -332,19 +184,10 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void AddHelperItem(TFriendInfo tfi ){
-//		TFriendInfo tfi = msg as TFriendInfo;
-//		Refresh (tfi);
 		Texture2D tex = tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
 		UITexture uiTexture = itemLeft.transform.FindChild("Texture").GetComponent<UITexture>();
 		uiTexture.mainTexture = tex;
 	}
-
-//	void Refresh (TFriendInfo tfi) {
-//
-//		Texture2D tex = tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-//		UITexture uiTexture = itemLeft.transform.FindChild("Texture").GetComponent<UITexture>();
-//		uiTexture.mainTexture = tex;
-//	}
 
 	void FindItemLeft(){
 		itemLeft = transform.FindChild("Item_Left").gameObject;
@@ -378,8 +221,7 @@ public class FriendHelperView : UIComponentUnity{
 	void RefreshParty(TUnitParty party){
 		List<TUserUnit> partyMemberList = party.GetUserUnit();
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
-		rightIndexLabel.text = curPartyIndex.ToString();
-		
+		rightIndexLabel.text = curPartyIndex.ToString();	
 		//Debug.Log("Current party's member count is : " + partyMemberList.Count);
 		for (int i = 0; i < partyMemberList.Count; i++){
 			partyView[ i ].Init(partyMemberList [ i ]);
@@ -409,8 +251,6 @@ public class FriendHelperView : UIComponentUnity{
 
 	void ShowHelperInfo(int pos){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//		TFriendInfo helper = DataCenter.Instance.SupportFriends[ pos ];
-
 		RecordSelectedHelper(helperDataList[ pos ]);
 		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helperDataList[ pos ]);
 	}
@@ -425,9 +265,6 @@ public class FriendHelperView : UIComponentUnity{
 			return;
 		}
 		AddHelperItem(selectedHelper);
-//		MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateViewAfterChooseHelper", null);
-//		ExcuteCallback(cbdArgs);
 		UpdateViewAfterChooseHelper();
 	}
 
@@ -458,7 +295,7 @@ public class FriendHelperView : UIComponentUnity{
 
 	void RspEvolveStartQuest (object data) {
 		if (data == null){
-			//			Debug.Log("OnRspEvolveStart(), response null");
+			//	Debug.Log("OnRspEvolveStart(), response null");
 			return;
 		}
 		evolveStart.StoreData ();
@@ -481,7 +318,7 @@ public class FriendHelperView : UIComponentUnity{
 	void RspStartQuest(object data) {
 		TQuestDungeonData tqdd = null;
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
-		//		Debug.LogError (rspStartQuest.header.code  + "  " + rspStartQuest.header.error);
+		//Debug.LogError (rspStartQuest.header.code  + "  " + rspStartQuest.header.error);
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
@@ -491,7 +328,7 @@ public class FriendHelperView : UIComponentUnity{
 		}
 		
 		if (data == null || tqdd == null) {
-			//			Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
+			//Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
 			return;
 		}
 		EnterBattle ();
@@ -506,5 +343,5 @@ public class FriendHelperView : UIComponentUnity{
 		MsgWindowParams mwp = new MsgWindowParams ();
 		return mwp;
 	}
-
+	    
 }
