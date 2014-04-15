@@ -424,7 +424,7 @@ public class BattleQuest : UIBase {
 		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
-		Debug.LogError (currentMapData.Position + " currentMapData.Enemy : " + currentMapData.Enemy.Count);
+//		Debug.LogError (currentMapData.Position + " currentMapData.Enemy : " + currentMapData.Enemy.Count);
 		for (int i = 0; i < currentMapData.Enemy.Count; i++) {
 			TEnemyInfo tei = currentMapData.Enemy[i];
 			tei.EnemySymbol = (uint)i;
