@@ -632,35 +632,28 @@ public class EvolveDecorator : DecoratorBase{
 //--------------------------------Catalog------------------------------------------
 public class CatalogDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public CatalogDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-	}
+	public CatalogDecorator(SceneEnum sEnum) : base(sEnum){}
 	
-	public override void ShowScene()
-	{
+	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
-	public override void HideScene()
-	{
+	public override void HideScene(){
 		base.HideScene();
 	}
 	
-	public override void DestoryScene()
-	{
+	public override void DestoryScene(){
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		CatalogComponent catalog = CreatComponent< CatalogComponent >(UIConfig.catalogWindowName);
+		CatalogController catalog = CreatComponent< CatalogController >(UIConfig.catalogWindowName);
 		catalog.SetComponent(sceneInfoBar);
 	
-
 		lastDecorator = catalog;
 		lastDecorator.CreatUI();
 	}
