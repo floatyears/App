@@ -59,7 +59,6 @@ public enum SceneEnum
 	SelectRole,
 
 	Result
-
 }
 
 public enum CommandEnum{
