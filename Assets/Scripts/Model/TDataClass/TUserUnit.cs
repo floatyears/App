@@ -90,6 +90,20 @@ public class TUserUnit : ProtobufDataBase {
         }
     }
 
+	public List<TNormalSkill> GetNormalSkill() {
+		if (normalSkill[0] == null) {
+			InitSkill();	
+		}
+		List<TNormalSkill> ns = new List<TNormalSkill> ();
+		for (int i = 0; i < normalSkill.Length; i++) {
+			if(normalSkill[i] != null) {
+				ns.Add(normalSkill[i]);
+			}
+		}
+
+		return ns;
+	}
+
     public float CalculateInjured(int attackType, float attackValue) {
         int beRetraintType = DGTools.BeRestraintType(attackType);
         int retraintType = DGTools.RestraintType(attackType);

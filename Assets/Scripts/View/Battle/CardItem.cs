@@ -3,7 +3,11 @@ using System.Collections;
 
 public class CardItem : UIBaseUnity 
 {
+	public static Color32 NoAttackColor = new Color32 (174, 174, 174, 255);
 	public event UICallback<CardItem> tweenCallback;
+
+	[HideInInspector]
+	public bool canAttack = true;
 
 	private UISprite actorTexture;
 
@@ -120,9 +124,16 @@ public class CardItem : UIBaseUnity
 		base.DestoryUI ();
 	}
 
-	public void SetSprite(int index) {
+	public void SetSprite(int index,bool canAttack) {
+		this.canAttack = canAttack;
 		itemID = index;
 		actorTexture.spriteName = index.ToString ();
+		if (!canAttack) {
+			actorTexture.color = NoAttackColor;	
+		}				
+		else {
+			actorTexture.color = Color.white;
+		}
 	}
 
 	public void OnDrag(Vector3 position,int index)

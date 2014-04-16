@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class BattleCardAreaItem : UIBaseUnity {
+	private const int itemInterv = 17;
+
 	private List<CardSprite> cardItemList = new List<CardSprite>();
 	public List<CardSprite> CardItemList {
 		get{return cardItemList;}
@@ -17,13 +19,17 @@ public class BattleCardAreaItem : UIBaseUnity {
 	private Vector3 selfScale = new Vector3 (1.2f, 1.2f, 1f);
 	private Vector3 battleCardInitPos ;
 	private List<UISprite> battleCardTemplate = new List<UISprite>();
-
 	private int areaItemID = -1;
 	public int AreaItemID {
 		get {return areaItemID;}
 		set {areaItemID = value;}
 	}
+	[HideInInspector]
 	private UISprite template;
+
+	public List<int> haveCard = new List<int> ();
+
+	private BattleUseData battleUseData;
 
 	public override void Init(string name) {
 		base.Init(name);
@@ -39,11 +45,13 @@ public class BattleCardAreaItem : UIBaseUnity {
 
 			cardList.Add(sprite);
 		}
+
+
 	}
 
 	void InitFightCard() {
 		template = FindChild<UISprite> ("BattleCardTemplate");
-		battleCardTemplate.Add(template);
+//		battleCardTemplate.Add(template);
 		battleCardInitPos = template.transform.localPosition;
 	}
 
@@ -81,9 +89,12 @@ public class BattleCardAreaItem : UIBaseUnity {
 			DisposeTweenPosition(ci);
 			DisposeTweenScale(ci);
 			ci.ActorSprite.depth = GetDepth(cardItemList.Count);
-			ci.SetTexture(source[i].itemID);
+//			Debug.LogError("source[i] : " + source[i] + "  source[i].canAttack : " +  source[i].canAttack);
+			ci.SetTexture(source[i].itemID, source[i].canAttack);
 			cardItemList.Add(ci);
 			GenerateFightCardImmelity(source[i].itemID);
+
+			haveCard.Add(source[i].itemID);
 		}
 
 		if (cardItemList.Count == Config.cardCollectionCount) {
@@ -94,7 +105,10 @@ public class BattleCardAreaItem : UIBaseUnity {
 
 	List <AttackInfo> attackImage = new List<AttackInfo> ();
 	void GenerateFightCardImmelity(int id) {
-		attackImage = BattleQuest.bud.CaculateFight (areaItemID,id);
+		if (battleUseData == null) {
+			battleUseData = BattleQuest.bud;	
+		}
+		attackImage = battleUseData.CaculateFight (areaItemID,id);
 		InstnaceCard ();
 	}
 
@@ -117,14 +131,13 @@ public class BattleCardAreaItem : UIBaseUnity {
 
 	void CreatCard(){
 		GameObject instance = NGUITools.AddChild (gameObject, template.gameObject);
-		instance.transform.localPosition = battleCardInitPos + new Vector3 (0f, battleCardTemplate.Count * 17f, 0f);
+		instance.transform.localPosition = battleCardInitPos + new Vector3 (0f, battleCardTemplate.Count * itemInterv, 0f);
 		battleCardTemplate.Add(instance.GetComponent<UISprite>());
 	}
 
 	void BattleEnd(object data) {
-		for (int i = 0; i < attackImage.Count; i++) {
-			attackImage[i].AttackSprite.enabled = false;
-		}
+		attackImage.Clear ();
+		battleCardTemplate.Clear ();
 	}
 
 	void Attack(object data) {
@@ -136,7 +149,14 @@ public class BattleCardAreaItem : UIBaseUnity {
 		AttackInfo aiu = attackImage.Find (a => a.AttackID == ai.AttackID);
 
 		if (aiu != default(AttackInfo)) {
-			aiu.AttackSprite.enabled = false;	
+			UISprite sprite = aiu.AttackSprite;
+			int index = battleCardTemplate.IndexOf(sprite);
+			battleCardTemplate.Remove(sprite);
+			Destroy(aiu.AttackSprite.gameObject);
+			for (int i = index; i < battleCardTemplate.Count; i++) {
+				float y = battleCardTemplate[i].transform.localPosition.y - itemInterv;
+				iTween.MoveTo(battleCardTemplate[i].gameObject,iTween.Hash("y",y,"time",0.2f,"easetype",iTween.EaseType.easeInCubic,"islocal",true));
+			}
 		}
  	}
 
@@ -163,6 +183,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 		cardItemList.Clear();
 
 		cardList [5].enabled = false; // cardlist[5] == full sprite
+		haveCard.Clear ();
 	}
 
 	void DisposeTweenPosition(CardSprite ci) {

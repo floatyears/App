@@ -204,9 +204,13 @@ public class AttackController {
 
 	void AttackEnemy () {
 		if (attackInfo.Count == 0) {
-			int blood = leaderSkillRecoverHP.RecoverHP(BattleUseData.Blood, 1);	//1: every round.
-			bud.RecoverHP(blood);
+			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
+//			bud.RecoverHP(blood);
+			bud.Blood += blood;
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, null);
+			if (!CheckTempEnemy ()) {
+				return;
+			}
 			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [1]);
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
@@ -256,7 +260,6 @@ public class AttackController {
 			if(grid != null) {
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 			}
-
 		}
 		deadEnemy.Clear ();
 		for (int i = enemyInfo.Count - 1; i > -1; i--) {
@@ -281,7 +284,7 @@ public class AttackController {
 		return true;
 	}
 
-	void BattleEnd() {
+	public void BattleEnd() {
 		msgCenter.Invoke (CommandEnum.GridEnd, null);
 		msgCenter.Invoke(CommandEnum.BattleEnd, battleFail);
 		bud.ClearData();
@@ -349,10 +352,11 @@ public class AttackController {
 			LoopEnemyAttack ();	
 		}
 	}
+
 	int enemyIndex = 0;
 	TEnemyInfo te;
 	void LoopEnemyAttack () {
-		countDownTime = 0.3f;
+		countDownTime = 0.5f;
 		te = enemyInfo [enemyIndex];
 		te.Next ();
 		GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttack);
@@ -388,12 +392,21 @@ public class AttackController {
 		}
 		enemyIndex ++;
 		if (enemyIndex == enemyInfo.Count) {
-			if(BattleUseData.Blood < 1) {
-				GameTimer.GetInstance ().AddCountDown (1f, Fail);
-			}
-			else{
+//			if(bud.Blood == 0) {
+//				GameTimer.GetInstance ().AddCountDown (1f, Fail);
+//			}
+//			else{
+			if(bud.Blood > 0) {
+				if (antiInfo.Count == 0) {
+					GameTimer.GetInstance ().AddCountDown (0.5f, EnemyAttackEnd);
+					return;
+				}
+				
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
 				GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
+			}
+			else{
+				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 			}
 		}
 		else {
@@ -404,7 +417,7 @@ public class AttackController {
 	void Fail () {
 		battleFail = true;
 		BattleEnd();
-		msgCenter.Invoke(CommandEnum.PlayerDead, null);
+//		msgCenter.Invoke(CommandEnum.PlayerDead, null);
 		return;
 	}
 

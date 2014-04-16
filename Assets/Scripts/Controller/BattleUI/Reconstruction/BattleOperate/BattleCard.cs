@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleCard : UIBaseUnity
-{
+public class BattleCard : UIBaseUnity {
 	public event Callback CallBack;
 
 	private Vector3[] cardPosition;
 
-	public Vector3[] CardPosition
-	{
+	public Vector3[] CardPosition {
 		set{cardPosition = value;}
 	}
 
@@ -20,29 +18,28 @@ public class BattleCard : UIBaseUnity
 
 	private float cardInterv = 0f;
 
-	public override void Init (string name)
-	{
-		base.Init (name);
+	private List<TNormalSkill> normalSkill ;
 
+	private BattleCardArea battleCardArea;
+
+	public override void Init (string name) {
+		base.Init (name);
 		InitParameter();
 	}
 
-	public override void ShowUI ()
-	{
+	public override void ShowUI () {
 		LogHelper.Log("battle card ShowUI");
 		base.ShowUI ();
 		gameObject.SetActive(true);
 	}
 
-	public override void HideUI ()
-	{
+	public override void HideUI () {
 		LogHelper.Log("battle card HideUI");
 		base.HideUI ();
 		gameObject.SetActive(false);
 	}
 
-	public override void DestoryUI ()
-	{
+	public override void DestoryUI () {
 		base.DestoryUI ();
 		for (int i = 0; i < cardItemArray.Length; i++) {
 			Destroy(cardItemArray[i].gameObject);
@@ -56,14 +53,12 @@ public class BattleCard : UIBaseUnity
 		int count = cardPosition.Length;
 		
 		cardItemArray = new CardItem[count];
-//		Debug.LogError ("InitParameter cardItemArray");
 		for (int i = 0; i < count; i++) {
 			tempObject = NGUITools.AddChild(gameObject,templateItemCard.gameObject);
 			tempObject.transform.localPosition = cardPosition[i];
 			CardItem ci = tempObject.AddComponent<CardItem>();
 			ci.location = i;
 			ci.Init(i.ToString());
-//			Debug.LogError("InitParameter carditem : " + ci);
 			cardItemArray[i] = ci;
 		}
 
@@ -102,7 +97,7 @@ public class BattleCard : UIBaseUnity
 	/// <param name="locationID">Location I.</param>
 	public void ChangeSpriteCard(int source, int index, int locationID) {
 		if (cardItemArray [locationID].itemID == source) {
-			cardItemArray [locationID].SetSprite (index);
+			cardItemArray [locationID].SetSprite (index,CheckGenerationAttack (index));
 		}
 	}
 
@@ -112,7 +107,22 @@ public class BattleCard : UIBaseUnity
 	/// <param name="index">Index.</param>
 	/// <param name="locationID">Location I.</param>
 	public void GenerateSpriteCard(int index,int locationID) {
-		cardItemArray [locationID].SetSprite (index);
+		cardItemArray [locationID].SetSprite (index, CheckGenerationAttack (index));
+	}
+
+	bool CheckGenerationAttack (int index) {
+		if (index == 7) {
+			return true;
+		}
+		if(normalSkill == null)
+			normalSkill = BattleQuest.bud.upi.GetNormalSkill ();
+		foreach (var item in normalSkill) {
+			if(item.Blocks.Contains((uint)index)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public void IgnoreCollider(bool isIgnore)

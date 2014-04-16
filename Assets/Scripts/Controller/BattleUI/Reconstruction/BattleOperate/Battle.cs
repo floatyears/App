@@ -45,8 +45,9 @@ public class Battle : UIBase {
 	
 	public override void CreatUI () {
 		CreatBack();
-		CreatCard();
+
 		CreatArea();
+		CreatCard();
 		CreatEnemy();
 		CreatCountDown ();
 
@@ -186,7 +187,7 @@ public class Battle : UIBase {
 		battleEnemy.ShowUI ();
 	}
 
-	bool isShowEnemy = false;
+	public bool isShowEnemy = false;
 	public void ShowEnemy(List<TEnemyInfo> count) {
 		isShowEnemy = true;
 		battleEnemy.Refresh(count);
@@ -223,14 +224,16 @@ public class Battle : UIBase {
 
 
 	public void SwitchInput(bool isShield) {
+//		Debug.LogError ("switch input : " + isShield + " time : " + Time.realtimeSinceStartup);
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
 		main.GInput.IsCheckInput = !isShield;
-		MapCamera.IsClick = isShield;
+//		MapCamera.IsClick = isShield;
 	}
 
 	public void ShieldInput (bool isShield) {
+//		Debug.LogError ("ShieldInput : " + isShield + " time : " + Time.realtimeSinceStartup);
 		nguiMainCamera.enabled = isShield;
 		main.GInput.IsCheckInput = isShield;
 	}
