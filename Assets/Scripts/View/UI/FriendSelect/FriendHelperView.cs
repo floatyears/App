@@ -63,6 +63,7 @@ public class FriendHelperView : UIComponentUnity{
 
 	void RemoveCommandListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
+		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 //		MsgCenter.Instance.AddListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 	}
 

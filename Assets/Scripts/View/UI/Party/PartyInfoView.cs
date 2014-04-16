@@ -16,12 +16,11 @@ public class PartyInfoView : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 		SetUIElement();
-		ShowTween();
+		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-//		ResetUIElement();
 	}
 
     public override void ResetUIState() {
@@ -30,9 +29,7 @@ public class PartyInfoView : UIComponentUnity {
     }
 
 	void FindUIElement(){
-//		Debug.Log("PartyInfoPanel.FindUIElement(), Start...");
 		UILabel label;
-
 		label = FindChild<UILabel>("content_status/VauleLabel/Label_HP_Value");
 		viewLabel.Add("hp", label);
 
@@ -71,8 +68,6 @@ public class PartyInfoView : UIComponentUnity {
 		UIEventListener.Get(tabStatus).onClick = ClickTab;
 		UIEventListener.Get(tabSkill).onClick = ClickTab;
 		focus = FindChild<UIToggle>("tab_status");
-
-//		Debug.Log("PartyInfoPanel.FindUIElement(), End...");
 	}
 
 	void ClickTab(GameObject tab){
@@ -80,15 +75,11 @@ public class PartyInfoView : UIComponentUnity {
 	}
 
 	void SetUIElement(){
-//		Debug.Log("PartyInfoPanel.SetUIElement(), Start...");
 		ResetTabFocus();
-//		Debug.LogError("PartyInfoPanel.SetUIElement(), End...");
 	}
 
 	void ResetUIElement(){
-//		Debug.Log("PartyInfoPanel.ResetUIElement(), Start...");
 		ResetTabFocus();
-//		Debug.LogError("PartyInfoPanel.ResetUIElement(), End...");
 	}
 
 	void ResetTabFocus(){
@@ -96,7 +87,6 @@ public class PartyInfoView : UIComponentUnity {
 	}
 
 	void UpdateLabel(Dictionary<string, string> text){
-		//Debug.LogError("PartyInfoView.UpdateLabel().....");
 		foreach (var item in text.Keys){
 			if( viewLabel.ContainsKey(item)){
 				viewLabel[item].text = text[item];
@@ -106,7 +96,6 @@ public class PartyInfoView : UIComponentUnity {
 
 	public override void CallbackView(object data){
 		base.CallbackView(data);
-
 		Dictionary<string,string> viewInfoDic = data as Dictionary<string,string>;
 		if( viewInfoDic == null ){
 			Debug.LogError("PartyInfoPanel.Callback(), ViewInfo is Null!");
@@ -115,18 +104,18 @@ public class PartyInfoView : UIComponentUnity {
 		UpdateLabel(viewInfoDic);
 	}
 
-	void ShowTween(){
-		TweenPosition[ ] list = 
-			gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)
-			return;
-		foreach (var tweenPos in list)
-		{		
-			if (tweenPos == null)
-				continue;
-			tweenPos.Reset();
-			tweenPos.PlayForward();
-		}
+//	void ShowUIAnimation(){
+//		TweenPosition[ ] list = gameObject.c<TweenPosition>();
+//		if (list == null) return;
+//		foreach (var tweenPos in list){		
+//			if (tweenPos == null) continue;
+//			tweenPos.Reset();
+//			tweenPos.PlayForward();
+//		}
+//	}
+	private void ShowUIAnimation(){
+		transform.localPosition = 1000 * Vector3.up;
+		iTween.MoveTo(gameObject, iTween.Hash("y", 0, "time", 0.4f));  
 	}
 
 }

@@ -369,6 +369,17 @@ public class DataCenter {
         }
         return obj;
     }
+
+	public Object GetMapEffect(string name) {
+		Object obj = null;
+//		Debug.LogError ("GetMapEffect : " + name);
+		if (!TempEffect.TryGetValue(name, out obj)) {
+			string path = EffectPath.Instance.GetEffectPath(name);
+			obj = Resources.Load(path);
+			TempEffect.Add(name, obj);
+		}
+		return obj;
+	}
     
     public string GetEffectPath(int type,int attackRange) {
         string path = string.Empty;
@@ -483,6 +494,10 @@ public class DataCenter {
 			return tui;
 		}
 	}
+
+	public TStageInfo currentStageInfo;
+
+	public TQuestInfo currentQuestInfo;
 
 	public TFriendInfo GetSupporterInfo(uint friendUid){
 		foreach (var item in SupportFriends) {

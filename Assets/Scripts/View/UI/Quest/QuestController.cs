@@ -70,7 +70,7 @@ public class QuestController : ConcreteComponent{
 		if(stageSelected == null) {
 			return;
 		}
-
+		DataCenter.Instance.currentStageInfo = stageSelected;
 //		Debug.LogError("TurnToSelectQuest(), selected Stage's index is " + stageSelected);
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);

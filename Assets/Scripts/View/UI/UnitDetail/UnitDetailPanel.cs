@@ -251,7 +251,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		noLabel.text = data.UnitID.ToString();
 		
 		//hp
-		int hp = DataCenter.Instance.GetUnitValue( unitInfo.HPType, data.Level );
+		int hp = DataCenter.Instance.GetUnitValue(unitInfo.HPType, data.Level );
 		hpLabel.text = hp.ToString();
 		
 		//atk

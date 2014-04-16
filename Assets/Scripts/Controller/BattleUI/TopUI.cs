@@ -14,6 +14,8 @@ public class TopUI : UIBaseUnity {
 	[HideInInspector]
 	public BattleQuest battleQuest;
 
+	private BattleMenu battleMenu;
+
 	public override void Init (string name) {
 		base.Init (name);
 
@@ -38,8 +40,7 @@ public class TopUI : UIBaseUnity {
 
 		StartCoroutine (Set ());
 	}
-
-
+	
 	IEnumerator Set () {
 		yield return 0;
 		leftAnchor.runOnlyOnce = true;
@@ -61,7 +62,9 @@ public class TopUI : UIBaseUnity {
 	}
 
 	public override void DestoryUI () {
-		Destroy (gameObject);
+		base.DestoryUI ();
+		if(battleMenu != null)
+			battleMenu.DestoryUI ();
 	}
 	
 	public int Coin {
@@ -93,6 +96,23 @@ public class TopUI : UIBaseUnity {
 	}
 
 	void ShowMenu (GameObject go) {
-		//TODO show fight menu.
+		if (battleMenu == null) {
+			CreatBattleMenu ();
+			return;
+		}
+
+		if (!battleMenu.gameObject.activeSelf) {
+			battleMenu.ShowUI ();
+		} else {
+			battleMenu.HideUI ();
+		}
+	}
+
+	void CreatBattleMenu () {
+		GameObject go = Resources.Load ("Prefabs/BattleMenu") as GameObject;
+		go = NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
+		battleMenu = go.GetComponent<BattleMenu> ();
+		battleMenu.battleQuest = battleQuest;
+		battleMenu.Init ("BattleMenu");
 	}
 }

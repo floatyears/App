@@ -98,9 +98,6 @@ public class UnitView : MonoBehaviour {
 			SetEmptyState();
 			return;
 		}
-//		IsEnable = true;
-//		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-//		UpdateCrossFadeText();
 		SetCommonState();
 	}
 	private void ExecuteCrossFade(){
@@ -203,12 +200,16 @@ public class UnitView : MonoBehaviour {
 	}
 
 	private void CrossFadeHpFirst(){
-		crossFadeBeforeText = userUnit.Hp.ToString();
+		int level = userUnit.Level;
+		int hpType = userUnit.UnitInfo.HPType;
+		crossFadeBeforeText = DataCenter.Instance.GetUnitValue(hpType, level).ToString();
 		crossFadeAfterText = "+" + userUnit.AddNumber;
 	}
 
 	private void CrossFadeAttackFirst(){
-		crossFadeBeforeText = userUnit.Attack.ToString();
+		int level = userUnit.Level;
+		int atkType = userUnit.UnitInfo.AttackType;
+		crossFadeBeforeText = DataCenter.Instance.GetUnitValue(atkType, level).ToString();
 		crossFadeAfterText = "+" + userUnit.AddNumber;
 	}
 

@@ -26,12 +26,12 @@ public class OnSaleUnitsController : ConcreteComponent {
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName){
-			case "ClickItem" : 
-				CallBackDispatcherHelper.DispatchCallBack(PickOnSaleUnit, cbdArgs);
-				break;
-			case "PressItem": 
-				CallBackDispatcherHelper.DispatchCallBack(ViewUnitDetailInfo, cbdArgs);
-				break;
+//			case "ClickItem" : 
+//				CallBackDispatcherHelper.DispatchCallBack(PickOnSaleUnit, cbdArgs);
+//				break;
+//			case "PressItem": 
+//				CallBackDispatcherHelper.DispatchCallBack(ViewUnitDetailInfo, cbdArgs);
+//				break;
 			case "ClickSell" : 
 				CallBackDispatcherHelper.DispatchCallBack(PlanToSell, cbdArgs);
 				break;
@@ -94,7 +94,7 @@ public class OnSaleUnitsController : ConcreteComponent {
 	void UpdateViewAfterRspSellUnit(){
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin, null);
 		HideUI();
-		OnSaleUnitsView view = viewComponent as OnSaleUnitsView;
+		SellView view = viewComponent as SellView;
 		view.ResetUIState();
 		ShowUI();
 	}

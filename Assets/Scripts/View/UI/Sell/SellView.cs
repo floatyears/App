@@ -1,15 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class OnSaleUnitsView : UIComponentUnity{
+public class SellView : UIComponentUnity{
 	DragPanel dragPanel;
 	GameObject mainRoot;
 	GameObject submitRoot;
 	UIButton sortButton;
 	private UILabel sortRuleLabel;
 	private SortRule curSortRule;
-	UIButton lastSureOkButton;
-	UIButton lastSureCancelButton;
+	UIButton lastSureOkBtn;
+	UIButton lastSureCancelBtn;
 	UIImageButton sellImgBtn;
 	UIImageButton clearImgBtn;
 	UILabel coinLabel;
@@ -28,8 +28,8 @@ public class OnSaleUnitsView : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		ShowUIAnimation();	   
 		SortUnitByCurRule();
+		ShowUIAnimation();	
 	}
 	
 	public override void HideUI(){
@@ -61,7 +61,6 @@ public class OnSaleUnitsView : UIComponentUnity{
     public override void ResetUIState() {
         OnSaleUnitsController controller = origin as OnSaleUnitsController;
         if (controller != null){
-            //Debug.LogError(controller);
             controller.ResetUI();
         }
         ResetUIElement();
@@ -77,25 +76,21 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void ChangeTotalSaleValue(int value){
-		//	Debug.LogError("ChangeTotalSaleValue(), before TotalValue is " + totalSaleValue);
 		totalSaleValue += value;
-		//Debug.LogError("ChangeTotalSaleValue(), after TotalValue is " + totalSaleValue);
 		UpdateCoinLabel(totalSaleValue);
 	}
 
 	void ShowLastSureWindow(object args){
-//		Debug.LogError("ShowLastSureWindow().....");
 		mainRoot.SetActive(false);
 		submitRoot.SetActive(true);
 		submitRoot.transform.localPosition = new Vector3(-1000, -200, 0);
-		iTween.MoveTo(submitRoot, iTween.Hash("x", 0, "time", 0.4f, "easetype", iTween.EaseType.linear));
+		iTween.MoveTo(submitRoot, iTween.Hash("x", 0, "time", 0.4f));
 
 		List<TUserUnit> readySaleList = args as List<TUserUnit>;
 		FillLastSureWindow(readySaleList);
 	}
 
 	void FillLastSureWindow(List<TUserUnit> dataInfoList){
-//		Debug.LogError("dataInfoList.Count : " + dataInfoList.Count);
 		for (int i = 0; i < dataInfoList.Count; i++){
 			Texture2D tex2d = dataInfoList[ i ].UnitInfo.GetAsset(UnitAssetType.Avatar);
 			string level = dataInfoList[ i ].Level.ToString();
@@ -117,7 +112,6 @@ public class OnSaleUnitsView : UIComponentUnity{
 	}
 
 	void UpdateCoinLabel(int coin){
-//		Debug.LogError("UpdateCoinLabel(), current coin is : " + coin.ToString());
 		coinLabel.text = coin.ToString();
 		readyCoinLabel.text = coin.ToString();
 	}
@@ -141,7 +135,6 @@ public class OnSaleUnitsView : UIComponentUnity{
 		Dictionary<string, object> info = args as Dictionary<string,object>;
 		int poolPos = (int)info["poolPos"];
 		int clickPos = (int)info["clickPos"];
-//		Debug.LogError("AddViewItem(), position is : " + poolPos);
 		FindTextureWithPosition(poolPos, pickItemList).mainTexture = info["texture"] as Texture2D;
 		FindLabelWithPosition(poolPos, pickItemList).text = "Lv: " + info["label"] as string;
 
@@ -168,7 +161,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 	
 	void ShowUIAnimation(){
 		transform.localPosition = new Vector3(-1000, 267, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "easetype", iTween.EaseType.linear));  
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
 	}
 
 	void InitUIElement(){
@@ -178,13 +171,12 @@ public class OnSaleUnitsView : UIComponentUnity{
 		readyCoinLabel = transform.FindChild("EnsureWindow/Label_GetCoinValue").GetComponent<UILabel>();
 		sellImgBtn = transform.FindChild("MainWindow/ImgBtn_Sell").GetComponent<UIImageButton>();
 		clearImgBtn = transform.FindChild("MainWindow/ImgBtn_Clear").GetComponent<UIImageButton>();
-		lastSureCancelButton = FindChild<UIButton>("EnsureWindow/Button_Cancel");
-		lastSureOkButton = FindChild<UIButton>("EnsureWindow/Button_Ok");
+		lastSureCancelBtn = FindChild<UIButton>("EnsureWindow/Button_Cancel");
+		lastSureOkBtn = FindChild<UIButton>("EnsureWindow/Button_Ok");
 		UIEventListener.Get(sellImgBtn.gameObject).onClick = ClickSellBtn;
 		UIEventListener.Get(clearImgBtn.gameObject).onClick = ClickClearBtn;
-		UIEventListener.Get(lastSureOkButton.gameObject).onClick = ClickSellOk;
-		UIEventListener.Get(lastSureCancelButton.gameObject).onClick = ClickSellCancel;
-//		InitDragPanelArgs();
+		UIEventListener.Get(lastSureOkBtn.gameObject).onClick = ClickSellOk;
+		UIEventListener.Get(lastSureCancelBtn.gameObject).onClick = ClickSellCancel;
 		InitCells();
 
 		sortButton = FindChild<UIButton>("MainWindow/SortButton");
@@ -199,7 +191,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		List<TUserUnit> temp = new List<TUserUnit>();
 		for (int i = 0; i < pickUnitViewList.Count; i++) {
-			TUserUnit tuu = pickUnitViewList[i].UserUnit;
+			TUserUnit tuu = pickUnitViewList[ i ].UserUnit;
 			if(tuu == null)
 				continue;
 
@@ -233,7 +225,7 @@ public class OnSaleUnitsView : UIComponentUnity{
 
 	void CreateDragView(object args){
 		for (int i = 0; i < saleUnitViewList.Count; i++) {
-			if(saleUnitViewList[i].gameObject !=null) {
+			if(saleUnitViewList[ i ].gameObject !=null) {
 				Destroy( saleUnitViewList[ i ].gameObject);
 			}
 		}
@@ -366,5 +358,5 @@ public class OnSaleUnitsView : UIComponentUnity{
 			suv.CurrentSortRule = curSortRule;
 		}
 	}
-
+        
 }

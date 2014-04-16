@@ -5,7 +5,6 @@ using bbproto;
 
 public class LevelUpMaterialWindow : UIComponentUnity {
 	DragPanel materialDragPanel;
-	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -84,8 +83,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
 		materialDragPanel = CreateDragPanel( name, count, itemGo) ;
 		FillDragPanel( materialDragPanel );
-//		InitDragPanelArgs();
-		materialDragPanel.DragPanelView.SetScrollView(dragPanelArgs, transform);
+		materialDragPanel.DragPanelView.SetScrollView(ConfigDragPanel.LevelUpMaterialDragPanelArgs, transform);
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){

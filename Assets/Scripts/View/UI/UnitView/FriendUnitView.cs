@@ -31,12 +31,7 @@ public class FriendUnitView : UnitView {
 	
 	protected override void InitState(){
 		base.InitState();
-		if(string.IsNullOrEmpty(friendInfo.NickName)){
-			nameLabel.text = "NoName";
-		}
-		else{
-			nameLabel.text = friendInfo.NickName;
-		}
+		SetName();
 	}
 
 	protected override void ClickItem(GameObject item){
@@ -63,6 +58,15 @@ public class FriendUnitView : UnitView {
 
 	protected override void SetCommonState(){
 		base.SetCommonState();
-		nameLabel.text = friendInfo.NickName;
+		SetName();
+	}
+
+	private void SetName(){
+		if(string.IsNullOrEmpty(friendInfo.NickName)){
+			nameLabel.text = "NoName";
+		}
+		else{
+			nameLabel.text = friendInfo.NickName;
+		}
 	}
 }

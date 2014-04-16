@@ -25,6 +25,7 @@ public class BattleQuest : UIBase {
 	public QuestFullScreenTips questFullScreenTips;
 	private TopUI topUI;
 	public static BattleUseData bud;
+
 	private List<ClearQuestParam> _questData = new List<ClearQuestParam>();
 	public ClearQuestParam questData {
 		get { 
@@ -249,9 +250,14 @@ public class BattleQuest : UIBase {
 		battleEnemy = true;
 	}
 	
-	void QuestEnd () {
+	public void QuestEnd () {
 		ControllerManager.Instance.ExitBattle ();
-		UIManager.Instance.ExitBattle ();
+		if (DataCenter.Instance.BattleFriend != null && DataCenter.Instance.BattleFriend.FriendPoint > 0) {
+			UIManager.Instance.ChangeScene(SceneEnum.Result);
+			MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, DataCenter.Instance.BattleFriend);
+		} else {
+			UIManager.Instance.ExitBattle ();
+		}
 	}
 
 	void EvolveEnd () {
@@ -288,9 +294,9 @@ public class BattleQuest : UIBase {
 			MsgCenter.Instance.Invoke (CommandEnum.MeetEnemy, true);
 
 			if (currentMapData.Type != EQuestGridType.Q_TRAP && DGTools.EqualCoordinate (coor, MapConfig.endCoor)) {
-					MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
+				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
 			} else {
-					MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, false);
+				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, false);
 			}
 
 			if (currentMapData.Star == EGridStar.GS_KEY) {
@@ -424,7 +430,7 @@ public class BattleQuest : UIBase {
 		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
-		Debug.LogError (currentMapData.Position + " currentMapData.Enemy : " + currentMapData.Enemy.Count);
+//		Debug.LogError (currentMapData.Position + " currentMapData.Enemy : " + currentMapData.Enemy.Count);
 		for (int i = 0; i < currentMapData.Enemy.Count; i++) {
 			TEnemyInfo tei = currentMapData.Enemy[i];
 			tei.EnemySymbol = (uint)i;
@@ -567,7 +573,7 @@ public class BattleQuest : UIBase {
 		RequestData ();
 	}
 
-	ClearQuestParam GetQuestData () {
+	public ClearQuestParam GetQuestData () {
 		ClearQuestParam cqp = new ClearQuestParam ();
 		cqp.questId = questDungeonData.QuestId;
 		foreach (var item in _questData) {

@@ -3,14 +3,16 @@ using System.Collections.Generic;
 
 public class UnitsWindow : UIComponentUnity{
 	private UILabel pageIndexLabel;
-	private UIButton prePageButton;
-	private UIButton nextPageButton;
+	private UIButton prePageBtn;
+	private UIButton nextPageBtn;
 	private UILabel pageIndexSuffixLabel;
 	private UILabel rightIndexLabel;
 	IUICallback iuiCallback;
+	private GameObject topRoot;
+	private GameObject bottomRoot;
 
 	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum>();
-	private Dictionary<int, PageUnitView> partyView = new Dictionary<int, PageUnitView>();
+	private Dictionary<int, PageUnitView> partyItems = new Dictionary<int, PageUnitView>();
 	public static Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -23,12 +25,10 @@ public class UnitsWindow : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		ShowTween();
-
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
-
+		ShowUIAnimation();
 	}
 	
 	public override void HideUI(){
@@ -73,31 +73,29 @@ public class UnitsWindow : UIComponentUnity{
 		iuiCallback.CallbackView(se);
 	}
 	
-	void ShowTween(){
-		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)	return;
-		foreach (var tweenPos in list){		
-			if (tweenPos == null)	continue;
-			tweenPos.Reset();
-			tweenPos.PlayForward();
-		}
+	void ShowUIAnimation(){
+		topRoot.transform.localPosition = 1000 * Vector3.up;
+		bottomRoot.transform.localPosition = 1000 * Vector3.left;
+		iTween.MoveTo(topRoot, iTween.Hash("y", 0, "time", 0.4f));
+		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f));
 	}
 
 	private void InitPagePanel(){
-		pageIndexLabel = FindChild<UILabel>("Label_Left/Label_Before");
-		pageIndexSuffixLabel = FindChild<UILabel>("Label_Left/Label_After");
-		rightIndexLabel = FindChild<UILabel>("Label_Cur_Party");
-
-		prePageButton = FindChild<UIButton>("Button_Left");
-		UIEventListener.Get(prePageButton.gameObject).onClick = PrevPage;
-		nextPageButton = FindChild<UIButton>("Button_Right");
-		UIEventListener.Get(nextPageButton.gameObject).onClick = NextPage;
+		topRoot = transform.FindChild("Top").gameObject;
+		bottomRoot = transform.FindChild("Bottom").gameObject;
+		pageIndexLabel = FindChild<UILabel>("Top/Label_Left/Label_Before");
+		pageIndexSuffixLabel = FindChild<UILabel>("Top/Label_Left/Label_After");
+		rightIndexLabel = FindChild<UILabel>("Top/Label_Cur_Party");
+		prePageBtn = FindChild<UIButton>("Top/Button_Left");
+		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
+		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
+		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
 
 		for (int i = 0; i < 4; i++){
-			PageUnitView puv = FindChild<PageUnitView>(i.ToString());
-			partyView.Add(i, puv);
+			GameObject item = topRoot.transform.FindChild(i.ToString()).gameObject;
+			PageUnitView puv = item.GetComponent<PageUnitView>();
+			partyItems.Add(i, puv);
 		}
-
 	}
 
 	void RefreshParty(TUnitParty party){
@@ -109,7 +107,7 @@ public class UnitsWindow : UIComponentUnity{
 
 		//Debug.Log("Current party's member count is : " + partyMemberList.Count);
 		for (int i = 0; i < partyMemberList.Count; i++){
-			partyView[ i ].Init(partyMemberList [ i ]);
+			partyItems[ i ].Init(partyMemberList [ i ]);
 		}
 	}
 
