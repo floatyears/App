@@ -29,7 +29,6 @@ public class SortUnitTool{
 	}
 
 	public static void SortByTargetRule(SortRule targetRule, List<TUserUnit> targetList){
-		//Debug.Log("Before :: memberList[ 4 ].Level ->" + targetList[ 4 ].Level);
 		switch (targetRule){
 			case SortRule.AddPoint : 
 				DGTools.InsertSort(targetList, new TUserUnitSortAddPoint());
@@ -58,10 +57,41 @@ public class SortUnitTool{
 			default:
 				break;
 		}
-		//Debug.Log("After :: memberList[ 4 ].Level ->" + targetList[ 4 ].Level);
+	}
+
+	public static void SortByTargetRule(SortRule targetRule, List<TFriendInfo> targetList){
+		switch (targetRule){
+			case SortRule.AddPoint : 
+				DGTools.InsertSort(targetList, new TFriendUnitSortAddPoint());
+				break;
+			case SortRule.Attack : 
+				DGTools.InsertSort(targetList, new TFriendUnitSortAtk());
+				break;
+			case SortRule.Attribute : 
+				DGTools.InsertSort(targetList, new TFriendUnitSortAttribute());
+				break;
+			case SortRule.GetTime : 
+				DGTools.InsertSort(targetList, new TFriendUnitSortGetTime());
+				break;
+			case SortRule.HP : 
+				DGTools.InsertSort(targetList, new TFriendUnitSortHP());
+				break;
+			case SortRule.ID : 
+				DGTools.InsertSort(targetList, new TFriendUnitSortID(), false);
+				break;
+			case SortRule.Fav : 
+				DGTools.InsertSort(targetList, new TFriendUnitSortFavourite());
+				break;
+			case SortRule.Race : 
+				DGTools.InsertSort(targetList, new TFriendUnitSortRace());
+				break;
+			default:
+				break;
+		}
 	}
 }
 
+//------------------------------TUserUnit-------------------------------
 public class TUserUnitSortBase : IComparer {
 	protected TUserUnit firstUserUnit;
 	protected TUserUnit secondUserUnit;
@@ -111,7 +141,7 @@ public class TUserUnitSortFavourite : TUserUnitSortBase{
 public class TUserUnitSortAddPoint : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		return secondUserUnit.AddNumber.CompareTo(firstUserUnit.AddNumber);
+		return firstUserUnit.AddNumber.CompareTo(secondUserUnit.AddNumber);
 	}
 }
 
@@ -131,5 +161,87 @@ public class TUserUnitSortRace : TUserUnitSortBase{
 		int second = (int)secondUserUnit.UnitInfo.Race;
 		return first.CompareTo(second);
 
+	}
+}
+
+//------------------------------TFriendInfo-------------------------------
+public class TFriendUnitSortBase : IComparer {
+	protected TFriendInfo firstFriendUnit;
+	protected TFriendInfo secondFriendUnit;
+	public virtual int Compare(object x, object y) {
+		firstFriendUnit = x as TFriendInfo;
+		secondFriendUnit = y as TFriendInfo;
+		return default(int);
+	}
+}
+
+public class TFriendUnitSortHP : TFriendUnitSortBase{
+	public override int Compare(object x, object y) {
+		base.Compare(x,y);
+		int firstHp = firstFriendUnit.UserUnit.Hp;
+		int secondHp = secondFriendUnit.UserUnit.Hp;
+		return firstHp.CompareTo(secondHp);
+	}
+}
+
+public class TFriendUnitSortAtk : TFriendUnitSortBase{
+	public override int Compare(object x, object y) {
+		base.Compare(x,y);
+		int firstAtk = firstFriendUnit.UserUnit.Attack;
+		int secondAtk = secondFriendUnit.UserUnit.Attack;
+		return firstAtk.CompareTo(secondAtk);
+	}
+}
+
+public class TFriendUnitSortID : TFriendUnitSortBase{
+	public override int Compare(object x, object y) {
+		base.Compare(x,y);
+		uint firstID = firstFriendUnit.UserUnit.UnitID;
+		uint secondID = secondFriendUnit.UserUnit.UnitID;
+		return firstID.CompareTo(secondID);
+	}
+}
+
+public class TFriendUnitSortGetTime : TFriendUnitSortBase{
+	public override int Compare(object x, object y) {
+		base.Compare(x,y);
+		uint firstGetTime = firstFriendUnit.UserUnit.Unit.getTime;
+		uint secondGetTime = secondFriendUnit.UserUnit.Unit.getTime;
+		return firstGetTime.CompareTo(secondGetTime);
+	}
+}
+
+public class TFriendUnitSortFavourite : TFriendUnitSortBase{
+	public override int Compare(object x, object y) {
+		base.Compare(x,y);
+		//TODO
+		return 1;
+	}
+}
+
+public class TFriendUnitSortAddPoint : TFriendUnitSortBase{
+	public override int Compare(object x, object y) {
+		base.Compare(x,y);
+		int firstAddNum = firstFriendUnit.UserUnit.AddNumber;
+		int secondAddNum = secondFriendUnit.UserUnit.AddNumber;
+		return firstAddNum.CompareTo(secondAddNum);
+	}
+}
+
+public class TFriendUnitSortAttribute : TFriendUnitSortBase{
+	public override int Compare(object x, object y) {
+		base.Compare(x,y);
+		int firstType = (int)firstFriendUnit.UserUnit.UnitInfo.Type;
+		int secondType = (int)secondFriendUnit.UserUnit.UnitInfo.Type;
+		return firstType.CompareTo(secondType);
+	}		
+}
+
+public class TFriendUnitSortRace : TFriendUnitSortBase{
+	public override int Compare(object x, object y) {
+		base.Compare(x,y);
+		int firstRace = (int)firstFriendUnit.UserUnit.UnitInfo.Race;
+		int secondRace = (int)secondFriendUnit.UserUnit.UnitInfo.Race;
+		return firstRace.CompareTo(secondRace);
 	}
 }

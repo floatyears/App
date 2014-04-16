@@ -12,6 +12,17 @@ public class HelperUnitView : FriendUnitView {
 			callback(this);
 		}
 	}
+
+	protected override void SetEmptyState(){
+		base.SetEmptyState();
+		typeLabel.text = string.Empty;
+		pointLabel.text = string.Empty;
+	}
+	protected override void SetCommonState(){
+		base.SetCommonState();
+		InitFriendType();
+		InitFriendPoint();
+	}
 	
 	private static GameObject itemPrefab;
 	public static GameObject ItemPrefab {

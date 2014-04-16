@@ -76,5 +76,4 @@ public class MyUnitListView : UIComponentUnity {
 			muv.CurrentSortRule = curSortRule;
 		}
 	}
-
 }

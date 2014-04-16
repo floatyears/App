@@ -55,4 +55,14 @@ public class FriendUnitView : UnitView {
 			return itemPrefab;
 		}
 	}
+
+	protected override void SetEmptyState(){
+		base.SetEmptyState();
+		nameLabel.text = string.Empty;
+	}
+
+	protected override void SetCommonState(){
+		base.SetCommonState();
+		nameLabel.text = friendInfo.NickName;
+	}
 }

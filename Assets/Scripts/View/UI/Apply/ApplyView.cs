@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ApplyView : UIComponentUnity{
-	TFriendInfo curPickedFriend;
-	UIButton sortButton;
-	DragPanel dragPanel;
-	List<TFriendInfo> friendInDataList = new List<TFriendInfo>();
+	private SortRule curSortRule;
+	private TFriendInfo curPickedFriend;
+	private UIButton sortBtn;
+	private UILabel sortRuleLabel;
+	private DragPanel dragPanel;
+	private List<TFriendInfo> friendOutDataList = new List<TFriendInfo>();
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUIElement();
@@ -15,6 +17,7 @@ public class ApplyView : UIComponentUnity{
 	public override void ShowUI(){
 		base.ShowUI();
 		CreateDragView();
+		SortUnitByCurRule();
 		RefreshCounter();
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteApply, DeleteMyApply);
 	}
@@ -26,20 +29,22 @@ public class ApplyView : UIComponentUnity{
 	}
 	
 	private void InitUIElement(){
-		sortButton = FindChild<UIButton>("Button_Sort");
-//		UIEventListener.Get(sortButton.gameObject).onClick = ClickRefuseBtn;
+		sortBtn = FindChild<UIButton>("Button_Sort");
+		sortRuleLabel = transform.FindChild("Button_Sort/Label_Rule").GetComponent<UILabel>();
+		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
+		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 	}
 
 	private void CreateDragView(){
-		friendInDataList = DataCenter.Instance.FriendList.FriendOut;
+		friendOutDataList = DataCenter.Instance.FriendList.FriendOut;
 		dragPanel = new DragPanel("ReceptionDragPanel", FriendUnitView.ItemPrefab);
 		dragPanel.CreatUI();
-		dragPanel.AddItem(friendInDataList.Count);
+		dragPanel.AddItem(friendOutDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.FriendListDragPanelArgs, transform);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			FriendUnitView fuv = FriendUnitView.Inject(dragPanel.ScrollItem[ i ]);
-			fuv.Init(friendInDataList[ i ]);
+			fuv.Init(friendOutDataList[ i ]);
 			fuv.callback = ClickItem;
 		}
 	}
@@ -72,7 +77,6 @@ public class ApplyView : UIComponentUnity{
 	void OnDelFriend(object data){
 		if (data == null)
 			return;
-		
 		Debug.Log("TFriendList.OnDelFriend() begin");
 		LogHelper.Log(data);
 		bbproto.RspDelFriend rsp = data as bbproto.RspDelFriend;
@@ -80,15 +84,27 @@ public class ApplyView : UIComponentUnity{
 			LogHelper.LogError("OnRspDelFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
 			return;
 		}
-		
 		bbproto.FriendList inst = rsp.friends;
 		LogHelper.LogError("OnRspDelFriend friends {0}", rsp.friends);
-		
 		DataCenter.Instance.SetFriendList(inst);
-		
 		HideUI();
 		ShowUI();
 	}
 
+	void ClickSortBtn(GameObject btn){
+		curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		SortUnitByCurRule();
+	}
+	
+	private void SortUnitByCurRule(){
+		sortRuleLabel.text = curSortRule.ToString();
+		SortUnitTool.SortByTargetRule(curSortRule, friendOutDataList);
+		
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			FriendUnitView fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitView>();
+			fuv.UserUnit = friendOutDataList[ i ].UserUnit;
+			fuv.CurrentSortRule = curSortRule;
+		}
+	}
 }
 

@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 public class FriendListView : UIComponentUnity{
 	private SortRule curSortRule;
-	DragPanel dragPanel;
-	TFriendInfo curPickedFriend;
-	UIButton sortBtn;
-	UIButton updateBtn;
-	List<TFriendInfo> friendDataList = new List<TFriendInfo>();
+	private DragPanel dragPanel;
+	private TFriendInfo curPickedFriend;
+	private UIButton sortBtn;
+	private UILabel sortRuleLabel;
+	private UIButton updateBtn;
+	private List<TFriendInfo> friendDataList = new List<TFriendInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -18,6 +19,7 @@ public class FriendListView : UIComponentUnity{
 	public override void ShowUI(){
 		base.ShowUI();
 		CreateDragView();
+		SortUnitByCurRule();
 		RefreshCounter();
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);     
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, UpdateFriendList);
@@ -44,9 +46,11 @@ public class FriendListView : UIComponentUnity{
 
 	void InitUIElement(){
 		sortBtn = FindChild<UIButton>("Button_Sort");
+		sortRuleLabel = transform.FindChild("Button_Sort/Label_Rule").GetComponent<UILabel>();
 		updateBtn = FindChild<UIButton>("Button_Update");
 		UIEventListener.Get(updateBtn.gameObject).onClick = ClickUpdateBtn;
 		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
+		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 	}
 
 	void CreateDragView(){
@@ -170,7 +174,19 @@ public class FriendListView : UIComponentUnity{
 	}
 
 	void ClickSortBtn(GameObject btn){
+		curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		SortUnitByCurRule();
+	}
 
+	private void SortUnitByCurRule(){
+		sortRuleLabel.text = curSortRule.ToString();
+		SortUnitTool.SortByTargetRule(curSortRule, friendDataList);
+		
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			FriendUnitView fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitView>();
+			fuv.UserUnit = friendDataList[ i ].UserUnit;
+			fuv.CurrentSortRule = curSortRule;
+		}
 	}
 }
 

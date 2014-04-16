@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ReceptionView : UIComponentUnity {
-	TFriendInfo curPickedFriend;
-	DragPanel dragPanel;
-	UIButton sortButton;
-	UIButton refuseAllBtn;
-	List<TFriendInfo> friendInDataList = new List<TFriendInfo>();
+	private SortRule curSortRule;
+	private TFriendInfo curPickedFriend;
+	private DragPanel dragPanel;
+	private UIButton sortBtn;
+	private UILabel sortRuleLabel;
+	private UIButton refuseAllBtn;
+	private List<TFriendInfo> friendInDataList = new List<TFriendInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -17,6 +19,7 @@ public class ReceptionView : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 		CreateDragView();
+		SortUnitByCurRule();
 		RefreshCounter();
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseAll, RefuseAllApplyFromOthers);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);   
@@ -34,9 +37,12 @@ public class ReceptionView : UIComponentUnity {
 	}
 
 	private void InitUIElement(){
+		sortBtn = FindChild<UIButton>("Button_Sort");
+		sortRuleLabel = transform.FindChild("Button_Sort/Label_Rule").GetComponent<UILabel>();
 		refuseAllBtn = FindChild<UIButton>("Button_Refuse");
-		sortButton = FindChild<UIButton>("Button_Sort");
 		UIEventListener.Get(refuseAllBtn.gameObject).onClick = ClickRefuseBtn;
+		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
+		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 	}
 
 	private void CreateDragView(){
@@ -193,6 +199,22 @@ public class ReceptionView : UIComponentUnity {
 
 	void CallBackScratchScene(object args){
 		UIManager.Instance.ChangeScene(SceneEnum.Shop);
+	}
+
+	void ClickSortBtn(GameObject btn){
+		curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		SortUnitByCurRule();
+	}
+	
+	private void SortUnitByCurRule(){
+		sortRuleLabel.text = curSortRule.ToString();
+		SortUnitTool.SortByTargetRule(curSortRule, friendInDataList);
+		
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			FriendUnitView fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitView>();
+			fuv.UserUnit = friendInDataList[ i ].UserUnit;
+			fuv.CurrentSortRule = curSortRule;
+		}
 	}
 
 }

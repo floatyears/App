@@ -14,7 +14,7 @@ public class UnitView : MonoBehaviour {
 			return userUnit;
 		}
 		set{
-			if(userUnit != null &&  userUnit.Equals(value)) {}
+			if(userUnit != null && userUnit.Equals(value)) {}
 			else{
 				userUnit = value;
 				RefreshState();
@@ -98,9 +98,10 @@ public class UnitView : MonoBehaviour {
 			SetEmptyState();
 			return;
 		}
-		IsEnable = true;
-		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		UpdateCrossFadeText();
+//		IsEnable = true;
+//		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+//		UpdateCrossFadeText();
+		SetCommonState();
 	}
 	private void ExecuteCrossFade(){
 		if (! IsInvoking("UpdateCrossFadeState"))
@@ -211,18 +212,18 @@ public class UnitView : MonoBehaviour {
 		crossFadeAfterText = "+" + userUnit.AddNumber;
 	}
 
-	private void SetEmptyState(){
+	protected virtual void SetEmptyState(){
 		IsEnable = false;
 		avatarTex.mainTexture = null;
 		typeSpr.color = Color.white ;
 		crossFadeLabel.text = string.Empty;
 	}
 
-	private void SetCommonState(){
+	protected virtual void SetCommonState(){
 		IsEnable = true;
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
 		typeSpr.color = DGTools.TypeToColor(userUnit.UnitInfo.Type);
-		CurrentSortRule = SortRule.GetTime;
+		CurrentSortRule = SortRule.ID;
 	}
 
 }
