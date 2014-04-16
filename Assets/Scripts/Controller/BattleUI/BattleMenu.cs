@@ -10,6 +10,7 @@ public class BattleMenu : UIBaseUnity {
 	private UILabel questNameLabel;
 	private UILabel floorLabel;
 	private UIScrollView scrollView;
+	private UIGrid grid;
 	private GameObject itemObject;
 	private List<GameObject> itemList = new List<GameObject> ();
 	//============================================
@@ -58,6 +59,7 @@ public class BattleMenu : UIBaseUnity {
 		string path = Path + "/GetUnitsDragPanel/ScrollView";
 		Debug.LogError ("path : " + path);
 		scrollView = FindChild<UIScrollView>(path);
+		grid = FindChild<UIGrid>(path + "/UIGrid");
 		itemObject = transform.Find (Path + "/GetUnitsDragPanel/ScrollView/UIGrid/Item").gameObject;
 
 		defaultToggle = FindChild<UIToggle> ("Tabs/Tab_QuestInfo");
@@ -95,12 +97,14 @@ public class BattleMenu : UIBaseUnity {
 	void RefreshDropItem () {
 		ClearQuestParam cqp = battleQuest.GetQuestData ();
 		int getUnitCount = cqp.getUnit.Count;
-		Debug.LogError ("getUnitCount : " + getUnitCount);
-		int count = getUnitCount - itemList.Count;
+		int itemCount = itemList.Count;
+		int count = getUnitCount - itemCount;
+
+
 		if (count > 0) {
 			for (int i = 0; i < count; i++) {
-				uint unitID = cqp.getUnit [itemList.Count + i];
-				GameObject go = NGUITools.AddChild (scrollView.gameObject, itemObject);
+				uint unitID = cqp.getUnit [itemCount + i];
+				GameObject go = NGUITools.AddChild (grid.gameObject, itemObject);
 				go.SetActive (true);
 				UISprite sprite = go.transform.Find ("ItemSprite").GetComponent<UISprite> ();
 				TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
