@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class CardItem : UIBaseUnity 
 {
@@ -15,6 +15,13 @@ public class CardItem : UIBaseUnity
 	{
 		get{return actorTexture;}
 	}
+
+	private UISprite linkLineSprite;
+
+	private Queue<Transform> linkLineSpriteCache = new Queue<Transform> ();
+	private List<UISprite> linkLineSpriteList = new List<UISprite> ();
+
+	private List<Transform> target = new List<Transform> ();
 
 	private Vector3 initActorPosition;
 	private Vector3 hideActorPosition = new Vector3 (10000f, 10000f, 10000f);
@@ -53,7 +60,6 @@ public class CardItem : UIBaseUnity
 	{
 		set{
 			canDrag = value;
-//			Debug.LogError("CanDrag : " + this);
 			if(canDrag) {
 				gameObject.layer = GameLayer.ActorCard;
 			}
@@ -82,6 +88,8 @@ public class CardItem : UIBaseUnity
 		if (!actorTexture.enabled) {
 			actorTexture.enabled = true;
 		}
+
+		linkLineSprite = FindChild<UISprite>("Sprite");
 
 		actorTexture.spriteName = "";
 		xOffset = (float)actorTexture.width / 4;
@@ -119,12 +127,20 @@ public class CardItem : UIBaseUnity
 		base.HideUI ();
 	}
 
-	public override void DestoryUI ()
-	{
+	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
 
 	public void SetSprite(int index,bool canAttack) {
+
+		CalculateAngel = false;
+		target.Clear ();
+		foreach (var item in linkLineSpriteList) {
+			item.gameObject.SetActive(false);
+			linkLineSpriteCache.Enqueue(item.transform);
+		}
+		linkLineSpriteList.Clear ();
+
 		this.canAttack = canAttack;
 		itemID = index;
 		actorTexture.spriteName = index.ToString ();
@@ -198,8 +214,7 @@ public class CardItem : UIBaseUnity
 		Move(from,to,defaultMoveTime);
 	}
 
-	public void Move(Vector3 from,Vector3 to, float time)
-	{
+	public void Move(Vector3 from,Vector3 to, float time) {
 		if(!tweenPosition.enabled )
 			tweenPosition.enabled = true;
 
@@ -242,5 +257,53 @@ public class CardItem : UIBaseUnity
 		transform.localPosition = to;
 
 		initPosition = to;
+	}
+
+	public void SetTargetLine(List<Transform> target) {
+		this.target = target;
+//		CalculateAngel = target.Count > 0 ? true : false;
+		if (target.Count == 0) {
+			return;	
+		}
+		foreach (var item in target) {
+			Transform trans ;
+			if(linkLineSpriteCache.Count == 0) {
+				trans = NGUITools.AddChild(gameObject, linkLineSprite.gameObject).transform;
+//			.enabled = true;
+			}else{
+				trans = linkLineSpriteCache.Dequeue();
+			}
+			UISprite sprite = 	trans.GetComponent<UISprite>();
+			sprite.enabled = true;
+			linkLineSpriteList.Add(sprite);
+		}
+	}
+	bool CalculateAngel = false;
+	Quaternion qa = new Quaternion();
+	void LateUpdate () {
+		if (CalculateAngel) {
+			for (int i = 0; i < target.Count; i++) {
+				Vector3 targetPosition = target[i].localPosition;
+
+				Transform trans = linkLineSpriteList[i].transform;
+				Vector3 localposition = trans.parent.localPosition;
+				Vector3 forward = targetPosition - localposition;
+				float yAngel = CalculateAngle(trans.right, forward);
+				Vector3 angle = new Vector3(trans.eulerAngles.x, 0f, yAngel);
+				trans.eulerAngles = angle;
+				int distance = (int)Vector3.Distance(localposition, targetPosition);
+				linkLineSpriteList[i].width = distance;
+			}
+		}
+	}
+
+	float CalculateAngle(Vector3 x, Vector3 y) {
+
+		float angle = Vector3.Angle (x, y);
+		if (x.y > y.y) {
+			angle += 180f;
+		}
+					
+		return angle;
 	}
 }

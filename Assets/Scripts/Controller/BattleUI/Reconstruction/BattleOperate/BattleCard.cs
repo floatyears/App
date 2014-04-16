@@ -20,7 +20,9 @@ public class BattleCard : UIBaseUnity {
 
 	private List<TNormalSkill> normalSkill ;
 
-	private BattleCardArea battleCardArea;
+	public BattleCardArea battleCardArea;
+
+	private BattleUseData battleUseData;
 
 	public override void Init (string name) {
 		base.Init (name);
@@ -100,15 +102,40 @@ public class BattleCard : UIBaseUnity {
 			cardItemArray [locationID].SetSprite (index,CheckGenerationAttack (index));
 		}
 	}
-
+	
 	/// <summary>
 	/// new 
 	/// </summary>
 	/// <param name="index">Index.</param>
 	/// <param name="locationID">Location I.</param>
 	public void GenerateSpriteCard(int index,int locationID) {
-		cardItemArray [locationID].SetSprite (index, CheckGenerationAttack (index));
+		CardItem ci = cardItemArray [locationID];
+		ci.SetSprite (index, CheckGenerationAttack (index));
+		GenerateLinkSprite (ci, index);
 	}
+
+	void GenerateLinkSprite(CardItem ci,int index) {
+		if (battleUseData == null) {
+			battleUseData = BattleQuest.bud;
+		}
+		List<Transform> trans = new List<Transform> ();
+		for (int i = 0; i < battleCardArea.battleCardAreaItem.Length; i++) {
+			if(battleCardArea.battleCardAreaItem[i] == null) 
+				continue;
+			if(battleUseData.upi.CalculateNeedCard(battleCardArea.battleCardAreaItem[i].AreaItemID, index)) {
+				trans.Add(battleCardArea.battleCardAreaItem[i].transform);
+			}
+		}
+		ci.SetTargetLine (trans);
+	}
+
+
+//	void CheckNeedSprite(List<int> haveSprite) {
+//
+//		for (int i = 0; i < normalSkill.Count; i++) {
+//
+//		}
+//	}
 
 	bool CheckGenerationAttack (int index) {
 		if (index == 7) {

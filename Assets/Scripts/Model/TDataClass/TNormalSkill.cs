@@ -25,6 +25,13 @@ public class TNormalSkill : SkillBaseInfo {
 		}
 		return record;
 	}
+
+//	public int CalculateNeedCard(List<int> haveSprite) {
+//		int count = Mathf.Abs (haveSprite.Count - instance.activeBlocks.Count);
+//		if (count != 1) { //only 
+//			return -1;	
+//		}
+//	}
 	
 	public void GetSkillInfo(AttackInfo ai) {
 		ai.SkillID = instance.baseInfo.id;
@@ -45,6 +52,12 @@ public class TNormalSkill : SkillBaseInfo {
 	public void DisposeUseSkillID (List<int> skillID) {
 		if (skillID.Contains (instance.baseInfo.id)) {
 			skillID.Remove(instance.baseInfo.id);
+		}
+	}
+
+	public void DisposeUseSkillID (List<TNormalSkill> skillID) {
+		if (skillID.Contains (this)) {
+			skillID.Remove(this);
 		}
 	}
 

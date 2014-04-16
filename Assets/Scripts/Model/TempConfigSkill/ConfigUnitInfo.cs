@@ -7,22 +7,21 @@ using System.Collections;
 
 public class CalculateSkillUtility {
 	public List<uint> haveCard = new List<uint>();
-	public List<int> alreadyUseSkill = new List<int>();
+	public List<TNormalSkill> alreadyUseSkill = new List<TNormalSkill>();
+
+	public List<uint> ResidualCard () {
+		if (haveCard.Count == 5) {
+			return null;
+		}
+
+		List<uint> residualCard = new List<uint> (haveCard);
+		for (int i = 0; i < alreadyUseSkill.Count; i++) {
+			List<uint> blocks = alreadyUseSkill[i].Blocks;
+			for (int j = 0; j < blocks.Count; j++) {
+				residualCard.Remove(blocks[j]);
+			}
+		}
+
+		return residualCard;
+	}
 }
-//
-//public class AttackImageUtility {
-//	public int attackProperty = -1;
-//	public int userProperty = -1;
-//	public int attackID = -1;
-//	public int attackRange = -1;
-//	public UITexture attackUI = null;
-//	//------------test need data, delete it behind test done------------//
-//	//------------------------------------------------------------------//
-//	public int skillID = -1;
-//	public void PlayAttack () {
-//		if(attackUI != null) {
-//			attackUI.enabled = false;
-//			attackUI = null;
-//		}
-//	}
-//}

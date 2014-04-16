@@ -154,6 +154,7 @@ public class Battle : UIBase {
 		battleCard = tempObject.AddComponent<BattleCard>();
 		battleCard.CardPosition = battleCardPool.CardPosition;
 		battleCard.Init(Config.battleCardName);
+		battleCard.battleCardArea = battleCardArea;
 	}
 
 	void ShowCard() {

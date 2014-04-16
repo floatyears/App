@@ -26,7 +26,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 	}
 	[HideInInspector]
 	private UISprite template;
-
+	[HideInInspector]
 	public List<int> haveCard = new List<int> ();
 
 	private BattleUseData battleUseData;

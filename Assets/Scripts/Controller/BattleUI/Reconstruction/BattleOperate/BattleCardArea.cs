@@ -4,7 +4,8 @@ using System.Collections;
 
 public class BattleCardArea : UIBaseUnity {
 	private UISprite backTexture;
-	private BattleCardAreaItem[] battleCardAreaItem;
+	[HideInInspector]
+	public BattleCardAreaItem[] battleCardAreaItem;
 	private UISprite stateLabel;
 	private Vector3 sourcePosition;
 	private const int oneWordSize = 42;

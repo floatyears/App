@@ -167,6 +167,34 @@ public class TUserUnit : ProtobufDataBase {
         return returnInfo;
     }
 
+	public List<AttackInfo> CaculateAttack(List<uint> card, List<TNormalSkill> ignorSkillID) {
+		List<uint> copyCard = new List<uint>(card);
+		List<AttackInfo> returnInfo = new List<AttackInfo>();
+		if (normalSkill[0] == null) {
+			InitSkill();	
+		}
+		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (instance.unitId);
+		UnitInfo ui = tui.Object;
+		for (int i = 0; i < normalSkill.Length; i++) {
+			TNormalSkill tns = normalSkill[i];
+			if(tns == null) {
+				continue;
+			}
+			tns.DisposeUseSkillID(ignorSkillID);
+			int count = tns.CalculateCard(copyCard);
+			for (int j = 0; j < count; j++) {
+				ignorSkillID.Add(tns);
+				AttackInfo attack = new AttackInfo();
+				attack.AttackValue = CaculateAttack(instance, ui, tns);
+				attack.AttackType = tns.AttackType;
+				attack.UserUnitID = MakeUserUnitKey();
+				tns.GetSkillInfo(attack);
+				returnInfo.Add(attack);
+			}
+		}
+		return returnInfo;
+	}
+
     AttackInfo strengthenInfo = null;
     void StrengthenTargetType(object data) {
         AttackInfo ai = data as AttackInfo;

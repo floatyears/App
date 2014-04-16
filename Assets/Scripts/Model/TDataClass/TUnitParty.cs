@@ -168,6 +168,28 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		
         return System.Convert.ToInt32(hurtValue);
     }
+
+	public bool CalculateNeedCard(int areaItemID, int index) {
+		if (crh == null) {
+			crh = new CalculateRecoverHP();		
+		}
+
+		CalculateSkillUtility csu = CheckSkillUtility (areaItemID);
+		if (csu.haveCard.Count == 5) {
+			return false;	
+		}
+		List<int> needCardList = new List<int> ();
+		if (crh.RecoverHPNeedCard (csu) == index) {
+			return true;	
+		}
+//		foreach (var item in UserUnit) {
+//			if(item.Value == null) {
+//				LogHelper.Log("skip empty partyItem:"+item.Key);
+//				continue;
+//			}
+//		}
+		return false;
+	}
 	
 	public List<AttackInfo> CalculateSkill(int areaItemID, int cardID, int blood) {
         if (crh == null) {
@@ -182,6 +204,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		List<AttackInfo> tempAttackType = new List<AttackInfo>();
 
 		//===== calculate fix recover hp.
+//		AttackInfo recoverHp = crh.RecoverHP(skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
 		AttackInfo recoverHp = crh.RecoverHP(skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
 		if (recoverHp != null) {
 			recoverHp.UserUnitID = UserUnit[0].MakeUserUnitKey();
@@ -200,7 +223,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 					AttackInfo ai = tempAttack[j];
 					ai.UserPos = item.Key;
 					areaItemAttackInfo.Add(ai);
-					skillUtility.alreadyUseSkill.Add(ai.SkillID);
+
 					tempAttackType.Add(ai);
 				}     
 			}
@@ -220,7 +243,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         partyItem = new List<PartyItem>();
         for (int i 		= 0; i < instance.items.Count; i++) {
             partyItem.Add(instance.items[i]);
-
         }
 
         GetLeaderSkill();
@@ -358,7 +380,16 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
         }
         return temp;
     }
-	
+
+	CalculateSkillUtility CheckSkillUtility(int areaItemID) {
+		CalculateSkillUtility skillUtility;	
+		if (!alreadyUse.TryGetValue(areaItemID, out skillUtility)) {
+			skillUtility = new CalculateSkillUtility();
+			alreadyUse.Add(areaItemID, skillUtility);
+		}
+		return skillUtility;
+	}
+
     CalculateSkillUtility CheckSkillUtility(int areaItemID, int cardID) {
         CalculateSkillUtility skillUtility;												//-- find or creat  have card and use skill record data
         if (!alreadyUse.TryGetValue(areaItemID, out skillUtility)) {
