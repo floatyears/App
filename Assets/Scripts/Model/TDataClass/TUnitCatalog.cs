@@ -9,6 +9,8 @@ public class TUnitCatalog {
 	private List<byte> haveFlag;
 
 	void ConvertFlag( byte[] srcflag, List<byte> targetflag) {
+		if ( srcflag == null )
+			return;
 		targetflag.Clear();
 		for(int i=0; i < srcflag.Length; i++){
 //			Debug.LogError("b['"+i+"']: "+srcflag[i]);
