@@ -403,3 +403,9 @@ public enum UnitAssetType{
 	Avatar 	= 0,
 	Profile	= 1,
 }
+
+public enum EnemyAttackEnum{
+	None,
+	FirstAttack,
+	BackAttack,
+}
