@@ -76,12 +76,16 @@ public class CardSprite : UIBaseUnity
 
 	Texture texure ;
 
-	public void SetTexture(int itemID) {
+	public void SetTexture(int itemID,bool canAttack) {
 		this.itemID = itemID;
 		if(!actorSprite.enabled)
 			actorSprite.enabled = true;
+
 		actorSprite.spriteName = itemID.ToString ();
-	
+
+		if (!canAttack) {
+			actorSprite.color = CardItem.NoAttackColor;
+		}
 		xOffset = (float)actorSprite.width / 4;
 	}
 	

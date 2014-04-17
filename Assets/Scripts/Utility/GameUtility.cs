@@ -183,16 +183,50 @@ public class DGTools {
 		List<T> tempSkillList = new List<T> (skillList);
 
 		for (int i = 0; i < tempSkillList.Count; i++) {
-			if(tempCard.Contains(tempSkillList[i])) {
-				T value = tempSkillList[i];
-				tempCard.Remove(value);
-			}
-			else  {
+//			if(tempCard.Contains(tempSkillList[i])) {
+////				T value = tempSkillList[i];
+////				tempCard.Remove(value);
+//			}
+//			else  {
+//				return false;
+//			}
+			if(!tempCard.Contains(tempSkillList[i])){
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	public static int NeedOneTriggerSkill (List<uint> cardList, List<uint> skillList) {
+		int sCount = skillList.Count;
+		int cCount = cardList.Count;
+
+		if (sCount > cCount && (sCount - cCount) > 2) { //card count not match
+			return -1;	
+		}
+
+		List<uint> tempCard = new List<uint> (cardList);
+		List<uint> tempSkillList = new List<uint> (skillList);
+
+		for (int i = 0; i < cCount; i++) {
+			uint t = tempCard[i];
+//			if(sCount == 5 && cCount == 4 && tempSkillList[0] != 7) {
+//				Debug.LogError(t + " skillList : " + skillList[0]);
+//			}
+			if(tempSkillList.Contains(t)) {
+				tempSkillList.Remove(t);
+			}
+		}
+//		if (sCount == 5 && cCount == 4) {
+//			Debug.LogError(cardList.Count + "     tempSkillList.Count :      " + tempSkillList.Count + "     skillList :    " + sCount);	
+//		}
+
+		if (tempSkillList.Count == 1) {
+			return (int)tempSkillList [0];
+		} else {
+			return -1;
+		}
 	}
 
 	public static bool IsFirstBoost<T>(IList<T> first, IList<T> second) {

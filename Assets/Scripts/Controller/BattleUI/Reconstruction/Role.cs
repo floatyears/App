@@ -12,8 +12,8 @@ public class Role : UIBaseUnity {
 	public Coordinate PrevCoor {
 		get { return prevCoor; }
 	}
-
-	private bool isMove = false;
+	[HideInInspector]
+	public bool isMove = false;
 	public bool waitMove = false;
 	private Vector3 targetPoint;
 	private const int xOffset = -5;

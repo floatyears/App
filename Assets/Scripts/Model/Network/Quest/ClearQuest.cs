@@ -90,7 +90,7 @@ public class ClearQuest: ProtoManager {
                 base.OnResponseEnd(null);
                 return;
             }
-            Debug.LogError("RspClearQuest : " + rspClearQuest.rank + "  rspClearQuest.exp : " + rspClearQuest.exp + " rspClearQuest.money : " + rspClearQuest.money);
+//            Debug.LogError("RspClearQuest : " + rspClearQuest.rank + "  rspClearQuest.exp : " + rspClearQuest.exp + " rspClearQuest.money : " + rspClearQuest.money);
             cq.rank = rspClearQuest.rank;
             cq.exp = rspClearQuest.exp;
             cq.money = rspClearQuest.money;
