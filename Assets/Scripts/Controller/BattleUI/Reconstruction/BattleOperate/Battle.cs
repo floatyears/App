@@ -45,7 +45,6 @@ public class Battle : UIBase {
 	
 	public override void CreatUI () {
 		CreatBack();
-
 		CreatArea();
 		CreatCard();
 		CreatEnemy();
@@ -94,6 +93,7 @@ public class Battle : UIBase {
 	public void StartBattle () {
 		ResetClick();
 		Attack();
+		battleCard.StartBattle (false);
 	}
 
 	void ChangeCard(object data) {
@@ -109,10 +109,12 @@ public class Battle : UIBase {
 			for (int i = 0; i < battleCardPool.CardPosition.Length; i++) {
 				battleCard.ChangeSpriteCard(ccc.sourceType,ccc.targetType,i);
 			}
+			battleCard.RefreshLine();
 		}
 	}
 
 	void EnemyAttckEnd (object data) {
+		battleCard.StartBattle (true);
 		SwitchInput(false);
 		ShieldInput (true);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
@@ -164,8 +166,9 @@ public class Battle : UIBase {
 
 	void GenerateShowCard() {
 		for (int i = 0; i < battleCardPool.CardPosition.Length; i++) {
-			battleCard.GenerateSpriteCard(GenerateCardIndex(),i);
+			battleCard.GenerateSpriteCard(GenerateCardIndex(), i);
 		}
+		battleCard.RefreshLine ();
 	}
 
 	void CreatArea() {
@@ -293,6 +296,7 @@ public class Battle : UIBase {
 					for(int i = 0;i < generateCount;i++) {
 						battleCard.GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
 					}
+					battleCard.RefreshLine();
 				}
 			}
 			ResetClick();

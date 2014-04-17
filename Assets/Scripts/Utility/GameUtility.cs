@@ -198,6 +198,37 @@ public class DGTools {
 		return true;
 	}
 
+	public static int NeedOneTriggerSkill (List<uint> cardList, List<uint> skillList) {
+		int sCount = skillList.Count;
+		int cCount = cardList.Count;
+
+		if (sCount > cCount && (sCount - cCount) > 2) { //card count not match
+			return -1;	
+		}
+
+		List<uint> tempCard = new List<uint> (cardList);
+		List<uint> tempSkillList = new List<uint> (skillList);
+
+		for (int i = 0; i < cCount; i++) {
+			uint t = tempCard[i];
+//			if(sCount == 5 && cCount == 4 && tempSkillList[0] != 7) {
+//				Debug.LogError(t + " skillList : " + skillList[0]);
+//			}
+			if(tempSkillList.Contains(t)) {
+				tempSkillList.Remove(t);
+			}
+		}
+//		if (sCount == 5 && cCount == 4) {
+//			Debug.LogError(cardList.Count + "     tempSkillList.Count :      " + tempSkillList.Count + "     skillList :    " + sCount);	
+//		}
+
+		if (tempSkillList.Count == 1) {
+			return (int)tempSkillList [0];
+		} else {
+			return -1;
+		}
+	}
+
 	public static bool IsFirstBoost<T>(IList<T> first, IList<T> second) {
 		if (first.Count < second.Count) {
 			return true;

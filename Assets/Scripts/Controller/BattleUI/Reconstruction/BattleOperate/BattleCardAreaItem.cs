@@ -89,17 +89,17 @@ public class BattleCardAreaItem : UIBaseUnity {
 			DisposeTweenPosition(ci);
 			DisposeTweenScale(ci);
 			ci.ActorSprite.depth = GetDepth(cardItemList.Count);
-//			Debug.LogError("source[i] : " + source[i] + "  source[i].canAttack : " +  source[i].canAttack);
 			ci.SetTexture(source[i].itemID, source[i].canAttack);
 			cardItemList.Add(ci);
 			GenerateFightCardImmelity(source[i].itemID);
-
 			haveCard.Add(source[i].itemID);
 		}
 
 		if (cardItemList.Count == Config.cardCollectionCount) {
 			cardList[5].enabled = true;
 		}
+
+//		MsgCenter.Instance.Invoke (CommandEnum.RefreshLine);
 		return maxLimit;
 	}
 

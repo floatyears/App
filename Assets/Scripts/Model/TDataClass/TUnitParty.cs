@@ -178,16 +178,20 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		if (csu.haveCard.Count == 5) {
 			return false;	
 		}
-		List<int> needCardList = new List<int> ();
+
 		if (crh.RecoverHPNeedCard (csu) == index) {
 			return true;	
 		}
-//		foreach (var item in UserUnit) {
-//			if(item.Value == null) {
-//				LogHelper.Log("skip empty partyItem:"+item.Key);
-//				continue;
-//			}
-//		}
+
+		foreach (var item in UserUnit) {
+			if(item.Value == null) {
+				LogHelper.Log("skip empty partyItem:"+item.Key);
+				continue;
+			}
+			if(item.Value.CaculateNeedCard(csu) == index) {
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -205,7 +209,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 
 		//===== calculate fix recover hp.
 //		AttackInfo recoverHp = crh.RecoverHP(skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
-		AttackInfo recoverHp = crh.RecoverHP(skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
+		AttackInfo recoverHp = crh.RecoverHP(skillUtility, blood);
 		if (recoverHp != null) {
 			recoverHp.UserUnitID = UserUnit[0].MakeUserUnitKey();
 			recoverHp.UserPos = 0; // 0 == self leder position
@@ -217,13 +221,12 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 				LogHelper.Log("skip empty partyItem:"+item.Key);
 				continue;
 			}
-			tempAttack.AddRange(item.Value.CaculateAttack(skillUtility.haveCard, skillUtility.alreadyUseSkill));
+			tempAttack.AddRange(item.Value.CaculateAttack(skillUtility));
 			if (tempAttack.Count > 0) {
 				for (int j = 0; j < tempAttack.Count; j++) {
 					AttackInfo ai = tempAttack[j];
 					ai.UserPos = item.Key;
 					areaItemAttackInfo.Add(ai);
-
 					tempAttackType.Add(ai);
 				}     
 			}

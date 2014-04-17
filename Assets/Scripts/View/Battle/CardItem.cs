@@ -11,14 +11,13 @@ public class CardItem : UIBaseUnity
 
 	private UISprite actorTexture;
 
-	public UISprite ActorTexture
-	{
+	public UISprite ActorTexture {
 		get{return actorTexture;}
 	}
 
 	private UISprite linkLineSprite;
 
-	private Queue<Transform> linkLineSpriteCache = new Queue<Transform> ();
+//	private Queue<Transform> linkLineSpriteCache = new Queue<Transform> ();
 	private List<UISprite> linkLineSpriteList = new List<UISprite> ();
 
 	private List<Transform> target = new List<Transform> ();
@@ -32,9 +31,8 @@ public class CardItem : UIBaseUnity
 	{
 		get{return tweenPosition;}
 	}
-
-	private UIButtonScale anim;
 	
+
 	private TweenScaleExtend tse;
 
 	public TweenScaleExtend TweenSE
@@ -101,29 +99,21 @@ public class CardItem : UIBaseUnity
 		tweenPosition.eventReceiver = gameObject;
 		tweenPosition.callWhenFinished = "TweenPositionCallback";
 		initPosition = actorTexture.transform.localPosition;
-		anim = GetComponent<UIButtonScale>();
 		initDepth = actorTexture.depth;
 		CanDrag = true;
 	}
 
-	public override void ShowUI ()
-	{
+	public override void ShowUI () {
 		if(!actorTexture.enabled)
 			actorTexture.enabled = true;
 		if (itemID != -1) {
 			actorTexture.spriteName = itemID.ToString();
 		}
-		//actorTexture.transform.localPosition = initActorPosition;
-
 		base.ShowUI ();
 	}
 
-	public override void HideUI ()
-	{
-		//actorTexture.mainTexture = null;
+	public override void HideUI () {
 		actorTexture.spriteName = "";
-
-//		actorTexture.transform.localPosition = hideActorPosition;
 		base.HideUI ();
 	}
 
@@ -132,18 +122,12 @@ public class CardItem : UIBaseUnity
 	}
 
 	public void SetSprite(int index,bool canAttack) {
-
-		CalculateAngel = false;
-		target.Clear ();
-		foreach (var item in linkLineSpriteList) {
-			item.gameObject.SetActive(false);
-			linkLineSpriteCache.Enqueue(item.transform);
-		}
-		linkLineSpriteList.Clear ();
+		itemID = index;
+		Clear ();
 
 		this.canAttack = canAttack;
-		itemID = index;
 		actorTexture.spriteName = index.ToString ();
+		linkLineSprite.spriteName = "line_0" + index;
 		if (!canAttack) {
 			actorTexture.color = NoAttackColor;	
 		}				
@@ -165,7 +149,7 @@ public class CardItem : UIBaseUnity
 	{
 		if(!canDrag)
 			return;
-		anim.OnPress(isPress);
+//		anim.OnPress(isPress);
 		if(isPress)
 		{	
 			SetPosition(sortID);
@@ -176,8 +160,7 @@ public class CardItem : UIBaseUnity
 		}
 	}
 
-	public void Reset()
-	{
+	public void Reset() {
 		actorTexture.transform.localPosition = initPosition;
 	}
 
@@ -252,56 +235,76 @@ public class CardItem : UIBaseUnity
 		transform.localPosition  = new Vector3(pos.x,pos.y,transform.localPosition.z) + offset ;
 	}
 	
-	public void SetPos (Vector3 to)
-	{
+	public void SetPos (Vector3 to) {
 		transform.localPosition = to;
-
 		initPosition = to;
 	}
 
+	public void StartBattle(bool b) {
+//		CalculateAngel = b;
+//		foreach (var item in linkLineSpriteList) {
+//			item.enabled = b;
+//		}
+	}
+	
 	public void SetTargetLine(List<Transform> target) {
 		this.target = target;
-//		CalculateAngel = target.Count > 0 ? true : false;
+		CalculateAngel = target.Count > 0 ? true : false;
 		if (target.Count == 0) {
+			Clear();
 			return;	
 		}
 		foreach (var item in target) {
 			Transform trans ;
-			if(linkLineSpriteCache.Count == 0) {
-				trans = NGUITools.AddChild(gameObject, linkLineSprite.gameObject).transform;
-//			.enabled = true;
-			}else{
-				trans = linkLineSpriteCache.Dequeue();
-			}
-			UISprite sprite = 	trans.GetComponent<UISprite>();
+			trans = NGUITools.AddChild(gameObject, linkLineSprite.gameObject).transform;
+			UISprite sprite = trans.GetComponent<UISprite>();
 			sprite.enabled = true;
 			linkLineSpriteList.Add(sprite);
 		}
+
+		Rotate ();
 	}
+
+	void Clear () {
+		CalculateAngel = false;
+		target.Clear ();
+		foreach (var item in linkLineSpriteList) {
+			Destroy(item.gameObject);
+		}
+		linkLineSpriteList.Clear ();
+	}
+
 	bool CalculateAngel = false;
 	Quaternion qa = new Quaternion();
-	void LateUpdate () {
-		if (CalculateAngel) {
-			for (int i = 0; i < target.Count; i++) {
-				Vector3 targetPosition = target[i].localPosition;
+	private Vector3 prevPosition;
 
-				Transform trans = linkLineSpriteList[i].transform;
-				Vector3 localposition = trans.parent.localPosition;
-				Vector3 forward = targetPosition - localposition;
-				float yAngel = CalculateAngle(trans.right, forward);
-				Vector3 angle = new Vector3(trans.eulerAngles.x, 0f, yAngel);
-				trans.eulerAngles = angle;
-				int distance = (int)Vector3.Distance(localposition, targetPosition);
-				linkLineSpriteList[i].width = distance;
-			}
+	void Update () {
+		Vector3 position = transform.localPosition;
+		if (CalculateAngel && Vector3.Distance (prevPosition, position) > 0.01f) {
+			Rotate();
 		}
 	}
 
-	float CalculateAngle(Vector3 x, Vector3 y) {
+	void Rotate() {
+		for (int i = 0; i < target.Count; i++) {
+			Vector3 targetPosition = target[i].localPosition;
+			Transform trans = linkLineSpriteList[i].transform;
+			Vector3 localposition = transform.localPosition;
+			Vector3 forward = targetPosition - localposition;
+			float angle = CalculateAngle(localposition, targetPosition, forward);
+			trans.eulerAngles = new Vector3(0f,0f,angle);
+			int distance = (int)forward.magnitude;
+			linkLineSpriteList[i].height = distance;
+		}
+		prevPosition = transform.localPosition;
+	}
 
-		float angle = Vector3.Angle (x, y);
-		if (x.y > y.y) {
-			angle += 180f;
+	float CalculateAngle(Vector3 x, Vector3 y, Vector3 direction) {
+		Vector3 direcX = transform.up;
+
+		float angle = Vector3.Angle (direcX, direction);
+		if (x.x < y.x) {
+			angle = 360 - angle;
 		}
 					
 		return angle;

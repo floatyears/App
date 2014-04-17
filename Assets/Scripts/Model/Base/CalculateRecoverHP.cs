@@ -35,15 +35,16 @@ public class CalculateRecoverHP {
 		return ai;
 	}
 
-	public AttackInfo RecoverHP (List<uint> card, List<TNormalSkill> ignorSkillID,int blood) {
+	public AttackInfo RecoverHP (CalculateSkillUtility csu, int blood) {
 		AttackInfo ai = null;
-		List<uint> copyCard = new List<uint> (card);
+		List<uint> copyCard = new List<uint> (csu.haveCard);
 		for (int i = 0; i < recoverHPSkill.Length; i++) {
 			TNormalSkill tns = recoverHPSkill[i];
-			tns.DisposeUseSkillID(ignorSkillID);
+			tns.DisposeUseSkillID(csu.alreadyUseSkill);
 			int count = tns.CalculateCard(copyCard);
 			if(count > 0){
-				ignorSkillID.Add(tns);
+				csu.alreadyUseSkill.Add(tns);
+				csu.ResidualCard();
 				ai = new AttackInfo ();
 				tns.GetSkillInfo(ai);
 				ai.AttackValue = tns.GetRecoverHP(blood);
@@ -59,7 +60,16 @@ public class CalculateRecoverHP {
 
 	public int RecoverHPNeedCard (CalculateSkillUtility csu) {
 		if (csu.haveCard.Count < 5) {
-			return (int)recoverHPSkill [0].Blocks [0];	
+			int index = -1;
+			foreach (var item in recoverHPSkill) {
+				index = DGTools.NeedOneTriggerSkill(csu.haveCard, item.Blocks);
+
+				if(index != -1) {
+					break;
+				}
+			}
+			return index;
+
 		} else {
 			return -1;	
 		}

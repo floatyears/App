@@ -67,39 +67,16 @@ public class BattleCard : UIBaseUnity {
 		templateItemCard.gameObject.SetActive(false);
 		cardInterv = Mathf.Abs(cardPosition[1].x - cardPosition[0].x);
 	}
-
-	/// <summary>
-	/// old 
-	/// </summary>
-	/// <param name="sourceType">Source type.</param>
-	/// <param name="TargetType">Target type.</param>
-	/// <param name="locaitonID">Locaiton I.</param>
-	public void ChangeCard(int sourceType, int TargetType, int locaitonID) {
-		if (cardItemArray [locaitonID].itemID == sourceType) {
-			Texture2D tex = LoadAsset.Instance.LoadAssetFromResources(TargetType) as Texture2D;
-//			cardItemArray[locaitonID].SetTexture(tex,TargetType);
-		}
-	}
-
 	
-	/// <summary>
-	/// old
-	/// </summary>
-	/// <param name="itemID">Item I.</param>
-	/// <param name="locationID">Location I.</param>
-	public void GenerateCard(int itemID,int locationID) {
-		Texture2D tex = LoadAsset.Instance.LoadAssetFromResources(itemID) as Texture2D;
-//		cardItemArray[locationID].SetTexture(tex,itemID);
-	}
-
 	/// <summary>
 	/// new
 	/// </summary>
 	/// <param name="index">Index.</param>
 	/// <param name="locationID">Location I.</param>
 	public void ChangeSpriteCard(int source, int index, int locationID) {
-		if (cardItemArray [locationID].itemID == source) {
-			cardItemArray [locationID].SetSprite (index,CheckGenerationAttack (index));
+		CardItem ci = cardItemArray [locationID];
+		if (ci.itemID == source) {
+			ci.SetSprite (index,CheckGenerationAttack (index));
 		}
 	}
 	
@@ -111,10 +88,17 @@ public class BattleCard : UIBaseUnity {
 	public void GenerateSpriteCard(int index,int locationID) {
 		CardItem ci = cardItemArray [locationID];
 		ci.SetSprite (index, CheckGenerationAttack (index));
-		GenerateLinkSprite (ci, index);
+	}
+
+	public void RefreshLine() {
+//		Debug.LogError ("RefreshLine ");
+		foreach (var item in cardItemArray) {
+			GenerateLinkSprite (item, item.itemID);
+		}
 	}
 
 	void GenerateLinkSprite(CardItem ci,int index) {
+	
 		if (battleUseData == null) {
 			battleUseData = BattleQuest.bud;
 		}
@@ -129,6 +113,15 @@ public class BattleCard : UIBaseUnity {
 		ci.SetTargetLine (trans);
 	}
 
+	/// <summary>
+	/// t
+	/// </summary>
+	/// <param name="b">If set to <c>true</c> b.</param>
+	public void StartBattle(bool b) {
+		foreach (var item in cardItemArray) {
+			item.StartBattle(false);
+		}
+	}
 
 //	void CheckNeedSprite(List<int> haveSprite) {
 //

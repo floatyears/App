@@ -417,7 +417,6 @@ public class AttackController {
 	void Fail () {
 		battleFail = true;
 		BattleEnd();
-//		msgCenter.Invoke(CommandEnum.PlayerDead, null);
 		return;
 	}
 

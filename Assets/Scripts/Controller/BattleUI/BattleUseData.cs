@@ -48,7 +48,7 @@ public class BattleUseData {
         get { return currentCoor; }
     }
 
-    private static float countDown = 5f;
+    private static float countDown = 100f;
     public static float CountDown {
         get { return countDown; }
     }
