@@ -3,7 +3,9 @@ using System.Collections;
 
 public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	
-	public SceneInfoComponent(string uiName):base(uiName) {}
+	public SceneInfoComponent(string uiName):base(uiName) {
+        MsgCenter.Instance.AddListener(CommandEnum.BackSceneEnable, BackSceneEnable);
+    }
 	
 	public override void CreatUI () {
 		base.CreatUI ();
@@ -49,4 +51,9 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 			}
 		}
 	}
+
+    public void BackSceneEnable(object args){
+        IUISetBool sb = viewComponent as IUISetBool;
+        sb.SetEnable((bool)args);
+    }
 }

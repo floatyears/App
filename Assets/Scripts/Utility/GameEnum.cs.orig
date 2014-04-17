@@ -59,7 +59,6 @@ public enum SceneEnum
 	SelectRole,
 
 	Result
-
 }
 
 public enum CommandEnum{
@@ -236,10 +235,14 @@ public enum CommandEnum{
     LevelUpSucceed,
     StartFirstLogin,
     FocusLevelUpPanel,
+<<<<<<< HEAD
 	LeaderSkillEnd,
 	ShowHands,
 	ActiveSkillStandReady,
-	CloseMsgWindow,
+=======
+    CloseMsgWindow,
+
+>>>>>>> b1f19c38a9888cf97dab95346f7265c875e8a7f0
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,
@@ -403,3 +406,10 @@ public enum UnitAssetType{
 	Avatar 	= 0,
 	Profile	= 1,
 }
+
+public enum EnemyAttackEnum {
+	None,
+	FirstAttack,
+	BackAttack,
+}
+
