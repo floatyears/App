@@ -11,34 +11,38 @@ public class TUnitCatalog {
 	void ConvertFlag( byte[] srcflag, List<byte> targetflag) {
 		targetflag.Clear();
 		for(int i=0; i < srcflag.Length; i++){
-			Debug.LogError("b['"+i+"']: "+srcflag[i]);
+//			Debug.LogError("b['"+i+"']: "+srcflag[i]);
 			
 			for (int b=0; b<8; b++){
 				byte value = (byte)( (srcflag[i] >> b) & 1 );
-				Debug.LogError("   add bit:"+value);
+//				if( srcflag[i] != 0)
+//					Debug.LogError("   add bit:"+value);
 				targetflag.Add(value);
 			}
 		}
+//		Debug.LogError("   total targetflag.count: "+targetflag.Count);
 	}
 	
 	//constructor
 	public TUnitCatalog(byte[] meetflag, byte[]haveflag) {
+		this.meetFlag = new List<byte>();
+		this.haveFlag = new List<byte>();
 		ConvertFlag(meetflag, this.meetFlag);
 		ConvertFlag(haveflag, this.haveFlag);
 	}
 
 	//
 	public bool IsMeetNotHaveUnit(uint unitId) {
-		return ( unitId >= meetFlag.Count ) ? false : (meetFlag[(int)unitId-1]==1);
+		return ( unitId-1 >= meetFlag.Count ) ? false : (meetFlag[(int)unitId-1]==1);
 	}
 
 	public bool IsHaveUnit(uint unitId) {
-		return ( unitId >= haveFlag.Count ) ? false : (haveFlag[(int)unitId-1]==1);
+		return ( unitId-1 >= haveFlag.Count ) ? false : (haveFlag[(int)unitId-1]==1);
 	}
 
 
 	public void AddHaveUnit(uint unitId) {
-		while( unitId >= haveFlag.Count ) {
+		while( unitId-1 >= haveFlag.Count ) {
 			haveFlag.Add(0);
 		}
 
@@ -46,7 +50,7 @@ public class TUnitCatalog {
 	}
 
 	public void AddMeetNotHaveUnit(uint unitId) {
-		while( unitId >= meetFlag.Count ) {
+		while( unitId-1 >= meetFlag.Count ) {
 			meetFlag.Add(0);
 		}
 		
