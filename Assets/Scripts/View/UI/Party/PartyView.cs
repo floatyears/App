@@ -36,6 +36,7 @@ public class PartyView : UIComponentUnity{
 		RefreshParty(curParty);
 		RefreshDragPanel();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
+		RefreshItemCounter();
 		ShowUIAnimation();
 	}
 
@@ -506,6 +507,14 @@ public class PartyView : UIComponentUnity{
 		bottomRoot.transform.localPosition = 1000 * Vector3.left;
 		iTween.MoveTo(topRoot, iTween.Hash("y", 0, "time", 0.4f));
 		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f));
+	}
+
+	private void RefreshItemCounter(){
+		Dictionary<string, object> countArgs = new Dictionary<string, object>();
+		countArgs.Add("title", TextCenter.Instace.GetCurrentText("UnitCounterTitle"));
+		countArgs.Add("current", DataCenter.Instance.MyUnitList.Count);
+		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
 }

@@ -63,9 +63,6 @@ public class StartDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
-//		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-//		sceneInfoBar.SetComponent(decorator);
-
 		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
         background.SetComponent(decorator);
 		
@@ -380,16 +377,14 @@ public class UnitsDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		sceneInfoBar.SetComponent(decorator);
-
 		UnitsComponent units = CreatComponent< UnitsComponent >(UIConfig.unitsWindowName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-//		UnitPartyPage partyPage = CreatComponent<UnitPartyPage>(UIConfig.partyPagePanelName);
 
+		sceneInfoBar.SetComponent(decorator);
 		partyInfo.SetComponent(sceneInfoBar);
-//		partyPage.SetComponent(partyInfo);
 		units.SetComponent(partyInfo);
 		lastDecorator = units;
+
 		lastDecorator.CreatUI();
 	}
 }
@@ -453,17 +448,10 @@ public class FriendSelectDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 		
 		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
-
 		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-
-//		QuestPartyPage page = CreatComponent<QuestPartyPage>(UIConfig.partyPagePanelName);
-
 		FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
 
 		infoPanel.SetComponent(sceneInfoBar);
-
-//		page.SetComponent(infoPanel);
-
 		friendSelect.SetComponent(infoPanel);
 
 		helperBriefInfo.SetComponent(friendSelect);
@@ -496,32 +484,26 @@ public class PartyDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		sceneInfoBar.SetComponent(decorator);
-
+//		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.PartyWindowName);
-//		UnitListForPartyLogic dragPanel = CreatComponent<UnitListForPartyLogic>(UIConfig.partyDragPanelName);
-//	
+
+		sceneInfoBar.SetComponent(decorator);
+//		counter.SetComponent(sceneInfoBar);
 		partyInfo.SetComponent(sceneInfoBar);
 		partyPage.SetComponent(partyInfo);
-//		dragPanel.SetComponent(partyPage);
-
-
-
+	
 		lastDecorator = partyPage;
-
 		lastDecorator.CreatUI();
 
 	}
 }
 
 //--------------------------------LevelUp----------------------------------------
-public class LevelUpDecorator : DecoratorBase
-{
+public class LevelUpDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public LevelUpDecorator(SceneEnum sEnum) : base(sEnum)
-	{
-		LogHelper.Log("LevelUpDecorator : ");
+	public LevelUpDecorator(SceneEnum sEnum) : base(sEnum){
+		//LogHelper.Log("LevelUpDecorator : ");
         MsgCenter.Instance.AddListener(CommandEnum.LevelUpSaveState, SetKeepState);
 	}
 	
@@ -651,8 +633,10 @@ public class CatalogDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+		counter.SetComponent(sceneInfoBar);
 		CatalogController catalog = CreatComponent< CatalogController >(UIConfig.catalogWindowName);
-		catalog.SetComponent(sceneInfoBar);
+		catalog.SetComponent(counter);
 	
 		lastDecorator = catalog;
 		lastDecorator.CreatUI();

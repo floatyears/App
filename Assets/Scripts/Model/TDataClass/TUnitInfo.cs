@@ -195,7 +195,7 @@ public class TUnitInfo : ProtobufDataBase {
 
 	private Texture2D avatarTexture;
 	private Texture2D profileTexture;
-	
+
 	public Texture2D GetAsset(UnitAssetType uat) {
 		string path = string.Empty;
 
@@ -215,14 +215,8 @@ public class TUnitInfo : ProtobufDataBase {
 			return profileTexture;
 		}
 	}
-	
-	public void Send () {
-	}
-	
-	public void Receive (IWWWPost post) {
-		
-	}
 
-	public void SerialToFile () {
-	}
+	public void Send () {}
+	public void Receive (IWWWPost post) {}
+	public void SerialToFile () {}
 }

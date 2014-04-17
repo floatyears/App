@@ -65,7 +65,7 @@ public class SortUnitTool{
 				DGTools.InsertSort(targetList, new TFriendUnitSortAddPoint());
 				break;
 			case SortRule.Attack : 
-				DGTools.InsertSort(targetList, new TFriendUnitSortAtk());
+				DGTools.InsertSort(targetList, new TFriendUnitSortAtk(), false);
 				break;
 			case SortRule.Attribute : 
 				DGTools.InsertSort(targetList, new TFriendUnitSortAttribute());
@@ -74,7 +74,7 @@ public class SortUnitTool{
 				DGTools.InsertSort(targetList, new TFriendUnitSortGetTime());
 				break;
 			case SortRule.HP : 
-				DGTools.InsertSort(targetList, new TFriendUnitSortHP());
+				DGTools.InsertSort(targetList, new TFriendUnitSortHP(), false);
 				break;
 			case SortRule.ID : 
 				DGTools.InsertSort(targetList, new TFriendUnitSortID(), false);

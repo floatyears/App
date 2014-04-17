@@ -2,49 +2,12 @@ using UnityEngine;
 using System.Collections;
 
 public class CatalogUnitItem : BaseUnitItem {
-	protected UISprite lightSpr;
-	protected UILabel partyLabel;
-	protected UISprite collectedSpr;
-
-	protected bool isParty;
-	public bool IsParty{
-		get{
-			return isParty;
-		}
-		set{
-			isParty = value;
-			UpdatePartyState();
-		}
-	}
-
-	private bool isCollected;
-	public bool IsCollected{
-		get{
-			return isCollected;
-		}
-		set{
-			isCollected = value;
-			UpdateCollectState();
-		}
-	}
-
-	private bool isFocus;
-	public bool IsFocus{
-		get{
-			return isFocus;
-		}
-		set{
-			if(isFocus == value) return;
-			isFocus = value;
-			UpdateFocus();
-		}
-	}
-
+	protected UISprite avatarSpr;
     private static GameObject itemPrefab;
 	public static GameObject ItemPrefab {
 		get {
 			if(itemPrefab == null) {
-				itemPrefab = Resources.Load("Prefabs/UI/UnitItem/MyUnitPrefab") as GameObject ;
+				itemPrefab = Resources.Load("Prefabs/UI/UnitItem/CatalogUnitPrefab") as GameObject ;
 			}
 			return itemPrefab;
 		}
@@ -57,30 +20,16 @@ public class CatalogUnitItem : BaseUnitItem {
 	}
 
 	protected override void InitUI(){
-		base.InitUI();
-		lightSpr = transform.FindChild("Sprite_Light").GetComponent<UISprite>();
-		collectedSpr = transform.FindChild("Sprite_Collect").GetComponent<UISprite>();
-		partyLabel = transform.FindChild("Label_Party").GetComponent<UILabel>();
-		partyLabel.enabled = false;
-		partyLabel.text = "Party";
-		partyLabel.color = Color.red;
+//		base.InitUI();
+		avatarSpr = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
+		avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(UserUnit.UnitID);
+		avatarSpr.spriteName = UserUnit.UnitID.ToString();
 	}
 
 	protected override void InitState(){
-		base.InitState();
-		IsCollected = false;
-		IsParty = false;
+//		base.InitState();
 	}
-
-
+	
 	protected override void ClickItem(GameObject item){}
-
-	protected virtual void UpdatePartyState(){}
-
-	private void UpdateCollectState(){
-		collectedSpr.enabled = isCollected;
-	}
-
-	protected virtual void UpdateFocus(){}
 
 }

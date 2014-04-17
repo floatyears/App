@@ -26,6 +26,7 @@ public partial class TextCenter {
 		textDict.Add("ApplyCounterTitle", "Apply :");
 		textDict.Add("ReceptionCounterTitle", "Recept :");
 		textDict.Add("UnitCounterTitle", "Units :");
+		textDict.Add("CatalogCounterTitle", "Got :");
 
 
 		textDict.Add("CounterCurrent",  "{0}");
