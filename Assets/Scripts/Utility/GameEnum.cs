@@ -161,7 +161,7 @@ public enum CommandEnum{
 	EnterBattle,
 	LeftBattle,
 	QuestEnd,
-//	RefreshLine,
+	TargetEnemy,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -402,4 +402,10 @@ public enum SkillType {
 public enum UnitAssetType{
 	Avatar 	= 0,
 	Profile	= 1,
+}
+
+public enum EnemyAttackEnum{
+	None,
+	FirstAttack,
+	BackAttack,
 }

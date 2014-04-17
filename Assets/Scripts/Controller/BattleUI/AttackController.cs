@@ -8,8 +8,9 @@ public class AttackController {
 
 	private MsgCenter msgCenter;
 	private BattleUseData bud;
-	private List<AttackInfo> attackInfo = new List<AttackInfo>();
+	private Queue<AttackInfo> attackInfoQueue = new Queue<AttackInfo> ();
 	public List<TEnemyInfo> enemyInfo = new List<TEnemyInfo>();
+	private TEnemyInfo targetEnemy;
 	private TUnitParty upi;
 	private float countDownTime = 0f;
 	private TQuestGrid grid;
@@ -50,6 +51,7 @@ public class AttackController {
 		msgCenter.AddListener (CommandEnum.SkillGravity, Gravity);
 		msgCenter.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
 		msgCenter.AddListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
+		msgCenter.AddListener (CommandEnum.TargetEnemy, TargetEnemy);
 	}
 
 	void RemoveEvent () {
@@ -58,6 +60,7 @@ public class AttackController {
 		msgCenter.RemoveListener (CommandEnum.SkillGravity, Gravity);
 		msgCenter.RemoveListener (CommandEnum.ReduceDefense, ReduceDefense);
 		msgCenter.RemoveListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
+		msgCenter.RemoveListener (CommandEnum.TargetEnemy, TargetEnemy);
 	}
 
 	void DrawHP(object data) {
@@ -79,6 +82,7 @@ public class AttackController {
 	}
 
 	TClass<string,int,float> reduceInfo = null;
+
 	void ReduceDefense(object data) {
 		reduceInfo = data as TClass<string,int,float>;
 		if (reduceInfo == null) {
@@ -135,7 +139,11 @@ public class AttackController {
 	public void StartAttack (List<AttackInfo> attack) {
 		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
-		attackInfo = attack;
+		MultipleAttack (attack);
+//		attackInfo = attack;
+		foreach (var item in attack) {
+			attackInfoQueue.Enqueue(item);
+		}
 		Attack ();
 	}
 	
@@ -165,7 +173,7 @@ public class AttackController {
 	}
 
 	bool CheckAttackInfo () {
-		if (attackInfo == null || attackInfo.Count == 0) {
+		if (attackInfoQueue == null || attackInfoQueue.Count == 0) {
 			return false;		
 		}
 		else {
@@ -193,7 +201,7 @@ public class AttackController {
 		GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
 	}
 	
-	void MultipleAttack () {
+	void MultipleAttack (List<AttackInfo> attackInfo) {
 		float multipe = leaderSkillMultiple.MultipleAttack (attackInfo);
 		if (multipe > 1.0f) {
 			for (int i = 0; i < attackInfo.Count; i++) {
@@ -203,23 +211,20 @@ public class AttackController {
 	}
 
 	void AttackEnemy () {
-		if (attackInfo.Count == 0) {
+		if (attackInfoQueue.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
-//			bud.RecoverHP(blood);
 			bud.Blood += blood;
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, null);
 			if (!CheckTempEnemy ()) {
 				return;
 			}
-			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [1]);
+
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
 		CheckEnemyDead();
 		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
-		MultipleAttack ();
-		AttackInfo ai = attackInfo [0];
-		attackInfo.RemoveAt (0);
+		AttackInfo ai = attackInfoQueue.Dequeue();
 		BeginAttack (ai);
 		Attack ();
 	}
@@ -255,19 +260,28 @@ public class AttackController {
 
 	bool CheckTempEnemy() {
 		for (int i = 0; i < deadEnemy.Count; i++) {
-			deadEnemy[i].IsDead = true;
-			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, deadEnemy[i]);
+			TEnemyInfo tei = deadEnemy[i];
+			tei.IsDead = true;
+			if(tei.Equals(targetEnemy)) {
+				targetEnemy = null;
+			}
+			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, tei);
 			if(grid != null) {
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 			}
 		}
 		deadEnemy.Clear ();
+
 		for (int i = enemyInfo.Count - 1; i > -1; i--) {
 			int blood = enemyInfo[i].GetBlood();
 			if(blood <= 0){
 				TEnemyInfo te = enemyInfo[i];
 				enemyInfo.Remove(te);
 				te.IsDead = true;
+				if(te.Equals(targetEnemy)) {
+					targetEnemy = null;
+				}
+
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 				if(grid != null) {
 					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
@@ -291,6 +305,11 @@ public class AttackController {
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}
 
+	void TargetEnemy(object data) {
+		targetEnemy = data as TEnemyInfo;
+		Debug.LogError ("attackcontroller target enemy : " + targetEnemy);
+	}
+
 	void DisposeRecoverHP (AttackInfo value) {
 		MsgCenter.Instance.Invoke (CommandEnum.RecoverHP, value);
 	}
@@ -300,24 +319,34 @@ public class AttackController {
 			return;	
 		}
 
-		List<TEnemyInfo> injuredEnemy = enemyInfo.FindAll (a => a.IsInjured () == true);
 		int restraintType = DGTools.RestraintType (ai.AttackType);
-		TEnemyInfo te = null;
-		if (injuredEnemy.Count > 0) {
-			DGTools.InsertSort(injuredEnemy,new EnemySortByHP(),false);
-			int index = injuredEnemy.FindIndex (a => a.GetUnitType () == restraintType);
-			te = index > - 1 ?  injuredEnemy [index] : injuredEnemy [0];
-		}
-		else {
-			int index = enemyInfo.FindIndex (a => a.GetUnitType () == restraintType);
-			te = index > - 1 ?  enemyInfo [index] : enemyInfo [0];
-		}
+		TEnemyInfo te = GetTargetEnemy (restraintType);
 		bool restraint = restraintType == te.GetUnitType ();
 		int hurtValue = te.CalculateInjured (ai, restraint);
 		ai.InjuryValue = hurtValue;
 		tempPreHurtValue = hurtValue;
 		ai.EnemyID = te.EnemySymbol;
 		AttackEnemyEnd (ai);
+	}
+
+	TEnemyInfo GetTargetEnemy(int restraintType) {
+		TEnemyInfo te;
+		if (targetEnemy != null) {
+			te = targetEnemy;
+		} else {
+			List<TEnemyInfo> injuredEnemy = enemyInfo.FindAll (a => a.IsInjured () == true);
+			if (injuredEnemy.Count > 0) {
+				DGTools.InsertSort(injuredEnemy,new EnemySortByHP(),false);
+				int index = injuredEnemy.FindIndex (a => a.GetUnitType () == restraintType);
+				te = index > - 1 ?  injuredEnemy [index] : injuredEnemy [0];
+			}
+			else {
+				int index = enemyInfo.FindIndex (a => a.GetUnitType () == restraintType);
+				te = index > - 1 ?  enemyInfo [index] : enemyInfo [0];
+			}
+		}
+
+		return te;
 	}
 
 	void DisposeAttackAll (AttackInfo ai) {
@@ -349,6 +378,7 @@ public class AttackController {
 
 	public void AttackPlayer () {
 		if (CheckTempEnemy ()) {
+//			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			LoopEnemyAttack ();	
 		}
 	}
@@ -359,10 +389,15 @@ public class AttackController {
 		countDownTime = 0.5f;
 		te = enemyInfo [enemyIndex];
 		te.Next ();
+//		Debug.Log ("LoopEnemyAttack enemyindex : " + enemyIndex + " te.Next () : " + te.GetRound () + " time : " + Time.realtimeSinceStartup );
 		GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttack);
 	}
+
 	List<AttackInfo> antiInfo = new List<AttackInfo>();
+
 	void EnemyAttack () {
+		enemyIndex ++;
+//		Debug.Log ("EnemyAttack enemyInfo.Count : " + (enemyIndex == enemyInfo.Count) + " te.GetRound () : " + te.GetRound () + " time : " + Time.realtimeSinceStartup);
 		if (te.GetRound () == 0) {
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
 			int attackType = te.GetUnitType ();
@@ -390,18 +425,13 @@ public class AttackController {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_boss_battle);
 			}
 		}
-		enemyIndex ++;
+
 		if (enemyIndex == enemyInfo.Count) {
-//			if(bud.Blood == 0) {
-//				GameTimer.GetInstance ().AddCountDown (1f, Fail);
-//			}
-//			else{
 			if(bud.Blood > 0) {
 				if (antiInfo.Count == 0) {
 					GameTimer.GetInstance ().AddCountDown (0.5f, EnemyAttackEnd);
 					return;
 				}
-				
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
 				GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
 			}
