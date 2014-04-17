@@ -1105,6 +1105,14 @@ namespace bbproto
       get { return _addDefence; }
       set { _addDefence = value; }
     }
+    private int _dropPos = default(int);
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"dropPos", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int dropPos
+    {
+      get { return _dropPos; }
+      set { _dropPos = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -3784,13 +3792,21 @@ namespace bbproto
       get { return _unitFavoriteFlag; }
       set { _unitFavoriteFlag = value; }
     }
-    private byte[] _unitCatalogFlag = null;
-    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"unitCatalogFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    private byte[] _haveUnitFlag = null;
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"haveUnitFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
-    public byte[] unitCatalogFlag
+    public byte[] haveUnitFlag
     {
-      get { return _unitCatalogFlag; }
-      set { _unitCatalogFlag = value; }
+      get { return _haveUnitFlag; }
+      set { _haveUnitFlag = value; }
+    }
+    private byte[] _meetUnitFlag = null;
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"meetUnitFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public byte[] meetUnitFlag
+    {
+      get { return _meetUnitFlag; }
+      set { _meetUnitFlag = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -4439,21 +4455,21 @@ namespace bbproto
       get { return _isNewUser; }
       set { _isNewUser = value; }
     }
-    private byte[] _unitFavoriteFlag = null;
-    [global::ProtoBuf.ProtoMember(14, IsRequired = false, Name=@"unitFavoriteFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    private byte[] _haveUnitFlag = null;
+    [global::ProtoBuf.ProtoMember(14, IsRequired = false, Name=@"haveUnitFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
-    public byte[] unitFavoriteFlag
+    public byte[] haveUnitFlag
     {
-      get { return _unitFavoriteFlag; }
-      set { _unitFavoriteFlag = value; }
+      get { return _haveUnitFlag; }
+      set { _haveUnitFlag = value; }
     }
-    private byte[] _unitCatalogFlag = null;
-    [global::ProtoBuf.ProtoMember(15, IsRequired = false, Name=@"unitCatalogFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    private byte[] _meetUnitFlag = null;
+    [global::ProtoBuf.ProtoMember(15, IsRequired = false, Name=@"meetUnitFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
-    public byte[] unitCatalogFlag
+    public byte[] meetUnitFlag
     {
-      get { return _unitCatalogFlag; }
-      set { _unitCatalogFlag = value; }
+      get { return _meetUnitFlag; }
+      set { _meetUnitFlag = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

@@ -115,6 +115,8 @@ public class LoadingLogic : ConcreteComponent {
                 DataCenter.Instance.QuestClearInfo = new TQuestClearInfo(rspAuthUser.questClear);
             }
             
+			DataCenter.Instance.CatalogInfo = new TUnitCatalog(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
+
             TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
