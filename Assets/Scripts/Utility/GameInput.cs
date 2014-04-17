@@ -55,7 +55,7 @@ public class GameInput : MonoBehaviour  {
 
 		if(OnUpdate != null)
 			OnUpdate();
-//		Debug.LogError ("GameInput : " + isCheckInput);
+//		Debug.LogError ("GameInput : " + isCheckInput + "Time : " + Time.realtimeSinceStartup);
 		if(!isCheckInput)
 			return;
 //#if UNITY_IPHONE || UNITY_ANDROID

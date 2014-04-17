@@ -567,7 +567,7 @@ public class DataCenter {
 		}
 		uint index = unitID/AVATAR_ATLAS_CAPACITY;
 		if(avatarAtalsDic[ index ] == null){
-			Debug.LogError("AvatarAtals_" + index + " is NOT Found, Please Check it....");
+			Debug.LogError("AvatarAtlas_" + index + " is NOT Found, Please Check it....");
 			return null;
 		}
 		return avatarAtalsDic[ index ];
@@ -576,10 +576,13 @@ public class DataCenter {
 	private bool LoadAvatarAtlas(){
 		bool successful = false;
 		for (uint i = 0; i < AVATAR_ATLAS_COUNT; i++){
-			string sourcePath = string.Format("Atlas/{0}/AvatarAtlas_{1}", i, i);
-			UIAtlas atals = Resources.Load(sourcePath) as UIAtlas;
-			if(atals == null) continue;
-			avatarAtalsDic.Add(i, atals);
+			string sourcePath = string.Format("Atlas/AvatarAtlas_{0}", i);
+			Debug.Log("sourcePath : " + sourcePath);
+			GameObject source = Resources.Load(sourcePath) as GameObject;
+			Debug.LogError("source name : " + source.name);
+			UIAtlas atlas = source.GetComponent<UIAtlas>();
+			if(atlas == null){Debug.LogError("atlas is null"); continue;}
+			avatarAtalsDic.Add(i, atlas);
 		}
 		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;
 		Debug.Log("DataCenter.LoadAvatarAtlas(), successful is : " + successful);

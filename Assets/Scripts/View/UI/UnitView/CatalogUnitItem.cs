@@ -31,10 +31,10 @@ public class CatalogUnitItem : MonoBehaviour {
 	private void Awake(){
 		avatarSpr = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
 		erotemeSpr = transform.FindChild("Sprite_Erotemer").GetComponent<UISprite>();
-		maskSpr = transform.FindChild("Sprite_shield").GetComponent<UISprite>();
+		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
 		translucentMaskSpr = transform.FindChild("Sprite_Translucent").GetComponent<UISprite>();
 		idLabel = transform.FindChild("Label_ID").GetComponent<UILabel>();
-		State = CatalogState.UnKnown;
+//		State = CatalogState.UnKnown;
 	}
 
 	/// <summary>
@@ -58,6 +58,7 @@ public class CatalogUnitItem : MonoBehaviour {
 			catalogUserUnit = value;
 			if(catalogUserUnit == null){
 				State = CatalogState.UnKnown;
+				Debug.LogError(string.Format("gameObject named {0} , TUserUnit is NULL...", gameObject.name));
 			}
 			else{
 				if(DataCenter.Instance.CatalogInfo.IsHaveUnit(catalogUserUnit.UnitID)){
@@ -70,8 +71,6 @@ public class CatalogUnitItem : MonoBehaviour {
 					State = CatalogState.UnKnown;
 				}
 			}
-			idLabel.text = catalogUserUnit.UnitID.ToString();
-			idLabel.color = Color.green;
 		}
 	}
 
@@ -85,7 +84,8 @@ public class CatalogUnitItem : MonoBehaviour {
 			switch (state) {
 				case CatalogState.Got : 
 					avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-					avatarSpr.name = catalogUserUnit.UnitID.ToString();
+					avatarSpr.spriteName = catalogUserUnit.UnitID.ToString();
+					Debug.LogError("avatarSpr.spriteName : " + avatarSpr.spriteName);
 					erotemeSpr.enabled = false;
 					maskSpr.enabled = false;
 					translucentMaskSpr.enabled = false;
@@ -93,7 +93,7 @@ public class CatalogUnitItem : MonoBehaviour {
 					break;
 				case CatalogState.Meet : 
 					avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-					avatarSpr.name = catalogUserUnit.UnitID.ToString();
+					avatarSpr.spriteName = catalogUserUnit.UnitID.ToString();
 					erotemeSpr.enabled = true;
 					maskSpr.enabled = false;
 					translucentMaskSpr.enabled = true;
@@ -101,7 +101,7 @@ public class CatalogUnitItem : MonoBehaviour {
 					break;
 				case CatalogState.UnKnown : 
 					avatarSpr.atlas = null;
-					avatarSpr.name = string.Empty;
+					avatarSpr.spriteName = string.Empty;
 					erotemeSpr.enabled = true;
 					maskSpr.enabled = true;
 					translucentMaskSpr.enabled = false;
@@ -109,13 +109,15 @@ public class CatalogUnitItem : MonoBehaviour {
 					break;
 				default:
 					avatarSpr.atlas = null;
-					avatarSpr.name = string.Empty;
+					avatarSpr.spriteName = string.Empty;
 					erotemeSpr.enabled = true;
 					maskSpr.enabled = true;
 					translucentMaskSpr.enabled = false;
 					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 					break;
 			}
+			idLabel.text = "ID : " + catalogUserUnit.UnitID.ToString();
+			idLabel.color = Color.green;
 		}
 	}
 	

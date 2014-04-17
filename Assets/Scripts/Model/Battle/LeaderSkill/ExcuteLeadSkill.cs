@@ -147,15 +147,14 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	/// <param name="type">Type. 0 = right now. 1 = every round. 2 = every step.</param>
 	public int RecoverHP (int blood, int type) {
 		if (leadSkill.LeadSkill.Count == 0) {
-			return blood;
+			return 0;	//recover zero hp
 		}
 
 		foreach (var item in leadSkill.LeadSkill) {
-			TSkillRecoverHP trhp = item.Value as TSkillRecoverHP;	
+			TSkillRecoverHP trhp = item.Value as TSkillRecoverHP;
 			if(trhp == null) {
 				continue;
 			}
-
 			blood = trhp.RecoverHP(blood, type);
 		}
 		return blood;

@@ -17,7 +17,7 @@ public class ResumeQuest: ProtoManager {
 	~ResumeQuest () {
 	}
 	
-	public static void SendRequest(DataListener callBack, uint questid, bool gameover=false) {
+	public static void SendRequest(DataListener callBack, uint questid) {
 
 		ResumeQuest resumeQuest = new ResumeQuest();
 

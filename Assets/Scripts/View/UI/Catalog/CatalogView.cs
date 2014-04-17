@@ -15,6 +15,7 @@ public class CatalogView : UIComponentUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		RefreshItemCounter();
+		RefreshCatalogView();
 	}
 	
 	public override void HideUI () {
@@ -39,7 +40,7 @@ public class CatalogView : UIComponentUnity {
 	private void RefreshItemCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		countArgs.Add("title", TextCenter.Instace.GetCurrentText("CatalogCounterTitle"));
-		countArgs.Add("current", dragPanel.ScrollItem.Count);
+		countArgs.Add("current", GetCurGotUnitCount());
 		countArgs.Add("max", TOTAL_CATALOG_COUNT);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
@@ -50,9 +51,19 @@ public class CatalogView : UIComponentUnity {
 		return totalUnitCount;
 	}
 
+	private int GetCurGotUnitCount(){
+		int gotCount = 0;
+		for (int i = 1; i <= TOTAL_CATALOG_COUNT; i++){
+			if(DataCenter.Instance.CatalogInfo.IsHaveUnit((uint)i)){
+				gotCount ++;
+			}
+		}
+		return gotCount;
+	}
+
 	private void RefreshCatalogView(){
-		for (int i = 0; i < TOTAL_CATALOG_COUNT; i++){
-			catalogUnitItemList[ i ].Refresh( i );
+		for (int i = 1; i <= TOTAL_CATALOG_COUNT; i++){
+			catalogUnitItemList[ i - 1 ].Refresh( i );
 		}
 	}
 

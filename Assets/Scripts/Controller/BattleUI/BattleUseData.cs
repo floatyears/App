@@ -4,11 +4,29 @@ using System.Collections.Generic;
 public class BattleUseData {
 	private BattleQuest battleQuest;
     private ErrorMsg errorMsg;
-    private TUnitParty upi;
-    private int maxBlood = 0;
-    private static int blood = 0;
-    public static int Blood {
-		set { blood = value; }
+    public TUnitParty upi;
+    public int maxBlood = 0;
+    private int blood = 0;
+    public int Blood {
+		set {
+
+			if(value < 0) {
+				if(blood == 0) 
+					return;
+
+				blood = 0;
+			}else if(value > maxBlood) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
+				blood = maxBlood;
+			}
+			else{
+				if(value > blood) {
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
+				}
+				blood = value;
+			}
+			RefreshBlood();
+		}
         get { return blood; }
     }
     private int recoverHP = 0;
@@ -30,7 +48,7 @@ public class BattleUseData {
         get { return currentCoor; }
     }
 
-    private static float countDown = 5f;
+    private static float countDown = 100f;
     public static float CountDown {
         get { return countDown; }
     }
@@ -121,8 +139,13 @@ public class BattleUseData {
         float value = (float)data;
         int hurtValue = System.Convert.ToInt32(value);
         Blood -= hurtValue;
-        RefreshBlood();
     }
+
+	public void PlayerDead() {
+		if (blood <= 0) {
+			MsgCenter.Instance.Invoke(CommandEnum.PlayerDead);
+		}
+	}
 
     void InjuredNotDead(object data) {
         float probability = (float)data;
@@ -131,7 +154,7 @@ public class BattleUseData {
 			residualBlood = 1;	
         }
         Blood = System.Convert.ToInt32(residualBlood);
-        RefreshBlood();
+//        RefreshBlood();
     }
 
     void RecoveHPByActiveSkill(object data) {
@@ -156,7 +179,7 @@ public class BattleUseData {
 
     void Sucide(object data) {
         Blood = 1;
-        RefreshBlood();
+//        RefreshBlood();
     }
 
     List<AttackInfo> SortAttackSequence() {
@@ -198,18 +221,15 @@ public class BattleUseData {
 
     void RecoverHP(object data) {
         AttackInfo ai = data as AttackInfo;
-        float tempBlood = ai.AttackValue;
-        int addBlood = System.Convert.ToInt32(tempBlood) + blood;
-        RecoverHP(addBlood);
+		Blood += System.Convert.ToInt32 (ai.AttackValue);
     }
 
-    public void RecoverHP(int recoverBlood) {
-        if (blood < recoverBlood) {
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
-            Blood = recoverBlood > maxBlood ? maxBlood : recoverBlood;
-            RefreshBlood();
-        }
-    }
+//    public void RecoverHP(int recoverBlood) {
+//        if (blood < recoverBlood) {
+//			AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
+//            Blood = recoverBlood > maxBlood ? maxBlood : recoverBlood;
+//        }
+//    }
 
     public void InitEnemyInfo(TQuestGrid grid) {
         ac.Grid = grid;
@@ -268,8 +288,9 @@ public class BattleUseData {
             return;
         }
         MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillCooling, null);	// refresh active skill cooling.
-        int addBlood = skillRecoverHP.RecoverHP(blood, 2);	//3: every step.
-        RecoverHP(addBlood);
+        int addBlood = skillRecoverHP.RecoverHP(maxBlood, 2);	//3: every step.
+//        RecoverHP(addBlood);
+		Blood += addBlood;
         ConsumeEnergyPoint();
     }
 
@@ -277,11 +298,9 @@ public class BattleUseData {
 
     void ConsumeEnergyPoint() {
         if (maxEnergyPoint == 0) {
-            Blood -= ReductionBloodByProportion(0.2f);
-			if (Blood < 1) {
-				Blood = 1;
-            }
-            RefreshBlood();
+			int temp = Blood;
+			temp -= ReductionBloodByProportion(0.2f);
+			Blood = temp < 1 ? 1 : temp;
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk_hurt);
         }
         else {
@@ -302,11 +321,11 @@ public class BattleUseData {
 
     public void Hurt(int hurtValue) {
 		Blood -= hurtValue;
-        RefreshBlood();
     }
 
     public void RefreshBlood() {
         MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
+		PlayerDead ();
     }
 			
     int ReductionBloodByProportion(float proportion) {
