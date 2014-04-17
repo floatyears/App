@@ -99,7 +99,6 @@ public class BattleEnemy : UIBaseUnity {
 			}
 		}
 		monster.Clear();
-
 		EnemyItem[] ei = transform.GetComponentsInChildren<EnemyItem> ();
 		foreach (var item in ei) {
 			item.DestoryUI();
