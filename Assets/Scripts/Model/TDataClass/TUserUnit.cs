@@ -90,6 +90,20 @@ public class TUserUnit : ProtobufDataBase {
         }
     }
 
+	public List<TNormalSkill> GetNormalSkill() {
+		if (normalSkill[0] == null) {
+			InitSkill();	
+		}
+		List<TNormalSkill> ns = new List<TNormalSkill> ();
+		for (int i = 0; i < normalSkill.Length; i++) {
+			if(normalSkill[i] != null) {
+				ns.Add(normalSkill[i]);
+			}
+		}
+
+		return ns;
+	}
+
     public float CalculateInjured(int attackType, float attackValue) {
         int beRetraintType = DGTools.BeRestraintType(attackType);
         int retraintType = DGTools.RestraintType(attackType);
@@ -121,7 +135,7 @@ public class TUserUnit : ProtobufDataBase {
 			firstSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill1,SkillType.NormalSkill) as TNormalSkill; //Skill[ui.skill1] as TNormalSkill;	
         }
         if (ui.skill2 > 0) {
-			secondSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill1,SkillType.NormalSkill) as TNormalSkill; //.Skill[ui.skill2] as TNormalSkill;	
+			secondSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill2,SkillType.NormalSkill) as TNormalSkill; //.Skill[ui.skill2] as TNormalSkill;	
         }
         AddSkill(firstSkill, secondSkill);
     }
@@ -139,6 +153,7 @@ public class TUserUnit : ProtobufDataBase {
 			if(tns == null) {
 				continue;
 			}
+		
             tns.DisposeUseSkillID(ignorSkillID);
             int count = tns.CalculateCard(copyCard);
             for (int j = 0; j < count; j++) {
@@ -152,6 +167,68 @@ public class TUserUnit : ProtobufDataBase {
         }
         return returnInfo;
     }
+
+	public List<AttackInfo> CaculateAttack(CalculateSkillUtility csu) {
+		List<uint> copyCard = new List<uint>(csu.haveCard);
+		List<AttackInfo> returnInfo = new List<AttackInfo>();
+		if (normalSkill[0] == null) {
+			InitSkill();	
+		}
+		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (instance.unitId);
+		UnitInfo ui = tui.Object;
+		for (int i = 0; i < normalSkill.Length; i++) {
+			TNormalSkill tns = normalSkill[i];
+			if(tns == null) {
+				continue;
+			}
+//			Debug.LogError(tns.Blocks.Count + "  normalskill : " + tns.Blocks[0]);
+			tns.DisposeUseSkillID(csu.alreadyUseSkill);
+			int count = tns.CalculateCard(copyCard);
+			for (int j = 0; j < count; j++) {
+				csu.alreadyUseSkill.Add(tns);
+				csu.ResidualCard();
+				AttackInfo attack = new AttackInfo();
+				attack.AttackValue = CaculateAttack(instance, ui, tns);
+				attack.AttackType = tns.AttackType;
+				attack.UserUnitID = MakeUserUnitKey();
+				tns.GetSkillInfo(attack);
+				returnInfo.Add(attack);
+			}
+		}
+		return returnInfo;
+	}
+
+	public int CaculateNeedCard (CalculateSkillUtility csu) {
+		if (normalSkill[0] == null) {
+			InitSkill();	
+		}
+
+		if (csu.haveCard.Count == 5) {
+			return -1;
+		}
+
+		int index = -1;
+		foreach (var item in normalSkill) {
+			if(item == null) {
+				continue;
+			}
+			if(item.Blocks.Count == 1) {
+				index = (int)item.Blocks[0];
+				break;
+			}
+			else{
+				index = DGTools.NeedOneTriggerSkill(csu.haveCard, item.Blocks);
+//				if(item.Blocks.Count == 5) {
+////					Debug.LogError(MakeUserUnitKey() + "   index : " + index);
+//				}
+				if(index != -1) {
+					break;
+				}
+			}
+
+		}
+		return index;
+	}
 
     AttackInfo strengthenInfo = null;
     void StrengthenTargetType(object data) {

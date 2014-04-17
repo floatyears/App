@@ -45,8 +45,8 @@ public class Battle : UIBase {
 	
 	public override void CreatUI () {
 		CreatBack();
-		CreatCard();
 		CreatArea();
+		CreatCard();
 		CreatEnemy();
 		CreatCountDown ();
 
@@ -93,6 +93,7 @@ public class Battle : UIBase {
 	public void StartBattle () {
 		ResetClick();
 		Attack();
+		battleCard.StartBattle (false);
 	}
 
 	void ChangeCard(object data) {
@@ -108,10 +109,12 @@ public class Battle : UIBase {
 			for (int i = 0; i < battleCardPool.CardPosition.Length; i++) {
 				battleCard.ChangeSpriteCard(ccc.sourceType,ccc.targetType,i);
 			}
+			battleCard.RefreshLine();
 		}
 	}
 
 	void EnemyAttckEnd (object data) {
+		battleCard.StartBattle (true);
 		SwitchInput(false);
 		ShieldInput (true);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
@@ -153,6 +156,7 @@ public class Battle : UIBase {
 		battleCard = tempObject.AddComponent<BattleCard>();
 		battleCard.CardPosition = battleCardPool.CardPosition;
 		battleCard.Init(Config.battleCardName);
+		battleCard.battleCardArea = battleCardArea;
 	}
 
 	void ShowCard() {
@@ -162,8 +166,9 @@ public class Battle : UIBase {
 
 	void GenerateShowCard() {
 		for (int i = 0; i < battleCardPool.CardPosition.Length; i++) {
-			battleCard.GenerateSpriteCard(GenerateCardIndex(),i);
+			battleCard.GenerateSpriteCard(GenerateCardIndex(), i);
 		}
+		battleCard.RefreshLine ();
 	}
 
 	void CreatArea() {
@@ -186,7 +191,7 @@ public class Battle : UIBase {
 		battleEnemy.ShowUI ();
 	}
 
-	bool isShowEnemy = false;
+	public bool isShowEnemy = false;
 	public void ShowEnemy(List<TEnemyInfo> count) {
 		isShowEnemy = true;
 		battleEnemy.Refresh(count);
@@ -223,14 +228,16 @@ public class Battle : UIBase {
 
 
 	public void SwitchInput(bool isShield) {
+//		Debug.LogError ("switch input : " + isShield + " time : " + Time.realtimeSinceStartup);
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
 		main.GInput.IsCheckInput = !isShield;
-		MapCamera.IsClick = isShield;
+//		MapCamera.IsClick = isShield;
 	}
 
 	public void ShieldInput (bool isShield) {
+//		Debug.LogError ("ShieldInput : " + isShield + " time : " + Time.realtimeSinceStartup);
 		nguiMainCamera.enabled = isShield;
 		main.GInput.IsCheckInput = isShield;
 	}
@@ -289,6 +296,7 @@ public class Battle : UIBase {
 					for(int i = 0;i < generateCount;i++) {
 						battleCard.GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
 					}
+					battleCard.RefreshLine();
 				}
 			}
 			ResetClick();

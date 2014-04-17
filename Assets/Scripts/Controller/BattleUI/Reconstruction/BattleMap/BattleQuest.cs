@@ -19,7 +19,7 @@ public class BattleQuest : UIBase {
 	private TQuestGrid currentMapData;
 	public static TQuestDungeonData questDungeonData;
 	private BattleMap battleMap;
-	private Role role;
+	public Role role;
 	public Battle battle;
 	private BattleBackground background;
 	public QuestFullScreenTips questFullScreenTips;
@@ -70,7 +70,7 @@ public class BattleQuest : UIBase {
 		battle.CreatUI();
 		battle.HideUI ();
 		CreatEffect ();
-		MapCamera.IsClick = false;
+//		MapCamera.IsClick = false;
 		bud = new BattleUseData (this);
 
 		AddSelfObject (battleMap);
@@ -151,7 +151,7 @@ public class BattleQuest : UIBase {
 
 	void ReadyMove() {
 		battle.ShieldInput (true);
-		MapCamera.IsClick = true;
+//		MapCamera.IsClick = true;
 	}
 
 	void AttackEnemy (object data) {
@@ -224,11 +224,24 @@ public class BattleQuest : UIBase {
 		if(questDungeonData.currentFloor == questDungeonData.Floors.Count - 1){
 			QuestStop ();
 		} else {
-			EnterNextFloor();
+			MsgWindowParams mwp = new MsgWindowParams ();
+			mwp.btnParams = new BtnParam[2];
+			mwp.titleText = "Retry";
+			mwp.contentText = "Use two stone to retry this floor of quest ?";
+			
+			BtnParam sure = new BtnParam ();
+			sure.callback = SureRetry;
+			sure.text = "OK";
+			mwp.btnParams[0] = sure;
+			
+			sure = new BtnParam ();
+			sure.callback = EnterNextFloor;
+			sure.text = "Cancel";
+			mwp.btnParams[1] = sure;
 		}
 	}
 
-	void EnterNextFloor () {
+	void EnterNextFloor (object data) {
 		questDungeonData.currentFloor ++;
 		ClearQuestParam cqp = new ClearQuestParam ();
 		_questData.Add (cqp);
@@ -430,7 +443,6 @@ public class BattleQuest : UIBase {
 		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
-//		Debug.LogError (currentMapData.Position + " currentMapData.Enemy : " + currentMapData.Enemy.Count);
 		for (int i = 0; i < currentMapData.Enemy.Count; i++) {
 			TEnemyInfo tei = currentMapData.Enemy[i];
 			tei.EnemySymbol = (uint)i;
@@ -492,7 +504,6 @@ public class BattleQuest : UIBase {
 		if (battleEnemy && !b) {
 			battle.SwitchInput(true);
 			battle.ShieldInput(false);
-//			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
 			QuestClear();
 		}
 	}
@@ -517,8 +528,25 @@ public class BattleQuest : UIBase {
 	}
 
 	public void CheckOut () {
-//		Reset ();
+		Debug.LogError ("CheckOut : ");
+		MsgWindowParams mwp = new MsgWindowParams ();
+		mwp.btnParams = new BtnParam[2];
+		mwp.titleText = "Retry";
+		mwp.contentText = "Use one stone to retry this floor of quest ?";
+		
+		BtnParam sure = new BtnParam ();
+		sure.callback = SureRetry;
+		sure.text = "OK";
+		mwp.btnParams[0] = sure;
+		
+		sure = new BtnParam ();
+		sure.callback = CheckOutSure;
+		sure.text = "Cancel";
+		mwp.btnParams[1] = sure;
 
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+	}
+	void CheckOutSure(object data) {
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClearShow);
 	}
 
@@ -566,7 +594,7 @@ public class BattleQuest : UIBase {
 	}
 
 	void CancelRetry(object data) {
-
+		RequestData ();
 	}
 
 	void QuestClearShow() {
@@ -674,15 +702,73 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleFail(object data) {
-		battle.ShieldInput(true);
-		battle.ShieldInput(false);
+		battle.ShieldInput (true);
+		battle.SwitchInput (true);
+
+		MsgWindowParams mwp = new MsgWindowParams ();
+		mwp.btnParams = new BtnParam[2];
+		mwp.titleText = "Retry";
+		mwp.contentText = "Use one stone to recover sp and recover hp ?";
+		
+		BtnParam sure = new BtnParam ();
+		sure.callback = BattleFailRecover;
+		sure.text = "OK";
+		mwp.btnParams[0] = sure;
+		
+		sure = new BtnParam ();
+		sure.callback = BattleFailExit;
+		sure.text = "Cancel";
+		mwp.btnParams[1] = sure;
+		
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+	}
+
+	void BattleFailRecover(object data) {
+//		battle.ShieldInput (false);
+		ResumeQuest.SendRequest (ResumeQuestNet, questDungeonData.QuestId);
+
+//		void SureRetry(object data) {
+//			battle.ShieldInput (false);
+//			RedoQuest.SendRequest (RetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
+//		}
+		
+//		void RetryNetWork(object data) {
+//			battle.ShieldInput (true);
+//			RspRedoQuest rrq = data as RspRedoQuest;
+//			if (rrq == null) {
+//				return;	
+//			}
+//			DataCenter.Instance.AccountInfo.Stone = rrq.stone;
+//			int count = _questData.Count -1;
+//			_questData.RemoveAt (count);
+//			ClearQuestParam cqp = new ClearQuestParam ();
+//			_questData.Add (cqp);
+//			TQuestDungeonData tqdd = new TQuestDungeonData (rrq.dungeonData);
+//			int floor = questDungeonData.currentFloor;
+//			List<TQuestGrid> reQuestGrid = tqdd.Floors[floor];
+//			questDungeonData.Floors [floor] = reQuestGrid;
+//			Reset ();
+//			bud.ResetBlood ();
+//		}
+	}
+	
+	void ResumeQuestNet(object data) {
+//		battle.ShieldInput (true);
+		battle.SwitchInput (false);
+		bud.Blood = bud.maxBlood;
+		BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
+	}
+
+	void BattleFailExit(object data) {
+//		battle.ShieldInput(true);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.GameOver, BattleFail);
 	}
 
 	void BattleFail () {
-		battle.SwitchInput (true);
+//		battle.SwitchInput (true);
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
-		QuestEnd ();
+		ControllerManager.Instance.ExitBattle ();
+		UIManager.Instance.ExitBattle ();
 	}
 }

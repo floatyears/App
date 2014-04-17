@@ -79,7 +79,7 @@ public class BattleBottom : MonoBehaviour {
 
 	TUserUnit tuu;
 	void CheckCollider (string name) {
-		if (upi == null) {
+		if (upi == null || battleQuest.role.isMove) {
 			Debug.LogError("upi is null");
 			return;	
 		}
@@ -110,7 +110,7 @@ public class BattleBottom : MonoBehaviour {
 
 	void CloseSkillWindow () {
 		BattleMap.waitMove = false;
-		battleQuest.battle.SwitchInput (false);
+		battleQuest.battle.SwitchInput (!battleQuest.battle.isShowEnemy);
 		battleSkillObject.SetActive(false);
 	}
 }
