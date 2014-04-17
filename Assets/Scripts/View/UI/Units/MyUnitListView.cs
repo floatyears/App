@@ -35,13 +35,13 @@ public class MyUnitListView : UIComponentUnity {
 
 	private void CreateDragPanel(){
 		myUnitDataList = GetUnitList();
-		dragPanel = new DragPanel("DragPanel", MyUnitView.ItemPrefab);
+		dragPanel = new DragPanel("DragPanel", MyUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(myUnitDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.UnitListDragPanelArgs, transform);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			MyUnitView.Inject(dragPanel.ScrollItem[ i ]).Init(myUnitDataList[ i ]);
+			MyUnitItem.Inject(dragPanel.ScrollItem[ i ]).Init(myUnitDataList[ i ]);
 		}
 
 	}
@@ -71,7 +71,7 @@ public class MyUnitListView : UIComponentUnity {
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			MyUnitView muv = dragPanel.ScrollItem[ i ].GetComponent<MyUnitView>();
+			MyUnitItem muv = dragPanel.ScrollItem[ i ].GetComponent<MyUnitItem>();
 			muv.UserUnit = myUnitDataList[ i ];
 			muv.CurrentSortRule = curSortRule;
 		}

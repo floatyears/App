@@ -16,8 +16,8 @@ public class SellView : UIComponentUnity{
 	UILabel readyCoinLabel;
 	int maxItemCount = 12;
 	int totalSaleValue = 0;
-	List<SaleUnitView> saleUnitViewList = new List<SaleUnitView>();
-	List<SaleUnitView> pickUnitViewList = new List<SaleUnitView>();
+	List<SellUnitItem> saleUnitViewList = new List<SellUnitItem>();
+	List<SellUnitItem> pickUnitViewList = new List<SellUnitItem>();
 	List<GameObject> pickItemList = new List<GameObject>();
 	List<GameObject> readyItemList = new List<GameObject>();
 	
@@ -231,19 +231,19 @@ public class SellView : UIComponentUnity{
 		}
 		saleUnitViewList.Clear();
 		List<TUserUnit> dataList = args as List<TUserUnit>;
-		dragPanel = new DragPanel("OnSaleDragPanel", SaleUnitView.ItemPrefab);
+		dragPanel = new DragPanel("OnSaleDragPanel", SellUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.OnSaleUnitDragPanelArgs, mainRoot.transform);
 		for(int i = 0; i< dragPanel.ScrollItem.Count; i++) {
-			SaleUnitView suv = SaleUnitView.Inject(dragPanel.ScrollItem[ i ]);
+			SellUnitItem suv = SellUnitItem.Inject(dragPanel.ScrollItem[ i ]);
 			suv.Init(dataList[ i ]);
 			suv.callback = ClickItem;
 			saleUnitViewList.Add(suv);
 		}
 	}
 
-	int CheckExist(SaleUnitView item){
+	int CheckExist(SellUnitItem item){
 		for (int i = 0; i < pickUnitViewList.Count; i++) {
 			if(pickUnitViewList[i] != null && pickUnitViewList[i].Equals(item)) {
 				return i;
@@ -252,7 +252,7 @@ public class SellView : UIComponentUnity{
 		return -1;
 	}
 
-	int CheckNull(SaleUnitView item){
+	int CheckNull(SellUnitItem item){
 		for (int i = 0; i < pickUnitViewList.Count; i++) {
 			if(pickUnitViewList[i] == null) {
 				return i;
@@ -261,7 +261,7 @@ public class SellView : UIComponentUnity{
 		return -1;
 	}
 
-	void ClickItem(SaleUnitView item){
+	void ClickItem(SellUnitItem item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		int clickPos = saleUnitViewList.IndexOf(item);
 		int poolPos = 0;
@@ -287,7 +287,7 @@ public class SellView : UIComponentUnity{
 		}
 		else{
 			poolPos = index;
-			SaleUnitView suv = pickUnitViewList[ index ];
+			SellUnitItem suv = pickUnitViewList[ index ];
 			pickUnitViewList[ index ] = null;
 			Dictionary<string, int> temp = new Dictionary<string, int>();
 			temp.Add("poolPos", poolPos);
@@ -353,7 +353,7 @@ public class SellView : UIComponentUnity{
 		
 		SortUnitTool.SortByTargetRule(curSortRule, unitList);	
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			SaleUnitView suv = dragPanel.ScrollItem[ i ].GetComponent<SaleUnitView>();
+			SellUnitItem suv = dragPanel.ScrollItem[ i ].GetComponent<SellUnitItem>();
 			suv.UserUnit = unitList[ i ];
 			suv.CurrentSortRule = curSortRule;
 		}

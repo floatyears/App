@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -16,13 +16,13 @@ public class PartyView : UIComponentUnity{
 	private UIButton sortBtn;
 	private GameObject topRoot;
 	private GameObject bottomRoot;
-	private MyUnitView pickedFromParty;
-	private MyUnitView focusedOnParty;
-	private MyUnitView pickedFromUnitList;
+	private MyUnitItem pickedFromParty;
+	private MyUnitItem focusedOnParty;
+	private MyUnitItem pickedFromUnitList;
 
-	private Dictionary<int, PageUnitView> partyItems = new Dictionary<int, PageUnitView>();
+	private Dictionary<int, PageUnitItem> partyItems = new Dictionary<int, PageUnitItem>();
 	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
-	private List<PartyUnitView> partyUnitViewList = new List<PartyUnitView>();
+	private List<PartyUnitItem> partyUnitViewList = new List<PartyUnitItem>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -67,7 +67,7 @@ public class PartyView : UIComponentUnity{
 
 		for (int i = 0; i < 4; i++){
 			GameObject item = topRoot.transform.FindChild(i.ToString()).gameObject;
-			PageUnitView puv = item.GetComponent<PageUnitView>();
+			PageUnitItem puv = item.GetComponent<PageUnitItem>();
 			partyItems.Add(i, puv);
 			puv.callback = PartyItemClick;
 		}
@@ -114,13 +114,13 @@ public class PartyView : UIComponentUnity{
 	private void RefreshUnitListByCurId(){
 		//Debug.Log("RefreshUnitListByCurId()...curIndex is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
 		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
-			PartyUnitView puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
+			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
 			puv.IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(puv.UserUnit.ID);
 			//Debug.Log("puv.IsParty : " + puv.IsParty);
 		}
 	}
         
-	void PartyItemClick(MyUnitView puv) {
+	void PartyItemClick(MyUnitItem puv) {
 		pickedFromParty = puv;
 		OnPartyItemClick();
 	}
@@ -194,7 +194,7 @@ public class PartyView : UIComponentUnity{
 
 	void OutNoParty(TUserUnit tuu) {
 		for (int i = 0; i < partyUnitViewList.Count; i++) {
-			PartyUnitView puv = partyUnitViewList[i];
+			PartyUnitItem puv = partyUnitViewList[i];
 			if(puv.UserUnit.Equals(tuu)) {
 				puv.IsParty = false;
 				return;
@@ -206,7 +206,7 @@ public class PartyView : UIComponentUnity{
 	/// Click the item in unit list
 	/// </summary>
 	/// <param name="puv">Puv.</param>
-	void OutPartyItemClick(MyUnitView puv){
+	void OutPartyItemClick(MyUnitItem puv){
 		//store picked info
 		if(pickedFromUnitList != null){
 			pickedFromUnitList.IsFocus = false;
@@ -273,7 +273,7 @@ public class PartyView : UIComponentUnity{
 		ClearPartyFocusState();
 	}
 
-	private bool AddUnitToPartyByOrder(int pos, MyUnitView target){
+	private bool AddUnitToPartyByOrder(int pos, MyUnitItem target){
 		if(pos > 3){
 			Debug.LogError("Party is full, can not add new member...return!!!");
 			return false;
@@ -300,10 +300,10 @@ public class PartyView : UIComponentUnity{
 		}
 	}
 
-	int GetUnitPosInParty(MyUnitView targetView){
+	int GetUnitPosInParty(MyUnitItem targetView){
 		int pos = -1;
 		foreach (var item in partyItems){
-			MyUnitView muv = item.Value;
+			MyUnitItem muv = item.Value;
 			if(muv.Equals(targetView)){
 				pos = item.Key;
 				break;
@@ -360,7 +360,7 @@ public class PartyView : UIComponentUnity{
 	}
 
 	private void InitDragPanel(){
-		dragPanel = new DragPanel("PartyDragPanel", PartyUnitView.ItemPrefab);
+		dragPanel = new DragPanel("PartyDragPanel", PartyUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.PartyListDragPanelArgs, bottomRoot.transform);
 		InitRejectBtn();
@@ -375,9 +375,9 @@ public class PartyView : UIComponentUnity{
 
 	private void InitUnitListView(){
 		myUnitDataList = GetUnitList();
-		dragPanel.AddItem(myUnitDataList.Count, MyUnitView.ItemPrefab);
+		dragPanel.AddItem(myUnitDataList.Count, MyUnitItem.ItemPrefab);
 		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
-			PartyUnitView puv = PartyUnitView.Inject(dragPanel.ScrollItem[ i ]);
+			PartyUnitItem puv = PartyUnitItem.Inject(dragPanel.ScrollItem[ i ]);
 			puv.Init(myUnitDataList[ i - 1 ]);
 			puv.callback = OutPartyItemClick;
 			partyUnitViewList.Add(puv);
@@ -437,7 +437,7 @@ public class PartyView : UIComponentUnity{
 
 	void Reject(int pos){
 		for (int i = 1; i < dragPanel.ScrollItem.Count; i++) {
-			PartyUnitView partyUnitView = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
+			PartyUnitItem partyUnitView = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
 			if(partyUnitView.UserUnit.Equals(partyItems[ pos ].UserUnit)){
 				partyUnitView.IsParty = false;
 				partyUnitView.IsEnable = true;
@@ -462,11 +462,11 @@ public class PartyView : UIComponentUnity{
 		int dragCount = dragPanel.ScrollItem.Count - 1;
 		if( memCount >  dragCount){
 			int addItemCount = myUnitDataList.Count - dragCount;//the first one is reject item
-			dragPanel.AddItem(addItemCount, MyUnitView.ItemPrefab);
+			dragPanel.AddItem(addItemCount, MyUnitItem.ItemPrefab);
 			dragCount = dragPanel.ScrollItem.Count;
 			for (int i = 1; i < dragCount; i++) {
 				//RefreshData
-				PartyUnitView puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
+				PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
 				if(puv == null){
 					puv.Init(myUnitDataList[ i - 1 ]);
 				}
@@ -477,7 +477,7 @@ public class PartyView : UIComponentUnity{
 		}
 		else{
 			for (int i = 0; i < memCount; i++) {
-				PartyUnitView puv = dragPanel.ScrollItem[ i + 1 ].GetComponent<PartyUnitView>();
+				PartyUnitItem puv = dragPanel.ScrollItem[ i + 1 ].GetComponent<PartyUnitItem>();
 				puv.UserUnit = myUnitDataList[ i ];//before
 				puv.CurrentSortRule = curSortRule;//after
 			}
@@ -495,7 +495,7 @@ public class PartyView : UIComponentUnity{
 		sortRuleLabel.text = curSortRule.ToString();
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 		for (int i = unitItemStartPos; i < dragPanel.ScrollItem.Count; i++){
-			PartyUnitView puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitView>();
+			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
 			puv.UserUnit = myUnitDataList[ i - 1 ];
 			puv.CurrentSortRule = curSortRule;
 		}

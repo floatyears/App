@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -47,13 +47,13 @@ public class ReceptionView : UIComponentUnity {
 
 	private void CreateDragView(){
 		friendInDataList = DataCenter.Instance.FriendList.FriendIn;
-		dragPanel = new DragPanel("ReceptionDragPanel", FriendUnitView.ItemPrefab);
+		dragPanel = new DragPanel("ReceptionDragPanel", FriendUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(friendInDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.FriendListDragPanelArgs, transform);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			FriendUnitView fuv = FriendUnitView.Inject(dragPanel.ScrollItem[ i ]);
+			FriendUnitItem fuv = FriendUnitItem.Inject(dragPanel.ScrollItem[ i ]);
 			fuv.Init(friendInDataList[ i ]);
 			fuv.callback = ClickItem;
 		}
@@ -109,7 +109,7 @@ public class ReceptionView : UIComponentUnity {
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
-	void ClickItem(FriendUnitView item){
+	void ClickItem(FriendUnitItem item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		curPickedFriend = item.FriendInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, curPickedFriend);
@@ -211,7 +211,7 @@ public class ReceptionView : UIComponentUnity {
 		SortUnitTool.SortByTargetRule(curSortRule, friendInDataList);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			FriendUnitView fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitView>();
+			FriendUnitItem fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitItem>();
 			fuv.UserUnit = friendInDataList[ i ].UserUnit;
 			fuv.CurrentSortRule = curSortRule;
 		}

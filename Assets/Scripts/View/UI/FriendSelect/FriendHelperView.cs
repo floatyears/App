@@ -25,7 +25,7 @@ public class FriendHelperView : UIComponentUnity{
 	private uint questID;
     private uint stageID;
 	private TEvolveStart evolveStart = null;
-	private Dictionary<int, PageUnitView> partyView = new Dictionary<int, PageUnitView>();
+	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
     private Dictionary<int, UITexture> partySprite = new Dictionary<int,UITexture>();
     private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo>();
    
@@ -91,13 +91,13 @@ public class FriendHelperView : UIComponentUnity{
 	
 	void CreateDragView(object args){
 		List<TFriendInfo> dataList = DataCenter.Instance.SupportFriends;//merge
-		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitView.ItemPrefab);
+		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			HelperUnitView huv = HelperUnitView.Inject(dragPanel.ScrollItem[ i ]);
+			HelperUnitItem huv = HelperUnitItem.Inject(dragPanel.ScrollItem[ i ]);
 			huv.Init(dataList[ i ]);
 			huv.callback = ClickItem;
 			helperDataList.Add(huv.FriendInfo);//merge
@@ -105,7 +105,7 @@ public class FriendHelperView : UIComponentUnity{
 		SortHelperByCurRule();
 	}
 
-	void ClickItem(HelperUnitView item){
+	void ClickItem(HelperUnitItem item){
 		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendSelect 
 		    && DataCenter.gameStage == GameState.Evolve) {
 			return;
@@ -199,7 +199,7 @@ public class FriendHelperView : UIComponentUnity{
 		UIEventListener.Get(nextPageButton.gameObject).onClick = NextPage;
 		
 		for (int i = 0; i < 4; i++){
-			PageUnitView puv = FindChild<PageUnitView>(i.ToString());
+			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());
 			partyView.Add(i, puv);
 		}
 	}
@@ -241,7 +241,7 @@ public class FriendHelperView : UIComponentUnity{
 		SortUnitTool.SortByTargetRule(curSortRule, unitList);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			HelperUnitView huv = dragPanel.ScrollItem[ i ].GetComponent<HelperUnitView>();
+			HelperUnitItem huv = dragPanel.ScrollItem[ i ].GetComponent<HelperUnitItem>();
 			huv.UserUnit = helperDataList[ i ].UserUnit;
 			huv.CurrentSortRule = curSortRule;
 		}

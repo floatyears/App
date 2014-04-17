@@ -12,7 +12,7 @@ public class UnitsWindow : UIComponentUnity{
 	private GameObject bottomRoot;
 
 	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum>();
-	private Dictionary<int, PageUnitView> partyItems = new Dictionary<int, PageUnitView>();
+	private Dictionary<int, PageUnitItem> partyItems = new Dictionary<int, PageUnitItem>();
 	public static Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -93,7 +93,7 @@ public class UnitsWindow : UIComponentUnity{
 
 		for (int i = 0; i < 4; i++){
 			GameObject item = topRoot.transform.FindChild(i.ToString()).gameObject;
-			PageUnitView puv = item.GetComponent<PageUnitView>();
+			PageUnitItem puv = item.GetComponent<PageUnitItem>();
 			partyItems.Add(i, puv);
 		}
 	}
