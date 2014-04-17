@@ -495,6 +495,10 @@ public class DataCenter {
 		}
 	}
 
+	public TStageInfo currentStageInfo;
+
+	public TQuestInfo currentQuestInfo;
+
 	public TFriendInfo GetSupporterInfo(uint friendUid){
 		foreach (var item in SupportFriends) {
 			if (item.UserId == friendUid) {

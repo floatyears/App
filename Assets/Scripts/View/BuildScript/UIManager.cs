@@ -18,7 +18,7 @@ public class UIManager {
 		baseScene = new StartScene ("Game Start");
 	}
 
-	void InitUIManager () {
+	public void InitUIManager () {
 		baseScene = new StartScene ("Game Start");
 		baseScene.CreatUI ();
 		baseScene.ShowUI ();
@@ -101,7 +101,7 @@ public class UIManager {
 
 	public void ExitBattle () {
 		Resources.UnloadUnusedAssets ();
-		InitUIManager ();
+
 		ChangeScene (SceneEnum.Quest);
 		MsgCenter.Instance.Invoke (CommandEnum.LeftBattle, null);
 	}

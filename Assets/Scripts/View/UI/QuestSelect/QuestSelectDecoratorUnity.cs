@@ -37,7 +37,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUI();
-		InitQuestSelectScrollArgs();
+//		InitQuestSelectScrollArgs();
 		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
 	}
 	
@@ -112,7 +112,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		}
 		dragPanel = CreateDragPanel(questInfoList.Count);
 		FillDragPanel(dragPanel, questInfoList);
-		dragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
 	}
 
 	GameObject GetScrollItem( string resourcePath ){
@@ -168,19 +168,21 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		Dictionary<string,object> info = args as Dictionary<string, object>;
 		int index = (int)info["position"];
 		TStageInfo tsi = info["data"] as TStageInfo;
-		labStaminaVaule.text = tsi.QuestInfo[index].Stamina.ToString();
-		labFloorVaule.text = tsi.QuestInfo[index].Floor.ToString();
+		TQuestInfo select =  tsi.QuestInfo [index];
+		DataCenter.Instance.currentQuestInfo = select;	//store select quest 
+		labStaminaVaule.text = select.Stamina.ToString();
+		labFloorVaule.text = select.Floor.ToString();
 		labDoorName.text = tsi.StageName;
-		labStoryContent.text = tsi.QuestInfo[index].Story;
+		labStoryContent.text = select.Story;
 		rewardLineLabel.text = "/";
-		rewardCoinLabel.text = "Cion " + tsi.QuestInfo[index].RewardMoney.ToString();
-		labQuestInfo.text = tsi.QuestInfo[index].Name;
-		rewardExpLabel.text = "Exp " + tsi.QuestInfo[index].RewardExp.ToString();
+		rewardCoinLabel.text = "Cion " + select.RewardMoney.ToString();
+		labQuestInfo.text = select.Name;
+		rewardExpLabel.text = "Exp " + select.RewardExp.ToString();
 		storyTextLabel.text = tsi.Description;
 		btnSelect.isEnabled = true;
 
-		ShowBossAvatar(tsi.QuestInfo[ index ].BossID[ 0 ]);
-		ShowEnemiesAvatar(tsi.QuestInfo[ index ].EnemyID);
+		ShowBossAvatar(select.BossID[ 0 ]);
+		ShowEnemiesAvatar(select.EnemyID);
 	}
 
 
@@ -286,7 +288,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		else {
 			dragPanel = new DragPanel("QuestDragPanel",questViewItem);
 			dragPanel.CreatUI();
-			dragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
+			dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
 		}
 		dragPanel.AddItem (tsi.QuestInfo.Count);
 		RefreshQuestInfo (tsi.QuestInfo);
@@ -303,7 +305,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		dragPanel = new DragPanel("QuestDragPanel", questViewItem);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(tsi.QuestInfo.Count);
-		dragPanel.DragPanelView.SetScrollView(questSelectScrollerArgsDic);
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
 
 		RefreshQuestInfo (tsi.QuestInfo);
 	}
@@ -359,20 +361,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			tweenPos.Reset();
 			tweenPos.PlayForward();
 		}
-	}
-	
-	void InitQuestSelectScrollArgs(){
-		questSelectScrollerArgsDic.Add("parentTrans",			scrollView.transform);
-		questSelectScrollerArgsDic.Add("scrollerScale",			Vector3.one);
-		questSelectScrollerArgsDic.Add("scrollerLocalPos",		-60 * Vector3.up);
-		questSelectScrollerArgsDic.Add("position",					Vector3.zero);
-		questSelectScrollerArgsDic.Add("clipRange",				new Vector4(0, 0, 640, 200));
-		questSelectScrollerArgsDic.Add("gridArrange",			UIGrid.Arrangement.Horizontal);
-		questSelectScrollerArgsDic.Add("maxPerLine",			0);
-		questSelectScrollerArgsDic.Add("scrollBarPosition",	new Vector3(-320, -120, 0));
-		questSelectScrollerArgsDic.Add("cellWidth",				125);
-		questSelectScrollerArgsDic.Add("cellHeight",				125);
-
 	}
 
 }

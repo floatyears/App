@@ -67,10 +67,11 @@ public class Main : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         texScale = screenWidth / Screen.width;
-//        sui = new ShowUnitInfo();
+		//sui = new ShowUnitInfo();
         // init manager class
         ViewManager.Instance.Init(uiRoot);
         ModelManager.Instance.Init();
+		ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
     }
 
     /// <summary>

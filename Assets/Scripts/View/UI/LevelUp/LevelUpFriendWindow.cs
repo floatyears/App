@@ -53,11 +53,10 @@ public class LevelUpFriendWindow : UIComponentUnity {
         int count = friendInfoList.Count;//DataCenter.Instance.Friends.Count;
         string itemSourcePath = "Prefabs/UI/Friend/AvailFriendItem";
         GameObject itemGo = Resources.Load(itemSourcePath) as GameObject;
-        InitDragPanelArgs();
+		//InitDragPanelArgs();
         friendDragPanel = CreateDrag(name, count, itemGo);
-
         FillDragPanel(friendDragPanel);
-        friendDragPanel.DragPanelView.SetScrollView(dragPanelArgs);
+		friendDragPanel.DragPanelView.SetScrollView(ConfigDragPanel.LevelUpDragPanelArgs, transform);
     }
 
     private DragPanel CreateDrag(string name, int count, GameObject item) {
@@ -177,19 +176,6 @@ public class LevelUpFriendWindow : UIComponentUnity {
         else {
             this.gameObject.SetActive(false);
         }
-    }
-
-    void InitDragPanelArgs() {
-        dragPanelArgs.Add("parentTrans", transform);
-        dragPanelArgs.Add("scrollerScale", Vector3.one);
-        dragPanelArgs.Add("scrollerLocalPos", -240 * Vector3.up);
-        dragPanelArgs.Add("position", Vector3.zero);
-        dragPanelArgs.Add("clipRange", new Vector4(0, 0, 640, 200));
-        dragPanelArgs.Add("gridArrange", UIGrid.Arrangement.Horizontal);
-        dragPanelArgs.Add("maxPerLine", 0);
-        dragPanelArgs.Add("scrollBarPosition", new Vector3(-320, -120, 0));
-        dragPanelArgs.Add("cellWidth", 130);
-        dragPanelArgs.Add("cellHeight", 130);
     }
 
 	void ShowInfo () {

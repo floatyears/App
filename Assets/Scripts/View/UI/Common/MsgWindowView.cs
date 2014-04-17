@@ -202,7 +202,6 @@ public class MsgWindowView : UIComponentUnity{
 
 
     void UpdateBtnLeftRightCallback(BtnParam[] btnParam){
-
         btnLeft.gameObject.SetActive(true);
         btnRight.gameObject.SetActive(true);
 

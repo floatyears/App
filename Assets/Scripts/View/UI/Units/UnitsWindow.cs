@@ -34,8 +34,6 @@ public class UnitsWindow : UIComponentUnity{
 	public override void HideUI(){
 		base.HideUI();
 		DataCenter.Instance.PartyInfo.ExitParty();
-		//Debug.Log("UnitScene.HideUI(), Record Party State Change...");
-		//Debug.Log("UnitScene.HideUI(), current party id is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
 	}
 
 	public override void DestoryUI(){
@@ -134,6 +132,4 @@ public class UnitsWindow : UIComponentUnity{
 		partyIndexDic.Add( 4, "th");
 		partyIndexDic.Add( 5, "th");
 	}
-
-
 }

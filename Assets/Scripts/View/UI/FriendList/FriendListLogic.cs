@@ -11,9 +11,7 @@ public class FriendListLogic : ConcreteComponent{
 
 	public override void ShowUI(){
 		base.ShowUI();
-
 		AddCommandListener();
-
 		GetFriendUnitItemViewList();
 		CallViewCreateDragList();
 		EnableExtraFunction();
@@ -111,8 +109,7 @@ public class FriendListLogic : ConcreteComponent{
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseAll, RefuseAllApplyFromOthers);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureAcceptApply, AcceptApplyFromOther);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseSingleApply, DeleteApplyFromOther);     
-//		MsgCenter .Instance.AddListener(CommandEnum.ReturnPreScene, ReturnPreScene);
-        }
+	}
 
 	void DeleteMyApply(object msg){
 		CancelFriendRequest(currentFriendPicked.UserId);

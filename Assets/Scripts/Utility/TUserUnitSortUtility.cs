@@ -16,7 +16,7 @@ public enum SortRule {
 }
 
 public class SortUnitTool{
-	public const SortRule DEFAULT_SORT_RULE = SortRule.GetTime;
+	public const SortRule DEFAULT_SORT_RULE = SortRule.ID;
 	public const int RULE_KIND_COUNT = 8;
 
 	public static SortRule GetNextRule(SortRule currentRule){
@@ -30,7 +30,6 @@ public class SortUnitTool{
 
 	public static void SortByTargetRule(SortRule targetRule, List<TUserUnit> targetList){
 		//Debug.Log("Before :: memberList[ 4 ].Level ->" + targetList[ 4 ].Level);
-		
 		switch (targetRule){
 			case SortRule.AddPoint : 
 				DGTools.InsertSort(targetList, new TUserUnitSortAddPoint());
@@ -48,7 +47,7 @@ public class SortUnitTool{
 				DGTools.InsertSort(targetList, new TUserUnitSortHP());
 				break;
 			case SortRule.ID : 
-				DGTools.InsertSort(targetList, new TUserUnitSortID());
+				DGTools.InsertSort(targetList, new TUserUnitSortID(), false);
 				break;
 			case SortRule.Fav : 
 				DGTools.InsertSort(targetList, new TUserUnitSortFavourite());
@@ -59,7 +58,6 @@ public class SortUnitTool{
 			default:
 				break;
 		}
-
 		//Debug.Log("After :: memberList[ 4 ].Level ->" + targetList[ 4 ].Level);
 	}
 }
@@ -91,7 +89,7 @@ public class TUserUnitSortAtk : TUserUnitSortBase{
 public class TUserUnitSortID : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		return firstUserUnit.ID.CompareTo(secondUserUnit.ID);
+		return firstUserUnit.UnitID.CompareTo(secondUserUnit.UnitID);
 	}
 }
 

@@ -44,7 +44,7 @@ public class QuestView : UIComponentUnity{
 	void InitUI(){
 		storyRoot = FindChild("story_window");
 		eventRoot = FindChild("event_window");
-		StylizeStoryPanel(); 
+//		StylizeStoryPanel(); 
 		dragItemPrefab = Resources.Load("Stage/StageDragPanelItem") as GameObject;
 	}
 	
@@ -57,7 +57,7 @@ public class QuestView : UIComponentUnity{
 	void CreateScrollView(DragPanel panel, List<TCityInfo> cityList){
 		panel.CreatUI();
 		panel.AddItem(GetDragPanelCellCount(cityList));               
-        panel.DragPanelView.SetScrollView(storyDragPanelArgsDic);
+		panel.DragPanelView.SetScrollView(ConfigDragPanel.StoryStageDragPanelArgs, storyRoot.transform);
 		UpdateInfo (panel, cityList);
 
 		foreach (var item in panel.ScrollItem)
@@ -174,32 +174,6 @@ public class QuestView : UIComponentUnity{
 			tweenPos.Reset();
 			tweenPos.PlayForward();
 		}
-	}
-	
-	void StylizeStoryPanel(){
-		storyDragPanelArgsDic.Add("parentTrans", storyRoot.transform);
-	    storyDragPanelArgsDic.Add("scrollerScale", Vector3.one);
-		storyDragPanelArgsDic.Add("scrollerLocalPos", 215 * Vector3.up);
-		storyDragPanelArgsDic.Add("position", Vector3.zero);
-		storyDragPanelArgsDic.Add("clipRange", new Vector4(0, 0, 640, 200));
-		storyDragPanelArgsDic.Add("gridArrange", UIGrid.Arrangement.Horizontal);
-		storyDragPanelArgsDic.Add("maxPerLine", 0);
-		storyDragPanelArgsDic.Add("scrollBarPosition", new Vector3(-320, -120, 0));
-		storyDragPanelArgsDic.Add("cellWidth", 230);
-		storyDragPanelArgsDic.Add("cellHeight", 150);
-	}
-
-	void StylizeEventPanel(){
-		eventDragPanelArgsDic.Add("parentTrans", eventRoot.transform);
-		eventDragPanelArgsDic.Add("scrollerScale", Vector3.one);
-		eventDragPanelArgsDic.Add("scrollerLocalPos", -140 * Vector3.up);
-		eventDragPanelArgsDic.Add("position", Vector3.zero);
-		eventDragPanelArgsDic.Add("clipRange", new Vector4(0, 0, 640, 200));
-		eventDragPanelArgsDic.Add("gridArrange", UIGrid.Arrangement.Horizontal);
-		eventDragPanelArgsDic.Add("maxPerLine", 0);
-		eventDragPanelArgsDic.Add("scrollBarPosition", new Vector3(-320, -120, 0));
-		eventDragPanelArgsDic.Add("cellWidth", 230);
-		eventDragPanelArgsDic.Add("cellHeight", 150);
 	}
 
 }

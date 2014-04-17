@@ -56,6 +56,25 @@ public class DGTools {
 		sprite.height = tex.height;
 	}
 
+	public static string GetUnitDropSpriteName(int rare) {
+		switch (rare) {
+		case 1:
+			return "a";
+		case 2:
+			return "b";
+		case 3:
+			return "c";
+		case 4:
+			return "d";
+		case 5:
+			return "e";
+		case 6:
+			return "f";
+		default:
+			return string.Empty;
+		}
+	}
+
 	public static string SwitchUnitType (int unitType) {
 		string type = "";
 		switch (unitType) {
@@ -235,7 +254,6 @@ public class DGTools {
 					T temp = target[i];
 					target[i] = target[j];
 					target[j] = temp;
-
 					continue;
 				}
 		

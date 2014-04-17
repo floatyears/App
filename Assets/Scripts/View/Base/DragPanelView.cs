@@ -172,9 +172,8 @@ public class DragPanelView : UIBaseUnity {
 		grid.Reposition ();
 	}
 
-	public void SetScrollView(Dictionary< string, object > argsDic){
-		//default args List
-		Transform parentTrans = transform.parent;
+	public void SetScrollView(Dictionary<string, object> argsDic, Transform parent){
+//		Transform parentTrans = transform.parent;
 		Vector3 scrollerLocalPos = Vector3.zero;
 		Vector3 scrollerScale = Vector3.one;
 		Vector3 position = Vector3.zero;
@@ -186,8 +185,8 @@ public class DragPanelView : UIBaseUnity {
 		int cellWidth = 100;
 		int cellHeight = 100;
 
-		if( argsDic.ContainsKey( "parentTrans"))
-			parentTrans = (Transform)argsDic["parentTrans"];
+//		if( argsDic.ContainsKey( "parentTrans"))
+//			parentTrans = (Transform)argsDic["parentTrans"];
 		if( argsDic.ContainsKey( "scrollerLocalPos"))
 			scrollerLocalPos = (Vector3)argsDic["scrollerLocalPos"];
 		if( argsDic.ContainsKey("scrollerScale"))
@@ -207,7 +206,8 @@ public class DragPanelView : UIBaseUnity {
 		if( argsDic.ContainsKey("cellHeight"))
 			cellHeight = (int)argsDic["cellHeight"];
 
-		gameObject.transform.parent = parentTrans;                
+//		gameObject.transform.parent = parentTrans;     
+		gameObject.transform.parent = parent;
         gameObject.transform.localPosition = scrollerLocalPos;
 		gameObject.transform.localScale = scrollerScale;
 		scrollView.transform.localPosition = position;
@@ -219,7 +219,6 @@ public class DragPanelView : UIBaseUnity {
 		grid.cellHeight = cellHeight;
 
 		//Debug.LogError( "  " + gameObject.name + " have finlished SetScrollView(dic)");
-
 	}
 	
 }
