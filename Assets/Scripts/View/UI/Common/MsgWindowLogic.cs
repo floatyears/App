@@ -36,6 +36,7 @@ public class MsgWindowLogic : ConcreteComponent
     void AddListener()
     {
         MsgCenter.Instance.AddListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
+        MsgCenter.Instance.AddListener(CommandEnum.CloseMsgWindow, CloseMsgWindow);
     }
     
     
@@ -64,7 +65,13 @@ public class MsgWindowLogic : ConcreteComponent
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
         ExcuteCallback(cbdArgs);
     }
-    
+
+    void CloseMsgWindow(object msg){
+        //        Dictionary<string,string> noteMsg = msg as Dictionary<string,string>;
+        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CloseMsg", msg);
+        ExcuteCallback(cbdArgs);
+    }
+
     
 }
 

@@ -36,6 +36,7 @@ public class MaskController : ConcreteComponent {
 
 
 	void ShowMask(object msg){
+        LogHelper.Log("ShoMask() start");
 		BlockerMaskParams bmArgs = msg as BlockerMaskParams;
 
 		SetBlocker(bmArgs.reason, bmArgs.isBlocked);

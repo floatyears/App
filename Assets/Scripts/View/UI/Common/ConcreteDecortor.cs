@@ -241,7 +241,7 @@ public class GachaWindowDecorator : DecoratorBase{
     
     public override void ShowScene(){
         base.ShowScene();
-        sceneInfoBar.SetBackScene(SceneEnum.None);
+        sceneInfoBar.SetBackScene(SceneEnum.Scratch);
     }
     
     public override void HideScene()

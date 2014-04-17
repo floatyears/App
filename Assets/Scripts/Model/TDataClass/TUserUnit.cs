@@ -571,6 +571,29 @@ public class UserUnitList {
             userUnitInfo.Remove(key);
     }
 
+    public List<uint> FirstGetUnits(List<UserUnit> unitList){
+        List<uint> ret = new List<uint>();
+        foreach (var item in unitList) {
+            if (IsNewUnit(item) && !ret.Contains(item.unitId)) {
+                LogHelper.Log("FirstGetUnits(), new id {0}", item.unitId);
+                ret.Add(item.uniqueId);
+            }
+            else {
+                ret.Add(0);
+            }
+        }
+        return ret;
+    }
+
+    private bool IsNewUnit(UserUnit unit){
+        foreach (var item in userUnitInfo) {
+            if (unit.unitId == item.Value.UnitInfo.ID) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 }
 
