@@ -159,7 +159,7 @@ public enum CommandEnum{
 	EnterBattle,
 	LeftBattle,
 	QuestEnd,
-//	RefreshLine,
+	TargetEnemy,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
