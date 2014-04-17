@@ -33,6 +33,8 @@ public class ErrorCode {
     public const int EU_USER_NOT_EXISTS = -203;
     public const int EU_GET_NEWUSERID_FAIL = -204;
     public const int EU_UPDATE_USERINFO_ERROR = -205;
+	public const int EU_NO_ENOUGH_MONEY = -206;
+	public const int EU_UNITMAX_REACHED = -207;
 
     public const int EF_FRIEND_BASE = -300;
     public const int EF_FRIEND_NOT_EXISTS = -301;
@@ -42,6 +44,9 @@ public class ErrorCode {
     public const int EF_IS_ALREADY_FRIEND = -305;
     public const int EF_IS_ALREADY_FRIENDOUT = -306;
     public const int EF_INVALID_FRIEND_STATE = -307;
+	public const int EF_FRIENDNUM_OVERFLOW = -308;
+	public const int EF_FRIEND_FRIENDNUM_OVERFLOW = -309;
+
 
     public const int EQ_QUEST_BASE = -400;
     public const int EQ_QUEST_ID_INVALID = -401;
@@ -52,11 +57,15 @@ public class ErrorCode {
     public const int EQ_UPDATE_QUEST_RECORD_ERROR = -406;
     public const int EQ_INVALID_DROP_UNIT = -407;
     public const int EQ_QUEST_IS_PLAYING = -408;
+	public const int EQ_USER_QUEST_NOT_PLAYING = -409;
 
     public const int E_UNIT_BASE = -500;
     public const int E_UNIT_ID_ERROR = -501;
     public const int E_LEVELUP_NO_ENOUGH_MONEY = -502;
     public const int E_GET_UNIT_INFO_ERROR = -503;
+	public const int E_UNIT_CANNOT_EVOLVE_TODAY = E_UNIT_BASE - 4;
+	public const int E_GACHA_TIME_EXPIRED		= E_UNIT_BASE - 5;
+	public const int E_LOAD_GACHA_POOL_FAIL		= E_UNIT_BASE - 6;
 
     // usual
     public const int ILLEGAL_PARAM = -1000;

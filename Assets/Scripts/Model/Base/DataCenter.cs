@@ -19,6 +19,7 @@ public enum ModelEnum {
     TrapInfo,
     FriendBaseInfo,
 	QuestClearInfo,
+	UnitCatalogInfo,
 
     User            = 1000,
     UnitPartyInfo   = 1001,
@@ -149,6 +150,11 @@ public class DataCenter {
         get { return getData(ModelEnum.PartyInfo) as TPartyInfo; }
         set { setData(ModelEnum.PartyInfo, value); }
     }
+
+	public TUnitCatalog CatalogInfo { 
+		get { return getData(ModelEnum.UnitCatalogInfo) as TUnitCatalog; }
+		set { setData(ModelEnum.UnitCatalogInfo, value); }
+	}
 
 	/// <summary>
 	/// store operate befoure account info

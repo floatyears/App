@@ -1,14 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class CatalogView : UIComponentUnity {
-	private int startPageIndex = 0;
-	private int endPageIndex;
-	private int totalPageCount;
-
-
+	private int TOTAL_CATALOG_COUNT;
 	private DragPanel dragPanel;
+	private List<CatalogUnitItem> catalogUnitItemList = new List<CatalogUnitItem>();
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		InitCatalogDragPanel();
@@ -22,28 +20,40 @@ public class CatalogView : UIComponentUnity {
 	public override void HideUI () {
 		base.HideUI ();
 	}
-	
-	private int GetTotalPageNum(){
-		//TODO GET FROM DATACENTER
-		int num = 0;
-		num = 3;
-		return num;
-	}
 
 	private void InitCatalogDragPanel(){
+		TOTAL_CATALOG_COUNT = GetTotalUnitCount();
 		dragPanel = new DragPanel("CatalogDragPanel", CatalogUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
-		int catalogCount = 66;
-		dragPanel.AddItem(catalogCount);
+		dragPanel.AddItem(TOTAL_CATALOG_COUNT);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.CatalogDragPanelArgs, transform);
+
+		for (int i = 0; i < TOTAL_CATALOG_COUNT; i++){
+			GameObject dragItem = dragPanel.ScrollItem[ i ];
+			CatalogUnitItem catalogItem = CatalogUnitItem.Inject(dragItem);
+			catalogUnitItemList.Add(catalogItem);
+		}
+
 	}
 
 	private void RefreshItemCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		countArgs.Add("title", TextCenter.Instace.GetCurrentText("CatalogCounterTitle"));
 		countArgs.Add("current", dragPanel.ScrollItem.Count);
-		countArgs.Add("max", 508);
+		countArgs.Add("max", TOTAL_CATALOG_COUNT);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+	}
+
+	private int GetTotalUnitCount(){
+		//TODO LOAD FORM CONFIG FILE
+		int totalUnitCount = 200;
+		return totalUnitCount;
+	}
+
+	private void RefreshCatalogView(){
+		for (int i = 0; i < TOTAL_CATALOG_COUNT; i++){
+			catalogUnitItemList[ i ].Refresh( i );
+		}
 	}
 
 }

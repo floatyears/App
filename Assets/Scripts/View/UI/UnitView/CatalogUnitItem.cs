@@ -1,35 +1,138 @@
 using UnityEngine;
 using System.Collections;
+using bbproto;
 
-public class CatalogUnitItem : BaseUnitItem {
-	protected UISprite avatarSpr;
+public enum CatalogState{
+	UnKnown,
+	Got,
+	Meet
+}
+
+public class CatalogUnitItem : MonoBehaviour {
+	private UISprite avatarSpr;
+	private UISprite erotemeSpr;
+	private UISprite maskSpr;
+	private UISprite translucentMaskSpr;
+	private UILabel idLabel;
+
+	/// <summary>
+	/// The earliest execute
+	/// </summary>
+	/// <param name="item">Item.</param>
+	public static CatalogUnitItem Inject(GameObject item){
+		CatalogUnitItem view = item.GetComponent<CatalogUnitItem>();
+		if (view == null) view = item.AddComponent<CatalogUnitItem>();
+		return view;
+	}
+
+	/// <summary>
+	/// Awake() execute as soon as  the static function CatalogUnitItem.Inject() execute
+	/// </summary>
+	private void Awake(){
+		avatarSpr = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
+		erotemeSpr = transform.FindChild("Sprite_Erotemer").GetComponent<UISprite>();
+		maskSpr = transform.FindChild("Sprite_shield").GetComponent<UISprite>();
+		translucentMaskSpr = transform.FindChild("Sprite_Translucent").GetComponent<UISprite>();
+		idLabel = transform.FindChild("Label_ID").GetComponent<UILabel>();
+		State = CatalogState.UnKnown;
+	}
+
+	/// <summary>
+	/// public interface for the scene of catalog
+	/// </summary>
+	/// <param name="unitID">Unit I.</param>
+	public void Refresh(int unitID){
+		UserUnit userUnit = new UserUnit();
+		userUnit.level = 1;
+		userUnit.exp = 0;
+		userUnit.unitId = (uint)unitID;
+		CatalogUserUnit = new TUserUnit(userUnit);
+	}
+	
+	private TUserUnit catalogUserUnit;
+	public TUserUnit CatalogUserUnit{
+		get{
+			return catalogUserUnit;
+		}
+		set{
+			catalogUserUnit = value;
+			if(catalogUserUnit == null){
+				State = CatalogState.UnKnown;
+			}
+			else{
+				if(DataCenter.Instance.CatalogInfo.IsHaveUnit(catalogUserUnit.UnitID)){
+					State = CatalogState.Got;
+				}
+				else if(DataCenter.Instance.CatalogInfo.IsMeetNotHaveUnit(catalogUserUnit.UnitID)){
+					State = CatalogState.Meet;
+				}
+				else{
+					State = CatalogState.UnKnown;
+				}
+			}
+			idLabel.text = catalogUserUnit.UnitID.ToString();
+			idLabel.color = Color.green;
+		}
+	}
+
+	private CatalogState state;
+	public CatalogState State{
+		get{
+			return state;
+		}
+		set{
+			state = value;
+			switch (state) {
+				case CatalogState.Got : 
+					avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
+					avatarSpr.name = catalogUserUnit.UnitID.ToString();
+					erotemeSpr.enabled = false;
+					maskSpr.enabled = false;
+					translucentMaskSpr.enabled = false;
+					UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
+					break;
+				case CatalogState.Meet : 
+					avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
+					avatarSpr.name = catalogUserUnit.UnitID.ToString();
+					erotemeSpr.enabled = true;
+					maskSpr.enabled = false;
+					translucentMaskSpr.enabled = true;
+					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+					break;
+				case CatalogState.UnKnown : 
+					avatarSpr.atlas = null;
+					avatarSpr.name = string.Empty;
+					erotemeSpr.enabled = true;
+					maskSpr.enabled = true;
+					translucentMaskSpr.enabled = false;
+					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+					break;
+				default:
+					avatarSpr.atlas = null;
+					avatarSpr.name = string.Empty;
+					erotemeSpr.enabled = true;
+					maskSpr.enabled = true;
+					translucentMaskSpr.enabled = false;
+					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+					break;
+			}
+		}
+	}
+	
     private static GameObject itemPrefab;
 	public static GameObject ItemPrefab {
 		get {
 			if(itemPrefab == null) {
-				itemPrefab = Resources.Load("Prefabs/UI/UnitItem/CatalogUnitPrefab") as GameObject ;
+				string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
+				itemPrefab = Resources.Load(sourcePath) as GameObject ;
 			}
 			return itemPrefab;
 		}
 	}
 
-	public static CatalogUnitItem Inject(GameObject item){
-		CatalogUnitItem view = item.AddComponent<CatalogUnitItem>();
-		if (view == null) view = item.AddComponent<CatalogUnitItem>();
-                return view;
+	private void PressItem(GameObject item){
+		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, state);
 	}
-
-	protected override void InitUI(){
-//		base.InitUI();
-		avatarSpr = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
-		avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(UserUnit.UnitID);
-		avatarSpr.spriteName = UserUnit.UnitID.ToString();
-	}
-
-	protected override void InitState(){
-//		base.InitState();
-	}
-	
-	protected override void ClickItem(GameObject item){}
 
 }
