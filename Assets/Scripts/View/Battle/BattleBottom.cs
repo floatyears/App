@@ -110,7 +110,7 @@ public class BattleBottom : MonoBehaviour {
 
 	void CloseSkillWindow () {
 		BattleMap.waitMove = false;
-		battleQuest.battle.SwitchInput (!battleQuest.battle.isShowEnemy);
+//		battleQuest.battle.SwitchInput (!battleQuest.battle.isShowEnemy);
 		battleSkillObject.SetActive(false);
 	}
 }

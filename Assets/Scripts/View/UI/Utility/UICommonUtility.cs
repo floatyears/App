@@ -12,6 +12,9 @@ public enum BlockerReason{
 public class TouchEventBlocker{
 	public const int blockerLayer = 15;
 	public const string blockerLayerName = "Blocker";
+    public const int defaultLayer = 0;
+    public const string defaultLayerName = "Default";
+
 	private TouchEventBlocker(){
 		nguiCamera = Camera.main.GetComponent<UICamera>();
 	}
