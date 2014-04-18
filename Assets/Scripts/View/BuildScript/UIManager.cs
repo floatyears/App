@@ -123,20 +123,20 @@ public class UIManager {
 			if(current != null) {
 				current.HideScene();
 			}
-
+			//Debug.LogError("ChangeScene : sEnum befoure: " + sEnum);
 			baseScene.SetScene(sEnum);
+			//Debug.LogError("ChangeScene : sEnum behind : " + sEnum);
 		}
 
 		if(HasUIObject(sEnum))
 			current = GetUI(sEnum);
 		else{
-
 			DecoratorBase db = CreatScene(sEnum);
 			current = db;
 		}
 			
-
 		if (current != null) {
+			//Debug.LogError("current showscene : " + current);
 			current.ShowScene();		
 		}
 	}

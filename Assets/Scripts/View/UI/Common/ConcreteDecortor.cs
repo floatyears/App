@@ -377,14 +377,13 @@ public class UnitsDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		UnitsComponent units = CreatComponent< UnitsComponent >(UIConfig.unitsWindowName);
+		UnitsController units = CreatComponent< UnitsController >(UIConfig.unitsWindowName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
 		partyInfo.SetComponent(sceneInfoBar);
 		units.SetComponent(partyInfo);
 		lastDecorator = units;
-
 		lastDecorator.CreatUI();
 	}
 }
@@ -489,9 +488,9 @@ public class PartyDecorator : DecoratorBase{
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.PartyWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
-		counter.SetComponent(sceneInfoBar);
-		partyInfo.SetComponent(counter);
-		partyPage.SetComponent(partyInfo);
+		partyInfo.SetComponent(sceneInfoBar);
+		counter.SetComponent(partyInfo);
+		partyPage.SetComponent(counter);
 	
 		lastDecorator = partyPage;
 		lastDecorator.CreatUI();

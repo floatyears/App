@@ -85,6 +85,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 
 	public virtual void ShowUI() {
 		if (component != null) {
+			//Debug.LogError("ConcreteComponent  component ShowUI : " + component + "  this : " + this + " viewComponent : " + viewComponent);
 			component.ShowUI();		
 		}
 		if (viewComponent != null) {
