@@ -296,14 +296,14 @@ public class UnitDisplayUnity : UIComponentUnity {
 		uii.star = go.Find ("StarMark").GetComponent<UISprite> ();
 		uii.hightLight = go.Find ("HighLight").GetComponent<UISprite> ();
 		UIEventListener.Get (go.gameObject).onClick = ClickItem;
-		uii.IsFavorate (uii.userUnitItem.isFavorate);
+		uii.IsFavorate (uii.userUnitItem.IsFavorite);
 		bool b = DataCenter.Instance.PartyInfo.UnitIsInParty (uii.userUnitItem.ID);
 		uii.IsPartyItem(b);
 		if (b) {
 			partyItem.Add(uii);		
 		}
 
-		if (uii.userUnitItem.isFavorate == 0 && !b) {
+		if (uii.userUnitItem.IsFavorite == 0 && !b) {
 			normalItem.Add(uii);	
 		}
 
