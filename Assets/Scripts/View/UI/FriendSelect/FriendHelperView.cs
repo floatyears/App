@@ -73,6 +73,11 @@ public class FriendHelperView : UIComponentUnity{
 		RemoveCommandListener();
 	}
 
+	public override void DestoryUI () {
+		base.DestoryUI ();
+		RemoveCommandListener();
+	}
+
 	public override void CallbackView(object data){
 		base.CallbackView(data);
 
@@ -185,12 +190,17 @@ public class FriendHelperView : UIComponentUnity{
 
 	void AddHelperItem(TFriendInfo tfi ){
 		Texture2D tex = tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		Debug.LogError ("AddHelperItem : " + itemLeft + " time : " + Time.realtimeSinceStartup);
+		if (itemLeft == null) {
+			FindItemLeft();
+		}
 		UITexture uiTexture = itemLeft.transform.FindChild("Texture").GetComponent<UITexture>();
 		uiTexture.mainTexture = tex;
 	}
 
 	void FindItemLeft(){
 		itemLeft = transform.FindChild("Item_Left").gameObject;
+		Debug.LogError ("FindItemLeft : " + itemLeft + " time : " + Time.realtimeSinceStartup);
 	}
 
 	private void InitPagePanel(){

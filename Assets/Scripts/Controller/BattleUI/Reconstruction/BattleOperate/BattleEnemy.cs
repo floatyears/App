@@ -67,7 +67,6 @@ public class BattleEnemy : UIBaseUnity {
 	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
 		List<EnemyItem> temp = new List<EnemyItem> ();
-//		Debug.LogError ("refresh : " + enemy.Count);
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);

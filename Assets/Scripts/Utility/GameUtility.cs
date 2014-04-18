@@ -183,14 +183,9 @@ public class DGTools {
 		List<T> tempSkillList = new List<T> (skillList);
 
 		for (int i = 0; i < tempSkillList.Count; i++) {
-//			if(tempCard.Contains(tempSkillList[i])) {
-////				T value = tempSkillList[i];
-////				tempCard.Remove(value);
-//			}
-//			else  {
-//				return false;
-//			}
-			if(!tempCard.Contains(tempSkillList[i])){
+			if(tempCard.Contains(tempSkillList[i])){
+				tempCard.Remove(tempSkillList[i]);
+			}else{
 				return false;
 			}
 		}
