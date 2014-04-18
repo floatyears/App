@@ -2,24 +2,25 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class SellView : UIComponentUnity{
-	DragPanel dragPanel;
-	GameObject mainRoot;
-	GameObject submitRoot;
-	UIButton sortButton;
+	private int totalSaleValue = 0;
+	private int maxItemCount = 12;
+	private DragPanel dragPanel;
+	private GameObject mainRoot;
+	private GameObject submitRoot;
+	private UIButton sortBtn;
 	private UILabel sortRuleLabel;
 	private SortRule curSortRule;
-	UIButton lastSureOkBtn;
-	UIButton lastSureCancelBtn;
-	UIImageButton sellImgBtn;
-	UIImageButton clearImgBtn;
-	UILabel coinLabel;
-	UILabel readyCoinLabel;
-	int maxItemCount = 12;
-	int totalSaleValue = 0;
-	List<SellUnitItem> saleUnitViewList = new List<SellUnitItem>();
-	List<SellUnitItem> pickUnitViewList = new List<SellUnitItem>();
-	List<GameObject> pickItemList = new List<GameObject>();
-	List<GameObject> readyItemList = new List<GameObject>();
+	private UIButton lastSureOkBtn;
+	private UIButton lastSureCancelBtn;
+	private UIImageButton sellImgBtn;
+	private UIImageButton clearImgBtn;
+	private UILabel coinLabel;
+	private UILabel readyCoinLabel;
+
+	private List<SellUnitItem> saleUnitViewList = new List<SellUnitItem>();
+	private List<SellUnitItem> pickUnitViewList = new List<SellUnitItem>();
+	private List<GameObject> pickItemList = new List<GameObject>();
+	private List<GameObject> readyItemList = new List<GameObject>();
 	
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -28,7 +29,10 @@ public class SellView : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
+		totalSaleValue = 0;
+		pickUnitViewList.Clear();
 		SortUnitByCurRule();
+		RefreshOwnedUnitCount();
 		ShowUIAnimation();	
 	}
 	
@@ -38,7 +42,6 @@ public class SellView : UIComponentUnity{
 
 	public override void CallbackView(object data){
 		base.CallbackView(data);
-
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName){
 			case "CreateDragView" : 
@@ -59,7 +62,7 @@ public class SellView : UIComponentUnity{
 	}
 
     public override void ResetUIState() {
-        OnSaleUnitsController controller = origin as OnSaleUnitsController;
+        SellController controller = origin as SellController;
         if (controller != null){
             controller.ResetUI();
         }
@@ -147,7 +150,6 @@ public class SellView : UIComponentUnity{
 		int clickPos = (int)info["clickPos"];
 		FindTextureWithPosition(poolPos, pickItemList).mainTexture = null;
 		FindLabelWithPosition(poolPos, pickItemList).text = string.Empty;
-
 		CancelMarkDragItem(clickPos);
 	}
 	
@@ -179,9 +181,9 @@ public class SellView : UIComponentUnity{
 		UIEventListener.Get(lastSureCancelBtn.gameObject).onClick = ClickSellCancel;
 		InitCells();
 
-		sortButton = FindChild<UIButton>("MainWindow/SortButton");
-		UIEventListener.Get(sortButton.gameObject).onClick = ClickSortButton;
-		sortRuleLabel = sortButton.transform.FindChild("Label").GetComponent<UILabel>();
+		sortBtn = FindChild<UIButton>("MainWindow/SortButton");
+		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortButton;
+		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
 
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 		sortRuleLabel.text = curSortRule.ToString();
@@ -203,8 +205,17 @@ public class SellView : UIComponentUnity{
 
 	void ClickClearBtn(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickClear", null);
-		ExcuteCallback(cbdArgs);
+		ResetUIElement();
+		for (int i = 0; i < saleUnitViewList.Count; i++){
+			SellUnitItem sui =  saleUnitViewList[ i ];
+			for (int j = 0; j < pickUnitViewList.Count; j++) {
+				if(sui.Equals(pickUnitViewList[ j ])){
+					CancelMarkDragItem( i );
+				}
+			}
+		}
+		//clear data
+		pickUnitViewList.Clear();
 	}
 
 	void InitCells(){
@@ -220,7 +231,6 @@ public class SellView : UIComponentUnity{
 			go = transform.FindChild(path).gameObject;
 			readyItemList.Add(go);
 		}
-//		Debug.Log(string.Format("PickedCount : {0}---ReadtCount : {1}  ........",pickItemList.Count, readyItemList.Count ));
 	}
 
 	void CreateDragView(object args){
@@ -243,18 +253,18 @@ public class SellView : UIComponentUnity{
 		}
 	}
 
-	int CheckExist(SellUnitItem item){
+	int CheckHaveBeenPicked(SellUnitItem item){
 		for (int i = 0; i < pickUnitViewList.Count; i++) {
-			if(pickUnitViewList[i] != null && pickUnitViewList[i].Equals(item)) {
+			if(pickUnitViewList[ i ] != null && pickUnitViewList[ i ].Equals(item)) {
 				return i;
 			}
 		}
 		return -1;
 	}
 
-	int CheckNull(SellUnitItem item){
+	int SearchFirstEmptyPosition(SellUnitItem item){
 		for (int i = 0; i < pickUnitViewList.Count; i++) {
-			if(pickUnitViewList[i] == null) {
+			if(pickUnitViewList[ i ] == null) {
 				return i;
 			}
 		}
@@ -265,14 +275,14 @@ public class SellView : UIComponentUnity{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		int clickPos = saleUnitViewList.IndexOf(item);
 		int poolPos = 0;
-		int index = CheckExist(item);
-		if(index == -1) {
-			index = CheckNull(item);
-				if(index == -1) {
+		int index = CheckHaveBeenPicked(item);
+		if(index == -1) {//not exist and add to picked list
+			index = SearchFirstEmptyPosition(item);
+				if(index == -1) {//conditin 1 : not exist empty slot in current picked list and add in the end of the list
 					poolPos = pickUnitViewList.Count;
 					pickUnitViewList.Add(item);
 				}
-				else{
+			else{//conditin 2 : exist empty slot and insert it
 					poolPos = index;
 					pickUnitViewList[index] = item;
 				}
@@ -285,7 +295,7 @@ public class SellView : UIComponentUnity{
 			temp.Add("label", item.UserUnit.Level.ToString());
 			AddViewItem(temp);
 		}
-		else{
+		else{//already exist, treat current click as "cancel sell this unit"
 			poolPos = index;
 			SellUnitItem suv = pickUnitViewList[ index ];
 			pickUnitViewList[ index ] = null;
@@ -358,5 +368,13 @@ public class SellView : UIComponentUnity{
 			suv.CurrentSortRule = curSortRule;
 		}
 	}
+
+	void RefreshOwnedUnitCount(){
+		Dictionary<string, object> countArgs = new Dictionary<string, object>();
+		countArgs.Add("title", TextCenter.Instace.GetCurrentText("UnitCounterTitle"));
+		countArgs.Add("current", DataCenter.Instance.MyUnitList.Count);
+		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+        }
         
 }

@@ -101,9 +101,8 @@ public class UIManager {
 
 	public void ExitBattle () {
 		Resources.UnloadUnusedAssets ();
-
 		ChangeScene (SceneEnum.Quest);
-		MsgCenter.Instance.Invoke (CommandEnum.LeftBattle, null);
+
 	}
 
 	public void HideBaseScene () {

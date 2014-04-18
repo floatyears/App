@@ -47,7 +47,7 @@ public class CatalogView : UIComponentUnity {
 
 	private int GetTotalUnitCount(){
 		//TODO LOAD FORM CONFIG FILE
-		int totalUnitCount = 29;
+		int totalUnitCount = 300;
 		return totalUnitCount;
 	}
 
@@ -63,6 +63,7 @@ public class CatalogView : UIComponentUnity {
 
 	private void RefreshCatalogView(){
 		for (int i = 1; i <= TOTAL_CATALOG_COUNT; i++){
+			//Debug.LogError("RefreshCatalogView(), index : " + i);
 			catalogUnitItemList[ i - 1 ].Refresh( i );
 		}
 	}

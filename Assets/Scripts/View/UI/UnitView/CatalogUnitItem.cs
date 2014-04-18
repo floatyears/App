@@ -62,12 +62,15 @@ public class CatalogUnitItem : MonoBehaviour {
 			}
 			else{
 				if(DataCenter.Instance.CatalogInfo.IsHaveUnit(catalogUserUnit.UnitID)){
+					//Debug.LogError("unitID : " + catalogUserUnit.UnitID+" isHave.");
 					State = CatalogState.Got;
 				}
 				else if(DataCenter.Instance.CatalogInfo.IsMeetNotHaveUnit(catalogUserUnit.UnitID)){
+					//Debug.LogError("unitID : " + catalogUserUnit.UnitID+" isMeet.");
 					State = CatalogState.Meet;
 				}
 				else{
+					//Debug.LogError("unitid : " + catalogUserUnit.UnitID+" isUnknown.");
 					State = CatalogState.UnKnown;
 				}
 			}

@@ -50,11 +50,11 @@ public class MapDoor : UIBaseUnity {
 
 	void OpenDoor (object data) {
 		doorOpen = true;
+		ShowTapToBattle ();
 	}
 
 	void QuestEnd(object data) {
-		bool b = (bool)data;
-		canEnterDoor = b;
+		canEnterDoor = (bool)data;
 		ShowTapToBattle ();
 	}
 
@@ -74,8 +74,9 @@ public class MapDoor : UIBaseUnity {
 			TapToBattle.enabled = isClick;	
 			tweenA.enabled = isClick;
 			isClick = true;
+			return;
 		}
-
+		Debug.LogError ("apToBattle.spriteName  : " + TapToBattle.spriteName + " checkOut : " + checkOut);
 		if (TapToBattle.spriteName == QuestFullScreenTips.CheckOut && checkOut) {
 			checkOut = false;
 			TapToBattle.enabled = checkOut;	

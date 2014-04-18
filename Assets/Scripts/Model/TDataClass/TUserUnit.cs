@@ -411,7 +411,8 @@ public class TUserUnit : ProtobufDataBase {
 
     public uint UnitID {
         get {
-            return UnitInfo.Object.id;
+//            return UnitInfo.Object.id;
+				return instance.unitId;
         }
     }
 

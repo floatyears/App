@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class OnSaleUnitsController : ConcreteComponent {
+public class SellController : ConcreteComponent {
 	int maxPickCount = 12;
 	int totalSaleValue = 0;
-
-	List<UnitItemViewInfo> onSaleUnitList = new List<UnitItemViewInfo>();
 	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
 
-	public OnSaleUnitsController(string uiName):base(uiName) {}
+	public SellController(string uiName):base(uiName) {}
 	public override void CreatUI () { base.CreatUI (); }
 	
 	public override void ShowUI () {
@@ -26,17 +24,8 @@ public class OnSaleUnitsController : ConcreteComponent {
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName){
-//			case "ClickItem" : 
-//				CallBackDispatcherHelper.DispatchCallBack(PickOnSaleUnit, cbdArgs);
-//				break;
-//			case "PressItem": 
-//				CallBackDispatcherHelper.DispatchCallBack(ViewUnitDetailInfo, cbdArgs);
-//				break;
 			case "ClickSell" : 
 				CallBackDispatcherHelper.DispatchCallBack(PlanToSell, cbdArgs);
-				break;
-			case "ClickClear" : 
-				CallBackDispatcherHelper.DispatchCallBack(ClearPickedUnits, cbdArgs);
 				break;
 			case "ClickSellOk" : 
 				CallBackDispatcherHelper.DispatchCallBack(SubmitSell, cbdArgs);
@@ -87,11 +76,12 @@ public class OnSaleUnitsController : ConcreteComponent {
 //		LogHelper.LogError("after sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
 		UpdateViewAfterRspSellUnit();
 
-		RefreshOwnedUnitCount();
+//		RefreshOwnedUnitCount();
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_sold_out);
 	}
 
 	void UpdateViewAfterRspSellUnit(){
+		pickedUnitList.Clear();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin, null);
 		HideUI();
 		SellView view = viewComponent as SellView;
@@ -108,21 +98,16 @@ public class OnSaleUnitsController : ConcreteComponent {
 	}
 
 	void GiveLastSaleEnsure(){
-//		Debug.LogError("GiveLastSaleEnsure...");
-//		List<TUserUnit> readySaleList = GetReadySaleUnitList();
-
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowLastSureWindow", pickedUnitList);
 		ExcuteCallback(cbdArgs);
 	}
 
 	MsgWindowParams GetWarningMsgWindowParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();
-
 		msgParams.titleText = TextCenter.Instace.GetCurrentText("BigRareWarning");
 		msgParams.contentText = TextCenter.Instace.GetCurrentText("BigRareWarningText");
-		msgParams.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
-		msgParams.btnParams[0].callback = CallbackOnSaleLastEnsure;
-
+		msgParams.btnParams = new BtnParam[ 2 ]{new BtnParam(), new BtnParam()};
+		msgParams.btnParams[ 0 ].callback = CallbackOnSaleLastEnsure;
 		return msgParams;
 	}
 
@@ -171,31 +156,12 @@ public class OnSaleUnitsController : ConcreteComponent {
 				break;
 			}
 		}
-//		Debug.LogError("NoteSigbal is : " + noteSignal);
 		return noteSignal;
 	}
 
-	void ClearPickedUnits(object args){
-		for (int i = 0; i < onSaleUnitList.Count; i++){
-			UnitItemViewInfo viewInfo = onSaleUnitList[i];
-			if (CanBeCancel(viewInfo.DataItem)){
-				CancelPick(i, viewInfo.DataItem);
-			}
-		}
-	}
-
-	void RefreshOwnedUnitCount(){
-		Dictionary<string, object> countArgs = new Dictionary<string, object>();
-		countArgs.Add("title", TextCenter.Instace.GetCurrentText("UnitCounterTitle"));
-		countArgs.Add("current", DataCenter.Instance.MyUnitList.Count);
-		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
-	}
-
-
 	void GetUnitCellViewList(){
 		List<TUserUnit> userUnitList = new List<TUserUnit>();	
-		if (onSaleUnitList.Count > 0) onSaleUnitList.Clear();
+//		if (onSaleUnitList.Count > 0) onSaleUnitList.Clear();
 		userUnitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", userUnitList);
 		ExcuteCallback(cbdArgs);
@@ -207,21 +173,6 @@ public class OnSaleUnitsController : ConcreteComponent {
 	void DestoryOnSaleUnitViewList(){
 		totalSaleValue = 0;
 		pickedUnitList.Clear();
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", onSaleUnitList);
-		ExcuteCallback(cbdArgs);
-	}
-
-	void PickOnSaleUnit(object args){
-		int viewItemPos = (int)args;
-		UnitItemViewInfo clickItemInfo = onSaleUnitList[ viewItemPos ];
-		TUserUnit tuu = clickItemInfo.DataItem;
-		if(CanBeCancel(tuu))	
-			CancelPick(viewItemPos, tuu);
-		else if(CanBePick(clickItemInfo)) 
-			Pick(viewItemPos, tuu);
-		else
-			Debug.LogError("neither canbe cancel nor canbepick");
-
 	}
 
 	bool CanBeCancel(TUserUnit info){
@@ -327,36 +278,9 @@ public class OnSaleUnitsController : ConcreteComponent {
 		ExcuteCallback(canSellInfo);
 	}
 
-	void ViewUnitDetailInfo(object args){
-		int position = (int)args;
-		TUserUnit tuu = onSaleUnitList [position].DataItem;
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
-	}
-
-	void RefreshCounter(){
-		//Debug.Log("OnSaleUnitList.RefreshCounter(), start...");
-		Dictionary<string, object> countArgs = new Dictionary<string, object>();
-		string title = "" ;
-		int current = 0;
-		int max = 0;
-		
-		title = TextCenter.Instace.GetCurrentText("UnitCounterTitle");
-		current = DataCenter.Instance.MyUnitList.Count;
-		max = DataCenter.Instance.UserInfo.UnitMax;
-		
-		countArgs.Add("title", title);
-		countArgs.Add("current", current);
-		countArgs.Add("max", max);
-		
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
-	}
-
     public void ResetUI(){
         DestoryOnSaleUnitViewList();
         GetUnitCellViewList();
-        RefreshOwnedUnitCount();
-		RefreshCounter();
     }
     
 }

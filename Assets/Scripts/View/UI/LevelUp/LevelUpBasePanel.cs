@@ -292,8 +292,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		TUserUnit unitInfo = baseUnitInfoDic[ item ].userUnitItem;
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
-
-        }
+	}
 
 	void InitDragPanel(){
 		Debug.LogError(" start levelup base panel InitDragPanel ");

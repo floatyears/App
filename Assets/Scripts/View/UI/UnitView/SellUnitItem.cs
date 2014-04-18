@@ -4,8 +4,8 @@ using System.Collections;
 public class SellUnitItem : MyUnitItem {
 
 	public static SellUnitItem Inject(GameObject item){
-		SellUnitItem view = item.AddComponent<SellUnitItem>();
-//		if (view == null) view = item.AddComponent<SaleUnitView>();
+		SellUnitItem view = item.GetComponent<SellUnitItem>();
+		if (view == null) view = item.AddComponent<SellUnitItem>();
 		return view;
 	}
 
@@ -16,7 +16,8 @@ public class SellUnitItem : MyUnitItem {
 	public static GameObject ItemPrefab {
 		get {
 			if(itemPrefab == null) {
-				itemPrefab = Resources.Load("Prefabs/UI/UnitItem/SaleUnitPrefab") as GameObject ;
+				string sourcePath = "Prefabs/UI/UnitItem/SaleUnitPrefab";
+				itemPrefab = Resources.Load(sourcePath) as GameObject ;
 			}
 			return itemPrefab;
 		}
@@ -38,8 +39,6 @@ public class SellUnitItem : MyUnitItem {
 
 	protected override void UpdatePartyState(){
 		partyLabel.enabled = IsParty;
-//		Debug.LogError("IsParty : " + IsParty + " gameobjecy: " + gameObject);
-//		Debug.LogError("partyLabel.enabled : " + partyLabel.enabled + " gameobjecy: " + gameObject);
 		IsEnable = !IsParty;
 	}
 	

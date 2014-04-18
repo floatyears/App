@@ -18,7 +18,7 @@ public class TUnitCatalog {
 			for (int b=0; b<8; b++){
 				byte value = (byte)( (srcflag[i] >> b) & 1 );
 //				if( srcflag[i] != 0)
-//					Debug.LogError("   add bit:"+value);
+//					Debug.LogError("["+(i*8+b)+"]  add bit:"+value);
 				targetflag.Add(value);
 			}
 		}
