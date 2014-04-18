@@ -434,16 +434,11 @@ public class TUserUnit : ProtobufDataBase {
             return instance.addHp;
         }
     }
-
-    /// <summary>
-    ///  0 = false. 1 = true.
-    /// </summary>
-    /// <value>The is favorate.</value>
-    public int isFavorate {
-        get {
-            return instance.isFavorite;
-        }
-    } 
+	
+    public int IsFavorite {
+        get { return instance.isFavorite; }
+		set { instance.isFavorite = value; }
+    }
 }
 
 //A wrapper to manage userUnitInfo list
