@@ -70,6 +70,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		base.ShowUI ();
 		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
+		ClearBlock( blockLsit1 );
+		ClearBlock( blockLsit2 );
 	}
 
 	public override void HideUI () {
@@ -161,16 +163,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			spr				= FindChild<UISprite>(rootPath + count.ToString());
 			blockLsit1.Add( spr );
 		}
-		ClearBlock( blockLsit1 );
-//		Debug.LogError( "BlockList1 count : " + blockLsit1.Count);
 
 		rootPath 				= "UnitInfoTabs/Content_Skill2/Block/Block2/";
 		for( count =0; count <=4; count++ ){
 			spr				= FindChild<UISprite>(rootPath + count.ToString());
 			blockLsit2.Add( spr );
 		}
-		ClearBlock( blockLsit2 );
-//                Debug.LogError( "BlockList2 count : " + blockLsit2.Count);
 
 	}
 	

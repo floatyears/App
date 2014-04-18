@@ -2,22 +2,17 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class FriendHelperView : UIComponentUnity{
-	private UITexture friendSprite;
 	private UnitBaseInfo friendBaseInfo;
 	private GameObject itemLeft;
 	private DragPanel dragPanel;
-    private UIImageButton bottomButton;
-    private UIButton btnSure;
-    private UIButton btnCancel;
-    private UIButton btnSeeInfo;
-
+    private UIImageButton startQuestBtn;
 	private UILabel rightIndexLabel;
 	private UIButton prePageButton;
 	private UIButton nextPageButton;
     private int currentPartyIndex;
     private int partyTotalCount;
 
-	private UIButton sortButton;
+	private UIButton sortBtn;
 	private UILabel sortRuleLabel;
 	private SortRule curSortRule;
 
@@ -47,12 +42,11 @@ public class FriendHelperView : UIComponentUnity{
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
-	
 	}
 
 	private void ShowUIAnimation(){
 		gameObject.transform.localPosition = new Vector3(-1000, 0, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "easetype", iTween.EaseType.linear));       
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));       
 	}
 
 	void AddCommandListener(){
@@ -117,23 +111,23 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
     private void InitUI() {
-		sortButton = FindChild<UIButton>("SortButton");
-		UIEventListener.Get(sortButton.gameObject).onClick = ClickSortButton;
-		sortRuleLabel = sortButton.transform.FindChild("Label").GetComponent<UILabel>();
+		sortBtn = FindChild<UIButton>("SortButton");
+		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortButton;
+		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
 
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 		sortRuleLabel.text = curSortRule.ToString();
 
         friendBaseInfo = DataCenter.Instance.FriendBaseInfo;
-		bottomButton = FindChild<UIImageButton>("Button_QuestStart");
-//		InitDragPanelArgs();
+		startQuestBtn = FindChild<UIImageButton>("Button_QuestStart");
+
 		FindItemLeft();
 		InitPagePanel();
     }
 
 	void UpdateViewAfterChooseHelper(){
-		bottomButton.isEnabled = true;
-		UIEventListener.Get(bottomButton.gameObject).onClick = ClickBottomButton;
+		startQuestBtn.isEnabled = true;
+		UIEventListener.Get(startQuestBtn.gameObject).onClick = ClickBottomButton;
 		LightClickItem();
 	}
 
@@ -161,7 +155,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void ClickBottomButton(GameObject btn){
-		bottomButton.isEnabled = false;
+		startQuestBtn.isEnabled = false;
 		QuestStart();
 	}
 
@@ -178,7 +172,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void SetBottomButtonActive(bool active){
-		bottomButton.isEnabled = active;
+		startQuestBtn.isEnabled = active;
 	}
 
 	void AddHelperItem(TFriendInfo tfi ){

@@ -57,7 +57,7 @@ public class Battle : UIBase {
 	}
 
 	public override void ShowUI() {
-		SwitchInput(false);
+//		SwitchInput(false);
 		base.ShowUI();
 		ShowCard();
 		if (!isShow) {
@@ -71,7 +71,7 @@ public class Battle : UIBase {
 	}
 
 	public override void HideUI () {
-		SwitchInput(true);
+//		SwitchInput(true);
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
@@ -115,7 +115,7 @@ public class Battle : UIBase {
 
 	void EnemyAttckEnd (object data) {
 		battleCard.StartBattle (true);
-		SwitchInput(false);
+//		SwitchInput(false);
 		ShieldInput (true);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
@@ -123,7 +123,7 @@ public class Battle : UIBase {
 	void BattleEnd (object data) {
 		isShowEnemy = false;
 		ShieldInput (true);
-		SwitchInput(true);
+//		SwitchInput(true);
 		HideUI ();
 	}
 
@@ -228,16 +228,13 @@ public class Battle : UIBase {
 
 
 	public void SwitchInput(bool isShield) {
-//		Debug.LogError ("switch input : " + isShield + " time : " + Time.realtimeSinceStartup);
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
 		main.GInput.IsCheckInput = !isShield;
-//		MapCamera.IsClick = isShield;
 	}
 
 	public void ShieldInput (bool isShield) {
-//		Debug.LogError ("ShieldInput : " + isShield + " time : " + Time.realtimeSinceStartup);
 		nguiMainCamera.enabled = isShield;
 		main.GInput.IsCheckInput = isShield;
 	}

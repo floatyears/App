@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class ResultView : UIComponentUnity {
-
 	UILabel nameLabel;
 	UILabel rankLabel;
 	UILabel latestPlayLabel;
@@ -47,6 +46,7 @@ public class ResultView : UIComponentUnity {
 	}
 	public override void ShowUI(){
 		base.ShowUI();
+		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
@@ -121,5 +121,10 @@ public class ResultView : UIComponentUnity {
 		okBtn.gameObject.SetActive(active);
 		cancelBtn.gameObject.SetActive(active);
 		checkBtn.gameObject.SetActive(!active);
+	}
+
+	private void ShowUIAnimation(){
+		transform.localPosition = 1000 * Vector3.left;
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));
 	}
 }

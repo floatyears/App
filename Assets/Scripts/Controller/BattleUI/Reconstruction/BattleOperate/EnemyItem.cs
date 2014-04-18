@@ -150,6 +150,7 @@ public class EnemyItem : UIBaseUnity {
 	
     public void Init(TEnemyInfo te) {
         texture = FindChild<UITexture>("Texture");
+		UIEventListener.Get (texture.gameObject).onClick = TargetEnemy;
         dropTexture = FindChild<UISprite>("Drop");
         dropTexture.enabled = false;
         localPosition = texture.transform.localPosition;
@@ -199,6 +200,11 @@ public class EnemyItem : UIBaseUnity {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_chess);
         }
     }
+
+	void TargetEnemy(GameObject go) {
+		Debug.LogError ("TargetEnemy : " + enemyInfo);
+		MsgCenter.Instance.Invoke (CommandEnum.TargetEnemy, enemyInfo);
+	}
 	
     void DorpEnd() {
         DestoryUI();

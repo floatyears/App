@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class ResultController : ConcreteComponent {
 	TFriendInfo curFriendInfo;
@@ -58,8 +59,9 @@ public class ResultController : ConcreteComponent {
 
 	bool CheckIsFriend(TFriendInfo friendInfo){
 		bool isFriend = false;
-		if(friendInfo.FriendState == bbproto.EFriendState.FRIENDIN)
+		if(friendInfo.FriendState == EFriendState.FRIENDIN){
 			isFriend = true;
+		}
 		else
 			isFriend = false;
 
@@ -99,12 +101,7 @@ public class ResultController : ConcreteComponent {
 		LogHelper.Log("TFriendList.OnRspAddFriend() begin");
 		LogHelper.Log(data);
 		bbproto.RspAddFriend rsp = data as bbproto.RspAddFriend;
-		
-//		if (rsp.header.code != (int)ErrorCode.SUCCESS){
-//			LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-//			return;
-//		}
-//		
+
 		bbproto.FriendList inst = rsp.friends;
 		LogHelper.Log("OnAddFriend(), rsp.friends {0}", inst);
 		LogHelper.Log("OnAddFriend(), friendlist {0}, friendList == null {1}", DataCenter.Instance.FriendList, DataCenter.Instance.FriendList == null);
