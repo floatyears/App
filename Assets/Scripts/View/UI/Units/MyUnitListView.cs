@@ -16,9 +16,10 @@ public class MyUnitListView : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		ShowUIAnimation();
 		CreateDragPanel();
 		SortUnitByCurRule();
+		RefreshItemCounter();
+		ShowUIAnimation();
 	}
 	
 	public override void HideUI (){
@@ -35,15 +36,14 @@ public class MyUnitListView : UIComponentUnity {
 
 	private void CreateDragPanel(){
 		myUnitDataList = GetUnitList();
-		dragPanel = new DragPanel("DragPanel", MyUnitView.ItemPrefab);
+		dragPanel = new DragPanel("DragPanel", MyUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(myUnitDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.UnitListDragPanelArgs, transform);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			MyUnitView.Inject(dragPanel.ScrollItem[ i ]).Init(myUnitDataList[ i ]);
+			MyUnitItem.Inject(dragPanel.ScrollItem[ i ]).Init(myUnitDataList[ i ]);
 		}
-
 	}
 
 	private void ShowUIAnimation(){
@@ -71,10 +71,17 @@ public class MyUnitListView : UIComponentUnity {
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			MyUnitView muv = dragPanel.ScrollItem[ i ].GetComponent<MyUnitView>();
+			MyUnitItem muv = dragPanel.ScrollItem[ i ].GetComponent<MyUnitItem>();
 			muv.UserUnit = myUnitDataList[ i ];
 			muv.CurrentSortRule = curSortRule;
 		}
 	}
 
+	private void RefreshItemCounter(){
+		Dictionary<string, object> countArgs = new Dictionary<string, object>();
+		countArgs.Add("title", TextCenter.Instace.GetCurrentText("UnitCounterTitle"));
+		countArgs.Add("current", DataCenter.Instance.MyUnitList.Count);
+		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+	}
 }

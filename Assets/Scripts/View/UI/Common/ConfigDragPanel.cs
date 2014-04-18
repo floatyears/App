@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class ConfigDragPanel{
 	public static Dictionary<string, object> OthersDragPanelArgs = new Dictionary<string, object>();
 	public static Dictionary<string, object> UnitListDragPanelArgs = new Dictionary<string, object>();
+	public static Dictionary<string, object> CatalogDragPanelArgs = new Dictionary<string, object>();
 	public static Dictionary<string, object> LevelUpDragPanelArgs = new Dictionary<string, object>();
 	public static Dictionary<string, object> PartyListDragPanelArgs = new Dictionary<string, object>();
 	public static Dictionary<string, object> FriendListDragPanelArgs = new Dictionary<string, object>();
@@ -22,6 +23,7 @@ public class ConfigDragPanel{
 	private void Config(){
 		ConfigOthersDragPanel();
 		ConfigUnitListDragPanel();
+		ConfigCatalogDragPanel();
 		ConfigLevelUpDragPanel();
 		ConfigPartyListDragPanel();
 		ConfigFriendListDragPanel();
@@ -129,7 +131,7 @@ public class ConfigDragPanel{
 	private void ConfigPartyListDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), PartyListDragPanelArgs...");
 		PartyListDragPanelArgs.Add("scrollerScale",					 Vector3.one									);
-		PartyListDragPanelArgs.Add("scrollerLocalPos",				 -28 * Vector3.up							);
+		PartyListDragPanelArgs.Add("scrollerLocalPos",				  Vector3.zero									);
 		PartyListDragPanelArgs.Add("position", 							 Vector3.zero									);
 		PartyListDragPanelArgs.Add("clipRange", 						 new Vector4(0, -120, 640, 400)		);
 		PartyListDragPanelArgs.Add("gridArrange", 					 UIGrid.Arrangement.Vertical			);
@@ -178,6 +180,19 @@ public class ConfigDragPanel{
 		OnSaleUnitDragPanelArgs.Add("cellWidth", 						120											);
 		OnSaleUnitDragPanelArgs.Add("cellHeight",						120											);
 		OnSaleUnitDragPanelArgs.Add("maxPerLine",					3												);
+	}
+
+	private void ConfigCatalogDragPanel(){
+		//Debug.Log("ConfigDragPanel.Config(), CatalogDragPanelArgs...");
+		CatalogDragPanelArgs.Add("scrollerScale",						Vector3.one								);
+		CatalogDragPanelArgs.Add("scrollerLocalPos",					280 * Vector3.up							);
+		CatalogDragPanelArgs.Add("position", 								Vector3.zero								);
+		CatalogDragPanelArgs.Add("clipRange", 							new Vector4(0, -235, 640, 640)		);
+		CatalogDragPanelArgs.Add("gridArrange", 						UIGrid.Arrangement.Vertical		);
+		CatalogDragPanelArgs.Add("scrollBarPosition",					new Vector3(-320, -565, 0)			);
+		CatalogDragPanelArgs.Add("cellWidth", 							120											);
+		CatalogDragPanelArgs.Add("cellHeight",							120											);
+		CatalogDragPanelArgs.Add("maxPerLine",							5												);
 	}
 
 }

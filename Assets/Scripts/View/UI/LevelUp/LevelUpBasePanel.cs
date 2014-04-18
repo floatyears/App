@@ -6,7 +6,6 @@ using bbproto;
 public class LevelUpBasePanel : UIComponentUnity {
 	DragPanel baseDragPanel;
 	Dictionary<GameObject, UnitItemInfo> baseUnitInfoDic = new Dictionary<GameObject, UnitItemInfo>();
-	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
 	List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 
@@ -293,8 +292,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		TUserUnit unitInfo = baseUnitInfoDic[ item ].userUnitItem;
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
-
-        }
+	}
 
 	void InitDragPanel(){
 		Debug.LogError(" start levelup base panel InitDragPanel ");
@@ -311,7 +309,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 
 		baseDragPanel = CreateDragPanel( name, count, itemGo) ;
 		FillDragPanel (baseDragPanel);
-		baseDragPanel.DragPanelView.SetScrollView(dragPanelArgs, transform);
+		baseDragPanel.DragPanelView.SetScrollView(ConfigDragPanel.LevelUpBaseDragPanelArgs, transform);
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){

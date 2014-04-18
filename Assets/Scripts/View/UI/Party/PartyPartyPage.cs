@@ -3,16 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PartyPartyPage : PartyPageLogic{
-
 	private int currentFoucsPosition;
-	
 	public PartyPartyPage(string uiName) : base(uiName){
 		SetFocusPostion(0);
 	}
 
 	public override void CreatUI(){
 		base.CreatUI();
-		EnableIndexDisplay();
+//		EnableIndexDisplay();
 	}
 
 	public override void ShowUI(){
@@ -136,27 +134,13 @@ public class PartyPartyPage : PartyPageLogic{
 		TUserUnit newPartyUnit = data as TUserUnit;
 		uint uniqueId = newPartyUnit.ID;
 		
-//		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty Before....");
-
-		//Check Cost Limit
-//		if(!DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, uniqueId)){
-////			Debug.LogError("The current party's cost is bigger than your max cost...");
-//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetPartyCostLimitMsgParams());
-//			return;
-//		}
-
-//		Debug.LogError("PartyPageUILogic.ReplaceFocusPartyItem(), ChangeParty After....");
-//		
-//		LogHelper.LogError("PartyPageLogic.ReplaceFocusPartyItem(), The position to  repace : " + currentFoucsPosition);
-		
 		Dictionary<string,object> replaceArgsDic = new Dictionary<string, object>();
 		replaceArgsDic.Add("position", currentFoucsPosition);
 		replaceArgsDic.Add("unit", newPartyUnit);
 		
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ReplaceItemView", replaceArgsDic);
 		ExcuteCallback(cbdArgs);
-		
-//		LogHelper.Log("PartyPageUILogic.ReplaceFocusPartyItem(), End...");
+	
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
 		
 	}

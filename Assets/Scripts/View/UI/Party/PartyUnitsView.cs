@@ -14,7 +14,7 @@ public class PartyUnitsView : UIComponentUnity {
 	List<string> crossShowTextList = new List<string>();
 	List<UnitItemViewInfo> viewInfoList = new List<UnitItemViewInfo>();
 	List<TUserUnit> currentPaty = new List<TUserUnit>();
-	List<PartyUnitView> partyViewList = new List<PartyUnitView>();
+	List<PartyUnitItem> partyViewList = new List<PartyUnitItem>();
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitDragPanel();
@@ -35,7 +35,7 @@ public class PartyUnitsView : UIComponentUnity {
 	void RefreshOnPartyUnitList(object data) {
 		currentPaty = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
 		for (int i = 0; i < partyViewList.Count; i++) {
-			PartyUnitView puv = partyViewList[i];
+			PartyUnitItem puv = partyViewList[i];
 			TUserUnit tuu = currentPaty.Find(a=>a.MakeUserUnitKey() == puv.UserUnit.MakeUserUnitKey());
 			if(tuu != default(TUserUnit)) {
 				puv.IsParty = true;
@@ -61,7 +61,7 @@ public class PartyUnitsView : UIComponentUnity {
 		return panel;
 	}
 
-	void ClickItem(PartyUnitView puv){
+	void ClickItem(PartyUnitItem puv){
 //		PartyUnitView puv = item.GetComponent<PartyUnitView>();
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickItem", puv);
 		ExcuteCallback( cbd );
@@ -225,13 +225,13 @@ public class PartyUnitsView : UIComponentUnity {
 	void CreateDragView(object args){
 		partyViewList.Clear();
 		List<TUserUnit> data = args as List<TUserUnit>;
-		dragPanel = new DragPanel("DragPanel", MyUnitView.ItemPrefab);
+		dragPanel = new DragPanel("DragPanel", MyUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(data.Count);
 //		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			PartyUnitView puv = PartyUnitView.Inject(dragPanel.ScrollItem[ i ]);
+			PartyUnitItem puv = PartyUnitItem.Inject(dragPanel.ScrollItem[ i ]);
 			puv.Init(data[ i ]);
 			partyViewList.Add(puv);
 			puv.callback = ClickItem;

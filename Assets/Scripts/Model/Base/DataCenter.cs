@@ -56,8 +56,7 @@ public class DataCenter {
         } 
     }
     private static DataCenter instance;
-    private DataCenter() {
-    }
+    private DataCenter() {}
 
 	public static GameState gameStage = GameState.Normal;
 	public static TEvolveStart evolveInfo = null;
@@ -557,5 +556,36 @@ public class DataCenter {
         ErrorMsg errMsg = new ErrorMsg();
         return ModelManager.Instance.GetData(modelType, errMsg);
     }
+	
+	public const uint AVATAR_ATLAS_COUNT = 3;
+	public const uint AVATAR_ATLAS_CAPACITY = 100;
+	private Dictionary<uint, UIAtlas> avatarAtalsDic = new Dictionary<uint, UIAtlas>();
+	public UIAtlas GetAvatarAtlas(uint unitID){
+		if(avatarAtalsDic.Count == 0){
+			Debug.LogError("DataCenter :: avatarAtalsDic is empty, loading...");
+			LoadAvatarAtlas();
+		}
+		uint index = unitID/AVATAR_ATLAS_CAPACITY;
+		if(avatarAtalsDic[ index ] == null){
+			Debug.LogError("AvatarAtlas_" + index + " is NOT Found, Please Check it....");
+			return null;
+		}
+		return avatarAtalsDic[ index ];
+	}
+
+	private bool LoadAvatarAtlas(){
+		bool successful = false;
+		for (uint i = 0; i < AVATAR_ATLAS_COUNT; i++){
+			string sourcePath = string.Format("Atlas/AvatarAtlas_{0}", i);
+			GameObject source = Resources.Load(sourcePath) as GameObject;
+			UIAtlas atlas = source.GetComponent<UIAtlas>();
+			if(atlas == null){ Debug.LogError("LoadAvatarAtlas(), atlas is NULL"); continue; }
+			avatarAtalsDic.Add(i, atlas);
+		}
+		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;
+		Debug.Log("DataCenter.LoadAvatarAtlas(), successful is : " + successful);
+		return successful;
+	}
+
 
 }

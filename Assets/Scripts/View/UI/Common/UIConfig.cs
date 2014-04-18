@@ -65,7 +65,7 @@ public class UIConfig
 	public const string partyDragPanelName = "PartyDragPanel";
 	public const string partyInfoPanelName = "PartyInfoPanel";
 	public const string partyPagePanelName = "PartyPagePanel";
-	public const string newPartyPanelName = "NewPartyPagePanel";
+	public const string PartyWindowName = "PartyWindow";
 
 	public const string partyWindowName = "PartyWindow";
 	public const string catalogWindowName = "CatalogWindow";
@@ -79,7 +79,7 @@ public class UIConfig
 	public const string friendSelectWindowName = "FriendSelectWindow";
 	public const string applyWindowName = "ApplyWindow";
 	public const string friendListWindowName = "FriendListWindow";
-
+	public const string receptionWindowName = "ReceptionWindow";
 	public const string userIDWindowName = "UserIDWindow";
 	public const string informationWindowName = "InformationWindow";
 	public const string unitDetailPanelName = "UnitDetailPanel";

@@ -8,17 +8,18 @@ public class ItemCounterView : UIComponentUnity{
 	UILabel maxLabel;
 
 	public override void Init(UIInsConfig config,IUICallback origin) {
-		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
 		base.Init(config,origin);
 		InitUIElement();
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshItemCount, UpdateView);
 	}
 	
 	void InitUIElement(){

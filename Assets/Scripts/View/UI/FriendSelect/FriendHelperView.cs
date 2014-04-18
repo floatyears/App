@@ -2,22 +2,17 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class FriendHelperView : UIComponentUnity{
-	private UITexture friendSprite;
 	private UnitBaseInfo friendBaseInfo;
 	private GameObject itemLeft;
 	private DragPanel dragPanel;
-    private UIImageButton bottomButton;
-    private UIButton btnSure;
-    private UIButton btnCancel;
-    private UIButton btnSeeInfo;
-
+    private UIImageButton startQuestBtn;
 	private UILabel rightIndexLabel;
 	private UIButton prePageButton;
 	private UIButton nextPageButton;
     private int currentPartyIndex;
     private int partyTotalCount;
 
-	private UIButton sortButton;
+	private UIButton sortBtn;
 	private UILabel sortRuleLabel;
 	private SortRule curSortRule;
 
@@ -25,7 +20,7 @@ public class FriendHelperView : UIComponentUnity{
 	private uint questID;
     private uint stageID;
 	private TEvolveStart evolveStart = null;
-	private Dictionary<int, PageUnitView> partyView = new Dictionary<int, PageUnitView>();
+	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
     private Dictionary<int, UITexture> partySprite = new Dictionary<int,UITexture>();
     private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo>();
    
@@ -47,12 +42,11 @@ public class FriendHelperView : UIComponentUnity{
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
-	
 	}
 
 	private void ShowUIAnimation(){
 		gameObject.transform.localPosition = new Vector3(-1000, 0, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "easetype", iTween.EaseType.linear));       
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));       
 	}
 
 	void AddCommandListener(){
@@ -95,24 +89,22 @@ public class FriendHelperView : UIComponentUnity{
 	}
 	
 	void CreateDragView(object args){
-
-		List<TFriendInfo> dataList = DataCenter.Instance.SupportFriends;
-		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitView.ItemPrefab);
+		List<TFriendInfo> dataList = DataCenter.Instance.SupportFriends;//merge
+		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			HelperUnitView huv = HelperUnitView.Inject(dragPanel.ScrollItem[ i ]);
+			HelperUnitItem huv = HelperUnitItem.Inject(dragPanel.ScrollItem[ i ]);
 			huv.Init(dataList[ i ]);
 			huv.callback = ClickItem;
-			helperDataList.Add(huv.FriendInfo);
+			helperDataList.Add(huv.FriendInfo);//merge
 		}
-
 		SortHelperByCurRule();
 	}
 
-	void ClickItem(HelperUnitView item){
+	void ClickItem(HelperUnitItem item){
 		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendSelect 
 		    && DataCenter.gameStage == GameState.Evolve) {
 			return;
@@ -124,23 +116,23 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
     private void InitUI() {
-		sortButton = FindChild<UIButton>("SortButton");
-		UIEventListener.Get(sortButton.gameObject).onClick = ClickSortButton;
-		sortRuleLabel = sortButton.transform.FindChild("Label").GetComponent<UILabel>();
+		sortBtn = FindChild<UIButton>("SortButton");
+		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortButton;
+		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
 
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 		sortRuleLabel.text = curSortRule.ToString();
 
         friendBaseInfo = DataCenter.Instance.FriendBaseInfo;
-		bottomButton = FindChild<UIImageButton>("Button_QuestStart");
-//		InitDragPanelArgs();
+		startQuestBtn = FindChild<UIImageButton>("Button_QuestStart");
+
 		FindItemLeft();
 		InitPagePanel();
     }
 
 	void UpdateViewAfterChooseHelper(){
-		bottomButton.isEnabled = true;
-		UIEventListener.Get(bottomButton.gameObject).onClick = ClickBottomButton;
+		startQuestBtn.isEnabled = true;
+		UIEventListener.Get(startQuestBtn.gameObject).onClick = ClickBottomButton;
 		LightClickItem();
 	}
 
@@ -168,7 +160,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void ClickBottomButton(GameObject btn){
-		bottomButton.isEnabled = false;
+		startQuestBtn.isEnabled = false;
 		QuestStart();
 	}
 
@@ -185,7 +177,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	void SetBottomButtonActive(bool active){
-		bottomButton.isEnabled = active;
+		startQuestBtn.isEnabled = active;
 	}
 
 	void AddHelperItem(TFriendInfo tfi ){
@@ -211,7 +203,7 @@ public class FriendHelperView : UIComponentUnity{
 		UIEventListener.Get(nextPageButton.gameObject).onClick = NextPage;
 		
 		for (int i = 0; i < 4; i++){
-			PageUnitView puv = FindChild<PageUnitView>(i.ToString());
+			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());
 			partyView.Add(i, puv);
 		}
 	}
@@ -253,7 +245,7 @@ public class FriendHelperView : UIComponentUnity{
 		SortUnitTool.SortByTargetRule(curSortRule, unitList);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			HelperUnitView huv = dragPanel.ScrollItem[ i ].GetComponent<HelperUnitView>();
+			HelperUnitItem huv = dragPanel.ScrollItem[ i ].GetComponent<HelperUnitItem>();
 			huv.UserUnit = helperDataList[ i ].UserUnit;
 			huv.CurrentSortRule = curSortRule;
 		}

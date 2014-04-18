@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UnitListForPartyLogic : ConcreteComponent{
-	PartyUnitView currentPickedUnit;
+	PartyUnitItem currentPickedUnit;
 //	List<UnitItemViewInfo> onPartyViewItemList = new List<UnitItemViewInfo>();
 	List<TUserUnit> partyDataList = new List<TUserUnit>();
 
@@ -108,7 +108,7 @@ public class UnitListForPartyLogic : ConcreteComponent{
 	}
 
 	void CallbackRspUnitPickFromView(object args){
-		PartyUnitView position = (PartyUnitView)args;
+		PartyUnitItem position = (PartyUnitItem)args;
 		RspUnitPickFromView(position);
 	}
 
@@ -120,7 +120,7 @@ public class UnitListForPartyLogic : ConcreteComponent{
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);	
 	}
 
-	void RspUnitPickFromView(PartyUnitView itemView){
+	void RspUnitPickFromView(PartyUnitItem itemView){
 		currentPickedUnit = itemView;
 		TUserUnit tup = partyDataList.Find(a=>a.Equals(itemView.UserUnit));
 		if(tup ==default(TUserUnit)) {
