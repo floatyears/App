@@ -126,7 +126,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 	public List<byte>		Colors	{ get { return this.colors; } }
 	public List<TDropUnit>	DropUnit { get { return this.dropUnit;} }
 
-	public List<TEnemyInfo>	Boss {get { return this.boss;} }
+	public List<TEnemyInfo>	Boss {get { return this.boss;} set { this.boss = value;} }
 //	EnemyInfo		enemys	
 
 	public List< List<TQuestGrid> >	Floors;

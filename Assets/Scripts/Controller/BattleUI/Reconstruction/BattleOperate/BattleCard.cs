@@ -33,6 +33,7 @@ public class BattleCard : UIBaseUnity {
 		LogHelper.Log("battle card ShowUI");
 		base.ShowUI ();
 		gameObject.SetActive(true);
+		RefreshLine ();
 	}
 
 	public override void HideUI () {
@@ -91,14 +92,13 @@ public class BattleCard : UIBaseUnity {
 	}
 
 	public void RefreshLine() {
-//		Debug.LogError ("RefreshLine ");
+//		Debug.LogError ("RefreshLine " + " time : " + Time.realtimeSinceStartup);
 		foreach (var item in cardItemArray) {
 			GenerateLinkSprite (item, item.itemID);
 		}
 	}
 
 	void GenerateLinkSprite(CardItem ci,int index) {
-	
 		if (battleUseData == null) {
 			battleUseData = BattleQuest.bud;
 		}
@@ -119,7 +119,7 @@ public class BattleCard : UIBaseUnity {
 	/// <param name="b">If set to <c>true</c> b.</param>
 	public void StartBattle(bool b) {
 		foreach (var item in cardItemArray) {
-			item.StartBattle(false);
+			item.StartBattle(b);
 		}
 	}
 

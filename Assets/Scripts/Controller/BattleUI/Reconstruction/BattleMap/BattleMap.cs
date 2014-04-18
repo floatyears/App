@@ -166,6 +166,37 @@ public class BattleMap : UIBaseUnity {
 
 	void RotateDown(object data) { }
 
+	public Queue<MapItem> AttakAround(Coordinate coor) {
+		List<MapItem> temp = GetAround (coor);
+
+		Queue<MapItem> mapItem = new Queue<MapItem> ();
+		foreach (var item in temp) {
+			if(item.GetChainLinke()) {
+				item.isLockAttack = true;
+				mapItem.Enqueue(item);
+
+			}
+		}
+		return mapItem;
+	}
+
+	List<MapItem> GetAround(Coordinate coor) {
+		List<MapItem> aroundList = new List<MapItem> ();
+		if(coor.x < map.GetLength(0) - 1)				//right map grid 
+			aroundList.Add(map[coor.x + 1, coor.y]);
+		
+		if(coor.x > 0)									//left map grid
+			aroundList.Add(map[coor.x - 1, coor.y]);
+		
+		if(coor.y > 0)									//bottom map grid
+			aroundList.Add(map[coor.x, coor.y - 1]);
+		
+		if(coor.y < map.GetLength(1) - 1)				//top map grid
+			aroundList.Add(map[coor.x, coor.y + 1]);
+
+		return aroundList;
+	}
+
 	void ChangeStyle(Coordinate coor) {
 		if(prevAround.Count > 0) {
 			for (int i = 0; i < prevAround.Count; i++) {
@@ -175,16 +206,17 @@ public class BattleMap : UIBaseUnity {
 			prevAround.Clear();
 		}
 
-		if(coor.x > 0)
-			DisposeAround(map[coor.x - 1, coor.y]);
-
-		if(coor.x < map.GetLength(0) - 1)
+		//map grid Priority : right > left > bottom > top 
+		if(coor.x < map.GetLength(0) - 1)				//right map grid 
 			DisposeAround(map[coor.x + 1, coor.y]);
 
-		if(coor.y > 0)
+		if(coor.x > 0)									//left map grid
+			DisposeAround(map[coor.x - 1, coor.y]);
+
+		if(coor.y > 0)									//bottom map grid
 			DisposeAround(map[coor.x, coor.y - 1]);
 
-		if(coor.y < map.GetLength(1) - 1)
+		if(coor.y < map.GetLength(1) - 1)				//top map grid
 			DisposeAround(map[coor.x, coor.y + 1]);
 	}
 

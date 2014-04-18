@@ -148,7 +148,7 @@ public class FriendHelperView : UIComponentUnity{
 	UISprite prevSprite;
 
 	void LightClickItem(){
-		Debug.LogError("FriendHelperView.LightClickItem()...");
+//		Debug.LogError("FriendHelperView.LightClickItem()...");
 		if(prevPosition == -1) return;
 		GameObject pickedItem = dragPanel.ScrollItem[ prevPosition ];
 		UISprite lightSpr = pickedItem.transform.FindChild("Sprite_Light").GetComponent<UISprite>();
@@ -190,7 +190,7 @@ public class FriendHelperView : UIComponentUnity{
 
 	void AddHelperItem(TFriendInfo tfi ){
 		Texture2D tex = tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		Debug.LogError ("AddHelperItem : " + itemLeft + " time : " + Time.realtimeSinceStartup);
+//		Debug.LogError ("AddHelperItem : " + itemLeft + " time : " + Time.realtimeSinceStartup);
 		if (itemLeft == null) {
 			FindItemLeft();
 		}
@@ -200,7 +200,7 @@ public class FriendHelperView : UIComponentUnity{
 
 	void FindItemLeft(){
 		itemLeft = transform.FindChild("Item_Left").gameObject;
-		Debug.LogError ("FindItemLeft : " + itemLeft + " time : " + Time.realtimeSinceStartup);
+//		Debug.LogError ("FindItemLeft : " + itemLeft + " time : " + Time.realtimeSinceStartup);
 	}
 
 	private void InitPagePanel(){
