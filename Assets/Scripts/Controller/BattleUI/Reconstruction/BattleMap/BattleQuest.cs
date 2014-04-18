@@ -165,7 +165,6 @@ public class BattleQuest : UIBase {
 	void Reset () {
 		battleEnemy = false;
 		bud.RemoveListen ();
-//		bud = new BattleUseData (this);
 		bud.Reset ();
 		battleMap.HideUI ();
 		role.HideUI ();
@@ -306,18 +305,21 @@ public class BattleQuest : UIBase {
 			role.Stop ();
 			MsgCenter.Instance.Invoke (CommandEnum.MeetEnemy, true);
 
-			if (currentMapData.Type != EQuestGridType.Q_TRAP && DGTools.EqualCoordinate (coor, MapConfig.endCoor)) {
-				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
-			} else {
-				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, false);
-			}
+//			bool can = currentMapData.Type != EQuestGridType.Q_TRAP || currentMapData.Type != EQuestGridType.Q_ENEMY;
+//			if (can && DGTools.EqualCoordinate (coor, MapConfig.endCoor)) {
+//				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
+//			} else {
+//				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, false);
+//			}
 
 			if (currentMapData.Star == EGridStar.GS_KEY) {
 					BattleMap.waitMove = true;
 					battleMap.RotateAnim (MapItemKey);
 					return;
 			}
+
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
+
 			switch (currentMapData.Type) {
 			case EQuestGridType.Q_NONE:
 					BattleMap.waitMove = true;
@@ -348,14 +350,11 @@ public class BattleQuest : UIBase {
 			default:
 					BattleMap.waitMove = false;
 					MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+				QuestCoorEnd();
 					break;
 			}
 		} else {
-			if(DGTools.EqualCoordinate (coor, MapConfig.endCoor)) {
-				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
-			} else {
-				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, false);
-			}
+			QuestCoorEnd();
 		}
 	}
 	
@@ -369,11 +368,13 @@ public class BattleQuest : UIBase {
 	void MeetQuestion () {
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		QuestCoorEnd ();
 	}
 	
 	void MapItemExclamation() {
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		QuestCoorEnd ();
 	}
 	
 	void MapItemTrap() {
@@ -388,11 +389,8 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 		gridType = EQuestGridType.Q_NONE;
-		if (DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor)) {
-			MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
-		} else {
-			MsgCenter.Instance.Invoke(CommandEnum.QuestEnd, false);
-		}
+
+		QuestCoorEnd ();
 	}
 
 	void MapItemCoin() {
@@ -402,6 +400,7 @@ public class BattleQuest : UIBase {
 		topUI.Coin = questData.getMoney;
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		QuestCoorEnd ();
 	}
 
 	void MapItemKey() {
@@ -420,6 +419,15 @@ public class BattleQuest : UIBase {
 	void MapItemNone() {
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		QuestCoorEnd ();
+	}
+
+	void QuestCoorEnd() {
+		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor)) {
+			MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
+		} else {
+			MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, false);
+		}
 	}
 
 	void MeetBoss () {
@@ -453,6 +461,7 @@ public class BattleQuest : UIBase {
 		ExitFight (false);
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
 		GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
+		QuestCoorEnd ();
 	}
 
 	void ExitFight(bool exit) {
@@ -724,48 +733,20 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleFailRecover(object data) {
-//		battle.ShieldInput (false);
 		ResumeQuest.SendRequest (ResumeQuestNet, questDungeonData.QuestId);
-
-//		void SureRetry(object data) {
-//			battle.ShieldInput (false);
-//			RedoQuest.SendRequest (RetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
-//		}
-		
-//		void RetryNetWork(object data) {
-//			battle.ShieldInput (true);
-//			RspRedoQuest rrq = data as RspRedoQuest;
-//			if (rrq == null) {
-//				return;	
-//			}
-//			DataCenter.Instance.AccountInfo.Stone = rrq.stone;
-//			int count = _questData.Count -1;
-//			_questData.RemoveAt (count);
-//			ClearQuestParam cqp = new ClearQuestParam ();
-//			_questData.Add (cqp);
-//			TQuestDungeonData tqdd = new TQuestDungeonData (rrq.dungeonData);
-//			int floor = questDungeonData.currentFloor;
-//			List<TQuestGrid> reQuestGrid = tqdd.Floors[floor];
-//			questDungeonData.Floors [floor] = reQuestGrid;
-//			Reset ();
-//			bud.ResetBlood ();
-//		}
 	}
 	
 	void ResumeQuestNet(object data) {
-//		battle.ShieldInput (true);
 		battle.SwitchInput (false);
 		bud.Blood = bud.maxBlood;
 		BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
 	}
 
 	void BattleFailExit(object data) {
-//		battle.ShieldInput(true);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.GameOver, BattleFail);
 	}
 
 	void BattleFail () {
-//		battle.SwitchInput (true);
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
 		ControllerManager.Instance.ExitBattle ();
