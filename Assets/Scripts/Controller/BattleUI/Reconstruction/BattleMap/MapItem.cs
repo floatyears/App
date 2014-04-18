@@ -357,7 +357,7 @@ public class MapItem : UIBaseUnity {
 				break;
 			case 2:
 				float value = DGTools.RandomToFloat();
-				float temp = 0.33f;
+				float temp = 1f;
 				if(isLockAttack) {
 					temp =0.01f;
 				}
@@ -384,22 +384,36 @@ public class MapItem : UIBaseUnity {
 		currentTa.from = ta.from;
 		currentTa.to = ta.to;
 	}
+
+	public bool GetChainLinke() {
+		if (isOld) {
+			return false;	
+		}
+
+		if (countShow == 2 && gridItem.Type == bbproto.EQuestGridType.Q_ENEMY) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public void AddSecurityLevel() {
+		if(countShow < 2) {
+			countShow++;
+			string name = GetStarSpriteName ();
+			for (int i = 0; i < showStarSprite.Count; i++) {
+				showStarSprite [i].spriteName = name;
+			}
+		}
+	}
+
 	public void Around(bool isAround) {
 		footTips.gameObject.SetActive (isAround);
 		ShowFootTips ();
 		if(isOld)
 			return;
-//		Debug.LogError (gameObject + " isAround : " + isAround + "showStarSprite : " + showStarSprite.Count);
 		if (isAround) {
 			HideShowSprite(true);
-			countShow++;
-			if (countShow == 3) {
-				countShow = 0;
-			}
-			string name = GetStarSpriteName ();
-			for (int i = 0; i < showStarSprite.Count; i++) {
-				showStarSprite [i].spriteName = name;
-			}
 		}
 		else {
 			HideShowSprite(false);	
@@ -408,18 +422,19 @@ public class MapItem : UIBaseUnity {
 
 	string GetStarSpriteName() {
 		if (countShow == -1) {
-			countShow = DGTools.RandomToInt(0, 3);	
+			countShow = DGTools.RandomToInt(2, 3);	
 		}
+//		Debug.LogError (" GetStarSpriteName: " + countShow);
 		string name = "";
 		switch (countShow) {
 		case 0:
 			name = "8";	// 8 == blue
 			break;
 		case 1:
-			name = "10"; // 10 == yellow
+			name = "9"; // 9 == yellow
 			break;
 		case 2:
-			name = "9"; // 9 == red
+			name = "10"; // 1 == red
 			break;
 		}
 		return name;

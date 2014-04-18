@@ -145,17 +145,18 @@ public class BattleCardAreaItem : UIBaseUnity {
 		if (ai == null) {
 			return;		
 		}
-
 		AttackInfo aiu = attackImage.Find (a => a.AttackID == ai.AttackID);
-
 		if (aiu != default(AttackInfo)) {
 			UISprite sprite = aiu.AttackSprite;
 			int index = battleCardTemplate.IndexOf(sprite);
 			battleCardTemplate.Remove(sprite);
-			Destroy(aiu.AttackSprite.gameObject);
-			for (int i = index; i < battleCardTemplate.Count; i++) {
-				float y = battleCardTemplate[i].transform.localPosition.y - itemInterv;
-				iTween.MoveTo(battleCardTemplate[i].gameObject,iTween.Hash("y",y,"time",0.2f,"easetype",iTween.EaseType.easeInCubic,"islocal",true));
+			Destroy(sprite.gameObject);
+			if(index < battleCardTemplate.Count && index > -1) {				//check index is vaild data
+				for (int i = index; i < battleCardTemplate.Count; i++) {
+//					Debug.LogError("index : " + i + " battleCardTemplate.Count : " + battleCardTemplate.Count);
+					float y = battleCardTemplate[i].transform.localPosition.y - itemInterv;
+					iTween.MoveTo(battleCardTemplate[i].gameObject,iTween.Hash("y",y,"time",0.2f,"easetype",iTween.EaseType.easeInCubic,"islocal",true));
+				}
 			}
 		}
  	}

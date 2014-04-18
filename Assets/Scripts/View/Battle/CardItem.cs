@@ -1,49 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CardItem : UIBaseUnity 
-{
+public class CardItem : UIBaseUnity {
 	public static Color32 NoAttackColor = new Color32 (174, 174, 174, 255);
 	public event UICallback<CardItem> tweenCallback;
-
 	[HideInInspector]
 	public bool canAttack = true;
-
 	private UISprite actorTexture;
-
 	public UISprite ActorTexture {
 		get{return actorTexture;}
 	}
 
-	private UISprite linkLineSprite;
-
-//	private Queue<Transform> linkLineSpriteCache = new Queue<Transform> ();
+	private UISprite linkLineSprite;	
 	private List<UISprite> linkLineSpriteList = new List<UISprite> ();
-
 	private List<Transform> target = new List<Transform> ();
-
 	private Vector3 initActorPosition;
 	private Vector3 hideActorPosition = new Vector3 (10000f, 10000f, 10000f);
-	
 	private TweenPosition tweenPosition;
 
-	public TweenPosition TweenP
-	{
+	public TweenPosition TweenP {
 		get{return tweenPosition;}
 	}
 	
 
 	private TweenScaleExtend tse;
 
-	public TweenScaleExtend TweenSE
-	{
+	public TweenScaleExtend TweenSE {
 		get{return tse;}
 	}
 
 	private Vector3 initPosition;
 
-	public Vector3 InitPosition
-	{
+	public Vector3 InitPosition {
 		set{initPosition = value;}
 	}
 	
@@ -54,9 +42,8 @@ public class CardItem : UIBaseUnity
 
 	private bool canDrag = true;
 
-	public bool CanDrag
-	{
-		set{
+	public bool CanDrag {
+		set {
 			canDrag = value;
 			if(canDrag) {
 				gameObject.layer = GameLayer.ActorCard;
@@ -101,6 +88,14 @@ public class CardItem : UIBaseUnity
 		initPosition = actorTexture.transform.localPosition;
 		initDepth = actorTexture.depth;
 		CanDrag = true;
+
+		for (int i = 0; i < 5; i++) {	// 5 == 
+			Transform trans = NGUITools.AddChild(gameObject, linkLineSprite.gameObject).transform;
+			UISprite sprite = trans.GetComponent<UISprite>();
+			sprite.spriteName = "";
+			sprite.enabled = false;
+			linkLineSpriteList.Add(sprite);
+		}
 	}
 
 	public override void ShowUI () {
@@ -128,34 +123,28 @@ public class CardItem : UIBaseUnity
 		this.canAttack = canAttack;
 		actorTexture.spriteName = index.ToString ();
 		linkLineSprite.spriteName = "line_0" + index;
+
 		if (!canAttack) {
 			actorTexture.color = NoAttackColor;	
-		}				
-		else {
+		} else {
 			actorTexture.color = Color.white;
 		}
 	}
 
-	public void OnDrag(Vector3 position,int index)
-	{
+	public void OnDrag(Vector3 position,int index) {
 		if(!canDrag)
 			return;
 		float offset = index * xOffset;
-
 		actorTexture.transform.localPosition = new Vector3(position.x + offset, position.y - offset, position.z);
 	}
 
-	public void OnPress(bool isPress,int sortID)
-	{
+	public void OnPress(bool isPress,int sortID) {
 		if(!canDrag)
 			return;
-//		anim.OnPress(isPress);
-		if(isPress)
-		{	
+		if(isPress) {	
 			SetPosition(sortID);
 		}
-		else
-		{
+		else {
 			Reset();
 		}
 	}
@@ -164,16 +153,14 @@ public class CardItem : UIBaseUnity
 		actorTexture.transform.localPosition = initPosition;
 	}
 
-	public void SetTweenPosition(Vector3 start,Vector3 end)
-	{
+	public void SetTweenPosition(Vector3 start,Vector3 end)	{
 		tweenPosition.enabled = true;
 		tweenPosition.from = start;
 		tweenPosition.to = end;
 		tweenPosition.duration = defaultMoveTime;
 	}
 
-	public bool SetCanDrag(int id)
-	{
+	public bool SetCanDrag(int id) {
 		if(id == this.itemID)
 			CanDrag = true;
 		else
@@ -222,8 +209,7 @@ public class CardItem : UIBaseUnity
 		}
 	}
 
-	void SetPosition(int sortID)
-	{
+	void SetPosition(int sortID) {
 		gameObject.layer = GameLayer.IgnoreCard;
 
 		actorTexture.depth = initDepth + sortID + 1;
@@ -241,10 +227,18 @@ public class CardItem : UIBaseUnity
 	}
 
 	public void StartBattle(bool b) {
-//		CalculateAngel = b;
-//		foreach (var item in linkLineSpriteList) {
-//			item.enabled = b;
-//		}
+		CalculateAngel = b;
+		foreach (var item in linkLineSpriteList) {
+			if(item.spriteName == "" && b) {
+				return;
+			}
+
+			if(!b) {
+				item.spriteName = "";
+			}
+
+			item.enabled = b;
+		}
 	}
 	
 	public void SetTargetLine(List<Transform> target) {
@@ -254,12 +248,9 @@ public class CardItem : UIBaseUnity
 			Clear();
 			return;	
 		}
-		foreach (var item in target) {
-			Transform trans ;
-			trans = NGUITools.AddChild(gameObject, linkLineSprite.gameObject).transform;
-			UISprite sprite = trans.GetComponent<UISprite>();
-			sprite.enabled = true;
-			linkLineSpriteList.Add(sprite);
+		for (int i = 0; i < target.Count; i++) {
+			linkLineSpriteList[i].enabled = true;
+			linkLineSpriteList[i].spriteName = linkLineSprite.spriteName;
 		}
 
 		Rotate ();
@@ -269,9 +260,9 @@ public class CardItem : UIBaseUnity
 		CalculateAngel = false;
 		target.Clear ();
 		foreach (var item in linkLineSpriteList) {
-			Destroy(item.gameObject);
+			item.spriteName = "";
+			item.enabled = false;
 		}
-		linkLineSpriteList.Clear ();
 	}
 
 	bool CalculateAngel = false;

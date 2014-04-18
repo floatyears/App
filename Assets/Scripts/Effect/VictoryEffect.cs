@@ -100,6 +100,8 @@ public class VictoryEffect : UIBaseUnity {
 			go.SetActive(true);
 			go.transform.Find("Texture").GetComponent<UITexture>().mainTexture = clearQuest.gotUnit[i].UnitInfo.GetAsset(UnitAssetType.Avatar);
 			go.name = i.ToString();
+
+			DataCenter.Instance.CatalogInfo.AddHaveUnit(clearQuest.gotUnit[i].UnitInfo.ID);
 		}
 
 		parent.GetComponent<UIGrid> ().repositionNow = true;

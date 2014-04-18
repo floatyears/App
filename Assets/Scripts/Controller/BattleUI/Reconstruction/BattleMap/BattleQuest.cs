@@ -40,6 +40,9 @@ public class BattleQuest : UIBase {
 	private string backgroundName = "BattleBackground";
 	private AttackEffect attackEffect;
 
+	private Queue<MapItem> chainLikeMapItem = new Queue<MapItem> ();
+	public static bool ChainLinkBattle = false;
+
 	public BattleQuest (string name) : base(name) {
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
@@ -289,7 +292,9 @@ public class BattleQuest : UIBase {
 	}
 
 	public void RoleCoordinate(Coordinate coor) {
-		currentCoor = coor;
+		if(!ChainLinkBattle)
+			currentCoor = coor;
+
 		if (!battleMap.ReachMapItem (coor)) {
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 				battleMap.RotateAnim (null);
@@ -304,13 +309,6 @@ public class BattleQuest : UIBase {
 			currentMapData = questDungeonData.GetSingleFloor (coor);
 			role.Stop ();
 			MsgCenter.Instance.Invoke (CommandEnum.MeetEnemy, true);
-
-//			bool can = currentMapData.Type != EQuestGridType.Q_TRAP || currentMapData.Type != EQuestGridType.Q_ENEMY;
-//			if (can && DGTools.EqualCoordinate (coor, MapConfig.endCoor)) {
-//				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
-//			} else {
-//				MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, false);
-//			}
 
 			if (currentMapData.Star == EGridStar.GS_KEY) {
 					BattleMap.waitMove = true;
@@ -350,7 +348,7 @@ public class BattleQuest : UIBase {
 			default:
 					BattleMap.waitMove = false;
 					MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-				QuestCoorEnd();
+					QuestCoorEnd();
 					break;
 			}
 		} else {
@@ -455,8 +453,13 @@ public class BattleQuest : UIBase {
 			TEnemyInfo tei = currentMapData.Enemy[i];
 			tei.EnemySymbol = (uint)i;
 			temp.Add(tei);
+
+			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 		}
 		bud.InitEnemyInfo (currentMapData);
+
+
+
 		battle.ShowEnemy (temp);
 		ExitFight (false);
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
@@ -467,6 +470,7 @@ public class BattleQuest : UIBase {
 	void ExitFight(bool exit) {
 		battleMap.gameObject.SetActive (exit);
 		role.gameObject.SetActive (exit);
+		battle.SwitchInput (exit);
 	}
 
 	void StartBattleEnemyAttack() {
@@ -510,10 +514,28 @@ public class BattleQuest : UIBase {
 		if (data != null) {
 			b = (bool)data;	
 		}
+		
 		if (battleEnemy && !b) {
 			battle.SwitchInput(true);
 			battle.ShieldInput(false);
 			QuestClear();
+		}
+
+		if (questDungeonData.GetSingleFloor (currentCoor).Type != EQuestGridType.Q_ENEMY) {
+			return;	
+		}
+
+		if (chainLikeMapItem.Count == 0) {
+			chainLikeMapItem = battleMap.AttakAround (currentCoor);	
+			if (chainLikeMapItem.Count > 0) {
+				ChainLinkBattle = true;
+				role.SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
+			}
+			else{
+				ChainLinkBattle = false;
+			}
+		} else {
+			role.SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
 		}
 	}
 
@@ -537,7 +559,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public void CheckOut () {
-		Debug.LogError ("CheckOut : ");
+//		Debug.LogError ("CheckOut : ");
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
 		mwp.titleText = "Retry";
@@ -598,6 +620,7 @@ public class BattleQuest : UIBase {
 		int floor = questDungeonData.currentFloor;
 		List<TQuestGrid> reQuestGrid = tqdd.Floors[floor];
 		questDungeonData.Floors [floor] = reQuestGrid;
+		questDungeonData.Boss = tqdd.Boss;
 		Reset ();
 		bud.ResetBlood ();
 	}

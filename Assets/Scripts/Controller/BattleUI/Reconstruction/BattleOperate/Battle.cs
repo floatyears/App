@@ -115,7 +115,6 @@ public class Battle : UIBase {
 
 	void EnemyAttckEnd (object data) {
 		battleCard.StartBattle (true);
-//		SwitchInput(false);
 		ShieldInput (true);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
