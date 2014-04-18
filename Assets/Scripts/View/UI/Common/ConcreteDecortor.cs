@@ -484,13 +484,13 @@ public class PartyDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-//		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.PartyWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
-//		counter.SetComponent(sceneInfoBar);
-		partyInfo.SetComponent(sceneInfoBar);
+		counter.SetComponent(sceneInfoBar);
+		partyInfo.SetComponent(counter);
 		partyPage.SetComponent(partyInfo);
 	
 		lastDecorator = partyPage;

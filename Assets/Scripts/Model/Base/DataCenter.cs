@@ -577,11 +577,9 @@ public class DataCenter {
 		bool successful = false;
 		for (uint i = 0; i < AVATAR_ATLAS_COUNT; i++){
 			string sourcePath = string.Format("Atlas/AvatarAtlas_{0}", i);
-			Debug.Log("sourcePath : " + sourcePath);
 			GameObject source = Resources.Load(sourcePath) as GameObject;
-			Debug.LogError("source name : " + source.name);
 			UIAtlas atlas = source.GetComponent<UIAtlas>();
-			if(atlas == null){Debug.LogError("atlas is null"); continue;}
+			if(atlas == null){ Debug.LogError("LoadAvatarAtlas(), atlas is NULL"); continue; }
 			avatarAtalsDic.Add(i, atlas);
 		}
 		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;

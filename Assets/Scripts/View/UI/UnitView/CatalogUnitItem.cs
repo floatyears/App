@@ -57,8 +57,8 @@ public class CatalogUnitItem : MonoBehaviour {
 		set{
 			catalogUserUnit = value;
 			if(catalogUserUnit == null){
-				State = CatalogState.UnKnown;
 				Debug.LogError(string.Format("gameObject named {0} , TUserUnit is NULL...", gameObject.name));
+				State = CatalogState.UnKnown;
 			}
 			else{
 				if(DataCenter.Instance.CatalogInfo.IsHaveUnit(catalogUserUnit.UnitID)){
@@ -85,7 +85,6 @@ public class CatalogUnitItem : MonoBehaviour {
 				case CatalogState.Got : 
 					avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 					avatarSpr.spriteName = catalogUserUnit.UnitID.ToString();
-					Debug.LogError("avatarSpr.spriteName : " + avatarSpr.spriteName);
 					erotemeSpr.enabled = false;
 					maskSpr.enabled = false;
 					translucentMaskSpr.enabled = false;
@@ -134,7 +133,7 @@ public class CatalogUnitItem : MonoBehaviour {
 
 	private void PressItem(GameObject item){
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, state);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, catalogUserUnit);
 	}
 
 }
