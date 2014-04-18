@@ -376,10 +376,13 @@ public class UnitsDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
+//		Debug.LogError ("UnitsDecorator DecoratorScene");
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		Debug.LogError ("UnitsDecorator DecoratorScene sceneInfoBar");
 		UnitsComponent units = CreatComponent< UnitsComponent >(UIConfig.unitsWindowName);
+//		Debug.LogError ("UnitsDecorator DecoratorScene units");
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-
+//		Debug.LogError ("UnitsDecorator DecoratorScene partyInfo");
 		sceneInfoBar.SetComponent(decorator);
 		partyInfo.SetComponent(sceneInfoBar);
 		units.SetComponent(partyInfo);
