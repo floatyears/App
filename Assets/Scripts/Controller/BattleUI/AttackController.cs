@@ -5,7 +5,6 @@ using System.Timers;
 public class AttackController {
 	public const float normalAttackInterv = 0.7f;
 	public const float deadAttackInterv = 0.5f;
-
 	private MsgCenter msgCenter;
 	private BattleUseData bud;
 	private Queue<AttackInfo> attackInfoQueue = new Queue<AttackInfo> ();
