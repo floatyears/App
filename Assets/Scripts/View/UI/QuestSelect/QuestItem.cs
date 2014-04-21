@@ -4,15 +4,12 @@ using bbproto;
 
 public class QuestItem : MonoBehaviour {
 	private UISprite bossAvatarSpr;
+	private UISprite bossTypeSpr;
 	private UISprite erotemeSpr;
 	private UISprite maskSpr;
+	private UISprite focusSpr;
 	private UILabel clearFlagLabel;
 	private UILabel questPosLabel;
-
-	/// <summary>
-	/// The panel which use to show the info that current picked.
-	/// </summary>
-	private QuestSelectView infoPanel;
 
 	public static QuestItem Inject(GameObject prefab){
 		QuestItem questItem = prefab.GetComponent<QuestItem>();
@@ -22,8 +19,10 @@ public class QuestItem : MonoBehaviour {
 
 	private void Awake(){
 		bossAvatarSpr = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
-		erotemeSpr = transform.FindChild("Sprite_ErotemeSpr").GetComponent<UISprite>();
+		bossTypeSpr = transform.FindChild("Sprite_Type").GetComponent<UISprite>();
+		erotemeSpr = transform.FindChild("Sprite_Eroteme").GetComponent<UISprite>();
 		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
+		focusSpr = transform.FindChild("Sprite_Focus").GetComponent<UISprite>();
 		clearFlagLabel = transform.FindChild("Label_Clear").GetComponent<UILabel>();
 		questPosLabel = transform.FindChild("Label_Pos").GetComponent<UILabel>();
 	}
@@ -41,12 +40,18 @@ public class QuestItem : MonoBehaviour {
 			}
 			else{
 				//do some view show by QuestClear state
+
+				uint bossID = data.BossID[ 0 ];
+				bossAvatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(bossID);
+				bossAvatarSpr.spriteName = bossID.ToString();
+
 				switch (data.state) {
 					case EQuestState.QS_NEW : 
 						IsClear = false;
 						break;
 					case EQuestState.QS_CLEARED :
 						IsClear = true;
+						break;
 					default:
 						break;
 				}
@@ -78,20 +83,51 @@ public class QuestItem : MonoBehaviour {
 		}
 	}
 
+	private bool isFocus;
+	public bool IsFocus{
+		get{
+			return isFocus;
+		}
+		set{
+			isFocus = value;
+			if(isFocus){
+				focusSpr.enabled = true;
+			}
+			else{
+				focusSpr.enabled = false;
+			}
+		}
+	}
+
+	private int position;
+	public int Position{
+		get{
+			return position;
+		}
+		set{
+			position = value;
+			if(data == null) {
+				questPosLabel.text = string.Empty;
+			}
+			questPosLabel.text = string.Format("Quest : " + position);
+		}
+	}
+
 	private  static GameObject itemPrefab;
 	public static GameObject ItemPrefab{
 		get{
 			if(itemPrefab == null) {
-				string sourcePath = "Prefabs/UI/UnitItem/QuestPrefab";
+				string sourcePath = "Prefabs/UI/Quest/QuestPrefab";
 				itemPrefab = Resources.Load(sourcePath) as GameObject ;
 			}
 			return itemPrefab;
 		}
 	}
-	
+
+	public delegate void QuestItemCallback(QuestItem questItem);
+	public QuestItemCallback callback;
 	private void ClickItem(GameObject item){
-		Debug.Log("Click Quest Item : " + item.name);
-		infoPanel.ShowInfoPanelContent(data);
+		if(callback != null) callback(this);
 	}
 	
 }

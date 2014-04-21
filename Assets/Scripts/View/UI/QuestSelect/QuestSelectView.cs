@@ -366,13 +366,11 @@ public class QuestSelectView : UIComponentUnity{
 	}
 
 	void ShowTween(){
-		TweenPosition[ ] list = 
-			gameObject.GetComponentsInChildren< TweenPosition >();
+		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
 		if (list == null)
 			return;
 		foreach (var tweenPos in list){		
-			if (tweenPos == null)
-				continue;
+			if (tweenPos == null) continue;
 			tweenPos.Reset();
 			tweenPos.PlayForward();
 		}

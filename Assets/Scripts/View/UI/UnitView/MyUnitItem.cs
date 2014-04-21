@@ -73,7 +73,6 @@ public class MyUnitItem : BaseUnitItem {
 		IsParty = false;
 	}
 
-
 	protected override void ClickItem(GameObject item){}
 
 	protected virtual void UpdatePartyState(){}
