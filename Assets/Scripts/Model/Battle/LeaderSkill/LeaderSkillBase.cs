@@ -22,5 +22,6 @@ public class SkillBaseInfo : ProtobufDataBase {
 
 	public string SkillDescribe {
 		get {return skillBase.description;}
+		set {skillBase.description = value; }
 	}
 }

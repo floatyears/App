@@ -142,7 +142,7 @@ public class ReceptionView : UIComponentUnity {
 	}
 
 	void AcceptApplyFromOther(object msg){
-		Debug.LogError("FriendListLogic.AcceptApplyFromOther(), receive the message, to accept apply from other player...");
+//		Debug.LogError("FriendListLogic.AcceptApplyFromOther(), receive the message, to accept apply from other player...");
 		if(CheckFriendCountLimit()){
 			Debug.LogError(string.Format("Friend Count limited. Current Friend count is :" + DataCenter.Instance.FriendCount));
 			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendExpansionMsgParams());

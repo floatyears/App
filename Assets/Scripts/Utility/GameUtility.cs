@@ -135,6 +135,23 @@ public class DGTools {
 		}
 	}
 
+	public static bool RestraintType(int firstType, int secondType, bool beRestraint = false) {
+		if (!beRestraint) {
+			if(firstType == BeRestraintType(secondType))	{
+				return true;
+			}else{
+				return false;
+			}
+		} else {
+			if(firstType == RestraintType(secondType)) {
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	}
+
 	public static bool ListContains<T>(List<T> big, List<T> small) {
 		if (big.Count < small.Count) {
 			return false;

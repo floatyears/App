@@ -56,6 +56,7 @@ public class FriendHelperController : ConcreteComponent{
 			sqp.questId = questID;
 			sqp.stageId = stageID;
 			sqp.startNew = 1;
+			DataCenter.StartQuestInfo = sqp;
 			sq.OnRequest (sqp, RspStartQuest);
 		}
 	}
@@ -87,15 +88,16 @@ public class FriendHelperController : ConcreteComponent{
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
 //		Debug.LogError (rspStartQuest.header.code  + "  " + rspStartQuest.header.error);
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
-			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
+			LogHelper.Log ("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
-			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
-			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
-		}
+			tqdd = new TQuestDungeonData (rspStartQuest.dungeonData);
+			ModelManager.Instance.SetData (ModelEnum.MapConfig, tqdd);
+		} 
 		
 		if (data == null || tqdd == null) {
 //			Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
+			DataCenter.StartQuestInfo = null;
 			return;
 		}
 //		HideUI ();

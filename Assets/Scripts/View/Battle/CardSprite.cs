@@ -85,6 +85,8 @@ public class CardSprite : UIBaseUnity
 
 		if (!canAttack) {
 			actorSprite.color = CardItem.NoAttackColor;
+		} else {
+			actorSprite.color = Color.white;
 		}
 		xOffset = (float)actorSprite.width / 4;
 	}

@@ -80,6 +80,8 @@ public class BattleEnemy : UIBaseUnity {
 			}
 		}
 		SortEnemyItem (temp);
+
+
 	}
 	float width = 0;
 	void DropItem(object data) {

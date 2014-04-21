@@ -99,7 +99,7 @@ public class CatalogUnitItem : MonoBehaviour {
 					erotemeSpr.enabled = true;
 					maskSpr.enabled = false;
 					translucentMaskSpr.enabled = true;
-					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+//					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 					break;
 				case CatalogState.UnKnown : 
 					avatarSpr.atlas = null;
@@ -107,7 +107,7 @@ public class CatalogUnitItem : MonoBehaviour {
 					erotemeSpr.enabled = true;
 					maskSpr.enabled = true;
 					translucentMaskSpr.enabled = false;
-					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+//					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 					break;
 				default:
 					avatarSpr.atlas = null;
@@ -115,13 +115,21 @@ public class CatalogUnitItem : MonoBehaviour {
 					erotemeSpr.enabled = true;
 					maskSpr.enabled = true;
 					translucentMaskSpr.enabled = false;
-					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+//					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 					break;
 			}
 			idLabel.text = "ID : " + catalogUserUnit.UnitID.ToString();
 			idLabel.color = Color.green;
 		}
 	}
+
+//	void OnBecameInvisible() {
+//		gameObject.SetActive (false);
+//	}
+//
+//	void OnBecameVisible() {
+//		gameObject.SetActive (true);
+//	}
 	
     private static GameObject itemPrefab;
 	public static GameObject ItemPrefab {

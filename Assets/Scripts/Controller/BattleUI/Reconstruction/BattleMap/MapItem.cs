@@ -357,7 +357,7 @@ public class MapItem : UIBaseUnity {
 				break;
 			case 2:
 				float value = DGTools.RandomToFloat();
-				float temp = 0.33f;
+				float temp = 1f;
 				if(isLockAttack) {
 					temp =0.01f;
 				}

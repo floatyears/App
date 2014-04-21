@@ -136,6 +136,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 	}
 
 	void BattleEnd(object data) {
+//		Debug.LogError ("BattleEnd : attackImage.Clear");
 		attackImage.Clear ();
 		battleCardTemplate.Clear ();
 	}
@@ -146,10 +147,12 @@ public class BattleCardAreaItem : UIBaseUnity {
 			return;		
 		}
 		AttackInfo aiu = attackImage.Find (a => a.AttackID == ai.AttackID);
+		attackImage.Remove (aiu);
 		if (aiu != default(AttackInfo)) {
 			UISprite sprite = aiu.AttackSprite;
 			int index = battleCardTemplate.IndexOf(sprite);
 			battleCardTemplate.Remove(sprite);
+//			Debug.LogError("aiu : " + aiu.AttackID + " sprite : " + (sprite== null) + " index : " + index + " time : " + Time.realtimeSinceStartup + " attackinamge count :  " + attackImage.Count);
 			Destroy(sprite.gameObject);
 			if(index < battleCardTemplate.Count && index > -1) {				//check index is vaild data
 				for (int i = index; i < battleCardTemplate.Count; i++) {

@@ -105,12 +105,20 @@ public class CardItem : UIBaseUnity {
 			actorTexture.spriteName = itemID.ToString();
 		}
 		base.ShowUI ();
+
+//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 	}
 
 	public override void HideUI () {
 		actorTexture.spriteName = "";
 		base.HideUI ();
+
+//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 	}
+
+//	void AttackEnemyEnd(object data) {
+//		Clear ();
+//	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
@@ -226,20 +234,22 @@ public class CardItem : UIBaseUnity {
 		initPosition = to;
 	}
 
-	public void StartBattle(bool b) {
-		CalculateAngel = b;
-		foreach (var item in linkLineSpriteList) {
-			if(item.spriteName == "" && b) {
-				return;
-			}
-
-			if(!b) {
-				item.spriteName = "";
-			}
-
-			item.enabled = b;
-		}
-	}
+//	public void StartBattle() {
+//
+//			Clear();	
+//
+////		foreach (var item in linkLineSpriteList) {
+////			if(item.spriteName == "" && b) {
+////				return;
+////			}
+////
+////			if(!b) {
+////				item.enabled = b;
+////			}
+////
+////			item.enabled = b;
+////		}
+//	}
 	
 	public void SetTargetLine(List<Transform> target) {
 		this.target = target;
@@ -256,7 +266,7 @@ public class CardItem : UIBaseUnity {
 		Rotate ();
 	}
 
-	void Clear () {
+	public void Clear () {
 		CalculateAngel = false;
 		target.Clear ();
 		foreach (var item in linkLineSpriteList) {
