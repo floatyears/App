@@ -118,9 +118,15 @@ public class BattleCard : UIBaseUnity {
 	/// </summary>
 	/// <param name="b">If set to <c>true</c> b.</param>
 	public void StartBattle(bool b) {
-		foreach (var item in cardItemArray) {
-			item.StartBattle(false);
+		if (!b) {
+			foreach (var item in cardItemArray) {
+				item.Clear();
+			}
+		} else {
+			RefreshLine();	
 		}
+
+
 	}
 
 //	void CheckNeedSprite(List<int> haveSprite) {

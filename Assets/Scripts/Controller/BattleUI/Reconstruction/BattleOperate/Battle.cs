@@ -12,6 +12,9 @@ public class Battle : UIBase {
 
 	private BattleCardPool battleCardPool;
 	private BattleCard battleCard;
+	public BattleCard BattleCardIns{ 
+		get { return battleCard; } 
+	}
 	private BattleCardArea battleCardArea;
 	private BattleEnemy battleEnemy;
 	private CountDownUnity countDownUI;
@@ -227,6 +230,7 @@ public class Battle : UIBase {
 
 
 	public void SwitchInput(bool isShield) {
+//		Debug.LogWarning ("switch input : " + isShield);
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;

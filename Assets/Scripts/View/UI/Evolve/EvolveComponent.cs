@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using bbproto;
 
 public class EvolveComponent : ConcreteComponent {
-
 	public EvolveComponent(string uiName):base(uiName) {}
 	
 	public override void CreatUI () {

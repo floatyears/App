@@ -130,9 +130,11 @@ public class UIManager {
 		if(HasUIObject(sEnum))
 			current = GetUI(sEnum);
 		else{
-
+//			Debug.LogError("ChangeScene : " + sEnum);
 			DecoratorBase db = CreatScene(sEnum);
+//			Debug.LogError("db : " + db);
 			current = db;
+//			Debug.LogError("ChangeScene : " + current);
 		}
 			
 

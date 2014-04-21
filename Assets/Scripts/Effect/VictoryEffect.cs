@@ -79,18 +79,18 @@ public class VictoryEffect : UIBaseUnity {
 		int gotCoin = clearQuest.gotMoney;
 		float addCoin = gotCoin * 0.05f;
 
-		Debug.LogError ("======= ShowData =======================");
-		Debug.LogError ("clearQuest.exp  : " + clearQuest.exp );
-		Debug.LogError ("gotexp : " + gotExp);
-		Debug.LogError ("currentExp : " + currentExp);
-		Debug.LogError ("rank : " + rank);
-		Debug.LogError ("currentTotalExp : " + currentTotalExp);
-		Debug.LogError ("add : " + add);
-		Debug.LogError ("curcoin : " + curCoin);
-		Debug.LogError ("maxCoin : " + maxCoin);
-		Debug.LogError ("gotCoin : " + gotCoin);
-		Debug.LogError ("addCoin : " + addCoin);
-		Debug.LogError ("=======================================");
+//		Debug.LogError ("======= ShowData =======================");
+//		Debug.LogError ("clearQuest.exp  : " + clearQuest.exp );
+//		Debug.LogError ("gotexp : " + gotExp);
+//		Debug.LogError ("currentExp : " + currentExp);
+//		Debug.LogError ("rank : " + rank);
+//		Debug.LogError ("currentTotalExp : " + currentTotalExp);
+//		Debug.LogError ("add : " + add);
+//		Debug.LogError ("curcoin : " + curCoin);
+//		Debug.LogError ("maxCoin : " + maxCoin);
+//		Debug.LogError ("gotCoin : " + gotCoin);
+//		Debug.LogError ("addCoin : " + addCoin);
+//		Debug.LogError ("=======================================");
 
 		StartCoroutine (UpdateLevelNumber ());
 		StartCoroutine (UpdateCoinNumber (addCoin, curCoin, gotCoin));

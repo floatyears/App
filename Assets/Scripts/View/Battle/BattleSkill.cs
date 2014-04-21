@@ -124,6 +124,16 @@ public class BattleSkill : UIBaseUnity {
 		TUnitInfo tui = userUnitInfo.UnitInfo;
 
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.LeaderSkill, SkillType.LeaderSkill); //GetSkill (tui.LeaderSkill);
+//		if (sbi == null) {
+//			bbproto.SkillBase sb = new bbproto.SkillBase();
+//			sb.id = 0;
+//			sb.description = "-";
+//			sb.name = "-";
+//			sbi = new SkillBaseInfo(sb);
+//		} else if(string.IsNullOrEmpty (sbi.SkillDescribe)) {
+//			sbi .SkillDescribe = "-";
+//		}
+
 		Refresh (0, sbi);
 
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill1, SkillType.NormalSkill); 				//.GetSkill (tui.NormalSkill1);
@@ -156,7 +166,11 @@ public class BattleSkill : UIBaseUnity {
 	}
 
 	void Refresh(int index, SkillBaseInfo sbi) {
-		skillDic [SKill [index]].ShowSkillInfo (sbi);
+		if (index == 0 && sbi == null) {
+			skillDic [SKill [index]].ShowSkillInfo (sbi, true);
+		} else {
+			skillDic [SKill [index]].ShowSkillInfo (sbi);
+		}
 	}
 }
 
@@ -169,9 +183,14 @@ public class SkillItem {
 	public UILabel skillDescribeLabel;
 	public List<UISprite> skillSprite;
 
-	public void ShowSkillInfo (SkillBaseInfo sbi) {
+	public void ShowSkillInfo (SkillBaseInfo sbi, bool isLeaderSkill = false) {
 		if (sbi == null) {
-			Clear();
+			if(isLeaderSkill) {
+				ClearLeaderSkill();
+			}
+			else{
+				Clear();
+			}
 			return;
 		}
 		skillTypeLabel.enabled = true;
@@ -190,6 +209,12 @@ public class SkillItem {
 		skillTypeLabel.enabled = false;
 		skillName.text = string.Empty;
 		skillDescribeLabel.text = string.Empty;
+		ShowSprite (null);
+	}
+
+	void ClearLeaderSkill () {
+		skillName.text = "-";
+		skillDescribeLabel.text = "-";
 		ShowSprite (null);
 	}
 

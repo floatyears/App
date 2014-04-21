@@ -77,6 +77,12 @@ public class DataCenter {
     public const int maxGachaPerTime = 9;
 	public const int friendPos = 4;
 
+	private static StartQuestParam startQuestInfo;
+	public static StartQuestParam StartQuestInfo{
+		set { startQuestInfo = value; }
+		get { return startQuestInfo; }
+	}
+
 	private TFriendInfo battleFriend;
 	public TFriendInfo BattleFriend {
 		set { battleFriend = value; }

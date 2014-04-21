@@ -68,6 +68,11 @@ public class BattleAttackInfo : UIBaseUnity {
 	}
 
 	void AttackEnemyEnd(object data) {
+		RefreshRate (null, true);
+		GameTimer.GetInstance ().AddCountDown (0.5f, ClearAttackInfo);
+	}
+
+	void ClearAttackInfo() {
 		hitFirstSprite.spriteName = string.Empty;
 		hitSecondSprite.spriteName = string.Empty;
 		rateLabel.text = string.Empty;
@@ -87,11 +92,15 @@ public class BattleAttackInfo : UIBaseUnity {
 		handsSprite.spriteName = string.Empty;
 	}
 
-	void RefreshRate (object data) {
-		AttackInfo ai = data as AttackInfo;
-		hitFirstSprite.spriteName = (ai.ContinuAttackMultip / 10).ToString ();
-		hitSecondSprite.spriteName = (ai.ContinuAttackMultip % 10).ToString ();
-		hitLabel.enabled = true;
-		rateLabel.text = "rate x " + ai.AttackRate;
+	AttackInfo prevAttack;
+	void RefreshRate (object data,bool end = false) {
+		if(prevAttack != null){
+			hitFirstSprite.spriteName = (prevAttack.ContinuAttackMultip / 10).ToString ();
+			hitSecondSprite.spriteName = (prevAttack.ContinuAttackMultip % 10).ToString ();
+			hitLabel.enabled = true;
+			rateLabel.text = "rate x " + prevAttack.AttackRate;
+		}
+		prevAttack = data as AttackInfo;;
+
 	}
 }
