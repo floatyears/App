@@ -44,7 +44,8 @@ public class MyUnitItem : BaseUnitItem {
 	public static GameObject ItemPrefab {
 		get {
 			if(itemPrefab == null) {
-				itemPrefab = Resources.Load("Prefabs/UI/UnitItem/MyUnitPrefab") as GameObject ;
+				string sourcePath = "Prefabs/UI/UnitItem/MyUnitPrefab";
+				itemPrefab = Resources.Load(sourcePath) as GameObject ;
 			}
 			return itemPrefab;
 		}

@@ -2,9 +2,9 @@ using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class QuestSelectDecoratorUnity : UIComponentUnity{
-	StageInfo stageInfo;
-	UIImageButton btnSelect;
+public class QuestSelectView : UIComponentUnity{
+	private StageInfo stageInfo;
+	private UIImageButton selectBtn;
 
 	private UILabel labDoorName;
 	private UILabel labDoorType;
@@ -26,18 +26,17 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	private GameObject scrollerItem;
 	private GameObject scrollView;
 
-	GameObject questViewItem;
+	private GameObject questViewItem;
 
-	List<UITexture> pickEnemiesList = new List<UITexture>();
-	UIToggle firstFocus;
+	private List<UITexture> pickEnemiesList = new List<UITexture>();
+	private UIToggle firstFocus;
 	private Dictionary< string, object > questSelectScrollerArgsDic = new Dictionary< string, object >();
 
-	List<QuestInfo> questInfoList = new List<QuestInfo>();
+	private List<QuestInfo> questInfoList = new List<QuestInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUI();
-//		InitQuestSelectScrollArgs();
 		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
 	}
 	
@@ -49,7 +48,6 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
-
 	}
 
     public override void ResetUIState(){
@@ -58,7 +56,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
         if (dragPanel != null){
             dragPanel.DestoryUI();
         }
-        btnSelect.isEnabled = false;
+        selectBtn.isEnabled = false;
         InitDragPanel();
     }   
 
@@ -66,13 +64,14 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		StageInfo receivedStageInfo = data as StageInfo;
 		stageInfo = receivedStageInfo;
 		questInfoList = stageInfo.quests;
+		Debug.LogError("questInfoList : " + questInfoList.Count);
 		InitDragPanel();
 	}
 
 	void InitUI(){
 		firstFocus = FindChild<UIToggle>("Window/window_right/tab_detail");
 		scrollView = FindChild("ScrollView");
-		btnSelect = FindChild<UIImageButton>("ScrollView/btn_quest_select"); 
+		selectBtn = FindChild<UIImageButton>("ScrollView/btn_quest_select"); 
 		labDoorName = FindChild< UILabel >("Window/title/Label_door_name");
 		labDoorName.text = string.Empty;
 		labDoorType = FindChild< UILabel >("Window/title/Label_door_type_name");
@@ -103,7 +102,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			pickEnemiesList.Add(item);
 		} 
 
-		UIEventListener.Get(btnSelect.gameObject).onClick = ClickFriendSelect;
+		UIEventListener.Get(selectBtn.gameObject).onClick = ClickFriendSelect;
 	}
 
 	void InitDragPanel(){
@@ -111,6 +110,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			return ;
 		}
 		dragPanel = CreateDragPanel(questInfoList.Count);
+		Debug.LogError("questInfoList.Count : " + questInfoList.Count);
 		FillDragPanel(dragPanel, questInfoList);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
 	}
@@ -133,9 +133,11 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 	}
 
 	void FillDragPanel(DragPanel dragPanel, List<QuestInfo> infoList){
+		Debug.LogError("dragPanel count : " + dragPanel.ScrollItem.Count);
 		for(int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-			ShowItemInfo( scrollItem, infoList[i]);
+			ShowItemInfo( scrollItem, infoList[ i ]);
+			Debug.LogError( i );
 		}
 	}
 
@@ -149,10 +151,12 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			case EQuestState.QS_CLEARED : 
 				clearFlagLabel.text = "Clear";
 				clearFlagLabel.color = Color.yellow;
+				Debug.LogError("clearFlagLabel.text : " + clearFlagLabel.text);
 				break;
 			case EQuestState.QS_NEW :
 				clearFlagLabel.text = "New";
 				clearFlagLabel.color = Color.green;
+				Debug.LogError("clearFlagLabel.text : " + clearFlagLabel.text);
 				break;
 			default:
 				break;
@@ -179,7 +183,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		labQuestInfo.text = select.Name;
 		rewardExpLabel.text = "Exp " + select.RewardExp.ToString();
 		storyTextLabel.text = tsi.Description;
-		btnSelect.isEnabled = true;
+		selectBtn.isEnabled = true;
 
 		ShowBossAvatar(select.BossID[ 0 ]);
 		ShowEnemiesAvatar(select.EnemyID);
@@ -297,7 +301,7 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		tempDic.Add ("position", inedx);
 		tempDic.Add ("data", tsi);
 		UpdatePanelInfo (tempDic);
-		btnSelect.isEnabled = true;
+		selectBtn.isEnabled = true;
 	}
 	
 	void CreateQuestDragList(object args){
@@ -317,25 +321,36 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 		for (int i = 0, m = dragPanel.ScrollItem.Count; i < m; i++) {
 			GameObject scrollItem = dragPanel.ScrollItem[ i ];
 			UITexture tex = scrollItem.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
-			TQuestInfo tqi = questInfo[i];
+			TQuestInfo tqi = questInfo[ i ];
 
 			UILabel label = scrollItem.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
 			label.text = "Quest : " + (i + 1).ToString();
 			UIEventListener.Get(scrollItem.gameObject).onClick = ClickQuestItem;
-			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(tqi.BossID[0]);
+			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(tqi.BossID[ 0 ]);
 			if(tui != null) {
 				tex.mainTexture = tui.GetAsset(UnitAssetType.Avatar);
+			}
+			UILabel clearFlagLabel = scrollItem.transform.FindChild("Label_Clear_Mark").GetComponent<UILabel>();
+			switch (tqi.state){
+				case EQuestState.QS_CLEARED : 
+					clearFlagLabel.text = "Clear";
+					clearFlagLabel.color = Color.yellow;
+					Debug.LogError("clearFlagLabel.text : " + clearFlagLabel.text);
+					break;
+				case EQuestState.QS_NEW :
+					clearFlagLabel.text = "New";
+                    clearFlagLabel.color = Color.green;
+                    Debug.LogError("clearFlagLabel.text : " + clearFlagLabel.text);
+                    break;
+                default:
+                    break;
 			}
 		}
 	}
 
-	uint GetBossID(){
-		return 11;
-	}
-
 	void CleanQuestInfo(){
 		labStaminaVaule.text = string.Empty;
-		labFloorVaule.text = string.Empty;
+        labFloorVaule.text = string.Empty;
 		labQuestInfo.text = string.Empty;
 		storyTextLabel.text = string.Empty;
 		rewardLineLabel.text = string.Empty;
@@ -361,6 +376,10 @@ public class QuestSelectDecoratorUnity : UIComponentUnity{
 			tweenPos.Reset();
 			tweenPos.PlayForward();
 		}
+	}
+
+	public void ShowInfoPanelContent(TQuestInfo questInfo){
+
 	}
 
 }

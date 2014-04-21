@@ -2,13 +2,13 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class QuestSelectComponent : ConcreteComponent{
+public class QuestSelectController : ConcreteComponent{
 	TStageInfo currentStageInfo;
 	int currentQuestIndex;
 
 	private TEvolveStart evolveStageInfo;
 
-	public QuestSelectComponent(string uiName):base(uiName){
+	public QuestSelectController(string uiName):base(uiName){
 //        MsgCenter.Instance.AddListener(CommandEnum.ChangeScene, ResetUI);
     }
 	
