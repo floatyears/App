@@ -13,7 +13,7 @@ public class QuestItem : MonoBehaviour {
 
 	public static QuestItem Inject(GameObject prefab){
 		QuestItem questItem = prefab.GetComponent<QuestItem>();
-		if(questItem == null) prefab.AddComponent<QuestItem>();
+		if(questItem == null) questItem = prefab.AddComponent<QuestItem>();
 		return questItem;
 	}
 

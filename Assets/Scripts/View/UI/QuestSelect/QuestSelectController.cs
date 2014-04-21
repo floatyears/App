@@ -18,13 +18,13 @@ public class QuestSelectController : ConcreteComponent{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, SelectedStage);
+//		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, SelectedStage);
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
 	}
 	
 	public override void HideUI() {
 		base.HideUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, SelectedStage);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, SelectedStage);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveStart, EvolveStartQuest);
 	}
 	
@@ -65,11 +65,11 @@ public class QuestSelectController : ConcreteComponent{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		int index = (int)args;
 		currentQuestIndex = index;
-		Dictionary<string, object> info = new Dictionary<string, object>();
-		info.Add("position", index);
-		info.Add("data", currentStageInfo);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowInfoPanel",  info);
-		ExcuteCallback(cbdArgs);
+//		Dictionary<string, object> info = new Dictionary<string, object>();
+//		info.Add("position", index);
+//		info.Add("data", currentStageInfo);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowInfoPanel",  info);
+//		ExcuteCallback(cbdArgs);
 	}
 
 	

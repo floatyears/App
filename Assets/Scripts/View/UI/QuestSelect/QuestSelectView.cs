@@ -34,6 +34,9 @@ public class QuestSelectView : UIComponentUnity{
 
 	private List<QuestInfo> questInfoList = new List<QuestInfo>();
 
+
+	private TStageInfo curStageInfo;
+
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUI();
@@ -42,12 +45,19 @@ public class QuestSelectView : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
+		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, SelectedStage);
         firstFocus.value = true;
 		ShowTween();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, SelectedStage);
+	}
+
+	void SelectedStage(object data) {
+		curStageInfo = data as TStageInfo;
+		CreateQuestDragList(curStageInfo);
 	}
 
     public override void ResetUIState(){
@@ -57,16 +67,16 @@ public class QuestSelectView : UIComponentUnity{
             dragPanel.DestoryUI();
         }
         selectBtn.isEnabled = false;
-        InitDragPanel();
+//        InitDragPanel();
     }   
 
-	void ReceiveStageInfo( object data ){
-		StageInfo receivedStageInfo = data as StageInfo;
-		stageInfo = receivedStageInfo;
-		questInfoList = stageInfo.quests;
-		Debug.LogError("questInfoList : " + questInfoList.Count);
-		InitDragPanel();
-	}
+//	void ReceiveStageInfo( object data ){
+//		StageInfo receivedStageInfo = data as StageInfo;
+//		stageInfo = receivedStageInfo;
+//		questInfoList = stageInfo.quests;
+//		Debug.LogError("questInfoList : " + questInfoList.Count);
+////		InitDragPanel();
+//	}
 
 	void InitUI(){
 		firstFocus = FindChild<UIToggle>("Window/window_right/tab_detail");
@@ -105,15 +115,15 @@ public class QuestSelectView : UIComponentUnity{
 		UIEventListener.Get(selectBtn.gameObject).onClick = ClickFriendSelect;
 	}
 
-	void InitDragPanel(){
-		if(dragPanel != null){
-			return ;
-		}
-		dragPanel = CreateDragPanel(questInfoList.Count);
-		Debug.LogError("questInfoList.Count : " + questInfoList.Count);
-		FillDragPanel(dragPanel, questInfoList);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
-	}
+//	void InitDragPanel(){
+//		if(dragPanel != null){
+//			return ;
+//		}
+//		dragPanel = CreateDragPanel(questInfoList.Count);
+//		Debug.LogError("questInfoList.Count : " + questInfoList.Count);
+//		FillDragPanel(dragPanel, questInfoList);
+//		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
+//	}
 
 	GameObject GetScrollItem( string resourcePath ){
 		GameObject scrollItem;
@@ -121,52 +131,52 @@ public class QuestSelectView : UIComponentUnity{
 		return scrollItem;
 	}
 
-	DragPanel CreateDragPanel(int count){
-		GameObject scrollItem = GetScrollItem(UIConfig.questDragPanelItemPath);
-		if( scrollItem == null)
-			Debug.LogError("Not Find The Scroll Item");
+//	DragPanel CreateDragPanel(int count){
+//		GameObject scrollItem = GetScrollItem(UIConfig.questDragPanelItemPath);
+//		if( scrollItem == null)
+//			Debug.LogError("Not Find The Scroll Item");
+//
+//		DragPanel dragPanel = new DragPanel("QuestDragPanel", scrollItem);
+//		dragPanel.CreatUI();
+//		dragPanel.AddItem(count);
+//		return dragPanel;
+//	}
 
-		DragPanel dragPanel = new DragPanel("QuestDragPanel", scrollItem);
-		dragPanel.CreatUI();
-		dragPanel.AddItem(count);
-		return dragPanel;
-	}
+//	void FillDragPanel(DragPanel dragPanel, List<QuestInfo> infoList){
+//		Debug.LogError("dragPanel count : " + dragPanel.ScrollItem.Count);
+//		for(int i = 0; i < dragPanel.ScrollItem.Count; i++){
+//			GameObject scrollItem = dragPanel.ScrollItem[ i ];
+//			ShowItemInfo( scrollItem, infoList[ i ]);
+//			Debug.LogError( i );
+//		}
+//	}
 
-	void FillDragPanel(DragPanel dragPanel, List<QuestInfo> infoList){
-		Debug.LogError("dragPanel count : " + dragPanel.ScrollItem.Count);
-		for(int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-			ShowItemInfo( scrollItem, infoList[ i ]);
-			Debug.LogError( i );
-		}
-	}
-
-	void ShowItemInfo(GameObject item, QuestInfo questInfo){
-		string textureSourcePath = string.Format("Avatar/{0}_1",questInfo.no);
-		UITexture texture = item.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
-		texture.mainTexture = Resources.Load( textureSourcePath ) as Texture2D;
-
-		UILabel clearFlagLabel = item.transform.FindChild("Label_Clear_Mark").GetComponent<UILabel>();
-		switch (questInfo.state){
-			case EQuestState.QS_CLEARED : 
-				clearFlagLabel.text = "Clear";
-				clearFlagLabel.color = Color.yellow;
-				Debug.LogError("clearFlagLabel.text : " + clearFlagLabel.text);
-				break;
-			case EQuestState.QS_NEW :
-				clearFlagLabel.text = "New";
-				clearFlagLabel.color = Color.green;
-				Debug.LogError("clearFlagLabel.text : " + clearFlagLabel.text);
-				break;
-			default:
-				break;
-		}
-
-		UILabel questNoLabel = item.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
-		questNoLabel.text = string.Format("Quest : {0}", questInfo.no);
-
-		UIEventListener.Get( item).onClick = ClickQuestItem;
-	}
+//	void ShowItemInfo(GameObject item, QuestInfo questInfo){
+//		string textureSourcePath = string.Format("Avatar/{0}_1",questInfo.no);
+//		UITexture texture = item.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
+//		texture.mainTexture = Resources.Load( textureSourcePath ) as Texture2D;
+//
+//		UILabel clearFlagLabel = item.transform.FindChild("Label_Clear_Mark").GetComponent<UILabel>();
+//		switch (questInfo.state){
+//			case EQuestState.QS_CLEARED : 
+//				clearFlagLabel.text = "Clear";
+//				clearFlagLabel.color = Color.yellow;
+//				Debug.LogError("clearFlagLabel.text : " + clearFlagLabel.text);
+//				break;
+//			case EQuestState.QS_NEW :
+//				clearFlagLabel.text = "New";
+//				clearFlagLabel.color = Color.green;
+//				Debug.LogError("clearFlagLabel.text : " + clearFlagLabel.text);
+//				break;
+//			default:
+//				break;
+//		}
+//
+//		UILabel questNoLabel = item.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
+//		questNoLabel.text = string.Format("Quest : {0}", questInfo.no);
+//
+//		UIEventListener.Get( item).onClick = ClickQuestItem;
+//	}
 
 	void UpdatePanelInfo(object args){
 		Dictionary<string,object> info = args as Dictionary<string, object>;
@@ -230,6 +240,33 @@ public class QuestSelectView : UIComponentUnity{
 		}
 	}
 
+	private void ClickQuestItem(QuestItem item){
+		Debug.Log("ClickQuestItem : " + item.name);
+		if (DataCenter.gameStage == GameState.Evolve) {
+			return;	
+		}
+		item.IsFocus = true;
+		int index = dragPanel.ScrollItem.IndexOf( item.gameObject );
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickQuestItem", index);
+		ExcuteCallback(cbdArgs);
+		//show info panel data
+		TQuestInfo selectQuest =  item.Data;
+		DataCenter.Instance.currentQuestInfo = selectQuest;	//store select quest 
+		labStaminaVaule.text = selectQuest.Stamina.ToString();
+		labFloorVaule.text = selectQuest.Floor.ToString();
+//		labDoorName.text = tsi.StageName;
+		labStoryContent.text = selectQuest.Story;
+		rewardLineLabel.text = "/";
+		rewardCoinLabel.text = "Cion " + selectQuest.RewardMoney.ToString();
+		labQuestInfo.text = selectQuest.Name;
+		rewardExpLabel.text = "Exp " + selectQuest.RewardExp.ToString();
+//		storyTextLabel.text = tsi.Description;
+		selectBtn.isEnabled = true;
+		
+		ShowBossAvatar(selectQuest.BossID[ 0 ]);
+		ShowEnemiesAvatar(selectQuest.EnemyID);
+	}
+
 	void ClickQuestItem(GameObject go ){
 		if (DataCenter.gameStage == GameState.Evolve) {
 			return;	
@@ -270,12 +307,9 @@ public class QuestSelectView : UIComponentUnity{
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName){
-			case "CreateQuestList" : 
-				CallBackDispatcherHelper.DispatchCallBack(CreateQuestDragList, cbdArgs);
-				break;
-			case "ShowInfoPanel" : 
-				CallBackDispatcherHelper.DispatchCallBack(UpdatePanelInfo, cbdArgs);
-				break;
+//			case "ShowInfoPanel" : 
+//				CallBackDispatcherHelper.DispatchCallBack(UpdatePanelInfo, cbdArgs);
+//				break;
 			case "EvolveQuestList":
 				CallBackDispatcherHelper.DispatchCallBack(EvolveInfoShow, cbdArgs);
 				break;
@@ -306,12 +340,52 @@ public class QuestSelectView : UIComponentUnity{
 	
 	void CreateQuestDragList(object args){
 		TStageInfo tsi = args as TStageInfo;
-		dragPanel = new DragPanel("QuestDragPanel", questViewItem);
-		dragPanel.CreatUI();
-		dragPanel.AddItem(tsi.QuestInfo.Count);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
+		List<TQuestInfo> infoListForShow = GetQuestInfoListForShow(tsi);
+		if(infoListForShow == null){
+			Debug.LogError("GetQuestInfoListForShow(), Data is Error, return!!!");
+			return;
+		}
+		else{
+			Debug.Log("GetQuestInfoListForShow(), infoListForShow count is : " + infoListForShow.Count);
+			dragPanel = new DragPanel("QuestDragPanel", QuestItem.ItemPrefab);
+			dragPanel.CreatUI();
+			dragPanel.AddItem(infoListForShow.Count);
+			dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
 
-		RefreshQuestInfo (tsi.QuestInfo);
+			for (int i = 0; i < infoListForShow.Count; i++){
+				//Inject data
+				GameObject scrollItem = dragPanel.ScrollItem[ i ];
+				QuestItem questItem = QuestItem.Inject(scrollItem);
+				if(infoListForShow[ i ] == null){
+					Debug.LogError(string.Format("infoListForShow{[0]} data is NULL, return!!!", i));
+					return;
+				}
+				else{
+					questItem.Data = infoListForShow[ i ] ;
+					questItem.Position = i;
+					questItem.IsFocus = false;
+					questItem.callback = ClickQuestItem;
+				}
+			}
+		}
+	}
+	
+	private List<TQuestInfo> GetQuestInfoListForShow(TStageInfo stageInfo){
+		List<TQuestInfo> infoListForShow = new List<TQuestInfo>();
+		List<TQuestInfo> questInfoList = stageInfo.QuestInfo;
+
+		for (int i = 0; i < questInfoList.Count; i++){
+			if(questInfoList[ i ].state == EQuestState.QS_CLEARED){
+				//add the one as long as it is on state of clear
+				infoListForShow.Add(questInfoList[ i ]);
+			}
+			else if(questInfoList[ i ].state == EQuestState.QS_NEW){
+				//add the first one that state is new only
+				infoListForShow.Add(questInfoList[ i ]);
+				return infoListForShow;
+			}
+		}
+		return infoListForShow;
 	}
 
 	void RefreshQuestInfo(List<TQuestInfo> questInfo) {
