@@ -90,6 +90,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	//----------Init functions of UI Elements----------
 	void InitUI() {
+		favBtn = transform.FindChild("ImgBtn_Lock").GetComponent<UIImageButton>();
+		UIEventListener.Get(favBtn.gameObject).onClick = CollectCurUnit;
+
 		unitInfoTabs = transform.Find("UnitInfoTabs").gameObject;
 		tabSkill1 = transform.Find("UnitInfoTabs/Tab_Skill1").gameObject;
 		UIEventListener.Get(tabSkill1).onClick = ClickTab;
@@ -327,7 +330,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if (skillId == 0) {
 			return;	
 		}
-		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();//Skill[ skillId ].GetSkillInfo();
+		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();
         leaderSkillNameLabel.text = skill.name;
 		leaderSkillDscpLabel.text = skill.description;
 	}
@@ -338,7 +341,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if (skillId == 0) {
 			return;	
 		} 
-		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();//.Skill[ skillId ].GetSkillInfo();		
+		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();
 		activeSkillNameLabel.text = skill.name;
 		activeSkillDscpLabel.text = skill.description;
     }
@@ -349,8 +352,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	//--------------interface function-------------------------------------
+	private TUserUnit curUserUnit;
 	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
+		curUserUnit = userUnit;
 		if (userUnit != null) {
 			ShowInfo (userUnit);
 		} else {
@@ -497,5 +502,44 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			progress = 0.1f;		
 		}
 		expSlider.value = progress;
+	}
+
+	private void CollectCurUnit(GameObject go){
+		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
+		if(isFav){
+			UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, EFavoriteAction.DEL_FAVORITE);
+			Debug.LogError("SendRequest(), ADD_FAVORITE");
+		}
+		else{
+			UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, EFavoriteAction.ADD_FAVORITE);
+			Debug.LogError("SendRequest(), DEL_FAVORITE");
+		}
+	}
+
+	private void OnRspChangeFavState(object data){
+		Debug.Log("OnRspChangeFavState(), start...");
+		if(data == null) {Debug.LogError("OnRspChangeFavState(), data is NULL"); return;}
+		bbproto.RspUnitFavorite rsp = data as bbproto.RspUnitFavorite;
+		Debug.LogError("000000000000");
+		if (rsp.header.code != (int)ErrorCode.SUCCESS){
+			LogHelper.LogError("OnRspChangeFavState code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			return;
+		}
+		Debug.LogError("11111111111");
+		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;
+		Debug.LogError("22222222222");
+		UpdateFavView(	curUserUnit.IsFavorite);
+		Debug.LogError("33333333333");
+	}
+
+	UIImageButton favBtn;
+	private void UpdateFavView(int isFav){
+		Debug.Log("UpdateFavView(), isFav : " + ((isFav == 1) ? true : false));
+		if(isFav == 1){
+			favBtn.normalSprite = "Fav_Lock_Open";
+		}
+		else{
+			favBtn.normalSprite = "Fav_Lock_Close";
+		}
 	}
 }

@@ -24,7 +24,7 @@ public class UnitDetailComponent : ConcreteComponent {
 		base.DestoryUI ();
 	}
 
-	void CallBackUnitData ( object data) {
+	void CallBackUnitData (object data) {
 		ExcuteCallback (data);
 	}
 
