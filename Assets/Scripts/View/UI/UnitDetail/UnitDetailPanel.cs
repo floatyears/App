@@ -4,6 +4,7 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
+	UIImageButton favBtn;
 	GameObject unitInfoTabs;
 	UILabel noLabel;
 	UILabel hpLabel;
@@ -355,7 +356,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	private TUserUnit curUserUnit;
 	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
+
 		curUserUnit = userUnit;
+
 		if (userUnit != null) {
 			ShowInfo (userUnit);
 		} else {
@@ -402,8 +405,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	//------------------end-----------------------------------------
-
 	void ShowInfo(TUserUnit userUnit) {
+		ShowFavView(curUserUnit.IsFavorite);
 		ShowBodyTexture( userUnit ); 
 		ShowUnitScale();
 		ShowStatusContent( userUnit );
@@ -508,11 +511,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
 		if(isFav){
 			UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, EFavoriteAction.DEL_FAVORITE);
-			Debug.LogError("SendRequest(), ADD_FAVORITE");
+			Debug.LogError("SendRequest(), DEL_FAVORITE");
 		}
 		else{
 			UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, EFavoriteAction.ADD_FAVORITE);
-			Debug.LogError("SendRequest(), DEL_FAVORITE");
+			Debug.LogError("SendRequest(), ADD_FAVORITE");
 		}
 	}
 
@@ -520,26 +523,26 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		Debug.Log("OnRspChangeFavState(), start...");
 		if(data == null) {Debug.LogError("OnRspChangeFavState(), data is NULL"); return;}
 		bbproto.RspUnitFavorite rsp = data as bbproto.RspUnitFavorite;
-		Debug.LogError("000000000000");
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
 			LogHelper.LogError("OnRspChangeFavState code:{0}, error:{1}", rsp.header.code, rsp.header.error);
 			return;
 		}
-		Debug.LogError("11111111111");
 		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;
-		Debug.LogError("22222222222");
-		UpdateFavView(	curUserUnit.IsFavorite);
-		Debug.LogError("33333333333");
+		ShowFavView(curUserUnit.IsFavorite);
 	}
 
-	UIImageButton favBtn;
-	private void UpdateFavView(int isFav){
+
+	private void ShowFavView(int isFav){
 		Debug.Log("UpdateFavView(), isFav : " + ((isFav == 1) ? true : false));
 		if(isFav == 1){
-			favBtn.normalSprite = "Fav_Lock_Open";
+			favBtn.normalSprite = "Fav_Lock_Close";
+			favBtn.hoverSprite = "Fav_Lock_Close";
+			favBtn.pressedSprite = "Fav_Lock_Close";
 		}
 		else{
-			favBtn.normalSprite = "Fav_Lock_Close";
+			favBtn.normalSprite = "Fav_Lock_Open";
+			favBtn.hoverSprite = "Fav_Lock_Open";
+			favBtn.pressedSprite = "Fav_Lock_Open";
 		}
 	}
 }
