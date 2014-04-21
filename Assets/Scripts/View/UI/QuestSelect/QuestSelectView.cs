@@ -96,7 +96,7 @@ public class QuestSelectView : UIComponentUnity{
 		int index = (int)info["position"];
 		TStageInfo tsi = info["data"] as TStageInfo;
 		TQuestInfo select =  tsi.QuestInfo [index];
-		DataCenter.Instance.currentQuestInfo = select;	//store select quest 
+		DataCenter.Instance.currentQuestInfo = select;
 		staminaLabel.text = select.Stamina.ToString();
 		floorLabel.text = select.Floor.ToString();
 		doorLabel.text = tsi.StageName;
@@ -156,7 +156,7 @@ public class QuestSelectView : UIComponentUnity{
 
 	private void ClickQuestItem(QuestItem item){
 		if (DataCenter.gameStage == GameState.Evolve) {return;}
-		TQuestInfo pickedQuest =  item.Data;
+		TQuestInfo pickedQuest =  item.QuestInfo;
 		DataCenter.Instance.currentQuestInfo = pickedQuest;	
 
 		ShowQuestRewardInfo(pickedQuest);
@@ -247,7 +247,7 @@ public class QuestSelectView : UIComponentUnity{
 		List<TQuestInfo> infoListForShow = GetQuestInfoListForShow(curStageInfo);
 		if(infoListForShow == null){ Debug.LogError("GetQuestInfoListForShow(), Data is Error, return!!!"); return; }
 		else{
-			//Debug.Log("GetQuestInfoListForShow(), infoListForShow count is : " + infoListForShow.Count);
+			Debug.Log("GetQuestInfoListForShow(), infoListForShow count is : " + infoListForShow.Count);
 			dragPanel = new DragPanel("QuestDragPanel", QuestItem.ItemPrefab);
 			dragPanel.CreatUI();
 			dragPanel.AddItem(infoListForShow.Count);
@@ -262,7 +262,8 @@ public class QuestSelectView : UIComponentUnity{
 					return;
 				}
 				else{
-					questItem.Data = infoListForShow[ i ] ;
+					questItem.StageInfo = curStageInfo;
+					questItem.QuestInfo = infoListForShow[ i ] ;
 					questItem.Position = i;
 					questItem.IsFocus = false;
 					questItem.callback = ClickQuestItem;
@@ -276,11 +277,11 @@ public class QuestSelectView : UIComponentUnity{
 		List<TQuestInfo> questInfoList = stageInfo.QuestInfo;
 
 		for (int i = 0; i < questInfoList.Count; i++){
-			if(questInfoList[ i ].state == EQuestState.QS_CLEARED){
+			if(DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(curStageInfo.ID, questInfoList[ i ].ID)){
 				//add the one as long as it is on state of clear
 				infoListForShow.Add(questInfoList[ i ]);
 			}
-			else if(questInfoList[ i ].state == EQuestState.QS_NEW){
+			else{
 				//add the first one that state is new only
 				infoListForShow.Add(questInfoList[ i ]);
 				return infoListForShow;

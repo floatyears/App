@@ -27,37 +27,41 @@ public class QuestItem : MonoBehaviour {
 		questPosLabel = transform.FindChild("Label_Pos").GetComponent<UILabel>();
 	}
 
-	private TQuestInfo data;
-	public TQuestInfo Data{
+	private TStageInfo stageInfo;
+	public TStageInfo StageInfo{
 		get{
-			return data;
+			return stageInfo;
 		}
 		set{
-			data = value;
+			stageInfo = value;
+		}
+	}
+
+	private TQuestInfo questInfo;
+	public TQuestInfo QuestInfo{
+		get{
+			return questInfo;
+		}
+		set{
+			questInfo = value;
 			//binding data with view
-			if(data == null){
+			if(questInfo == null || stageInfo == null){
 				//do some work about clear
 			}
 			else{
 				//do some view show by QuestClear state
-
-				uint bossID = data.BossID[ 0 ];
+				uint bossID = questInfo.BossID[ 0 ];
 				bossAvatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(bossID);
 				bossAvatarSpr.spriteName = bossID.ToString();
 
 				EUnitType unitType = DataCenter.Instance.GetUnitInfo(bossID).Type;
 				bossTypeSpr.color = DGTools.TypeToColor(unitType);
 
-				switch (data.state) {
-					case EQuestState.QS_NEW : 
-						IsClear = false;
-						break;
-					case EQuestState.QS_CLEARED :
-						IsClear = true;
-						break;
-					default:
-						break;
-				}
+				if(stageInfo.Type == QuestType.E_QUEST_STORY)
+					IsClear = DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageInfo.ID, questInfo.ID);
+				else if(stageInfo.Type == QuestType.E_QUEST_EVENT)
+					IsClear = DataCenter.Instance.QuestClearInfo.IsEventQuestClear(stageInfo.ID, questInfo.ID);
+				else{}
 			}
 		}
 	}
@@ -109,7 +113,7 @@ public class QuestItem : MonoBehaviour {
 		}
 		set{
 			position = value;
-			if(data == null) {
+			if(questInfo == null) {
 				questPosLabel.text = string.Empty;
 			}
 			questPosLabel.text = string.Format("Quest : " + position);
