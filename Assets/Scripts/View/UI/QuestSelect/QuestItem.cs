@@ -45,6 +45,9 @@ public class QuestItem : MonoBehaviour {
 				bossAvatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(bossID);
 				bossAvatarSpr.spriteName = bossID.ToString();
 
+				EUnitType unitType = DataCenter.Instance.GetUnitInfo(bossID).Type;
+				bossTypeSpr.color = DGTools.TypeToColor(unitType);
+
 				switch (data.state) {
 					case EQuestState.QS_NEW : 
 						IsClear = false;

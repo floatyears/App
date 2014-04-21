@@ -3,15 +3,13 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class QuestSelectView : UIComponentUnity{
-	private StageInfo stageInfo;
 	private UIImageButton selectBtn;
-
-	private UILabel labDoorName;
+	private UILabel doorLabel;
 	private UILabel labDoorType;
-	private UILabel labFloorVaule;
-	private UILabel labStaminaVaule;
-	private UILabel labStoryContent;
-	private UILabel labQuestInfo;
+	private UILabel floorLabel;
+	private UILabel staminaLabel;
+	private UILabel storyContentLabel;
+	private UILabel questInfoLabel;
 
 	private UILabel storyTextLabel;
 	private UILabel rewardExpLabel;
@@ -19,23 +17,17 @@ public class QuestSelectView : UIComponentUnity{
 	private UILabel rewardLineLabel;
 	private UILabel questNameLabel;
 	private UITexture bossAvatar;
-	private GameObject detail_low_light;
-	private GameObject story_low_light;
-	private UILabel clearLabel;
 	private DragPanel dragPanel;
-	private GameObject scrollerItem;
 	private GameObject scrollView;
-
 	private GameObject questViewItem;
-
 	private List<UITexture> pickEnemiesList = new List<UITexture>();
 	private UIToggle firstFocus;
 	private Dictionary< string, object > questSelectScrollerArgsDic = new Dictionary< string, object >();
 
 	private List<QuestInfo> questInfoList = new List<QuestInfo>();
-
-
 	private TStageInfo curStageInfo;
+	private int curQuestIndex;
+	private TEvolveStart evolveStageInfo;
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -45,19 +37,22 @@ public class QuestSelectView : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, SelectedStage);
+		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, GetSelectedStage);
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
         firstFocus.value = true;
 		ShowTween();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, SelectedStage);
+		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, GetSelectedStage);
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
 	}
 
-	void SelectedStage(object data) {
+	void GetSelectedStage(object data) {
 		curStageInfo = data as TStageInfo;
-		CreateQuestDragList(curStageInfo);
+		if(curStageInfo != null) CreateQuestDragList();
+		else{ Debug.LogError("CreateQuestDragList(), Data is ERROR, return!!!"); }
 	}
 
     public override void ResetUIState(){
@@ -67,47 +62,28 @@ public class QuestSelectView : UIComponentUnity{
             dragPanel.DestoryUI();
         }
         selectBtn.isEnabled = false;
-//        InitDragPanel();
     }   
-
-//	void ReceiveStageInfo( object data ){
-//		StageInfo receivedStageInfo = data as StageInfo;
-//		stageInfo = receivedStageInfo;
-//		questInfoList = stageInfo.quests;
-//		Debug.LogError("questInfoList : " + questInfoList.Count);
-////		InitDragPanel();
-//	}
 
 	void InitUI(){
 		firstFocus = FindChild<UIToggle>("Window/window_right/tab_detail");
 		scrollView = FindChild("ScrollView");
 		selectBtn = FindChild<UIImageButton>("ScrollView/btn_quest_select"); 
-		labDoorName = FindChild< UILabel >("Window/title/Label_door_name");
-		labDoorName.text = string.Empty;
+		doorLabel = FindChild< UILabel >("Window/title/Label_door_name");
 		labDoorType = FindChild< UILabel >("Window/title/Label_door_type_name");
-		labDoorType.text = string.Empty;
-		labFloorVaule = FindChild< UILabel >("Window/window_left/Label_floor_V");
-		labFloorVaule.text = string.Empty;
-		labStaminaVaule = FindChild< UILabel >("Window/window_left/Label_stamina_V");
-		labStaminaVaule.text = string.Empty;
-		labStoryContent = FindChild< UILabel >("Window/window_right/content_story/Label_story");
-		labStoryContent.text = string.Empty;
-		labQuestInfo = FindChild< UILabel >("Window/window_right/content_detail/Label_quest_info");
+		floorLabel = FindChild< UILabel >("Window/window_left/Label_floor_V");
+		staminaLabel = FindChild< UILabel >("Window/window_left/Label_stamina_V");
+		storyContentLabel = FindChild< UILabel >("Window/window_right/content_story/Label_story");
+		questInfoLabel = FindChild< UILabel >("Window/window_right/content_detail/Label_quest_info");
 		storyTextLabel = FindChild<UILabel>("Window/window_right/content_story/Label_story");
-		storyTextLabel.text = string.Empty;
 		rewardLineLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_Reward_Line");
-		rewardLineLabel.text = string.Empty;
 		rewardExpLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_Reward_Exp");
-		rewardExpLabel.text = string.Empty;
 		rewardCoinLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_Reward_Coin");
-		rewardCoinLabel.text= string.Empty;
 		questNameLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_quest_name");
-		questNameLabel.text = string.Empty;
 		bossAvatar = FindChild<UITexture>("Window/window_left/Texture_Avatar");
 
 		GameObject pickEnemies;
 		pickEnemies = FindChild("Window/window_right/content_detail/pickEnemies");
-		UITexture[] texs = pickEnemies.GetComponentsInChildren<UITexture>();
+		UITexture[ ] texs = pickEnemies.GetComponentsInChildren<UITexture>();
 		foreach (var item in texs){
 			pickEnemiesList.Add(item);
 		} 
@@ -115,82 +91,19 @@ public class QuestSelectView : UIComponentUnity{
 		UIEventListener.Get(selectBtn.gameObject).onClick = ClickFriendSelect;
 	}
 
-//	void InitDragPanel(){
-//		if(dragPanel != null){
-//			return ;
-//		}
-//		dragPanel = CreateDragPanel(questInfoList.Count);
-//		Debug.LogError("questInfoList.Count : " + questInfoList.Count);
-//		FillDragPanel(dragPanel, questInfoList);
-//		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, scrollView.transform);
-//	}
-
-	GameObject GetScrollItem( string resourcePath ){
-		GameObject scrollItem;
-		scrollItem = Resources.Load( resourcePath ) as GameObject;
-		return scrollItem;
-	}
-
-//	DragPanel CreateDragPanel(int count){
-//		GameObject scrollItem = GetScrollItem(UIConfig.questDragPanelItemPath);
-//		if( scrollItem == null)
-//			Debug.LogError("Not Find The Scroll Item");
-//
-//		DragPanel dragPanel = new DragPanel("QuestDragPanel", scrollItem);
-//		dragPanel.CreatUI();
-//		dragPanel.AddItem(count);
-//		return dragPanel;
-//	}
-
-//	void FillDragPanel(DragPanel dragPanel, List<QuestInfo> infoList){
-//		Debug.LogError("dragPanel count : " + dragPanel.ScrollItem.Count);
-//		for(int i = 0; i < dragPanel.ScrollItem.Count; i++){
-//			GameObject scrollItem = dragPanel.ScrollItem[ i ];
-//			ShowItemInfo( scrollItem, infoList[ i ]);
-//			Debug.LogError( i );
-//		}
-//	}
-
-//	void ShowItemInfo(GameObject item, QuestInfo questInfo){
-//		string textureSourcePath = string.Format("Avatar/{0}_1",questInfo.no);
-//		UITexture texture = item.transform.FindChild("Texture_Quest").GetComponent<UITexture>();
-//		texture.mainTexture = Resources.Load( textureSourcePath ) as Texture2D;
-//
-//		UILabel clearFlagLabel = item.transform.FindChild("Label_Clear_Mark").GetComponent<UILabel>();
-//		switch (questInfo.state){
-//			case EQuestState.QS_CLEARED : 
-//				clearFlagLabel.text = "Clear";
-//				clearFlagLabel.color = Color.yellow;
-//				Debug.LogError("clearFlagLabel.text : " + clearFlagLabel.text);
-//				break;
-//			case EQuestState.QS_NEW :
-//				clearFlagLabel.text = "New";
-//				clearFlagLabel.color = Color.green;
-//				Debug.LogError("clearFlagLabel.text : " + clearFlagLabel.text);
-//				break;
-//			default:
-//				break;
-//		}
-//
-//		UILabel questNoLabel = item.transform.FindChild("Label_Quest_NO").GetComponent<UILabel>();
-//		questNoLabel.text = string.Format("Quest : {0}", questInfo.no);
-//
-//		UIEventListener.Get( item).onClick = ClickQuestItem;
-//	}
-
 	void UpdatePanelInfo(object args){
 		Dictionary<string,object> info = args as Dictionary<string, object>;
 		int index = (int)info["position"];
 		TStageInfo tsi = info["data"] as TStageInfo;
 		TQuestInfo select =  tsi.QuestInfo [index];
 		DataCenter.Instance.currentQuestInfo = select;	//store select quest 
-		labStaminaVaule.text = select.Stamina.ToString();
-		labFloorVaule.text = select.Floor.ToString();
-		labDoorName.text = tsi.StageName;
-		labStoryContent.text = select.Story;
+		staminaLabel.text = select.Stamina.ToString();
+		floorLabel.text = select.Floor.ToString();
+		doorLabel.text = tsi.StageName;
+		storyContentLabel.text = select.Story;
 		rewardLineLabel.text = "/";
 		rewardCoinLabel.text = "Cion " + select.RewardMoney.ToString();
-		labQuestInfo.text = select.Name;
+		questInfoLabel.text = select.Name;
 		rewardExpLabel.text = "Exp " + select.RewardExp.ToString();
 		storyTextLabel.text = tsi.Description;
 		selectBtn.isEnabled = true;
@@ -240,31 +153,30 @@ public class QuestSelectView : UIComponentUnity{
 		}
 	}
 
+
 	private void ClickQuestItem(QuestItem item){
-		Debug.Log("ClickQuestItem : " + item.name);
-		if (DataCenter.gameStage == GameState.Evolve) {
-			return;	
-		}
-		item.IsFocus = true;
-		int index = dragPanel.ScrollItem.IndexOf( item.gameObject );
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickQuestItem", index);
-		ExcuteCallback(cbdArgs);
-		//show info panel data
-		TQuestInfo selectQuest =  item.Data;
-		DataCenter.Instance.currentQuestInfo = selectQuest;	//store select quest 
-		labStaminaVaule.text = selectQuest.Stamina.ToString();
-		labFloorVaule.text = selectQuest.Floor.ToString();
-//		labDoorName.text = tsi.StageName;
-		labStoryContent.text = selectQuest.Story;
+		if (DataCenter.gameStage == GameState.Evolve) {return;}
+		TQuestInfo pickedQuest =  item.Data;
+		DataCenter.Instance.currentQuestInfo = pickedQuest;	
+
+		ShowQuestRewardInfo(pickedQuest);
+		ShowBossAvatar(pickedQuest.BossID[ 0 ]);
+		ShowEnemiesAvatar(pickedQuest.EnemyID);
+		ShowFocusQuestState(item);
+		curQuestIndex = dragPanel.ScrollItem.IndexOf( item.gameObject );
+	}
+
+	private void ShowQuestRewardInfo(TQuestInfo pickedQuest){
+		staminaLabel.text = pickedQuest.Stamina.ToString();
+		floorLabel.text = pickedQuest.Floor.ToString();
+		doorLabel.text = curStageInfo.StageName;
+		storyContentLabel.text = pickedQuest.Story;
 		rewardLineLabel.text = "/";
-		rewardCoinLabel.text = "Cion " + selectQuest.RewardMoney.ToString();
-		labQuestInfo.text = selectQuest.Name;
-		rewardExpLabel.text = "Exp " + selectQuest.RewardExp.ToString();
-//		storyTextLabel.text = tsi.Description;
+		rewardCoinLabel.text = "Cion " + pickedQuest.RewardMoney.ToString();
+		questInfoLabel.text = pickedQuest.Name;
+		rewardExpLabel.text = "Exp " + pickedQuest.RewardExp.ToString();
+		storyTextLabel.text = curStageInfo.Description;
 		selectBtn.isEnabled = true;
-		
-		ShowBossAvatar(selectQuest.BossID[ 0 ]);
-		ShowEnemiesAvatar(selectQuest.EnemyID);
 	}
 
 	void ClickQuestItem(GameObject go ){
@@ -296,30 +208,23 @@ public class QuestSelectView : UIComponentUnity{
 		prevSprite = lightSpr;
 	}
 
-	void ClickFriendSelect(GameObject btn){
-		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickFriendSelect", (DataCenter.gameStage == GameState.Evolve));
-		ExcuteCallback(cbdArgs);
-	}
-    
-	public override void CallbackView(object data) {
-		base.CallbackView(data);
-
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
-//			case "ShowInfoPanel" : 
-//				CallBackDispatcherHelper.DispatchCallBack(UpdatePanelInfo, cbdArgs);
-//				break;
-			case "EvolveQuestList":
-				CallBackDispatcherHelper.DispatchCallBack(EvolveInfoShow, cbdArgs);
-				break;
-			default:
-				break;
+	private QuestItem prevPickedQuestItem;
+	private void ShowFocusQuestState(QuestItem curPickedQuestItem){
+		if(prevPickedQuestItem != null){
+			if(curPickedQuestItem.Equals(prevPickedQuestItem)) return;
+			else prevPickedQuestItem.IsFocus = false;
 		}
+		curPickedQuestItem.IsFocus = true;
+		prevPickedQuestItem = curPickedQuestItem;
 	}
 
-	void EvolveInfoShow (object args) {
-		TStageInfo tsi = args as TStageInfo;
+	private void ClickFriendSelect(GameObject btn){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+		PrepareFriendSelect((DataCenter.gameStage == GameState.Evolve));
+	}
+
+	private void EvolveInfoShow (TStageInfo stageInfo) {
+		TStageInfo tsi = stageInfo;
 		if (dragPanel != null) {
 			dragPanel.DestoryUI ();
 		} 
@@ -338,15 +243,11 @@ public class QuestSelectView : UIComponentUnity{
 		selectBtn.isEnabled = true;
 	}
 	
-	void CreateQuestDragList(object args){
-		TStageInfo tsi = args as TStageInfo;
-		List<TQuestInfo> infoListForShow = GetQuestInfoListForShow(tsi);
-		if(infoListForShow == null){
-			Debug.LogError("GetQuestInfoListForShow(), Data is Error, return!!!");
-			return;
-		}
+	void CreateQuestDragList(){
+		List<TQuestInfo> infoListForShow = GetQuestInfoListForShow(curStageInfo);
+		if(infoListForShow == null){ Debug.LogError("GetQuestInfoListForShow(), Data is Error, return!!!"); return; }
 		else{
-			Debug.Log("GetQuestInfoListForShow(), infoListForShow count is : " + infoListForShow.Count);
+			//Debug.Log("GetQuestInfoListForShow(), infoListForShow count is : " + infoListForShow.Count);
 			dragPanel = new DragPanel("QuestDragPanel", QuestItem.ItemPrefab);
 			dragPanel.CreatUI();
 			dragPanel.AddItem(infoListForShow.Count);
@@ -423,9 +324,9 @@ public class QuestSelectView : UIComponentUnity{
 	}
 
 	void CleanQuestInfo(){
-		labStaminaVaule.text = string.Empty;
-        labFloorVaule.text = string.Empty;
-		labQuestInfo.text = string.Empty;
+		staminaLabel.text = string.Empty;
+        floorLabel.text = string.Empty;
+		questInfoLabel.text = string.Empty;
 		storyTextLabel.text = string.Empty;
 		rewardLineLabel.text = string.Empty;
 		rewardExpLabel.text = string.Empty;
@@ -433,7 +334,7 @@ public class QuestSelectView : UIComponentUnity{
 		questNameLabel.text = string.Empty;
 		questNameLabel.text = string.Empty;
 		bossAvatar.mainTexture = null;
-		labDoorName.text = string.Empty;
+		doorLabel.text = string.Empty;
 		foreach (var item in pickEnemiesList){
 			item.mainTexture = null;
 		}
@@ -450,8 +351,49 @@ public class QuestSelectView : UIComponentUnity{
 		}
 	}
 
-	public void ShowInfoPanelContent(TQuestInfo questInfo){
-
+	void PrepareFriendSelect(bool flag){
+		TStageInfo stageInfo = null;
+		uint questID = 0;
+		int staminaNeed = curStageInfo.QuestInfo[ curQuestIndex ].Stamina;
+		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
+		
+		if(CheckStaminaEnough(staminaNeed, staminaNow)){
+			Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
+			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
+			return;
+		}
+		
+		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
+		if (flag) {
+			MsgCenter.Instance.Invoke( CommandEnum.EvolveSelectQuest, evolveStageInfo);
+		}
+		else {
+			stageInfo = curStageInfo;
+			questID = stageInfo.QuestInfo[ curQuestIndex ].ID;
+			uint stageID = stageInfo.ID;
+			Dictionary<string,uint> idArgs = new Dictionary<string, uint>();
+			idArgs.Add("QuestID", questID);
+			idArgs.Add("StageID", stageID);
+			MsgCenter.Instance.Invoke( CommandEnum.GetSelectedQuest, idArgs);
+		}
 	}
 
+	//MsgWindow show, note stamina is not enough.
+	private bool CheckStaminaEnough(int staminaNeed, int staminaNow){
+		if(staminaNeed > staminaNow) return true;
+		else return false;
+	}
+	
+	private MsgWindowParams GetStaminaLackMsgParams(){
+		MsgWindowParams msgParams = new MsgWindowParams();
+		msgParams.titleText = TextCenter.Instace.GetCurrentText("StaminaLackNoteTitle");
+		msgParams.contentText = TextCenter.Instace.GetCurrentText("StaminaLackNoteContent");
+		msgParams.btnParam = new BtnParam();
+		return msgParams;
+	}
+
+	void EvolveStartQuest (object data) {
+		evolveStageInfo = data as TEvolveStart;
+		EvolveInfoShow(evolveStageInfo.StageInfo);
+	}
 }
