@@ -50,7 +50,8 @@ public class MsgWindowView : UIComponentUnity{
     }
     
     public override void HideUI(){
-        base.HideUI();
+//        base.HideUI();
+//		base.ShowUI ();
         ResetUIElement();
         ShowSelf(false);
     }

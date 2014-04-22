@@ -107,17 +107,16 @@ public class LoadingDecorator : DecoratorBase{
     }
     
     public override void DecoratorScene(){
-
-        LoadingLogic background = CreatComponent< LoadingLogic >(UIConfig.loadingWindowName);
-        background.SetComponent(decorator);
+		LoadingLogic background = CreatComponent< LoadingLogic >(UIConfig.loadingWindowName);
+		background.SetComponent(decorator);
 
         MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-        noteWindow.SetComponent(background);
+		noteWindow.SetComponent(background);
         
         MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
         maskController.SetComponent(noteWindow);
-        
-        lastDecorator = maskController;
+
+		lastDecorator = maskController;
         lastDecorator.CreatUI();
         
     }

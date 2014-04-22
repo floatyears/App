@@ -13,16 +13,17 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MsgWindowLogic : ConcreteComponent{
-    public MsgWindowLogic(string uiName):base(uiName){}
+    public MsgWindowLogic(string uiName):base(uiName){
+		AddListener ();
+	}
 
     public override void ShowUI(){
         base.ShowUI();
-        AddListener();
+      
     }
     
     public override void HideUI(){
         base.HideUI();
-//        RemoveListener();
     }
     
     public override void DestoryUI(){
@@ -40,6 +41,7 @@ public class MsgWindowLogic : ConcreteComponent{
     void RemoveListener(){
 //		Debug.LogError ("MsgWindowLogic : RemoveListener ");
         MsgCenter.Instance.RemoveListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
+		MsgCenter.Instance.RemoveListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
     }
     
     void OpenMsgWindow(object msg){ 
