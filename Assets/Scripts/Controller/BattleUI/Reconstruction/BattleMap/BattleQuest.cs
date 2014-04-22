@@ -264,16 +264,25 @@ public class BattleQuest : UIBase {
 	}
 	
 	public void QuestEnd () {
-//		DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (DataCenter.StartQuestInfo.stageId, DataCenter.StartQuestInfo.questId);
-		DataCenter.StartQuestInfo = null;
+		DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (DataCenter.Instance.currentStageInfo.ID, DataCenter.Instance.currentQuestInfo.ID);
+//		DataCenter.StartQuestInfo = null;
 
-		ControllerManager.Instance.ExitBattle ();
 		if (DataCenter.Instance.BattleFriend != null && DataCenter.Instance.BattleFriend.FriendPoint > 0) {
-			UIManager.Instance.ChangeScene(SceneEnum.Result);
-			MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, DataCenter.Instance.BattleFriend);
+			HaveFriendExit ();
 		} else {
-			UIManager.Instance.ExitBattle ();
+			NoFriendExit();
 		}
+	}
+
+	public void NoFriendExit() {
+		ControllerManager.Instance.ExitBattle ();
+		UIManager.Instance.ExitBattle ();
+	}
+
+	public void HaveFriendExit() {
+		ControllerManager.Instance.ExitBattle ();
+		UIManager.Instance.ChangeScene(SceneEnum.Result);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, DataCenter.Instance.BattleFriend);
 	}
 
 	void EvolveEnd () {
@@ -530,10 +539,12 @@ public class BattleQuest : UIBase {
 		if (battleEnemy && !b) {
 //			battle.SwitchInput(true);
 			battle.ShieldInput(false);
-			QuestClear();
+			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
+//			QuestClear();
 		}
+		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
 
-		if (questDungeonData.GetSingleFloor (currentCoor).Type != EQuestGridType.Q_ENEMY) {
+		if (tqg != null && tqg.Type != EQuestGridType.Q_ENEMY) {
 			return;	
 		}
 
@@ -582,14 +593,11 @@ public class BattleQuest : UIBase {
 		mwp.btnParams[0] = sure;
 		
 		sure = new BtnParam ();
-		sure.callback = CheckOutSure;
+		sure.callback = QuestClearShow;
 		sure.text = "Cancel";
 		mwp.btnParams[1] = sure;
 
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
-	}
-	void CheckOutSure(object data) {
-		questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClearShow);
 	}
 
 	public void Retry () {
@@ -622,6 +630,12 @@ public class BattleQuest : UIBase {
 		if (rrq == null) {
 			return;	
 		}
+
+		if (battle.isShowEnemy) {
+			ExitFight (true);
+			battle.ExitFight();
+		}
+
 		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
 		int count = _questData.Count -1;
 		_questData.RemoveAt (count);
@@ -640,7 +654,7 @@ public class BattleQuest : UIBase {
 		RequestData ();
 	}
 
-	void QuestClearShow() {
+	void QuestClearShow(object data) {
 		RequestData ();
 	}
 

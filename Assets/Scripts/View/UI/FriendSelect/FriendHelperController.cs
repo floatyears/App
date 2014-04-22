@@ -56,7 +56,7 @@ public class FriendHelperController : ConcreteComponent{
 			sqp.questId = questID;
 			sqp.stageId = stageID;
 			sqp.startNew = 1;
-			DataCenter.StartQuestInfo = sqp;
+//			DataCenter.StartQuestInfo = sqp;
 			sq.OnRequest (sqp, RspStartQuest);
 		}
 	}
@@ -97,7 +97,7 @@ public class FriendHelperController : ConcreteComponent{
 		
 		if (data == null || tqdd == null) {
 //			Debug.LogError("Request quest info fail : data " + data + "  TQuestDungeonData : " + tqdd);
-			DataCenter.StartQuestInfo = null;
+//			DataCenter.StartQuestInfo = null;
 			return;
 		}
 //		HideUI ();
