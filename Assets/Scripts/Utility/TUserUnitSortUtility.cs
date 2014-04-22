@@ -13,7 +13,8 @@ public enum SortRule {
 	ID					= 5,
 	Fav				= 6,
 	AddPoint		= 7,
-	Login				= 8
+	Login				= 8,
+	Rank				= 9
 }
 
 public class SortUnitTool{
@@ -67,7 +68,7 @@ public class SortUnitTool{
 				DGTools.InsertSort(targetList, new TFriendUnitSortAddPoint());
 				break;
 			case SortRule.Attack : 
-				DGTools.InsertSort(targetList, new TFriendUnitSortAtk(), false);
+				DGTools.InsertSort(targetList, new TFriendUnitSortAtk());
 				break;
 			case SortRule.Attribute : 
 				DGTools.InsertSort(targetList, new TFriendUnitSortAttribute());
@@ -76,7 +77,7 @@ public class SortUnitTool{
 				DGTools.InsertSort(targetList, new TFriendUnitSortLoginTime());
 				break;
 			case SortRule.HP : 
-				DGTools.InsertSort(targetList, new TFriendUnitSortHP(), false);
+				DGTools.InsertSort(targetList, new TFriendUnitSortHP());
 				break;
 			case SortRule.ID : 
 				DGTools.InsertSort(targetList, new TFriendUnitSortID(), false);
@@ -86,6 +87,9 @@ public class SortUnitTool{
 				break;
 			case SortRule.Race : 
 				DGTools.InsertSort(targetList, new TFriendUnitSortRace());
+				break;
+			case SortRule.Rank : 
+				DGTools.InsertSort(targetList, new TFriendUnitSortRank());
 				break;
 			default:
 				break;
@@ -245,5 +249,14 @@ public class TFriendUnitSortRace : TFriendUnitSortBase{
 		int firstRace = (int)firstFriendUnit.UserUnit.UnitInfo.Race;
 		int secondRace = (int)secondFriendUnit.UserUnit.UnitInfo.Race;
 		return firstRace.CompareTo(secondRace);
+	}
+}
+
+public class TFriendUnitSortRank : TFriendUnitSortBase{
+	public override int Compare(object x, object y) {
+		base.Compare(x,y);
+		int firstRank = (int)firstFriendUnit.Rank;
+		int secondRank = (int)secondFriendUnit.Rank;
+		return firstRank.CompareTo(secondRank);
 	}
 }

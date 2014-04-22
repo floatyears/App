@@ -390,7 +390,7 @@
         "resoucePath": "Prefabs/UI/Common/",
         "parent": 2,
         "positionx": 0,
-        "positiony": 576,
+        "positiony": 650,
         "positionz": 0
     },
      "FriendUnitSortPanel": {
@@ -398,7 +398,7 @@
         "resoucePath": "Prefabs/UI/Common/",
         "parent": 2,
         "positionx": 0,
-        "positiony": 576,
+        "positiony": 650,
         "positionz": 0
     }
     

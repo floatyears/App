@@ -15,7 +15,8 @@ public class MaskView : UIComponentUnity {
 	}
 
 	public override void HideUI(){
-		base.HideUI();
+//		base.HideUI();
+		SetMaskActive (false);
 	}
 
 	public override void CallbackView(object data){

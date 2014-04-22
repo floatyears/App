@@ -539,13 +539,13 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			background.spriteName = "Fav_Lock_Close";
 			background.spriteName = "Fav_Lock_Close";
 			background.spriteName = "Fav_Lock_Close";
-			Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
+			//Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
 		}
 		else{
 			background.spriteName = "Fav_Lock_Open";
 			background.spriteName = "Fav_Lock_Open";
 			background.spriteName = "Fav_Lock_Open";
-			Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
+			//Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
 		}
 	}
 }
