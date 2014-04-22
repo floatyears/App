@@ -100,6 +100,8 @@ public class UIConfig
 	public const string screenMaskName = "ScreenMask";
 	public const string itemCounterBarName = "ItemCounterBar";
 	public const string resultWindowName = "ResultWindow";
+	public const string userUnitSortPanelName = "UserUnitSortPanel";
+	public const string friendUnitSortPanelName = "FriendUnitSortPanel";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;

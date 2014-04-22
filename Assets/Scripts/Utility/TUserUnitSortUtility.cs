@@ -12,7 +12,8 @@ public enum SortRule {
 	GetTime		= 4,
 	ID					= 5,
 	Fav				= 6,
-	AddPoint		= 7
+	AddPoint		= 7,
+	LastestLogin	= 8
 }
 
 public class SortUnitTool{
