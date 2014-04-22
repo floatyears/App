@@ -16,7 +16,7 @@ public class TStageClearItem : ProtobufDataBase {
 }
 
 public class TQuestClearInfo : ProtobufDataBase {
-	private QuestClearInfo	instance;
+	private QuestClearInfo	instance ;
 	private TStageClearItem storyClear;
 	private List<TStageClearItem> eventClear;
 
@@ -33,6 +33,9 @@ public class TQuestClearInfo : ProtobufDataBase {
 	public	List<TStageClearItem>	EventClear { get { return this.eventClear; } }
 
 	public	bool IsStoryQuestClear(uint stageId, uint questId) {
+		if (StoryClear == null) {
+			return false;
+		}
 		if ( stageId < StoryClear.StageId ) { 
 			return true;
 		} else if ( stageId == StoryClear.StageId ) { 
@@ -43,6 +46,10 @@ public class TQuestClearInfo : ProtobufDataBase {
 	}
 
 	public	bool IsEventQuestClear(uint stageId, uint questId) {
+		if (this.eventClear == null) {
+			return false;
+		}
+
 		foreach(TStageClearItem item in this.eventClear) {
 			if ( item.StageId == stageId ) { 
 				return ( questId <= item.QuestId);

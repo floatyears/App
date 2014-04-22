@@ -270,6 +270,7 @@ public class DGTools {
 		if (ai.FixRecoverHP) {
 			return "7_1";
 		}
+		Debug.LogError ("ai.AttackType : " + ai.AttackType + " ai.AttackRange : " + ai.AttackRange + " ai.FixRecoverHP : " + ai.FixRecoverHP);
 		string name1 = ai.AttackType.ToString ();
 		string name2 = ai.AttackRange.ToString ();
 		return name1 + "_" + name2;
