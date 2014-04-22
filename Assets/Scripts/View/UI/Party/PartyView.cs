@@ -32,6 +32,7 @@ public class PartyView : UIComponentUnity{
 
 	public override void ShowUI(){
 		base.ShowUI();
+		AddCmdListener();
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
 		RefreshDragPanel();
@@ -43,6 +44,7 @@ public class PartyView : UIComponentUnity{
 	public override void HideUI(){
 		base.HideUI();
 		DataCenter.Instance.PartyInfo.ExitParty();
+		RmvCmdListener();
 	}
 
 	public override void DestoryUI(){
@@ -63,7 +65,7 @@ public class PartyView : UIComponentUnity{
 		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
 
 		sortBtn = FindChild<UIButton>("Bottom/Button_Sort");
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortButton;
+		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
 		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
 
 		for (int i = 0; i < 4; i++){
@@ -452,8 +454,14 @@ public class PartyView : UIComponentUnity{
 		ClearPartyFocusState();
 	}
 	
-	void ClickSortButton(GameObject btn){
-		curSortRule = SortUnitTool.GetNextRule(curSortRule);
+	void ClickSortBtn(GameObject btn){
+		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		//SortUnitByCurRule();
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
+	}
+
+	private void ReceiveSortInfo(object msg){
+		curSortRule = (SortRule)msg;
 		SortUnitByCurRule();
 	}
 
@@ -515,6 +523,14 @@ public class PartyView : UIComponentUnity{
 		countArgs.Add("current", DataCenter.Instance.MyUnitList.Count);
 		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+	}
+
+	private void AddCmdListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+	
+	private void RmvCmdListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 }

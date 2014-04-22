@@ -60,6 +60,7 @@ public class CatalogUnitItem : MonoBehaviour {
 				State = CatalogState.UnKnown;
 			}
 			else{
+				Debug.LogError("gameObject is : " + gameObject.name + "    unitId is : " + catalogUserUnit.UnitID);
 				if(DataCenter.Instance.CatalogInfo.IsHaveUnit(catalogUserUnit.UnitID)){
 					//Debug.LogError("unitID : " + catalogUserUnit.UnitID+" isHave.");
 					State = CatalogState.Got;

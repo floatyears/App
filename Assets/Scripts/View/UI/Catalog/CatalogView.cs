@@ -9,21 +9,22 @@ public class CatalogView : UIComponentUnity {
 
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
-		InitCatalogDragPanel();
+		InitConfig();
 	}
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+		CreateDragPanel();
 		RefreshItemCounter();
 		RefreshCatalogView();
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
+		DestoryDragPanel();
 	}
 
-	private void InitCatalogDragPanel(){
-		TOTAL_CATALOG_COUNT = GetTotalUnitCount();
+	private void CreateDragPanel(){
 		dragPanel = new DragPanel("CatalogDragPanel", CatalogUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(TOTAL_CATALOG_COUNT);
@@ -63,9 +64,17 @@ public class CatalogView : UIComponentUnity {
 
 	private void RefreshCatalogView(){
 		for (int i = 1; i <= TOTAL_CATALOG_COUNT; i++){
-			//Debug.LogError("RefreshCatalogView(), index : " + i);
 			catalogUnitItemList[ i - 1 ].Refresh( i );
 		}
+	}
+
+	private void InitConfig(){
+		TOTAL_CATALOG_COUNT = GetTotalUnitCount();
+	}
+
+	private void DestoryDragPanel(){
+		catalogUnitItemList.Clear();
+		dragPanel.DestoryUI();
 	}
 
 }

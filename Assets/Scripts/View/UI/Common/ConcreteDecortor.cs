@@ -449,11 +449,12 @@ public class FriendSelectDecorator : DecoratorBase{
 		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
 		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		infoPanel.SetComponent(sceneInfoBar);
 		friendSelect.SetComponent(infoPanel);
-
-		helperBriefInfo.SetComponent(friendSelect);
+		sortPanel.SetComponent(friendSelect);
+		helperBriefInfo.SetComponent(sortPanel);
 
 		lastDecorator = helperBriefInfo;
 		lastDecorator.CreatUI();
@@ -486,11 +487,13 @@ public class PartyDecorator : DecoratorBase{
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.PartyWindowName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
 		partyInfo.SetComponent(sceneInfoBar);
 		counter.SetComponent(partyInfo);
-		partyPage.SetComponent(counter);
+		sortPanel.SetComponent(counter);
+		partyPage.SetComponent(sortPanel);
 	
 		lastDecorator = partyPage;
 		lastDecorator.CreatUI();
@@ -564,10 +567,12 @@ public class SellDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		SellController sell = CreatComponent< SellController >(UIConfig.sellWindowName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
-		sell.SetComponent(counter);
+		sortPanel.SetComponent(counter);
+		sell.SetComponent(sortPanel);
 
 		lastDecorator = sell;
 		lastDecorator.CreatUI();
@@ -699,13 +704,15 @@ public class FriendListDecorator : DecoratorBase{
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		FriendListLogic friendList = CreatComponent<FriendListLogic>(UIConfig.friendListWindowName);
 		FriendListUserBriefInfo briefInfo = CreatComponent<FriendListUserBriefInfo>(UIConfig.userBriefInfoWindowName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
 		friendList.SetComponent(counter);
 		briefInfo.SetComponent(friendList);
+		sortPanel.SetComponent(briefInfo);
 
-		lastDecorator = briefInfo;
+		lastDecorator = sortPanel;
 
 		lastDecorator.CreatUI();
 	}
@@ -798,13 +805,15 @@ public class ApplyDecorator : DecoratorBase{
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		ApplyController applyWindow = CreatComponent< ApplyController >(UIConfig.applyWindowName);
 		DeleteFriendApply deleteApply = CreatComponent<DeleteFriendApply>(UIConfig.applyMessageWindowName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
 		applyWindow.SetComponent(counter);
 		deleteApply.SetComponent(applyWindow);
+		sortPanel.SetComponent(deleteApply);
 
-		lastDecorator = deleteApply;
+		lastDecorator = sortPanel;
 
 		lastDecorator.CreatUI();
 	}
@@ -833,13 +842,15 @@ public class ReceptionDecorator : DecoratorBase{
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		ReceptionController recptionWin = CreatComponent< ReceptionController >(UIConfig.receptionWindowName);
 		AccpetFriendApply acceptApply = CreatComponent<AccpetFriendApply>(UIConfig.acceptApplyMessageWindowName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
 		recptionWin.SetComponent(counter);
 		acceptApply.SetComponent(recptionWin);
+		sortPanel.SetComponent(acceptApply);
 
-		lastDecorator = acceptApply;
+		lastDecorator = sortPanel;
 		lastDecorator.CreatUI();
 	}
 }

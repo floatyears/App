@@ -7,7 +7,7 @@ public class FriendUnitSortPanelView : SortPanelView {
 		UIButton btn;
 		
 		btn = FindChild<UIButton>("Button_Sort_Login");
-		sortRuleSelectDic.Add(btn, SortRule.GetTime);
+		sortRuleSelectDic.Add(btn, SortRule.Login);
                 
 		AddEventListener();
 	}
