@@ -384,6 +384,23 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
+    },
+     "UserUnitSortPanel": {
+        "uiName":"UserUnitSortPanel",
+        "resoucePath": "Prefabs/UI/Common/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
+     "FriendUnitSortPanel": {
+        "uiName":"FriendUnitSortPanel",
+        "resoucePath": "Prefabs/UI/Common/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
+    
     
 }

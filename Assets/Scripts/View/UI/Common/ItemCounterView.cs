@@ -15,11 +15,13 @@ public class ItemCounterView : UIComponentUnity{
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
+		//Debug.LogError("ShowUI : " + UIManager.Instance.baseScene.CurrentScene);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshItemCount, UpdateView);
+		//Debug.LogError("HideUI : " + UIManager.Instance.baseScene.CurrentScene);
 	}
 	
 	void InitUIElement(){

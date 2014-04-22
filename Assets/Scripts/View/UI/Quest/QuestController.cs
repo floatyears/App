@@ -1,16 +1,14 @@
 using UnityEngine;
 using System.Collections;
-using bbproto;
 using System.Collections.Generic;
+using bbproto;
 
 public class QuestController : ConcreteComponent{
-
-	List<TCityInfo> storyCityList = new List<TCityInfo>();
-	List<TStageInfo> storyStageList = new List<TStageInfo>();
+	private List<TCityInfo> storyCityList = new List<TCityInfo>();
+	private List<TStageInfo> storyStageList = new List<TStageInfo>();
 
 	public QuestController(string uiName):base(uiName){}
 	public override void CreatUI(){ base.CreatUI();}
-	
 	public override void ShowUI(){
 		base.ShowUI();
 		GetStoryCityList();
@@ -38,7 +36,7 @@ public class QuestController : ConcreteComponent{
 	void GetStoryCityList(){
 		uint nowCityIDForTemp = 1;
 		storyCityList.Add(DataCenter.Instance.GetCityInfo(nowCityIDForTemp));
-//		Debug.LogError("storyCityList(), storyStageList's count is " + storyCityList.Count);
+		//Debug.LogError("storyCityList(), storyStageList's count is " + storyCityList.Count);
 		GetStoryStageList();
 	}
 

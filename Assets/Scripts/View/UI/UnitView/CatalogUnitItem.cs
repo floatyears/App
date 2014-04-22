@@ -34,7 +34,6 @@ public class CatalogUnitItem : MonoBehaviour {
 		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
 		translucentMaskSpr = transform.FindChild("Sprite_Translucent").GetComponent<UISprite>();
 		idLabel = transform.FindChild("Label_ID").GetComponent<UILabel>();
-//		State = CatalogState.UnKnown;
 	}
 
 	/// <summary>

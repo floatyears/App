@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BaseUnitItem : MonoBehaviour {
 	public static BaseUnitItem Inject(GameObject item){
-		BaseUnitItem view = item.AddComponent<BaseUnitItem>();
+		BaseUnitItem view = item.GetComponent<BaseUnitItem>();
 		if (view == null) view = item.AddComponent<BaseUnitItem>();
 		return view;
 	}

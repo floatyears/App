@@ -376,18 +376,14 @@ public class UnitsDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
-//		Debug.LogError ("UnitsDecorator DecoratorScene");
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-//		Debug.LogError ("UnitsDecorator DecoratorScene sceneInfoBar");
-		UnitsComponent units = CreatComponent< UnitsComponent >(UIConfig.unitsWindowName);
-//		Debug.LogError ("UnitsDecorator DecoratorScene units");
+		UnitsController units = CreatComponent< UnitsController >(UIConfig.unitsWindowName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-//		Debug.LogError ("UnitsDecorator DecoratorScene partyInfo");
+
 		sceneInfoBar.SetComponent(decorator);
 		partyInfo.SetComponent(sceneInfoBar);
 		units.SetComponent(partyInfo);
 		lastDecorator = units;
-
 		lastDecorator.CreatUI();
 	}
 }
@@ -418,7 +414,7 @@ public class QuestSelectDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		QuestSelectComponent questSelect = CreatComponent< QuestSelectComponent >(UIConfig.questSelectWindowName);
+		QuestSelectController questSelect = CreatComponent< QuestSelectController >(UIConfig.questSelectWindowName);
 		questSelect.SetComponent(sceneInfoBar);
 
 		lastDecorator = questSelect;
@@ -492,9 +488,9 @@ public class PartyDecorator : DecoratorBase{
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.PartyWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
-		counter.SetComponent(sceneInfoBar);
-		partyInfo.SetComponent(counter);
-		partyPage.SetComponent(partyInfo);
+		partyInfo.SetComponent(sceneInfoBar);
+		counter.SetComponent(partyInfo);
+		partyPage.SetComponent(counter);
 	
 		lastDecorator = partyPage;
 		lastDecorator.CreatUI();

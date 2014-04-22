@@ -2,15 +2,15 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitsComponent : ConcreteComponent, IUICallback {
+public class UnitsController : ConcreteComponent, IUICallback {
 	TUnitParty unitPartyInfo;
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 
-	public UnitsComponent(string uiName):base(uiName) {}
+	public UnitsController(string uiName):base(uiName) {}
 
 	public override void ShowUI () {
 		base.ShowUI ();
-	}
+    }
 	
 	public override void HideUI () {
 		base.HideUI ();

@@ -3,16 +3,15 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class QuestView : UIComponentUnity{
-	GameObject storyRoot;
-	GameObject eventRoot;
-	GameObject dragItemPrefab;
-	DragPanel storyDragPanel;
-	DragPanel eventDragPanel;
+	private GameObject storyRoot;
+	private GameObject eventRoot;
+	private GameObject dragItemPrefab;
+	private DragPanel storyDragPanel;
+	private DragPanel eventDragPanel;
 
 	Dictionary< string, object > storyDragPanelArgsDic = new Dictionary< string, object >();
 	Dictionary< string, object > eventDragPanelArgsDic = new Dictionary< string, object >();
 	Dictionary< GameObject, VStageItemInfo> stageInfo = new Dictionary<GameObject, VStageItemInfo> ();
-
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -67,9 +66,9 @@ public class QuestView : UIComponentUnity{
 	void UpdateInfo (DragPanel panel, List<TCityInfo> cityList) {
 		List<TStageInfo> temp = new List<TStageInfo>();
 		for (int i = 0; i < cityList.Count; i++) {
-			TCityInfo tci = cityList[i];
+			TCityInfo tci = cityList[ i ];
 			for (int j = 0; j < tci.Stages.Count; j++) {
-				TStageInfo tsi = tci.Stages[j];
+				TStageInfo tsi = tci.Stages[ j ];
 				tsi.InitStageId(tci.ID);
 				temp.Add(tsi);
 			}
@@ -77,8 +76,8 @@ public class QuestView : UIComponentUnity{
 
 		for (int i = 0; i < temp.Count; i++) {
 			VStageItemInfo vsii = new VStageItemInfo();
-			vsii.Refresh(panel.ScrollItem[i], temp[i]);
-			stageInfo.Add(panel.ScrollItem[i], vsii);
+			vsii.Refresh(panel.ScrollItem[ i ], temp[ i ]);
+			stageInfo.Add(panel.ScrollItem[ i ], vsii);
 		}
 	}
 	

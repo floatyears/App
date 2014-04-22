@@ -39,7 +39,7 @@ public class UnitFavorite: ProtoManager {
 		//request params
 		reqUnitFavorite.unitUniqueId = this.uniqueId;
 		reqUnitFavorite.action = this.action;
-		
+		Debug.Log("UniqId:"+reqUnitFavorite.unitUniqueId+" reqUnitFavorite.action="+reqUnitFavorite.action);
 		ErrorMsg err = SerializeData(reqUnitFavorite); // save to Data for send out
 		
 		return (err.Code == (int)ErrorCode.SUCCESS);
