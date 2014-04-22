@@ -177,6 +177,7 @@ public class BattleQuest : UIBase {
 		InitData ();
 		topUI.Reset ();
 		topUI.RefreshTopUI (questDungeonData, questData);
+		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
 		if (questFullScreenTips == null) {
 			CreatBoosAppear();
@@ -537,13 +538,18 @@ public class BattleQuest : UIBase {
 		}
 		
 		if (battleEnemy && !b) {
-//			battle.SwitchInput(true);
 			battle.ShieldInput(false);
 			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
-//			QuestClear();
 		}
-		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
 
+		MapItem mi = battleMap.GetMapItem (currentCoor);
+
+		if (mi.IsOld) {
+			return;	
+		}
+
+		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
+		Debug.LogError ("currentcoor x : " + currentCoor.x + " currentcoor y :  " + currentCoor.y + " tqg.Type ; " + tqg.Type);
 		if (tqg != null && tqg.Type != EQuestGridType.Q_ENEMY) {
 			return;	
 		}
@@ -564,7 +570,8 @@ public class BattleQuest : UIBase {
 
 	void QuestClear() {
 		battle.ShieldInput(true);
-		BattleMap.waitMove = false;
+		BattleMap.waitMove = true;
+		topUI.SheildInput ();
 		battleMap.BattleEndRotate(battleMap.door.ShowTapToCheckOut);
 	}
 	
@@ -630,7 +637,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void CancelInitiativeRetry(object data) {
-		NoFriendExit ();
+//		NoFriendExit ();
+
 	}
 
 	object tempData = null;

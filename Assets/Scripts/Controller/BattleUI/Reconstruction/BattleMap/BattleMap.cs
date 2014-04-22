@@ -86,7 +86,6 @@ public class BattleMap : UIBaseUnity {
 
 		door.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMap, ShieldMap);
-
 	}
 
 	public override void ShowUI () {
@@ -96,6 +95,10 @@ public class BattleMap : UIBaseUnity {
 		StartMap ();
 		MsgCenter.Instance.AddListener (CommandEnum.ShieldMap, ShieldMap);
 
+	}
+
+	public MapItem GetMapItem(Coordinate coor) {
+		return map [coor.x, coor.y];
 	}
 	
 	void ShieldMap(object data) {

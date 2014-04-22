@@ -15,7 +15,7 @@ public class MyUnitListView : UIComponentUnity {
 	}
 	
 	public override void ShowUI () {
-		Debug.LogError("ShowUI : ");
+//		Debug.LogError("ShowUI : ");
 		base.ShowUI ();
 		AddCmdListener();
 		CreateDragPanel();
@@ -25,7 +25,7 @@ public class MyUnitListView : UIComponentUnity {
 	}
 	
 	public override void HideUI (){
-		Debug.LogError("HideUI : ");
+//		Debug.LogError("HideUI : ");
 		base.HideUI ();
 		dragPanel.DestoryUI();
 		RmvCmdListener();
