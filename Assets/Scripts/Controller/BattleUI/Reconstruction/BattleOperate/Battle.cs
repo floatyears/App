@@ -123,9 +123,13 @@ public class Battle : UIBase {
 	}
 
 	void BattleEnd (object data) {
+		ExitFight ();
+	}
+
+	public void ExitFight() {
 		isShowEnemy = false;
 		ShieldInput (true);
-//		SwitchInput(true);
+		//		SwitchInput(true);
 		HideUI ();
 	}
 
