@@ -31,7 +31,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	public TDropUnit drop;
 
 	public bool IsInjured () {
-		if (EnemyInfo ().hp < initBlood) { return true; }
+		if (EnemyInfo ().hp < instance.hp) { return true; }
 		else { return false; }
 	}
 
@@ -161,6 +161,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	}
 
 	public int GetUnitType () {
+//		Debug.LogError ("EnemyInfo ().type : " + EnemyInfo ().type);
 		return (int)EnemyInfo ().type;
 	}
 

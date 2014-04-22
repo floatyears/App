@@ -76,7 +76,7 @@ public class ApplyMessageView : UIComponentUnity{
 
 
 	void ClickSure(GameObject btn){
-		Debug.LogError("ApplyMessageView.ClickSure(),  click...");
+//		Debug.LogError("ApplyMessageView.ClickSure(),  click...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSure", null);
 		ExcuteCallback(cbdArgs);

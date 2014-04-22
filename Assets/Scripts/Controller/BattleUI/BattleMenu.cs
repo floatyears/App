@@ -89,9 +89,10 @@ public class BattleMenu : UIBaseUnity {
 
 		cancelButton = FindChild<UIButton> (Path + "Button_Cancel");
 		UIEventListener.Get (cancelButton.gameObject).onClick = CancelButton;
-		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
+//		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
 
-		RefreshDropItem ();
+//		RefreshDropItem ();
+		ShowUI ();
 	}
 
 	void RefreshDropItem () {
@@ -128,12 +129,17 @@ public class BattleMenu : UIBaseUnity {
 		gameObject.SetActive (true);
 		RefreshDropItem ();
 		defaultToggle.value = true;
+
+		_battleQuest.battle.SwitchInput (true);
+
 		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		gameObject.SetActive (false);
+//		_battleQuest.battle.SwitchInput (false);
+		Main.Instance.GInput.IsCheckInput = true;
 		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
 	}
 
@@ -167,7 +173,7 @@ public class BattleMenu : UIBaseUnity {
 
 	void ExitButton(GameObject go) {
 		audioManager.PlayAudio (AudioEnum.sound_click);
-		_battleQuest.QuestEnd ();
+		_battleQuest.NoFriendExit ();
 	}
 
 	void CancelButton(GameObject go) {

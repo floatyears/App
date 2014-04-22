@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleUseData {
-	private BattleQuest battleQuest;
+	public BattleQuest battleQuest;
     private ErrorMsg errorMsg;
     public TUnitParty upi;
     public int maxBlood = 0;
@@ -15,8 +15,13 @@ public class BattleUseData {
 					return;
 
 				blood = 0;
+//				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
+				PlayerDead();
 			}else if(value > maxBlood) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
+				if(blood < maxBlood) {
+					MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
+				}
 				blood = maxBlood;
 			}
 			else{
@@ -24,8 +29,9 @@ public class BattleUseData {
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				}
 				blood = value;
+				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 			}
-			RefreshBlood();
+//			RefreshBlood();
 		}
         get { return blood; }
     }
@@ -211,9 +217,10 @@ public class BattleUseData {
             }
         }
         DGTools.InsertSortBySequence(sortAttack, new AISortByCardNumber());
-        for (int i = 0; i < sortAttack.Count; i++) {
-			sortAttack[i].AttackRate += i * 0.25f;
-			sortAttack[i].ContinuAttackMultip = i;
+		int count = sortAttack.Count;
+		for (int i = 0; i < count; i++) {
+			sortAttack[i].AttackRate += count * 0.25f;
+			sortAttack[i].ContinuAttackMultip += i;
 			sortAttack[i].AttackValue *= (1 + sortAttack[i].AttackRate);
         }
         return sortAttack;
@@ -262,7 +269,7 @@ public class BattleUseData {
 		MsgCenter.Instance.Invoke(CommandEnum.BattleBaseData, bbd);
     }
 
-    void RecoverEnergePoint(object data) {
+   public  void RecoverEnergePoint(object data) {
         int recover = (int)data;
 
 		if (maxEnergyPoint == 0 && recover > 0) {
@@ -324,7 +331,7 @@ public class BattleUseData {
     }
 
     public void RefreshBlood() {
-        MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
+       
 		PlayerDead ();
     }
 			

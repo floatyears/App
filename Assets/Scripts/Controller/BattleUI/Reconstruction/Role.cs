@@ -78,47 +78,56 @@ public class Role : UIBaseUnity {
 	}
 
 	void NoSPMove(object data) {
+		bQuest.battle.ShieldInput(false);
+		Coordinate cd;
 		if (data == null) {
-			SetTarget (prevCoor);
-		} 
-		else {
-			Coordinate cd = (Coordinate)data;
-			SetTarget (cd);
-			bQuest.RoleCoordinate(cd);
+			cd = prevCoor;
+		} else {
+			cd = (Coordinate)data;	
 		}
-
+	
+		SetTarget (cd);
+		bQuest.RoleCoordinate(cd);
 		StartCoroutine (MoveByTrap ());
 	}
 
 	void TrapMove(object data) {
+		bQuest.battle.ShieldInput (false);
 		if (data == null) {
-			SetTarget (prevCoor);
+			SetTarget (currentCoor);
 			StartCoroutine(MoveByTrap());
 			return;
 		}
 		Coordinate cd = (Coordinate)data;
 		SetTarget (cd);
 		MsgCenter.Instance.Invoke(CommandEnum.TrapTargetPoint, cd);
-		if (cd.x == bQuest.RoleInitPosition.x && cd.y == bQuest.RoleInitPosition.y) {
+		bQuest.RoleCoordinate(cd);
+//		if (cd.x == bQuest.RoleInitPosition.x && cd.y == bQuest.RoleInitPosition.y) {
 			GoTarget ();
-		} else {
-			bQuest.RoleCoordinate(cd);
-			GoTarget();	
-		}
+//		} else {
+//			GoTarget();	
+//		}
 	}
 
 	void GoTarget() {
+		bQuest.battleMap.ChangeStyle (currentCoor);
 		transform.localPosition = targetPoint;
+		bQuest.battle.ShieldInput (true);
 	}
 
 	IEnumerator MoveByTrap() {
-		jump.JumpAnim ();
-		Stop ();
-		transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 20);
-		distance = transform.localPosition - targetPoint;
-		yield return 1 * Time.deltaTime;
-		if (distance.magnitude > 0.1f) {
-			StartCoroutine(MoveByTrap());
+		while (true) {
+			jump.JumpAnim ();
+			Stop ();	
+			transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 20);
+			distance = transform.localPosition - targetPoint;
+			yield return Time.deltaTime;
+			if (distance.magnitude < 1f) {
+				bQuest.battle.ShieldInput(true);
+				bQuest.battleMap.ChangeStyle (currentCoor);
+				yield break;
+
+			}
 		}
 	}
 
@@ -126,14 +135,21 @@ public class Role : UIBaseUnity {
 		if(firstWay.Count == 0) {
 			return;
 		}
+
 		isMove = true;
 		SetTarget(firstWay[0]);
+//		QuestCoorEnd ();
+	}
+
+	void QuestCoorEnd(Coordinate coor) {
+		bQuest.currentCoor = coor;
+		bQuest.QuestCoorEnd ();
 	}
 
 	void SetTarget(Coordinate tc) {
+		QuestCoorEnd (tc);
 		prevCoor = currentCoor;
-		currentCoor.x = tc.x;
-		currentCoor.y = tc.y;
+		currentCoor = tc;
 		TargetPoint = bQuest.GetPosition(tc);
 		if (isMove) {
 			jump.JumpAnim ();
@@ -146,7 +162,7 @@ public class Role : UIBaseUnity {
 
 		distance = transform.localPosition - targetPoint;
 
-		if(distance.magnitude > 0.1f)
+		if(distance.magnitude > 1f)
 			transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 10);
 		else
 			MoveEnd();
@@ -155,15 +171,18 @@ public class Role : UIBaseUnity {
 	Coordinate tempCoor; 
 
 	void MoveEnd() {
+//		bQuest.battle.ShieldInput (true);
+
 		if(!isMove) {
 			firstWay.Clear();
 		}
 		else {
 			tempCoor = firstWay[0];
 			firstWay.RemoveAt(0);
+			bQuest.battleMap.ChangeStyle (tempCoor);
 			SyncRoleCoordinate(tempCoor);
 			if(firstWay.Count > 0)
-				SetTarget(firstWay[0]);
+				Move();
 			else
 				isMove = false;
 		}
@@ -173,16 +192,16 @@ public class Role : UIBaseUnity {
 		isMove = false;
 		firstWay.Clear ();
 	}
-
-
+	
 	public void StartMove(Coordinate coor) {
-		if(isMove)
+		if (isMove)
 			return;
 		GenerateWayPoint(coor);
 		Move();
 	}
 
 	public void SyncRoleCoordinate(Coordinate coor) {
+
 		MsgCenter.Instance.Invoke (CommandEnum.MoveToMapItem, coor);
 		bQuest.RoleCoordinate(coor);
 	}
@@ -198,7 +217,6 @@ public class Role : UIBaseUnity {
 		}
 		firstWay.AddRange(CaculateX(endCoord));
 		firstWay.AddRange(CaculateY(endCoord));
-		Move();
 	}
 	
 	List<Coordinate> CaculateX(Coordinate endCoord) {

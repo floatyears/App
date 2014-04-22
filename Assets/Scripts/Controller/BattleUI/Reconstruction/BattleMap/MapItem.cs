@@ -55,6 +55,7 @@ public class MapItem : UIBaseUnity {
 		initRotation = transform.rotation.eulerAngles;
 		gridItemSprite = FindChild<UISprite>("GridBackground");
 		footTips = FindChild<UISprite> ("FootTips");
+//		Debug.LogError ("mapitem init : " + name + " footTips: " +footTips);
 		footTips.gameObject.SetActive (false);
 		mapBackSprite = FindChild<UISprite>("Shadow");
 		mapBack = mapBackSprite.gameObject;
@@ -357,7 +358,7 @@ public class MapItem : UIBaseUnity {
 				break;
 			case 2:
 				float value = DGTools.RandomToFloat();
-				float temp = 0.33f;
+				float temp = 1f;
 				if(isLockAttack) {
 					temp =0.01f;
 				}
@@ -408,6 +409,7 @@ public class MapItem : UIBaseUnity {
 	}
 
 	public void Around(bool isAround) {
+//		Debug.LogError (" gameobject : " + gameObject + "aroungd : " + footTips);
 		footTips.gameObject.SetActive (isAround);
 		ShowFootTips ();
 		if(isOld)

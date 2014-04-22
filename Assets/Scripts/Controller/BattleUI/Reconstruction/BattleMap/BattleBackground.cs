@@ -105,6 +105,7 @@ public class BattleBackground : UIBaseUnity {
 
 	public void InitData (int blood, int energyPoint) {
 		initBlood = blood;
+		tempNum = blood;
 		currentEnergyPoint = initEnergyPoint = energyPoint;
 		SetBlood (initBlood); 
 		InitSP ();
@@ -121,14 +122,18 @@ public class BattleBackground : UIBaseUnity {
 		}
 	}
 
+	private int tempNum = 0;
 	void SetBlood (int num) {
 		string info = "HP:" + num + "/" + initBlood;
 		label.text = info;
-		float value = DGTools.IntegerSubtriction(num,initBlood);
-		if (bloodBar.value <= value) {
+//		float value = DGTools.IntegerSubtriction(num,initBlood);
+//		if (bloodBar.value != value) {
+//			spriteAnimation.Reset();
+//		}
+		if (num > tempNum) {
 			spriteAnimation.Reset();
 		}
-		bloodBar.value = value;
+		bloodBar.value = DGTools.IntegerSubtriction(num,initBlood);
 	}
 	int preBlood = 0;
 	void ListenUnitBlood (object data) {

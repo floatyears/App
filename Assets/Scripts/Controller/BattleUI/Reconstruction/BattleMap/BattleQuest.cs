@@ -18,7 +18,7 @@ public class BattleQuest : UIBase {
 	private GameObject rootObject;
 	private TQuestGrid currentMapData;
 	public static TQuestDungeonData questDungeonData;
-	private BattleMap battleMap;
+	public BattleMap battleMap;
 	public Role role;
 	public Battle battle;
 	private BattleBackground background;
@@ -65,9 +65,7 @@ public class BattleQuest : UIBase {
 		background.transform.localPosition = Vector3.zero;
 		background.Init (backgroundName);
 		background.SetBattleQuest (this);
-
 		questData.questId = questDungeonData.QuestId;
-
 		InitTopUI ();
 		battle = new Battle("Battle");
 		battle.CreatUI();
@@ -211,7 +209,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public void TargetItem(Coordinate coor) {
-		role.StartMove(coor);
+		role.StartMove (coor);
 	}
 	  
 	void Exit() {
@@ -266,13 +264,25 @@ public class BattleQuest : UIBase {
 	}
 	
 	public void QuestEnd () {
-		ControllerManager.Instance.ExitBattle ();
+		DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (DataCenter.Instance.currentStageInfo.ID, DataCenter.Instance.currentQuestInfo.ID);
+//		DataCenter.StartQuestInfo = null;
+
 		if (DataCenter.Instance.BattleFriend != null && DataCenter.Instance.BattleFriend.FriendPoint > 0) {
-			UIManager.Instance.ChangeScene(SceneEnum.Result);
-			MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, DataCenter.Instance.BattleFriend);
+			HaveFriendExit ();
 		} else {
-			UIManager.Instance.ExitBattle ();
+			NoFriendExit();
 		}
+	}
+
+	public void NoFriendExit() {
+		ControllerManager.Instance.ExitBattle ();
+		UIManager.Instance.ExitBattle ();
+	}
+
+	public void HaveFriendExit() {
+		ControllerManager.Instance.ExitBattle ();
+		UIManager.Instance.ChangeScene(SceneEnum.Result);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, DataCenter.Instance.BattleFriend);
 	}
 
 	void EvolveEnd () {
@@ -282,7 +292,7 @@ public class BattleQuest : UIBase {
 	}
 
 	private EQuestGridType gridType = EQuestGridType.Q_NONE;
-	private Coordinate currentCoor;
+	public Coordinate currentCoor;
 
 	void YieldShowAnim() {
 		int count = bud.Els.CheckLeaderSkillCount();
@@ -292,14 +302,14 @@ public class BattleQuest : UIBase {
 	}
 
 	public void RoleCoordinate(Coordinate coor) {
-		if(!ChainLinkBattle)
-			currentCoor = coor;
+//		if(!ChainLinkBattle)
+//			currentCoor = coor;
 
 		if (!battleMap.ReachMapItem (coor)) {
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
-				battleMap.RotateAnim (null);
-				GameTimer.GetInstance().AddCountDown(0.2f,YieldShowAnim);
-				return;
+					battleMap.RotateAnim (null);
+					GameTimer.GetInstance ().AddCountDown (0.2f, YieldShowAnim);
+					return;
 			}
 
 			int index = questDungeonData.GetGridIndex (coor);
@@ -348,12 +358,13 @@ public class BattleQuest : UIBase {
 			default:
 					BattleMap.waitMove = false;
 					MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-					QuestCoorEnd();
+					QuestCoorEnd ();
 					break;
 			}
-		} else {
-			QuestCoorEnd();
 		}
+//		} else {
+//			QuestCoorEnd();
+//		}
 	}
 	
 	void GridEnd(object data) {
@@ -366,29 +377,31 @@ public class BattleQuest : UIBase {
 	void MeetQuestion () {
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		QuestCoorEnd ();
+//		QuestCoorEnd ();
 	}
 	
 	void MapItemExclamation() {
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		QuestCoorEnd ();
+//		QuestCoorEnd ();
 	}
 	
 	void MapItemTrap() {
-		if (gridType == EQuestGridType.Q_TRAP) {
-			MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		}
+//		Debug.LogError ("MapItemTrap : " + gridType);
+//		if (gridType == EQuestGridType.Q_TRAP) {
+////			MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+//			battle.ShieldInput(true);
+//		}
 
-		gridType = EQuestGridType.Q_TRAP;
+//		gridType = EQuestGridType.Q_TRAP;
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
 		BattleMap.waitMove = false;
 		TrapBase tb = currentMapData.TrapInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		gridType = EQuestGridType.Q_NONE;
+//		gridType = EQuestGridType.Q_NONE;
 
-		QuestCoorEnd ();
+//		QuestCoorEnd ();
 	}
 
 	void MapItemCoin() {
@@ -398,7 +411,7 @@ public class BattleQuest : UIBase {
 		topUI.Coin = questData.getMoney;
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		QuestCoorEnd ();
+//		QuestCoorEnd ();
 	}
 
 	void MapItemKey() {
@@ -417,10 +430,10 @@ public class BattleQuest : UIBase {
 	void MapItemNone() {
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		QuestCoorEnd ();
+//		QuestCoorEnd ();
 	}
 
-	void QuestCoorEnd() {
+	public void QuestCoorEnd() {
 		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor)) {
 			MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
 		} else {
@@ -458,37 +471,45 @@ public class BattleQuest : UIBase {
 		}
 		bud.InitEnemyInfo (currentMapData);
 
-
-
 		battle.ShowEnemy (temp);
 		ExitFight (false);
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
 		GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
-		QuestCoorEnd ();
+//		QuestCoorEnd ();
 	}
 
 	void ExitFight(bool exit) {
-		battleMap.gameObject.SetActive (exit);
-		role.gameObject.SetActive (exit);
-		battle.SwitchInput (exit);
+		if(battleMap.gameObject.activeSelf != exit)
+			battleMap.gameObject.SetActive (exit);
+		if(role.gameObject.activeSelf != exit)
+			role.gameObject.SetActive (exit);
+//		battle.SwitchInput (exit);
 	}
 
-	void StartBattleEnemyAttack() {
+	public void StartBattleEnemyAttack() {
 		EnemyAttackEnum eae = battleMap.FirstOrBackAttack ();
 		switch (eae) {
 		case EnemyAttackEnum.BackAttack:
-			questFullScreenTips.ShowTexture(QuestFullScreenTips.BackAttack,null);
-			battle.ShieldInput(false);
-			bud.ac.AttackPlayer();
+			questFullScreenTips.ShowTexture (QuestFullScreenTips.BackAttack, BackAttack);
+			battle.ShieldInput (false);
 			break;
 		case EnemyAttackEnum.FirstAttack:
-			questFullScreenTips.ShowTexture(QuestFullScreenTips.FirstAttack,null);
-			bud.ac.FirstAttack();
+			questFullScreenTips.ShowTexture (QuestFullScreenTips.FirstAttack, FirstAttack);
 			break;
 		default:
 			break;
 		}
 	}
+
+	void BackAttack() {
+		bud.ac.AttackPlayer ();
+		battle.BattleCardIns.StartBattle (false);
+	}
+
+	void FirstAttack() {
+		bud.ac.FirstAttack ();
+	}
+	
 	void AttackEnd () {
 //		battle.ShieldInput(true);
 	}
@@ -516,12 +537,14 @@ public class BattleQuest : UIBase {
 		}
 		
 		if (battleEnemy && !b) {
-			battle.SwitchInput(true);
+//			battle.SwitchInput(true);
 			battle.ShieldInput(false);
-			QuestClear();
+			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
+//			QuestClear();
 		}
+		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
 
-		if (questDungeonData.GetSingleFloor (currentCoor).Type != EQuestGridType.Q_ENEMY) {
+		if (tqg != null && tqg.Type != EQuestGridType.Q_ENEMY) {
 			return;	
 		}
 
@@ -559,7 +582,6 @@ public class BattleQuest : UIBase {
 	}
 
 	public void CheckOut () {
-//		Debug.LogError ("CheckOut : ");
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
 		mwp.titleText = "Retry";
@@ -571,14 +593,11 @@ public class BattleQuest : UIBase {
 		mwp.btnParams[0] = sure;
 		
 		sure = new BtnParam ();
-		sure.callback = CheckOutSure;
+		sure.callback = QuestClearShow;
 		sure.text = "Cancel";
 		mwp.btnParams[1] = sure;
 
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
-	}
-	void CheckOutSure(object data) {
-		questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClearShow);
 	}
 
 	public void Retry () {
@@ -588,12 +607,12 @@ public class BattleQuest : UIBase {
 		mwp.contentText = "Use one stone to retry this floor of quest ?";
 
 		BtnParam sure = new BtnParam ();
-		sure.callback = SureRetry;
+		sure.callback = SureInitiativeRetry;
 		sure.text = "OK";
 		mwp.btnParams[0] = sure;
 
 		sure = new BtnParam ();
-		sure.callback = CancelRetry;
+		sure.callback = CancelInitiativeRetry;
 		sure.text = "Cancel";
 		mwp.btnParams[1] = sure;
 
@@ -605,12 +624,47 @@ public class BattleQuest : UIBase {
 		RedoQuest.SendRequest (RetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
 	}
 
+	void SureInitiativeRetry(object data) {
+		battle.ShieldInput (false);
+		RedoQuest.SendRequest (SureRetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
+	}
+
+	void CancelInitiativeRetry(object data) {
+		NoFriendExit ();
+	}
+
+	object tempData = null;
+	void SureRetryNetWork(object data) {
+		BattleMap.waitMove = false;
+		battleMap.BattleEndRotate(null);
+		tempData = data;
+		main.GInput.IsCheckInput = true;
+		GameInput.OnPressEvent += SureRetryPress;
+	}
+
+	void SureRetryPress() {
+		GameInput.OnPressEvent -= SureRetryPress;
+		RetryNetWork (tempData);
+		tempData = null;
+	}
+
+//	void SureRetryShowMap() {
+//		RetryNetWork (tempData);
+//		tempData = null;
+//	}
+
 	void RetryNetWork(object data) {
 		battle.ShieldInput (true);
 		RspRedoQuest rrq = data as RspRedoQuest;
 		if (rrq == null) {
 			return;	
 		}
+
+		if (battle.isShowEnemy) {
+			ExitFight (true);
+			battle.ExitFight();
+		}
+
 		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
 		int count = _questData.Count -1;
 		_questData.RemoveAt (count);
@@ -629,7 +683,7 @@ public class BattleQuest : UIBase {
 		RequestData ();
 	}
 
-	void QuestClearShow() {
+	void QuestClearShow(object data) {
 		RequestData ();
 	}
 
@@ -718,7 +772,7 @@ public class BattleQuest : UIBase {
 	}
 
 	void End(TRspClearQuest clearQuest,Callback questEnd) {
-		battle.SwitchInput (true);
+//		battle.SwitchInput (true);
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
 		GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
@@ -735,7 +789,7 @@ public class BattleQuest : UIBase {
 
 	void BattleFail(object data) {
 		battle.ShieldInput (true);
-		battle.SwitchInput (true);
+//		battle.SwitchInput (true);
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
@@ -760,9 +814,10 @@ public class BattleQuest : UIBase {
 	}
 	
 	void ResumeQuestNet(object data) {
-		battle.SwitchInput (false);
+//		battle.SwitchInput (false);
 		bud.Blood = bud.maxBlood;
-		BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
+		bud.RecoverEnergePoint (DataCenter.maxEnergyPoint);
+//		BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
 	}
 
 	void BattleFailExit(object data) {

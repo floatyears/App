@@ -87,16 +87,20 @@ public class BattleBottom : MonoBehaviour {
 			int id = System.Int32.Parse (name);
 			if (upi.UserUnit.ContainsKey (id)) {
 				tuu = upi.UserUnit [id];
+//				Debug.LogError("tuu : " + tuu);
 				battleSkillObject.SetActive(true);
+//				Debug.LogError("battleSkillObject : " + battleSkillObject);
 				battleSkill.Refresh(tuu, Boost, Close);
+//				Debug.LogError("battleSkill : " + battleSkill);
 				BattleMap.waitMove = true;
+
 				battleQuest.battle.SwitchInput(true);
+//				Debug.LogError("battleQuest.battle : " + battleQuest.battle);
 			}
 		}
 		catch(System.Exception ex) {
 			Debug.LogError("exception : " + ex.Message + " name : " + name);
 		}
-
 	}
 
 	void Boost() {

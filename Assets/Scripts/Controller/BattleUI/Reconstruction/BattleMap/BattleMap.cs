@@ -75,6 +75,7 @@ public class BattleMap : UIBaseUnity {
 	public override void HideUI () {
 		base.HideUI ();
 		useMapItem.Clear ();
+		prevAround.Clear ();
 		gameObject.SetActive (false);
 		for (int i = 0; i < map.GetLength(0); i++) {
 			for (int j = 0; j < map.GetLength(1); j++) {
@@ -122,7 +123,7 @@ public class BattleMap : UIBaseUnity {
 
 	public bool ReachMapItem(Coordinate coor) {
 		prevMapItem = map[coor.x,coor.y];
-		ChangeStyle(coor);
+//		ChangeStyle(coor);
 		if(!useMapItem.Contains(prevMapItem)) {
 			useMapItem.Add(prevMapItem);
 			return false;
@@ -197,7 +198,7 @@ public class BattleMap : UIBaseUnity {
 		return aroundList;
 	}
 
-	void ChangeStyle(Coordinate coor) {
+	public void ChangeStyle(Coordinate coor) {
 		if(prevAround.Count > 0) {
 			for (int i = 0; i < prevAround.Count; i++) {
 				prevAround[i].Around(false);
