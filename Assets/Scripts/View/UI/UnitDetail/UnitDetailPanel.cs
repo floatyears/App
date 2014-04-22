@@ -253,12 +253,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		noLabel.text = data.UnitID.ToString();
 		
 		//hp
-		int hp = DataCenter.Instance.GetUnitValue(unitInfo.HPType, data.Level );
-		hpLabel.text = hp.ToString();
+		//int hp = DataCenter.Instance.GetUnitValue(unitInfo.HPType, data.Level );
+		hpLabel.text = data.Hp.ToString();
 		
 		//atk
-		int atk = DataCenter.Instance.GetUnitValue(unitInfo.AttackType, data.Level);
-		atkLabel.text = atk.ToString();
+		//int atk = DataCenter.Instance.GetUnitValue(unitInfo.AttackType, data.Level);
+		atkLabel.text = data.Attack.ToString();
 		
 		//name
 		nameLabel.text = unitInfo.Name;
@@ -539,13 +539,13 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			background.spriteName = "Fav_Lock_Close";
 			background.spriteName = "Fav_Lock_Close";
 			background.spriteName = "Fav_Lock_Close";
-			Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
+			//Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
 		}
 		else{
 			background.spriteName = "Fav_Lock_Open";
 			background.spriteName = "Fav_Lock_Open";
 			background.spriteName = "Fav_Lock_Open";
-			Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
+			//Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
 		}
 	}
 }

@@ -89,19 +89,18 @@ public class FriendHelperView : UIComponentUnity{
 	}
 	
 	void CreateDragView(object args){
-		List<TFriendInfo> dataList = DataCenter.Instance.SupportFriends;//merge
+		helperDataList = DataCenter.Instance.SupportFriends;//merge
 		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
-		dragPanel.AddItem(dataList.Count);
+		dragPanel.AddItem(helperDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			HelperUnitItem huv = HelperUnitItem.Inject(dragPanel.ScrollItem[ i ]);
-			huv.Init(dataList[ i ]);
+			huv.Init(helperDataList[ i ]);
 			huv.callback = ClickItem;
-			helperDataList.Add(huv.FriendInfo);//merge
 		}
-		SortHelperByCurRule();
+		SortUnitByCurRule();
 	}
 
 	void ClickItem(HelperUnitItem item){
@@ -237,20 +236,21 @@ public class FriendHelperView : UIComponentUnity{
 	private void ReceiveSortInfo(object msg){
 		//Debug.LogError("FriendHelper.ReceiveSortInfo()...");
 		curSortRule = (SortRule)msg;
-		SortHelperByCurRule();
+		SortUnitByCurRule();
 	}
 
-	private void SortHelperByCurRule(){
+	private void SortUnitByCurRule(){
 		sortRuleLabel.text = curSortRule.ToString();
-		List<TUserUnit> unitList = new List<TUserUnit>();
-		for (int i = 0; i < helperDataList.Count; i++){
-			unitList.Add(helperDataList[ i ].UserUnit);
-		}
+//		List<TUserUnit> unitList = new List<TUserUnit>();
+//		for (int i = 0; i < helperDataList.Count; i++){
+//			unitList.Add(helperDataList[ i ].UserUnit);
+//		}
 
-		SortUnitTool.SortByTargetRule(curSortRule, unitList);
+		SortUnitTool.SortByTargetRule(curSortRule, helperDataList);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			HelperUnitItem huv = dragPanel.ScrollItem[ i ].GetComponent<HelperUnitItem>();
+			//Debug.Log(string.Format("SortUnitByCurRule :: Before:: ScrollItem's index -> {0}, huv's addPoint -> {1}", i, huv.UserUnit.AddNumber));
 			huv.UserUnit = helperDataList[ i ].UserUnit;
 			huv.CurrentSortRule = curSortRule;
 		}

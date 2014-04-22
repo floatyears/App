@@ -15,7 +15,6 @@ public class MyUnitListView : UIComponentUnity {
 	}
 	
 	public override void ShowUI () {
-//		Debug.LogError("ShowUI : ");
 		base.ShowUI ();
 		AddCmdListener();
 		CreateDragPanel();
@@ -25,7 +24,6 @@ public class MyUnitListView : UIComponentUnity {
 	}
 	
 	public override void HideUI (){
-//		Debug.LogError("HideUI : ");
 		base.HideUI ();
 		dragPanel.DestoryUI();
 		RmvCmdListener();
@@ -56,10 +54,8 @@ public class MyUnitListView : UIComponentUnity {
 	}
 
 	private void ReceiveSortInfo(object msg){
-		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
 		curSortRule = (SortRule)msg;
 		SortUnitByCurRule();
-		//Debug.Log("MyUnitListView.ReceiveSortInfo(), curSortRule is : " + curSortRule);
 	}
 
 	private List<TUserUnit> GetUnitList(){
@@ -74,6 +70,10 @@ public class MyUnitListView : UIComponentUnity {
 
 	private void SortUnitByCurRule(){
 		sortRuleLabel.text = curSortRule.ToString();
+
+		for (int i = 0; i < myUnitDataList.Count; i++){
+			Debug.Log(string.Format("Before :: myUnitDataList[ {0} ] hp == {1}, atk == {2}", i, myUnitDataList[ i ].Hp, myUnitDataList[ i ].Attack));
+		}
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){

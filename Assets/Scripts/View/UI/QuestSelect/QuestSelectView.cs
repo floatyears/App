@@ -247,7 +247,7 @@ public class QuestSelectView : UIComponentUnity{
 		List<TQuestInfo> infoListForShow = GetQuestInfoListForShow(curStageInfo);
 		if(infoListForShow == null){ Debug.LogError("GetQuestInfoListForShow(), Data is Error, return!!!"); return; }
 		else{
-			Debug.Log("GetQuestInfoListForShow(), infoListForShow count is : " + infoListForShow.Count);
+			//Debug.Log("GetQuestInfoListForShow(), infoListForShow count is : " + infoListForShow.Count);
 			dragPanel = new DragPanel("QuestDragPanel", QuestItem.ItemPrefab);
 			dragPanel.CreatUI();
 			dragPanel.AddItem(infoListForShow.Count);

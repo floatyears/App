@@ -43,19 +43,19 @@ public class SortPanelView : UIComponentUnity {
 		sortRuleSelectDic.Add(btn, SortRule.Attack);
 
 		btn = FindChild<UIButton>("Button_Sort_Race");
-		sortRuleSelectDic.Add(btn, SortRule.Attack);
+		sortRuleSelectDic.Add(btn, SortRule.Race);
 
 		btn = FindChild<UIButton>("Button_Sort_Attribute");
-		sortRuleSelectDic.Add(btn, SortRule.Attack);
+		sortRuleSelectDic.Add(btn, SortRule.Attribute);
 
 		btn = FindChild<UIButton>("Button_Sort_ID");
-		sortRuleSelectDic.Add(btn, SortRule.Attack);
+		sortRuleSelectDic.Add(btn, SortRule.ID);
 
 		btn = FindChild<UIButton>("Button_Sort_Fav");
-		sortRuleSelectDic.Add(btn, SortRule.Attack);
+		sortRuleSelectDic.Add(btn, SortRule.Fav);
 
 		btn = FindChild<UIButton>("Button_Sort_AddPoint");
-		sortRuleSelectDic.Add(btn, SortRule.Attack);
+		sortRuleSelectDic.Add(btn, SortRule.AddPoint);
 	}
 
 	protected void SelectSortRule(GameObject item){
