@@ -55,7 +55,6 @@ public class MapItem : UIBaseUnity {
 		initRotation = transform.rotation.eulerAngles;
 		gridItemSprite = FindChild<UISprite>("GridBackground");
 		footTips = FindChild<UISprite> ("FootTips");
-//		Debug.LogError ("mapitem init : " + name + " footTips: " +footTips);
 		footTips.gameObject.SetActive (false);
 		mapBackSprite = FindChild<UISprite>("Shadow");
 		mapBack = mapBackSprite.gameObject;

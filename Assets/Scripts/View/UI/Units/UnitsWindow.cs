@@ -85,7 +85,7 @@ public class UnitsWindow : UIComponentUnity{
 		topRoot = transform.FindChild("Top").gameObject;
 		bottomRoot = transform.FindChild("Bottom").gameObject;
 		pageIndexLabel = FindChild<UILabel>("Top/Label_Left/Label_Before");
-		Debug.LogError ("InitPagePanel : pageIndexLabel : " + pageIndexLabel);
+//		Debug.LogError ("InitPagePanel : pageIndexLabel : " + pageIndexLabel);
 		pageIndexSuffixLabel = FindChild<UILabel>("Top/Label_Left/Label_After");
 		rightIndexLabel = FindChild<UILabel>("Top/Label_Cur_Party");
 		prePageBtn = FindChild<UIButton>("Top/Button_Left");
