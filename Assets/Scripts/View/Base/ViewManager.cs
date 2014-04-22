@@ -216,6 +216,7 @@ public class ViewManager {
 			string key = item.Key;
 			ConcreteComponent cc = item.Value as ConcreteComponent;
 			System.Type tempType = cc.GetType();
+
 			if(tempType == ty || tempType == ty1) {
 				continue;
 			}

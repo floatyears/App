@@ -607,12 +607,12 @@ public class BattleQuest : UIBase {
 		mwp.contentText = "Use one stone to retry this floor of quest ?";
 
 		BtnParam sure = new BtnParam ();
-		sure.callback = SureRetry;
+		sure.callback = SureInitiativeRetry;
 		sure.text = "OK";
 		mwp.btnParams[0] = sure;
 
 		sure = new BtnParam ();
-		sure.callback = CancelRetry;
+		sure.callback = CancelInitiativeRetry;
 		sure.text = "Cancel";
 		mwp.btnParams[1] = sure;
 
@@ -623,6 +623,35 @@ public class BattleQuest : UIBase {
 		battle.ShieldInput (false);
 		RedoQuest.SendRequest (RetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
 	}
+
+	void SureInitiativeRetry(object data) {
+		battle.ShieldInput (false);
+		RedoQuest.SendRequest (SureRetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
+	}
+
+	void CancelInitiativeRetry(object data) {
+		NoFriendExit ();
+	}
+
+	object tempData = null;
+	void SureRetryNetWork(object data) {
+		BattleMap.waitMove = false;
+		battleMap.BattleEndRotate(null);
+		tempData = data;
+		main.GInput.IsCheckInput = true;
+		GameInput.OnPressEvent += SureRetryPress;
+	}
+
+	void SureRetryPress() {
+		GameInput.OnPressEvent -= SureRetryPress;
+		RetryNetWork (tempData);
+		tempData = null;
+	}
+
+//	void SureRetryShowMap() {
+//		RetryNetWork (tempData);
+//		tempData = null;
+//	}
 
 	void RetryNetWork(object data) {
 		battle.ShieldInput (true);
