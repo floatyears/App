@@ -267,7 +267,7 @@ public class DGTools {
 	}
 
 	public static string GetNormalSkillSpriteName (AttackInfo ai) {
-		if (ai.FixRecoverHP) {
+		if (ai.FixRecoverHP || ai.AttackRange == 2) {
 			return "7_1";
 		}
 		Debug.LogError ("ai.AttackType : " + ai.AttackType + " ai.AttackRange : " + ai.AttackRange + " ai.FixRecoverHP : " + ai.FixRecoverHP);
