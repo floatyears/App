@@ -35,7 +35,8 @@ public class ResultController : ConcreteComponent {
 		if(curFriendInfo == null) return;
 
 		AddFriendApplication(curFriendInfo.UserId);
-		Debug.Log("ResultController.SendFriendApplyRequest(), friendApplying's id is : " + curFriendInfo.UserId);
+		Debug.Log("ResultController.SendFriendApplyRequest(), " +
+			"friendApplying's id is : " + curFriendInfo.UserId);
 	}
 
 	//main process

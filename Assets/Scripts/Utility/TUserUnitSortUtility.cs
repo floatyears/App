@@ -31,7 +31,7 @@ public class SortUnitTool{
 	}
 
 	public static void SortByTargetRule(SortRule targetRule, List<TUserUnit> targetList){
-		Debug.LogError("SortByTargetRule(), targetRule : " + targetRule);
+		//Debug.LogError("SortByTargetRule(), targetRule : " + targetRule);
 		switch (targetRule){
 			case SortRule.AddPoint : 
 				DGTools.InsertSort(targetList, new TUserUnitSortAddPoint());

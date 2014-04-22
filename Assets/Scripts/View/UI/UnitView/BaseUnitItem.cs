@@ -200,16 +200,16 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	private void CrossFadeHpFirst(){
-		int level = userUnit.Level;
-		int hpType = userUnit.UnitInfo.HPType;
-		crossFadeBeforeText = DataCenter.Instance.GetUnitValue(hpType, level).ToString();
+		//int level = userUnit.Level;
+		//int hpType = userUnit.UnitInfo.HPType;
+		crossFadeBeforeText = UserUnit.Hp.ToString();
 		crossFadeAfterText = "+" + userUnit.AddNumber;
 	}
 
 	private void CrossFadeAttackFirst(){
-		int level = userUnit.Level;
-		int atkType = userUnit.UnitInfo.AttackType;
-		crossFadeBeforeText = DataCenter.Instance.GetUnitValue(atkType, level).ToString();
+		//int level = userUnit.Level;
+		//int atkType = userUnit.UnitInfo.AttackType;
+		crossFadeBeforeText = UserUnit.Attack.ToString();
 		crossFadeAfterText = "+" + userUnit.AddNumber;
 	}
 

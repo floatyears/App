@@ -21,6 +21,11 @@ public class SortPanelView : UIComponentUnity {
 		RmvCmdListener();
 	}
 
+	public override void DestoryUI(){
+		base.DestoryUI();
+		RmvCmdListener();
+	}
+
 	protected virtual void InitBtns(){
 
 		closeBtn = FindChild<UIButton>("Button_Close");
