@@ -16,16 +16,16 @@ public class ApplyView : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
+		AddCmdListener();
 		CreateDragView();
 		SortUnitByCurRule();
 		RefreshCounter();
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteApply, DeleteMyApply);
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
 		dragPanel.DestoryUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteApply, DeleteMyApply);
+		RmvCmdListener();
 	}
 	
 	private void InitUIElement(){
@@ -92,8 +92,9 @@ public class ApplyView : UIComponentUnity{
 	}
 
 	void ClickSortBtn(GameObject btn){
-		curSortRule = SortUnitTool.GetNextRule(curSortRule);
-		SortUnitByCurRule();
+		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		//SortUnitByCurRule();
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
 	}
 	
 	private void SortUnitByCurRule(){
@@ -105,6 +106,21 @@ public class ApplyView : UIComponentUnity{
 			fuv.UserUnit = friendOutDataList[ i ].UserUnit;
 			fuv.CurrentSortRule = curSortRule;
 		}
+	}
+
+	private void ReceiveSortInfo(object msg){
+		curSortRule = (SortRule)msg;
+		SortUnitByCurRule();
+	}
+
+	private void AddCmdListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteApply, DeleteMyApply);
+		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+	
+	private void RmvCmdListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteApply, DeleteMyApply);
+		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 }
 

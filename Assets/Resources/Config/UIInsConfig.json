@@ -396,9 +396,9 @@
      "FriendUnitSortPanel": {
         "uiName":"FriendUnitSortPanel",
         "resoucePath": "Prefabs/UI/Common/",
-        "parent": 1,
+        "parent": 2,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": 576,
         "positionz": 0
     }
     

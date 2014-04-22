@@ -18,22 +18,16 @@ public class ReceptionView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
+		AddCmdListener();
 		CreateDragView();
 		SortUnitByCurRule();
 		RefreshCounter();
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseAll, RefuseAllApplyFromOthers);
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);   
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseSingleApply, DeleteApplyFromOther); 
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureAcceptApply, AcceptApplyFromOther);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		dragPanel.DestoryUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureRefuseAll, RefuseAllApplyFromOthers);  
-		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked); 
-		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureRefuseSingleApply, DeleteApplyFromOther); 
-		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureAcceptApply, AcceptApplyFromOther);
+		RmvCmdListener();
 	}
 
 	private void InitUIElement(){
@@ -202,8 +196,7 @@ public class ReceptionView : UIComponentUnity {
 	}
 
 	void ClickSortBtn(GameObject btn){
-		curSortRule = SortUnitTool.GetNextRule(curSortRule);
-		SortUnitByCurRule();
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
 	}
 	
 	private void SortUnitByCurRule(){
@@ -215,6 +208,27 @@ public class ReceptionView : UIComponentUnity {
 			fuv.UserUnit = friendInDataList[ i ].UserUnit;
 			fuv.CurrentSortRule = curSortRule;
 		}
+	}
+
+	private void ReceiveSortInfo(object msg){
+		curSortRule = (SortRule)msg;
+		SortUnitByCurRule();
+	}
+
+	private void AddCmdListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseAll, RefuseAllApplyFromOthers);
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);   
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseSingleApply, DeleteApplyFromOther); 
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureAcceptApply, AcceptApplyFromOther);
+		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+	
+	private void RmvCmdListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureRefuseAll, RefuseAllApplyFromOthers);  
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked); 
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureRefuseSingleApply, DeleteApplyFromOther); 
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureAcceptApply, AcceptApplyFromOther);
+		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 }

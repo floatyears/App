@@ -21,16 +21,14 @@ public class FriendListView : UIComponentUnity{
 		CreateDragView();
 		SortUnitByCurRule();
 		RefreshCounter();
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);     
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, UpdateFriendList);
+		AddCmdListener();
 		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		dragPanel.DestoryUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);
-		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureUpdateFriend, UpdateFriendList);
+		RmvCmdListener();
 	}
 		
 	void EnableUpdateButton(object args){
@@ -174,7 +172,12 @@ public class FriendListView : UIComponentUnity{
 	}
 
 	void ClickSortBtn(GameObject btn){
-		curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
+	}
+
+	private void ReceiveSortInfo(object msg){
+		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		curSortRule = (SortRule)msg;
 		SortUnitByCurRule();
 	}
 
@@ -187,6 +190,18 @@ public class FriendListView : UIComponentUnity{
 			fuv.UserUnit = friendDataList[ i ].UserUnit;
 			fuv.CurrentSortRule = curSortRule;
 		}
+	}
+
+	private void AddCmdListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);     
+		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, UpdateFriendList);
+		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+	
+	private void RmvCmdListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureUpdateFriend, UpdateFriendList);
+		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 }
 

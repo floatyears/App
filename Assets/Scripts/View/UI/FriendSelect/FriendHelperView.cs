@@ -52,13 +52,13 @@ public class FriendHelperView : UIComponentUnity{
 	void AddCommandListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
-//		MsgCenter.Instance.AddListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
+		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	void RemoveCommandListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
-//		MsgCenter.Instance.AddListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
+		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void HideUI() {
@@ -117,7 +117,7 @@ public class FriendHelperView : UIComponentUnity{
 
     private void InitUI() {
 		sortBtn = FindChild<UIButton>("SortButton");
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortButton;
+		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
 		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
 
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
@@ -230,8 +230,13 @@ public class FriendHelperView : UIComponentUnity{
 		}
 	}
 
-	private void ClickSortButton(GameObject btn){
-		curSortRule = SortUnitTool.GetNextRule(curSortRule);
+	private void ClickSortBtn(GameObject btn){
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
+	}
+
+	private void ReceiveSortInfo(object msg){
+		//Debug.LogError("FriendHelper.ReceiveSortInfo()...");
+		curSortRule = (SortRule)msg;
 		SortHelperByCurRule();
 	}
 

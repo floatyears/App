@@ -13,7 +13,7 @@ public enum SortRule {
 	ID					= 5,
 	Fav				= 6,
 	AddPoint		= 7,
-	LastestLogin	= 8
+	Login				= 8
 }
 
 public class SortUnitTool{
@@ -71,8 +71,8 @@ public class SortUnitTool{
 			case SortRule.Attribute : 
 				DGTools.InsertSort(targetList, new TFriendUnitSortAttribute());
 				break;
-			case SortRule.GetTime : 
-				DGTools.InsertSort(targetList, new TFriendUnitSortGetTime());
+			case SortRule.Login : 
+				DGTools.InsertSort(targetList, new TFriendUnitSortLoginTime());
 				break;
 			case SortRule.HP : 
 				DGTools.InsertSort(targetList, new TFriendUnitSortHP(), false);
@@ -203,11 +203,11 @@ public class TFriendUnitSortID : TFriendUnitSortBase{
 	}
 }
 
-public class TFriendUnitSortGetTime : TFriendUnitSortBase{
+public class TFriendUnitSortLoginTime : TFriendUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		uint firstGetTime = firstFriendUnit.UserUnit.Unit.getTime;
-		uint secondGetTime = secondFriendUnit.UserUnit.Unit.getTime;
+		uint firstGetTime = firstFriendUnit.LastPlayTime;
+		uint secondGetTime = secondFriendUnit.LastPlayTime;
 		return firstGetTime.CompareTo(secondGetTime);
 	}
 }
