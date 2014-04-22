@@ -14,29 +14,25 @@ public class BlockerMaskParams{
 }
 
 public class MaskController : ConcreteComponent {
-
 	public MaskController(string name) : base(name){
         AddCommandListener();
     }
 	public override void ShowUI(){
 		base.ShowUI();
+		Debug.LogError("MaskController.ShowUI()...");
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+		Debug.LogError("MaskController.HideUI()...");
 	} 
-
-	public override void DestoryUI () {
-
-	}
-
+	
 	public override void CallbackView(object data){
 		base.CallbackView(data);
 	}
 
-
 	void ShowMask(object msg){
-        LogHelper.Log("ShoMask() start");
+		LogHelper.Log("MaskController.ShowMask(), start...");
 		BlockerMaskParams bmArgs = msg as BlockerMaskParams;
 
 		SetBlocker(bmArgs.reason, bmArgs.isBlocked);

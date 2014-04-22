@@ -4,7 +4,7 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
-	UIImageButton favBtn;
+	UIButton favBtn;
 	GameObject unitInfoTabs;
 	UILabel noLabel;
 	UILabel hpLabel;
@@ -91,7 +91,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	//----------Init functions of UI Elements----------
 	void InitUI() {
-		favBtn = transform.FindChild("ImgBtn_Lock").GetComponent<UIImageButton>();
+		favBtn = transform.FindChild("Button_Lock").GetComponent<UIButton>();
 		UIEventListener.Get(favBtn.gameObject).onClick = CollectCurUnit;
 
 		unitInfoTabs = transform.Find("UnitInfoTabs").gameObject;
@@ -533,16 +533,19 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 
 	private void ShowFavView(int isFav){
-		Debug.Log("UpdateFavView(), isFav : " + ((isFav == 1) ? true : false));
+		UISprite background = favBtn.transform.FindChild("Background").GetComponent<UISprite>();
+		Debug.Log("UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
-			favBtn.normalSprite = "Fav_Lock_Close";
-			favBtn.hoverSprite = "Fav_Lock_Close";
-			favBtn.pressedSprite = "Fav_Lock_Close";
+			background.spriteName = "Fav_Lock_Close";
+			background.spriteName = "Fav_Lock_Close";
+			background.spriteName = "Fav_Lock_Close";
+			Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
 		}
 		else{
-			favBtn.normalSprite = "Fav_Lock_Open";
-			favBtn.hoverSprite = "Fav_Lock_Open";
-			favBtn.pressedSprite = "Fav_Lock_Open";
+			background.spriteName = "Fav_Lock_Open";
+			background.spriteName = "Fav_Lock_Open";
+			background.spriteName = "Fav_Lock_Open";
+			Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
 		}
 	}
 }
