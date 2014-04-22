@@ -89,6 +89,6 @@ public class SortPanelView : UIComponentUnity {
 	}
 
 	private void RmvCmdListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.OpenSortRuleWindow, ActivateSortRuleWindow);
+		MsgCenter.Instance.RemoveListener(CommandEnum.OpenSortRuleWindow, ActivateSortRuleWindow);
 	}
 }

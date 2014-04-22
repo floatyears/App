@@ -30,22 +30,22 @@ public class ResultController : ConcreteComponent {
 		}
 	}
 
-	void SendFriendApplyRequest(object args){
+	private void SendFriendApplyRequest(object args){
 		Debug.Log("Receive click, to send Friend apply request...");
 		if(curFriendInfo == null) return;
 
 		AddFriendApplication(curFriendInfo.UserId);
-		Debug.Log("ResultController.SendFriendApplyRequest(), " +
-			"friendApplying's id is : " + curFriendInfo.UserId);
+		Debug.Log("ResultController.SendFriendApplyRequest(), friendApplying's id is : " + curFriendInfo.UserId);
 	}
 
 	//main process
-	void ShowFriendPointUpdateResult(object info){
+	private void ShowFriendPointUpdateResult(object info){
 		TFriendInfo friendInfo = info as TFriendInfo;
 		if(friendInfo == null){
 			Debug.LogError("ShowFriendPointUpdateResult(), friendInfo is null!!!");
 			return;
 		}
+		AddGotFriendPoint(friendInfo);
 		curFriendInfo = friendInfo;
 		if(!CheckIsFriend(friendInfo)){
 			//support to send the apply of making friend
@@ -58,7 +58,7 @@ public class ResultController : ConcreteComponent {
 		ShowFriendPoint(friendInfo.FriendPoint);
 	}
 
-	bool CheckIsFriend(TFriendInfo friendInfo){
+	private bool CheckIsFriend(TFriendInfo friendInfo){
 		bool isFriend = false;
 		if(friendInfo.FriendState == EFriendState.FRIENDIN){
 			isFriend = true;
@@ -70,33 +70,33 @@ public class ResultController : ConcreteComponent {
 		return isFriend;
 	}
 
-	void SupportApplyFriend(bool isSupport){
+	private void SupportApplyFriend(bool isSupport){
 		Debug.Log("ResultController.SupportApplyFriend(), start...");
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("Stylize", isSupport);
 		ExcuteCallback(call);
 		Debug.Log("ResultController.SupportApplyFriend(), end...");
 	}
 
-	void ShowFriendBriefInfo(TFriendInfo friendInfo){
+	private void ShowFriendBriefInfo(TFriendInfo friendInfo){
 		Debug.Log("ResultController.ShowFriendBriefInfo(), start...");
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowTopView", friendInfo);
 		ExcuteCallback(call);
 		Debug.Log("ResultController.ShowFriendBriefInfo(), end...");
 	}
 
-	void ShowFriendPoint(int friPoint){
+	private void ShowFriendPoint(int friPoint){
 		Debug.Log("ResultController.ShowFriendPoint(), start...");
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowCenterView", friPoint);
 		ExcuteCallback(call);
 		Debug.Log("ResultController.ShowFriendPoint(), end...");	
 	}
 
-	void AddFriendApplication(uint friendUid){
+	private void AddFriendApplication(uint friendUid){
 		LogHelper.Log("AddFriendApplication () start");
 		AddFriend.SendRequest(OnAddFriend, friendUid);
 	}
 
-	void OnAddFriend(object data){
+	private void OnAddFriend(object data){
 		if (data == null) return;
 		
 		LogHelper.Log("TFriendList.OnRspAddFriend() begin");
@@ -110,8 +110,14 @@ public class ResultController : ConcreteComponent {
 		UIManager.Instance.ChangeScene(SceneEnum.Quest);
 	}
 
-	void ClearData(){
+	private void ClearData(){
 		curFriendInfo = null;
+	}
+
+	private void AddGotFriendPoint(TFriendInfo friendInfo){
+		Debug.Log("Before :: ResultController.AddGotFriendPoint(), TotalFriendPoint is : " + DataCenter.Instance.AccountInfo.FriendPoint);
+		DataCenter.Instance.AccountInfo.FriendPoint += friendInfo.FriendPoint;
+		Debug.Log("After :: ResultController.AddGotFriendPoint(), TotalFriendPoint is : " + DataCenter.Instance.AccountInfo.FriendPoint);
 	}
 
 }

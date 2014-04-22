@@ -18,14 +18,16 @@ public class TStageClearItem : ProtobufDataBase {
 public class TQuestClearInfo : ProtobufDataBase {
 	private QuestClearInfo	instance;
 	private TStageClearItem storyClear;
-	private List<TStageClearItem> eventClear;
+	private List<TStageClearItem> eventClear = new List<TStageClearItem>();
 
 	public TQuestClearInfo(QuestClearInfo inst) : base (inst) { 
         instance = inst;
-		if (instance.storyClear != null) {
-			storyClear = new TStageClearItem(instance.storyClear);
+		if (instance.storyClear == null) {
+			instance.storyClear = new StageClearItem();
         }
-    }
+
+		storyClear = new TStageClearItem(instance.storyClear);
+	}
 
 
     //// property ////

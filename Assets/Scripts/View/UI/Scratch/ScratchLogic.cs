@@ -118,6 +118,11 @@ public class ScratchLogic : ConcreteComponent {
         List<uint> newUnitIdList = DataCenter.Instance.MyUnitList.FirstGetUnits(unitList);
         DataCenter.Instance.MyUnitList.AddMyUnitList(unitList);
         DataCenter.Instance.UserUnitList.AddMyUnitList(unitList);
+
+		//update catalog
+		foreach (UserUnit unit in unitList) {
+			DataCenter.Instance.CatalogInfo.AddHaveUnit( unit.unitId );
+		}
         
         LogHelper.LogError("after gacha, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
 
