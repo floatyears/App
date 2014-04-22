@@ -29,6 +29,7 @@ public class SellView : UIComponentUnity{
 	
 	public override void ShowUI(){
 		base.ShowUI();
+		AddCmdListener();
 		totalSaleValue = 0;
 		pickUnitViewList.Clear();
 		SortUnitByCurRule();
@@ -38,6 +39,7 @@ public class SellView : UIComponentUnity{
 	
 	public override void HideUI(){
 		base.HideUI();
+		RmvCmdListener();
 	}
 
 	public override void CallbackView(object data){
@@ -182,7 +184,7 @@ public class SellView : UIComponentUnity{
 		InitCells();
 
 		sortBtn = FindChild<UIButton>("MainWindow/SortButton");
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortButton;
+		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
 		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
 
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
@@ -349,8 +351,14 @@ public class SellView : UIComponentUnity{
 		return pickedCount;
 	}
 
-	void ClickSortButton(GameObject btn){
-		curSortRule = SortUnitTool.GetNextRule(curSortRule);
+	private void ClickSortBtn(GameObject btn){
+		Debug.Log("SellView.ClickSortBtn()...");
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
+	}
+
+	private void ReceiveSortInfo(object msg){
+		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		curSortRule = (SortRule)msg;
 		SortUnitByCurRule();
 	}
 
@@ -375,6 +383,14 @@ public class SellView : UIComponentUnity{
 		countArgs.Add("current", DataCenter.Instance.MyUnitList.Count);
 		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
-        }
+	}
+
+	private void AddCmdListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+	
+	private void RmvCmdListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
         
 }

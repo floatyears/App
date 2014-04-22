@@ -3,10 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SortPanelView : UIComponentUnity {
-	//UIButton openBtn;
 	UIButton closeBtn;
-	//UILabel curSortRuleLabel;
-	GameObject selectPanel;
 	protected Dictionary<UIButton, SortRule> sortRuleSelectDic = new Dictionary<UIButton, SortRule>() ;
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -25,14 +22,9 @@ public class SortPanelView : UIComponentUnity {
 	}
 
 	protected virtual void InitBtns(){
-		//openBtn = FindChild<UIButton>("Button_Open");
-		//UIEventListener.Get(openBtn.gameObject).onClick = OpenSortRulePanel;
 
 		closeBtn = FindChild<UIButton>("Button_Close");
 		UIEventListener.Get(closeBtn.gameObject).onClick = CloseSortRulePanel;
-
-		//curSortRuleLabel = openBtn.transform.FindChild("Label").GetComponent<UILabel>();
-		//selectPanel = transform.FindChild("SelectPanel").gameObject;
 
 		UIButton btn;
 		btn = FindChild<UIButton>("Button_Sort_HP");

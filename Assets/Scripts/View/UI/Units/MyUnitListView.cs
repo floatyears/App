@@ -59,7 +59,7 @@ public class MyUnitListView : UIComponentUnity {
 		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
 		curSortRule = (SortRule)msg;
 		SortUnitByCurRule();
-		Debug.Log("MyUnitListView.ReceiveSortInfo(), curSortRule is : " + curSortRule);
+		//Debug.Log("MyUnitListView.ReceiveSortInfo(), curSortRule is : " + curSortRule);
 	}
 
 	private List<TUserUnit> GetUnitList(){
