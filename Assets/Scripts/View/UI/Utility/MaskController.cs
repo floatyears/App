@@ -19,12 +19,12 @@ public class MaskController : ConcreteComponent {
     }
 	public override void ShowUI(){
 		base.ShowUI();
-		Debug.LogError("MaskController.ShowUI()...");
+		//Debug.LogError("MaskController.ShowUI()...");
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		Debug.LogError("MaskController.HideUI()...");
+		//Debug.LogError("MaskController.HideUI()...");
 	} 
 	
 	public override void CallbackView(object data){

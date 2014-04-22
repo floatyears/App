@@ -12,62 +12,39 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MsgWindowLogic : ConcreteComponent
-{
+public class MsgWindowLogic : ConcreteComponent{
     public MsgWindowLogic(string uiName):base(uiName){}
 
-    public override void ShowUI()
-    {
+    public override void ShowUI(){
         base.ShowUI();
         AddListener();
     }
     
-    public override void HideUI()
-    {
+    public override void HideUI(){
         base.HideUI();
         RemoveListener();
     }
     
-    public override void DestoryUI()
-    {
+    public override void DestoryUI(){
         base.DestoryUI();
     }
     
-    void AddListener()
-    {
+    void AddListener(){
         MsgCenter.Instance.AddListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
         MsgCenter.Instance.AddListener(CommandEnum.CloseMsgWindow, CloseMsgWindow);
     }
     
     
-    void RemoveListener()
-    {
+    void RemoveListener(){
         MsgCenter.Instance.RemoveListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
     }
     
-    public override void CallbackView(object data)
-    {
-        base.CallbackView(data);
-        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-        switch (cbdArgs.funcName)
-        {
-        case "ClickSure":
-//            CallBackDispatcherHelper.DispatchCallBack(SendMessage, cbdArgs);
-            break;
-        default:
-            break;
-        }
-    }
-    
-
     void OpenMsgWindow(object msg){
-//        Dictionary<string,string> noteMsg = msg as Dictionary<string,string>;
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
         ExcuteCallback(cbdArgs);
     }
 
     void CloseMsgWindow(object msg){
-        //        Dictionary<string,string> noteMsg = msg as Dictionary<string,string>;
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CloseMsg", msg);
         ExcuteCallback(cbdArgs);
     }
