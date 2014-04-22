@@ -383,6 +383,7 @@ public class UnitsDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 		partyInfo.SetComponent(sceneInfoBar);
 		units.SetComponent(partyInfo);
+
 		lastDecorator = units;
 		lastDecorator.CreatUI();
 	}
@@ -664,10 +665,12 @@ public class UnitListDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		MyUnitListLogic unitList = CreatComponent< MyUnitListLogic >(UIConfig.unitListWindowName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
-		unitList.SetComponent(counter);
+		sortPanel.SetComponent(counter);
+		unitList.SetComponent(sortPanel);
 
 		lastDecorator = unitList;
 		lastDecorator.CreatUI();

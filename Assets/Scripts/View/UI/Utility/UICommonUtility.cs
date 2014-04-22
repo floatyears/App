@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public enum BlockerReason{
 	MessageWindow,
 	BriefInfoWindow,
+	SortWindow,
 	Connecting
 
 }

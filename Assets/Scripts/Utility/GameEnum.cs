@@ -231,6 +231,7 @@ public enum CommandEnum{
 	ShowFriendPointUpdateResult					= 4064,
 	PickOnSaleUnit				= 4065,
 	SortByRule							= 4066,
+	OpenSortRuleWindow				= 4067,
 
     WaitResponse,
     SetBlocker,

@@ -16,6 +16,7 @@ public class MyUnitListView : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+		AddCmdListener();
 		CreateDragPanel();
 		SortUnitByCurRule();
 		RefreshItemCounter();
@@ -25,6 +26,7 @@ public class MyUnitListView : UIComponentUnity {
 	public override void HideUI (){
 		base.HideUI ();
 		dragPanel.DestoryUI();
+		RmvCmdListener();
 	}
 
 	private void InitUIElement(){
@@ -51,9 +53,11 @@ public class MyUnitListView : UIComponentUnity {
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));
 	}
 
-	private void ClickSortBtn(GameObject btn){
-		curSortRule = SortUnitTool.GetNextRule(curSortRule);
+	private void ReceiveSortInfo(object msg){
+		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
+		curSortRule = (SortRule)msg;
 		SortUnitByCurRule();
+		Debug.Log("MyUnitListView.ReceiveSortInfo(), curSortRule is : " + curSortRule);
 	}
 
 	private List<TUserUnit> GetUnitList(){
@@ -83,5 +87,17 @@ public class MyUnitListView : UIComponentUnity {
 		countArgs.Add("current", DataCenter.Instance.MyUnitList.Count);
 		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+	}
+
+	private void AddCmdListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+
+	private void RmvCmdListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+
+	private void ClickSortBtn(GameObject btn){
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
 	}
 }
