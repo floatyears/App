@@ -38,36 +38,24 @@ public class MsgWindowView : UIComponentUnity{
     BtnParam btnRightParam;
 
     MsgWindowParams msgWindowParams = new MsgWindowParams();
-
-//    int originLayer;
     
-    public override void Init(UIInsConfig config, IUICallback origin)
-    {
+    public override void Init(UIInsConfig config, IUICallback origin){
         FindUIElement();
-        
         base.Init(config, origin);
     }
     
-    public override void ShowUI()
-    {
+    public override void ShowUI(){
         base.ShowUI();
         SetUIElement();
     }
     
-    public override void HideUI()
-    {
+    public override void HideUI(){
         base.HideUI();
         ResetUIElement();
         ShowSelf(false);
     }
     
-    public override void DestoryUI()
-    {
-        base.DestoryUI();
-    }
-    
-    void FindUIElement()
-    {
+    void FindUIElement(){
         window = FindChild("Window");
         mask = FindChild<UITexture>("Mask");
 
@@ -83,16 +71,15 @@ public class MsgWindowView : UIComponentUnity{
         UIEventListener.Get(btnRight.gameObject).onClick = ClickRightButton;
         UIEventListener.Get(btnLeft.gameObject).onClick = ClickLeftButton;
         UIEventListener.Get(btnCenter.gameObject).onClick = ClickCenterButton;
-//        originLayer = Main.Instance.NguiCamera.eventReceiverMask;
     }
-
-    
+	
     void ShowSelf(bool canShow){
         this.gameObject.SetActive(canShow);
         if (canShow){
             if (!msgWindowParams.inputEnable){
                 LogHelper.Log("open msgWindow and block input");
-                MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
+                MsgCenter.Instance.Invoke(CommandEnum.SetBlocker,
+				                          new BlockerMaskParams(BlockerReason.MessageWindow, true));
             }
             else {
                 SetLayerToBlocker(false);
@@ -105,7 +92,8 @@ public class MsgWindowView : UIComponentUnity{
             Reset();
             if (!msgWindowParams.inputEnable){
                 LogHelper.Log("close msgWindow and resume input");
-                MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
+                MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, 
+				                          new BlockerMaskParams(BlockerReason.MessageWindow, false));
             }
             SetLayerToBlocker(true);
             LogHelper.Log("open msgWindow showSelf false");
@@ -281,8 +269,7 @@ public class MsgWindowView : UIComponentUnity{
         titleLabel.text = msgWindowParams.titleText;
     }
 
-    void ShowMsgWindow(object args)
-    {
+    void ShowMsgWindow(object args){
         MsgWindowParams nextMsgWindowParams = args as MsgWindowParams;
         if (nextMsgWindowParams == null){
             return;
@@ -290,7 +277,6 @@ public class MsgWindowView : UIComponentUnity{
         msgWindowParams = nextMsgWindowParams;
         ShowSelf(true);  
         LogHelper.Log("UpdateNotePanel() start");
-//        Dictionary<string, object> msgWindowParams = args as Dictionary<string, object>;
         titleLabel.text = msgWindowParams.titleText;
 
         UpdateTitleLabel();
