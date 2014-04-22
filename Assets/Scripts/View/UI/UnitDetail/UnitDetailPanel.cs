@@ -534,7 +534,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	private void ShowFavView(int isFav){
 		UISprite background = favBtn.transform.FindChild("Background").GetComponent<UISprite>();
-		Debug.Log("UpdateFavView(), isFav : " + (isFav == 1));
+//		Debug.Log("UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
 			background.spriteName = "Fav_Lock_Close";
 			background.spriteName = "Fav_Lock_Close";

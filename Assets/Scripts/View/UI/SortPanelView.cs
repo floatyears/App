@@ -8,22 +8,28 @@ public class SortPanelView : UIComponentUnity {
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitBtns();
+//		Debug.LogError("SortPanelView init");
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCmdListener();
 		ActivateSortRuleWindow(false);
+
+//		Debug.LogError("SortPanelView ShowUI");
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		RmvCmdListener();
+
+//		Debug.LogError("SortPanelView HideUI");
 	}
 
-	public override void DestoryUI(){
-		base.DestoryUI();
+	public override void DestoryUI () {
 		RmvCmdListener();
+		base.DestoryUI ();
+//		Debug.LogError("SortPanelView DestoryUI");
 	}
 
 	protected virtual void InitBtns(){
