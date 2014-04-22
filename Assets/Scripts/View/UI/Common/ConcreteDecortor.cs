@@ -30,14 +30,14 @@ public class SelectRoleDecorator : DecoratorBase{
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent(background);
 		
-		MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-		noteWindow.SetComponent(playerInfoBar);
+//		MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
+//		noteWindow.SetComponent(playerInfoBar);
 		
-		MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-		maskController.SetComponent(noteWindow);
+//		MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+//		maskController.SetComponent(noteWindow);
 		
 		SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
-		unitSelect.SetComponent(maskController);
+		unitSelect.SetComponent(playerInfoBar);
 		
 		lastDecorator = unitSelect;
 		lastDecorator.CreatUI();
@@ -72,17 +72,17 @@ public class StartDecorator : DecoratorBase{
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent(bottom);
 
-        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-        noteWindow.SetComponent(playerInfoBar);
-        
-        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-        maskController.SetComponent(noteWindow);
-
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
-        tipsBar.SetComponent(maskController);
+		tipsBar.SetComponent(playerInfoBar);
+
+//        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
+//		noteWindow.SetComponent(tipsBar);
+//        
+//        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+//        maskController.SetComponent(noteWindow);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
-        selectUnitInfo.SetComponent(tipsBar);
+		selectUnitInfo.SetComponent(tipsBar);
 
 		lastDecorator = selectUnitInfo;
 		lastDecorator.CreatUI();

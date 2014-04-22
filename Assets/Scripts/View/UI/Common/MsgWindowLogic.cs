@@ -22,24 +22,28 @@ public class MsgWindowLogic : ConcreteComponent{
     
     public override void HideUI(){
         base.HideUI();
-        RemoveListener();
+//        RemoveListener();
     }
     
     public override void DestoryUI(){
         base.DestoryUI();
+		RemoveListener ();
     }
     
     void AddListener(){
+//		Debug.LogError ("MsgWindowLogic : AddListener ");
         MsgCenter.Instance.AddListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
         MsgCenter.Instance.AddListener(CommandEnum.CloseMsgWindow, CloseMsgWindow);
     }
     
     
     void RemoveListener(){
+//		Debug.LogError ("MsgWindowLogic : RemoveListener ");
         MsgCenter.Instance.RemoveListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
     }
     
-    void OpenMsgWindow(object msg){
+    void OpenMsgWindow(object msg){ 
+//		Debug.LogError ("MsgWindowLogic : OpenMsgWindow ");
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
         ExcuteCallback(cbdArgs);
     }
