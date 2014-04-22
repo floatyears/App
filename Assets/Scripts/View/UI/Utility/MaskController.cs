@@ -48,6 +48,7 @@ public class MaskController : ConcreteComponent {
 	}
 	
 	void SetMaskActive(bool isActive){
+		//Debug.LogError("SetMaskActive() " + isActive);
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowMask", isActive);
         ExcuteCallback(call);
 	}
