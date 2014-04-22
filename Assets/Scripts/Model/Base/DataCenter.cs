@@ -383,7 +383,6 @@ public class DataCenter {
 
 	public Object GetMapEffect(string name) {
 		Object obj = null;
-//		Debug.LogError ("GetMapEffect : " + name);
 		if (!TempEffect.TryGetValue(name, out obj)) {
 			string path = EffectPath.Instance.GetEffectPath(name);
 			obj = Resources.Load(path);

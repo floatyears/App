@@ -56,11 +56,11 @@ public class CatalogUnitItem : MonoBehaviour {
 		set{
 			catalogUserUnit = value;
 			if(catalogUserUnit == null){
-				Debug.LogError(string.Format("gameObject named {0} , TUserUnit is NULL...", gameObject.name));
+//				Debug.LogError(string.Format("gameObject named {0} , TUserUnit is NULL...", gameObject.name));
 				State = CatalogState.UnKnown;
 			}
 			else{
-				Debug.LogError("gameObject is : " + gameObject.name + "    unitId is : " + catalogUserUnit.UnitID);
+//				Debug.LogError("gameObject is : " + gameObject.name + "    unitId is : " + catalogUserUnit.UnitID);
 				if(DataCenter.Instance.CatalogInfo.IsHaveUnit(catalogUserUnit.UnitID)){
 					//Debug.LogError("unitID : " + catalogUserUnit.UnitID+" isHave.");
 					State = CatalogState.Got;
