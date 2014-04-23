@@ -78,7 +78,7 @@ public class PartyView : UIComponentUnity{
 
 	void PrevPage(GameObject go){
 		ClearPartyFocusState();
-		ClearUnitListFocus();
+		ClearUnitListFocusState();
 		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
 		RefreshParty(preParty);  
 		RefreshUnitListByCurId();
@@ -87,7 +87,7 @@ public class PartyView : UIComponentUnity{
         
 	void NextPage(GameObject go){
 		ClearPartyFocusState();
-		ClearUnitListFocus();
+		ClearUnitListFocusState();
 		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
 		RefreshParty(nextParty);
 		RefreshUnitListByCurId();
@@ -247,7 +247,7 @@ public class PartyView : UIComponentUnity{
 		int focusPos = GetUnitPosInParty(focusedOnParty);
 		Debug.Log("AddToFocusWithPickedUnit(), focus pos is : " + focusPos);
 		if(! DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedFromUnitList.UserUnit.ID))  {
-			ClearUnitListFocus();
+			ClearUnitListFocusState();
 			ClearPartyFocusState();
 			return;
 		}
@@ -255,7 +255,7 @@ public class PartyView : UIComponentUnity{
 		pickedFromUnitList.IsParty = true;
 		partyItems[ focusPos ].UserUnit = pickedFromUnitList.UserUnit;
 		ClearPartyFocusState();
-		ClearUnitListFocus();
+		ClearUnitListFocusState();
 	}
 
 	private void ReplaceFocusWithPickedUnit(){
@@ -263,7 +263,7 @@ public class PartyView : UIComponentUnity{
 		int focusPos = GetUnitPosInParty(focusedOnParty);
 
 		if(!DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedFromUnitList.UserUnit.ID)){
-			ClearUnitListFocus();
+			ClearUnitListFocusState();
 			ClearPartyFocusState();
 			return ;
 		}
@@ -289,7 +289,7 @@ public class PartyView : UIComponentUnity{
 		else{
 			//Access to add
 			if(!DataCenter.Instance.PartyInfo.ChangeParty(pos, target.UserUnit.ID)){
-				ClearUnitListFocus();
+				ClearUnitListFocusState();
 				ClearPartyFocusState();
 				return false;
 			}
@@ -297,7 +297,7 @@ public class PartyView : UIComponentUnity{
 			partyItems[ pos ].UserUnit = target.UserUnit;
 			target.IsParty = true;
 			target.IsFocus = false;
-			ClearUnitListFocus();
+			ClearUnitListFocusState();
 			ClearPartyFocusState();
 			return true;
 		}
@@ -342,7 +342,7 @@ public class PartyView : UIComponentUnity{
 		return true;
 	}
 
-	bool ClearUnitListFocus(){
+	bool ClearUnitListFocusState(){
 		if(pickedFromUnitList != null){
 			pickedFromUnitList.IsFocus = false;
 			pickedFromUnitList = null;
