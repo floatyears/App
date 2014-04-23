@@ -403,9 +403,11 @@ public class DataCenter {
             break;
         case 2:
             path = "Effect/daoguang";
+//			path = "Effect/Ice2";
             break;
         case 3:
             path = "Effect/zhua";
+//			path = "Effect/wind2";
             break;
         case 8:
             path = "Effect/card_effect";
@@ -422,7 +424,6 @@ public class DataCenter {
         }
         UserInfo.RefreshUserInfo(clearQuest);
         AccountInfo.RefreshAcountInfo(clearQuest);
-	
     }
 
     public void SetFriendList(FriendList friendList){
