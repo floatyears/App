@@ -1412,6 +1412,14 @@ namespace bbproto
       get { return _enemyId; }
     }
   
+    private bbproto.Position _pos = null;
+    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"pos", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.Position pos
+    {
+      get { return _pos; }
+      set { _pos = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1608,11 +1616,11 @@ namespace bbproto
       get { return _id; }
       set { _id = value; }
     }
-    private readonly global::System.Collections.Generic.List<bbproto.CityInfo> _citys = new global::System.Collections.Generic.List<bbproto.CityInfo>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"citys", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<bbproto.CityInfo> citys
+    private readonly global::System.Collections.Generic.List<bbproto.CityInfo> _citylist = new global::System.Collections.Generic.List<bbproto.CityInfo>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"citylist", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.CityInfo> citylist
     {
-      get { return _citys; }
+      get { return _citylist; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
