@@ -80,21 +80,6 @@ public class EnemyItem : UIBaseUnity {
 			stateSprite.spriteName = string.Empty;
 		}
 
-//		int type = DGTools.RestraintType (ai.AttackType);
-//		int type = DGTools.RestraintType (enemyInfo.GetUnitType());
-//		//		DebugenemyInfo.GetUnitType()
-//		if (ai.AttackType == type) {
-//			DGTools.ShowSprite (stateSprite, "Weak"); // weak == attack count atlas sprite name.
-//			ShakeStateSprite();
-//		} else {
-//			type = DGTools.BeRestraintType (enemyInfo.GetUnitType());
-//			if(ai.AttackType == type)  {
-//				DGTools.ShowSprite (stateSprite, "Guard"); // weak == attack count atlas sprite name.
-//				ShakeStateSprite();
-//			}
-//		}
-//		Debug.LogError (ai.AttackType + " enemy attack : " + enemyInfo.GetUnitType() + " restraint : " + DGTools.RestraintType (ai.AttackType, enemyInfo.GetUnitType ()));
-//		Debug.LogError (ai.AttackType + " enemy attack : " + enemyInfo.GetUnitType() + " restraint : " + DGTools.RestraintType (ai.AttackType, enemyInfo.GetUnitType (), true));
 		if (DGTools.RestraintType (ai.AttackType, enemyInfo.GetUnitType ())) {
 			DGTools.ShowSprite (stateSprite, "Weak"); // weak == attack count atlas sprite name.
 			ShakeStateSprite ();
