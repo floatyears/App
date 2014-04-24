@@ -16,14 +16,17 @@ public class UnitsWindow : UIComponentUnity{
 	public static Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
+//		Debug.LogError ("UnitsController Init begin");
 		base.Init(config, origin);
 		InitChildScenes();
 		iuiCallback = origin as IUICallback;
 		InitIndexTextDic();
 		InitPagePanel();
+//		Debug.LogError ("UnitsController Init end");
 	}
 	
 	public override void ShowUI(){
+//		Debug.LogError ("UnitsController ShowUI");
 		base.ShowUI();
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
@@ -32,11 +35,14 @@ public class UnitsWindow : UIComponentUnity{
 	}
 	
 	public override void HideUI(){
+//		Debug.LogError ("UnitsController base");
 		base.HideUI();
 		DataCenter.Instance.PartyInfo.ExitParty();
 	}
 
 	public override void DestoryUI(){
+//		Debug.LogError ("UnitsController base");
+		partyIndexDic.Clear ();
 		base.DestoryUI();
 	}
 
@@ -81,6 +87,7 @@ public class UnitsWindow : UIComponentUnity{
 	}
 
 	private void InitPagePanel(){
+//		Debug.LogError ("InitPagePanel begin");
 		topRoot = transform.FindChild("Top").gameObject;
 		bottomRoot = transform.FindChild("Bottom").gameObject;
 		pageIndexLabel = FindChild<UILabel>("Top/Label_Left/Label_Before");
@@ -96,6 +103,7 @@ public class UnitsWindow : UIComponentUnity{
 			PageUnitItem puv = item.GetComponent<PageUnitItem>();
 			partyItems.Add(i, puv);
 		}
+//		Debug.LogError ("InitPagePanel end");
 	}
 
 	void RefreshParty(TUnitParty party){
@@ -124,10 +132,12 @@ public class UnitsWindow : UIComponentUnity{
 	}
 
 	public static void InitIndexTextDic() {
+//		Debug.LogError ("InitIndexTextDic begin");
 		partyIndexDic.Add( 1, "st");
 		partyIndexDic.Add( 2, "nd");
 		partyIndexDic.Add( 3, "rd");
 		partyIndexDic.Add( 4, "th");
 		partyIndexDic.Add( 5, "th");
+//		Debug.LogError ("InitIndexTextDic begin");
 	}
 }

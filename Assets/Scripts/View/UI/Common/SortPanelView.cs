@@ -15,8 +15,6 @@ public class SortPanelView : UIComponentUnity {
 		base.ShowUI();
 		AddCmdListener();
 		ActivateSortRuleWindow(false);
-
-//		Debug.LogError("SortPanelView ShowUI");
 	}
 
 	public override void HideUI(){

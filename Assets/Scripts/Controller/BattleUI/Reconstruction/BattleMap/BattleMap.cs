@@ -37,6 +37,7 @@ public class BattleMap : UIBaseUnity {
 		door.battleMap = this;
 		template.gameObject.SetActive(false);
 		gameObject.transform.localPosition += Vector3.right * 5f;
+		wMove = false;
 	}
 
 	public override void CreatUI () {
