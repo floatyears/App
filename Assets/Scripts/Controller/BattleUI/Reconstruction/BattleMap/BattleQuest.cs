@@ -549,6 +549,7 @@ public class BattleQuest : UIBase {
 		
 		if (battleEnemy && !b) {
 			battle.ShieldInput(false);
+			BattleBottom.notClick  = true;
 			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
 		}
 	
@@ -579,6 +580,7 @@ public class BattleQuest : UIBase {
 
 	void QuestClear() {
 		battle.ShieldInput(true);
+//		battle.ShieldGameInput (false);
 		BattleMap.waitMove = true;
 		topUI.SheildInput ();
 		battleMap.BattleEndRotate(battleMap.door.ShowTapToCheckOut);
