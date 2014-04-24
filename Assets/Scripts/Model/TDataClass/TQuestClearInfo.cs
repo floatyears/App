@@ -34,6 +34,14 @@ public class TQuestClearInfo : ProtobufDataBase {
 	public	TStageClearItem			StoryClear { get { return this.storyClear; } }
 	public	List<TStageClearItem>	EventClear { get { return this.eventClear; } }
 
+	public	bool IsStoryStageClear(uint stageId) {
+		if (StoryClear == null) {
+			return false;
+		}
+
+		return ( stageId < StoryClear.StageId );
+	}
+
 	public	bool IsStoryQuestClear(uint stageId, uint questId) {
 		if (StoryClear == null) {
 			return false;

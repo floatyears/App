@@ -404,7 +404,7 @@ public class QuestSelectView : UIComponentUnity{
 
 	//--------------------------------New---------------------------------------
 
-	private const float OFFSET_X = 616.0F;
+	private const float OFFSET_X = 640.0F;
 	private UIButton leftPageBtn;
 	private UIButton rightPageBtn;
 
@@ -443,17 +443,19 @@ public class QuestSelectView : UIComponentUnity{
 			return;
 		}
 		List<TStageInfo> stageInfoList = cityInfo.Stages;
-		totalPageCount = 5;
-		CurrPageIndex = 1;
+
+		CurrPageIndex = GetCurrStageIndex(stageInfoList);
 		string sourcePath = "Prefabs/UI/Quest/StageItem";
 		GameObject prefab = Resources.Load(sourcePath) as GameObject;
 		Debug.LogError("stageInfoList.Count : " + stageInfoList.Count);
 
-		int stageCount = 5;
+		int stageCount = stageInfoList.Count;
+		totalPageCount = stageCount;
 		for (int i = 0; i < stageCount; i++){
-			GameObject temp = NGUITools.AddChild(questRoot, prefab);
-			temp.name = i.ToString();
-			temp.transform.localPosition = new Vector3(616.0f * i, 0, 0 );
+			GameObject stageViewItem = NGUITools.AddChild(questRoot, prefab);
+			stageViewItem.name = i.ToString();
+			int offsetCount = i + 1 - CurrPageIndex;
+			stageViewItem.transform.localPosition = new Vector3(OFFSET_X * offsetCount, 0, 0 );
 		}
 	}
 
@@ -495,7 +497,7 @@ public class QuestSelectView : UIComponentUnity{
 		}
 		set{
 			currPageIndex = value;
-			//Debug.LogError("currPageIndex : " + currPageIndex);
+			Debug.LogError("currPageIndex : " + currPageIndex);
 			//Set left btn disabled as soon as current page is start page.
 			IsStartPage = (CurrPageIndex == 1);
 			//Set right btn disabled as soon as current page is end page.
@@ -518,7 +520,23 @@ public class QuestSelectView : UIComponentUnity{
 		iTween.MoveTo(questRoot, iTween.Hash("x", x, "time", 1.0f, "isLocal", true));
 	}
 
-
+	/// <summary>
+	/// Gets the index of the curr stage.
+	/// The last stage which has been cleared.
+	/// </summary>
+	/// <returns>The curr stage index.</returns>
+	private int GetCurrStageIndex(List<TStageInfo> stageInfoList){
+		int index = 1;
+		for (int i = stageInfoList.Count; i >0 ; i--){
+			if(stageInfoList[ i - 1 ].State == EQuestState.QS_CLEARED){
+				index = i;
+				Debug.Log("Find the last cleared stage, index is : " + i);
+				break;
+			}
+		}
+		Debug.Log("GetCurrStageIndex(), index is : " + index);
+		return index;
+	}
 
 }
 
