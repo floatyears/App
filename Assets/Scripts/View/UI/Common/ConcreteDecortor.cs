@@ -30,12 +30,6 @@ public class SelectRoleDecorator : DecoratorBase{
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent(background);
 		
-//		MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-//		noteWindow.SetComponent(playerInfoBar);
-		
-//		MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-//		maskController.SetComponent(noteWindow);
-		
 		SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
 		unitSelect.SetComponent(playerInfoBar);
 		
@@ -74,12 +68,6 @@ public class StartDecorator : DecoratorBase{
 
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
 		tipsBar.SetComponent(playerInfoBar);
-
-//        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-//		noteWindow.SetComponent(tipsBar);
-//        
-//        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-//        maskController.SetComponent(noteWindow);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
 		selectUnitInfo.SetComponent(tipsBar);
@@ -145,7 +133,8 @@ public class QuestDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		QuestController quest = CreatComponent< QuestController >(UIConfig.questWindowName);
+		//QuestController quest = CreatComponent< QuestController >(UIConfig.questWindowName);
+		QuestController quest = CreatComponent< QuestController >(UIConfig.homeWorldMapName);
 		quest.SetComponent(sceneInfoBar);
 
 		lastDecorator = quest;
@@ -414,7 +403,7 @@ public class QuestSelectDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		QuestSelectController questSelect = CreatComponent< QuestSelectController >(UIConfig.questSelectWindowName);
+		QuestSelectController questSelect = CreatComponent< QuestSelectController >(UIConfig.stageSlidePanelName);
 		questSelect.SetComponent(sceneInfoBar);
 
 		lastDecorator = questSelect;
@@ -946,7 +935,6 @@ public class ResultDecorator : DecoratorBase{
 		lastDecorator = resultWindow;
 		lastDecorator.CreatUI();
 	}
-
 }
 
 

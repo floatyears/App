@@ -9,6 +9,7 @@ public class QuestView : UIComponentUnity{
 	private DragPanel storyDragPanel;
 	private DragPanel eventDragPanel;
 	private Dictionary< GameObject, VStageItemInfo> stageInfo = new Dictionary<GameObject, VStageItemInfo>();
+	private Dictionary<GameObject, TCityInfo> cityViewInfo = new Dictionary<GameObject, TCityInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -17,12 +18,11 @@ public class QuestView : UIComponentUnity{
 
 	public override void ShowUI(){
 		base.ShowUI();
-		ShowTween();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		storyDragPanel.DestoryUI();
+//		storyDragPanel.DestoryUI();
 	}
 	
 	public override void CallbackView(object data){
@@ -38,9 +38,11 @@ public class QuestView : UIComponentUnity{
 	}
 	
 	void InitUI(){
-		storyRoot = FindChild("story_window");
-		eventRoot = FindChild("event_window");
-		dragItemPrefab = Resources.Load("Stage/StageDragPanelItem") as GameObject;
+//		storyRoot = FindChild("story_window");
+//		eventRoot = FindChild("event_window");
+//		dragItemPrefab = Resources.Load("Stage/StageDragPanelItem") as GameObject;
+
+		InitWorldMap();
 	}
 	
 	void CreateStoryView(object args){
@@ -98,15 +100,57 @@ public class QuestView : UIComponentUnity{
 		ExcuteCallback(cbdArgs);
 	}
 
-	void ShowTween(){
-		TweenPosition[ ] list = 
-			gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)	return;
-		foreach (var tweenPos in list){		
-			if (tweenPos == null)	continue;
-			tweenPos.Reset();
-			tweenPos.PlayForward();
+	//----New
+	private void InitWorldMap(){
+		GetCityViewInfo();
+		ShowCityView();
+	}
+	
+	/// <summary>
+	/// Gets the city view info, bind gameObject with data.
+	/// </summary>
+	private void GetCityViewInfo(){
+		List<TCityInfo> data = DataCenter.Instance.GetCityListInfo();
+		for (int i = 0; i < data.Count; i++){
+			GameObject cityItem = transform.FindChild(i.ToString()).gameObject;
+			if(cityItem == null){
+				Debug.LogError(string.Format("Resoures ERROR :: InitWorldMap(), Index[ {0} ] Not Found....!!!", i));
+				continue;
+			}
+			cityViewInfo.Add(cityItem, data[ i ]);
 		}
+		Debug.Log("InitWorldMap(), cityViewInfo countt is : " + cityViewInfo.Count);
+	}
+
+
+	/// <summary>
+	/// Shows the city sprite and name.
+	/// </summary>
+	private void ShowCityView(){
+		if(cityViewInfo == null){
+			Debug.LogError("QuestView.InitWorldMap(), cityViewInfo is NULL"); 
+			return;
+		}
+
+		foreach (var item in cityViewInfo){
+			UISprite bgSpr = item.Key.transform.FindChild("Background").GetComponent<UISprite>();
+			bgSpr.spriteName = item.Value.ID.ToString();
+			
+			UILabel nameLabel = item.Key.transform.FindChild("Label").GetComponent<UILabel>();
+			nameLabel.text = item.Value.CityName;
+			
+			UIEventListener.Get(item.Key).onClick = ClickCityItem;
+		}
+	}
+
+	/// <summary>
+	/// change scene to quest select with picked cityInfo
+	/// </summary>
+	/// <param name="item">Item.</param>
+	private void ClickCityItem(GameObject item){
+		Debug.Log("QuestView.ClickCityItem(), picked city's name is : " + item.name);
+		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
+		MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
 	}
 
 }

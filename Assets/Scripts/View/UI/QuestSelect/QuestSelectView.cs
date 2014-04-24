@@ -31,22 +31,26 @@ public class QuestSelectView : UIComponentUnity{
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-		InitUI();
-		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
+//		InitUI();
+//		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
+
 	}
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, GetSelectedStage);
-		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
-        firstFocus.value = true;
-		ShowTween();
+//		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, GetSelectedStage);
+//		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
+//        firstFocus.value = true;
+//		ShowTween();
+		MsgCenter.Instance.AddListener(CommandEnum.TransPickedCity, CreateSlidePage);
+
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, GetSelectedStage);
-		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, GetSelectedStage);
+//		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
+		MsgCenter.Instance.RemoveListener(CommandEnum.TransPickedCity, CreateSlidePage);
 	}
 
 	void GetSelectedStage(object data) {
@@ -57,11 +61,11 @@ public class QuestSelectView : UIComponentUnity{
 
     public override void ResetUIState(){
         LogHelper.Log("QuestSelectDecoratorUnity.ClearUIState()");
-        CleanQuestInfo();
-        if (dragPanel != null){
-            dragPanel.DestoryUI();
-        }
-        selectBtn.isEnabled = false;
+//        CleanQuestInfo();
+//        if (dragPanel != null){
+//            dragPanel.DestoryUI();
+//        }
+//        selectBtn.isEnabled = false;
     }   
 
 	void InitUI(){
@@ -397,4 +401,128 @@ public class QuestSelectView : UIComponentUnity{
 		evolveStageInfo = data as TEvolveStart;
 		EvolveInfoShow(evolveStageInfo.StageInfo);
 	}
+
+	//--------------------------------New---------------------------------------
+
+	private const float OFFSET_X = 616.0F;
+	private UIButton leftPageBtn;
+	private UIButton rightPageBtn;
+
+	private GameObject leftPanel;
+	private GameObject centerPanel;
+	private GameObject rightPanel;
+
+	private GameObject questRoot;
+	private bool canSlide = true;
+
+	private void InitUIElement(){
+		leftPageBtn = FindChild<UIButton>("Button_Page_Left");
+		rightPageBtn = FindChild<UIButton>("Button_Page_Right");
+		questRoot = transform.FindChild("Quest").gameObject;
+		UIEventListener.Get(leftPageBtn.gameObject).onClick = ClickLeftPageBtn;
+		UIEventListener.Get(rightPageBtn.gameObject).onClick = ClickRightPageBtn;
+	}
+	
+	private TCityInfo cityInfo;
+	private List<StageItemView> stageViewList  = new List<StageItemView>();
+
+	private void GetData(uint cityID){
+		cityInfo = DataCenter.Instance.GetCityInfo(cityID);
+	}
+
+
+	private void CreateSlidePage(object msg){
+		GetData((uint)msg);
+		InitUIElement();
+		FillView();
+	}
+
+	private void FillView(){
+		if(cityInfo == null) {
+			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
+			return;
+		}
+		List<TStageInfo> stageInfoList = cityInfo.Stages;
+		totalPageCount = 5;
+		CurrPageIndex = 1;
+		string sourcePath = "Prefabs/UI/Quest/StageItem";
+		GameObject prefab = Resources.Load(sourcePath) as GameObject;
+		Debug.LogError("stageInfoList.Count : " + stageInfoList.Count);
+
+		int stageCount = 5;
+		for (int i = 0; i < stageCount; i++){
+			GameObject temp = NGUITools.AddChild(questRoot, prefab);
+			temp.name = i.ToString();
+			temp.transform.localPosition = new Vector3(616.0f * i, 0, 0 );
+		}
+	}
+
+	/// <summary>
+	/// Disable left btn as soon as current page is start page.
+	/// </summary>
+	private bool isStartPage;
+	public bool IsStartPage{
+		get{
+			return isStartPage;
+		}
+		set{
+			isStartPage = value;
+			leftPageBtn.gameObject.SetActive(!IsStartPage);
+		}
+	}
+
+	/// <summary>
+	/// Disable right btn as soon as current page is end page.
+	/// </summary>
+	private bool isEndPage;
+	public bool IsEndPage{
+		get{
+			return isEndPage;
+		}
+		set{
+			isEndPage = value;
+			rightPageBtn.gameObject.SetActive(!IsEndPage);
+		}
+	}
+	
+	/// <summary>
+	/// The curreny page index.
+	/// </summary>
+	private int currPageIndex;
+	public int CurrPageIndex{
+		get{
+			return currPageIndex;
+		}
+		set{
+			currPageIndex = value;
+			//Debug.LogError("currPageIndex : " + currPageIndex);
+			//Set left btn disabled as soon as current page is start page.
+			IsStartPage = (CurrPageIndex == 1);
+			//Set right btn disabled as soon as current page is end page.
+			IsEndPage = (CurrPageIndex == totalPageCount);
+
+		}
+	}
+
+	private int totalPageCount;
+
+	private void ClickLeftPageBtn(GameObject btn){
+		CurrPageIndex --;
+		float x = questRoot.transform.localPosition.x + OFFSET_X;
+		iTween.MoveTo(questRoot, iTween.Hash("x", x, "time", 1.0f, "isLocal", true));
+
+	}
+	private void ClickRightPageBtn(GameObject btn){
+		CurrPageIndex ++;
+		float x = questRoot.transform.localPosition.x - OFFSET_X;
+		iTween.MoveTo(questRoot, iTween.Hash("x", x, "time", 1.0f, "isLocal", true));
+	}
+
+
+
 }
+
+
+
+
+

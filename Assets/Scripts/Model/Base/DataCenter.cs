@@ -21,6 +21,9 @@ public enum ModelEnum {
 	QuestClearInfo,
 	UnitCatalogInfo,
 
+	//new add
+	CityListInfo,
+
     User            = 1000,
     UnitPartyInfo   = 1001,
     FriendCount     = 1002,
@@ -295,6 +298,19 @@ public class DataCenter {
         set { setData(ModelEnum.UnitBaseInfo, value); } 
     }
 
+	//new add by Lynn
+	public List<TCityInfo> CityListInfo{
+		get { 
+			List<TCityInfo> ret = getData(ModelEnum.CityListInfo) as List<TCityInfo>;
+			if (ret == null) {
+				ret = new List<TCityInfo>();
+				setData(ModelEnum.CityListInfo, ret);
+			}
+			return ret; 
+		}
+		set { setData(ModelEnum.CityListInfo, value); } 
+	}
+
 	public Dictionary<uint, TCityInfo> CityInfo {
 		get {
 			Dictionary<uint, TCityInfo> ret = getData(ModelEnum.CityInfo) as Dictionary<uint, TCityInfo>;
@@ -306,6 +322,11 @@ public class DataCenter {
 		}
 		set { setData(ModelEnum.UnitBaseInfo, value); }
 	}
+
+	//-------new add
+
+
+	//-------end new add
 
     public Dictionary<uint, TrapBase> TrapInfo {
         get { 
@@ -505,6 +526,16 @@ public class DataCenter {
 			return tui;
 		}
 	}
+
+	public List<TCityInfo> GetCityListInfo(){
+		if(CityListInfo.Count == 0){
+			Debug.Log("DataCenter.GetCityListInfo(), CityListInfo is NULL");
+			CityListInfo = DGTools.LoadCityList();
+		}
+		Debug.Log("DataCenter.GetCityListInfo(), CityListInfo count is : " + CityListInfo.Count);
+		return CityListInfo;
+	}
+
 
 	public TStageInfo currentStageInfo;
 

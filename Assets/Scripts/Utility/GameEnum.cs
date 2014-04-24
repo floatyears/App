@@ -58,8 +58,7 @@ public enum SceneEnum
 
 	SelectRole,
 
-	Result
-
+	Result,
 }
 
 public enum CommandEnum{
@@ -232,6 +231,8 @@ public enum CommandEnum{
 	PickOnSaleUnit				= 4065,
 	SortByRule							= 4066,
 	OpenSortRuleWindow				= 4067,
+
+	TransPickedCity					= 4068,
 
     WaitResponse,
     SetBlocker,

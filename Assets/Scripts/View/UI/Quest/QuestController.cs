@@ -8,11 +8,8 @@ public class QuestController : ConcreteComponent{
 	private List<TStageInfo> storyStageList = new List<TStageInfo>();
 
 	public QuestController(string uiName):base(uiName){}
-	public override void CreatUI(){ base.CreatUI();}
 	public override void ShowUI(){
 		base.ShowUI();
-		GetStoryCityList();
-		CreateStage();
 	}
 	
 	public override void HideUI(){
