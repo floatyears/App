@@ -17,7 +17,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     }
 	
     public void RemoveListener() {
-
 		MsgCenter.Instance.RemoveListener (CommandEnum.LeftBattle, LeftBattle);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnterBattle, EnterBattle);
         MsgCenter.Instance.RemoveListener(CommandEnum.ActiveReduceHurt, ReduceHurt);
@@ -55,7 +54,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                     TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
                     userUnit.Add(partyItem[i].unitPos, uui);
                 }
-			
             }
             return userUnit;
         }

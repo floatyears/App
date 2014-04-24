@@ -118,10 +118,13 @@ public class EnemyItem : UIBaseUnity {
 		InjuredShake();
         if (obj != null) {
             prevObject = NGUITools.AddChild(effect.gameObject, obj);
-            prevObject.transform.localScale = new Vector3(100f, 100f, 100f);
+			if(ai.AttackType == 1) {
+				prevObject.transform.localScale = new Vector3(400f, 300f, 300f);
+			}else{
+				prevObject.transform.localScale = new Vector3(100f, 100f, 100f);
+			}
         }
     }
-
 
     void InjuredShake() {
         iTween.ShakeScale(texture.gameObject, iTween.Hash("amount", new Vector3(0.5f, 0.5f, 0.5f), "time", 0.2f));
@@ -227,7 +230,7 @@ public class EnemyItem : UIBaseUnity {
             return;		
         }
         tempQue.Enqueue(te);
-        GameTimer.GetInstance().AddCountDown(0.5f, RefreshData);
+        GameTimer.GetInstance().AddCountDown(0.2f, RefreshData);
     }
 
     void RefreshData() {

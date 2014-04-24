@@ -6,7 +6,6 @@ public class BattleBottom : MonoBehaviour {
 	private RaycastHit rch;
 	private TUnitParty upi;
 	private Dictionary<int,GameObject> actorObject = new Dictionary<int,GameObject>();
-
 	private GameObject battleSkillObject;
 	private BattleSkill battleSkill;
 
@@ -94,7 +93,7 @@ public class BattleBottom : MonoBehaviour {
 //				Debug.LogError("battleSkill : " + battleSkill);
 				BattleMap.waitMove = true;
 
-				battleQuest.battle.SwitchInput(true);
+				battleQuest.battle.ShieldGameInput(false);
 //				Debug.LogError("battleQuest.battle : " + battleQuest.battle);
 			}
 		}
@@ -116,7 +115,7 @@ public class BattleBottom : MonoBehaviour {
 		BattleMap.waitMove = false;
 //		battleQuest.battle.SwitchInput (!battleQuest.battle.isShowEnemy);
 		if (battleQuest.battle.isShowEnemy) {
-			battleQuest.battle.SwitchInput(false);
+			battleQuest.battle.ShieldGameInput(true);
 		}
 		battleSkillObject.SetActive(false);
 	}

@@ -57,6 +57,9 @@ public class QuestFullScreenTips : UIBaseUnity {
 		} else if (name == ReadyMove) {
 			PlayReadyMove ();
 		} else {
+			if(name == BackAttack || name == FirstAttack) {
+				tempTime = 0.2f;
+			}
 			PlayAll ();
 		}
 	}
@@ -70,7 +73,7 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void PlayAll () {
 		tweenAlpha.enabled = true;
 		tweenAlpha.Reset ();
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3(3f,3f,3f), "time", 0.4f, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
+		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3(3f,3f,3f), "time", tempTime == 0f ? 0.4f : tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 
 	}
 
