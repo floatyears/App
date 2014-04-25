@@ -9,14 +9,14 @@ public class BattleSkill : UIBaseUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		MsgCenter.Instance.AddListener (CommandEnum.MeetEnemy, MeetEnemy);
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.MeetEnemy, MeetEnemy);
+//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.MeetEnemy, MeetEnemy);
-		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.MeetEnemy, MeetEnemy);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
 	public override void DestoryUI () {
@@ -42,11 +42,16 @@ public class BattleSkill : UIBaseUnity {
 	
 	private Dictionary<string, SkillItem> skillDic = new Dictionary<string, SkillItem> ();
 
+	[HideInInspector]
+	public BattleQuest battleQuest;
+
 	void MeetEnemy(object data) {
+//		Debug.LogError ("battle skill MeetEnemy");
 		boost = true;	
 	}
 
 	void BattleEnd(object data) {
+//		Debug.LogError ("battle skill BattleEnd");
 		boost = false;	
 	}
 
@@ -105,9 +110,12 @@ public class BattleSkill : UIBaseUnity {
 	}
 
 	void Boost(GameObject go) {
-		if (boost && boostAcitveSkill != null) {
-			boostAcitveSkill();	
+		if (boostAcitveSkill == null) {
+			return;	
 		}
+		if (isBattle || isRecoveSP) {
+			boostAcitveSkill ();	
+		} 
 	}
 
 	void Close(GameObject go) {
@@ -117,7 +125,8 @@ public class BattleSkill : UIBaseUnity {
 	}
 
 	bool boost = false;
-
+	bool isRecoveSP = false;
+	bool isBattle = false ;
 	public void Refresh(TUserUnit userUnitInfo, Callback boostSKill,Callback close) {
 		boostAcitveSkill = boostSKill;
 		CloseSkill = close;
@@ -145,9 +154,19 @@ public class BattleSkill : UIBaseUnity {
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill); 
 		Refresh (3, sbi);
 
-		if (sbi != null && sbi.BaseInfo.skillCooling == 0) {
+		bool notNull = sbi != null;
+		bool isCooling = notNull && (sbi.BaseInfo.skillCooling == 0);
+		isRecoveSP = notNull && sbi.GetType () == typeof(TSkillRecoverSP);
+		isBattle = battleQuest.battle.GetState == UIState.UIShow;
 
-			boostButton.isEnabled = true;
+
+		if (notNull && isCooling) {
+			if(!isRecoveSP && !isBattle) {
+				boostButton.isEnabled = false;
+			}
+			else{
+				boostButton.isEnabled = true;
+			}
 		}
 		else {
 			boostButton.isEnabled = false;
@@ -166,7 +185,7 @@ public class BattleSkill : UIBaseUnity {
 	}
 
 	void Refresh(int index, SkillBaseInfo sbi) {
-		if (index == 0 && sbi == null) {
+		if (index == 4 && sbi == null) {
 			skillDic [SKill [index]].ShowSkillInfo (sbi, true);
 		} else {
 			skillDic [SKill [index]].ShowSkillInfo (sbi);
@@ -183,15 +202,15 @@ public class SkillItem {
 	public UILabel skillDescribeLabel;
 	public List<UISprite> skillSprite;
 
-	public void ShowSkillInfo (SkillBaseInfo sbi, bool isLeaderSkill = false) {
+	public void ShowSkillInfo (SkillBaseInfo sbi, bool isPassiveSkill = false) {
 		if (sbi == null) {
-//			if(isLeaderSkill) {
-//				ClearLeaderSkill();
-//			}
-//			else{
-//				Clear();
-//			}
-			Clear();
+			if(isPassiveSkill) {
+				ClearPassiveSkill();
+			}
+			else{
+				Clear();
+			}
+//			Clear();
 			return;
 		}
 		skillTypeLabel.enabled = true;
@@ -213,9 +232,10 @@ public class SkillItem {
 		ShowSprite (null);
 	}
 
-	void ClearLeaderSkill () {
-		skillName.text = "-";
-		skillDescribeLabel.text = "-";
+	void ClearPassiveSkill () {
+		skillTypeLabel.enabled = false;
+		skillName.text = "";
+		skillDescribeLabel.text = "";
 		ShowSprite (null);
 	}
 

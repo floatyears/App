@@ -145,20 +145,42 @@ public class BattleBackground : UIBaseUnity {
 
 	void ListenEnergyPoint (object data) {
 		int energyPoint = (int) data;
-		int remaining = initEnergyPoint - energyPoint;
 
-		if (remaining <= 0) {
-			for (int i = 0; i < energyPoint; i++) {
-				if(!spSprite [i].enabled) {
-					spSprite[i].enabled = true;
+		for (int i = 0; i < spSprite.Length; i++) {
+			UISprite sprite = spSprite[i];
+			if(i < energyPoint) {
+				if(!sprite.enabled) {
+					sprite.enabled = true;
+				}
+			}else{
+				if(sprite.enabled) {
+					sprite.enabled = false;
 				}
 			}
 		}
-		else {
-			for (int i = 0; i < remaining; i++) {
-				spSprite[energyPoint + i].enabled = false;
-			}
-		}
+
+//		for (int i = 0; i < energyPoint; i++) {
+//			UISprite sprite = spSprite[energyPoint + i];
+//							if(sprite.enabled) {
+//								sprite.enabled = false;
+//							}
+//				}
+//		currentEnergyPoint = initEnergyPoint - energyPoint;
+//		if (currentEnergyPoint <= 0) {
+//			for (int i = 0; i < energyPoint; i++) {
+//				if(!spSprite [i].enabled) {
+//					spSprite[i].enabled = true;
+//				}
+//			}
+////			initEnergyPoint = energyPoint;
+//		}
+//		else {
+//			for (int i = 0; i < currentEnergyPoint; i++) {
+//				
+//			}
+//
+////			initEnergyPoint = currentEnergyPoint;
+//		}
 	}
 
 	void AddListener () {

@@ -19,6 +19,9 @@ public class AttackController {
 			grid = value;
 			enemyInfo = new List<TEnemyInfo>();
 			foreach (var item in value.Enemy) {
+//				item.instance.hp += 1000;
+//				item.initBlood += 1000;
+
 				enemyInfo.Add(item);
 			}
 
@@ -182,10 +185,10 @@ public class AttackController {
 
 	float GetIntervTime () {
 		if (enemyInfo.Count == 1 && enemyInfo[0].GetBlood() <= 0) {
-			return 0.8f;		
+			return 0.4f;		
 		}
 		else {
-			return 0.8f;		
+			return 0.6f;		
 		}
 	}
 

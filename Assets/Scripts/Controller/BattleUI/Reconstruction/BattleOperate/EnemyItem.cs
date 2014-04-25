@@ -22,6 +22,11 @@ public class EnemyItem : UIBaseUnity {
     private Vector3 hurtLabelPosition = Vector3.zero;
     private Vector3 initHurtLabelPosition = Vector3.zero;
 
+	[HideInInspector]
+	public BattleEnemy battleEnemy;
+	[HideInInspector]
+	public GameObject prevEffect = null;
+
     void OnEnable() {
         MsgCenter.Instance.AddListener(CommandEnum.EnemyAttack, EnemyAttack);
         MsgCenter.Instance.AddListener(CommandEnum.EnemyRefresh, EnemyRefresh);
@@ -43,9 +48,7 @@ public class EnemyItem : UIBaseUnity {
         MsgCenter.Instance.RemoveListener(CommandEnum.ReduceDefense, ReduceDefense);
         MsgCenter.Instance.RemoveListener(CommandEnum.DropItem, DropItem);
     }
-
-    GameObject prevObject = null;
-
+	
     void ReduceDefense(object data) {
         TClass<int,int,float> tc = data as TClass<int,int,float>;
         if (tc == null) {
@@ -59,8 +62,8 @@ public class EnemyItem : UIBaseUnity {
         if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol) {
             return;
         }
-        if (prevObject != null) {
-            Destroy(prevObject);
+		if (prevEffect != null) {
+			Destroy(prevEffect);
         }
         attackQueue.Enqueue(ai);
         GameTimer.GetInstance().AddCountDown(0.3f, Effect);
@@ -71,7 +74,8 @@ public class EnemyItem : UIBaseUnity {
 		DisposeRestraint (ai);
 		DGTools.PlayAttackSound (ai.AttackType);
         ShowHurtInfo(ai.InjuryValue);
-		ShowInjuredEffect (ai);
+		battleEnemy.PlayerEffect (this, ai);
+//		ShowInjuredEffect (ai);
 //        InjuredShake();
     }
 
@@ -113,20 +117,20 @@ public class EnemyItem : UIBaseUnity {
 
 
     void ShowInjuredEffect(AttackInfo ai) {
-		GameObject obj = DataCenter.Instance.GetEffect(ai) as GameObject;
-		DGTools.PlayAttackSound(ai.AttackType);
-		InjuredShake();
-        if (obj != null) {
-            prevObject = NGUITools.AddChild(effect.gameObject, obj);
-			if(ai.AttackType == 1) {
-				prevObject.transform.localScale = new Vector3(400f, 300f, 300f);
-			}else{
-				prevObject.transform.localScale = new Vector3(100f, 100f, 100f);
-			}
-        }
+//		GameObject obj = DataCenter.Instance.GetEffect(ai) as GameObject;
+//		DGTools.PlayAttackSound(ai.AttackType);
+//		InjuredShake();
+//        if (obj != null) {
+//            prevObject = NGUITools.AddChild(effect.gameObject, obj);
+//			if(ai.AttackType == 1) {
+//				prevObject.transform.localScale = new Vector3(400f, 300f, 300f);
+//			}else{
+//				prevObject.transform.localScale = new Vector3(1f, 1f, 1f);
+//			}
+//        }
     }
 
-    void InjuredShake() {
+    public void InjuredShake() {
         iTween.ShakeScale(texture.gameObject, iTween.Hash("amount", new Vector3(0.5f, 0.5f, 0.5f), "time", 0.2f));
     }
 
