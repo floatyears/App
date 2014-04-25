@@ -115,13 +115,13 @@ public class BattleQuest : UIBase {
 
 	public override void ShowUI () {
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
+		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 		Resources.UnloadUnusedAssets ();
 		GameTimer.GetInstance ().AddCountDown (0.5f, ShowScene);
 		InitData ();
 		base.ShowUI ();
 		AddListener ();
-	
 		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData, null);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.GridEnd, GridEnd);
@@ -143,6 +143,7 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.GridEnd, GridEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.PlayerDead, BattleFail);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
+		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 	}
 	
@@ -156,6 +157,14 @@ public class BattleQuest : UIBase {
 	}
 
 	void AttackEnemy (object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;		
+		}
+		attackEffect.RefreshItem (ai);
+	}
+
+	void RecoverHP(object data) {
 		AttackInfo ai = data as AttackInfo;
 		if (ai == null) {
 			return;		
@@ -276,6 +285,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public void NoFriendExit() {
+//		ExitFight (true);
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ExitBattle ();
 	}
@@ -539,18 +549,22 @@ public class BattleQuest : UIBase {
 		
 		if (battleEnemy && !b) {
 			battle.ShieldInput(false);
+			BattleBottom.notClick  = true;
 			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
 		}
-
-		MapItem mi = battleMap.GetMapItem (currentCoor);
-
-		if (mi.IsOld) {
+	
+		int index = questDungeonData.GetGridIndex (currentCoor);
+		if (index == -1) {
 			return;	
 		}
 
+		if (questData.hitGrid.Contains ((uint)index)) {
+			return;		
+		}
+
 		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
-		Debug.LogError ("currentcoor x : " + currentCoor.x + " currentcoor y :  " + currentCoor.y + " tqg.Type ; " + tqg.Type);
-		if (tqg != null && tqg.Type != EQuestGridType.Q_ENEMY) {
+
+		if (tqg == null || tqg.Type != EQuestGridType.Q_ENEMY) {
 			return;	
 		}
 
@@ -570,6 +584,7 @@ public class BattleQuest : UIBase {
 
 	void QuestClear() {
 		battle.ShieldInput(true);
+//		battle.ShieldGameInput (false);
 		BattleMap.waitMove = true;
 		topUI.SheildInput ();
 		battleMap.BattleEndRotate(battleMap.door.ShowTapToCheckOut);
@@ -797,7 +812,6 @@ public class BattleQuest : UIBase {
 
 	void BattleFail(object data) {
 		battle.ShieldInput (true);
-//		battle.SwitchInput (true);
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
@@ -819,13 +833,12 @@ public class BattleQuest : UIBase {
 
 	void BattleFailRecover(object data) {
 		ResumeQuest.SendRequest (ResumeQuestNet, questDungeonData.QuestId);
+		bud.ClearData ();
 	}
 	
 	void ResumeQuestNet(object data) {
-//		battle.SwitchInput (false);
 		bud.Blood = bud.maxBlood;
 		bud.RecoverEnergePoint (DataCenter.maxEnergyPoint);
-//		BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
 	}
 
 	void BattleFailExit(object data) {
@@ -835,6 +848,7 @@ public class BattleQuest : UIBase {
 	void BattleFail () {
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd);
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ExitBattle ();
 	}

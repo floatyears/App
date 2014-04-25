@@ -58,3 +58,11 @@ public class AddFriend: ProtoManager {
 
 }
 
+//public class TReqAddFriend : INET {
+//	private ReqAddFriend instance;
+//
+//	send();
+//	byte[] receive(bytes[]);
+//}
+//protobuf -> meditor class : INET, ISAVE, IPROTOBUF , IJSON
+//httpInstance.send

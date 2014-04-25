@@ -216,10 +216,12 @@ public class BattleUseData {
                 }
             }
         }
+//		attackInfo.Clear ();
         DGTools.InsertSortBySequence(sortAttack, new AISortByCardNumber());
 		int count = sortAttack.Count;
+		float rate =  (count -1) * 0.25f;
 		for (int i = 0; i < count; i++) {
-			sortAttack[i].AttackRate += count * 0.25f;
+			sortAttack[i].AttackRate += rate;
 			sortAttack[i].ContinuAttackMultip += i;
 			sortAttack[i].AttackValue *= (1 + sortAttack[i].AttackRate);
         }
@@ -331,7 +333,6 @@ public class BattleUseData {
     }
 
     public void RefreshBlood() {
-       
 		PlayerDead ();
     }
 			
