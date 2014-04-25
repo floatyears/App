@@ -8,20 +8,25 @@ public class BattleEnemy : UIBaseUnity {
 			return monster;
 		}
 	}
+
+	private GameObject effectPanel;
+
 	private GameObject tempGameObject;
 	[HideInInspector]
 	public Battle battle;
-	private UILabel attackInfoLabel;
-	private string[] attackInfo = new string[4] {"Nice", "Good", "Great", "Excellent"};
+	private UISprite attackInfoLabel;
+	private string[] attackInfo = new string[4] {"Nice!", "BEAUTY!", "great-!", "Excellent-!"};
 
 	private BattleAttackInfo battleAttackInfo;
 
 	public override void Init (string name) {
 		base.Init (name);
+		effectPanel = transform.Find ("Effect").gameObject;
 		tempGameObject = transform.Find ("EnemyItem").gameObject;
 		tempGameObject.SetActive (false);
 		transform.localPosition += new Vector3 (0f, battle.cardHeight * 6.5f, 0f);
-		attackInfoLabel = FindChild<UILabel>("Label");
+		attackInfoLabel = FindChild<UISprite>("Label");
+		attackInfoLabel.spriteName = "";
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
 		battleAttackInfo = FindChild<BattleAttackInfo>("AttackInfo");
 		battleAttackInfo.Init ();
@@ -34,6 +39,7 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemy, Attack);
 		count --;
 		battleAttackInfo.HideUI ();
 		gameObject.SetActive (false);
@@ -44,26 +50,41 @@ public class BattleEnemy : UIBaseUnity {
 		gameObject.SetActive (true);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
+//		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemy, Attack);
 		count ++;
 		battleAttackInfo.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 	}
 
 	void AttackEnemyEnd(object data) {
+
+		if (prevEffect != null) {
+			Destroy(prevEffect);	
+		}
+
 		int index = DGTools.RandomToInt (0, 4);
-		attackInfoLabel.text = attackInfo [index];
-		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.5f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "End", "oncompletetarget", gameObject));
+		attackInfoLabel.spriteName = attackInfo [index];
+//		iTween.RotateTo (attackInfoLabel.gameObject, iTween.Hash ("rotation", new Vector3 (0f, 0f, 360f), "time", 0.3f, "oncomplete", "End", "oncompletetarget", gameObject));
+		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.3f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "End", "oncompletetarget", gameObject));
+
 	}
 
 	void AttackEnemy(object data) {
-
+		if (prevEffect != null) {				
+			Destroy(prevEffect);
+		}
 	}
 
 	void End() {
-		attackInfoLabel.text = "";
-		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
+		GameTimer.GetInstance ().AddCountDown (0.2f, HideAttackInfo);
 	}
 
+	void HideAttackInfo() {
+		attackInfoLabel.spriteName = "";
+		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
+		attackInfoLabel.transform.eulerAngles = new Vector3 (0f, 0f, 0f);
+	}
+		                                 
 	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
 		List<EnemyItem> temp = new List<EnemyItem> ();
@@ -72,6 +93,7 @@ public class BattleEnemy : UIBaseUnity {
 			go.SetActive(true);
 
 			EnemyItem ei = go.AddComponent<EnemyItem>();
+			ei.battleEnemy = this;
 			ei.Init(enemy[i]);
 			temp.Add(ei);
 			monster.Add(enemy[i].EnemySymbol,ei);
@@ -186,48 +208,66 @@ public class BattleEnemy : UIBaseUnity {
 			tempIndex++;
 		}
 	}
+	GameObject prevEffect;
+	public void PlayerEffect(EnemyItem ei,AttackInfo ai) {
+//		if (prevEffect != null) {
+//			Destroy(prevEffect);	
+//		}
 
-	void OnGUI() {
-		GUILayout.BeginArea(new Rect(0, 0, 600f, 600f));
-		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("width: ");
-		GUILayout.Space (10f);
-		GUILayout.Label (width.ToString ());
-		GUILayout.EndHorizontal ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("allwidth: ");
-		GUILayout.Space (10f);
-		GUILayout.Label (allWidth.ToString ());
-		GUILayout.EndHorizontal ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("probability : ");
-		GUILayout.Space (10f); 
-		GUILayout.Label (probability.ToString ());
-		GUILayout.EndHorizontal ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("screenwidth: ");
-		GUILayout.Space (10f);
-		GUILayout.Label (screenWidth.ToString ());
-		GUILayout.EndHorizontal ();
-
-		GUILayout.BeginVertical ();
-		foreach (var item in monster) {
-			GUILayout.BeginHorizontal ();
-			GUILayout.Label ("item.id: ");
-			GUILayout.Space (10f);
-			GUILayout.Label (item.Key.ToString ());
-			GUILayout.Space (20f);
-			GUILayout.Label ("item.Value.textur: ");
-			GUILayout.Space (10f);
-			GUILayout.Label (item.Value.texture.width.ToString());
-			GUILayout.EndHorizontal ();
+		GameObject obj = DataCenter.Instance.GetEffect(ai) as GameObject;
+		DGTools.PlayAttackSound(ai.AttackType);
+		ei.InjuredShake();
+		if (obj != null) {
+			Vector3 localScale = obj.transform.localScale;
+			prevEffect = NGUITools.AddChild(effectPanel, obj);
+			prevEffect.transform.localScale = localScale;
+			if(ai.AttackRange == 0) {
+				prevEffect.transform.localPosition = ei.transform.localPosition;
+			}
 		}
-
-		GUILayout.EndVertical ();
-		GUILayout.EndVertical ();
-		GUILayout.EndArea();
 	}
+
+//	void OnGUI() {
+//		GUILayout.BeginArea(new Rect(0, 0, 600f, 600f));
+//		GUILayout.BeginVertical ();
+//		GUILayout.BeginHorizontal ();
+//		GUILayout.Label ("width: ");
+//		GUILayout.Space (10f);
+//		GUILayout.Label (width.ToString ());
+//		GUILayout.EndHorizontal ();
+//		GUILayout.BeginHorizontal ();
+//		GUILayout.Label ("allwidth: ");
+//		GUILayout.Space (10f);
+//		GUILayout.Label (allWidth.ToString ());
+//		GUILayout.EndHorizontal ();
+//		GUILayout.BeginHorizontal ();
+//		GUILayout.Label ("probability : ");
+//		GUILayout.Space (10f); 
+//		GUILayout.Label (probability.ToString ());
+//		GUILayout.EndHorizontal ();
+//		GUILayout.BeginHorizontal ();
+//		GUILayout.Label ("screenwidth: ");
+//		GUILayout.Space (10f);
+//		GUILayout.Label (screenWidth.ToString ());
+//		GUILayout.EndHorizontal ();
+//
+//		GUILayout.BeginVertical ();
+//		foreach (var item in monster) {
+//			GUILayout.BeginHorizontal ();
+//			GUILayout.Label ("item.id: ");
+//			GUILayout.Space (10f);
+//			GUILayout.Label (item.Key.ToString ());
+//			GUILayout.Space (20f);
+//			GUILayout.Label ("item.Value.textur: ");
+//			GUILayout.Space (10f);
+//			GUILayout.Label (item.Value.texture.width.ToString());
+//			GUILayout.EndHorizontal ();
+//		}
+//
+//		GUILayout.EndVertical ();
+//		GUILayout.EndVertical ();
+//		GUILayout.EndArea();
+//	}
 }
 
 public class ShowEnemyUtility {

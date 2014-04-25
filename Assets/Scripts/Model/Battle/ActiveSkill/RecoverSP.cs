@@ -7,6 +7,7 @@ public class TSkillRecoverSP : ActiveSkill, IActiveSkillExcute {
 	public TSkillRecoverSP (object instance) : base (instance) { 
 		this.instance = instance as SkillRecoverSP;
 		skillBase = this.instance.baseInfo;	
+		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
@@ -23,11 +24,12 @@ public class TSkillRecoverSP : ActiveSkill, IActiveSkillExcute {
 	}
 
 	public object Excute (string userUnitID, int atk = -1) {
-//		Debug.LogError ("RecoverSP excute : " + coolingDone);
+//		Debug.LogError ("RecoverSP excute befoure : " + coolingDone + " skillBase.skillCooling " + skillBase.skillCooling);
 		if (!coolingDone) {
 			return null;	
 		}
 		InitCooling ();
+//		Debug.LogError ("RecoverSP excute end : " + coolingDone + " skillBase.skillCooling " + skillBase.skillCooling);
 //		SkillRecoverSP srs = DeserializeData<SkillRecoverSP> ();
 		int step = (int)instance.value;
 //		Debug.LogError ("step : " + step);

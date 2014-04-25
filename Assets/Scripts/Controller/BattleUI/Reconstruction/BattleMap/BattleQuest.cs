@@ -334,7 +334,7 @@ public class BattleQuest : UIBase {
 			}
 			currentMapData = questDungeonData.GetSingleFloor (coor);
 			role.Stop ();
-			MsgCenter.Instance.Invoke (CommandEnum.MeetEnemy, true);
+//			MsgCenter.Instance.Invoke (CommandEnum.MeetEnemy, true);
 
 			if (currentMapData.Star == EGridStar.GS_KEY) {
 					BattleMap.waitMove = true;

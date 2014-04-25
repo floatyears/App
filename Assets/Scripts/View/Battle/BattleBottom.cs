@@ -11,8 +11,17 @@ public class BattleBottom : MonoBehaviour {
 
 	public static bool notClick = false;
 
-	[HideInInspector]
-	public BattleQuest battleQuest;
+//	[HideInInspector]
+	private BattleQuest _battleQuest;
+	public BattleQuest battleQuest {
+		set {
+			_battleQuest = value;
+			battleSkill.battleQuest = battleQuest;
+		}
+		get{
+			return _battleQuest;
+		}
+	}
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
@@ -20,6 +29,7 @@ public class BattleBottom : MonoBehaviour {
 		battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, battleSkillObject);
 		battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
 		battleSkill.Init ("BattleSkill");
+//		battleSkill.battleQuest = battleQuest;
 		battleSkillObject.SetActive (false);
 
 		if (upi == null) {
@@ -82,7 +92,7 @@ public class BattleBottom : MonoBehaviour {
 			Debug.LogError("upi is null");
 			return;	
 		}
-		try{
+//		try{
 			int id = System.Int32.Parse (name);
 			if (upi.UserUnit.ContainsKey (id)) {
 				foreach (var item in actorObject.Values) {
@@ -99,10 +109,10 @@ public class BattleBottom : MonoBehaviour {
 				BattleMap.waitMove = true;
 				battleQuest.battle.ShieldGameInput(false);
 			}
-		}
-		catch(System.Exception ex) {
-			Debug.LogError("exception : " + ex.Message + " name : " + name);
-		}
+//		}
+//		catch(System.Exception ex) {
+//			Debug.LogError("exception : " + ex.Message + " name : " + name);
+//		}
 	}
 
 	void Boost() {
