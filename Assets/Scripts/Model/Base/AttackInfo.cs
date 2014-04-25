@@ -108,7 +108,7 @@ public class AttackInfo {
 		set { attackRound = value; }
 	}
 
-	private float attackRate = 0f;
+	private float attackRate = 1f;
 	public float AttackRate {
 		get { return attackRate; }
 		set { attackRate = value; }

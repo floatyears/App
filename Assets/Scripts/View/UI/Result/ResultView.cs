@@ -81,7 +81,7 @@ public class ResultView : UIComponentUnity {
 	void ClickOk(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		DataCenter.Instance.BattleFriend.FriendPoint = 0;
-		Debug.LogError("Click ok");
+//		Debug.LogError("Click ok");
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickOk", null);
 		ExcuteCallback(call);
 	}

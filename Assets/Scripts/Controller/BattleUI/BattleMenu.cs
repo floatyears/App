@@ -173,6 +173,9 @@ public class BattleMenu : UIBaseUnity {
 
 	void ExitButton(GameObject go) {
 		audioManager.PlayAudio (AudioEnum.sound_click);
+		HideUI ();
+		Battle.isShow = false;
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd);
 		_battleQuest.NoFriendExit ();
 	}
 

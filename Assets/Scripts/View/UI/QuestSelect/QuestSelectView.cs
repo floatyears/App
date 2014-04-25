@@ -484,13 +484,12 @@ public class QuestSelectView : UIComponentUnity{
 	private void GenerateStagePage(List<TStageInfo> accessStageList){
 		for (int i = 0; i < accessStageList.Count; i++){
 			GameObject cell = NGUITools.AddChild(stageRoot, StageItemView.Prefab);
-			cell.name = i.ToString();
+			cell.name = string.Format("Stage_{0}", accessStageList[ i ].StageName);
 			int offsetCount = i - accessStageList.Count/2;
 			cell.transform.localPosition = STAGE_PAENL_OFFSET_X * offsetCount * Vector3.right;
 		
 			StageItemView stageItemView = StageItemView.Inject(cell);
 			stageItemView.Data = accessStageList[ i ];
-			stageItemView.CityID = cityInfo.ID;
 		}
 	}
 

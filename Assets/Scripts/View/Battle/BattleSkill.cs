@@ -185,12 +185,13 @@ public class SkillItem {
 
 	public void ShowSkillInfo (SkillBaseInfo sbi, bool isLeaderSkill = false) {
 		if (sbi == null) {
-			if(isLeaderSkill) {
-				ClearLeaderSkill();
-			}
-			else{
-				Clear();
-			}
+//			if(isLeaderSkill) {
+//				ClearLeaderSkill();
+//			}
+//			else{
+//				Clear();
+//			}
+			Clear();
 			return;
 		}
 		skillTypeLabel.enabled = true;
@@ -206,9 +207,9 @@ public class SkillItem {
 	}
 
 	void Clear() {
-		skillTypeLabel.enabled = false;
-		skillName.text = string.Empty;
-		skillDescribeLabel.text = string.Empty;
+//		skillTypeLabel.enabled = false;
+		skillName.text = "-";
+		skillDescribeLabel.text = "-";
 		ShowSprite (null);
 	}
 

@@ -42,6 +42,7 @@ public class BattleAttackInfo : UIBaseUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, RefreshRate);
+		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RefreshRate);
 		MsgCenter.Instance.AddListener (CommandEnum.ShowHands, StartAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 	}
@@ -49,6 +50,7 @@ public class BattleAttackInfo : UIBaseUnity {
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, RefreshRate);
+		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RefreshRate);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowHands, StartAttack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 	}
@@ -94,13 +96,15 @@ public class BattleAttackInfo : UIBaseUnity {
 
 	AttackInfo prevAttack;
 	void RefreshRate (object data,bool end = false) {
+		if (hitLabel == null) {
+			return;	
+		}
 		if(prevAttack != null){
 			hitFirstSprite.spriteName = (prevAttack.ContinuAttackMultip / 10).ToString ();
 			hitSecondSprite.spriteName = (prevAttack.ContinuAttackMultip % 10).ToString ();
 			hitLabel.enabled = true;
 			rateLabel.text = "rate x " + prevAttack.AttackRate;
 		}
-		prevAttack = data as AttackInfo;;
-
+		prevAttack = data as AttackInfo;
 	}
 }

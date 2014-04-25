@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class StageItemView : MonoBehaviour {
-	private UITexture backgound;
+	private UITexture mapTex;
 	private UILabel nameLabel;
 
 	public static StageItemView Inject(GameObject view){
@@ -22,19 +22,7 @@ public class StageItemView : MonoBehaviour {
 		}
 	}
 
-	public void Awake(){
-		backgound = transform.FindChild("Background").GetComponent<UITexture>();
-	}
-
-	private uint cityID;
-	public uint CityID{
-		get{
-			return cityID;
-		}
-		set{
-			cityID = value;
-		}
-	}
+	public void Awake(){}
 
 	private TStageInfo data;
 	public TStageInfo Data{
@@ -47,30 +35,45 @@ public class StageItemView : MonoBehaviour {
 				Debug.LogError("StageItemView, Data is NULL!");
 				return;
 			}
-			ShowBackground();
-			ShowNameLabel();
-
-
+			ShowMap();
+			ShowName();
+			GenerateQuestInfo();
 		}
 	}
 
-	private void ShowBackground(){
-		string sourcePath = string.Format("{0}_{1}", cityID, Data.ID);
+	private void ShowMap(){
+		string sourcePath = string.Format("Stage/{0}_{1}", data.CityId, data.ID);
+		Debug.Log("StageItemView.ShowMap(), sourcePath : " + sourcePath);
 		Texture2D tex = Resources.Load(sourcePath) as Texture2D;
-		backgound.mainTexture = tex;
+
+		if(mapTex == null){
+			Debug.LogError("mapTex == null, getting...");
+			mapTex = transform.FindChild("Texture_Map").GetComponent<UITexture>();
+		}
+		mapTex.mainTexture = tex;
 	}
 
-	private void ShowNameLabel(){
-
+	private void ShowName(){
+		if(nameLabel == null){
+			Debug.LogError("nameLabel == null, getting...");
+			nameLabel = transform.FindChild("Label_Name").GetComponent<UILabel>();
+		}
+		nameLabel.text = data.StageName;
 	}
 
 	private void GenerateQuestInfo(){
 		for (int i = 0; i < data.QuestInfo.Count; i++){
 			GameObject cell = NGUITools.AddChild(this.gameObject, QuestItemView.Prefab);
-			cell.name = i.ToString();
-			float pos_x = 0;//Get
-			float pos_y = 0;//Get
-			cell.transform.localPosition = new Vector3(pos_x, pos_y, 0);
+			cell.name = string.Format("Quest_{0}", data.QuestInfo[ i ].Name);
+
+			if(data.QuestInfo[ i ].Pos != null){
+				float pos_x = data.QuestInfo[ i ].Pos.x;
+				float pos_y = data.QuestInfo[ i ].Pos.y;
+				cell.transform.localPosition = new Vector3(pos_x, pos_y, 0);
+			}
+			else{
+				Debug.LogError("QuestInfo.Pos == NULL!!!");
+			}
 
 			QuestItemView questItemView = QuestItemView.Inject(cell);
 			questItemView.Data = data.QuestInfo[ i ];

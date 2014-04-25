@@ -3,6 +3,7 @@ using System.Collections;
 
 public class QuestItemView : MonoBehaviour {
 	private UISprite bgSpr;
+	private UILabel nameLabel;
 
 	private static GameObject prefab;
 	public static GameObject Prefab{
@@ -22,7 +23,7 @@ public class QuestItemView : MonoBehaviour {
 	}
 	
 	public void Awake(){
-		bgSpr = transform.FindChild("Background").GetComponent<UISprite>();
+
 	}
 
 	private TQuestInfo data;
@@ -36,17 +37,27 @@ public class QuestItemView : MonoBehaviour {
 				Debug.LogError("QuestItemView, Data is NULL!");
 				return;
 			}
-			
-			//TODO
-			bgSpr.spriteName = "1";
+			ShowIcon();
+			ShowName();
+
 		}
 	}
 	
-
+	private void ShowIcon(){
+		if(bgSpr == null){
+			Debug.LogError("bgSpr == null, getting...");
+			bgSpr = transform.FindChild("Sprite_Boss_Avatar").GetComponent<UISprite>();
+		}
+		bgSpr.atlas = DataCenter.Instance.GetAvatarAtlas(data.BossID[ 0 ]);
+		bgSpr.spriteName = data.BossID[ 0 ].ToString();
+	}
 	
-	
-	private void CreateQuestView(){
-		
+	private void ShowName(){
+		if(nameLabel == null){
+			Debug.LogError("nameLabel == null, getting...");
+			nameLabel = transform.FindChild("Label_Name").GetComponent<UILabel>();
+		}
+		nameLabel.text = data.Name;
 	}
 
 }

@@ -305,7 +305,12 @@ public class AttackController {
 	}
 
 	void TargetEnemy(object data) {
-		targetEnemy = data as TEnemyInfo;
+		TEnemyInfo enemyInfo = data as TEnemyInfo;
+		if(targetEnemy == null || !targetEnemy.Equals(enemyInfo)) {
+			targetEnemy = enemyInfo;
+		}else{
+			targetEnemy = null;
+		}
 	}
 
 	void DisposeRecoverHP (AttackInfo value) {
@@ -385,6 +390,9 @@ public class AttackController {
 	public void AttackPlayer () {
 		if (CheckTempEnemy ()) {
 			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [1]);
+			for (int i = 0; i < enemyInfo.Count; i++) {
+				enemyInfo[i].Next();
+			}
 			LoopEnemyAttack ();	
 		} else {
 			bud.battleQuest.battle.ShieldInput(true);		
@@ -394,9 +402,9 @@ public class AttackController {
 	int enemyIndex = 0;
 	TEnemyInfo te;
 	void LoopEnemyAttack () {
-		countDownTime = 0.5f;
+		countDownTime = 0.4f;
 		te = enemyInfo [enemyIndex];
-		te.Next ();
+//		te.Next ();
 		GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttack);
 	}
 

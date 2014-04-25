@@ -11,6 +11,10 @@ public class TStageInfo : ProtobufDataBase {
 		get { return stageId; }
 	}
 
+	public uint CityId {
+		get { return instance.cityId; }
+	}
+
 	public TStageInfo (StageInfo si) : base (si) {
 		instance = si;
 		InitQuestInfo (si);
