@@ -414,13 +414,13 @@ public class QuestSelectView : UIComponentUnity{
 	private GameObject rightPanel;
 
 	private GameObject pageMark;
-	private GameObject questRoot;
+	private GameObject stageRoot;
 	private int totalPageCount;
 
 	private void InitUIElement(){
 		leftPageBtn = FindChild<UIButton>("Button_Page_Left");
 		rightPageBtn = FindChild<UIButton>("Button_Page_Right");
-		questRoot = transform.FindChild("Quest").gameObject;
+		stageRoot = transform.FindChild("Quest").gameObject;
 		pageMark = transform.FindChild("PageMark").gameObject;
 
 		UIEventListener.Get(leftPageBtn.gameObject).onClick = ClickLeftPageBtn;
@@ -433,8 +433,7 @@ public class QuestSelectView : UIComponentUnity{
 	private void GetData(uint cityID){
 		cityInfo = DataCenter.Instance.GetCityInfo(cityID);
 	}
-
-
+	
 	private void CreateSlidePage(object msg){
 		GetData((uint)msg);
 		InitUIElement();
@@ -447,27 +446,51 @@ public class QuestSelectView : UIComponentUnity{
 			return;
 		}
 
-		totalPageCount = cityInfo.Stages.Count;
-		CurrPageIndex = GetCurrStageIndex(cityInfo.Stages);
-		//Add the whole cleared stage and the first one not cleared to the list
-		GenerateStagePage(cityInfo.Stages.Count);
-		GeneratePageMark(cityInfo.Stages.Count);
-		InitQuestRootPos(cityInfo.Stages.Count);
+		List<TStageInfo> accessStageList = GetAccessStageList(cityInfo.Stages);
+		totalPageCount = accessStageList.Count;
+		CurrPageIndex = GetCurrStageIndex(accessStageList);
+		GenerateStagePage(accessStageList);
+		GeneratePageMark(accessStageList);
+		InitQuestRootPos(totalPageCount);
 		EnableLightSprite(true);
+	}
+
+	/// <summary>
+	/// Gets the access stage list.
+	/// Add the whole cleared stage and the first one not cleared to the list
+	/// </summary>
+	/// <returns>The access stage list.</returns>
+	private List<TStageInfo> GetAccessStageList(List<TStageInfo> stageInfoList){
+		List<TStageInfo> accessStageList = new List<TStageInfo>();
+		for (int i = 0; i < stageInfoList.Count; i++){
+			if(stageInfoList[i].Type == QuestType.E_QUEST_STORY){
+				accessStageList.Add(stageInfoList[ i ]);
+				if (!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(stageInfoList[i].ID))
+					break;					
+			}
+			else{
+				Debug.LogError("Error: invalid quest type:" + stageInfoList[i].Type);
+				break;
+			}
+		}
+		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessStageList.Count);
+		return accessStageList;
 	}
 	
 	/// <summary>
 	/// Generates the stage page.
 	/// </summary>
 	/// <param name="count">Count.</param>
-	private void GenerateStagePage(int count){
-		string sourcePath = "Prefabs/UI/Quest/StageItem";
-		GameObject stageItemprefab = Resources.Load(sourcePath) as GameObject;
-		for (int i = 0; i < count; i++){
-			GameObject stageViewItem = NGUITools.AddChild(questRoot, stageItemprefab);
-			stageViewItem.name = i.ToString();
-			int offsetCount = i - count/2;
-			stageViewItem.transform.localPosition = STAGE_PAENL_OFFSET_X * offsetCount * Vector3.right;
+	private void GenerateStagePage(List<TStageInfo> accessStageList){
+		for (int i = 0; i < accessStageList.Count; i++){
+			GameObject cell = NGUITools.AddChild(stageRoot, StageItemView.Prefab);
+			cell.name = i.ToString();
+			int offsetCount = i - accessStageList.Count/2;
+			cell.transform.localPosition = STAGE_PAENL_OFFSET_X * offsetCount * Vector3.right;
+		
+			StageItemView stageItemView = StageItemView.Inject(cell);
+			stageItemView.Data = accessStageList[ i ];
+			stageItemView.CityID = cityInfo.ID;
 		}
 	}
 
@@ -476,21 +499,22 @@ public class QuestSelectView : UIComponentUnity{
 	/// Generates the page mark.
 	/// </summary>
 	/// <param name="count">Count.</param>
-	private void GeneratePageMark(int count){
+	private void GeneratePageMark(List<TStageInfo> accessStageList){
 		string sourcePath = "Prefabs/UI/Quest/PageMark";
 		GameObject pageMarkPrefab = Resources.Load(sourcePath) as GameObject;
-		for (int i = 0; i < count; i++){
+		for (int i = 0; i < accessStageList.Count; i++){
 			GameObject pageMarkItem = NGUITools.AddChild(pageMark, pageMarkPrefab);
-			int offsetCount = i - count/2;
+			int offsetCount = i - accessStageList.Count/2;
 			pageMarkItem.name = i.ToString();
 			pageMarkItem.transform.localPosition = PAGE_MARK_OFFSET_X * offsetCount * Vector3.right;
 			pageMarkItemList.Add(pageMarkItem);
 		}
+		Debug.Log("GeneratePageMark(), pageMarkItemList count is : " + pageMarkItemList.Count);
 	}
 
 	private void InitQuestRootPos(int count){
 		int offsetCount = count / 2 - (currPageIndex - 1);
-		questRoot.transform.localPosition = STAGE_PAENL_OFFSET_X * offsetCount * Vector3.right;
+		stageRoot.transform.localPosition = STAGE_PAENL_OFFSET_X * offsetCount * Vector3.right;
 	}
 
 	/// <summary>
@@ -544,7 +568,7 @@ public class QuestSelectView : UIComponentUnity{
 		CurrPageIndex --;
 		//float x = questRoot.transform.localPosition.x + STAGE_PAENL_OFFSET_X;
 		float x = (cityInfo.Stages.Count/2 - (currPageIndex - 1)) * STAGE_PAENL_OFFSET_X;
-		iTween.MoveTo(questRoot, iTween.Hash("x", x, "time", 1.0f, "isLocal", true));
+		iTween.MoveTo(stageRoot, iTween.Hash("x", x, "time", 1.0f, "isLocal", true));
 		EnableLightSprite(true);
 	}
 
@@ -553,7 +577,7 @@ public class QuestSelectView : UIComponentUnity{
 		CurrPageIndex ++;
 		//float x = questRoot.transform.localPosition.x - STAGE_PAENL_OFFSET_X;
 		float x = (cityInfo.Stages.Count/2 - (currPageIndex - 1)) * STAGE_PAENL_OFFSET_X;
-		iTween.MoveTo(questRoot, iTween.Hash("x", x, "time", 1.0f, "isLocal", true));
+		iTween.MoveTo(stageRoot, iTween.Hash("x", x, "time", 1.0f, "isLocal", true));
 		EnableLightSprite(true);
 	}
 
@@ -563,24 +587,8 @@ public class QuestSelectView : UIComponentUnity{
 	/// </summary>
 	/// <returns>The curr stage index.</returns>
 	private int GetCurrStageIndex(List<TStageInfo> stageInfoList){
-		int index = 1;
-		for (int i = stageInfoList.Count; i >0 ; i--){
-			if(stageInfoList[ i - 1 ].State == EQuestState.QS_CLEARED){
-				index = i;
-				Debug.Log("Find the last cleared stage, index is : " + i);
-				break;
-			}
-		}
-		Debug.Log("GetCurrStageIndex(), index is : " + index);
-		return index;
+		return stageInfoList.Count;
 	}
-
-//	private void LightPageMark(int nextPos){
-//		//dark current
-//		EnableLightSprite(currPageIndex - 1, false);
-//		//light next( left or right )
-//		EnableLightSprite(nextPos, true);
-//	}
 
 	private void EnableLightSprite(bool isEnabled){
 		GameObject target = pageMarkItemList[ currPageIndex - 1 ];
