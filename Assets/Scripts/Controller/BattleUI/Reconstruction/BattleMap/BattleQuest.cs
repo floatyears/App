@@ -554,13 +554,17 @@ public class BattleQuest : UIBase {
 		}
 	
 		int index = questDungeonData.GetGridIndex (currentCoor);
+		if (index == -1) {
+			return;	
+		}
 
-		if (index != -1 && questData.hitGrid.Contains ((uint)index)) {
+		if (questData.hitGrid.Contains ((uint)index)) {
 			return;		
 		}
 
 		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
-		if (tqg != null && tqg.Type != EQuestGridType.Q_ENEMY) {
+
+		if (tqg == null || tqg.Type != EQuestGridType.Q_ENEMY) {
 			return;	
 		}
 
