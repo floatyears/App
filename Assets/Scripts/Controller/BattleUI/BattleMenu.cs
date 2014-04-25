@@ -176,7 +176,6 @@ public class BattleMenu : UIBaseUnity {
 		HideUI ();
 		Battle.isShow = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd);
-
 		_battleQuest.NoFriendExit ();
 	}
 

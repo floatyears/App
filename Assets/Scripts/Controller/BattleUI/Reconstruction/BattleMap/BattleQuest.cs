@@ -848,6 +848,7 @@ public class BattleQuest : UIBase {
 	void BattleFail () {
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd);
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ExitBattle ();
 	}
