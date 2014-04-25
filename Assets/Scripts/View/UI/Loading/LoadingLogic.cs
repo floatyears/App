@@ -52,7 +52,7 @@ public class LoadingLogic : ConcreteComponent {
             }
             
             if (rspAuthUser.header.code != 0) {
-                //TODO: showErrMsg()
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspAuthUser.header.code);
 				Debug.LogError("rspAuthUser return code: "+rspAuthUser.header.code+" error:" + rspAuthUser.header.error);
                 return;
             }

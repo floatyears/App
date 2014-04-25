@@ -265,7 +265,12 @@ public class BattleQuest : UIBase {
 	}
 	
 	public void QuestEnd () {
-		DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (DataCenter.Instance.currentStageInfo.ID, DataCenter.Instance.currentQuestInfo.ID);
+		if ( DataCenter.Instance.currentStageInfo.Type == QuestType.E_QUEST_STORY) { // story quest
+			DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (DataCenter.Instance.currentStageInfo.ID, DataCenter.Instance.currentQuestInfo.ID);
+		}else { // event quest
+			DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (DataCenter.Instance.currentStageInfo.ID, DataCenter.Instance.currentQuestInfo.ID);
+		}
+
 //		DataCenter.StartQuestInfo = null;
 
 		if (DataCenter.Instance.BattleFriend != null && DataCenter.Instance.BattleFriend.FriendPoint > 0) {
@@ -727,9 +732,12 @@ public class BattleQuest : UIBase {
 		bbproto.RspEvolveDone rsp = data as bbproto.RspEvolveDone;
 
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-			LogHelper.Log("ReqEvolveDone code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+
 			return;
 		}
+
 
 		DataCenter.Instance.UserInfo.Rank = rsp.rank;
 		DataCenter.Instance.UserInfo.Exp = rsp.exp;

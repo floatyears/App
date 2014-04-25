@@ -189,7 +189,13 @@ public class PlayerInfoBar : UIComponentUnity
 		{
 			bbproto.RspRenameNick rspRenameNick = data as bbproto.RspRenameNick;
 			LogHelper.Log("rename response newNickName : " + rspRenameNick.newNickName);
-			
+
+			if (rspRenameNick.header.code != (int)ErrorCode.SUCCESS) {
+				Debug.LogError("Rsp code: "+rspRenameNick.header.code+", error:"+rspRenameNick.header.error);
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspRenameNick.header.code);	
+				return;
+			}
+
 			bool renameSuccess = (rspRenameNick.header.code == 0);
 			if (renameSuccess && rspRenameNick.newNickName != null)
 			{

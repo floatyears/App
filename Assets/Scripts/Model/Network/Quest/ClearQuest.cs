@@ -71,7 +71,12 @@ public class ClearQuest: ProtoManager {
 
         if (InstanceObj != null) {
             rspClearQuest = InstanceObj as bbproto.RspClearQuest;
-			
+			if (rspClearQuest.header.code != (int)ErrorCode.SUCCESS) {
+				Debug.LogError("Rsp code: "+rspClearQuest.header.code+", error:"+rspClearQuest.header.error);
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspClearQuest.header.code);	
+				return;
+			}
+
             DataCenter.Instance.UserInfo.StaminaNow = rspClearQuest.staminaNow;
             DataCenter.Instance.UserInfo.StaminaRecover = rspClearQuest.staminaRecover;
 

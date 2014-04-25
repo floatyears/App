@@ -102,6 +102,11 @@ public class ResultController : ConcreteComponent {
 		LogHelper.Log("TFriendList.OnRspAddFriend() begin");
 		LogHelper.Log(data);
 		bbproto.RspAddFriend rsp = data as bbproto.RspAddFriend;
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			return;
+		}
 
 		bbproto.FriendList inst = rsp.friends;
 		LogHelper.Log("OnAddFriend(), rsp.friends {0}", inst);

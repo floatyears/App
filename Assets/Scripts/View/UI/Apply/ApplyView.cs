@@ -80,10 +80,13 @@ public class ApplyView : UIComponentUnity{
 		Debug.Log("TFriendList.OnDelFriend() begin");
 		LogHelper.Log(data);
 		bbproto.RspDelFriend rsp = data as bbproto.RspDelFriend;
-		if (rsp.header.code != (int)ErrorCode.SUCCESS){
-			LogHelper.LogError("OnRspDelFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);	
 			return;
 		}
+
 		bbproto.FriendList inst = rsp.friends;
 		LogHelper.LogError("OnRspDelFriend friends {0}", rsp.friends);
 		DataCenter.Instance.SetFriendList(inst);

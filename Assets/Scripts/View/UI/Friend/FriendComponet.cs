@@ -44,7 +44,8 @@ public class FriendComponent : ConcreteComponent{
 		bbproto.RspGetFriend rsp = data as bbproto.RspGetFriend;
         
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
-			LogHelper.Log("RspGetFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 			return;
 		}
         

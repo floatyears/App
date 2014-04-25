@@ -112,7 +112,9 @@ public class SearchFriendController : ConcreteComponent{
 			LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
             if (rsp.header.code == ErrorCode.EF_IS_ALREADY_FRIEND){
                 ShowAlreadyFriend();
-            }
+            }else {
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			}
 			return;
 		}
 		

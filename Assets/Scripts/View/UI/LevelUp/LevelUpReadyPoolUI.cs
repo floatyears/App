@@ -34,7 +34,11 @@ public class LevelUpReadyPoolUI : ConcreteComponent {
 		//TODO: moving to logic
 		if( data != null ) {
 			bbproto.RspLevelUp rspLevelUp = data as bbproto.RspLevelUp;
-//			Debug.LogError("rspLevelUp.header.error : " + rspLevelUp.header.error + " rspLevelUp.header.code : " + rspLevelUp.header.code);
+			if (rspLevelUp.header.code != (int)ErrorCode.SUCCESS) {
+				Debug.LogError("Rsp code: "+rspLevelUp.header.code+", error:"+rspLevelUp.header.error);
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspLevelUp.header.code);
+				return;
+			}
 
 //			update money
 			DataCenter.Instance.AccountInfo.Money = (int)rspLevelUp.money;
