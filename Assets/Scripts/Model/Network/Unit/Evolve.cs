@@ -302,7 +302,7 @@ public class NetWorkEvovleTester {
         bbproto.RspEvolveDone rsp = data as bbproto.RspEvolveDone;
         
         if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-            LogHelper.Log("ReqEvolveDone code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
             ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
             return;
         }

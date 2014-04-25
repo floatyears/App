@@ -238,8 +238,7 @@ public class ShopComponent : ConcreteComponent {
         LogHelper.Log(data);
         bbproto.RspRestoreStamina rsp = data as bbproto.RspRestoreStamina;
         
-        if (rsp.header.code != (int)ErrorCode.SUCCESS)
-        {
+        if (rsp.header.code != (int)ErrorCode.SUCCESS) {
             LogHelper.Log("OnRspStartminaRecover code:{0}, error:{1}", rsp.header.code, rsp.header.error);
             ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
             return;

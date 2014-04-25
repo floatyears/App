@@ -70,8 +70,14 @@ public class TQuestClearInfo : ProtobufDataBase {
 	}
 
 	public	void UpdateStoryQuestClear(uint stageId, uint questId) {
-		storyClear.StageId = stageId;
-		storyClear.QuestId = questId;
+		if( stageId > storyClear.StageId ) {
+			storyClear.StageId = stageId;
+		}
+			
+
+		if ( questId > storyClear.QuestId ) {
+			storyClear.QuestId = questId;
+		}
 	}
 
 	public	void UpdateEventQuestClear(uint stageId, uint questId) {

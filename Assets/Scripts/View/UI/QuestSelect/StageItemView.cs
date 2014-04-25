@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class StageItemView : MonoBehaviour {
+	private const float OFFSET_X = 320;
+	private const float OFFSET_Y = 320;
 	private UITexture mapTex;
 	private UILabel nameLabel;
 
@@ -67,8 +69,8 @@ public class StageItemView : MonoBehaviour {
 			cell.name = string.Format("Quest_{0}", data.QuestInfo[ i ].Name);
 
 			if(data.QuestInfo[ i ].Pos != null){
-				float pos_x = data.QuestInfo[ i ].Pos.x;
-				float pos_y = data.QuestInfo[ i ].Pos.y;
+				float pos_x = data.QuestInfo[ i ].Pos.x - OFFSET_X;
+				float pos_y = data.QuestInfo[ i ].Pos.y - OFFSET_Y;
 				cell.transform.localPosition = new Vector3(pos_x, pos_y, 0);
 			}
 			else{

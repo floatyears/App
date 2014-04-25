@@ -173,20 +173,22 @@ public class DragPanelView : UIBaseUnity {
 	}
 
 	public void SetScrollView(Dictionary<string, object> argsDic, Transform parent){
-//		Transform parentTrans = transform.parent;
 		Vector3 scrollerLocalPos = Vector3.zero;
 		Vector3 scrollerScale = Vector3.one;
 		Vector3 position = Vector3.zero;
 		Vector4 clipRange = Vector4.zero;
 		Vector3 scrollBarPosition = Vector3.zero;
-		UIGrid.Arrangement gridArrange;
-		gridArrange = UIGrid.Arrangement.Horizontal;
+		UIGrid.Arrangement gridArrange = UIGrid.Arrangement.Horizontal;
+		UIScrollView.Movement scrollMovement = UIScrollView.Movement.Horizontal;
+		UIScrollBar.FillDirection scrollBarDir = UIProgressBar.FillDirection.LeftToRight;
 		int maxPerLine = 0;
 		int cellWidth = 100;
 		int cellHeight = 100;
 
-//		if( argsDic.ContainsKey( "parentTrans"))
-//			parentTrans = (Transform)argsDic["parentTrans"];
+		if( argsDic.ContainsKey( "scrollBarDir"))
+			scrollBarDir = (UIScrollBar.FillDirection)argsDic["scrollBarDir"];
+		if( argsDic.ContainsKey( "scrollMovement"))
+			scrollMovement = (UIScrollView.Movement)argsDic["scrollMovement"];
 		if( argsDic.ContainsKey( "scrollerLocalPos"))
 			scrollerLocalPos = (Vector3)argsDic["scrollerLocalPos"];
 		if( argsDic.ContainsKey("scrollerScale"))
@@ -205,8 +207,9 @@ public class DragPanelView : UIBaseUnity {
 			cellWidth = (int)argsDic["cellWidth"];
 		if( argsDic.ContainsKey("cellHeight"))
 			cellHeight = (int)argsDic["cellHeight"];
-
-//		gameObject.transform.parent = parentTrans;     
+		 
+		scrollBar.fillDirection = scrollBarDir;
+		scrollView.movement = scrollMovement;
 		gameObject.transform.parent = parent;
         gameObject.transform.localPosition = scrollerLocalPos;
 		gameObject.transform.localScale = scrollerScale;

@@ -14,15 +14,15 @@ public class FriendHelperController : ConcreteComponent{
 	public override void CreatUI () { base.CreatUI (); }
 	public override void ShowUI () {
 		base.ShowUI ();
-		CreateFriendHelperViewList();
-		AddCommandListener();
+//		CreateFriendHelperViewList();
+//		AddCommandListener();
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-		DestoryFriendHelperList();
-		ClearSelectedHelper();
-		RemoveCommandListener();
+//		DestoryFriendHelperList();
+//		ClearSelectedHelper();
+//		RemoveCommandListener();
 	}
 
 	public override void CallbackView(object data){
@@ -70,9 +70,11 @@ public class FriendHelperController : ConcreteComponent{
 
 		bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-			LogHelper.LogError("RspEvolveStart code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 			return;
 		}
+
 		// TODO do evolve start over;
 		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
@@ -86,6 +88,12 @@ public class FriendHelperController : ConcreteComponent{
 	void RspStartQuest(object data) {
 		TQuestDungeonData tqdd = null;
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
+		if (rspStartQuest.header.code != (int)ErrorCode.SUCCESS) {
+			Debug.LogError("Rsp code: "+rspStartQuest.header.code+", error:"+rspStartQuest.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspStartQuest.header.code);
+			return;
+		}
+
 //		Debug.LogError (rspStartQuest.header.code  + "  " + rspStartQuest.header.error);
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
 			LogHelper.Log ("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);

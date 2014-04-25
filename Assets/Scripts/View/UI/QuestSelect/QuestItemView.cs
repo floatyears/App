@@ -22,9 +22,7 @@ public class QuestItemView : MonoBehaviour {
 		return stageItemView;
 	}
 	
-	public void Awake(){
-
-	}
+	public void Awake(){}
 
 	private TQuestInfo data;
 	public TQuestInfo Data{
@@ -39,7 +37,7 @@ public class QuestItemView : MonoBehaviour {
 			}
 			ShowIcon();
 			ShowName();
-
+			AddEventListener();
 		}
 	}
 	
@@ -58,6 +56,19 @@ public class QuestItemView : MonoBehaviour {
 			nameLabel = transform.FindChild("Label_Name").GetComponent<UILabel>();
 		}
 		nameLabel.text = data.Name;
+	}
+
+	private void AddEventListener(){
+		if(data == null)
+			UIEventListener.Get(this.gameObject).onClick = null;
+		else
+			UIEventListener.Get(this.gameObject).onClick = ClickItem;
+	}
+
+	private void ClickItem(GameObject item){
+		Debug.Log(string.Format("QuestItemView.ClickItem(), Picking quest...questID is {0}, quest name is : {1}", data.ID, data.Name));
+//		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedQuest, data);
+		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
 	}
 
 }

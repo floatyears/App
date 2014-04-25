@@ -416,6 +416,14 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
+    },
+     "StandByWindow": {
+        "uiName":"StandByWindow",
+        "resoucePath": "Prefabs/UI/StandBy/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
     
     

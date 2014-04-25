@@ -525,6 +525,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		bbproto.RspUnitFavorite rsp = data as bbproto.RspUnitFavorite;
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
 			LogHelper.LogError("OnRspChangeFavState code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+
 			return;
 		}
 		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;

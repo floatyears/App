@@ -258,6 +258,10 @@ public class UIManager {
 			temp = new ResultDecorator( sEnum );
 			break;
 
+		case SceneEnum.StandBy:
+			temp = new StandByDecorator( sEnum );
+			break;
+
         }
 		if (temp != null) {
 			temp.SetDecorator (baseScene);

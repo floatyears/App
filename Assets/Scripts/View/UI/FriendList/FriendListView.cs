@@ -111,8 +111,9 @@ public class FriendListView : UIComponentUnity{
 			return;
 		bbproto.RspGetFriend rsp = data as bbproto.RspGetFriend;
 		
-		if (rsp.header.code != (int)ErrorCode.SUCCESS){
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
 			LogHelper.Log("RspGetFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 			return;
 		}
 		
@@ -146,8 +147,9 @@ public class FriendListView : UIComponentUnity{
 		Debug.Log("TFriendList.OnDelFriend() begin");
 		LogHelper.Log(data);
 		bbproto.RspDelFriend rsp = data as bbproto.RspDelFriend;
-		if (rsp.header.code != (int)ErrorCode.SUCCESS){
-			LogHelper.LogError("OnRspDelFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 			return;
 		}
 		

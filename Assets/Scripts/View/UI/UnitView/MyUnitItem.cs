@@ -69,6 +69,7 @@ public class MyUnitItem : BaseUnitItem {
 
 	protected override void InitState(){
 		base.InitState();
+		if(userUnit == null){return;}
 		IsFavorite = (userUnit.IsFavorite == 1) ? true : false;
 		IsParty = false;
 	}
@@ -79,11 +80,8 @@ public class MyUnitItem : BaseUnitItem {
 
 	protected virtual void UpdateFavoriteState(){
 		lockSpr.enabled = isFavorite;
-		//Debug.Log(string.Format("Name is : {0} : isFavorite is : {1}, lockSpr.enabled is : {2}, pos is {3}",
-		//                      userUnit.UnitInfo.Name, isFavorite, lockSpr.enabled, gameObject.name));
 	}
-
-
+	
 	protected override void SetCommonState(){
 		base.SetCommonState();
 		IsFavorite = (userUnit.IsFavorite == 1) ? true : false;

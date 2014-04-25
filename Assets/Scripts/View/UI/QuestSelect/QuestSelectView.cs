@@ -445,7 +445,7 @@ public class QuestSelectView : UIComponentUnity{
 			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
 			return;
 		}
-
+	
 		List<TStageInfo> accessStageList = GetAccessStageList(cityInfo.Stages);
 		totalPageCount = accessStageList.Count;
 		CurrPageIndex = GetCurrStageIndex(accessStageList);

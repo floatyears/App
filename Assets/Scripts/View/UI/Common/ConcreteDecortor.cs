@@ -436,16 +436,16 @@ public class FriendSelectDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 		
 		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
-		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-		FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
+		//PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
+		//FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
-		infoPanel.SetComponent(sceneInfoBar);
-		friendSelect.SetComponent(infoPanel);
+		//infoPanel.SetComponent(sceneInfoBar);
+		friendSelect.SetComponent(sceneInfoBar);
 		sortPanel.SetComponent(friendSelect);
-		helperBriefInfo.SetComponent(sortPanel);
+		//helperBriefInfo.SetComponent(sortPanel);
 
-		lastDecorator = helperBriefInfo;
+		lastDecorator = sortPanel;
 		lastDecorator.CreatUI();
 		
 	}
@@ -933,6 +933,36 @@ public class ResultDecorator : DecoratorBase{
 		resultWindow.SetComponent(sceneInfoBar);
 		
 		lastDecorator = resultWindow;
+		lastDecorator.CreatUI();
+	}
+}
+
+//--------------------------------StandBy------------------------------------------
+public class StandByDecorator : DecoratorBase{
+	private SceneInfoComponent sceneInfoBar;
+	public StandByDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+		sceneInfoBar.SetBackScene(SceneEnum.FriendSelect);
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		StandbyController standByWindow = CreatComponent<StandbyController>(UIConfig.standByWindowName);
+
+		sceneInfoBar.SetComponent(decorator);
+		standByWindow.SetComponent(sceneInfoBar);
+
+		lastDecorator = standByWindow;
 		lastDecorator.CreatUI();
 	}
 }

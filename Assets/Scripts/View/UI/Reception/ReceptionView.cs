@@ -84,6 +84,8 @@ public class ReceptionView : UIComponentUnity {
 		bbproto.RspDelFriend rsp = data as bbproto.RspDelFriend;
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
 			LogHelper.LogError("OnRspDelFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+
 			return;
 		}
 		bbproto.FriendList inst = rsp.friends;
@@ -163,12 +165,12 @@ public class ReceptionView : UIComponentUnity {
 		if (data == null)
 			return;
 		
-		LogHelper.LogError("TFriendList.OnRspAddFriend() begin");
-		LogHelper.Log(data);
 		bbproto.RspAcceptFriend rsp = data as bbproto.RspAcceptFriend;
 		
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
 			LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+
 			return;
 		}
 		
