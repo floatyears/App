@@ -54,4 +54,8 @@ public class TQuestInfo : ProtobufDataBase {
 	public List<uint> EnemyID {
 		get { return instance.enemyId; }
 	}
+
+	public Position Pos {
+		get { return instance.pos; }
+	}
 }
