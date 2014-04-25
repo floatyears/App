@@ -104,7 +104,10 @@ public class ResultController : ConcreteComponent {
 		bbproto.RspAddFriend rsp = data as bbproto.RspAddFriend;
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
 			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
-			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			if ( (rsp.header.code != (int)ErrorCode.EF_IS_ALREADY_FRIEND) && (rsp.header.code != (int)ErrorCode.EF_IS_ALREADY_FRIENDOUT) ) {
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			}	
+			UIManager.Instance.ChangeScene(SceneEnum.Quest);
 			return;
 		}
 
