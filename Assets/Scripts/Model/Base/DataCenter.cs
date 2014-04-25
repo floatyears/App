@@ -396,7 +396,7 @@ public class DataCenter {
         switch (type) {
         case 1:
 			if(attackRange == 0) {
-				path = "Effect/BOOM";
+				path = "Effect/firerain";
 			}else  {
 				path = "Effect/firerain";
 			}

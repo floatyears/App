@@ -408,7 +408,6 @@ public class MapItem : UIBaseUnity {
 	}
 
 	public void Around(bool isAround) {
-//		Debug.LogError (" gameobject : " + gameObject + "aroungd : " + footTips);
 		footTips.gameObject.SetActive (isAround);
 		ShowFootTips ();
 		if(isOld)
@@ -423,7 +422,7 @@ public class MapItem : UIBaseUnity {
 
 	string GetStarSpriteName() {
 		if (countShow == -1) {
-			countShow = DGTools.RandomToInt(2, 3);	
+			countShow = DGTools.RandomToInt(0, 3);	
 		}
 //		Debug.LogError (" GetStarSpriteName: " + countShow);
 		string name = "";

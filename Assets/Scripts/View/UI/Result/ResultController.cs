@@ -66,7 +66,7 @@ public class ResultController : ConcreteComponent {
 		else
 			isFriend = false;
 
-		Debug.Log("ResultController.CheckIsFriend(), isFriend is : " + isFriend);
+//		Debug.Log("ResultController.CheckIsFriend(), isFriend is : " + isFriend);
 		return isFriend;
 	}
 
@@ -120,9 +120,9 @@ public class ResultController : ConcreteComponent {
 	}
 
 	private void AddGotFriendPoint(TFriendInfo friendInfo){
-		Debug.Log("Before :: ResultController.AddGotFriendPoint(), TotalFriendPoint is : " + DataCenter.Instance.AccountInfo.FriendPoint);
+//		Debug.Log("Before :: ResultController.AddGotFriendPoint(), TotalFriendPoint is : " + DataCenter.Instance.AccountInfo.FriendPoint);
 		DataCenter.Instance.AccountInfo.FriendPoint += friendInfo.FriendPoint;
-		Debug.Log("After :: ResultController.AddGotFriendPoint(), TotalFriendPoint is : " + DataCenter.Instance.AccountInfo.FriendPoint);
+//		Debug.Log("After :: ResultController.AddGotFriendPoint(), TotalFriendPoint is : " + DataCenter.Instance.AccountInfo.FriendPoint);
 	}
 
 }

@@ -106,13 +106,14 @@ public class BattleEnemy : UIBaseUnity {
 		}
 	}
 
-	float interv = 0f;
+//	float interv = 0f;
 
 	void SortEnemyItem(List<EnemyItem> temp) {
-		interv = 0f;
+//		interv = 0f;
 		int count = temp.Count;
 		if (count == 0) {	return;	}
 		CompressTextureWidth (temp);
+//		Debug.LogError ("width : " + width);
 		if (count == 1) { 
 			temp[0].transform.localPosition = Vector3.zero; 
 			return; 
@@ -135,28 +136,34 @@ public class BattleEnemy : UIBaseUnity {
 			DisposeCenterRight(centerRightIndex , temp);
 		}
 	}
-
+	float probability;
+	float allWidth;
+	int screenWidth;
 	void CompressTextureWidth (List<EnemyItem> temp) {
-		int screenWidth = Screen.width;
+		screenWidth = Screen.width;
 		int count = temp.Count;
-		float allWidth =  count * width + (count - 1) * interv ;
-		float probability = screenWidth / allWidth;
+		if (!DGTools.IsOddNumber (count)) {
+			count ++;
+		}
+		allWidth =  count * width ;
+		probability = screenWidth / allWidth;
 		if (probability <= 1f) { //screewidth <= allWidth
-			interv = 0;
-			width = (width + interv) * probability;
+//			interv = 0;
+			width *= probability;
 			for (int i = 0; i < temp.Count; i++) {
 				UITexture tex = temp [i].texture;
 				float tempWidth = tex.width * probability;
 				float tempHeight = tex.height * probability;
 				tex.width = (int)tempWidth;
 				tex.height = (int)tempHeight;
-			}	
-		} else { 
-			if( temp.Count > 1)
-				interv = (screenWidth - allWidth) * 1f / (temp.Count-1);
-			else
-				interv = 0;
-		}
+			}
+		}	
+//		} else { 
+//			if( temp.Count > 1)
+//				interv = (screenWidth - allWidth) * 1f / (temp.Count-1);
+//			else
+//				interv = 0;
+//		}
 	}
 
 	void DisposeCenterLeft(int centerIndex,List<EnemyItem> temp) {
@@ -164,6 +171,7 @@ public class BattleEnemy : UIBaseUnity {
 		while(tempIndex >= 0) {
 			Vector3 localPosition = temp[tempIndex + 1].transform.localPosition;
 			float rightWidth = width ;
+
 			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - rightWidth , 0f, 0f);
 			tempIndex--;
 		}
@@ -177,6 +185,48 @@ public class BattleEnemy : UIBaseUnity {
 			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + rightWidth, 0f, 0f);
 			tempIndex++;
 		}
+	}
+
+	void OnGUI() {
+		GUILayout.BeginArea(new Rect(0, 0, 600f, 600f));
+		GUILayout.BeginVertical ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.Label ("width: ");
+		GUILayout.Space (10f);
+		GUILayout.Label (width.ToString ());
+		GUILayout.EndHorizontal ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.Label ("allwidth: ");
+		GUILayout.Space (10f);
+		GUILayout.Label (allWidth.ToString ());
+		GUILayout.EndHorizontal ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.Label ("probability : ");
+		GUILayout.Space (10f); 
+		GUILayout.Label (probability.ToString ());
+		GUILayout.EndHorizontal ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.Label ("screenwidth: ");
+		GUILayout.Space (10f);
+		GUILayout.Label (screenWidth.ToString ());
+		GUILayout.EndHorizontal ();
+
+		GUILayout.BeginVertical ();
+		foreach (var item in monster) {
+			GUILayout.BeginHorizontal ();
+			GUILayout.Label ("item.id: ");
+			GUILayout.Space (10f);
+			GUILayout.Label (item.Key.ToString ());
+			GUILayout.Space (20f);
+			GUILayout.Label ("item.Value.textur: ");
+			GUILayout.Space (10f);
+			GUILayout.Label (item.Value.texture.width.ToString());
+			GUILayout.EndHorizontal ();
+		}
+
+		GUILayout.EndVertical ();
+		GUILayout.EndVertical ();
+		GUILayout.EndArea();
 	}
 }
 

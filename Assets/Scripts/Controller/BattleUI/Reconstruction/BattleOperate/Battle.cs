@@ -60,7 +60,6 @@ public class Battle : UIBase {
 	}
 
 	public override void ShowUI() {
-//		SwitchInput(false);
 		base.ShowUI();
 		ShowCard();
 		if (!isShow) {
@@ -74,7 +73,6 @@ public class Battle : UIBase {
 	}
 
 	public override void HideUI () {
-//		SwitchInput(true);
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
@@ -239,6 +237,16 @@ public class Battle : UIBase {
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
 		main.GInput.IsCheckInput = !isShield;
+	}
+
+	public void ShieldGameInput(bool isShield) {
+		main.GInput.IsCheckInput = isShield;
+	}
+
+	public void ShieldNGUIInput(bool isShield) {
+		nguiMainCamera.useMouse = isShield;
+		nguiMainCamera.useKeyboard = isShield;
+		nguiMainCamera.useTouch = isShield;
 	}
 
 	public void ShieldInput (bool isShield) {
@@ -442,6 +450,7 @@ public class Battle : UIBase {
 		if (showCountDown) {
 			return ;		
 		} 
+		ShieldNGUIInput (false);
 		time = BattleUseData.CountDown + activeDelay;
 		countDownUI.ShowUI();
 		activeDelay = 0f;
@@ -460,6 +469,7 @@ public class Battle : UIBase {
 		else {
 			battleCardArea.ShowCountDown (false, (int)time);
 			showCountDown = false;
+			ShieldNGUIInput (true);
 			StartBattle();
 			time =  BattleUseData.CountDown;
 		}
