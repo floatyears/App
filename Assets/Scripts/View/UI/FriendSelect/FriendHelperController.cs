@@ -14,15 +14,15 @@ public class FriendHelperController : ConcreteComponent{
 	public override void CreatUI () { base.CreatUI (); }
 	public override void ShowUI () {
 		base.ShowUI ();
-		CreateFriendHelperViewList();
-		AddCommandListener();
+//		CreateFriendHelperViewList();
+//		AddCommandListener();
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-		DestoryFriendHelperList();
-		ClearSelectedHelper();
-		RemoveCommandListener();
+//		DestoryFriendHelperList();
+//		ClearSelectedHelper();
+//		RemoveCommandListener();
 	}
 
 	public override void CallbackView(object data){

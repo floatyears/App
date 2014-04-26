@@ -72,7 +72,7 @@ public class MyUnitListView : UIComponentUnity {
 		sortRuleLabel.text = curSortRule.ToString();
 
 		for (int i = 0; i < myUnitDataList.Count; i++){
-			Debug.Log(string.Format("Before :: myUnitDataList[ {0} ] hp == {1}, atk == {2}", i, myUnitDataList[ i ].Hp, myUnitDataList[ i ].Attack));
+			//Debug.Log(string.Format("Before :: myUnitDataList[ {0} ] hp == {1}, atk == {2}", i, myUnitDataList[ i ].Hp, myUnitDataList[ i ].Attack));
 		}
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 

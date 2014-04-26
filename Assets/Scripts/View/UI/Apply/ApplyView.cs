@@ -49,7 +49,7 @@ public class ApplyView : UIComponentUnity{
 		}
 	}
 
-	void RefreshCounter(){
+	private void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		string title = TextCenter.Instace.GetCurrentText("ReceptionCounterTitle");
 		int current = DataCenter.Instance.FriendList.FriendOut.Count;
@@ -60,21 +60,21 @@ public class ApplyView : UIComponentUnity{
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
-	void ClickItem(FriendUnitItem item){
+	private void ClickItem(FriendUnitItem item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		curPickedFriend = item.FriendInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, curPickedFriend);
 	}
 
-	void DeleteMyApply(object msg){
+	private void DeleteMyApply(object msg){
 		CancelFriendRequest(curPickedFriend.UserId);
 	}
 
-	void CancelFriendRequest(uint friendUid){
+	private void CancelFriendRequest(uint friendUid){
 		DelFriend.SendRequest(OnDelFriend, friendUid);
 	}
 
-	void OnDelFriend(object data){
+	private void OnDelFriend(object data){
 		if (data == null)
 			return;
 		Debug.Log("TFriendList.OnDelFriend() begin");
@@ -94,9 +94,7 @@ public class ApplyView : UIComponentUnity{
 		ShowUI();
 	}
 
-	void ClickSortBtn(GameObject btn){
-		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
-		//SortUnitByCurRule();
+	private void ClickSortBtn(GameObject btn){
 		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
 	}
 	

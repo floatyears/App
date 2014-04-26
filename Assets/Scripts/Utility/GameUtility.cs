@@ -448,6 +448,19 @@ public class DGTools {
 		TCityInfo tci = new TCityInfo(ci);
 		return tci;
 	}
+	
+	public static List<TCityInfo> LoadCityList(){
+		List<TCityInfo> cityList = new List<TCityInfo>();
+		string url = path + CityPath + "CityList";
+		TextAsset ta = LoadTextAsset (url);
+		WorldMapInfo wmi = ProtobufSerializer.ParseFormBytes<WorldMapInfo> (ta.bytes);
+		Debug.LogError("LoadCityList(), wmi.citylist count is : " + wmi.citylist.Count);
+		for (int i = 0; i < wmi.citylist.Count; i++){
+			TCityInfo tci = new TCityInfo(wmi.citylist[ i ]);
+			cityList.Add(tci);
+		}
+		return cityList;
+	}
 
 	static TextAsset LoadTextAsset (string url) {
 		return Resources.Load (url, typeof(TextAsset)) as TextAsset;

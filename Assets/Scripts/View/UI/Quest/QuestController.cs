@@ -8,11 +8,8 @@ public class QuestController : ConcreteComponent{
 	private List<TStageInfo> storyStageList = new List<TStageInfo>();
 
 	public QuestController(string uiName):base(uiName){}
-	public override void CreatUI(){ base.CreatUI();}
 	public override void ShowUI(){
 		base.ShowUI();
-		GetStoryCityList();
-		CreateStage();
 	}
 	
 	public override void HideUI(){
@@ -69,7 +66,6 @@ public class QuestController : ConcreteComponent{
 			return;
 		}
 		DataCenter.Instance.currentStageInfo = stageSelected;
-//		Debug.LogError("TurnToSelectQuest(), selected Stage's index is " + stageSelected);
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
 	}

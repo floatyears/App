@@ -2,10 +2,28 @@
 using System.Collections;
 
 public class BaseUnitItem : MonoBehaviour {
+	protected bool canCrossed = true;
+	protected bool isCrossed;
+	protected UITexture avatarTex;
+	protected UISprite typeSpr;
+	protected UISprite maskSpr;
+	protected UILabel crossFadeLabel;
+
 	public static BaseUnitItem Inject(GameObject item){
 		BaseUnitItem view = item.GetComponent<BaseUnitItem>();
 		if (view == null) view = item.AddComponent<BaseUnitItem>();
 		return view;
+	}
+
+	public void Awake() {
+		if(maskSpr == null){ InitUI(); }
+	}
+	
+	private void FindUIElement() {
+		avatarTex = transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+		crossFadeLabel = transform.FindChild("Label_Cross_Fade").GetComponent<UILabel>();
+		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
+		typeSpr = transform.FindChild("Sprite_Type").GetComponent<UISprite>();
 	}
 
 	protected TUserUnit userUnit;
@@ -54,19 +72,6 @@ public class BaseUnitItem : MonoBehaviour {
 		}
 	}
 	
-	protected bool canCrossed = true;
-	protected bool isCrossed;
-	protected UITexture avatarTex;
-	protected UISprite typeSpr;
-	protected UISprite maskSpr;
-	protected UILabel crossFadeLabel;
-
-	public void Awake() {
-		if(maskSpr == null){
-			InitUI();
-		}
-	}
-
 	public void Init(TUserUnit userUnit){
 		Awake();
 		this.userUnit = userUnit;
@@ -78,12 +83,6 @@ public class BaseUnitItem : MonoBehaviour {
 		FindUIElement();
 	}
 
-	void FindUIElement() {
-		avatarTex = transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-		crossFadeLabel = transform.FindChild("Label_Cross_Fade").GetComponent<UILabel>();
-		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
-		typeSpr = transform.FindChild("Sprite_Type").GetComponent<UISprite>();
-	}
 
 	protected virtual void InitState(){
 		if(userUnit == null){
@@ -200,15 +199,11 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	private void CrossFadeHpFirst(){
-		//int level = userUnit.Level;
-		//int hpType = userUnit.UnitInfo.HPType;
 		crossFadeBeforeText = UserUnit.Hp.ToString();
 		crossFadeAfterText = "+" + userUnit.AddNumber;
 	}
 
 	private void CrossFadeAttackFirst(){
-		//int level = userUnit.Level;
-		//int atkType = userUnit.UnitInfo.AttackType;
 		crossFadeBeforeText = UserUnit.Attack.ToString();
 		crossFadeAfterText = "+" + userUnit.AddNumber;
 	}

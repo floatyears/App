@@ -50,7 +50,8 @@ public class SellUnitItem : MyUnitItem {
 		base.RefreshState();
 		if(userUnit != null){
 			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
-			IsEnable = !IsParty;
+			//IsEnable is FALSE as long as one state(IsParty or IsFavorite or other...) is TRUE
+			IsEnable = !(IsParty || IsFavorite);
 		}
 	}
 

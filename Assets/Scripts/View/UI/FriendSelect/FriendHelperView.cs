@@ -7,8 +7,8 @@ public class FriendHelperView : UIComponentUnity{
 	private DragPanel dragPanel;
     private UIImageButton startQuestBtn;
 	private UILabel rightIndexLabel;
-	private UIButton prePageButton;
-	private UIButton nextPageButton;
+//	private UIButton prePageButton;
+//	private UIButton nextPageButton;
     private int currentPartyIndex;
     private int partyTotalCount;
 
@@ -21,27 +21,26 @@ public class FriendHelperView : UIComponentUnity{
     private uint stageID;
 	private TEvolveStart evolveStart = null;
 	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
-    private Dictionary<int, UITexture> partySprite = new Dictionary<int,UITexture>();
-    private Dictionary<int, UnitBaseInfo> unitBaseInfo = new Dictionary<int, UnitBaseInfo>();
-   
-	private Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	private List<UnitItemViewInfo> supportViewList = new List<UnitItemViewInfo>();
+
 	private List<TFriendInfo> helperDataList = new List<TFriendInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
-		InitUI();
+//		InitUI();
 	}
 	
 	public override void ShowUI() {
 		base.ShowUI();
+		MsgCenter.Instance.AddListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
+		CreateDragView();
 		ShowUIAnimation();
-		SetBottomButtonActive(false);
-		prevPosition = -1;
-		AddCommandListener();
-		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
-		RefreshParty(curParty);
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
+
+//		SetBottomButtonActive(false);
+//		prevPosition = -1;
+//		AddCommandListener();
+//		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
+//		RefreshParty(curParty);
+//		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
 	}
 
 	private void ShowUIAnimation(){
@@ -63,45 +62,47 @@ public class FriendHelperView : UIComponentUnity{
 
 	public override void HideUI() {
 		base.HideUI();
-		SetBottomButtonActive(false);
-		RemoveCommandListener();
+//		SetBottomButtonActive(false);
+//		RemoveCommandListener();
+		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		RemoveCommandListener();
+		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
-			case "CreateDragView" : 
-				CallBackDispatcherHelper.DispatchCallBack(CreateDragView, cbdArgs);
-				break;
-			case "DestoryDragView": 
-				CallBackDispatcherHelper.DispatchCallBack(DestoryDragView, cbdArgs);
-                break;
-            default:
-				break;
-		}
-	}
+//	public override void CallbackView(object data){
+//		base.CallbackView(data);
+//
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+//		switch (cbdArgs.funcName){
+//			case "CreateDragView" : 
+//				CallBackDispatcherHelper.DispatchCallBack(CreateDragView, cbdArgs);
+//				break;
+//			case "DestoryDragView": 
+//				CallBackDispatcherHelper.DispatchCallBack(DestoryDragView, cbdArgs);
+//                break;
+//            default:
+//				break;
+//		}
+//	}
 	
-	void CreateDragView(object args){
-		helperDataList = DataCenter.Instance.SupportFriends;//merge
-		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitItem.ItemPrefab);
-		dragPanel.CreatUI();
-		dragPanel.AddItem(helperDataList.Count);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
-		
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			HelperUnitItem huv = HelperUnitItem.Inject(dragPanel.ScrollItem[ i ]);
-			huv.Init(helperDataList[ i ]);
-			huv.callback = ClickItem;
-		}
-		SortUnitByCurRule();
-	}
+//	private void CreateDragView(object args){
+//		helperDataList = DataCenter.Instance.SupportFriends;
+//		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitItem.ItemPrefab);
+//		dragPanel.CreatUI();
+//		dragPanel.AddItem(helperDataList.Count);
+//		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
+//		
+//		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+//			HelperUnitItem huv = HelperUnitItem.Inject(dragPanel.ScrollItem[ i ]);
+//			huv.Init(helperDataList[ i ]);
+//			huv.callback = ClickItem;
+//		}
+//		SortUnitByCurRule();
+//	}
 
 	void ClickItem(HelperUnitItem item){
 		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendSelect 
@@ -163,18 +164,6 @@ public class FriendHelperView : UIComponentUnity{
 		QuestStart();
 	}
 
-	void DestoryDragView(object args){
-		supportViewList.Clear();
-		if (dragPanel.DragPanelView == null) {
-			return;	
-		}
-		foreach (var item in dragPanel.ScrollItem){
-			GameObject.Destroy(item);
-		}
-		dragPanel.ScrollItem.Clear();
-		GameObject.Destroy(dragPanel.DragPanelView.gameObject);
-	}
-
 	void SetBottomButtonActive(bool active){
 		startQuestBtn.isEnabled = active;
 	}
@@ -196,10 +185,10 @@ public class FriendHelperView : UIComponentUnity{
 
 	private void InitPagePanel(){
 		rightIndexLabel = FindChild<UILabel>("Label_Cur_Party");
-		prePageButton = FindChild<UIButton>("Button_Left");
-		UIEventListener.Get(prePageButton.gameObject).onClick = PrevPage;
-		nextPageButton = FindChild<UIButton>("Button_Right");
-		UIEventListener.Get(nextPageButton.gameObject).onClick = NextPage;
+//		prePageButton = FindChild<UIButton>("Button_Left");
+//		UIEventListener.Get(prePageButton.gameObject).onClick = PrevPage;
+//		nextPageButton = FindChild<UIButton>("Button_Right");
+//		UIEventListener.Get(nextPageButton.gameObject).onClick = NextPage;
 		
 		for (int i = 0; i < 4; i++){
 			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());
@@ -241,11 +230,6 @@ public class FriendHelperView : UIComponentUnity{
 
 	private void SortUnitByCurRule(){
 		sortRuleLabel.text = curSortRule.ToString();
-//		List<TUserUnit> unitList = new List<TUserUnit>();
-//		for (int i = 0; i < helperDataList.Count; i++){
-//			unitList.Add(helperDataList[ i ].UserUnit);
-//		}
-
 		SortUnitTool.SortByTargetRule(curSortRule, helperDataList);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
@@ -274,8 +258,8 @@ public class FriendHelperView : UIComponentUnity{
 		AddHelperItem(selectedHelper);
 		UpdateViewAfterChooseHelper();
 	}
-
-	void QuestStart(){
+	
+	private void QuestStart(){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		
 		if (DataCenter.gameStage == GameState.Evolve) {
@@ -356,5 +340,45 @@ public class FriendHelperView : UIComponentUnity{
 		MsgWindowParams mwp = new MsgWindowParams ();
 		return mwp;
 	}
+
+
+	//----------------------------New-------------------------------
+	private void CreateDragView(){
+		helperDataList = DataCenter.Instance.SupportFriends;
+		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitItem.ItemPrefab);
+		dragPanel.CreatUI();
+		dragPanel.AddItem(helperDataList.Count);
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
+		
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			HelperUnitItem huv = HelperUnitItem.Inject(dragPanel.ScrollItem[ i ]);
+			huv.Init(helperDataList[ i ]);
+			huv.callback = ClickHelperItem;
+		}
+		//SortUnitByCurRule();
+	}
+
+	private QuestItemView pickedQuestInfo;
+	private void RecordPickedInfoForFight(object msg){
+		Debug.Log("FriendHelper.RecordPickedInfoForFight(), received info...");
+		pickedQuestInfo = msg as QuestItemView;
+	}
+
+	private void ClickHelperItem(HelperUnitItem item){
+		Debug.Log("ClickHelperItem...");
+		
+		if(pickedQuestInfo == null){
+			Debug.LogError("FriendHelerpView.ClickHelperItem(), pickedQuestInfo is NULL, return!!!");
+			return;
+		}
+		
+		Dictionary<string, object> pickedInfo = new Dictionary<string, object>();
+		pickedInfo.Add("QuestInfo", pickedQuestInfo);
+		pickedInfo.Add("HelperInfo", item.FriendInfo);
+
+		UIManager.Instance.ChangeScene(SceneEnum.StandBy);//before
+		MsgCenter.Instance.Invoke(CommandEnum.OnPickHelper, pickedInfo);//after
+	}
+
 	    
 }

@@ -43,6 +43,7 @@ public class PartyUnitItem : MyUnitItem {
 		base.RefreshState();
 		if(userUnit != null){
 			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
+			//IsEnable is FALSE as long as IsParty is TRUE
 			IsEnable = !IsParty;
 		}
 	}

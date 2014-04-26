@@ -4,7 +4,7 @@ using System.Collections;
 public class MyUnitItem : BaseUnitItem {
 	protected UISprite lightSpr;
 	protected UILabel partyLabel;
-	protected UISprite collectedSpr;
+	protected UISprite lockSpr;
 
 	protected bool isParty;
 	public bool IsParty{
@@ -17,14 +17,14 @@ public class MyUnitItem : BaseUnitItem {
 		}
 	}
 
-	private bool isCollected;
-	public bool IsCollected{
+	private bool isFavorite;
+	public bool IsFavorite{
 		get{
-			return isCollected;
+			return isFavorite;
 		}
 		set{
-			isCollected = value;
-			UpdateCollectState();
+			isFavorite = value;
+			UpdateFavoriteState();
 		}
 	}
 
@@ -60,7 +60,7 @@ public class MyUnitItem : BaseUnitItem {
 	protected override void InitUI(){
 		base.InitUI();
 		lightSpr = transform.FindChild("Sprite_Light").GetComponent<UISprite>();
-		collectedSpr = transform.FindChild("Sprite_Collect").GetComponent<UISprite>();
+		lockSpr = transform.FindChild("Sprite_Lock").GetComponent<UISprite>();
 		partyLabel = transform.FindChild("Label_Party").GetComponent<UILabel>();
 		partyLabel.enabled = false;
 		partyLabel.text = "Party";
@@ -69,18 +69,22 @@ public class MyUnitItem : BaseUnitItem {
 
 	protected override void InitState(){
 		base.InitState();
-		IsCollected = false;
+		if(userUnit == null){return;}
+		IsFavorite = (userUnit.IsFavorite == 1) ? true : false;
 		IsParty = false;
 	}
 
 	protected override void ClickItem(GameObject item){}
-
 	protected virtual void UpdatePartyState(){}
-
-	private void UpdateCollectState(){
-		collectedSpr.enabled = isCollected;
-	}
-
 	protected virtual void UpdateFocus(){}
 
+	protected virtual void UpdateFavoriteState(){
+		lockSpr.enabled = isFavorite;
+	}
+	
+	protected override void SetCommonState(){
+		base.SetCommonState();
+		IsFavorite = (userUnit.IsFavorite == 1) ? true : false;
+	}
+	
 }
