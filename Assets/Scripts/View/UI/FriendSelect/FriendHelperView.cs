@@ -334,7 +334,13 @@ public class FriendHelperView : UIComponentUnity{
 			Debug.LogError("FriendHelerpView.ClickHelperItem(), pickedQuestInfo is NULL, return!!!");
 			return;
 		}
-		
+
+		if(CheckStaminaEnough()){
+			Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
+			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
+			return;
+		}
+
 		Dictionary<string, object> pickedInfo = new Dictionary<string, object>();
 		pickedInfo.Add("QuestInfo", pickedQuestInfo);
 		pickedInfo.Add("HelperInfo", item.FriendInfo);
@@ -342,6 +348,29 @@ public class FriendHelperView : UIComponentUnity{
 		UIManager.Instance.ChangeScene(SceneEnum.StandBy);//before
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickHelper, pickedInfo);//after
 	}
+
+	/// <summary>
+	/// Checks the stamina enough.
+	/// MsgWindow show, note stamina is not enough.
+	/// </summary>
+	/// <returns><c>true</c>, if stamina enough was checked, <c>false</c> otherwise.</returns>
+	/// <param name="staminaNeed">Stamina need.</param>
+	/// <param name="staminaNow">Stamina now.</param>
+	private bool CheckStaminaEnough(){
+		int staminaNeed = pickedQuestInfo.Data.Stamina;
+		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
+		if(staminaNeed > staminaNow) return true;
+		else return false;
+	}
+	
+	private MsgWindowParams GetStaminaLackMsgParams(){
+		MsgWindowParams msgParams = new MsgWindowParams();
+		msgParams.titleText = TextCenter.Instace.GetCurrentText("StaminaLackNoteTitle");
+		msgParams.contentText = TextCenter.Instace.GetCurrentText("StaminaLackNoteContent");
+		msgParams.btnParam = new BtnParam();
+		return msgParams;
+	}
+
 
 	private void ClickSortBtn(GameObject btn){
 		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);

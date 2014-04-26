@@ -34,8 +34,8 @@ public class StandbyView : UIComponentUnity {
 		prePageBtn = FindChild<UIButton>("Button_Left");
 		nextPageBtn = FindChild<UIButton>("Button_Right");
 		startFightBtn = transform.FindChild("ImgBtn_Fight").GetComponent<UIImageButton>();
-		totalHPLabel = transform.FindChild("Label_Total_Hp").GetComponent<UILabel>();
-		totalAtkLabel = transform.FindChild("Label_Total_Atk").GetComponent<UILabel>();
+		totalHPLabel = transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
+		totalAtkLabel = transform.FindChild("Label_Total_ATK").GetComponent<UILabel>();
 	
 
 		UIEventListener.Get(startFightBtn.gameObject).onClick = ClickFightBtn;
@@ -65,6 +65,8 @@ public class StandbyView : UIComponentUnity {
 		for (int i = 0; i < partyMemberList.Count; i++){
 			partyView[ i ].Init(partyMemberList [ i ]);
 		}
+
+		ShowPartyInfo();
 	}
 
 	private void ShowUIAnimation(){
@@ -73,14 +75,17 @@ public class StandbyView : UIComponentUnity {
 	}
 
 	private Dictionary<string, object> pickedInfoForFight;
+	private TFriendInfo pickedHelperInfo;
 	private void RecordPickedInfoForFight(object msg){
 		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
 
 		//Show helper view as soon as fill helperViewItem with helper data(data bind with view)
-		TFriendInfo pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
+		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
 		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
 		helperUnitItem.Init(pickedHelperInfo);
+
+		ShowPartyInfo();
 	}
 
 	private void ClickFightBtn(GameObject btn){
@@ -147,15 +152,19 @@ public class StandbyView : UIComponentUnity {
 		
 		EnterBattle ();
 	}
-
-
+	
 	private void EnterBattle () {
 		DataCenter.Instance.BattleFriend = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		UIManager.Instance.EnterBattle();
 	} 
 
-	private void ShowPickedHelperView(TFriendInfo helperInfo){
-
+	private void ShowPartyInfo(){
+		if(pickedHelperInfo == null) return;
+		int totalHp = DataCenter.Instance.PartyInfo.CurrentParty.TotalHp + pickedHelperInfo.UserUnit.Hp;
+		totalHPLabel.text = totalHp.ToString();
+		
+		int totalAtk = DataCenter.Instance.PartyInfo.CurrentParty.GetTotalAtk() + pickedHelperInfo.UserUnit.Attack;
+		totalAtkLabel.text = totalAtk.ToString();
 	}
 
 }
