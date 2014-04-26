@@ -536,10 +536,10 @@ public class DataCenter {
 		return CityListInfo;
 	}
 
-
-	//public TStageInfo currentStageInfo;
-	public uint currentPickedStageID;
-
+//	public uint currentPickedStageID;
+	public TStageInfo currentStageInfo;// {
+//		get { return city }
+//	}
 	public TQuestInfo currentQuestInfo;
 
 	public TFriendInfo GetSupporterInfo(uint friendUid){

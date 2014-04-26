@@ -9,6 +9,7 @@ public class StandbyView : UIComponentUnity {
 	private UILabel totalHPLabel;
 	private UILabel totalAtkLabel;
 
+
 	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -35,6 +36,7 @@ public class StandbyView : UIComponentUnity {
 		startFightBtn = transform.FindChild("ImgBtn_Fight").GetComponent<UIImageButton>();
 		totalHPLabel = transform.FindChild("Label_Total_Hp").GetComponent<UILabel>();
 		totalAtkLabel = transform.FindChild("Label_Total_Atk").GetComponent<UILabel>();
+	
 
 		UIEventListener.Get(startFightBtn.gameObject).onClick = ClickFightBtn;
 		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
@@ -45,9 +47,7 @@ public class StandbyView : UIComponentUnity {
 			partyView.Add(i, puv);
 		}
 	}
-
-
-
+	
 	private void PrevPage(GameObject go){
 		Debug.Log("PrevPage");
 		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
@@ -76,6 +76,11 @@ public class StandbyView : UIComponentUnity {
 	private void RecordPickedInfoForFight(object msg){
 		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
+
+		//Show helper view as soon as fill helperViewItem with helper data(data bind with view)
+		TFriendInfo pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
+		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
+		helperUnitItem.Init(pickedHelperInfo);
 	}
 
 	private void ClickFightBtn(GameObject btn){
@@ -148,5 +153,9 @@ public class StandbyView : UIComponentUnity {
 		DataCenter.Instance.BattleFriend = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		UIManager.Instance.EnterBattle();
 	} 
+
+	private void ShowPickedHelperView(TFriendInfo helperInfo){
+
+	}
 
 }

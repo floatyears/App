@@ -64,6 +64,7 @@ public class FriendHelperView : UIComponentUnity{
 		base.HideUI();
 //		SetBottomButtonActive(false);
 //		RemoveCommandListener();
+		dragPanel.DestoryUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
 	}
 
@@ -104,31 +105,31 @@ public class FriendHelperView : UIComponentUnity{
 //		SortUnitByCurRule();
 //	}
 
-	void ClickItem(HelperUnitItem item){
-		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendSelect 
-		    && DataCenter.gameStage == GameState.Evolve) {
-			return;
-		}
-		int pos = dragPanel.ScrollItem.IndexOf(item.gameObject);
-		ShowHelperInfo(pos);
+//	void ClickItem(HelperUnitItem item){
+//		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.FriendSelect 
+//		    && DataCenter.gameStage == GameState.Evolve) {
+//			return;
+//		}
+//		int pos = dragPanel.ScrollItem.IndexOf(item.gameObject);
+//		ShowHelperInfo(pos);
+//
+//		prevPosition = dragPanel.ScrollItem.IndexOf(item.gameObject);
+//	}
 
-		prevPosition = dragPanel.ScrollItem.IndexOf(item.gameObject);
-	}
-
-    private void InitUI() {
-		sortBtn = FindChild<UIButton>("SortButton");
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
-		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
-
-		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
-		sortRuleLabel.text = curSortRule.ToString();
-
-        friendBaseInfo = DataCenter.Instance.FriendBaseInfo;
-		startQuestBtn = FindChild<UIImageButton>("Button_QuestStart");
-
-		FindItemLeft();
-		InitPagePanel();
-    }
+//    private void InitUI() {
+//		sortBtn = FindChild<UIButton>("SortButton");
+//		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
+//		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
+//
+//		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+//		sortRuleLabel.text = curSortRule.ToString();
+//
+//        friendBaseInfo = DataCenter.Instance.FriendBaseInfo;
+//		startQuestBtn = FindChild<UIImageButton>("Button_QuestStart");
+//
+//		FindItemLeft();
+//		InitPagePanel();
+//    }
 
 	void UpdateViewAfterChooseHelper(){
 		startQuestBtn.isEnabled = true;
