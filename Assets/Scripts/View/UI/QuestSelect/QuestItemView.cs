@@ -24,6 +24,16 @@ public class QuestItemView : MonoBehaviour {
 	
 	public void Awake(){}
 
+	private uint stageID;
+	public uint StageID{
+		get{
+			return stageID;
+		}
+		set{
+			stageID = value;
+		}
+	}
+
 	private TQuestInfo data;
 	public TQuestInfo Data{
 		get{
@@ -67,8 +77,12 @@ public class QuestItemView : MonoBehaviour {
 
 	private void ClickItem(GameObject item){
 		Debug.Log(string.Format("QuestItemView.ClickItem(), Picking quest...questID is {0}, quest name is : {1}", data.ID, data.Name));
-//		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedQuest, data);
-		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);
+		QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
+		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before
+		MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
+
+		//Record picked StageID 
+		DataCenter.Instance.currentPickedStageID = stageID;
 	}
 
 }

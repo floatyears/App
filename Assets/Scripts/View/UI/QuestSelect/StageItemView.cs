@@ -79,6 +79,7 @@ public class StageItemView : MonoBehaviour {
 
 			QuestItemView questItemView = QuestItemView.Inject(cell);
 			questItemView.Data = data.QuestInfo[ i ];
+			questItemView.StageID = data.ID;
 		}
 	}
 	

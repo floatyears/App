@@ -18,6 +18,7 @@ public class StandbyView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
+		MsgCenter.Instance.AddListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
 		ShowUIAnimation();
@@ -25,6 +26,7 @@ public class StandbyView : UIComponentUnity {
 
 	public override void HideUI(){
 		base.HideUI();
+		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
 	}
 
 	private void InitUI(){
@@ -44,27 +46,22 @@ public class StandbyView : UIComponentUnity {
 		}
 	}
 
-	private void ClickFightBtn(GameObject btn){
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-	}
+
 
 	private void PrevPage(GameObject go){
 		Debug.Log("PrevPage");
 		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
 		RefreshParty(preParty);  
-		//MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, preParty);         
 	}
 	
 	private void NextPage(GameObject go){
 		Debug.Log("NextPage");
 		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
 		RefreshParty(nextParty);
-		//MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, nextParty);
 	}
 
 	private void RefreshParty(TUnitParty party){
 		List<TUserUnit> partyMemberList = party.GetUserUnit();
-		//int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
 		for (int i = 0; i < partyMemberList.Count; i++){
 			partyView[ i ].Init(partyMemberList [ i ]);
 		}
@@ -74,4 +71,82 @@ public class StandbyView : UIComponentUnity {
 		gameObject.transform.localPosition = new Vector3(-1000, 0, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));       
 	}
+
+	private Dictionary<string, object> pickedInfoForFight;
+	private void RecordPickedInfoForFight(object msg){
+		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
+		pickedInfoForFight = msg as Dictionary<string, object>;
+	}
+
+	private void ClickFightBtn(GameObject btn){
+		Debug.Log("StandbyView.ClickFightBtn(), start...");
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+		StartFight();
+	}
+
+	private TEvolveStart evolveStart;
+	private void StartFight(){
+		if (DataCenter.gameStage == GameState.Evolve) {
+			evolveStart.EvolveStart.restartNew = 1;
+			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
+		} 
+		else {
+			StartQuest sq = new StartQuest ();
+			StartQuestParam sqp = new StartQuestParam ();
+			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+			sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+			QuestItemView questInfo = pickedInfoForFight[ "QuestInfo"] as QuestItemView;
+			sqp.questId = questInfo.Data.ID;
+			sqp.stageId = questInfo.StageID;
+			sqp.startNew = 1;
+			sq.OnRequest (sqp, RspStartQuest);
+		}
+	}
+
+	private void RspStartQuest(object data) {
+		TQuestDungeonData tqdd = null;
+		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
+		if (rspStartQuest.header.code != (int)ErrorCode.SUCCESS) {
+			Debug.LogError("Rsp code: "+rspStartQuest.header.code+", error:"+rspStartQuest.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspStartQuest.header.code);
+			return;
+		}
+		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
+			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
+			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
+			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
+			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
+			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
+		}
+		
+		if (data == null || tqdd == null) { return; }
+		EnterBattle ();
+	} 
+
+	private void RspEvolveStartQuest (object data) {
+		if (data == null){ return; }
+		evolveStart.StoreData ();
+		
+		bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			return;
+		}
+
+		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
+		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
+		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
+		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
+		
+		EnterBattle ();
+	}
+
+
+	private void EnterBattle () {
+		DataCenter.Instance.BattleFriend = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		UIManager.Instance.EnterBattle();
+	} 
+
 }

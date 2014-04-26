@@ -153,5 +153,15 @@ public class QuestView : UIComponentUnity{
 		MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
 	}
 
+//	private void TurnToSelectQuest(object args){
+//		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+//		TStageInfo stageSelected =args as TStageInfo ; 
+//		if(stageSelected == null) {
+//			return;
+//		}
+//		DataCenter.Instance.currentStageInfo = stageSelected;
+//		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
+//		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
+//	}
 }
 

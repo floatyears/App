@@ -101,6 +101,9 @@ public class ErrorMsgCenter {
     public string GetErrorMsgText(int errorCode){
         string msg = "";
         msgStringDic.TryGetValue(errorCode, out msg);
+		if (msg.Equals(string.Empty)) {
+			msg = string.Format("Error: ", errorCode);
+		}
         LogHelper.LogError("GetErrorMsgText() code {1} msg {0}, msgStringCount {2}", msg, errorCode, msgStringDic.Count);
         return msg;
     }

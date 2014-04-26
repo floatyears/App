@@ -31,6 +31,7 @@ public class FriendHelperView : UIComponentUnity{
 	
 	public override void ShowUI() {
 		base.ShowUI();
+		MsgCenter.Instance.AddListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
 		CreateDragView();
 		ShowUIAnimation();
 
@@ -63,11 +64,13 @@ public class FriendHelperView : UIComponentUnity{
 		base.HideUI();
 //		SetBottomButtonActive(false);
 //		RemoveCommandListener();
+		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		RemoveCommandListener();
+		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
 	}
 
 //	public override void CallbackView(object data){
@@ -255,8 +258,8 @@ public class FriendHelperView : UIComponentUnity{
 		AddHelperItem(selectedHelper);
 		UpdateViewAfterChooseHelper();
 	}
-
-	void QuestStart(){
+	
+	private void QuestStart(){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		
 		if (DataCenter.gameStage == GameState.Evolve) {
@@ -355,9 +358,26 @@ public class FriendHelperView : UIComponentUnity{
 		//SortUnitByCurRule();
 	}
 
+	private QuestItemView pickedQuestInfo;
+	private void RecordPickedInfoForFight(object msg){
+		Debug.Log("FriendHelper.RecordPickedInfoForFight(), received info...");
+		pickedQuestInfo = msg as QuestItemView;
+	}
+
 	private void ClickHelperItem(HelperUnitItem item){
 		Debug.Log("ClickHelperItem...");
-		UIManager.Instance.ChangeScene(SceneEnum.StandBy);
+		
+		if(pickedQuestInfo == null){
+			Debug.LogError("FriendHelerpView.ClickHelperItem(), pickedQuestInfo is NULL, return!!!");
+			return;
+		}
+		
+		Dictionary<string, object> pickedInfo = new Dictionary<string, object>();
+		pickedInfo.Add("QuestInfo", pickedQuestInfo);
+		pickedInfo.Add("HelperInfo", item.FriendInfo);
+
+		UIManager.Instance.ChangeScene(SceneEnum.StandBy);//before
+		MsgCenter.Instance.Invoke(CommandEnum.OnPickHelper, pickedInfo);//after
 	}
 
 	    

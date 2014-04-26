@@ -277,8 +277,9 @@ public class BattleUseData {
 		if (maxEnergyPoint == 0 && recover > 0) {
 			isLimit = false;
 		}
-
+//		Debug.LogError ("isLimit : " + isLimit);
         maxEnergyPoint += recover;
+//		Debug.LogError ("maxEnergyPoint : " + maxEnergyPoint + " recover : " + recover);
         if (maxEnergyPoint > DataCenter.maxEnergyPoint) {
             maxEnergyPoint = DataCenter.maxEnergyPoint;	
         }
