@@ -296,6 +296,7 @@ public class Battle : UIBase {
 				if(bcai != null)
 					break;
 			}
+
 			int generateCount = 0;
 			if(bcai != null)
 				generateCount = bcai.GenerateCard(selectTarget);
@@ -459,7 +460,9 @@ public class Battle : UIBase {
 	
 	void CountDownBattle () {
 		//battleCardArea.ShowCountDown (true, (int)time);
-		countDownUI.SetCurrentTime ((int)time);
+		int temp = (int)time;
+		Debug.LogError ("temp : " + temp);
+		countDownUI.SetCurrentTime (temp);
 		if (time > 0) {
 			BattleBottom.notClick = true;
 			showCountDown = true;
