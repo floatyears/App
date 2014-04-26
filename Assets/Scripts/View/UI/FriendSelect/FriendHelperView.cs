@@ -310,6 +310,7 @@ public class FriendHelperView : UIComponentUnity{
 		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(helperDataList.Count);
+		CustomDragPanel();
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
@@ -377,6 +378,24 @@ public class FriendHelperView : UIComponentUnity{
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+
+	/// <summary>
+	/// Customs the drag panel.
+	/// Custom this drag panel as vertical drag.
+	/// </summary>
+	private void CustomDragPanel(){
+		GameObject scrollView = dragPanel.DragPanelView.transform.FindChild("Scroll View").gameObject;
+		GameObject scrollBar = dragPanel.DragPanelView.transform.FindChild("Scroll Bar").gameObject;
+
+		scrollBar.transform.Rotate( new Vector3(0, 0, 270) );
+
+		UIScrollView uiScrollView = scrollView.GetComponent<UIScrollView>();
+		UIScrollBar uiScrollBar = scrollBar.GetComponent<UIScrollBar>();
+
+		uiScrollView.verticalScrollBar = uiScrollBar;
+		uiScrollView.horizontalScrollBar = null;
+
 	}
 
 	    
