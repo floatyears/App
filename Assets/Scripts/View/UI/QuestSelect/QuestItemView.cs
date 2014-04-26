@@ -83,7 +83,7 @@ public class QuestItemView : MonoBehaviour {
 		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
 
-		//Record picked StageID 
+		//Record picked StageInfo
 		DataCenter.Instance.currentStageInfo = stageInfo;
 		DataCenter.Instance.currentQuestInfo = data;
 	}

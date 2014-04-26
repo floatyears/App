@@ -125,6 +125,13 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 
     public Dictionary<EUnitType, int> TypeAttack { get { return typeAttackValue; } }
     public int TotalHp		{ get { return totalHp; } }
+	public int GetTotalAtk()		{ 
+		int total = 0;
+		foreach (var item in typeAttackValue){
+			total += item.Value;
+		}
+		return total;
+	}
     public int TotalCost	{ get { return totalCost; } }
 
     //skill sort
