@@ -58,8 +58,9 @@ public enum SceneEnum
 
 	SelectRole,
 
-	Result
+	Result,
 
+	StandBy
 }
 
 public enum CommandEnum{
@@ -217,6 +218,7 @@ public enum CommandEnum{
 	ChooseHelper					= 4052,
 	GetSelectedStage				= 4053,
 	GetSelectedQuest				= 4054,
+	
     EnterGachaWindow                  = 4056,
     SyncChips                       = 4057,
     SyncCoins                       = 4058,
@@ -232,6 +234,11 @@ public enum CommandEnum{
 	PickOnSaleUnit				= 4065,
 	SortByRule							= 4066,
 	OpenSortRuleWindow				= 4067,
+
+	//new add
+	TransPickedCity					= 4068,
+	OnPickQuest,
+	OnPickHelper,
 
     WaitResponse,
     SetBlocker,

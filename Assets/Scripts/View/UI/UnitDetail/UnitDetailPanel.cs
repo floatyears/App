@@ -511,16 +511,16 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
 		if(isFav){
 			UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, EFavoriteAction.DEL_FAVORITE);
-			Debug.LogError("SendRequest(), DEL_FAVORITE");
+			//Debug.LogError("SendRequest(), DEL_FAVORITE");
 		}
 		else{
 			UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, EFavoriteAction.ADD_FAVORITE);
-			Debug.LogError("SendRequest(), ADD_FAVORITE");
+			//Debug.LogError("SendRequest(), ADD_FAVORITE");
 		}
 	}
 
 	private void OnRspChangeFavState(object data){
-		Debug.Log("OnRspChangeFavState(), start...");
+		//Debug.Log("OnRspChangeFavState(), start...");
 		if(data == null) {Debug.LogError("OnRspChangeFavState(), data is NULL"); return;}
 		bbproto.RspUnitFavorite rsp = data as bbproto.RspUnitFavorite;
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
@@ -536,7 +536,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	private void ShowFavView(int isFav){
 		UISprite background = favBtn.transform.FindChild("Background").GetComponent<UISprite>();
-//		Debug.Log("UpdateFavView(), isFav : " + (isFav == 1));
+		//Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
 			background.spriteName = "Fav_Lock_Close";
 			background.spriteName = "Fav_Lock_Close";

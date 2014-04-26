@@ -78,14 +78,17 @@ public class ConfigDragPanel{
 	private void ConfigHelperListDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), HelperListDragPanelArgs...");
 		HelperListDragPanelArgs.Add("scrollerScale",					 Vector3.one									);
-		HelperListDragPanelArgs.Add("scrollerLocalPos",			 -105 * Vector3.up							);
+		HelperListDragPanelArgs.Add("scrollerLocalPos",			 -85* Vector3.up								);
 		HelperListDragPanelArgs.Add("position", 						 Vector3.zero									);
-		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, 0, 640, 220)				);
 		HelperListDragPanelArgs.Add("gridArrange", 				 UIGrid.Arrangement.Horizontal		);
+		HelperListDragPanelArgs.Add("scrollMovement", 			 UIScrollView.Movement.Vertical		);
+		HelperListDragPanelArgs.Add("scrollBarDir", 					 UIScrollBar.FillDirection.TopToBottom);
+		HelperListDragPanelArgs.Add("maxPerLine", 					 1													);
+		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, 0, 640, 720)				);
 		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(-320, -120, 0)				);
-		HelperListDragPanelArgs.Add("cellWidth", 					 120												);
-		HelperListDragPanelArgs.Add("cellHeight", 					 120												);
-		HelperListDragPanelArgs.Add("maxPerLine", 					  0													);
+		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
+		HelperListDragPanelArgs.Add("cellHeight", 					 150												);
+
 	}
 
 	

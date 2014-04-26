@@ -8,10 +8,8 @@ public class QuestView : UIComponentUnity{
 	private GameObject dragItemPrefab;
 	private DragPanel storyDragPanel;
 	private DragPanel eventDragPanel;
-
-	Dictionary< string, object > storyDragPanelArgsDic = new Dictionary< string, object >();
-	Dictionary< string, object > eventDragPanelArgsDic = new Dictionary< string, object >();
-	Dictionary< GameObject, VStageItemInfo> stageInfo = new Dictionary<GameObject, VStageItemInfo> ();
+	private Dictionary< GameObject, VStageItemInfo> stageInfo = new Dictionary<GameObject, VStageItemInfo>();
+	private Dictionary<GameObject, TCityInfo> cityViewInfo = new Dictionary<GameObject, TCityInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -20,12 +18,11 @@ public class QuestView : UIComponentUnity{
 
 	public override void ShowUI(){
 		base.ShowUI();
-		ShowTween();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		storyDragPanel.DestoryUI();
+//		storyDragPanel.DestoryUI();
 	}
 	
 	public override void CallbackView(object data){
@@ -41,10 +38,11 @@ public class QuestView : UIComponentUnity{
 	}
 	
 	void InitUI(){
-		storyRoot = FindChild("story_window");
-		eventRoot = FindChild("event_window");
-//		StylizeStoryPanel(); 
-		dragItemPrefab = Resources.Load("Stage/StageDragPanelItem") as GameObject;
+//		storyRoot = FindChild("story_window");
+//		eventRoot = FindChild("event_window");
+//		dragItemPrefab = Resources.Load("Stage/StageDragPanelItem") as GameObject;
+
+		InitWorldMap();
 	}
 	
 	void CreateStoryView(object args){
@@ -86,49 +84,7 @@ public class QuestView : UIComponentUnity{
 		for (int cityIndex = 0; cityIndex < cityList.Count; cityIndex++){
 			count += cityList[ cityIndex ].Stages.Count;
 		}
-//		Debug.LogError("GetCount : " + count);
 		return count;
-	}
-
-	List<Texture2D> GetTextureList(List<TCityInfo> cityList){
-		List<Texture2D> tex2dList = new List<Texture2D>();
-		for (int cityIndex = 0; cityIndex < cityList.Count; cityIndex++){
-			List<TStageInfo> stageList = cityList[ cityIndex ].Stages;
-			for (int stageIndex = 0; stageIndex < stageList.Count; stageIndex++) {
-				//TODO pick new stage
-				string sourcePath = string.Format("Stage/{0}_{1}", cityList[ cityIndex ].ID, stageList[  stageIndex ].ID);
-				Debug.LogError("texture path : " + sourcePath);
-				Texture2D tex2d = Resources.Load(sourcePath) as Texture2D;
-				tex2dList.Add(tex2d);
-			}//for
-		}//for
-
-		Debug.LogError("Tex2dList count is " + tex2dList.Count);
-		return tex2dList;
-	}
-
-	List<string> GetClearInfoTextList(List<TCityInfo> cityList){
-		List<string> textList = new List<string>();
-		for (int cityIndex = 0; cityIndex < cityList.Count; cityIndex++){
-			List<TStageInfo> stageList = cityList[ cityIndex ].Stages;
-			for (int stageIndex = 0; stageIndex < stageList.Count; stageIndex++) {
-				textList.Add("New");
-			}//for
-		}//for
-
-		return textList;
-	}
-
-	List<string> GetCityNameTextList(List<TCityInfo> cityList){
-		List<string> textList = new List<string>();
-		for (int cityIndex = 0; cityIndex < cityList.Count; cityIndex++){
-			List<TStageInfo> stageList = cityList[ cityIndex ].Stages;
-			for (int stageIndex = 0; stageIndex < stageList.Count; stageIndex++) {
-				textList.Add(stageList[ stageIndex ].StageName);
-			}//for
-		}//for
-		
-		return textList;
 	}
 
 	void UpdateTexture(DragPanel panel, List<Texture2D> tex2dList){
@@ -139,41 +95,73 @@ public class QuestView : UIComponentUnity{
 		}
 	}
 
-	void UpdateLabelTop(DragPanel panel, List<string> textList){
-		for (int i = 0; i < panel.ScrollItem.Count; i++){
-			GameObject item = panel.ScrollItem [i];
-			UILabel label = item.transform.FindChild("Label_Top").GetComponent<UILabel>();
-			label.text = textList[ i ];
-			label.color = Color.green;
-		}
-	}
-
-	void UpdateLabelBottom(DragPanel panel, List<string> textList){
-		for (int i = 0; i < panel.ScrollItem.Count; i++){
-			GameObject item = panel.ScrollItem [i];
-			UILabel label = item.transform.FindChild("Label_Bottom").GetComponent<UILabel>();
-			label.text = textList[ i ];
-			label.color = Color.red;
-		}
-	}
-
 	void ClickStoryItem(GameObject item){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickStoryItem", stageInfo[item].StageInfo);
 		ExcuteCallback(cbdArgs);
 	}
 
-	void ClickEventItem(GameObject item){}
+	//----New
+	private void InitWorldMap(){
+		GetCityViewInfo();
+		ShowCityView();
+	}
 	
-	void ShowTween(){
-		TweenPosition[ ] list = 
-			gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)	return;
-		foreach (var tweenPos in list){		
-			if (tweenPos == null)	continue;
-			tweenPos.Reset();
-			tweenPos.PlayForward();
+	/// <summary>
+	/// Gets the city view info, bind gameObject with data.
+	/// </summary>
+	private void GetCityViewInfo(){
+		List<TCityInfo> data = DataCenter.Instance.GetCityListInfo();
+		for (int i = 0; i < data.Count; i++){
+			GameObject cityItem = transform.FindChild(i.ToString()).gameObject;
+			if(cityItem == null){
+				Debug.LogError(string.Format("Resoures ERROR :: InitWorldMap(), Index[ {0} ] Not Found....!!!", i));
+				continue;
+			}
+			cityViewInfo.Add(cityItem, data[ i ]);
+		}
+		Debug.Log("InitWorldMap(), cityViewInfo countt is : " + cityViewInfo.Count);
+	}
+
+
+	/// <summary>
+	/// Shows the city sprite and name.
+	/// </summary>
+	private void ShowCityView(){
+		if(cityViewInfo == null){
+			Debug.LogError("QuestView.InitWorldMap(), cityViewInfo is NULL"); 
+			return;
+		}
+
+		foreach (var item in cityViewInfo){
+			UISprite bgSpr = item.Key.transform.FindChild("Background").GetComponent<UISprite>();
+			bgSpr.spriteName = item.Value.ID.ToString();
+			
+			UILabel nameLabel = item.Key.transform.FindChild("Label").GetComponent<UILabel>();
+			nameLabel.text = item.Value.CityName;
+			
+			UIEventListener.Get(item.Key).onClick = ClickCityItem;
 		}
 	}
 
+	/// <summary>
+	/// change scene to quest select with picked cityInfo
+	/// </summary>
+	/// <param name="item">Item.</param>
+	private void ClickCityItem(GameObject item){
+		Debug.Log("QuestView.ClickCityItem(), picked city's name is : " + item.name);
+		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
+		MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
+	}
+
+//	private void TurnToSelectQuest(object args){
+//		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+//		TStageInfo stageSelected =args as TStageInfo ; 
+//		if(stageSelected == null) {
+//			return;
+//		}
+//		DataCenter.Instance.currentStageInfo = stageSelected;
+//		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
+//		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
+//	}
 }
 

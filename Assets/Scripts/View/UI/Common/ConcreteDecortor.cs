@@ -30,12 +30,6 @@ public class SelectRoleDecorator : DecoratorBase{
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent(background);
 		
-//		MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-//		noteWindow.SetComponent(playerInfoBar);
-		
-//		MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-//		maskController.SetComponent(noteWindow);
-		
 		SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
 		unitSelect.SetComponent(playerInfoBar);
 		
@@ -74,12 +68,6 @@ public class StartDecorator : DecoratorBase{
 
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
 		tipsBar.SetComponent(playerInfoBar);
-
-//        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
-//		noteWindow.SetComponent(tipsBar);
-//        
-//        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-//        maskController.SetComponent(noteWindow);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
 		selectUnitInfo.SetComponent(tipsBar);
@@ -145,7 +133,8 @@ public class QuestDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		QuestController quest = CreatComponent< QuestController >(UIConfig.questWindowName);
+		//QuestController quest = CreatComponent< QuestController >(UIConfig.questWindowName);
+		QuestController quest = CreatComponent< QuestController >(UIConfig.homeWorldMapName);
 		quest.SetComponent(sceneInfoBar);
 
 		lastDecorator = quest;
@@ -414,7 +403,7 @@ public class QuestSelectDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		QuestSelectController questSelect = CreatComponent< QuestSelectController >(UIConfig.questSelectWindowName);
+		QuestSelectController questSelect = CreatComponent< QuestSelectController >(UIConfig.stageSlidePanelName);
 		questSelect.SetComponent(sceneInfoBar);
 
 		lastDecorator = questSelect;
@@ -447,16 +436,16 @@ public class FriendSelectDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 		
 		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
-		PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
-		FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
+		//PartyInfoLogic infoPanel = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
+		//FriendHelperBriefInfo helperBriefInfo = CreatComponent<FriendHelperBriefInfo>(UIConfig.userBriefInfoWindowName);
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
-		infoPanel.SetComponent(sceneInfoBar);
-		friendSelect.SetComponent(infoPanel);
+		//infoPanel.SetComponent(sceneInfoBar);
+		friendSelect.SetComponent(sceneInfoBar);
 		sortPanel.SetComponent(friendSelect);
-		helperBriefInfo.SetComponent(sortPanel);
+		//helperBriefInfo.SetComponent(sortPanel);
 
-		lastDecorator = helperBriefInfo;
+		lastDecorator = sortPanel;
 		lastDecorator.CreatUI();
 		
 	}
@@ -946,7 +935,36 @@ public class ResultDecorator : DecoratorBase{
 		lastDecorator = resultWindow;
 		lastDecorator.CreatUI();
 	}
+}
 
+//--------------------------------StandBy------------------------------------------
+public class StandByDecorator : DecoratorBase{
+	private SceneInfoComponent sceneInfoBar;
+	public StandByDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+		sceneInfoBar.SetBackScene(SceneEnum.FriendSelect);
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		StandbyController standByWindow = CreatComponent<StandbyController>(UIConfig.standByWindowName);
+
+		sceneInfoBar.SetComponent(decorator);
+		standByWindow.SetComponent(sceneInfoBar);
+
+		lastDecorator = standByWindow;
+		lastDecorator.CreatUI();
+	}
 }
 
 
