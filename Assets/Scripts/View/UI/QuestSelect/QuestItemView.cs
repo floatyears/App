@@ -50,6 +50,8 @@ public class QuestItemView : MonoBehaviour {
 			AddEventListener();
 		}
 	}
+
+	public TStageInfo stageInfo;
 	
 	private void ShowIcon(){
 		if(bgSpr == null){
@@ -82,7 +84,8 @@ public class QuestItemView : MonoBehaviour {
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
 
 		//Record picked StageID 
-		DataCenter.Instance.currentPickedStageID = stageID;
+		DataCenter.Instance.currentStageInfo = stageInfo;
+		DataCenter.Instance.currentQuestInfo = data;
 	}
 
 }
