@@ -18,7 +18,6 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			temp++;
 			leaderSkillQueue.Enqueue(item.Key);
 			GameTimer.GetInstance().AddCountDown(temp*time, ExcuteStartLeaderSkill);
-
 		}
 	}
 

@@ -463,7 +463,7 @@ public class QuestSelectView : UIComponentUnity{
 	private List<TStageInfo> GetAccessStageList(List<TStageInfo> stageInfoList){
 		List<TStageInfo> accessStageList = new List<TStageInfo>();
 		for (int i = 0; i < stageInfoList.Count; i++){
-			if(stageInfoList[i].Type == QuestType.E_QUEST_STORY){
+			if(stageInfoList[ i ].Type == QuestType.E_QUEST_STORY){
 				accessStageList.Add(stageInfoList[ i ]);
 				if (!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(stageInfoList[i].ID))
 					break;					

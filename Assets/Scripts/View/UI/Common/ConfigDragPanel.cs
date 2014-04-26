@@ -37,7 +37,6 @@ public class ConfigDragPanel{
 
 	private void ConfigUnitListDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), UnitListDragPanelArgs...");
-		UnitListDragPanelArgs.Add("scrollerScale",					Vector3.one									);
 		UnitListDragPanelArgs.Add("scrollerLocalPos",				220 * Vector3.up								);
 		UnitListDragPanelArgs.Add("position",							Vector3.zero									);
 		UnitListDragPanelArgs.Add("clipRange",						new Vector4(0, -210, 640, 600)			);
@@ -50,7 +49,6 @@ public class ConfigDragPanel{
 
 	private void ConfigLevelUpDragPanel() {
 		//Debug.Log("ConfigDragPanel.Config(), LevelUpDragPanelArgs...");
-		LevelUpDragPanelArgs.Add("scrollerScale",					Vector3.one									);
 		LevelUpDragPanelArgs.Add("scrollerLocalPos",				-240 * Vector3.up							);
 		LevelUpDragPanelArgs.Add("position",							Vector3.zero									);
 		LevelUpDragPanelArgs.Add("clipRange",						new Vector4(0, 0, 640, 200)				);
@@ -63,7 +61,6 @@ public class ConfigDragPanel{
 
 	private void ConfigFriendListDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), FriendListDragPanelArgs...");
-		FriendListDragPanelArgs.Add("scrollerScale",					 Vector3.one									);
 		FriendListDragPanelArgs.Add("scrollerLocalPos",			 220 * Vector3.up							);
 		FriendListDragPanelArgs.Add("position",						 Vector3.zero									);
 		FriendListDragPanelArgs.Add("clipRange",						 new Vector4(0, -210, 640, 600)		);
@@ -77,15 +74,13 @@ public class ConfigDragPanel{
 	
 	private void ConfigHelperListDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), HelperListDragPanelArgs...");
-		HelperListDragPanelArgs.Add("scrollerScale",					 Vector3.one									);
 		HelperListDragPanelArgs.Add("scrollerLocalPos",			 -85* Vector3.up								);
 		HelperListDragPanelArgs.Add("position", 						 Vector3.zero									);
 		HelperListDragPanelArgs.Add("gridArrange", 				 UIGrid.Arrangement.Horizontal		);
 		HelperListDragPanelArgs.Add("scrollMovement", 			 UIScrollView.Movement.Vertical		);
-		HelperListDragPanelArgs.Add("scrollBarDir", 					 UIScrollBar.FillDirection.TopToBottom);
 		HelperListDragPanelArgs.Add("maxPerLine", 					 1													);
 		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, 0, 640, 720)				);
-		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(-320, -120, 0)				);
+		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(280, 350, 0)				);
 		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
 		HelperListDragPanelArgs.Add("cellHeight", 					 150												);
 
@@ -94,7 +89,6 @@ public class ConfigDragPanel{
 	
 	private void ConfigLevelUpBaseDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), LevelUpBaseDragPanelArgs...");
-		LevelUpBaseDragPanelArgs.Add("scrollerScale",				 Vector3.one									);
 		LevelUpBaseDragPanelArgs.Add("scrollerLocalPos",		 -28 * Vector3.up							);
 		LevelUpBaseDragPanelArgs.Add("position", 					 Vector3.zero									);
 		LevelUpBaseDragPanelArgs.Add("clipRange", 				 new Vector4(0, -120, 640, 400)		);
@@ -107,7 +101,6 @@ public class ConfigDragPanel{
 
 	private void ConfigLevelUpMaterialDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), LevelUpMaterialDragPanelArgs...");
-		LevelUpMaterialDragPanelArgs.Add("scrollerScale",		  Vector3.one									);
 		LevelUpMaterialDragPanelArgs.Add("scrollerLocalPos",	  -28 * Vector3.up							);
 		LevelUpMaterialDragPanelArgs.Add("position", 				  Vector3.zero									);
 		LevelUpMaterialDragPanelArgs.Add("clipRange", 			  new Vector4(0, -120, 640, 400)		);
@@ -120,7 +113,6 @@ public class ConfigDragPanel{
 
 	private void ConfigOthersDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), OthersDragPanelArgs...");
-		OthersDragPanelArgs.Add("scrollerScale", 					 Vector3.one									);
 		OthersDragPanelArgs.Add("scrollerLocalPos" ,				 -190*Vector3.up							);
 		OthersDragPanelArgs.Add("position", 							 Vector3.zero									);
 		OthersDragPanelArgs.Add("clipRange", 						 	 new Vector4(0, 0, 640, 200)				);
@@ -133,7 +125,6 @@ public class ConfigDragPanel{
 
 	private void ConfigPartyListDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), PartyListDragPanelArgs...");
-		PartyListDragPanelArgs.Add("scrollerScale",					 Vector3.one									);
 		PartyListDragPanelArgs.Add("scrollerLocalPos",				  Vector3.zero									);
 		PartyListDragPanelArgs.Add("position", 							 Vector3.zero									);
 		PartyListDragPanelArgs.Add("clipRange", 						 new Vector4(0, -120, 640, 400)		);
@@ -146,7 +137,6 @@ public class ConfigDragPanel{
 
 	private void ConfigStoryStageDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), StoryStageDragPanelArgs...");
-		StoryStageDragPanelArgs.Add("scrollerScale",					Vector3.one								);
 		StoryStageDragPanelArgs.Add("scrollerLocalPos", 				215 * Vector3.up							);
 		StoryStageDragPanelArgs.Add("position", 							Vector3.zero								);
 		StoryStageDragPanelArgs.Add("clipRange", 						new Vector4(0, 0, 640, 200)			);
@@ -160,7 +150,6 @@ public class ConfigDragPanel{
 	
 	private void ConfigQuestSelectDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), QuestSelectDragPanelArgs...");
-		QuestSelectDragPanelArgs.Add("scrollerScale",					Vector3.one								);
 		QuestSelectDragPanelArgs.Add("scrollerLocalPos",				-60 * Vector3.up							);
 		QuestSelectDragPanelArgs.Add("position",							Vector3.zero								);
 		QuestSelectDragPanelArgs.Add("clipRange",						new Vector4(0, 0, 640, 200)			);
@@ -174,7 +163,6 @@ public class ConfigDragPanel{
 	
 	private void ConfigOnSaleUnitDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), OnSaleUnitDragPanelArgs...");
-		OnSaleUnitDragPanelArgs.Add("scrollerScale",					Vector3.one								);
 		OnSaleUnitDragPanelArgs.Add("scrollerLocalPos",				-240 * Vector3.up						);
 		OnSaleUnitDragPanelArgs.Add("position", 						Vector3.zero								);
 		OnSaleUnitDragPanelArgs.Add("clipRange", 						new Vector4(0, -120, 640, 400)		);
@@ -187,7 +175,6 @@ public class ConfigDragPanel{
 
 	private void ConfigCatalogDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), CatalogDragPanelArgs...");
-		CatalogDragPanelArgs.Add("scrollerScale",						Vector3.one								);
 		CatalogDragPanelArgs.Add("scrollerLocalPos",					280 * Vector3.up							);
 		CatalogDragPanelArgs.Add("position", 								Vector3.zero								);
 		CatalogDragPanelArgs.Add("clipRange", 							new Vector4(0, -235, 640, 640)		);

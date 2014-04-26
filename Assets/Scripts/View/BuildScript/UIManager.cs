@@ -113,8 +113,7 @@ public class UIManager {
 		baseScene.ShowBase ();
 	}
 
-	public void ChangeScene(SceneEnum sEnum)
-	{
+	public void ChangeScene(SceneEnum sEnum) {
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
 		}
@@ -136,7 +135,6 @@ public class UIManager {
 			current = db;
 //			Debug.LogError("ChangeScene : " + current);
 		}
-			
 
 		if (current != null) {
 			current.ShowScene();		
