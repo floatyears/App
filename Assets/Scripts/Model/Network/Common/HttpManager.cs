@@ -96,7 +96,7 @@ public class HttpManager : INetSendPost {
         MsgWindowParams msgParams = null;
 
         if (text.StartsWith("Failed to connect to ")){
-            LogHelper.Log("OpenMsgWindowByError(), failed to connect server");
+            Debug.LogError("OpenMsgWindowByError(), failed to connect server");
             msgParams = new MsgWindowParams();
             msgParams.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.CONNECT_ERROR);
@@ -107,7 +107,7 @@ public class HttpManager : INetSendPost {
             msgParams.btnParams[1].callback = CallbackCancelRequest;
         }
         else if (text.StartsWith("500 Internal Server Error")){
-            LogHelper.Log("OpenMsgWindowByError(), 500 Internal Server Error");
+			Debug.LogError("OpenMsgWindowByError(), 500 Internal Server Error");
             msgParams = new MsgWindowParams();
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.SERVER_500);
             msgParams.contentText = errMsg.Msg;
@@ -115,7 +115,7 @@ public class HttpManager : INetSendPost {
             msgParams.btnParam.callback = CallbackCancelRequest;
         }
         else {
-            LogHelper.Log("OpenMsgWindowByError(), unknown Error");
+			Debug.LogError("OpenMsgWindowByError(), unknown Error");
             msgParams = new MsgWindowParams();
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.SERVER_500);
             msgParams.contentText = errMsg.Msg;
