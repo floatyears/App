@@ -131,6 +131,8 @@ public class DragPanelView : UIBaseUnity {
 	}
 
 	public void SetScrollView(Dictionary<string, object> argsDic, Transform parent){
+//		Debug.LogError ("gameobject befoure : " + transform.localScale);
+
 		Vector3 scrollerLocalPos = Vector3.zero;
 		Vector3 position = Vector3.zero;
 		Vector4 clipRange = Vector4.zero;
@@ -165,7 +167,9 @@ public class DragPanelView : UIBaseUnity {
 		 
 		scrollBar.fillDirection = scrollBarDir;
 		scrollView.movement = scrollMovement;
+//		Debug.LogError ("gameobject end aa : " + transform.localScale + " parent : " + parent.transform.localScale);
 		gameObject.transform.parent = parent;
+		transform.localScale = Vector3.one;
         gameObject.transform.localPosition = scrollerLocalPos;
 		scrollView.transform.localPosition = position;
 		clip.clipRange = clipRange;
