@@ -8,6 +8,9 @@ public class BattleBottom : MonoBehaviour {
 	private Dictionary<int,GameObject> actorObject = new Dictionary<int,GameObject>();
 	private GameObject battleSkillObject;
 	private BattleSkill battleSkill;
+//	public BattleSkill BattleSkillIns{
+//		get { return battleSkill; }
+//	}
 
 	public static bool notClick = false;
 
@@ -115,12 +118,12 @@ public class BattleBottom : MonoBehaviour {
 //		}
 	}
 
-	void Boost() {
+	public void Boost() {
 		CloseSkillWindow ();
 		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
 	}
 
-	void Close () {
+	public void Close () {
 		CloseSkillWindow ();
 	}
 

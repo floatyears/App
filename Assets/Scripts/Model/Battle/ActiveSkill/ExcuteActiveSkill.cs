@@ -38,6 +38,7 @@ public class ExcuteActiveSkill {
 		if (userUnit != null) {
 			string id = userUnit.MakeUserUnitKey();
 			if(activeSkill.TryGetValue(id,out iase)) {
+				MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, true);
 				GameTimer.GetInstance().AddCountDown(1f,Excute);
 				MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillStandReady, userUnit);
 			}
@@ -57,6 +58,12 @@ public class ExcuteActiveSkill {
 		iase.Excute(ai.UserUnitID, userUnit.Attack);
 		iase = null;
 		userUnit = null;
+
+		GameTimer.GetInstance ().AddCountDown (1f, ActiveSkillEnd);
+	}
+
+	void ActiveSkillEnd() {
+		MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, false);
 	}
 
 	void MoveToMapItem(object data) {

@@ -11,7 +11,23 @@
 using System;
 public partial class TextCenter {
     private void InitThird(){
-        
+
+//		MsgWindowParams mwp = new MsgWindowParams ();
+//		mwp.btnParams = new BtnParam[2];
+//		mwp.titleText = "Retry";
+//		mwp.contentText = "Use two stone to retry this floor of quest ?";
+//		
+//		BtnParam sure = new BtnParam ();
+//		sure.callback = SureRetry;
+//		sure.text = "OK";
+//		mwp.btnParams[0] = sure;
+//		
+//		sure = new BtnParam ();
+//		sure.callback = EnterNextFloor;
+//		sure.text = "Cancel";
+//		mwp.btnParams[1] = sure;
+//
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
     }
 }
 

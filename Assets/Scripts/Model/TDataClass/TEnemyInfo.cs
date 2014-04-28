@@ -31,7 +31,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	public TDropUnit drop;
 
 	public bool IsInjured () {
-		if (EnemyInfo ().hp < instance.hp) { return true; }
+		if (initBlood > 0 && initBlood < instance.hp) { return true; }
 		else { return false; }
 	}
 

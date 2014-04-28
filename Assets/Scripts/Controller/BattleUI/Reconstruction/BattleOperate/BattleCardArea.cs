@@ -39,6 +39,7 @@ public class BattleCardArea : UIBaseUnity {
 			battleCardAreaItem[i].ShowUI();
 		}
 		MsgCenter.Instance.AddListener (CommandEnum.StateInfo, StateInfo);
+		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, RecoverStateInfo);
 	}
 
 	public override void HideUI () {
@@ -47,11 +48,15 @@ public class BattleCardArea : UIBaseUnity {
 			battleCardAreaItem[i].HideUI();
 		}
 		gameObject.SetActive (false);
+
 		MsgCenter.Instance.RemoveListener (CommandEnum.StateInfo, StateInfo);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, RecoverStateInfo);
 	}
 
 	Vector3 HidePosition;
 	Vector3 showPosition;
+
+	string prevInfo = "";
 
 	void StateInfo(object data) {
 		string info = (string)data;
@@ -64,6 +69,11 @@ public class BattleCardArea : UIBaseUnity {
 			return;	
 		}
 
+		if (info == DGTools.stateInfo [4]) {
+			prevInfo = stateLabel.spriteName;
+//			GameTimer.GetInstance().AddCountDown(1f, RecoverStateInfo);
+		}
+
 		if (stateLabel.spriteName == string.Empty) {
 			stateLabel.transform.localPosition = HidePosition;	
 			ShowStateLabel ();
@@ -71,6 +81,14 @@ public class BattleCardArea : UIBaseUnity {
 			HideStateLabel("ShowStateLabel");
 		}
 		DGTools.ShowSprite (stateLabel, info);
+	}
+
+	void RecoverStateInfo(object data) {
+		bool b = (bool)data;
+		if (!b) {
+			StateInfo (prevInfo);
+			prevInfo = "";	
+		}
 	}
 
 	void HideStateLabel (string nextFunction) {
