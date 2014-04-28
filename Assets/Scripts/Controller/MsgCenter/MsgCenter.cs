@@ -16,15 +16,15 @@ public class MsgCenter  {
 	private Dictionary<CommandEnum,Delegate> msgDic = new Dictionary<CommandEnum, Delegate>();
 	
 	private bool OnAdd(CommandEnum mEnum,Delegate listener) {
-		if(!msgDic.ContainsKey(mEnum))
-			msgDic.Add(mEnum,null);
-		
-		Delegate d = msgDic[mEnum];
-		
-		if(d != null && d.GetType() != listener.GetType()) {
-			return false;
+		if (msgDic.ContainsKey (mEnum)) {
+			Delegate d = msgDic [mEnum];
+			if (d != null && d.GetType () != listener.GetType ()) {
+				return false;
+			}
+		} else {
+			msgDic.Add (mEnum, null);
 		}
-		
+
 		return true;
 	}
 	

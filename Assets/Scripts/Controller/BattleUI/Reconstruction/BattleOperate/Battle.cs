@@ -70,6 +70,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
+		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
 	}
 
 	public override void HideUI () {
@@ -78,6 +79,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
 		battleRootGameObject.SetActive(false);
 	}
 
@@ -95,6 +97,11 @@ public class Battle : UIBase {
 		ResetClick();
 		Attack();
 		battleCard.StartBattle (false);
+	}
+
+	void ExcuteActiveSkillInfo(object data) {
+		bool b = (bool)data;
+		ShieldInput (!b);
 	}
 
 	void ChangeCard(object data) {
@@ -461,7 +468,7 @@ public class Battle : UIBase {
 	void CountDownBattle () {
 		//battleCardArea.ShowCountDown (true, (int)time);
 		int temp = (int)time;
-		Debug.LogError ("temp : " + temp);
+//		Debug.LogError ("temp : " + temp);
 		countDownUI.SetCurrentTime (temp);
 		if (time > 0) {
 			BattleBottom.notClick = true;

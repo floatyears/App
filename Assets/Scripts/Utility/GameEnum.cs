@@ -249,6 +249,7 @@ public enum CommandEnum{
 	ShowHands,
 	ActiveSkillStandReady,
 	CloseMsgWindow,
+	ExcuteActiveSkill,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

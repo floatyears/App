@@ -176,13 +176,20 @@ public class BattleMap : UIBaseUnity {
 
 		Queue<MapItem> mapItem = new Queue<MapItem> ();
 		foreach (var item in temp) {
+//			item.AddSecurityLevel();
 			if(item.GetChainLinke()) {
 				item.isLockAttack = true;
 				mapItem.Enqueue(item);
-
 			}
 		}
 		return mapItem;
+	}
+
+	public void AddMapSecuritylevel(Coordinate coor) {
+		List<MapItem> temp = GetAround (coor);
+		foreach (var item in temp) {
+			item.AddSecurityLevel();
+		}
 	}
 
 	List<MapItem> GetAround(Coordinate coor) {

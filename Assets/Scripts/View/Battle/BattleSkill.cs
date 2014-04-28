@@ -118,7 +118,7 @@ public class BattleSkill : UIBaseUnity {
 		} 
 	}
 
-	void Close(GameObject go) {
+	public void Close(GameObject go) {
 		if (CloseSkill != null) {
 			CloseSkill();
 		}

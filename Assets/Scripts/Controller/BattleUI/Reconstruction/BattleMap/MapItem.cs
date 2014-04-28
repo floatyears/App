@@ -357,7 +357,7 @@ public class MapItem : UIBaseUnity {
 				break;
 			case 2:
 				float value = DGTools.RandomToFloat();
-				float temp = 1f;
+				float temp = 0.3f;
 				if(isLockAttack) {
 					temp =0.01f;
 				}
@@ -398,6 +398,7 @@ public class MapItem : UIBaseUnity {
 	}
 
 	public void AddSecurityLevel() {
+//		Debug.LogError (gameObject + "AddSecurityLevel" + coor.x + " y : " + coor.y);
 		if(countShow < 2) {
 			countShow++;
 			string name = GetStarSpriteName ();
@@ -422,7 +423,7 @@ public class MapItem : UIBaseUnity {
 
 	string GetStarSpriteName() {
 		if (countShow == -1) {
-			countShow = DGTools.RandomToInt(0, 3);	
+			countShow = DGTools.RandomToInt(0, 3);
 		}
 //		Debug.LogError (" GetStarSpriteName: " + countShow);
 		string name = "";

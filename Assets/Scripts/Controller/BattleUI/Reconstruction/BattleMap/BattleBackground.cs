@@ -8,7 +8,7 @@ public class BattleBackground : UIBaseUnity {
 	private UISprite[] spSprite;
 	private UISpriteAnimationCustom spriteAnimation;
 	private GameObject battleBottom;
-	private BattleBottom battleBottomScript;
+
 	private UISlider bloodBar;
 	private UILabel label;
 	private int initBlood = -1;
@@ -27,6 +27,11 @@ public class BattleBackground : UIBaseUnity {
 		}
 	}
 
+	private BattleBottom _battleBottomScript;
+	public BattleBottom battleBottomScript {
+		get { return _battleBottomScript; }
+	}
+
 	private BattleQuest battleQuest;
 
 	public override void Init (string name){
@@ -35,8 +40,8 @@ public class BattleBackground : UIBaseUnity {
 		Object o = LoadAsset.Instance.LoadAssetFromResources ("BattleBottom", ResourceEuum.Prefab);
 		battleBottom = Instantiate (o) as GameObject;
 		battleBottom.GetComponent<UIAnchor> ().uiCamera = ViewManager.Instance.MainUICamera.camera;
-		battleBottomScript = battleBottom.AddComponent<BattleBottom> ();
-		battleBottomScript.Init (bottomCamera);
+		_battleBottomScript = battleBottom.AddComponent<BattleBottom> ();
+		_battleBottomScript.Init (bottomCamera);
 		actorPosition = transform.Find ("Position").localPosition;
 
 		actor = new Material[5];
@@ -60,7 +65,7 @@ public class BattleBackground : UIBaseUnity {
 
 	public void SetBattleQuest (BattleQuest bq) {
 		battleQuest = bq;
-		battleBottomScript.battleQuest = bq;
+		_battleBottomScript.battleQuest = bq;
 	}
 
 	void InitTransform() {
@@ -99,7 +104,7 @@ public class BattleBackground : UIBaseUnity {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		Destroy (battleBottom);
-		battleBottomScript = null;
+		_battleBottomScript = null;
 		attackPosition.Clear ();
 	}
 
