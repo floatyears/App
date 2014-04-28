@@ -497,6 +497,17 @@ public class DGTools {
 			return new Color(0,0,0,1f);
 		}
 	}
+
+	/// <summary>
+	/// Copies the transform. get target value to set source.
+	/// </summary>
+	/// <param name="source">Source.</param>
+	/// <param name="target">Target.</param>
+	public static void CopyTransform(Transform source, Transform target) {
+		source.localPosition = target.localPosition;
+		source.eulerAngles = target.eulerAngles;
+		source.localScale = target.localScale;
+	}
 }
 
 public class GameLayer

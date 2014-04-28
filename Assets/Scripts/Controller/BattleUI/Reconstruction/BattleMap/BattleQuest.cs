@@ -26,7 +26,7 @@ public class BattleQuest : UIBase {
 	private TopUI topUI;
 	public static BattleUseData bud;
 
-	private List<ClearQuestParam> _questData = new List<ClearQuestParam>();
+	private List< ClearQuestParam > _questData = new List<ClearQuestParam>();
 	public ClearQuestParam questData {
 		get { 
 			if(_questData.Count == 0) {
@@ -94,7 +94,7 @@ public class BattleQuest : UIBase {
 		topUI = go.GetComponent<TopUI> ();
 		topUI.Init ("TopUI");
 		topUI.battleQuest = this;
-		topUI.RefreshTopUI (questDungeonData, questData);
+		topUI.RefreshTopUI (questDungeonData, _questData);
 		AddSelfObject (topUI);
 	}
 	
@@ -186,7 +186,7 @@ public class BattleQuest : UIBase {
 		GameTimer.GetInstance ().AddCountDown (1f, ShowScene);
 		InitData ();
 		topUI.Reset ();
-		topUI.RefreshTopUI (questDungeonData, questData);
+		topUI.RefreshTopUI (questDungeonData, _questData);
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
 		if (questFullScreenTips == null) {

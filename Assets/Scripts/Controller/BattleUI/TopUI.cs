@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TopUI : UIBaseUnity {
 	private UILabel coinLabel;
@@ -81,9 +82,15 @@ public class TopUI : UIBaseUnity {
 			floorLabel.text = currentFloor + "/" + maxFloor + "F";
 	}
 
-	public void RefreshTopUI(TQuestDungeonData questData, ClearQuestParam questGet) {
-		Coin = questGet.getMoney;
-		Drop = questGet.getUnit.Count;
+	public void RefreshTopUI(TQuestDungeonData questData, List<ClearQuestParam> questGet) {
+		int coin = 0;
+		int drop = 0;
+		foreach (var item in questGet) {
+			coin += item.getMoney;
+			drop += item.getUnit.Count;
+		}
+		Coin = coin;
+		Drop = drop;
 		SetFloor (questData.currentFloor + 1, questData.Floors.Count);
 	}
 
