@@ -38,6 +38,7 @@ public class ExcuteActiveSkill {
 		if (userUnit != null) {
 			string id = userUnit.MakeUserUnitKey();
 			if(activeSkill.TryGetValue(id,out iase)) {
+				MsgCenter.Instance.Invoke(CommandEnum.StateInfo, DGTools.stateInfo[4]);
 				MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, true);
 				GameTimer.GetInstance().AddCountDown(1f,Excute);
 				MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillStandReady, userUnit);
@@ -53,13 +54,12 @@ public class ExcuteActiveSkill {
 		AttackInfo ai = new AttackInfo();
 		ai.UserUnitID = userUnit.MakeUserUnitKey();
 		MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
-		MsgCenter.Instance.Invoke(CommandEnum.StateInfo, DGTools.stateInfo[4]);
 		iase = activeSkill[ai.UserUnitID];
 		iase.Excute(ai.UserUnitID, userUnit.Attack);
 		iase = null;
 		userUnit = null;
 
-		GameTimer.GetInstance ().AddCountDown (1f, ActiveSkillEnd);
+		GameTimer.GetInstance ().AddCountDown (3f, ActiveSkillEnd);
 	}
 
 	void ActiveSkillEnd() {

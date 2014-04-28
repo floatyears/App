@@ -39,6 +39,9 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
+
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 //		MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemy, Attack);
 		count --;
 		battleAttackInfo.HideUI ();
@@ -54,13 +57,14 @@ public class BattleEnemy : UIBaseUnity {
 		count ++;
 		battleAttackInfo.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
+
+		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
+		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 	}
 
 	void AttackEnemyEnd(object data) {
 
-		if (prevEffect != null) {
-			Destroy(prevEffect);	
-		}
+		DestoryEffect ();
 
 		int index = DGTools.RandomToInt (0, 4);
 		attackInfoLabel.spriteName = attackInfo [index];
@@ -70,6 +74,10 @@ public class BattleEnemy : UIBaseUnity {
 	}
 
 	void AttackEnemy(object data) {
+		DestoryEffect ();
+	}
+
+	void DestoryEffect() {
 		if (prevEffect != null) {				
 			Destroy(prevEffect);
 		}
@@ -224,6 +232,26 @@ public class BattleEnemy : UIBaseUnity {
 			if(ai.AttackRange == 0) {
 				prevEffect.transform.localPosition = ei.transform.localPosition;
 			}
+		}
+	}
+
+	public void PlayAllEffect() {
+
+	}
+
+	void SkillRecoverSP(object data) {
+		GameObject obj = Resources.Load("Effect/jiufeng") as GameObject;
+		if (obj != null) {
+			Transform trans = obj.transform;
+			prevEffect = NGUITools.AddChild(effectPanel, obj);
+			DGTools.CopyTransform(prevEffect.transform, trans);
+		}
+	} 
+	
+	void ExcuteActiveSkillEnd(object data) {
+		bool b = (bool)data;
+		if (!b) {
+			DestoryEffect();
 		}
 	}
 

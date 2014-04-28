@@ -8,6 +8,7 @@ public class ClearQuestParam {
     public int getMoney;
     public List<uint> getUnit = new List<uint>();
     public List<uint> hitGrid = new List<uint>();
+	public Coordinate currentCoor;
 }
 
 public class TRspClearQuest {

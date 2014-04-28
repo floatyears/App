@@ -59,7 +59,7 @@ public class DataCenter {
         } 
     }
     private static DataCenter instance;
-    private DataCenter() {}
+    private DataCenter() { }
 
 	public static GameState gameStage = GameState.Normal;
 	public static TEvolveStart evolveInfo = null;
@@ -389,6 +389,8 @@ public class DataCenter {
         set { setData(ModelEnum.ItemObject, value); } 
     }
 
+//	public Dictionary<string, string> effectPath = new Dictionary<string, string> ();
+
     public Object GetEffect(AttackInfo ai) {
 		int type = ai.AttackType;
 		int attackRange = ai.AttackRange;
@@ -428,7 +430,7 @@ public class DataCenter {
             break;
         case 3:
             path = "Effect/zhua";
-//			path = "Effect/wind2";
+//			path = "Effect/jiufeng";
             break;
         case 8:
             path = "Effect/card_effect";

@@ -185,10 +185,10 @@ public class AttackController {
 
 	float GetIntervTime () {
 		if (enemyInfo.Count == 1 && enemyInfo[0].GetBlood() <= 0) {
-			return 0.4f;		
+			return 0.5f;
 		}
 		else {
-			return 0.6f;		
+			return 0.7f;	
 		}
 	}
 
