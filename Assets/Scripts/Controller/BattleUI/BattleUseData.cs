@@ -13,25 +13,21 @@ public class BattleUseData {
 			if(value < 0) {
 				if(blood == 0) 
 					return;
-
 				blood = 0;
-//				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 				PlayerDead();
-			}else if(value > maxBlood) {
+			} else if(value > maxBlood) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				if(blood < maxBlood) {
 					MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 				}
 				blood = maxBlood;
-			}
-			else{
+			} else{
 				if(value > blood) {
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				}
 				blood = value;
 				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 			}
-//			RefreshBlood();
 		}
         get { return blood; }
     }

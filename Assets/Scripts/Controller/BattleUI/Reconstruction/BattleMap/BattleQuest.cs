@@ -126,7 +126,6 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.GridEnd, GridEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, BattleFail);
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
-//		MsgCenter.Instance.AddListener (CommandEnum.LaunchActiveSkill, LaunchActiveSkill);
 	}
 
 	public override void HideUI () {
@@ -311,7 +310,11 @@ public class BattleQuest : UIBase {
 	}
 
 	private EQuestGridType gridType = EQuestGridType.Q_NONE;
-	public Coordinate currentCoor;
+	private Coordinate _currentCoor;
+	public Coordinate currentCoor {
+		set { _currentCoor = value; ConfigBattleUseData.Instance.storeBattleData.roleCoordinate = _currentCoor; }
+		get { return _currentCoor;}
+	}
 
 	void YieldShowAnim() {
 		int count = bud.Els.CheckLeaderSkillCount();
@@ -370,7 +373,6 @@ public class BattleQuest : UIBase {
 	}
 
 	public void RoleCoordinate(Coordinate coor) {
-
 		if (!battleMap.ReachMapItem (coor)) {
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 					battleMap.RotateAnim (null);
@@ -378,10 +380,11 @@ public class BattleQuest : UIBase {
 					return;
 			}
 
-//			int index = questDungeonData.GetGridIndex (coor);
-//			if (index != -1) {
-//					questData.hitGrid.Add ((uint)index);
-//			}
+			int index = questDungeonData.GetGridIndex (coor);
+			if (index != -1) {
+					questData.hitGrid.Add ((uint)index);
+			}
+
 			currentMapData = questDungeonData.GetSingleFloor (coor);
 			role.Stop ();
 			if (currentMapData.Star == EGridStar.GS_KEY) {
@@ -603,7 +606,6 @@ public class BattleQuest : UIBase {
 		if (data != null) {
 			b = (bool)data;	
 		}
-		
 		if (battleEnemy && !b) {
 			battle.ShieldInput(false);
 			BattleBottom.notClick  = true;
@@ -616,12 +618,15 @@ public class BattleQuest : UIBase {
 		}
 		uint uIndex = (uint)index;
 		if (questData.hitGrid.Contains (uIndex)) {
-			return;		
+			index = questData.hitGrid.FindIndex(a=>a == uIndex);
+			if(index != questData.hitGrid.Count - 1)
+				return;		
 		}
 
-		questData.hitGrid.Add (uIndex);
-		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
+//		questData.hitGrid.Add (uIndex);
 
+		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
+	
 		if (tqg == null || tqg.Type != EQuestGridType.Q_ENEMY) {
 			return;	
 		}
@@ -629,7 +634,6 @@ public class BattleQuest : UIBase {
 		battleMap.AddMapSecuritylevel (currentCoor);
 		chainLikeMapItem = battleMap.AttakAround (currentCoor);	
 		if (chainLikeMapItem.Count == 0) {
-//			chainLikeMapItem = battleMap.AttakAround (currentCoor);	
 			if (chainLikeMapItem.Count > 0) {
 				ChainLinkBattle = true;
 				role.SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);

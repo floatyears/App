@@ -77,6 +77,15 @@ public class ConfigBattleUseData {
 		ReadStageInfo ();
 	}
 
+	public void StoreMapData (List<ClearQuestParam> data) {
+		_storeBattleData.questData = data;
+		StoreRuntimData ();
+	}
+
+	void StoreRuntimData () {
+		//TODO store store battle data;
+	}
+
 	public void ClearData () {
 		GameDataStore.Instance.DeleteInfo (GameDataStore.battleStore);
 	}

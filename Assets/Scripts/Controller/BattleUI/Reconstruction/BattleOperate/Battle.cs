@@ -71,6 +71,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
+//		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 	}
 
 	public override void HideUI () {
@@ -80,6 +81,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 		battleRootGameObject.SetActive(false);
 	}
 
@@ -122,11 +124,16 @@ public class Battle : UIBase {
 	}
 
 	void EnemyAttckEnd (object data) {
-
+		StoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
+		sbd.enemyInfo = battleEnemy.monsterList;
 
 		battleCard.StartBattle (true);
 		ShieldInput (true);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
+	}
+
+	void EnemyAttackEnd() {
+
 	}
 
 	void BattleEnd (object data) {
