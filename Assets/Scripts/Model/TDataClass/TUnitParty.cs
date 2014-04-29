@@ -63,7 +63,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 //		string name = DataCenter.Instance.BattleFriend.UserUnit.MakeUserUnitKey ();
 //		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (name);
 //		Debug.LogError (DataCenter.friendPos + " EnterBattle " + DataCenter.Instance.BattleFriend.UserUnit);
-		UserUnit.Add(DataCenter.friendPos, DataCenter.Instance.BattleFriend.UserUnit);
+		UserUnit.Add(DataCenter.friendPos, ConfigBattleUseData.Instance.BattleFriend.UserUnit);
 	}
 
 	void LeftBattle (object data) {
@@ -267,8 +267,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 				temp.AddRange(tuu.GetNormalSkill());
 		}                
 
-		if (DataCenter.Instance.BattleFriend != null) {
-			tuu = DataCenter.Instance.BattleFriend.UserUnit;
+		if (ConfigBattleUseData.Instance.BattleFriend != null) {
+			tuu = ConfigBattleUseData.Instance.BattleFriend.UserUnit;
 			temp.AddRange(tuu.GetNormalSkill());
 		}
 		return temp;
@@ -282,8 +282,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 			AddLeadSkill(tuu);
         }
 
-		if (DataCenter.Instance.BattleFriend != null) {
-			TUserUnit tuu = DataCenter.Instance.BattleFriend.UserUnit;
+		if (ConfigBattleUseData.Instance.BattleFriend != null) {
+			TUserUnit tuu = ConfigBattleUseData.Instance.BattleFriend.UserUnit;
 			AddLeadSkill(tuu);
 		}
     }

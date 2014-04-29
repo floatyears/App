@@ -10,6 +10,10 @@ public class TEnemyInfo : ProtobufDataBase {
 		initBlood = GetInitBlood ();
 		initAttackRound = instance.nextAttack;
 
+		AddListener ();
+	}
+
+	public void AddListener () {
 		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
@@ -26,7 +30,8 @@ public class TEnemyInfo : ProtobufDataBase {
 	private int initBlood = -1;
 	private int initAttackRound = -1;
 	public bool isDeferAttackRound = false;
-	public bool isPosion = false;
+//	public bool isPosion = false;
+	private AttackInfo posionAttack;
 
 	public TDropUnit drop;
 
@@ -69,12 +74,23 @@ public class TEnemyInfo : ProtobufDataBase {
 	}
 
 	void SkillPosion(object data) {
-		AttackInfo ai = data as AttackInfo;
-		if (ai == null) {
+		posionAttack = data as AttackInfo;
+		if (posionAttack == null) {
 			return;	
 		}
-		int value = System.Convert.ToInt32 (ai.AttackValue);
+
+		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+
+		int value = System.Convert.ToInt32 (posionAttack.AttackValue);
 		KillHP (value);
+	}
+
+	void AttackEnemyEnd(object data) {
+		if (posionAttack == null || posionAttack.AttackRound == 0) {
+			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+		}
+		posionAttack.AttackRound --;
+		SkillPosion(posionAttack);
 	}
 
 	public void KillHP(int hurtValue) {
@@ -168,7 +184,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	private bool isDead = false;
 	public bool IsDead {
 		get { return isDead; }
-		set { isDead = value; }
+		set { isDead = value; RemoveListener(); }
 	}
 }
 

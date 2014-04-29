@@ -4,20 +4,20 @@ using System.Collections;
 using bbproto;
 
 public class BattleQuest : UIBase {
-	private Coordinate roleInitPosition = new Coordinate();
-	public Coordinate RoleInitPosition {
-		get { 
-			if(roleInitPosition.x != MapConfig.characterInitCoorX) {
-				roleInitPosition.x = MapConfig.characterInitCoorX;
-				roleInitPosition.y = MapConfig.characterInitCoorY;
-			}
-			return  roleInitPosition;
-		}
-	}
+//	private Coordinate roleInitPosition = new Coordinate();
+//	public Coordinate RoleInitPosition {
+//		get { 
+//			if(roleInitPosition.x != MapConfig.characterInitCoorX) {
+//				roleInitPosition.x = MapConfig.characterInitCoorX;
+//				roleInitPosition.y = MapConfig.characterInitCoorY;
+//			}
+//			return  roleInitPosition;
+//		}
+//	}
 
 	private GameObject rootObject;
 	private TQuestGrid currentMapData;
-	public static TQuestDungeonData questDungeonData;
+	private TQuestDungeonData questDungeonData;
 	public BattleMap battleMap;
 	public Role role;
 	public Battle battle;
@@ -71,7 +71,6 @@ public class BattleQuest : UIBase {
 		battle.CreatUI();
 		battle.HideUI ();
 		CreatEffect ();
-//		MapCamera.IsClick = false;
 		bud = new BattleUseData (this);
 
 		AddSelfObject (battleMap);
@@ -102,7 +101,7 @@ public class BattleQuest : UIBase {
 		if (questFullScreenTips == null) {
 			CreatBoosAppear();
 		}
-		questDungeonData = ModelManager.Instance.GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
+		questDungeonData = ConfigBattleUseData.Instance.questDungeonData; //GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
 	}
 
 	void Init(UIBaseUnity ui,string name) {
@@ -147,7 +146,9 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 	}
-	
+
+
+
 	void LeaderSkillEnd(object data) {
 		MsgCenter.Instance.RemoveListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 	}
@@ -275,15 +276,16 @@ public class BattleQuest : UIBase {
 	}
 	
 	public void QuestEnd () {
-		if ( DataCenter.Instance.currentStageInfo.Type == QuestType.E_QUEST_STORY) { // story quest
-			DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (DataCenter.Instance.currentStageInfo.ID, DataCenter.Instance.currentQuestInfo.ID);
+		ConfigBattleUseData cbud = ConfigBattleUseData.Instance;
+		if ( cbud.currentStageInfo.Type == QuestType.E_QUEST_STORY ) { // story quest
+			DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (cbud.currentStageInfo.ID, cbud.currentQuestInfo.ID);
 		}else { // event quest
-			DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (DataCenter.Instance.currentStageInfo.ID, DataCenter.Instance.currentQuestInfo.ID);
+			DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (cbud.currentStageInfo.ID, cbud.currentQuestInfo.ID);
 		}
 
 //		DataCenter.StartQuestInfo = null;
 
-		if (DataCenter.Instance.BattleFriend != null && DataCenter.Instance.BattleFriend.FriendPoint > 0) {
+		if (ConfigBattleUseData.Instance.BattleFriend != null && ConfigBattleUseData.Instance.BattleFriend.FriendPoint > 0) {
 			HaveFriendExit ();
 		} else {
 			NoFriendExit();
@@ -299,7 +301,7 @@ public class BattleQuest : UIBase {
 	public void HaveFriendExit() {
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ChangeScene(SceneEnum.Result);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, DataCenter.Instance.BattleFriend);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, ConfigBattleUseData.Instance.BattleFriend);
 	}
 
 	void EvolveEnd () {
@@ -316,6 +318,55 @@ public class BattleQuest : UIBase {
 		battle.ShieldInput (false);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.ReadyMove, ReadyMove, count * AttackController.normalAttackInterv);
 		bud.InitBattleUseData();
+	}
+	
+
+	public void ContineBattle (Coordinate coor) {
+		battleMap.ReachMapItem (coor);
+		GameTimer.GetInstance ().AddCountDown (0.2f, YieldShowAnim);
+		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
+			return;	
+		}
+		currentMapData = questDungeonData.GetSingleFloor (coor);
+
+		role.Stop ();
+
+		StoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
+
+		if (sbd.isBattle == 1) {
+			BattleMap.waitMove = false;
+			ShowBattle();
+			List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+			for (int i = 0; i < sbd.enemyInfo.Count; i++) {
+				TEnemyInfo tei = sbd.enemyInfo[i];
+				tei.EnemySymbol = (uint)i;
+				temp.Add(tei);
+				
+				DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
+			}
+			bud.InitEnemyInfo (currentMapData);
+			
+			battle.ShowEnemy (temp);
+			ExitFight (false);
+			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
+
+		}
+
+		if (sbd.isBattle == 2) {
+			battle.ShieldInput (true);
+			BattleMap.waitMove = false;
+			ShowBattle();
+			List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+			for (int i = 0; i < sbd.enemyInfo.Count; i++) {
+				TEnemyInfo tei = sbd.enemyInfo[i];
+				tei.EnemySymbol = (uint)i;
+				temp.Add (tei);
+			}
+			bud.InitBoss (questDungeonData.Boss);
+			battle.ShowEnemy(temp);
+			ExitFight (false);
+			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
+		}
 	}
 
 	public void RoleCoordinate(Coordinate coor) {
@@ -454,9 +505,9 @@ public class BattleQuest : UIBase {
 		}
 	}
 
-	void MeetBoss () {
+	public void MeetBoss () {
 		battle.ShieldInput (true);
-		MsgCenter.Instance.Invoke(CommandEnum.MeetEnemy, true);
+
 		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
@@ -471,7 +522,7 @@ public class BattleQuest : UIBase {
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
 	}
 
-	void MapItemEnemy() {
+	public void MapItemEnemy() {
 		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();

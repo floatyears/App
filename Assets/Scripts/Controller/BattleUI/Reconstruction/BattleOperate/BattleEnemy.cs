@@ -9,6 +9,8 @@ public class BattleEnemy : UIBaseUnity {
 		}
 	}
 
+	public List<TEnemyInfo> monsterList = new List<TEnemyInfo> ();
+
 	private GameObject effectPanel;
 
 	private GameObject tempGameObject;
@@ -54,12 +56,14 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 //		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemy, Attack);
+
 		count ++;
 		battleAttackInfo.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
+
 	}
 
 	void AttackEnemyEnd(object data) {
@@ -95,7 +99,7 @@ public class BattleEnemy : UIBaseUnity {
 		                                 
 	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
-		List<EnemyItem> temp = new List<EnemyItem> ();
+		monsterList = new List<TEnemyInfo> ();
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);
@@ -103,15 +107,13 @@ public class BattleEnemy : UIBaseUnity {
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.battleEnemy = this;
 			ei.Init(enemy[i]);
-			temp.Add(ei);
+			monsterList.Add(enemy[i]);
 			monster.Add(enemy[i].EnemySymbol,ei);
-			if(width < temp[i].texture.width) {
-				width = temp[i].texture.width;
+			if(width < monster[i].texture.width) {
+				width = monster[i].texture.width;
 			}
 		}
-		SortEnemyItem (temp);
-
-
+		SortEnemyItem (monsterList);
 	}
 	float width = 0;
 	void DropItem(object data) {
@@ -119,6 +121,8 @@ public class BattleEnemy : UIBaseUnity {
 		uint posSymbol = (uint)pos;
 
 		if (monster.ContainsKey (posSymbol) && monster[posSymbol].enemyInfo.IsDead) {
+			TEnemyInfo tei = monsterList.Find(a=>a.EnemySymbol == posSymbol);
+			monsterList.Remove(tei);
 			monster.Remove (posSymbol);	
 		}
 	}

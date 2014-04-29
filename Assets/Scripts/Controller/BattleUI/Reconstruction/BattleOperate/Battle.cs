@@ -122,6 +122,8 @@ public class Battle : UIBase {
 	}
 
 	void EnemyAttckEnd (object data) {
+
+
 		battleCard.StartBattle (true);
 		ShieldInput (true);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
@@ -228,12 +230,12 @@ public class Battle : UIBase {
 	}
 
 	int GenerateCardIndex () {
-		int index = BattleQuest.questDungeonData.Colors [colorIndex];
+		int index = ConfigBattleUseData.Instance.questDungeonData.Colors [colorIndex];
 		currentColor.Add (index);
 		if (currentColor.Count > 5) {
 			currentColor.RemoveAt(0);
 		}
-		colorIndex++;
+		colorIndex ++;
 		return index;
 	}
 

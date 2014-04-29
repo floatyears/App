@@ -49,13 +49,14 @@ public class BattleMenu : UIBaseUnity {
 
 		string Path = "Tabs/Content_QuestInfo";
 		areaNameLabel = FindChild<UILabel> (Path + "/AreaNameLabel");
-		areaNameLabel.text = DataCenter.Instance.currentQuestInfo.Name;
+		areaNameLabel.text = ConfigBattleUseData.Instance.currentQuestInfo.Name;
 
 		questNameLabel = FindChild<UILabel>(Path + "/QuestNameLabel");
-		questNameLabel.text = DataCenter.Instance.currentStageInfo.StageName;
+		questNameLabel.text = ConfigBattleUseData.Instance.currentStageInfo.StageName;
 
 		floorLabel = FindChild<UILabel>(Path + "/FloorLabel");
-		floorLabel.text = (BattleQuest.questDungeonData.currentFloor + 1) + "/" + BattleQuest.questDungeonData.Floors.Count;
+		TQuestDungeonData tdd = ConfigBattleUseData.Instance.questDungeonData;
+		floorLabel.text = (tdd.currentFloor + 1) + "/" + tdd.Floors.Count;
 		string path = Path + "/GetUnitsDragPanel/ScrollView";
 		Debug.LogError ("path : " + path);
 		scrollView = FindChild<UIScrollView>(path);

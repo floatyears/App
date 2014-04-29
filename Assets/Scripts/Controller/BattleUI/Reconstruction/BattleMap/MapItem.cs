@@ -69,7 +69,7 @@ public class MapItem : UIBaseUnity {
 		string[] info = name.Split('|');
 		int x = System.Int32.Parse (info[0]);
 		int y = System.Int32.Parse (info [1]);
-		gridItem = BattleQuest.questDungeonData.GetSingleFloor (new Coordinate (x, y));
+		gridItem = ConfigBattleUseData.Instance.questDungeonData.GetSingleFloor (new Coordinate (x, y));
 		InitStar ();
 		if (gridItem != null) {
 			switch (gridItem.Star) {

@@ -86,11 +86,11 @@ public class DataCenter {
 //		get { return startQuestInfo; }
 //	}
 
-	private TFriendInfo battleFriend;
-	public TFriendInfo BattleFriend {
-		set { battleFriend = value; }
-		get { return battleFriend; }
-	}
+//	private TFriendInfo battleFriend;
+//	public TFriendInfo BattleFriend {
+//		set { battleFriend = value; }
+//		get { return battleFriend; }
+//	}
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
@@ -537,12 +537,6 @@ public class DataCenter {
 		Debug.Log("DataCenter.GetCityListInfo(), CityListInfo count is : " + CityListInfo.Count);
 		return CityListInfo;
 	}
-
-//	public uint currentPickedStageID;
-	public TStageInfo currentStageInfo;// {
-//		get { return city }
-//	}
-	public TQuestInfo currentQuestInfo;
 
 	public TFriendInfo GetSupporterInfo(uint friendUid){
 		foreach (var item in SupportFriends) {

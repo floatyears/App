@@ -130,7 +130,8 @@ public class StandbyView : UIComponentUnity {
 		}
 		
 		if (data == null || tqdd == null) { return; }
-		EnterBattle ();
+		EnterBattle (tqdd);
+
 	} 
 
 	private void RspEvolveStartQuest (object data) {
@@ -150,11 +151,12 @@ public class StandbyView : UIComponentUnity {
 		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
 		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		
-		EnterBattle ();
+		EnterBattle (tqdd);
 	}
 	
-	private void EnterBattle () {
-		DataCenter.Instance.BattleFriend = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+	private void EnterBattle (TQuestDungeonData tqdd) {
+		ConfigBattleUseData.Instance.BattleFriend = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
 		UIManager.Instance.EnterBattle();
 	} 
 

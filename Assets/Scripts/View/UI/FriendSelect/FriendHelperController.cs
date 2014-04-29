@@ -113,7 +113,7 @@ public class FriendHelperController : ConcreteComponent{
 	} 
 		
 	void EnterBattle () {
-		DataCenter.Instance.BattleFriend = selectedHelper;
+		ConfigBattleUseData.Instance.BattleFriend = selectedHelper;
 		HideUI ();
 		UIManager.Instance.EnterBattle();
 	} 

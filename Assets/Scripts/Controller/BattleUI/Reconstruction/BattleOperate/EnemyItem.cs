@@ -134,13 +134,15 @@ public class EnemyItem : UIBaseUnity {
         iTween.ShakeScale(texture.gameObject, iTween.Hash("amount", new Vector3(0.5f, 0.5f, 0.5f), "time", 0.2f));
     }
 
+	AttackInfo posionAttack;
+
     void BePosion(object data) {
-        AttackInfo ai = data as AttackInfo;
-        if (ai == null) {
+		posionAttack = data as AttackInfo;
+		if (posionAttack == null) {
             return;	
         }
         Debug.Log("play posion animation");
-        Debug.Log("posion round : " + ai.AttackRound);
+		Debug.Log("posion round : " + posionAttack.AttackRound);
     }
 
     void SkillPosion(object data) {

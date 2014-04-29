@@ -82,8 +82,10 @@ public class BattleUseData {
 
 	public void InitBattleUseData () {
 		els.Excute();
-		maxBlood = Blood = upi.GetInitBlood();
-		maxEnergyPoint = DataCenter.maxEnergyPoint;
+		StoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
+		maxBlood = Blood = sbd.hp;//upi.GetInitBlood();
+		maxEnergyPoint = sbd.sp;//DataCenter.maxEnergyPoint;
+		MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
 		GetBaseData (null);
 		eas = new ExcuteActiveSkill(upi);
 		eps = new ExcutePassiveSkill(upi);

@@ -12,6 +12,11 @@ public class TQuestDungeonData : ProtobufDataBase {
 	}
 
 	private QuestDungeonData	instance;
+	public QuestDungeonData Instance {
+		get {
+			return instance;
+		}
+	}
 	private List<TDropUnit>		dropUnit;
 	private List<TEnemyInfo>	boss = new List<TEnemyInfo>();
 	private List<byte> colors;
