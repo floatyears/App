@@ -100,6 +100,7 @@ public class BattleEnemy : UIBaseUnity {
 	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
 		monsterList = new List<TEnemyInfo> ();
+		List<EnemyItem> temp = new List<EnemyItem> ();
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);
@@ -107,13 +108,14 @@ public class BattleEnemy : UIBaseUnity {
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.battleEnemy = this;
 			ei.Init(enemy[i]);
+			temp.Add(ei);
 			monsterList.Add(enemy[i]);
 			monster.Add(enemy[i].EnemySymbol,ei);
-			if(width < monster[i].texture.width) {
-				width = monster[i].texture.width;
+			if(width < temp[i].texture.width) {
+				width = temp[i].texture.width;
 			}
 		}
-		SortEnemyItem (monsterList);
+		SortEnemyItem (temp);
 	}
 	float width = 0;
 	void DropItem(object data) {
