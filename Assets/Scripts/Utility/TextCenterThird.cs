@@ -11,7 +11,24 @@
 using System;
 public partial class TextCenter {
     private void InitThird(){
-        
+		//novice guide(new hand)
+		textDict.Add ("guide1_title", "Welcom!");
+		textDict.Add ("guide1_content", "Are you going to get into the saint gate?");
+		textDict.Add ("guide2_title", "选择队员");
+		textDict.Add ("guide2_content", "选择和你一起冒险的伙伴。\n未选择的伙伴会在之后的旅程中相遇！");
+		textDict.Add ("guide3_title", "决定队员");
+		textDict.Add ("guide3_content", "角色介绍。\n确定和xxx冒险么？");
+		textDict.Add ("guide4_title", "开始冒险");
+		textDict.Add ("guide4_content", "我的名字叫xxx。\n那么就立马开始冒险吧！");
+//		textDict.Add ("", "");
+//		textDict.Add ("", "");
+//		textDict.Add ("", "");
+//		textDict.Add ("", "");
+//		textDict.Add ("", "");
+//		textDict.Add ("", "");
+//		textDict.Add ("", "");
+//		textDict.Add ("", "");
+//		textDict.Add ("", "");
     }
 }
 

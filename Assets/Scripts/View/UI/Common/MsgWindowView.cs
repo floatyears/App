@@ -102,9 +102,7 @@ public class MsgWindowView : UIComponentUnity{
     }
 
     void Reset(){
-        btnCenterParam = null;
-        btnLeftParam = null;
-        btnRightParam = null;
+       
 
         btnLeft.gameObject.SetActive(false);
         btnRight.gameObject.SetActive(false);
@@ -118,8 +116,14 @@ public class MsgWindowView : UIComponentUnity{
         msgLabelTop.text = string.Empty;
         msgLabelBottom.text = string.Empty;
     }
-	    
-    void SetUIElement(){
+
+	void ClearData() {
+		btnCenterParam = null;
+		btnLeftParam = null;
+		btnRightParam = null;
+	}
+	
+	void SetUIElement(){
         this.gameObject.SetActive(false);
         Reset();
     }
@@ -161,35 +165,38 @@ public class MsgWindowView : UIComponentUnity{
     
     void ClickRightButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-        if (btnRightParam != null){
+		ShowSelf(false);
+		if (btnRightParam != null){
             DataListener callback = btnRightParam.callback;
             if (callback != null){
                 callback(btnRightParam.args);
             }
         }
-        ShowSelf(false);
-    }
-    
+		ClearData ();
+	}
+	
     void ClickLeftButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-        if (btnLeftParam != null){
+		ShowSelf(false);
+		if (btnLeftParam != null){
             DataListener callback = btnLeftParam.callback;
             if (callback != null){
                 callback(btnLeftParam.args);
             }
         }
-        ShowSelf(false);
-    }
-
-    void ClickCenterButton(GameObject btn){
+		ClearData ();
+	}
+	
+	void ClickCenterButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+		ShowSelf(false);
         if (btnCenterParam != null){
             DataListener callback = btnCenterParam.callback;
             if (callback != null){
                 callback(btnCenterParam.args);
             }
         }
-        ShowSelf(false);
+		ClearData ();
     }
 
     void UpdateCenterLabel(string text){

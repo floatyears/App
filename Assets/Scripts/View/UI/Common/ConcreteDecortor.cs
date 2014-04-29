@@ -10,6 +10,7 @@ public class SelectRoleDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 	
 	public override void HideScene(){
