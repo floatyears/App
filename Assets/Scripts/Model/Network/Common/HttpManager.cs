@@ -114,10 +114,18 @@ public class HttpManager : INetSendPost {
             msgParams.btnParam = new BtnParam();
             msgParams.btnParam.callback = CallbackCancelRequest;
         }
+		else if (text.EndsWith("Operation timed out")){
+			Debug.LogError("OpenMsgWindowByError():"+text);
+			msgParams = new MsgWindowParams();
+			ErrorMsg errMsg = new ErrorMsg(ErrorCode.TIMEOUT);
+			msgParams.contentText = errMsg.Msg;
+			msgParams.btnParam = new BtnParam();
+			msgParams.btnParam.callback = CallbackCancelRequest;
+		}
         else {
-			Debug.LogError("OpenMsgWindowByError(), unknown Error");
+			Debug.LogError("OpenMsgWindowByError(), unknown Error: "+text);
             msgParams = new MsgWindowParams();
-            ErrorMsg errMsg = new ErrorMsg(ErrorCode.SERVER_500);
+            ErrorMsg errMsg = new ErrorMsg(ErrorCode.NETWORK);
             msgParams.contentText = errMsg.Msg;
             msgParams.btnParam = new BtnParam();
             msgParams.btnParam.callback = CallbackCancelRequest;
