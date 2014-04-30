@@ -58,7 +58,11 @@ public class Main : MonoBehaviour {
     }
 
     void Awake() {
-        mainScrpit = this;
+
+		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
+		GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
+
+		mainScrpit = this;
         TrapInjuredInfo tii = TrapInjuredInfo.Instance;
         globalDataSeed = (byte)Random.Range(0, 255);
 
@@ -72,6 +76,8 @@ public class Main : MonoBehaviour {
         ViewManager.Instance.Init(uiRoot);
         ModelManager.Instance.Init();
 		ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
+
+		//NoviceGuideStepEntityManager.Instance ();
     }
 
     /// <summary>

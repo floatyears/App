@@ -137,7 +137,9 @@ public class UIManager {
 		}
 
 		if (current != null) {
-			current.ShowScene();		
+			current.ShowScene();	
+
+			//MsgCenter.Instance.Invoke(CommandEnum.ChangeScene, sEnum);
 		}
 	}
 	
