@@ -47,22 +47,24 @@ message QuestStatus {
 }
 
 message QuestLog {
-	optional uint32			stageId			= 1;
-	optional uint32			questId			= 2;
-	optional uint32			startTime		= 3;
-	optional uint32			endTime			= 4;
-	optional uint32			helperUserId	= 5; 
-	optional UserUnit		helperUnit		= 6; 
-	optional int32			currentParty	= 7;
-	repeated DropUnit		dropUnits		= 8;
-	repeated UserUnit		getUnit			= 9;
-	optional int32			getExp			= 10;
-	optional int32			getMoney		= 11;
-	optional int32			getFriendPoint	= 12;
-	optional int32			continueTimes	= 13;
-	optional EQuestState	state			= 14;
-	optional int32			playTotal		= 15;
-	optional int32			playToday		= 16;
+	optional uint32				stageId			= 1;
+	optional uint32				questId			= 2;
+	optional uint32				startTime		= 3;
+	optional uint32				endTime			= 4;
+	optional QuestDungeonData	dungeonData		= 5;
+	optional uint32				helperUserId	= 6; 
+	optional UserUnit			helperUnit		= 7;
+	optional int32				currentParty	= 8;
+	repeated DropUnit			dropUnits		= 9;
+	repeated UserUnit			getUnit			= 10;
+	optional int32				getExp			= 11;
+	optional int32				getMoney		= 12;
+	optional int32				getFriendPoint	= 13;
+	optional int32				continueTimes	= 14; // continue quest after network error etc.
+	optional int32				resumeTimes		= 15; // use stone to resume when user's dead
+	optional EQuestState		state			= 16;
+	optional int32				playTotal		= 17;
+	optional int32				playToday		= 18;
 }
 
 //----------------------Quest config data-----------------------------
@@ -128,6 +130,7 @@ message DropUnit{
 	optional int32		addHp			= 4;
 	optional int32		addAttack		= 5;
 	optional int32		addDefence		= 6;
+	optional int32		dropPos			= 7; //only used for boss drop
 }
 
 message QuestGrid {
@@ -192,6 +195,7 @@ message QuestInfo {
 	optional int32			rewardMoney	= 9;
 	repeated uint32			bossId		= 10; // boss unitid
 	repeated uint32			enemyId		= 11; // enemy unitid
+	optional Position		pos			= 12; // quest position of the stage	
 }
 
 message StageInfo {
@@ -221,8 +225,8 @@ message CityInfo {
 
 message WorldMapInfo {
 	optional int32		version			= 1;
-	optional uint32		id				= 2;	
-	repeated CityInfo	citys			= 3;
+	optional uint32		id				= 2; // world id, not used right now
+	repeated CityInfo	citylist		= 3; // CityInfo without stages(only CityInfo.id & CityInfo.cityName)
 }
 
 //-------------------------------------------------------------
@@ -277,10 +281,48 @@ message RspClearQuest {
 message ReqRetireQuest {
 	optional ProtoHeader	header 			= 1;
 	optional uint32			questId			= 2; // 
+	optional int32			isGameOver		= 3; 
 }
 
 message RspRetireQuest {
 	optional ProtoHeader 	header 			= 1;
+	optional int32			staminaNow		= 2;
+	optional uint32			staminaRecover	= 3;
+}
+
+message ReqResumeQuest {
+	optional ProtoHeader	header 			= 1;
+	optional uint32			questId			= 2; // 
+}
+
+message RspResumeQuest {
+	optional ProtoHeader 	header 			= 1;
+	optional int32			stone 			= 2;
+}
+
+message ReqRedoQuest {
+	optional ProtoHeader		header 			= 1;
+	optional uint32				questId			= 2;
+	optional int32				floor			= 3;
+	optional int32				getColors		= 4;
+}
+
+message RspRedoQuest {
+	optional ProtoHeader	 	header 			= 1;
+	optional int32				stone 			= 2;
+	optional QuestDungeonData	dungeonData		= 3;	
+}
+
+message ReqGetQuestColors {
+	optional ProtoHeader	header 			= 1;
+	optional uint32			questId			= 2;
+	optional int32			count			= 3;
+}
+
+message RspGetQuestColors {
+	optional ProtoHeader 	header 			= 1;
+	optional uint32			questId			= 2;
+	optional bytes			colors			= 3;
 }
 
 message ReqGetQuestInfo {

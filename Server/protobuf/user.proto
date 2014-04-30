@@ -27,6 +27,9 @@ message UserInfoDetail {
 	optional PartyInfo		party				= 5;
 	optional LoginInfo		login				= 6;
 	optional QuestClearInfo	questClear			= 7;
+	optional bytes			unitFavoriteFlag	= 8;
+	optional bytes			haveUnitFlag		= 9;	//got unit
+	optional bytes			meetUnitFlag		= 10;	//meet unit
 }
 
 message AccountInfo {
@@ -121,6 +124,7 @@ message ReqAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional TerminalInfo	terminal			= 2;
 	optional uint32			selectRole			= 3;
+	optional int32			channelId			= 4;
 }
 
 message RspAuthUser {
@@ -137,6 +141,10 @@ message RspAuthUser {
 	optional EUnitType		evolveType			= 11;
 	optional QuestClearInfo	questClear			= 12;
 	optional int32			isNewUser			= 13;
+	optional bytes			haveUnitFlag		= 14;
+	optional bytes			meetUnitFlag		= 15;
+	optional int32			newAppVersion		= 16;
+	optional string			appUrl				= 17;
 }
 
 //-------------------------------------------------
@@ -209,7 +217,7 @@ message ReqFriendMaxExpand {
 
 message RspFriendMaxExpand {
 	optional ProtoHeader	header				= 1;
-	optional int32			friendMax			= 2;	
+	optional int32			friendMax			= 2;
 	optional int32			stone				= 3;
 }
 

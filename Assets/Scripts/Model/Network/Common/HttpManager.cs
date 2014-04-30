@@ -95,8 +95,8 @@ public class HttpManager : INetSendPost {
 
         MsgWindowParams msgParams = null;
 
-        if (text.StartsWith("Failed to connect to ")){
-            Debug.LogError("OpenMsgWindowByError(), failed to connect server");
+		if (text.StartsWith("Failed to connect to ") || text.StartsWith("couldn't connect to host") ){
+			Debug.LogError("OpenMsgWindowByError() error:"+text);
             msgParams = new MsgWindowParams();
             msgParams.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.CONNECT_ERROR);
@@ -133,8 +133,8 @@ public class HttpManager : INetSendPost {
         }
         if (msgParams != null){
             MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, msgParams);
-            WWW www = post.WwwInfo;
-            www.Dispose();
+			post.WwwInfo.Dispose();
+			post.WwwInfo = null;
             return;
         }
     }
