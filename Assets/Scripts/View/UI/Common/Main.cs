@@ -59,9 +59,6 @@ public class Main : MonoBehaviour {
 
     void Awake() {
 
-		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
-		GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
-
 		mainScrpit = this;
         TrapInjuredInfo tii = TrapInjuredInfo.Instance;
         globalDataSeed = (byte)Random.Range(0, 255);
