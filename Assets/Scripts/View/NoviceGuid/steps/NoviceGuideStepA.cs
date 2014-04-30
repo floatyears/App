@@ -105,15 +105,15 @@ public class NoviceGuideStepA_StateTwo:NoviceGuidState
 	public override void Execute(NoviceGuideStepEntity stepEntity)
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepA state_one");
+
 		if(JumpToNextState)
 			stepEntity.GetStateMachine ().ChangeState (null);
 		else{
 			
 		}
-	}
-	
+	}	
 	public override void Exit(NoviceGuideStepEntity stepEntity)
 	{
-		
+
 	}
 }

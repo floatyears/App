@@ -58,10 +58,13 @@ public class NoviceGuideStepEntityManager {
 		Debug.Log("//////////current scene: " + UIManager.Instance.current.CurrentDecoratorScene);
 		switch (UIManager.Instance.current.CurrentDecoratorScene) {
 			case SceneEnum.Loading:
-				CreateStepEntityByID(NoviceGuideStepEntityID.StepA);
+				CreateStepEntityByID(NoviceGuideStepEntityID.Loading);
 				break;
 			case SceneEnum.SelectRole:
-				CreateStepEntityByID(NoviceGuideStepEntityID.StepB);
+				CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE);
+				break;
+			case SceneEnum.Scratch:
+				CreateStepEntityByID(NoviceGuideStepEntityID.SCRATCH);
 				break;
 		}
 	}
@@ -123,14 +126,14 @@ public class NoviceGuideStepEntityManager {
 		else {
 
 			NoviceGuideStepEntity stepEn = null;
-			switch(id){
-				case NoviceGuideStepEntityID.StepA:
+			switch(id){			
+				case NoviceGuideStepEntityID.Loading:
 					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepA_StateOne.Instance());
 					break;
-				case NoviceGuideStepEntityID.StepB:
+				case NoviceGuideStepEntityID.SElECT_ROLE:
 					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepB_StateOne.Instance());
 					break;
-				case NoviceGuideStepEntityID.StepC:
+				case NoviceGuideStepEntityID.SCRATCH:
 					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepA_StateOne.Instance());
 					break;
 				default:
@@ -154,7 +157,8 @@ public class NoviceGuideStepEntityManager {
 }
 
 public enum NoviceGuideStepEntityID{
-	StepA = 1,
-	StepB = 2,
-	StepC = 3,
+
+	Loading = 1,
+	SElECT_ROLE = 2,
+	SCRATCH = 3,
 }
