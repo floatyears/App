@@ -19,6 +19,9 @@ public class HttpNetBase : IWWWPost {
 		get { return www; }
 		set {www = value;}
 	}
+
+	private byte[] data;
+
 	private string currentUrl = "";
 	public string Url {
 		get { return HttpManager.baseUrl + currentUrl; }
@@ -42,11 +45,13 @@ public class HttpNetBase : IWWWPost {
 		callback = nettemp.Receive;
 		Url = urlPath;
 //		Debug.LogError ("send : " + Url);
+		this.data = data;
 		www = new WWW (Url, data);
 		HttpManager.Instance.SendHttpPost (this);
 	}
 
     public void ReSend(){
+		www = new WWW (Url, data);
         HttpManager.Instance.SendHttpPost (this);
     }
 	

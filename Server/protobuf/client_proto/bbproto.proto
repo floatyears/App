@@ -182,22 +182,24 @@ message QuestStatus {
 }
 
 message QuestLog {
-	optional uint32			stageId			= 1;
-	optional uint32			questId			= 2;
-	optional uint32			startTime		= 3;
-	optional uint32			endTime			= 4;
-	optional uint32			helperUserId	= 5; 
-	optional UserUnit		helperUnit		= 6; 
-	optional int32			currentParty	= 7;
-	repeated DropUnit		dropUnits		= 8;
-	repeated UserUnit		getUnit			= 9;
-	optional int32			getExp			= 10;
-	optional int32			getMoney		= 11;
-	optional int32			getFriendPoint	= 12;
-	optional int32			continueTimes	= 13;
-	optional EQuestState	state			= 14;
-	optional int32			playTotal		= 15;
-	optional int32			playToday		= 16;
+	optional uint32				stageId			= 1;
+	optional uint32				questId			= 2;
+	optional uint32				startTime		= 3;
+	optional uint32				endTime			= 4;
+	optional QuestDungeonData	dungeonData		= 5;
+	optional uint32				helperUserId	= 6; 
+	optional UserUnit			helperUnit		= 7;
+	optional int32				currentParty	= 8;
+	repeated DropUnit			dropUnits		= 9;
+	repeated UserUnit			getUnit			= 10;
+	optional int32				getExp			= 11;
+	optional int32				getMoney		= 12;
+	optional int32				getFriendPoint	= 13;
+	optional int32				continueTimes	= 14; // continue quest after network error etc.
+	optional int32				resumeTimes		= 15; // use stone to resume when user's dead
+	optional EQuestState		state			= 16;
+	optional int32				playTotal		= 17;
+	optional int32				playToday		= 18;
 }
 
 //----------------------Quest config data-----------------------------
@@ -263,6 +265,7 @@ message DropUnit{
 	optional int32		addHp			= 4;
 	optional int32		addAttack		= 5;
 	optional int32		addDefence		= 6;
+	optional int32		dropPos			= 7; //only used for boss drop
 }
 
 message QuestGrid {
@@ -327,6 +330,7 @@ message QuestInfo {
 	optional int32			rewardMoney	= 9;
 	repeated uint32			bossId		= 10; // boss unitid
 	repeated uint32			enemyId		= 11; // enemy unitid
+	optional Position		pos			= 12; // quest position of the stage	
 }
 
 message StageInfo {
@@ -356,8 +360,8 @@ message CityInfo {
 
 message WorldMapInfo {
 	optional int32		version			= 1;
-	optional uint32		id				= 2;	
-	repeated CityInfo	citys			= 3;
+	optional uint32		id				= 2; // world id, not used right now
+	repeated CityInfo	citylist		= 3; // CityInfo without stages(only CityInfo.id & CityInfo.cityName)
 }
 
 //-------------------------------------------------------------
@@ -412,10 +416,48 @@ message RspClearQuest {
 message ReqRetireQuest {
 	optional ProtoHeader	header 			= 1;
 	optional uint32			questId			= 2; // 
+	optional int32			isGameOver		= 3; 
 }
 
 message RspRetireQuest {
 	optional ProtoHeader 	header 			= 1;
+	optional int32			staminaNow		= 2;
+	optional uint32			staminaRecover	= 3;
+}
+
+message ReqResumeQuest {
+	optional ProtoHeader	header 			= 1;
+	optional uint32			questId			= 2; // 
+}
+
+message RspResumeQuest {
+	optional ProtoHeader 	header 			= 1;
+	optional int32			stone 			= 2;
+}
+
+message ReqRedoQuest {
+	optional ProtoHeader		header 			= 1;
+	optional uint32				questId			= 2;
+	optional int32				floor			= 3;
+	optional int32				getColors		= 4;
+}
+
+message RspRedoQuest {
+	optional ProtoHeader	 	header 			= 1;
+	optional int32				stone 			= 2;
+	optional QuestDungeonData	dungeonData		= 3;	
+}
+
+message ReqGetQuestColors {
+	optional ProtoHeader	header 			= 1;
+	optional uint32			questId			= 2;
+	optional int32			count			= 3;
+}
+
+message RspGetQuestColors {
+	optional ProtoHeader 	header 			= 1;
+	optional uint32			questId			= 2;
+	optional bytes			colors			= 3;
 }
 
 message ReqGetQuestInfo {
@@ -442,6 +484,152 @@ message TrapInfo {
 	repeated TrapInjuredValue	injuredInfo	= 4;
 	optional int32				effectType	= 5;
 }
+
+//=====================================================
+
+//-------------------------------------------------
+message StatAuthUser {
+	optional string			terminal			= 1;
+	optional uint32			selectRole			= 2;
+	optional int32			channelId			= 3;
+
+	optional uint32			timeStamp			= 5;
+	optional uint32			userId				= 6;
+	optional int32			errorCode			= 7;
+}
+
+message StatRenameNick {
+	optional string			newNickName			= 1;
+	
+	optional uint32			timeStamp			= 2;
+	optional uint32			userId				= 3;
+	optional int32			errorCode			= 4;
+}
+
+message StatRestoreStamina {
+	optional int32			staminaNow			= 1; // current stamina
+	optional int32			staminaMax			= 2; 	
+	optional uint32			staminaRecover		= 3; // stamina recover time
+	optional int32			stone				= 4;
+	
+	optional uint32			timeStamp			= 5;
+	optional uint32			userId				= 6;
+	optional int32			errorCode			= 7;
+}
+
+message StatChangeParty {
+	optional int32			currentParty		= 1;
+	repeated UnitParty		partyList			= 2;
+
+	optional uint32			timeStamp			= 3;
+	optional uint32			userId				= 4;
+	optional int32			errorCode			= 5;
+}
+
+//////////////////////////////////////////////////////////////////////
+// unit protocol
+message StatUnitMaxExpand {
+	optional int32			unitMax				= 1;
+	optional int32			stone				= 2;
+	
+	optional uint32			timeStamp			= 3;
+	optional uint32			userId				= 4;
+	optional int32			errorCode			= 5;
+}
+
+message StatFriendMaxExpand {
+	optional int32			friendMax			= 1;
+	optional int32			stone				= 2;
+	
+	optional uint32			timeStamp			= 3;
+	optional uint32			userId				= 4;
+	optional int32			errorCode			= 5;
+}
+
+message StatLevelUp {	
+	optional uint32			baseUniqueId	= 1;
+	repeated uint32			partUniqueId	= 2;
+	optional uint32			helperUserId	= 3;
+	optional uint32			helperUniqueId	= 4;
+	optional int32			helperPremium	= 5;
+
+	optional int32			money			= 6;
+	optional int32			blendExp		= 7;
+	
+	optional uint32			timeStamp		= 8;
+	optional uint32			userId			= 9;
+	optional int32			errorCode		= 10;
+}
+
+message StatEvolveStart {	
+	optional uint32			baseUniqueId	= 1;
+	repeated uint32			partUniqueId	= 2;
+	optional uint32			helperUserId	= 3;
+	optional uint32			helperUniqueId	= 4;
+	optional int32			helperPremium	= 5;
+	optional uint32			evolveQuestId	= 6;
+	optional int32			restartNew		= 7;
+                                              
+	optional int32			staminaNow		= 8; // current stamina
+	optional uint32			staminaRecover	= 9; // stamina recover time
+	repeated DropUnit		drop			= 10;
+	
+	optional uint32			timeStamp		= 11;
+	optional uint32			userId			= 12;
+	optional int32			errorCode		= 13;
+}
+
+message StatEvolveDone {	
+	optional uint32			questId			= 1; 
+	optional uint32			securityKey		= 2;
+	optional int32			getMoney		= 3;
+	repeated uint32			getUnit			= 4;
+	repeated uint32			hitGrid			= 5;
+	                                          
+	optional uint32			timeStamp		= 6;
+	optional uint32			userId			= 7;
+	optional int32			errorCode		= 8;
+}
+
+message StatGacha {	
+	optional int32			gachaId			= 1;
+	optional int32			gachaCount		= 2;
+
+	repeated UserUnit		unitList		= 3; // only the gacha got units
+	repeated uint32			unitUniqueId	= 4;
+	repeated uint32			blankUnitId		= 5;
+	optional int32			stone			= 6;
+	optional int32			friendPoint		= 7;
+	
+	optional uint32			timeStamp		= 8;
+	optional uint32			userId			= 9;
+	optional int32			errorCode		= 10;
+}
+
+
+message StatSellUnit {	
+	repeated uint32			unitUniqueId	= 1;
+
+	optional int32			money			= 2;
+	optional int32			gotMoney		= 3;
+	repeated UserUnit		unitList		= 4;	
+
+	optional uint32			timeStamp		= 5;
+	optional uint32			userId			= 6;
+	optional int32			errorCode		= 7;
+}
+
+message StatUnitFavorite {
+	optional uint32			unitUniqueId	= 1;
+	optional int32			action			= 2;
+
+	optional uint32			timeStamp		= 3;
+	optional uint32			userId			= 4;
+	optional int32			errorCode		= 5;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Friend protocol
 
 
 //=====================================================
@@ -571,14 +759,14 @@ message ReqLevelUp {
 	optional int32			helperPremium	= 6;
 }
 
-//TODO: only return baseUnit, but no other unitList.
 message RspLevelUp {
 	optional ProtoHeader	header			= 1;
-	repeated UserUnit		unitList		= 2;
-	optional int32			money			= 3;
-	optional uint32			blendUniqueId	= 4;
-	optional int32			blendExp		= 5;
-	repeated uint32			partUniqueId	= 6;
+	repeated UserUnit		unitList		= 2; // not used
+	optional UserUnit		baseUnit		= 3;
+	optional int32			money			= 4;
+	optional uint32			blendUniqueId	= 5;
+	optional int32			blendExp		= 6;
+	repeated uint32			partUniqueId	= 7;
 }
 
 
@@ -659,6 +847,21 @@ message RspSellUnit {
 	repeated UserUnit		unitList		= 4;	
 }
 
+enum EFavoriteAction {
+	ADD_FAVORITE	= 1;
+	DEL_FAVORITE	= 2;
+}
+
+message ReqUnitFavorite {
+	optional ProtoHeader		header			= 1;
+	optional uint32				unitUniqueId	= 2;
+	optional EFavoriteAction	action			= 3;
+}	
+
+message RspUnitFavorite {
+	optional ProtoHeader		header			= 1;
+	optional uint32				unitUniqueId	= 2;
+}
 
 //=====================================================
 
@@ -686,6 +889,9 @@ message UserInfoDetail {
 	optional PartyInfo		party				= 5;
 	optional LoginInfo		login				= 6;
 	optional QuestClearInfo	questClear			= 7;
+	optional bytes			unitFavoriteFlag	= 8;
+	optional bytes			haveUnitFlag		= 9;	//got unit
+	optional bytes			meetUnitFlag		= 10;	//meet unit
 }
 
 message AccountInfo {
@@ -780,6 +986,7 @@ message ReqAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional TerminalInfo	terminal			= 2;
 	optional uint32			selectRole			= 3;
+	optional int32			channelId			= 4;
 }
 
 message RspAuthUser {
@@ -796,6 +1003,10 @@ message RspAuthUser {
 	optional EUnitType		evolveType			= 11;
 	optional QuestClearInfo	questClear			= 12;
 	optional int32			isNewUser			= 13;
+	optional bytes			haveUnitFlag		= 14;
+	optional bytes			meetUnitFlag		= 15;
+	optional int32			newAppVersion		= 16;
+	optional string			appUrl				= 17;
 }
 
 //-------------------------------------------------
@@ -868,7 +1079,7 @@ message ReqFriendMaxExpand {
 
 message RspFriendMaxExpand {
 	optional ProtoHeader	header				= 1;
-	optional int32			friendMax			= 2;	
+	optional int32			friendMax			= 2;
 	optional int32			stone				= 3;
 }
 
