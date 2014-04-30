@@ -244,7 +244,15 @@ public class MapItem : UIBaseUnity {
 			GridAnim ("RotateEnd");	
 		}
 	}
-	
+
+	public void HideGridNoAnim() {
+		isOld = true;
+		HideShowSprite (false);
+		gridItemSprite.enabled = false;
+		mapItemSprite.enabled = false;
+		mapBackSprite.enabled = false;
+	}
+
 	Callback animEnd;
 	List<GameObject> gridAnim = new List<GameObject> ();
 	public void GridAnim(string function) {

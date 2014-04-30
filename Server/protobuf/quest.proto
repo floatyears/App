@@ -110,7 +110,9 @@ message EnemyInfo {
 	optional int32		hp				= 4;
 	optional int32		attack			= 5;
 	optional int32		defense			= 6;
-	optional int32		nextAttack		= 7; // next 1, 2, 3 
+	optional int32		nextAttack		= 7; // next 1, 2, 3. 
+	optional int32		currentHp		= 8; // store runtime hp.
+	optional int32		currentNext		= 9; // store runtime next.
 }
 
 message EnemyInfoConf {
@@ -308,3 +310,21 @@ message TrapInfo {
 	optional int32				effectType	= 5;
 }
 
+//===========store disk data============================================================
+message StoreBattleData {
+	optional int32				colorIndex;
+	optional int32				hp;
+	optional int32				sp;
+	optional int32				isBattle;
+	optional int32				xCoordinate;
+	optional int32				yCoordinate;
+	repeated ClearQuestParam	questData;
+	repeated EnemyInfo			enemyInfo;
+}
+
+message ClearQuestParam {
+	optional uint32			questID;
+	optional int32			getMoney;
+	repeated uint32			getUnit;
+	repeated uint32			hitGrid;
+}

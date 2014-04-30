@@ -17,7 +17,7 @@ public class BattleQuest : UIBase {
 
 	private GameObject rootObject;
 	private TQuestGrid currentMapData;
-	private TQuestDungeonData questDungeonData;
+	public TQuestDungeonData questDungeonData;
 	public BattleMap battleMap;
 	public Role role;
 	public Battle battle;
@@ -101,7 +101,9 @@ public class BattleQuest : UIBase {
 		if (questFullScreenTips == null) {
 			CreatBoosAppear();
 		}
-		questDungeonData = ConfigBattleUseData.Instance.questDungeonData; //GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
+		ConfigBattleUseData cbud = ConfigBattleUseData.Instance;
+		questDungeonData = cbud.questDungeonData; //GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
+		_questData = cbud.storeBattleData.questData;
 	}
 
 	void Init(UIBaseUnity ui,string name) {
@@ -145,9 +147,7 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 	}
-
-
-
+	
 	void LeaderSkillEnd(object data) {
 		MsgCenter.Instance.RemoveListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 	}

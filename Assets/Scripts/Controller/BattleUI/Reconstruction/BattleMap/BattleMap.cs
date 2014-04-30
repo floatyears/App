@@ -70,7 +70,7 @@ public class BattleMap : UIBaseUnity {
 		float xCoor =  template.InitPosition.x + (x / 2) * itemWidth;
 		float yCoor = template.InitPosition.y + y * itemWidth;
 		door.SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
-
+		RefreshMap (bQuest.questData);
 	}
 
 	public override void HideUI () {
@@ -95,7 +95,13 @@ public class BattleMap : UIBaseUnity {
 		gameObject.SetActive (true);
 		StartMap ();
 		MsgCenter.Instance.AddListener (CommandEnum.ShieldMap, ShieldMap);
+	}
 
+	public void RefreshMap(ClearQuestParam cqp) {
+		for (int i = 0; i < cqp.hitGrid.Count; i++) {
+			Coordinate coor = bQuest.questDungeonData.GetGridCoordinate(cqp.hitGrid[i]);
+			map[coor.x,coor.y].HideGridNoAnim();
+		}
 	}
 
 	public MapItem GetMapItem(Coordinate coor) {

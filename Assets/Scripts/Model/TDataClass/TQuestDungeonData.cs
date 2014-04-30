@@ -158,6 +158,19 @@ public class TQuestDungeonData : ProtobufDataBase {
 		} 
 		return Floors [currentFloor] [index];
 	}
+
+	public Coordinate GetGridCoordinate(uint index) {
+		int indexValue = (int)index;
+		indexValue -= currentFloor * 24;
+		int y = indexValue / 4;
+		int x = (indexValue - y * 5) + 1;
+		if (indexValue < 2) {
+			x --;	
+		}
+
+		return new Coordinate (x, y);
+	}
+
 	//======================end
 	
 }
