@@ -111,6 +111,8 @@ public class GachaWindowView : UIComponentUnity {
             gachaInfo = gachaWindowInfo;
             SyncGachaInfosAtStart();
         }
+
+		NoviceGuideStepEntityManager.Instance ().NextState ();
     }
 
     private void SyncGachaInfosAtStart(){

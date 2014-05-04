@@ -295,4 +295,15 @@ public class MsgWindowView : UIComponentUnity{
     void CloseMsgWindow(object args){
         ShowSelf(false);
     }
+
+	public UIButton BtnLeft{
+		get{return btnLeft;}
+		private set{ btnLeft = value;}
+	}
+
+	public UIButton BtnRight{
+		get{return btnRight;}
+		private set{btnRight = value;}
+	}
+
 }

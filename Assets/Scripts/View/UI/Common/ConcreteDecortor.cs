@@ -192,6 +192,10 @@ public class ScratchDecorator : DecoratorBase
 	{
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
+
+		LogHelper.Log ("scratchview current decorator:" + currentDecoratorScene);
+		if(SceneEnum.Scratch == currentDecoratorScene)
+			NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 	
 	public override void HideScene()
@@ -228,6 +232,10 @@ public class GachaWindowDecorator : DecoratorBase{
     public override void ShowScene(){
         base.ShowScene();
         sceneInfoBar.SetBackScene(SceneEnum.Scratch);
+
+		//LogHelper.Log ("gacha window decorator:" + currentDecoratorScene);
+		if(currentDecoratorScene == SceneEnum.Scratch)
+			NoviceGuideStepEntityManager.Instance ().StartStep ();
     }
     
     public override void HideScene()

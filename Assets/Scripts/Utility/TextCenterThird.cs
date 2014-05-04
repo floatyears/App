@@ -32,20 +32,28 @@ public partial class TextCenter {
 		//novice guide(new hand)
 		textDict.Add ("guide1_title", "Welcom!");
 		textDict.Add ("guide1_content", "Are you going to get into the saint gate?");
-		textDict.Add ("guide2_title", "选择队员");
+		textDict.Add ("guide2_title", "choose your partener");
 		textDict.Add ("guide2_content", "选择和你一起冒险的伙伴。\n未选择的伙伴会在之后的旅程中相遇！");
-		textDict.Add ("guide3_title", "决定队员");
+		textDict.Add ("guide3_title", "determine your partener");
 		textDict.Add ("guide3_content", "角色介绍。\n确定和xxx冒险么？");
-		textDict.Add ("guide4_title", "开始冒险");
+		textDict.Add ("guide4_title", "start adventure");
 		textDict.Add ("guide4_content", "我的名字叫xxx。\n那么就立马开始冒险吧！");
-//		textDict.Add ("", "");
-//		textDict.Add ("", "");
-//		textDict.Add ("", "");
-//		textDict.Add ("", "");
-//		textDict.Add ("", "");
-//		textDict.Add ("", "");
-//		textDict.Add ("", "");
-//		textDict.Add ("", "");
+		textDict.Add ("guide5_title", "about scratch card");
+		textDict.Add ("guide5_content", "接下来就是重中之重的抽卡！\n抽卡可是能得到各种各样的强卡哦！");
+		textDict.Add ("guide6_title", "about rare card");
+		textDict.Add ("guide6_content", "这次就来一次稀有抽卡吧。\n友情抽卡咱放后面再说。");
+		textDict.Add ("guide7_title", "a rare card need something");
+		textDict.Add ("guide7_content", "a rare card need something!");
+		textDict.Add ("guide8_title", "choose a card");
+		textDict.Add ("guide8_content", "任意选择一张卡牌吧。不管选哪一张，结果其实是一样的。");
+		textDict.Add ("guide9_title", "get a card");
+		textDict.Add ("guide9_content", "运气不错，卡牌很强！\n后别忘了编入队伍中哦。");
+//		textDict.Add ("guide8_title", "");
+//		textDict.Add ("guide8_content", "");
+//		textDict.Add ("guide8_title", "");
+//		textDict.Add ("guide8_content", "");
+//		textDict.Add ("guide8_title", "");
+//		textDict.Add ("guide8_content", "");
 //		textDict.Add ("", "");
 
     }

@@ -35,6 +35,10 @@ public class MsgWindowLogic : ConcreteComponent{
 //		Debug.LogError ("MsgWindowLogic : AddListener ");
         MsgCenter.Instance.AddListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
         MsgCenter.Instance.AddListener(CommandEnum.CloseMsgWindow, CloseMsgWindow);
+
+		MsgCenter.Instance.AddListener(CommandEnum.OpenGuideMsgWindow, OpenGuideMsgWindow);
+		MsgCenter.Instance.AddListener(CommandEnum.CloseGuideMsgWindow, CloseGuideMsgWindow);
+
     }
     
     
@@ -55,6 +59,17 @@ public class MsgWindowLogic : ConcreteComponent{
         ExcuteCallback(cbdArgs);
     }
 
-    
+ 
+	void OpenGuideMsgWindow(object msg){ 
+		//		Debug.LogError ("MsgWindowLogic : OpenMsgWindow ");
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
+		ExcuteCallback(cbdArgs);
+	}
+
+	void CloseGuideMsgWindow(object msg){
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CloseMsg", msg);
+		ExcuteCallback(cbdArgs);
+	}
+
 }
 

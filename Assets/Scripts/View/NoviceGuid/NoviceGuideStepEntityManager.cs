@@ -66,6 +66,9 @@ public class NoviceGuideStepEntityManager {
 			case SceneEnum.Scratch:
 				CreateStepEntityByID(NoviceGuideStepEntityID.SCRATCH);
 				break;
+			case SceneEnum.RareScratch:
+				CreateStepEntityByID(NoviceGuideStepEntityID.RARE_SCRATCH);
+				break;
 		}
 	}
 
@@ -134,7 +137,10 @@ public class NoviceGuideStepEntityManager {
 					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepB_StateOne.Instance());
 					break;
 				case NoviceGuideStepEntityID.SCRATCH:
-					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepA_StateOne.Instance());
+					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepC_StateOne.Instance());
+					break;
+				case NoviceGuideStepEntityID.RARE_SCRATCH:
+					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepD_StateOne.Instance());
 					break;
 				default:
 					LogHelper.LogError("-----------=========------------there is no such step:" + id.ToString());
@@ -161,4 +167,5 @@ public enum NoviceGuideStepEntityID{
 	Loading = 1,
 	SElECT_ROLE = 2,
 	SCRATCH = 3,
+	RARE_SCRATCH = 4
 }

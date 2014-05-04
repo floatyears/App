@@ -58,14 +58,16 @@ public class NoviceGuideStepA_StateOne:NoviceGuidState
 		sure.text = TextCenter.Instace.GetCurrentText("OK");
 		mwp.btnParam = sure;
 		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepA state_one");
-		if(JumpToNextState)
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepA_StateTwo.Instance());
+		if (JumpToNextState) {
+
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepA_StateTwo.Instance ());
+		}
 		else{
 
 		}
@@ -104,13 +106,14 @@ public class NoviceGuideStepA_StateTwo:NoviceGuidState
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepA state_one");
-
-		if(JumpToNextState)
-			stepEntity.GetStateMachine ().ChangeState (null);
-		else{
-			
-		}
+//		LogHelper.Log (stepEntity.GetType () + " is execute stepA state_one");
+//
+//		if(JumpToNextState)
+		//this is the last step. It will end when It execute
+		stepEntity.GetStateMachine ().ChangeState (null);
+//		else{
+//			
+//		}
 	}	
 	public override void Exit(NoviceGuideStepEntity stepEntity)
 	{

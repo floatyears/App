@@ -63,7 +63,7 @@ public class NoviceGuideStepB_StateTwo:NoviceGuidState
 		mwp.contentText = TextCenter.Instace.GetCurrentText ("guide4_content");
 		
 		BtnParam sure = new BtnParam ();
-		sure.callback = null;
+		sure.callback = InputName;
 		sure.text = TextCenter.Instace.GetCurrentText ("OK");
 		mwp.btnParam = sure;
 		
@@ -78,7 +78,13 @@ public class NoviceGuideStepB_StateTwo:NoviceGuidState
 			
 		}
 	}
-	
+
+	private void InputName(object data)
+	{
+		uint unitID = DataCenter.Instance.GetUnitInfo(9).ID;
+		MsgCenter.Instance.Invoke(CommandEnum.StartFirstLogin, unitID);
+	}
+
 	public override void Exit(NoviceGuideStepEntity stepEntity)
 	{
 		

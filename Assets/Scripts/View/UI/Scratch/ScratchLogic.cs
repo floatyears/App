@@ -319,6 +319,8 @@ public class ScratchLogic : ConcreteComponent {
         SceneEnum nextScene = SceneEnum.RareScratch;
         UIManager.Instance.ChangeScene(nextScene);
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRareGachaMsgWindowParams());
+
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
     }
 
     private void OpenEventGachaWindow(object args){

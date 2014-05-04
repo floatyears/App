@@ -240,6 +240,10 @@ public enum CommandEnum{
 	OnPickQuest,
 	OnPickHelper,
 
+	//user guide
+	OpenGuideMsgWindow,
+	CloseGuideMsgWindow,
+
     WaitResponse,
     SetBlocker,
     LevelUpSucceed,

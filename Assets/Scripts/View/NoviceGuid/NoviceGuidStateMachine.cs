@@ -11,7 +11,7 @@ public class NoviceGuidStateMachine{
 
 	private NoviceGuidState globalState;
 
-	private bool isRunning;
+	private bool isRunning = true;
 
 	public NoviceGuidStateMachine(NoviceGuideStepEntity stepOwner)
 	{
