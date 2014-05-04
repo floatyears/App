@@ -1,3 +1,4 @@
+#encoding: utf-8
 require "city_info"
 class CityInfosController < ApplicationController
   before_filter :set_redis

@@ -1,3 +1,4 @@
+#encoding : utf-8
 ## Generated from quest.proto for 
 require "beefcake"
 
