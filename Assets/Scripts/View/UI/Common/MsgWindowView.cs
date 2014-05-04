@@ -162,34 +162,42 @@ public class MsgWindowView : UIComponentUnity{
     void ClickRightButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnRightParam != null){
-            DataListener callback = btnRightParam.callback;
+			BtnParam bp = btnRightParam;
+			ShowSelf(false);
+			DataListener callback = bp.callback;
+
             if (callback != null){
-                callback(btnRightParam.args);
+				callback(bp.args);
             }
         }
-        ShowSelf(false);
+        
     }
     
     void ClickLeftButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnLeftParam != null){
-            DataListener callback = btnLeftParam.callback;
+			BtnParam bp = btnLeftParam;
+			ShowSelf(false);
+			DataListener callback = bp.callback;
+
             if (callback != null){
-                callback(btnLeftParam.args);
+				callback(bp.args);
             }
         }
-        ShowSelf(false);
+       
     }
 
     void ClickCenterButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnCenterParam != null){
-            DataListener callback = btnCenterParam.callback;
+			BtnParam bp = btnCenterParam;
+			ShowSelf(false);
+			DataListener callback = bp.callback;
             if (callback != null){
-                callback(btnCenterParam.args);
+				callback(bp.args);
             }
         }
-        ShowSelf(false);
+       
     }
 
     void UpdateCenterLabel(string text){

@@ -59,7 +59,7 @@ public class EnemyItem : UIBaseUnity {
     Queue<AttackInfo> attackQueue = new Queue<AttackInfo>();
     void Attack(object data) {
         AttackInfo ai = data as AttackInfo;
-        if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol) {
+        if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol || ai.AttackValue == 0) {
             return;
         }
 		if (prevEffect != null) {
@@ -134,13 +134,15 @@ public class EnemyItem : UIBaseUnity {
         iTween.ShakeScale(texture.gameObject, iTween.Hash("amount", new Vector3(0.5f, 0.5f, 0.5f), "time", 0.2f));
     }
 
+	AttackInfo posionAttack;
+
     void BePosion(object data) {
-        AttackInfo ai = data as AttackInfo;
-        if (ai == null) {
+		posionAttack = data as AttackInfo;
+		if (posionAttack == null) {
             return;	
         }
         Debug.Log("play posion animation");
-        Debug.Log("posion round : " + ai.AttackRound);
+		Debug.Log("posion round : " + posionAttack.AttackRound);
     }
 
     void SkillPosion(object data) {
@@ -259,8 +261,10 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void SetData(TEnemyInfo seu) {
-        SetBloodLabel(seu.GetBlood());
-        SetNextLabel(seu.GetRound());
+//		SetBloodLabel(seu.EnemyInfo().currentHp);
+//		Debug.LogError (enemyInfo.initBlood + " SetData : " + enemyInfo.GetInitBlood ());
+		bloodSprite.fillAmount =(float)enemyInfo.initBlood / enemyInfo.GetInitBlood();
+		SetNextLabel(seu.EnemyInfo().currentNext);
     }
 
     void SetBlood(float value) {

@@ -4,6 +4,12 @@ import public "user.proto";
 
 package bbproto;
 
+enum RecoveBattleStep {
+	RB_BossDead		= 0;
+	RB_BattleFail 	= 1;
+	RB_NoRecoveHP	= 2
+	RB_TrapDead		= 3;
+}
 
 enum EQuestState {
 	QS_NEW		= 0;
@@ -112,7 +118,9 @@ message EnemyInfo {
 	optional int32		hp				= 4;
 	optional int32		attack			= 5;
 	optional int32		defense			= 6;
-	optional int32		nextAttack		= 7; // next 1, 2, 3 
+	optional int32		nextAttack		= 7; // next 1, 2, 3. 
+	optional int32		currentHp		= 8; // store runtime hp.
+	optional int32		currentNext		= 9; // store runtime next.
 }
 
 message EnemyInfoConf {
@@ -143,6 +151,7 @@ message QuestGrid {
 	optional int32			dropPos		= 7; // pos in grid.enemylist
 	optional int32			coins		= 8; 
 	optional uint32			trapId		= 9; 
+	optional int32			dangerLevel	= 10;
 }
 
 message QuestFloor {
@@ -350,3 +359,25 @@ message TrapInfo {
 	optional int32				effectType	= 5;
 }
 
+//===========store disk data============================================================
+message StoreBattleData {
+	required int32				colorIndex			= 1;
+	optional int32				hp					= 2;
+	optional int32				sp					= 3;
+	optional int32				isBattle			= 4;
+	optional int32				xCoordinate			= 5;
+	optional int32				yCoordinate			= 6;
+	repeated ClearQuestParam	questData			= 7;
+	repeated EnemyInfo			enemyInfo			= 8;
+	optional bool				hitKey				= 9;
+	optional int32				attackRound			= 10;
+	repeated int32				activeSkillCooling	= 11;
+	optional RecoveBattleStep	recoveBattleStep	= 12;
+}
+
+message ClearQuestParam {
+	required uint32				questID		= 1;
+	optional int32				getMoney	= 2;
+	repeated uint32				getUnit		= 3;
+	repeated uint32				hitGrid		= 4;
+}

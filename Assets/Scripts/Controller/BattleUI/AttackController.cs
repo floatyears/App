@@ -19,9 +19,7 @@ public class AttackController {
 			grid = value;
 			enemyInfo = new List<TEnemyInfo>();
 			foreach (var item in value.Enemy) {
-//				item.instance.hp += 1000;
-//				item.initBlood += 1000;
-
+//				Debug.LogError(item.EnemyID + " item.enemysymbol : " + item.EnemySymbol);
 				enemyInfo.Add(item);
 			}
 
@@ -33,6 +31,8 @@ public class AttackController {
 	IExcutePassiveSkill passiveSkill;
 	public bool battleFail = false;
 
+	private ConfigBattleUseData configBattleUseData;
+
 	public bool isBoss = false;
 	public AttackController (BattleUseData bud,IExcutePassiveSkill ips,TUnitParty tup) {
 		upi = tup;
@@ -40,6 +40,8 @@ public class AttackController {
 		this.bud = bud;
 		passiveSkill = ips;
 		RegisterEvent ();
+
+		configBattleUseData = ConfigBattleUseData.Instance;
 	}
 
 	public void RemoveListener () {
@@ -387,6 +389,7 @@ public class AttackController {
 	public void FirstAttack () {
 		foreach (var item in enemyInfo) {
 			item.FirstAttack();
+//			Debug.LogError("FirstAttack : " + item.GetRound() + " EnemySymbol : " +item.EnemySymbol);
 		}
 	}
 
@@ -427,6 +430,7 @@ public class AttackController {
 				reduceValue = attackValue;
 			}
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
+			Debug.LogError("hurtValue : " + hurtValue);
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
@@ -444,7 +448,6 @@ public class AttackController {
 		}
 
 		if (enemyIndex == enemyInfo.Count) {
-
 			if(bud.Blood > 0) {
 				if (antiInfo.Count == 0) {
 					GameTimer.GetInstance ().AddCountDown (0.5f, EnemyAttackEnd);
@@ -454,6 +457,7 @@ public class AttackController {
 				GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
 			}
 			else{
+				EnemyAttackEnd();
 				bud.battleQuest.battle.ShieldInput(true);	
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 			}
@@ -474,6 +478,12 @@ public class AttackController {
 		CheckTempEnemy ();
 		bud.ClearData();
 		bud.battleQuest.battle.ShieldInput(true);	
+	
+		configBattleUseData.storeBattleData.attackRound ++;
+		configBattleUseData.storeBattleData.tEnemyInfo = enemyInfo;
+		Debug.LogError ("EnemyAttackEnd : ");
+		configBattleUseData.StoreMapData (null);
+
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
 	}
 

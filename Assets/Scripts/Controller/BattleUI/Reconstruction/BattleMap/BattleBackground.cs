@@ -108,17 +108,18 @@ public class BattleBackground : UIBaseUnity {
 		attackPosition.Clear ();
 	}
 
-	public void InitData (int blood, int energyPoint) {
-		initBlood = blood;
+	public void InitData (int blood, int maxBlood, int energyPoint) {
+		initBlood = maxBlood;
 		tempNum = blood;
 		currentEnergyPoint = initEnergyPoint = energyPoint;
-		SetBlood (initBlood); 
+		SetBlood (tempNum); 
+//		Debug.LogError ("InitData : " + energyPoint);
 		InitSP ();
 	}
 
 	void InitSP () {
 		for (int i = 0; i < spSprite.Length; i++) {
-			if(i > initEnergyPoint) {
+			if(i >= initEnergyPoint) {
 				spSprite[i].enabled = false;
 			}
 			else {
@@ -130,21 +131,18 @@ public class BattleBackground : UIBaseUnity {
 	private int tempNum = 0;
 	void SetBlood (int num) {
 		string info = "HP:" + num + "/" + initBlood;
+//		Debug.LogError ("SetBlood : " + num);
 		label.text = info;
-//		float value = DGTools.IntegerSubtriction(num,initBlood);
-//		if (bloodBar.value != value) {
-//			spriteAnimation.Reset();
-//		}
 		if (num > tempNum) {
 			spriteAnimation.Reset();
 		}
 		bloodBar.value = DGTools.IntegerSubtriction(num,initBlood);
 	}
+
 	int preBlood = 0;
 	void ListenUnitBlood (object data) {
 		int currentBlood = (int)data;
-
-
+//		Debug.LogError ("currentBlood : " + currentBlood);
 		SetBlood (currentBlood);
 	}
 
@@ -153,6 +151,7 @@ public class BattleBackground : UIBaseUnity {
 
 		for (int i = 0; i < spSprite.Length; i++) {
 			UISprite sprite = spSprite[i];
+//			Debug.LogError(" ListenEnergyPoint : " + (i < energyPoint) + " sprite : " + sprite);
 			if(i < energyPoint) {
 				if(!sprite.enabled) {
 					sprite.enabled = true;
@@ -163,34 +162,12 @@ public class BattleBackground : UIBaseUnity {
 				}
 			}
 		}
-
-//		for (int i = 0; i < energyPoint; i++) {
-//			UISprite sprite = spSprite[energyPoint + i];
-//							if(sprite.enabled) {
-//								sprite.enabled = false;
-//							}
-//				}
-//		currentEnergyPoint = initEnergyPoint - energyPoint;
-//		if (currentEnergyPoint <= 0) {
-//			for (int i = 0; i < energyPoint; i++) {
-//				if(!spSprite [i].enabled) {
-//					spSprite[i].enabled = true;
-//				}
-//			}
-////			initEnergyPoint = energyPoint;
-//		}
-//		else {
-//			for (int i = 0; i < currentEnergyPoint; i++) {
-//				
-//			}
-//
-////			initEnergyPoint = currentEnergyPoint;
-//		}
 	}
 
 	void AddListener () {
 		MsgCenter.Instance.AddListener (CommandEnum.UnitBlood, ListenUnitBlood);
 		MsgCenter.Instance.AddListener (CommandEnum.EnergyPoint, ListenEnergyPoint);
+//		Debug.LogError("listen energy point");
 	}
 
 	void RemoveListener () {

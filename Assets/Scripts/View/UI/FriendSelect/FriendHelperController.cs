@@ -80,6 +80,7 @@ public class FriendHelperController : ConcreteComponent{
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
+//		tqdd.assignData ();
 		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 
 		EnterBattle ();
@@ -100,6 +101,7 @@ public class FriendHelperController : ConcreteComponent{
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 			tqdd = new TQuestDungeonData (rspStartQuest.dungeonData);
+//			tqdd.assignData();
 			ModelManager.Instance.SetData (ModelEnum.MapConfig, tqdd);
 		} 
 		
@@ -113,7 +115,7 @@ public class FriendHelperController : ConcreteComponent{
 	} 
 		
 	void EnterBattle () {
-		DataCenter.Instance.BattleFriend = selectedHelper;
+		ConfigBattleUseData.Instance.BattleFriend = selectedHelper;
 		HideUI ();
 		UIManager.Instance.EnterBattle();
 	} 

@@ -41,9 +41,13 @@ public class MapItem : UIBaseUnity {
 	private bool isOld = false;
 	public bool IsOld {
 		set {
+//			Debug.LogError("coor : " + coor.x + " y : " + coor.y + " value : " + value);
 			isOld = value; 
 		}
-		get{return isOld;}
+		get{
+//			Debug.LogError("coor : " + coor.x + " y : " + coor.y + " isOld : " + isOld);
+			return isOld;
+		}
 	}
 
 	private bool isRotate = false;
@@ -69,7 +73,7 @@ public class MapItem : UIBaseUnity {
 		string[] info = name.Split('|');
 		int x = System.Int32.Parse (info[0]);
 		int y = System.Int32.Parse (info [1]);
-		gridItem = BattleQuest.questDungeonData.GetSingleFloor (new Coordinate (x, y));
+		gridItem = ConfigBattleUseData.Instance.questDungeonData.GetSingleFloor (new Coordinate (x, y));
 		InitStar ();
 		if (gridItem != null) {
 			switch (gridItem.Star) {
@@ -202,7 +206,7 @@ public class MapItem : UIBaseUnity {
 	}
 
 	public override void ShowUI() {
-		isOld = false;
+		IsOld = false;
 	}
 
 	public void HideEnvirment(bool b) {
@@ -244,7 +248,15 @@ public class MapItem : UIBaseUnity {
 			GridAnim ("RotateEnd");	
 		}
 	}
-	
+
+	public void HideGridNoAnim() {
+		IsOld = true;
+		HideShowSprite (false);
+		gridItemSprite.enabled = false;
+		mapItemSprite.enabled = false;
+		mapBackSprite.enabled = false;
+	}
+
 	Callback animEnd;
 	List<GameObject> gridAnim = new List<GameObject> ();
 	public void GridAnim(string function) {
@@ -255,7 +267,7 @@ public class MapItem : UIBaseUnity {
 			return;
 		}
 			
-		isOld = true;
+		IsOld = true;
 		showStarSprite.Clear ();
 
 		if(!mapBack.activeSelf) {
@@ -316,6 +328,7 @@ public class MapItem : UIBaseUnity {
 	}
 
 	void RotateEnd () {
+//		Debug.LogError ("RotateEnd");
 		mapBack.SetActive(false);
 		HideGrid ();
 	}
@@ -423,7 +436,7 @@ public class MapItem : UIBaseUnity {
 
 	string GetStarSpriteName() {
 		if (countShow == -1) {
-			countShow = DGTools.RandomToInt(0, 3);
+			countShow = DGTools.RandomToInt(0, 1);
 		}
 //		Debug.LogError (" GetStarSpriteName: " + countShow);
 		string name = "";

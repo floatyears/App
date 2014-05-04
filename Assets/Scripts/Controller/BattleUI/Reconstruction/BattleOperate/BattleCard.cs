@@ -125,8 +125,6 @@ public class BattleCard : UIBaseUnity {
 		} else {
 			RefreshLine();	
 		}
-
-
 	}
 
 //	void CheckNeedSprite(List<int> haveSprite) {

@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
+public class TSkillPoison : ActiveSkill {
 	private SkillPoison instance;
 	public TSkillPoison(object instance) : base (instance) { 
 		this.instance = instance as SkillPoison;
@@ -12,22 +12,22 @@ public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
 		}
 	}
 
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
+//	public bool CoolingDone {
+//		get {
+//			return coolingDone;
+//		}
+//	}
 
-	public void RefreashCooling () {
-		DisposeCooling ();
-	}
+//	public void RefreashCooling () {
+//		DisposeCooling ();
+//	}
 	AttackInfo posionInfo = null;
-	public object Excute (string userUnitID, int atk = -1) {
+	public override object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;
 		}
 		InitCooling ();
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		AttackInfo ai = new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackValue = atk * instance.value;
@@ -40,14 +40,14 @@ public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
 	}
 
 	void AttackEnemyEnd(object data) {
-		if (posionInfo == null) {
-			return;	
-		}
-		posionInfo.AttackRound --;
+//		if (posionInfo == null) {
+//			return;	
+//		}
+//		posionInfo.AttackRound --;
 		MsgCenter.Instance.Invoke (CommandEnum.SkillPosion, posionInfo);
-		if (posionInfo.AttackRound == 0) {
-			posionInfo = null;
-			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		}
+//		if (posionInfo.AttackRound == 0) {
+//			posionInfo = null;
+//			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+//		}
 	}
 }

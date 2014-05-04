@@ -7,9 +7,10 @@ public class TEnemyInfo : ProtobufDataBase {
 
 	public TEnemyInfo (EnemyInfo instance) : base (instance) {
 		this.instance = instance;
-		initBlood = GetInitBlood ();
-		initAttackRound = instance.nextAttack;
+		AddListener ();
+	}
 
+	public void AddListener () {
 		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
 		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
@@ -19,14 +20,22 @@ public class TEnemyInfo : ProtobufDataBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
 
-	EnemyInfo EnemyInfo() {
+	public EnemyInfo EnemyInfo() {
 		return instance;
 	}
 
-	private int initBlood = -1;
-	private int initAttackRound = -1;
+	public int initBlood {
+		get { return instance.currentHp; }
+		set { instance.currentHp = value; }
+	}
+
+	public int initAttackRound {
+		get { return instance.currentNext; }
+		set { instance.currentNext = value; }
+	}
+
 	public bool isDeferAttackRound = false;
-	public bool isPosion = false;
+	private AttackInfo posionAttack;
 
 	public TDropUnit drop;
 
@@ -69,12 +78,23 @@ public class TEnemyInfo : ProtobufDataBase {
 	}
 
 	void SkillPosion(object data) {
-		AttackInfo ai = data as AttackInfo;
-		if (ai == null) {
+		posionAttack = data as AttackInfo;
+		if (posionAttack == null) {
 			return;	
 		}
-		int value = System.Convert.ToInt32 (ai.AttackValue);
+
+		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+
+		int value = System.Convert.ToInt32 (posionAttack.AttackValue);
 		KillHP (value);
+	}
+
+	void AttackEnemyEnd(object data) {
+		if (posionAttack == null || posionAttack.AttackRound == 0) {
+			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+		}
+		posionAttack.AttackRound --;
+		SkillPosion(posionAttack);
 	}
 
 	public void KillHP(int hurtValue) {
@@ -144,12 +164,16 @@ public class TEnemyInfo : ProtobufDataBase {
 		return defense;
 	}
 
-	public int GetRound () {
-		return initAttackRound;
+	public int GetInitRound() {
+		return instance.nextAttack;
 	}
 
 	public int GetInitBlood () {
-		return EnemyInfo ().hp;
+		return instance.hp;
+	}
+
+	public int GetRound () {
+		return initAttackRound;
 	}
 
 	public int GetBlood () {
@@ -168,7 +192,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	private bool isDead = false;
 	public bool IsDead {
 		get { return isDead; }
-		set { isDead = value; }
+		set { isDead = value; RemoveListener(); }
 	}
 }
 

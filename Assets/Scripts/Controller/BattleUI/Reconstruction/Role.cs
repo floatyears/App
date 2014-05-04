@@ -48,13 +48,17 @@ public class Role : UIBaseUnity {
 	}
 
 	void RoleStart() {
-		prevCoor = currentCoor = bQuest.RoleInitPosition;
+		prevCoor = currentCoor = ConfigBattleUseData.Instance.roleInitCoordinate;
 		TargetPoint = bQuest.GetPosition(currentCoor);
-//		Debug.LogError ("TargetPoint : " + targetPoint);
-		jump.Init (initPosition);
-		jump.GameStart (targetPoint);
+		jump.Init (GetInitPosition());
+		jump.GameStart (targetPoint);	
 		SyncRoleCoordinate(currentCoor);
+
 		Stop();
+	}
+
+	Vector3 GetInitPosition() {
+		return new Vector3 (targetPoint.x, targetPoint.y, targetPoint.z - 100f);
 	}
 
 	Vector3 GetRolePosition(Vector3 pos) {
@@ -201,7 +205,6 @@ public class Role : UIBaseUnity {
 	}
 
 	public void SyncRoleCoordinate(Coordinate coor) {
-
 		MsgCenter.Instance.Invoke (CommandEnum.MoveToMapItem, coor);
 		bQuest.RoleCoordinate(coor);
 	}

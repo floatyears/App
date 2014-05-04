@@ -84,8 +84,8 @@ public class QuestItemView : MonoBehaviour {
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
 
 		//Record picked StageInfo
-		DataCenter.Instance.currentStageInfo = stageInfo;
-		DataCenter.Instance.currentQuestInfo = data;
+		ConfigBattleUseData.Instance.currentStageInfo = stageInfo;
+		ConfigBattleUseData.Instance.currentQuestInfo = data;
 	}
 
 }

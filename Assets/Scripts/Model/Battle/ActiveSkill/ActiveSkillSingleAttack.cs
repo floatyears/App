@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class ActiveSkill : SkillBaseInfo {
+public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	protected int initSkillCooling = 0;
 	protected bool coolingDone = false;
 	public ActiveSkill (object instance) : base (instance) {
@@ -10,6 +10,18 @@ public class ActiveSkill : SkillBaseInfo {
 
 	~ActiveSkill () {
 
+	}
+
+
+
+	public void RefreashCooling () {
+		DisposeCooling ();
+	}
+
+	public bool CoolingDone {
+		get {
+			return coolingDone;
+		}
 	}
 
 	protected void DisposeCooling () {
@@ -21,6 +33,10 @@ public class ActiveSkill : SkillBaseInfo {
 		if (skillBase.skillCooling > 0) {
 			coolingDone = false;
 		}
+	}
+
+	public virtual object Excute (string userUnitID, int atk = -1) {
+		return null;
 	}
 }
 
