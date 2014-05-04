@@ -3,7 +3,7 @@
 id: <%=text_field_tag :id,@quest.try(:id) %><br/>
 state:<%= select_tag :state,options_for_select(CityInfo::EQUEST_STATE,@quest.try(:state))%><br/>
 no: <%=text_field_tag :no ,@quest.try(:no)%><br/>
-name: <%=text_field_tag :name,@quest.try(:name) %><br/>
+name: <%=text_field_tag :name,@quest.try(:name).force_encoding("UTF-8") %><br/>
 story: <%=text_field_tag :story ,@quest.try(:story)%><br/>
 stamina: <%=text_field_tag :stamina ,@quest.try(:stamina)%><br/>
 floor: <%=text_field_tag :floor,@quest.try(:floor) %><br/>

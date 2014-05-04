@@ -1,6 +1,6 @@
+#encoding : utf-8
 ## Generated from quest.proto for 
 require "beefcake"
-
 
 module EUnitType
   UALL = 0
@@ -464,15 +464,12 @@ class CityInfo
   
   def self.create_default_color
     colors  = []
-    EUNIT_TYPE_COLOR.each do |color|
-      
-    end
   end
   
   
   def self.import_data_from_yaml(filepath)
     city_data =  YAML.load_file(filepath)
-    
+    #create_city_info(city_data)
   end
   
   def self.create_stars_config(configs)
@@ -480,8 +477,8 @@ class CityInfo
     stars = []
     unless configs.empty?
       configs.each do |star|
-        stars << StarConfig.new(repeat: star["repeat"],star: star["star"],coin: NumRange.new(min: star["coin"]["min"],max: star["coin"]["max"]),enemyPool: star["enemyPool"],enemyNum: NumRange.new(min: star["enemyNum"]["min"],max: star["enemyNum"]["max"]),trap: star["trap"])
-        enemy_ids = enemy_ids + star["enemyPool"]
+        stars << StarConfig.new(repeat: star["repeat"],star: star["star"],coin: star["coin"].present? ? NumRange.new(min: star["coin"]["min"],max: star["coin"]["max"]) : nil,enemyPool: star["enemyPool"],enemyNum:  star["enemyNum"].present? ? NumRange.new(min: star["enemyNum"]["min"],max: star["enemyNum"]["max"]) : nil,trap: star["trap"].present? ? star["trap"] : nil )
+        enemy_ids = enemy_ids + (star["enemyPool"].present? ? star["enemyPool"] : [])
       end
     end
     return stars,enemy_ids
@@ -564,9 +561,9 @@ class CityInfo
   
   def self.create_city_info(configs)
     unless configs.nil?
-      stages =  create_stage(configs["stages"])
-      city  = CityInfo.new(version: configs["version"],id: configs["id"],state: configs["state"],cityName: configs["cityName"],description: configs["description"],stages: stages)
-      save_to_redis("X_CITY_#{configs["id"]}",city.encode)
+      stages =  create_stage(configs["city"]["stages"])
+      city  = CityInfo.new(version: configs["city"]["version"],id: configs["city"]["id"],state: configs["city"]["state"],cityName: configs["city"]["cityName"],description: configs["city"]["description"],stages: stages)
+      save_to_redis("X_CITY_#{configs["city"]["id"]}",city.encode)
     end
   end
     
