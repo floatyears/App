@@ -122,9 +122,9 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 
 		if (configBattleUseData.hasBattleData ()) {
-			ContineBattle ();	
+			ContineBattle ();
 		} else {
-			configBattleUseData.StoreData();	
+			configBattleUseData.StoreData();
 		}
 	}
 
@@ -134,7 +134,6 @@ public class BattleQuest : UIBase {
 			bud.RemoveListen ();
 			bud = null;
 		}
-		Camera.main.clearFlags = CameraClearFlags.Skybox;
 		RemoveListener ();
 		base.HideUI ();
 		
@@ -180,7 +179,7 @@ public class BattleQuest : UIBase {
 		battleMap.ShowUI ();
 		role.ShowUI ();
 		background.ShowUI ();
-		GameTimer.GetInstance ().AddCountDown (1f, ShowScene);
+//		GameTimer.GetInstance ().AddCountDown (1f, ShowScene);
 		InitData ();
 		topUI.Reset ();
 		topUI.RefreshTopUI (questDungeonData, _questData);
@@ -335,7 +334,14 @@ public class BattleQuest : UIBase {
 
 		TStoreBattleData sbd = configBattleUseData.storeBattleData;
 
-		if (sbd.isBattle == 0) {
+		// 0 is not in fight.
+		if (sbd.isBattle == 0) { 
+
+//			if (sbd.recoveBattleStep == RecoveBattleStep.RB_BossDead) {
+//				BossDead();
+//				return;
+//			}
+
 			return;	
 		}
 
@@ -348,6 +354,9 @@ public class BattleQuest : UIBase {
 			temp.Add (tei);
 			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 		}
+
+
+
 		if (sbd.isBattle == 1) {
 			currentMapData.Enemy = temp;
 			bud.InitEnemyInfo (currentMapData);
@@ -590,19 +599,26 @@ public class BattleQuest : UIBase {
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.standReady, null);
 	}
 
+	void BossDead() {
+		battle.ShieldInput (false);
+		BattleBottom.notClick = true;
+		questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
+	}
+
 	void BattleEnd(object data) {
 		ExitFight (true);
 		bool b = false;
 		if (data != null) {
 			b = (bool)data;	
 		}
-		if (battleEnemy && !b) {
-			battle.ShieldInput(false);
-			BattleBottom.notClick  = true;
-			questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
-		}
-	
+
 		configBattleUseData.StoreMapData (_questData);
+
+		if (battleEnemy && !b) {
+			BossDead();
+			configBattleUseData.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
+			configBattleUseData.StoreMapData (null);
+		}
 
 		int index = questDungeonData.GetGridIndex (currentCoor);
 		if (index == -1) {
@@ -653,7 +669,7 @@ public class BattleQuest : UIBase {
 
 	void BattleBase (object data) {
 		BattleBaseData bbd = data as BattleBaseData;
-		background.InitData (bbd.Blood, bbd.EnergyPoint);
+		background.InitData (bbd.Blood, bbd.maxBlood, bbd.EnergyPoint);
 	}
 
 	public void CheckOut () {
@@ -727,11 +743,6 @@ public class BattleQuest : UIBase {
 		tempData = null;
 	}
 
-//	void SureRetryShowMap() {
-//		RetryNetWork (tempData);
-//		tempData = null;
-//	}
-
 	void RetryNetWork(object data) {
 		battle.ShieldInput (true);
 		RspRedoQuest rrq = data as RspRedoQuest;
@@ -747,19 +758,26 @@ public class BattleQuest : UIBase {
 		}
 
 		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
-		int count = _questData.Count -1;
-		_questData.RemoveAt (count);
+//		int count = _questData.Count -1;
+		_questData.RemoveAt (_questData.Count - 1);
 		ClearQuestParam cq = new ClearQuestParam ();
 		TClearQuestParam cqp = new TClearQuestParam (cq);
+//		for (int i = 0; i < _questData.Count; i++) {
+
+//		}
 		_questData.Add (cqp);
+
 		TQuestDungeonData tqdd = new TQuestDungeonData (rrq.dungeonData);
-//		tqdd.assignData ();
 		int floor = questDungeonData.currentFloor;
 		List<TQuestGrid> reQuestGrid = tqdd.Floors[floor];
 		questDungeonData.Floors [floor] = reQuestGrid;
 		questDungeonData.Boss = tqdd.Boss;
+		configBattleUseData.roleInitCoordinate =  new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);
+		configBattleUseData.storeBattleData.roleCoordinate = configBattleUseData.roleInitCoordinate ;
+		configBattleUseData.storeBattleData.questData = _questData;
 		Reset ();
 		bud.ResetBlood ();
+		configBattleUseData.StoreMapData (_questData);
 	}
 
 	void CancelRetry(object data) {

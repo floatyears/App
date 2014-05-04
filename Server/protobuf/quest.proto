@@ -4,6 +4,12 @@ import public "user.proto";
 
 package bbproto;
 
+enum RecoveBattleStep {
+	RB_BossDead		= 0;
+	RB_BattleFail 	= 1;
+	RB_NoRecoveHP	= 2
+	RB_TrapDead		= 3;
+}
 
 enum EQuestState {
 	QS_NEW		= 0;
@@ -365,7 +371,8 @@ message StoreBattleData {
 	repeated EnemyInfo			enemyInfo			= 8;
 	optional bool				hitKey				= 9;
 	optional int32				attackRound			= 10;
-	repeated int32				activeSkillCooling	= 8;
+	repeated int32				activeSkillCooling	= 11;
+	optional RecoveBattleStep	recoveBattleStep	= 12;
 }
 
 message ClearQuestParam {

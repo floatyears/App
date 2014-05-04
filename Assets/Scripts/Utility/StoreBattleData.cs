@@ -8,9 +8,20 @@ public class TStoreBattleData : ProtobufDataBase {
 		instance = ins;
 	}
 
-	public int attackRound = 0;
+	public RecoveBattleStep recoveBattleStep {
+		get { return instance.recoveBattleStep; }
+		set { instance.recoveBattleStep = value; }
+	}
 
-	public bool HitKey = false;
+	public int attackRound {
+		get { return instance.attackRound; }
+		set { instance.attackRound = value; }
+	}
+
+	public bool HitKey {
+		get { return instance.hitKey; }
+		set { instance.hitKey = value; }
+	}
 
 	public int colorIndex {
 		get { return instance.colorIndex; }

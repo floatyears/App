@@ -98,6 +98,9 @@ public class ConfigBattleUseData {
 
 	void StoreRuntimData () {
 //		Debug.LogError ("StoreRuntimData: " + _storeBattleData.instance.sp + " hp : " + _storeBattleData.instance.hp);
+//		for (int i = 0; i < _storeBattleData.enemyInfo.Count; i++) {
+//			Debug.LogError("StoreRuntimData : " + _storeBattleData.enemyInfo[i].currentNext);
+//				}
 		byte[] battleData = ProtobufSerializer.SerializeToBytes<StoreBattleData> (_storeBattleData.instance);
 		WriteToFile (battleData, storeBattleName);
 	}

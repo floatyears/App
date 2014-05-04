@@ -30,6 +30,11 @@ public class StandbyView : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
 	}
 
+	public override void DestoryUI () {
+		base.DestoryUI ();
+		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+	}
+
 	private void InitUI(){
 		prePageBtn = FindChild<UIButton>("Button_Left");
 		nextPageBtn = FindChild<UIButton>("Button_Right");

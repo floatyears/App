@@ -1210,6 +1210,14 @@ namespace bbproto
       get { return _trapId; }
       set { _trapId = value; }
     }
+    private int _dangerLevel = default(int);
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"dangerLevel", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int dangerLevel
+    {
+      get { return _dangerLevel; }
+      set { _dangerLevel = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -2425,6 +2433,37 @@ namespace bbproto
       get { return _enemyInfo; }
     }
   
+    private bool _hitKey = default(bool);
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"hitKey", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool hitKey
+    {
+      get { return _hitKey; }
+      set { _hitKey = value; }
+    }
+    private int _attackRound = default(int);
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"attackRound", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int attackRound
+    {
+      get { return _attackRound; }
+      set { _attackRound = value; }
+    }
+    private readonly global::System.Collections.Generic.List<int> _activeSkillCooling = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(11, Name=@"activeSkillCooling", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> activeSkillCooling
+    {
+      get { return _activeSkillCooling; }
+    }
+  
+    private bbproto.RecoveBattleStep _recoveBattleStep = bbproto.RecoveBattleStep.RB_BossDead;
+    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"recoveBattleStep", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.RecoveBattleStep.RB_BossDead)]
+    public bbproto.RecoveBattleStep recoveBattleStep
+    {
+      get { return _recoveBattleStep; }
+      set { _recoveBattleStep = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -5065,6 +5104,23 @@ namespace bbproto
             
       [global::ProtoBuf.ProtoEnum(Name=@"FRIENDHELPER", Value=4)]
       FRIENDHELPER = 4
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"RecoveBattleStep")]
+    public enum RecoveBattleStep
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RB_BossDead", Value=0)]
+      RB_BossDead = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RB_BattleFail", Value=1)]
+      RB_BattleFail = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RB_NoRecoveHP", Value=2)]
+      RB_NoRecoveHP = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RB_TrapDead", Value=3)]
+      RB_TrapDead = 3
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EQuestState")]

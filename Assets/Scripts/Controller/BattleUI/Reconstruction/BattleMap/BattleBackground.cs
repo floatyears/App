@@ -108,11 +108,11 @@ public class BattleBackground : UIBaseUnity {
 		attackPosition.Clear ();
 	}
 
-	public void InitData (int blood, int energyPoint) {
-		initBlood = blood;
+	public void InitData (int blood, int maxBlood, int energyPoint) {
+		initBlood = maxBlood;
 		tempNum = blood;
 		currentEnergyPoint = initEnergyPoint = energyPoint;
-		SetBlood (initBlood); 
+		SetBlood (tempNum); 
 //		Debug.LogError ("InitData : " + energyPoint);
 		InitSP ();
 	}
@@ -131,6 +131,7 @@ public class BattleBackground : UIBaseUnity {
 	private int tempNum = 0;
 	void SetBlood (int num) {
 		string info = "HP:" + num + "/" + initBlood;
+//		Debug.LogError ("SetBlood : " + num);
 		label.text = info;
 		if (num > tempNum) {
 			spriteAnimation.Reset();
@@ -141,6 +142,7 @@ public class BattleBackground : UIBaseUnity {
 	int preBlood = 0;
 	void ListenUnitBlood (object data) {
 		int currentBlood = (int)data;
+//		Debug.LogError ("currentBlood : " + currentBlood);
 		SetBlood (currentBlood);
 	}
 

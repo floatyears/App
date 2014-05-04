@@ -9,9 +9,11 @@ public class BattleUseData {
     private int blood = 0;
     public int Blood {
 		set {
-
-			if(value < 0) {
-
+			if(value == 0) {
+				blood = value;
+				PlayerDead();
+			}
+			else if(value < 0) {
 				if(blood == 0) 
 					return;
 				blood = 0;
@@ -93,6 +95,7 @@ public class BattleUseData {
 			maxEnergyPoint =DataCenter.maxEnergyPoint;
 		} else {
 			maxBlood = upi.GetInitBlood ();
+//			Debug.LogError("InitBattleUseData : " + sbd.hp);
 			Blood = sbd.hp;
 			maxEnergyPoint = sbd.sp;
 		}
@@ -158,6 +161,7 @@ public class BattleUseData {
         float value = (float)data;
         int hurtValue = System.Convert.ToInt32(value);
         Blood -= hurtValue;
+		configBattleUseData.StoreMapData (null);
     }
 
 	public void PlayerDead() {
@@ -279,7 +283,8 @@ public class BattleUseData {
 
     public void GetBaseData(object data) {
         BattleBaseData bbd = new BattleBaseData();
-		bbd.Blood = maxBlood;
+		bbd.Blood = Blood;
+		bbd.maxBlood = maxBlood;
 		bbd.EnergyPoint = maxEnergyPoint;
 		MsgCenter.Instance.Invoke(CommandEnum.BattleBaseData, bbd);
     }
@@ -355,6 +360,8 @@ public class BattleUseData {
 }
 
 public class BattleBaseData {
+	public int maxBlood;
+
     private int blood;
 
     public int Blood {

@@ -448,7 +448,6 @@ public class AttackController {
 		}
 
 		if (enemyIndex == enemyInfo.Count) {
-
 			if(bud.Blood > 0) {
 				if (antiInfo.Count == 0) {
 					GameTimer.GetInstance ().AddCountDown (0.5f, EnemyAttackEnd);
@@ -458,6 +457,7 @@ public class AttackController {
 				GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
 			}
 			else{
+				EnemyAttackEnd();
 				bud.battleQuest.battle.ShieldInput(true);	
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 			}
