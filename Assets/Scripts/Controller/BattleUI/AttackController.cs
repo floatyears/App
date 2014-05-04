@@ -19,9 +19,7 @@ public class AttackController {
 			grid = value;
 			enemyInfo = new List<TEnemyInfo>();
 			foreach (var item in value.Enemy) {
-//				item.instance.hp += 1000;
-//				item.initBlood += 1000;
-
+				Debug.LogError(item.EnemyID + " item.enemysymbol : " + item.EnemySymbol);
 				enemyInfo.Add(item);
 			}
 
@@ -387,6 +385,7 @@ public class AttackController {
 	public void FirstAttack () {
 		foreach (var item in enemyInfo) {
 			item.FirstAttack();
+//			Debug.LogError("FirstAttack : " + item.GetRound() + " EnemySymbol : " +item.EnemySymbol);
 		}
 	}
 

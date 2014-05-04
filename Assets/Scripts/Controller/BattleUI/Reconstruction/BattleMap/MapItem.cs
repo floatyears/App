@@ -324,6 +324,7 @@ public class MapItem : UIBaseUnity {
 	}
 
 	void RotateEnd () {
+//		Debug.LogError ("RotateEnd");
 		mapBack.SetActive(false);
 		HideGrid ();
 	}
@@ -431,7 +432,7 @@ public class MapItem : UIBaseUnity {
 
 	string GetStarSpriteName() {
 		if (countShow == -1) {
-			countShow = DGTools.RandomToInt(0, 3);
+			countShow = DGTools.RandomToInt(0, 1);
 		}
 //		Debug.LogError (" GetStarSpriteName: " + countShow);
 		string name = "";

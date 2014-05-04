@@ -62,7 +62,8 @@ public class TQuestDungeonData : ProtobufDataBase {
 					for(int i=0; i<instance.enemys.Count;i++){
 						if ( grid.Object.enemyId[g] == instance.enemys[i].enemyId ){
 							LogHelper.Log ("grid[{0}]: assign enemy[{1}], enemyCount={2}...  ", g, grid.Object.enemyId[g], grid.Enemy.Count);
-							grid.Enemy.Add( new TEnemyInfo(instance.enemys[i]) );
+
+							grid.Enemy.Add( new TEnemyInfo(CopyEnemyInfo( instance.enemys[i] ) ) );
 							break;
 						}
 					}
@@ -74,6 +75,20 @@ public class TQuestDungeonData : ProtobufDataBase {
 
 			Floors.Add (floor);
 		}
+	}
+		
+	public static EnemyInfo CopyEnemyInfo(EnemyInfo ei) {
+		EnemyInfo enemyInfo = new EnemyInfo();
+		enemyInfo.attack = ei.attack;
+		enemyInfo.currentHp = ei.currentHp;
+		enemyInfo.currentNext = ei.currentNext;
+		enemyInfo.defense = ei.defense;
+		enemyInfo.enemyId = ei.enemyId;
+		enemyInfo.hp = ei.hp;
+		enemyInfo.nextAttack = ei.nextAttack;
+		enemyInfo.type = ei.type;
+		enemyInfo.unitId = ei.unitId;
+		return enemyInfo;
 	}
 
 	private void convertColors() {
@@ -143,8 +158,11 @@ public class TQuestDungeonData : ProtobufDataBase {
 		if (coor.y == 0 && coor.x == 2) {
 			return -1;	
 		}
-
-		return coor.y * 5 + coor.x - 1 + currentFloor * 24;
+		int index = coor.y * 5 + coor.x - 1 + currentFloor * 24;
+		if (index < 2) {
+			index++;		
+		}
+		return index;
 	}
 
 	public TQuestGrid GetSingleFloor(Coordinate coor) {
@@ -153,7 +171,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 		}
 
 		int index = coor.y * 5 + coor.x - 1;
-		if (coor.y == 0 && coor.x < 2) {
+		if (coor.y == 0 && coor.x < 3) {
 			index++;
 		} 
 		return Floors [currentFloor] [index];
@@ -162,13 +180,33 @@ public class TQuestDungeonData : ProtobufDataBase {
 	public Coordinate GetGridCoordinate(uint index) {
 		int indexValue = (int)index;
 		indexValue -= currentFloor * 24;
-		int y = indexValue / 4;
+		int y = GetYCoordinate (indexValue);
+		if (y == -1) { 
+			UnityEngine.Debug.LogError(" get coordinate error : " + indexValue + " y : " + y);
+		}
+
 		int x = (indexValue - y * 5) + 1;
+//		UnityEngine.Debug.LogError(" get coordinate error : " + indexValue + " x : " + x);
 		if (indexValue < 2) {
 			x --;	
 		}
-
 		return new Coordinate (x, y);
+	}
+
+	int GetYCoordinate(int index) {
+		if (index >= 0 && index <= 3) {
+			return 0;		
+		} else if (index <= 8) {
+			return 1;		
+		} else if (index <= 13) {
+			return 2;
+		} else if (index <= 18) {
+			return 3;	
+		} else if (index <= 23) {
+			return 4;	
+		}
+
+		return -1;
 	}
 
 	//======================end

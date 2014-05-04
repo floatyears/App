@@ -9,7 +9,7 @@ public class BattleEnemy : UIBaseUnity {
 		}
 	}
 
-	public List<TEnemyInfo> monsterList = new List<TEnemyInfo> ();
+//	public List<TEnemyInfo> monsterList = new List<TEnemyInfo> ();
 
 	private GameObject effectPanel;
 
@@ -99,7 +99,7 @@ public class BattleEnemy : UIBaseUnity {
 		                                 
 	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
-		monsterList = new List<TEnemyInfo> ();
+//		monsterList = new List<TEnemyInfo> ();
 		List<EnemyItem> temp = new List<EnemyItem> ();
 		for (int i = 0; i < enemy.Count; i++) {
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
@@ -109,7 +109,7 @@ public class BattleEnemy : UIBaseUnity {
 			ei.battleEnemy = this;
 			ei.Init(enemy[i]);
 			temp.Add(ei);
-			monsterList.Add(enemy[i]);
+//			monsterList.Add(enemy[i]);
 			monster.Add(enemy[i].EnemySymbol,ei);
 			if(width < temp[i].texture.width) {
 				width = temp[i].texture.width;
@@ -123,9 +123,11 @@ public class BattleEnemy : UIBaseUnity {
 		uint posSymbol = (uint)pos;
 
 		if (monster.ContainsKey (posSymbol) && monster[posSymbol].enemyInfo.IsDead) {
-			TEnemyInfo tei = monsterList.Find(a=>a.EnemySymbol == posSymbol);
-			monsterList.Remove(tei);
+			bbproto.EnemyInfo ei = monster[posSymbol].enemyInfo.EnemyInfo();
+			ConfigBattleUseData.Instance.storeBattleData.RemoveEnemyInfo(ei);
+//			monsterList.Remove(tei);
 			monster.Remove (posSymbol);	
+
 		}
 	}
 
@@ -260,48 +262,6 @@ public class BattleEnemy : UIBaseUnity {
 			DestoryEffect();
 		}
 	}
-
-//	void OnGUI() {
-//		GUILayout.BeginArea(new Rect(0, 0, 600f, 600f));
-//		GUILayout.BeginVertical ();
-//		GUILayout.BeginHorizontal ();
-//		GUILayout.Label ("width: ");
-//		GUILayout.Space (10f);
-//		GUILayout.Label (width.ToString ());
-//		GUILayout.EndHorizontal ();
-//		GUILayout.BeginHorizontal ();
-//		GUILayout.Label ("allwidth: ");
-//		GUILayout.Space (10f);
-//		GUILayout.Label (allWidth.ToString ());
-//		GUILayout.EndHorizontal ();
-//		GUILayout.BeginHorizontal ();
-//		GUILayout.Label ("probability : ");
-//		GUILayout.Space (10f); 
-//		GUILayout.Label (probability.ToString ());
-//		GUILayout.EndHorizontal ();
-//		GUILayout.BeginHorizontal ();
-//		GUILayout.Label ("screenwidth: ");
-//		GUILayout.Space (10f);
-//		GUILayout.Label (screenWidth.ToString ());
-//		GUILayout.EndHorizontal ();
-//
-//		GUILayout.BeginVertical ();
-//		foreach (var item in monster) {
-//			GUILayout.BeginHorizontal ();
-//			GUILayout.Label ("item.id: ");
-//			GUILayout.Space (10f);
-//			GUILayout.Label (item.Key.ToString ());
-//			GUILayout.Space (20f);
-//			GUILayout.Label ("item.Value.textur: ");
-//			GUILayout.Space (10f);
-//			GUILayout.Label (item.Value.texture.width.ToString());
-//			GUILayout.EndHorizontal ();
-//		}
-//
-//		GUILayout.EndVertical ();
-//		GUILayout.EndVertical ();
-//		GUILayout.EndArea();
-//	}
 }
 
 public class ShowEnemyUtility {

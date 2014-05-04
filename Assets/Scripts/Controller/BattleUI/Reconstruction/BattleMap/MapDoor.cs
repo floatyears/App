@@ -25,6 +25,8 @@ public class MapDoor : UIBaseUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
+
+		doorOpen = ConfigBattleUseData.Instance.storeBattleData.HitKey;
 		MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, OpenDoor);
 		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, QuestEnd);
 	}

@@ -3,13 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class ClearQuestParam {
-    public uint questId;
-    public int getMoney;
-    public List<uint> getUnit = new List<uint>();
-    public List<uint> hitGrid = new List<uint>();
+public class TClearQuestParam : ProtobufDataBase {
+	public TClearQuestParam(ClearQuestParam ins) : base (ins) {
+		instance = ins;
+	} 
+
+	public ClearQuestParam instance;
+
+	public uint questId {
+		get { return instance.questID; }
+		set { instance.questID = value; }
+	}
+
+	public int getMoney {
+		get { return instance.getMoney; }
+		set { instance.getMoney = value; }
+	}
+	public List<uint> getUnit {
+		get { return instance.getUnit; }
+//		set { instance.getUnit = value; }
+	}
+	public List<uint> hitGrid  {
+		get { return instance.hitGrid; }
+//		set { instance.hitGrid = value; }
+	}
 //	public Coordinate currentCoor;
 }
+
+
 
 public class TRspClearQuest {
     public int			rank;
@@ -29,7 +50,7 @@ public class TRspClearQuest {
 public class ClearQuest: ProtoManager {
     private bbproto.ReqClearQuest reqClearQuest;
     private bbproto.RspClearQuest rspClearQuest;
-    private ClearQuestParam questParam;
+    private TClearQuestParam questParam;
 
     public ClearQuest() {
 //		MsgCenter.Instance.AddListener (CommandEnum.ReqClearQuest, OnReceiveCommand);
@@ -126,7 +147,7 @@ public class ClearQuest: ProtoManager {
     }
 
     protected override void OnReceiveCommand(object data) {
-        questParam = data as ClearQuestParam;
+        questParam = data as TClearQuestParam;
         if (questParam == null) {
             LogHelper.Log("ClearQuest: Invalid param data.");
             return;

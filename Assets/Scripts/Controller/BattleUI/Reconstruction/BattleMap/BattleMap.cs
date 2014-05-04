@@ -7,7 +7,7 @@ public class BattleMap : UIBaseUnity {
 	private MapItem[,] map;
 	private MapItem temp;
 	private List<MapItem> prevAround = new List<MapItem>();
-	private List<MapItem> useMapItem = new List<MapItem>();
+//	private List<MapItem> useMapItem = new List<MapItem>();
 	private MapItem prevMapItem;
 	private static bool wMove = false;
 	private const float itemWidth = 114f;
@@ -75,7 +75,7 @@ public class BattleMap : UIBaseUnity {
 
 	public override void HideUI () {
 		base.HideUI ();
-		useMapItem.Clear ();
+//		useMapItem.Clear ();
 		prevAround.Clear ();
 		gameObject.SetActive (false);
 		for (int i = 0; i < map.GetLength(0); i++) {
@@ -97,11 +97,14 @@ public class BattleMap : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.ShieldMap, ShieldMap);
 	}
 
-	public void RefreshMap(ClearQuestParam cqp) {
+	public void RefreshMap(TClearQuestParam cqp) {
 		for (int i = 0; i < cqp.hitGrid.Count; i++) {
 			Coordinate coor = bQuest.questDungeonData.GetGridCoordinate(cqp.hitGrid[i]);
+//			Debug.LogError("cqp.hitGrid[i] : "  + cqp.hitGrid[i] + " coor : " + coor.x + " y: " + coor.y);
 			map[coor.x,coor.y].HideGridNoAnim();
 		}
+
+		map [MapConfig.characterInitCoorX, MapConfig.characterInitCoorY].HideGridNoAnim ();
 	}
 
 	public MapItem GetMapItem(Coordinate coor) {
@@ -134,12 +137,13 @@ public class BattleMap : UIBaseUnity {
 	public bool ReachMapItem(Coordinate coor) {
 		prevMapItem = map[coor.x,coor.y];
 //		ChangeStyle(coor);
-		if(!useMapItem.Contains(prevMapItem)) {
-			useMapItem.Add(prevMapItem);
-			return false;
-		}
+//		Debug.LogError (coor.x + " y : " + coor.y + " prevMapItem : " + prevMapItem.IsOld);
+//		if(prevMapItem.IsOld) {
+//			useMapItem.Add(prevMapItem);
+//			return false;
+//		}
 
-		return true;
+		return prevMapItem.IsOld;
 	}
 	private Callback callback = null;
 

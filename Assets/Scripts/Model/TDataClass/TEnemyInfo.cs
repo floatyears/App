@@ -9,7 +9,7 @@ public class TEnemyInfo : ProtobufDataBase {
 		this.instance = instance;
 		initBlood = GetInitBlood ();
 		initAttackRound = instance.nextAttack;
-
+		Debug.Log (instance.enemyId + " instance : " + instance.unitId);
 		AddListener ();
 	}
 
@@ -23,12 +23,18 @@ public class TEnemyInfo : ProtobufDataBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
 	}
 
-	EnemyInfo EnemyInfo() {
+	public EnemyInfo EnemyInfo() {
 		return instance;
 	}
 
-	private int initBlood = -1;
-	private int initAttackRound = -1;
+	private int initBlood {
+		get { return instance.currentHp; }
+		set { instance.currentHp = value; }
+	}
+	private int initAttackRound {
+		get { return instance.currentNext; }
+		set { instance.currentNext = value; }
+	}
 	public bool isDeferAttackRound = false;
 //	public bool isPosion = false;
 	private AttackInfo posionAttack;
@@ -117,7 +123,9 @@ public class TEnemyInfo : ProtobufDataBase {
 	}
 
 	public void FirstAttack () {
+//		Debug.LogError ("FirstAttack befoure : " + initAttackRound);
 		initAttackRound++;
+//		Debug.LogError ("FirstAttack befoure : " + initAttackRound);
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
 

@@ -29,6 +29,8 @@ public class Battle : UIBase {
 	public int cardHeight = 0;
 	private Vector3 localPosition = new Vector3 (-0.18f, -17f, 0f);
 
+	private ConfigBattleUseData battleData;
+
 	public Battle(string name):base(name) {
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
 		nguiMainCamera = ViewManager.Instance.MainUICamera;
@@ -44,6 +46,8 @@ public class Battle : UIBase {
 		GameInput.OnReleaseEvent += HandleOnReleaseEvent;
 		GameInput.OnStationaryEvent += HandleOnStationaryEvent;
 		GameInput.OnDragEvent += HandleOnDragEvent;
+
+		battleData = ConfigBattleUseData.Instance;
 	}
 	
 	public override void CreatUI () {
@@ -124,11 +128,11 @@ public class Battle : UIBase {
 	}
 
 	void EnemyAttckEnd (object data) {
-		StoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
-		sbd.enemyInfo = battleEnemy.monsterList;
-
+		TStoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
 		battleCard.StartBattle (true);
 		ShieldInput (true);
+		battleData.storeBattleData.attackRound ++;
+		battleData.StoreMapData (null);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
@@ -215,6 +219,13 @@ public class Battle : UIBase {
 	public void ShowEnemy(List<TEnemyInfo> count) {
 		isShowEnemy = true;
 		battleEnemy.Refresh(count);
+		TStoreBattleData tsbd = battleData.storeBattleData;
+		tsbd.enemyInfo.Clear ();
+		for (int i = 0; i < count.Count; i++) {
+			tsbd.enemyInfo.Add(count[i].EnemyInfo());
+		}
+		battleData.storeBattleData.attackRound ++;
+		battleData.StoreMapData (null);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
@@ -237,12 +248,12 @@ public class Battle : UIBase {
 	}
 
 	int GenerateCardIndex () {
-		int index = ConfigBattleUseData.Instance.questDungeonData.Colors [colorIndex];
+		int index = ConfigBattleUseData.Instance.questDungeonData.Colors [battleData.storeBattleData.colorIndex];
+		battleData.storeBattleData.colorIndex++;
 		currentColor.Add (index);
 		if (currentColor.Count > 5) {
 			currentColor.RemoveAt(0);
 		}
-		colorIndex ++;
 		return index;
 	}
 

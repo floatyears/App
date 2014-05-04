@@ -145,6 +145,7 @@ message QuestGrid {
 	optional int32			dropPos		= 7; // pos in grid.enemylist
 	optional int32			coins		= 8; 
 	optional uint32			trapId		= 9; 
+	optional int32			dangerLevel	= 10;
 }
 
 message QuestFloor {
@@ -354,19 +355,22 @@ message TrapInfo {
 
 //===========store disk data============================================================
 message StoreBattleData {
-	optional int32				colorIndex;
-	optional int32				hp;
-	optional int32				sp;
-	optional int32				isBattle;
-	optional int32				xCoordinate;
-	optional int32				yCoordinate;
-	repeated ClearQuestParam	questData;
-	repeated EnemyInfo			enemyInfo;
+	required int32				colorIndex			= 1;
+	optional int32				hp					= 2;
+	optional int32				sp					= 3;
+	optional int32				isBattle			= 4;
+	optional int32				xCoordinate			= 5;
+	optional int32				yCoordinate			= 6;
+	repeated ClearQuestParam	questData			= 7;
+	repeated EnemyInfo			enemyInfo			= 8;
+	optional bool				hitKey				= 9;
+	optional int32				attackRound			= 10;
+	repeated int32				activeSkillCooling	= 8;
 }
 
 message ClearQuestParam {
-	optional uint32			questID;
-	optional int32			getMoney;
-	repeated uint32			getUnit;
-	repeated uint32			hitGrid;
+	required uint32				questID		= 1;
+	optional int32				getMoney	= 2;
+	repeated uint32				getUnit		= 3;
+	repeated uint32				hitGrid		= 4;
 }

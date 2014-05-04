@@ -24,8 +24,6 @@ public class ConfigBattleUseData {
 
 	}
 	
-	public int colorIndex;
-	
 	public Coordinate roleInitCoordinate;
 
 	public TQuestDungeonData questDungeonData;
@@ -36,8 +34,8 @@ public class ConfigBattleUseData {
 
 	public TFriendInfo BattleFriend;
 
-	private StoreBattleData _storeBattleData;
-	public StoreBattleData storeBattleData {
+	private TStoreBattleData _storeBattleData;
+	public TStoreBattleData storeBattleData {
 		get { return _storeBattleData; }
 	}
 
@@ -45,7 +43,7 @@ public class ConfigBattleUseData {
 		InitStoreBattleData ();
 
 		roleInitCoordinate = _storeBattleData.roleCoordinate;
-		colorIndex = 0;
+		_storeBattleData.colorIndex = 0;
 		questDungeonData = tdd;
 		WriteFriend ();
 		WriteQuestInfo ();
@@ -55,35 +53,46 @@ public class ConfigBattleUseData {
 	}
 
 	void InitStoreBattleData() {
-		_storeBattleData = new StoreBattleData ();
-		_storeBattleData.sp = DataCenter.maxEnergyPoint;
-		_storeBattleData.hp = DataCenter.Instance.PartyInfo.CurrentParty.GetInitBlood ();
-		_storeBattleData.roleCoordinate.x = MapConfig.characterInitCoorX;
-		_storeBattleData.roleCoordinate.y = MapConfig.characterInitCoorY;
+		StoreBattleData sbd = new StoreBattleData ();
+		_storeBattleData = new TStoreBattleData (sbd);
+		sbd.sp = DataCenter.maxEnergyPoint;
+		sbd.hp = DataCenter.Instance.PartyInfo.CurrentParty.GetInitBlood ();
+		sbd.xCoordinate = MapConfig.characterInitCoorX;
+		sbd.yCoordinate = MapConfig.characterInitCoorY;
 	}
 
-	public void ResetFromDisk(StoreBattleData sbd, TQuestDungeonData tdd) {
-		questDungeonData = tdd;
-		roleInitCoordinate = sbd.roleCoordinate;
-		if (sbd.colorIndex > 5) {
-			colorIndex = sbd.colorIndex - 5;	
-		} else {
-			colorIndex = 0;
-		}
-
+	public void ResetFromDisk() {
 		ReadFriend ();
 		ReadQuestDungeonData ();
 		ReadQuestInfo ();
 		ReadStageInfo ();
+		ReadRuntimeData ();
+//		questDungeonData = tdd;
+		roleInitCoordinate = _storeBattleData.roleCoordinate;
+		if (_storeBattleData.colorIndex > 5) {
+			_storeBattleData.colorIndex -= 5;	
+		} else {
+			_storeBattleData.colorIndex  = 0;
+		}
 	}
 
-	public void StoreMapData (List<ClearQuestParam> data) {
-		_storeBattleData.questData = data;
+	public void StoreMapData (List<TClearQuestParam> data) {
+		if(data != null)
+			_storeBattleData.questData = data;
 		StoreRuntimData ();
 	}
 
+	void ReadRuntimeData () {
+		byte[] runtimeData = ReadFile (storeBattleName);
+		StoreBattleData qi = ProtobufSerializer.ParseFormBytes<StoreBattleData> (runtimeData);
+//		Debug.LogError ("ReadRuntimeData : " + qi.sp + " hp : " + qi.hp); 
+		_storeBattleData = new TStoreBattleData (qi);
+	}
+
 	void StoreRuntimData () {
-		//TODO store store battle data;
+//		Debug.LogError ("StoreRuntimData: " + _storeBattleData.instance.sp + " hp : " + _storeBattleData.instance.hp);
+		byte[] battleData = ProtobufSerializer.SerializeToBytes<StoreBattleData> (_storeBattleData.instance);
+		WriteToFile (battleData, storeBattleName);
 	}
 
 	public void ClearData () {
@@ -97,6 +106,7 @@ public class ConfigBattleUseData {
 	public const string questDungeonDataName = "/DungeonData";
 	public const string questInfoName = "/Quest";
 	public const string stageInfoName = "/Stage";
+	public const string storeBattleName = "/StoreBattle";
 
 	string GetPath (string path) {
 		return Application.persistentDataPath + path;
@@ -118,12 +128,6 @@ public class ConfigBattleUseData {
 			return false;	
 		}
 	}
-
-	public void StoreRuntimeData () {
-
-	}
-
-
 
 	//stage
 	public void WriteStageInfo() {

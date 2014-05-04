@@ -59,7 +59,7 @@ public class EnemyItem : UIBaseUnity {
     Queue<AttackInfo> attackQueue = new Queue<AttackInfo>();
     void Attack(object data) {
         AttackInfo ai = data as AttackInfo;
-        if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol) {
+        if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol || ai.AttackValue == 0) {
             return;
         }
 		if (prevEffect != null) {

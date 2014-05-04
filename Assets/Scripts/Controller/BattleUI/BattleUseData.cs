@@ -28,6 +28,8 @@ public class BattleUseData {
 				blood = value;
 				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 			}
+
+			configBattleUseData.storeBattleData.hp = blood;
 		}
         get { return blood; }
     }
@@ -55,10 +57,13 @@ public class BattleUseData {
         get { return countDown; }
     }
 
+	private ConfigBattleUseData configBattleUseData;
+
     public BattleUseData(BattleQuest bq) {
 		battleQuest = bq;
+		configBattleUseData = ConfigBattleUseData.Instance;
 		Reset ();
-		ResetBlood ();
+//		ResetBlood ();
     }
 
 	public void ResetBlood () {
@@ -78,9 +83,11 @@ public class BattleUseData {
 
 	public void InitBattleUseData () {
 		els.Excute();
-		StoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
-		maxBlood = Blood = sbd.hp;//upi.GetInitBlood();
+		TStoreBattleData sbd = configBattleUseData.storeBattleData;
+		maxBlood = upi.GetInitBlood();
+		blood = sbd.hp;//upi.GetInitBlood();
 		maxEnergyPoint = sbd.sp;//DataCenter.maxEnergyPoint;
+//		Debug.LogError (" maxEnergyPoint : " + maxEnergyPoint);
 		MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
 		GetBaseData (null);
 		eas = new ExcuteActiveSkill(upi);
@@ -271,16 +278,14 @@ public class BattleUseData {
 
    public  void RecoverEnergePoint(object data) {
         int recover = (int)data;
-
 		if (maxEnergyPoint == 0 && recover > 0) {
 			isLimit = false;
 		}
-//		Debug.LogError ("isLimit : " + isLimit);
         maxEnergyPoint += recover;
-//		Debug.LogError ("maxEnergyPoint : " + maxEnergyPoint + " recover : " + recover);
         if (maxEnergyPoint > DataCenter.maxEnergyPoint) {
             maxEnergyPoint = DataCenter.maxEnergyPoint;	
         }
+		configBattleUseData.storeBattleData.sp = maxEnergyPoint;
         MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
     }
     void TrapTargetPoint(object coordinate) {
@@ -314,6 +319,7 @@ public class BattleUseData {
         else {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
             maxEnergyPoint--;
+			configBattleUseData.storeBattleData.sp = maxEnergyPoint;
             MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
 			if(maxEnergyPoint == 0 && !isLimit) {
 				isLimit = true;

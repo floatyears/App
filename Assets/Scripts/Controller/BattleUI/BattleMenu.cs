@@ -97,7 +97,7 @@ public class BattleMenu : UIBaseUnity {
 	}
 
 	void RefreshDropItem () {
-		ClearQuestParam cqp = battleQuest.GetQuestData ();
+		TClearQuestParam cqp = battleQuest.GetQuestData ();
 		int getUnitCount = cqp.getUnit.Count;
 		int itemCount = itemList.Count;
 		int count = getUnitCount - itemCount;

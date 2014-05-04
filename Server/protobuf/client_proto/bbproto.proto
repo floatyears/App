@@ -247,7 +247,9 @@ message EnemyInfo {
 	optional int32		hp				= 4;
 	optional int32		attack			= 5;
 	optional int32		defense			= 6;
-	optional int32		nextAttack		= 7; // next 1, 2, 3 
+	optional int32		nextAttack		= 7; // next 1, 2, 3. 
+	optional int32		currentHp		= 8; // store runtime hp.
+	optional int32		currentNext		= 9; // store runtime next.
 }
 
 message EnemyInfoConf {
@@ -485,152 +487,24 @@ message TrapInfo {
 	optional int32				effectType	= 5;
 }
 
-//=====================================================
-
-//-------------------------------------------------
-message StatAuthUser {
-	optional string			terminal			= 1;
-	optional uint32			selectRole			= 2;
-	optional int32			channelId			= 3;
-
-	optional uint32			timeStamp			= 5;
-	optional uint32			userId				= 6;
-	optional int32			errorCode			= 7;
+//===========store disk data============================================================
+message StoreBattleData {
+	optional int32				colorIndex;
+	optional int32				hp;
+	optional int32				sp;
+	optional int32				isBattle;
+	optional int32				xCoordinate;
+	optional int32				yCoordinate;
+	repeated ClearQuestParam	questData;
+	repeated EnemyInfo			enemyInfo;
 }
 
-message StatRenameNick {
-	optional string			newNickName			= 1;
-	
-	optional uint32			timeStamp			= 2;
-	optional uint32			userId				= 3;
-	optional int32			errorCode			= 4;
+message ClearQuestParam {
+	optional uint32			questID;
+	optional int32			getMoney;
+	repeated uint32			getUnit;
+	repeated uint32			hitGrid;
 }
-
-message StatRestoreStamina {
-	optional int32			staminaNow			= 1; // current stamina
-	optional int32			staminaMax			= 2; 	
-	optional uint32			staminaRecover		= 3; // stamina recover time
-	optional int32			stone				= 4;
-	
-	optional uint32			timeStamp			= 5;
-	optional uint32			userId				= 6;
-	optional int32			errorCode			= 7;
-}
-
-message StatChangeParty {
-	optional int32			currentParty		= 1;
-	repeated UnitParty		partyList			= 2;
-
-	optional uint32			timeStamp			= 3;
-	optional uint32			userId				= 4;
-	optional int32			errorCode			= 5;
-}
-
-//////////////////////////////////////////////////////////////////////
-// unit protocol
-message StatUnitMaxExpand {
-	optional int32			unitMax				= 1;
-	optional int32			stone				= 2;
-	
-	optional uint32			timeStamp			= 3;
-	optional uint32			userId				= 4;
-	optional int32			errorCode			= 5;
-}
-
-message StatFriendMaxExpand {
-	optional int32			friendMax			= 1;
-	optional int32			stone				= 2;
-	
-	optional uint32			timeStamp			= 3;
-	optional uint32			userId				= 4;
-	optional int32			errorCode			= 5;
-}
-
-message StatLevelUp {	
-	optional uint32			baseUniqueId	= 1;
-	repeated uint32			partUniqueId	= 2;
-	optional uint32			helperUserId	= 3;
-	optional uint32			helperUniqueId	= 4;
-	optional int32			helperPremium	= 5;
-
-	optional int32			money			= 6;
-	optional int32			blendExp		= 7;
-	
-	optional uint32			timeStamp		= 8;
-	optional uint32			userId			= 9;
-	optional int32			errorCode		= 10;
-}
-
-message StatEvolveStart {	
-	optional uint32			baseUniqueId	= 1;
-	repeated uint32			partUniqueId	= 2;
-	optional uint32			helperUserId	= 3;
-	optional uint32			helperUniqueId	= 4;
-	optional int32			helperPremium	= 5;
-	optional uint32			evolveQuestId	= 6;
-	optional int32			restartNew		= 7;
-                                              
-	optional int32			staminaNow		= 8; // current stamina
-	optional uint32			staminaRecover	= 9; // stamina recover time
-	repeated DropUnit		drop			= 10;
-	
-	optional uint32			timeStamp		= 11;
-	optional uint32			userId			= 12;
-	optional int32			errorCode		= 13;
-}
-
-message StatEvolveDone {	
-	optional uint32			questId			= 1; 
-	optional uint32			securityKey		= 2;
-	optional int32			getMoney		= 3;
-	repeated uint32			getUnit			= 4;
-	repeated uint32			hitGrid			= 5;
-	                                          
-	optional uint32			timeStamp		= 6;
-	optional uint32			userId			= 7;
-	optional int32			errorCode		= 8;
-}
-
-message StatGacha {	
-	optional int32			gachaId			= 1;
-	optional int32			gachaCount		= 2;
-
-	repeated UserUnit		unitList		= 3; // only the gacha got units
-	repeated uint32			unitUniqueId	= 4;
-	repeated uint32			blankUnitId		= 5;
-	optional int32			stone			= 6;
-	optional int32			friendPoint		= 7;
-	
-	optional uint32			timeStamp		= 8;
-	optional uint32			userId			= 9;
-	optional int32			errorCode		= 10;
-}
-
-
-message StatSellUnit {	
-	repeated uint32			unitUniqueId	= 1;
-
-	optional int32			money			= 2;
-	optional int32			gotMoney		= 3;
-	repeated UserUnit		unitList		= 4;	
-
-	optional uint32			timeStamp		= 5;
-	optional uint32			userId			= 6;
-	optional int32			errorCode		= 7;
-}
-
-message StatUnitFavorite {
-	optional uint32			unitUniqueId	= 1;
-	optional int32			action			= 2;
-
-	optional uint32			timeStamp		= 3;
-	optional uint32			userId			= 4;
-	optional int32			errorCode		= 5;
-}
-
-//////////////////////////////////////////////////////////////////////
-// Friend protocol
-
 
 //=====================================================
 
