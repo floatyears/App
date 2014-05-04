@@ -785,6 +785,7 @@ public class BattleQuest : UIBase {
 	}
 
 	void QuestClearShow(object data) {
+		configBattleUseData.ClearData ();
 		RequestData ();
 	}
 
@@ -921,10 +922,12 @@ public class BattleQuest : UIBase {
 	void ResumeQuestNet(object data) {
 		bud.Blood = bud.maxBlood;
 		bud.RecoverEnergePoint (DataCenter.maxEnergyPoint);
+		configBattleUseData.StoreMapData (null);
 	}
 
 	void BattleFailExit(object data) {
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.GameOver, BattleFail);
+		configBattleUseData.ClearData ();
 	}
 
 	void BattleFail () {
