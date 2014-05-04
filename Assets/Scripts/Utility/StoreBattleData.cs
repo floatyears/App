@@ -6,7 +6,6 @@ public class TStoreBattleData : ProtobufDataBase {
 	public StoreBattleData instance;
 	public TStoreBattleData(StoreBattleData ins) : base (ins){
 		instance = ins;
-//		Debug.LogError ("instance : " + instance.hp + " sp : " + instance.sp);
 	}
 
 	public int attackRound = 0;
