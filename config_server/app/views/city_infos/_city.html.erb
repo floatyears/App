@@ -3,7 +3,7 @@
 version:<%= text_field_tag :version,@city.try(:version)%>
 id:<%= text_field_tag :id,@city.try(:id)%>
 state:<%= text_field_tag :state,@city.try(:state)%>
-cityName:<%= text_field_tag :cityName,@city.try(:cityName)%>
+cityName:<%= text_field_tag :cityName,@city.try(:cityName).force_encoding("UTF-8")%>
 description:<%= text_area_tag :description,@city.try(:description)%>
 <fieldset>
   pos:<br/>

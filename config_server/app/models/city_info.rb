@@ -469,7 +469,7 @@ class CityInfo
   
   def self.import_data_from_yaml(filepath)
     city_data =  YAML.load_file(filepath)
-    create_city_info(city_data)
+    #create_city_info(city_data)
   end
   
   def self.create_stars_config(configs)
