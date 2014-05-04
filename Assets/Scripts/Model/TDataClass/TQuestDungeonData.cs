@@ -5,13 +5,11 @@ using System.Collections.Generic;
 public class TQuestDungeonData : ProtobufDataBase {
 	public TQuestDungeonData(QuestDungeonData inst) : base (inst) { 
 		instance = inst;
-
 		convertColors ();
-
 		assignData ();
 	}
 
-	private QuestDungeonData	instance;
+	private QuestDungeonData instance;
 	public QuestDungeonData Instance {
 		get {
 			return instance;
@@ -21,7 +19,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 	private List<TEnemyInfo>	boss = new List<TEnemyInfo>();
 	private List<byte> colors;
 
-	private void assignData() {
+	void assignData() {
 		Floors = new  List< List<TQuestGrid> > ();
 		dropUnit = new List<TDropUnit>();
 
@@ -32,6 +30,8 @@ public class TQuestDungeonData : ProtobufDataBase {
 
 		foreach(EnemyInfo b in instance.boss) {
 			TEnemyInfo e = new TEnemyInfo(b);
+			e.initBlood = e.GetInitBlood();
+			e.initAttackRound = e.GetInitRound();
 			this.boss.Add(e);
 		}
 
@@ -62,7 +62,8 @@ public class TQuestDungeonData : ProtobufDataBase {
 					for(int i=0; i<instance.enemys.Count;i++){
 						if ( grid.Object.enemyId[g] == instance.enemys[i].enemyId ){
 							LogHelper.Log ("grid[{0}]: assign enemy[{1}], enemyCount={2}...  ", g, grid.Object.enemyId[g], grid.Enemy.Count);
-
+							instance.enemys[i].currentHp = instance.enemys[i].hp;
+							instance.enemys[i].currentNext = instance.enemys[i].nextAttack;
 							grid.Enemy.Add( new TEnemyInfo(CopyEnemyInfo( instance.enemys[i] ) ) );
 							break;
 						}

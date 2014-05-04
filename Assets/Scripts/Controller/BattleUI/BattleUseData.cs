@@ -11,11 +11,13 @@ public class BattleUseData {
 		set {
 
 			if(value < 0) {
+
 				if(blood == 0) 
 					return;
 				blood = 0;
 				PlayerDead();
 			} else if(value > maxBlood) {
+
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				if(blood < maxBlood) {
 					MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
@@ -25,6 +27,7 @@ public class BattleUseData {
 				if(value > blood) {
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				}
+
 				blood = value;
 				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 			}
@@ -81,15 +84,20 @@ public class BattleUseData {
 		skillRecoverHP = els;
 	}
 
-	public void InitBattleUseData () {
+	public void InitBattleUseData (TStoreBattleData sbd) {
 		els.Excute();
-		TStoreBattleData sbd = configBattleUseData.storeBattleData;
-		maxBlood = upi.GetInitBlood();
-		blood = sbd.hp;//upi.GetInitBlood();
-		maxEnergyPoint = sbd.sp;//DataCenter.maxEnergyPoint;
-//		Debug.LogError (" maxEnergyPoint : " + maxEnergyPoint);
-		MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
+		if (sbd == null) {
+
+			Blood = maxBlood = upi.GetInitBlood ();
+
+			maxEnergyPoint =DataCenter.maxEnergyPoint;
+		} else {
+			maxBlood = upi.GetInitBlood ();
+			Blood = sbd.hp;
+			maxEnergyPoint = sbd.sp;
+		}
 		GetBaseData (null);
+		
 		eas = new ExcuteActiveSkill(upi);
 		eps = new ExcutePassiveSkill(upi);
 		ac = new AttackController(this, eps, upi);
@@ -271,7 +279,7 @@ public class BattleUseData {
 
     public void GetBaseData(object data) {
         BattleBaseData bbd = new BattleBaseData();
-		bbd.Blood = blood;
+		bbd.Blood = maxBlood;
 		bbd.EnergyPoint = maxEnergyPoint;
 		MsgCenter.Instance.Invoke(CommandEnum.BattleBaseData, bbd);
     }

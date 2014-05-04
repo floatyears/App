@@ -41,9 +41,13 @@ public class MapItem : UIBaseUnity {
 	private bool isOld = false;
 	public bool IsOld {
 		set {
+//			Debug.LogError("coor : " + coor.x + " y : " + coor.y + " value : " + value);
 			isOld = value; 
 		}
-		get{return isOld;}
+		get{
+//			Debug.LogError("coor : " + coor.x + " y : " + coor.y + " isOld : " + isOld);
+			return isOld;
+		}
 	}
 
 	private bool isRotate = false;
@@ -202,7 +206,7 @@ public class MapItem : UIBaseUnity {
 	}
 
 	public override void ShowUI() {
-		isOld = false;
+		IsOld = false;
 	}
 
 	public void HideEnvirment(bool b) {
@@ -246,7 +250,7 @@ public class MapItem : UIBaseUnity {
 	}
 
 	public void HideGridNoAnim() {
-		isOld = true;
+		IsOld = true;
 		HideShowSprite (false);
 		gridItemSprite.enabled = false;
 		mapItemSprite.enabled = false;
@@ -263,7 +267,7 @@ public class MapItem : UIBaseUnity {
 			return;
 		}
 			
-		isOld = true;
+		IsOld = true;
 		showStarSprite.Clear ();
 
 		if(!mapBack.activeSelf) {

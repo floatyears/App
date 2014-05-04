@@ -126,6 +126,7 @@ public class StandbyView : UIComponentUnity {
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
+//			tqdd.assignData();
 			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		

@@ -19,7 +19,7 @@ public class AttackController {
 			grid = value;
 			enemyInfo = new List<TEnemyInfo>();
 			foreach (var item in value.Enemy) {
-				Debug.LogError(item.EnemyID + " item.enemysymbol : " + item.EnemySymbol);
+//				Debug.LogError(item.EnemyID + " item.enemysymbol : " + item.EnemySymbol);
 				enemyInfo.Add(item);
 			}
 
@@ -31,6 +31,8 @@ public class AttackController {
 	IExcutePassiveSkill passiveSkill;
 	public bool battleFail = false;
 
+	private ConfigBattleUseData configBattleUseData;
+
 	public bool isBoss = false;
 	public AttackController (BattleUseData bud,IExcutePassiveSkill ips,TUnitParty tup) {
 		upi = tup;
@@ -38,6 +40,8 @@ public class AttackController {
 		this.bud = bud;
 		passiveSkill = ips;
 		RegisterEvent ();
+
+		configBattleUseData = ConfigBattleUseData.Instance;
 	}
 
 	public void RemoveListener () {
@@ -426,6 +430,7 @@ public class AttackController {
 				reduceValue = attackValue;
 			}
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
+			Debug.LogError("hurtValue : " + hurtValue);
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
@@ -473,6 +478,12 @@ public class AttackController {
 		CheckTempEnemy ();
 		bud.ClearData();
 		bud.battleQuest.battle.ShieldInput(true);	
+	
+		configBattleUseData.storeBattleData.attackRound ++;
+		configBattleUseData.storeBattleData.tEnemyInfo = enemyInfo;
+		Debug.LogError ("EnemyAttackEnd : ");
+		configBattleUseData.StoreMapData (null);
+
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
 	}
 

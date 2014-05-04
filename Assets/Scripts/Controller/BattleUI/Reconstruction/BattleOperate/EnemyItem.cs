@@ -261,8 +261,10 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void SetData(TEnemyInfo seu) {
-        SetBloodLabel(seu.GetBlood());
-        SetNextLabel(seu.GetRound());
+//		SetBloodLabel(seu.EnemyInfo().currentHp);
+//		Debug.LogError (enemyInfo.initBlood + " SetData : " + enemyInfo.GetInitBlood ());
+		bloodSprite.fillAmount =(float)enemyInfo.initBlood / enemyInfo.GetInitBlood();
+		SetNextLabel(seu.EnemyInfo().currentNext);
     }
 
     void SetBlood(float value) {

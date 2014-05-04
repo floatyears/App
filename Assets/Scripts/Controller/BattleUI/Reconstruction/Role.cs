@@ -53,6 +53,7 @@ public class Role : UIBaseUnity {
 		jump.Init (GetInitPosition());
 		jump.GameStart (targetPoint);	
 		SyncRoleCoordinate(currentCoor);
+
 		Stop();
 	}
 
@@ -204,7 +205,6 @@ public class Role : UIBaseUnity {
 	}
 
 	public void SyncRoleCoordinate(Coordinate coor) {
-
 		MsgCenter.Instance.Invoke (CommandEnum.MoveToMapItem, coor);
 		bQuest.RoleCoordinate(coor);
 	}

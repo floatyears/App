@@ -59,9 +59,25 @@ public class TStoreBattleData : ProtobufDataBase {
 				instance.enemyInfo.Add(value[i]);
 			}
 		}
+	}
 
-//		get { return instance.enemyInfo; }
-//		set { instance.enemyInfo = value; }
+	public List<TEnemyInfo> tEnemyInfo {
+		get {
+			List<TEnemyInfo> temp = new List<TEnemyInfo>();
+			for (int i = 0; i < instance.enemyInfo.Count; i++) {
+				TEnemyInfo tei = new TEnemyInfo(instance.enemyInfo[i]);
+				tei.EnemySymbol = (uint)i;
+				temp.Add(tei);
+			}
+			return temp;
+		}
+		set {
+			instance.enemyInfo.Clear();
+			for (int i = 0; i < value.Count; i++) {
+				instance.enemyInfo.Add(value[i].EnemyInfo());
+//				Debug.LogError( value[i].EnemySymbol + " hp: " + instance.enemyInfo[i].currentHp + " next : " + instance.enemyInfo[i].currentNext);
+			}
+		}
 	}
 
 	public Coordinate roleCoordinate {

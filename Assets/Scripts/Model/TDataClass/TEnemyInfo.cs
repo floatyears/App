@@ -7,9 +7,6 @@ public class TEnemyInfo : ProtobufDataBase {
 
 	public TEnemyInfo (EnemyInfo instance) : base (instance) {
 		this.instance = instance;
-		initBlood = GetInitBlood ();
-		initAttackRound = instance.nextAttack;
-		Debug.Log (instance.enemyId + " instance : " + instance.unitId);
 		AddListener ();
 	}
 
@@ -27,16 +24,17 @@ public class TEnemyInfo : ProtobufDataBase {
 		return instance;
 	}
 
-	private int initBlood {
+	public int initBlood {
 		get { return instance.currentHp; }
 		set { instance.currentHp = value; }
 	}
-	private int initAttackRound {
+
+	public int initAttackRound {
 		get { return instance.currentNext; }
 		set { instance.currentNext = value; }
 	}
+
 	public bool isDeferAttackRound = false;
-//	public bool isPosion = false;
 	private AttackInfo posionAttack;
 
 	public TDropUnit drop;
@@ -123,9 +121,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	}
 
 	public void FirstAttack () {
-//		Debug.LogError ("FirstAttack befoure : " + initAttackRound);
 		initAttackRound++;
-//		Debug.LogError ("FirstAttack befoure : " + initAttackRound);
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
 
@@ -168,12 +164,16 @@ public class TEnemyInfo : ProtobufDataBase {
 		return defense;
 	}
 
-	public int GetRound () {
-		return initAttackRound;
+	public int GetInitRound() {
+		return instance.nextAttack;
 	}
 
 	public int GetInitBlood () {
-		return EnemyInfo ().hp;
+		return instance.hp;
+	}
+
+	public int GetRound () {
+		return initAttackRound;
 	}
 
 	public int GetBlood () {

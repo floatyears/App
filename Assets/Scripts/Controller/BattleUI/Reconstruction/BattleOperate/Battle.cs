@@ -128,11 +128,10 @@ public class Battle : UIBase {
 	}
 
 	void EnemyAttckEnd (object data) {
-		TStoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
+//		TStoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
 		battleCard.StartBattle (true);
 		ShieldInput (true);
-		battleData.storeBattleData.attackRound ++;
-		battleData.StoreMapData (null);
+
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
@@ -220,10 +219,11 @@ public class Battle : UIBase {
 		isShowEnemy = true;
 		battleEnemy.Refresh(count);
 		TStoreBattleData tsbd = battleData.storeBattleData;
-		tsbd.enemyInfo.Clear ();
-		for (int i = 0; i < count.Count; i++) {
-			tsbd.enemyInfo.Add(count[i].EnemyInfo());
-		}
+//		tsbd.enemyInfo.Clear ();
+//		for (int i = 0; i < count.Count; i++) {
+//			tsbd.enemyInfo.Add(count[i].EnemyInfo());
+		tsbd.tEnemyInfo = count;
+//		}
 		battleData.storeBattleData.attackRound ++;
 		battleData.StoreMapData (null);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);

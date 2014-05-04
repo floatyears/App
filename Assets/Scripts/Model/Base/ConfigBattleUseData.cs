@@ -35,21 +35,22 @@ public class ConfigBattleUseData {
 	public TFriendInfo BattleFriend;
 
 	private TStoreBattleData _storeBattleData;
+
 	public TStoreBattleData storeBattleData {
 		get { return _storeBattleData; }
 	}
 
 	public void ResetFromServer(TQuestDungeonData tdd) {
 		InitStoreBattleData ();
-
-		roleInitCoordinate = _storeBattleData.roleCoordinate;
+		roleInitCoordinate = new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);//
+		_storeBattleData.roleCoordinate = roleInitCoordinate;
 		_storeBattleData.colorIndex = 0;
 		questDungeonData = tdd;
 		WriteFriend ();
 		WriteQuestInfo ();
 		WriteStageInfo ();
 		WriteQuestDungeonData ();
-		GameDataStore.Instance.StoreDataNoEncrypt (GameDataStore.battleStore, isBattle);
+	
 	}
 
 	void InitStoreBattleData() {
@@ -69,6 +70,11 @@ public class ConfigBattleUseData {
 		ReadRuntimeData ();
 //		questDungeonData = tdd;
 		roleInitCoordinate = _storeBattleData.roleCoordinate;
+//		if (_storeBattleData.isBattle != 0) {
+//			TQuestGrid tqg = questDungeonData.GetSingleFloor (roleInitCoordinate);
+//			tqg.Enemy = _storeBattleData.tEnemyInfo;
+//		}
+
 		if (_storeBattleData.colorIndex > 5) {
 			_storeBattleData.colorIndex -= 5;	
 		} else {
@@ -79,6 +85,7 @@ public class ConfigBattleUseData {
 	public void StoreMapData (List<TClearQuestParam> data) {
 		if(data != null)
 			_storeBattleData.questData = data;
+//		Debug.LogError ("StoreMapData : " + _storeBattleData.hp);
 		StoreRuntimData ();
 	}
 
@@ -95,12 +102,24 @@ public class ConfigBattleUseData {
 		WriteToFile (battleData, storeBattleName);
 	}
 
+	public void StoreData () {
+		GameDataStore.Instance.StoreDataNoEncrypt (GameDataStore.battleStore, isBattle);
+	}
+
 	public void ClearData () {
 		GameDataStore.Instance.DeleteInfo (GameDataStore.battleStore);
 	}
 
-	private const string floderPath = "/Battle/";
+	public bool hasBattleData () {
+		string value = GameDataStore.Instance.GetDataNoEncrypt (GameDataStore.battleStore);
+		if (string.IsNullOrEmpty (value)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
+	private const string floderPath = "/Battle/";
 	public const string isBattle = "/true";
 	public const string friendFileName = "/Friend";
 	public const string questDungeonDataName = "/DungeonData";
@@ -120,14 +139,7 @@ public class ConfigBattleUseData {
 		_storeBattleData.isBattle = 0;
 	}
 	
-	public bool hasBattleData () {
-		string value = GameDataStore.Instance.GetDataNoEncrypt (GameDataStore.battleStore);
-		if (value == isBattle) {
-			return true;		
-		} else {
-			return false;	
-		}
-	}
+
 
 	//stage
 	public void WriteStageInfo() {
