@@ -5,10 +5,11 @@ import public "user.proto";
 package bbproto;
 
 enum RecoveBattleStep {
-	RB_BossDead		= 0;
-	RB_BattleFail 	= 1;
-	RB_NoRecoveHP	= 2
-	RB_TrapDead		= 3;
+	RB_None			= 0;
+	RB_BossDead		= 1;
+	RB_BattleFail 	= 2;
+	RB_NoRecoveHP	= 3
+	RB_TrapDead		= 4;
 }
 
 enum EQuestState {

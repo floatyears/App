@@ -2456,9 +2456,9 @@ namespace bbproto
       get { return _activeSkillCooling; }
     }
   
-    private bbproto.RecoveBattleStep _recoveBattleStep = bbproto.RecoveBattleStep.RB_BossDead;
+    private bbproto.RecoveBattleStep _recoveBattleStep = bbproto.RecoveBattleStep.RB_None;
     [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"recoveBattleStep", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(bbproto.RecoveBattleStep.RB_BossDead)]
+    [global::System.ComponentModel.DefaultValue(bbproto.RecoveBattleStep.RB_None)]
     public bbproto.RecoveBattleStep recoveBattleStep
     {
       get { return _recoveBattleStep; }
@@ -5110,17 +5110,20 @@ namespace bbproto
     public enum RecoveBattleStep
     {
             
-      [global::ProtoBuf.ProtoEnum(Name=@"RB_BossDead", Value=0)]
-      RB_BossDead = 0,
+      [global::ProtoBuf.ProtoEnum(Name=@"RB_None", Value=0)]
+      RB_None = 0,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"RB_BattleFail", Value=1)]
-      RB_BattleFail = 1,
+      [global::ProtoBuf.ProtoEnum(Name=@"RB_BossDead", Value=1)]
+      RB_BossDead = 1,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"RB_NoRecoveHP", Value=2)]
-      RB_NoRecoveHP = 2,
+      [global::ProtoBuf.ProtoEnum(Name=@"RB_BattleFail", Value=2)]
+      RB_BattleFail = 2,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"RB_TrapDead", Value=3)]
-      RB_TrapDead = 3
+      [global::ProtoBuf.ProtoEnum(Name=@"RB_NoRecoveHP", Value=3)]
+      RB_NoRecoveHP = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"RB_TrapDead", Value=4)]
+      RB_TrapDead = 4
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EQuestState")]
