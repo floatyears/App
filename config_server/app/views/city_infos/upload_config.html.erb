@@ -1,0 +1,4 @@
+<h1 id="上传配置文件">上传配置文件</h1>
+<%= form_tag(upload_city_infos_path, multipart: true)%>
+<%= file_field_tag :city_config_file%>
+<%= submit_tag "上传",class: "btn btn-primary"%>

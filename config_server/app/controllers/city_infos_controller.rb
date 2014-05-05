@@ -48,6 +48,14 @@ class CityInfosController < ApplicationController
       end
     end
   end
+  def upload_config
+  end
+  
+  def upload
+    configs = params[:city_config_file].read
+    CityInfo.import_data_from_upload(configs)
+    redirect_to city_infos_path
+  end
   
   def update_quest
     if CityInfo.update(params)
