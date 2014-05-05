@@ -51,7 +51,7 @@ public class ExcuteActiveSkill {
 			return;	
 		} 
 
-		AttackInfo ai = new AttackInfo();
+		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo();
 		ai.UserUnitID = userUnit.MakeUserUnitKey();
 		MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 		iase = activeSkill[ai.UserUnitID];

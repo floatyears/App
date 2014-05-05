@@ -30,7 +30,7 @@ public class TSkillAttackRecoverHP : ActiveSkill ,IActiveSkillExcute{
 		}
 		InitCooling ();
 //		SkillSingleAtkRecoverHP ssarh = DeserializeData<SkillSingleAtkRecoverHP> ();
-		AttackInfo ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = (int)instance.attackType;
 

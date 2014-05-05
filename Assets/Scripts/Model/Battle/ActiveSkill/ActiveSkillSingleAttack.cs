@@ -66,7 +66,7 @@ public class TSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 			return null;		
 		}
 		InitCooling ();
-		AttackInfo ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = (int)instance.attackRange;

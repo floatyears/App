@@ -30,7 +30,11 @@ public class ActiveAttackTargetType : ActiveSkill, IActiveSkillExcute {
 		InitCooling ();
 //		SkillTargetTypeAttack stta = DeserializeData<SkillTargetTypeAttack> ();
 		AttackTargetType att = new AttackTargetType ();
-		AttackInfo ai = new AttackInfo ();
+
+//		bbproto.AttackInfoProto aip = new bbproto.AttackInfoProto();
+//		AttackInfo ai = new AttackInfo (aip);
+//		 ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance ();
 		ai.UserUnitID = userUnitID;
 		if (instance.type == EValueType.MULTIPLE) {
 			ai.AttackValue = atk * instance.value;	

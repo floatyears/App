@@ -48,7 +48,7 @@ public class TSkillSuicideAttack : ActiveSkill, IActiveSkillExcute {
 		}
 		InitCooling ();
 //		SkillSuicideAttack ssa = DeserializeData<SkillSuicideAttack> ();
-		AttackInfo ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		if (instance.type == EValueType.FIXED) {
 			ai.AttackValue = instance.value;

@@ -28,7 +28,7 @@ public class TSkillPoison : ActiveSkill {
 		}
 		InitCooling ();
 //		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		AttackInfo ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance ();//new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackValue = atk * instance.value;
 		ai.AttackRound = instance.roundValue;

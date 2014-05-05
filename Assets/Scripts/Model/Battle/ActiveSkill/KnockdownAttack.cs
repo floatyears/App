@@ -28,7 +28,7 @@ public class KnockdownAttack : ActiveSkill, IActiveSkillExcute {
 		}
 		InitCooling ();
 //		SkillSingleAttack ssa = DeserializeData<SkillSingleAttack>();
-		AttackInfo ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance ();//new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		float value = DGTools.RandomToFloat ();
 //		Debug.LogError ("random value : " + value);

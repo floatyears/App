@@ -28,7 +28,7 @@ public class ActiveReduceHurt : ActiveSkill, IActiveSkillExcute {
 		}
 		InitCooling ();
 //		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
-		ai = new AttackInfo ();
+		ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackValue = instance.value;
 		ai.AttackRound = instance.periodValue;

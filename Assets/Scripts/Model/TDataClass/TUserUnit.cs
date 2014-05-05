@@ -157,7 +157,7 @@ public class TUserUnit : ProtobufDataBase {
             tns.DisposeUseSkillID(ignorSkillID);
             int count = tns.CalculateCard(copyCard);
             for (int j = 0; j < count; j++) {
-                AttackInfo attack = new AttackInfo();
+				AttackInfo attack = AttackInfo.GetInstance(); //new AttackInfo();
                 attack.AttackValue = CaculateAttack(instance, ui, tns);
                 attack.AttackType = tns.AttackType;
                 attack.UserUnitID = MakeUserUnitKey();
@@ -187,7 +187,7 @@ public class TUserUnit : ProtobufDataBase {
 			for (int j = 0; j < count; j++) {
 				csu.alreadyUseSkill.Add(tns);
 				csu.ResidualCard();
-				AttackInfo attack = new AttackInfo();
+				AttackInfo attack = AttackInfo.GetInstance(); //new AttackInfo();
 				attack.AttackValue = CaculateAttack(instance, ui, tns);
 				attack.AttackType = tns.AttackType;
 				attack.UserUnitID = MakeUserUnitKey();

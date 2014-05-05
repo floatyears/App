@@ -189,7 +189,9 @@ public class BattleUseData {
         else {
             add = value + blood;
         }
-		AttackInfo ai = new AttackInfo ();
+//		bbproto.AttackInfoProto aip = new bbproto.AttackInfoProto ();
+//		AttackInfo ai = new AttackInfo (aip);
+		AttackInfo ai = AttackInfo.GetInstance ();
 		ai.AttackValue = add;
 		RecoverHP(ai);
     }
