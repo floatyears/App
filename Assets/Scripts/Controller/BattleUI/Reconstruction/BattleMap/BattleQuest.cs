@@ -337,10 +337,10 @@ public class BattleQuest : UIBase {
 		// 0 is not in fight.
 		if (sbd.isBattle == 0) { 
 
-//			if (sbd.recoveBattleStep == RecoveBattleStep.RB_BossDead) {
-//				BossDead();
-//				return;
-//			}
+			if (sbd.recoveBattleStep == RecoveBattleStep.RB_BossDead) {
+				BossDead();
+				return;
+			}
 
 			return;	
 		}
@@ -357,15 +357,15 @@ public class BattleQuest : UIBase {
 
 
 
-		if (sbd.isBattle == 1) {
+		if (sbd.isBattle == 1) { // 1 == battle enemy
 			currentMapData.Enemy = temp;
 			bud.InitEnemyInfo (currentMapData);
 			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
-			if(sbd.attackRound == 1) {
+			if(sbd.attackRound == 0) {//0 == first attack.
 				GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
 			}
 		}
-		else if (sbd.isBattle == 2) {
+		else if (sbd.isBattle == 2) {	//2==battle boss
 			battleEnemy = true;
 			battle.ShieldInput (true);
 			questDungeonData.Boss= temp;
