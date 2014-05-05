@@ -105,7 +105,6 @@ public class BattleEnemy : UIBaseUnity {
 			go.SetActive(true);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.battleEnemy = this;
-//			Debug.LogError("enemy[i] : " + enemy[i].initBlood + "  hp " + enemy[i].EnemyInfo().currentHp);
 			ei.Init(enemy[i]);
 			temp.Add(ei);
 			monster.Add(enemy[i].EnemySymbol,ei);
