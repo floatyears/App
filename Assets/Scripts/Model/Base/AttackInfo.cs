@@ -133,6 +133,12 @@ public class AttackInfo {
 		set { fixRecoverHP = value; }
 	}
 
+	private int isLink = 0;	
+	public int IsLink{
+		get { return isLink; }
+		set { isLink = value; }
+	}
+
 	//------------test need data, delete it behind test done------------//
 	//------------------------------------------------------------------//
 	//public int originIndex = -1;

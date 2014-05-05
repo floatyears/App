@@ -149,7 +149,7 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	public void RotateAll(Callback cb) {
-		prevMapItem.RotateAll (cb);
+		prevMapItem.RotateAll (cb, false);
 	}
 
 	public EnemyAttackEnum FirstOrBackAttack() {
@@ -159,16 +159,21 @@ public class BattleMap : UIBaseUnity {
 	private Callback cb;
 	public void BattleEndRotate (Callback callback) {
 		cb = callback;
-		StartCoroutine (EndRotate ());
+		bool allShow = false;
+		if (cb == null) {
+			allShow = true;
+		}
+						
+		StartCoroutine (EndRotate (allShow));
 	}
 
-	IEnumerator EndRotate () {
+	IEnumerator EndRotate (bool allShow) {
 		for (int i = 0; i < map.GetLength(0); i++) {
 			for (int j = 0; j < map.GetLength(1); j++) {
 				if(i == map.GetLength(0) - 1 && j == map.GetLength(1) - 1){
-					map[i,j].RotateAll(cb);
+					map[i,j].RotateAll(cb,allShow);
 				} else{
-					map[i,j].RotateAll(null);
+					map[i,j].RotateAll(null,allShow);
 				}
 				yield return 10;
 			}

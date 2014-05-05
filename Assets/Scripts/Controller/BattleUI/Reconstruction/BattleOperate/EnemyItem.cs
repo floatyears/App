@@ -25,7 +25,7 @@ public class EnemyItem : UIBaseUnity {
 	[HideInInspector]
 	public BattleEnemy battleEnemy;
 	[HideInInspector]
-	public GameObject prevEffect = null;
+//	public GameObject prevEffect = null;
 
     void OnEnable() {
         MsgCenter.Instance.AddListener(CommandEnum.EnemyAttack, EnemyAttack);
@@ -62,9 +62,9 @@ public class EnemyItem : UIBaseUnity {
         if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol || ai.AttackValue == 0) {
             return;
         }
-		if (prevEffect != null) {
-			Destroy(prevEffect);
-        }
+//		if (prevEffect != null) {
+//			Destroy(prevEffect);
+//        }
         attackQueue.Enqueue(ai);
         GameTimer.GetInstance().AddCountDown(0.3f, Effect);
     }
@@ -74,7 +74,7 @@ public class EnemyItem : UIBaseUnity {
 		DisposeRestraint (ai);
 		DGTools.PlayAttackSound (ai.AttackType);
         ShowHurtInfo(ai.InjuryValue);
-		battleEnemy.PlayerEffect (this, ai);
+		battleEnemy.EnemyItemPlayEffect (this, ai);
 //		ShowInjuredEffect (ai);
 //        InjuredShake();
     }

@@ -41,10 +41,8 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
-
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
-//		MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemy, Attack);
 		count --;
 		battleAttackInfo.HideUI ();
 		gameObject.SetActive (false);
@@ -55,30 +53,40 @@ public class BattleEnemy : UIBaseUnity {
 		gameObject.SetActive (true);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
-//		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemy, Attack);
-
 		count ++;
 		battleAttackInfo.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
-
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 
 	}
 
 	void AttackEnemyEnd(object data) {
-
 		DestoryEffect ();
-
+		prevAttackInfo = null;
 		int index = DGTools.RandomToInt (0, 4);
 		attackInfoLabel.spriteName = attackInfo [index];
-//		iTween.RotateTo (attackInfoLabel.gameObject, iTween.Hash ("rotation", new Vector3 (0f, 0f, 360f), "time", 0.3f, "oncomplete", "End", "oncompletetarget", gameObject));
 		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.3f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "End", "oncompletetarget", gameObject));
-
 	}
+	
+	List<AttackInfo> attackList=  new List<AttackInfo>();
 
 	void AttackEnemy(object data) {
 		DestoryEffect ();
+	}
+
+	List<EnemyItem> enemyList = new List<EnemyItem>();
+
+	AttackInfo prevAttackInfo = null;
+
+	public void EnemyItemPlayEffect(EnemyItem ei, AttackInfo ai) {
+		// > 0. mean is all attack.
+		if (prevAttackInfo != null &&  prevAttackInfo.IsLink > 0 && prevAttackInfo.IsLink == ai.IsLink) {
+			return;
+		}
+
+		prevAttackInfo = ai;
+		PlayerEffect (ei, ai);
 	}
 
 	void DestoryEffect() {
@@ -183,7 +191,6 @@ public class BattleEnemy : UIBaseUnity {
 		allWidth =  count * width ;
 		probability = screenWidth / allWidth;
 		if (probability <= 1f) { //screewidth <= allWidth
-//			interv = 0;
 			width *= probability;
 			for (int i = 0; i < temp.Count; i++) {
 				UITexture tex = temp [i].texture;
@@ -193,12 +200,6 @@ public class BattleEnemy : UIBaseUnity {
 				tex.height = (int)tempHeight;
 			}
 		}	
-//		} else { 
-//			if( temp.Count > 1)
-//				interv = (screenWidth - allWidth) * 1f / (temp.Count-1);
-//			else
-//				interv = 0;
-//		}
 	}
 
 	void DisposeCenterLeft(int centerIndex,List<EnemyItem> temp) {
@@ -223,10 +224,6 @@ public class BattleEnemy : UIBaseUnity {
 	}
 	GameObject prevEffect;
 	public void PlayerEffect(EnemyItem ei,AttackInfo ai) {
-//		if (prevEffect != null) {
-//			Destroy(prevEffect);	
-//		}
-
 		GameObject obj = DataCenter.Instance.GetEffect(ai) as GameObject;
 		DGTools.PlayAttackSound(ai.AttackType);
 		ei.InjuredShake();

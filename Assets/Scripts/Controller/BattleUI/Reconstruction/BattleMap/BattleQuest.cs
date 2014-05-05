@@ -12,7 +12,7 @@ public class BattleQuest : UIBase {
 	public Battle battle;
 	private BattleBackground background;
 	public QuestFullScreenTips questFullScreenTips;
-	private TopUI topUI;
+	public TopUI topUI;
 	public static BattleUseData bud;
 
 	private List< TClearQuestParam > _questData = new List<TClearQuestParam>();
@@ -618,6 +618,7 @@ public class BattleQuest : UIBase {
 			BossDead();
 			configBattleUseData.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
 			configBattleUseData.StoreMapData (null);
+			return;
 		}
 
 		int index = questDungeonData.GetGridIndex (currentCoor);
@@ -655,7 +656,7 @@ public class BattleQuest : UIBase {
 	void QuestClear() {
 		battle.ShieldInput(true);
 		BattleMap.waitMove = true;
-		topUI.SheildInput ();
+		topUI.SheildInput (false);
 		battleMap.BattleEndRotate(battleMap.door.ShowTapToCheckOut);
 	}
 	
@@ -712,7 +713,7 @@ public class BattleQuest : UIBase {
 
 	void SureRetry(object data) {
 		battle.ShieldInput (false);
-		RedoQuest.SendRequest (RetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
+		RedoQuest.SendRequest (SureRetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
 	}
 
 	void SureInitiativeRetry(object data) {
@@ -725,48 +726,27 @@ public class BattleQuest : UIBase {
 
 	void CancelInitiativeRetry(object data) {
 //		NoFriendExit ();
-
 	}
 
-	object tempData = null;
+//	object tempData = null;
 	void SureRetryNetWork(object data) {
 		BattleMap.waitMove = false;
 		battleMap.BattleEndRotate(null);
-		tempData = data;
+		RefreshRetryData (data);
 		main.GInput.IsCheckInput = true;
 		GameInput.OnPressEvent += SureRetryPress;
 	}
 
-	void SureRetryPress() {
-		GameInput.OnPressEvent -= SureRetryPress;
-		RetryNetWork (tempData);
-		tempData = null;
-	}
-
-	void RetryNetWork(object data) {
-		battle.ShieldInput (true);
+	void RefreshRetryData(object data) {
 		RspRedoQuest rrq = data as RspRedoQuest;
 		if (rrq == null) {
 			return;	
 		}
-
-		if (battle.isShowEnemy) {
-			ExitFight (true);
-			configBattleUseData.storeBattleData.attackRound = 0;
-			configBattleUseData.StoreMapData(null);
-			battle.ExitFight();
-		}
-
 		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
-//		int count = _questData.Count -1;
 		_questData.RemoveAt (_questData.Count - 1);
 		ClearQuestParam cq = new ClearQuestParam ();
 		TClearQuestParam cqp = new TClearQuestParam (cq);
-//		for (int i = 0; i < _questData.Count; i++) {
-
-//		}
 		_questData.Add (cqp);
-
 		TQuestDungeonData tqdd = new TQuestDungeonData (rrq.dungeonData);
 		int floor = questDungeonData.currentFloor;
 		List<TQuestGrid> reQuestGrid = tqdd.Floors[floor];
@@ -775,9 +755,24 @@ public class BattleQuest : UIBase {
 		configBattleUseData.roleInitCoordinate =  new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);
 		configBattleUseData.storeBattleData.roleCoordinate = configBattleUseData.roleInitCoordinate ;
 		configBattleUseData.storeBattleData.questData = _questData;
+		configBattleUseData.StoreMapData (_questData);
+	}
+
+	void SureRetryPress() {
+		GameInput.OnPressEvent -= SureRetryPress;
+		RetryRefreshUI ();
+	}
+
+	void RetryRefreshUI() {
+		battle.ShieldInput (true);
+		if (battle.isShowEnemy) {
+			ExitFight (true);
+			configBattleUseData.storeBattleData.attackRound = 0;
+			configBattleUseData.StoreMapData(null);
+			battle.ExitFight();
+		}
 		Reset ();
 		bud.ResetBlood ();
-		configBattleUseData.StoreMapData (_questData);
 	}
 
 	void CancelRetry(object data) {

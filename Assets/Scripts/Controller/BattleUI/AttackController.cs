@@ -187,7 +187,7 @@ public class AttackController {
 
 	float GetIntervTime () {
 		if (enemyInfo.Count == 1 && enemyInfo[0].GetBlood() <= 0) {
-			return 0.5f;
+			return 0.6f;
 		}
 		else {
 			return 0.7f;	
@@ -365,10 +365,14 @@ public class AttackController {
 		return te;
 	}
 
+	int tempAllAttakSignal = 1;
 	void DisposeAttackAll (AttackInfo ai) {
 		if (enemyInfo.Count == 0) {
 			return;		
 		}
+		//交替1和2的数值用以区分这个攻击是不是在一次全体攻击内
+		tempAllAttakSignal =  tempAllAttakSignal > 1 ? 1 : 2;
+
 		int restraintType = DGTools.RestraintType (ai.AttackType);
 		tempPreHurtValue = 0;
 		for (int i = 0; i < enemyInfo.Count; i++) {
@@ -378,6 +382,7 @@ public class AttackController {
 			ai.InjuryValue = hurtValue;
 			tempPreHurtValue += hurtValue;
 			ai.EnemyID = te.EnemySymbol;
+			ai.IsLink = tempAllAttakSignal;
 			AttackEnemyEnd (ai);
 		}
 	}
@@ -430,7 +435,7 @@ public class AttackController {
 				reduceValue = attackValue;
 			}
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
-			Debug.LogError("hurtValue : " + hurtValue);
+//			Debug.LogError("hurtValue : " + hurtValue);
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
@@ -481,7 +486,7 @@ public class AttackController {
 	
 		configBattleUseData.storeBattleData.attackRound ++;
 		configBattleUseData.storeBattleData.tEnemyInfo = enemyInfo;
-		Debug.LogError ("EnemyAttackEnd : ");
+//		Debug.LogError ("EnemyAttackEnd : ");
 		configBattleUseData.StoreMapData (null);
 
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
