@@ -52,8 +52,11 @@ class CityInfosController < ApplicationController
   end
   
   def upload
-    configs = params[:city_config_file].read
-    CityInfo.import_data_from_upload(configs)
+    name = params[:city_config_file].original_filename
+    directory = "public/configs"
+    path = Rails.root.join(directory, name)
+    File.open(path, "wb") { |f| f.write(params[:city_config_file].read) }
+    CityInfo.import_data_from_yaml(path)
     redirect_to city_infos_path
   end
   
