@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       patch "update_stage"
       patch "update_config"
       get "download"
+      get "upload_config"
+      post "upload"
     end
   end
 
