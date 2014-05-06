@@ -312,6 +312,7 @@ class CityInfo
   end
   
   
+  
   def self.create_config(quest_config)
     $redis.select(3)
     enemys_ids = []
@@ -570,6 +571,15 @@ class CityInfo
       stages =  create_stage(configs["city"]["stages"])
       city  = CityInfo.new(version: configs["city"]["version"],id: configs["city"]["id"],state: configs["city"]["state"],cityName: configs["city"]["cityName"],description: configs["city"]["description"],stages: stages)
       save_to_redis("X_CITY_#{configs["city"]["id"]}",city.encode)
+    end
+  end
+  
+  def self.update_repeat_floor
+    $redis.select 3
+    $redis.keys.map{|k| k if k.start_with?("X_CONF_")}.compact.each do |key|
+      c = QuestConfig.decode($redis.get(key))
+      c.repeatFloor = 1
+      $redis.set(key, c.encode)
     end
   end
     
