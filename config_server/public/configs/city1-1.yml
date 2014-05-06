@@ -38,6 +38,7 @@ city:
           bossId: [2]	#boss Id列表
           enemyId: [1,2,3]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -199,6 +200,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -360,6 +362,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -528,6 +531,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -689,6 +693,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -850,6 +855,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -1031,6 +1037,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -1192,6 +1199,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -1353,6 +1361,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -1533,6 +1542,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -1694,6 +1704,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -1855,6 +1866,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -2035,6 +2047,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -2196,6 +2209,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -2357,6 +2371,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -2537,6 +2552,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -2698,6 +2714,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -2859,6 +2876,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -3039,6 +3057,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -3200,6 +3219,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id
@@ -3361,6 +3381,7 @@ city:
           bossId: [1]	#boss Id列表
           enemyId: [1,2,3,4]	#小怪Id列表
           quest_config:
+            repeatFloor: 1
             boss:
               -
                 enemyId: 1	#boss的Id

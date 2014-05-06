@@ -344,7 +344,7 @@ class CityInfo
     end
     id = params_to_i(quest_config["questId"])
     questConfig =  QuestConfig.new(questId: id ,boss: boss,enemys: enemys,colors: colors,repeatFloor: params_to_i(quest_config["repeatFloor"]),floors: floors)
-    save_to_redis("X_CONFIG_#{id}",questConfig.encode)
+    save_to_redis("X_CONFIGIG_#{id}",questConfig.encode)
     enemys_ids
   end
   
@@ -385,7 +385,7 @@ class CityInfo
     @config_id = params[:config_id].to_i
     @floor_index =  params[:floor_index].to_i if @type == "star"
     $redis.select(3)
-    @configs = QuestConfig.decode($redis.get("X_CONFIG_#{@config_id}"))
+    @configs = QuestConfig.decode($redis.get("X_CONFIGIG_#{@config_id}"))
     case @type
     when "boss"
       enemy =  EnemyInfo.new(enemyId: params_to_i(params["enemyId"]),unitId: params_to_i(params["unitId"]),type: params_to_i(params["type"]),hp: params_to_i(params["hp"]),attack: params_to_i(params["attack"]),defense: params_to_i(params["defense"]),nextAttack: params_to_i(params["nextAttack"]))
@@ -427,7 +427,7 @@ class CityInfo
       enemyNum = NumRange.new(min: params_to_i(params["enemyNum_min"]),max: params_to_i(params["enemyNum_max"]))
       @configs.floors[@floor_index].stars[@index] = StarConfig.new(repeat: params_to_i(params["repeat"]),star: params_to_i(params["star"]),coin: coin,enemyPool: JSON.parse(params["enemyPool"]),enemyNum: enemyNum,trap: JSON.parse(params["trap"]))
     end    
-    save_to_redis("X_CONFIG_#{@config_id}" ,@configs.encode)
+    save_to_redis("X_CONFIGIG_#{@config_id}" ,@configs.encode)
   end
   
   def self.to_zip
@@ -545,7 +545,7 @@ class CityInfo
          colors =  create_colors(quest_config["quest_config"]["colors"])
          floors,ids = create_quest_floor(quest_config["quest_config"]["floors"])
          q_config = QuestConfig.new(questId: quest_config["id"],boss: boss,enemys: enemys,colors: colors,repeatFloor: quest_config["quest_config"]["repeatFloor"], floors: floors)
-         save_to_redis("X_CONF_#{quest_config["id"]}",q_config.encode)
+         save_to_redis("X_CONFIG_#{quest_config["id"]}",q_config.encode)
          quests << QuestInfo.new(id: quest_config["id"],state: quest_config["state"],no: quest_config["no"],name: quest_config["name"],story: quest_config["story"],stamina: quest_config["stamina"],floor: quest_config["floor"],rewardExp: quest_config["rewardExp"],rewardMoney: quest_config["rewardMoney"],bossId: quest_config["bossId"],enemyId: ids.uniq)
       end
     end
@@ -576,7 +576,7 @@ class CityInfo
   
   def self.update_repeat_floor
     $redis.select 3
-    $redis.keys.map{|k| k if k.start_with?("X_CONF_")}.compact.each do |key|
+    $redis.keys.map{|k| k if k.start_with?("X_CONFIG_")}.compact.each do |key|
       c = QuestConfig.decode($redis.get(key))
       c.repeatFloor = 1
       $redis.set(key, c.encode)
