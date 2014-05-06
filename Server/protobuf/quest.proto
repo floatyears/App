@@ -8,7 +8,7 @@ enum RecoveBattleStep {
 	RB_None			= 0;
 	RB_BossDead		= 1;
 	RB_BattleFail 	= 2;
-	RB_NoRecoveHP	= 3
+	RB_NoRecoveHP	= 3;
 	RB_TrapDead		= 4;
 }
 
@@ -104,11 +104,12 @@ message QuestFloorConfig {
 }
 
 message QuestConfig {
-	optional uint32				questId	= 1;
-	repeated EnemyInfoConf		boss	= 2;
-	repeated EnemyInfoConf		enemys	= 3;
-	repeated ColorPercent		colors	= 4;	
-	repeated QuestFloorConfig 	floors	= 5;
+	optional uint32				questId		= 1;
+	repeated EnemyInfoConf		boss		= 2;
+	repeated EnemyInfoConf		enemys		= 3;
+	repeated ColorPercent		colors		= 4;
+	optional int32				repeatFloor	= 5;
+	repeated QuestFloorConfig 	floors		= 6;
 }
 
 //-------------------------QuestData------------------------------
