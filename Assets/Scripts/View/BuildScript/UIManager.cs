@@ -119,11 +119,11 @@ public class UIManager {
 		}
 		else {
             InvokeSceneClear(sEnum);
+			baseScene.SetScene(sEnum);
 			if(current != null) {
 				current.HideScene();
 			}
 
-			baseScene.SetScene(sEnum);
 		}
 
 		if(HasUIObject(sEnum))
