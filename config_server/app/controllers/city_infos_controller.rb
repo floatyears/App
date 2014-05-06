@@ -42,7 +42,7 @@ class CityInfosController < ApplicationController
         @stage_id = params[:stage_id]
         @index = params[:id]
         @quest = StageInfo.decode($redis.get("X_STAGE_" + @stage_id).to_s).quests[@index.to_i]
-        @city_configs =  QuestConfig.decode($redis.get("X_CONF_" + @quest.id.to_s))
+        @city_configs =  QuestConfig.decode($redis.get("X_CONFIG_" + @quest.id.to_s))
       else
         @stage = StageInfo.decode($redis.get("X_STAGE_" + params[:id]).to_s)
       end
@@ -83,7 +83,7 @@ class CityInfosController < ApplicationController
     @index = params[:index].to_i
     @config_id = params[:city_index]
     @floor_index =  params[:floor_index].to_i if @type == "star"
-    @configs = QuestConfig.decode($redis.get("X_CONF_"+@config_id))
+    @configs = QuestConfig.decode($redis.get("X_CONFIG_"+@config_id))
     case @type
     when "boss"
       @boss = @configs.boss[@index]
@@ -122,7 +122,7 @@ class CityInfosController < ApplicationController
   end
   
   def config_index
-    @city_configs =  $redis.keys.map{|k| QuestConfig.decode($redis.get(k)) if k.start_with?("X_CONF_")}.compact
+    @city_configs =  $redis.keys.map{|k| QuestConfig.decode($redis.get(k)) if k.start_with?("X_CONFIG_")}.compact
   end
   
   def questconfig
