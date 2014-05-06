@@ -508,7 +508,7 @@ class CityInfo
     colors = []
     unless configs.empty?
       configs.each do |color_config|
-        colors << ColorPercent.new(color: color_config["color"],precent: color_config["precent"])
+        colors << ColorPercent.new(color: color_config["color"],percent: color_config["percent"])
       end
     end
     return colors
