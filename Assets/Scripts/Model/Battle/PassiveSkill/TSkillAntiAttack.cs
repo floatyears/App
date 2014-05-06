@@ -20,7 +20,7 @@ public class TSkillAntiAttack : SkillBaseInfo, IPassiveExcute {
 		if (instance.attackSource == EUnitType.UALL || et == instance.attackSource) {
 			float value = DGTools.RandomToFloat ();
 			if (value <= instance.antiAtkRatio) {
-				AttackInfo ai = new AttackInfo();
+				AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
 				ai.AttackValue = instance.probability;
 				ai.AttackType = (int)instance.antiAttack;
 				return ai;

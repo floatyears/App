@@ -55,7 +55,7 @@ public class QuestItemView : MonoBehaviour {
 	
 	private void ShowIcon(){
 		if(bgSpr == null){
-			Debug.LogError("bgSpr == null, getting...");
+//			Debug.LogError("bgSpr == null, getting...");
 			bgSpr = transform.FindChild("Sprite_Boss_Avatar").GetComponent<UISprite>();
 		}
 		bgSpr.atlas = DataCenter.Instance.GetAvatarAtlas(data.BossID[ 0 ]);
@@ -64,7 +64,7 @@ public class QuestItemView : MonoBehaviour {
 	
 	private void ShowName(){
 		if(nameLabel == null){
-			Debug.LogError("nameLabel == null, getting...");
+//			Debug.LogError("nameLabel == null, getting...");
 			nameLabel = transform.FindChild("Label_Name").GetComponent<UILabel>();
 		}
 		nameLabel.text = data.Name;
@@ -78,7 +78,7 @@ public class QuestItemView : MonoBehaviour {
 	}
 
 	private void ClickItem(GameObject item){
-		Debug.Log(string.Format("QuestItemView.ClickItem(), Picking quest...questID is {0}, quest name is : {1}", data.ID, data.Name));
+//		Debug.Log(string.Format("QuestItemView.ClickItem(), Picking quest...questID is {0}, quest name is : {1}", data.ID, data.Name));
 		QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
 		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after

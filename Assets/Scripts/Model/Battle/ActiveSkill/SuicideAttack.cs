@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillSuicideAttack : ActiveSkill, IActiveSkillExcute {
+public class TSkillSuicideAttack : ActiveSkill {
 	private SkillSuicideAttack instance;
 	private int blood = 0;
 	public TSkillSuicideAttack (object instance) : base(instance) {
@@ -28,27 +28,27 @@ public class TSkillSuicideAttack : ActiveSkill, IActiveSkillExcute {
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitBlood, RecordBlood);
 	}
 
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
+//	public bool CoolingDone {
+//		get {
+//			return coolingDone;
+//		}
+//	}
 
 	void RecordBlood (object data) {
 		blood = (int)data;
 	}
 
-	public void RefreashCooling () {
-		DisposeCooling ();
-	}
+//	public void RefreashCooling () {
+//		DisposeCooling ();
+//	}
 
-	public object Excute (string userUnitID, int atk = -1) {
+	public override object Excute (string userUnitID, int atk = -1) {
 		if (blood <= 1) {
 			return null;		
 		}
 		InitCooling ();
 //		SkillSuicideAttack ssa = DeserializeData<SkillSuicideAttack> ();
-		AttackInfo ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		if (instance.type == EValueType.FIXED) {
 			ai.AttackValue = instance.value;

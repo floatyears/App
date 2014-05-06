@@ -40,7 +40,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	void DisposeBoostSkill (string userunit, ProtobufDataBase pdb) {
 		TSkillBoost tbs = pdb as TSkillBoost;
 		if (tbs != null) {
-			AttackInfo ai = new AttackInfo();
+			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
 			ai.UserUnitID = userunit;
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			foreach (var item in leadSkill.UserUnit.Values) {
@@ -58,7 +58,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	void DisposeDelayOperateTime (string userunit, ProtobufDataBase pdb) {
 		TSkillDelayTime tst = pdb as TSkillDelayTime;
 		if (tst != null) {
-			AttackInfo ai = new AttackInfo();
+			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
 			ai.UserUnitID = userunit;
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			MsgCenter.Instance.Invoke(CommandEnum.LeaderSkillDelayTime, tst.DelayTime);

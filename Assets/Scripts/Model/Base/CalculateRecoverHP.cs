@@ -22,7 +22,9 @@ public class CalculateRecoverHP {
 			tns.DisposeUseSkillID(ignorSkillID);
 			int count = tns.CalculateCard(copyCard);
 			if(count > 0){
-			 	ai = new AttackInfo ();
+//				bbproto.AttackInfoProto aip = new bbproto.AttackInfoProto();
+//				ai = new AttackInfo (aip);
+				ai = AttackInfo.GetInstance();
 				tns.GetSkillInfo(ai);
 				ai.AttackValue = tns.GetRecoverHP(blood);
 				ai.FixRecoverHP = true;
@@ -45,7 +47,9 @@ public class CalculateRecoverHP {
 			if(count > 0){
 				csu.alreadyUseSkill.Add(tns);
 				csu.ResidualCard();
-				ai = new AttackInfo ();
+//				bbproto.AttackInfoProto aip = new bbproto.AttackInfoProto();
+//				ai = new AttackInfo (aip);
+				ai = AttackInfo.GetInstance();
 				tns.GetSkillInfo(ai);
 				ai.AttackValue = tns.GetRecoverHP(blood);
 				ai.FixRecoverHP = true;

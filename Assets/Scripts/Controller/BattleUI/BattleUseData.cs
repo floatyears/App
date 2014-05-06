@@ -49,6 +49,9 @@ public class BattleUseData {
 		get {return els;}
 	}
     private ExcuteActiveSkill eas;
+	public ExcuteActiveSkill excuteActiveSkill {
+		get { return eas; }
+	}
     private ExcutePassiveSkill eps;
     private ILeaderSkillRecoverHP skillRecoverHP;
 
@@ -144,7 +147,7 @@ public class BattleUseData {
         eas.RemoveListener();
         eps.RemoveListener();
         ac.RemoveListener();
-
+//		upi.RemoveListener ();
         els = null;
         eas = null;
         eps = null;
@@ -189,7 +192,7 @@ public class BattleUseData {
         else {
             add = value + blood;
         }
-		AttackInfo ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance ();
 		ai.AttackValue = add;
 		RecoverHP(ai);
     }

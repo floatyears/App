@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class ActiveStrengthenAttack : ActiveSkill, IActiveSkillExcute {
+public class ActiveStrengthenAttack : ActiveSkill {
 	private SkillStrengthenAttack instance;
 	public ActiveStrengthenAttack (object instance) : base (instance) {
 		this.instance = instance as SkillStrengthenAttack;
@@ -11,46 +11,44 @@ public class ActiveStrengthenAttack : ActiveSkill, IActiveSkillExcute {
 			coolingDone = true;	
 		}
 	}
-
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
 	
-	public void RefreashCooling () {
-		DisposeCooling ();
-	}
-	AttackInfo ai = null;
-	public object Excute (string userUnitID, int atk = -1) {
+	AttackInfo strengthenAttack = null;
+	public override object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;	
 		}
 		InitCooling ();
 //		SkillStrengthenAttack ssa = DeserializeData<SkillStrengthenAttack> ();
-		ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance ();//new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackType = (int)instance.targetType;
 		ai.AttackRace = (int)instance.targetRace;
 		ai.AttackValue = instance.value;
 		ai.AttackRound = instance.periodValue;
-		MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, ai);
+		return ExcuteByDisk (ai);
+	}
+
+	public override AttackInfo ExcuteByDisk (AttackInfo ai) {
+		strengthenAttack = ai;
+		ConfigBattleUseData.Instance.strengthenAttack = strengthenAttack;
+		MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, strengthenAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
-		ai.AttackRound --;
-		return ai;
+		strengthenAttack.AttackRound --;
+		return strengthenAttack;
 	}
 
 	void EnemyAttackEnd(object data) {
-		if (ai == null) {
+		if (strengthenAttack == null) {
 			return;	
 		}
-		if (ai.AttackRound <= 0) {
-			MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, ai);
+		if (strengthenAttack.AttackRound <= 0) {
+			ConfigBattleUseData.Instance.strengthenAttack = null;
+			MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, strengthenAttack);
 			MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 		}
 		else{
-			MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, ai);
-			ai.AttackRound--;
+			MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, strengthenAttack);
+			strengthenAttack.AttackRound--;
 		}
 	}
 }

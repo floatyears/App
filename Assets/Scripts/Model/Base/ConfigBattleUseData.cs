@@ -20,9 +20,7 @@ public class ConfigBattleUseData {
 		}
 	}
 
-	private ConfigBattleUseData () {
-
-	}
+	private ConfigBattleUseData () { }
 	
 	public Coordinate roleInitCoordinate;
 
@@ -33,6 +31,14 @@ public class ConfigBattleUseData {
 	public TStageInfo currentStageInfo;
 
 	public TFriendInfo BattleFriend;
+
+	public AttackInfo posionAttack = null;
+
+	public AttackInfo reduceHurtAttack = null;
+
+	public AttackInfo reduceDefenseAttack = null;
+
+	public AttackInfo strengthenAttack = null;
 
 	private TStoreBattleData _storeBattleData;
 
@@ -50,7 +56,6 @@ public class ConfigBattleUseData {
 		WriteQuestInfo ();
 		WriteStageInfo ();
 		WriteQuestDungeonData ();
-	
 	}
 
 	void InitStoreBattleData() {
@@ -67,14 +72,10 @@ public class ConfigBattleUseData {
 		ReadQuestDungeonData ();
 		ReadQuestInfo ();
 		ReadStageInfo ();
+		ReadAllBuff ();
 		ReadRuntimeData ();
-//		questDungeonData = tdd;
 		roleInitCoordinate = _storeBattleData.roleCoordinate;
-//		if (_storeBattleData.isBattle != 0) {
-//			TQuestGrid tqg = questDungeonData.GetSingleFloor (roleInitCoordinate);
-//			tqg.Enemy = _storeBattleData.tEnemyInfo;
-//		}
-
+		//reset color index.
 		if (_storeBattleData.colorIndex > 5) {
 			_storeBattleData.colorIndex -= 5;	
 		} else {
@@ -85,10 +86,11 @@ public class ConfigBattleUseData {
 	public void StoreMapData (List<TClearQuestParam> data) {
 		if(data != null)
 			_storeBattleData.questData = data;
-//		Debug.LogError ("StoreMapData : " + _storeBattleData.hp);
+		WriteAllBuff ();
 		StoreRuntimData ();
 	}
 
+	
 	void ReadRuntimeData () {
 		byte[] runtimeData = ReadFile (storeBattleName);
 		StoreBattleData qi = ProtobufSerializer.ParseFormBytes<StoreBattleData> (runtimeData);
@@ -122,6 +124,13 @@ public class ConfigBattleUseData {
 		}
 	}
 
+	public void ClearActiveSkill() {
+		posionAttack = null;
+		reduceHurtAttack = null;
+		reduceDefenseAttack = null;
+		strengthenAttack = null;
+	}
+
 	private const string floderPath = "/Battle/";
 	public const string isBattle = "/true";
 	public const string friendFileName = "/Friend";
@@ -129,6 +138,10 @@ public class ConfigBattleUseData {
 	public const string questInfoName = "/Quest";
 	public const string stageInfoName = "/Stage";
 	public const string storeBattleName = "/StoreBattle";
+	public const string posionAttackName = "/Posion";
+	public const string reduceHurtName = "/ReduceHurt";
+	public const string reduceDefenseName = "/ReduceDefense";
+	public const string strengthenAttackName = "/StrengthenAttack";
 
 	string GetPath (string path) {
 		return Application.persistentDataPath + path;
@@ -141,9 +154,54 @@ public class ConfigBattleUseData {
 	public void ExitFight () {
 		_storeBattleData.isBattle = 0;
 	}
+
+	void WriteAllBuff() {
+		WriteBuff (posionAttackName, posionAttack);
+		WriteBuff (reduceHurtName, reduceHurtAttack);
+		WriteBuff (reduceDefenseName, reduceDefenseAttack);
+		WriteBuff (strengthenAttackName, strengthenAttack);
+	}
+
+	void ReadAllBuff() {
+		posionAttack = ReadBuff (posionAttackName);
+		reduceHurtAttack = ReadBuff (reduceHurtName);
+		reduceDefenseAttack = ReadBuff (reduceDefenseName);
+		strengthenAttack = ReadBuff (strengthenAttackName);
+	}
+
+	void WriteBuff(string name, AttackInfo buff) {
+		if (string.IsNullOrEmpty (name)) {
+			return;	
+		}
 	
+		if (buff == null) {
+			string path = GetPath (name);
+			try {
+				File.Delete(path);
+			} catch (System.Exception ex) {
+				
+			}
+			return;
+		}
 
+		byte[] attack = ProtobufSerializer.SerializeToBytes<AttackInfoProto> (buff.Instance);
+		WriteToFile (attack, name);
+	}
 
+	AttackInfo ReadBuff(string name) {
+		if (string.IsNullOrEmpty (name)) {
+			return null;	
+		}
+		string path = GetPath (name);
+		if (!File.Exists (path)) {
+			return null;	
+		}
+
+		byte[] attackInfo = ReadFile (name);
+		AttackInfoProto aip = ProtobufSerializer.ParseFormBytes<AttackInfoProto> (attackInfo);
+		return new AttackInfo (aip);
+	}
+	
 	//stage
 	public void WriteStageInfo() {
 		byte[] stage = ProtobufSerializer.SerializeToBytes<StageInfo> (currentStageInfo.stageInfo);

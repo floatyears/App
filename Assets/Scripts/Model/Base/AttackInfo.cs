@@ -2,59 +2,69 @@
 using System.Collections;
 using bbproto;
 
-public class AttackInfo {
+public class AttackInfo : ProtobufDataBase{
 	private static int sequenceID = -1;
 	public static void ClearData () {
 		sequenceID = -1;
 	}
 
-	public AttackInfo (){
+	private AttackInfoProto instance;
+	public AttackInfo (AttackInfoProto ins) : base(ins){
+		instance = ins;
+		if(instance.continueAttackMultip == 0)
+			instance.continueAttackMultip = 1;
+		if(Mathf.Approximately(instance.attackRate,0f))
+			instance.attackRate = 1f;
 		sequenceID++;
-		this.attackID = sequenceID;
+		instance.attackID = sequenceID;
 	}
-	
-	private int attackID = -1;
+
+	public AttackInfoProto Instance{
+		get { return instance; }
+	}
+
+//	private int attackID = -1;
 	public int AttackID {
-		get {return attackID;}
+		get {return instance.attackID;}
 	}
 	
-	private string userUnitID = null;
+//	private string userUnitID = null;
 	public string UserUnitID {
-		get { return userUnitID; }
-		set { userUnitID = value; }
+		get { return instance.userUnitID; }
+		set { instance.userUnitID = value; }
 	}
 	
-	private int userPos = -1;
+//	private int userPos = -1;
 	public int UserPos {
-		get {return userPos;}
-		set {userPos = value;}
+		get {return instance.userPos;}
+		set {instance.userPos = value;}
 	}
 	
-	private int needCardNumber = -1;
+//	private int needCardNumber = -1;
 	public int NeedCardNumber {
-		get {return needCardNumber;}
-		set {needCardNumber = value;}
+		get {return instance.needCardNumber;}
+		set {instance.needCardNumber = value;}
 	}
-	
-	private int skillID = -1;
+
+//	private int skillID = -1;
 	public int SkillID {
-		get {return skillID;}
-		set {skillID = value;}
+		get {return instance.skillID;}
+		set {instance.skillID = value;}
 	}
-	
-	private int attackType = -1;
+
+//	private int attackType = -1;
 	public int AttackType {
-		get { return attackType; }
-		set {attackType = value; }
+		get { return instance.attackType; }
+		set {instance.attackType = value; }
 	}
 
-	private int attackRace = -1;
+//	private int attackRace = -1;
 	public int AttackRace {
-		get { return attackRace; }
-		set {attackRace = value; }
+		get { return instance.attackRace; }
+		set {instance.attackRace = value; }
 	}
 
-	private int attackRange ;
+//	private int attackRange ;
 	/// <summary>
 	/// 0 = single attack
 	/// 1 = all attack
@@ -62,56 +72,51 @@ public class AttackInfo {
 	/// </summary>
 	/// <value>The attack range.</value>
 	public int AttackRange {
-		get { return attackRange; }
-		set { attackRange = value; }
+		get { return instance.attackRange; }
+		set { instance.attackRange = value; }
 	}
 	
-	private float attackValue ;
+//	private float attackValue ;
 	public float AttackValue {
-		get {return attackValue; }
-		set {attackValue = value;}
+		get {return instance.attackValue; }
+		set {instance.attackValue = value;}
 	}
 	
-	private int continuAttackMultip = 1;
+//	private int continuAttackMultip = 1;
 	public int ContinuAttackMultip {
-		get {return continuAttackMultip;}
-		set {continuAttackMultip = value;}
+		get {return instance.continueAttackMultip;}
+		set {instance.continueAttackMultip = value;}
 	}
 	
-	private uint enemyID = 0;
+//	private uint enemyID = 0;
 	public uint EnemyID {
-		get {return enemyID;}
-		set {enemyID = value;}
+		get {return instance.enemyID;}
+		set {instance.enemyID = value;}
 	}
 	
-	private int injuryValue ;
+//	private int injuryValue ;
 	public int InjuryValue
 	{
-		get {return injuryValue;}
-		set {injuryValue = value;}
-	}
-	
-	private Object effect;
-	public Object Effect {
-		get {return effect;}
-		set {effect = value;}
-	}
-	private bool ignoreDefense = false;
-	public bool IgnoreDefense {
-		get {return ignoreDefense;}
-		set {ignoreDefense = value;}
-	}
-	
-	private int attackRound = 1; 
-	public int AttackRound {
-		get { return attackRound; }
-		set { attackRound = value; }
+		get {return instance.injuryValue;}
+		set {instance.injuryValue = value;}
 	}
 
-	private float attackRate = 1f;
+//	private bool ignoreDefense = false;
+	public bool IgnoreDefense {
+		get {return instance.ignoreDefense;}
+		set {instance.ignoreDefense = value;}
+	}
+	
+//	private int attackRound = 1; 
+	public int AttackRound {
+		get { return instance.attackRound; }
+		set { instance.attackRound = value; }
+	}
+
+//	private float attackRate = 1f;
 	public float AttackRate {
-		get { return attackRate; }
-		set { attackRate = value; }
+		get { return instance.attackRate; }
+		set { instance.attackRate = value; }
 	}
 
 	private UISprite attackSprite;
@@ -120,22 +125,34 @@ public class AttackInfo {
 		set { attackSprite = value; }
 	}
 
-	public void PlayAttack () {
-		if (attackSprite == null) {
-			return;	
-		}
-		attackSprite.spriteName = "";
+//	public void PlayAttack () {
+//		if (attackSprite == null) {
+//			return;	
+//		}
+//		attackSprite.spriteName = "";
+//	}
+
+//	private bool fixRecoverHP = false;
+	public bool FixRecoverHP {
+		get { return instance.fixRecoverHP; }
+		set { instance.fixRecoverHP = value; }
 	}
 
-	private bool fixRecoverHP = false;
-	public bool FixRecoverHP {
-		get { return fixRecoverHP; }
-		set { fixRecoverHP = value; }
+//	private int isLink = 0;	
+	public int IsLink{
+		get { return instance.isLink; }
+		set { instance.isLink = value; }
 	}
 
 	//------------test need data, delete it behind test done------------//
 	//------------------------------------------------------------------//
 	//public int originIndex = -1;
+
+	public static AttackInfo GetInstance() {
+		AttackInfoProto aip = new AttackInfoProto ();
+		AttackInfo ai = new AttackInfo (aip);
+		return ai;
+	}
 }
 
 public class AISortByCardNumber : IComparer{

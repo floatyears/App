@@ -143,7 +143,7 @@ enum RecoveBattleStep {
 	RB_None			= 0;
 	RB_BossDead		= 1;
 	RB_BattleFail 	= 2;
-	RB_NoRecoveHP	= 3
+	RB_NoRecoveHP	= 3;
 	RB_TrapDead		= 4;
 }
 
@@ -239,11 +239,12 @@ message QuestFloorConfig {
 }
 
 message QuestConfig {
-	optional uint32				questId	= 1;
-	repeated EnemyInfoConf		boss	= 2;
-	repeated EnemyInfoConf		enemys	= 3;
-	repeated ColorPercent		colors	= 4;	
-	repeated QuestFloorConfig 	floors	= 5;
+	optional uint32				questId		= 1;
+	repeated EnemyInfoConf		boss		= 2;
+	repeated EnemyInfoConf		enemys		= 3;
+	repeated ColorPercent		colors		= 4;
+	optional int32				repeatFloor	= 5;
+	repeated QuestFloorConfig 	floors		= 6;
 }
 
 //-------------------------QuestData------------------------------
@@ -516,6 +517,26 @@ message ClearQuestParam {
 	optional int32				getMoney	= 2;
 	repeated uint32				getUnit		= 3;
 	repeated uint32				hitGrid		= 4;
+}
+
+message AttackInfoProto {
+	required int32				attackID				= 1;
+	optional string				userUnitID				= 2;
+	optional int32				userPos					= 3;
+	optional int32				needCardNumber			= 4;
+	optional int32				skillID					= 5;
+	optional int32				attackType				= 6;
+	optional int32				attackRace				= 7;
+	optional int32				attackRange				= 8;// 0 == single attack; 1 == all attack; 2 == recover hp.
+	optional float				attackValue				= 9;
+	optional int32				continueAttackMultip	= 10;
+	optional uint32				enemyID					= 11;
+	optional int32				injuryValue				= 12;
+	optional bool				ignoreDefense			= 13;
+	optional int32				attackRound 			= 14;
+	optional float				attackRate				= 15;
+	optional bool				fixRecoverHP			= 16;
+	optional int32				isLink					= 17;	
 }
 
 //=====================================================

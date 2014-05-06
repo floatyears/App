@@ -10,7 +10,7 @@ public class TSkillExtraAttack : SkillBaseInfo {
 	}
 	
 	public AttackInfo AttackValue (float attackValue, TUserUnit id) {
-		AttackInfo ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.AttackValue = attackValue * instance.attackValue;
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = 1;//attack all enemy

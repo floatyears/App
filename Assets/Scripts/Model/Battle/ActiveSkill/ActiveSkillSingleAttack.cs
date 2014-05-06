@@ -5,14 +5,11 @@ using bbproto;
 public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	protected int initSkillCooling = 0;
 	protected bool coolingDone = false;
-	public ActiveSkill (object instance) : base (instance) {
-	}
+	public ActiveSkill (object instance) : base (instance) { }
 
 	~ActiveSkill () {
 
 	}
-
-
 
 	public void RefreashCooling () {
 		DisposeCooling ();
@@ -34,19 +31,23 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 			coolingDone = false;
 		}
 	}
+	
+	public virtual AttackInfo ExcuteByDisk (AttackInfo ai) {
+		return null;
+	}
 
 	public virtual object Excute (string userUnitID, int atk = -1) {
 		return null;
 	}
 }
 
-public class TSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
+public class TSkillSingleAttack : ActiveSkill  {
 	private SkillSingleAttack instance;
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
+//	public bool CoolingDone {
+//		get {
+//			return coolingDone;
+//		}
+//	}
 	public TSkillSingleAttack(object instance) : base (instance) {
 		this.instance = instance as SkillSingleAttack;
 		skillBase = this.instance.baseInfo;	
@@ -57,16 +58,16 @@ public class TSkillSingleAttack : ActiveSkill ,IActiveSkillExcute {
 		}
 	}
 
-	public void RefreashCooling () {
-		DisposeCooling ();
-	}
+//	public void RefreashCooling () {
+//		DisposeCooling ();
+//	}
 	
-	public object Excute (string userUnitID, int atk = -1) {
+	public override object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;		
 		}
 		InitCooling ();
-		AttackInfo ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = (int)instance.attackRange;
