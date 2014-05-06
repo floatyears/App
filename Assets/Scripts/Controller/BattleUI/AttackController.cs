@@ -82,24 +82,24 @@ public class AttackController {
 			int hurtValue = System.Convert.ToInt32(initBlood * ai.AttackValue); //eg: 15%*blood
 			enemyInfo[i].KillHP(hurtValue);
 		}
-		CheckTempEnemy ();
+		CheckBattleSuccess ();
 	}
 
-	TClass<string,int,float> reduceInfo = null;
-
+//	TClass<string,int,float> reduceInfo = null;
+	AttackInfo reduceInfo = null;
 	void ReduceDefense(object data) {
-		reduceInfo = data as TClass<string,int,float>;
+		reduceInfo = data as AttackInfo;
 		if (reduceInfo == null) {
 			return;		
 		}
 
-		if (reduceInfo.arg2 == 0) {
+		if (reduceInfo.AttackRound == 0) {
 			reduceInfo = null;
 			ReduceEnemy(0f);
 			return;
 		}
 
-		ReduceEnemy (reduceInfo.arg3);
+		ReduceEnemy (reduceInfo.AttackValue);
 	}
 
 	void ReduceEnemy(float value) {
@@ -114,7 +114,7 @@ public class AttackController {
 			return;	
 		}
 		BeginAttack (ai);
-		CheckTempEnemy ();
+		CheckBattleSuccess ();
 	}
 
 	void AttackTargetTypeEnemy (object data) {
@@ -137,7 +137,7 @@ public class AttackController {
 				AttackEnemyEnd (ai);
 			}
 		}
-		CheckTempEnemy ();
+		CheckBattleSuccess ();
 	}
 
 	public void StartAttack (List<AttackInfo> attack) {
@@ -219,7 +219,7 @@ public class AttackController {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
 			bud.Blood += blood;
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, null);
-			if (!CheckTempEnemy ()) {
+			if (!CheckBattleSuccess ()) {
 				return;
 			}
 			bud.battleQuest.battle.ShieldInput(false);
@@ -262,7 +262,7 @@ public class AttackController {
 		}
 	}
 
-	bool CheckTempEnemy() {
+	bool CheckBattleSuccess() {
 		for (int i = 0; i < deadEnemy.Count; i++) {
 			TEnemyInfo tei = deadEnemy[i];
 			tei.IsDead = true;
@@ -303,6 +303,9 @@ public class AttackController {
 	}
 
 	public void BattleEnd() {
+		//clear buff skill;
+		configBattleUseData.ClearActiveSkill ();
+
 		msgCenter.Invoke (CommandEnum.GridEnd, null);
 		msgCenter.Invoke(CommandEnum.BattleEnd, battleFail);
 		bud.ClearData();
@@ -399,7 +402,7 @@ public class AttackController {
 	}
 
 	public void AttackPlayer () {
-		if (CheckTempEnemy ()) {
+		if (CheckBattleSuccess ()) {
 			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [1]);
 			for (int i = 0; i < enemyInfo.Count; i++) {
 				enemyInfo[i].Next();
@@ -480,16 +483,17 @@ public class AttackController {
 
 	void EnemyAttackEnd () {
 		BattleBottom.notClick = false;
-		CheckTempEnemy ();
+		CheckBattleSuccess ();
 		bud.ClearData();
 		bud.battleQuest.battle.ShieldInput(true);	
 	
 		configBattleUseData.storeBattleData.attackRound ++;
 		configBattleUseData.storeBattleData.tEnemyInfo = enemyInfo;
 //		Debug.LogError ("EnemyAttackEnd : ");
-		configBattleUseData.StoreMapData (null);
 
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
+
+		configBattleUseData.StoreMapData (null);
 	}
 
 	void LoopAntiAttack() {

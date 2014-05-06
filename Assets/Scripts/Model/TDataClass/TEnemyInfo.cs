@@ -83,19 +83,19 @@ public class TEnemyInfo : ProtobufDataBase {
 			return;	
 		}
 
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 
 		int value = System.Convert.ToInt32 (posionAttack.AttackValue);
 		KillHP (value);
 	}
 
-	void AttackEnemyEnd(object data) {
-		if (posionAttack == null || posionAttack.AttackRound == 0) {
-			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		}
-		posionAttack.AttackRound --;
-		SkillPosion(posionAttack);
-	}
+//	void AttackEnemyEnd(object data) {
+//		if (posionAttack == null || posionAttack.AttackRound == 0) {
+//			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+//		}
+//		posionAttack.AttackRound --;
+//		SkillPosion(posionAttack);
+//	}
 
 	public void KillHP(int hurtValue) {
 		initBlood -= hurtValue;

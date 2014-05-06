@@ -33,6 +33,12 @@ public class ExcuteActiveSkill {
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
+	public IActiveSkillExcute GetActiveSkill(string userUnitID) {
+		IActiveSkillExcute iase = null;
+		activeSkill.TryGetValue (userUnitID, out iase);
+		return iase;
+	}
+
 	void Excute(object data) {
 		userUnit = data as TUserUnit;
 		if (userUnit != null) {

@@ -473,7 +473,7 @@ public class QuestSelectView : UIComponentUnity{
 				break;
 			}
 		}
-		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessStageList.Count);
+//		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessStageList.Count);
 		return accessStageList;
 	}
 	
@@ -508,7 +508,7 @@ public class QuestSelectView : UIComponentUnity{
 			pageMarkItem.transform.localPosition = PAGE_MARK_OFFSET_X * offsetCount * Vector3.right;
 			pageMarkItemList.Add(pageMarkItem);
 		}
-		Debug.Log("GeneratePageMark(), pageMarkItemList count is : " + pageMarkItemList.Count);
+//		Debug.Log("GeneratePageMark(), pageMarkItemList count is : " + pageMarkItemList.Count);
 	}
 
 	private void InitQuestRootPos(int count){

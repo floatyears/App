@@ -11,12 +11,18 @@ public class AttackInfo : ProtobufDataBase{
 	private AttackInfoProto instance;
 	public AttackInfo (AttackInfoProto ins) : base(ins){
 		instance = ins;
-		instance.continueAttackMultip = 1;
-		instance.attackRate = 1f;
+		if(instance.continueAttackMultip == 0)
+			instance.continueAttackMultip = 1;
+		if(Mathf.Approximately(instance.attackRate,0f))
+			instance.attackRate = 1f;
 		sequenceID++;
 		instance.attackID = sequenceID;
 	}
-	
+
+	public AttackInfoProto Instance{
+		get { return instance; }
+	}
+
 //	private int attackID = -1;
 	public int AttackID {
 		get {return instance.attackID;}

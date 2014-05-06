@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class KnockdownAttack : ActiveSkill, IActiveSkillExcute {
+public class KnockdownAttack : ActiveSkill {
 	private SkillSingleAttack instance;
 	public KnockdownAttack (object instance) : base (instance){ 
 		this.instance = instance as SkillSingleAttack;
@@ -12,17 +12,17 @@ public class KnockdownAttack : ActiveSkill, IActiveSkillExcute {
 		}
 	}
 
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
+//	public bool CoolingDone {
+//		get {
+//			return coolingDone;
+//		}
+//	}
+//
+//	public void RefreashCooling () {
+//		DisposeCooling ();
+//	}
 
-	public void RefreashCooling () {
-		DisposeCooling ();
-	}
-
-	public object Excute (string userUnitID, int atk = -1) {
+	public override object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;	
 		}

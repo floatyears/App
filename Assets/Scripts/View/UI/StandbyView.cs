@@ -82,7 +82,7 @@ public class StandbyView : UIComponentUnity {
 	private Dictionary<string, object> pickedInfoForFight;
 	private TFriendInfo pickedHelperInfo;
 	private void RecordPickedInfoForFight(object msg){
-		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
+//		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
 
 		//Show helper view as soon as fill helperViewItem with helper data(data bind with view)

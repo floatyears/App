@@ -9,13 +9,17 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     private UnitParty instance;
     public TUnitParty(object instance) : base (instance) { 
         this.instance = instance as UnitParty;
-        MsgCenter.Instance.AddListener(CommandEnum.ActiveReduceHurt, ReduceHurt);      
-		MsgCenter.Instance.AddListener (CommandEnum.EnterBattle, EnterBattle);
-		MsgCenter.Instance.AddListener (CommandEnum.LeftBattle, LeftBattle);
+		AddListener ();
         reAssignData();
         GetSkillCollection();
     }
-	
+
+	public void AddListener() {
+		MsgCenter.Instance.AddListener(CommandEnum.ActiveReduceHurt, ReduceHurt);      
+		MsgCenter.Instance.AddListener (CommandEnum.EnterBattle, EnterBattle);
+		MsgCenter.Instance.AddListener (CommandEnum.LeftBattle, LeftBattle);
+	}
+
     public void RemoveListener() {
 		MsgCenter.Instance.RemoveListener (CommandEnum.LeftBattle, LeftBattle);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnterBattle, EnterBattle);

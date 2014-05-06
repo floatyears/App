@@ -50,9 +50,9 @@ public class EnemyItem : UIBaseUnity {
     }
 	
     void ReduceDefense(object data) {
-        TClass<int,int,float> tc = data as TClass<int,int,float>;
-        if (tc == null) {
-            return;	
+		AttackInfo reduceDefense = data as AttackInfo;
+		if (reduceDefense == null) {
+            return;
         }
     }
 

@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class ActiveChangeCardColor : ActiveSkill, IActiveSkillExcute {
+public class ActiveChangeCardColor : ActiveSkill {
 	private SkillConvertUnitType instance;
 	public 	ActiveChangeCardColor(object instance) : base (instance) { 
 		this.instance = instance as SkillConvertUnitType;
@@ -11,17 +11,17 @@ public class ActiveChangeCardColor : ActiveSkill, IActiveSkillExcute {
 			coolingDone = true;
 		}
 	}
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
+//	public bool CoolingDone {
+//		get {
+//			return coolingDone;
+//		}
+//	}
+//
+//	public void RefreashCooling () {
+//		DisposeCooling ();
+//	}
 
-	public void RefreashCooling () {
-		DisposeCooling ();
-	}
-
-	public object Excute (string userUnitID, int atk = -1) {
+	public override object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;
 		}

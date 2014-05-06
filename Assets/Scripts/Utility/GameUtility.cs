@@ -390,8 +390,8 @@ public class DGTools {
 		}
 
 		string className = skillJsonData.GetClassName (id);
-
 		TextAsset ta = LoadTextAsset(reallyPath + id);
+//		Debug.LogError ("LoadSkill className : " + className + " id : " + id);
 		if (ta == null) {
 			Debug.LogError("skill path : " + reallyPath + " not exist paorobuf file" + " id : " + id);
 			return null;
@@ -419,6 +419,9 @@ public class DGTools {
 		case "SkillRecoverSP" : 
 			SkillRecoverSP srh = ProtobufDataBase.DeserializeData<SkillRecoverSP>(data);
 			return new TSkillRecoverSP(srh);
+		case "SkillPoison" : 
+			SkillPoison sp = ProtobufDataBase.DeserializeData<SkillPoison>(data);
+			return new TSkillPoison(sp);
 		default:
 			return null;
 		}
@@ -454,7 +457,7 @@ public class DGTools {
 		string url = path + CityPath + "CityList";
 		TextAsset ta = LoadTextAsset (url);
 		WorldMapInfo wmi = ProtobufSerializer.ParseFormBytes<WorldMapInfo> (ta.bytes);
-		Debug.LogError("LoadCityList(), wmi.citylist count is : " + wmi.citylist.Count);
+//		Debug.LogError("LoadCityList(), wmi.citylist count is : " + wmi.citylist.Count);
 		for (int i = 0; i < wmi.citylist.Count; i++){
 			TCityInfo tci = new TCityInfo(wmi.citylist[ i ]);
 			cityList.Add(tci);

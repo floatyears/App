@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class GravityAttack : ActiveSkill, IActiveSkillExcute {
+public class GravityAttack : ActiveSkill {
 	private SkillKillHP instance; 
 	public GravityAttack (object instance) : base (instance) {
 		this.instance = instance as SkillKillHP;
@@ -12,17 +12,17 @@ public class GravityAttack : ActiveSkill, IActiveSkillExcute {
 		}
 	}
 
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
+//	public bool CoolingDone {
+//		get {
+//			return coolingDone;
+//		}
+//	}
+//
+//	public void RefreashCooling () {
+//
+//	}
 
-	public void RefreashCooling () {
-
-	}
-
-	public object Excute (string userUnitID, int atk = -1) {
+	public override object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;	
 		}
