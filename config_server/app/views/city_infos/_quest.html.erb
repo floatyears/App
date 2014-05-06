@@ -25,6 +25,7 @@ enemyId: <%=text_field_tag :enemyId,@quest.try(:enemyId).to_s%><br/><br/>
   <thead>
     <tr>
       <th>questId</th>
+      <th>repeatFloor</th>
       <th>boss</th>
       <th>enemys</th>
       <th>colors</th>
@@ -35,6 +36,7 @@ enemyId: <%=text_field_tag :enemyId,@quest.try(:enemyId).to_s%><br/><br/>
     <tr>
       <% if @city_configs.present? %>
       <td><%= @city_configs.try(:questId)%></td>
+      <td><%= @city_configs.try(:repeatFloor)%></td>
       <td>
         <% if @city_configs.try(:boss).present? %>
         <% @city_configs.try(:boss).each_with_index do |boss,boss_index|%>

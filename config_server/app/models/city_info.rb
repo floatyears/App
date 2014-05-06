@@ -173,7 +173,8 @@ class QuestConfig
   repeated :boss, EnemyInfoConf, 2
   repeated :enemys, EnemyInfoConf, 3
   repeated :colors, ColorPercent, 4
-  repeated :floors, QuestFloorConfig, 5
+  optional :repeatFloor, :int32, 5
+  repeated :floors, QuestFloorConfig, 6
 end
 
 #Quest Data
@@ -341,7 +342,7 @@ class CityInfo
       floors << QuestFloorConfig.new(version: params_to_i(item["version"]),treasureNum: params_to_i(item["treasureNum"]),trapNum: params_to_i(item["trapNum"]),enemyNum: params_to_i(item["enemyNum"]),keyNum:  params_to_i(item["keyNum"]),stars: stars)
     end
     id = params_to_i(quest_config["questId"])
-    questConfig =  QuestConfig.new(questId: id ,boss: boss,enemys: enemys,colors: colors,floors: floors)
+    questConfig =  QuestConfig.new(questId: id ,boss: boss,enemys: enemys,colors: colors,repeatFloor: params_to_i(quest_config["repeatFloor"]),floors: floors)
     save_to_redis("X_CONFIG_#{id}",questConfig.encode)
     enemys_ids
   end
@@ -542,7 +543,7 @@ class CityInfo
          enemys = create_enemys(quest_config["quest_config"]["enemys"])   
          colors =  create_colors(quest_config["quest_config"]["colors"])
          floors,ids = create_quest_floor(quest_config["quest_config"]["floors"])
-         q_config = QuestConfig.new(questId: quest_config["id"],boss: boss,enemys: enemys,colors: colors,floors: floors)
+         q_config = QuestConfig.new(questId: quest_config["id"],boss: boss,enemys: enemys,colors: colors,repeatFloor: quest_config["quest_config"]["repeatFloor"], floors: floors)
          save_to_redis("X_CONF_#{quest_config["id"]}",q_config.encode)
          quests << QuestInfo.new(id: quest_config["id"],state: quest_config["state"],no: quest_config["no"],name: quest_config["name"],story: quest_config["story"],stamina: quest_config["stamina"],floor: quest_config["floor"],rewardExp: quest_config["rewardExp"],rewardMoney: quest_config["rewardMoney"],bossId: quest_config["bossId"],enemyId: ids.uniq)
       end
