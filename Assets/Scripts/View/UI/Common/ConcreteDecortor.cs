@@ -496,7 +496,9 @@ public class LevelUpDecorator : DecoratorBase{
 	
 	public override void ShowScene()
 	{
+//		Debug.LogError ("LevelUpDecorator  ShowScene 1 ");
 		base.ShowScene();
+//		Debug.LogError ("LevelUpDecorator  ShowScene 2  ");
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
@@ -507,6 +509,7 @@ public class LevelUpDecorator : DecoratorBase{
 	
 	public override void DestoryScene()
 	{
+		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpSaveState, SetKeepState);
 		base.DestoryScene();
 	}
 	

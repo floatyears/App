@@ -5,27 +5,49 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config, origin);
 		InitUI ();
+		MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
 
 	public override void ShowUI () {
+		if (friendWindow != null && friendWindow.isShow) {
+			friendWindow.gameObject.SetActive (true);
+		} else {
+			if (!gameObject.activeSelf) {
+				gameObject.SetActive(true);
+			}
+		}
 		base.ShowUI ();
 		ShowData ();
-
 		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void HideUI () {
+		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail) {
+			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
+				friendWindow.gameObject.SetActive (false);
+			} 
+		}else {
+			if (friendWindow != null) {
+				friendWindow.HideUI ();
+			}	
+		}
+
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
 
 	public override void ResetUIState () {
-		base.ResetUIState ();
+		ClearData ();
+
+		CheckLevelUp ();
 	}
+
+
 
 	public override void CallbackView (object data) {
 		base.CallbackView (data);
@@ -65,12 +87,18 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private MyUnitItem prevMaterialItem;
 
+	private FriendWindows friendWindow;
+
 	void ShowData () {
+		if (myUnitDragPanel.DragPanelView == null) {
+			InitDragPanel();	
+		}
 		myUnitList.Clear ();
 		myUnit = dataCenter.MyUnitList.GetAllList ();
 		int dataCount = myUnit.Count;
 		List<GameObject> scroll = myUnitDragPanel.ScrollItem;
 		int itemCount = scroll.Count - 1;	// scroll list index = 0  is reject item;
+//		Debug.LogError ("dataCount : " + dataCount + " itemCount : " + itemCount);
 		if (dataCount > itemCount) {
 			int addCount = dataCount - itemCount;
 			myUnitDragPanel.AddItem (addCount, PartyUnitItem.ItemPrefab);
@@ -93,8 +121,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			for (int i = 0; i < dataCount; i++) {
 				PartyUnitItem pui = scroll[i + 1].GetComponent<PartyUnitItem>();
 				pui.UserUnit = myUnit[i];
-				pui.IsEnable = true;
 				pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(myUnit[i].ID);
+				pui.IsEnable = true;
 				pui.callback = MyUnitClickCallback;
 				myUnitList.Add(pui);
 			}
@@ -153,10 +181,32 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		UIEventListener.Get(rejectItemIns).onClick = RejectCallback;
 	}
 
-	void SelectedFriendCallback(LevelUpItem piv) {
-
+	void ResetUIAfterLevelUp(object data) {
+		ClearData ();
+		uint blendID = (uint)data;
+		TUserUnit tuu = dataCenter.MyUnitList.GetMyUnit (blendID);
+		selectedItem [0].UserUnit = tuu;
 	}
 
+	void SelectedFriendCallback(LevelUpItem piv) {
+		if (friendWindow == null) {
+			friendWindow = DGTools.CreatFriendWindow();
+			if(friendWindow == null) {
+				return;
+			}
+		}
+		gameObject.SetActive (false);
+		friendWindow.selectFriend = SelectFriend;
+		friendWindow.ShowUI ();
+	}
+
+	void SelectFriend(TFriendInfo friendInfo) {
+		gameObject.SetActive (true);
+		selectedItem [4].UserUnit = friendInfo.UserUnit;
+
+		CheckLevelUp ();
+	}
+	
 	/// <summary>
 	/// Selecteds item's callback.
 	/// </summary>
@@ -166,6 +216,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		} else {
 			DisposeByPreMaterial(piv);
 		}
+
+		CheckLevelUp ();
 	}
 
 	void DisposeByPreMaterial(LevelUpItem lui) {
@@ -175,6 +227,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		EnabledItem (lui.UserUnit);
 		lui.UserUnit = prevMaterialItem.UserUnit;
 		prevMaterialItem.IsEnable = false;
+
 		ClearFocus ();
 	}
 
@@ -192,6 +245,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				prevSelectedItem.IsFocus = false;
 				prevSelectedItem = piv;
 				prevSelectedItem.IsFocus = true;
+
+//				CheckLevelUp ();
 			}
 			return;
 		}
@@ -218,11 +273,16 @@ public class LevelUpOperateUnity : UIComponentUnity {
 					prevMaterialItem.IsFocus = false;
 			prevMaterialItem = pui;
 			prevMaterialItem.IsFocus = true;
+
+			CheckLevelUp ();
 		} else {
 			EnabledItem(prevSelectedItem.UserUnit);
 			prevSelectedItem.IsFocus = false;
 			prevSelectedItem.UserUnit = pui.UserUnit;
 			pui.IsEnable = false;
+
+			CheckLevelUp ();
+
 			ClearFocus();
 		}
 	}
@@ -247,11 +307,24 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				break;
 			}
 		}
+
+		CheckLevelUp ();
+
 		ClearFocus ();
+	}
+
+	void ClearData() {
+		if(friendWindow != null)
+			friendWindow.HideUI ();
+		foreach (var item in selectedItem) {
+			item.UserUnit = null;
+			item.IsEnable = true;
+		}
 	}
 	
 	void LevelUpCallback(GameObject go) {
 
+		ExcuteCallback (levelUpInfo);
 	}
 
 	void SortCallback(GameObject go) {
@@ -272,6 +345,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 //		pui.PartyLabel.text = "Base";
 		ClearFocus ();
 		ShieldParty (false, null);
+
+		CheckLevelUp ();
+
 		return true;
 	}
 
@@ -307,6 +383,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			selectedItem[i].UserUnit = pui.UserUnit;
 			pui.IsEnable = false;
 			ClearFocus ();
+
+			CheckLevelUp ();
+
 			return i;
 		}
 		return -1;	// -1 == not add to materail list.
@@ -379,7 +458,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	private void SortUnitByCurRule(){
-//		sortRule = curSortRule;
 		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
 		List<GameObject> scrollList = new List<GameObject> ();
 		for (int i = 1; i < scrollList.Count; i++){
@@ -387,5 +465,36 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			puv.UserUnit = myUnit[ i - 1 ];
 			puv.CurrentSortRule = sortRule;
 		}
+	}
+
+	List<TUserUnit> levelUpInfo = new List<TUserUnit>() ;
+	void CheckLevelUp() {
+		levelUpInfo.Clear ();
+
+		TUserUnit baseItem = selectedItem [0].UserUnit;
+		if (baseItem == null) {
+			levelUpButton.isEnabled = false;
+			return;	
+		}
+		levelUpInfo.Add (baseItem);
+
+		for (int i = 1; i < 4; i++) {
+			if(selectedItem[i].UserUnit != null) {
+				levelUpInfo.Add(selectedItem[i].UserUnit);
+			}
+		}
+
+		if (levelUpInfo.Count == 1) {	// material is null;
+			levelUpButton.isEnabled = false;
+			return;	
+		}
+
+		TUserUnit friendInfo = selectedItem [4].UserUnit;
+		if (friendInfo == null) {
+			levelUpButton.isEnabled = false;
+			return;	
+		}
+		levelUpInfo.Add (friendInfo);
+		levelUpButton.isEnabled = true;
 	}
 }
