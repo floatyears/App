@@ -260,31 +260,37 @@ public class UnitDisplayUnity : UIComponentUnity {
 	}
 
 	void ShowUnitItem () {
+		RefreshDragPanelView ();
+		List<GameObject> scroll = unitItemDragPanel.ScrollItem;
 		allItem.Clear ();
 		for (int i = 0; i < allData.Count; i++) {
+			GameObject scrollItem = scroll[i];
 			TUserUnit tuu = allData[i];
-			UnitItemInfo uii = allItem.Find(a=>a.userUnitItem.ID == tuu.ID);
+			UnitItemInfo uii =   allItem.Find(a=>a.userUnitItem.ID == tuu.ID);
 			if(uii == default(UnitItemInfo)) {
-				uii = new UnitItemInfo();
+				uii = scrollItem.AddComponent<UnitItemInfo>();
+//				uii.scrollItem = scrollItem;
 				uii.userUnitItem = tuu;
 			}
 			else{
 				uii.userUnitItem = tuu;
 			}
+			uii.scrollItem = scrollItem;
 			allItem.Add(uii);
-		}
-		RefreshItem ();
-	}
-
-	void RefreshItem () {
-		RefreshDragPanelView ();
-		List<GameObject> scroll = unitItemDragPanel.ScrollItem;
-		for (int i = 0; i < allItem.Count; i++) {
-			UnitItemInfo uii = allItem[i];
-			uii.scrollItem = scroll[i];
 			RefreshView(uii);
 		}
+//		RefreshItem ();
 	}
+
+//	void RefreshItem () {
+////		RefreshDragPanelView ();
+//		List<GameObject> scroll = unitItemDragPanel.ScrollItem;
+//		for (int i = 0; i < allItem.Count; i++) {
+//			UnitItemInfo uii = allItem[i];
+//			uii.scrollItem = scroll[i];
+//			RefreshView(uii);
+//		}
+//	}
 
 	void RefreshView (UnitItemInfo uii) {
 		Transform go = uii.scrollItem.transform;
@@ -336,7 +342,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	void RefreshDragPanelView () {
 		List<GameObject> scroll = unitItemDragPanel.ScrollItem;
-		int value = scroll.Count - allItem.Count;
+		int value = scroll.Count - allData.Count;
 		if (value > 0) {
 			int endValue = scroll.Count - value - 1;
 			for (int i = scroll.Count - 1; i > endValue; i++) {

@@ -172,7 +172,7 @@ public class UIManager {
 			break;
 
 		case SceneEnum.Units:
-			Debug.LogError("SceneEnum.Units");
+//			Debug.LogError("SceneEnum.Units");
 			temp = new UnitsDecorator( sEnum );
 			break;
 
