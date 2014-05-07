@@ -20,6 +20,9 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	List<UITexture> materialCollectorTex = new List<UITexture>();
 	UnitItemInfo baseUnitInfo;
 	UnitItemInfo[] unitItemInfo = new UnitItemInfo[4];
+
+	UnitItemInfo baseSelect;
+
 	TUserUnit friendUnitInfo;
 	private const int CoinBase = 100;
 	int _devorExp = 0;
@@ -62,7 +65,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		FoucsOnTab( curFocusTab );
+//		FoucsOnTab( curFocusTab );
 		AddListener();
 
 	}
@@ -218,12 +221,13 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		tab = FindChild("Tab_Friend");
 		Tabs.Add(tab);
 
-		tab = FindChild("Tab_Material");
-		Tabs.Add(tab);
+//		tab = FindChild("Tab_Material");
+//		Tabs.Add(tab);
 
 		for (int i = 1; i < 5; i++){
 			GameObject item = tab.transform.FindChild("Material" + i.ToString()).gameObject;
-                        materialPoolDic.Add( i, item);
+        	materialPoolDic.Add(i, item);
+			Tabs.Add(item);
         }
                 
 		foreach (var item in Tabs) {
@@ -238,10 +242,10 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
     // call by msgCenter(other UI call this to start focus)
-    void CallFocusOnTab(object args){
-        int target = (int)args;
-        FoucsOnTab(Tabs[target]);
-    }
+//    void CallFocusOnTab(object args){
+//        int target = (int)args;
+//        FoucsOnTab(Tabs[target]);
+//    }
 
 	void CheckCanLevelUp() {
 		if(!levelUpButton.gameObject.activeSelf) {
@@ -357,25 +361,52 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void PickBaseUnitInfo(object info){
-		if( curFocusTab.name == "Tab_Base" ){
-			if(info == null) {
-				baseUnitInfo = null;
-				CaculateDevorExp(false);
-			}
-			else{
-				UnitItemInfo uui = info as UnitItemInfo;
+		if (info == null) {
+			return;	
+		}
+
+		UnitItemInfo uui = info as UnitItemInfo;
+
+		if (curFocusTab == null) {
+			if(baseUnitInfo == null) {
 				baseUnitInfo = uui;
 				CaculateDevorExp(true);
+				UpdateBaseInfoView(baseUnitInfo);
+				return;
+			}else if(baseUnitInfo.Equals(uui)){
+				baseUnitInfo = null;
+				CaculateDevorExp(false);
+				UpdateBaseInfoView(baseUnitInfo);
 			}
-			UpdateBaseInfoView(baseUnitInfo);
-		}
-		else{
-			UnitItemInfo uui = info as UnitItemInfo;
-			if(!CancelMaterialClick(uui)) {
-				MaterialClick(uui);
+			else{
+//				UnitItemInfo uui = info as UnitItemInfo;
+				if(!CancelMaterialClick(uui)) {
+					MaterialClick(uui);
+				}
+//				MsgCenter.Instance.Invoke(CommandEnum.ShieldMaterial, unitItemInfo);
 			}
-			MsgCenter.Instance.Invoke(CommandEnum.ShieldMaterial, unitItemInfo);
+
 		}
+
+//		if( curFocusTab.name == "Tab_Base" ){
+//			if(info == null) {
+//				baseUnitInfo = null;
+//				CaculateDevorExp(false);
+//			}
+//			else{
+//				UnitItemInfo uui = info as UnitItemInfo;
+//				baseUnitInfo = uui;
+//				CaculateDevorExp(true);
+//			}
+//			UpdateBaseInfoView(baseUnitInfo);
+//		}
+//		else{
+//			UnitItemInfo uui = info as UnitItemInfo;
+//			if(!CancelMaterialClick(uui)) {
+//				MaterialClick(uui);
+//			}
+//			MsgCenter.Instance.Invoke(CommandEnum.ShieldMaterial, unitItemInfo);
+//		}
 	}
 
 	bool CancelMaterialClick(UnitItemInfo uui) {

@@ -510,21 +510,22 @@ public class LevelUpDecorator : DecoratorBase{
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene() {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 
-		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
-		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
-		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
-
+//		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
+//		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
+//		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
+		levelUpOperateUI luou = CreatComponent<levelUpOperateUI> (UIConfig.levelUpView);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
 		sceneInfoBar.SetComponent(decorator);
-		friendPanel.SetComponent(sceneInfoBar);
-		basePanel.SetComponent(friendPanel);
-		readyPanel.SetComponent(basePanel);
+		luou.SetComponent (sceneInfoBar);
+		sortPanel.SetComponent (luou);
+//		friendPanel.SetComponent(sceneInfoBar);
+//		basePanel.SetComponent(friendPanel);
+//		readyPanel.SetComponent(basePanel);
 
-
-		lastDecorator = readyPanel;
+		lastDecorator = sortPanel;
 		lastDecorator.CreatUI();
 	}
 }

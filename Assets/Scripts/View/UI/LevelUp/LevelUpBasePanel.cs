@@ -17,6 +17,8 @@ public class LevelUpBasePanel : UIComponentUnity {
 	private List<UnitItemInfo> materialItem = new List<UnitItemInfo> ();
 	private List<UnitItemInfo> selectMaterial = new List<UnitItemInfo> ();
 
+	UnitItemInfo readyPanelSelect;
+
     bool beginOnAfterLevelUp = false; // if == true, turn to material tab at start;
 
 	public override void Init(UIInsConfig config, IUICallback origin){

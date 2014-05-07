@@ -7,7 +7,11 @@ public class UnitItemInfo : MonoBehaviour{
     public UILabel stateLabel;
 	public UISprite mask;
 	public UISprite star;
-    public TUserUnit userUnitItem;
+	private TUserUnit _userUnitItem;
+	public TUserUnit userUnitItem {
+		set { _userUnitItem = value; }
+		get { return _userUnitItem; }
+	}
 	public UISprite hightLight;
 
     private bool _isCollect = false;
