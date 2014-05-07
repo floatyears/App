@@ -43,7 +43,9 @@ public class PartyView : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
-		DataCenter.Instance.PartyInfo.ExitParty();
+		Debug.LogError (UIManager.Instance.baseScene.CurrentScene);
+		if(UIManager.Instance.baseScene.CurrentScene != SceneEnum.UnitDetail)
+			DataCenter.Instance.PartyInfo.ExitParty();
 		RmvCmdListener();
 	}
 
@@ -80,7 +82,7 @@ public class PartyView : UIComponentUnity{
 		ClearPartyFocusState();
 		ClearUnitListFocusState();
 		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
-		RefreshParty(preParty);  
+		RefreshParty(preParty);
 		RefreshUnitListByCurId();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, preParty);
 	}

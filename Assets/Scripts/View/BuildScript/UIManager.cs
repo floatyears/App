@@ -119,11 +119,11 @@ public class UIManager {
 		}
 		else {
             InvokeSceneClear(sEnum);
+			baseScene.SetScene(sEnum);
 			if(current != null) {
 				current.HideScene();
 			}
 
-			baseScene.SetScene(sEnum);
 		}
 
 		if(HasUIObject(sEnum))
@@ -172,7 +172,7 @@ public class UIManager {
 			break;
 
 		case SceneEnum.Units:
-			Debug.LogError("SceneEnum.Units");
+//			Debug.LogError("SceneEnum.Units");
 			temp = new UnitsDecorator( sEnum );
 			break;
 

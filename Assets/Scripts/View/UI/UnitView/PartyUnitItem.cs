@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PartyUnitItem : MyUnitItem {
 	public static PartyUnitItem Inject(GameObject item){
-		PartyUnitItem view = item.AddComponent<PartyUnitItem>();
+		PartyUnitItem view = item.GetComponent<PartyUnitItem>();
 		if (view == null) view = item.AddComponent<PartyUnitItem>();
 		return view;
 	}

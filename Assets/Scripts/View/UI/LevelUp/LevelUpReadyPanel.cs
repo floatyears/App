@@ -9,9 +9,9 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	UILabel expCurGotLabel;
 	UILabel cionNeedLabel;
 	GameObject curFocusTab;
-	GameObject baseTab;
-	GameObject friendTab;
-	GameObject materialTab;
+//	GameObject baseTab;
+//	GameObject friendTab;
+//	GameObject materialTab;
 	UIImageButton levelUpButton;
 	List<GameObject> Tabs = new List<GameObject>();
 	Dictionary<int,GameObject> materialPoolDic = new Dictionary<int,GameObject>();
@@ -55,7 +55,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
         MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetAfterLevelUp);
-        MsgCenter.Instance.AddListener (CommandEnum.FocusLevelUpPanel, CallFocusOnTab);
+//        MsgCenter.Instance.AddListener (CommandEnum.FocusLevelUpPanel, CallFocusOnTab);
 		base.Init(config, origin);
 		InitUI();
 	}
@@ -70,6 +70,12 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	public override void HideUI(){
 		base.HideUI();
 		RemoveListener();
+	}
+
+	public override void DestoryUI () {  
+		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetAfterLevelUp);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.FocusLevelUpPanel, CallFocusOnTab);
+		base.DestoryUI ();
 	}
 
     public override void ResetUIState() {
@@ -90,12 +96,14 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
     void ResetAfterLevelUp(object args){
         //TODO 
+		uint blendID = (uint)args;
         levelUpButton.isEnabled = false;
         levelUpButton.gameObject.SetActive (false);
         ClearTexture(false);
         ClearData(false);
         curFocusTab = Tabs[0];
-        baseUnitInfo.userUnitItem = DataCenter.Instance.MyUnitList.GetMyUnit(baseUnitInfo.userUnitItem.ID);
+		baseUnitInfo.userUnitItem = DataCenter.Instance.MyUnitList.GetMyUnit(blendID);
+//		Debug.LogError ("uint : " + blendID + " baseUnitInfo.userUnitItem : " + baseUnitInfo.userUnitItem);
         UpdateBaseInfoView(baseUnitInfo);
     }
 	
@@ -110,6 +118,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, null);
 		} else {
 			TUserUnit tuu = itemInfo.userUnitItem;
+//			Debug.LogError("tuu : " + tuu);
 			TUnitInfo tu = DataCenter.Instance.GetUnitInfo(tuu.UnitID);//UnitInfo[ tuu.UnitID ];
 			tex.mainTexture = tu.GetAsset(UnitAssetType.Avatar);			
 			int hp = DataCenter.Instance.GetUnitValue(tu.HPType,tuu.Level);
@@ -125,7 +134,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 				}
 			}
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, itemInfo);
-			FoucsOnTab(Tabs[2]);
+//			FoucsOnTab(Tabs[2]);
 		}
 	}
 

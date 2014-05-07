@@ -32,7 +32,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		}
 		AddListener();
         if (beginOnAfterLevelUp){
-            MsgCenter.Instance.Invoke(CommandEnum.FocusLevelUpPanel, 2);
+//            MsgCenter.Instance.Invoke(CommandEnum.FocusLevelUpPanel, 2);
             beginOnAfterLevelUp = false;
         }
 //		Debug.LogError("LevelUpBasePanel end showui");
@@ -49,6 +49,12 @@ public class LevelUpBasePanel : UIComponentUnity {
         gameObject.SetActive(true); 
         InitDragPanel();
     }
+
+	public override void DestoryUI ()
+	{
+		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
+		base.DestoryUI ();
+	}
 
     public void ResetUIAfterLevelUp(object args){
         ResetUIState();
@@ -71,7 +77,9 @@ public class LevelUpBasePanel : UIComponentUnity {
 		baseUnitInfoDic.Clear ();
 		userUnitInfoList.Clear ();
 		unitInfoStruct.Clear ();
-		baseSelectItem = null;
+//		Debug.LogError("clear data");
+		if(baseSelectItem != null)
+			baseSelectItem.stateLabel.text  = "";
 		materialDic.Clear ();
 		partyItem.Clear ();
 		materialItem.Clear ();
@@ -295,9 +303,12 @@ public class LevelUpBasePanel : UIComponentUnity {
 	}
 
 	void InitDragPanel(){
-		Debug.LogError(" start levelup base panel InitDragPanel ");
+//		Debug.LogError(" start levelup base panel InitDragPanel ");
 		if ( DataCenter.Instance.MyUnitList != null)
 			userUnitInfoList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
+
+//		Debug.LogError (userUnitInfoList.Count);
+
 		string name = "BaseDragPanel";
 		if(userUnitInfoList == null ){
 			Debug.LogWarning("userUnitInfoList is null ");
@@ -341,7 +352,7 @@ public class LevelUpBasePanel : UIComponentUnity {
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
 			GameObject scrollItem = panel.ScrollItem[ i ];
 			TUserUnit uuItem = userUnitInfoList[ i ] ;
-			UnitItemInfo uii = new UnitItemInfo();
+			UnitItemInfo uii = scrollItem.AddComponent<UnitItemInfo>();
 			uii.userUnitItem = uuItem;
 			uii.isCollect = false;
 			uii.stateLabel = scrollItem.transform.Find("Label_Party").GetComponent<UILabel>();
