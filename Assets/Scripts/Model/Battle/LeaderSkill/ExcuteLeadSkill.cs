@@ -17,13 +17,14 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		foreach (var item in leadSkill.LeadSkill) {
 			temp++;
 			leaderSkillQueue.Enqueue(item.Key);
+//			Debug.LogError("Excute : " + item.Key);
 			GameTimer.GetInstance().AddCountDown(temp*time, ExcuteStartLeaderSkill);
 		}
 	}
 
 	void ExcuteStartLeaderSkill() {
 		string key = leaderSkillQueue.Dequeue ();
-		DisposeBoostSkill(key, leadSkill.LeadSkill[key]);
+//		DisposeBoostSkill(key, leadSkill.LeadSkill[key]);
 		leadSkill.LeadSkill.Remove (key);
 		if (leaderSkillQueue.Count == 0) {
 			MsgCenter.Instance.Invoke (CommandEnum.LeaderSkillEnd, null);
@@ -39,7 +40,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	void DisposeBoostSkill (string userunit, ProtobufDataBase pdb) {
 		TSkillBoost tbs = pdb as TSkillBoost;
 		if (tbs != null) {
-			AttackInfo ai = new AttackInfo();
+			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
 			ai.UserUnitID = userunit;
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			foreach (var item in leadSkill.UserUnit.Values) {
@@ -57,7 +58,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 	void DisposeDelayOperateTime (string userunit, ProtobufDataBase pdb) {
 		TSkillDelayTime tst = pdb as TSkillDelayTime;
 		if (tst != null) {
-			AttackInfo ai = new AttackInfo();
+			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
 			ai.UserUnitID = userunit;
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			MsgCenter.Instance.Invoke(CommandEnum.LeaderSkillDelayTime, tst.DelayTime);

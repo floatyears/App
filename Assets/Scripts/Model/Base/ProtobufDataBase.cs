@@ -69,7 +69,7 @@ public class ProtobufDataBase : IOriginModel {
     /// </summary>
     /// <returns>The object.</returns>
     /// <typeparam name="T">The 1st type parameter.</typeparam>
-    protected byte[] SerializeObject<T>(T instance) {
+    public byte[] SerializeObject<T>(T instance) {
         return ProtobufSerializer.SerializeToBytes<T>(instance);
     }
 

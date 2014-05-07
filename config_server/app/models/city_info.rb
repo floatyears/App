@@ -1,6 +1,6 @@
+#encoding : utf-8
 ## Generated from quest.proto for 
 require "beefcake"
-
 
 module EUnitType
   UALL = 0
@@ -173,7 +173,8 @@ class QuestConfig
   repeated :boss, EnemyInfoConf, 2
   repeated :enemys, EnemyInfoConf, 3
   repeated :colors, ColorPercent, 4
-  repeated :floors, QuestFloorConfig, 5
+  optional :repeatFloor, :int32, 5
+  repeated :floors, QuestFloorConfig, 6
 end
 
 #Quest Data
@@ -311,6 +312,7 @@ class CityInfo
   end
   
   
+  
   def self.create_config(quest_config)
     $redis.select(3)
     enemys_ids = []
@@ -341,8 +343,8 @@ class CityInfo
       floors << QuestFloorConfig.new(version: params_to_i(item["version"]),treasureNum: params_to_i(item["treasureNum"]),trapNum: params_to_i(item["trapNum"]),enemyNum: params_to_i(item["enemyNum"]),keyNum:  params_to_i(item["keyNum"]),stars: stars)
     end
     id = params_to_i(quest_config["questId"])
-    questConfig =  QuestConfig.new(questId: id ,boss: boss,enemys: enemys,colors: colors,floors: floors)
-    save_to_redis("X_CONFIG_#{id}",questConfig.encode)
+    questConfig =  QuestConfig.new(questId: id ,boss: boss,enemys: enemys,colors: colors,repeatFloor: params_to_i(quest_config["repeatFloor"]),floors: floors)
+    save_to_redis("X_CONFIGIG_#{id}",questConfig.encode)
     enemys_ids
   end
   
@@ -383,7 +385,7 @@ class CityInfo
     @config_id = params[:config_id].to_i
     @floor_index =  params[:floor_index].to_i if @type == "star"
     $redis.select(3)
-    @configs = QuestConfig.decode($redis.get("X_CONFIG_#{@config_id}"))
+    @configs = QuestConfig.decode($redis.get("X_CONFIGIG_#{@config_id}"))
     case @type
     when "boss"
       enemy =  EnemyInfo.new(enemyId: params_to_i(params["enemyId"]),unitId: params_to_i(params["unitId"]),type: params_to_i(params["type"]),hp: params_to_i(params["hp"]),attack: params_to_i(params["attack"]),defense: params_to_i(params["defense"]),nextAttack: params_to_i(params["nextAttack"]))
@@ -425,7 +427,7 @@ class CityInfo
       enemyNum = NumRange.new(min: params_to_i(params["enemyNum_min"]),max: params_to_i(params["enemyNum_max"]))
       @configs.floors[@floor_index].stars[@index] = StarConfig.new(repeat: params_to_i(params["repeat"]),star: params_to_i(params["star"]),coin: coin,enemyPool: JSON.parse(params["enemyPool"]),enemyNum: enemyNum,trap: JSON.parse(params["trap"]))
     end    
-    save_to_redis("X_CONFIG_#{@config_id}" ,@configs.encode)
+    save_to_redis("X_CONFIGIG_#{@config_id}" ,@configs.encode)
   end
   
   def self.to_zip
@@ -464,15 +466,17 @@ class CityInfo
   
   def self.create_default_color
     colors  = []
-    EUNIT_TYPE_COLOR.each do |color|
-      
-    end
   end
   
   
   def self.import_data_from_yaml(filepath)
     city_data =  YAML.load_file(filepath)
-    
+    create_city_info(city_data)
+  end
+  
+  def self.import_data_from_upload(configs)
+    city_data =  YAML.load_stream(configs).first
+    create_city_info(city_data)
   end
   
   def self.create_stars_config(configs)
@@ -480,8 +484,8 @@ class CityInfo
     stars = []
     unless configs.empty?
       configs.each do |star|
-        stars << StarConfig.new(repeat: star["repeat"],star: star["star"],coin: NumRange.new(min: star["coin"]["min"],max: star["coin"]["max"]),enemyPool: star["enemyPool"],enemyNum: NumRange.new(min: star["enemyNum"]["min"],max: star["enemyNum"]["max"]),trap: star["trap"])
-        enemy_ids = enemy_ids + star["enemyPool"]
+        stars << StarConfig.new(repeat: star["repeat"],star: star["star"],coin: star["coin"].present? ? NumRange.new(min: star["coin"]["min"],max: star["coin"]["max"]) : nil,enemyPool: star["enemyPool"],enemyNum:  star["enemyNum"].present? ? NumRange.new(min: star["enemyNum"]["min"],max: star["enemyNum"]["max"]) : nil,trap: star["trap"].present? ? star["trap"] : nil )
+        enemy_ids = enemy_ids + (star["enemyPool"].present? ? star["enemyPool"] : [])
       end
     end
     return stars,enemy_ids
@@ -504,7 +508,7 @@ class CityInfo
     colors = []
     unless configs.empty?
       configs.each do |color_config|
-        colors << ColorPercent.new(color: color_config["color"],precent: color_config["precent"])
+        colors << ColorPercent.new(color: color_config["color"],percent: color_config["percent"])
       end
     end
     return colors
@@ -540,8 +544,8 @@ class CityInfo
          enemys = create_enemys(quest_config["quest_config"]["enemys"])   
          colors =  create_colors(quest_config["quest_config"]["colors"])
          floors,ids = create_quest_floor(quest_config["quest_config"]["floors"])
-         q_config = QuestConfig.new(questId: quest_config["id"],boss: boss,enemys: enemys,colors: colors,floors: floors)
-         save_to_redis("X_CONF_#{quest_config["id"]}",q_config.encode)
+         q_config = QuestConfig.new(questId: quest_config["id"],boss: boss,enemys: enemys,colors: colors,repeatFloor: quest_config["quest_config"]["repeatFloor"], floors: floors)
+         save_to_redis("X_CONFIG_#{quest_config["id"]}",q_config.encode)
          quests << QuestInfo.new(id: quest_config["id"],state: quest_config["state"],no: quest_config["no"],name: quest_config["name"],story: quest_config["story"],stamina: quest_config["stamina"],floor: quest_config["floor"],rewardExp: quest_config["rewardExp"],rewardMoney: quest_config["rewardMoney"],bossId: quest_config["bossId"],enemyId: ids.uniq)
       end
     end
@@ -564,9 +568,18 @@ class CityInfo
   
   def self.create_city_info(configs)
     unless configs.nil?
-      stages =  create_stage(configs["stages"])
-      city  = CityInfo.new(version: configs["version"],id: configs["id"],state: configs["state"],cityName: configs["cityName"],description: configs["description"],stages: stages)
-      save_to_redis("X_CITY_#{configs["id"]}",city.encode)
+      stages =  create_stage(configs["city"]["stages"])
+      city  = CityInfo.new(version: configs["city"]["version"],id: configs["city"]["id"],state: configs["city"]["state"],cityName: configs["city"]["cityName"],description: configs["city"]["description"],stages: stages)
+      save_to_redis("X_CITY_#{configs["city"]["id"]}",city.encode)
+    end
+  end
+  
+  def self.update_repeat_floor
+    $redis.select 3
+    $redis.keys.map{|k| k if k.start_with?("X_CONFIG_")}.compact.each do |key|
+      c = QuestConfig.decode($redis.get(key))
+      c.repeatFloor = 1
+      $redis.set(key, c.encode)
     end
   end
     

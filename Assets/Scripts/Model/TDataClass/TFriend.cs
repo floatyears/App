@@ -7,6 +7,11 @@ using UnityEngine;
 
 public class TFriendInfo : ProtobufDataBase {
     private FriendInfo	instance;
+	public FriendInfo Instance {
+		get {
+			return instance;
+		}
+	}
     public TFriendInfo(FriendInfo inst) : base (inst) { 
         instance = inst;
 //		Debug.LogError ("instance.unit : " + instance.unit);

@@ -20,6 +20,7 @@ public class StartScene : BaseComponent {
 
 	public SceneEnum CurrentScene {
 		get {return currentScene ;}
+		set {currentScene = value;}
 	}
 
 	private SceneEnum prevScene;

@@ -323,12 +323,12 @@ public class FriendHelperView : UIComponentUnity{
 	
 	private QuestItemView pickedQuestInfo;
 	private void RecordPickedInfoForFight(object msg){
-		Debug.Log("FriendHelper.RecordPickedInfoForFight(), received info...");
+//		Debug.Log("FriendHelper.RecordPickedInfoForFight(), received info...");
 		pickedQuestInfo = msg as QuestItemView;
 	}
 
 	private void ClickHelperItem(HelperUnitItem item){
-		Debug.Log("ClickHelperItem...");
+//		Debug.Log("ClickHelperItem...");
 		
 		if(pickedQuestInfo == null){
 			Debug.LogError("FriendHelerpView.ClickHelperItem(), pickedQuestInfo is NULL, return!!!");

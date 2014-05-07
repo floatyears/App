@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
+public class TSkillPoison : ActiveSkill {
 	private SkillPoison instance;
 	public TSkillPoison(object instance) : base (instance) { 
 		this.instance = instance as SkillPoison;
@@ -12,31 +12,39 @@ public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
 		}
 	}
 
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
+//	public bool CoolingDone {
+//		get {
+//			return coolingDone;
+//		}
+//	}
 
-	public void RefreashCooling () {
-		DisposeCooling ();
-	}
+//	public void RefreashCooling () {
+//		DisposeCooling ();
+//	}
+
 	AttackInfo posionInfo = null;
-	public object Excute (string userUnitID, int atk = -1) {
+	public override object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;
 		}
 		InitCooling ();
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		AttackInfo ai = new AttackInfo ();
+
+		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackValue = atk * instance.value;
 		ai.AttackRound = instance.roundValue;
 		ai.IgnoreDefense = true;
-		ai.AttackType = 0; //0=ATK_SINGLE
-		posionInfo = ai;
-		MsgCenter.Instance.Invoke(CommandEnum.BePosion, ai);
+		ai.AttackType = 0; //0 = ATK_SINGLE
+		ConfigBattleUseData.Instance.posionAttack = posionInfo;
+		ExcuteByDisk (ai);
 		return null;
+	}
+
+	public override AttackInfo ExcuteByDisk(AttackInfo ai) {
+		posionInfo = ai;
+		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+		MsgCenter.Instance.Invoke(CommandEnum.BePosion, ai);
+		return posionInfo;
 	}
 
 	void AttackEnemyEnd(object data) {
@@ -47,6 +55,7 @@ public class TSkillPoison : ActiveSkill, IActiveSkillExcute {
 		MsgCenter.Instance.Invoke (CommandEnum.SkillPosion, posionInfo);
 		if (posionInfo.AttackRound == 0) {
 			posionInfo = null;
+			ConfigBattleUseData.Instance.posionAttack = null;
 			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		}
 	}

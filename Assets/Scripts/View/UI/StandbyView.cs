@@ -30,6 +30,11 @@ public class StandbyView : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
 	}
 
+	public override void DestoryUI () {
+		base.DestoryUI ();
+		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+	}
+
 	private void InitUI(){
 		prePageBtn = FindChild<UIButton>("Button_Left");
 		nextPageBtn = FindChild<UIButton>("Button_Right");
@@ -77,7 +82,7 @@ public class StandbyView : UIComponentUnity {
 	private Dictionary<string, object> pickedInfoForFight;
 	private TFriendInfo pickedHelperInfo;
 	private void RecordPickedInfoForFight(object msg){
-		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
+//		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
 
 		//Show helper view as soon as fill helperViewItem with helper data(data bind with view)
@@ -126,11 +131,13 @@ public class StandbyView : UIComponentUnity {
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
+//			tqdd.assignData();
 			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
 		if (data == null || tqdd == null) { return; }
-		EnterBattle ();
+		EnterBattle (tqdd);
+
 	} 
 
 	private void RspEvolveStartQuest (object data) {
@@ -150,11 +157,12 @@ public class StandbyView : UIComponentUnity {
 		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
 		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		
-		EnterBattle ();
+		EnterBattle (tqdd);
 	}
 	
-	private void EnterBattle () {
-		DataCenter.Instance.BattleFriend = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+	private void EnterBattle (TQuestDungeonData tqdd) {
+		ConfigBattleUseData.Instance.BattleFriend = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
 		UIManager.Instance.EnterBattle();
 	} 
 

@@ -1,3 +1,4 @@
+#encoding: utf-8
 require "city_info"
 class CityInfosController < ApplicationController
   before_filter :set_redis
@@ -46,6 +47,17 @@ class CityInfosController < ApplicationController
         @stage = StageInfo.decode($redis.get("X_STAGE_" + params[:id]).to_s)
       end
     end
+  end
+  def upload_config
+  end
+  
+  def upload
+    name = params[:city_config_file].original_filename
+    directory = "public/configs"
+    path = Rails.root.join(directory, name)
+    File.open(path, "wb") { |f| f.write(params[:city_config_file].read) }
+    CityInfo.import_data_from_yaml(path)
+    redirect_to city_infos_path
   end
   
   def update_quest

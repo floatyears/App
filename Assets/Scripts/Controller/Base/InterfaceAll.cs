@@ -112,6 +112,7 @@ public interface IActiveSkillExcute {
     bool CoolingDone{ get; }
     void RefreashCooling();
     object Excute(string userUnitID, int atk = -1);
+	AttackInfo ExcuteByDisk(AttackInfo ai);
 }
 
 public interface IEffectConcrete {

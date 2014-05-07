@@ -74,13 +74,13 @@ public class ResultView : UIComponentUnity {
 
 	void ClickCheck(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		DataCenter.Instance.BattleFriend.FriendPoint = 0;
+		ConfigBattleUseData.Instance.BattleFriend.FriendPoint = 0;
 		UIManager.Instance.ChangeScene(SceneEnum.Quest);
 	}
 
 	void ClickOk(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		DataCenter.Instance.BattleFriend.FriendPoint = 0;
+		ConfigBattleUseData.Instance.BattleFriend.FriendPoint = 0;
 //		Debug.LogError("Click ok");
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickOk", null);
 		ExcuteCallback(call);

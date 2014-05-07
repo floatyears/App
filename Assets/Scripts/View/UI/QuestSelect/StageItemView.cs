@@ -45,11 +45,11 @@ public class StageItemView : MonoBehaviour {
 
 	private void ShowMap(){
 		string sourcePath = string.Format("Stage/{0}_{1}", data.CityId, data.ID);
-		Debug.Log("StageItemView.ShowMap(), sourcePath : " + sourcePath);
+//		Debug.Log("StageItemView.ShowMap(), sourcePath : " + sourcePath);
 		Texture2D tex = Resources.Load(sourcePath) as Texture2D;
 
 		if(mapTex == null){
-			Debug.LogError("mapTex == null, getting...");
+//			Debug.LogError("mapTex == null, getting...");
 			mapTex = transform.FindChild("Texture_Map").GetComponent<UITexture>();
 		}
 		mapTex.mainTexture = tex;
@@ -57,7 +57,7 @@ public class StageItemView : MonoBehaviour {
 
 	private void ShowName(){
 		if(nameLabel == null){
-			Debug.LogError("nameLabel == null, getting...");
+//			Debug.LogError("nameLabel == null, getting...");
 			nameLabel = transform.FindChild("Label_Name").GetComponent<UILabel>();
 		}
 		nameLabel.text = data.StageName;

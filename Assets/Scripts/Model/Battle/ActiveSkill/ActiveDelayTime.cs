@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class ActiveDelayTime : ActiveSkill, IActiveSkillExcute {
+public class ActiveDelayTime : ActiveSkill {
 	private SkillDelayTime instance;
 	public ActiveDelayTime(object instance) : base (instance) {
 		this.instance = instance as SkillDelayTime;
@@ -11,19 +11,19 @@ public class ActiveDelayTime : ActiveSkill, IActiveSkillExcute {
 			coolingDone = true;
 		}
 	}
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
-	 
-	public void RefreashCooling () {
-		DisposeCooling ();
-	}
+//	public bool CoolingDone {
+//		get {
+//			return coolingDone;
+//		}
+//	}
+//	 
+//	public void RefreashCooling () {
+//		DisposeCooling ();
+//	}
 
 	SkillDelayTime  sdt = null;
 
-	public object Excute (string userUnitID, int atk = -1) {
+	public override object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;
 		}

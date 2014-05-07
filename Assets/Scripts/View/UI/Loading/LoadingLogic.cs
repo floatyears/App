@@ -41,10 +41,10 @@ public class LoadingLogic : ConcreteComponent {
         uint roleSelected = (uint)args;
         AuthUser.FirstLogin(roleSelected, LoginSuccess);
     }
-
+	bbproto.RspAuthUser rspAuthUser;
     void LoginSuccess(object data) {
         if (data != null) {
-            bbproto.RspAuthUser rspAuthUser = data as bbproto.RspAuthUser;
+            rspAuthUser = data as bbproto.RspAuthUser;
 //			Debug.LogError(rspAuthUser.user.userId);
             if (rspAuthUser == null) {
 				Debug.LogError("authUser response rspAuthUser == null");
@@ -120,13 +120,47 @@ public class LoadingLogic : ConcreteComponent {
             TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
-			UIManager.Instance.ChangeScene(SceneEnum.Start);
-			UIManager.Instance.ChangeScene(SceneEnum.Quest);
-            if (rspAuthUser.isNewUser == 1){
-                TurnToReName();
-            }
+			if(ConfigBattleUseData.Instance.hasBattleData()) {
+				MsgWindowParams mwp = new MsgWindowParams ();
+				mwp.btnParams = new BtnParam[2];
+				mwp.titleText = "Continue?";
+				mwp.contentText = "do you want to recover previous battle?";
+				
+				BtnParam sure = new BtnParam ();
+				sure.callback = SureRetry;
+				sure.text = "OK";
+				mwp.btnParams[0] = sure;
+				
+				sure = new BtnParam ();
+				sure.callback = Cancel;
+				sure.text = "Cancel";
+				mwp.btnParams[1] = sure;
+				
+				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+			}
+			else{
+				EnterGame();
+			}
         }
     }
+
+	void EnterGame () {
+		UIManager.Instance.ChangeScene(SceneEnum.Start);
+		UIManager.Instance.ChangeScene(SceneEnum.Quest);
+		if (rspAuthUser.isNewUser == 1){
+			TurnToReName();
+		}
+	}
+
+	void SureRetry(object data) {
+		ConfigBattleUseData.Instance.ResetFromDisk();
+		UIManager.Instance.EnterBattle();
+	}
+
+	void Cancel(object data) {
+		ConfigBattleUseData.Instance.ClearData ();
+		EnterGame();
+	}
 
     void TurnToReName() {
         //      Debug.Log("PlayerInfoBar.TurnToReName() : Start");

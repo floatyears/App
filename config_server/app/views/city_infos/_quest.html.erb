@@ -3,7 +3,7 @@
 id: <%=text_field_tag :id,@quest.try(:id) %><br/>
 state:<%= select_tag :state,options_for_select(CityInfo::EQUEST_STATE,@quest.try(:state))%><br/>
 no: <%=text_field_tag :no ,@quest.try(:no)%><br/>
-name: <%=text_field_tag :name,@quest.try(:name) %><br/>
+name: <%=text_field_tag :name,@quest.try(:name).force_encoding("UTF-8") %><br/>
 story: <%=text_field_tag :story ,@quest.try(:story)%><br/>
 stamina: <%=text_field_tag :stamina ,@quest.try(:stamina)%><br/>
 floor: <%=text_field_tag :floor,@quest.try(:floor) %><br/>
@@ -25,6 +25,7 @@ enemyId: <%=text_field_tag :enemyId,@quest.try(:enemyId).to_s%><br/><br/>
   <thead>
     <tr>
       <th>questId</th>
+      <th>repeatFloor</th>
       <th>boss</th>
       <th>enemys</th>
       <th>colors</th>
@@ -35,6 +36,7 @@ enemyId: <%=text_field_tag :enemyId,@quest.try(:enemyId).to_s%><br/><br/>
     <tr>
       <% if @city_configs.present? %>
       <td><%= @city_configs.try(:questId)%></td>
+      <td><%= @city_configs.try(:repeatFloor)%></td>
       <td>
         <% if @city_configs.try(:boss).present? %>
         <% @city_configs.try(:boss).each_with_index do |boss,boss_index|%>

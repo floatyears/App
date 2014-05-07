@@ -35,6 +35,15 @@ public class TUserUnit : ProtobufDataBase {
     public int unitBaseInfo = -1;
 
 	public uint userID ;
+	public string TUserUnitID {
+		get {
+			if (string.IsNullOrEmpty (userUnitID)) {
+				return userID.ToString () + "_" + ID.ToString ();	
+			} else {
+				return 	userUnitID;
+			}
+		}
+	}
 	private string userUnitID = string.Empty;
 	public  string MakeUserUnitKey() {
 		if (string.IsNullOrEmpty (userUnitID)) {
@@ -157,7 +166,7 @@ public class TUserUnit : ProtobufDataBase {
             tns.DisposeUseSkillID(ignorSkillID);
             int count = tns.CalculateCard(copyCard);
             for (int j = 0; j < count; j++) {
-                AttackInfo attack = new AttackInfo();
+				AttackInfo attack = AttackInfo.GetInstance(); //new AttackInfo();
                 attack.AttackValue = CaculateAttack(instance, ui, tns);
                 attack.AttackType = tns.AttackType;
                 attack.UserUnitID = MakeUserUnitKey();
@@ -187,7 +196,7 @@ public class TUserUnit : ProtobufDataBase {
 			for (int j = 0; j < count; j++) {
 				csu.alreadyUseSkill.Add(tns);
 				csu.ResidualCard();
-				AttackInfo attack = new AttackInfo();
+				AttackInfo attack = AttackInfo.GetInstance(); //new AttackInfo();
 				attack.AttackValue = CaculateAttack(instance, ui, tns);
 				attack.AttackType = tns.AttackType;
 				attack.UserUnitID = MakeUserUnitKey();
@@ -455,6 +464,14 @@ public class UserUnitList {
     public  Dictionary<string, TUserUnit> GetAll() {
         return userUnitInfo;
     }
+
+	public List<TUserUnit> GetAllList () {
+		List<TUserUnit> temp = new List<TUserUnit> ();
+		foreach (var item in userUnitInfo.Values) {
+			temp.Add(item);
+		}
+		return temp;
+	}
 
     public  void Clear() {
         userUnitInfo.Clear();

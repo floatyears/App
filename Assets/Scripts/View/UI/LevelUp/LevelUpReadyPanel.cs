@@ -9,9 +9,9 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	UILabel expCurGotLabel;
 	UILabel cionNeedLabel;
 	GameObject curFocusTab;
-	GameObject baseTab;
-	GameObject friendTab;
-	GameObject materialTab;
+//	GameObject baseTab;
+//	GameObject friendTab;
+//	GameObject materialTab;
 	UIImageButton levelUpButton;
 	List<GameObject> Tabs = new List<GameObject>();
 	Dictionary<int,GameObject> materialPoolDic = new Dictionary<int,GameObject>();
@@ -20,6 +20,9 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	List<UITexture> materialCollectorTex = new List<UITexture>();
 	UnitItemInfo baseUnitInfo;
 	UnitItemInfo[] unitItemInfo = new UnitItemInfo[4];
+
+	UnitItemInfo baseSelect;
+
 	TUserUnit friendUnitInfo;
 	private const int CoinBase = 100;
 	int _devorExp = 0;
@@ -55,14 +58,14 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
         MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetAfterLevelUp);
-        MsgCenter.Instance.AddListener (CommandEnum.FocusLevelUpPanel, CallFocusOnTab);
+//        MsgCenter.Instance.AddListener (CommandEnum.FocusLevelUpPanel, CallFocusOnTab);
 		base.Init(config, origin);
 		InitUI();
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		FoucsOnTab( curFocusTab );
+//		FoucsOnTab( curFocusTab );
 		AddListener();
 
 	}
@@ -70,6 +73,12 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	public override void HideUI(){
 		base.HideUI();
 		RemoveListener();
+	}
+
+	public override void DestoryUI () {  
+		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetAfterLevelUp);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.FocusLevelUpPanel, CallFocusOnTab);
+		base.DestoryUI ();
 	}
 
     public override void ResetUIState() {
@@ -90,12 +99,14 @@ public class LevelUpReadyPanel: UIComponentUnity {
 
     void ResetAfterLevelUp(object args){
         //TODO 
+		uint blendID = (uint)args;
         levelUpButton.isEnabled = false;
         levelUpButton.gameObject.SetActive (false);
         ClearTexture(false);
         ClearData(false);
         curFocusTab = Tabs[0];
-        baseUnitInfo.userUnitItem = DataCenter.Instance.MyUnitList.GetMyUnit(baseUnitInfo.userUnitItem.ID);
+		baseUnitInfo.userUnitItem = DataCenter.Instance.MyUnitList.GetMyUnit(blendID);
+//		Debug.LogError ("uint : " + blendID + " baseUnitInfo.userUnitItem : " + baseUnitInfo.userUnitItem);
         UpdateBaseInfoView(baseUnitInfo);
     }
 	
@@ -110,6 +121,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, null);
 		} else {
 			TUserUnit tuu = itemInfo.userUnitItem;
+//			Debug.LogError("tuu : " + tuu);
 			TUnitInfo tu = DataCenter.Instance.GetUnitInfo(tuu.UnitID);//UnitInfo[ tuu.UnitID ];
 			tex.mainTexture = tu.GetAsset(UnitAssetType.Avatar);			
 			int hp = DataCenter.Instance.GetUnitValue(tu.HPType,tuu.Level);
@@ -125,7 +137,7 @@ public class LevelUpReadyPanel: UIComponentUnity {
 				}
 			}
 			MsgCenter.Instance.Invoke(CommandEnum.BaseAlreadySelect, itemInfo);
-			FoucsOnTab(Tabs[2]);
+//			FoucsOnTab(Tabs[2]);
 		}
 	}
 
@@ -209,12 +221,13 @@ public class LevelUpReadyPanel: UIComponentUnity {
 		tab = FindChild("Tab_Friend");
 		Tabs.Add(tab);
 
-		tab = FindChild("Tab_Material");
-		Tabs.Add(tab);
+//		tab = FindChild("Tab_Material");
+//		Tabs.Add(tab);
 
 		for (int i = 1; i < 5; i++){
 			GameObject item = tab.transform.FindChild("Material" + i.ToString()).gameObject;
-                        materialPoolDic.Add( i, item);
+        	materialPoolDic.Add(i, item);
+			Tabs.Add(item);
         }
                 
 		foreach (var item in Tabs) {
@@ -229,10 +242,10 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
     // call by msgCenter(other UI call this to start focus)
-    void CallFocusOnTab(object args){
-        int target = (int)args;
-        FoucsOnTab(Tabs[target]);
-    }
+//    void CallFocusOnTab(object args){
+//        int target = (int)args;
+//        FoucsOnTab(Tabs[target]);
+//    }
 
 	void CheckCanLevelUp() {
 		if(!levelUpButton.gameObject.activeSelf) {
@@ -348,25 +361,52 @@ public class LevelUpReadyPanel: UIComponentUnity {
 	}
 
 	void PickBaseUnitInfo(object info){
-		if( curFocusTab.name == "Tab_Base" ){
-			if(info == null) {
-				baseUnitInfo = null;
-				CaculateDevorExp(false);
-			}
-			else{
-				UnitItemInfo uui = info as UnitItemInfo;
+		if (info == null) {
+			return;	
+		}
+
+		UnitItemInfo uui = info as UnitItemInfo;
+
+		if (curFocusTab == null) {
+			if(baseUnitInfo == null) {
 				baseUnitInfo = uui;
 				CaculateDevorExp(true);
+				UpdateBaseInfoView(baseUnitInfo);
+				return;
+			}else if(baseUnitInfo.Equals(uui)){
+				baseUnitInfo = null;
+				CaculateDevorExp(false);
+				UpdateBaseInfoView(baseUnitInfo);
 			}
-			UpdateBaseInfoView(baseUnitInfo);
-		}
-		else{
-			UnitItemInfo uui = info as UnitItemInfo;
-			if(!CancelMaterialClick(uui)) {
-				MaterialClick(uui);
+			else{
+//				UnitItemInfo uui = info as UnitItemInfo;
+				if(!CancelMaterialClick(uui)) {
+					MaterialClick(uui);
+				}
+//				MsgCenter.Instance.Invoke(CommandEnum.ShieldMaterial, unitItemInfo);
 			}
-			MsgCenter.Instance.Invoke(CommandEnum.ShieldMaterial, unitItemInfo);
+
 		}
+
+//		if( curFocusTab.name == "Tab_Base" ){
+//			if(info == null) {
+//				baseUnitInfo = null;
+//				CaculateDevorExp(false);
+//			}
+//			else{
+//				UnitItemInfo uui = info as UnitItemInfo;
+//				baseUnitInfo = uui;
+//				CaculateDevorExp(true);
+//			}
+//			UpdateBaseInfoView(baseUnitInfo);
+//		}
+//		else{
+//			UnitItemInfo uui = info as UnitItemInfo;
+//			if(!CancelMaterialClick(uui)) {
+//				MaterialClick(uui);
+//			}
+//			MsgCenter.Instance.Invoke(CommandEnum.ShieldMaterial, unitItemInfo);
+//		}
 	}
 
 	bool CancelMaterialClick(UnitItemInfo uui) {

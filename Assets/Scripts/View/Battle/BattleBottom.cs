@@ -95,7 +95,7 @@ public class BattleBottom : MonoBehaviour {
 			Debug.LogError("upi is null");
 			return;	
 		}
-//		try{
+		try{
 			int id = System.Int32.Parse (name);
 			if (upi.UserUnit.ContainsKey (id)) {
 				foreach (var item in actorObject.Values) {
@@ -107,15 +107,16 @@ public class BattleBottom : MonoBehaviour {
 				}
 
 				tuu = upi.UserUnit [id];
+				battleQuest.topUI.SheildInput(false);
 				battleSkillObject.SetActive(true);
 				battleSkill.Refresh(tuu, Boost, Close);
 				BattleMap.waitMove = true;
 				battleQuest.battle.ShieldGameInput(false);
 			}
-//		}
-//		catch(System.Exception ex) {
-//			Debug.LogError("exception : " + ex.Message + " name : " + name);
-//		}
+		}
+		catch(System.Exception ex) {
+			Debug.LogError("exception : " + ex.Message + " name : " + name);
+		}
 	}
 
 	public void Boost() {
@@ -131,7 +132,7 @@ public class BattleBottom : MonoBehaviour {
 		foreach (var item in actorObject.Values) {
 			item.renderer.material.color = Color.white;
 		}
-
+		battleQuest.topUI.SheildInput(true);
 		BattleMap.waitMove = false;
 		if (battleQuest.battle.isShowEnemy) {
 			battleQuest.battle.ShieldGameInput(true);

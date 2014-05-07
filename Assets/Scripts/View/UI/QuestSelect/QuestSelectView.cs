@@ -100,7 +100,7 @@ public class QuestSelectView : UIComponentUnity{
 		int index = (int)info["position"];
 		TStageInfo tsi = info["data"] as TStageInfo;
 		TQuestInfo select =  tsi.QuestInfo [index];
-		DataCenter.Instance.currentQuestInfo = select;
+		ConfigBattleUseData.Instance.currentQuestInfo = select;
 		staminaLabel.text = select.Stamina.ToString();
 		floorLabel.text = select.Floor.ToString();
 		doorLabel.text = tsi.StageName;
@@ -161,7 +161,7 @@ public class QuestSelectView : UIComponentUnity{
 	private void ClickQuestItem(QuestItem item){
 		if (DataCenter.gameStage == GameState.Evolve) {return;}
 		TQuestInfo pickedQuest =  item.QuestInfo;
-		DataCenter.Instance.currentQuestInfo = pickedQuest;	
+		ConfigBattleUseData.Instance.currentQuestInfo = pickedQuest;	
 
 		ShowQuestRewardInfo(pickedQuest);
 		ShowBossAvatar(pickedQuest.BossID[ 0 ]);
@@ -473,7 +473,7 @@ public class QuestSelectView : UIComponentUnity{
 				break;
 			}
 		}
-		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessStageList.Count);
+//		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessStageList.Count);
 		return accessStageList;
 	}
 	
@@ -508,7 +508,7 @@ public class QuestSelectView : UIComponentUnity{
 			pageMarkItem.transform.localPosition = PAGE_MARK_OFFSET_X * offsetCount * Vector3.right;
 			pageMarkItemList.Add(pageMarkItem);
 		}
-		Debug.Log("GeneratePageMark(), pageMarkItemList count is : " + pageMarkItemList.Count);
+//		Debug.Log("GeneratePageMark(), pageMarkItemList count is : " + pageMarkItemList.Count);
 	}
 
 	private void InitQuestRootPos(int count){

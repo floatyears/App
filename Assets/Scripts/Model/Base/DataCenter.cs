@@ -86,11 +86,11 @@ public class DataCenter {
 //		get { return startQuestInfo; }
 //	}
 
-	private TFriendInfo battleFriend;
-	public TFriendInfo BattleFriend {
-		set { battleFriend = value; }
-		get { return battleFriend; }
-	}
+//	private TFriendInfo battleFriend;
+//	public TFriendInfo BattleFriend {
+//		set { battleFriend = value; }
+//		get { return battleFriend; }
+//	}
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
@@ -531,18 +531,12 @@ public class DataCenter {
 
 	public List<TCityInfo> GetCityListInfo(){
 		if(CityListInfo.Count == 0){
-			Debug.Log("DataCenter.GetCityListInfo(), CityListInfo is NULL");
+//			Debug.Log("DataCenter.GetCityListInfo(), CityListInfo is NULL");
 			CityListInfo = DGTools.LoadCityList();
 		}
-		Debug.Log("DataCenter.GetCityListInfo(), CityListInfo count is : " + CityListInfo.Count);
+//		Debug.Log("DataCenter.GetCityListInfo(), CityListInfo count is : " + CityListInfo.Count);
 		return CityListInfo;
 	}
-
-//	public uint currentPickedStageID;
-	public TStageInfo currentStageInfo;// {
-//		get { return city }
-//	}
-	public TQuestInfo currentQuestInfo;
 
 	public TFriendInfo GetSupporterInfo(uint friendUid){
 		foreach (var item in SupportFriends) {
@@ -602,7 +596,7 @@ public class DataCenter {
 	private Dictionary<uint, UIAtlas> avatarAtalsDic = new Dictionary<uint, UIAtlas>();
 	public UIAtlas GetAvatarAtlas(uint unitID){
 		if(avatarAtalsDic.Count == 0){
-			Debug.LogError("DataCenter :: avatarAtalsDic is empty, loading...");
+//			Debug.LogError("DataCenter :: avatarAtalsDic is empty, loading...");
 			LoadAvatarAtlas();
 		}
 		uint index = unitID/AVATAR_ATLAS_CAPACITY;
@@ -623,7 +617,7 @@ public class DataCenter {
 			avatarAtalsDic.Add(i, atlas);
 		}
 		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;
-		Debug.Log("DataCenter.LoadAvatarAtlas(), successful is : " + successful);
+//		Debug.Log("DataCenter.LoadAvatarAtlas(), successful is : " + successful);
 		return successful;
 	}
 

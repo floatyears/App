@@ -30,6 +30,33 @@ public class GameDataStore {
 		return info;
 	}
 
+	public void StoreDataNoEncrypt(string key, object value) {
+		string info = value.ToString ();
+		PlayerPrefs.SetString (key, info);
+	}
+
+	public string GetDataNoEncrypt(string key) {
+		string info = string.Empty;
+		if (PlayerPrefs.HasKey (key)) {
+			info = PlayerPrefs.GetString (key);
+		} 
+		return info;
+	}
+
+	public void DeleteInfo(string key) {
+		if (PlayerPrefs.HasKey (key)) {
+			PlayerPrefs.DeleteKey(key);
+		} 
+	}
+
+	public bool HasInfo(string key) {
+		if (PlayerPrefs.HasKey (key)) {
+			return true;
+		} else {
+			return false;	
+		}
+	}
+
 	public int GetInt(string key) {
 		string data = GetData(key);
 		if (data.Length == 0)
@@ -50,4 +77,6 @@ public class GameDataStore {
 
 	public const string USER_ID = "userid";
 	public const string UUID = "uuid";
+
+	public const string battleStore = "storeBattleData";
 }

@@ -25,7 +25,7 @@ public class EnemyItem : UIBaseUnity {
 	[HideInInspector]
 	public BattleEnemy battleEnemy;
 	[HideInInspector]
-	public GameObject prevEffect = null;
+//	public GameObject prevEffect = null;
 
     void OnEnable() {
         MsgCenter.Instance.AddListener(CommandEnum.EnemyAttack, EnemyAttack);
@@ -50,21 +50,21 @@ public class EnemyItem : UIBaseUnity {
     }
 	
     void ReduceDefense(object data) {
-        TClass<int,int,float> tc = data as TClass<int,int,float>;
-        if (tc == null) {
-            return;	
+		AttackInfo reduceDefense = data as AttackInfo;
+		if (reduceDefense == null) {
+            return;
         }
     }
 
     Queue<AttackInfo> attackQueue = new Queue<AttackInfo>();
     void Attack(object data) {
         AttackInfo ai = data as AttackInfo;
-        if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol) {
+        if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol || ai.AttackValue == 0) {
             return;
         }
-		if (prevEffect != null) {
-			Destroy(prevEffect);
-        }
+//		if (prevEffect != null) {
+//			Destroy(prevEffect);
+//        }
         attackQueue.Enqueue(ai);
         GameTimer.GetInstance().AddCountDown(0.3f, Effect);
     }
@@ -74,7 +74,7 @@ public class EnemyItem : UIBaseUnity {
 		DisposeRestraint (ai);
 		DGTools.PlayAttackSound (ai.AttackType);
         ShowHurtInfo(ai.InjuryValue);
-		battleEnemy.PlayerEffect (this, ai);
+		battleEnemy.EnemyItemPlayEffect (this, ai);
 //		ShowInjuredEffect (ai);
 //        InjuredShake();
     }
@@ -134,13 +134,15 @@ public class EnemyItem : UIBaseUnity {
         iTween.ShakeScale(texture.gameObject, iTween.Hash("amount", new Vector3(0.5f, 0.5f, 0.5f), "time", 0.2f));
     }
 
+	AttackInfo posionAttack;
+
     void BePosion(object data) {
-        AttackInfo ai = data as AttackInfo;
-        if (ai == null) {
+		posionAttack = data as AttackInfo;
+		if (posionAttack == null) {
             return;	
         }
         Debug.Log("play posion animation");
-        Debug.Log("posion round : " + ai.AttackRound);
+		Debug.Log("posion round : " + posionAttack.AttackRound);
     }
 
     void SkillPosion(object data) {
@@ -259,8 +261,10 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void SetData(TEnemyInfo seu) {
-        SetBloodLabel(seu.GetBlood());
-        SetNextLabel(seu.GetRound());
+//		SetBloodLabel(seu.EnemyInfo().currentHp);
+//		Debug.LogError (enemyInfo.initBlood + " SetData : " + enemyInfo.GetInitBlood ());
+		bloodSprite.fillAmount =(float)enemyInfo.initBlood / enemyInfo.GetInitBlood();
+		SetNextLabel(seu.EnemyInfo().currentNext);
     }
 
     void SetBlood(float value) {

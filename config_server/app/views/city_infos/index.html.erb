@@ -1,4 +1,4 @@
-<h1>City配置|<%= link_to "下载city",download_city_infos_path%></h1>
+<h1>City配置|<%= link_to "下载city",download_city_infos_path%>|<%= link_to "上传配置文件",upload_config_city_infos_path%></h1>
 <table class="table table-bordered table-hover">
   <thead>
     <tr>
@@ -19,7 +19,7 @@
       <td><%= city.try(:version)%></td>
       <td><%= city.try(:id)%></td>
       <td><%= city.try(:state)%></td>
-      <td><%= city.try(:cityName) %></td>
+      <td><%= city.try(:cityName).force_encoding("UTF-8") %></td>
       <td><%= city.try(:description) %></td>
       <td>
         <table class="table table-bordered table-hover">
@@ -52,7 +52,7 @@
               <td><%= stage.try(:id)%></td>
               <td><%= stage.try(:state)%></td>
               <td><%= stage.try(:type)%></td>
-              <td><%= stage.try(:stageName)%></td>
+              <td><%= stage.try(:stageName).force_encoding("UTF-8")%></td>
               <td><%= stage.try(:description)%></td>
               <td><%= stage.try(:startTime)%></td>
               <td><%= stage.try(:endTime)%></td>
@@ -69,7 +69,7 @@
                   id:<%= quest.try(:id)%>;
                   state:<%= quest.try(:state)%>;
                   no:<%= quest.try(:no)%>;
-                  name:<%= quest.try(:name)%>;
+                  name:<%= quest.try(:name).force_encoding("UTF-8")%>;
                   story:<%= quest.try(:story)%>;
                   stamina:<%= quest.try(:stamina)%>;
                   floor:<%= quest.try(:floor)%>;

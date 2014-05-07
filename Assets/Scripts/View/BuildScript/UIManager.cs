@@ -92,7 +92,7 @@ public class UIManager {
 	public void EnterBattle () {
 //		current.HideScene();
 //		baseScene.HideBase ();
-
+		baseScene.CurrentScene = SceneEnum.Fight;
 		ClearAllUIObject ();
 		Resources.UnloadUnusedAssets ();
 		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
@@ -124,7 +124,6 @@ public class UIManager {
 				current.HideScene();
 			}
 
-
 		}
 
 		if(HasUIObject(sEnum))
@@ -138,9 +137,7 @@ public class UIManager {
 		}
 
 		if (current != null) {
-			current.ShowScene();	
-
-			//MsgCenter.Instance.Invoke(CommandEnum.ChangeScene, sEnum);
+			current.ShowScene();		
 		}
 	}
 	
@@ -175,7 +172,7 @@ public class UIManager {
 			break;
 
 		case SceneEnum.Units:
-			//Debug.LogError("SceneEnum.Units");
+//			Debug.LogError("SceneEnum.Units");
 			temp = new UnitsDecorator( sEnum );
 			break;
 

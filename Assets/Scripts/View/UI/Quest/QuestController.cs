@@ -65,7 +65,7 @@ public class QuestController : ConcreteComponent{
 		if(stageSelected == null) {
 			return;
 		}
-		DataCenter.Instance.currentStageInfo = stageSelected;
+		ConfigBattleUseData.Instance.currentStageInfo = stageSelected;
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
 	}

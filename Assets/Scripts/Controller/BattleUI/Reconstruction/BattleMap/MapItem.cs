@@ -12,6 +12,7 @@ public class MapItem : UIBaseUnity {
 	private GameObject mapBack;
 	private GameObject effectPanel;
 	private UISprite mapBackSprite;
+	private UITexture mapBackTexture;
 	private UISprite mapItemSprite;
 	private UISprite gridItemSprite;
 	private UISprite footTips;
@@ -41,9 +42,13 @@ public class MapItem : UIBaseUnity {
 	private bool isOld = false;
 	public bool IsOld {
 		set {
+//			Debug.LogError("coor : " + coor.x + " y : " + coor.y + " value : " + value);
 			isOld = value; 
 		}
-		get{return isOld;}
+		get{
+//			Debug.LogError("coor : " + coor.x + " y : " + coor.y + " isOld : " + isOld);
+			return isOld;
+		}
 	}
 
 	private bool isRotate = false;
@@ -69,7 +74,7 @@ public class MapItem : UIBaseUnity {
 		string[] info = name.Split('|');
 		int x = System.Int32.Parse (info[0]);
 		int y = System.Int32.Parse (info [1]);
-		gridItem = BattleQuest.questDungeonData.GetSingleFloor (new Coordinate (x, y));
+		gridItem = ConfigBattleUseData.Instance.questDungeonData.GetSingleFloor (new Coordinate (x, y));
 		InitStar ();
 		if (gridItem != null) {
 			switch (gridItem.Star) {
@@ -100,12 +105,12 @@ public class MapItem : UIBaseUnity {
 					uint unitID = gridItem.Enemy [0].UnitID;
 					TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 					if (tui != null) {
-						UITexture tex = mapBack.AddComponent<UITexture>();
-						tex.depth = 4;
+						mapBackTexture = mapBack.AddComponent<UITexture>();
+						mapBackTexture.depth = 4;
 						Destroy(mapBackSprite);
-						tex.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
-						tex.width = 104;
-						tex.height = 104;
+						mapBackTexture.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
+						mapBackTexture.width = 104;
+						mapBackTexture.height = 104;
 					}
 				}
 				break;
@@ -202,7 +207,7 @@ public class MapItem : UIBaseUnity {
 	}
 
 	public override void ShowUI() {
-		isOld = false;
+		IsOld = false;
 	}
 
 	public void HideEnvirment(bool b) {
@@ -221,9 +226,14 @@ public class MapItem : UIBaseUnity {
 		StartCoroutine (MeetEffect ());
 	}
 
-	public void RotateAll(Callback cb) {
+	public void RotateAll(Callback cb,bool allShow) {
 		animEnd = cb;
-		GridAnim ( "AllRotateEnd");
+		if (isOld && allShow) {
+			ShowBattleEnd("AllRotateEnd");
+		}
+		else{
+			GridAnim ( "AllRotateEnd");
+		}
 	}
 	
 	IEnumerator MeetEffect () {
@@ -244,7 +254,38 @@ public class MapItem : UIBaseUnity {
 			GridAnim ("RotateEnd");	
 		}
 	}
-	
+
+	public void HideGridNoAnim() {
+		IsOld = true;
+		HideShowSprite (false);
+		gridItemSprite.enabled = false;
+		mapItemSprite.enabled = false;
+		mapBackSprite.enabled = false;
+	}
+
+	void ShowBattleEnd(string funciton) {
+		GameObject go = null;
+		if (mapBackSprite == null) {
+			if(mapBackTexture != null) {
+				go = mapBackTexture.gameObject;
+				go.SetActive(true);
+				mapBackTexture.enabled = true;
+			}
+		} else if (!mapBackSprite.gameObject.activeSelf) {
+			go = mapBackSprite.gameObject;
+			go.SetActive(true);
+			mapBackSprite.enabled = true;
+		}
+
+		TweenAlpha ta = go.GetComponent<TweenAlpha> ();
+		ta.enabled = true;
+		ta.Reset ();
+
+		if(animEnd != null) {
+			Invoke(funciton, 0.5f);
+		}	
+	}
+
 	Callback animEnd;
 	List<GameObject> gridAnim = new List<GameObject> ();
 	public void GridAnim(string function) {
@@ -252,10 +293,11 @@ public class MapItem : UIBaseUnity {
 			if(animEnd != null) {
 				Invoke(function, 0.5f);
 			}	
+			
 			return;
 		}
 			
-		isOld = true;
+		IsOld = true;
 		showStarSprite.Clear ();
 
 		if(!mapBack.activeSelf) {
@@ -316,6 +358,7 @@ public class MapItem : UIBaseUnity {
 	}
 
 	void RotateEnd () {
+//		Debug.LogError ("RotateEnd");
 		mapBack.SetActive(false);
 		HideGrid ();
 	}
@@ -359,7 +402,7 @@ public class MapItem : UIBaseUnity {
 				float value = DGTools.RandomToFloat();
 				float temp = 0.3f;
 				if(isLockAttack) {
-					temp =0.01f;
+					temp = 0.01f;
 				}
 				if(value <= temp) {
 					eae = EnemyAttackEnum.BackAttack;
@@ -389,16 +432,13 @@ public class MapItem : UIBaseUnity {
 		if (isOld) {
 			return false;	
 		}
-
 		if (countShow == 2 && gridItem.Type == bbproto.EQuestGridType.Q_ENEMY) {
 			return true;
 		}
-
 		return false;
 	}
 
 	public void AddSecurityLevel() {
-//		Debug.LogError (gameObject + "AddSecurityLevel" + coor.x + " y : " + coor.y);
 		if(countShow < 2) {
 			countShow++;
 			string name = GetStarSpriteName ();
@@ -425,7 +465,6 @@ public class MapItem : UIBaseUnity {
 		if (countShow == -1) {
 			countShow = DGTools.RandomToInt(0, 3);
 		}
-//		Debug.LogError (" GetStarSpriteName: " + countShow);
 		string name = "";
 		switch (countShow) {
 		case 0:

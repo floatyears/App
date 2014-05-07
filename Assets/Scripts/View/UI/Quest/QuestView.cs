@@ -119,7 +119,7 @@ public class QuestView : UIComponentUnity{
 			}
 			cityViewInfo.Add(cityItem, data[ i ]);
 		}
-		Debug.Log("InitWorldMap(), cityViewInfo countt is : " + cityViewInfo.Count);
+//		Debug.Log("InitWorldMap(), cityViewInfo countt is : " + cityViewInfo.Count);
 	}
 
 
@@ -148,7 +148,7 @@ public class QuestView : UIComponentUnity{
 	/// </summary>
 	/// <param name="item">Item.</param>
 	private void ClickCityItem(GameObject item){
-		Debug.Log("QuestView.ClickCityItem(), picked city's name is : " + item.name);
+//		Debug.Log("QuestView.ClickCityItem(), picked city's name is : " + item.name);
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 		MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
 	}

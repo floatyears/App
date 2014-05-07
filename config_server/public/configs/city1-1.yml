@@ -1,0 +1,3532 @@
+# encoding: UTF-8
+city:
+  version: 1  ###不用填###
+  id: 1		#CityId, 即系列Id
+  state: 1  ###不用填###
+  cityName: "雾隐山脉"
+  description: "" ###不用填###
+  stages:
+    -
+      version: 1 ###不用填###
+      cityId: 1 #
+      id: 11		#stageId, 大关Id
+      state: 0   ###不用填###
+      type: 0	 #关卡类型：STORY=0;  EVENT=1;  EVOLVE=2;
+      stageName: "恶魔迎宾馆"  #关卡名称
+      description: ""    ###不用填###
+      startTime: 1397269535  #活动关卡开始时间
+      endTime: 1397269535	 #活动关卡结束时间
+      boost: #用于金币加倍、Exp加倍、掉率加倍等活动
+# BOOST_NONE     = 0
+# BOOST_MONEY    = 1
+# BOOST_EXP      = 2
+# BOOST_DROPRATE = 3
+# BOOST_DROPPLUS = 4		  
+        type: 0		#type的取值如上
+        value: 2    #表示倍数
+      quests:
+        -
+          id: 111		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 1    #关卡序号,固定为:1,2,3,4,5...
+          name: "史莱姆前锋"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 5		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [2]	#boss Id列表
+          enemyId: [1,2,3]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 63	#boss的卡牌Id
+                type: 2		#属性
+                hp: 230		
+                attack: 30
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 63		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.35			#掉率
+                addRate: 0.005		#'+'的掉率
+              -
+                enemyId: 2
+                unitId: 65
+                type: 3
+                hp: 280		
+                attack: 15
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 65
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005			 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 49		#小怪的卡牌Id
+                type: 1			#小怪的属性
+                hp: 18
+                attack: 6
+                defense: 1
+                nextAttack: 3
+                dropUnitId: 49
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 51
+                type: 2
+                hp: 20
+                attack: 6
+                defense: 1
+                nextAttack: 3
+                dropUnitId: 51
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 53
+                type: 3
+                hp: 23
+                attack: 7
+                defense: 1
+                nextAttack: 3
+                dropUnitId: 53
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [49,51]		#小怪集合
+                    enemyNum: {min: 1,max: 1}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 50,max: 75}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 1,max: 2}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 100,max: 110}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 120,max: 130}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 1,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 160,max: 170}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 220,max: 230}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 3,max: 5}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 450,max: 460}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 6,max: 6}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]
+        -
+          id: 112		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 2    #关卡序号,固定为:1,2,3,4,5...
+          name: "野猪中后卫"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 6		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 75	#boss的卡牌Id
+                type: 2		#属性
+                hp: 350		
+                attack: 12
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 75		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.15			#掉率
+                addRate: 0.005		#'+'的掉率
+              -
+                enemyId: 2
+                unitId: 77
+                type: 3
+                hp: 400		
+                attack: 14
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 77
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005			 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 49		#小怪的卡牌Id
+                type: 1			#小怪的属性
+                hp: 18
+                attack: 6
+                defense: 1
+                nextAttack: 3
+                dropUnitId: 49
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 51
+                type: 2
+                hp: 20
+                attack: 6
+                defense: 1
+                nextAttack: 3
+                dropUnitId: 51
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 53
+                type: 3
+                hp: 23
+                attack: 7
+                defense: 1
+                nextAttack: 3
+                dropUnitId: 53
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [49,51]		#小怪集合
+                    enemyNum: {min: 1,max: 1}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 50,max: 75}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 1,max: 2}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 100,max: 110}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 120,max: 130}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 1,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 160,max: 170}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 220,max: 230}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 3,max: 5}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 450,max: 460}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 6,max: 6}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]
+        -
+          id: 113		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 3    #关卡序号,固定为:1,2,3,4,5...
+          name: "飞天河马守门员"
+          story: "" 		###不用填###
+          stamina: 5		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 15		#奖励的Exp
+          rewardMoney: 160	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 89	#boss的卡牌Id
+                type: 3		#属性
+                hp: 1200
+                attack: 62
+                defense: 9
+                nextAttack: 3
+                dropUnitId: 89		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.1			#掉率
+                addRate: 0.005		#'+'的掉率				 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 49		#小怪的卡牌Id
+                type: 1			#小怪的属性
+                hp: 18
+                attack: 6
+                defense: 1
+                nextAttack: 3
+                dropUnitId: 49
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 51
+                type: 2
+                hp: 20
+                attack: 6
+                defense: 1
+                nextAttack: 3
+                dropUnitId: 51
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 53
+                type: 3
+                hp: 23
+                attack: 7
+                defense: 1
+                nextAttack: 3
+                dropUnitId: 53
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 30,max: 55}	#金币范围
+                    enemyPool: [49,51]		#小怪集合
+                    enemyNum: {min: 1,max: 1}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 75,max: 85}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 1,max: 2}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 140,max: 150}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 180,max: 190}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 1,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 220,max: 230}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 290,max: 300}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 3,max: 5}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 600,max: 610}
+                    enemyPool: [49,51,53]
+                    enemyNum: {min: 6,max: 6}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 600,max: 610}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]
+    -
+      version: 1 ###不用填###
+      cityId: 1 #
+      id: 12		#stageId, 大关Id
+      state: 0   ###不用填###
+      type: 0	 #关卡类型：STORY=0;  EVENT=1;  EVOLVE=2;
+      stageName: "火石洞窟"  #关卡名称
+      description: ""    ###不用填###
+      startTime: 1397269535  #活动关卡开始时间
+      endTime: 1397269535	 #活动关卡结束时间
+      boost: #用于金币加倍、Exp加倍、掉率加倍等活动
+# BOOST_NONE     = 0
+# BOOST_MONEY    = 1
+# BOOST_EXP      = 2
+# BOOST_DROPRATE = 3
+# BOOST_DROPPLUS = 4		  
+        type: 0		#type的取值如上
+        value: 2    #表示倍数
+      quests:
+        -
+          id: 121		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 1    #关卡序号,固定为:1,2,3,4,5...
+          name: "红兔子的执念"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 8		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 50	#boss的卡牌Id
+                type: 1		#属性
+                hp: 739		
+                attack: 49
+                defense: 5
+                nextAttack: 2
+                dropUnitId: 49		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.5			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 49		#小怪的卡牌Id
+                type: 1			#小怪的属性
+                hp: 74
+                attack: 23
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 49
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 61
+                type: 1
+                hp: 85
+                attack: 42
+                defense: 3
+                nextAttack: 2
+                dropUnitId: 61
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 73
+                type: 1
+                hp: 137
+                attack: 43
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 73
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 199
+                type: 1
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 199
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [49]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 50,max: 75}
+                    enemyPool: [49]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 100,max: 110}
+                    enemyPool: [49,61]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 120,max: 130}
+                    enemyPool: [49,61]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 160,max: 170}
+                    enemyPool: [61,73]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 220,max: 230}
+                    enemyPool: [61,73]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 450,max: 460}
+                    enemyPool: [61,73,199]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]
+        -
+          id: 122		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 2    #关卡序号,固定为:1,2,3,4,5...
+          name: "独眼怪修行"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 15		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 86	#boss的卡牌Id
+                type: 1		#属性
+                hp: 1150		
+                attack: 57
+                defense: 18
+                nextAttack: 3
+                dropUnitId: 85		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.1			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 49		#小怪的卡牌Id
+                type: 1			#小怪的属性
+                hp: 74
+                attack: 23
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 49
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 61
+                type: 1
+                hp: 85
+                attack: 42
+                defense: 3
+                nextAttack: 2
+                dropUnitId: 61
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 73
+                type: 1
+                hp: 137
+                attack: 43
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 73
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 199
+                type: 1
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 199
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [49]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 50,max: 75}
+                    enemyPool: [49]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 100,max: 110}
+                    enemyPool: [49,61]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 120,max: 130}
+                    enemyPool: [49,61]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 160,max: 170}
+                    enemyPool: [61,73]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 220,max: 230}
+                    enemyPool: [61,73]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 450,max: 460}
+                    enemyPool: [61,73,199]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]		
+        -
+          id: 123		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 3    #关卡序号,固定为:1,2,3,4,5...
+          name: "火焰之主"
+          story: "" 		###不用填###
+          stamina: 5		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 29		#奖励的Exp
+          rewardMoney: 160	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 26	#boss的卡牌Id
+                type: 1		#属性
+                hp: 1425		
+                attack: 80
+                defense: 10
+                nextAttack: 3
+                dropUnitId: 25		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.001			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 49		#小怪的卡牌Id
+                type: 1			#小怪的属性
+                hp: 74
+                attack: 23
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 49
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 61
+                type: 1
+                hp: 85
+                attack: 42
+                defense: 3
+                nextAttack: 2
+                dropUnitId: 61
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 73
+                type: 1
+                hp: 137
+                attack: 43
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 73
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 199
+                type: 1
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 199
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 30,max: 55}	#金币范围
+                    enemyPool: [49]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 75,max: 85}
+                    enemyPool: [49]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 140,max: 150}
+                    enemyPool: [49,61]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 180,max: 190}
+                    enemyPool: [49,61]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 220,max: 230}
+                    enemyPool: [61,73]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 290,max: 300}
+                    enemyPool: [61,73]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 600,max: 610}
+                    enemyPool: [61,73,199]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]		
+  stages:
+    -
+      version: 1 ###不用填###
+      cityId: 1 #
+      id: 13		#stageId, 大关Id
+      state: 0   ###不用填###
+      type: 0	 #关卡类型：STORY=0;  EVENT=1;  EVOLVE=2;
+      stageName: "寒石洞窟"  #关卡名称
+      description: ""    ###不用填###
+      startTime: 1397269535  #活动关卡开始时间
+      endTime: 1397269535	 #活动关卡结束时间
+      boost: #用于金币加倍、Exp加倍、掉率加倍等活动
+# BOOST_NONE     = 0
+# BOOST_MONEY    = 1
+# BOOST_EXP      = 2
+# BOOST_DROPRATE = 3
+# BOOST_DROPPLUS = 4		  
+        type: 0		#type的取值如上
+        value: 2    #表示倍数
+      quests:
+        -
+          id: 131		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 1    #关卡序号,固定为:1,2,3,4,5...
+          name: "蓝兔子的执念"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 9		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 52	#boss的卡牌Id
+                type: 2		#属性
+                hp: 950		
+                attack: 51
+                defense: 5
+                nextAttack: 2
+                dropUnitId: 51		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.5			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 51		#小怪的卡牌Id
+                type: 2			#小怪的属性
+                hp: 84
+                attack: 26
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 51
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 63
+                type: 2
+                hp: 94
+                attack: 45
+                defense: 3
+                nextAttack: 2
+                dropUnitId: 63
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 75
+                type: 2
+                hp: 160
+                attack: 48
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 75
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 202
+                type: 2
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 202
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [51]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 50,max: 75}
+                    enemyPool: [51]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 100,max: 110}
+                    enemyPool: [51,63]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 120,max: 130}
+                    enemyPool: [51,63]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 160,max: 170}
+                    enemyPool: [63,75]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 220,max: 230}
+                    enemyPool: [63,75]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 450,max: 460}
+                    enemyPool: [63,75,202]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]		
+        -
+          id: 132		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 2    #关卡序号,固定为:1,2,3,4,5...
+          name: "传说的雪怪"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 15		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 88	#boss的卡牌Id
+                type: 2		#属性
+                hp: 1257		
+                attack: 70
+                defense: 18
+                nextAttack: 3
+                dropUnitId: 87		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.1			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 51		#小怪的卡牌Id
+                type: 2			#小怪的属性
+                hp: 84
+                attack: 26
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 51
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 63
+                type: 2
+                hp: 94
+                attack: 45
+                defense: 3
+                nextAttack: 2
+                dropUnitId: 63
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 75
+                type: 2
+                hp: 160
+                attack: 48
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 75
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 202
+                type: 2
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 202
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [51]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 50,max: 75}
+                    enemyPool: [51]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 100,max: 110}
+                    enemyPool: [51,63]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 120,max: 130}
+                    enemyPool: [51,63]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 160,max: 170}
+                    enemyPool: [63,75]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 220,max: 230}
+                    enemyPool: [63,75]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 450,max: 460}
+                    enemyPool: [63,75,202]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]		
+        -
+          id: 133		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 3    #关卡序号,固定为:1,2,3,4,5...
+          name: "冰雪之主"
+          story: "" 		###不用填###
+          stamina: 5		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 29		#奖励的Exp
+          rewardMoney: 160	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 30	#boss的卡牌Id
+                type: 2		#属性
+                hp: 1689		
+                attack: 72
+                defense: 10
+                nextAttack: 3
+                dropUnitId: 29		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.001			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 51		#小怪的卡牌Id
+                type: 2			#小怪的属性
+                hp: 84
+                attack: 26
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 51
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 63
+                type: 2
+                hp: 94
+                attack: 45
+                defense: 3
+                nextAttack: 2
+                dropUnitId: 63
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 75
+                type: 2
+                hp: 160
+                attack: 48
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 75
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 202
+                type: 2
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 202
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 30,max: 55}	#金币范围
+                    enemyPool: [51]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 75,max: 85}
+                    enemyPool: [51]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 140,max: 150}
+                    enemyPool: [51,63]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 180,max: 190}
+                    enemyPool: [51,63]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 220,max: 230}
+                    enemyPool: [63,75]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 290,max: 300}
+                    enemyPool: [63,75]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 600,max: 610}
+                    enemyPool: [63,75,202]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]		
+    -
+      version: 1 ###不用填###
+      cityId: 1 #
+      id: 14		#stageId, 大关Id
+      state: 0   ###不用填###
+      type: 0	 #关卡类型：STORY=0;  EVENT=1;  EVOLVE=2;
+      stageName: "滑石洞窟"  #关卡名称
+      description: ""    ###不用填###
+      startTime: 1397269535  #活动关卡开始时间
+      endTime: 1397269535	 #活动关卡结束时间
+      boost: #用于金币加倍、Exp加倍、掉率加倍等活动
+# BOOST_NONE     = 0
+# BOOST_MONEY    = 1
+# BOOST_EXP      = 2
+# BOOST_DROPRATE = 3
+# BOOST_DROPPLUS = 4		  
+        type: 0		#type的取值如上
+        value: 2    #表示倍数
+      quests:
+        -
+          id: 141		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 1    #关卡序号,固定为:1,2,3,4,5...
+          name: "绿兔子的执念"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 10		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 54	#boss的卡牌Id
+                type: 3		#属性
+                hp: 1162		
+                attack: 55
+                defense: 5
+                nextAttack: 2
+                dropUnitId: 53		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.5			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 53		#小怪的卡牌Id
+                type: 3			#小怪的属性
+                hp: 94
+                attack: 50
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 53
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 65
+                type: 3
+                hp: 107
+                attack: 49
+                defense: 3
+                nextAttack: 2
+                dropUnitId: 65
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 77
+                type: 3
+                hp: 190
+                attack: 56
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 77
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 205
+                type: 3
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 205
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [53]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 60,max: 90}
+                    enemyPool: [53]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 120,max: 130}
+                    enemyPool: [53,65]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 140,max: 150}
+                    enemyPool: [53,65]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 190,max: 200}
+                    enemyPool: [65,77]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 260,max: 270}
+                    enemyPool: [65,77]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 540,max: 550}
+                    enemyPool: [65,77,205]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]		
+        -
+          id: 142		#quest Id: 小关Id
+          state: 0 #不用填#
+          no: 2  #关卡序号,固定为:1,2,3,4,5...
+          name: "飞天河马再登场"
+          story: "" 		#不用填#
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 17		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 90	#boss的卡牌Id
+                type: 3		#属性
+                hp: 1362		
+                attack: 81
+                defense: 18
+                nextAttack: 3
+                dropUnitId: 89		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.1			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 53		#小怪的卡牌Id
+                type: 3			#小怪的属性
+                hp: 94
+                attack: 50
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 53
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 65
+                type: 3
+                hp: 107
+                attack: 49
+                defense: 3
+                nextAttack: 2
+                dropUnitId: 65
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 77
+                type: 3
+                hp: 190
+                attack: 56
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 77
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 205
+                type: 3
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 205
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 #不用填#
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [53]		#小怪集合
+                    enemyNum: {min: 1,max: 2}#小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 60,max: 90}
+                    enemyPool: [53]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 120,max: 130}
+                    enemyPool: [53,65]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 140,max: 150}
+                    enemyPool: [53,65]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 190,max: 200}
+                    enemyPool: [65,77]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 260,max: 270}
+                    enemyPool: [65,77]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 540,max: 550}
+                    enemyPool: [65,77,205]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                  # coin: {min: 450,max: 460}
+                  # enemyPool: [49,51,53]
+                  # enemyNum: {min: 6,max: 6}
+                  # trap: [3,1,8]		
+        -
+          id: 143		#quest Id: 小关Id
+          state: 0 #不用填#
+          no: 3  #关卡序号,固定为:1,2,3,4,5...
+          name: "暴风之主"
+          story: "" 		#不用填#
+          stamina: 5		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 33		#奖励的Exp
+          rewardMoney: 160	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 34	#boss的卡牌Id
+                type: 3		#属性
+                hp: 2217		
+                attack: 90
+                defense: 10
+                nextAttack: 4
+                dropUnitId: 33		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.001			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 53		#小怪的卡牌Id
+                type: 3			#小怪的属性
+                hp: 94
+                attack: 50
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 53
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 65
+                type: 3
+                hp: 107
+                attack: 49
+                defense: 3
+                nextAttack: 2
+                dropUnitId: 65
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 77
+                type: 3
+                hp: 190
+                attack: 56
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 77
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 205
+                type: 3
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 205
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.28
+              -
+                color: 2 #水
+                percent: 0.28
+              -
+                color: 3 #风
+                percent: 0.28
+              -
+                color: 4 #光
+                percent: 0
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 #不用填#
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 35,max: 60}	#金币范围
+                    enemyPool: [53]		#小怪集合
+                    enemyNum: {min: 1,max: 2}#小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 90,max: 100}
+                    enemyPool: [53]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 120,max: 130}
+                    enemyPool: [53,65]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 200,max: 210}
+                    enemyPool: [53,65]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 260,max: 270}
+                    enemyPool: [65,77]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 350,max: 360}
+                    enemyPool: [65,77]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 720,max: 730}
+                    enemyPool: [65,77,205]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                  # coin: {min: 450,max: 460}
+                  # enemyPool: [49,51,53]
+                  # enemyNum: {min: 6,max: 6}
+                  # trap: [3,1,8]	
+    -
+      version: 1 ###不用填###
+      cityId: 1 #
+      id: 15		#stageId, 大关Id
+      state: 0   ###不用填###
+      type: 0	 #关卡类型：STORY=0;  EVENT=1;  EVOLVE=2;
+      stageName: "铜矿高地"  #关卡名称
+      description: ""    ###不用填###
+      startTime: 1397269535  #活动关卡开始时间
+      endTime: 1397269535	 #活动关卡结束时间
+      boost: #用于金币加倍、Exp加倍、掉率加倍等活动
+# BOOST_NONE     = 0
+# BOOST_MONEY    = 1
+# BOOST_EXP      = 2
+# BOOST_DROPRATE = 3
+# BOOST_DROPPLUS = 4		  
+        type: 0		#type的取值如上
+        value: 2    #表示倍数
+      quests:
+        -
+          id: 151		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 1    #关卡序号,固定为:1,2,3,4,5...
+          name: "黄兔子巡逻兵"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 13		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 56	#boss的卡牌Id
+                type: 4		#属性
+                hp: 1580		
+                attack: 101
+                defense: 8
+                nextAttack: 2
+                dropUnitId: 55		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.5			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 55		#小怪的卡牌Id
+                type: 4			#小怪的属性
+                hp: 204
+                attack: 45
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 55
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 67
+                type: 4
+                hp: 204
+                attack: 48
+                defense: 5
+                nextAttack: 2
+                dropUnitId: 67
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 79
+                type: 4
+                hp: 208
+                attack: 53
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 79
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 208
+                type: 4
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 208
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.24
+              -
+                color: 2 #水
+                percent: 0.24
+              -
+                color: 3 #风
+                percent: 0.24
+              -
+                color: 4 #光
+                percent: 0.12
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [55]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 60,max: 90}
+                    enemyPool: [55]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 120,max: 130}
+                    enemyPool: [55,67]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 140,max: 150}
+                    enemyPool: [55,67]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 190,max: 200}
+                    enemyPool: [67,79]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 260,max: 270}
+                    enemyPool: [67,79]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 540,max: 550}
+                    enemyPool: [67,79,208]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]		
+        -
+          id: 152		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 2    #关卡序号,固定为:1,2,3,4,5...
+          name: "飞天猴子小队长"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 23		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 92	#boss的卡牌Id
+                type: 4		#属性
+                hp: 1500		
+                attack: 138
+                defense: 27
+                nextAttack: 3
+                dropUnitId: 91		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.1			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 55		#小怪的卡牌Id
+                type: 4			#小怪的属性
+                hp: 204
+                attack: 45
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 55
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 67
+                type: 4
+                hp: 204
+                attack: 48
+                defense: 5
+                nextAttack: 2
+                dropUnitId: 67
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 79
+                type: 4
+                hp: 208
+                attack: 53
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 79
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 208
+                type: 4
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 208
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.24
+              -
+                color: 2 #水
+                percent: 0.24
+              -
+                color: 3 #风
+                percent: 0.24
+              -
+                color: 4 #光
+                percent: 0.12
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [55]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 60,max: 90}
+                    enemyPool: [55]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 120,max: 130}
+                    enemyPool: [55,67]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 140,max: 150}
+                    enemyPool: [55,67]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 190,max: 200}
+                    enemyPool: [67,79]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 260,max: 270}
+                    enemyPool: [67,79]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 540,max: 550}
+                    enemyPool: [67,79,208]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]							  											  				  					  				  				  					 
+        -
+          id: 153		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 3    #关卡序号,固定为:1,2,3,4,5...
+          name: "雷电之主"
+          story: "" 		###不用填###
+          stamina: 5		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 43		#奖励的Exp
+          rewardMoney: 160	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 38	#boss的卡牌Id
+                type: 4		#属性
+                hp: 2380		
+                attack: 128
+                defense: 15
+                nextAttack: 2
+                dropUnitId: 37		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.001			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 55		#小怪的卡牌Id
+                type: 4			#小怪的属性
+                hp: 204
+                attack: 45
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 55
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 67
+                type: 4
+                hp: 204
+                attack: 48
+                defense: 5
+                nextAttack: 2
+                dropUnitId: 67
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 79
+                type: 4
+                hp: 208
+                attack: 53
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 79
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 208
+                type: 4
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 208
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.24
+              -
+                color: 2 #水
+                percent: 0.24
+              -
+                color: 3 #风
+                percent: 0.24
+              -
+                color: 4 #光
+                percent: 0.12
+              -
+                color: 5 #暗
+                percent: 0
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 35,max: 60}	#金币范围
+                    enemyPool: [55]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 90,max: 100}
+                    enemyPool: [55]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 120,max: 130}
+                    enemyPool: [55,67]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 200,max: 210}
+                    enemyPool: [55,67]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 260,max: 270}
+                    enemyPool: [67,79]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 350,max: 360}
+                    enemyPool: [67,79]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 720,max: 730}
+                    enemyPool: [67,79,208]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]			
+    -
+      version: 1 ###不用填###
+      cityId: 1 #
+      id: 16		#stageId, 大关Id
+      state: 0   ###不用填###
+      type: 0	 #关卡类型：STORY=0;  EVENT=1;  EVOLVE=2;
+      stageName: "紫晶高地"  #关卡名称
+      description: ""    ###不用填###
+      startTime: 1397269535  #活动关卡开始时间
+      endTime: 1397269535	 #活动关卡结束时间
+      boost: #用于金币加倍、Exp加倍、掉率加倍等活动
+# BOOST_NONE     = 0
+# BOOST_MONEY    = 1
+# BOOST_EXP      = 2
+# BOOST_DROPRATE = 3
+# BOOST_DROPPLUS = 4		  
+        type: 0		#type的取值如上
+        value: 2    #表示倍数
+      quests:
+        -
+          id: 161		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 1    #关卡序号,固定为:1,2,3,4,5...
+          name: "紫兔子巡逻兵"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 14		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 58	#boss的卡牌Id
+                type: 5		#属性
+                hp: 2883		
+                attack: 98
+                defense: 8
+                nextAttack: 2
+                dropUnitId: 57		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.5			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 57		#小怪的卡牌Id
+                type: 5			#小怪的属性
+                hp: 223
+                attack: 42
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 57
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 69
+                type: 5
+                hp: 223
+                attack: 48
+                defense: 5
+                nextAttack: 2
+                dropUnitId: 69
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 81
+                type: 5
+                hp: 335
+                attack: 60
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 81
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 211
+                type: 5
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 211
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.22
+              -
+                color: 2 #水
+                percent: 0.22
+              -
+                color: 3 #风
+                percent: 0.22
+              -
+                color: 4 #光
+                percent: 0.1
+              -
+                color: 5 #暗
+                percent: 0.08
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [57]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 60,max: 90}
+                    enemyPool: [57]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 120,max: 130}
+                    enemyPool: [57,69]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 140,max: 150}
+                    enemyPool: [57,69]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 190,max: 200}
+                    enemyPool: [69,81]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 260,max: 270}
+                    enemyPool: [69,81]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 540,max: 550}
+                    enemyPool: [69,81,211]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]	
+        -
+          id: 162		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 2    #关卡序号,固定为:1,2,3,4,5...
+          name: "长舌怪中队长"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 23		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 94	#boss的卡牌Id
+                type: 5		#属性
+                hp: 2587		
+                attack: 120
+                defense: 27
+                nextAttack: 3
+                dropUnitId: 93		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.1			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 57		#小怪的卡牌Id
+                type: 5			#小怪的属性
+                hp: 223
+                attack: 42
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 57
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 69
+                type: 5
+                hp: 223
+                attack: 48
+                defense: 5
+                nextAttack: 2
+                dropUnitId: 69
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 81
+                type: 5
+                hp: 335
+                attack: 60
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 81
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 211
+                type: 5
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 211
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.22
+              -
+                color: 2 #水
+                percent: 0.22
+              -
+                color: 3 #风
+                percent: 0.22
+              -
+                color: 4 #光
+                percent: 0.1
+              -
+                color: 5 #暗
+                percent: 0.08
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 20,max: 45}	#金币范围
+                    enemyPool: [57]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 60,max: 90}
+                    enemyPool: [57]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 120,max: 130}
+                    enemyPool: [57,69]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 140,max: 150}
+                    enemyPool: [57,69]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 190,max: 200}
+                    enemyPool: [69,81]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 260,max: 270}
+                    enemyPool: [69,81]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 540,max: 550}
+                    enemyPool: [69,81,211]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]		
+        -
+          id: 163		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 3    #关卡序号,固定为:1,2,3,4,5...
+          name: "暗影之主"
+          story: "" 		###不用填###
+          stamina: 5		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 48		#奖励的Exp
+          rewardMoney: 160	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 42	#boss的卡牌Id
+                type: 5		#属性
+                hp: 3443		
+                attack: 158
+                defense: 15
+                nextAttack: 2
+                dropUnitId: 41		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.001			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 57		#小怪的卡牌Id
+                type: 5			#小怪的属性
+                hp: 223
+                attack: 42
+                defense: 3
+                nextAttack: 3
+                dropUnitId: 57
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 69
+                type: 5
+                hp: 223
+                attack: 48
+                defense: 5
+                nextAttack: 2
+                dropUnitId: 69
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 81
+                type: 5
+                hp: 335
+                attack: 60
+                defense: 2
+                nextAttack: 3
+                dropUnitId: 81
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 211
+                type: 5
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 211
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.22
+              -
+                color: 2 #水
+                percent: 0.22
+              -
+                color: 3 #风
+                percent: 0.22
+              -
+                color: 4 #光
+                percent: 0.1
+              -
+                color: 5 #暗
+                percent: 0.08
+              -
+                color: 6 #无
+                percent: 0
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 35,max: 60}	#金币范围
+                    enemyPool: [57]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 90,max: 100}
+                    enemyPool: [57]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 120,max: 130}
+                    enemyPool: [57,69]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 200,max: 210}
+                    enemyPool: [57,69]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 260,max: 270}
+                    enemyPool: [69,81]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 350,max: 360}
+                    enemyPool: [69,81]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 720,max: 730}
+                    enemyPool: [69,81,211]
+                    enemyNum: {min: 3,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]			
+    -
+      version: 1 ###不用填###
+      cityId: 1 #
+      id: 17		#stageId, 大关Id
+      state: 0   ###不用填###
+      type: 0	 #关卡类型：STORY=0;  EVENT=1;  EVOLVE=2;
+      stageName: "银矿高地"  #关卡名称
+      description: ""    ###不用填###
+      startTime: 1397269535  #活动关卡开始时间
+      endTime: 1397269535	 #活动关卡结束时间
+      boost: #用于金币加倍、Exp加倍、掉率加倍等活动
+# BOOST_NONE     = 0
+# BOOST_MONEY    = 1
+# BOOST_EXP      = 2
+# BOOST_DROPRATE = 3
+# BOOST_DROPPLUS = 4		  
+        type: 0		#type的取值如上
+        value: 2    #表示倍数
+      quests:
+        -
+          id: 171		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 1    #关卡序号,固定为:1,2,3,4,5...
+          name: "灰兔子巡逻兵"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 32		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 60	#boss的卡牌Id
+                type: 6		#属性
+                hp: 2933		
+                attack: 105
+                defense: 10
+                nextAttack: 2
+                dropUnitId: 59		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.5			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 59		#小怪的卡牌Id
+                type: 6			#小怪的属性
+                hp: 187
+                attack: 43
+                defense: 4
+                nextAttack: 3
+                dropUnitId: 59
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 71
+                type: 6
+                hp: 347
+                attack: 52
+                defense: 6
+                nextAttack: 2
+                dropUnitId: 71
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 83
+                type: 6
+                hp: 480
+                attack: 69
+                defense: 6
+                nextAttack: 3
+                dropUnitId: 83
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 214
+                type: 6
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 214
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.2
+              -
+                color: 2 #水
+                percent: 0.2
+              -
+                color: 3 #风
+                percent: 0.2
+              -
+                color: 4 #光
+                percent: 0.08
+              -
+                color: 5 #暗
+                percent: 0.08
+              -
+                color: 6 #无
+                percent: 0.08
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 25,max: 50}	#金币范围
+                    enemyPool: [59]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 70,max: 80}
+                    enemyPool: [59]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 130,max: 140}
+                    enemyPool: [59,71]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 150,max: 150}
+                    enemyPool: [59,71]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 200,max: 210}
+                    enemyPool: [71,83]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 250,max: 260}
+                    enemyPool: [71,83]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 600,max: 610}
+                    enemyPool: [71,83,83,214]
+                    enemyNum: {min: 4,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]	
+        -
+          id: 172		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 2    #关卡序号,固定为:1,2,3,4,5...
+          name: "大脚怪督查"
+          story: "" 		###不用填###
+          stamina: 3		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 43		#奖励的Exp
+          rewardMoney: 120	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 96	#boss的卡牌Id
+                type: 6		#属性
+                hp: 2587		
+                attack: 128
+                defense: 27
+                nextAttack: 3
+                dropUnitId: 95		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.1			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 59		#小怪的卡牌Id
+                type: 6			#小怪的属性
+                hp: 187
+                attack: 43
+                defense: 4
+                nextAttack: 3
+                dropUnitId: 59
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 71
+                type: 6
+                hp: 347
+                attack: 52
+                defense: 6
+                nextAttack: 2
+                dropUnitId: 71
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 83
+                type: 6
+                hp: 480
+                attack: 69
+                defense: 6
+                nextAttack: 3
+                dropUnitId: 83
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 214
+                type: 6
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 214
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.2
+              -
+                color: 2 #水
+                percent: 0.2
+              -
+                color: 3 #风
+                percent: 0.2
+              -
+                color: 4 #光
+                percent: 0.08
+              -
+                color: 5 #暗
+                percent: 0.08
+              -
+                color: 6 #无
+                percent: 0.08
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 25,max: 50}	#金币范围
+                    enemyPool: [59]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 70,max: 80}
+                    enemyPool: [59]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 130,max: 140}
+                    enemyPool: [59,71]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 150,max: 150}
+                    enemyPool: [59,71]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 200,max: 210}
+                    enemyPool: [71,83]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 250,max: 260}
+                    enemyPool: [71,83]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 600,max: 610}
+                    enemyPool: [71,83,83,214]
+                    enemyNum: {min: 4,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]	
+        -
+          id: 173		#quest Id: 小关Id
+          state: 0 ###不用填###
+          no: 3    #关卡序号,固定为:1,2,3,4,5...
+          name: "大地之主"
+          story: "" 		###不用填###
+          stamina: 5		#所需体力
+          floor: 1			#第几层Floor
+          rewardExp: 62		#奖励的Exp
+          rewardMoney: 160	#奖励的金币
+          bossId: [1]	#boss Id列表
+          enemyId: [1,2,3,4]	#小怪Id列表
+          quest_config:
+            repeatFloor: 1
+            boss:
+              -
+                enemyId: 1	#boss的Id
+                unitId: 46	#boss的卡牌Id
+                type: 6		#属性
+                hp: 4890		
+                attack: 190
+                defense: 40
+                nextAttack: 3
+                dropUnitId: 45		#掉落的卡牌Id
+                dropUnitLevel: 1	#掉落的卡牌Lv
+                dropRate: 0.001			#掉率
+                addRate: 0.005		#'+'的掉率		 					 					 					 
+            enemys:
+              -
+                enemyId: 1		#小怪的Id
+                unitId: 59		#小怪的卡牌Id
+                type: 6			#小怪的属性
+                hp: 187
+                attack: 43
+                defense: 4
+                nextAttack: 3
+                dropUnitId: 59
+                dropUnitLevel: 1
+                dropRate: 0.5
+                addRate: 0.005
+              -
+                enemyId: 2
+                unitId: 71
+                type: 6
+                hp: 347
+                attack: 52
+                defense: 6
+                nextAttack: 2
+                dropUnitId: 71
+                dropUnitLevel: 1
+                dropRate: 0.35
+                addRate: 0.005
+              -
+                enemyId: 3
+                unitId: 83
+                type: 6
+                hp: 480
+                attack: 69
+                defense: 6
+                nextAttack: 3
+                dropUnitId: 83
+                dropUnitLevel: 1
+                dropRate: 0.15
+                addRate: 0.005
+              -
+                enemyId: 4
+                unitId: 214
+                type: 6
+                hp: 10
+                attack: 41
+                defense: 2000
+                nextAttack: 1
+                dropUnitId: 214
+                dropUnitLevel: 1
+                dropRate: 0.3
+                addRate: 0					 
+            colors:
+              -
+                color: 1 #火
+                percent: 0.2
+              -
+                color: 2 #水
+                percent: 0.2
+              -
+                color: 3 #风
+                percent: 0.2
+              -
+                color: 4 #光
+                percent: 0.08
+              -
+                color: 5 #暗
+                percent: 0.08
+              -
+                color: 6 #无
+                percent: 0.08
+              -
+                color: 7 #星
+                percent: 0.16
+            floors:
+              -
+                version: 1 ###不用填###
+                treasureNum: 10	#宝箱数量
+                trapNum: 0		#陷阱数量
+                enemyNum: 10		#敌人数量
+                keyNum: 1		#钥匙数量
+                stars:
+                  -
+                    repeat: 6	#重复次数
+                    star: 1		#几星
+                    coin: {min: 30,max: 55}	#金币范围
+                    enemyPool: [59]		#小怪集合
+                    enemyNum: {min: 1,max: 2}  #小怪数量
+                    trap: [1,2,3]	#陷阱Id集合
+                  -
+                    repeat: 5
+                    star: 2
+                    coin: {min: 100,max: 110}
+                    enemyPool: [59]
+                    enemyNum: {min: 1,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 4
+                    star: 3
+                    coin: {min: 150,max: 160}
+                    enemyPool: [59,71]
+                    enemyNum: {min: 2,max: 3}
+                    trap: [3,1,8]
+                  -
+                    repeat: 3
+                    star: 4
+                    coin: {min: 240,max: 250}
+                    enemyPool: [59,71]
+                    enemyNum: {min: 2,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 5
+                    coin: {min: 300,max: 310}
+                    enemyPool: [71,83]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 2
+                    star: 6
+                    coin: {min: 400,max: 410}
+                    enemyPool: [71,83]
+                    enemyNum: {min: 3,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 9
+                    coin: {min: 800,max: 810}
+                    enemyPool: [71,83,83,214]
+                    enemyNum: {min: 4,max: 4}
+                    trap: [3,1,8]
+                  -
+                    repeat: 1
+                    star: 7
+                    # coin: {min: 450,max: 460}
+                    # enemyPool: [49,51,53]
+                    # enemyNum: {min: 6,max: 6}
+                    # trap: [3,1,8]							  					  					  				  					  					  			     						  

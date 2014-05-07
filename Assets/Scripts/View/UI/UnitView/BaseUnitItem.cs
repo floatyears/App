@@ -115,11 +115,23 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void UpdatEnableState(){
 		maskSpr.enabled = !isEnable;
-		UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
-		if(isEnable)
-			UIEventListenerCustom.Get(this.gameObject).onClick = ClickItem;
-		else
-			UIEventListenerCustom.Get(this.gameObject).onClick = null;
+		//new code by leiliang
+		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
+		listener.LongPress = PressItem;
+		if (isEnable) {
+			listener.onClick = ClickItem;
+		} else {
+			listener.onClick = null;
+		}
+		//new code end
+
+		//old code by lynn
+//		UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
+//		if(isEnable)
+//			UIEventListenerCustom.Get(this.gameObject).onClick = ClickItem;
+//		else
+//			UIEventListenerCustom.Get(this.gameObject).onClick = null;
+		//old code end
 	}
 
 	private void UpdateCrossFadeState(){

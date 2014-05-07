@@ -82,7 +82,7 @@ public class TopUI : UIBaseUnity {
 			floorLabel.text = currentFloor + "/" + maxFloor + "F";
 	}
 
-	public void RefreshTopUI(TQuestDungeonData questData, List<ClearQuestParam> questGet) {
+	public void RefreshTopUI(TQuestDungeonData questData, List<TClearQuestParam> questGet) {
 		int coin = 0;
 		int drop = 0;
 		foreach (var item in questGet) {
@@ -102,9 +102,13 @@ public class TopUI : UIBaseUnity {
 
 	}
 
-	public void SheildInput() {
-		retryButton.isEnabled = false;
-		UIEventListener.Get (menuButton.gameObject).onClick = null;
+	public void SheildInput(bool b) {
+		retryButton.isEnabled = b;
+		if (b) {
+			UIEventListener.Get (menuButton.gameObject).onClick = ShowMenu;
+		} else {
+			UIEventListener.Get (menuButton.gameObject).onClick = null;
+		}
 	}
 
 	void Retry(GameObject go) {

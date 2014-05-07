@@ -2,13 +2,13 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillAttackRecoverHP : ActiveSkill ,IActiveSkillExcute{
+public class TSkillAttackRecoverHP : ActiveSkill {
 	private SkillAttackRecoverHP instance;
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
+//	public bool CoolingDone {
+//		get {
+//			return coolingDone;
+//		}
+//	}
 
 	public TSkillAttackRecoverHP(object instance) : base (instance) {
 //		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
@@ -20,17 +20,17 @@ public class TSkillAttackRecoverHP : ActiveSkill ,IActiveSkillExcute{
 		}
 	}
 
-	public void RefreashCooling () {
-		DisposeCooling ();
-	}
+//	public void RefreashCooling () {
+//		DisposeCooling ();
+//	}
 
-	public object Excute (string userUnitID, int atk = -1) {
+	public override object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
 			return null;	
 		}
 		InitCooling ();
 //		SkillSingleAtkRecoverHP ssarh = DeserializeData<SkillSingleAtkRecoverHP> ();
-		AttackInfo ai = new AttackInfo ();
+		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = (int)instance.attackType;
 

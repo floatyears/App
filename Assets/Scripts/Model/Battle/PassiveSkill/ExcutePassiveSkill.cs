@@ -86,5 +86,4 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			excuteTrap.Excute (ie);	
 		}
 	}
-	
 }

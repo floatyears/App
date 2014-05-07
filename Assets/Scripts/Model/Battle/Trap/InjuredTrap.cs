@@ -61,6 +61,7 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 	
 	void DisposeMine(TrapInfo ti) {
 		float value = DGTools.RandomToFloat();
+		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
 		if(value <= probability) {
 			MsgCenter.Instance.Invoke(CommandEnum.NoSPMove, null);
 		}
@@ -90,8 +91,6 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 
 			MsgCenter.Instance.Invoke(CommandEnum.NoSPMove, cd);
 		}
-		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
-
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_walk_hurt);
 	}
 }
@@ -125,7 +124,7 @@ public class TrapBase : ProtobufDataBase {
 				return -1;
 			}
 			else{
-				return GetInjuredValue.trapLevel;
+				return tiv.trapLevel;
 			}
 		}
 	}

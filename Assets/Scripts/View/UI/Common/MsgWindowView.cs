@@ -102,7 +102,9 @@ public class MsgWindowView : UIComponentUnity{
     }
 
     void Reset(){
-       
+        btnCenterParam = null;
+        btnLeftParam = null;
+        btnRightParam = null;
 
         btnLeft.gameObject.SetActive(false);
         btnRight.gameObject.SetActive(false);
@@ -116,14 +118,8 @@ public class MsgWindowView : UIComponentUnity{
         msgLabelTop.text = string.Empty;
         msgLabelBottom.text = string.Empty;
     }
-
-	void ClearData() {
-		btnCenterParam = null;
-		btnLeftParam = null;
-		btnRightParam = null;
-	}
-	
-	void SetUIElement(){
+	    
+    void SetUIElement(){
         this.gameObject.SetActive(false);
         Reset();
     }
@@ -165,38 +161,43 @@ public class MsgWindowView : UIComponentUnity{
     
     void ClickRightButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ShowSelf(false);
-		if (btnRightParam != null){
-            DataListener callback = btnRightParam.callback;
+        if (btnRightParam != null){
+			BtnParam bp = btnRightParam;
+			ShowSelf(false);
+			DataListener callback = bp.callback;
+
             if (callback != null){
-                callback(btnRightParam.args);
+				callback(bp.args);
             }
         }
-		ClearData ();
-	}
-	
+        
+    }
+    
     void ClickLeftButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ShowSelf(false);
-		if (btnLeftParam != null){
-            DataListener callback = btnLeftParam.callback;
+        if (btnLeftParam != null){
+			BtnParam bp = btnLeftParam;
+			ShowSelf(false);
+			DataListener callback = bp.callback;
+
             if (callback != null){
-                callback(btnLeftParam.args);
+				callback(bp.args);
             }
         }
-		ClearData ();
-	}
-	
-	void ClickCenterButton(GameObject btn){
+       
+    }
+
+    void ClickCenterButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ShowSelf(false);
         if (btnCenterParam != null){
-            DataListener callback = btnCenterParam.callback;
+			BtnParam bp = btnCenterParam;
+			ShowSelf(false);
+			DataListener callback = bp.callback;
             if (callback != null){
-                callback(btnCenterParam.args);
+				callback(bp.args);
             }
         }
-		ClearData ();
+       
     }
 
     void UpdateCenterLabel(string text){
@@ -295,15 +296,4 @@ public class MsgWindowView : UIComponentUnity{
     void CloseMsgWindow(object args){
         ShowSelf(false);
     }
-
-	public UIButton BtnLeft{
-		get{return btnLeft;}
-		private set{ btnLeft = value;}
-	}
-
-	public UIButton BtnRight{
-		get{return btnRight;}
-		private set{btnRight = value;}
-	}
-
 }

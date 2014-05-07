@@ -7,8 +7,9 @@ public class BattleMap : UIBaseUnity {
 	private MapItem[,] map;
 	private MapItem temp;
 	private List<MapItem> prevAround = new List<MapItem>();
-	private List<MapItem> useMapItem = new List<MapItem>();
-	private MapItem prevMapItem;
+//	private List<MapItem> useMapItem = new List<MapItem>();
+	[HideInInspector]
+	public MapItem prevMapItem;
 	private static bool wMove = false;
 	private const float itemWidth = 114f;
 
@@ -70,12 +71,12 @@ public class BattleMap : UIBaseUnity {
 		float xCoor =  template.InitPosition.x + (x / 2) * itemWidth;
 		float yCoor = template.InitPosition.y + y * itemWidth;
 		door.SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
-
+		RefreshMap (bQuest.questData);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
-		useMapItem.Clear ();
+//		useMapItem.Clear ();
 		prevAround.Clear ();
 		gameObject.SetActive (false);
 		for (int i = 0; i < map.GetLength(0); i++) {
@@ -95,7 +96,18 @@ public class BattleMap : UIBaseUnity {
 		gameObject.SetActive (true);
 		StartMap ();
 		MsgCenter.Instance.AddListener (CommandEnum.ShieldMap, ShieldMap);
+	}
 
+	public void RefreshMap(TClearQuestParam cqp) {
+		for (int i = 0; i < cqp.hitGrid.Count; i++) {
+			Coordinate coor = bQuest.questDungeonData.GetGridCoordinate(cqp.hitGrid[i]);
+			map[coor.x,coor.y].HideGridNoAnim();
+		}
+		Coordinate roleCoor = ConfigBattleUseData.Instance.storeBattleData.roleCoordinate;
+
+		if(roleCoor.x != MapConfig.characterInitCoorX || roleCoor.y != MapConfig.characterInitCoorY) {
+			map[MapConfig.characterInitCoorX,MapConfig.characterInitCoorY].HideGridNoAnim();
+		}
 	}
 
 	public MapItem GetMapItem(Coordinate coor) {
@@ -127,13 +139,7 @@ public class BattleMap : UIBaseUnity {
 
 	public bool ReachMapItem(Coordinate coor) {
 		prevMapItem = map[coor.x,coor.y];
-//		ChangeStyle(coor);
-		if(!useMapItem.Contains(prevMapItem)) {
-			useMapItem.Add(prevMapItem);
-			return false;
-		}
-
-		return true;
+		return prevMapItem.IsOld;
 	}
 	private Callback callback = null;
 
@@ -143,7 +149,7 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	public void RotateAll(Callback cb) {
-		prevMapItem.RotateAll (cb);
+		prevMapItem.RotateAll (cb, false);
 	}
 
 	public EnemyAttackEnum FirstOrBackAttack() {
@@ -153,16 +159,21 @@ public class BattleMap : UIBaseUnity {
 	private Callback cb;
 	public void BattleEndRotate (Callback callback) {
 		cb = callback;
-		StartCoroutine (EndRotate ());
+		bool allShow = false;
+		if (cb == null) {
+			allShow = true;
+		}
+						
+		StartCoroutine (EndRotate (allShow));
 	}
 
-	IEnumerator EndRotate () {
+	IEnumerator EndRotate (bool allShow) {
 		for (int i = 0; i < map.GetLength(0); i++) {
 			for (int j = 0; j < map.GetLength(1); j++) {
 				if(i == map.GetLength(0) - 1 && j == map.GetLength(1) - 1){
-					map[i,j].RotateAll(cb);
+					map[i,j].RotateAll(cb,allShow);
 				} else{
-					map[i,j].RotateAll(null);
+					map[i,j].RotateAll(null,allShow);
 				}
 				yield return 10;
 			}

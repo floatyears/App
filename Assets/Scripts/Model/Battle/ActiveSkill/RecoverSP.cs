@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillRecoverSP : ActiveSkill, IActiveSkillExcute {
+public class TSkillRecoverSP : ActiveSkill {
 	private SkillRecoverSP instance;
 	public TSkillRecoverSP (object instance) : base (instance) { 
 		this.instance = instance as SkillRecoverSP;
@@ -13,17 +13,17 @@ public class TSkillRecoverSP : ActiveSkill, IActiveSkillExcute {
 		}
 	}
 
-	public bool CoolingDone {
-		get {
-			return coolingDone;
-		}
-	}
+//	public bool CoolingDone {
+//		get {
+//			return coolingDone;
+//		}
+//	}
+//
+//	public void RefreashCooling () {
+//		DisposeCooling ();
+//	}
 
-	public void RefreashCooling () {
-		DisposeCooling ();
-	}
-
-	public object Excute (string userUnitID, int atk = -1) {
+	public override object Excute (string userUnitID, int atk = -1) {
 //		Debug.LogError ("RecoverSP excute befoure : " + coolingDone + " skillBase.skillCooling " + skillBase.skillCooling);
 		if (!coolingDone) {
 			return null;	
