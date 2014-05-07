@@ -253,7 +253,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void SortCallback(GameObject go) {
-
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
 	}
 
 	bool SetBaseItem(MyUnitItem pui) {
@@ -378,11 +378,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private void SortUnitByCurRule(){
 //		sortRule = curSortRule;
-		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
-		for (int i = unitItemStartPos; i < dragPanel.ScrollItem.Count; i++){
-			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
-			puv.UserUnit = myUnitDataList[ i - 1 ];
-			puv.CurrentSortRule = curSortRule;
+		SortUnitTool.SortByTargetRule(sortRule, myUnitList);
+		List<GameObject> scrollList = new List<GameObject> ();
+		for (int i = 1; i < scrollList.Count; i++){
+			PartyUnitItem puv = scrollList[ i ].GetComponent<PartyUnitItem>();
+			puv.UserUnit = myUnitList[ i - 1 ];
+			puv.CurrentSortRule = sortRule;
 		}
 	}
 }
