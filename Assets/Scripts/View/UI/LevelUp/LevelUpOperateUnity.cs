@@ -59,13 +59,15 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private List<PartyUnitItem> myUnitList = new List<PartyUnitItem> ();
 
+	private List<TUserUnit> myUnit = new List<TUserUnit> ();
+
 	private MyUnitItem prevSelectedItem;
 
 	private MyUnitItem prevMaterialItem;
 
 	void ShowData () {
 		myUnitList.Clear ();
-		List<TUserUnit> myUnit = dataCenter.MyUnitList.GetAllList ();
+		myUnit = dataCenter.MyUnitList.GetAllList ();
 		int dataCount = myUnit.Count;
 		List<GameObject> scroll = myUnitDragPanel.ScrollItem;
 		int itemCount = scroll.Count - 1;	// scroll list index = 0  is reject item;
@@ -378,11 +380,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private void SortUnitByCurRule(){
 //		sortRule = curSortRule;
-		SortUnitTool.SortByTargetRule(sortRule, myUnitList);
+		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
 		List<GameObject> scrollList = new List<GameObject> ();
 		for (int i = 1; i < scrollList.Count; i++){
-			PartyUnitItem puv = scrollList[ i ].GetComponent<PartyUnitItem>();
-			puv.UserUnit = myUnitList[ i - 1 ];
+			PartyUnitItem puv = myUnitList[i];
+			puv.UserUnit = myUnit[ i - 1 ];
 			puv.CurrentSortRule = sortRule;
 		}
 	}
