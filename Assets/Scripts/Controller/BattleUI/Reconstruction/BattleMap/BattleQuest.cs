@@ -128,6 +128,9 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, BattleFail);
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 //		MsgCenter.Instance.AddListener (CommandEnum.LaunchActiveSkill, LaunchActiveSkill);
+
+		LogHelper.Log ("----------current scene: " + UIManager.Instance.current.CurrentDecoratorScene);
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	public override void HideUI () {

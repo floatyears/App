@@ -52,6 +52,17 @@ public partial class TextCenter {
 		textDict.Add ("guide10_content", "choose a party");
 		textDict.Add ("guide11_title", "party complete");
 		textDict.Add ("guide11_content", "complete a party");
+
+		textDict.Add ("guide12_title", "start mission");
+		textDict.Add ("guide12_content", "find the key to open the door");
+		textDict.Add ("guide13_title", "move method");
+		textDict.Add ("guide13_content", "click the direction to move");
+		textDict.Add ("guide14_title", "gold box");
+		textDict.Add ("guide14_content", "you get some gold.");
+		textDict.Add ("guide15_title", "movement and sp");
+		textDict.Add ("guide15_content", "every move costs one sp.so don't let the sp goto 0.");
+		textDict.Add ("guide16_title", "enemy floor");
+		textDict.Add ("guide16_content", "five star means dangerous.be careful to move.Then we'll be in battle!");
 //		textDict.Add ("guide8_title", "");
 //		textDict.Add ("guide8_content", "");
 //		textDict.Add ("guide8_title", "");

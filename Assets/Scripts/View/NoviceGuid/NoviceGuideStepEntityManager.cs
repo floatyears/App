@@ -78,6 +78,9 @@ public class NoviceGuideStepEntityManager {
 			case SceneEnum.Units:
 				CreateStepEntityByID(NoviceGuideStepEntityID.UNITS);
 				break;
+			case SceneEnum.Fight:
+				CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT);
+				break;
 		}
 	}
 
@@ -174,6 +177,9 @@ public class NoviceGuideStepEntityManager {
 				case NoviceGuideStepEntityID.UNITS:
 					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepG_StateOne.Instance());
 					break;
+				case NoviceGuideStepEntityID.FIGHT:
+					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepH_StateOne.Instance());
+					break;
 				default:
 					LogHelper.LogError("-----------=========------------there is no such step:" + id.ToString());
 					break;
@@ -203,4 +209,5 @@ public enum NoviceGuideStepEntityID{
 	QUEST = 5,
 	PARTY = 6,
 	UNITS = 7,
+	FIGHT = 8
 }

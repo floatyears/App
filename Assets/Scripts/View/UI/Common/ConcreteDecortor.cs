@@ -121,7 +121,7 @@ public class QuestDecorator : DecoratorBase{
 		sceneInfoBar.SetBackScene(SceneEnum.None);
 		base.ShowScene();
 
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+		//NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 		
 	public override void HideScene(){
