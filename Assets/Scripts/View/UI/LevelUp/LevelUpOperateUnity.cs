@@ -10,10 +10,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		ShowData ();
+
+		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void DestoryUI () {
@@ -31,7 +34,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private SortRule _sortRule;
 	public SortRule sortRule {
 		get { return _sortRule; }
-		set { _sortRule = value; }
+		set { 
+			_sortRule = value;
+			infoLabel[5].text = _sortRule.ToString();
+		}
 	}
 
 	private DataCenter dataCenter;
@@ -362,6 +368,21 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				}
 				pui.IsEnable = true;
 			}
+		}
+	}
+
+	private void ReceiveSortInfo(object msg){
+		sortRule = (SortRule)msg;
+		SortUnitByCurRule();
+	}
+
+	private void SortUnitByCurRule(){
+//		sortRule = curSortRule;
+		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
+		for (int i = unitItemStartPos; i < dragPanel.ScrollItem.Count; i++){
+			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
+			puv.UserUnit = myUnitDataList[ i - 1 ];
+			puv.CurrentSortRule = curSortRule;
 		}
 	}
 }
