@@ -10,10 +10,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		ShowData ();
+
+		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void DestoryUI () {
@@ -31,7 +34,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private SortRule _sortRule;
 	public SortRule sortRule {
 		get { return _sortRule; }
-		set { _sortRule = value; }
+		set { 
+			_sortRule = value;
+			infoLabel[5].text = _sortRule.ToString();
+		}
 	}
 
 	private DataCenter dataCenter;
@@ -53,13 +59,15 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private List<PartyUnitItem> myUnitList = new List<PartyUnitItem> ();
 
+	private List<TUserUnit> myUnit = new List<TUserUnit> ();
+
 	private MyUnitItem prevSelectedItem;
 
 	private MyUnitItem prevMaterialItem;
 
 	void ShowData () {
 		myUnitList.Clear ();
-		List<TUserUnit> myUnit = dataCenter.MyUnitList.GetAllList ();
+		myUnit = dataCenter.MyUnitList.GetAllList ();
 		int dataCount = myUnit.Count;
 		List<GameObject> scroll = myUnitDragPanel.ScrollItem;
 		int itemCount = scroll.Count - 1;	// scroll list index = 0  is reject item;
@@ -247,7 +255,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void SortCallback(GameObject go) {
-
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
 	}
 
 	bool SetBaseItem(MyUnitItem pui) {
@@ -362,6 +370,22 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				}
 				pui.IsEnable = true;
 			}
+		}
+	}
+
+	private void ReceiveSortInfo(object msg){
+		sortRule = (SortRule)msg;
+		SortUnitByCurRule();
+	}
+
+	private void SortUnitByCurRule(){
+//		sortRule = curSortRule;
+		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
+		List<GameObject> scrollList = new List<GameObject> ();
+		for (int i = 1; i < scrollList.Count; i++){
+			PartyUnitItem puv = myUnitList[i];
+			puv.UserUnit = myUnit[ i - 1 ];
+			puv.CurrentSortRule = sortRule;
 		}
 	}
 }
