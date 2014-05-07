@@ -514,17 +514,18 @@ public class LevelUpDecorator : DecoratorBase{
 	{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 
-		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
-		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
-		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
-
+//		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
+//		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
+//		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
+		levelUpOperateUI luou = CreatComponent<levelUpOperateUI> (UIConfig.levelUpView);
 		sceneInfoBar.SetComponent(decorator);
-		friendPanel.SetComponent(sceneInfoBar);
-		basePanel.SetComponent(friendPanel);
-		readyPanel.SetComponent(basePanel);
+		luou.SetComponent (sceneInfoBar);
+//		friendPanel.SetComponent(sceneInfoBar);
+//		basePanel.SetComponent(friendPanel);
+//		readyPanel.SetComponent(basePanel);
 
 
-		lastDecorator = readyPanel;
+		lastDecorator = luou;
 		lastDecorator.CreatUI();
 	}
 }

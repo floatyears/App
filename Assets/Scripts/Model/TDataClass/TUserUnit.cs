@@ -35,6 +35,15 @@ public class TUserUnit : ProtobufDataBase {
     public int unitBaseInfo = -1;
 
 	public uint userID ;
+	public string TUserUnitID {
+		get {
+			if (string.IsNullOrEmpty (userUnitID)) {
+				return userID.ToString () + "_" + ID.ToString ();	
+			} else {
+				return 	userUnitID;
+			}
+		}
+	}
 	private string userUnitID = string.Empty;
 	public  string MakeUserUnitKey() {
 		if (string.IsNullOrEmpty (userUnitID)) {
@@ -455,6 +464,14 @@ public class UserUnitList {
     public  Dictionary<string, TUserUnit> GetAll() {
         return userUnitInfo;
     }
+
+	public List<TUserUnit> GetAllList () {
+		List<TUserUnit> temp = new List<TUserUnit> ();
+		foreach (var item in userUnitInfo.Values) {
+			temp.Add(item);
+		}
+		return temp;
+	}
 
     public  void Clear() {
         userUnitInfo.Clear();

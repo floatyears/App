@@ -144,6 +144,14 @@
         "positiony": 0,
         "positionz": 0
     },
+    "LevelUpUI": {
+        "uiName":"LevelUpUI",
+        "resoucePath": "Prefabs/UI/Units/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 341,
+        "positionz": 0
+    },
     "SellWindow": {
         "uiName":"SellWindow",
         "resoucePath": "Prefabs/UI/Units/",

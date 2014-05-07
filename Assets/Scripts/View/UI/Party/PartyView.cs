@@ -43,7 +43,7 @@ public class PartyView : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
-		Debug.LogError (UIManager.Instance.baseScene.CurrentScene);
+//		Debug.LogError (UIManager.Instance.baseScene.CurrentScene);
 		if(UIManager.Instance.baseScene.CurrentScene != SceneEnum.UnitDetail)
 			DataCenter.Instance.PartyInfo.ExitParty();
 		RmvCmdListener();

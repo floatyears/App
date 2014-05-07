@@ -86,6 +86,7 @@ public class UIConfig
 	public const string searchMainWindowName = "SearchMainWindow";
 	public const string searchInfoWindowName = "SearchInfoWindow";
 
+	public const string levelUpView = "LevelUpUI";
 	public const string levelUpInfoPanelName = "LevelUpInfoPanel";
 	public const string levelUpReadyPanelName = "LevelUpReadyPanel";
 	public const string levelUpMaterialWindowName = "LevelUpMaterialWindow";

@@ -4,6 +4,12 @@ using System.Collections;
 public class MyUnitItem : BaseUnitItem {
 	protected UISprite lightSpr;
 	protected UILabel partyLabel;
+	public UILabel PartyLabel{
+		get { 
+			if(!partyLabel.enabled)
+				partyLabel.enabled = true;
+			return partyLabel; }
+	}
 	protected UISprite lockSpr;
 
 	protected bool isParty;
