@@ -153,5 +153,14 @@ public class QuestView : UIComponentUnity{
 		MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
 	}
 
+	public GameObject GetCityItem(int i){
+		GameObject cityItem = transform.FindChild(i.ToString()).gameObject;
+		if(cityItem == null){
+			Debug.LogError(string.Format("Resoures ERROR :: InitWorldMap(), Index[ {0} ] Not Found....!!!", i));
+			return null;
+		}
+		return cityItem;
+	}
+
 }
 

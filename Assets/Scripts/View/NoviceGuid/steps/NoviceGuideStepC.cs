@@ -89,29 +89,18 @@ public class NoviceGuideStepC_StateTwo:NoviceGuidState
 
 	private void forceClick(object data)
 	{
-		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
-		camLastLayer = mainCam.eventReceiverMask;
-		UIButton btn = GameObject.Find ("ScratchWindow(Clone)").GetComponent<ScratchView>().BtnRareGacha;
-		UIEventListener.Get (btn.gameObject).onClick += TapRareCard;
 
-		btnLastLayer = btn.gameObject.layer;
-		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
-		mainCam.eventReceiverMask = mask;
-		btn.transform.gameObject.layer = LayerMask.NameToLayer ("NoviceGuide");
-		
+		GameObject btn = GameObject.FindWithTag("rare_scratch");
+		NoviceGuideUtil.ForceOneBtnClick (btn);
 
-		LogHelper.Log ("main camera:" + mainCam.eventReceiverMask.value);
+		UIEventListener.Get (btn).onClick += TapRareCard;
+		NoviceGuideUtil.ShowArrow (new GameObject[]{btn}, new Vector3[]{new Vector3(0,0,1)});
 	}
 
 	private void TapRareCard(GameObject btn)
 	{
-		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
-		mainCam.eventReceiverMask = camLastLayer;
-
-		UIButton rareBtn = GameObject.Find ("ScratchWindow(Clone)").GetComponent<ScratchView>().BtnRareGacha;
-		rareBtn.gameObject.layer = btnLastLayer;
-		UIEventListener.Get (rareBtn.gameObject).onClick -= TapRareCard;
-
+		UIEventListener.Get (btn).onClick -= TapRareCard;
+		NoviceGuideUtil.RemoveArrow (btn);
 		isCardTapped = true;
 	}
 	

@@ -39,10 +39,13 @@ public class PartyView : UIComponentUnity{
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
 		RefreshItemCounter();
 		ShowUIAnimation();
+
+
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+		if(UIManager.Instance.baseScene.CurrentScene != SceneEnum.UnitDetail)
 		DataCenter.Instance.PartyInfo.ExitParty();
 		RmvCmdListener();
 	}
@@ -514,7 +517,12 @@ public class PartyView : UIComponentUnity{
 		topRoot.transform.localPosition = 1000 * Vector3.up;
 		bottomRoot.transform.localPosition = 1000 * Vector3.left;
 		iTween.MoveTo(topRoot, iTween.Hash("y", 0, "time", 0.4f));
-		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f));
+		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f,"oncomplete","onAniComplete","oncompletetarget",this.gameObject));
+
+	}
+
+	private void onAniComplete(){
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	private void RefreshItemCounter(){
@@ -531,6 +539,11 @@ public class PartyView : UIComponentUnity{
 	
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+
+	public GameObject GetUnitItem(int i)
+	{
+		return dragPanel.ScrollItem[i];
 	}
 
 }

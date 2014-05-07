@@ -148,6 +148,7 @@ public class PartyPageLogic : ConcreteComponent{
     }
 	
     void NoticeServerUpdatePartyInfo() {
+		if(UIManager.Instance.baseScene.CurrentScene != SceneEnum.UnitDetail)
         DataCenter.Instance.PartyInfo.ExitParty();
     }
 

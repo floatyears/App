@@ -16,14 +16,14 @@ public class NoviceGuideStepD_StateOne:NoviceGuidState
 
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepD state_one");
+		LogHelper.Log (stepEntity.GetType () + " get into stepD novistate_one");
 
 		MsgWindowView mwv = GameObject.Find ("CommonNoteWindow(Clone)").GetComponent<MsgWindowView> ();
 
 		UIButton cwLBtn = mwv.BtnLeft;
 		UIEventListener.Get (cwLBtn.gameObject).onClick += clickLeftBtn;
 
-		NoviceGuideUtil.ShowArrow (new GameObject[]{cwLBtn.gameObject},new int[]{3});
+		NoviceGuideUtil.ShowArrow (new GameObject[]{cwLBtn.gameObject},new Vector3[]{new Vector3(0,0,3)});
 
 		mwv.BtnRight.isEnabled = false;
 	}
@@ -35,7 +35,7 @@ public class NoviceGuideStepD_StateOne:NoviceGuidState
 		UIButton cwLBtn = mwv.BtnLeft;
 		UIEventListener.Get (cwLBtn.gameObject).onClick -= clickLeftBtn;
 
-		NoviceGuideUtil.HideArrow ();
+		NoviceGuideUtil.RemoveArrow (btn);
 
 		mwv.BtnRight.isEnabled = true;
 	}

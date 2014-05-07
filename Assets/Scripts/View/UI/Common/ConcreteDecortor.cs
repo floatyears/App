@@ -120,6 +120,8 @@ public class QuestDecorator : DecoratorBase{
 	public override void ShowScene(){
 		sceneInfoBar.SetBackScene(SceneEnum.None);
 		base.ShowScene();
+
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 		
 	public override void HideScene(){
@@ -362,6 +364,7 @@ public class UnitsDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
+
 	}
 	
 	public override void HideScene(){
@@ -466,6 +469,7 @@ public class PartyDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
+
 	}
 	
 	public override void HideScene(){

@@ -49,6 +49,7 @@ public class NoviceGuideStepEntity {
 	public bool IsRunning
 	{
 		get{return stateMachine.IsRunning;}
+		set{stateMachine.IsRunning = value;}
 	}
 	
 	public NoviceGuidStateMachine GetStateMachine()

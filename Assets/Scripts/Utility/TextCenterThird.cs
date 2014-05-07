@@ -48,8 +48,10 @@ public partial class TextCenter {
 		textDict.Add ("guide8_content", "任意选择一张卡牌吧。不管选哪一张，结果其实是一样的。");
 		textDict.Add ("guide9_title", "get a card");
 		textDict.Add ("guide9_content", "运气不错，卡牌很强！\n后别忘了编入队伍中哦。");
-//		textDict.Add ("guide8_title", "");
-//		textDict.Add ("guide8_content", "");
+		textDict.Add ("guide10_title", "party method");
+		textDict.Add ("guide10_content", "choose a party");
+		textDict.Add ("guide11_title", "party complete");
+		textDict.Add ("guide11_content", "complete a party");
 //		textDict.Add ("guide8_title", "");
 //		textDict.Add ("guide8_content", "");
 //		textDict.Add ("guide8_title", "");

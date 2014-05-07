@@ -69,13 +69,28 @@ public class NoviceGuideStepEntityManager {
 			case SceneEnum.RareScratch:
 				CreateStepEntityByID(NoviceGuideStepEntityID.RARE_SCRATCH);
 				break;
+			case SceneEnum.Quest:
+				CreateStepEntityByID(NoviceGuideStepEntityID.QUEST);
+				break;
+			case SceneEnum.Party:
+				CreateStepEntityByID(NoviceGuideStepEntityID.PARTY);
+				break;
+			case SceneEnum.Units:
+				CreateStepEntityByID(NoviceGuideStepEntityID.UNITS);
+				break;
 		}
 	}
 
 	public void NextState()
 	{
-		if(currentStep != null)
-			currentStep.GetStateMachine ().CurrentState.JumpToNextState = true;
+		if (currentStep != null ) {
+			if(currentStep.GetStateMachine ().CurrentState != null){
+				currentStep.GetStateMachine ().CurrentState.JumpToNextState = true;
+			}else{
+				LogHelper.Log("current state is null");
+			}
+		}
+			
 	}
 
 	public void ReleaseUpdate()
@@ -119,14 +134,22 @@ public class NoviceGuideStepEntityManager {
 		}
 	}
 
-	public NoviceGuideStepEntity CreateStepEntityByID(NoviceGuideStepEntityID id)
+	public void CreateStepEntityByID(NoviceGuideStepEntityID id)
 	{
 
 		if (stepEntityDic.ContainsKey(id)) {
 			LogHelper.Log("there is already an stepEntity. ID: " + id.ToString() + ".");
-			return stepEntityDic[id];
+			//if already in state, then goto the next state.
+			NextState();
+			//return stepEntityDic[id];
 		}
 		else {
+
+			//bengin a new step, stop the all before steps
+			foreach(NoviceGuideStepEntityID stepId in stepEntityDic.Keys)
+			{
+				stepEntityDic[stepId].IsRunning = false;
+			}
 
 			NoviceGuideStepEntity stepEn = null;
 			switch(id){			
@@ -142,15 +165,24 @@ public class NoviceGuideStepEntityManager {
 				case NoviceGuideStepEntityID.RARE_SCRATCH:
 					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepD_StateOne.Instance());
 					break;
+				case NoviceGuideStepEntityID.QUEST:
+					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepE_StateOne.Instance());
+					break;
+				case NoviceGuideStepEntityID.PARTY:
+					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepF_StateOne.Instance());
+					break;
+				case NoviceGuideStepEntityID.UNITS:
+					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepG_StateOne.Instance());
+					break;
 				default:
 					LogHelper.LogError("-----------=========------------there is no such step:" + id.ToString());
 					break;
 			}
 			currentStep = stepEn;
-			return stepEn;
+			//return stepEn;
 
 		}
-		return null;
+		//return null;
 	}
 
 	public void Update()
@@ -167,5 +199,8 @@ public enum NoviceGuideStepEntityID{
 	Loading = 1,
 	SElECT_ROLE = 2,
 	SCRATCH = 3,
-	RARE_SCRATCH = 4
+	RARE_SCRATCH = 4,
+	QUEST = 5,
+	PARTY = 6,
+	UNITS = 7,
 }

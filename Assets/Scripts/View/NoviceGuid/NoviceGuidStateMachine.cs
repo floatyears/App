@@ -49,6 +49,10 @@ public class NoviceGuidStateMachine{
 	public bool IsRunning
 	{
 		get{return isRunning;}
+		set{
+			LogHelper.LogWarning(stepEntity.ID + "'s Runing value is "+value);
+			isRunning = value;
+		}
 	}
 
 	public void ChangeState(NoviceGuidState nextState)
@@ -58,7 +62,7 @@ public class NoviceGuidStateMachine{
 		if (nextState == null) {
 			LogHelper.LogWarning("Novice Guide's step is null.The State machine will stop.");
 			currentState = null;
-			isRunning = false;
+			IsRunning = false;
 			return;
 		}
 		currentState = nextState;

@@ -73,7 +73,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
 		ClearBlock( blockLsit2 );
+
+		//TODO:
+		//StartCoroutine ("nextState");
+		NoviceGuideStepEntityManager.Instance ().NextState ();
 	}
+
+//	IEnumerator nextState()
+//	{
+//		yield return new WaitForSeconds (1);
+//		NoviceGuideStepEntityManager.Instance ().NextState ();
+//	}
 
 	public override void HideUI () {
 		base.HideUI ();
@@ -415,6 +425,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ShowLeaderSkillContent( userUnit );
 		ShowActiveSkillContent( userUnit );
 		ShowProfileContent( userUnit );
+
 	}
 
 	void ShowLevelInfo (TUserUnit userUnit) {
