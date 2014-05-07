@@ -28,6 +28,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		base.CallbackView (data);
 	}
 
+	private SortRule _sortRule;
+	public SortRule sortRule {
+		get { return _sortRule; }
+		set { _sortRule = value; }
+	}
+
 	private DataCenter dataCenter;
 
 	/// <summary>
@@ -44,6 +50,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private UIButton sortButton;
 
 	private DragPanel myUnitDragPanel;
+
 	private List<PartyUnitItem> myUnitList = new List<PartyUnitItem> ();
 
 	private MyUnitItem prevSelectedItem;
