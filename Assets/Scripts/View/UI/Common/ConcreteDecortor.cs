@@ -470,16 +470,17 @@ public class PartyDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.PartyWindowName);
-		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
+
 
 		sceneInfoBar.SetComponent(decorator);
-		partyInfo.SetComponent(sceneInfoBar);
+		sortPanel.SetComponent(sceneInfoBar);
+		partyInfo.SetComponent(sortPanel);
 		counter.SetComponent(partyInfo);
-		sortPanel.SetComponent(counter);
-		partyPage.SetComponent(sortPanel);
+		partyPage.SetComponent(counter);
 	
 		lastDecorator = partyPage;
 		lastDecorator.CreatUI();
@@ -520,16 +521,17 @@ public class LevelUpDecorator : DecoratorBase{
 //		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
 //		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
 //		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
-		levelUpOperateUI luou = CreatComponent<levelUpOperateUI> (UIConfig.levelUpView);
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
+		levelUpOperateUI luou = CreatComponent<levelUpOperateUI> (UIConfig.levelUpView);
+
 		sceneInfoBar.SetComponent(decorator);
-		luou.SetComponent (sceneInfoBar);
-		sortPanel.SetComponent (luou);
+		sortPanel.SetComponent (sceneInfoBar);
+		luou.SetComponent (sortPanel);
 //		friendPanel.SetComponent(sceneInfoBar);
 //		basePanel.SetComponent(friendPanel);
 //		readyPanel.SetComponent(basePanel);
 
-		lastDecorator = sortPanel;
+		lastDecorator = luou;
 		lastDecorator.CreatUI();
 	}
 }
