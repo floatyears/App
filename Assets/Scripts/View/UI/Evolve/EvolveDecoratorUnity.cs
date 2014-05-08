@@ -59,13 +59,13 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	public override void ResetUIState () {
+		state = 1;
 //		Debug.LogError ("1");
 		if(baseItem != null)
 			baseItem.Refresh( null);
 //		Debug.LogError ("2");
 		if(friendItem != null)
 			friendItem.Refresh( null);
-//		Debug.LogError ("3");
 		if (materialItem != null) {
 			foreach (var item in materialItem.Values) {
 				if(item == null) {
@@ -130,14 +130,12 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(item.userUnit == null){
 				continue;
 			}
-//			Debug.LogError(item.HaveUserUnit + " item: " + item.itemObject);
 			if(!item.HaveUserUnit) {
 				haveMaterial = false;
 				break;
 			}
 		}
-
-//		Debug.LogError ("havebase : " + haveBase + " haveFriend : " + haveFriend + " haveMaterial : " + haveMaterial);
+		 
 		if (haveBase && haveFriend && haveMaterial) {
 			evolveButton.isEnabled = true;
 		} else {
@@ -218,6 +216,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void DisposeSelectData (TUserUnit tuu) {
+		Debug.LogError ("DisposeSelectData : " + tuu);
 		if(tuu == null ) {
 			return;
 		}
@@ -339,7 +338,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 	void SelectFriend(TFriendInfo friendInfo) {
 		SetObjectActive (true);
-		friendInfo = friendInfo;
+		this.friendInfo = friendInfo;
 		friendItem.Refresh (friendInfo.UserUnit);
 		CheckCanEvolve ();
 	}

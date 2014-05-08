@@ -28,9 +28,10 @@ public class UnitDisplayUnity : UIComponentUnity {
 	}
 
 	public override void ResetUIState () {
+		state = 1;
 //		selectBase = null;
 //		baseData.userUnitItem = null;
-//
+
 //		sortRule = SortRule.Attack;
 //		ReceiveSortInfo (sortRule);
 	}
@@ -71,6 +72,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 	int state = 1;
 
 	void ClickItem (GameObject go) {
+		Debug.LogError ("go : " + go);
 		UnitItemInfo uii = evolveItem.Find (a => a.scrollItem == go);
 		if (uii != default(UnitItemInfo) && state == 1) {
 			selectBase = uii.userUnitItem;
