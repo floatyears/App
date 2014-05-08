@@ -12,14 +12,14 @@ public class EvolveComponent : ConcreteComponent {
 	public override void ShowUI () {
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.SelectUnitBase, SelectUnit);
-		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+//		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 		MsgCenter.Instance.AddListener (CommandEnum.ReturnPreScene, ReturnPreScene);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
-		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ReturnPreScene, ReturnPreScene);
 	}
 	

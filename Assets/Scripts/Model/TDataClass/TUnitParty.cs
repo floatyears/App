@@ -266,7 +266,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		TUserUnit tuu;
 		foreach (var item in instance.items) {
 			uint id = item.unitUniqueId;
-			tuu = DataCenter.Instance.MyUnitList.GetMyUnit(id);
+			tuu = DataCenter.Instance.UserUnitList.GetMyUnit(id);
 			if(tuu != null)
 				temp.AddRange(tuu.GetNormalSkill());
 		}                
@@ -282,7 +282,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     void GetLeaderSkill() {
         if (instance.items.Count > 0) {
             uint id = instance.items[0].unitUniqueId;
-			TUserUnit tuu = DataCenter.Instance.MyUnitList.GetMyUnit(id);
+			TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(id);
 			AddLeadSkill(tuu);
         }
 
@@ -443,7 +443,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     public List<TUserUnit> GetUserUnit() {
         List<TUserUnit> temp = new List<TUserUnit>();
         foreach (var item in instance.items) {
-			TUserUnit tuu = DataCenter.Instance.MyUnitList.GetMyUnit(item.unitUniqueId);
+			TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
 			temp.Add(tuu);
 		}
         return temp;

@@ -10,6 +10,9 @@ public class FriendWindows : FriendHelperView {
 
 	public override void ShowUI () {
 		isShow = true;
+		if (!gameObject.activeSelf) {
+			gameObject.SetActive(true);
+		}
 		base.ShowUI ();
 	}
 

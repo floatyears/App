@@ -322,20 +322,20 @@ public class NetWorkEvovleTester {
         DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
 
         //
-        DataCenter.Instance.MyUnitList.DelMyUnit(baseUnitUniqueId);
+//        DataCenter.Instance.MyUnitList.DelMyUnit(baseUnitUniqueId);
         DataCenter.Instance.UserUnitList.DelMyUnit(baseUnitUniqueId);
 
         for (int i = 0; i < partUnitIdList.Count; i++) {
-            DataCenter.Instance.MyUnitList.DelMyUnit(partUnitIdList[i]);
+//            DataCenter.Instance.MyUnitList.DelMyUnit(partUnitIdList[i]);
             DataCenter.Instance.UserUnitList.DelMyUnit(partUnitIdList[i]);
         }
         // 
         for (int i = 0; i < rsp.gotUnit.Count; i++) {
-            DataCenter.Instance.MyUnitList.AddMyUnit(rsp.gotUnit[i]);
+//            DataCenter.Instance.MyUnitList.AddMyUnit(rsp.gotUnit[i]);
             DataCenter.Instance.UserUnitList.AddMyUnit(rsp.gotUnit[i]);
         }
 
-        DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
+//        DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
         DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
 
 //        LogHelper.Log("");

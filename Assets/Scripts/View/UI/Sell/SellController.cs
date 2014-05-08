@@ -70,7 +70,7 @@ public class SellController : ConcreteComponent {
 		DataCenter.Instance.AccountInfo.Money = rsp.money;
 		
 //		LogHelper.LogError("before sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
-		DataCenter.Instance.MyUnitList.DelMyUnitList(GetOnSaleUnitIDList());
+//		DataCenter.Instance.MyUnitList.DelMyUnitList(GetOnSaleUnitIDList());
 		DataCenter.Instance.UserUnitList.DelMyUnitList(GetOnSaleUnitIDList());
 
 //		LogHelper.LogError("after sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
@@ -162,7 +162,7 @@ public class SellController : ConcreteComponent {
 	void GetUnitCellViewList(){
 		List<TUserUnit> userUnitList = new List<TUserUnit>();	
 //		if (onSaleUnitList.Count > 0) onSaleUnitList.Clear();
-		userUnitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
+		userUnitList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", userUnitList);
 		ExcuteCallback(cbdArgs);
 //		Debug.LogError("GetUnitCellViewList(), onSaleUnitList count is : " + onSaleUnitList.Count);

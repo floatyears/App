@@ -185,7 +185,7 @@ public class ReceptionView : UIComponentUnity {
 		MsgWindowParams msgParams = new MsgWindowParams();
 		msgParams.titleText = TextCenter.Instace.GetCurrentText("FirendOverflow");
 		msgParams.contentText = TextCenter.Instace.GetCurrentText("FriendOverflowText",
-		                                                          DataCenter.Instance.MyUnitList.Count,
+		                                                          DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
 		                                                          DataCenter.Instance.UserInfo.UnitMax);
 		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
 		msgParams.btnParams[ 0 ].text = TextCenter.Instace.GetCurrentText("DoFriendExpand");

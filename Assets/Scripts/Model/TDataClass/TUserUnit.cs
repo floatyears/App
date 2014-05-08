@@ -453,6 +453,7 @@ public class TUserUnit : ProtobufDataBase {
 //A wrapper to manage userUnitInfo list
 public class UserUnitList {
     private Dictionary<string, TUserUnit> userUnitInfo;
+//	private List<uint> myUnqueIDList = new List<uint>();
     public UserUnitList() { 
         userUnitInfo = new Dictionary<string, TUserUnit>(); //key: "{userid}_{unitUniqueId}"
     }
@@ -504,9 +505,34 @@ public class UserUnitList {
 		return tuu;
 	}
 
+	/// <summary>
+	/// Get the TUserUnit by uniqueid;
+	/// </summary>
+	/// <param name="uniqueID">Unique I.</param>
+	public TUserUnit Get(uint uniqueID) {
+		Debug.LogError ("Get uniqueID : " + uniqueID);
+		foreach (var item in userUnitInfo.Values) {
+			if(item.ID == uniqueID) {
+				Debug.LogError ("uniqueID : " + uniqueID + " item.ID : " + item.ID);
+				return item;
+			}
+		}
+		return null;
+	}
+
+	public List<TUserUnit> GetAllMyUnit() {
+		List<TUserUnit> myUnitList = new List<TUserUnit> ();
+		uint myID = DataCenter.Instance.UserInfo.UserId;
+		foreach (var item in userUnitInfo.Values) {
+			if(item.userID == myID) {
+				myUnitList.Add(item);
+			}
+		}
+		return myUnitList;
+	}
+
     public  TUserUnit GetMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
-//            Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return null;
         }
 		
@@ -515,29 +541,20 @@ public class UserUnitList {
 
 	public  TUserUnit GetMyUnit(string id) {
 		if (DataCenter.Instance.UserInfo == null) {
-//			Debug.LogError("TUserUnit.GetMyUnit() : Global.userInfo=null");
 			return null;
 		}
 
 		return Get(id);
 	}
 
-//    public bool HasUnit(uint uniqueId){
-//        !userUnitInfo.ContainsKey(key)
-//    }
-
     public  void DelMyUnit(uint uniqueId) {
         if (DataCenter.Instance.UserInfo == null) {
             Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return;
         }
-//        LogHelper.LogError("============================before DelMyUnit(), count {0}, del uniqueId {1}", userUnitInfo.Count, uniqueId);
         Del(DataCenter.Instance.UserInfo.UserId, uniqueId);
-        // test
-//        LogHelper.LogError("============================after DelMyUnit(), count {0}", userUnitInfo.Count);
         foreach (var item in userUnitInfo) {
             TUserUnit tUnit = item.Value as TUserUnit;
-//            LogHelper.Log("========================================unit.ID {0}=================================", tUnit.ID);
         }
     }
 
@@ -609,9 +626,3 @@ public class UserUnitList {
     }
 
 }
-
-//public class PartyItemInfo : ProtobufDataBase {
-//	public PartyItemInfo (PartyItem instance) : base (instance) {
-//		UnitInfo UI = new UnitInfo ();
-//	}
-//}
