@@ -90,6 +90,7 @@ public class EvolveComponent : ConcreteComponent {
 		ExcuteCallback (TransferData);
 	}
 
+
 	public static uint GetEvolveQuestID(EUnitType unitType, int  unitRare) {
 		return GetEvolveQuestID(unitRare, GetEvolveStageID(unitType, unitRare));
 	}

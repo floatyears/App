@@ -3,13 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UnitItemInfo : MonoBehaviour{
-	public GameObject scrollItem ;
+	private GameObject _scrollItem;
+	public GameObject scrollItem {
+		set { _scrollItem = value; Init(); }
+		get { return _scrollItem; }
+	}
+
+	public UITexture mainTexture;
+
     public UILabel stateLabel;
+
 	public UISprite mask;
+
 	public UISprite star;
+
 	private TUserUnit _userUnitItem;
+
 	public TUserUnit userUnitItem {
-		set { _userUnitItem = value; }
+		set { _userUnitItem = value; RefreshInfo();}
 		get { return _userUnitItem; }
 	}
 	public UISprite hightLight;
@@ -41,9 +52,7 @@ public class UnitItemInfo : MonoBehaviour{
 	}
 
 	public void IsFavorate (int value) {
-//		Debug.LogError ("value : " + value);
 		bool b = false;
-
 		if (value == 1) {
 			b = true;		
 		}
@@ -58,6 +67,52 @@ public class UnitItemInfo : MonoBehaviour{
 			stateLabel.text = "Party";	
 		}
 		isPartyItem = b;
+	}
+
+	void Init() {
+//		Debug.LogError ("Init start ");
+		Transform trans = scrollItem.transform;
+		mainTexture = trans.Find ("Texture_Avatar").GetComponent<UITexture> ();
+		stateLabel = trans.Find ("Label_Party").GetComponent<UILabel> ();
+		mask = trans.Find ("Mask").GetComponent<UISprite> ();
+		star = trans.Find ("StarMark").GetComponent<UISprite> ();
+		hightLight = trans.Find ("HighLight").GetComponent<UISprite> ();
+//		UIEventListenerCustom listener = UIEventListenerCustom.Get (scrollItem);
+//		listener.onClick = ClickItem;
+//		listener.LongPress = LongPress;
+//		Debug.LogError ("Init end ");
+	}
+
+	void RefreshInfo() {
+		mainTexture.mainTexture = userUnitItem.UnitInfo.GetAsset (UnitAssetType.Avatar);
+		IsFavorate (userUnitItem.IsFavorite);
+		bool isParty = DataCenter.Instance.PartyInfo.UnitIsInParty (userUnitItem.ID);
+		IsPartyItem(isParty);
+		bbproto.EvolveInfo ei = userUnitItem.UnitInfo.evolveInfo;
+		if (ei == null || ei.materialUnitId.Count == 0) {
+			SetMask (true);	
+			UIEventListenerCustom listener = UIEventListenerCustom.Get (scrollItem);
+			listener.onClick = null;
+			listener.LongPress = null;
+		} else {
+			SetMask(false);
+			UIEventListenerCustom listener = UIEventListenerCustom.Get (scrollItem);
+			listener.onClick = ClickItem;
+			listener.LongPress = LongPress;
+		}
+	}
+
+	public UICallback callback;
+
+	public void ClickItem(GameObject go) {
+		if (callback != null) {
+			callback(go);
+		}
+	}
+
+	public void LongPress(GameObject go) {
+		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnitItem);
 	}
 }
 

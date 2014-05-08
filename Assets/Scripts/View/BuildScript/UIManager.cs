@@ -284,6 +284,9 @@ public class UIManager {
             else if (nextScene == SceneEnum.Party){
                 MsgCenter.Instance.Invoke(CommandEnum.PartySaveState);
             }
+			else if(nextScene == SceneEnum.Evolve) {
+				MsgCenter.Instance.Invoke(CommandEnum.EvolveSaveState);
+			}
         }
     }
 

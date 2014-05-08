@@ -396,6 +396,7 @@ public class QuestSelectDecorator : DecoratorBase{
 	}
 	
 	public override void DestoryScene(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.QuestSelectSaveState, SetKeepState);
 		base.DestoryScene();
 	}
 	
@@ -571,11 +572,15 @@ public class SellDecorator : DecoratorBase{
 //--------------------------------Evolve------------------------------------------
 public class EvolveDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public EvolveDecorator(SceneEnum sEnum) : base(sEnum){}
+	public EvolveDecorator(SceneEnum sEnum) : base(sEnum){
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveSaveState, SetKeepState);
+	}
 	
 	public override void ShowScene(){
+//		Debug.LogError("show scene begin");
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
+//		Debug.LogError("show scene end");
 	}
 	
 	public override void HideScene(){
@@ -583,6 +588,7 @@ public class EvolveDecorator : DecoratorBase{
 	}
 	
 	public override void DestoryScene(){
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSaveState, SetKeepState);
 		base.DestoryScene();
 	}
 	
@@ -596,6 +602,8 @@ public class EvolveDecorator : DecoratorBase{
 		UnitDisplay unitdisplay = CreatComponent< UnitDisplay >(UIConfig.unitDisplay);
 		unitdisplay.SetComponent(evolve);
 
+	
+
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
 		sortPanel.SetComponent (unitdisplay);
 //		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.evolveFriend);
@@ -603,6 +611,13 @@ public class EvolveDecorator : DecoratorBase{
 
 		lastDecorator = sortPanel;
 		lastDecorator.CreatUI();
+
+		EvolveDecoratorUnity edu = evolve.ViewComponent as EvolveDecoratorUnity;
+		edu.SetUnitDisplay (unitdisplay.ViewComponent.gameObject);
+	}
+
+	void EvolveSaveState(object data) {
+		ResetSceneState();
 	}
 }
 

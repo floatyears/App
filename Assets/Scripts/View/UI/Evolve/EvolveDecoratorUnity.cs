@@ -8,14 +8,37 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 	
 	public override void ShowUI () {
+//		Debug.LogError("EvolveDecoratorUnity show ui begin");
+		if (friendWindow != null && friendWindow.isShow) {
+			friendWindow.gameObject.SetActive (true);
+		
+
+		} else {
+//			if (!gameObject.activeSelf) {
+//				gameObject.SetActive(true);
+//			}
+			SetObjectActive(true);
+		}
+
 		base.ShowUI ();
-		MsgCenter.Instance.AddListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
+//		MsgCenter.Instance.AddListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+//		Debug.LogError("EvolveDecoratorUnity show ui end");
 	}
 	
 	public override void HideUI () {
+		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail) {
+			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
+				friendWindow.gameObject.SetActive (false);
+			} 
+		}else {
+			if (friendWindow != null) {
+				friendWindow.HideUI ();
+			}	
+		}
+
 		base.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
 		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 	}
 	
@@ -33,6 +56,35 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		for (int i = datalist.Count - 1; i > -1; i--) {
 			DisposeCallback(datalist[i]);
 		}
+	}
+
+	public override void ResetUIState () {
+//		Debug.LogError ("1");
+		if(baseItem != null)
+			baseItem.Refresh( null);
+//		Debug.LogError ("2");
+		if(friendItem != null)
+			friendItem.Refresh( null);
+//		Debug.LogError ("3");
+		if (materialItem != null) {
+			foreach (var item in materialItem.Values) {
+				if(item == null) {
+					continue;
+				}
+
+				item.Refresh(null);
+			}
+		}
+//		Debug.LogError ("4");
+		if (materialUnit != null) 
+			materialUnit.Clear ();	
+//		Debug.LogError ("5");
+		prevItem = null;
+//		Debug.LogError ("6");
+	}
+	
+	public void SetUnitDisplay(GameObject go) {
+		unitDisplay = go;
 	}
 
 	//==========================================interface end ==========================
@@ -60,6 +112,9 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	private List<TUserUnit> materialUnit = new List<TUserUnit>();
 	private int ClickIndex = 0;
 
+	private FriendWindows friendWindow;
+	private GameObject unitDisplay;
+
 	void PickFriendUnitInfo(object data) {
 		TFriendInfo tuu = data as TFriendInfo;
 		friendInfo = tuu;
@@ -70,13 +125,19 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	void CheckCanEvolve () {
 		bool haveBase = baseItem.userUnit != null; 
 		bool haveFriend = friendItem.userUnit != null;
-		bool haveMaterial = false;
-		foreach (var item in materialItem) {
-			if(item.Value.userUnit != null) {
-				haveMaterial = true;
+		bool haveMaterial = true;
+		foreach (var item in materialItem.Values) {
+			if(item.userUnit == null){
+				continue;
+			}
+//			Debug.LogError(item.HaveUserUnit + " item: " + item.itemObject);
+			if(!item.HaveUserUnit) {
+				haveMaterial = false;
 				break;
 			}
 		}
+
+//		Debug.LogError ("havebase : " + haveBase + " haveFriend : " + haveFriend + " haveMaterial : " + haveMaterial);
 		if (haveBase && haveFriend && haveMaterial) {
 			evolveButton.isEnabled = true;
 		} else {
@@ -134,7 +195,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			return;	
 		}
 		List<uint> evolveNeedUnit = new List<uint> (baseItem.userUnit.UnitInfo.evolveInfo.materialUnitId);
-
 		for (int i = 0; i < evolveNeedUnit.Count ; i++) {
 			TUserUnit material = null;
 			uint ID = evolveNeedUnit[i];
@@ -146,16 +206,15 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 					break;
 				}
 			}
-
 			if(material == null) {
 				bbproto.UserUnit uu = new bbproto.UserUnit();
 				uu.unitId = ID;
 				material = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
 				isHave = false;
 			}
-//			Debug.LogError(material);
 			materialItem[i + 2].Refresh(material,isHave);
 		}
+		CheckCanEvolve ();
 	}
 
 	void DisposeSelectData (TUserUnit tuu) {
@@ -173,6 +232,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			showInfoLabel[preAtkLabel].text = tuu.Attack.ToString();
 			showInfoLabel[preHPLabel].text = tuu.Hp.ToString();
 			MsgCenter.Instance.Invoke(CommandEnum.UnitDisplayBaseData, tuu);
+			CheckCanEvolve();
 		}
 	}
 
@@ -201,37 +261,24 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(state == 1) {
 				return;
 			}
-//			if(evolveButton.gameObject.activeSelf) {
-//				evolveButton.gameObject.SetActive(false);
-//			}
-			ShieldEvolveButton(false);
+//			CheckCanEvolve();
 			state = 1;
 			break;
 		case "2":
-//			if(evolveButton.gameObject.activeSelf) {
-//				evolveButton.gameObject.SetActive(false);
-//			}
-			ShieldEvolveButton(false);
 			if(baseItem == null) {
 				return;
 			}
 			state =2;
 			break;
 		case "3":
-//			if(evolveButton.gameObject.activeSelf) {
-//				evolveButton.gameObject.SetActive(false);
-//			}
-			ShieldEvolveButton(false);
 			if(baseItem == null) {
 				return;
 			}
+
 			state =3;
+//			CheckCanEvolve();
 			break;
 		case "4":
-//			if(evolveButton.gameObject.activeSelf) {
-//				evolveButton.gameObject.SetActive(false);
-//			}
-			ShieldEvolveButton(false);
 			if(baseItem == null) {
 				return;
 			}
@@ -241,20 +288,18 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(state == 5) {
 				return;
 			}
-			CheckCanEvolve();
+//			CheckCanEvolve();
 			TUserUnit tuu = null;
 			if(baseItem != null) {
 				tuu = baseItem.userUnit;
 			}
 			ShieldEvolveButton(true);
 
-//			if(!evolveButton.gameObject.activeSelf) {
-//				evolveButton.gameObject.SetActive(true);
-//			}
 			state =5;
-			MsgCenter.Instance.Invoke(CommandEnum.EvolveFriend, tuu);
+			EnterFriend();
 			break;
 		}
+		CheckCanEvolve();
 		if (prevItem != null) {
 			prevItem.highLight.enabled = false;	
 		}
@@ -268,6 +313,35 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	void InitUI () {
 		InitItem ();
 		InitLabel ();
+	}
+
+	void EnterFriend() {
+		if (friendWindow == null) {
+			friendWindow = DGTools.CreatFriendWindow();
+			if(friendWindow == null) {
+				return;
+			}
+		}
+		SetObjectActive (false);
+		friendWindow.selectFriend = SelectFriend;
+		friendWindow.ShowUI ();
+	}
+
+	void SetObjectActive(bool active) {
+		if (gameObject.activeSelf != active) {
+			gameObject.SetActive (active);
+		}
+
+		if (unitDisplay != null && unitDisplay.activeSelf != active) {
+			unitDisplay.SetActive(active);
+		}
+	}
+
+	void SelectFriend(TFriendInfo friendInfo) {
+		SetObjectActive (true);
+		friendInfo = friendInfo;
+		friendItem.Refresh (friendInfo.UserUnit);
+		CheckCanEvolve ();
 	}
 	
 	void InitItem () {
@@ -287,7 +361,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(i == 1 ) {
 				baseItem = ei;
 				ei.highLight.enabled = true;
-//				clickState = EvolveState.BaseState;
 				state = 1;
 				prevItem = ei;
 				continue;
@@ -351,12 +424,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 }
 
-//public enum EvolveState {
-//	BaseState = 0,
-//	MaterialState = 1,
-//	FriendState = 2,
-//}
-
 public class EvolveItem {
 	public GameObject itemObject;
 	public BoxCollider boxCollider;
@@ -366,9 +433,11 @@ public class EvolveItem {
 	public UISprite maskSprite;
 	public UISprite highLight;
 	public int index;
+	public bool HaveUserUnit = true;
 
 	public void Refresh (TUserUnit tuu, bool isHave = true) {
 		userUnit = tuu;
+		HaveUserUnit = isHave;
 		ShowShield (!isHave);
 		if (tuu == null) {
 			showTexture.mainTexture = null;

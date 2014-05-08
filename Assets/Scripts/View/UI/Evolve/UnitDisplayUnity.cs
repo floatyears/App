@@ -27,6 +27,14 @@ public class UnitDisplayUnity : UIComponentUnity {
 		base.DestoryUI ();
 	}
 
+	public override void ResetUIState () {
+//		selectBase = null;
+//		baseData.userUnitItem = null;
+//
+//		sortRule = SortRule.Attack;
+//		ReceiveSortInfo (sortRule);
+	}
+
 	public override void CallbackView (object data) {
 		Dictionary<string,object> dic = data as Dictionary<string,object>;
 		foreach (var item in dic) {
@@ -52,7 +60,11 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	private UIButton sortButton;
 	private UILabel sortLabel;
-	private SortRule sortRule;
+	private SortRule _sortRule;
+	private SortRule sortRule {
+		set { _sortRule = value; sortLabel.text = value.ToString(); }
+		get { return _sortRule; }
+	}
 
 	List<UnitItemInfo> materialInfo = new List<UnitItemInfo> ();
 	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
@@ -237,7 +249,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		UIEventListener.Get (sortButton.gameObject).onClick = SortButtoCallback;
 		sortLabel = FindChild<UILabel>("sort_bar/SortLabel");
 		sortRule = SortRule.HP;
-		ReceiveSortInfo (sortRule);
+
 	}
 
 	void CreatPanel () {
@@ -254,7 +266,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	private void ReceiveSortInfo(object msg){
 		sortRule = (SortRule)msg;
-		sortLabel.text = sortRule.ToString ();
 		SortUnitByCurRule();
 	}
 
@@ -262,9 +273,9 @@ public class UnitDisplayUnity : UIComponentUnity {
 		SortUnitTool.SortByTargetRule(sortRule, allData);
 		List<GameObject> scrollList = unitItemDragPanel.ScrollItem;
 		for (int i = 1; i < scrollList.Count; i++){
-//			PartyUnitItem puv = myUnitList[i];
-//			puv.UserUnit = myUnit[ i - 1 ];
-//			puv.CurrentSortRule = sortRule;
+			UnitItemInfo uii = scrollList[i].GetComponent<UnitItemInfo>();
+			uii.userUnitItem = allData[i];
+			RefreshView(uii);
 		}
 	}
 
@@ -296,63 +307,39 @@ public class UnitDisplayUnity : UIComponentUnity {
 		for (int i = 0; i < allData.Count; i++) {
 			GameObject scrollItem = scroll[i];
 			TUserUnit tuu = allData[i];
-			UnitItemInfo uii =   allItem.Find(a=>a.userUnitItem.ID == tuu.ID);
+			UnitItemInfo uii =  allItem.Find(a=>a.userUnitItem.ID == tuu.ID);
+
 			if(uii == default(UnitItemInfo)) {
 				uii = scrollItem.AddComponent<UnitItemInfo>();
-//				uii.scrollItem = scrollItem;
+				uii.scrollItem = scrollItem;
 				uii.userUnitItem = tuu;
 			}
 			else{
+				uii.scrollItem = scrollItem;
 				uii.userUnitItem = tuu;
 			}
-			uii.scrollItem = scrollItem;
 			allItem.Add(uii);
 			RefreshView(uii);
 		}
 //		RefreshItem ();
 	}
 
-//	void RefreshItem () {
-////		RefreshDragPanelView ();
-//		List<GameObject> scroll = unitItemDragPanel.ScrollItem;
-//		for (int i = 0; i < allItem.Count; i++) {
-//			UnitItemInfo uii = allItem[i];
-//			uii.scrollItem = scroll[i];
-//			RefreshView(uii);
-//		}
-//	}
-
 	void RefreshView (UnitItemInfo uii) {
-		Transform go = uii.scrollItem.transform;
-		UITexture tex = go.Find ("Texture_Avatar").GetComponent<UITexture> ();
-		Texture2D texture = uii.userUnitItem.UnitInfo.GetAsset (UnitAssetType.Avatar);
-		tex.mainTexture = texture;
-		uii.stateLabel = go.Find ("Label_Party").GetComponent<UILabel> ();
-		uii.mask = go.Find ("Mask").GetComponent<UISprite> ();
-		uii.star = go.Find ("StarMark").GetComponent<UISprite> ();
-		uii.hightLight = go.Find ("HighLight").GetComponent<UISprite> ();
-		UIEventListener.Get (go.gameObject).onClick = ClickItem;
-		uii.IsFavorate (uii.userUnitItem.IsFavorite);
-		bool b = DataCenter.Instance.PartyInfo.UnitIsInParty (uii.userUnitItem.ID);
-		uii.IsPartyItem(b);
-		if (b) {
+		uii.callback = ClickItem;
+		bool b = uii.isPartyItem;
+		if (b && !partyItem.Contains(uii)) {
 			partyItem.Add(uii);		
 		}
 
-		if (uii.userUnitItem.IsFavorite == 0 && !b) {
-			normalItem.Add(uii);	
+		if (uii.userUnitItem.IsFavorite == 0 && !b && !normalItem.Contains(uii))  {
+			normalItem.Add(uii);
 		}
 
 		bbproto.EvolveInfo ei = uii.userUnitItem.UnitInfo.evolveInfo;
-		if (ei == null) {
-			uii.SetMask (true);	
-		} else {
-			uii.SetMask(false);
+		if (ei != null && !evolveItem.Contains(uii)) {
 			evolveItem.Add(uii);
 		}
 	}
-
-
 
 	bool CheckBaseNeedMaterial (TUserUnit tuu, int index) {
 		int tempIndex = index - 2;
