@@ -35,6 +35,8 @@ public class UIManager {
 	/// </summary>
 	public DecoratorBase current;
 
+	private SceneEnum storePrevScene = SceneEnum.None;
+
 	private Dictionary<SceneEnum,DecoratorBase> sceneDecorator = new Dictionary<SceneEnum, DecoratorBase>();
 	
 	/// <summary>
@@ -89,6 +91,18 @@ public class UIManager {
 		}
 	}
 
+	/// <summary>
+	/// Removes the U.
+	/// </summary>
+	public void RemoveUI() {
+//		Debug.LogError("RemoveUI : " + storePrevScene);
+		if(sceneDecorator.ContainsKey(storePrevScene)) {
+			Debug.LogError("storePrevScene : " + storePrevScene);
+			sceneDecorator.Remove(storePrevScene);
+		}
+		storePrevScene = SceneEnum.None;
+	}
+
 	public void EnterBattle () {
 //		current.HideScene();
 //		baseScene.HideBase ();
@@ -123,17 +137,17 @@ public class UIManager {
 			if(current != null) {
 				current.HideScene();
 			}
-
+			storePrevScene = sEnum;
 		}
 
-		if(HasUIObject(sEnum))
-			current = GetUI(sEnum);
+		if (HasUIObject (sEnum)) {
+//			Debug.LogError("senum show : " + sEnum);
+			current = GetUI(sEnum);	
+		}
 		else{
-//			Debug.LogError("ChangeScene : " + sEnum);
+//			Debug.LogError("senum creat : " + sEnum);
 			DecoratorBase db = CreatScene(sEnum);
-//			Debug.LogError("db : " + db);
 			current = db;
-//			Debug.LogError("ChangeScene : " + current);
 		}
 
 		if (current != null) {
