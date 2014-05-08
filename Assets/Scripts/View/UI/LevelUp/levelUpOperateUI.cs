@@ -6,6 +6,14 @@ public class levelUpOperateUI : ConcreteComponent {
 
 	}
 
+	public override void HideUI () {
+		base.HideUI ();
+		if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.UnitDetail) {
+			base.DestoryUI();
+		}
+	}
+	
+
 	public override void CallbackView (object data) {
 		Queue<TUserUnit> levelUpInfo = data as Queue<TUserUnit>;
 		if (levelUpInfo == null) {

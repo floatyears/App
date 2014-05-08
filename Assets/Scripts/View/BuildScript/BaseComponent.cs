@@ -106,15 +106,12 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 				}
 	}
 
-	public virtual void DestoryUI()
-	{
-		if (component != null)
-		{
-			component.DestoryUI();
-		}
+	public virtual void DestoryUI() {
+//		if (component != null) {
+//			component.DestoryUI();
+//		}
 
-		if (viewComponent != null)
-		{
+		if (viewComponent != null) {
 			viewComponent.DestoryUI();
 		}
 
@@ -123,6 +120,8 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		}
 
 		ViewManager.Instance.RemoveComponent(uiConfig.uiName);
+
+		UIManager.Instance.RemoveUI ();
 	}
 
     public virtual void ResetUIState(bool clear = true) {

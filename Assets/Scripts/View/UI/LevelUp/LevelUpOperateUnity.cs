@@ -24,6 +24,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	public override void HideUI () {
+		base.HideUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
 		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail) {
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
@@ -33,9 +35,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				friendWindow.HideUI ();
 			}	
 		}
-
-		base.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void DestoryUI () {
