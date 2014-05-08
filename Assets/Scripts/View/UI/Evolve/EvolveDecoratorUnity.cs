@@ -60,10 +60,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 	public override void ResetUIState () {
 		state = 1;
-//		Debug.LogError ("1");
 		if(baseItem != null)
 			baseItem.Refresh( null);
-//		Debug.LogError ("2");
 		if(friendItem != null)
 			friendItem.Refresh( null);
 		if (materialItem != null) {
@@ -71,16 +69,12 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 				if(item == null) {
 					continue;
 				}
-
 				item.Refresh(null);
 			}
 		}
-//		Debug.LogError ("4");
 		if (materialUnit != null) 
 			materialUnit.Clear ();	
-//		Debug.LogError ("5");
 		prevItem = null;
-//		Debug.LogError ("6");
 	}
 	
 	public void SetUnitDisplay(GameObject go) {
