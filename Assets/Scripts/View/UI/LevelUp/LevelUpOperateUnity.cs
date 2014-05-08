@@ -47,6 +47,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		ClearData ();
 
 		CheckLevelUp ();
+
+		sortRule = SortRule.Attack;
+		ReceiveSortInfo (sortRule);
 	}
 
 
@@ -134,8 +137,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			}
 		}
 
-		sortRule = SortRule.HP;
-		ReceiveSortInfo (sortRule);
+
 	}
 
 	void InitUI() {
