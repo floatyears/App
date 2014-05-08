@@ -15,7 +15,7 @@ public class FriendHelperView : UIComponentUnity{
 //    private uint stageID;
 //	private TEvolveStart evolveStart = null;
 //	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
-	private List<TFriendInfo> helperDataList = new List<TFriendInfo>();
+	protected List<TFriendInfo> helperDataList = new List<TFriendInfo>();
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
@@ -291,10 +291,10 @@ public class FriendHelperView : UIComponentUnity{
 //	}
 	
 	//----------------------------New-------------------------------
-	private DragPanel dragPanel;
-	private UIButton sortBtn;
-	private UILabel sortRuleLabel;
-	private SortRule curSortRule;
+	protected DragPanel dragPanel;
+	protected UIButton sortBtn;
+	protected UILabel sortRuleLabel;
+	protected SortRule curSortRule;
 
 	private void InitUI(){
 		sortBtn = transform.FindChild("Button_Sort").GetComponent<UIButton>();
@@ -327,7 +327,7 @@ public class FriendHelperView : UIComponentUnity{
 		pickedQuestInfo = msg as QuestItemView;
 	}
 
-	private void ClickHelperItem(HelperUnitItem item){
+	protected virtual void ClickHelperItem(HelperUnitItem item){
 //		Debug.Log("ClickHelperItem...");
 		
 		if(pickedQuestInfo == null){

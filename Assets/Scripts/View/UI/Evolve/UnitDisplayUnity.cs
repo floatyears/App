@@ -12,6 +12,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitMaterialList, UnitMaterialList);
+		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void HideUI () {
@@ -19,6 +20,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitMaterialList, UnitMaterialList);
+		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void DestoryUI () {
@@ -48,13 +50,16 @@ public class UnitDisplayUnity : UIComponentUnity {
 	private TUserUnit selectBase  = null;
 	private UnitItemInfo baseData = null;
 
+	private UIButton sortButton;
+	private UILabel sortLabel;
+	private SortRule sortRule;
+
 	List<UnitItemInfo> materialInfo = new List<UnitItemInfo> ();
 	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
 	int state = 1;
 
 	void ClickItem (GameObject go) {
 		UnitItemInfo uii = evolveItem.Find (a => a.scrollItem == go);
-//		Debug.LogError ("unit : " + state);
 		if (uii != default(UnitItemInfo) && state == 1) {
 			selectBase = uii.userUnitItem;
 			TranferData.Clear();
@@ -228,6 +233,11 @@ public class UnitDisplayUnity : UIComponentUnity {
 	
 	void InitUI () {
 		CreatPanel ();
+		sortButton = FindChild<UIButton> ("sort_bar");
+		UIEventListener.Get (sortButton.gameObject).onClick = SortButtoCallback;
+		sortLabel = FindChild<UILabel>("sort_bar/SortLabel");
+		sortRule = SortRule.HP;
+		ReceiveSortInfo (sortRule);
 	}
 
 	void CreatPanel () {
@@ -237,7 +247,27 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 		unitItemDragPanel = new DragPanel ("UnitDisplay", unitItem);
 	}
-	
+
+	void SortButtoCallback(GameObject go) {
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
+	}
+
+	private void ReceiveSortInfo(object msg){
+		sortRule = (SortRule)msg;
+		sortLabel.text = sortRule.ToString ();
+		SortUnitByCurRule();
+	}
+
+	private void SortUnitByCurRule(){
+		SortUnitTool.SortByTargetRule(sortRule, allData);
+		List<GameObject> scrollList = unitItemDragPanel.ScrollItem;
+		for (int i = 1; i < scrollList.Count; i++){
+//			PartyUnitItem puv = myUnitList[i];
+//			puv.UserUnit = myUnit[ i - 1 ];
+//			puv.CurrentSortRule = sortRule;
+		}
+	}
+
 	void DisposeCallback (KeyValuePair<string, object> info) {
 		switch (info.Key) {
 		case SetDragPanel:

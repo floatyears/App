@@ -511,6 +511,18 @@ public class DGTools {
 		source.eulerAngles = target.eulerAngles;
 		source.localScale = target.localScale;
 	}
+
+	public static FriendWindows CreatFriendWindow() {
+		GameObject go = Resources.Load ("Prefabs/UI/Friend/FriendWindows") as GameObject;
+		GameObject instance = GameObject.Instantiate (go) as GameObject; // NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
+		Transform insTrans = instance.transform;
+		insTrans.parent = ViewManager.Instance.CenterPanel.transform;
+		insTrans.localPosition = Vector3.zero;
+		insTrans.localScale = Vector3.one;
+		FriendWindows fw = instance.GetComponent<FriendWindows>();
+		fw.Init (null, null);
+		return fw;
+	}
 }
 
 public class GameLayer

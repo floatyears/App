@@ -96,7 +96,8 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 
 		this.origin = origin;
 		this.config = config;
-		if (config.parent != null) {
+
+		if (config != null && config.parent != null) {
 			transform.parent = config.parent;	
 			transform.localScale = Vector3.one;
 		}
@@ -104,6 +105,7 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 	}
 
 	public virtual void ShowUI() {
+		if(config != null)
 		transform.localPosition = config.localPosition;
 	}
 

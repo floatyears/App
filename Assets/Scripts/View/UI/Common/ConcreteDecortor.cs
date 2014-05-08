@@ -496,7 +496,9 @@ public class LevelUpDecorator : DecoratorBase{
 	
 	public override void ShowScene()
 	{
+//		Debug.LogError ("LevelUpDecorator  ShowScene 1 ");
 		base.ShowScene();
+//		Debug.LogError ("LevelUpDecorator  ShowScene 2  ");
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 	}
 	
@@ -507,6 +509,7 @@ public class LevelUpDecorator : DecoratorBase{
 	
 	public override void DestoryScene()
 	{
+		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpSaveState, SetKeepState);
 		base.DestoryScene();
 	}
 	
@@ -593,10 +596,12 @@ public class EvolveDecorator : DecoratorBase{
 		UnitDisplay unitdisplay = CreatComponent< UnitDisplay >(UIConfig.unitDisplay);
 		unitdisplay.SetComponent(evolve);
 
-		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.evolveFriend);
-		friendPanel.SetComponent (unitdisplay);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
+		sortPanel.SetComponent (unitdisplay);
+//		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.evolveFriend);
+//		friendPanel.SetComponent (unitdisplay);
 
-		lastDecorator = friendPanel;
+		lastDecorator = sortPanel;
 		lastDecorator.CreatUI();
 	}
 }

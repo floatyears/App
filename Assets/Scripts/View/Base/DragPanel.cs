@@ -123,7 +123,7 @@ public class DragPanel : UIBase
 	
 	public void RemoveItem (GameObject target){
 		bool b = scrollItem.Contains (target);
-		Debug.LogError(" RemoveItem  b : " + b);
+//		Debug.LogError(" RemoveItem  b : " + b);
 		if (!b) {
 			return;		
 		}

@@ -10,11 +10,13 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
+		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
+		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 	}
 	
 	public override void DestoryUI () {
@@ -82,6 +84,25 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		}
 	}
 
+	void selectUnitMaterial(object data) {
+		if (data == null) {
+			return;	
+		}
+		List<TUserUnit> hasMaterial = data as List<TUserUnit>;
+		if (hasMaterial == null) {
+			TUserUnit hasUnit = data as TUserUnit;
+			materialItem[state].Refresh(hasUnit);
+			List<TUserUnit> materialList = new List<TUserUnit>();
+			for (int i = 2; i < 5; i++) {
+				materialList.Add(materialItem[i].userUnit);
+			}
+			MsgCenter.Instance.Invoke(CommandEnum.UnitMaterialList, materialList);
+			return;
+		}
+
+		DisposeMaterial (hasMaterial);
+	}
+
 	void DisposeCallback (KeyValuePair<string, object> keyValue) {
 		switch (keyValue.Key) {
 		case BaseData:
@@ -112,9 +133,28 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		if (itemInfo == null || baseItem == null) {
 			return;	
 		}
+		List<uint> evolveNeedUnit = new List<uint> (baseItem.userUnit.UnitInfo.evolveInfo.materialUnitId);
 
-		for (int i = 0; i < itemInfo.Count; i++) {
-			materialItem[i + 2].Refresh(itemInfo[i]);
+		for (int i = 0; i < evolveNeedUnit.Count ; i++) {
+			TUserUnit material = null;
+			uint ID = evolveNeedUnit[i];
+			bool isHave = true;
+			for (int j = 0; j < itemInfo.Count; j++) {
+				if(itemInfo[j] != null && itemInfo[j].UnitInfo.ID == ID) {
+					material = itemInfo[j];
+					itemInfo.Remove(material);
+					break;
+				}
+			}
+
+			if(material == null) {
+				bbproto.UserUnit uu = new bbproto.UserUnit();
+				uu.unitId = ID;
+				material = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
+				isHave = false;
+			}
+//			Debug.LogError(material);
+			materialItem[i + 2].Refresh(material,isHave);
 		}
 	}
 
@@ -128,6 +168,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		}
 	
 		if (state == 1 && tuu.UnitInfo.evolveInfo != null) {
+			ClearMaterial();
 			baseItem.Refresh(tuu);
 			showInfoLabel[preAtkLabel].text = tuu.Attack.ToString();
 			showInfoLabel[preHPLabel].text = tuu.Hp.ToString();
@@ -260,6 +301,9 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			}
 			
 			ei.haveLabel = go.transform.Find("HaveLabel").GetComponent<UILabel>();
+			ei.maskSprite = go.transform.Find("Mask").GetComponent<UISprite>();
+			ei.boxCollider = go.GetComponent<BoxCollider>();
+//			Debug.LogError("go : " + go + " ei.boxcollider : " + ei.boxCollider);
 		}
 	}
 
@@ -315,19 +359,34 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 public class EvolveItem {
 	public GameObject itemObject;
+	public BoxCollider boxCollider;
 	public TUserUnit userUnit;
 	public UITexture showTexture;
 	public UILabel haveLabel;
+	public UISprite maskSprite;
 	public UISprite highLight;
 	public int index;
 
-	public void Refresh (TUserUnit tuu) {
+	public void Refresh (TUserUnit tuu, bool isHave = true) {
 		userUnit = tuu;
+		ShowShield (!isHave);
 		if (tuu == null) {
 			showTexture.mainTexture = null;
 		} else {
 			Texture2D tex = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
 			showTexture.mainTexture = tex;
+		}
+	}
+
+	void ShowShield(bool show) {
+		if(maskSprite != null && maskSprite.enabled != show) {
+			maskSprite.enabled = show;
+		}
+		if(haveLabel != null && haveLabel.enabled != show) {
+			haveLabel.enabled = show;
+		}
+		if (boxCollider != null && boxCollider.enabled == show) {
+			boxCollider.enabled = !show;
 		}
 	}
 }

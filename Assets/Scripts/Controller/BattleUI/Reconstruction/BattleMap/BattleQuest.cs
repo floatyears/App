@@ -846,17 +846,17 @@ public class BattleQuest : UIBase {
 		DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;	
 		TEvolveStart tes = DataCenter.evolveInfo;
-		DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.BaseUnitId);
+//		DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.BaseUnitId);
 		DataCenter.Instance.UserUnitList.DelMyUnit(tes.EvolveStart.BaseUnitId);
 		for (int i = 0; i < tes.EvolveStart.PartUnitId.Count; i++) {
-			DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.PartUnitId[i]);
+//			DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.PartUnitId[i]);
 			DataCenter.Instance.UserUnitList.DelMyUnit(tes.EvolveStart.PartUnitId[i]);
 		}
 		for (int i = 0; i < rsp.gotUnit.Count; i++) {
-			DataCenter.Instance.MyUnitList.AddMyUnit(rsp.gotUnit[i]);
+//			DataCenter.Instance.MyUnitList.AddMyUnit(rsp.gotUnit[i]);
 			DataCenter.Instance.UserUnitList.AddMyUnit(rsp.gotUnit[i]);
 		}
-		DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
+//		DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
 		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
 		evolveUser = TUserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
 
