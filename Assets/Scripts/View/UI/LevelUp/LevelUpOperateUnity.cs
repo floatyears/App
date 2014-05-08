@@ -95,7 +95,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
-
 		if (myUnitDragPanel.DragPanelView == null) {
 			InitDragPanel();	
 		}
@@ -123,11 +122,19 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				myUnitList.Add(pui);
 			}
 		} else {
+
+
 			for (int i = 0; i < dataCount; i++) {
 				PartyUnitItem pui = scroll[i + 1].GetComponent<PartyUnitItem>();
-				bool initEnable = pui.IsEnable;
 				pui.UserUnit = myUnit[i];
 				pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(myUnit[i].ID);
+				bool initEnable = true;
+
+				for (int j = 1; j < 4; j++) {
+					if(selectedItem[j] != null && selectedItem[j].UserUnit != null && selectedItem[j].UserUnit.TUserUnitID == myUnit[i].TUserUnitID) {
+						initEnable = false;
+					}
+				}
 				pui.IsEnable = initEnable;
 				pui.callback = MyUnitClickCallback;
 				myUnitList.Add(pui);
@@ -135,9 +142,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			for (int i = scroll.Count - 1; i > dataCount ; i--) {
 				myUnitDragPanel.RemoveItem(scroll[i]);
 			}
+
+			if(selectedItem[0] != null && selectedItem[0].UserUnit != null) {
+				ShieldParty(false, null);
+			}
 		}
-
-
 	}
 
 	void InitUI() {
