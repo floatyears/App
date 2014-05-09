@@ -147,7 +147,7 @@ public class Role : UIBaseUnity {
 
 	void QuestCoorEnd(Coordinate coor) {
 		bQuest.currentCoor = coor;
-		bQuest.QuestCoorEnd ();
+//		bQuest.QuestCoorEnd ();
 	}
 
 	void SetTarget(Coordinate tc) {
