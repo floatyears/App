@@ -33,17 +33,29 @@ public class ConfigBattleUseData {
 	public TFriendInfo BattleFriend;
 
 	private AttackInfo _posionAttack = null;
-
 	public AttackInfo posionAttack {
 		get { return _posionAttack; }
-		set { _posionAttack = value; Debug.LogError(" WriteBuff : " + _posionAttack);  WriteBuff (posionAttackName, _posionAttack); }
+		set { _posionAttack = value; WriteBuff (posionAttackName, _posionAttack); }
 	}
-	
-	public AttackInfo reduceHurtAttack = null;
 
-	public AttackInfo reduceDefenseAttack = null;
+	private AttackInfo _reduceHurtAttack = null;
+	public AttackInfo reduceHurtAttack {
+		get { return _reduceHurtAttack; }
+		set { _reduceHurtAttack = value; WriteBuff(reduceHurtName, _reduceHurtAttack); }
+	}
 
-	public AttackInfo strengthenAttack = null;
+	private AttackInfo _reduceDefenseAttack = null;
+	public AttackInfo reduceDefenseAttack {
+		get { return _reduceDefenseAttack; }
+		set { _reduceDefenseAttack = value;  WriteBuff(reduceDefenseName, _reduceDefenseAttack); }
+	}
+
+	private AttackInfo _strengthenAttack = null;
+	public AttackInfo strengthenAttack {
+		get { return _strengthenAttack; }
+		set { _strengthenAttack = value; WriteBuff(strengthenAttackName, _strengthenAttack); }
+	}
+
 
 	private TStoreBattleData _storeBattleData;
 

@@ -268,8 +268,9 @@ public class BattleUseData {
         ac.enemyInfo = boss;
     }
 
-    public List<AttackInfo> CaculateFight(int areaItem, int id) {
-		return upi.CalculateSkill(areaItem, id, maxBlood);
+    public List<AttackInfo> CaculateFight(int areaItem, int id, bool isBoost) {
+		float value = isBoost ? 1.5f : 1f;
+		return upi.CalculateSkill(areaItem, id, maxBlood, value);
     }
 
     public void StartAttack(object data) {

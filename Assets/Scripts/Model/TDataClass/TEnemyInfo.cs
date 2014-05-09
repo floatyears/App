@@ -84,7 +84,7 @@ public class TEnemyInfo : ProtobufDataBase {
 		if (posionAttack == null) {
 			return;	
 		}
-		Debug.LogError("SkillPosion : " + instance.enemyId);
+//		Debug.LogError("SkillPosion : " + instance.enemyId);
 		int value = System.Convert.ToInt32 (posionAttack.AttackValue);
 		KillHP (value);
 	}
@@ -95,7 +95,7 @@ public class TEnemyInfo : ProtobufDataBase {
 			initBlood = 0;	
 			IsDead = true;
 		}
-		Debug.LogError ("initBlood : " + initBlood);
+//		Debug.LogError ("initBlood : " + initBlood);
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
 
