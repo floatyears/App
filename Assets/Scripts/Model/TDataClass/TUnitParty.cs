@@ -204,7 +204,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		return false;
 	}
 	
-	public List<AttackInfo> CalculateSkill(int areaItemID, int cardID, int blood) {
+	public List<AttackInfo> CalculateSkill(int areaItemID, int cardID, int blood, float boostValue = 1f) {
         if (crh == null) {
             crh = new CalculateRecoverHP();		
         }
@@ -220,6 +220,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 //		AttackInfo recoverHp = crh.RecoverHP(skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
 		AttackInfo recoverHp = crh.RecoverHP(skillUtility, blood);
 		if (recoverHp != null) {
+
+			recoverHp.AttackValue *= boostValue;
 			recoverHp.UserUnitID = UserUnit[0].MakeUserUnitKey();
 			recoverHp.UserPos = 0; // 0 == self leder position
 			tempAttack.Add(recoverHp);
@@ -235,6 +237,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 				for (int j = 0; j < tempAttack.Count; j++) {
 					AttackInfo ai = tempAttack[j];
 					ai.UserPos = item.Key;
+
+					ai.AttackValue *= boostValue;
+
 					areaItemAttackInfo.Add(ai);
 					tempAttackType.Add(ai);
 				}     

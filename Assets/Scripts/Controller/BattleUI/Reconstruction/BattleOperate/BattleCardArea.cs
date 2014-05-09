@@ -58,6 +58,16 @@ public class BattleCardArea : UIBaseUnity {
 
 	string prevInfo = "";
 
+	int boostIndex = -1;
+
+	void SetBoost () {
+		if (boostIndex > -1) {
+			battleCardAreaItem[boostIndex].isBoost = false;
+		}
+		boostIndex = Random.Range (0, 5);
+		battleCardAreaItem[boostIndex].isBoost = true;
+	}
+
 	void StateInfo(object data) {
 		string info = (string)data;
 		if (string.IsNullOrEmpty (info) && !string.IsNullOrEmpty(stateLabel.spriteName)) {
@@ -65,13 +75,16 @@ public class BattleCardArea : UIBaseUnity {
 			return;
 		}			
 
+		if (info == DGTools.stateInfo [0]) {
+			SetBoost();
+		}
+
 		if (stateLabel.spriteName == info) {
 			return;	
 		}
 
 		if (info == DGTools.stateInfo [4]) {
 			prevInfo = stateLabel.spriteName;
-//			GameTimer.GetInstance().AddCountDown(1f, RecoverStateInfo);
 		}
 
 		if (stateLabel.spriteName == string.Empty) {

@@ -216,7 +216,7 @@ public class EnemyItem : UIBaseUnity {
         }
         AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_die);
         texture.enabled = false;
-		Debug.LogError ("enemydead next label clear ");
+//		Debug.LogError ("enemydead next label clear ");
         nextLabel.text = "";
     }
 
