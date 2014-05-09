@@ -620,13 +620,13 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleEnd(object data) {
+		QuestCoorEnd ();
+
 		ExitFight (true);
 		bool b = false;
 		if (data != null) {
 			b = (bool)data;	
 		}
-
-		configBattleUseData.StoreMapData (_questData);
 
 		if (battleEnemy && !b) {
 			BossDead();
@@ -634,6 +634,9 @@ public class BattleQuest : UIBase {
 			configBattleUseData.StoreMapData (null);
 			return;
 		}
+
+		configBattleUseData.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_None;
+		configBattleUseData.StoreMapData (_questData);
 
 		int index = questDungeonData.GetGridIndex (currentCoor);
 		if (index == -1) {
