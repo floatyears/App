@@ -35,6 +35,8 @@ public class UIManager {
 	/// </summary>
 	public DecoratorBase current;
 
+	private SceneEnum storePrevScene = SceneEnum.None;
+
 	private Dictionary<SceneEnum,DecoratorBase> sceneDecorator = new Dictionary<SceneEnum, DecoratorBase>();
 	
 	/// <summary>
@@ -42,8 +44,7 @@ public class UIManager {
 	/// </summary>
 	/// <param name="uiName">ui name.</param>
 	/// <param name="ui">ui object.</param>
-	public void AddUIObject(SceneEnum sEnum, DecoratorBase decorator)
-	{
+	public void AddUIObject(SceneEnum sEnum, DecoratorBase decorator) {
 		if(!sceneDecorator.ContainsKey(sEnum))
 			sceneDecorator.Add(sEnum,decorator);
 		else
@@ -55,8 +56,7 @@ public class UIManager {
 	/// </summary>
 	/// <returns><c>true</c> if this instance has user interface object the specified uiName; otherwise, <c>false</c>.</returns>
 	/// <param name="uiName">ui name.</param>
-	public bool HasUIObject(SceneEnum sEnum)
-	{
+	public bool HasUIObject(SceneEnum sEnum) {
 		if(sceneDecorator.ContainsKey(sEnum))
 			return true;
 		
@@ -68,8 +68,7 @@ public class UIManager {
 	/// </summary>
 	/// <returns>ui object.</returns>
 	/// <param name="uiName">ui name.</param>
-	public DecoratorBase GetUI(SceneEnum sEnum)
-	{
+	public DecoratorBase GetUI(SceneEnum sEnum) {
 		if(sceneDecorator.ContainsKey(sEnum))
 			return sceneDecorator[sEnum];
 		else
@@ -87,6 +86,17 @@ public class UIManager {
 			sceneDecorator[sEnum].DestoryScene();
 			sceneDecorator.Remove(sEnum);
 		}
+	}
+
+	/// <summary>
+	/// Removes the U.
+	/// </summary>
+	public void RemoveUI() {
+		if(sceneDecorator.ContainsKey(storePrevScene)) {
+//			Debug.LogError("storePrevScene : " + storePrevScene);
+			sceneDecorator.Remove(storePrevScene);
+		}
+		storePrevScene = SceneEnum.None;
 	}
 
 	public void EnterBattle () {
@@ -123,17 +133,17 @@ public class UIManager {
 			if(current != null) {
 				current.HideScene();
 			}
-
+			storePrevScene = sEnum;
 		}
 
-		if(HasUIObject(sEnum))
-			current = GetUI(sEnum);
+		if (HasUIObject (sEnum)) {
+//			Debug.LogError("senum show : " + sEnum);
+			current = GetUI(sEnum);	
+		}
 		else{
-//			Debug.LogError("ChangeScene : " + sEnum);
+//			Debug.LogError("senum creat : " + sEnum);
 			DecoratorBase db = CreatScene(sEnum);
-//			Debug.LogError("db : " + db);
 			current = db;
-//			Debug.LogError("ChangeScene : " + current);
 		}
 
 		if (current != null) {
@@ -284,6 +294,9 @@ public class UIManager {
             else if (nextScene == SceneEnum.Party){
                 MsgCenter.Instance.Invoke(CommandEnum.PartySaveState);
             }
+			else if(nextScene == SceneEnum.Evolve) {
+				MsgCenter.Instance.Invoke(CommandEnum.EvolveSaveState);
+			}
         }
     }
 

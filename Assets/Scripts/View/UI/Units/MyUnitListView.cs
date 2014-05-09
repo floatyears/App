@@ -59,13 +59,14 @@ public class MyUnitListView : UIComponentUnity {
 	}
 
 	private List<TUserUnit> GetUnitList(){
-		if(DataCenter.Instance.MyUnitList.GetAll() == null){
+		List<TUserUnit> myUnitList = DataCenter.Instance.UserUnitList.GetAllMyUnit ();
+		if(myUnitList == null){
 			return null;
 		}
-		List<TUserUnit> unitList = new List<TUserUnit>();
-		unitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
+//		List<TUserUnit> unitList = new List<TUserUnit>();
+//		unitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
 		//Debug.Log("MyUnitListView.GetUnitList(), unitList count is : " + unitList.Count);
-		return unitList;
+		return myUnitList;
 	}
 
 	private void SortUnitByCurRule(){
@@ -86,7 +87,7 @@ public class MyUnitListView : UIComponentUnity {
 	private void RefreshItemCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		countArgs.Add("title", TextCenter.Instace.GetCurrentText("UnitCounterTitle"));
-		countArgs.Add("current", DataCenter.Instance.MyUnitList.Count);
+		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
 		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}

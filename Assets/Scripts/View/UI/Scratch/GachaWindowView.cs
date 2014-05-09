@@ -214,7 +214,7 @@ public class GachaWindowView : UIComponentUnity {
 
     private void ShowUnitByUserUnitID(GameObject btn, uint uniqueId){
 //        LogHelper.Log("showUnitByUserUnit(), uniqueId {0}", uniqueId);
-        TUserUnit userUnit = DataCenter.Instance.MyUnitList.GetMyUnit(uniqueId);
+        TUserUnit userUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueId);
         ShowUnitById(btn, userUnit.UnitInfo.ID, userUnit);
         DealAfterShowUnit(gridDict[btn]);
     }
@@ -228,7 +228,7 @@ public class GachaWindowView : UIComponentUnity {
     IEnumerator ShowUnitRareById(GameObject grid){
         LogHelper.Log("ShowUnitRareById(), currentUid {0}", currentUid);
         yield return new WaitForSeconds(0.5f);
-        TUserUnit userUnit = DataCenter.Instance.MyUnitList.GetMyUnit(currentUid);
+        TUserUnit userUnit = DataCenter.Instance.UserUnitList.GetMyUnit(currentUid);
 
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;
@@ -354,7 +354,7 @@ public class GachaWindowView : UIComponentUnity {
             return;
         }
         UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
-        TUserUnit unit = DataCenter.Instance.MyUnitList.GetMyUnit(newUnitId);
+        TUserUnit unit = DataCenter.Instance.UserUnitList.GetMyUnit(newUnitId);
         MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, unit);
     }
 

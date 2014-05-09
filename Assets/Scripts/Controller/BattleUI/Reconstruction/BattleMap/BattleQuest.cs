@@ -388,6 +388,7 @@ public class BattleQuest : UIBase {
 	void ExcuteDiskActiveSkill (AttackInfo ai) {
 		if (ai != null) {
 			IActiveSkillExcute iase = bud.excuteActiveSkill.GetActiveSkill(ai.UserUnitID);
+			Debug.LogError(" ExcuteDiskActiveSkill : " + iase);
 			if(iase != null) {
 				iase.ExcuteByDisk(ai);
 			}
@@ -548,6 +549,7 @@ public class BattleQuest : UIBase {
 			TEnemyInfo tei = currentMapData.Enemy[i];
 			tei.EnemySymbol = (uint)i;
 			temp.Add(tei);
+			Debug.LogError(" MapItemEnemy : id : " + tei.EnemyID + " blood : " + tei.initBlood);
 
 			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 		}
@@ -624,13 +626,13 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleEnd(object data) {
+		QuestCoorEnd ();
+
 		ExitFight (true);
 		bool b = false;
 		if (data != null) {
 			b = (bool)data;	
 		}
-
-		configBattleUseData.StoreMapData (_questData);
 
 		if (battleEnemy && !b) {
 			BossDead();
@@ -638,6 +640,9 @@ public class BattleQuest : UIBase {
 			configBattleUseData.StoreMapData (null);
 			return;
 		}
+
+		configBattleUseData.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_None;
+		configBattleUseData.StoreMapData (_questData);
 
 		int index = questDungeonData.GetGridIndex (currentCoor);
 		if (index == -1) {
@@ -850,17 +855,17 @@ public class BattleQuest : UIBase {
 		DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;	
 		TEvolveStart tes = DataCenter.evolveInfo;
-		DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.BaseUnitId);
+//		DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.BaseUnitId);
 		DataCenter.Instance.UserUnitList.DelMyUnit(tes.EvolveStart.BaseUnitId);
 		for (int i = 0; i < tes.EvolveStart.PartUnitId.Count; i++) {
-			DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.PartUnitId[i]);
+//			DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.PartUnitId[i]);
 			DataCenter.Instance.UserUnitList.DelMyUnit(tes.EvolveStart.PartUnitId[i]);
 		}
 		for (int i = 0; i < rsp.gotUnit.Count; i++) {
-			DataCenter.Instance.MyUnitList.AddMyUnit(rsp.gotUnit[i]);
+//			DataCenter.Instance.MyUnitList.AddMyUnit(rsp.gotUnit[i]);
 			DataCenter.Instance.UserUnitList.AddMyUnit(rsp.gotUnit[i]);
 		}
-		DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
+//		DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
 		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
 		evolveUser = TUserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
 

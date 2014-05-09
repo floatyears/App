@@ -204,7 +204,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		return false;
 	}
 	
-	public List<AttackInfo> CalculateSkill(int areaItemID, int cardID, int blood) {
+	public List<AttackInfo> CalculateSkill(int areaItemID, int cardID, int blood, float boostValue = 1f) {
         if (crh == null) {
             crh = new CalculateRecoverHP();		
         }
@@ -220,6 +220,8 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 //		AttackInfo recoverHp = crh.RecoverHP(skillUtility.haveCard, skillUtility.alreadyUseSkill, blood);
 		AttackInfo recoverHp = crh.RecoverHP(skillUtility, blood);
 		if (recoverHp != null) {
+
+			recoverHp.AttackValue *= boostValue;
 			recoverHp.UserUnitID = UserUnit[0].MakeUserUnitKey();
 			recoverHp.UserPos = 0; // 0 == self leder position
 			tempAttack.Add(recoverHp);
@@ -235,6 +237,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 				for (int j = 0; j < tempAttack.Count; j++) {
 					AttackInfo ai = tempAttack[j];
 					ai.UserPos = item.Key;
+
+					ai.AttackValue *= boostValue;
+
 					areaItemAttackInfo.Add(ai);
 					tempAttackType.Add(ai);
 				}     
@@ -266,7 +271,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		TUserUnit tuu;
 		foreach (var item in instance.items) {
 			uint id = item.unitUniqueId;
-			tuu = DataCenter.Instance.MyUnitList.GetMyUnit(id);
+			tuu = DataCenter.Instance.UserUnitList.GetMyUnit(id);
 			if(tuu != null)
 				temp.AddRange(tuu.GetNormalSkill());
 		}                
@@ -282,7 +287,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     void GetLeaderSkill() {
         if (instance.items.Count > 0) {
             uint id = instance.items[0].unitUniqueId;
-			TUserUnit tuu = DataCenter.Instance.MyUnitList.GetMyUnit(id);
+			TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(id);
 			AddLeadSkill(tuu);
         }
 
@@ -443,7 +448,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     public List<TUserUnit> GetUserUnit() {
         List<TUserUnit> temp = new List<TUserUnit>();
         foreach (var item in instance.items) {
-			TUserUnit tuu = DataCenter.Instance.MyUnitList.GetMyUnit(item.unitUniqueId);
+			TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
 			temp.Add(tuu);
 		}
         return temp;

@@ -32,13 +32,30 @@ public class ConfigBattleUseData {
 
 	public TFriendInfo BattleFriend;
 
-	public AttackInfo posionAttack = null;
+	private AttackInfo _posionAttack = null;
+	public AttackInfo posionAttack {
+		get { return _posionAttack; }
+		set { _posionAttack = value; WriteBuff (posionAttackName, _posionAttack); }
+	}
 
-	public AttackInfo reduceHurtAttack = null;
+	private AttackInfo _reduceHurtAttack = null;
+	public AttackInfo reduceHurtAttack {
+		get { return _reduceHurtAttack; }
+		set { _reduceHurtAttack = value; WriteBuff(reduceHurtName, _reduceHurtAttack); }
+	}
 
-	public AttackInfo reduceDefenseAttack = null;
+	private AttackInfo _reduceDefenseAttack = null;
+	public AttackInfo reduceDefenseAttack {
+		get { return _reduceDefenseAttack; }
+		set { _reduceDefenseAttack = value;  WriteBuff(reduceDefenseName, _reduceDefenseAttack); }
+	}
 
-	public AttackInfo strengthenAttack = null;
+	private AttackInfo _strengthenAttack = null;
+	public AttackInfo strengthenAttack {
+		get { return _strengthenAttack; }
+		set { _strengthenAttack = value; WriteBuff(strengthenAttackName, _strengthenAttack); }
+	}
+
 
 	private TStoreBattleData _storeBattleData;
 
@@ -157,6 +174,7 @@ public class ConfigBattleUseData {
 
 	void WriteAllBuff() {
 		WriteBuff (posionAttackName, posionAttack);
+		Debug.LogError ("write poison attack : " + posionAttack);
 		WriteBuff (reduceHurtName, reduceHurtAttack);
 		WriteBuff (reduceDefenseName, reduceDefenseAttack);
 		WriteBuff (strengthenAttackName, strengthenAttack);
@@ -164,6 +182,7 @@ public class ConfigBattleUseData {
 
 	void ReadAllBuff() {
 		posionAttack = ReadBuff (posionAttackName);
+		Debug.LogError ("read poison attack : " + posionAttack);
 		reduceHurtAttack = ReadBuff (reduceHurtName);
 		reduceDefenseAttack = ReadBuff (reduceDefenseName);
 		strengthenAttack = ReadBuff (strengthenAttackName);
@@ -179,7 +198,7 @@ public class ConfigBattleUseData {
 			try {
 				File.Delete(path);
 			} catch (System.Exception ex) {
-				
+				Debug.LogError("WriteBuff ex : " + ex.Message);
 			}
 			return;
 		}

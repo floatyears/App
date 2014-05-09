@@ -5,10 +5,19 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config, origin);
 		InitUI ();
+		MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
 
 	public override void ShowUI () {
+		if (friendWindow != null && friendWindow.isShow) {
+			friendWindow.gameObject.SetActive (true);
+		} else {
+			if (!gameObject.activeSelf) {
+				gameObject.SetActive(true);
+			}
+		}
 		base.ShowUI ();
+		ClearFocus ();
 		ShowData ();
 
 		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
@@ -17,15 +26,32 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
+		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail) {
+			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
+				friendWindow.gameObject.SetActive (false);
+			} 
+		}else {
+			if (friendWindow != null) {
+				friendWindow.HideUI ();
+			}	
+		}
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
 
 	public override void ResetUIState () {
-		base.ResetUIState ();
+		ClearData ();
+
+		CheckLevelUp ();
+
+		sortRule = SortRule.Attack;
+		ReceiveSortInfo (sortRule);
 	}
+
+
 
 	public override void CallbackView (object data) {
 		base.CallbackView (data);
@@ -65,9 +91,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private MyUnitItem prevMaterialItem;
 
+	private FriendWindows friendWindow;
+
 	void ShowData () {
+		if (myUnitDragPanel.DragPanelView == null) {
+			InitDragPanel();	
+		}
 		myUnitList.Clear ();
-		myUnit = dataCenter.MyUnitList.GetAllList ();
+		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
 		int dataCount = myUnit.Count;
 		List<GameObject> scroll = myUnitDragPanel.ScrollItem;
 		int itemCount = scroll.Count - 1;	// scroll list index = 0  is reject item;
@@ -90,16 +121,29 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				myUnitList.Add(pui);
 			}
 		} else {
+
+
 			for (int i = 0; i < dataCount; i++) {
 				PartyUnitItem pui = scroll[i + 1].GetComponent<PartyUnitItem>();
 				pui.UserUnit = myUnit[i];
-				pui.IsEnable = true;
 				pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(myUnit[i].ID);
+				bool initEnable = true;
+
+				for (int j = 1; j < 4; j++) {
+					if(selectedItem[j] != null && selectedItem[j].UserUnit != null && selectedItem[j].UserUnit.TUserUnitID == myUnit[i].TUserUnitID) {
+						initEnable = false;
+					}
+				}
+				pui.IsEnable = initEnable;
 				pui.callback = MyUnitClickCallback;
 				myUnitList.Add(pui);
 			}
-			for (int i = dataCount + 1; i < scroll.Count; i++) {
+			for (int i = scroll.Count - 1; i > dataCount ; i--) {
 				myUnitDragPanel.RemoveItem(scroll[i]);
+			}
+
+			if(selectedItem[0] != null && selectedItem[0].UserUnit != null) {
+				ShieldParty(false, null);
 			}
 		}
 	}
@@ -153,10 +197,34 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		UIEventListener.Get(rejectItemIns).onClick = RejectCallback;
 	}
 
-	void SelectedFriendCallback(LevelUpItem piv) {
-
+	void ResetUIAfterLevelUp(object data) {
+		ClearData ();
+		uint blendID = (uint)data;
+		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
+		Debug.LogError ("tuu.ID : " + tuu.ID + " tuu.level : " + tuu.Level);
+		selectedItem [0].UserUnit = tuu;
+		UpdateBaseInfoView(selectedItem [0]);
 	}
 
+	void SelectedFriendCallback(LevelUpItem piv) {
+		if (friendWindow == null) {
+			friendWindow = DGTools.CreatFriendWindow();
+			if(friendWindow == null) {
+				return;
+			}
+		}
+		gameObject.SetActive (false);
+		friendWindow.selectFriend = SelectFriend;
+		friendWindow.ShowUI ();
+	}
+
+	void SelectFriend(TFriendInfo friendInfo) {
+		gameObject.SetActive (true);
+		selectedItem [4].UserUnit = friendInfo.UserUnit;
+		selectedItem [4].IsEnable = true;
+		CheckLevelUp ();
+	}
+	
 	/// <summary>
 	/// Selecteds item's callback.
 	/// </summary>
@@ -166,6 +234,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		} else {
 			DisposeByPreMaterial(piv);
 		}
+
+		CheckLevelUp ();
 	}
 
 	void DisposeByPreMaterial(LevelUpItem lui) {
@@ -174,7 +244,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		}
 		EnabledItem (lui.UserUnit);
 		lui.UserUnit = prevMaterialItem.UserUnit;
+		lui.enabled = true;
 		prevMaterialItem.IsEnable = false;
+
 		ClearFocus ();
 	}
 
@@ -192,6 +264,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				prevSelectedItem.IsFocus = false;
 				prevSelectedItem = piv;
 				prevSelectedItem.IsFocus = true;
+
+//				CheckLevelUp ();
 			}
 			return;
 		}
@@ -218,11 +292,16 @@ public class LevelUpOperateUnity : UIComponentUnity {
 					prevMaterialItem.IsFocus = false;
 			prevMaterialItem = pui;
 			prevMaterialItem.IsFocus = true;
+
+			CheckLevelUp ();
 		} else {
 			EnabledItem(prevSelectedItem.UserUnit);
 			prevSelectedItem.IsFocus = false;
 			prevSelectedItem.UserUnit = pui.UserUnit;
 			pui.IsEnable = false;
+
+			CheckLevelUp ();
+
 			ClearFocus();
 		}
 	}
@@ -247,11 +326,26 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				break;
 			}
 		}
+
+		CheckLevelUp ();
+
 		ClearFocus ();
+	}
+
+	void ClearData() {
+		if(friendWindow != null)
+			friendWindow.HideUI ();
+		foreach (var item in selectedItem) {
+			item.UserUnit = null;
+			item.IsEnable = true;
+		}
+
+		UpdateBaseInfoView (null);
 	}
 	
 	void LevelUpCallback(GameObject go) {
 
+		ExcuteCallback (levelUpInfo);
 	}
 
 	void SortCallback(GameObject go) {
@@ -272,6 +366,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 //		pui.PartyLabel.text = "Base";
 		ClearFocus ();
 		ShieldParty (false, null);
+
+		CheckLevelUp ();
+
 		return true;
 	}
 
@@ -307,6 +404,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			selectedItem[i].UserUnit = pui.UserUnit;
 			pui.IsEnable = false;
 			ClearFocus ();
+
+			CheckLevelUp ();
+
 			return i;
 		}
 		return -1;	// -1 == not add to materail list.
@@ -379,13 +479,89 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	private void SortUnitByCurRule(){
-//		sortRule = curSortRule;
 		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
-		List<GameObject> scrollList = new List<GameObject> ();
+		List<GameObject> scrollList = myUnitDragPanel.ScrollItem;
 		for (int i = 1; i < scrollList.Count; i++){
-			PartyUnitItem puv = myUnitList[i];
+			PartyUnitItem puv = scrollList[i].GetComponent<PartyUnitItem>();//myUnitList[i];
 			puv.UserUnit = myUnit[ i - 1 ];
 			puv.CurrentSortRule = sortRule;
 		}
+	}
+
+	Queue<TUserUnit> levelUpInfo = new Queue<TUserUnit>() ;
+	void CheckLevelUp() {
+		levelUpInfo.Clear ();
+		TUserUnit baseItem = selectedItem [0].UserUnit;
+		if (baseItem == null) {
+			levelUpButton.isEnabled = false;
+			return;	
+		}
+		levelUpInfo.Enqueue (baseItem);
+
+		TUserUnit friendInfo = selectedItem [4].UserUnit;
+		if (friendInfo == null) {
+			levelUpButton.isEnabled = false;
+			return;	
+		}
+		levelUpInfo.Enqueue (friendInfo);
+
+		for (int i = 1; i < 4; i++) {
+			if(selectedItem[i].UserUnit != null) {
+				levelUpInfo.Enqueue(selectedItem[i].UserUnit);
+			}
+		}
+
+		if (levelUpInfo.Count == 2) {	// material is null; collection only have base and friend.
+			levelUpButton.isEnabled = false;
+			return;	
+		}
+	
+		levelUpButton.isEnabled = true;
+	}
+
+	void UpdateBaseInfoView( MyUnitItem pui){
+		MyUnitItem baseItem = selectedItem [0];
+		if (pui == null) {
+			foreach (var item in infoLabel) {
+				item.text = "0";
+			}
+			baseItem.UserUnit = null;
+			baseItem.IsEnable = true;
+		} else {
+			TUserUnit tuu = pui.UserUnit;
+			TUnitInfo tu = tuu.UnitInfo;
+			baseItem.UserUnit = tuu;
+			int hp = DataCenter.Instance.GetUnitValue(tu.HPType,tuu.Level);
+			infoLabel[0].text = hp.ToString();			
+			int atk =  DataCenter.Instance.GetUnitValue(tu.AttackType, tuu.Level);
+			infoLabel[1].text = atk.ToString();			
+			infoLabel[2].text = tuu.NextExp.ToString();
+			infoLabel[4].text = LevelUpTotalMoney().ToString();
+			infoLabel[3].text = LevelUpCurExp().ToString();
+		}
+	}
+
+	private const int CoinBase = 100;
+	int LevelUpTotalMoney(){
+		if (selectedItem[0].UserUnit == null){
+			return 0;
+		}
+		int totalMoney = 0;
+		for (int i = 1; i < 4; i++) {	//material index range
+			if (selectedItem[i].UserUnit != null){
+				totalMoney += CoinBase * selectedItem[i].UserUnit.Level;
+			}
+		}
+		return totalMoney;
+	}
+
+	int LevelUpCurExp () {
+		int devorExp = 0;
+		for (int i = 1; i < 4; i++) {	//material index range
+			if (selectedItem[i].UserUnit != null){
+				devorExp += selectedItem[i].UserUnit .MultipleDevorExp(selectedItem[0].UserUnit);
+			}
+		}
+		return devorExp;
 	}
 }

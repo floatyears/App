@@ -12,6 +12,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitMaterialList, UnitMaterialList);
+		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void HideUI () {
@@ -19,10 +20,20 @@ public class UnitDisplayUnity : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitMaterialList, UnitMaterialList);
+		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+	}
+
+	public override void ResetUIState () {
+		state = 1;
+//		selectBase = null;
+//		baseData.userUnitItem = null;
+
+//		sortRule = SortRule.Attack;
+//		ReceiveSortInfo (sortRule);
 	}
 
 	public override void CallbackView (object data) {
@@ -48,13 +59,21 @@ public class UnitDisplayUnity : UIComponentUnity {
 	private TUserUnit selectBase  = null;
 	private UnitItemInfo baseData = null;
 
+	private UIButton sortButton;
+	private UILabel sortLabel;
+	private SortRule _sortRule;
+	private SortRule sortRule {
+		set { _sortRule = value; sortLabel.text = value.ToString(); }
+		get { return _sortRule; }
+	}
+
 	List<UnitItemInfo> materialInfo = new List<UnitItemInfo> ();
 	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
 	int state = 1;
 
 	void ClickItem (GameObject go) {
+		Debug.LogError ("go : " + go);
 		UnitItemInfo uii = evolveItem.Find (a => a.scrollItem == go);
-//		Debug.LogError ("unit : " + state);
 		if (uii != default(UnitItemInfo) && state == 1) {
 			selectBase = uii.userUnitItem;
 			TranferData.Clear();
@@ -228,6 +247,11 @@ public class UnitDisplayUnity : UIComponentUnity {
 	
 	void InitUI () {
 		CreatPanel ();
+		sortButton = FindChild<UIButton> ("sort_bar");
+		UIEventListener.Get (sortButton.gameObject).onClick = SortButtoCallback;
+		sortLabel = FindChild<UILabel>("sort_bar/SortLabel");
+		sortRule = SortRule.HP;
+
 	}
 
 	void CreatPanel () {
@@ -237,7 +261,26 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 		unitItemDragPanel = new DragPanel ("UnitDisplay", unitItem);
 	}
-	
+
+	void SortButtoCallback(GameObject go) {
+		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
+	}
+
+	private void ReceiveSortInfo(object msg){
+		sortRule = (SortRule)msg;
+		SortUnitByCurRule();
+	}
+
+	private void SortUnitByCurRule(){
+		SortUnitTool.SortByTargetRule(sortRule, allData);
+		List<GameObject> scrollList = unitItemDragPanel.ScrollItem;
+		for (int i = 1; i < scrollList.Count; i++){
+			UnitItemInfo uii = scrollList[i].GetComponent<UnitItemInfo>();
+			uii.userUnitItem = allData[i];
+			RefreshView(uii);
+		}
+	}
+
 	void DisposeCallback (KeyValuePair<string, object> info) {
 		switch (info.Key) {
 		case SetDragPanel:
@@ -266,63 +309,39 @@ public class UnitDisplayUnity : UIComponentUnity {
 		for (int i = 0; i < allData.Count; i++) {
 			GameObject scrollItem = scroll[i];
 			TUserUnit tuu = allData[i];
-			UnitItemInfo uii =   allItem.Find(a=>a.userUnitItem.ID == tuu.ID);
+			UnitItemInfo uii =  allItem.Find(a=>a.userUnitItem.ID == tuu.ID);
+
 			if(uii == default(UnitItemInfo)) {
 				uii = scrollItem.AddComponent<UnitItemInfo>();
-//				uii.scrollItem = scrollItem;
+				uii.scrollItem = scrollItem;
 				uii.userUnitItem = tuu;
 			}
 			else{
+				uii.scrollItem = scrollItem;
 				uii.userUnitItem = tuu;
 			}
-			uii.scrollItem = scrollItem;
 			allItem.Add(uii);
 			RefreshView(uii);
 		}
 //		RefreshItem ();
 	}
 
-//	void RefreshItem () {
-////		RefreshDragPanelView ();
-//		List<GameObject> scroll = unitItemDragPanel.ScrollItem;
-//		for (int i = 0; i < allItem.Count; i++) {
-//			UnitItemInfo uii = allItem[i];
-//			uii.scrollItem = scroll[i];
-//			RefreshView(uii);
-//		}
-//	}
-
 	void RefreshView (UnitItemInfo uii) {
-		Transform go = uii.scrollItem.transform;
-		UITexture tex = go.Find ("Texture_Avatar").GetComponent<UITexture> ();
-		Texture2D texture = uii.userUnitItem.UnitInfo.GetAsset (UnitAssetType.Avatar);
-		tex.mainTexture = texture;
-		uii.stateLabel = go.Find ("Label_Party").GetComponent<UILabel> ();
-		uii.mask = go.Find ("Mask").GetComponent<UISprite> ();
-		uii.star = go.Find ("StarMark").GetComponent<UISprite> ();
-		uii.hightLight = go.Find ("HighLight").GetComponent<UISprite> ();
-		UIEventListener.Get (go.gameObject).onClick = ClickItem;
-		uii.IsFavorate (uii.userUnitItem.IsFavorite);
-		bool b = DataCenter.Instance.PartyInfo.UnitIsInParty (uii.userUnitItem.ID);
-		uii.IsPartyItem(b);
-		if (b) {
+		uii.callback = ClickItem;
+		bool b = uii.isPartyItem;
+		if (b && !partyItem.Contains(uii)) {
 			partyItem.Add(uii);		
 		}
 
-		if (uii.userUnitItem.IsFavorite == 0 && !b) {
-			normalItem.Add(uii);	
+		if (uii.userUnitItem.IsFavorite == 0 && !b && !normalItem.Contains(uii))  {
+			normalItem.Add(uii);
 		}
 
 		bbproto.EvolveInfo ei = uii.userUnitItem.UnitInfo.evolveInfo;
-		if (ei == null) {
-			uii.SetMask (true);	
-		} else {
-			uii.SetMask(false);
+		if (ei != null && !evolveItem.Contains(uii)) {
 			evolveItem.Add(uii);
 		}
 	}
-
-
 
 	bool CheckBaseNeedMaterial (TUserUnit tuu, int index) {
 		int tempIndex = index - 2;

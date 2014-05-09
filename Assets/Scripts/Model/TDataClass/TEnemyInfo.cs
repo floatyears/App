@@ -7,7 +7,6 @@ public class TEnemyInfo : ProtobufDataBase {
 
 	public TEnemyInfo (EnemyInfo instance) : base (instance) {
 		this.instance = instance;
-		AddListener ();
 	}
 
 	public void AddListener () {
@@ -78,30 +77,25 @@ public class TEnemyInfo : ProtobufDataBase {
 	}
 
 	void SkillPosion(object data) {
+		if (initBlood <= 0) {
+			return;	
+		}
 		posionAttack = data as AttackInfo;
 		if (posionAttack == null) {
 			return;	
 		}
-
-//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-
+//		Debug.LogError("SkillPosion : " + instance.enemyId);
 		int value = System.Convert.ToInt32 (posionAttack.AttackValue);
 		KillHP (value);
 	}
 
-//	void AttackEnemyEnd(object data) {
-//		if (posionAttack == null || posionAttack.AttackRound == 0) {
-//			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-//		}
-//		posionAttack.AttackRound --;
-//		SkillPosion(posionAttack);
-//	}
-
 	public void KillHP(int hurtValue) {
 		initBlood -= hurtValue;
-		if (initBlood < 0) {
+		if (initBlood <= 0) {
 			initBlood = 0;	
+			IsDead = true;
 		}
+//		Debug.LogError ("initBlood : " + initBlood);
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
 
@@ -176,9 +170,9 @@ public class TEnemyInfo : ProtobufDataBase {
 		return initAttackRound;
 	}
 
-	public int GetBlood () {
-		return initBlood;
-	}
+//	public int GetBlood () {
+//		return initBlood;
+//	}
 
 	public int DropUnit () {
 		return -1;
@@ -192,7 +186,12 @@ public class TEnemyInfo : ProtobufDataBase {
 	private bool isDead = false;
 	public bool IsDead {
 		get { return isDead; }
-		set { isDead = value; RemoveListener(); }
+		set { 
+			isDead = value; 
+			if(isDead) {
+				RemoveListener();
+			}
+		}
 	}
 }
 
@@ -201,6 +200,6 @@ public class EnemySortByHP : IComparer {
 	{
 		TEnemyInfo tex = (TEnemyInfo)x;
 		TEnemyInfo tey = (TEnemyInfo)y;
-		return tex.GetBlood ().CompareTo (tey.GetBlood ());
+		return tex.initBlood.CompareTo (tey.initBlood);
 	}
 }

@@ -64,7 +64,7 @@ public class UnitDisplay : ConcreteComponent {
 
 	void ReadData () {
 		unitItemData.Clear ();
-		unitItemData.AddRange (DataCenter.Instance.MyUnitList.GetAll ().Values);
+		unitItemData.AddRange (DataCenter.Instance.UserUnitList.GetAllMyUnit ());
 		TransferData.Clear ();
 		TransferData.Add (UnitDisplayUnity.RefreshData, unitItemData);
 		ExcuteCallback (TransferData);

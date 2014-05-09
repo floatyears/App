@@ -266,7 +266,7 @@ public class MapItem : UIBaseUnity {
 	void ShowBattleEnd(string funciton) {
 		GameObject go = null;
 		if (mapBackSprite == null) {
-			if(mapBackTexture != null) {
+			if(mapBackTexture != null && !mapBackTexture.gameObject.activeSelf) {
 				go = mapBackTexture.gameObject;
 				go.SetActive(true);
 				mapBackTexture.enabled = true;
@@ -276,8 +276,12 @@ public class MapItem : UIBaseUnity {
 			go.SetActive(true);
 			mapBackSprite.enabled = true;
 		}
-
+//		Debug.LogError ("gameobject : " + gameObject + " mapBackSprite : " + mapBackSprite + " mapBackTexture : " + mapBackTexture);
+		if (go == null) {
+			return;	
+		}
 		TweenAlpha ta = go.GetComponent<TweenAlpha> ();
+//		Debug.LogError ("ShowBattleEnd : " + go + " ta : " + ta);
 		ta.enabled = true;
 		ta.Reset ();
 

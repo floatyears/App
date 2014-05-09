@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class BattleCardAreaItem : UIBaseUnity {
+	public static GameObject boostObject;
+
 	private const int itemInterv = 17;
 
 	private List<CardSprite> cardItemList = new List<CardSprite>();
@@ -30,6 +32,11 @@ public class BattleCardAreaItem : UIBaseUnity {
 	public List<int> haveCard = new List<int> ();
 
 	private BattleUseData battleUseData;
+	private bool _isBoost = false;
+	public bool isBoost {
+		set { _isBoost = value; if(_isBoost) boostObject = gameObject; }
+		get { return _isBoost; }
+	}
 
 	public override void Init(string name) {
 		base.Init(name);
@@ -108,7 +115,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 		if (battleUseData == null) {
 			battleUseData = BattleQuest.bud;	
 		}
-		attackImage = battleUseData.CaculateFight (areaItemID,id);
+		attackImage = battleUseData.CaculateFight (areaItemID, id, isBoost);
 		InstnaceCard ();
 	}
 

@@ -32,7 +32,6 @@ public class BattleBottom : MonoBehaviour {
 		battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, battleSkillObject);
 		battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
 		battleSkill.Init ("BattleSkill");
-//		battleSkill.battleQuest = battleQuest;
 		battleSkillObject.SetActive (false);
 
 		if (upi == null) {

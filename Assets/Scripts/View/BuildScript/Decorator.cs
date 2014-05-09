@@ -35,9 +35,12 @@ public class DecoratorBase {
 	}
 
 	public virtual void ShowScene () {
+//		Debug.LogError("ShowScene 1");
         ResetSceneState();
+//		Debug.LogError("ShowScene 2");
 		if(lastDecorator != null)
 			lastDecorator.ShowUI ();
+//		Debug.LogError("ShowScene 3");
 	}
 
     public virtual void ResetSceneState () {

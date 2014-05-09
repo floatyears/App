@@ -35,7 +35,7 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 	bool CheckUnitCountLimit(){
 //		Debug.LogError("Current MyUnitList count is " + DataCenter.Instance.MyUnitList.Count);
 //		Debug.LogError("Current MyUnit Max is " + DataCenter.Instance.UserInfo.UnitMax);
-		if(DataCenter.Instance.MyUnitList.Count > DataCenter.Instance.UserInfo.UnitMax){
+		if(DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.UnitMax){
 			Debug.LogError("MyUnitList's count > MyMax!!! Refuse to scene of Quest...");
 			return true;
 		}
@@ -47,7 +47,7 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 		MsgWindowParams msgParams = new MsgWindowParams();
 		msgParams.titleText = TextCenter.Instace.GetCurrentText("UnitOverflow");
 		msgParams.contentText = TextCenter.Instace.GetCurrentText("UnitOverflowText",
-		                                                          DataCenter.Instance.MyUnitList.Count,
+		                                                          DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
 		                                                          DataCenter.Instance.UserInfo.UnitMax);
 		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
 		msgParams.btnParams[ 0 ].text = TextCenter.Instace.GetCurrentText("DoUnitExpansion");

@@ -277,7 +277,7 @@ public class ShopComponent : ConcreteComponent {
         msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("UnitExpand");
         
         string context1 = TextCenter.Instace.GetCurrentText("ConfirmUnitExpansion");
-        string context2 = TextCenter.Instace.GetCurrentText("UnitExpansionInfo", DataCenter.Instance.MyUnitList.Count,
+        string context2 = TextCenter.Instace.GetCurrentText("UnitExpansionInfo", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
                                                             DataCenter.Instance.UserInfo.UnitMax);
         
         msgWindowParam.contentTexts = new string[2]{ context1, context2 };

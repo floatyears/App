@@ -24,7 +24,6 @@ public class EnemyItem : UIBaseUnity {
 
 	[HideInInspector]
 	public BattleEnemy battleEnemy;
-	[HideInInspector]
 //	public GameObject prevEffect = null;
 
     void OnEnable() {
@@ -62,9 +61,6 @@ public class EnemyItem : UIBaseUnity {
         if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol || ai.AttackValue == 0) {
             return;
         }
-//		if (prevEffect != null) {
-//			Destroy(prevEffect);
-//        }
         attackQueue.Enqueue(ai);
         GameTimer.GetInstance().AddCountDown(0.3f, Effect);
     }
@@ -75,8 +71,6 @@ public class EnemyItem : UIBaseUnity {
 		DGTools.PlayAttackSound (ai.AttackType);
         ShowHurtInfo(ai.InjuryValue);
 		battleEnemy.EnemyItemPlayEffect (this, ai);
-//		ShowInjuredEffect (ai);
-//        InjuredShake();
     }
 
 	void DisposeRestraint(AttackInfo ai) {
@@ -222,6 +216,7 @@ public class EnemyItem : UIBaseUnity {
         }
         AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_die);
         texture.enabled = false;
+//		Debug.LogError ("enemydead next label clear ");
         nextLabel.text = "";
     }
 
@@ -241,10 +236,9 @@ public class EnemyItem : UIBaseUnity {
 
     void RefreshData() {
         enemyInfo = tempQue.Dequeue();
-        float value = (float)enemyInfo.GetBlood() / enemyInfo.GetInitBlood();
+        float value = (float)enemyInfo.initBlood / enemyInfo.GetInitBlood();
         SetBlood(value);
-//		Debug.LogError ("befoure first attack : " + nextLabel.text + "first attack : " + enemyInfo.GetRound ());
-		SetNextLabel(enemyInfo.GetRound());
+		SetNextLabel(enemyInfo.initAttackRound);
     }
 
     void EnemyAttack(object data) {
@@ -261,10 +255,9 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void SetData(TEnemyInfo seu) {
-//		SetBloodLabel(seu.EnemyInfo().currentHp);
-//		Debug.LogError (enemyInfo.initBlood + " SetData : " + enemyInfo.GetInitBlood ());
-		bloodSprite.fillAmount =(float)enemyInfo.initBlood / enemyInfo.GetInitBlood();
-		SetNextLabel(seu.EnemyInfo().currentNext);
+		Debug.LogError ("id : " + seu.EnemyID + " seu.initBlood " + seu.initBlood + " SetData : " + seu.GetInitBlood ());
+		bloodSprite.fillAmount =(float)seu.initBlood / seu.GetInitBlood();
+		SetNextLabel(seu.initAttackRound);
     }
 
     void SetBlood(float value) {
