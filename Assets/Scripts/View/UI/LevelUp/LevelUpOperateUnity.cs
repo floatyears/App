@@ -221,7 +221,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	void SelectFriend(TFriendInfo friendInfo) {
 		gameObject.SetActive (true);
 		selectedItem [4].UserUnit = friendInfo.UserUnit;
-
+		selectedItem [4].IsEnable = true;
 		CheckLevelUp ();
 	}
 	
