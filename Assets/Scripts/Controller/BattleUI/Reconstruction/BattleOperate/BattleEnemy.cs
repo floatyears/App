@@ -59,6 +59,7 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 
+
 	}
 
 	void AttackEnemyEnd(object data) {
@@ -109,13 +110,16 @@ public class BattleEnemy : UIBaseUnity {
 		Clear();
 		List<EnemyItem> temp = new List<EnemyItem> ();
 		for (int i = 0; i < enemy.Count; i++) {
+			TEnemyInfo tei = enemy[i];
+			tei.AddListener();
+			Debug.LogError(tei.EnemyID + " hp : " + tei.initBlood);
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.battleEnemy = this;
-			ei.Init(enemy[i]);
+			ei.Init(tei);
 			temp.Add(ei);
-			monster.Add(enemy[i].EnemySymbol,ei);
+			monster.Add(tei.EnemySymbol,ei);
 			if(width < temp[i].texture.width) {
 				width = temp[i].texture.width;
 			}
@@ -225,7 +229,7 @@ public class BattleEnemy : UIBaseUnity {
 	GameObject prevEffect;
 	public void PlayerEffect(EnemyItem ei,AttackInfo ai) {
 		GameObject obj = DataCenter.Instance.GetEffect(ai) as GameObject;
-		DGTools.PlayAttackSound(ai.AttackType);
+//		DGTools.PlayAttackSound(ai.AttackType);
 		ei.InjuredShake();
 		if (obj != null) {
 			Vector3 localScale = obj.transform.localScale;

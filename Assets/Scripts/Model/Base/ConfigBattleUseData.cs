@@ -32,8 +32,13 @@ public class ConfigBattleUseData {
 
 	public TFriendInfo BattleFriend;
 
-	public AttackInfo posionAttack = null;
+	private AttackInfo _posionAttack = null;
 
+	public AttackInfo posionAttack {
+		get { return _posionAttack; }
+		set { _posionAttack = value; Debug.LogError(" WriteBuff : " + _posionAttack);  WriteBuff (posionAttackName, _posionAttack); }
+	}
+	
 	public AttackInfo reduceHurtAttack = null;
 
 	public AttackInfo reduceDefenseAttack = null;
@@ -157,6 +162,7 @@ public class ConfigBattleUseData {
 
 	void WriteAllBuff() {
 		WriteBuff (posionAttackName, posionAttack);
+		Debug.LogError ("write poison attack : " + posionAttack);
 		WriteBuff (reduceHurtName, reduceHurtAttack);
 		WriteBuff (reduceDefenseName, reduceDefenseAttack);
 		WriteBuff (strengthenAttackName, strengthenAttack);
@@ -164,6 +170,7 @@ public class ConfigBattleUseData {
 
 	void ReadAllBuff() {
 		posionAttack = ReadBuff (posionAttackName);
+		Debug.LogError ("read poison attack : " + posionAttack);
 		reduceHurtAttack = ReadBuff (reduceHurtName);
 		reduceDefenseAttack = ReadBuff (reduceDefenseName);
 		strengthenAttack = ReadBuff (strengthenAttackName);
@@ -179,7 +186,7 @@ public class ConfigBattleUseData {
 			try {
 				File.Delete(path);
 			} catch (System.Exception ex) {
-				
+				Debug.LogError("WriteBuff ex : " + ex.Message);
 			}
 			return;
 		}

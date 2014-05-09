@@ -186,7 +186,7 @@ public class AttackController {
 	}
 
 	float GetIntervTime () {
-		if (enemyInfo.Count == 1 && enemyInfo[0].GetBlood() <= 0) {
+		if (enemyInfo.Count == 1 && enemyInfo[0].initBlood<= 0) {
 			return 0.6f;
 		}
 		else {
@@ -255,7 +255,7 @@ public class AttackController {
 		}
 		for (int i = enemyInfo.Count - 2; i > -1; i--) {
 			TEnemyInfo te = enemyInfo[i];
-			if(te.GetBlood() <= 0) {
+			if(te.initBlood <= 0) {
 				deadEnemy.Add(te);
 				enemyInfo.Remove(te);
 			}
@@ -277,7 +277,7 @@ public class AttackController {
 		deadEnemy.Clear ();
 
 		for (int i = enemyInfo.Count - 1; i > -1; i--) {
-			int blood = enemyInfo[i].GetBlood();
+			int blood = enemyInfo[i].initBlood;
 			if(blood <= 0){
 				TEnemyInfo te = enemyInfo[i];
 				enemyInfo.Remove(te);
@@ -344,10 +344,10 @@ public class AttackController {
 
 	TEnemyInfo GetTargetEnemy(int restraintType) {
 		TEnemyInfo te;
-		if (targetEnemy != null && targetEnemy.GetBlood () != 0) {
+		if (targetEnemy != null && targetEnemy.initBlood != 0) {
 			te = targetEnemy;
 		} else {
-			if(enemyInfo.Count == 1 && enemyInfo[0].GetBlood() <= 0) {
+			if(enemyInfo.Count == 1 && enemyInfo[0].initBlood <= 0) {
 				if(prevAttackEnemyInfo == null) {
 					prevAttackEnemyInfo = enemyInfo[0];
 				}
