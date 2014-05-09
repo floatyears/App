@@ -90,6 +90,7 @@ public class MyUnitItem : BaseUnitItem {
 	
 	protected override void SetCommonState(){
 		base.SetCommonState();
+//		Debug.LogError (userUnit.TUserUnitID + " userUnit.IsFavorite : " + userUnit.IsFavorite);
 		IsFavorite = (userUnit.IsFavorite == 1) ? true : false;
 	}
 	
