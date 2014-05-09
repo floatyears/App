@@ -44,8 +44,7 @@ public class UIManager {
 	/// </summary>
 	/// <param name="uiName">ui name.</param>
 	/// <param name="ui">ui object.</param>
-	public void AddUIObject(SceneEnum sEnum, DecoratorBase decorator)
-	{
+	public void AddUIObject(SceneEnum sEnum, DecoratorBase decorator) {
 		if(!sceneDecorator.ContainsKey(sEnum))
 			sceneDecorator.Add(sEnum,decorator);
 		else
@@ -57,8 +56,7 @@ public class UIManager {
 	/// </summary>
 	/// <returns><c>true</c> if this instance has user interface object the specified uiName; otherwise, <c>false</c>.</returns>
 	/// <param name="uiName">ui name.</param>
-	public bool HasUIObject(SceneEnum sEnum)
-	{
+	public bool HasUIObject(SceneEnum sEnum) {
 		if(sceneDecorator.ContainsKey(sEnum))
 			return true;
 		
@@ -70,8 +68,7 @@ public class UIManager {
 	/// </summary>
 	/// <returns>ui object.</returns>
 	/// <param name="uiName">ui name.</param>
-	public DecoratorBase GetUI(SceneEnum sEnum)
-	{
+	public DecoratorBase GetUI(SceneEnum sEnum) {
 		if(sceneDecorator.ContainsKey(sEnum))
 			return sceneDecorator[sEnum];
 		else
@@ -95,9 +92,8 @@ public class UIManager {
 	/// Removes the U.
 	/// </summary>
 	public void RemoveUI() {
-//		Debug.LogError("RemoveUI : " + storePrevScene);
 		if(sceneDecorator.ContainsKey(storePrevScene)) {
-			Debug.LogError("storePrevScene : " + storePrevScene);
+//			Debug.LogError("storePrevScene : " + storePrevScene);
 			sceneDecorator.Remove(storePrevScene);
 		}
 		storePrevScene = SceneEnum.None;

@@ -21,6 +21,20 @@ public class TPartyInfo : ProtobufDataBase {
         return CurrentParty.HasUnit(uniqueId);
     }
 
+	public bool UnitIsInCurrentParty(TUserUnit tuu) {
+		if (tuu.userID != DataCenter.Instance.UserInfo.UserId) {
+			return false;	
+		}
+		return CurrentParty.HasUnit(tuu.ID);
+	}
+
+	public bool UnitIsInParty(TUserUnit tuu) {
+		if (tuu.userID != DataCenter.Instance.UserInfo.UserId) {
+			return false;	
+		}
+		return UnitIsInParty(tuu.ID);
+	}
+
     public bool UnitIsInParty(uint uniqueId) {
         foreach (var party in partyList) {
             if (party.HasUnit(uniqueId)) {
