@@ -212,12 +212,13 @@ public class ViewManager {
 		List<string> ccID = new List<string> ();
 		System.Type ty = typeof(MsgWindowLogic);
 		System.Type ty1 = typeof(MaskController);
+		System.Type ty2 = typeof(NoviceMsgWindowLogic);
 		foreach (var item in UIComponentDic) {
 			string key = item.Key;
 			ConcreteComponent cc = item.Value as ConcreteComponent;
 			System.Type tempType = cc.GetType();
 
-			if(tempType == ty || tempType == ty1) {
+			if(tempType == ty || tempType == ty1 || tempType == ty2) {
 				continue;
 			}
 

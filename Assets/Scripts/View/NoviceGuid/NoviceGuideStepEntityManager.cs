@@ -55,8 +55,8 @@ public class NoviceGuideStepEntityManager {
 	
 	public void StartStep()
 	{
-		Debug.Log("//////////current scene: " + UIManager.Instance.current.CurrentDecoratorScene);
-		switch (UIManager.Instance.current.CurrentDecoratorScene) {
+		Debug.Log("//////////current scene: " + UIManager.Instance.baseScene.CurrentScene);
+		switch (UIManager.Instance.baseScene.CurrentScene) {
 			case SceneEnum.Loading:
 				CreateStepEntityByID(NoviceGuideStepEntityID.Loading);
 				break;

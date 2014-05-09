@@ -82,10 +82,29 @@ public class BattleBottom : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown (0)) {
 			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-			if (Physics.Raycast (ray, out rch,100f,GameLayer.Bottom << 31)) {
+
+			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
+
+			int receiveMask = 0;
+
+//			int noviint = GameLayer.LayerToInt(GameLayer.NoviceGuide);
+//			int blocker =GameLayer.LayerToInt(GameLayer.blocker);
+
+//			int layer = noviint | blocker;
+//			Debug.LogError("noviint : " + noviint + " blockerlayer : " + blocker + " layer : " + layer);
+			bool novi = (layermask & GameLayer.LayerToInt(GameLayer.NoviceGuide)) == GameLayer.LayerToInt(GameLayer.NoviceGuide);
+//			Debug.LogError(layermask + " GameLayer.NoviceGuid : " + GameLayer.LayerToInt(GameLayer.NoviceGuide));
+//			Debug.LogError("novi : " +novi + " GameLayer.NoviceGuid : " + (layermask & GameLayer.LayerToInt(GameLayer.NoviceGuide)) + " GameLayer.NoviceGuide : " + GameLayer.LayerToInt(GameLayer.NoviceGuide));
+			if(novi) {
+				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
+			}
+			else{
+				receiveMask = GameLayer.LayerToInt(GameLayer.Bottom);
+			}
+			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
 				string name = rch.collider.name;
 				CheckCollider(name);
-			}	
+			}
 		}
 	}
 

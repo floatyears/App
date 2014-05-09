@@ -18,6 +18,7 @@ public class QuestView : UIComponentUnity{
 
 	public override void ShowUI(){
 		base.ShowUI();
+
 	}
 
 	public override void HideUI(){

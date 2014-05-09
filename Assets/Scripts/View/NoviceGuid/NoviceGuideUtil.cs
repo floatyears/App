@@ -16,6 +16,8 @@ public class NoviceGuideUtil {
 
 	private static UIEventListenerCustom.LongPressDelegate pressDelegate;
 
+	private static GameObject[] multiBtns;
+
 	// posAndDir:the x,y stand for the position, the z stands for direction
 	public static void ShowArrow(GameObject[] parents,Vector3[] posAndDir){
 
@@ -29,13 +31,21 @@ public class NoviceGuideUtil {
 			GameObject arrow = NGUITools.AddChild(parent, obj);
 			TweenPosition tPos = arrow.GetComponent<TweenPosition>();
 
+			Vector3 size =  Vector3.zero;
+			try{
+				size = parent.GetComponent<BoxCollider>().size;
+			}catch(MissingComponentException e){
+				LogHelper.LogWarning(e.ToString());
+				size = parent.transform.localPosition;
+			}
+
 			switch(i < len ? (int)posAndDir[i].z : 0)
 			{
 				//point to the top
 			case 3:
 				dir = new Vector3(0.0f,0.0f,180.0f);// = Quaternion.FromToRotation(new Vector3(1,0,0),Vector3.zero);
-				tPos.to.y = -parent.GetComponent<BoxCollider>().size.y/2 -32 + posAndDir[i].y;
-				tPos.from.y = -parent.GetComponent<BoxCollider>().size.y/2-62.0f + posAndDir[i].y;
+				tPos.to.y = -size.y/2 -32 + posAndDir[i].y;
+				tPos.from.y = -size.y/2-62.0f + posAndDir[i].y;
 				tPos.to.x = posAndDir[i].x;
 				tPos.from.x = posAndDir[i].x;
 				break;
@@ -43,8 +53,8 @@ public class NoviceGuideUtil {
 			case 4:
 				dir = new Vector3(0f,0f,90f);
 				//					dir = Quaternion.FromToRotation(new Vector3(-1,0,0),Vector3.zero);
-				tPos.to.x = -parent.GetComponent<BoxCollider>().size.x/2 - 32 + posAndDir[i].x;
-				tPos.from.x = -parent.GetComponent<BoxCollider>().size.x/2-62.0f + posAndDir[i].x;
+				tPos.to.x = -size.x/2 - 32 + posAndDir[i].x;
+				tPos.from.x = -size.x/2-62.0f + posAndDir[i].x;
 				tPos.to.y = posAndDir[i].y;
 				tPos.from.y = posAndDir[i].y;
 				break;
@@ -52,8 +62,8 @@ public class NoviceGuideUtil {
 			case 1:
 				//					dir = Quaternion.FromToRotation(new Vector3(0,1,0),Vector3.zero);
 				dir = new Vector3(0f,0f,0f);
-				tPos.to.y = parent.GetComponent<BoxCollider>().size.y/2 + 32+ posAndDir[i].y;
-				tPos.from.y = parent.GetComponent<BoxCollider>().size.y/2+62.0f+ posAndDir[i].y;
+				tPos.to.y = size.y/2 + 32+ posAndDir[i].y;
+				tPos.from.y = size.y/2+62.0f+ posAndDir[i].y;
 				tPos.to.x = posAndDir[i].x;
 				tPos.from.x = posAndDir[i].x;
 				break;
@@ -61,8 +71,8 @@ public class NoviceGuideUtil {
 				//point to the left
 				//					dir = Quaternion.FromToRotation(new Vector3(0,-1,0),Vector3.zero);
 				dir = new Vector3(0f,0f,270f);
-				tPos.to.x = parent.GetComponent<BoxCollider>().size.x/2 + 32+ posAndDir[i].x;
-				tPos.from.x = parent.GetComponent<BoxCollider>().size.x/2+62.0f+ posAndDir[i].x;
+				tPos.to.x = size.x/2 + 32+ posAndDir[i].x;
+				tPos.from.x = size.x/2+62.0f+ posAndDir[i].x;
 				tPos.to.y = posAndDir[i].y;
 				tPos.from.y = posAndDir[i].y;
 				break;
@@ -77,7 +87,7 @@ public class NoviceGuideUtil {
 //			{
 				//LogHelper.Log("-------///-......parent is not null: " + obj.transform.parent);
 //			}
-			LogHelper.Log("=====arrow dic key: " + parent.GetInstanceID() + parent.name);
+			LogHelper.Log("=====add arrow dic key: " + parent.GetInstanceID() + parent.name);
 
 			arrows.Add(parent.GetInstanceID() + parent.name,arrow);
 			i++;
@@ -86,11 +96,12 @@ public class NoviceGuideUtil {
 
 	public static void RemoveAllArrows(){
 		LogHelper.Log ("arrow count: " + arrows.Count);
+
 		foreach (string key in arrows.Keys) {
 			GameObject.Destroy(arrows[key]);
-			arrows.Remove(key);
 			LogHelper.Log ("===/////===remove arrow: "+key);
 		}
+		arrows.Clear ();
 	}
 
 	public static void RemoveArrow(GameObject obj)
@@ -106,7 +117,7 @@ public class NoviceGuideUtil {
 		}
 	}
 
-	public static void showTipText(string text,Vector2 pos){
+	public static void showTipText(string text,Vector2 pos = default(Vector2)){
 		LogHelper.Log ("--------------///////tip text: " + text);
 		if (tipText == null) {
 			GameObject tip = LoadAsset.Instance.LoadAssetFromResources ("TipText", ResourceEuum.Prefab) as GameObject;
@@ -153,6 +164,8 @@ public class NoviceGuideUtil {
 		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask);
 	}
 
+
+
 	private static void BtnClick(GameObject btn)
 	{
 		UIEventListener.Get (btn).onClick -= BtnClick;
@@ -162,6 +175,46 @@ public class NoviceGuideUtil {
 		btn.layer = oneBtnClickLayer;
 		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);
 
+	}
+
+	public static void ForceBtnsClick(GameObject[] objs,UIEventListener.VoidDelegate clickCalback){
+		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
+		camLastLayer = mainCam.eventReceiverMask;
+		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
+		mainCam.eventReceiverMask = mask;
+		
+		multiBtns = objs;
+		
+		
+		clickDelegate = clickCalback;
+		foreach (GameObject item in objs) {
+			clickDelegate = UIEventListener.Get (item).onClick;
+			UIEventListener.Get (item).onClick = null;
+			UIEventListener.Get (item).onClick += BtnClick;
+			UIEventListener.Get (item).onClick += clickCalback;
+			UIEventListener.Get (item).onClick += clickDelegate;
+			clickDelegate = clickCalback;
+			oneBtnClickLayer = item.layer;
+			item.layer = LayerMask.NameToLayer ("NoviceGuide");
+		}
+		
+		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask);
+	}
+
+	private	static void MultiBtnClick(GameObject btn){
+
+		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
+		mainCam.eventReceiverMask = camLastLayer;
+
+		foreach (GameObject item in multiBtns) {
+			UIEventListener.Get (item).onClick -= MultiBtnClick;
+			UIEventListener.Get (item).onClick -= clickDelegate;
+			item.layer = oneBtnClickLayer;
+		}
+
+		clickDelegate = null;
+
+		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);
 	}
 
 	public static void ForceOneBtnPress(GameObject obj)
@@ -193,4 +246,5 @@ public class NoviceGuideUtil {
 		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);
 		
 	}
+	
 }

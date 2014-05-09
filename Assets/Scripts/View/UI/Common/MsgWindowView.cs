@@ -23,9 +23,9 @@ public class MsgWindowView : UIComponentUnity{
 
     UILabel titleLabel;
 
-    UILabel msgLabelCenter;
-    UILabel msgLabelTop;
-    UILabel msgLabelBottom;
+    protected UILabel msgLabelCenter;
+    protected UILabel msgLabelTop;
+    protected UILabel msgLabelBottom;
 
     UIButton btnCenter;
     UIButton btnLeft;
@@ -56,7 +56,7 @@ public class MsgWindowView : UIComponentUnity{
         ShowSelf(false);
     }
     
-    void FindUIElement(){
+    protected virtual void FindUIElement(){
         window = FindChild("Window");
         mask = FindChild<UITexture>("Mask");
 
@@ -101,7 +101,7 @@ public class MsgWindowView : UIComponentUnity{
         }
     }
 
-    void Reset(){
+    protected virtual void Reset(){
         btnCenterParam = null;
         btnLeftParam = null;
         btnRightParam = null;

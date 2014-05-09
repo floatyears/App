@@ -102,8 +102,13 @@ public class LoadingDecorator : DecoratorBase{
         MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
 		noteWindow.SetComponent(background);
         
+		NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
+		guideWindow.SetComponent(noteWindow);
+
         MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-        maskController.SetComponent(noteWindow);
+		maskController.SetComponent(guideWindow);
+
+
 
 		lastDecorator = maskController;
         lastDecorator.CreatUI();

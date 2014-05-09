@@ -126,6 +126,8 @@ public class BattleQuest : UIBase {
 		} else {
 			configBattleUseData.StoreData();
 		}
+
+
 	}
 
 	public override void HideUI () {
@@ -151,6 +153,8 @@ public class BattleQuest : UIBase {
 
 	void ReadyMove() {
 		battle.ShieldInput (true);
+
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	void AttackEnemy (object data) {
