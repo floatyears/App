@@ -140,8 +140,7 @@ public class TUserUnitSortGetTime : TUserUnitSortBase{
 public class TUserUnitSortFavourite : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		//TODO
-		return 1;
+		return firstUserUnit.IsFavorite.CompareTo (secondUserUnit.IsFavorite);
 	}
 }
 

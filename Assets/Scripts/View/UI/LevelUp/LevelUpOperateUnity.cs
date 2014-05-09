@@ -15,6 +15,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			if (!gameObject.activeSelf) {
 				gameObject.SetActive(true);
 			}
+			if(fromUnitDetail) {
+//				Debug.LogError("fromUnitDetail : " + fromUnitDetail);
+				ShowData();
+				fromUnitDetail = false;
+			}
 		}
 		base.ShowUI ();
 		ClearFocus ();
@@ -27,12 +32,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
 		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail) {
+			fromUnitDetail = true;
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
 			} 
 		}else {
 			if (friendWindow != null) {
-				friendWindow.HideUI ();
+				friendWindow.HideUI ();	
 			}	
 		}
 	}
@@ -42,6 +48,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
 
+
 	public override void ResetUIState () {
 		ClearData ();
 
@@ -49,9 +56,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 		sortRule = SortRule.Attack;
 		ReceiveSortInfo (sortRule);
+
 	}
-
-
 
 	public override void CallbackView (object data) {
 		base.CallbackView (data);
@@ -66,6 +72,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		}
 	}
 
+	private bool fromUnitDetail = false;
+	
 	private DataCenter dataCenter;
 
 	/// <summary>
@@ -121,9 +129,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				myUnitList.Add(pui);
 			}
 		} else {
-
-
 			for (int i = 0; i < dataCount; i++) {
+//				Debug.LogError( myUnit[i].TUserUnitID + " fav : " + myUnit[i].IsFavorite);
 				PartyUnitItem pui = scroll[i + 1].GetComponent<PartyUnitItem>();
 				pui.UserUnit = myUnit[i];
 				pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(myUnit[i].ID);
@@ -483,7 +490,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		List<GameObject> scrollList = myUnitDragPanel.ScrollItem;
 		for (int i = 1; i < scrollList.Count; i++){
 			PartyUnitItem puv = scrollList[i].GetComponent<PartyUnitItem>();//myUnitList[i];
-			puv.UserUnit = myUnit[ i - 1 ];
+			TUserUnit tuu = myUnit[ i - 1 ];
+			puv.UserUnit = tuu;
+//			Debug.LogError("tuu : " + tuu.Attack + " hp : " + tuu.Hp + " tuu.fav : " + tuu.IsFavorite + " tuu.race : " + tuu.UnitRace);
 			puv.CurrentSortRule = sortRule;
 		}
 	}

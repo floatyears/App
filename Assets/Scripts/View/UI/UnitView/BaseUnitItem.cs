@@ -32,11 +32,11 @@ public class BaseUnitItem : MonoBehaviour {
 			return userUnit;
 		}
 		set{
-			if(userUnit != null && userUnit.Equals(value)) {}
-			else{
+//			if(userUnit != null && userUnit.Equals(value)) {}
+//			else{
 				userUnit = value;
 				RefreshState();
-			}
+//			}
 		}
 	}
 
