@@ -384,6 +384,7 @@ public class BattleQuest : UIBase {
 	void ExcuteDiskActiveSkill (AttackInfo ai) {
 		if (ai != null) {
 			IActiveSkillExcute iase = bud.excuteActiveSkill.GetActiveSkill(ai.UserUnitID);
+			Debug.LogError(" ExcuteDiskActiveSkill : " + iase);
 			if(iase != null) {
 				iase.ExcuteByDisk(ai);
 			}
@@ -544,6 +545,7 @@ public class BattleQuest : UIBase {
 			TEnemyInfo tei = currentMapData.Enemy[i];
 			tei.EnemySymbol = (uint)i;
 			temp.Add(tei);
+			Debug.LogError(" MapItemEnemy : id : " + tei.EnemyID + " blood : " + tei.initBlood);
 
 			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 		}

@@ -12,16 +12,6 @@ public class TSkillPoison : ActiveSkill {
 		}
 	}
 
-//	public bool CoolingDone {
-//		get {
-//			return coolingDone;
-//		}
-//	}
-
-//	public void RefreashCooling () {
-//		DisposeCooling ();
-//	}
-
 	AttackInfo posionInfo = null;
 	public override object Excute (string userUnitID, int atk = -1) {
 		if (!coolingDone) {
@@ -35,7 +25,8 @@ public class TSkillPoison : ActiveSkill {
 		ai.AttackRound = instance.roundValue;
 		ai.IgnoreDefense = true;
 		ai.AttackType = 0; //0 = ATK_SINGLE
-		ConfigBattleUseData.Instance.posionAttack = posionInfo;
+		ConfigBattleUseData.Instance.posionAttack = ai;
+
 		ExcuteByDisk (ai);
 		return null;
 	}
@@ -43,6 +34,8 @@ public class TSkillPoison : ActiveSkill {
 	public override AttackInfo ExcuteByDisk(AttackInfo ai) {
 		posionInfo = ai;
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+		Debug.LogError ("TSkillPoison ai.AttackRound : " + ai.AttackRound + " value :  " + ai.AttackValue);
 		MsgCenter.Instance.Invoke(CommandEnum.BePosion, ai);
 		return posionInfo;
 	}
@@ -52,11 +45,18 @@ public class TSkillPoison : ActiveSkill {
 			return;	
 		}
 		posionInfo.AttackRound --;
+		Debug.LogError("TSkillPoison attack enemy end : " + posionInfo.AttackRound);
 		MsgCenter.Instance.Invoke (CommandEnum.SkillPosion, posionInfo);
 		if (posionInfo.AttackRound == 0) {
 			posionInfo = null;
 			ConfigBattleUseData.Instance.posionAttack = null;
 			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+			MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		}
+	}
+
+	void BattleEnd(object data) {
+		ConfigBattleUseData.Instance.posionAttack = null;
+		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 }
