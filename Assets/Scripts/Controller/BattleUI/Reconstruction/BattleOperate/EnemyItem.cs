@@ -255,7 +255,7 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void SetData(TEnemyInfo seu) {
-		Debug.LogError ("id : " + seu.EnemyID + " seu.initBlood " + seu.initBlood + " SetData : " + seu.GetInitBlood ());
+//		Debug.LogError ("id : " + seu.EnemyID + " seu.initBlood " + seu.initBlood + " SetData : " + seu.GetInitBlood ());
 		bloodSprite.fillAmount =(float)seu.initBlood / seu.GetInitBlood();
 		SetNextLabel(seu.initAttackRound);
     }

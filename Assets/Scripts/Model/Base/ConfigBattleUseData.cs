@@ -174,7 +174,7 @@ public class ConfigBattleUseData {
 
 	void WriteAllBuff() {
 		WriteBuff (posionAttackName, posionAttack);
-		Debug.LogError ("write poison attack : " + posionAttack);
+//		Debug.LogError ("write poison attack : " + posionAttack);
 		WriteBuff (reduceHurtName, reduceHurtAttack);
 		WriteBuff (reduceDefenseName, reduceDefenseAttack);
 		WriteBuff (strengthenAttackName, strengthenAttack);
@@ -182,7 +182,7 @@ public class ConfigBattleUseData {
 
 	void ReadAllBuff() {
 		posionAttack = ReadBuff (posionAttackName);
-		Debug.LogError ("read poison attack : " + posionAttack);
+//		Debug.LogError ("read poison attack : " + posionAttack);
 		reduceHurtAttack = ReadBuff (reduceHurtName);
 		reduceDefenseAttack = ReadBuff (reduceDefenseName);
 		strengthenAttack = ReadBuff (strengthenAttackName);
