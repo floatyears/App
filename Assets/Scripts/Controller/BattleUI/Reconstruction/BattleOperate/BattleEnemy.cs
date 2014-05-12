@@ -112,7 +112,7 @@ public class BattleEnemy : UIBaseUnity {
 		for (int i = 0; i < enemy.Count; i++) {
 			TEnemyInfo tei = enemy[i];
 			tei.AddListener();
-			Debug.LogError(tei.EnemyID + " hp : " + tei.initBlood);
+//			Debug.LogError(tei.EnemyID + " hp : " + tei.initBlood);
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
