@@ -190,7 +190,7 @@ public class NoviceGuideUtil {
 		foreach (GameObject item in objs) {
 			clickDelegate = UIEventListener.Get (item).onClick;
 			UIEventListener.Get (item).onClick = null;
-			UIEventListener.Get (item).onClick += BtnClick;
+			UIEventListener.Get (item).onClick += MultiBtnClick;
 			UIEventListener.Get (item).onClick += clickCalback;
 			UIEventListener.Get (item).onClick += clickDelegate;
 			clickDelegate = clickCalback;
@@ -210,8 +210,9 @@ public class NoviceGuideUtil {
 			UIEventListener.Get (item).onClick -= MultiBtnClick;
 			UIEventListener.Get (item).onClick -= clickDelegate;
 			item.layer = oneBtnClickLayer;
+			LogHelper.Log("======multi btns layer: "+item.layer);
 		}
-
+		multiBtns = null;
 		clickDelegate = null;
 
 		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);

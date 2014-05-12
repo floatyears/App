@@ -12,6 +12,8 @@ public class BattleBottom : MonoBehaviour {
 //		get { return battleSkill; }
 //	}
 
+	public bool IsUseLeaderSkill = false;
+
 	public static bool notClick = false;
 
 //	[HideInInspector]
@@ -84,6 +86,8 @@ public class BattleBottom : MonoBehaviour {
 
 			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
 
+			//LogHelper.Log("----------------battle bottom layermask: " + layermask);
+
 			int receiveMask = 0;
 
 //			int noviint = GameLayer.LayerToInt(GameLayer.NoviceGuide);
@@ -91,10 +95,10 @@ public class BattleBottom : MonoBehaviour {
 
 //			int layer = noviint | blocker;
 //			Debug.LogError("noviint : " + noviint + " blockerlayer : " + blocker + " layer : " + layer);
-			bool novi = (layermask & GameLayer.LayerToInt(GameLayer.NoviceGuide)) == GameLayer.LayerToInt(GameLayer.NoviceGuide);
+			//bool novi = (layermask & GameLayer.LayerToInt(GameLayer.NoviceGuide)) == GameLayer.LayerToInt(GameLayer.NoviceGuide);
 //			Debug.LogError(layermask + " GameLayer.NoviceGuid : " + GameLayer.LayerToInt(GameLayer.NoviceGuide));
 //			Debug.LogError("novi : " +novi + " GameLayer.NoviceGuid : " + (layermask & GameLayer.LayerToInt(GameLayer.NoviceGuide)) + " GameLayer.NoviceGuide : " + GameLayer.LayerToInt(GameLayer.NoviceGuide));
-			if(novi) {
+			if(IsUseLeaderSkill) {
 				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
 			}
 			else{
@@ -123,6 +127,12 @@ public class BattleBottom : MonoBehaviour {
 					}
 					item.renderer.material.color = Color.gray;
 				}
+
+				if(IsUseLeaderSkill && id == 0){
+					LogHelper.Log("--------use leader skill command");
+					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill,null);
+				}
+
 
 				tuu = upi.UserUnit [id];
 				battleQuest.topUI.SheildInput(false);
@@ -156,5 +166,16 @@ public class BattleBottom : MonoBehaviour {
 			battleQuest.battle.ShieldGameInput(true);
 		}
 		battleSkillObject.SetActive(false);
+	}
+
+	public void SetLeaderToNoviceGuide(bool isInNoviceGuide){
+		if (isInNoviceGuide) {
+			GameObject temp = transform.Find ("Actor/0").gameObject;
+			temp.layer = LayerMask.NameToLayer ("NoviceGuide");	
+		} else {
+			GameObject temp = transform.Find ("Actor/0").gameObject;
+			temp.layer = LayerMask.NameToLayer ("Bottom");	
+		}
+
 	}
 }

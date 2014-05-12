@@ -165,6 +165,7 @@ public enum CommandEnum{
 	QuestEnd,
 	TargetEnemy,
 	BattleStart,
+	UseLeaderSkill,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,

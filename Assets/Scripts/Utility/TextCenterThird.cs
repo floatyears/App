@@ -83,7 +83,7 @@ public partial class TextCenter {
 		textDict.Add ("guide25_content", "boss is waiting.click the door to open it.");
 		textDict.Add ("guide26_title", "boss fight!");
 		textDict.Add ("guide26_content", "slide the blocks to sort them");
-		textDict.Add ("guide27_title", "enemt attack");
+		textDict.Add ("guide27_title", "enemy attack");
 		textDict.Add ("guide27_content", "the enemy attack us. our hp going down. take the red heart block.");
 		textDict.Add ("guide28_title", "red heart max");
 		textDict.Add ("guide28_content", "put 2 red heart in one grid to increase hp.");
