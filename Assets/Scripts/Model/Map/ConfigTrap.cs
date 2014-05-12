@@ -67,7 +67,7 @@ public class ConfigTrap {
 		ti.trapID = 3;
 		ti.trapType = ETrapType.StateException;
 		ti.valueIndex = 1;
-		ti.effectType = 5;
+		ti.effectType = 5; //use effectType as round=5 for Poison
 		TrapPosion tp = new TrapPosion (ti);
 //		DataCenter.Instance.TrapInfo.Add (ti.trapID, tp);
 

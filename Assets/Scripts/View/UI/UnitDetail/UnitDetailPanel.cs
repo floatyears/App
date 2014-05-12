@@ -520,14 +520,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	private void CollectCurUnit(GameObject go){
 		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
-		if(isFav){
-			UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, EFavoriteAction.DEL_FAVORITE);
-			//Debug.LogError("SendRequest(), DEL_FAVORITE");
-		}
-		else{
-			UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, EFavoriteAction.ADD_FAVORITE);
-			//Debug.LogError("SendRequest(), ADD_FAVORITE");
-		}
+		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
+		UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, favAction);
 	}
 
 	private void OnRspChangeFavState(object data){
@@ -541,6 +535,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			return;
 		}
 		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;
+//		Debug.LogError ("curUserUnit : " + curUserUnit.TUserUnitID);
 		ShowFavView(curUserUnit.IsFavorite);
 	}
 

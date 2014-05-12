@@ -453,6 +453,7 @@ public class BattleQuest : UIBase {
 			}
 		}
 		else {
+			QuestCoorEnd ();
 			configBattleUseData.StoreMapData(null);
 		}
 	}
@@ -515,6 +516,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public void QuestCoorEnd() {
+//		Debug.LogError ("currentcoor x : " + currentCoor.x + " y : " + currentCoor.y);
 		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor)) {
 			MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
 		} else {
