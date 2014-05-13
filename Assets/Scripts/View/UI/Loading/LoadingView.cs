@@ -42,18 +42,26 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void ClickToLogin(GameObject btn){
-        if (CheckIfFirstLogin()){
-            LogHelper.Log("firstLogin");
-            SelectRoleFirst();
-        }
-        else {
-            LogHelper.Log("login directly");
-            LoginDirectly();
-        }
+//		if (checkResourceUpdate ()) {
+//			Login();		
+//		}
+		UIEventListener.Get(this.gameObject).onClick = null;
+		GameObject.Find ("LoadProgress").GetComponent<ResourceUpdate>().StartDownload();
     }
 
-    private void LoginDirectly(){
-        LoadingLogic loadingLogic = origin as LoadingLogic;
+	private void Login(){
+		if (CheckIfFirstLogin()){
+			LogHelper.Log("firstLogin");
+			SelectRoleFirst();
+		}
+		else {
+			LogHelper.Log("login directly");
+			LoginDirectly();
+		}
+	}
+	
+	private void LoginDirectly(){
+		LoadingLogic loadingLogic = origin as LoadingLogic;
         loadingLogic.StartLogin();
     }
 
@@ -61,4 +69,10 @@ public class LoadingView : UIComponentUnity {
 		NoviceGuideStepEntityManager.Instance ().StartStep ();
         //UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
     }
+
+//	private void checkResourceUpdate(){
+//		ResourceUpdate rs = GetComponent<ResourceUpdate> ();
+//
+//
+//	}
 }

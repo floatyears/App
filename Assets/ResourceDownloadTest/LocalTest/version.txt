@@ -1,0 +1,3 @@
+ActorShow|Assets/ResourceDownloadTest/ActorShow.unity3d|3463851b74d4362e38adc2ace6f19cfa|2|583309
+BattleBottom|Assets/ResourceDownloadTest/BattleBottom.unity3d|3e496a19bf4ced2058aacaa06018e22a|0|907593
+BattleMenu|Assets/ResourceDownloadTest/BattleMenu.unity3d|3925185ce4170afd71b3a7afd5bb020a|0|2271905
