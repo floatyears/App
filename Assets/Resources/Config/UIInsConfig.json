@@ -417,8 +417,8 @@
         "positiony": 0,
         "positionz": 0
     },
-    "StageSlidePanel": {
-        "uiName":"StageSlidePanel",
+    "StageMap": {
+        "uiName":"StageMap",
         "resoucePath": "Prefabs/UI/Quest/",
         "parent": 0,
         "positionx": 0,

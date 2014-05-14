@@ -408,7 +408,7 @@ public class QuestSelectDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		QuestSelectController questSelect = CreatComponent< QuestSelectController >(UIConfig.stageSlidePanelName);
+		QuestSelectController questSelect = CreatComponent< QuestSelectController >(UIConfig.stageMapName);
 		questSelect.SetComponent(sceneInfoBar);
 
 		lastDecorator = questSelect;

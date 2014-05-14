@@ -108,7 +108,7 @@ public class UIConfig
 	public const string friendUnitSortPanelName = "FriendUnitSortPanel";
 	
 	public const string homeWorldMapName = "HomeWorldMap";
-	public const string stageSlidePanelName = "StageSlidePanel";
+	public const string stageMapName = "StageMap";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;

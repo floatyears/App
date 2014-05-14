@@ -2,10 +2,6 @@
 using System.Collections;
 
 public class StageItemView : MonoBehaviour {
-	private const float OFFSET_X = 320;
-	private const float OFFSET_Y = 320;
-	private UITexture mapTex;
-	private UILabel nameLabel;
 
 	public static StageItemView Inject(GameObject view){
 		StageItemView stageItemView = view.GetComponent<StageItemView>();
@@ -24,8 +20,6 @@ public class StageItemView : MonoBehaviour {
 		}
 	}
 
-	public void Awake(){}
-
 	private TStageInfo data;
 	public TStageInfo Data{
 		get{
@@ -37,56 +31,51 @@ public class StageItemView : MonoBehaviour {
 				Debug.LogError("StageItemView, Data is NULL!");
 				return;
 			}
-			ShowMap();
-			ShowName();
-			GenerateQuestInfo();
+			SetIcon();
+			SetPosition();
+			AddEventListener();
+		}
+	}
+	
+	private void SetPosition(){
+		float x = 0f;
+		float y = 0f;
+		if(data.Pos != null){
+			x = data.Pos.x;
+			y = data.Pos.y;
+		}
+		else{
+			Debug.LogError("Stage.Pos is NULL!");
+			//this.gameObject.SetActive(false);
+		}
+		gameObject.transform.localPosition = new Vector3(x, y, 0);
+	}
+
+	private void SetIcon(){
+		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
+		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryStageClear(data.ID);
+		Debug.Log("StageItemView.SetIcon(), isClear is : " + isClear);
+		Debug.Log("StageItemView.SetIcon(), stageId is : " + data.ID);
+		if(isClear){
+			icon.spriteName = "icon_stage_" + data.ID;
+		}
+		else{
+			icon.spriteName = "icon_stage_lock";
 		}
 	}
 
-	private void ShowMap(){
-		Debug.Log("StageItemView.LoadStageMap(), CityId is : " + data.CityId);
-		string sourcePath = string.Format("Stage/{0}", data.CityId);
-//		Debug.Log("StageItemView.ShowMap(), sourcePath : " + sourcePath);
-		Texture2D tex = Resources.Load(sourcePath) as Texture2D;
-
-		if(mapTex == null){
-//			Debug.LogError("mapTex == null, getting...");
-			mapTex = transform.FindChild("Texture_Map").GetComponent<UITexture>();
-		}
-		mapTex.mainTexture = tex;
+	private void AddEventListener(){
+		if(data == null)
+			UIEventListener.Get(this.gameObject).onClick = null;
+		else
+			UIEventListener.Get(this.gameObject).onClick = ClickItem;
 	}
 
-	private void ShowName(){
-		if(nameLabel == null){
-//			Debug.LogError("nameLabel == null, getting...");
-			nameLabel = transform.FindChild("Label_Name").GetComponent<UILabel>();
-		}
-		nameLabel.text = data.StageName;
-	}
-
-	private void GenerateQuestInfo(){
-		for (int i = 0; i < data.QuestInfo.Count; i++){
-			GameObject cell = NGUITools.AddChild(this.gameObject, QuestItemView.Prefab);
-			cell.name = string.Format("Quest_{0}", data.QuestInfo[ i ].Name);
-
-			if(data.QuestInfo[ i ] == null){
-				Debug.LogError(string.Format("data.QuestInfo[ {0} ] is NULL, return...: ", i));
-				return;
-			}
-
-			if(data.QuestInfo[ i ].Pos != null){
-				float pos_x = data.QuestInfo[ i ].Pos.x - OFFSET_X;
-				float pos_y = data.QuestInfo[ i ].Pos.y - OFFSET_Y;
-				cell.transform.localPosition = new Vector3(pos_x, pos_y, 0);
-			}
-			else{
-				Debug.LogError("QuestInfo.Pos == NULL!!!");
-			}
-
-			QuestItemView questItemView = QuestItemView.Inject(cell);
-			questItemView.Data = data.QuestInfo[ i ];
-			questItemView.stageInfo = Data;
-			questItemView.StageID = data.ID;
-		}
+	private void ClickItem(GameObject item){
+		Debug.Log(string.Format("StageItemView.ClickItem(), Picking Stage...stageId is {0}, Stage name is : {1}", data.ID, data.StageName));
+		//QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
+		//UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before
+		//MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
+	
 	}
 }
