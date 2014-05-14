@@ -55,6 +55,7 @@ public class NoviceGuideStepEntityManager {
 	
 	public void StartStep()
 	{
+		return;
 		Debug.Log("//////////current scene: " + UIManager.Instance.baseScene.CurrentScene);
 		switch (UIManager.Instance.baseScene.CurrentScene) {
 			case SceneEnum.Loading:
@@ -86,6 +87,7 @@ public class NoviceGuideStepEntityManager {
 
 	public void NextState()
 	{
+		return;
 		if (currentStep != null ) {
 			if(currentStep.GetStateMachine ().CurrentState != null){
 				currentStep.GetStateMachine ().CurrentState.JumpToNextState = true;

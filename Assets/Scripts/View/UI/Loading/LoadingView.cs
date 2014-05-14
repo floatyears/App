@@ -19,6 +19,8 @@ public class LoadingView : UIComponentUnity {
     }
     
     public override void ShowUI () {
+		GameDataStore.Instance.StoreData (GameDataStore.UUID, "");
+		GameDataStore.Instance.StoreData (GameDataStore.USER_ID, "");
         base.ShowUI ();
 		Umeng.GA.StartWithAppKeyAndChannelId ("535de69e56240b860f043d00","android");
     }
@@ -69,8 +71,8 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void SelectRoleFirst(){
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
-        //UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
+		//NoviceGuideStepEntityManager.Instance ().StartStep ();
+        UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
     }
 
 //	private void checkResourceUpdate(){

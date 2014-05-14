@@ -71,12 +71,12 @@ public class SelectRoleController : ConcreteComponent {
 	}
 
 	void CallbackMsgBtnOk(object args){
-		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
-			NoviceGuideStepEntityManager.Instance().NextState();
-		} else {
+//		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
+//			NoviceGuideStepEntityManager.Instance().NextState();
+//		} else {
 			uint unitID = supportSelectUnits[ curSelectPos ].ID;
 			MsgCenter.Instance.Invoke(CommandEnum.StartFirstLogin, unitID);
-		}
+//		}
 
 	}
 
