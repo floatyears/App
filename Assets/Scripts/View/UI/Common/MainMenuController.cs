@@ -15,7 +15,6 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 	public void CallbackView (object data){
 		try {
 			SceneEnum se = (SceneEnum)data;
-
 			if(se == SceneEnum.Quest){
 				if(CheckUnitCountLimit()){
 					//msg box show 
@@ -23,9 +22,7 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 					return;
 				}
 			}
-
 			UIManager.Instance.ChangeScene(se);
-
 		} 
 		catch (System.Exception ex) {
 			LogHelper.LogException(ex);

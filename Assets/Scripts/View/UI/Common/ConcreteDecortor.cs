@@ -41,14 +41,18 @@ public class SelectRoleDecorator : DecoratorBase{
 //--------------------------------Start---------------------------------------
 public class StartDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public StartDecorator(SceneEnum sEnum) : base(sEnum){}
+	public StartDecorator(SceneEnum sEnum) : base(sEnum){
+//		Debug.LogError("StartDecorator");
+	}
 	
 	public override void ShowScene(){
 		base.ShowScene();
+//		Debug.LogError("StartDecorator ShowScene");
 //		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene(){
+//		Debug.LogError("StartDecorator hidescene");
 		base.HideScene();
 	}
 	
@@ -57,17 +61,17 @@ public class StartDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
+		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
+		playerInfoBar.SetComponent(decorator);
+
 		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
-        background.SetComponent(decorator);
+		background.SetComponent(playerInfoBar);
 		
 		MainMenuController bottom = CreatComponent< MainMenuController >(UIConfig.menuBottomName);
 		bottom.SetComponent(background);
-		
-		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
-		playerInfoBar.SetComponent(bottom);
 
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
-		tipsBar.SetComponent(playerInfoBar);
+		tipsBar.SetComponent(bottom);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
 		selectUnitInfo.SetComponent(tipsBar);

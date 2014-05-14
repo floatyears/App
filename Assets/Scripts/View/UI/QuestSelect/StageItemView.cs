@@ -83,5 +83,4 @@ public class StageItemView : MonoBehaviour {
 			questItemView.StageID = data.ID;
 		}
 	}
-	
 }

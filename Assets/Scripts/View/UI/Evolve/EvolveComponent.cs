@@ -52,7 +52,9 @@ public class EvolveComponent : ConcreteComponent {
 		TEvolveStart tes = new TEvolveStart ();
 		tes.EvolveStart = es;
 		tes.StageInfo = tci.GetStage (stageID);
+		tes.StageInfo.CityId = EvolveCityID;
 		tes.StageInfo.QuestId = questID;
+
 		DataCenter.gameStage = GameState.Evolve;
 		UIManager.Instance.ChangeScene (SceneEnum.QuestSelect);
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);

@@ -13,6 +13,7 @@ public class TStageInfo : ProtobufDataBase {
 
 	public uint CityId {
 		get { return instance.cityId; }
+		set { instance.cityId = value; }
 	}
 
 	public TStageInfo (StageInfo si) : base (si) {

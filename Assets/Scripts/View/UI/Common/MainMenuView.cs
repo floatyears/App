@@ -25,6 +25,7 @@ public class MainMenuView : UIComponentUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		RemoveListener ();
 	}
 
     private void AddListener(){

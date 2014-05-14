@@ -159,7 +159,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			}
 		} else {
 			for (int i = 0; i < dataCount; i++) {
-//				Debug.LogError( myUnit[i].TUserUnitID + " fav : " + myUnit[i].IsFavorite);
 				PartyUnitItem pui = scroll[i + 1].GetComponent<PartyUnitItem>();
 				pui.UserUnit = myUnit[i];
 				pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(myUnit[i].ID);
@@ -205,7 +204,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 			pui.callback = SelectedItemCallback;
 		}
-
 
 		string path = "InfoPanel/Label_Value/";
 		for (int i = 0; i < 5; i++) { //label name is 0 ~ 4
@@ -258,6 +256,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		gameObject.SetActive (true);
 		selectedItem [friendItemIndex].UserUnit = friendInfo.UserUnit;
 		selectedItem [friendItemIndex].IsEnable = true;
+		RefreshFriend ();
 		CheckLevelUp ();
 	}
 	
@@ -574,10 +573,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		levelUpButton.isEnabled = true;
 	}
 
-//	void ClearInfo() {
-//
-//	}
-
 	void UpdateBaseInfoView(){
 		TUserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
 		if (baseInfo == null) {
@@ -593,13 +588,36 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void RefreshMaterial() {
-		TUserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
-		if (baseInfo == null) {
-			return;	
+		//TUserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
+		if (CheckBaseIsNull()) {
+			return;
 		}
 
 		ExpGot = LevelUpCurExp();
 		CoinNeed = LevelUpTotalMoney();
+
+		RefreshFriend ();
+	}
+
+	void RefreshFriend() {
+		if (CheckBaseIsNull()) {
+			return;	
+		}
+
+		TUserUnit friend = selectedItem [friendItemIndex].UserUnit;
+		if (friend == null) {
+			return ;
+		}
+
+		ExpGot = System.Convert.ToInt32(expGot * friend.MultipleDevorExp (selectedItem [friendItemIndex].UserUnit));
+	}
+
+	bool CheckBaseIsNull() {
+		TUserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
+		if (baseInfo == null) {
+			return true;	
+		}
+		return false;
 	}
 	
 	private const int CoinBase = 100;
@@ -620,12 +638,19 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		int devorExp = 0;
 		for (int i = 1; i < 5; i++) {	//material index range
 			if (selectedItem[i].UserUnit != null){
-				devorExp += selectedItem[i].UserUnit.MultipleDevorExp(selectedItem[baseItemIndex].UserUnit);
+				devorExp += selectedItem[i].UserUnit.MultipleMaterialExp(selectedItem[baseItemIndex].UserUnit);
 			}
 		}
-//		Debug.LogError ("LevelUpCurExp : " + devorExp);
 		return devorExp;
 	}
+
+//	int LevelUpFriend() {
+//		
+//		} else {
+//			return System.Convert.ToInt32(ExpGot * user.MultipleDevorExp(selectedItem[baseItemIndex].UserUnit));	
+//		}
+//	}
+
 
 //	protected virtual void CaculateDevorExp (bool Add) {
 //		TUserUnit friendInfo = selectedItem [friendItemIndex].UserUnit;

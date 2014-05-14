@@ -31,7 +31,7 @@ public class BattleQuest : UIBase {
 	private AttackEffect attackEffect;
 
 	private Queue<MapItem> chainLikeMapItem = new Queue<MapItem> ();
-	public static bool ChainLinkBattle = false;
+	public bool ChainLinkBattle = false;
 
 	private ConfigBattleUseData configBattleUseData; 
 
@@ -547,7 +547,7 @@ public class BattleQuest : UIBase {
 			TEnemyInfo tei = currentMapData.Enemy[i];
 			tei.EnemySymbol = (uint)i;
 			temp.Add(tei);
-			Debug.LogError(" MapItemEnemy : id : " + tei.EnemyID + " blood : " + tei.initBlood);
+//			Debug.LogError(" MapItemEnemy : id : " + tei.EnemyID + " blood : " + tei.initBlood);
 
 			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 		}
@@ -662,14 +662,15 @@ public class BattleQuest : UIBase {
 		battleMap.AddMapSecuritylevel (currentCoor);
 		chainLikeMapItem = battleMap.AttakAround (currentCoor);	
 		if (chainLikeMapItem.Count == 0) {
-			if (chainLikeMapItem.Count > 0) {
-				ChainLinkBattle = true;
-				role.SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
-			}
-			else{
+//			if (chainLikeMapItem.Count > 0) {
+//				ChainLinkBattle = true;
+//				role.SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
+//			}
+//			else{
 				ChainLinkBattle = false;
-			}
+//			}
 		} else {
+			ChainLinkBattle = true;
 			role.SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
 		}
 	}
