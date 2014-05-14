@@ -163,9 +163,29 @@ public class UIIns : JsonOriginData
 			ins = new UIInsConfig();
 			ins.uiName = (string)jsonData [i] ["uiName"];
 			ins.resourcePath = (string)jsonData [i] ["resoucePath"] + ins.uiName;
-			ins.localPosition.x = (int)jsonData [i] ["positionx"];
-			ins.localPosition.y = (int)jsonData [i] ["positiony"];
-			ins.localPosition.z = (int)jsonData [i] ["positionz"];
+			if(jsonData [i] ["positionx"].IsDouble) {
+				double data = (double)jsonData [i] ["positionx"];
+				ins.localPosition.x = (float)data;
+			} else{
+				ins.localPosition.x = (int)jsonData [i] ["positionx"];
+			}
+
+			if(jsonData [i] ["positiony"].IsDouble) {
+				double data = (double)jsonData [i] ["positiony"];
+				ins.localPosition.y = (float)data;
+			} else{
+				ins.localPosition.y = (int)jsonData [i] ["positiony"];
+			}
+
+			if(jsonData [i] ["positionz"].IsDouble) {
+				double data = (double)jsonData [i] ["positionz"];
+				ins.localPosition.z = (float)data;
+			} else{
+				ins.localPosition.z = (int)jsonData [i] ["positionz"];
+			}
+
+//			ins.localPosition.y = (int)jsonData [i] ["positiony"];
+//			ins.localPosition.z = (int)jsonData [i] ["positionz"];
 			byte parent = (byte)((int)jsonData [i] ["parent"]);
 			ins.parent = GetParentTrans(parent);
 			uiInsData.Add(ins.uiName, ins);

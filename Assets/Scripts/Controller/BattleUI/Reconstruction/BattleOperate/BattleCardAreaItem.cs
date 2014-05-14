@@ -9,7 +9,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 
 	private List<CardSprite> cardItemList = new List<CardSprite>();
 	public List<CardSprite> CardItemList {
-		get{return cardItemList;}
+		get{ return cardItemList; }
 	}
 
 	private List<UISprite> cardList = new List<UISprite> ();
@@ -19,7 +19,7 @@ public class BattleCardAreaItem : UIBaseUnity {
 	private Vector3 pos = Vector3.zero;
 	private float durationTime = 0.1f;
 	private Vector3 selfScale = new Vector3 (1.2f, 1.2f, 1f);
-	private Vector3 battleCardInitPos ;
+	private Vector3 battleCardInitPos;
 	private List<UISprite> battleCardTemplate = new List<UISprite>();
 	private int areaItemID = -1;
 	public int AreaItemID {
@@ -52,10 +52,8 @@ public class BattleCardAreaItem : UIBaseUnity {
 
 			cardList.Add(sprite);
 		}
-
-
 	}
-
+	
 	void InitFightCard() {
 		template = FindChild<UISprite> ("BattleCardTemplate");
 //		battleCardTemplate.Add(template);
