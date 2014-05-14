@@ -123,14 +123,6 @@ public class CatalogUnitItem : MonoBehaviour {
 		}
 	}
 
-//	void OnBecameInvisible() {
-//		gameObject.SetActive (false);
-//	}
-//
-//	void OnBecameVisible() {
-//		gameObject.SetActive (true);
-//	}
-	
     private static GameObject itemPrefab;
 	public static GameObject ItemPrefab {
 		get {

@@ -112,7 +112,6 @@ public class BattleCardArea : UIBaseUnity {
 	void ShowStateLabel () {
 		iTween.MoveTo (stateLabel.gameObject, iTween.Hash ("position", showPosition, "islocal", true, "time", 0.15f));
 	}	       
-	
 
 	public void CreatArea(Vector3[] position,int height) {
 		if(position == null)

@@ -47,9 +47,9 @@ public class UIConfig
 	public const string unitPath = "UI/Units/";
 
 	public const string UIInsConfigPath = "Config/UIInsConfig";
-	public const string menuBackgroundName = "MenuBg";
+	public const string HomeBackgroundName = "HomeBackground";
 	public const string topBackgroundName = "PlayerInfoBar";
-	public const string menuBottomName = "MenuBottom";
+	public const string MainMenuName = "MainMenu";
 	public const string sceneInfoBarName = "SceneInfoBar";
 	public const string TipsBarName = "TipsBar";
 
@@ -163,9 +163,28 @@ public class UIIns : JsonOriginData
 			ins = new UIInsConfig();
 			ins.uiName = (string)jsonData [i] ["uiName"];
 			ins.resourcePath = (string)jsonData [i] ["resoucePath"] + ins.uiName;
-			ins.localPosition.x = (int)jsonData [i] ["positionx"];
-			ins.localPosition.y = (int)jsonData [i] ["positiony"];
-			ins.localPosition.z = (int)jsonData [i] ["positionz"];
+			if(jsonData [i] ["positionx"].IsInt) {
+				ins.localPosition.x = (int)jsonData [i] ["positionx"];
+			}else{
+				ins.localPosition.x = (float)jsonData [i] ["positionx"];
+			}
+		
+
+			if(jsonData [i] ["positiony"].IsInt) {
+				ins.localPosition.y = (int)jsonData [i] ["positiony"];
+			}else{
+				ins.localPosition.y = (float)jsonData [i] ["positiony"];
+			}
+
+
+			if(jsonData [i] ["positionz"].IsInt) {
+				ins.localPosition.z = (int)jsonData [i] ["positionz"];
+			}else{
+				ins.localPosition.z = (float)jsonData [i] ["positionz"];
+			}
+
+//			ins.localPosition.y = (float)jsonData [i] ["positiony"];
+//			ins.localPosition.z = (float)jsonData [i] ["positionz"];
 			byte parent = (byte)((int)jsonData [i] ["parent"]);
 			ins.parent = GetParentTrans(parent);
 			uiInsData.Add(ins.uiName, ins);

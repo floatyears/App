@@ -2,11 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class BgDecoratorUnity : UIComponentUnity {
-	private UISprite sprite;
-
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config,origin);
-		sprite = GetComponent<UISprite> ();
 	}
 
 	public override void ShowUI () {
@@ -17,7 +14,6 @@ public class BgDecoratorUnity : UIComponentUnity {
 
 	public override void HideUI () {
 		base.HideUI();
-
 	}
 
 	public override void DestoryUI () {
@@ -25,7 +21,6 @@ public class BgDecoratorUnity : UIComponentUnity {
 	}
 
 	void OnClickCallback(GameObject caller) {
-//		Debug.LogError ("origin``" + origin == null + "```type``" + origin.GetType());
 		if(origin != null && origin is IUICallback){
 			IUICallback callback = origin as IUICallback;
 			callback.CallbackView (caller);	

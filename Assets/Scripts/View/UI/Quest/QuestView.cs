@@ -22,7 +22,6 @@ public class QuestView : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
-//		storyDragPanel.DestoryUI();
 	}
 	
 	public override void CallbackView(object data){
@@ -134,12 +133,11 @@ public class QuestView : UIComponentUnity{
 
 		foreach (var item in cityViewInfo){
 			UISprite bgSpr = item.Key.transform.FindChild("Background").GetComponent<UISprite>();
-			bgSpr.spriteName = item.Value.ID.ToString();
+			bgSpr.enabled = false;
+			//UILabel nameLabel = item.Key.transform.FindChild("Label").GetComponent<UILabel>();
+			//nameLabel.text = item.Value.CityName;
 			
-			UILabel nameLabel = item.Key.transform.FindChild("Label").GetComponent<UILabel>();
-			nameLabel.text = item.Value.CityName;
-			
-			UIEventListener.Get(item.Key).onClick = ClickCityItem;
+			UIEventListener.Get(item.Key).onPress = PressCityItem;
 		}
 	}
 
@@ -147,10 +145,15 @@ public class QuestView : UIComponentUnity{
 	/// change scene to quest select with picked cityInfo
 	/// </summary>
 	/// <param name="item">Item.</param>
-	private void ClickCityItem(GameObject item){
-//		Debug.Log("QuestView.ClickCityItem(), picked city's name is : " + item.name);
-		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
-		MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
+	private void PressCityItem(GameObject item, bool isPressed){
+		//Debug.Log("QuestView.PressCityItem(), picked city's name is : " + item.name);
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+		UISprite bgSpr = item.transform.FindChild("Background").GetComponent<UISprite>();
+		bgSpr.enabled = isPressed;
+		if(!isPressed){
+			UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
+			MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
+		}
 	}
 
 }

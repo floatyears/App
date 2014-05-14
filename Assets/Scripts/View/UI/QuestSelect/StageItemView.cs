@@ -44,7 +44,8 @@ public class StageItemView : MonoBehaviour {
 	}
 
 	private void ShowMap(){
-		string sourcePath = string.Format("Stage/{0}_{1}", data.CityId, data.ID);
+		Debug.Log("StageItemView.LoadStageMap(), CityId is : " + data.CityId);
+		string sourcePath = string.Format("Stage/{0}", data.CityId);
 //		Debug.Log("StageItemView.ShowMap(), sourcePath : " + sourcePath);
 		Texture2D tex = Resources.Load(sourcePath) as Texture2D;
 
@@ -68,6 +69,11 @@ public class StageItemView : MonoBehaviour {
 			GameObject cell = NGUITools.AddChild(this.gameObject, QuestItemView.Prefab);
 			cell.name = string.Format("Quest_{0}", data.QuestInfo[ i ].Name);
 
+			if(data.QuestInfo[ i ] == null){
+				Debug.LogError(string.Format("data.QuestInfo[ {0} ] is NULL, return...: ", i));
+				return;
+			}
+
 			if(data.QuestInfo[ i ].Pos != null){
 				float pos_x = data.QuestInfo[ i ].Pos.x - OFFSET_X;
 				float pos_y = data.QuestInfo[ i ].Pos.y - OFFSET_Y;
@@ -83,5 +89,4 @@ public class StageItemView : MonoBehaviour {
 			questItemView.StageID = data.ID;
 		}
 	}
-	
 }

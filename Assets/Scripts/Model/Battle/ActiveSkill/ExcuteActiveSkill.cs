@@ -23,14 +23,18 @@ public class ExcuteActiveSkill {
 			activeSkill.Add(item.MakeUserUnitKey(), skill);
 		}
 		MsgCenter.Instance.AddListener (CommandEnum.LaunchActiveSkill, Excute);
-		MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, MoveToMapItem);
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, MoveToMapItem);	// move role one step, cooling reduce one round.
+		MsgCenter.Instance.AddListener (CommandEnum.ReduceActiveSkillRound, ReduceActiveSkillRound);	// this command use to reduce cooling one round.
+		MsgCenter.Instance.AddListener (CommandEnum.ShowHands, ShowHands);	// one normal skill can reduce cooling one round.
+//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 	}
 
 	public void RemoveListener (){
 		MsgCenter.Instance.RemoveListener (CommandEnum.LaunchActiveSkill, Excute);
-		MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, MoveToMapItem);
-		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, MoveToMapItem);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ReduceActiveSkillRound, ReduceActiveSkillRound);
+		MsgCenter.Instance.AddListener (CommandEnum.ShowHands, ShowHands);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 	}
 
 	public IActiveSkillExcute GetActiveSkill(string userUnitID) {
@@ -76,9 +80,17 @@ public class ExcuteActiveSkill {
 		CoolingSkill ();
 	}
 
-	void BattleEnd(object data) {
+	void ReduceActiveSkillRound(object data) {
 		CoolingSkill ();
 	}
+
+	void ShowHands(object data) {
+		int count = (int)data;
+		for (int i = 0; i < count; i++) {
+			CoolingSkill ();
+		}
+	}
+	
 
 	public void CoolingSkill () {
 		foreach (var item in activeSkill.Values) {

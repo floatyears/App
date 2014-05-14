@@ -24,7 +24,7 @@ public class SelectRoleDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 		
-		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
+		BgComponent background = CreatComponent< BgComponent >(UIConfig.HomeBackgroundName);
 		background.SetComponent(sceneInfoBar);
 		
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
@@ -41,14 +41,18 @@ public class SelectRoleDecorator : DecoratorBase{
 //--------------------------------Start---------------------------------------
 public class StartDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public StartDecorator(SceneEnum sEnum) : base(sEnum){}
+	public StartDecorator(SceneEnum sEnum) : base(sEnum){
+//		Debug.LogError("StartDecorator");
+	}
 	
 	public override void ShowScene(){
 		base.ShowScene();
+//		Debug.LogError("StartDecorator ShowScene");
 //		sceneInfoBar.SetBackScene(SceneEnum.None);
 	}
 	
 	public override void HideScene(){
+//		Debug.LogError("StartDecorator hidescene");
 		base.HideScene();
 	}
 	
@@ -57,17 +61,17 @@ public class StartDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
-		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
-        background.SetComponent(decorator);
-		
-		MainMenuController bottom = CreatComponent< MainMenuController >(UIConfig.menuBottomName);
-		bottom.SetComponent(background);
-		
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
-		playerInfoBar.SetComponent(bottom);
+		playerInfoBar.SetComponent(decorator);
+
+		BgComponent background = CreatComponent< BgComponent >(UIConfig.HomeBackgroundName);
+		background.SetComponent(playerInfoBar);
+		
+		MainMenuController bottom = CreatComponent< MainMenuController >(UIConfig.MainMenuName);
+		bottom.SetComponent(background);
 
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
-		tipsBar.SetComponent(playerInfoBar);
+		tipsBar.SetComponent(bottom);
 
 		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
 		selectUnitInfo.SetComponent(tipsBar);
