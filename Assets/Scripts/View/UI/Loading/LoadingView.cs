@@ -20,6 +20,7 @@ public class LoadingView : UIComponentUnity {
     
     public override void ShowUI () {
         base.ShowUI ();
+		Umeng.GA.StartWithAppKeyAndChannelId ("535de69e56240b860f043d00","android");
     }
     
     public override void HideUI () {
@@ -43,10 +44,10 @@ public class LoadingView : UIComponentUnity {
 
     private void ClickToLogin(GameObject btn){
 //		if (checkResourceUpdate ()) {
-//			Login();		
+			Login();		
 //		}
-		UIEventListener.Get(this.gameObject).onClick = null;
-		GameObject.Find ("LoadProgress").GetComponent<ResourceUpdate>().StartDownload();
+//		UIEventListener.Get(this.gameObject).onClick = null;
+//		GameObject.Find ("LoadProgress").GetComponent<ResourceUpdate>().StartDownload();
     }
 
 	private void Login(){
@@ -57,10 +58,12 @@ public class LoadingView : UIComponentUnity {
 		else {
 			LogHelper.Log("login directly");
 			LoginDirectly();
+
 		}
 	}
 	
 	private void LoginDirectly(){
+		Umeng.GA.Event ("Login");
 		LoadingLogic loadingLogic = origin as LoadingLogic;
         loadingLogic.StartLogin();
     }

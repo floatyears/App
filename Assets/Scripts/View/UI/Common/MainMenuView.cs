@@ -71,6 +71,7 @@ public class MainMenuView : UIComponentUnity {
 		if (iuiCallback == null) {
 			iuiCallback = origin as IUICallback;
 		} 
+		Umeng.GA.Event ("BttomMenu",se.ToString ());
 
 		iuiCallback.CallbackView(se);
 	}

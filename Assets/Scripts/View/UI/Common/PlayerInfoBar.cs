@@ -108,6 +108,8 @@ public class PlayerInfoBar : UIComponentUnity
 		staminaSprite = FindChild< UISprite >("InfoBar/Sprite_Stamina");
 
 		evolveTypeSprite = FindChild<UISprite>("InfoBar/Sprite_EvolveType");
+
+		FindChild<UILabel> ("InfoBar/DeviceInfo").text = Umeng.GA.GetDeviceInfo ();
 	}
 
 	private void ShowInfoBox(GameObject go, bool isPressed)

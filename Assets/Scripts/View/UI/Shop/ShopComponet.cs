@@ -292,6 +292,8 @@ public class ShopComponent : ConcreteComponent {
     }
 
     void CallbackUnitpansion(object args){
+		Umeng.GA.Buy (CommandEnum.UnitExpansion.ToString(),1,6);
+
         MsgCenter.Instance.Invoke(CommandEnum.UnitExpansion);
     }
 

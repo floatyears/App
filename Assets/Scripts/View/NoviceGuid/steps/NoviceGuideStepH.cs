@@ -48,6 +48,7 @@ public class NoviceGuideStepH_StateOne:NoviceGuidState
 		mwp.btnParam = sure;
 
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+
 	}
 	
 	private void ClickOK(object data)

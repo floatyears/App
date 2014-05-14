@@ -37,14 +37,22 @@ public class ResourceUpdate : MonoBehaviour {
 
 	private float current = 0;
 
+	private int alreadyDone = 0;
+
 	private bool isLoginSent = false;
+
+	private bool isShowRetry = false;
 
 	private WWW www = null;
 
 	private UIProgressBar pro;
 	private UILabel proText;
 	private WWW globalWWW;
-	bool startDown = false;
+	private bool startDown = false;
+
+	private List<DownloadItemInfo> downLoadItemList = new List<DownloadItemInfo>();
+	private List<DownloadItemInfo> retryItemList = new List<DownloadItemInfo>();
+
 
 	// Use this for initialization
 	void Start () {
@@ -62,8 +70,7 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 
 
-	List<DownloadItemInfo> downLoadItemList = new List<DownloadItemInfo>();
-	//List<DownloadItemInfo> retryItemList = new List<DownloadItemInfo>();
+
 
 	void Update(){
 		if (downLoadItemList.Count > 0) {
@@ -71,9 +78,10 @@ public class ResourceUpdate : MonoBehaviour {
 			for (int i = 0; i < downLoadItemList.Count; i++) {
 				DownloadItemInfo item = downLoadItemList[i];
 				WWW www = item.www;
-				if(www != null)
-					current += (1-www.progress) * item.size;
-				//Debug.LogError(item.name + " download speed : " + www.bytesDownloaded);
+
+				if(www != null && string.IsNullOrEmpty(www.error)){
+					current += item.size * www.progress;
+				}
 				if(!string.IsNullOrEmpty(www.error)) {
 					//Debug.LogError("retryItemList : " + item.path + " error : " + www.error);
 					//retryItemList.Add(item);
@@ -87,11 +95,13 @@ public class ResourceUpdate : MonoBehaviour {
 				if(www.isDone) {
 					//TODO download done.
 					UpdateLocalRes(item);
+					alreadyDone += item.size;
+
 				}
 			}
 		}
 //		Debug.Log (globalWWW);
-		pro.value =  total >0 ? current/ (float)total : 0;
+		pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
 		proText.text = "current: " + (1-pro.value)*100 + "%(total " + (float)total / (float)(1024*1024) + "M)";
 
 	}
@@ -99,15 +109,43 @@ public class ResourceUpdate : MonoBehaviour {
 	void LateUpdate() {
 		for (int i = downLoadItemList.Count - 1; i >= 0; i--) {
 			DownloadItemInfo item = downLoadItemList[i];
-			if(item.www.isDone || (!string.IsNullOrEmpty( item.www.error) && item.retryCount <=0) ) {
+			if(!string.IsNullOrEmpty( item.www.error) && item.retryCount <=0){
+				downLoadItemList.Remove(item);
+				retryItemList.Add(item);
+			}else if(item.www.isDone) {
 				downLoadItemList.Remove(item);
 				item.Dispose();
 			}
 		}
-		Debug.Log ("download list item: " + downLoadItemList.Count);
+		//Debug.Log ("download list item: " + downLoadItemList.Count);
 		if (downLoadItemList.Count <= 0 && !isLoginSent && startDown) {
-			isLoginSent = true;
-			SendMessageUpwards("Login",SendMessageOptions.DontRequireReceiver);
+			if(retryItemList.Count > 0){
+				if(!isShowRetry){
+					isShowRetry = true;
+
+					MsgWindowParams mwp = new MsgWindowParams ();
+					mwp.btnParams = new BtnParam[2];
+					
+					mwp.titleText = "Dowload Error";
+					mwp.contentText = "Would you like to retry";
+					
+					BtnParam sure = new BtnParam ();
+					sure.callback = DownloadAgain;
+					sure.text = "OK";
+					mwp.btnParams[0] = sure;
+					
+					sure = new BtnParam ();
+					sure.callback = ExitGame;
+					sure.text = "Cancel";
+					mwp.btnParams[1] = sure;
+					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+				}
+
+			}else {
+				isLoginSent = true;
+				SendMessageUpwards("Login",SendMessageOptions.DontRequireReceiver);
+			}
+
 		}
 			
 		//Debug.LogError ("LateUpdate : " + retryItemList.Count);
@@ -117,8 +155,25 @@ public class ResourceUpdate : MonoBehaviour {
 //		}
 	}
 
+	private void DownloadAgain(object data){
+		downLoadItemList.Clear ();
+		total = 0;
+		alreadyDone =  0;
+		foreach (var item in retryItemList) {
+			item.retryCount = 3;
+			downLoadItemList.Add(item);
+			total += item.size;
+			item.StartDownload();
+
+		}
+		retryItemList.Clear ();
+		isShowRetry = false;
+	}
 
 
+	private void ExitGame(object data){
+
+	}
 	public void StartDownload(){
 		StartCoroutine (Download (serverVersionURL, delegate(WWW serverVersion) {
 			Debug.Log("download serverVersion:"+serverVersion.text);
