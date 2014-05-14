@@ -219,7 +219,11 @@ public class Battle : UIBase {
 	public bool isShowEnemy = false;
 	public void ShowEnemy(List<TEnemyInfo> count) {
 		isShowEnemy = true;
+
 		battleEnemy.Refresh(count);
+
+		MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
+
 		TStoreBattleData tsbd = battleData.storeBattleData;
 //		tsbd.enemyInfo.Clear ();
 //		for (int i = 0; i < count.Count; i++) {

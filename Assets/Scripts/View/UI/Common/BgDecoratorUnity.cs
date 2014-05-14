@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Collections;
 
 public class BgDecoratorUnity : UIComponentUnity {
-	private UISprite sprite;
+	private UITexture sprite;
 
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config,origin);
-		sprite = GetComponent<UISprite> ();
+		sprite = GetComponent<UITexture> ();
 	}
 
 	public override void ShowUI () {

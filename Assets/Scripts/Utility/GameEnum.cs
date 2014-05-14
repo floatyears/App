@@ -164,8 +164,7 @@ public enum CommandEnum{
 	LeftBattle,
 	QuestEnd,
 	TargetEnemy,
-	BattleStart,
-	UseLeaderSkill,
+	ReduceActiveSkillRound,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -242,10 +241,6 @@ public enum CommandEnum{
 	TransPickedCity					= 4068,
 	OnPickQuest,
 	OnPickHelper,
-
-	//user guide
-	OpenGuideMsgWindow,
-	CloseGuideMsgWindow,
 
     WaitResponse,
     SetBlocker,

@@ -337,6 +337,15 @@ public class TUserUnit : ProtobufDataBase {
 		}
 	}
 
+	public int MultipleMaterialExp(TUserUnit baseUser) {
+		if (baseUser == null) {
+			return UnitInfo.DevourExp * Level;
+		}
+		else{
+			return System.Convert.ToInt32 (DGTools.OnlyTypeMultiple (baseUser, this) * UnitInfo.DevourExp * Level);
+		}
+	}
+
 
 
     public int Exp {
