@@ -141,6 +141,7 @@ public class AttackController {
 	}
 
 	public void StartAttack (List<AttackInfo> attack) {
+		msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
 		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		MultipleAttack (attack);

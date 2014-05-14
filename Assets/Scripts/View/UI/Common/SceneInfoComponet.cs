@@ -22,7 +22,7 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	}
 	
 	public override void DestoryUI () {
-		Debug.LogError ("SCENEINFO COMPONENT : ");
+//		Debug.LogError ("SCENEINFO COMPONENT : ");
 		base.DestoryUI ();
 	}
 

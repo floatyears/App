@@ -39,7 +39,7 @@ public class QuestSelectView : UIComponentUnity{
 	public override void ShowUI(){
 		base.ShowUI();
 //		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, GetSelectedStage);
-//		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
 //        firstFocus.value = true;
 //		ShowTween();
 		MsgCenter.Instance.AddListener(CommandEnum.TransPickedCity, CreateSlidePage);
@@ -49,7 +49,7 @@ public class QuestSelectView : UIComponentUnity{
 	public override void HideUI(){
 		base.HideUI();
 //		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, GetSelectedStage);
-//		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveStart, EvolveStartQuest);
 		MsgCenter.Instance.RemoveListener(CommandEnum.TransPickedCity, CreateSlidePage);
 	}
 
@@ -397,10 +397,10 @@ public class QuestSelectView : UIComponentUnity{
 		return msgParams;
 	}
 
-	void EvolveStartQuest (object data) {
-		evolveStageInfo = data as TEvolveStart;
-		EvolveInfoShow(evolveStageInfo.StageInfo);
-	}
+//	void EvolveStartQuest (object data) {
+//		evolveStageInfo = data as TEvolveStart;
+//		EvolveInfoShow(evolveStageInfo.StageInfo);
+//	}
 
 	//--------------------------------New---------------------------------------
 
@@ -487,7 +487,6 @@ public class QuestSelectView : UIComponentUnity{
 			cell.name = string.Format("Stage_{0}", accessStageList[ i ].StageName);
 			int offsetCount = i - accessStageList.Count/2;
 			cell.transform.localPosition = STAGE_PAENL_OFFSET_X * offsetCount * Vector3.right;
-		
 			StageItemView stageItemView = StageItemView.Inject(cell);
 			stageItemView.Data = accessStageList[ i ];
 		}
@@ -595,6 +594,55 @@ public class QuestSelectView : UIComponentUnity{
 		lightSpr.enabled = isEnabled;
 	}
 
+
+	//===========evolve==============================================
+	void EvolveStartQuest (object data) {
+		evolveStageInfo = data as TEvolveStart;
+//		CreateSlidePage (evolveStageInfo.StageInfo.CityId);
+		GetData(evolveStageInfo.StageInfo.CityId);
+		InitUIElement();
+		FillViewEvolve();
+	}
+
+	void FillViewEvolve(){
+		if(cityInfo == null) {
+			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
+			return;
+		}
+
+		List<TStageInfo> accessStageList = new List<TStageInfo> (); 
+		accessStageList.Add (evolveStageInfo.StageInfo);
+		totalPageCount = accessStageList.Count;
+		CurrPageIndex = accessStageList.Count;
+		Debug.LogError ("CurrPageIndex : " + CurrPageIndex);
+		GenerateStageItem(accessStageList);
+		GenerateIndex(accessStageList);
+		InitQuestRootPos(totalPageCount);
+		EnableLightSprite(true);
+	}
+
+	void GenerateIndex(List<TStageInfo> accessStageList) {
+		string sourcePath = "Prefabs/UI/Quest/PageMark";
+		GameObject pageMarkPrefab = Resources.Load(sourcePath) as GameObject;
+		for (int i = 0; i < accessStageList.Count; i++){
+			GameObject pageMarkItem = NGUITools.AddChild(pageMark, pageMarkPrefab);
+			int offsetCount = i - accessStageList.Count/2;
+			pageMarkItem.name = i.ToString();
+			pageMarkItem.transform.localPosition = PAGE_MARK_OFFSET_X * offsetCount * Vector3.right;
+			pageMarkItemList.Add(pageMarkItem);
+		}
+	}
+
+	void GenerateStageItem(List<TStageInfo> accessStageList) {
+			for (int i = 0; i < accessStageList.Count; i++){
+				GameObject cell = NGUITools.AddChild(stageRoot, StageItemView.Prefab);
+				cell.name = string.Format("Stage_{0}", accessStageList[ i ].StageName);
+				int offsetCount = i - accessStageList.Count/2;
+				cell.transform.localPosition = STAGE_PAENL_OFFSET_X * offsetCount * Vector3.right;
+				StageItemView stageItemView = StageItemView.Inject(cell);
+				stageItemView.Data = accessStageList[ i ];
+			}
+	}
 }
 
 

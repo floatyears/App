@@ -369,6 +369,14 @@ public class DGTools {
 			return 1f;
 		}
 	}
+
+	public static float OnlyTypeMultiple(TUserUnit baseUnit, TUserUnit material) {
+		if (baseUnit.UnitInfo.Type == material.UnitInfo.Type) {
+			return 1.5f;		
+		} else {
+			return 1f;		
+		}
+	}
 	
 	public static float AllMultiple (float type, float race) {
 		return type + race - 1;
@@ -446,6 +454,7 @@ public class DGTools {
 	private const string CityPath = "City/";
 	public static TCityInfo LoadCityInfo (uint cityID) {
 		string url = path + CityPath + cityID;
+//		Debug.LogError ("LoadCityInfo : " + url);
 		TextAsset ta = LoadTextAsset (url);
 		CityInfo ci = ProtobufSerializer.ParseFormBytes<CityInfo> (ta.bytes);
 		TCityInfo tci = new TCityInfo(ci);
@@ -558,6 +567,7 @@ public class GameLayer
 
 	public static int LayerToInt(LayerMask layer)
 	{
+
 		return 1 << layer;
 	}
 }
