@@ -20,11 +20,12 @@ module EUnitRace
   MONSTER = 5
   LEGEND = 6
   SCREAMCHEESE = 7
+  EVOLVEPARTS = 8
 end
 
-module EUnitGetWay 
+module EUnitGetType 
   E_NONE				= 0
-  E_FREE				= 1
+  E_QUEST				= 1
   E_GACHA_NORMAL		= 2
   E_GACHA_EVENT		= 3
   E_BUY				= 4
@@ -46,10 +47,19 @@ class EvolveInfo
   include Beefcake::Message
 end
 
+class UnitGetWay
+  include Beefcake::Message
+end
+
+class UnitGetWay
+  optional :getType, EUnitGetType, 1
+  repeated :getPath, :uint32, 2
+end
+
 class UnitInfo
   UNITTYPE = { "UALL" => 0 , "UFIRE" => 1, "UWATER" => 2, "UWIND" => 3, "ULIGHT" => 4 ,"UDARK" => 5,"UNONE" => 6,"UHeart" => 7 }
-  UNITRACE = { "ALL" => 0 , "HUMAN" => 1, "UNDEAD" =>2 , "MYTHIC" => 3 , "BEAST" => 4, "MONSTER" => 5 ,"LEGEND" => 6, "SCREAMCHEESE" => 7 }
-  EUNIT_GETWAY = { "E_NONE" => 0,"E_FREE" => 1 ,"E_GACHA_NORMAL" => 2 ,"E_GACHA_EVENT" => 3,"E_BUY" => 4}  
+  UNITRACE = { "ALL" => 0 , "HUMAN" => 1, "UNDEAD" =>2 , "MYTHIC" => 3 , "BEAST" => 4, "MONSTER" => 5 ,"LEGEND" => 6, "SCREAMCHEESE" => 7, "EVOLVEPARTS" => 8 }
+  EUNIT_GETWAY = { "E_NONE" => 0,"E_QUEST" => 1 ,"E_GACHA_NORMAL" => 2 ,"E_GACHA_EVENT" => 3,"E_BUY" => 4}  
   
   required :id, :uint32, 1
   optional :name, :string, 2
@@ -69,7 +79,9 @@ class UnitInfo
   optional :cost, :int32, 15
   optional :saleValue, :int32, 16
   optional :devourValue, :int32, 17
-  optional :getWay,  EUnitGetWay, 18
+  optional :getWay,  UnitGetWay, 18
+  optional :maxActiveSkillLv,  :int32, 19
+  optional :maxStar,  :int32, 20
   
   def self.create_with_params(params)
     power_type = PowerType.new(attackType:  params_to_i(params[:attackType]),hpType: params_to_i(params[:hpType]),expType: params_to_i(params[:expType]))
@@ -95,7 +107,9 @@ class UnitInfo
     cost: params_to_i(params[:cost]),
     saleValue: params_to_i(params[:saleValue]),
     devourValue: params_to_i(params[:devourValue]),
-    getWay: params_to_i(params[:getWay])
+    #getWay: params_to_i(params[:getWay])
+    maxActiveSkillLv: params_to_i(params[:maxActiveSkillLv]),
+    maxStar: params_to_i(params[:maxStar])
     )
   end
   

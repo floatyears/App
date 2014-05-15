@@ -83,6 +83,13 @@
 <p>
 	getWay:<%= select_tag :getWay,options_for_select(UnitInfo::EUNIT_GETWAY) %><span color="red"><font color="red">(必填)</font><span>
 </p>
+<p>
+	maxActiveSkillLv:<%= text_field_tag :maxActiveSkillLv %>
+</p>
+<p>
+	maxStar:<%= text_field_tag :maxStar %>
+</p>
+
 <div class="actions">
 	<%= submit_tag '提交',class: "btn btn-primary" %>
 </div>
