@@ -228,7 +228,7 @@ public class BattleEnemy : UIBaseUnity {
 	}
 	GameObject prevEffect;
 	public void PlayerEffect(EnemyItem ei,AttackInfo ai) {
-		GameObject obj = DataCenter.Instance.GetEffect(ai) as GameObject;
+		GameObject obj = EffectManager.Instance.GetEffectObject (ai.SkillID); //DataCenter.Instance.GetEffect(ai) as GameObject;
 //		DGTools.PlayAttackSound(ai.AttackType);
 		ei.InjuredShake();
 		if (obj != null) {
