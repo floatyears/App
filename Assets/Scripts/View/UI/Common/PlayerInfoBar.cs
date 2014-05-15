@@ -1,4 +1,4 @@
-﻿using bbproto;
+using bbproto;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ public class PlayerInfoBar : UIComponentUnity{
  
 	//Out 
 	UILabel TLineLabel;
-	UILabel TRankLabel;
+
 	UILabel VChipCountLabel;
 	UILabel VStamMaxLabel;
 	UILabel VCionCountLabel;
@@ -85,7 +85,6 @@ public class PlayerInfoBar : UIComponentUnity{
 		VTotalExpHideLabel = FindChild< UILabel>("InfoBox/Label_Vaule_TotalExp");
 		
 		TLineLabel = FindChild< UILabel >("InfoBar/Label_Text_Line");
-		TRankLabel = FindChild< UILabel >("InfoBar/Label_Text_Rank");
 		VChipCountLabel = FindChild< UILabel >("InfoBar/Label_Vaule_ChipNum");
 		VStamMaxLabel = FindChild< UILabel >("InfoBar/Label_Vaule_CurStamina");
 		VCionCountLabel = FindChild< UILabel >("InfoBar/Label_Vaule_Icon");
@@ -197,7 +196,7 @@ public class PlayerInfoBar : UIComponentUnity{
 			}
 		}
 
-		UIManager.Instance.ChangeScene(SceneEnum.Quest);
+		UIManager.Instance.ChangeScene(SceneEnum.World);
 	}
 
 	void AddCommandListener()

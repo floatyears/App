@@ -27,8 +27,8 @@
         "uiName":"SceneInfoBar",
         "resoucePath": "Prefabs/UI/Common/",
         "parent": 1,
-        "positionx": -161,
-        "positiony": -154,
+        "positionx": 0,
+        "positiony": -150,
         "positionz": 0
     },
      "HomeBackground": {

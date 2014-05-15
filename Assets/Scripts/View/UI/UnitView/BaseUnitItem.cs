@@ -229,6 +229,7 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void SetCommonState(){
 		IsEnable = true;
+		//Debug.LogError("gameobject: " + gameObject + " userUnit : " + userUnit.ID);
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
 		typeSpr.color = DGTools.TypeToColor(userUnit.UnitInfo.Type);
 		CurrentSortRule = SortRule.ID;

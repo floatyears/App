@@ -524,7 +524,8 @@ public class DataCenter {
 				Debug.LogError("city id : " + cityID + " is invalid");
 				return null;
 			}
-			CityInfo.Add(tui.ID,tui);
+			//CityInfo.Add(tui.ID,tui);
+			CityInfo.Add(cityID,tui);
 			return tui;
 		}
 	}

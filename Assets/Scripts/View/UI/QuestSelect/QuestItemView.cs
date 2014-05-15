@@ -53,7 +53,11 @@ public class QuestItemView : MonoBehaviour {
 		}
 	}
 
-	public TStageInfo stageInfo;
+	private TStageInfo _stageInfo;
+	public TStageInfo stageInfo{
+		set { _stageInfo = value; stageID = _stageInfo.ID; }
+		get {return _stageInfo;}
+	}
 	
 	private void ShowQuestInfo(){
 		bgSpr.atlas = DataCenter.Instance.GetAvatarAtlas(data.BossID[ 0 ]);

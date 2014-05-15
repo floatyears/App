@@ -392,7 +392,7 @@ public class QuestSelectDecorator : DecoratorBase{
 
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.Quest);
+		sceneInfoBar.SetBackScene(SceneEnum.World);
 	}
 	
 	public override void HideScene(){
@@ -425,7 +425,7 @@ public class FriendSelectDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.QuestSelect);
+		sceneInfoBar.SetBackScene(SceneEnum.Stage);
 	}
 	
 	public override void HideScene(){
@@ -998,7 +998,7 @@ public class NewQuestSelectDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.None);
+		sceneInfoBar.SetBackScene(SceneEnum.Stage);
 	}
 	
 	public override void HideScene(){

@@ -299,10 +299,10 @@ public class FriendHelperView : UIComponentUnity{
 	private void InitUI(){
 		sortBtn = transform.FindChild("Button_Sort").GetComponent<UIButton>();
 		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
-		sortRuleLabel = transform.FindChild("Label_Sort_Rule").GetComponent<UILabel>();
+		//sortRuleLabel = transform.FindChild("Label_Sort_Rule").GetComponent<UILabel>();
 
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
-		sortRuleLabel.text = curSortRule.ToString();
+		//sortRuleLabel.text = curSortRule.ToString();
 	}
 
 	private void CreateDragView(){
@@ -312,13 +312,19 @@ public class FriendHelperView : UIComponentUnity{
 		dragPanel.AddItem(helperDataList.Count);
 		CustomDragPanel();
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
-		
+
+		SortUnitByCurRule();
+
+//		RefreshView();
+	}
+
+	void RefreshView() {
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			HelperUnitItem huv = HelperUnitItem.Inject(dragPanel.ScrollItem[ i ]);
 			huv.Init(helperDataList[ i ]);
+			//Debug.LogError("I : " + i + " DATA : " + helperDataList[ i ].UserUnit.ID);
 			huv.callback = ClickHelperItem;
 		}
-		SortUnitByCurRule();
 	}
 	
 	private QuestItemView pickedQuestInfo;
@@ -328,7 +334,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	protected virtual void ClickHelperItem(HelperUnitItem item){
-//		Debug.Log("ClickHelperItem...");
+		Debug.Log("ClickHelperItem..." + item);
 		
 		if(pickedQuestInfo == null){
 			Debug.LogError("FriendHelerpView.ClickHelperItem(), pickedQuestInfo is NULL, return!!!");
@@ -383,15 +389,16 @@ public class FriendHelperView : UIComponentUnity{
 	}
 	
 	private void SortUnitByCurRule(){
-		sortRuleLabel.text = curSortRule.ToString();
+		//sortRuleLabel.text = curSortRule.ToString();
 		SortUnitTool.SortByTargetRule(curSortRule, helperDataList);
-		
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			HelperUnitItem huv = dragPanel.ScrollItem[ i ].GetComponent<HelperUnitItem>();
-			//Debug.Log(string.Format("SortUnitByCurRule :: Before:: ScrollItem's index -> {0}, huv's addPoint -> {1}", i, huv.UserUnit.AddNumber));
-			huv.UserUnit = helperDataList[ i ].UserUnit;
-			huv.CurrentSortRule = curSortRule;
-		}
+		RefreshView();
+//		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+//			HelperUnitItem huv = dragPanel.ScrollItem[ i ].GetComponent<HelperUnitItem>();
+//			//Debug.Log(string.Format("SortUnitByCurRule :: Before:: ScrollItem's index -> {0}, huv's addPoint -> {1}", i, huv.UserUnit.AddNumber));
+//			huv.FriendInfo = helperDataList[i];
+//			huv.UserUnit = helperDataList[ i ].UserUnit;
+//			huv.CurrentSortRule = curSortRule;
+//		}
 	}
 
 	private void ShowUIAnimation(){
@@ -416,9 +423,9 @@ public class FriendHelperView : UIComponentUnity{
 	private void CustomDragPanel(){
 		GameObject scrollView = dragPanel.DragPanelView.transform.FindChild("Scroll View").gameObject;
 		GameObject scrollBar = dragPanel.DragPanelView.transform.FindChild("Scroll Bar").gameObject;
-
-		scrollBar.transform.Rotate( new Vector3(0, 0, 270) );
-
+		GameObject itemRoot = scrollView.transform.FindChild("UIGrid").gameObject;
+		//scrollBar.transform.Rotate( new Vector3(0, 0, 270) );
+		//scrollBar.gameObject.SetActive(false);
 		UIScrollView uiScrollView = scrollView.GetComponent<UIScrollView>();
 		UIScrollBar uiScrollBar = scrollBar.GetComponent<UIScrollBar>();
 
@@ -426,6 +433,8 @@ public class FriendHelperView : UIComponentUnity{
 		uiScrollView.horizontalScrollBar = null;
 
 	}
+
+
 
 	    
 }

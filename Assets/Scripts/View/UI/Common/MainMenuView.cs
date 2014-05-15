@@ -36,7 +36,7 @@ public class MainMenuView : UIComponentUnity {
 		buttonInfo.Add (go, SceneEnum.Friends);
 
 		go = FindChild ("ImgBtn_Quest");
-		buttonInfo.Add (go, SceneEnum.Quest);
+		buttonInfo.Add (go, SceneEnum.World);
 
 		go = FindChild ("ImgBtn_Scratch");
 		buttonInfo.Add (go, SceneEnum.Scratch);

@@ -21,7 +21,7 @@ public class NewQuestSelect : UIComponentUnity {
 	}
 
 	private void GenerateQuestList(TStageInfo targetStage){
-		Debug.Log("QuestSelect.GenerateQuestList(), Start...");
+		//Debug.Log("QuestSelect.GenerateQuestList(), Start...");
 		List<TQuestInfo> accessQuestList = GetAccessQuest(targetStage.QuestInfo);
 
 		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab);
@@ -33,6 +33,8 @@ public class NewQuestSelect : UIComponentUnity {
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			QuestItemView qiv = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
 			qiv.Data = accessQuestList[ i ];
+			qiv.stageInfo = targetStage;
+//			qiv.StageID = targetStage.ID;//StartFight Need
 		}
 
 	}

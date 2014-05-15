@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using bbproto;
 
 public class StandbyView : UIComponentUnity {
+	private int prevPageIndex = 0;
+	private GameObject pageLightRoot;
+
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
 
@@ -76,7 +79,7 @@ public class StandbyView : UIComponentUnity {
 			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());
 			partyView.Add(i, puv);
 		}
-
+		helper = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
 		InitPageLight();
 	}
 	
@@ -118,6 +121,7 @@ public class StandbyView : UIComponentUnity {
 		helperUnitItem.Init(pickedHelperInfo);
 
 		ShowPartyInfo();
+		ShowHelperView();
 	}
 
 	private void ClickFightBtn(GameObject btn){
@@ -202,6 +206,19 @@ public class StandbyView : UIComponentUnity {
 		UpdatePageLight(curParty.ID);
 	}
 
+	private HelperUnitItem helper;
+	private void ShowHelperView(){
+		Debug.Log("ShowHelperView(), Start...");
+		if(pickedHelperInfo == null){
+			Debug.LogError("ShowHelperView(), pickedHelperInfo is NULL,return!");
+			return;
+		}
+
+		helper.FriendInfo = pickedHelperInfo;
+		helper.UserUnit = pickedHelperInfo.UserUnit;
+		Debug.LogError("heler id : " + helper.UserUnit.ID);
+	}
+
 	private void UpdateOwnLeaderSkillInfo(TUnitParty curParty){
 		SkillBase skill = curParty.GetLeaderSkillInfo();
 		UpdateLeaderSkillView(skill, ownSkillNameLabel, ownSkillDscpLabel);
@@ -266,8 +283,7 @@ public class StandbyView : UIComponentUnity {
 		darkAtkLabel.text = value.ToString();
 	}
 
-	private int prevPageIndex = 0;
-	private GameObject pageLightRoot;
+
 	private void UpdatePageLight(int curPageIndex){
 		Debug.Log("UpdatePageLight(), curPageIndex is : " + curPageIndex);
 		SwitchLight(prevPageIndex, false);

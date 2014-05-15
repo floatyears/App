@@ -6,7 +6,7 @@ public enum SceneEnum
 
 	Start,
 
-	Quest,
+	World,
 
 	Friends,
 
@@ -24,7 +24,7 @@ public enum SceneEnum
 
 	Units,
 
-	QuestSelect,
+	Stage,
 
 	FriendSelect,
 
@@ -62,7 +62,7 @@ public enum SceneEnum
 
 	StandBy,
 
-	NewQuestSelect
+	Quest
 }
 
 public enum CommandEnum{

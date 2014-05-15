@@ -118,7 +118,6 @@ public class QuestView : UIComponentUnity{
 			}
 			cityViewInfo.Add(cityItem, data[ i ]);
 		}
-//		Debug.Log("InitWorldMap(), cityViewInfo countt is : " + cityViewInfo.Count);
 	}
 
 
@@ -151,7 +150,7 @@ public class QuestView : UIComponentUnity{
 		UISprite bgSpr = item.transform.FindChild("Background").GetComponent<UISprite>();
 		bgSpr.enabled = isPressed;
 		if(!isPressed){
-			UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
+			UIManager.Instance.ChangeScene(SceneEnum.Stage);
 			MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
 		}
 	}

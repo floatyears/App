@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class StageItemView : MonoBehaviour {
@@ -57,8 +57,8 @@ public class StageItemView : MonoBehaviour {
 	private void SetIcon(){
 		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryStageClear(data.ID);
-		Debug.Log("StageItemView.SetIcon(), isClear is : " + isClear);
-		Debug.Log("StageItemView.SetIcon(), stageId is : " + data.ID);
+		//Debug.Log("StageItemView.SetIcon(), isClear is : " + isClear);
+		//Debug.Log("StageItemView.SetIcon(), stageId is : " + data.ID);
 		if(isClear){
 			icon.spriteName = "icon_stage_" + data.ID;
 		}
@@ -77,7 +77,7 @@ public class StageItemView : MonoBehaviour {
 	private void ClickItem(GameObject item){
 		Debug.Log(string.Format("StageItemView.ClickItem(), Picking Stage...stageId is {0}, Stage name is : {1}", data.ID, data.StageName));
 		//QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
-		UIManager.Instance.ChangeScene(SceneEnum.NewQuestSelect);//before
+		UIManager.Instance.ChangeScene(SceneEnum.Quest);//before
 		MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data);//after
 	
 	}
