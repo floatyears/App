@@ -233,8 +233,10 @@ public class BattleEnemy : UIBaseUnity {
 		ei.InjuredShake();
 		if (obj != null) {
 			Vector3 localScale = obj.transform.localScale;
+			Vector3 rotation = obj.transform.eulerAngles;
 			prevEffect = NGUITools.AddChild(effectPanel, obj);
 			prevEffect.transform.localScale = localScale;
+			prevEffect.transform.eulerAngles = rotation;
 			if(ai.AttackRange == 0) {
 				prevEffect.transform.localPosition = ei.transform.localPosition;
 			}
