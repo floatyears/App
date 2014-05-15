@@ -270,6 +270,10 @@ public class UIManager {
 			temp = new StandByDecorator( sEnum );
 			break;
 
+		case SceneEnum.NewQuestSelect:
+			temp = new NewQuestSelectDecorator( sEnum );
+			break;
+
         }
 		if (temp != null) {
 			temp.SetDecorator (baseScene);

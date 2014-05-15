@@ -991,3 +991,34 @@ public class StandByDecorator : DecoratorBase{
 }
 
 
+//--------------------------------NewQuestSelect------------------------------------------
+public class NewQuestSelectDecorator : DecoratorBase{
+	private SceneInfoComponent sceneInfoBar;
+	public NewQuestSelectDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+		sceneInfoBar.SetBackScene(SceneEnum.None);
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		NewQuestSelectController questSelect = CreatComponent<NewQuestSelectController>(UIConfig.questSelectPanelName);
+		
+		sceneInfoBar.SetComponent(decorator);
+		questSelect.SetComponent(sceneInfoBar);
+		
+		lastDecorator = questSelect;
+		lastDecorator.CreatUI();
+	}
+}
+
+

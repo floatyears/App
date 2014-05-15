@@ -432,7 +432,15 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
-    }
+    },
     
+    "QuestSelectPanel": {
+        "uiName":"QuestSelectPanel",
+        "resoucePath": "Prefabs/UI/Home/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    }
     
 }

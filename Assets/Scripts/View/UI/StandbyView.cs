@@ -1,14 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class StandbyView : UIComponentUnity {
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
-	private UIImageButton startFightBtn;
+
 	private UILabel totalHPLabel;
 	private UILabel totalAtkLabel;
+	private UILabel lightAtkLabel;
+	private UILabel darkAtkLabel;
+	private UILabel fireAtkLabel;
+	private UILabel waterAtkLabel;
+	private UILabel windAtkLabel;
+	private UILabel wuAtkLabel;
 
+	private UILabel helperSkillNameLabel;
+	private UILabel helperSkillDcspLabel;
+	private UILabel ownSkillNameLabel;
+	private UILabel ownSkillDscpLabel;
+
+	private UIButton startFightBtn;
 
 	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
 
@@ -36,12 +49,24 @@ public class StandbyView : UIComponentUnity {
 	}
 
 	private void InitUI(){
+		pageLightRoot = transform.FindChild("PageLight").gameObject;
 		prePageBtn = FindChild<UIButton>("Button_Left");
 		nextPageBtn = FindChild<UIButton>("Button_Right");
-		startFightBtn = transform.FindChild("ImgBtn_Fight").GetComponent<UIImageButton>();
+		startFightBtn = transform.FindChild("Button_Fight").GetComponent<UIButton>();
 		totalHPLabel = transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
 		totalAtkLabel = transform.FindChild("Label_Total_ATK").GetComponent<UILabel>();
 	
+		fireAtkLabel = transform.FindChild("Label_ATK_Fire").GetComponent<UILabel>();
+		waterAtkLabel = transform.FindChild("Label_ATK_Water").GetComponent<UILabel>();
+		lightAtkLabel = transform.FindChild("Label_ATK_Light").GetComponent<UILabel>();
+		darkAtkLabel = transform.FindChild("Label_ATK_Dark").GetComponent<UILabel>();
+		windAtkLabel = transform.FindChild("Label_ATK_Wind").GetComponent<UILabel>();
+		wuAtkLabel = transform.FindChild("Label_ATK_Wu").GetComponent<UILabel>();
+
+		helperSkillNameLabel = transform.FindChild("Label_Helper_Leader_Skill_Name").GetComponent<UILabel>();
+		helperSkillDcspLabel = transform.FindChild("Label_Helper_Skill_Dscp").GetComponent<UILabel>();
+		ownSkillNameLabel = transform.FindChild("Label_Own_Leader_Skill_Name").GetComponent<UILabel>();
+		ownSkillDscpLabel = transform.FindChild("Label_Own_Skill_Dscp").GetComponent<UILabel>();
 
 		UIEventListener.Get(startFightBtn.gameObject).onClick = ClickFightBtn;
 		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
@@ -51,6 +76,8 @@ public class StandbyView : UIComponentUnity {
 			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());
 			partyView.Add(i, puv);
 		}
+
+		InitPageLight();
 	}
 	
 	private void PrevPage(GameObject go){
@@ -82,7 +109,7 @@ public class StandbyView : UIComponentUnity {
 	private Dictionary<string, object> pickedInfoForFight;
 	private TFriendInfo pickedHelperInfo;
 	private void RecordPickedInfoForFight(object msg){
-//		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
+		//Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
 
 		//Show helper view as soon as fill helperViewItem with helper data(data bind with view)
@@ -131,7 +158,6 @@ public class StandbyView : UIComponentUnity {
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
-//			tqdd.assignData();
 			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
@@ -168,11 +194,118 @@ public class StandbyView : UIComponentUnity {
 
 	private void ShowPartyInfo(){
 		if(pickedHelperInfo == null) return;
-		int totalHp = DataCenter.Instance.PartyInfo.CurrentParty.TotalHp + pickedHelperInfo.UserUnit.Hp;
+		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
+
+		UpdateOwnLeaderSkillInfo(curParty);
+		UpdateHelperLeaderSkillInfo();
+		UpdatePartyAtkInfo(curParty);
+		UpdatePageLight(curParty.ID);
+	}
+
+	private void UpdateOwnLeaderSkillInfo(TUnitParty curParty){
+		SkillBase skill = curParty.GetLeaderSkillInfo();
+		UpdateLeaderSkillView(skill, ownSkillNameLabel, ownSkillDscpLabel);
+	}
+
+	private void UpdateHelperLeaderSkillInfo(){
+		if(pickedHelperInfo == null){
+			Debug.LogError("pickedHelperInfo is null, return!");
+			return;
+		}
+
+		TUnitInfo unitInfo = pickedHelperInfo.UserUnit.UnitInfo;
+		int skillId = unitInfo.LeaderSkill;
+		if(skillId == 0){
+			Debug.LogError("UpdateHelperLeaderSkillInfo(), skillId == 0, do not have leader skill!");
+			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
+		}
+		else{
+			string userUnitKey = pickedHelperInfo.UserUnit.MakeUserUnitKey();
+			SkillBaseInfo baseInfo = DataCenter.Instance.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
+			SkillBase leaderSkill = baseInfo.GetSkillInfo();	
+			UpdateLeaderSkillView(leaderSkill, helperSkillNameLabel, helperSkillDcspLabel);
+		}
+	}
+
+	private void UpdateLeaderSkillView(SkillBase skill, UILabel name, UILabel dscp){
+		if(skill == null){
+			Debug.LogError("Leader skill is Null");
+			name.text = "Leader Skill: --";
+			dscp.text = "--";
+		}
+		else{
+			name.text = "Leader Skill: " + skill.name;
+			dscp.text = skill.description;
+		}
+	}
+	
+	private void UpdatePartyAtkInfo(TUnitParty curParty){
+		int totalHp = curParty.TotalHp + pickedHelperInfo.UserUnit.Hp;
 		totalHPLabel.text = totalHp.ToString();
 		
-		int totalAtk = DataCenter.Instance.PartyInfo.CurrentParty.GetTotalAtk() + pickedHelperInfo.UserUnit.Attack;
+		int totalAtk = curParty.GetTotalAtk() + pickedHelperInfo.UserUnit.Attack;
 		totalAtkLabel.text = totalAtk.ToString();
+
+		int value = 0;
+		curParty.TypeAttack.TryGetValue (EUnitType.UFIRE, out value);
+		fireAtkLabel.text = value.ToString();
+		
+		curParty.TypeAttack.TryGetValue (EUnitType.UWATER, out value);
+		waterAtkLabel.text = value.ToString();
+		
+		curParty.TypeAttack.TryGetValue (EUnitType.UWIND, out value);
+		windAtkLabel.text = value.ToString();
+		
+		curParty.TypeAttack.TryGetValue (EUnitType.UNONE, out value);
+		wuAtkLabel.text = value.ToString();
+		
+		curParty.TypeAttack.TryGetValue (EUnitType.ULIGHT, out value);
+		lightAtkLabel.text = value.ToString();
+		
+		curParty.TypeAttack.TryGetValue (EUnitType.UDARK, out value);
+		darkAtkLabel.text = value.ToString();
 	}
+
+	private int prevPageIndex = 0;
+	private GameObject pageLightRoot;
+	private void UpdatePageLight(int curPageIndex){
+		Debug.Log("UpdatePageLight(), curPageIndex is : " + curPageIndex);
+		SwitchLight(prevPageIndex, false);
+		SwitchLight(curPageIndex, true);
+		prevPageIndex = curPageIndex;
+	}
+
+	private void SwitchLight(int index, bool isLight){
+		string lightPath = index + "/Sprite_ON";
+		UISprite onLightSpr = pageLightRoot.transform.FindChild(lightPath).GetComponent<UISprite>();
+		lightPath = index + "/Sprite_OFF";
+		UISprite offLightSpr = pageLightRoot.transform.FindChild(lightPath).GetComponent<UISprite>();
+
+		lightPath = index + "/Label_Index";
+		UILabel indexLabel = pageLightRoot.transform.FindChild(lightPath).GetComponent<UILabel>();
+		if(isLight){
+			onLightSpr.enabled = true;
+			indexLabel.color = new Color(60.0f/255.0f, 255.0f/255.0f, 255.0f/255.0f);
+		}
+		else{
+			onLightSpr.enabled = false;
+			indexLabel.color = new Color(22.0f/255.0f, 140.0f/255.0f, 180.0f/255.0f);
+		}
+	}
+
+	public const int MAX_PARTY_COUNT = 5;
+	private void InitPageLight(){
+		for (int i = 0; i < MAX_PARTY_COUNT; i++){
+			SetPartyIndexText( i );
+			SwitchLight(i, false);
+		}
+	}
+
+	private void SetPartyIndexText(int partyIndex){
+		string path = partyIndex + "/Label_Index";
+		UILabel indexLabel = pageLightRoot.transform.FindChild(path).GetComponent<UILabel>();
+		indexLabel.text = "PARTY" + partyIndex;
+	}
+
 
 }

@@ -38,11 +38,14 @@ public class StageItemView : MonoBehaviour {
 	}
 	
 	private void SetPosition(){
-		float x = 0f;
-		float y = 0f;
+		//For Test
+		//float x = 900f - data.ID * 62;
+		//float y = 900f - data.ID * 62;
+		float x = 0;
+		float y = 0;
 		if(data.Pos != null){
-			x = data.Pos.x;
-			y = data.Pos.y;
+			x = data.Pos.x - 320f;
+			y = data.Pos.y - 450f;
 		}
 		else{
 			Debug.LogError("Stage.Pos is NULL!");
@@ -74,8 +77,8 @@ public class StageItemView : MonoBehaviour {
 	private void ClickItem(GameObject item){
 		Debug.Log(string.Format("StageItemView.ClickItem(), Picking Stage...stageId is {0}, Stage name is : {1}", data.ID, data.StageName));
 		//QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
-		//UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before
-		//MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
+		UIManager.Instance.ChangeScene(SceneEnum.NewQuestSelect);//before
+		MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data);//after
 	
 	}
 }

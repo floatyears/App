@@ -60,7 +60,9 @@ public enum SceneEnum
 
 	Result,
 
-	StandBy
+	StandBy,
+
+	NewQuestSelect
 }
 
 public enum CommandEnum{
@@ -241,6 +243,8 @@ public enum CommandEnum{
 	TransPickedCity					= 4068,
 	OnPickQuest,
 	OnPickHelper,
+
+	GetQuestInfo,
 
     WaitResponse,
     SetBlocker,
