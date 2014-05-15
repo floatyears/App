@@ -92,7 +92,6 @@ public class BattleUseData {
 	public void InitBattleUseData (TStoreBattleData sbd) {
 		els.Excute();
 		if (sbd == null) {
-
 			Blood = maxBlood = upi.GetInitBlood ();
 
 			maxEnergyPoint =DataCenter.maxEnergyPoint;

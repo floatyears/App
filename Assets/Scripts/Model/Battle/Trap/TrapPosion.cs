@@ -33,6 +33,7 @@ public class TrapPosion : TrapBase, ITrapExcute {
 			MsgCenter.Instance.RemoveListener(CommandEnum.MoveToMapItem, RoleMove);
 			MsgCenter.Instance.RemoveListener(CommandEnum.EnemyAttackEnd, EnemyAttak);
 			MsgCenter.Instance.Invoke (CommandEnum.PlayerPosion, round);
+			round = (int)GetTrap.effectType;
 			return;
 		}
 
