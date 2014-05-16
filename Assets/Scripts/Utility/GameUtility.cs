@@ -397,13 +397,11 @@ public class DGTools {
 		string reallyPath = path + skillPath;
 		if (skillJsonData == null) {
 			TextAsset json = LoadTextAsset(reallyPath + "skills");
-//			Debug.LogError("json file : " + json);
 			skillJsonData = new SkillJsonConfig(json.text);
 		}
 
 		string className = skillJsonData.GetClassName (id);
 		TextAsset ta = LoadTextAsset(reallyPath + id);
-//		Debug.LogError ("LoadSkill className : " + className + " id : " + id);
 		if (ta == null) {
 			Debug.LogError("skill path : " + reallyPath + " not exist paorobuf file" + " id : " + id);
 			return null;
@@ -435,8 +433,8 @@ public class DGTools {
 			SkillPoison sp = ProtobufDataBase.DeserializeData<SkillPoison>(data);
 			return new TSkillPoison(sp);
 		case "SkillDodgeTrap" : 
-			PassiveDodgeTrap passiveDodge = ProtobufDataBase.DeserializeData<PassiveDodgeTrap>(data);
-			return new SkillDodgeTrap(passiveDodge);
+			SkillDodgeTrap passiveDodge = ProtobufDataBase.DeserializeData<SkillDodgeTrap>(data);
+			return new PassiveDodgeTrap(passiveDodge);
 		case "SkillAttackRecoverHP" :
 			SkillAttackRecoverHP attackRecoHp = ProtobufDataBase.DeserializeData<SkillAttackRecoverHP>(data);
 			return new TSkillAttackRecoverHP (attackRecoHp);

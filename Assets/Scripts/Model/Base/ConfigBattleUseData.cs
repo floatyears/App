@@ -38,37 +38,55 @@ public class ConfigBattleUseData {
 	private AttackInfo _posionAttack = null;
 	public AttackInfo posionAttack {
 		get { return _posionAttack; }
-		set { _posionAttack = value; WriteBuff<AttackInfoProto> (posionAttackName, _posionAttack.Instance); }
+		set { _posionAttack = value;
+			AttackInfoProto aip = _posionAttack == null ? null : _posionAttack.Instance;
+			WriteBuff<AttackInfoProto> (posionAttackName, aip); 
+		}
 	}
 
 	private AttackInfo _reduceHurtAttack = null;
 	public AttackInfo reduceHurtAttack {
 		get { return _reduceHurtAttack; }
-		set { _reduceHurtAttack = value; WriteBuff<AttackInfoProto>(reduceHurtName, _reduceHurtAttack.Instance); }
+		set { _reduceHurtAttack = value; 
+			AttackInfoProto aip = _reduceHurtAttack == null ? null : _reduceHurtAttack.Instance;
+			WriteBuff<AttackInfoProto> (reduceHurtName, aip); 
+		}
 	}
 
 	private AttackInfo _reduceDefenseAttack = null;
 	public AttackInfo reduceDefenseAttack {
 		get { return _reduceDefenseAttack; }
-		set { _reduceDefenseAttack = value;  WriteBuff<AttackInfoProto>(reduceDefenseName, _reduceDefenseAttack.Instance); }
+		set { _reduceDefenseAttack = value;
+			AttackInfoProto aip = _reduceDefenseAttack == null ? null : _reduceDefenseAttack.Instance;
+			WriteBuff<AttackInfoProto>(reduceDefenseName, aip); 
+		}
 	}
 
 	private AttackInfo _strengthenAttack = null;
 	public AttackInfo strengthenAttack {
 		get { return _strengthenAttack; }
-		set { _strengthenAttack = value; WriteBuff<AttackInfoProto>(strengthenAttackName, _strengthenAttack.Instance); }
+		set { _strengthenAttack = value; 
+			AttackInfoProto aip = _strengthenAttack == null ? null : _strengthenAttack.Instance;
+			WriteBuff<AttackInfoProto>(strengthenAttackName, aip); 
+		}
 	}
 
 	private TrapPosion _trapPoison = null;
 	public TrapPosion trapPoison {
 		get { return _trapPoison; }
-		set { _trapPoison = value; WriteBuff<TrapInfo>(trapPoisonName, _trapPoison.GetTrap);}
+		set { _trapPoison = value;
+			TrapInfo ti = _trapPoison == null ? null :  _trapPoison.GetTrap;
+			WriteBuff<TrapInfo>(trapPoisonName, ti);
+		}
 	}
 
 	private EnvironmentTrap _trapEnvironment = null;
 	public EnvironmentTrap trapEnvironment {
 		get { return _trapEnvironment; }
-		set { _trapEnvironment = value; WriteBuff<TrapInfo>(trapEnvironmentName, _trapEnvironment.GetTrap);}
+		set { _trapEnvironment = value; 
+			TrapInfo ti = _trapEnvironment == null ? null :  _trapEnvironment.GetTrap;
+			WriteBuff<TrapInfo>(trapEnvironmentName, ti);
+		}
 	}
 
 
@@ -185,18 +203,31 @@ public class ConfigBattleUseData {
 	}
 
 	void WriteAllBuff() {
-		WriteBuff<AttackInfoProto> (posionAttackName, posionAttack.Instance);
+		AttackInfoProto attack = null;
+		if (posionAttack != null) {
+			attack = posionAttack.Instance;
+		}
+		WriteBuff<AttackInfoProto> (posionAttackName, attack);
 //		Debug.LogError ("write poison attack : " + posionAttack);
-		WriteBuff<AttackInfoProto> (reduceHurtName, reduceHurtAttack.Instance);
-		WriteBuff<AttackInfoProto> (reduceDefenseName, reduceDefenseAttack.Instance);
-		WriteBuff<AttackInfoProto> (strengthenAttackName, strengthenAttack.Instance);
+		if (reduceHurtAttack != null) {
+			attack = reduceHurtAttack.Instance;
+		}
+		WriteBuff<AttackInfoProto> (reduceHurtName, attack);
+		if (reduceDefenseAttack != null) {
+			attack = reduceDefenseAttack.Instance;
+		}
+		WriteBuff<AttackInfoProto> (reduceDefenseName, attack);
+		if (strengthenAttack != null) {
+			attack = strengthenAttack.Instance;
+		}
+		WriteBuff<AttackInfoProto> (strengthenAttackName, attack);
 	}
 
 	void ReadAllBuff() {
-		posionAttack = ReadBuff<AttackInfo, AttackInfoProto> (posionAttackName);
-		reduceHurtAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceHurtName);
-		reduceDefenseAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceDefenseName);
-		strengthenAttack = ReadBuff<AttackInfo, AttackInfoProto> (strengthenAttackName);
+		_posionAttack = ReadBuff<AttackInfo, AttackInfoProto> (posionAttackName);
+		_reduceHurtAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceHurtName);
+		_reduceDefenseAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceDefenseName);
+		_strengthenAttack = ReadBuff<AttackInfo, AttackInfoProto> (strengthenAttackName);
 	}
 
 	void WriteBuff<T>(string name, T buff) where T : ProtoBuf.IExtensible {
@@ -229,7 +260,9 @@ public class ConfigBattleUseData {
 
 		byte[] attackInfo = ReadFile (name);
 		T1 aip = ProtobufSerializer.ParseFormBytes<T1> (attackInfo);
-		return Activator.CreateInstance(typeof(T), aip) as T;
+		T t = Activator.CreateInstance(typeof(T), aip) as T;
+		Debug.LogError ("t : " + t);
+		return t;
 	}
 	
 	//stage

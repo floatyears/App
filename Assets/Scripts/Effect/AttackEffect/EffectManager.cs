@@ -15,6 +15,8 @@ public class EffectManager {
 
 	public GameObject effectPanel;
 
+	public const int DragCardEffect = -1000;
+
 	private Dictionary<int,string> effectName = new Dictionary<int, string>();
 	private Dictionary<int, GameObject> effectObject = new Dictionary<int, GameObject>();
 	public GameObject GetEffectObject(int skillID) {
@@ -36,6 +38,9 @@ public class EffectManager {
 		effectName.Add (409, "water");
 		effectName.Add (410, "wind1");
 		effectName.Add (411, "wind2");
+
+		//config effect no skill.
+		effectName.Add (DragCardEffect, "card_effect");
 	}
 
 	private Dictionary<string,Type> effectCommand = new Dictionary<string, Type> ();
@@ -45,61 +50,15 @@ public class EffectManager {
 			GameObject go = Resources.Load("Effect/"+item.Value) as GameObject;
 			effectObject.Add(item.Key,go);
 		}
-
-//		effectPanel = ViewManager.Instance.BottomPanel.transform.parent.Find("EffectPanel").gameObject;
-//		effectCommand.Add (EffectConstValue.NormalFire1, typeof(NormalFireEffect));
-//		AddListener ();
-
 	}
 
-	public void PlayAttackEffect(string command,List<GameObject> effect,AttackInfo ai) {
-		Type ty = effectCommand [command];
-		IEffectConcrete eb = Activator.CreateInstance (ty) as IEffectConcrete;
-		eb.Play (effect, ai);
+	public static GameObject InstantiateEffect(GameObject parent, GameObject obj) {
+		Vector3 localScale = obj.transform.localScale;
+		Vector3 rotation = obj.transform.eulerAngles;
+		GameObject effectIns =  NGUITools.AddChild(parent, obj);
+		effectIns.transform.localScale = localScale;
+		effectIns.transform.eulerAngles = rotation;
+		return effectIns;
 	}
 
-	void AddListener() {
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
-	}
-	
-	void RemoveListener () {
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
-	}
-
-	void AttackEnemy(object data) {
-//		AttackInfo ai = data as AttackInfo;
-//		if (ai == null) {
-//			return;	
-//		}
-//		List<GameObject> effect = EffectConstValue.Instance.GetEffect (ai);
-//		if (effect == null || effect.Count == 0) {
-//			return;	
-//		}
-//		PlayAttackEffect (EffectConstValue.NormalFire1, effect, ai);
-
-
-	}
-
-
-	public Vector3 DisposeActorPosition(Transform temp) {
-		Vector3 tempPosition = temp.localPosition; 
-		return tempPosition;
-	}
-
-	public Vector3 DisposeEnemyPosition(Transform enemy) {
-		Vector3 tempPosition = enemy.localPosition + enemy.parent.localPosition + enemy.parent.parent.localPosition;
-		return tempPosition;
-	}
-
-	public List<GameObject> InitGameObject (List<GameObject> sourceObject) {
-		List<GameObject> temp = new List<GameObject> ();
-	
-		for (int i = 0; i < sourceObject.Count; i++) {
-			GameObject go = NGUITools.AddChild(effectPanel,sourceObject[i]);
-			go.transform.localScale = new Vector3(100f,100f,100f);
-			go.SetActive(false);
-			temp.Add(go);
-		}
-		return temp;
-	}
 }
