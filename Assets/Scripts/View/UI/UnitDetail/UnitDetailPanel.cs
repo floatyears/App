@@ -253,11 +253,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		noLabel.text = data.UnitID.ToString();
 		
 		//hp
-		//int hp = DataCenter.Instance.GetUnitValue(unitInfo.HPType, data.Level );
 		hpLabel.text = data.Hp.ToString();
 		
 		//atk
-		//int atk = DataCenter.Instance.GetUnitValue(unitInfo.AttackType, data.Level);
 		atkLabel.text = data.Attack.ToString();
 		
 		//name
@@ -442,7 +440,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		Debug.LogError("curlevel : " +curLevel + " MaxLevel : "+ oldBlendUnit.UnitInfo.MaxLevel) ;
 
 		levelLabel.text = curLevel.ToString ();
-		currMaxExp = DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
+
+		//DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
+		currMaxExp = oldBlendUnit.UnitInfo.GetExp(curLevel); 
+
 		expRiseStep = (int)(currMaxExp * 0.01f);
 		if ( expRiseStep < 1 )
 			expRiseStep = 1;

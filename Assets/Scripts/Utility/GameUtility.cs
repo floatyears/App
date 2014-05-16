@@ -265,22 +265,10 @@ public class DGTools {
 			return false;
 		}
 	}
-
-	public static int CaculateAddBlood (int addHP,UserUnit uu, UnitInfo ui) {
-		return addHP * 10 + GetValue (uu, ui.powerType.hpType);
-	}
-
-	public static int CaculateAddAttack (int addAttack, UserUnit uu, UnitInfo ui) {
-		return addAttack * 5 + GetValue (uu, ui.powerType.attackType);
-	}
-
-//	public static int CaculateAddDefense (int add, UserUnit uu, UnitInfo ui) {
-////		return add * 10 + GetValue (uu, ui.powerType.);
+	
+//	public static int GetValue (UserUnit uu, int type) {
+//		return DataCenter.Instance.GetUnitValue(type,uu.level);
 //	}
-
-	public static int GetValue (UserUnit uu, int type) {
-		return DataCenter.Instance.GetUnitValue(type,uu.level);
-	}
 
 	public static string GetNormalSkillSpriteName (AttackInfo ai) {
 		if (ai.FixRecoverHP || ai.AttackRange == 2) {
@@ -292,8 +280,7 @@ public class DGTools {
 		return name1 + "_" + name2;
 	}
 
-
-
+	
 	public static float IntegerSubtriction(int firstInterger,int secondInterger) {
 		return (float)firstInterger / (float)secondInterger;
 	}
