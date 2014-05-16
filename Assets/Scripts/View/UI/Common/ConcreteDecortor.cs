@@ -474,15 +474,15 @@ public class PartyDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		//SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.PartyWindowName);
 
 
 		sceneInfoBar.SetComponent(decorator);
-		//sortPanel.SetComponent(sceneInfoBar);
-		partyInfo.SetComponent(sceneInfoBar);
+		sortPanel.SetComponent(sceneInfoBar);
+		partyInfo.SetComponent(sortPanel);
 		counter.SetComponent(partyInfo);
 		partyPage.SetComponent(counter);
 	

@@ -89,11 +89,7 @@ public class SortPanelView : UIComponentUnity {
 		}	
 		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.SortWindow, isShow));
 	}
-
-	private void OpenSortRulePanel(object msg){
-		ActivateSortRuleWindow();
-	}
-
+	
 	public void ActivateSortBtn(){
 		sortBtnMask.enabled = false;
 		sortBtn.isEnabled = true;

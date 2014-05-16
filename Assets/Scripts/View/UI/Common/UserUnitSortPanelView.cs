@@ -6,12 +6,10 @@ public class UserUnitSortPanelView : SortPanelView {
 		base.InitBtns();
 		UIButton btn;
 
-		btn = FindChild<UIButton>("Button_Sort_GetTime");
+		btn = FindChild<UIButton>("RulePanel/Button_Sort_GetTime");
 		sortRuleSelectDic.Add(btn, SortRule.GetTime);
 
 		AddEventListener();
-
-//		this.gameObject.SetActive(false);
 	}
 
 }
