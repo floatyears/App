@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SortPanelView : UIComponentUnity {
-	UIButton closeBtn;
+	private bool isShow = false;
 	protected Dictionary<UIButton, SortRule> sortRuleSelectDic = new Dictionary<UIButton, SortRule>() ;
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitBtns();
-//		Debug.LogError("SortPanelView init");
 	}
 
 	public override void ShowUI(){
@@ -20,21 +19,14 @@ public class SortPanelView : UIComponentUnity {
 	public override void HideUI(){
 		base.HideUI();
 		RmvCmdListener();
-
-//		Debug.LogError("SortPanelView HideUI");
 	}
 
 	public override void DestoryUI () {
 		RmvCmdListener();
 		base.DestoryUI ();
-//		Debug.LogError("SortPanelView DestoryUI");
 	}
 
 	protected virtual void InitBtns(){
-
-		closeBtn = FindChild<UIButton>("Button_Close");
-		UIEventListener.Get(closeBtn.gameObject).onClick = CloseSortRulePanel;
-
 		UIButton btn;
 		btn = FindChild<UIButton>("Button_Sort_HP");
 		sortRuleSelectDic.Add(btn, SortRule.HP);
@@ -69,17 +61,31 @@ public class SortPanelView : UIComponentUnity {
 
 	protected void ActivateSortRuleWindow(object msg){
 		bool isActive = (bool)msg;
-		gameObject.SetActive(isActive);
+		//gameObject.SetActive(isActive);
+		PlayUIAnimation();
 		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.SortWindow, isActive));
 	}
 
 	private void OpenSortRulePanel(object msg){
 		ActivateSortRuleWindow(true);
 	}
+	
+	private void PlayUIAnimation(){
+		if(isShow){
+			gameObject.transform.localPosition = new Vector3(0, 0, 0);
+			iTween.MoveTo(gameObject, iTween.Hash("x", 1000, "time", 0.4f, "oncomplete", "ActivateSortBtn"));
 
-	private void CloseSortRulePanel(GameObject btn){
-		ActivateSortRuleWindow(false);
-		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.SortWindow, false));
+		}
+		else{
+			gameObject.transform.localPosition = new Vector3(1000, 0, 0);
+			iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "oncomplete", "ActivateSortBtn"));
+		}	
+	}
+
+	public void ActivateSortBtn(){
+		Debug.Log("SortPanelView.ActivateSortBtn(), SortPanel's animation have completed, activate sort btn!");
+		//Message to make sort btn can be clicked after animation have completed.
+		MsgCenter.Instance.Invoke(CommandEnum.ActivateSortBtn, null);
 	}
 
 	protected void AddEventListener(){
@@ -95,4 +101,6 @@ public class SortPanelView : UIComponentUnity {
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.OpenSortRuleWindow, ActivateSortRuleWindow);
 	}
+
+
 }

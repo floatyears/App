@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class BaseUnitItem : MonoBehaviour {
 	protected bool canCrossed = true;
 	protected bool isCrossed;
 	protected UITexture avatarTex;
-	protected UISprite typeSpr;
+//	protected UISprite typeSpr;
+	protected UISprite unitTypeBg;
 	protected UISprite maskSpr;
 	protected UILabel crossFadeLabel;
 
@@ -23,7 +25,8 @@ public class BaseUnitItem : MonoBehaviour {
 		avatarTex = transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
 		crossFadeLabel = transform.FindChild("Label_Cross_Fade").GetComponent<UILabel>();
 		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
-		typeSpr = transform.FindChild("Sprite_Type").GetComponent<UISprite>();
+		//typeSpr = transform.FindChild("Sprite_Type").GetComponent<UISprite>();
+		unitTypeBg = transform.FindChild("Background").GetComponent<UISprite>();
 	}
 
 	protected TUserUnit userUnit;
@@ -223,7 +226,7 @@ public class BaseUnitItem : MonoBehaviour {
 	protected virtual void SetEmptyState(){
 		IsEnable = false;
 		avatarTex.mainTexture = null;
-		typeSpr.color = Color.white ;
+		//typeSpr.color = Color.white ;
 		crossFadeLabel.text = string.Empty;
 	}
 
@@ -231,8 +234,33 @@ public class BaseUnitItem : MonoBehaviour {
 		IsEnable = true;
 		//Debug.LogError("gameobject: " + gameObject + " userUnit : " + userUnit.ID);
 		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		typeSpr.color = DGTools.TypeToColor(userUnit.UnitInfo.Type);
+		//typeSpr.color = DGTools.TypeToColor(userUnit.UnitInfo.Type);
 		CurrentSortRule = SortRule.ID;
+	}
+
+	private void ShowUnitType(){
+		switch (userUnit.UnitInfo.Type){
+			case EUnitType.UFIRE :
+				unitTypeBg.spriteName = "avatar_bg_1";
+				break;
+			case EUnitType.UWATER :
+				unitTypeBg.spriteName = "avatar_bg_2";
+				break;
+			case EUnitType.UWIND :
+				unitTypeBg.spriteName = "avatar_bg_3";
+				break;
+			case EUnitType.ULIGHT :
+				unitTypeBg.spriteName = "avatar_bg_4";
+				break;
+			case EUnitType.UDARK :
+				unitTypeBg.spriteName = "avatar_bg_5";
+				break;
+			case EUnitType.UNONE :
+				unitTypeBg.spriteName = "avatar_bg_6";
+				break;
+			default:
+				break;
+		}
 	}
 
 }

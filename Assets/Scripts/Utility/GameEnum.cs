@@ -243,7 +243,7 @@ public enum CommandEnum{
 	TransPickedCity					= 4068,
 	OnPickQuest,
 	OnPickHelper,
-
+	ActivateSortBtn,
 	GetQuestInfo,
 
     WaitResponse,

@@ -340,6 +340,10 @@ public class QuestSelectView : UIComponentUnity{
 		FillView();
 	}
 
+	private void DestoryStageItem(){
+
+	}
+
 	private void FillView(){
 		if(cityInfo == null) {
 			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
@@ -348,6 +352,7 @@ public class QuestSelectView : UIComponentUnity{
 	
 		List<TStageInfo> accessStageList = cityInfo.Stages;
 		GenerateStages(accessStageList);
+
 	}
 
 	/// <summary>
@@ -450,6 +455,8 @@ public class QuestSelectView : UIComponentUnity{
 		UISprite lightSpr = target.transform.FindChild("Sprite_Light").GetComponent<UISprite>();
 		lightSpr.enabled = isEnabled;
 	}
+
+
 
 
 	//===========evolve==============================================
