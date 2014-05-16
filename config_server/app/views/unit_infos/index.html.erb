@@ -21,7 +21,8 @@
 			<th>Cost</th>
 			<th>SaleValue</th>
 			<th>DevourValue</th>
-			<th>GetWay</th>
+			<th>maxActiveSkillLv</th>
+			<th>maxStar</th>
 		</tr>
 	</thead>
 
@@ -61,7 +62,8 @@
 			<td><%= unit.try(:cost) %></td>
 			<td><%= unit.try(:saleValue) %></td>
 			<td><%= unit.try(:devourValue) %></td>
-			<td><%= unit.try(:getWay) %></td>
+			<td><%= unit.try(:maxActiveSkillLv) %></td>
+			<td><%= unit.try(:maxStar) %></td>
 		</tr>
 		<% end %>
 	</tbody>
