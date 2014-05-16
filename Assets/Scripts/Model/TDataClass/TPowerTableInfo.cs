@@ -18,10 +18,9 @@ public class TPowerTableInfo : ProtobufDataBase {
 		}
 	}
 
-	public const int UnitInfoExpType1 		= 1;
-	public const int UnitInfoAttackType1 	= 2;
-	public const int UnitInfoHPType1 		= 3;
-//	public const int UnitInfoDefenseType1 	= 4;
-	public const int UnitInfoCost1		 	= 4;
+	public const int UnitInfoExpType 		= 1;
+	public const int UnitInfoAttackType 	= 2;
+	public const int UnitInfoHPType 		= 3;
+	public const int UserCostMax			 = 4;
 	public const int UserExpType 			= 5;
 }

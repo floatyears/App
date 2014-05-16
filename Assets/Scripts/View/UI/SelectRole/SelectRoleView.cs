@@ -90,11 +90,13 @@ public class SelectRoleView : UIComponentUnity {
 			label.text = initialLevel.ToString();
 
 			label = contentList[ i ].transform.FindChild("Label_ATK").GetComponent<UILabel>();
-			int atkValue = DataCenter.Instance.GetUnitValue(unitInfoList[ i ].AttackType, initialLevel);
+
+			int atkValue = unitInfoList[ i ].Attack;
+
 			label.text = atkValue.ToString();
 
 			label = contentList[ i ].transform.FindChild("Label_HP").GetComponent<UILabel>();
-			int hpValue = DataCenter.Instance.GetUnitValue(unitInfoList[ i ].HPType, initialLevel);
+			int hpValue = unitInfoList[ i ].Hp;
 			label.text = hpValue.ToString();
 
 			label = contentList[ i ].transform.FindChild("Label_Race").GetComponent<UILabel>();

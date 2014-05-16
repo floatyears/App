@@ -581,8 +581,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		}
 
 		TUnitInfo tu = baseInfo.UnitInfo;
-		Hp = DataCenter.Instance.GetUnitValue(tu.HPType,baseInfo.Level);	
-		Atk =  DataCenter.Instance.GetUnitValue(tu.AttackType, baseInfo.Level);
+		Hp = baseInfo.Hp;
+		Atk =  baseInfo.Attack;
 		ExpNeed = baseInfo.NextExp;
 		RefreshMaterial ();
 	}
