@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class GameTimer : MonoBehaviour {
 	private static GameTimer instance;
@@ -15,6 +16,10 @@ public class GameTimer : MonoBehaviour {
 	} 
 
 	void Update () {
+		if (startTime) {
+			addSeconds += Time.deltaTime;
+		}
+
 		if (countDown.Count == 0) {
 			return;	
 		}
@@ -74,6 +79,30 @@ public class GameTimer : MonoBehaviour {
 		temp.countDownTime = time;
 		temp.callback = callback;
 		return temp;
+	}
+
+	public uint Seconds = 0;
+	private float addSeconds = 0f;
+	private bool startTime = false;
+
+	public void InitDateTime(uint seconds) {
+		Seconds = seconds;
+		addSeconds = 0;
+		startTime = true;
+	}
+
+	public uint GetCurrentSeonds() {
+		return Seconds += (uint)addSeconds;
+	}
+
+	public DateTime GenerateTimeBySeconds() {
+		return ChangeSecondsToTime ( GetCurrentSeonds () );
+	}
+
+	public DateTime ChangeSecondsToTime(uint seconds) {
+		DateTime dt = new DateTime (1970, 1, 1);
+		DateTime currentTime = dt.AddSeconds (Seconds);
+		return currentTime;
 	}
 }
 

@@ -384,6 +384,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	TUserUnit oldBlendUnit = null;
 	TUserUnit newBlendUnit = null;
 
+	bool levelDone = false;
+
 	void CreatEffect() {
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
 		if (effectCache.Count > 2) {
@@ -393,6 +395,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			ShowLevelInfo(newBlendUnit);
 			curLevel = oldBlendUnit.Level;
 			gotExp = levelUpData.blendExp;
+
+			levelDone = gotExp > 0;
+
 			curExp = oldBlendUnit.CurExp;
 			Debug.LogError("CreatEffect :: gotExp : " + gotExp);
 			Debug.LogError("CreatEffect :: level : " + newBlendUnit.Level);
@@ -457,8 +462,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	} 
 
 	void ExpRise () {
-		if(gotExp <= 0)	
-			return;
+		if (gotExp <= 0) {
+			if(levelDone) {
+				MsgCenter.Instance.Invoke(CommandEnum.levelDone);
+				levelDone = false;
+			}
+			return;	
+		}	
+			
 //		LogHelper.LogError("<<<<<<<<gotExp:{0} expRiseStep:{1} - curExp:{2}  currMaxExp:{3}",gotExp, expRiseStep, curExp, currMaxExp);
 
 		if(gotExp < expRiseStep){

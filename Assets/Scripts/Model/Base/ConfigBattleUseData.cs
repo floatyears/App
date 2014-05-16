@@ -1,6 +1,9 @@
 ﻿#region
 // leiliang
 // use to store enter battle need data. befoure enten battle. init data from disk or server. dont konw battle is contine or a new.
+using System;
+
+
 #endregion
 
 using UnityEngine;
@@ -35,30 +38,59 @@ public class ConfigBattleUseData {
 	private AttackInfo _posionAttack = null;
 	public AttackInfo posionAttack {
 		get { return _posionAttack; }
-		set { _posionAttack = value; WriteBuff (posionAttackName, _posionAttack); }
+		set { _posionAttack = value;
+			AttackInfoProto aip = _posionAttack == null ? null : _posionAttack.Instance;
+			WriteBuff<AttackInfoProto> (posionAttackName, aip); 
+		}
 	}
 
 	private AttackInfo _reduceHurtAttack = null;
 	public AttackInfo reduceHurtAttack {
 		get { return _reduceHurtAttack; }
-		set { _reduceHurtAttack = value; WriteBuff(reduceHurtName, _reduceHurtAttack); }
+		set { _reduceHurtAttack = value; 
+			AttackInfoProto aip = _reduceHurtAttack == null ? null : _reduceHurtAttack.Instance;
+			WriteBuff<AttackInfoProto> (reduceHurtName, aip); 
+		}
 	}
 
 	private AttackInfo _reduceDefenseAttack = null;
 	public AttackInfo reduceDefenseAttack {
 		get { return _reduceDefenseAttack; }
-		set { _reduceDefenseAttack = value;  WriteBuff(reduceDefenseName, _reduceDefenseAttack); }
+		set { _reduceDefenseAttack = value;
+			AttackInfoProto aip = _reduceDefenseAttack == null ? null : _reduceDefenseAttack.Instance;
+			WriteBuff<AttackInfoProto>(reduceDefenseName, aip); 
+		}
 	}
 
 	private AttackInfo _strengthenAttack = null;
 	public AttackInfo strengthenAttack {
 		get { return _strengthenAttack; }
-		set { _strengthenAttack = value; WriteBuff(strengthenAttackName, _strengthenAttack); }
+		set { _strengthenAttack = value; 
+			AttackInfoProto aip = _strengthenAttack == null ? null : _strengthenAttack.Instance;
+			WriteBuff<AttackInfoProto>(strengthenAttackName, aip); 
+		}
+	}
+
+	private TrapPosion _trapPoison = null;
+	public TrapPosion trapPoison {
+		get { return _trapPoison; }
+		set { _trapPoison = value;
+			TrapInfo ti = _trapPoison == null ? null :  _trapPoison.GetTrap;
+			WriteBuff<TrapInfo>(trapPoisonName, ti);
+		}
+	}
+
+	private EnvironmentTrap _trapEnvironment = null;
+	public EnvironmentTrap trapEnvironment {
+		get { return _trapEnvironment; }
+		set { _trapEnvironment = value; 
+			TrapInfo ti = _trapEnvironment == null ? null :  _trapEnvironment.GetTrap;
+			WriteBuff<TrapInfo>(trapEnvironmentName, ti);
+		}
 	}
 
 
 	private TStoreBattleData _storeBattleData;
-
 	public TStoreBattleData storeBattleData {
 		get { return _storeBattleData; }
 	}
@@ -116,10 +148,6 @@ public class ConfigBattleUseData {
 	}
 
 	void StoreRuntimData () {
-//		Debug.LogError ("StoreRuntimData: " + _storeBattleData.instance.sp + " hp : " + _storeBattleData.instance.hp);
-//		for (int i = 0; i < _storeBattleData.enemyInfo.Count; i++) {
-//			Debug.LogError("StoreRuntimData : " + _storeBattleData.enemyInfo[i].currentNext);
-//				}
 		byte[] battleData = ProtobufSerializer.SerializeToBytes<StoreBattleData> (_storeBattleData.instance);
 		WriteToFile (battleData, storeBattleName);
 	}
@@ -159,6 +187,8 @@ public class ConfigBattleUseData {
 	public const string reduceHurtName = "/ReduceHurt";
 	public const string reduceDefenseName = "/ReduceDefense";
 	public const string strengthenAttackName = "/StrengthenAttack";
+	public const string trapPoisonName = "/TrapPoison";
+	public const string trapEnvironmentName = "/TrapEnvironment";
 
 	string GetPath (string path) {
 		return Application.persistentDataPath + path;
@@ -173,22 +203,34 @@ public class ConfigBattleUseData {
 	}
 
 	void WriteAllBuff() {
-		WriteBuff (posionAttackName, posionAttack);
+		AttackInfoProto attack = null;
+		if (posionAttack != null) {
+			attack = posionAttack.Instance;
+		}
+		WriteBuff<AttackInfoProto> (posionAttackName, attack);
 //		Debug.LogError ("write poison attack : " + posionAttack);
-		WriteBuff (reduceHurtName, reduceHurtAttack);
-		WriteBuff (reduceDefenseName, reduceDefenseAttack);
-		WriteBuff (strengthenAttackName, strengthenAttack);
+		if (reduceHurtAttack != null) {
+			attack = reduceHurtAttack.Instance;
+		}
+		WriteBuff<AttackInfoProto> (reduceHurtName, attack);
+		if (reduceDefenseAttack != null) {
+			attack = reduceDefenseAttack.Instance;
+		}
+		WriteBuff<AttackInfoProto> (reduceDefenseName, attack);
+		if (strengthenAttack != null) {
+			attack = strengthenAttack.Instance;
+		}
+		WriteBuff<AttackInfoProto> (strengthenAttackName, attack);
 	}
 
 	void ReadAllBuff() {
-		posionAttack = ReadBuff (posionAttackName);
-//		Debug.LogError ("read poison attack : " + posionAttack);
-		reduceHurtAttack = ReadBuff (reduceHurtName);
-		reduceDefenseAttack = ReadBuff (reduceDefenseName);
-		strengthenAttack = ReadBuff (strengthenAttackName);
+		_posionAttack = ReadBuff<AttackInfo, AttackInfoProto> (posionAttackName);
+		_reduceHurtAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceHurtName);
+		_reduceDefenseAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceDefenseName);
+		_strengthenAttack = ReadBuff<AttackInfo, AttackInfoProto> (strengthenAttackName);
 	}
 
-	void WriteBuff(string name, AttackInfo buff) {
+	void WriteBuff<T>(string name, T buff) where T : ProtoBuf.IExtensible {
 		if (string.IsNullOrEmpty (name)) {
 			return;	
 		}
@@ -203,11 +245,11 @@ public class ConfigBattleUseData {
 			return;
 		}
 
-		byte[] attack = ProtobufSerializer.SerializeToBytes<AttackInfoProto> (buff.Instance);
+		byte[] attack = ProtobufSerializer.SerializeToBytes<T> (buff);
 		WriteToFile (attack, name);
 	}
 
-	AttackInfo ReadBuff(string name) {
+	T ReadBuff<T,T1> (string name) where T : ProtobufDataBase where T1 : ProtoBuf.IExtensible {
 		if (string.IsNullOrEmpty (name)) {
 			return null;	
 		}
@@ -217,8 +259,10 @@ public class ConfigBattleUseData {
 		}
 
 		byte[] attackInfo = ReadFile (name);
-		AttackInfoProto aip = ProtobufSerializer.ParseFormBytes<AttackInfoProto> (attackInfo);
-		return new AttackInfo (aip);
+		T1 aip = ProtobufSerializer.ParseFormBytes<T1> (attackInfo);
+		T t = Activator.CreateInstance(typeof(T), aip) as T;
+		Debug.LogError ("t : " + t);
+		return t;
 	}
 	
 	//stage
