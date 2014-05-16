@@ -9,6 +9,7 @@ public class AttackInfo : ProtobufDataBase{
 	}
 
 	private AttackInfoProto instance;
+
 	public AttackInfo (AttackInfoProto ins) : base(ins){
 		instance = ins;
 		if(instance.continueAttackMultip == 0)

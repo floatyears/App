@@ -9,8 +9,6 @@ public class BattleEnemy : UIBaseUnity {
 		}
 	}
 
-//	public List<TEnemyInfo> monsterList = new List<TEnemyInfo> ();
-
 	private GameObject effectPanel;
 
 	private GameObject tempGameObject;
@@ -229,7 +227,6 @@ public class BattleEnemy : UIBaseUnity {
 	GameObject prevEffect;
 	public void PlayerEffect(EnemyItem ei,AttackInfo ai) {
 		GameObject obj = EffectManager.Instance.GetEffectObject (ai.SkillID); //DataCenter.Instance.GetEffect(ai) as GameObject;
-//		DGTools.PlayAttackSound(ai.AttackType);
 		ei.InjuredShake();
 		if (obj != null) {
 			Vector3 localScale = obj.transform.localScale;

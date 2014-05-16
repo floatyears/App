@@ -2,13 +2,13 @@
 using System.Collections;
 using bbproto;
 
-public class MoveTrap : TrapBase, ITrapExcute{
+public class MoveTrap : TrapBase {
 //	private TrapInfo instance;
 	public MoveTrap(object instance) : base (instance) {
 //		this.instance = instance as TrapInfo;
 	}
 
-	public void Excute () {
+	public override void Excute () {
 		Coordinate cd;
 		switch (instance.effectType) {
 		case 1:

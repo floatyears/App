@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class InjuredTrap : TrapBase, ITrapExcute {
+public class InjuredTrap : TrapBase {
 
 	public InjuredTrap (object instance) : base (instance) {
 		switch (GetTrap.effectType) {
@@ -22,7 +22,7 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 	}
 	private const float probability = 0.9f;
 	private int[] randomRange = new int[2] {1, -1};
-	public void Excute () {
+	public override void Excute () {
 		TrapInfo ti = GetTrap;
 		TrapInjuredValue tiv = null;
 		switch (ti.effectType) {
@@ -95,17 +95,23 @@ public class InjuredTrap : TrapBase, ITrapExcute {
 	}
 }
 
-public class TrapBase : ProtobufDataBase {
+public class TrapBase : ProtobufDataBase ,ITrapExcute{
 	protected TrapInfo instance;
 	public TrapBase(object instance) : base (instance) {
 		this.instance = instance as TrapInfo;
 		trapValueIndex = GetTrap.valueIndex;
 	}
-	protected TrapInfo GetTrap {
+	public TrapInfo GetTrap {
 		get {
 			return instance;
 		}
 	}
+
+	protected int Round {
+		get { return instance.round; }
+		set { instance.round = value; }
+	}
+
 	protected TrapInjuredValue GetInjuredValue {
 		get {
 			return TrapInjuredInfo.Instance.FindInfo(trapEffectType, trapValueIndex);
@@ -149,6 +155,20 @@ public class TrapBase : ProtobufDataBase {
 		}
 		return spriteName;
 	}
+
+	#region ITrapExcute implementation
+
+	public virtual void Excute ()
+	{
+
+	}
+
+	public virtual void ExcuteByDisk ()
+	{
+
+	}
+
+	#endregion
 
 	static string MoveTrapName(int effectType) {
 		if (effectType == 1) {

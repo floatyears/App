@@ -24,7 +24,7 @@ public class TUserUnit : ProtobufDataBase {
         MsgCenter.Instance.RemoveListener(CommandEnum.StrengthenTargetType, StrengthenTargetType);
     }
 
-    private int currentBlood = -1;
+//    private int currentBlood = -1;
     private float attackMultiple = 1;
     public float AttackMultiple {
         get {
@@ -132,7 +132,7 @@ public class TUserUnit : ProtobufDataBase {
             hurtValue = 1;
         }
         int hv = System.Convert.ToInt32(hurtValue);
-        currentBlood -= hv;
+//        currentBlood -= hv;
         return hv;
     }
 
@@ -384,13 +384,14 @@ public class TUserUnit : ProtobufDataBase {
 
     public int Blood {
         get {
-            if (currentBlood == -1) {
-                //			UserUnit uu = DeserializeData<UserUnit>();
-                UnitInfo ui = UnitInfo.Object;
-                currentBlood = DGTools.CaculateAddBlood(instance.addHp, instance, ui);
-                //			currentBlood += DataCenter.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
-            }
-            float blood = currentBlood * hpMultiple;
+//            if (currentBlood == -1) {
+//                //			UserUnit uu = DeserializeData<UserUnit>();
+//              
+//                //			currentBlood += DataCenter.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
+//            }
+			UnitInfo ui = UnitInfo.Object;
+			int cBlood = DGTools.CaculateAddBlood(instance.addHp, instance, ui);
+			float blood = cBlood * hpMultiple;
             return System.Convert.ToInt32(blood);
         }
     }

@@ -169,19 +169,19 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 	
-	public int HPType {
+	public PowerInfo HPType {
 		get{
 			return instance.powerType.hpType;
 		}
 	}
 	
-	public int AttackType {
+	public PowerInfo AttackType {
 		get{
 			return instance.powerType.attackType;
 		}
 	}
 	
-	public int ExpType {
+	public PowerInfo ExpType {
 		get{
 			return instance.powerType.expType;
 		}
