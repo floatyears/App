@@ -27,54 +27,53 @@ public class ConfigUnitBaseInfo {
 				pv.value = 10;
             pt.power.Add(pv);
         }
-        TPowerTableInfo tbi = new TPowerTableInfo(pt);
-		if (DataCenter.Instance.UnitValue.ContainsKey(TPowerTableInfo.UnitInfoExpType1)) {
-			DataCenter.Instance.UnitValue[TPowerTableInfo.UnitInfoExpType1] = tbi;
-		}
-		else {
-			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoExpType1, tbi);
-		}
+//        TPowerTableInfo tbi = new TPowerTableInfo(pt);
+//		if (DataCenter.Instance.UnitValue.ContainsKey(TPowerTableInfo.UnitInfoExpType1)) {
+//			DataCenter.Instance.UnitValue[TPowerTableInfo.UnitInfoExpType1] = tbi;
+//		}
+//		else {
+//			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoExpType1, tbi);
+//		}
         
     }
 
     void GenerateUnitBaseAttack() {
-        PowerTable pt = new PowerTable();
-        for (int i = 1; i < 100; i++) {
-            PowerValue pv = new PowerValue();
-            pv.level = i;
-			pv.value = 57 + (i - 1) * 4;
-            pt.power.Add(pv);
-        }
-        TPowerTableInfo tbi = new TPowerTableInfo(pt);
-
-		if (DataCenter.Instance.UnitValue.ContainsKey(TPowerTableInfo.UnitInfoAttackType1)) {
-			DataCenter.Instance.UnitValue[TPowerTableInfo.UnitInfoAttackType1] = tbi;
-		}
-		else {
-			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoAttackType1, tbi);
-		}
+//        PowerTable pt = new PowerTable();
+//        for (int i = 1; i < 100; i++) {
+//            PowerValue pv = new PowerValue();
+//            pv.level = i;
+//			pv.value = 57 + (i - 1) * 4;
+//            pt.power.Add(pv);
+//        }
+//        TPowerTableInfo tbi = new TPowerTableInfo(pt);
+//
+//		if (DataCenter.Instance.UnitValue.ContainsKey(TPowerTableInfo.UnitInfoAttackType1)) {
+//			DataCenter.Instance.UnitValue[TPowerTableInfo.UnitInfoAttackType1] = tbi;
+//		}
+//		else {
+//			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoAttackType1, tbi);
+//		}
 
 //        DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoAttackType1, tbi); 
     }
 
     void GenerateUnitBaseHP() {
-        PowerTable pt = new PowerTable();
-        for (int i = 1; i < 100; i++) {
-            PowerValue pv = new PowerValue();
-            pv.level = i;
-			pv.value = 52 + (i - 1) * 20;
-            pt.power.Add(pv);
-        }
-        TPowerTableInfo tbi = new TPowerTableInfo(pt);
+//        PowerTable pt = new PowerTable();
+//        for (int i = 1; i < 100; i++) {
+//            PowerValue pv = new PowerValue();
+//            pv.level = i;
+//			pv.value = 52 + (i - 1) * 20;
+//            pt.power.Add(pv);
+//        }
+//        TPowerTableInfo tbi = new TPowerTableInfo(pt);
+//
+//		if (DataCenter.Instance.UnitValue.ContainsKey (TPowerTableInfo.UnitInfoHPType1)) {
+//			DataCenter.Instance.UnitValue[TPowerTableInfo.UnitInfoHPType1] = tbi;
+//		}
+//		else {
+//			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoHPType1, tbi);
+//		}
 
-		if (DataCenter.Instance.UnitValue.ContainsKey (TPowerTableInfo.UnitInfoHPType1)) {
-			DataCenter.Instance.UnitValue[TPowerTableInfo.UnitInfoHPType1] = tbi;
-		}
-		else {
-			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoHPType1, tbi);
-		}
-
-//        DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoHPType1, tbi);
     }
 
     void GenerateUserMaxCost() {
@@ -110,15 +109,12 @@ public class ConfigUnitBaseInfo {
         TPowerTableInfo tbi = new TPowerTableInfo(pt);
 
 		
-		if (DataCenter.Instance.UnitValue.ContainsKey (TPowerTableInfo.UnitInfoCost1)) {
-			DataCenter.Instance.UnitValue[TPowerTableInfo.UnitInfoCost1] = tbi;
+		if (DataCenter.Instance.UnitValue.ContainsKey (TPowerTableInfo.UserCostMax)) {
+			DataCenter.Instance.UnitValue[TPowerTableInfo.UserCostMax] = tbi;
 		}
 		else {
-			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoCost1, tbi);
+			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UserCostMax, tbi);
 		}
-
-
-//        DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoCost1, tbi);
     }
 
     void GenerateUserExp() {
