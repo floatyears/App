@@ -359,6 +359,7 @@ message TrapInfo {
 	optional int32				valueIndex	= 3;
 	repeated TrapInjuredValue	injuredInfo	= 4;
 	optional int32				effectType	= 5;
+	optional int32				round		= 6; //current elapsed round
 }
 
 //===========store disk data============================================================
@@ -402,4 +403,9 @@ message AttackInfoProto {
 	optional float				attackRate				= 15;
 	optional bool				fixRecoverHP			= 16;
 	optional int32				isLink					= 17;	
+}
+
+message ActiveSkillData {
+	optional int32				skillId		= 1;
+	optional int32				round		= 2; //current elapsed round
 }
