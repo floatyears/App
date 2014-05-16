@@ -341,6 +341,7 @@ public class QuestSelectView : UIComponentUnity{
 
 	private void GetData(uint cityID){
 		if(cityInfo == null || (cityInfo.ID != cityID )){
+			Debug.Log("cityInfo == null || (cityInfo.ID != cityID");
 			cityInfo = DataCenter.Instance.GetCityInfo(cityID);
 			DestoryStages();
 			FillView();
@@ -394,8 +395,6 @@ public class QuestSelectView : UIComponentUnity{
 	/// <param name="count">Count.</param>
 	private void GenerateStages(List<TStageInfo> accessStageList){
 
-	
-		Debug.Log("CityID is : " + cityInfo.ID) ;
 		background = FindChild<UITexture>("Background");
 		background.mainTexture = Resources.Load("Stage/" + cityInfo.ID) as Texture2D;
 		for (int i = 0; i < accessStageList.Count; i++){

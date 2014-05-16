@@ -154,6 +154,7 @@ public class QuestView : UIComponentUnity{
 		if(!isPressed){
 			UIManager.Instance.ChangeScene(SceneEnum.Stage);
 			MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
+			Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
 		}
 	}
 

@@ -10,6 +10,8 @@ public class UserUnitSortPanelView : SortPanelView {
 		sortRuleSelectDic.Add(btn, SortRule.GetTime);
 
 		AddEventListener();
+
+//		this.gameObject.SetActive(false);
 	}
 
 }
