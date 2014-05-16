@@ -6,6 +6,28 @@ using System.IO;
 using bbproto;
 
 public class DGTools {
+
+	public int GetEnemyWidthByRare(int rare) {
+		switch (rare) {
+		case 1:
+			return 104; // height = 109;
+		case 2:
+			return 126; // height = 130;
+		case 3:
+			return 157; // height = 163;
+		case 4:
+			return 244; // height = 253;
+		case 5:
+			return 340; // height = 354;
+		case 6:
+			return 380; // height = 393;
+		case 7:
+			return 484; // height = 393;
+		default:
+			return 484;
+		}
+	}
+
 	public static string[] stateInfo = new string[] {"Player-Phase","Enemy-Phase","Normal-Skill","Passive-Skill","Active-Skill"};
 
 	public static int RandomToInt(int min,int max) {
@@ -223,16 +245,10 @@ public class DGTools {
 
 		for (int i = 0; i < cCount; i++) {
 			uint t = tempCard[i];
-//			if(sCount == 5 && cCount == 4 && tempSkillList[0] != 7) {
-//				Debug.LogError(t + " skillList : " + skillList[0]);
-//			}
 			if(tempSkillList.Contains(t)) {
 				tempSkillList.Remove(t);
 			}
 		}
-//		if (sCount == 5 && cCount == 4) {
-//			Debug.LogError(cardList.Count + "     tempSkillList.Count :      " + tempSkillList.Count + "     skillList :    " + sCount);	
-//		}
 
 		if (tempSkillList.Count == 1) {
 			return (int)tempSkillList [0];

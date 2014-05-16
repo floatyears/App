@@ -151,14 +151,10 @@ public class BattleEnemy : UIBaseUnity {
 		}
 	}
 
-//	float interv = 0f;
-
 	void SortEnemyItem(List<EnemyItem> temp) {
-//		interv = 0f;
 		int count = temp.Count;
 		if (count == 0) {	return;	}
 		CompressTextureWidth (temp);
-//		Debug.LogError ("width : " + width);
 		if (count == 1) { 
 			temp[0].transform.localPosition = Vector3.zero; 
 			return; 
