@@ -23,11 +23,23 @@ public static class GameDataAnalysis {
 	}
 
 	public static void EventBegin(GameDataAnalysisEventType eventId){
+		
+	}
+
+	public static void EventBegin(GameDataAnalysisEventType eventId,string value){
 
 	}
 
-	public static void EventEnd(GameDataAnalysisEventType eventId){
+	public static void EventBegin(GameDataAnalysisEventType eventId,int value){
+		
+	}
 
+	public static void EventBegin(GameDataAnalysisEventType eventId,float value){
+		
+	}
+
+	public static void EventEnd(GameDataAnalysisEventType eventId,string value){
+		eventId.ToString ();
 	}
 }
 
