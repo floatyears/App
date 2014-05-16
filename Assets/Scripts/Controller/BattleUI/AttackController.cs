@@ -40,7 +40,6 @@ public class AttackController {
 		this.bud = bud;
 		passiveSkill = ips;
 		RegisterEvent ();
-
 		configBattleUseData = ConfigBattleUseData.Instance;
 	}
 
@@ -86,6 +85,7 @@ public class AttackController {
 	}
 
 //	TClass<string,int,float> reduceInfo = null;
+
 	AttackInfo reduceInfo = null;
 	void ReduceDefense(object data) {
 		reduceInfo = data as AttackInfo;
@@ -410,7 +410,7 @@ public class AttackController {
 			}
 			LoopEnemyAttack ();	
 		} else {
-			bud.battleQuest.battle.ShieldInput(true);		
+			bud.battleQuest.battle.ShieldInput(true);
 		}
 	}
 

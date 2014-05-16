@@ -12,8 +12,7 @@ public class BattleUseData {
 			if(value == 0) {
 				blood = value;
 				PlayerDead();
-			}
-			else if(value < 0) {
+			} else if(value < 0) {
 				if(blood == 0) 
 					return;
 				blood = 0;
@@ -25,15 +24,13 @@ public class BattleUseData {
 					MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 				}
 				blood = maxBlood;
-			} else{
+			} else {
 				if(value > blood) {
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				}
-
 				blood = value;
 				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 			}
-
 			configBattleUseData.storeBattleData.hp = blood;
 		}
         get { return blood; }
@@ -71,7 +68,6 @@ public class BattleUseData {
 		battleQuest = bq;
 		configBattleUseData = ConfigBattleUseData.Instance;
 		Reset ();
-//		ResetBlood ();
     }
 
 	public void ResetBlood () {
