@@ -89,7 +89,6 @@ public class GameTimer : MonoBehaviour {
 		Seconds = seconds;
 		addSeconds = 0;
 		startTime = true;
-
 	}
 
 	public uint GetCurrentSeonds() {
@@ -97,14 +96,13 @@ public class GameTimer : MonoBehaviour {
 	}
 
 	public DateTime GenerateTimeBySeconds() {
-		GetCurrentSeonds ();
-		DateTime dt = new DateTime (1970, 1, 1);
-		DateTime currentTime = dt.AddSeconds (Seconds);
-		return currentTime;
+		return ChangeSecondsToTime ( GetCurrentSeonds () );
 	}
 
 	public DateTime ChangeSecondsToTime(uint seconds) {
-
+		DateTime dt = new DateTime (1970, 1, 1);
+		DateTime currentTime = dt.AddSeconds (Seconds);
+		return currentTime;
 	}
 }
 
