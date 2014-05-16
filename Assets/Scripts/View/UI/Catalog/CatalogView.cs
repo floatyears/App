@@ -35,7 +35,6 @@ public class CatalogView : UIComponentUnity {
 			CatalogUnitItem catalogItem = CatalogUnitItem.Inject(dragItem);
 			catalogUnitItemList.Add(catalogItem);
 		}
-
 	}
 
 	private void RefreshItemCounter(){
