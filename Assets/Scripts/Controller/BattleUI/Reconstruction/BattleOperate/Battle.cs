@@ -424,7 +424,13 @@ public class Battle : UIBase {
 			if(tempCard.CanDrag) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
 
-				tempCard.OnPress(true,selectTarget.Count);
+				GameObject effect = EffectManager.Instance.GetEffectObject(EffectManager.DragCardEffect);
+				GameObject effectIns = EffectManager.InstantiateEffect(viewManager.EffectPanel, effect);
+				Transform card =  go.transform;
+//				Debug.LogError( card.localPosition + " card.parent.parent.localPosition : " + card.parent.parent.localPosition);
+				effectIns.transform.localPosition = card.localPosition + card.parent.parent.localPosition;
+
+				tempCard.OnPress(true, selectTarget.Count);
 				tempCard.ActorTexture.depth = tempCard.InitDepth;
 				selectTarget.Add(tempCard);
 			}

@@ -73,6 +73,7 @@ public enum CommandEnum{
     EvolveSaveState,
     PartySaveState,
     BackSceneEnable,
+	levelDone,
 	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 				= 1002,
 	StartAttack					= 1003,

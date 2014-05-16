@@ -226,11 +226,12 @@ public class BattleEnemy : UIBaseUnity {
 		GameObject obj = EffectManager.Instance.GetEffectObject (ai.SkillID); //DataCenter.Instance.GetEffect(ai) as GameObject;
 		ei.InjuredShake();
 		if (obj != null) {
-			Vector3 localScale = obj.transform.localScale;
-			Vector3 rotation = obj.transform.eulerAngles;
-			prevEffect = NGUITools.AddChild(effectPanel, obj);
-			prevEffect.transform.localScale = localScale;
-			prevEffect.transform.eulerAngles = rotation;
+//			Vector3 localScale = obj.transform.localScale;
+//			Vector3 rotation = obj.transform.eulerAngles;
+//			prevEffect = NGUITools.AddChild(effectPanel, obj);
+//			prevEffect.transform.localScale = localScale;
+//			prevEffect.transform.eulerAngles = rotation;
+			prevEffect = EffectManager.InstantiateEffect(effectPanel, obj);
 			if(ai.AttackRange == 0) {
 				prevEffect.transform.localPosition = ei.transform.localPosition;
 			}
