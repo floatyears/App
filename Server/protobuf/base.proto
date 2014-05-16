@@ -9,7 +9,7 @@ enum EUnitType{
 	UDARK	= 5;
 	UNONE	= 6;
     UHeart  = 7;
-};
+}
 
 enum EUnitRace{
     ALL             = 0; //all race
@@ -19,8 +19,9 @@ enum EUnitRace{
     BEAST           = 4;
     MONSTER         = 5;
     LEGEND          = 6;
-    SCREAMCHEESE    = 7;
-};
+    SCREAMCHEESE    = 7; //Leveup Material
+	EVOLVEPARTS		= 8; //Evolve Material
+}
 
 //general response protocol
 message ProtoHeader {
@@ -31,5 +32,5 @@ message ProtoHeader {
 	optional int32	code		= 5; // result code
 	optional string error		= 6; // result error description
 	optional int32	extraTag	= 7; // addtional logic for future use
-};
+}
 
