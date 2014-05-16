@@ -10,7 +10,7 @@ enum EUnitType{
 	UDARK	= 5;
 	UNONE	= 6;
     UHeart  = 7;
-};
+}
 
 enum EUnitRace{
     ALL             = 0; //all race
@@ -20,8 +20,9 @@ enum EUnitRace{
     BEAST           = 4;
     MONSTER         = 5;
     LEGEND          = 6;
-    SCREAMCHEESE    = 7;
-};
+    SCREAMCHEESE    = 7; //Leveup Material
+	EVOLVEPARTS		= 8; //Evolve Material
+}
 
 //general response protocol
 message ProtoHeader {
@@ -32,7 +33,7 @@ message ProtoHeader {
 	optional int32	code		= 5; // result code
 	optional string error		= 6; // result error description
 	optional int32	extraTag	= 7; // addtional logic for future use
-};
+}
 
 
 //=====================================================
@@ -59,6 +60,7 @@ message FriendInfo {
 	optional uint32			friendStateUpdate 	= 6; // friend state updated time
 	optional int32			friendPoint			= 7;
 	optional UserUnit		unit				= 8;
+	optional uint32			usedTime		 	= 9;
 }
 
 message FriendList {
@@ -124,18 +126,59 @@ message RspAcceptFriend {
 	optional FriendList		friends				= 2;	
 }
 //-------------------------------------------------
-//used for LevelUp helper
+//used for premium helper
 message ReqGetPremiumHelper {
 	optional ProtoHeader	header				= 1;
 	optional EUnitRace		race				= 2;
 	optional EUnitType		type				= 3;
+	optional int32			level				= 4;
 }
 
 message RspGetPremiumHelper {
 	optional ProtoHeader	header				= 1;
-	optional FriendList		friends				= 2;
+	repeated FriendInfo		helpers				= 2;
 }
 //-------------------------------------------------
+
+//=====================================================
+
+//-------------------------------------------------
+message EventDataParam {
+	optional string			key					= 1;
+	optional int32			iValue				= 2;
+	optional float			fValue				= 3;
+	optional string			sValue				= 4;
+}
+
+message EventData {
+	optional string			eventId				= 1;
+	optional int32			iValue				= 2;
+	optional float			fValue				= 3;
+	optional string			sValue				= 4;
+	repeated EventDataParam	values				= 5;
+}
+
+message ReqUploadStat {
+    optional ProtoHeader	header				= 1;
+	repeated EventData		events				= 2; // list of EventData
+}
+
+message RspUploadStat {
+	optional ProtoHeader	header				= 1;
+    optional uint32         serverTime			= 2;
+}
+
+
+//-------------------------------------------------
+message ReqGetServerTime {
+    optional ProtoHeader	header				= 1;
+}
+
+message RspGetServerTime {
+	optional ProtoHeader	header				= 1;
+    optional uint32         serverTime			= 2;
+}
+
 
 //=====================================================
 
@@ -494,6 +537,7 @@ message TrapInfo {
 	optional int32				valueIndex	= 3;
 	repeated TrapInjuredValue	injuredInfo	= 4;
 	optional int32				effectType	= 5;
+	optional int32				round		= 6; //current elapsed round
 }
 
 //===========store disk data============================================================
@@ -539,6 +583,11 @@ message AttackInfoProto {
 	optional int32				isLink					= 17;	
 }
 
+message ActiveSkillData {
+	optional int32				skillId		= 1;
+	optional int32				round		= 2; //current elapsed round
+}
+
 //=====================================================
 
 message UnitResource { 
@@ -581,17 +630,25 @@ message UnitInfo {
 	optional int32			cost			= 15;
 	optional int32			saleValue		= 16;
 	optional int32			devourValue		= 17;
-	optional EUnitGetWay	getWay			= 18;	
+	optional UnitGetWay		getWay			= 18;
+	optional int32			maxActiveSkillLv= 19;
+	optional int32			maxStar			= 20; //max star to be evolved
 }
 
-enum EUnitGetWay {
+message UnitGetWay {
+	optional EUnitGetType	getType	= 1;
+	repeated uint32			getPath	= 2; //questId, gachaId...
+}
+
+enum EUnitGetType {
 	E_NONE				= 0;
-	E_FREE				= 1;
+	E_QUEST				= 1;
 	E_GACHA_NORMAL		= 2;
 	E_GACHA_EVENT		= 3;
 	E_BUY				= 4;
 }
 
+/////////unsed///////////////////////////////////////////////////////////////////
 message PowerValue {
 	optional int32 level 		= 1; // unit level
 	optional int32 value		= 2;
@@ -600,11 +657,18 @@ message PowerValue {
 message PowerTable {
 	repeated PowerValue	 power	= 1; //has one item for each level
 }
+/////////unsed/////////////////////////////////////////////////////////////////
+
+message PowerInfo {
+	optional int32 min			= 1;
+	optional int32 max			= 2;
+	optional float growCurve	= 3;
+}
 
 message PowerType {
-	optional int32 attackType	= 1;
-	optional int32 hpType		= 2;
-	optional int32 expType		= 3;		
+	optional PowerInfo	attackType	= 1;
+	optional PowerInfo	hpType		= 2;
+	optional PowerInfo	expType		= 3;
 }
 
 message HelperRequire {
@@ -775,17 +839,18 @@ message RspUnitFavorite {
 message UserInfo {
 	optional string		uuid				= 1;
 	optional uint32		userId				= 2;
-	optional string		password			= 3;
-	optional string		nickName			= 4;
-	optional int32		rank				= 5;
-	optional int32		exp					= 6;
-	optional int32		staminaNow			= 7;
-	optional int32		staminaMax			= 8;
-	optional uint32		staminaRecover		= 9; //recover time
-	optional int32		friendMax			= 10;
-	optional int32		unitMax				= 11;
-	optional int32		costMax				= 12;	
-	optional UserUnit	unit				= 13; //leader unit	
+	optional string		userName			= 3;
+	optional string		password			= 4;
+	optional string		nickName			= 5;
+	optional int32		rank				= 6;
+	optional int32		exp					= 7;
+	optional int32		staminaNow			= 8;
+	optional int32		staminaMax			= 9; 
+	optional uint32		staminaRecover		= 10;//recover time
+	optional int32		friendMax			= 11;
+	optional int32		unitMax				= 12;
+	optional int32		costMax				= 13;	
+	optional UserUnit	unit				= 14; //leader unit	
 }
 
 message UserInfoDetail {
@@ -799,6 +864,7 @@ message UserInfoDetail {
 	optional bytes			unitFavoriteFlag	= 8;
 	optional bytes			haveUnitFlag		= 9;	//got unit
 	optional bytes			meetUnitFlag		= 10;	//meet unit
+    optional bytes			userGuideFlag		= 11;
 }
 
 message AccountInfo {
@@ -893,7 +959,7 @@ message ReqAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional TerminalInfo	terminal			= 2;
 	optional uint32			selectRole			= 3;
-	optional int32			channelId			= 4;
+	optional int32			appVersion			= 4;
 }
 
 message RspAuthUser {
@@ -914,6 +980,7 @@ message RspAuthUser {
 	optional bytes			meetUnitFlag		= 15;
 	optional int32			newAppVersion		= 16;
 	optional string			appUrl				= 17;
+    optional int32			userGuideStep		= 18;
 }
 
 //-------------------------------------------------
@@ -986,7 +1053,17 @@ message ReqFriendMaxExpand {
 
 message RspFriendMaxExpand {
 	optional ProtoHeader	header				= 1;
-	optional int32			friendMax			= 2;
+	optional int32			friendMax			= 2;	
 	optional int32			stone				= 3;
 }
 
+//-------------------------------------------------
+message ReqFinishUserGuide {
+    optional ProtoHeader	header				= 1;
+    optional int32			step				= 2;
+}
+
+message RspFinishUserGuide {
+	optional ProtoHeader	header				= 1;
+    optional int32          nowStep             = 2;
+}

@@ -31,7 +31,7 @@ public class TFriendInfo : ProtobufDataBase {
     public	EFriendState	FriendState { get { return instance.friendState; } }
     public	uint			FriendStateUpdate { get { return instance.friendStateUpdate; } }
 	public	int				FriendPoint { get { return instance.friendPoint; } set { instance.friendPoint = value; }}
-
+	public	uint			UseTime { get { return instance.usedTime; } set { instance.usedTime = value; } }
     public	TUserUnit		UserUnit { get { return unit; } }
 }
 

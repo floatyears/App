@@ -6,17 +6,18 @@ package bbproto;
 message UserInfo {
 	optional string		uuid				= 1;
 	optional uint32		userId				= 2;
-	optional string		password			= 3;
-	optional string		nickName			= 4;
-	optional int32		rank				= 5;
-	optional int32		exp					= 6;
-	optional int32		staminaNow			= 7;
-	optional int32		staminaMax			= 8;
-	optional uint32		staminaRecover		= 9; //recover time
-	optional int32		friendMax			= 10;
-	optional int32		unitMax				= 11;
-	optional int32		costMax				= 12;	
-	optional UserUnit	unit				= 13; //leader unit	
+	optional string		userName			= 3;
+	optional string		password			= 4;
+	optional string		nickName			= 5;
+	optional int32		rank				= 6;
+	optional int32		exp					= 7;
+	optional int32		staminaNow			= 8;
+	optional int32		staminaMax			= 9; 
+	optional uint32		staminaRecover		= 10;//recover time
+	optional int32		friendMax			= 11;
+	optional int32		unitMax				= 12;
+	optional int32		costMax				= 13;	
+	optional UserUnit	unit				= 14; //leader unit	
 }
 
 message UserInfoDetail {
@@ -30,6 +31,7 @@ message UserInfoDetail {
 	optional bytes			unitFavoriteFlag	= 8;
 	optional bytes			haveUnitFlag		= 9;	//got unit
 	optional bytes			meetUnitFlag		= 10;	//meet unit
+    optional bytes			userGuideFlag		= 11;
 }
 
 message AccountInfo {
@@ -124,7 +126,7 @@ message ReqAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional TerminalInfo	terminal			= 2;
 	optional uint32			selectRole			= 3;
-	optional int32			channelId			= 4;
+	optional int32			appVersion			= 4;
 }
 
 message RspAuthUser {
@@ -145,6 +147,7 @@ message RspAuthUser {
 	optional bytes			meetUnitFlag		= 15;
 	optional int32			newAppVersion		= 16;
 	optional string			appUrl				= 17;
+    optional int32			userGuideStep		= 18;
 }
 
 //-------------------------------------------------
@@ -217,7 +220,17 @@ message ReqFriendMaxExpand {
 
 message RspFriendMaxExpand {
 	optional ProtoHeader	header				= 1;
-	optional int32			friendMax			= 2;
+	optional int32			friendMax			= 2;	
 	optional int32			stone				= 3;
 }
 
+//-------------------------------------------------
+message ReqFinishUserGuide {
+    optional ProtoHeader	header				= 1;
+    optional int32			step				= 2;
+}
+
+message RspFinishUserGuide {
+	optional ProtoHeader	header				= 1;
+    optional int32          nowStep             = 2;
+}

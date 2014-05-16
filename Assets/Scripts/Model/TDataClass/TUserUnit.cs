@@ -281,8 +281,7 @@ public class TUserUnit : ProtobufDataBase {
     }
 
     protected int CaculateAttack(UserUnit uu, UnitInfo ui, TNormalSkill tns) {
-		float attack = DGTools.CaculateAddAttack (uu.addAttack, uu, ui); //addAttack + DataCenter.Instance.GetUnitValue(ui.powerType.attackType, uu.level); //ui.power [uu.level].attack;
-        attack = tns.GetAttack(attack) * attackMultiple;
+		float attack = tns.GetAttack(Attack) * attackMultiple;
 
         if (strengthenInfo != null) {
             attack *= strengthenInfo.AttackValue;
@@ -346,7 +345,17 @@ public class TUserUnit : ProtobufDataBase {
 		}
 	}
 
+	public int GetCurveValue(PowerInfo pi) {
+		return UnitInfo.GetCurveValue( Level, pi);
+	}
 
+	public int GetTotalCurveValue(int level, PowerInfo pi) {
+		int total = 0;
+		for (int i=1; i<=level; i++) {
+			total += UnitInfo.GetCurveValue( Level, pi);
+		}
+		return total;
+	}
 
     public int Exp {
         get{
@@ -356,7 +365,7 @@ public class TUserUnit : ProtobufDataBase {
 
     public int CurExp {
         get {
-            int curExp = DataCenter.Instance.GetUnitValue(UnitInfo.ExpType, instance.level) - NextExp;
+			int curExp = UnitInfo.GetCurveValue( Level, UnitInfo.Object.powerType.expType ) - NextExp;
             return curExp;
         }
     }
@@ -364,7 +373,7 @@ public class TUserUnit : ProtobufDataBase {
 
     public int NextExp {
         get {
-            int nextexp = DataCenter.Instance.GetUnitValueTotal(UnitInfo.ExpType, instance.level) - instance.exp;
+			int nextexp = GetTotalCurveValue( Level, UnitInfo.Object.powerType.expType) - instance.exp;
             if (nextexp < 0)
                 nextexp = 0;
             return nextexp;
@@ -374,9 +383,8 @@ public class TUserUnit : ProtobufDataBase {
     public int InitBlood {
         get {
             UnitInfo ui = UnitInfo.Object;
-            int blood = 0;
-//			Debug.LogError(MakeUserUnitKey() + " instance.addHp : " + instance.addHp + " GetValue (uu, ui) : " +DGTools.GetValue (instance, ui.powerType.hpType));
-            blood += DGTools.CaculateAddBlood(instance.addHp, instance, ui);
+            int blood = this.Hp;
+
             float temp = blood * hpMultiple;
             return System.Convert.ToInt32(blood);
         }
@@ -384,14 +392,7 @@ public class TUserUnit : ProtobufDataBase {
 
     public int Blood {
         get {
-            if (currentBlood == -1) {
-                //			UserUnit uu = DeserializeData<UserUnit>();
-                UnitInfo ui = UnitInfo.Object;
-                currentBlood = DGTools.CaculateAddBlood(instance.addHp, instance, ui);
-                //			currentBlood += DataCenter.Instance.GetUnitValue(ui.powerType.hpType,uu.level); //ui.power [uu.level].hp;
-            }
-            float blood = currentBlood * hpMultiple;
-            return System.Convert.ToInt32(blood);
+			return InitBlood;
         }
     }
 
@@ -417,13 +418,13 @@ public class TUserUnit : ProtobufDataBase {
 
     public int Attack {
         get {
-            return DGTools.CaculateAddAttack(instance.addAttack, instance, UnitInfo.Object);
+			return instance.addHp * 5 + UnitInfo.GetCurveValue( Level, UnitInfo.Object.powerType.attackType );
         }
     }
 
     public int Hp {
         get {
-            return DGTools.CaculateAddBlood(instance.addHp, instance, UnitInfo.Object);
+			return instance.addHp * 10 + UnitInfo.GetCurveValue( Level, UnitInfo.Object.powerType.hpType );
         }
     }
 

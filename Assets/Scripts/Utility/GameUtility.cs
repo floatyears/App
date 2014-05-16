@@ -6,6 +6,28 @@ using System.IO;
 using bbproto;
 
 public class DGTools {
+
+	public static int GetEnemyWidthByRare(int rare) {
+		switch (rare) {
+		case 1:
+			return 104; // height = 109;
+		case 2:
+			return 126; // height = 130;
+		case 3:
+			return 157; // height = 163;
+		case 4:
+			return 244; // height = 253;
+		case 5:
+			return 340; // height = 354;
+		case 6:
+			return 380; // height = 393;
+		case 7:
+			return 484; // height = 393;
+		default:
+			return 484;
+		}
+	}
+
 	public static string[] stateInfo = new string[] {"Player-Phase","Enemy-Phase","Normal-Skill","Passive-Skill","Active-Skill"};
 
 	public static int RandomToInt(int min,int max) {
@@ -223,16 +245,10 @@ public class DGTools {
 
 		for (int i = 0; i < cCount; i++) {
 			uint t = tempCard[i];
-//			if(sCount == 5 && cCount == 4 && tempSkillList[0] != 7) {
-//				Debug.LogError(t + " skillList : " + skillList[0]);
-//			}
 			if(tempSkillList.Contains(t)) {
 				tempSkillList.Remove(t);
 			}
 		}
-//		if (sCount == 5 && cCount == 4) {
-//			Debug.LogError(cardList.Count + "     tempSkillList.Count :      " + tempSkillList.Count + "     skillList :    " + sCount);	
-//		}
 
 		if (tempSkillList.Count == 1) {
 			return (int)tempSkillList [0];
@@ -249,22 +265,10 @@ public class DGTools {
 			return false;
 		}
 	}
-
-	public static int CaculateAddBlood (int addHP,UserUnit uu, UnitInfo ui) {
-		return addHP * 10 + GetValue (uu, ui.powerType.hpType);
-	}
-
-	public static int CaculateAddAttack (int addAttack, UserUnit uu, UnitInfo ui) {
-		return addAttack * 5 + GetValue (uu, ui.powerType.attackType);
-	}
-
-//	public static int CaculateAddDefense (int add, UserUnit uu, UnitInfo ui) {
-////		return add * 10 + GetValue (uu, ui.powerType.);
+	
+//	public static int GetValue (UserUnit uu, int type) {
+//		return DataCenter.Instance.GetUnitValue(type,uu.level);
 //	}
-
-	public static int GetValue (UserUnit uu, int type) {
-		return DataCenter.Instance.GetUnitValue(type,uu.level);
-	}
 
 	public static string GetNormalSkillSpriteName (AttackInfo ai) {
 		if (ai.FixRecoverHP || ai.AttackRange == 2) {
@@ -276,8 +280,7 @@ public class DGTools {
 		return name1 + "_" + name2;
 	}
 
-
-
+	
 	public static float IntegerSubtriction(int firstInterger,int secondInterger) {
 		return (float)firstInterger / (float)secondInterger;
 	}
@@ -389,6 +392,7 @@ public class DGTools {
 	//===========load skill=======================================================
 	private const string skillPath = "Skill/";
 	private static SkillJsonConfig skillJsonData;
+
 	public static SkillBaseInfo LoadSkill (int id, SkillType type) {
 		string reallyPath = path + skillPath;
 		if (skillJsonData == null) {
@@ -430,6 +434,63 @@ public class DGTools {
 		case "SkillPoison" : 
 			SkillPoison sp = ProtobufDataBase.DeserializeData<SkillPoison>(data);
 			return new TSkillPoison(sp);
+		case "SkillDodgeTrap" : 
+			PassiveDodgeTrap passiveDodge = ProtobufDataBase.DeserializeData<PassiveDodgeTrap>(data);
+			return new SkillDodgeTrap(passiveDodge);
+		case "SkillAttackRecoverHP" :
+			SkillAttackRecoverHP attackRecoHp = ProtobufDataBase.DeserializeData<SkillAttackRecoverHP>(data);
+			return new TSkillAttackRecoverHP (attackRecoHp);
+		case "SkillSuicideAttack" :
+			SkillSuicideAttack suicideAttack = ProtobufDataBase.DeserializeData<SkillSuicideAttack>(data);
+			return new TSkillSuicideAttack(suicideAttack);
+		case "SkillTargetTypeAttack":
+			SkillTargetTypeAttack attackTargetType = ProtobufDataBase.DeserializeData<SkillTargetTypeAttack>(data);
+			return new  ActiveAttackTargetType (attackTargetType);
+		case "SkillStrengthenAttack":
+			SkillStrengthenAttack strengthenAttack = ProtobufDataBase.DeserializeData<SkillStrengthenAttack>(data);
+			return new ActiveStrengthenAttack(strengthenAttack);
+		case "SkillKillHP" :
+			SkillKillHP killHP = ProtobufDataBase.DeserializeData<SkillKillHP>(data);
+			return new GravityAttack(killHP);
+		case "SkillRecoverHP":
+			SkillRecoverHP recoverHP = ProtobufDataBase.DeserializeData<SkillRecoverHP>(data);
+			return new TSkillRecoverHP(recoverHP);
+		case "SkillReduceHurt" :
+			SkillReduceHurt reduceHurt = ProtobufDataBase.DeserializeData<SkillReduceHurt>(data);
+			if(reduceHurt.baseInfo.skillCooling > 0){
+				return new ActiveReduceHurt(reduceHurt);
+			} else{
+				return new TSkillReduceHurt(reduceHurt);
+			}
+		case "SkillReduceDefence":
+			SkillReduceDefence reduceDefense = ProtobufDataBase.DeserializeData<SkillReduceDefence>(data);
+			return new ActiveReduceDefense(reduceDefense);
+		case "SkillDeferAttackRound":
+			SkillDeferAttackRound deferAttackRound = ProtobufDataBase.DeserializeData<SkillDeferAttackRound>(data);
+			return new ActiveDeferAttackRound(deferAttackRound);
+		case "SkillDelayTime":
+			SkillDelayTime delayTime = ProtobufDataBase.DeserializeData<SkillDelayTime>(data);
+			if(delayTime.baseInfo.skillCooling > 0){
+				return new ActiveDelayTime(delayTime);
+			}else{
+				return new TSkillDelayTime(delayTime);
+			}
+		case "SkillConvertUnitType":
+			SkillConvertUnitType convertType = ProtobufDataBase.DeserializeData<SkillConvertUnitType>(data);
+			if(convertType.baseInfo.skillCooling > 0) {
+				return new ActiveChangeCardColor(convertType);
+			} else{
+				return new TSkillConvertUnitType(convertType);
+			}
+		case "SkillAntiAttack":
+			SkillAntiAttack antiAttack = ProtobufDataBase.DeserializeData<SkillAntiAttack>(data);
+			return new TSkillAntiAttack(antiAttack);
+		case "SkillExtraAttack":
+			SkillExtraAttack extraAttack = ProtobufDataBase.DeserializeData<SkillExtraAttack>(data);
+			return new TSkillExtraAttack(extraAttack);
+		case "SkillMultipleAttack":
+			SkillMultipleAttack multiple = ProtobufDataBase.DeserializeData<SkillMultipleAttack>(data);
+			return new LeaderSkillMultipleAttack(multiple);
 		default:
 			return null;
 		}

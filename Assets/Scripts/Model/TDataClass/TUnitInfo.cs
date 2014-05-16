@@ -169,23 +169,57 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 	
-	public int HPType {
+	public int GetCurveValue(int level, PowerInfo pi) {
+		// growCurve = 0.7, 1.0, 1.5
+		float result = pi.min + (pi.max-pi.min) * Mathf.Pow( (float)(level-1)/(MaxLevel-1) , (pi.growCurve) );
+		return Mathf.RoundToInt(result);
+	}
+
+	public int GetExp(int level) {
+		return GetCurveValue(level, instance.powerType.expType);
+	}
+
+	public bbproto.PowerType PowerType {
 		get{
-			return instance.powerType.hpType;
+			return instance.powerType;
 		}
 	}
 	
-	public int AttackType {
+	public int Hp {
 		get{
-			return instance.powerType.attackType;
+			return GetCurveValue(1, instance.powerType.hpType);
 		}
 	}
 	
-	public int ExpType {
+	public int Attack {
 		get{
-			return instance.powerType.expType;
+			return GetCurveValue(1, instance.powerType.attackType);
 		}
 	}
+
+	public int Exp {
+		get{
+			return GetCurveValue(1, instance.powerType.expType);
+		}
+	}
+
+//	public int HPType {
+//		get{
+//			return TPowerTableInfo.UnitInfoHPType;
+//		}
+//	}
+//	
+//	public int AttackType {
+//		get{
+//			return TPowerTableInfo.UnitInfoAttackType;
+//		}
+//	}
+//	
+//	public int ExpType {
+//		get{
+//			return TPowerTableInfo.UnitInfoExpType;
+//		}
+//	}
 
 	public int DevourExp {
 		get {
