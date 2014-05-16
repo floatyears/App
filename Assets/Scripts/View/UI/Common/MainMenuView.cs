@@ -2,16 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class MainMenuView : UIComponentUnity {
-	IUICallback iuiCallback;
-	bool temp = false;
-
 	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum> ();
-
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config, origin);
 		InitButton ();
-
-		temp = origin is IUICallback;
 	}
 
 	public override void ShowUI () {
@@ -42,7 +36,7 @@ public class MainMenuView : UIComponentUnity {
 		buttonInfo.Add (go, SceneEnum.Friends);
 
 		go = FindChild ("ImgBtn_Quest");
-		buttonInfo.Add (go, SceneEnum.Quest);
+		buttonInfo.Add (go, SceneEnum.World);
 
 		go = FindChild ("ImgBtn_Scratch");
 		buttonInfo.Add (go, SceneEnum.Scratch);
@@ -57,23 +51,15 @@ public class MainMenuView : UIComponentUnity {
 		buttonInfo.Add (go, SceneEnum.Units);
 
 		foreach (var item in buttonInfo.Keys) {
-			UIEventListener.Get(item).onClick = OnClickCallback;
+			UIEventListener.Get(item).onClick = ClickMenuBtn;
 		}
 	}
 
-	void OnClickCallback( GameObject caller ) {
+	private void ClickMenuBtn( GameObject btn ) {
+		//Debug.Log("ClickMenuBtn(), btn name is : " + btn.name);
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-		if (!temp) {
-			return;
-		}
-
-		SceneEnum se = buttonInfo [caller];
-
-		if (iuiCallback == null) {
-			iuiCallback = origin as IUICallback;
-		} 
-
-		iuiCallback.CallbackView(se);
+		SceneEnum targetScene = buttonInfo [ btn ];
+		UIManager.Instance.ChangeScene(targetScene);
 	}
 
     void SetMenuValid(object args){
@@ -82,9 +68,8 @@ public class MainMenuView : UIComponentUnity {
           UIButtonScale btnScale = item.GetComponent<UIButtonScale>() ;
             btnScale.enabled = valid;
             Debug.LogError("SetMenuValid(), btnScale is : " + valid);
-            if(valid)  UIEventListener.Get(item).onClick += OnClickCallback; 
-            else UIEventListener.Get(item).onClick -= OnClickCallback;
+            if(valid)  UIEventListener.Get(item).onClick += ClickMenuBtn; 
+            else UIEventListener.Get(item).onClick -= ClickMenuBtn;
         }
-//        this.gameObject.SetActive(valid);
     }
 }

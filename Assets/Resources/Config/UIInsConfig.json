@@ -28,11 +28,11 @@
         "resoucePath": "Prefabs/UI/Common/",
         "parent": 1,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": -150,
         "positionz": 0
     },
-     "MainBackground": {
-        "uiName":"MenuBg",
+     "HomeBackground": {
+        "uiName":"HomeBackground",
         "resoucePath": "Prefabs/UI/Common/",
         "parent": 0,
         "positionx": 0,
@@ -64,12 +64,12 @@
         "positionz": 0
     },
     
-     "BottomMenu": {
-        "uiName":"MenuBottom",
-        "resoucePath": "Prefabs/UI/Common/",
-        "parent": 3,
+     "MainMenu": {
+        "uiName":"MainMenu",
+        "resoucePath": "Prefabs/UI/Home/",
+        "parent": 2,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": 57,
         "positionz": 0
     },
     "LoadingWindow": {
@@ -404,9 +404,9 @@
      "FriendUnitSortPanel": {
         "uiName":"FriendUnitSortPanel",
         "resoucePath": "Prefabs/UI/Common/",
-        "parent": 2,
+        "parent": 0,
         "positionx": 0,
-        "positiony": 650,
+        "positiony": 0,
         "positionz": 0
     },
      "HomeWorldMap": {
@@ -417,8 +417,8 @@
         "positiony": 0,
         "positionz": 0
     },
-    "StageSlidePanel": {
-        "uiName":"StageSlidePanel",
+    "StageMap": {
+        "uiName":"StageMap",
         "resoucePath": "Prefabs/UI/Quest/",
         "parent": 0,
         "positionx": 0,
@@ -432,7 +432,15 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
-    }
+    },
     
+    "QuestSelectPanel": {
+        "uiName":"QuestSelectPanel",
+        "resoucePath": "Prefabs/UI/Home/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    }
     
 }

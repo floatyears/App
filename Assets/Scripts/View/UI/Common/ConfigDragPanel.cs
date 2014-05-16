@@ -79,7 +79,7 @@ public class ConfigDragPanel{
 		HelperListDragPanelArgs.Add("gridArrange", 				 UIGrid.Arrangement.Horizontal		);
 		HelperListDragPanelArgs.Add("scrollMovement", 			 UIScrollView.Movement.Vertical		);
 		HelperListDragPanelArgs.Add("maxPerLine", 					 1													);
-		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, 0, 640, 720)				);
+		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, 62, 640, 813)				);
 		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(280, 350, 0)				);
 		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
 		HelperListDragPanelArgs.Add("cellHeight", 					 150												);

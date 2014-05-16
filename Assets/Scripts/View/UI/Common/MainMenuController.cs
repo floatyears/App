@@ -15,7 +15,7 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 	public void CallbackView (object data){
 		try {
 			SceneEnum se = (SceneEnum)data;
-			if(se == SceneEnum.Quest){
+			if(se == SceneEnum.World){
 				if(CheckUnitCountLimit()){
 					//msg box show 
 					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitExpansionMsgParams());

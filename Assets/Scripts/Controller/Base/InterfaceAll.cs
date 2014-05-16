@@ -73,7 +73,7 @@ public interface IUICallback {
 }
 
 public interface IUISetBool {
-    void SetEnable(bool b);
+    void SetBackBtnActive(bool b);
 }
 
 public interface ILeaderSkill {

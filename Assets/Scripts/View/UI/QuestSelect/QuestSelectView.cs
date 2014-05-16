@@ -23,6 +23,8 @@ public class QuestSelectView : UIComponentUnity{
 	private List<UITexture> pickEnemiesList = new List<UITexture>();
 	private UIToggle firstFocus;
 	private Dictionary< string, object > questSelectScrollerArgsDic = new Dictionary< string, object >();
+	
+	private UITexture background;
 
 	private List<QuestInfo> questInfoList = new List<QuestInfo>();
 	private TStageInfo curStageInfo;
@@ -31,69 +33,31 @@ public class QuestSelectView : UIComponentUnity{
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-//		InitUI();
-//		questViewItem = Resources.Load("Prefabs/UI/Quest/QuestItem") as GameObject;
-
+		stageRoot = transform.FindChild("Stages").gameObject;
 	}
 	
 	public override void ShowUI(){
 		base.ShowUI();
-//		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedStage, GetSelectedStage);
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
-//        firstFocus.value = true;
-//		ShowTween();
 		MsgCenter.Instance.AddListener(CommandEnum.TransPickedCity, CreateSlidePage);
-
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-//		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedStage, GetSelectedStage);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveStart, EvolveStartQuest);
 		MsgCenter.Instance.RemoveListener(CommandEnum.TransPickedCity, CreateSlidePage);
 	}
 
-	void GetSelectedStage(object data) {
-		curStageInfo = data as TStageInfo;
-		if(curStageInfo != null) CreateQuestDragList();
-		else{ Debug.LogError("CreateQuestDragList(), Data is ERROR, return!!!"); }
+	private void DestoryStages(){
+		for (int i = 0; i < stageRoot.transform.childCount; i++){
+			GameObject stageItem = stageRoot.transform.GetChild(i).gameObject;
+			Destroy(stageItem);
+		}
 	}
 
     public override void ResetUIState(){
         LogHelper.Log("QuestSelectDecoratorUnity.ClearUIState()");
-//        CleanQuestInfo();
-//        if (dragPanel != null){
-//            dragPanel.DestoryUI();
-//        }
-//        selectBtn.isEnabled = false;
     }   
-
-	void InitUI(){
-		firstFocus = FindChild<UIToggle>("Window/window_right/tab_detail");
-		scrollView = FindChild("ScrollView");
-		selectBtn = FindChild<UIImageButton>("ScrollView/btn_quest_select"); 
-		doorLabel = FindChild< UILabel >("Window/title/Label_door_name");
-		labDoorType = FindChild< UILabel >("Window/title/Label_door_type_name");
-		floorLabel = FindChild< UILabel >("Window/window_left/Label_floor_V");
-		staminaLabel = FindChild< UILabel >("Window/window_left/Label_stamina_V");
-		storyContentLabel = FindChild< UILabel >("Window/window_right/content_story/Label_story");
-		questInfoLabel = FindChild< UILabel >("Window/window_right/content_detail/Label_quest_info");
-		storyTextLabel = FindChild<UILabel>("Window/window_right/content_story/Label_story");
-		rewardLineLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_Reward_Line");
-		rewardExpLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_Reward_Exp");
-		rewardCoinLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_Reward_Coin");
-		questNameLabel = FindChild<UILabel>("Window/window_right/content_detail/Label_quest_name");
-		bossAvatar = FindChild<UITexture>("Window/window_left/Texture_Avatar");
-
-		GameObject pickEnemies;
-		pickEnemies = FindChild("Window/window_right/content_detail/pickEnemies");
-		UITexture[ ] texs = pickEnemies.GetComponentsInChildren<UITexture>();
-		foreach (var item in texs){
-			pickEnemiesList.Add(item);
-		} 
-
-		UIEventListener.Get(selectBtn.gameObject).onClick = ClickFriendSelect;
-	}
 
 	void UpdatePanelInfo(object args){
 		Dictionary<string,object> info = args as Dictionary<string, object>;
@@ -328,34 +292,6 @@ public class QuestSelectView : UIComponentUnity{
 		}
 	}
 
-	void CleanQuestInfo(){
-		staminaLabel.text = string.Empty;
-        floorLabel.text = string.Empty;
-		questInfoLabel.text = string.Empty;
-		storyTextLabel.text = string.Empty;
-		rewardLineLabel.text = string.Empty;
-		rewardExpLabel.text = string.Empty;
-		rewardCoinLabel.text = string.Empty;
-		questNameLabel.text = string.Empty;
-		questNameLabel.text = string.Empty;
-		bossAvatar.mainTexture = null;
-		doorLabel.text = string.Empty;
-		foreach (var item in pickEnemiesList){
-			item.mainTexture = null;
-		}
-	}
-
-	void ShowTween(){
-		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)
-			return;
-		foreach (var tweenPos in list){		
-			if (tweenPos == null) continue;
-			tweenPos.Reset();
-			tweenPos.PlayForward();
-		}
-	}
-
 	void PrepareFriendSelect(bool flag){
 		TStageInfo stageInfo = null;
 		uint questID = 0;
@@ -397,47 +333,26 @@ public class QuestSelectView : UIComponentUnity{
 		return msgParams;
 	}
 
-//	void EvolveStartQuest (object data) {
-//		evolveStageInfo = data as TEvolveStart;
-//		EvolveInfoShow(evolveStageInfo.StageInfo);
-//	}
-
 	//--------------------------------New---------------------------------------
 
-	private const float STAGE_PAENL_OFFSET_X = 640.0F;
-	private const float PAGE_MARK_OFFSET_X = 40.0F;
-	private UIButton leftPageBtn;
-	private UIButton rightPageBtn;
-
-	private GameObject leftPanel;
-	private GameObject centerPanel;
-	private GameObject rightPanel;
-
-	private GameObject pageMark;
-	private GameObject stageRoot;
-	private int totalPageCount;
-
-	private void InitUIElement(){
-		leftPageBtn = FindChild<UIButton>("Button_Page_Left");
-		rightPageBtn = FindChild<UIButton>("Button_Page_Right");
-		stageRoot = transform.FindChild("Quest").gameObject;
-		pageMark = transform.FindChild("PageMark").gameObject;
-
-		UIEventListener.Get(leftPageBtn.gameObject).onClick = ClickLeftPageBtn;
-		UIEventListener.Get(rightPageBtn.gameObject).onClick = ClickRightPageBtn;
-	}
-	
 	private TCityInfo cityInfo;
+	private GameObject stageRoot;
 	private List<StageItemView> stageViewList  = new List<StageItemView>();
 
 	private void GetData(uint cityID){
-		cityInfo = DataCenter.Instance.GetCityInfo(cityID);
+		if(cityInfo == null || (cityInfo.ID != cityID )){
+			cityInfo = DataCenter.Instance.GetCityInfo(cityID);
+			DestoryStages();
+			FillView();
+		}
+		else{
+			Debug.Log("step into the same stage...");
+		}
 	}
 	
 	private void CreateSlidePage(object msg){
 		GetData((uint)msg);
-		InitUIElement();
-		FillView();
+
 	}
 
 	private void FillView(){
@@ -446,13 +361,9 @@ public class QuestSelectView : UIComponentUnity{
 			return;
 		}
 	
-		List<TStageInfo> accessStageList = GetAccessStageList(cityInfo.Stages);
-		totalPageCount = accessStageList.Count;
-		CurrPageIndex = GetCurrStageIndex(accessStageList);
-		GenerateStagePage(accessStageList);
-		GeneratePageMark(accessStageList);
-		InitQuestRootPos(totalPageCount);
-		EnableLightSprite(true);
+		List<TStageInfo> accessStageList = cityInfo.Stages;
+		GenerateStages(accessStageList);
+
 	}
 
 	/// <summary>
@@ -481,39 +392,21 @@ public class QuestSelectView : UIComponentUnity{
 	/// Generates the stage page.
 	/// </summary>
 	/// <param name="count">Count.</param>
-	private void GenerateStagePage(List<TStageInfo> accessStageList){
+	private void GenerateStages(List<TStageInfo> accessStageList){
+
+	
+		Debug.Log("CityID is : " + cityInfo.ID) ;
+		background = FindChild<UITexture>("Background");
+		background.mainTexture = Resources.Load("Stage/" + cityInfo.ID) as Texture2D;
 		for (int i = 0; i < accessStageList.Count; i++){
 			GameObject cell = NGUITools.AddChild(stageRoot, StageItemView.Prefab);
-			cell.name = string.Format("Stage_{0}", accessStageList[ i ].StageName);
-			int offsetCount = i - accessStageList.Count/2;
-			cell.transform.localPosition = STAGE_PAENL_OFFSET_X * offsetCount * Vector3.right;
+			cell.name = i.ToString();
 			StageItemView stageItemView = StageItemView.Inject(cell);
 			stageItemView.Data = accessStageList[ i ];
 		}
 	}
 
 	private List<GameObject> pageMarkItemList = new List<GameObject>();
-	/// <summary>
-	/// Generates the page mark.
-	/// </summary>
-	/// <param name="count">Count.</param>
-	private void GeneratePageMark(List<TStageInfo> accessStageList){
-		string sourcePath = "Prefabs/UI/Quest/PageMark";
-		GameObject pageMarkPrefab = Resources.Load(sourcePath) as GameObject;
-		for (int i = 0; i < accessStageList.Count; i++){
-			GameObject pageMarkItem = NGUITools.AddChild(pageMark, pageMarkPrefab);
-			int offsetCount = i - accessStageList.Count/2;
-			pageMarkItem.name = i.ToString();
-			pageMarkItem.transform.localPosition = PAGE_MARK_OFFSET_X * offsetCount * Vector3.right;
-			pageMarkItemList.Add(pageMarkItem);
-		}
-//		Debug.Log("GeneratePageMark(), pageMarkItemList count is : " + pageMarkItemList.Count);
-	}
-
-	private void InitQuestRootPos(int count){
-		int offsetCount = count / 2 - (currPageIndex - 1);
-		stageRoot.transform.localPosition = STAGE_PAENL_OFFSET_X * offsetCount * Vector3.right;
-	}
 
 	/// <summary>
 	/// Disable left btn as soon as current page is start page.
@@ -525,7 +418,7 @@ public class QuestSelectView : UIComponentUnity{
 		}
 		set{
 			isStartPage = value;
-			leftPageBtn.gameObject.SetActive(!IsStartPage);
+//			leftPageBtn.gameObject.SetActive(!IsStartPage);
 		}
 	}
 
@@ -539,7 +432,7 @@ public class QuestSelectView : UIComponentUnity{
 		}
 		set{
 			isEndPage = value;
-			rightPageBtn.gameObject.SetActive(!IsEndPage);
+//			rightPageBtn.gameObject.SetActive(!IsEndPage);
 		}
 	}
 	
@@ -557,26 +450,8 @@ public class QuestSelectView : UIComponentUnity{
 			//Set left btn disabled as soon as current page is start page.
 			IsStartPage = (CurrPageIndex == 1);
 			//Set right btn disabled as soon as current page is end page.
-			IsEndPage = (CurrPageIndex == totalPageCount);
+//			IsEndPage = (CurrPageIndex == totalPageCount);
 		}
-	}
-	
-	private void ClickLeftPageBtn(GameObject btn){
-		EnableLightSprite(false);
-		CurrPageIndex --;
-		//float x = questRoot.transform.localPosition.x + STAGE_PAENL_OFFSET_X;
-		float x = (cityInfo.Stages.Count/2 - (currPageIndex - 1)) * STAGE_PAENL_OFFSET_X;
-		iTween.MoveTo(stageRoot, iTween.Hash("x", x, "time", 1.0f, "isLocal", true));
-		EnableLightSprite(true);
-	}
-
-	private void ClickRightPageBtn(GameObject btn){
-		EnableLightSprite(false);
-		CurrPageIndex ++;
-		//float x = questRoot.transform.localPosition.x - STAGE_PAENL_OFFSET_X;
-		float x = (cityInfo.Stages.Count/2 - (currPageIndex - 1)) * STAGE_PAENL_OFFSET_X;
-		iTween.MoveTo(stageRoot, iTween.Hash("x", x, "time", 1.0f, "isLocal", true));
-		EnableLightSprite(true);
 	}
 
 	/// <summary>
@@ -595,12 +470,12 @@ public class QuestSelectView : UIComponentUnity{
 	}
 
 
+
+
 	//===========evolve==============================================
 	void EvolveStartQuest (object data) {
 		evolveStageInfo = data as TEvolveStart;
-//		CreateSlidePage (evolveStageInfo.StageInfo.CityId);
 		GetData(evolveStageInfo.StageInfo.CityId);
-		InitUIElement();
 		FillViewEvolve();
 	}
 
@@ -612,37 +487,12 @@ public class QuestSelectView : UIComponentUnity{
 
 		List<TStageInfo> accessStageList = new List<TStageInfo> (); 
 		accessStageList.Add (evolveStageInfo.StageInfo);
-		totalPageCount = accessStageList.Count;
+
 		CurrPageIndex = accessStageList.Count;
 		Debug.LogError ("CurrPageIndex : " + CurrPageIndex);
-		GenerateStageItem(accessStageList);
-		GenerateIndex(accessStageList);
-		InitQuestRootPos(totalPageCount);
 		EnableLightSprite(true);
 	}
-
-	void GenerateIndex(List<TStageInfo> accessStageList) {
-		string sourcePath = "Prefabs/UI/Quest/PageMark";
-		GameObject pageMarkPrefab = Resources.Load(sourcePath) as GameObject;
-		for (int i = 0; i < accessStageList.Count; i++){
-			GameObject pageMarkItem = NGUITools.AddChild(pageMark, pageMarkPrefab);
-			int offsetCount = i - accessStageList.Count/2;
-			pageMarkItem.name = i.ToString();
-			pageMarkItem.transform.localPosition = PAGE_MARK_OFFSET_X * offsetCount * Vector3.right;
-			pageMarkItemList.Add(pageMarkItem);
-		}
-	}
-
-	void GenerateStageItem(List<TStageInfo> accessStageList) {
-			for (int i = 0; i < accessStageList.Count; i++){
-				GameObject cell = NGUITools.AddChild(stageRoot, StageItemView.Prefab);
-				cell.name = string.Format("Stage_{0}", accessStageList[ i ].StageName);
-				int offsetCount = i - accessStageList.Count/2;
-				cell.transform.localPosition = STAGE_PAENL_OFFSET_X * offsetCount * Vector3.right;
-				StageItemView stageItemView = StageItemView.Inject(cell);
-				stageItemView.Data = accessStageList[ i ];
-			}
-	}
+	
 }
 
 

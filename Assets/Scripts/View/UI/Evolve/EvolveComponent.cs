@@ -56,7 +56,7 @@ public class EvolveComponent : ConcreteComponent {
 		tes.StageInfo.QuestId = questID;
 
 		DataCenter.gameStage = GameState.Evolve;
-		UIManager.Instance.ChangeScene (SceneEnum.QuestSelect);
+		UIManager.Instance.ChangeScene (SceneEnum.Stage);
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
 	}
 
@@ -67,7 +67,7 @@ public class EvolveComponent : ConcreteComponent {
 	void ReturnPreScene(object data) {
 		SceneEnum se = (SceneEnum)data;
 		bool showDetail = se == SceneEnum.UnitDetail;
-		bool enterEvolve = se == SceneEnum.QuestSelect;
+		bool enterEvolve = se == SceneEnum.Stage;
 		if (!showDetail && !enterEvolve) {
 			DataCenter.gameStage = GameState.Normal;
 		}

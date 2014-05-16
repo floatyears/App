@@ -3,9 +3,7 @@ using System.Collections;
 
 public class BgComponent : ConcreteComponent , IUICallback {
 	
-	public BgComponent(string uiName) : base (uiName) {
-
-	}
+	public BgComponent(string uiName) : base (uiName) {}
 
 	public override void CreatUI () {
 		base.CreatUI ();
@@ -26,4 +24,5 @@ public class BgComponent : ConcreteComponent , IUICallback {
 	public void CallbackView (object caller) {
 
 	}
+	
 }

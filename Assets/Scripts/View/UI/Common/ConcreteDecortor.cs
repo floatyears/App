@@ -24,7 +24,7 @@ public class SelectRoleDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 		
-		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
+		BgComponent background = CreatComponent< BgComponent >(UIConfig.HomeBackgroundName);
 		background.SetComponent(sceneInfoBar);
 		
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
@@ -64,10 +64,10 @@ public class StartDecorator : DecoratorBase{
 		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
 		playerInfoBar.SetComponent(decorator);
 
-		BgComponent background = CreatComponent< BgComponent >(UIConfig.menuBackgroundName);
+		BgComponent background = CreatComponent< BgComponent >(UIConfig.HomeBackgroundName);
 		background.SetComponent(playerInfoBar);
 		
-		MainMenuController bottom = CreatComponent< MainMenuController >(UIConfig.menuBottomName);
+		MainMenuController bottom = CreatComponent< MainMenuController >(UIConfig.MainMenuName);
 		bottom.SetComponent(background);
 
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
@@ -392,7 +392,7 @@ public class QuestSelectDecorator : DecoratorBase{
 
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.Quest);
+		sceneInfoBar.SetBackScene(SceneEnum.World);
 	}
 	
 	public override void HideScene(){
@@ -408,7 +408,7 @@ public class QuestSelectDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		QuestSelectController questSelect = CreatComponent< QuestSelectController >(UIConfig.stageSlidePanelName);
+		QuestSelectController questSelect = CreatComponent< QuestSelectController >(UIConfig.stageMapName);
 		questSelect.SetComponent(sceneInfoBar);
 
 		lastDecorator = questSelect;
@@ -425,7 +425,7 @@ public class FriendSelectDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.QuestSelect);
+		sceneInfoBar.SetBackScene(SceneEnum.Stage);
 	}
 	
 	public override void HideScene(){
@@ -441,12 +441,12 @@ public class FriendSelectDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 		
 		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
-		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
+		//SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		friendSelect.SetComponent(sceneInfoBar);
-		sortPanel.SetComponent(friendSelect);
+		//sortPanel.SetComponent(friendSelect);
 
-		lastDecorator = sortPanel;
+		lastDecorator = friendSelect;
 		lastDecorator.CreatUI();
 		
 	}
@@ -986,6 +986,37 @@ public class StandByDecorator : DecoratorBase{
 		standByWindow.SetComponent(sceneInfoBar);
 
 		lastDecorator = standByWindow;
+		lastDecorator.CreatUI();
+	}
+}
+
+
+//--------------------------------NewQuestSelect------------------------------------------
+public class NewQuestSelectDecorator : DecoratorBase{
+	private SceneInfoComponent sceneInfoBar;
+	public NewQuestSelectDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+		sceneInfoBar.SetBackScene(SceneEnum.Stage);
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		NewQuestSelectController questSelect = CreatComponent<NewQuestSelectController>(UIConfig.questSelectPanelName);
+		
+		sceneInfoBar.SetComponent(decorator);
+		questSelect.SetComponent(sceneInfoBar);
+		
+		lastDecorator = questSelect;
 		lastDecorator.CreatUI();
 	}
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class BattleShow : UIBase 
@@ -60,7 +60,7 @@ public class BattleShow : UIBase
 
 	void ClickQuest(GameObject go)
 	{
-		ControllerManager.Instance.ChangeScene(SceneEnum.QuestSelect);
+		ControllerManager.Instance.ChangeScene(SceneEnum.Stage);
 	}
 
 }

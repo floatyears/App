@@ -1,17 +1,16 @@
-﻿using bbproto;
+using bbproto;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerInfoBar : UIComponentUnity
-{
+public class PlayerInfoBar : UIComponentUnity{
 	GameObject infoBox;
 	GameObject leftCollider;
 	GameObject rightCollider;
  
 	//Out 
 	UILabel TLineLabel;
-	UILabel TRankLabel;
+
 	UILabel VChipCountLabel;
 	UILabel VStamMaxLabel;
 	UILabel VCionCountLabel;
@@ -56,15 +55,7 @@ public class PlayerInfoBar : UIComponentUnity
                 
 	}
 
-	public override void DestoryUI()
-	{
-		base.DestoryUI();
-	}
-
-
-
-	private void InitUI()
-	{
+	private void InitUI(){
 		FindObject();
 		FindLabel();
 
@@ -80,14 +71,12 @@ public class PlayerInfoBar : UIComponentUnity
 		//ShowExpInfo();
 	}
 	
-	private void FindObject()
-	{
+	private void FindObject(){
 		infoBox = FindChild("InfoBox");
 		leftCollider = FindChild("Left_Collider");
 		rightCollider = FindChild("Right_Collider");
 	}
-	private void FindLabel()
-	{
+	private void FindLabel(){
 		TRankHideLabel = FindChild< UILabel >("InfoBox/Label_Text_Rank");
 		TNeedExpHideLabel = FindChild< UILabel >("InfoBox/Label_Text_NextExp");
 		TTotalExpHideLabel = FindChild< UILabel>("InfoBox/Label_Text_TotalExp");
@@ -96,7 +85,6 @@ public class PlayerInfoBar : UIComponentUnity
 		VTotalExpHideLabel = FindChild< UILabel>("InfoBox/Label_Vaule_TotalExp");
 		
 		TLineLabel = FindChild< UILabel >("InfoBar/Label_Text_Line");
-		TRankLabel = FindChild< UILabel >("InfoBar/Label_Text_Rank");
 		VChipCountLabel = FindChild< UILabel >("InfoBar/Label_Vaule_ChipNum");
 		VStamMaxLabel = FindChild< UILabel >("InfoBar/Label_Vaule_CurStamina");
 		VCionCountLabel = FindChild< UILabel >("InfoBar/Label_Vaule_Icon");
@@ -104,10 +92,10 @@ public class PlayerInfoBar : UIComponentUnity
 		VRankLabel = FindChild< UILabel >("InfoBar/Label_Vaule_Rank");
 		VStaminaNowLabel = FindChild< UILabel >("InfoBar/Label_Vaule_TotalStamina");
 
-		expSprite = FindChild<UISprite>("InfoBar/Sprite_CurExp");
-		staminaSprite = FindChild< UISprite >("InfoBar/Sprite_Stamina");
+		expSprite = FindChild<UISprite>("InfoBar/Foreground_Exp");
+		staminaSprite = FindChild< UISprite >("InfoBar/Foreground_Stamina");
 
-		evolveTypeSprite = FindChild<UISprite>("InfoBar/Sprite_EvolveType");
+		//evolveTypeSprite = FindChild<UISprite>("InfoBar/Sprite_EvolveType");
 	}
 
 	private void ShowInfoBox(GameObject go, bool isPressed)
@@ -175,7 +163,7 @@ public class PlayerInfoBar : UIComponentUnity
 		//Evo
 		int evoType = (int)DataCenter.Instance.UserInfo.EvolveType;
 //		Debug.LogError("EvoType : " + evoType.ToString());
-		evolveTypeSprite.spriteName = evoType.ToString();
+		//evolveTypeSprite.spriteName = evoType.ToString();
 
 		//Debug.Log("PlayerInfoBar,DataCenter.Instance.UserInfo.EvolveType : " + evoType.ToString());
 //		TurnToReName();
@@ -208,7 +196,7 @@ public class PlayerInfoBar : UIComponentUnity
 			}
 		}
 
-		UIManager.Instance.ChangeScene(SceneEnum.Quest);
+		UIManager.Instance.ChangeScene(SceneEnum.World);
 	}
 
 	void AddCommandListener()

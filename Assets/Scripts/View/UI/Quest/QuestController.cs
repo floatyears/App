@@ -30,12 +30,6 @@ public class QuestController : ConcreteComponent{
 		}
 	}
 
-	void GetStoryCityList(){
-		uint nowCityIDForTemp = 1;
-		storyCityList.Add(DataCenter.Instance.GetCityInfo(nowCityIDForTemp));
-		//Debug.LogError("storyCityList(), storyStageList's count is " + storyCityList.Count);
-		GetStoryStageList();
-	}
 
 	void GetStoryStageList(){
 		//Debug.LogError("QuestController.GetStoryStageList()......Story City Count : " + storyCityList.Count);
@@ -66,7 +60,7 @@ public class QuestController : ConcreteComponent{
 			return;
 		}
 		ConfigBattleUseData.Instance.currentStageInfo = stageSelected;
-		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
+		UIManager.Instance.ChangeScene(SceneEnum.Stage);
 		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
 	}
 

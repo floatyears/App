@@ -47,9 +47,9 @@ public class UIConfig
 	public const string unitPath = "UI/Units/";
 
 	public const string UIInsConfigPath = "Config/UIInsConfig";
-	public const string menuBackgroundName = "MenuBg";
+	public const string HomeBackgroundName = "HomeBackground";
 	public const string topBackgroundName = "PlayerInfoBar";
-	public const string menuBottomName = "MenuBottom";
+	public const string MainMenuName = "MainMenu";
 	public const string sceneInfoBarName = "SceneInfoBar";
 	public const string TipsBarName = "TipsBar";
 
@@ -76,6 +76,9 @@ public class UIConfig
 	public const string unitDisplay = "UnitDisplay";
 	public const string evolveFriend = "EvolveFriend";
 	public const string questSelectWindowName = "QuestSelectWindow";
+
+	public const string questSelectPanelName = "QuestSelectPanel";
+
 	public const string friendSelectWindowName = "FriendSelectWindow";
 	public const string applyWindowName = "ApplyWindow";
 	public const string friendListWindowName = "FriendListWindow";
@@ -85,7 +88,7 @@ public class UIConfig
 	public const string unitDetailPanelName = "UnitDetailPanel";
 	public const string searchMainWindowName = "SearchMainWindow";
 	public const string searchInfoWindowName = "SearchInfoWindow";
-
+	public const string stageMapName = "StageMap";
 	public const string levelUpView = "LevelUpUI";
 	public const string levelUpInfoPanelName = "LevelUpInfoPanel";
 	public const string levelUpReadyPanelName = "LevelUpReadyPanel";
@@ -167,21 +170,21 @@ public class UIIns : JsonOriginData
 				double data = (double)jsonData [i] ["positionx"];
 				ins.localPosition.x = (float)data;
 			} else{
-				ins.localPosition.x = (int)jsonData [i] ["positionx"];
+			ins.localPosition.x = (int)jsonData [i] ["positionx"];
 			}
 
 			if(jsonData [i] ["positiony"].IsDouble) {
 				double data = (double)jsonData [i] ["positiony"];
 				ins.localPosition.y = (float)data;
 			} else{
-				ins.localPosition.y = (int)jsonData [i] ["positiony"];
+			ins.localPosition.y = (int)jsonData [i] ["positiony"];
 			}
 
 			if(jsonData [i] ["positionz"].IsDouble) {
 				double data = (double)jsonData [i] ["positionz"];
 				ins.localPosition.z = (float)data;
 			} else{
-				ins.localPosition.z = (int)jsonData [i] ["positionz"];
+			ins.localPosition.z = (int)jsonData [i] ["positionz"];
 			}
 
 //			ins.localPosition.y = (int)jsonData [i] ["positiony"];

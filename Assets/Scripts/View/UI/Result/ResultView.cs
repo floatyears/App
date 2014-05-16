@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ResultView : UIComponentUnity {
@@ -75,7 +75,7 @@ public class ResultView : UIComponentUnity {
 	void ClickCheck(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		ConfigBattleUseData.Instance.BattleFriend.FriendPoint = 0;
-		UIManager.Instance.ChangeScene(SceneEnum.Quest);
+		UIManager.Instance.ChangeScene(SceneEnum.World);
 	}
 
 	void ClickOk(GameObject btn){
@@ -88,7 +88,7 @@ public class ResultView : UIComponentUnity {
 
 	void ClickCancel(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		UIManager.Instance.ChangeScene(SceneEnum.Quest);
+		UIManager.Instance.ChangeScene(SceneEnum.World);
 	}
 
 	void Stylize(object msg){

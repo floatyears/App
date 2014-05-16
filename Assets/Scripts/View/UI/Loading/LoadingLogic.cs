@@ -147,7 +147,7 @@ public class LoadingLogic : ConcreteComponent {
 
 	void EnterGame () {
 		UIManager.Instance.ChangeScene(SceneEnum.Start);
-		UIManager.Instance.ChangeScene(SceneEnum.Quest);
+		UIManager.Instance.ChangeScene(SceneEnum.World);
 		if (rspAuthUser.isNewUser == 1){
 			TurnToReName();
 		}

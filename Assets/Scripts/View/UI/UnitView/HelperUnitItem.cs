@@ -36,7 +36,7 @@ public class HelperUnitItem : FriendUnitItem {
 	}
 
 	public static HelperUnitItem Inject(GameObject item){
-		HelperUnitItem view = item.AddComponent<HelperUnitItem>();
+		HelperUnitItem view = item.GetComponent<HelperUnitItem>();
 		if (view == null)
 			view = item.AddComponent<HelperUnitItem>();
 		return view;
