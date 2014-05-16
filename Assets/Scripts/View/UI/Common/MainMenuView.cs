@@ -68,11 +68,10 @@ public class MainMenuView : UIComponentUnity {
 		}
 
 		SceneEnum se = buttonInfo [caller];
-
 		if (iuiCallback == null) {
 			iuiCallback = origin as IUICallback;
 		} 
-		Umeng.GA.Event ("BttomMenu",se.ToString ());
+		Umeng.GA.Event ("BottomMenu",se.ToString ());
 
 		iuiCallback.CallbackView(se);
 	}
