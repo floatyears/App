@@ -15,8 +15,8 @@
       <td>
         {
           id:<%= skill[:baseInfo][:id]%>,
-          name:<%= skill[:baseInfo][:name]%>,
-          description:<%= skill[:baseInfo][:description]%>,
+          name:<%= skill[:baseInfo][:name].force_encoding("UTF-8")%>,
+          description:<%= skill[:baseInfo][:description].force_encoding("UTF-8")%>,
           skillCooling:<%= skill[:baseInfo][:skillCooling]%>
         }
       </td>
