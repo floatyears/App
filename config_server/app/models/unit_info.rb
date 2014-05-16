@@ -51,10 +51,15 @@ class UnitGetWay
   include Beefcake::Message
 end
 
+class PowerInfo
+  include Beefcake::Message
+end
+
 class UnitGetWay
   optional :getType, EUnitGetType, 1
   repeated :getPath, :uint32, 2
 end
+
 
 class UnitInfo
   UNITTYPE = { "UALL" => 0 , "UFIRE" => 1, "UWATER" => 2, "UWIND" => 3, "ULIGHT" => 4 ,"UDARK" => 5,"UNONE" => 6,"UHeart" => 7 }
@@ -154,11 +159,19 @@ class UnitInfo
   end
 end
 
-class PowerType
-  optional :attackType, :int32, 1
-  optional :hpType, :int32, 2
-  optional :expType, :int32, 3
+class PowerInfo
+  optional :min, :int32, 1
+  optional :max, :int32, 2
+  optional :growCurve, :float, 3
 end
+
+class PowerType
+  optional :attackType, PowerInfo, 1
+  optional :hpType, PowerInfo, 2
+  optional :expType, PowerInfo, 3
+end
+
+
 
 class HelperRequire
   optional :level, :int32, 1
