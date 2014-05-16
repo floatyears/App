@@ -33,19 +33,26 @@ public class QuestSelectView : UIComponentUnity{
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
+		stageRoot = transform.FindChild("Stages").gameObject;
 	}
 	
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
 		MsgCenter.Instance.AddListener(CommandEnum.TransPickedCity, CreateSlidePage);
-
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveStart, EvolveStartQuest);
 		MsgCenter.Instance.RemoveListener(CommandEnum.TransPickedCity, CreateSlidePage);
+	}
+
+	private void DestoryStages(){
+		for (int i = 0; i < stageRoot.transform.childCount; i++){
+			GameObject stageItem = stageRoot.transform.GetChild(i).gameObject;
+			Destroy(stageItem);
+		}
 	}
 
     public override void ResetUIState(){
@@ -329,18 +336,22 @@ public class QuestSelectView : UIComponentUnity{
 	//--------------------------------New---------------------------------------
 
 	private TCityInfo cityInfo;
+	private GameObject stageRoot;
 	private List<StageItemView> stageViewList  = new List<StageItemView>();
 
 	private void GetData(uint cityID){
-		cityInfo = DataCenter.Instance.GetCityInfo(cityID);
+		if(cityInfo == null || (cityInfo.ID != cityID )){
+			cityInfo = DataCenter.Instance.GetCityInfo(cityID);
+			DestoryStages();
+			FillView();
+		}
+		else{
+			Debug.Log("step into the same stage...");
+		}
 	}
 	
 	private void CreateSlidePage(object msg){
 		GetData((uint)msg);
-		FillView();
-	}
-
-	private void DestoryStageItem(){
 
 	}
 
@@ -382,11 +393,13 @@ public class QuestSelectView : UIComponentUnity{
 	/// </summary>
 	/// <param name="count">Count.</param>
 	private void GenerateStages(List<TStageInfo> accessStageList){
+
+	
 		Debug.Log("CityID is : " + cityInfo.ID) ;
 		background = FindChild<UITexture>("Background");
 		background.mainTexture = Resources.Load("Stage/" + cityInfo.ID) as Texture2D;
 		for (int i = 0; i < accessStageList.Count; i++){
-			GameObject cell = NGUITools.AddChild(this.gameObject, StageItemView.Prefab);
+			GameObject cell = NGUITools.AddChild(stageRoot, StageItemView.Prefab);
 			cell.name = i.ToString();
 			StageItemView stageItemView = StageItemView.Inject(cell);
 			stageItemView.Data = accessStageList[ i ];

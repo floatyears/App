@@ -234,6 +234,8 @@ public enum CommandEnum{
 
 	RefreshItemCount				= 4063,
 
+	ShowHomeBgMask,
+
 	ShowFriendPointUpdateResult					= 4064,
 	PickOnSaleUnit				= 4065,
 	SortByRule							= 4066,

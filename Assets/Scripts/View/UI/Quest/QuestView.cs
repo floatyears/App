@@ -18,10 +18,12 @@ public class QuestView : UIComponentUnity{
 
 	public override void ShowUI(){
 		base.ShowUI();
+		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, false);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 	}
 	
 	public override void CallbackView(object data){

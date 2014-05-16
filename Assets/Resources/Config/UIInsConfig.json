@@ -404,9 +404,9 @@
      "FriendUnitSortPanel": {
         "uiName":"FriendUnitSortPanel",
         "resoucePath": "Prefabs/UI/Common/",
-        "parent": 2,
+        "parent": 0,
         "positionx": 0,
-        "positiony": 650,
+        "positiony": 0,
         "positionz": 0
     },
      "HomeWorldMap": {

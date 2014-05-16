@@ -6,7 +6,7 @@ public class FriendUnitSortPanelView : SortPanelView {
 		base.InitBtns();
 		UIButton btn;
 		
-		btn = FindChild<UIButton>("Button_Sort_Rank");
+		btn = FindChild<UIButton>("RulePanel/Button_Sort_Rank");
 		sortRuleSelectDic.Add(btn, SortRule.Rank);
                 
 		AddEventListener();

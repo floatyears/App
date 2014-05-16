@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class FriendHelperView : UIComponentUnity{
 	protected DragPanel dragPanel;
-	protected UIButton sortBtn;
+	//protected UIButton sortBtn;
 	protected UILabel sortRuleLabel;
 	protected SortRule curSortRule;
 
@@ -31,8 +31,8 @@ public class FriendHelperView : UIComponentUnity{
 	}
 	
 	private void InitUI(){
-		sortBtn = transform.FindChild("Button_Sort").GetComponent<UIButton>();
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
+//		sortBtn = transform.FindChild("Button_Sort").GetComponent<UIButton>();
+//		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
 		//sortRuleLabel = transform.FindChild("Label_Sort_Rule").GetComponent<UILabel>();
 
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
@@ -108,12 +108,12 @@ public class FriendHelperView : UIComponentUnity{
 		return msgParams;
 	}
 	
-	private void ClickSortBtn(GameObject btn){
-		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
-
-		//can not clicked before compelete showing sort panel
-		sortBtn.isEnabled = false;
-	}
+//	private void ClickSortBtn(GameObject btn){
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
+//
+//		//can not clicked before compelete showing sort panel
+//		sortBtn.isEnabled = false;
+//	}
 	
 	private void ReceiveSortInfo(object msg){
 		//Debug.LogError("FriendHelper.ReceiveSortInfo()...");
@@ -135,7 +135,7 @@ public class FriendHelperView : UIComponentUnity{
 	private void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
-		MsgCenter.Instance.AddListener(CommandEnum.ActivateSortBtn, ActivateSortBtn);
+//		MsgCenter.Instance.AddListener(CommandEnum.ActivateSortBtn, ActivateSortBtn);
 	}
 
 	private void RmvCmdListener(){
@@ -143,10 +143,10 @@ public class FriendHelperView : UIComponentUnity{
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
-	private void ActivateSortBtn(object msg){
-		Debug.Log("FriendHelperView.ActivateSortBtn(), receive msg to activate sort btn...");
-		sortBtn.isEnabled = true;
-	}
+//	private void ActivateSortBtn(object msg){
+//		Debug.Log("FriendHelperView.ActivateSortBtn(), receive msg to activate sort btn...");
+//		sortBtn.isEnabled = true;
+//	}
 
 	/// <summary>
 	/// Customs the drag panel.

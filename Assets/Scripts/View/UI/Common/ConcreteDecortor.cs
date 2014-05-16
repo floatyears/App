@@ -441,12 +441,12 @@ public class FriendSelectDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 		
 		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
-		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
+		//SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		friendSelect.SetComponent(sceneInfoBar);
-		sortPanel.SetComponent(friendSelect);
+		//sortPanel.SetComponent(friendSelect);
 
-		lastDecorator = sortPanel;
+		lastDecorator = friendSelect;
 		lastDecorator.CreatUI();
 		
 	}

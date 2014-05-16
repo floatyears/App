@@ -88,7 +88,7 @@ public class UIConfig
 	public const string unitDetailPanelName = "UnitDetailPanel";
 	public const string searchMainWindowName = "SearchMainWindow";
 	public const string searchInfoWindowName = "SearchInfoWindow";
-
+	public const string stageMapName = "StageMap";
 	public const string levelUpView = "LevelUpUI";
 	public const string levelUpInfoPanelName = "LevelUpInfoPanel";
 	public const string levelUpReadyPanelName = "LevelUpReadyPanel";
@@ -111,7 +111,7 @@ public class UIConfig
 	public const string friendUnitSortPanelName = "FriendUnitSortPanel";
 	
 	public const string homeWorldMapName = "HomeWorldMap";
-	public const string stageMapName = "StageMap";
+	public const string stageSlidePanelName = "StageSlidePanel";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;
@@ -166,28 +166,29 @@ public class UIIns : JsonOriginData
 			ins = new UIInsConfig();
 			ins.uiName = (string)jsonData [i] ["uiName"];
 			ins.resourcePath = (string)jsonData [i] ["resoucePath"] + ins.uiName;
-			if(jsonData [i] ["positionx"].IsInt) {
-				ins.localPosition.x = (int)jsonData [i] ["positionx"];
-			}else{
-				ins.localPosition.x = (float)jsonData [i] ["positionx"];
-			}
-		
-
-			if(jsonData [i] ["positiony"].IsInt) {
-				ins.localPosition.y = (int)jsonData [i] ["positiony"];
-			}else{
-				ins.localPosition.y = (float)jsonData [i] ["positiony"];
+			if(jsonData [i] ["positionx"].IsDouble) {
+				double data = (double)jsonData [i] ["positionx"];
+				ins.localPosition.x = (float)data;
+			} else{
+			ins.localPosition.x = (int)jsonData [i] ["positionx"];
 			}
 
-
-			if(jsonData [i] ["positionz"].IsInt) {
-				ins.localPosition.z = (int)jsonData [i] ["positionz"];
-			}else{
-				ins.localPosition.z = (float)jsonData [i] ["positionz"];
+			if(jsonData [i] ["positiony"].IsDouble) {
+				double data = (double)jsonData [i] ["positiony"];
+				ins.localPosition.y = (float)data;
+			} else{
+			ins.localPosition.y = (int)jsonData [i] ["positiony"];
 			}
 
-//			ins.localPosition.y = (float)jsonData [i] ["positiony"];
-//			ins.localPosition.z = (float)jsonData [i] ["positionz"];
+			if(jsonData [i] ["positionz"].IsDouble) {
+				double data = (double)jsonData [i] ["positionz"];
+				ins.localPosition.z = (float)data;
+			} else{
+			ins.localPosition.z = (int)jsonData [i] ["positionz"];
+			}
+
+//			ins.localPosition.y = (int)jsonData [i] ["positiony"];
+//			ins.localPosition.z = (int)jsonData [i] ["positionz"];
 			byte parent = (byte)((int)jsonData [i] ["parent"]);
 			ins.parent = GetParentTrans(parent);
 			uiInsData.Add(ins.uiName, ins);

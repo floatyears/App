@@ -228,13 +228,15 @@ public class BattleEnemy : UIBaseUnity {
 	}
 	GameObject prevEffect;
 	public void PlayerEffect(EnemyItem ei,AttackInfo ai) {
-		GameObject obj = DataCenter.Instance.GetEffect(ai) as GameObject;
+		GameObject obj = EffectManager.Instance.GetEffectObject (ai.SkillID); //DataCenter.Instance.GetEffect(ai) as GameObject;
 //		DGTools.PlayAttackSound(ai.AttackType);
 		ei.InjuredShake();
 		if (obj != null) {
 			Vector3 localScale = obj.transform.localScale;
+			Vector3 rotation = obj.transform.eulerAngles;
 			prevEffect = NGUITools.AddChild(effectPanel, obj);
 			prevEffect.transform.localScale = localScale;
+			prevEffect.transform.eulerAngles = rotation;
 			if(ai.AttackRange == 0) {
 				prevEffect.transform.localPosition = ei.transform.localPosition;
 			}

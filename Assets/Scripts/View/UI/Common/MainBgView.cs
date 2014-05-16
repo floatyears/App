@@ -7,6 +7,7 @@ public class MainBgView : UIComponentUnity {
 	public override void Init (UIInsConfig config, IUICallback origin){
 		base.Init (config,origin);
 		maskSpr = FindChild<UISprite>("Mask");
+		maskSpr.enabled = false;
 	}
 
 	public override void ShowUI () {
@@ -14,13 +15,12 @@ public class MainBgView : UIComponentUnity {
 		UIEventListener.Get (gameObject).onClick = OnClickCallback;
 		NGUITools.AddWidgetCollider (gameObject);
 
-		if(UIManager.Instance.baseScene.CurrentScene == SceneEnum.Quest){
-			maskSpr.enabled = false;
-		}
+		MsgCenter.Instance.AddListener(CommandEnum.ShowHomeBgMask, ShowMask);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowHomeBgMask, ShowMask);
 	}
 
 	void OnClickCallback(GameObject caller) {
@@ -28,5 +28,10 @@ public class MainBgView : UIComponentUnity {
 			IUICallback callback = origin as IUICallback;
 			callback.CallbackView (caller);	
 		}
+	}
+
+	private void ShowMask(object msg){
+		//Debug.Log("Receive msg, show bg mask");
+		maskSpr.enabled = (bool)msg;
 	}
 }

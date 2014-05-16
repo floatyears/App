@@ -6,6 +6,7 @@ class Protocol {
     public const string AUTH_USER = "auth_user";
     public const string RENAME_NICK = "rename_nick";
 	public const string CHANGE_PARTY = "change_party";
+	public const string FINISH_USER_GUIDE = "finish_user_guide";
 
     public const string START_QUEST = "start_quest";
     public const string CLEAR_QUEST = "clear_quest";
@@ -31,4 +32,9 @@ class Protocol {
     public const string UNIT_MAX_EXPAND = "unit_max_expand";
 	public const string UNIT_FAVORITE = "unit_favorite";
 	public const string UNIT_GET_LIST = "unit_get_list";
+
+	//others
+	public const string GET_SERVER_TIME = "get_server_time";
+	public const string UPLOAD_STAT = "upload_stat";
+
 }

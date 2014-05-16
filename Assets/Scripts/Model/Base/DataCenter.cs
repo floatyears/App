@@ -464,8 +464,7 @@ public class DataCenter {
     // return UserCost of curr Rank.
     public int UserCost {
         get {
-            const int TYPE_MAXCOST_OF_RANK = 4; //type = 4: userRank -> cost
-            return GetUnitValue(TYPE_MAXCOST_OF_RANK, UserInfo.Rank); 
+            return GetUnitValue(TPowerTableInfo.UserCostMax, UserInfo.Rank); 
         }
     }
     
@@ -486,16 +485,16 @@ public class DataCenter {
         return pti.GetValue(level);
     }
 
-    public int GetUnitValueTotal(int type, int level) {
-        TPowerTableInfo pti = UnitValue[type];
-        int totalValue = 0;
-
-        for (int i=1; i<=level; i++) {
-			totalValue += pti.GetValue(i);
-		}
-
-        return totalValue;
-    }
+//    public int GetUnitValueTotal(int type, int level) {
+//        TPowerTableInfo pti = UnitValue[type];
+//        int totalValue = 0;
+//
+//        for (int i=1; i<=level; i++) {
+//			totalValue += pti.GetValue(i);
+//		}
+//
+//        return totalValue;
+//    }
 
     public TUnitInfo GetUnitInfo(uint unitID) {
         if (UnitInfo.ContainsKey(unitID)) {
