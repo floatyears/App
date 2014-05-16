@@ -8,12 +8,11 @@ public static class GameDataAnalysis {
 	public static Dictionary<GameDataAnalysisEventType,int> EventTime = new Dictionary<GameDataAnalysisEventType, int>();
 
 	public static void Event(GameDataAnalysisEventType eventId){
-		GA.Event (eventId.ToString());	
-		
+		GA.Event (eventId.ToString());
 	}
 
 	public static void Event(GameDataAnalysisEventType eventId, string key){
-		GA.Event(eventId.ToString(),key)
+		GA.Event (eventId.ToString (), key);
 	}
 
 	public static void Event(GameDataAnalysisEventType eventId, Dictionary<string,string> attr){
@@ -34,7 +33,7 @@ public static class GameDataAnalysis {
 		EventTime [eventId] = TimeHelper.MillionSecondsNow();
 	}
 
-	public static void EventEnd(GameDataAnalysisEventType eventId,Dictionary<strig,string>value){
+	public static void EventEnd(GameDataAnalysisEventType eventId,Dictionary<string,string> value){
 		EventTime [eventId] = TimeHelper.MillionSecondsNow();
 	}
 
