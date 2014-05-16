@@ -43,17 +43,25 @@ message UnitInfo {
 	optional int32			cost			= 15;
 	optional int32			saleValue		= 16;
 	optional int32			devourValue		= 17;
-	optional EUnitGetWay	getWay			= 18;	
+	optional UnitGetWay		getWay			= 18;
+	optional int32			maxActiveSkillLv= 19;
+	optional int32			maxStar			= 20; //max star to be evolved
 }
 
-enum EUnitGetWay {
+message UnitGetWay {
+	optional EUnitGetType	getType	= 1;
+	repeated uint32			getPath	= 2; //questId, gachaId...
+}
+
+enum EUnitGetType {
 	E_NONE				= 0;
-	E_FREE				= 1;
+	E_QUEST				= 1;
 	E_GACHA_NORMAL		= 2;
 	E_GACHA_EVENT		= 3;
 	E_BUY				= 4;
 }
 
+/////////unsed///////////////////////////////////////////////////////////////////
 message PowerValue {
 	optional int32 level 		= 1; // unit level
 	optional int32 value		= 2;
@@ -62,11 +70,18 @@ message PowerValue {
 message PowerTable {
 	repeated PowerValue	 power	= 1; //has one item for each level
 }
+/////////unsed/////////////////////////////////////////////////////////////////
+
+message PowerInfo {
+	optional int32 min			= 1;
+	optional int32 max			= 2;
+	optional float growCurve	= 3;
+}
 
 message PowerType {
-	optional int32 attackType	= 1;
-	optional int32 hpType		= 2;
-	optional int32 expType		= 3;		
+	optional PowerInfo	attackType	= 1;
+	optional PowerInfo	hpType		= 2;
+	optional PowerInfo	expType		= 3;
 }
 
 message HelperRequire {
