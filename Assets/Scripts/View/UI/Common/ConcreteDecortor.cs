@@ -563,12 +563,12 @@ public class SellDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		SellController sell = CreatComponent< SellController >(UIConfig.sellWindowName);
-		//SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
-	//	sortPanel.SetComponent(counter);
-		sell.SetComponent(counter);
+		sortPanel.SetComponent(counter);
+		sell.SetComponent(sortPanel);
 
 		lastDecorator = sell;
 		lastDecorator.CreatUI();
