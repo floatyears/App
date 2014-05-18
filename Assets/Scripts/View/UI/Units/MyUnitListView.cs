@@ -5,8 +5,6 @@ using System.Collections.Generic;
 public class MyUnitListView : UIComponentUnity {
 	private SortRule curSortRule;
 	private DragPanel dragPanel;
-	private UIButton sortBtn;
-	private UILabel sortRuleLabel;
 	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
 
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
@@ -30,9 +28,6 @@ public class MyUnitListView : UIComponentUnity {
 	}
 
 	private void InitUIElement(){
-		sortBtn = transform.FindChild("Button_Sort").GetComponent<UIButton>();
-		sortRuleLabel = transform.FindChild("Button_Sort/Label_Rule").GetComponent<UILabel>();
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 	}
 
@@ -63,18 +58,10 @@ public class MyUnitListView : UIComponentUnity {
 		if(myUnitList == null){
 			return null;
 		}
-//		List<TUserUnit> unitList = new List<TUserUnit>();
-//		unitList.AddRange(DataCenter.Instance.MyUnitList.GetAll().Values);
-		//Debug.Log("MyUnitListView.GetUnitList(), unitList count is : " + unitList.Count);
 		return myUnitList;
 	}
 
 	private void SortUnitByCurRule(){
-		sortRuleLabel.text = curSortRule.ToString();
-
-		for (int i = 0; i < myUnitDataList.Count; i++){
-			//Debug.Log(string.Format("Before :: myUnitDataList[ {0} ] hp == {1}, atk == {2}", i, myUnitDataList[ i ].Hp, myUnitDataList[ i ].Attack));
-		}
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
@@ -98,9 +85,5 @@ public class MyUnitListView : UIComponentUnity {
 
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
-	}
-
-	private void ClickSortBtn(GameObject btn){
-		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
 	}
 }

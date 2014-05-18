@@ -5,8 +5,6 @@ using System.Collections.Generic;
 public class ApplyView : UIComponentUnity{
 	private SortRule curSortRule;
 	private TFriendInfo curPickedFriend;
-	private UIButton sortBtn;
-	private UILabel sortRuleLabel;
 	private DragPanel dragPanel;
 	private List<TFriendInfo> friendOutDataList = new List<TFriendInfo>();
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -29,9 +27,6 @@ public class ApplyView : UIComponentUnity{
 	}
 	
 	private void InitUIElement(){
-		sortBtn = FindChild<UIButton>("Button_Sort");
-		sortRuleLabel = transform.FindChild("Button_Sort/Label_Rule").GetComponent<UILabel>();
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 	}
 
@@ -93,13 +88,8 @@ public class ApplyView : UIComponentUnity{
 		HideUI();
 		ShowUI();
 	}
-
-	private void ClickSortBtn(GameObject btn){
-		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
-	}
 	
 	private void SortUnitByCurRule(){
-		sortRuleLabel.text = curSortRule.ToString();
 		SortUnitTool.SortByTargetRule(curSortRule, friendOutDataList);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){

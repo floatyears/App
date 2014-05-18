@@ -6,8 +6,6 @@ public class FriendListView : UIComponentUnity{
 	private SortRule curSortRule;
 	private DragPanel dragPanel;
 	private TFriendInfo curPickedFriend;
-	private UIButton sortBtn;
-	private UILabel sortRuleLabel;
 	private UIButton updateBtn;
 	private List<TFriendInfo> friendDataList = new List<TFriendInfo>();
 
@@ -43,11 +41,8 @@ public class FriendListView : UIComponentUnity{
 	}
 
 	void InitUIElement(){
-		sortBtn = FindChild<UIButton>("Button_Sort");
-		sortRuleLabel = transform.FindChild("Button_Sort/Label_Rule").GetComponent<UILabel>();
 		updateBtn = FindChild<UIButton>("Button_Update");
 		UIEventListener.Get(updateBtn.gameObject).onClick = ClickUpdateBtn;
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 	}
 
@@ -173,10 +168,6 @@ public class FriendListView : UIComponentUnity{
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
-	void ClickSortBtn(GameObject btn){
-		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
-	}
-
 	private void ReceiveSortInfo(object msg){
 		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
 		curSortRule = (SortRule)msg;
@@ -184,7 +175,6 @@ public class FriendListView : UIComponentUnity{
 	}
 
 	private void SortUnitByCurRule(){
-		sortRuleLabel.text = curSortRule.ToString();
 		SortUnitTool.SortByTargetRule(curSortRule, friendDataList);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
