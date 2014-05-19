@@ -25,11 +25,11 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 		LogHelper.Log (stepEntity.GetType () + " is execute stepE state_one");
 	
 
-		QuestView qv = GameObject.Find ("HomeWorldMap(Clone)").GetComponent<QuestView>();
-		GameObject cityObj =  qv.GetCityItem (0);
-		NoviceGuideUtil.ForceOneBtnClick (cityObj);
-
-		UIEventListener.Get (cityObj).onClick += TapCityItem;
+//		QuestView qv = GameObject.Find ("HomeWorldMap(Clone)").GetComponent<QuestView>();
+//		GameObject cityObj =  qv.GetCityItem (0);
+//		NoviceGuideUtil.ForceOneBtnClick (cityObj);
+//
+//		UIEventListener.Get (cityObj).onClick += TapCityItem;
 
 	}
 	

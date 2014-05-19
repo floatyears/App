@@ -79,8 +79,10 @@ public class NoviceGuideStepEntityManager {
 			case SceneEnum.Units:
 				if(currentNoviceGuideStage == 3){
 					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS);
-				}else{
+				}else if(currentNoviceGuideStage == 2){
 					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,1);
+				}else{
+				CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,2);	
 				}
 				break;
 			case SceneEnum.Fight:
@@ -97,7 +99,7 @@ public class NoviceGuideStepEntityManager {
 
 	public void NextState()
 	{
-		return;
+		//return;
 		if (currentStep != null ) {
 			if(currentStep.GetStateMachine ().CurrentState != null){
 				currentStep.GetStateMachine ().CurrentState.JumpToNextState = true;

@@ -19,11 +19,11 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_one");
 		
-		MsgWindowParams mwp = new MsgWindowParams ();
+		GuideWindowParams mwp = new GuideWindowParams ();
 		//mwp.btnParams = new BtnParam[1];
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide41_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide41_content");
+		mwp.titleText = TextCenter.Instace.GetCurrentText("guide42_title");
+		mwp.contentText = TextCenter.Instace.GetCurrentText("guide42_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK;
@@ -35,21 +35,23 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 	}
 
 	private void ClickOK(object data){
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(1).gameObject;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(0).gameObject;
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
+
 		UIEventListenerCustom.Get (gm).onClick += OnClickItem;
+		//Debug.LogError ("gm : " + gm);
+		NoviceGuideUtil.ForceOneBtnClick (gm);
 	}
 
 	private void OnClickItem(GameObject gm){
 		UIEventListenerCustom.Get (gm).onClick -= OnClickItem;
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		MsgWindowParams mwp = new MsgWindowParams ();
+		GuideWindowParams mwp = new GuideWindowParams ();
 		//mwp.btnParams = new BtnParam[1];
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide42_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide42_content");
+		mwp.titleText = TextCenter.Instace.GetCurrentText("guide43_title");
+		mwp.contentText = TextCenter.Instace.GetCurrentText("guide43_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK1;
@@ -62,20 +64,21 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 
 	private void ClickOK1(object data){
 		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(-1).gameObject;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
 		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
+		NoviceGuideUtil.ForceOneBtnClick (gm);
 	}
 
 	private void OnClickItem1(GameObject gm){
 		UIEventListenerCustom.Get (gm).onClick -= OnClickItem1;
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		MsgWindowParams mwp = new MsgWindowParams ();
+		GuideWindowParams mwp = new GuideWindowParams ();
 		//mwp.btnParams = new BtnParam[1];
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide43_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide43_content");
+		mwp.titleText = TextCenter.Instace.GetCurrentText("guide44_title");
+		mwp.contentText = TextCenter.Instace.GetCurrentText("guide44_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK2;
@@ -87,9 +90,10 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 
 	private void ClickOK2(object data){
 		GameObject gm = GameObject.FindWithTag ("level_up_friend");
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+
 		UIEventListenerCustom.Get (gm).onClick += OnClickFriend;
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
+		NoviceGuideUtil.ForceOneBtnClick (gm);
 
 	}
 
@@ -128,11 +132,11 @@ public class NoviceGuideStepI_StateTwo:NoviceGuidState{
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_two");
 		
-		MsgWindowParams mwp = new MsgWindowParams ();
+		GuideWindowParams mwp = new GuideWindowParams ();
 		//mwp.btnParams = new BtnParam[1];
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide44_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide44_content");
+		mwp.titleText = TextCenter.Instace.GetCurrentText("guide45_title");
+		mwp.contentText = TextCenter.Instace.GetCurrentText("guide45_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK;
@@ -186,7 +190,7 @@ public class NoviceGuideStepI_StateThree:NoviceGuidState{
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_three");
 		
-		GameObject gm = GameObject.FindWithTag ("levell_up_btn");
+		GameObject gm = GameObject.FindWithTag ("level_up_btn");
 		NoviceGuideUtil.ForceOneBtnClick (gm);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
 		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
@@ -196,15 +200,13 @@ public class NoviceGuideStepI_StateThree:NoviceGuidState{
 	private void OnClickLevelUp(GameObject gm){
 		UIEventListenerCustom.Get (gm).onClick -= OnClickLevelUp;
 		NoviceGuideUtil.RemoveAllArrows ();
-		
-		JumpToNextState = true;
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
 	{
 		
 		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepI_StateFour.Instance());
 		}
 		else{
 			
@@ -228,20 +230,43 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_three");
-		
-		GameObject gm = GameObject.FindWithTag ("level_up_btn");
-		NoviceGuideUtil.ForceOneBtnClick (gm);
-		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
-		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
+		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_four");
+
+		UIManager.Instance.forbidChangeScene = true;
+
+		MsgCenter.Instance.AddListener (CommandEnum.levelDone, OnLevelDone);
+
 	}
 	
-	
+	private void OnLevelDone(object data){
+		UIManager.Instance.forbidChangeScene = false;
+
+		GuideWindowParams mwp = new GuideWindowParams ();
+		//mwp.btnParams = new BtnParam[1];
+		mwp.btnParam = new BtnParam ();
+		mwp.titleText = TextCenter.Instace.GetCurrentText("guide46_title");
+		mwp.contentText = TextCenter.Instace.GetCurrentText("guide46_content");
+		
+		BtnParam sure = new BtnParam ();
+		sure.callback = ClickOK;
+		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		mwp.btnParam = sure;
+		
+		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+	}
+
+	private void ClickOK(object data){
+		GameObject gm = GameObject.FindWithTag ("scene_back_btn");
+		
+		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
+		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
+		NoviceGuideUtil.ForceOneBtnClick (gm);
+	}
+
 	private void OnClickLevelUp(GameObject gm){
 		UIEventListenerCustom.Get (gm).onClick -= OnClickLevelUp;
-		NoviceGuideUtil.RemoveAllArrows ();
-		
-		JumpToNextState = true;
+		NoviceGuideUtil.ForceOneBtnClick (gm);
+
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -253,6 +278,11 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 		else{
 			
 		}
+	}
+
+	public override void Exit (NoviceGuideStepEntity stepEntity)
+	{
+		NoviceGuideUtil.RemoveAllArrows ();
 	}
 	
 }

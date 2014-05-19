@@ -82,7 +82,7 @@ public class TouchEventBlocker{
 	}
 	
 	private void SetBlocked(bool isBlocked){
-//		Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
+		//Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
 		if (isBlocked){	
 			if(nguiCamera.eventReceiverMask != LayerMask.NameToLayer(blockerLayerName) << blockerLayer){
 				originLayer = nguiCamera.eventReceiverMask;

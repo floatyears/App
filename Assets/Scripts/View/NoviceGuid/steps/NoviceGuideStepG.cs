@@ -69,7 +69,23 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepG state_two");
 		
+
+		GuideWindowParams mwp = new GuideWindowParams ();
+		//mwp.btnParams = new BtnParam[1];
+		mwp.btnParam = new BtnParam ();
+		mwp.titleText = TextCenter.Instace.GetCurrentText("guide41_title");
+		mwp.contentText = TextCenter.Instace.GetCurrentText("guide41_content");
 		
+		BtnParam sure = new BtnParam ();
+		sure.callback = ClickOK;
+		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		mwp.btnParam = sure;
+		
+		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+		
+	}
+
+	private void ClickOK(object data){
 		GameObject party = GameObject.FindWithTag ("level_up");
 		
 		//LogHelper.Log (party.name);
@@ -78,7 +94,6 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
 		
 		UIEventListener.Get (party).onClick += TapParty;
-		
 	}
 	
 	private void TapParty(GameObject btn)
@@ -116,7 +131,7 @@ public class NoviceGuideStepG_StateThree:NoviceGuidState{
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepG state_two");
+		LogHelper.Log (stepEntity.GetType () + " is execute stepG state_three");
 		
 		
 		GameObject party = GameObject.FindWithTag ("evolve");

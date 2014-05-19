@@ -58,28 +58,20 @@ public class MainMenuView : UIComponentUnity {
 	private void ClickMenuBtn( GameObject btn ) {
 		//Debug.Log("ClickMenuBtn(), btn name is : " + btn.name);
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-<<<<<<< HEAD
-		if (!temp) {
-			return;
-		}
 
-		SceneEnum se = buttonInfo [caller];
-		if (iuiCallback == null) {
-			iuiCallback = origin as IUICallback;
-		} 
-		Umeng.GA.Event ("BottomMenu",se.ToString ());
-
-		iuiCallback.CallbackView(se);
-=======
 		SceneEnum targetScene = buttonInfo [ btn ];
 		UIManager.Instance.ChangeScene(targetScene);
->>>>>>> 18d472b95bbfdf1d806f13a98001f66be674d814
+
+		Umeng.GA.Event ("BottomMenu",targetScene.ToString ());
+
 	}
 
     void SetMenuValid(object args){
         bool valid = (bool)args;
         foreach (var item in buttonInfo.Keys) {
           UIButtonScale btnScale = item.GetComponent<UIButtonScale>() ;
+			if(btnScale == null)
+				continue;
             btnScale.enabled = valid;
             Debug.LogError("SetMenuValid(), btnScale is : " + valid);
             if(valid)  UIEventListener.Get(item).onClick += ClickMenuBtn; 

@@ -12,7 +12,7 @@ public class NoviceGuideUtil {
 
 	private static GameObject tipText;
 
-	private static UIEventListener.VoidDelegate clickDelegate;
+	private static UIEventListenerCustom.VoidDelegate clickDelegate;
 
 	private static UIEventListenerCustom.LongPressDelegate pressDelegate;
 
@@ -151,10 +151,10 @@ public class NoviceGuideUtil {
 		camLastLayer = mainCam.eventReceiverMask;
 
 		//TODO:Change the execute order....this may be different in different platform
-		clickDelegate = UIEventListener.Get (obj).onClick;
-		UIEventListener.Get (obj).onClick = null;
-		UIEventListener.Get (obj).onClick += BtnClick;
-		UIEventListener.Get (obj).onClick += clickDelegate;
+ 		clickDelegate = UIEventListenerCustom.Get (obj).onClick;
+		UIEventListenerCustom.Get (obj).onClick = null;
+		UIEventListenerCustom.Get (obj).onClick += BtnClick;
+		UIEventListenerCustom.Get (obj).onClick += clickDelegate;
 		clickDelegate = null;
 		
 		oneBtnClickLayer = obj.layer;
@@ -177,7 +177,7 @@ public class NoviceGuideUtil {
 
 	}
 
-	public static void ForceBtnsClick(GameObject[] objs,UIEventListener.VoidDelegate clickCalback){
+	public static void ForceBtnsClick(GameObject[] objs,UIEventListenerCustom.VoidDelegate clickCalback){
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
 		camLastLayer = mainCam.eventReceiverMask;
 		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
@@ -188,11 +188,11 @@ public class NoviceGuideUtil {
 		
 		clickDelegate = clickCalback;
 		foreach (GameObject item in objs) {
-			clickDelegate = UIEventListener.Get (item).onClick;
-			UIEventListener.Get (item).onClick = null;
-			UIEventListener.Get (item).onClick += MultiBtnClick;
-			UIEventListener.Get (item).onClick += clickCalback;
-			UIEventListener.Get (item).onClick += clickDelegate;
+			clickDelegate = UIEventListenerCustom.Get (item).onClick;
+			UIEventListenerCustom.Get (item).onClick = null;
+			UIEventListenerCustom.Get (item).onClick += MultiBtnClick;
+			UIEventListenerCustom.Get (item).onClick += clickCalback;
+			UIEventListenerCustom.Get (item).onClick += clickDelegate;
 			clickDelegate = clickCalback;
 			oneBtnClickLayer = item.layer;
 			item.layer = LayerMask.NameToLayer ("NoviceGuide");
@@ -207,8 +207,8 @@ public class NoviceGuideUtil {
 		mainCam.eventReceiverMask = camLastLayer;
 
 		foreach (GameObject item in multiBtns) {
-			UIEventListener.Get (item).onClick -= MultiBtnClick;
-			UIEventListener.Get (item).onClick -= clickDelegate;
+			UIEventListenerCustom.Get (item).onClick -= MultiBtnClick;
+			UIEventListenerCustom.Get (item).onClick -= clickDelegate;
 			item.layer = oneBtnClickLayer;
 			LogHelper.Log("======multi btns layer: "+item.layer);
 		}

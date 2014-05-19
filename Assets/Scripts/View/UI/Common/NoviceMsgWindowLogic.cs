@@ -35,7 +35,7 @@ public class NoviceMsgWindowLogic : ConcreteComponent{
 	
 	
 	void OpenGuideMsgWindow(object msg){ 
-		LogHelper.Log ("------------open novice guide msg window");
+		LogHelper.Log ("------------open novice guide msg window"+msg.ToString());
 		//		Debug.LogError ("MsgWindowLogic : OpenMsgWindow ");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
 		ExcuteCallback(cbdArgs);

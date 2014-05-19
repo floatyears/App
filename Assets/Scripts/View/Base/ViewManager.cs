@@ -170,7 +170,8 @@ public class ViewManager {
 		if (component == null) {
 			return;	
 		}
-		
+
+		//Debug.Log ("-------"+component);
 		UIInsConfig config = component.uiConfig;
 		string name = config.uiName;
 		

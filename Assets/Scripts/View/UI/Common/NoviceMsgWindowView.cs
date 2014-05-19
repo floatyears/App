@@ -162,6 +162,7 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	
 	public override void CallbackView(object data){
 
+		//LogHelper.Log ("novice msg window callback");
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
 		switch (cbdArgs.funcName){
@@ -177,6 +178,7 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	}
 	
 	void SetLayerToBlocker(bool toBlocker){
+		LogHelper.Log("SetLayerToBlocker() before, {0}", Main.Instance.NguiCamera.eventReceiverMask.ToString());
 		LogHelper.Log("SetLayerToBlocker(), {0}", toBlocker);
 		if (toBlocker){
 			mask.gameObject.SetActive(true);
@@ -338,10 +340,14 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	
 	void ShowMsgWindow(object args){
 
+
+
 		GuideWindowParams nextMsgWindowParams = args as GuideWindowParams;
 		if (nextMsgWindowParams == null){
 			return;
 		}
+
+//		LogHelper.Log ("show novice msg window"+args);
 		msgWindowParams = nextMsgWindowParams;
 		ShowSelf(true);  
 		LogHelper.Log("UpdateNotePanel() start");
