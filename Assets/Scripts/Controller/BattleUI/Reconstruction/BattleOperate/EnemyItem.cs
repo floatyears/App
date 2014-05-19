@@ -7,6 +7,9 @@ public class EnemyItem : UIBaseUnity {
     public TEnemyInfo enemyInfo;
     [HideInInspector]
     public UITexture texture;
+	[HideInInspector]
+	public TUnitInfo enemyUnitInfo;
+
     private UISprite dropTexture;
     private UILabel bloodLabel;
     private UISprite bloodSprite;
@@ -163,8 +166,8 @@ public class EnemyItem : UIBaseUnity {
         enemyInfo = te;
         hurtValueLabel.gameObject.SetActive(false);
         SetData(te);
-		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
-		Texture2D tex = tui.GetAsset(UnitAssetType.Profile);
+		enemyUnitInfo = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
+		Texture2D tex = enemyUnitInfo.GetAsset(UnitAssetType.Profile);
 		if (tex == null) {
 			texture.mainTexture = null;
 			return;		

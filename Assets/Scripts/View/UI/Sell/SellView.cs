@@ -7,8 +7,6 @@ public class SellView : UIComponentUnity{
 	private DragPanel dragPanel;
 	private GameObject mainRoot;
 	private GameObject submitRoot;
-	private UIButton sortBtn;
-	private UILabel sortRuleLabel;
 	private SortRule curSortRule;
 	private UIButton lastSureOkBtn;
 	private UIButton lastSureCancelBtn;
@@ -183,12 +181,7 @@ public class SellView : UIComponentUnity{
 		UIEventListener.Get(lastSureCancelBtn.gameObject).onClick = ClickSellCancel;
 		InitCells();
 
-		sortBtn = FindChild<UIButton>("MainWindow/SortButton");
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
-		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
-
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
-		sortRuleLabel.text = curSortRule.ToString();
 	}
 
 	void ClickSellBtn(GameObject btn){
@@ -351,11 +344,6 @@ public class SellView : UIComponentUnity{
 		return pickedCount;
 	}
 
-	private void ClickSortBtn(GameObject btn){
-		Debug.Log("SellView.ClickSortBtn()...");
-		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
-	}
-
 	private void ReceiveSortInfo(object msg){
 		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
 		curSortRule = (SortRule)msg;
@@ -363,7 +351,6 @@ public class SellView : UIComponentUnity{
 	}
 
 	private void SortUnitByCurRule(){
-		sortRuleLabel.text = curSortRule.ToString();	
 		List<TUserUnit> unitList = new List<TUserUnit>();
 		for (int i = 0; i < saleUnitViewList.Count; i++){
 			unitList.Add(saleUnitViewList[ i ].UserUnit);

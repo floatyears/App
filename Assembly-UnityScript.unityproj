@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{AEFEC2DF-F31E-456D-776F-4D1E7018C302}</ProjectGuid>
+	<ProjectGuid>{0B52DAA7-1F3A-2857-70F3-497BEB21E178}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -134,15 +134,12 @@
      <None Include="Assets\Resources\Shaders\DepthMask.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Dynamic Font (SoftClip).shader" />
      <None Include="Assets\Resources\Shaders\Mask.shader" />
-     <None Include="Assets\version.txt" />
-     <None Include="Assets\ResourceDownloadTest\version.txt" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\resources\BlendVertexColor.shader" />
      <None Include="Assets\Resources\Config\Config.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitCutoutVertexColor.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
-     <None Include="Assets\ResourceDownloadTest\LocalTest\version.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Dynamic Font.shader" />
      <None Include="Assets\External\NGUI\ReadMe - 3.0.6 f7.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
@@ -160,23 +157,16 @@
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito32.fnt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
      <None Include="Assets\External\NGUI\Examples\Shaders\Refractive.shader" />
-     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Depth.shader" />
      <None Include="Assets\External\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
      <None Include="Assets\External\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\AdditiveVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d_demo\democameradata\source\democamerafont.fnt" />
- <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid">
- <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid.dll</HintPath>
- </Reference>
- <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS">
- <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS.dll</HintPath>
- </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{5D5A6903-28E8-5936-8EB5-A4F7DE90A2EC}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{03BC4DAD-B9A3-D22A-B7C9-C3E8E8E26510}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

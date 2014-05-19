@@ -1,24 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TrapPosion : TrapBase, ITrapExcute {
+public class TrapPosion : TrapBase {
 	public TrapPosion (object instance) : base (instance) {
 		trapEffectType = TrapInjuredInfo.stateException;
-		round = (int)GetTrap.effectType;
+	}
+	
+	public override void Excute () {
+		Round = (int)GetTrap.effectType;
+		ConfigBattleUseData.Instance.trapPoison = this;
+		ExcuteByDisk ();
 	}
 
-	int round = 0;
-	public void Excute () {
-		if (round > 0) {
-			MsgCenter.Instance.AddListener(CommandEnum.MoveToMapItem, RoleMove);
-			MsgCenter.Instance.AddListener(CommandEnum.EnemyAttackEnd, EnemyAttak);
-			CountDownRound ();
-		}
+	public override void ExcuteByDisk() {
+		MsgCenter.Instance.AddListener(CommandEnum.MoveToMapItem, RoleMove);
+		MsgCenter.Instance.AddListener(CommandEnum.EnemyAttackEnd, EnemyAttak);
+		CountDownRound ();
 	}
 	
 	void RoleMove(object data) {
 		ExcuteTrap ();
-		if (round != 0) {
+		if (Round != 0) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk_hurt);
 		}
 	}
@@ -28,21 +30,19 @@ public class TrapPosion : TrapBase, ITrapExcute {
 	}
 
 	void ExcuteTrap () {
-		if (round == 0) {
-			ViewManager.Instance.TrapLabel.text = "";
+		if (Round == 0) {
+			ConfigBattleUseData.Instance.trapPoison = null;
 			MsgCenter.Instance.RemoveListener(CommandEnum.MoveToMapItem, RoleMove);
 			MsgCenter.Instance.RemoveListener(CommandEnum.EnemyAttackEnd, EnemyAttak);
-			MsgCenter.Instance.Invoke (CommandEnum.PlayerPosion, round);
-			round = (int)GetTrap.effectType;
+			MsgCenter.Instance.Invoke (CommandEnum.PlayerPosion, Round);
 			return;
 		}
-
 		CountDownRound ();
 	}
 
 	void CountDownRound () {
-		MsgCenter.Instance.Invoke (CommandEnum.PlayerPosion, round);
+		MsgCenter.Instance.Invoke (CommandEnum.PlayerPosion, Round);
 		MsgCenter.Instance.Invoke(CommandEnum.InjuredNotDead, GetInjuredValue.trapValue);
-		round--;
+		Round--;
 	}
 }

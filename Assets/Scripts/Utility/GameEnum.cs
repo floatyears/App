@@ -6,7 +6,7 @@ public enum SceneEnum
 
 	Start,
 
-	Quest,
+	World,
 
 	Friends,
 
@@ -24,7 +24,7 @@ public enum SceneEnum
 
 	Units,
 
-	QuestSelect,
+	Stage,
 
 	FriendSelect,
 
@@ -60,7 +60,9 @@ public enum SceneEnum
 
 	Result,
 
-	StandBy
+	StandBy,
+
+	Quest
 }
 
 public enum CommandEnum{
@@ -73,6 +75,7 @@ public enum CommandEnum{
     EvolveSaveState,
     PartySaveState,
     BackSceneEnable,
+	levelDone,
 	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 				= 1002,
 	StartAttack					= 1003,
@@ -234,6 +237,8 @@ public enum CommandEnum{
 
 	RefreshItemCount				= 4063,
 
+	ShowHomeBgMask,
+
 	ShowFriendPointUpdateResult					= 4064,
 	PickOnSaleUnit				= 4065,
 	SortByRule							= 4066,
@@ -243,6 +248,8 @@ public enum CommandEnum{
 	TransPickedCity					= 4068,
 	OnPickQuest,
 	OnPickHelper,
+	ActivateSortBtn,
+	GetQuestInfo,
 
     WaitResponse,
     SetBlocker,

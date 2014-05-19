@@ -356,7 +356,7 @@ public class TUserUnit : ProtobufDataBase {
 		}
 		return total;
 	}
-	
+
     public int Exp {
         get{
             return instance.exp;
@@ -389,12 +389,12 @@ public class TUserUnit : ProtobufDataBase {
             return System.Convert.ToInt32(blood);
         }
     }
-	
-	public int Blood {
-		get {
+
+    public int Blood {
+        get {
 			return InitBlood;
-		}
-	}
+        }
+    }
 
     public UserUnit Object {
         get { return instance; }

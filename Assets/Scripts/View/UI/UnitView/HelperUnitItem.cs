@@ -4,6 +4,7 @@ using System.Collections;
 public class HelperUnitItem : FriendUnitItem {
 	private UILabel typeLabel;
 	private UILabel pointLabel;
+	private UILabel rankLabel;
 	public delegate void UnitItemCallback(HelperUnitItem huv);
 	public UnitItemCallback callback;
 	
@@ -22,6 +23,7 @@ public class HelperUnitItem : FriendUnitItem {
 		base.SetCommonState();
 		InitFriendType();
 		InitFriendPoint();
+		InitRank();
 	}
 	
 	private static GameObject itemPrefab;
@@ -36,7 +38,7 @@ public class HelperUnitItem : FriendUnitItem {
 	}
 
 	public static HelperUnitItem Inject(GameObject item){
-		HelperUnitItem view = item.AddComponent<HelperUnitItem>();
+		HelperUnitItem view = item.GetComponent<HelperUnitItem>();
 		if (view == null)
 			view = item.AddComponent<HelperUnitItem>();
 		return view;
@@ -52,23 +54,25 @@ public class HelperUnitItem : FriendUnitItem {
 		base.InitUI();
 		typeLabel = transform.FindChild("Label_Friend_Type").GetComponent<UILabel>();
 		pointLabel = transform.FindChild("Label_Friend_Point").GetComponent<UILabel>();
+		rankLabel = transform.FindChild("Label_Rank").GetComponent<UILabel>();
 	}
 
 	protected override void InitState(){
 		base.InitState();
 		InitFriendType();
 		InitFriendPoint();
+		InitRank();
 	}
 
 	private void InitFriendType(){
 		switch (friendInfo.FriendState) {
 			case bbproto.EFriendState.FRIENDHELPER : 
-				typeLabel.text = "Support";
+				typeLabel.text = "SUPPORT";
 				typeLabel.color = Color.green;
 				pointLabel.color = Color.green;
 				break;
 			case bbproto.EFriendState.ISFRIEND : 
-				typeLabel.text = "Friend";
+				typeLabel.text = "FRIEND";
 				typeLabel.color = Color.yellow;
 				pointLabel.color = Color.yellow;
 				break;
@@ -80,10 +84,16 @@ public class HelperUnitItem : FriendUnitItem {
 
 	private void InitFriendPoint(){
 		if(friendInfo.FriendPoint != 0){
-			pointLabel.text = string.Format("{0}pt", friendInfo.FriendPoint.ToString());
+			pointLabel.text = string.Format("{0}PT", friendInfo.FriendPoint.ToString());
 		}
 		else{
 			pointLabel.text = string.Empty;
 		}
 	}
+
+	private void InitRank(){
+		rankLabel.text = "RANK : " + friendInfo.Rank;
+	}
+
+
 }

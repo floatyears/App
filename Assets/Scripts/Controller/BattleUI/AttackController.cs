@@ -19,7 +19,6 @@ public class AttackController {
 			grid = value;
 			enemyInfo = new List<TEnemyInfo>();
 			foreach (var item in value.Enemy) {
-//				Debug.LogError(item.EnemyID + " item.enemysymbol : " + item.EnemySymbol);
 				enemyInfo.Add(item);
 			}
 
@@ -34,7 +33,7 @@ public class AttackController {
 	private ConfigBattleUseData configBattleUseData;
 
 	public bool isBoss = false;
-	public AttackController (BattleUseData bud,IExcutePassiveSkill ips,TUnitParty tup) {
+	public AttackController (BattleUseData bud, IExcutePassiveSkill ips, TUnitParty tup) {
 		upi = tup;
 		msgCenter = MsgCenter.Instance;
 		this.bud = bud;
@@ -83,8 +82,6 @@ public class AttackController {
 		}
 		CheckBattleSuccess ();
 	}
-
-//	TClass<string,int,float> reduceInfo = null;
 
 	AttackInfo reduceInfo = null;
 	void ReduceDefense(object data) {
@@ -145,7 +142,6 @@ public class AttackController {
 		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		MultipleAttack (attack);
-//		attackInfo = attack;
 		foreach (var item in attack) {
 			attackInfoQueue.Enqueue(item);
 		}
@@ -179,7 +175,7 @@ public class AttackController {
 
 	bool CheckAttackInfo () {
 		if (attackInfoQueue == null || attackInfoQueue.Count == 0) {
-			return false;		
+			return false;	
 		}
 		else {
 			return true;		

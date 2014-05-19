@@ -13,7 +13,7 @@ public class PartyView : UIComponentUnity{
 	private UILabel sortRuleLabel;
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
-	private UIButton sortBtn;
+//	private UIButton sortBtn;
 	private GameObject topRoot;
 	private GameObject bottomRoot;
 	private MyUnitItem pickedFromParty;
@@ -68,9 +68,9 @@ public class PartyView : UIComponentUnity{
 		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
 		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
 
-		sortBtn = FindChild<UIButton>("Bottom/Button_Sort");
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
-		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
+//		sortBtn = FindChild<UIButton>("Bottom/Button_Sort");
+//		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
+//		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
 
 		for (int i = 0; i < 4; i++){
 			GameObject item = topRoot.transform.FindChild(i.ToString()).gameObject;
@@ -392,7 +392,7 @@ public class PartyView : UIComponentUnity{
 		}
 
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
-		sortRuleLabel.text = curSortRule.ToString();
+		//sortRuleLabel.text = curSortRule.ToString();
 	}
 
 	private void RejectPartyMember(GameObject item){
@@ -506,7 +506,7 @@ public class PartyView : UIComponentUnity{
 	}
 
 	private void SortUnitByCurRule(){
-		sortRuleLabel.text = curSortRule.ToString();
+		//sortRuleLabel.text = curSortRule.ToString();
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 		for (int i = unitItemStartPos; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();

@@ -111,7 +111,7 @@ public class UIManager {
 
 	public void ExitBattle () {
 		Resources.UnloadUnusedAssets ();
-		ChangeScene (SceneEnum.Quest);
+		ChangeScene (SceneEnum.World);
 
 	}
 
@@ -161,7 +161,7 @@ public class UIManager {
             temp = new LoadingDecorator( sEnum );
             break;
 
-		case SceneEnum.Quest:
+		case SceneEnum.World:
 			temp = new QuestDecorator( sEnum );
 			break;
 
@@ -210,7 +210,7 @@ public class UIManager {
 			temp = new CatalogDecorator( sEnum );
 			break;
 
-		case SceneEnum.QuestSelect:
+		case SceneEnum.Stage:
 			temp = new QuestSelectDecorator( sEnum );
 			break;
 			
@@ -270,6 +270,10 @@ public class UIManager {
 			temp = new StandByDecorator( sEnum );
 			break;
 
+		case SceneEnum.Quest:
+			temp = new NewQuestSelectDecorator( sEnum );
+			break;
+
         }
 		if (temp != null) {
 			temp.SetDecorator (baseScene);
@@ -281,7 +285,7 @@ public class UIManager {
 	}
 
     private void InvokeSceneClear(SceneEnum nextScene){
-        if (baseScene.CurrentScene == SceneEnum.FriendSelect && nextScene == SceneEnum.QuestSelect){
+        if (baseScene.CurrentScene == SceneEnum.FriendSelect && nextScene == SceneEnum.Stage){
             MsgCenter.Instance.Invoke(CommandEnum.QuestSelectSaveState);
         }
         else if (baseScene.CurrentScene == SceneEnum.UnitDetail){

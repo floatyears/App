@@ -3,8 +3,8 @@ using System.Collections;
 
 public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool{
 	
-	private UILabel labelSceneName;
-	private UIImageButton btnBackScene;
+	private UILabel sceneNameLabel;
+	private UIButton backBtn;
 
 	private IUICallback iuiCallback; 
 	private bool temp = false;
@@ -17,14 +17,12 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 	
 	public override void ShowUI () {
-        LogHelper.Log("SceneInfobar.ShowUI()");
 		base.ShowUI ();
 		ShowTween();
 
 	}
 	
 	public override void HideUI () {
-        LogHelper.Log("SceneInfobar.HideUI()");
 		base.HideUI ();
 	}
 	
@@ -33,10 +31,10 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 
 	private void InitUI() {
-		labelSceneName = FindChild< UILabel >( "ImgBtn_Back_Scene/Label_Scene_Name" );
-		btnBackScene =  FindChild< UIImageButton >( "ImgBtn_Back_Scene" );
+		sceneNameLabel = FindChild< UILabel >( "SceneTip/Label" );
+		backBtn =  FindChild< UIButton >( "Button_Back" );
 
-		UIEventListener.Get( btnBackScene.gameObject ).onClick = BackPreScene;
+		UIEventListener.Get( backBtn.gameObject ).onClick = BackPreScene;
 	}
 	
 	public void CallbackView (object data) {
@@ -47,13 +45,12 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 		catch (System.Exception ex) {
 		}
 		if(!string.IsNullOrEmpty(info)){
-			labelSceneName.text = info;
+			sceneNameLabel.text = info;
 		}
 	}
 
-	public void SetEnable (bool b)
-	{
-		btnBackScene.isEnabled = b;
+	public void SetBackBtnActive (bool canBack){
+		backBtn.gameObject.SetActive( canBack );
 	}
 
 	public void BackPreScene (GameObject go) {
@@ -72,18 +69,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 		}
 	}
 
-	private void ShowTween()
-	{
-		TweenPosition[ ] list = 
-			gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)
-			return;
-		foreach (var tweenPos in list)
-		{		
-			if (tweenPos == null)
-				continue;
-			tweenPos.Reset();
-			tweenPos.PlayForward();
-		}
+	private void ShowTween(){
+		iTween.MoveFrom(gameObject, iTween.Hash("y", 50.0f, "time", 0.3f));
 	}
 }

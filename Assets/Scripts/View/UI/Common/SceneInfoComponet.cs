@@ -22,7 +22,6 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	}
 	
 	public override void DestoryUI () {
-//		Debug.LogError ("SCENEINFO COMPONENT : ");
 		base.DestoryUI ();
 	}
 
@@ -40,21 +39,21 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 
 	private SceneEnum backScene = SceneEnum.None;
 
-	public void SetBackScene(SceneEnum se) {
+	public void SetBackScene(SceneEnum scene) {
 		if( viewComponent is IUISetBool) {
 			IUISetBool sb = viewComponent as IUISetBool;
-			if(se == SceneEnum.None) {
-				sb.SetEnable(false);
+			if(scene == SceneEnum.None) {
+				sb.SetBackBtnActive(false);
 			}
 			else {
-				backScene = se;
-				sb.SetEnable(true);
+				backScene = scene;
+				sb.SetBackBtnActive(true);
 			}
 		}
 	}
 
     public void BackSceneEnable(object args){
         IUISetBool sb = viewComponent as IUISetBool;
-        sb.SetEnable((bool)args);
+        sb.SetBackBtnActive((bool)args);
     }
 }
