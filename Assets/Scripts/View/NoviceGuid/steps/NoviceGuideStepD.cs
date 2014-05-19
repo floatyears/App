@@ -21,7 +21,7 @@ public class NoviceGuideStepD_StateOne:NoviceGuidState
 		MsgWindowView mwv = GameObject.Find ("CommonNoteWindow(Clone)").GetComponent<MsgWindowView> ();
 
 		UIButton cwLBtn = mwv.BtnLeft;
-		UIEventListener.Get (cwLBtn.gameObject).onClick += clickLeftBtn;
+		UIEventListenerCustom.Get (cwLBtn.gameObject).onClick += clickLeftBtn;
 
 		NoviceGuideUtil.ShowArrow (new GameObject[]{cwLBtn.gameObject},new Vector3[]{new Vector3(0,0,3)});
 
@@ -33,7 +33,7 @@ public class NoviceGuideStepD_StateOne:NoviceGuidState
 		MsgWindowView mwv = GameObject.Find ("CommonNoteWindow(Clone)").GetComponent<MsgWindowView> ();
 
 		UIButton cwLBtn = mwv.BtnLeft;
-		UIEventListener.Get (cwLBtn.gameObject).onClick -= clickLeftBtn;
+		UIEventListenerCustom.Get (cwLBtn.gameObject).onClick -= clickLeftBtn;
 
 		NoviceGuideUtil.RemoveArrow (btn);
 

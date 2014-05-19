@@ -9,21 +9,25 @@ public class NoviceGuideStepEntity {
 
 	private static ArrayList idList = new ArrayList();
 
-	public NoviceGuideStepEntity(NoviceGuideStepEntityID stepID,NoviceGuidState currentState, NoviceGuidState globalState)
+	private NoviceGuidState startState;
+
+	public NoviceGuideStepEntity(NoviceGuideStepEntityID stepID,NoviceGuidState sState, NoviceGuidState globalState)
 	{
 		ID = stepID;
 		stateMachine = new NoviceGuidStateMachine (this);
-		stateMachine.CurrentState = currentState;
+		stateMachine.CurrentState = sState;
 		stateMachine.GlobalState = globalState;
+		this.startState = sState;
 		NoviceGuideStepEntityManager.Instance ().AddStepEntity (this);
 	}
 
-	public NoviceGuideStepEntity(NoviceGuideStepEntityID stepID,NoviceGuidState currentState)
+	public NoviceGuideStepEntity(NoviceGuideStepEntityID stepID,NoviceGuidState sState)
 	{
 		ID = stepID;
 		stateMachine = new NoviceGuidStateMachine (this);
-		stateMachine.CurrentState = currentState;
+		stateMachine.CurrentState = sState;
 		stateMachine.GlobalState = null;
+		this.startState = sState;
 		NoviceGuideStepEntityManager.Instance ().AddStepEntity (this);
 	}
 
@@ -38,6 +42,11 @@ public class NoviceGuideStepEntity {
 			idList.Add(value);
 			_id = value;
 		}
+	}
+
+	public NoviceGuidState StartState {
+		get{ return startState;}
+		private set{startState = value;}
 	}
 	
 	public void Update () {

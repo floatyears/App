@@ -258,17 +258,27 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 	private void ClickOK(object data){
 		GameObject gm = GameObject.FindWithTag ("scene_back_btn");
 		
-		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
-		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
+		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
+		UIEventListenerCustom.Get (gm).onClick += OnClickBack;
 		NoviceGuideUtil.ForceOneBtnClick (gm);
 	}
 
-	private void OnClickLevelUp(GameObject gm){
-		UIEventListenerCustom.Get (gm).onClick -= OnClickLevelUp;
+	private void OnClickBack(GameObject gm){
+		UIEventListenerCustom.Get (gm).onClick -= OnClickBack;
+		UIEventListenerCustom.Get (gm).onClick += OnClickBack1;
 		NoviceGuideUtil.ForceOneBtnClick (gm);
 
+
 	}
-	
+
+	private void OnClickBack1(GameObject gm){
+		UIEventListenerCustom.Get (gm).onClick -= OnClickBack1;
+		NoviceGuideUtil.RemoveAllArrows ();
+		JumpToNextState = true;
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage++;
+	}
+
 	public override void Execute(NoviceGuideStepEntity stepEntity)
 	{
 		
@@ -280,10 +290,49 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 		}
 	}
 
-	public override void Exit (NoviceGuideStepEntity stepEntity)
-	{
-		NoviceGuideUtil.RemoveAllArrows ();
-	}
-	
 }
+
+//public class NoviceGuideStepI_StateFive:NoviceGuidState{
+//	
+//	private static NoviceGuideStepI_StateFive instance;
+//	
+//	public static NoviceGuideStepI_StateFive Instance()
+//	{
+//		if (instance == null)
+//			instance = new NoviceGuideStepI_StateFive ();
+//		return instance;
+//	}
+//	
+//	private NoviceGuideStepI_StateFive ():base()	{}
+//	
+//	public override void Enter(NoviceGuideStepEntity stepEntity)
+//	{
+//		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_five");
+//		
+//		GameObject gm = GameObject.FindWithTag ("scene_back_btn");
+//		
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
+//		UIEventListenerCustom.Get (gm).onClick += OnClickBack;
+//		NoviceGuideUtil.ForceOneBtnClick (gm);
+//	}
+//	
+//	private void OnClickBack(GameObject gm){
+//		UIEventListenerCustom.Get (gm).onClick -= OnClickBack;
+//		NoviceGuideUtil.RemoveAllArrows();
+//
+//		NoviceGuideStepEntityManager.CurrentNoviceGuideStage++;
+//	}
+//	
+//	public override void Execute(NoviceGuideStepEntity stepEntity)
+//	{
+//		
+//		if (JumpToNextState) {
+//			stepEntity.GetStateMachine ().ChangeState (null);
+//		}
+//		else{
+//			
+//		}
+//	}
+//	
+//}
 

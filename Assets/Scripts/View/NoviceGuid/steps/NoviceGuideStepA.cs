@@ -47,7 +47,7 @@ public class NoviceGuideStepA_StateOne:NoviceGuidState
 	{
 		LogHelper.Log (stepEntity.GetType () + " get into stepA state_one");
 
-		MsgWindowParams mwp = new MsgWindowParams ();
+		GuideWindowParams mwp = new GuideWindowParams ();
 		//mwp.btnParams = new BtnParam[1];
 		mwp.btnParam = new BtnParam ();
 		mwp.titleText = TextCenter.Instace.GetCurrentText("guide1_title");
