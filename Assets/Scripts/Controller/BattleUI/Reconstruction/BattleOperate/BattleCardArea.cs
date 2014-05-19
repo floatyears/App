@@ -19,6 +19,7 @@ public class BattleCardArea : UIBaseUnity {
 	private GameObject cardItem;
 	public static Vector3 startPosition;
 	public static Vector3 endPosition;
+	public static Vector3 activeSkillStartPosition;
 
 	public override void Init (string name) {
 		base.Init (name); 
@@ -114,32 +115,40 @@ public class BattleCardArea : UIBaseUnity {
 	}	       
 
 	public void CreatArea(Vector3[] position,int height) {
-		if(position == null)
-			return;
+		if (position == null)
+				return;
 		battleCardAreaItem = new BattleCardAreaItem[position.Length];
 		float xOffset = backTexture.width * -0.5f;
 		float yOffset = backTexture.height * 1.8f;
 		stateLabel.transform.localPosition = position [0] + new Vector3 (xOffset, yOffset, 0f);
 		showPosition = stateLabel.transform.localPosition;
-		HidePosition = stateLabel.transform.localPosition + Vector3.right * -500;
+		HidePosition = stateLabel.transform.localPosition + Vector3.right * -(stateLabel.mainTexture.width + Screen.width * 0.5f);
 		stateLabel.enabled = true;
 		int length = position.Length;
 		for (int i = 0; i < length; i++) {
-			tempObject = NGUITools.AddChild(gameObject,backTexture.gameObject);
-			tempObject.SetActive(true);
-			tempObject.layer = GameLayer.BattleCard;
-			tempObject.transform.localPosition = new Vector3(position[i].x + 3f, position[i].y + 3f + height, position[i].z) ;
-			BattleCardAreaItem bca = tempObject.AddComponent<BattleCardAreaItem>();
-			bca.Init(tempObject.name);
-			bca.AreaItemID = i;
-			battleCardAreaItem[i] = bca;
+				tempObject = NGUITools.AddChild (gameObject, backTexture.gameObject);
+				tempObject.SetActive (true);
+				tempObject.layer = GameLayer.BattleCard;
+				tempObject.transform.localPosition = new Vector3 (position [i].x + 3f, position [i].y + 3f + height, position [i].z);
+				BattleCardAreaItem bca = tempObject.AddComponent<BattleCardAreaItem> ();
+				bca.Init (tempObject.name);
+				bca.AreaItemID = i;
+				battleCardAreaItem [i] = bca;
 		}
 
-		BattleCardAreaItem bcai = battleCardAreaItem [length - 1];
-		Vector3 pos = bcai.transform.localPosition;
-		startPosition = new Vector3 (pos.x + height, pos.y - height / 2f, pos.z);
-		pos = battleCardAreaItem [0].transform.localPosition;
-		endPosition = new Vector3 (pos.x - height * 0.5f, pos.y - height * 1.5f, pos.z);
+		BattleCardAreaItem bcai = battleCardAreaItem [length - 1];	
+
+		//normal skill is from right top to left bottom.
+		Vector3 pos = bcai.transform.localPosition;		// get last area item position
+
+		startPosition = new Vector3 (pos.x + height, pos.y - height * 0.5f, pos.z); //normal skill start position.
+
+		pos = battleCardAreaItem [0].transform.localPosition;	// get first area item position
+
+		endPosition = new Vector3 (pos.x - height * 0.5f, pos.y - height * 1.5f, pos.z);	//normal skill end position. 
+
+		//active skill is from left top to right top. normal skill start position is active skill end position.
+		activeSkillStartPosition = new Vector3 (pos.x - height * 0.5f - 640f, pos.y - height * 0.5f, pos.z);	//active skill from position.
 	}
 	
 	static int count = 0;

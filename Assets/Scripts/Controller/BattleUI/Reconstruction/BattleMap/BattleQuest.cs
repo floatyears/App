@@ -72,10 +72,12 @@ public class BattleQuest : UIBase {
 	}
 
 	void CreatEffect () {
-		GameObject go = Resources.Load("Effect/AttackEffect") as GameObject;
-		go = NGUITools.AddChild (ViewManager.Instance.ParentPanel, go);
-		go.transform.localPosition = battle.battleRootGameObject.transform.localPosition;
-		attackEffect = go.GetComponent<AttackEffect> ();
+		if (attackEffect == null) {
+			GameObject go = Resources.Load("Effect/AttackEffect") as GameObject;
+			go = NGUITools.AddChild (ViewManager.Instance.ParentPanel, go);
+			go.transform.localPosition = battle.battleRootGameObject.transform.localPosition;
+			attackEffect = go.GetComponent<AttackEffect> ();	
+		}
 	}
 	
 	void InitTopUI () {
@@ -120,7 +122,7 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.GridEnd, GridEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, BattleFail);
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
-
+		MsgCenter.Instance.AddListener (CommandEnum.ShowActiveSkill, ShowActiveSkill);
 		if (configBattleUseData.hasBattleData ()) {
 			ContineBattle ();
 		} else {
@@ -145,6 +147,7 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ShowActiveSkill, ShowActiveSkill);
 	}
 	
 	void LeaderSkillEnd(object data) {
@@ -173,6 +176,15 @@ public class BattleQuest : UIBase {
 		attackEffect.RefreshItem (ai);
 	}
 
+	void ShowActiveSkill(object data) {
+		TUserUnit ai = data as TUserUnit;
+//		Debug.LogError ("ShowActiveSkill : " + ai);
+		if (ai == null) {
+			return;		
+		}
+		attackEffect.PlayActiveSkill (ai);
+	}
+	
 	void Reset () {
 		battleEnemy = false;
 		bud.RemoveListen ();
@@ -192,12 +204,14 @@ public class BattleQuest : UIBase {
 		if (questFullScreenTips == null) {
 			CreatBoosAppear();
 		}
+		CreatEffect ();
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		questFullScreenTips.DestoryUI ();
 		battle.DestoryUI ();
+		GameObject.Destroy (attackEffect.gameObject);
 		battle = null;
 		Resources.UnloadUnusedAssets ();
 	}

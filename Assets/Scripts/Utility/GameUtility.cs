@@ -28,6 +28,27 @@ public class DGTools {
 		}
 	}
 
+	public static int GetEnemyHeightByRare(int rare) {
+		switch (rare) {
+		case 1:
+			return 109;
+		case 2:
+			return 130;
+		case 3:
+			return 163;
+		case 4:
+			return 253;
+		case 5:
+			return 354;
+		case 6:
+			return 393;
+		case 7:
+			return 393;
+		default:
+			return 484;
+		}
+	}
+
 	public static string[] stateInfo = new string[] {"Player-Phase","Enemy-Phase","Normal-Skill","Passive-Skill","Active-Skill"};
 
 	public static int RandomToInt(int min,int max) {
