@@ -160,15 +160,26 @@ public class BattleEnemy : UIBaseUnity {
 		} else {
 			centerIndex = (count >> 1) - 1;
 			int centerRightIndex = centerIndex + 1;
-			float tempinterv = 0f;
-			temp[centerIndex].transform.localPosition = new Vector3(0f - tempinterv, 0f, 0f);
-			temp[centerRightIndex].transform.localPosition = new Vector3(0f + tempinterv, 0f, 0f);
+//			float tempinterv = 0f;
+//			uint unitID = temp[centerIndex].enemyInfo.UnitID;
+//			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(unitID);
+			float centerWidth = DGTools.GetEnemyWidthByRare(temp[centerIndex].enemyUnitInfo.Rare) * 0.25f;
+			float centerRightWidth =  DGTools.GetEnemyWidthByRare(temp[centerRightIndex].enemyUnitInfo.Rare) * 0.25f;
+			float Difference = (centerRightWidth - centerWidth) * 0.5f;
+
+			centerWidth += Difference;
+			centerRightWidth -= Difference;
+
+			temp[centerIndex].transform.localPosition = new Vector3(0f - centerWidth, 0f, 0f);
+			temp[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 0f, 0f);
+
 			DisposeCenterLeft(centerIndex--, temp);
 			centerRightIndex++;
 
 			DisposeCenterRight(centerRightIndex , temp);
 		}
 	}
+
 	float probability;
 	float allWidth;
 	int screenWidth;
@@ -188,8 +199,8 @@ public class BattleEnemy : UIBaseUnity {
 		if (probability <= 1f) { //screewidth <= allWidth
 			for (int i = 0; i < temp.Count; i++) {
 				UITexture tex = temp [i].texture;
-				float tempWidth = tex.width * probability;
-				float tempHeight = tex.height * probability;
+				float tempWidth = DGTools.GetEnemyWidthByRare(temp[i].enemyUnitInfo.Rare) * probability;
+				float tempHeight = DGTools.GetEnemyHeightByRare(temp[i].enemyUnitInfo.Rare) * probability;
 				tex.width = (int)tempWidth;
 				tex.height = (int)tempHeight;
 			}
