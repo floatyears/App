@@ -33,4 +33,8 @@ public class FriendWindows : FriendHelperView {
 		HideUI ();
 	}
 
+	public GameObject GetHelperUnitItem(int i){
+		return dragPanel.ScrollItem[i];
+	}
+
 }

@@ -20,9 +20,9 @@ public static class GameDataAnalysis {
 	}
 
 	
-	public static void EventCount(GameDataAnalysisEventType eventId,string key,Dictionary<string,string> attr){
-		GA.Event (eventId.ToString (), key, attr);
-	}
+//	public static void EventCount(GameDataAnalysisEventType eventId,string key,Dictionary<string,string> attr){
+//		GA.Event (eventId.ToString (), key, attr);
+//	}
 
 	public static void EventCount(GameDataAnalysisEventType eventId, Dictionary<string,string> attr, int count){
 		GA.Event (eventId.ToString (), attr, count);
@@ -30,11 +30,11 @@ public static class GameDataAnalysis {
 
 
 	public static void EventBegin(GameDataAnalysisEventType eventId){
-		EventTime [eventId] = TimeHelper.MillionSecondsNow();
+		//EventTime [eventId] = TimeHelper.MillionSecondsNow();
 	}
 
 	public static void EventEnd(GameDataAnalysisEventType eventId,Dictionary<string,string> value){
-		EventTime [eventId] = TimeHelper.MillionSecondsNow();
+		//EventTime [eventId] = TimeHelper.MillionSecondsNow();
 	}
 
 	public static void Buy(string item,int amount,double price){

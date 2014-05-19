@@ -101,6 +101,40 @@ public partial class TextCenter {
 		textDict.Add ("guide34_content", "find the key.take down the boss.you will succeed.");
 		textDict.Add ("guide35_title", "confirm the result");
 		textDict.Add ("guide35_content", "confirm the result.you will gain different things.");
+
+		//level up
+		textDict.Add ("guide41_title", "level up method");
+		textDict.Add ("guide41_content", "click level up to strong your party");
+		textDict.Add ("guide42_title", "choose the level up card");
+		textDict.Add ("guide42_content", "choose the card");
+		textDict.Add ("guide43_title", "material card choose");
+		textDict.Add ("guide43_content", "choose your material card");
+		textDict.Add ("guide44_title", "choose your helper");
+		textDict.Add ("guide44_content", "choose a friend");
+		textDict.Add ("guide45_title", "friend reward");
+		textDict.Add ("guide45_content", "the same attr results a lot of exp");
+		textDict.Add ("guide46_title", "level up end");
+		textDict.Add ("guide46_content", "level up max.now goto the evolve");
+
+		//evolve
+		textDict.Add ("guide51_title", "choose evolve card");
+		textDict.Add ("guide51_content", "choose card");
+		textDict.Add ("guide52_title", "choose a helper");
+		textDict.Add ("guide52_content", "you need a helper.choose one");
+		textDict.Add ("guide53_title", "choose a helper's need");
+		textDict.Add ("guide53_content", "the helper shoulder have the same race,attr,lv.");
+		textDict.Add ("guide54_title", "about the evolve mission");
+		textDict.Add ("guide54_content", "you must finish the mission to complete evolve");
+		textDict.Add ("guide55_title", "evovle mission final confirm");
+		textDict.Add ("guide55_content", "use this team to fight.let's go");
+		textDict.Add ("guide56_title", "xxx teacher's note");
+		textDict.Add ("guide56_content", "take down more enemy");
+		textDict.Add ("guide57_title", "mission key point");
+		textDict.Add ("guide57_content", "1.find the key;2.goto the door");
+		textDict.Add ("guide58_title", "evolve success");
+		textDict.Add ("guide58_content", "excelent,your charactor evovles.");
+		textDict.Add ("guide59_title", "evolve time");
+		textDict.Add ("guide59_content", "1.find the key;2.goto the door");
 //		textDict.Add ("guide8_title", "");
 //		textDict.Add ("guide8_content", "");
 

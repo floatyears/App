@@ -55,7 +55,7 @@ public class NoviceGuideStepEntityManager {
 	
 	public void StartStep()
 	{
-		return;
+		//return;
 		Debug.Log("//////////current scene: " + UIManager.Instance.baseScene.CurrentScene);
 		switch (UIManager.Instance.baseScene.CurrentScene) {
 			case SceneEnum.Loading:
@@ -77,10 +77,20 @@ public class NoviceGuideStepEntityManager {
 				CreateStepEntityByID(NoviceGuideStepEntityID.PARTY);
 				break;
 			case SceneEnum.Units:
-				CreateStepEntityByID(NoviceGuideStepEntityID.UNITS);
+				if(currentNoviceGuideStage == 3){
+					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS);
+				}else{
+					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,1);
+				}
 				break;
 			case SceneEnum.Fight:
 				CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT);
+				break;
+			case SceneEnum.LevelUp:
+				CreateStepEntityByID(NoviceGuideStepEntityID.LEVEL_UP);
+				break;
+			case SceneEnum.Evolve:
+				CreateStepEntityByID(NoviceGuideStepEntityID.EVOLVE);
 				break;
 		}
 	}
@@ -139,7 +149,7 @@ public class NoviceGuideStepEntityManager {
 		}
 	}
 
-	public void CreateStepEntityByID(NoviceGuideStepEntityID id)
+	public void CreateStepEntityByID(NoviceGuideStepEntityID id,int step = 0)
 	{
 
 		if (stepEntityDic.ContainsKey(id)) {
@@ -177,10 +187,22 @@ public class NoviceGuideStepEntityManager {
 					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepF_StateOne.Instance());
 					break;
 				case NoviceGuideStepEntityID.UNITS:
-					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepG_StateOne.Instance());
+					if(step == 0){
+						stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepG_StateOne.Instance());
+					}else if(step == 1){
+						stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepG_StateTwo.Instance());
+					}else if(step == 2){
+					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepG_StateThree.Instance());
+					}
 					break;
 				case NoviceGuideStepEntityID.FIGHT:
 					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepH_StateOne.Instance());
+					break;
+				case NoviceGuideStepEntityID.LEVEL_UP:
+					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepI_StateOne.Instance());
+					break;
+				case NoviceGuideStepEntityID.EVOLVE:
+					stepEn = new NoviceGuideStepEntity(id,NoviceGuideStepJ_StateOne.Instance());
 					break;
 				default:
 					LogHelper.LogError("-----------=========------------there is no such step:" + id.ToString());
@@ -211,5 +233,7 @@ public enum NoviceGuideStepEntityID{
 	QUEST = 5,
 	PARTY = 6,
 	UNITS = 7,
-	FIGHT = 8
+	FIGHT = 8,
+	LEVEL_UP,
+	EVOLVE
 }
