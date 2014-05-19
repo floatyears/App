@@ -157,6 +157,7 @@ public enum CommandEnum{
 	UnitDisplayMaterialData		= 3056,
 	EvolveFriend				= 3057,
 	UnitMaterialList 			= 3058,
+	ShowActiveSkill,
 	EvolveStart,
 	ReturnPreScene,
 	RefreshFriendHelper,
