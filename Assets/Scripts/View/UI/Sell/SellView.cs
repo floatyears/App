@@ -310,6 +310,12 @@ public class SellView : UIComponentUnity{
 	}
 
 	void ResetUIElement(){
+		clearImgBtn.isEnabled = false;
+		sellImgBtn.isEnabled = false;
+		totalSaleValue = 0;
+		coinLabel.text = string.Empty;
+
+
 		for (int i = 0; i < maxItemCount; i++){
 			FindTextureWithPosition(i, pickItemList).mainTexture = null;
 			FindLabelWithPosition(i, pickItemList).text = string.Empty;

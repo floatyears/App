@@ -78,7 +78,7 @@ public class TPartyInfo : ProtobufDataBase {
     public PartyInfo Object {
         get { return instance; } 
     }
-    public	int	CurrentPartyId { 
+    public	int	 CurrentPartyId { 
         get { return instance.currentParty; } 
         set { instance.currentParty = value; }
     }
@@ -142,6 +142,22 @@ public class TPartyInfo : ProtobufDataBase {
             return this.partyList[CurrentPartyId]; 
         } 
     }
+
+	public TUnitParty TargetParty(int targetPartyId){
+		if(this.partyList == null)
+			return null;
+		if((targetPartyId > MAX_PARTY_GROUP_NUM - 1) || targetPartyId < 0){
+			Debug.LogError("Target Party ID is Invaild!!!");
+			return null;
+		}
+
+		CurrentPartyId = targetPartyId;
+
+		isPartyGroupModified = (CurrentPartyId != originalPartyId);
+		instance.currentParty = CurrentPartyId;
+		return this.partyList[CurrentPartyId]; 
+	}
+
 
 	public bool IsCostOverflow(int pos, uint newUniqueId) {
 		if( newUniqueId != 0 ) { // check cost max

@@ -5,6 +5,8 @@ using bbproto;
 
 public class StandbyView : UIComponentUnity {
 	private int prevPageIndex = 0;
+	public const int PARTY_LIGHT_COUNT = 5;
+	public const int PARTY_MEMBER_COUNT = 4;
 	private GameObject pageLightRoot;
 
 	private UIButton prePageBtn;
@@ -25,8 +27,10 @@ public class StandbyView : UIComponentUnity {
 	private UILabel ownSkillDscpLabel;
 
 	private UIButton startFightBtn;
-
+	private HelperUnitItem helper;
 	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
+
+	private List<GameObject> pageLightList = new List<GameObject>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -53,6 +57,14 @@ public class StandbyView : UIComponentUnity {
 
 	private void InitUI(){
 		pageLightRoot = transform.FindChild("PageLight").gameObject;
+		for (int i = 0; i < PARTY_LIGHT_COUNT; i++){
+			GameObject curPageLight = pageLightRoot.transform.FindChild(i.ToString()).gameObject;
+			pageLightList.Add(curPageLight);
+			UIEventListener.Get(curPageLight).onClick = ClickPageLight;
+		}
+		Debug.Log("pageLightList count is : " + pageLightList.Count);
+
+
 		prePageBtn = FindChild<UIButton>("Button_Left");
 		nextPageBtn = FindChild<UIButton>("Button_Right");
 		startFightBtn = transform.FindChild("Button_Fight").GetComponent<UIButton>();
@@ -196,17 +208,16 @@ public class StandbyView : UIComponentUnity {
 		UIManager.Instance.EnterBattle();
 	} 
 
-	private void ShowPartyInfo(){
+	private void ShowPartyInfo(){// show current partyInfo
 		if(pickedHelperInfo == null) return;
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
-
 		UpdateOwnLeaderSkillInfo(curParty);
 		UpdateHelperLeaderSkillInfo();
 		UpdatePartyAtkInfo(curParty);
 		UpdatePageLight(curParty.ID);
 	}
 
-	private HelperUnitItem helper;
+
 	private void ShowHelperView(){
 		Debug.Log("ShowHelperView(), Start...");
 		if(pickedHelperInfo == null){
@@ -309,9 +320,9 @@ public class StandbyView : UIComponentUnity {
 		}
 	}
 
-	public const int MAX_PARTY_COUNT = 5;
+
 	private void InitPageLight(){
-		for (int i = 0; i < MAX_PARTY_COUNT; i++){
+		for (int i = 0; i < PARTY_LIGHT_COUNT; i++){
 			SetPartyIndexText( i );
 			SwitchLight(i, false);
 		}
@@ -320,7 +331,16 @@ public class StandbyView : UIComponentUnity {
 	private void SetPartyIndexText(int partyIndex){
 		string path = partyIndex + "/Label_Index";
 		UILabel indexLabel = pageLightRoot.transform.FindChild(path).GetComponent<UILabel>();
-		indexLabel.text = "PARTY" + partyIndex;
+		indexLabel.text = "PARTY" + (partyIndex + 1);
+	}
+
+	private void ClickPageLight(GameObject lightObj){
+		int newPartyPos = pageLightList.IndexOf(lightObj);
+		Debug.Log("ClickPageLight(), newPartyPos is : " + newPartyPos);
+		Debug.Log("ChangeParty before :: CurrentPartyId is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
+		TUnitParty targetParty = DataCenter.Instance.PartyInfo.TargetParty(newPartyPos);
+		Debug.Log("ChangeParty after :: CurrentPartyId is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
+		RefreshParty(targetParty);
 	}
 
 
