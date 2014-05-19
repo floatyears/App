@@ -31,9 +31,10 @@ public class CatalogView : UIComponentUnity {
 		DestoryDragPanel();
 	}
 
+	GameObject emptyItem;
 	private void CreateDragPanel(){
 		string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
-		GameObject emptyItem = Resources.Load(sourcePath) as GameObject;
+		emptyItem = Resources.Load(sourcePath) as GameObject;
 
 		dragPanel = new DragPanel("CatalogDragPanel", emptyItem);
 		dragPanel.CreatUI();
@@ -43,12 +44,12 @@ public class CatalogView : UIComponentUnity {
 		uiPanel = dragPanel.DragPanelView.gameObject.transform.FindChild("Scroll View").GetComponent<UIPanel>();
 
 
-		for (int i = 0; i < TOTAL_CATALOG_COUNT; i++){
+		for(int i = 0; i < TOTAL_CATALOG_COUNT; i++){
 			GameObject dragItem = dragPanel.ScrollItem[ i ];
-//			CatalogUnitItem catalogItem = CatalogUnitItem.Inject(dragItem);
-			catalogWidgetList.Add(emptyItem.GetComponent<UIWidget>());
 			catalogItemTrans.Add(dragItem.transform);
 		}
+
+		InitCatalogTrans(0, 40);
 
 	}
 
@@ -91,11 +92,12 @@ public class CatalogView : UIComponentUnity {
 		dragPanel.DestoryUI();
 	}
 
+	GameObject catalogNode;
 	private void InitPooler(){
 		string path = "Prefabs/UI/UnitItem/CatalogNode";
-		GameObject pooledSymbol = Resources.Load(path) as GameObject;
+		catalogNode = Resources.Load(path) as GameObject;
 		catalogPooler = gameObject.AddComponent<NewObjectPooler>();
-		catalogPooler.Init(pooledSymbol, 40);
+		catalogPooler.Init(catalogNode, 45);
 		
 		GameObject pooledObjectsParent = new GameObject();
 		pooledObjectsParent.transform.parent = gameObject.transform;
@@ -107,47 +109,113 @@ public class CatalogView : UIComponentUnity {
 		}            
 	}
 
-	private bool CheckVisible(Transform trans){
-		float x = trans.localPosition.x;
-		float offset = uiPanel.clipRange.x / 2;
-		return x - (offset - 320) >= 0 &&  x - (offset - 320) <= 640;
-	}
+
+	public const int CATALOG_ITEM_COUNT = 300;
 	private void Update(){
-		//Debug.Log("Update...");
-		int debugCount = 300;
-//		if (count >= debugCount) return;
-		for(int i = 0; i < 300; i++){
-
-//			bool itemVisible = uiPanel.IsVisible(catalogWidgetList[ i ]);
-			bool itemVisible = CheckVisible(catalogItemTrans[ i ]);
-                        
-//			Debug.Log("ItemVisuble : " + i + itemVisible);
-//			count ++;
-			if(itemVisible){// need to display
-				GameObject obj;
-				if(catalogItemTrans[ i ].childCount == 1){
-					obj = catalogItemTrans[ i ].FindChild("CatalogNode(Clone)").gameObject;
-
-				}
-				else {
-					obj = catalogPooler.GetPooledObject();
-					obj.transform.parent = catalogItemTrans[ i ];
-					obj.transform.localScale = Vector3.one;
-                    obj.transform.localPosition = Vector3.zero;            
-				}
-				CatalogUnitItem item = CatalogUnitItem.Inject(obj);
-
-				obj.SetActive(true);
-				item.Refresh(i + 1);
-			}
-			else{
-				if(catalogItemTrans[ i ].childCount >=1){
-					GameObject childObj = catalogUnitItemList[ i ].transform.FindChild("CatalogNode").gameObject;
-					childObj.SetActive(false);
-				}
-			}
-
-		}
+		ShowItemInScreen();
 	}
-        
+
+	private float itemWidth = 55;
+	private bool CheckIsInScreen(Transform trans){
+//		Vector3 worldPos = Camera.main.WorldToScreenPoint(trans.position);
+//		Debug.Log(string.Format("worldPos.x {0}, itemWidth {1}, {2}" , worldPos.x , Screen.width, itemWidth));
+//		if(worldPos.x >= -itemWidth && worldPos.x > (float)Screen.width + itemWidth){
+//			return false;
+//		}
+//		else{
+//			return true;
+//		}
+		Debug.Log("uiPanel " + uiPanel + "trans " + trans + "uiPanel.IsVisible : " + uiPanel.IsVisible(trans.GetComponent<UIWidget>()));
+		return uiPanel.IsVisible(trans.GetComponent<UIWidget>());
+	}
+
+	private void InitCatalogTrans(int startPos, int onePageCount){
+		GameObject obj;
+		CatalogUnitItem catalogUnitItem;
+		for (int i = startPos; i < onePageCount; i++){
+			obj = catalogPooler.GetPooledObject();
+			obj.transform.parent = catalogItemTrans[ i ];
+			obj.transform.localScale = Vector3.one;
+			obj.transform.localPosition = Vector3.zero;
+			CatalogUnitItem item = CatalogUnitItem.Inject(obj);
+			obj.SetActive(true);
+            item.Refresh(i + 1);
+		}
+		curStartPos = startPos;
+	}
+
+	private float prevFirstItemPos_X = -111111f;
+	private int curStartPos;
+
+	public enum MoveDirection{
+		LEFT,
+		RIGHT,
+		NONE
+	}
+
+	private MoveDirection CalculateMoveDirection(){
+		float nowFirstItemPos_X = Camera.main.WorldToScreenPoint( catalogItemTrans[ 0 ].position ).x;
+		if (prevFirstItemPos_X == -111111f){
+			prevFirstItemPos_X = nowFirstItemPos_X;
+			return MoveDirection.NONE;
+		}
+		int result = nowFirstItemPos_X > prevFirstItemPos_X ? 1 : nowFirstItemPos_X < prevFirstItemPos_X ? - 1: 0;
+		prevFirstItemPos_X = nowFirstItemPos_X;
+		return result == 1 ? MoveDirection.RIGHT : result == -1 ? MoveDirection.LEFT : MoveDirection.NONE;
+
+	}
+
+	private const int ITEM_MAX_COUNT_PER_PAGE = 30;
+	private const int ITEM_COUNT_PER_COL = 5;
+	private void ShowItemInScreen(){
+		MoveDirection moveDir = CalculateMoveDirection();
+		Debug.Log("dmoveDir" + moveDir);
+		if(moveDir == MoveDirection.LEFT){
+			while(!CheckIsInScreen(catalogItemTrans[ curStartPos ])){
+				Debug.Log("ShowItemInScreen do visble false");
+				CancelShowOneRow(curStartPos, ITEM_COUNT_PER_COL);
+				AddShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE, ITEM_COUNT_PER_COL);
+				curStartPos += ITEM_COUNT_PER_COL;
+				Debug.Log("ShowItemInScreen() " + curStartPos);
+			}
+		}
+		else if(moveDir == MoveDirection.RIGHT){
+			while(!CheckIsInScreen(catalogItemTrans[ curStartPos + ITEM_MAX_COUNT_PER_PAGE])){
+				if (curStartPos < ITEM_COUNT_PER_COL) break;
+                      CancelShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE , ITEM_COUNT_PER_COL);
+				AddShowOneRow(curStartPos - ITEM_COUNT_PER_COL, ITEM_COUNT_PER_COL);
+				curStartPos -= ITEM_COUNT_PER_COL;
+			}
+		}
+		else{}
+	}
+
+	private void AddShowOneRow(int startPos, int count){
+		GameObject obj;
+		CatalogUnitItem catalogUnitItem;
+		for (int i = startPos; i < startPos + count; i++){
+			Debug.Log(i);
+			if(catalogItemTrans[ i ].childCount == 1){
+				obj = catalogItemTrans[ i ].FindChild("CatalogNode(Clone)").gameObject;
+			}
+			else {
+				obj = catalogPooler.GetPooledObject();
+				obj.transform.parent = catalogItemTrans[ i ];
+				obj.transform.localScale = Vector3.one;
+                obj.transform.localPosition = Vector3.zero;            
+        				}
+        				CatalogUnitItem item = CatalogUnitItem.Inject(obj);
+        				obj.SetActive(true);
+			item.Refresh(i + 1);
+		}
+//		curStartPos = startPos + count;
+	}
+	
+	private void CancelShowOneRow(int startPos, int count){
+        for (int i = startPos; i < startPos + count; i++){
+			Debug.Log("CancelShowOneRow(), startPos : " + startPos);
+                GameObject childObj = catalogItemTrans[ i ].FindChild("CatalogNode(Clone)").gameObject;
+                childObj.SetActive(false);
+        }
+	}
 }

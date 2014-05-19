@@ -82,7 +82,7 @@ public class ConfigDragPanel{
 		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, 62, 640, 813)			);
 		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(1280, 1350, 0)				);
 		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
-		HelperListDragPanelArgs.Add("cellHeight", 					 150												);
+		HelperListDragPanelArgs.Add("cellHeight", 					 120												);
 
 	}
 
@@ -130,8 +130,8 @@ public class ConfigDragPanel{
 		PartyListDragPanelArgs.Add("clipRange", 						 new Vector4(0, -120, 640, 400)		);
 		PartyListDragPanelArgs.Add("gridArrange", 					 UIGrid.Arrangement.Vertical			);
 		PartyListDragPanelArgs.Add("scrollBarPosition",				 new Vector3(-320, -315, 0)				);
-		PartyListDragPanelArgs.Add("cellWidth", 						 120												);
-		PartyListDragPanelArgs.Add("cellHeight",						 110												);
+		PartyListDragPanelArgs.Add("cellWidth", 						 100												);
+		PartyListDragPanelArgs.Add("cellHeight",						 100												);
 		PartyListDragPanelArgs.Add("maxPerLine",					 3													);
 	}
 
