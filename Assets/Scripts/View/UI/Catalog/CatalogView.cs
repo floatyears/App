@@ -10,10 +10,8 @@ public class CatalogView : UIComponentUnity {
     private List<Transform> catalogItemTrans	= new List<Transform>();
     private NewObjectPooler catalogPooler;
 	private UIPanel uiPanel;
-
-	int count = 0;
-        
-        public override void Init ( UIInsConfig config, IUICallback origin ) {
+       
+	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		InitConfig();
 		InitPooler();
@@ -31,7 +29,7 @@ public class CatalogView : UIComponentUnity {
 		DestoryDragPanel();
 	}
 
-	GameObject emptyItem;
+	private GameObject emptyItem;
 	private void CreateDragPanel(){
 		string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
 		emptyItem = Resources.Load(sourcePath) as GameObject;
@@ -43,14 +41,11 @@ public class CatalogView : UIComponentUnity {
 
 		uiPanel = dragPanel.DragPanelView.gameObject.transform.FindChild("Scroll View").GetComponent<UIPanel>();
 
-
 		for(int i = 0; i < TOTAL_CATALOG_COUNT; i++){
 			GameObject dragItem = dragPanel.ScrollItem[ i ];
 			catalogItemTrans.Add(dragItem.transform);
 		}
-
 		InitCatalogTrans(0, 40);
-
 	}
 
 	private void RefreshItemCounter(){
@@ -117,15 +112,7 @@ public class CatalogView : UIComponentUnity {
 
 	private float itemWidth = 55;
 	private bool CheckIsInScreen(Transform trans){
-//		Vector3 worldPos = Camera.main.WorldToScreenPoint(trans.position);
-//		Debug.Log(string.Format("worldPos.x {0}, itemWidth {1}, {2}" , worldPos.x , Screen.width, itemWidth));
-//		if(worldPos.x >= -itemWidth && worldPos.x > (float)Screen.width + itemWidth){
-//			return false;
-//		}
-//		else{
-//			return true;
-//		}
-		Debug.Log("uiPanel " + uiPanel + "trans " + trans + "uiPanel.IsVisible : " + uiPanel.IsVisible(trans.GetComponent<UIWidget>()));
+		//Debug.Log("uiPanel " + uiPanel + "trans " + trans + "uiPanel.IsVisible : " + uiPanel.IsVisible(trans.GetComponent<UIWidget>()));
 		return uiPanel.IsVisible(trans.GetComponent<UIWidget>());
 	}
 
@@ -169,7 +156,7 @@ public class CatalogView : UIComponentUnity {
 	private const int ITEM_COUNT_PER_COL = 5;
 	private void ShowItemInScreen(){
 		MoveDirection moveDir = CalculateMoveDirection();
-		Debug.Log("dmoveDir" + moveDir);
+		//Debug.Log("dmoveDir" + moveDir);
 		if(moveDir == MoveDirection.LEFT){
 			while(!CheckIsInScreen(catalogItemTrans[ curStartPos ])){
 				Debug.Log("ShowItemInScreen do visble false");
@@ -203,19 +190,18 @@ public class CatalogView : UIComponentUnity {
 				obj.transform.parent = catalogItemTrans[ i ];
 				obj.transform.localScale = Vector3.one;
                 obj.transform.localPosition = Vector3.zero;            
-        				}
-        				CatalogUnitItem item = CatalogUnitItem.Inject(obj);
-        				obj.SetActive(true);
+			}
+			CatalogUnitItem item = CatalogUnitItem.Inject(obj);
+			obj.SetActive(true);
 			item.Refresh(i + 1);
 		}
-//		curStartPos = startPos + count;
 	}
 	
 	private void CancelShowOneRow(int startPos, int count){
         for (int i = startPos; i < startPos + count; i++){
-			Debug.Log("CancelShowOneRow(), startPos : " + startPos);
-                GameObject childObj = catalogItemTrans[ i ].FindChild("CatalogNode(Clone)").gameObject;
-                childObj.SetActive(false);
+			//Debug.Log("CancelShowOneRow(), startPos : " + startPos);
+            GameObject childObj = catalogItemTrans[ i ].FindChild("CatalogNode(Clone)").gameObject;
+            childObj.SetActive(false);
         }
 	}
 }
