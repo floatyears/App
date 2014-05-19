@@ -55,7 +55,7 @@ public class NoviceGuideStepEntityManager {
 	
 	public void StartStep()
 	{
-		//return;
+		return;
 		Debug.Log("//////////current scene: " + UIManager.Instance.baseScene.CurrentScene);
 		switch (UIManager.Instance.baseScene.CurrentScene) {
 			case SceneEnum.Loading:
@@ -82,7 +82,7 @@ public class NoviceGuideStepEntityManager {
 				}else if(currentNoviceGuideStage == 2){
 					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,1);
 				}else{
-				CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,2);	
+					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,2);	
 				}
 				break;
 			case SceneEnum.Fight:
