@@ -40,9 +40,9 @@ public class EvolveStart: ProtoManager {
     ~EvolveStart () {
     }
     
-    //Property: request server parameters
-
+    //Property: request server parameter
     //make request packet==>TODO rename to request
+
     public override bool MakePacket() {
         Proto = Protocol.EVOLVE_START;
         reqType = typeof(ReqEvolveStart);
