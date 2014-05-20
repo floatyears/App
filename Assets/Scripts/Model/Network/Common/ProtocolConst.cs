@@ -20,6 +20,7 @@ class Protocol {
     public const string DEL_FRIEND = "del_friend";
     public const string FIND_FRIEND = "find_friend";
     public const string ACCEPT_FRIEND = "accept_friend";
+	public const string GET_PREMIUM_HELPER = "get_premium_helper";
 	
 	public const string LEVEL_UP = "level_up";
     public const string EVOLVE_START = "evolve_start";

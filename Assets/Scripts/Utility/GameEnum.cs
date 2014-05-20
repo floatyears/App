@@ -170,6 +170,8 @@ public enum CommandEnum{
 	QuestEnd,
 	TargetEnemy,
 	ReduceActiveSkillRound,
+	BattleStart,
+	UseLeaderSkill,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -261,6 +263,8 @@ public enum CommandEnum{
 	ActiveSkillStandReady,
 	CloseMsgWindow,
 	ExcuteActiveSkill,
+	OpenGuideMsgWindow,
+	CloseGuideMsgWindow,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

@@ -214,5 +214,4 @@ public class OthersWindow : UIComponentUnity {
 		Debug.Log( "OthersWindow RequestNameChange() : End");
 	}
 
-
 }

@@ -524,4 +524,8 @@ public class MapItem : UIBaseUnity {
 
 		return index;
 	}
+
+	public bool IsKey(){
+		return mapItemSprite.spriteName == "key";
+	}
 }

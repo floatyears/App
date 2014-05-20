@@ -47,6 +47,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	List<UISprite> blockLsit1 = new List<UISprite>();
 	List<UISprite> blockLsit2 = new List<UISprite>();
         
+	public bool fobidClick = false;
+
 	int currMaxExp, curExp, gotExp, expRiseStep;
 
 	int _curLevel = 0; 
@@ -73,7 +75,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
 		ClearBlock( blockLsit2 );
+
+		//TODO:
+		//StartCoroutine ("nextState");
+		NoviceGuideStepEntityManager.Instance ().NextState ();
 	}
+
+//	IEnumerator nextState()
+//	{
+//		yield return new WaitForSeconds (1);
+//		NoviceGuideStepEntityManager.Instance ().NextState ();
+//	}
 
 	public override void HideUI () {
 		base.HideUI ();
@@ -209,6 +221,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void ClickTexture( GameObject go ){
+		if (fobidClick) {
+			return;		
+		}
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
 		UIManager.Instance.ChangeScene( preScene );
@@ -418,6 +433,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ShowLeaderSkillContent( userUnit );
 		ShowActiveSkillContent( userUnit );
 		ShowProfileContent( userUnit );
+
 	}
 
 	void ShowLevelInfo (TUserUnit userUnit) {

@@ -63,9 +63,15 @@ public class ScratchView : UIComponentUnity {
 		{		
 			if (tweenPos == null)
 				continue;
+			//tweenPos.onFinished.Add(new EventDelegate(onTweenFinished));
 			tweenPos.Reset();
 			tweenPos.PlayForward();
 		}
+	}
+
+	private void onTweenFinished()
+	{
+		NoviceGuideStepEntityManager.Instance().NextState();
 	}
 
     private void OnClickButton(GameObject btn){
@@ -81,10 +87,9 @@ public class ScratchView : UIComponentUnity {
 
     private void OnClickRareGacha(GameObject btn){
 //        LogHelper.Log("OnClickRareGacha");
-        OnClickButton(btn);
-        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenRareGachaWindow", null);
-        ExcuteCallback(cbdArgs);
-    }
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenRareGachaWindow", null);
+		ExcuteCallback(cbdArgs);
+	}
 
     private void OnClickEventGacha(GameObject btn){
 //        LogHelper.Log("OnClickEventGacha");
@@ -125,5 +130,10 @@ public class ScratchView : UIComponentUnity {
         eventGachaTimesParent.gameObject.SetActive(true);
         eventGachaTimes.text = DataCenter.Instance.GetAvailableEventGachaTimes().ToString();  
     }
+	
+	public UIButton BtnRareGacha{
+		get{ return btnRareGacha;}
+		private set{btnRareGacha = value;}
+	}
 
 }

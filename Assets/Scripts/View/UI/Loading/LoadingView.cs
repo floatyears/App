@@ -11,6 +11,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
+using System.Net.NetworkInformation;
+
 
 public class LoadingView : UIComponentUnity {
     public override void Init ( UIInsConfig config, IUICallback origin ) {
@@ -19,7 +21,19 @@ public class LoadingView : UIComponentUnity {
     }
     
     public override void ShowUI () {
+//		GameDataStore.Instance.StoreData (GameDataStore.UUID, "");
+//		GameDataStore.Instance.StoreData (GameDataStore.USER_ID, "");
         base.ShowUI ();
+		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8","android");
+		Debug.Log ("device info: " + SystemInfo.deviceUniqueIdentifier);
+//		NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces ();
+//		Debug.LogError ("nis.Length : " + nis.Length);
+//		if (nis.Length > 0) {
+//			Debug.LogError (nis [0].GetPhysicalAddress ().ToString());
+//		}
+
+		Debug.Log ("enum toString(): " + NoviceGuideStepEntityID.Loading.ToString());
+
     }
     
     public override void HideUI () {
@@ -42,22 +56,39 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void ClickToLogin(GameObject btn){
-        if (CheckIfFirstLogin()){
-            LogHelper.Log("firstLogin");
-            SelectRoleFirst();
-        }
-        else {
-            LogHelper.Log("login directly");
-            LoginDirectly();
-        }
+//		if (checkResourceUpdate ()) {
+			Login();		
+//		}
+//		UIEventListener.Get(this.gameObject).onClick = null;
+//		GameObject.Find ("LoadProgress").GetComponent<ResourceUpdate>().StartDownload();
     }
 
-    private void LoginDirectly(){
-        LoadingLogic loadingLogic = origin as LoadingLogic;
+	private void Login(){
+		if (CheckIfFirstLogin()){
+			LogHelper.Log("firstLogin");
+			SelectRoleFirst();
+		}
+		else {
+			LogHelper.Log("login directly");
+			LoginDirectly();
+
+		}
+	}
+	
+	private void LoginDirectly(){
+		Umeng.GA.Event ("Login");
+		LoadingLogic loadingLogic = origin as LoadingLogic;
         loadingLogic.StartLogin();
     }
 
     private void SelectRoleFirst(){
+		//NoviceGuideStepEntityManager.Instance ().StartStep ();
         UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
     }
+
+//	private void checkResourceUpdate(){
+//		ResourceUpdate rs = GetComponent<ResourceUpdate> ();
+//
+//
+//	}
 }
