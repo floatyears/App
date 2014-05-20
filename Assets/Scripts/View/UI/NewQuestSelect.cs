@@ -5,19 +5,42 @@ using System.Collections.Generic;
 public class NewQuestSelect : UIComponentUnity {
 	private DragPanel dragPanel;
 
+	private TEvolveStart evolveStart;
+	private List<QuestItemView> questItem = new List<QuestItemView>();
+
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.GetQuestInfo, GetQuestInfo);
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveSelectStage, EvolveSelectStage);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetQuestInfo, GetQuestInfo);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectStage, EvolveSelectStage);
 	}
 
 	private void GetQuestInfo(object msg){
 		TStageInfo pickedStage = msg as TStageInfo;
 		GenerateQuestList(pickedStage);
+	}
+
+	void EvolveSelectStage(object data) {
+		evolveStart = data as TEvolveStart;
+		GenerateQuestList(evolveStart.StageInfo);
+		foreach (var item in questItem) {
+			if(item.Data.ID == evolveStart.StageInfo.QuestId) {
+				item.evolveCallback = EvolveCallback;
+				continue;
+			} else {
+				Destroy(item.GetComponent<UIEventListener>());
+			}
+		}
+	}
+
+	void EvolveCallback () {
+		UIManager.Instance.ChangeScene(SceneEnum.StandBy);//before
+		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectQuest, evolveStart);
 	}
 
 	private void GenerateQuestList(TStageInfo targetStage){
@@ -29,12 +52,13 @@ public class NewQuestSelect : UIComponentUnity {
 		dragPanel.AddItem(accessQuestList.Count);
 		CustomDragPanel();
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
-
+		questItem.Clear ();
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			QuestItemView qiv = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
 			qiv.Data = accessQuestList[ i ];
 			qiv.stageInfo = targetStage;
 //			qiv.StageID = targetStage.ID;//StartFight Need
+			questItem.Add(qiv);
 		}
 
 	}

@@ -41,11 +41,13 @@ public class EvolveComponent : ConcreteComponent {
 			TUserUnit temp = evolveInfoLisst[i] as TUserUnit;
 			partyID.Add(temp.ID);
 		}
+
 		EvolveStart es = new EvolveStart ();
 		es.BaseUnitId = baseItem.ID;
 		es.EvolveQuestId = questID;
 		es.PartUnitId = partyID;
 		es.HelperPremium = 0;
+		es.friendInfo = firendItem;
 		es.HelperUnit = firendItem.UserUnit.Unit;
 		es.HelperUserId = firendItem.UserId;
 
@@ -54,6 +56,14 @@ public class EvolveComponent : ConcreteComponent {
 		tes.StageInfo = tci.GetStage (stageID);
 		tes.StageInfo.CityId = EvolveCityID;
 		tes.StageInfo.QuestId = questID;
+		tes.evolveParty.Add (baseItem);
+		for (int i = 2; i < evolveInfoLisst.Count; i++) {
+			TUserUnit temp = evolveInfoLisst[i] as TUserUnit;
+			tes.evolveParty.Add(temp);
+		}
+		for (int i = tes.evolveParty.Count; i < 3; i++) {
+			tes.evolveParty.Add(null);
+		}
 
 		DataCenter.gameStage = GameState.Evolve;
 		UIManager.Instance.ChangeScene (SceneEnum.Stage);
