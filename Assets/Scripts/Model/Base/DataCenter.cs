@@ -100,6 +100,7 @@ public class DataCenter {
         get { return getData(ModelEnum.AccountInfo) as TAccountInfo; }
         set { setData(ModelEnum.AccountInfo, value); }
     }
+
     public List<TFriendInfo> SupportFriends { 
         get { return getData(ModelEnum.SupportFriends) as List<TFriendInfo>; }
         set { setData(ModelEnum.SupportFriends, value); } 

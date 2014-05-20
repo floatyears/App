@@ -134,12 +134,15 @@
      <None Include="Assets\Resources\Shaders\DepthMask.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Dynamic Font (SoftClip).shader" />
      <None Include="Assets\Resources\Shaders\Mask.shader" />
+     <None Include="Assets\version.txt" />
+     <None Include="Assets\ResourceDownloadTest\version.txt" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\resources\BlendVertexColor.shader" />
      <None Include="Assets\Resources\Config\Config.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitCutoutVertexColor.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
+     <None Include="Assets\ResourceDownloadTest\LocalTest\version.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Dynamic Font.shader" />
      <None Include="Assets\External\NGUI\ReadMe - 3.0.6 f7.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
@@ -157,12 +160,19 @@
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito32.fnt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
      <None Include="Assets\External\NGUI\Examples\Shaders\Refractive.shader" />
+     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Depth.shader" />
      <None Include="Assets\External\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
      <None Include="Assets\External\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\AdditiveVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d_demo\democameradata\source\democamerafont.fnt" />
+ <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS">
+ <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS.dll</HintPath>
+ </Reference>
+ <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid">
+ <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">

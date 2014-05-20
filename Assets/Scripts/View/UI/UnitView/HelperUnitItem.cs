@@ -31,7 +31,7 @@ public class HelperUnitItem : FriendUnitItem {
 		get { 
 			if(itemPrefab == null) {
 				string sourcePath = "Prefabs/UI/UnitItem/HelperUnitPrefab";
-				itemPrefab = Resources.Load(sourcePath) as GameObject ;
+				itemPrefab = Resources.Load(sourcePath) as GameObject;
 			}
 			return itemPrefab;
 		}
@@ -68,13 +68,13 @@ public class HelperUnitItem : FriendUnitItem {
 		switch (friendInfo.FriendState) {
 			case bbproto.EFriendState.FRIENDHELPER : 
 				typeLabel.text = "SUPPORT";
-				typeLabel.color = Color.green;
-				pointLabel.color = Color.green;
+				typeLabel.color = new Color(255.0f/255, 202.0f/255, 98.0f/255);
+				pointLabel.color = new Color(255.0f/255, 202.0f/255, 98.0f/255);
 				break;
 			case bbproto.EFriendState.ISFRIEND : 
 				typeLabel.text = "FRIEND";
-				typeLabel.color = Color.yellow;
-				pointLabel.color = Color.yellow;
+				typeLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
+				pointLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
 				break;
 			default:
 				typeLabel.text = string.Empty;

@@ -9,8 +9,6 @@ public class BattleEnemy : UIBaseUnity {
 		}
 	}
 
-//	public List<TEnemyInfo> monsterList = new List<TEnemyInfo> ();
-
 	private GameObject effectPanel;
 
 	private GameObject tempGameObject;
@@ -58,8 +56,6 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
-
-
 	}
 
 	void AttackEnemyEnd(object data) {
@@ -112,7 +108,6 @@ public class BattleEnemy : UIBaseUnity {
 		for (int i = 0; i < enemy.Count; i++) {
 			TEnemyInfo tei = enemy[i];
 			tei.AddListener();
-//			Debug.LogError(tei.EnemyID + " hp : " + tei.initBlood);
 			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
 			go.SetActive(true);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
@@ -120,13 +115,10 @@ public class BattleEnemy : UIBaseUnity {
 			ei.Init(tei);
 			temp.Add(ei);
 			monster.Add(tei.EnemySymbol,ei);
-			if(width < temp[i].texture.width) {
-				width = temp[i].texture.width;
-			}
 		}
 		SortEnemyItem (temp);
 	}
-	float width = 0;
+
 	void DropItem(object data) {
 		int pos = (int)data;
 		uint posSymbol = (uint)pos;
@@ -134,9 +126,7 @@ public class BattleEnemy : UIBaseUnity {
 		if (monster.ContainsKey (posSymbol) && monster[posSymbol].enemyInfo.IsDead) {
 			bbproto.EnemyInfo ei = monster[posSymbol].enemyInfo.EnemyInfo();
 			ConfigBattleUseData.Instance.storeBattleData.RemoveEnemyInfo(ei);
-//			monsterList.Remove(tei);
 			monster.Remove (posSymbol);	
-
 		}
 	}
 
@@ -153,14 +143,10 @@ public class BattleEnemy : UIBaseUnity {
 		}
 	}
 
-//	float interv = 0f;
-
 	void SortEnemyItem(List<EnemyItem> temp) {
-//		interv = 0f;
 		int count = temp.Count;
 		if (count == 0) {	return;	}
 		CompressTextureWidth (temp);
-//		Debug.LogError ("width : " + width);
 		if (count == 1) { 
 			temp[0].transform.localPosition = Vector3.zero; 
 			return; 
@@ -174,32 +160,47 @@ public class BattleEnemy : UIBaseUnity {
 		} else {
 			centerIndex = (count >> 1) - 1;
 			int centerRightIndex = centerIndex + 1;
-			float tempinterv = width * 0.5f;
-			temp[centerIndex].transform.localPosition = new Vector3(0f - tempinterv, 0f, 0f);
-			temp[centerRightIndex].transform.localPosition = new Vector3(0f + tempinterv, 0f, 0f);
+//			float tempinterv = 0f;
+//			uint unitID = temp[centerIndex].enemyInfo.UnitID;
+//			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(unitID);
+			float centerWidth = DGTools.GetEnemyWidthByRare(temp[centerIndex].enemyUnitInfo.Rare) * 0.25f;
+			float centerRightWidth =  DGTools.GetEnemyWidthByRare(temp[centerRightIndex].enemyUnitInfo.Rare) * 0.25f;
+			float Difference = (centerRightWidth - centerWidth) * 0.5f;
+
+			centerWidth += Difference;
+			centerRightWidth -= Difference;
+
+			temp[centerIndex].transform.localPosition = new Vector3(0f - centerWidth, 0f, 0f);
+			temp[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 0f, 0f);
+
 			DisposeCenterLeft(centerIndex--, temp);
 			centerRightIndex++;
 
 			DisposeCenterRight(centerRightIndex , temp);
 		}
 	}
+
 	float probability;
 	float allWidth;
 	int screenWidth;
+
 	void CompressTextureWidth (List<EnemyItem> temp) {
 		screenWidth = Screen.width;
 		int count = temp.Count;
 		if (!DGTools.IsOddNumber (count)) {
 			count ++;
 		}
-		allWidth =  count * width ;
+		for (int i = 0; i < temp.Count; i++) {
+			allWidth += DGTools.GetEnemyWidthByRare(temp[i].enemyUnitInfo.Rare);
+		}
+
 		probability = screenWidth / allWidth;
+
 		if (probability <= 1f) { //screewidth <= allWidth
-			width *= probability;
 			for (int i = 0; i < temp.Count; i++) {
 				UITexture tex = temp [i].texture;
-				float tempWidth = tex.width * probability;
-				float tempHeight = tex.height * probability;
+				float tempWidth = DGTools.GetEnemyWidthByRare(temp[i].enemyUnitInfo.Rare) * probability;
+				float tempHeight = DGTools.GetEnemyHeightByRare(temp[i].enemyUnitInfo.Rare) * probability;
 				tex.width = (int)tempWidth;
 				tex.height = (int)tempHeight;
 			}
@@ -209,10 +210,12 @@ public class BattleEnemy : UIBaseUnity {
 	void DisposeCenterLeft(int centerIndex,List<EnemyItem> temp) {
 		int tempIndex = centerIndex - 1;
 		while(tempIndex >= 0) {
-			Vector3 localPosition = temp[tempIndex + 1].transform.localPosition;
-			float rightWidth = width ;
+			EnemyItem rightEnemyItem = temp[tempIndex + 1];
+			EnemyItem currentEnemyItem = temp[tempIndex];
 
-			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x - rightWidth , 0f, 0f);
+			Vector3 localPosition = rightEnemyItem.transform.localPosition;
+			float rightWidth = rightEnemyItem.texture.width * 0.5f + currentEnemyItem.texture.width * 0.5f;
+			currentEnemyItem.transform.localPosition = new Vector3(localPosition.x - rightWidth , 0f, 0f);
 			tempIndex--;
 		}
 	}
@@ -220,23 +223,26 @@ public class BattleEnemy : UIBaseUnity {
 	void DisposeCenterRight (int centerIndex, List<EnemyItem> temp) {
 		int tempIndex = centerIndex;
 		while(tempIndex < temp.Count) {
-			Vector3 localPosition = temp[tempIndex - 1].transform.localPosition;
-			float rightWidth = width ;
-			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + rightWidth, 0f, 0f);
+			EnemyItem leftItem = temp[tempIndex - 1];
+			EnemyItem currentEnemyItem = temp[tempIndex];
+
+			Vector3 localPosition = leftItem.transform.localPosition;
+			float leftWidth = leftItem.texture.width * 0.5f + currentEnemyItem.texture.width * 0.5f; ;
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + leftWidth, 0f, 0f);
 			tempIndex++;
 		}
 	}
 	GameObject prevEffect;
 	public void PlayerEffect(EnemyItem ei,AttackInfo ai) {
 		GameObject obj = EffectManager.Instance.GetEffectObject (ai.SkillID); //DataCenter.Instance.GetEffect(ai) as GameObject;
-//		DGTools.PlayAttackSound(ai.AttackType);
 		ei.InjuredShake();
 		if (obj != null) {
-			Vector3 localScale = obj.transform.localScale;
-			Vector3 rotation = obj.transform.eulerAngles;
-			prevEffect = NGUITools.AddChild(effectPanel, obj);
-			prevEffect.transform.localScale = localScale;
-			prevEffect.transform.eulerAngles = rotation;
+//			Vector3 localScale = obj.transform.localScale;
+//			Vector3 rotation = obj.transform.eulerAngles;
+//			prevEffect = NGUITools.AddChild(effectPanel, obj);
+//			prevEffect.transform.localScale = localScale;
+//			prevEffect.transform.eulerAngles = rotation;
+			prevEffect = EffectManager.InstantiateEffect(effectPanel, obj);
 			if(ai.AttackRange == 0) {
 				prevEffect.transform.localPosition = ei.transform.localPosition;
 			}
@@ -269,6 +275,3 @@ public class ShowEnemyUtility {
 	public int enemyBlood;
 	public int attackRound;
 }
-
-
-

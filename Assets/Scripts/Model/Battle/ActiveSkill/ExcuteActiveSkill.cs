@@ -49,12 +49,19 @@ public class ExcuteActiveSkill {
 			string id = userUnit.MakeUserUnitKey();
 			if(activeSkill.TryGetValue(id,out iase)) {
 				MsgCenter.Instance.Invoke(CommandEnum.StateInfo, DGTools.stateInfo[4]);
-				MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, true);
-				GameTimer.GetInstance().AddCountDown(1f,Excute);
-				MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillStandReady, userUnit);
+				Debug.LogError("excute active skill : " + userUnit);
+				MsgCenter.Instance.Invoke(CommandEnum.ShowActiveSkill, userUnit);			
+				GameTimer.GetInstance().AddCountDown(AttackEffect.activeSkillEffectTime, WaitActiveEffect);
 			}
 		}
 	}
+	
+     void WaitActiveEffect() {
+		MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, true);
+		GameTimer.GetInstance().AddCountDown(1f,Excute);
+		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillStandReady, userUnit);
+	}
+
 
 	void Excute() {
 		if (iase == null || userUnit == null) {

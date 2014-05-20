@@ -24,6 +24,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 //		MsgCenter.Instance.AddListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 //		Debug.LogError("EvolveDecoratorUnity show ui end");
+
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 	
 	public override void HideUI () {

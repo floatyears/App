@@ -24,7 +24,7 @@ public class EvolveStart: ProtoManager {
     public UserUnit HelperUnit { get { return helperUnit; } set { helperUnit = value; } }
     public int HelperPremium { set { helperPremium = value; } }
     public uint EvolveQuestId { get { return evolveQuestId; } set { evolveQuestId = value; } }
-    
+	public TFriendInfo friendInfo;
     private uint baseUnitId;
     private List<uint> partUnitId;
     private uint helperUserId;
@@ -40,9 +40,9 @@ public class EvolveStart: ProtoManager {
     ~EvolveStart () {
     }
     
-    //Property: request server parameters
-
+    //Property: request server parameter
     //make request packet==>TODO rename to request
+
     public override bool MakePacket() {
         Proto = Protocol.EVOLVE_START;
         reqType = typeof(ReqEvolveStart);
@@ -193,11 +193,11 @@ public class TEvolveStart : ProtobufDataBase {
 		set { evolveStart = value; }
 	}
 
-	private TUnitParty evolveParty;
-	public TUnitParty EvolvePary {
-		get {return evolveParty;}
-		set {evolveParty = value;}
-	}
+//	private TUnitParty evolveParty;
+//	public TUnitParty EvolvePary {
+//		get {return evolveParty;}
+//		set {evolveParty = value;}
+//	}
 
 	public void StoreData () {
 		DataCenter.evolveInfo = this;
@@ -206,6 +206,8 @@ public class TEvolveStart : ProtobufDataBase {
 	public void ClearData () {
 		DataCenter.evolveInfo = null;
 	}
+
+	public List<TUserUnit> evolveParty = new List<TUserUnit>();
 }
 
 //================================ add by leiliang end==========================

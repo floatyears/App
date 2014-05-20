@@ -53,6 +53,7 @@ public class UIEventListener : MonoBehaviour
 
 	static public UIEventListener Get (GameObject go)
 	{
+	//	Debug.Log ("--------"+go);
 		UIEventListener listener = go.GetComponent<UIEventListener>();
 		if (listener == null) listener = go.AddComponent<UIEventListener>();
 		return listener;

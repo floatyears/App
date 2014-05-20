@@ -39,20 +39,19 @@ public class StandbyView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
-		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
-		RefreshParty(curParty);
+		Debug.Log("StandBy.ShowUI()...");
+		AddCmdLisenter();
 		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+		RmvCmdListener();
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+		RmvCmdListener();
 	}
 
 	private void InitUI(){
@@ -62,8 +61,7 @@ public class StandbyView : UIComponentUnity {
 			pageLightList.Add(curPageLight);
 			UIEventListener.Get(curPageLight).onClick = ClickPageLight;
 		}
-		Debug.Log("pageLightList count is : " + pageLightList.Count);
-
+		//Debug.Log("pageLightList count is : " + pageLightList.Count);
 
 		prePageBtn = FindChild<UIButton>("Button_Left");
 		nextPageBtn = FindChild<UIButton>("Button_Right");
@@ -109,10 +107,8 @@ public class StandbyView : UIComponentUnity {
 
 	private void RefreshParty(TUnitParty party){
 		List<TUserUnit> partyMemberList = party.GetUserUnit();
-		for (int i = 0; i < partyMemberList.Count; i++){
+		for (int i = 0; i < partyMemberList.Count; i++)
 			partyView[ i ].Init(partyMemberList [ i ]);
-		}
-
 		ShowPartyInfo();
 	}
 
@@ -124,17 +120,37 @@ public class StandbyView : UIComponentUnity {
 	private Dictionary<string, object> pickedInfoForFight;
 	private TFriendInfo pickedHelperInfo;
 	private void RecordPickedInfoForFight(object msg){
-		//Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
+		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
-
-		//Show helper view as soon as fill helperViewItem with helper data(data bind with view)
 		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
-		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
-		helperUnitItem.Init(pickedHelperInfo);
-
-		ShowPartyInfo();
-		ShowHelperView();
+		ShowHelper(pickedHelperInfo);
+		RefreshParty(DataCenter.Instance.PartyInfo.CurrentParty);
 	}
+
+	void EvolveSelectQuest(object data) {
+		evolveStart = data as TEvolveStart;
+		RefreshParty (evolveStart.evolveParty);
+		
+		prePageBtn.isEnabled = false;
+		nextPageBtn.isEnabled = false;
+
+		ShowHelper (evolveStart.EvolveStart.friendInfo);
+	}
+
+	void RefreshParty(List<TUserUnit> evolveParty) {
+		for (int i = 0; i < evolveParty.Count; i++){
+			partyView[ i ].Init(evolveParty [ i ]);
+		}
+		
+		ShowPartyInfo();
+	}
+
+	void ShowHelper(TFriendInfo friendInfo) {
+		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
+		Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
+		helperUnitItem.Init(friendInfo);
+		ShowHelperView();
+	} 
 
 	private void ClickFightBtn(GameObject btn){
 		Debug.Log("StandbyView.ClickFightBtn(), start...");
@@ -208,7 +224,7 @@ public class StandbyView : UIComponentUnity {
 		UIManager.Instance.EnterBattle();
 	} 
 
-	private void ShowPartyInfo(){// show current partyInfo
+	private void ShowPartyInfo(){
 		if(pickedHelperInfo == null) return;
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		UpdateOwnLeaderSkillInfo(curParty);
@@ -217,6 +233,15 @@ public class StandbyView : UIComponentUnity {
 		UpdatePageLight(curParty.ID);
 	}
 
+	private void AddCmdLisenter(){
+		MsgCenter.Instance.AddListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
+	}
+	
+	private void RmvCmdListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
+	}
 
 	private void ShowHelperView(){
 		Debug.Log("ShowHelperView(), Start...");
@@ -227,7 +252,6 @@ public class StandbyView : UIComponentUnity {
 
 		helper.FriendInfo = pickedHelperInfo;
 		helper.UserUnit = pickedHelperInfo.UserUnit;
-		Debug.LogError("heler id : " + helper.UserUnit.ID);
 	}
 
 	private void UpdateOwnLeaderSkillInfo(TUnitParty curParty){
@@ -319,8 +343,7 @@ public class StandbyView : UIComponentUnity {
 			indexLabel.color = new Color(22.0f/255.0f, 140.0f/255.0f, 180.0f/255.0f);
 		}
 	}
-
-
+	
 	private void InitPageLight(){
 		for (int i = 0; i < PARTY_LIGHT_COUNT; i++){
 			SetPartyIndexText( i );

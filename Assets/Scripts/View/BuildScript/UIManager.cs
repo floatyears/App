@@ -4,6 +4,11 @@ using System.Collections.Generic;
 public class UIManager {
 	private static UIManager instance;
 
+	public bool forbidChangeScene {
+				get;
+				set;
+	}
+
 	public static UIManager Instance {
 		get {
 			if(instance == null)
@@ -124,15 +129,18 @@ public class UIManager {
 	}
 
 	public void ChangeScene(SceneEnum sEnum) {
+		if (forbidChangeScene) {
+			return;		
+		}
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
 		}
 		else {
             InvokeSceneClear(sEnum);
-			baseScene.SetScene(sEnum);
 			if(current != null) {
 				current.HideScene();
 			}
+			baseScene.SetScene(sEnum);
 			storePrevScene = sEnum;
 		}
 

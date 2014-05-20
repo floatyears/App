@@ -102,7 +102,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 		baseData = evolveItem.Find (a => a.userUnitItem.ID == tuu.ID);
 		baseData.hightLight.enabled = true;
-
 		materialInfo.Clear ();
 		int count = tuu.UnitInfo.evolveInfo.materialUnitId.Count;
 		int value = 3 - count;
@@ -111,16 +110,13 @@ public class UnitDisplayUnity : UIComponentUnity {
 			UnitItemInfo uii = normalItem.Find(a=>a.userUnitItem.UnitInfo.ID == id);
 			if(uii != default(UnitItemInfo)) {
 				materialInfo.Add(uii);
-			}
-			else{
+			} else{
 				materialInfo.Add(null);
 			}
 		}
-
 		for (int i = 0; i < value; i++) {
 			materialInfo.Add(null);
 		}
-
 		List<TUserUnit> temp = new List<TUserUnit> ();
 		for (int i = 0; i < materialInfo.Count; i++) {
 			if(materialInfo[i] == null) {
@@ -129,7 +125,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 				temp.Add(materialInfo[i].userUnitItem);
 			}
 		}
-
 		MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, temp);
 	}
 
@@ -373,5 +368,16 @@ public class UnitDisplayUnity : UIComponentUnity {
 			unitItemDragPanel.AddItem(endValue);
 		}
 		unitItemDragPanel.Refresh ();
+	}
+
+	public GameObject GetUnitItem(int i){
+
+		List<GameObject> a = unitItemDragPanel.ScrollItem;
+		if (i == -1) {
+		return a[a.Count - 1];
+		} else {
+			return a[i];
+		}
+		
 	}
 }

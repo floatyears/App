@@ -75,6 +75,7 @@ public enum CommandEnum{
     EvolveSaveState,
     PartySaveState,
     BackSceneEnable,
+	levelDone,
 	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 				= 1002,
 	StartAttack					= 1003,
@@ -158,7 +159,9 @@ public enum CommandEnum{
 	UnitDisplayMaterialData		= 3056,
 	EvolveFriend				= 3057,
 	UnitMaterialList 			= 3058,
+	ShowActiveSkill,
 	EvolveStart,
+	EvolveSelectStage,
 	ReturnPreScene,
 	RefreshFriendHelper,
 	PlayerDead,
@@ -167,6 +170,8 @@ public enum CommandEnum{
 	QuestEnd,
 	TargetEnemy,
 	ReduceActiveSkillRound,
+	BattleStart,
+	UseLeaderSkill,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -258,6 +263,8 @@ public enum CommandEnum{
 	ActiveSkillStandReady,
 	CloseMsgWindow,
 	ExcuteActiveSkill,
+	OpenGuideMsgWindow,
+	CloseGuideMsgWindow,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

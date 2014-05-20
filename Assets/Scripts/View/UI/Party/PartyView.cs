@@ -39,6 +39,8 @@ public class PartyView : UIComponentUnity{
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
 		RefreshItemCounter();
 		ShowUIAnimation();
+
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	public override void HideUI(){
@@ -534,6 +536,10 @@ public class PartyView : UIComponentUnity{
 	
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+
+	public GameObject GetUnitItem(int i){
+		return dragPanel.ScrollItem [i];
 	}
 
 }

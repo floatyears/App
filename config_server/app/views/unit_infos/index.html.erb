@@ -44,9 +44,9 @@
 			<td><%= unit.try(:maxLevel) %></td>
 			<td><%= unit.try(:profile) %></td>
 			<td>{
-				attackType:<%= unit.try(:powerType).try(:attackType) %>;
-				hpType:<%= unit.try(:powerType).try(:hpType) %>;
-				expType:<%= unit.try(:powerType).try(:expType) %>
+				attackType:{<%= unit.try(:powerType).try(:attackType).try(:min) %>|<%= unit.try(:powerType).try(:attackType).try(:max) %>|<%= unit.try(:powerType).try(:attackType).try(:growCurve) %>};
+				hpType:{<%= unit.try(:powerType).try(:hpType).try(:min) %>|<%= unit.try(:powerType).try(:hpType).try(:max) %>|<%= unit.try(:powerType).try(:hpType).try(:growCurve) %>};
+				expType:{<%= unit.try(:powerType).try(:expType).try(:min) %>|<%= unit.try(:powerType).try(:expType).try(:max) %>|<%= unit.try(:powerType).try(:expType).try(:growCurve) %>};
 				}
 			</td>
 			<td>

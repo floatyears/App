@@ -168,7 +168,7 @@ public class TUnitInfo : ProtobufDataBase {
 			}
 		}
 	}
-
+	
 	public int GetCurveValue(int level, PowerInfo pi) {
 		// growCurve = 0.7, 1.0, 1.5
 		float result = pi.min + (pi.max-pi.min) * Mathf.Pow( (float)(level-1)/(MaxLevel-1) , (pi.growCurve) );
@@ -180,17 +180,17 @@ public class TUnitInfo : ProtobufDataBase {
 	}
 
 	public bbproto.PowerType PowerType {
-		get {
+		get{
 			return instance.powerType;
 		}
 	}
-
+	
 	public int Hp {
 		get{
 			return GetCurveValue(1, instance.powerType.hpType);
 		}
 	}
-
+	
 	public int Attack {
 		get{
 			return GetCurveValue(1, instance.powerType.attackType);

@@ -9,9 +9,17 @@ public class AttackEffect : MonoBehaviour {
 	private Queue<AttackEffectItem> inactiveEffect = new Queue<AttackEffectItem>();
 	private Queue<AttackEffectItem> attackEffectQueue = new Queue<AttackEffectItem>();
 
+	private GameObject activeEffect;
+	private UITexture avatarTexture;
+
+	public const float activeSkillEffectTime = 2f;
+
 	void Awake() {
 		effect = transform.Find ("AE").gameObject;
 		effect.SetActive (false);
+		activeEffect = transform.Find ("ActiveSkill").gameObject;
+		avatarTexture = activeEffect.transform.Find ("Avatar").GetComponent<UITexture> ();
+		activeEffect.SetActive (false);
 	}
 
 	public void RefreshItem (AttackInfo data) {
@@ -36,5 +44,17 @@ public class AttackEffect : MonoBehaviour {
 		} else {
 			Destroy(aei.gameObject);
 		}
+	}
+
+	public void PlayActiveSkill(TUserUnit tuu) {
+		activeEffect.SetActive (true);
+		activeEffect.transform.localPosition = BattleCardArea.activeSkillStartPosition;
+		avatarTexture.mainTexture = tuu.UnitInfo.GetAsset (UnitAssetType.Avatar);
+		iTween.MoveTo (activeEffect, iTween.Hash ("position", BattleCardArea.startPosition, "time", activeSkillEffectTime, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd", "islocal", true));
+	}
+
+	void ActiveSkillEnd() {
+		avatarTexture.mainTexture = null;
+		activeEffect.SetActive (false);
 	}
 }

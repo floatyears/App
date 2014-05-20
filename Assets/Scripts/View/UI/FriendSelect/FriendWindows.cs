@@ -14,6 +14,8 @@ public class FriendWindows : FriendHelperView {
 			gameObject.SetActive(true);
 		}
 		base.ShowUI ();
+
+		NoviceGuideStepEntityManager.Instance ().NextState ();
 	}
 
 	public override void HideUI () {
@@ -31,6 +33,10 @@ public class FriendWindows : FriendHelperView {
 			selectFriend(item.FriendInfo);
 		}
 		HideUI ();
+	}
+
+	public GameObject GetHelperUnitItem(int i){
+		return dragPanel.ScrollItem[i];
 	}
 
 }

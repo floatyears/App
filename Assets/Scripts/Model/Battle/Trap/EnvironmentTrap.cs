@@ -1,35 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnvironmentTrap : TrapBase, ITrapExcute {
+public class EnvironmentTrap : TrapBase {
 	public EnvironmentTrap (object instance) : base (instance) {
 		trapEffectType = TrapInjuredInfo.environment;
-		round = (int)GetInjuredValue.trapValue;
-//		round = trapValueIndex;
-//		Debug.LogError ("EnvironmentTrap : " + round);
 	}
 
-	int round = 0;
+	public override void Excute () {
+		Round =  (int)GetInjuredValue.trapValue;
 
-	public void Excute () {
-		if (round > 0) {
-			MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, RoleMove);
-			MsgCenter.Instance.Invoke (CommandEnum.ShieldMap, true);
-			round--;
-		}
-
-//		Debug.LogError ("Excute EnvironmentTrap : " + round);
+		ExcuteByDisk ();
 	}
-
+	
+	public override  void ExcuteByDisk () {
+		MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, RoleMove);
+		MsgCenter.Instance.Invoke (CommandEnum.ShieldMap, true);
+		ConfigBattleUseData.Instance.trapEnvironment = this;
+		Round--;
+	}
 
 	void RoleMove (object instance) {
-		if (round == 0) {
-			round = (int)GetInjuredValue.trapValue;
+		if (Round == 0) {
 			MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, RoleMove);
+			ConfigBattleUseData.Instance.trapEnvironment = null;
 			MsgCenter.Instance.Invoke (CommandEnum.ShieldMap, false);
 			return;
 		}
 
-		round--;
+		Round--;
 	}
 }

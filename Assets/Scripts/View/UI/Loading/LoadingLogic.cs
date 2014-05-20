@@ -118,8 +118,9 @@ public class LoadingLogic : ConcreteComponent {
             
 			DataCenter.Instance.CatalogInfo = new TUnitCatalog(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 
-            TestUtility.Test();
- 
+//            TestUtility.Test();
+            //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
+            //      Debug.LogError("login end");
 			if(ConfigBattleUseData.Instance.hasBattleData()) {
 				MsgWindowParams mwp = new MsgWindowParams ();
 				mwp.btnParams = new BtnParam[2];
@@ -146,6 +147,7 @@ public class LoadingLogic : ConcreteComponent {
 
 	void EnterGame () {
 		UIManager.Instance.ChangeScene(SceneEnum.Start);
+
 		UIManager.Instance.ChangeScene(SceneEnum.World);
 		if (rspAuthUser.isNewUser == 1){
 			TurnToReName();
@@ -163,6 +165,7 @@ public class LoadingLogic : ConcreteComponent {
 	}
 
     void TurnToReName() {
+        //      Debug.Log("PlayerInfoBar.TurnToReName() : Start");
         if (DataCenter.Instance.UserInfo == null) {
             Debug.LogError("DataCenter.Instance.UserInfo is null");
             return;
@@ -175,8 +178,9 @@ public class LoadingLogic : ConcreteComponent {
         
         if (DataCenter.Instance.UserInfo.NickName.Length == 0) {
             UIManager.Instance.ChangeScene(SceneEnum.Others);
+            Debug.Log("PlayerInfoBar.ChangeScene( Others ).");
         }
         
-        Debug.Log("Loading...TurnToReName() :  NickName is " + DataCenter.Instance.UserInfo.NickName);
+        Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.NickName);
     }
 }
