@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -71,7 +71,7 @@ public class NoviceGuideStepEntityManager {
 			case SceneEnum.RareScratch:
 				CreateStepEntityByID(NoviceGuideStepEntityID.RARE_SCRATCH,NoviceGuideStepD_StateOne.Instance());
 				break;
-			case SceneEnum.Quest:
+			case SceneEnum.Home:
 				CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepE_StateOne.Instance());
 				break;
 			case SceneEnum.Party:

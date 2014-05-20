@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class NewQuestSelect : UIComponentUnity {
+public class QuestSelectView : UIComponentUnity {
 	private DragPanel dragPanel;
 
 	public override void ShowUI(){

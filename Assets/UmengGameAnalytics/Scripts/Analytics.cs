@@ -59,7 +59,6 @@ namespace Umeng
         public static void SetLogEnabled(bool value)
         {
 #if UNITY_EDITOR
-        Debug.Log("SetLogEnabled");  
 #elif UNITY_IPHONE
         _SetLogEnabled(value);
 #elif UNITY_ANDROID
@@ -79,7 +78,6 @@ namespace Umeng
         public static void Event(string eventId)
         {
 #if UNITY_EDITOR
-        Debug.Log("Event");  
 #elif UNITY_IPHONE
         _Event(eventId);
 #elif UNITY_ANDROID
@@ -98,7 +96,6 @@ namespace Umeng
         public static void Event(string eventId, string label)
         {
 #if UNITY_EDITOR 
-        Debug.Log("Event");  
 #elif UNITY_IPHONE
         _EventWithLabel(eventId, label);
 #elif UNITY_ANDROID

@@ -194,7 +194,7 @@
     },
     "QuestSelectWindow": {
         "uiName":"QuestSelectWindow",
-        "resoucePath": "Prefabs/UI/Quest/",
+        "resoucePath": "Prefabs/UI/Home/",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
@@ -409,16 +409,16 @@
         "positiony": 0,
         "positionz": 0
     },
-     "HomeWorldMap": {
-        "uiName":"HomeWorldMap",
+     "HomeWindow": {
+        "uiName":"HomeWindow",
         "resoucePath": "Prefabs/UI/Quest/",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-    "StageMap": {
-        "uiName":"StageMap",
+    "StageSelectWindow": {
+        "uiName":"StageSelectWindow",
         "resoucePath": "Prefabs/UI/Quest/",
         "parent": 0,
         "positionx": 0,
@@ -426,8 +426,8 @@
         "positionz": 0
     },
      "FightReadyWindow": {
-        "uiName":"StandByWindow",
-        "resoucePath": "Prefabs/UI/FightReadyWindow/",
+        "uiName":"FightReadyWindow",
+        "resoucePath": "Prefabs/UI/Quest/",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,

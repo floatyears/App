@@ -88,7 +88,7 @@ public class UIConfig
 	public const string unitDetailPanelName = "UnitDetailPanel";
 	public const string searchMainWindowName = "SearchMainWindow";
 	public const string searchInfoWindowName = "SearchInfoWindow";
-	public const string stageMapName = "StageMap";
+	public const string stageWindowName = "StageSelectWindow";
 	public const string levelUpView = "LevelUpUI";
 	public const string levelUpInfoPanelName = "LevelUpInfoPanel";
 	public const string levelUpReadyPanelName = "LevelUpReadyPanel";
@@ -111,7 +111,7 @@ public class UIConfig
 	public const string userUnitSortPanelName = "UserUnitSortPanel";
 	public const string friendUnitSortPanelName = "FriendUnitSortPanel";
 	
-	public const string homeWorldMapName = "HomeWorldMap";
+	public const string homeWindowName = "HomeWindow";
 	public const string stageSlidePanelName = "StageSlidePanel";
 
 	public const float playerInfoBox_X = 160f;

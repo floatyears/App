@@ -56,10 +56,10 @@ public partial class TextCenter {
 		textDict.Add(TextConst.SCENE_NAME_FRIEND_SELECT, "FRIEND SELECT");
 		textDict.Add(TextConst.SCENE_NAME_HOME, "HOME");
 		textDict.Add(TextConst.SCENE_NAME_INFORMATION, "INFORMATION");
-		textDict.Add(TextConst.SCENE_NAME_LEVELUP, "LEVEL UP");
+		textDict.Add(TextConst.SCENE_NAME_LEVEL_UP, "LEVEL UP");
 		textDict.Add(TextConst.SCENE_NAME_OTHERS, "OTHERS");
 		textDict.Add(TextConst.SCENE_NAME_PARTY, "PARTY");
-		textDict.Add(TextConst.SCENE_NAME_QUESTSELECT, "QUEST SELECT");
+		textDict.Add(TextConst.SCENE_NAME_QUEST_SELECT, "QUEST SELECT");
 		textDict.Add(TextConst.SCENE_NAME_RECEPTION, "RECEPTION");
 		textDict.Add(TextConst.SCENE_NAME_ROLE_SELECT, "ROLE SELECT");
 		textDict.Add(TextConst.SCENE_NAME_SCRATCH, "SCRATCH");
@@ -70,6 +70,7 @@ public partial class TextCenter {
 		textDict.Add(TextConst.SCENE_NAME_UNIT_SELL, "UNIT SELL");
 		textDict.Add(TextConst.SCENE_NAME_YOUR_ID, "YOUR ID");
 		textDict.Add(TextConst.SCENE_NAME_RESULT, "RESULT");
+		textDict.Add(TextConst.SCENE_NAME_UNIT_LIST, "UNIT_LIST");
 	}
 }
 

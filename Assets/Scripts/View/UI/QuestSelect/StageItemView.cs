@@ -59,8 +59,6 @@ public class StageItemView : MonoBehaviour {
 	private void SetIcon(){
 		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryStageClear(data.ID);
-		//Debug.Log("StageItemView.SetIcon(), isClear is : " + isClear);
-		//Debug.Log("StageItemView.SetIcon(), stageId is : " + data.ID);
 		if(isClear){
 			icon.spriteName = "icon_stage_" + data.ID;
 		}
@@ -78,8 +76,7 @@ public class StageItemView : MonoBehaviour {
 
 	private void ClickItem(GameObject item){
 		Debug.Log(string.Format("StageItemView.ClickItem(), Picking Stage...stageId is {0}, Stage name is : {1}", data.ID, data.StageName));
-		//QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
-		UIManager.Instance.ChangeScene(SceneEnum.Quest); //before
+		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect); //before
 		if (DataCenter.gameStage == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {

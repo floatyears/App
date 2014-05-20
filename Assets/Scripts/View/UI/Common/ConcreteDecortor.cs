@@ -2,7 +2,7 @@
 using UnityEngine;
 //--------------------------------Decorator-----------------------------------
 
-//--------------------------------SelectRole------------------------------------------
+//--------------------------------Role Select------------------------------------------
 public class SelectRoleDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
 	public SelectRoleDecorator(SceneEnum sEnum) : base(sEnum){}
@@ -10,6 +10,7 @@ public class SelectRoleDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_ROLE_SELECT));
 		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 	
@@ -24,12 +25,6 @@ public class SelectRoleDecorator : DecoratorBase{
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
-
-//		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
-//		playerInfoBar.SetComponent(sceneInfoBar);
-//
-//		BgComponent background = CreatComponent< BgComponent >(UIConfig.HomeBackgroundName);
-//		background.SetComponent(playerInfoBar);
 
 		SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
 		unitSelect.SetComponent(sceneInfoBar);
@@ -98,35 +93,31 @@ public class LoadingDecorator : DecoratorBase{
 		LoadingLogic background = CreatComponent< LoadingLogic >(UIConfig.loadingWindowName);
 		background.SetComponent(decorator);
 
-        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
+        	MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
 		noteWindow.SetComponent(background);
         
 		NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
 		guideWindow.SetComponent(noteWindow);
 
-        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+        	MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
 		maskController.SetComponent(guideWindow);
 
-
-
 		lastDecorator = maskController;
-        lastDecorator.CreatUI();
+        	lastDecorator.CreatUI();
         
     }
 }
 
 
-//--------------------------------Quest---------------------------------------
-public class QuestDecorator : DecoratorBase{
+//--------------------------------Home---------------------------------------
+public class HomeDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public QuestDecorator(SceneEnum sEnum) : base(sEnum){}
+	public HomeDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName("Quest");
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_HOME));
 		base.ShowScene();
-
-		//NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 		
 	public override void HideScene(){
@@ -141,8 +132,7 @@ public class QuestDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		//QuestController quest = CreatComponent< QuestController >(UIConfig.questWindowName);
-		QuestController quest = CreatComponent< QuestController >(UIConfig.homeWorldMapName);
+		QuestController quest = CreatComponent< QuestController >(UIConfig.homeWindowName);
 		quest.SetComponent(sceneInfoBar);
 
 		lastDecorator = quest;
@@ -158,7 +148,7 @@ public class FriendDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName("Friend");
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_FRIEND));
 	}
 	
 	public override void HideScene(){
@@ -189,7 +179,7 @@ public class ScratchDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName("Scratch");
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_SCRATCH));
 
 		if(SceneEnum.Scratch == currentDecoratorScene)
 			NoviceGuideStepEntityManager.Instance ().StartStep ();
@@ -203,8 +193,7 @@ public class ScratchDecorator : DecoratorBase{
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene()
-	{
+	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
@@ -274,6 +263,7 @@ public class ShopDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_SHOP));
 	}
 	
 	public override void HideScene(){
@@ -305,8 +295,7 @@ public class OthersDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName("Others");
-	}
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_OTHERS));	}
 	
 	public override void HideScene(){
 		base.HideScene();
@@ -337,8 +326,7 @@ public class UnitsDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName("Units");
-	}
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_UNITS));	}
 	
 	public override void HideScene(){
 		base.HideScene();
@@ -362,19 +350,19 @@ public class UnitsDecorator : DecoratorBase{
 	}
 }
 
-//--------------------------------QuestSelect----------------------------------------
-public class QuestSelectDecorator : DecoratorBase{
+//--------------------------------StageSelect----------------------------------------
+public class StageSelectDecorrator : DecoratorBase{
 
 	private SceneInfoComponent sceneInfoBar;
 
-	public QuestSelectDecorator(SceneEnum sEnum) : base(sEnum){
+	public StageSelectDecorrator(SceneEnum sEnum) : base(sEnum){
         MsgCenter.Instance.AddListener(CommandEnum.QuestSelectSaveState, SetKeepState);
 	}
 
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.World);
-		sceneInfoBar.SetCurSceneName("Quest Select");
+		sceneInfoBar.SetBackScene(SceneEnum.Home);
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_STAGE_SELECT));
 	}
 	
 	public override void HideScene(){
@@ -390,7 +378,7 @@ public class QuestSelectDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		QuestSelectController questSelect = CreatComponent< QuestSelectController >(UIConfig.stageMapName);
+		StageSelectController questSelect = CreatComponent< StageSelectController >(UIConfig.stageWindowName);
 		questSelect.SetComponent(sceneInfoBar);
 
 		lastDecorator = questSelect;
@@ -399,7 +387,7 @@ public class QuestSelectDecorator : DecoratorBase{
 	}
 }
 
-//--------------------------------FriendSelect----------------------------------------
+//--------------------------------Friend Select----------------------------------------
 public class FriendSelectDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
 	
@@ -407,7 +395,8 @@ public class FriendSelectDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.Quest);
+		sceneInfoBar.SetBackScene(SceneEnum.Home);
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_FRIEND_SELECT));
 	}
 	
 	public override void HideScene(){
@@ -423,10 +412,8 @@ public class FriendSelectDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 		
 		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
-		//SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		friendSelect.SetComponent(sceneInfoBar);
-		//sortPanel.SetComponent(friendSelect);
 
 		lastDecorator = friendSelect;
 		lastDecorator.CreatUI();
@@ -444,8 +431,7 @@ public class PartyDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName("Party");
-	}
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_PARTY));	}
 	
 	public override void HideScene(){
 		base.HideScene();
@@ -485,7 +471,7 @@ public class LevelUpDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName("Level Up");
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_LEVEL_UP));	
 	}
 	
 	public override void HideScene(){
@@ -527,8 +513,7 @@ public class SellDecorator : DecoratorBase{
 		base.ShowScene();
         MsgCenter.Instance.AddListener(CommandEnum.SellUnitSaveState, SetKeepState);
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName("Sell");
-	}
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_UNIT_SELL));	}
 	
 	public override void HideScene(){
 		base.HideScene();
@@ -562,11 +547,9 @@ public class EvolveDecorator : DecoratorBase{
 	}
 	
 	public override void ShowScene(){
-//		Debug.LogError("show scene begin");
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName("Evolve");
-//		Debug.LogError("show scene end");
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_EVOLVE));
 	}
 	
 	public override void HideScene(){
@@ -607,7 +590,7 @@ public class CatalogDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName("Catalog");
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_CATALOG));	
 	}
 	
 	public override void HideScene(){
@@ -640,7 +623,7 @@ public class UnitListDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName("Unit List");
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_UNIT_LIST));
 	}
 	
 	public override void HideScene(){
@@ -675,7 +658,7 @@ public class FriendListDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
-		sceneInfoBar.SetCurSceneName("Friend List");
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_FRIEND_LIST));
 	}
 	
 	public override void HideScene(){
@@ -713,8 +696,8 @@ public class InformationDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
-		sceneInfoBar.SetCurSceneName("Information");
-
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_INFORMATION));
+         
 	}
 	
 	public override void HideScene(){
@@ -888,7 +871,7 @@ public class UnitDetailDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.LevelUp);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_UNIT_DETAIL));
+//		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_UNIT_DETAIL));
 	}
 	
 	public override void HideScene(){
@@ -964,7 +947,7 @@ public class FightReadyDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		StandbyController standByWindow = CreatComponent<StandbyController>(UIConfig.fightReadyWindowName);
+		FightReadyController standByWindow = CreatComponent<FightReadyController>(UIConfig.fightReadyWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		standByWindow.SetComponent(sceneInfoBar);
@@ -975,14 +958,15 @@ public class FightReadyDecorator : DecoratorBase{
 }
 
 
-//--------------------------------NewQuestSelect------------------------------------------
-public class NewQuestSelectDecorator : DecoratorBase{
+//--------------------------------Quest Select------------------------------------------
+public class QuestSelectDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public NewQuestSelectDecorator(SceneEnum sEnum) : base(sEnum){}
+	public QuestSelectDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.Stage);
+		sceneInfoBar.SetBackScene(SceneEnum.StageSelect);
+		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_QUEST_SELECT));
 	}
 	
 	public override void HideScene(){
@@ -995,7 +979,7 @@ public class NewQuestSelectDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		NewQuestSelectController questSelect = CreatComponent<NewQuestSelectController>(UIConfig.questSelectPanelName);
+		QuestSelectController questSelect = CreatComponent<QuestSelectController>(UIConfig.questSelectWindowName);
 		
 		sceneInfoBar.SetComponent(decorator);
 		questSelect.SetComponent(sceneInfoBar);

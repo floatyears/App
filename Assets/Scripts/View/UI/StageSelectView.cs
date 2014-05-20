@@ -2,7 +2,7 @@ using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class QuestSelectView : UIComponentUnity{
+public class StageSelectView : UIComponentUnity{
 	private UIImageButton selectBtn;
 	private UILabel doorLabel;
 	private UILabel labDoorType;

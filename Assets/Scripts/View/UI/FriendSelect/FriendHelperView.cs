@@ -82,7 +82,7 @@ public class FriendHelperView : UIComponentUnity{
 		pickedInfo.Add("QuestInfo", pickedQuestInfo);
 		pickedInfo.Add("HelperInfo", item.FriendInfo);
 
-		UIManager.Instance.ChangeScene(SceneEnum.StandBy);//before
+		UIManager.Instance.ChangeScene(SceneEnum.FightReady);//before
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickHelper, pickedInfo);//after
 	}
 

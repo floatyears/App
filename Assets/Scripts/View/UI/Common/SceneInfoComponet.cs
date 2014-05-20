@@ -14,7 +14,6 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	public override void ShowUI () {
 		base.ShowUI ();
 		SceneEnum se = UIManager.Instance.baseScene.CurrentScene;
-		Output(se.ToString());
 	}
 	
 	public override void HideUI () {
@@ -23,13 +22,6 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
-	}
-
-	void Output(string sEnum) {
-		if(viewComponent is IUICallback) {
-			IUICallback uicall = viewComponent as IUICallback;
-			uicall.CallbackView(sceneName);
-		}
 	}
 
 	public void CallbackView (object data) {
@@ -55,6 +47,12 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	private string sceneName;
 	public void SetCurSceneName(string name){
 		sceneName = name.ToUpper();
+
+		if(viewComponent is IUICallback) {
+			IUICallback uicall = viewComponent as IUICallback;
+			uicall.CallbackView(sceneName);
+		}
+
 	}
 
     public void BackSceneEnable(object args){

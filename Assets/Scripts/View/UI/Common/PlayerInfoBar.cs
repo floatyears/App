@@ -165,7 +165,7 @@ public class PlayerInfoBar : UIComponentUnity{
 			}
 		}
 
-		UIManager.Instance.ChangeScene(SceneEnum.World);
+		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 	}
 
 	void AddCommandListener(){

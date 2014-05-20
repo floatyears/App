@@ -2,7 +2,7 @@ using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class QuestView : UIComponentUnity{
+public class HomeView : UIComponentUnity{
 	private GameObject storyRoot;
 	private GameObject eventRoot;
 	private GameObject dragItemPrefab;
@@ -131,8 +131,6 @@ public class QuestView : UIComponentUnity{
 		foreach (var item in cityViewInfo){
 			UISprite bgSpr = item.Key.transform.FindChild("Background").GetComponent<UISprite>();
 			bgSpr.enabled = false;
-			//UILabel nameLabel = item.Key.transform.FindChild("Label").GetComponent<UILabel>();
-			//nameLabel.text = item.Value.CityName;
 			
 			UIEventListener.Get(item.Key).onPress = PressCityItem;
 		}
@@ -148,7 +146,7 @@ public class QuestView : UIComponentUnity{
 		UISprite bgSpr = item.transform.FindChild("Background").GetComponent<UISprite>();
 		bgSpr.enabled = isPressed;
 		if(!isPressed){
-			UIManager.Instance.ChangeScene(SceneEnum.Stage);
+			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
 			MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
 			Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
 		}
