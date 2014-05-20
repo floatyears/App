@@ -68,17 +68,21 @@ public class TCityInfo : ProtobufDataBase {
 	}
 
 	public TStageInfo GetStage(uint stageID) {
+
 		if (stageInfo == null) {
 			LogHelper.Log("City : {0} stage list is null ! ", instance.id);
 			return null;
 		}
-
+		Debug.LogError (stageID + " stageInfo : " + stageInfo.Count);
+		foreach (var item in stageInfo) {
+			Debug.LogError(" GetStage : " + item.ID);
+		}
 		TStageInfo tsi = stageInfo.Find (a => a.ID == stageID);
 		if (tsi == default(TStageInfo)) {
 			LogHelper.Log("City : {0} stage list not containt this stage {1} ! ", instance.id, stageID);
 			return null;
 		}
-
+		Debug.LogError (" return tsi : " + tsi.ID);
 		return tsi;
 	}
 }
