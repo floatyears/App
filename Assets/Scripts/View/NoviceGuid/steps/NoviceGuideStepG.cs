@@ -42,7 +42,7 @@ public class NoviceGuideStepG_StateOne:NoviceGuidState{
 	{
 		
 		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepG_StateTwo.Instance());
 		}
 		else{
 			
@@ -106,7 +106,7 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 	{
 		
 		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepG_StateThree.Instance());
 		}
 		else{
 			

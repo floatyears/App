@@ -52,25 +52,25 @@ public class NoviceGuideStepJ_StateOne:NoviceGuidState{
 		mwp.contentText = TextCenter.Instace.GetCurrentText("guide52_content");
 		
 		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOK1;
+		sure.callback = OnClickItem1;
 		sure.text = TextCenter.Instace.GetCurrentText("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 	}
 
-	private void ClickOK1(object data){
-		GameObject gm = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayUnity>().GetUnitItem(-1);
-		
-		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
-		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
-	}
+//	private void ClickOK1(object data){
+//		GameObject gm = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayUnity>().GetUnitItem(-1);
+//		
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
+//		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
+//		NoviceGuideUtil.ForceOneBtnClick (gm);
+//	}
 
-	private void OnClickItem1(GameObject item){
+	private void OnClickItem1(object data){
 
-		UIEventListenerCustom.Get (item).onClick -= OnClickItem1;
-		NoviceGuideUtil.RemoveAllArrows ();
+		//UIEventListenerCustom.Get (item).onClick -= OnClickItem1;
+		//NoviceGuideUtil.RemoveAllArrows ();
 
 		GameObject gm = GameObject.FindWithTag ("evolve_friend_btn");
 		
@@ -133,14 +133,19 @@ public class NoviceGuideStepJ_StateTwo:NoviceGuidState{
 	}
 	
 	private void ClickOK(object data){
-		GameObject gm = GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendWindows> ().GetHelperUnitItem(0).gameObject;
+		FriendWindows fw = GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendWindows> ();
+		GameObject gm = fw.GetHelperUnitItem(0).gameObject;
 		NoviceGuideUtil.ForceOneBtnClick (gm);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
-		UIEventListenerCustom.Get (gm).onClick += OnClickFriend;
+		//UIEventListenerCustom.Get (gm).onClick += OnClickFriend;
+		//MsgCenter.Instance.AddListener (CommandEnum.OnPickHelper, OnClickFriend);
+		fw.selectFriend += OnClickFriend;
 	}
 	
-	private void OnClickFriend(GameObject gm){
-		UIEventListenerCustom.Get (gm).onClick -= OnClickFriend;
+	private void OnClickFriend(TFriendInfo data){
+		//UIEventListenerCustom.Get (gm).onClick -= OnClickFriend;
+		LogHelper.Log("pick a friend to evolve");
+		GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendWindows> ().selectFriend -= OnClickFriend;
 		NoviceGuideUtil.RemoveAllArrows ();
 		
 		JumpToNextState = true;
@@ -176,9 +181,10 @@ public class NoviceGuideStepJ_StateThree:NoviceGuidState{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepJ state_three");
 		
 		GameObject gm = GameObject.FindWithTag ("evolve_btn");
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
 		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
+		NoviceGuideUtil.ForceOneBtnClick (gm);
 	}
 	
 	

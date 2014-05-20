@@ -10,7 +10,8 @@ public static class GameDataAnalysis {
 	public static void Event(GameDataAnalysisEventType eventId){
 		GA.Event (eventId.ToString());
 
-		//UploadStat.SendRequest ();
+
+		//UploadStat.SendRequest (null, data);
 	}
 
 	public static void Event(GameDataAnalysisEventType eventId, string key){

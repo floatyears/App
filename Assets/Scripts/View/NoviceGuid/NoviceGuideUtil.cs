@@ -145,23 +145,29 @@ public class NoviceGuideUtil {
 		tipText.SetActive (false);
 	}
 
-	public static void ForceOneBtnClick(GameObject obj)
+	public static void ForceOneBtnClick(GameObject obj,bool isExecuteBefore = true)
 	{
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
 		camLastLayer = mainCam.eventReceiverMask;
 
 		//TODO:Change the execute order....this may be different in different platform
- 		clickDelegate = UIEventListenerCustom.Get (obj).onClick;
-		UIEventListenerCustom.Get (obj).onClick = null;
-		UIEventListenerCustom.Get (obj).onClick += BtnClick;
-		UIEventListenerCustom.Get (obj).onClick += clickDelegate;
-		clickDelegate = null;
+		if (isExecuteBefore) {
+			clickDelegate = UIEventListenerCustom.Get (obj).onClick;
+			UIEventListenerCustom.Get (obj).onClick = null;
+			UIEventListenerCustom.Get (obj).onClick += BtnClick;
+			UIEventListenerCustom.Get (obj).onClick += clickDelegate;
+			clickDelegate = null;
+		
+		} else {
+			UIEventListenerCustom.Get (obj).onClick += BtnClick;	
+		}
+ 		
 		
 		oneBtnClickLayer = obj.layer;
 		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
 		mainCam.eventReceiverMask = mask;
 		obj.layer = LayerMask.NameToLayer ("NoviceGuide");
-		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask);
+		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask.value);
 	}
 
 
@@ -198,7 +204,7 @@ public class NoviceGuideUtil {
 			item.layer = LayerMask.NameToLayer ("NoviceGuide");
 		}
 		
-		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask);
+		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask.value);
 	}
 
 	private	static void MultiBtnClick(GameObject btn){
@@ -234,7 +240,7 @@ public class NoviceGuideUtil {
 		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
 		mainCam.eventReceiverMask = mask;
 		obj.layer = LayerMask.NameToLayer ("NoviceGuide");
-		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask);
+		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask.value);
 	}
 	
 	private static void BtnPress(GameObject btn)

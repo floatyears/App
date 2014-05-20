@@ -19,7 +19,7 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepF state_one");
 		
-		MsgWindowParams mwp = new MsgWindowParams ();
+		GuideWindowParams mwp = new GuideWindowParams ();
 		mwp.btnParam = new BtnParam();
 		mwp.titleText = TextCenter.Instace.GetCurrentText ("guide10_title");
 		mwp.contentText = TextCenter.Instace.GetCurrentText("guide10_content");
@@ -173,10 +173,12 @@ public class NoviceGuideStepF_StateThree:NoviceGuidState{
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = 2;
+
 		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
 		NoviceGuideUtil.ForceOneBtnClick (sbb);
 
-		NoviceGuideUtil.ShowArrow (new GameObject[]{sbb}, new Vector3[]{new Vector3(-282,-135,3)});
+		NoviceGuideUtil.ShowArrow (new GameObject[]{sbb}, new Vector3[]{new Vector3(0,0,3)});
 
 		UIEventListener.Get (sbb).onClick += TapBackBtn;
 	}
@@ -186,6 +188,8 @@ public class NoviceGuideStepF_StateThree:NoviceGuidState{
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListener.Get (btn).onClick -= TapBackBtn;
 		JumpToNextState = true;
+
+
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -285,7 +289,7 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
 		NoviceGuideUtil.ForceOneBtnClick (sbb);
 		
-		NoviceGuideUtil.ShowArrow (new GameObject[]{sbb}, new Vector3[]{new Vector3(-282,-135,3)});
+		NoviceGuideUtil.ShowArrow (new GameObject[]{sbb}, new Vector3[]{new Vector3(0,0,3)});
 		
 		UIEventListener.Get (sbb).onClick += TapBackBtn;
 	}
@@ -295,6 +299,7 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListener.Get (btn).onClick -= TapBackBtn;
 		JumpToNextState = true;
+
 	}
 
 	public override void Execute(NoviceGuideStepEntity stepEntity)

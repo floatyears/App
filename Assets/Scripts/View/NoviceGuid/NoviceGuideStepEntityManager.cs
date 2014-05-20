@@ -10,7 +10,7 @@ public class NoviceGuideStepEntityManager {
 
 	private NoviceGuideStepEntity currentStep;
 
-	private static int currentNoviceGuideStage = 2;
+	private static int currentNoviceGuideStage = 3;
 
 	private NoviceGuideStepEntityManager()
 	{
@@ -33,8 +33,8 @@ public class NoviceGuideStepEntityManager {
 
 	public static int CurrentNoviceGuideStage
 	{
-		get{return currentNoviceGuideStage;}
-		set{currentNoviceGuideStage = value;}
+		get{return currentNoviceGuideStage;LogHelper.Log("current novice guide stage(get): " + currentNoviceGuideStage);}
+		set{currentNoviceGuideStage = value;LogHelper.Log("current novice guide stage(set): " + currentNoviceGuideStage);}
 	}
 
 	public static bool isInNoviceGuide()
@@ -161,10 +161,15 @@ public class NoviceGuideStepEntityManager {
 			//NextState();
 			//return stepEntityDic[id];
 			if(stepEntityDic[id].StartState != state){
-				LogHelper.Log("there is already an stepEntity. ID:"+id.ToString()+"but the start state isn't the same, start: " + stepEntityDic[id].StartState+" next is: " + state);
+				LogHelper.Log("the start state isn't the same, start: " + stepEntityDic[id].StartState+" next is: " + state);
 				stepEntityDic[id].GetStateMachine().CurrentState = state;
 				stepEntityDic[id].GetStateMachine().IsRunning = true;
-			} //GetStateMachine().CurrentState = state;
+			} else{
+				LogHelper.Log("start state is the same:" + state + ", goto the next state");
+				NextState();
+				stepEntityDic[id].GetStateMachine().IsRunning = true;
+
+			}//GetStateMachine().CurrentState = state;
 		}
 		else {
 
