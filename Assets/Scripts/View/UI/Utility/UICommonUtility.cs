@@ -7,7 +7,6 @@ public enum BlockerReason{
 	BriefInfoWindow,
 	SortWindow,
 	Connecting
-
 }
 
 public class TouchEventBlocker{
@@ -15,6 +14,8 @@ public class TouchEventBlocker{
 	public const string blockerLayerName = "Blocker";
     public const int defaultLayer = 0;
     public const string defaultLayerName = "Default";
+	public const int guideLayer = 16;
+	public const string guideLayerName = "NoviceGuide";
 
 	private TouchEventBlocker(){
 		nguiCamera = Camera.main.GetComponent<UICamera>();
@@ -81,7 +82,7 @@ public class TouchEventBlocker{
 	}
 	
 	private void SetBlocked(bool isBlocked){
-//		Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
+		//Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
 		if (isBlocked){	
 			if(nguiCamera.eventReceiverMask != LayerMask.NameToLayer(blockerLayerName) << blockerLayer){
 				originLayer = nguiCamera.eventReceiverMask;

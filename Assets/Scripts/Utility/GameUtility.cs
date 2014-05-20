@@ -643,6 +643,8 @@ public class GameLayer
 
 	public static LayerMask blocker = 15;
 
+	public static LayerMask NoviceGuide = 16;
+
 	public static LayerMask Bottom = 31;
 
 	public static int LayerToInt(LayerMask layer)

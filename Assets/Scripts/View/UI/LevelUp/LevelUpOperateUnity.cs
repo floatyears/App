@@ -26,6 +26,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		ShowData ();
 
 		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
+
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	public override void HideUI () {
@@ -642,6 +644,15 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			}
 		}
 		return devorExp;
+	}
+
+	public PartyUnitItem GetPartyUnitItem(int i){
+		if (i == -1) {
+			return myUnitList[myUnitList.Count-1];
+		} else {
+			return myUnitList [i];
+		}
+
 	}
 
 //	int LevelUpFriend() {

@@ -12,6 +12,8 @@ public class BattleBottom : MonoBehaviour {
 //		get { return battleSkill; }
 //	}
 
+	public bool IsUseLeaderSkill = false;
+
 	public static bool notClick = false;
 
 //	[HideInInspector]
@@ -81,10 +83,31 @@ public class BattleBottom : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown (0)) {
 			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-			if (Physics.Raycast (ray, out rch,100f,GameLayer.Bottom << 31)) {
+
+			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
+
+			//LogHelper.Log("----------------battle bottom layermask: " + layermask);
+
+			int receiveMask = 0;
+
+//			int noviint = GameLayer.LayerToInt(GameLayer.NoviceGuide);
+//			int blocker =GameLayer.LayerToInt(GameLayer.blocker);
+
+//			int layer = noviint | blocker;
+//			Debug.LogError("noviint : " + noviint + " blockerlayer : " + blocker + " layer : " + layer);
+			//bool novi = (layermask & GameLayer.LayerToInt(GameLayer.NoviceGuide)) == GameLayer.LayerToInt(GameLayer.NoviceGuide);
+//			Debug.LogError(layermask + " GameLayer.NoviceGuid : " + GameLayer.LayerToInt(GameLayer.NoviceGuide));
+//			Debug.LogError("novi : " +novi + " GameLayer.NoviceGuid : " + (layermask & GameLayer.LayerToInt(GameLayer.NoviceGuide)) + " GameLayer.NoviceGuide : " + GameLayer.LayerToInt(GameLayer.NoviceGuide));
+			if(IsUseLeaderSkill) {
+				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
+			}
+			else{
+				receiveMask = GameLayer.LayerToInt(GameLayer.Bottom);
+			}
+			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
 				string name = rch.collider.name;
 				CheckCollider(name);
-			}	
+			}
 		}
 	}
 
@@ -104,6 +127,12 @@ public class BattleBottom : MonoBehaviour {
 					}
 					item.renderer.material.color = Color.gray;
 				}
+
+				if(IsUseLeaderSkill && id == 0){
+					LogHelper.Log("--------use leader skill command");
+					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill,null);
+				}
+
 
 				tuu = upi.UserUnit [id];
 				battleQuest.topUI.SheildInput(false);
@@ -137,5 +166,16 @@ public class BattleBottom : MonoBehaviour {
 			battleQuest.battle.ShieldGameInput(true);
 		}
 		battleSkillObject.SetActive(false);
+	}
+
+	public void SetLeaderToNoviceGuide(bool isInNoviceGuide){
+		if (isInNoviceGuide) {
+			GameObject temp = transform.Find ("Actor/0").gameObject;
+			temp.layer = LayerMask.NameToLayer ("NoviceGuide");	
+		} else {
+			GameObject temp = transform.Find ("Actor/0").gameObject;
+			temp.layer = LayerMask.NameToLayer ("Bottom");	
+		}
+
 	}
 }

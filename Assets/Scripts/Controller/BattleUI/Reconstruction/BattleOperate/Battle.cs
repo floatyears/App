@@ -76,6 +76,8 @@ public class Battle : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
 //		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
+
+		//NoviceGuideStepEntityManager.Instance ().NextState ();
 	}
 
 	public override void HideUI () {
@@ -231,6 +233,8 @@ public class Battle : UIBase {
 		battleData.storeBattleData.attackRound ++;
 		battleData.StoreMapData (null);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
+
+		MsgCenter.Instance.Invoke (CommandEnum.BattleStart, null);
 	}
 
 	GameObject GetPrefabsObject(string name) {

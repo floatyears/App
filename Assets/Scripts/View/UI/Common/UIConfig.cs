@@ -96,6 +96,7 @@ public class UIConfig
 	public const string levelUpFriendWindowName = "LevelUpFriendWindow";
 	public const string levelUpBasePanelName = "LevelUpBasePanel";
 	public const string commonNoteWindowName = "CommonNoteWindow";
+	public const string noviceGuideWindowName = "NoviceGuideWindow";
 	public const string unitBriefInfoWindowName = "UnitBriefInfoWindow";
 	public const string userBriefInfoWindowName = "UserBriefInfoWindow";
 	public const string applyMessageWindowName = "ApplyMessageWindow";

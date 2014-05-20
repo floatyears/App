@@ -111,6 +111,7 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	public MapItem GetMapItem(Coordinate coor) {
+
 		return map [coor.x, coor.y];
 	}
 	

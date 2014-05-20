@@ -369,4 +369,15 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 		unitItemDragPanel.Refresh ();
 	}
+
+	public GameObject GetUnitItem(int i){
+
+		List<GameObject> a = unitItemDragPanel.ScrollItem;
+		if (i == -1) {
+		return a[a.Count - 1];
+		} else {
+			return a[i];
+		}
+		
+	}
 }

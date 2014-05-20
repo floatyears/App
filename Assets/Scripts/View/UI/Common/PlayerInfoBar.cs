@@ -96,6 +96,7 @@ public class PlayerInfoBar : UIComponentUnity{
 		staminaSprite = FindChild< UISprite >("InfoBar/Foreground_Stamina");
 
 		//evolveTypeSprite = FindChild<UISprite>("InfoBar/Sprite_EvolveType");
+
 	}
 
 	private void ShowInfoBox(GameObject go, bool isPressed)

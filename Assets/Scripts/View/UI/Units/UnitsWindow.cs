@@ -84,6 +84,9 @@ public class UnitsWindow : UIComponentUnity{
 		bottomRoot.transform.localPosition = 1000 * Vector3.left;
 		iTween.MoveTo(topRoot, iTween.Hash("y", 0, "time", 0.4f));
 		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f));
+
+		//start units step
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	private void InitPagePanel(){
