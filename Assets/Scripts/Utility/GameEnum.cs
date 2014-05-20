@@ -161,6 +161,7 @@ public enum CommandEnum{
 	UnitMaterialList 			= 3058,
 	ShowActiveSkill,
 	EvolveStart,
+	EvolveSelectStage,
 	ReturnPreScene,
 	RefreshFriendHelper,
 	PlayerDead,

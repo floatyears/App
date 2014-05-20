@@ -36,6 +36,7 @@ public class StandbyView : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
 		ShowUIAnimation();
@@ -44,11 +45,13 @@ public class StandbyView : UIComponentUnity {
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 	}
 
 	private void InitUI(){
@@ -114,15 +117,40 @@ public class StandbyView : UIComponentUnity {
 	private void RecordPickedInfoForFight(object msg){
 		//Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
-
-		//Show helper view as soon as fill helperViewItem with helper data(data bind with view)
-		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
-		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
-		helperUnitItem.Init(pickedHelperInfo);
-
 		ShowPartyInfo();
-		ShowHelperView();
+
+		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
+		//		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
+		//		helperUnitItem.Init(pickedHelperInfo);
+		ShowHelper (pickedHelperInfo);
+//		ShowHelperView();
 	}
+
+	void EvolveSelectQuest(object data) {
+		evolveStart = data as TEvolveStart;
+		RefreshParty (evolveStart.evolveParty);
+		
+		prePageBtn.isEnabled = false;
+		nextPageBtn.isEnabled = false;
+
+		ShowHelper (evolveStart.EvolveStart.friendInfo);
+	}
+
+	void RefreshParty(List<TUserUnit> evolveParty) {
+//		List<TUserUnit> partyMemberList = party.GetUserUnit();
+		for (int i = 0; i < evolveParty.Count; i++){
+			partyView[ i ].Init(evolveParty [ i ]);
+		}
+		
+		ShowPartyInfo();
+	}
+
+	void ShowHelper(TFriendInfo friendInfo) {
+		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
+		Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
+		helperUnitItem.Init(friendInfo);
+		ShowHelperView();
+	} 
 
 	private void ClickFightBtn(GameObject btn){
 		Debug.Log("StandbyView.ClickFightBtn(), start...");
