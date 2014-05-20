@@ -231,7 +231,7 @@ public class UIManager {
 			break;
 			
 		case SceneEnum.SearchFriend:
-			temp = new SearchFriendDecorator( sEnum );
+			temp = new FriendSearchDecorator( sEnum );
 			break;
 			
 		case SceneEnum.Information:
@@ -275,7 +275,7 @@ public class UIManager {
 			break;
 
 		case SceneEnum.StandBy:
-			temp = new StandByDecorator( sEnum );
+			temp = new FightReadyDecorator( sEnum );
 			break;
 
 		case SceneEnum.Quest:

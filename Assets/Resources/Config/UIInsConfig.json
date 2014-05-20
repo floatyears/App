@@ -425,9 +425,9 @@
         "positiony": 0,
         "positionz": 0
     },
-     "StandByWindow": {
+     "FightReadyWindow": {
         "uiName":"StandByWindow",
-        "resoucePath": "Prefabs/UI/StandBy/",
+        "resoucePath": "Prefabs/UI/FightReadyWindow/",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,

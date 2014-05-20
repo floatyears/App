@@ -47,7 +47,29 @@ public partial class TextCenter {
 		textDict.Add("GotFriendPoint", "You have got {0} friend point.");
 		textDict.Add("TotalFriendPoint", "Total friend point you got now : {0}.");
 
-
-    }
+		textDict.Add(TextConst.SCENE_NAME_APPLY, "APPLY");
+		textDict.Add(TextConst.SCENE_NAME_CATALOG, "CATALOG");
+		textDict.Add(TextConst.SCENE_NAME_EVOLVE, "EVOLVE");
+		textDict.Add(TextConst.SCENE_NAME_FIGHT_READY, "FIGHT READY");
+		textDict.Add(TextConst.SCENE_NAME_FRIEND, "FRIEND");
+		textDict.Add(TextConst.SCENE_NAME_FRIEND_LIST, "FRIEND LIST");
+		textDict.Add(TextConst.SCENE_NAME_FRIEND_SELECT, "FRIEND SELECT");
+		textDict.Add(TextConst.SCENE_NAME_HOME, "HOME");
+		textDict.Add(TextConst.SCENE_NAME_INFORMATION, "INFORMATION");
+		textDict.Add(TextConst.SCENE_NAME_LEVELUP, "LEVEL UP");
+		textDict.Add(TextConst.SCENE_NAME_OTHERS, "OTHERS");
+		textDict.Add(TextConst.SCENE_NAME_PARTY, "PARTY");
+		textDict.Add(TextConst.SCENE_NAME_QUESTSELECT, "QUEST SELECT");
+		textDict.Add(TextConst.SCENE_NAME_RECEPTION, "RECEPTION");
+		textDict.Add(TextConst.SCENE_NAME_ROLE_SELECT, "ROLE SELECT");
+		textDict.Add(TextConst.SCENE_NAME_SCRATCH, "SCRATCH");
+		textDict.Add(TextConst.SCENE_NAME_FRIEND_SEARCH, "SEARCH FRIEND");
+		textDict.Add(TextConst.SCENE_NAME_SHOP, "SHOP");
+		textDict.Add(TextConst.SCENE_NAME_STAGE_SELECT, "STAGE SELECT");
+		textDict.Add(TextConst.SCENE_NAME_UNITS, "UNITS");
+		textDict.Add(TextConst.SCENE_NAME_UNIT_SELL, "UNIT SELL");
+		textDict.Add(TextConst.SCENE_NAME_YOUR_ID, "YOUR ID");
+		textDict.Add(TextConst.SCENE_NAME_RESULT, "RESULT");
+	}
 }
 

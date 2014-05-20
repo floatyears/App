@@ -106,7 +106,7 @@ public class UIConfig
 	public const string itemCounterBarName = "ItemCounterBar";
 	public const string resultWindowName = "ResultWindow";
 
-	public const string standByWindowName = "StandByWindow";
+	public const string fightReadyWindowName = "FightReadyWindow";
 
 	public const string userUnitSortPanelName = "UserUnitSortPanel";
 	public const string friendUnitSortPanelName = "FriendUnitSortPanel";
