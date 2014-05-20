@@ -58,7 +58,6 @@ public class MainMenuView : UIComponentUnity {
 	private void ClickMenuBtn( GameObject btn ) {
 		//Debug.Log("ClickMenuBtn(), btn name is : " + btn.name);
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-
 		SceneEnum targetScene = buttonInfo [ btn ];
 		UIManager.Instance.ChangeScene(targetScene);
 
@@ -73,7 +72,7 @@ public class MainMenuView : UIComponentUnity {
 			if(btnScale == null)
 				continue;
             btnScale.enabled = valid;
-            Debug.LogError("SetMenuValid(), btnScale is : " + valid);
+//            Debug.LogError("SetMenuValid(), btnScale is : " + valid);
             if(valid)  UIEventListener.Get(item).onClick += ClickMenuBtn; 
             else UIEventListener.Get(item).onClick -= ClickMenuBtn;
         }
