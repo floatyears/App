@@ -39,10 +39,6 @@ public class QuestView : UIComponentUnity{
 	}
 	
 	void InitUI(){
-//		storyRoot = FindChild("story_window");
-//		eventRoot = FindChild("event_window");
-//		dragItemPrefab = Resources.Load("Stage/StageDragPanelItem") as GameObject;
-
 		InitWorldMap();
 	}
 	

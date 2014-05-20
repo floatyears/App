@@ -23,15 +23,15 @@ public class SelectRoleDecorator : DecoratorBase{
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
-		
-		BgComponent background = CreatComponent< BgComponent >(UIConfig.HomeBackgroundName);
-		background.SetComponent(sceneInfoBar);
-		
-		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
-		playerInfoBar.SetComponent(background);
-		
+
+//		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
+//		playerInfoBar.SetComponent(sceneInfoBar);
+//
+//		BgComponent background = CreatComponent< BgComponent >(UIConfig.HomeBackgroundName);
+//		background.SetComponent(playerInfoBar);
+
 		SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
-		unitSelect.SetComponent(playerInfoBar);
+		unitSelect.SetComponent(sceneInfoBar);
 		
 		lastDecorator = unitSelect;
 		lastDecorator.CreatUI();
@@ -425,7 +425,7 @@ public class FriendSelectDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.Stage);
+		sceneInfoBar.SetBackScene(SceneEnum.Quest);
 	}
 	
 	public override void HideScene(){

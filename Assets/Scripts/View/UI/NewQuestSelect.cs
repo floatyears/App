@@ -15,9 +15,30 @@ public class NewQuestSelect : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetQuestInfo, GetQuestInfo);
 	}
 
+	private TStageInfo pickedStage;
 	private void GetQuestInfo(object msg){
-		TStageInfo pickedStage = msg as TStageInfo;
-		GenerateQuestList(pickedStage);
+		TStageInfo newPickedStage = msg as TStageInfo;
+
+		if(newPickedStage.Equals(pickedStage)){
+			Debug.Log("PickedStageInfo do not be changed, return!");
+			return;
+		}
+		else if(pickedStage == null){
+			//first create this ui, data is null,need to create quest list ui 
+			GenerateQuestList(newPickedStage);
+			//store stageInfo
+			pickedStage = newPickedStage;
+		}
+		else{
+			//pick new stage, so change the stageInfo
+			//first destory old ui
+			dragPanel.DestoryUI();
+			Debug.Log("After destory quest list, count is : " + dragPanel.ScrollItem.Count);
+
+			//then create new ui
+			GenerateQuestList(newPickedStage);
+			pickedStage = newPickedStage;
+		}
 	}
 
 	private void GenerateQuestList(TStageInfo targetStage){
@@ -34,7 +55,6 @@ public class NewQuestSelect : UIComponentUnity {
 			QuestItemView qiv = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
 			qiv.Data = accessQuestList[ i ];
 			qiv.stageInfo = targetStage;
-//			qiv.StageID = targetStage.ID;//StartFight Need
 		}
 
 	}
@@ -43,7 +63,7 @@ public class NewQuestSelect : UIComponentUnity {
 		GameObject scrollView = dragPanel.DragPanelView.transform.FindChild("Scroll View").gameObject;
 		GameObject scrollBar = dragPanel.DragPanelView.transform.FindChild("Scroll Bar").gameObject;
 		
-		scrollBar.transform.Rotate( new Vector3(0, 0, 270) );
+		scrollBar.transform.Rotate(new Vector3(0, 0, 270));
 		
 		UIScrollView uiScrollView = scrollView.GetComponent<UIScrollView>();
 		UIScrollBar uiScrollBar = scrollBar.GetComponent<UIScrollBar>();

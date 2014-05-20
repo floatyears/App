@@ -50,8 +50,6 @@ public class SelectRoleView : UIComponentUnity {
 	}
 
 	void ShowInitialView(object args){
-		Debug.Log("Receive the dispather, to Update Select View...");
-
 		List<TUnitInfo> unitInfoList = args as List<TUnitInfo>;
 
 		int initialLevel = 1;
@@ -60,12 +58,6 @@ public class SelectRoleView : UIComponentUnity {
 
 		//Tab
 		for (int i = 0; i < tabList.Count; i++){
-//			texture = tabList[ i ].transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-//			texture.mainTexture = unitInfoList[ i ].GetAsset(UnitAssetType.Avatar);
-
-//			label = tabList[ i ].transform.FindChild("Label_No").GetComponent<UILabel>();
-//			label.text = "No : 00" + unitInfoList[ i ].ID.ToString();
-
 			label = tabList[ i ].transform.FindChild("Label_Name").GetComponent<UILabel>();
 			label.text = unitInfoList[ i ].Name;
 
@@ -92,7 +84,6 @@ public class SelectRoleView : UIComponentUnity {
 			label = contentList[ i ].transform.FindChild("Label_ATK").GetComponent<UILabel>();
 
 			int atkValue = unitInfoList[ i ].Attack;
-
 			label.text = atkValue.ToString();
 
 			label = contentList[ i ].transform.FindChild("Label_HP").GetComponent<UILabel>();
