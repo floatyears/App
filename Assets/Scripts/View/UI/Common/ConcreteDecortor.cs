@@ -25,14 +25,14 @@ public class SelectRoleDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 		
-//		BgComponent background = CreatComponent< BgComponent >(UIConfig.HomeBackgroundName);
-//		background.SetComponent(sceneInfoBar);
+		BgComponent background = CreatComponent< BgComponent >(UIConfig.HomeBackgroundName);
+		background.SetComponent(sceneInfoBar);
 		
-//		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
-//		playerInfoBar.SetComponent(background);
+		PlayerInfoBarComponent playerInfoBar = CreatComponent<PlayerInfoBarComponent>(UIConfig.topBackgroundName);
+		playerInfoBar.SetComponent(background);
 		
 		SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
-		unitSelect.SetComponent(sceneInfoBar);
+		unitSelect.SetComponent(playerInfoBar);
 		
 		lastDecorator = unitSelect;
 		lastDecorator.CreatUI();
