@@ -234,7 +234,8 @@ public class Battle : UIBase {
 		battleData.StoreMapData (null);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 
-		MsgCenter.Instance.Invoke (CommandEnum.BattleStart, null);
+		//MsgCenter.Instance.Invoke (CommandEnum.BattleStart, null);
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	GameObject GetPrefabsObject(string name) {

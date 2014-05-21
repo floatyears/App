@@ -14,7 +14,7 @@ public static class GameDataAnalysis {
 		ed.eventId = eventId.ToString ();
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, ed);
+		UploadStat.SendRequest (null, data);
 	}
 
 	public static void Event(GameDataAnalysisEventType eventId, string key){
@@ -25,7 +25,7 @@ public static class GameDataAnalysis {
 		ed.sValue = key;
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, ed);
+		UploadStat.SendRequest (null, data);
 	}
 
 	public static void Event(GameDataAnalysisEventType eventId, Dictionary<string,string> attr){
@@ -33,17 +33,18 @@ public static class GameDataAnalysis {
 
 		bbproto.EventData ed = new bbproto.EventData ();
 		ed.eventId = eventId.ToString ();
-		ed.values = new List<bbproto.EventDataParam> ();
+		List<bbproto.EventDataParam> eventP = new List<bbproto.EventDataParam> ();
 		foreach(var item in attr){
 			bbproto.EventDataParam ep = new bbproto.EventDataParam();
 			ep.key = item.Key;
 			ep.sValue = item.Value;
-			ed.values.Add(ep);
+			eventP.Add(ep);
 			//ed.values.Add(item.Key
 		}
+		ed.values.AddRange (eventP);
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, ed);
+		UploadStat.SendRequest (null, data);
 	}
 
 	
@@ -57,17 +58,18 @@ public static class GameDataAnalysis {
 		bbproto.EventData ed = new bbproto.EventData ();
 		ed.eventId = eventId.ToString ();
 		ed.iValue = count;
-		ed.values = new List<bbproto.EventDataParam> ();
+		List<bbproto.EventDataParam> eventP = new List<bbproto.EventDataParam> ();
 		foreach(var item in attr){
 			bbproto.EventDataParam ep = new bbproto.EventDataParam();
 			ep.key = item.Key;
 			ep.sValue = item.Value;
-			ed.values.Add(ep);
+			eventP.Add(ep);
 			//ed.values.Add(item.Key
 		}
+		ed.values.AddRange(eventP);
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, ed);
+		UploadStat.SendRequest (null, data);
 	}
 
 
@@ -88,23 +90,41 @@ public static class GameDataAnalysis {
 
 		bbproto.EventData ed = new bbproto.EventData ();
 		ed.eventId = "Buy";
-		ed.iValue = amount;
-		ed.fValue = price;
+
+		bbproto.EventDataParam ep = new bbproto.EventDataParam();
+		ep.key = "amount";
+		ep.iValue = amount;
+		ed.values.Add(ep);
+
+		bbproto.EventDataParam ep1 = new bbproto.EventDataParam();
+		ep1.key = "price";
+		ep1.fValue = (float)price;
+		ed.values.Add(ep1);
+
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, ed);
+		UploadStat.SendRequest (null, data);
 	}
 
 	public static void Pay(double cash,GA.PaySource source,double coin){
 		GA.Pay(cash,source,coin);
 
 		bbproto.EventData ed = new bbproto.EventData ();
-		ed.eventId = "Buy";
-		ed.sValue = source.ToString ();
-		ed.iValue = coin;
+		ed.eventId = "Pay";
+		
+		bbproto.EventDataParam ep = new bbproto.EventDataParam();
+		ep.key = "source";
+		ep.sValue = source.ToString();
+		ed.values.Add(ep);
+		
+		bbproto.EventDataParam ep1 = new bbproto.EventDataParam();
+		ep1.key = "coin";
+		ep1.fValue = (float)coin;
+		ed.values.Add(ep1);
+
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, ed);
+		UploadStat.SendRequest (null, data);
 	}
 	
 }

@@ -24,48 +24,15 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 		mwp.contentText = TextCenter.Instace.GetCurrentText ("guide5_content");
 		
 		BtnParam sure = new BtnParam ();
-		sure.callback = delegate {
-			JumpToNextState = true;
-				};
+		sure.callback = ClickOk;
 		sure.text = TextCenter.Instace.GetCurrentText ("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 
 	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if(JumpToNextState)
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepC_StateTwo.Instance());
-		else{
-			
-		}
-	}
-}
 
-public class NoviceGuideStepC_StateTwo:NoviceGuidState
-{
-	private bool isCardTapped = false;
-
-	private LayerMask camLastLayer;
-
-	private int btnLastLayer;
-
-	private static NoviceGuideStepC_StateTwo instance;
-	
-	public static NoviceGuideStepC_StateTwo Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepC_StateTwo ();
-		return instance;
-	}
-	
-	private NoviceGuideStepC_StateTwo ():base(){}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepC state_two");
+	private void ClickOk(object data){
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParam = new BtnParam();
@@ -79,74 +46,114 @@ public class NoviceGuideStepC_StateTwo:NoviceGuidState
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState){
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepC_StateThree.Instance());
-		}
-	}
 
 	private void forceClick(object data)
 	{
-
+		
 		GameObject btn = GameObject.FindWithTag("rare_scratch");
 		NoviceGuideUtil.ForceOneBtnClick (btn);
-
+		
 		UIEventListener.Get (btn).onClick += TapRareCard;
 		NoviceGuideUtil.ShowArrow (new GameObject[]{btn}, new Vector3[]{new Vector3(0,0,1)});
 	}
-
+	
 	private void TapRareCard(GameObject btn)
 	{
 		UIEventListener.Get (btn).onClick -= TapRareCard;
 		NoviceGuideUtil.RemoveArrow (btn);
-		isCardTapped = true;
 	}
-	
-	public override void Exit(NoviceGuideStepEntity stepEntity)
+
+	public override void Execute(NoviceGuideStepEntity stepEntity)
 	{
-		
+		if(JumpToNextState)
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepC_StateTwo.Instance());
+		else{
+			
+		}
 	}
 }
 
-public class NoviceGuideStepC_StateThree:NoviceGuidState
+public class NoviceGuideStepC_StateTwo:NoviceGuidState
 {
-	private static NoviceGuideStepC_StateThree instance;
+	private static NoviceGuideStepC_StateTwo instance;
 	
-	public static NoviceGuideStepC_StateThree Instance()
+	public static NoviceGuideStepC_StateTwo Instance()
 	{
 		if (instance == null)
-			instance = new NoviceGuideStepC_StateThree ();
+			instance = new NoviceGuideStepC_StateTwo ();
 		return instance;
 	}
 	
-	private NoviceGuideStepC_StateThree ():base()	{}
+	private NoviceGuideStepC_StateTwo ():base()	{}
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepC state_three");
-//		
-//		MsgWindowParams mwp = new MsgWindowParams ();
-//		mwp.btnParam = new BtnParam();
-//		mwp.titleText = TextCenter.Instace.GetCurrentText ("guide7_title");
-//		mwp.contentText = TextCenter.Instace.GetCurrentText ("guide7_content");
-//		
-//		BtnParam sure = new BtnParam ();
-//		sure.callback = RareScrath;
-//		sure.text = TextCenter.Instace.GetCurrentText ("OK");
-//		mwp.btnParam = sure;
-//		
-//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
-		RareScrath();
+		LogHelper.Log (stepEntity.GetType () + " get into stepD novistate_one");
+		
+		MsgWindowView mwv = GameObject.Find ("CommonNoteWindow(Clone)").GetComponent<MsgWindowView> ();
+		
+		UIButton cwLBtn = mwv.BtnLeft;
+		UIEventListenerCustom.Get (cwLBtn.gameObject).onClick += clickLeftBtn;
+		
+		NoviceGuideUtil.ShowArrow (new GameObject[]{cwLBtn.gameObject},new Vector3[]{new Vector3(0,0,3)});
+		
+		mwv.BtnRight.isEnabled = false;
 	}
-
-	private void RareScrath()
+	
+	private void clickLeftBtn(GameObject btn)
 	{
-		UIManager.Instance.ChangeScene (SceneEnum.RareScratch);
-		JumpToNextState = true;
+		MsgWindowView mwv = GameObject.Find ("CommonNoteWindow(Clone)").GetComponent<MsgWindowView> ();
+		
+		UIButton cwLBtn = mwv.BtnLeft;
+		UIEventListenerCustom.Get (cwLBtn.gameObject).onClick -= clickLeftBtn;
+		
+		NoviceGuideUtil.RemoveArrow (btn);
+		
+		mwv.BtnRight.isEnabled = true;
 	}
+	
+	public override void Execute(NoviceGuideStepEntity stepEntity)
+	{
+		if(JumpToNextState)
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepC_StateFive.Instance());
+		else{
+			
+		}
+	}
+	
+}
 
+public class NoviceGuideStepC_StateFive:NoviceGuidState
+{
+	private static NoviceGuideStepC_StateFive instance;
+	
+	public static NoviceGuideStepC_StateFive Instance()
+	{
+		if (instance == null)
+			instance = new NoviceGuideStepC_StateFive ();
+		return instance;
+	}
+	
+	private NoviceGuideStepC_StateFive ():base()	{}
+	
+	public override void Enter(NoviceGuideStepEntity stepEntity)
+	{
+		LogHelper.Log (stepEntity.GetType () + " get into stepC state_five");
+		
+		MsgWindowParams mwp = new MsgWindowParams ();
+		//mwp.btnParams = new BtnParam[1];
+		mwp.btnParam = new BtnParam ();
+		mwp.titleText = TextCenter.Instace.GetCurrentText("guide8_title");
+		mwp.contentText = TextCenter.Instace.GetCurrentText("guide8_content");
+		
+		BtnParam sure = new BtnParam ();
+		sure.callback = null;
+		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		mwp.btnParam = sure;
+		
+		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+	}
+	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
 	{
 		if(JumpToNextState)
@@ -155,4 +162,5 @@ public class NoviceGuideStepC_StateThree:NoviceGuidState
 			
 		}
 	}
+	
 }

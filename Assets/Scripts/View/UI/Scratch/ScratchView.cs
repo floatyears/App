@@ -71,7 +71,7 @@ public class ScratchView : UIComponentUnity {
 
 	private void onTweenFinished()
 	{
-		NoviceGuideStepEntityManager.Instance().NextState();
+		NoviceGuideStepEntityManager.Instance().StartStep();
 	}
 
     private void OnClickButton(GameObject btn){
