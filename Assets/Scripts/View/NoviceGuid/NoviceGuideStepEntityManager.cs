@@ -10,7 +10,7 @@ public class NoviceGuideStepEntityManager {
 
 	private NoviceGuideStepEntity currentStep;
 
-	private static int currentNoviceGuideStage = 3;
+	private static NoviceGuideStage currentNoviceGuideStage = NoviceGuideStage.NONE;
 
 	private NoviceGuideStepEntityManager()
 	{
@@ -31,7 +31,7 @@ public class NoviceGuideStepEntityManager {
 		return instance;
 	}
 
-	public static int CurrentNoviceGuideStage
+	public static NoviceGuideStage CurrentNoviceGuideStage
 	{
 		get{return currentNoviceGuideStage;LogHelper.Log("current novice guide stage(get): " + currentNoviceGuideStage);}
 		set{currentNoviceGuideStage = value;LogHelper.Log("current novice guide stage(set): " + currentNoviceGuideStage);}
@@ -42,6 +42,12 @@ public class NoviceGuideStepEntityManager {
 		return currentNoviceGuideStage > 0;
 	}
 //	
+	public static void FinishCurrentStep(){
+		FinishUserGuide.SendRequest (null, (int)currentNoviceGuideStage);
+		//currentNoviceGuideStage++;
+	}
+
+
 //	private void OnChangeScene(object msg)
 //	{
 //		
