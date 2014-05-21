@@ -116,7 +116,7 @@ public class UIManager {
 
 	public void ExitBattle () {
 		Resources.UnloadUnusedAssets ();
-		ChangeScene (SceneEnum.QuestSelect);
+		ChangeScene (SceneEnum.Home);
 
 	}
 
@@ -128,6 +128,8 @@ public class UIManager {
 		baseScene.ShowBase ();
 	}
 
+	public SceneEnum nextScene;
+
 	public void ChangeScene(SceneEnum sEnum) {
 		if (forbidChangeScene) {
 			return;		
@@ -136,7 +138,9 @@ public class UIManager {
 			return;		
 		}
 		else {
+			nextScene = sEnum;
             InvokeSceneClear(sEnum);
+
 			if(current != null) {
 				current.HideScene();
 			}
@@ -169,8 +173,8 @@ public class UIManager {
             temp = new LoadingDecorator( sEnum );
             break;
 
-		case SceneEnum.Home:
-			temp = new HomeDecorator( sEnum );
+		case SceneEnum.World:
+			temp = new QuestDecorator( sEnum );
 			break;
 
 		case SceneEnum.Friends:
@@ -190,6 +194,7 @@ public class UIManager {
 			break;
 
 		case SceneEnum.Units:
+//			Debug.LogError("SceneEnum.Units");
 			temp = new UnitsDecorator( sEnum );
 			break;
 
@@ -291,21 +296,37 @@ public class UIManager {
 		return temp;
 	}
 
+	void SwitchGameState(SceneEnum nextScene) {
+		if (DataCenter.gameState == GameState.Normal) {
+			return;	
+		}
+
+		if (nextScene == SceneEnum.Quest ||
+			nextScene == SceneEnum.FightReady || 
+			nextScene == SceneEnum.StageSelect || 
+			nextScene == SceneEnum.Evolve || 
+			nextScene == SceneEnum.UnitDetail)  {
+			return;
+		}
+
+		DataCenter.gameState = GameState.Normal;
+	}
+
     private void InvokeSceneClear(SceneEnum nextScene){
-        if (baseScene.CurrentScene == SceneEnum.FriendSelect && nextScene == SceneEnum.StageSelect){
+        if (baseScene.CurrentScene == SceneEnum.FriendSelect && nextScene == SceneEnum.Stage){
             MsgCenter.Instance.Invoke(CommandEnum.QuestSelectSaveState);
-        }
-        else if (baseScene.CurrentScene == SceneEnum.UnitDetail){
+		} else if (baseScene.CurrentScene == SceneEnum.UnitDetail) {
             if (nextScene == SceneEnum.LevelUp){
                 MsgCenter.Instance.Invoke(CommandEnum.LevelUpSaveState);
-            }
-            else if (nextScene == SceneEnum.Sell){
+			} else if (nextScene == SceneEnum.Sell) {
                 MsgCenter.Instance.Invoke(CommandEnum.SellUnitSaveState);
-            }
-            else if (nextScene == SceneEnum.Party){
+			} else if (nextScene == SceneEnum.Party) {
                 MsgCenter.Instance.Invoke(CommandEnum.PartySaveState);
+			} else if (nextScene == SceneEnum.Evolve) {
+				MsgCenter.Instance.Invoke (CommandEnum.EvolveSaveState);
             }
-			else if(nextScene == SceneEnum.Evolve) {
+		} else if (DataCenter.gameState == GameState.Evolve) {
+			if(nextScene == SceneEnum.Quest || nextScene == SceneEnum.FightReady || nextScene == SceneEnum.StageSelect) {
 				MsgCenter.Instance.Invoke(CommandEnum.EvolveSaveState);
 			}
         }

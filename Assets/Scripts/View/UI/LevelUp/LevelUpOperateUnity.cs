@@ -33,7 +33,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
-		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene == SceneEnum.UnitDetail) {
 			fromUnitDetail = true;
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
@@ -58,7 +58,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 		sortRule = SortRule.Attack;
 		ReceiveSortInfo (sortRule);
-
 	}
 
 	public override void CallbackView (object data) {

@@ -44,7 +44,7 @@ public class FriendHelperController : ConcreteComponent{
 	void QuestStart(object args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
-		if (DataCenter.gameStage == GameState.Evolve) {
+		if (DataCenter.gameState == GameState.Evolve) {
 			evolveStart.EvolveStart.restartNew = 1;
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} 
@@ -66,7 +66,7 @@ public class FriendHelperController : ConcreteComponent{
 //			Debug.Log("OnRspEvolveStart(), response null");
 			return;
 		}
-		evolveStart.StoreData ();
+//		evolveStart.StoreData ();
 
 		bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {

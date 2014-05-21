@@ -154,7 +154,7 @@ public class Battle : UIBase {
 
 	void Attack() {
 		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
-		ShieldInput (false);
+
 	}
 
 	void CreatCountDown () {
@@ -234,7 +234,8 @@ public class Battle : UIBase {
 		battleData.StoreMapData (null);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 
-		MsgCenter.Instance.Invoke (CommandEnum.BattleStart, null);
+		//MsgCenter.Instance.Invoke (CommandEnum.BattleStart, null);
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	GameObject GetPrefabsObject(string name) {
@@ -500,9 +501,7 @@ public class Battle : UIBase {
 	}
 	
 	void CountDownBattle () {
-		//battleCardArea.ShowCountDown (true, (int)time);
 		int temp = (int)time;
-//		Debug.LogError ("temp : " + temp);
 		countDownUI.SetCurrentTime (temp);
 		if (time > 0) {
 			BattleBottom.notClick = true;
@@ -511,8 +510,9 @@ public class Battle : UIBase {
 			GameTimer.GetInstance ().AddCountDown (countDownTime, CountDownBattle);
 		} 
 		else {
-			battleCardArea.ShowCountDown (false, (int)time);
+			ShieldInput (false);
 			showCountDown = false;
+			battleCardArea.ShowCountDown (false, (int)time);
 			ShieldNGUIInput (true);
 			StartBattle();
 			time =  BattleUseData.CountDown;

@@ -8,39 +8,31 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 	
 	public override void ShowUI () {
-//		Debug.LogError("EvolveDecoratorUnity show ui begin");
-		if (friendWindow != null && friendWindow.isShow) {
+		bool b = friendWindow != null && friendWindow.isShow;
+		if (b) {
 			friendWindow.gameObject.SetActive (true);
-		
-
+	
 		} else {
-//			if (!gameObject.activeSelf) {
-//				gameObject.SetActive(true);
-//			}
 			SetObjectActive(true);
 		}
 
 		base.ShowUI ();
-//		MsgCenter.Instance.AddListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
-//		Debug.LogError("EvolveDecoratorUnity show ui end");
-
 		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 	
 	public override void HideUI () {
-		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene == SceneEnum.UnitDetail) {
+			fromUnitDetail = true; 
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
-			} 
+			}
 		}else {
 			if (friendWindow != null) {
 				friendWindow.HideUI ();
-			}	
+			}
 		}
-
 		base.HideUI ();
-//		MsgCenter.Instance.RemoveListener (CommandEnum.PickFriendUnitInfo, PickFriendUnitInfo);
 		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 	}
 	
@@ -77,6 +69,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		if (materialUnit != null) 
 			materialUnit.Clear ();	
 		prevItem = null;
+
+
 	}
 	
 	public void SetUnitDisplay(GameObject go) {
@@ -109,6 +103,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	private int ClickIndex = 0;
 
 	private FriendWindows friendWindow;
+	private bool fromUnitDetail = false;
 	private GameObject unitDisplay;
 
 	void PickFriendUnitInfo(object data) {
@@ -212,7 +207,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void DisposeSelectData (TUserUnit tuu) {
-		Debug.LogError ("DisposeSelectData : " + tuu);
+//		Debug.LogError ("DisposeSelectData : " + tuu);
 		if(tuu == null ) {
 			return;
 		}
@@ -239,8 +234,10 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
  
 	void LongPress (GameObject go) {
-//		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
-//		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
+		EvolveItem ei = evolveItem [go];
+
+		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, ei.userUnit);
 	}
 
 	int state = 0;
@@ -250,13 +247,11 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		}
 
 		ClickIndex = System.Int32.Parse (go.name);
-//		Debug.LogError ("state :" + state + " go.name : " + go.name);
 		switch (go.name) {
 		case "1":
 			if(state == 1) {
 				return;
 			}
-//			CheckCanEvolve();
 			state = 1;
 			break;
 		case "2":
@@ -269,9 +264,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(baseItem == null) {
 				return;
 			}
-
 			state =3;
-//			CheckCanEvolve();
 			break;
 		case "4":
 			if(baseItem == null) {
@@ -283,15 +276,12 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(state == 5) {
 				return;
 			}
-//			CheckCanEvolve();
 			TUserUnit tuu = null;
 			if(baseItem != null) {
 				tuu = baseItem.userUnit;
 			}
 			ShieldEvolveButton(true);
-
 			state =5;
-			EnterFriend();
 			break;
 		}
 		CheckCanEvolve();
@@ -302,9 +292,11 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		ei.highLight.enabled = true;
 		prevItem = ei;
 		MsgCenter.Instance.Invoke (CommandEnum.UnitDisplayState, state);
+		if (state == 5) {
+			EnterFriend();	
+		}
 	}
-
-
+	
 	void InitUI () {
 		InitItem ();
 		InitLabel ();
@@ -320,6 +312,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		SetObjectActive (false);
 		friendWindow.selectFriend = SelectFriend;
 		friendWindow.ShowUI ();
+		state = 0;
 	}
 
 	void SetObjectActive(bool active) {
@@ -371,7 +364,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			ei.haveLabel = go.transform.Find("HaveLabel").GetComponent<UILabel>();
 			ei.maskSprite = go.transform.Find("Mask").GetComponent<UISprite>();
 			ei.boxCollider = go.GetComponent<BoxCollider>();
-//			Debug.LogError("go : " + go + " ei.boxcollider : " + ei.boxCollider);
 		}
 	}
 

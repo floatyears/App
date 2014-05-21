@@ -67,10 +67,14 @@ public partial class TextCenter {
 		textDict.Add ("guide17_content", "let me give you a lesson!");
 		textDict.Add ("guide18_title", "xxx teacher do the work himself");
 		textDict.Add ("guide18_content", "do you see my excellent work!");
+
+		//attack once
 		textDict.Add ("guide19_title", "attack method");
 		textDict.Add ("guide19_content", "the same gird has 2 or more same color will attack.");
 		textDict.Add ("guide20_title", "your turn");
 		textDict.Add ("guide20_content", "try to put the blue color in one grid.");
+
+		//attack twice
 		textDict.Add ("guide21_title", "attack successed");
 		textDict.Add ("guide21_content", "try to drag the same color with the left corner");
 		textDict.Add ("guide22_title", "attack key point");
@@ -81,6 +85,8 @@ public partial class TextCenter {
 		textDict.Add ("guide24_content", "then you have the key, the door is open. Advance to there!");
 		textDict.Add ("guide25_title", "arrive at the door");
 		textDict.Add ("guide25_content", "boss is waiting.click the door to open it.");
+
+		//boss attck
 		textDict.Add ("guide26_title", "boss fight!");
 		textDict.Add ("guide26_content", "slide the blocks to sort them");
 		textDict.Add ("guide27_title", "enemy attack");
@@ -89,6 +95,8 @@ public partial class TextCenter {
 		textDict.Add ("guide28_content", "put 2 red heart in one grid to increase hp.");
 		textDict.Add ("guide29_title", "heal succeed!");
 		textDict.Add ("guide29_content", "take down the boss");
+
+		//skill
 		textDict.Add ("guide30_title", "active skill");
 		textDict.Add ("guide30_content", "the unit is flashing.click it.");
 		textDict.Add ("guide31_title", "use active skill");

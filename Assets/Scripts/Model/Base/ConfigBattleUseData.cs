@@ -35,12 +35,22 @@ public class ConfigBattleUseData {
 
 	public TFriendInfo BattleFriend;
 
+	private TUnitParty _party;
+	public TUnitParty party {
+		get { return _party; }
+		set {
+			_party = value;
+			UnitParty up = _party == null ? null : _party.Object;
+			WriteBuff<UnitParty>(unitPartyName, up);
+		}
+	}
+
 	private AttackInfo _posionAttack = null;
 	public AttackInfo posionAttack {
 		get { return _posionAttack; }
 		set { _posionAttack = value;
 			AttackInfoProto aip = _posionAttack == null ? null : _posionAttack.Instance;
-			WriteBuff<AttackInfoProto> (posionAttackName, aip); 
+			WriteBuff<AttackInfoProto> (posionAttackName, aip);
 		}
 	}
 
@@ -89,13 +99,34 @@ public class ConfigBattleUseData {
 		}
 	}
 
-
 	private TStoreBattleData _storeBattleData;
 	public TStoreBattleData storeBattleData {
 		get { return _storeBattleData; }
 	}
 
+	private TEvolveStart _evolveInfo;
+	public TEvolveStart evolveInfo {
+		set {
+			_evolveInfo = value;
+			
+		}
+	}
+
+//	private byte _gameState;
+	public byte gameState {
+		set { GameDataStore.Instance.StoreDataNoEncrypt(gameStateName, value); }
+		get {
+			byte _gameState = 0;
+			if(GameDataStore.Instance.HasInfo(gameStateName)) {
+				string info = GameDataStore.Instance.GetDataNoEncrypt(gameStateName);
+				_gameState = byte.Parse(info);
+			}
+			return _gameState;
+		}
+	}
+
 	public void ResetFromServer(TQuestDungeonData tdd) {
+
 		InitStoreBattleData ();
 		roleInitCoordinate = new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);//
 		_storeBattleData.roleCoordinate = roleInitCoordinate;
@@ -189,6 +220,9 @@ public class ConfigBattleUseData {
 	public const string strengthenAttackName = "/StrengthenAttack";
 	public const string trapPoisonName = "/TrapPoison";
 	public const string trapEnvironmentName = "/TrapEnvironment";
+	public const string unitPartyName = "/UnitParty";
+
+	public const string gameStateName = "GameState";
 
 	string GetPath (string path) {
 		return Application.persistentDataPath + path;
@@ -208,15 +242,17 @@ public class ConfigBattleUseData {
 			attack = posionAttack.Instance;
 		}
 		WriteBuff<AttackInfoProto> (posionAttackName, attack);
-//		Debug.LogError ("write poison attack : " + posionAttack);
+
 		if (reduceHurtAttack != null) {
 			attack = reduceHurtAttack.Instance;
 		}
 		WriteBuff<AttackInfoProto> (reduceHurtName, attack);
+
 		if (reduceDefenseAttack != null) {
 			attack = reduceDefenseAttack.Instance;
 		}
 		WriteBuff<AttackInfoProto> (reduceDefenseName, attack);
+
 		if (strengthenAttack != null) {
 			attack = strengthenAttack.Instance;
 		}
@@ -228,6 +264,8 @@ public class ConfigBattleUseData {
 		_reduceHurtAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceHurtName);
 		_reduceDefenseAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceDefenseName);
 		_strengthenAttack = ReadBuff<AttackInfo, AttackInfoProto> (strengthenAttackName);
+
+		_party = ReadBuff<TUnitParty, UnitParty> (unitPartyName);
 	}
 
 	void WriteBuff<T>(string name, T buff) where T : ProtoBuf.IExtensible {

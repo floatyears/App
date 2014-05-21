@@ -78,7 +78,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		//TODO:
 		//StartCoroutine ("nextState");
-		NoviceGuideStepEntityManager.Instance ().NextState ();
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 //	IEnumerator nextState()
@@ -222,10 +222,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void ClickTexture( GameObject go ){
 		if (fobidClick) {
-			return;		
+			return;	
 		}
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
+		Debug.LogError ("unit detail SceneEnum : " + preScene);
 		UIManager.Instance.ChangeScene( preScene );
 	}
 

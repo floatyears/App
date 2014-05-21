@@ -92,13 +92,13 @@ public class StageItemView : MonoBehaviour {
 				                                                "easetype", iTween.EaseType.linear));
 
 				UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
-			}
-			else{
-				icon.spriteName = "icon_stage_lock";
-				UIEventListener.Get(this.gameObject).onClick = ShowTip;
-			}
-
 		}
+		else{
+			icon.spriteName = "icon_stage_lock";
+				UIEventListener.Get(this.gameObject).onClick = ShowTip;
+		}
+
+	}
 	}
 
 	private void StepIntoNextScene(GameObject item){

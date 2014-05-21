@@ -25,7 +25,7 @@ public class SelectRoleDecorator : DecoratorBase{
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
-
+		
 		SelectRoleController unitSelect = CreatComponent<SelectRoleController>(UIConfig.selectRoleWindowName);
 		unitSelect.SetComponent(sceneInfoBar);
 		
@@ -93,17 +93,17 @@ public class LoadingDecorator : DecoratorBase{
 		LoadingLogic background = CreatComponent< LoadingLogic >(UIConfig.loadingWindowName);
 		background.SetComponent(decorator);
 
-        	MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
+        MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
 		noteWindow.SetComponent(background);
         
 		NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
 		guideWindow.SetComponent(noteWindow);
 
-        	MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
+        MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
 		maskController.SetComponent(guideWindow);
 
 		lastDecorator = maskController;
-        	lastDecorator.CreatUI();
+        lastDecorator.CreatUI();
         
     }
 }
@@ -387,7 +387,7 @@ public class StageSelectDecorrator : DecoratorBase{
 	}
 }
 
-//--------------------------------Friend Select----------------------------------------
+//--------------------------------FriendSelect----------------------------------------
 public class FriendSelectDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
 	
@@ -830,7 +830,7 @@ public class ReceptionDecorator : DecoratorBase{
 	}
 }
 
-//--------------------------------Your ID------------------------------------------
+//--------------------------------YourID------------------------------------------
 public class UserIDDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
 	public UserIDDecorator(SceneEnum sEnum) : base(sEnum){}
@@ -863,7 +863,7 @@ public class UserIDDecorator : DecoratorBase{
 
 
 
-//--------------------------------Unit Detail------------------------------------------
+//--------------------------------UnitDetail------------------------------------------
 public class UnitDetailDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
 	public UnitDetailDecorator(SceneEnum sEnum) : base(sEnum){}

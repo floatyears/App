@@ -170,7 +170,7 @@ public enum CommandEnum{
 	QuestEnd,
 	TargetEnemy,
 	ReduceActiveSkillRound,
-	BattleStart,
+	//BattleStart,
 	UseLeaderSkill,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
