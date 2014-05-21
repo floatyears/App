@@ -57,10 +57,12 @@ public class NoviceGuideStepB_StateTwo:NoviceGuidState
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
+		LogHelper.Log (stepEntity.GetType () + " get into stepB state_two");
+
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.Instace.GetCurrentText ("guide4_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText ("guide4_content");
+		mwp.titleText = TextCenter.Instace.GetCurrentText ("guide3_title");
+		mwp.contentText = TextCenter.Instace.GetCurrentText ("guide3_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = InputName;
@@ -83,6 +85,7 @@ public class NoviceGuideStepB_StateTwo:NoviceGuidState
 	{
 		uint unitID = DataCenter.Instance.GetUnitInfo(9).ID;
 		MsgCenter.Instance.Invoke(CommandEnum.StartFirstLogin, unitID);
+		NoviceGuideStepEntityManager.FinishCurrentStep ();
 	}
 
 	public override void Exit(NoviceGuideStepEntity stepEntity)

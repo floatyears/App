@@ -51,7 +51,8 @@ public class LoadingLogic : ConcreteComponent {
 				Debug.LogError("authUser response rspAuthUser == null");
                 return;
             }
-            
+			Debug.LogError("rspAuthUser return code: "+rspAuthUser.header.code+" error:" + rspAuthUser.header.error);
+
             if (rspAuthUser.header.code != 0) {
 				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspAuthUser.header.code);
 				Debug.LogError("rspAuthUser return code: "+rspAuthUser.header.code+" error:" + rspAuthUser.header.error);
@@ -79,7 +80,7 @@ public class LoadingLogic : ConcreteComponent {
                     DataCenter.Instance.UserInfo.EvolveType = rspAuthUser.evolveType;
                 }
                 
-                LogHelper.Log("authUser response userId:" + rspAuthUser.user.userId);
+                Debug.Log("authUser response userId:" + rspAuthUser.user.userId);
             }
             else {
 				Debug.LogError("authUser response rspAuthUser.user == null");
@@ -118,7 +119,9 @@ public class LoadingLogic : ConcreteComponent {
             
 			DataCenter.Instance.CatalogInfo = new TUnitCatalog(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = (NoviceGuideStage)rspAuthUser.userGuideStep;
+			LogHelper.Log("--------novice guide step: " + rspAuthUser.userGuideStep);
+			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = (NoviceGuideStage)1;//(NoviceGuideStage)rspAuthUser.userGuideStep;
+
 
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
@@ -150,9 +153,9 @@ public class LoadingLogic : ConcreteComponent {
 	void EnterGame () {
 		UIManager.Instance.ChangeScene(SceneEnum.Start);
 		UIManager.Instance.ChangeScene(SceneEnum.World);
-		if (rspAuthUser.isNewUser == 1){
-			TurnToReName();
-		}
+//		if (rspAuthUser.isNewUser == 1){
+//			TurnToReName();
+//		}
 	}
 
 	void SureRetry(object data) {
