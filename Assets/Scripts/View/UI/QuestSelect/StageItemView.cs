@@ -36,6 +36,8 @@ public class StageItemView : MonoBehaviour {
 			AddEventListener();
 		}
 	}
+
+	public Callback evolveCallback;
 	
 	private void SetPosition(){
 		//For Test
@@ -77,8 +79,11 @@ public class StageItemView : MonoBehaviour {
 	private void ClickItem(GameObject item){
 		Debug.Log(string.Format("StageItemView.ClickItem(), Picking Stage...stageId is {0}, Stage name is : {1}", data.ID, data.StageName));
 		//QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
-		UIManager.Instance.ChangeScene(SceneEnum.Quest);//before
-		MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data);//after
-	
+		UIManager.Instance.ChangeScene(SceneEnum.Quest); //before
+		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
+			evolveCallback ();
+		} else {
+			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data); //after		
+		}
 	}
 }

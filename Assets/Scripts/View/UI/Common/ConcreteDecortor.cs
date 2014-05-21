@@ -409,7 +409,11 @@ public class QuestSelectDecorator : DecoratorBase{
 
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.World);
+		if (DataCenter.gameState == GameState.Evolve) {
+			sceneInfoBar.SetBackScene (SceneEnum.Evolve);
+		} else {
+			sceneInfoBar.SetBackScene(SceneEnum.World);		
+		}
 	}
 	
 	public override void HideScene(){

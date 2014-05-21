@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class QuestItemView : MonoBehaviour {
@@ -58,6 +58,8 @@ public class QuestItemView : MonoBehaviour {
 		set { _stageInfo = value; stageID = _stageInfo.ID; }
 		get {return _stageInfo;}
 	}
+
+	public Callback evolveCallback;
 	
 	private void ShowQuestInfo(){
 		bgSpr.atlas = DataCenter.Instance.GetAvatarAtlas(data.BossID[ 0 ]);
@@ -89,12 +91,15 @@ public class QuestItemView : MonoBehaviour {
 	private void ClickItem(GameObject item){
 		Debug.Log(string.Format("QuestItemView.ClickItem(), Picking quest...questID is {0}, quest name is : {1}", data.ID, data.Name));
 		QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
-		UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before
-		MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
-
-		//Record picked StageInfo
 		ConfigBattleUseData.Instance.currentStageInfo = stageInfo;
 		ConfigBattleUseData.Instance.currentQuestInfo = data;
+		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
+			evolveCallback ();
+		} else {
+			UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before
+			MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after		
+		}
+		//Record picked StageInfo
 	}
 
 }

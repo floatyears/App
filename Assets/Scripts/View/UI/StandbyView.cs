@@ -36,6 +36,7 @@ public class StandbyView : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
 		ShowUIAnimation();
@@ -44,11 +45,13 @@ public class StandbyView : UIComponentUnity {
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 	}
 
 	private void InitUI(){
@@ -114,15 +117,43 @@ public class StandbyView : UIComponentUnity {
 	private void RecordPickedInfoForFight(object msg){
 		//Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
-
-		//Show helper view as soon as fill helperViewItem with helper data(data bind with view)
-		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
-		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
-		helperUnitItem.Init(pickedHelperInfo);
-
 		ShowPartyInfo();
-		ShowHelperView();
+
+		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
+		//		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
+		//		helperUnitItem.Init(pickedHelperInfo);
+		ShowHelper (pickedHelperInfo);
+//		ShowHelperView();
 	}
+
+	void EvolveSelectQuest(object data) {
+		evolveStart = data as TEvolveStart;
+		RefreshParty (evolveStart.evolveParty);
+		
+		prePageBtn.isEnabled = false;
+		nextPageBtn.isEnabled = false;
+
+		pickedInfoForFight = new Dictionary<string, object> ();
+		pickedInfoForFight ["HelperInfo"] = evolveStart.EvolveStart.friendInfo;
+		Debug.LogError ("creat data : " + pickedInfoForFight + " HelperInfo : " + pickedInfoForFight ["HelperInfo"]);
+		ShowHelper (evolveStart.EvolveStart.friendInfo);
+	}
+
+	void RefreshParty(List<TUserUnit> evolveParty) {
+//		List<TUserUnit> partyMemberList = party.GetUserUnit();
+		for (int i = 0; i < evolveParty.Count; i++){
+			partyView[ i ].Init(evolveParty [ i ]);
+		}
+		
+		ShowPartyInfo();
+	}
+
+	void ShowHelper(TFriendInfo friendInfo) {
+		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
+		Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
+		helperUnitItem.Init(friendInfo);
+		ShowHelperView();
+	} 
 
 	private void ClickFightBtn(GameObject btn){
 		Debug.Log("StandbyView.ClickFightBtn(), start...");
@@ -132,7 +163,7 @@ public class StandbyView : UIComponentUnity {
 
 	private TEvolveStart evolveStart;
 	private void StartFight(){
-		if (DataCenter.gameStage == GameState.Evolve) {
+		if (DataCenter.gameState == GameState.Evolve) {
 			evolveStart.EvolveStart.restartNew = 1;
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} 
@@ -186,7 +217,7 @@ public class StandbyView : UIComponentUnity {
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
 		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
-		
+		ConfigBattleUseData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (tqdd);
 	}
 	

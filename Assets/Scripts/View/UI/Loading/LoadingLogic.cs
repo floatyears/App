@@ -118,12 +118,9 @@ public class LoadingLogic : ConcreteComponent {
             
 			DataCenter.Instance.CatalogInfo = new TUnitCatalog(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 
-            TestUtility.Test();
-
-
 			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = (NoviceGuideStage)rspAuthUser.userGuideStep;
-			
 
+//            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
 			if(ConfigBattleUseData.Instance.hasBattleData()) {
@@ -160,7 +157,18 @@ public class LoadingLogic : ConcreteComponent {
 
 	void SureRetry(object data) {
 		ConfigBattleUseData.Instance.ResetFromDisk();
+		RecoverParty ();
 		UIManager.Instance.EnterBattle();
+	}
+
+	void RecoverParty() {
+		GameState gs = (GameState)ConfigBattleUseData.Instance.gameState;
+		if (gs == GameState.Evolve) {
+			TPartyInfo tpi = DataCenter.Instance.PartyInfo;
+			tpi.CurrentPartyId = tpi.AllParty.Count;
+			tpi.AllParty.Add(ConfigBattleUseData.Instance.party);
+		}
+		DataCenter.gameState = gs;
 	}
 
 	void Cancel(object data) {

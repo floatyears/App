@@ -43,10 +43,10 @@ public enum ModelEnum {
 /// <summary>
 /// game state, tag current game in any state.
 /// </summary>
-public enum GameState {
-	Normal,
+public enum GameState : byte {
+	Normal = 0,
 
-	Evolve,
+	Evolve = 1,
 }
 
 public class DataCenter {
@@ -61,7 +61,12 @@ public class DataCenter {
     private static DataCenter instance;
     private DataCenter() { }
 
-	public static GameState gameStage = GameState.Normal;
+	private static GameState _gameState = GameState.Normal;
+	public static GameState gameState {
+		set { _gameState = value; ConfigBattleUseData.Instance.gameState = (byte)_gameState; }
+		get { return _gameState; }
+	}
+
 	public static TEvolveStart evolveInfo = null;
 
     public const int maxEnergyPoint = 20;
@@ -100,6 +105,7 @@ public class DataCenter {
         get { return getData(ModelEnum.AccountInfo) as TAccountInfo; }
         set { setData(ModelEnum.AccountInfo, value); }
     }
+
     public List<TFriendInfo> SupportFriends { 
         get { return getData(ModelEnum.SupportFriends) as List<TFriendInfo>; }
         set { setData(ModelEnum.SupportFriends, value); } 
@@ -176,17 +182,18 @@ public class DataCenter {
 	public TUserUnit oldUserUnitInfo = null;
 
     //TODO: reconstruct myUnitList
-    public UserUnitList MyUnitList { 
-        get { 
-            UserUnitList ret = getData(ModelEnum.MyUnitList) as UserUnitList;
-            if (ret == null) {
-                ret = new UserUnitList();
-                setData(ModelEnum.MyUnitList, ret);
-            }
-            return ret; 
-        }
-        set { setData(ModelEnum.MyUnitList, value); } 
-    }
+//    public UserUnitList MyUnitList { 
+//        get { 
+//            UserUnitList ret = getData(ModelEnum.MyUnitList) as UserUnitList;
+//            if (ret == null) {
+//                ret = new UserUnitList();
+//                setData(ModelEnum.MyUnitList, ret);
+//            }
+//            return ret; 
+//        }
+//        set { setData(ModelEnum.MyUnitList, value); } 
+//    }
+
     public UserUnitList UserUnitList {
         get { 
             UserUnitList ret = getData(ModelEnum.UserUnitList) as UserUnitList;

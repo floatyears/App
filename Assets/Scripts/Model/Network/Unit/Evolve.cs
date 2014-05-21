@@ -24,7 +24,7 @@ public class EvolveStart: ProtoManager {
     public UserUnit HelperUnit { get { return helperUnit; } set { helperUnit = value; } }
     public int HelperPremium { set { helperPremium = value; } }
     public uint EvolveQuestId { get { return evolveQuestId; } set { evolveQuestId = value; } }
-    
+	public TFriendInfo friendInfo;
     private uint baseUnitId;
     private List<uint> partUnitId;
     private uint helperUserId;
@@ -192,20 +192,53 @@ public class TEvolveStart : ProtobufDataBase {
 		get { return evolveStart; }
 		set { evolveStart = value; }
 	}
-
-	private TUnitParty evolveParty;
-	public TUnitParty EvolvePary {
-		get {return evolveParty;}
-		set {evolveParty = value;}
-	}
-
+	
+	public int evolvePartyID = 0;
+	TUnitParty tup;
+	private int currentPartyID = 0;
 	public void StoreData () {
 		DataCenter.evolveInfo = this;
+		UnitParty up = new UnitParty ();
+
+		for (int i = 0; i < evolveParty.Count; i++) {
+			PartyItem pi = new PartyItem();
+			pi.unitPos = i;
+			pi.unitUniqueId = evolveParty[i].ID;
+
+			up.items.Add(pi);
+		}
+
+		for (int i = evolveParty.Count; i < 4; i++) {
+			PartyItem pi = new PartyItem();
+			pi.unitPos = i;
+			pi.unitUniqueId = 0; //data is null;
+			up.items.Add(pi);
+		}
+
+		evolvePartyID = DataCenter.Instance.PartyInfo.AllParty.Count;
+		
+		up.id = evolvePartyID;
+
+		tup = new TUnitParty (up);
+
+		currentPartyID = DataCenter.Instance.PartyInfo.CurrentPartyId;
+
+		DataCenter.Instance.PartyInfo.CurrentPartyId = evolvePartyID;
+
+		DataCenter.Instance.PartyInfo.AllParty.Add (tup);
+
+		ConfigBattleUseData.Instance.party = tup;
+
+		Debug.LogError (DataCenter.Instance.PartyInfo.AllParty.Count + " id : " + tup.ID);
 	}
 
 	public void ClearData () {
+		DataCenter.Instance.PartyInfo.CurrentPartyId = currentPartyID;
+		DataCenter.Instance.PartyInfo.AllParty.Remove (tup);
 		DataCenter.evolveInfo = null;
 	}
+
+	public List<TUserUnit> evolveParty = new List<TUserUnit>();
 }
 
 //================================ add by leiliang end==========================

@@ -27,14 +27,17 @@ public class TStoreBattleData : ProtobufDataBase {
 		get { return instance.colorIndex; }
 		set { instance.colorIndex = value; }
 	}
+
 	public int hp {
 		get { return instance.hp; }
 		set { instance.hp = value; }
 	}
+
 	public int sp {
 		get { return instance.sp; }
 		set { instance.sp = value; }//Debug.LogError("sp value : " + value);}
 	}
+
 	/// <summary>
 	/// 0 == not battle, 1 == battle enemy, 2 == battle boss;
 	/// </summary>

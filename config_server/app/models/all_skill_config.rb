@@ -10,7 +10,9 @@ module EUnitRace
   BEAST = 4
   MONSTER = 5
   LEGEND = 6
-  SCREAMCHEESE = 7
+  DRAGON = 7
+  SCREAMCHEESE = 8
+  EVOLVEPARTS = 9
 end
 
 module EUnitType
@@ -313,7 +315,7 @@ class AllSkillConfig
   EBOOST_TYPE   = { "BOOST_ATTACK" => 0 , "BOOST_HP" => 1 }
   EBOOST_TARGET = { "UNIT_RACE" => 0 , "UNIT_TYPE" => 1 }
   EPERIOD       = { "EP_RIGHT_NOW" => 0 , "EP_EVERY_ROUND" => 1 , "EP_EVERY_STEP" => 2 }
-  EUNIT_RACE    = { "ALL" => 0 , "HUMAN" => 1, "UNDEAD" =>2 , "MYTHIC" => 3 , "BEAST" => 4, "MONSTER" => 5 ,"LEGEND" => 6, "SCREAMCHEESE" => 7 }
+  EUNIT_RACE    = { "ALL" => 0 , "HUMAN" => 1, "UNDEAD" =>2 , "MYTHIC" => 3 , "BEAST" => 4, "MONSTER" => 5 ,"LEGEND" => 6, "DRAGON" => 7,"SCREAMCHEESE" => 8, "EVOLVEPARTS" => 9 }
   ALL_SKILL = %w( Normal SingleAttack SingleAtkRecoverHP SuicideAttack TargetTypeAttack  StrengthenAttack KillHP RecoverHP RecoverSP ReduceHurt ReduceDefence DeferAttackRound Poison DelayTime ConvertUnitType DodgeTrap AntiAttack Boost Extraattack MultipleAttack )
   NORMAL_SKILL =  %w( Normal )
   ACTIVE_SKILL =  %w( SingleAttack SingleAtkRecoverHP SuicideAttack TargetTypeAttack  StrengthenAttack KillHP RecoverHP RecoverSP ReduceHurt ReduceDefence DeferAttackRound Poison DelayTime ConvertUnitType )

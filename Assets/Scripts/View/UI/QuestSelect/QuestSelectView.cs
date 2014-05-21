@@ -30,6 +30,7 @@ public class QuestSelectView : UIComponentUnity{
 	private TStageInfo curStageInfo;
 	private int curQuestIndex;
 	private TEvolveStart evolveStageInfo;
+	private List<StageItemView> stageItem = new List<StageItemView>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -123,7 +124,7 @@ public class QuestSelectView : UIComponentUnity{
 
 
 	private void ClickQuestItem(QuestItem item){
-		if (DataCenter.gameStage == GameState.Evolve) {return;}
+		if (DataCenter.gameState == GameState.Evolve) {return;}
 		TQuestInfo pickedQuest =  item.QuestInfo;
 		ConfigBattleUseData.Instance.currentQuestInfo = pickedQuest;	
 
@@ -148,7 +149,7 @@ public class QuestSelectView : UIComponentUnity{
 	}
 
 	void ClickQuestItem(GameObject go ){
-		if (DataCenter.gameStage == GameState.Evolve) {
+		if (DataCenter.gameState == GameState.Evolve) {
 			return;	
 		}
 		int index = dragPanel.ScrollItem.IndexOf( go );
@@ -188,7 +189,7 @@ public class QuestSelectView : UIComponentUnity{
 
 	private void ClickFriendSelect(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-		PrepareFriendSelect((DataCenter.gameStage == GameState.Evolve));
+		PrepareFriendSelect((DataCenter.gameState == GameState.Evolve));
 	}
 
 	private void EvolveInfoShow (TStageInfo stageInfo) {
@@ -394,14 +395,16 @@ public class QuestSelectView : UIComponentUnity{
 	/// </summary>
 	/// <param name="count">Count.</param>
 	private void GenerateStages(List<TStageInfo> accessStageList){
-
 		background = FindChild<UITexture>("Background");
 		background.mainTexture = Resources.Load("Stage/" + cityInfo.ID) as Texture2D;
+
+		stageItem.Clear ();
 		for (int i = 0; i < accessStageList.Count; i++){
 			GameObject cell = NGUITools.AddChild(stageRoot, StageItemView.Prefab);
 			cell.name = i.ToString();
 			StageItemView stageItemView = StageItemView.Inject(cell);
 			stageItemView.Data = accessStageList[ i ];
+			stageItem.Add(stageItemView);
 		}
 	}
 
@@ -467,10 +470,7 @@ public class QuestSelectView : UIComponentUnity{
 		UISprite lightSpr = target.transform.FindChild("Sprite_Light").GetComponent<UISprite>();
 		lightSpr.enabled = isEnabled;
 	}
-
-
-
-
+	
 	//===========evolve==============================================
 	void EvolveStartQuest (object data) {
 		evolveStageInfo = data as TEvolveStart;
@@ -484,12 +484,25 @@ public class QuestSelectView : UIComponentUnity{
 			return;
 		}
 
-		List<TStageInfo> accessStageList = new List<TStageInfo> (); 
-		accessStageList.Add (evolveStageInfo.StageInfo);
+		foreach (var item in stageItem) {
+			if(item.Data.Equals(evolveStageInfo.StageInfo)) {
+				item.evolveCallback = ClickEvolve;
+				continue;
+			}
+			else{
+				Destroy(item.GetComponent<UIEventListener>());
+			}
+		}	
+//		List<TStageInfo> accessStageList = new List<TStageInfo> (); 
+//		accessStageList.Add (evolveStageInfo.StageInfo);
+//		GenerateStages(evolveStageInfo.StageInfo);
+//		CurrPageIndex = accessStageList.Count;
+//		Debug.LogError ("CurrPageIndex : " + CurrPageIndex);
 
-		CurrPageIndex = accessStageList.Count;
-		Debug.LogError ("CurrPageIndex : " + CurrPageIndex);
-		EnableLightSprite(true);
+	}
+
+	void ClickEvolve() {
+		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectStage, evolveStageInfo);
 	}
 	
 }
