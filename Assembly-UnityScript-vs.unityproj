@@ -167,11 +167,11 @@
      <None Include="Assets\External\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\AdditiveVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d_demo\democameradata\source\democamerafont.fnt" />
- <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS">
- <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS.dll</HintPath>
- </Reference>
  <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid">
  <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid.dll</HintPath>
+ </Reference>
+ <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS">
+ <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

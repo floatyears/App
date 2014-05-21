@@ -103,5 +103,7 @@ public class ExcuteActiveSkill {
 		foreach (var item in activeSkill.Values) {
 			item.RefreashCooling();
 		}
+
+
 	}
 }

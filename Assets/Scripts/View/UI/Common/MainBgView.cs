@@ -23,6 +23,12 @@ public class MainBgView : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowHomeBgMask, ShowMask);
 	}
 
+	public override void DestoryUI ()
+	{
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowHomeBgMask, ShowMask);
+		base.DestoryUI ();
+	}
+
 	void OnClickCallback(GameObject caller) {
 		if(origin != null && origin is IUICallback){
 			IUICallback callback = origin as IUICallback;

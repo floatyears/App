@@ -12,14 +12,12 @@ public class EvolveComponent : ConcreteComponent {
 	public override void ShowUI () {
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.SelectUnitBase, SelectUnit);
-//		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 		MsgCenter.Instance.AddListener (CommandEnum.ReturnPreScene, ReturnPreScene);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ReturnPreScene, ReturnPreScene);
 	}
 	
@@ -65,7 +63,7 @@ public class EvolveComponent : ConcreteComponent {
 			tes.evolveParty.Add(null);
 		}
 
-		DataCenter.gameStage = GameState.Evolve;
+		DataCenter.gameState = GameState.Evolve;
 		UIManager.Instance.ChangeScene (SceneEnum.Stage);
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
 	}
@@ -79,7 +77,7 @@ public class EvolveComponent : ConcreteComponent {
 		bool showDetail = se == SceneEnum.UnitDetail;
 		bool enterEvolve = se == SceneEnum.Stage;
 		if (!showDetail && !enterEvolve) {
-			DataCenter.gameStage = GameState.Normal;
+			DataCenter.gameState = GameState.Normal;
 		}
 	}
 

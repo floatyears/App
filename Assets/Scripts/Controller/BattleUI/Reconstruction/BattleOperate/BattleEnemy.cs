@@ -190,6 +190,7 @@ public class BattleEnemy : UIBaseUnity {
 		if (!DGTools.IsOddNumber (count)) {
 			count ++;
 		}
+		allWidth = 0;
 		for (int i = 0; i < temp.Count; i++) {
 			allWidth += DGTools.GetEnemyWidthByRare(temp[i].enemyUnitInfo.Rare);
 		}

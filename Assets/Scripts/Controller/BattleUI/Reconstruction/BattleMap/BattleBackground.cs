@@ -47,6 +47,7 @@ public class BattleBackground : UIBaseUnity {
 		actor = new Material[5];
 		spSprite = new UISprite[20];
 		string path;
+
 		for (int i = 0; i < actor.Length; i++) {
 			path = "Actor/" + i.ToString();
 			actor[i] = 	battleBottom.transform.Find(path).renderer.material;
@@ -56,6 +57,7 @@ public class BattleBackground : UIBaseUnity {
 			path = "Panel/Sprite/"+ i;
 			spSprite[spSprite.Length - i] = battleBottom.transform.Find(path).GetComponent<UISprite>();
 		}
+
 		spriteAnimation = battleBottom.transform.Find ("Panel/Sprite/HP").GetComponent<UISpriteAnimationCustom> ();
 		bloodBar = battleBottom.transform.Find("Panel/Sprite/Slider").GetComponent<UISlider>();
 		label = battleBottom.transform.Find("Panel/Label").GetComponent<UILabel>();

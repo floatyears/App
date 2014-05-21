@@ -80,7 +80,7 @@ public class StageItemView : MonoBehaviour {
 		Debug.Log(string.Format("StageItemView.ClickItem(), Picking Stage...stageId is {0}, Stage name is : {1}", data.ID, data.StageName));
 		//QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
 		UIManager.Instance.ChangeScene(SceneEnum.Quest); //before
-		if (DataCenter.gameStage == GameState.Evolve && evolveCallback != null) {
+		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {
 			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data); //after		

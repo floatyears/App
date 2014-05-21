@@ -147,7 +147,6 @@ public class LoadingLogic : ConcreteComponent {
 
 	void EnterGame () {
 		UIManager.Instance.ChangeScene(SceneEnum.Start);
-
 		UIManager.Instance.ChangeScene(SceneEnum.World);
 		if (rspAuthUser.isNewUser == 1){
 			TurnToReName();
@@ -156,7 +155,18 @@ public class LoadingLogic : ConcreteComponent {
 
 	void SureRetry(object data) {
 		ConfigBattleUseData.Instance.ResetFromDisk();
+		RecoverParty ();
 		UIManager.Instance.EnterBattle();
+	}
+
+	void RecoverParty() {
+		GameState gs = (GameState)ConfigBattleUseData.Instance.gameState;
+		if (gs == GameState.Evolve) {
+			TPartyInfo tpi = DataCenter.Instance.PartyInfo;
+			tpi.CurrentPartyId = tpi.AllParty.Count;
+			tpi.AllParty.Add(ConfigBattleUseData.Instance.party);
+		}
+		DataCenter.gameState = gs;
 	}
 
 	void Cancel(object data) {

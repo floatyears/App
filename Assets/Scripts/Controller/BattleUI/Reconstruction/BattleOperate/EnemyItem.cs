@@ -77,6 +77,7 @@ public class EnemyItem : UIBaseUnity {
     }
 
 	void DisposeRestraint(AttackInfo ai) {
+//		Debug.LogError ("DisposeRestraint stateSprite : " + stateSprite);
 		if (!string.IsNullOrEmpty (stateSprite.spriteName)) {
 			stateSprite.spriteName = string.Empty;
 		}
@@ -166,16 +167,19 @@ public class EnemyItem : UIBaseUnity {
         enemyInfo = te;
         hurtValueLabel.gameObject.SetActive(false);
         SetData(te);
+
+		stateSprite = FindChild<UISprite>("StateSprite");
+		stateSprite.spriteName = string.Empty;
+
 		enemyUnitInfo = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
 		Texture2D tex = enemyUnitInfo.GetAsset(UnitAssetType.Profile);
 		if (tex == null) {
 			texture.mainTexture = null;
-			return;		
+			stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3(0f, 100f, 0f);
+		} else {
+			DGTools.ShowTexture (texture, tex);
+			stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height * 0.5f, 0f);
 		}
-		DGTools.ShowTexture (texture, tex);
-		stateSprite = FindChild<UISprite>("StateSprite");
-		stateSprite.spriteName = string.Empty;
-		stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height, 0f);
     }
 
     public override void DestoryUI() {
