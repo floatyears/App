@@ -3,8 +3,22 @@ using UnityEngine;
 using LitJson;
 using System.Collections.Generic;
 
-public class UIConfig
-{
+public class UIConfig{
+
+	public const string SPR_NAME_BORDER_FIRE = "avatar_border_1";
+	public const string SPR_NAME_BORDER_WATER = "avatar_border_2";
+	public const string SPR_NAME_BORDER_WIND = "avatar_border_3";
+	public const string SPR_NAME_BORDER_LIGHT = "avatar_border_4";
+	public const string SPR_NAME_BORDER_DARK = "avatar_border_5";
+	public const string SPR_NAME_BORDER_NONE = "avatar_border_6";
+
+	public const string SPR_NAME_BG_FIRE = "avatar_bg_1";
+	public const string SPR_NAME_BG_WATER = "avatar_bg_2";
+	public const string SPR_NAME_BG_WIND = "avatar_bg_3";
+	public const string SPR_NAME_BG_LIGHT = "avatar_bg_4";
+	public const string SPR_NAME_BG_DARK = "avatar_bg_5";
+	public const string SPR_NAME_BG_NONE = "avatar_bg_6";
+
 	public static int PartyMaxCount = 5;
 	public static string TextNickNameInputDefault = "change name here";
 	public static float uisliderSpeed = 0.2f;

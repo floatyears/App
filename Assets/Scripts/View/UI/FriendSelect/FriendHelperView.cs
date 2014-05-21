@@ -31,12 +31,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 	
 	private void InitUI(){
-//		sortBtn = transform.FindChild("Button_Sort").GetComponent<UIButton>();
-//		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
-		//sortRuleLabel = transform.FindChild("Label_Sort_Rule").GetComponent<UILabel>();
-
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
-		//sortRuleLabel.text = curSortRule.ToString();
 	}
 
 	private void CreateDragView(){
@@ -107,14 +102,7 @@ public class FriendHelperView : UIComponentUnity{
 		msgParams.btnParam = new BtnParam();
 		return msgParams;
 	}
-	
-//	private void ClickSortBtn(GameObject btn){
-//		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
-//
-//		//can not clicked before compelete showing sort panel
-//		sortBtn.isEnabled = false;
-//	}
-	
+
 	private void ReceiveSortInfo(object msg){
 		//Debug.LogError("FriendHelper.ReceiveSortInfo()...");
 		curSortRule = (SortRule)msg;
@@ -142,11 +130,6 @@ public class FriendHelperView : UIComponentUnity{
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
-
-//	private void ActivateSortBtn(object msg){
-//		Debug.Log("FriendHelperView.ActivateSortBtn(), receive msg to activate sort btn...");
-//		sortBtn.isEnabled = true;
-//	}
 
 	/// <summary>
 	/// Customs the drag panel.

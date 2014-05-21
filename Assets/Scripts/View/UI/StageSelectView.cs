@@ -40,13 +40,13 @@ public class StageSelectView : UIComponentUnity{
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
-		MsgCenter.Instance.AddListener(CommandEnum.TransPickedCity, CreateSlidePage);
+		MsgCenter.Instance.AddListener(CommandEnum.TransPickedCity, ReceivePickedCity);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveStart, EvolveStartQuest);
-		MsgCenter.Instance.RemoveListener(CommandEnum.TransPickedCity, CreateSlidePage);
+		MsgCenter.Instance.RemoveListener(CommandEnum.TransPickedCity, ReceivePickedCity);
 	}
 
 	private void DestoryStages(){
@@ -55,10 +55,6 @@ public class StageSelectView : UIComponentUnity{
 			Destroy(stageItem);
 		}
 	}
-
-    public override void ResetUIState(){
-        LogHelper.Log("QuestSelectDecoratorUnity.ClearUIState()");
-    }   
 
 	void UpdatePanelInfo(object args){
 		Dictionary<string,object> info = args as Dictionary<string, object>;
@@ -336,34 +332,44 @@ public class StageSelectView : UIComponentUnity{
 
 	//--------------------------------New---------------------------------------
 
-	private TCityInfo cityInfo;
+	private TCityInfo prevPickedCityInfo;
 	private GameObject stageRoot;
 	private List<StageItemView> stageViewList  = new List<StageItemView>();
 
 	private void GetData(uint cityID){
-		if(cityInfo == null || (cityInfo.ID != cityID )){
-			Debug.Log("cityInfo == null || (cityInfo.ID != cityID");
-			cityInfo = DataCenter.Instance.GetCityInfo(cityID);
+		TCityInfo received = DataCenter.Instance.GetCityInfo(cityID);
+
+		if(prevPickedCityInfo == null){
+			//when first time to step in
+			Debug.Log("recorded picked cityInfo is null, as first time to step in, create stage view...");
+			prevPickedCityInfo = received;
+			DestoryStages();
+			FillView();
+		}
+		else if(!prevPickedCityInfo.Equals(received)){
+			//when picked city changed
+			Debug.Log("recorded picked cityInfo is changed, update stage view...");
+			prevPickedCityInfo = received;
 			DestoryStages();
 			FillView();
 		}
 		else{
-			Debug.Log("step into the same stage...");
+			//when picked city not changed
+			Debug.Log("recorded picked cityInfo is not changed, keep stage view...");
 		}
 	}
 	
-	private void CreateSlidePage(object msg){
+	private void ReceivePickedCity(object msg){
 		GetData((uint)msg);
-
 	}
 
 	private void FillView(){
-		if(cityInfo == null) {
+		if(prevPickedCityInfo == null) {
 			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
 			return;
 		}
 	
-		List<TStageInfo> accessStageList = cityInfo.Stages;
+		List<TStageInfo> accessStageList = prevPickedCityInfo.Stages;
 		GenerateStages(accessStageList);
 
 	}
@@ -396,16 +402,35 @@ public class StageSelectView : UIComponentUnity{
 	/// <param name="count">Count.</param>
 	private void GenerateStages(List<TStageInfo> accessStageList){
 		background = FindChild<UITexture>("Background");
-		background.mainTexture = Resources.Load("Stage/" + cityInfo.ID) as Texture2D;
+		background.mainTexture = Resources.Load("Stage/" + prevPickedCityInfo.ID) as Texture2D;
 
 		stageItem.Clear ();
+
+		bool searchFarthestArrivedStageSucceed = false;
 		for (int i = 0; i < accessStageList.Count; i++){
 			GameObject cell = NGUITools.AddChild(stageRoot, StageItemView.Prefab);
 			cell.name = i.ToString();
 			StageItemView stageItemView = StageItemView.Inject(cell);
+
+			if(!searchFarthestArrivedStageSucceed){
+				if(!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(accessStageList[ i ].ID)){
+					stageItemView.IsFarthestArrived = true;
+					searchFarthestArrivedStageSucceed = true;
+					Debug.Log("At the " + i + " time, search FarthestArrivedStageSucceed : " + searchFarthestArrivedStageSucceed);
+				}
+				else{
+					stageItemView.IsFarthestArrived = false;
+				}
+			}
+
 			stageItemView.Data = accessStageList[ i ];
 			stageItem.Add(stageItemView);
-		}
+
+
+
+
+		}//for
+
 	}
 
 	private List<GameObject> pageMarkItemList = new List<GameObject>();
@@ -479,7 +504,7 @@ public class StageSelectView : UIComponentUnity{
 	}
 
 	void FillViewEvolve(){
-		if(cityInfo == null) {
+		if(prevPickedCityInfo == null) {
 			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
 			return;
 		}

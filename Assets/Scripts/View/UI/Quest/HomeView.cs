@@ -148,7 +148,7 @@ public class HomeView : UIComponentUnity{
 		if(!isPressed){
 			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
 			MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
-			Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
+			//Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
 		}
 	}
 

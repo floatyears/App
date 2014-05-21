@@ -32,7 +32,7 @@ public class LoadingView : UIComponentUnity {
 //			Debug.LogError (nis [0].GetPhysicalAddress ().ToString());
 //		}
 
-		Debug.Log ("enum toString(): " + NoviceGuideStepEntityID.Loading.ToString());
+//		Debug.Log ("enum toString(): " + NoviceGuideStepEntityID.Loading.ToString());
 
     }
     

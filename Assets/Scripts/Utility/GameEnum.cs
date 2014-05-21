@@ -239,7 +239,7 @@ public enum CommandEnum{
 
 	RefreshItemCount				= 4063,
 
-	ShowHomeBgMask,
+
 
 	ShowFriendPointUpdateResult					= 4064,
 	PickOnSaleUnit				= 4065,
@@ -248,6 +248,10 @@ public enum CommandEnum{
 
 	//new add
 	TransPickedCity					= 4068,
+
+	ShowHomeBgMask,
+
+
 	OnPickQuest,
 	OnPickHelper,
 	ActivateSortBtn,

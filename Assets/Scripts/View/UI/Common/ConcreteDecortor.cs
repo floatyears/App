@@ -395,7 +395,7 @@ public class FriendSelectDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.Home);
+		sceneInfoBar.SetBackScene(SceneEnum.QuestSelect);
 		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_FRIEND_SELECT));
 	}
 	

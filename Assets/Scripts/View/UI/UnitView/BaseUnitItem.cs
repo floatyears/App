@@ -214,7 +214,8 @@ public class BaseUnitItem : MonoBehaviour {
 	protected virtual void SetEmptyState(){
 		IsEnable = false;
 		avatarTex.mainTexture = null;
-		//typeSpr.color = Color.white ;
+		unitTypeBg.spriteName = "avatar_bg_6";
+		avatarBorderSpr.spriteName = "avatar_border_6";
 		crossFadeLabel.text = string.Empty;
 	}
 
