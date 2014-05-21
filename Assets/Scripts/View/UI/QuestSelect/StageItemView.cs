@@ -44,7 +44,13 @@ public class StageItemView : MonoBehaviour {
 			//Debug.Log("StageItemView :: Stage's Quest Count = " + data.QuestInfo.Count);
 			Debug.Log("StageItemView :: " + " name is " + gameObject.name +", isClear == " 
 			          + DataCenter.Instance.QuestClearInfo.IsStoryStageClear(data.ID));
-			SetIcon();
+			if(DataCenter.gameState == GameState.Normal) {
+				SetIcon();
+			}
+			else{
+				SetEvolveIcon();
+			}
+
 			SetPosition();
 		}
 	}
@@ -92,13 +98,15 @@ public class StageItemView : MonoBehaviour {
 				                                                "easetype", iTween.EaseType.linear));
 
 				UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
+			} else{
+				icon.spriteName = "icon_stage_lock";
+					UIEventListener.Get(this.gameObject).onClick = ShowTip;
+			}
 		}
-		else{
-			icon.spriteName = "icon_stage_lock";
-				UIEventListener.Get(this.gameObject).onClick = ShowTip;
-		}
-
 	}
+
+	void SetEvolveIcon() {
+		UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 	}
 
 	private void StepIntoNextScene(GameObject item){

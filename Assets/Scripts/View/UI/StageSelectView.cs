@@ -515,7 +515,9 @@ public class StageSelectView : UIComponentUnity{
 				continue;
 			}
 			else{
-				Destroy(item.GetComponent<UIEventListener>());
+				UIEventListener listener = item.GetComponent<UIEventListener>();
+				listener.onClick = null;
+				Destroy(listener);
 			}
 		}	
 //		List<TStageInfo> accessStageList = new List<TStageInfo> (); 
