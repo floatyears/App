@@ -12,6 +12,8 @@ public class ResultView : UIComponentUnity {
 	UIButton okBtn;
 	UIButton cancelBtn;
 	UITexture avatarTex;
+	UISprite avatarBorderSpr;
+	UISprite avatarBgSpr;
 	GameObject rootTop;
 	GameObject rootCenter;
 	GameObject rootBottom;
@@ -35,6 +37,8 @@ public class ResultView : UIComponentUnity {
 		totalFriPointLabel = rootCenter.transform.FindChild("Label_Bottom").GetComponent<UILabel>();
 
 		avatarTex = rootTop.transform.FindChild("Avatar/Texture").GetComponent<UITexture>();
+		avatarBgSpr = rootTop.transform.FindChild("Avatar/Background").GetComponent<UISprite>();
+		avatarBorderSpr = rootTop.transform.FindChild("Avatar/Sprite_Avatar_Border").GetComponent<UISprite>();
 
 		checkBtn = rootBottom.transform.FindChild("Button_Check").GetComponent<UIButton>();
 		okBtn = rootBottom.transform.FindChild("Button_Ok").GetComponent<UIButton>();
@@ -101,7 +105,10 @@ public class ResultView : UIComponentUnity {
 		TFriendInfo viewData = msg as TFriendInfo;
 
 		avatarTex.mainTexture = viewData.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		nameLabel.text = (viewData.NickName == string.Empty) ? "No Name" : viewData.NickName;
+		avatarBgSpr.spriteName = viewData.UserUnit.UnitInfo.GetUnitBackgroundName();
+		avatarBorderSpr.spriteName = viewData.UserUnit.UnitInfo.GetUnitBorderSprName();
+
+		nameLabel.text = (viewData.NickName == string.Empty) ? "NO NAME" : viewData.NickName;
 		rankLabel.text = viewData.Rank.ToString();
 		latestPlayLabel.text = TimeHelper.GetLatestPlayTime(viewData.LastPlayTime);
 		idLabel.text = viewData.UserId.ToString();
