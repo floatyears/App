@@ -118,8 +118,6 @@ public class LoadingLogic : ConcreteComponent {
             
 			DataCenter.Instance.CatalogInfo = new TUnitCatalog(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = (NoviceGuideStage)rspAuthUser.userGuideStep;
-
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
@@ -149,7 +147,8 @@ public class LoadingLogic : ConcreteComponent {
 
 	void EnterGame () {
 		UIManager.Instance.ChangeScene(SceneEnum.Start);
-		UIManager.Instance.ChangeScene(SceneEnum.World);
+
+		UIManager.Instance.ChangeScene(SceneEnum.Home);
 		if (rspAuthUser.isNewUser == 1){
 			TurnToReName();
 		}

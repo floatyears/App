@@ -3,11 +3,13 @@ using System.Collections;
 
 public class QuestItemView : MonoBehaviour {
 	private UISprite bgSpr;
+	private UISprite clearFlag;
 	private UILabel nameLabel;
 	private UILabel staminaLabel;
 	private UILabel floorLabel;
 	private UILabel expLabel;
 	private UILabel coinLabel;
+	private UILabel clearFlagLabel;
 
 	private static GameObject prefab;
 	public static GameObject Prefab{
@@ -70,15 +72,22 @@ public class QuestItemView : MonoBehaviour {
 		floorLabel.text = string.Format( "FLOOR {0}", data.Floor);
 		expLabel.text = data.RewardExp.ToString();
 		coinLabel.text = data.RewardMoney.ToString();
+		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageID, data.ID);
+		Debug.Log("QuestItemView.ShowQuestInfo(), stageID = " + stageID + ", questID = " + data.ID 
+		          + ", isClear = " + isClear);
+		//clearFlag.enabled = isClear;
+		clearFlagLabel.enabled = isClear;
 	}
 
 	private void FindUIElement(){
 		bgSpr = transform.FindChild("Sprite_Boss_Avatar").GetComponent<UISprite>();
+		clearFlag = transform.FindChild("Sprite_Clear_Flag").GetComponent<UISprite>();
 		nameLabel = transform.FindChild("Label_Quest_Name").GetComponent<UILabel>();
 		staminaLabel = transform.FindChild("Label_Stamina").GetComponent<UILabel>();
 		floorLabel = transform.FindChild("Label_Floor").GetComponent<UILabel>();
 		expLabel = transform.FindChild("Label_Exp").GetComponent<UILabel>();
 		coinLabel = transform.FindChild("Label_Coin").GetComponent<UILabel>();
+		clearFlagLabel = transform.FindChild("Label_Clear_Flag").GetComponent<UILabel>();
 	}
 
 	private void AddEventListener(){
@@ -99,7 +108,6 @@ public class QuestItemView : MonoBehaviour {
 			UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after		
 		}
-		//Record picked StageInfo
 	}
 
 }

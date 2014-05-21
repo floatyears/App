@@ -250,6 +250,58 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 
+	public string GetUnitBorderSprName(){
+		switch (Type){
+			case EUnitType.UFIRE :
+				return UIConfig.SPR_NAME_BORDER_FIRE;
+				break;
+			case EUnitType.UWATER :
+				return UIConfig.SPR_NAME_BORDER_WATER;
+				break;
+			case EUnitType.UWIND :
+				return UIConfig.SPR_NAME_BORDER_WIND;
+				break;
+			case EUnitType.ULIGHT :
+				return UIConfig.SPR_NAME_BORDER_LIGHT;
+				break;
+			case EUnitType.UDARK :
+				return UIConfig.SPR_NAME_BORDER_DARK;
+				break;
+			case EUnitType.UNONE :
+				return UIConfig.SPR_NAME_BORDER_NONE;
+				break;
+			default:
+				return UIConfig.SPR_NAME_BORDER_NONE;
+				break;
+		}
+	}
+
+	public string GetUnitBackgroundName(){
+		switch (Type){
+			case EUnitType.UFIRE :
+				return UIConfig.SPR_NAME_BG_FIRE;
+				break;
+			case EUnitType.UWATER :
+				return UIConfig.SPR_NAME_BG_WATER;
+				break;
+			case EUnitType.UWIND :
+				return UIConfig.SPR_NAME_BG_WIND;
+				break;
+			case EUnitType.ULIGHT :
+				return UIConfig.SPR_NAME_BG_LIGHT;
+				break;
+			case EUnitType.UDARK :
+				return UIConfig.SPR_NAME_BG_DARK;
+				break;
+			case EUnitType.UNONE :
+				return UIConfig.SPR_NAME_BG_NONE;
+				break;
+			default:
+				return UIConfig.SPR_NAME_BG_NONE;
+				break;
+		}
+	}
+
 	public void Send () {}
 	public void Receive (IWWWPost post) {}
 	public void SerialToFile () {}

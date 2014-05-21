@@ -138,8 +138,18 @@ public class SellView : UIComponentUnity{
 		Dictionary<string, object> info = args as Dictionary<string,object>;
 		int poolPos = (int)info["poolPos"];
 		int clickPos = (int)info["clickPos"];
-		FindTextureWithPosition(poolPos, pickItemList).mainTexture = info["texture"] as Texture2D;
-		FindLabelWithPosition(poolPos, pickItemList).text = "Lv: " + info["label"] as string;
+//		FindTextureWithPosition(poolPos, pickItemList).mainTexture = info["texture"] as Texture2D;
+//		FindLabelWithPosition(poolPos, pickItemList).text = "Lv: " + info["label"] as string;
+		GameObject targetItem = pickItemList[ poolPos ];
+
+		UITexture targetItemTex = targetItem.GetComponentInChildren<UITexture>();
+		targetItemTex.mainTexture = info["texture"] as Texture2D;
+
+		UISprite targetItemBg = targetItem.transform.FindChild("Background").GetComponent<UISprite>();
+		targetItemBg.spriteName = info["background"] as string;
+
+		UISprite targetItemBorder = targetItem.transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
+		targetItemBorder.spriteName = info["border"] as string;
 
 		MarkDragItem(clickPos, poolPos);
 	}
@@ -287,6 +297,10 @@ public class SellView : UIComponentUnity{
 			temp.Add("clickPos", clickPos);
 			Texture2D tex = item.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
 			temp.Add("texture", tex);
+			string sprName = item.UserUnit.UnitInfo.GetUnitBackgroundName();
+			temp.Add("background", sprName);
+			sprName = item.UserUnit.UnitInfo.GetUnitBorderSprName();
+			temp.Add("border", sprName);
 			temp.Add("label", item.UserUnit.Level.ToString());
 			AddViewItem(temp);
 		}
@@ -310,6 +324,12 @@ public class SellView : UIComponentUnity{
 	}
 
 	void ResetUIElement(){
+		clearImgBtn.isEnabled = false;
+		sellImgBtn.isEnabled = false;
+		totalSaleValue = 0;
+		coinLabel.text = string.Empty;
+
+
 		for (int i = 0; i < maxItemCount; i++){
 			FindTextureWithPosition(i, pickItemList).mainTexture = null;
 			FindLabelWithPosition(i, pickItemList).text = string.Empty;

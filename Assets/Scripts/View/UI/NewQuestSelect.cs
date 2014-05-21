@@ -41,7 +41,7 @@ public class NewQuestSelect : UIComponentUnity {
 	}
 
 	void EvolveCallback () {
-		UIManager.Instance.ChangeScene(SceneEnum.StandBy);//before
+		UIManager.Instance.ChangeScene(SceneEnum.FightReady);//before
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectQuest, evolveStart);
 	}
 

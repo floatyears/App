@@ -98,7 +98,7 @@ public class ViewManager {
 		bottomPanel = mainUIRoot.transform.Find ("Bottom/Panel").gameObject;
 		effectPanel = mainUIRoot.transform.Find ("Bottom/EffectPanel").gameObject;
 		centerPanel = mainUIRoot.transform.Find ("Anchor/Panel").gameObject;
-		dynamicFont = Resources.Load("Font/Faerytale Woods",typeof(Font)) as Font;
+		dynamicFont = Resources.Load("Font/Dimbo Regular", typeof(Font)) as Font;
 		trapLabel = mainUIRoot.transform.Find ("BottomLeft/Label").GetComponent<UILabel> ();
 	}
 

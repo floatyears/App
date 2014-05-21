@@ -60,7 +60,7 @@ public class QuestController : ConcreteComponent{
 			return;
 		}
 		ConfigBattleUseData.Instance.currentStageInfo = stageSelected;
-		UIManager.Instance.ChangeScene(SceneEnum.Stage);
+		UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
 		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
 	}
 

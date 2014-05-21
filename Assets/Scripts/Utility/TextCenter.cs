@@ -9,9 +9,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-
 public partial class TextCenter {
-
     public static TextCenter Instace {
         get {
             if (instance == null){
@@ -29,6 +27,7 @@ public partial class TextCenter {
         textDict.TryGetValue(key, out result);
         return result;
     }
+
 
     public string GetCurrentText(string key, params object[] args){
         string result = "";

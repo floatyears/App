@@ -316,7 +316,7 @@ public class BattleQuest : UIBase {
 	void EvolveEnd () {
 		ControllerManager.Instance.ExitBattle ();
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
-		UIManager.Instance.baseScene.CurrentScene = SceneEnum.World;
+		UIManager.Instance.baseScene.CurrentScene = SceneEnum.Home;
 //		Debug.LogError ("UIManager.Instance.baseScene.PrevScene : " + UIManager.Instance.baseScene.PrevScene);
 //		UIManager.Instance.ChangeScene (SceneEnum.Quest);
 		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);

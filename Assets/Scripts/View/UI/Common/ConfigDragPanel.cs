@@ -82,7 +82,7 @@ public class ConfigDragPanel{
 		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, 62, 640, 813)			);
 		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(1280, 1350, 0)				);
 		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
-		HelperListDragPanelArgs.Add("cellHeight", 					 150												);
+		HelperListDragPanelArgs.Add("cellHeight", 					 120												);
 
 	}
 
@@ -130,8 +130,8 @@ public class ConfigDragPanel{
 		PartyListDragPanelArgs.Add("clipRange", 						 new Vector4(0, -120, 640, 400)		);
 		PartyListDragPanelArgs.Add("gridArrange", 					 UIGrid.Arrangement.Vertical			);
 		PartyListDragPanelArgs.Add("scrollBarPosition",				 new Vector3(-320, -315, 0)				);
-		PartyListDragPanelArgs.Add("cellWidth", 						 120												);
-		PartyListDragPanelArgs.Add("cellHeight",						 110												);
+		PartyListDragPanelArgs.Add("cellWidth", 						 100												);
+		PartyListDragPanelArgs.Add("cellHeight",						 100												);
 		PartyListDragPanelArgs.Add("maxPerLine",					 3													);
 	}
 
@@ -150,14 +150,15 @@ public class ConfigDragPanel{
 	
 	private void ConfigQuestSelectDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), QuestSelectDragPanelArgs...");
-		QuestSelectDragPanelArgs.Add("scrollerLocalPos",				-60 * Vector3.up							);
-		QuestSelectDragPanelArgs.Add("position",							Vector3.zero								);
-		QuestSelectDragPanelArgs.Add("clipRange",						new Vector4(0, 0, 640, 200)			);
-		QuestSelectDragPanelArgs.Add("gridArrange",					UIGrid.Arrangement.Horizontal	);
-		QuestSelectDragPanelArgs.Add("maxPerLine",					0												);
-		QuestSelectDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -120, 0)			);
-		QuestSelectDragPanelArgs.Add("cellWidth",						125											);
-		QuestSelectDragPanelArgs.Add("cellHeight",						125											);
+		QuestSelectDragPanelArgs.Add("scrollerLocalPos",			 	-85* Vector3.up							);
+		QuestSelectDragPanelArgs.Add("position", 						Vector3.zero								);
+		QuestSelectDragPanelArgs.Add("gridArrange", 				 	UIGrid.Arrangement.Horizontal	);
+		QuestSelectDragPanelArgs.Add("scrollMovement", 			UIScrollView.Movement.Vertical	);
+		QuestSelectDragPanelArgs.Add("maxPerLine", 					1												);
+		QuestSelectDragPanelArgs.Add("clipRange", 					 	new Vector4(0, 62, 640, 813)		);
+		QuestSelectDragPanelArgs.Add("scrollBarPosition",			 	new Vector3(1280, 1350, 0)			);
+		QuestSelectDragPanelArgs.Add("cellWidth", 					 	0												);
+		QuestSelectDragPanelArgs.Add("cellHeight", 					 	130											);
 	}
 
 	

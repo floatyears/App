@@ -6,7 +6,9 @@ public enum SceneEnum
 
 	Start,
 
-	World,
+	Home,
+
+	QuestSelect,
 
 	Friends,
 
@@ -24,7 +26,7 @@ public enum SceneEnum
 
 	Units,
 
-	Stage,
+	StageSelect,
 
 	FriendSelect,
 
@@ -60,9 +62,7 @@ public enum SceneEnum
 
 	Result,
 
-	StandBy,
-
-	Quest
+	FightReady
 }
 
 public enum CommandEnum{
@@ -239,7 +239,7 @@ public enum CommandEnum{
 
 	RefreshItemCount				= 4063,
 
-	ShowHomeBgMask,
+
 
 	ShowFriendPointUpdateResult					= 4064,
 	PickOnSaleUnit				= 4065,
@@ -248,6 +248,10 @@ public enum CommandEnum{
 
 	//new add
 	TransPickedCity					= 4068,
+
+	ShowHomeBgMask,
+
+
 	OnPickQuest,
 	OnPickHelper,
 	ActivateSortBtn,
