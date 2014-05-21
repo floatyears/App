@@ -63,7 +63,7 @@ public class EvolveComponent : ConcreteComponent {
 			tes.evolveParty.Add(null);
 		}
 
-		DataCenter.gameStage = GameState.Evolve;
+		DataCenter.gameState = GameState.Evolve;
 		UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
 	}

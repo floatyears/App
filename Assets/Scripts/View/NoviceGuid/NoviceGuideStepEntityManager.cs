@@ -100,8 +100,8 @@ public class NoviceGuideStepEntityManager {
 //				CreateStepEntityByID(NoviceGuideStepEntityID.EVOLVE,NoviceGuideStepJ_StateOne.Instance());
 //				break;
 //		}
-
-		switch(currentNoviceGuideStage){
+		NoviceGuideStage ngs = (NoviceGuideStage) currentNoviceGuideStage;
+		switch(ngs){
 		case NoviceGuideStage.Preface://preface
 				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
 				break;

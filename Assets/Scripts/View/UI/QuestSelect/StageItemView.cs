@@ -103,7 +103,7 @@ public class StageItemView : MonoBehaviour {
 
 	private void StepIntoNextScene(GameObject item){
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect); //before
-		if (DataCenter.gameStage == GameState.Evolve && evolveCallback != null) {
+		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {
 			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data); //after		
