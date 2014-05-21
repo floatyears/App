@@ -10,7 +10,7 @@ public class NoviceGuideStepEntityManager {
 
 	private NoviceGuideStepEntity currentStep;
 
-	private static int currentNoviceGuideStage = 3;
+	private static NoviceGuideStage currentNoviceGuideStage = NoviceGuideStage.NONE;
 
 	private NoviceGuideStepEntityManager()
 	{
@@ -24,14 +24,12 @@ public class NoviceGuideStepEntityManager {
 	public static NoviceGuideStepEntityManager Instance()
 	{
 		if (instance == null) {
-
 			instance = new NoviceGuideStepEntityManager ();
-
 		}
 		return instance;
 	}
 
-	public static int CurrentNoviceGuideStage
+	public static NoviceGuideStage CurrentNoviceGuideStage
 	{
 		get{return currentNoviceGuideStage;LogHelper.Log("current novice guide stage(get): " + currentNoviceGuideStage);}
 		set{currentNoviceGuideStage = value;LogHelper.Log("current novice guide stage(set): " + currentNoviceGuideStage);}
@@ -39,7 +37,12 @@ public class NoviceGuideStepEntityManager {
 
 	public static bool isInNoviceGuide()
 	{
-		return currentNoviceGuideStage > 0;
+		return currentNoviceGuideStage != NoviceGuideStage.NONE;
+	}
+
+	public static void FinishCurrentStep(){
+		FinishUserGuide.SendRequest (null, (int)currentNoviceGuideStage);
+		//currentNoviceGuideStage++;
 	}
 //	
 //	private void OnChangeScene(object msg)
@@ -56,49 +59,116 @@ public class NoviceGuideStepEntityManager {
 	
 	public void StartStep()
 	{
-		return;
-		Debug.Log("//////////current scene: " + UIManager.Instance.baseScene.CurrentScene);
-		switch (UIManager.Instance.baseScene.CurrentScene) {
-			case SceneEnum.Loading:
-				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
-				break;
-			case SceneEnum.SelectRole:
-				CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE,NoviceGuideStepB_StateOne.Instance());
-				break;
-			case SceneEnum.Scratch:
-				CreateStepEntityByID(NoviceGuideStepEntityID.SCRATCH,NoviceGuideStepC_StateOne.Instance());
-				break;
-			case SceneEnum.RareScratch:
-				CreateStepEntityByID(NoviceGuideStepEntityID.RARE_SCRATCH,NoviceGuideStepD_StateOne.Instance());
-				break;
-			case SceneEnum.Quest:
-				CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepE_StateOne.Instance());
-				break;
-			case SceneEnum.Party:
-				CreateStepEntityByID(NoviceGuideStepEntityID.PARTY,NoviceGuideStepF_StateOne.Instance());
-				break;
-			case SceneEnum.Units:
-				if(currentNoviceGuideStage == 3){
-					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateThree.Instance());
-				}else if(currentNoviceGuideStage == 2){
-					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateTwo.Instance());
-				}else{
-					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateOne.Instance());	
-				}
-				break;
-			case SceneEnum.Fight:
-				CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepH_StateOne.Instance());
-				break;
-			case SceneEnum.LevelUp:
-				CreateStepEntityByID(NoviceGuideStepEntityID.LEVEL_UP,NoviceGuideStepI_StateOne.Instance());
-				break;
-			case SceneEnum.Evolve:
-				CreateStepEntityByID(NoviceGuideStepEntityID.EVOLVE,NoviceGuideStepJ_StateOne.Instance());
-				break;
+//		if (currentNoviceGuideStage <= 0) {
+//			return;	
+//		}
+//
+//		Debug.Log("//////////current scene: " + UIManager.Instance.baseScene.CurrentScene);
+//		switch (UIManager.Instance.baseScene.CurrentScene) {
+//			case SceneEnum.Loading:
+//				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
+//				break;
+//			case SceneEnum.SelectRole:
+//				CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE,NoviceGuideStepB_StateOne.Instance());
+//				break;
+//			case SceneEnum.Scratch:
+//				CreateStepEntityByID(NoviceGuideStepEntityID.SCRATCH,NoviceGuideStepC_StateOne.Instance());
+//				break;
+//			case SceneEnum.RareScratch:
+//				CreateStepEntityByID(NoviceGuideStepEntityID.RARE_SCRATCH,NoviceGuideStepD_StateOne.Instance());
+//				break;
+//			case SceneEnum.Quest:
+//				CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepE_StateOne.Instance());
+//				break;
+//			case SceneEnum.Party:
+//				CreateStepEntityByID(NoviceGuideStepEntityID.PARTY,NoviceGuideStepF_StateOne.Instance());
+//				break;
+//			case SceneEnum.Units:
+//				if(currentNoviceGuideStage == 16){
+//					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateThree.Instance());
+//				}else if(currentNoviceGuideStage == 15){
+//					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateTwo.Instance());
+//				}else if(currentNoviceGuideStage == 14){
+//					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateOne.Instance());	
+//				}
+//				break;
+//			case SceneEnum.Fight:
+//				
+//				CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepH_StateOne.Instance());
+//				break;
+//			case SceneEnum.LevelUp:
+//				CreateStepEntityByID(NoviceGuideStepEntityID.LEVEL_UP,NoviceGuideStepI_StateOne.Instance());
+//				break;
+//			case SceneEnum.Evolve:
+//				CreateStepEntityByID(NoviceGuideStepEntityID.EVOLVE,NoviceGuideStepJ_StateOne.Instance());
+//				break;
+//		}
+
+		switch(currentNoviceGuideStage){
+		case NoviceGuideStage.Preface://preface
+			CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
+			break;
+		case NoviceGuideStage.SELECT_ROLE://selectRole
+			CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepB_StateOne.Instance());
+			break;
+		case NoviceGuideStage.GOLD_BOX://goldBox
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepH_StateOne.Instance());
+			break;
+		//Fist Enemy
+		case NoviceGuideStage.ANIMATION://Animation
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepD_StateOne.Instance());
+			break;
+		case NoviceGuideStage.FIRST_ATTACK_ONE://AttackOnce
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepD_StateTwo.Instance());
+			break;
+		case NoviceGuideStage.FIRST_ATTACK_TWO://AttackTwice
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepD_StateFour.Instance());
+			break;
+		case NoviceGuideStage.GET_KEY://GetKey
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepD_StateSix.Instance());
+			break;
+		//Boss Enemy
+		case NoviceGuideStage.BOSS_ATTACK_ONE://AttackOnce
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepK_StateOne.Instance());
+			break;
+		case NoviceGuideStage.BOSS_ATTACK_HEAL://Heal
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepK_StateThree.Instance());
+			break;
+		case NoviceGuideStage.BOSS_ATTACK_SKILL://Skill
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepK_StateFour.Instance());
+			break;
+		case NoviceGuideStage.BOSS_ATTACK_BOOST://Booost
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepK_StateFive.Instance());
+			break;
+		case NoviceGuideStage.PARTY://Party
+			CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepF_StateOne.Instance());
+			break;
+		case NoviceGuideStage.LEVEL_UP://LevelUp
+			CreateStepEntityByID(NoviceGuideStepEntityID.LEVEL_UP,NoviceGuideStepI_StateOne.Instance());
+			break;
+		case NoviceGuideStage.SCRATCH://RareScratch
+			CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepC_StateOne.Instance());
+			break;
+		case NoviceGuideStage.INPUT_NAME://InputName
+			break;
+		case NoviceGuideStage.QUEST_SELECT://QuestSelect
+			CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepE_StateOne.Instance());
+			break;
+		case NoviceGuideStage.EVOLVE://Evolve
+			CreateStepEntityByID(NoviceGuideStepEntityID.EVOLVE,NoviceGuideStepJ_StateOne.Instance());
+			break;
+		case NoviceGuideStage.EVOVLE_BATTLE://EvovlveBattle
+			break;
+//		case 19://selectRole
+//			break;
+//		case 20://selectRole
+//			break;
+		default:
+			break;
 		}
 	}
 
-	public void NextState()
+	private void NextState()
 	{
 		//return;
 		if (currentStep != null ) {
@@ -207,4 +277,27 @@ public enum NoviceGuideStepEntityID{
 	FIGHT = 8,
 	LEVEL_UP,
 	EVOLVE
+}
+
+public enum NoviceGuideStage{
+	NONE = 0,
+	Preface,
+	SELECT_ROLE,
+	GOLD_BOX,
+	ANIMATION,
+	FIRST_ATTACK_ONE,
+	FIRST_ATTACK_TWO,
+	GET_KEY,
+	BOSS_ATTACK_ONE,
+	BOSS_ATTACK_HEAL,
+	BOSS_ATTACK_SKILL,
+	BOSS_ATTACK_BOOST,
+	PARTY,
+	LEVEL_UP,
+	SCRATCH,
+	INPUT_NAME,
+	QUEST_SELECT,
+	EVOLVE,
+	EVOVLE_BATTLE,
+
 }

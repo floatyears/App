@@ -118,6 +118,8 @@ public class LoadingLogic : ConcreteComponent {
             
 			DataCenter.Instance.CatalogInfo = new TUnitCatalog(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 
+			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = (NoviceGuideStage)rspAuthUser.userGuideStep;
+
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
