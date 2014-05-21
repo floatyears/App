@@ -104,6 +104,7 @@
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitSolidVertexColor.shader" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored(ZWrite).shader" />
      <None Include="Assets\Resources\Shaders\NewShader.shader" />
      <None Include="Assets\IGSoft_Resources\ToolResources\EffectShader\FXMaker_Mask Additive Tint.shader" />
      <None Include="Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
@@ -153,6 +154,7 @@
      <None Include="Assets\TK2DROOT\tk2d\Shaders\CutoutVertexColor.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
      <None Include="Assets\TK2DROOT\tk2d_demo\demobmfont\test.fnt" />
+     <None Include="Assets\Shaders\Particle Add(Self).shader" />
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Font\OldSansBlack\OldSansBlack.fnt" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitBlendVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito16.fnt" />
@@ -160,6 +162,7 @@
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito32.fnt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
      <None Include="Assets\External\NGUI\Examples\Shaders\Refractive.shader" />
+     <None Include="Assets\Shaders\Mobile-Particle-Add.shader" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Depth.shader" />
      <None Include="Assets\External\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />

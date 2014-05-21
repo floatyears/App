@@ -1,4 +1,4 @@
-Shader "Unlit/Transparent Colored"
+Shader "Unlit/Transparent Colored ZOn"
 {
 	Properties
 	{
@@ -18,7 +18,7 @@ Shader "Unlit/Transparent Colored"
 		
 		Cull Off
 		Lighting Off
-		ZWrite Off
+		ZWrite On
 //		ZTest LEqual
 		Fog { Mode Off }
 		Offset -1, -1

@@ -37,11 +37,11 @@ public class BattleBottom : MonoBehaviour {
 		battleSkillObject.SetActive (false);
 
 		if (upi == null) {
-			Debug.LogError("Battle bottom init : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
+//			Debug.LogError("Battle bottom init : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
 			upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
-		Debug.LogError ("Battle bottom : " + userUnitInfo.Count);
+//		Debug.LogError ("Battle bottom : " + userUnitInfo.Count);
 		for (int i = 0; i < 5; i++) {
 			GameObject temp = transform.Find("Actor/" + i).gameObject;	
 			if(userUnitInfo[i] == null) {
