@@ -154,6 +154,7 @@ public class UIManager {
 		}
 		else{
 //			Debug.LogError("senum creat : " + sEnum);
+//			return;
 			DecoratorBase db = CreatScene(sEnum);
 			current = db;
 		}

@@ -160,9 +160,6 @@ public class BattleEnemy : UIBaseUnity {
 		} else {
 			centerIndex = (count >> 1) - 1;
 			int centerRightIndex = centerIndex + 1;
-//			float tempinterv = 0f;
-//			uint unitID = temp[centerIndex].enemyInfo.UnitID;
-//			TUnitInfo tui = DataCenter.Instance.GetUnitInfo(unitID);
 			float centerWidth = DGTools.GetEnemyWidthByRare(temp[centerIndex].enemyUnitInfo.Rare) * 0.25f;
 			float centerRightWidth =  DGTools.GetEnemyWidthByRare(temp[centerRightIndex].enemyUnitInfo.Rare) * 0.25f;
 			float Difference = (centerRightWidth - centerWidth) * 0.5f;

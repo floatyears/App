@@ -59,7 +59,7 @@ public class StageItemView : MonoBehaviour {
 			y = data.Pos.y - 450f;
 		}
 		else{
-			Debug.LogError("Stage.Pos is NULL!" + "  gameObject  is : " + gameObject);
+//			Debug.LogError("Stage.Pos is NULL!" + "  gameObject  is : " + gameObject);
 			//this.gameObject.SetActive(false);
 		}
 		gameObject.transform.localPosition = new Vector3(x, y, 0);
