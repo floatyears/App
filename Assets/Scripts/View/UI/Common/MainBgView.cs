@@ -2,12 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 public class MainBgView : UIComponentUnity {
-	private UISprite maskSpr;
-
+	private UISprite background;
 	public override void Init (UIInsConfig config, IUICallback origin){
 		base.Init (config,origin);
-		maskSpr = FindChild<UISprite>("Mask");
-		maskSpr.enabled = false;
+		background = transform.FindChild("Background").GetComponent<UISprite>();
 	}
 
 	public override void ShowUI () {
@@ -37,7 +35,13 @@ public class MainBgView : UIComponentUnity {
 	}
 
 	private void ShowMask(object msg){
-		//Debug.Log("Receive msg, show bg mask");
-		maskSpr.enabled = (bool)msg;
+		bool isMask = (bool)msg;
+		if(isMask){
+			//translucent
+			background.color = new Color(1, 1, 1, 0.5f);
+		}
+		else{
+			background.color = new Color(1, 1, 1, 1);
+		}
 	}
 }

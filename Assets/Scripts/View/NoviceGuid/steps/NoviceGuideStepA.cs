@@ -81,6 +81,9 @@ public class NoviceGuideStepA_StateOne:NoviceGuidState
 	private void ClickOK(object data)
 	{
 		LogHelper.Log("goto the selectrole");
+		//selectRole
+		//NoviceGuideStepEntityManager.FinishCurrentStep ();
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SELECT_ROLE;
 		UIManager.Instance.ChangeScene (SceneEnum.SelectRole);
 	}
 }

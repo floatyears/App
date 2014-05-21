@@ -35,16 +35,14 @@ public class PlayerInfoBar : UIComponentUnity{
 
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
-
 		InitUI();
-		RequestData();
 	}
 
 	public override void ShowUI() {
 		UpdateData();
 		AddCommandListener();
 		base.ShowUI();
-                
+		LogHelper.LogError("PlayerInfoBar.ShowUI()...");
 	}
 
 	public override void HideUI() {
@@ -66,9 +64,6 @@ public class PlayerInfoBar : UIComponentUnity{
 		UIEventListener.Get(rightCollider.gameObject).onPress = ShowInfoBox;
 
 		infoBox.SetActive(false);
-
-		//ShowStaminaInfo();
-		//ShowExpInfo();
 	}
 	
 	private void FindObject(){
@@ -99,38 +94,18 @@ public class PlayerInfoBar : UIComponentUnity{
 
 	}
 
-	private void ShowInfoBox(GameObject go, bool isPressed)
-	{
+	private void ShowInfoBox(GameObject go, bool isPressed){
 		infoBox.SetActive(isPressed);
 		
 		if (go.name == "Left_Collider") {
 			infoBox.transform.localPosition = rightPosition;
-		} else if (go.name == "Right_Collider") {
+		} 
+		else if (go.name == "Right_Collider") {
 			infoBox.transform.localPosition = leftPosition;
 		}
 	}
-
-	int curStamina = 39;
-	int maxStamina = 61;
-	int curExp = 492;
-	int nextRandNeedExp = 1856;
-
-	private void ShowStaminaInfo()
-	{
-		VStamMaxLabel.text = curStamina.ToString();
-		VStaminaNowLabel.text = maxStamina.ToString();
-		float percent = (float)curStamina / maxStamina;
-		staminaSprite.fillAmount = percent;
-	}
-
-	private void ShowExpInfo() {
-		float percent = (float)curExp / nextRandNeedExp;
-		expSprite.fillAmount = percent;
-	}
-
-
-	void UpdateData()
-	{
+	
+	void UpdateData(){
 		if (DataCenter.Instance.UserInfo == null){
 			Debug.Log("PlayerInfoBar.UpdateData() , userInfo is null , return ");
 			return;
@@ -163,21 +138,14 @@ public class PlayerInfoBar : UIComponentUnity{
 
 		//Evo
 		int evoType = (int)DataCenter.Instance.UserInfo.EvolveType;
-//		Debug.LogError("EvoType : " + evoType.ToString());
-		//evolveTypeSprite.spriteName = evoType.ToString();
-
-		//Debug.Log("PlayerInfoBar,DataCenter.Instance.UserInfo.EvolveType : " + evoType.ToString());
-//		TurnToReName();
-
 	}
 	
 
-	void ReName(object data)
-	{
+	void ReName(object data){
 		if (data != null && DataCenter.Instance.UserInfo != null)
 		{
 			bbproto.RspRenameNick rspRenameNick = data as bbproto.RspRenameNick;
-			LogHelper.Log("rename response newNickName : " + rspRenameNick.newNickName);
+			Debug.Log("rename response newNickName : " + rspRenameNick.newNickName);
 
 			if (rspRenameNick.header.code != (int)ErrorCode.SUCCESS) {
 				Debug.LogError("Rsp code: "+rspRenameNick.header.code+", error:"+rspRenameNick.header.error);
@@ -197,13 +165,10 @@ public class PlayerInfoBar : UIComponentUnity{
 			}
 		}
 
-		UIManager.Instance.ChangeScene(SceneEnum.World);
+		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
 	}
 
-	void AddCommandListener()
-	{
-//		MsgCenter.Instance.AddListener(CommandEnum.RspRenameNick, ReName );
-
+	void AddCommandListener(){
 		// leiliang---------------------------------------------------------------
 		MsgCenter.Instance.AddListener(CommandEnum.ReqRenameNick, ChangeName);
         LogHelper.Log("AddCommandListener() for listener ChangeName");
@@ -215,9 +180,7 @@ public class PlayerInfoBar : UIComponentUnity{
 
 		}
 	
-	void RemoveCommandListener()
-	{
-//		MsgCenter.Instance.RemoveListener(CommandEnum.RspRenameNick, ReName );
+	void RemoveCommandListener(){
 
 		// leiliang---------------------------------------------------------------
 		MsgCenter.Instance.RemoveListener(CommandEnum.ReqRenameNick, ChangeName);
@@ -228,19 +191,11 @@ public class PlayerInfoBar : UIComponentUnity{
         MsgCenter.Instance.RemoveListener(CommandEnum.SyncStamina, SyncStamina);
 		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPlayerCoin, SyncCoins);
 
-//                MsgCenter.Instance.RemoveListener(CommandEnum.RspStoneGachaOver, SyncChips);
 	}
 	void SyncCoins(object args){
 		VCionCountLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
 	}
 
-	void RequestData()
-	{
-//		MsgCenter.Instance.AddListener( CommandEnum.RspAuthUser, UpdateData );
-		//TODO:temp for user login
-//		MsgCenter.Instance.Invoke(CommandEnum.ReqAuthUser, null);
-	}
-	
 	float  CountFillCount(int cur, int max)
 	{
 		if (cur < 0 || max <= 0)

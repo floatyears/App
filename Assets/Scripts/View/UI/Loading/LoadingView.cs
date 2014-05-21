@@ -25,14 +25,14 @@ public class LoadingView : UIComponentUnity {
 //		GameDataStore.Instance.StoreData (GameDataStore.USER_ID, "");
         base.ShowUI ();
 		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8","android");
-		Debug.Log ("device info: " + SystemInfo.deviceUniqueIdentifier);
+		LogHelper.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
 //		NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces ();
 //		Debug.LogError ("nis.Length : " + nis.Length);
 //		if (nis.Length > 0) {
 //			Debug.LogError (nis [0].GetPhysicalAddress ().ToString());
 //		}
 
-		Debug.Log ("enum toString(): " + NoviceGuideStepEntityID.Loading.ToString());
+//		Debug.Log ("enum toString(): " + NoviceGuideStepEntityID.Loading.ToString());
 
     }
     
@@ -83,8 +83,9 @@ public class LoadingView : UIComponentUnity {
 
     private void SelectRoleFirst(){
 //		UIManager.Instance.ChangeScene(SceneEnum.Start);
-		//NoviceGuideStepEntityManager.Instance ().StartStep ();
-        UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.Preface;
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
+        //UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
     }
 
 //	private void checkResourceUpdate(){

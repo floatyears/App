@@ -6,8 +6,6 @@ public class ReceptionView : UIComponentUnity {
 	private SortRule curSortRule;
 	private TFriendInfo curPickedFriend;
 	private DragPanel dragPanel;
-	private UIButton sortBtn;
-	private UILabel sortRuleLabel;
 	private UIButton refuseAllBtn;
 	private List<TFriendInfo> friendInDataList = new List<TFriendInfo>();
 
@@ -31,11 +29,9 @@ public class ReceptionView : UIComponentUnity {
 	}
 
 	private void InitUIElement(){
-		sortBtn = FindChild<UIButton>("Button_Sort");
-		sortRuleLabel = transform.FindChild("Button_Sort/Label_Rule").GetComponent<UILabel>();
 		refuseAllBtn = FindChild<UIButton>("Button_Refuse");
 		UIEventListener.Get(refuseAllBtn.gameObject).onClick = ClickRefuseBtn;
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
+
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 	}
 
@@ -138,7 +134,6 @@ public class ReceptionView : UIComponentUnity {
 	}
 
 	void AcceptApplyFromOther(object msg){
-//		Debug.LogError("FriendListLogic.AcceptApplyFromOther(), receive the message, to accept apply from other player...");
 		if(CheckFriendCountLimit()){
 			Debug.LogError(string.Format("Friend Count limited. Current Friend count is :" + DataCenter.Instance.FriendCount));
 			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendExpansionMsgParams());
@@ -197,12 +192,7 @@ public class ReceptionView : UIComponentUnity {
 		UIManager.Instance.ChangeScene(SceneEnum.Shop);
 	}
 
-	void ClickSortBtn(GameObject btn){
-		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
-	}
-	
 	private void SortUnitByCurRule(){
-		sortRuleLabel.text = curSortRule.ToString();
 		SortUnitTool.SortByTargetRule(curSortRule, friendInDataList);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){

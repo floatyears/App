@@ -60,7 +60,7 @@ public class BattleShow : UIBase
 
 	void ClickQuest(GameObject go)
 	{
-		ControllerManager.Instance.ChangeScene(SceneEnum.Stage);
+		ControllerManager.Instance.ChangeScene(SceneEnum.StageSelect);
 	}
 
 }

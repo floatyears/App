@@ -173,8 +173,6 @@ public class NoviceGuideStepF_StateThree:NoviceGuidState{
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = 2;
-
 		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
 		NoviceGuideUtil.ForceOneBtnClick (sbb);
 

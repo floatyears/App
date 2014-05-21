@@ -14,7 +14,7 @@ public class CatalogUnitItem : MonoBehaviour {
 	private UISprite maskSpr;
 	private UISprite translucentMaskSpr;
 	private UILabel idLabel;
-
+	public UIWidget widget;
 	/// <summary>
 	/// The earliest execute
 	/// </summary>
@@ -29,6 +29,7 @@ public class CatalogUnitItem : MonoBehaviour {
 	/// Awake() execute as soon as  the static function CatalogUnitItem.Inject() execute
 	/// </summary>
 	private void Awake(){
+		widget = GetComponent<UIWidget>();
 		avatarSpr = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
 		erotemeSpr = transform.FindChild("Sprite_Erotemer").GetComponent<UISprite>();
 		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();

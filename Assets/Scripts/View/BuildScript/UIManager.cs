@@ -116,7 +116,7 @@ public class UIManager {
 
 	public void ExitBattle () {
 		Resources.UnloadUnusedAssets ();
-		ChangeScene (SceneEnum.World);
+		ChangeScene (SceneEnum.Home);
 
 	}
 
@@ -149,9 +149,11 @@ public class UIManager {
 		}
 
 		if (HasUIObject (sEnum)) {
+//			Debug.LogError("senum show : " + sEnum);
 			current = GetUI(sEnum);	
 		}
 		else{
+//			Debug.LogError("senum creat : " + sEnum);
 			DecoratorBase db = CreatScene(sEnum);
 			current = db;
 		}
@@ -171,8 +173,8 @@ public class UIManager {
             temp = new LoadingDecorator( sEnum );
             break;
 
-		case SceneEnum.World:
-			temp = new QuestDecorator( sEnum );
+		case SceneEnum.Home:
+			temp = new HomeDecorator( sEnum );
 			break;
 
 		case SceneEnum.Friends:
@@ -220,8 +222,8 @@ public class UIManager {
 			temp = new CatalogDecorator( sEnum );
 			break;
 
-		case SceneEnum.Stage:
-			temp = new QuestSelectDecorator( sEnum );
+		case SceneEnum.StageSelect:
+			temp = new StageSelectDecorrator( sEnum );
 			break;
 			
 		case SceneEnum.FriendSelect:
@@ -233,7 +235,7 @@ public class UIManager {
 			break;
 			
 		case SceneEnum.SearchFriend:
-			temp = new SearchFriendDecorator( sEnum );
+			temp = new FriendSearchDecorator( sEnum );
 			break;
 			
 		case SceneEnum.Information:
@@ -276,12 +278,12 @@ public class UIManager {
 			temp = new ResultDecorator( sEnum );
 			break;
 
-		case SceneEnum.StandBy:
-			temp = new StandByDecorator( sEnum );
+		case SceneEnum.FightReady:
+			temp = new FightReadyDecorator( sEnum );
 			break;
 
-		case SceneEnum.Quest:
-			temp = new NewQuestSelectDecorator( sEnum );
+		case SceneEnum.QuestSelect:
+			temp = new QuestSelectDecorator( sEnum );
 			break;
 
         }
@@ -299,9 +301,9 @@ public class UIManager {
 			return;	
 		}
 
-		if (nextScene == SceneEnum.Quest ||
-			nextScene == SceneEnum.StandBy || 
-			nextScene == SceneEnum.Stage || 
+		if (nextScene == SceneEnum.QuestSelect ||
+			nextScene == SceneEnum.FightReady || 
+			nextScene == SceneEnum.StageSelect || 
 			nextScene == SceneEnum.Evolve || 
 			nextScene == SceneEnum.UnitDetail)  {
 			return;
@@ -311,23 +313,23 @@ public class UIManager {
 	}
 
     private void InvokeSceneClear(SceneEnum nextScene){
-        if (baseScene.CurrentScene == SceneEnum.FriendSelect && nextScene == SceneEnum.Stage) {
-			MsgCenter.Instance.Invoke (CommandEnum.QuestSelectSaveState);
+        if (baseScene.CurrentScene == SceneEnum.FriendSelect && nextScene == SceneEnum.StageSelect){
+            MsgCenter.Instance.Invoke(CommandEnum.QuestSelectSaveState);
 		} else if (baseScene.CurrentScene == SceneEnum.UnitDetail) {
-			if (nextScene == SceneEnum.LevelUp) {
-				MsgCenter.Instance.Invoke (CommandEnum.LevelUpSaveState);
+            if (nextScene == SceneEnum.LevelUp){
+                MsgCenter.Instance.Invoke(CommandEnum.LevelUpSaveState);
 			} else if (nextScene == SceneEnum.Sell) {
-				MsgCenter.Instance.Invoke (CommandEnum.SellUnitSaveState);
+                MsgCenter.Instance.Invoke(CommandEnum.SellUnitSaveState);
 			} else if (nextScene == SceneEnum.Party) {
-				MsgCenter.Instance.Invoke (CommandEnum.PartySaveState);
+                MsgCenter.Instance.Invoke(CommandEnum.PartySaveState);
 			} else if (nextScene == SceneEnum.Evolve) {
 				MsgCenter.Instance.Invoke (CommandEnum.EvolveSaveState);
-			}
+            }
 		} else if (DataCenter.gameState == GameState.Evolve) {
-			if(nextScene == SceneEnum.Quest || nextScene == SceneEnum.StandBy || nextScene == SceneEnum.Stage) {
-				MsgCenter.Instance.Invoke (CommandEnum.EvolveSaveState);
+			if(nextScene == SceneEnum.QuestSelect || nextScene == SceneEnum.FightReady || nextScene == SceneEnum.StageSelect) {
+				MsgCenter.Instance.Invoke(CommandEnum.EvolveSaveState);
 			}
-		}
+        }
     }
 
 	public void ClearAllUIObject () {

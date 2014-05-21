@@ -3,8 +3,22 @@ using UnityEngine;
 using LitJson;
 using System.Collections.Generic;
 
-public class UIConfig
-{
+public class UIConfig{
+
+	public const string SPR_NAME_BORDER_FIRE = "avatar_border_1";
+	public const string SPR_NAME_BORDER_WATER = "avatar_border_2";
+	public const string SPR_NAME_BORDER_WIND = "avatar_border_3";
+	public const string SPR_NAME_BORDER_LIGHT = "avatar_border_4";
+	public const string SPR_NAME_BORDER_DARK = "avatar_border_5";
+	public const string SPR_NAME_BORDER_NONE = "avatar_border_6";
+
+	public const string SPR_NAME_BG_FIRE = "avatar_bg_1";
+	public const string SPR_NAME_BG_WATER = "avatar_bg_2";
+	public const string SPR_NAME_BG_WIND = "avatar_bg_3";
+	public const string SPR_NAME_BG_LIGHT = "avatar_bg_4";
+	public const string SPR_NAME_BG_DARK = "avatar_bg_5";
+	public const string SPR_NAME_BG_NONE = "avatar_bg_6";
+
 	public static int PartyMaxCount = 5;
 	public static string TextNickNameInputDefault = "change name here";
 	public static float uisliderSpeed = 0.2f;
@@ -88,7 +102,7 @@ public class UIConfig
 	public const string unitDetailPanelName = "UnitDetailPanel";
 	public const string searchMainWindowName = "SearchMainWindow";
 	public const string searchInfoWindowName = "SearchInfoWindow";
-	public const string stageMapName = "StageMap";
+	public const string stageWindowName = "StageSelectWindow";
 	public const string levelUpView = "LevelUpUI";
 	public const string levelUpInfoPanelName = "LevelUpInfoPanel";
 	public const string levelUpReadyPanelName = "LevelUpReadyPanel";
@@ -106,12 +120,12 @@ public class UIConfig
 	public const string itemCounterBarName = "ItemCounterBar";
 	public const string resultWindowName = "ResultWindow";
 
-	public const string standByWindowName = "StandByWindow";
+	public const string fightReadyWindowName = "FightReadyWindow";
 
 	public const string userUnitSortPanelName = "UserUnitSortPanel";
 	public const string friendUnitSortPanelName = "FriendUnitSortPanel";
 	
-	public const string homeWorldMapName = "HomeWorldMap";
+	public const string homeWindowName = "HomeWindow";
 	public const string stageSlidePanelName = "StageSlidePanel";
 
 	public const float playerInfoBox_X = 160f;

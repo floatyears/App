@@ -15,7 +15,7 @@ public class FriendWindows : FriendHelperView {
 		}
 		base.ShowUI ();
 
-		NoviceGuideStepEntityManager.Instance ().NextState ();
+		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	public override void HideUI () {
