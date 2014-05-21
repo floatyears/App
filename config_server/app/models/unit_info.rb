@@ -19,8 +19,9 @@ module EUnitRace
   BEAST = 4
   MONSTER = 5
   LEGEND = 6
-  SCREAMCHEESE = 7
-  EVOLVEPARTS = 8
+  DRAGON = 7
+  SCREAMCHEESE = 8
+  EVOLVEPARTS = 9
 end
 
 module EUnitGetType 
@@ -63,7 +64,7 @@ end
 
 class UnitInfo
   UNITTYPE = { "UALL" => 0 , "UFIRE" => 1, "UWATER" => 2, "UWIND" => 3, "ULIGHT" => 4 ,"UDARK" => 5,"UNONE" => 6,"UHeart" => 7 }
-  UNITRACE = { "ALL" => 0 , "HUMAN" => 1, "UNDEAD" =>2 , "MYTHIC" => 3 , "BEAST" => 4, "MONSTER" => 5 ,"LEGEND" => 6, "SCREAMCHEESE" => 7, "EVOLVEPARTS" => 8 }
+  UNITRACE = { "ALL" => 0 , "HUMAN" => 1, "UNDEAD" =>2 , "MYTHIC" => 3 , "BEAST" => 4, "MONSTER" => 5 ,"LEGEND" => 6, "DRAGON" => 7,"SCREAMCHEESE" => 8, "EVOLVEPARTS" => 9 }
   EUNIT_GETWAY = { "E_NONE" => 0,"E_QUEST" => 1 ,"E_GACHA_NORMAL" => 2 ,"E_GACHA_EVENT" => 3,"E_BUY" => 4}  
   
   required :id, :uint32, 1
