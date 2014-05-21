@@ -156,7 +156,18 @@ public class LoadingLogic : ConcreteComponent {
 
 	void SureRetry(object data) {
 		ConfigBattleUseData.Instance.ResetFromDisk();
+		RecoverParty ();
 		UIManager.Instance.EnterBattle();
+	}
+
+	void RecoverParty() {
+		GameState gs = (GameState)ConfigBattleUseData.Instance.gameState;
+		if (gs == GameState.Evolve) {
+			TPartyInfo tpi = DataCenter.Instance.PartyInfo;
+			tpi.CurrentPartyId = tpi.AllParty.Count;
+			tpi.AllParty.Add(ConfigBattleUseData.Instance.party);
+		}
+		DataCenter.gameState = gs;
 	}
 
 	void Cancel(object data) {

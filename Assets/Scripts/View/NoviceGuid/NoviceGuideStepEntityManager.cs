@@ -106,7 +106,7 @@ public class NoviceGuideStepEntityManager {
 				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
 				break;
 		case NoviceGuideStage.SELECT_ROLE://selectRole
-			CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepB_StateOne.Instance());
+			CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE,NoviceGuideStepB_StateOne.Instance());
 			break;
 		case NoviceGuideStage.GOLD_BOX://goldBox
 			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepH_StateOne.Instance());
@@ -144,7 +144,7 @@ public class NoviceGuideStepEntityManager {
 				CreateStepEntityByID(NoviceGuideStepEntityID.LEVEL_UP,NoviceGuideStepI_StateOne.Instance());
 				break;
 		case NoviceGuideStage.SCRATCH://RareScratch
-			CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepC_StateOne.Instance());
+			CreateStepEntityByID(NoviceGuideStepEntityID.SCRATCH,NoviceGuideStepC_StateOne.Instance());
 			break;
 		case NoviceGuideStage.INPUT_NAME://InputName
 			break;

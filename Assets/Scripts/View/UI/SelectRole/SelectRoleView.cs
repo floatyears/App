@@ -14,6 +14,8 @@ public class SelectRoleView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
+
+		//NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	public override void HideUI(){
