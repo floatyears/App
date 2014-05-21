@@ -23,8 +23,9 @@ public class TStageInfo : ProtobufDataBase {
 
 	void InitQuestInfo (StageInfo si) {
 		questInfo = new List<TQuestInfo> ();
-		
+
 		for (int i = 0; i < si.quests.Count; i++) {
+			Debug.LogError("InitQuestInfo : " + si.quests[i].id);
 			TQuestInfo tqi = new TQuestInfo(instance.quests[i]);
 			questInfo.Add(tqi);
 		}

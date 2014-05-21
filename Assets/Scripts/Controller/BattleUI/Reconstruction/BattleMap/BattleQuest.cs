@@ -100,7 +100,7 @@ public class BattleQuest : UIBase {
 		_questData = configBattleUseData.storeBattleData.questData;
 	}
 
-	void Init(UIBaseUnity ui,string name) {
+	void Init(UIBaseUnity ui, string name) {
 		ui.Init(name);
 	}
 
@@ -128,8 +128,6 @@ public class BattleQuest : UIBase {
 		} else {
 			configBattleUseData.StoreData();
 		}
-
-
 	}
 
 	public override void HideUI () {
@@ -317,6 +315,10 @@ public class BattleQuest : UIBase {
 
 	void EvolveEnd () {
 		ControllerManager.Instance.ExitBattle ();
+		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
+		UIManager.Instance.baseScene.CurrentScene = SceneEnum.World;
+//		Debug.LogError ("UIManager.Instance.baseScene.PrevScene : " + UIManager.Instance.baseScene.PrevScene);
+//		UIManager.Instance.ChangeScene (SceneEnum.Quest);
 		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, evolveUser);
 	}
@@ -837,7 +839,7 @@ public class BattleQuest : UIBase {
 	}
 
 	void RequestData () {
-		if (DataCenter.gameStage == GameState.Evolve) {
+		if (DataCenter.gameState == GameState.Evolve) {
 			EvolveDone evolveDone = new EvolveDone ();
 			TClearQuestParam cqp = GetQuestData();
 			evolveDone.QuestId = cqp.questId;
@@ -863,7 +865,6 @@ public class BattleQuest : UIBase {
 			return;
 		}
 
-
 		DataCenter.Instance.UserInfo.Rank = rsp.rank;
 		DataCenter.Instance.UserInfo.Exp = rsp.exp;
 		DataCenter.Instance.AccountInfo.Money = rsp.money;
@@ -871,18 +872,20 @@ public class BattleQuest : UIBase {
 		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
 		DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;	
-		TEvolveStart tes = DataCenter.evolveInfo;
-//		DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.BaseUnitId);
-		DataCenter.Instance.UserUnitList.DelMyUnit(tes.EvolveStart.BaseUnitId);
-		for (int i = 0; i < tes.EvolveStart.PartUnitId.Count; i++) {
-//			DataCenter.Instance.MyUnitList.DelMyUnit(tes.EvolveStart.PartUnitId[i]);
-			DataCenter.Instance.UserUnitList.DelMyUnit(tes.EvolveStart.PartUnitId[i]);
+
+		TUnitParty tup = configBattleUseData.party;
+		foreach (var item in tup.UserUnit.Values) {
+//			Debug.LogError("item : " + item + "   DataCenter.Instance.UserUnitList : " + DataCenter.Instance.UserUnitList);
+			if(item == null) {
+				continue;
+			}
+			DataCenter.Instance.UserUnitList.DelMyUnit(item.ID);
 		}
+		configBattleUseData.party = null;
+
 		for (int i = 0; i < rsp.gotUnit.Count; i++) {
-//			DataCenter.Instance.MyUnitList.AddMyUnit(rsp.gotUnit[i]);
 			DataCenter.Instance.UserUnitList.AddMyUnit(rsp.gotUnit[i]);
 		}
-//		DataCenter.Instance.MyUnitList.AddMyUnit(rsp.evolvedUnit);
 		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
 		evolveUser = TUserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
 

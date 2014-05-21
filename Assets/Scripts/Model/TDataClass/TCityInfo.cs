@@ -68,7 +68,6 @@ public class TCityInfo : ProtobufDataBase {
 	}
 
 	public TStageInfo GetStage(uint stageID) {
-
 		if (stageInfo == null) {
 			LogHelper.Log("City : {0} stage list is null ! ", instance.id);
 			return null;

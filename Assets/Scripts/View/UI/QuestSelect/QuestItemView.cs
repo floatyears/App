@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class QuestItemView : MonoBehaviour {
@@ -93,7 +93,7 @@ public class QuestItemView : MonoBehaviour {
 		QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
 		ConfigBattleUseData.Instance.currentStageInfo = stageInfo;
 		ConfigBattleUseData.Instance.currentQuestInfo = data;
-		if (DataCenter.gameStage == GameState.Evolve && evolveCallback != null) {
+		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {
 			UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before

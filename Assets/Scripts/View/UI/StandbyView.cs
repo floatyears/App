@@ -133,6 +133,9 @@ public class StandbyView : UIComponentUnity {
 		prePageBtn.isEnabled = false;
 		nextPageBtn.isEnabled = false;
 
+		pickedInfoForFight = new Dictionary<string, object> ();
+		pickedInfoForFight ["HelperInfo"] = evolveStart.EvolveStart.friendInfo;
+		Debug.LogError ("creat data : " + pickedInfoForFight + " HelperInfo : " + pickedInfoForFight ["HelperInfo"]);
 		ShowHelper (evolveStart.EvolveStart.friendInfo);
 	}
 
@@ -160,7 +163,7 @@ public class StandbyView : UIComponentUnity {
 
 	private TEvolveStart evolveStart;
 	private void StartFight(){
-		if (DataCenter.gameStage == GameState.Evolve) {
+		if (DataCenter.gameState == GameState.Evolve) {
 			evolveStart.EvolveStart.restartNew = 1;
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} 
@@ -214,7 +217,7 @@ public class StandbyView : UIComponentUnity {
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
 		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
-		
+		ConfigBattleUseData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (tqdd);
 	}
 	

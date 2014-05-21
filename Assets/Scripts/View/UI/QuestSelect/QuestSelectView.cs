@@ -124,7 +124,7 @@ public class QuestSelectView : UIComponentUnity{
 
 
 	private void ClickQuestItem(QuestItem item){
-		if (DataCenter.gameStage == GameState.Evolve) {return;}
+		if (DataCenter.gameState == GameState.Evolve) {return;}
 		TQuestInfo pickedQuest =  item.QuestInfo;
 		ConfigBattleUseData.Instance.currentQuestInfo = pickedQuest;	
 
@@ -149,7 +149,7 @@ public class QuestSelectView : UIComponentUnity{
 	}
 
 	void ClickQuestItem(GameObject go ){
-		if (DataCenter.gameStage == GameState.Evolve) {
+		if (DataCenter.gameState == GameState.Evolve) {
 			return;	
 		}
 		int index = dragPanel.ScrollItem.IndexOf( go );
@@ -189,7 +189,7 @@ public class QuestSelectView : UIComponentUnity{
 
 	private void ClickFriendSelect(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-		PrepareFriendSelect((DataCenter.gameStage == GameState.Evolve));
+		PrepareFriendSelect((DataCenter.gameState == GameState.Evolve));
 	}
 
 	private void EvolveInfoShow (TStageInfo stageInfo) {
