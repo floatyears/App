@@ -9,6 +9,17 @@ public class TPartyInfo : ProtobufDataBase {
     private List<TUnitParty> partyList;
     private bool isPartyItemModified = false;
     private bool isPartyGroupModified = false;
+	public bool IsPartyGroupModified{
+		get{
+			return isPartyGroupModified;
+		}
+		set{
+			isPartyGroupModified = value;
+			if(isPartyGroupModified)
+				MsgCenter.Instance.Invoke(CommandEnum.ModifiedParty, null);
+		}
+	}
+
     private int originalPartyId = 0;
 
     public TPartyInfo(PartyInfo inst) : base (inst) { 
@@ -118,7 +129,7 @@ public class TPartyInfo : ProtobufDataBase {
             if (CurrentPartyId > this.partyList.Count - 1)
                 return null;
 
-            isPartyGroupModified = (CurrentPartyId != originalPartyId);
+			IsPartyGroupModified = (CurrentPartyId != originalPartyId);
             instance.currentParty = CurrentPartyId;
             return this.partyList[CurrentPartyId]; 
         } 
@@ -137,7 +148,7 @@ public class TPartyInfo : ProtobufDataBase {
                 return null;
             }
 
-            isPartyGroupModified = (CurrentPartyId != originalPartyId);
+			IsPartyGroupModified = (CurrentPartyId != originalPartyId);
             instance.currentParty = CurrentPartyId;
             return this.partyList[CurrentPartyId]; 
         } 

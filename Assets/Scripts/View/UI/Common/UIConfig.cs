@@ -20,7 +20,7 @@ public class UIConfig{
 	public const string SPR_NAME_BG_NONE = "avatar_bg_6";
 
 	public const string SPR_NAME_BASEBOARD_HELPER = "helper_item";
-	public const string SPR_NAME_BASEBOARD_Friend = "friend_item";
+	public const string SPR_NAME_BASEBOARD_FRIEND = "friend_item";
 
 
 	public static int PartyMaxCount = 5;

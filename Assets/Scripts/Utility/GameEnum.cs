@@ -250,7 +250,7 @@ public enum CommandEnum{
 	TransPickedCity					= 4068,
 
 	ShowHomeBgMask,
-
+	ModifiedParty,
 
 	OnPickQuest,
 	OnPickHelper,

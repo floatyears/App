@@ -63,7 +63,7 @@ public class FriendUnitItem : BaseUnitItem {
 
 	private void SetName(){
 		if(string.IsNullOrEmpty(friendInfo.NickName)){
-			nameLabel.text = "NoName";
+			nameLabel.text = "NONAME";
 		}
 		else{
 			nameLabel.text = friendInfo.NickName;

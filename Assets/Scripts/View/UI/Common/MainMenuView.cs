@@ -9,11 +9,11 @@ public class MainMenuView : UIComponentUnity{
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config, origin);
 		InitButton ();
+		UpdateLeaderAvatar(null);
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		UpdateLeaderAvatar();
         AddListener();
 	}
 
@@ -27,10 +27,12 @@ public class MainMenuView : UIComponentUnity{
 	}
 
     private void AddListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.ModifiedParty, UpdateLeaderAvatar);
         MsgCenter.Instance.AddListener(CommandEnum.EnableMenuBtns, SetMenuValid);
     }
 
     private void RemoveListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.ModifiedParty, UpdateLeaderAvatar);
         MsgCenter.Instance.RemoveListener(CommandEnum.EnableMenuBtns, SetMenuValid);
     }
 
@@ -84,7 +86,7 @@ public class MainMenuView : UIComponentUnity{
     }
 
 	private TUnitInfo leaderUnitInfo;
-	private void UpdateLeaderAvatar(){
+	private void UpdateLeaderAvatar(object msg){
 		TUserUnit newestLeaderUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
 		if(newestLeaderUnit == null){
 			Debug.LogError("newestLeaderUnit is NULL, return...");
@@ -97,13 +99,16 @@ public class MainMenuView : UIComponentUnity{
 			leaderAvatarTex.mainTexture = newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile);
 
 			SetUVByConfig();
+			leaderUnitInfo = newestLeaderUnit.UnitInfo;
+
 		}
-		else if(!leaderUnitInfo.Equals(newestLeaderUnit)){
+		else if(!leaderUnitInfo.Equals(newestLeaderUnit.UnitInfo)){
 			//changed
 			Debug.Log("UpdateLeaderAvatar(), Leader data CHANGED.");
 			leaderAvatarTex.mainTexture = newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile);
 
 			SetUVByConfig();
+			leaderUnitInfo = newestLeaderUnit.UnitInfo;
 		}
 		else{
 			//not changed

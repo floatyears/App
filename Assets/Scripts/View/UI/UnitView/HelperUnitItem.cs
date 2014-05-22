@@ -57,7 +57,7 @@ public class HelperUnitItem : FriendUnitItem {
 		friendTypeLabel = transform.FindChild("Label_Friend_Type").GetComponent<UILabel>();
 		friendPointLabel = transform.FindChild("Label_Friend_Point").GetComponent<UILabel>();
 		rankLabel = transform.FindChild("Label_Rank").GetComponent<UILabel>();
-		baseBoardSpr = transform.FindChild("Base_Board").GetComponent<UISprite>();
+		baseBoardSpr = transform.FindChild("Sprite_Base_Board").GetComponent<UISprite>();
 	}
 
 	protected override void InitState(){
@@ -79,7 +79,7 @@ public class HelperUnitItem : FriendUnitItem {
 				friendTypeLabel.text = "FRIEND";
 				friendTypeLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
 				friendPointLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
-				baseBoardSpr.spriteName = UIConfig.SPR_NAME_BASEBOARD_Friend;
+				baseBoardSpr.spriteName = UIConfig.SPR_NAME_BASEBOARD_FRIEND;
 				break;
 			default:
 				friendTypeLabel.text = string.Empty;
