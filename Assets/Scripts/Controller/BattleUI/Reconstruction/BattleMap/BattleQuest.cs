@@ -354,6 +354,15 @@ public class BattleQuest : UIBase {
 		battleMap.ChangeStyle (coor);
 		role.Stop ();
 
+//		Debug.LogError ("ContineBattle : " + configBattleUseData.trapPoison);
+		if (configBattleUseData.trapPoison != null) {
+			configBattleUseData.trapPoison.ExcuteByDisk();
+		}
+
+		if (configBattleUseData.trapEnvironment != null) {
+			configBattleUseData.trapEnvironment.ExcuteByDisk();
+		}
+
 		TStoreBattleData sbd = configBattleUseData.storeBattleData;
 
 		// 0 is not in fight.

@@ -50,6 +50,9 @@ public class BattleUseData {
 		get { return eas; }
 	}
     private ExcutePassiveSkill eps;
+	public ExcutePassiveSkill excutePassiveSkill {
+		get { return eps; }
+	}
     private ILeaderSkillRecoverHP skillRecoverHP;
 
     private static Coordinate currentCoor;

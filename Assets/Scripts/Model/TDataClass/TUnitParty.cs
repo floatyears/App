@@ -7,8 +7,11 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     private List<PartyItem> partyItem = new List<PartyItem>();		
  
     private UnitParty instance;
-    public TUnitParty(object instance) : base (instance) { 
-        this.instance = instance as UnitParty;
+	public TUnitParty(object ins) : base (ins) { 
+		this.instance = ins as UnitParty;
+//		for (int i = 0; i < instance.items.Count; i++) {
+//			Debug.LogError("UnitParty : " + instance.items[i].unitUniqueId);
+//		}
 		AddListener ();
         reAssignData();
         GetSkillCollection();
@@ -55,7 +58,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
             if (userUnit == null) {
                 userUnit = new Dictionary<int,TUserUnit>();
                 for (int i = 0; i < partyItem.Count; i++) {
-
+//					Debug.LogError("i : " + i + "partyitem : " + partyItem[i].unitUniqueId);
                     TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
 
                     userUnit.Add(partyItem[i].unitPos, uui);
