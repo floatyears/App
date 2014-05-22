@@ -297,7 +297,7 @@ public class ConfigBattleUseData {
 		byte[] attackInfo = ReadFile (name);
 		T1 aip = ProtobufSerializer.ParseFormBytes<T1> (attackInfo);
 		T t = Activator.CreateInstance(typeof(T), aip) as T;
-		Debug.LogError ("t : " + t);
+//		Debug.LogError ("t : " + t);
 		return t;
 	}
 	

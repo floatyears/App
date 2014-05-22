@@ -91,7 +91,11 @@ public class BattleQuest : UIBase {
 		topUI.RefreshTopUI (questDungeonData, _questData);
 		AddSelfObject (topUI);
 	}
-	
+		
+	public Transform GetTopUITarget () {
+		return topUI.coinLabel.transform;
+	}
+
 	void InitData() {
 		if (questFullScreenTips == null) {
 			CreatBoosAppear();

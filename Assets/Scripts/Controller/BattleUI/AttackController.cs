@@ -434,6 +434,7 @@ public class AttackController {
 			else{
 				reduceValue = attackValue;
 			}
+//			Debug.LogError("unitparty id : " + upi.ID);
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
 //			Debug.LogError("hurtValue : " + hurtValue);
 			bud.Hurt(hurtValue);
