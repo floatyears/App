@@ -41,6 +41,7 @@ public class BattleBottom : MonoBehaviour {
 			upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
+//		Debug.LogError("bottom unitparty id : " + upi.ID);
 //		Debug.LogError ("Battle bottom : " + userUnitInfo.Count);
 		for (int i = 0; i < 5; i++) {
 			GameObject temp = transform.Find("Actor/" + i).gameObject;	
@@ -50,6 +51,8 @@ public class BattleBottom : MonoBehaviour {
 			}
 
 			TUnitInfo tui = userUnitInfo[i].UnitInfo;
+
+//			Debug.LogError("BattleBottom : " + userUnitInfo[i].ID + " pos : " + i);
 			temp.renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
 			UITexture tex =  transform.Find("ActorP/" + i).GetComponent<UITexture>();
 			tex.color =  DGTools.TypeToColor(tui.Type);

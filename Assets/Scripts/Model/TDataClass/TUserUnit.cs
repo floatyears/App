@@ -374,7 +374,7 @@ public class TUserUnit : ProtobufDataBase {
     public int NextExp {
         get {
 			int nextexp = GetTotalCurveValue( Level, UnitInfo.Object.powerType.expType) - instance.exp;
-            if (nextexp < 0)
+            if (nextexp < 0 || Level == UnitInfo.MaxLevel)
                 nextexp = 0;
             return nextexp;
         }
@@ -520,7 +520,7 @@ public class UserUnitList {
 	/// </summary>
 	/// <param name="uniqueID">Unique I.</param>
 	public TUserUnit Get(uint uniqueID) {
-		Debug.LogError ("Get uniqueID : " + uniqueID);
+//		Debug.LogError ("Get uniqueID : " + uniqueID);
 		foreach (var item in userUnitInfo.Values) {
 			if(item.ID == uniqueID) {
 				Debug.LogError ("uniqueID : " + uniqueID + " item.ID : " + item.ID);

@@ -13,6 +13,7 @@ public class TrapPosion : TrapBase {
 	}
 
 	public override void ExcuteByDisk() {
+//		Debug.LogError("trapposion excute by disk ");
 		MsgCenter.Instance.AddListener(CommandEnum.MoveToMapItem, RoleMove);
 		MsgCenter.Instance.AddListener(CommandEnum.EnemyAttackEnd, EnemyAttak);
 		CountDownRound ();
