@@ -34,12 +34,18 @@ public class TQuestClearInfo : ProtobufDataBase {
 	public	TStageClearItem			StoryClear { get { return this.storyClear; } }
 	public	List<TStageClearItem>	EventClear { get { return this.eventClear; } }
 
-	public	bool IsStoryStageClear(uint stageId) {
+	public	bool IsStoryStageClear(TStageInfo stageInfo) {
 		if (StoryClear == null) {
 			return false;
 		}
 
-		return ( stageId < StoryClear.StageId );
+		if (stageInfo.ID == StoryClear.StageId) {
+			//Last quest of stage is clear, so the stage is clear.
+			if ( StoryClear.QuestId == stageInfo.QuestInfo[stageInfo.QuestInfo.Count-1].ID ) 
+				return true;
+		}
+
+		return ( stageInfo.ID < StoryClear.StageId );
 	}
 
 	public	bool IsStoryQuestClear(uint stageId, uint questId) {
