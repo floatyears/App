@@ -19,6 +19,10 @@ public class UIConfig{
 	public const string SPR_NAME_BG_DARK = "avatar_bg_5";
 	public const string SPR_NAME_BG_NONE = "avatar_bg_6";
 
+	public const string SPR_NAME_BASEBOARD_HELPER = "helper_item";
+	public const string SPR_NAME_BASEBOARD_Friend = "friend_item";
+
+
 	public static int PartyMaxCount = 5;
 	public static string TextNickNameInputDefault = "change name here";
 	public static float uisliderSpeed = 0.2f;

@@ -7,7 +7,7 @@ public class BaseUnitItem : MonoBehaviour {
 	protected bool isCrossed;
 	protected UITexture avatarTex;
 	protected UISprite avatarBorderSpr;
-	protected UISprite unitTypeBg;
+	protected UISprite avatarBg;
 	protected UISprite maskSpr;
 	protected UILabel crossFadeLabel;
 
@@ -25,9 +25,8 @@ public class BaseUnitItem : MonoBehaviour {
 		avatarTex = transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
 		crossFadeLabel = transform.FindChild("Label_Cross_Fade").GetComponent<UILabel>();
 		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
-		Transform trans = transform.FindChild("Sprite_Avatar_Border");
-		avatarBorderSpr = trans.GetComponent<UISprite>();
-		unitTypeBg = transform.FindChild("Background").GetComponent<UISprite>();
+		avatarBorderSpr = transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
+		avatarBg = transform.FindChild("Background").GetComponent<UISprite>();
 	}
 
 	protected TUserUnit userUnit;
@@ -214,7 +213,7 @@ public class BaseUnitItem : MonoBehaviour {
 	protected virtual void SetEmptyState(){
 		IsEnable = false;
 		avatarTex.mainTexture = null;
-		unitTypeBg.spriteName = "avatar_bg_6";
+		avatarBg.spriteName = "avatar_bg_6";
 		avatarBorderSpr.spriteName = "avatar_border_6";
 		crossFadeLabel.text = string.Empty;
 	}
@@ -231,31 +230,31 @@ public class BaseUnitItem : MonoBehaviour {
 	private void ShowUnitType(){
 		switch (userUnit.UnitInfo.Type){
 			case EUnitType.UFIRE :
-				unitTypeBg.spriteName = "avatar_bg_1";
+				avatarBg.spriteName = "avatar_bg_1";
 				avatarBorderSpr.spriteName = "avatar_border_1";
 				break;
 			case EUnitType.UWATER :
-				unitTypeBg.spriteName = "avatar_bg_2";
+				avatarBg.spriteName = "avatar_bg_2";
 				avatarBorderSpr.spriteName = "avatar_border_2";
 
 				break;
 			case EUnitType.UWIND :
-				unitTypeBg.spriteName = "avatar_bg_3";
+				avatarBg.spriteName = "avatar_bg_3";
 				avatarBorderSpr.spriteName = "avatar_border_3";
 
 				break;
 			case EUnitType.ULIGHT :
-				unitTypeBg.spriteName = "avatar_bg_4";
+				avatarBg.spriteName = "avatar_bg_4";
 				avatarBorderSpr.spriteName = "avatar_border_4";
 
 				break;
 			case EUnitType.UDARK :
-				unitTypeBg.spriteName = "avatar_bg_5";
+				avatarBg.spriteName = "avatar_bg_5";
 				avatarBorderSpr.spriteName = "avatar_border_5";
 
 				break;
 			case EUnitType.UNONE :
-				unitTypeBg.spriteName = "avatar_bg_6";
+				avatarBg.spriteName = "avatar_bg_6";
 				avatarBorderSpr.spriteName = "avatar_border_6";
 
 				break;

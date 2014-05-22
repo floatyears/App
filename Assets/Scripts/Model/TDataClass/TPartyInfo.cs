@@ -106,7 +106,7 @@ public class TPartyInfo : ProtobufDataBase {
         }
     }
 
-    public	TUnitParty	NextParty { 
+    public TUnitParty NextParty { 
         get {
             if (this.partyList == null)
                 return null;
@@ -124,8 +124,8 @@ public class TPartyInfo : ProtobufDataBase {
         } 
     }
 
-    public	TUnitParty	PrevParty { 
-        get { 
+    public TUnitParty PrevParty { 
+		get { 
             if (this.partyList == null)
                 return null;
 
