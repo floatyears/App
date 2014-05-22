@@ -27,4 +27,5 @@ public class TextConst{
 	public const string SCENE_NAME_UNIT_DETAIL = "SCENE_NAME_UNIT_DETAIL";
 	public const string SCENE_NAME_RESULT = "SCENE_NAME_UNIT_RESULT";
 	public const string SCENE_NAME_UNIT_LIST = "SCENE_NAME_UNIT_LIST";
+	public const string SCENE_NAME_OPERATION_NOTICE = "SCENE_NAME_UNIT_LIST";
 }

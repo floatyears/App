@@ -449,6 +449,14 @@
         "positionx": 0,
         "positiony": -565,
         "positionz": 0
+    },
+    "OperationNoticeView":{
+    "uiName":"OperationNoticeView",
+        "resoucePath": "Prefabs/UI/Notice/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": -365,
+        "positionz": 0
     }
     
 }

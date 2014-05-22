@@ -62,7 +62,9 @@ public enum SceneEnum
 
 	Result,
 
-	FightReady
+	FightReady,
+
+	OperationNotice
 }
 
 public enum CommandEnum{
