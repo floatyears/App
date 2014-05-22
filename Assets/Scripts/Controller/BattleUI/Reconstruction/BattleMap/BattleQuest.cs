@@ -176,7 +176,6 @@ public class BattleQuest : UIBase {
 
 	void ShowActiveSkill(object data) {
 		TUserUnit ai = data as TUserUnit;
-//		Debug.LogError ("ShowActiveSkill : " + ai);
 		if (ai == null) {
 			return;		
 		}
@@ -193,7 +192,6 @@ public class BattleQuest : UIBase {
 		battleMap.ShowUI ();
 		role.ShowUI ();
 		background.ShowUI ();
-//		GameTimer.GetInstance ().AddCountDown (1f, ShowScene);
 		InitData ();
 		topUI.Reset ();
 		topUI.RefreshTopUI (questDungeonData, _questData);

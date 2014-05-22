@@ -3,7 +3,6 @@
 // use to store enter battle need data. befoure enten battle. init data from disk or server. dont konw battle is contine or a new.
 using System;
 
-
 #endregion
 
 using UnityEngine;
@@ -108,7 +107,6 @@ public class ConfigBattleUseData {
 	public TEvolveStart evolveInfo {
 		set {
 			_evolveInfo = value;
-			
 		}
 	}
 

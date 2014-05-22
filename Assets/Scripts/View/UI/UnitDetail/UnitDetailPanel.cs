@@ -224,6 +224,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if (fobidClick) {
 			return;	
 		}
+		StopAllCoroutines ();
+		ClearEffectCache ();
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
 		Debug.LogError ("unit detail SceneEnum : " + preScene);
@@ -390,6 +392,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo);
 		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
 		ShowUnitScale();
 		unitInfoTabs.SetActive (false);

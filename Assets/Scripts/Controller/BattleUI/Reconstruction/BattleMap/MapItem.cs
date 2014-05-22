@@ -42,11 +42,9 @@ public class MapItem : UIBaseUnity {
 	private bool isOld = false;
 	public bool IsOld {
 		set {
-//			Debug.LogError("coor : " + coor.x + " y : " + coor.y + " value : " + value);
 			isOld = value; 
 		}
 		get{
-//			Debug.LogError("coor : " + coor.x + " y : " + coor.y + " isOld : " + isOld);
 			return isOld;
 		}
 	}

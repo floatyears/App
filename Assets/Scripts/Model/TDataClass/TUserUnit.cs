@@ -374,7 +374,7 @@ public class TUserUnit : ProtobufDataBase {
     public int NextExp {
         get {
 			int nextexp = GetTotalCurveValue( Level, UnitInfo.Object.powerType.expType) - instance.exp;
-            if (nextexp < 0)
+            if (nextexp < 0 || Level == UnitInfo.MaxLevel)
                 nextexp = 0;
             return nextexp;
         }
