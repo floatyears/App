@@ -130,6 +130,9 @@ public class LoadingLogic : ConcreteComponent {
 				DataCenter.Instance.NoticeInfo = new TNoticeInfo(rspAuthUser.notice);
 			}
 
+			if( rspAuthUser.login != null){
+				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
+			}
 
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
