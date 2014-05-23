@@ -176,6 +176,7 @@ public class LoadingLogic : ConcreteComponent {
 
 	void RecoverParty() {
 		GameState gs = (GameState)ConfigBattleUseData.Instance.gameState;
+//		Debug.LogError ("gs : " + gs);
 		if (gs == GameState.Evolve) {
 			TPartyInfo tpi = DataCenter.Instance.PartyInfo;
 			tpi.CurrentPartyId = tpi.AllParty.Count;
@@ -186,6 +187,7 @@ public class LoadingLogic : ConcreteComponent {
 
 	void Cancel(object data) {
 		ConfigBattleUseData.Instance.ClearData ();
+		ConfigBattleUseData.Instance.gameState = (byte)GameState.Normal;
 		EnterGame();
 	}
 

@@ -160,7 +160,7 @@ public class EnemyItem : UIBaseUnity {
     }
 	
     public void Init(TEnemyInfo te) {
-		stateLabel = FindChild<UILabel>("StateLabel");
+		stateLabel = FindChild<UILabel>("SateLabel");
 
         texture = FindChild<UITexture>("Texture");
 		UIEventListener.Get (texture.gameObject).onClick = TargetEnemy;

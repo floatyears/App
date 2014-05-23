@@ -37,9 +37,10 @@ public class BattleBackground : UIBaseUnity {
 	public override void Init (string name){
 		base.Init (name);
 		bottomCamera = FindChild<Camera> ("BottomCamera");
-		Object o = LoadAsset.Instance.LoadAssetFromResources ("BattleBottom", ResourceEuum.Prefab);
-		battleBottom = Instantiate (o) as GameObject;
-		battleBottom.GetComponent<UIAnchor> ().uiCamera = ViewManager.Instance.MainUICamera.camera;
+//		Object o = LoadAsset.Instance.LoadAssetFromResources ("BattleBottom", ResourceEuum.Prefab);
+//		battleBottom = Instantiate (o) as GameObject;
+//		battleBottom.GetComponent<UIAnchor> ().uiCamera = ViewManager.Instance.MainUICamera.camera;
+		battleBottom = FindChild<Transform>("BottomCamera/BattleBottom").gameObject;
 		_battleBottomScript = battleBottom.AddComponent<BattleBottom> ();
 		_battleBottomScript.Init (bottomCamera);
 		actorPosition = transform.Find ("Position").localPosition;

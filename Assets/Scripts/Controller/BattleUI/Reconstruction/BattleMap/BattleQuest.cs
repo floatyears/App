@@ -54,7 +54,7 @@ public class BattleQuest : UIBase {
 		role.BQuest = this;
 		Init(role,tempName);
 		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
-		background.transform.parent = viewManager.CenterPanel.transform.parent;
+		background.transform.parent = viewManager.BottomPanel.transform.parent;
 		background.transform.localPosition = Vector3.zero;
 		background.Init (backgroundName);
 		background.SetBattleQuest (this);
@@ -872,10 +872,9 @@ public class BattleQuest : UIBase {
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
 			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
 			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
-
 			return;
 		}
-
+		configBattleUseData.gameState = (byte)GameState.Normal;
 		DataCenter.Instance.UserInfo.Rank = rsp.rank;
 		DataCenter.Instance.UserInfo.Exp = rsp.exp;
 		DataCenter.Instance.AccountInfo.Money = rsp.money;
@@ -886,7 +885,6 @@ public class BattleQuest : UIBase {
 
 		TUnitParty tup = configBattleUseData.party;
 		foreach (var item in tup.UserUnit.Values) {
-//			Debug.LogError("item : " + item + "   DataCenter.Instance.UserUnitList : " + DataCenter.Instance.UserUnitList);
 			if(item == null) {
 				continue;
 			}
