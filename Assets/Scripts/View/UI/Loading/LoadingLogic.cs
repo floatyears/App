@@ -74,12 +74,13 @@ public class LoadingLogic : ConcreteComponent {
             }
             
             if (rspAuthUser.user != null) {
-                DataCenter.Instance.UserInfo = new TUserInfo(rspAuthUser.user);
+				Debug.Log("authUser response userId:" + rspAuthUser.user.userId);
+
+				DataCenter.Instance.UserInfo = new TUserInfo(rspAuthUser.user);
                 if (rspAuthUser.evolveType != null) {
                     DataCenter.Instance.UserInfo.EvolveType = rspAuthUser.evolveType;
                 }
                 
-                LogHelper.Log("authUser response userId:" + rspAuthUser.user.userId);
             }
             else {
 				Debug.LogError("authUser response rspAuthUser.user == null");
@@ -152,6 +153,12 @@ public class LoadingLogic : ConcreteComponent {
 		UIManager.Instance.ChangeScene(SceneEnum.Start);
 
 		UIManager.Instance.ChangeScene(SceneEnum.Home);
+
+		LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
+		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
+			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+		}
+
 		if (rspAuthUser.isNewUser == 1){
 			TurnToReName();
 		}
