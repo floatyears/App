@@ -943,8 +943,8 @@ message LoginInfo {
 	optional int32		friendPointGet			= 3;
 	optional int32		friendHelpCount			= 4;
 	optional uint32		lastLoginTime			= 5;
-	repeated BonusInfo  bonus					= 6;
-    optional uint32		LastPlayTime            = 7;
+    optional uint32		lastPlayTime            = 6;
+    repeated BonusInfo  bonus					= 7;
 }
 
 message PresentInfo {
