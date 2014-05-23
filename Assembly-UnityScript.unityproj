@@ -83,6 +83,7 @@
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_rotateThis.js" />
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_shieldedController.js" />
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_spaceshipScript.js" />
+     <Compile Include="Assets\Scripts\ScalingButton.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderFader.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderInOut.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderIrisator.js" />
@@ -151,6 +152,7 @@
      <None Include="Assets\External\NGUI\Examples\Other\English.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Text.shader" />
      <None Include="Assets\External\NGUI\Examples\Other\French.txt" />
+     <None Include="Assets\Xffect\Shaders\xf_heat_distortion.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\CutoutVertexColor.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
      <None Include="Assets\TK2DROOT\tk2d_demo\demobmfont\test.fnt" />
