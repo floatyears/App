@@ -2,9 +2,11 @@ using UnityEngine;
 using System.Collections;
 
 public class HelperUnitItem : FriendUnitItem {
-	private UILabel typeLabel;
-	private UILabel pointLabel;
+	private UILabel friendTypeLabel;
+	private UILabel friendPointLabel;
 	private UILabel rankLabel;
+	private UISprite baseBoardSpr;
+
 	public delegate void UnitItemCallback(HelperUnitItem huv);
 	public UnitItemCallback callback;
 	
@@ -16,14 +18,14 @@ public class HelperUnitItem : FriendUnitItem {
 
 	protected override void SetEmptyState(){
 		base.SetEmptyState();
-		typeLabel.text = string.Empty;
-		pointLabel.text = string.Empty;
+		friendTypeLabel.text = string.Empty;
+		friendPointLabel.text = string.Empty;
 	}
 	protected override void SetCommonState(){
 		base.SetCommonState();
-		InitFriendType();
-		InitFriendPoint();
-		InitRank();
+		SetFriendType();
+		SetFriendPoint();
+		SetFriendRank();
 	}
 	
 	private static GameObject itemPrefab;
@@ -52,48 +54,51 @@ public class HelperUnitItem : FriendUnitItem {
 
 	protected override void InitUI(){
 		base.InitUI();
-		typeLabel = transform.FindChild("Label_Friend_Type").GetComponent<UILabel>();
-		pointLabel = transform.FindChild("Label_Friend_Point").GetComponent<UILabel>();
+		friendTypeLabel = transform.FindChild("Label_Friend_Type").GetComponent<UILabel>();
+		friendPointLabel = transform.FindChild("Label_Friend_Point").GetComponent<UILabel>();
 		rankLabel = transform.FindChild("Label_Rank").GetComponent<UILabel>();
+		baseBoardSpr = transform.FindChild("Sprite_Base_Board").GetComponent<UISprite>();
 	}
 
 	protected override void InitState(){
 		base.InitState();
-		InitFriendType();
-		InitFriendPoint();
-		InitRank();
+		SetFriendType();
+		SetFriendPoint();
+		SetFriendRank();
 	}
 
-	private void InitFriendType(){
+	private void SetFriendType(){
 		switch (friendInfo.FriendState) {
 			case bbproto.EFriendState.FRIENDHELPER : 
-				typeLabel.text = "SUPPORT";
-				typeLabel.color = new Color(255.0f/255, 202.0f/255, 98.0f/255);
-				pointLabel.color = new Color(255.0f/255, 202.0f/255, 98.0f/255);
+				friendTypeLabel.text = "SUPPORT";
+				friendTypeLabel.color = new Color(255.0f/255, 202.0f/255, 98.0f/255);
+				friendPointLabel.color = new Color(255.0f/255, 202.0f/255, 98.0f/255);
+				baseBoardSpr.spriteName = UIConfig.SPR_NAME_BASEBOARD_HELPER;
 				break;
 			case bbproto.EFriendState.ISFRIEND : 
-				typeLabel.text = "FRIEND";
-				typeLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
-				pointLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
+				friendTypeLabel.text = "FRIEND";
+				friendTypeLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
+				friendPointLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
+				baseBoardSpr.spriteName = UIConfig.SPR_NAME_BASEBOARD_FRIEND;
 				break;
 			default:
-				typeLabel.text = string.Empty;
+				friendTypeLabel.text = string.Empty;
+				baseBoardSpr.spriteName = string.Empty;
 				break;
 		}
 	}
 
-	private void InitFriendPoint(){
+	private void SetFriendPoint(){
 		if(friendInfo.FriendPoint != 0){
-			pointLabel.text = string.Format("{0}PT", friendInfo.FriendPoint.ToString());
+			friendPointLabel.text = string.Format("{0}PT", friendInfo.FriendPoint.ToString());
 		}
 		else{
-			pointLabel.text = string.Empty;
+			friendPointLabel.text = string.Empty;
 		}
 	}
 
-	private void InitRank(){
+	private void SetFriendRank(){
 		rankLabel.text = "RANK : " + friendInfo.Rank;
 	}
-
 
 }

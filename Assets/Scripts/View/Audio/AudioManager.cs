@@ -60,7 +60,6 @@ public class AudioManager {
 		}
 
 		prevBackground = Play (audioEnum);
-
 		if (isCloseBackground) {
 			prevBackground.Pause();
 		}

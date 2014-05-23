@@ -19,8 +19,9 @@ enum EUnitRace{
     BEAST           = 4;
     MONSTER         = 5;
     LEGEND          = 6;
-    SCREAMCHEESE    = 7; //Leveup Material
-	EVOLVEPARTS		= 8; //Evolve Material
+	DRAGON			= 7;
+    SCREAMCHEESE    = 8; //Leveup Material
+	EVOLVEPARTS		= 9; //Evolve Material
 }
 
 //general response protocol

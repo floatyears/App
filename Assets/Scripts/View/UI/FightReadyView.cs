@@ -39,7 +39,6 @@ public class FightReadyView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		Debug.Log("StandBy.ShowUI()...");
 		AddCmdLisenter();
 		ShowUIAnimation();
 	}
@@ -159,7 +158,7 @@ public class FightReadyView : UIComponentUnity {
 
 	void ShowHelper(TFriendInfo friendInfo) {
 		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
-		Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
+		//Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
 		helperUnitItem.Init(friendInfo);
 		ShowHelperView();
 	} 

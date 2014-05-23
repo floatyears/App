@@ -20,7 +20,7 @@ public class QuestSelectView : UIComponentUnity {
 	}
 
 	private void ShowUIAnimation(){
-		gameObject.transform.localPosition = new Vector3(-1000, 0, 0);
+		gameObject.transform.localPosition = new Vector3(-1000, -555, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
 	}
 	

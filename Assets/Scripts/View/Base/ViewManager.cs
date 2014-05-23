@@ -93,13 +93,14 @@ public class ViewManager {
 	public void Init(GameObject ui){
 		mainUIRoot = ui;		
 		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();		
-		parentPanel = mainUIRoot.transform.Find("Bottom").gameObject;
-		topPanel = mainUIRoot.transform.Find ("Top/Panel").gameObject;
-		bottomPanel = mainUIRoot.transform.Find ("Bottom/Panel").gameObject;
-		effectPanel = mainUIRoot.transform.Find ("Bottom/EffectPanel").gameObject;
-		centerPanel = mainUIRoot.transform.Find ("Anchor/Panel").gameObject;
+		parentPanel = mainUIRoot.transform.Find("RootPanel/Bottom").gameObject;
+		topPanel = mainUIRoot.transform.Find ("RootPanel/Top/Panel").gameObject;
+		bottomPanel = mainUIRoot.transform.Find ("RootPanel/Bottom/Panel").gameObject;
+		effectPanel = mainUIRoot.transform.Find ("RootPanel/Bottom/EffectPanel").gameObject;
+		centerPanel = mainUIRoot.transform.Find ("RootPanel/Anchor/Panel").gameObject;
+		trapLabel = mainUIRoot.transform.Find ("RootPanel/BottomLeft/Label").GetComponent<UILabel> ();
+
 		dynamicFont = Resources.Load("Font/Dimbo Regular", typeof(Font)) as Font;
-		trapLabel = mainUIRoot.transform.Find ("BottomLeft/Label").GetComponent<UILabel> ();
 	}
 
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
