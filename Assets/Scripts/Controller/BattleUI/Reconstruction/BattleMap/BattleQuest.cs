@@ -91,7 +91,11 @@ public class BattleQuest : UIBase {
 		topUI.RefreshTopUI (questDungeonData, _questData);
 		AddSelfObject (topUI);
 	}
-	
+		
+	public Transform GetTopUITarget () {
+		return topUI.coinLabel.transform;
+	}
+
 	void InitData() {
 		if (questFullScreenTips == null) {
 			CreatBoosAppear();
@@ -176,7 +180,6 @@ public class BattleQuest : UIBase {
 
 	void ShowActiveSkill(object data) {
 		TUserUnit ai = data as TUserUnit;
-//		Debug.LogError ("ShowActiveSkill : " + ai);
 		if (ai == null) {
 			return;		
 		}
@@ -193,7 +196,6 @@ public class BattleQuest : UIBase {
 		battleMap.ShowUI ();
 		role.ShowUI ();
 		background.ShowUI ();
-//		GameTimer.GetInstance ().AddCountDown (1f, ShowScene);
 		InitData ();
 		topUI.Reset ();
 		topUI.RefreshTopUI (questDungeonData, _questData);
@@ -351,6 +353,15 @@ public class BattleQuest : UIBase {
 		currentMapData = questDungeonData.GetSingleFloor (coor);
 		battleMap.ChangeStyle (coor);
 		role.Stop ();
+
+//		Debug.LogError ("ContineBattle : " + configBattleUseData.trapPoison);
+		if (configBattleUseData.trapPoison != null) {
+			configBattleUseData.trapPoison.ExcuteByDisk();
+		}
+
+		if (configBattleUseData.trapEnvironment != null) {
+			configBattleUseData.trapEnvironment.ExcuteByDisk();
+		}
 
 		TStoreBattleData sbd = configBattleUseData.storeBattleData;
 

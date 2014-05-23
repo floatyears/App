@@ -203,7 +203,7 @@
     "FriendSelectWindow": {
         "uiName":"FriendSelectWindow",
         "resoucePath": "Prefabs/UI/Friend/",
-        "parent": 1,
+        "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0

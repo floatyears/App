@@ -143,7 +143,7 @@ public class CardItem : UIBaseUnity {
 		if(!canDrag)
 			return;
 		float offset = index * xOffset;
-		actorTexture.transform.localPosition = new Vector3(position.x + offset, position.y - offset, position.z);
+		actorTexture.transform.localPosition = new Vector3(position.x + offset, position.y - offset, 0f);
 	}
 
 	public void OnPress(bool isPress,int sortID) {
@@ -293,6 +293,7 @@ public class CardItem : UIBaseUnity {
 			Vector3 localposition = transform.localPosition;
 			Vector3 forward = targetPosition - localposition;
 			float angle = CalculateAngle(localposition, targetPosition, forward);
+
 			trans.eulerAngles = new Vector3(0f,0f,angle);
 			int distance = (int)forward.magnitude;
 			linkLineSpriteList[i].height = distance;
@@ -304,10 +305,11 @@ public class CardItem : UIBaseUnity {
 		Vector3 direcX = transform.up;
 
 		float angle = Vector3.Angle (direcX, direction);
+//		Debug.LogError ("target position : " + y + " locaposition : " + x + " angle : " + angle);
 		if (x.x < y.x) {
 			angle = 360 - angle;
 		}
-					
+//		Debug.LogError("360 - angle : " + angle + " gameobject : " + gameObject);
 		return angle;
 	}
 }

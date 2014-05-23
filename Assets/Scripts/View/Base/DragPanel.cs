@@ -1,46 +1,54 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class DragPanel : UIBase 
-{
+public class DragPanel : UIBase  {
+
 	public event UICallback DragCallback;
-	private DragPanelView dragPanelView;
+
+	protected DragPanelView dragPanelView;
 	public DragPanelView DragPanelView{
 		get{
 			return dragPanelView;
 		}
 	}
 
-	private List<GameObject> scrollItem = new List<GameObject> ();
+	protected List<GameObject> scrollItem = new List<GameObject> ();
 	public List<GameObject> ScrollItem {
 		get{ return scrollItem; }
 	}
-	private GameObject sourceObject;
+
+	protected GameObject sourceObject;
 	public GameObject SetResourceObject {
 		set{ sourceObject = value; }
 		get{ return sourceObject; }
 	}
+
 	public static GameObject dragObject;
+
 	public DragPanel(string name,GameObject obj) : base(name){
 		sourceObject = obj;
 		if(dragObject == null){
 			dragObject = Resources.Load("Prefabs/UI/Common/DragPanelView") as GameObject;
 		}
 	}
+
 	public override void CreatUI () {
 		base.CreatUI ();
 		CreatPanel ();
 	}
+
 	public override void ShowUI () {
 		base.ShowUI ();
 		AddEvent ();
 		dragPanelView.ShowUI ();
 	}
+
 	public override void HideUI () {
 		base.HideUI ();
 		RemoveEvent ();
 		dragPanelView.HideUI ();
 	}
+
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		RemoveEvent ();
@@ -55,7 +63,7 @@ public class DragPanel : UIBase
 		}
 	}
 
-	void CreatPanel() {
+	protected void CreatPanel() {
 		dragPanelView = NGUITools.AddChild(
 			viewManager.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); 
 		dragPanelView.Init (uiName);
@@ -123,7 +131,6 @@ public class DragPanel : UIBase
 	
 	public void RemoveItem (GameObject target){
 		bool b = scrollItem.Contains (target);
-//		Debug.LogError(" RemoveItem  b : " + b);
 		if (!b) {
 			return;		
 		}
@@ -134,20 +141,17 @@ public class DragPanel : UIBase
 		UIEventListener.Get (target).onClick = null;
 	}
 	
-	public void SetPosition(Vector4 position)
-	{
+	public void SetPosition(Vector4 position) {
 		dragPanelView.SetViewPosition (position);
 	}
 
-	void ItemCallback(GameObject target)
-	{
+	void ItemCallback(GameObject target) {
 		if (DragCallback != null) {
 			DragCallback (target);
 		}
 	}
 
-	void AddEvent()
-	{
+	void AddEvent() {
 		for (int i = 0; i < scrollItem.Count; i++) {
 			UIEventListener.Get(scrollItem[i]).onClick += ItemCallback;
 		}

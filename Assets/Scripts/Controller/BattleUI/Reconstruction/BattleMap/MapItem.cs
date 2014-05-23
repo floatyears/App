@@ -42,17 +42,18 @@ public class MapItem : UIBaseUnity {
 	private bool isOld = false;
 	public bool IsOld {
 		set {
-//			Debug.LogError("coor : " + coor.x + " y : " + coor.y + " value : " + value);
 			isOld = value; 
 		}
 		get{
-//			Debug.LogError("coor : " + coor.x + " y : " + coor.y + " isOld : " + isOld);
 			return isOld;
 		}
 	}
 
 	private bool isRotate = false;
 	private UITexture alreayQuestTexture;
+
+	[HideInInspector]
+	public BattleMap battleMap;
 
 	public override void Init (string name) {
 		base.Init (name);
@@ -303,12 +304,13 @@ public class MapItem : UIBaseUnity {
 			
 		IsOld = true;
 		showStarSprite.Clear ();
+		float time = 0.5f;
+
 
 		if(!mapBack.activeSelf) {
 			mapBack.SetActive(true);
 		}
 
-		float time = 0.5f;
 		GameObject go = gridItemSprite.gameObject;
 		go.GetComponent<TweenAlpha> ().enabled = false;
 		for (int i = 0; i < 3; i++) {
@@ -325,7 +327,6 @@ public class MapItem : UIBaseUnity {
 			ts.delay = 0.15f * i;
 			ts.to = Vector3.one * 2f;
 			gridAnim.Add(temp);
-
 		}
 
 		go.SetActive (false);
@@ -348,8 +349,26 @@ public class MapItem : UIBaseUnity {
 		tws.enabled = true;
 		tws.duration = time;
 		tws.eventReceiver = gameObject;
-		tws.callWhenFinished = function;
+		if (gridItem.Star != bbproto.EGridStar.GS_KEY && gridItem.Type == bbproto.EQuestGridType.Q_TREATURE) {
+			flyCoin = NGUITools.AddChild (mapBackSprite.transform.parent.gameObject, mapBackSprite.gameObject);
+			flyCoin.SetActive (true);
+			Destroy (flyCoin.GetComponent<TweenScale> ());
+			Destroy (flyCoin.GetComponent<TweenAlpha> ());
+			Vector3 endPosition = battleMap.bQuest.GetTopUITarget ().position;
+			callBack = function;
+			iTween.MoveTo (flyCoin, iTween.Hash ("position", endPosition, "oncompletetarget", gameObject, "oncomplete", "FlyEnd","time",1f,"easetype",iTween.EaseType.easeInQuad));
+			} else {
+			tws.callWhenFinished = function;
+		}
 	}     
+
+	string callBack = string.Empty;
+	GameObject flyCoin = null;
+
+	void FlyEnd() {
+		Destroy (flyCoin);
+		Invoke (callBack, 0f);
+	}
 
 	void EndCallback () {
 		if (animEnd != null) {

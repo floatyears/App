@@ -149,12 +149,9 @@ public class UIManager {
 		}
 
 		if (HasUIObject (sEnum)) {
-//			Debug.LogError("senum show : " + sEnum);
 			current = GetUI(sEnum);	
 		}
 		else{
-//			Debug.LogError("senum creat : " + sEnum);
-//			return;
 			DecoratorBase db = CreatScene(sEnum);
 			current = db;
 		}
