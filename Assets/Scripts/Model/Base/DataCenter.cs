@@ -21,6 +21,7 @@ public enum ModelEnum {
 	QuestClearInfo,
 	UnitCatalogInfo,
 	NoticeInfo,
+	LoginInfo,
 	EventStageList,
 
 	//new add
@@ -182,6 +183,12 @@ public class DataCenter {
 		get { return getData(ModelEnum.NoticeInfo) as TNoticeInfo; }
 		set { setData(ModelEnum.NoticeInfo, value); }
 	}
+
+	public TLoginInfo LoginInfo { 
+		get { return getData(ModelEnum.LoginInfo) as TLoginInfo; }
+		set { setData(ModelEnum.LoginInfo, value); }
+	}
+
 
 	/// <summary>
 	/// store operate befoure account info
