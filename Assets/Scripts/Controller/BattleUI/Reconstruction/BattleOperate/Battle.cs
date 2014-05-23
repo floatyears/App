@@ -388,8 +388,9 @@ public class Battle : UIBase {
 		Vector3 vec = ChangeCameraPosition(Input.mousePosition) - viewManager.ParentPanel.transform.localPosition;
 
 		for (int i = 0; i < selectTarget.Count; i++) {
-			selectTarget[i].OnDrag(vec,i);
+			selectTarget [i].OnDrag (vec, i);
 		}
+
 		bool b = Check(GameLayer.ActorCard);
 
 		if(b) {
@@ -415,7 +416,7 @@ public class Battle : UIBase {
 			SetDrag();
 		}
 	}
-
+	
 	void SetDrag() {
 		if(selectTarget.Count > 0)
 			battleCard.DisposeDrag(selectTarget[0].location,selectTarget[0].itemID);
@@ -428,13 +429,10 @@ public class Battle : UIBase {
 				return;
 			if(tempCard.CanDrag) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
-
 				GameObject effect = EffectManager.Instance.GetEffectObject(EffectManager.DragCardEffect);
 				GameObject effectIns = EffectManager.InstantiateEffect(viewManager.EffectPanel, effect);
 				Transform card =  go.transform;
-//				Debug.LogError( card.localPosition + " card.parent.parent.localPosition : " + card.parent.parent.localPosition);
 				effectIns.transform.localPosition = card.localPosition + card.parent.parent.localPosition;
-
 				tempCard.OnPress(true, selectTarget.Count);
 				tempCard.ActorTexture.depth = tempCard.InitDepth;
 				selectTarget.Add(tempCard);

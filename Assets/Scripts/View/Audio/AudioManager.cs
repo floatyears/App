@@ -145,7 +145,7 @@ public class AudioManager {
 			return null;
 		}	
 		AudioSource audioSource = audioPlayerCache [audioID];
-		audioSource.Play();
+		audioSource.Play ();
 		return audioSource;
 	}
 

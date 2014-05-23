@@ -73,6 +73,7 @@ public class DGTools {
 		else {
 			return false;
 		}
+
 	}
 
 	public static bool EqualCoordinate (Coordinate coorA, Coordinate coorB) {
@@ -94,6 +95,9 @@ public class DGTools {
 	}
 
 	public static void ShowTexture(UITexture sprite, Texture2D tex) {
+		if (sprite == null) {
+			return;	
+		}
 		sprite.mainTexture = tex;
 		sprite.width = tex.width;
 		sprite.height = tex.height;
@@ -180,7 +184,7 @@ public class DGTools {
 
 	public static bool RestraintType(int firstType, int secondType, bool beRestraint = false) {
 		if (!beRestraint) {
-			if(firstType == BeRestraintType(secondType))	{
+			if(firstType == BeRestraintType(secondType)) {
 				return true;
 			}else{
 				return false;

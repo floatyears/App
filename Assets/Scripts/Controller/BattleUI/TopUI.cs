@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class TopUI : UIBaseUnity {
-	private UILabel coinLabel;
+	[HideInInspector]
+	public UILabel coinLabel;
 	private UILabel dropLabel;
 	private UILabel floorLabel;
 	private UISprite menuButton;

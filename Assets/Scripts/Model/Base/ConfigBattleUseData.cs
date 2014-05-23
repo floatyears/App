@@ -3,7 +3,6 @@
 // use to store enter battle need data. befoure enten battle. init data from disk or server. dont konw battle is contine or a new.
 using System;
 
-
 #endregion
 
 using UnityEngine;
@@ -86,6 +85,7 @@ public class ConfigBattleUseData {
 		get { return _trapPoison; }
 		set { _trapPoison = value;
 			TrapInfo ti = _trapPoison == null ? null :  _trapPoison.GetTrap;
+//			Debug.LogError("write buff trap poison ");
 			WriteBuff<TrapInfo>(trapPoisonName, ti);
 		}
 	}
@@ -108,7 +108,6 @@ public class ConfigBattleUseData {
 	public TEvolveStart evolveInfo {
 		set {
 			_evolveInfo = value;
-			
 		}
 	}
 
@@ -126,7 +125,6 @@ public class ConfigBattleUseData {
 	}
 
 	public void ResetFromServer(TQuestDungeonData tdd) {
-
 		InitStoreBattleData ();
 		roleInitCoordinate = new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);//
 		_storeBattleData.roleCoordinate = roleInitCoordinate;
@@ -264,7 +262,8 @@ public class ConfigBattleUseData {
 		_reduceHurtAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceHurtName);
 		_reduceDefenseAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceDefenseName);
 		_strengthenAttack = ReadBuff<AttackInfo, AttackInfoProto> (strengthenAttackName);
-
+		_trapPoison = ReadBuff<TrapPosion, TrapInfo> (trapPoisonName);
+		_trapEnvironment = ReadBuff<EnvironmentTrap, TrapInfo> (trapEnvironmentName);
 		_party = ReadBuff<TUnitParty, UnitParty> (unitPartyName);
 	}
 
@@ -282,7 +281,7 @@ public class ConfigBattleUseData {
 			}
 			return;
 		}
-
+		Debug.LogError (" WriteBuff<T> : " + name);
 		byte[] attack = ProtobufSerializer.SerializeToBytes<T> (buff);
 		WriteToFile (attack, name);
 	}
@@ -299,7 +298,7 @@ public class ConfigBattleUseData {
 		byte[] attackInfo = ReadFile (name);
 		T1 aip = ProtobufSerializer.ParseFormBytes<T1> (attackInfo);
 		T t = Activator.CreateInstance(typeof(T), aip) as T;
-		Debug.LogError ("t : " + t);
+//		Debug.LogError ("t : " + t);
 		return t;
 	}
 	
@@ -369,6 +368,7 @@ public class ConfigBattleUseData {
 			fs.Write(data, 0, data.Length);
 			fs.Close();
 			fs.Dispose();
+//			Debug.LogError("write to file success : " + fileName);
 		} catch (System.Exception ex) {
 			Debug.LogError("WriteToFile exception : " + ex.Message);
 		}
