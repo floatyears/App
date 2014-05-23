@@ -205,5 +205,7 @@ public partial class TextCenter {
 
         textDict.Add("CONNECT_ERROR", "Connect network error. Please confirm your networking and try again.");
         textDict.Add("SERVER_500", "Now server is busy. Please wait and try again.");
+
+
     }
 }

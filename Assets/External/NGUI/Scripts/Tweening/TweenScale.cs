@@ -32,6 +32,7 @@ public class TweenScale : UITweener
 			if (mTable == null)
 			{
 				mTable = NGUITools.FindInParents<UITable>(gameObject);
+				LogHelper.Log("tween table: " + mTable);
 				if (mTable == null) { updateTable = false; return; }
 			}
 			mTable.repositionNow = true;
