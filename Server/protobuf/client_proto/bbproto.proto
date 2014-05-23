@@ -20,8 +20,9 @@ enum EUnitRace{
     BEAST           = 4;
     MONSTER         = 5;
     LEGEND          = 6;
-    SCREAMCHEESE    = 7; //Leveup Material
-	EVOLVEPARTS		= 8; //Evolve Material
+	DRAGON			= 7;
+    SCREAMCHEESE    = 8; //Leveup Material
+	EVOLVEPARTS		= 9; //Evolve Material
 }
 
 //general response protocol
@@ -911,24 +912,42 @@ message TerminalInfo {
 	optional string	os		 					= 4; // android / ios
 }
 
-message LoginBonus {
-	optional int32		type					= 1;
-	optional int32		value					= 2;
-	optional int32		bonusType				= 3;	
+enum EBonusType{
+    CHAIN_LOGIN = 1;
+    TOTAL_LOGIN = 2;
+    RANK_REACH  = 3;
+}
+
+enum EBonusContent {
+    COIN            = 1;
+    FRIEND_POINT    = 2;
+    CHIP            = 3;
+    UNIT            = 4;
+}
+
+message BonusInfo {
+    optional int32          id                  = 1;
+    optional EBonusType     type    			= 2; //chainLogin, totalLogin, RankReach
+    optional EBonusContent	content				= 3; //coin, friendPoint, chip, unit
+	optional int32		    value				= 4; //unitId
+    optional int32		    count				= 5; //
+	optional int32		    matchValue			= 6; //
+    optional uint32         validTime           = 7;
+    optional string         message				= 8; //optional
+    optional int32		    tag					= 9; //
 }
 
 message LoginInfo {
 	optional int32		loginTotal				= 1;
 	optional int32		loginChain				= 2;
-	optional uint32		lastLoginTime			= 3;
-	optional uint32		lastPlayTime			= 4;
-	optional int32		friendPointGet			= 5;
-	optional int32		friendHelpCount			= 6;
-	repeated LoginBonus bonus					= 7;
+	optional int32		friendPointGet			= 3;
+	optional int32		friendHelpCount			= 4;
+	optional uint32		lastLoginTime			= 5;
+	repeated BonusInfo  bonus					= 6;
 }
 
 message PresentInfo {
-	optional uint32		serialId				= 1;
+	optional uint32		id      				= 1;
 	optional uint32		sendTime				= 2;
 	optional uint32		type					= 3;
 	optional uint32		value1					= 4;
@@ -955,6 +974,15 @@ message RspGetUserInfo {
 }
 
 //-------------------------------------------------
+message NoticeItem {
+    optional string			title				= 1;
+    optional string			message				= 2;
+}
+
+message NoticeInfo {
+    repeated NoticeItem		items				= 1;
+}
+
 message ReqAuthUser {
 	optional ProtoHeader	header				= 1;
 	optional TerminalInfo	terminal			= 2;
@@ -981,6 +1009,8 @@ message RspAuthUser {
 	optional int32			newAppVersion		= 16;
 	optional string			appUrl				= 17;
     optional int32			userGuideStep		= 18;
+	optional NoticeInfo		notice				= 19;
+    repeated StageInfo      eventList           = 20;
 }
 
 //-------------------------------------------------
@@ -1066,4 +1096,13 @@ message ReqFinishUserGuide {
 message RspFinishUserGuide {
 	optional ProtoHeader	header				= 1;
     optional int32          nowStep             = 2;
+}
+
+message ReqAcceptBonus {
+    optional ProtoHeader	header				= 1;
+    repeated int32			bonusId				= 2;
+}
+
+message RspAcceptBonus {
+    optional ProtoHeader	header				= 1;
 }
