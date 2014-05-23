@@ -25,6 +25,8 @@ public class EnemyItem : UIBaseUnity {
     private Vector3 hurtLabelPosition = Vector3.zero;
     private Vector3 initHurtLabelPosition = Vector3.zero;
 
+	private UILabel stateLabel;
+
 	[HideInInspector]
 	public BattleEnemy battleEnemy;
 //	public GameObject prevEffect = null;
@@ -141,6 +143,7 @@ public class EnemyItem : UIBaseUnity {
         }
         Debug.Log("play posion animation");
 		Debug.Log("posion round : " + posionAttack.AttackRound);
+		stateLabel.text = "positon : " + posionAttack.AttackRound;
     }
 
     void SkillPosion(object data) {
@@ -148,10 +151,17 @@ public class EnemyItem : UIBaseUnity {
         if (ai == null) {
             return;	
         }
+		if (ai.AttackRound == 0) {
+			stateLabel.text = "";
+		} else {
+			stateLabel.text = "positon : " + posionAttack.AttackRound;
+		}
         Debug.Log("posion round : " + ai.AttackRound);
     }
 	
     public void Init(TEnemyInfo te) {
+		stateLabel = FindChild<UILabel>("SateLabel");
+
         texture = FindChild<UITexture>("Texture");
 		UIEventListener.Get (texture.gameObject).onClick = TargetEnemy;
         dropTexture = FindChild<UISprite>("Drop");

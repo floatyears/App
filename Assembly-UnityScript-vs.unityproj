@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{AEFEC2DF-F31E-456D-776F-4D1E7018C302}</ProjectGuid>
+	<ProjectGuid>{4F131493-42D2-E413-E07D-099CE8A55E93}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -83,6 +83,7 @@
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_rotateThis.js" />
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_shieldedController.js" />
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_spaceshipScript.js" />
+     <Compile Include="Assets\Scripts\ScalingButton.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderFader.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderInOut.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderIrisator.js" />
@@ -101,7 +102,6 @@
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_trailFade.js" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\External\NGUI\Examples\Models\Orc\Orc Skin.shader" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitSolidVertexColor.shader" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored(ZWrite).shader" />
@@ -109,26 +109,16 @@
      <None Include="Assets\IGSoft_Resources\ToolResources\EffectShader\FXMaker_Mask Additive Tint.shader" />
      <None Include="Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Text (SoftClip).shader" />
-     <None Include="Assets\TK2DROOT\tk2d\Goodies\TexturePacker\Exporter\2dtoolkit\exporter.xml" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\SolidVertexColor.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Dynamic Font (AlphaClip).shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Masked Colored.shader" />
-     <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMask.shader" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
      <None Include="Assets\Resources\Config\UnitInfo.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (AlphaClip) .shader" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitPremulVertexColor.shader" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\PremulVertexColor.shader" />
-     <None Include="Assets\TK2DROOT\tk2d_demo\Credits.txt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (AlphaClip).shader" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\goodies\PackedTextMesh.shader" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\Blend2TexVertexColor.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (AlphaClip).shader" />
-     <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMaskSolid.shader" />
      <None Include="Assets\Plugins\protobuf-net\Web\TODO.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Text (AlphaClip).shader" />
-     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito24.fnt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
      <None Include="Assets\External\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
@@ -137,29 +127,21 @@
      <None Include="Assets\Resources\Shaders\Mask.shader" />
      <None Include="Assets\version.txt" />
      <None Include="Assets\ResourceDownloadTest\version.txt" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\resources\BlendVertexColor.shader" />
      <None Include="Assets\Resources\Config\Config.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitCutoutVertexColor.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\ResourceDownloadTest\LocalTest\version.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Dynamic Font.shader" />
      <None Include="Assets\External\NGUI\ReadMe - 3.0.6 f7.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
-     <None Include="Assets\TK2DROOT\tk2d\Editor\EditorUtility.shader" />
      <None Include="Assets\External\NGUI\Examples\Other\English.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Text.shader" />
      <None Include="Assets\External\NGUI\Examples\Other\French.txt" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\CutoutVertexColor.shader" />
+     <None Include="Assets\Xffect\Shaders\xf_heat_distortion.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
-     <None Include="Assets\TK2DROOT\tk2d_demo\demobmfont\test.fnt" />
      <None Include="Assets\Shaders\Particle Add(Self).shader" />
-     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Font\OldSansBlack\OldSansBlack.fnt" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitBlendVertexColor.shader" />
-     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito16.fnt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Additive Colored.shader" />
-     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito32.fnt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
      <None Include="Assets\External\NGUI\Examples\Shaders\Refractive.shader" />
      <None Include="Assets\Shaders\Mobile-Particle-Add.shader" />
@@ -168,8 +150,6 @@
      <None Include="Assets\External\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
      <None Include="Assets\External\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
-     <None Include="Assets\TK2DROOT\tk2d\Shaders\AdditiveVertexColor.shader" />
-     <None Include="Assets\TK2DROOT\tk2d_demo\democameradata\source\democamerafont.fnt" />
  <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid">
  <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid.dll</HintPath>
  </Reference>
@@ -179,7 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{5D5A6903-28E8-5936-8EB5-A4F7DE90A2EC}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
+      <Project>{5D09D556-922D-8681-E2E2-ED45AA1A3C2F}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
