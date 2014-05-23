@@ -3,13 +3,13 @@ using System.Collections;
 
 public class StageItemView : MonoBehaviour {
 	public Font myFont;
-	private bool isFarthestArrive;
-	public bool IsFarthestArrived{
+	private bool isArrivedStage;
+	public bool IsArrivedStage{
 		get{
-			return isFarthestArrive;
+			return isArrivedStage;
 		}
 		set{
-			isFarthestArrive = value;
+			isArrivedStage = value;
 		}
 	}
 
@@ -65,7 +65,7 @@ public class StageItemView : MonoBehaviour {
 			y = data.Pos.y - 450f;
 		}
 		else{
-//			Debug.LogError("Stage.Pos is NULL!" + "  gameObject  is : " + gameObject);
+			Debug.LogError("Stage.Pos is NULL!" + "  gameObject  is : " + gameObject);
 			//this.gameObject.SetActive(false);
 		}
 		gameObject.transform.localPosition = new Vector3(x, y, 0);
@@ -73,34 +73,45 @@ public class StageItemView : MonoBehaviour {
 
 	private void SetIcon(){
 		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
-		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryStageClear(data.ID);
+		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryStageClear(data);
 
 		if(isClear){
 			icon.spriteName = "icon_stage_" + (int.Parse(gameObject.name) + 1 );
 			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 		}
 		else{
-			UISprite circleSpr = transform.FindChild("Sprite_Circle").GetComponent<UISprite>();
-			UISprite handSpr = transform.FindChild("Sprite_Hand").GetComponent<UISprite>();
-			
-			circleSpr.gameObject.SetActive(isFarthestArrive);
-			handSpr.gameObject.SetActive(isFarthestArrive);
-
-			if(isFarthestArrive){
-				Debug.Log("stageID = " + data.ID + ", isFarthestArrive = " + isFarthestArrive);
+			if(isArrivedStage){
+				Debug.Log("stageID = " + data.ID + ", isFarthestArrive = " + isArrivedStage);
 				icon.spriteName = icon.spriteName = "icon_stage_" + (int.Parse(gameObject.name) + 1 );
 
+				string sourcePath = "Prefabs/UI/ArriveStagePrefab";
+				GameObject prefab = Resources.Load(sourcePath) as GameObject;
+				NGUITools.AddChild(gameObject, prefab);
+
+				/*
 				iTween.ScaleTo(circleSpr.gameObject, iTween.Hash("x", 0.75f, "y", 0.75f, "time", 1f, 
 				                                                 "looptype", iTween.LoopType.pingPong,
 				                                                 "easetype", iTween.EaseType.linear));
 				iTween.MoveFrom(handSpr.gameObject, iTween.Hash("x", 0f, "y", 50f, "time", 1f, "islocal", true, 
 				                                                "looptype", iTween.LoopType.pingPong,
 				                                                "easetype", iTween.EaseType.linear));
+				*/
 
 				UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
-			} else{
+			} 
+			else{
 				icon.spriteName = "icon_stage_lock";
-					UIEventListener.Get(this.gameObject).onClick = ShowTip;
+
+				/* do if not destory ui component outside of fight scene
+				for (int i = 0; i < transform.childCount; i++) {
+					if(transform.GetChild(i).name == "ArriveStagePrefab(Clone)"){
+						NGUITools.Destroy(transform.GetChild(i).gameObject);
+						Debug.LogError("Past this stage, destory the ARRIVE FLAG!");
+					}
+				}
+				*/
+
+				UIEventListener.Get(this.gameObject).onClick = ShowTip;
 			}
 		}
 	}
@@ -110,11 +121,11 @@ public class StageItemView : MonoBehaviour {
 	}
 
 	private void StepIntoNextScene(GameObject item){
-		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect); //before
+		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect); //do before
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {
-			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data); //after		
+			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data); //do after		
 		}
 	}
 
@@ -126,7 +137,7 @@ public class StageItemView : MonoBehaviour {
 		
 		GameObject tipObj = new GameObject("Tip");
 		UILabel tipLabel = tipObj.AddComponent<UILabel>();
-		tipLabel.text = "Not Open";
+		tipLabel.text = "CLOSED";
 		tipLabel.depth = 6;
 		tipLabel.trueTypeFont = ViewManager.Instance.DynamicFont;
 		tipLabel.fontSize = 36;

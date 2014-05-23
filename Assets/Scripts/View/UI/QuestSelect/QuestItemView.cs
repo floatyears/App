@@ -2,15 +2,16 @@ using UnityEngine;
 using System.Collections;
 
 public class QuestItemView : MonoBehaviour {
-	private UISprite bgSpr;
-	private UISprite clearFlag;
+	private UISprite bossAvatarSpr;
+	private UISprite borderSpr;
+	private UISprite avatarBgSpr;	
 	private UILabel nameLabel;
 	private UILabel staminaLabel;
 	private UILabel floorLabel;
 	private UILabel expLabel;
 	private UILabel coinLabel;
 	private UILabel clearFlagLabel;
-
+	
 	private static GameObject prefab;
 	public static GameObject Prefab{
 		get{
@@ -64,8 +65,8 @@ public class QuestItemView : MonoBehaviour {
 	public Callback evolveCallback;
 	
 	private void ShowQuestInfo(){
-		bgSpr.atlas = DataCenter.Instance.GetAvatarAtlas(data.BossID[ 0 ]);
-		bgSpr.spriteName = data.BossID[ 0 ].ToString();
+		bossAvatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(data.BossID[ 0 ]);
+		bossAvatarSpr.spriteName = data.BossID[ 0 ].ToString();
 
 		nameLabel.text = data.Name;
 		staminaLabel.text = string.Format( "STAMINA {0}", data.Stamina);
@@ -73,21 +74,28 @@ public class QuestItemView : MonoBehaviour {
 		expLabel.text = data.RewardExp.ToString();
 		coinLabel.text = data.RewardMoney.ToString();
 		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageID, data.ID);
-		Debug.Log("QuestItemView.ShowQuestInfo(), stageID = " + stageID + ", questID = " + data.ID 
-		          + ", isClear = " + isClear);
-		//clearFlag.enabled = isClear;
+		/*Debug.Log("QuestItemView.ShowQuestInfo(), stageID = " + stageID + ", questID = " + data.ID 
+		          + ", isClear = " + isClear);*/
 		clearFlagLabel.enabled = isClear;
+
+		TUnitInfo bossUnitInfo = DataCenter.Instance.GetUnitInfo(data.BossID[ 0 ]);
+		avatarBgSpr.spriteName = bossUnitInfo.GetUnitBackgroundName();
+		Debug.Log("avatarBgSpr.spriteName : " + avatarBgSpr.spriteName);
+		borderSpr.spriteName = bossUnitInfo.GetUnitBorderSprName();
+		Debug.Log("bossAvatarSpr.spriteName : " + bossAvatarSpr.spriteName);
+
 	}
 
 	private void FindUIElement(){
-		bgSpr = transform.FindChild("Sprite_Boss_Avatar").GetComponent<UISprite>();
-		clearFlag = transform.FindChild("Sprite_Clear_Flag").GetComponent<UISprite>();
+		bossAvatarSpr = transform.FindChild("Sprite_Boss_Avatar").GetComponent<UISprite>();
 		nameLabel = transform.FindChild("Label_Quest_Name").GetComponent<UILabel>();
 		staminaLabel = transform.FindChild("Label_Stamina").GetComponent<UILabel>();
 		floorLabel = transform.FindChild("Label_Floor").GetComponent<UILabel>();
 		expLabel = transform.FindChild("Label_Exp").GetComponent<UILabel>();
 		coinLabel = transform.FindChild("Label_Coin").GetComponent<UILabel>();
 		clearFlagLabel = transform.FindChild("Label_Clear_Flag").GetComponent<UILabel>();
+		borderSpr = transform.FindChild("Sprite_Boss_Avatar_Border").GetComponent<UISprite>();
+		avatarBgSpr = transform.FindChild("Sprite_Boss_Avatar_Bg").GetComponent<UISprite>();
 	}
 
 	private void AddEventListener(){
@@ -98,7 +106,7 @@ public class QuestItemView : MonoBehaviour {
 	}
 
 	private void ClickItem(GameObject item){
-		Debug.Log(string.Format("QuestItemView.ClickItem(), Picking quest...questID is {0}, quest name is : {1}", data.ID, data.Name));
+		//Debug.Log(string.Format("QuestItemView.ClickItem(), Picking quest...questID is {0}, quest name is : {1}", data.ID, data.Name));
 		QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
 		ConfigBattleUseData.Instance.currentStageInfo = stageInfo;
 		ConfigBattleUseData.Instance.currentQuestInfo = data;

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ConfigDragPanel{
+	public int manualHeight;
+
 	public static Dictionary<string, object> OthersDragPanelArgs = new Dictionary<string, object>();
 	public static Dictionary<string, object> UnitListDragPanelArgs = new Dictionary<string, object>();
 	public static Dictionary<string, object> CatalogDragPanelArgs = new Dictionary<string, object>();
@@ -17,6 +19,11 @@ public class ConfigDragPanel{
 	public static Dictionary<string, object> LevelUpMaterialDragPanelArgs = new Dictionary<string, object>();
 
 	public ConfigDragPanel(){
+		float clipX;
+		UIRoot uiRoot = GameObject.Find("UI Root (2D)").GetComponent<UIRoot>();
+		manualHeight = uiRoot.manualHeight;
+		Debug.LogError("UIRoot.manualHeight == " + manualHeight);
+
 		Config();
 	}
 
@@ -42,9 +49,9 @@ public class ConfigDragPanel{
 		UnitListDragPanelArgs.Add("clipRange",						new Vector4(0, -210, 640, 600)			);
 		UnitListDragPanelArgs.Add("gridArrange",						UIGrid.Arrangement.Vertical			);
 		UnitListDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -540, 0)				);
-		UnitListDragPanelArgs.Add("cellWidth",							140												);
-		UnitListDragPanelArgs.Add("cellHeight",						140												);
-		UnitListDragPanelArgs.Add("maxPerLine",						 4													);
+		UnitListDragPanelArgs.Add("cellWidth",							120												);
+		UnitListDragPanelArgs.Add("cellHeight",						120												);
+		UnitListDragPanelArgs.Add("maxPerLine",						 5													);
 	}
 
 	private void ConfigLevelUpDragPanel() {
@@ -74,12 +81,12 @@ public class ConfigDragPanel{
 	
 	private void ConfigHelperListDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), HelperListDragPanelArgs...");
-		HelperListDragPanelArgs.Add("scrollerLocalPos",			 -85* Vector3.up								);
+		HelperListDragPanelArgs.Add("scrollerLocalPos",			 Vector3.zero								);
 		HelperListDragPanelArgs.Add("position", 						 Vector3.zero									);
 		HelperListDragPanelArgs.Add("gridArrange", 				 UIGrid.Arrangement.Horizontal		);
 		HelperListDragPanelArgs.Add("scrollMovement", 			 UIScrollView.Movement.Vertical		);
 		HelperListDragPanelArgs.Add("maxPerLine", 					 1													);
-		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, 62, 640, 813)			);
+		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, 0, 640, manualHeight - 270));
 		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(1280, 1350, 0)				);
 		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
 		HelperListDragPanelArgs.Add("cellHeight", 					 120												);

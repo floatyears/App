@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PartyView : UIComponentUnity{
-	private const int unitItemStartPos = 1;
+	public const int PARTY_MEMBER_COUNT = 4;
+	public const int UNIT_ITEM_START_POS = 1;
 	private SortRule curSortRule;
 	private DragPanel dragPanel;
 	private GameObject rejectItem;
@@ -13,7 +14,6 @@ public class PartyView : UIComponentUnity{
 	private UILabel sortRuleLabel;
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
-//	private UIButton sortBtn;
 	private GameObject topRoot;
 	private GameObject bottomRoot;
 	private MyUnitItem pickedFromParty;
@@ -45,7 +45,6 @@ public class PartyView : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
-//		Debug.LogError (UIManager.Instance.baseScene.CurrentScene);
 		if(UIManager.Instance.baseScene.CurrentScene != SceneEnum.UnitDetail)
 			DataCenter.Instance.PartyInfo.ExitParty();
 		RmvCmdListener();
@@ -67,10 +66,6 @@ public class PartyView : UIComponentUnity{
 		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
 		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
 		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
-
-//		sortBtn = FindChild<UIButton>("Bottom/Button_Sort");
-//		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
-//		sortRuleLabel = sortBtn.transform.FindChild("Label").GetComponent<UILabel>();
 
 		for (int i = 0; i < 4; i++){
 			GameObject item = topRoot.transform.FindChild(i.ToString()).gameObject;
@@ -508,7 +503,7 @@ public class PartyView : UIComponentUnity{
 	private void SortUnitByCurRule(){
 		//sortRuleLabel.text = curSortRule.ToString();
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
-		for (int i = unitItemStartPos; i < dragPanel.ScrollItem.Count; i++){
+		for (int i = UNIT_ITEM_START_POS; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
 			puv.UserUnit = myUnitDataList[ i - 1 ];
 			puv.CurrentSortRule = curSortRule;

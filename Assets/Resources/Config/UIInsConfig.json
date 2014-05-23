@@ -195,7 +195,7 @@
     "QuestSelectWindow": {
         "uiName":"QuestSelectWindow",
         "resoucePath": "Prefabs/UI/Home/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -205,7 +205,7 @@
         "resoucePath": "Prefabs/UI/Friend/",
         "parent": 0,
         "positionx": 0,
-        "positiony": 20,
+        "positiony": 0,
         "positionz": 0
     },
     "UnitDetailPanel": {
@@ -253,7 +253,7 @@
         "resoucePath": "Prefabs/UI/Friend/",
         "parent": 0,
         "positionx": 0,
-        "positiony": 100,
+        "positiony": 0,
         "positionz": 0
     },
      "SearchInfoWindow": {
@@ -437,7 +437,7 @@
     "QuestSelectPanel": {
         "uiName":"QuestSelectPanel",
         "resoucePath": "Prefabs/UI/Home/",
-        "parent": 0,
+        "parent": 2,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0

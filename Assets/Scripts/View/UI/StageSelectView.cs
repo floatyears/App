@@ -384,7 +384,7 @@ public class StageSelectView : UIComponentUnity{
 		for (int i = 0; i < stageInfoList.Count; i++){
 			if(stageInfoList[ i ].Type == QuestType.E_QUEST_STORY){
 				accessStageList.Add(stageInfoList[ i ]);
-				if (!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(stageInfoList[i]))
+				if (!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(stageInfoList[ i ]))
 					break;					
 			}
 			else{
@@ -414,12 +414,12 @@ public class StageSelectView : UIComponentUnity{
 
 			if(!searchFarthestArrivedStageSucceed){
 				if(!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
-					stageItemView.IsFarthestArrived = true;
+					stageItemView.IsArrivedStage = true;
 					searchFarthestArrivedStageSucceed = true;
 					Debug.Log("At the " + i + " time, search FarthestArrivedStageSucceed : " + searchFarthestArrivedStageSucceed);
 				}
 				else{
-					stageItemView.IsFarthestArrived = false;
+					stageItemView.IsArrivedStage = false;
 				}
 			}
 

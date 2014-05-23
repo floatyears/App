@@ -10,6 +10,7 @@ public class CatalogView : UIComponentUnity {
     private List<Transform> catalogItemTrans	= new List<Transform>();
     private NewObjectPooler catalogPooler;
 	private UIPanel uiPanel;
+	private const float UN_INTIALIZED_POS = -111111f;
        
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
@@ -116,6 +117,7 @@ public class CatalogView : UIComponentUnity {
 		return uiPanel.IsVisible(trans.GetComponent<UIWidget>());
 	}
 
+
 	private void InitCatalogTrans(int startPos, int onePageCount){
 		GameObject obj;
 		CatalogUnitItem catalogUnitItem;
@@ -131,7 +133,7 @@ public class CatalogView : UIComponentUnity {
 		curStartPos = startPos;
 	}
 
-	private float prevFirstItemPos_X = -111111f;
+	private float prevFirstItemPos_X = UN_INTIALIZED_POS;
 	private int curStartPos;
 
 	public enum MoveDirection{
@@ -142,7 +144,7 @@ public class CatalogView : UIComponentUnity {
 
 	private MoveDirection CalculateMoveDirection(){
 		float nowFirstItemPos_X = Camera.main.WorldToScreenPoint( catalogItemTrans[ 0 ].position ).x;
-		if (prevFirstItemPos_X == -111111f){
+		if (prevFirstItemPos_X == UN_INTIALIZED_POS){
 			prevFirstItemPos_X = nowFirstItemPos_X;
 			return MoveDirection.NONE;
 		}
@@ -157,51 +159,109 @@ public class CatalogView : UIComponentUnity {
 	private void ShowItemInScreen(){
 		MoveDirection moveDir = CalculateMoveDirection();
 		//Debug.Log("dmoveDir" + moveDir);
+//		if (!CheckPosAvaliable(curStartPos) || !CheckPosAvaliable(curStartPos + ITEM_MAX_COUNT_PER_PAGE)){
+//			return;
+//		}
 		if(moveDir == MoveDirection.LEFT){
+//			if (!CheckPosAvaliable(curStartPos)){
+//				return;
+//			}
+			curStartPos = AdjustPos(curStartPos);
 			while(!CheckIsInScreen(catalogItemTrans[ curStartPos ])){
+
 				Debug.Log("ShowItemInScreen do visble false");
-				CancelShowOneRow(curStartPos, ITEM_COUNT_PER_COL);
-				AddShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE, ITEM_COUNT_PER_COL);
+				int cancelCount = AddShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE, ITEM_COUNT_PER_COL);
+
+				CancelShowOneRow(curStartPos, cancelCount, moveDir);
+				Debug.Log("ShowItemInScreen() left,  pos " + cancelCount);
+//				AddShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE, cancelCount);
 				curStartPos += ITEM_COUNT_PER_COL;
 				Debug.Log("ShowItemInScreen() " + curStartPos);
+				curStartPos = AdjustPos(curStartPos);
+
 			}
 		}
 		else if(moveDir == MoveDirection.RIGHT){
+			curStartPos = AdjustPos(curStartPos);
+
 			while(!CheckIsInScreen(catalogItemTrans[ curStartPos + ITEM_MAX_COUNT_PER_PAGE])){
-				if (curStartPos < ITEM_COUNT_PER_COL) break;
-                      CancelShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE , ITEM_COUNT_PER_COL);
-				AddShowOneRow(curStartPos - ITEM_COUNT_PER_COL, ITEM_COUNT_PER_COL);
+
+//				if (curStartPos < ITEM_COUNT_PER_COL) break;
+				int cancelCount = CancelShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE , ITEM_COUNT_PER_COL, moveDir);
+				Debug.Log("ShowItemInScreen() right, pos " + cancelCount);
+
+				AddShowOneRow(curStartPos - ITEM_COUNT_PER_COL, cancelCount);
 				curStartPos -= ITEM_COUNT_PER_COL;
+				curStartPos = AdjustPos(curStartPos);
+
+
 			}
 		}
 		else{}
 	}
 
-	private void AddShowOneRow(int startPos, int count){
+	private int AddShowOneRow(int startPos, int count){
 		GameObject obj;
 		CatalogUnitItem catalogUnitItem;
-		for (int i = startPos; i < startPos + count; i++){
-			Debug.Log(i);
-			if(catalogItemTrans[ i ].childCount == 1){
-				obj = catalogItemTrans[ i ].FindChild("CatalogNode(Clone)").gameObject;
+		for (int i = 0; i < count; i++){
+			int pos = startPos + i;
+			Debug.Log(pos);
+			if (!CheckPosAvaliable(pos)) return i;
+
+			if(catalogItemTrans[ pos ].childCount == 1){
+				obj = catalogItemTrans[ pos ].FindChild("CatalogNode(Clone)").gameObject;
 			}
 			else {
 				obj = catalogPooler.GetPooledObject();
-				obj.transform.parent = catalogItemTrans[ i ];
+				obj.transform.parent = catalogItemTrans[ pos ];
 				obj.transform.localScale = Vector3.one;
                 obj.transform.localPosition = Vector3.zero;            
 			}
 			CatalogUnitItem item = CatalogUnitItem.Inject(obj);
 			obj.SetActive(true);
-			item.Refresh(i + 1);
+			item.Refresh(pos + 1);
 		}
+		return ITEM_COUNT_PER_COL;
 	}
-	
-	private void CancelShowOneRow(int startPos, int count){
-        for (int i = startPos; i < startPos + count; i++){
-			//Debug.Log("CancelShowOneRow(), startPos : " + startPos);
-            GameObject childObj = catalogItemTrans[ i ].FindChild("CatalogNode(Clone)").gameObject;
-            childObj.SetActive(false);
-        }
+
+	private bool CheckPosAvaliable(int pos){
+		Debug.Log("CheckPosAvaliable() pos is " + pos);
+		return pos >= 0 && pos < CATALOG_ITEM_COUNT;
 	}
+
+	private int AdjustPos(int pos){
+		
+		return pos < ITEM_COUNT_PER_COL  ? ITEM_COUNT_PER_COL :  pos  +  ITEM_COUNT_PER_COL > CATALOG_ITEM_COUNT ?  
+			CATALOG_ITEM_COUNT - 1 - ITEM_COUNT_PER_COL: pos;
+		
+	}
+
+
+	private int CancelShowOneRow(int startPos, int count, MoveDirection dir){
+		if(dir == MoveDirection.NONE){
+			return 0;
+		}
+		else if(dir == MoveDirection.LEFT){
+	        for (int i = 0; i < count; i++){
+				int pos = startPos + i;
+				Debug.Log("CancelShowOneRow(), startPos : " + pos);
+				if (!CheckPosAvaliable(pos)) return i;
+				GameObject childObj = catalogItemTrans[ pos ].FindChild("CatalogNode(Clone)").gameObject;
+	            childObj.SetActive(false);
+	        }
+		}
+		else{
+			for (int i = 0; i < count ; i++){
+				int pos = startPos - count + i;
+
+				Debug.Log("CancelShowOneRow(), startPos : " + pos);
+				if (!CheckPosAvaliable(pos)) return i;
+				GameObject childObj = catalogItemTrans[ pos ].FindChild("CatalogNode(Clone)").gameObject;
+				childObj.SetActive(false);
+			}
+		}
+		return ITEM_COUNT_PER_COL;
+
+	}
+
 }

@@ -87,9 +87,9 @@ public class NewQuestSelect : UIComponentUnity {
 		List<TQuestInfo> accessQuestList = new List<TQuestInfo>();
 		for (int i = 0; i < questInfoList.Count; i++){
 			accessQuestList.Add(questInfoList[ i ]);
-			if (!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(questInfoList[i])){
-				break;					
-			}
+//			if (!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(questInfoList[i].ID)){
+//				break;					
+//			}
 		}
 		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessQuestList.Count);
 		return accessQuestList;
