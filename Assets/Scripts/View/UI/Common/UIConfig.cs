@@ -139,6 +139,7 @@ public class UIConfig{
 
 	public const string operationNoticeWindowName = "OperationNoticeView";
 
+	public const string rewardViewName = "RewardView";
 }
 
 

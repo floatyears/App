@@ -38,6 +38,9 @@ public class OperationNoticeView : UIComponentUnity {
 		content = this.FindChild ("Content/Table");
 
 		contents = new Dictionary<string, string> ();
+
+		//DataCenter.Instance.NoticeInfo
+			//
 		contents.Add ("notice1", "content1\ndsf \ndsafsd \nasdfs");
 		contents.Add ("notice2", "content2\n sdf as \nsdfas\nadsfs\nasasdf");
 		contents.Add ("notice3", "content2\n sdf as \nsdfas\nadsfs\nasasdf");
@@ -62,5 +65,9 @@ public class OperationNoticeView : UIComponentUnity {
 		
 		//curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 		//sortRuleLabel.text = curSortRule.ToString();
+	}
+
+	public void ClickOK(){
+		UIManager.Instance.ChangeScene (SceneEnum.Home);
 	}
 }

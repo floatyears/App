@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OperationNoticeComponent : ConcreteComponent {
+public class RewardComponent : ConcreteComponent {
 
-	public OperationNoticeComponent(string uiName):base(uiName){}
+	public RewardComponent(string uiName):base(uiName){}
 	public override void ShowUI(){
 		base.ShowUI();
 	}
@@ -25,6 +25,4 @@ public class OperationNoticeComponent : ConcreteComponent {
 			break;
 		}
 	}
-
-
 }

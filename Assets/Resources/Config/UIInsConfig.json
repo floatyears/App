@@ -453,9 +453,17 @@
     "OperationNoticeView":{
     "uiName":"OperationNoticeView",
         "resoucePath": "Prefabs/UI/Notice/",
+        "parent": 2,
+        "positionx": 0,
+        "positiony": 565,
+        "positionz": 0
+    },
+    "RewardView":{
+    	"uiName":"RewardView",
+        "resoucePath": "Prefabs/UI/Reward/",
         "parent": 1,
         "positionx": 0,
-        "positiony": -365,
+        "positiony": -565,
         "positionz": 0
     }
     
