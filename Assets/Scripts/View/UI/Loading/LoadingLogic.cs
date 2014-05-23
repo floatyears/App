@@ -98,7 +98,15 @@ public class LoadingLogic : ConcreteComponent {
                 Debug.LogError("rsp.friends==null");
             }
             
-            if (rspAuthUser.unitList != null) {
+			DataCenter.Instance.EventStageList = new List<TStageInfo>();
+			if (rspAuthUser.eventList != null) {
+				foreach (StageInfo stage in rspAuthUser.eventList) {
+					TStageInfo tsi = new TStageInfo(stage);
+					DataCenter.Instance.EventStageList.Add(tsi);
+				}
+			}
+			
+			if (rspAuthUser.unitList != null) {
                 foreach (UserUnit unit in rspAuthUser.unitList) {
 //					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
 					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
@@ -117,6 +125,11 @@ public class LoadingLogic : ConcreteComponent {
             }
             
 			DataCenter.Instance.CatalogInfo = new TUnitCatalog(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
+
+			if( rspAuthUser.notice != null){
+				DataCenter.Instance.NoticeInfo = new TNoticeInfo(rspAuthUser.notice);
+			}
+
 
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");

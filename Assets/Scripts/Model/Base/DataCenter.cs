@@ -20,6 +20,8 @@ public enum ModelEnum {
     FriendBaseInfo,
 	QuestClearInfo,
 	UnitCatalogInfo,
+	NoticeInfo,
+	EventStageList,
 
 	//new add
 	CityListInfo,
@@ -115,6 +117,11 @@ public class DataCenter {
         set { setData(ModelEnum.FriendList, value); } 
     }
 
+	public List<TStageInfo> EventStageList { 
+		get { return getData(ModelEnum.EventStageList) as List<TStageInfo>; }
+		set { setData(ModelEnum.EventStageList, value); } 
+	}
+
 	public TQuestClearInfo QuestClearInfo {
 		get { return getData(ModelEnum.QuestClearInfo) as TQuestClearInfo; }
 		set { setData(ModelEnum.QuestClearInfo, value); } 
@@ -169,6 +176,11 @@ public class DataCenter {
 	public TUnitCatalog CatalogInfo { 
 		get { return getData(ModelEnum.UnitCatalogInfo) as TUnitCatalog; }
 		set { setData(ModelEnum.UnitCatalogInfo, value); }
+	}
+
+	public TNoticeInfo NoticeInfo { 
+		get { return getData(ModelEnum.NoticeInfo) as TNoticeInfo; }
+		set { setData(ModelEnum.NoticeInfo, value); }
 	}
 
 	/// <summary>

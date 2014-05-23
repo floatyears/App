@@ -152,3 +152,72 @@ message StatUnitFavorite {
 //////////////////////////////////////////////////////////////////////
 // Friend protocol
 
+
+//////////////////////////////////////////////////////////////////////
+// Quest protocol
+message StatStartQuest {
+	optional ProtoHeader	header			= 1;
+	optional uint32			stageId			= 2; 
+	optional uint32			questId			= 3; 
+	optional uint32			helperUserId	= 4;
+	optional UserUnit		helperUnit		= 5;
+	optional int32			currentParty	= 6;
+	optional int32			restartNew		= 7;
+
+	optional int32				staminaNow		= 8; // current stamina
+	optional uint32				staminaRecover	= 9; // stamina recover time
+	optional QuestDungeonData	dungeonData		= 10;
+	
+	optional uint32			timeStamp		= 11;
+	optional uint32			userId			= 12;
+	optional int32			errorCode		= 13;
+}
+
+
+message StatClearQuest {
+	optional ProtoHeader	header 			= 1; 
+	optional uint32			questId			= 2; 
+	optional uint32			securityKey		= 3; 
+	//optional int32			getMoney		= 4;
+	//repeated uint32			getUnit			= 5; //without uniqueId	
+	repeated uint32			hitGrid			= 6;
+
+	optional int32			rank			= 7;
+	optional int32			rankAdd			= 8;	
+	optional int32			exp				= 9;
+	optional int32			money			= 10;
+	optional int32			friendPoint		= 11;
+	optional int32			staminaNow		= 12;
+	optional int32			staminaMax		= 13;
+	optional uint32			staminaRecover	= 14; //recover time
+	optional int32			gotMoney		= 15;
+	optional int32			gotExp			= 16;
+	optional int32			gotStone		= 17;
+	optional int32			gotFriendPoint	= 18;
+	repeated UserUnit		gotUnit			= 19; //with uniqueId 
+	optional int32			costMaxAdd		= 20;
+	optional int32			unitMaxAdd		= 21;
+	optional int32			friendMaxAdd	= 22;
+	optional int32			staminaMaxAdd	= 23;
+
+	optional int32			questCostTime	= 24; //in seconds
+
+	optional uint32			timeStamp		= 25;
+	optional uint32			userId			= 26;
+	optional int32			errorCode		= 27;	
+}
+
+message StatRetireQuest {
+	optional ProtoHeader	header 			= 1;
+	optional uint32			questId			= 2; // 
+	optional int32			isGameOver		= 3; 
+
+	optional int32			staminaNow		= 4;
+	optional uint32			staminaRecover	= 5;
+	
+	optional int32			questCostTime	= 6; //in seconds
+	
+	optional uint32			timeStamp		= 7;
+	optional uint32			userId			= 8;
+	optional int32			errorCode		= 9;	
+}

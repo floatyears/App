@@ -20,6 +20,10 @@ public class TQuestInfo : ProtobufDataBase {
 		get { return instance.state; }
 	}
 
+	public bool IsClear {
+		get {return (instance.state == EQuestState.QS_CLEARED);}
+	}
+
 	public int No {
 		get { return instance.no; }
 	}

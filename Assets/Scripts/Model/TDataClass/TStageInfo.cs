@@ -43,6 +43,10 @@ public class TStageInfo : ProtobufDataBase {
 		get {return instance.state;}
 	}
 
+	public bool IsClear {
+		get {return (instance.state == EQuestState.QS_CLEARED);}
+	}
+
 	public QuestType Type {
 		get {return instance.type; }
 	}
