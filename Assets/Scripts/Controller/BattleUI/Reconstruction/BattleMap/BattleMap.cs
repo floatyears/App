@@ -60,6 +60,7 @@ public class BattleMap : UIBaseUnity {
 					temp = tempObject.GetComponent<MapItem>();
 					temp.Coor = new Coordinate(i, j);
 					temp.Init(i+"|"+j);
+					temp.battleMap = this;
 					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
 					map[i,j] = temp;
 				}

@@ -9,12 +9,14 @@ public class QuestSelectView : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.GetQuestInfo, GetQuestInfo);
+		MsgCenter.Instance.AddListener (CommandEnum.EvolveSelectStage, EvolveSelectStage);
 		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetQuestInfo, GetQuestInfo);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectStage, EvolveSelectStage);
 	}
 
 	private void ShowUIAnimation(){
@@ -105,4 +107,44 @@ public class QuestSelectView : UIComponentUnity {
 		}
 	}
 
+	TEvolveStart evolveStart;
+	private List<QuestItemView> questItem = new List<QuestItemView>();
+
+	void EvolveSelectStage(object data) {
+		evolveStart = data as TEvolveStart;
+		GenerateQuest(evolveStart.StageInfo.QuestInfo, evolveStart.StageInfo);
+		
+		foreach (var item in questItem) {
+			Debug.LogError("item.Data.ID : " + item.Data.ID + " evolveStart.StageInfo.QuestId : " + evolveStart.StageInfo.QuestId);
+			if(item.Data.ID == evolveStart.StageInfo.QuestId) {
+				item.evolveCallback = EvolveCallback;
+				continue;
+			} else {
+				UIEventListener listener = item.GetComponent<UIEventListener>();
+				listener.onClick = null;
+				Destroy(listener);
+			}
+		}
+	}
+
+	void GenerateQuest(List<TQuestInfo> questInfo, TStageInfo targetStage) {
+		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab);
+		dragPanel.CreatUI();
+		dragPanel.AddItem(questInfo.Count);
+		CustomDragPanel();
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
+		questItem.Clear ();
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			QuestItemView qiv = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
+			qiv.Data = questInfo[ i ];
+			qiv.stageInfo = targetStage;
+			//			qiv.StageID = targetStage.ID;//StartFight Need
+			questItem.Add(qiv);
+		}
+	}
+
+	void EvolveCallback() {
+		UIManager.Instance.ChangeScene(SceneEnum.FightReady);//before
+		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectQuest, evolveStart);
+	}
 }

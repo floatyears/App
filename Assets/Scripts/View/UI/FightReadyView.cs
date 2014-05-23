@@ -107,8 +107,11 @@ public class FightReadyView : UIComponentUnity {
 
 	private void RefreshParty(TUnitParty party){
 		List<TUserUnit> partyMemberList = party.GetUserUnit();
-		for (int i = 0; i < partyMemberList.Count; i++)
-			partyView[ i ].Init(partyMemberList [ i ]);
+		for (int i = 0; i < partyMemberList.Count; i++) {
+			partyView[ i ].Init(partyMemberList [ i ]);	
+		}
+			
+
 		ShowPartyInfo();
 	}
 
@@ -134,15 +137,21 @@ public class FightReadyView : UIComponentUnity {
 		prePageBtn.isEnabled = false;
 		nextPageBtn.isEnabled = false;
 
-		pickedInfoForFight = new Dictionary<string, object> ();
-		pickedInfoForFight ["HelperInfo"] = evolveStart.EvolveStart.friendInfo;
-		Debug.LogError ("creat data : " + pickedInfoForFight + " HelperInfo : " + pickedInfoForFight ["HelperInfo"]);
-		ShowHelper (evolveStart.EvolveStart.friendInfo);
+//		pickedInfoForFight = new Dictionary<string, object> ();
+//		pickedInfoForFight ["HelperInfo"] = evolveStart.EvolveStart.friendInfo;
+//		Debug.LogError ("creat data : " + pickedInfoForFight + " HelperInfo : " + pickedInfoForFight ["HelperInfo"]);
+		pickedHelperInfo = evolveStart.EvolveStart.friendInfo;
+		ShowHelper (pickedHelperInfo);
 	}
 
 	void RefreshParty(List<TUserUnit> evolveParty) {
 		for (int i = 0; i < evolveParty.Count; i++){
+			Debug.LogError(evolveParty[i].UnitInfo.GetAsset(UnitAssetType.Avatar));
 			partyView[ i ].Init(evolveParty [ i ]);
+		}
+
+		for (int i = evolveParty.Count; i < partyView.Count; i++) {
+			partyView[ i ].Init(null);
 		}
 		
 		ShowPartyInfo();
@@ -222,7 +231,7 @@ public class FightReadyView : UIComponentUnity {
 	}
 	
 	private void EnterBattle (TQuestDungeonData tqdd) {
-		ConfigBattleUseData.Instance.BattleFriend = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		ConfigBattleUseData.Instance.BattleFriend = pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
 		UIManager.Instance.EnterBattle();
 	} 

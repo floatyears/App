@@ -34,12 +34,34 @@ public class TQuestClearInfo : ProtobufDataBase {
 	public	TStageClearItem			StoryClear { get { return this.storyClear; } }
 	public	List<TStageClearItem>	EventClear { get { return this.eventClear; } }
 
-	public	bool IsStoryStageClear(uint stageId) {
+	public	bool IsStoryStageClear(TStageInfo stageInfo) {
 		if (StoryClear == null) {
 			return false;
 		}
 
-		return ( stageId < StoryClear.StageId );
+		if (stageInfo.ID == StoryClear.StageId) {
+			//Last quest of stage is clear, so the stage is clear.
+			bool isClear = ( StoryClear.QuestId == stageInfo.QuestInfo[stageInfo.QuestInfo.Count-1].ID );
+			return isClear;
+		}
+
+		return ( stageInfo.ID < StoryClear.StageId );
+	}
+
+	public	bool IsEventStageClear(TStageInfo stageInfo) {
+		if (EventClear == null) {
+			return false;
+		}
+
+		foreach(TStageClearItem item in this.eventClear) {
+			if ( item.StageId == stageInfo.ID ) { 
+				//Last quest of stage is clear, so the stage is clear.
+				bool isClear = ( item.QuestId == stageInfo.QuestInfo[stageInfo.QuestInfo.Count-1].ID );
+				return isClear;
+			}
+		}
+		
+		return false;
 	}
 
 	public	bool IsStoryQuestClear(uint stageId, uint questId) {
@@ -74,7 +96,6 @@ public class TQuestClearInfo : ProtobufDataBase {
 			storyClear.StageId = stageId;
 		}
 			
-
 		if ( questId > storyClear.QuestId ) {
 			storyClear.QuestId = questId;
 		}
@@ -83,7 +104,8 @@ public class TQuestClearInfo : ProtobufDataBase {
 	public	void UpdateEventQuestClear(uint stageId, uint questId) {
 		foreach(TStageClearItem item in this.eventClear) {
 			if ( item.StageId == stageId ) { //found exists stageId, update the lastest cleared questId.
-				item.QuestId = questId;
+				if (questId > item.QuestId)
+					item.QuestId = questId;
 				return;
 			}
 		}

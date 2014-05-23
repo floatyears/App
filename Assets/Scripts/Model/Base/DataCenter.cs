@@ -20,6 +20,9 @@ public enum ModelEnum {
     FriendBaseInfo,
 	QuestClearInfo,
 	UnitCatalogInfo,
+	NoticeInfo,
+	LoginInfo,
+	EventStageList,
 
 	//new add
 	CityListInfo,
@@ -115,6 +118,11 @@ public class DataCenter {
         set { setData(ModelEnum.FriendList, value); } 
     }
 
+	public List<TStageInfo> EventStageList { 
+		get { return getData(ModelEnum.EventStageList) as List<TStageInfo>; }
+		set { setData(ModelEnum.EventStageList, value); } 
+	}
+
 	public TQuestClearInfo QuestClearInfo {
 		get { return getData(ModelEnum.QuestClearInfo) as TQuestClearInfo; }
 		set { setData(ModelEnum.QuestClearInfo, value); } 
@@ -170,6 +178,17 @@ public class DataCenter {
 		get { return getData(ModelEnum.UnitCatalogInfo) as TUnitCatalog; }
 		set { setData(ModelEnum.UnitCatalogInfo, value); }
 	}
+
+	public TNoticeInfo NoticeInfo { 
+		get { return getData(ModelEnum.NoticeInfo) as TNoticeInfo; }
+		set { setData(ModelEnum.NoticeInfo, value); }
+	}
+
+	public TLoginInfo LoginInfo { 
+		get { return getData(ModelEnum.LoginInfo) as TLoginInfo; }
+		set { setData(ModelEnum.LoginInfo, value); }
+	}
+
 
 	/// <summary>
 	/// store operate befoure account info

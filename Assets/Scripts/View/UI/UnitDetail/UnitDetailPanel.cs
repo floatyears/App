@@ -204,7 +204,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		TUserUnit baseUnitData = data as TUserUnit;
 		ExpRise();
 	}
-	
 
 	//----------deal with effect----------
 	void ClearEffectCache(){
@@ -216,7 +215,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void InitEffect(){
-		string path = "Prefabs/UI/UnitDetail/LevelUpEffect";
+//		string path = "Prefabs/UI/UnitDetail/LevelUpEffect";
+		string path = "Effect/HelixHealingYellow";
 		levelUpEffect = Resources.Load( path ) as GameObject;
 	}
 
@@ -224,6 +224,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if (fobidClick) {
 			return;	
 		}
+		StopAllCoroutines ();
+		ClearEffectCache ();
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
 		Debug.LogError ("unit detail SceneEnum : " + preScene);
@@ -390,11 +392,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo);
 		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
 		ShowUnitScale();
-//		unitBodyTex.mainTexture = newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile);
 		unitInfoTabs.SetActive (false);
-		InvokeRepeating ("CreatEffect", 0f, 2f);
+		SetEffectCamera ();
+		StartCoroutine (CreatEffect ());
 	}
 
 	TUserUnit oldBlendUnit = null;
@@ -402,25 +405,51 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	bool levelDone = false;
 
-	void CreatEffect() {
+	public void SetEffectCamera() {
+		Camera camera = Main.Instance.effectCamera;
+		Debug.LogError ("camera : " + camera);
+		camera.transform.eulerAngles = new Vector3 (15f, 0f, 0f);
+		camera.orthographicSize = 1.3f;
+	}
+
+	public void RecoverEffectCamera() {
+		Camera camera = Main.Instance.effectCamera;
+		camera.transform.eulerAngles = new Vector3 (0f, 0f, 0f);
+		camera.orthographicSize = 1f;
+	}
+
+	IEnumerator CreatEffect() {
+		yield return new WaitForSeconds(0.5f);
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
-		if (effectCache.Count > 2) {
-			CancelInvoke("CreatEffect");
-			ClearEffectCache();
+		effectCache.Add (go);
+		yield return new WaitForSeconds(0.1f);
+		go = Instantiate (levelUpEffect) as GameObject;
+		effectCache.Add (go);
+
+		if (effectCache.Count == 6) {
+//			CancelInvoke("CreatEffect");
+//			yield break;
+			yield return new WaitForSeconds(2f);
+
+			ClearEffectCache ();
 			unitInfoTabs.SetActive (true);
-			ShowLevelInfo(newBlendUnit);
+			ShowLevelInfo (newBlendUnit);
 			curLevel = oldBlendUnit.Level;
 			gotExp = levelUpData.blendExp;
 
 			levelDone = gotExp > 0;
 
 			curExp = oldBlendUnit.CurExp;
-			Debug.LogError("CreatEffect :: gotExp : " + gotExp);
-			Debug.LogError("CreatEffect :: level : " + newBlendUnit.Level);
-			Debug.LogError("CreatEffect :: CurExp : " + curExp);
-			Calculate();
+			Debug.LogError ("CreatEffect :: gotExp : " + gotExp);
+			Debug.LogError ("CreatEffect :: level : " + newBlendUnit.Level);
+			Debug.LogError ("CreatEffect :: CurExp : " + curExp);
+			Calculate ();
+
+			RecoverEffectCamera();
+		} else {
+			yield return new WaitForSeconds(1.5f);
+			StartCoroutine (CreatEffect ());
 		}
-		effectCache.Add (go);
 	}
 	
 	//------------------end-----------------------------------------

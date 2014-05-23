@@ -19,6 +19,7 @@ Shader "Unlit/Transparent Colored"
 		Cull Off
 		Lighting Off
 		ZWrite Off
+//		ZTest LEqual
 		Fog { Mode Off }
 		Offset -1, -1
 		Blend SrcAlpha OneMinusSrcAlpha
@@ -82,6 +83,7 @@ Shader "Unlit/Transparent Colored"
 			Cull Off
 			Lighting Off
 			ZWrite Off
+			ZTest LEqual
 			Fog { Mode Off }
 			Offset -1, -1
 			ColorMask RGB

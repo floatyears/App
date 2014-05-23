@@ -19,9 +19,11 @@ public class TipsBarBehavior : UIComponentUnity {
 		base.HideUI ();
         RemoveListener();
 	}
-	
+
+
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		RemoveListener();
 	}
 
     private void AddListener(){

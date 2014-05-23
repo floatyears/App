@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class ExcutePassiveSkill : IExcutePassiveSkill  {
 	private ILeaderSkill leaderSkill;
-	private ExcuteTrap excuteTrap;
+	public ExcuteTrap excuteTrap;
 	private Dictionary<string,IPassiveExcute> passiveSkill = new Dictionary<string,IPassiveExcute> ();
 	private Dictionary<string,float> multipe = new Dictionary<string, float> ();
 
@@ -33,7 +33,6 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 				continue;
 			}
 			string name = item.MakeUserUnitKey();
-//			Debug.LogError("passive skill : " + name);
 			passiveSkill.Add(name,ipe);
 			multipe.Add(name,item.AttackMultiple);
 		}
@@ -50,7 +49,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			DisposeTrap (false);
 		} else {
 			foreach (var item in passiveSkill.Values) {
-				Debug.LogError(tb);
+//				Debug.LogError(tb);
 				item.Excute(tb, this);
 			}
 		}

@@ -25,7 +25,7 @@ public class TStageInfo : ProtobufDataBase {
 		questInfo = new List<TQuestInfo> ();
 
 		for (int i = 0; i < si.quests.Count; i++) {
-			Debug.LogError("InitQuestInfo : " + si.quests[i].id);
+//			Debug.LogError("InitQuestInfo : " + si.quests[i].id);
 			TQuestInfo tqi = new TQuestInfo(instance.quests[i]);
 			questInfo.Add(tqi);
 		}
@@ -41,6 +41,10 @@ public class TStageInfo : ProtobufDataBase {
 
 	public EQuestState State {
 		get {return instance.state;}
+	}
+
+	public bool IsClear {
+		get {return (instance.state == EQuestState.QS_CLEARED);}
 	}
 
 	public QuestType Type {

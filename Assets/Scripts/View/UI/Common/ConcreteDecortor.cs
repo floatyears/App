@@ -547,9 +547,11 @@ public class EvolveDecorator : DecoratorBase{
 	}
 	
 	public override void ShowScene(){
+//		Debug.LogError("EvolveDecorator show scene begin");
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_EVOLVE));
+//		Debug.LogError("EvolveDecorator show scene end");
 	}
 	
 	public override void HideScene(){
@@ -569,6 +571,7 @@ public class EvolveDecorator : DecoratorBase{
 		evolve.SetComponent(sceneInfoBar);
 
 		UnitDisplay unitdisplay = CreatComponent< UnitDisplay >(UIConfig.unitDisplay);
+		unitdisplay.SetComponent (evolve);
 
 		lastDecorator = unitdisplay;
 		lastDecorator.CreatUI();
@@ -611,6 +614,7 @@ public class CatalogDecorator : DecoratorBase{
 		catalog.SetComponent(counter);
 	
 		lastDecorator = catalog;
+	
 		lastDecorator.CreatUI();
 	}
 }
