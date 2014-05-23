@@ -392,8 +392,11 @@ public class EffectLayer : MonoBehaviour {
 
     public void StartCustom()
     {
-        if (MainCamera == null)
-            MainCamera = Camera.main;
+		if (MainCamera == null) {
+			MainCamera = GameObject.FindGameObjectWithTag ("XffectCamera").GetComponent<Camera>();
+		}
+//		Debug.LogError ("MainCamera : " + MainCamera);
+						 //Camera.main;
         Init();
         LastClientPos = ClientTransform.position;
     }
