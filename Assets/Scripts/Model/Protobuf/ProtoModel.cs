@@ -4843,8 +4843,16 @@ namespace bbproto
       get { return _lastLoginTime; }
       set { _lastLoginTime = value; }
     }
+    private uint _lastPlayTime = default(uint);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"lastPlayTime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint lastPlayTime
+    {
+      get { return _lastPlayTime; }
+      set { _lastPlayTime = value; }
+    }
     private readonly global::System.Collections.Generic.List<bbproto.BonusInfo> _bonus = new global::System.Collections.Generic.List<bbproto.BonusInfo>();
-    [global::ProtoBuf.ProtoMember(6, Name=@"bonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(7, Name=@"bonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<bbproto.BonusInfo> bonus
     {
       get { return _bonus; }
