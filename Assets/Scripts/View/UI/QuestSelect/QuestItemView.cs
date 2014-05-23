@@ -74,8 +74,14 @@ public class QuestItemView : MonoBehaviour {
 		expLabel.text = data.RewardExp.ToString();
 		coinLabel.text = data.RewardMoney.ToString();
 		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageID, data.ID);
+
 		/*Debug.Log("QuestItemView.ShowQuestInfo(), stageID = " + stageID + ", questID = " + data.ID 
 		          + ", isClear = " + isClear);*/
+
+		if (DataCenter.gameState == GameState.Evolve) {
+			isClear = false;
+		}
+
 		clearFlagLabel.enabled = isClear;
 
 		TUnitInfo bossUnitInfo = DataCenter.Instance.GetUnitInfo(data.BossID[ 0 ]);
@@ -106,7 +112,6 @@ public class QuestItemView : MonoBehaviour {
 	}
 
 	private void ClickItem(GameObject item){
-		//Debug.Log(string.Format("QuestItemView.ClickItem(), Picking quest...questID is {0}, quest name is : {1}", data.ID, data.Name));
 		QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
 		ConfigBattleUseData.Instance.currentStageInfo = stageInfo;
 		ConfigBattleUseData.Instance.currentQuestInfo = data;

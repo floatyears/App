@@ -13,7 +13,7 @@ public class HttpManager : INetSendPost {
         }
     }
 
-//    public static string baseUrl = "http://127.0.0.1:6666/";
+//  public static string baseUrl = "http://127.0.0.1:6666/";
     public static string baseUrl = "http://107.170.243.127:6666/";
 
     private List<IWWWPost> wwwRequst = new List<IWWWPost>();
@@ -77,10 +77,10 @@ public class HttpManager : INetSendPost {
                 IWWWPost post = wwwRequst[i];
                 wwwRequst.RemoveAt(i);
                 OpenMsgWindowByError(www.error, post);
-                //                LogHelper.Log("HttpUpdate(), received error, {0}", www.error);
+                //LogHelper.Log("HttpUpdate(), received error, {0}", www.error);
             }
             else {
-//                LogHelper.Log("HttpUpdate(), not done or done and error");
+				//LogHelper.Log("HttpUpdate(), not done or done and error");
             }
         }
     }
