@@ -18,9 +18,9 @@ public class QuestSelectView : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.GetQuestInfo, GetQuestInfo);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectStage, EvolveSelectStage);
 	}
-
+	
 	private void ShowUIAnimation(){
-		gameObject.transform.localPosition = new Vector3(-1000, -555, 0);
+		gameObject.transform.localPosition = new Vector3(-1000, -529, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
 	}
 	
