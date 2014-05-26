@@ -916,25 +916,32 @@ enum EBonusType{
     CHAIN_LOGIN = 1;
     TOTAL_LOGIN = 2;
     RANK_REACH  = 3;
+    COMPENSATION  = 4;
+    OTHER_EVENT  = 5;
 }
 
-enum EBonusContent {
+enum EGiftContent {
     COIN            = 1;
     FRIEND_POINT    = 2;
     CHIP            = 3;
     UNIT            = 4;
 }
 
+message GiftItem {
+    optional int32      	content				= 1; //coin, friendPoint, chip, unit
+    optional int32		    value				= 2; //unitId
+    optional int32		    count				= 3; //
+}
+
 message BonusInfo {
     optional int32          id                  = 1;
-    optional EBonusType     type    			= 2; //chainLogin, totalLogin, RankReach
-    optional EBonusContent	content				= 3; //coin, friendPoint, chip, unit
-	optional int32		    value				= 4; //unitId
-    optional int32		    count				= 5; //
-	optional int32		    matchValue			= 6; //
-    optional uint32         validTime           = 7;
-    optional string         message				= 8; //optional
-    optional int32		    tag					= 9; //
+    optional int32          type    			= 2; //chainLogin, totalLogin, RankReach
+	optional int32		    matchValue			= 3; //
+    optional uint32         validTime           = 4;
+    optional string         message				= 5; //optional
+    repeated GiftItem       giftItem            = 6;
+    optional int32		    enabled 			= 7; //
+    optional int32		    tag					= 8; //
 }
 
 message LoginInfo {
