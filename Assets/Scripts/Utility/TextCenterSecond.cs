@@ -70,7 +70,9 @@ public partial class TextCenter {
 		textDict.Add(TextConst.SCENE_NAME_UNIT_SELL, "UNIT SELL");
 		textDict.Add(TextConst.SCENE_NAME_YOUR_ID, "YOUR ID");
 		textDict.Add(TextConst.SCENE_NAME_RESULT, "RESULT");
-		textDict.Add(TextConst.SCENE_NAME_UNIT_LIST, "UNIT_LIST");
+		textDict.Add(TextConst.SCENE_NAME_UNIT_LIST, "UNIT LIST");
+		textDict.Add(TextConst.SCENE_NAME_OPERATION_NOTICE,"Operation Notice");
+		textDict.Add(TextConst.SCENE_NAME_REWARD, "Reward");
 	}
 }
 

@@ -224,9 +224,9 @@ public class NGUISettings
 	}
 
 #if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
-	static public Sprite sprite2D
+	static public UnityEngine.Sprite sprite2D
 	{
-		get { return Get<Sprite>("NGUI Sprite2D", null); }
+		get { return Get<UnityEngine.Sprite>("NGUI Sprite2D", null); }
 		set { Set("NGUI Sprite2D", value); }
 	}
 #endif

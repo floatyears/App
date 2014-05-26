@@ -5,8 +5,9 @@ message StatAuthUser {
 	optional string			terminal			= 1;
 	optional uint32			selectRole			= 2;
 	optional int32			channelId			= 3;
+    optional int32			isNewUser			= 4;
 
-	optional uint32			timeStamp			= 5;
+    optional uint32			timeStamp			= 5;
 	optional uint32			userId				= 6;
 	optional int32			errorCode			= 7;
 }

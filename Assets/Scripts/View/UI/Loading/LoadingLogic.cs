@@ -46,7 +46,6 @@ public class LoadingLogic : ConcreteComponent {
     void LoginSuccess(object data) {
         if (data != null) {
             rspAuthUser = data as bbproto.RspAuthUser;
-//			Debug.LogError(rspAuthUser.user.userId);
             if (rspAuthUser == null) {
 				Debug.LogError("authUser response rspAuthUser == null");
                 return;
@@ -67,19 +66,20 @@ public class LoadingLogic : ConcreteComponent {
             
             //TODO: update localtime with servertime
             //localTime = rspAuthUser.serverTime
-            
+
             //save to GlobalData
             if (rspAuthUser.account != null) {
                 DataCenter.Instance.AccountInfo = new TAccountInfo(rspAuthUser.account);
             }
             
             if (rspAuthUser.user != null) {
-                DataCenter.Instance.UserInfo = new TUserInfo(rspAuthUser.user);
+				Debug.Log("authUser response userId:" + rspAuthUser.user.userId);
+
+				DataCenter.Instance.UserInfo = new TUserInfo(rspAuthUser.user);
                 if (rspAuthUser.evolveType != null) {
                     DataCenter.Instance.UserInfo.EvolveType = rspAuthUser.evolveType;
                 }
                 
-                LogHelper.Log("authUser response userId:" + rspAuthUser.user.userId);
             }
             else {
 				Debug.LogError("authUser response rspAuthUser.user == null");
@@ -90,7 +90,6 @@ public class LoadingLogic : ConcreteComponent {
                 foreach (FriendInfo fi in rspAuthUser.friends) {
                     TFriendInfo tfi = new TFriendInfo(fi);
                     DataCenter.Instance.SupportFriends.Add(tfi);
-//					Debug.LogError(tfi + "  FriendInfo : " + fi + " UserUnit : " + tfi.UserUnit) ;
 					DataCenter.Instance.UserUnitList.Add(tfi.UserId, tfi.UserUnit.ID, tfi.UserUnit);
                 }
             }
@@ -133,6 +132,7 @@ public class LoadingLogic : ConcreteComponent {
 			if( rspAuthUser.login != null){
 				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
 			}
+			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = (NoviceGuideStage)rspAuthUser.userGuideStep;
 
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
@@ -165,6 +165,12 @@ public class LoadingLogic : ConcreteComponent {
 		UIManager.Instance.ChangeScene(SceneEnum.Start);
 
 		UIManager.Instance.ChangeScene(SceneEnum.Home);
+
+		LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
+		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
+			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+		}
+
 		if (rspAuthUser.isNewUser == 1){
 			TurnToReName();
 		}
@@ -178,6 +184,7 @@ public class LoadingLogic : ConcreteComponent {
 
 	void RecoverParty() {
 		GameState gs = (GameState)ConfigBattleUseData.Instance.gameState;
+//		Debug.LogError ("gs : " + gs);
 		if (gs == GameState.Evolve) {
 			TPartyInfo tpi = DataCenter.Instance.PartyInfo;
 			tpi.CurrentPartyId = tpi.AllParty.Count;
@@ -188,6 +195,7 @@ public class LoadingLogic : ConcreteComponent {
 
 	void Cancel(object data) {
 		ConfigBattleUseData.Instance.ClearData ();
+		ConfigBattleUseData.Instance.gameState = (byte)GameState.Normal;
 		EnterGame();
 	}
 

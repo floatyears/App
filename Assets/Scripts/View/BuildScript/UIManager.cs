@@ -284,7 +284,14 @@ public class UIManager {
 			temp = new QuestSelectDecorator( sEnum );
 			break;
 
+		case SceneEnum.OperationNotice:
+			temp = new OperationNoticeDecorator(sEnum);
+			break;
+		case SceneEnum.Reward:
+			temp = new RewardDecorator(sEnum);
+			break;
         }
+
 		if (temp != null) {
 			temp.SetDecorator (baseScene);
 			temp.DecoratorScene ();

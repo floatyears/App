@@ -113,8 +113,9 @@ public class UIConfig{
 	public const int otherMusicSettingIndex = 1;
 	public const string otherMusicSettingName = "Music";
 
-	
+	public const string operationNoticeWindowName = "OperationNoticeView";
 
+	public const string rewardViewName = "RewardView";
 }
 
 
