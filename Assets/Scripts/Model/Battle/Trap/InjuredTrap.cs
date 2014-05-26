@@ -118,7 +118,7 @@ public class TrapBase : ProtobufDataBase ,ITrapExcute{
 		}
 	}
 	protected int trapEffectType = -1;
-	protected int trapValueIndex = -1;   
+	protected int trapValueIndex = -1;
 
 	public ETrapType GetTrapType () {
 		return GetTrap.trapType;
@@ -135,14 +135,14 @@ public class TrapBase : ProtobufDataBase ,ITrapExcute{
 		}
 	}
 
-	public static string GetTrapSpriteName (TrapBase tb) {
+	public string GetTrapSpriteName () {
 		string spriteName = "";
-		switch (tb.instance.trapType) {
+		switch (instance.trapType) {
 		case ETrapType.Move:
-			spriteName = MoveTrapName(tb.instance.effectType);
+			spriteName = MoveTrapName(instance.effectType);
 			break;
 		case ETrapType.Injured:
-			spriteName = InjuredTrapName(tb.instance.effectType);
+			spriteName = InjuredTrapName(instance.effectType);
 			break;
 		case ETrapType.StateException:
 			spriteName = "PoisonTrap";
@@ -156,19 +156,89 @@ public class TrapBase : ProtobufDataBase ,ITrapExcute{
 		return spriteName;
 	}
 
+	public string GetItemName() {
+		string itemName = "";
+		switch (instance.trapType) {
+		case ETrapType.Move:
+			itemName = MoveItemTrapName(instance.effectType);
+			break;
+		case ETrapType.Injured:
+			itemName = InjuredItemTrapName(instance.effectType);;
+			break;
+		case ETrapType.StateException:
+			itemName = "Poison";
+			break;
+		case ETrapType.ChangeEnvir:
+			itemName = "Shield";
+			break;
+		default:
+			break;
+		}
+		return itemName;
+	}
+
+	public string GetTypeName() {
+		string typeName = "";
+		switch (instance.trapType) {
+		case ETrapType.Move:
+			typeName = "Move";
+			break;
+		case ETrapType.Injured:
+			typeName = "Injured";
+			break;
+		case ETrapType.StateException:
+			typeName = "StateException";
+			break;
+		case ETrapType.ChangeEnvir:
+			typeName = "Environment";
+			break;
+		default:
+			break;
+		}
+		return typeName;
+	}
+
 	#region ITrapExcute implementation
 
-	public virtual void Excute ()
-	{
+	public virtual void Excute () {
 
 	}
 
-	public virtual void ExcuteByDisk ()
-	{
+	public virtual void ExcuteByDisk () {
 
 	}
 
 	#endregion
+
+	string MoveItemTrapName(int effectType) {
+		switch (effectType) {
+		case 1:
+			return "Prev";
+		case 2:
+			return "Random";
+		case 3:
+			return "Start";
+		default:
+			return "";
+				
+		}
+	}
+
+	string InjuredItemTrapName(int effectType) {
+		if (effectType == 1) {
+			return "Mine";
+		}
+		if (effectType == 2) {
+			return "Trapping";
+		}
+		if (effectType == 3) {
+			return "Hungry";
+		}
+		if (effectType == 4) {
+			return "LostMoney";
+		}
+		return "";
+	}
 
 	static string MoveTrapName(int effectType) {
 		if (effectType == 1) {

@@ -127,6 +127,8 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, BattleFail);
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 		MsgCenter.Instance.AddListener (CommandEnum.ShowActiveSkill, ShowActiveSkill);
+		MsgCenter.Instance.AddListener (CommandEnum.ShowPassiveSkill, ShowPassiveSkill);
+
 		if (configBattleUseData.hasBattleData ()) {
 			ContineBattle ();
 		} else {
@@ -150,6 +152,7 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowActiveSkill, ShowActiveSkill);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ShowPassiveSkill, ShowPassiveSkill);
 	}
 	
 	void LeaderSkillEnd(object data) {
@@ -167,7 +170,7 @@ public class BattleQuest : UIBase {
 		if (ai == null) {
 			return;		
 		}
-		attackEffect.RefreshItem (ai);
+		attackEffect.RefreshItem (ai.UserUnitID);
 	}
 
 	void RecoverHP(object data) {
@@ -175,7 +178,7 @@ public class BattleQuest : UIBase {
 		if (ai == null) {
 			return;		
 		}
-		attackEffect.RefreshItem (ai);
+		attackEffect.RefreshItem (ai.UserUnitID);
 	}
 
 	void ShowActiveSkill(object data) {
@@ -184,6 +187,14 @@ public class BattleQuest : UIBase {
 			return;		
 		}
 		attackEffect.PlayActiveSkill (ai);
+	}
+
+	void ShowPassiveSkill(object data) {
+		TUserUnit uu = data as TUserUnit;
+		if (uu == null) {
+			return;		
+		}
+		attackEffect.RefreshItem (uu.MakeUserUnitKey ());
 	}
 	
 	void Reset () {
@@ -462,7 +473,9 @@ public class BattleQuest : UIBase {
 					break;
 			case EQuestGridType.Q_TRAP:
 					BattleMap.waitMove = true;
-					battleMap.RotateAnim (MapItemTrap);
+					battleMap.RotateAnim (null);
+					MsgCenter.Instance.Invoke(CommandEnum.ShowTrap, currentMapData.TrapInfo);
+					GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemTrap);
 					break;
 			case EQuestGridType.Q_QUESTION:
 					BattleMap.waitMove = true;

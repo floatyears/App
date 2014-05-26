@@ -116,7 +116,7 @@ public class MapItem : UIBaseUnity {
 				}
 				break;
 			case bbproto.EQuestGridType.Q_TRAP:
-				backSpriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
+				backSpriteName = gridItem.TrapInfo.GetTrapSpriteName();
 				break;
 			case bbproto.EQuestGridType.Q_TREATURE:
 				backSpriteName = "S";

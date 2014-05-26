@@ -164,6 +164,8 @@ public enum CommandEnum{
 	EvolveFriend				= 3057,
 	UnitMaterialList 			= 3058,
 	ShowActiveSkill,
+	ShowPassiveSkill,
+	ShowTrap,
 	EvolveStart,
 	EvolveSelectStage,
 	ReturnPreScene,
@@ -176,6 +178,7 @@ public enum CommandEnum{
 	ReduceActiveSkillRound,
 	//BattleStart,
 	UseLeaderSkill,
+
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,

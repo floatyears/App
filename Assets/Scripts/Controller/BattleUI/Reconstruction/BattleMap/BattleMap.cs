@@ -186,10 +186,8 @@ public class BattleMap : UIBaseUnity {
 
 	public Queue<MapItem> AttakAround(Coordinate coor) {
 		List<MapItem> temp = GetAround (coor);
-
 		Queue<MapItem> mapItem = new Queue<MapItem> ();
 		foreach (var item in temp) {
-//			item.AddSecurityLevel();
 			if(item.GetChainLinke()) {
 				item.isLockAttack = true;
 				mapItem.Enqueue(item);

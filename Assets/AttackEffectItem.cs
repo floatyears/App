@@ -9,7 +9,7 @@ public class AttackEffectItem : MonoBehaviour {
 
 	private Callback callback;
 
-	public void RefreshInfo(AttackInfo ai, Callback cb) {
+	public void RefreshInfo(string userUnitID, Callback cb) {
 		if (backGroundSprite == null) {
 			backGroundSprite = GetComponent<UISprite>();
 			avatarTexture = transform.Find("Avatar").GetComponent<UITexture>();		
@@ -18,7 +18,7 @@ public class AttackEffectItem : MonoBehaviour {
 			dropEndPosition = new Vector3 (moveEndPosition.x, BattleCardArea.endPosition.y, BattleCardArea.endPosition.z - 10f) ;
 		}
 		callback = cb;
-		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (ai.UserUnitID);
+		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (userUnitID);
 		backGroundSprite.spriteName = tuu.UnitType.ToString ();
 		avatarTexture.mainTexture =  tuu.UnitInfo.GetAsset (UnitAssetType.Avatar);
 		Tween ();

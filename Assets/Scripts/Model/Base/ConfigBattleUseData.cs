@@ -85,7 +85,6 @@ public class ConfigBattleUseData {
 		get { return _trapPoison; }
 		set { _trapPoison = value;
 			TrapInfo ti = _trapPoison == null ? null :  _trapPoison.GetTrap;
-//			Debug.LogError("write buff trap poison ");
 			WriteBuff<TrapInfo>(trapPoisonName, ti);
 		}
 	}
