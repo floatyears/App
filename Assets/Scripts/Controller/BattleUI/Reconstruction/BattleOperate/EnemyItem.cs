@@ -27,9 +27,12 @@ public class EnemyItem : UIBaseUnity {
 
 	private UILabel stateLabel;
 
+	private UISprite stateExceptionSprite;
+	private Dictionary<StateEnum, GameObject> stateCache = new Dictionary<StateEnum, GameObject> ();
+	private Vector3 initStateExceptionSprite;
+	
 	[HideInInspector]
 	public BattleEnemy battleEnemy;
-//	public GameObject prevEffect = null;
 
     void OnEnable() {
         MsgCenter.Instance.AddListener(CommandEnum.EnemyAttack, EnemyAttack);
@@ -43,7 +46,7 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void OnDisable() {
-        MsgCenter.Instance.RemoveListener(CommandEnum.EnemyAttack, EnemyAttack);
+		MsgCenter.Instance.RemoveListener(CommandEnum.EnemyAttack, EnemyAttack);
         MsgCenter.Instance.RemoveListener(CommandEnum.EnemyRefresh, EnemyRefresh);
         MsgCenter.Instance.RemoveListener(CommandEnum.EnemyDead, EnemyDead);
         MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemy, Attack);
@@ -58,6 +61,12 @@ public class EnemyItem : UIBaseUnity {
 		if (reduceDefense == null) {
             return;
         }
+
+		if (reduceDefense.AttackRound == 0) {
+			ShowStateException (StateEnum.ReduceDefense, true); 	// remove 		
+		} else {
+			ShowStateException(StateEnum.ReduceDefense);
+		}
     }
 
     Queue<AttackInfo> attackQueue = new Queue<AttackInfo>();
@@ -143,7 +152,9 @@ public class EnemyItem : UIBaseUnity {
         }
         Debug.Log("play posion animation");
 		Debug.Log("posion round : " + posionAttack.AttackRound);
-		stateLabel.text = "positon : " + posionAttack.AttackRound;
+//		stateLabel.text = "positon : " + posionAttack.AttackRound;
+
+		ShowStateException (StateEnum.Poison);
     }
 
     void SkillPosion(object data) {
@@ -152,11 +163,13 @@ public class EnemyItem : UIBaseUnity {
             return;	
         }
 		if (ai.AttackRound == 0) {
-			stateLabel.text = "";
+//			stateLabel.text = "";
+			ShowStateException (StateEnum.Poison,true);
 		} else {
-			stateLabel.text = "positon : " + posionAttack.AttackRound;
+//			stateLabel.text = "positon : " + posionAttack.AttackRound;
+			ShowStateException (StateEnum.Poison);
 		}
-        Debug.Log("posion round : " + ai.AttackRound);
+//        Debug.Log("posion round : " + ai.AttackRound);
     }
 	
     public void Init(TEnemyInfo te) {
@@ -180,6 +193,9 @@ public class EnemyItem : UIBaseUnity {
 
 		stateSprite = FindChild<UISprite>("StateSprite");
 		stateSprite.spriteName = string.Empty;
+
+		stateExceptionSprite = FindChild<UISprite>("StateExceptionSprite");
+		initStateExceptionSprite = stateExceptionSprite.transform.localPosition;
 
 		enemyUnitInfo = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
 		Texture2D tex = enemyUnitInfo.GetAsset(UnitAssetType.Profile);
@@ -272,7 +288,6 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void SetData(TEnemyInfo seu) {
-//		Debug.LogError ("id : " + seu.EnemyID + " seu.initBlood " + seu.initBlood + " SetData : " + seu.GetInitBlood ());
 		bloodSprite.fillAmount =(float)seu.initBlood / seu.GetInitBlood();
 		SetNextLabel(seu.initAttackRound);
     }
@@ -297,4 +312,46 @@ public class EnemyItem : UIBaseUnity {
     void SetNextLabel(int seu) {
         nextLabel.text = "Next : " + seu;
     }
+
+	void ShowStateException(StateEnum se, bool clear = false) {
+		if (se == StateEnum.None) {
+			return;	
+		}
+
+		if (stateCache.ContainsKey (se)) {
+			if (clear) {
+				GameObject go = stateCache [se];
+				Destroy (go);
+				stateCache.Remove (se);
+			}
+			return;
+		} 
+
+		if (clear) {
+			return;	
+		}
+
+		Transform ins = NGUITools.AddChild (stateExceptionSprite.transform.parent.gameObject, stateExceptionSprite.gameObject).transform;
+		UISprite sprite = ins.GetComponent<UISprite> ();
+		sprite.enabled = true;
+		ins.localPosition = initStateExceptionSprite;
+		foreach (var item in stateCache.Values) {
+			Vector3 localposition = ins.localPosition;
+			float distance = Vector3.Distance(localposition, item.transform.localPosition);
+			if(distance <= 2){	// deviation distance.
+				ins.localPosition = new Vector3(localposition.x - 30f, localposition.y, localposition.z); 
+			}
+			else{
+				break;
+			}
+		}
+		stateCache.Add (se, ins.gameObject);
+	}
+}
+
+public enum StateEnum {
+	None,
+	Poison,
+	ReduceDefense,
+	ReduceAttack,
 }
