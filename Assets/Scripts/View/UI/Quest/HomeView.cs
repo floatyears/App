@@ -109,13 +109,17 @@ public class HomeView : UIComponentUnity{
 	private void GetCityViewInfo(){
 		List<TCityInfo> data = DataCenter.Instance.GetCityListInfo();
 		for (int i = 0; i < data.Count; i++){
-			GameObject cityItem = transform.FindChild(i.ToString()).gameObject;
+			GameObject cityItem = transform.FindChild("StoryDoor/" + i.ToString()).gameObject;
 			if(cityItem == null){
 				Debug.LogError(string.Format("Resoures ERROR :: InitWorldMap(), Index[ {0} ] Not Found....!!!", i));
 				continue;
 			}
+			UIEventListener.Get(cityItem).onPress = PressStoryDoor;
 			cityViewInfo.Add(cityItem, data[ i ]);
 		}
+
+		eventRoot = transform.FindChild("EventDoor").gameObject;
+		UIEventListener.Get(eventRoot).onPress = PressEventDoor;
 	}
 
 
@@ -131,8 +135,6 @@ public class HomeView : UIComponentUnity{
 		foreach (var item in cityViewInfo){
 			UISprite bgSpr = item.Key.transform.FindChild("Background").GetComponent<UISprite>();
 			bgSpr.enabled = false;
-			
-			UIEventListener.Get(item.Key).onPress = PressCityItem;
 		}
 	}
 
@@ -140,15 +142,23 @@ public class HomeView : UIComponentUnity{
 	/// change scene to quest select with picked cityInfo
 	/// </summary>
 	/// <param name="item">Item.</param>
-	private void PressCityItem(GameObject item, bool isPressed){
-		//Debug.Log("QuestView.PressCityItem(), picked city's name is : " + item.name);
+	private void PressStoryDoor(GameObject item, bool isPressed){
 		UISprite bgSpr = item.transform.FindChild("Background").GetComponent<UISprite>();
 		bgSpr.enabled = isPressed;
 		if(!isPressed){
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
-			MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
+			MsgCenter.Instance.Invoke(CommandEnum.OnPickStoryCity, cityViewInfo[ item ].ID);
 			//Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
+		}
+	}
+
+	private void PressEventDoor(GameObject item, bool isPressed){
+		if(!isPressed){
+			Debug.Log("PressEventDoor()...");
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
+			MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
 		}
 	}
 
