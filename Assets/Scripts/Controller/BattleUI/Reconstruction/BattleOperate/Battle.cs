@@ -425,13 +425,19 @@ public class Battle : UIBase {
 				return;
 			if(tempCard.CanDrag) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
+
+				tempCard.OnPress(true, selectTarget.Count);
+				tempCard.ActorTexture.depth = tempCard.InitDepth;
+				selectTarget.Add(tempCard);
+
+				if(selectTarget.Count == 1) { //one select not effect.
+					return;
+				}
+
 				GameObject effect = EffectManager.Instance.GetEffectObject(EffectManager.DragCardEffect);
 				GameObject effectIns = EffectManager.InstantiateEffect(viewManager.EffectPanel, effect);
 				Transform card =  go.transform;
 				effectIns.transform.localPosition = card.localPosition + card.parent.parent.localPosition;
-				tempCard.OnPress(true, selectTarget.Count);
-				tempCard.ActorTexture.depth = tempCard.InitDepth;
-				selectTarget.Add(tempCard);
 			}
 		}
 	}
