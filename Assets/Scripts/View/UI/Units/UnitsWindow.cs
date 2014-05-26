@@ -2,24 +2,20 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class UnitsWindow : UIComponentUnity{
-	private UILabel pageIndexLabel;
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
-	private UILabel pageIndexSuffixLabel;
-	private UILabel rightIndexLabel;
+	private UISprite pageIndexSpr;
 	IUICallback iuiCallback;
 	private GameObject topRoot;
 	private GameObject bottomRoot;
 
 	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum>();
 	private Dictionary<int, PageUnitItem> partyItems = new Dictionary<int, PageUnitItem>();
-	public static Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitChildScenes();
 		iuiCallback = origin as IUICallback;
-		InitIndexTextDic();
 		InitPagePanel();
 	}
 	
@@ -37,7 +33,6 @@ public class UnitsWindow : UIComponentUnity{
 	}
 
 	public override void DestoryUI(){
-		partyIndexDic.Clear ();
 		base.DestoryUI();
 	}
 
@@ -76,9 +71,9 @@ public class UnitsWindow : UIComponentUnity{
 	
 	void ShowUIAnimation(){
 		topRoot.transform.localPosition = 1000 * Vector3.up;
-		bottomRoot.transform.localPosition = 1000 * Vector3.left;
-		iTween.MoveTo(topRoot, iTween.Hash("y", 0, "time", 0.4f));
-		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f));
+		bottomRoot.transform.localPosition = new Vector3(-1000, -165, 0);
+		iTween.MoveTo(topRoot, iTween.Hash("y", 230, "time", 0.4f, "islocal", true));
+		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 
 		//start units step
 		NoviceGuideStepEntityManager.Instance ().StartStep ();
@@ -87,9 +82,7 @@ public class UnitsWindow : UIComponentUnity{
 	private void InitPagePanel(){
 		topRoot = transform.FindChild("Top").gameObject;
 		bottomRoot = transform.FindChild("Bottom").gameObject;
-		pageIndexLabel = FindChild<UILabel>("Top/Label_Left/Label_Before");
-		pageIndexSuffixLabel = FindChild<UILabel>("Top/Label_Left/Label_After");
-		rightIndexLabel = FindChild<UILabel>("Top/Label_Cur_Party");
+		pageIndexSpr = transform.FindChild("Top/Sprite_Page_Index").GetComponent<UISprite>();
 		prePageBtn = FindChild<UIButton>("Top/Button_Left");
 		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
 		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
@@ -105,9 +98,7 @@ public class UnitsWindow : UIComponentUnity{
 	void RefreshParty(TUnitParty party){
 		List<TUserUnit> partyMemberList = party.GetUserUnit();
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
-		pageIndexLabel.text = curPartyIndex.ToString();
-		rightIndexLabel.text = curPartyIndex.ToString();
-		pageIndexSuffixLabel.text = partyIndexDic[ curPartyIndex ].ToString();
+		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
 
 		//Debug.Log("Current party's member count is : " + partyMemberList.Count);
 		for (int i = 0; i < partyMemberList.Count; i++){
@@ -125,13 +116,5 @@ public class UnitsWindow : UIComponentUnity{
 		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
 		RefreshParty(nextParty);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, nextParty);
-	}
-
-	public static void InitIndexTextDic() {
-		partyIndexDic.Add( 1, "st");
-		partyIndexDic.Add( 2, "nd");
-		partyIndexDic.Add( 3, "rd");
-		partyIndexDic.Add( 4, "th");
-		partyIndexDic.Add( 5, "th");
 	}
 }

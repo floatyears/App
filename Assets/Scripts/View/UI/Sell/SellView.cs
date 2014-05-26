@@ -86,7 +86,7 @@ public class SellView : UIComponentUnity{
 	void ShowLastSureWindow(object args){
 		mainRoot.SetActive(false);
 		submitRoot.SetActive(true);
-		submitRoot.transform.localPosition = new Vector3(-1000, -200, 0);
+		submitRoot.transform.localPosition = new Vector3(-1000, -215, 0);
 		iTween.MoveTo(submitRoot, iTween.Hash("x", 0, "time", 0.4f));
 
 		List<TUserUnit> readySaleList = args as List<TUserUnit>;
@@ -172,7 +172,7 @@ public class SellView : UIComponentUnity{
 	}
 	
 	void ShowUIAnimation(){
-		transform.localPosition = new Vector3(-1000, 267, 0);
+		transform.localPosition = new Vector3(-1000, -285, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
 	}
 
