@@ -142,10 +142,10 @@ public class HomeView : UIComponentUnity{
 	/// <param name="item">Item.</param>
 	private void PressCityItem(GameObject item, bool isPressed){
 		//Debug.Log("QuestView.PressCityItem(), picked city's name is : " + item.name);
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		UISprite bgSpr = item.transform.FindChild("Background").GetComponent<UISprite>();
 		bgSpr.enabled = isPressed;
 		if(!isPressed){
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
 			MsgCenter.Instance.Invoke(CommandEnum.TransPickedCity, cityViewInfo[ item ].ID);
 			//Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
