@@ -4,11 +4,11 @@
 </p>
 <p>
 	activeBlocks:
-	<%= select_tag :activeBlocks1,options_for_select({"请选择" => "请选择"}.merge(AllSkillConfig::EUNIT_TYPE),@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:activeBlocks).to_a[0] ) %>
-	<%= select_tag :activeBlocks2,options_for_select({"请选择" => "请选择"}.merge(AllSkillConfig::EUNIT_TYPE),@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:activeBlocks).to_a[1] ) %>
-	<%= select_tag :activeBlocks3,options_for_select({"请选择" => "请选择"}.merge(AllSkillConfig::EUNIT_TYPE),@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:activeBlocks).to_a[2] ) %>
-	<%= select_tag :activeBlocks4,options_for_select({"请选择" => "请选择"}.merge(AllSkillConfig::EUNIT_TYPE),@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:activeBlocks).to_a[3] ) %>
-	<%= select_tag :activeBlocks5,options_for_select({"请选择" => "请选择"}.merge(AllSkillConfig::EUNIT_TYPE),@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:activeBlocks).to_a[4] ) %>
+	<%= select_tag :activeBlocks1,options_for_select({"select" => "select"}.merge(AllSkillConfig::EUNIT_TYPE),@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:activeBlocks).to_a[0] ) %>
+	<%= select_tag :activeBlocks2,options_for_select({"select" => "select"}.merge(AllSkillConfig::EUNIT_TYPE),@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:activeBlocks).to_a[1] ) %>
+	<%= select_tag :activeBlocks3,options_for_select({"select" => "select"}.merge(AllSkillConfig::EUNIT_TYPE),@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:activeBlocks).to_a[2] ) %>
+	<%= select_tag :activeBlocks4,options_for_select({"select" => "select"}.merge(AllSkillConfig::EUNIT_TYPE),@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:activeBlocks).to_a[3] ) %>
+	<%= select_tag :activeBlocks5,options_for_select({"select" => "select"}.merge(AllSkillConfig::EUNIT_TYPE),@all_skills.nil? ? "" : @all_skills.try(:Normal)[@index].try(:activeBlocks).to_a[4] ) %>
 </p>
 
 <p>

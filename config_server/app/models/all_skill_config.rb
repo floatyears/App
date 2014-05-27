@@ -519,11 +519,11 @@ class AllSkillConfig
   
   def self.build_active_blocks(p1,p2,p3,p4,p5)
     active_blocks = []
-    active_blocks << p1.to_i if p1 != "请选择"
-    active_blocks << p2.to_i if p2 != "请选择"
-    active_blocks << p3.to_i if p3 != "请选择"
-    active_blocks << p4.to_i if p4 != "请选择"
-    active_blocks << p5.to_i if p5 != "请选择"
+    active_blocks << p1.to_i if p1 != "select"
+    active_blocks << p2.to_i if p2 != "select"
+    active_blocks << p3.to_i if p3 != "select"
+    active_blocks << p4.to_i if p4 != "select"
+    active_blocks << p5.to_i if p5 != "select"
     active_blocks
   end
   
