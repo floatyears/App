@@ -12,7 +12,7 @@ public class FriendHelperView : UIComponentUnity{
 		base.Init(config, origin);
 		InitUI();
 	}
-	
+
 	public override void ShowUI() {
 		base.ShowUI();
 		AddCmdListener();

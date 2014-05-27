@@ -17,6 +17,7 @@ public class ConfigDragPanel{
 	public static Dictionary<string, object> QuestSelectDragPanelArgs = new Dictionary<string, object>();
 	public static Dictionary<string, object> LevelUpBaseDragPanelArgs = new Dictionary<string, object>();
 	public static Dictionary<string, object> LevelUpMaterialDragPanelArgs = new Dictionary<string, object>();
+	public static Dictionary<string, object> RewardListDragPanelArgs = new Dictionary<string, object>();
 
 	public ConfigDragPanel(){
 		float clipX;
@@ -40,6 +41,7 @@ public class ConfigDragPanel{
 		ConfigQuestSelectDragPanel();
 		ConfigLevelUpBaseDragPanel();
 		ConfigLevelUpMaterialDragPanel();
+		ConfigRewardListDragPanel ();
 	}
 
 	private void ConfigUnitListDragPanel(){
@@ -191,6 +193,20 @@ public class ConfigDragPanel{
 		CatalogDragPanelArgs.Add("cellWidth", 							120											);
 		CatalogDragPanelArgs.Add("cellHeight",							120											);
 		CatalogDragPanelArgs.Add("maxPerLine",							5												);
+	}
+
+	private void ConfigRewardListDragPanel(){
+		RewardListDragPanelArgs.Add("scrollerLocalPos",					-100 * Vector3.up							);
+		RewardListDragPanelArgs.Add("position", 								Vector3.zero								);
+		RewardListDragPanelArgs.Add("clipRange", 							new Vector4(0, -235, 640, 640)		);
+		RewardListDragPanelArgs.Add("gridArrange", 						UIGrid.Arrangement.Horizontal		);
+		RewardListDragPanelArgs.Add("scrollBarPosition",					new Vector3(-320, -565, 0)			);
+		RewardListDragPanelArgs.Add("cellWidth", 							120											);
+		RewardListDragPanelArgs.Add("cellHeight",							110											);
+		RewardListDragPanelArgs.Add("maxPerLine",							1												);
+		RewardListDragPanelArgs.Add ("scrollMovement", 					UIScrollView.Movement.Vertical);
+		RewardListDragPanelArgs.Add ("scrollBarDir", 					UIProgressBar.FillDirection.TopToBottom);
+		RewardListDragPanelArgs.Add ("ScrollViewDepth",					3);
 	}
 
 }
