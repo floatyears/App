@@ -53,8 +53,9 @@ public class RewardView : UIComponentUnity {
 	private void InitData(){
 		Debug.Log ("Bonus Info: " + DataCenter.Instance.LoginInfo.Bonus.Count);
 		foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
-
+			Debug.Log("Bonus Type: " + item.type);
 			if(item.type <= 3){
+
 				if(!aList.ContainsKey(item.type))
 					aList[item.type] = new List<BonusInfo>();
 				aList[item.type].Add(item);
@@ -108,7 +109,7 @@ public class RewardView : UIComponentUnity {
 			rewardItemView.Data = aList[currentContentIndex][i];
 		}
 
-		Debug.Log ("count: " + dragPanel.ScrollItem.Count + " ,"+ aList [currentContentIndex].Count);
+		//Debug.Log ("count: " + dragPanel.ScrollItem.Count + " ,"+ aList [currentContentIndex].Count);
 		if (dragPanel.ScrollItem.Count > aList [currentContentIndex].Count) {
 			for (int i = dragPanel.ScrollItem.Count-1; i >= aList [currentContentIndex].Count; i--) {
 				GameObject go = dragPanel.ScrollItem[i];

@@ -7,6 +7,7 @@ public class RewardItemView : MonoBehaviour {
 
 	private GameObject mask;
 	private GameObject btn;
+	private UILabel text;
 
 	private bool inited = false;
 
@@ -42,6 +43,7 @@ public class RewardItemView : MonoBehaviour {
 				itemList.Add (transform.FindChild ("Item3").gameObject);
 				btn = transform.FindChild("OkBtn").gameObject;
 				mask = transform.FindChild("Mask").gameObject;
+				text = transform.FindChild("Label").GetComponent<UILabel>();
 				//Debug.Log("scroll view: " + FindObjectOfType<UIScrollView>());
 				btn.GetComponent<UIDragScrollView>().scrollView = FindObjectOfType<UIScrollView>();
 				inited = true;
@@ -71,6 +73,20 @@ public class RewardItemView : MonoBehaviour {
 				
 				
 //				transform.
+			}
+			switch ((EBonusType)data.type) {
+			case EBonusType.CHAIN_LOGIN:
+				text.text = string.Format(TextCenter.Instace.GetCurrentText("ChainLogin"),data.matchValue);
+				break;
+			case EBonusType.TOTAL_LOGIN:
+				text.text = string.Format(TextCenter.Instace.GetCurrentText("TotalLogin"),data.matchValue);
+				break;
+			case EBonusType.RANK_REACH:
+				text.text = string.Format(TextCenter.Instace.GetCurrentText("RankReach"),data.matchValue);
+				break;
+			default:
+				text.text = "";
+			break;
 			}
 
 		}

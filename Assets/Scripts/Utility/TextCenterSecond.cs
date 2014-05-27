@@ -47,6 +47,10 @@ public partial class TextCenter {
 		textDict.Add("GotFriendPoint", "You have got {0} friend point.");
 		textDict.Add("TotalFriendPoint", "Total friend point you got now : {0}.");
 
+		textDict.Add ("ChainLogin","Chain Login {0}");
+		textDict.Add ("TotalLogin","Total Login {0}");
+		textDict.Add ("RankReach","Ran {0}");
+
 		textDict.Add(TextConst.SCENE_NAME_APPLY, "APPLY");
 		textDict.Add(TextConst.SCENE_NAME_CATALOG, "CATALOG");
 		textDict.Add(TextConst.SCENE_NAME_EVOLVE, "EVOLVE");
