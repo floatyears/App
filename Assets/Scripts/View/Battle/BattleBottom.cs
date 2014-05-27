@@ -83,7 +83,7 @@ public class BattleBottom : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonDown (0)) {
-			Debug.LogError ("onrealease : " + notClick);
+//			Debug.LogError ("onrealease : " + notClick);
 			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
 			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
 
