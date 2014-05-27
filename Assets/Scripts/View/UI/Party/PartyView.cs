@@ -505,6 +505,7 @@ public class PartyView : UIComponentUnity{
 	}
 
 	private void ShowUIAnimation(){
+		gameObject.transform.localPosition = new Vector3(0, -476, 0);
 		topRoot.transform.localPosition = 1000 * Vector3.up;
 		bottomRoot.transform.localPosition = new Vector3(-1000, -45, 0);
 		iTween.MoveTo(topRoot, iTween.Hash("y", 230, "time", 0.4f,"islocal", true));
