@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class FriendDecoratorUnity : UIComponentUnity {
-
     Dictionary< GameObject, SceneEnum > btns = new Dictionary< GameObject, SceneEnum >();
     SceneEnum nextScene;
 	
@@ -13,7 +12,7 @@ public class FriendDecoratorUnity : UIComponentUnity {
 	
     public override void ShowUI() {
         base.ShowUI();
-        ShowTween();
+        ShowUIAnimation();
     }
 	
     public override void HideUI() {
@@ -38,26 +37,26 @@ public class FriendDecoratorUnity : UIComponentUnity {
         }
         
     }
-
+	
     private void InitUI() {
         GameObject go;
 
-        go = FindChild("BtnList_Window/ImgBtn_FriendList");
+        go = FindChild("ImgBtn_FriendList");
         btns.Add(go, SceneEnum.FriendList);
 
-        go = FindChild("BtnList_Window/ImgBtn_Information");
+        go = FindChild("ImgBtn_Information");
         btns.Add(go, SceneEnum.Information);
 
-        go = FindChild("BtnList_Window/ImgBtn_SearchFriend");
+        go = FindChild("ImgBtn_SearchFriend");
         btns.Add(go, SceneEnum.SearchFriend);
 
-        go = FindChild("BtnList_Window/ImgBtn_Apply");
+        go = FindChild("ImgBtn_Apply");
         btns.Add(go, SceneEnum.Apply);
 
-        go = FindChild("BtnList_Window/ImgBtn_Reception");
+        go = FindChild("ImgBtn_Reception");
         btns.Add(go, SceneEnum.Reception);
 
-        go = FindChild("BtnList_Window/ImgBtn_YourID");
+        go = FindChild("ImgBtn_YourID");
         btns.Add(go, SceneEnum.YourID);
 
         foreach (var btn in btns.Keys) {
@@ -94,17 +93,9 @@ public class FriendDecoratorUnity : UIComponentUnity {
         UIManager.Instance.ChangeScene(nextScene);
     }
 
-    void ShowTween() {
-        TweenPosition[ ] list = 
-			gameObject.GetComponentsInChildren< TweenPosition >();
-        if (list == null)
-            return;
-        foreach (var tweenPos in list) {		
-            if (tweenPos == null)
-                continue;
-            tweenPos.Reset();
-            tweenPos.PlayForward();
-        }
+    void ShowUIAnimation(){
+       	gameObject.transform.localPosition = new Vector3(-1000, -645, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
     }
 
 }

@@ -57,7 +57,6 @@ public class SellController : ConcreteComponent {
 		bbproto.RspSellUnit rsp = data as bbproto.RspSellUnit;
 		
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-//			LogHelper.Log("RspSellUnit code:{0}, error:{1}", rsp.header.code, rsp.header.error);
             ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 			return;
 		}
@@ -65,18 +64,13 @@ public class SellController : ConcreteComponent {
 		int money = rsp.money;
 		int gotMoney = rsp.gotMoney;
 		List<UserUnit> unitList = rsp.unitList;
-//		LogHelper.Log("OnRspSellUnit() finished, money {0}, gotMoney {1}, unitList {2}" , money, gotMoney, unitList);
 
 		DataCenter.Instance.AccountInfo.Money = rsp.money;
-		
-//		LogHelper.LogError("before sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
-//		DataCenter.Instance.MyUnitList.DelMyUnitList(GetOnSaleUnitIDList());
+
 		DataCenter.Instance.UserUnitList.DelMyUnitList(GetOnSaleUnitIDList());
 
-//		LogHelper.LogError("after sell, userUnitList count {0}", DataCenter.Instance.MyUnitList.GetAll().Count);
 		UpdateViewAfterRspSellUnit();
 
-//		RefreshOwnedUnitCount();
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_sold_out);
 	}
 
@@ -129,12 +123,10 @@ public class SellController : ConcreteComponent {
 	List<uint> GetOnSaleUnitIDList(){
 		List<uint> idList = new List<uint>();
 		for (int i = 0; i < pickedUnitList.Count; i++){
-//			Debug.LogError("GetOnSaleUnitIDList(), idList.Add(pickedUnitList[ i ].UnitID " + pickedUnitList[ i ].UnitID);
 
 			if(pickedUnitList[ i ] != null)
 				idList.Add(pickedUnitList[ i ].ID);
 		}
-//		Debug.LogError("GetOnSaleUnitIDList(), count is " + idList.Count);
 		return idList;
 	}
 
@@ -159,17 +151,29 @@ public class SellController : ConcreteComponent {
 		return noteSignal;
 	}
 
+
+	private List<TUserUnit> curUseUnitList;
 	void GetUnitCellViewList(){
 		List<TUserUnit> userUnitList = new List<TUserUnit>();	
-//		if (onSaleUnitList.Count > 0) onSaleUnitList.Clear();
 		userUnitList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", userUnitList);
-		ExcuteCallback(cbdArgs);
-//		Debug.LogError("GetUnitCellViewList(), onSaleUnitList count is : " + onSaleUnitList.Count);
+		if(curUseUnitList == null){
+			curUseUnitList = userUnitList;
+			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
+			ExcuteCallback(cbdArgs);
+		}
+		else if(!curUseUnitList.Equals(userUnitList)){
+			curUseUnitList = userUnitList;
+			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
+			ExcuteCallback(cbdArgs);
+		}
+		else{
+			Debug.LogError("CurUserUnitList NOT CHANGED, do nothing!");
+			return;
+		}
+
+
 	}
-	
-	void CreateOnSaleUnitViewList(){}
-	
+
 	void DestoryOnSaleUnitViewList(){
 		totalSaleValue = 0;
 		pickedUnitList.Clear();
@@ -182,7 +186,6 @@ public class SellController : ConcreteComponent {
 	}
 
 	void CancelPick(int clickPos, TUserUnit info){
-//		Debug.LogError("CancelPick : .....");
 		int poolPos = pickedUnitList.IndexOf(info);
 		pickedUnitList[ poolPos ] = null;
 		CancelShowUnit(clickPos, poolPos);
@@ -190,9 +193,7 @@ public class SellController : ConcreteComponent {
 	}
 
 	void ChangeTotalSaleValue(int value){
-//		Debug.LogError("ChangeTotalSaleValue(), before TotalValue is " + totalSaleValue);
 		totalSaleValue += value;
-//		Debug.LogError("ChangeTotalSaleValue(), after TotalValue is " + totalSaleValue);
 		UpdateSaleValueView(totalSaleValue);
 	}
 
@@ -202,7 +203,6 @@ public class SellController : ConcreteComponent {
 	}
 
 	void Pick(int clickPos, TUserUnit info){
-//		Debug.LogError("Pick : .....");
 		int firstEmptyIndex = -1;
 		for (int i = 0; i < pickedUnitList.Count; i++){
 			if(pickedUnitList[ i ] == null){
@@ -211,7 +211,6 @@ public class SellController : ConcreteComponent {
 			}
 		}
 
-//		Debug.LogError("Pick() firstEmptyIndex " + firstEmptyIndex);
 		int pickedIndex;
 		if(firstEmptyIndex == -1){
 			pickedUnitList.Add(info);
@@ -251,7 +250,6 @@ public class SellController : ConcreteComponent {
 	}
 
 	void ShowPickedUnit(int clickPos, int poolPos, TUserUnit tuu){
-//		Debug.LogError("ShowPickedUnit....");
 		Texture2D tex2d = tuu.UnitInfo.GetAsset(UnitAssetType.Avatar);
 		string level = tuu.Level.ToString();
 		Dictionary<string, object> viewInfo = new Dictionary<string, object>();

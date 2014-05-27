@@ -21,9 +21,8 @@ public class ConfigDragPanel{
 
 	public ConfigDragPanel(){
 		float clipX;
-		UIRoot uiRoot = GameObject.Find("UI Root (2D)").GetComponent<UIRoot>();
+		UIRoot uiRoot = GameObject.Find("UI Root").GetComponent<UIRoot>();
 		manualHeight = uiRoot.manualHeight;
-		Debug.LogError("UIRoot.manualHeight == " + manualHeight);
 
 		Config();
 	}
@@ -83,12 +82,12 @@ public class ConfigDragPanel{
 	
 	private void ConfigHelperListDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), HelperListDragPanelArgs...");
-		HelperListDragPanelArgs.Add("scrollerLocalPos",			 Vector3.zero								);
+		HelperListDragPanelArgs.Add("scrollerLocalPos",			 Vector3.zero									);
 		HelperListDragPanelArgs.Add("position", 						 Vector3.zero									);
 		HelperListDragPanelArgs.Add("gridArrange", 				 UIGrid.Arrangement.Horizontal		);
 		HelperListDragPanelArgs.Add("scrollMovement", 			 UIScrollView.Movement.Vertical		);
 		HelperListDragPanelArgs.Add("maxPerLine", 					 1													);
-		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, 0, 640, manualHeight - 270));
+		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, -30, 640, manualHeight - 290));
 		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(1280, 1350, 0)				);
 		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
 		HelperListDragPanelArgs.Add("cellHeight", 					 120												);
@@ -136,9 +135,9 @@ public class ConfigDragPanel{
 		//Debug.Log("ConfigDragPanel.Config(), PartyListDragPanelArgs...");
 		PartyListDragPanelArgs.Add("scrollerLocalPos",				  Vector3.zero									);
 		PartyListDragPanelArgs.Add("position", 							 Vector3.zero									);
-		PartyListDragPanelArgs.Add("clipRange", 						 new Vector4(0, -120, 640, 400)		);
+		PartyListDragPanelArgs.Add("clipRange", 						 new Vector4(0, -100, 640, 315)				);
 		PartyListDragPanelArgs.Add("gridArrange", 					 UIGrid.Arrangement.Vertical			);
-		PartyListDragPanelArgs.Add("scrollBarPosition",				 new Vector3(-320, -315, 0)				);
+		PartyListDragPanelArgs.Add("scrollBarPosition",				 new Vector3(-320, -272, 0)				);
 		PartyListDragPanelArgs.Add("cellWidth", 						 100												);
 		PartyListDragPanelArgs.Add("cellHeight",						 100												);
 		PartyListDragPanelArgs.Add("maxPerLine",					 3													);
@@ -159,12 +158,12 @@ public class ConfigDragPanel{
 	
 	private void ConfigQuestSelectDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), QuestSelectDragPanelArgs...");
-		QuestSelectDragPanelArgs.Add("scrollerLocalPos",			 	-85* Vector3.up							);
+		QuestSelectDragPanelArgs.Add("scrollerLocalPos",			 	Vector3.zero								);
 		QuestSelectDragPanelArgs.Add("position", 						Vector3.zero								);
 		QuestSelectDragPanelArgs.Add("gridArrange", 				 	UIGrid.Arrangement.Horizontal	);
 		QuestSelectDragPanelArgs.Add("scrollMovement", 			UIScrollView.Movement.Vertical	);
 		QuestSelectDragPanelArgs.Add("maxPerLine", 					1												);
-		QuestSelectDragPanelArgs.Add("clipRange", 					 	new Vector4(0, 62, 640, 813)		);
+		QuestSelectDragPanelArgs.Add("clipRange", 					 	new Vector4(0, -30, 640, manualHeight - 290));
 		QuestSelectDragPanelArgs.Add("scrollBarPosition",			 	new Vector3(1280, 1350, 0)			);
 		QuestSelectDragPanelArgs.Add("cellWidth", 					 	0												);
 		QuestSelectDragPanelArgs.Add("cellHeight", 					 	130											);
@@ -173,13 +172,13 @@ public class ConfigDragPanel{
 	
 	private void ConfigOnSaleUnitDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), OnSaleUnitDragPanelArgs...");
-		OnSaleUnitDragPanelArgs.Add("scrollerLocalPos",				-240 * Vector3.up						);
+		OnSaleUnitDragPanelArgs.Add("scrollerLocalPos",				-232 * Vector3.up						);
 		OnSaleUnitDragPanelArgs.Add("position", 						Vector3.zero								);
-		OnSaleUnitDragPanelArgs.Add("clipRange", 						new Vector4(0, -120, 640, 400)		);
+		OnSaleUnitDragPanelArgs.Add("clipRange", 						new Vector4(0, -100, 640, 350)		);
 		OnSaleUnitDragPanelArgs.Add("gridArrange", 					UIGrid.Arrangement.Vertical		);
-		OnSaleUnitDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -340, 0)			);
-		OnSaleUnitDragPanelArgs.Add("cellWidth", 						120											);
-		OnSaleUnitDragPanelArgs.Add("cellHeight",						120											);
+		OnSaleUnitDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -275, 0)			);
+		OnSaleUnitDragPanelArgs.Add("cellWidth", 						100											);
+		OnSaleUnitDragPanelArgs.Add("cellHeight",						100											);
 		OnSaleUnitDragPanelArgs.Add("maxPerLine",					3												);
 	}
 

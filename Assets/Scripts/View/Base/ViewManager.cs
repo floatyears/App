@@ -47,6 +47,8 @@ public class ViewManager {
 		get{ return parentPanel; }
 	}
 
+	public int manualHeight;
+
 	private GameObject effectPanel;
 	public GameObject EffectPanel {
 		get { return effectPanel; }
@@ -101,6 +103,7 @@ public class ViewManager {
 		trapLabel = mainUIRoot.transform.Find ("RootPanel/BottomLeft/Label").GetComponent<UILabel> ();
 
 		dynamicFont = Resources.Load("Font/Dimbo Regular", typeof(Font)) as Font;
+		manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
 	}
 
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
