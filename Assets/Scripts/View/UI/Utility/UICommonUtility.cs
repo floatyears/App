@@ -77,7 +77,6 @@ public class TouchEventBlocker{
 			}
 		}
 
-//		Test(result);
 		return result;
 	}
 	

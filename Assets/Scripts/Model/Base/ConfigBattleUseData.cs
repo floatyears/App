@@ -85,7 +85,6 @@ public class ConfigBattleUseData {
 		get { return _trapPoison; }
 		set { _trapPoison = value;
 			TrapInfo ti = _trapPoison == null ? null :  _trapPoison.GetTrap;
-//			Debug.LogError("write buff trap poison ");
 			WriteBuff<TrapInfo>(trapPoisonName, ti);
 		}
 	}
@@ -181,21 +180,17 @@ public class ConfigBattleUseData {
 		WriteToFile (battleData, storeBattleName);
 	}
 
-	public void StoreData () {
-		GameDataStore.Instance.StoreDataNoEncrypt (GameDataStore.battleStore, isBattle);
+	public void StoreData (uint questID) {
+		int id = (int)questID;
+		GameDataStore.Instance.StoreIntDatNoEncypt (GameDataStore.battleStore, id);
 	}
 
 	public void ClearData () {
-		GameDataStore.Instance.DeleteInfo (GameDataStore.battleStore);
+		GameDataStore.Instance.StoreIntDatNoEncypt (GameDataStore.battleStore, 0);
 	}
 
-	public bool hasBattleData () {
-		string value = GameDataStore.Instance.GetDataNoEncrypt (GameDataStore.battleStore);
-		if (string.IsNullOrEmpty (value)) {
-			return false;
-		} else {
-			return true;
-		}
+	public int hasBattleData () {
+		return GameDataStore.Instance.GetIntDataNoEncypt (GameDataStore.battleStore);
 	}
 
 	public void ClearActiveSkill() {

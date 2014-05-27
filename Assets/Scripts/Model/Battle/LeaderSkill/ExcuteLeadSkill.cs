@@ -17,14 +17,12 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		foreach (var item in leadSkill.LeadSkill) {
 			temp++;
 			leaderSkillQueue.Enqueue(item.Key);
-//			Debug.LogError("Excute : " + item.Key);
 			GameTimer.GetInstance().AddCountDown(temp*time, ExcuteStartLeaderSkill);
 		}
 	}
 
 	void ExcuteStartLeaderSkill() {
 		string key = leaderSkillQueue.Dequeue ();
-//		DisposeBoostSkill(key, leadSkill.LeadSkill[key]);
 		leadSkill.LeadSkill.Remove (key);
 		if (leaderSkillQueue.Count == 0) {
 			MsgCenter.Instance.Invoke (CommandEnum.LeaderSkillEnd, null);

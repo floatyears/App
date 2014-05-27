@@ -164,6 +164,8 @@ public enum CommandEnum{
 	EvolveFriend				= 3057,
 	UnitMaterialList 			= 3058,
 	ShowActiveSkill,
+	ShowPassiveSkill,
+	ShowTrap,
 	EvolveStart,
 	EvolveSelectStage,
 	ReturnPreScene,
@@ -176,6 +178,7 @@ public enum CommandEnum{
 	ReduceActiveSkillRound,
 	//BattleStart,
 	UseLeaderSkill,
+
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
@@ -442,4 +445,28 @@ public enum EnemyAttackEnum{
 	None,
 	FirstAttack,
 	BackAttack,
+}
+
+public enum StateEnum {
+	None,
+	/// <summary>
+	/// poison active skill
+	/// </summary>
+	Poison,
+	/// <summary>
+	/// The reduce defense active skill
+	/// </summary>
+	ReduceDefense,
+	/// <summary>
+	/// The reduce attack active skill
+	/// </summary>
+	ReduceAttack,
+	/// <summary>
+	/// The trap poison.
+	/// </summary>
+	TrapPoison,
+	/// <summary>
+	/// The trap environment.
+	/// </summary>
+	TrapEnvironment,
 }

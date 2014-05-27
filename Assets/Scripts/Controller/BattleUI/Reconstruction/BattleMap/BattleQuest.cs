@@ -34,6 +34,7 @@ public class BattleQuest : UIBase {
 	public bool ChainLinkBattle = false;
 
 	private ConfigBattleUseData configBattleUseData; 
+	private RoleStateException roleStateException;
 
 	public BattleQuest (string name) : base(name) {
 		configBattleUseData = ConfigBattleUseData.Instance;
@@ -69,6 +70,9 @@ public class BattleQuest : UIBase {
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
+
+		roleStateException = new RoleStateException ();
+		roleStateException.AddListener ();
 	}
 
 	void CreatEffect () {
@@ -127,10 +131,12 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, BattleFail);
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 		MsgCenter.Instance.AddListener (CommandEnum.ShowActiveSkill, ShowActiveSkill);
-		if (configBattleUseData.hasBattleData ()) {
+		MsgCenter.Instance.AddListener (CommandEnum.ShowPassiveSkill, ShowPassiveSkill);
+
+		if (configBattleUseData.hasBattleData() > 0) {
 			ContineBattle ();
 		} else {
-			configBattleUseData.StoreData();
+			configBattleUseData.StoreData(questDungeonData.QuestId);
 		}
 	}
 
@@ -150,6 +156,9 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowActiveSkill, ShowActiveSkill);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ShowPassiveSkill, ShowPassiveSkill);
+
+		roleStateException.RemoveListener ();
 	}
 	
 	void LeaderSkillEnd(object data) {
@@ -167,7 +176,7 @@ public class BattleQuest : UIBase {
 		if (ai == null) {
 			return;		
 		}
-		attackEffect.RefreshItem (ai);
+		attackEffect.RefreshItem (ai.UserUnitID);
 	}
 
 	void RecoverHP(object data) {
@@ -175,7 +184,7 @@ public class BattleQuest : UIBase {
 		if (ai == null) {
 			return;		
 		}
-		attackEffect.RefreshItem (ai);
+		attackEffect.RefreshItem (ai.UserUnitID);
 	}
 
 	void ShowActiveSkill(object data) {
@@ -184,6 +193,14 @@ public class BattleQuest : UIBase {
 			return;		
 		}
 		attackEffect.PlayActiveSkill (ai);
+	}
+
+	void ShowPassiveSkill(object data) {
+		TUserUnit uu = data as TUserUnit;
+		if (uu == null) {
+			return;		
+		}
+		attackEffect.RefreshItem (uu.MakeUserUnitKey ());
 	}
 	
 	void Reset () {
@@ -307,6 +324,14 @@ public class BattleQuest : UIBase {
 //		ExitFight (true);
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ExitBattle ();
+	}
+
+	public void Retire(bool gameOver) {
+		RetireQuest.SendRequest (RetireQuestCallback, questDungeonData.QuestId, gameOver);
+	}
+
+	void RetireQuestCallback(object data) {
+		NoFriendExit ();
 	}
 
 	public void HaveFriendExit() {
@@ -462,7 +487,9 @@ public class BattleQuest : UIBase {
 					break;
 			case EQuestGridType.Q_TRAP:
 					BattleMap.waitMove = true;
-					battleMap.RotateAnim (MapItemTrap);
+					battleMap.RotateAnim (null);
+					MsgCenter.Instance.Invoke(CommandEnum.ShowTrap, currentMapData.TrapInfo);
+					GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemTrap);
 					break;
 			case EQuestGridType.Q_QUESTION:
 					BattleMap.waitMove = true;
@@ -973,6 +1000,10 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleFailExit(object data) {
+		RetireQuest.SendRequest (RetireQusetBattleFail, questDungeonData.QuestId, true);
+	}
+
+	void RetireQusetBattleFail(object data) {
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.GameOver, BattleFail);
 		configBattleUseData.ClearData ();
 	}

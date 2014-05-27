@@ -16,7 +16,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				gameObject.SetActive(true);
 			}
 			if(fromUnitDetail) {
-//				Debug.LogError("fromUnitDetail : " + fromUnitDetail);
 				ShowData();
 				fromUnitDetail = false;
 			}

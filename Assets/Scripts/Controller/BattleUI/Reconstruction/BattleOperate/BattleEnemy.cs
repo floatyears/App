@@ -233,7 +233,7 @@ public class BattleEnemy : UIBaseUnity {
 	GameObject prevEffect;
 	public void PlayerEffect(EnemyItem ei,AttackInfo ai) {
 		GameObject obj = EffectManager.Instance.GetEffectObject (ai.SkillID); //DataCenter.Instance.GetEffect(ai) as GameObject;
-		Debug.LogError ("obj : " + obj + " ai.skillid : " + ai.SkillID);
+//		Debug.LogError ("obj : " + obj + " ai.skillid : " + ai.SkillID);
 		ei.InjuredShake();
 		if (obj != null) {
 //			Vector3 localScale = obj.transform.localScale;
