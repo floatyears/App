@@ -34,6 +34,7 @@ public class BattleQuest : UIBase {
 	public bool ChainLinkBattle = false;
 
 	private ConfigBattleUseData configBattleUseData; 
+	private RoleStateException roleStateException;
 
 	public BattleQuest (string name) : base(name) {
 		configBattleUseData = ConfigBattleUseData.Instance;
@@ -69,6 +70,9 @@ public class BattleQuest : UIBase {
 		AddSelfObject (battleMap);
 		AddSelfObject (role);
 		AddSelfObject (background);
+
+		roleStateException = new RoleStateException ();
+		roleStateException.AddListener ();
 	}
 
 	void CreatEffect () {
@@ -153,6 +157,8 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillStandReady, ActiveSkillStandReady);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowActiveSkill, ShowActiveSkill);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowPassiveSkill, ShowPassiveSkill);
+
+		roleStateException.RemoveListener ();
 	}
 	
 	void LeaderSkillEnd(object data) {

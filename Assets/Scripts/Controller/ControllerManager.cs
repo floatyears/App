@@ -91,7 +91,7 @@ public class ControllerManager
 		currentScene.HideUI ();
 		currentScene.DestoryUI();
 		Main.Instance.GInput.IsCheckInput = false;
-		ViewManager.Instance.TrapLabel.text = "";
+//		ViewManager.Instance.TrapLabel.text = "";
 		Resources.UnloadUnusedAssets ();
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
 		MsgCenter.Instance.Invoke (CommandEnum.LeftBattle, null);

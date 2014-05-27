@@ -214,10 +214,14 @@ public class MapItem : UIBaseUnity {
 	public void HideEnvirment(bool b) {
 		if (!isOld) {
 			HideStarSprite(!b);
-			if(b) {
-				DGTools.ShowSprite(mapItemSprite, "EnvirmentTrap"); 
-			}else{
+			if(b && mapItemSprite.spriteName !=  TrapBase.environmentSpriteName) {
+				DGTools.ShowSprite(mapItemSprite, TrapBase.environmentSpriteName); 
+				return;
+			}
+
+			if(!b && mapItemSprite.spriteName ==  TrapBase.environmentSpriteName){
 				DGTools.ShowSprite(mapItemSprite, spriteName);
+				return;
 			}
 		}
 	}

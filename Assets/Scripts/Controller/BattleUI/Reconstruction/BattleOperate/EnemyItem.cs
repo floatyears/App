@@ -335,23 +335,17 @@ public class EnemyItem : UIBaseUnity {
 		UISprite sprite = ins.GetComponent<UISprite> ();
 		sprite.enabled = true;
 		ins.localPosition = initStateExceptionSprite;
-		foreach (var item in stateCache.Values) {
-			Vector3 localposition = ins.localPosition;
-			float distance = Vector3.Distance(localposition, item.transform.localPosition);
-			if(distance <= 2){	// deviation distance.
-				ins.localPosition = new Vector3(localposition.x - 30f, localposition.y, localposition.z); 
-			}
-			else{
-				break;
-			}
-		}
+//		foreach (var item in stateCache.Values) {
+//			Vector3 localposition = ins.localPosition;
+//			float distance = Vector3.Distance(localposition, item.transform.localPosition);
+//			if(distance <= 2){	// deviation distance.
+//				ins.localPosition = new Vector3(localposition.x - 30f, localposition.y, localposition.z); 
+//			}
+//			else{
+//				break;
+//			}
+//		}
+		DGTools.SortStateItem (stateCache, ins, -30f); // -30f. enemy state sprite sort is right to left.
 		stateCache.Add (se, ins.gameObject);
 	}
-}
-
-public enum StateEnum {
-	None,
-	Poison,
-	ReduceDefense,
-	ReduceAttack,
 }

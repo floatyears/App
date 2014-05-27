@@ -91,7 +91,6 @@ public class BattleMenu : UIBaseUnity {
 		cancelButton = FindChild<UIButton> (Path + "Button_Cancel");
 		UIEventListener.Get (cancelButton.gameObject).onClick = CancelButton;
 //		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
-
 //		RefreshDropItem ();
 		ShowUI ();
 	}
@@ -181,7 +180,6 @@ public class BattleMenu : UIBaseUnity {
 	}
 
 	void CancelButton(GameObject go) {
-//		Debug.LogError ("cancel button : " + go);
 		audioManager.PlayAudio (AudioEnum.sound_click);
 		HideUI ();
 	}

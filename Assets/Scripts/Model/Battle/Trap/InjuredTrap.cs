@@ -96,6 +96,10 @@ public class InjuredTrap : TrapBase {
 }
 
 public class TrapBase : ProtobufDataBase ,ITrapExcute{
+
+	public const string poisonTrapSpriteName = "PoisonTrap";
+	public const string environmentSpriteName = "EnvirmentTrap";
+
 	protected TrapInfo instance;
 	public TrapBase(object instance) : base (instance) {
 		this.instance = instance as TrapInfo;
@@ -145,10 +149,10 @@ public class TrapBase : ProtobufDataBase ,ITrapExcute{
 			spriteName = InjuredTrapName(instance.effectType);
 			break;
 		case ETrapType.StateException:
-			spriteName = "PoisonTrap";
+			spriteName = poisonTrapSpriteName;
 			break;
 		case ETrapType.ChangeEnvir:
-			spriteName = "EnvirmentTrap";
+			spriteName = environmentSpriteName;
 			break;
 		default:
 			break;

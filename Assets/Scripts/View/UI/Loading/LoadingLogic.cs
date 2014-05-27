@@ -194,6 +194,7 @@ public class LoadingLogic : ConcreteComponent {
 	}
 
 	void Cancel(object data) {
+//		RetireQuest.SendRequest(RetireQuestCallback, 
 		ConfigBattleUseData.Instance.ClearData ();
 		ConfigBattleUseData.Instance.gameState = (byte)GameState.Normal;
 		EnterGame();

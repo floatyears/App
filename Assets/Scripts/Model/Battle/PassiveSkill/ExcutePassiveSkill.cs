@@ -52,6 +52,10 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 				bool b = (bool)item.Value.Excute(tb, this);
 				if(b) {
 					foreach (var unitItem in leaderSkill.UserUnit.Values) {
+						if(unitItem == null) {
+							continue;
+						}
+
 						if(unitItem.MakeUserUnitKey() == item.Key) {
 							MsgCenter.Instance.Invoke(CommandEnum.ShowPassiveSkill, unitItem);
 						}

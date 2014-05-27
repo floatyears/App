@@ -14,16 +14,16 @@ public class EnvironmentTrap : TrapBase {
 	
 	public override  void ExcuteByDisk () {
 		MsgCenter.Instance.AddListener (CommandEnum.MoveToMapItem, RoleMove);
-		MsgCenter.Instance.Invoke (CommandEnum.ShieldMap, true);
+		MsgCenter.Instance.Invoke (CommandEnum.ShieldMap, Round);
 		ConfigBattleUseData.Instance.trapEnvironment = this;
-		Round--;
 	}
 
 	void RoleMove (object instance) {
+		MsgCenter.Instance.Invoke (CommandEnum.ShieldMap, Round);
 		if (Round == 0) {
 			MsgCenter.Instance.RemoveListener (CommandEnum.MoveToMapItem, RoleMove);
 			ConfigBattleUseData.Instance.trapEnvironment = null;
-			MsgCenter.Instance.Invoke (CommandEnum.ShieldMap, false);
+//			MsgCenter.Instance.Invoke (CommandEnum.ShieldMap, Round);
 			return;
 		}
 

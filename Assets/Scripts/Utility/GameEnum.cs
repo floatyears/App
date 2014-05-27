@@ -445,3 +445,27 @@ public enum EnemyAttackEnum{
 	FirstAttack,
 	BackAttack,
 }
+
+public enum StateEnum {
+	None,
+	/// <summary>
+	/// poison active skill
+	/// </summary>
+	Poison,
+	/// <summary>
+	/// The reduce defense active skill
+	/// </summary>
+	ReduceDefense,
+	/// <summary>
+	/// The reduce attack active skill
+	/// </summary>
+	ReduceAttack,
+	/// <summary>
+	/// The trap poison.
+	/// </summary>
+	TrapPoison,
+	/// <summary>
+	/// The trap environment.
+	/// </summary>
+	TrapEnvironment,
+}

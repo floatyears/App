@@ -7,6 +7,19 @@ using bbproto;
 
 public class DGTools {
 
+	private static float TWO_Sprite_Interv = 2f;
+	public static void SortStateItem(Dictionary<StateEnum,GameObject> dic, Transform target, float width) {
+		foreach (var item in dic.Values) {
+			Vector3 localPosition = target.localPosition;
+			float distance = Vector3.Distance(localPosition, item.transform.localPosition);
+			if(distance < TWO_Sprite_Interv) {
+				target.localPosition = new Vector3(localPosition.x + width, localPosition.y, localPosition.z);
+				SortStateItem(dic,target,width);
+				break;
+			}
+		}
+	}
+
 	public static int GetEnemyWidthByRare(int rare) {
 		switch (rare) {
 		case 1:
