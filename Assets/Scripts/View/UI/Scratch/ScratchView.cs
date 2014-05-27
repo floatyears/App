@@ -27,7 +27,7 @@ public class ScratchView : UIComponentUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
         UpdateGachaTimes();
-		ShowTween();
+		ShowUIAnimation();
 	}
 	
 	public override void HideUI () {
@@ -59,19 +59,7 @@ public class ScratchView : UIComponentUnity {
 		windowRoot = transform.FindChild("bottom_panel").gameObject;
 	}
 
-	private void ShowTween(){
-//		TweenPosition[ ] list = 
-//			gameObject.GetComponentsInChildren< TweenPosition >();
-//		if (list == null)
-//			return;
-//		foreach (var tweenPos in list)
-//		{		
-//			if (tweenPos == null)
-//				continue;
-//			//tweenPos.onFinished.Add(new EventDelegate(onTweenFinished));
-//			tweenPos.Reset();
-//			tweenPos.PlayForward();
-//		}
+	private void ShowUIAnimation(){
 		infoPanelRoot.transform.localPosition = new Vector3(-1000, -325, 0);
 		windowRoot.transform.localPosition = new Vector3(1000, -600, 0);
 		iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
@@ -79,8 +67,7 @@ public class ScratchView : UIComponentUnity {
 
 	}
 
-	private void onTweenFinished()
-	{
+	private void onTweenFinished(){
 		NoviceGuideStepEntityManager.Instance().StartStep();
 	}
 

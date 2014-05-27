@@ -19,7 +19,6 @@ public class FriendWindows : FriendHelperView {
 	}
 
 	public override void HideUI () {
-//		Debug.LogError ("FriendWindows HideUI");
 		isShow = false;	
 		base.HideUI ();
 	}
