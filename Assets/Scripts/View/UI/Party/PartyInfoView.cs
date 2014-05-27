@@ -98,10 +98,10 @@ public class PartyInfoView : UIComponentUnity {
 		transform.localPosition = 1000 * Vector3.up;
 		float offsetY = 0;
 		if(UIManager.Instance.baseScene.CurrentScene == SceneEnum.Units){
-			offsetY = 70;
+			offsetY = -410;
 		}
 		else if(UIManager.Instance.baseScene.CurrentScene == SceneEnum.Party){
-			offsetY = 90;
+			offsetY = -386;
 		}
 		iTween.MoveTo(gameObject, iTween.Hash("y", offsetY, "time", 0.4f, "islocal", true));  
 	}
