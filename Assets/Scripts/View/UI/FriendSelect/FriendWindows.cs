@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class FriendWindows : FriendHelperView {
 	public System.Action<TFriendInfo> selectFriend;
@@ -15,6 +15,11 @@ public class FriendWindows : FriendHelperView {
 		}
 		base.ShowUI ();
 
+		Dictionary<string, object> dic = new Dictionary<string, object> ();
+		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
+//		dpsi.position = new Vector3 (0f, -485f, 0f);
+//		dragPanel.DragPanelView.SetDragPanel (dpsi);
+		transform.localPosition += new Vector3 (0f, -485f, 0f);
 		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 

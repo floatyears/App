@@ -281,12 +281,10 @@ public class MapItem : UIBaseUnity {
 			go.SetActive(true);
 			mapBackSprite.enabled = true;
 		}
-//		Debug.LogError ("gameobject : " + gameObject + " mapBackSprite : " + mapBackSprite + " mapBackTexture : " + mapBackTexture);
 		if (go == null) {
 			return;	
 		}
 		TweenAlpha ta = go.GetComponent<TweenAlpha> ();
-//		Debug.LogError ("ShowBattleEnd : " + go + " ta : " + ta);
 		ta.enabled = true;
 		ta.Reset ();
 
@@ -338,6 +336,7 @@ public class MapItem : UIBaseUnity {
 		TweenAlpha twa = mapBack.GetComponent<TweenAlpha> ();
 		twa.enabled = true;
 		twa.duration = time;
+//		Debug.LogError (twa.gameObject + " isendable : " + twa.enabled);
 		if (!string.IsNullOrEmpty (mapItemSprite.spriteName)) {
 			tws = mapItemSprite.GetComponent<TweenScale> ();
 			tws.Reset ();
@@ -349,11 +348,14 @@ public class MapItem : UIBaseUnity {
 			twa.enabled = true;
 			twa.duration = time;	
 		}
+
 		tws = mapBack.GetComponent<TweenScale> ();
 		tws.enabled = true;
 		tws.duration = time;
 		tws.eventReceiver = gameObject;
+
 		if (gridItem.Star != bbproto.EGridStar.GS_KEY && gridItem.Type == bbproto.EQuestGridType.Q_TREATURE) {
+//			Debug.LogError (mapBackSprite + " isendable : " + mapBackSprite.GetComponent<TweenAlpha>().enabled);
 			flyCoin = NGUITools.AddChild (mapBackSprite.transform.parent.gameObject, mapBackSprite.gameObject);
 			flyCoin.SetActive (true);
 			Destroy (flyCoin.GetComponent<TweenScale> ());
@@ -361,6 +363,7 @@ public class MapItem : UIBaseUnity {
 			Vector3 endPosition = battleMap.bQuest.GetTopUITarget ().position;
 			callBack = function;
 			iTween.MoveTo (flyCoin, iTween.Hash ("position", endPosition, "oncompletetarget", gameObject, "oncomplete", "FlyEnd","time",1f,"easetype",iTween.EaseType.easeInQuad));
+//			Debug.LogError (mapBackSprite + " isendable : " + mapBackSprite.GetComponent<TweenAlpha>().enabled);
 			} else {
 			tws.callWhenFinished = function;
 		}

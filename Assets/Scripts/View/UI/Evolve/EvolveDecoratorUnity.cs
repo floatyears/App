@@ -93,15 +93,13 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	/// </summary>
 	private Dictionary<GameObject,EvolveItem> evolveItem = new Dictionary<GameObject, EvolveItem> ();
 	private Dictionary<int,EvolveItem> materialItem = new Dictionary<int, EvolveItem> ();
-	private UIImageButton evolveButton ;
+	private UIButton evolveButton;
 	private EvolveItem baseItem;
 	private EvolveItem friendItem;
 	private TFriendInfo friendInfo;
 	private EvolveItem prevItem = null;
-//	private EvolveState clickState = EvolveState.BaseState;
 	private List<TUserUnit> materialUnit = new List<TUserUnit>();
 	private int ClickIndex = 0;
-
 	private FriendWindows friendWindow;
 	private bool fromUnitDetail = false;
 	private GameObject unitDisplay;
@@ -385,10 +383,11 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		temp = transform.Find(path + needLabel).GetComponent<UILabel>();
 		showInfoLabel.Add (needLabel, temp);
 
-		evolveButton = FindChild<UIImageButton> ("Window/Evolve");
+		evolveButton = FindChild<UIButton> ("Evolve");
 		ShieldEvolveButton (false);
 		UIEventListener.Get (evolveButton.gameObject).onClick = Evolve;
 	}
+
 
 	void Evolve(GameObject go) {
 		List<ProtobufDataBase> evolveInfoList = new List<ProtobufDataBase> ();
@@ -405,9 +404,10 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void ShieldEvolveButton (bool b) {
-		if (evolveButton.gameObject.activeSelf == !b) {
-			evolveButton.gameObject.SetActive(b);
-		}
+//		if (evolveButton.gameObject.activeSelf == !b) {
+//			evolveButton.gameObject.SetActive(b);
+//		}
+		evolveButton.isEnabled = b;
 	}
 }
 
