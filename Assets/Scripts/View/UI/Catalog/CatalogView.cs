@@ -11,6 +11,10 @@ public class CatalogView : UIComponentUnity {
     private NewObjectPooler catalogPooler;
 	private UIPanel uiPanel;
 	private const float UN_INTIALIZED_POS = -111111f;
+
+	private bool canDoLeftCacheMove = true;
+	private bool canDoRightCacheMove = true;
+
        
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
@@ -158,41 +162,54 @@ public class CatalogView : UIComponentUnity {
 	private const int ITEM_COUNT_PER_COL = 5;
 	private void ShowItemInScreen(){
 		MoveDirection moveDir = CalculateMoveDirection();
-		//Debug.Log("dmoveDir" + moveDir);
+//		Debug.Log("dmoveDir" + moveDir);
 //		if (!CheckPosAvaliable(curStartPos) || !CheckPosAvaliable(curStartPos + ITEM_MAX_COUNT_PER_PAGE)){
 //			return;
 //		}
 		if(moveDir == MoveDirection.LEFT){
+//			int judgePos = curStartPos;
+//			if (judgePos < 0) {
+//				curStartPos =  0;
+//				return;
+//			}
 //			if (!CheckPosAvaliable(curStartPos)){
 //				return;
 //			}
-			curStartPos = AdjustPos(curStartPos);
+//			curStartPos = AdjustPos(curStartPos);
 			while(!CheckIsInScreen(catalogItemTrans[ curStartPos ])){
 
 				Debug.Log("ShowItemInScreen do visble false");
 				int cancelCount = AddShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE, ITEM_COUNT_PER_COL);
 
-				CancelShowOneRow(curStartPos, cancelCount, moveDir);
+
 				Debug.Log("ShowItemInScreen() left,  pos " + cancelCount);
 //				AddShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE, cancelCount);
-				curStartPos += ITEM_COUNT_PER_COL;
+				if (cancelCount == 0) break;
+				CancelShowOneRow(curStartPos, cancelCount, moveDir);
+
+				curStartPos += cancelCount;
 				Debug.Log("ShowItemInScreen() " + curStartPos);
-				curStartPos = AdjustPos(curStartPos);
+//				curStartPos = AdjustPos(curStartPos);
 
 			}
 		}
 		else if(moveDir == MoveDirection.RIGHT){
-			curStartPos = AdjustPos(curStartPos);
-
-			while(!CheckIsInScreen(catalogItemTrans[ curStartPos + ITEM_MAX_COUNT_PER_PAGE])){
+//			curStartPos = AdjustPos(curStartPos);
+//			if (!canDoRightCacheMove) return;
+			int judgePos = curStartPos + ITEM_MAX_COUNT_PER_PAGE;
+//			if (judgePos >= CATALOG_ITEM_COUNT) {
+//				curStartPos = CATALOG_ITEM_COUNT - ITEM_MAX_COUNT_PER_PAGE - 1;
+//				return;
+//			}
+			while(!CheckIsInScreen(catalogItemTrans[ judgePos])){
 
 //				if (curStartPos < ITEM_COUNT_PER_COL) break;
-				int cancelCount = CancelShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE , ITEM_COUNT_PER_COL, moveDir);
+				int cancelCount = CancelShowOneRow( judgePos - ITEM_COUNT_PER_COL, ITEM_COUNT_PER_COL, moveDir);
 				Debug.Log("ShowItemInScreen() right, pos " + cancelCount);
-
+				if (cancelCount == 0) break;
 				AddShowOneRow(curStartPos - ITEM_COUNT_PER_COL, cancelCount);
-				curStartPos -= ITEM_COUNT_PER_COL;
-				curStartPos = AdjustPos(curStartPos);
+				curStartPos -= cancelCount;
+//				curStartPos = AdjustPos(curStartPos);
 
 
 			}
@@ -238,10 +255,10 @@ public class CatalogView : UIComponentUnity {
 
 
 	private int CancelShowOneRow(int startPos, int count, MoveDirection dir){
-		if(dir == MoveDirection.NONE){
-			return 0;
-		}
-		else if(dir == MoveDirection.LEFT){
+//		if(dir == MoveDirection.NONE){
+//			return 0;
+//		}
+//		else if(dir == MoveDirection.LEFT){
 	        for (int i = 0; i < count; i++){
 				int pos = startPos + i;
 				Debug.Log("CancelShowOneRow(), startPos : " + pos);
@@ -249,17 +266,17 @@ public class CatalogView : UIComponentUnity {
 				GameObject childObj = catalogItemTrans[ pos ].FindChild("CatalogNode(Clone)").gameObject;
 	            childObj.SetActive(false);
 	        }
-		}
-		else{
-			for (int i = 0; i < count ; i++){
-				int pos = startPos - count + i;
-
-				Debug.Log("CancelShowOneRow(), startPos : " + pos);
-				if (!CheckPosAvaliable(pos)) return i;
-				GameObject childObj = catalogItemTrans[ pos ].FindChild("CatalogNode(Clone)").gameObject;
-				childObj.SetActive(false);
-			}
-		}
+//		}
+//		else{
+//			for (int i = 0; i < count ; i++){
+//				int pos = startPos - count + i;
+//
+//				Debug.Log("CancelShowOneRow(), startPos : " + pos);
+//				if (!CheckPosAvaliable(pos)) return i;
+//				GameObject childObj = catalogItemTrans[ pos ].FindChild("CatalogNode(Clone)").gameObject;
+//				childObj.SetActive(false);
+//			}
+//		}
 		return ITEM_COUNT_PER_COL;
 
 	}

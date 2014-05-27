@@ -1,121 +1,117 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class PartyInfoView : UIComponentUnity {
-	GameObject tabStatus;
-	GameObject tabSkill;
-	UIToggle focus;
-	Dictionary<string, UILabel> viewLabel = new Dictionary<string, UILabel>();
+	
+	private UILabel totalHpLabel;
+	private UILabel curCostLabel;
+	private UILabel maxCostLabel;
+	private UILabel fireAtkLabel;
+	private UILabel waterAtkLabel;
+	private UILabel windAtkLabel;
+	private UILabel lightAtkLabel;
+	private UILabel darkAtkLabel;
+	private UILabel noneAtkLabel;
+	private UILabel leaderSkillNameLabel;
+	private UILabel leaderSkillDscpLabel;
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-		FindUIElement();
+		InitUI();
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		SetUIElement();
+		AddCmdListener();
+		UpdateView(DataCenter.Instance.PartyInfo.CurrentParty);
 		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+		RmvCmdListener();
 	}
-
-    public override void ResetUIState() {
-        ResetUIElement();
-        SetUIElement();
-    }
-
-	void FindUIElement(){
+	
+	private void InitUI(){
 		UILabel label;
-		label = FindChild<UILabel>("content_status/VauleLabel/Label_HP_Value");
-		viewLabel.Add("hp", label);
+		totalHpLabel = transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
+		curCostLabel = transform.FindChild("Label_Cost_Cur").GetComponent<UILabel>();
+		maxCostLabel = transform.FindChild("Label_Cost_Max").GetComponent<UILabel>();
 
-		label = FindChild<UILabel>("content_status/VauleLabel/Label_CurCost_Value");
-		viewLabel.Add("curCost", label);
+		fireAtkLabel = transform.FindChild("Label_Atk_Fire").GetComponent<UILabel>();
+		waterAtkLabel = transform.FindChild("Label_Atk_Water").GetComponent<UILabel>();
+		windAtkLabel = transform.FindChild("Label_Atk_Wind").GetComponent<UILabel>();
+		lightAtkLabel = transform.FindChild("Label_Atk_Light").GetComponent<UILabel>();
+		darkAtkLabel = transform.FindChild("Label_Atk_Dark").GetComponent<UILabel>();
+		noneAtkLabel = transform.FindChild("Label_Atk_None").GetComponent<UILabel>();
 
-		label = FindChild<UILabel>("content_status/VauleLabel/Label_MaxCost_Value");
-		viewLabel.Add("maxCost", label);
-
-		label = FindChild<UILabel>("content_status/VauleLabel/Label_Fire_Value");
-		viewLabel.Add("fire", label);
-
-		label = FindChild<UILabel>("content_status/VauleLabel/Label_Water_Value");
-		viewLabel.Add("water", label);
-
-		label = FindChild<UILabel>("content_status/VauleLabel/Label_Wind_Value");
-		viewLabel.Add("wind", label);
-
-		label = FindChild<UILabel>("content_status/VauleLabel/Label_Light_Value");
-		viewLabel.Add("light", label);
-
-		label = FindChild<UILabel>("content_status/VauleLabel/Label_Dark_Value");
-		viewLabel.Add("dark", label);
-
-		label = FindChild<UILabel>("content_status/VauleLabel/Label_Wu_Value");
-		viewLabel.Add("wu",label);
-
-		label = FindChild<UILabel>("content_leader_skill/VauleLabel/Label_LeaderSkillName");
-		viewLabel.Add("skillName", label);
-
-		label = FindChild<UILabel>("content_leader_skill/VauleLabel/Label_LeaderSkillDscp");
-		viewLabel.Add("skillDscp", label);
-
-		tabStatus = transform.FindChild("tab_status").gameObject;
-		tabSkill = transform.FindChild("tab_leader_skill").gameObject;
-		UIEventListener.Get(tabStatus).onClick = ClickTab;
-		UIEventListener.Get(tabSkill).onClick = ClickTab;
-		focus = FindChild<UIToggle>("tab_status");
+		leaderSkillNameLabel = transform.FindChild("Label_Leader_Skill_Name").GetComponent<UILabel>();
+		leaderSkillDscpLabel = transform.FindChild("Label_Leader_Skill_Dscp").GetComponent<UILabel>();
 	}
-
-	void ClickTab(GameObject tab){
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-	}
-
-	void SetUIElement(){
-		ResetTabFocus();
-	}
-
-	void ResetUIElement(){
-		ResetTabFocus();
-	}
-
-	void ResetTabFocus(){
-		focus.value = true;
-	}
-
-	void UpdateLabel(Dictionary<string, string> text){
-		foreach (var item in text.Keys){
-			if( viewLabel.ContainsKey(item)){
-				viewLabel[item].text = text[item];
-			}
-		}
-	}
-
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-		Dictionary<string,string> viewInfoDic = data as Dictionary<string,string>;
-		if( viewInfoDic == null ){
-			Debug.LogError("PartyInfoPanel.Callback(), ViewInfo is Null!");
+	
+	private void UpdateView(object data){
+		TUnitParty unitParty = data as TUnitParty;
+		if(unitParty == null){
+			Debug.LogError("PartyInfoView.UpdateView(), TUnitParty is NULL!");
 			return;
-		}	
-		UpdateLabel(viewInfoDic);
-	}
+		}
 
-//	void ShowUIAnimation(){
-//		TweenPosition[ ] list = gameObject.c<TweenPosition>();
-//		if (list == null) return;
-//		foreach (var tweenPos in list){		
-//			if (tweenPos == null) continue;
-//			tweenPos.Reset();
-//			tweenPos.PlayForward();
-//		}
-//	}
+		SkillBase skillBase = unitParty.GetLeaderSkillInfo ();
+		if (skillBase == null) {
+			leaderSkillNameLabel.text = string.Empty;
+			leaderSkillDscpLabel.text = string.Empty;
+		}
+		else{
+			leaderSkillNameLabel.text = skillBase.name;
+			leaderSkillDscpLabel.text = skillBase.description;
+		}
+
+		totalHpLabel.text = unitParty.TotalHp.ToString();	
+		curCostLabel.text = unitParty.TotalCost.ToString();
+		maxCostLabel.text = DataCenter.Instance.UserInfo.CostMax.ToString();
+
+		int value = 0;
+		unitParty.TypeAttack.TryGetValue (EUnitType.UFIRE, out value);
+		fireAtkLabel.text = value.ToString();
+		
+		unitParty.TypeAttack.TryGetValue (EUnitType.UWATER, out value);	
+		waterAtkLabel.text =  value.ToString();
+		
+		unitParty.TypeAttack.TryGetValue (EUnitType.UWIND, out value);
+		windAtkLabel.text =  value.ToString();
+		
+		unitParty.TypeAttack.TryGetValue (EUnitType.UNONE, out value);
+		noneAtkLabel.text =  value.ToString();
+		
+		unitParty.TypeAttack.TryGetValue (EUnitType.ULIGHT, out value);
+		lightAtkLabel.text =  value.ToString();
+		
+		unitParty.TypeAttack.TryGetValue (EUnitType.UDARK, out value);
+		darkAtkLabel.text =  value.ToString();
+
+
+	}
+	
 	private void ShowUIAnimation(){
 		transform.localPosition = 1000 * Vector3.up;
-		iTween.MoveTo(gameObject, iTween.Hash("y", 0, "time", 0.4f));  
+		float offsetY = 0;
+		if(UIManager.Instance.baseScene.CurrentScene == SceneEnum.Units){
+			offsetY = -410;
+		}
+		else if(UIManager.Instance.baseScene.CurrentScene == SceneEnum.Party){
+			offsetY = -386;
+		}
+		iTween.MoveTo(gameObject, iTween.Hash("y", offsetY, "time", 0.4f, "islocal", true));  
+	}
+
+	private void AddCmdListener(){
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyPanelInfo, UpdateView);
+	}
+	
+	private void RmvCmdListener(){
+		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyPanelInfo, UpdateView);
 	}
 
 }

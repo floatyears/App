@@ -213,8 +213,8 @@ public class BaseUnitItem : MonoBehaviour {
 	protected virtual void SetEmptyState(){
 		IsEnable = false;
 		avatarTex.mainTexture = null;
-		avatarBg.spriteName = "avatar_bg_6";
-		avatarBorderSpr.spriteName = "avatar_border_6";
+		avatarBg.spriteName = string.Empty;
+		avatarBorderSpr.spriteName = "unit_empty_bg";
 		crossFadeLabel.text = string.Empty;
 	}
 

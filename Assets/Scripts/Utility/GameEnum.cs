@@ -250,8 +250,8 @@ public enum CommandEnum{
 	SortByRule							= 4066,
 	OpenSortRuleWindow				= 4067,
 
-	//new add
-	TransPickedCity					= 4068,
+	OnPickStoryCity					= 4068,
+	OnPickEventCity					= 4069,
 
 	ShowHomeBgMask,
 	ModifiedParty,

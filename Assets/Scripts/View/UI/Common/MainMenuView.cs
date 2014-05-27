@@ -95,7 +95,7 @@ public class MainMenuView : UIComponentUnity{
 
 		if(leaderUnitInfo == null){
 			//first step in
-			Debug.Log("UpdateLeaderAvatar(), Leader data is FRIST assigned.");
+			//Debug.Log("UpdateLeaderAvatar(), Leader data is FRIST assigned.");
 			leaderAvatarTex.mainTexture = newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile);
 
 			SetUVByConfig();
@@ -117,7 +117,7 @@ public class MainMenuView : UIComponentUnity{
 	}
 
 	private void SetUVByConfig(){
-		Debug.Log("SetUVByConfig()...");
+		//Debug.Log("SetUVByConfig()...");
 		//TODO read from uv config file
 		float x = 0.21f;
 		float y = 0.35f;

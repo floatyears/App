@@ -22,6 +22,7 @@ public class UIConfig{
 	public const string SPR_NAME_BASEBOARD_HELPER = "helper_item";
 	public const string SPR_NAME_BASEBOARD_FRIEND = "friend_item";
 
+	public const string SPR_NAME_PAGE_INDEX_PREFIX = "page_index_";
 
 	public static int PartyMaxCount = 5;
 
@@ -96,6 +97,7 @@ public class UIConfig{
 
 	public const string fightReadyWindowName = "FightReadyWindow";
 
+	public const string unitsInfoPanelName = "UnitsInfoPanel";
 	public const string userUnitSortPanelName = "UserUnitSortPanel";
 	public const string friendUnitSortPanelName = "FriendUnitSortPanel";
 	

@@ -70,6 +70,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 
 	private void ShowTween(){
-		iTween.MoveFrom(gameObject, iTween.Hash("y", 50.0f, "time", 0.3f));
+		gameObject.transform.localPosition = new Vector3(0, 1000, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("y", -150.0f, "time", 0.4f, "islocal", true));
 	}
 }

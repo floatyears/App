@@ -84,7 +84,6 @@ public class Main : MonoBehaviour {
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
         EffectManager em = EffectManager.Instance;
         UIManager.Instance.ChangeScene(SceneEnum.Loading);
-		Debug.Log("Screen.width : " + Screen.width + " Screen.height" + Screen.height);
     }
 	
     void OnDisable() {
