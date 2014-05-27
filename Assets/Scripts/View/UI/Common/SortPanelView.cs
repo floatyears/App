@@ -16,6 +16,7 @@ public class SortPanelView : UIComponentUnity {
 
 	public override void ShowUI(){
 		base.ShowUI();
+		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
@@ -99,5 +100,10 @@ public class SortPanelView : UIComponentUnity {
 		foreach (var item in sortRuleSelectDic){
 			UIEventListener.Get(item.Key.gameObject).onClick = SelectSortRule;
 		}
+	}
+
+	private void ShowUIAnimation(){
+		transform.localPosition = new Vector3(1000, -567, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
 }
