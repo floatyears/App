@@ -67,9 +67,6 @@ public class SellView : UIComponentUnity{
             controller.ResetUI();
         }
         ResetUIElement();
-        sellImgBtn.isEnabled = false;
-        clearImgBtn.isEnabled = false;
-        coinLabel.text = "0";
     }
     
     void BackToMainWindow(object args){
@@ -138,8 +135,6 @@ public class SellView : UIComponentUnity{
 		Dictionary<string, object> info = args as Dictionary<string,object>;
 		int poolPos = (int)info["poolPos"];
 		int clickPos = (int)info["clickPos"];
-//		FindTextureWithPosition(poolPos, pickItemList).mainTexture = info["texture"] as Texture2D;
-//		FindLabelWithPosition(poolPos, pickItemList).text = "Lv: " + info["label"] as string;
 		GameObject targetItem = pickItemList[ poolPos ];
 
 		UITexture targetItemTex = targetItem.GetComponentInChildren<UITexture>();
@@ -239,10 +234,8 @@ public class SellView : UIComponentUnity{
 	}
 
 	void CreateDragView(object args){
-		for (int i = 0; i < saleUnitViewList.Count; i++) {
-			if(saleUnitViewList[ i ].gameObject !=null) {
-				Destroy( saleUnitViewList[ i ].gameObject);
-			}
+		if(dragPanel != null){
+			dragPanel.DestoryUI();
 		}
 		saleUnitViewList.Clear();
 		List<TUserUnit> dataList = args as List<TUserUnit>;
@@ -327,8 +320,7 @@ public class SellView : UIComponentUnity{
 		clearImgBtn.isEnabled = false;
 		sellImgBtn.isEnabled = false;
 		totalSaleValue = 0;
-		coinLabel.text = string.Empty;
-
+		coinLabel.text = "0";
 
 		for (int i = 0; i < maxItemCount; i++){
 			FindTextureWithPosition(i, pickItemList).mainTexture = null;

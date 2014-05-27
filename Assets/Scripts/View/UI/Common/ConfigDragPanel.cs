@@ -170,11 +170,11 @@ public class ConfigDragPanel{
 	
 	private void ConfigOnSaleUnitDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), OnSaleUnitDragPanelArgs...");
-		OnSaleUnitDragPanelArgs.Add("scrollerLocalPos",				-225 * Vector3.up						);
+		OnSaleUnitDragPanelArgs.Add("scrollerLocalPos",				-232 * Vector3.up						);
 		OnSaleUnitDragPanelArgs.Add("position", 						Vector3.zero								);
 		OnSaleUnitDragPanelArgs.Add("clipRange", 						new Vector4(0, -100, 640, 350)		);
 		OnSaleUnitDragPanelArgs.Add("gridArrange", 					UIGrid.Arrangement.Vertical		);
-		OnSaleUnitDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -340, 0)			);
+		OnSaleUnitDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -275, 0)			);
 		OnSaleUnitDragPanelArgs.Add("cellWidth", 						100											);
 		OnSaleUnitDragPanelArgs.Add("cellHeight",						100											);
 		OnSaleUnitDragPanelArgs.Add("maxPerLine",					3												);
