@@ -261,10 +261,8 @@ public class Battle : UIBase {
 		}
 		return index;
 	}
-
-
+	
 	public void SwitchInput(bool isShield) {
-//		Debug.LogWarning ("switch input : " + isShield);
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;

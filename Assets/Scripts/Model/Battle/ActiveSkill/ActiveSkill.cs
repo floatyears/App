@@ -27,7 +27,7 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	private ConfigBattleUseData configBattleUseData;
 	public void StoreSkillCooling (string id) {
 		skillStoreID = id;
-		if (configBattleUseData.hasBattleData ()) {
+		if (configBattleUseData.hasBattleData() > 0) {
 				ReadSkillCooling ();
 		} else {
 			Store();

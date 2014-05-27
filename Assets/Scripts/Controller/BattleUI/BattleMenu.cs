@@ -129,18 +129,19 @@ public class BattleMenu : UIBaseUnity {
 		gameObject.SetActive (true);
 		RefreshDropItem ();
 		defaultToggle.value = true;
-
 		_battleQuest.battle.SwitchInput (true);
-
-		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
+		BattleBottom.notClick = true;
+		TouchEventBlocker.Instance.SetState (BlockerReason.MessageWindow, true);
+//		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		gameObject.SetActive (false);
-//		_battleQuest.battle.SwitchInput (false);
 		Main.Instance.GInput.IsCheckInput = true;
-		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
+		BattleBottom.notClick = false;
+		TouchEventBlocker.Instance.SetState (BlockerReason.MessageWindow, false);
+//		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
 	}
 
 	void BGMOn(GameObject go) {
@@ -176,7 +177,9 @@ public class BattleMenu : UIBaseUnity {
 		HideUI ();
 		Battle.isShow = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd);
-		_battleQuest.NoFriendExit ();
+
+//		_battleQuest.NoFriendExit ();
+		_battleQuest.Retire (false);
 	}
 
 	void CancelButton(GameObject go) {

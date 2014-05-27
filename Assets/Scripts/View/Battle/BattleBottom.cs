@@ -8,15 +8,11 @@ public class BattleBottom : MonoBehaviour {
 	private Dictionary<int,GameObject> actorObject = new Dictionary<int,GameObject>();
 	private GameObject battleSkillObject;
 	private BattleSkill battleSkill;
-//	public BattleSkill BattleSkillIns{
-//		get { return battleSkill; }
-//	}
 
 	public bool IsUseLeaderSkill = false;
 
 	public static bool notClick = false;
 
-//	[HideInInspector]
 	private BattleQuest _battleQuest;
 	public BattleQuest battleQuest {
 		set {
@@ -81,13 +77,14 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnRealease () {
+
 		if (notClick) {
 			return;	
 		}
 
 		if (Input.GetMouseButtonDown (0)) {
+			Debug.LogError ("onrealease : " + notClick);
 			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-
 			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
 
 			//LogHelper.Log("----------------battle bottom layermask: " + layermask);

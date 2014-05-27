@@ -133,10 +133,10 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.ShowActiveSkill, ShowActiveSkill);
 		MsgCenter.Instance.AddListener (CommandEnum.ShowPassiveSkill, ShowPassiveSkill);
 
-		if (configBattleUseData.hasBattleData ()) {
+		if (configBattleUseData.hasBattleData() > 0) {
 			ContineBattle ();
 		} else {
-			configBattleUseData.StoreData();
+			configBattleUseData.StoreData(questDungeonData.QuestId);
 		}
 	}
 
@@ -324,6 +324,14 @@ public class BattleQuest : UIBase {
 //		ExitFight (true);
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ExitBattle ();
+	}
+
+	public void Retire(bool gameOver) {
+		RetireQuest.SendRequest (RetireQuestCallback, questDungeonData.QuestId, gameOver);
+	}
+
+	void RetireQuestCallback(object data) {
+		NoFriendExit ();
 	}
 
 	public void HaveFriendExit() {
@@ -992,6 +1000,10 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleFailExit(object data) {
+		RetireQuest.SendRequest (RetireQusetBattleFail, questDungeonData.QuestId, true);
+	}
+
+	void RetireQusetBattleFail(object data) {
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.GameOver, BattleFail);
 		configBattleUseData.ClearData ();
 	}

@@ -19,7 +19,7 @@ public class RetireQuest: ProtoManager {
 	~RetireQuest () {
 	}
 	
-	public static void SendRequest(DataListener callBack, uint questid, bool gameover=false) {
+	public static void SendRequest(DataListener callBack, uint questid, bool gameover = false) {
 
 		RetireQuest retireQuest = new RetireQuest();
 
