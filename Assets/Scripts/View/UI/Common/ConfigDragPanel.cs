@@ -21,7 +21,7 @@ public class ConfigDragPanel{
 
 	public ConfigDragPanel(){
 		float clipX;
-		UIRoot uiRoot = GameObject.Find("UI Root").GetComponent<UIRoot>();
+		UIRoot uiRoot = Main.Instance.uiRoot.GetComponent<UIRoot> ();//GameObject.Find("UI Root").GetComponent<UIRoot>();
 		manualHeight = uiRoot.manualHeight;
 
 		Config();

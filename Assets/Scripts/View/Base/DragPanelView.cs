@@ -173,7 +173,9 @@ public class DragPanelView : UIBaseUnity {
 
 		scrollBar.fillDirection = scrollBarDir;
 		scrollView.movement = scrollMovement;
-		scrollView.GetComponent<UIPanel> ().depth = (int)depth;
+		if (depth != null) {
+			scrollView.GetComponent<UIPanel> ().depth = (int)depth;
+		}
 //		Debug.LogError ("gameobject end aa : " + transform.localScale + " parent : " + parent.transform.localScale);
 		gameObject.transform.parent = parent;
 		transform.localScale = Vector3.one;
