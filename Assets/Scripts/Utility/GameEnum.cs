@@ -276,6 +276,7 @@ public enum CommandEnum{
 	ExcuteActiveSkill,
 	OpenGuideMsgWindow,
 	CloseGuideMsgWindow,
+	TakeAward,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,
