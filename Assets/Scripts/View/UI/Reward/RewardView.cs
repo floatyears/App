@@ -108,8 +108,9 @@ public class RewardView : UIComponentUnity {
 			rewardItemView.Data = aList[currentContentIndex][i];
 		}
 
+		Debug.Log ("count: " + dragPanel.ScrollItem.Count + " ,"+ aList [currentContentIndex].Count);
 		if (dragPanel.ScrollItem.Count > aList [currentContentIndex].Count) {
-			for (int i = aList [currentContentIndex].Count -1; i < dragPanel.ScrollItem.Count; i++) {
+			for (int i = dragPanel.ScrollItem.Count-1; i >= aList [currentContentIndex].Count; i--) {
 				GameObject go = dragPanel.ScrollItem[i];
 				GameObject.Destroy(go);
 				dragPanel.ScrollItem.RemoveAt(i);
