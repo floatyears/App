@@ -22,6 +22,7 @@ public class AcceptBonus: ProtoManager {
 	public static void SendRequest(DataListener callBack, List<int> bonusId) {
 		
 		AcceptBonus req = new AcceptBonus();
+		req.bonusId = new List<int> ();
 		req.bonusId.AddRange( bonusId );
 		req.OnRequest(null, callBack);
 	}

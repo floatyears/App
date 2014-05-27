@@ -166,10 +166,12 @@ public class LoadingLogic : ConcreteComponent {
 
 		UIManager.Instance.ChangeScene(SceneEnum.Home);
 
-		LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
-		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
-			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
-		}
+		//LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
+//		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
+//			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+//		}
+
+		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 
 		if (rspAuthUser.isNewUser == 1){
 			TurnToReName();

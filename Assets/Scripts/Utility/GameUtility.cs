@@ -80,6 +80,12 @@ public class DGTools {
 		return coorA.x == coorB.x && coorA.y == coorB.y;
 	}
 
+	public static void ChangeToUnitDetail(uint uniqueID) {
+		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (uniqueID);
+		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, tuu);
+	}
+
 	/// <summary>
 	/// show sprite. and set the size to texture size;
 	/// </summary>
