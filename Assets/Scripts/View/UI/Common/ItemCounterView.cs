@@ -15,13 +15,12 @@ public class ItemCounterView : UIComponentUnity{
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
-		//Debug.LogError("ShowUI : " + UIManager.Instance.baseScene.CurrentScene);
+		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshItemCount, UpdateView);
-		//Debug.LogError("HideUI : " + UIManager.Instance.baseScene.CurrentScene);
 	}
 	
 	void InitUIElement(){
@@ -49,6 +48,11 @@ public class ItemCounterView : UIComponentUnity{
 				curLabel.color = Color.white;
 			}
 		}
+	}
+
+	private void ShowUIAnimation(){
+		transform.localPosition = new Vector3(1000, -792, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", 213, "time", 0.4f, "islocal", true));
 	}
 	
 }

@@ -58,9 +58,6 @@ public class PartyView : UIComponentUnity{
 	private void InitPagePanel(){
 		topRoot = transform.FindChild("Top").gameObject;
 		bottomRoot = transform.FindChild("Bottom").gameObject;
-		pageIndexLabel = FindChild<UILabel>("Top/Label_Left/Label_Before");
-		pageIndexSuffixLabel = FindChild<UILabel>("Top/Label_Left/Label_After");
-		rightIndexLabel = FindChild<UILabel>("Top/Label_Cur_Party");
 		prePageBtn = FindChild<UIButton>("Top/Button_Left");
 		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
 		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
@@ -97,9 +94,6 @@ public class PartyView : UIComponentUnity{
 		List<TUserUnit> partyData = party.GetUserUnit();
 		//Debug.LogError("Partyed count is : " + partyData.Count);
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
-		pageIndexLabel.text = curPartyIndex.ToString();
-		rightIndexLabel.text = curPartyIndex.ToString();
-		pageIndexSuffixLabel.text = UnitsWindow.partyIndexDic[ curPartyIndex ].ToString();
 
 		int count = partyData.Count;
 		if(count > partyItems.Count) count = partyItems.Count;
@@ -511,9 +505,10 @@ public class PartyView : UIComponentUnity{
 	}
 
 	private void ShowUIAnimation(){
+		gameObject.transform.localPosition = new Vector3(0, -476, 0);
 		topRoot.transform.localPosition = 1000 * Vector3.up;
-		bottomRoot.transform.localPosition = 1000 * Vector3.left;
-		iTween.MoveTo(topRoot, iTween.Hash("y", 0, "time", 0.4f));
+		bottomRoot.transform.localPosition = new Vector3(-1000, -45, 0);
+		iTween.MoveTo(topRoot, iTween.Hash("y", 230, "time", 0.4f,"islocal", true));
 		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f));
 	}
 

@@ -91,7 +91,7 @@
      "FriendWindow": {
         "uiName":"FriendWindow",
         "resoucePath": "Prefabs/UI/Friend/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -131,7 +131,7 @@
      "UnitsWindow": {
         "uiName":"UnitsWindow",
         "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -155,9 +155,9 @@
     "SellWindow": {
         "uiName":"SellWindow",
         "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
-        "positiony": 267,
+        "positiony": -250,
         "positionz": 0
     },
     "CatalogWindow": {
@@ -195,7 +195,7 @@
     "QuestSelectWindow": {
         "uiName":"QuestSelectWindow",
         "resoucePath": "Prefabs/UI/Home/",
-        "parent": 1,
+        "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -203,7 +203,7 @@
     "FriendSelectWindow": {
         "uiName":"FriendSelectWindow",
         "resoucePath": "Prefabs/UI/Friend/",
-        "parent": 1,
+        "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -219,7 +219,7 @@
      "ApplyWindow": {
         "uiName":"ApplyWindow",
         "resoucePath": "Prefabs/UI/Friend/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -227,7 +227,7 @@
      "ReceptionWindow": {
         "uiName":"ReceptionWindow",
         "resoucePath": "Prefabs/UI/Friend/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -312,6 +312,14 @@
         "positiony": 0,
         "positionz": 0
     },
+      "UnitsInfoPanel": {
+        "uiName":"UnitsInfoPanel",
+        "resoucePath": "Prefabs/UI/Party/",
+        "parent": 1,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
+    },
       "PartyInfoPanel": {
         "uiName":"PartyInfoPanel",
         "resoucePath": "Prefabs/UI/Party/",
@@ -364,9 +372,9 @@
        "ItemCounterBar": {
         "uiName":"ItemCounterBar",
         "resoucePath": "Prefabs/UI/Common/",
-        "parent": 0,
-        "positionx": -200,
-        "positiony": -360,
+        "parent": 1,
+        "positionx": 0,
+        "positiony": 0,
         "positionz": 0
     },
        "SelectRoleWindow": {
@@ -390,13 +398,13 @@
         "resoucePath": "Prefabs/UI/Party/",
         "parent": 1,
         "positionx": 0,
-        "positiony": -560,
+        "positiony": 0,
         "positionz": 0
     },
      "UserUnitSortPanel": {
         "uiName":"UserUnitSortPanel",
         "resoucePath": "Prefabs/UI/Common/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -404,7 +412,7 @@
      "FriendUnitSortPanel": {
         "uiName":"FriendUnitSortPanel",
         "resoucePath": "Prefabs/UI/Common/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0

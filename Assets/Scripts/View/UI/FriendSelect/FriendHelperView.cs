@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class FriendHelperView : UIComponentUnity{
 	protected DragPanel dragPanel;
-	//protected UIButton sortBtn;
 	protected UILabel sortRuleLabel;
 	protected SortRule curSortRule;
 
@@ -116,7 +115,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	private void ShowUIAnimation(){
-		gameObject.transform.localPosition = new Vector3(-1000, -529, 0);
+		gameObject.transform.localPosition = new Vector3(-1000, 0, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));      
 	}
 	

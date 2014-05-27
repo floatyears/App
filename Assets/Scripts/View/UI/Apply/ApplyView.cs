@@ -18,6 +18,7 @@ public class ApplyView : UIComponentUnity{
 		CreateDragView();
 		SortUnitByCurRule();
 		RefreshCounter();
+		ShowUIAnimation();
 	}
 	
 	public override void HideUI(){
@@ -112,6 +113,11 @@ public class ApplyView : UIComponentUnity{
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteApply, DeleteMyApply);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+
+	private void ShowUIAnimation(){
+		transform.localPosition = new Vector3(-1000, -478, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
 }
 
