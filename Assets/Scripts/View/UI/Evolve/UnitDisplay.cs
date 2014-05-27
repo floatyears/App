@@ -49,9 +49,10 @@ public class UnitDisplay : ConcreteComponent {
 		dpsi.clipRange = new Vector4 (0, -120, 640, 400);
 		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
 		dpsi.maxPerLine = 3;
-		dpsi.scrollBarPosition = new Vector3 (-320, -315, 0);
-		dpsi.cellWidth = 110;
-		dpsi.cellHeight = 110;
+		dpsi.scrollBarPosition = new Vector3 (-320, -303, 0);
+		dpsi.cellWidth = 100;
+		dpsi.cellHeight = 100;
+		dpsi.depth = 2;
 	}
 
 	void InitDragpanel () {
@@ -88,13 +89,14 @@ public class UnitDisplay : ConcreteComponent {
 
 public class DragPanelSetInfo {
 	public Transform parentTrans;
-	public Vector3 scrollerScale;
-	public Vector3 scrollerLocalPos;
-	public Vector3 position;
-	public Vector4 clipRange;
-	public UIGrid.Arrangement gridArrange;
-	public int maxPerLine;
-	public Vector3 scrollBarPosition;
-	public int cellWidth;
-	public int cellHeight;
+	public Vector3 scrollerScale = Vector3.one;
+	public Vector3 scrollerLocalPos = Vector3.zero;
+	public Vector3 position = Vector3.zero;
+	public Vector4 clipRange = Vector4.zero;
+	public UIGrid.Arrangement gridArrange = UIGrid.Arrangement.Horizontal;
+	public int maxPerLine = 1;
+	public Vector3 scrollBarPosition = Vector3.zero;
+	public int cellWidth = 100;
+	public int cellHeight = 100;
+	public int depth = 0;
 }

@@ -116,6 +116,7 @@ public class DragPanelView : UIBaseUnity {
 //	}
 
 	public void SetDragPanel(DragPanelSetInfo dpsi) {
+		scrollView.GetComponent<UIPanel> ().depth = dpsi.depth;
 		gameObject.transform.parent = dpsi.parentTrans;
 		gameObject.transform.localPosition = dpsi.scrollerLocalPos;
 		gameObject.transform.localScale = dpsi.scrollerScale;
@@ -131,6 +132,7 @@ public class DragPanelView : UIBaseUnity {
 	}
 
 	public const string ScrollViewDepth = "ScrollViewDepth";
+//	public const string 
 
 	public void SetScrollView(Dictionary<string, object> argsDic, Transform parent){
 //		Debug.LogError ("gameobject befoure : " + transform.localScale);
