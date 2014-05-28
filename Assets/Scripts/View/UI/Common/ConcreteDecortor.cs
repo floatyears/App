@@ -462,7 +462,7 @@ public class PartyDecorator : DecoratorBase{
 }
 
 //--------------------------------LevelUp----------------------------------------
-public class LevelUpDecorator : DecoratorBase{
+public class LevelUpDecorator : DecoratorBase {
 	private SceneInfoComponent sceneInfoBar;
 	public LevelUpDecorator(SceneEnum sEnum) : base(sEnum){
         MsgCenter.Instance.AddListener(CommandEnum.LevelUpSaveState, SetKeepState);
@@ -485,25 +485,18 @@ public class LevelUpDecorator : DecoratorBase{
 	
 	public override void DecoratorScene() {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-
-//		LevelUpBaseUI friendPanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpFriendWindowName);
-//		LevelUpBaseUI basePanel = CreatComponent<LevelUpBaseUI>(UIConfig.levelUpBasePanelName);
-//		LevelUpReadyPoolUI readyPanel = CreatComponent<LevelUpReadyPoolUI>(UIConfig.levelUpReadyPanelName);
-		//SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
-		levelUpOperateUI luou = CreatComponent<levelUpOperateUI> (UIConfig.levelUpView);
-
 		sceneInfoBar.SetComponent(decorator);
-		//sortPanel.SetComponent (sceneInfoBar);
-		luou.SetComponent (sceneInfoBar);
-//		friendPanel.SetComponent(sceneInfoBar);
-//		basePanel.SetComponent(friendPanel);
-//		readyPanel.SetComponent(basePanel);
+
+		SortController sc = CreatComponent<SortController> (UIConfig.userUnitSortPanelName);
+		sc.SetComponent (sceneInfoBar);
+
+		levelUpOperateUI luou = CreatComponent<levelUpOperateUI> (UIConfig.levelUpView);
+		luou.SetComponent (sc);
 
 		lastDecorator = luou;
 		lastDecorator.CreatUI();
 	}
 }
-
 //--------------------------------Sell------------------------------------------
 public class SellDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
@@ -567,8 +560,11 @@ public class EvolveDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
+		SortController sc = CreatComponent<SortController> (UIConfig.userUnitSortPanelName);
+		sc.SetComponent (sceneInfoBar);
+
 		EvolveComponent evolve = CreatComponent< EvolveComponent >(UIConfig.evolveWindowName);
-		evolve.SetComponent(sceneInfoBar);
+		evolve.SetComponent(sc);
 
 		UnitDisplay unitdisplay = CreatComponent< UnitDisplay >(UIConfig.unitDisplay);
 		unitdisplay.SetComponent (evolve);
@@ -792,7 +788,6 @@ public class ApplyDecorator : DecoratorBase{
 		sortPanel.SetComponent(deleteApply);
 
 		lastDecorator = sortPanel;
-
 		lastDecorator.CreatUI();
 	}
 }
