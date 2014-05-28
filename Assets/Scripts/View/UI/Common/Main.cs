@@ -97,12 +97,11 @@ public class Main : MonoBehaviour {
 	void SetResolution() {
 		float currentSize = Screen.height / (float)Screen.width;
 		UIPanel rootPanel = uiRoot.transform.Find("RootPanel").GetComponent<UIPanel>();
-//		Debug.LogError (currentSize);
 		if (currentSize >= DefaultSize) {
 			float sizePropotion = currentSize / DefaultSize;
 			int height = System.Convert.ToInt32( DefaultHeight * sizePropotion);
 			root.manualHeight = height;
-			rootPanel.clipRange = new Vector4(0, 0, Screen.width, height);
+			rootPanel.clipRange = new Vector4(0, 0, height / currentSize, height);
 		}
 	}
 	

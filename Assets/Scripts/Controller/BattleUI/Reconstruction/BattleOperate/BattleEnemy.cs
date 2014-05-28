@@ -160,8 +160,10 @@ public class BattleEnemy : UIBaseUnity {
 		} else {
 			centerIndex = (count >> 1) - 1;
 			int centerRightIndex = centerIndex + 1;
-			float centerWidth = DGTools.GetEnemyWidthByRare(enemys[centerIndex].enemyUnitInfo.Rare) * 0.25f;
-			float centerRightWidth =  DGTools.GetEnemyWidthByRare(enemys[centerRightIndex].enemyUnitInfo.Rare) * 0.25f;
+//			float centerWidth = DGTools.GetEnemyWidthByRare(enemys[centerIndex].enemyUnitInfo.Rare) * 0.25f;
+			float centerWidth = enemys[centerIndex].texture.width * 0.5f;
+//			float centerRightWidth =  DGTools.GetEnemyWidthByRare(enemys[centerRightIndex].enemyUnitInfo.Rare) * 0.25f;
+			float centerRightWidth =  enemys[centerRightIndex].texture.width * 0.5f;
 			float Difference = (centerRightWidth - centerWidth) * 0.5f;
 			centerWidth += Difference;
 			centerRightWidth -= Difference;
@@ -182,29 +184,16 @@ public class BattleEnemy : UIBaseUnity {
 		allWidth = 0;
 		for (int i = 0; i < temp.Count; i++) {	//Standardization texture size by rare config.
 			UITexture tex = temp [i].texture;
-			float tempWidth =  DGTools.GetEnemyWidthByRare(temp[i].enemyUnitInfo.Rare);
-			float tempHeight = DGTools.GetEnemyHeightByRare(temp[i].enemyUnitInfo.Rare);
-			tex.width = (int)tempWidth;
-			tex.height = (int)tempHeight;
-			allWidth += tempWidth;
+			allWidth += tex.width;
 		}
 
 		probability = screenWidth / allWidth;
 
-		Debug.LogError ("count : " + temp.Count + " allWidth : " + allWidth + "screen width : " + screenWidth + " probability: " + probability);
-		allWidth = 0;
 		if (probability < 1f) { //screewidth < allWidth. compress texture size.
 			for (int i = 0; i < temp.Count; i++) {
-				UITexture tex = temp [i].texture;
-				float tempWidth = tex.width * probability;
-				float tempHeight = tex.height * probability;
-				tex.width = (int)tempWidth;
-				tex.height = (int)tempHeight;
-				allWidth += tempWidth;
+				temp[i].CompressTextureSize(probability);
 			}
 		}	
-
-		Debug.LogError ("compress width : " + allWidth);
 	}
 
 	void DisposeCenterLeft(int centerIndex, List<EnemyItem> temp) {

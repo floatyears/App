@@ -26,19 +26,23 @@ public class EffectManager {
 	}
 
 	void SetName() {
-		effectName.Add (400, "BOOM");
-		effectName.Add (401, "daoguang");
-		effectName.Add (402, "fire");
-		effectName.Add (403, "fire1");
-		effectName.Add (404, "fire2");
-		effectName.Add (405, "firerain");
-		effectName.Add (406, "ice1");
-		effectName.Add (407, "ice2");
-		effectName.Add (408, "jiufeng");
-		effectName.Add (409, "water");
-		effectName.Add (410, "wind1");
-		effectName.Add (411, "wind2");
+		effectName.Add (4015, "BOOM");				//fire single
+		effectName.Add (4026, "firerain"); 			//fire all
+		effectName.Add (4061, "firerain"); 			//fire all
+		effectName.Add (4018, "linhunqiu2"); 		//light single
+		effectName.Add (4004, "daoguang");			//water single
+		effectName.Add (4017, "zhua");				//wind singele
+		effectName.Add (4028, "zhua");				//wind single
+		effectName.Add (4062, "liandao");			//wind single
 
+//		effectName.Add (403, "fire1");
+//		effectName.Add (404, "fire2");
+//		effectName.Add (406, "ice1");
+//		effectName.Add (407, "ice2");
+//		effectName.Add (408, "jiufeng");
+//		effectName.Add (409, "water");
+//		effectName.Add (410, "wind1");
+//		effectName.Add (411, "wind2");
 		//config effect no skill.
 		effectName.Add (DragCardEffect, "card_effect");
 	}
