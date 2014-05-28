@@ -141,6 +141,7 @@
      <None Include="Assets\Xffect\Shaders\xf_heat_distortion.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
      <None Include="Assets\Shaders\Particle Add(Self).shader" />
+     <None Include="Assets\Resources\Language\lang_en.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Additive Colored.shader" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
      <None Include="Assets\External\NGUI\Examples\Shaders\Refractive.shader" />

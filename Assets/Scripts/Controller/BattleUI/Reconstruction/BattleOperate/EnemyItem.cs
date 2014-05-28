@@ -117,7 +117,7 @@ public class EnemyItem : UIBaseUnity {
         hurtValueQueue.Enqueue(hurtLabel);
         UILabel info = hurtLabel.GetComponent<UILabel>();
         info.text = injuredValue.ToString();
-        iTween.MoveTo(hurtLabel, iTween.Hash("position", hurtLabelPosition, "time", 1f, "easetype", iTween.EaseType.easeOutQuart, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
+        iTween.MoveTo(hurtLabel, iTween.Hash("position", hurtLabelPosition, "time", 0.8f, "easetype", iTween.EaseType.easeInBack, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
     }
 
     void RemoveHurtLabel() {
@@ -184,9 +184,7 @@ public class EnemyItem : UIBaseUnity {
         bloodSprite = FindChild<UISprite>("BloodSprite");
         nextLabel = FindChild<UILabel>("NextLabel");
         effect = FindChild<UIPanel>("Effect");
-        hurtValueLabel = FindChild<UILabel>("HurtLabel");
-        initHurtLabelPosition = hurtValueLabel.transform.localPosition;
-        hurtLabelPosition = new Vector3(initHurtLabelPosition.x, initHurtLabelPosition.y + hurtValueLabel.height * 3, initHurtLabelPosition.z);
+		hurtValueLabel = FindChild<UILabel>("HurtLabel");
         enemyInfo = te;
         hurtValueLabel.gameObject.SetActive(false);
         SetData(te);
@@ -202,9 +200,15 @@ public class EnemyItem : UIBaseUnity {
 		if (tex == null) {
 			texture.mainTexture = null;
 			stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3(0f, 100f, 0f);
+			ResetHurtLabelPosition();
 		} else {
-			DGTools.ShowTexture (texture, tex);
+			texture.mainTexture = tex;
+			texture.width = DGTools.GetEnemyWidthByRare(enemyUnitInfo.Rare);
+			texture.height = DGTools.GetEnemyHeightByRare(enemyUnitInfo.Rare);
+			SetBloodSpriteWidth ();
+
 			stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height * 0.5f, 0f);
+			ResetHurtLabelPosition();
 		}
     }
 
@@ -217,6 +221,27 @@ public class EnemyItem : UIBaseUnity {
 			Destroy(gameObject);
 		}
     }
+
+	public void CompressTextureSize(float proportion) {
+		texture.width = (int)(texture.width * proportion);
+		texture.height = (int)(texture.height * proportion);
+		SetBloodSpriteWidth ();
+		ResetHurtLabelPosition ();
+	}
+
+	void ResetHurtLabelPosition() {
+		initHurtLabelPosition = stateSprite.transform.localPosition - new Vector3(0f,texture.height * 0.2f,0f);
+		hurtLabelPosition = new Vector3(initHurtLabelPosition.x, initHurtLabelPosition.y - hurtValueLabel.height * 2, initHurtLabelPosition.z);
+	}
+
+	void SetBloodSpriteWidth() {
+		float width = texture.width * 0.6f;
+		bloodSprite.width = (int)width;
+		float x = texture.transform.localPosition.x;
+		float bloodX = x - width * 0.5f;
+		Vector3 pos = bloodSprite.transform.localPosition;
+		bloodSprite.transform.localPosition = new Vector3 (bloodX, pos.y, pos.z);
+	}
 	
     public void DropItem(object data) {
         int pos = (int)data;
@@ -310,7 +335,7 @@ public class EnemyItem : UIBaseUnity {
     }
 
     void SetNextLabel(int seu) {
-        nextLabel.text = "Next : " + seu;
+        nextLabel.text = "Next " + seu;
     }
 
 	void ShowStateException(StateEnum se, bool clear = false) {
