@@ -7,6 +7,7 @@ public class RewardItemView : MonoBehaviour {
 
 	private GameObject mask;
 	private GameObject btn;
+	private UILabel text;
 
 	private bool inited = false;
 
@@ -42,12 +43,13 @@ public class RewardItemView : MonoBehaviour {
 				itemList.Add (transform.FindChild ("Item3").gameObject);
 				btn = transform.FindChild("OkBtn").gameObject;
 				mask = transform.FindChild("Mask").gameObject;
+				text = transform.FindChild("Label").GetComponent<UILabel>();
 				//Debug.Log("scroll view: " + FindObjectOfType<UIScrollView>());
 				btn.GetComponent<UIDragScrollView>().scrollView = FindObjectOfType<UIScrollView>();
 				inited = true;
 			}
 
-
+			Debug.Log("id: " +data.id);
 			if(data.enabled == 1){
 				mask.SetActive(false);
 				btn.GetComponent<BoxCollider>().enabled = true;
@@ -63,6 +65,7 @@ public class RewardItemView : MonoBehaviour {
 					//Debug.Log("count: " + itemList.Count);
 					itemList[i].SetActive(true);
 					SetItemData(itemList[i], gd);
+					Debug.Log("is unit: " + (gd.content == (int)EGiftContent.UNIT)+" gd count:" + gd.count);
 					SetUnitClick(itemList[i],gd.content == (int)EGiftContent.UNIT);
 					          
 				}else{
@@ -71,6 +74,20 @@ public class RewardItemView : MonoBehaviour {
 				
 				
 //				transform.
+			}
+			switch ((EBonusType)data.type) {
+			case EBonusType.CHAIN_LOGIN:
+				text.text = string.Format(TextCenter.Instace.GetCurrentText("ChainLogin"),data.matchValue);
+				break;
+			case EBonusType.TOTAL_LOGIN:
+				text.text = string.Format(TextCenter.Instace.GetCurrentText("TotalLogin"),data.matchValue);
+				break;
+			case EBonusType.RANK_REACH:
+				text.text = string.Format(TextCenter.Instace.GetCurrentText("RankReach"),data.matchValue);
+				break;
+			default:
+				text.text = "";
+			break;
 			}
 
 		}
@@ -84,7 +101,7 @@ public class RewardItemView : MonoBehaviour {
 	private void ClickUnit(GameObject obj){
 		Debug.Log ("Click Item To Detail");
 		int i; 
-		int.TryParse(obj.name.Substring (-1,1),out i);
+		int.TryParse(obj.name.Substring (4,1),out i);
 		DGTools.ChangeToUnitDetail ((uint)data.giftItem [i - 1].value);
 	}
 
