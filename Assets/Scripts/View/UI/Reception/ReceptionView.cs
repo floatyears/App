@@ -17,6 +17,7 @@ public class ReceptionView : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCmdListener();
+		Debug.LogError("ReceptionView.ShowUI()...");
 		CreateDragView();
 		SortUnitByCurRule();
 		RefreshCounter();
@@ -37,6 +38,7 @@ public class ReceptionView : UIComponentUnity {
 	}
 
 	private void CreateDragView(){
+		Debug.LogError("CreateDragView(), Reception...");
 		friendInDataList = DataCenter.Instance.FriendList.FriendIn;
 		dragPanel = new DragPanel("ReceptionDragPanel", FriendUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
@@ -225,7 +227,7 @@ public class ReceptionView : UIComponentUnity {
 	}
 
 	private void ShowUIAnimation(){
-		transform.localPosition = new Vector3(-1000, -478, 0);
+		transform.localPosition = new Vector3(-1000, -550, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
 
