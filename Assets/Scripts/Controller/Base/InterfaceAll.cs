@@ -113,6 +113,8 @@ public interface IActiveSkillExcute {
     void RefreashCooling();
     object Excute(string userUnitID, int atk = -1);
 	AttackInfo ExcuteByDisk(AttackInfo ai);
+	void StoreSkillCooling(string id);
+//	void ReadSkillCooling();
 }
 
 public interface IEffectConcrete {

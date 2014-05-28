@@ -90,7 +90,7 @@ public class DragPanel : UIBase  {
 			CreatPanel();		
 		}
 		for (int i = 0; i < count; i++) {
-//			Debug.LogError(sourceObject.name);
+			//Debug.Log("source Object: " +sourceObject);
 			GameObject go = dragPanelView.AddObject(sourceObject);
 			if(go != null){
 				scrollItem.Add(go);

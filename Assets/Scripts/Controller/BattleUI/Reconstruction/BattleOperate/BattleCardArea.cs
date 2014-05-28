@@ -20,6 +20,7 @@ public class BattleCardArea : UIBaseUnity {
 	public static Vector3 startPosition;
 	public static Vector3 endPosition;
 	public static Vector3 activeSkillStartPosition;
+	public static Vector3 activeSkillEndPosition;
 
 	public override void Init (string name) {
 		base.Init (name); 
@@ -136,19 +137,23 @@ public class BattleCardArea : UIBaseUnity {
 				battleCardAreaItem [i] = bca;
 		}
 
-		BattleCardAreaItem bcai = battleCardAreaItem [length - 1];	
-
+		BattleCardAreaItem bcai = battleCardAreaItem [length - 1];
 		//normal skill is from right top to left bottom.
-		Vector3 pos = bcai.transform.localPosition;		// get last area item position
-
+		Vector3 pos = bcai.transform.localPosition;		// get last area item position.
 		startPosition = new Vector3 (pos.x + height, pos.y - height * 0.5f, pos.z); //normal skill start position.
 
-		pos = battleCardAreaItem [0].transform.localPosition;	// get first area item position
 
-		endPosition = new Vector3 (pos.x - height * 0.5f, pos.y - height * 1.5f, pos.z);	//normal skill end position. 
+
+		pos = battleCardAreaItem [0].transform.localPosition;	// get first area item position.
+
+		endPosition = new Vector3 (pos.x - height * 0.5f, pos.y - height * 1.5f, pos.z);	//normal skill end position.
 
 		//active skill is from left top to right top. normal skill start position is active skill end position.
 		activeSkillStartPosition = new Vector3 (pos.x - height * 0.5f - 640f, pos.y - height * 0.5f, pos.z);	//active skill from position.
+
+		Vector3 actveiPosition = battleCardAreaItem[2].transform.localPosition;
+
+		activeSkillEndPosition = new Vector3 (actveiPosition.x , startPosition.y, startPosition.z);
 	}
 	
 	static int count = 0;

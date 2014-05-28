@@ -19,12 +19,12 @@ public class PassiveDodgeTrap : SkillBaseInfo, IPassiveExcute {
 		if (instance.trapType == tb.GetTrapType() ) {
 			if(tb.GetLevel == -1 || instance.trapLevel >= tb.GetLevel) {
 				excutePS.DisposeTrap(true);
-				return null;
+				return true;
 			}
 		}
 		excutePS.DisposeTrap(false);
 
-		return null;
+		return false;
 	}
 
 }

@@ -10,8 +10,8 @@ public class MainBgView : UIComponentUnity {
 
 	public override void ShowUI () {
 		base.ShowUI();
-		UIEventListener.Get (gameObject).onClick = OnClickCallback;
-		NGUITools.AddWidgetCollider (gameObject);
+//		UIEventListener.Get (gameObject).onClick = OnClickCallback;
+//		NGUITools.AddWidgetCollider (gameObject);
 
 		MsgCenter.Instance.AddListener(CommandEnum.ShowHomeBgMask, ShowMask);
 	}

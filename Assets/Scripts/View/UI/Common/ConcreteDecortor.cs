@@ -682,11 +682,11 @@ public class FriendListDecorator : DecoratorBase{
 
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
-		friendList.SetComponent(counter);
-		briefInfo.SetComponent(friendList);
+		briefInfo.SetComponent(counter);
 		sortPanel.SetComponent(briefInfo);
+		friendList.SetComponent(sortPanel);
 
-		lastDecorator = sortPanel;
+		lastDecorator = friendList;
 
 		lastDecorator.CreatUI();
 	}
@@ -786,12 +786,13 @@ public class ApplyDecorator : DecoratorBase{
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
-		counter.SetComponent(sceneInfoBar);
+		sortPanel.SetComponent(sceneInfoBar);
+		counter.SetComponent(sortPanel);
 		applyWindow.SetComponent(counter);
 		deleteApply.SetComponent(applyWindow);
-		sortPanel.SetComponent(deleteApply);
+		//sortPanel.SetComponent(deleteApply);
 
-		lastDecorator = sortPanel;
+		lastDecorator = deleteApply;
 
 		lastDecorator.CreatUI();
 	}
@@ -822,14 +823,14 @@ public class ReceptionDecorator : DecoratorBase{
 		ReceptionController recptionWin = CreatComponent< ReceptionController >(UIConfig.receptionWindowName);
 		AccpetFriendApply acceptApply = CreatComponent<AccpetFriendApply>(UIConfig.acceptApplyMessageWindowName);
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
-
+	
 		sceneInfoBar.SetComponent(decorator);
-		counter.SetComponent(sceneInfoBar);
+		sortPanel.SetComponent(sceneInfoBar);
+		counter.SetComponent(sortPanel);
 		recptionWin.SetComponent(counter);
 		acceptApply.SetComponent(recptionWin);
-		sortPanel.SetComponent(acceptApply);
 
-		lastDecorator = sortPanel;
+		lastDecorator = acceptApply;
 		lastDecorator.CreatUI();
 	}
 }

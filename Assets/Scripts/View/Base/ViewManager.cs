@@ -47,6 +47,11 @@ public class ViewManager {
 		get{ return parentPanel; }
 	}
 
+	private GameObject bottomLeftPanel;
+	public GameObject BottomLeftPanel {
+		get { return bottomLeftPanel; }
+	}
+
 	public int manualHeight;
 
 	private GameObject effectPanel;
@@ -85,22 +90,24 @@ public class ViewManager {
 		get{return dynamicFont;}
 	}
 
-	private UILabel trapLabel;
-	public UILabel TrapLabel{
-		get {
-			return trapLabel;
-		}
-	}
+//	private UILabel trapLabel;
+//	public UILabel TrapLabel{
+//		get {
+//			return trapLabel;
+//		}
+//	}
 
 	public void Init(GameObject ui){
 		mainUIRoot = ui;		
-		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();		
-		parentPanel = mainUIRoot.transform.Find("RootPanel/Bottom").gameObject;
-		topPanel = mainUIRoot.transform.Find ("RootPanel/Top/Panel").gameObject;
-		bottomPanel = mainUIRoot.transform.Find ("RootPanel/Bottom/Panel").gameObject;
-		effectPanel = mainUIRoot.transform.Find ("RootPanel/Bottom/EffectPanel").gameObject;
-		centerPanel = mainUIRoot.transform.Find ("RootPanel/Anchor/Panel").gameObject;
-		trapLabel = mainUIRoot.transform.Find ("RootPanel/BottomLeft/Label").GetComponent<UILabel> ();
+		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();	
+		Transform trans = mainUIRoot.transform;
+		parentPanel = trans.Find("RootPanel/Bottom").gameObject;
+		topPanel = trans.Find ("RootPanel/Top/Panel").gameObject;
+		bottomPanel = trans.Find ("RootPanel/Bottom/Panel").gameObject;
+		effectPanel = trans.Find ("RootPanel/Bottom/EffectPanel").gameObject;
+		centerPanel = trans.Find ("RootPanel/Anchor/Panel").gameObject;
+		bottomLeftPanel =  trans.Find ("RootPanel/BottomLeft").gameObject;
+//		trapLabel = mainUIRoot.transform.Find ("RootPanel/BottomLeft/Label").GetComponent<UILabel> ();
 
 		dynamicFont = Resources.Load("Font/Dimbo Regular", typeof(Font)) as Font;
 		manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;

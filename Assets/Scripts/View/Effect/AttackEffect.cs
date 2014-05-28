@@ -4,7 +4,6 @@ using bbproto;
 using System.Collections;
 
 public class AttackEffect : MonoBehaviour {
-
 	private GameObject effect;
 	private Queue<AttackEffectItem> inactiveEffect = new Queue<AttackEffectItem>();
 	private Queue<AttackEffectItem> attackEffectQueue = new Queue<AttackEffectItem>();
@@ -12,7 +11,9 @@ public class AttackEffect : MonoBehaviour {
 	private GameObject activeEffect;
 	private UITexture avatarTexture;
 
-	public const float activeSkillEffectTime = 2f;
+	private Vector3 activeEnd = Vector3.zero;
+
+	public const float activeSkillEffectTime = 1.5f;
 
 	void Awake() {
 		effect = transform.Find ("AE").gameObject;
@@ -22,7 +23,7 @@ public class AttackEffect : MonoBehaviour {
 		activeEffect.SetActive (false);
 	}
 
-	public void RefreshItem (AttackInfo data) {
+	public void RefreshItem (string userUnitID) {
 		AttackEffectItem aei;
 		if (inactiveEffect.Count == 0) {
 			GameObject go = NGUITools.AddChild (gameObject, effect);
@@ -32,7 +33,7 @@ public class AttackEffect : MonoBehaviour {
 		}
 
 		aei.gameObject.SetActive (true);
-		aei.RefreshInfo(data,End);
+		aei.RefreshInfo(userUnitID,End);
 		attackEffectQueue.Enqueue(aei);
 	}
 
@@ -50,8 +51,15 @@ public class AttackEffect : MonoBehaviour {
 		activeEffect.SetActive (true);
 		activeEffect.transform.localPosition = BattleCardArea.activeSkillStartPosition;
 		avatarTexture.mainTexture = tuu.UnitInfo.GetAsset (UnitAssetType.Avatar);
-		iTween.MoveTo (activeEffect, iTween.Hash ("position", BattleCardArea.startPosition, "time", activeSkillEffectTime, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd", "islocal", true));
+		if (activeEnd.x == 0) {
+			activeEnd = new Vector3(BattleCardArea.activeSkillEndPosition.x - 320f, BattleCardArea.activeSkillEndPosition.y, BattleCardArea.activeSkillEndPosition.z);
+		}
+		iTween.MoveTo (activeEffect, iTween.Hash ("position", BattleCardArea.startPosition, "time", activeSkillEffectTime, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd", "islocal", true,"easetype", iTween.EaseType.easeInOutBack ));  
 	}
+
+//	public void PlayPassiveSkill(TUserUnit tuu) {
+//
+//	}
 
 	void ActiveSkillEnd() {
 		avatarTexture.mainTexture = null;

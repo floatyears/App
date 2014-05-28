@@ -40,7 +40,7 @@ public class DragPanelView : UIBaseUnity {
 		a++;
 		UIDragScrollView uidrag = tempObject.GetComponent<UIDragScrollView> ();
 		if (uidrag == null) {
-			//Debug.LogError("drag item is illegal");
+			Debug.LogError("drag item is illegal");
 			Destroy(tempObject);
 			return null;
 		}
@@ -130,6 +130,8 @@ public class DragPanelView : UIBaseUnity {
 		grid.Reposition ();
 	}
 
+	public const string ScrollViewDepth = "ScrollViewDepth";
+
 	public void SetScrollView(Dictionary<string, object> argsDic, Transform parent){
 //		Debug.LogError ("gameobject befoure : " + transform.localScale);
 
@@ -143,6 +145,7 @@ public class DragPanelView : UIBaseUnity {
 		int maxPerLine = 0;
 		int cellWidth = 100;
 		int cellHeight = 100;
+		object depth = null;
 
 		if( argsDic.ContainsKey( "scrollBarDir"))
 			scrollBarDir = (UIScrollBar.FillDirection)argsDic["scrollBarDir"];
@@ -164,9 +167,15 @@ public class DragPanelView : UIBaseUnity {
 			cellWidth = (int)argsDic["cellWidth"];
 		if( argsDic.ContainsKey("cellHeight"))
 			cellHeight = (int)argsDic["cellHeight"];
-		 
+
+		argsDic.TryGetValue (ScrollViewDepth,out depth);
+
+
 		scrollBar.fillDirection = scrollBarDir;
 		scrollView.movement = scrollMovement;
+		if (depth != null) {
+			scrollView.GetComponent<UIPanel> ().depth = (int)depth;
+		}
 //		Debug.LogError ("gameobject end aa : " + transform.localScale + " parent : " + parent.transform.localScale);
 		gameObject.transform.parent = parent;
 		transform.localScale = Vector3.one;
@@ -179,6 +188,10 @@ public class DragPanelView : UIBaseUnity {
 		grid.cellWidth = cellWidth;
 		grid.cellHeight = cellHeight;
 
+		if (scrollMovement == UIScrollView.Movement.Vertical) {
+			scrollView.horizontalScrollBar = null;	
+			scrollView.verticalScrollBar = scrollBar;
+		}
 		//Debug.LogError( "  " + gameObject.name + " have finlished SetScrollView(dic)");
 	}
 	

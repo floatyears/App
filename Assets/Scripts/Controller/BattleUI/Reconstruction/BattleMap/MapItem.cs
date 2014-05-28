@@ -116,7 +116,7 @@ public class MapItem : UIBaseUnity {
 				}
 				break;
 			case bbproto.EQuestGridType.Q_TRAP:
-				backSpriteName = TrapBase.GetTrapSpriteName(gridItem.TrapInfo);
+				backSpriteName = gridItem.TrapInfo.GetTrapSpriteName();
 				break;
 			case bbproto.EQuestGridType.Q_TREATURE:
 				backSpriteName = "S";
@@ -214,10 +214,14 @@ public class MapItem : UIBaseUnity {
 	public void HideEnvirment(bool b) {
 		if (!isOld) {
 			HideStarSprite(!b);
-			if(b) {
-				DGTools.ShowSprite(mapItemSprite, "EnvirmentTrap"); 
-			}else{
+			if(b && mapItemSprite.spriteName !=  TrapBase.environmentSpriteName) {
+				DGTools.ShowSprite(mapItemSprite, TrapBase.environmentSpriteName); 
+				return;
+			}
+
+			if(!b && mapItemSprite.spriteName ==  TrapBase.environmentSpriteName){
 				DGTools.ShowSprite(mapItemSprite, spriteName);
+				return;
 			}
 		}
 	}

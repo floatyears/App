@@ -25,9 +25,16 @@ public class GameDataStore {
 			info = PlayerPrefs.GetString (key);
 
 			info = AES.Decrypt (info);
-
 		} 
 		return info;
+	}
+
+	public void StoreIntDatNoEncypt(string key, int data) {
+		PlayerPrefs.SetInt (key, data);
+	}
+
+	public int GetIntDataNoEncypt(string key) {
+		return PlayerPrefs.GetInt (key);
 	}
 
 	public void StoreDataNoEncrypt(string key, object value) {

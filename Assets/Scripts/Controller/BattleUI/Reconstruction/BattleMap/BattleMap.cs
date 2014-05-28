@@ -117,16 +117,16 @@ public class BattleMap : UIBaseUnity {
 	}
 	
 	void ShieldMap(object data) {
-		bool b = (bool)data;
+		int b = (int)data;
+
 		for (int i = 0; i < map.GetLength(0); i++) {
 			for (int j = 0; j < map.GetLength(1); j++) {
-				map[i,j].HideEnvirment(b);
+				map[i,j].HideEnvirment(b > 0);
 			}
 		}
 	}
 	  
 	void OnClickMapItem(GameObject go) {
-//		Debug.LogError ("OnClickMapItem : " + wMove);
 		if (!wMove) {
 			temp = go.GetComponent<MapItem>();
 			bQuest.TargetItem(temp.Coor);
@@ -186,10 +186,8 @@ public class BattleMap : UIBaseUnity {
 
 	public Queue<MapItem> AttakAround(Coordinate coor) {
 		List<MapItem> temp = GetAround (coor);
-
 		Queue<MapItem> mapItem = new Queue<MapItem> ();
 		foreach (var item in temp) {
-//			item.AddSecurityLevel();
 			if(item.GetChainLinke()) {
 				item.isLockAttack = true;
 				mapItem.Enqueue(item);

@@ -28,7 +28,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			if(id == -1) {
 				continue;
 			}
-			IPassiveExcute ipe = DataCenter.Instance.GetSkill(item.MakeUserUnitKey(),id,SkillType.PassiveSkill) as IPassiveExcute; //Skill[id] as IPassiveExcute;
+			IPassiveExcute ipe = DataCenter.Instance.GetSkill(item.MakeUserUnitKey(), id, SkillType.PassiveSkill) as IPassiveExcute; //Skill[id] as IPassiveExcute;
 			if(ipe == null) {
 				continue;
 			}
@@ -48,9 +48,19 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 		if (passiveSkill.Values.Count == 0) {
 			DisposeTrap (false);
 		} else {
-			foreach (var item in passiveSkill.Values) {
-//				Debug.LogError(tb);
-				item.Excute(tb, this);
+			foreach (var item in passiveSkill) {
+				bool b = (bool)item.Value.Excute(tb, this);
+				if(b) {
+					foreach (var unitItem in leaderSkill.UserUnit.Values) {
+						if(unitItem == null) {
+							continue;
+						}
+
+						if(unitItem.MakeUserUnitKey() == item.Key) {
+							MsgCenter.Instance.Invoke(CommandEnum.ShowPassiveSkill, unitItem);
+						}
+					}
+				}
 			}
 		}
 	}

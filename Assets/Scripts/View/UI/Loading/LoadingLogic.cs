@@ -137,7 +137,8 @@ public class LoadingLogic : ConcreteComponent {
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
-			if(ConfigBattleUseData.Instance.hasBattleData()) {
+			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
+			if(recoverQuestID > 0) {
 				MsgWindowParams mwp = new MsgWindowParams ();
 				mwp.btnParams = new BtnParam[2];
 				mwp.titleText = "Continue?";
@@ -161,15 +162,19 @@ public class LoadingLogic : ConcreteComponent {
         }
     }
 
+	uint recoverQuestID = 0;
+
 	void EnterGame () {
 		UIManager.Instance.ChangeScene(SceneEnum.Start);
 
 		UIManager.Instance.ChangeScene(SceneEnum.Home);
 
-		LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
-		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
-			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
-		}
+		//LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
+//		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
+//			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+//		}
+
+		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 
 		if (rspAuthUser.isNewUser == 1){
 			TurnToReName();
@@ -194,6 +199,10 @@ public class LoadingLogic : ConcreteComponent {
 	}
 
 	void Cancel(object data) {
+		RetireQuest.SendRequest (RetireQuestCallback, recoverQuestID);
+	}
+
+	void RetireQuestCallback(object data) {
 		ConfigBattleUseData.Instance.ClearData ();
 		ConfigBattleUseData.Instance.gameState = (byte)GameState.Normal;
 		EnterGame();
