@@ -147,9 +147,9 @@
     "LevelUpUI": {
         "uiName":"LevelUpUI",
         "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
-        "positiony": 341,
+        "positiony": -205,
         "positionz": 0
     },
     "SellWindow": {
@@ -171,9 +171,9 @@
     "EvolveWindow": {
         "uiName":"EvolveWindow",
         "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": -442,
         "positionz": 0
     },
      "EvolveFriend": {
@@ -339,9 +339,9 @@
 	  "UnitDisplay": {
         "uiName":"UnitDisplay",
         "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": -430,
         "positionz": 0
     },
     

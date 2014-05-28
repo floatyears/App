@@ -255,6 +255,8 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 
 		unitItemDragPanel = new DragPanel ("UnitDisplay", unitItem);
+
+	
 	}
 
 	void SortButtoCallback(GameObject go) {

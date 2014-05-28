@@ -114,7 +114,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		set {coinNeed = value; infoLabel[4].text = coinNeed.ToString();}
 	}
 
-	private UIImageButton levelUpButton;
+	private UIButton levelUpButton;
 
 	private UIButton sortButton;
 
@@ -209,7 +209,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		for (int i = 0; i < 5; i++) { //label name is 0 ~ 4
 			infoLabel[i] = FindChild<UILabel>(path + i);
 		}
-		levelUpButton = FindChild<UIImageButton>("Button_LevelUp");
+		levelUpButton = FindChild<UIButton>("Button_LevelUp");
 		UIEventListener.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
 		levelUpButton.isEnabled = false;
 		path = "LevelUpBasePanel/SortButton";
@@ -222,8 +222,17 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	void InitDragPanel() {
 		myUnitDragPanel = new DragPanel("PartyDragPanel", PartyUnitItem.ItemPrefab);
 		myUnitDragPanel.CreatUI();
-		Transform parent = FindChild<Transform>("LevelUpBasePanel");
-		myUnitDragPanel.DragPanelView.SetScrollView(ConfigDragPanel.PartyListDragPanelArgs, parent);
+//		Transform parent =
+
+		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
+		dpsi.parentTrans = FindChild<Transform>("LevelUpBasePanel");
+		dpsi.clipRange = new Vector4 (0, -100, 640, 315);
+		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
+		dpsi.scrollBarPosition = new Vector3 (-320, -250, 0);
+		dpsi.maxPerLine = 3;
+		dpsi.depth = 2;	
+		myUnitDragPanel.DragPanelView.SetDragPanel (dpsi);
+//		myUnitDragPanel.DragPanelView.SetScrollView(ConfigDragPanel.PartyListDragPanelArgs, parent);
 
 		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
 		myUnitDragPanel.AddItem(1, rejectItem);
