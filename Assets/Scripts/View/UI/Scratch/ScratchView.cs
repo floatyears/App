@@ -16,6 +16,9 @@ public class ScratchView : UIComponentUnity {
     private UILabel rareGachaTimes;
     private UILabel eventGachaTimes;
 
+	private GameObject infoPanelRoot;
+	private GameObject windowRoot;
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		InitUI();
@@ -24,7 +27,7 @@ public class ScratchView : UIComponentUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
         UpdateGachaTimes();
-		ShowTween();
+		ShowUIAnimation();
 	}
 	
 	public override void HideUI () {
@@ -51,26 +54,20 @@ public class ScratchView : UIComponentUnity {
         friendGachaTimes = FindChild<UILabel>("bottom_panel/1/TimesParent/Times");
         rareGachaTimes = FindChild<UILabel>("bottom_panel/2/TimesParent/Times");
         eventGachaTimes = FindChild<UILabel>("bottom_panel/3/TimesParent/Times");
+
+		infoPanelRoot = transform.FindChild("info_panel").gameObject;
+		windowRoot = transform.FindChild("bottom_panel").gameObject;
 	}
 
-	private void ShowTween()
-	{
-		TweenPosition[ ] list = 
-			gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)
-			return;
-		foreach (var tweenPos in list)
-		{		
-			if (tweenPos == null)
-				continue;
-			//tweenPos.onFinished.Add(new EventDelegate(onTweenFinished));
-			tweenPos.Reset();
-			tweenPos.PlayForward();
-		}
+	private void ShowUIAnimation(){
+		infoPanelRoot.transform.localPosition = new Vector3(-1000, -325, 0);
+		windowRoot.transform.localPosition = new Vector3(1000, -600, 0);
+		iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+		iTween.MoveTo(windowRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+
 	}
 
-	private void onTweenFinished()
-	{
+	private void onTweenFinished(){
 		NoviceGuideStepEntityManager.Instance().StartStep();
 	}
 

@@ -20,7 +20,6 @@ public class OthersWindow : UIComponentUnity {
     GameObject resetOption;
 
 	Dictionary< GameObject, GameObject > options = new Dictionary< GameObject, GameObject>();
-//	Dictionary< string, object > otherScrollerArgsDic = new Dictionary< string, object >();
 
 	public override void Init ( UIInsConfig config, IUICallback origin ){
 		FindUIElement();
@@ -48,7 +47,6 @@ public class OthersWindow : UIComponentUnity {
 		
 		othersScroller = new DragPanel ( "OthersScroller", scrollerItem );
 		othersScroller.CreatUI ();
-//		InitOtherScrollArgs();
 
 		GameObject musicOption = othersScroller.AddScrollerItem( item );
 		musicOption.name = "MusicOption";
@@ -210,7 +208,6 @@ public class OthersWindow : UIComponentUnity {
 
 	void RequestNameChange(string name){
 		Debug.Log( "OthersWindow RequestNameChange() : Start");
-//		MsgCenter.Instance.Invoke()
 		Debug.Log( "OthersWindow RequestNameChange() : End");
 	}
 

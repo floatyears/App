@@ -15,6 +15,7 @@ public class ApplyView : UIComponentUnity{
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCmdListener();
+		Debug.LogError("ApplyView.ShowUI()...");
 		CreateDragView();
 		SortUnitByCurRule();
 		RefreshCounter();
@@ -32,8 +33,10 @@ public class ApplyView : UIComponentUnity{
 	}
 
 	private void CreateDragView(){
+		Debug.LogError("CreateDragView(), Apply...");
+  
 		friendOutDataList = DataCenter.Instance.FriendList.FriendOut;
-		dragPanel = new DragPanel("ReceptionDragPanel", FriendUnitItem.ItemPrefab);
+		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(friendOutDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.FriendListDragPanelArgs, transform);

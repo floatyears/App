@@ -52,6 +52,7 @@ end
 module EBoostType
   BOOST_ATTACK = 0
   BOOST_HP = 1
+  BOOST_ALL = 2
 end
 
 module EBoostTarget
@@ -312,7 +313,7 @@ class AllSkillConfig
   ETRAP_TYPE    = { "Move" => 0 , "StateException" => 1 , "ChangeEnvir" => 2 , "Injured" => 3 }
   EVALUE_TYPE   = { "FIXED" => 1 , "MULTIPLE" => 2 , "PERCENT" => 3 , "SECOND" => 4 , "ROUND" => 5 , "COLORTYPE" => 6 , "RANDOMCOLOR" => 7 }
   EATTACK_TYPE  = { "ATK_SINGLE" => 0 , "ATK_ALL" => 1 , "RECOVER_HP" => 2 }
-  EBOOST_TYPE   = { "BOOST_ATTACK" => 0 , "BOOST_HP" => 1 }
+  EBOOST_TYPE   = { "BOOST_ATTACK" => 0 , "BOOST_HP" => 1, "BOOST_ALL" => 2 }
   EBOOST_TARGET = { "UNIT_RACE" => 0 , "UNIT_TYPE" => 1 }
   EPERIOD       = { "EP_RIGHT_NOW" => 0 , "EP_EVERY_ROUND" => 1 , "EP_EVERY_STEP" => 2 }
   EUNIT_RACE    = { "ALL" => 0 , "HUMAN" => 1, "UNDEAD" =>2 , "MYTHIC" => 3 , "BEAST" => 4, "MONSTER" => 5 ,"LEGEND" => 6, "DRAGON" => 7,"SCREAMCHEESE" => 8, "EVOLVEPARTS" => 9 }

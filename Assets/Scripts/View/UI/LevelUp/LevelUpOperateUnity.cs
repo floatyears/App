@@ -186,7 +186,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	void InitUI() {
 		dataCenter = DataCenter.Instance;
 		for (int i = 1; i < 7; i++) {	//gameobject name is 1 ~ 6.
-			LevelUpItem pui = FindChild<LevelUpItem>(i.ToString());
+			LevelUpItem pui = FindChild<LevelUpItem>("Top/" + i.ToString());
 			selectedItem[i -1] = pui;
 			pui.Init(null);
 			pui.IsEnable = true;
@@ -205,14 +205,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			pui.callback = SelectedItemCallback;
 		}
 
-		string path = "InfoPanel/Label_Value/";
+		string path = "Top/InfoPanel/Label_Value/";
 		for (int i = 0; i < 5; i++) { //label name is 0 ~ 4
 			infoLabel[i] = FindChild<UILabel>(path + i);
 		}
 		levelUpButton = FindChild<UIButton>("Button_LevelUp");
 		UIEventListener.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
 		levelUpButton.isEnabled = false;
-		path = "LevelUpBasePanel/SortButton";
+		path = "Middle/LevelUpBasePanel/SortButton";
 		sortButton = FindChild<UIButton>(path);
 		infoLabel[5] = FindChild<UILabel>(path + "/SortInfo");
 		UIEventListener.Get (sortButton.gameObject).onClick = SortCallback;
@@ -225,7 +225,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 //		Transform parent =
 
 		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
-		dpsi.parentTrans = FindChild<Transform>("LevelUpBasePanel");
+		dpsi.parentTrans = FindChild<Transform>("Middle/LevelUpBasePanel");
 		dpsi.clipRange = new Vector4 (0, -100, 640, 315);
 		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
 		dpsi.scrollBarPosition = new Vector3 (-320, -250, 0);
