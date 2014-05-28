@@ -20,6 +20,7 @@ enum EAttackType {
 enum EBoostType {
 	BOOST_ATTACK	= 0;
 	BOOST_HP		= 1;
+    BOOST_ALL		= 2;
 };
 
 enum EBoostTarget {
