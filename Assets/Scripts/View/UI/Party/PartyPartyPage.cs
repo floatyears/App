@@ -10,7 +10,6 @@ public class PartyPartyPage : PartyPageLogic{
 
 	public override void CreatUI(){
 		base.CreatUI();
-//		EnableIndexDisplay();
 	}
 
 	public override void ShowUI(){

@@ -44,7 +44,7 @@ public class MyUnitListView : UIComponentUnity {
 	}
 
 	private void ShowUIAnimation(){
-		transform.localPosition = new Vector3(-1000, 0 , 0);
+		transform.localPosition = new Vector3(-1000, -473 , 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));
 	}
 

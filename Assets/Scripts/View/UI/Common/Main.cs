@@ -86,6 +86,13 @@ public class Main : MonoBehaviour {
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
         EffectManager em = EffectManager.Instance;
         UIManager.Instance.ChangeScene(SceneEnum.Loading);
+
+
+//		UIPanel rootPanel = GameObject.Find("UI Root/RootPanel").GetComponent<UIPanel>();
+//		float sizeY = ViewManager.Instance.manualHeight;
+//
+//		Debug.Log("sizeY : " + sizeY);
+//		rootPanel.clipRange = new Vector4(0,0,640,sizeY);
     }
 	
     void OnDisable() {
