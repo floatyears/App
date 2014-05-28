@@ -205,8 +205,8 @@ public partial class TextCenter {
 		textDict.Add("Tips_D_14","周末是攒钱的绝好时机，请及早存够耐力。");
 		textDict.Add("Tips_D_15","尖叫奶酪是强化专用的材料卡牌，可让卡牌等级飞速提升。");
 		textDict.Add("Tips_D_16","尖叫奶酪主要出现在每日限时开放的活动关卡里，系统会提前公告通知。");
-		textDict.Add("Tips_D_16","只有进化成功时，材料卡牌才会消耗。");
-		textDict.Add("Tips_D_17","可花费钻石扩张好友和卡牌仓库的上限。");
+		textDict.Add("Tips_D_17","只有进化成功时，材料卡牌才会消耗。");
+		textDict.Add("Tips_D_18","可花费钻石扩张好友和卡牌仓库的上限。");
 
 
 		textDict.Add("Tips_E_01","“+1”卡牌：偶尔会掉落右下角带“+1”的卡牌，这代表该卡牌的能力有额外的加成。");
