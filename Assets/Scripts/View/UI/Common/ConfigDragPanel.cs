@@ -50,8 +50,8 @@ public class ConfigDragPanel{
 		UnitListDragPanelArgs.Add("clipRange",						new Vector4(0, -210, 640, 600)			);
 		UnitListDragPanelArgs.Add("gridArrange",						UIGrid.Arrangement.Vertical			);
 		UnitListDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -540, 0)				);
-		UnitListDragPanelArgs.Add("cellWidth",							120												);
-		UnitListDragPanelArgs.Add("cellHeight",						120												);
+		UnitListDragPanelArgs.Add("cellWidth",							100												);
+		UnitListDragPanelArgs.Add("cellHeight",						100												);
 		UnitListDragPanelArgs.Add("maxPerLine",						 5													);
 	}
 

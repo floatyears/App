@@ -62,14 +62,8 @@ public class FriendListView : UIComponentUnity{
 	}
 
 	void ShowUIAnimation(){
-		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)
-			return;
-		foreach (var tweenPos in list){		
-			if (tweenPos == null) continue;
-			tweenPos.Reset();
-			tweenPos.PlayForward();
-		}
+		transform.localPosition = new Vector3(-1000, -480, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
 
 	void ClickItem(FriendUnitItem item){
