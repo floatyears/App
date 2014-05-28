@@ -36,11 +36,8 @@ public class BattleBackground : UIBaseUnity {
 
 	public override void Init (string name){
 		base.Init (name);
-		bottomCamera = FindChild<Camera> ("BottomCamera");
-//		Object o = LoadAsset.Instance.LoadAssetFromResources ("BattleBottom", ResourceEuum.Prefab);
-//		battleBottom = Instantiate (o) as GameObject;
-//		battleBottom.GetComponent<UIAnchor> ().uiCamera = ViewManager.Instance.MainUICamera.camera;
-		battleBottom = FindChild<Transform>("BottomCamera/BattleBottom").gameObject;
+		bottomCamera = Main.Instance.bottomCamera;
+		battleBottom = FindChild<Transform>("BattleBottom").gameObject;
 		_battleBottomScript = battleBottom.AddComponent<BattleBottom> ();
 		_battleBottomScript.Init (bottomCamera);
 		actorPosition = transform.Find ("Position").localPosition;
@@ -116,7 +113,6 @@ public class BattleBackground : UIBaseUnity {
 		tempNum = blood;
 		currentEnergyPoint = initEnergyPoint = energyPoint;
 		SetBlood (tempNum); 
-//		Debug.LogError ("InitData : " + energyPoint);
 		InitSP ();
 	}
 
@@ -124,8 +120,7 @@ public class BattleBackground : UIBaseUnity {
 		for (int i = 0; i < spSprite.Length; i++) {
 			if(i >= initEnergyPoint) {
 				spSprite[i].enabled = false;
-			}
-			else {
+			} else {
 				spSprite[i].enabled = true;
 			}
 		}
@@ -159,7 +154,7 @@ public class BattleBackground : UIBaseUnity {
 				if(!sprite.enabled) {
 					sprite.enabled = true;
 				}
-			}else{
+			} else {
 				if(sprite.enabled) {
 					sprite.enabled = false;
 				}

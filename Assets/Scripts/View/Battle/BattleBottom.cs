@@ -60,6 +60,8 @@ public class BattleBottom : MonoBehaviour {
 				actorObject[i].SetActive(false);
 			}
 		}
+
+//		Debug.LogError ("localposition : " + transform.localPosition);
 	}
 
 	void OnDestroy() {
@@ -77,7 +79,6 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnRealease () {
-
 		if (notClick) {
 			return;	
 		}

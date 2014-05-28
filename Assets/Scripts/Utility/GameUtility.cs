@@ -93,10 +93,17 @@ public class DGTools {
 		return coorA.x == coorB.x && coorA.y == coorB.y;
 	}
 
-	public static void ChangeToUnitDetail(uint uniqueID) {
-		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (uniqueID);
-		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
-		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, tuu);
+	public static void ChangeToUnitDetail(uint unitID) {
+
+		UserUnit userUnit = new UserUnit();
+		userUnit.level = 1;
+		userUnit.exp = 0;
+		userUnit.unitId = (uint)unitID;
+		TUserUnit tuu = new TUserUnit(userUnit);
+
+		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
+
 	}
 
 	/// <summary>

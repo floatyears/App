@@ -46,6 +46,7 @@ public class ResourceUpdate : MonoBehaviour {
 	private WWW www = null;
 
 	private UIProgressBar pro;
+	private UILabel tipText;
 	private UILabel proText;
 	private WWW globalWWW;
 	private bool startDown = false;
@@ -61,6 +62,9 @@ public class ResourceUpdate : MonoBehaviour {
 
 		pro = GetComponent<UIProgressBar> ();
 		proText = GameObject.Find("ProgressText").GetComponent<UILabel> ();
+		tipText = GameObject.Find ("TipText").GetComponent<UILabel>();
+		InvokeRepeating ("ShowTipText", 2, 2);
+
 
 		localVersionDic = new Dictionary<string, DownloadItemInfo> ();
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
@@ -153,6 +157,10 @@ public class ResourceUpdate : MonoBehaviour {
 //			retryItemList[i].StartDownload();
 //			downLoadItemList.Add(retryItemList[i]);
 //		}
+	}
+
+	private void ShowTipText(){
+		tipText.text = TextCenter.Instace.GetCurrentText ("Tips_" + MathHelper.RandomToInt (1, 80));
 	}
 
 	private void DownloadAgain(object data){
