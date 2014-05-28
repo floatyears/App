@@ -111,6 +111,7 @@ public class ViewManager {
 
 		dynamicFont = Resources.Load("Font/Dimbo Regular", typeof(Font)) as Font;
 		manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
+		Debug.LogError("manualHeight : " + manualHeight);
 	}
 
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
