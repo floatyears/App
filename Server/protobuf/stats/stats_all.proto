@@ -1121,11 +1121,21 @@ message StatAuthUser {
 	optional string			terminal			= 1;
 	optional uint32			selectRole			= 2;
 	optional int32			channelId			= 3;
-    optional int32			isNewUser			= 4;
 
-    optional uint32			timeStamp			= 5;
-	optional uint32			userId				= 6;
-	optional int32			errorCode			= 7;
+    optional UserInfo		user				= 4;
+    optional AccountInfo	account				= 5;
+    optional QuestLog		quest				= 6;
+    repeated UserUnit		unitList			= 7;
+    optional PartyInfo		party				= 8;
+    optional LoginInfo		login				= 9;
+    repeated FriendInfo		friends				= 10;
+    repeated PresentInfo	present				= 11;
+    optional QuestClearInfo	questClear			= 12;
+    optional int32			isNewUser			= 13;
+
+    optional uint32			timeStamp			= 14;
+	optional uint32			userId				= 15;
+	optional int32			errorCode			= 16;
 }
 
 message StatRenameNick {
