@@ -21,6 +21,8 @@ public class Main : MonoBehaviour {
         }
     }
 
+	public Camera bottomCamera;
+
 	public Camera effectCamera;
 
     private GameInput gInput;
