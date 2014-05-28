@@ -66,7 +66,7 @@ public class BattleEnemy : UIBaseUnity {
 		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.3f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "End", "oncompletetarget", gameObject));
 	}
 	
-	List<AttackInfo> attackList=  new List<AttackInfo>();
+	List<AttackInfo> attackList= new List<AttackInfo>();
 
 	void AttackEnemy(object data) {
 		DestoryEffect ();
@@ -236,11 +236,6 @@ public class BattleEnemy : UIBaseUnity {
 //		Debug.LogError ("obj : " + obj + " ai.skillid : " + ai.SkillID);
 		ei.InjuredShake();
 		if (obj != null) {
-//			Vector3 localScale = obj.transform.localScale;
-//			Vector3 rotation = obj.transform.eulerAngles;
-//			prevEffect = NGUITools.AddChild(effectPanel, obj);
-//			prevEffect.transform.localScale = localScale;
-//			prevEffect.transform.eulerAngles = rotation;
 			prevEffect = EffectManager.InstantiateEffect(effectPanel, obj);
 			if(ai.AttackRange == 0) {
 				prevEffect.transform.localPosition = ei.transform.localPosition;

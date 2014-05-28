@@ -142,8 +142,6 @@ public class BattleCardArea : UIBaseUnity {
 		Vector3 pos = bcai.transform.localPosition;		// get last area item position.
 		startPosition = new Vector3 (pos.x + height, pos.y - height * 0.5f, pos.z); //normal skill start position.
 
-
-
 		pos = battleCardAreaItem [0].transform.localPosition;	// get first area item position.
 
 		endPosition = new Vector3 (pos.x - height * 0.5f, pos.y - height * 1.5f, pos.z);	//normal skill end position.
