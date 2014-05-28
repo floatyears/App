@@ -33,13 +33,13 @@ public class Main : MonoBehaviour {
     private GameTimer gTimer;
 //    private ShowUnitInfo sui;
 
-    private const float screenWidth = 640;
+//    private const float screenWidth = 640;
 
-    private static float texScale = 0f;
-
-    public static float TexScale {
-        get{ return texScale; }
-    }
+//    private static float texScale = 0f;
+//
+//    public static float TexScale {
+//        get{ return texScale; }
+//    }
 
     private static byte globalDataSeed = 0;
 
@@ -60,17 +60,18 @@ public class Main : MonoBehaviour {
 
     }
 
+	[HideInInspector]
+	public UIRoot root;
+
     void Awake() {
 		mainScrpit = this;
         TrapInjuredInfo tii = TrapInjuredInfo.Instance;
         globalDataSeed = (byte)Random.Range(0, 255);
-
+		root = uiRoot.GetComponent<UIRoot> ();
         gInput = gameObject.AddComponent<GameInput>();
         gTimer = gameObject.AddComponent<GameTimer>();
         DontDestroyOnLoad(gameObject);
 
-        texScale = screenWidth / Screen.width;
-		//sui = new ShowUnitInfo();
         // init manager class
         ViewManager.Instance.Init(uiRoot);
         ModelManager.Instance.Init();
@@ -83,17 +84,27 @@ public class Main : MonoBehaviour {
     /// start game
     /// </summary>
     void OnEnable() {
+		SetResolution ();
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
         EffectManager em = EffectManager.Instance;
         UIManager.Instance.ChangeScene(SceneEnum.Loading);
 
-
-//		UIPanel rootPanel = GameObject.Find("UI Root/RootPanel").GetComponent<UIPanel>();
-//		float sizeY = ViewManager.Instance.manualHeight;
-//
-//		Debug.Log("sizeY : " + sizeY);
-//		rootPanel.clipRange = new Vector4(0,0,640,sizeY);
     }
+
+	public const float DefaultSize = 1.5f;
+	public const int DefaultHeight = 960;
+
+	void SetResolution() {
+		float currentSize = Screen.height / (float)Screen.width;
+		UIPanel rootPanel = uiRoot.transform.Find("RootPanel").GetComponent<UIPanel>();
+		Debug.LogError (currentSize);
+		if (currentSize >= DefaultSize) {
+			float sizePropotion = currentSize / DefaultSize;
+			int height = System.Convert.ToInt32( DefaultHeight * sizePropotion);
+			root.manualHeight = height;
+			rootPanel.clipRange = new Vector4(0, 0, Screen.width, height);
+		}
+	}
 	
     void OnDisable() {
 //        sui.RemoveListener();

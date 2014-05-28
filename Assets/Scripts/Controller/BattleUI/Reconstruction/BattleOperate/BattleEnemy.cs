@@ -143,37 +143,33 @@ public class BattleEnemy : UIBaseUnity {
 		}
 	}
 
-	void SortEnemyItem(List<EnemyItem> temp) {
-		int count = temp.Count;
+	void SortEnemyItem(List<EnemyItem> enemys) {
+		int count = enemys.Count;
 		if (count == 0) {	return;	}
-		CompressTextureWidth (temp);
+		CompressTextureWidth (enemys);
 		if (count == 1) { 
-			temp[0].transform.localPosition = Vector3.zero; 
+			enemys[0].transform.localPosition = Vector3.zero; 
 			return; 
 		}
 		int centerIndex = 0;
 		if (DGTools.IsOddNumber (count)) {
-			centerIndex = ((count + 1) >> 1) - 1;
-			temp[centerIndex].transform.localPosition = Vector3.zero;
-			DisposeCenterLeft(centerIndex, temp);
-			DisposeCenterRight(centerIndex,temp);
+			centerIndex = count >> 1;
+			enemys[centerIndex].transform.localPosition = Vector3.zero;
+			DisposeCenterLeft(centerIndex, enemys);
+			DisposeCenterRight(centerIndex, enemys);
 		} else {
 			centerIndex = (count >> 1) - 1;
 			int centerRightIndex = centerIndex + 1;
-			float centerWidth = DGTools.GetEnemyWidthByRare(temp[centerIndex].enemyUnitInfo.Rare) * 0.25f;
-			float centerRightWidth =  DGTools.GetEnemyWidthByRare(temp[centerRightIndex].enemyUnitInfo.Rare) * 0.25f;
+			float centerWidth = DGTools.GetEnemyWidthByRare(enemys[centerIndex].enemyUnitInfo.Rare) * 0.25f;
+			float centerRightWidth =  DGTools.GetEnemyWidthByRare(enemys[centerRightIndex].enemyUnitInfo.Rare) * 0.25f;
 			float Difference = (centerRightWidth - centerWidth) * 0.5f;
-
 			centerWidth += Difference;
 			centerRightWidth -= Difference;
-
-			temp[centerIndex].transform.localPosition = new Vector3(0f - centerWidth, 0f, 0f);
-			temp[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 0f, 0f);
-
-			DisposeCenterLeft(centerIndex--, temp);
+			enemys[centerIndex].transform.localPosition = new Vector3(0f - centerWidth, 0f, 0f);
+			enemys[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 0f, 0f);
+			DisposeCenterLeft(centerIndex--, enemys);
 			centerRightIndex++;
-
-			DisposeCenterRight(centerRightIndex , temp);
+			DisposeCenterRight(centerRightIndex , enemys);
 		}
 	}
 
@@ -183,34 +179,39 @@ public class BattleEnemy : UIBaseUnity {
 
 	void CompressTextureWidth (List<EnemyItem> temp) {
 		screenWidth = Screen.width;
-		int count = temp.Count;
-		if (!DGTools.IsOddNumber (count)) {
-			count ++;
-		}
 		allWidth = 0;
-		for (int i = 0; i < temp.Count; i++) {
-			allWidth += DGTools.GetEnemyWidthByRare(temp[i].enemyUnitInfo.Rare);
+		for (int i = 0; i < temp.Count; i++) {	//Standardization texture size by rare config.
+			UITexture tex = temp [i].texture;
+			float tempWidth =  DGTools.GetEnemyWidthByRare(temp[i].enemyUnitInfo.Rare);
+			float tempHeight = DGTools.GetEnemyHeightByRare(temp[i].enemyUnitInfo.Rare);
+			tex.width = (int)tempWidth;
+			tex.height = (int)tempHeight;
+			allWidth += tempWidth;
 		}
 
 		probability = screenWidth / allWidth;
 
-		if (probability <= 1f) { //screewidth <= allWidth
+		Debug.LogError ("count : " + temp.Count + " allWidth : " + allWidth + "screen width : " + screenWidth + " probability: " + probability);
+		allWidth = 0;
+		if (probability < 1f) { //screewidth < allWidth. compress texture size.
 			for (int i = 0; i < temp.Count; i++) {
 				UITexture tex = temp [i].texture;
-				float tempWidth = DGTools.GetEnemyWidthByRare(temp[i].enemyUnitInfo.Rare) * probability;
-				float tempHeight = DGTools.GetEnemyHeightByRare(temp[i].enemyUnitInfo.Rare) * probability;
+				float tempWidth = tex.width * probability;
+				float tempHeight = tex.height * probability;
 				tex.width = (int)tempWidth;
 				tex.height = (int)tempHeight;
+				allWidth += tempWidth;
 			}
 		}	
+
+		Debug.LogError ("compress width : " + allWidth);
 	}
 
-	void DisposeCenterLeft(int centerIndex,List<EnemyItem> temp) {
+	void DisposeCenterLeft(int centerIndex, List<EnemyItem> temp) {
 		int tempIndex = centerIndex - 1;
 		while(tempIndex >= 0) {
 			EnemyItem rightEnemyItem = temp[tempIndex + 1];
 			EnemyItem currentEnemyItem = temp[tempIndex];
-
 			Vector3 localPosition = rightEnemyItem.transform.localPosition;
 			float rightWidth = rightEnemyItem.texture.width * 0.5f + currentEnemyItem.texture.width * 0.5f;
 			currentEnemyItem.transform.localPosition = new Vector3(localPosition.x - rightWidth , 0f, 0f);
