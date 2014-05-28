@@ -25,7 +25,7 @@ public class MapItem : UIBaseUnity {
 	private Vector3 initPosition = Vector3.zero;
 	private Vector3 initRotation = Vector3.zero;
 
-	private TQuestGrid gridItem ;
+	private TQuestGrid gridItem;
 
 	public int  Width {
 		get{ return mapItemSprite.width; }
@@ -79,18 +79,18 @@ public class MapItem : UIBaseUnity {
 		InitStar ();
 		if (gridItem != null) {
 			switch (gridItem.Star) {
-			case bbproto.EGridStar.GS_KEY:
-				spriteName = "key";
-				break;
-			case bbproto.EGridStar.GS_QUESTION:
-				spriteName = "key";
-				break;
-			case bbproto.EGridStar.GS_EXCLAMATION:
-				spriteName = "gantanhao";
-				break;
-			default:
-				spriteName = "";
-				break;
+				case bbproto.EGridStar.GS_KEY:
+					spriteName = "key";
+					break;
+				case bbproto.EGridStar.GS_QUESTION:
+					spriteName = "key";
+					break;
+				case bbproto.EGridStar.GS_EXCLAMATION:
+					spriteName = "gantanhao";
+					break;
+				default:
+					spriteName = "";
+					break;
 			}
 			DGTools.ShowSprite(mapItemSprite, spriteName);
 			backSpriteName = "";
@@ -214,12 +214,12 @@ public class MapItem : UIBaseUnity {
 	public void HideEnvirment(bool b) {
 		if (!isOld) {
 			HideStarSprite(!b);
-			if(b && mapItemSprite.spriteName !=  TrapBase.environmentSpriteName) {
+			if(b && mapItemSprite.spriteName != TrapBase.environmentSpriteName) {
 				DGTools.ShowSprite(mapItemSprite, TrapBase.environmentSpriteName); 
 				return;
 			}
 
-			if(!b && mapItemSprite.spriteName ==  TrapBase.environmentSpriteName){
+			if(!b && mapItemSprite.spriteName == TrapBase.environmentSpriteName){
 				DGTools.ShowSprite(mapItemSprite, spriteName);
 				return;
 			}
@@ -230,33 +230,34 @@ public class MapItem : UIBaseUnity {
 		animEnd = cb;
 		StartCoroutine (MeetEffect ());
 	}
-
+	public const string rotateAllEnd = "AllRotateEnd";
+	public const string rotateSingleEnd = "RotateEnd";
 	public void RotateAll(Callback cb,bool allShow) {
 		animEnd = cb;
 		if (isOld && allShow) {
-			ShowBattleEnd("AllRotateEnd");
+			ShowBattleEnd(rotateAllEnd);
 		}
 		else{
-			GridAnim ( "AllRotateEnd");
+			GridAnim ( rotateAllEnd );
 		}
 	}
 	
 	IEnumerator MeetEffect () {
 		if (gridItem == null) {
-			GridAnim ("RotateEnd");	
+			GridAnim (rotateSingleEnd);	
 			yield break;
 		}
 		Object obj = DataCenter.Instance.GetMapEffect (gridItem.Type.ToString ());
 		if (obj == null) {
 			yield return 0;
-			GridAnim ("RotateEnd");	
+			GridAnim (rotateSingleEnd);	
 		} else {
 			GameObject effect = obj as GameObject;
 			GameObject go = NGUITools.AddChild(effectPanel, effect);
 			go.transform.localScale = new Vector3(100f,100f,1f);
 			yield return new WaitForSeconds(0.5f);
 			Destroy(go);
-			GridAnim ("RotateEnd");	
+			GridAnim (rotateSingleEnd);	
 		}
 	}
 
@@ -354,7 +355,7 @@ public class MapItem : UIBaseUnity {
 		tws.duration = time;
 		tws.eventReceiver = gameObject;
 
-		if (gridItem.Star != bbproto.EGridStar.GS_KEY && gridItem.Type == bbproto.EQuestGridType.Q_TREATURE) {
+		if (gridItem.Star != bbproto.EGridStar.GS_KEY && gridItem.Type == bbproto.EQuestGridType.Q_TREATURE && function != rotateAllEnd) {
 //			Debug.LogError (mapBackSprite + " isendable : " + mapBackSprite.GetComponent<TweenAlpha>().enabled);
 			flyCoin = NGUITools.AddChild (mapBackSprite.transform.parent.gameObject, mapBackSprite.gameObject);
 			flyCoin.SetActive (true);

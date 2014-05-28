@@ -61,7 +61,7 @@ public class BattleBottom : MonoBehaviour {
 			}
 		}
 
-		Debug.LogError ("localposition : " + transform.localPosition);
+//		Debug.LogError ("localposition : " + transform.localPosition);
 	}
 
 	void OnDestroy() {

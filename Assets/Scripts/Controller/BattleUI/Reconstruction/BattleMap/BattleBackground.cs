@@ -38,7 +38,6 @@ public class BattleBackground : UIBaseUnity {
 		base.Init (name);
 		bottomCamera = Main.Instance.bottomCamera;
 		battleBottom = FindChild<Transform>("BattleBottom").gameObject;
-		Debug.LogError ("battlebottom : " + battleBottom.transform.localPosition);
 		_battleBottomScript = battleBottom.AddComponent<BattleBottom> ();
 		_battleBottomScript.Init (bottomCamera);
 		actorPosition = transform.Find ("Position").localPosition;
