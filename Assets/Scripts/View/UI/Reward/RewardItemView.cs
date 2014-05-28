@@ -49,7 +49,7 @@ public class RewardItemView : MonoBehaviour {
 				inited = true;
 			}
 
-
+			Debug.Log("id: " +data.id);
 			if(data.enabled == 1){
 				mask.SetActive(false);
 				btn.GetComponent<BoxCollider>().enabled = true;
@@ -65,6 +65,7 @@ public class RewardItemView : MonoBehaviour {
 					//Debug.Log("count: " + itemList.Count);
 					itemList[i].SetActive(true);
 					SetItemData(itemList[i], gd);
+					Debug.Log("is unit: " + (gd.content == (int)EGiftContent.UNIT)+" gd count:" + gd.count);
 					SetUnitClick(itemList[i],gd.content == (int)EGiftContent.UNIT);
 					          
 				}else{
@@ -100,7 +101,7 @@ public class RewardItemView : MonoBehaviour {
 	private void ClickUnit(GameObject obj){
 		Debug.Log ("Click Item To Detail");
 		int i; 
-		int.TryParse(obj.name.Substring (-1,1),out i);
+		int.TryParse(obj.name.Substring (4,1),out i);
 		DGTools.ChangeToUnitDetail ((uint)data.giftItem [i - 1].value);
 	}
 

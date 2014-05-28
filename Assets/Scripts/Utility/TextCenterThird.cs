@@ -143,9 +143,96 @@ public partial class TextCenter {
 		textDict.Add ("guide58_content", "excelent,your charactor evovles.");
 		textDict.Add ("guide59_title", "evolve time");
 		textDict.Add ("guide59_content", "1.find the key;2.goto the door");
-//		textDict.Add ("guide8_title", "");
-//		textDict.Add ("guide8_content", "");
 
+
+		textDict.Add("Tips_A_01", "MQ是一个滑动方块来战斗的恶魔题材卡牌游戏。");
+		textDict.Add("Tips_A_02","点击地图中闪烁的格子后即可移动。");
+		textDict.Add("Tips_A_03","每移动一个格子都会耗费一点SP（行动力）。");
+		textDict.Add("Tips_A_04","SP为零后就将代扣HP，直至HP剩下1点。");
+		textDict.Add("Tips_A_05","踩上格子后，可能获得宝箱或遭遇敌人或踩中陷阱。");
+		textDict.Add("Tips_A_06","一般情况下，将≥2个与己方某张卡牌属性颜色相同的方块放入同一个战斗槽后即可攻击。");
+		textDict.Add("Tips_A_07","战斗槽共5个，一个战斗槽中最多放入5个方块。");
+		textDict.Add("Tips_A_08","滑动方块的时间只有5s，5s后即发动攻击。");
+		textDict.Add("Tips_A_09","只要方块没进入战斗槽，倒计时就不会开始。");
+		textDict.Add("Tips_A_10","将≥2个的心方块放入同一个战斗槽后即可回复HP。");
+		textDict.Add("Tips_A_11","走到钥匙格子上即可获得钥匙，这是与Boss战斗的通行证。");
+		textDict.Add("Tips_A_12","拿到钥匙并走到红眼下方的格子处点击红眼即可开始Boss战。");
+		textDict.Add("Tips_A_13","击倒Boss后，点击Boss所在位置即为闯关胜利。");
+
+		textDict.Add("Tips_B_01","蓝色→黄色→红色格子，危险程度逐渐上升。");
+		textDict.Add("Tips_B_02","格子上的骷髅数量越多，代表金币或者敌人越多。");
+		textDict.Add("Tips_B_03","感叹号格子兼顾最高的风险和最多的金币。");
+		textDict.Add("Tips_B_04","敌人下方的数字代表回合数，为0后即发动攻击。");
+		textDict.Add("Tips_B_05","卡牌有6个属性，火克风，风克水，水克火；光暗互克；无为独立。");
+		textDict.Add("Tips_B_06","每队一个队长，3个队员，最多可以编排5队。");
+		textDict.Add("Tips_B_07","编入队伍的卡牌Cost之和必须≤Cost上限，否则无法编入。");
+		textDict.Add("Tips_B_08","卡牌可吞噬其他卡牌来获得Exp，从而升级变得更强。");
+		textDict.Add("Tips_B_09","卡牌的强化离不开帮手的协助。");
+		textDict.Add("Tips_B_10","强化帮手若能与基础卡牌同属性或同种族，则Exp可获得加成。");
+
+		textDict.Add("Tips_C_01","Rank提升后，耐力不仅会max，且耐力、好友或Cost上限也会逐步提升。");
+		textDict.Add("Tips_C_02","耐力每10分钟自动回复1点，也可花费1钻石瞬间让耐力max。");
+		textDict.Add("Tips_C_03","按住方块并左右滑动即可变换到任一方块位置。");
+		textDict.Add("Tips_C_04","按住方块并左右滑动即可与相邻同色方块重叠。");
+		textDict.Add("Tips_C_05","带有BOOST字样的战斗槽可以让攻击或回复变成1.5倍。");
+		textDict.Add("Tips_C_06","卡牌可吞噬特定卡牌来进化，外形和能力都将获得巨大改变。");
+		textDict.Add("Tips_C_07","卡牌必须Lv Max后才能进化。");
+		textDict.Add("Tips_C_08","卡牌的进化同样离不开帮手的协助，且帮手必须满足协助条件。");
+		textDict.Add("Tips_C_09","卡牌必须在帮手的协助下闯过特定任务才能成功进化。");
+		textDict.Add("Tips_C_10","同一个战斗槽里的心方块数量越多，HP回复得越多。");
+		textDict.Add("Tips_C_11","卡牌技能：总共4种，分别为队长技能、主动技能、普通技能、被动技能。");
+		textDict.Add("Tips_C_12","队长技能：当拥有队长技能的卡牌处于队长位置时，该技能于战斗时生效。");
+		textDict.Add("Tips_C_13","只有将援军加为好友后，援军的队长技能才可生效。");
+		textDict.Add("Tips_C_14","主动技能：该技能有回合数限制，回合冷却为0后，下方角色头像旁会有闪烁标志，此时点击头像即可准备发动。");
+		textDict.Add("Tips_C_15","普通技能：该技能决定了卡牌攻击需要的方块颜色和数量。");
+		textDict.Add("Tips_C_16","方块形成的攻击有强弱和属性之分，均由卡牌的普通技能决定。");
+		textDict.Add("Tips_C_17","普通技能效果可分为3类，单体攻击、全体攻击、回复HP。");
+		textDict.Add("Tips_C_18","被动技能：拥有该技能的卡牌可反击敌人或回避陷阱等。");
+
+		textDict.Add("Tips_D_01","若己方卡牌和好友的队长技能作用相同，则效果可相乘叠加。");
+		textDict.Add("Tips_D_02","每形成一次普通技能攻击，对应的战斗槽上方即会出现一个攻击条。");
+		textDict.Add("Tips_D_03","1个三角的攻击条为单体攻击，3个三角的攻击条则为全体。");
+		textDict.Add("Tips_D_04","若一个战斗槽内的方块数是普通技能需求的2倍，则可发动2次攻击。");
+		textDict.Add("Tips_D_05","当战斗槽内的方块只再需1个方块即可让技能生效时，系统会出现连线提示。");
+		textDict.Add("Tips_D_06","每个攻击条都会带来加成，攻击条越多加成越高。");
+		textDict.Add("Tips_D_07","心方块的HP回复也能计入攻击加成，请积极利用！");
+		textDict.Add("Tips_D_08","战斗中点击下方卡牌头像，即可查看技能详情。");
+		textDict.Add("Tips_D_09","友情点数：该点数可用来友情抽卡，有可能获得主角卡！");
+		textDict.Add("Tips_D_10","将玩家加为好友后，可获得更多的友情点数。");
+		textDict.Add("Tips_D_11","非战斗情况下，长按卡牌头像即可查看卡牌详情。");
+		textDict.Add("Tips_D_12","在卡牌详情界面，点击锁图标即可收藏卡牌，防止因失误而强化或卖出。");
+		textDict.Add("Tips_D_13","若属性克制敌人，则伤害x2，反之则伤害x0.5。");
+		textDict.Add("Tips_D_14","周末是攒钱的绝好时机，请及早存够耐力。");
+		textDict.Add("Tips_D_15","尖叫奶酪是强化专用的材料卡牌，可让卡牌等级飞速提升。");
+		textDict.Add("Tips_D_16","尖叫奶酪主要出现在每日限时开放的活动关卡里，系统会提前公告通知。");
+		textDict.Add("Tips_D_16","只有进化成功时，材料卡牌才会消耗。");
+		textDict.Add("Tips_D_17","可花费钻石扩张好友和卡牌仓库的上限。");
+
+
+		textDict.Add("Tips_E_01","“+1”卡牌：偶尔会掉落右下角带“+1”的卡牌，这代表该卡牌的能力有额外的加成。");
+		textDict.Add("Tips_E_02","进入卡牌详情界面，可具体查看“+1”的位置。");
+		textDict.Add("Tips_E_03","若“+1”在HP后，则代表HP额外获得10点加成。");
+		textDict.Add("Tips_E_04","若“+1”在ATK后，则代表ATK额外获得5点加成。");
+		textDict.Add("Tips_E_05","可将“+1”卡牌作为材料，通过强化将“+1”值继承到基础卡牌上。");
+		textDict.Add("Tips_E_06","“+1”卡牌的强化费用很高，每多1个“+1”，费用便多1000.");
+		textDict.Add("Tips_E_07","基础卡牌的等级每多1级，强化价格就多100.");
+		textDict.Add("Tips_E_08","试着先用较弱的卡牌去提升材料卡牌的等级后再进行强化，不仅有可能获得更高的Exp，也能减少强化所需的金币。");
+		textDict.Add("Tips_E_09","系统会不定期开启限定抽卡，届时超强力卡牌中奖率将极大提升！");
+		textDict.Add("Tips_E_10","首次闯过一个大关，即可获得钻石1颗，请积极攻略！");
+		textDict.Add("Tips_E_11","将具有相同主动技能的卡牌强化合成后，基础卡牌的技能等级有可能提升，从而减少冷却回合。");
+		textDict.Add("Tips_E_12","若没有合适的帮手时，花费1颗钻石后即可获得超级帮手。不仅条件达标，且能获得50点友情点数！");
+		textDict.Add("Tips_E_13","上一次战斗结束时的方块，将自动成为下一场战斗的开局，所以无用的方块可趁早扔掉。");
+		textDict.Add("Tips_E_14","当战斗槽内已填满方块，再次拖上去的方块会被弹回，不仅操作无效也浪费时间。");
+		textDict.Add("Tips_E_15","可轻点敌人作为攻击目标，也可长按查看敌人详情。");
+		textDict.Add("Tips_E_16","战斗中点击menu后可选择退出当前关卡。");
+		textDict.Add("Tips_E_17","考虑到越多的攻击条会带来越高的加成，有时候普通技能1会更有效。");
+		textDict.Add("Tips_E_18","若一个战斗槽内的方块配置满足了普通技能1和2，则优先发动需求方块数较多的技能。");
+		textDict.Add("Tips_E_19","若一个战斗槽内的方块配置满足了普通技能1和2，且1和2的需求方块数相同，则优先发动回复HP技能。");
+		textDict.Add("Tips_E_20","若一个战斗槽内的方块配置满足了普通技能1和2，且1和2的需求方块数相同，并都为攻击技能，则优先发动技能1。");
+		textDict.Add("Tips_E_21","当战斗结束后，周围格子的骷髅颜色会提升一个等级。若变为红色了，则极有可能连战。");
+		textDict.Add("Tips_E_22","感叹号格子容易出进化材料和尖叫奶酪。");
+		textDict.Add("Tips_E_23","感叹号格子里偶尔会乱入超稀有卡牌，掉率令人期待！届时系统会公告通知，请做好万全准备！");
+		textDict.Add("Tips_E_24","单色队伍不仅能在敌人只有一种属性的关卡里游刃有余，而且容易形成很高的攻击加成。");
     }
 }
 
