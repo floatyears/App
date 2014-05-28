@@ -113,7 +113,6 @@ public class BattleBackground : UIBaseUnity {
 		tempNum = blood;
 		currentEnergyPoint = initEnergyPoint = energyPoint;
 		SetBlood (tempNum); 
-//		Debug.LogError ("InitData : " + energyPoint);
 		InitSP ();
 	}
 
@@ -121,8 +120,7 @@ public class BattleBackground : UIBaseUnity {
 		for (int i = 0; i < spSprite.Length; i++) {
 			if(i >= initEnergyPoint) {
 				spSprite[i].enabled = false;
-			}
-			else {
+			} else {
 				spSprite[i].enabled = true;
 			}
 		}
@@ -156,7 +154,7 @@ public class BattleBackground : UIBaseUnity {
 				if(!sprite.enabled) {
 					sprite.enabled = true;
 				}
-			}else{
+			} else {
 				if(sprite.enabled) {
 					sprite.enabled = false;
 				}

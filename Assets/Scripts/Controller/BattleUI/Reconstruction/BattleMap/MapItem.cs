@@ -232,10 +232,10 @@ public class MapItem : UIBaseUnity {
 	}
 	public const string rotateAllEnd = "AllRotateEnd";
 	public const string rotateSingleEnd = "RotateEnd";
-	public void RotateAll(Callback cb,bool allShow) {
+	public void RotateAll(Callback cb, bool allShow) {
 		animEnd = cb;
 		if (isOld && allShow) {
-			ShowBattleEnd(rotateAllEnd);
+			ShowBattleEnd( rotateAllEnd );
 		}
 		else{
 			GridAnim ( rotateAllEnd );
@@ -309,7 +309,6 @@ public class MapItem : UIBaseUnity {
 		showStarSprite.Clear ();
 		float time = 0.5f;
 
-
 		if(!mapBack.activeSelf) {
 			mapBack.SetActive(true);
 		}
@@ -337,7 +336,7 @@ public class MapItem : UIBaseUnity {
 		TweenAlpha twa = mapBack.GetComponent<TweenAlpha> ();
 		twa.enabled = true;
 		twa.duration = time;
-//		Debug.LogError (twa.gameObject + " isendable : " + twa.enabled);
+
 		if (!string.IsNullOrEmpty (mapItemSprite.spriteName)) {
 			tws = mapItemSprite.GetComponent<TweenScale> ();
 			tws.Reset ();
@@ -356,7 +355,6 @@ public class MapItem : UIBaseUnity {
 		tws.eventReceiver = gameObject;
 
 		if (gridItem.Star != bbproto.EGridStar.GS_KEY && gridItem.Type == bbproto.EQuestGridType.Q_TREATURE && function != rotateAllEnd) {
-//			Debug.LogError (mapBackSprite + " isendable : " + mapBackSprite.GetComponent<TweenAlpha>().enabled);
 			flyCoin = NGUITools.AddChild (mapBackSprite.transform.parent.gameObject, mapBackSprite.gameObject);
 			flyCoin.SetActive (true);
 			Destroy (flyCoin.GetComponent<TweenScale> ());
@@ -364,7 +362,6 @@ public class MapItem : UIBaseUnity {
 			Vector3 endPosition = battleMap.bQuest.GetTopUITarget ().position;
 			callBack = function;
 			iTween.MoveTo (flyCoin, iTween.Hash ("position", endPosition, "oncompletetarget", gameObject, "oncomplete", "FlyEnd","time",1f,"easetype",iTween.EaseType.easeInQuad));
-//			Debug.LogError (mapBackSprite + " isendable : " + mapBackSprite.GetComponent<TweenAlpha>().enabled);
 			} else {
 			tws.callWhenFinished = function;
 		}
@@ -389,7 +386,6 @@ public class MapItem : UIBaseUnity {
 	}
 
 	void RotateEnd () {
-//		Debug.LogError ("RotateEnd");
 		mapBack.SetActive(false);
 		HideGrid ();
 	}
