@@ -678,11 +678,11 @@ public class FriendListDecorator : DecoratorBase{
 
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
-		friendList.SetComponent(counter);
-		briefInfo.SetComponent(friendList);
+		briefInfo.SetComponent(counter);
 		sortPanel.SetComponent(briefInfo);
+		friendList.SetComponent(sortPanel);
 
-		lastDecorator = sortPanel;
+		lastDecorator = friendList;
 
 		lastDecorator.CreatUI();
 	}
@@ -782,12 +782,14 @@ public class ApplyDecorator : DecoratorBase{
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
-		counter.SetComponent(sceneInfoBar);
+		sortPanel.SetComponent(sceneInfoBar);
+		counter.SetComponent(sortPanel);
 		applyWindow.SetComponent(counter);
 		deleteApply.SetComponent(applyWindow);
-		sortPanel.SetComponent(deleteApply);
+		//sortPanel.SetComponent(deleteApply);
 
-		lastDecorator = sortPanel;
+		lastDecorator = deleteApply;
+
 		lastDecorator.CreatUI();
 	}
 }

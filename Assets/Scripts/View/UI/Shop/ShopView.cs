@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ShopDecoratorUnity : UIComponentUnity {
+public class ShopView : UIComponentUnity {
 
 	private Dictionary<string,UIButton> buttonDic = new Dictionary<string, UIButton>();
 
@@ -12,6 +12,9 @@ public class ShopDecoratorUnity : UIComponentUnity {
 
     private UIButton btnUnitExpansion;
 
+	private GameObject infoPanelRoot;
+	private GameObject windowRoot;
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		InitUI();
@@ -19,7 +22,7 @@ public class ShopDecoratorUnity : UIComponentUnity {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		ShowTween();
+		ShowUIAnimation();
 	}
 	
 	public override void HideUI () {
@@ -41,10 +44,13 @@ public class ShopDecoratorUnity : UIComponentUnity {
         btnFriendsExpansion = FindChild<UIButton>("top/FriendsExpansion");
         btnStaminaRecover = FindChild<UIButton>("top/StaminaRecover");
         btnUnitExpansion = FindChild<UIButton>("top/UnitExpansion");
-//
+
         UIEventListener.Get(btnFriendsExpansion.gameObject).onClick = OnClickFriendExpansion;
         UIEventListener.Get(btnStaminaRecover.gameObject).onClick = OnClickStaminaRecover;
         UIEventListener.Get(btnUnitExpansion.gameObject).onClick = OnClickUnitExpansion;
+
+		infoPanelRoot = transform.FindChild("top").gameObject;
+		windowRoot = transform.FindChild("btns").gameObject;
 	}
 
 	private void ClickButton( GameObject button) {
@@ -69,17 +75,10 @@ public class ShopDecoratorUnity : UIComponentUnity {
         ExcuteCallback(cbdArgs);
     }
 
-	private void ShowTween(){
-		TweenPosition[ ] list = 
-			gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)
-			return;
-		foreach (var tweenPos in list)
-		{		
-			if (tweenPos == null)
-				continue;
-			tweenPos.Reset();
-			tweenPos.PlayForward();
-		}
+	private void ShowUIAnimation(){
+		infoPanelRoot.transform.localPosition = new Vector3(-1000, -325, 0);
+		windowRoot.transform.localPosition = new Vector3(1000, -630, 0);
+		iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+		iTween.MoveTo(windowRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
 }

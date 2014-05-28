@@ -107,7 +107,7 @@
      "ScratchWindow": {
         "uiName":"ScratchWindow",
         "resoucePath": "Prefabs/UI/Scratch/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -115,7 +115,7 @@
      "ShopWindow": {
         "uiName":"ShopWindow",
         "resoucePath": "Prefabs/UI/Shop/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -123,9 +123,9 @@
      "OthersWindow": {
         "uiName":"OthersWindow",
         "resoucePath": "Prefabs/UI/Others/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": -440,
         "positionz": 0
     },
      "UnitsWindow": {
