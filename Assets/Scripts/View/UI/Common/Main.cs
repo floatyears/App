@@ -97,7 +97,7 @@ public class Main : MonoBehaviour {
 	void SetResolution() {
 		float currentSize = Screen.height / (float)Screen.width;
 		UIPanel rootPanel = uiRoot.transform.Find("RootPanel").GetComponent<UIPanel>();
-		Debug.LogError (currentSize);
+//		Debug.LogError (currentSize);
 		if (currentSize >= DefaultSize) {
 			float sizePropotion = currentSize / DefaultSize;
 			int height = System.Convert.ToInt32( DefaultHeight * sizePropotion);
