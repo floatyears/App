@@ -176,6 +176,8 @@ public class BattleQuest : UIBase {
 		if (ai == null) {
 			return;		
 		}
+//		Debug.LogError ("attackEffect.RefreshItem  : " + ai.UserUnitID + " ai.SkillID : " + ai.SkillID);
+
 		attackEffect.RefreshItem (ai.UserUnitID, ai.SkillID, ai.AttackValue, false);
 	}
 

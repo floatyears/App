@@ -227,6 +227,7 @@ public class AttackController {
 		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
 		AttackInfo ai = attackInfoQueue.Dequeue();
 		BeginAttack (ai);
+
 		Attack ();
 	}
 
@@ -243,6 +244,8 @@ public class AttackController {
 			DisposeRecoverHP(ai);
 			break;
 		}
+
+
 	}
 
 	List<TEnemyInfo> deadEnemy = new List<TEnemyInfo>();

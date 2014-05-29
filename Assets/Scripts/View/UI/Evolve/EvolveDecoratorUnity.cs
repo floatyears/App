@@ -28,10 +28,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
 			}
-		}else {
-			if (friendWindow != null) {
-				friendWindow.HideUI ();
-			}
+		}else if (friendWindow != null) {
+			friendWindow.HideUI ();
 		}
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);

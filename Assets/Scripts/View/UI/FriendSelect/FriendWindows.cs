@@ -14,12 +14,8 @@ public class FriendWindows : FriendHelperView {
 			gameObject.SetActive(true);
 		}
 		base.ShowUI ();
-
-		Dictionary<string, object> dic = new Dictionary<string, object> ();
-		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
-//		dpsi.position = new Vector3 (0f, -485f, 0f);
-//		dragPanel.DragPanelView.SetDragPanel (dpsi);
 		transform.localPosition += new Vector3 (0f, -485f, 0f);
+		dragPanel.DragPanelView.scrollView.transform.localPosition += new Vector3 (0f, -50f, 0f);
 		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 

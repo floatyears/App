@@ -201,9 +201,10 @@ public class EnemyItem : UIBaseUnity {
 			stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3(0f, 100f, 0f);
 			ResetHurtLabelPosition();
 		} else {
-			texture.mainTexture = tex;
-			texture.width = DGTools.GetEnemyWidthByRare(enemyUnitInfo.Rare);
-			texture.height = DGTools.GetEnemyHeightByRare(enemyUnitInfo.Rare);
+//			texture.mainTexture = tex;
+//			texture.width = //DGTools.GetEnemyWidthByRare(enemyUnitInfo.Rare);
+//			texture.height = DGTools.GetEnemyHeightByRare(enemyUnitInfo.Rare);
+			DGTools.ShowTexture(texture,tex);
 			SetBloodSpriteWidth ();
 
 			stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height * 0.5f, 0f);
