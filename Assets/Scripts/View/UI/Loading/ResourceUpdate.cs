@@ -160,6 +160,7 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 
 	private void ShowTipText(){
+		//DataCenter.Instance.LoginInfo.Data.Rank;
 		tipText.text = TextCenter.GetText ("Tips_" + MathHelper.RandomToInt (1, 9));
 	}
 
