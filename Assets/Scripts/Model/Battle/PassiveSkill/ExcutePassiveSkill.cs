@@ -57,7 +57,10 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 						}
 
 						if(unitItem.MakeUserUnitKey() == item.Key) {
-							MsgCenter.Instance.Invoke(CommandEnum.ShowPassiveSkill, unitItem);
+							AttackInfo ai = AttackInfo.GetInstance();
+							ai.UserUnitID = unitItem.MakeUserUnitKey();
+							ai.SkillID = item.Value.skillBaseInfo.BaseInfo.id;
+							MsgCenter.Instance.Invoke(CommandEnum.ShowPassiveSkill, ai);
 						}
 					}
 				}

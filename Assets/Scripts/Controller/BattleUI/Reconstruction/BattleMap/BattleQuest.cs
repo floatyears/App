@@ -176,7 +176,7 @@ public class BattleQuest : UIBase {
 		if (ai == null) {
 			return;		
 		}
-		attackEffect.RefreshItem (ai.UserUnitID);
+		attackEffect.RefreshItem (ai.UserUnitID, ai.SkillID, ai.AttackValue, false);
 	}
 
 	void RecoverHP(object data) {
@@ -184,11 +184,11 @@ public class BattleQuest : UIBase {
 		if (ai == null) {
 			return;		
 		}
-		attackEffect.RefreshItem (ai.UserUnitID);
+		attackEffect.RefreshItem (ai.UserUnitID, ai.SkillID,ai.AttackValue, true);
 	}
 
 	void ShowActiveSkill(object data) {
-		TUserUnit ai = data as TUserUnit;
+		AttackInfo ai = data as AttackInfo;
 		if (ai == null) {
 			return;		
 		}
@@ -196,11 +196,11 @@ public class BattleQuest : UIBase {
 	}
 
 	void ShowPassiveSkill(object data) {
-		TUserUnit uu = data as TUserUnit;
+		AttackInfo uu = data as AttackInfo;
 		if (uu == null) {
 			return;		
 		}
-		attackEffect.RefreshItem (uu.MakeUserUnitKey ());
+		attackEffect.RefreshItem (uu.UserUnitID, uu.SkillID);
 	}
 	
 	void Reset () {

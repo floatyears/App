@@ -4,26 +4,56 @@ using System.Collections;
 public class AttackEffectItem : MonoBehaviour {
 	private UISprite backGroundSprite;
 	private UITexture avatarTexture;
+	private UILabel skillNameLabel;
+	private UILabel ATKLabel;
+
 	private Vector3 moveEndPosition;
 	private Vector3 dropEndPosition;
-
 	private Callback callback;
 
-	public void RefreshInfo(string userUnitID, Callback cb) {
-		if (backGroundSprite == null) {
-			backGroundSprite = GetComponent<UISprite>();
-			avatarTexture = transform.Find("Avatar").GetComponent<UITexture>();		
-			transform.localPosition = BattleCardArea.startPosition;
-			moveEndPosition = new Vector3 (BattleCardArea.endPosition.x,  BattleCardArea.startPosition.y, BattleCardArea.endPosition.z - 10f);
-			dropEndPosition = new Vector3 (moveEndPosition.x, BattleCardArea.endPosition.y, BattleCardArea.endPosition.z - 10f) ;
-		}
+	public void RefreshInfo(string userUnitID, int skillID, Callback cb, int atk = 0, bool recoverHP = false) {
+		CheckComponentInit ();
+
 		callback = cb;
+		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitID, skillID, SkillType.NormalSkill);
+		skillNameLabel.text = sbi.BaseInfo.name;
+
 		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (userUnitID);
 		backGroundSprite.spriteName = tuu.UnitType.ToString ();
 		avatarTexture.mainTexture =  tuu.UnitInfo.GetAsset (UnitAssetType.Avatar);
 		Tween ();
+		if (atk == 0) {
+			ATKLabel.text = "";
+			return;
+		}
+
+		if (recoverHP) {
+			ATKLabel.text = "HELH " + atk;		
+		} else {
+			ATKLabel.text = "ATK " + atk;
+		}
 	}
 
+	public void ShowActiveSkill(Texture tex, string skillName) {
+		CheckComponentInit ();
+		skillNameLabel.text = skillName;
+		ATKLabel.text = "";
+		avatarTexture.mainTexture = tex;
+		transform.localPosition = BattleCardArea.middlePosition;
+		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (2f, 2f, 2f), "time", 0.5f, "easetype", iTween.EaseType.easeInBounce));
+	}
+
+	void CheckComponentInit() {
+		if (backGroundSprite == null) {
+			backGroundSprite = GetComponent<UISprite>();
+			avatarTexture = transform.Find("Avatar").GetComponent<UITexture>();	
+			skillNameLabel = transform.Find("SkillNameLabel").GetComponent<UILabel>();
+			ATKLabel = transform.Find("ATKLabel").GetComponent<UILabel>();
+			transform.localPosition = BattleCardArea.startPosition;
+			moveEndPosition = new Vector3 (BattleCardArea.endPosition.x,  BattleCardArea.startPosition.y, BattleCardArea.endPosition.z - 10f);
+			dropEndPosition = new Vector3 (moveEndPosition.x, BattleCardArea.endPosition.y, BattleCardArea.endPosition.z - 10f);
+		}
+	}
 	
 	private void Tween () {
 		transform.localPosition = BattleCardArea.startPosition;

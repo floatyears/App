@@ -155,6 +155,7 @@ public interface IExcutePassiveSkill {
 }
 
 public interface IPassiveExcute {
+	SkillBaseInfo skillBaseInfo { get; }
     object Excute(object trapBase, IExcutePassiveSkill excutePS);
 }
 
