@@ -211,9 +211,9 @@
     "UnitDetailPanel": {
         "uiName":"UnitDetailPanel",
         "resoucePath": "Prefabs/UI/UnitDetail/",
-        "parent": 1,
+        "parent": 2,
         "positionx": 0,
-        "positiony": -455,
+        "positiony": 0,
         "positionz": 0
     },
      "ApplyWindow": {
@@ -477,9 +477,9 @@
     "UnitDetailTopPanel": {
         "uiName":"UnitDetailTopPanel",
         "resoucePath": "Prefabs/UI/UnitDetail/",
-        "parent": 2,
+        "parent": 1,
         "positionx": 0,
-        "positiony":1025,
+        "positiony":0,
         "positionz": 0
     }
     
