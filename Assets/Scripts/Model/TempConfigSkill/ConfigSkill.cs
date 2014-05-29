@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using bbproto;
 
 public class ConfigSkill  {
+	public const int RECOVER_HP_ID = 100;
 	public ConfigSkill() {
 		ConfigHeartSkill ();
 	}
@@ -293,7 +294,7 @@ public class ConfigSkill  {
 		for (int i = 1; i <= 4; i++) {
 			NormalSkill ns			= new NormalSkill ();
 			ns.baseInfo				= new SkillBase ();
-			ns.baseInfo.id			= 100+i;
+			ns.baseInfo.id			= RECOVER_HP_ID+i;
 			ns.attackValue = 0.15f * i;
 			if (i==3) { //4 hearts
 				ns.attackValue = 0.6f;

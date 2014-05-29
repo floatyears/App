@@ -83,9 +83,9 @@ public class LoadingView : UIComponentUnity {
 
     private void SelectRoleFirst(){
 //		UIManager.Instance.ChangeScene(SceneEnum.Start);
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.Preface;
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
-        //UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
+//		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.Preface;
+//		NoviceGuideStepEntityManager.Instance ().StartStep ();
+        UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
     }
 
 //	private void checkResourceUpdate(){

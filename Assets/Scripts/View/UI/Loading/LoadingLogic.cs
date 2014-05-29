@@ -174,7 +174,7 @@ public class LoadingLogic : ConcreteComponent {
 //			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
 //		}
 
-		UIManager.Instance.ChangeScene (SceneEnum.Reward);
+//		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 
 		if (rspAuthUser.isNewUser == 1){
 			TurnToReName();
