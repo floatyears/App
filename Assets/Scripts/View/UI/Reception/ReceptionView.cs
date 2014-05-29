@@ -59,8 +59,8 @@ public class ReceptionView : UIComponentUnity {
 
 	MsgWindowParams GetMsgWindowParams(){
 		MsgWindowParams msgWindowParam = new MsgWindowParams();
-		msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RefuseAll");
-		msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("ConfirmRefuseAll");
+		msgWindowParam.titleText = TextCenter.GetText("RefuseAll");
+		msgWindowParam.contentText = TextCenter.GetText("ConfirmRefuseAll");
 		msgWindowParam.btnParams = new BtnParam[ 2 ]{new BtnParam(), new BtnParam()};
 		msgWindowParam.btnParams[ 0 ].callback = CallbackRefuseAll;
 		return msgWindowParam;
@@ -95,7 +95,7 @@ public class ReceptionView : UIComponentUnity {
 
 	void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
-		string title = TextCenter.Instace.GetCurrentText("ReceptionCounterTitle");
+		string title = TextCenter.GetText("ReceptionCounterTitle");
 		int current = DataCenter.Instance.FriendList.FriendIn.Count;
 		int max = 0;
 		countArgs.Add("title", title);
@@ -116,8 +116,8 @@ public class ReceptionView : UIComponentUnity {
 
 	MsgWindowParams GetDeleteMsgParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.Instace.GetCurrentText("DeleteNoteTitle");
-		msgParams.contentText = TextCenter.Instace.GetCurrentText("DeleteNoteContent");
+		msgParams.titleText = TextCenter.GetText("DeleteNoteTitle");
+		msgParams.contentText = TextCenter.GetText("DeleteNoteContent");
 		msgParams.btnParams = new BtnParam[ 2 ]{ new BtnParam(), new BtnParam()};
 		msgParams.btnParams[ 0 ].callback = CallBackDeleteFriend;
 		return msgParams;
@@ -181,12 +181,12 @@ public class ReceptionView : UIComponentUnity {
 
 	MsgWindowParams GetFriendExpansionMsgParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.Instace.GetCurrentText("FirendOverflow");
-		msgParams.contentText = TextCenter.Instace.GetCurrentText("FriendOverflowText",
+		msgParams.titleText = TextCenter.GetText("FirendOverflow");
+		msgParams.contentText = TextCenter.GetText("FriendOverflowText",
 		                                                          DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
 		                                                          DataCenter.Instance.UserInfo.UnitMax);
 		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
-		msgParams.btnParams[ 0 ].text = TextCenter.Instace.GetCurrentText("DoFriendExpand");
+		msgParams.btnParams[ 0 ].text = TextCenter.GetText("DoFriendExpand");
 		msgParams.btnParams[ 0 ].callback = CallBackScratchScene;
 		return msgParams;
 	}

@@ -62,14 +62,8 @@ public class FriendListView : UIComponentUnity{
 	}
 
 	void ShowUIAnimation(){
-		TweenPosition[ ] list = gameObject.GetComponentsInChildren< TweenPosition >();
-		if (list == null)
-			return;
-		foreach (var tweenPos in list){		
-			if (tweenPos == null) continue;
-			tweenPos.Reset();
-			tweenPos.PlayForward();
-		}
+		transform.localPosition = new Vector3(-1000, -480, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
 
 	void ClickItem(FriendUnitItem item){
@@ -86,8 +80,8 @@ public class FriendListView : UIComponentUnity{
 
 	MsgWindowParams GetMsgWindowParams(){
 		MsgWindowParams msgWindowParam = new MsgWindowParams();
-		msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RefreshFriend");
-		msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("ConfirmRefreshFriend");
+		msgWindowParam.titleText = TextCenter.GetText("RefreshFriend");
+		msgWindowParam.contentText = TextCenter.GetText("ConfirmRefreshFriend");
 		msgWindowParam.btnParams = new BtnParam[ 2 ]{new BtnParam(), new BtnParam()};
 		msgWindowParam.btnParams[ 0 ].callback = CallBackRefreshFriend;
 		return msgWindowParam;
@@ -124,8 +118,8 @@ public class FriendListView : UIComponentUnity{
 
 	MsgWindowParams GetDeleteMsgParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.Instace.GetCurrentText("DeleteNoteTitle");
-		msgParams.contentText = TextCenter.Instace.GetCurrentText("DeleteNoteContent");
+		msgParams.titleText = TextCenter.GetText("DeleteNoteTitle");
+		msgParams.contentText = TextCenter.GetText("DeleteNoteContent");
 		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
 		msgParams.btnParams[ 0 ].callback = CallBackDeleteFriend;
 		return msgParams;
@@ -159,7 +153,7 @@ public class FriendListView : UIComponentUnity{
 
 	void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
-		string title = TextCenter.Instace.GetCurrentText("FriendCounterTitle");
+		string title = TextCenter.GetText("FriendCounterTitle");
 		int current = DataCenter.Instance.FriendCount;
 		int max = DataCenter.Instance.UserInfo.FriendMax;
 		countArgs.Add("title", title);

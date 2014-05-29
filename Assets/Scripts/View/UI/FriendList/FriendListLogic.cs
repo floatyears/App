@@ -41,8 +41,8 @@ public class FriendListLogic : ConcreteComponent{
 //
 //    MsgWindowParams GetRefuseAllFriendInMsgWindowParams(){
 //        MsgWindowParams msgWindowParam = new MsgWindowParams();
-//        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RefuseAll");
-//        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("ConfirmRefuseAll");
+//        msgWindowParam.titleText = TextCenter.GetText("RefuseAll");
+//        msgWindowParam.contentText = TextCenter.GetText("ConfirmRefuseAll");
 //        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
 //        msgWindowParam.btnParams[0].callback = CallbackRefuseAll;
 //        return msgWindowParam;
@@ -56,17 +56,17 @@ public class FriendListLogic : ConcreteComponent{
 //
 ////		switch (UIManager.Instance.baseScene.CurrentScene){
 ////			case SceneEnum.FriendList :
-//				title = TextCenter.Instace.GetCurrentText("FriendCounterTitle");
+//				title = TextCenter.GetText("FriendCounterTitle");
 //				current = DataCenter.Instance.FriendCount;
 //				max = DataCenter.Instance.UserInfo.FriendMax;
 ////				break;
 ////			case SceneEnum.Apply :
-////				title = TextCenter.Instace.GetCurrentText("ApplyCounterTitle");
+////				title = TextCenter.GetText("ApplyCounterTitle");
 ////				current = DataCenter.Instance.FriendList.FriendOut.Count;
 ////				max = 0;
 ////				break;
 ////			case SceneEnum.Reception :
-////				title = TextCenter.Instace.GetCurrentText("ReceptionCounterTitle");
+////				title = TextCenter.GetText("ReceptionCounterTitle");
 ////				current = DataCenter.Instance.FriendList.FriendIn.Count;
 ////                max = 0;
 ////				break;
@@ -127,12 +127,12 @@ public class FriendListLogic : ConcreteComponent{
 //	
 //	MsgWindowParams GetFriendExpansionMsgParams(){
 //		MsgWindowParams msgParams = new MsgWindowParams();
-//		msgParams.titleText = TextCenter.Instace.GetCurrentText("FirendOverflow");
-//		msgParams.contentText = TextCenter.Instace.GetCurrentText("FriendOverflowText",
+//		msgParams.titleText = TextCenter.GetText("FirendOverflow");
+//		msgParams.contentText = TextCenter.GetText("FriendOverflowText",
 //		                                                          DataCenter.Instance.MyUnitList.Count,
 //		                                                          DataCenter.Instance.UserInfo.UnitMax);
 //		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
-//		msgParams.btnParams[ 0 ].text = TextCenter.Instace.GetCurrentText("DoFriendExpand");
+//		msgParams.btnParams[ 0 ].text = TextCenter.GetText("DoFriendExpand");
 //		msgParams.btnParams[ 0 ].callback = CallBackScratchScene;
 //		return msgParams;
 //	}
@@ -159,8 +159,8 @@ public class FriendListLogic : ConcreteComponent{
 //
 //    MsgWindowParams GetRefreshFriendListMsgWindowParams(){
 //        MsgWindowParams msgWindowParam = new MsgWindowParams();
-//        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RefreshFriend");
-//        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("ConfirmRefreshFriend");
+//        msgWindowParam.titleText = TextCenter.GetText("RefreshFriend");
+//        msgWindowParam.contentText = TextCenter.GetText("ConfirmRefreshFriend");
 //        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
 //        msgWindowParam.btnParams[0].callback = CallbackRefreshFriend;
 //        return msgWindowParam;
@@ -195,8 +195,8 @@ public class FriendListLogic : ConcreteComponent{
 //
 //	MsgWindowParams GetDeleteMsgParams(){
 //		MsgWindowParams msgParams = new MsgWindowParams();
-//		msgParams.titleText = TextCenter.Instace.GetCurrentText("DeleteNoteTitle");
-//		msgParams.contentText = TextCenter.Instace.GetCurrentText("DeleteNoteContent");
+//		msgParams.titleText = TextCenter.GetText("DeleteNoteTitle");
+//		msgParams.contentText = TextCenter.GetText("DeleteNoteContent");
 //		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
 //		msgParams.btnParams[ 0 ].callback = CallBackDeleteFriend;
 //		return msgParams;

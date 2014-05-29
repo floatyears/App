@@ -20,6 +20,9 @@ public class TrapInjuredInfo {
 	public const int environment	= 5;
 	public const int stateException	= 6;
 
+
+	public const int MAX_TRAP_LV	= 10;
+
 	/// <summary>
 	/// 1: mine. 2: trapping. 3: hungryinfo. 4: lostmoney. 5: environment. 6: state excpeiton.
 	/// </summary>
@@ -27,7 +30,7 @@ public class TrapInjuredInfo {
 	private TrapInjuredInfo () {
 	//-----------------------------mine------------------------------------
 		List<TrapInjuredValue> temp = new List<TrapInjuredValue> ();
-		for (int i = 1; i < 10; i++) {
+		for (int i = 1; i <= MAX_TRAP_LV; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
 			tjv.trapIndex = i;
 			tjv.trapLevel = Mathf.CeilToInt((float)i / 2f);
@@ -38,7 +41,7 @@ public class TrapInjuredInfo {
 
 	//-----------------------------trapping---------------------------------
 		temp = new List<TrapInjuredValue> ();
-		for (int i = 1; i < 10; i++) {
+		for (int i = 1; i <= MAX_TRAP_LV; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
 			tjv.trapIndex = i;
 			tjv.trapLevel = Mathf.CeilToInt((float)i / 2f);
@@ -49,7 +52,7 @@ public class TrapInjuredInfo {
 	
 	//-----------------------------hungryInfo-------------------------------
 		temp = new List<TrapInjuredValue> ();
-		for (int i = 1; i < 11; i++) {
+		for (int i = 1; i <= MAX_TRAP_LV; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
 			tjv.trapIndex = i;
 			tjv.trapLevel = i < 5 ? i : 5;
@@ -60,7 +63,7 @@ public class TrapInjuredInfo {
 
 	//-----------------------------lostMoney---------------------------------
 		temp = new List<TrapInjuredValue> ();
-		for (int i = 1; i < 11; i++) {
+		for (int i = 1; i <= MAX_TRAP_LV; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
 			tjv.trapIndex = i;
 			tjv.trapLevel = i < 5 ? i : 5;
@@ -71,7 +74,7 @@ public class TrapInjuredInfo {
 
 	//-----------------------------environment-------------------------------
 		temp = new List<TrapInjuredValue> ();
-		for (int i = 1; i < 8; i++) {
+		for (int i = 1; i <= MAX_TRAP_LV; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
 			tjv.trapIndex = i;
 			tjv.trapLevel = i ;
@@ -82,7 +85,7 @@ public class TrapInjuredInfo {
 
 	//-----------------------------stateException----------------------------
 		temp = new List<TrapInjuredValue> ();
-		for (int i = 1; i < 11; i++) {
+		for (int i = 1; i <= MAX_TRAP_LV; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
 			tjv.trapIndex = i;
 			tjv.trapLevel = i;

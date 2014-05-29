@@ -101,7 +101,7 @@ public class HttpManager : INetSendPost {
             msgParams.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.CONNECT_ERROR);
             msgParams.contentText = errMsg.Msg;
-            msgParams.btnParams[0].text = TextCenter.Instace.GetCurrentText("retry");
+            msgParams.btnParams[0].text = TextCenter.GetText("retry");
             msgParams.btnParams[0].callback = CallbackRetry;
             msgParams.btnParams[0].args = post;
             msgParams.btnParams[1].callback = CallbackCancelRequest;

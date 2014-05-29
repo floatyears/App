@@ -141,8 +141,8 @@ public class LoadingLogic : ConcreteComponent {
 			if(recoverQuestID > 0) {
 				MsgWindowParams mwp = new MsgWindowParams ();
 				mwp.btnParams = new BtnParam[2];
-				mwp.titleText = "Continue?";
-				mwp.contentText = "do you want to recover previous battle?";
+				mwp.titleText = TextCenter.GetText("BattleContinueTitle");
+				mwp.contentText = TextCenter.GetText("BattleContinueContent");
 				
 				BtnParam sure = new BtnParam ();
 				sure.callback = SureRetry;

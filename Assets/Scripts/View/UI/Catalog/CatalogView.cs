@@ -55,7 +55,7 @@ public class CatalogView : UIComponentUnity {
 
 	private void RefreshItemCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
-		countArgs.Add("title", TextCenter.Instace.GetCurrentText("CatalogCounterTitle"));
+		countArgs.Add("title", TextCenter.GetText("CatalogCounterTitle"));
 		countArgs.Add("current", GetCurGotUnitCount());
 		countArgs.Add("max", TOTAL_CATALOG_COUNT);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);

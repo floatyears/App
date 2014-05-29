@@ -72,16 +72,16 @@ public class ShopComponent : ConcreteComponent {
     MsgWindowParams GetFriendExpansionMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
 
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendExpand");
+        msgWindowParam.titleText = TextCenter.GetText("FriendExpand");
 
-        string context1 = TextCenter.Instace.GetCurrentText("ConfirmFriendExpansion");
-        string context2 = TextCenter.Instace.GetCurrentText("FriendExpansionInfo", DataCenter.Instance.FriendCount,
+        string context1 = TextCenter.GetText("ConfirmFriendExpansion");
+        string context2 = TextCenter.GetText("FriendExpansionInfo", DataCenter.Instance.FriendCount,
                                                           DataCenter.Instance.UserInfo.FriendMax);
 
         msgWindowParam.contentTexts = new string[2]{ context1, context2 };
         msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParams[0].callback = CallbackFriendExpansion;
-        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("DoFriendExpand");
+        msgWindowParam.btnParams[0].text = TextCenter.GetText("DoFriendExpand");
         return msgWindowParam;
     }
 
@@ -94,15 +94,15 @@ public class ShopComponent : ConcreteComponent {
         switch (buyType) {
         case BuyType.FriendExpansion:
             title = "FriendExpansionFinish";
-            content = TextCenter.Instace.GetCurrentText("FriendExpansionResult", DataCenter.Instance.UserInfo.FriendMax);
+            content = TextCenter.GetText("FriendExpansionResult", DataCenter.Instance.UserInfo.FriendMax);
             break;
         case BuyType.StaminaRecover:
             title = "StaminaRecoverFinish";
-            content = TextCenter.Instace.GetCurrentText("StaminaRecoverResult");
+            content = TextCenter.GetText("StaminaRecoverResult");
             break;
         case BuyType.UnitExpansion:
             title = "UnitExpansionFinish";
-            content = TextCenter.Instace.GetCurrentText("UnitExpansionResult", DataCenter.Instance.UserInfo.UnitMax);
+            content = TextCenter.GetText("UnitExpansionResult", DataCenter.Instance.UserInfo.UnitMax);
             break;
         default:
             break;
@@ -116,27 +116,27 @@ public class ShopComponent : ConcreteComponent {
 
     MsgWindowParams GetFriendExpansionBuyFailParams(BuyFailType failType){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendExpansionFailed");
+        msgWindowParam.titleText = TextCenter.GetText("FriendExpansionFailed");
         string content = failType == BuyFailType.NoNeedToBuy ? "FriendCountLimitReachedMax" : "FriendExpandStonesNotEnough";
-        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText(content);;
+        msgWindowParam.contentText = TextCenter.GetText(content);;
         msgWindowParam.btnParam = new BtnParam();
         return msgWindowParam;
     }
  
     MsgWindowParams GetStaminaRecoverBuyFailParams(BuyFailType failType){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("StaminaRecoverFailed");
+        msgWindowParam.titleText = TextCenter.GetText("StaminaRecoverFailed");
         string content = failType == BuyFailType.NoNeedToBuy ? "StaminaStillFull" : "StaminaRecoverStonesNotEnough";
-        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText(content);;
+        msgWindowParam.contentText = TextCenter.GetText(content);;
         msgWindowParam.btnParam = new BtnParam();
         return msgWindowParam;
     }
 
     MsgWindowParams GetUnitExpansionBuyFailParams(BuyFailType failType){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("UnitExpansionFailed");
+        msgWindowParam.titleText = TextCenter.GetText("UnitExpansionFailed");
         string content = failType == BuyFailType.NoNeedToBuy ? "UnitCountLimitReachedMax" : "UnitExpandStonesNotEnough";
-        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText(content);;
+        msgWindowParam.contentText = TextCenter.GetText(content);;
         msgWindowParam.btnParam = new BtnParam();
         return msgWindowParam;
     }
@@ -213,12 +213,12 @@ public class ShopComponent : ConcreteComponent {
     MsgWindowParams GetStaminaMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
         
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("StaminaRecover");
+        msgWindowParam.titleText = TextCenter.GetText("StaminaRecover");
 
-        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("ConfirmStaminaRecover");
+        msgWindowParam.contentText = TextCenter.GetText("ConfirmStaminaRecover");
         msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParams[0].callback = CallbackStaminaRecover;
-        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("DoStaminaRecover");
+        msgWindowParam.btnParams[0].text = TextCenter.GetText("DoStaminaRecover");
         return msgWindowParam;
     }
     
@@ -274,16 +274,16 @@ public class ShopComponent : ConcreteComponent {
     MsgWindowParams GetUnitExpansionMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
         
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("UnitExpand");
+        msgWindowParam.titleText = TextCenter.GetText("UnitExpand");
         
-        string context1 = TextCenter.Instace.GetCurrentText("ConfirmUnitExpansion");
-        string context2 = TextCenter.Instace.GetCurrentText("UnitExpansionInfo", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
+        string context1 = TextCenter.GetText("ConfirmUnitExpansion");
+        string context2 = TextCenter.GetText("UnitExpansionInfo", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
                                                             DataCenter.Instance.UserInfo.UnitMax);
         
         msgWindowParam.contentTexts = new string[2]{ context1, context2 };
         msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParams[0].callback = CallbackUnitpansion;
-        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("DoUnitExpand");
+        msgWindowParam.btnParams[0].text = TextCenter.GetText("DoUnitExpand");
         return msgWindowParam;
     }
 

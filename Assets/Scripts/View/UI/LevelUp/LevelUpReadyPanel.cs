@@ -329,8 +329,8 @@
 //
 //    MsgWindowParams GetMoneyNotEnoughMsgWindowParams(int totalMoney){
 //        MsgWindowParams winParams = new MsgWindowParams();
-//        winParams.titleText = TextCenter.Instace.GetCurrentText("MoneyNotEnoughTitle");
-//        winParams.contentText = TextCenter.Instace.GetCurrentText("LevelUpMoneyNotEnough", totalMoney);
+//        winParams.titleText = TextCenter.GetText("MoneyNotEnoughTitle");
+//        winParams.contentText = TextCenter.GetText("LevelUpMoneyNotEnough", totalMoney);
 //        winParams.btnParam = new BtnParam();
 //        return winParams;
 //    }

@@ -27,6 +27,7 @@ public class PartyInfoView : UIComponentUnity {
 		AddCmdListener();
 		UpdateView(DataCenter.Instance.PartyInfo.CurrentParty);
 		ShowUIAnimation();
+		//Debug.LogError("PartyInfoView.ShowUI()...");
 	}
 
 	public override void HideUI(){

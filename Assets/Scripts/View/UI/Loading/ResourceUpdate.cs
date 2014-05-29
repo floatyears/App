@@ -160,7 +160,7 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 
 	private void ShowTipText(){
-		tipText.text = TextCenter.Instace.GetCurrentText ("Tips_A_0" + MathHelper.RandomToInt (1, 9));
+		tipText.text = TextCenter.GetText ("Tips_" + MathHelper.RandomToInt (1, 9));
 	}
 
 	private void DownloadAgain(object data){

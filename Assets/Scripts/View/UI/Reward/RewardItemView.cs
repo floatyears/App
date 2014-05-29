@@ -77,13 +77,13 @@ public class RewardItemView : MonoBehaviour {
 			}
 			switch ((EBonusType)data.type) {
 			case EBonusType.CHAIN_LOGIN:
-				text.text = string.Format(TextCenter.Instace.GetCurrentText("ChainLogin"),data.matchValue);
+				text.text = string.Format(TextCenter.GetText("ChainLogin"),data.matchValue);
 				break;
 			case EBonusType.TOTAL_LOGIN:
-				text.text = string.Format(TextCenter.Instace.GetCurrentText("TotalLogin"),data.matchValue);
+				text.text = string.Format(TextCenter.GetText("TotalLogin"),data.matchValue);
 				break;
 			case EBonusType.RANK_REACH:
-				text.text = string.Format(TextCenter.Instace.GetCurrentText("RankReach"),data.matchValue);
+				text.text = string.Format(TextCenter.GetText("RankReach"),data.matchValue);
 				break;
 			default:
 				text.text = "";

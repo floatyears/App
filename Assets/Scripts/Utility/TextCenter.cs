@@ -10,7 +10,7 @@
 using System;
 using System.Collections.Generic;
 public partial class TextCenter {
-    public static TextCenter Instace {
+    public static TextCenter Instance {
         get {
             if (instance == null){
                 instance = new TextCenter();
@@ -22,29 +22,31 @@ public partial class TextCenter {
         }
     }
 
-    public string GetCurrentText(string key){
-        string result = "";
-        textDict.TryGetValue(key, out result);
-        return result;
-    }
+	public static string GetText(string key){
+		return Instance.InnerGetText( key );
+	}
 
-
-    public string GetCurrentText(string key, params object[] args){
-        string result = "";
-        textDict.TryGetValue(key, out result);
+	public static string GetText(string key, params object[] args){
+		string result = Instance.InnerGetText( key );
         result = string.Format(result, args);
         return result;
     }
 
     public void Test(){
         LogHelper.Log("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT TextHelper.Test() start");
-        LogHelper.Log("test get string {0}, result {1}", "error", GetCurrentText("error"));
-        LogHelper.Log("test get string {0}, result {1}", "error1", GetCurrentText("error1", "test error1"));
+		LogHelper.Log("test get string {0}, result {1}", "error", TextCenter.GetText("error"));
+		LogHelper.Log("test get string {0}, result {1}", "error1", TextCenter.GetText("error1", "test error1"));
     }
 
     private static TextCenter instance;
 
     private Dictionary<string, string> textDict;
+	public string InnerGetText(string key) {
+		string result = "";
+		textDict.TryGetValue(key, out result);
+		return result;
+	}
+
 
     private void Init(){
         textDict = new Dictionary<string, string>();

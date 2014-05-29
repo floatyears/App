@@ -63,8 +63,8 @@ public class SelectRoleController : ConcreteComponent {
 
 	MsgWindowParams GetSelectRoleMsgParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.Instace.GetCurrentText("SelectRoleTitle");
-		msgParams.contentText = TextCenter.Instace.GetCurrentText("SelectRoleContent");
+		msgParams.titleText = TextCenter.GetText("SelectRoleTitle");
+		msgParams.contentText = TextCenter.GetText("SelectRoleContent");
 		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
 		msgParams.btnParams[ 0 ].callback = CallbackMsgBtnOk;
         return msgParams;

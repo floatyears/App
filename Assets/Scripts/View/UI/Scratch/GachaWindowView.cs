@@ -116,17 +116,17 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void SyncGachaInfosAtStart(){
-        chancesLabel.text = TextCenter.Instace.GetCurrentText("GachaChances", 0, gachaInfo.totalChances);
+        chancesLabel.text = TextCenter.GetText("GachaChances", 0, gachaInfo.totalChances);
         string title = "";
         switch (gachaInfo.gachaType) {
         case GachaType.FriendGacha:
-            title = TextCenter.Instace.GetCurrentText("FriendGachaTitle"); 
+            title = TextCenter.GetText("FriendGachaTitle"); 
             break;
         case GachaType.RareGacha:
-            title = TextCenter.Instace.GetCurrentText("RareGachaTitle"); 
+            title = TextCenter.GetText("RareGachaTitle"); 
             break;
         case GachaType.EventGacha:
-            title = TextCenter.Instace.GetCurrentText("EventGachaTitle"); 
+            title = TextCenter.GetText("EventGachaTitle"); 
             break;
         default:
             break;
@@ -136,7 +136,7 @@ public class GachaWindowView : UIComponentUnity {
 
     private void SyncGachaInfos(){
         int nowChance = Mathf.Min(GetTryCount() + 1, gachaInfo.totalChances);
-        chancesLabel.text = TextCenter.Instace.GetCurrentText("GachaChances", nowChance, gachaInfo.totalChances);
+        chancesLabel.text = TextCenter.GetText("GachaChances", nowChance, gachaInfo.totalChances);
     }
 
     private int GetTryCount(){
@@ -184,7 +184,7 @@ public class GachaWindowView : UIComponentUnity {
 
     private void ResetOneGrid(GameObject grid){
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
-        label.text = TextCenter.Instace.GetCurrentText("Open");
+        label.text = TextCenter.GetText("Open");
         UISprite background = grid.transform.FindChild("Background").GetComponent<UISprite>();
 //        background.spriteName = "avatar_mask";
         background.gameObject.SetActive(true);
@@ -274,7 +274,7 @@ public class GachaWindowView : UIComponentUnity {
 
         texture.mainTexture = currentUnitInfo.GetAsset(UnitAssetType.Avatar);
         UILabel rightBottom = grid.transform.FindChild("Cell/Label_Right_Bottom").GetComponent<UILabel>();
-        rightBottom.text = TextCenter.Instace.GetCurrentText("Lv", level);
+        rightBottom.text = TextCenter.GetText("Lv", level);
 
         SyncGachaInfos();
     }

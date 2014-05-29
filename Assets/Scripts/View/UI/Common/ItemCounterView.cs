@@ -34,13 +34,13 @@ public class ItemCounterView : UIComponentUnity{
 		titleLabel.text = viewInfo["title"] as string;
 		int current = (int)viewInfo["current"];
 		int max = (int)viewInfo["max"];
-		curLabel.text = TextCenter.Instace.GetCurrentText("CounterCurrent" , current);
+		curLabel.text = TextCenter.GetText("CounterCurrent" , current);
 
 		if(max == 0){
 			maxLabel.text = string.Empty;
 		}
 		else{
-			maxLabel.text = TextCenter.Instace.GetCurrentText("CounterMax" , max);
+			maxLabel.text = TextCenter.GetText("CounterMax" , max);
 			if(current > max){
 				curLabel.color = Color.red;
 			}

@@ -10,7 +10,7 @@ public class SelectRoleDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_ROLE_SELECT));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_ROLE_SELECT));
 		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 	
@@ -116,7 +116,7 @@ public class HomeDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_HOME));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_HOME));
 		base.ShowScene();
 	}
 		
@@ -148,7 +148,7 @@ public class FriendDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_FRIEND));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_FRIEND));
 	}
 	
 	public override void HideScene(){
@@ -179,7 +179,7 @@ public class ScratchDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_SCRATCH));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_SCRATCH));
 
 		if(SceneEnum.Scratch == currentDecoratorScene)
 			NoviceGuideStepEntityManager.Instance ().StartStep ();
@@ -263,7 +263,7 @@ public class ShopDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_SHOP));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_SHOP));
 	}
 	
 	public override void HideScene(){
@@ -295,7 +295,7 @@ public class OthersDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_OTHERS));	}
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_OTHERS));	}
 	
 	public override void HideScene(){
 		base.HideScene();
@@ -326,7 +326,7 @@ public class UnitsDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_UNITS));	}
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_UNITS));	}
 	
 	public override void HideScene(){
 		base.HideScene();
@@ -339,7 +339,7 @@ public class UnitsDecorator : DecoratorBase{
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		UnitsController units = CreatComponent< UnitsController >(UIConfig.unitsWindowName);
-		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.unitsInfoPanelName);
+		UnitInfoLogic partyInfo = CreatComponent<UnitInfoLogic>(UIConfig.unitsInfoPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
 		partyInfo.SetComponent(sceneInfoBar);
@@ -362,7 +362,7 @@ public class StageSelectDecorrator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Home);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_STAGE_SELECT));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_STAGE_SELECT));
 	}
 	
 	public override void HideScene(){
@@ -396,7 +396,7 @@ public class FriendSelectDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.QuestSelect);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_FRIEND_SELECT));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_FRIEND_SELECT));
 	}
 	
 	public override void HideScene(){
@@ -431,7 +431,7 @@ public class PartyDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_PARTY));	}
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_PARTY));	}
 	
 	public override void HideScene(){
 		base.HideScene();
@@ -471,7 +471,7 @@ public class LevelUpDecorator : DecoratorBase {
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_LEVEL_UP));	
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_LEVEL_UP));	
 	}
 	
 	public override void HideScene(){
@@ -506,7 +506,7 @@ public class SellDecorator : DecoratorBase{
 		base.ShowScene();
         MsgCenter.Instance.AddListener(CommandEnum.SellUnitSaveState, SetKeepState);
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_UNIT_SELL));	}
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_UNIT_SELL));	}
 	
 	public override void HideScene(){
 		base.HideScene();
@@ -543,7 +543,7 @@ public class EvolveDecorator : DecoratorBase{
 //		Debug.LogError("EvolveDecorator show scene begin");
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_EVOLVE));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_EVOLVE));
 //		Debug.LogError("EvolveDecorator show scene end");
 	}
 	
@@ -589,7 +589,7 @@ public class CatalogDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_CATALOG));	
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_CATALOG));	
 	}
 	
 	public override void HideScene(){
@@ -623,7 +623,7 @@ public class UnitListDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_UNIT_LIST));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_UNIT_LIST));
 	}
 	
 	public override void HideScene(){
@@ -658,7 +658,7 @@ public class FriendListDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_FRIEND_LIST));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_FRIEND_LIST));
 	}
 	
 	public override void HideScene(){
@@ -696,7 +696,7 @@ public class InformationDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_INFORMATION));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_INFORMATION));
          
 	}
 	
@@ -729,7 +729,7 @@ public class FriendSearchDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_FRIEND_SEARCH));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_FRIEND_SEARCH));
 	}
 	
 	public override void HideScene(){
@@ -763,7 +763,7 @@ public class ApplyDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_APPLY));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_APPLY));
 	}
 	
 	public override void HideScene(){
@@ -802,7 +802,7 @@ public class ReceptionDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_RECEPTION));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_RECEPTION));
 	}
 	
 	public override void HideScene(){
@@ -839,7 +839,7 @@ public class UserIDDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_YOUR_ID));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_YOUR_ID));
 	}
 	
 	public override void HideScene(){
@@ -904,7 +904,7 @@ public class ResultDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.LevelUp);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_RESULT));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_RESULT));
 	}
 	
 	public override void HideScene(){
@@ -935,7 +935,7 @@ public class FightReadyDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.FriendSelect);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_FIGHT_READY));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_FIGHT_READY));
 	}
 	
 	public override void HideScene(){
@@ -967,7 +967,7 @@ public class QuestSelectDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.StageSelect);
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_QUEST_SELECT));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_QUEST_SELECT));
 	}
 	
 	public override void HideScene(){
@@ -998,7 +998,7 @@ public class OperationNoticeDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 //		sceneInfoBar.SetBackScene(SceneEnum.Home);
-//		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_OPERATION_NOTICE));
+//		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_OPERATION_NOTICE));
 	}
 	
 	public override void HideScene(){
@@ -1029,8 +1029,8 @@ public class RewardDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Home);
-		LogHelper.Log ("reward scene name: " + TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_REWARD));
-		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_REWARD));
+		LogHelper.Log ("reward scene name: " + TextCenter.GetText(TextConst.SCENE_NAME_REWARD));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_REWARD));
 	}
 	
 	public override void HideScene(){

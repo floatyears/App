@@ -95,8 +95,8 @@ public class StageSelectView : UIComponentUnity{
 	
 	private MsgWindowParams GetStaminaLackMsgParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.Instace.GetCurrentText("StaminaLackNoteTitle");
-		msgParams.contentText = TextCenter.Instace.GetCurrentText("StaminaLackNoteContent");
+		msgParams.titleText = TextCenter.GetText("StaminaLackNoteTitle");
+		msgParams.contentText = TextCenter.GetText("StaminaLackNoteContent");
 		msgParams.btnParam = new BtnParam();
 		return msgParams;
 	}

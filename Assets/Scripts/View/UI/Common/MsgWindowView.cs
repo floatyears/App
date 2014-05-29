@@ -110,9 +110,9 @@ public class MsgWindowView : UIComponentUnity{
         btnRight.gameObject.SetActive(false);
         btnCenter.gameObject.SetActive(false);
 
-        SetButtonLabelText(btnLeft, TextCenter.Instace.GetCurrentText("OK"));
-        SetButtonLabelText(btnRight, TextCenter.Instace.GetCurrentText("CANCEL"));
-        SetButtonLabelText(btnCenter, TextCenter.Instace.GetCurrentText("OK"));
+        SetButtonLabelText(btnLeft, TextCenter.GetText("OK"));
+        SetButtonLabelText(btnRight, TextCenter.GetText("CANCEL"));
+        SetButtonLabelText(btnCenter, TextCenter.GetText("OK"));
 
         msgLabelCenter.text = string.Empty;
         msgLabelTop.text = string.Empty;

@@ -7185,7 +7185,10 @@ namespace bbproto
       BOOST_ATTACK = 0,
             
       [global::ProtoBuf.ProtoEnum(Name=@"BOOST_HP", Value=1)]
-      BOOST_HP = 1
+      BOOST_HP = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"BOOST_ALL", Value=2)]
+      BOOST_ALL = 2
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EBoostTarget")]
