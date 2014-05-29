@@ -55,7 +55,20 @@ public partial class TextCenter {
         textDict = new Dictionary<string, string>();
 
         //
-		string[] data = File.ReadAllLines (Application.dataPath + "/Resources/Language/lang_en.txt");
+//		string[] data = File.ReadAllLines (Application.dataPath + "/Resources/Language/lang_en.txt");
+		string readData = (Resources.Load ("Language/lang_en") as TextAsset).text;
+		string[] data = readData.Split('\n');
+//		string[] data_splitOne = data.Split('#');
+//		for (int i = 0; i < data_splitOne.Length; i++) {
+//			if(data_splitOne[i].Length == 0) {
+//				continue;
+//			}
+//
+//			string[] data_splitTwo = data_splitOne[i].Split('=');
+//			for (int j = 0; j < data_splitTwo.Length; j++) {
+//
+//			}
+//		}
 		foreach (string s in data) {
 			//Debug.Log("config: " + s + "length: " + s.Length);
 			if(s.Length >0 && s[0] != '#'){
