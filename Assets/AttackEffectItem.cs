@@ -47,7 +47,7 @@ public class AttackEffectItem : MonoBehaviour {
 		ATKLabel.text = "";
 		avatarTexture.mainTexture = tex;
 		transform.localPosition = middlePosition;
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", 0.5f, "easetype", iTween.EaseType.easeOutCubic,"oncomplete","DropComplete","oncompletetarget",gameObject));
+		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", 0.5f, "easetype", iTween.EaseType.easeInOutQuart,"oncomplete","DropComplete","oncompletetarget",gameObject));
 	}
 
 	void CheckComponentInit() {

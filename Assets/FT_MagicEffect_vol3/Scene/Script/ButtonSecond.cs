@@ -5,10 +5,10 @@ public class ButtonSecond : MonoBehaviour {
 	public Transform effectToPlay; //Particle effect you want to play
 	public Vector3 effectPos;
 
-	
-	void OnMouseDown() {
-		StartCoroutine(PlayEffect());
-	}
+//	
+//	void OnMouseDown() {
+//		StartCoroutine(PlayEffect());
+//	}
 	
 	 IEnumerator PlayEffect() {		
         yield return new WaitForSeconds(0.4f);
