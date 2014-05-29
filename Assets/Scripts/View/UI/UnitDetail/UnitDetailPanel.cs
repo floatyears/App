@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	UIButton favBtn;
 	GameObject unitInfoTabs;
+	UISprite unitInfoBackground;
 //	UILabel noLabel;
 	UILabel hpLabel;
 	UILabel atkLabel;
@@ -107,6 +108,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		UIEventListener.Get(favBtn.gameObject).onClick = CollectCurUnit;
 
 		unitInfoTabs = transform.Find("UnitInfoTabs").gameObject;
+		unitInfoBackground = unitInfoTabs.transform.Find ("Background").GetComponent<UISprite> ();
+		unitInfoBackground.height = Main.Instance.root.manualHeight - 388;
 //		tabSkill1 = transform.Find("UnitInfoTabs/Tab_Skill1").gameObject;
 //		UIEventListener.Get(tabSkill1).onClick = ClickTab;
 
