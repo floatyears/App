@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class EvolveDecoratorUnity : UIComponentUnity {
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
@@ -337,11 +338,15 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			UIEventListenerCustom ui = UIEventListenerCustom.Get(go);
 			ui.LongPress = LongPress;
 			ui.onClick = ClickItem;
+
 			EvolveItem ei = new EvolveItem();
 			ei.index = i;
 			ei.itemObject = go;
 			ei.showTexture = go.transform.Find("Texture").GetComponent<UITexture>();
 			ei.highLight = go.transform.Find("Light").GetComponent<UISprite>();
+			ei.borderSprite = go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>();
+			ei.bgprite = go.transform.Find("Sprite_Avatar_Bg").GetComponent<UISprite>(); 
+			ei.boxCollider = go.GetComponent<BoxCollider>();
 			ei.highLight.enabled = false;
 			evolveItem.Add(ei.itemObject, ei);
 			if(i == 1 ) {
@@ -359,9 +364,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 				materialItem.Add(i,ei);
 			}
 			
-			ei.haveLabel = go.transform.Find("HaveLabel").GetComponent<UILabel>();
-			ei.maskSprite = go.transform.Find("Mask").GetComponent<UISprite>();
-			ei.boxCollider = go.GetComponent<BoxCollider>();
+//			ei.haveLabel = go.transform.Find("HaveLabel").GetComponent<UILabel>();
+//			ei.maskSprite = go.transform.Find("Mask").GetComponent<UISprite>();
 		}
 	}
 
@@ -419,6 +423,8 @@ public class EvolveItem {
 	public UILabel haveLabel;
 	public UISprite maskSprite;
 	public UISprite highLight;
+	public UISprite borderSprite;
+	public UISprite bgprite;
 	public int index;
 	public bool HaveUserUnit = true;
 
@@ -428,7 +434,12 @@ public class EvolveItem {
 		ShowShield (!isHave);
 		if (tuu == null) {
 			showTexture.mainTexture = null;
+			borderSprite.enabled = false;
+
+			bgprite.spriteName = "unit_empty_bg";
 		} else {
+			borderSprite.enabled = true;
+			ShowUnitType();
 			Texture2D tex = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
 			showTexture.mainTexture = tex;
 		}
@@ -443,6 +454,42 @@ public class EvolveItem {
 		}
 		if (boxCollider != null && boxCollider.enabled == show) {
 			boxCollider.enabled = !show;
+		}
+	}
+
+	private void ShowUnitType(){
+		switch (userUnit.UnitInfo.Type){
+		case EUnitType.UFIRE :
+			bgprite.spriteName = "avatar_bg_1";
+			borderSprite.spriteName = "avatar_border_1";
+			break;
+		case EUnitType.UWATER :
+			bgprite.spriteName = "avatar_bg_2";
+			borderSprite.spriteName = "avatar_border_2";
+			
+			break;
+		case EUnitType.UWIND :
+			bgprite.spriteName = "avatar_bg_3";
+			borderSprite.spriteName = "avatar_border_3";
+			
+			break;
+		case EUnitType.ULIGHT :
+			bgprite.spriteName = "avatar_bg_4";
+			borderSprite.spriteName = "avatar_border_4";
+			
+			break;
+		case EUnitType.UDARK :
+			bgprite.spriteName = "avatar_bg_5";
+			borderSprite.spriteName = "avatar_border_5";
+			
+			break;
+		case EUnitType.UNONE :
+			bgprite.spriteName = "avatar_bg_6";
+			borderSprite.spriteName = "avatar_border_6";
+			
+			break;
+		default:
+			break;
 		}
 	}
 }
