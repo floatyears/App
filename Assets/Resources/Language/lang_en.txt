@@ -306,6 +306,10 @@ guide34_content=find the key.take down the boss.you will succeed.
 guide35_title=confirm the result
 guide35_content=confirm the result.you will gain different things.
 
+##skillName & skillDescription
+RecoverHpSkillName=Recover HP: Lv{0}
+RecoverHpSkillDesc=Recover {0}% HP
+
 ##level up
 guide41_title=level up method
 guide41_content=click level up to strong your party

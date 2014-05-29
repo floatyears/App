@@ -15,8 +15,6 @@ public class AttackEffectItem : MonoBehaviour {
 		CheckComponentInit ();
 
 		callback = cb;
-		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitID, skillID, SkillType.NormalSkill);
-		skillNameLabel.text = sbi.BaseInfo.name;
 
 		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (userUnitID);
 		backGroundSprite.spriteName = tuu.UnitType.ToString ();
@@ -27,9 +25,14 @@ public class AttackEffectItem : MonoBehaviour {
 			return;
 		}
 
-		if (recoverHP) {
-			ATKLabel.text = "HELH " + atk;		
+		if ( skillID>=101 && skillID<=104 ) { //General RecoverHP Skill
+			SkillBaseInfo sbi = DataCenter.Instance.Skill[skillID]; //(userUnitID, skillID, SkillType.NormalSkill);
+			skillNameLabel.text = sbi.BaseInfo.name;
+
+			ATKLabel.text = "HELH " + atk;
 		} else {
+			SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitID, skillID, SkillType.NormalSkill);
+			skillNameLabel.text = sbi.BaseInfo.name;
 			ATKLabel.text = "ATK " + atk;
 		}
 	}
