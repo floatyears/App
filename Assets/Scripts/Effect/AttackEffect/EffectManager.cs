@@ -22,6 +22,7 @@ public class EffectManager {
 	public GameObject GetEffectObject(int skillID) {
 		GameObject go = null;
 		effectObject.TryGetValue (skillID, out go);
+		Debug.LogError ("skillID : " + skillID + " go : " + go); 
 		return go;
 	}
 
