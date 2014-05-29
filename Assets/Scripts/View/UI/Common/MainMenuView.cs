@@ -88,31 +88,36 @@ public class MainMenuView : UIComponentUnity{
 	private TUnitInfo leaderUnitInfo;
 	private void UpdateLeaderAvatar(object msg){
 		TUserUnit newestLeaderUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
+//		Debug.LogError ((newestLeaderUnit == null) + "  leaderUnitInfo == null : " + (leaderUnitInfo == null));
 		if(newestLeaderUnit == null){
+			leaderAvatarTex.mainTexture = null;
 			Debug.LogError("newestLeaderUnit is NULL, return...");
 			return;
 		}
 
 		if(leaderUnitInfo == null){
 			//first step in
-			//Debug.Log("UpdateLeaderAvatar(), Leader data is FRIST assigned.");
+//			Debug.Log("UpdateLeaderAvatar(), Leader data is FRIST assigned.");
 			leaderAvatarTex.mainTexture = newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile);
 
 			SetUVByConfig();
 			leaderUnitInfo = newestLeaderUnit.UnitInfo;
-
+			return;
 		}
-		else if(!leaderUnitInfo.Equals(newestLeaderUnit.UnitInfo)){
-			//changed
-			Debug.Log("UpdateLeaderAvatar(), Leader data CHANGED.");
-			leaderAvatarTex.mainTexture = newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile);
 
+	 	if(leaderUnitInfo.ID != newestLeaderUnit.UnitInfo.ID){
+//			Debug.LogError("else if  leaderUnitInfo.ID  : " + leaderUnitInfo.ID + " newestLeaderUnit.UnitInfo.ID : " +newestLeaderUnit.UnitInfo.ID);
+			//changed
+//			Debug.Log("UpdateLeaderAvatar(), Leader data CHANGED." + newestLeaderUnit.UnitInfo.ID + " leaderUnitInfo: " + leaderUnitInfo.ID);
+			leaderAvatarTex.mainTexture = newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile);
+ 
 			SetUVByConfig();
 			leaderUnitInfo = newestLeaderUnit.UnitInfo;
 		}
 		else{
 			//not changed
-			Debug.Log("UpdateLeaderAvatar(), Leader data NOT CHANGED.");
+//			Debug.LogError("else   leaderUnitInfo.ID  : " + leaderUnitInfo.ID + " newestLeaderUnit.UnitInfo.ID : " +newestLeaderUnit.UnitInfo.ID);
+//			Debug.Log("UpdateLeaderAvatar(), Leader data NOT CHANGED.");
 		}
 	}
 
