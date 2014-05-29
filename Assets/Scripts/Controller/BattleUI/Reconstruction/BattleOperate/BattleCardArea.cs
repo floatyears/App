@@ -18,6 +18,7 @@ public class BattleCardArea : UIBaseUnity {
 	private static List<GameObject> battleCardIns = new List<GameObject>();
 	private GameObject cardItem;
 	public static Vector3 startPosition;
+	public static Vector3 middlePosition;
 	public static Vector3 endPosition;
 	public static Vector3 activeSkillStartPosition;
 	public static Vector3 activeSkillEndPosition;
@@ -140,7 +141,10 @@ public class BattleCardArea : UIBaseUnity {
 		BattleCardAreaItem bcai = battleCardAreaItem [length - 1];
 		//normal skill is from right top to left bottom.
 		Vector3 pos = bcai.transform.localPosition;		// get last area item position.
+
 		startPosition = new Vector3 (pos.x + height, pos.y - height * 0.5f, pos.z); //normal skill start position.
+
+		middlePosition = battleCardAreaItem [2].transform.localPosition;
 
 		pos = battleCardAreaItem [0].transform.localPosition;	// get first area item position.
 

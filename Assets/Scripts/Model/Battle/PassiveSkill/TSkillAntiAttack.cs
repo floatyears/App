@@ -28,4 +28,10 @@ public class TSkillAntiAttack : SkillBaseInfo, IPassiveExcute {
 		}
 		return null;
 	}
+
+	public SkillBaseInfo skillBaseInfo {
+		get {
+			return this;
+		}
+	}
 }

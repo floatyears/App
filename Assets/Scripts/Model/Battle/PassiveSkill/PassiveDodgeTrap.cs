@@ -27,4 +27,10 @@ public class PassiveDodgeTrap : SkillBaseInfo, IPassiveExcute {
 		return false;
 	}
 
+
+	public SkillBaseInfo skillBaseInfo {
+		get {
+			return this;
+		}
+	}
 }

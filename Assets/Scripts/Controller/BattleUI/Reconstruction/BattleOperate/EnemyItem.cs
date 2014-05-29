@@ -63,7 +63,7 @@ public class EnemyItem : UIBaseUnity {
         }
 
 		if (reduceDefense.AttackRound == 0) {
-			ShowStateException (StateEnum.ReduceDefense, true); 	// remove 		
+			ShowStateException (StateEnum.ReduceDefense, true); 	// remove 
 		} else {
 			ShowStateException(StateEnum.ReduceDefense);
 		}
@@ -88,7 +88,6 @@ public class EnemyItem : UIBaseUnity {
     }
 
 	void DisposeRestraint(AttackInfo ai) {
-//		Debug.LogError ("DisposeRestraint stateSprite : " + stateSprite);
 		if (!string.IsNullOrEmpty (stateSprite.spriteName)) {
 			stateSprite.spriteName = string.Empty;
 		}

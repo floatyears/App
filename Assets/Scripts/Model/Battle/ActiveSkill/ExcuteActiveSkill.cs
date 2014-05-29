@@ -47,7 +47,10 @@ public class ExcuteActiveSkill {
 			if(activeSkill.TryGetValue(id, out iase)) {
 				MsgCenter.Instance.Invoke(CommandEnum.StateInfo, DGTools.stateInfo[4]);
 //				Debug.LogError("excute active skill : " + userUnit);
-				MsgCenter.Instance.Invoke(CommandEnum.ShowActiveSkill, userUnit);
+				AttackInfo ai = AttackInfo.GetInstance();
+				ai.UserUnitID = userUnit.MakeUserUnitKey();
+				ai.SkillID = (iase as ActiveSkill).BaseInfo.id;
+				MsgCenter.Instance.Invoke(CommandEnum.ShowActiveSkill, ai);
 				GameTimer.GetInstance().AddCountDown(AttackEffect.activeSkillEffectTime, WaitActiveEffect);
 			}
 		}
