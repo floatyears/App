@@ -220,7 +220,7 @@ DeleteNoteContent=Are you sure to delete this friend?
 
 ZeroFriendPoint=Don't get friend point.
 GotFriendPoint=You have got {0} friend point.
-TotalFriendPoint=Total friend point you got now : {0}.
+TotalFriendPoint=Total friend point: {0}.
 
 ChainLogin=Chain Login {0}
 TotalLogin=Total Login {0}
