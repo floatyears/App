@@ -63,7 +63,7 @@ public class ResourceUpdate : MonoBehaviour {
 		pro = GetComponent<UIProgressBar> ();
 		proText = GameObject.Find("ProgressText").GetComponent<UILabel> ();
 		tipText = GameObject.Find ("TipText").GetComponent<UILabel>();
-		InvokeRepeating ("ShowTipText", 2, 2);
+		InvokeRepeating ("ShowTipText", 0, 5);
 
 
 		localVersionDic = new Dictionary<string, DownloadItemInfo> ();
@@ -160,8 +160,22 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 
 	private void ShowTipText(){
-		//DataCenter.Instance.LoginInfo.Data.Rank;
-		tipText.text = TextCenter.GetText ("Tips_" + MathHelper.RandomToInt (1, 9));
+		if (DataCenter.Instance.LoginInfo != null && DataCenter.Instance.LoginInfo.Data != null) {
+			if (DataCenter.Instance.LoginInfo.Data.Rank < 5) {
+				tipText.text = TextCenter.GetText ("Tips_A_" + MathHelper.RandomToInt (1, 13));
+			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 10) {
+				tipText.text = TextCenter.GetText ("Tips_B_" + MathHelper.RandomToInt (1, 10));
+			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 20) {
+				tipText.text = TextCenter.GetText ("Tips_C_" + MathHelper.RandomToInt (1, 18));
+			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 30) {
+				tipText.text = TextCenter.GetText ("Tips_D_" + MathHelper.RandomToInt (1, 18));
+			} else {
+				tipText.text = TextCenter.GetText ("Tips_E_" + MathHelper.RandomToInt (1, 24));
+			}	
+		} else {
+			tipText.text = TextCenter.GetText ("Tips_A_" + MathHelper.RandomToInt (1, 13));
+		}
+		         
 	}
 
 	private void DownloadAgain(object data){
