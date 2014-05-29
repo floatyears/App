@@ -16,6 +16,7 @@ public class PlayerInfoBarComponent : ConcreteComponent  {
 	}
 
 	public override void HideUI () {
+		Debug.Log ("player info hide------------");
 		base.HideUI ();
 	}
 

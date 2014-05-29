@@ -51,9 +51,7 @@ public class RewardView : UIComponentUnity {
 	}
 
 	private void InitData(){
-		Debug.Log ("Bonus Info: " + DataCenter.Instance.LoginInfo.Bonus.Count);
 		foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
-			Debug.Log("Bonus Type: " + item.type);
 			if(item.type <= 3){
 
 				if(!aList.ContainsKey(item.type))

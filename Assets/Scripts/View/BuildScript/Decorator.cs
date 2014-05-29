@@ -75,6 +75,7 @@ public class DecoratorBase {
 		if (component == null) {
 			component = Activator.CreateInstance(typeof(T), name) as T;
 		}
+		LogHelper.Log ("component: " + component);
 		return component;
 	}
 }

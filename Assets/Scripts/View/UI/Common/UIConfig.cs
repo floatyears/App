@@ -75,6 +75,7 @@ public class UIConfig{
 	public const string userIDWindowName = "UserIDWindow";
 	public const string informationWindowName = "InformationWindow";
 	public const string unitDetailPanelName = "UnitDetailPanel";
+	public const string unitDetailTopPanelName = "UnitDetailTopPanel";
 	public const string searchMainWindowName = "SearchMainWindow";
 	public const string searchInfoWindowName = "SearchInfoWindow";
 	public const string stageWindowName = "StageSelectWindow";

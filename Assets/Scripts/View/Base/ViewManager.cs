@@ -183,7 +183,6 @@ public class ViewManager {
 			return;	
 		}
 
-		//Debug.Log ("-------"+component);
 		UIInsConfig config = component.uiConfig;
 		string name = config.uiName;
 		
