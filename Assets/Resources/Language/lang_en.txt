@@ -52,7 +52,7 @@ ConfirmRefreshFriend=Are you sure to update friend list?
 # shop
 
 FriendExpand=Friend Max Expansion
-ConfirmFriendExpansion=Are you sure to use 1 coin to expand your friend limit?
+ConfirmFriendExpansion=Are you sure to use 6 Chip to expand your friend limit?
 FriendExpansionInfo=Now friends {0}/{1}
 DoFriendExpand=Expand
 
@@ -64,7 +64,7 @@ FriendExpansionFinish=Friend Max Expansion Completed
 FriendExpansionResult=Friend Limited Max reached {0}!
 
 StaminaRecover=Recover your stamina
-ConfirmStaminaRecover=Are you sure to use 1 coin to make your stamina full?
+ConfirmStaminaRecover=Are you sure to use 6 Chip to make your stamina full?
 DoStaminaRecover=Recover
 
 StaminaRecoverFailed=Stamina Recovering Failed
@@ -75,7 +75,7 @@ StaminaRecoverFinish=Stamina Recover Completed
 StaminaRecoverResult=All Stamina Recovered!
 
 UnitExpand=Units count limit expand
-ConfirmUnitExpansion=Are you sure to use 1 coin to expand your unit limit?
+ConfirmUnitExpansion=Are you sure to use 6 Chip to expand your unit limit?
 UnitExpansionInfo=Now Units {0}/{1}
 DoUnitExpansion=Expand
 
@@ -220,13 +220,13 @@ TotalFriendPoint=Total friend point you got now : {0}.
 
 ChainLogin=Chain Login {0}
 TotalLogin=Total Login {0}
-RankReach=Ran {0}
+RankReach=Rank {0}
 
-guide1_title=Welcom!
+guide1_title=Welcome!
 guide1_content=Are you going to get into the saint gate?
-guide2_title=choose your partener
+guide2_title=choose your partner
 guide2_content=选择和你一起冒险的伙伴。\n未选择的伙伴会在之后的旅程中相遇！
-guide3_title=determine your partener
+guide3_title=determine your partner
 guide3_content=角色介绍。\n确定和xxx冒险么？
 guide4_title=start adventure
 guide4_content=我的名字叫xxx。\n那么就立马开始冒险吧！
@@ -237,7 +237,7 @@ guide6_content=这次就来一次稀有抽卡吧。\n友情抽卡咱放后面再
 guide7_title=a rare card need something
 guide7_content=a rare card need something!
 guide8_title=choose a card
-guide8_content=任意选择一张卡牌吧。不管选哪一张，结果其实是一样的。
+guide8_content=Please feel free to pick a card!
 guide9_title=get a card
 guide9_content=运气不错，卡牌很强！\n后别忘了编入队伍中哦。
 guide10_title=party method
