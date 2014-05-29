@@ -15,7 +15,8 @@ public class TPartyInfo : ProtobufDataBase {
 		}
 		set{
 			isPartyGroupModified = value;
-			if(isPartyGroupModified)
+//			Debug.LogError("IsPartyGroupModified : " + isPartyGroupModified);
+//			if(isPartyGroupModified)
 				MsgCenter.Instance.Invoke(CommandEnum.ModifiedParty, null);
 		}
 	}
@@ -211,6 +212,7 @@ public class TPartyInfo : ProtobufDataBase {
         instance.partyList[CurrentPartyId].items[pos] = item;
 
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
+		MsgCenter.Instance.Invoke(CommandEnum.ModifiedParty, null);
         return true;
     }
 

@@ -218,14 +218,14 @@ public class PartyView : UIComponentUnity{
 			pickedFromUnitList = puv;
 
 			if(focusedOnParty == null){
-				Debug.Log("focus on-party-unit is null");
+//				Debug.Log("focus on-party-unit is null");
 				if(! AddUnitToPartyByOrder(1, puv)){
 					pickedFromUnitList = puv;
 					pickedFromUnitList.IsFocus = true;
 				}
 			}
 			else{
-				Debug.Log("focus on-party-unit is  not null");
+//				Debug.Log("focus on-party-unit is  not null");
 				if(focusedOnParty.UserUnit != null){
 					ReplaceFocusWithPickedUnit();
 				}
@@ -238,7 +238,7 @@ public class PartyView : UIComponentUnity{
 
 	private void AddToFocusWithPickedUnit(){
 		int focusPos = GetUnitPosInParty(focusedOnParty);
-		Debug.Log("AddToFocusWithPickedUnit(), focus pos is : " + focusPos);
+//		Debug.Log("AddToFocusWithPickedUnit(), focus pos is : " + focusPos);
 		if(! DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedFromUnitList.UserUnit.ID))  {
 			ClearUnitListFocusState();
 			ClearPartyFocusState();
@@ -252,7 +252,7 @@ public class PartyView : UIComponentUnity{
 	}
 
 	private void ReplaceFocusWithPickedUnit(){
-		Debug.Log("Replace Focus With PickedUnit...");
+//		Debug.Log("Replace Focus With PickedUnit...");
 		int focusPos = GetUnitPosInParty(focusedOnParty);
 
 		if(!DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedFromUnitList.UserUnit.ID)){
