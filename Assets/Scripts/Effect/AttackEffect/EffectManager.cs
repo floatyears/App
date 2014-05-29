@@ -22,7 +22,7 @@ public class EffectManager {
 	public GameObject GetEffectObject(int skillID) {
 		GameObject go = null;
 		effectObject.TryGetValue (skillID, out go);
-		Debug.LogError ("skillID : " + skillID + " go : " + go); 
+//		Debug.LogError ("skillID : " + skillID + " go : " + go); 
 		return go;
 	}
 
@@ -61,6 +61,7 @@ public class EffectManager {
 		Vector3 localScale = obj.transform.localScale;
 		Vector3 rotation = obj.transform.eulerAngles;
 		GameObject effectIns =  NGUITools.AddChild(parent, obj);
+//		effectIns.layer = GameLayer.EffectLayer;
 		effectIns.transform.localScale = localScale;
 		effectIns.transform.eulerAngles = rotation;
 		return effectIns;

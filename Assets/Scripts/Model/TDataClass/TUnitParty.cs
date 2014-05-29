@@ -59,8 +59,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
                 userUnit = new Dictionary<int,TUserUnit>();
                 for (int i = 0; i < partyItem.Count; i++) {
 //					Debug.LogError("i : " + i + "partyitem : " + partyItem[i].unitUniqueId);
-                    TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
 
+                    TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+//					Debug.LogError("partyItem[i].unitUniqueId : " + partyItem[i].unitUniqueId);
                     userUnit.Add(partyItem[i].unitPos, uui);
                 }
             }
@@ -74,15 +75,17 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 //		Debug.LogError (DataCenter.friendPos + " EnterBattle " + DataCenter.Instance.BattleFriend.UserUnit);
 //		Debug.LogError ("id : " + ID + " tunitparty : " + DataCenter.friendPos);
 		if (ID == DataCenter.Instance.PartyInfo.CurrentPartyId) {
-			UserUnit.Add(DataCenter.friendPos, ConfigBattleUseData.Instance.BattleFriend.UserUnit);
+			TUserUnit tuu = ConfigBattleUseData.Instance.BattleFriend.UserUnit;
+			DataCenter.Instance.UserUnitList.Add(tuu.userID, tuu.ID, tuu);
+			UserUnit.Add(DataCenter.friendPos, tuu);
 		}
 
 //		foreach (var item in UserUnit) {
 //			if(item.Value != null){
-////				Debug.LogError("pos : " + item.Key + " value : " + item.Value.ID);
+//				Debug.LogError("pos : " + item.Key + " value : " + item.Value.MakeUserUnitKey);
 //			}
 //			else{
-////				Debug.LogError("pos : " + item.Key + " value is null");
+//				Debug.LogError("pos : " + item.Key + " value is null");
 //			}
 //		}
 	}
