@@ -5,8 +5,10 @@ public class DragPanelView : UIBaseUnity {
 	public const string DragPanelPath = "Prefabs/UI/Share/DragPanelView";
 	public UIGrid grid;
 	private UIPanel clip;
-	private UIScrollView scrollView;
 	private UIScrollBar scrollBar;
+
+	[HideInInspector]
+	public UIScrollView scrollView;
 
 	public override void Init (string name){
 		base.Init (name);
@@ -121,6 +123,7 @@ public class DragPanelView : UIBaseUnity {
 		gameObject.transform.localPosition = dpsi.scrollerLocalPos;
 		gameObject.transform.localScale = dpsi.scrollerScale;
 		scrollView.transform.localPosition = dpsi.position;
+//		Debug.LogError ("set drag panel dpsi : " + scrollView.transform.localPosition);
 		clip.clipRange = dpsi.clipRange;
 		scrollBar.transform.localPosition = dpsi.scrollBarPosition;
 		grid.arrangement = dpsi.gridArrange;
@@ -178,6 +181,8 @@ public class DragPanelView : UIBaseUnity {
 		if (depth != null) {
 			scrollView.GetComponent<UIPanel> ().depth = (int)depth;
 		}
+
+//		Debug.LogError ("set drag panel dictionary : " + scrollView.transform.localPosition);
 //		Debug.LogError ("gameobject end aa : " + transform.localScale + " parent : " + parent.transform.localScale);
 		gameObject.transform.parent = parent;
 		transform.localScale = Vector3.one;
