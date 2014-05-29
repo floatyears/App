@@ -501,7 +501,7 @@ public class UserUnitList {
         }
 	
         TUserUnit tuu = userUnitInfo[key];
-//		Debug.LogError (" tuu : " + tuu);
+//		Debug.LogError (" tuu : " + tuu + " key : " + key);
         return tuu;
     }
 

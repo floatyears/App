@@ -18,6 +18,10 @@ public class AttackEffectItem : MonoBehaviour {
 		callback = cb;
 
 		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (userUnitID);
+		if (tuu == null) {
+			Debug.LogError("userunit is null : " + userUnitID);	
+			return;
+		}
 		backGroundSprite.spriteName = tuu.UnitType.ToString ();
 		avatarTexture.mainTexture =  tuu.UnitInfo.GetAsset (UnitAssetType.Avatar);
 		Tween ();

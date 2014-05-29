@@ -150,9 +150,6 @@
      <None Include="Assets\External\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
      <None Include="Assets\External\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
- <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid">
- <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid.dll</HintPath>
- </Reference>
  <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS">
  <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS.dll</HintPath>
  </Reference>

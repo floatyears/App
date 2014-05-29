@@ -671,6 +671,8 @@ public class GameLayer
 
 	public static LayerMask EnemyCard = 11;
 
+	public static LayerMask EffectLayer = 12;
+
 	public static LayerMask blocker = 15;
 
 	public static LayerMask NoviceGuide = 16;

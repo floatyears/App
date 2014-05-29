@@ -58,16 +58,16 @@ public class levelUpOperateUI : ConcreteComponent {
 				DataCenter.Instance.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
 	
 				DataCenter.Instance.UserUnitList.DelMyUnit (rspLevelUp.blendUniqueId);
-			Debug.LogError("rspLevelUp.baseUnit : " + rspLevelUp.baseUnit.uniqueId + " rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
+//			Debug.LogError("rspLevelUp.baseUnit : " + rspLevelUp.baseUnit.uniqueId + " rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
 				DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
-			Debug.LogError("rspLevelUp.baseUnit : " +DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
+//			Debug.LogError("rspLevelUp.baseUnit : " +DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
 				foreach (uint partUniqueId in rspLevelUp.partUniqueId) {
 						DataCenter.Instance.UserUnitList.DelMyUnit (partUniqueId);
 				}
 	
 				UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 				MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
-							Debug.LogError("rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
+//							Debug.LogError("rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
 				MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
 		}
 	}
