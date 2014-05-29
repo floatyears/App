@@ -19,12 +19,12 @@ public class NoviceGuideStepK_StateOne:NoviceGuidState
 	{
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide26_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide26_content");
+		mwp.titleText = TextCenter.GetText("guide26_title");
+		mwp.contentText = TextCenter.GetText("guide26_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOk;
-		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		mwp.guidePic = GuidePicPath.ChangeBlockOrder;
@@ -75,12 +75,12 @@ public class NoviceGuideStepK_StateTwo:NoviceGuidState
 	{
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide27_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide27_content");
+		mwp.titleText = TextCenter.GetText("guide27_title");
+		mwp.contentText = TextCenter.GetText("guide27_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOk;
-		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		mwp.guidePic = GuidePicPath.HealBlock;
@@ -122,12 +122,12 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 	{
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide28_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide28_content");
+		mwp.titleText = TextCenter.GetText("guide28_title");
+		mwp.contentText = TextCenter.GetText("guide28_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOk;
-		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		mwp.guidePic = GuidePicPath.HealSkill;
@@ -156,12 +156,12 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 		
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide29_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide29_content");
+		mwp.titleText = TextCenter.GetText("guide29_title");
+		mwp.contentText = TextCenter.GetText("guide29_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOk1;
-		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
@@ -196,12 +196,12 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	{
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide30_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide30_content");
+		mwp.titleText = TextCenter.GetText("guide30_title");
+		mwp.contentText = TextCenter.GetText("guide30_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = null;
-		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
@@ -230,12 +230,12 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide31_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide31_content");
+		mwp.titleText = TextCenter.GetText("guide31_title");
+		mwp.contentText = TextCenter.GetText("guide31_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOk1;
-		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
@@ -276,12 +276,12 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide32_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide32_content");
+		mwp.titleText = TextCenter.GetText("guide32_title");
+		mwp.contentText = TextCenter.GetText("guide32_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOk2;
-		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
@@ -311,12 +311,12 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 	{
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide33_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide33_content");
+		mwp.titleText = TextCenter.GetText("guide33_title");
+		mwp.contentText = TextCenter.GetText("guide33_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOk;
-		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		mwp.guidePic = GuidePicPath.Boost;
@@ -339,12 +339,12 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 		
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide34_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide34_content");
+		mwp.titleText = TextCenter.GetText("guide34_title");
+		mwp.contentText = TextCenter.GetText("guide34_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = null;
-		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);

@@ -17,6 +17,6 @@ public class RareGachaWindowLogic: GachaWindowLogic{
     public RareGachaWindowLogic(string uiName):base(uiName) {}
 
     protected override void BeforeSetTitleView(){
-        titleText = TextCenter.Instace.GetCurrentText("RareScratch");
+        titleText = TextCenter.GetText("RareScratch");
     }
 }

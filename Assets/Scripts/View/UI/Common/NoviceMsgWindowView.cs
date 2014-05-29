@@ -139,9 +139,9 @@ public class NoviceMsgWindowView : UIComponentUnity{
 
 		guidePicTex.gameObject.SetActive (false);
 		
-		SetButtonLabelText(btnLeft, TextCenter.Instace.GetCurrentText("OK"));
-		SetButtonLabelText(btnRight, TextCenter.Instace.GetCurrentText("Cancel"));
-		SetButtonLabelText(btnCenter, TextCenter.Instace.GetCurrentText("OK"));
+		SetButtonLabelText(btnLeft, TextCenter.GetText("OK"));
+		SetButtonLabelText(btnRight, TextCenter.GetText("Cancel"));
+		SetButtonLabelText(btnCenter, TextCenter.GetText("OK"));
 		
 		msgLabelCenter.text = string.Empty;
 		msgLabelTop.text = string.Empty;

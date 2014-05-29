@@ -20,7 +20,7 @@ public class FriendGachaWindowLogic: GachaWindowLogic{
         base.HideUI ();
     }
     protected override void BeforeSetTitleView(){
-        titleText = TextCenter.Instace.GetCurrentText("FriendScratch");
+        titleText = TextCenter.GetText("FriendScratch");
     }
 
 }

@@ -20,12 +20,12 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.Instace.GetCurrentText ("guide5_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText ("guide5_content");
+		mwp.titleText = TextCenter.GetText ("guide5_title");
+		mwp.contentText = TextCenter.GetText ("guide5_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOk;
-		sure.text = TextCenter.Instace.GetCurrentText ("OK");
+		sure.text = TextCenter.GetText ("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
@@ -36,12 +36,12 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.Instace.GetCurrentText ("guide6_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText ("guide6_content");
+		mwp.titleText = TextCenter.GetText ("guide6_title");
+		mwp.contentText = TextCenter.GetText ("guide6_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = forceClick;
-		sure.text = TextCenter.Instace.GetCurrentText ("OK");
+		sure.text = TextCenter.GetText ("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
@@ -143,12 +143,12 @@ public class NoviceGuideStepC_StateFive:NoviceGuidState
 		MsgWindowParams mwp = new MsgWindowParams ();
 		//mwp.btnParams = new BtnParam[1];
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.Instace.GetCurrentText("guide8_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText("guide8_content");
+		mwp.titleText = TextCenter.GetText("guide8_title");
+		mwp.contentText = TextCenter.GetText("guide8_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = null;
-		sure.text = TextCenter.Instace.GetCurrentText("OK");
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);

@@ -121,50 +121,50 @@ public class ErrorMsgCenter {
     }
 
     private void InitMsgDic() {
-        msgStringDic.Add((int)ErrorCode.SUCCESS, TextCenter.Instace.GetCurrentText("success"));
-        msgStringDic.Add((int)ErrorCode.ERROR_BASE, TextCenter.Instace.GetCurrentText("ERROR_BASE"));
+        msgStringDic.Add((int)ErrorCode.SUCCESS, TextCenter.GetText("success"));
+        msgStringDic.Add((int)ErrorCode.ERROR_BASE, TextCenter.GetText("ERROR_BASE"));
         
-        msgStringDic.Add((int)ErrorCode.FAILED, TextCenter.Instace.GetCurrentText("FAILED"));
-        msgStringDic.Add((int)ErrorCode.INVALID_PARAMS, TextCenter.Instace.GetCurrentText("INVALID_PARAMS"));
-        msgStringDic.Add((int)ErrorCode.MARSHAL_ERROR, TextCenter.Instace.GetCurrentText("MARSHAL_ERROR"));
-        msgStringDic.Add((int)ErrorCode.UNMARSHAL_ERROR, TextCenter.Instace.GetCurrentText("UNMARSHAL_ERROR"));
-        msgStringDic.Add((int)ErrorCode.IOREAD_ERROR, TextCenter.Instace.GetCurrentText("IOREAD_ERROR"));
-        msgStringDic.Add((int)ErrorCode.IOWRITE_ERROR, TextCenter.Instace.GetCurrentText("IOWRITE_ERROR"));
-        msgStringDic.Add((int)ErrorCode.CONNECT_DB_ERROR, TextCenter.Instace.GetCurrentText("CONNECT_DB_ERROR"));
-        msgStringDic.Add((int)ErrorCode.READ_DB_ERROR, TextCenter.Instace.GetCurrentText("READ_DB_ERROR"));
-        msgStringDic.Add((int)ErrorCode.SET_DB_ERROR, TextCenter.Instace.GetCurrentText("SET_DB_ERROR"));
-        msgStringDic.Add((int)ErrorCode.DATA_NOT_EXISTS, TextCenter.Instace.GetCurrentText("DATA_NOT_EXISTS"));
+        msgStringDic.Add((int)ErrorCode.FAILED, TextCenter.GetText("FAILED"));
+        msgStringDic.Add((int)ErrorCode.INVALID_PARAMS, TextCenter.GetText("INVALID_PARAMS"));
+        msgStringDic.Add((int)ErrorCode.MARSHAL_ERROR, TextCenter.GetText("MARSHAL_ERROR"));
+        msgStringDic.Add((int)ErrorCode.UNMARSHAL_ERROR, TextCenter.GetText("UNMARSHAL_ERROR"));
+        msgStringDic.Add((int)ErrorCode.IOREAD_ERROR, TextCenter.GetText("IOREAD_ERROR"));
+        msgStringDic.Add((int)ErrorCode.IOWRITE_ERROR, TextCenter.GetText("IOWRITE_ERROR"));
+        msgStringDic.Add((int)ErrorCode.CONNECT_DB_ERROR, TextCenter.GetText("CONNECT_DB_ERROR"));
+        msgStringDic.Add((int)ErrorCode.READ_DB_ERROR, TextCenter.GetText("READ_DB_ERROR"));
+        msgStringDic.Add((int)ErrorCode.SET_DB_ERROR, TextCenter.GetText("SET_DB_ERROR"));
+        msgStringDic.Add((int)ErrorCode.DATA_NOT_EXISTS, TextCenter.GetText("DATA_NOT_EXISTS"));
         
-        msgStringDic.Add((int)ErrorCode.EU_USER_BASE, TextCenter.Instace.GetCurrentText("EU_USER_BASE"));
-        msgStringDic.Add((int)ErrorCode.EU_INVALID_USERID, TextCenter.Instace.GetCurrentText("EU_INVALID_USERID"));
-        msgStringDic.Add((int)ErrorCode.EU_GET_USERINFO_FAIL, TextCenter.Instace.GetCurrentText("EU_GET_USERINFO_FAIL"));
-        msgStringDic.Add((int)ErrorCode.EU_USER_NOT_EXISTS, TextCenter.Instace.GetCurrentText("EU_USER_NOT_EXISTS"));
-        msgStringDic.Add((int)ErrorCode.EU_GET_NEWUSERID_FAIL, TextCenter.Instace.GetCurrentText("EU_GET_NEWUSERID_FAIL"));
-        msgStringDic.Add((int)ErrorCode.EU_UPDATE_USERINFO_ERROR, TextCenter.Instace.GetCurrentText("EU_UPDATE_USERINFO_ERROR"));
-        msgStringDic.Add((int)ErrorCode.EF_FRIEND_BASE, TextCenter.Instace.GetCurrentText("EF_FRIEND_BASE"));
-        msgStringDic.Add((int)ErrorCode.EF_FRIEND_NOT_EXISTS, TextCenter.Instace.GetCurrentText("EF_FRIEND_NOT_EXISTS"));
-        msgStringDic.Add((int)ErrorCode.EF_GET_FRIENDINFO_FAIL, TextCenter.Instace.GetCurrentText("EF_ADD_FRIEND_FAIL"));
-        msgStringDic.Add((int)ErrorCode.EF_DEL_FRIEND_FAIL, TextCenter.Instace.GetCurrentText("EF_DEL_FRIEND_FAIL"));
-        msgStringDic.Add((int)ErrorCode.EF_IS_ALREADY_FRIEND, TextCenter.Instace.GetCurrentText("EF_IS_ALREADY_FRIEND"));
-        msgStringDic.Add((int)ErrorCode.EF_INVALID_FRIEND_STATE, TextCenter.Instace.GetCurrentText("EF_INVALID_FRIEND_STATE"));
+        msgStringDic.Add((int)ErrorCode.EU_USER_BASE, TextCenter.GetText("EU_USER_BASE"));
+        msgStringDic.Add((int)ErrorCode.EU_INVALID_USERID, TextCenter.GetText("EU_INVALID_USERID"));
+        msgStringDic.Add((int)ErrorCode.EU_GET_USERINFO_FAIL, TextCenter.GetText("EU_GET_USERINFO_FAIL"));
+        msgStringDic.Add((int)ErrorCode.EU_USER_NOT_EXISTS, TextCenter.GetText("EU_USER_NOT_EXISTS"));
+        msgStringDic.Add((int)ErrorCode.EU_GET_NEWUSERID_FAIL, TextCenter.GetText("EU_GET_NEWUSERID_FAIL"));
+        msgStringDic.Add((int)ErrorCode.EU_UPDATE_USERINFO_ERROR, TextCenter.GetText("EU_UPDATE_USERINFO_ERROR"));
+        msgStringDic.Add((int)ErrorCode.EF_FRIEND_BASE, TextCenter.GetText("EF_FRIEND_BASE"));
+        msgStringDic.Add((int)ErrorCode.EF_FRIEND_NOT_EXISTS, TextCenter.GetText("EF_FRIEND_NOT_EXISTS"));
+        msgStringDic.Add((int)ErrorCode.EF_GET_FRIENDINFO_FAIL, TextCenter.GetText("EF_ADD_FRIEND_FAIL"));
+        msgStringDic.Add((int)ErrorCode.EF_DEL_FRIEND_FAIL, TextCenter.GetText("EF_DEL_FRIEND_FAIL"));
+        msgStringDic.Add((int)ErrorCode.EF_IS_ALREADY_FRIEND, TextCenter.GetText("EF_IS_ALREADY_FRIEND"));
+        msgStringDic.Add((int)ErrorCode.EF_INVALID_FRIEND_STATE, TextCenter.GetText("EF_INVALID_FRIEND_STATE"));
         
-        msgStringDic.Add((int)ErrorCode.EQ_QUEST_BASE, TextCenter.Instace.GetCurrentText("EQ_QUEST_BASE"));
-        msgStringDic.Add((int)ErrorCode.EQ_QUEST_ID_INVALID, TextCenter.Instace.GetCurrentText("EQ_QUEST_ID_INVALID"));
-        msgStringDic.Add((int)ErrorCode.EQ_GET_QUESTINFO_ERROR, TextCenter.Instace.GetCurrentText("EQ_GET_QUESTINFO_ERROR"));
-        msgStringDic.Add((int)ErrorCode.EQ_STAMINA_NOT_ENOUGH, TextCenter.Instace.GetCurrentText("EQ_STAMINA_NOT_ENOUGH"));
-        msgStringDic.Add((int)ErrorCode.EQ_GET_QUEST_CONFIG_ERROR, TextCenter.Instace.GetCurrentText("EQ_GET_QUEST_CONFIG_ERROR"));
-        msgStringDic.Add((int)ErrorCode.EQ_GET_QUEST_LOG_ERROR, TextCenter.Instace.GetCurrentText("EQ_GET_QUEST_LOG_ERROR"));
-        msgStringDic.Add((int)ErrorCode.EQ_UPDATE_QUEST_RECORD_ERROR, TextCenter.Instace.GetCurrentText("EQ_UPDATE_QUEST_RECORD_ERROR"));
-        msgStringDic.Add((int)ErrorCode.EQ_INVALID_DROP_UNIT, TextCenter.Instace.GetCurrentText("EQ_INVALID_DROP_UNIT"));
-        msgStringDic.Add((int)ErrorCode.EQ_QUEST_IS_PLAYING, TextCenter.Instace.GetCurrentText("EQ_QUEST_IS_PLAYING"));
-        msgStringDic.Add((int)ErrorCode.E_UNIT_BASE, TextCenter.Instace.GetCurrentText("E_UNIT_BASE"));
-        msgStringDic.Add((int)ErrorCode.E_UNIT_ID_ERROR, TextCenter.Instace.GetCurrentText("E_UNIT_ID_ERROR"));
-        msgStringDic.Add((int)ErrorCode.E_LEVELUP_NO_ENOUGH_MONEY, TextCenter.Instace.GetCurrentText("E_LEVELUP_NO_ENOUGH_MONEY"));
-        msgStringDic.Add((int)ErrorCode.E_GET_UNIT_INFO_ERROR, TextCenter.Instace.GetCurrentText("E_GET_UNIT_INFO_ERROR"));
+        msgStringDic.Add((int)ErrorCode.EQ_QUEST_BASE, TextCenter.GetText("EQ_QUEST_BASE"));
+        msgStringDic.Add((int)ErrorCode.EQ_QUEST_ID_INVALID, TextCenter.GetText("EQ_QUEST_ID_INVALID"));
+        msgStringDic.Add((int)ErrorCode.EQ_GET_QUESTINFO_ERROR, TextCenter.GetText("EQ_GET_QUESTINFO_ERROR"));
+        msgStringDic.Add((int)ErrorCode.EQ_STAMINA_NOT_ENOUGH, TextCenter.GetText("EQ_STAMINA_NOT_ENOUGH"));
+        msgStringDic.Add((int)ErrorCode.EQ_GET_QUEST_CONFIG_ERROR, TextCenter.GetText("EQ_GET_QUEST_CONFIG_ERROR"));
+        msgStringDic.Add((int)ErrorCode.EQ_GET_QUEST_LOG_ERROR, TextCenter.GetText("EQ_GET_QUEST_LOG_ERROR"));
+        msgStringDic.Add((int)ErrorCode.EQ_UPDATE_QUEST_RECORD_ERROR, TextCenter.GetText("EQ_UPDATE_QUEST_RECORD_ERROR"));
+        msgStringDic.Add((int)ErrorCode.EQ_INVALID_DROP_UNIT, TextCenter.GetText("EQ_INVALID_DROP_UNIT"));
+        msgStringDic.Add((int)ErrorCode.EQ_QUEST_IS_PLAYING, TextCenter.GetText("EQ_QUEST_IS_PLAYING"));
+        msgStringDic.Add((int)ErrorCode.E_UNIT_BASE, TextCenter.GetText("E_UNIT_BASE"));
+        msgStringDic.Add((int)ErrorCode.E_UNIT_ID_ERROR, TextCenter.GetText("E_UNIT_ID_ERROR"));
+        msgStringDic.Add((int)ErrorCode.E_LEVELUP_NO_ENOUGH_MONEY, TextCenter.GetText("E_LEVELUP_NO_ENOUGH_MONEY"));
+        msgStringDic.Add((int)ErrorCode.E_GET_UNIT_INFO_ERROR, TextCenter.GetText("E_GET_UNIT_INFO_ERROR"));
 
 
-        msgStringDic.Add((int)ErrorCode.CONNECT_ERROR, TextCenter.Instace.GetCurrentText("CONNECT_ERROR"));
-        msgStringDic.Add((int)ErrorCode.SERVER_500, TextCenter.Instace.GetCurrentText("SERVER_500"));
+        msgStringDic.Add((int)ErrorCode.CONNECT_ERROR, TextCenter.GetText("CONNECT_ERROR"));
+        msgStringDic.Add((int)ErrorCode.SERVER_500, TextCenter.GetText("SERVER_500"));
     }
 
     public void OpenNetWorkErrorMsgWindow(int errorCode){
@@ -173,7 +173,7 @@ public class ErrorMsgCenter {
 
         ErrorMsg errMsg = new ErrorMsg(errorCode);
 //        errMsg.Msg = string.Format(errMsg.Msg, args);
-        msgWindowParams.titleText = TextCenter.Instace.GetCurrentText("error");
+        msgWindowParams.titleText = TextCenter.GetText("error");
         msgWindowParams.contentText = errMsg.Msg;
 
         msgWindowParams.btnParam = new BtnParam();

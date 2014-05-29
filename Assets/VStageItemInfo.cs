@@ -70,9 +70,9 @@ public class VStageItemInfo{
 	private string GetStageStateText(EQuestState state){
 		switch (state){
 			case EQuestState.QS_NEW :
-				return TextCenter.Instace.GetCurrentText("StageStateNew");
+				return TextCenter.GetText("StageStateNew");
 			case EQuestState.QS_CLEARED : 
-				return TextCenter.Instace.GetCurrentText("StageStateClear");
+				return TextCenter.GetText("StageStateClear");
 			default:
 				return string.Empty;
 		}

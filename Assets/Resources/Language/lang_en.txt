@@ -34,13 +34,17 @@ Open=Open
 retry=Retry
 error=error
 
+#Loading
+BattleContinueTitle=Battle Confirm
+BattleContinueContent=Do you want to recover previous battle?
+
+#Friend search
 SearchError=Search Error
 UserNotExist=The Friend {0} you search not exist
 
 InputError=Input Error
 InputEmpty=Could not Input empty ID!
 
-#SearchError=Input Error
 UserAlreadyFriend=The ID {0} you searched is already your friend!
 
 RefuseAll=The ID {0} you searched is already your friend!

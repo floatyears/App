@@ -42,12 +42,12 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 
 	MsgWindowParams GetUnitExpansionMsgParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.Instace.GetCurrentText("UnitOverflow");
-		msgParams.contentText = TextCenter.Instace.GetCurrentText("UnitOverflowText",
+		msgParams.titleText = TextCenter.GetText("UnitOverflow");
+		msgParams.contentText = TextCenter.GetText("UnitOverflowText",
 		                                                          DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
 		                                                          DataCenter.Instance.UserInfo.UnitMax);
 		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
-		msgParams.btnParams[ 0 ].text = TextCenter.Instace.GetCurrentText("DoUnitExpansion");
+		msgParams.btnParams[ 0 ].text = TextCenter.GetText("DoUnitExpansion");
 		msgParams.btnParams[ 0 ].callback = CallBackScratchScene;
 		return msgParams;
 	}

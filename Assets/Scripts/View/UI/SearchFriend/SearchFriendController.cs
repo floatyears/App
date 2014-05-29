@@ -33,8 +33,8 @@ public class SearchFriendController : ConcreteComponent{
 
     MsgWindowParams GetSearchIdEmptyMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("InputError");
-        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("InputEmpty");
+        msgWindowParam.titleText = TextCenter.GetText("InputError");
+        msgWindowParam.contentText = TextCenter.GetText("InputEmpty");
 //        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParam = new BtnParam();
         return msgWindowParam;
@@ -43,8 +43,8 @@ public class SearchFriendController : ConcreteComponent{
     MsgWindowParams GetSearchIdNotExistMsgWindowParams(){
 //        LogHelper.Log("GetSearchIdAlreadyFriendMsgWindowParams(), searchFriendUid {0}", searchFriendUid);
         MsgWindowParams msgWindowParam = new MsgWindowParams();
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("SearchError");
-        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UserNotExist", searchFriendUid);
+        msgWindowParam.titleText = TextCenter.GetText("SearchError");
+        msgWindowParam.contentText = TextCenter.GetText("UserNotExist", searchFriendUid);
 //        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParam = new BtnParam();
         return msgWindowParam;
@@ -52,8 +52,8 @@ public class SearchFriendController : ConcreteComponent{
 
     MsgWindowParams GetSearchIdAlreadyFriendMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("SearchError");
-        msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UserAlreadyFriend", searchFriendUid);
+        msgWindowParam.titleText = TextCenter.GetText("SearchError");
+        msgWindowParam.contentText = TextCenter.GetText("UserAlreadyFriend", searchFriendUid);
         msgWindowParam.btnParam = new BtnParam();
         return msgWindowParam;
     }

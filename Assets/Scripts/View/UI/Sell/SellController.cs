@@ -98,8 +98,8 @@ public class SellController : ConcreteComponent {
 
 	MsgWindowParams GetWarningMsgWindowParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.Instace.GetCurrentText("BigRareWarning");
-		msgParams.contentText = TextCenter.Instace.GetCurrentText("BigRareWarningText");
+		msgParams.titleText = TextCenter.GetText("BigRareWarning");
+		msgParams.contentText = TextCenter.GetText("BigRareWarningText");
 		msgParams.btnParams = new BtnParam[ 2 ]{new BtnParam(), new BtnParam()};
 		msgParams.btnParams[ 0 ].callback = CallbackOnSaleLastEnsure;
 		return msgParams;

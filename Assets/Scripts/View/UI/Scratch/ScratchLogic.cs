@@ -153,41 +153,41 @@ public class ScratchLogic : ConcreteComponent {
 		List<TUserUnit> myUnitList = DataCenter.Instance.UserUnitList.GetAllMyUnit ();
         switch (failedType) {
         case GachaFailedType.FriendGachaPointNotEnough:
-            msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendGachaFailed");
-            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("GachaFriendPointNotEnough", DataCenter.friendGachaFriendPoint);
+            msgWindowParam.titleText = TextCenter.GetText("FriendGachaFailed");
+            msgWindowParam.contentText = TextCenter.GetText("GachaFriendPointNotEnough", DataCenter.friendGachaFriendPoint);
             break;
         case GachaFailedType.FriendGachaUnitCountReachedMax:
-            msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendGachaFailed");
-            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UnitCountReachedMax",
+            msgWindowParam.titleText = TextCenter.GetText("FriendGachaFailed");
+            msgWindowParam.contentText = TextCenter.GetText("UnitCountReachedMax",
                myUnitList.Count, DataCenter.Instance.UserInfo.UnitMax);
             break;
         case GachaFailedType.RareGachaStoneNotEnough:
-            msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RareGachaFailed");
-            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("RareGachaStoneNotEnough", DataCenter.rareGachaStone);
+            msgWindowParam.titleText = TextCenter.GetText("RareGachaFailed");
+            msgWindowParam.contentText = TextCenter.GetText("RareGachaStoneNotEnough", DataCenter.rareGachaStone);
             break;
         case GachaFailedType.RareGachaUnitCountReachedMax:
-            msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RareGachaFailed");
-            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UnitCountReachedMax",
+            msgWindowParam.titleText = TextCenter.GetText("RareGachaFailed");
+            msgWindowParam.contentText = TextCenter.GetText("UnitCountReachedMax",
        			myUnitList.Count, DataCenter.Instance.UserInfo.UnitMax);
             break;
         case GachaFailedType.EventGachaNotOpen:
-            msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("EventGachaFailed");
-            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("EventGachaNotOpen");
+            msgWindowParam.titleText = TextCenter.GetText("EventGachaFailed");
+            msgWindowParam.contentText = TextCenter.GetText("EventGachaNotOpen");
             break;
         case GachaFailedType.EventGachaStoneNotEnough:
-            msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("EventGachaFailed");
-            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("EventGachaStoneNotEnough", DataCenter.eventGachaStone);
+            msgWindowParam.titleText = TextCenter.GetText("EventGachaFailed");
+            msgWindowParam.contentText = TextCenter.GetText("EventGachaStoneNotEnough", DataCenter.eventGachaStone);
             break;
         case GachaFailedType.EventGachaUnitCountReachedMax:
-            msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("EventGachaFailed");
-            msgWindowParam.contentText = TextCenter.Instace.GetCurrentText("UnitCountReachedMax",
+            msgWindowParam.titleText = TextCenter.GetText("EventGachaFailed");
+            msgWindowParam.contentText = TextCenter.GetText("UnitCountReachedMax",
        			myUnitList.Count, DataCenter.Instance.UserInfo.UnitMax);
             break;
         default:
             break;
         }
         msgWindowParam.btnParam = new BtnParam();
-        msgWindowParam.btnParam.text = TextCenter.Instace.GetCurrentText("Back");
+        msgWindowParam.btnParam.text = TextCenter.GetText("Back");
 
         return msgWindowParam;
     }
@@ -196,22 +196,22 @@ public class ScratchLogic : ConcreteComponent {
         MsgWindowParams msgWindowParam = new MsgWindowParams();
 
         msgWindowParam.inputEnable = true;
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("FriendGacha");
-        string content1 = TextCenter.Instace.GetCurrentText("FriendGachaDescription");
+        msgWindowParam.titleText = TextCenter.GetText("FriendGacha");
+        string content1 = TextCenter.GetText("FriendGachaDescription");
 
         int maxGachaTimes = Mathf.Min(DataCenter.maxGachaPerTime, DataCenter.Instance.GetAvailableFriendGachaTimes());
         LogHelper.Log("GetFriendGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
-        string content2 = TextCenter.Instace.GetCurrentText("FriendGachaStatus", DataCenter.friendGachaFriendPoint, 
+        string content2 = TextCenter.GetText("FriendGachaStatus", DataCenter.friendGachaFriendPoint, 
                                                             maxGachaTimes, maxGachaTimes * DataCenter.friendGachaFriendPoint,
                                                             DataCenter.Instance.AccountInfo.FriendPoint);
         msgWindowParam.contentTexts = new string[2]{content1, content2}; 
         msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParams[0].callback = CallbackFriendGacha;
         msgWindowParam.btnParams[0].args = 1;
-        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("ConfirmOneFriendGacha");
+        msgWindowParam.btnParams[0].text = TextCenter.GetText("ConfirmOneFriendGacha");
         msgWindowParam.btnParams[1].callback = CallbackFriendGacha;
         msgWindowParam.btnParams[1].args = maxGachaTimes;
-        msgWindowParam.btnParams[1].text = TextCenter.Instace.GetCurrentText("ConfirmMaxRareGacha", msgWindowParam.btnParams[1].args);
+        msgWindowParam.btnParams[1].text = TextCenter.GetText("ConfirmMaxRareGacha", msgWindowParam.btnParams[1].args);
 
         return msgWindowParam;
     }
@@ -221,22 +221,22 @@ public class ScratchLogic : ConcreteComponent {
 
         msgWindowParam.inputEnable = true;
 
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("RareGacha");
-        string content1 = TextCenter.Instace.GetCurrentText("RareGachaDescription");
+        msgWindowParam.titleText = TextCenter.GetText("RareGacha");
+        string content1 = TextCenter.GetText("RareGachaDescription");
         
         int maxGachaTimes = Mathf.Min(DataCenter.maxGachaPerTime, DataCenter.Instance.GetAvailableRareGachaTimes());
         LogHelper.Log("GetRareGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
-        string content2 = TextCenter.Instace.GetCurrentText("RareGachaStatus", DataCenter.rareGachaStone, 
+        string content2 = TextCenter.GetText("RareGachaStatus", DataCenter.rareGachaStone, 
                                                             maxGachaTimes, maxGachaTimes * DataCenter.rareGachaStone,
                                                             DataCenter.Instance.AccountInfo.Stone);
         msgWindowParam.contentTexts = new string[2]{content1, content2}; 
         msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParams[0].callback = CallbackRareGacha;
         msgWindowParam.btnParams[0].args = 1;
-        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("ConfirmOneRareGacha");
+        msgWindowParam.btnParams[0].text = TextCenter.GetText("ConfirmOneRareGacha");
         msgWindowParam.btnParams[1].callback = CallbackRareGacha;
         msgWindowParam.btnParams[1].args = maxGachaTimes;
-        msgWindowParam.btnParams[1].text = TextCenter.Instace.GetCurrentText("ConfirmMaxRareGacha", msgWindowParam.btnParams[1].args);
+        msgWindowParam.btnParams[1].text = TextCenter.GetText("ConfirmMaxRareGacha", msgWindowParam.btnParams[1].args);
         
         return msgWindowParam;
     }
@@ -245,22 +245,22 @@ public class ScratchLogic : ConcreteComponent {
         MsgWindowParams msgWindowParam = new MsgWindowParams();
 
         msgWindowParam.inputEnable = true;
-        msgWindowParam.titleText = TextCenter.Instace.GetCurrentText("EventGacha");
-        string content1 = TextCenter.Instace.GetCurrentText("EventGachaDescription");
+        msgWindowParam.titleText = TextCenter.GetText("EventGacha");
+        string content1 = TextCenter.GetText("EventGachaDescription");
         
         int maxGachaTimes = Mathf.Min(DataCenter.maxGachaPerTime, DataCenter.Instance.GetAvailableEventGachaTimes());
         LogHelper.Log("GetEventGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
-        string content2 = TextCenter.Instace.GetCurrentText("EventGachaStatus", DataCenter.eventGachaStone, 
+        string content2 = TextCenter.GetText("EventGachaStatus", DataCenter.eventGachaStone, 
                                                             maxGachaTimes, maxGachaTimes * DataCenter.eventGachaStone,
                                                             DataCenter.Instance.AccountInfo.Stone);
         msgWindowParam.contentTexts = new string[2]{content1, content2}; 
         msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParams[0].callback = CallbackEventGacha;
         msgWindowParam.btnParams[0].args = 1;
-        msgWindowParam.btnParams[0].text = TextCenter.Instace.GetCurrentText("ConfirmOneEventGacha");
+        msgWindowParam.btnParams[0].text = TextCenter.GetText("ConfirmOneEventGacha");
         msgWindowParam.btnParams[1].callback = CallbackEventGacha;
         msgWindowParam.btnParams[1].args = maxGachaTimes;
-        msgWindowParam.btnParams[1].text = TextCenter.Instace.GetCurrentText("ConfirmMaxEventGacha", msgWindowParam.btnParams[1].args);
+        msgWindowParam.btnParams[1].text = TextCenter.GetText("ConfirmMaxEventGacha", msgWindowParam.btnParams[1].args);
         
         return msgWindowParam;
     }

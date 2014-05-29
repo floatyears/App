@@ -120,10 +120,10 @@ public class PartyPartyPage : PartyPageLogic{
 
 	MsgWindowParams GetPartyCostLimitMsgParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.Instace.GetCurrentText("CostLimit");
-		msgParams.contentText = TextCenter.Instace.GetCurrentText("CostLimitText");
+		msgParams.titleText = TextCenter.GetText("CostLimit");
+		msgParams.contentText = TextCenter.GetText("CostLimitText");
 		msgParams.btnParam = new BtnParam();
-		msgParams.btnParam.text = TextCenter.Instace.GetCurrentText("I Know");
+		msgParams.btnParam.text = TextCenter.GetText("I Know");
 		return msgParams;
 	}
 

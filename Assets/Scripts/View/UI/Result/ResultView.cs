@@ -117,12 +117,12 @@ public class ResultView : UIComponentUnity {
 	void ShowCenterView(object msg){
 		int friPoint = (int)msg;
 		if(friPoint == 0){
-			gotFriPointLabel.text = TextCenter.Instace.GetCurrentText("ZeroFriendPoint");
+			gotFriPointLabel.text = TextCenter.GetText("ZeroFriendPoint");
 		}
 		else{
-			gotFriPointLabel.text = TextCenter.Instace.GetCurrentText("GotFriendPoint", friPoint);
+			gotFriPointLabel.text = TextCenter.GetText("GotFriendPoint", friPoint);
 		}
-		totalFriPointLabel.text = TextCenter.Instace.GetCurrentText("TotalFriendPoint", DataCenter.Instance.AccountInfo.FriendPoint);
+		totalFriPointLabel.text = TextCenter.GetText("TotalFriendPoint", DataCenter.Instance.AccountInfo.FriendPoint);
 	}
 
 	void SetButtonActive(bool active){

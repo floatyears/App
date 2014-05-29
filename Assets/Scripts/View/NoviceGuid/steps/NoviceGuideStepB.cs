@@ -20,12 +20,12 @@ public class NoviceGuideStepB_StateOne:NoviceGuidState
 		
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.Instace.GetCurrentText ("guide2_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText ("guide2_content");
+		mwp.titleText = TextCenter.GetText ("guide2_title");
+		mwp.contentText = TextCenter.GetText ("guide2_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = null;
-		sure.text = TextCenter.Instace.GetCurrentText ("OK");
+		sure.text = TextCenter.GetText ("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
@@ -61,12 +61,12 @@ public class NoviceGuideStepB_StateTwo:NoviceGuidState
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.Instace.GetCurrentText ("guide3_title");
-		mwp.contentText = TextCenter.Instace.GetCurrentText ("guide3_content");
+		mwp.titleText = TextCenter.GetText ("guide3_title");
+		mwp.contentText = TextCenter.GetText ("guide3_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = InputName;
-		sure.text = TextCenter.Instace.GetCurrentText ("OK");
+		sure.text = TextCenter.GetText ("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
