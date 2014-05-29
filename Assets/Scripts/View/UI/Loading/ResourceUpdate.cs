@@ -61,7 +61,7 @@ public class ResourceUpdate : MonoBehaviour {
 		//get the gamemanager
 
 		pro = GetComponent<UIProgressBar> ();
-		proText = GameObject.Find("ProgressText").GetComponent<UILabel> ();
+//		proText = GameObject.Find("ProgressText").GetComponent<UILabel> ();
 		tipText = GameObject.Find ("TipText").GetComponent<UILabel>();
 		InvokeRepeating ("ShowTipText", 0, 5);
 
@@ -105,8 +105,8 @@ public class ResourceUpdate : MonoBehaviour {
 			}
 		}
 //		Debug.Log (globalWWW);
-		pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
-		proText.text = "current: " + (1-pro.value)*100 + "%(total " + (float)total / (float)(1024*1024) + "M)";
+//		pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
+//		proText.text = "current: " + (1-pro.value)*100 + "%(total " + (float)total / (float)(1024*1024) + "M)";
 
 	}
 
