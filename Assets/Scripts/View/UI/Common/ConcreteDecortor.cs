@@ -866,12 +866,12 @@ public class UserIDDecorator : DecoratorBase{
 
 //--------------------------------UnitDetail------------------------------------------
 public class UnitDetailDecorator : DecoratorBase{
-	private SceneInfoComponent sceneInfoBar;
+	private UnitDetailTopComponent unitDetailTop;
 	public UnitDetailDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.LevelUp);
+//		sceneInfoBar.SetBackScene(SceneEnum.LevelUp);
 //		sceneInfoBar.SetCurSceneName(TextCenter.Instace.GetCurrentText(TextConst.SCENE_NAME_UNIT_DETAIL));
 	}
 	
@@ -884,11 +884,11 @@ public class UnitDetailDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
-		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		sceneInfoBar.SetComponent(decorator);
+		unitDetailTop = CreatComponent< UnitDetailTopComponent >(UIConfig.unitDetailTopPanelName);
+		unitDetailTop.SetComponent(decorator);
 
 		UnitDetailComponent unitDetailPanel = CreatComponent< UnitDetailComponent >(UIConfig.unitDetailPanelName);
-		unitDetailPanel.SetComponent(sceneInfoBar);
+		unitDetailPanel.SetComponent(unitDetailTop);
 
 		lastDecorator = unitDetailPanel;
 		lastDecorator.CreatUI();

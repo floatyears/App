@@ -50,7 +50,13 @@ public class TUnitInfo : ProtobufDataBase {
 			return instance.rare;
 		}
 	}
-	
+
+	public int MaxRare {
+		get{
+			return instance.maxStar;
+		}
+	}
+
 	public int MaxLevel {
 		get {
 			return instance.maxLevel;

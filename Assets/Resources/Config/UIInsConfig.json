@@ -213,7 +213,7 @@
         "resoucePath": "Prefabs/UI/UnitDetail/",
         "parent": 1,
         "positionx": 0,
-        "positiony": -567,
+        "positiony": -390,
         "positionz": 0
     },
      "ApplyWindow": {
@@ -472,6 +472,14 @@
         "parent": 1,
         "positionx": 0,
         "positiony": -565,
+        "positionz": 0
+    },
+    "UnitDetailTopPanel": {
+        "uiName":"UnitDetailTopPanel",
+        "resoucePath": "Prefabs/UI/UnitDetail/",
+        "parent": 2,
+        "positionx": 0,
+        "positiony":960,
         "positionz": 0
     }
     
