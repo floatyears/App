@@ -138,7 +138,6 @@
      <None Include="Assets\External\NGUI\Examples\Other\English.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Text.shader" />
      <None Include="Assets\External\NGUI\Examples\Other\French.txt" />
-     <None Include="Assets\Xffect\Shaders\xf_heat_distortion.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
      <None Include="Assets\Shaders\Particle Add(Self).shader" />
      <None Include="Assets\Resources\Language\lang_en.txt" />

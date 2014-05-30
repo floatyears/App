@@ -6,9 +6,9 @@ public class Button : MonoBehaviour {
 	public Transform objectToAnimate; //The game object you want to animate
 
 	
-	void OnMouseDown() {
-		StartCoroutine(PlayEffect());
-	}
+//	void OnMouseDown() {
+//		StartCoroutine(PlayEffect());
+//	}
 	
 	 IEnumerator PlayEffect() {
        	//Play Attack animation

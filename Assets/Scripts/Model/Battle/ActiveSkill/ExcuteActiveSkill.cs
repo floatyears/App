@@ -39,7 +39,7 @@ public class ExcuteActiveSkill {
 		activeSkill.TryGetValue (userUnitID, out iase);
 		return iase;
 	}
-
+	AttackInfo ai;
 	void Excute(object data) {
 		userUnit = data as TUserUnit;
 		if (userUnit != null) {
@@ -47,7 +47,7 @@ public class ExcuteActiveSkill {
 			if(activeSkill.TryGetValue(id, out iase)) {
 				MsgCenter.Instance.Invoke(CommandEnum.StateInfo, DGTools.stateInfo[4]);
 //				Debug.LogError("excute active skill : " + userUnit);
-				AttackInfo ai = AttackInfo.GetInstance();
+				ai = AttackInfo.GetInstance();
 				ai.UserUnitID = userUnit.MakeUserUnitKey();
 				ai.SkillID = (iase as ActiveSkill).BaseInfo.id;
 				MsgCenter.Instance.Invoke(CommandEnum.ShowActiveSkill, ai);
@@ -62,15 +62,15 @@ public class ExcuteActiveSkill {
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillStandReady, userUnit);
 	}
 
-
+   
 	void Excute() {
 		if (iase == null || userUnit == null) {
 			return;	
 		}
 
-		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo();
-		ai.UserUnitID = userUnit.MakeUserUnitKey();
-		MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
+//		ai = AttackInfo.GetInstance (); //new AttackInfo();
+//		ai.UserUnitID = userUnit.MakeUserUnitKey();
+//		MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 		iase = activeSkill[ai.UserUnitID];
 		iase.Excute(ai.UserUnitID, userUnit.Attack);
 		iase = null;

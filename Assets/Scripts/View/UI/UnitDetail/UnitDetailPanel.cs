@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	UIButton favBtn;
 	GameObject unitInfoTabs;
+	UISprite unitInfoBackground;
 //	UILabel noLabel;
 	UILabel hpLabel;
 	UILabel atkLabel;
@@ -107,6 +108,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		UIEventListener.Get(favBtn.gameObject).onClick = CollectCurUnit;
 
 		unitInfoTabs = transform.Find("UnitInfoTabs").gameObject;
+		unitInfoBackground = unitInfoTabs.transform.Find ("Background").GetComponent<UISprite> ();
+		unitInfoBackground.height = Main.Instance.root.manualHeight - 388;
 //		tabSkill1 = transform.Find("UnitInfoTabs/Tab_Skill1").gameObject;
 //		UIEventListener.Get(tabSkill1).onClick = ClickTab;
 
@@ -228,7 +231,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ClearEffectCache ();
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
-		Debug.LogError ("unit detail SceneEnum : " + preScene);
 		UIManager.Instance.ChangeScene( preScene );
 	}
 
@@ -392,10 +394,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo);
+//		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo);
 		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
 		ShowUnitScale();
-		unitInfoTabs.SetActive (false);
+//		unitInfoTabs.SetActive (false);
 		SetEffectCamera ();
 		StartCoroutine (CreatEffect ());
 	}
@@ -407,7 +409,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	public void SetEffectCamera() {
 		Camera camera = Main.Instance.effectCamera;
-		Debug.LogError ("camera : " + camera);
+//		Debug.LogError ("camera : " + camera);
 		camera.transform.eulerAngles = new Vector3 (15f, 0f, 0f);
 		camera.orthographicSize = 1.3f;
 	}
@@ -432,7 +434,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			yield return new WaitForSeconds(2f);
 
 			ClearEffectCache ();
-			unitInfoTabs.SetActive (true);
+//			unitInfoTabs.SetActive (true);
 			ShowLevelInfo (newBlendUnit);
 			curLevel = oldBlendUnit.Level;
 			gotExp = levelUpData.blendExp;

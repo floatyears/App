@@ -143,6 +143,7 @@ public class AttackController {
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		MultipleAttack (attack);
 		foreach (var item in attack) {
+//			Debug.LogError("startattack : " + item.UserUnitID);
 			attackInfoQueue.Enqueue(item);
 		}
 		Attack ();
@@ -184,10 +185,10 @@ public class AttackController {
 
 	float GetIntervTime () {
 		if (enemyInfo.Count == 1 && enemyInfo[0].initBlood<= 0) {
-			return 1f;
+			return 0.6f;
 		}
 		else {
-			return 1f;	
+			return 0.9f;	
 		}
 	}
 
@@ -227,6 +228,7 @@ public class AttackController {
 		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
 		AttackInfo ai = attackInfoQueue.Dequeue();
 		BeginAttack (ai);
+
 		Attack ();
 	}
 
@@ -243,6 +245,8 @@ public class AttackController {
 			DisposeRecoverHP(ai);
 			break;
 		}
+
+
 	}
 
 	List<TEnemyInfo> deadEnemy = new List<TEnemyInfo>();
