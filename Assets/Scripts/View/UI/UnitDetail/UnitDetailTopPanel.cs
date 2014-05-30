@@ -95,12 +95,14 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 //		raceLabel.text = unitInfo.UnitRace;
 		
 		//rare
-		//Debug.Log ("rare : " + );	
+//		Debug.Log ("rare : " + unitInfo.Rare + "max rare: " + unitInfo.MaxRare);	
 		int len = 0;
 		if (unitInfo.MaxRare > unitInfo.Rare) {
+			grayStar.enabled = true;
 			grayStar.width = (unitInfo.MaxRare - unitInfo.Rare) * grayWidth;
 			len = 2*unitInfo.Rare - unitInfo.MaxRare;
 		} else {
+			grayStar.enabled = false;
 			len = unitInfo.Rare;
 		}
 		lightStar.width = unitInfo.Rare*lightWidth;

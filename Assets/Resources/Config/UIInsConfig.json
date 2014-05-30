@@ -213,7 +213,7 @@
         "resoucePath": "Prefabs/UI/UnitDetail/",
         "parent": 2,
         "positionx": 0,
-        "positiony": 570,
+        "positiony": 0,
         "positionz": 0
     },
      "ApplyWindow": {
