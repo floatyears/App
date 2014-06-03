@@ -4,7 +4,7 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
-	UIButton favBtn;
+//	UIButton favBtn;
 	GameObject unitInfoTabs;
 //	UILabel noLabel;
 	UILabel hpLabel;
@@ -103,8 +103,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	//----------Init functions of UI Elements----------
 	void InitUI() {
-		favBtn = transform.FindChild("Button_Lock").GetComponent<UIButton>();
-		UIEventListener.Get(favBtn.gameObject).onClick = CollectCurUnit;
+//		favBtn = transform.FindChild("Button_Lock").GetComponent<UIButton>();
+//		UIEventListener.Get(favBtn.gameObject).onClick = CollectCurUnit;
 
 		unitInfoTabs = transform.Find("UnitInfoTabs").gameObject;
 //		tabSkill1 = transform.Find("UnitInfoTabs/Tab_Skill1").gameObject;
@@ -232,38 +232,38 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		UIManager.Instance.ChangeScene( preScene );
 	}
 
-	void ShowUnitScale(){
-		TweenScale unitScale = gameObject.GetComponentInChildren< TweenScale >();
-		TweenAlpha unitAlpha = gameObject.GetComponentInChildren< TweenAlpha >();
-
-		unitAlpha.eventReceiver = this.gameObject;
-		unitAlpha.callWhenFinished = "PlayCheckRoleAudio";
-
-		if( unitScale == null || unitAlpha == null )
-			return;
-
-		unitScale.Reset();
-		unitScale.PlayForward();
-
-		unitAlpha.Reset();
-		unitAlpha.PlayForward();
-	}
+//	void ShowUnitScale(){
+//		TweenScale unitScale = gameObject.GetComponentInChildren< TweenScale >();
+//		TweenAlpha unitAlpha = gameObject.GetComponentInChildren< TweenAlpha >();
+//
+//		unitAlpha.eventReceiver = this.gameObject;
+//		unitAlpha.callWhenFinished = "PlayCheckRoleAudio";
+//
+//		if( unitScale == null || unitAlpha == null )
+//			return;
+//
+//		unitScale.Reset();
+//		unitScale.PlayForward();
+//
+//		unitAlpha.Reset();
+//		unitAlpha.PlayForward();
+//	}
 
 	void PlayCheckRoleAudio(){
 		//Debug.LogError("callWhenFinished...PlayCheckRoleAudio()");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
 
-	void ShowBodyTexture( TUserUnit data ){
-		TUnitInfo unitInfo = data.UnitInfo;
-		Texture2D target = unitInfo.GetAsset( UnitAssetType.Profile);
-		unitBodyTex.mainTexture = target;
-		if (target == null) {
-			return;	
-		}
-		unitBodyTex.width = target.width;
-		unitBodyTex.height = target.height;
-	}
+//	void ShowBodyTexture( TUserUnit data ){
+//		TUnitInfo unitInfo = data.UnitInfo;
+//		Texture2D target = unitInfo.GetAsset( UnitAssetType.Profile);
+//		unitBodyTex.mainTexture = target;
+//		if (target == null) {
+//			return;	
+//		}
+//		unitBodyTex.width = target.width;
+//		unitBodyTex.height = target.height;
+//	}
 		
 	void ShowStatusContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
@@ -394,7 +394,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo);
 		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
-		ShowUnitScale();
+//		ShowUnitScale();
 		unitInfoTabs.SetActive (false);
 		SetEffectCamera ();
 		StartCoroutine (CreatEffect ());
@@ -454,9 +454,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	
 	//------------------end-----------------------------------------
 	void ShowInfo(TUserUnit userUnit) {
-		ShowFavView(curUserUnit.IsFavorite);
-		ShowBodyTexture( userUnit ); 
-		ShowUnitScale();
+//		ShowFavView(curUserUnit.IsFavorite);
+//		ShowBodyTexture( userUnit ); 
+//		ShowUnitScale();
 		ShowStatusContent( userUnit );
 		ShowSkill1Content( userUnit );
 		ShowSkill2Content( userUnit );
@@ -565,42 +565,42 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		expSlider.value = progress;
 	}
 
-	private void CollectCurUnit(GameObject go){
-		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
-		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
-		UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, favAction);
-	}
+//	private void CollectCurUnit(GameObject go){
+//		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
+//		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
+//		UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, favAction);
+//	}
 
-	private void OnRspChangeFavState(object data){
-		//Debug.Log("OnRspChangeFavState(), start...");
-		if(data == null) {Debug.LogError("OnRspChangeFavState(), data is NULL"); return;}
-		bbproto.RspUnitFavorite rsp = data as bbproto.RspUnitFavorite;
-		if (rsp.header.code != (int)ErrorCode.SUCCESS){
-			LogHelper.LogError("OnRspChangeFavState code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+//	private void OnRspChangeFavState(object data){
+//		//Debug.Log("OnRspChangeFavState(), start...");
+//		if(data == null) {Debug.LogError("OnRspChangeFavState(), data is NULL"); return;}
+//		bbproto.RspUnitFavorite rsp = data as bbproto.RspUnitFavorite;
+//		if (rsp.header.code != (int)ErrorCode.SUCCESS){
+//			LogHelper.LogError("OnRspChangeFavState code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+//			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+//
+//			return;
+//		}
+//		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;
+////		Debug.LogError ("curUserUnit : " + curUserUnit.TUserUnitID);
+//		ShowFavView(curUserUnit.IsFavorite);
+//	}
 
-			return;
-		}
-		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;
-//		Debug.LogError ("curUserUnit : " + curUserUnit.TUserUnitID);
-		ShowFavView(curUserUnit.IsFavorite);
-	}
 
-
-	private void ShowFavView(int isFav){
-		UISprite background = favBtn.transform.FindChild("Background").GetComponent<UISprite>();
-		//Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
-		if(isFav == 1){
-			background.spriteName = "Fav_Lock_Close";
-			background.spriteName = "Fav_Lock_Close";
-			background.spriteName = "Fav_Lock_Close";
-			//Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
-		}
-		else{
-			background.spriteName = "Fav_Lock_Open";
-			background.spriteName = "Fav_Lock_Open";
-			background.spriteName = "Fav_Lock_Open";
-			//Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
-		}
-	}
+//	private void ShowFavView(int isFav){
+//		UISprite background = favBtn.transform.FindChild("Background").GetComponent<UISprite>();
+//		//Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
+//		if(isFav == 1){
+//			background.spriteName = "Fav_Lock_Close";
+//			background.spriteName = "Fav_Lock_Close";
+//			background.spriteName = "Fav_Lock_Close";
+//			//Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
+//		}
+//		else{
+//			background.spriteName = "Fav_Lock_Open";
+//			background.spriteName = "Fav_Lock_Open";
+//			background.spriteName = "Fav_Lock_Open";
+//			//Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
+//		}
+//	}
 }
