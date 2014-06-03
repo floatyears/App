@@ -73,9 +73,6 @@ public class ResourceUpdate : MonoBehaviour {
 		//StartDownload ();
 	}
 
-
-
-
 	void Update(){
 		if (downLoadItemList.Count > 0) {
 			current = 0;
@@ -174,8 +171,7 @@ public class ResourceUpdate : MonoBehaviour {
 			}	
 		} else {
 			tipText.text = TextCenter.GetText ("Tips_A_" + MathHelper.RandomToInt (1, 13));
-		}
-		         
+		}     
 	}
 
 	private void DownloadAgain(object data){

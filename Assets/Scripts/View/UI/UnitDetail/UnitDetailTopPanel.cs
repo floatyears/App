@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 
@@ -19,6 +20,8 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 //	private List<UISprite> stars;
 
 	public bool fobidClick = false;
+
+	UIButton favBtn;
 	
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
@@ -47,11 +50,11 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	public override void HideUI () {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 		base.HideUI ();
-		if (IsInvoking ("CreatEffect")) {
-			CancelInvoke("CreatEffect");
-		}
-		//ClearEffectCache();
-		UIManager.Instance.ShowBaseScene();
+//		if (IsInvoking ("CreatEffect")) {
+//			CancelInvoke("CreatEffect");
+//		}
+//		//ClearEffectCache();
+//		UIManager.Instance.ShowBaseScene();
 	}
 	
 	public override void DestoryUI () {
@@ -61,6 +64,8 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	
 	//----------Init functions of UI Elements----------
 	void InitUI() {
+		favBtn = transform.FindChild("Button_Lock").GetComponent<UIButton>();
+		UIEventListener.Get(favBtn.gameObject).onClick = CollectCurUnit;
 
 		cost = transform.FindChild("Cost").GetComponent<UILabel>();
 		number = transform.FindChild("No").GetComponent<UILabel>();
@@ -70,9 +75,15 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		lightStar = transform.FindChild ("Star2/Star1").GetComponent<UISprite> ();
 	}
 
+
+	private TUserUnit curUserUnit;
 	private void CallBackUnitData(object d){
 		TUserUnit data = d as TUserUnit; 
+		curUserUnit = data;
+		ShowFavView (curUserUnit.IsFavorite);
+
 		TUnitInfo unitInfo = data.UnitInfo;
+
 		
 		number.text = data.UnitID.ToString();
 		
@@ -95,7 +106,7 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 //		raceLabel.text = unitInfo.UnitRace;
 		
 		//rare
-//		Debug.Log ("rare : " + unitInfo.Rare + "max rare: " + unitInfo.MaxRare);	
+		Debug.Log ("rare : " + unitInfo.Rare + "max rare: " + unitInfo.MaxRare);	
 		int len = 0;
 		if (unitInfo.MaxRare > unitInfo.Rare) {
 			grayStar.enabled = true;
@@ -106,8 +117,8 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 			len = unitInfo.Rare;
 		}
 		lightStar.width = unitInfo.Rare*lightWidth;
-		Debug.Log ("position:  " +len / 2 * 30 );
-		grayStar.transform.localPosition = new Vector3(len / 2 * 30,-82,0);
+		Debug.Log ("position:  " +len * 15  );
+		grayStar.transform.localPosition = new Vector3(len * 15,-82,0);
 		   //rareLabel.text = unitInfo.Rare.ToString();
 		
 //		levelLabel.text = data.Level.ToString();
@@ -121,4 +132,43 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 //			needExpLabel.text = data.NextExp.ToString();
 //		}
 	}
+
+	private void CollectCurUnit(GameObject go){
+		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
+		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
+		UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, favAction);
+	}
+
+	private void OnRspChangeFavState(object data){
+		//Debug.Log("OnRspChangeFavState(), start...");
+		if(data == null) {Debug.LogError("OnRspChangeFavState(), data is NULL"); return;}
+		bbproto.RspUnitFavorite rsp = data as bbproto.RspUnitFavorite;
+		if (rsp.header.code != (int)ErrorCode.SUCCESS){
+			LogHelper.LogError("OnRspChangeFavState code:{0}, error:{1}", rsp.header.code, rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			
+			return;
+		}
+		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;
+		//		Debug.LogError ("curUserUnit : " + curUserUnit.TUserUnitID);
+		ShowFavView(curUserUnit.IsFavorite);
+	}
+
+	private void ShowFavView(int isFav){
+		UISprite background = favBtn.transform.FindChild("Background").GetComponent<UISprite>();
+		//Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
+		if(isFav == 1){
+			background.spriteName = "Fav_Lock_Close";
+			background.spriteName = "Fav_Lock_Close";
+			background.spriteName = "Fav_Lock_Close";
+			//Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
+		}
+		else{
+			background.spriteName = "Fav_Lock_Open";
+			background.spriteName = "Fav_Lock_Open";
+			background.spriteName = "Fav_Lock_Open";
+			//Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
+		}
+	}
+
 }
