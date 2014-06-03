@@ -866,7 +866,7 @@ public class UserIDDecorator : DecoratorBase{
 
 //--------------------------------UnitDetail------------------------------------------
 public class UnitDetailDecorator : DecoratorBase{
-	private UnitDetailTopComponent unitDetailTop;
+	private UnitDetailComponent unitDetail;
 	public UnitDetailDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -884,13 +884,18 @@ public class UnitDetailDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
-		unitDetailTop = CreatComponent< UnitDetailTopComponent >(UIConfig.unitDetailTopPanelName);
-		unitDetailTop.SetComponent(decorator);
 
-		UnitDetailComponent unitDetailPanel = CreatComponent< UnitDetailComponent >(UIConfig.unitDetailPanelName);
-		unitDetailPanel.SetComponent(unitDetailTop);
 
-		lastDecorator = unitDetailPanel;
+		unitDetail = CreatComponent< UnitDetailComponent >(UIConfig.unitDetailPanelName);
+		unitDetail.SetComponent(decorator);
+
+		UnitDetailTopComponent unitDetailTop = CreatComponent< UnitDetailTopComponent >(UIConfig.unitDetailTopPanelName);
+		unitDetailTop.SetComponent(unitDetail);
+
+		UnitDetailCenterComponent unitDetailCenter = CreatComponent<UnitDetailCenterComponent> (UIConfig.unitDetailCenterPanelName);
+		unitDetailCenter.SetComponent (unitDetailTop);
+
+		lastDecorator = unitDetailCenter;
 		lastDecorator.CreatUI();
 	}
 

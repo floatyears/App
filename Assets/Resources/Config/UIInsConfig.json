@@ -481,6 +481,14 @@
         "positionx": 0,
         "positiony":0,
         "positionz": 0
+    },
+     "UnitDetailCenterPanel": {
+        "uiName":"UnitDetailCenterPanel",
+        "resoucePath": "Prefabs/UI/UnitDetail/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony":0,
+        "positionz": 0
     }
     
 }
