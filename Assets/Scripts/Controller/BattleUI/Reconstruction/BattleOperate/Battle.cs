@@ -126,7 +126,6 @@ public class Battle : UIBase {
 	}
 
 	void EnemyAttckEnd (object data) {
-//		TStoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
 		battleCard.StartBattle (true);
 		ShieldInput (true);
 
@@ -150,7 +149,6 @@ public class Battle : UIBase {
 
 	void Attack() {
 		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
-
 	}
 
 	void CreatCountDown () {
