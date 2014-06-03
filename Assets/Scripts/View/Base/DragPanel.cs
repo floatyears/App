@@ -68,9 +68,7 @@ public class DragPanel : UIBase  {
 			viewManager.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); 
 		dragPanelView.Init (uiName);
 	}
-
-
-
+	
 	public void AddItem(int count,GameObject obj = null ,bool isClean = false) {
 		if (obj != null) {
 			sourceObject = obj;	
@@ -83,7 +81,7 @@ public class DragPanel : UIBase  {
 		}
 		if (sourceObject == null) {
 			LogHelper.LogError (dragPanelView.name + 
-			                    " scroll view item is null. don't creat drag panel");
+			                    " scroll view item is null. don't creat drag panel ");
 			return ;
 		}
 		if (dragPanelView == null) {

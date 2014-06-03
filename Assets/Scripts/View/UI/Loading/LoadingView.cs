@@ -56,6 +56,7 @@ public class LoadingView : UIComponentUnity {
 
     private void ClickToLogin(GameObject btn){
 //		if (checkResourceUpdate ()) {
+//		Debug.LogError("click to login");
 			Login();		
 //		}
 //		UIEventListener.Get(this.gameObject).onClick = null;

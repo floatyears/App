@@ -114,6 +114,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		bool haveBase = baseItem.userUnit != null; 
 		bool haveFriend = friendItem.userUnit != null;
 		bool haveMaterial = true;
+
 		foreach (var item in materialItem.Values) {
 			if(item.userUnit == null){
 				continue;
@@ -123,7 +124,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 				break;
 			}
 		}
-		 
+		Debug.LogError ("haveBase : " + haveBase + " havefriend : " + haveFriend + " havematerial : " + haveMaterial);
 		if (haveBase && haveFriend && haveMaterial) {
 			evolveButton.isEnabled = true;
 		} else {
@@ -181,10 +182,24 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			return;	
 		}
 		List<uint> evolveNeedUnit = new List<uint> (baseItem.userUnit.UnitInfo.evolveInfo.materialUnitId);
+
+//		for (int i = 0; i < evolveNeedUnit.Count; i++) {
+//			Debug.LogError("evolveNeedUnit id : " + evolveNeedUnit[i]);
+//		}
+//
+//		Debug.LogError ("itemInfo count : " + itemInfo.Count);
+//
+//		for (int i = 0; i < itemInfo.Count; i++) {
+//			if(itemInfo[i] == null) 
+//				continue;
+//			Debug.LogError("itemInfo id : " + itemInfo[i].UnitInfo.ID);
+//		}
+
 		for (int i = 0; i < evolveNeedUnit.Count ; i++) {
 			TUserUnit material = null;
 			uint ID = evolveNeedUnit[i];
 			bool isHave = true;
+
 			for (int j = 0; j < itemInfo.Count; j++) {
 				if(itemInfo[j] != null && itemInfo[j].UnitInfo.ID == ID) {
 					material = itemInfo[j];
@@ -192,13 +207,14 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 					break;
 				}
 			}
+
 			if(material == null) {
 				bbproto.UserUnit uu = new bbproto.UserUnit();
 				uu.unitId = ID;
 				material = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
 				isHave = false;
 			}
-			materialItem[i + 2].Refresh(material,isHave);
+			materialItem[i + 2].Refresh(material, isHave);
 		}
 		CheckCanEvolve ();
 	}
@@ -337,15 +353,15 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			ui.LongPress = LongPress;
 			ui.onClick = ClickItem;
 
-			EvolveItem ei = new EvolveItem();
-			ei.index = i;
-			ei.itemObject = go;
-			ei.showTexture = go.transform.Find("Texture").GetComponent<UITexture>();
-			ei.highLight = go.transform.Find("Light").GetComponent<UISprite>();
-			ei.borderSprite = go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>();
-			ei.bgprite = go.transform.Find("Sprite_Avatar_Bg").GetComponent<UISprite>(); 
-			ei.boxCollider = go.GetComponent<BoxCollider>();
-			ei.highLight.enabled = false;
+			EvolveItem ei = new EvolveItem(i, go);
+//			ei.index = i;
+//			ei.itemObject = go;
+//			ei.showTexture = go.transform.Find("Texture").GetComponent<UITexture>();
+//			ei.highLight = go.transform.Find("Light").GetComponent<UISprite>();
+//			ei.borderSprite = go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>();
+//			ei.bgprite = go.transform.Find("Sprite_Avatar_Bg").GetComponent<UISprite>(); 
+//			ei.boxCollider = go.GetComponent<BoxCollider>();
+//			ei.highLight.enabled = false;
 			evolveItem.Add(ei.itemObject, ei);
 			if(i == 1 ) {
 				baseItem = ei;
@@ -406,9 +422,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void ShieldEvolveButton (bool b) {
-//		if (evolveButton.gameObject.activeSelf == !b) {
-//			evolveButton.gameObject.SetActive(b);
-//		}
 		evolveButton.isEnabled = b;
 	}
 }
@@ -425,6 +438,25 @@ public class EvolveItem {
 	public UISprite bgprite;
 	public int index;
 	public bool HaveUserUnit = true;
+
+	public EvolveItem (int index, GameObject target) {
+		index = index;
+		itemObject = target;
+		Transform trans = target.transform;
+		showTexture = trans.Find("Texture").GetComponent<UITexture>();
+		highLight = trans.Find("Light").GetComponent<UISprite>();
+		borderSprite = trans.Find("Sprite_Avatar_Border").GetComponent<UISprite>();
+		bgprite = trans.Find("Sprite_Avatar_Bg").GetComponent<UISprite>(); 
+		boxCollider = target.GetComponent<BoxCollider>();
+		highLight.enabled = false;
+
+		if (index == 1 || index == 5) {
+			return;		
+		}
+
+		haveLabel = trans.Find ("HaveLabel").GetComponent<UILabel> ();
+		maskSprite = trans.Find ("Mask").GetComponent<UISprite> ();
+	}
 
 	public void Refresh (TUserUnit tuu, bool isHave = true) {
 		userUnit = tuu;

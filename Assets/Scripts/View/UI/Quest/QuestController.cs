@@ -15,7 +15,14 @@ public class QuestController : ConcreteComponent{
 	public override void HideUI(){
 		base.HideUI();
 		ClearStage();
+
+		base.DestoryUI();
 	}
+
+//	public override void DestoryUI ()
+//	{
+//		base.DestoryUI ();
+//	}
 
 	public override void CallbackView(object data){
 		base.CallbackView(data);

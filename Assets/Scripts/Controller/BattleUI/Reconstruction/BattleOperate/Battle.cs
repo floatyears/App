@@ -438,8 +438,7 @@ public class Battle : UIBase {
 		}
 	}
 
-	bool Check(LayerMask mask)
-	{
+	bool Check(LayerMask mask) {
 		Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 		
 		rayCastHit = Physics.RaycastAll(ray,100f, GameLayer.LayerToInt(mask));

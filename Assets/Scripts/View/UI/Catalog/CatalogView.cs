@@ -63,7 +63,7 @@ public class CatalogView : UIComponentUnity {
 
 	private int GetTotalUnitCount(){
 		//TODO LOAD FORM CONFIG FILE
-		int totalUnitCount = 300;
+		int totalUnitCount = 50;
 		return totalUnitCount;
 	}
 
