@@ -150,10 +150,8 @@ public class ViewManager {
 		return goScript;
 	}
 
-	public void DestoryUI(UIBaseUnity ui)
-	{
+	public void DestoryUI(UIBaseUnity ui) {
 		RemoveUI(ui.name);
-
 		GameObject.Destroy(ui.gameObject);
 	}
 
