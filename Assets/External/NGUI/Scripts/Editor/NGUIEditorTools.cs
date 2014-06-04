@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEditor;
@@ -12,9 +12,8 @@ using System.Reflection;
 /// Tools for the editor
 /// </summary>
 
-public class NGUIEditorTools
+public static class NGUIEditorTools
 {
-	static Texture2D mWhiteTex;
 	static Texture2D mBackdropTex;
 	static Texture2D mContrastTex;
 	static Texture2D mGradientTex;
@@ -433,7 +432,7 @@ public class NGUIEditorTools
 	/// Change the import settings of the specified texture asset, making it readable.
 	/// </summary>
 
-	static bool MakeTextureReadable (string path, bool force)
+	static public bool MakeTextureReadable (string path, bool force)
 	{
 		if (string.IsNullOrEmpty(path)) return false;
 		TextureImporter ti = AssetImporter.GetAtPath(path) as TextureImporter;
@@ -442,12 +441,18 @@ public class NGUIEditorTools
 		TextureImporterSettings settings = new TextureImporterSettings();
 		ti.ReadTextureSettings(settings);
 
-		if (force || !settings.readable || settings.npotScale != TextureImporterNPOTScale.None)
+		if (force || !settings.readable || settings.npotScale != TextureImporterNPOTScale.None
+#if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1
+			|| settings.alphaIsTransparency
+#endif
+			)
 		{
 			settings.readable = true;
 			settings.textureFormat = TextureImporterFormat.ARGB32;
 			settings.npotScale = TextureImporterNPOTScale.None;
-
+#if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1
+			settings.alphaIsTransparency = false;
+#endif
 			ti.SetTextureSettings(settings);
 			AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
 		}
@@ -665,22 +670,22 @@ public class NGUIEditorTools
 
 	static public bool DrawPrefixButton (string text)
 	{
-		return GUILayout.Button(text, "DropDownButton", GUILayout.Width(76f));
+		return GUILayout.Button(text, "DropDown", GUILayout.Width(76f));
 	}
 
 	static public bool DrawPrefixButton (string text, params GUILayoutOption[] options)
 	{
-		return GUILayout.Button(text, "DropDownButton", options);
+		return GUILayout.Button(text, "DropDown", options);
 	}
 
 	static public int DrawPrefixList (int index, string[] list, params GUILayoutOption[] options)
 	{
-		return EditorGUILayout.Popup(index, list, "DropDownButton", options);
+		return EditorGUILayout.Popup(index, list, "DropDown", options);
 	}
 
 	static public int DrawPrefixList (string text, int index, string[] list, params GUILayoutOption[] options)
 	{
-		return EditorGUILayout.Popup(text, index, list, "DropDownButton", options);
+		return EditorGUILayout.Popup(text, index, list, "DropDown", options);
 	}
 
 	/// <summary>
@@ -699,13 +704,42 @@ public class NGUIEditorTools
 	static public void DrawSprite (Texture2D tex, Rect drawRect, UISpriteData sprite, Color color, Material mat)
 	{
 		if (!tex || sprite == null) return;
+		DrawSprite(tex, drawRect, color, mat, sprite.x, sprite.y, sprite.width, sprite.height,
+			sprite.borderLeft, sprite.borderBottom, sprite.borderRight, sprite.borderTop);
+	}
+
+	/// <summary>
+	/// Draw a sprite preview.
+	/// </summary>
+
+	static public void DrawSprite (Texture2D tex, Rect drawRect, Color color, Rect textureRect, Vector4 border)
+	{
+		NGUIEditorTools.DrawSprite(tex, drawRect, color, null,
+			Mathf.RoundToInt(textureRect.x),
+			Mathf.RoundToInt(tex.height - textureRect.y - textureRect.height),
+			Mathf.RoundToInt(textureRect.width),
+			Mathf.RoundToInt(textureRect.height),
+			Mathf.RoundToInt(border.x),
+			Mathf.RoundToInt(border.y),
+			Mathf.RoundToInt(border.z),
+			Mathf.RoundToInt(border.w));
+	}
+
+	/// <summary>
+	/// Draw a sprite preview.
+	/// </summary>
+
+	static public void DrawSprite (Texture2D tex, Rect drawRect, Color color, Material mat,
+		int x, int y, int width, int height, int borderLeft, int borderBottom, int borderRight, int borderTop)
+	{
+		if (!tex) return;
 
 		// Create the texture rectangle that is centered inside rect.
 		Rect outerRect = drawRect;
-		outerRect.width = sprite.width;
-		outerRect.height = sprite.height;
+		outerRect.width = width;
+		outerRect.height = height;
 
-		if (sprite.width > 0)
+		if (width > 0)
 		{
 			float f = drawRect.width / outerRect.width;
 			outerRect.width *= f;
@@ -733,7 +767,7 @@ public class NGUIEditorTools
 
 		if (mat == null)
 		{
-			Rect uv = new Rect(sprite.x, sprite.y, sprite.width, sprite.height);
+			Rect uv = new Rect(x, y, width, height);
 			uv = NGUIMath.ConvertToTexCoords(uv, tex.width, tex.height);
 			GUI.DrawTextureWithTexCoords(outerRect, tex, uv, true);
 		}
@@ -744,48 +778,51 @@ public class NGUIEditorTools
 			UnityEditor.EditorGUI.DrawPreviewTexture(outerRect, tex, mat);
 		}
 
-		// Draw the border indicator lines
-		GUI.BeginGroup(outerRect);
+		if (Selection.activeGameObject == null || Selection.gameObjects.Length == 1)
 		{
-			tex = NGUIEditorTools.contrastTexture;
-			GUI.color = Color.white;
-
-			if (sprite.borderLeft > 0)
+			// Draw the border indicator lines
+			GUI.BeginGroup(outerRect);
 			{
-				float x0 = (float)sprite.borderLeft / sprite.width * outerRect.width - 1;
-				NGUIEditorTools.DrawTiledTexture(new Rect(x0, 0f, 1f, outerRect.height), tex);
-			}
+				tex = NGUIEditorTools.contrastTexture;
+				GUI.color = Color.white;
 
-			if (sprite.borderRight > 0)
-			{
-				float x1 = (float)(sprite.width - sprite.borderRight) / sprite.width * outerRect.width - 1;
-				NGUIEditorTools.DrawTiledTexture(new Rect(x1, 0f, 1f, outerRect.height), tex);
-			}
+				if (borderLeft > 0)
+				{
+					float x0 = (float)borderLeft / width * outerRect.width - 1;
+					NGUIEditorTools.DrawTiledTexture(new Rect(x0, 0f, 1f, outerRect.height), tex);
+				}
 
-			if (sprite.borderBottom > 0)
-			{
-				float y0 = (float)(sprite.height - sprite.borderBottom) / sprite.height * outerRect.height - 1;
-				NGUIEditorTools.DrawTiledTexture(new Rect(0f, y0, outerRect.width, 1f), tex);
-			}
+				if (borderRight > 0)
+				{
+					float x1 = (float)(width - borderRight) / width * outerRect.width - 1;
+					NGUIEditorTools.DrawTiledTexture(new Rect(x1, 0f, 1f, outerRect.height), tex);
+				}
 
-			if (sprite.borderTop > 0)
-			{
-				float y1 = (float)sprite.borderTop / sprite.height * outerRect.height - 1;
-				NGUIEditorTools.DrawTiledTexture(new Rect(0f, y1, outerRect.width, 1f), tex);
+				if (borderBottom > 0)
+				{
+					float y0 = (float)(height - borderBottom) / height * outerRect.height - 1;
+					NGUIEditorTools.DrawTiledTexture(new Rect(0f, y0, outerRect.width, 1f), tex);
+				}
+
+				if (borderTop > 0)
+				{
+					float y1 = (float)borderTop / height * outerRect.height - 1;
+					NGUIEditorTools.DrawTiledTexture(new Rect(0f, y1, outerRect.width, 1f), tex);
+				}
 			}
+			GUI.EndGroup();
+
+			// Draw the lines around the sprite
+			Handles.color = Color.black;
+			Handles.DrawLine(new Vector3(outerRect.xMin, outerRect.yMin), new Vector3(outerRect.xMin, outerRect.yMax));
+			Handles.DrawLine(new Vector3(outerRect.xMax, outerRect.yMin), new Vector3(outerRect.xMax, outerRect.yMax));
+			Handles.DrawLine(new Vector3(outerRect.xMin, outerRect.yMin), new Vector3(outerRect.xMax, outerRect.yMin));
+			Handles.DrawLine(new Vector3(outerRect.xMin, outerRect.yMax), new Vector3(outerRect.xMax, outerRect.yMax));
+
+			// Sprite size label
+			string text = string.Format("Sprite Size: {0}x{1}", Mathf.RoundToInt(width), Mathf.RoundToInt(height));
+			EditorGUI.DropShadowLabel(GUILayoutUtility.GetRect(Screen.width, 18f), text);
 		}
-		GUI.EndGroup();
-
-		// Draw the lines around the sprite
-		Handles.color = Color.black;
-		Handles.DrawLine(new Vector3(outerRect.xMin, outerRect.yMin), new Vector3(outerRect.xMin, outerRect.yMax));
-		Handles.DrawLine(new Vector3(outerRect.xMax, outerRect.yMin), new Vector3(outerRect.xMax, outerRect.yMax));
-		Handles.DrawLine(new Vector3(outerRect.xMin, outerRect.yMin), new Vector3(outerRect.xMax, outerRect.yMin));
-		Handles.DrawLine(new Vector3(outerRect.xMin, outerRect.yMax), new Vector3(outerRect.xMax, outerRect.yMax));
-
-		// Sprite size label
-		string text = string.Format("Sprite Size: {0}x{1}", Mathf.RoundToInt(sprite.width), Mathf.RoundToInt(sprite.height));
-		EditorGUI.DropShadowLabel(GUILayoutUtility.GetRect(Screen.width, 18f), text);
 	}
 
 	/// <summary>
@@ -803,10 +840,13 @@ public class NGUIEditorTools
 
 	public static void DrawTexture (Texture2D tex, Rect rect, Rect uv, Color color, Material mat)
 	{
+		int w = Mathf.RoundToInt(tex.width * uv.width);
+		int h = Mathf.RoundToInt(tex.height * uv.height);
+
 		// Create the texture rectangle that is centered inside rect.
 		Rect outerRect = rect;
-		outerRect.width = tex.width;
-		outerRect.height = tex.height;
+		outerRect.width = w;
+		outerRect.height = h;
 
 		if (outerRect.width > 0f)
 		{
@@ -844,6 +884,7 @@ public class NGUIEditorTools
 			// using BeginGroup/EndGroup, and there is no way to specify a UV rect... le'suq.
 			UnityEditor.EditorGUI.DrawPreviewTexture(outerRect, tex, mat);
 		}
+		GUI.color = Color.white;
 
 		// Draw the lines around the sprite
 		Handles.color = Color.black;
@@ -853,7 +894,7 @@ public class NGUIEditorTools
 		Handles.DrawLine(new Vector3(outerRect.xMin, outerRect.yMax), new Vector3(outerRect.xMax, outerRect.yMax));
 
 		// Sprite size label
-		string text = string.Format("Texture Size: {0}x{1}", Mathf.RoundToInt(tex.width), Mathf.RoundToInt(tex.height));
+		string text = string.Format("Texture Size: {0}x{1}", w, h);
 		EditorGUI.DropShadowLabel(GUILayoutUtility.GetRect(Screen.width, 18f), text);
 	}
 
@@ -949,7 +990,7 @@ public class NGUIEditorTools
 
 	static public void DrawSpriteField (string label, SerializedObject ob, string spriteField, params GUILayoutOption[] options)
 	{
-		DrawSpriteField(label, ob, ob.FindProperty("atlas"), ob.FindProperty(spriteField), 76f, false, options);
+		DrawSpriteField(label, ob, ob.FindProperty("atlas"), ob.FindProperty(spriteField), 76f, false, false, options);
 	}
 
 	/// <summary>
@@ -958,14 +999,23 @@ public class NGUIEditorTools
 
 	static public void DrawSpriteField (string label, SerializedObject ob, SerializedProperty atlas, SerializedProperty sprite, params GUILayoutOption[] options)
 	{
-		DrawSpriteField(label, ob, atlas, sprite, 76f, false, options);
+		DrawSpriteField(label, ob, atlas, sprite, 76f, false, false, options);
 	}
 
 	/// <summary>
 	/// Draw a sprite selection field.
 	/// </summary>
 
-	static public void DrawSpriteField (string label, SerializedObject ob, SerializedProperty atlas, SerializedProperty sprite, float width, bool padded, params GUILayoutOption[] options)
+	static public void DrawSpriteField (string label, SerializedObject ob, SerializedProperty atlas, SerializedProperty sprite, bool removable, params GUILayoutOption[] options)
+	{
+		DrawSpriteField(label, ob, atlas, sprite, 76f, false, removable, options);
+	}
+
+	/// <summary>
+	/// Draw a sprite selection field.
+	/// </summary>
+
+	static public void DrawSpriteField (string label, SerializedObject ob, SerializedProperty atlas, SerializedProperty sprite, float width, bool padded, bool removable, params GUILayoutOption[] options)
 	{
 		if (atlas != null && atlas.objectReferenceValue != null)
 		{
@@ -980,7 +1030,7 @@ public class NGUIEditorTools
 			{
 				string spriteName = sprite.hasMultipleDifferentValues ? "-" : sprite.stringValue;
 
-				if (padded) GUILayout.BeginHorizontal();
+				GUILayout.BeginHorizontal();
 
 				EditorGUI.BeginDisabledGroup(atlas.hasMultipleDifferentValues);
 				{
@@ -989,11 +1039,15 @@ public class NGUIEditorTools
 				}
 				EditorGUI.EndDisabledGroup();
 
-				if (padded)
-				{
-					GUILayout.Space(18f);
-					GUILayout.EndHorizontal();
-				}
+				EditorGUI.BeginDisabledGroup(!removable);
+#if UNITY_3_5
+				if (GUILayout.Button("X", GUILayout.Width(20f))) sprite.stringValue = "";
+#else
+				if (GUILayout.Button("", "ToggleMixed", GUILayout.Width(20f))) sprite.stringValue = "";
+#endif
+				EditorGUI.EndDisabledGroup();
+				if (padded) GUILayout.Space(18f);
+				GUILayout.EndHorizontal();
 			}
 			GUILayout.EndHorizontal();
 		}
@@ -1088,6 +1142,10 @@ public class NGUIEditorTools
 		}
 		GUILayout.EndHorizontal();
 	}
+
+	/// <summary>
+	/// Repaints all inspector windows related to sprite drawing.
+	/// </summary>
 
 	static public void RepaintSprites ()
 	{
@@ -1237,9 +1295,14 @@ public class NGUIEditorTools
 
 		GUI.changed = false;
 #if UNITY_3_5
-		if (!GUILayout.Toggle(true, text, "dragtab")) state = !state;
+		if (state) text = "\u25B2 " + text;
+		else text = "\u25BC " + text;
+		if (!GUILayout.Toggle(true, text, "dragtab", GUILayout.MinWidth(20f))) state = !state;
 #else
-		if (!GUILayout.Toggle(true, "<b><size=11>" + text + "</size></b>", "dragtab")) state = !state;
+		text = "<b><size=11>" + text + "</size></b>";
+		if (state) text = "\u25B2 " + text;
+		else text = "\u25BC " + text;
+		if (!GUILayout.Toggle(true, text, "dragtab", GUILayout.MinWidth(20f))) state = !state;
 #endif
 		if (GUI.changed) EditorPrefs.SetBool(key, state);
 
@@ -1359,6 +1422,105 @@ public class NGUIEditorTools
 	}
 
 	/// <summary>
+	/// Helper function that draws a serialized property.
+	/// </summary>
+
+	static public void DrawProperty (string label, SerializedProperty sp, params GUILayoutOption[] options)
+	{
+		DrawProperty(label, sp, true, options);
+	}
+
+	/// <summary>
+	/// Helper function that draws a serialized property.
+	/// </summary>
+
+	static public void DrawProperty (string label, SerializedProperty sp, bool padding, params GUILayoutOption[] options)
+	{
+		if (sp != null)
+		{
+			if (padding) EditorGUILayout.BeginHorizontal();
+
+			if (label != null) EditorGUILayout.PropertyField(sp, new GUIContent(label), options);
+			else EditorGUILayout.PropertyField(sp, options);
+
+			if (padding)
+			{
+				GUILayout.Space(18f);
+				EditorGUILayout.EndHorizontal();
+			}
+		}
+	}
+
+	/// <summary>
+	/// Helper function that draws a compact Vector4.
+	/// </summary>
+
+	static public void DrawBorderProperty (string name, SerializedObject serializedObject, string field)
+	{
+		if (serializedObject.FindProperty(field) != null)
+		{
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.Label(name, GUILayout.Width(75f));
+
+				NGUIEditorTools.SetLabelWidth(50f);
+				GUILayout.BeginVertical();
+				NGUIEditorTools.DrawProperty("Left", serializedObject, field + ".x", GUILayout.MinWidth(80f));
+				NGUIEditorTools.DrawProperty("Bottom", serializedObject, field + ".y", GUILayout.MinWidth(80f));
+				GUILayout.EndVertical();
+
+				GUILayout.BeginVertical();
+				NGUIEditorTools.DrawProperty("Right", serializedObject, field + ".z", GUILayout.MinWidth(80f));
+				NGUIEditorTools.DrawProperty("Top", serializedObject, field + ".w", GUILayout.MinWidth(80f));
+				GUILayout.EndVertical();
+
+				NGUIEditorTools.SetLabelWidth(80f);
+			}
+			GUILayout.EndHorizontal();
+		}
+	}
+
+	/// <summary>
+	/// Helper function that draws a compact Rect.
+	/// </summary>
+
+	static public void DrawRectProperty (string name, SerializedObject serializedObject, string field)
+	{
+		DrawRectProperty(name, serializedObject, field, 56f, 18f);
+	}
+
+	/// <summary>
+	/// Helper function that draws a compact Rect.
+	/// </summary>
+
+	static public void DrawRectProperty (string name, SerializedObject serializedObject, string field, float labelWidth, float spacing)
+	{
+		if (serializedObject.FindProperty(field) != null)
+		{
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.Label(name, GUILayout.Width(labelWidth));
+
+				NGUIEditorTools.SetLabelWidth(20f);
+				GUILayout.BeginVertical();
+				NGUIEditorTools.DrawProperty("X", serializedObject, field + ".x", GUILayout.MinWidth(50f));
+				NGUIEditorTools.DrawProperty("Y", serializedObject, field + ".y", GUILayout.MinWidth(50f));
+				GUILayout.EndVertical();
+
+				NGUIEditorTools.SetLabelWidth(50f);
+				GUILayout.BeginVertical();
+				NGUIEditorTools.DrawProperty("Width", serializedObject, field + ".width", GUILayout.MinWidth(80f));
+				NGUIEditorTools.DrawProperty("Height", serializedObject, field + ".height", GUILayout.MinWidth(80f));
+				GUILayout.EndVertical();
+
+				NGUIEditorTools.SetLabelWidth(80f);
+				if (spacing != 0f) GUILayout.Space(spacing);
+			}
+			GUILayout.EndHorizontal();
+		}
+	}
+
+	/// <summary>
 	/// Determine the distance from the mouse position to the world rectangle specified by the 4 points.
 	/// </summary>
 
@@ -1379,15 +1541,19 @@ public class NGUIEditorTools
 	{
 		BetterList<UIWidget> list = new BetterList<UIWidget>();
 
-		for (int i = 0; i < UIWidget.list.size; ++i)
+		for (int i = 0; i < UIPanel.list.size; ++i)
 		{
-			UIWidget w = UIWidget.list[i];
-			Vector3[] corners = w.worldCorners;
-			if (SceneViewDistanceToRectangle(corners, mousePos) == 0f)
-				list.Add(w);
-		}
+			UIPanel p = UIPanel.list.buffer[i];
 
-		list.Sort(UIWidget.CompareFunc);
+			for (int b = 0; b < p.widgets.size; ++b)
+			{
+				UIWidget w = p.widgets.buffer[b];
+				Vector3[] corners = w.worldCorners;
+				if (SceneViewDistanceToRectangle(corners, mousePos) == 0f)
+					list.Add(w);
+			}
+		}
+		list.Sort(UIWidget.FullCompareFunc);
 		return list;
 	}
 
@@ -1499,20 +1665,81 @@ public class NGUIEditorTools
 	}
 
 	/// <summary>
-	/// Get the size of the game view. This is a hacky method using reflection due to the function being internal.
+	/// Gets the internal class ID of the specified type.
 	/// </summary>
 
-	static public Vector2 GetMainGameViewSize ()
+	static public int GetClassID (System.Type type)
 	{
-#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3
-		System.Type T = System.Type.GetType("UnityEditor.GameView,UnityEditor");
-		System.Reflection.MethodInfo GetSizeOfMainGameView = T.GetMethod("GetSizeOfMainGameView", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-		System.Object Res = GetSizeOfMainGameView.Invoke(null, null);
-		return (Vector2)Res;
-#else
-		return Handles.GetMainGameViewSize();
-#endif
+		GameObject go = EditorUtility.CreateGameObjectWithHideFlags("Temp", HideFlags.HideAndDontSave);
+		Component uiSprite = go.AddComponent(type);
+		SerializedObject ob = new SerializedObject(uiSprite);
+		int classID = ob.FindProperty("m_Script").objectReferenceInstanceIDValue;
+		NGUITools.DestroyImmediate(go);
+		return classID;
 	}
+
+	/// <summary>
+	/// Gets the internal class ID of the specified type.
+	/// </summary>
+
+	static public int GetClassID<T> () where T : MonoBehaviour { return GetClassID(typeof(T)); }
+
+	/// <summary>
+	/// Convenience function that replaces the specified MonoBehaviour with one of specified type.
+	/// </summary>
+
+	static public SerializedObject ReplaceClass (MonoBehaviour mb, System.Type type)
+	{
+		int id = GetClassID(type);
+		SerializedObject ob = new SerializedObject(mb);
+		ob.Update();
+		ob.FindProperty("m_Script").objectReferenceInstanceIDValue = id;
+		ob.ApplyModifiedProperties();
+		ob.Update();
+		return ob;
+	}
+
+	/// <summary>
+	/// Convenience function that replaces the specified MonoBehaviour with one of specified class ID.
+	/// </summary>
+
+	static public SerializedObject ReplaceClass (MonoBehaviour mb, int classID)
+	{
+		SerializedObject ob = new SerializedObject(mb);
+		ob.Update();
+		ob.FindProperty("m_Script").objectReferenceInstanceIDValue = classID;
+		ob.ApplyModifiedProperties();
+		ob.Update();
+		return ob;
+	}
+
+	/// <summary>
+	/// Convenience function that replaces the specified MonoBehaviour with one of specified class ID.
+	/// </summary>
+
+	static public void ReplaceClass (SerializedObject ob, int classID)
+	{
+		ob.FindProperty("m_Script").objectReferenceInstanceIDValue = classID;
+		ob.ApplyModifiedProperties();
+		ob.Update();
+	}
+
+	/// <summary>
+	/// Convenience function that replaces the specified MonoBehaviour with one of specified class ID.
+	/// </summary>
+
+	static public void ReplaceClass (SerializedObject ob, System.Type type)
+	{
+		ob.FindProperty("m_Script").objectReferenceInstanceIDValue = GetClassID(type);
+		ob.ApplyModifiedProperties();
+		ob.Update();
+	}
+
+	/// <summary>
+	/// Convenience function that replaces the specified MonoBehaviour with one of specified type.
+	/// </summary>
+
+	static public T ReplaceClass<T> (MonoBehaviour mb) where T : MonoBehaviour { return ReplaceClass(mb, typeof(T)).targetObject as T; }
 
 	/// <summary>
 	/// Automatically upgrade all of the UITextures in the scene to Sprites if they can be found within the specified atlas.
@@ -1529,11 +1756,7 @@ public class NGUIEditorTools
 				UIWidgetInspector.instance.target as UITexture : null;
 
 			// Determine the object instance ID of the UISprite class
-			GameObject go = EditorUtility.CreateGameObjectWithHideFlags("Temp", HideFlags.HideAndDontSave);
-			UISprite uiSprite = go.AddComponent<UISprite>();
-			SerializedObject ob = new SerializedObject(uiSprite);
-			int spriteID = ob.FindProperty("m_Script").objectReferenceInstanceIDValue;
-			NGUITools.DestroyImmediate(go);
+			int spriteID = GetClassID<UISprite>();
 
 			// Run through all the UI textures and change them to sprites
 			for (int i = 0; i < uits.Count; ++i)
@@ -1546,11 +1769,7 @@ public class NGUIEditorTools
 
 					if (atlasSprite != null)
 					{
-						ob = new SerializedObject(uiTexture);
-						ob.Update();
-						ob.FindProperty("m_Script").objectReferenceInstanceIDValue = spriteID;
-						ob.ApplyModifiedProperties();
-						ob.Update();
+						SerializedObject ob = ReplaceClass(uiTexture, spriteID);
 						ob.FindProperty("mSpriteName").stringValue = uiTexture.mainTexture.name;
 						ob.FindProperty("mAtlas").objectReferenceValue = NGUISettings.atlas;
 						ob.ApplyModifiedProperties();
@@ -1687,5 +1906,221 @@ public class NGUIEditorTools
 			}
 		}
 		return null;
+	}
+
+	/// <summary>
+	/// Get the specified object's GUID.
+	/// </summary>
+
+	static public string ObjectToGUID (Object obj)
+	{
+		string path = AssetDatabase.GetAssetPath(obj);
+		return (!string.IsNullOrEmpty(path)) ? AssetDatabase.AssetPathToGUID(path) : null;
+	}
+
+#if !UNITY_3_5
+	static MethodInfo s_GetInstanceIDFromGUID;
+#endif
+
+	/// <summary>
+	/// Convert the specified GUID to an object reference.
+	/// </summary>
+
+	static public Object GUIDToObject (string guid)
+	{
+		if (string.IsNullOrEmpty(guid)) return null;
+#if !UNITY_3_5
+		// This method is not going to be available in Unity 3.5
+		if (s_GetInstanceIDFromGUID == null)
+			s_GetInstanceIDFromGUID = typeof(AssetDatabase).GetMethod("GetInstanceIDFromGUID", BindingFlags.Static | BindingFlags.NonPublic);
+		int id = (int)s_GetInstanceIDFromGUID.Invoke(null, new object[] { guid });
+		if (id != 0) return EditorUtility.InstanceIDToObject(id);
+#endif
+		string path = AssetDatabase.GUIDToAssetPath(guid);
+		if (string.IsNullOrEmpty(path)) return null;
+		return AssetDatabase.LoadAssetAtPath(path, typeof(Object));
+	}
+
+	/// <summary>
+	/// Convert the specified GUID to an object reference of specified type.
+	/// </summary>
+
+	static public T GUIDToObject<T> (string guid) where T : Object
+	{
+		Object obj = GUIDToObject(guid);
+		if (obj == null) return null;
+
+		System.Type objType = obj.GetType();
+		if (objType == typeof(T) || objType.IsSubclassOf(typeof(T))) return obj as T;
+
+		if (objType == typeof(GameObject) && typeof(T).IsSubclassOf(typeof(Component)))
+		{
+			GameObject go = obj as GameObject;
+			return go.GetComponent(typeof(T)) as T;
+		}
+		return null;
+	}
+
+	/// <summary>
+	/// Add a border around the specified color buffer with the width and height of a single pixel all around.
+	/// The returned color buffer will have its width and height increased by 2.
+	/// </summary>
+
+	static public Color32[] AddBorder (Color32[] colors, int width, int height)
+	{
+		int w2 = width + 2;
+		int h2 = height + 2;
+
+		Color32[] c2 = new Color32[w2 * h2];
+
+		for (int y2 = 0; y2 < h2; ++y2)
+		{
+			int y1 = NGUIMath.ClampIndex(y2 - 1, height);
+
+			for (int x2 = 0; x2 < w2; ++x2)
+			{
+				int x1 = NGUIMath.ClampIndex(x2 - 1, width);
+				int i2 = x2 + y2 * w2;
+				c2[i2] = colors[x1 + y1 * width];
+
+				if (x2 == 0 || x2 + 1 == w2 || y2 == 0 || y2 + 1 == h2)
+					c2[i2].a = 0;
+			}
+		}
+		return c2;
+	}
+
+	/// <summary>
+	/// Add a soft shadow to the specified color buffer.
+	/// The buffer must have some padding around the edges in order for this to work properly.
+	/// </summary>
+
+	static public void AddShadow (Color32[] colors, int width, int height, Color shadow)
+	{
+		Color sh = shadow;
+		sh.a = 1f;
+
+		for (int y2 = 0; y2 < height; ++y2)
+		{
+			for (int x2 = 0; x2 < width; ++x2)
+			{
+				int index = x2 + y2 * width;
+				Color32 uc = colors[index];
+				if (uc.a == 255) continue;
+
+				Color original = uc;
+				float val = original.a;
+				int count = 1;
+				float div1 = 1f / 255f;
+				float div2 = 2f / 255f;
+				float div3 = 3f / 255f;
+
+				// Left
+				if (x2 != 0)
+				{
+					val += colors[x2 - 1 + y2 * width].a * div1;
+					count += 1;
+				}
+
+				// Top
+				if (y2 + 1 != height)
+				{
+					val += colors[x2 + (y2 + 1) * width].a * div2;
+					count += 2;
+				}
+
+				// Top-left
+				if (x2 != 0 && y2 + 1 != height)
+				{
+					val += colors[x2 - 1 + (y2 + 1) * width].a * div3;
+					count += 3;
+				}
+
+				val /= count;
+
+				Color c = Color.Lerp(original, sh, shadow.a * val);
+				colors[index] = Color.Lerp(c, original, original.a);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Add a visual depth effect to the specified color buffer.
+	/// The buffer must have some padding around the edges in order for this to work properly.
+	/// </summary>
+
+	static public void AddDepth (Color32[] colors, int width, int height, Color shadow)
+	{
+		Color sh = shadow;
+		sh.a = 1f;
+
+		for (int y2 = 0; y2 < height; ++y2)
+		{
+			for (int x2 = 0; x2 < width; ++x2)
+			{
+				int index = x2 + y2 * width;
+				Color32 uc = colors[index];
+				if (uc.a == 255) continue;
+
+				Color original = uc;
+				float val = original.a * 4f;
+				int count = 4;
+				float div1 = 1f / 255f;
+				float div2 = 2f / 255f;
+
+				if (x2 != 0)
+				{
+					val += colors[x2 - 1 + y2 * width].a * div2;
+					count += 2;
+				}
+
+				if (x2 + 1 != width)
+				{
+					val += colors[x2 + 1 + y2 * width].a * div2;
+					count += 2;
+				}
+
+				if (y2 != 0)
+				{
+					val += colors[x2 + (y2 - 1) * width].a * div2;
+					count += 2;
+				}
+
+				if (y2 + 1 != height)
+				{
+					val += colors[x2 + (y2 + 1) * width].a * div2;
+					count += 2;
+				}
+
+				if (x2 != 0 && y2 != 0)
+				{
+					val += colors[x2 - 1 + (y2 - 1) * width].a * div1;
+					++count;
+				}
+
+				if (x2 != 0 && y2 + 1 != height)
+				{
+					val += colors[x2 - 1 + (y2 + 1) * width].a * div1;
+					++count;
+				}
+
+				if (x2 + 1 != width && y2 != 0)
+				{
+					val += colors[x2 + 1 + (y2 - 1) * width].a * div1;
+					++count;
+				}
+
+				if (x2 + 1 != width && y2 + 1 != height)
+				{
+					val += colors[x2 + 1 + (y2 + 1) * width].a * div1;
+					++count;
+				}
+
+				val /= count;
+
+				Color c = Color.Lerp(original, sh, shadow.a * val);
+				colors[index] = Color.Lerp(c, original, original.a);
+			}
+		}
 	}
 }
