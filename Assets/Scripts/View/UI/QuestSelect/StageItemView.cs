@@ -42,8 +42,8 @@ public class StageItemView : MonoBehaviour {
 				return;
 			}
 			//Debug.Log("StageItemView :: Stage's Quest Count = " + data.QuestInfo.Count);
-			Debug.Log("StageItemView :: " + " name is " + gameObject.name +", isClear == " 
-			          + DataCenter.Instance.QuestClearInfo.IsStoryStageClear(data));
+//			Debug.Log("StageItemView :: " + " name is " + gameObject.name +", isClear == " 
+//			          + DataCenter.Instance.QuestClearInfo.IsStoryStageClear(data));
 			if(DataCenter.gameState == GameState.Normal) {
 				SetIcon();
 			}

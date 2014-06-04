@@ -203,8 +203,14 @@ public class TEvolveStart : ProtobufDataBase {
 		for (int i = 0; i < evolveParty.Count; i++) {
 			PartyItem pi = new PartyItem();
 			pi.unitPos = i;
-			pi.unitUniqueId = evolveParty[i].ID;
 
+			if(evolveParty[i] == null) {
+//				Debug.LogError(i + " evolveParty.count : " + evolveParty.Count);
+				pi.unitUniqueId = 0;
+			}
+			else{
+				pi.unitUniqueId = evolveParty[i].ID;
+			}
 			up.items.Add(pi);
 		}
 

@@ -223,10 +223,12 @@ public class EnemyItem : UIBaseUnity {
     }
 
 	public void CompressTextureSize(float proportion) {
-		texture.width = (int)(texture.width * proportion);
-		texture.height = (int)(texture.height * proportion);
-		SetBloodSpriteWidth ();
-		ResetHurtLabelPosition ();
+		if (proportion < 1f) {
+			texture.width = (int)(texture.width * proportion);
+			texture.height = (int)(texture.height * proportion);
+			SetBloodSpriteWidth ();
+			ResetHurtLabelPosition ();
+		}
 	}
 
 	void ResetHurtLabelPosition() {

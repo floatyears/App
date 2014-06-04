@@ -22,9 +22,9 @@ public class AttackController {
 				enemyInfo.Add(item);
 			}
 
-			foreach (var item in enemyInfo) {
-				item.drop = grid.Drop;
-			}
+//			foreach (var item in enemyInfo) {
+//				item.drop = grid.Drop;
+//			}
 		}
 	}
 	IExcutePassiveSkill passiveSkill;

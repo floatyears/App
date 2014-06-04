@@ -124,7 +124,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 				break;
 			}
 		}
-		Debug.LogError ("haveBase : " + haveBase + " havefriend : " + haveFriend + " havematerial : " + haveMaterial);
+//		Debug.LogError ("haveBase : " + haveBase + " havefriend : " + haveFriend + " havematerial : " + haveMaterial);
 		if (haveBase && haveFriend && haveMaterial) {
 			evolveButton.isEnabled = true;
 		} else {

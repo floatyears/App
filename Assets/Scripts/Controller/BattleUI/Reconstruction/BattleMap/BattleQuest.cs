@@ -474,38 +474,38 @@ public class BattleQuest : UIBase {
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 			switch (currentMapData.Type) {
 			case EQuestGridType.Q_NONE:
-					BattleMap.waitMove = true;
-					battleMap.RotateAnim (MapItemNone);
-					break;
+				BattleMap.waitMove = true;
+				battleMap.RotateAnim (MapItemNone);
+				break;
 			case EQuestGridType.Q_ENEMY:
-					BattleMap.waitMove = true;
-					battleMap.RotateAnim (MapItemEnemy);
-					break;
+				BattleMap.waitMove = true;
+				battleMap.RotateAnim (MapItemEnemy);
+				break;
 			case EQuestGridType.Q_KEY:
-					break;
-			case EQuestGridType.Q_TREATURE:				
-					BattleMap.waitMove = true;
-					battleMap.RotateAnim (MapItemCoin);
-					break;
+				break;
+			case EQuestGridType.Q_TREATURE:
+				BattleMap.waitMove = true;
+				MsgCenter.Instance.Invoke(CommandEnum.ShowCoin, currentMapData.Coins);
+				GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemCoin);
+				break;
 			case EQuestGridType.Q_TRAP:
-					BattleMap.waitMove = true;
-					battleMap.RotateAnim (null);
-					MsgCenter.Instance.Invoke(CommandEnum.ShowTrap, currentMapData.TrapInfo);
-					GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemTrap);
-					break;
+				BattleMap.waitMove = true;
+				MsgCenter.Instance.Invoke(CommandEnum.ShowTrap, currentMapData.TrapInfo);
+				GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemTrap);
+				break;
 			case EQuestGridType.Q_QUESTION:
-					BattleMap.waitMove = true;
-					battleMap.RotateAnim (MeetQuestion);
-					break;
-			case EQuestGridType.Q_EXCLAMATION: 
-					BattleMap.waitMove = true;
-					battleMap.RotateAnim (MapItemExclamation);
-					break;
+				BattleMap.waitMove = true;
+				battleMap.RotateAnim (MeetQuestion);
+				break;
+			case EQuestGridType.Q_EXCLAMATION:
+				BattleMap.waitMove = true;
+				battleMap.RotateAnim (MapItemExclamation);
+				break;
 			default:
-					BattleMap.waitMove = false;
-					MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-					QuestCoorEnd ();
-					break;
+				BattleMap.waitMove = false;
+				MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+				QuestCoorEnd ();
+				break;
 			}
 		}
 		else {
@@ -534,22 +534,28 @@ public class BattleQuest : UIBase {
 	}
 	
 	void MapItemTrap() {
+		battleMap.RotateAnim (RotateEndTrap);
+	}
+
+	void RotateEndTrap() {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
 		BattleMap.waitMove = false;
 		TrapBase tb = currentMapData.TrapInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-
 	}
 
 	void MapItemCoin() {
+		battleMap.RotateAnim (RotateEndCoin);
+	}
+
+	void RotateEndCoin() {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
 		BattleMap.waitMove = false;
 		questData.getMoney += currentMapData.Coins;
 		topUI.Coin = questData.getMoney;
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-
 	}
 
 	void MapItemKey() {

@@ -63,7 +63,7 @@ public class CatalogView : UIComponentUnity {
 
 	private int GetTotalUnitCount(){
 		//TODO LOAD FORM CONFIG FILE
-		int totalUnitCount = 50;
+		int totalUnitCount = 300;
 		return totalUnitCount;
 	}
 
@@ -178,17 +178,17 @@ public class CatalogView : UIComponentUnity {
 //			curStartPos = AdjustPos(curStartPos);
 			while(!CheckIsInScreen(catalogItemTrans[ curStartPos ])){
 
-				Debug.Log("ShowItemInScreen do visble false");
+//				Debug.Log("ShowItemInScreen do visble false");
 				int cancelCount = AddShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE, ITEM_COUNT_PER_COL);
 
 
-				Debug.Log("ShowItemInScreen() left,  pos " + cancelCount);
+//				Debug.Log("ShowItemInScreen() left,  pos " + cancelCount);
 //				AddShowOneRow(curStartPos + ITEM_MAX_COUNT_PER_PAGE, cancelCount);
 				if (cancelCount == 0) break;
 				CancelShowOneRow(curStartPos, cancelCount, moveDir);
 
 				curStartPos += cancelCount;
-				Debug.Log("ShowItemInScreen() " + curStartPos);
+//				Debug.Log("ShowItemInScreen() " + curStartPos);
 //				curStartPos = AdjustPos(curStartPos);
 
 			}
@@ -205,7 +205,7 @@ public class CatalogView : UIComponentUnity {
 
 //				if (curStartPos < ITEM_COUNT_PER_COL) break;
 				int cancelCount = CancelShowOneRow( judgePos - ITEM_COUNT_PER_COL, ITEM_COUNT_PER_COL, moveDir);
-				Debug.Log("ShowItemInScreen() right, pos " + cancelCount);
+//				Debug.Log("ShowItemInScreen() right, pos " + cancelCount);
 				if (cancelCount == 0) break;
 				AddShowOneRow(curStartPos - ITEM_COUNT_PER_COL, cancelCount);
 				curStartPos -= cancelCount;
@@ -242,7 +242,7 @@ public class CatalogView : UIComponentUnity {
 	}
 
 	private bool CheckPosAvaliable(int pos){
-		Debug.Log("CheckPosAvaliable() pos is " + pos);
+//		Debug.Log("CheckPosAvaliable() pos is " + pos);
 		return pos >= 0 && pos < CATALOG_ITEM_COUNT;
 	}
 
@@ -261,7 +261,7 @@ public class CatalogView : UIComponentUnity {
 //		else if(dir == MoveDirection.LEFT){
 	        for (int i = 0; i < count; i++){
 				int pos = startPos + i;
-				Debug.Log("CancelShowOneRow(), startPos : " + pos);
+//				Debug.Log("CancelShowOneRow(), startPos : " + pos);
 				if (!CheckPosAvaliable(pos)) return i;
 				GameObject childObj = catalogItemTrans[ pos ].FindChild("CatalogNode(Clone)").gameObject;
 	            childObj.SetActive(false);

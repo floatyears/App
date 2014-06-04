@@ -44,7 +44,7 @@ public class EffectManager {
 //		effectName.Add (409, "water");
 //		effectName.Add (410, "wind1");
 //		effectName.Add (411, "wind2");
-		//config effect no skill.
+//		config effect no skill.
 		effectName.Add (DragCardEffect, "card_effect");
 	}
 
@@ -66,5 +66,4 @@ public class EffectManager {
 		effectIns.transform.eulerAngles = rotation;
 		return effectIns;
 	}
-
 }
