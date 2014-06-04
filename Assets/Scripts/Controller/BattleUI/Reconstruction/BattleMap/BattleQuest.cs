@@ -587,8 +587,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public void MeetBoss () {
-		battle.ShieldInput (true);
-
+		battle.ShieldInput ( true );
 		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
@@ -621,8 +620,8 @@ public class BattleQuest : UIBase {
 		configBattleUseData.storeBattleData.isBattle = 1;	// 1 == battle enemy
 		battle.ShowEnemy (temp);
 		ExitFight (false);
-		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
-		GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
+		AudioManager.Instance.PlayBackgroundAudio( AudioEnum.music_enemy_battle );
+		GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
 	}
 
 	void ExitFight(bool exit) {
