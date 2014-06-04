@@ -23,15 +23,23 @@ public class TQuestDungeonData : ProtobufDataBase {
 		Floors = new  List< List<TQuestGrid> > ();
 		dropUnit = new List<TDropUnit>();
 
+		TDropUnit bossDrop = null;
 		foreach(DropUnit drop in instance.drop) {
 			TDropUnit du = new TDropUnit (drop);
 			dropUnit.Add (du);
+			if (drop.dropId==0) { // is boss drop
+				bossDrop = du;
+			} 
 		}
 
-		foreach(EnemyInfo b in instance.boss) {
-			TEnemyInfo e = new TEnemyInfo(b);
+		for(int i=0; i< instance.boss.Count; i++) {
+			TEnemyInfo e = new TEnemyInfo( instance.boss[i] );
 			e.initBlood = e.GetInitBlood();
 			e.initAttackRound = e.GetInitRound();
+			if (bossDrop!=null && bossDrop.DropPos == i ) {
+				e.drop = bossDrop;
+			}
+
 			this.boss.Add(e);
 		}
 
@@ -262,6 +270,7 @@ public class TDropUnit : ProtobufDataBase {
 	private DropUnit	instance;
 
 	public uint	DropId { get { return instance.dropId; } }
+	public int	DropPos { get { return instance.dropPos; } }
 	public int	Level { get { return instance.level; } }
 	public int	AddHp { get { return instance.addHp; } }
 	public int	AddAttack { get { return instance.addAttack; } }
