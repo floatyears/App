@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -12,8 +12,8 @@ using System.Collections.Generic;
 /// </summary>
 
 [CanEditMultipleObjects]
-[CustomEditor(typeof(UISprite))]
-public class UISpriteInspector : UIWidgetInspector
+[CustomEditor(typeof(UISprite), true)]
+public class UISpriteInspector : UIBasicSpriteEditor
 {
 	/// <summary>
 	/// Atlas selection callback.
@@ -25,6 +25,7 @@ public class UISpriteInspector : UIWidgetInspector
 		SerializedProperty sp = serializedObject.FindProperty("mAtlas");
 		sp.objectReferenceValue = obj;
 		serializedObject.ApplyModifiedProperties();
+		NGUITools.SetDirty(serializedObject.targetObject);
 		NGUISettings.atlas = obj as UIAtlas;
 	}
 
@@ -38,6 +39,7 @@ public class UISpriteInspector : UIWidgetInspector
 		SerializedProperty sp = serializedObject.FindProperty("mSpriteName");
 		sp.stringValue = spriteName;
 		serializedObject.ApplyModifiedProperties();
+		NGUITools.SetDirty(serializedObject.targetObject);
 		NGUISettings.selectedSprite = spriteName;
 	}
 
@@ -45,12 +47,12 @@ public class UISpriteInspector : UIWidgetInspector
 	/// Draw the atlas and sprite selection fields.
 	/// </summary>
 
-	protected override bool DrawProperties ()
+	protected override bool ShouldDrawProperties ()
 	{
 		GUILayout.BeginHorizontal();
 		if (NGUIEditorTools.DrawPrefixButton("Atlas"))
 			ComponentSelector.Show<UIAtlas>(OnSelectAtlas);
-		SerializedProperty atlas = NGUIEditorTools.DrawProperty("", serializedObject, "mAtlas");
+		SerializedProperty atlas = NGUIEditorTools.DrawProperty("", serializedObject, "mAtlas", GUILayout.MinWidth(20f));
 		
 		if (GUILayout.Button("Edit", GUILayout.Width(40f)))
 		{
@@ -69,51 +71,13 @@ public class UISpriteInspector : UIWidgetInspector
 	}
 
 	/// <summary>
-	/// Sprites's custom properties based on the type.
-	/// </summary>
-
-	protected override void DrawExtraProperties ()
-	{
-		GUILayout.Space(6f);
-
-		SerializedProperty sp = NGUIEditorTools.DrawProperty("Sprite Type", serializedObject, "mType");
-
-		EditorGUI.BeginDisabledGroup(sp.hasMultipleDifferentValues);
-		{
-			if ((UISprite.Type)sp.intValue == UISprite.Type.Sliced)
-			{
-				NGUIEditorTools.DrawProperty("Fill Center", serializedObject, "mFillCenter");
-			}
-			else if ((UISprite.Type)sp.intValue == UISprite.Type.Filled)
-			{
-				NGUIEditorTools.DrawProperty("Fill Dir", serializedObject, "mFillDirection");
-				GUILayout.BeginHorizontal();
-				GUILayout.Space(4f);
-				NGUIEditorTools.DrawProperty("Fill Amount", serializedObject, "mFillAmount");
-				GUILayout.Space(4f);
-				GUILayout.EndHorizontal();
-				NGUIEditorTools.DrawProperty("Invert Fill", serializedObject, "mInvert");
-			}
-		}
-		EditorGUI.EndDisabledGroup();
-
-		//GUI.changed = false;
-		//Vector4 draw = EditorGUILayout.Vector4Field("Draw Region", mWidget.drawRegion);
-
-		//if (GUI.changed)
-		//{
-		//    NGUIEditorTools.RegisterUndo("Draw Region", mWidget);
-		//    mWidget.drawRegion = draw;
-		//}
-
-		GUILayout.Space(4f);
-	}
-
-	/// <summary>
 	/// All widgets have a preview.
 	/// </summary>
 
-	public override bool HasPreviewGUI () { return !serializedObject.isEditingMultipleObjects; }
+	public override bool HasPreviewGUI ()
+	{
+		return (Selection.activeGameObject == null || Selection.gameObjects.Length == 1);
+	}
 
 	/// <summary>
 	/// Draw the sprite preview.

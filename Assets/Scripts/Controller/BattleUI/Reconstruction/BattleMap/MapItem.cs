@@ -203,7 +203,7 @@ public class MapItem : UIBaseUnity {
 			return;		
 		}
 		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha>();
-		ta.Reset ();
+		ta.ResetToBeginning ();
 		ShowFootTips ();
 	}
 
@@ -287,7 +287,7 @@ public class MapItem : UIBaseUnity {
 		}
 		TweenAlpha ta = go.GetComponent<TweenAlpha> ();
 		ta.enabled = true;
-		ta.Reset ();
+		ta.ResetToBeginning ();
 
 		if(animEnd != null) {
 			Invoke(funciton, 0.5f);
@@ -339,7 +339,7 @@ public class MapItem : UIBaseUnity {
 
 		if (!string.IsNullOrEmpty (mapItemSprite.spriteName)) {
 			tws = mapItemSprite.GetComponent<TweenScale> ();
-			tws.Reset ();
+			tws.ResetToBeginning ();
 			tws.style = UITweener.Style.Once;
 			tws.duration = time;
 			tws.to = new Vector3 (2f, 2f, 2f);
@@ -448,7 +448,7 @@ public class MapItem : UIBaseUnity {
 		}
 		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha> ();
 		TweenAlpha currentTa = footTips.GetComponent<TweenAlpha> ();
-		ta.Reset ();
+		ta.ResetToBeginning ();
 		currentTa.alpha = ta.alpha;
 		currentTa.duration = ta.duration;
 		currentTa.from = ta.from;

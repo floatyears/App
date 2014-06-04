@@ -529,7 +529,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			curExp += expRiseStep;
 		}
 
-		Debug.Log ("gotExp: " + gotExp + " expRiseStep: " + expRiseStep + " curExp: " + curExp + " currMaxExp: " + currMaxExp);
+	//	Debug.Log ("gotExp: " + gotExp + " expRiseStep: " + expRiseStep + " curExp: " + curExp + " currMaxExp: " + currMaxExp);
 
 		if(curExp >= currMaxExp) {
 //			LogHelper.LogError("-------gotExp:{0} curExp:{1} - currMaxExp:{2} = {3}",gotExp, curExp, currMaxExp, curExp - currMaxExp);

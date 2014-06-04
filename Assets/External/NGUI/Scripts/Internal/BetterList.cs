@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -76,6 +76,12 @@ public class BetterList<T>
 	public bool Contains (T item) { return mList.Contains(item); }
 
 	/// <summary>
+	/// Return the index of the specified item.
+	/// </summary>
+
+	public int IndexOf (T item) { return mList.IndexOf(item); }
+
+	/// <summary>
 	/// Remove the specified item from the list. Note that RemoveAt() is faster and is advisable if you already know the index.
 	/// </summary>
 
@@ -86,6 +92,21 @@ public class BetterList<T>
 	/// </summary>
 
 	public void RemoveAt (int index) { mList.RemoveAt(index); }
+
+	/// <summary>
+	/// Remove an item from the end.
+	/// </summary>
+
+	public T Pop ()
+	{
+		if (buffer != null && size != 0)
+		{
+			T val = buffer[mList.Count - 1];
+			mList.RemoveAt(mList.Count - 1);
+			return val;
+		}
+		return default(T);
+	}
 
 	/// <summary>
 	/// Mimic List's ToArray() functionality, except that in this case the list is resized to match the current size.
@@ -201,7 +222,7 @@ public class BetterList<T>
 	{
 		if (buffer == null || size == buffer.Length) AllocateMore();
 
-		if (index < size)
+		if (index > -1 && index < size)
 		{
 			for (int i = size; i > index; --i) buffer[i] = buffer[i - 1];
 			buffer[index] = item;
@@ -219,6 +240,17 @@ public class BetterList<T>
 		if (buffer == null) return false;
 		for (int i = 0; i < size; ++i) if (buffer[i].Equals(item)) return true;
 		return false;
+	}
+
+	/// <summary>
+	/// Return the index of the specified item.
+	/// </summary>
+
+	public int IndexOf (T item)
+	{
+		if (buffer == null) return -1;
+		for (int i = 0; i < size; ++i) if (buffer[i].Equals(item)) return i;
+		return -1;
 	}
 
 	/// <summary>
@@ -252,7 +284,7 @@ public class BetterList<T>
 
 	public void RemoveAt (int index)
 	{
-		if (buffer != null && index < size)
+		if (buffer != null && index > -1 && index < size)
 		{
 			--size;
 			buffer[index] = default(T);

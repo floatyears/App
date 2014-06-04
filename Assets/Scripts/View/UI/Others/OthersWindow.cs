@@ -173,7 +173,7 @@ public class OthersWindow : UIComponentUnity {
 		foreach( var tweenPos in list) {		
 			if( tweenPos == null )
                                 continue;
-                        tweenPos.Reset();
+                        tweenPos.ResetToBeginning();
                         tweenPos.PlayForward();
                 }
         }

@@ -60,7 +60,7 @@ public class UserIDWindow : UIComponentUnity, IUICallback{
 		foreach (var tweenPos in list){		
 			if (tweenPos == null)
 				continue;
-			tweenPos.Reset();
+			tweenPos.ResetToBeginning();
 			tweenPos.PlayForward();
 		}
 	}

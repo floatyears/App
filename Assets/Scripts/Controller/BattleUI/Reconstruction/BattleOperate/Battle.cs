@@ -166,7 +166,8 @@ public class Battle : UIBase {
 		tempObject = GetPrefabsObject(backName);
 		battleCardPool = tempObject.AddComponent<BattleCardPool>();
 		battleCardPool.Init(backName);
-		BoxCollider bc = NGUITools.AddWidgetCollider(tempObject);
+		NGUITools.AddWidgetCollider(tempObject);
+		BoxCollider bc = tempObject.GetComponent<BoxCollider> ();
 		battleCardPool.XRange = bc.size.x;
 		cardHeight = battleCardPool.templateBackTexture.width;
 	}

@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -153,7 +153,7 @@ static public class NGUIMenu
 	}
 
 #if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
-	[MenuItem("NGUI/Create/Unity 2D Sprite &#r", false, 6)]
+	[MenuItem("NGUI/Create/Unity 2D Sprite &#d", false, 6)]
 	static public void AddSprite2D ()
 	{
 		GameObject go = NGUIEditorTools.SelectedRoot(true);
@@ -183,7 +183,7 @@ static public class NGUIMenu
 	[MenuItem("NGUI/Create/", false, 6)]
 	static void AddBreaker123 () {}
 
-	[MenuItem("NGUI/Create/Anchor", false, 6)]
+	[MenuItem("NGUI/Create/Anchor (Legacy)", false, 6)]
 	static void AddAnchor2 () { Add<UIAnchor>(); }
 
 	[MenuItem("NGUI/Create/Panel", false, 6)]
@@ -200,6 +200,7 @@ static public class NGUIMenu
 		if (panel == null) panel = NGUIEditorTools.SelectedRoot(true).GetComponent<UIPanel>();
 		panel.clipping = UIDrawCall.Clipping.SoftClip;
 		panel.name = "Scroll View";
+		panel.gameObject.AddComponent<UIScrollView>();
 		Selection.activeGameObject = panel.gameObject;
 	}
 
@@ -222,7 +223,7 @@ static public class NGUIMenu
 
 	[MenuItem("NGUI/Create/2D UI", true)]
 	[MenuItem("Assets/NGUI/Create 2D UI", true, 1)]
-	static bool Create2Da () { return UIRoot.list.Count == 0; }
+	static bool Create2Da () { return UIRoot.list.Count == 0 || UICamera.list.size == 0 || !UICamera.list[0].camera.isOrthoGraphic; }
 
 	[MenuItem("NGUI/Create/3D UI", false, 6)]
 	[MenuItem("Assets/NGUI/Create 3D UI", false, 1)]
@@ -230,15 +231,18 @@ static public class NGUIMenu
 
 	[MenuItem("NGUI/Create/3D UI", true)]
 	[MenuItem("Assets/NGUI/Create 3D UI", true, 1)]
-	static bool Create3Da () { return UIRoot.list.Count == 0; }
+	static bool Create3Da () { return UIRoot.list.Count == 0 || UICamera.list.size == 0 || UICamera.list[0].camera.isOrthoGraphic; }
 
 #endregion
 #region Attach
 
 	static void AddIfMissing<T> () where T : Component
 	{
-		GameObject go = Selection.activeGameObject;
-		if (go != null) go.AddMissingComponent<T>();
+		if (Selection.activeGameObject != null)
+		{
+			for (int i = 0; i < Selection.gameObjects.Length; ++i)
+				Selection.gameObjects[i].AddMissingComponent<T>();
+		}
 		else Debug.Log("You must select a game object first.");
 	}
 
@@ -252,36 +256,28 @@ static public class NGUIMenu
 	[MenuItem("NGUI/Attach/Collider &#c", false, 7)]
 	static public void AddCollider ()
 	{
-		GameObject go = Selection.activeGameObject;
-
-		if (NGUIEditorTools.WillLosePrefab(go))
+		if (Selection.activeGameObject != null)
 		{
-			if (go != null)
-			{
-				NGUIEditorTools.RegisterUndo("Add Widget Collider", go);
-				NGUITools.AddWidgetCollider(go);
-			}
-			else
-			{
-				Debug.Log("You must select a game object first, such as your button.");
-			}
+			for (int i = 0; i < Selection.gameObjects.Length; ++i)
+				NGUITools.AddWidgetCollider(Selection.gameObjects[i]);
 		}
+		else Debug.Log("You must select a game object first, such as your button.");
 	}
 
-	[MenuItem("NGUI/Attach/Anchor", false, 7)]
-	static public void Add1 () { AddIfMissing<UIAnchor>(); }
+	//[MenuItem("NGUI/Attach/Anchor", false, 7)]
+	//static public void Add1 () { AddIfMissing<UIAnchor>(); }
 
-	[MenuItem("NGUI/Attach/Anchor", true)]
-	static public bool Add1a () { return !Exists<UIAnchor>(); }
+	//[MenuItem("NGUI/Attach/Anchor", true)]
+	//static public bool Add1a () { return !Exists<UIAnchor>(); }
 
-	[MenuItem("NGUI/Attach/Stretch", false, 7)]
-	static public void Add2 () { AddIfMissing<UIStretch>(); }
+	//[MenuItem("NGUI/Attach/Stretch (Legacy)", false, 7)]
+	//static public void Add2 () { AddIfMissing<UIStretch>(); }
 
-	[MenuItem("NGUI/Attach/Stretch", true)]
-	static public bool Add2a () { return !Exists<UIStretch>(); }
+	//[MenuItem("NGUI/Attach/Stretch (Legacy)", true)]
+	//static public bool Add2a () { return !Exists<UIStretch>(); }
 
-	[MenuItem("NGUI/Attach/", false, 7)]
-	static public void Add3s () {}
+	//[MenuItem("NGUI/Attach/", false, 7)]
+	//static public void Add3s () {}
 
 	[MenuItem("NGUI/Attach/Button Script", false, 7)]
 	static public void Add3 () { AddIfMissing<UIButton>(); }
@@ -307,11 +303,20 @@ static public class NGUIMenu
 	[MenuItem("NGUI/Attach/Key Binding Script", false, 7)]
 	static public void Add10 () { AddIfMissing<UIKeyBinding>(); }
 
+	[MenuItem("NGUI/Attach/Key Navigation Script", false, 7)]
+	static public void Add10a () { AddIfMissing<UIKeyNavigation>(); }
+
 	[MenuItem("NGUI/Attach/Play Tween Script", false, 7)]
 	static public void Add11 () { AddIfMissing<UIPlayTween>(); }
 
 	[MenuItem("NGUI/Attach/Play Animation Script", false, 7)]
 	static public void Add12 () { AddIfMissing<UIPlayAnimation>(); }
+
+	[MenuItem("NGUI/Attach/Play Sound Script", false, 7)]
+	static public void Add13 () { AddIfMissing<UIPlaySound>(); }
+
+	[MenuItem("NGUI/Attach/Localization Script", false, 7)]
+	static public void Add14 () { AddIfMissing<UILocalize>(); }
 
 #endregion
 #region Tweens
@@ -389,48 +394,54 @@ static public class NGUIMenu
 	[MenuItem("Assets/NGUI/Open Atlas Maker", false, 0)]
 	static public void OpenAtlasMaker ()
 	{
-		EditorWindow.GetWindow<UIAtlasMaker>(false, "Atlas Maker", true);
+		EditorWindow.GetWindow<UIAtlasMaker>(false, "Atlas Maker", true).Show();
 	}
 
 	[MenuItem("NGUI/Open/Font Maker", false, 9)]
 	[MenuItem("Assets/NGUI/Open Bitmap Font Maker", false, 0)]
 	static public void OpenFontMaker ()
 	{
-		EditorWindow.GetWindow<UIFontMaker>(false, "Font Maker", true);
+		EditorWindow.GetWindow<UIFontMaker>(false, "Font Maker", true).Show();
 	}
 
 	[MenuItem("NGUI/Open/", false, 9)]
 	[MenuItem("Assets/NGUI/", false, 0)]
 	static public void OpenSeparator2 () { }
 
+	[MenuItem("NGUI/Open/Prefab Toolbar", false, 9)]
+	static public void OpenPrefabTool ()
+	{
+		EditorWindow.GetWindow<UIPrefabTool>(false, "Prefab Toolbar", true).Show();
+	}
+
 	[MenuItem("NGUI/Open/Panel Tool", false, 9)]
 	static public void OpenPanelWizard ()
 	{
-		EditorWindow.GetWindow<UIPanelTool>(false, "Panel Tool", true);
+		EditorWindow.GetWindow<UIPanelTool>(false, "Panel Tool", true).Show();
 	}
 
 	[MenuItem("NGUI/Open/Draw Call Tool", false, 9)]
 	static public void OpenDCTool ()
 	{
-		EditorWindow.GetWindow<UIDrawCallViewer>(false, "Draw Call Tool", true);
+		EditorWindow.GetWindow<UIDrawCallViewer>(false, "Draw Call Tool", true).Show();
 	}
 
 	[MenuItem("NGUI/Open/Camera Tool", false, 9)]
 	static public void OpenCameraWizard ()
 	{
-		EditorWindow.GetWindow<UICameraTool>(false, "Camera Tool", true);
+		EditorWindow.GetWindow<UICameraTool>(false, "Camera Tool", true).Show();
 	}
 
 	[MenuItem("NGUI/Open/Widget Wizard (Legacy)", false, 9)]
 	static public void CreateWidgetWizard ()
 	{
-		EditorWindow.GetWindow<UICreateWidgetWizard>(false, "Widget Tool", true);
+		EditorWindow.GetWindow<UICreateWidgetWizard>(false, "Widget Tool", true).Show();
 	}
 
 	//[MenuItem("NGUI/Open/UI Wizard (Legacy)", false, 9)]
 	//static public void CreateUIWizard ()
 	//{
-	//    EditorWindow.GetWindow<UICreateNewUIWizard>(false, "UI Tool", true);
+	//    EditorWindow.GetWindow<UICreateNewUIWizard>(false, "UI Tool", true).Show();
 	//}
 
 #endregion
@@ -477,6 +488,86 @@ static public class NGUIMenu
 
 	[MenuItem("NGUI/Options/Snapping/Turn Off", true, 10)]
 	static public bool TurnSnapOffCheck () { return NGUISnap.allow; }
+
+	[MenuItem("NGUI/Options/Guides/Always On", false, 10)]
+	static public void TurnGuidesOn () { NGUISettings.drawGuides = true; }
+
+	[MenuItem("NGUI/Options/Guides/Always On", true, 10)]
+	static public bool TurnGuidesOnCheck () { return !NGUISettings.drawGuides; }
+
+	[MenuItem("NGUI/Options/Guides/Only When Needed", false, 10)]
+	static public void TurnGuidesOff () { NGUISettings.drawGuides = false; }
+
+	[MenuItem("NGUI/Options/Guides/Only When Needed", true, 10)]
+	static public bool TurnGuidesOffCheck () { return NGUISettings.drawGuides; }
+
+	[MenuItem("NGUI/Options/Reset Prefab Toolbar", false, 10)]
+	static public void ResetPrefabTool ()
+	{
+		if (UIPrefabTool.instance == null) OpenPrefabTool();
+		UIPrefabTool.instance.Reset();
+		UIPrefabTool.instance.Repaint();
+	}
+
+#if !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
+	[MenuItem("NGUI/Extras/Switch to 2D Colliders", false, 10)]
+	static public void SwitchTo2D ()
+	{
+		BoxCollider[] colliders = NGUITools.FindActive<BoxCollider>();
+		
+		for (int i = 0; i < colliders.Length; ++i)
+		{
+			BoxCollider c = colliders[i];
+			GameObject go = c.gameObject;
+
+			UICamera cam = UICamera.FindCameraForLayer(go.layer);
+			if (cam == null) continue;
+			if (cam.eventType == UICamera.EventType.World_3D) continue;
+			if (cam.eventType == UICamera.EventType.World_2D) continue;
+
+			cam.eventType = UICamera.EventType.UI_2D;
+
+			Vector3 center = c.center;
+			Vector3 size = c.size;
+			NGUITools.DestroyImmediate(c);
+
+			BoxCollider2D bc = go.AddComponent<BoxCollider2D>();
+			bc.size = size;
+			bc.center = center;
+			bc.isTrigger = true;
+			NGUITools.SetDirty(go);
+		}
+	}
+
+	[MenuItem("NGUI/Extras/Switch to 3D Colliders", false, 10)]
+	static public void SwitchTo3D ()
+	{
+		BoxCollider2D[] colliders = NGUITools.FindActive<BoxCollider2D>();
+
+		for (int i = 0; i < colliders.Length; ++i)
+		{
+			BoxCollider2D c = colliders[i];
+			GameObject go = c.gameObject;
+
+			UICamera cam = UICamera.FindCameraForLayer(go.layer);
+			if (cam == null) continue;
+			if (cam.eventType == UICamera.EventType.World_3D) continue;
+			if (cam.eventType == UICamera.EventType.World_2D) continue;
+
+			cam.eventType = UICamera.EventType.UI_3D;
+
+			Vector3 center = c.center;
+			Vector3 size = c.size;
+			NGUITools.DestroyImmediate(c);
+
+			BoxCollider bc = go.AddComponent<BoxCollider>();
+			bc.size = size;
+			bc.center = center;
+			bc.isTrigger = true;
+			NGUITools.SetDirty(go);
+		}
+	}
+#endif
 
 #endregion
 

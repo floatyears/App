@@ -121,7 +121,7 @@ public class CardSprite : UIBaseUnity
 		tweenPosition.duration = time;
 		tweenPosition.from = from;
 		tweenPosition.to = to;
-		tweenPosition.Reset ();
+		tweenPosition.ResetToBeginning ();
 		initPosition = to;
 	}
 	
