@@ -17,7 +17,7 @@ public class UnitsController : ConcreteComponent, IUICallback {
 	
 	public override void HideUI () {
 		base.HideUI ();
-
+		base.DestoryUI ();
 	}
 
 	public void CallbackView (object data){

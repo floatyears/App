@@ -166,6 +166,7 @@ public enum CommandEnum{
 	ShowActiveSkill,
 	ShowPassiveSkill,
 	ShowTrap,
+	ShowCoin,
 	EvolveStart,
 	EvolveSelectStage,
 	ReturnPreScene,

@@ -72,7 +72,11 @@ public class TQuestDungeonData : ProtobufDataBase {
 							LogHelper.Log ("grid[{0}]: assign enemy[{1}], enemyCount={2}...  ", g, grid.Object.enemyId[g], grid.Enemy.Count);
 							instance.enemys[i].currentHp = instance.enemys[i].hp;
 							instance.enemys[i].currentNext = instance.enemys[i].nextAttack;
-							grid.Enemy.Add( new TEnemyInfo(CopyEnemyInfo( instance.enemys[i] ) ) );
+							TEnemyInfo tei =  new TEnemyInfo(CopyEnemyInfo( instance.enemys[i] ) );
+
+							tei.drop = grid.Drop;
+
+							grid.Enemy.Add(tei);
 							break;
 						}
 					}

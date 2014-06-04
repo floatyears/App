@@ -21,6 +21,7 @@ public class PartyPartyPage : PartyPageLogic{
 		base.HideUI();
 		RemoveCommandListener();
 //		DestoryUI();
+		base.DestoryUI ();
 	}
 
     public override void RefreshCurrentParty(){

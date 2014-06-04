@@ -189,7 +189,7 @@ public class StageSelectView : UIComponentUnity{
 				if(!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
 					stageItemView.IsArrivedStage = true;
 					searchFarthestArrivedStageSucceed = true;
-					Debug.Log("At the " + i + " time, search FarthestArrivedStageSucceed : " + searchFarthestArrivedStageSucceed);
+//					Debug.Log("At the " + i + " time, search FarthestArrivedStageSucceed : " + searchFarthestArrivedStageSucceed);
 				}
 				else{
 					stageItemView.IsArrivedStage = false;

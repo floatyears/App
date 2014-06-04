@@ -104,7 +104,7 @@ public class ViewManager {
 		parentPanel = trans.Find("RootPanel/Bottom").gameObject;
 		topPanel = trans.Find ("RootPanel/Top/Panel").gameObject;
 		bottomPanel = trans.Find ("RootPanel/Bottom/Panel").gameObject;
-		effectPanel = trans.Find ("RootPanel/Bottom/EffectPanel").gameObject;
+		effectPanel = trans.Find ("Anchor/EffectPanel").gameObject;
 		centerPanel = trans.Find ("RootPanel/Anchor/Panel").gameObject;
 		bottomLeftPanel =  trans.Find ("RootPanel/BottomLeft").gameObject;
 //		trapLabel = mainUIRoot.transform.Find ("RootPanel/BottomLeft/Label").GetComponent<UILabel> ();

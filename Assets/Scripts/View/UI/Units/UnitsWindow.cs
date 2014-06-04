@@ -39,8 +39,8 @@ public class UnitsWindow : UIComponentUnity{
 	void InitChildScenes(){
 		GameObject go;
 
-		//go = FindChild("Bottom/Catalog");
-		//buttonInfo.Add(go, SceneEnum.UnitCatalog);
+		go = FindChild("Bottom/Catalog");
+		buttonInfo.Add(go, SceneEnum.UnitCatalog);
 		
 		go = FindChild("Bottom/Evolve");
 		buttonInfo.Add(go, SceneEnum.Evolve);

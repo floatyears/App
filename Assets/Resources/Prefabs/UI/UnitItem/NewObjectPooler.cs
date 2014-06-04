@@ -39,6 +39,5 @@ public class NewObjectPooler : MonoBehaviour{
         obj.SetActive(false);
         return obj;
     }
-     
 }
 

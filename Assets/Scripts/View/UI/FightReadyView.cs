@@ -145,7 +145,7 @@ public class FightReadyView : UIComponentUnity {
 
 	void RefreshParty(List<TUserUnit> evolveParty) {
 		for (int i = 0; i < evolveParty.Count; i++){
-			Debug.LogError(evolveParty[i].UnitInfo.GetAsset(UnitAssetType.Avatar));
+//			Debug.LogError(evolveParty[i].UnitInfo.GetAsset(UnitAssetType.Avatar));
 			partyView[ i ].Init(evolveParty [ i ]);
 		}
 

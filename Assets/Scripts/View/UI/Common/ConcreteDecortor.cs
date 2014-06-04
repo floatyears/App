@@ -64,10 +64,10 @@ public class StartDecorator : DecoratorBase{
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
 		tipsBar.SetComponent(bottom);
 
-		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
-		selectUnitInfo.SetComponent(tipsBar);
+//		UnitBriefInfoLogic selectUnitInfo = CreatComponent<UnitBriefInfoLogic>(UIConfig.unitBriefInfoWindowName);
+//		selectUnitInfo.SetComponent(tipsBar);
 
-		lastDecorator = selectUnitInfo;
+		lastDecorator = tipsBar;
 		lastDecorator.CreatUI();
 
 	}

@@ -175,23 +175,77 @@ public class BattleEnemy : UIBaseUnity {
 
 	float probability;
 	float allWidth;
-	int screenWidth;
+	float screenWidth;
 
-	void CompressTextureWidth (List<EnemyItem> temp) {
-		screenWidth = Screen.width;
-		allWidth = 0;
-		for (int i = 0; i < temp.Count; i++) {	//Standardization texture size by rare config.
-			UITexture tex = temp [i].texture;
-			allWidth += tex.width;
+	void CompressTextureWidth (List<EnemyItem> enemys) {
+		int count = enemys.Count;
+		if (count == 1) {
+			return;	
+		}
+		if (count == 2) {
+			CompressTexture( GetProbability(Screen.width, enemys), enemys);
+			return;
 		}
 
-		probability = screenWidth / allWidth;
+		screenWidth = Screen.width * 0.5f;
+		allWidth = 0;
 
-		if (probability < 1f) { //screewidth < allWidth. compress texture size.
-			for (int i = 0; i < temp.Count; i++) {
-				temp[i].CompressTextureSize(probability);
-			}
-		}	
+		bool isOdd = DGTools.IsOddNumber (count);
+
+		if (isOdd) {
+			int centerIndex = count >> 1;
+			Debug.LogError("count : " + count + "centerindex : " + centerIndex);
+			probability = GetProbability (Screen.width, enemys);
+			enemys [centerIndex].CompressTextureSize (probability);
+			Debug.LogError(screenWidth + " ----- " + enemys [centerIndex].texture.width * 0.5f);
+			SetgmentationEnemys(enemys, centerIndex, screenWidth - enemys [centerIndex].texture.width * 0.5f);
+		} else {
+			SetgmentationEnemys(enemys, 0, screenWidth);
+		}
+	}
+
+	void SetgmentationEnemys(List<EnemyItem> enemys, int centerIndex, float screenWidth) {
+		int leftEndIndex = centerIndex ;
+		int rightStartIndex = centerIndex + 1;
+
+		if (centerIndex == 0) {
+			rightStartIndex = leftEndIndex = enemys.Count >> 1 + 1;
+		}
+
+		List<EnemyItem> leftEnemys = new List<EnemyItem> ();
+		List<EnemyItem> rightEnemys = new List<EnemyItem> ();
+		Debug.LogError ("leftendindex : " + leftEndIndex);
+		Debug.LogError ("rightStartIndex : " + rightStartIndex);
+
+		for (int i = 0; i < leftEndIndex; i++) {
+			leftEnemys.Add (enemys [i]);
+		}
+		
+		for (int i = rightStartIndex; i < enemys.Count; i++) {
+			rightEnemys.Add (enemys [i]);
+		}
+		float lefrpro = GetProbability (screenWidth, leftEnemys);
+		float rightpro = GetProbability (screenWidth, rightEnemys);
+		Debug.LogError ("leftpro : " + lefrpro + "scrren width : " + screenWidth + " leftenemys : " + leftEnemys.Count);
+		Debug.LogError ("rightpro : " + rightpro+ "scrren width : " + screenWidth + " rightEnemys : " + rightEnemys.Count);
+		CompressTexture (lefrpro, leftEnemys);
+		CompressTexture (rightpro, rightEnemys);
+	}
+
+	float GetProbability(float screenWidth, List<EnemyItem> enemys) {
+		int width = 0;
+		for (int i = 0; i < enemys.Count; i++) {	//Standardization texture size by rare config.
+			UITexture tex = enemys [i].texture;
+			width += tex.width;
+		}
+		
+		return screenWidth / width;
+	}
+
+	void CompressTexture(float probability, List<EnemyItem> enemys) {
+		for (int i = 0; i < enemys.Count; i++) {
+			enemys[i].CompressTextureSize(probability);
+		}
 	}
 
 	void DisposeCenterLeft(int centerIndex, List<EnemyItem> temp) {

@@ -115,7 +115,7 @@ public class QuestSelectView : UIComponentUnity {
 		GenerateQuest(evolveStart.StageInfo.QuestInfo, evolveStart.StageInfo);
 		
 		foreach (var item in questItem) {
-			Debug.LogError("item.Data.ID : " + item.Data.ID + " evolveStart.StageInfo.QuestId : " + evolveStart.StageInfo.QuestId);
+//			Debug.LogError("item.Data.ID : " + item.Data.ID + " evolveStart.StageInfo.QuestId : " + evolveStart.StageInfo.QuestId);
 			if(item.Data.ID == evolveStart.StageInfo.QuestId) {
 				item.evolveCallback = EvolveCallback;
 				continue;

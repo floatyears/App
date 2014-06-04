@@ -23,6 +23,7 @@ public class HomeView : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
+//		Debug.LogError("HideUI");
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 	}
 	
