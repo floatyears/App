@@ -8,6 +8,119 @@ using UnityEditor;
 
 public static class NGUIContextMenu
 {
+	[MenuItem("Help/NGUI Documentation (v.3.6.1)")]
+	static void ShowHelp0 (MenuCommand command) { NGUIHelp.Show(); }
+
+	[MenuItem("Help/NGUI Support Forum")]
+	static void ShowHelp01 (MenuCommand command) { Application.OpenURL("http://www.tasharen.com/forum/index.php?board=1.0"); }
+
+	[MenuItem("CONTEXT/UIWidget/Copy Widget")]
+	static void CopyStyle (MenuCommand command) { NGUISettings.CopyWidget(command.context as UIWidget); }
+
+	[MenuItem("CONTEXT/UIWidget/Paste Widget Values")]
+	static void PasteStyle (MenuCommand command) { NGUISettings.PasteWidget(command.context as UIWidget, true); }
+
+	[MenuItem("CONTEXT/UIWidget/Paste Widget Style")]
+	static void PasteStyle2 (MenuCommand command) { NGUISettings.PasteWidget(command.context as UIWidget, false); }
+
+	[MenuItem("CONTEXT/UIWidget/Help")]
+	static void ShowHelp1 (MenuCommand command) { NGUIHelp.Show(command.context); }
+
+	[MenuItem("CONTEXT/UIButton/Help")]
+	static void ShowHelp2 (MenuCommand command) { NGUIHelp.Show(typeof(UIButton)); }
+
+	[MenuItem("CONTEXT/UIToggle/Help")]
+	static void ShowHelp3 (MenuCommand command) { NGUIHelp.Show(typeof(UIToggle)); }
+
+	[MenuItem("CONTEXT/UIRoot/Help")]
+	static void ShowHelp4 (MenuCommand command) { NGUIHelp.Show(typeof(UIRoot)); }
+
+	[MenuItem("CONTEXT/UICamera/Help")]
+	static void ShowHelp5 (MenuCommand command) { NGUIHelp.Show(typeof(UICamera)); }
+
+	[MenuItem("CONTEXT/UIAnchor/Help")]
+	static void ShowHelp6 (MenuCommand command) { NGUIHelp.Show(typeof(UIAnchor)); }
+
+	[MenuItem("CONTEXT/UIStretch/Help")]
+	static void ShowHelp7 (MenuCommand command) { NGUIHelp.Show(typeof(UIStretch)); }
+
+	[MenuItem("CONTEXT/UISlider/Help")]
+	static void ShowHelp8 (MenuCommand command) { NGUIHelp.Show(typeof(UISlider)); }
+
+#if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
+	[MenuItem("CONTEXT/UI2DSprite/Help")]
+	static void ShowHelp9 (MenuCommand command) { NGUIHelp.Show(typeof(UI2DSprite)); }
+#endif
+
+	[MenuItem("CONTEXT/UIScrollBar/Help")]
+	static void ShowHelp10 (MenuCommand command) { NGUIHelp.Show(typeof(UIScrollBar)); }
+
+	[MenuItem("CONTEXT/UIProgressBar/Help")]
+	static void ShowHelp11 (MenuCommand command) { NGUIHelp.Show(typeof(UIProgressBar)); }
+
+	[MenuItem("CONTEXT/UIPopupList/Help")]
+	static void ShowHelp12 (MenuCommand command) { NGUIHelp.Show(typeof(UIPopupList)); }
+
+	[MenuItem("CONTEXT/UIInput/Help")]
+	static void ShowHelp13 (MenuCommand command) { NGUIHelp.Show(typeof(UIInput)); }
+
+	[MenuItem("CONTEXT/UIKeyBinding/Help")]
+	static void ShowHelp14 (MenuCommand command) { NGUIHelp.Show(typeof(UIKeyBinding)); }
+
+	[MenuItem("CONTEXT/UIGrid/Help")]
+	static void ShowHelp15 (MenuCommand command) { NGUIHelp.Show(typeof(UIGrid)); }
+
+	[MenuItem("CONTEXT/UITable/Help")]
+	static void ShowHelp16 (MenuCommand command) { NGUIHelp.Show(typeof(UITable)); }
+
+	[MenuItem("CONTEXT/UIPlayTween/Help")]
+	static void ShowHelp17 (MenuCommand command) { NGUIHelp.Show(typeof(UIPlayTween)); }
+
+	[MenuItem("CONTEXT/UIPlayAnimation/Help")]
+	static void ShowHelp18 (MenuCommand command) { NGUIHelp.Show(typeof(UIPlayAnimation)); }
+
+	[MenuItem("CONTEXT/UIPlaySound/Help")]
+	static void ShowHelp19 (MenuCommand command) { NGUIHelp.Show(typeof(UIPlaySound)); }
+
+	[MenuItem("CONTEXT/UIScrollView/Help")]
+	static void ShowHelp20 (MenuCommand command) { NGUIHelp.Show(typeof(UIScrollView)); }
+
+	[MenuItem("CONTEXT/UIDragScrollView/Help")]
+	static void ShowHelp21 (MenuCommand command) { NGUIHelp.Show(typeof(UIDragScrollView)); }
+
+	[MenuItem("CONTEXT/UICenterOnChild/Help")]
+	static void ShowHelp22 (MenuCommand command) { NGUIHelp.Show(typeof(UICenterOnChild)); }
+
+	[MenuItem("CONTEXT/UICenterOnClick/Help")]
+	static void ShowHelp23 (MenuCommand command) { NGUIHelp.Show(typeof(UICenterOnClick)); }
+
+	[MenuItem("CONTEXT/UITweener/Help")]
+	[MenuItem("CONTEXT/UIPlayTween/Help")]
+	static void ShowHelp24 (MenuCommand command) { NGUIHelp.Show(typeof(UITweener)); }
+
+	[MenuItem("CONTEXT/ActiveAnimation/Help")]
+	[MenuItem("CONTEXT/UIPlayAnimation/Help")]
+	static void ShowHelp25 (MenuCommand command) { NGUIHelp.Show(typeof(UIPlayAnimation)); }
+
+	[MenuItem("CONTEXT/UIScrollView/Help")]
+	[MenuItem("CONTEXT/UIDragScrollView/Help")]
+	static void ShowHelp26 (MenuCommand command) { NGUIHelp.Show(typeof(UIScrollView)); }
+
+	[MenuItem("CONTEXT/UIPanel/Help")]
+	static void ShowHelp27 (MenuCommand command) { NGUIHelp.Show(typeof(UIPanel)); }
+
+	[MenuItem("CONTEXT/UILocalize/Help")]
+	static void ShowHelp28 (MenuCommand command) { NGUIHelp.Show(typeof(UILocalize)); }
+
+	[MenuItem("CONTEXT/Localization/Help")]
+	static void ShowHelp29 (MenuCommand command) { NGUIHelp.Show(typeof(Localization)); }
+
+	[MenuItem("CONTEXT/UIKeyNavigation/Help")]
+	static void ShowHelp30 (MenuCommand command) { NGUIHelp.Show(typeof(UIKeyNavigation)); }
+	
+	[MenuItem("CONTEXT/PropertyBinding/Help")]
+	static void ShowHelp31 (MenuCommand command) { NGUIHelp.Show(typeof(PropertyBinding)); }
+
 	public delegate UIWidget AddFunc (GameObject go);
 
 	static BetterList<string> mEntries = new BetterList<string>();
@@ -51,7 +164,7 @@ public static class NGUIContextMenu
 	/// Wrapper function called by the menu that in turn calls the correct callback.
 	/// </summary>
 
-	static void AddChild (object obj)
+	static public void AddChild (object obj)
 	{
 		AddFunc func = obj as AddFunc;
 		UIWidget widget = func(Selection.activeGameObject);
@@ -62,7 +175,7 @@ public static class NGUIContextMenu
 	/// Add a new context menu entry.
 	/// </summary>
 
-	static void AddChildWidget (string item, bool isChecked, AddFunc callback)
+	static public void AddChildWidget (string item, bool isChecked, AddFunc callback)
 	{
 		if (callback != null)
 		{
@@ -86,7 +199,7 @@ public static class NGUIContextMenu
 	/// Wrapper function called by the menu that in turn calls the correct callback.
 	/// </summary>
 
-	static void AddSibling (object obj)
+	static public void AddSibling (object obj)
 	{
 		AddFunc func = obj as AddFunc;
 		UIWidget widget = func(Selection.activeTransform.parent.gameObject);
@@ -97,7 +210,7 @@ public static class NGUIContextMenu
 	/// Add a new context menu entry.
 	/// </summary>
 
-	static void AddSiblingWidget (string item, bool isChecked, AddFunc callback)
+	static public void AddSiblingWidget (string item, bool isChecked, AddFunc callback)
 	{
 		if (callback != null)
 		{
@@ -130,16 +243,36 @@ public static class NGUIContextMenu
 			string myName = string.Format("Selected {0}", (widget != null) ? NGUITools.GetTypeName(widget) : "Object");
 
 			AddItem(myName + "/Bring to Front", false,
-				delegate(object obj) { NGUITools.BringForward(Selection.activeGameObject); }, null);
+				delegate(object obj)
+				{
+					for (int i = 0; i < Selection.gameObjects.Length; ++i)
+						NGUITools.BringForward(Selection.gameObjects[i]);
+				},
+				null);
 
 			AddItem(myName + "/Push to Back", false,
-				delegate(object obj) { NGUITools.PushBack(Selection.activeGameObject); }, null);
+				delegate(object obj)
+				{
+					for (int i = 0; i < Selection.gameObjects.Length; ++i)
+						NGUITools.PushBack(Selection.gameObjects[i]);
+				},
+				null);
 
 			AddItem(myName + "/Nudge Forward", false,
-				delegate(object obj) { NGUITools.AdjustDepth(Selection.activeGameObject, 1); }, null);
+				delegate(object obj)
+				{
+					for (int i = 0; i < Selection.gameObjects.Length; ++i)
+						NGUITools.AdjustDepth(Selection.gameObjects[i], 1);
+				},
+				null);
 
 			AddItem(myName + "/Nudge Back", false,
-				delegate(object obj) { NGUITools.AdjustDepth(Selection.activeGameObject, -1); }, null);
+				delegate(object obj)
+				{
+					for (int i = 0; i < Selection.gameObjects.Length; ++i)
+						NGUITools.AdjustDepth(Selection.gameObjects[i], -1);
+				},
+				null);
 
 			if (widget != null)
 			{
@@ -187,64 +320,103 @@ public static class NGUIContextMenu
 
 			NGUIContextMenu.AddSeparator("Create/");
 
-			AddItem("Create/Anchor", false, AddChild<UIAnchor>, target);
 			AddItem("Create/Panel", false, AddPanel, target);
 			AddItem("Create/Scroll View", false, AddScrollView, target);
 			AddItem("Create/Grid", false, AddChild<UIGrid>, target);
 			AddItem("Create/Table", false, AddChild<UITable>, target);
+			AddItem("Create/Anchor (Legacy)", false, AddChild<UIAnchor>, target);
 
 			if (target.GetComponent<UIPanel>() != null)
 			{
 				if (target.GetComponent<UIScrollView>() == null)
 				{
-					AddItem("Attach/Scroll View", false, delegate(object obj) { target.AddComponent<UIScrollView>(); }, null);
+					AddItem("Attach/Scroll View", false, Attach, typeof(UIScrollView));
 					NGUIContextMenu.AddSeparator("Attach/");
 				}
 			}
 			else if (target.collider == null)
 			{
-				AddItem("Attach/Box Collider", false, delegate(object obj) { NGUITools.AddWidgetCollider(target); }, null);
+				AddItem("Attach/Box Collider", false, AttachCollider, null);
 				NGUIContextMenu.AddSeparator("Attach/");
+			}
+
+			bool header = false;
+			UIScrollView scrollView = NGUITools.FindInParents<UIScrollView>(target);
+
+			if (scrollView != null)
+			{
+				if (scrollView.GetComponentInChildren<UICenterOnChild>() == null)
+				{
+					AddItem("Attach/Center Scroll View on Child", false, Attach, typeof(UICenterOnChild));
+					header = true;
+				}
 			}
 
 			if (target.collider != null)
 			{
+				if (scrollView != null)
+				{
+					if (target.GetComponent<UIDragScrollView>() == null)
+					{
+						AddItem("Attach/Drag Scroll View", false, Attach, typeof(UIDragScrollView));
+						header = true;
+					}
+
+					if (target.GetComponent<UICenterOnClick>() == null && NGUITools.FindInParents<UICenterOnChild>(target) != null)
+					{
+						AddItem("Attach/Center Scroll View on Click", false, Attach, typeof(UICenterOnClick));
+						header = true;
+					}
+				}
+
+				if (header) NGUIContextMenu.AddSeparator("Attach/");
+
+				AddItem("Attach/Button Script", false, Attach, typeof(UIButton));
+				AddItem("Attach/Toggle Script", false, Attach, typeof(UIToggle));
+				AddItem("Attach/Slider Script", false, Attach, typeof(UISlider));
+				AddItem("Attach/Scroll Bar Script", false, Attach, typeof(UIScrollBar));
+				AddItem("Attach/Progress Bar Script", false, Attach, typeof(UISlider));
+				AddItem("Attach/Popup List Script", false, Attach, typeof(UIPopupList));
+				AddItem("Attach/Input Field Script", false, Attach, typeof(UIInput));
+				NGUIContextMenu.AddSeparator("Attach/");
+				
+				if (target.GetComponent<UIDragResize>() == null)
+					AddItem("Attach/Drag Resize Script", false, Attach, typeof(UIDragResize));
+
 				if (target.GetComponent<UIDragScrollView>() == null)
 				{
 					for (int i = 0; i < UIPanel.list.size; ++i)
 					{
 						UIPanel pan = UIPanel.list[i];
 						if (pan.clipping == UIDrawCall.Clipping.None) continue;
-	
+
 						UIScrollView dr = pan.GetComponent<UIScrollView>();
 						if (dr == null) continue;
 
 						AddItem("Attach/Drag Scroll View", false, delegate(object obj)
-							{ target.AddComponent<UIDragScrollView>().scrollView = dr; }, null);
-						
-						NGUIContextMenu.AddSeparator("Attach/");
+						{ target.AddComponent<UIDragScrollView>().scrollView = dr; }, null);
+
+						header = true;
 						break;
 					}
 				}
 
-				AddItem("Attach/Button Script", false, delegate(object obj) { target.AddComponent<UIButton>(); }, null);
-				AddItem("Attach/Toggle Script", false, delegate(object obj) { target.AddComponent<UIToggle>(); }, null);
-				AddItem("Attach/Slider Script", false, delegate(object obj) { target.AddComponent<UISlider>(); }, null);
-				AddItem("Attach/Scroll Bar Script", false, delegate(object obj) { target.AddComponent<UIScrollBar>(); }, null);
-				AddItem("Attach/Progress Bar Script", false, delegate(object obj) { target.AddComponent<UISlider>(); }, null);
-				AddItem("Attach/Popup List Script", false, delegate(object obj) { target.AddComponent<UIPopupList>(); }, null);
-				AddItem("Attach/Input Field Script", false, delegate(object obj) { target.AddComponent<UIInput>(); }, null);
-				NGUIContextMenu.AddSeparator("Attach/");
-				if (target.GetComponent<UIAnchor>() == null) AddItem("Attach/Anchor Script", false, delegate(object obj) { target.AddComponent<UIAnchor>(); }, null);
-				if (target.GetComponent<UIStretch>() == null) AddItem("Attach/Stretch Script", false, delegate(object obj) { target.AddComponent<UIStretch>(); }, null);
-				AddItem("Attach/Key Binding Script", false, delegate(object obj) { target.AddComponent<UIKeyBinding>(); }, null);
+				AddItem("Attach/Key Binding Script", false, Attach, typeof(UIKeyBinding));
+
+				if (target.GetComponent<UIKeyNavigation>() == null)
+					AddItem("Attach/Key Navigation Script", false, Attach, typeof(UIKeyNavigation));
 
 				NGUIContextMenu.AddSeparator("Attach/");
 
-				AddItem("Attach/Play Tween Script", false, delegate(object obj) { target.AddComponent<UIPlayTween>(); }, null);
-				AddItem("Attach/Play Animation Script", false, delegate(object obj) { target.AddComponent<UIPlayAnimation>(); }, null);
-				AddItem("Attach/Play Sound Script", false, delegate(object obj) { target.AddComponent<UIPlaySound>(); }, null);
+				AddItem("Attach/Play Tween Script", false, Attach, typeof(UIPlayTween));
+				AddItem("Attach/Play Animation Script", false, Attach, typeof(UIPlayAnimation));
+				AddItem("Attach/Play Sound Script", false, Attach, typeof(UIPlaySound));
 			}
+
+			AddItem("Attach/Property Binding", false, Attach, typeof(PropertyBinding));
+
+			if (target.GetComponent<UILocalize>() == null)
+				AddItem("Attach/Localization Script", false, Attach, typeof(UILocalize));
 
 			if (widget != null)
 			{
@@ -277,13 +449,44 @@ public static class NGUIContextMenu
 	}
 
 	/// <summary>
+	/// Helper function that adds a widget collider to the specified object.
+	/// </summary>
+
+	static void AttachCollider (object obj)
+	{
+		if (Selection.activeGameObject != null)
+			for (int i = 0; i < Selection.gameObjects.Length; ++i)
+				NGUITools.AddWidgetCollider(Selection.gameObjects[i]);
+	}
+
+	/// <summary>
+	/// Helper function that adds the specified type to all selected game objects. Used with the menu options above.
+	/// </summary>
+
+	static void Attach (object obj)
+	{
+		if (Selection.activeGameObject == null) return;
+		System.Type type = (System.Type)obj;
+
+		for (int i = 0; i < Selection.gameObjects.Length; ++i)
+		{
+			GameObject go = Selection.gameObjects[i];
+			if (go.GetComponent(type) != null) continue;
+#if !UNITY_3_5
+			Component cmp = go.AddComponent(type);
+			Undo.RegisterCreatedObjectUndo(cmp, "Attach " + type);
+#endif
+		}
+	}
+
+	/// <summary>
 	/// Helper function.
 	/// </summary>
 
 	static void AddMissingItem<T> (GameObject target, string name) where T : MonoBehaviour
 	{
 		if (target.GetComponent<T>() == null)
-			AddItem(name, false, delegate(object obj) { target.AddComponent<T>(); }, null);
+			AddItem(name, false, Attach, typeof(T));
 	}
 
 	/// <summary>
@@ -317,10 +520,10 @@ public static class NGUIContextMenu
 	{
 		GameObject go = obj as GameObject;
 		if (go.GetComponent<UIWidget>() != null) go = go.transform.parent.gameObject;
-		go.name = "Scroll View";
 		UIPanel panel = NGUISettings.AddPanel(go);
 		panel.clipping = UIDrawCall.Clipping.SoftClip;
 		panel.gameObject.AddComponent<UIScrollView>();
+		panel.name = "Scroll View";
 		Selection.activeGameObject = panel.gameObject;
 	}
 

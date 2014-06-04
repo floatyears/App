@@ -298,8 +298,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		    || (data.Level == unitInfo.MaxLevel && data.NextExp <= 0) ) {
 			levelLabel.text = unitInfo.MaxLevel.ToString();
 			needExpLabel.text = "Max";
+			expSlider.value = 1f;
 		} else {
-			needExpLabel.text = data.NextExp.ToString();
+			needExpLabel.text = "Next: " + data.NextExp.ToString();
+			expSlider.value = data.CurExp*1.0f / (data.CurExp + data.NextExp);
 		}
 	}
 
@@ -527,6 +529,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			curExp += expRiseStep;
 		}
 
+	//	Debug.Log ("gotExp: " + gotExp + " expRiseStep: " + expRiseStep + " curExp: " + curExp + " currMaxExp: " + currMaxExp);
+
 		if(curExp >= currMaxExp) {
 //			LogHelper.LogError("-------gotExp:{0} curExp:{1} - currMaxExp:{2} = {3}",gotExp, curExp, currMaxExp, curExp - currMaxExp);
 			gotExp += curExp - currMaxExp;
@@ -555,13 +559,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			needExpLabel.text = "Max";
 			return;
 		} else {
-			needExpLabel.text = needExp.ToString();
+			needExpLabel.text = "Next: " + needExp.ToString();
 		}
 
 		float progress = (float)curExp / (float)currMaxExp;
 		if (progress == 0) {
 			progress = 0.1f;		
 		}
+		Debug.Log ("exp slide progress: " + progress);
 		expSlider.value = progress;
 	}
 

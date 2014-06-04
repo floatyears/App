@@ -71,13 +71,13 @@ public class QuestFullScreenTips : UIBaseUnity {
 	void PlayReadyMove() {
 		transform.localPosition = initLocalPosition;
 		tweenAlpha.enabled = true;
-		tweenAlpha.Reset ();
+		tweenAlpha.ResetToBeginning ();
 		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
 
 	void PlayAll () {
 		tweenAlpha.enabled = true;
-		tweenAlpha.Reset ();
+		tweenAlpha.ResetToBeginning ();
 		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3(3f,3f,3f), "time", tempTime == 0f ? 0.4f : tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 
 	}

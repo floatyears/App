@@ -125,7 +125,7 @@ public class ActorShow : UIBaseUnity{
 	{
 		TweenPosition tp = target.GetComponent<TweenPosition> ();
 		tp.enabled = true;
-		tp.Reset();
+		tp.ResetToBeginning();
 		tp.transform.localPosition = from;
 		tp.from = from;
 		tp.to = to;

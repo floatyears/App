@@ -115,10 +115,10 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 		if( unitScale == null || unitAlpha == null )
 			return;
 		
-		unitScale.Reset();
+		unitScale.ResetToBeginning();
 		unitScale.PlayForward();
 		
-		unitAlpha.Reset();
+		unitAlpha.ResetToBeginning();
 		unitAlpha.PlayForward();
 	}
 

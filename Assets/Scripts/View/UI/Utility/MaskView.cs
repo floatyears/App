@@ -12,15 +12,12 @@ public class MaskView : UIComponentUnity {
 	}
 
 	public override void ShowUI(){
-		InvokeRepeating ("ShowTipText", 0, 5);
-
 		base.ShowUI();
 	}
 
 	public override void HideUI(){
 //		base.HideUI();
 		SetMaskActive (false);
-		CancelInvoke ("ShowTipText");
 	}
 
 	public override void CallbackView(object data){
@@ -49,9 +46,14 @@ public class MaskView : UIComponentUnity {
 
 	void SetMaskActive(object args){
 		if (background == null) {
+			CancelInvoke ("ShowTipText");
 			return;	
 		}
 		bool isActive = (bool)args;
+		if(isActive)
+			InvokeRepeating ("ShowTipText", 0, 3.0f);
+		else
+			CancelInvoke ("ShowTipText");
 		background.enabled = isActive;
 		gameObject.SetActive(isActive);
 	}
@@ -67,9 +69,10 @@ public class MaskView : UIComponentUnity {
 
 	
 	private void ShowTipText(){
+		Debug.Log ("random: " +DGTools.RandomToInt(1,13));
 		if (DataCenter.Instance.LoginInfo != null && DataCenter.Instance.LoginInfo.Data != null) {
 			if (DataCenter.Instance.LoginInfo.Data.Rank < 5) {
-				tips.text = TextCenter.GetText ("Tips_A_" + MathHelper.RandomToInt (1, 13));
+				tips.text = TextCenter.GetText ("Tips_A_" + DGTools.RandomToInt(1,13));//.RandomToInt (1, 13));
 			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 10) {
 				tips.text = TextCenter.GetText ("Tips_B_" + MathHelper.RandomToInt (1, 10));
 			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 20) {

@@ -42,7 +42,7 @@ public class InformationWindow : UIComponentUnity {
 		if (list == null)	return;
 		foreach (var tweenPos in list){		
 			if (tweenPos == null)	continue;
-			tweenPos.Reset();
+			tweenPos.ResetToBeginning();
 			tweenPos.PlayForward();
 		}
 	}
