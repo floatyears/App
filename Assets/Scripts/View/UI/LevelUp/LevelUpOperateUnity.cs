@@ -9,7 +9,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	public override void ShowUI () {
-//		Debug.LogError("LevelUpOperateUnity showui 1");
 		if (friendWindow != null && friendWindow.isShow) {
 			friendWindow.gameObject.SetActive (true);
 		} else {
@@ -17,21 +16,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				gameObject.SetActive(true);
 			}
 			if(fromUnitDetail) {
-
-				ShowData();
 				fromUnitDetail = false;
 			}
 		}
-//		Debug.LogError("LevelUpOperateUnity showui 2");
-		base.ShowUI ();
-//		Debug.LogError("LevelUpOperateUnity showui 3");
-		ClearFocus ();
-//		Debug.LogError("LevelUpOperateUnity showui 4");
-		ShowData ();
 
-//		Debug.LogError("LevelUpOperateUnity showui 5");
+		base.ShowUI ();
+		ClearFocus ();
+		ShowData ();
 		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
-//		Debug.LogError("LevelUpOperateUnity showui 6");
 		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
@@ -43,15 +35,16 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
 			} 
-		}else {
+		} else {
 			if (friendWindow != null) {
-				friendWindow.HideUI ();	
-			}	
+				friendWindow.HideUI ();
+			}
 		}
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		sortRule = SortRule.None;
 		myUnitDragPanel.DestoryDranPanel ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
@@ -59,23 +52,18 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	public override void ResetUIState () {
 		ClearData ();
-
 		CheckLevelUp ();
-
-		sortRule = SortRule.Attack;
-		ReceiveSortInfo (sortRule);
 	}
 
 	public override void CallbackView (object data) {
 		base.CallbackView (data);
 	}
 
-	private SortRule _sortRule;
-	public SortRule sortRule {
+	private static SortRule _sortRule = SortRule.None;
+	public static SortRule sortRule {
 		get { return _sortRule; }
 		set { 
 			_sortRule = value;
-			infoLabel[5].text = _sortRule.ToString();
 		}
 	}
 
@@ -125,8 +113,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private UIButton sortButton;
 
-//	private DragPanel myUnitDragPanel;
-
 	private DragPanelDynamic myUnitDragPanel;
 
 	private List<PartyUnitItem> myUnitList = new List<PartyUnitItem> ();
@@ -140,65 +126,23 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
-//		if (myUnitDragPanel.DragPanelView == null) {
-//			InitDragPanel();	
-//		}
-
 		if (myUnitDragPanel == null) {
 			InitDragPanel();	
 		}
 
 		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
+
+		if (_sortRule != SortRule.None) {
+			SortUnitTool.SortByTargetRule(_sortRule, myUnit);
+		}
 		myUnitDragPanel.RefreshItem (myUnit);
 
-//		myUnitList.Clear ();
-//		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
-//		int dataCount = myUnit.Count;
-//		List<GameObject> scroll = myUnitDragPanel.ScrollItem;
-//		int itemCount = scroll.Count - 1;	// scroll list index = 0  is reject item;
-//		if (dataCount > itemCount) {
-//			int addCount = dataCount - itemCount;
-//			myUnitDragPanel.AddItem (addCount, PartyUnitItem.ItemPrefab);
-//			for (int i = 0; i < dataCount; i++) {
-//				GameObject item = scroll [i + 1];
-//				PartyUnitItem pui = item.GetComponent<PartyUnitItem> ();
-//				if(pui == null) {
-//					pui = PartyUnitItem.Inject(item);
-//					pui.Init(myUnit [i]);
-//				}
-//				else{
-//					pui.UserUnit = myUnit[i];
-//				}
-//				pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(myUnit[i].ID);
-//				pui.IsEnable = true;
-//				pui.callback = MyUnitClickCallback;
-//				myUnitList.Add(pui);
-//			}
-//		} else {
-//			for (int i = 0; i < dataCount; i++) {
-//				PartyUnitItem pui = scroll[i + 1].GetComponent<PartyUnitItem>();
-//				pui.UserUnit = myUnit[i];
-//				pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(myUnit[i].ID);
-//				bool initEnable = true;
-//
-//				for (int j = 1; j < 5; j++) {
-//					if(selectedItem[j] != null && selectedItem[j].UserUnit != null && selectedItem[j].UserUnit.TUserUnitID == myUnit[i].TUserUnitID) {
-//						initEnable = false;
-//					}
-//				}
-//				pui.IsEnable = initEnable;
-//				pui.callback = MyUnitClickCallback;
-//				myUnitList.Add(pui);
-//			}
-//			for (int i = scroll.Count - 1; i > dataCount ; i--) {
-//				myUnitDragPanel.RemoveItem(scroll[i]);
-//			}
-//
-//			if(selectedItem[baseItemIndex] != null && selectedItem[baseItemIndex].UserUnit != null) {
-//				ShieldParty(false, null);
-//			}
-//		}
+		foreach (var item in myUnitDragPanel.scrollItem) {
+			PartyUnitItem pui = item as PartyUnitItem;
+			pui.callback = MyUnitClickCallback;
+		}
 	}
+
 
 	void InitUI() {
 		dataCenter = DataCenter.Instance;
@@ -221,34 +165,22 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 			pui.callback = SelectedItemCallback;
 		}
-//		Debug.LogError("init ui 3");
 		string path = "Top/InfoPanel/Label_Value/";
 		for (int i = 0; i < 5; i++) { //label name is 0 ~ 4
 			infoLabel[i] = FindChild<UILabel>(path + i);
 		}
-//		Debug.LogError("init ui 4");
 		levelUpButton = FindChild<UIButton>("Button_LevelUp");
 		UIEventListener.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
 		levelUpButton.isEnabled = false;
 		path = "Middle/LevelUpBasePanel/SortButton";
-//		Debug.LogError("init ui 5");
 		sortButton = FindChild<UIButton>(path);
-		infoLabel[5] = FindChild<UILabel>(path + "/SortInfo");
 		UIEventListener.Get (sortButton.gameObject).onClick = SortCallback;
 		InitDragPanel ();
-//		Debug.LogError("init ui 6");
 	}
 
 	void InitDragPanel() {
-		#region old
-//		myUnitDragPanel = new DragPanel("PartyDragPanel", PartyUnitItem.ItemPrefab);
-//		myUnitDragPanel.CreatUI();
-//		Transf#endregionorm parent =
-		#endregion
-//		Debug.LogError("InitDragPanel 1");
 		GameObject go = Instantiate (PartyUnitItem.ItemPrefab) as GameObject;
 		PartyUnitItem.Inject (go);
-//		Debug.LogError("InitDragPanel 2");
 		GameObject parent = FindChild<Transform>("Middle/LevelUpBasePanel").gameObject;
 		myUnitDragPanel = new DragPanelDynamic (parent, go, 9, 3);
 		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
@@ -259,15 +191,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		dpsi.maxPerLine = 3;
 		dpsi.depth = 2;	
 		myUnitDragPanel.SetDragPanel (dpsi);
-//		Debug.LogError("InitDragPanel 4");
-//		myUnitDragPanel.DragPanelView.SetScrollView(ConfigDragPanel.PartyListDragPanelArgs, parent);
-
 		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
-//		myUnitDragPanel.AddItem(1, rejectItem);
 
 		GameObject rejectItemIns = myUnitDragPanel.AddRejectItem (rejectItem);
 		UIEventListener.Get(rejectItemIns).onClick = RejectCallback;
-//		Debug.LogError("InitDragPanel 5");
 	}
 
 	void ResetUIAfterLevelUp(object data) {
@@ -571,7 +498,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	private void SortUnitByCurRule(){
+		if (_sortRule == SortRule.None) {
+			return;	
+		}
 		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
+		myUnitDragPanel.RefreshItem (myUnit);
 //		List<GameObject> scrollList = myUnitDragPanel.ScrollItem;
 //		for (int i = 1; i < scrollList.Count; i++){
 //			PartyUnitItem puv = scrollList[i].GetComponent<PartyUnitItem>();//myUnitList[i];

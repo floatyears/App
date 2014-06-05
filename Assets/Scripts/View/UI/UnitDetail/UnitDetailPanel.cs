@@ -228,7 +228,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ClearEffectCache ();
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
-		Debug.LogError ("unit detail SceneEnum : " + preScene);
+//		Debug.LogError ("unit detail SceneEnum : " + preScene);
 		UIManager.Instance.ChangeScene( preScene );
 	}
 
@@ -394,9 +394,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo);
+		Debug.LogError (newBlendUnit.UnitInfo.ID);
+		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
 		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
-//		ShowUnitScale();
 		unitInfoTabs.SetActive (false);
 		SetEffectCamera ();
 		StartCoroutine (CreatEffect ());
