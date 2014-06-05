@@ -99,6 +99,7 @@ namespace HTMLEngine.Core
                 var word = htmlChunk as HtmlChunkWord;
                 if (word != null)
                 {
+					UnityEngine.Debug.Log ("parse text: " + word.ToString());
                     if (currLine==null)
                     {
                         currLine = this.NewLine(null, viewportWidth, align, valign);
@@ -191,7 +192,7 @@ namespace HTMLEngine.Core
 												char ch = lastText[pos];
                         remainingWidth -= font.Measure(ch.ToString()).Width;
                         if (remainingWidth < 0) {
-                          string tmpText = lastText.Substring(0, pos);
+                          string tmpText = lastText.Substring(0, pos-1);
                           DeviceChunkDrawText tmpTextChunk;
                           if (effect == DrawTextEffect.None) {
                             tmpTextChunk = AcquireDeviceChunkDrawText(
@@ -220,7 +221,7 @@ namespace HTMLEngine.Core
                           currLine.AddChunk(tmpTextChunk, prevIsWord);
                           if (currentLink != null && !this.Links.ContainsKey(tmpTextChunk))
                             this.Links.Add(tmpTextChunk, currentLink);
-                          lastText = lastText.Substring(pos);
+                          lastText = lastText.Substring(pos-1);
                           pos = 0;
                           remainingWidth = viewportWidth;
                         } else {

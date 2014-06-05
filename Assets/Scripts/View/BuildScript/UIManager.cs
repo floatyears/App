@@ -290,7 +290,11 @@ public class UIManager {
 		case SceneEnum.Reward:
 			temp = new RewardDecorator(sEnum);
 			break;
+		case SceneEnum.Raider:
+			temp = new GameRaiderDecorator(sEnum);
+			break;
         }
+
 
 		if (temp != null) {
 			temp.SetDecorator (baseScene);

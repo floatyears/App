@@ -96,6 +96,7 @@ public class UIConfig{
 	public const string screenMaskName = "ScreenMask";
 	public const string itemCounterBarName = "ItemCounterBar";
 	public const string resultWindowName = "ResultWindow";
+	public const string gameRaiderWindowName = "GameRaiderView";
 
 	public const string fightReadyWindowName = "FightReadyWindow";
 

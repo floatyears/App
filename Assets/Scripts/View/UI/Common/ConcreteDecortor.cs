@@ -1056,3 +1056,35 @@ public class RewardDecorator : DecoratorBase{
 	}
 }
 
+//--------------------------------Raider------------------------------------------
+public class GameRaiderDecorator : DecoratorBase{
+	private SceneInfoComponent sceneInfoBar;
+	public GameRaiderDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+		sceneInfoBar.SetBackScene(SceneEnum.Home);
+		//LogHelper.Log ("reward scene name: " + TextCenter.GetText(TextConst.SCENE_NAME_REWARD));
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_RAIDER));
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		GameRaiderComponent raider = CreatComponent<GameRaiderComponent>(UIConfig.gameRaiderWindowName);
+		
+		sceneInfoBar.SetComponent(decorator);
+		raider.SetComponent (sceneInfoBar);
+		
+		lastDecorator = raider;
+		lastDecorator.CreatUI();
+	}
+}
+

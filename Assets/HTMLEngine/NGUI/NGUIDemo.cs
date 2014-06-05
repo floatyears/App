@@ -121,7 +121,7 @@ public class NGUIDemo : MonoBehaviour {
     Debug.Log("Initializing Demo");
 
     // our logger
-    HtEngine.RegisterLogger(new Unity3DLogger());
+//    HtEngine.RegisterLogger(new Unity3DLogger());
     // our device
     HtEngine.RegisterDevice(new NGUIDevice());
     // link hover color.

@@ -58,10 +58,18 @@ public class OthersWindow : UIComponentUnity {
 		nickNameOption.GetComponentInChildren<UILabel>().text = "NickName";
 		options.Add( nickNameOption, nickNamePanel );
 
+		//raider
+		GameObject raiderOption = othersScroller.AddScrollerItem( item );
+		raiderOption.name = "RaiderOption";
+		raiderOption.GetComponentInChildren<UILabel>().text = "Raider";
+		options.Add( raiderOption, nickNamePanel );
+
         resetOption = othersScroller.AddScrollerItem( item );
         resetOption.name = "ResetOption";
         resetOption.GetComponentInChildren<UILabel>().text = "Reset Data";
         options.Add( resetOption, nickNamePanel );
+
+
 
 		Transform parentTrans = FindChild("OptionItems").transform;
 		othersScroller.DragPanelView.SetScrollView(ConfigDragPanel.OthersDragPanelArgs, parentTrans);
@@ -89,6 +97,9 @@ public class OthersWindow : UIComponentUnity {
             LogHelper.Log("SwicthOption(), target {0}", resetOption);
             ClickToResetData();
         }
+		if (target.name == "RaiderOption") {
+			UIManager.Instance.ChangeScene(SceneEnum.Raider);
+		}
 	}
 	
     void ClickToResetData(){
