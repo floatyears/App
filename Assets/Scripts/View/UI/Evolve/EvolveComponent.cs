@@ -19,6 +19,8 @@ public class EvolveComponent : ConcreteComponent {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ReturnPreScene, ReturnPreScene);
+
+//		DestoryUI ();
 	}
 	
 	public override void DestoryUI () {

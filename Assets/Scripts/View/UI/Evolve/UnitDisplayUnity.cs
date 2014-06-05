@@ -50,14 +50,21 @@ public class UnitDisplayUnity : UIComponentUnity {
 	//==========================================interface end ==========================
 
 	private GameObject unitItem;
-	private DragPanel unitItemDragPanel;
+//	private DragPanel unitItemDragPanel;
+
 	private List<TUserUnit> allData = new List<TUserUnit>();
-	private List<UnitItemInfo> allItem = new List<UnitItemInfo>();
-	private List<UnitItemInfo> partyItem = new List<UnitItemInfo>();
-	private List<UnitItemInfo> normalItem = new List<UnitItemInfo> ();
-	private List<UnitItemInfo> evolveItem = new List<UnitItemInfo> ();
+
+//	private List<UnitItemInfo> allItem = new List<UnitItemInfo>();
+//	private List<UnitItemInfo> partyItem = new List<UnitItemInfo>();
+//	private List<UnitItemInfo> normalItem = new List<UnitItemInfo> ();
+//	private List<UnitItemInfo> evolveItem = new List<UnitItemInfo> ();
+
+	private DragPanelDynamic unitItemDragPanel;
+	private List<EvolveDragItem> evolveDragItem = new List<EvolveDragItem> ();
+	private List<EvolveDragItem> normalDragItem = new List<EvolveDragItem> ();
+
 	private TUserUnit selectBase  = null;
-	private UnitItemInfo baseData = null;
+	private MyUnitItem baseData = null;
 
 	private UIButton sortButton;
 	private UILabel sortLabel;
@@ -67,26 +74,30 @@ public class UnitDisplayUnity : UIComponentUnity {
 		get { return _sortRule; }
 	}
 
-	List<UnitItemInfo> materialInfo = new List<UnitItemInfo> ();
+	List<MyUnitItem> materialInfo = new List<MyUnitItem> ();
 	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
 	int state = 1;
 
-	void ClickItem (GameObject go) {
-//		Debug.LogError ("go : " + go);
-		UnitItemInfo uii = evolveItem.Find (a => a.scrollItem == go);
-		if (uii != default(UnitItemInfo) && state == 1) {
-			selectBase = uii.userUnitItem;
+	void ClickItem (EvolveDragItem evolveItem) {
+		if (evolveItem == null) {
+			return;	
+		}
+
+		if (evolveItem.CanEvolve && state == 1) {
+			selectBase = evolveItem.UserUnit;
 			TranferData.Clear();
 			TranferData.Add(SelectBase, selectBase);
 			ExcuteCallback(TranferData);
 			return;
 		}
-		uii = normalItem.Find (a => a.scrollItem == go);
+
+		bool normalItem = !evolveItem.IsParty && !evolveItem.IsFavorite;
 		bool b = state != 1 && state != 5;
-		if (uii != default(UnitItemInfo) && b) {
-			if(CheckBaseNeedMaterial (uii.userUnitItem,state)) {
+
+		if (!normalItem && b) {
+			if(CheckBaseNeedMaterial (evolveItem.UserUnit,state)) {
 				TranferData.Clear();
-				TranferData.Add(SelectMaterial, uii.userUnitItem);
+				TranferData.Add(SelectMaterial, evolveItem.UserUnit);
 				ExcuteCallback(TranferData);
 			}
 		}
@@ -98,22 +109,23 @@ public class UnitDisplayUnity : UIComponentUnity {
 			return;
 		}
 		if (baseData != null) {
-			baseData.hightLight.enabled = false;	
+			baseData.IsFocus = false;	
 		}
-		baseData = evolveItem.Find (a => a.userUnitItem.ID == tuu.ID);
-		baseData.hightLight.enabled = true;
+		baseData = evolveDragItem.Find (a => a.UserUnit.UnitInfo.ID == tuu.ID);
+		baseData.IsFocus = true;
 		materialInfo.Clear ();
 		int count = tuu.UnitInfo.evolveInfo.materialUnitId.Count;
 		int value = 3 - count;
 		for (int i = 0; i < count; i++) {
 			uint id = tuu.UnitInfo.evolveInfo.materialUnitId[i];
-			UnitItemInfo uii = normalItem.Find(a=>a.userUnitItem.UnitInfo.ID == id);
-			if(uii != default(UnitItemInfo)) {
+			MyUnitItem uii = evolveDragItem.Find(a=>a.UserUnit.UnitInfo.ID == id);
+			if(uii != default(MyUnitItem)) {
 				materialInfo.Add(uii);
 			} else{
 				materialInfo.Add(null);
 			}
 		}
+
 		for (int i = 0; i < value; i++) {
 			materialInfo.Add(null);
 		}
@@ -122,7 +134,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 			if(materialInfo[i] == null) {
 				temp.Add(null);
 			}else{
-				temp.Add(materialInfo[i].userUnitItem);
+				temp.Add(materialInfo[i].UserUnit);
 			}
 		}
 		MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, temp);
@@ -164,7 +176,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 				materialInfo.Add(null);
 			}
 			else{
-				UnitItemInfo uii = normalItem.Find(a=>a.userUnitItem.ID == material[i].ID) ;
+				MyUnitItem uii = normalDragItem.Find(a=>a.UserUnit.UnitInfo.ID == material[i].ID) ;
 				materialInfo.Add(uii);
 
 			}
@@ -173,25 +185,27 @@ public class UnitDisplayUnity : UIComponentUnity {
 	}
 
 	void ShowEvolve () {
-		for (int i = 0; i < allItem.Count; i++) {
-			UnitItemInfo uii = allItem[i];
-			if(evolveItem.Contains(uii)) {
-				uii.SetMask(false);
-			}
-			else{
-				uii.SetMask(true);
+		for (int i = 0; i < evolveDragItem.Count; i++) {
+			MyUnitItem uii = evolveDragItem[i];
+			EvolveDragItem edi = uii as EvolveDragItem;
+			if(edi.CanEvolve) {
+				edi.IsEnable = true;
+			} else{
+				edi.IsEnable = false;
+
 			}
 		}
 
-		baseData.hightLight.enabled = true;
+		baseData.IsFocus = true;
+
 		if (uiima != null) {
-			uiima.hightLight.enabled = false;
+			uiima.IsFocus = false;
 		}
 	}
 
 	bool CheckMaterialInfoNull () {
 		int index = state - 2;
-		UnitItemInfo uii = materialInfo [index];
+		MyUnitItem uii = materialInfo [index];
 		if (uii == null) {
 			return 	true;
 		} else {
@@ -199,45 +213,47 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 	}
 
-	UnitItemInfo uiima;
+	MyUnitItem uiima;
 	void ShowMaterial () {
 		if (CheckMaterialInfoNull ()) {
 			if(uiima != null) {
-				uiima.hightLight.enabled = false;
+				uiima.IsFocus = false;
 			}
-			for (int i = 0; i < allItem.Count; i++) {
-				allItem[i].SetMask(true);
+
+			for (int i = 0; i < evolveDragItem.Count; i++) {
+				evolveDragItem[i].IsEnable = false;
 			}
 			return;
 		}
 
 		int index = state - 2;
-		UnitItemInfo temp = materialInfo [index];
+		MyUnitItem temp = materialInfo [index];
 		if (temp == null) {
 			return;
 		}
 
 		if (uiima != null) {
-			uiima.hightLight.enabled = false;
+			uiima.IsFocus = false;
 		}
 		uiima = temp;
-		List<UnitItemInfo> tempMaterial = new List<UnitItemInfo> ();
-		uint id = uiima.userUnitItem.UnitID;
-		tempMaterial = normalItem.FindAll(a=>a.userUnitItem.UnitID == id);
-		if (tempMaterial.Count == 1) {
-			tempMaterial.Clear();
+		List<EvolveDragItem> enableMaterial = new List<EvolveDragItem> ();
+		uint id = uiima.UserUnit.UnitInfo.ID;
+		enableMaterial = normalDragItem.FindAll(a=>a.UserUnit.UnitInfo.ID == id);
+		if (enableMaterial.Count == 1) {
+			enableMaterial.Clear();
+			return;
 		}
-		for (int i = 0; i < allItem.Count; i++) {
-			UnitItemInfo uii = allItem[i];
-			if(tempMaterial.Contains(uii)) {
-				uii.SetMask(false);
+		for (int i = 0; i < evolveDragItem.Count; i++) {
+			EvolveDragItem uii = evolveDragItem[i];
+			if(enableMaterial.Contains(uii)) {
+				uii.IsEnable = false;
 			}
 			else{
-				uii.SetMask(true);
+				uii.IsEnable = true;
 			}
 		}
-		uiima.hightLight.enabled = true;
-		baseData.hightLight.enabled = false;
+		uiima.IsEnable = true;
+		baseData.IsEnable = false;
 	}
 	
 	void InitUI () {
@@ -250,13 +266,23 @@ public class UnitDisplayUnity : UIComponentUnity {
 	}
 
 	void CreatPanel () {
-		if (unitItem == null) {
-			unitItem = Resources.Load("Prefabs/UI/Friend/UnitItem") as GameObject;
-		}
+		GameObject go = Instantiate (EvolveDragItem.ItemPrefab) as GameObject;
+		EvolveDragItem.Inject (go);
+		unitItemDragPanel = new DragPanelDynamic (gameObject, go, 9, 3);
 
-		unitItemDragPanel = new DragPanel ("UnitDisplay", unitItem);
-
+		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
+		dpsi.parentTrans = transform;
+		dpsi.scrollerScale = Vector3.one;
+		dpsi.position = -28 * Vector3.up;
+		dpsi.clipRange = new Vector4 (0, -120, 640, 400);
+		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
+		dpsi.maxPerLine = 3;
+		dpsi.scrollBarPosition = new Vector3 (-320, -303, 0);
+		dpsi.cellWidth = 100;
+		dpsi.cellHeight = 100;
+		dpsi.depth = 2;
 	
+		unitItemDragPanel.SetDragPanel (dpsi);
 	}
 
 	void SortButtoCallback(GameObject go) {
@@ -270,28 +296,32 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	private void SortUnitByCurRule(){
 		SortUnitTool.SortByTargetRule(sortRule, allData);
-		List<GameObject> scrollList = unitItemDragPanel.ScrollItem;
-		for (int i = 1; i < scrollList.Count; i++){
-			UnitItemInfo uii = scrollList[i].GetComponent<UnitItemInfo>();
-			uii.userUnitItem = allData[i];
-			RefreshView(uii);
-		}
+		unitItemDragPanel.RefreshItem (allData);
+//		evolveDragItem.Clear ();
+//		foreach (var item in myUnitItem) {
+//			EvolveDragItem edi = item as EvolveDragItem;
+//			evolveDragItem.Add(edi);
+//		}
 	}
 
 	void DisposeCallback (KeyValuePair<string, object> info) {
 		switch (info.Key) {
-		case SetDragPanel:
-			DragPanelSetInfo dpsi = info.Value as DragPanelSetInfo;
-			if(dpsi != null && unitItemDragPanel != null) {
-				unitItemDragPanel.CreatUI();
-				unitItemDragPanel.DragPanelView.SetDragPanel(dpsi);
-			}
-			break;
 		case RefreshData:
 			List<TUserUnit> tuuList = info.Value as List<TUserUnit>;
 			if (tuuList != null) {
 				allData = tuuList;
-				ShowUnitItem ();
+				List<MyUnitItem> myUnitItem = unitItemDragPanel.RefreshItem(allData);
+				evolveDragItem.Clear();
+				foreach (var item in myUnitItem) {
+					EvolveDragItem edi = item as EvolveDragItem;
+					evolveDragItem.Add(edi);
+					if(edi.UserUnit.UnitInfo.evolveInfo != null) {
+						edi.CanEvolve = true;
+					}
+					if(!edi.IsParty && !edi.IsFavorite) {
+						normalDragItem.Add(edi);
+					}
+				}
 			}
 			break;
 		default:
@@ -299,50 +329,26 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 	}
 
-	void ShowUnitItem () {
-		RefreshDragPanelView ();
-		List<GameObject> scroll = unitItemDragPanel.ScrollItem;
-		allItem.Clear ();
-		for (int i = 0; i < allData.Count; i++) {
-			GameObject scrollItem = scroll[i];
-			TUserUnit tuu = allData[i];
-			UnitItemInfo uii =  allItem.Find(a=>a.userUnitItem.ID == tuu.ID);
-
-			if(uii == default(UnitItemInfo)) {
-				uii = scrollItem.AddComponent<UnitItemInfo>();
-				uii.scrollItem = scrollItem;
-				uii.userUnitItem = tuu;
-			}
-			else{
-				uii.scrollItem = scrollItem;
-				uii.userUnitItem = tuu;
-			}
-			allItem.Add(uii);
-			RefreshView(uii);
-		}
-//		RefreshItem ();
-	}
-
-	void RefreshView (UnitItemInfo uii) {
-		uii.callback = ClickItem;
-		bool b = uii.isPartyItem;
-		if (b && !partyItem.Contains(uii)) {
-			partyItem.Add(uii);		
-		}
-
-		if (uii.userUnitItem.IsFavorite == 0 && !b && !normalItem.Contains(uii))  {
-			normalItem.Add(uii);
-		}
-
-		bbproto.EvolveInfo ei = uii.userUnitItem.UnitInfo.evolveInfo;
-		if (ei != null && !evolveItem.Contains(uii)) {
-			evolveItem.Add(uii);
-		}
-	}
+//	void RefreshView (UnitItemInfo uii) {
+//		uii.callback = ClickItem;
+//		bool b = uii.isPartyItem;
+//		if (b && !partyItem.Contains(uii)) {
+//			partyItem.Add(uii);		
+//		}
+//
+//		if (uii.userUnitItem.IsFavorite == 0 && !b && !normalItem.Contains(uii))  {
+//			normalItem.Add(uii);
+//		}
+//
+//		bbproto.EvolveInfo ei = uii.userUnitItem.UnitInfo.evolveInfo;
+//		if (ei != null && !evolveItem.Contains(uii)) {
+//			evolveItem.Add(uii);
+//		}
+//	}
 
 	bool CheckBaseNeedMaterial (TUserUnit tuu, int index) {
 		int tempIndex = index - 2;
-		List<uint> temp = baseData.userUnitItem.UnitInfo.evolveInfo.materialUnitId;
+		List<uint> temp = baseData.UserUnit.UnitInfo.evolveInfo.materialUnitId;
 		if (tempIndex < temp.Count) {
 			uint materialNeed = temp [tempIndex];
 			if (materialNeed == tuu.UnitID) {
@@ -356,30 +362,12 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 	}
 
-	void RefreshDragPanelView () {
-		List<GameObject> scroll = unitItemDragPanel.ScrollItem;
-		int value = scroll.Count - allData.Count;
-		if (value > 0) {
-			int endValue = scroll.Count - value - 1;
-			for (int i = scroll.Count - 1; i > endValue; i++) {
-				unitItemDragPanel.RemoveItem (scroll [i]);
-			}		
-		}
-		else if(value < 0) {
-			int endValue = Mathf.Abs(value);
-			unitItemDragPanel.AddItem(endValue);
-		}
-		unitItemDragPanel.Refresh ();
-	}
-
 	public GameObject GetUnitItem(int i){
-
-		List<GameObject> a = unitItemDragPanel.ScrollItem;
+		List<MyUnitItem> a = unitItemDragPanel.scrollItem;
 		if (i == -1) {
-		return a[a.Count - 1];
+			return a[a.Count - 1].gameObject;
 		} else {
-			return a[i];
+			return a[i].gameObject;
 		}
-		
 	}
 }

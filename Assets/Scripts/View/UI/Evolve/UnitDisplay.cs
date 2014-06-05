@@ -12,11 +12,11 @@ public class UnitDisplay : ConcreteComponent {
 
 	public override void HideUI () {
 		base.HideUI ();
+//		DestoryUI ();
 	}
 
 	public override void CreatUI () {
 		base.CreatUI ();
-		InitDragpanel ();
 	}
 
 	public override void DestoryUI () {
@@ -37,32 +37,7 @@ public class UnitDisplay : ConcreteComponent {
 	public Dictionary<string, object> TransferData = new Dictionary<string, object> ();
 	public List<TUserUnit> unitItemData = new List<TUserUnit>();
 	private DragPanelSetInfo dpsi;
-
-	void CreatArgs () {
-		if (dpsi != null) {
-			return;	
-		}
-		dpsi = new DragPanelSetInfo ();
-		dpsi.parentTrans = viewComponent.transform;
-		dpsi.scrollerScale = Vector3.one;
-		dpsi.position = -28 * Vector3.up;
-		dpsi.clipRange = new Vector4 (0, -120, 640, 400);
-		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
-		dpsi.maxPerLine = 3;
-		dpsi.scrollBarPosition = new Vector3 (-320, -303, 0);
-		dpsi.cellWidth = 100;
-		dpsi.cellHeight = 100;
-		dpsi.depth = 2;
-	}
-
-	void InitDragpanel () {
-
-		CreatArgs ();
-		TransferData.Clear ();
-		TransferData.Add (UnitDisplayUnity.SetDragPanel, dpsi);
-		ExcuteCallback (TransferData);
-	}
-
+	
 	void ReadData () {
 		unitItemData.Clear ();
 		unitItemData.AddRange (DataCenter.Instance.UserUnitList.GetAllMyUnit ());
