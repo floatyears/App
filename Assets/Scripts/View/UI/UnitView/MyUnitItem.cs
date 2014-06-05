@@ -46,6 +46,12 @@ public class MyUnitItem : BaseUnitItem {
 		}
 	}
 
+	private UIWidget mWidget;
+
+	public UIWidget Widget{
+		get { return mWidget; }
+	}
+
     private static GameObject itemPrefab;
 	public static GameObject ItemPrefab {
 		get {
@@ -58,7 +64,7 @@ public class MyUnitItem : BaseUnitItem {
 	}
 
 	public static MyUnitItem Inject(GameObject item){
-		MyUnitItem view = item.AddComponent<MyUnitItem>();
+		MyUnitItem view = item.GetComponent<MyUnitItem>();
 		if (view == null) view = item.AddComponent<MyUnitItem>();
                 return view;
 	}
@@ -71,6 +77,8 @@ public class MyUnitItem : BaseUnitItem {
 		partyLabel.enabled = false;
 		partyLabel.text = "Party";
 		partyLabel.color = Color.red;
+
+		mWidget = GetComponent<UIWidget> ();
 	}
 
 	protected override void InitState(){

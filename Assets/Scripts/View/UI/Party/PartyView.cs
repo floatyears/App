@@ -373,6 +373,7 @@ public class PartyView : UIComponentUnity{
 	private void InitUnitListView(){
 		myUnitDataList = GetUnitList();
 		dragPanel.AddItem(myUnitDataList.Count, MyUnitItem.ItemPrefab);
+
 		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitItem puv = PartyUnitItem.Inject(dragPanel.ScrollItem[ i ]);
 			puv.Init(myUnitDataList[ i - 1 ]);
