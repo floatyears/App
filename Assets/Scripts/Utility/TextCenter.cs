@@ -72,8 +72,10 @@ public partial class TextCenter {
 		foreach (string s in data) {
 			//Debug.Log("config: " + s + "length: " + s.Length);
 			if(s.Length >0 && s[0] != '#'){
-				string[] r = s.Split('=');
-				textDict.Add(r[0],r[1]);
+
+				int i = s.IndexOf('=');
+				//Debug.Log("sub: " + s.Substring(0,i)+"   " +s.Substring(i));
+				textDict.Add(s.Substring(0,i),s.Substring(i+1));
 			}
 				
 		}
