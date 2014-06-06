@@ -68,7 +68,9 @@ public enum SceneEnum
 
 	Reward,
 
-	Raider
+	Raider,
+
+	Currency
 }
 
 public enum CommandEnum{
