@@ -86,9 +86,9 @@ public class QuestItemView : MonoBehaviour {
 
 		TUnitInfo bossUnitInfo = DataCenter.Instance.GetUnitInfo(data.BossID[ 0 ]);
 		avatarBgSpr.spriteName = bossUnitInfo.GetUnitBackgroundName();
-		Debug.Log("avatarBgSpr.spriteName : " + avatarBgSpr.spriteName);
+//		Debug.Log("avatarBgSpr.spriteName : " + avatarBgSpr.spriteName);
 		borderSpr.spriteName = bossUnitInfo.GetUnitBorderSprName();
-		Debug.Log("bossAvatarSpr.spriteName : " + bossAvatarSpr.spriteName);
+//		Debug.Log("bossAvatarSpr.spriteName : " + bossAvatarSpr.spriteName);
 
 	}
 

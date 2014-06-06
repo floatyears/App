@@ -102,6 +102,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 	private bool fromUnitDetail = false;
 	private GameObject unitDisplay;
+//	private EvolveItem highLightItem;
+
 
 	void PickFriendUnitInfo(object data) {
 		TFriendInfo tuu = data as TFriendInfo;
@@ -124,7 +126,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 				break;
 			}
 		}
-//		Debug.LogError ("haveBase : " + haveBase + " havefriend : " + haveFriend + " havematerial : " + haveMaterial);
+
 		if (haveBase && haveFriend && haveMaterial) {
 			evolveButton.isEnabled = true;
 		} else {
@@ -183,18 +185,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		}
 		List<uint> evolveNeedUnit = new List<uint> (baseItem.userUnit.UnitInfo.evolveInfo.materialUnitId);
 
-//		for (int i = 0; i < evolveNeedUnit.Count; i++) {
-//			Debug.LogError("evolveNeedUnit id : " + evolveNeedUnit[i]);
-//		}
-//
-//		Debug.LogError ("itemInfo count : " + itemInfo.Count);
-//
-//		for (int i = 0; i < itemInfo.Count; i++) {
-//			if(itemInfo[i] == null) 
-//				continue;
-//			Debug.LogError("itemInfo id : " + itemInfo[i].UnitInfo.ID);
-//		}
-
 		for (int i = 0; i < evolveNeedUnit.Count ; i++) {
 			TUserUnit material = null;
 			uint ID = evolveNeedUnit[i];
@@ -220,7 +210,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void DisposeSelectData (TUserUnit tuu) {
-//		Debug.LogError ("DisposeSelectData : " + tuu);
 		if(tuu == null ) {
 			return;
 		}
@@ -240,8 +229,11 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void ClearMaterial () {
+		int index = 0;
 		foreach (var item in evolveItem.Values) {
-			item.Refresh(null);
+			if(index > 0 && index < 4)
+				item.Refresh(null);
+			index++;
 		}
 		materialUnit.Clear();
 	}
@@ -258,64 +250,42 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		if (baseItem.userUnit == null) {
 			return;	
 		}
-
 		ClickIndex = System.Int32.Parse (go.name);
-		switch (go.name) {
-		case "1":
-			if(state == 1) {
-				return;
-			}
-			state = 1;
-			break;
-		case "2":
-			if(baseItem == null) {
-				return;
-			}
-			state =2;
-			break;
-		case "3":
-			if(baseItem == null) {
-				return;
-			}
-			state =3;
-			break;
-		case "4":
-			if(baseItem == null) {
-				return;
-			}
-			state =4;
-			break;
-		case "5":
-			if(state == 5) {
-				return;
-			}
-			TUserUnit tuu = null;
-			if(baseItem != null) {
-				tuu = baseItem.userUnit;
-			}
+		if (state == ClickIndex) {
+			return;
+		}
+		state = ClickIndex;
+		if (state == 5) {
 			ShieldEvolveButton(true);
-			state =5;
-			break;
 		}
 		CheckCanEvolve();
-		if (prevItem != null) {
-			prevItem.highLight.enabled = false;	
-		}
-		EvolveItem ei = evolveItem [go];
-		ei.highLight.enabled = true;
-		prevItem = ei;
+		HighLight (go);
 		MsgCenter.Instance.Invoke (CommandEnum.UnitDisplayState, state);
 		if (state == 5) {
 			EnterFriend();	
 		}
 	}
-	
+
+	void HighLight(GameObject go) {
+		if (prevItem != null) {
+			prevItem.highLight.enabled = false;	
+		}
+
+		if (go == null) {
+			return;	
+		}
+
+		EvolveItem ei = evolveItem [go];
+		ei.highLight.enabled = true;
+		prevItem = ei;
+	}
+
 	void InitUI () {
 		InitItem ();
 		InitLabel ();
 	}
 
-	void EnterFriend() {
+	void EnterFriend () {
 		if (friendWindow == null) {
 			friendWindow = DGTools.CreatFriendWindow();
 			if(friendWindow == null) {
@@ -340,6 +310,11 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 	void SelectFriend(TFriendInfo friendInfo) {
 		SetObjectActive (true);
+//		state = 1;
+		foreach (var item in evolveItem) {
+			ClickItem(item.Key);
+			break;
+		}
 		this.friendInfo = friendInfo;
 		friendItem.Refresh (friendInfo.UserUnit);
 		CheckCanEvolve ();
@@ -354,14 +329,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			ui.onClick = ClickItem;
 
 			EvolveItem ei = new EvolveItem(i, go);
-//			ei.index = i;
-//			ei.itemObject = go;
-//			ei.showTexture = go.transform.Find("Texture").GetComponent<UITexture>();
-//			ei.highLight = go.transform.Find("Light").GetComponent<UISprite>();
-//			ei.borderSprite = go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>();
-//			ei.bgprite = go.transform.Find("Sprite_Avatar_Bg").GetComponent<UISprite>(); 
-//			ei.boxCollider = go.GetComponent<BoxCollider>();
-//			ei.highLight.enabled = false;
 			evolveItem.Add(ei.itemObject, ei);
 			if(i == 1 ) {
 				baseItem = ei;

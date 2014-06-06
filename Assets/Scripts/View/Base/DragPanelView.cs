@@ -2,13 +2,22 @@
 using System.Collections.Generic;
 
 public class DragPanelView : UIBaseUnity {
-	public const string DragPanelPath = "Prefabs/UI/Share/DragPanelView";
+	public const string DragPanelPath = "Prefabs/UI/Common/DragPanelView";
+
+	[HideInInspector]
 	public UIGrid grid;
-	private UIPanel clip;
-	private UIScrollBar scrollBar;
+
+	[HideInInspector]
+	public UIPanel clip;
+
+	[HideInInspector]
+	public UIScrollBar scrollBar;
 
 	[HideInInspector]
 	public UIScrollView scrollView;
+
+	[HideInInspector]
+	public DragPanelDynamic dragPanelDynamic;
 
 	public override void Init (string name){
 		base.Init (name);
@@ -132,6 +141,7 @@ public class DragPanelView : UIBaseUnity {
 		grid.cellHeight = dpsi.cellHeight;
 		grid.enabled = true;
 		grid.Reposition ();
+
 	}
 
 	public const string ScrollViewDepth = "ScrollViewDepth";
@@ -199,6 +209,10 @@ public class DragPanelView : UIBaseUnity {
 			scrollView.horizontalScrollBar = null;	
 			scrollView.verticalScrollBar = scrollBar;
 		}
+
+		scrollView.ResetPosition ();
+//		scrollView.gameObject.AddComponent<SpringPanel> ();
+//		
 		//Debug.LogError( "  " + gameObject.name + " have finlished SetScrollView(dic)");
 	}
 	

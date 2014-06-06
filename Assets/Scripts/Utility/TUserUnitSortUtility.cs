@@ -5,16 +5,17 @@ using System.Collections.Generic;
 using bbproto;
 
 public enum SortRule {
-	Attack			= 0,
-	HP				= 1,
-	Attribute		= 2,
-	Race				= 3,
-	GetTime		= 4,
-	ID					= 5,
-	Fav				= 6,
-	AddPoint		= 7,
-	Login				= 8,
-	Rank				= 9
+	None			=0,
+	Attack			= 1,
+	HP				= 2,
+	Attribute		= 3,
+	Race				= 4,
+	GetTime		= 5,
+	ID					= 6,
+	Fav				= 7,
+	AddPoint		= 8,
+	Login				= 9,
+	Rank				= 10
 }
 
 public class SortUnitTool{

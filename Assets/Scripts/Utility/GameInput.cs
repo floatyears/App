@@ -7,6 +7,7 @@ public class GameInput : MonoBehaviour  {
 	public static event System.Action<Vector2> OnDragEvent;
 	public static event System.Action OnStationaryEvent;
 	public static event System.Action OnUpdate;
+	public static event System.Action OnLateUpdate;
 	public static event System.Action OnPressContinued;
 	private bool isCheckInput = false;
 	public bool IsCheckInput {
@@ -63,6 +64,12 @@ public class GameInput : MonoBehaviour  {
 //#elif UNITY_EDITOR 
 		ProcessMouse();
 //#endif
+	}
+
+	void LateUpdate() {
+		if (OnLateUpdate != null) {
+			OnLateUpdate();	
+		}
 	}
 
 	void ProcessTouch()

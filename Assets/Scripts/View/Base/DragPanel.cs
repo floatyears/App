@@ -96,6 +96,7 @@ public class DragPanel : UIBase  {
 		}
 //		dragPanelView.grid.sorted = true;
 		dragPanelView.grid.repositionNow = true;
+		dragPanelView.scrollView.Press (false);
 	}
 
 	public GameObject AddScrollerItem( GameObject obj ,bool isClean = false) {

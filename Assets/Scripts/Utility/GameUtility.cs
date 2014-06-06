@@ -121,7 +121,7 @@ public class DGTools {
 	}
 
 	public static void ShowTexture(UITexture sprite, Texture2D tex) {
-		if (sprite == null) {
+		if (sprite == null || tex == null) {
 			return;	
 		}
 		sprite.mainTexture = tex;
