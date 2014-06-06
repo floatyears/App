@@ -48,30 +48,30 @@ public class GameCurrencyAssets :  IStoreAssets{
 	/// see parent.
 	/// </summary>
 	public NonConsumableItem[] GetNonConsumableItems() {
-		return new NonConsumableItem[]{NO_ADDS_NONCONS};
+		return new NonConsumableItem[]{};//NO_ADDS_NONCONS};
 	}
 	
 	/** Static Final Members **/
 	
 	public const string MUFFIN_CURRENCY_ITEM_ID      = "currency_ms";
 	
-	public const string TENMUFF_PACK_PRODUCT_ID      = "android.test.refunded";
+	public const string TENMUFF_PACK_PRODUCT_ID      = "ms.chip.pack1";
 	
-	public const string FIFTYMUFF_PACK_PRODUCT_ID    = "android.test.canceled";
+	public const string FIFTYMUFF_PACK_PRODUCT_ID    = "ms.chip.pack2";
 	
-	public const string FOURHUNDMUFF_PACK_PRODUCT_ID = "android.test.purchased";
-	
-	public const string THOUSANDMUFF_PACK_PRODUCT_ID = "2500_pack";
-	
-	public const string NO_ADDS_NONCONS_PRODUCT_ID   = "no_ads";
-	
-	public const string MUFFINCAKE_ITEM_ID   = "fruit_cake";
-	
-	public const string PAVLOVA_ITEM_ID   = "pavlova";
-	
-	public const string CHOCLATECAKE_ITEM_ID   = "chocolate_cake";
-	
-	public const string CREAMCUP_ITEM_ID   = "cream_cup";
+//	public const string FOURHUNDMUFF_PACK_PRODUCT_ID = "android.test.purchased";
+//	
+//	public const string THOUSANDMUFF_PACK_PRODUCT_ID = "2500_pack";
+//	
+//	public const string NO_ADDS_NONCONS_PRODUCT_ID   = "no_ads";
+//	
+//	public const string MUFFINCAKE_ITEM_ID   = "fruit_cake";
+//	
+//	public const string PAVLOVA_ITEM_ID   = "pavlova";
+//	
+//	public const string CHOCLATECAKE_ITEM_ID   = "chocolate_cake";
+//	
+//	public const string CREAMCUP_ITEM_ID   = "cream_cup";
 	
 	
 	/** Virtual Currencies **/
@@ -103,50 +103,50 @@ public class GameCurrencyAssets :  IStoreAssets{
 		new PurchaseWithMarket(FIFTYMUFF_PACK_PRODUCT_ID, 1.99)
 		);
 	
-	public static VirtualCurrencyPack FOURHUNDMUFF_PACK = new VirtualCurrencyPack(
-		"400 Muffins",                                  // name
-		"Test purchase of an item",                 	// description
-		"muffins_400",                                  // item id
-		400,                                            // number of currencies in the pack
-		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
-		new PurchaseWithMarket(FOURHUNDMUFF_PACK_PRODUCT_ID, 4.99)
-		);
-	
-	public static VirtualCurrencyPack THOUSANDMUFF_PACK = new VirtualCurrencyPack(
-		"1000 Muffins",                                 // name
-		"Test item unavailable",                 		// description
-		"muffins_1000",                                 // item id
-		1000,                                           // number of currencies in the pack
-		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
-		new PurchaseWithMarket(THOUSANDMUFF_PACK_PRODUCT_ID, 8.99)
-		);
-	
-	/** Virtual Goods **/
-	
-	public static VirtualGood MUFFINCAKE_GOOD = new SingleUseVG(
-		"Fruit Cake",                                       		// name
-		"Customers buy a double portion on each purchase of this cake", // description
-		"fruit_cake",                                       		// item id
-		new PurchaseWithVirtualItem(MUFFIN_CURRENCY_ITEM_ID, 225)); // the way this virtual good is purchased
-	
-	public static VirtualGood PAVLOVA_GOOD = new SingleUseVG(
-		"Pavlova",                                         			// name
-		"Gives customers a sugar rush and they call their friends", // description
-		"pavlova",                                          		// item id
-		new PurchaseWithVirtualItem(MUFFIN_CURRENCY_ITEM_ID, 175)); // the way this virtual good is purchased
-	
-	public static VirtualGood CHOCLATECAKE_GOOD = new SingleUseVG(
-		"Chocolate Cake",                                   		// name
-		"A classic cake to maximize customer satisfaction",	 		// description
-		"chocolate_cake",                                   		// item id
-		new PurchaseWithVirtualItem(MUFFIN_CURRENCY_ITEM_ID, 250)); // the way this virtual good is purchased
-	
-	
-	public static VirtualGood CREAMCUP_GOOD = new SingleUseVG(
-		"Cream Cup",                                        		// name
-		"Increase bakery reputation with this original pastry",   	// description
-		"cream_cup",                                        		// item id
-		new PurchaseWithVirtualItem(MUFFIN_CURRENCY_ITEM_ID, 50));  // the way this virtual good is purchased
+//	public static VirtualCurrencyPack FOURHUNDMUFF_PACK = new VirtualCurrencyPack(
+//		"400 Muffins",                                  // name
+//		"Test purchase of an item",                 	// description
+//		"muffins_400",                                  // item id
+//		400,                                            // number of currencies in the pack
+//		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
+//		new PurchaseWithMarket(FOURHUNDMUFF_PACK_PRODUCT_ID, 4.99)
+//		);
+//	
+//	public static VirtualCurrencyPack THOUSANDMUFF_PACK = new VirtualCurrencyPack(
+//		"1000 Muffins",                                 // name
+//		"Test item unavailable",                 		// description
+//		"muffins_1000",                                 // item id
+//		1000,                                           // number of currencies in the pack
+//		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
+//		new PurchaseWithMarket(THOUSANDMUFF_PACK_PRODUCT_ID, 8.99)
+//		);
+//	
+//	/** Virtual Goods **/
+//	
+//	public static VirtualGood MUFFINCAKE_GOOD = new SingleUseVG(
+//		"Fruit Cake",                                       		// name
+//		"Customers buy a double portion on each purchase of this cake", // description
+//		"fruit_cake",                                       		// item id
+//		new PurchaseWithVirtualItem(MUFFIN_CURRENCY_ITEM_ID, 225)); // the way this virtual good is purchased
+//	
+//	public static VirtualGood PAVLOVA_GOOD = new SingleUseVG(
+//		"Pavlova",                                         			// name
+//		"Gives customers a sugar rush and they call their friends", // description
+//		"pavlova",                                          		// item id
+//		new PurchaseWithVirtualItem(MUFFIN_CURRENCY_ITEM_ID, 175)); // the way this virtual good is purchased
+//	
+//	public static VirtualGood CHOCLATECAKE_GOOD = new SingleUseVG(
+//		"Chocolate Cake",                                   		// name
+//		"A classic cake to maximize customer satisfaction",	 		// description
+//		"chocolate_cake",                                   		// item id
+//		new PurchaseWithVirtualItem(MUFFIN_CURRENCY_ITEM_ID, 250)); // the way this virtual good is purchased
+//	
+//	
+//	public static VirtualGood CREAMCUP_GOOD = new SingleUseVG(
+//		"Cream Cup",                                        		// name
+//		"Increase bakery reputation with this original pastry",   	// description
+//		"cream_cup",                                        		// item id
+//		new PurchaseWithVirtualItem(MUFFIN_CURRENCY_ITEM_ID, 50));  // the way this virtual good is purchased
 	
 	
 	/** Virtual Categories **/
@@ -157,11 +157,11 @@ public class GameCurrencyAssets :  IStoreAssets{
 	
 	/** Market MANAGED Items **/
 	
-	public static NonConsumableItem NO_ADDS_NONCONS  = new NonConsumableItem(
-		"No Ads",
-		"Test purchase of MANAGED item.",
-		"no_ads",
-		new PurchaseWithMarket(new MarketItem(NO_ADDS_NONCONS_PRODUCT_ID, MarketItem.Consumable.NONCONSUMABLE , 1.99))
-		);
+//	public static NonConsumableItem NO_ADDS_NONCONS  = new NonConsumableItem(
+//		"No Ads",
+//		"Test purchase of MANAGED item.",
+//		"no_ads",
+//		new PurchaseWithMarket(new MarketItem(NO_ADDS_NONCONS_PRODUCT_ID, MarketItem.Consumable.NONCONSUMABLE , 1.99))
+//		);
 
 }
