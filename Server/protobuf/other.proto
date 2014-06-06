@@ -15,7 +15,8 @@ message EventData {
 	optional int32			iValue				= 2;
 	optional float			fValue				= 3;
 	optional string			sValue				= 4;
-	repeated EventDataParam	values				= 5;
+    optional uint32			timestamp			= 5;
+	repeated EventDataParam	values				= 6;
 }
 
 message ReqUploadStat {

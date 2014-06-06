@@ -9,7 +9,7 @@ stat_path="../../src/stats"
 protoc --go_out=$stat_path stats_all.proto
 
 cd ../client_proto/
-protoc --go_out=$stat_path skill.proto bbproto.proto
+protoc --go_out=../../src/bbproto skill.proto bbproto.proto
 cd -
 
 #cp files to stats dir

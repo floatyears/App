@@ -2,9 +2,9 @@
 
 //-------------------------------------------------
 message StatAuthUser {
-	optional string			terminal			= 1;
-	optional uint32			selectRole			= 2;
-	optional int32			channelId			= 3;
+    optional TerminalInfo	terminal			= 1;
+    optional uint32			selectRole			= 2;
+    optional int32			appVersion			= 3;
 
     optional UserInfo		user				= 4;
     optional AccountInfo	account				= 5;
