@@ -47,10 +47,10 @@ public class GameCurrencyView: UIComponentUnity {
 	}
 
 	public void Buy1(){
-		StoreInventory.BuyItem (GameCurrencyAssets.TENMUFF_PACK.ItemId);
+		StoreInventory.BuyItem (GameCurrencyAssets.CHIP_PACK1.ItemId);
 	}
 
 	public void Buy2(){
-		StoreInventory.BuyItem (GameCurrencyAssets.FIFTYMUFF_PACK.ItemId);
+		StoreInventory.BuyItem (GameCurrencyAssets.CHIP_PACK2.ItemId);
 	}
 }

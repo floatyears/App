@@ -34,7 +34,7 @@ public class GameCurrencyAssets :  IStoreAssets{
 	/// see parent.
 	/// </summary>
 	public VirtualCurrencyPack[] GetCurrencyPacks() {
-		return new VirtualCurrencyPack[] {TENMUFF_PACK, FIFTYMUFF_PACK};
+		return new VirtualCurrencyPack[] {CHIP_PACK1, CHIP_PACK2};
 	}
 	
 	/// <summary>
@@ -55,9 +55,9 @@ public class GameCurrencyAssets :  IStoreAssets{
 	
 	public const string MUFFIN_CURRENCY_ITEM_ID      = "currency_ms";
 	
-	public const string TENMUFF_PACK_PRODUCT_ID      = "ms.chip.pack1";
+	public const string PID_CHIP_PACK1    = "slotsempire.coins.pack2";//"ms.chip.pack1";
 	
-	public const string FIFTYMUFF_PACK_PRODUCT_ID    = "ms.chip.pack2";
+	public const string PID_CHIP_PACK2    = "slotsempire.gems.pack2";
 	
 //	public const string FOURHUNDMUFF_PACK_PRODUCT_ID = "android.test.purchased";
 //	
@@ -85,22 +85,22 @@ public class GameCurrencyAssets :  IStoreAssets{
 	
 	/** Virtual Currency Packs **/
 	
-	public static VirtualCurrencyPack TENMUFF_PACK = new VirtualCurrencyPack(
+	public static VirtualCurrencyPack CHIP_PACK1 = new VirtualCurrencyPack(
 		"10 Muffins",                                   // name
 		"Test refund of an item",                       // description
-		"ms.chip.pack1",                                   // item id
+		PID_CHIP_PACK1,                                   // item id
 		6,												// number of currencies in the pack
 		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
-		new PurchaseWithMarket(TENMUFF_PACK_PRODUCT_ID, 0.99)
+		new PurchaseWithMarket(PID_CHIP_PACK1, 0.99)
 		);
 	
-	public static VirtualCurrencyPack FIFTYMUFF_PACK = new VirtualCurrencyPack(
+	public static VirtualCurrencyPack CHIP_PACK2 = new VirtualCurrencyPack(
 		"50 Muffins",                                   // name
 		"Test cancellation of an item",                 // description
-		"ms.chip.pack2",                                   // item id
+		PID_CHIP_PACK2,                                   // item id
 		36,                                             // number of currencies in the pack
 		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
-		new PurchaseWithMarket(FIFTYMUFF_PACK_PRODUCT_ID, 1.99)
+		new PurchaseWithMarket(PID_CHIP_PACK2, 4.99)
 		);
 	
 //	public static VirtualCurrencyPack FOURHUNDMUFF_PACK = new VirtualCurrencyPack(
