@@ -207,7 +207,6 @@ public class DragPanelDynamic {
 			xCoord = (nowIndex - 1) / maxPerLine;
 		}
 
-	
 		float x = xCoord * OffsetPos.x;
 		float y = 0f;
 		if (isReject) {
