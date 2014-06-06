@@ -191,10 +191,10 @@ public class BattleEnemy : UIBaseUnity {
 		allWidth = 0;
 
 		bool isOdd = DGTools.IsOddNumber (count);
-
+		int centerIndex = count >> 1;
 		if (isOdd) {
-			int centerIndex = count >> 1;
-			Debug.LogError("count : " + count + "centerindex : " + centerIndex);
+//			int centerIndex = count >> 1;
+//			Debug.LogError("count : " + count + "centerindex : " + centerIndex);
 			probability = GetProbability (Screen.width, enemys);
 			enemys [centerIndex].CompressTextureSize (probability);
 			Debug.LogError(screenWidth + " ----- " + enemys [centerIndex].texture.width * 0.5f);
@@ -209,13 +209,12 @@ public class BattleEnemy : UIBaseUnity {
 		int rightStartIndex = centerIndex + 1;
 
 		if (centerIndex == 0) {
-			rightStartIndex = leftEndIndex = enemys.Count >> 1 + 1;
+			rightStartIndex = leftEndIndex = enemys.Count >> 1;
+
 		}
 
 		List<EnemyItem> leftEnemys = new List<EnemyItem> ();
 		List<EnemyItem> rightEnemys = new List<EnemyItem> ();
-		Debug.LogError ("leftendindex : " + leftEndIndex);
-		Debug.LogError ("rightStartIndex : " + rightStartIndex);
 
 		for (int i = 0; i < leftEndIndex; i++) {
 			leftEnemys.Add (enemys [i]);
@@ -226,10 +225,11 @@ public class BattleEnemy : UIBaseUnity {
 		}
 		float lefrpro = GetProbability (screenWidth, leftEnemys);
 		float rightpro = GetProbability (screenWidth, rightEnemys);
-		Debug.LogError ("leftpro : " + lefrpro + "scrren width : " + screenWidth + " leftenemys : " + leftEnemys.Count);
-		Debug.LogError ("rightpro : " + rightpro+ "scrren width : " + screenWidth + " rightEnemys : " + rightEnemys.Count);
-		CompressTexture (lefrpro, leftEnemys);
-		CompressTexture (rightpro, rightEnemys);
+		if (lefrpro > rightpro) {
+			CompressTexture (rightpro, enemys);
+		} else {
+			CompressTexture (lefrpro, enemys);	
+		}
 	}
 
 	float GetProbability(float screenWidth, List<EnemyItem> enemys) {
