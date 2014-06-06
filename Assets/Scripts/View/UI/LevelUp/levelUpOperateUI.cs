@@ -8,7 +8,7 @@ public class levelUpOperateUI : ConcreteComponent {
 
 	public override void HideUI () {
 		base.HideUI ();
-		if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene != SceneEnum.UnitDetail) {
 			base.DestoryUI();
 		}
 	}

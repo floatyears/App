@@ -204,6 +204,7 @@ public class EnemyItem : UIBaseUnity {
 //			texture.mainTexture = tex;
 //			texture.width = //DGTools.GetEnemyWidthByRare(enemyUnitInfo.Rare);
 //			texture.height = DGTools.GetEnemyHeightByRare(enemyUnitInfo.Rare);
+//			Debug.LogError("tex.name : " + tex.name + " tex.width : " + tex.width + " tex.height : " + tex.height);
 			DGTools.ShowTexture(texture,tex);
 			SetBloodSpriteWidth ();
 
