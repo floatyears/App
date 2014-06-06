@@ -69,7 +69,7 @@ public class MaskView : UIComponentUnity {
 
 	
 	private void ShowTipText(){
-		Debug.Log ("random: " +DGTools.RandomToInt(1,13));
+//		Debug.Log ("random: " +DGTools.RandomToInt(1,13));
 		if (DataCenter.Instance.LoginInfo != null && DataCenter.Instance.LoginInfo.Data != null) {
 			if (DataCenter.Instance.LoginInfo.Data.Rank < 5) {
 				tips.text = TextCenter.GetText ("Tips_A_" + DGTools.RandomToInt(1,13));//.RandomToInt (1, 13));

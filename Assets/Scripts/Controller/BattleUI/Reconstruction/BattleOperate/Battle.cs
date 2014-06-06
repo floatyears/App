@@ -162,6 +162,7 @@ public class Battle : UIBase {
 	void CreatBack() {
 		string backName = "BattleCardPool";
 		tempObject = GetPrefabsObject(backName);
+
 		battleCardPool = tempObject.AddComponent<BattleCardPool>();
 		battleCardPool.Init(backName);
 		NGUITools.AddWidgetCollider(tempObject);
@@ -235,10 +236,22 @@ public class Battle : UIBase {
 
 	GameObject GetPrefabsObject(string name) {
 		tempObject = LoadAsset.Instance.LoadAssetFromResources(name, ResourceEuum.Prefab) as GameObject;
+//
+		GameObject go = GameObject.Instantiate(tempObject) as GameObject;
+		
+		if (go != null && battleRootGameObject != null)
+		{
+			Transform t = go.transform;
+			t.parent = battleRootGameObject.transform;
+			t.localPosition = Vector3.zero;
+			t.localRotation = Quaternion.identity;
+			t.localScale = Vector3.one;
+//			go.layer = parent.layer;
+		}
+		return go;
+//		GameObject go = NGUITools.AddChild(battleRootGameObject,tempObject);
 
-		GameObject go = NGUITools.AddChild(battleRootGameObject,tempObject);
-
-		go.AddComponent<UIPanel>();
+//		go.AddComponent<UIPanel>();
 
 		return go;
 	}

@@ -7,7 +7,7 @@ Properties
 }
 	SubShader
 	{
-		Tags {"Queue"="Transparent"}
+		Tags {"Queue"="Transparent+10"}
 		Lighting Off
 		ZWrite Off
 		Cull Back

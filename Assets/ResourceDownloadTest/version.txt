@@ -1,6 +1,0 @@
-ActorShow1|Assets/ResourceDownloadTest/ActorShow.unity3d|3463851b74d4362e38adc2ace6f19cfa|2|583309
-BattleBottom|Assets/ResourceDownloadTest/BattleBottom.unity3d|3e496a19bf4ced2058aacaa06018e22a|0|907593
-BattleCard|Assets/ResourceDownloadTest/BattleCard.unity3d|6da16f5b20daaa2f62616740381a7371|0|1094203
-BattleCardArea|Assets/ResourceDownloadTest/BattleCardArea.unity3d|f560eea6fbfeab41afeafaf2f5ca1e0a|0|1204819
-BattleEnemy|Assets/ResourceDownloadTest/BattleEnemy.unity3d|a3c04385e03f77455454ff3f7f7f0648|0|3744485
-BattleMenu|Assets/ResourceDownloadTest/BattleMenu.unity3d|3925185ce4170afd71b3a7afd5bb020a|0|2271905
