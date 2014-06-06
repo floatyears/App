@@ -48,8 +48,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		myUnitDragPanel.DestoryDranPanel ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
-
-
+	
 	public override void ResetUIState () {
 		ClearData ();
 		CheckLevelUp ();

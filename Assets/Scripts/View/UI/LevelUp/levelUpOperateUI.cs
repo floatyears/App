@@ -26,13 +26,9 @@ public class levelUpOperateUI : ConcreteComponent {
 		TUserUnit friendUserUnit = levelUpInfo.Dequeue ();
 		while (levelUpInfo.Count > 0) {
 			netBase.PartUniqueId.Add(levelUpInfo.Dequeue().ID);
-//			Debug.LogError("netBase.PartUniqueId : " + netBase.PartUniqueId[netBase.PartUniqueId.Count -1 ]);
 		}
-//		Debug.LogError (netBase.PartUniqueId.Count);
 		netBase.BaseUniqueId = baseUserUnit.ID;
-//		Debug.LogError("netBase.BaseUniqueId : " + netBase.BaseUniqueId);
 		netBase.HelperUserId = friendUserUnit.ID;
-//		Debug.LogError("netBase.HelperUserId " + netBase.HelperUserId);
 		netBase.HelperUserUnit = friendUserUnit;
 		netBase.OnRequest (null, NetCallback);
 	}

@@ -185,6 +185,7 @@ message RspAuthUser {
     optional int32			userGuideStep		= 18;
 	optional NoticeInfo		notice				= 19;
     repeated StageInfo      eventList           = 20;
+
 }
 
 //-------------------------------------------------
