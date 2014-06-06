@@ -161,7 +161,6 @@ public class Battle : UIBase {
 	void CreatBack() {
 		string backName = "BattleCardPool";
 		tempObject = GetPrefabsObject(backName);
-
 		battleCardPool = tempObject.AddComponent<BattleCardPool>();
 		battleCardPool.Init(backName);
 		NGUITools.AddWidgetCollider(tempObject);
@@ -315,7 +314,7 @@ public class Battle : UIBase {
 			BattleCardAreaItem bcai = null;
 			for (int i = 0; i < rayCastHit.Length; i++) {
 				tempObject = rayCastHit[i].collider.gameObject;
-				bcai = tempObject.GetComponent<BattleCardAreaItem>();
+				bcai = tempObject.GetComponent< BattleCardAreaItem >();
 				if(bcai != null)
 					break;
 			}
