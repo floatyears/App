@@ -143,7 +143,6 @@ public class Battle : UIBase {
 	public void ExitFight() {
 		isShowEnemy = false;
 		ShieldInput (true);
-		//		SwitchInput(true);
 		HideUI ();
 	}
 
@@ -215,28 +214,18 @@ public class Battle : UIBase {
 	public bool isShowEnemy = false;
 	public void ShowEnemy(List<TEnemyInfo> count) {
 		isShowEnemy = true;
-
 		battleEnemy.Refresh(count);
-
 		MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
-
 		TStoreBattleData tsbd = battleData.storeBattleData;
-//		tsbd.enemyInfo.Clear ();
-//		for (int i = 0; i < count.Count; i++) {
-//			tsbd.enemyInfo.Add(count[i].EnemyInfo());
 		tsbd.tEnemyInfo = count;
-//		}
 		battleData.storeBattleData.attackRound ++;
 		battleData.StoreMapData (null);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
-
-		//MsgCenter.Instance.Invoke (CommandEnum.BattleStart, null);
 		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 
 	GameObject GetPrefabsObject(string name) {
 		tempObject = LoadAsset.Instance.LoadAssetFromResources(name, ResourceEuum.Prefab) as GameObject;
-//
 		GameObject go = GameObject.Instantiate(tempObject) as GameObject;
 		
 		if (go != null && battleRootGameObject != null)
@@ -246,21 +235,13 @@ public class Battle : UIBase {
 			t.localPosition = Vector3.zero;
 			t.localRotation = Quaternion.identity;
 			t.localScale = Vector3.one;
-//			go.layer = parent.layer;
 		}
-		return go;
-//		GameObject go = NGUITools.AddChild(battleRootGameObject,tempObject);
-
-//		go.AddComponent<UIPanel>();
-
 		return go;
 	}
 
 	int GenerateData() {
 		ItemData id = Config.Instance.GetCard();
-
 		allItemData.Add(id);
-
 		return id.itemID;
 	}
 
