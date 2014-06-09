@@ -50,6 +50,14 @@ message StatChangeParty {
 	optional int32			errorCode			= 5;
 }
 
+message StatFinishUserGuide {
+    optional int32			step				= 1;
+
+    optional uint32			timeStamp			= 2;
+    optional uint32			userId				= 3;
+    optional int32			errorCode			= 4;
+}
+
 //////////////////////////////////////////////////////////////////////
 // unit protocol
 message StatUnitMaxExpand {

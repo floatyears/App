@@ -139,12 +139,15 @@ public class UIManager {
 		}
 		else {
 			nextScene = sEnum;
+
             InvokeSceneClear(sEnum);
 
 			if(current != null) {
 				current.HideScene();
 			}
+
 			baseScene.SetScene(sEnum);
+
 			storePrevScene = sEnum;
 		}
 

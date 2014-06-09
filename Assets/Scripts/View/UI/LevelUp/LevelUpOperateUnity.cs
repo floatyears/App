@@ -48,8 +48,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		myUnitDragPanel.DestoryDranPanel ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
-	
+	bool clear = false;
 	public override void ResetUIState () {
+		Debug.LogError ("ResetUIState");
+		clear = true;
 		ClearData ();
 		CheckLevelUp ();
 	}
@@ -125,6 +127,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
+		Debug.LogError ("clear : " + clear);
+		if (!clear) {
+			return;	
+		}
+		clear = false;
+
 		if (myUnitDragPanel == null) {
 			InitDragPanel();	
 		}
