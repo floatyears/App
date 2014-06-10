@@ -23,7 +23,6 @@ public class ProtoManager: ProtobufDataBase, INetBase {
 
     public void Send() {
         IWWWPost http = new HttpNetBase();
-
         if (MakePacket()) { //make proto packet to Data
 //			LogHelper.Log ("MakePacket => proto:{0} InstanceType:{1}",protoName, reqType);
             http.Send(this, protoName, Data);

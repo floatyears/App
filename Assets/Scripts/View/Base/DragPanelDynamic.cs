@@ -90,7 +90,6 @@ public class DragPanelDynamic {
 			lastIndex++;
 		}
 		sourceObject.SetActive (false);
-//		Debug.LogError (" this.sourceObject : " + sourceObject + " localposition : " + sourceObject.transform.localPosition);
 		dragPanelView.grid.Reposition ();
 	}
 
