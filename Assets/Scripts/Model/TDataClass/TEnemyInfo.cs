@@ -84,7 +84,7 @@ public class TEnemyInfo : ProtobufDataBase {
 		if (posionAttack == null) {
 			return;	
 		}
-//		Debug.LogError("SkillPosion : " + instance.enemyId);
+
 		int value = System.Convert.ToInt32 (posionAttack.AttackValue);
 		KillHP (value);
 	}
@@ -92,10 +92,15 @@ public class TEnemyInfo : ProtobufDataBase {
 	public void KillHP(int hurtValue) {
 		initBlood -= hurtValue;
 		if (initBlood <= 0) {
-			initBlood = 0;	
-			IsDead = true;
+			if(ConfigBattleUseData.Instance.NotDeadEnemy) {
+				initBlood = 10;
+				IsDead = false;
+			}
+			else{
+				initBlood = 0;	
+				IsDead = true;
+			}
 		}
-//		Debug.LogError ("initBlood : " + initBlood);
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
 
