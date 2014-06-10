@@ -250,6 +250,7 @@ message ReqStartQuest {
 	optional UserUnit		helperUnit		= 5;
 	optional int32			currentParty	= 6;
 	optional int32			restartNew		= 7;
+    optional int32			isUserGuide	    = 8;
 }
 
 message RspStartQuest {
