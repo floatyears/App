@@ -86,7 +86,6 @@ public class DGTools {
 		else {
 			return false;
 		}
-
 	}
 
 	public static bool EqualCoordinate (Coordinate coorA, Coordinate coorB) {
@@ -94,7 +93,6 @@ public class DGTools {
 	}
 
 	public static void ChangeToUnitDetail(uint unitID) {
-
 		UserUnit userUnit = new UserUnit();
 		userUnit.level = 1;
 		userUnit.exp = 0;
@@ -103,7 +101,6 @@ public class DGTools {
 
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
-
 	}
 
 	/// <summary>

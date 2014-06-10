@@ -95,7 +95,7 @@ public class HttpManager : INetSendPost {
 
         MsgWindowParams msgParams = null;
 
-		if (text.StartsWith("Failed to connect to ") || text.StartsWith("couldn't connect to host") ){
+		if (text.StartsWith("Failed to connect to ") || text.StartsWith("couldn't connect to host") || text.StartsWith("Could not connect to the server")){
 			Debug.LogError("OpenMsgWindowByError() error:"+text);
             msgParams = new MsgWindowParams();
             msgParams.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};

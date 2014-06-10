@@ -143,7 +143,6 @@ public class AttackController {
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		MultipleAttack (attack);
 		foreach (var item in attack) {
-//			Debug.LogError("startattack : " + item.UserUnitID);
 			attackInfoQueue.Enqueue(item);
 		}
 		Attack ();
@@ -304,7 +303,6 @@ public class AttackController {
 	}
 
 	public void BattleEnd() {
-		//clear buff skill;
 		configBattleUseData.ClearActiveSkill ();
 
 		msgCenter.Invoke (CommandEnum.GridEnd, null);
@@ -418,15 +416,27 @@ public class AttackController {
 	TEnemyInfo te;
 	void LoopEnemyAttack () {
 		countDownTime = 0.4f;
+
+		if (enemyIndex >= enemyInfo.Count) {
+			GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttackLoopEnd);
+			return;
+		}
+//		Debug.LogError ("enemyindex : " + enemyIndex + " enemyinfo : " + enemyInfo.Count);
 		te = enemyInfo [enemyIndex];
 //		te.Next ();
+		enemyIndex ++;
+
+		if (te.GetRound () > 0) {
+			LoopEnemyAttack ();
+			return;
+		}
+
 		GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttack);
 	}
 
 	List<AttackInfo> antiInfo = new List<AttackInfo>();
 
 	void EnemyAttack () {
-		enemyIndex ++;
 		if (te.GetRound () == 0) {
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
 			int attackType = te.GetUnitType ();
@@ -438,9 +448,7 @@ public class AttackController {
 			else{
 				reduceValue = attackValue;
 			}
-//			Debug.LogError("unitparty id : " + upi.ID);
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
-//			Debug.LogError("hurtValue : " + hurtValue);
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
@@ -458,24 +466,28 @@ public class AttackController {
 		}
 
 		if (enemyIndex == enemyInfo.Count) {
-			if(bud.Blood > 0) {
-				if (antiInfo.Count == 0) {
-					GameTimer.GetInstance ().AddCountDown (0.5f, EnemyAttackEnd);
-					return;
-				}
-				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
-				GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
-			}
-			else{
-				EnemyAttackEnd();
-				bud.battleQuest.battle.ShieldInput(true);	
-				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
-			}
+			EnemyAttackLoopEnd();
 		}
 		else {
 			LoopEnemyAttack();
 		}
 	}    
+
+	void EnemyAttackLoopEnd() {
+		if(bud.Blood > 0) {
+			if (antiInfo.Count == 0) {
+				GameTimer.GetInstance ().AddCountDown (0.5f, EnemyAttackEnd);
+				return;
+			}
+			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
+			GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
+		}
+		else{
+			EnemyAttackEnd();
+			bud.battleQuest.battle.ShieldInput(true);	
+			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
+		}
+	}
 
 	void Fail () {
 		battleFail = true;

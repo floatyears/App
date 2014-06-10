@@ -46,7 +46,7 @@ public class MyUnitItem : BaseUnitItem {
 		}
 	}
 
-	private UIWidget mWidget;
+	protected UIWidget mWidget;
 
 	public UIWidget Widget{
 		get { return mWidget; }

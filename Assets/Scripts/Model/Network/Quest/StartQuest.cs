@@ -8,6 +8,7 @@ public class StartQuestParam {
 	public TFriendInfo helperUserUnit;
     public int currPartyId;
 	public int startNew;
+	public int isUserGuide;
 }
 
 public class StartQuest: ProtoManager {
@@ -47,6 +48,7 @@ public class StartQuest: ProtoManager {
 //		Debug.LogError ("userunit : " + userunit);
 //        if (userunit != null)
 		reqStartQuest.helperUnit = questParam.helperUserUnit.UserUnit.Object;
+		reqStartQuest.isUserGuide = questParam.isUserGuide;
 
 //        LogHelper.Log("helperUserId:{0} currParty:{1} userunit:{2}", reqStartQuest.helperUserId, reqStartQuest.currentParty, userunit);
 

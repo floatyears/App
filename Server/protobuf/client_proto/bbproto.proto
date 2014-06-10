@@ -430,6 +430,7 @@ message ReqStartQuest {
 	optional UserUnit		helperUnit		= 5;
 	optional int32			currentParty	= 6;
 	optional int32			restartNew		= 7;
+    optional int32			isUserGuide	    = 8;
 }
 
 message RspStartQuest {
@@ -589,6 +590,19 @@ message ActiveSkillData {
 	optional int32				skillId		= 1;
 	optional int32				round		= 2; //current elapsed round
 }
+
+//=====================================================
+
+
+message ReqShopBuy {
+    optional ProtoHeader	header				= 1;
+	optional string			productId			= 2;
+}
+
+message RspShopBuy {
+    optional ProtoHeader	header				= 1;
+}
+
 
 //=====================================================
 

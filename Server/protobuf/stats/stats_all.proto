@@ -430,6 +430,7 @@ message ReqStartQuest {
 	optional UserUnit		helperUnit		= 5;
 	optional int32			currentParty	= 6;
 	optional int32			restartNew		= 7;
+    optional int32			isUserGuide	    = 8;
 }
 
 message RspStartQuest {
@@ -589,6 +590,19 @@ message ActiveSkillData {
 	optional int32				skillId		= 1;
 	optional int32				round		= 2; //current elapsed round
 }
+
+//=====================================================
+
+
+message ReqShopBuy {
+    optional ProtoHeader	header				= 1;
+	optional string			productId			= 2;
+}
+
+message RspShopBuy {
+    optional ProtoHeader	header				= 1;
+}
+
 
 //=====================================================
 
@@ -1168,27 +1182,53 @@ message StatChangeParty {
 	optional int32			errorCode			= 5;
 }
 
-//////////////////////////////////////////////////////////////////////
-// unit protocol
+message StatFinishUserGuide {
+    optional int32			step				= 1;
+
+    optional uint32			timeStamp			= 2;
+    optional uint32			userId				= 3;
+    optional int32			errorCode			= 4;
+}
+
 message StatUnitMaxExpand {
-	optional int32			unitMax				= 1;
-	optional int32			stone				= 2;
-	
-	optional uint32			timeStamp			= 3;
-	optional uint32			userId				= 4;
-	optional int32			errorCode			= 5;
+    optional int32			unitMax				= 1;
+    optional int32			stone				= 2;
+
+    optional uint32			timeStamp			= 3;
+    optional uint32			userId				= 4;
+    optional int32			errorCode			= 5;
 }
 
 message StatFriendMaxExpand {
-	optional int32			friendMax			= 1;
-	optional int32			stone				= 2;
-	
-	optional uint32			timeStamp			= 3;
-	optional uint32			userId				= 4;
-	optional int32			errorCode			= 5;
+    optional int32			friendMax			= 1;
+    optional int32			stone				= 2;
+
+    optional uint32			timeStamp			= 3;
+    optional uint32			userId				= 4;
+    optional int32			errorCode			= 5;
 }
 
-message StatLevelUp {	
+message StatAcceptBonus {
+    optional ProtoHeader	header				= 1;
+    repeated int32			bonusId				= 2;
+
+    optional uint32			timeStamp			= 3;
+    optional uint32			userId				= 4;
+    optional int32			errorCode			= 5;
+}
+
+message StatShopBuy {
+    optional ProtoHeader	header				= 1;
+    optional string			productId			= 2;
+
+    optional uint32			timeStamp			= 3;
+    optional uint32			userId				= 4;
+    optional int32			errorCode			= 5;
+}
+
+//////////////////////////////////////////////////////////////////////
+// unit protocol
+message StatLevelUp {
 	optional uint32			baseUniqueId	= 1;
 	repeated uint32			partUniqueId	= 2;
 	optional uint32			helperUserId	= 3;
@@ -1256,8 +1296,7 @@ message StatGacha {
 	optional int32			errorCode		= 10;
 }
 
-
-message StatSellUnit {	
+message StatSellUnit {
 	repeated uint32			unitUniqueId	= 1;
 
 	optional int32			money			= 2;
@@ -1280,6 +1319,78 @@ message StatUnitFavorite {
 
 //////////////////////////////////////////////////////////////////////
 // Friend protocol
+message StatGetFriend {
+    optional ProtoHeader	header				= 1;
+    optional bool			getFriend			= 2;
+    optional bool			getHelper			= 3;
+
+    optional FriendList		friends				= 4;
+
+    optional uint32			timeStamp		= 5;
+    optional uint32			userId			= 6;
+    optional int32			errorCode		= 7;
+}
+
+//-------------------------------------------------
+message StatFindFriend {
+    optional ProtoHeader	header				= 1;
+    optional uint32			friendUid			= 2;
+
+    optional FriendInfo		friend				= 3;
+
+    optional uint32			timeStamp		= 4;
+    optional uint32			userId			= 5;
+    optional int32			errorCode		= 6;
+}
+
+//-------------------------------------------------
+message StatAddFriend {
+    optional ProtoHeader	header				= 1;
+    optional uint32			friendUid			= 2;
+
+    optional FriendList		friends				= 3;
+
+    optional uint32			timeStamp		= 4;
+    optional uint32			userId			= 5;
+    optional int32			errorCode		= 6;
+}
+
+//-------------------------------------------------
+message StatDelFriend {
+    optional ProtoHeader	header				= 1;
+    repeated uint32			friendUid			= 2;
+
+    optional FriendList		friends				= 3;
+
+    optional uint32			timeStamp		= 5;
+    optional uint32			userId			= 6;
+    optional int32			errorCode		= 7;
+}
+
+//-------------------------------------------------
+message StatAcceptFriend {
+    optional ProtoHeader	header				= 1;
+    optional uint32			friendUid			= 2;
+
+    optional FriendList		friends				= 3;
+
+    optional uint32			timeStamp		= 4;
+    optional uint32			userId			= 5;
+    optional int32			errorCode		= 6;
+}
+
+message StatGetPremiumHelper {
+    optional ProtoHeader	header				= 1;
+    optional EUnitRace		race				= 2;
+    optional EUnitType		type				= 3;
+    optional int32			level				= 4;
+
+    repeated FriendInfo		helpers				= 5;
+
+    optional uint32			timeStamp		= 6;
+    optional uint32			userId			= 7;
+    optional int32			errorCode		= 8;
+}
 
 
 //////////////////////////////////////////////////////////////////////
@@ -1350,3 +1461,41 @@ message StatRetireQuest {
 	optional uint32			userId			= 8;
 	optional int32			errorCode		= 9;	
 }
+
+message StatResumeQuest {
+    optional ProtoHeader	header 			= 1;
+    optional uint32			questId			= 2; //
+
+    optional int32			stone 			= 3;
+
+    optional uint32			timeStamp		= 4;
+    optional uint32			userId			= 5;
+    optional int32			errorCode		= 6;
+}
+
+message StatRedoQuest {
+    optional ProtoHeader		header 			= 1;
+    optional uint32				questId			= 2;
+    optional int32				floor			= 3;
+    optional int32				getColors		= 4;
+
+    optional int32				stone 			= 5;
+    optional QuestDungeonData	dungeonData		= 6;
+
+    optional uint32			timeStamp		= 7;
+    optional uint32			userId			= 8;
+    optional int32			errorCode		= 9;
+}
+
+message StatGetQuestColors {
+    optional ProtoHeader	header 			= 1;
+    optional uint32			questId			= 2;
+    optional int32			count			= 3;
+
+    optional bytes			colors			= 4;
+
+    optional uint32			timeStamp		= 5;
+    optional uint32			userId			= 6;
+    optional int32			errorCode		= 7;
+}
+

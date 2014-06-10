@@ -123,6 +123,11 @@ public class ErrorMsgCenter {
     private void InitMsgDic() {
         msgStringDic.Add((int)ErrorCode.SUCCESS, TextCenter.GetText("success"));
         msgStringDic.Add((int)ErrorCode.ERROR_BASE, TextCenter.GetText("ERROR_BASE"));
+
+		msgStringDic.Add((int)ErrorCode.NETWORK, TextCenter.GetText("NETWORK_ERROR"));
+		msgStringDic.Add((int)ErrorCode.TIMEOUT, TextCenter.GetText("TIMEOUT_ERROR"));
+		msgStringDic.Add((int)ErrorCode.CONNECT_ERROR, TextCenter.GetText("CONNECT_ERROR"));
+		msgStringDic.Add((int)ErrorCode.SERVER_500, TextCenter.GetText("SERVER_500"));
         
         msgStringDic.Add((int)ErrorCode.FAILED, TextCenter.GetText("FAILED"));
         msgStringDic.Add((int)ErrorCode.INVALID_PARAMS, TextCenter.GetText("INVALID_PARAMS"));
@@ -163,8 +168,6 @@ public class ErrorMsgCenter {
         msgStringDic.Add((int)ErrorCode.E_GET_UNIT_INFO_ERROR, TextCenter.GetText("E_GET_UNIT_INFO_ERROR"));
 
 
-        msgStringDic.Add((int)ErrorCode.CONNECT_ERROR, TextCenter.GetText("CONNECT_ERROR"));
-        msgStringDic.Add((int)ErrorCode.SERVER_500, TextCenter.GetText("SERVER_500"));
     }
 
     public void OpenNetWorkErrorMsgWindow(int errorCode){

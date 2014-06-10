@@ -45,7 +45,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		sortRule = SortRule.None;
-		myUnitDragPanel.DestoryDranPanel ();
+		myUnitDragPanel.DestoryDragPanel ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
 	bool clear = false;
@@ -190,6 +190,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		PartyUnitItem.Inject (go);
 		GameObject parent = FindChild<Transform>("Middle/LevelUpBasePanel").gameObject;
 		myUnitDragPanel = new DragPanelDynamic (parent, go, 9, 3);
+
 		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
 		dpsi.parentTrans = parent.transform;
 		dpsi.clipRange = new Vector4 (0, -100, 640, 315);

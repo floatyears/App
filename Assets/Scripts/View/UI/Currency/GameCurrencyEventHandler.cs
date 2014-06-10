@@ -37,7 +37,18 @@ public class GameCurrencyEventHandler {
 	}
 
 	public void onBillingNotSupported(){
+		MsgWindowParams mwp = new MsgWindowParams ();
+		//mwp.btnParams = new BtnParam[1];
+		mwp.btnParam = new BtnParam ();
+		mwp.titleText = TextCenter.GetText("guide1_title");
+		mwp.contentText = TextCenter.GetText("guide1_content");
 		
+		BtnParam sure = new BtnParam ();
+		sure.callback = null;
+		sure.text = TextCenter.GetText("OK");
+		mwp.btnParam = sure;
+		
+		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 	}
 
 	public void onMarketPurchaseStarted(PurchasableVirtualItem pvi){
