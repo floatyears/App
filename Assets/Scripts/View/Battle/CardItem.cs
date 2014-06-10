@@ -75,6 +75,7 @@ public class CardItem : UIBaseUnity {
 		}
 
 		linkLineSprite = FindChild<UISprite>("Sprite");
+		linkLineSprite.enabled = false;
 
 		actorTexture.spriteName = "";
 		xOffset = (float)actorTexture.width / 4;
@@ -105,20 +106,21 @@ public class CardItem : UIBaseUnity {
 			actorTexture.spriteName = itemID.ToString();
 		}
 		base.ShowUI ();
-
-//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 	}
 
 	public override void HideUI () {
 		actorTexture.spriteName = "";
 		base.HideUI ();
-
-//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 	}
 
 //	void AttackEnemyEnd(object data) {
 //		Clear ();
 //	}
+
+	public void SetPosition(Vector3 localposition) {
+//		Debug.LogError ("gameobject : " + gameObject + "card item set position : " + localposition);
+		transform.localPosition = localposition;
+	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
@@ -143,7 +145,8 @@ public class CardItem : UIBaseUnity {
 		if(!canDrag)
 			return;
 		float offset = index * xOffset;
-		actorTexture.transform.localPosition = new Vector3(position.x + offset, position.y - offset, 0f);
+		SetPosition (new Vector3 (position.x + offset, position.y - offset, 0f));
+//		actorTexture.transform.localPosition = ;
 	}
 
 	public void OnPress(bool isPress,int sortID) {
@@ -156,9 +159,13 @@ public class CardItem : UIBaseUnity {
 			Reset();
 		}
 	}
-
+//	bool b = false;
 	public void Reset() {
-		actorTexture.transform.localPosition = initPosition;
+//		Debug.LogError ("gameobject : " + gameObject + "initposition : " + initPosition);
+//		transform.localPosition = initPosition;
+		SetPosition (initPosition);
+//		Debug.LogError ("transform.localPosition : " + transform.localPosition);
+//		b = true;
 	}
 
 	public void SetTweenPosition(Vector3 start,Vector3 end)	{
@@ -177,18 +184,15 @@ public class CardItem : UIBaseUnity {
 		return canDrag;
 	}
 
-	public void Move(Vector3 to,float time)
-	{
-		Move(transform.localPosition,to,time);
+	public void Move(Vector3 to,float time) {
+		Move(transform.localPosition, to, time);
 	}
 
-	public void Move(Vector3 to)
-	{
+	public void Move(Vector3 to) {
 		Move(transform.localPosition,to,defaultMoveTime);
 	}
 
-	public void Move(Vector3 from,Vector3 to)
-	{
+	public void Move(Vector3 from,Vector3 to) {
 		Move(from,to,defaultMoveTime);
 	}
 
@@ -226,11 +230,13 @@ public class CardItem : UIBaseUnity {
 
 		Vector3 offset = new Vector3(sortID * (float)actorTexture.width / 2f , - sortID * (float)actorTexture.height / 2, 0f) - transform.parent.localPosition;
 
-		transform.localPosition  = new Vector3(pos.x,pos.y,transform.localPosition.z) + offset ;
+		SetPosition (new Vector3 (pos.x, pos.y, transform.localPosition.z) + offset);
+//		transform.localPosition  = ;
 	}
 	
 	public void SetPos (Vector3 to) {
-		transform.localPosition = to;
+//		transform.localPosition = to;
+		SetPosition (to);
 		initPosition = to;
 	}
 
@@ -285,6 +291,14 @@ public class CardItem : UIBaseUnity {
 			Rotate();
 		}
 	}
+
+//	void LateUpdate () {
+//		
+//		if (b && transform.localPosition != initPosition) {
+//			transform.localPosition = initPosition;
+//			b = false;
+//		}
+//	}
 
 	void Rotate() {
 		for (int i = 0; i < target.Count; i++) {

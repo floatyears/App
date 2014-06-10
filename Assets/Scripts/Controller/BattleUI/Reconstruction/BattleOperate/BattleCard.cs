@@ -11,9 +11,7 @@ public class BattleCard : UIBaseUnity {
 	}
 
 	private UISprite templateItemCard;
-
-	private CardItem[] cardItemArray;
-
+	
 	private List<CardItem> moveItem = new List<CardItem>();
 
 	private float cardInterv = 0f;
@@ -24,19 +22,20 @@ public class BattleCard : UIBaseUnity {
 
 	private BattleUseData battleUseData;
 
+	[HideInInspector]
+	public CardItem[] cardItemArray;
+
 	public override void Init (string name) {
 		base.Init (name);
 		InitParameter();
 	}
 
 	public override void ShowUI () {
-//		LogHelper.Log("battle card ShowUI");
 		base.ShowUI ();
 		gameObject.SetActive(true);
 	}
 
 	public override void HideUI () {
-//		LogHelper.Log("battle card HideUI");
 		base.HideUI ();
 		gameObject.SetActive(false);
 	}
@@ -98,7 +97,6 @@ public class BattleCard : UIBaseUnity {
 	}
 
 	void GenerateLinkSprite(CardItem ci,int index) {
-	
 		if (battleUseData == null) {
 			battleUseData = BattleQuest.bud;
 		}
@@ -149,8 +147,7 @@ public class BattleCard : UIBaseUnity {
 		return false;
 	}
 
-	public void IgnoreCollider(bool isIgnore)
-	{
+	public void IgnoreCollider(bool isIgnore) {
 		LayerMask layer;
 
 		if(isIgnore)
@@ -163,15 +160,13 @@ public class BattleCard : UIBaseUnity {
 		}
 	}
 
-	public void DisposeDrag(int location,int itemID)
-	{
+	public void DisposeDrag(int location,int itemID) {
 		SetFront(location,itemID);
 		SetBehind(location,itemID);
 	}
 
-	public void ResetDrag()
-	{
-		for (int i = 0; i < cardItemArray.Length; i++)  {
+	public void ResetDrag() {
+		for (int i = 0; i < cardItemArray.Length; i++) {
 //			Debug.LogError("ResetDrag : " + cardItemArray[i] +  " i : " + i + " BattleCard : " + this);
 			if(cardItemArray[i] == null) {
 				continue;
@@ -180,8 +175,7 @@ public class BattleCard : UIBaseUnity {
 		}
 	}
 
-	public bool SortCard(int sortID,List<CardItem> ci)
-	{
+	public bool SortCard(int sortID,List<CardItem> ci) {
 		CardItem firstCard = ci[0];
 
 		int index = ci.FindIndex(a =>a.location == sortID);
@@ -237,12 +231,10 @@ public class BattleCard : UIBaseUnity {
 		return true;
 	}
 
-	void HandletweenCallback (CardItem arg1)
-	{
+	void HandletweenCallback (CardItem arg1) {
 		arg1.tweenCallback -= HandletweenCallback;
 
-		for (int i = 0; i < cardItemArray.Length - 1; i++) 
-		{
+		for (int i = 0; i < cardItemArray.Length - 1; i++) {
 			for (int j = i; j < cardItemArray.Length; j++) 
 			{
 				if(cardItemArray[i].location > cardItemArray[j].location)
@@ -258,8 +250,7 @@ public class BattleCard : UIBaseUnity {
 			CallBack();
 	}
 	
-	void CheckMove(int startID, List<CardItem> firstCard,bool bigger)
-	{
+	void CheckMove(int startID, List<CardItem> firstCard,bool bigger) {
 		if(firstCard.FindIndex(a => a.location == startID) == -1)
 		{
 			moveItem.Add(cardItemArray[startID]);
@@ -275,8 +266,7 @@ public class BattleCard : UIBaseUnity {
 			return;
 	}
 
-	void SetFront(int sID,int itemID)
-	{
+	void SetFront(int sID,int itemID) {
 		int countID = sID - 1;
 
 		if(countID < 0)
@@ -296,8 +286,7 @@ public class BattleCard : UIBaseUnity {
 		}
 	}
 
-	void SetBehind(int sID,int itemID)
-	{
+	void SetBehind(int sID,int itemID) {
 		int countID = sID + 1;
 
 		if(countID >= cardItemArray.Length)

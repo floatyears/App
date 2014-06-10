@@ -143,7 +143,7 @@ public class GameInput : MonoBehaviour  {
 		startTime = Time.realtimeSinceStartup;
 
 		if(OnDragEvent != null)
-			OnDragEvent(deltaPosition);
+			OnDragEvent(Input.mousePosition);
 	}
 
 	void OnRelease()

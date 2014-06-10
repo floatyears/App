@@ -233,8 +233,11 @@ public abstract class UITweener : MonoBehaviour
 				}
 
 				// Deprecated legacy functionality support
-				if (eventReceiver != null && !string.IsNullOrEmpty(callWhenFinished))
+				if (eventReceiver != null && !string.IsNullOrEmpty(callWhenFinished)) {
 					eventReceiver.SendMessage(callWhenFinished, this, SendMessageOptions.DontRequireReceiver);
+//					Debug.LogError("tween position : " + transform.localPosition);
+				}
+					
 
 				current = null;
 			}

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class CatalogView : UIComponentUnity {
 	private int TOTAL_CATALOG_COUNT;
@@ -18,15 +19,17 @@ public class CatalogView : UIComponentUnity {
        
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
-		InitConfig();
-		InitPooler();
+		//InitConfig();
+		//InitPooler();
+		//InitDragPanel();
 	}
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		CreateDragPanel();
-		RefreshItemCounter();
-		RefreshCatalogView();
+		//CreateDragPanel();
+		//RefreshItemCounter();
+		//RefreshCatalogView();
+		StartCoroutine("InitDragPanel");
 	}
 	
 	public override void HideUI () {
@@ -88,8 +91,7 @@ public class CatalogView : UIComponentUnity {
 	}
 
 	private void DestoryDragPanel(){
-		catalogUnitItemList.Clear();
-		dragPanel.DestoryUI();
+		dynamicDragPanel.DestoryDragPanel();
 	}
 
 	GameObject catalogNode;
@@ -112,7 +114,7 @@ public class CatalogView : UIComponentUnity {
 
 	public const int CATALOG_ITEM_COUNT = 300;
 	private void Update(){
-		ShowItemInScreen();
+		//ShowItemInScreen();
 	}
 
 	private float itemWidth = 55;
@@ -279,6 +281,44 @@ public class CatalogView : UIComponentUnity {
 //		}
 		return ITEM_COUNT_PER_COL;
 
+	}
+
+
+	//--------------------------------NEW---------------------------------
+	DragPanelDynamic dynamicDragPanel;
+
+	IEnumerator InitDragPanel() {
+		Debug.LogError("CatalogView.InitDragPanel(), start...");
+		GameObject go = Instantiate(CatalogUnitItem.ItemPrefab) as GameObject;
+		CatalogUnitItem.Inject(go);
+		dynamicDragPanel = new DragPanelDynamic(gameObject, go, 9, 5);
+
+		DragPanelSetInfo setter = new DragPanelSetInfo();
+		setter.parentTrans = transform;
+		setter.clipRange = new Vector4 (0, -200, 640, 560);
+		setter.gridArrange = UIGrid.Arrangement.Vertical;
+		setter.scrollBarPosition = new Vector3 (-320, -480, 0);
+		setter.maxPerLine = 5;
+		setter.depth = 2;	
+		dynamicDragPanel.SetDragPanel (setter);
+
+		List<TUserUnit> catalogDataList =  new List<TUserUnit>();
+		for (int i = 0; i < 300; i++){
+			UserUnit userUnit = new UserUnit();
+			userUnit.level = 1;
+			userUnit.exp = 0;
+			userUnit.unitId = (uint)(i + 1);
+			catalogDataList.Add(new TUserUnit(userUnit));
+		}
+		dynamicDragPanel.RefreshItem(catalogDataList);
+		Debug.LogError("CatalogView.InitDragPanel(), end...");
+		yield return null;
+		ShowUIAnimation();
+	}
+
+	void ShowUIAnimation(){
+		transform.localPosition = new Vector3(-1000, -256, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("time", 0.4f, "x", 0, "islocal", true));
 	}
 
 }

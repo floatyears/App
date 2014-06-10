@@ -523,7 +523,7 @@ public class UserUnitList {
 //		Debug.LogError ("Get uniqueID : " + uniqueID);
 		foreach (var item in userUnitInfo.Values) {
 			if(item.ID == uniqueID) {
-				Debug.LogError ("uniqueID : " + uniqueID + " item.ID : " + item.ID);
+//				Debug.LogError ("uniqueID : " + uniqueID + " item.ID : " + item.ID);
 				return item;
 			}
 		}

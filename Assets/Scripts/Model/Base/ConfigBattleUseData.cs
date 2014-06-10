@@ -34,6 +34,8 @@ public class ConfigBattleUseData {
 
 	public TFriendInfo BattleFriend;
 
+	public bool NotDeadEnemy = false;
+
 	private TUnitParty _party;
 	public TUnitParty party {
 		get { return _party; }
