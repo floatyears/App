@@ -183,8 +183,11 @@ E_UNIT_ID_ERROR=E_UNIT_ID_ERROR
 E_LEVELUP_NO_ENOUGH_MONEY=E_LEVELUP_NO_ENOUGH_MONEY
 E_GET_UNIT_INFO_ERROR=E_GET_UNIT_INFO_ERROR
 
-CONNECT_ERROR=Connect network error. Please confirm your networking and try again.
-SERVER_500=Now server is busy. Please wait and try again.
+#network error
+NETWORK_ERROR=Network error.\n Please check your network connection and try again later.
+TIMEOUT_ERROR=Connect to server timeout.\n Please check your network connection and try again later.
+CONNECT_ERROR=Cannot connect to server. Please check your network connection and try again later.
+SERVER_500=The server is busy now.\n Please wait for a moment and try again later.
 
 BigRareWarning=Rare Warning
 BigRareWarningText=Include the unit whose rare bigger than 3.\nAre you sure to sell?

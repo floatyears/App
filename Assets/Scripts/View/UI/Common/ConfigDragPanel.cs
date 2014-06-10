@@ -53,6 +53,8 @@ public class ConfigDragPanel{
 		UnitListDragPanelArgs.Add("cellWidth",							100												);
 		UnitListDragPanelArgs.Add("cellHeight",						100												);
 		UnitListDragPanelArgs.Add("maxPerLine",						 5													);
+		UnitListDragPanelArgs.Add("depth",						 	  	1													);
+        
 	}
 
 	private void ConfigLevelUpDragPanel() {
@@ -92,7 +94,7 @@ public class ConfigDragPanel{
 		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(1280, 1350, 0)				);
 		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
 		HelperListDragPanelArgs.Add("cellHeight", 					 120												);
-
+		HelperListDragPanelArgs.Add("depth",						 	  1													);
 	}
 
 	
@@ -142,9 +144,11 @@ public class ConfigDragPanel{
 		PartyListDragPanelArgs.Add("cellWidth", 						 100												);
 		PartyListDragPanelArgs.Add("cellHeight",						 100												);
 		PartyListDragPanelArgs.Add("maxPerLine",					 3													);
+		PartyListDragPanelArgs.Add("depth",						 	  	1													);
+        
 	}
-
-	private void ConfigStoryStageDragPanel(){
+        
+        private void ConfigStoryStageDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), StoryStageDragPanelArgs...");
 		StoryStageDragPanelArgs.Add("scrollerLocalPos", 				215 * Vector3.up							);
 		StoryStageDragPanelArgs.Add("position", 							Vector3.zero								);
@@ -181,6 +185,7 @@ public class ConfigDragPanel{
 		OnSaleUnitDragPanelArgs.Add("cellWidth", 						100											);
 		OnSaleUnitDragPanelArgs.Add("cellHeight",						100											);
 		OnSaleUnitDragPanelArgs.Add("maxPerLine",					3												);
+		OnSaleUnitDragPanelArgs.Add("depth", 							1												);
 	}
 
 	private void ConfigCatalogDragPanel(){
@@ -196,7 +201,7 @@ public class ConfigDragPanel{
 	}
 
 	private void ConfigRewardListDragPanel(){
-		RewardListDragPanelArgs.Add("scrollerLocalPos",					-100 * Vector3.up							);
+		RewardListDragPanelArgs.Add("scrollerLocalPos",					-100 * Vector3.up					);
 		RewardListDragPanelArgs.Add("position", 								Vector3.zero								);
 		RewardListDragPanelArgs.Add("clipRange", 							new Vector4(0, -235, 640, 640)		);
 		RewardListDragPanelArgs.Add("gridArrange", 						UIGrid.Arrangement.Horizontal		);
@@ -205,8 +210,8 @@ public class ConfigDragPanel{
 		RewardListDragPanelArgs.Add("cellHeight",							110											);
 		RewardListDragPanelArgs.Add("maxPerLine",							1												);
 		RewardListDragPanelArgs.Add ("scrollMovement", 					UIScrollView.Movement.Vertical);
-		RewardListDragPanelArgs.Add ("scrollBarDir", 					UIProgressBar.FillDirection.TopToBottom);
-		RewardListDragPanelArgs.Add ("ScrollViewDepth",					3);
+		RewardListDragPanelArgs.Add ("scrollBarDir", 						UIProgressBar.FillDirection.TopToBottom);
+		RewardListDragPanelArgs.Add ("depth",								3												);
 	}
 
 }
