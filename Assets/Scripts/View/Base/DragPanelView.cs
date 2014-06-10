@@ -182,15 +182,15 @@ public class DragPanelView : UIBaseUnity {
 			cellWidth = (int)argsDic["cellWidth"];
 		if( argsDic.ContainsKey("cellHeight"))
 			cellHeight = (int)argsDic["cellHeight"];
+		if( argsDic.ContainsKey("depth"))
+			scrollView.GetComponent<UIPanel>().depth = (int)argsDic["depth"];
 
-		argsDic.TryGetValue (ScrollViewDepth,out depth);
-
-
+		//argsDic.TryGetValue (ScrollViewDepth,out depth);
 		scrollBar.fillDirection = scrollBarDir;
 		scrollView.movement = scrollMovement;
-		if (depth != null) {
-			scrollView.GetComponent<UIPanel> ().depth = (int)depth;
-		}
+//		if (depth != null) {
+//			scrollView.GetComponent<UIPanel> ().depth = (int)depth;
+//		}
 
 //		Debug.LogError ("set drag panel dictionary : " + scrollView.transform.localPosition);
 //		Debug.LogError ("gameobject end aa : " + transform.localScale + " parent : " + parent.transform.localScale);

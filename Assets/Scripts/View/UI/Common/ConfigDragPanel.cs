@@ -77,6 +77,7 @@ public class ConfigDragPanel{
 		FriendListDragPanelArgs.Add("cellWidth",						 140												);
 		FriendListDragPanelArgs.Add("cellHeight",						 140												);
 		FriendListDragPanelArgs.Add("maxPerLine",					  4													);
+		FriendListDragPanelArgs.Add("depth",						 	  1													);
 	}
 
 	
