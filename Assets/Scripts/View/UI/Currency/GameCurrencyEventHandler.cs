@@ -6,19 +6,19 @@ public class GameCurrencyEventHandler {
 
 	public GameCurrencyEventHandler(){
 //		StoreEvents.OnMarketPurchase += onMarketPurchase;
-//		StoreEvents.OnMarketRefund += onMarketRefund;
+		StoreEvents.OnMarketRefund += onMarketRefund;
 		StoreEvents.OnItemPurchased += onItemPurchased;
 //		StoreEvents.OnGoodEquipped += onGoodEquipped;
 //		StoreEvents.OnGoodUnEquipped += onGoodUnequipped;
 //		StoreEvents.OnGoodUpgrade += onGoodUpgrade;
 //		StoreEvents.OnBillingSupported += onBillingSupported;
-//		StoreEvents.OnBillingNotSupported += onBillingNotSupported;
-//		StoreEvents.OnMarketPurchaseStarted += onMarketPurchaseStarted;
+		StoreEvents.OnBillingNotSupported += onBillingNotSupported;
+		StoreEvents.OnMarketPurchaseStarted += onMarketPurchaseStarted;
 //		StoreEvents.OnItemPurchaseStarted += onItemPurchaseStarted;
-//		StoreEvents.OnUnexpectedErrorInStore += onUnexpectedErrorInStore;
+		StoreEvents.OnUnexpectedErrorInStore += onUnexpectedErrorInStore;
 //		StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
 //		StoreEvents.OnGoodBalanceChanged += onGoodBalanceChanged;
-//		StoreEvents.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
+		StoreEvents.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
 //		StoreEvents.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
 //		StoreEvents.OnRestoreTransactionsFinished += onRestoreTransactionsFinished;
 //		StoreEvents.OnStoreControllerInitialized += onStoreControllerInitialized;
@@ -29,7 +29,27 @@ public class GameCurrencyEventHandler {
 	}
 
 	public void onItemPurchased(PurchasableVirtualItem pvi){
+		Debug.Log ("android.test.purchased");
+	}
 
+	public void onMarketRefund(PurchasableVirtualItem pvi){
+
+	}
+
+	public void onBillingNotSupported(){
+		
+	}
+
+	public void onMarketPurchaseStarted(PurchasableVirtualItem pvi){
+		
+	}
+
+	public void onUnexpectedErrorInStore(string err){
+		
+	}
+
+	public void onMarketPurchaseCancelled(PurchasableVirtualItem pvi){
+		
 	}
 	
 	/// <summary>

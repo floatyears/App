@@ -55,9 +55,9 @@ public class GameCurrencyAssets :  IStoreAssets{
 	
 	public const string MUFFIN_CURRENCY_ITEM_ID      = "currency_ms";
 	
-	public const string PID_CHIP_PACK1    = "slotsempire.coins.pack2";//"ms.chip.pack1";
+	public const string PID_CHIP_PACK1 = "empireslots.coins.pack1";//"slotsempire.coins.pack2";//"ms.chip.pack1";
 	
-	public const string PID_CHIP_PACK2    = "slotsempire.gems.pack2";
+	public const string PID_CHIP_PACK2 = "android.test.purchased";//"slotsempire.gems.pack2";
 	
 //	public const string FOURHUNDMUFF_PACK_PRODUCT_ID = "android.test.purchased";
 //	

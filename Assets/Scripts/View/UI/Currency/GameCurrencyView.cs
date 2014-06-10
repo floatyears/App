@@ -10,20 +10,32 @@ public class GameCurrencyView: UIComponentUnity {
 		base.Init(config, origin);
 		InitUI();
 
+
 		handler = new GameCurrencyEventHandler ();
 
 		StoreController.Initialize (new GameCurrencyAssets ());
 	}
 	
 	public override void ShowUI() {
+
+#if UNITY_ANDROID
+	StoreController.StartIabServiceInBg();
+#endif
+
 		base.ShowUI();
 	}
 	
 	public override void HideUI() {
+
+#if UNITY_ANDROID
+	StoreController.StopIabServiceInBg();
+#endif
+
 		base.HideUI();
 	}
 	
 	public override void DestoryUI() {
+
 		base.DestoryUI();
 	}
 	
