@@ -32,11 +32,13 @@ public class DragPanelDynamic {
 
 	public event UICallback callback;
 
-	public DragPanelDynamic (GameObject parent, GameObject sourceObject, int maxLine, int maxPerLine) {
+	public DragPanelDynamic (GameObject parent, GameObject sourObject, int maxLine, int maxPerLine) {
 	 	this.maxLine = maxLine;
 		this.maxPerLine= maxPerLine;
-		this.sourceObject = sourceObject;
-		this.sourceObject.transform.localPosition = new Vector3 (0f, 10000f, 0f);
+		sourceObject = sourObject;
+//		sourceObject.transform.parent = ViewManager.Instance.EffectPanel.transform;
+		sourceObject.SetActive (false);
+		sourceObject.transform.localPosition = new Vector3 (0f, 10000f, 0f);
 		CreatPanel (parent);
 		maxIndex = maxLine * maxPerLine;
 		GameInput.OnLateUpdate += OnLateUpdate;
@@ -80,14 +82,15 @@ public class DragPanelDynamic {
 		if (scrollItem.Count > 0) {
 			lastIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) + 1;
 		}
-
+		sourceObject.SetActive (true);
 		for (int i = 0; i < count; i++) {
 			GameObject go = dragPanelView.AddObject(sourceObject);
 			scrollItem.Add(go.GetComponent<MyUnitItem>());
 			go.name = lastIndex.ToString ();
 			lastIndex++;
 		}
-
+		sourceObject.SetActive (false);
+//		Debug.LogError (" this.sourceObject : " + sourceObject + " localposition : " + sourceObject.transform.localPosition);
 		dragPanelView.grid.Reposition ();
 	}
 
