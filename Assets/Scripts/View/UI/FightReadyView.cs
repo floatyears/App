@@ -60,7 +60,6 @@ public class FightReadyView : UIComponentUnity {
 			pageLightList.Add(curPageLight);
 			UIEventListener.Get(curPageLight).onClick = ClickPageLight;
 		}
-		//Debug.Log("pageLightList count is : " + pageLightList.Count);
 
 		prePageBtn = FindChild<UIButton>("Button_Left");
 		nextPageBtn = FindChild<UIButton>("Button_Right");
@@ -132,7 +131,6 @@ public class FightReadyView : UIComponentUnity {
 	void EvolveSelectQuest(object data) {
 		evolveStart = data as TEvolveStart;
 		RefreshParty (evolveStart.evolveParty);
-		
 		prePageBtn.isEnabled = false;
 		nextPageBtn.isEnabled = false;
 
@@ -206,7 +204,6 @@ public class FightReadyView : UIComponentUnity {
 		
 		if (data == null || tqdd == null) { return; }
 		EnterBattle (tqdd);
-
 	} 
 
 	private void RspEvolveStartQuest (object data) {
