@@ -17,7 +17,7 @@ public class BaseUnitItem : MonoBehaviour {
 		return view;
 	}
 
-	public void Awake() {
+	protected virtual void Awake() {
 		if(maskSpr == null){ InitUI(); }
 	}
 	

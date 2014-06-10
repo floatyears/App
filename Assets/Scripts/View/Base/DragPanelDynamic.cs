@@ -43,7 +43,7 @@ public class DragPanelDynamic {
 	}
 
 
-	public void DestoryDranPanel() {
+	public void DestoryDragPanel() {
 		GameInput.OnLateUpdate -= OnLateUpdate;
 		GameObject.Destroy (sourceObject);
 		if (dragPanelView != null) {

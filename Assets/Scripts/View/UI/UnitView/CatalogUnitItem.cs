@@ -8,10 +8,10 @@ public enum CatalogState{
 	Meet
 }
 
-public class CatalogUnitItem : MonoBehaviour {
+public class CatalogUnitItem : MyUnitItem {
 	private UISprite avatarSpr;
 	private UISprite erotemeSpr;
-	private UISprite maskSpr;
+	private UISprite maskSprite;
 	private UISprite translucentMaskSpr;
 	private UILabel idLabel;
 	public UIWidget widget;
@@ -28,13 +28,20 @@ public class CatalogUnitItem : MonoBehaviour {
 	/// <summary>
 	/// Awake() execute as soon as  the static function CatalogUnitItem.Inject() execute
 	/// </summary>
-	private void Awake(){
+	protected override void Awake(){
 		widget = GetComponent<UIWidget>();
+
+		mWidget = widget;
+
 		avatarSpr = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
 		erotemeSpr = transform.FindChild("Sprite_Erotemer").GetComponent<UISprite>();
-		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
+		maskSprite = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
 		translucentMaskSpr = transform.FindChild("Sprite_Translucent").GetComponent<UISprite>();
 		idLabel = transform.FindChild("Label_ID").GetComponent<UILabel>();
+	}
+
+	protected override void RefreshState(){
+		CatalogUserUnit = userUnit;
 	}
 
 	/// <summary>
@@ -42,11 +49,11 @@ public class CatalogUnitItem : MonoBehaviour {
 	/// </summary>
 	/// <param name="unitID">Unit I.</param>
 	public void Refresh(int unitID){
-		UserUnit userUnit = new UserUnit();
-		userUnit.level = 1;
-		userUnit.exp = 0;
-		userUnit.unitId = (uint)unitID;
-		CatalogUserUnit = new TUserUnit(userUnit);
+//		UserUnit userUnit = new UserUnit();
+//		userUnit.level = 1;
+//		userUnit.exp = 0;
+//		userUnit.unitId = (uint)unitID;
+//		CatalogUserUnit = new TUserUnit(userUnit);
 	}
 	
 	private TUserUnit catalogUserUnit;
@@ -90,7 +97,7 @@ public class CatalogUnitItem : MonoBehaviour {
 					avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 					avatarSpr.spriteName = catalogUserUnit.UnitID.ToString();
 					erotemeSpr.enabled = false;
-					maskSpr.enabled = false;
+					maskSprite.enabled = false;
 					translucentMaskSpr.enabled = false;
 					UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
 					break;
@@ -98,7 +105,7 @@ public class CatalogUnitItem : MonoBehaviour {
 					avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 					avatarSpr.spriteName = catalogUserUnit.UnitID.ToString();
 					erotemeSpr.enabled = true;
-					maskSpr.enabled = false;
+					maskSprite.enabled = false;
 					translucentMaskSpr.enabled = true;
 //					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 					break;
@@ -106,7 +113,7 @@ public class CatalogUnitItem : MonoBehaviour {
 					avatarSpr.atlas = null;
 					avatarSpr.spriteName = string.Empty;
 					erotemeSpr.enabled = true;
-					maskSpr.enabled = true;
+					maskSprite.enabled = true;
 					translucentMaskSpr.enabled = false;
 //					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 					break;
@@ -114,7 +121,7 @@ public class CatalogUnitItem : MonoBehaviour {
 					avatarSpr.atlas = null;
 					avatarSpr.spriteName = string.Empty;
 					erotemeSpr.enabled = true;
-					maskSpr.enabled = true;
+					maskSprite.enabled = true;
 					translucentMaskSpr.enabled = false;
 //					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 					break;
