@@ -86,6 +86,7 @@ public class HttpManager : INetSendPost {
     }
 
     void RequestDone(IWWWPost wwwPost) {
+		Debug.LogError (wwwPost.WwwInfo.url);
         wwwRequst.Remove(wwwPost);
         wwwPost.ExcuteCallback();
     }

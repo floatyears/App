@@ -34,7 +34,18 @@ public class NoviceGuideStepEntityManager {
 	public static NoviceGuideStage CurrentNoviceGuideStage
 	{
 		get{return currentNoviceGuideStage;Debug.Log("current novice guide stage(get): " + currentNoviceGuideStage);}
-		set{currentNoviceGuideStage = value;Debug.Log("current novice guide stage(set): " + currentNoviceGuideStage);}
+		set{
+			currentNoviceGuideStage = value;
+			Debug.Log("current novice guide stage(set): " + currentNoviceGuideStage);
+			// the following three stage don't send to server
+			if(currentNoviceGuideStage == NoviceGuideStage.EVOLVE || currentNoviceGuideStage == NoviceGuideStage.PARTY || currentNoviceGuideStage == NoviceGuideStage.LEVEL_UP)
+				return;
+			FinishUserGuide.SendRequest(null,(int)currentNoviceGuideStage);
+
+		}
+	}
+	public static void InitGuideStage(int stage){
+		currentNoviceGuideStage = (NoviceGuideStage)stage;
 	}
 
 	public static bool isInNoviceGuide()
@@ -62,7 +73,7 @@ public class NoviceGuideStepEntityManager {
 	
 	public void StartStep(NoviceGuideStartType startType)
 	{
-		return;
+//		return;
 //		if (currentNoviceGuideStage <= 0) {
 //			return;	
 //		}

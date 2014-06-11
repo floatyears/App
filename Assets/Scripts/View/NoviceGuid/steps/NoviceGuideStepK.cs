@@ -147,9 +147,9 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 	}
 	
 	private void ClickOk(object data){
-//		MsgCenter.Instance.Invoke(CommandEnum.gu
+		MsgCenter.Instance.Invoke (CommandEnum.UserGuideCard, 7);
 
-		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, );
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, );
 
 		NoviceGuideUtil.showTipText ("drag the red heart togather");
 		
@@ -157,6 +157,8 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 	}
 	
 	private void AttackEnd(object data){
+
+		MsgCenter.Instance.Invoke (CommandEnum.UserGuideCard, -1);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnd);
 		NoviceGuideUtil.HideTipText ();
 		

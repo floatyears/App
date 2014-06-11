@@ -239,6 +239,8 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 	}
 	
 	private void OnLevelDone(object data){
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.EVOLVE;
 		UIManager.Instance.forbidChangeScene = false;
 
 		GuideWindowParams mwp = new GuideWindowParams ();
@@ -261,6 +263,8 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
 		UIEventListenerCustom.Get (gm).onClick += OnClickBack;
 		NoviceGuideUtil.ForceOneBtnClick (gm);
+
+	
 	}
 
 	private void OnClickBack(GameObject gm){
