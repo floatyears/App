@@ -62,6 +62,7 @@ public class NoviceGuideStepEntityManager {
 	
 	public void StartStep()
 	{
+		return;
 //		if (currentNoviceGuideStage <= 0) {
 //			return;	
 //		}

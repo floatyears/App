@@ -72,12 +72,9 @@ public class Main : MonoBehaviour {
         gTimer = gameObject.AddComponent<GameTimer>();
         DontDestroyOnLoad(gameObject);
 
-        // init manager class
         ViewManager.Instance.Init(uiRoot);
         ModelManager.Instance.Init();
 		ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
-
-		//NoviceGuideStepEntityManager.Instance ();
     }
 
     /// <summary>

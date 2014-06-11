@@ -184,6 +184,7 @@ public enum CommandEnum{
 	//BattleStart,
 	UseLeaderSkill,
 	UserGuideAnim,
+	UserGuideCard,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
