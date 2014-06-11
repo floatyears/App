@@ -75,7 +75,7 @@ public class Battle : UIBase {
 			isShow = true;
 			GenerateShowCard();
 		}
-		UserGuideAnim (null);
+//		UserGuideAnim (null);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);

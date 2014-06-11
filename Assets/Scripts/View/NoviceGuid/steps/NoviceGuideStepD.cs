@@ -40,13 +40,19 @@ public class NoviceGuideStepD_StateOne:NoviceGuidState
 		mwp.contentText = TextCenter.GetText("guide17_content");
 		
 		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOk3;
+		sure.callback = StartAnimation;
 		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 	}
-	
+
+	private void StartAnimation(object data){
+		MsgCenter.Instance.Invoke (CommandEnum.UserGuideAnim);
+
+		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, ClickOk3);
+	}
+
 	private void ClickOk3(object data){
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParams = new BtnParam[2];
@@ -68,11 +74,13 @@ public class NoviceGuideStepD_StateOne:NoviceGuidState
 
 	
 	private void ClickOk4(object data){
+		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, ClickOk3);
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.FIRST_ATTACK_ONE;
 		JumpToNextState = true;
 	}
 	
 	private void OnceAgain(object data){
-		
+		MsgCenter.Instance.Invoke (CommandEnum.UserGuideAnim,true);
 	}
 
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -195,6 +203,7 @@ public class NoviceGuideStepD_StateThree:NoviceGuidState
 	
 	private void OnEnemyAttackEnd(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, OnEnemyAttackEnd);
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.FIRST_ATTACK_TWO;
 		LogHelper.Log ("attack the enemy end!");
 		JumpToNextState = true;
 	}
@@ -272,6 +281,7 @@ public class NoviceGuideStepD_StateFour:NoviceGuidState
 	
 	private void OnBattleEnd(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.GET_KEY;
 
 		GuideWindowParams mwp = new GuideWindowParams();
 		mwp.btnParam = new BtnParam ();
@@ -387,6 +397,8 @@ public class NoviceGuideStepD_StateSeven:NoviceGuidState
 		NoviceGuideUtil.ShowArrow (new GameObject[]{door}, new Vector3[]{new Vector3 (-50, 0, 2)});
 		
 		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, OnQuestEnd);
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_ONE;
 	}
 	
 	
