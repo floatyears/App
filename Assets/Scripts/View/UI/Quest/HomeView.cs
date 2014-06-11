@@ -150,7 +150,7 @@ public class HomeView : UIComponentUnity{
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickStoryCity, cityViewInfo[ item ].ID);
-			//Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
+			Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
 		}
 	}
 

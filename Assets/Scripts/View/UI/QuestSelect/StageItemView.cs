@@ -1,7 +1,18 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class StageItemView : MonoBehaviour {
+public class StageItemView : MonoBehaviour{
+	public List<string> stageOrderList1 = new List<string>(){
+		{"icon_stage_other"},{"icon_stage_fire"},{"icon_stage_water"},{"icon_stage_wind"},
+		{"icon_stage_light"},{"icon_stage_dark"},{"icon_stage_none"}
+	};
+
+	public List<string> stageOrderList2 = new List<string>(){
+		{"icon_stage_fire"},{"icon_stage_water"},{"icon_stage_wind"},
+		{"icon_stage_light"},{"icon_stage_dark"},{"icon_stage_none"},{"icon_stage_other"}
+	};
+
 	public Font myFont;
 	private bool isArrivedStage;
 	public bool IsArrivedStage{
@@ -65,7 +76,7 @@ public class StageItemView : MonoBehaviour {
 			y = data.Pos.y - 450f;
 		}
 		else{
-//			Debug.LogError("Stage.Pos is NULL!" + "  gameObject  is : " + gameObject);
+			//Debug.LogError("Stage.Pos is NULL!" + "  gameObject  is : " + gameObject);
 			//this.gameObject.SetActive(false);
 		}
 		gameObject.transform.localPosition = new Vector3(x, y, 0);
@@ -81,8 +92,12 @@ public class StageItemView : MonoBehaviour {
 		}
 		else{
 			if(isArrivedStage){
-				Debug.Log("stageID = " + data.ID + ", isFarthestArrive = " + isArrivedStage);
-				icon.spriteName = icon.spriteName = "icon_stage_" + (int.Parse(gameObject.name) + 1 );
+				//Debug.Log("stageID = " + data.ID + ", isFarthestArrive = " + isArrivedStage);
+				int stagePos = int.Parse(gameObject.name);
+				if(data.CityId == 1)//first city by the order of list1
+					icon.spriteName = stageOrderList1[ stagePos ];
+				else
+					icon.spriteName = stageOrderList2[ stagePos ];
 
 				string sourcePath = "Prefabs/UI/ArriveStagePrefab";
 				GameObject prefab = Resources.Load(sourcePath) as GameObject;
@@ -160,4 +175,5 @@ public class StageItemView : MonoBehaviour {
 		Debug.Log("DestoryTipObj()...");
 		GameObject.Destroy(transform.FindChild("Tip").gameObject);
 	}
+
 }

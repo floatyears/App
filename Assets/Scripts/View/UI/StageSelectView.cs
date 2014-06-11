@@ -21,8 +21,6 @@ public class StageSelectView : UIComponentUnity{
 	private GameObject scrollView;
 	private GameObject questViewItem;
 	private List<UITexture> pickEnemiesList = new List<UITexture>();
-	private Dictionary< string, object > questSelectScrollerArgsDic = new Dictionary< string, object >();
-	
 	private UITexture background;
 
 	private List<QuestInfo> questInfoList = new List<QuestInfo>();
@@ -63,14 +61,10 @@ public class StageSelectView : UIComponentUnity{
 		}
 
 		for (int i = 0; i < eventStageList.Count; i++){
-//			GameObject eventStageItem = 
 			GameObject cell = NGUITools.AddChild(storyStageRoot, StageItemView.Prefab);
 			cell.name = i.ToString();
 			StageItemView stageItemView = StageItemView.Inject(cell);
 		}
-
-
-
 	}
 
 	public override void HideUI(){
@@ -165,7 +159,6 @@ public class StageSelectView : UIComponentUnity{
 				break;
 			}
 		}
-//		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessStageList.Count);
 		return accessStageList;
 	}
 	
@@ -190,21 +183,14 @@ public class StageSelectView : UIComponentUnity{
 				if(!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
 					stageItemView.IsArrivedStage = true;
 					searchFarthestArrivedStageSucceed = true;
-//					Debug.Log("At the " + i + " time, search FarthestArrivedStageSucceed : " + searchFarthestArrivedStageSucceed);
 				}
 				else{
 					stageItemView.IsArrivedStage = false;
 				}
 			}
-
 			stageItemView.Data = accessStageList[ i ];
 			storyStageList.Add(stageItemView);
-
-
-
-
-		}//for
-
+		}
 	}
 
 	private List<GameObject> pageMarkItemList = new List<GameObject>();
@@ -219,7 +205,6 @@ public class StageSelectView : UIComponentUnity{
 		}
 		set{
 			isStartPage = value;
-//			leftPageBtn.gameObject.SetActive(!IsStartPage);
 		}
 	}
 
