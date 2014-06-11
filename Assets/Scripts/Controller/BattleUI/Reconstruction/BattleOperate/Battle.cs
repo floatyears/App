@@ -101,7 +101,6 @@ public class Battle : UIBase {
 			if(b)
 				ShowGuideAnim(b);
 		}
-
 	}
 
 	public void ShowGuideAnim(bool rePlay = false) {
@@ -188,7 +187,8 @@ public class Battle : UIBase {
 
 	void AnimEnd() {
 		ConfigBattleUseData.Instance.NotDeadEnemy = false;
-		Debug.LogError("GuideAnimEnd");
+
+//		Debug.LogError("GuideAnimEnd");
 	}
 
 	int generateIndex = 0;
