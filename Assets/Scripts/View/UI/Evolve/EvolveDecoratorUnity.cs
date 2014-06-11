@@ -19,7 +19,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 	
 	public override void HideUI () {

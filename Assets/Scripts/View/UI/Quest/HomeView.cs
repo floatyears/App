@@ -20,6 +20,11 @@ public class HomeView : UIComponentUnity{
 		base.ShowUI();
 		CheckUnitsLimit();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, false);
+
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_PARTY || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_LEVEL_UP || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
+			UIManager.Instance.ChangeScene(SceneEnum.Units);	
+		}
+
 	}
 
 	public override void HideUI(){

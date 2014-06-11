@@ -11,7 +11,7 @@ public class SelectRoleDecorator : DecoratorBase{
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_ROLE_SELECT));
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+//		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 	
 	public override void HideScene(){
@@ -180,7 +180,7 @@ public class ScratchDecorator : DecoratorBase{
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_SCRATCH));
 
 		if(SceneEnum.Scratch == currentDecoratorScene)
-			NoviceGuideStepEntityManager.Instance ().StartStep ();
+			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 	
 	public override void HideScene(){
@@ -216,7 +216,7 @@ public class GachaWindowDecorator : DecoratorBase{
 
 		//LogHelper.Log ("gacha window decorator:" + currentDecoratorScene);
 		if(currentDecoratorScene == SceneEnum.Scratch)
-			NoviceGuideStepEntityManager.Instance ().StartStep ();
+			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
     }
     
     public override void HideScene(){

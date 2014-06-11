@@ -96,6 +96,7 @@ public class TouchEventBlocker{
 //			Debug.LogError("TouchEventBlocker.SetBlocked(), when false, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
 
 		}
+		LogHelper.Log ("ui camera: " + nguiCamera.eventReceiverMask.value + " origin: " + originLayer.ToString());
 	}
 
 	private void Test(bool result){

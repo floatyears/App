@@ -112,7 +112,7 @@ public class GachaWindowView : UIComponentUnity {
             SyncGachaInfosAtStart();
         }
 
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
     }
 
     private void SyncGachaInfosAtStart(){

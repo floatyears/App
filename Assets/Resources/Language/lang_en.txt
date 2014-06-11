@@ -29,6 +29,7 @@ SCENE_NAME_RAIDER=Raider
 SCENE_NAME_CURRENCY=Currency
 
 OK=OK
+Again=Once Again
 Cancel=Cancel
 Back=Back
 Open=Open

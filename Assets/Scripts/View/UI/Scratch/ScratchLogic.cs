@@ -321,7 +321,7 @@ public class ScratchLogic : ConcreteComponent {
         UIManager.Instance.ChangeScene(nextScene);
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRareGachaMsgWindowParams());
 
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
     }
 
     private void OpenEventGachaWindow(object args){

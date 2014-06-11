@@ -136,7 +136,7 @@ public class LoadingLogic : ConcreteComponent {
 			if( rspAuthUser.login != null){
 				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
 			}
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = (NoviceGuideStage)rspAuthUser.userGuideStep;
+			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
 
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");

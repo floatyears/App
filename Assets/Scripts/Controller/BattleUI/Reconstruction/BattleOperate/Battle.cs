@@ -473,7 +473,8 @@ public class Battle : UIBase {
 		battleData.storeBattleData.attackRound ++;
 		battleData.StoreMapData (null);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
 	}
 
 	GameObject GetPrefabsObject(string name) {

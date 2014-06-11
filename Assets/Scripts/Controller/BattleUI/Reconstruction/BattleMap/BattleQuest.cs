@@ -168,7 +168,7 @@ public class BattleQuest : UIBase {
 	void ReadyMove() {
 		battle.ShieldInput (true);
 
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
 	}
 
 	void AttackEnemy (object data) {
@@ -309,10 +309,12 @@ public class BattleQuest : UIBase {
 	}
 	
 	public void QuestEnd () {
-		if ( configBattleUseData.currentStageInfo.Type == QuestType.E_QUEST_STORY ) { // story quest
-			DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
-		}else { // event quest
-			DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
+		if (configBattleUseData.currentStageInfo != null) {
+			if ( configBattleUseData.currentStageInfo.Type == QuestType.E_QUEST_STORY ) { // story quest
+				DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
+			}else { // event quest
+				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
+			}	
 		}
 
 		if (configBattleUseData.BattleFriend != null && configBattleUseData.BattleFriend.FriendPoint > 0) {

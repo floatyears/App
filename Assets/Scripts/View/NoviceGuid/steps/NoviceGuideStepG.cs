@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-//untis
+//untis party
 public class NoviceGuideStepG_StateOne:NoviceGuidState{
 	
 	private static NoviceGuideStepG_StateOne instance;
@@ -19,21 +19,23 @@ public class NoviceGuideStepG_StateOne:NoviceGuidState{
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepG state_one");
-		
-		
+
 		GameObject party = GameObject.FindWithTag ("party");
+
 
 		//LogHelper.Log (party.name);
 		NoviceGuideUtil.ForceOneBtnClick (party);
-
-		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
-
-		UIEventListener.Get (party).onClick += TapParty;
 		
+		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
+		
+		UIEventListener.Get (party).onClick += TapParty;
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.PARTY;
 	}
 	
 	private void TapParty(GameObject btn)
 	{
+
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListener.Get (btn).onClick -= TapParty;
 	}
@@ -42,7 +44,7 @@ public class NoviceGuideStepG_StateOne:NoviceGuidState{
 	{
 		
 		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepG_StateTwo.Instance());
+			stepEntity.GetStateMachine ().ChangeState (null);
 		}
 		else{
 			
@@ -51,7 +53,7 @@ public class NoviceGuideStepG_StateOne:NoviceGuidState{
 	
 }
 
-//untis
+//untis level_up
 public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 	
 	private static NoviceGuideStepG_StateTwo instance;
@@ -94,6 +96,8 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
 		
 		UIEventListener.Get (party).onClick += TapParty;
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.LEVEL_UP;
 	}
 	
 	private void TapParty(GameObject btn)
@@ -106,7 +110,7 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 	{
 		
 		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepG_StateThree.Instance());
+			stepEntity.GetStateMachine ().ChangeState (null);
 		}
 		else{
 			
@@ -115,7 +119,7 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 	
 }
 
-//untis
+//untis evolve
 public class NoviceGuideStepG_StateThree:NoviceGuidState{
 	
 	private static NoviceGuideStepG_StateThree instance;
@@ -142,6 +146,8 @@ public class NoviceGuideStepG_StateThree:NoviceGuidState{
 		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
 		
 		UIEventListener.Get (party).onClick += TapParty;
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.EVOLVE;
 		
 	}
 	
