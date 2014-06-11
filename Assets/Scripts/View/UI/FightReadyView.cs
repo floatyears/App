@@ -92,13 +92,11 @@ public class FightReadyView : UIComponentUnity {
 	}
 	
 	private void PrevPage(GameObject go){
-		Debug.Log("PrevPage");
 		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
 		RefreshParty(preParty);  
 	}
 	
 	private void NextPage(GameObject go){
-		Debug.Log("NextPage");
 		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
 		RefreshParty(nextParty);
 	}
@@ -109,7 +107,6 @@ public class FightReadyView : UIComponentUnity {
 			partyView[ i ].Init(partyMemberList [ i ]);	
 		}
 			
-
 		ShowPartyInfo();
 	}
 
