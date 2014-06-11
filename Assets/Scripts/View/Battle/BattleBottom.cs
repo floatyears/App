@@ -86,6 +86,7 @@ public class BattleBottom : MonoBehaviour {
 			else{
 				receiveMask = GameLayer.LayerToInt(GameLayer.Bottom);
 			}
+
 			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
 				string name = rch.collider.name;
 				CheckCollider(name);
@@ -112,9 +113,8 @@ public class BattleBottom : MonoBehaviour {
 
 				if(IsUseLeaderSkill && id == 0){
 					LogHelper.Log("--------use leader skill command");
-					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill,null);
+					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill, null);
 				}
-
 
 				tuu = upi.UserUnit [id];
 				battleQuest.topUI.SheildInput(false);

@@ -20,7 +20,6 @@ public class MsgWindowParams {
 
 public class MsgWindowView : UIComponentUnity{
     GameObject window;
-
     UILabel titleLabel;
 
     protected UILabel msgLabelCenter;
@@ -50,10 +49,10 @@ public class MsgWindowView : UIComponentUnity{
     }
     
     public override void HideUI(){
-//        base.HideUI();
+//      base.HideUI();
 //		base.ShowUI ();
         ResetUIElement();
-        ShowSelf(false);
+		ShowSelf(false);
     }
     
     protected virtual void FindUIElement(){

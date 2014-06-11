@@ -44,7 +44,6 @@ public class DragPanelDynamic {
 		GameInput.OnLateUpdate += OnLateUpdate;
 	}
 
-
 	public void DestoryDragPanel() {
 		GameInput.OnLateUpdate -= OnLateUpdate;
 		GameObject.Destroy (sourceObject);
@@ -53,7 +52,6 @@ public class DragPanelDynamic {
 			dragPanelView = null;
 			scrollItem.Clear();
 			scrollItemData.Clear();
-//			dragItem.Clear();
 		}
 	}
 
@@ -99,7 +97,6 @@ public class DragPanelDynamic {
 	/// <param name="tuuList">data list.</param>
 	public List<MyUnitItem> RefreshItem(List<TUserUnit> tuuList) {
 		endIndex = tuuList.Count;
-
 		if (scrollItem.Count == 0 && tuuList.Count > 0) {
 			CreatItem(tuuList);
 			scrollItemData = tuuList;
@@ -120,22 +117,19 @@ public class DragPanelDynamic {
 			return null;
 		}  
 
-		int count ;
-		if(tuuList.Count > scrollItemData.Count) {	
+		int count;
+		if(tuuList.Count > scrollItemData.Count) {
 			count = tuuList.Count - scrollItemData.Count;
 			int number = maxIndex - scrollItem.Count;
 			if(count > number) {
 				count = number;
 			}
-
 			AddGameObject(count);
-
 			for (int i = realStartIndex; i < realEndIndex; i++) {
 				scrollItem[i].UserUnit = tuuList[i];
-			}	
+			}
 		} else {
 			dragPanelView.scrollView.ResetPosition();
-
 			if( tuuList.Count >= scrollItem.Count ) {
 				realStartIndex = int.Parse(scrollItem[0].gameObject.name) - 1;
 				realEndIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name);
@@ -143,7 +137,6 @@ public class DragPanelDynamic {
 					scrollItem[i].UserUnit = tuuList[i];
 				}
 			} else {
-//				dragPanelView.scrollView.ResetPosition();
 				for (int i = scrollItem.Count - 1; i >=  tuuList.Count; i--) {
 					GameObject go = scrollItem[i].gameObject;
 					GameObject.Destroy(go);
@@ -162,9 +155,7 @@ public class DragPanelDynamic {
 		dragPanelView.grid.repositionNow = true;
 		dragPanelView.scrollView.Press (false);
 		return scrollItem;
-
 	}
-
 	
 	void OnLateUpdate () {
 		if (scrollItem.Count >= scrollItemData.Count || scrollItem.Count == 0) {
@@ -173,6 +164,7 @@ public class DragPanelDynamic {
 
 		bool firstItemVisible = dragPanelView.clip.IsVisible (scrollItem [0].Widget);
 		bool endItemVisible = dragPanelView.clip.IsVisible (scrollItem [scrollItem.Count - 1].Widget);
+
 		if (firstItemVisible == endItemVisible) {
 			return;	
 		}
