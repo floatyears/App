@@ -20,10 +20,8 @@ public class ConfigDragPanel{
 	public static Dictionary<string, object> RewardListDragPanelArgs = new Dictionary<string, object>();
 
 	public ConfigDragPanel(){
-		float clipX;
-		UIRoot uiRoot = Main.Instance.uiRoot.GetComponent<UIRoot> ();//GameObject.Find("UI Root").GetComponent<UIRoot>();
+		UIRoot uiRoot = Main.Instance.uiRoot.GetComponent<UIRoot> ();
 		manualHeight = uiRoot.manualHeight;
-
 		Config();
 	}
 
@@ -94,7 +92,7 @@ public class ConfigDragPanel{
 		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(1280, 1350, 0)				);
 		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
 		HelperListDragPanelArgs.Add("cellHeight", 					 120												);
-		HelperListDragPanelArgs.Add("depth",						 	  1													);
+		HelperListDragPanelArgs.Add("depth",						 	  0													);
 	}
 
 	

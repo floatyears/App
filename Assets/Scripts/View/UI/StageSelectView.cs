@@ -103,24 +103,24 @@ public class StageSelectView : UIComponentUnity{
 
 	//--------------------------------New---------------------------------------
 
-	private TCityInfo prevPickedCityInfo;
+	private TCityInfo currPickedCityInfo;
 	private GameObject storyStageRoot;
 	private List<StageItemView> stageViewList  = new List<StageItemView>();
 
 	private void GetData(uint cityID){
 		TCityInfo received = DataCenter.Instance.GetCityInfo(cityID);
 
-		if(prevPickedCityInfo == null){
+		if(currPickedCityInfo == null){
 			//when first time to step in
 			Debug.Log("recorded picked cityInfo is null, as first time to step in, create stage view...");
-			prevPickedCityInfo = received;
+			currPickedCityInfo = received;
 			DestoryStages();
 			FillView();
 		}
-		else if(!prevPickedCityInfo.Equals(received)){
+		else if(!currPickedCityInfo.Equals(received)){
 			//when picked city changed
 			Debug.Log("recorded picked cityInfo is changed, update stage view...");
-			prevPickedCityInfo = received;
+			currPickedCityInfo = received;
 			DestoryStages();
 			FillView();
 		}
@@ -137,12 +137,12 @@ public class StageSelectView : UIComponentUnity{
 	}
 
 	private void FillView(){
-		if(prevPickedCityInfo == null) {
+		if(currPickedCityInfo == null) {
 			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
 			return;
 		}
 	
-		List<TStageInfo> accessStageList = prevPickedCityInfo.Stages;
+		List<TStageInfo> accessStageList = currPickedCityInfo.Stages;
 		GenerateStages(accessStageList);
 
 	}
@@ -175,7 +175,7 @@ public class StageSelectView : UIComponentUnity{
 	/// <param name="count">Count.</param>
 	private void GenerateStages(List<TStageInfo> accessStageList){
 		background = FindChild<UITexture>("Background");
-		background.mainTexture = Resources.Load("Stage/" + prevPickedCityInfo.ID) as Texture2D;
+		background.mainTexture = Resources.Load("Stage/" + currPickedCityInfo.ID) as Texture2D;
 
 		storyStageList.Clear ();
 
@@ -186,6 +186,7 @@ public class StageSelectView : UIComponentUnity{
 			StageItemView stageItemView = StageItemView.Inject(cell);
 
 			if(!searchFarthestArrivedStageSucceed){
+
 				if(!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
 					stageItemView.IsArrivedStage = true;
 					searchFarthestArrivedStageSucceed = true;
@@ -277,7 +278,7 @@ public class StageSelectView : UIComponentUnity{
 	}
 
 	void FillViewEvolve(){
-		if(prevPickedCityInfo == null) {
+		if(currPickedCityInfo == null) {
 			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
 			return;
 		}

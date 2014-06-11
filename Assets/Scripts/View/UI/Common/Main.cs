@@ -75,7 +75,7 @@ public class Main : MonoBehaviour {
         // init manager class
         ViewManager.Instance.Init(uiRoot);
         ModelManager.Instance.Init();
-		ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
+
 
 		//NoviceGuideStepEntityManager.Instance ();
     }
@@ -88,24 +88,26 @@ public class Main : MonoBehaviour {
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
         EffectManager em = EffectManager.Instance;
         UIManager.Instance.ChangeScene(SceneEnum.Loading);
-
+		ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
     }
 
 	public const float DefaultSize = 1.5f;
 	public const int DefaultHeight = 960;
-
 	void SetResolution() {
 		float currentSize = Screen.height / (float)Screen.width;
 		UIPanel rootPanel = uiRoot.transform.Find("RootPanel").GetComponent<UIPanel>();
-		if (currentSize >= DefaultSize) {
+
+		if (currentSize >= DefaultSize){
+			//the current screen is thinner than the default, keep the default.
 			float sizePropotion = currentSize / DefaultSize;
 			int height = System.Convert.ToInt32( DefaultHeight * sizePropotion);
 			root.manualHeight = height;
 			rootPanel.clipRange = new Vector4(0, 0, height / currentSize, height);
 		}
 		else{
+			//the current screen is fatter than the default
 			root.manualHeight = DefaultHeight;
-			rootPanel.clipRange = new Vector4(0, 0,640, root.manualHeight);
+			rootPanel.clipRange = new Vector4(0, 0, 640, root.manualHeight);
 		}
 	}
 	
