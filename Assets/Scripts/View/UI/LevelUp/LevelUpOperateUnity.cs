@@ -370,6 +370,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 	
 	void LevelUpCallback(GameObject go) {
+		if (dataCenter.AccountInfo.Money < coinNeed) {
+			ViewManager.Instance.ShowTipsLabel("not enough money");
+			return;
+		}
 
 		ExcuteCallback (levelUpInfo);
 	}
@@ -629,7 +633,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		} else {
 			return myUnitList [i];
 		}
-
 	}
 
 //	int LevelUpFriend() {

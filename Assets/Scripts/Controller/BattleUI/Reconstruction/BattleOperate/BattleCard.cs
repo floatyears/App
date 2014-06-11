@@ -28,11 +28,14 @@ public class BattleCard : UIBaseUnity {
 	public override void Init (string name) {
 		base.Init (name);
 		InitParameter();
+//		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
 		gameObject.SetActive(true);
+
+
 	}
 
 	public override void HideUI () {
@@ -47,7 +50,12 @@ public class BattleCard : UIBaseUnity {
 		}
 		cardItemArray = null;
 		moveItem.Clear ();
+//		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
 	}
+
+//	void UserGuideCard(object data) {
+//		
+//	}
 
 	void InitParameter() {
 		templateItemCard = FindChild<UISprite>("Texture");
