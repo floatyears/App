@@ -79,10 +79,10 @@ public class SellController : ConcreteComponent {
 	void UpdateViewAfterRspSellUnit(){
 		pickedUnitList.Clear();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin, null);
-		HideUI();
+		base.HideUI ();
 		SellView view = viewComponent as SellView;
 		view.ResetUIState();
-		ShowUI();
+		base.ShowUI ();
 	}
 
 	void PlanToSell(object args){
