@@ -8,7 +8,6 @@ public class DragPanelDynamic {
 			if(dragPanelPrefab == null) {
 				dragPanelPrefab = Resources.Load(DragPanelView.DragPanelPath) as GameObject;
 			}
-
 			return dragPanelPrefab;
 		}
 	}
@@ -36,7 +35,6 @@ public class DragPanelDynamic {
 	 	this.maxLine = maxLine;
 		this.maxPerLine= maxPerLine;
 		sourceObject = sourObject;
-//		sourceObject.transform.parent = ViewManager.Instance.EffectPanel.transform;
 		sourceObject.SetActive (false);
 		sourceObject.transform.localPosition = new Vector3 (0f, 10000f, 0f);
 		CreatPanel (parent);
