@@ -296,6 +296,9 @@ public class UIManager {
 		case SceneEnum.Raider:
 			temp = new GameRaiderDecorator(sEnum);
 			break;
+		case SceneEnum.Currency:
+			temp = new GameCurrencyDecorator(sEnum);
+			break;
         }
 
 
