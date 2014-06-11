@@ -42,14 +42,14 @@ public class BattleQuest : UIBase {
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
 		battleMap = viewManager.GetBattleMap(tempName) as BattleMap;
-		battleMap.transform.parent = viewManager.BottomPanel.transform.parent;
-		battleMap.transform.localPosition = Vector3.zero;
+		battleMap.transform.parent = viewManager.TopPanel.transform.parent;
+		battleMap.transform.localPosition = new Vector3 (0f, 0f, 0f);
 		battleMap.transform.localScale = Vector3.one;
 		battleMap.BQuest = this;
 		Init(battleMap,tempName);
 		tempName = "Role";
 		role = viewManager.GetBattleMap(tempName) as Role;
-		role.transform.parent = viewManager.BottomPanel.transform.parent;
+		role.transform.parent = viewManager.TopPanel.transform.parent;
 		role.transform.localPosition = Vector3.zero;
 		role.transform.localScale = Vector3.one;
 		role.BQuest = this;
@@ -381,7 +381,6 @@ public class BattleQuest : UIBase {
 		battleMap.ChangeStyle (coor);
 		role.Stop ();
 
-//		Debug.LogError ("ContineBattle : " + configBattleUseData.trapPoison);
 		if (configBattleUseData.trapPoison != null) {
 			configBattleUseData.trapPoison.ExcuteByDisk();
 		}
