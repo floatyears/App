@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MaskView : UIComponentUnity {
 	UISprite background;
-	UISprite connecting;
+	GameObject connecting;
 	UILabel tips;
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -38,32 +38,36 @@ public class MaskView : UIComponentUnity {
 
 	void InitUI(){
 		background = FindChild<UISprite>("Sprite_Mask");
-		connecting = FindChild<UISprite>("Sprite_Connect");
-		tips = FindChild<UILabel> ("Tips");
+		connecting = FindChild("Tips");
+		tips = FindChild<UILabel> ("Tips/Content");
 		background.enabled = false;
 		connecting.transform.parent.gameObject.SetActive(false);
 	}
 
 	void SetMaskActive(object args){
 		if (background == null) {
-			CancelInvoke ("ShowTipText");
 			return;	
 		}
 		bool isActive = (bool)args;
-		if(isActive)
-			InvokeRepeating ("ShowTipText", 0, 3.0f);
-		else
-			CancelInvoke ("ShowTipText");
+
 		background.enabled = isActive;
+		connecting.SetActive (false);
 		gameObject.SetActive(isActive);
 	}
 
 	void SetConnectActive(object args){
 		if (connecting == null) {
+			CancelInvoke ("ShowTipText");
 			return;	
 		}
 		bool isActive = (bool)args;
-		connecting.gameObject.SetActive(isActive);
+
+		if(isActive)
+			InvokeRepeating ("ShowTipText", 0, 3.0f);
+		else
+			CancelInvoke ("ShowTipText");
+
+		connecting.SetActive(isActive);
 		gameObject.SetActive(isActive);
 	}
 

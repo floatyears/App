@@ -84,18 +84,35 @@ public class TEnemyInfo : ProtobufDataBase {
 		if (posionAttack == null) {
 			return;	
 		}
-//		Debug.LogError("SkillPosion : " + instance.enemyId);
+
 		int value = System.Convert.ToInt32 (posionAttack.AttackValue);
 		KillHP (value);
 	}
 
 	public void KillHP(int hurtValue) {
 		initBlood -= hurtValue;
-		if (initBlood <= 0) {
-			initBlood = 0;	
-			IsDead = true;
+		bool one = ConfigBattleUseData.Instance.NotDeadEnemy;
+		bool two = NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.FIRST_ATTACK_TWO;
+		bool three = NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.BOSS_ATTACK_SKILL;
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE) {
+			if(one || (two && three)) {
+				if (initBlood <= 0) {
+					initBlood = 10;
+					IsDead = false;
+				}
+			}
+			MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+			return;
 		}
-//		Debug.LogError ("initBlood : " + initBlood);
+
+		if (initBlood <= 0) {
+
+				initBlood = 0;	
+				IsDead = true;
+
+//			Debug.LogError("initBlood : " + initBlood);
+//			Debug.LogError("novice stage: " + NoviceGuideStepEntityManager.CurrentNoviceGuideStage);
+		}
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
 

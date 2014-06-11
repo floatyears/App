@@ -51,10 +51,10 @@ public class Battle : UIBase {
 	}
 	
 	public override void CreatUI () {
-		CreatBack();
-		CreatArea();
-		CreatCard();
-		CreatEnemy();
+		CreatBack ();
+		CreatArea ();
+		CreatCard ();
+		CreatEnemy ();
 		CreatCountDown ();
 
 		AddSelfObject (battleCardPool);
@@ -66,17 +66,253 @@ public class Battle : UIBase {
 	public override void ShowUI() {
 		base.ShowUI();
 		ShowCard();
+
+//		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
+			AddGuideCard ();
+//		}
+
 		if (!isShow) {
 			isShow = true;
 			GenerateShowCard();
 		}
+//		UserGuideAnim (null);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
+		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
 	}
 
+	private byte[] indexArray = new byte[19]{ 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 3, 3, 3, 2, 3, 2, 1 };
+
+	public void AddGuideCard () {
+		for (int i = 0; i < indexArray.Length; i++) {
+			battleData.questDungeonData.Colors.Insert(0, indexArray[i]);
+		}
+	}
+
+	void UserGuideAnim(object data) {
+		if (data == null) {
+			ShowGuideAnim ();
+				} else {
+			bool b = (bool)data;
+				ShowGuideAnim(b);
+		}
+	}
+
+	public void ShowGuideAnim(bool rePlay = false) {
+		if (rePlay) {
+			battleData.storeBattleData.colorIndex -= 19;
+			GenerateShowCard();
+		}
+		ConfigBattleUseData.Instance.NotDeadEnemy = true;
+		GameTimer.GetInstance ().AddCountDown (1f, GuideCardAnim);
+	}
+
+	GameTimer gameTimer;
+	public void GuideCardAnim() {
+		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+		ConfigBattleUseData.Instance.NotDeadEnemy = true;
+		gameTimer = GameTimer.GetInstance ();
+		GameObject target = battleCard.cardItemArray [3].gameObject;
+		Vector3 toPosition = battleCard.cardItemArray [2].transform.position;
+		selectTarget.Add ( battleCard.cardItemArray [3] );
+		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", 0.2f) );
+		gameTimer.AddCountDown ( 0.22f, AnimStep1 );
+	}
+
+	void AttackEnemyEnd(object data) {
+		MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+		ConfigBattleUseData.Instance.NotDeadEnemy = false;
+	}
+
+	void AnimStep1() {
+		Vector3 point = selectTarget[0].transform.localPosition;
+		int indexID = battleCardPool.CaculateSortIndex( point );
+		battleCard.SortCard (indexID, selectTarget);
+		battleCard.CallBack += AnimStep1End;
+	}
+
+	void AnimStep1End() {
+		battleCard.CallBack -= AnimStep1End;
+		ResetClick ();
+		AnimStep2 ();
+	}
+
+	List<int> indexCache = new List<int>();
+
+	void AnimStep2 () {
+		indexCache.Clear ();
+		indexCache.Add (3);
+		GenerateAllCard (indexCache, 3 , AnimStep2End);
+	}
+
+	void AnimStep2End() {
+		GenerateAllCard (new List<int> { 3 }, 3 , AnimStep3);
+	}
+
+	// 1) 4 - 4; 
+	// 2) 4 - 4;
+	// 3) 2,3-3;
+	// 4) 1-1;
+	// 5) 1-1;
+	// 6) 3-1; 
+	// 7) 1,2,3-3;
+	// 8) 4,5-5;
+	// 9) 2,3,4-2
+
+	void AnimStep3() {
+		GenerateAllCard (new List<int> { 1, 2 }, 2 , AnimStep4);
+	}
+
+	void AnimStep4() {
+		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep5);
+	}
+
+	void AnimStep5() {
+		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep6);
+	}
+
+	void AnimStep6() {
+		GenerateAllCard (new List<int> { 2 }, 0 , AnimStep7);
+	}
+
+	void AnimStep7() {
+		GenerateAllCard (new List<int> { 0, 1, 2 }, 2 , AnimStep8);
+	}
+
+	void AnimStep8() {
+		GenerateAllCard (new List<int> { 3, 4 }, 4 , AnimStep9);
+	}
+
+	void AnimStep9() {
+		GenerateAllCard (new List<int> { 1, 2, 3 }, 1 , AnimEnd);
+	}
+
+	void AnimEnd() {
+//		ConfigBattleUseData.Instance.NotDeadEnemy = false;
+
+//		Debug.LogError("GuideAnimEnd");
+	}
+
+	int generateIndex = 0;
+	Callback GenerateEnd ;
+	void GenerateAllCard (List<int> fromIndex, int toIndex, Callback cb) {
+		if (fromIndex.Count == 0) {
+			return;	
+		}
+
+		generateIndex = toIndex;
+		GenerateEnd = cb;
+
+		if (fromIndex.Count == 1) {
+			GenerateCard(fromIndex[0]);
+			return;
+		}
+
+		GenerateAll (fromIndex);
+	}
+
+	void GenerateCard(int fromIndex) {
+		CardItem ci = battleCard.cardItemArray [fromIndex];
+		GameObject target = ci.gameObject;
+		Vector3 toPosition = battleCardArea.battleCardAreaItem [generateIndex].transform.position;
+		selectTarget.Add (ci);
+		iTween.MoveTo (target, iTween.Hash ("position", toPosition, "time", 0.2f));
+		gameTimer.AddCountDown (0.23f, GenerateCardEnd);
+	} 
+
+	int cardIndex = 0;
+	int startIndex = 0;
+	List<int> fromIndexCache;
+
+	void GenerateAll(List<int> fromIndex) {
+		fromIndexCache = fromIndex;
+
+		cardIndex = 0;
+
+		selectTarget.Add (battleCard.cardItemArray [fromIndexCache[startIndex]]);
+
+		MoveAll ();
+	}
+
+	void MoveAll() {
+		GameInput.OnUpdate += OnUpdate;
+
+		for (int i = 0; i < selectTarget.Count; i++) {
+			selectTarget[i].ActorTexture.depth += selectTarget.Count ;
+		}
+
+		int nextIndex = cardIndex + 1;
+
+		if (nextIndex == fromIndexCache.Count) {
+			iTween.MoveTo (selectTarget [startIndex].gameObject, battleCardArea.battleCardAreaItem [generateIndex].transform.position, 0.2f);
+			gameTimer.AddCountDown(0.24f, MoveAllToPosition);
+		} else {
+			CardItem nextCi = battleCard.cardItemArray [fromIndexCache [nextIndex]];
+
+			cardIndex = nextIndex;
+
+			iTween.MoveTo (selectTarget[startIndex].gameObject, nextCi.transform.position, 0.2f);
+
+			gameTimer.AddCountDown (0.2f, MoveAllEnd);
+		}
+	}
+
+	void MoveAllToPosition() {
+//		iTween.MoveTo (selectTarget [startIndex].gameObject, battleCardArea.battleCardAreaItem [generateIndex].transform.position, 0.3f);
+		GameInput.OnUpdate += OnUpdate;
+		GenerateCardEnd ();
+	}
+
+	void OnUpdate () {
+		if (selectTarget.Count == 0) {
+			return;	
+		}
+
+		for (int i = 0; i < selectTarget.Count; i++) {
+			selectTarget [i].OnDrag (selectTarget[startIndex].transform.localPosition, i);
+		}
+	}
+
+	void MoveAllEnd() {
+		if (cardIndex >= fromIndexCache.Count) {
+			GameInput.OnUpdate -= OnUpdate;
+			GenerateCardEnd();		
+			return;
+		}
+
+//		Debug.LogError ("cardindex : " + cardIndex + " battleCard.cardItemArray [fromIndexCache [cardIndex]] : " + battleCard.cardItemArray [fromIndexCache [cardIndex]]);
+		ClickCardItem (battleCard.cardItemArray [fromIndexCache [cardIndex]]);
+
+		MoveAll ();
+	}
+		                 
+	void GenerateCardEnd () {
+		int generateCount = battleCardArea.battleCardAreaItem [generateIndex].GenerateCard(selectTarget);
+		if(generateCount > 0) {
+			MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
+			YieldStartBattle();
+			if(showCountDown) {
+				for(int i = 0;i < generateCount;i++) {
+					battleCard.GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
+				}
+				battleCard.RefreshLine();
+			}
+		}
+
+		for (int i = 0; i < selectTarget.Count; i++) {
+			selectTarget[i].ActorTexture.depth = 6;
+		}
+
+		ResetClick();
+
+		if (GenerateEnd != null) {
+			gameTimer.AddCountDown(0.1f, GenerateEnd);
+		}
+	}
+		                   
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
@@ -84,6 +320,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
+		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideAnim, UserGuideAnim);
 		battleRootGameObject.SetActive(false);
 	}
 
@@ -146,7 +383,7 @@ public class Battle : UIBase {
 		HideUI ();
 	}
 
-	void Attack() {
+	void Attack () {
 		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
 	}
 
@@ -158,7 +395,7 @@ public class Battle : UIBase {
 		countDownUI.Init ("CountDown");
 	}
 
-	void CreatBack() {
+	void CreatBack () {
 		string backName = "BattleCardPool";
 		tempObject = GetPrefabsObject(backName);
 		battleCardPool = tempObject.AddComponent<BattleCardPool>();
@@ -169,7 +406,7 @@ public class Battle : UIBase {
 		cardHeight = battleCardPool.templateBackTexture.width;
 	}
 
-	void CreatCard() {
+	void CreatCard () {
 		tempObject = GetPrefabsObject(Config.battleCardName);
 		tempObject.layer = GameLayer.ActorCard;
 		battleCard = tempObject.AddComponent<BattleCard>();
@@ -178,12 +415,12 @@ public class Battle : UIBase {
 		battleCard.battleCardArea = battleCardArea;
 	}
 
-	void ShowCard() {
+	void ShowCard () {
 		if(!battleRootGameObject.activeSelf)
 			battleRootGameObject.SetActive(true);
 	}
 
-	void GenerateShowCard() {
+	void GenerateShowCard () {
 		for (int i = 0; i < battleCardPool.CardPosition.Length; i++) {
 			battleCard.GenerateSpriteCard(GenerateCardIndex(), i);
 		}
@@ -227,8 +464,7 @@ public class Battle : UIBase {
 		tempObject = LoadAsset.Instance.LoadAssetFromResources(name, ResourceEuum.Prefab) as GameObject;
 		GameObject go = GameObject.Instantiate(tempObject) as GameObject;
 		
-		if (go != null && battleRootGameObject != null)
-		{
+		if (go != null && battleRootGameObject != null) {
 			Transform t = go.transform;
 			t.parent = battleRootGameObject.transform;
 			t.localPosition = Vector3.zero;
@@ -245,7 +481,7 @@ public class Battle : UIBase {
 	}
 
 	int GenerateCardIndex () {
-		int index = ConfigBattleUseData.Instance.questDungeonData.Colors [battleData.storeBattleData.colorIndex];
+		int index = battleData.questDungeonData.Colors [battleData.storeBattleData.colorIndex];
 		battleData.storeBattleData.colorIndex++;
 		currentColor.Add (index);
 		if (currentColor.Count > 5) {
@@ -294,7 +530,7 @@ public class Battle : UIBase {
 
 	void ResetClick() {
 		for (int i = 0; i < selectTarget.Count; i++) {
-			selectTarget[i].OnPress(false,-1);			
+			selectTarget[i].OnPress(false,-1);
 		}
 		selectTarget.Clear();
 		battleCard.ResetDrag();
@@ -311,45 +547,53 @@ public class Battle : UIBase {
 		}
 
 		if(Check(GameLayer.BattleCard)) {
-			BattleCardAreaItem bcai = null;
-			for (int i = 0; i < rayCastHit.Length; i++) {
-				tempObject = rayCastHit[i].collider.gameObject;
-				bcai = tempObject.GetComponent< BattleCardAreaItem >();
-				if(bcai != null)
-					break;
-			}
-
-			int generateCount = 0;
-			if(bcai != null)
-				generateCount = bcai.GenerateCard(selectTarget);
-
-			if(generateCount > 0) {
-				MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
-				YieldStartBattle();
-
-				if(showCountDown) {
-					for(int i = 0;i < generateCount;i++) {
-						battleCard.GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
-					}
-					battleCard.RefreshLine();
-				}
-			}
-			ResetClick();
+			GenerateCard();
 		}
 		else if(Check(GameLayer.ActorCard)) {
-			Vector3 point = selectTarget[0].transform.localPosition;
-			int indexID =  battleCardPool.CaculateSortIndex(point);
-			if(indexID >= 0) {
-				main.GInput.IsCheckInput = false;
-				if(battleCard.SortCard(indexID,selectTarget)) {
-					battleCard.CallBack += HandleCallBack;
+			SwitchCard();
+		}
+		else {
+			ResetClick();
+		}
+	}
+
+	void GenerateCard() {
+		BattleCardAreaItem bcai = null;
+		for (int i = 0; i < rayCastHit.Length; i++) {
+			tempObject = rayCastHit[i].collider.gameObject;
+			bcai = tempObject.GetComponent< BattleCardAreaItem >();
+			if(bcai != null)
+				break;
+		}
+		
+		int generateCount = 0;
+		if(bcai != null)
+			generateCount = bcai.GenerateCard(selectTarget);
+		
+		if(generateCount > 0) {
+			MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
+			YieldStartBattle();
+			
+			if(showCountDown) {
+				for(int i = 0;i < generateCount;i++) {
+					battleCard.GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
 				}
-				else {
-					main.GInput.IsCheckInput = true; 
-					ResetClick();
-				}
+				battleCard.RefreshLine();
+			}
+		}
+		ResetClick();
+	}
+
+	void SwitchCard() {
+		Vector3 point = selectTarget[0].transform.localPosition;
+		int indexID = battleCardPool.CaculateSortIndex(point);
+		if(indexID >= 0) {
+			main.GInput.IsCheckInput = false;
+			if(battleCard.SortCard(indexID, selectTarget)) {
+				battleCard.CallBack += HandleCallBack;
 			}
 			else {
+				main.GInput.IsCheckInput = true; 
 				ResetClick();
 			}
 		}
@@ -357,8 +601,9 @@ public class Battle : UIBase {
 			ResetClick();
 		}
 	}
-
+	
 	void HandleCallBack () {
+		battleCard.CallBack -= HandleCallBack;
 		main.GInput.IsCheckInput = true;
 		ResetClick();
 	}
@@ -371,7 +616,7 @@ public class Battle : UIBase {
 
 	void DisposeOnDrag(Vector2 obj) {
 		SetDrag();
-		Vector3 vec = ChangeCameraPosition(Input.mousePosition) - viewManager.ParentPanel.transform.localPosition;
+		Vector3 vec = ChangeCameraPosition(obj) - viewManager.ParentPanel.transform.localPosition;
 
 		for (int i = 0; i < selectTarget.Count; i++) {
 			selectTarget [i].OnDrag (vec, i);
@@ -410,23 +655,27 @@ public class Battle : UIBase {
 
 	void ClickObject(GameObject go) {
 		tempCard = go.GetComponent<CardItem>();
-		if(tempCard != null) {
-			if(selectTarget.Contains(tempCard))
+		ClickCardItem (tempCard);
+	}
+
+	void ClickCardItem(CardItem ci) {
+		if(ci != null) {
+			if(selectTarget.Contains(ci))
 				return;
-			if(tempCard.CanDrag) {
+			if(ci.CanDrag) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
-
-				tempCard.OnPress(true, selectTarget.Count);
-				tempCard.ActorTexture.depth = tempCard.InitDepth;
-				selectTarget.Add(tempCard);
-
+				
+				ci.OnPress(true, selectTarget.Count);
+				ci.ActorTexture.depth = ci.InitDepth;
+				selectTarget.Add(ci);
+				
 				if(selectTarget.Count == 1) { //one select not effect.
 					return;
 				}
-
+				
 				GameObject effect = EffectManager.Instance.GetEffectObject(EffectManager.DragCardEffect);
 				GameObject effectIns = EffectManager.InstantiateEffect(viewManager.EffectPanel, effect);
-				Transform card =  go.transform;
+				Transform card = ci.transform;
 				effectIns.transform.localPosition = card.localPosition + card.parent.parent.localPosition;
 			}
 		}
@@ -443,8 +692,7 @@ public class Battle : UIBase {
 			return false;
 	}
 
-	public static Vector3 ChangeCameraPosition()
-	{
+	public static Vector3 ChangeCameraPosition() {
 		Vector3 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
 		float height = (float)Screen.height / 2;
@@ -454,8 +702,7 @@ public class Battle : UIBase {
 		return reallyPoint;
 	}
 
-	public static Vector3 ChangeCameraPosition(Vector3 pos)
-	{
+	public static Vector3 ChangeCameraPosition(Vector3 pos) {
 		Vector3 worldPoint = mainCamera.ScreenToWorldPoint(pos);
 		
 		float height = (float)Screen.height / 2;
@@ -465,8 +712,7 @@ public class Battle : UIBase {
 		return reallyPoint;
 	}
 
-	public static Vector3 ChangeDeltaPosition(Vector3 delta)
-	{
+	public static Vector3 ChangeDeltaPosition(Vector3 delta) {
 		return delta * uiRoot.pixelSizeAdjustment;
 	}
 	

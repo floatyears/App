@@ -32,16 +32,17 @@ public class DragPanelDynamic {
 
 	public event UICallback callback;
 
-	public DragPanelDynamic (GameObject parent, GameObject sourceObject, int maxLine, int maxPerLine) {
+	public DragPanelDynamic (GameObject parent, GameObject sourObject, int maxLine, int maxPerLine) {
 	 	this.maxLine = maxLine;
 		this.maxPerLine= maxPerLine;
-		this.sourceObject = sourceObject;
-		this.sourceObject.transform.localPosition = new Vector3 (0f, 10000f, 0f);
+		sourceObject = sourObject;
+//		sourceObject.transform.parent = ViewManager.Instance.EffectPanel.transform;
+		sourceObject.SetActive (false);
+		sourceObject.transform.localPosition = new Vector3 (0f, 10000f, 0f);
 		CreatPanel (parent);
 		maxIndex = maxLine * maxPerLine;
 		GameInput.OnLateUpdate += OnLateUpdate;
 	}
-
 
 	public void DestoryDragPanel() {
 		GameInput.OnLateUpdate -= OnLateUpdate;
@@ -51,7 +52,6 @@ public class DragPanelDynamic {
 			dragPanelView = null;
 			scrollItem.Clear();
 			scrollItemData.Clear();
-//			dragItem.Clear();
 		}
 	}
 
@@ -80,14 +80,14 @@ public class DragPanelDynamic {
 		if (scrollItem.Count > 0) {
 			lastIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) + 1;
 		}
-
+		sourceObject.SetActive (true);
 		for (int i = 0; i < count; i++) {
 			GameObject go = dragPanelView.AddObject(sourceObject);
 			scrollItem.Add(go.GetComponent<MyUnitItem>());
 			go.name = lastIndex.ToString ();
 			lastIndex++;
 		}
-
+		sourceObject.SetActive (false);
 		dragPanelView.grid.Reposition ();
 	}
 
@@ -97,7 +97,6 @@ public class DragPanelDynamic {
 	/// <param name="tuuList">data list.</param>
 	public List<MyUnitItem> RefreshItem(List<TUserUnit> tuuList) {
 		endIndex = tuuList.Count;
-
 		if (scrollItem.Count == 0 && tuuList.Count > 0) {
 			CreatItem(tuuList);
 			scrollItemData = tuuList;
@@ -118,22 +117,19 @@ public class DragPanelDynamic {
 			return null;
 		}  
 
-		int count ;
-		if(tuuList.Count > scrollItemData.Count) {	
+		int count;
+		if(tuuList.Count > scrollItemData.Count) {
 			count = tuuList.Count - scrollItemData.Count;
 			int number = maxIndex - scrollItem.Count;
 			if(count > number) {
 				count = number;
 			}
-
 			AddGameObject(count);
-
 			for (int i = realStartIndex; i < realEndIndex; i++) {
 				scrollItem[i].UserUnit = tuuList[i];
-			}	
+			}
 		} else {
 			dragPanelView.scrollView.ResetPosition();
-
 			if( tuuList.Count >= scrollItem.Count ) {
 				realStartIndex = int.Parse(scrollItem[0].gameObject.name) - 1;
 				realEndIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name);
@@ -141,7 +137,6 @@ public class DragPanelDynamic {
 					scrollItem[i].UserUnit = tuuList[i];
 				}
 			} else {
-//				dragPanelView.scrollView.ResetPosition();
 				for (int i = scrollItem.Count - 1; i >=  tuuList.Count; i--) {
 					GameObject go = scrollItem[i].gameObject;
 					GameObject.Destroy(go);
@@ -160,9 +155,7 @@ public class DragPanelDynamic {
 		dragPanelView.grid.repositionNow = true;
 		dragPanelView.scrollView.Press (false);
 		return scrollItem;
-
 	}
-
 	
 	void OnLateUpdate () {
 		if (scrollItem.Count >= scrollItemData.Count || scrollItem.Count == 0) {
@@ -171,6 +164,7 @@ public class DragPanelDynamic {
 
 		bool firstItemVisible = dragPanelView.clip.IsVisible (scrollItem [0].Widget);
 		bool endItemVisible = dragPanelView.clip.IsVisible (scrollItem [scrollItem.Count - 1].Widget);
+
 		if (firstItemVisible == endItemVisible) {
 			return;	
 		}

@@ -31,14 +31,10 @@ public class BattleBottom : MonoBehaviour {
 		battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
 		battleSkill.Init ("BattleSkill");
 		battleSkillObject.SetActive (false);
-
 		if (upi == null) {
-//			Debug.LogError("Battle bottom init : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
 			upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
-//		Debug.LogError("bottom unitparty id : " + upi.ID);
-//		Debug.LogError ("Battle bottom : " + userUnitInfo.Count);
 		for (int i = 0; i < 5; i++) {
 			GameObject temp = transform.Find("Actor/" + i).gameObject;	
 			if(userUnitInfo[i] == null) {
@@ -47,8 +43,6 @@ public class BattleBottom : MonoBehaviour {
 			}
 
 			TUnitInfo tui = userUnitInfo[i].UnitInfo;
-
-//			Debug.LogError("BattleBottom : " + userUnitInfo[i].ID + " pos : " + i);
 			temp.renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
 			UITexture tex =  transform.Find("ActorP/" + i).GetComponent<UITexture>();
 			tex.color =  DGTools.TypeToColor(tui.Type);
@@ -60,15 +54,13 @@ public class BattleBottom : MonoBehaviour {
 				actorObject[i].SetActive(false);
 			}
 		}
-
-//		Debug.LogError ("localposition : " + transform.localPosition);
 	}
 
 	void OnDestroy() {
 		if(battleSkill != null) 
 			Destroy (battleSkill.gameObject);
 		battleSkill = null;
-	} 
+	}
 
 	void OnDisable () {
 		GameInput.OnUpdate -= OnRealease;
@@ -84,28 +76,17 @@ public class BattleBottom : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonDown (0)) {
-//			Debug.LogError ("onrealease : " + notClick);
 			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
 			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
-
-			//LogHelper.Log("----------------battle bottom layermask: " + layermask);
-
 			int receiveMask = 0;
 
-//			int noviint = GameLayer.LayerToInt(GameLayer.NoviceGuide);
-//			int blocker =GameLayer.LayerToInt(GameLayer.blocker);
-
-//			int layer = noviint | blocker;
-//			Debug.LogError("noviint : " + noviint + " blockerlayer : " + blocker + " layer : " + layer);
-			//bool novi = (layermask & GameLayer.LayerToInt(GameLayer.NoviceGuide)) == GameLayer.LayerToInt(GameLayer.NoviceGuide);
-//			Debug.LogError(layermask + " GameLayer.NoviceGuid : " + GameLayer.LayerToInt(GameLayer.NoviceGuide));
-//			Debug.LogError("novi : " +novi + " GameLayer.NoviceGuid : " + (layermask & GameLayer.LayerToInt(GameLayer.NoviceGuide)) + " GameLayer.NoviceGuide : " + GameLayer.LayerToInt(GameLayer.NoviceGuide));
 			if(IsUseLeaderSkill) {
 				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
 			}
 			else{
 				receiveMask = GameLayer.LayerToInt(GameLayer.Bottom);
 			}
+
 			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
 				string name = rch.collider.name;
 				CheckCollider(name);
@@ -132,9 +113,8 @@ public class BattleBottom : MonoBehaviour {
 
 				if(IsUseLeaderSkill && id == 0){
 					LogHelper.Log("--------use leader skill command");
-					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill,null);
+					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill, null);
 				}
-
 
 				tuu = upi.UserUnit [id];
 				battleQuest.topUI.SheildInput(false);

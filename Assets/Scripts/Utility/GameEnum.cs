@@ -68,7 +68,9 @@ public enum SceneEnum
 
 	Reward,
 
-	Raider
+	Raider,
+
+	Currency
 }
 
 public enum CommandEnum{
@@ -181,7 +183,7 @@ public enum CommandEnum{
 	ReduceActiveSkillRound,
 	//BattleStart,
 	UseLeaderSkill,
-
+	UserGuideAnim,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,
