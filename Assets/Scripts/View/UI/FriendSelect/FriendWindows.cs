@@ -16,7 +16,7 @@ public class FriendWindows : FriendHelperView {
 		base.ShowUI ();
 		transform.localPosition += new Vector3 (0f, -485f, 0f);
 		dragPanel.DragPanelView.scrollView.transform.localPosition += new Vector3 (0f, -50f, 0f);
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
 	public override void HideUI () {

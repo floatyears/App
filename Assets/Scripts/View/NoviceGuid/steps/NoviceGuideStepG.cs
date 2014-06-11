@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-//untis
+//untis party
 public class NoviceGuideStepG_StateOne:NoviceGuidState{
 	
 	private static NoviceGuideStepG_StateOne instance;
@@ -51,7 +51,7 @@ public class NoviceGuideStepG_StateOne:NoviceGuidState{
 	
 }
 
-//untis
+//untis level_up
 public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 	
 	private static NoviceGuideStepG_StateTwo instance;
@@ -115,7 +115,7 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 	
 }
 
-//untis
+//untis evolve
 public class NoviceGuideStepG_StateThree:NoviceGuidState{
 	
 	private static NoviceGuideStepG_StateThree instance;

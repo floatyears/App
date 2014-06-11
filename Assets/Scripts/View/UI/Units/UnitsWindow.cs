@@ -77,7 +77,7 @@ public class UnitsWindow : UIComponentUnity{
 		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 
 		//start units step
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
 	private void InitPagePanel(){

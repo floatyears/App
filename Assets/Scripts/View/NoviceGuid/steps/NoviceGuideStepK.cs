@@ -49,6 +49,7 @@ public class NoviceGuideStepK_StateOne:NoviceGuidState
 	}
 	
 	private void EnemyAttackEnd(object data){
+		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_HEAL;
 		JumpToNextState = true;
 	}
@@ -146,6 +147,10 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 	}
 	
 	private void ClickOk(object data){
+//		MsgCenter.Instance.Invoke(CommandEnum.gu
+
+		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, );
+
 		NoviceGuideUtil.showTipText ("drag the red heart togather");
 		
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnd);
@@ -182,7 +187,7 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 //skill
 public class NoviceGuideStepK_StateFour:NoviceGuidState
 {
-	private GameObject nmw;
+//	private GameObject nmw;
 	
 	private static NoviceGuideStepK_StateFour instance;
 	
@@ -243,20 +248,20 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 		
-		nmw = GameObject.Find ("NoviceGuideWindow(Clone)");
-		UIPanel up = nmw.AddComponent<UIPanel>();
-		up.depth = 4;
+//		nmw = GameObject.Find ("NoviceGuideWindow(Clone)");
+//		UIPanel up = nmw.AddComponent<UIPanel>();
+//		up.depth = 4;
 		
 		MsgCenter.Instance.RemoveListener (CommandEnum.UseLeaderSkill, OnUseLeaderSkill);
-		BattleBottom bbs = GameObject.Find ("BattleBottom(Clone)").GetComponent<BattleBottom>();
+		BattleBottom bbs = GameObject.Find ("BattleBottom").GetComponent<BattleBottom>();
 		bbs.SetLeaderToNoviceGuide (false);
 		bbs.IsUseLeaderSkill = false;
 		//UIEventListener.Get (leader).onClick += ClickLeader;
 	}
 	
 	private void ClickOk1(object btn){
-		GameObject.Destroy (nmw.GetComponent<UIPanel> ());
-		nmw = null;
+//		GameObject.Destroy (nmw.GetComponent<UIPanel> ());
+//		nmw = null;
 		
 		GameObject bs = GameObject.FindWithTag ("boost_skill");
 		
@@ -275,6 +280,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	}
 	
 	private void SkillAttack(object data){
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_BOOST;
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillAttack, SkillAttack);
 		
 		GuideWindowParams mwp = new GuideWindowParams();
@@ -296,7 +302,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	
 }
 
-//
+//boost
 public class NoviceGuideStepK_StateFive:NoviceGuidState
 {
 	private static NoviceGuideStepK_StateFive instance;
@@ -341,18 +347,29 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
 		
 		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam ();
+		mwp.btnParams = new BtnParam[2];
 		mwp.titleText = TextCenter.GetText("guide34_title");
 		mwp.contentText = TextCenter.GetText("guide34_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = null;
 		sure.text = TextCenter.GetText("OK");
-		mwp.btnParam = sure;
-		
+		mwp.btnParams[0] = sure;
+
+		sure = new BtnParam ();
+		sure.callback = Again;
+		sure.text = TextCenter.GetText("Again");
+		mwp.btnParams[1] = sure;
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_PARTY;
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+
 	}
-	
+
+	private void Again(object data){
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.GOLD_BOX;
+	}
+
 	public override void Execute(NoviceGuideStepEntity stepEntity)
 	{
 		if (JumpToNextState) {

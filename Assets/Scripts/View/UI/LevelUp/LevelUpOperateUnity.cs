@@ -24,7 +24,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		ClearFocus ();
 		ShowData ();
 		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
 	public override void HideUI () {

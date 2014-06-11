@@ -100,7 +100,7 @@ public class BattleBottom : MonoBehaviour {
 			Debug.LogError("upi is null");
 			return;	
 		}
-		try{
+//		try{
 			int id = System.Int32.Parse (name);
 			if (upi.UserUnit.ContainsKey (id)) {
 				foreach (var item in actorObject.Values) {
@@ -123,10 +123,10 @@ public class BattleBottom : MonoBehaviour {
 				BattleMap.waitMove = true;
 				battleQuest.battle.ShieldGameInput(false);
 			}
-		}
-		catch(System.Exception ex) {
-			Debug.LogError("exception : " + ex.Message + " name : " + name);
-		}
+//		}
+//		catch(System.Exception ex) {
+//			Debug.LogError("exception : " + ex.Message + " name : " + name);
+//		}
 	}
 
 	public void Boost() {

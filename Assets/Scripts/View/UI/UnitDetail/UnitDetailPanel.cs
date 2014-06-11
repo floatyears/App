@@ -78,7 +78,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		//TODO:
 		//StartCoroutine ("nextState");
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
 //	IEnumerator nextState()

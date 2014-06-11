@@ -93,7 +93,7 @@ public class TEnemyInfo : ProtobufDataBase {
 		initBlood -= hurtValue;
 		bool one = ConfigBattleUseData.Instance.NotDeadEnemy;
 		bool two = NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.FIRST_ATTACK_TWO;
-		bool three = NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.BOSS_ATTACK_SKILL;
+		bool three = NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.BOSS_ATTACK_BOOST;
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE) {
 			if(one || (two && three)) {
 				if (initBlood <= 0) {

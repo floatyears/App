@@ -40,7 +40,7 @@ public class PartyView : UIComponentUnity{
 		RefreshItemCounter();
 		ShowUIAnimation();
 
-		NoviceGuideStepEntityManager.Instance ().StartStep ();
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
 	public override void HideUI(){
