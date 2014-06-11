@@ -178,16 +178,16 @@ public class StageSelectView : UIComponentUnity{
 			cell.name = i.ToString();
 			StageItemView stageItemView = StageItemView.Inject(cell);
 
-			if(!searchFarthestArrivedStageSucceed){
-
-				if(!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
-					stageItemView.IsArrivedStage = true;
-					searchFarthestArrivedStageSucceed = true;
-				}
-				else{
-					stageItemView.IsArrivedStage = false;
-				}
-			}
+//			if(!searchFarthestArrivedStageSucceed){
+//
+//				if(!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
+//					stageItemView.IsArrivedStage = true;
+//					searchFarthestArrivedStageSucceed = true;
+//				}
+//				else{
+//					stageItemView.IsArrivedStage = false;
+//				}
+//			}
 			stageItemView.Data = accessStageList[ i ];
 			storyStageList.Add(stageItemView);
 		}

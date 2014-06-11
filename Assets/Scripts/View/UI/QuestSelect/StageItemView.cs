@@ -14,13 +14,13 @@ public class StageItemView : MonoBehaviour{
 	};
 
 	public Font myFont;
-	private bool isArrivedStage;
-	public bool IsArrivedStage{
+	private StageState stageClearState;
+	public StageState StageClearState{
 		get{
-			return isArrivedStage;
+			return stageClearState;
 		}
 		set{
-			isArrivedStage = value;
+			stageClearState = value;
 		}
 	}
 
@@ -52,11 +52,9 @@ public class StageItemView : MonoBehaviour{
 				Debug.LogError("StageItemView, Data is NULL!");
 				return;
 			}
-			//Debug.Log("StageItemView :: Stage's Quest Count = " + data.QuestInfo.Count);
-//			Debug.Log("StageItemView :: " + " name is " + gameObject.name +", isClear == " 
-//			          + DataCenter.Instance.QuestClearInfo.IsStoryStageClear(data));
+
 			if(DataCenter.gameState == GameState.Normal) {
-				SetIcon();
+				SetIconView();
 			}
 			else{
 				SetEvolveIcon();
@@ -82,53 +80,10 @@ public class StageItemView : MonoBehaviour{
 		gameObject.transform.localPosition = new Vector3(x, y, 0);
 	}
 
-	private void SetIcon(){
+	private void SetIconView(){
 		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
-		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryStageClear(data);
-
-		if(isClear){
-			icon.spriteName = "icon_stage_" + (int.Parse(gameObject.name) + 1 );
-			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
-		}
-		else{
-			if(isArrivedStage){
-				//Debug.Log("stageID = " + data.ID + ", isFarthestArrive = " + isArrivedStage);
-				int stagePos = int.Parse(gameObject.name);
-				if(data.CityId == 1)//first city by the order of list1
-					icon.spriteName = stageOrderList1[ stagePos ];
-				else
-					icon.spriteName = stageOrderList2[ stagePos ];
-
-				string sourcePath = "Prefabs/UI/ArriveStagePrefab";
-				GameObject prefab = Resources.Load(sourcePath) as GameObject;
-				NGUITools.AddChild(gameObject, prefab);
-
-				/*
-				iTween.ScaleTo(circleSpr.gameObject, iTween.Hash("x", 0.75f, "y", 0.75f, "time", 1f, 
-				                                                 "looptype", iTween.LoopType.pingPong,
-				                                                 "easetype", iTween.EaseType.linear));
-				iTween.MoveFrom(handSpr.gameObject, iTween.Hash("x", 0f, "y", 50f, "time", 1f, "islocal", true, 
-				                                                "looptype", iTween.LoopType.pingPong,
-				                                                "easetype", iTween.EaseType.linear));
-				*/
-
-				UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
-			} 
-			else{
-				icon.spriteName = "icon_stage_lock";
-
-				/* do if not destory ui component outside of fight scene
-				for (int i = 0; i < transform.childCount; i++) {
-					if(transform.GetChild(i).name == "ArriveStagePrefab(Clone)"){
-						NGUITools.Destroy(transform.GetChild(i).gameObject);
-						Debug.LogError("Past this stage, destory the ARRIVE FLAG!");
-					}
-				}
-				*/
-
-				UIEventListener.Get(this.gameObject).onClick = ShowTip;
-			}
-		}
+		StageState clearState = DataCenter.Instance.QuestClearInfo.GetStoryStageState(data.ID);
+		ShowIconByState(clearState);
 	}
 
 	void SetEvolveIcon() {
@@ -175,5 +130,41 @@ public class StageItemView : MonoBehaviour{
 		Debug.Log("DestoryTipObj()...");
 		GameObject.Destroy(transform.FindChild("Tip").gameObject);
 	}
+
+
+	private void ShowIconByState(StageState state){
+		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
+
+		if(state == StageState.LOCKED){
+			icon.spriteName = "icon_stage_lock";
+			UIEventListener.Get(this.gameObject).onClick = ShowTip;
+		}
+		else if(state == StageState.NEW){
+			ShowIconAccessState(icon);
+
+			string sourcePath = "Prefabs/UI/ArriveStagePrefab";
+			GameObject prefab = Resources.Load(sourcePath) as GameObject;
+			NGUITools.AddChild(gameObject, prefab);
+			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
+		}
+		else{
+			ShowIconAccessState(icon);
+			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
+		}
+	}
+
+	private void ShowIconAccessState(UISprite icon){
+		int stagePos = int.Parse(gameObject.name);
+
+		if(data.CityId == 1){
+			//first city by the order of list1
+			icon.spriteName = stageOrderList1[ stagePos ];
+		}
+		else{
+			//others by order of list2
+			icon.spriteName = stageOrderList2[ stagePos ];
+		}
+	}
+
 
 }
