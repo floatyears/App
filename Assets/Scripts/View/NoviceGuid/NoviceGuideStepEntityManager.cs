@@ -33,8 +33,8 @@ public class NoviceGuideStepEntityManager {
 
 	public static NoviceGuideStage CurrentNoviceGuideStage
 	{
-		get{return currentNoviceGuideStage;LogHelper.Log("current novice guide stage(get): " + currentNoviceGuideStage);}
-		set{currentNoviceGuideStage = value;LogHelper.Log("current novice guide stage(set): " + currentNoviceGuideStage);}
+		get{return currentNoviceGuideStage;Debug.Log("current novice guide stage(get): " + currentNoviceGuideStage);}
+		set{currentNoviceGuideStage = value;Debug.Log("current novice guide stage(set): " + currentNoviceGuideStage);}
 	}
 
 	public static bool isInNoviceGuide()
@@ -106,14 +106,15 @@ public class NoviceGuideStepEntityManager {
 //				CreateStepEntityByID(NoviceGuideStepEntityID.EVOLVE,NoviceGuideStepJ_StateOne.Instance());
 //				break;
 //		}
+		Debug.Log ("current stage: " + currentNoviceGuideStage);
 		NoviceGuideStage ngs = (NoviceGuideStage) currentNoviceGuideStage;
 		switch(ngs){
-		case NoviceGuideStage.Preface://preface
-				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
-				break;
-		case NoviceGuideStage.SELECT_ROLE://selectRole
-			CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE,NoviceGuideStepB_StateOne.Instance());
-			break;
+//		case NoviceGuideStage.Preface://preface
+//				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
+//				break;
+//		case NoviceGuideStage.SELECT_ROLE://selectRole
+//			CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE,NoviceGuideStepB_StateOne.Instance());
+//			break;
 		case NoviceGuideStage.GOLD_BOX://goldBox
 			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepH_StateOne.Instance());
 			break;
@@ -132,16 +133,16 @@ public class NoviceGuideStepEntityManager {
 				break;
 		//Boss Enemy
 		case NoviceGuideStage.BOSS_ATTACK_ONE://AttackOnce
-			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepK_StateOne.Instance());
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT_BOSS,NoviceGuideStepK_StateOne.Instance());
 				break;
 		case NoviceGuideStage.BOSS_ATTACK_HEAL://Heal
-			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepK_StateThree.Instance());
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT_BOSS,NoviceGuideStepK_StateThree.Instance());
 				break;
 		case NoviceGuideStage.BOSS_ATTACK_SKILL://Skill
-			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepK_StateFour.Instance());
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT_BOSS,NoviceGuideStepK_StateFour.Instance());
 				break;
 		case NoviceGuideStage.BOSS_ATTACK_BOOST://Booost
-			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepK_StateFive.Instance());
+			CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT_BOSS,NoviceGuideStepK_StateFive.Instance());
 				break;
 		case NoviceGuideStage.PARTY://Party
 			CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepF_StateOne.Instance());
@@ -278,14 +279,15 @@ public enum NoviceGuideStepEntityID{
 	PARTY = 6,
 	UNITS = 7,
 	FIGHT = 8,
+	FIGHT_BOSS,
 	LEVEL_UP,
-	EVOLVE
+	EVOLVE,
 }
 
 public enum NoviceGuideStage{
-	NONE = 0,
-	Preface,
-	SELECT_ROLE,
+	NONE = -1,
+//	Preface,
+//	SELECT_ROLE,
 	GOLD_BOX,
 	ANIMATION,
 	FIRST_ATTACK_ONE,
