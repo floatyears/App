@@ -108,4 +108,14 @@ public class Main : MonoBehaviour {
     void OnDisable() {
 //        sui.RemoveListener();
     }
+
+//	void Update () {
+//		if (Input.GetKeyDown (KeyCode.A)) {
+//			MsgCenter.Instance.Invoke(CommandEnum.UserGuideAnim, null);	
+//		}
+//
+//		if (Input.GetKeyDown (KeyCode.S)) {
+//			MsgCenter.Instance.Invoke(CommandEnum.UserGuideAnim, true);	
+//		}
+//	}
 }
