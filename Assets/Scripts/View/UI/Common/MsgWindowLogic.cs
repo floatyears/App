@@ -42,7 +42,7 @@ public class MsgWindowLogic : ConcreteComponent{
     void RemoveListener(){
 //		Debug.LogError ("MsgWindowLogic : RemoveListener ");
         MsgCenter.Instance.RemoveListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
-		MsgCenter.Instance.RemoveListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
+		MsgCenter.Instance.RemoveListener(CommandEnum.CloseMsgWindow, CloseMsgWindow);
     }
     
    void OpenMsgWindow(object msg){ 

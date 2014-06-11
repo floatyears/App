@@ -66,7 +66,11 @@ public class Battle : UIBase {
 	public override void ShowUI() {
 		base.ShowUI();
 		ShowCard();
-		AddGuideCard ();
+
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
+			AddGuideCard ();
+		}
+
 
 		if (!isShow) {
 			isShow = true;
@@ -78,6 +82,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
+		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
 	}
 
 	private byte[] indexArray = new byte[19]{ 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 3, 3, 3, 2, 3, 2, 1 };
@@ -88,9 +93,21 @@ public class Battle : UIBase {
 		}
 	}
 
+	void UserGuideAnim(object data) {
+		if (data == null) {
+			ShowGuideAnim ();
+				} else {
+			bool b = (bool)data;
+			if(b)
+				ShowGuideAnim(b);
+		}
+
+	}
+
 	public void ShowGuideAnim(bool rePlay = false) {
 		if (rePlay) {
 			ConfigBattleUseData.Instance.storeBattleData.colorIndex -= 19;
+			GenerateCardIndex();
 		}
 		ConfigBattleUseData.Instance.NotDeadEnemy = true;
 		GameTimer.GetInstance ().AddCountDown (1f, GuideCardAnim);
@@ -101,9 +118,9 @@ public class Battle : UIBase {
 		gameTimer = GameTimer.GetInstance ();
 		GameObject target = battleCard.cardItemArray [3].gameObject;
 		Vector3 toPosition = battleCard.cardItemArray [2].transform.position;
-		selectTarget.Add (battleCard.cardItemArray [3]);
-		iTween.MoveTo (target, iTween.Hash ("position", toPosition, "time", 0.2f));
-		gameTimer.AddCountDown (0.22f, AnimStep1);
+		selectTarget.Add ( battleCard.cardItemArray [3] );
+		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", 0.2f) );
+		gameTimer.AddCountDown ( 0.22f, AnimStep1 );
 	}
 
 	void AnimStep1() {
@@ -298,6 +315,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
+		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideAnim, UserGuideAnim);
 		battleRootGameObject.SetActive(false);
 	}
 

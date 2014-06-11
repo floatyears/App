@@ -181,7 +181,7 @@ public enum CommandEnum{
 	ReduceActiveSkillRound,
 	//BattleStart,
 	UseLeaderSkill,
-
+	UserGuideAnim,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,

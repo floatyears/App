@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ShowBottomInfo : MonoBehaviour {
 	public static float scaleTime = 0.5f;
-	public static float showTime = 1f;
+	public static float showTime = 0.5f;
 	private UILabel typeLabel;
 	private UILabel nameLabel;
 	private UILabel cateGoryLabel;
@@ -48,18 +48,16 @@ public class ShowBottomInfo : MonoBehaviour {
 		if (!nameTitleLabel.enabled) {
 			nameTitleLabel.enabled = true;		
 		}
+
 		categoryTitleLabel.text = categoryTitle;
 		typeLabel.text = "Trap";
 		itemSprite.spriteName = tb.GetTrapSpriteName ();
 		nameLabel.text = tb.GetItemName ();
 		cateGoryLabel.text = tb.GetTypeName () + " : Lv." + tb.GetLevel;
-//		iTween.ScaleTo(gameObject,iTween.Hash("y", 1f, "time", scaleTime,"oncompletetarget",gameObject,"oncomplete","ShowEnd"));
-
 		TweenAnim ();
 	}
 
 	void ShowCoin(object coin) {
-
 		int number = (int)coin;
 		nameLabel.text = "";
 		typeLabel.text = "Coin";

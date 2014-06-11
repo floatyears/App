@@ -104,7 +104,7 @@ public class BattleCard : UIBaseUnity {
 		for (int i = 0; i < battleCardArea.battleCardAreaItem.Length; i++) {
 			if(battleCardArea.battleCardAreaItem[i] == null) 
 				continue;
-			if(battleUseData.upi.CalculateNeedCard(battleCardArea.battleCardAreaItem[i].AreaItemID, index)) {
+			if(battleUseData.upi.CalculateNeedCard( battleCardArea.battleCardAreaItem[i].AreaItemID, index )) {
 				trans.Add(battleCardArea.battleCardAreaItem[i].transform);
 			}
 		}
@@ -121,7 +121,7 @@ public class BattleCard : UIBaseUnity {
 				item.Clear();
 			}
 		} else {
-			RefreshLine();	
+			RefreshLine();
 		}
 	}
 
@@ -167,7 +167,6 @@ public class BattleCard : UIBaseUnity {
 
 	public void ResetDrag() {
 		for (int i = 0; i < cardItemArray.Length; i++) {
-//			Debug.LogError("ResetDrag : " + cardItemArray[i] +  " i : " + i + " BattleCard : " + this);
 			if(cardItemArray[i] == null) {
 				continue;
 			}
@@ -192,8 +191,7 @@ public class BattleCard : UIBaseUnity {
 
 		int moveCount = bigger ? -ci.Count : ci.Count;
 
-		for (int i = 0; i < moveItem.Count; i++)
-		{
+		for (int i = 0; i < moveItem.Count; i++) {
 			Vector3 position = moveItem[i].transform.localPosition;
 
 			Vector3 to = new Vector3(position.x + moveCount * cardInterv,position.y,position.z);
