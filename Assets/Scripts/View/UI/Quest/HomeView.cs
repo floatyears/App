@@ -18,6 +18,7 @@ public class HomeView : UIComponentUnity{
 
 	public override void ShowUI(){
 		base.ShowUI();
+		CheckUnitsLimit();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, false);
 
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_PARTY || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_LEVEL_UP || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
@@ -28,7 +29,6 @@ public class HomeView : UIComponentUnity{
 
 	public override void HideUI(){
 		base.HideUI();
-//		Debug.LogError("HideUI");
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 	}
 	
@@ -155,7 +155,7 @@ public class HomeView : UIComponentUnity{
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickStoryCity, cityViewInfo[ item ].ID);
-			//Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
+			Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
 		}
 	}
 
@@ -166,6 +166,34 @@ public class HomeView : UIComponentUnity{
 			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
 		}
+	}
+
+	private void CheckUnitsLimit(){
+		int userUnitMaxCount = DataCenter.Instance.UserInfo.UnitMax;
+		//Debug.Log("userUnitMaxCount : " + userUnitMaxCount);
+		int userCurrGotUnitCount = DataCenter.Instance.UserUnitList.GetAllMyUnit().Count;
+		//Debug.Log("userCurrGotUnitCount : " + userCurrGotUnitCount);
+	
+		if(userUnitMaxCount < userCurrGotUnitCount){
+			Debug.Log("current user's unit count is outnumber of the max!");
+			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitCountOverParams());
+		}
+
+	}
+	
+	private MsgWindowParams GetUnitCountOverParams(){
+		MsgWindowParams msgParams = new MsgWindowParams();
+		msgParams.titleText = TextCenter.GetText("UnitOverflow");
+		msgParams.contentText = TextCenter.GetText("UnitOverflowText", 
+		                                           DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
+		                                           DataCenter.Instance.UserInfo.UnitMax);
+		msgParams.btnParam = new BtnParam();
+		msgParams.btnParam.callback = TurnScene;
+		return msgParams;
+	}
+
+	void TurnScene(object msg){
+		UIManager.Instance.ChangeScene(SceneEnum.Scratch);
 	}
 
 }

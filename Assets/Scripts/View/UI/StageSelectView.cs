@@ -21,15 +21,13 @@ public class StageSelectView : UIComponentUnity{
 	private GameObject scrollView;
 	private GameObject questViewItem;
 	private List<UITexture> pickEnemiesList = new List<UITexture>();
-	private Dictionary< string, object > questSelectScrollerArgsDic = new Dictionary< string, object >();
-	
 	private UITexture background;
 
 	private List<QuestInfo> questInfoList = new List<QuestInfo>();
 	private TStageInfo curStageInfo;
 	private int curQuestIndex;
 	private TEvolveStart evolveStageInfo;
-	private List<StageItemView> stroyStageList = new List<StageItemView>();
+	private List<StageItemView> storyStageList = new List<StageItemView>();
 
 
 	private GameObject eventStageRoot;
@@ -63,14 +61,10 @@ public class StageSelectView : UIComponentUnity{
 		}
 
 		for (int i = 0; i < eventStageList.Count; i++){
-//			GameObject eventStageItem = 
 			GameObject cell = NGUITools.AddChild(storyStageRoot, StageItemView.Prefab);
 			cell.name = i.ToString();
 			StageItemView stageItemView = StageItemView.Inject(cell);
 		}
-
-
-
 	}
 
 	public override void HideUI(){
@@ -103,24 +97,24 @@ public class StageSelectView : UIComponentUnity{
 
 	//--------------------------------New---------------------------------------
 
-	private TCityInfo prevPickedCityInfo;
+	private TCityInfo currPickedCityInfo;
 	private GameObject storyStageRoot;
 	private List<StageItemView> stageViewList  = new List<StageItemView>();
 
 	private void GetData(uint cityID){
 		TCityInfo received = DataCenter.Instance.GetCityInfo(cityID);
 
-		if(prevPickedCityInfo == null){
+		if(currPickedCityInfo == null){
 			//when first time to step in
 			Debug.Log("recorded picked cityInfo is null, as first time to step in, create stage view...");
-			prevPickedCityInfo = received;
+			currPickedCityInfo = received;
 			DestoryStages();
 			FillView();
 		}
-		else if(!prevPickedCityInfo.Equals(received)){
+		else if(!currPickedCityInfo.Equals(received)){
 			//when picked city changed
 			Debug.Log("recorded picked cityInfo is changed, update stage view...");
-			prevPickedCityInfo = received;
+			currPickedCityInfo = received;
 			DestoryStages();
 			FillView();
 		}
@@ -137,12 +131,12 @@ public class StageSelectView : UIComponentUnity{
 	}
 
 	private void FillView(){
-		if(prevPickedCityInfo == null) {
+		if(currPickedCityInfo == null) {
 			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
 			return;
 		}
 	
-		List<TStageInfo> accessStageList = prevPickedCityInfo.Stages;
+		List<TStageInfo> accessStageList = currPickedCityInfo.Stages;
 		GenerateStages(accessStageList);
 
 	}
@@ -165,7 +159,6 @@ public class StageSelectView : UIComponentUnity{
 				break;
 			}
 		}
-//		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessStageList.Count);
 		return accessStageList;
 	}
 	
@@ -175,9 +168,9 @@ public class StageSelectView : UIComponentUnity{
 	/// <param name="count">Count.</param>
 	private void GenerateStages(List<TStageInfo> accessStageList){
 		background = FindChild<UITexture>("Background");
-		background.mainTexture = Resources.Load("Stage/" + prevPickedCityInfo.ID) as Texture2D;
+		background.mainTexture = Resources.Load("Stage/" + currPickedCityInfo.ID) as Texture2D;
 
-		stroyStageList.Clear ();
+		storyStageList.Clear ();
 
 		bool searchFarthestArrivedStageSucceed = false;
 		for (int i = 0; i < accessStageList.Count; i++){
@@ -185,25 +178,19 @@ public class StageSelectView : UIComponentUnity{
 			cell.name = i.ToString();
 			StageItemView stageItemView = StageItemView.Inject(cell);
 
-			if(!searchFarthestArrivedStageSucceed){
-				if(!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
-					stageItemView.IsArrivedStage = true;
-					searchFarthestArrivedStageSucceed = true;
-//					Debug.Log("At the " + i + " time, search FarthestArrivedStageSucceed : " + searchFarthestArrivedStageSucceed);
-				}
-				else{
-					stageItemView.IsArrivedStage = false;
-				}
-			}
-
+//			if(!searchFarthestArrivedStageSucceed){
+//
+//				if(!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
+//					stageItemView.IsArrivedStage = true;
+//					searchFarthestArrivedStageSucceed = true;
+//				}
+//				else{
+//					stageItemView.IsArrivedStage = false;
+//				}
+//			}
 			stageItemView.Data = accessStageList[ i ];
-			stroyStageList.Add(stageItemView);
-
-
-
-
-		}//for
-
+			storyStageList.Add(stageItemView);
+		}
 	}
 
 	private List<GameObject> pageMarkItemList = new List<GameObject>();
@@ -218,7 +205,6 @@ public class StageSelectView : UIComponentUnity{
 		}
 		set{
 			isStartPage = value;
-//			leftPageBtn.gameObject.SetActive(!IsStartPage);
 		}
 	}
 
@@ -277,12 +263,12 @@ public class StageSelectView : UIComponentUnity{
 	}
 
 	void FillViewEvolve(){
-		if(prevPickedCityInfo == null) {
+		if(currPickedCityInfo == null) {
 			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
 			return;
 		}
 
-		foreach (var item in stroyStageList) {
+		foreach (var item in storyStageList) {
 			if(item.Data.Equals(evolveStageInfo.StageInfo)) {
 				item.evolveCallback = ClickEvolve;
 				continue;

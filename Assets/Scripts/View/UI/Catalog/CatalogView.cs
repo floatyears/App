@@ -22,12 +22,13 @@ public class CatalogView : UIComponentUnity {
 		//InitConfig();
 		//InitPooler();
 		//InitDragPanel();
+		TOTAL_CATALOG_COUNT = GetTotalUnitCount();
 	}
 	
 	public override void ShowUI () {
 		base.ShowUI ();
 		//CreateDragPanel();
-		//RefreshItemCounter();
+		RefreshItemCounter();
 		//RefreshCatalogView();
 		StartCoroutine("InitDragPanel");
 	}
@@ -84,10 +85,6 @@ public class CatalogView : UIComponentUnity {
 		for (int i = 1; i <= TOTAL_CATALOG_COUNT; i++){
 			catalogUnitItemList[ i - 1 ].Refresh( i );
 		}
-	}
-
-	private void InitConfig(){
-		TOTAL_CATALOG_COUNT = GetTotalUnitCount();
 	}
 
 	private void DestoryDragPanel(){
@@ -288,7 +285,6 @@ public class CatalogView : UIComponentUnity {
 	DragPanelDynamic dynamicDragPanel;
 
 	IEnumerator InitDragPanel() {
-		Debug.LogError("CatalogView.InitDragPanel(), start...");
 		GameObject go = Instantiate(CatalogUnitItem.ItemPrefab) as GameObject;
 		CatalogUnitItem.Inject(go);
 		dynamicDragPanel = new DragPanelDynamic(gameObject, go, 9, 5);
@@ -303,7 +299,7 @@ public class CatalogView : UIComponentUnity {
 		dynamicDragPanel.SetDragPanel (setter);
 
 		List<TUserUnit> catalogDataList =  new List<TUserUnit>();
-		for (int i = 0; i < 300; i++){
+		for (int i = 0; i < TOTAL_CATALOG_COUNT; i++){
 			UserUnit userUnit = new UserUnit();
 			userUnit.level = 1;
 			userUnit.exp = 0;
@@ -311,7 +307,6 @@ public class CatalogView : UIComponentUnity {
 			catalogDataList.Add(new TUserUnit(userUnit));
 		}
 		dynamicDragPanel.RefreshItem(catalogDataList);
-		Debug.LogError("CatalogView.InitDragPanel(), end...");
 		yield return null;
 		ShowUIAnimation();
 	}

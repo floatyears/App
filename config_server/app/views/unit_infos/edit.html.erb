@@ -5,7 +5,7 @@
 	id:<%= text_field_tag :id,@unit_info.try(:id)%><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
-	name:<%= text_field_tag :name ,@unit_info.try(:name)%><span color="red"><font color="red">(必填)</font><span>
+	name:<%= text_field_tag :name ,@unit_info.try(:name).force_encoding("UTF-8")%><span color="red"><font color="red">(必填)</font><span>
 </p>
 <p>
 	race:<%= select_tag :race,options_for_select(UnitInfo::UNITRACE,:selected => @unit_info.try(:race))  %><span color="red"><font color="red">(必填)</font><span>

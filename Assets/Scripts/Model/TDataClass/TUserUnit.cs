@@ -569,13 +569,26 @@ public class UserUnitList {
     }
 
     public  void Add(uint userId, uint uniqueId, TUserUnit uu) {
-		string key = uu.MakeUserUnitKey();
-        if (!userUnitInfo.ContainsKey(key))
-            userUnitInfo.Add(key, uu);
-        else {
-            userUnitInfo[key] = uu;
-        }
+//		string key = uu.MakeUserUnitKey();
+//		if (!userUnitInfo.ContainsKey (key)) {
+//			userUnitInfo.Add(key, uu);		
+//		}
+//        else {
+//            userUnitInfo[key] = uu;
+//        }
+
+		Add(uu);
     }
+
+	public void Add(TUserUnit tuu) {
+		string key = tuu.MakeUserUnitKey();
+		if (!userUnitInfo.ContainsKey (key)) {
+			userUnitInfo.Add(key, tuu);		
+		}
+		else {
+			userUnitInfo[key] = tuu;
+		}
+	}
 
     public List<uint> GetMyUnitUniqueIdList(){
         List <uint> uniqueIdList = new List<uint>();
