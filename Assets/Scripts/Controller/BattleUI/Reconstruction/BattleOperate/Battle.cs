@@ -67,15 +67,15 @@ public class Battle : UIBase {
 		base.ShowUI();
 		ShowCard();
 
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
+//		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
 			AddGuideCard ();
-		}
+//		}
 
 		if (!isShow) {
 			isShow = true;
 			GenerateShowCard();
 		}
-		UserGuideAnim (null);
+//		UserGuideAnim (null);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
@@ -97,16 +97,14 @@ public class Battle : UIBase {
 			ShowGuideAnim ();
 				} else {
 			bool b = (bool)data;
-			if(b)
 				ShowGuideAnim(b);
 		}
 	}
 
 	public void ShowGuideAnim(bool rePlay = false) {
-//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		if (rePlay) {
-			ConfigBattleUseData.Instance.storeBattleData.colorIndex -= 19;
-			GenerateCardIndex();
+			battleData.storeBattleData.colorIndex -= 19;
+			GenerateShowCard();
 		}
 		ConfigBattleUseData.Instance.NotDeadEnemy = true;
 		GameTimer.GetInstance ().AddCountDown (1f, GuideCardAnim);
