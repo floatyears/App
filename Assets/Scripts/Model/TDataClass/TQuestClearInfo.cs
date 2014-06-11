@@ -15,6 +15,12 @@ public class TStageClearItem : ProtobufDataBase {
 	public	uint	QuestId { get { return instance.questId; } set {instance.questId = value;} }
 }
 
+public enum StageState {
+	LOCKED = 0,
+	CLEAR = 1,
+	NEW = 2
+}
+
 public class TQuestClearInfo : ProtobufDataBase {
 	private QuestClearInfo	instance ;
 	private TStageClearItem storyClear;
@@ -34,8 +40,39 @@ public class TQuestClearInfo : ProtobufDataBase {
 	public	TStageClearItem			StoryClear { get { return this.storyClear; } }
 	public	List<TStageClearItem>	EventClear { get { return this.eventClear; } }
 
+	public uint prevStageId(uint stageId) {
+		uint cityId = stageId / 10;
+		if ( stageId % 10 == 1 ) { // is frist stage of city
+			if (cityId==1) { //first city
+				return 0;
+			}
+			//get prev city's last stage
+			TCityInfo cityinfo = DataCenter.Instance.GetCityInfo(cityId-1);
+			return cityinfo.Stages[cityinfo.Stages.Count-1].ID;
+		}
+
+		return stageId-1;
+	}
+
+	//return 0:locked  1:cleared 2: currentOpen
+	public StageState GetStoryStageState(uint stageId) {
+		TStageInfo stageinfo = DataCenter.Instance.GetStageInfo(stageId);
+
+		bool isClear = IsStoryStageClear(stageinfo);
+		if ( isClear ) {
+			return StageState.CLEAR;
+		}
+
+		// current isClear==false, but previous stage is Cleared.
+		uint prevStage = prevStageId(stageId);
+		if (prevStage == 0 || IsStoryStageClear( DataCenter.Instance.GetStageInfo(prevStage) ) )
+			return StageState.NEW;
+
+		return StageState.LOCKED;
+	}
+
 	public	bool IsStoryStageClear(TStageInfo stageInfo) {
-		if (StoryClear == null) {
+		if (StoryClear == null || stageInfo == null) {
 			return false;
 		}
 
