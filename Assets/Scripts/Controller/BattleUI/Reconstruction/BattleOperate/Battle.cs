@@ -71,12 +71,11 @@ public class Battle : UIBase {
 			AddGuideCard ();
 		}
 
-
 		if (!isShow) {
 			isShow = true;
 			GenerateShowCard();
 		}
-
+		UserGuideAnim (null);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
@@ -101,10 +100,10 @@ public class Battle : UIBase {
 			if(b)
 				ShowGuideAnim(b);
 		}
-
 	}
 
 	public void ShowGuideAnim(bool rePlay = false) {
+//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		if (rePlay) {
 			ConfigBattleUseData.Instance.storeBattleData.colorIndex -= 19;
 			GenerateCardIndex();
@@ -115,12 +114,19 @@ public class Battle : UIBase {
 
 	GameTimer gameTimer;
 	public void GuideCardAnim() {
+		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+		ConfigBattleUseData.Instance.NotDeadEnemy = true;
 		gameTimer = GameTimer.GetInstance ();
 		GameObject target = battleCard.cardItemArray [3].gameObject;
 		Vector3 toPosition = battleCard.cardItemArray [2].transform.position;
 		selectTarget.Add ( battleCard.cardItemArray [3] );
 		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", 0.2f) );
 		gameTimer.AddCountDown ( 0.22f, AnimStep1 );
+	}
+
+	void AttackEnemyEnd(object data) {
+		MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+		ConfigBattleUseData.Instance.NotDeadEnemy = false;
 	}
 
 	void AnimStep1() {
@@ -187,8 +193,9 @@ public class Battle : UIBase {
 	}
 
 	void AnimEnd() {
-		ConfigBattleUseData.Instance.NotDeadEnemy = false;
-		Debug.LogError("GuideAnimEnd");
+//		ConfigBattleUseData.Instance.NotDeadEnemy = false;
+
+//		Debug.LogError("GuideAnimEnd");
 	}
 
 	int generateIndex = 0;
