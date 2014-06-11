@@ -103,6 +103,10 @@ public class Main : MonoBehaviour {
 			root.manualHeight = height;
 			rootPanel.clipRange = new Vector4(0, 0, height / currentSize, height);
 		}
+		else{
+			root.manualHeight = DefaultHeight;
+			rootPanel.clipRange = new Vector4(0, 0,640, root.manualHeight);
+		}
 	}
 	
     void OnDisable() {

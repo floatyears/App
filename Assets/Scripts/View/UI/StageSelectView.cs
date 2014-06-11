@@ -29,7 +29,7 @@ public class StageSelectView : UIComponentUnity{
 	private TStageInfo curStageInfo;
 	private int curQuestIndex;
 	private TEvolveStart evolveStageInfo;
-	private List<StageItemView> stroyStageList = new List<StageItemView>();
+	private List<StageItemView> storyStageList = new List<StageItemView>();
 
 
 	private GameObject eventStageRoot;
@@ -177,7 +177,7 @@ public class StageSelectView : UIComponentUnity{
 		background = FindChild<UITexture>("Background");
 		background.mainTexture = Resources.Load("Stage/" + prevPickedCityInfo.ID) as Texture2D;
 
-		stroyStageList.Clear ();
+		storyStageList.Clear ();
 
 		bool searchFarthestArrivedStageSucceed = false;
 		for (int i = 0; i < accessStageList.Count; i++){
@@ -197,7 +197,7 @@ public class StageSelectView : UIComponentUnity{
 			}
 
 			stageItemView.Data = accessStageList[ i ];
-			stroyStageList.Add(stageItemView);
+			storyStageList.Add(stageItemView);
 
 
 
@@ -282,7 +282,7 @@ public class StageSelectView : UIComponentUnity{
 			return;
 		}
 
-		foreach (var item in stroyStageList) {
+		foreach (var item in storyStageList) {
 			if(item.Data.Equals(evolveStageInfo.StageInfo)) {
 				item.evolveCallback = ClickEvolve;
 				continue;
