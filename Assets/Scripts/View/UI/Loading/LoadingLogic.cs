@@ -24,8 +24,8 @@ public class LoadingLogic : ConcreteComponent {
     }
     
     public override void ShowUI () {
-		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
-        GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
+//		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
+//        GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
 
         base.ShowUI ();
     }
@@ -71,6 +71,8 @@ public class LoadingLogic : ConcreteComponent {
             //localTime = rspAuthUser.serverTime
 
             //save to GlobalData
+			GameTimer.GetInstance().InitDateTime(rspAuthUser.serverTime);
+
             if (rspAuthUser.account != null) {
                 DataCenter.Instance.AccountInfo = new TAccountInfo(rspAuthUser.account);
             }
@@ -82,7 +84,6 @@ public class LoadingLogic : ConcreteComponent {
                 if (rspAuthUser.evolveType != null) {
                     DataCenter.Instance.UserInfo.EvolveType = rspAuthUser.evolveType;
                 }
-                
             }
             else {
 				Debug.LogError("authUser response rspAuthUser.user == null");
