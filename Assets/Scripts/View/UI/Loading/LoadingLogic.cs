@@ -24,6 +24,9 @@ public class LoadingLogic : ConcreteComponent {
     }
     
     public override void ShowUI () {
+		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
+        GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
+
         base.ShowUI ();
     }
     
@@ -162,12 +165,52 @@ public class LoadingLogic : ConcreteComponent {
         }
     }
 
+	private void StartFight(){
+
+		StartQuest sq = new StartQuest ();
+		StartQuestParam sqp = new StartQuestParam ();
+		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+		sqp.helperUserUnit = null;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+//		QuestItemView questInfo = pickedInfoForFight[ "QuestInfo"] as QuestItemView;
+		sqp.questId = 0;//questInfo.Data.ID;
+		sqp.stageId = 0;//questInfo.StageID;
+		sqp.startNew = 1;
+		sqp.isUserGuide = 1;
+		sq.OnRequest (sqp, RspStartQuest);
+
+	}
+	
+	private void RspStartQuest(object data) {
+		TQuestDungeonData tqdd = null;
+		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
+		if (rspStartQuest.header.code != (int)ErrorCode.SUCCESS) {
+			Debug.LogError("Rsp code: "+rspStartQuest.header.code+", error:"+rspStartQuest.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspStartQuest.header.code);
+			return;
+		}
+		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
+			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
+			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
+			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
+			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
+			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
+		}
+		
+		if (data == null || tqdd == null) { return; }
+		EnterBattle (tqdd);
+		
+	} 
+
+	private void EnterBattle (TQuestDungeonData tqdd) {
+		ConfigBattleUseData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
+		UIManager.Instance.EnterBattle();
+	}
+
 	uint recoverQuestID = 0;
 
 	void EnterGame () {
-		UIManager.Instance.ChangeScene(SceneEnum.Start);
-
-		UIManager.Instance.ChangeScene(SceneEnum.Home);
+//		
 
 		//LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
 //		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
@@ -176,8 +219,13 @@ public class LoadingLogic : ConcreteComponent {
 
 //		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 
-		if (rspAuthUser.isNewUser == 1){
-			TurnToReName();
+		if (rspAuthUser.isNewUser == 1) {
+			StartFight();
+//			TurnToReName();
+		} else {
+			UIManager.Instance.ChangeScene(SceneEnum.Start);
+			
+			UIManager.Instance.ChangeScene(SceneEnum.Home);
 		}
 	}
 

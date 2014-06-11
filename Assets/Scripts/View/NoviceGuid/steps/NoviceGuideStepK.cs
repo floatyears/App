@@ -49,6 +49,7 @@ public class NoviceGuideStepK_StateOne:NoviceGuidState
 	}
 	
 	private void EnemyAttackEnd(object data){
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_HEAL;
 		JumpToNextState = true;
 	}
 	
@@ -165,6 +166,8 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_SKILL;
 		
 	}
 	
@@ -209,7 +212,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		GameObject leader = GameObject.FindWithTag ("battle_leader");
 		NoviceGuideUtil.ShowArrow (new GameObject[]{leader}, new Vector3[]{new Vector3 (0, 140, 1)});
 		
-		BattleBottom bbs = GameObject.Find ("BattleBottom(Clone)").GetComponent<BattleBottom>();
+		BattleBottom bbs = GameObject.Find ("BattleBottom").GetComponent<BattleBottom>();
 		bbs.SetLeaderToNoviceGuide (true);
 		bbs.IsUseLeaderSkill = true;
 		MsgCenter.Instance.AddListener (CommandEnum.UseLeaderSkill, OnUseLeaderSkill);

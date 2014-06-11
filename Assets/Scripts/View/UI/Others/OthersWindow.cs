@@ -64,6 +64,12 @@ public class OthersWindow : UIComponentUnity {
 		raiderOption.GetComponentInChildren<UILabel>().text = "Raider";
 		options.Add( raiderOption, nickNamePanel );
 
+		//raider
+		GameObject currencyOption = othersScroller.AddScrollerItem( item );
+		currencyOption.name = "CurrencyOption";
+		currencyOption.GetComponentInChildren<UILabel>().text = "Currency";
+		options.Add( currencyOption, nickNamePanel );
+
         resetOption = othersScroller.AddScrollerItem( item );
         resetOption.name = "ResetOption";
         resetOption.GetComponentInChildren<UILabel>().text = "Reset Data";
@@ -99,6 +105,9 @@ public class OthersWindow : UIComponentUnity {
         }
 		if (target.name == "RaiderOption") {
 			UIManager.Instance.ChangeScene(SceneEnum.Raider);
+		}
+		if (target.name == "CurrencyOption") {
+			UIManager.Instance.ChangeScene(SceneEnum.Currency);
 		}
 	}
 	

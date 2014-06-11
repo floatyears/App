@@ -136,6 +136,8 @@ public class NoviceGuideStepH_StateTwo:NoviceGuidState
 
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.ANIMATION;
 	}
 
 	private void ClickOK(object data)

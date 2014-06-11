@@ -41,13 +41,15 @@ public class StartQuest: ProtoManager {
 
         reqStartQuest.stageId = questParam.stageId;
         reqStartQuest.questId = questParam.questId;
-		reqStartQuest.helperUserId = questParam.helperUserUnit.UserId;
+		if(questParam.helperUserUnit != null)
+			reqStartQuest.helperUserId = questParam.helperUserUnit.UserId;
         reqStartQuest.currentParty = questParam.currPartyId;
 		reqStartQuest.restartNew = questParam.startNew;
 //		TUserUnit userunit = DataCenter.Instance.UserUnitList.Get(questParam.helperUserId, questParam.helperUniqueId);
 //		Debug.LogError ("userunit : " + userunit);
 //        if (userunit != null)
-		reqStartQuest.helperUnit = questParam.helperUserUnit.UserUnit.Object;
+		if(questParam.helperUserUnit != null)
+			reqStartQuest.helperUnit = questParam.helperUserUnit.UserUnit.Object;
 		reqStartQuest.isUserGuide = questParam.isUserGuide;
 
 //        LogHelper.Log("helperUserId:{0} currParty:{1} userunit:{2}", reqStartQuest.helperUserId, reqStartQuest.currentParty, userunit);

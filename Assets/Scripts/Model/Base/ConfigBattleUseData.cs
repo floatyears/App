@@ -301,6 +301,8 @@ public class ConfigBattleUseData {
 	
 	//stage
 	public void WriteStageInfo() {
+		if (currentStageInfo == null)
+			return;
 		byte[] stage = ProtobufSerializer.SerializeToBytes<StageInfo> (currentStageInfo.stageInfo);
 		WriteToFile (stage, stageInfoName);
 	}
@@ -314,6 +316,8 @@ public class ConfigBattleUseData {
 
 	//quest info
 	public void WriteQuestInfo() {
+		if (currentQuestInfo == null)
+			return;
 		byte[] quest = ProtobufSerializer.SerializeToBytes<QuestInfo> (currentQuestInfo.questInfo);
 		WriteToFile (quest, questInfoName);
 	}
@@ -340,6 +344,8 @@ public class ConfigBattleUseData {
 
 	//friend
 	public void WriteFriend() {
+		if (BattleFriend == null)
+			return;
 		byte[] friend = ProtobufSerializer.SerializeToBytes<FriendInfo>(BattleFriend.Instance);
 		WriteToFile (friend, friendFileName);
 	}
