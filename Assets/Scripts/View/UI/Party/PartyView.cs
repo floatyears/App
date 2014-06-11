@@ -8,9 +8,6 @@ public class PartyView : UIComponentUnity{
 	private SortRule curSortRule;
 	private DragPanel dragPanel;
 	private GameObject rejectItem;
-	private UILabel pageIndexLabel;
-	private UILabel rightIndexLabel;
-	private UILabel pageIndexSuffixLabel;
 	private UILabel sortRuleLabel;
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
@@ -19,6 +16,7 @@ public class PartyView : UIComponentUnity{
 	private MyUnitItem pickedFromParty;
 	private MyUnitItem focusedOnParty;
 	private MyUnitItem pickedFromUnitList;
+	private UISprite pageIndexSpr;
 
 	private Dictionary<int, PageUnitItem> partyItems = new Dictionary<int, PageUnitItem>();
 	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
@@ -58,6 +56,7 @@ public class PartyView : UIComponentUnity{
 	private void InitPagePanel(){
 		topRoot = transform.FindChild("Top").gameObject;
 		bottomRoot = transform.FindChild("Bottom").gameObject;
+		pageIndexSpr = transform.FindChild("Top/Sprite_Page_Index").GetComponent<UISprite>();
 		prePageBtn = FindChild<UIButton>("Top/Button_Left");
 		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
 		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
@@ -94,6 +93,7 @@ public class PartyView : UIComponentUnity{
 		List<TUserUnit> partyData = party.GetUserUnit();
 		//Debug.LogError("Partyed count is : " + partyData.Count);
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
+		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
 
 		int count = partyData.Count;
 		if(count > partyItems.Count) count = partyItems.Count;
