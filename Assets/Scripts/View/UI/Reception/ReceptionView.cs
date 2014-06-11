@@ -168,7 +168,6 @@ public class ReceptionView : UIComponentUnity {
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
 			LogHelper.Log("RspAddFriend code:{0}, error:{1}", rsp.header.code, rsp.header.error);
 			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
-
 			return;
 		}
 		
