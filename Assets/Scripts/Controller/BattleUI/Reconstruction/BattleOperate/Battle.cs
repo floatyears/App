@@ -67,21 +67,22 @@ public class Battle : UIBase {
 		base.ShowUI();
 		ShowCard();
 
-//		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
 			AddGuideCard ();
-//		}
+		}
 
 		if (!isShow) {
 			isShow = true;
 			GenerateShowCard();
 		}
-//		UserGuideAnim (null);
+
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
+		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
 	}
 
 	private byte[] indexArray = new byte[19]{ 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 3, 3, 3, 2, 3, 2, 1 };
@@ -92,12 +93,26 @@ public class Battle : UIBase {
 		}
 	}
 
+	int userGuideIndex = -1;
+	void UserGuideCard(object data) {
+		userGuideIndex = (int)data;
+		if (userGuideIndex == -1) {
+			return;
+		}
+
+		for (int i = 0; i < battleCardPool.CardPosition.Length; i++) {
+			battleCard.GenerateSpriteCard(userGuideIndex, i);
+		}
+
+		battleCard.RefreshLine();
+	}
+
 	void UserGuideAnim(object data) {
 		if (data == null) {
 			ShowGuideAnim ();
-				} else {
+		} else {
 			bool b = (bool)data;
-				ShowGuideAnim(b);
+			ShowGuideAnim(b);
 		}
 	}
 
@@ -321,6 +336,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideAnim, UserGuideAnim);
+		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideCard, UserGuideCard);
 		battleRootGameObject.SetActive(false);
 	}
 
@@ -483,6 +499,11 @@ public class Battle : UIBase {
 	int GenerateCardIndex () {
 		int index = battleData.questDungeonData.Colors [battleData.storeBattleData.colorIndex];
 		battleData.storeBattleData.colorIndex++;
+
+		if (userGuideIndex != -1) {
+			index = userGuideIndex;
+		}
+
 		currentColor.Add (index);
 		if (currentColor.Count > 5) {
 			currentColor.RemoveAt(0);

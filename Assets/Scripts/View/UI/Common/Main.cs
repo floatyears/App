@@ -97,7 +97,7 @@ public class Main : MonoBehaviour {
 		float currentSize = Screen.height / (float)Screen.width;
 		UIPanel rootPanel = uiRoot.transform.Find("RootPanel").GetComponent<UIPanel>();
 
-		if (currentSize >= DefaultSize){
+		if (currentSize >= DefaultSize) {
 			//the current screen is thinner than the default, keep the default.
 			float sizePropotion = currentSize / DefaultSize;
 			int height = System.Convert.ToInt32( DefaultHeight * sizePropotion);

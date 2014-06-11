@@ -538,6 +538,18 @@ public class DataCenter {
         }
     }
 
+	//PS: GetStageInfo() only used for story stage ( event stage cannot use)
+	public TStageInfo GetStageInfo (uint stageID) {
+		uint cityId = stageID/10;
+		TCityInfo cityInfo = GetCityInfo(cityId);
+		for(int i=0; i < cityInfo.Stages.Count; i++) {
+			if (stageID==cityInfo.Stages[i].ID)
+				return cityInfo.Stages[i];
+		}
+
+		return null;
+	}
+
 	public TCityInfo GetCityInfo (uint cityID) {
 		if (CityInfo.ContainsKey(cityID)) {
 			TCityInfo tui = CityInfo[cityID];
