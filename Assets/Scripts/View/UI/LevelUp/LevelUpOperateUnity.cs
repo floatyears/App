@@ -142,11 +142,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		if (_sortRule != SortRule.None) {
 			SortUnitTool.SortByTargetRule(_sortRule, myUnit);
 		}
-		myUnitList = myUnitDragPanel.RefreshItem (myUnit);
+		myUnitDragPanel.RefreshItem (myUnit);
 
 		foreach (var item in myUnitDragPanel.scrollItem) {
 			PartyUnitItem pui = item as PartyUnitItem;
 			pui.callback = MyUnitClickCallback;
+			myUnitList.Add(pui);
 		}
 	}
 
