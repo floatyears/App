@@ -118,7 +118,7 @@ public class ViewManager {
 
 //		DragPanelDynamic dpd 
 	}
-
+	
 	public void ShowTipsLabel (string content) {
 		tipsLabelUI.ShowInfo (content);
 	}

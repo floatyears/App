@@ -274,13 +274,16 @@ public class SellView : UIComponentUnity{
 		int clickPos = saleUnitViewList.IndexOf(item);
 		int poolPos = 0;
 		int index = CheckHaveBeenPicked(item);
-		if(index == -1) {//not exist and add to picked list
+		if(index == -1) {
+			//not exist and add to picked list
 			index = SearchFirstEmptyPosition(item);
-				if(index == -1) {//conditin 1 : not exist empty slot in current picked list and add in the end of the list
+				if(index == -1) {
+				//conditin 1 : not exist empty slot in current picked list and add in the end of the list
 					poolPos = pickUnitViewList.Count;
 					pickUnitViewList.Add(item);
 				}
-			else{//conditin 2 : exist empty slot and insert it
+			else{
+				//conditin 2 : exist empty slot and insert it
 					poolPos = index;
 					pickUnitViewList[index] = item;
 				}
@@ -297,7 +300,8 @@ public class SellView : UIComponentUnity{
 			temp.Add("label", item.UserUnit.Level.ToString());
 			AddViewItem(temp);
 		}
-		else{//already exist, treat current click as "cancel sell this unit"
+		else{
+			//already exist, treat current click as "cancel sell this unit"
 			poolPos = index;
 			SellUnitItem suv = pickUnitViewList[ index ];
 			pickUnitViewList[ index ] = null;
