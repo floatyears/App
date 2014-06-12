@@ -100,7 +100,7 @@ public class ViewManager {
 
 	public void Init(GameObject ui){
 		mainUIRoot = ui;		
-		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();	
+		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();
 		Transform trans = mainUIRoot.transform;
 		parentPanel = trans.Find("Bottom").gameObject;
 		topPanel = trans.Find ("Top").gameObject;
@@ -115,7 +115,6 @@ public class ViewManager {
 		dynamicFont = Resources.Load("Font/Dimbo Regular", typeof(Font)) as Font;
 		manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
 //		Debug.LogError("manualHeight : " + manualHeight);
-
 //		DragPanelDynamic dpd 
 	}
 	

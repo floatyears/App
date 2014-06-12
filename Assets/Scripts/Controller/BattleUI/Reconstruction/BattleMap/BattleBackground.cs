@@ -15,10 +15,10 @@ public class BattleBackground : UIBaseUnity {
 	private int initEnergyPoint = -1;
 	private int currentEnergyPoint = -1;
 
-	private static Dictionary<string, Vector3> attackPosition = new Dictionary<string, Vector3> ();
-	public static Dictionary<string, Vector3> AttackPosition {
-		get { return attackPosition; }
-	}
+//	private static Dictionary<string, Vector3> attackPosition = new Dictionary<string, Vector3> ();
+//	public static Dictionary<string, Vector3> AttackPosition {
+//		get { return attackPosition; }
+//	}
 
 	private static Vector3 actorPosition = Vector3.zero;
 	public static Vector3 ActorPosition	{
@@ -48,7 +48,7 @@ public class BattleBackground : UIBaseUnity {
 
 		for (int i = 0; i < actor.Length; i++) {
 			path = "Actor/" + i.ToString();
-			actor[i] = 	battleBottom.transform.Find(path).renderer.material;
+			actor[i] = 	transform.Find(path).renderer.material;
 		}
 
 		for (int i = spSprite.Length; i > 0; i--) {
@@ -76,9 +76,9 @@ public class BattleBackground : UIBaseUnity {
 			if(tuu == null) {
 				continue;
 			}
-			Vector3 pos =  FindChild<Transform>("Bottom/" + (i + 1)).localPosition;
+//			Vector3 pos =  FindChild<Transform>("Bottom/" + (i + 1)).localPosition;
 //			Debug.LogError("i : " + i + " tuu : " + tuu.MakeUserUnitKey());
-			attackPosition.Add(tuu.MakeUserUnitKey(), pos);
+//			attackPosition.Add(tuu.MakeUserUnitKey(), pos);
 		}
 	}
 
@@ -105,7 +105,7 @@ public class BattleBackground : UIBaseUnity {
 		base.DestoryUI ();
 		Destroy (battleBottom);
 		_battleBottomScript = null;
-		attackPosition.Clear ();
+//		attackPosition.Clear ();
 	}
 
 	public void InitData (int blood, int maxBlood, int energyPoint) {
