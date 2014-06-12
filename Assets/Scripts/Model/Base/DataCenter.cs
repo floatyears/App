@@ -62,7 +62,9 @@ public class DataCenter {
         } 
     }
     private static DataCenter instance;
-    private DataCenter() { }
+    private DataCenter() { 
+		supportFriendManager = new SupportFriendManager ();
+	}
 
 	private static GameState _gameState = GameState.Normal;
 	public static GameState gameState {
@@ -109,10 +111,13 @@ public class DataCenter {
         set { setData(ModelEnum.AccountInfo, value); }
     }
 
+	private SupportFriendManager supportFriendManager;
+
     public List<TFriendInfo> SupportFriends { 
-        get { return getData(ModelEnum.SupportFriends) as List<TFriendInfo>; }
-        set { setData(ModelEnum.SupportFriends, value); } 
+		get { return supportFriendManager.GetSupportFriend(); }
+		set { supportFriendManager.AddSupportFriend(value); }
     }
+
     public TFriendList FriendList { 
         get { return getData(ModelEnum.FriendList) as TFriendList; }
         set { setData(ModelEnum.FriendList, value); } 
