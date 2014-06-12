@@ -49,3 +49,51 @@ public class PartyUnitItem : MyUnitItem {
 	}
 
 }
+
+
+
+public class LevelUpUnitItem : MyUnitItem {
+	public static LevelUpUnitItem Inject(GameObject item){
+		LevelUpUnitItem view = item.GetComponent<LevelUpUnitItem>();
+		if (view == null) view = item.AddComponent<LevelUpUnitItem>();
+		return view;
+	}
+	public delegate void UnitItemCallback(LevelUpUnitItem puv);
+	public UnitItemCallback callback;
+	
+	protected override void ClickItem(GameObject item){
+		if(callback != null) {
+			callback(this);
+		}
+	}
+	
+	protected override void InitUI(){
+		base.InitUI();
+	}
+	
+	protected override void InitState(){
+		base.InitState();
+		IsFocus = false;
+		
+		if(userUnit != null){
+			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
+			IsEnable = !IsParty;
+		}
+	}
+	
+	protected override void UpdatePartyState(){
+		partyLabel.enabled = IsParty;
+//		IsEnable = !IsParty;
+	}
+	
+	protected override void UpdateFocus(){
+		lightSpr.enabled = IsFocus;
+	}
+	
+	protected override void RefreshState(){
+		base.RefreshState();
+		if(userUnit != null){
+			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
+		}
+	}
+}
