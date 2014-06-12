@@ -111,7 +111,7 @@ public class DataCenter {
         set { setData(ModelEnum.AccountInfo, value); }
     }
 
-	private SupportFriendManager supportFriendManager;
+	public SupportFriendManager supportFriendManager;
 
     public List<TFriendInfo> SupportFriends { 
 		get { return supportFriendManager.GetSupportFriend(); }
@@ -397,7 +397,7 @@ public class DataCenter {
     } 
 
     public List<int> HaveCard {
-        get { 
+        get {
             List<int> ret = getData(ModelEnum.HaveCard) as List<int>;
             if (ret == null) {
                 ret = new List<int>() {111,185,161,101,122,195};
@@ -405,7 +405,7 @@ public class DataCenter {
             }
             return ret; 
         }
-        set { setData(ModelEnum.HaveCard, value); } 
+        set { setData(ModelEnum.HaveCard, value); }
     }
 
     public GameObject ItemObject {

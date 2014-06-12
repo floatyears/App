@@ -25,6 +25,7 @@ public class HomeView : UIComponentUnity{
 			UIManager.Instance.ChangeScene(SceneEnum.Units);	
 		}
 
+		GameTimer.GetInstance ().CheckRefreshServer ();
 	}
 
 	public override void HideUI(){

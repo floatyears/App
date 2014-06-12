@@ -47,5 +47,22 @@ public class SupportFriendManager {
 		return supportFriend;
 	}
 
+	public bool CheckIsMyFriend(TFriendInfo tfi) {
+		TFriendList tfl = DataCenter.Instance.FriendList;
+
+		for (int i = 0; i < tfl.Friend.Count; i++) {
+			if(tfl.Friend[i].UserId == tfi.UserId) {
+				return true;
+			}
+		}
+
+		for (int i = 0; i < tfl.FriendOut.Count; i++) {
+			if(tfl.FriendOut[i].UserId == tfi.UserId) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 }

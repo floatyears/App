@@ -90,7 +90,6 @@ public class LoadingLogic : ConcreteComponent {
             }
             
             if (rspAuthUser.friends != null) {
-//                DataCenter.Instance.SupportFriends = new List<TFriendInfo>();
 				List<TFriendInfo> supportFriends = new List<TFriendInfo>();
                 foreach (FriendInfo fi in rspAuthUser.friends) {
                     TFriendInfo tfi = new TFriendInfo(fi);
@@ -279,3 +278,4 @@ public class LoadingLogic : ConcreteComponent {
         Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.NickName);
     }
 }
+

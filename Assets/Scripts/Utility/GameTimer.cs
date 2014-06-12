@@ -87,10 +87,29 @@ public class GameTimer : MonoBehaviour {
 
 	public const uint TenMinuteSeconds = 600;
 
+	public DateTime currentDateTime;
+
 	public void InitDateTime(uint seconds) {
 		Seconds = seconds;
 		addSeconds = 0;
 		startTime = true;
+
+		currentDateTime = GenerateTimeBySeconds ();
+	}
+
+	public void CheckRefreshServer() {
+		if (CheckDay ()) {
+			RequestLoginToServer.Login();
+		}
+	}
+
+	public bool CheckDay() {
+		DateTime dt = GenerateTimeBySeconds ();
+		if (currentDateTime.Day != dt.Day) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public uint GetCurrentSeonds() {
@@ -106,11 +125,6 @@ public class GameTimer : MonoBehaviour {
 		DateTime currentTime = dt.AddSeconds (Seconds);
 		return currentTime;
 	}
-
-//	public uint ChangeNowTimeToSeconds() {
-//		DateTime dt = DateTime.Now;
-//		dt - new DateTime(1970,1,1);
-//	}
 }
 
 public class CountDownUtility {
