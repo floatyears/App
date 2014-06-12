@@ -62,11 +62,11 @@ public class SellView : UIComponentUnity{
 	}
 
     public override void ResetUIState() {
+		ResetUIElement();
         SellController controller = origin as SellController;
         if (controller != null){
             controller.ResetUI();
         }
-        ResetUIElement();
     }
     
     void BackToMainWindow(object args){

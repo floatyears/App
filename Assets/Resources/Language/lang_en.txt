@@ -186,22 +186,22 @@ E_LEVELUP_NO_ENOUGH_MONEY=E_LEVELUP_NO_ENOUGH_MONEY
 E_GET_UNIT_INFO_ERROR=E_GET_UNIT_INFO_ERROR
 
 #network error
-NETWORK_ERROR=Network error.\n Please check your network connection and try again later.
-TIMEOUT_ERROR=Connect to server timeout.\n Please check your network connection and try again later.
+NETWORK_ERROR=Network error.Please check your network connection and try again later.
+TIMEOUT_ERROR=Connect to server timeout.Please check your network connection and try again later.
 CONNECT_ERROR=Cannot connect to server. Please check your network connection and try again later.
-SERVER_500=The server is busy now.\n Please wait for a moment and try again later.
+SERVER_500=The server is busy now.Please wait for a moment and try again later.
 
 BigRareWarning=Rare Warning
-BigRareWarningText=Include the unit whose rare bigger than 3.\nAre you sure to sell?
+BigRareWarningText=Include the unit whose rare bigger than 3.Are you sure to sell?
 
 UnitOverflow=Unit Overflow
 UnitOverflowText=Your current unit capacity is [ff0000]{0}[-]/{1}.Would you like to do unit expansion?
 
 FirendOverflow=Firend Overflow
-FriendOverflowText=Your current unit capacity is {0}/{1}.\nWould you like to do friend expansion?
+FriendOverflowText=Your current unit capacity is {0}/{1}.Would you like to do friend expansion?
 
 CostLimit=Current Cost Limit
-CostLimitText=Sorry to tell you,\nyou can't replace this unit! 
+CostLimitText=Sorry to tell you,You can't replace this unit! 
 
 FriendCounterTitle=Friends :
 ApplyCounterTitle=Apply :
