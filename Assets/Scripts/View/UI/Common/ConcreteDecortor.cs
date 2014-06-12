@@ -883,17 +883,16 @@ public class UnitDetailDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 
-
-		unitDetail = CreatComponent< UnitDetailComponent >(UIConfig.unitDetailPanelName);
-		unitDetail.SetComponent(decorator);
-
 		UnitDetailTopComponent unitDetailTop = CreatComponent< UnitDetailTopComponent >(UIConfig.unitDetailTopPanelName);
-		unitDetailTop.SetComponent(unitDetail);
+		unitDetailTop.SetComponent(decorator);
 
 		UnitDetailCenterComponent unitDetailCenter = CreatComponent<UnitDetailCenterComponent> (UIConfig.unitDetailCenterPanelName);
 		unitDetailCenter.SetComponent (unitDetailTop);
 
-		lastDecorator = unitDetailCenter;
+		unitDetail = CreatComponent< UnitDetailComponent >(UIConfig.unitDetailPanelName);
+		unitDetail.SetComponent(unitDetailCenter);
+
+		lastDecorator = unitDetail;
 		lastDecorator.CreatUI();
 	}
 
