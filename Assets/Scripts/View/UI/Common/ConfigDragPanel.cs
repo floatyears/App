@@ -92,7 +92,7 @@ public class ConfigDragPanel{
 		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(1280, 1350, 0)				);
 		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
 		HelperListDragPanelArgs.Add("cellHeight", 					 120												);
-		HelperListDragPanelArgs.Add("depth",						 	  0													);
+		HelperListDragPanelArgs.Add("depth",						 	  2													);
 	}
 
 	
@@ -170,6 +170,7 @@ public class ConfigDragPanel{
 		QuestSelectDragPanelArgs.Add("scrollBarPosition",			 	new Vector3(1280, 1350, 0)			);
 		QuestSelectDragPanelArgs.Add("cellWidth", 					 	0												);
 		QuestSelectDragPanelArgs.Add("cellHeight", 					 	130											);
+		QuestSelectDragPanelArgs.Add("depth",							2												);
 	}
 
 	
