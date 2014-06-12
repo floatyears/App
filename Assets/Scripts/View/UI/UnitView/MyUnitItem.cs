@@ -18,6 +18,7 @@ public class MyUnitItem : BaseUnitItem {
 			return isParty;
 		}
 		set{
+//			Debug.LogError("isparty : " + isParty + " isenable : " + IsEnable);
 			isParty = value;
 			UpdatePartyState();
 		}

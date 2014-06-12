@@ -85,6 +85,8 @@ public class GameTimer : MonoBehaviour {
 	private float addSeconds = 0f;
 	private bool startTime = false;
 
+	public const uint TenMinuteSeconds = 600;
+
 	public void InitDateTime(uint seconds) {
 		Seconds = seconds;
 		addSeconds = 0;
@@ -104,6 +106,11 @@ public class GameTimer : MonoBehaviour {
 		DateTime currentTime = dt.AddSeconds (Seconds);
 		return currentTime;
 	}
+
+//	public uint ChangeNowTimeToSeconds() {
+//		DateTime dt = DateTime.Now;
+//		dt - new DateTime(1970,1,1);
+//	}
 }
 
 public class CountDownUtility {
