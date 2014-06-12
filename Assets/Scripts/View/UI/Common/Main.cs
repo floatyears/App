@@ -84,7 +84,7 @@ public class Main : MonoBehaviour {
     /// start game
     /// </summary>
     void OnEnable() {
-		SetResolution ();
+		SetResolution();
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
         EffectManager em = EffectManager.Instance;
         UIManager.Instance.ChangeScene(SceneEnum.Loading);
@@ -95,7 +95,7 @@ public class Main : MonoBehaviour {
 	public const int DefaultHeight = 960;
 	void SetResolution() {
 		float currentSize = Screen.height / (float)Screen.width;
-		UIPanel rootPanel = uiRoot.transform.Find("RootPanel").GetComponent<UIPanel>();
+		UIPanel rootPanel = uiRoot.GetComponent<UIPanel>();
 
 		if (currentSize >= DefaultSize) {
 			//the current screen is thinner than the default, keep the default.
