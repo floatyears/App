@@ -104,6 +104,11 @@ public class GameTimer : MonoBehaviour {
 		DateTime currentTime = dt.AddSeconds (Seconds);
 		return currentTime;
 	}
+
+	public uint ChangeNowTimeToSeconds() {
+		DateTime dt = DateTime.Now;
+
+	}
 }
 
 public class CountDownUtility {
