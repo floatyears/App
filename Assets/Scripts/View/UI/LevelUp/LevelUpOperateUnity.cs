@@ -50,7 +50,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 	bool clear = false;
 	public override void ResetUIState () {
-		Debug.LogError ("ResetUIState");
+//		Debug.LogError ("ResetUIState");
 		clear = true;
 		ClearData ();
 		CheckLevelUp ();
@@ -116,7 +116,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private DragPanelDynamic myUnitDragPanel;
 
-	private List<PartyUnitItem> myUnitList = new List<PartyUnitItem> ();
+	private List<LevelUpUnitItem> myUnitList = new List<LevelUpUnitItem> ();
 
 	private List<TUserUnit> myUnit = new List<TUserUnit> ();
 
@@ -127,7 +127,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
-		Debug.LogError ("clear : " + clear);
+//		Debug.LogError ("clear : " + clear);
 		if (!clear) {
 			return;	
 		}
@@ -145,7 +145,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		myUnitDragPanel.RefreshItem (myUnit);
 
 		foreach (var item in myUnitDragPanel.scrollItem) {
-			PartyUnitItem pui = item as PartyUnitItem;
+			LevelUpUnitItem pui = item as LevelUpUnitItem;
 			pui.callback = MyUnitClickCallback;
 			myUnitList.Add(pui);
 		}
@@ -187,8 +187,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void InitDragPanel() {
-		GameObject go = Instantiate (PartyUnitItem.ItemPrefab) as GameObject;
-		PartyUnitItem.Inject (go);
+		GameObject go = Instantiate (LevelUpUnitItem.ItemPrefab) as GameObject;
+		LevelUpUnitItem.Inject (go);
 		GameObject parent = FindChild<Transform>("Middle/LevelUpBasePanel").gameObject;
 		myUnitDragPanel = new DragPanelDynamic (parent, go, 9, 3);
 
@@ -285,7 +285,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// <summary>
 	/// drag panel item click.
 	/// </summary>
-	void MyUnitClickCallback(PartyUnitItem pui) {
+	void MyUnitClickCallback(LevelUpUnitItem pui) {
 		if (prevSelectedItem == null) {
 			if (SetBaseItem (pui)) {
 				return;	
@@ -392,10 +392,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		UpdateBaseInfoView ();
 		if (CheckIsParty (pui)) {
 			selectedItem [baseItemIndex].IsEnable = true;
-//			selectedItem [0].PartyLabel.text = "Base";
 		}
 		pui.IsEnable = false;
-//		pui.PartyLabel.text = "Base";
 		ClearFocus ();
 		ShieldParty (false, null);
 
@@ -417,8 +415,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void ShieldParty(bool shield, MyUnitItem baseItem) {
+//		Debug.LogError ("ShieldParty : " + shield + " base item : " + baseItem);
 		for (int i = 0; i < myUnitList.Count; i++) {
-			PartyUnitItem pui = myUnitList [i];
+			LevelUpUnitItem pui = myUnitList [i];
 			if(pui.IsParty || pui.IsFavorite) {
 				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
 					continue;
@@ -492,7 +491,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			return;	
 		}
 		for (int i = 0; i < myUnitList.Count; i++) {
-			PartyUnitItem pui = myUnitList [i];
+			LevelUpUnitItem pui = myUnitList [i];
 			if (pui.UserUnit.TUserUnitID == tuu.TUserUnitID) {
 				if(pui.IsParty) {
 					pui.PartyLabel.text = "Party";
@@ -628,7 +627,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		return devorExp;
 	}
 
-	public PartyUnitItem GetPartyUnitItem(int i){
+	public LevelUpUnitItem GetPartyUnitItem(int i){
 		if (i == -1) {
 			return myUnitList[myUnitList.Count-1];
 		} else {

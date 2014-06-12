@@ -225,6 +225,7 @@ public class DragPanelDynamic {
 		AddGameObject (endItemIndex);
 		for (int i = 0; i < scrollItem.Count; i++) {
 			scrollItem[i].UserUnit = data[i];
+
 		}
 	}
 

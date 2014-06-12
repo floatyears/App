@@ -56,6 +56,7 @@ public class BaseUnitItem : MonoBehaviour {
 			return isEnable;
 		}
 		set{
+//			Debug.LogError("isEnable : "  + isEnable);
 			isEnable = value;
 			UpdatEnableState();
 		}
