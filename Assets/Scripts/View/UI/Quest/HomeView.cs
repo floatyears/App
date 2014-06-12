@@ -18,7 +18,6 @@ public class HomeView : UIComponentUnity{
 
 	public override void ShowUI(){
 		base.ShowUI();
-		CheckUnitsLimit();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, false);
 
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_PARTY || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_LEVEL_UP || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
@@ -149,7 +148,11 @@ public class HomeView : UIComponentUnity{
 	/// </summary>
 	/// <param name="item">Item.</param>
 	private void PressStoryDoor(GameObject item, bool isPressed){
-		UISprite bgSpr = item.transform.FindChild("Background").GetComponent<UISprite>();
+		if(CheckUnitsLimit()){
+			return;
+		}
+                
+        UISprite bgSpr = item.transform.FindChild("Background").GetComponent<UISprite>();
 		bgSpr.enabled = isPressed;
 		if(!isPressed){
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
@@ -168,7 +171,7 @@ public class HomeView : UIComponentUnity{
 		}
 	}
 
-	private void CheckUnitsLimit(){
+	private bool CheckUnitsLimit(){
 		int userUnitMaxCount = DataCenter.Instance.UserInfo.UnitMax;
 		//Debug.Log("userUnitMaxCount : " + userUnitMaxCount);
 		int userCurrGotUnitCount = DataCenter.Instance.UserUnitList.GetAllMyUnit().Count;
@@ -177,8 +180,10 @@ public class HomeView : UIComponentUnity{
 		if(userUnitMaxCount < userCurrGotUnitCount){
 			Debug.Log("current user's unit count is outnumber of the max!");
 			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitCountOverParams());
+			return true;
 		}
-
+		else
+			return false;
 	}
 	
 	private MsgWindowParams GetUnitCountOverParams(){
@@ -193,7 +198,7 @@ public class HomeView : UIComponentUnity{
 	}
 
 	void TurnScene(object msg){
-		UIManager.Instance.ChangeScene(SceneEnum.Scratch);
+		UIManager.Instance.ChangeScene(SceneEnum.Shop);
 	}
 
 }
