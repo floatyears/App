@@ -36,6 +36,7 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 
 
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
+		MsgCenter.Instance.AddListener(CommandEnum.LevelUp, CallBackUnitData);
 		//TODO:
 		//StartCoroutine ("nextState");
 //		NoviceGuideStepEntityManager.Instance ().StartStep ();
@@ -49,6 +50,7 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	
 	public override void HideUI () {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
+		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp, CallBackUnitData);
 		base.HideUI ();
 //		if (IsInvoking ("CreatEffect")) {
 //			CancelInvoke("CreatEffect");
@@ -75,23 +77,56 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		lightStar = transform.FindChild ("Star2/Star1").GetComponent<UISprite> ();
 	}
 
-
+	TUserUnit oldBlendUnit = null;
+	TUserUnit newBlendUnit = null;
+	
 	private TUserUnit curUserUnit;
 	private void CallBackUnitData(object d){
-		TUserUnit data = d as TUserUnit; 
+		TUserUnit userUnit = d as TUserUnit;
+		
+		if (userUnit != null) {
+			ShowInfo (userUnit);
+		} else {
+			RspLevelUp rlu = d as RspLevelUp;
+			if(rlu ==null) {
+				return;
+			}
+			PlayLevelUp(rlu);
+		}
+	}
+
+	RspLevelUp levelUpData;
+	void PlayLevelUp(RspLevelUp rlu) {
+		levelUpData = rlu;
+//		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
+		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+		ShowInfo (newBlendUnit);
+		gameObject.SetActive (false);
+//		Debug.LogError (newBlendUnit.UnitInfo.ID);
+//		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
+//		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
+//		unitInfoTabs.SetActive (false);
+//		SetEffectCamera ();
+//		StartCoroutine (CreatEffect ());
+	}
+	
+
+
+	private void ShowInfo(TUserUnit data){
+
 		curUserUnit = data;
 		ShowFavView (curUserUnit.IsFavorite);
-
+		
 		TUnitInfo unitInfo = data.UnitInfo;
-
+		
 		
 		number.text = data.UnitID.ToString();
 		
 		//hp
-//		.text = data.Hp.ToString();
+		//		.text = data.Hp.ToString();
 		
 		//atk
-//		atkLabel.text = data.Attack.ToString();
+		//		atkLabel.text = data.Attack.ToString();
 		
 		//name
 		name.text = unitInfo.Name;
@@ -103,7 +138,7 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		cost.text = unitInfo.Cost.ToString();
 		
 		//race  
-//		raceLabel.text = unitInfo.UnitRace;
+		//		raceLabel.text = unitInfo.UnitRace;
 		
 		//rare
 		Debug.Log ("rare : " + unitInfo.Rare + "max rare: " + unitInfo.MaxRare);	
@@ -119,18 +154,18 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		lightStar.width = unitInfo.Rare*lightWidth;
 		Debug.Log ("position:  " +len * 15  );
 		grayStar.transform.localPosition = new Vector3(len * 15,-82,0);
-		   //rareLabel.text = unitInfo.Rare.ToString();
+		//rareLabel.text = unitInfo.Rare.ToString();
 		
-//		levelLabel.text = data.Level.ToString();
+		//		levelLabel.text = data.Level.ToString();
 		
-//		//next level need
-//		if ((data.Level > unitInfo.MaxLevel ) 
-//		    || (data.Level == unitInfo.MaxLevel && data.NextExp <= 0) ) {
-//			levelLabel.text = unitInfo.MaxLevel.ToString();
-//			needExpLabel.text = "Max";
-//		} else {
-//			needExpLabel.text = data.NextExp.ToString();
-//		}
+		//		//next level need
+		//		if ((data.Level > unitInfo.MaxLevel ) 
+		//		    || (data.Level == unitInfo.MaxLevel && data.NextExp <= 0) ) {
+		//			levelLabel.text = unitInfo.MaxLevel.ToString();
+		//			needExpLabel.text = "Max";
+		//		} else {
+		//			needExpLabel.text = data.NextExp.ToString();
+		//		}
 	}
 
 	private void CollectCurUnit(GameObject go){
@@ -169,6 +204,10 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 			background.spriteName = "Fav_Lock_Open";
 			//Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
 		}
+	}
+
+	public void ShowPanel(){
+		gameObject.SetActive (true);
 	}
 
 }
