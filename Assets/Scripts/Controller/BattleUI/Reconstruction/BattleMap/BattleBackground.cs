@@ -47,17 +47,17 @@ public class BattleBackground : UIBaseUnity {
 		string path;
 
 		for (int i = 0; i < actor.Length; i++) {
-			path = "Actor/" + i.ToString();
+			path = "BattleBottom/Actor/" + i.ToString();
 			actor[i] = 	transform.Find(path).renderer.material;
 		}
 
 		for (int i = spSprite.Length; i > 0; i--) {
-			path = "Panel/Sprite/"+ i;
+			path = "Panel/"+ i;
 			spSprite[spSprite.Length - i] = battleBottom.transform.Find(path).GetComponent<UISprite>();
 		}
 
-		spriteAnimation = battleBottom.transform.Find ("Panel/Sprite/HP").GetComponent<UISpriteAnimationCustom> ();
-		bloodBar = battleBottom.transform.Find("Panel/Sprite/Slider").GetComponent<UISlider>();
+		spriteAnimation = battleBottom.transform.Find ("Panel/HP").GetComponent<UISpriteAnimationCustom> ();
+		bloodBar = battleBottom.transform.Find("Panel/Slider").GetComponent<UISlider>();
 		label = battleBottom.transform.Find("Panel/Label").GetComponent<UILabel>();
 
 		InitTransform ();

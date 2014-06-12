@@ -36,7 +36,7 @@ public class BattleBottom : MonoBehaviour {
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
 		for (int i = 0; i < 5; i++) {
-			GameObject temp = transform.parent.Find("Actor/" + i).gameObject;	
+			GameObject temp = transform.Find("Actor/" + i).gameObject;	
 			if(userUnitInfo[i] == null) {
 				temp.gameObject.SetActive(false);
 				continue;
