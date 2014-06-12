@@ -102,14 +102,14 @@ public class ViewManager {
 		mainUIRoot = ui;		
 		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();	
 		Transform trans = mainUIRoot.transform;
-		parentPanel = trans.Find("RootPanel/Bottom").gameObject;
-		topPanel = trans.Find ("RootPanel/Top/Panel").gameObject;
-		bottomPanel = trans.Find ("RootPanel/Bottom/Panel").gameObject;
+		parentPanel = trans.Find("Bottom").gameObject;
+		topPanel = trans.Find ("Top").gameObject;
+		bottomPanel = trans.Find ("Bottom").gameObject;
 		effectPanel = trans.Find ("Anchor/EffectPanel").gameObject;
-		centerPanel = trans.Find ("RootPanel/Anchor/Panel").gameObject;
-		tipsLabelUI = centerPanel.transform.Find ("LabelPanel/Label").GetComponent<TipsLabelUI> ();
+		centerPanel = trans.Find ("Center").gameObject;
+		tipsLabelUI = centerPanel.transform.Find ("Panel/LabelPanel/Label").GetComponent<TipsLabelUI> ();
 
-		bottomLeftPanel =  trans.Find ("RootPanel/BottomLeft").gameObject;
+		bottomLeftPanel =  trans.Find ("BottomLeft").gameObject;
 //		trapLabel = mainUIRoot.transform.Find ("RootPanel/BottomLeft/Label").GetComponent<UILabel> ();
 
 		dynamicFont = Resources.Load("Font/Dimbo Regular", typeof(Font)) as Font;

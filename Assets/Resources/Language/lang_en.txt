@@ -195,7 +195,7 @@ BigRareWarning=Rare Warning
 BigRareWarningText=Include the unit whose rare bigger than 3.\nAre you sure to sell?
 
 UnitOverflow=Unit Overflow
-UnitOverflowText=Your current unit capacity is {0}/{1}.\nWould you like to do unit expansion?
+UnitOverflowText=Your current unit capacity is [ff0000]{0}[-]/{1}.Would you like to do unit expansion?
 
 FirendOverflow=Firend Overflow
 FriendOverflowText=Your current unit capacity is {0}/{1}.\nWould you like to do friend expansion?
