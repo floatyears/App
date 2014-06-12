@@ -224,6 +224,9 @@ public class FightReadyView : UIComponentUnity {
 	}
 	
 	private void EnterBattle (TQuestDungeonData tqdd) {
+		pickedHelperInfo.FriendPoint = 0;
+		pickedHelperInfo.UseTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+
 		ConfigBattleUseData.Instance.BattleFriend = pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
 		UIManager.Instance.EnterBattle();

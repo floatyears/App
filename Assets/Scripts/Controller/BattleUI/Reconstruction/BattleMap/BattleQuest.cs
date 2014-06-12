@@ -176,7 +176,6 @@ public class BattleQuest : UIBase {
 		if (ai == null) {
 			return;		
 		}
-//		Debug.LogError ("attackEffect.RefreshItem  : " + ai.UserUnitID + " ai.SkillID : " + ai.SkillID);
 
 		attackEffect.RefreshItem (ai.UserUnitID, ai.SkillID, ai.AttackValue, false);
 	}
@@ -316,8 +315,8 @@ public class BattleQuest : UIBase {
 				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
 			}	
 		}
-
-		if (configBattleUseData.BattleFriend != null && configBattleUseData.BattleFriend.FriendPoint > 0) {
+		TFriendInfo friendHelper = configBattleUseData.BattleFriend;
+		if (friendHelper != null && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper)) {
 			HaveFriendExit ();
 		} else {
 			NoFriendExit();
@@ -348,8 +347,6 @@ public class BattleQuest : UIBase {
 		ControllerManager.Instance.ExitBattle ();
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
 		UIManager.Instance.baseScene.CurrentScene = SceneEnum.Home;
-//		Debug.LogError ("UIManager.Instance.baseScene.PrevScene : " + UIManager.Instance.baseScene.PrevScene);
-//		UIManager.Instance.ChangeScene (SceneEnum.Quest);
 		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, evolveUser);
 	}
