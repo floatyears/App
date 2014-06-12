@@ -98,7 +98,7 @@ public class GameTimer : MonoBehaviour {
 	}
 
 	public void CheckRefreshServer() {
-		if (CheckDay ()) {
+		if (!CheckDay ()) {
 			RequestLoginToServer.Login();
 		}
 	}
