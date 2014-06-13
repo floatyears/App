@@ -601,9 +601,10 @@ public class UserUnitList {
         return uniqueIdList;
     }
 
-    public void AddMyUnit(UserUnit unit) {
+    public TUserUnit AddMyUnit(UserUnit unit) {
 		TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, unit); 
 		Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, tuu);
+		return tuu;
     }
 
     public void AddMyUnitList(List <UserUnit> unitList){
