@@ -21,6 +21,7 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	}
 	
 	public override void DestoryUI () {
+		MsgCenter.Instance.RemoveListener(CommandEnum.BackSceneEnable, BackSceneEnable);
 		base.DestoryUI ();
 	}
 
