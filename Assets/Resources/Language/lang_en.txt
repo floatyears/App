@@ -1,3 +1,34 @@
+##Button Label Text
+Btn_JumpScene_FriendList=FRIEND LIST
+Btn_JumpScene_Apply=APPLY
+Btn_JumpScene_Information=INFORMATION
+Btn_JumpScene_Reception=RECEPETION
+Btn_JumpScene_Search=SEARCH
+Btn_JumpScene_UserID=YOUR ID
+
+Btn_JumpScene_Party=PARTY
+Btn_JumpScene_Sell=SELL
+Btn_JumpScene_LevelUp=LEVEL UP
+Btn_JumpScene_UnitList=UNIT LIST
+Btn_JumpScene_Evolve=EVOLVE
+Btn_JumpScene_Catalog=CATALOG
+
+Btn_SceneBack=BACK
+Btn_SORT=SORT
+Btn_Premium=PREMIUM
+Btn_Sell_Picked=SELL
+Btn_Clear_PickedToSell=CLEAR
+Btn_Submit_Sell=SUBMIT
+Btn_Cancel_Sell=CANCEL
+Btn_RejectUnit=REJECT
+Btn_Submit_Evolve=EVOLVE
+Btn_Submit_LevelUp=LEVEL UP
+
+Btn_FriendList_Update=UPDATE
+Btn_Reception_RefuseAll=REFUSE
+Btn_Submit_SearchFriend=SEARCH
+Btn_UserID_OK=BACK
+
 ##Scene Name
 SCENE_NAME_APPLY=APPLY
 SCENE_NAME_CATALOG=CATALOG
