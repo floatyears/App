@@ -162,9 +162,9 @@ public class DragPanelDynamic {
 
 		bool firstItemVisible = dragPanelView.clip.IsVisible (scrollItem [0].Widget);
 		bool endItemVisible = dragPanelView.clip.IsVisible (scrollItem [scrollItem.Count - 1].Widget);
-//		Debug.LogError ("firstItemVisible : " + firstItemVisible + " endItemVisible : " + endItemVisible);
+
 		if (firstItemVisible == endItemVisible) {
-			return;	
+			return;
 		}
 
 		for (int i = 0; i < maxPerLine; i++) {
