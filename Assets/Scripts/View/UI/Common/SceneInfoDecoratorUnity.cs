@@ -2,10 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool{
-	
 	private UILabel sceneNameLabel;
 	private UIButton backBtn;
-
+	private UILabel backBtnLabel;
 	private IUICallback iuiCallback; 
 	private bool temp = false;
 	
@@ -33,7 +32,8 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	private void InitUI() {
 		sceneNameLabel = FindChild< UILabel >( "SceneTip/Label" );
 		backBtn =  FindChild< UIButton >( "Button_Back" );
-
+		backBtnLabel = backBtn.GetComponentInChildren<UILabel>();
+		backBtnLabel.text = TextCenter.GetText("Btn_SceneBack");
 		UIEventListener.Get( backBtn.gameObject ).onClick = BackPreScene;
 	}
 	

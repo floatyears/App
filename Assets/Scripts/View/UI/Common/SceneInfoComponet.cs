@@ -46,13 +46,11 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 
 	private string sceneName;
 	public void SetCurSceneName(string name){
-		sceneName = name.ToUpper();
-
+		//sceneName = name.ToUpper();
 		if(viewComponent is IUICallback) {
 			IUICallback uicall = viewComponent as IUICallback;
 			uicall.CallbackView(sceneName);
 		}
-
 	}
 
     public void BackSceneEnable(object args){

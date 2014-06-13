@@ -152,7 +152,7 @@ public class StageItemView : MonoBehaviour{
 		else if(state == StageState.NEW){
 			ShowIconAccessState(icon);
 
-			string sourcePath = "Prefabs/UI/ArriveStagePrefab";
+			string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";
 			GameObject prefab = Resources.Load(sourcePath) as GameObject;
 			NGUITools.AddChild(gameObject, prefab);
 			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
