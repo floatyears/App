@@ -42,7 +42,9 @@ public class FriendHelperView : UIComponentUnity{
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 		premiumBtn = transform.FindChild("Button_Premium").GetComponent<UIButton>();
 		premiumBtnLabel = premiumBtn.GetComponentInChildren<UILabel>();
-		premiumBtnLabel.text = TextCenter.GetText("BtnLabelText_Premium");
+		premiumBtnLabel.text = TextCenter.GetText("Btn_Premium");
+		int manualHeight = Main.Instance.root.manualHeight;
+		premiumBtn.transform.localPosition = new Vector3(255, manualHeight/2 - 150, 0);
 		UIEventListener.Get(premiumBtn.gameObject).onClick = ClickPremiumBtn;
 	}
 
