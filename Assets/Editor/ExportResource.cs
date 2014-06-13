@@ -115,6 +115,10 @@ public class ExportResource : EditorWindow {
 			ExportResrouce();
 		}
 
+		if (GUI.Button (new Rect (130, 120, 120, 30), "Export Resource List")) 
+		{
+			ExportResrouceList();
+		}
 		//EditorGUIUtility.LookLikeControls ();
 	}
 
@@ -219,6 +223,12 @@ public class ExportResource : EditorWindow {
 			SaveVersionConfig();
 
 
+		}
+	}
+
+	void ExportResrouceList(){
+		foreach (var obj in Selection.gameObjects) {
+			Debug.Log("obj selected:" + obj.name);
 		}
 	}
 

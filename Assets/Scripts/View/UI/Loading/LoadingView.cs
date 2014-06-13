@@ -23,7 +23,12 @@ public class LoadingView : UIComponentUnity {
 //		GameDataStore.Instance.StoreData (GameDataStore.UUID, "");
 //		GameDataStore.Instance.StoreData (GameDataStore.USER_ID, "");
         base.ShowUI ();
+#if UNITY_ANDROID
 		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8","android");
+#elif UNITY_IPHONE
+		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094","iOS");
+#endif
+		LogHelper.Log ("device info: " + Umeng.GA.GetDeviceInfo ());
 		LogHelper.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
 //		NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces ();
 //		Debug.LogError ("nis.Length : " + nis.Length);
