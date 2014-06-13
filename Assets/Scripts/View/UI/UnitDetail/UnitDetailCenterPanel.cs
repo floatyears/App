@@ -48,6 +48,7 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 	void InitUI() {
 
 		unitBodyTex = FindChild< UITexture >("detailSprite");
+//		UIEventListener listener = UIEventListener.Get( unitBodyTex.gameObject).onClick = ClickTex;
 //		ShowBodyTexture( userUnit );
 
 //		cost = transform.FindChild("Cost").GetComponent<UILabel>();
@@ -56,6 +57,10 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 //		type = transform.FindChild ("Type").GetComponent<UISprite> ();
 //		grayStar = transform.FindChild ("Star2").GetComponent<UISprite> ();
 //		lightStar = transform.FindChild ("Star2/Star1").GetComponent<UISprite> ();
+	}
+
+	void ClickTex(GameObject go) {
+
 	}
 
 	void ShowInfo(TUserUnit userUnit) {
