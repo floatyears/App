@@ -7,7 +7,7 @@ Properties
 }
 	SubShader
 	{
-		Tags {"Queue"="Transparent+10"}
+		Tags {"Queue"="Transparent+30"}
 		Lighting Off
 		ZWrite Off
 		Cull Back
@@ -18,7 +18,6 @@ Properties
 			SetTexture [_Mask] {combine texture}
 			SetTexture [_MainTex] {combine texture * previous}
 		}
-		
 	}
 	FallBack "Diffuse"
 }

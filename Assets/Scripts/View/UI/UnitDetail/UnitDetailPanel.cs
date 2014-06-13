@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //	UIButton favBtn;
+	UnitDetailTopPanel topPanel;
+
 	GameObject unitInfoTabs;
 //	UILabel noLabel;
 	UILabel hpLabel;
@@ -67,6 +69,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		GetUnitMaterial();
 		InitEffect();
 		InitUI();
+
+		topPanel = GameObject.Find ("UnitDetailTopPanel(Clone)").GetComponent<UnitDetailTopPanel> ();
 	}
 	
 	public override void ShowUI () {
@@ -435,6 +439,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 			ClearEffectCache ();
 			unitInfoTabs.SetActive (true);
+			topPanel.ShowPanel();
+
 			ShowLevelInfo (newBlendUnit);
 			curLevel = oldBlendUnit.Level;
 			gotExp = levelUpData.blendExp;

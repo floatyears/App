@@ -50,15 +50,8 @@ public class UnitDisplayUnity : UIComponentUnity {
 	//==========================================interface end ==========================
 
 	private GameObject unitItem;
-//	private DragPanel unitItemDragPanel;
 
 	private List<TUserUnit> allData = new List<TUserUnit>();
-
-//	private List<UnitItemInfo> allItem = new List<UnitItemInfo>();
-//	private List<UnitItemInfo> partyItem = new List<UnitItemInfo>();
-//	private List<UnitItemInfo> normalItem = new List<UnitItemInfo> ();
-//	private List<UnitItemInfo> evolveItem = new List<UnitItemInfo> ();
-
 	private DragPanelDynamic unitItemDragPanel;
 	private List<EvolveDragItem> evolveDragItem = new List<EvolveDragItem> ();
 	private List<EvolveDragItem> normalDragItem = new List<EvolveDragItem> ();
@@ -111,7 +104,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		if (baseData != null) {
 			baseData.IsFocus = false;	
 		}
-		baseData = evolveDragItem.Find (a => a.UserUnit.UnitInfo.ID == tuu.ID);
+		baseData = evolveDragItem.Find (a => a.UserUnit.UnitInfo.ID == tuu.UnitInfo.ID);
 		baseData.IsFocus = true;
 		materialInfo.Clear ();
 		int count = tuu.UnitInfo.evolveInfo.materialUnitId.Count;
@@ -315,6 +308,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 				foreach (var item in myUnitItem) {
 					EvolveDragItem edi = item as EvolveDragItem;
 					evolveDragItem.Add(edi);
+					edi.callback = ClickItem;
 					if(edi.UserUnit.UnitInfo.evolveInfo != null) {
 						edi.CanEvolve = true;
 					}

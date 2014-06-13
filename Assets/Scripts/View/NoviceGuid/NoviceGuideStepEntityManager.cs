@@ -46,6 +46,7 @@ public class NoviceGuideStepEntityManager {
 	}
 	public static void InitGuideStage(int stage){
 		currentNoviceGuideStage = (NoviceGuideStage)stage;
+		Debug.Log("current novice guide stage(set): " + currentNoviceGuideStage);
 	}
 
 	public static bool isInNoviceGuide()

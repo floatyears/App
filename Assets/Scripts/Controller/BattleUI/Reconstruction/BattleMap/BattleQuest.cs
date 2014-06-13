@@ -42,20 +42,20 @@ public class BattleQuest : UIBase {
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
 		battleMap = viewManager.GetBattleMap(tempName) as BattleMap;
-		battleMap.transform.parent = viewManager.TopPanel.transform.parent;
+		battleMap.transform.parent = viewManager.TopPanel.transform;
 		battleMap.transform.localPosition = new Vector3 (0f, 0f, 0f);
 		battleMap.transform.localScale = Vector3.one;
 		battleMap.BQuest = this;
 		Init(battleMap,tempName);
 		tempName = "Role";
 		role = viewManager.GetBattleMap(tempName) as Role;
-		role.transform.parent = viewManager.TopPanel.transform.parent;
+		role.transform.parent = viewManager.TopPanel.transform;
 		role.transform.localPosition = Vector3.zero;
 		role.transform.localScale = Vector3.one;
 		role.BQuest = this;
 		Init(role,tempName);
 		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
-		background.transform.parent = viewManager.BottomPanel.transform.parent;
+		background.transform.parent = viewManager.BottomPanel.transform;
 		background.transform.localPosition = Vector3.zero;
 		background.Init (backgroundName);
 		background.SetBattleQuest (this);
@@ -176,7 +176,6 @@ public class BattleQuest : UIBase {
 		if (ai == null) {
 			return;		
 		}
-//		Debug.LogError ("attackEffect.RefreshItem  : " + ai.UserUnitID + " ai.SkillID : " + ai.SkillID);
 
 		attackEffect.RefreshItem (ai.UserUnitID, ai.SkillID, ai.AttackValue, false);
 	}
@@ -316,8 +315,8 @@ public class BattleQuest : UIBase {
 				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
 			}	
 		}
-
-		if (configBattleUseData.BattleFriend != null && configBattleUseData.BattleFriend.FriendPoint > 0) {
+		TFriendInfo friendHelper = configBattleUseData.BattleFriend;
+		if (friendHelper != null && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper)) {
 			HaveFriendExit ();
 		} else {
 			NoFriendExit();
@@ -348,8 +347,6 @@ public class BattleQuest : UIBase {
 		ControllerManager.Instance.ExitBattle ();
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
 		UIManager.Instance.baseScene.CurrentScene = SceneEnum.Home;
-//		Debug.LogError ("UIManager.Instance.baseScene.PrevScene : " + UIManager.Instance.baseScene.PrevScene);
-//		UIManager.Instance.ChangeScene (SceneEnum.Quest);
 		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, evolveUser);
 	}

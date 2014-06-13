@@ -90,12 +90,13 @@ public class LoadingLogic : ConcreteComponent {
             }
             
             if (rspAuthUser.friends != null) {
-                DataCenter.Instance.SupportFriends = new List<TFriendInfo>();
+				List<TFriendInfo> supportFriends = new List<TFriendInfo>();
                 foreach (FriendInfo fi in rspAuthUser.friends) {
                     TFriendInfo tfi = new TFriendInfo(fi);
-                    DataCenter.Instance.SupportFriends.Add(tfi);
+					supportFriends.Add(tfi);
 					DataCenter.Instance.UserUnitList.Add(tfi.UserId, tfi.UserUnit.ID, tfi.UserUnit);
                 }
+				DataCenter.Instance.SupportFriends = supportFriends;
             }
             else {
                 Debug.LogError("rsp.friends==null");
@@ -137,6 +138,7 @@ public class LoadingLogic : ConcreteComponent {
 				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
 			}
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
+			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
@@ -277,3 +279,4 @@ public class LoadingLogic : ConcreteComponent {
         Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.NickName);
     }
 }
+

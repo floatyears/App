@@ -62,7 +62,9 @@ public class DataCenter {
         } 
     }
     private static DataCenter instance;
-    private DataCenter() { }
+    private DataCenter() { 
+		supportFriendManager = new SupportFriendManager ();
+	}
 
 	private static GameState _gameState = GameState.Normal;
 	public static GameState gameState {
@@ -109,10 +111,13 @@ public class DataCenter {
         set { setData(ModelEnum.AccountInfo, value); }
     }
 
-    public List<TFriendInfo> SupportFriends { 
-        get { return getData(ModelEnum.SupportFriends) as List<TFriendInfo>; }
-        set { setData(ModelEnum.SupportFriends, value); } 
+	public SupportFriendManager supportFriendManager;
+
+    public List<TFriendInfo> SupportFriends {
+		get { return supportFriendManager.GetSupportFriend(); }
+		set { supportFriendManager.AddSupportFriend(value); }
     }
+
     public TFriendList FriendList { 
         get { return getData(ModelEnum.FriendList) as TFriendList; }
         set { setData(ModelEnum.FriendList, value); } 
@@ -125,7 +130,7 @@ public class DataCenter {
 
 	public TQuestClearInfo QuestClearInfo {
 		get { return getData(ModelEnum.QuestClearInfo) as TQuestClearInfo; }
-		set { setData(ModelEnum.QuestClearInfo, value); } 
+		set { setData(ModelEnum.QuestClearInfo, value); }
 	}
 
     public bool InEventGacha {
@@ -392,7 +397,7 @@ public class DataCenter {
     } 
 
     public List<int> HaveCard {
-        get { 
+        get {
             List<int> ret = getData(ModelEnum.HaveCard) as List<int>;
             if (ret == null) {
                 ret = new List<int>() {111,185,161,101,122,195};
@@ -400,7 +405,7 @@ public class DataCenter {
             }
             return ret; 
         }
-        set { setData(ModelEnum.HaveCard, value); } 
+        set { setData(ModelEnum.HaveCard, value); }
     }
 
     public GameObject ItemObject {

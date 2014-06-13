@@ -191,9 +191,10 @@ public class NoviceGuideStepI_StateThree:NoviceGuidState{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_three");
 		
 		GameObject gm = GameObject.FindWithTag ("level_up_btn");
+		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
 		NoviceGuideUtil.ForceOneBtnClick (gm);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
-		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
+
 	}
 
 	
@@ -240,7 +241,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 	
 	private void OnLevelDone(object data){
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.EVOLVE;
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
 		UIManager.Instance.forbidChangeScene = false;
 
 		GuideWindowParams mwp = new GuideWindowParams ();
@@ -258,13 +259,13 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 	}
 
 	private void ClickOK(object data){
-		GameObject gm = GameObject.FindWithTag ("scene_back_btn");
-		
-		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
-		UIEventListenerCustom.Get (gm).onClick += OnClickBack;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+//		GameObject gm = GameObject.FindWithTag ("scene_back_btn");
+//		
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
+//		UIEventListenerCustom.Get (gm).onClick += OnClickBack;
+//		NoviceGuideUtil.ForceOneBtnClick (gm);
 
-	
+		UIManager.Instance.ChangeScene (SceneEnum.Units);
 	}
 
 	private void OnClickBack(GameObject gm){

@@ -108,6 +108,7 @@ public class StageSelectView : UIComponentUnity{
 			//when first time to step in
 			Debug.Log("recorded picked cityInfo is null, as first time to step in, create stage view...");
 			currPickedCityInfo = received;
+			Debug.LogError("received : " + received);
 			DestoryStages();
 			FillView();
 		}

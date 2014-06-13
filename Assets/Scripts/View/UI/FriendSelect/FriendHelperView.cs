@@ -134,7 +134,6 @@ public class FriendHelperView : UIComponentUnity{
 
 	private QuestItemView pickedQuestInfo;
 	private void RecordPickedInfoForFight(object msg){
-		//Debug.Log("FriendHelper.RecordPickedInfoForFight(), received info...");
 		pickedQuestInfo = msg as QuestItemView;
 	}
 
