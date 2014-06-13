@@ -43,7 +43,7 @@ public class BattleBottom : MonoBehaviour {
 			}
 
 			TUnitInfo tui = userUnitInfo[i].UnitInfo;
-			temp.renderer.material.SetTexture("_MainTex",tui.GetAsset(UnitAssetType.Profile));
+			temp.renderer.material.SetTexture("_MainTex", tui.GetAsset(UnitAssetType.Profile));
 			UITexture tex =  transform.Find("ActorP/" + i).GetComponent<UITexture>();
 			tex.color =  DGTools.TypeToColor(tui.Type);
 		}

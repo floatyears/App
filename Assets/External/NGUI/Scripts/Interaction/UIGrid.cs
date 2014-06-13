@@ -267,7 +267,15 @@ public class UIGrid : UIWidgetContainer
 	}
 
 	// Various generic sorting functions
-	static public int SortByName (Transform a, Transform b) { return string.Compare(a.name, b.name); }
+	static public int SortByName (Transform a, Transform b) { 
+		try {
+			int aIndex = int.Parse(a.name);
+			int bIndex = int.Parse(b.name);
+			return aIndex.CompareTo(bIndex);
+		} catch (System.Exception ex) {
+			return string.Compare(a.name, b.name); 
+		}
+	}
 	static public int SortHorizontal (Transform a, Transform b) { return a.localPosition.x.CompareTo(b.localPosition.x); }
 	static public int SortVertical (Transform a, Transform b) { return b.localPosition.y.CompareTo(a.localPosition.y); }
 
