@@ -50,7 +50,8 @@ public class BattleBackground : UIBaseUnity {
 			path = "BattleBottom/Actor/" + i.ToString();
 			actor[i] = 	transform.Find(path).renderer.material;
 		}
-
+		GameObject panel = battleBottom.transform.Find("Panel").gameObject;
+		panel.layer = GameLayer.BottomInfo;
 		for (int i = spSprite.Length; i > 0; i--) {
 			path = "Panel/"+ i;
 			spSprite[spSprite.Length - i] = battleBottom.transform.Find(path).GetComponent<UISprite>();

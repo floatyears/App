@@ -22,6 +22,8 @@ public class ShowBottomInfo : MonoBehaviour {
 		nameLabel = transform.Find ("NameLabel").GetComponent<UILabel> ();
 		cateGoryLabel = transform.Find( "CatagoryLabel").GetComponent<UILabel>();
 		itemSprite = transform.Find ( "Trap").GetComponent<UISprite> ();
+
+		gameObject.layer = GameLayer.BottomInfo;
 	}
 
 	void OnEnable() {
