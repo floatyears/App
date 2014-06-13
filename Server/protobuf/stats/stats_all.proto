@@ -967,6 +967,7 @@ message LoginInfo {
 	optional uint32		lastLoginTime			= 5;
     optional uint32		lastPlayTime            = 6;
     repeated BonusInfo  bonus					= 7;
+    optional int32		maxBonusId              = 8;
 }
 
 message PresentInfo {
@@ -1034,7 +1035,7 @@ message RspAuthUser {
     optional int32			userGuideStep		= 18;
 	optional NoticeInfo		notice				= 19;
     repeated StageInfo      eventList           = 20;
-
+    optional int32			testForUpgrade		= 21;
 }
 
 //-------------------------------------------------
@@ -1221,9 +1222,13 @@ message StatShopBuy {
     optional ProtoHeader	header				= 1;
     optional string			productId			= 2;
 
-    optional uint32			timeStamp			= 3;
-    optional uint32			userId				= 4;
-    optional int32			errorCode			= 5;
+    optional int32			stonePay	    	= 3;
+    optional int32			stoneFree	    	= 4;
+    optional int32			stone		    	= 5;
+
+    optional uint32			timeStamp			= 6;
+    optional uint32			userId				= 7;
+    optional int32			errorCode			= 8;
 }
 
 //////////////////////////////////////////////////////////////////////
