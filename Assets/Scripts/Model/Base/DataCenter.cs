@@ -113,7 +113,7 @@ public class DataCenter {
 
 	public SupportFriendManager supportFriendManager;
 
-    public List<TFriendInfo> SupportFriends { 
+    public List<TFriendInfo> SupportFriends {
 		get { return supportFriendManager.GetSupportFriend(); }
 		set { supportFriendManager.AddSupportFriend(value); }
     }
@@ -130,7 +130,7 @@ public class DataCenter {
 
 	public TQuestClearInfo QuestClearInfo {
 		get { return getData(ModelEnum.QuestClearInfo) as TQuestClearInfo; }
-		set { setData(ModelEnum.QuestClearInfo, value); } 
+		set { setData(ModelEnum.QuestClearInfo, value); }
 	}
 
     public bool InEventGacha {
