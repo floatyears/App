@@ -121,7 +121,9 @@ public class NoviceGuideStepEntityManager {
 //		}
 		Debug.Log ("current stage: " + currentNoviceGuideStage);
 		NoviceGuideStage ngs = (NoviceGuideStage) currentNoviceGuideStage;
-
+		if (ngs == NoviceGuideStage.NONE) {
+			return;		
+		}
 		if (startType == NoviceGuideStartType.BATTLE) {
 				switch (ngs) {
 					case NoviceGuideStage.GOLD_BOX://goldBox
