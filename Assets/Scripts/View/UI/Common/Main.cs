@@ -110,7 +110,7 @@ public class Main : MonoBehaviour {
 			rootPanel.clipRange = new Vector4(0, 0, 640, root.manualHeight);
 		}
 
-		TestScreenAdaption(Screen.width, Screen.height, root.manualHeight);
+//		TestScreenAdaption(Screen.width, Screen.height, root.manualHeight);
 	}
 
 	public UILabel test_screen_width;
