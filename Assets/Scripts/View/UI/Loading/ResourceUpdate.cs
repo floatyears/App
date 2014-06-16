@@ -70,7 +70,7 @@ public class ResourceUpdate : MonoBehaviour {
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
 
 		//load the server version.txt
-		StartDownload ();
+//		StartDownload ();
 	}
 
 	void Update(){

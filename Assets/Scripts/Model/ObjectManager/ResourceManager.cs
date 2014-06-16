@@ -38,13 +38,13 @@ public class ResourceManager {
 			if(path.IndexOf ("Config") == 0){
 				ext = ".json";
 			}else if(path.IndexOf ("Prefabs") == 0){
-//				ext = ".prefab";
+				ext = ".prefab";
 
-				if(uiAssets == null){
-					uiAssets = AssetBundle.CreateFromFile("Assets/ResourceDownload/Download/AllUI");
-				}
-
-				return uiAssets.Load(path);
+//				if(uiAssets == null){
+//					uiAssets = AssetBundle.CreateFromFile("Assets/ResourceDownload/Download/AllUI");
+//				}
+//
+//				return uiAssets.Load(path);
 
 			}else if(path.IndexOf ("Language") == 0){
 				ext = ".txt";
