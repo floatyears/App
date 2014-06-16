@@ -109,8 +109,19 @@ public class Main : MonoBehaviour {
 			root.manualHeight = DefaultHeight;
 			rootPanel.clipRange = new Vector4(0, 0, 640, root.manualHeight);
 		}
+
+//		TestScreenAdaption(Screen.width, Screen.height, root.manualHeight);
 	}
-	
+
+	public UILabel test_screen_width;
+	public UILabel test_screen_height;
+	public UILabel test_screen_manual_height;
+	void TestScreenAdaption(int w, int h, int mh){
+		test_screen_width.text = "Screen_Width : " + w;
+		test_screen_height.text = "Screen_Height : " + h;
+		test_screen_manual_height.text = "Manual_Height : " + mh;
+	}
+
     void OnDisable() {
 //        sui.RemoveListener();
     }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class FriendWindows : FriendHelperView {
@@ -15,7 +15,7 @@ public class FriendWindows : FriendHelperView {
 		}
 		base.ShowUI ();
 		transform.localPosition += new Vector3 (0f, -485f, 0f);
-		dragPanel.DragPanelView.scrollView.transform.localPosition += new Vector3 (0f, -50f, 0f);
+		generalDragPanel.DragPanelView.scrollView.transform.localPosition += new Vector3 (0f, -50f, 0f);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
@@ -36,7 +36,7 @@ public class FriendWindows : FriendHelperView {
 	}
 
 	public GameObject GetHelperUnitItem(int i){
-		return dragPanel.ScrollItem[i];
+		return generalDragPanel.ScrollItem[i];
 	}
 
 }

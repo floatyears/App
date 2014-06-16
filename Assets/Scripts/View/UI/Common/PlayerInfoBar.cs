@@ -8,26 +8,25 @@ public class PlayerInfoBar : UIComponentUnity{
 	GameObject leftCollider;
 	GameObject rightCollider;
  
-	//Out 
-	UILabel TLineLabel;
-
-	UILabel VChipCountLabel;
-	UILabel VStamMaxLabel;
-	UILabel VCionCountLabel;
-	UILabel VUserNameLabel;
-	UILabel VRankLabel;
-	UILabel VStaminaNowLabel;
+	//outside panel 
+	UILabel dividedLineLabel;
+	UILabel chipNumValueLabel;
+	UILabel stamMaxValueLabel;
+	UILabel cionNumValueLabel;
+	UILabel userNameValueLabel;
+	UILabel outRankValueLabel;
+	UILabel stamNowValueLabel;
 	
-	//Hide
-	UILabel TRankHideLabel;
-	UILabel VRankHideLabel;
-	UILabel TNeedExpHideLabel;
-	UILabel TTotalExpHideLabel;
-	UILabel VNeedExpHideLabel;
-	UILabel VTotalExpHideLabel;
+	//floating panel when pressed
+	UILabel floatRankTextLabel;
+	UILabel floatRankValueLabel;
+	UILabel floatNextExpTextLabel;
+	UILabel floatTotalExoTextLabel;
+	UILabel floatNextExpValueLabel;
+	UILabel floatTotalExpValueLabel;
         
-	UISprite expSprite;
-	UISprite staminaSprite;
+	UISprite expSpr;
+	UISprite stamSpr;
 	UISprite evolveTypeSprite;
 
 	Vector3 leftPosition;
@@ -47,15 +46,23 @@ public class PlayerInfoBar : UIComponentUnity{
 
 	public override void HideUI() {
 		RemoveCommandListener();
-//		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail)
-//			return;
-		base.HideUI();
-                
+		base.HideUI();          
 	}
 
 	private void InitUI(){
-		FindObject();
-		FindLabel();
+		infoBox = FindChild("InfoBox");
+		leftCollider = FindChild("Left_Collider");
+		rightCollider = FindChild("Right_Collider");
+
+		InitTextLabelFloating();
+		InitValueLabelFloating();
+		InitValueLabelOutside();
+		
+		dividedLineLabel = transform.FindChild("InfoBar/Label_Text_Line").GetComponent<UILabel>();
+		dividedLineLabel.text = TextCenter.GetText("Divided_Line");
+		
+		expSpr = transform.FindChild("InfoBar/Foreground_Exp").GetComponent<UISprite>();
+		stamSpr = transform.FindChild("InfoBar/Foreground_Stamina").GetComponent<UISprite>();
 
 		leftPosition = new Vector3(-UIConfig.playerInfoBox_X, UIConfig.playerInfoBox_Y, 0);
 		rightPosition = new Vector3(UIConfig.playerInfoBox_X, UIConfig.playerInfoBox_Y, 0);
@@ -65,32 +72,43 @@ public class PlayerInfoBar : UIComponentUnity{
 
 		infoBox.SetActive(false);
 	}
-	
-	private void FindObject(){
-		infoBox = FindChild("InfoBox");
-		leftCollider = FindChild("Left_Collider");
-		rightCollider = FindChild("Right_Collider");
-	}
-	private void FindLabel(){
-		TRankHideLabel = FindChild< UILabel >("InfoBox/Label_Text_Rank");
-		TNeedExpHideLabel = FindChild< UILabel >("InfoBox/Label_Text_NextExp");
-		TTotalExpHideLabel = FindChild< UILabel>("InfoBox/Label_Text_TotalExp");
-		VRankHideLabel = FindChild< UILabel>("InfoBox/Label_Vaule_Rank");
-		VNeedExpHideLabel = FindChild< UILabel>("InfoBox/Label_Vaule_NextExp");
-		VTotalExpHideLabel = FindChild< UILabel>("InfoBox/Label_Vaule_TotalExp");
+
+	/// <summary>
+	/// Inits the text label in floating info_panel.
+	/// </summary>
+	private void InitTextLabelFloating(){
+		floatRankTextLabel = transform.FindChild("InfoBox/Label_Text_Rank").GetComponent<UILabel>();
+		floatRankTextLabel.text = TextCenter.GetText("Float_Rank");
 		
-		TLineLabel = FindChild< UILabel >("InfoBar/Label_Text_Line");
-		VChipCountLabel = FindChild< UILabel >("InfoBar/Label_Vaule_ChipNum");
-		VStamMaxLabel = FindChild< UILabel >("InfoBar/Label_Vaule_CurStamina");
-		VCionCountLabel = FindChild< UILabel >("InfoBar/Label_Vaule_Icon");
-		VUserNameLabel = FindChild< UILabel >("InfoBar/Label_Vaule_PlayerName");
-		VRankLabel = FindChild< UILabel >("InfoBar/Label_Vaule_Rank");
-		VStaminaNowLabel = FindChild< UILabel >("InfoBar/Label_Vaule_TotalStamina");
+		floatNextExpTextLabel = transform.FindChild("InfoBox/Label_Text_NextExp").GetComponent<UILabel>();
+		floatNextExpTextLabel.text = TextCenter.GetText("Float_NextExp");
+		
+		floatTotalExoTextLabel = transform.FindChild("InfoBox/Label_Text_TotalExp").GetComponent<UILabel>();
+		floatTotalExoTextLabel.text = TextCenter.GetText("Float_TotalExp");
+	}
 
-		expSprite = FindChild<UISprite>("InfoBar/Foreground_Exp");
-		staminaSprite = FindChild< UISprite >("InfoBar/Foreground_Stamina");
+	/// <summary>
+	/// Inits the value label in floating info_panel.
+	/// </summary>
+	private void InitValueLabelFloating(){
+		floatRankValueLabel = transform.FindChild("InfoBox/Label_Vaule_Rank").GetComponent<UILabel>();
+		floatNextExpValueLabel = transform.FindChild("InfoBox/Label_Vaule_NextExp").GetComponent<UILabel>();
+		floatTotalExpValueLabel = transform.FindChild("InfoBox/Label_Vaule_TotalExp").GetComponent<UILabel>();
+	}
 
-		//evolveTypeSprite = FindChild<UISprite>("InfoBar/Sprite_EvolveType");
+	/// <summary>
+	/// Inits the value label outside.
+	/// </summary>
+	private void InitValueLabelOutside(){
+		chipNumValueLabel = transform.FindChild("InfoBar/Label_Vaule_ChipNum").GetComponent<UILabel>();
+		stamMaxValueLabel = transform.FindChild("InfoBar/Label_Vaule_CurStamina").GetComponent<UILabel>();
+		stamNowValueLabel = transform.FindChild("InfoBar/Label_Vaule_TotalStamina").GetComponent<UILabel>();
+		cionNumValueLabel = transform.FindChild("InfoBar/Label_Vaule_Icon").GetComponent<UILabel>();
+		userNameValueLabel = transform.FindChild("InfoBar/Label_Vaule_PlayerName").GetComponent<UILabel>();
+		outRankValueLabel = transform.FindChild("InfoBar/Label_Vaule_Rank").GetComponent<UILabel>();
+	}
+	
+	private void FindLabel(){
 
 	}
 
@@ -111,30 +129,30 @@ public class PlayerInfoBar : UIComponentUnity{
 			return;
 		}
 		//Rank
-		VRankLabel.text = DataCenter.Instance.UserInfo.Rank.ToString();
-		VRankHideLabel.text = DataCenter.Instance.UserInfo.Rank.ToString();
+		outRankValueLabel.text = DataCenter.Instance.UserInfo.Rank.ToString();
+		floatRankValueLabel.text = DataCenter.Instance.UserInfo.Rank.ToString();
 		//Name
-		VUserNameLabel.text = DataCenter.Instance.UserInfo.NickName;
+		userNameValueLabel.text = DataCenter.Instance.UserInfo.NickName;
 		//Exp
 		int nextExp = DataCenter.Instance.UserInfo.NextExp;
 		int totalExp = DataCenter.Instance.UserInfo.Exp;
 		int curRankExp = totalExp - DataCenter.Instance.UserInfo.CurRankExp;
 
-		VNeedExpHideLabel.text = nextExp.ToString();
-		VTotalExpHideLabel.text = totalExp.ToString();
+		floatNextExpValueLabel.text = nextExp.ToString();
+		floatTotalExpValueLabel.text = totalExp.ToString();
 		//TODO Get current rank max exp 
-		expSprite.fillAmount = CountFillCount(curRankExp, DataCenter.Instance.UserInfo.CurRankExpMax);
+		expSpr.fillAmount = CountFillCount(curRankExp, DataCenter.Instance.UserInfo.CurRankExpMax);
 		//Cion
 		if (DataCenter.Instance.AccountInfo != null){
-			VCionCountLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
-			VChipCountLabel.text = DataCenter.Instance.AccountInfo.Stone.ToString();
+			cionNumValueLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
+			chipNumValueLabel.text = DataCenter.Instance.AccountInfo.Stone.ToString();
 		}
 		//Stamina
 		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
 		int staminaMax = DataCenter.Instance.UserInfo.StaminaMax;
-		VStamMaxLabel.text = staminaNow.ToString();
-		VStaminaNowLabel.text = staminaMax.ToString();
-		staminaSprite.fillAmount = CountFillCount(staminaNow, staminaMax);
+		stamMaxValueLabel.text = staminaNow.ToString();
+		stamNowValueLabel.text = staminaMax.ToString();
+		stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);
 
 		//Evo
 		int evoType = (int)DataCenter.Instance.UserInfo.EvolveType;
@@ -158,7 +176,7 @@ public class PlayerInfoBar : UIComponentUnity{
 			{
 				DataCenter.Instance.UserInfo.NickName = rspRenameNick.newNickName;
 
-				VUserNameLabel.text = DataCenter.Instance.UserInfo.NickName;
+				userNameValueLabel.text = DataCenter.Instance.UserInfo.NickName;
 			} else
 			{
 				//TODO: show error msgbox.
@@ -193,7 +211,7 @@ public class PlayerInfoBar : UIComponentUnity{
 
 	}
 	void SyncCoins(object args){
-		VCionCountLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
+		cionNumValueLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
 	}
 
 	float  CountFillCount(int cur, int max)
@@ -217,14 +235,14 @@ public class PlayerInfoBar : UIComponentUnity{
 	}
 
     void SyncChips(object args){
-        VChipCountLabel.text = DataCenter.Instance.AccountInfo.Stone.ToString();
+        chipNumValueLabel.text = DataCenter.Instance.AccountInfo.Stone.ToString();
     }
 
     void SyncStamina(object args){
         int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
         int staminaMax = DataCenter.Instance.UserInfo.StaminaMax;
-        VStamMaxLabel.text = staminaNow.ToString();
-        VStaminaNowLabel.text = staminaMax.ToString();
-        staminaSprite.fillAmount = CountFillCount(staminaNow, staminaMax);
+        stamMaxValueLabel.text = staminaNow.ToString();
+        stamNowValueLabel.text = staminaMax.ToString();
+        stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);
     }
 }

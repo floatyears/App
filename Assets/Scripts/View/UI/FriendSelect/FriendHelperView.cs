@@ -1,12 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class FriendHelperView : UIComponentUnity{
-	protected DragPanel dragPanel;
+	protected DragPanel generalDragPanel;
+	protected DragPanel premiumDragPanel;
+
 	protected UILabel sortRuleLabel;
 	protected SortRule curSortRule;
+	protected UIButton premiumBtn;
+	protected UILabel premiumBtnLabel;
 
-	protected List<TFriendInfo> helperDataList = new List<TFriendInfo>();
+	protected List<TFriendInfo> generalFriendList;
+	protected List<TFriendInfo> premiumFriendList;
+
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
@@ -15,13 +22,15 @@ public class FriendHelperView : UIComponentUnity{
 	public override void ShowUI() {
 		base.ShowUI();
 		AddCmdListener();
-		CreateDragView();
-		ShowUIAnimation();
+
+		CreateGeneralListView();
+		ShowUIAnimation(generalDragPanel);
+		isShowPremium = false;
 	}
 
 	public override void HideUI() {
 		base.HideUI();
-		dragPanel.DestoryUI();
+		//generalDragPanel.DestoryUI();
 		RmvCmdListener();
 	}
 
@@ -31,27 +40,98 @@ public class FriendHelperView : UIComponentUnity{
 	
 	private void InitUI(){
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+		premiumBtn = transform.FindChild("Button_Premium").GetComponent<UIButton>();
+		premiumBtnLabel = premiumBtn.GetComponentInChildren<UILabel>();
+		premiumBtnLabel.text = TextCenter.GetText("Btn_Premium");
+		int manualHeight = Main.Instance.root.manualHeight;
+		premiumBtn.transform.localPosition = new Vector3(255, manualHeight/2 - 150, 0);
+		UIEventListener.Get(premiumBtn.gameObject).onClick = ClickPremiumBtn;
 	}
 
-	private void CreateDragView(){
-		helperDataList = DataCenter.Instance.SupportFriends;
-		dragPanel = new DragPanel("FriendHelperDragPanel", HelperUnitItem.ItemPrefab);
-		dragPanel.CreatUI();
-		dragPanel.AddItem(helperDataList.Count);
-		CustomDragPanel();
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
-
-		SortUnitByCurRule();
-	}
-
-	void RefreshView() {
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			HelperUnitItem huv = HelperUnitItem.Inject(dragPanel.ScrollItem[ i ]);
-			huv.Init(helperDataList[ i ]);
-			huv.callback = ClickHelperItem;
-		}
+	List<TFriendInfo> GetPremiumData(){
+		List<TFriendInfo> tfiList = new List<TFriendInfo>();
+		return tfiList;
 	}
 	
+	private void CreatePremiumListView(){
+		Debug.Log("Create Premium ListView(), start...");
+
+		List<TFriendInfo> newest = GetPremiumData();
+
+		if(premiumFriendList == null){
+			Debug.LogError("CreatePremiumListView(), FIRST step in, create drag panel view...");
+			premiumFriendList = newest;
+			RefreshDragView(premiumDragPanel, FriendInfoType.Premium);
+		}
+		else{
+			Debug.Log("CreatePremiumListView(), NOT FIRST step into FriendHelper scene...");
+			if(!premiumFriendList.Equals(newest)){
+				premiumFriendList = newest;
+				RefreshDragView(premiumDragPanel, FriendInfoType.Premium);
+			}
+			else{
+				Debug.Log("CreatePremiumListView(), the friend info list is NOT CHANGED, do nothing...");
+			}
+		}
+	}
+
+	private void CreateGeneralListView(){
+		Debug.Log("Create General ListView(), start...");
+
+		List<TFriendInfo> newest = DataCenter.Instance.SupportFriends;
+
+		if(generalFriendList == null){
+			Debug.LogError("CreateGeneralListView(), FIRST step in, create drag panel view...");
+			generalFriendList = newest;
+			RefreshDragView(generalDragPanel, FriendInfoType.General);
+		}
+		else{
+			Debug.Log("CreateGeneralListView(), NOT FIRST step into FriendHelper scene...");
+			if(!generalFriendList.Equals(newest)){
+				Debug.Log("CreateGeneralListView(), the friend info list is CHANGED, update helper list...");
+				//helperDragPanel.DestoryUI();
+				generalFriendList = newest;
+				RefreshDragView(generalDragPanel, FriendInfoType.General);
+			}
+			else{
+				Debug.Log("CreateGeneralListView(), the friend info list is NOT CHANGED, do nothing...");
+			}
+		}
+	}
+	enum FriendInfoType{
+		General,
+		Premium
+	}
+
+	void RefreshDragView(DragPanel dragPanel, FriendInfoType friendInfoType){
+		string dragPanelName;
+		List<TFriendInfo> dataList;
+
+		if(friendInfoType == FriendInfoType.General){
+			dragPanelName = "GeneralDragPanel";
+			dataList = generalFriendList;
+		}
+		else{
+			dragPanelName = "PremiumDragPanel";
+			dataList = premiumFriendList;
+		}
+
+		if(dragPanel != null){
+			Debug.Log("dragPanel named as " + dragPanel.DragPanelView.gameObject.name + " != NULL, destory->create->refresh...");
+			dragPanel.DestoryUI();
+		}
+		else{
+			Debug.Log("dragPanel == NULL, create->refresh...");
+		}
+
+		dragPanel = new DragPanel(dragPanelName, HelperUnitItem.ItemPrefab);
+		dragPanel.CreatUI();
+		dragPanel.AddItem(dataList.Count);
+		CustomDragPanel(dragPanel);
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
+		//SortUnitByCurRule();
+	}
+
 	private QuestItemView pickedQuestInfo;
 	private void RecordPickedInfoForFight(object msg){
 		pickedQuestInfo = msg as QuestItemView;
@@ -109,13 +189,20 @@ public class FriendHelperView : UIComponentUnity{
 	
 	private void SortUnitByCurRule(){
 		//sortRuleLabel.text = curSortRule.ToString();
-		SortUnitTool.SortByTargetRule(curSortRule, helperDataList);
-		RefreshView();
+		SortUnitTool.SortByTargetRule(curSortRule, generalFriendList);
+
+		for (int i = 0; i < generalDragPanel.ScrollItem.Count; i++){
+			HelperUnitItem huv = HelperUnitItem.Inject(generalDragPanel.ScrollItem[ i ]);
+			huv.Init(generalFriendList[ i ]);
+			huv.callback = ClickHelperItem;
+		}
 	}
 
-	private void ShowUIAnimation(){
-		gameObject.transform.localPosition = new Vector3(-1000, 0, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));      
+	private void ShowUIAnimation(DragPanel dragPannel){
+		if(dragPannel == null) return;
+		GameObject targetPanel = dragPannel.DragPanelView.gameObject;
+		targetPanel.transform.localPosition = new Vector3(-1000, 0, 0);
+		iTween.MoveTo(targetPanel, iTween.Hash("x", 0, "time", 0.4f));      
 	}
 	
 	private void AddCmdListener(){
@@ -133,7 +220,7 @@ public class FriendHelperView : UIComponentUnity{
 	/// Customs the drag panel.
 	/// Custom this drag panel as vertical drag.
 	/// </summary>
-	private void CustomDragPanel(){
+	private void CustomDragPanel(DragPanel dragPanel){
 		GameObject scrollView = dragPanel.DragPanelView.transform.FindChild("Scroll View").gameObject;
 		GameObject scrollBar = dragPanel.DragPanelView.transform.FindChild("Scroll Bar").gameObject;
 		GameObject itemRoot = scrollView.transform.FindChild("UIGrid").gameObject;
@@ -146,5 +233,56 @@ public class FriendHelperView : UIComponentUnity{
 		uiScrollView.horizontalScrollBar = null;
 	}
 
-	    
+	bool isShowPremium = false;
+	protected void ClickPremiumBtn(GameObject btn){
+		Debug.Log("Click Premium Btn...");
+
+		TUserUnit leader = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
+
+		EUnitRace race = (EUnitRace)leader.UnitRace;
+		EUnitType type = (EUnitType)leader.UnitType;
+		int level = leader.Level;
+
+		GetPremiumHelper.SendRequest(OnRspGetPremium, race, type, level);
+	}
+
+	void OnRspGetPremium(object data){
+		if (data == null)
+			return;
+		RspGetPremiumHelper rsp = data as RspGetPremiumHelper;
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			return;
+		}
+
+		List<FriendInfo> rspFriendInfo = rsp.helpers;
+		if(rspFriendInfo == null){
+			Debug.LogError("rspFriendInfo ERROR, NULL!");
+			return;
+		}
+
+		List<TFriendInfo> rspPremiumList = new List<TFriendInfo>();
+
+		for (int i = 0; i < rspFriendInfo.Count; i++){
+			TFriendInfo tfi = new TFriendInfo(rspFriendInfo[ i ]);
+			rspPremiumList.Add(tfi);
+		}
+
+		premiumFriendList = rspPremiumList;
+
+		Debug.Log("OnRspGetPremium(), premiumFriendList count is : " + premiumFriendList.Count);
+
+		if(isShowPremium){
+			premiumDragPanel.DestoryUI();
+			CreateGeneralListView();
+			ShowUIAnimation(generalDragPanel);
+		}
+		else{
+			generalDragPanel.DestoryUI();
+			CreatePremiumListView();
+			ShowUIAnimation(premiumDragPanel);
+		}
+		isShowPremium = !isShowPremium;
+	}
+
 }

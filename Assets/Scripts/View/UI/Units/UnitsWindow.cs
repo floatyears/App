@@ -38,23 +38,36 @@ public class UnitsWindow : UIComponentUnity{
 
 	void InitChildScenes(){
 		GameObject go;
+		UILabel btnLabel;
 
 		go = FindChild("Bottom/Catalog");
+		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Catalog");
 		buttonInfo.Add(go, SceneEnum.UnitCatalog);
 		
 		go = FindChild("Bottom/Evolve");
+		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Evolve");
 		buttonInfo.Add(go, SceneEnum.Evolve);
 		
 		go = FindChild("Bottom/LevelUp");
+		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel.text = TextCenter.GetText("Btn_JumpScene_LevelUp");
 		buttonInfo.Add(go, SceneEnum.LevelUp);
-		
+
 		go = FindChild("Bottom/Party");
+		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Party");
 		buttonInfo.Add(go, SceneEnum.Party);
 		
 		go = FindChild("Bottom/Sell");
+		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Sell");
 		buttonInfo.Add(go, SceneEnum.Sell);
 		
 		go = FindChild("Bottom/UnitList");
+		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UnitList");
 		buttonInfo.Add(go, SceneEnum.UnitList);
 		
 		foreach (var item in buttonInfo.Keys)

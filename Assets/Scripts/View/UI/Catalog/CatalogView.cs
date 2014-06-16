@@ -9,7 +9,7 @@ public class CatalogView : UIComponentUnity {
 	private List<CatalogUnitItem> catalogUnitItemList = new List<CatalogUnitItem>();
 	private List<UIWidget> catalogWidgetList = new List<UIWidget>();
     private List<Transform> catalogItemTrans	= new List<Transform>();
-    private NewObjectPooler catalogPooler;
+//    private NewObjectPooler catalogPooler;
 	private UIPanel uiPanel;
 	private const float UN_INTIALIZED_POS = -111111f;
 
@@ -93,19 +93,19 @@ public class CatalogView : UIComponentUnity {
 
 	GameObject catalogNode;
 	private void InitPooler(){
-		string path = "Prefabs/UI/UnitItem/CatalogNode";
-		catalogNode = ResourceManager.Instance.LoadLocalAsset(path) as GameObject;
-		catalogPooler = gameObject.AddComponent<NewObjectPooler>();
-		catalogPooler.Init(catalogNode, 45);
-		
-		GameObject pooledObjectsParent = new GameObject();
-		pooledObjectsParent.transform.parent = gameObject.transform;
-		pooledObjectsParent.transform.localScale = new Vector3(1, 1, 1);
-		
-		foreach (var item in catalogPooler.pooledObjects) {
-			item.transform.parent = pooledObjectsParent.transform;
-            item.transform.localScale = new Vector3(1, 1, 1);
-		}            
+//		string path = "Prefabs/UI/UnitItem/CatalogNode";
+//		catalogNode = ResourceManager.Instance.LoadLocalAsset(path) as GameObject;
+//		catalogPooler = gameObject.AddComponent<NewObjectPooler>();
+//		catalogPooler.Init(catalogNode, 45);
+//		
+//		GameObject pooledObjectsParent = new GameObject();
+//		pooledObjectsParent.transform.parent = gameObject.transform;
+//		pooledObjectsParent.transform.localScale = new Vector3(1, 1, 1);
+//		
+//		foreach (var item in catalogPooler.pooledObjects) {
+//			item.transform.parent = pooledObjectsParent.transform;
+//            item.transform.localScale = new Vector3(1, 1, 1);
+//		}            
 	}
 
 
@@ -122,18 +122,18 @@ public class CatalogView : UIComponentUnity {
 
 
 	private void InitCatalogTrans(int startPos, int onePageCount){
-		GameObject obj;
-		CatalogUnitItem catalogUnitItem;
-		for (int i = startPos; i < onePageCount; i++){
-			obj = catalogPooler.GetPooledObject();
-			obj.transform.parent = catalogItemTrans[ i ];
-			obj.transform.localScale = Vector3.one;
-			obj.transform.localPosition = Vector3.zero;
-			CatalogUnitItem item = CatalogUnitItem.Inject(obj);
-			obj.SetActive(true);
-            item.Refresh(i + 1);
-		}
-		curStartPos = startPos;
+//		GameObject obj;
+//		CatalogUnitItem catalogUnitItem;
+//		for (int i = startPos; i < onePageCount; i++){
+//			obj = catalogPooler.GetPooledObject();
+//			obj.transform.parent = catalogItemTrans[ i ];
+//			obj.transform.localScale = Vector3.one;
+//			obj.transform.localPosition = Vector3.zero;
+//			CatalogUnitItem item = CatalogUnitItem.Inject(obj);
+//			obj.SetActive(true);
+//            item.Refresh(i + 1);
+//		}
+//		curStartPos = startPos;
 	}
 
 	private float prevFirstItemPos_X = UN_INTIALIZED_POS;
@@ -217,26 +217,26 @@ public class CatalogView : UIComponentUnity {
 	}
 
 	private int AddShowOneRow(int startPos, int count){
-		GameObject obj;
-		CatalogUnitItem catalogUnitItem;
-		for (int i = 0; i < count; i++){
-			int pos = startPos + i;
-			Debug.Log(pos);
-			if (!CheckPosAvaliable(pos)) return i;
-
-			if(catalogItemTrans[ pos ].childCount == 1){
-				obj = catalogItemTrans[ pos ].FindChild("CatalogNode(Clone)").gameObject;
-			}
-			else {
-				obj = catalogPooler.GetPooledObject();
-				obj.transform.parent = catalogItemTrans[ pos ];
-				obj.transform.localScale = Vector3.one;
-                obj.transform.localPosition = Vector3.zero;            
-			}
-			CatalogUnitItem item = CatalogUnitItem.Inject(obj);
-			obj.SetActive(true);
-			item.Refresh(pos + 1);
-		}
+//		GameObject obj;
+//		CatalogUnitItem catalogUnitItem;
+//		for (int i = 0; i < count; i++){
+//			int pos = startPos + i;
+//			Debug.Log(pos);
+//			if (!CheckPosAvaliable(pos)) return i;
+//
+//			if(catalogItemTrans[ pos ].childCount == 1){
+//				obj = catalogItemTrans[ pos ].FindChild("CatalogNode(Clone)").gameObject;
+//			}
+//			else {
+//				obj = catalogPooler.GetPooledObject();
+//				obj.transform.parent = catalogItemTrans[ pos ];
+//				obj.transform.localScale = Vector3.one;
+//                obj.transform.localPosition = Vector3.zero;            
+//			}
+//			CatalogUnitItem item = CatalogUnitItem.Inject(obj);
+//			obj.SetActive(true);
+//			item.Refresh(pos + 1);
+//		}
 		return ITEM_COUNT_PER_COL;
 	}
 

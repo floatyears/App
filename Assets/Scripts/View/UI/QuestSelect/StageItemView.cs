@@ -45,9 +45,7 @@ public class StageItemView : MonoBehaviour{
 		get{
 			if(prefab == null){
 				string sourcePath = "Prefabs/UI/Quest/StageItemPrefab";
-				//never use the raw interface! Use ResourceManager instead
-				prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
-				//prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
+				prefab = Resources.Load(sourcePath) as GameObject;
 			}
 			return prefab;
 		}
@@ -119,7 +117,7 @@ public class StageItemView : MonoBehaviour{
 		
 		GameObject tipObj = new GameObject("Tip");
 		UILabel tipLabel = tipObj.AddComponent<UILabel>();
-		tipLabel.text = "CLOSED";
+		tipLabel.text = TextCenter.GetText("Stage_Locked");
 		tipLabel.depth = 6;
 		tipLabel.trueTypeFont = ViewManager.Instance.DynamicFont;
 		tipLabel.fontSize = 36;
@@ -154,11 +152,8 @@ public class StageItemView : MonoBehaviour{
 		else if(state == StageState.NEW){
 			ShowIconAccessState(icon);
 
-			string sourcePath = "Prefabs/UI/ArriveStagePrefab";
-
-			//never use the raw interface! Use ResourceManager instead
-			GameObject prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
-			//GameObject prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
+			string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";
+			GameObject prefab = Resources.Load(sourcePath) as GameObject;
 			NGUITools.AddChild(gameObject, prefab);
 			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 		}

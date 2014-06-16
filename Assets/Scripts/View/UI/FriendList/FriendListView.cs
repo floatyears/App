@@ -42,6 +42,8 @@ public class FriendListView : UIComponentUnity{
 
 	void InitUIElement(){
 		updateBtn = FindChild<UIButton>("Button_Update");
+		UILabel updateLabel = updateBtn.GetComponentInChildren<UILabel>();
+		updateLabel.text = TextCenter.GetText("Btn_FriendList_Update");
 		UIEventListener.Get(updateBtn.gameObject).onClick = ClickUpdateBtn;
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 	}
