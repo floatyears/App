@@ -102,7 +102,6 @@ public class LoadingDecorator : DecoratorBase{
 		
 //		lastDecorator = maskController;
 
-
 		lastDecorator = background;
         lastDecorator.CreatUI();
         
