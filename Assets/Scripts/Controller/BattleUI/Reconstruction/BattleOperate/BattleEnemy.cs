@@ -290,7 +290,7 @@ public class BattleEnemy : UIBaseUnity {
 	}
 
 	void SkillRecoverSP(object data) {
-		GameObject obj = Resources.Load("Effect/jiufeng") as GameObject;
+		GameObject obj = ResourceManager.Instance.LoadLocalAsset("Effect/jiufeng") as GameObject;
 		if (obj != null) {
 			Transform trans = obj.transform;
 			prevEffect = NGUITools.AddChild(effectPanel, obj);

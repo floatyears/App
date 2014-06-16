@@ -200,7 +200,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		dpsi.maxPerLine = 3;
 		dpsi.depth = 2;	
 		myUnitDragPanel.SetDragPanel (dpsi);
-		GameObject rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
+		GameObject rejectItem = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem") as GameObject;
 
 		GameObject rejectItemIns = myUnitDragPanel.AddRejectItem (rejectItem);
 		UIEventListener.Get(rejectItemIns).onClick = RejectCallback;

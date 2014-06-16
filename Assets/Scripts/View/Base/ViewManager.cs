@@ -112,7 +112,7 @@ public class ViewManager {
 		bottomLeftPanel =  trans.Find ("BottomLeft").gameObject;
 //		trapLabel = mainUIRoot.transform.Find ("RootPanel/BottomLeft/Label").GetComponent<UILabel> ();
 
-		dynamicFont = Resources.Load("Font/Dimbo Regular", typeof(Font)) as Font;
+		dynamicFont = ResourceManager.Instance.LoadLocalAsset("Font/Dimbo Regular") as Font;
 		manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
 //		Debug.LogError("manualHeight : " + manualHeight);
 //		DragPanelDynamic dpd 

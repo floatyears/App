@@ -18,7 +18,7 @@ public class RewardItemView : MonoBehaviour {
 		get{
 			if(prefab == null){
 				string sourcePath = "Prefabs/UI/Reward/RewardItem";
-				prefab = Resources.Load(sourcePath) as GameObject;
+				prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
 			}
 			return prefab;
 		}
@@ -95,7 +95,7 @@ public class RewardItemView : MonoBehaviour {
 
 	private void SetItemData(GameObject obj, GiftItem gift){
 		obj.transform.FindChild ("Num").GetComponent<UILabel>().text = "x" + gift.count;
-		obj.transform.FindChild ("Img").GetComponent<UITexture>().mainTexture = Resources.Load("Texture/NoviceGuide/Gold") as Texture2D;
+		obj.transform.FindChild ("Img").GetComponent<UITexture>().mainTexture = ResourceManager.Instance.LoadLocalAsset("Texture/NoviceGuide/Gold") as Texture2D;
 	}
 
 	private void ClickUnit(GameObject obj){

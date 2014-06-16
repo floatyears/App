@@ -45,7 +45,9 @@ public class StageItemView : MonoBehaviour{
 		get{
 			if(prefab == null){
 				string sourcePath = "Prefabs/UI/Quest/StageItemPrefab";
-				prefab = Resources.Load(sourcePath) as GameObject;
+				//never use the raw interface! Use ResourceManager instead
+				prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
+				//prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
 			}
 			return prefab;
 		}
@@ -153,7 +155,10 @@ public class StageItemView : MonoBehaviour{
 			ShowIconAccessState(icon);
 
 			string sourcePath = "Prefabs/UI/ArriveStagePrefab";
-			GameObject prefab = Resources.Load(sourcePath) as GameObject;
+
+			//never use the raw interface! Use ResourceManager instead
+			GameObject prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
+			//GameObject prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
 			NGUITools.AddChild(gameObject, prefab);
 			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 		}

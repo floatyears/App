@@ -133,7 +133,7 @@ public class AudioManager {
 			GameObject go = new GameObject();
 			go.name = string.Format( "_{0}", audioEnum.ToString() );
 			AudioSource source = go.AddComponent< AudioSource >();
-			AudioClip clip = Resources.Load( configItem.resourcePath ) as AudioClip;
+			AudioClip clip = ResourceManager.Instance.LoadLocalAsset( configItem.resourcePath ) as AudioClip;
 			source.clip = clip;
 			audioPlayerCache.Add( audioID, source );
 			SetPlayType( configItem.type, source);

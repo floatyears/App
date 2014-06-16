@@ -143,7 +143,7 @@
 //	
 //    private void CreateScrollerBase() {
 //        InitBaseScrollArgs();
-//        baseItem = Resources.Load("Prefabs/UI/Friend/UnitItem") as GameObject;
+//        baseItem = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/UnitItem") as GameObject;
 //        baseScroller = new DragPanel("BaseScroller", baseItem);
 //        baseScroller.CreatUI();
 //        baseScroller.AddItem(userUnitInfoList.Count);
@@ -151,7 +151,7 @@
 //            GameObject item = baseScroller.ScrollItem[i];
 //            UITexture tex = item.GetComponentInChildren<UITexture>();
 //            UnitBaseInfo ubi = DataCenter.Instance.UnitBaseInfo[userUnitInfoList[i].unitBaseInfo];
-//            tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
+//            tex.mainTexture = ResourceManager.Instance.LoadLocalAsset(ubi.GetHeadPath) as Texture2D;
 //            baseItemInfo.Add(item, userUnitInfoList[i]);
 //            UIEventListenerCustom ulc = UIEventListenerCustom.Get(item);
 //            ulc.onClick = PickBase;
@@ -175,7 +175,7 @@
 //    private void CreateScrollerMaterial() {
 //        InitMaterialScrollArgs();
 ////		materialItem = DataCenter.Instance.ItemObject;
-//        materialItem = Resources.Load("Prefabs/UI/Friend/UnitItem") as GameObject;
+//        materialItem = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/UnitItem") as GameObject;
 //        materialScroller = new DragPanel("MaterialScroller", materialItem);
 //        materialScroller.CreatUI();
 //        materialScroller.AddItem(DataCenter.Instance.HaveCard.Count);
@@ -183,7 +183,7 @@
 //            GameObject target = materialScroller.ScrollItem[i];
 //            UITexture tex = target.GetComponentInChildren<UITexture>();
 //            UnitBaseInfo ubi = DataCenter.Instance.UnitBaseInfo[DataCenter.Instance.HaveCard[i]];
-//            tex.mainTexture = Resources.Load(ubi.GetHeadPath) as Texture2D;
+//            tex.mainTexture = ResourceManager.Instance.LoadLocalAsset(ubi.GetHeadPath) as Texture2D;
 //            UIEventListenerCustom ulc = UIEventListenerCustom.Get(target);
 //            ulc.onClick = PickMaterial;
 //            ulc.LongPress = LongPressPickMaterial;

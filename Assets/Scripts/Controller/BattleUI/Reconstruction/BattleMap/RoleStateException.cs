@@ -5,7 +5,7 @@ using bbproto;
 public class RoleStateException {
 	private GameObject srcObject;
 	public RoleStateException () {
-		srcObject = Resources.Load("Prefabs/Fight/State") as GameObject;
+		srcObject = ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/State") as GameObject;
 	}
 
 	private Dictionary<StateEnum, GameObject> roleStateDic = new Dictionary<StateEnum, GameObject>();

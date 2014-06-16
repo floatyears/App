@@ -198,7 +198,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void GetUnitMaterial(){
-		unitMaterial = Resources.Load("Materials/UnitMaterial") as Material;
+		unitMaterial = ResourceManager.Instance.LoadLocalAsset("Materials/UnitMaterial") as Material;
 		if( unitMaterial == null )
 			Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
 	}
@@ -221,7 +221,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void InitEffect(){
 //		string path = "Prefabs/UI/UnitDetail/LevelUpEffect";
 		string path = "Effect/HelixHealingYellow";
-		levelUpEffect = Resources.Load( path ) as GameObject;
+		levelUpEffect = ResourceManager.Instance.LoadLocalAsset( path ) as GameObject;
 	}
 
 	void ClickTexture( GameObject go ){

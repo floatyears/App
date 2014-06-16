@@ -83,7 +83,7 @@
 //    public static GameObject ItemObject {
 //        get {
 //            if (itemObject == null) {
-//                itemObject = Resources.Load("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
+//                itemObject = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
 //            }
 //            return itemObject;
 //        }
@@ -108,7 +108,7 @@
 ////		if (effect == Effect.DragCard) {
 ////			if (!tempEffect.TryGetValue (type, out obj)) {
 ////				string path = GetEffectPath(type);
-////				obj = Resources.Load(path);
+////				obj = ResourceManager.Instance.LoadLocalAsset(path);
 ////				tempEffect.Add(type,obj);
 ////			}
 ////		}
@@ -118,7 +118,7 @@
 //        Object obj = null;
 //        if (!tempEffect.TryGetValue(type, out obj)) {
 //            string path = GetEffectPath(type);
-//            obj = Resources.Load(path);
+//            obj = ResourceManager.Instance.LoadLocalAsset(path);
 //            tempEffect.Add(type, obj);
 //        }
 //        return obj;
