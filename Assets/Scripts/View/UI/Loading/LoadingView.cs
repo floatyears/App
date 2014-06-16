@@ -14,6 +14,8 @@ using bbproto;
 
 
 public class LoadingView : UIComponentUnity {
+	private UILabel tapLogin;
+
     public override void Init ( UIInsConfig config, IUICallback origin ) {
         base.Init (config, origin);
         InitUI();
@@ -52,8 +54,28 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void InitUI (){
-        UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
+		tapLogin = FindChild ("ClickLabel").GetComponent<UILabel>();
+		tapLogin.enabled = false;
     }
+
+	private void CouldLogin(){
+		Debug.Log ("load complete, could login");
+		UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
+		tapLogin.enabled = true;
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE) {
+			NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
+			guideWindow.CreatUI();
+		}
+	}
+
+	protected T CreatComponent<T>(string name) where T : ConcreteComponent {
+		T component = ViewManager.Instance.GetComponent (name) as T;
+		if (component == null) {
+			component = System.Activator.CreateInstance(typeof(T), name) as T;
+		}
+		LogHelper.Log ("component: " + component);
+		return component;
+	}
 
     private bool CheckIfFirstLogin(){
         bool ret = false;

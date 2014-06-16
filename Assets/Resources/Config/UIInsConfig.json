@@ -9,7 +9,7 @@
     },
     "CommonNoteWindow": {
         "uiName":"CommonNoteWindow",
-        "resoucePath": "Prefabs/UI/Common/",
+        "resoucePath": "Prefabs/UI/",
         "parent": 1,
         "positionx": 0,
         "positiony": -565,
@@ -17,7 +17,7 @@
     },
     "ScreenMask": {
         "uiName":"ScreenMask",
-        "resoucePath": "Prefabs/UI/Common/",
+        "resoucePath": "Prefabs/UI/",
         "parent": 1,
         "positionx": 0,
         "positiony": -565,
@@ -74,7 +74,7 @@
     },
     "LoadingWindow": {
         "uiName":"Loading",
-        "resoucePath": "Prefabs/UI/Loading/",
+        "resoucePath": "Prefabs/UI/",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,

@@ -70,7 +70,7 @@ public class ResourceUpdate : MonoBehaviour {
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
 
 		//load the server version.txt
-//		StartDownload ();
+		StartDownload ();
 	}
 
 	void Update(){
@@ -123,34 +123,35 @@ public class ResourceUpdate : MonoBehaviour {
 			}
 		}
 		//Debug.Log ("download list item: " + downLoadItemList.Count);
-		if (downLoadItemList.Count <= 0 && !isLoginSent && startDown) {
-			if(retryItemList.Count > 0){
-				if(!isShowRetry){
-					isShowRetry = true;
-
-					MsgWindowParams mwp = new MsgWindowParams ();
-					mwp.btnParams = new BtnParam[2];
+		if (!isLoginSent) {
+			if (downLoadItemList.Count <= 0 && startDown) {
+				if(retryItemList.Count > 0){
+					if(!isShowRetry){
+						isShowRetry = true;
+						
+						MsgWindowParams mwp = new MsgWindowParams ();
+						mwp.btnParams = new BtnParam[2];
+						
+						mwp.titleText = "Dowload Error";
+						mwp.contentText = "Would you like to retry";
+						
+						BtnParam sure = new BtnParam ();
+						sure.callback = DownloadAgain;
+						sure.text = "OK";
+						mwp.btnParams[0] = sure;
+						
+						sure = new BtnParam ();
+						sure.callback = ExitGame;
+						sure.text = "Cancel";
+						mwp.btnParams[1] = sure;
+						MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+					}
 					
-					mwp.titleText = "Dowload Error";
-					mwp.contentText = "Would you like to retry";
-					
-					BtnParam sure = new BtnParam ();
-					sure.callback = DownloadAgain;
-					sure.text = "OK";
-					mwp.btnParams[0] = sure;
-					
-					sure = new BtnParam ();
-					sure.callback = ExitGame;
-					sure.text = "Cancel";
-					mwp.btnParams[1] = sure;
-					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
-				}
-
-			}else {
-				isLoginSent = true;
-				SendMessageUpwards("CouldLogin",SendMessageOptions.DontRequireReceiver);
+				}else {
+					isLoginSent = true;
+					SendMessageUpwards("CouldLogin",SendMessageOptions.DontRequireReceiver);
+				}	
 			}
-
 		}
 			
 		//Debug.LogError ("LateUpdate : " + retryItemList.Count);
