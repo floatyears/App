@@ -134,7 +134,7 @@ public class EffectConstValue {
 		if (effectAsset.TryGetValue (path, out data)) {
 			return data;
 		} else {
-			data = Resources.Load(path) as GameObject;
+			data = ResourceManager.Instance.LoadLocalAsset(path) as GameObject;
 			effectAsset.Add(path,data);
 			return data;
 		}

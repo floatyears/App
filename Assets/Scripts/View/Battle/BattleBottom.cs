@@ -26,7 +26,7 @@ public class BattleBottom : MonoBehaviour {
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
-		battleSkillObject = Resources.Load("Prefabs/BattleSkill") as GameObject;
+		battleSkillObject = ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill") as GameObject;
 		battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, battleSkillObject);
 		battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
 		battleSkill.Init ("BattleSkill");

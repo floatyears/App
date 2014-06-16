@@ -39,7 +39,7 @@ public class OperationNoticeView : UIComponentUnity {
 
 		//contents = new Dictionary<string, string> ();
 
-		GameObject prefab = Resources.Load (sourcePath) as GameObject;
+		GameObject prefab = ResourceManager.Instance.LoadLocalAsset (sourcePath) as GameObject;
 
 		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
 			foreach (var nItem in DataCenter.Instance.NoticeInfo.NoticeList) {

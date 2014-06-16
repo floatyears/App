@@ -45,7 +45,7 @@ public class FriendUnitItem : BaseUnitItem {
 		get { 
 			if(itemPrefab == null) {
 				string sourcePath = "Prefabs/UI/UnitItem/FriendUnitPrefab";
-				itemPrefab = Resources.Load(sourcePath) as GameObject ;
+				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject ;
 			}
 			return itemPrefab;
 		}

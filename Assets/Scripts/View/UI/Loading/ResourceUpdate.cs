@@ -15,7 +15,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 	public static string localResPath = 
 #if UNITY_IPHONE
-	"file://" + Application.dataPath + "/ResourceDownloadTest/LocalTest";//"/Raw";
+	"file://" + Application.dataPath + "/ResourceDownload/Download";//"/Raw";
 #elif UNITY_ANDROID
 	"file://" + "jar:file://" + Application.dataPath + "!/assets/";
 #elif UNITY_STANDALONE_WIN || UNITY_EDITOR
@@ -59,9 +59,9 @@ public class ResourceUpdate : MonoBehaviour {
 	void Start () {
 
 		//get the gamemanager
-
+//		Debug.Log ("start download=============");
 		pro = GetComponent<UIProgressBar> ();
-//		proText = GameObject.Find("ProgressText").GetComponent<UILabel> ();
+		proText = GameObject.Find("ProgressText").GetComponent<UILabel> ();
 		tipText = GameObject.Find ("TipText").GetComponent<UILabel>();
 		InvokeRepeating ("ShowTipText", 0, 5);
 
@@ -70,7 +70,7 @@ public class ResourceUpdate : MonoBehaviour {
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
 
 		//load the server version.txt
-		//StartDownload ();
+		StartDownload ();
 	}
 
 	void Update(){
@@ -81,7 +81,9 @@ public class ResourceUpdate : MonoBehaviour {
 				WWW www = item.www;
 
 				if(www != null && string.IsNullOrEmpty(www.error)){
+
 					current += item.size * www.progress;
+//					Debug.Log("download current: " + www.progress);
 				}
 				if(!string.IsNullOrEmpty(www.error)) {
 					//Debug.LogError("retryItemList : " + item.path + " error : " + www.error);
@@ -102,8 +104,10 @@ public class ResourceUpdate : MonoBehaviour {
 			}
 		}
 //		Debug.Log (globalWWW);
-//		pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
-//		proText.text = "current: " + (1-pro.value)*100 + "%(total " + (float)total / (float)(1024*1024) + "M)";
+//		Debug.Log ("============progress1: " + current + " already: " + alreadyDone);
+		pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
+//		Debug.Log ("============progress2: " + pro.value);
+		proText.text = "current: " + (1-pro.value)*100 + "%(total " + (float)total / (float)(1024*1024) + "M)";
 
 	}
 
@@ -119,34 +123,35 @@ public class ResourceUpdate : MonoBehaviour {
 			}
 		}
 		//Debug.Log ("download list item: " + downLoadItemList.Count);
-		if (downLoadItemList.Count <= 0 && !isLoginSent && startDown) {
-			if(retryItemList.Count > 0){
-				if(!isShowRetry){
-					isShowRetry = true;
-
-					MsgWindowParams mwp = new MsgWindowParams ();
-					mwp.btnParams = new BtnParam[2];
+		if (!isLoginSent) {
+			if (downLoadItemList.Count <= 0 && startDown) {
+				if(retryItemList.Count > 0){
+					if(!isShowRetry){
+						isShowRetry = true;
+						
+						MsgWindowParams mwp = new MsgWindowParams ();
+						mwp.btnParams = new BtnParam[2];
+						
+						mwp.titleText = "Dowload Error";
+						mwp.contentText = "Would you like to retry";
+						
+						BtnParam sure = new BtnParam ();
+						sure.callback = DownloadAgain;
+						sure.text = "OK";
+						mwp.btnParams[0] = sure;
+						
+						sure = new BtnParam ();
+						sure.callback = ExitGame;
+						sure.text = "Cancel";
+						mwp.btnParams[1] = sure;
+						MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+					}
 					
-					mwp.titleText = "Dowload Error";
-					mwp.contentText = "Would you like to retry";
-					
-					BtnParam sure = new BtnParam ();
-					sure.callback = DownloadAgain;
-					sure.text = "OK";
-					mwp.btnParams[0] = sure;
-					
-					sure = new BtnParam ();
-					sure.callback = ExitGame;
-					sure.text = "Cancel";
-					mwp.btnParams[1] = sure;
-					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
-				}
-
-			}else {
-				isLoginSent = true;
-				SendMessageUpwards("Login",SendMessageOptions.DontRequireReceiver);
+				}else {
+					isLoginSent = true;
+					SendMessageUpwards("CouldLogin",SendMessageOptions.DontRequireReceiver);
+				}	
 			}
-
 		}
 			
 		//Debug.LogError ("LateUpdate : " + retryItemList.Count);
@@ -247,7 +252,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 		//only for test
 		Debug.Log ("local version path: " + localVersionPath);
-		File.WriteAllText ("Assets/ResourceDownloadTest/LocalTest/version.txt", verStr);
+		File.WriteAllText ("Assets/ResourceDownload/Download/version.txt", verStr);
 	}
 
 	void UpdateLocalRes(DownloadItemInfo downloadItem)
@@ -264,13 +269,14 @@ public class ResourceUpdate : MonoBehaviour {
 				//Debug.Log(localResPath + "/" + serverVersionDic [name] [0] + ".unity3d");
 				//File.WriteAllBytes (localResPath + "/" + serverVersionDic [name] [0] + ".unity3d", resBytes);
 				//only for test
-				File.WriteAllBytes ("Assets/ResourceDownloadTest/LocalTest/" + downloadItem.name + ".unity3d", downloadItem.www.bytes);
+				File.WriteAllBytes ("Assets/ResourceDownload/Download/" + downloadItem.name + ".unity3d", downloadItem.www.bytes);
 				UpdateLocalVersionConfig(downloadItem.name,true);
 
 				current += serverVersionDic [downloadItem.name].size;
 //				int.TryParse(serverVersionDic [name].size,out current);
 
 				//StartCoroutine(LoadAssetToScene(resBytes));
+//				LoadAssetToScene()
 			}catch(IOException e)
 			{
 				Debug.Log(e.Message+ ";"+e.StackTrace);
@@ -301,7 +307,6 @@ public class ResourceUpdate : MonoBehaviour {
 
 	void CompareVersion()
 	{
-		Debug.Log ("compare version");
 		total = 0;
 		downLoadItemList.Clear ();
 		startDown = false;
@@ -320,6 +325,7 @@ public class ResourceUpdate : MonoBehaviour {
 				DownloadItemInfo localItem = localVersionDic[name];
 				DownloadItemInfo serverItem = serverVersionDic[name];
 				if(localItem.version < serverItem.version) {
+					Debug.Log("server version: " + serverItem.version + "  local version: " + localItem.version);
 					downLoadItemList.Add(serverItem);
 					total += serverItem.size;
 					serverItem.StartDownload();

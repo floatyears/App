@@ -1047,6 +1047,7 @@ public class UILabel : UIWidget
 		mPrintedSize = Mathf.Abs(legacyMode ? Mathf.RoundToInt(cachedTransform.localScale.x) : defaultFontSize);
 		mScale = 1f;
 
+
 		if (NGUIText.rectWidth < 1 || NGUIText.rectHeight < 0)
 		{
 			mProcessedText = "";
@@ -1097,6 +1098,8 @@ public class UILabel : UIWidget
 				NGUIText.Update(false);
 
 				// Wrap the text
+//				if(mProcessedText != null && mProcessedText.Length > 0)
+//					mProcessedText = mProcessedText.Replace("\\n","\n");
 				bool fits = NGUIText.WrapText(mText, out mProcessedText, true);
 
 				if (mOverflow == Overflow.ShrinkContent && !fits)

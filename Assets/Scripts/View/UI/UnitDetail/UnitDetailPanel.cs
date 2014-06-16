@@ -206,7 +206,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void GetUnitMaterial(){
-		unitMaterial = Resources.Load("Materials/UnitMaterial") as Material;
+		unitMaterial = ResourceManager.Instance.LoadLocalAsset("Materials/UnitMaterial") as Material;
 		if( unitMaterial == null )
 			Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
 	}
@@ -229,7 +229,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void InitEffect(){
 //		string path = "Prefabs/UI/UnitDetail/LevelUpEffect";
 		string path = "Effect/HelixHealingYellow";
-		levelUpEffect = Resources.Load( path ) as GameObject;
+		levelUpEffect = ResourceManager.Instance.LoadLocalAsset( path ) as GameObject;
 	}
 
 	void ClickTexture( GameObject go ){
@@ -407,8 +407,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		Debug.LogError (newBlendUnit.UnitInfo.ID);
-		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
-		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
+//		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
+//		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
 		unitInfoTabs.SetActive (false);
 		SetEffectCamera ();
 		StartCoroutine (CreatEffect ());
@@ -421,7 +421,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	public void SetEffectCamera() {
 		Camera camera = Main.Instance.effectCamera;
-		Debug.LogError ("camera : " + camera);
+//		Debug.LogError ("camera : " + camera);
 		camera.transform.eulerAngles = new Vector3 (15f, 0f, 0f);
 		camera.orthographicSize = 1.3f;
 	}
@@ -483,7 +483,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void ShowLevelInfo (TUserUnit userUnit) {
-
 		ShowStatusContent( userUnit );
 		ShowSkill1Content( userUnit );
 		ShowSkill2Content( userUnit );
@@ -580,7 +579,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if (progress == 0) {
 			progress = 0.1f;		
 		}
-		Debug.Log ("exp slide progress: " + progress);
+//		Debug.Log ("exp slide progress: " + progress);
 		expSlider.value = progress;
 	}
 

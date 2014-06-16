@@ -138,7 +138,7 @@ public class LoadingLogic : ConcreteComponent {
 				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
 			}
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
@@ -222,7 +222,7 @@ public class LoadingLogic : ConcreteComponent {
 
 //		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 
-		if (rspAuthUser.isNewUser == 1) {
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
 			StartFight();
 //			TurnToReName();
 		} else {

@@ -89,9 +89,13 @@ message StatShopBuy {
     optional ProtoHeader	header				= 1;
     optional string			productId			= 2;
 
-    optional uint32			timeStamp			= 3;
-    optional uint32			userId				= 4;
-    optional int32			errorCode			= 5;
+    optional int32			stonePay	    	= 3;
+    optional int32			stoneFree	    	= 4;
+    optional int32			stone		    	= 5;
+
+    optional uint32			timeStamp			= 6;
+    optional uint32			userId				= 7;
+    optional int32			errorCode			= 8;
 }
 
 //////////////////////////////////////////////////////////////////////

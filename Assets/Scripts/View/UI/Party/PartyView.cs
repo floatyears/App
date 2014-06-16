@@ -61,7 +61,7 @@ public class PartyView : UIComponentUnity{
 		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
 		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
 		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
-		rejectItem = Resources.Load("Prefabs/UI/Friend/RejectItem") as GameObject;
+		rejectItem = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem") as GameObject;
 
 		for (int i = 0; i < 4; i++){
 			GameObject item = topRoot.transform.FindChild(i.ToString()).gameObject;

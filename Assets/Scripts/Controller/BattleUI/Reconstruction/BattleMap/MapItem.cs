@@ -361,7 +361,7 @@ public class MapItem : UIBaseUnity {
 			Destroy (flyCoin.GetComponent<TweenAlpha> ());
 			Vector3 endPosition = battleMap.bQuest.GetTopUITarget ().position;
 			callBack = function;
-			float flyTime = Vector3.Distance(flyCoin.transform.position, endPosition) / 1f; // 1f = fly speed.
+			float flyTime = Vector3.Distance(flyCoin.transform.position, endPosition) / 1.5f; // 1f = fly speed.
 			iTween.MoveTo (flyCoin, iTween.Hash ("position", endPosition, "oncompletetarget", gameObject, "oncomplete", "FlyEnd","time",flyTime,"easetype",iTween.EaseType.easeInQuad));
 			} else {
 			tws.callWhenFinished = function;

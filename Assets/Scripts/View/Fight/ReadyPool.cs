@@ -140,7 +140,7 @@ public class ReadyPool : MonoBehaviour
 
 		maskOffset = new Vector3(0, 0, -3);
 
-		fullMask = Resources.Load("Prefabs/Cards/FullMask")as GameObject;
+		fullMask = ResourceManager.Instance.LoadLocalAsset("Prefabs/Cards/FullMask")as GameObject;
 
 	}
 

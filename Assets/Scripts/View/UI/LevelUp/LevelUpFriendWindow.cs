@@ -52,7 +52,7 @@ public class LevelUpFriendWindow : UIComponentUnity {
         string name = "FriendDragPanel";
         int count = friendInfoList.Count;//DataCenter.Instance.Friends.Count;
         string itemSourcePath = "Prefabs/UI/Friend/AvailFriendItem";
-        GameObject itemGo = Resources.Load(itemSourcePath) as GameObject;
+        GameObject itemGo = ResourceManager.Instance.LoadLocalAsset(itemSourcePath) as GameObject;
 		//InitDragPanelArgs();
         friendDragPanel = CreateDrag(name, count, itemGo);
         FillDragPanel(friendDragPanel);

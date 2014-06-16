@@ -40,7 +40,7 @@ public class ScrollView : UIBase
 
 		if(sourceObject == null)
 		{
-			sourceObject = Resources.Load(dragUIObjectPath) as GameObject;
+			sourceObject = ResourceManager.Instance.LoadLocalAsset(dragUIObjectPath) as GameObject;
 		}
 
 		insUIObject = GameObject.Instantiate(sourceObject) as GameObject;

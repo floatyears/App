@@ -20,6 +20,20 @@ public class DGTools {
 		}
 	}
 
+	static public GameObject AddChild (GameObject parent, GameObject prefab) {
+		GameObject go = GameObject.Instantiate(prefab) as GameObject;
+		
+		if (go != null && parent != null) {
+			Transform t = go.transform;
+			t.parent = parent.transform;
+			t.localPosition = Vector3.zero;
+			t.localRotation = Quaternion.identity;
+			t.localScale = Vector3.one;
+			go.layer = parent.layer;
+		}
+		return go;
+	}
+
 	public static int GetEnemyWidthByRare(int rare) {
 		switch (rare) {
 		case 1:
@@ -582,7 +596,7 @@ public class DGTools {
 	}
 
 	static TextAsset LoadTextAsset (string url) {
-		return Resources.Load (url, typeof(TextAsset)) as TextAsset;
+		return ResourceManager.Instance.LoadLocalAsset (url) as TextAsset;
 	}
 
 	private static Dictionary<EUnitType, Color> typeColor = new Dictionary<EUnitType, Color> ();
@@ -629,7 +643,7 @@ public class DGTools {
 	}
 
 	public static FriendWindows CreatFriendWindow() {
-		GameObject go = Resources.Load ("Prefabs/UI/Friend/FriendWindows") as GameObject;
+		GameObject go = ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Friend/FriendWindows") as GameObject;
 		GameObject instance = GameObject.Instantiate (go) as GameObject; // NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
 		Transform insTrans = instance.transform;
 		insTrans.parent = ViewManager.Instance.TopPanel.transform;
@@ -673,6 +687,8 @@ public class GameLayer
 	public static LayerMask blocker = 15;
 
 	public static LayerMask NoviceGuide = 16;
+
+	public static LayerMask BottomInfo = 29;
 
 	public static LayerMask Bottom = 31;
 

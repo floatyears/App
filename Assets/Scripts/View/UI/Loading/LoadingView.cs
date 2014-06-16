@@ -14,6 +14,8 @@ using bbproto;
 
 
 public class LoadingView : UIComponentUnity {
+	private UILabel tapLogin;
+
     public override void Init ( UIInsConfig config, IUICallback origin ) {
         base.Init (config, origin);
         InitUI();
@@ -23,8 +25,19 @@ public class LoadingView : UIComponentUnity {
 //		GameDataStore.Instance.StoreData (GameDataStore.UUID, "");
 //		GameDataStore.Instance.StoreData (GameDataStore.USER_ID, "");
         base.ShowUI ();
+#if UNITY_ANDROID
+		Debug.Log ("Umeng.Start('android')...");
 		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8","android");
-		LogHelper.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
+#elif UNITY_IPHONE
+		Debug.Log ("Umeng.Start('ios')...");
+		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094","ios");
+#endif
+
+#if !UNITY_EDITOR
+		Debug.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
+		Debug.Log("GetDeviceInfo: " + Umeng.GA.GetDeviceInfo());
+#endif
+
 //		NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces ();
 //		Debug.LogError ("nis.Length : " + nis.Length);
 //		if (nis.Length > 0) {
@@ -41,8 +54,28 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void InitUI (){
-        UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
+		tapLogin = FindChild ("ClickLabel").GetComponent<UILabel>();
+		tapLogin.enabled = false;
     }
+
+	private void CouldLogin(){
+		Debug.Log ("load complete, could login");
+		UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
+		tapLogin.enabled = true;
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE) {
+			NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
+			guideWindow.CreatUI();
+		}
+	}
+
+	protected T CreatComponent<T>(string name) where T : ConcreteComponent {
+		T component = ViewManager.Instance.GetComponent (name) as T;
+		if (component == null) {
+			component = System.Activator.CreateInstance(typeof(T), name) as T;
+		}
+		LogHelper.Log ("component: " + component);
+		return component;
+	}
 
     private bool CheckIfFirstLogin(){
         bool ret = false;
