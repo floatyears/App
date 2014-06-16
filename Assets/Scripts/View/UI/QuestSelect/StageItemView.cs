@@ -117,7 +117,7 @@ public class StageItemView : MonoBehaviour{
 		
 		GameObject tipObj = new GameObject("Tip");
 		UILabel tipLabel = tipObj.AddComponent<UILabel>();
-		tipLabel.text = "CLOSED";
+		tipLabel.text = TextCenter.GetText("Stage_Locked");
 		tipLabel.depth = 6;
 		tipLabel.trueTypeFont = ViewManager.Instance.DynamicFont;
 		tipLabel.fontSize = 36;

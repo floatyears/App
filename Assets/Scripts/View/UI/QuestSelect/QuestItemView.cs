@@ -69,8 +69,11 @@ public class QuestItemView : MonoBehaviour {
 		bossAvatarSpr.spriteName = data.BossID[ 0 ].ToString();
 
 		nameLabel.text = data.Name;
-		staminaLabel.text = string.Format( "STAMINA {0}", data.Stamina);
-		floorLabel.text = string.Format( "FLOOR {0}", data.Floor);
+		//staminaLabel.text = string.Format( "STAMINA {0}", data.Stamina);
+		staminaLabel.text = TextCenter.GetText("Stamina") + " " + data.Stamina;
+		//floorLabel.text = string.Format( "FLOOR {0}", data.Floor);
+		floorLabel.text = TextCenter.GetText("Floor") + " " + data.Floor;
+
 		expLabel.text = data.RewardExp.ToString();
 		coinLabel.text = data.RewardMoney.ToString();
 		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageID, data.ID);

@@ -39,6 +39,36 @@ Btn_SortRule_Fav=FAVORITE
 Btn_SortRule_AddPoint=ADD POINT
 Btn_SortRule_Rank=RANK
 
+##Label Text
+Divided_Line=/
+Float_Rank=RANK
+Float_NextExp=NEXT EXP
+Float_TotalExp=TOTAP EXP
+
+##City Name
+City_Name_1=city_name_1
+City_Name_2=city_name_2
+City_Name_3=city_name_3
+City_Name_4=city_name_4
+City_Name_5=city_name_5
+City_Name_6=city_name_6
+
+Title_YourID=用户ID
+##Game setting options
+Game_Setting_Option_Music=音乐
+Game_Setting_Option_NickName=昵称
+Game_Setting_Option_Currency=攻略
+Game_Setting_Option_Raider=RAIDER
+
+Text_Leader_Skill=队长技能
+Text_HP=血量
+Text_ATK=攻击力
+Text_COST=体耗
+Text_Level=等级
+Unit_Detail_Tab_Status=状态
+Unit_Detail_Tab_Normal_Skill=普攻
+Unit_Detail_Tab_Prifile=描述
+Unit_Detail_Next=下一级
 ##Scene Name
 SCENE_NAME_APPLY=APPLY
 SCENE_NAME_CATALOG=CATALOG
@@ -78,6 +108,9 @@ Open=Open
 retry=Retry
 error=error
 
+Stage_Locked=LOCKED
+Stamina=STAMINA
+Floor=FLOOR
 #Loading
 BattleContinueTitle=Battle Confirm
 BattleContinueContent=Do you want to recover previous battle?

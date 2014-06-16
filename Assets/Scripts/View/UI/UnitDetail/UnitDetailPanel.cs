@@ -4,6 +4,13 @@ using bbproto;
 using System.Collections.Generic;
 
 public class UnitDetailPanel : UIComponentUnity,IUICallback{
+	public UILabel hpTextLabel;
+	public UILabel atkTextLabel;
+	public UILabel raceTextLabel;
+	public UILabel statusTextLabel;
+	public UILabel normalSkillTextLabel;
+	public UILabel profileTextLabel;
+	
 //	UIButton favBtn;
 	UnitDetailTopPanel topPanel;
 
@@ -127,6 +134,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		InitTabStatus ();
 		InitTexture ();
 		InitProfile();
+		InitTextLabel();
 	}
 
 	void ClickTab(GameObject tab){
@@ -614,4 +622,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //			//Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
 //		}
 //	}
+
+	private void InitTextLabel(){
+		hpTextLabel.text = TextCenter.GetText("Text_HP");
+		atkTextLabel.text = TextCenter.GetText("Text_ATK");
+		statusTextLabel.text = TextCenter.GetText("Unit_Detail_Tab_Status");
+		normalSkillTextLabel.text = TextCenter.GetText("Unit_Detail_Tab_Normal_Skill");
+		profileTextLabel.text = TextCenter.GetText("Unit_Detail_Tab_Prifile");
+	}
 }
