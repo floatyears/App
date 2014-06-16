@@ -53,7 +53,7 @@ public class LoadAsset
 //		{
 			string reallyPath = DisposePathByType(rEnum) + name;
 
-			Object obj = Resources.Load(reallyPath);
+			Object obj = ResourceManager.Instance.LoadLocalAsset (reallyPath);//Resources.Load(reallyPath);
 			
 //			objectDic.Add(name,obj);
 //		}

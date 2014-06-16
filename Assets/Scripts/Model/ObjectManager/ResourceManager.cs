@@ -27,17 +27,17 @@ public class ResourceManager {
 	}
 
 	Object LoadLocalNoCache(string path) {
-		//loading UI will not be dynamiclly download.
-		if(path.IndexOf("Loading")> 0){
+		//the following resource will not be dynamiclly download.
+		if(path.IndexOf("Loading")> 0 || path.IndexOf("UIInsConfig")> 0 || path.IndexOf("ScreenMask")> 0 || path.IndexOf("CommonNoteWindow")> 0 ){
 			return Resources.Load (path);
 		}
 
-		if (path.IndexOf ("Config") == 0 || path.IndexOf ("Prefabs") == 0 || path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0) {
+		if (path.IndexOf ("Config") == 0 || path.IndexOf ("Prefabs") == 0 || path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0 || path.IndexOf ("Atlas") == 0) {
 #if UNITY_EDITOR
 			string ext = null;
 			if(path.IndexOf ("Config") == 0){
 				ext = ".json";
-			}else if(path.IndexOf ("Prefabs") == 0){
+			}else if(path.IndexOf ("Prefabs") == 0 || path.IndexOf ("Atlas") == 0){
 				ext = ".prefab";
 
 //				if(uiAssets == null){
@@ -83,7 +83,8 @@ public class ResourceManager {
 
 #endif
 		} else {
-			Resources.Load (path);
+			Debug.Log ("resource load from resource: " + path);
+			return Resources.Load (path);
 		}
 		return null;
 
