@@ -14,6 +14,9 @@ using bbproto;
 
 
 public class LoadingView : UIComponentUnity {
+
+	private UILabel clickLabel;
+
     public override void Init ( UIInsConfig config, IUICallback origin ) {
         base.Init (config, origin);
         InitUI();
@@ -46,8 +49,14 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void InitUI (){
-        UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
+		clickLabel = FindChild("ClickLabel").GetComponent<UILabel>();
+		clickLabel.enabled = false;
     }
+
+	private void CouldLogin(){
+		clickLabel.enabled = true;
+		UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
+	}
 
     private bool CheckIfFirstLogin(){
         bool ret = false;

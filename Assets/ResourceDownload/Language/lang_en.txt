@@ -1,0 +1,452 @@
+##Scene Name
+SCENE_NAME_APPLY=APPLY
+SCENE_NAME_CATALOG=CATALOG
+SCENE_NAME_EVOLVE=EVOLVE
+SCENE_NAME_FIGHTREADY=FIGHT READY
+SCENE_NAME_FRIEND=FRIEND
+SCENE_NAME_FRIEND_LIST=FRIEND LIST
+SCENE_NAME_FRIEND_SELECT=FRIEND SELECT
+SCENE_NAME_HOME=HOME
+SCENE_NAME_INFORMATION=INFORMATION
+SCENE_NAME_LEVEL_UP=LEVEL UP
+SCENE_NAME_OTHERS=OTHERS
+SCENE_NAME_PARTY=PARTY
+SCENE_NAME_QUEST_SELECT=QUEST SELECT
+SCENE_NAME_RECEPTION=RECEPTION
+SCENE_NAME_ROLE_SELECT=ROLE SELECT
+SCENE_NAME_SCRATCH=SCRATCH
+SCENE_NAME_FRIEND_SEARCH=SEARCH FRIEND
+SCENE_NAME_SHOP=SHOP
+SCENE_NAME_STAGE_SELECT=STAGE SELECT
+SCENE_NAME_UNITS=UNITS
+SCENE_NAME_UNIT_SELL=UNIT SELL
+SCENE_NAME_YOUR_ID=YOUR ID
+SCENE_NAME_UNIT_RESULT=RESULT
+SCENE_NAME_UNIT_LIST=UNIT LIST
+SCENE_NAME_OPERATION_NOTICE=Operation Notice
+SCENE_NAME_REWARD=Reward
+SCENE_NAME_RAIDER=Raider
+SCENE_NAME_CURRENCY=Currency
+
+OK=OK
+Again=Once Again
+Cancel=Cancel
+Back=Back
+Open=Open
+
+retry=Retry
+error=error
+
+#Loading
+BattleContinueTitle=Battle Confirm
+BattleContinueContent=Do you want to recover previous battle?
+
+#Friend search
+SearchError=Search Error
+UserNotExist=The Friend {0} you search not exist
+
+InputError=Input Error
+InputEmpty=Could not Input empty ID!
+
+UserAlreadyFriend=The ID {0} you searched is already your friend!
+
+RefuseAll=The ID {0} you searched is already your friend!
+ConfirmRefuseAll=Are you sure to refuse all friend apply?
+
+RefreshFriend=Friend Update
+ConfirmRefreshFriend=Are you sure to update friend list?
+
+# shop
+
+FriendExpand=Friend Max Expansion
+ConfirmFriendExpansion=Are you sure to use 6 Chip to expand your friend limit?
+FriendExpansionInfo=Now friends {0}/{1}
+DoFriendExpand=Expand
+
+FriendExpansionFailed=Friend Max Expansion Failed
+FriendCountLimitReachedMax=Now your friend limit has reached max.
+FriendExpandStonesNotEnough=Now your stone not enough to expand friend limit.
+
+FriendExpansionFinish=Friend Max Expansion Completed
+FriendExpansionResult=Friend Limited Max reached {0}!
+
+StaminaRecover=Recover your stamina
+ConfirmStaminaRecover=Are you sure to use 6 Chip to make your stamina full?
+DoStaminaRecover=Recover
+
+StaminaRecoverFailed=Stamina Recovering Failed
+StaminaStillFull=Now your stamina still full, not need to recover it.
+StaminaRecoverStonesNotEnough=Now your stone not enough to recover stamina.
+
+StaminaRecoverFinish=Stamina Recover Completed
+StaminaRecoverResult=All Stamina Recovered!
+
+UnitExpand=Units count limit expand
+ConfirmUnitExpansion=Are you sure to use 6 Chip to expand your unit limit?
+UnitExpansionInfo=Now Units {0}/{1}
+DoUnitExpansion=Expand
+
+UnitExpansionFailed=Unit Max Expansion Failed
+UnitCountLimitReachedMax=Now your unit limit has reached max.
+UnitExpandStonesNotEnough=Now your stone not enough to expand unit limit.
+
+UnitExpansionFinish=Unit Max Expansion Completed
+UnitExpansionResult=Unit Limited Max Reached {0}!
+
+##### gacha
+FriendGacha=Start Friend Point Scratch
+FriendGachaTitle=Friend Point Scratch
+FriendGachaDescription=Use friend Scratch to get units
+FriendGachaStatus=1 gacha: {0} points  {1} gachas: {2} points\nnow friend points {3}
+
+ConfirmOneFriendGacha=Gacha 1 time
+ConfirmMaxFriendGacha=Gacha {0} times
+
+FriendGachaFailed=[FF0000]Friend Gacha Failed[-]
+UnitCountReachedMax=Now your units owned overed unit limit:[FF0000]{0}/[-]{1}, can't do any gacha.
+GachaFriendPointNotEnough=1 friend gacha need {0} friend points\nYour friend points not enough.
+
+RareGacha=Start Rare Scratch
+RareGachaTitle=Rare Scratch
+RareGachaDescription=Use stones to get units
+RareGachaStatus=1 gacha: {0} stones {1} gachas: {2} stones\nnow stones {3}
+
+ConfirmOneRareGacha=Gacha 1 time
+ConfirmMaxRareGacha=Gacha {0} times
+
+RareGachaFailed=[FF0000]Rare Gacha Failed[-]
+RareGachaStoneNotEnough=1 rare gacha need {0} stones\nYour stones not enough.
+
+EventGacha=Start Event Scratch
+EventGachaTitle=Event Scratch
+EventGachaDescription=Use stones to get units
+EventGachaStatus=1 gacha: {0} stones {1} gachas: {2} stones\nnow stones {3}
+
+ConfirmOneEventGacha=Gacha 1 time
+ConfirmMaxEventGacha=Gacha {0} times
+
+EventGachaFailed=[FF0000]Event Gacha Failed[-]
+EventGachaNotOpen=Our next event gacha will coming soon, please wait it!
+EventGachaStoneNotEnough=1 event gacha need {0} stones\nYour stones not enough.
+
+FriendScratch=Friend Scratch
+RareScratch=Rare Scratch
+EventScratch=Event Scratch
+
+GachaChances=chances {0}/{1}
+Lv=Lv {0}
+
+
+LevelUpMoneyNotEnough=Level up need money {0}, your money is not enough.
+MoneyNotEnoughTitle=Money Not Enough
+
+###
+StartQuestFail=Start quest request failed
+
+
+## net error
+success=success
+ERROR_BASE=ERROR_BASE
+FAILED=FAILED
+INVALID_PARAMS=INVALID_PARAMS
+MARSHAL_ERROR=MARSHAL_ERROR
+UNMARSHAL_ERROR=UNMARSHAL_ERROR
+IOREAD_ERROR=IOREAD_ERROR
+IOWRITE_ERROR=IOWRITE_ERROR
+CONNECT_DB_ERROR=CONNECT_DB_ERROR
+READ_DB_ERROR=READ_DB_ERROR
+SET_DB_ERROR=SET_DB_ERROR
+DATA_NOT_EXISTS=DATA_NOT_EXISTS
+
+EU_USER_BASE=EU_USER_BASE
+EU_INVALID_USERID=EU_INVALID_USERID
+EU_GET_USERINFO_FAIL=EU_GET_USERINFO_FAIL
+EU_USER_NOT_EXISTS=EU_USER_NOT_EXISTS
+EU_GET_NEWUSERID_FAIL=EU_GET_NEWUSERID_FAIL
+EU_UPDATE_USERINFO_ERROR=EU_UPDATE_USERINFO_ERROR
+EF_FRIEND_BASE=EF_FRIEND_BASE
+EF_FRIEND_NOT_EXISTS=EF_FRIEND_NOT_EXISTS
+EF_ADD_FRIEND_FAIL=EF_ADD_FRIEND_FAIL
+EF_DEL_FRIEND_FAIL=EF_DEL_FRIEND_FAIL
+EF_IS_ALREADY_FRIEND=EF_IS_ALREADY_FRIEND
+EF_INVALID_FRIEND_STATE=EF_INVALID_FRIEND_STATE
+
+EQ_QUEST_BASE=EQ_QUEST_BASE
+EQ_QUEST_ID_INVALID=EQ_QUEST_ID_INVALID
+EQ_GET_QUESTINFO_ERROR=EQ_GET_QUESTINFO_ERROR
+EQ_STAMINA_NOT_ENOUGH=EQ_STAMINA_NOT_ENOUGH
+EQ_GET_QUEST_CONFIG_ERROR=EQ_GET_QUEST_CONFIG_ERROR
+EQ_GET_QUEST_LOG_ERROR=EQ_GET_QUEST_LOG_ERROR
+EQ_UPDATE_QUEST_RECORD_ERROR=EQ_UPDATE_QUEST_RECORD_ERROR
+EQ_INVALID_DROP_UNIT=EQ_INVALID_DROP_UNIT
+EQ_QUEST_IS_PLAYING=EQ_QUEST_IS_PLAYING
+E_UNIT_BASE=E_UNIT_BASE
+E_UNIT_ID_ERROR=E_UNIT_ID_ERROR
+E_LEVELUP_NO_ENOUGH_MONEY=E_LEVELUP_NO_ENOUGH_MONEY
+E_GET_UNIT_INFO_ERROR=E_GET_UNIT_INFO_ERROR
+
+#network error
+NETWORK_ERROR=Network error.\n Please check your network connection and try again later.
+TIMEOUT_ERROR=Connect to server timeout.\n Please check your network connection and try again later.
+CONNECT_ERROR=Cannot connect to server. Please check your network connection and try again later.
+SERVER_500=The server is busy now.\n Please wait for a moment and try again later.
+
+BigRareWarning=Rare Warning
+BigRareWarningText=Include the unit whose rare bigger than 3.\nAre you sure to sell?
+
+UnitOverflow=Unit Overflow
+UnitOverflowText=Your current unit capacity is [ff0000]{0}[-]/{1}.Would you like to do unit expansion?
+
+FirendOverflow=Firend Overflow
+FriendOverflowText=Your current unit capacity is {0}/{1}.\nWould you like to do friend expansion?
+
+CostLimit=Current Cost Limit
+CostLimitText=Sorry to tell you,\nyou can't replace this unit! 
+
+FriendCounterTitle=Friends :
+ApplyCounterTitle=Apply :
+ReceptionCounterTitle=Recept :
+UnitCounterTitle=Units :
+CatalogCounterTitle=Got :
+
+
+CounterCurrent={0}
+CounterMax=/{0}
+
+StageStateNew=New
+StageStateClear=Clear
+StaminaLackNoteTitle=Friendly Reminder
+StaminaLackNoteContent=Current Stamina is not enough to battle!
+
+SelectRoleTitle=Select Role
+SelectRoleContent=Are you sure to select this role to adventure with you?
+
+DeleteNoteTitle=Delete Friend
+DeleteNoteContent=Are you sure to delete this friend?
+
+ZeroFriendPoint=Don't get friend point.
+GotFriendPoint=You have got {0} friend point.
+TotalFriendPoint=Total friend point: {0}.
+
+ChainLogin=Chain Login {0}
+TotalLogin=Total Login {0}
+RankReach=Rank {0}
+
+guide1_title=Welcome!
+guide1_content=Are you going to get into the saint gate?
+guide2_title=choose your partner
+guide2_content=选择和你一起冒险的伙伴。\n未选择的伙伴会在之后的旅程中相遇！
+guide3_title=determine your partner
+guide3_content=角色介绍。\n确定和xxx冒险么？
+guide4_title=start adventure
+guide4_content=我的名字叫xxx。\n那么就立马开始冒险吧！
+guide5_title=about scratch card
+guide5_content=接下来就是重中之重的抽卡！\n抽卡可是能得到各种各样的强卡哦！
+guide6_title=about rare card
+guide6_content=这次就来一次稀有抽卡吧。\n友情抽卡咱放后面再说。
+guide7_title=a rare card need something
+guide7_content=a rare card need something!
+guide8_title=choose a card
+guide8_content=Please feel free to pick a card!
+guide9_title=get a card
+guide9_content=运气不错，卡牌很强！\n后别忘了编入队伍中哦。
+guide10_title=party method
+guide10_content=choose a party
+guide11_title=party complete
+guide11_content=complete a party
+
+guide12_title=start mission
+guide12_content=find the key to open the door
+guide13_title=move method
+guide13_content=click the direction to move
+guide14_title=gold box
+guide14_content=you get some gold.
+guide15_title=movement and sp
+guide15_content=every move costs one sp.so don't let the sp goto 0.
+guide16_title=enemy floor
+guide16_content=five star means dangerous.be careful to move.Then we'll be in battle!
+guide17_title=xxx teacher teach you lesson
+guide17_content=let me give you a lesson!
+guide18_title=xxx teacher do the work himself
+guide18_content=do you see my excellent work!
+
+##attack once
+guide19_title=attack method
+guide19_content=the same gird has 2 or more same color will attack.
+guide20_title=your turn
+guide20_content=try to put the blue color in one grid.
+
+##attack twice
+guide21_title=attack successed
+guide21_content=try to drag the same color with the left corner
+guide22_title=attack key point
+guide22_content=1.same color in one grid.\n 2.2 or more same color will attack.\n 3.one grid will take 5 color at most. then start fight!
+guide23_title=Conquer the enemy
+guide23_content=Congratulations! then take the key!
+guide24_title=key floor
+guide24_content=then you have the key, the door is open. Advance to there!
+guide25_title=arrive at the door
+guide25_content=boss is waiting.click the door to open it.
+
+##boss attck
+guide26_title=boss fight!
+guide26_content=slide the blocks to sort them
+guide27_title=enemy attack
+guide27_content=the enemy attack us. our hp going down. take the red heart block.
+guide28_title=red heart max
+guide28_content=put 2 red heart in one grid to increase hp.
+guide29_title=heal succeed!
+guide29_content=take down the boss
+
+##skill
+guide30_title=active skill
+guide30_content=the unit is flashing.click it.
+guide31_title=use active skill
+guide31_content=use the active skill
+guide32_title=nice action
+guide32_content=different charactor has different skill.
+guide33_title=about boost
+guide33_content=the boost will add 1.5 times hurt and heal.
+guide34_title=go through the copy successfully
+guide34_content=find the key.take down the boss.you will succeed.
+guide35_title=confirm the result
+guide35_content=confirm the result.you will gain different things.
+
+##skillName & skillDescription
+RecoverHpSkillName=Recover HP: Lv{0}
+RecoverHpSkillDesc=Recover {0}% HP
+
+##level up
+guide41_title=level up method
+guide41_content=click level up to strong your party
+guide42_title=choose the level up card
+guide42_content=choose the card
+guide43_title=material card choose
+guide43_content=choose your material card
+guide44_title=choose your helper
+guide44_content=choose a friend
+guide45_title=friend reward
+guide45_content=the same attr results a lot of exp
+guide46_title=level up end
+guide46_content=level up max.now goto the evolve
+
+##evolve
+guide51_title=choose evolve card
+guide51_content=choose card
+guide52_title=choose a helper
+guide52_content=you need a helper.choose one
+guide53_title=choose a helper's need
+guide53_content=the helper shoulder have the same race,attr,lv.
+guide54_title=about the evolve mission
+guide54_content=you must finish the mission to complete evolve
+guide55_title=evovle mission final confirm
+guide55_content=use this team to fight.let's go
+guide56_title=xxx teacher's note
+guide56_content=take down more enemy
+guide57_title=mission key point
+guide57_content=1.find the key;2.goto the door
+guide58_title=evolve success
+guide58_content=excelent,your charactor evovles.
+guide59_title=evolve time
+guide59_content=1.find the key;2.goto the door
+
+##Tips
+Tips_A_1=MQ是一个滑动方块来战斗的恶魔题材卡牌游戏。
+Tips_A_2=点击地图中闪烁的格子后即可移动。
+Tips_A_3=每移动一个格子都会耗费一点SP（行动力）。
+Tips_A_4=SP为零后就将代扣HP，直至HP剩下1点。
+Tips_A_5=踩上格子后，可能获得宝箱或遭遇敌人或踩中陷阱。
+Tips_A_6=一般情况下，将≥2个与己方某张卡牌属性颜色相同的方块放入同一个战斗槽后即可攻击。
+Tips_A_7=战斗槽共5个，一个战斗槽中最多放入5个方块。
+Tips_A_8=滑动方块的时间只有5s，5s后即发动攻击。
+Tips_A_9=只要方块没进入战斗槽，倒计时就不会开始。
+Tips_A_10=将≥2个的心方块放入同一个战斗槽后即可回复HP。
+Tips_A_11=走到钥匙格子上即可获得钥匙，这是与Boss战斗的通行证。
+Tips_A_12=拿到钥匙并走到红眼下方的格子处点击红眼即可开始Boss战。
+Tips_A_13=击倒Boss后，点击Boss所在位置即为闯关胜利。
+
+Tips_B_1=蓝色→黄色→红色格子，危险程度逐渐上升。
+Tips_B_2=格子上的骷髅数量越多，代表金币或者敌人越多。
+Tips_B_3=感叹号格子兼顾最高的风险和最多的金币。
+Tips_B_4=敌人下方的数字代表回合数，为0后即发动攻击。
+Tips_B_5=卡牌有6个属性，火克风，风克水，水克火；光暗互克；无为独立。
+Tips_B_6=每队一个队长，3个队员，最多可以编排5队。
+Tips_B_7=编入队伍的卡牌Cost之和必须≤Cost上限，否则无法编入。
+Tips_B_8=卡牌可吞噬其他卡牌来获得Exp，从而升级变得更强。
+Tips_B_9=卡牌的强化离不开帮手的协助。
+Tips_B_10=强化帮手若能与基础卡牌同属性或同种族，则Exp可获得加成。
+
+Tips_C_1=Rank提升后，耐力不仅会max，且耐力、好友或Cost上限也会逐步提升。
+Tips_C_2=耐力每10分钟自动回复1点，也可花费1钻石瞬间让耐力max。
+Tips_C_3=按住方块并左右滑动即可变换到任一方块位置。
+Tips_C_4=按住方块并左右滑动即可与相邻同色方块重叠。
+Tips_C_5=带有BOOST字样的战斗槽可以让攻击或回复变成1.5倍。
+Tips_C_6=卡牌可吞噬特定卡牌来进化，外形和能力都将获得巨大改变。
+Tips_C_7=卡牌必须Lv Max后才能进化。
+Tips_C_8=卡牌的进化同样离不开帮手的协助，且帮手必须满足协助条件。
+Tips_C_9=卡牌必须在帮手的协助下闯过特定任务才能成功进化。
+Tips_C_10=同一个战斗槽里的心方块数量越多，HP回复得越多。
+Tips_C_11=卡牌技能：总共4种，分别为队长技能、主动技能、普通技能、被动技能。
+Tips_C_12=队长技能：当拥有队长技能的卡牌处于队长位置时，该技能于战斗时生效。
+Tips_C_13=只有将援军加为好友后，援军的队长技能才可生效。
+Tips_C_14=主动技能：该技能有回合数限制，回合冷却为0后，下方角色头像旁会有闪烁标志，此时点击头像即可准备发动。
+Tips_C_15=普通技能：该技能决定了卡牌攻击需要的方块颜色和数量。
+Tips_C_16=方块形成的攻击有强弱和属性之分，均由卡牌的普通技能决定。
+Tips_C_17=普通技能效果可分为3类，单体攻击、全体攻击、回复HP。
+Tips_C_18=被动技能：拥有该技能的卡牌可反击敌人或回避陷阱等。
+
+Tips_D_1=若己方卡牌和好友的队长技能作用相同，则效果可相乘叠加。
+Tips_D_2=每形成一次普通技能攻击，对应的战斗槽上方即会出现一个攻击条。
+Tips_D_3=1个三角的攻击条为单体攻击，3个三角的攻击条则为全体。
+Tips_D_4=若一个战斗槽内的方块数是普通技能需求的2倍，则可发动2次攻击。
+Tips_D_5=当战斗槽内的方块只再需1个方块即可让技能生效时，系统会出现连线提示。
+Tips_D_6=每个攻击条都会带来加成，攻击条越多加成越高。
+Tips_D_7=心方块的HP回复也能计入攻击加成，请积极利用！
+Tips_D_8=战斗中点击下方卡牌头像，即可查看技能详情。
+Tips_D_9=友情点数：该点数可用来友情抽卡，有可能获得主角卡！
+Tips_D_10=将玩家加为好友后，可获得更多的友情点数。
+Tips_D_11=非战斗情况下，长按卡牌头像即可查看卡牌详情。
+Tips_D_12=在卡牌详情界面，点击锁图标即可收藏卡牌，防止因失误而强化或卖出。
+Tips_D_13=若属性克制敌人，则伤害x2，反之则伤害x0.5。
+Tips_D_14=周末是攒钱的绝好时机，请及早存够耐力。
+Tips_D_15=尖叫奶酪是强化专用的材料卡牌，可让卡牌等级飞速提升。
+Tips_D_16=尖叫奶酪主要出现在每日限时开放的活动关卡里，系统会提前公告通知。
+Tips_D_17=只有进化成功时，材料卡牌才会消耗。
+Tips_D_18=可花费钻石扩张好友和卡牌仓库的上限。
+
+
+Tips_E_1=“+1”卡牌：偶尔会掉落右下角带“+1”的卡牌，这代表该卡牌的能力有额外的加成。
+Tips_E_2=进入卡牌详情界面，可具体查看“+1”的位置。
+Tips_E_3=若“+1”在HP后，则代表HP额外获得10点加成。
+Tips_E_4=若“+1”在ATK后，则代表ATK额外获得5点加成。
+Tips_E_5=可将“+1”卡牌作为材料，通过强化将“+1”值继承到基础卡牌上。
+Tips_E_6=“+1”卡牌的强化费用很高，每多1个“+1”，费用便多1000.
+Tips_E_7=基础卡牌的等级每多1级，强化价格就多100.
+Tips_E_8=试着先用较弱的卡牌去提升材料卡牌的等级后再进行强化，不仅有可能获得更高的Exp，也能减少强化所需的金币。
+Tips_E_9=系统会不定期开启限定抽卡，届时超强力卡牌中奖率将极大提升！
+Tips_E_10=首次闯过一个大关，即可获得钻石1颗，请积极攻略！
+Tips_E_11=将具有相同主动技能的卡牌强化合成后，基础卡牌的技能等级有可能提升，从而减少冷却回合。
+Tips_E_12=若没有合适的帮手时，花费1颗钻石后即可获得超级帮手。不仅条件达标，且能获得50点友情点数！
+Tips_E_13=上一次战斗结束时的方块，将自动成为下一场战斗的开局，所以无用的方块可趁早扔掉。
+Tips_E_14=当战斗槽内已填满方块，再次拖上去的方块会被弹回，不仅操作无效也浪费时间。
+Tips_E_15=可轻点敌人作为攻击目标，也可长按查看敌人详情。
+Tips_E_16=战斗中点击menu后可选择退出当前关卡。
+Tips_E_17=考虑到越多的攻击条会带来越高的加成，有时候普通技能1会更有效。
+Tips_E_18=若一个战斗槽内的方块配置满足了普通技能1和2，则优先发动需求方块数较多的技能。
+Tips_E_19=若一个战斗槽内的方块配置满足了普通技能1和2，且1和2的需求方块数相同，则优先发动回复HP技能。
+Tips_E_20=若一个战斗槽内的方块配置满足了普通技能1和2，且1和2的需求方块数相同，并都为攻击技能，则优先发动技能1。
+Tips_E_21=当战斗结束后，周围格子的骷髅颜色会提升一个等级。若变为红色了，则极有可能连战。
+Tips_E_22=感叹号格子容易出进化材料和尖叫奶酪。
+Tips_E_23=感叹号格子里偶尔会乱入超稀有卡牌，掉率令人期待！届时系统会公告通知，请做好万全准备！
+Tips_E_24=单色队伍不仅能在敌人只有一种属性的关卡里游刃有余，而且容易形成很高的攻击加成。
+
+
+Raider_0=<p align=center>游戏帮助<br></p><p align=center>基础<br></p><p><a href='Raider_1'>背景介绍</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_2'>战场介绍</a><br></p><p><a href='Raider_3'>战场格子</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_4'>战斗介绍</a><br></p><p><a href='Raider_5'>技能</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_6'>卡牌</a><br></p><p><a href='Raider_7'>强化</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_8'>抽卡</a><br></p>
+Raider_1=<p align=center><font size=34>背景介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left>MQ是一个以西方恶魔为题材的新生代卡牌游戏，诸如吸血鬼伯爵，狼人，科学怪人，木乃伊，地狱三头犬等著名恶魔都将出现在游戏里。玩家将率领以伯爵女儿和其男友为首的军团，招募人类、亡灵、魔兽、巨龙等各种伙伴，通过一场场滑动于指尖的战斗，拯救被黑手绑架的伯爵，恢复恶魔国度的秩序。</p>
+Raider_2=<p align=center><font size=34>战场介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>战场是由5x5的格子拼接而成，格子里面隐藏着金币、敌人甚至陷阱。玩家需要在这样的战场上收集金币，消灭敌人并最终击倒Boss方可战斗胜利.<br>；<br></p><p><font color=#ffff00ff>进入战场流程</font><br></p><p>1-点击世界地图上任一一个地区；<br>2-选择地区地图上任一一个图标；<br>3-选择好友；<br>4-点击开始按钮。<br><br></p><p><font color=#ffff00ff>什么是耐力</font><br></p><p>耐力是进入战场必不可少的行动力，若耐力过低则无法进入战场。<br><br></p><p><font color=#ffff00ff>如何回复耐力</font><br></p><p>1-等待时间自动回复，每10分钟回复1点。<br>2-花费6钻石瞬间让耐力Max。<br><br></p><p><font color=#ffff00ff>如何战场移动</font><br></p><p>点击战场上任一一个格子，棋子就会自动跳过去。请注意，当路线中的格子都是闪烁状态时，必须一个一个格子地走。<br><br></p><p><font color=#ffff00ff>什么是SP</font><br></p><p>SP是棋子移动必不可少的行动力，每移动一格都会消耗1点SP，总共20点。<br>请注意，当SP为0后，就将代扣HP，直至HP剩下1点。<br><br></p><p><font color=#ffff00ff>如何回复SP</font><br></p><p>1-战场里切换场景后，会回复少量SP。<br>2-利用某些卡牌的技能回复少量SP。</p><p align=right><a href='Raider_0'>返回</a></p>
+Raider_3=<p align=center><font size=34>战场格子</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>战场格子从图案上可分为3类：骷髅、感叹号、钥匙，它们各自隐藏着不同的内容。<br></p><p><font color=#ffff00ff>骷髅格子</font><br></p><p>骷髅格子隐藏着金币、敌人、陷阱，每次随机出现一种内容。<br><br></p><p><font color=#ffff00ff>骷髅颜色</font><br></p><p>骷髅颜色代表格子的危险等级，蓝色→黄色→红色，出现敌人的几率依次提升。<br><br></p><p><font color=#ffff00ff>骷髅数量</font><br></p><p>骷髅数量的多与少与出现的敌人或金币的数量成正比，可谓高风险高回报。<br><br></p><p><font color=#ffff00ff>感叹号格子</font><br></p><p>感叹号格子兼顾最高的风险和回报，而且还隐藏有一个重大内容（请查看“进阶-乱入Boss”）<br><br></p><p><font color=#ffff00ff>钥匙格子</font><br></p><p>钥匙格子里隐藏着钥匙，这是与战场深处的Boss战斗必不可少的通行证。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
+Raider_4=<p align=center><font size=34>战斗介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>MQ的战斗是滑动方块来进行的，在有限的时间内，滑动更多的方块，给敌人以更高的伤害。这是一场活跃于指尖的战斗，乐趣十足，刺激满点。<br><br></p><p><font color=#ffff00ff>操作方法</font><br></p><p>1-按住方块，将其从下方的准备槽滑动进上方的战斗槽内即可。\n2-按住方块并左右滑动即可变换到任一方块位置。\n3-按住方块并左右滑动即可与相邻同色方块重叠。<br><br></p><p><font color=#ffff00ff>滑动时间</font><br></p><p>将方块滑动进战斗槽内的有限时间只有5s，必须眼疾手快。<br>但是，只要方块还没有进入战斗槽，则倒计时不会开始，所以这个时候可将同色方块整理在一起后再滑动能节省不少时间。<br><br></p><p><font color=#ffff00ff>方块种类</font><br></p><p>方块总共有7类，除开用于恢复HP的心方块外，其他6种为攻击用方块，分别对应卡牌的6种属性：火、水、风、光、暗、无。<br><br></p><p><font color=#ffff00ff>卡牌属性</font><br></p><p>卡牌共有6种属性：火、水、风、光、暗、无，它们之间存在着相克关系。\n火→风，风→水，水→火；光暗互克；无为独立。\n当己方的属性克制敌人时，则伤害加倍；反之则伤害减半。<br><br></p><p><font color=#ffff00ff>如何正确攻击</font><br></p><p>	重点来了！\n一般情况下，滑动≥2个与卡牌同色的方块到同一个战斗槽中即可发动攻击。<br>但是，究竟需要什么颜色的方块，多少数量的方块，这一点最终由卡牌的普通技能决定。（可在战斗中点击卡牌头像查看技能详情）<br><br></p><p><font color=#ffff00ff>如何回复HP</font><br></p><p>将≥2个心方块滑动进同一个战斗槽即可回复HP，方块越多，回复量越高。<br><br></p><p><font color=#ffff00ff>敌人何时攻击</font><br></p><p>敌人下方有个Next字样，Next后面的数字表示敌人的攻击冷却回合。即比如Next 2，那就表示该敌人2回合后将发动攻击。<br><br></p><p><font color=#ffff00ff>如何挑战Boss</font><br></p><p>战场最上方有一双闪动的红色魔眼，那就是Boss。要挑战它需要完成以下2步：<br>1-在战场中找到钥匙。<br>2-走到离Boss最近的格子处，点击Boss即可开战。<br></p><p align=right><a href='Raider_0'>返回</a></p>
+Raider_5=<p align=center><font size=34>卡牌</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>卡牌是游戏里最为重要的元素，不管是攻略主线关卡还是挑战活动关卡，强力的卡牌都是玩家不可缺少的伙伴。<br><br></p><p><font color=#ffff00ff>操作</font><br></p><p>1-在非战斗情况下，长按卡牌头像即可查看卡牌详情。<br>2-在卡牌详情界面，点击“锁”图标即可收藏该卡牌，防止误操作将卡牌卖出或强化。<br><br></p><p><font color=#ffff00ff>HP和ATK</font><br></p><p>HP：卡牌的基本能力之一，HP越高，战斗时的总HP越高。<br>ATK：卡牌的基本能力之二，ATK越高，给予敌人的伤害越高。<br><br></p><p><font color=#ffff00ff>Cost</font><br></p><p>Cost好比粮草，如果士兵所需的粮草之和＞队伍所能携带的粮草上限，则必须减少士兵数量。因此在MQ里，若要被编入队伍的卡牌Cost之和＞队伍Cost上限的话，则无法将它们都编入队伍，必须重新选择卡牌进行编排。<br><br></p><p><font color=#ffff00ff>属性</font><br></p><p>卡牌共有6种属性：火、水、风、光、暗、无，它们之间存在着相克关系。<br>火→风，风→水，水→火；光暗互克；无为独立。<br>当己方的属性克制敌人时，则伤害加倍；反之则伤害减半。<br><br></p><p><font color=#ffff00ff>种族</font><br></p><p>卡牌共8个种族，人类、龙、亡灵、兽、幻魔、魔怪、魔神和强化种族。<br>种族的划分不仅在战斗时能产生更多的策略性，也让卡牌的强化和进化更加有趣。<br><br></p><p><font color=#ffff00ff>星级</font><br></p><p>卡牌共有6个星级，星级越高的卡牌越难以入手，自然有着越强大的实力。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
+Raider_6=<p align=center><font size=34>技能</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>卡牌的技能是除HP和ATK外，另外一个决定卡牌强弱的极其重要的元素。由于稍稍复杂一点，所以单独提出来讲。<br><br></p><p><font color=#ffff00ff>分类</font><br></p><p>技能分为4种：队长技能、主动技能、普通技能、被动技能。<br>某些没有被动技能的卡牌会追加第二个普通技能。<br><br></p><p><font color=#ffff00ff>队长技能</font><br></p><p>队长技能就如同buff一样，能够在整个战斗中持续有效。比如“我方火属性队员攻击提升2倍”，“减少来自敌方的火属性伤害50%”等等。另外还需要注意2点：<br>1-卡牌必须作为队长编入队伍中，其队长技能才能生效。<br>2-不是每张卡牌都有队长技能。<br><br></p><p><font color=#ffff00ff>主动技能</font><br></p><p>主动技能就如同暗黑、魔兽等游戏里的技能，当冷却时间为0后即可发动，只不过在MQ里，冷却时间换成了冷却回合。<br>比如“’给敌方全体造成基于ATK的10倍火属性伤害‘，冷却回合20”。那么随着战斗的进行，回合数变为0后即可点击卡牌头像进行发动。<br><br></p><p><font color=#ffff00ff>普通技能</font><br></p><p>普通技能可以看做格斗游戏里面需要攒怒气来发动的必杀技，只不过在MQ里，需要攒的不是怒气而是方块。<br>比如“’对敌方单体造成水属性小伤害‘，蓝色方块2个”。那么就需要在5s的战斗倒计时结束之前，将2个蓝色方块滑动到同一个战斗槽，之后卡牌就会自动攻击了。<br><br></p><p><font color=#ffff00ff>被动技能</font><br></p><p>被动技能也可以看做buff，它和队长技能的区别之一在于：不管卡牌处于队长还是队员位置，其被动技能都有效。<br>比如“一定几率将所受伤害的10%转为水属性反击给敌人”。那么当队伍受伤后，持有该被动技能的卡牌便有可能发动反击。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
+Raider_7=<p align=center><font size=34>强化</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>MQ的卡牌不像传统游戏可以在战斗中打倒敌人获得经验值从而升级变得强大，在这里必须通过特殊的方式——强化，即吞噬其他卡牌来获得经验值从而升级变强。<br><br></p><p><font color=#ffff00ff>操作</font><br></p><p>1-点击units。<br>2-点击level up。3-点击卡牌选择基础和用于被吞噬的材料。<br>4-点击好友头像框选择好友。<br>5-点击下方的level up按钮。<br><br></p><p><font color=#ffff00ff>基础卡牌</font><br></p><p>基础卡牌即为被强化对象，强化后等级提升。最右上角的头像框即为基础卡牌的选择位置，点击此处进行基础卡牌的选择或更换。<br><br></p><p><font color=#ffff00ff>材料卡牌</font><br></p><p>材料卡牌即为被吞噬对象，强化后被消耗。上方中间4个头像框即为材料卡牌的选择位置，点击此处进行材料卡牌的选择或更换。<br><br></p><p><font color=#ffff00ff>帮手</font><br></p><p>卡牌的强化离不开帮手的协助，帮手不仅可以带来友情点数（好友带来的更多），更能让基础卡牌获得的经验值大幅度加成，具体加成如下：<br>1-若帮手与基础卡牌的种族或属性相同，则经验值x1.25；<br>2-若帮手与基础卡牌的种族和属性都相同，则经验值x1.5。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
+Raider_8=<p align=center><font size=34>抽卡</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>抽卡是玩家获取战斗力最为重要的地方。虽然战斗中也可掉落部分强力卡牌，但只有善用抽卡的玩家才可君临天下！<br><br></p><p><font color=#ffff00ff>抽卡分类</font><br></p><p>抽卡分为3类，友情抽卡、稀有抽卡、限定抽卡。<br><br></p><p><font color=#ffff00ff>友情抽卡</font><br></p><p>友情抽卡即使用友情点数来进行的抽卡，虽然经常出低星卡，但是有几率抽到主角卡。<br><br></p><p><font color=#ffff00ff>稀有抽卡</font><br></p><p>稀有抽卡即使用钻石来进行的抽卡，虽然花费不菲，但是隐藏于其中的超强力卡牌绝对值得玩家付出。<br><br></p><p><font color=#ffff00ff>限定抽卡</font><br></p><p>限定抽卡类似稀有抽卡，也是花费钻石来获取超强力卡牌，只不过这些卡牌是限定于某时间段出现。若想获得这些珍贵的卡牌，请密切关注系统的公告通知。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>

@@ -43,7 +43,7 @@ public class OthersWindow : UIComponentUnity {
 	
 	void SetOption() {
 		string itemPath = "Prefabs/UI/Others/OtherOptions";
-		GameObject item = Resources.Load( itemPath ) as GameObject;
+		GameObject item = ResourceManager.Instance.LoadLocalAsset( itemPath ) as GameObject;
 		
 		othersScroller = new DragPanel ( "OthersScroller", scrollerItem );
 		othersScroller.CreatUI ();

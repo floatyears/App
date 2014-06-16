@@ -318,7 +318,7 @@
 //		}
 //		int count = userUnitInfoList.Count;
 //		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
-//		GameObject itemGo =  Resources.Load( itemSourcePath ) as GameObject;
+//		GameObject itemGo =  ResourceManager.Instance.LoadLocalAsset( itemSourcePath ) as GameObject;
 //
 //		baseDragPanel = CreateDragPanel( name, count, itemGo) ;
 //		FillDragPanel (baseDragPanel);

@@ -169,7 +169,7 @@ public class StageSelectView : UIComponentUnity{
 	/// <param name="count">Count.</param>
 	private void GenerateStages(List<TStageInfo> accessStageList){
 		background = FindChild<UITexture>("Background");
-		background.mainTexture = Resources.Load("Stage/" + currPickedCityInfo.ID) as Texture2D;
+		background.mainTexture = ResourceManager.Instance.LoadLocalAsset("Stage/" + currPickedCityInfo.ID) as Texture2D;
 
 		storyStageList.Clear ();
 

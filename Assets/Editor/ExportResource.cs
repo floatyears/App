@@ -171,7 +171,9 @@ public class ExportResource : EditorWindow {
 		if (path.Length != 0) {
 
 			//check if any objects was selected
-			if(!Selection.activeObject)
+			Object[] selection = Selection.GetFiltered(typeof(Object),SelectionMode.DeepAssets);
+
+			if(selection.Length <= 0)
 			{
 				Debug.Log("no object was selected, please select a object!");
 				return;
@@ -180,7 +182,10 @@ public class ExportResource : EditorWindow {
 			Debug.Log("collect dependency:" + collectDependency);
 			if(collectDependency)
 			{
-				Object[] selection = Selection.GetFiltered(typeof(Object),SelectionMode.DeepAssets);
+
+				foreach (var item in selection) {
+					Debug.LogError(item);
+				}
 				BuildPipeline.BuildAssetBundle(Selection.activeObject,selection,path,BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.CompleteAssets ,tgtPlatform);
 				Selection.objects = selection;
 			}
@@ -227,7 +232,10 @@ public class ExportResource : EditorWindow {
 	}
 
 	void ExportResrouceList(){
-		foreach (var obj in Selection.gameObjects) {
+
+		Object[] selection = Selection.GetFiltered(typeof(Object),SelectionMode.DeepAssets);
+
+		foreach (var obj in selection) {
 			Debug.Log("obj selected:" + obj.name);
 		}
 	}
@@ -371,7 +379,7 @@ public class ExportResource : EditorWindow {
 		string[] strs = record.Split (sepStr,System.StringSplitOptions.RemoveEmptyEntries);
 		for (int i = 0; i < strs.Length; i++) {
 			Debug.Log("version index:" + i);
-			Debug.Log ("version string:" + strs[i]);	
+			Debug.Log ("version string:" + strs[i]);
 		}
 
 		int.TryParse(record.Split (sepStr,System.StringSplitOptions.RemoveEmptyEntries)[3],out version);

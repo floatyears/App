@@ -41,7 +41,7 @@ public class CatalogView : UIComponentUnity {
 	private GameObject emptyItem;
 	private void CreateDragPanel(){
 		string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
-		emptyItem = Resources.Load(sourcePath) as GameObject;
+		emptyItem = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
 
 		dragPanel = new DragPanel("CatalogDragPanel", emptyItem);
 		dragPanel.CreatUI();
@@ -94,7 +94,7 @@ public class CatalogView : UIComponentUnity {
 	GameObject catalogNode;
 	private void InitPooler(){
 		string path = "Prefabs/UI/UnitItem/CatalogNode";
-		catalogNode = Resources.Load(path) as GameObject;
+		catalogNode = ResourceManager.Instance.LoadLocalAsset(path) as GameObject;
 		catalogPooler = gameObject.AddComponent<NewObjectPooler>();
 		catalogPooler.Init(catalogNode, 45);
 		

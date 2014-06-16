@@ -23,7 +23,7 @@ public class TestLitJson
 //	[Test]
 //	public void TestJson()
 //	{
-//		string a = (Resources.Load ("Config/UnitInfo", typeof(TextAssetu)) as TextAsset).text;
+//		string a = (ResourceManager.Instance.LoadLocalAsset ("Config/UnitInfo", typeof(TextAssetu)) as TextAsset).text;
 //		LogHelper.LogError(a);
 //		JsonData jd = JsonMapper.ToObject (a);
 //

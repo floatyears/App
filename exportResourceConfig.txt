@@ -1,1 +1,1 @@
-BSavePath:Assets/ResourceDownloadTest;Filename:73;Extension:unity3d:unity3ddy3d3dd
+HSavePath:Assets/ResourceDownload/Output;Filename:AllUI;Extension:unity3d3ddy3d3dd
