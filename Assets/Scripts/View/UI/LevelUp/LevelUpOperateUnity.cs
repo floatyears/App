@@ -608,13 +608,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			return 0;
 		}
 		int totalMoney = 0;
-//		for (int i = 1; i < 5; i++) {	//material index range
-//			if (selectedItem[i].UserUnit != null){
-//				totalMoney += CoinBase * selectedItem[i].UserUnit.Level;
-//			}
-//		}
+		for (int i = 1; i < 5; i++) {	//material index range
+			if (selectedItem[i].UserUnit != null){
+				totalMoney ++;
+			}
+		}
 
-		return selectedItem [baseItemIndex].UserUnit.Level * CoinBase;
+		return selectedItem [baseItemIndex].UserUnit.Level * CoinBase * totalMoney;
 	}
 
 	int LevelUpCurExp () {
