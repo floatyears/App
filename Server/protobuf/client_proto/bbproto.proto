@@ -866,7 +866,8 @@ message UserInfo {
 	optional int32		friendMax			= 11;
 	optional int32		unitMax				= 12;
 	optional int32		costMax				= 13;	
-	optional UserUnit	unit				= 14; //leader unit	
+	optional UserUnit	unit				= 14; //leader unit
+    optional uint32		regTime     		= 15; //user register time
 }
 
 message UserInfoDetail {
@@ -967,6 +968,7 @@ message LoginInfo {
 	optional uint32		lastLoginTime			= 5;
     optional uint32		lastPlayTime            = 6;
     repeated BonusInfo  bonus					= 7;
+    optional int32		maxBonusId              = 8;
 }
 
 message PresentInfo {
@@ -1034,7 +1036,7 @@ message RspAuthUser {
     optional int32			userGuideStep		= 18;
 	optional NoticeInfo		notice				= 19;
     repeated StageInfo      eventList           = 20;
-
+    optional int32			testForUpgrade		= 21;
 }
 
 //-------------------------------------------------

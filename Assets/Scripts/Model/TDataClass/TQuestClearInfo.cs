@@ -55,6 +55,37 @@ public class TQuestClearInfo : ProtobufDataBase {
 	}
 
 	//return 0:locked  1:cleared 2: currentOpen
+	public StageState GetStoryCityState(uint cityId) {
+		TCityInfo cityinfo = DataCenter.Instance.GetCityInfo(cityId);
+		bool isClear = true;
+		foreach( TStageInfo stage in cityinfo.Stages ) {
+			if (!IsStoryStageClear(stage)){
+				isClear = false;
+				break;
+			}
+		}
+		if(isClear) 
+			return StageState.CLEAR;
+
+		if(!isClear && cityId==1) 
+			return StageState.NEW;
+
+		//curr cityId is not clear, check prevCity
+		TCityInfo prevCity = DataCenter.Instance.GetCityInfo(cityId-1);
+		bool prevIsClear = true;
+		foreach( TStageInfo stage in prevCity.Stages ) {
+			if (!IsStoryStageClear(stage)){
+				prevIsClear = false;
+				break;
+			}
+		}
+		if(prevIsClear) return StageState.NEW;
+
+		return StageState.LOCKED;
+
+	}
+
+		//return 0:locked  1:cleared 2: currentOpen
 	public StageState GetStoryStageState(uint stageId) {
 		TStageInfo stageinfo = DataCenter.Instance.GetStageInfo(stageId);
 

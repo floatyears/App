@@ -58,7 +58,6 @@ public class BattleMenu : UIBaseUnity {
 		TQuestDungeonData tdd = ConfigBattleUseData.Instance.questDungeonData;
 		floorLabel.text = (tdd.currentFloor + 1) + "/" + tdd.Floors.Count;
 		string path = Path + "/GetUnitsDragPanel/ScrollView";
-		Debug.LogError ("path : " + path);
 		scrollView = FindChild<UIScrollView>(path);
 		grid = FindChild<UIGrid>(path + "/UIGrid");
 		itemObject = transform.Find (Path + "/GetUnitsDragPanel/ScrollView/UIGrid/Item").gameObject;
@@ -100,7 +99,6 @@ public class BattleMenu : UIBaseUnity {
 		int getUnitCount = cqp.getUnit.Count;
 		int itemCount = itemList.Count;
 		int count = getUnitCount - itemCount;
-
 
 		if (count > 0) {
 			for (int i = 0; i < count; i++) {

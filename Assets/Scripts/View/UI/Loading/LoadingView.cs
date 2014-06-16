@@ -14,9 +14,6 @@ using bbproto;
 
 
 public class LoadingView : UIComponentUnity {
-
-	private UILabel clickLabel;
-
     public override void Init ( UIInsConfig config, IUICallback origin ) {
         base.Init (config, origin);
         InitUI();
@@ -27,12 +24,18 @@ public class LoadingView : UIComponentUnity {
 //		GameDataStore.Instance.StoreData (GameDataStore.USER_ID, "");
         base.ShowUI ();
 #if UNITY_ANDROID
+		Debug.Log ("Umeng.Start('android')...");
 		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8","android");
 #elif UNITY_IPHONE
-		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094","iOS");
+		Debug.Log ("Umeng.Start('ios')...");
+		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094","ios");
 #endif
-		LogHelper.Log ("device info: " + Umeng.GA.GetDeviceInfo ());
-		LogHelper.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
+
+#if !UNITY_EDITOR
+		Debug.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
+		Debug.Log("GetDeviceInfo: " + Umeng.GA.GetDeviceInfo());
+#endif
+
 //		NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces ();
 //		Debug.LogError ("nis.Length : " + nis.Length);
 //		if (nis.Length > 0) {
@@ -49,14 +52,8 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void InitUI (){
-		clickLabel = FindChild("ClickLabel").GetComponent<UILabel>();
-		clickLabel.enabled = false;
+        UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
     }
-
-	private void CouldLogin(){
-		clickLabel.enabled = true;
-		UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
-	}
 
     private bool CheckIfFirstLogin(){
         bool ret = false;
