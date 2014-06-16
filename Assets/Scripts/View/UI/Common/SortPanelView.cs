@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class SortPanelView : UIComponentUnity {
 	private UIButton sortBtn;
+	private UILabel sortBtnLabel;
 	private UISprite sortBtnMask;
 	private bool isShow = false;
 	private GameObject sortRuleSelectPanel;
@@ -30,29 +31,46 @@ public class SortPanelView : UIComponentUnity {
 	protected virtual void InitBtns(){
 		sortRuleSelectPanel = transform.FindChild("RulePanel").gameObject;
 		sortBtn = FindChild<UIButton>("Button_Sort");
+		sortBtnLabel = sortBtn.GetComponentInChildren<UILabel>();
+		sortBtnLabel.text = TextCenter.GetText("Btn_SORT");
 		sortBtnMask = FindChild<UISprite>("Button_Sort/Mask");
 		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
 
 		UIButton btn;
+		UILabel label;
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_HP");
+		label = btn.GetComponentInChildren<UILabel>();
+		label.text = TextCenter.GetText("Btn_SortRule_HP");
 		sortRuleSelectDic.Add(btn, SortRule.HP);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_Atk");
+		label = btn.GetComponentInChildren<UILabel>();
+		label.text = TextCenter.GetText("Btn_SortRule_Atk");
 		sortRuleSelectDic.Add(btn, SortRule.Attack);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_Race");
+		label = btn.GetComponentInChildren<UILabel>();
+		label.text = TextCenter.GetText("Btn_SortRule_Race");
 		sortRuleSelectDic.Add(btn, SortRule.Race);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_Attribute");
+		label = btn.GetComponentInChildren<UILabel>();
+		label.text = TextCenter.GetText("Btn_SortRule_Attribute");
 		sortRuleSelectDic.Add(btn, SortRule.Attribute);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_ID");
+		label = btn.GetComponentInChildren<UILabel>();
+		label.text = TextCenter.GetText("Btn_SortRule_ID");
 		sortRuleSelectDic.Add(btn, SortRule.ID);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_Fav");
+		label = btn.GetComponentInChildren<UILabel>();
+		label.text = TextCenter.GetText("Btn_SortRule_Fav");
 		sortRuleSelectDic.Add(btn, SortRule.Fav);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_AddPoint");
+		label = btn.GetComponentInChildren<UILabel>();
+		label.text = TextCenter.GetText("Btn_SortRule_AddPoint");
 		sortRuleSelectDic.Add(btn, SortRule.AddPoint);
 	}
 

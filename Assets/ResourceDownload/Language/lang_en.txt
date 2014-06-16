@@ -1,3 +1,74 @@
+##Button Label Text
+Btn_JumpScene_FriendList=FRIEND LIST
+Btn_JumpScene_Apply=APPLY
+Btn_JumpScene_Information=INFORMATION
+Btn_JumpScene_Reception=RECEPETION
+Btn_JumpScene_Search=SEARCH
+Btn_JumpScene_UserID=YOUR ID
+
+Btn_JumpScene_Party=PARTY
+Btn_JumpScene_Sell=SELL
+Btn_JumpScene_LevelUp=LEVEL UP
+Btn_JumpScene_UnitList=UNIT LIST
+Btn_JumpScene_Evolve=EVOLVE
+Btn_JumpScene_Catalog=CATALOG
+
+Btn_SceneBack=BACK
+Btn_SORT=SORT
+Btn_Premium=PREMIUM
+Btn_Sell_Picked=SELL
+Btn_Clear_PickedToSell=CLEAR
+Btn_Submit_Sell=SUBMIT
+Btn_Cancel_Sell=CANCEL
+Btn_RejectUnit=REJECT
+Btn_Submit_Evolve=EVOLVE
+Btn_Submit_LevelUp=LEVEL UP
+
+Btn_FriendList_Update=UPDATE
+Btn_Reception_RefuseAll=REFUSE
+Btn_Submit_SearchFriend=SEARCH
+Btn_UserID_OK=BACK
+
+Btn_SortRule_HP=HP
+Btn_SortRule_Atk=ATTACK
+Btn_SortRule_GetTime=GET TIME
+Btn_SortRule_Race=RACE
+Btn_SortRule_Attribute=ATTRIBUTE
+Btn_SortRule_ID=ID
+Btn_SortRule_Fav=FAVORITE
+Btn_SortRule_AddPoint=ADD POINT
+Btn_SortRule_Rank=RANK
+
+##Label Text
+Divided_Line=/
+Float_Rank=RANK
+Float_NextExp=NEXT EXP
+Float_TotalExp=TOTAP EXP
+
+##City Name
+City_Name_1=city_name_1
+City_Name_2=city_name_2
+City_Name_3=city_name_3
+City_Name_4=city_name_4
+City_Name_5=city_name_5
+City_Name_6=city_name_6
+
+Title_YourID=用户ID
+##Game setting options
+Game_Setting_Option_Music=音乐
+Game_Setting_Option_NickName=昵称
+Game_Setting_Option_Currency=攻略
+Game_Setting_Option_Raider=RAIDER
+
+Text_Leader_Skill=队长技能
+Text_HP=血量
+Text_ATK=攻击力
+Text_COST=体耗
+Text_Level=等级
+Unit_Detail_Tab_Status=状态
+Unit_Detail_Tab_Normal_Skill=普攻
+Unit_Detail_Tab_Prifile=描述
+Unit_Detail_Next=下一级
 ##Scene Name
 SCENE_NAME_APPLY=APPLY
 SCENE_NAME_CATALOG=CATALOG
@@ -37,6 +108,9 @@ Open=Open
 retry=Retry
 error=error
 
+Stage_Locked=LOCKED
+Stamina=STAMINA
+Floor=FLOOR
 #Loading
 BattleContinueTitle=Battle Confirm
 BattleContinueContent=Do you want to recover previous battle?
@@ -186,22 +260,22 @@ E_LEVELUP_NO_ENOUGH_MONEY=E_LEVELUP_NO_ENOUGH_MONEY
 E_GET_UNIT_INFO_ERROR=E_GET_UNIT_INFO_ERROR
 
 #network error
-NETWORK_ERROR=Network error.\n Please check your network connection and try again later.
-TIMEOUT_ERROR=Connect to server timeout.\n Please check your network connection and try again later.
+NETWORK_ERROR=Network error.Please check your network connection and try again later.
+TIMEOUT_ERROR=Connect to server timeout.Please check your network connection and try again later.
 CONNECT_ERROR=Cannot connect to server. Please check your network connection and try again later.
-SERVER_500=The server is busy now.\n Please wait for a moment and try again later.
+SERVER_500=The server is busy now.Please wait for a moment and try again later.
 
 BigRareWarning=Rare Warning
-BigRareWarningText=Include the unit whose rare bigger than 3.\nAre you sure to sell?
+BigRareWarningText=Include the unit whose rare bigger than 3.Are you sure to sell?
 
 UnitOverflow=Unit Overflow
 UnitOverflowText=Your current unit capacity is [ff0000]{0}[-]/{1}.Would you like to do unit expansion?
 
 FirendOverflow=Firend Overflow
-FriendOverflowText=Your current unit capacity is {0}/{1}.\nWould you like to do friend expansion?
+FriendOverflowText=Your current unit capacity is {0}/{1}.Would you like to do friend expansion?
 
 CostLimit=Current Cost Limit
-CostLimitText=Sorry to tell you,\nyou can't replace this unit! 
+CostLimitText=Sorry to tell you,You can't replace this unit! 
 
 FriendCounterTitle=Friends :
 ApplyCounterTitle=Apply :
