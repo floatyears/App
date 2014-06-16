@@ -646,7 +646,7 @@ public class DGTools {
 		GameObject go = ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Friend/FriendWindows") as GameObject;
 		GameObject instance = GameObject.Instantiate (go) as GameObject; // NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
 		Transform insTrans = instance.transform;
-		insTrans.parent = ViewManager.Instance.TopPanel.transform;
+		insTrans.parent = ViewManager.Instance.BottomPanel.transform;
 		insTrans.localPosition = Vector3.zero;
 		insTrans.localScale = Vector3.one;
 		FriendWindows fw = instance.GetComponent<FriendWindows>();
