@@ -412,7 +412,7 @@ public class DataCenter {
         get {
             GameObject ret = getData(ModelEnum.ItemObject) as GameObject; 
             if (ret == null) {
-                ret = Resources.Load("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
+                ret = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
                 setData(ModelEnum.ItemObject, ret);
             }
             return ret;
@@ -429,7 +429,9 @@ public class DataCenter {
         Object obj = null;
 		if (!TempEffect.TryGetValue(name, out obj)) {
             string path = GetEffectPath(type,attackRange);
-            obj = Resources.Load(path);
+			//never use the raw interface! Use ResourceManager instead
+			obj = ResourceManager.Instance.LoadLocalAsset(path);
+           // obj = ResourceManager.Instance.LoadLocalAsset(path);
 			TempEffect.Add(name, obj);
         }
         return obj;
@@ -439,7 +441,9 @@ public class DataCenter {
 		Object obj = null;
 		if (!TempEffect.TryGetValue(name, out obj)) {
 			string path = EffectPath.Instance.GetEffectPath(name);
-			obj = Resources.Load(path);
+			//never use the raw interface! Use ResourceManager instead
+			obj = ResourceManager.Instance.LoadLocalAsset(path);
+		//	obj = ResourceManager.Instance.LoadLocalAsset(path);
 			TempEffect.Add(name, obj);
 		}
 		return obj;
@@ -654,7 +658,9 @@ public class DataCenter {
 		bool successful = false;
 		for (uint i = 0; i < AVATAR_ATLAS_COUNT; i++){
 			string sourcePath = string.Format("Atlas/AvatarAtlas_{0}", i);
-			GameObject source = Resources.Load(sourcePath) as GameObject;
+			//never use the raw interface! Use ResourceManager instead
+			GameObject source = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
+			//GameObject source = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
 			UIAtlas atlas = source.GetComponent<UIAtlas>();
 			if(atlas == null){ Debug.LogError("LoadAvatarAtlas(), atlas is NULL"); continue; }
 			avatarAtalsDic.Add(i, atlas);

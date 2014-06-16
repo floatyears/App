@@ -30,8 +30,11 @@ public class LoadingView : UIComponentUnity {
 		Debug.Log ("Umeng.Start('ios')...");
 		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094","ios");
 #endif
-		LogHelper.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
-		Debug.LogError("GetDeviceInfo: " + Umeng.GA.GetDeviceInfo());
+
+#if !UNITY_EDITOR
+		Debug.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
+		Debug.Log("GetDeviceInfo: " + Umeng.GA.GetDeviceInfo());
+#endif
 
 //		NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces ();
 //		Debug.LogError ("nis.Length : " + nis.Length);

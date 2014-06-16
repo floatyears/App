@@ -73,7 +73,7 @@ public class GachaWindowView : UIComponentUnity {
         float side = 170.0f;
         UISprite bg = FindChild<UISprite>("Board/Bg");
         for (int i = 0; i < DataCenter.maxGachaPerTime; i++){
-            GameObject gachaGrid = Resources.Load("Prefabs/UI/Scratch/GachaGrid") as GameObject;
+            GameObject gachaGrid = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Scratch/GachaGrid") as GameObject;
             gachaGrid = NGUITools.AddChild(bg.gameObject, gachaGrid);
             UIButton button = gachaGrid.GetComponent<UIButton>();
             button.gameObject.transform.localPosition = new Vector3(-side + (i % 3) * side, side - (i / 3) * side, 0);
@@ -84,7 +84,7 @@ public class GachaWindowView : UIComponentUnity {
 
     private Texture2D GetChessStarTextureByRareLevel(int rare){
         string path = string.Format("Texture/ChessStar{0}", rare);
-        Texture2D texture = Resources.Load (path) as Texture2D;
+        Texture2D texture = ResourceManager.Instance.LoadLocalAsset (path) as Texture2D;
         return texture;
     }
     

@@ -170,7 +170,7 @@ public class ErrorMsgCenter {
 
     }
 
-    public void OpenNetWorkErrorMsgWindow(int errorCode){
+    public void OpenNetWorkErrorMsgWindow(int errorCode,DataListener callback = null){
 
         MsgWindowParams msgWindowParams = new MsgWindowParams();
 
@@ -180,6 +180,7 @@ public class ErrorMsgCenter {
         msgWindowParams.contentText = errMsg.Msg;
 
         msgWindowParams.btnParam = new BtnParam();
+		msgWindowParams.btnParam.callback = callback;
         MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, msgWindowParams);
     }
 }

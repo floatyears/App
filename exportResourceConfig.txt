@@ -1,1 +1,1 @@
-JSavePath:Assets/ResourceDownloadTest;Filename:BattleMenu;Extension:unity3ddy3d3dd
+HSavePath:Assets/ResourceDownload/Output;Filename:AllUI;Extension:unity3d3ddy3d3dd

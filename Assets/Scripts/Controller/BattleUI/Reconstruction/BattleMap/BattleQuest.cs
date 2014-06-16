@@ -77,7 +77,7 @@ public class BattleQuest : UIBase {
 
 	void CreatEffect () {
 		if (attackEffect == null) {
-			GameObject go = Resources.Load("Effect/AttackEffect") as GameObject;
+			GameObject go = ResourceManager.Instance.LoadLocalAsset("Effect/AttackEffect") as GameObject;
 			go = NGUITools.AddChild (ViewManager.Instance.ParentPanel, go);
 			go.transform.localPosition = battle.battleRootGameObject.transform.localPosition;
 			attackEffect = go.GetComponent<AttackEffect> ();	
@@ -85,7 +85,7 @@ public class BattleQuest : UIBase {
 	}
 	
 	void InitTopUI () {
-		GameObject go = Resources.Load ("Prefabs/Fight/TopUI") as GameObject;
+		GameObject go = ResourceManager.Instance.LoadLocalAsset ("Prefabs/Fight/TopUI") as GameObject;
 		go = GameObject.Instantiate (go) as GameObject;
 		go.transform.parent = viewManager.TopPanel.transform;
 		go.transform.localScale = Vector3.one;
@@ -235,7 +235,7 @@ public class BattleQuest : UIBase {
 	}
 
 	void CreatBoosAppear () {
-		GameObject obj = Resources.Load("Prefabs/QuestFullScreenTips") as GameObject;
+		GameObject obj = ResourceManager.Instance.LoadLocalAsset("Prefabs/QuestFullScreenTips") as GameObject;
 		Vector3 pos = obj.transform.localPosition;
 		GameObject go = NGUITools.AddChild (viewManager.EffectPanel, obj);
 		go.transform.localPosition = pos;
@@ -960,7 +960,7 @@ public class BattleQuest : UIBase {
 //		battle.SwitchInput (true);
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
-		GameObject obj = Resources.Load("Prefabs/Victory") as GameObject;
+		GameObject obj = ResourceManager.Instance.LoadLocalAsset("Prefabs/Victory") as GameObject;
 		Vector3 tempScale = obj.transform.localScale;
 		obj = NGUITools.AddChild(viewManager.CenterPanel,obj);
 		obj.transform.localScale = tempScale;

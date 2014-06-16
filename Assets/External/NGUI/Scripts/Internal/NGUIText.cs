@@ -866,6 +866,8 @@ static public class NGUIText
 		if (string.IsNullOrEmpty(text)) text = " ";
 		Prepare(text);
 
+//		UnityEngine.Debug.Log ("label text: " + text);
+
 		StringBuilder sb = new StringBuilder();
 		int textLength = text.Length;
 		float remainingWidth = rectWidth;
@@ -883,6 +885,7 @@ static public class NGUIText
 			// New line character -- start a new line
 			if (ch == '\n')
 			{
+//				UnityEngine.Debug.Log("ui label wrap line.");
 				if (lineCount == maxLineCount) break;
 				remainingWidth = rectWidth;
 

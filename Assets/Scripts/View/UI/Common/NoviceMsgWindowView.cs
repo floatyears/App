@@ -317,7 +317,7 @@ public class NoviceMsgWindowView : UIComponentUnity{
 		if (msgWindowParams.guidePic != null) {
 			LogHelper.Log("show novice guide msg window with the turexture:"+msgWindowParams.guidePic.ToString ());
 			guidePicTex.gameObject.SetActive(true);
-			Texture2D tex = Resources.Load ("Texture/NoviceGuide/" + msgWindowParams.guidePic.ToString ()) as Texture2D;
+			Texture2D tex = ResourceManager.Instance.LoadLocalAsset ("Texture/NoviceGuide/" + msgWindowParams.guidePic.ToString ()) as Texture2D;
 			if(tex == null)
 				LogHelper.Log("guide texture: null");
 			guidePicTex.mainTexture = tex;

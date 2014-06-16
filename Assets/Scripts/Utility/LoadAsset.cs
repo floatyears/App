@@ -65,7 +65,7 @@ public class LoadAsset
 //	{
 //		MapConfig mc = BattleQuest.mapConfig;
 //
-//		return Resources.Load (mc.GetMapPath ()) as Texture2D;
+//		return ResourceManager.Instance.LoadLocalAsset (mc.GetMapPath ()) as Texture2D;
 //	}
 
 	public object LoadAssetFromResources(int id)

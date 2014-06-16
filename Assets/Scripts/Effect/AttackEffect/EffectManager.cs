@@ -52,7 +52,7 @@ public class EffectManager {
 	private EffectManager() {
 		SetName ();
 		foreach (var item in effectName) {
-			GameObject go = Resources.Load("Effect/"+item.Value) as GameObject;
+			GameObject go = ResourceManager.Instance.LoadLocalAsset("Effect/"+item.Value) as GameObject;
 			effectObject.Add(item.Key,go);
 		}
 	}

@@ -97,7 +97,7 @@ public class ScratchLogic : ConcreteComponent {
         
         if (rsp.header.code != (int)ErrorCode.SUCCESS) {
             LogHelper.Log("RspGacha code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+            ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code,ClickOK);
             return;
         }
         
@@ -188,9 +188,15 @@ public class ScratchLogic : ConcreteComponent {
         }
         msgWindowParam.btnParam = new BtnParam();
         msgWindowParam.btnParam.text = TextCenter.GetText("Back");
+//		msgWindowParam.btnParam.callback = ClickOK;
 
         return msgWindowParam;
     }
+
+	private void ClickOK(object data){
+		Debug.Log ("scratch: ");
+		UIManager.Instance.ChangeScene (SceneEnum.Scratch);
+	}
 
     MsgWindowParams GetFriendGachaMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();

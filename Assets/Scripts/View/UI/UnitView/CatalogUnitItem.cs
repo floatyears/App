@@ -136,7 +136,7 @@ public class CatalogUnitItem : MyUnitItem {
 		get {
 			if(itemPrefab == null) {
 				string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
-				itemPrefab = Resources.Load(sourcePath) as GameObject ;
+				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject ;
 			}
 			return itemPrefab;
 		}

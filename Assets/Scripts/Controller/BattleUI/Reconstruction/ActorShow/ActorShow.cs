@@ -31,7 +31,7 @@ public class ActorShow : UIBaseUnity{
 		UIEventListener.Get (prevButton.gameObject).onClick = PrevTexture;
 		UIEventListener.Get (nextButton.gameObject).onClick = NextTexture;
 
-		string info = (Resources.Load ("Config/Config", typeof(TextAsset)) as TextAsset).text;
+		string info = (ResourceManager.Instance.LoadLocalAsset ("Config/Config") as TextAsset).text;
 
 		string[] listInfo = info.Split ('#');
 
@@ -79,7 +79,7 @@ public class ActorShow : UIBaseUnity{
 	Texture2D GetTexture(int id)
 	{
 		string path = "Actor/" + textureConfig [id];
-		return Resources.Load (path) as Texture2D;
+		return ResourceManager.Instance.LoadLocalAsset (path) as Texture2D;
 	}
 
 	UITexture temp;

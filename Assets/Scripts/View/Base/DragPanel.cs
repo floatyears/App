@@ -28,7 +28,7 @@ public class DragPanel : UIBase  {
 	public DragPanel(string name,GameObject obj) : base(name){
 		sourceObject = obj;
 		if(dragObject == null){
-			dragObject = Resources.Load("Prefabs/UI/Common/DragPanelView") as GameObject;
+			dragObject = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Common/DragPanelView") as GameObject;
 		}
 	}
 
