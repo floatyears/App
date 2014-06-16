@@ -28,8 +28,7 @@ public class StageSelectView : UIComponentUnity{
 	private int curQuestIndex;
 	private TEvolveStart evolveStageInfo;
 	private List<StageItemView> storyStageList = new List<StageItemView>();
-
-
+	
 	private GameObject eventStageRoot;
 
 	public override void Init(UIInsConfig config, IUICallback origin){

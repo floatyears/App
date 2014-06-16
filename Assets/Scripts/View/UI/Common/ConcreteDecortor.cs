@@ -456,7 +456,6 @@ public class PartyDecorator : DecoratorBase{
 	
 		lastDecorator = partyPage;
 		lastDecorator.CreatUI();
-
 	}
 }
 
@@ -464,7 +463,8 @@ public class PartyDecorator : DecoratorBase{
 public class LevelUpDecorator : DecoratorBase {
 	private SceneInfoComponent sceneInfoBar;
 	public LevelUpDecorator(SceneEnum sEnum) : base(sEnum){
-        MsgCenter.Instance.AddListener(CommandEnum.LevelUpSaveState, SetKeepState);
+//		Debug.LogWarning ("levelup AddListener SetKeepState");
+		MsgCenter.Instance.AddListener(CommandEnum.LevelUpSaveState, SetKeepState);
 	}
 	
 	public override void ShowScene(){
@@ -478,6 +478,7 @@ public class LevelUpDecorator : DecoratorBase {
 	}
 	
 	public override void DestoryScene(){
+//		Debug.LogWarning ("levelup RemoveListener SetKeepState");
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUpSaveState, SetKeepState);
 		base.DestoryScene();
 	}

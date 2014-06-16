@@ -98,7 +98,7 @@ public class UIManager {
 	/// </summary>
 	public void RemoveUI() {
 		if(sceneDecorator.ContainsKey(storePrevScene)) {
-//			Debug.LogError("storePrevScene : " + storePrevScene);
+//			Debug.LogWarning("storePrevScene : " + storePrevScene);
 			sceneDecorator.Remove(storePrevScene);
 		}
 		storePrevScene = SceneEnum.None;
@@ -166,6 +166,7 @@ public class UIManager {
 	
 	DecoratorBase CreatScene(SceneEnum sEnum)
 	{
+//		Debug.LogError ("senum : " + sEnum);
 		DecoratorBase temp = null;
 		switch (sEnum)
 		{
@@ -332,6 +333,7 @@ public class UIManager {
             MsgCenter.Instance.Invoke(CommandEnum.QuestSelectSaveState);
 		} else if (baseScene.CurrentScene == SceneEnum.UnitDetail) {
             if (nextScene == SceneEnum.LevelUp){
+//				Debug.LogError ("InvokeSceneClear : " + baseScene.CurrentScene + " nextScene : " + nextScene);
                 MsgCenter.Instance.Invoke(CommandEnum.LevelUpSaveState);
 			} else if (nextScene == SceneEnum.Sell) {
                 MsgCenter.Instance.Invoke(CommandEnum.SellUnitSaveState);
