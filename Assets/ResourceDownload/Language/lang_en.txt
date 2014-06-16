@@ -38,11 +38,10 @@ Btn_SortRule_ID=ID
 Btn_SortRule_Fav=FAVORITE
 Btn_SortRule_AddPoint=ADD POINT
 Btn_SortRule_Rank=RANK
-
 ##Label Text
 Divided_Line=/
 Float_Rank=RANK
-Float_NextExp=NEXT EXP
+
 Float_TotalExp=TOTAP EXP
 
 ##City Name

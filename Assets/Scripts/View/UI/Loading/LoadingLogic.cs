@@ -222,17 +222,18 @@ public class LoadingLogic : ConcreteComponent {
 
 //		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
-			StartFight();
-//			TurnToReName();
-		} else {
+//		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
+//			StartFight();
+////			TurnToReName();
+//		} else {
 			UIManager.Instance.ChangeScene(SceneEnum.Start);
 			
 			UIManager.Instance.ChangeScene(SceneEnum.Home);
-		}
+//		}
 	}
 
 	void SureRetry(object data) {
+		Debug.LogError("SureRetry : ");
 		ConfigBattleUseData.Instance.ResetFromDisk();
 		RecoverParty ();
 		UIManager.Instance.EnterBattle();
@@ -250,6 +251,7 @@ public class LoadingLogic : ConcreteComponent {
 	}
 
 	void Cancel(object data) {
+
 		RetireQuest.SendRequest (RetireQuestCallback, recoverQuestID);
 	}
 

@@ -58,7 +58,7 @@ public class ResourceManager {
 				ext = ".png";
 			}
 
-			Debug.Log ("assets load: " + "Assets/ResourceDownload/" + path + ext + "  "  + Resources.LoadAssetAtPath <Object>("Assets/ResourceDownload/" + path+ ext));
+			//Debug.Log ("assets load: " + "Assets/ResourceDownload/" + path + ext + "  "  + Resources.LoadAssetAtPath <Object>("Assets/ResourceDownload/" + path+ ext));
 			return Resources.LoadAssetAtPath<Object> ("Assets/ResourceDownload/" + path + ext);
 #else 
 //			if(path.IndexOf ("Config") == 0){
@@ -83,7 +83,7 @@ public class ResourceManager {
 
 #endif
 		} else {
-			Debug.Log ("resource load from resource: " + path);
+			//Debug.Log ("resource load from resource: " + path);
 			return Resources.Load (path);
 		}
 		return null;

@@ -118,8 +118,9 @@ public class BaseUnitItem : MonoBehaviour {
 		maskSpr.enabled = !isEnable;
 		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
 		listener.LongPress = PressItem;
-		Debug.LogError (isEnable);
+
 		if (isEnable) {
+
 			listener.onClick = ClickItem;
 		} else {
 			listener.onClick = null;

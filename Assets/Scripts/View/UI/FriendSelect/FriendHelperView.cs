@@ -130,7 +130,12 @@ public class FriendHelperView : UIComponentUnity{
 		dragPanel.AddItem(dataList.Count);
 		CustomDragPanel(dragPanel);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
-		//SortUnitByCurRule();
+
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			HelperUnitItem huv = HelperUnitItem.Inject(dragPanel.ScrollItem[ i ]);
+			huv.Init(generalFriendList[ i ]);
+			huv.callback = ClickHelperItem;
+		}
 	}
 
 	private QuestItemView pickedQuestInfo;
@@ -185,19 +190,9 @@ public class FriendHelperView : UIComponentUnity{
 	private void ReceiveSortInfo(object msg){
 		//Debug.LogError("FriendHelper.ReceiveSortInfo()...");
 		curSortRule = (SortRule)msg;
-		SortUnitByCurRule();
+		//SortUnitByCurRule();
 	}
-	
-	private void SortUnitByCurRule(){
-		//sortRuleLabel.text = curSortRule.ToString();
-		SortUnitTool.SortByTargetRule(curSortRule, generalFriendList);
 
-		for (int i = 0; i < generalDragPanel.ScrollItem.Count; i++){
-			HelperUnitItem huv = HelperUnitItem.Inject(generalDragPanel.ScrollItem[ i ]);
-			huv.Init(generalFriendList[ i ]);
-			huv.callback = ClickHelperItem;
-		}
-	}
 
 	private void ShowUIAnimation(DragPanel dragPannel){
 		if(dragPannel == null) return;
@@ -208,13 +203,13 @@ public class FriendHelperView : UIComponentUnity{
 	
 	private void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
-		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
+//		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 //		MsgCenter.Instance.AddListener(CommandEnum.ActivateSortBtn, ActivateSortBtn);
 	}
 
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
-		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	//	MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	/// <summary>
