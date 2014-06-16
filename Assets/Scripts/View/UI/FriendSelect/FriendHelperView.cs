@@ -20,6 +20,7 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	public override void ShowUI() {
+		transform.localPosition -= transform.parent.localPosition;
 		base.ShowUI();
 		AddCmdListener();
 

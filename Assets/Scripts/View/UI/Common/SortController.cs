@@ -6,6 +6,6 @@ public class SortController : ConcreteComponent {
 
 	public override void HideUI () {
 		base.HideUI ();
-		base.DestoryUI ();
+//		base.DestoryUI ();
 	}
 }

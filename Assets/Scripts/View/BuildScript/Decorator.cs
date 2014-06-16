@@ -46,6 +46,7 @@ public class DecoratorBase {
     public virtual void ResetSceneState () {
         if(lastDecorator != null){
             ConcreteComponent controller = lastDecorator as ConcreteComponent;
+//			Debug.LogError(controller + " resetStateFlag : " + resetStateFlag);
             if (controller != null){
                 controller.ResetUIState(resetStateFlag);
             }
@@ -66,7 +67,7 @@ public class DecoratorBase {
     /// Sets the state of the keep. call when sub class will keep state
     /// </summary>
     public void SetKeepState(object args){
-        LogHelper.Log("SetKeepState, clear to true");
+//        Debug.Log(this +  "SetKeepState, clear to true");
         ResetStateFlag = false;
     }
 
