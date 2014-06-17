@@ -348,6 +348,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public void Retire(bool gameOver) {
+		configBattleUseData.ClearData ();
 		RetireQuest.SendRequest (RetireQuestCallback, questDungeonData.QuestId, gameOver);
 	}
 

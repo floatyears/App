@@ -19,6 +19,8 @@ public class TUserUnit : ProtobufDataBase {
 		tuu.userID = id;
 		return tuu;
 	}
+
+	public bool isEnable = true;
 		
     public void RemovevListener() {
         MsgCenter.Instance.RemoveListener(CommandEnum.StrengthenTargetType, StrengthenTargetType);

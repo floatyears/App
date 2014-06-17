@@ -233,6 +233,7 @@ public class LoadingLogic : ConcreteComponent {
 	}
 
 	void SureRetry(object data) {
+//		Debug.LogError("SureRetry : ");
 		ConfigBattleUseData.Instance.ResetFromDisk();
 		RecoverParty ();
 		UIManager.Instance.EnterBattle();
@@ -250,6 +251,7 @@ public class LoadingLogic : ConcreteComponent {
 	}
 
 	void Cancel(object data) {
+
 		RetireQuest.SendRequest (RetireQuestCallback, recoverQuestID);
 	}
 

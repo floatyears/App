@@ -11,7 +11,8 @@ public class BattleEnemy : UIBaseUnity {
 
 	private GameObject effectPanel;
 
-	private GameObject tempGameObject;
+	private GameObject effectParent;
+	private GameObject effectItemPrefab;
 	[HideInInspector]
 	public Battle battle;
 	private UISprite attackInfoLabel;
@@ -21,14 +22,15 @@ public class BattleEnemy : UIBaseUnity {
 
 	public override void Init (string name) {
 		base.Init (name);
-		effectPanel = transform.Find ("Effect").gameObject;
-		tempGameObject = transform.Find ("EnemyItem").gameObject;
-		tempGameObject.SetActive (false);
+		effectPanel = transform.Find ("Enemy/Effect").gameObject;
+		effectParent = transform.Find ("Enemy").gameObject;
+		effectItemPrefab = transform.Find ("Enemy/EnemyItem").gameObject;
+		effectItemPrefab.SetActive (false);
 		transform.localPosition += new Vector3 (0f, battle.cardHeight * 6.5f, 0f);
-		attackInfoLabel = FindChild<UISprite>("Label");
+		attackInfoLabel = FindChild<UISprite>("Enemy/Label");
 		attackInfoLabel.spriteName = "";
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
-		battleAttackInfo = FindChild<BattleAttackInfo>("AttackInfo");
+		battleAttackInfo = FindChild<BattleAttackInfo>("Enemy/AttackInfo");
 		battleAttackInfo.Init ();
 	}
 
@@ -108,7 +110,7 @@ public class BattleEnemy : UIBaseUnity {
 		for (int i = 0; i < enemy.Count; i++) {
 			TEnemyInfo tei = enemy[i];
 			tei.AddListener();
-			GameObject go = NGUITools.AddChild(gameObject,tempGameObject);
+			GameObject go = NGUITools.AddChild(effectParent, effectItemPrefab);
 			go.SetActive(true);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.battleEnemy = this;

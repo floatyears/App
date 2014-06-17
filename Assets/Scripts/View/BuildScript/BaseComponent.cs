@@ -125,8 +125,11 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		UIManager.Instance.RemoveUI ();
 	}
 
+//	public 
+
     public virtual void ResetUIState(bool clear = true) {
 //        LogHelper.Log("Controller.ClearUIState(), clearFlag {0}", clear);
+//		Debug.LogError (this + "ResetUIState : " + clear);
         if (!clear){
             return;
         }
