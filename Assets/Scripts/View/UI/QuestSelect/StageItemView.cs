@@ -45,7 +45,7 @@ public class StageItemView : MonoBehaviour{
 		get{
 			if(prefab == null){
 				string sourcePath = "Prefabs/UI/Quest/StageItemPrefab";
-				prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
+				prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject;
 			}
 			return prefab;
 		}
