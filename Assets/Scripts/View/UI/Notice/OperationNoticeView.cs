@@ -25,11 +25,14 @@ public class OperationNoticeView : UIComponentUnity {
 	}
 
 	public override void ShowUI() {
+
 		base.ShowUI();
+		Debug.Log ("show operation notice: " + config.localPosition.y);
 	}
 	
 	public override void HideUI() {
 		base.HideUI();
+		Debug.Log ("hide operation notice: " + config.localPosition.y);
 	}
 	
 	public override void DestoryUI () {
@@ -43,8 +46,10 @@ public class OperationNoticeView : UIComponentUnity {
 //		UIokBtn
 
 		ResourceManager.Instance.LoadLocalAsset (sourcePath,o =>{
+
 			GameObject prefab = o as GameObject;
 			if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
+//				Debug.Log("operation notice");
 				foreach (var nItem in DataCenter.Instance.NoticeInfo.NoticeList) {
 					GameObject item = NGUITools.AddChild(content,prefab);
 					
@@ -84,7 +89,14 @@ public class OperationNoticeView : UIComponentUnity {
 	}
 
 	public void ClickOK(){
-//		UIManager.Instance.ChangeScene (SceneEnum.Home);
-		HideUI ();
+		if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
+			&& DataCenter.Instance.LoginInfo.Bonus.Count > 0) {
+			Debug.LogError ("show Reward scene... ");
+			UIManager.Instance.ChangeScene (SceneEnum.Reward);	
+		} else {
+			UIManager.Instance.ChangeScene (SceneEnum.Home);
+		}
+
+//		HideUI ();
 	}
 }
