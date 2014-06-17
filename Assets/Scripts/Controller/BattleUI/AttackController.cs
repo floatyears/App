@@ -21,10 +21,6 @@ public class AttackController {
 			foreach (var item in value.Enemy) {
 				enemyInfo.Add(item);
 			}
-
-//			foreach (var item in enemyInfo) {
-//				item.drop = grid.Drop;
-//			}
 		}
 	}
 	IExcutePassiveSkill passiveSkill;
@@ -136,18 +132,20 @@ public class AttackController {
 		}
 		CheckBattleSuccess ();
 	}
-
+	int endCount = 0;
 	public void StartAttack (List<AttackInfo> attack) {
 		msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
 		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		MultipleAttack (attack);
 		foreach (var item in attack) {
-			attackInfoQueue.Enqueue(item);
+			attackInfoQueue.Enqueue (item);
 		}
-		Attack ();
+		endCount = attackInfoQueue.Count;
+//		Debug.LogError("StartAttack invoke attack");
+		InvokeAttack ();
 	}
-	
+
 	void StopAttack () {
 
 	}
@@ -195,27 +193,19 @@ public class AttackController {
 		return 0.5f;
 	}
 
-	void Attack () {
+	void InvokeAttack() {
 		countDownTime = GetIntervTime ();
-		enemyIndex = 0;
-		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [2]);
-		GameTimer.GetInstance ().AddCountDown (countDownTime, AttackEnemy);
-	}
-	
-	void MultipleAttack (List<AttackInfo> attackInfo) {
-		float multipe = leaderSkillMultiple.MultipleAttack (attackInfo);
-		if (multipe > 1.0f) {
-			for (int i = 0; i < attackInfo.Count; i++) {
-				attackInfo[i].AttackValue *= multipe;
-			}	
-		}
+		GameTimer.GetInstance ().AddCountDown (countDownTime, Attack);
 	}
 
-	void AttackEnemy () {
+	void Attack () {
+		enemyIndex = 0;
+
 		if (attackInfoQueue.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
 			bud.Blood += blood;
-			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, null);
+			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, endCount);
+			endCount = 0;
 			if (!CheckBattleSuccess ()) {
 				return;
 			}
@@ -223,12 +213,27 @@ public class AttackController {
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
+
+		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [2]);
+
+		AttackEnemy ();
+	}
+
+	void MultipleAttack (List<AttackInfo> attackInfo) {
+		float multipe = leaderSkillMultiple.MultipleAttack (attackInfo);
+		if (multipe > 1.0f) {
+			for (int i = 0; i < attackInfo.Count; i++) {
+				attackInfo[i].AttackValue *= multipe;
+			}
+		}
+	}
+
+	void AttackEnemy () {
 		CheckEnemyDead();
 		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
 		AttackInfo ai = attackInfoQueue.Dequeue();
 		BeginAttack (ai);
-
-		Attack ();
+		InvokeAttack ();
 	}
 
 	int tempPreHurtValue = 0;
@@ -396,17 +401,27 @@ public class AttackController {
 	public void FirstAttack () {
 		foreach (var item in enemyInfo) {
 			item.FirstAttack();
-//			Debug.LogError("FirstAttack : " + item.GetRound() + " EnemySymbol : " +item.EnemySymbol);
 		}
 	}
 
 	public void AttackPlayer () {
 		if (CheckBattleSuccess ()) {
-			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [1]);
+			bool enterEnemyPhase = false;
 			for (int i = 0; i < enemyInfo.Count; i++) {
 				enemyInfo[i].Next();
+//				Debug.LogError("enemyInfo[i].Next() : " + enemyInfo[i].GetRound());
+				if(enemyInfo[i].GetRound() <= 0) {
+					enterEnemyPhase = true;
+				}
 			}
-			LoopEnemyAttack ();	
+			Debug.LogError("enterEnemyPhase : " + enterEnemyPhase);
+			if(enterEnemyPhase) {
+				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [1]);
+				LoopEnemyAttack ();	
+			}
+			else {
+				EnemyAttackLoopEnd();
+			}
 		} else {
 			bud.battleQuest.battle.ShieldInput(true);
 		}
@@ -416,14 +431,11 @@ public class AttackController {
 	TEnemyInfo te;
 	void LoopEnemyAttack () {
 		countDownTime = 0.4f;
-
 		if (enemyIndex >= enemyInfo.Count) {
 			GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttackLoopEnd);
 			return;
 		}
-//		Debug.LogError ("enemyindex : " + enemyIndex + " enemyinfo : " + enemyInfo.Count);
 		te = enemyInfo [enemyIndex];
-//		te.Next ();
 		enemyIndex ++;
 
 		if (te.GetRound () > 0) {
@@ -437,7 +449,7 @@ public class AttackController {
 	List<AttackInfo> antiInfo = new List<AttackInfo>();
 
 	void EnemyAttack () {
-		if (te.GetRound () == 0) {
+		if (te.GetRound () <= 0) {
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
 			int attackType = te.GetUnitType ();
 			int attackValue = te.AttackValue;
@@ -474,8 +486,11 @@ public class AttackController {
 	}    
 
 	void EnemyAttackLoopEnd() {
+//		Debug.LogError ("bud.Blood : " + bud.Blood + " antiInfo.Count : " + antiInfo.Count);
 		if(bud.Blood > 0) {
 			if (antiInfo.Count == 0) {
+//				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, "");
+				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 				GameTimer.GetInstance ().AddCountDown (0.5f, EnemyAttackEnd);
 				return;
 			}
@@ -500,13 +515,9 @@ public class AttackController {
 		CheckBattleSuccess ();
 		bud.ClearData();
 		bud.battleQuest.battle.ShieldInput(true);	
-	
 		configBattleUseData.storeBattleData.attackRound ++;
 		configBattleUseData.storeBattleData.tEnemyInfo = enemyInfo;
-//		Debug.LogError ("EnemyAttackEnd : ");
-
 		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
-
 		configBattleUseData.StoreMapData (null);
 	}
 

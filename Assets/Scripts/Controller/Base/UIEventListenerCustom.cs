@@ -47,6 +47,7 @@ public class UIEventListenerCustom : MonoBehaviour {
 			GameTimer.GetInstance ().AddCountDown (0.6f, CountDown);
 		} else {
 			bool b =GameTimer.GetInstance ().ExitCountDonw(CountDown);
+//			Debug.LogError("b : " + b + " onclick : " + onClick);
 			if(b){
 				if (onClick != null) onClick (gameObject);
 			}

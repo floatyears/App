@@ -57,6 +57,7 @@ public class BattleAttackInfo : UIBaseUnity {
 
 	public void StartAttack(object data) {
 		int allAttack = (int)data;
+
 		firstSprite.spriteName = (allAttack / 10).ToString ();
 		secondSprite.spriteName =(allAttack % 10).ToString ();
 		handsSprite.spriteName = "hands";

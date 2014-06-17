@@ -45,21 +45,23 @@ public class RootComponent
 public class BaseComponent :RootComponent, IUIComponent
 {
 
-	public BaseComponent(string name) : base (name)
-	{
-
-	}
-	
-	public virtual void CreatUI()
-	{
+	public BaseComponent(string name) : base (name)	{
 
 	}
 
-	public virtual void ShowUI(){}
+	public void CreatUIAsyn (IUIComponent componnet) {
+		throw new System.NotImplementedException ();
+	}
 
-	public virtual void HideUI(){}
+	public virtual void CreatUI() {
 
-	public virtual void DestoryUI(){}
+	}
+
+	public virtual void ShowUI(){ }
+
+	public virtual void HideUI(){ }
+
+	public virtual void DestoryUI(){ }
 	
 }
 
@@ -76,7 +78,14 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 	public ConcreteComponent(string name) : base(name){
 		ViewManager.Instance.AddComponent(this);
 	}
-	
+
+	private IUIComponent uiComponent = null;
+
+	public void CreatUIAsyn(IUIComponent uiComponent) {
+		this.uiComponent = uiComponent;
+		CreatUI ();
+	}
+
 	public virtual void CreatUI() {
 		if (component != null){
 			component.CreatUI();
@@ -85,9 +94,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 	}
 
 	public virtual void ShowUI() {
-//		Debug.LogError("ConcreteComponent  component ShowUI : " + component + "  this : " + this + " viewComponent : " + viewComponent);
 		if (component != null) {
-			//Debug.LogError("ConcreteComponent  component ShowUI : " + component + "  this : " + this + " viewComponent : " + viewComponent);
 			component.ShowUI();		
 		}
 //		Debug.LogError("ConcreteComponent  component ShowUI : " + component + "  this : " + this + " viewComponent : " + viewComponent);
@@ -103,8 +110,8 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 //		Debug.LogError("viewComponent : " + viewComponent);
 
 		if (viewComponent != null) {
-						viewComponent.HideUI ();
-				}
+			viewComponent.HideUI ();
+		}
 	}
 
 	public virtual void DestoryUI() {
@@ -128,8 +135,6 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 //	public 
 
     public virtual void ResetUIState(bool clear = true) {
-//        LogHelper.Log("Controller.ClearUIState(), clearFlag {0}", clear);
-//		Debug.LogError (this + "ResetUIState : " + clear);
         if (!clear){
             return;
         }
@@ -147,25 +152,31 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 
 	protected void CreatViewComponent() {
 		if (viewComponent == null) {
-			Object o = ResourceManager.Instance.LoadLocalAsset(uiConfig.resourcePath) as Object;
-			if (o == null){
-				LogHelper.LogError("there is no ui with the path:"+uiConfig.resourcePath);
-				return;
-			}
-				
-			
-			GameObject go = GameObject.Instantiate(o) as GameObject;
-			viewComponent = go.GetComponent<UIComponentUnity>();
-			if (viewComponent == null){
-				LogHelper.LogError("the component of the ui:{0} is null",uiConfig.resourcePath);
-				return;
-			}
-				
-			viewCallback = viewComponent;
-			viewComponent.Init(uiConfig, this);
+			ResourceManager.Instance.LoadLocalAsset(uiConfig.resourcePath, CreateCallback);
 		}
 	}
-	
+
+	private void CreateCallback(Object o){
+		if (o == null){
+			LogHelper.LogError("there is no ui with the path:"+uiConfig.resourcePath);
+			return;
+		}
+		Debug.LogError ("o : " +  o.name + "type : " + o.GetType() );
+		GameObject go = GameObject.Instantiate(o) as GameObject;
+		viewComponent = go.GetComponent<UIComponentUnity>();
+		if (viewComponent == null){
+			LogHelper.LogError("the component of the ui:{0} is null",uiConfig.resourcePath);
+			return;
+		}
+		
+		viewCallback = viewComponent;
+		viewComponent.Init(uiConfig, this);
+
+		if (uiComponent != null) {
+			uiComponent.ShowUI();
+		}
+	}
+
 	protected IUIComponent component;
 	
 	/// <summary>

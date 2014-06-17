@@ -112,11 +112,21 @@ public class ViewManager {
 		bottomLeftPanel =  trans.Find ("BottomLeft").gameObject;
 //		trapLabel = mainUIRoot.transform.Find ("RootPanel/BottomLeft/Label").GetComponent<UILabel> ();
 
-		dynamicFont = ResourceManager.Instance.LoadLocalAsset("Font/Dimbo Regular") as Font;
-		manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
+		ResourceManager.Instance.LoadLocalAsset("Font/Dimbo Regular", o =>{
+			dynamicFont = o as Font;
+			manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
+		}
+		);
+
 //		Debug.LogError("manualHeight : " + manualHeight);
 //		DragPanelDynamic dpd 
 	}
+
+//	void Callback(object o) {
+//		Debug.LogError ("o : " + o);
+//		dynamicFont = o as Font;
+//		manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
+//	}
 	
 	public void ShowTipsLabel (string content) {
 		tipsLabelUI.ShowInfo (content);
@@ -131,31 +141,37 @@ public class ViewManager {
 			uiObjectDic.Add(obj.UIName,obj);
 	}
 
-	public UIBaseUnity GetViewObject(string name) {
+	public void GetViewObject(string name, ResourceCallback callback) {
 //		if(uiObjectDic.ContainsKey(name)) {	
 //			return uiObjectDic[name];
 //		}
-		return CreatObject(name);
+		CreatObject(name, callback);
 	}
 
-	public UIBaseUnity GetBattleMap (string name) {
-		return CreatNoUIObject (name);
+	public void GetBattleMap (string name, ResourceCallback callback) {
+		CreatNoUIObject (name,callback);
 	}
 
-	UIBaseUnity CreatNoUIObject (string name) {
-		Object sourceObject = LoadAsset.Instance.LoadAssetFromResources (name, ResourceEuum.Prefab) as Object;
-		GameObject go = GameObject.Instantiate (sourceObject) as GameObject;
-		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
+	void CreatNoUIObject (string name,ResourceCallback callback) {
+
+		LoadAsset.Instance.LoadAssetFromResources (name, ResourceEuum.Prefab, o=>{
+			GameObject go = GameObject.Instantiate (o) as GameObject;
+			UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
+			callback(goScript);
+		});
+
 //		uiObjectDic.Add(name,goScript);
-		return goScript;
 	}
 
-	UIBaseUnity CreatObject(string name) {	
-		GameObject sourceObject = LoadAsset.Instance.LoadAssetFromResources(name,ResourceEuum.Prefab) as GameObject;
-		GameObject go = NGUITools.AddChild(centerPanel,sourceObject);
-		UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
-//		uiObjectDic.Add(name,goScript);
-		return goScript;
+	void CreatObject(string name,ResourceCallback callback) {	
+		LoadAsset.Instance.LoadAssetFromResources (name, ResourceEuum.Prefab, o => {
+			GameObject sourceObject = o as GameObject;
+			GameObject go = NGUITools.AddChild (centerPanel, sourceObject);
+			UIBaseUnity goScript = go.GetComponent<UIBaseUnity> ();
+//			uiObjectDic.Add(name,goScript);
+			callback (goScript);
+		});
+
 	}
 
 	public void DestoryUI(UIBaseUnity ui) {

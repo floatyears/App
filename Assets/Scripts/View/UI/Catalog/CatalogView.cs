@@ -41,20 +41,22 @@ public class CatalogView : UIComponentUnity {
 	private GameObject emptyItem;
 	private void CreateDragPanel(){
 		string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
-		emptyItem = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
+		ResourceManager.Instance.LoadLocalAsset(sourcePath, o =>{
+			emptyItem = o  as GameObject;
+			dragPanel = new DragPanel("CatalogDragPanel", emptyItem);
+			dragPanel.CreatUI();
+			dragPanel.AddItem(TOTAL_CATALOG_COUNT);
+			dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.CatalogDragPanelArgs, transform);
+			
+			uiPanel = dragPanel.DragPanelView.gameObject.transform.FindChild("Scroll View").GetComponent<UIPanel>();
+			
+			for(int i = 0; i < TOTAL_CATALOG_COUNT; i++){
+				GameObject dragItem = dragPanel.ScrollItem[ i ];
+				catalogItemTrans.Add(dragItem.transform);
+			}
+			InitCatalogTrans(0, 40);
+		});
 
-		dragPanel = new DragPanel("CatalogDragPanel", emptyItem);
-		dragPanel.CreatUI();
-		dragPanel.AddItem(TOTAL_CATALOG_COUNT);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.CatalogDragPanelArgs, transform);
-
-		uiPanel = dragPanel.DragPanelView.gameObject.transform.FindChild("Scroll View").GetComponent<UIPanel>();
-
-		for(int i = 0; i < TOTAL_CATALOG_COUNT; i++){
-			GameObject dragItem = dragPanel.ScrollItem[ i ];
-			catalogItemTrans.Add(dragItem.transform);
-		}
-		InitCatalogTrans(0, 40);
 	}
 
 	private void RefreshItemCounter(){

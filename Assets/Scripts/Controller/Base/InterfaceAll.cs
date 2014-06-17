@@ -58,7 +58,8 @@ public interface IUIComponentUnity :  IUIBaseComponent {
 /// logic ui interface
 /// </summary>
 public interface IUIComponent :  IUIBaseComponent {
-    void CreatUI();
+	void CreatUI();
+	void CreatUIAsyn(IUIComponent componnet);
 }
 
 //public interface IUICallback {
@@ -200,6 +201,8 @@ public delegate Object UICallbackExtend(Object data);
 public delegate void UICallback<T>(T arg1);
 
 public delegate void DataListener(object data);
+
+public delegate void ResourceCallback(Object data);
 
 public delegate void ResponseCallback(ErrorMsg errMsg,object data);
 

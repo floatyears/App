@@ -16,20 +16,21 @@ public class BattleShow : UIBase
 
 	public override void CreatUI ()
 	{
-		BattleShowUnity bsu = ViewManager.Instance.GetViewObject("BattleShow") as BattleShowUnity; 
-
-		currentUIDic.Add(bsu.UIName,bsu);
-
-		topUI = new ScrollView(bsu.TopLeft,bsu.TopRight,bsu.DragItem);
-
-		topUI.ShowData(3);
-
-		downUI = new ScrollView(bsu.BottomLeft,bsu.BottomRight,bsu.DragItem);
-		downUI.ShowData(4);
-
-		UIEventListener listen = UIEventListener.Get(topUI.DragList[0]);
-
-		listen.onClick = ClickQuest;
+		ViewManager.Instance.GetViewObject("BattleShow" , o =>{
+			BattleShowUnity bsu = o  as BattleShowUnity;
+			currentUIDic.Add(bsu.UIName,bsu);
+			
+			topUI = new ScrollView(bsu.TopLeft,bsu.TopRight,bsu.DragItem);
+			
+			topUI.ShowData(3);
+			
+			downUI = new ScrollView(bsu.BottomLeft,bsu.BottomRight,bsu.DragItem);
+			downUI.ShowData(4);
+			
+			UIEventListener listen = UIEventListener.Get(topUI.DragList[0]);
+			
+			listen.onClick = ClickQuest;
+		}); 
 	}
 
 	public override void ShowUI ()

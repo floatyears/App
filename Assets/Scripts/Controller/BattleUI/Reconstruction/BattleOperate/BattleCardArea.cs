@@ -30,8 +30,11 @@ public class BattleCardArea : UIBaseUnity {
 		stateLabel = FindChild<UISprite>("StateLabel");
 		stateLabel.spriteName = string.Empty;
 		if (cardItem == null) {
-			GameObject go = LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab) as GameObject;
-			cardItem = go.transform.Find("Texture").gameObject;
+			LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab,o=>{
+				GameObject go = o as GameObject;
+				cardItem = go.transform.Find("Texture").gameObject;
+			});
+
 		}
 	}
 
@@ -73,6 +76,7 @@ public class BattleCardArea : UIBaseUnity {
 
 	void StateInfo(object data) {
 		string info = (string)data;
+//		Debug.LogError ("StateInfo : " + info);
 		if (string.IsNullOrEmpty (info) && !string.IsNullOrEmpty(stateLabel.spriteName)) {
 			HideStateLabel(string.Empty);
 			return;
@@ -85,7 +89,7 @@ public class BattleCardArea : UIBaseUnity {
 		if (stateLabel.spriteName == info) {
 			return;	
 		}
-
+//		Debug.LogError ("StateInfo 2: " + info);
 		if (info == DGTools.stateInfo [4]) {
 			prevInfo = stateLabel.spriteName;
 		}
@@ -96,6 +100,7 @@ public class BattleCardArea : UIBaseUnity {
 		} else {
 			HideStateLabel("ShowStateLabel");
 		}
+
 		DGTools.ShowSprite (stateLabel, info);
 	}
 

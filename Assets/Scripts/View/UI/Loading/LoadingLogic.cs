@@ -25,14 +25,13 @@ public class LoadingLogic : ConcreteComponent {
     
     public override void ShowUI () {
 //		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
-//        GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
+//      GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
 
         base.ShowUI ();
     }
     
     public override void HideUI () {
         base.HideUI ();
-
 		DestoryUI ();
     }
 
@@ -138,7 +137,7 @@ public class LoadingLogic : ConcreteComponent {
 				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
 			}
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
-//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 
 //            TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
@@ -233,7 +232,7 @@ public class LoadingLogic : ConcreteComponent {
 	}
 
 	void SureRetry(object data) {
-		Debug.LogError("SureRetry : ");
+//		Debug.LogError("SureRetry : ");
 		ConfigBattleUseData.Instance.ResetFromDisk();
 		RecoverParty ();
 		UIManager.Instance.EnterBattle();

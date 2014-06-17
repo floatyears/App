@@ -17,8 +17,11 @@ public class TouchEventBlocker{
 	public const int guideLayer = 16;
 	public const string guideLayerName = "NoviceGuide";
 
+	private int blockEvent = 0;
+
 	private TouchEventBlocker(){
 		nguiCamera = Camera.main.GetComponent<UICamera>();
+		blockEvent = GameLayer.LayerToInt (GameLayer.blocker) | GameLayer.LayerToInt (GameLayer.BottomInfo);
 	}
 	private int originLayer = 1;
 
@@ -83,10 +86,10 @@ public class TouchEventBlocker{
 	private void SetBlocked(bool isBlocked){
 		//Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
 		if (isBlocked){	
-			if(nguiCamera.eventReceiverMask != LayerMask.NameToLayer(blockerLayerName) << blockerLayer){
+			if(nguiCamera.eventReceiverMask != blockEvent){
 				originLayer = nguiCamera.eventReceiverMask;
 			}
-			nguiCamera.eventReceiverMask = LayerMask.NameToLayer(blockerLayerName) << blockerLayer;
+			nguiCamera.eventReceiverMask = blockEvent;
 
 //			Debug.LogError("TouchEventBlocker.SetBlocked(), when true, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
 

@@ -382,7 +382,7 @@ public class Battle : UIBase {
 		battleCard.StartBattle (true);
 		ShieldInput (true);
 
-		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
+//		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
 	void EnemyAttackEnd() {
@@ -405,30 +405,39 @@ public class Battle : UIBase {
 
 	void CreatCountDown () {
 		string name = "CountDown";
-		tempObject = GetPrefabsObject (name);
-		tempObject.transform.parent = viewManager.CenterPanel.transform;
-		countDownUI = tempObject.GetComponent<CountDownUnity> ();
-		countDownUI.Init ("CountDown");
+		GetPrefabsObject (name,o=>{
+			tempObject = o as GameObject;
+			tempObject.transform.parent = viewManager.CenterPanel.transform;
+			countDownUI = tempObject.GetComponent<CountDownUnity> ();
+			countDownUI.Init ("CountDown");
+		});
+
 	}
 
 	void CreatBack () {
 		string backName = "BattleCardPool";
-		tempObject = GetPrefabsObject(backName);
-		battleCardPool = tempObject.AddComponent<BattleCardPool>();
-		battleCardPool.Init(backName);
-		NGUITools.AddWidgetCollider(tempObject);
-		BoxCollider bc = tempObject.GetComponent<BoxCollider> ();
-		battleCardPool.XRange = bc.size.x;
-		cardHeight = battleCardPool.templateBackTexture.width;
+		GetPrefabsObject(backName, o=>{
+			tempObject = o as GameObject;
+			battleCardPool = tempObject.AddComponent<BattleCardPool>();
+			battleCardPool.Init(backName);
+			NGUITools.AddWidgetCollider(tempObject);
+			BoxCollider bc = tempObject.GetComponent<BoxCollider> ();
+			battleCardPool.XRange = bc.size.x;
+			cardHeight = battleCardPool.templateBackTexture.width;
+		});
+
 	}
 
 	void CreatCard () {
-		tempObject = GetPrefabsObject(Config.battleCardName);
-		tempObject.layer = GameLayer.ActorCard;
-		battleCard = tempObject.AddComponent<BattleCard>();
-		battleCard.CardPosition = battleCardPool.CardPosition;
-		battleCard.Init(Config.battleCardName);
-		battleCard.battleCardArea = battleCardArea;
+		GetPrefabsObject(Config.battleCardName, o =>{
+			tempObject = o as GameObject;
+			tempObject.layer = GameLayer.ActorCard;
+			battleCard = tempObject.AddComponent<BattleCard>();
+			battleCard.CardPosition = battleCardPool.CardPosition;
+			battleCard.Init(Config.battleCardName);
+			battleCard.battleCardArea = battleCardArea;
+		});
+
 	}
 
 	void ShowCard () {
@@ -445,22 +454,28 @@ public class Battle : UIBase {
 
 	void CreatArea() {
 		string areaName = "BattleCardArea";
-		tempObject = GetPrefabsObject(areaName);
-		tempObject.layer = GameLayer.BattleCard;
-		battleCardArea = tempObject.AddComponent<BattleCardArea>();
-		battleCardArea.BQuest = this;
-		battleCardArea.Init(areaName);
-		battleCardArea.CreatArea(battleCardPool.CardPosition,cardHeight);
+		GetPrefabsObject(areaName, o=>{
+			tempObject = o as GameObject;
+			tempObject.layer = GameLayer.BattleCard;
+			battleCardArea = tempObject.AddComponent<BattleCardArea>();
+			battleCardArea.BQuest = this;
+			battleCardArea.Init(areaName);
+			battleCardArea.CreatArea(battleCardPool.CardPosition,cardHeight);
+		});
+
 	}
 
 	void CreatEnemy() {
 		string enemyName = "BattleEnemy";
-		tempObject = GetPrefabsObject(enemyName);
-		tempObject.layer = GameLayer.EnemyCard;
-		battleEnemy = tempObject.AddComponent<BattleEnemy>();
-		battleEnemy.battle = this;
-		battleEnemy.Init(enemyName);
-		battleEnemy.ShowUI ();
+		GetPrefabsObject(enemyName, o=>{
+			tempObject = o as GameObject;
+			tempObject.layer = GameLayer.EnemyCard;
+			battleEnemy = tempObject.AddComponent<BattleEnemy>();
+			battleEnemy.battle = this;
+			battleEnemy.Init(enemyName);
+			battleEnemy.ShowUI ();
+		});
+
 	}
 
 	public bool isShowEnemy = false;
@@ -477,18 +492,21 @@ public class Battle : UIBase {
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
 	}
 
-	GameObject GetPrefabsObject(string name) {
-		tempObject = LoadAsset.Instance.LoadAssetFromResources(name, ResourceEuum.Prefab) as GameObject;
-		GameObject go = GameObject.Instantiate(tempObject) as GameObject;
-		
-		if (go != null && battleRootGameObject != null) {
-			Transform t = go.transform;
-			t.parent = battleRootGameObject.transform;
-			t.localPosition = Vector3.zero;
-			t.localRotation = Quaternion.identity;
-			t.localScale = Vector3.one;
-		}
-		return go;
+	void GetPrefabsObject(string name,ResourceCallback callback) {
+		LoadAsset.Instance.LoadAssetFromResources(name, ResourceEuum.Prefab,o =>{
+			tempObject = o  as GameObject;
+			GameObject go = GameObject.Instantiate(tempObject) as GameObject;
+			
+			if (go != null && battleRootGameObject != null) {
+				Transform t = go.transform;
+				t.parent = battleRootGameObject.transform;
+				t.localPosition = Vector3.zero;
+				t.localRotation = Quaternion.identity;
+				t.localScale = Vector3.one;
+			}
+			callback(go);
+		});
+
 	}
 
 	int GenerateData() {
