@@ -30,7 +30,7 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	protected TUserUnit userUnit;
-	public TUserUnit UserUnit{
+	public TUserUnit UserUnit {
 		get{
 			return userUnit;
 		}
@@ -56,7 +56,6 @@ public class BaseUnitItem : MonoBehaviour {
 			return isEnable;
 		}
 		set{
-//			Debug.LogError("isEnable : "  + isEnable);
 			isEnable = value;
 			UpdatEnableState();
 		}
@@ -115,11 +114,11 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	protected virtual void UpdatEnableState(){
-		maskSpr.enabled = !isEnable;
+		maskSpr.enabled = !IsEnable;
 		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
 		listener.LongPress = PressItem;
 
-		if (isEnable) {
+		if (IsEnable) {
 
 			listener.onClick = ClickItem;
 		} else {

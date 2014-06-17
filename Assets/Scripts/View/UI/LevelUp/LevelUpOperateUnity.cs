@@ -81,7 +81,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private const int friendItemIndex = 5;
 	/// <summary>
-	/// indx : 0==hplabel, 1==atkLabel, 2==exp need label. 3==exp got label. 4==coin need label. 5==sortlabel;
+	/// indx : 0==hplabel, 1==explabel, 2==atk label. 3==exp got label. 4==coin need label. 5==sortlabel;
 	/// </summary>
 	private UILabel[] infoLabel = new UILabel[6];
 
@@ -92,17 +92,17 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private int atk = 0;
 	public int Atk{ 
-		set {atk = value; infoLabel[1].text = atk.ToString();}
+		set {atk = value; infoLabel[2].text = atk.ToString();}
 	}
 
 	private int expNeed = 0;
 	public int ExpNeed{ 
-		set {expNeed = value; infoLabel[2].text = expNeed.ToString();}
+		set {expNeed = value; infoLabel[3].text = expNeed.ToString();}
 	}
 
 	private int expGot = 0;
 	public int ExpGot{ 
-		set {expGot = value; infoLabel[3].text = expGot.ToString();}
+		set {expGot = value; infoLabel[1].text = expGot.ToString();}
 	}
 
 	private int coinNeed = 0;
@@ -565,7 +565,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		TUnitInfo tu = baseInfo.UnitInfo;
 		Hp = baseInfo.Hp;
 		Atk =  baseInfo.Attack;
-		ExpNeed = baseInfo.NextExp;
+		ExpNeed = baseInfo.Level;
 		RefreshMaterial ();
 	}
 
@@ -624,6 +624,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				devorExp += selectedItem[i].UserUnit.MultipleMaterialExp(selectedItem[baseItemIndex].UserUnit);
 			}
 		}
+//		Debug.LogError (devorExp);
 		return devorExp;
 	}
 
