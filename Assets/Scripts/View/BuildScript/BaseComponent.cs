@@ -161,7 +161,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 			LogHelper.LogError("there is no ui with the path:" + uiConfig.resourcePath);
 			return;
 		}
-		Debug.LogError ("o : " +  o.name + "type : " + o.GetType() );
+//		Debug.LogError ("o : " +  o.name + "type : " + o.GetType() );
 		GameObject go = GameObject.Instantiate(o) as GameObject;
 		viewComponent = go.GetComponent<UIComponentUnity>();
 		if (viewComponent == null){
