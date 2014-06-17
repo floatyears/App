@@ -53,7 +53,7 @@ public class ResourceManager : MonoBehaviour{
 						assetBundles[key].callbackList.Add(path,callback);
 					}else{
 						if(callback != null){
-							callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1)));
+							callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), typeof(GameObject)));
 							return null;
 						}else{
 							return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1));
