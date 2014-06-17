@@ -17,7 +17,11 @@ public class ResourceManager {
 
 	private Dictionary<string,object> objectDic = new Dictionary<string, object>();
 
-	public Object LoadLocalAsset( string path, string assetName = null) {
+	public Object LoadLocalAsset( string path, string assetName = "") {
+		if (string.IsNullOrEmpty (path)) {
+			return null;	
+		}
+
 		if (string.IsNullOrEmpty (assetName)) {
 			return LoadLocalNoCache(path);
 		}

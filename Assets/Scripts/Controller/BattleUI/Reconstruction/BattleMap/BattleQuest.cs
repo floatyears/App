@@ -174,7 +174,7 @@ public class BattleQuest : UIBase {
 	void AttackEnemy (object data) {
 		AttackInfo ai = data as AttackInfo;
 		if (ai == null) {
-			return;		
+			return;
 		}
 
 		attackEffect.RefreshItem (ai.UserUnitID, ai.SkillID, ai.AttackValue, false);

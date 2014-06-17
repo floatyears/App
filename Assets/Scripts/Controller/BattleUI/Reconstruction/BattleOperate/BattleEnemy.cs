@@ -61,8 +61,12 @@ public class BattleEnemy : UIBaseUnity {
 	}
 
 	void AttackEnemyEnd(object data) {
+		int count = (int)data;
 		DestoryEffect ();
 		prevAttackInfo = null;
+		if (count <= 0) {
+			return;	
+		}
 		int index = DGTools.RandomToInt (0, 4);
 		attackInfoLabel.spriteName = attackInfo [index];
 		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.3f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "End", "oncompletetarget", gameObject));

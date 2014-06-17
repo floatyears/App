@@ -382,7 +382,7 @@ public class Battle : UIBase {
 		battleCard.StartBattle (true);
 		ShieldInput (true);
 
-		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
+//		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
 	void EnemyAttackEnd() {

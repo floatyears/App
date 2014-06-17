@@ -148,22 +148,26 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 	protected void CreatViewComponent() {
 		if (viewComponent == null) {
 			Object o = ResourceManager.Instance.LoadLocalAsset(uiConfig.resourcePath) as Object;
+//			Object o = ResourceManager.Instance.LoadLocalAsset(uiConfig.resourcePath) as Object;
 			if (o == null){
-				LogHelper.LogError("there is no ui with the path:"+uiConfig.resourcePath);
+				LogHelper.LogError("there is no ui with the path : " + uiConfig.resourcePath);
 				return;
 			}
-				
-			
+
 			GameObject go = GameObject.Instantiate(o) as GameObject;
 			viewComponent = go.GetComponent<UIComponentUnity>();
 			if (viewComponent == null){
-				LogHelper.LogError("the component of the ui:{0} is null",uiConfig.resourcePath);
+				LogHelper.LogError("the component of the ui:{0} is null", uiConfig.resourcePath);
 				return;
 			}
 				
 			viewCallback = viewComponent;
 			viewComponent.Init(uiConfig, this);
 		}
+	}
+
+	private void CreatView () {
+
 	}
 	
 	protected IUIComponent component;

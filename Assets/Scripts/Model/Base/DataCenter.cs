@@ -443,6 +443,7 @@ public class DataCenter {
 			string path = EffectPath.Instance.GetEffectPath(name);
 			//never use the raw interface! Use ResourceManager instead
 			obj = ResourceManager.Instance.LoadLocalAsset(path);
+//			Debug.LOGR
 		//	obj = ResourceManager.Instance.LoadLocalAsset(path);
 			TempEffect.Add(name, obj);
 		}
