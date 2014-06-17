@@ -34,8 +34,8 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		base.ShowUI ();
 		UIManager.Instance.HideBaseScene();
 
-
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
+		MsgCenter.Instance.AddListener(CommandEnum.ShowFavState,  ShowFavState);
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUp, CallBackUnitData);
 		//TODO:
 		//StartCoroutine ("nextState");
@@ -51,6 +51,7 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	public override void HideUI () {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp, CallBackUnitData);
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
 		base.HideUI ();
 //		if (IsInvoking ("CreatEffect")) {
 //			CancelInvoke("CreatEffect");
@@ -109,17 +110,12 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 //		SetEffectCamera ();
 //		StartCoroutine (CreatEffect ());
 	}
-	
-
 
 	private void ShowInfo(TUserUnit data){
-
 		curUserUnit = data;
-		ShowFavView (curUserUnit.IsFavorite);
+		//ShowFavView(curUserUnit.IsFavorite);
 		
 		TUnitInfo unitInfo = data.UnitInfo;
-		
-		
 		number.text = data.UnitID.ToString();
 		
 		//hp
@@ -186,10 +182,11 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		}
 		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;
 		//		Debug.LogError ("curUserUnit : " + curUserUnit.TUserUnitID);
-		ShowFavView(curUserUnit.IsFavorite);
+		UpdateFavView(curUserUnit.IsFavorite);
 	}
 
-	private void ShowFavView(int isFav){
+	private void UpdateFavView(int isFav){
+		//ResourceManager.Instance.LoadLocalAsset("","");
 		UISprite background = favBtn.transform.FindChild("Background").GetComponent<UISprite>();
 		//Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
@@ -208,6 +205,14 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 
 	public void ShowPanel(){
 		gameObject.SetActive (true);
+	}
+
+	private void ShowFavState(object msg){
+		UpdateFavView(curUserUnit.IsFavorite);
+	}
+
+	private void DestoryFavBtn(){
+
 	}
 
 }
