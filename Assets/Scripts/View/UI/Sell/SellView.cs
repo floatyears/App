@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class SellView : UIComponentUnity{
 	private int totalSaleValue = 0;
@@ -68,11 +69,29 @@ public class SellView : UIComponentUnity{
             controller.ResetUI();
         }
     }
-    
+    Vector3 pos = Vector3.zero;
     void BackToMainWindow(object args){
-		mainRoot.SetActive(true);
+//		mainRoot.SetActive(true);
+		mainRoot.transform.localPosition = pos;
 		submitRoot.SetActive(false);
+		ResetReadyPool();
+
 		ShowUIAnimation();
+	}
+
+	void ResetReadyPool(){
+		for (int i = 0; i < readyItemList.Count; i++){
+			Transform trans = readyItemList[ i ].transform;
+			UISprite bg = trans.FindChild("Background").GetComponent<UISprite>();
+			UISprite border = trans.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
+			UITexture avatar = trans.FindChild("Texture").GetComponent<UITexture>();
+			UILabel levelLabel = trans.FindChild("Label_Right_Bottom").GetComponent<UILabel>();
+			
+			bg.spriteName = "unit_empty_bg";
+			border.spriteName = "";
+			avatar.mainTexture = null;
+			levelLabel.text = string.Empty;	
+		}
 	}
 
 	void ChangeTotalSaleValue(int value){
@@ -81,7 +100,8 @@ public class SellView : UIComponentUnity{
 	}
 
 	void ShowLastSureWindow(object args){
-		mainRoot.SetActive(false);
+//		mainRoot.SetActive(false);
+		mainRoot.transform.localPosition = new Vector3(0f,10000f,0f);
 		submitRoot.SetActive(true);
 		submitRoot.transform.localPosition = new Vector3(-1000, -215, 0);
 		iTween.MoveTo(submitRoot, iTween.Hash("x", 0, "time", 0.4f));
@@ -95,7 +115,11 @@ public class SellView : UIComponentUnity{
 			Texture2D tex2d = dataInfoList[ i ].UnitInfo.GetAsset(UnitAssetType.Avatar);
 			string level = dataInfoList[ i ].Level.ToString();
 			FindTextureWithPosition( i, readyItemList).mainTexture = tex2d ;
-			FindLabelWithPosition(i, readyItemList).text = "Lv: " + level;
+			FindLabelWithPosition(i, readyItemList).text = "LV" + level;
+
+			UISprite bgSpr = readyItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
+			UISprite borderSor = readyItemList[ i ].transform.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
+			ShowUnitType(dataInfoList[ i ], bgSpr, borderSor);
 		}
 	}
 
@@ -146,6 +170,9 @@ public class SellView : UIComponentUnity{
 		UISprite targetItemBorder = targetItem.transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
 		targetItemBorder.spriteName = info["border"] as string;
 
+		UILabel levelLabel = targetItem.transform.FindChild("Label_Right_Bottom").GetComponent<UILabel>();
+		levelLabel.text = "LV" + info["label"] as string;
+
 		MarkDragItem(clickPos, poolPos);
 	}
 
@@ -155,6 +182,13 @@ public class SellView : UIComponentUnity{
 		int clickPos = (int)info["clickPos"];
 		FindTextureWithPosition(poolPos, pickItemList).mainTexture = null;
 		FindLabelWithPosition(poolPos, pickItemList).text = string.Empty;
+
+		UISprite border = pickItemList[ poolPos ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
+		border.spriteName = "avatar_border_6";
+		
+		UISprite bg = pickItemList[ poolPos ].transform.FindChild("Background").GetComponent<UISprite>();
+		bg.spriteName = "unit_empty_bg";
+
 		CancelMarkDragItem(clickPos);
 	}
 	
@@ -173,6 +207,7 @@ public class SellView : UIComponentUnity{
 
 	void InitUIElement(){
 		mainRoot = transform.Find("MainWindow").gameObject;
+		pos = mainRoot.transform.localPosition;
 		submitRoot = transform.Find("EnsureWindow").gameObject;
 		coinLabel = transform.FindChild("MainWindow/SellCount/Label_Value").GetComponent<UILabel>();
 		readyCoinLabel = transform.FindChild("EnsureWindow/Label_GetCoinValue").GetComponent<UILabel>();
@@ -191,15 +226,15 @@ public class SellView : UIComponentUnity{
 
 	void ClickSellBtn(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		List<TUserUnit> temp = new List<TUserUnit>();
+		List<TUserUnit> picked = new List<TUserUnit>();
 		for (int i = 0; i < pickUnitViewList.Count; i++) {
-			TUserUnit tuu = pickUnitViewList[ i ].UserUnit;
-			if(tuu == null)
+			SellUnitItem sellUnitItem = pickUnitViewList[ i ];
+			if(sellUnitItem == null)
 				continue;
 
-			temp.Add(tuu);
+			picked.Add(sellUnitItem.UserUnit);
 		}
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", temp);
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", picked);
 		ExcuteCallback(cbdArgs);
 	}
 
@@ -342,27 +377,42 @@ public class SellView : UIComponentUnity{
 			bg.spriteName = "unit_empty_bg";
 		}
 
+		ResetReadyPool();
 		mainRoot.SetActive(true);
 		submitRoot.SetActive(false);
 	}
 
-	void ActivateButton(){
+	private void ActivateButton(){
 		bool canActivate = CanActivateSellBtn();
 		sellImgBtn.isEnabled = canActivate;
 		clearImgBtn.isEnabled = canActivate;
 	}
 
-	bool CanActivateSellBtn(){
+	/// <summary>
+	/// Determines whether this instance can activate sell button.
+	/// pickedUnitCount == 0 -> disabled sell btn and clear btn
+	/// </summary>
+	/// <returns><c>true</c> if this instance can activate sell button; otherwise, <c>false</c>.</returns>
+	private bool CanActivateSellBtn(){
 		bool canActivate = false;
-		if(GetCurPickedUnitCount() > 0)	return true;
-		else
+		if(GetCurPickedUnitCount() > 0){
+			//Debug.LogError("sell, pick count == " + GetCurPickedUnitCount() + ", enable sell btn...");
+			return true;
+		}
+		else{
+			//Debug.LogError("sell, pick count == 0, disable sell btn...");
 			return false;
+		}
 	}
 
-	int GetCurPickedUnitCount(){
+	/// <summary>
+	/// Gets the current picked unit count.
+	/// </summary>
+	/// <returns>The current picked unit count.</returns>
+	private int GetCurPickedUnitCount(){
 		int pickedCount = 0;
-		for (int i = 0; i < pickItemList.Count; i++){
-			if(pickItemList[ i ] !=null) 
+		for (int i = 0; i < pickUnitViewList.Count; i++){
+			if(pickUnitViewList[ i ] !=null) 
 				pickedCount++;
 		}
 		return pickedCount;
@@ -402,6 +452,42 @@ public class SellView : UIComponentUnity{
 	
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
+	}
+
+	private void ShowUnitType(TUserUnit tuu, UISprite avatarBg, UISprite avatarBorderSpr){
+		switch (tuu.UnitInfo.Type){
+			case EUnitType.UFIRE :
+				avatarBg.spriteName = "avatar_bg_1";
+				avatarBorderSpr.spriteName = "avatar_border_1";
+				break;
+			case EUnitType.UWATER :
+				avatarBg.spriteName = "avatar_bg_2";
+				avatarBorderSpr.spriteName = "avatar_border_2";
+				
+				break;
+			case EUnitType.UWIND :
+				avatarBg.spriteName = "avatar_bg_3";
+				avatarBorderSpr.spriteName = "avatar_border_3";
+				
+				break;
+			case EUnitType.ULIGHT :
+				avatarBg.spriteName = "avatar_bg_4";
+				avatarBorderSpr.spriteName = "avatar_border_4";
+				
+				break;
+			case EUnitType.UDARK :
+				avatarBg.spriteName = "avatar_bg_5";
+				avatarBorderSpr.spriteName = "avatar_border_5";
+				
+				break;
+			case EUnitType.UNONE :
+				avatarBg.spriteName = "avatar_bg_6";
+				avatarBorderSpr.spriteName = "avatar_border_6";
+				
+				break;
+			default:
+				break;
+		}
 	}
         
 }
