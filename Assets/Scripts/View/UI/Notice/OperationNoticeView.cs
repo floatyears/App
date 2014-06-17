@@ -17,6 +17,8 @@ public class OperationNoticeView : UIComponentUnity {
 
 	private GameObject content;
 
+//	private GameObject okBtn;
+
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
@@ -36,8 +38,9 @@ public class OperationNoticeView : UIComponentUnity {
 	
 	private void InitUI(){
 		content = this.FindChild ("Content/Table");
-
-		//contents = new Dictionary<string, string> ();
+//		okBtn = this.FindChild ("OkBtn");
+//		//contents = new Dictionary<string, string> ();
+//		UIokBtn
 
 		ResourceManager.Instance.LoadLocalAsset (sourcePath,o =>{
 			GameObject prefab = o as GameObject;
@@ -52,9 +55,6 @@ public class OperationNoticeView : UIComponentUnity {
 				}	
 			}
 		});
-
-	
-
 		
 
 //		contents.Add ("notice1", "content1\ndsf \ndsafsd \nasdfs");
@@ -84,6 +84,7 @@ public class OperationNoticeView : UIComponentUnity {
 	}
 
 	public void ClickOK(){
-		UIManager.Instance.ChangeScene (SceneEnum.Home);
+//		UIManager.Instance.ChangeScene (SceneEnum.Home);
+		HideUI ();
 	}
 }
