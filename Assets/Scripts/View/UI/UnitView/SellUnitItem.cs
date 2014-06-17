@@ -17,7 +17,7 @@ public class SellUnitItem : MyUnitItem {
 		get {
 			if(itemPrefab == null) {
 				string sourcePath = "Prefabs/UI/UnitItem/SaleUnitPrefab";
-				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject ;
+				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject ;
 			}
 			return itemPrefab;
 		}

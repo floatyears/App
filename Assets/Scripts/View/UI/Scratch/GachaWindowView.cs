@@ -72,19 +72,21 @@ public class GachaWindowView : UIComponentUnity {
 
         float side = 170.0f;
         UISprite bg = FindChild<UISprite>("Board/Bg");
-        for (int i = 0; i < DataCenter.maxGachaPerTime; i++){
-            GameObject gachaGrid = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Scratch/GachaGrid") as GameObject;
-            gachaGrid = NGUITools.AddChild(bg.gameObject, gachaGrid);
-            UIButton button = gachaGrid.GetComponent<UIButton>();
-            button.gameObject.transform.localPosition = new Vector3(-side + (i % 3) * side, side - (i / 3) * side, 0);
-            gridDict.Add( button.gameObject, i);
-            UIEventListener.Get( button.gameObject ).onClick = ClickButton;
-        }
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Scratch/GachaGrid", o => {
+			GameObject gachaGrid = o as GameObject;
+			for (int i = 0; i < DataCenter.maxGachaPerTime; i++) {
+				gachaGrid = NGUITools.AddChild (bg.gameObject, gachaGrid);
+				UIButton button = gachaGrid.GetComponent<UIButton> ();
+				button.gameObject.transform.localPosition = new Vector3 (-side + (i % 3) * side, side - (i / 3) * side, 0);
+				gridDict.Add (button.gameObject, i);
+				UIEventListener.Get (button.gameObject).onClick = ClickButton;
+			}
+		});
     }
 
     private Texture2D GetChessStarTextureByRareLevel(int rare){
         string path = string.Format("Texture/ChessStar{0}", rare);
-        Texture2D texture = ResourceManager.Instance.LoadLocalAsset (path) as Texture2D;
+        Texture2D texture = ResourceManager.Instance.LoadLocalAsset (path, null) as Texture2D;
         return texture;
     }
     

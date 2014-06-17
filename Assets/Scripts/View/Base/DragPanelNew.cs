@@ -20,8 +20,8 @@ public class DragPanelNew : ConcreteComponent,IDragPanel {
     private GameObject sourceObject;
 
     public DragPanelNew(string name) : base(name) {
-        Object dragPanel = ResourceManager.Instance.LoadLocalAsset(DragPanelView.DragPanelPath);
-        drag = NGUITools.AddChild(ViewManager.Instance.TopPanel.transform.parent.gameObject, dragPanel).GetComponent<DragPanelView>();
+		ResourceManager.Instance.LoadLocalAsset(DragPanelView.DragPanelPath, o =>{drag = NGUITools.AddChild(ViewManager.Instance.TopPanel.transform.parent.gameObject, o as GameObject).GetComponent<DragPanelView>();});
+        
     }
 
     public void AddItem(int count, GameObject source = null) {

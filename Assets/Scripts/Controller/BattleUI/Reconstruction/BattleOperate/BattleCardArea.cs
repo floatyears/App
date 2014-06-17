@@ -30,8 +30,11 @@ public class BattleCardArea : UIBaseUnity {
 		stateLabel = FindChild<UISprite>("StateLabel");
 		stateLabel.spriteName = string.Empty;
 		if (cardItem == null) {
-			GameObject go = LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab) as GameObject;
-			cardItem = go.transform.Find("Texture").gameObject;
+			LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab,o=>{
+				GameObject go = o as GameObject;
+				cardItem = go.transform.Find("Texture").gameObject;
+			});
+
 		}
 	}
 

@@ -598,7 +598,7 @@ public class DGTools {
 	}
 
 	static TextAsset LoadTextAsset (string url) {
-		return ResourceManager.Instance.LoadLocalAsset (url) as TextAsset;
+		return ResourceManager.Instance.LoadLocalAsset (url ,null) as TextAsset;
 	}
 
 	private static Dictionary<EUnitType, Color> typeColor = new Dictionary<EUnitType, Color> ();
@@ -645,7 +645,7 @@ public class DGTools {
 	}
 
 	public static FriendWindows CreatFriendWindow() {
-		GameObject go = ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Friend/FriendWindows") as GameObject;
+		GameObject go = ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Friend/FriendWindows",null) as GameObject;
 		GameObject instance = GameObject.Instantiate (go) as GameObject; // NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
 		Transform insTrans = instance.transform;
 		insTrans.parent = ViewManager.Instance.BottomPanel.transform;

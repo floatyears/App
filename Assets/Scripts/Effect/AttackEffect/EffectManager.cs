@@ -52,8 +52,8 @@ public class EffectManager {
 	private EffectManager() {
 		SetName ();
 		foreach (var item in effectName) {
-			GameObject go = ResourceManager.Instance.LoadLocalAsset("Effect/"+item.Value) as GameObject;
-			effectObject.Add(item.Key,go);
+			ResourceManager.Instance.LoadLocalAsset("Effect/"+item.Value,o => effectObject.Add(item.Key,o as GameObject));
+
 		}
 	}
 

@@ -21,15 +21,25 @@ public class CardCreaterZone : MonoBehaviour
 
 	void Start()
 	{
-		cardFire = ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/Card1")as GameObject;
-		cardWater = ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/Card2")as GameObject;
-		cardWind = ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/Card3")as GameObject;
-		cardBlood = ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/Card4")as GameObject;
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/Card1" ,o=>{
+			cardFire = o as GameObject;
+		});
 
-		cardOffset = new Vector3(0, 0, -1);
-		currentState = States.Empty;
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/Card2", o =>{
+			cardWater = o as GameObject;
+		});
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/Card3",o =>{
+			cardWind = o as GameObject;
+		});
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/Card4", o =>{
+			cardBlood = o as GameObject;
+			cardOffset = new Vector3(0, 0, -1);
+			currentState = States.Empty;
+			
+			CheckEmpty();
+		});
 
-		CheckEmpty();
+
 	}
 
 	void Update()

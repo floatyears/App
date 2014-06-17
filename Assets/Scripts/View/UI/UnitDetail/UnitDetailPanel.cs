@@ -206,9 +206,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void GetUnitMaterial(){
-		unitMaterial = ResourceManager.Instance.LoadLocalAsset("Materials/UnitMaterial") as Material;
-		if( unitMaterial == null )
-			Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
+		ResourceManager.Instance.LoadLocalAsset("Materials/UnitMaterial", o=>{
+			unitMaterial = o as Material;
+			if( unitMaterial == null )
+				Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
+		});
+
 	}
 
 	void LevelUp( object data){
@@ -229,7 +232,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void InitEffect(){
 //		string path = "Prefabs/UI/UnitDetail/LevelUpEffect";
 		string path = "Effect/HelixHealingYellow";
-		levelUpEffect = ResourceManager.Instance.LoadLocalAsset( path ) as GameObject;
+		ResourceManager.Instance.LoadLocalAsset( path , o =>{
+			levelUpEffect = o as GameObject;
+		});
 	}
 
 	void ClickTexture( GameObject go ){

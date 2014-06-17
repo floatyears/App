@@ -138,10 +138,13 @@ public class ControllerManager
 
 	public void ShowActor(int id) {
 		currentScene.HideUI ();
-		actor = ViewManager.Instance.GetViewObject (actorName) as ActorShow;
-		actor.Init (actorName);
-		actor.ShowUI ();
-		actor.ShowTextureID (id);
+		ViewManager.Instance.GetViewObject (actorName,o =>{
+			actor = o as ActorShow;
+			actor.Init (actorName);
+			actor.ShowUI ();
+			actor.ShowTextureID (id);
+		});
+
 	}
 
 	public void HideActor() {

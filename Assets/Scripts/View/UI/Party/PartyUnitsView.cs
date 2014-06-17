@@ -48,9 +48,14 @@ public class PartyUnitsView : UIComponentUnity {
 
 	void InitDragPanel(){
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
-		unitItem = ResourceManager.Instance.LoadLocalAsset( itemSourcePath ) as GameObject;
-		rejectItem = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem") as GameObject ;
-		InitDragPanelArgs();
+		ResourceManager.Instance.LoadLocalAsset( itemSourcePath , o =>{
+			unitItem = o as GameObject;
+		});
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o=>{
+			rejectItem = o as GameObject;
+			InitDragPanelArgs();
+		});
+
 	}
 
 	DragPanel CreateDragPanel( string name, int count){
