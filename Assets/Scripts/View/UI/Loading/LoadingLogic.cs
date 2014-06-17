@@ -213,17 +213,7 @@ public class LoadingLogic : ConcreteComponent {
 	void EnterGame () {
 //		
 
-		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
-		    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
-			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
-		}
-		else { // no 
-			if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
-			    && DataCenter.Instance.LoginInfo.Bonus.Count > 0 ) {
-				Debug.LogError("show Reward scene... ");
-				UIManager.Instance.ChangeScene (SceneEnum.Reward);	
-			}
-		}
+
 		//LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
 //		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
 //			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
@@ -239,6 +229,11 @@ public class LoadingLogic : ConcreteComponent {
 			
 			UIManager.Instance.ChangeScene(SceneEnum.Home);
 //		}
+
+		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
+		    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
+			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+		}
 	}
 
 	void SureRetry(object data) {

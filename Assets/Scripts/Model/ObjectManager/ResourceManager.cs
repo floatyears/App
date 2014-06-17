@@ -47,25 +47,29 @@ public class ResourceManager : MonoBehaviour{
 			}else if(path.IndexOf ("Prefabs") == 0){
 				ext = ".prefab";
 
-				ResourceAssetBundle key = GetBundleKeyByPath(path);
-
-				if(!assetBundles.ContainsKey(key)){
-					assetBundles[key] = new AssetBundleObj(key,path,callback);
-					StartCoroutine(DownloadResource(key));
-				}else{
-					if(assetBundles[key].isLoading){
-						assetBundles[key].callbackList.Add(path,callback);
-					}else{
-						if(callback != null){
-							callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), typeof(GameObject)));
-							return null;
-						}else{
-							return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), typeof(GameObject));
-						}
-					}
-
-				}
-				return null;
+//				ResourceAssetBundle key = GetBundleKeyByPath(path);
+//
+//				if(!assetBundles.ContainsKey(key)){
+//					assetBundles[key] = new AssetBundleObj(key,path,callback);
+//					StartCoroutine(DownloadResource(key));
+//				}else{
+//					if(assetBundles[key].isLoading){
+//						Debug.Log("======path: " + path);
+//						if(!assetBundles[key].callbackList.ContainsKey(path)){
+//							assetBundles[key].callbackList.Add(path,callback);
+//						}
+//					}else{
+//						if(callback != null){
+//							Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
+//							callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), typeof(GameObject)));
+//							return null;
+//						}else{
+//							return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), typeof(GameObject));
+//						}
+//					}
+//
+//				}
+//				return null;
 //				return uiAssets.Load(path);
 			}else if(path.IndexOf ("Atlas") == 0){
 				ext = ".prefab";
@@ -81,7 +85,7 @@ public class ResourceManager : MonoBehaviour{
 				ext = ".png";
 			}
 
-			Debug.Log ("assets load: " + "Assets/ResourceDownload/" + path + ext + "  "  + Resources.LoadAssetAtPath <Object>("Assets/ResourceDownload/" + path+ ext));
+//			Debug.Log ("assets load: " + "Assets/ResourceDownload/" + path + ext + "  "  + Resources.LoadAssetAtPath <Object>("Assets/ResourceDownload/" + path+ ext));
 			if(callback != null){
 				callback(Resources.LoadAssetAtPath<Object> ("Assets/ResourceDownload/" + path + ext));
 				return null;
@@ -148,8 +152,8 @@ public class ResourceManager : MonoBehaviour{
 			Debug.Log(www.error);		
 		}
 		yield return www;
-		assetBundles [key].isLoading = false;
 		assetBundles [key].assetBundle = www.assetBundle;
+		assetBundles [key].isLoading = false;
 
 		if(checkRelies(assetBundles [key])){
 			assetBundles [key].ExeCallback ();
@@ -254,8 +258,11 @@ public class AssetBundleObj{
 
 	public AssetBundleObj(ResourceAssetBundle rName,string path = null,ResourceCallback callback = null){
 		callbackList = new Dictionary<string,ResourceCallback >();
-		if(path != null)
+		if (path != null) {
 			callbackList.Add (path,callback);
+			Debug.Log("======path: " + path);
+		}
+			
 		name = rName;
 		relies = GetResourceRelyResource(name);
 	}
