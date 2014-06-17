@@ -106,6 +106,7 @@ public class ControllerManager
 		currentEnum = sEnum;
 		string uiName = sEnum.ToString();
 		currentScene = CreatScene(sEnum,uiName);
+//		currentScene.ShowUI();
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}
 
