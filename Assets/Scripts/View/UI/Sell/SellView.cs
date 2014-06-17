@@ -334,6 +334,14 @@ public class SellView : UIComponentUnity{
 			FindLabelWithPosition(i, readyItemList).text = string.Empty;
 		}
 
+		for (int i = 0; i < pickItemList.Count; i++){
+			UISprite border = pickItemList[ i ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
+			border.spriteName = "avatar_border_6";
+
+			UISprite bg = pickItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
+			bg.spriteName = "unit_empty_bg";
+		}
+
 		mainRoot.SetActive(true);
 		submitRoot.SetActive(false);
 	}
