@@ -58,17 +58,28 @@ public class UIBase : IUIInterface
 
 	public GameObject insUIObject;
 
-	public UIBase(string uiName)
-	{
+	protected int initCount = 0;
+//	protected bool battleInitEnd = false;
+
+	protected void BattleInitEnd () {
+		initCount++;
+	}
+
+	public UIBase(string uiName) {
+		GameInput.OnUpdate += InitEnd;
+
+		initCount = 0;
 		this.uiName = uiName;
-
 		currentState = UIState.UIInit;
-
 		main = Main.Instance;
-
 		controllerManger = ControllerManager.Instance;
-
 		viewManager = ViewManager.Instance;
+	}
+
+	void InitEnd() {
+		if (initCount==5) {
+			ShowUI();
+		}
 	}
 
 	public virtual void CreatUI ()

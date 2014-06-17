@@ -105,8 +105,6 @@ public class UIManager {
 	}
 
 	public void EnterBattle () {
-//		current.HideScene();
-//		baseScene.HideBase ();
 		baseScene.CurrentScene = SceneEnum.Fight;
 		ClearAllUIObject ();
 		Resources.UnloadUnusedAssets ();
