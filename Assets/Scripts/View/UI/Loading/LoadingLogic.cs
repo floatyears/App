@@ -233,7 +233,7 @@ public class LoadingLogic : ConcreteComponent {
 	}
 
 	void SureRetry(object data) {
-		Debug.LogError("SureRetry : ");
+//		Debug.LogError("SureRetry : ");
 		ConfigBattleUseData.Instance.ResetFromDisk();
 		RecoverParty ();
 		UIManager.Instance.EnterBattle();

@@ -20,7 +20,7 @@ public class levelUpOperateUI : ConcreteComponent {
 	public override void CallbackView (object data) {
 		Queue<TUserUnit> levelUpInfo = data as Queue<TUserUnit>;
 		if (levelUpInfo == null) {
-//			Debug.LogError("level up network data is error");	
+//			Debug.LogError("level up network data is error");
 			return;
 		}
 		
@@ -35,8 +35,7 @@ public class levelUpOperateUI : ConcreteComponent {
 		netBase.HelperUserUnit = friendUserUnit;
 		netBase.OnRequest (null, NetCallback);
 	}
-	
-	
+
 	void NetCallback(object data) {
 		//TODO: moving to logic
 		if (data != null) {
@@ -57,11 +56,14 @@ public class levelUpOperateUI : ConcreteComponent {
 				DataCenter.Instance.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
 	
 				DataCenter.Instance.UserUnitList.DelMyUnit (rspLevelUp.blendUniqueId);
-//			Debug.LogError("rspLevelUp.baseUnit : " + rspLevelUp.baseUnit.uniqueId + " rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
+//			
 				TUserUnit tuu = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
-//			Debug.LogError("rspLevelUp.baseUnit : " +DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
+
+				Debug.LogError("rspLevelUp.baseUnit : " + rspLevelUp.baseUnit.uniqueId + " rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
+				Debug.LogError("rspLevelUp.baseUnit : " +DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
+
 				foreach (uint partUniqueId in rspLevelUp.partUniqueId) {
-						DataCenter.Instance.UserUnitList.DelMyUnit (partUniqueId);
+					DataCenter.Instance.UserUnitList.DelMyUnit (partUniqueId);
 				}
 	
 				UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);

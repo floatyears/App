@@ -82,7 +82,7 @@ public class FriendHelperView : UIComponentUnity{
 		List<TFriendInfo> newest = DataCenter.Instance.SupportFriends;
 
 		if(generalFriendList == null){
-			Debug.LogError("CreateGeneralListView(), FIRST step in, create drag panel view...");
+//			Debug.LogError("CreateGeneralListView(), FIRST step in, create drag panel view...");
 			generalFriendList = newest;
 			RefreshDragView(generalDragPanel, FriendInfoType.General);
 		}
