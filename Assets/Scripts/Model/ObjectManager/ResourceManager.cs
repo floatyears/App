@@ -53,7 +53,7 @@ public class ResourceManager : MonoBehaviour{
 						assetBundles[key].callbackList.Add(path,callback);
 					}else{
 						if(callback != null){
-							callback(assetBundles[key].assetBundle);
+							callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1)));
 							return null;
 						}else{
 							return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1));
@@ -127,15 +127,15 @@ public class ResourceManager : MonoBehaviour{
 	IEnumerator DownloadResource(ResourceAssetBundle key){
 
 		string url = 
-	#if UNITY_IPHONE
+//	#if UNITY_IPHONE
 		"file://" + Application.dataPath + "/ResourceDownload/" + GetBundleUrlByKey(key);
-	#elif UNITY_ANDROID
-		"file://" + "jar:file://" + Application.dataPath + "/ResourceDownload/" + GetBundleUrlByKey(key);
-	#elif UNITY_STANDALONE_WIN || UNITY_EDITOR
-		"file://" + Application.dataPath + "/ResourceDownload/" + GetBundleUrlByKey(key);
-	#else
-		string.Empty;
-	#endif
+//	#elif UNITY_ANDROID
+//		"file://" + "jar:file://" + Application.dataPath + "/ResourceDownload/" + GetBundleUrlByKey(key);
+//	#elif UNITY_STANDALONE_WIN || UNITY_EDITOR
+//		"file://" + Application.dataPath + "/ResourceDownload/" + GetBundleUrlByKey(key);
+//	#else
+//		string.Empty;
+//	#endif
 		assetBundles [key].isLoading = true;
 
 		Debug.Log ("download url: " + url);

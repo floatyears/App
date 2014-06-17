@@ -58,7 +58,8 @@ public interface IUIComponentUnity :  IUIBaseComponent {
 /// logic ui interface
 /// </summary>
 public interface IUIComponent :  IUIBaseComponent {
-    void CreatUI();
+	void CreatUI();
+	void CreatUIAsyn(IUIComponent componnet);
 }
 
 //public interface IUICallback {

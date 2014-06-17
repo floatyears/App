@@ -25,14 +25,13 @@ public class LoadingLogic : ConcreteComponent {
     
     public override void ShowUI () {
 //		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
-//        GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
+//      GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
 
         base.ShowUI ();
     }
     
     public override void HideUI () {
         base.HideUI ();
-
 		DestoryUI ();
     }
 

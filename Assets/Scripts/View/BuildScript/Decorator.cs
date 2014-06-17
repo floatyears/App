@@ -22,12 +22,21 @@ public class DecoratorBase {
 		}
 	}
 
-	protected IUIComponent lastDecorator = null;
+	protected IUIComponent _lastDecorator = null;
+
+	protected IUIComponent lastDecorator {
+		get { return _lastDecorator; }
+		set { 
+			_lastDecorator = value; 
+			if(value != null) { 
+				_lastDecorator.CreatUIAsyn(value);
+			}
+		}
+	}
 
 	protected IUIComponent decorator = null;
 	
-	public virtual void DecoratorScene () {
-	}
+	public virtual void DecoratorScene () { }
 	
 	public virtual void HideScene () {
 		if(lastDecorator != null)

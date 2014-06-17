@@ -166,8 +166,7 @@ public class UIManager {
 		}
 	}
 	
-	DecoratorBase CreatScene(SceneEnum sEnum)
-	{
+	DecoratorBase CreatScene(SceneEnum sEnum) {
 //		Debug.LogError ("senum : " + sEnum);
 		DecoratorBase temp = null;
 		switch (sEnum)
