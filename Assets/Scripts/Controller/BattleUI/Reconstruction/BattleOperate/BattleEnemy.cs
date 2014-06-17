@@ -22,15 +22,15 @@ public class BattleEnemy : UIBaseUnity {
 
 	public override void Init (string name) {
 		base.Init (name);
-		effectPanel = transform.Find ("Effect").gameObject;
+		effectPanel = transform.Find ("Enemy/Effect").gameObject;
 		effectParent = transform.Find ("Enemy").gameObject;
 		effectItemPrefab = transform.Find ("Enemy/EnemyItem").gameObject;
 		effectItemPrefab.SetActive (false);
 		transform.localPosition += new Vector3 (0f, battle.cardHeight * 6.5f, 0f);
-		attackInfoLabel = FindChild<UISprite>("Label");
+		attackInfoLabel = FindChild<UISprite>("Enemy/Label");
 		attackInfoLabel.spriteName = "";
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
-		battleAttackInfo = FindChild<BattleAttackInfo>("AttackInfo");
+		battleAttackInfo = FindChild<BattleAttackInfo>("Enemy/AttackInfo");
 		battleAttackInfo.Init ();
 	}
 
