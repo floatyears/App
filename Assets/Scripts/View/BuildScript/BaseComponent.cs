@@ -158,10 +158,10 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 
 	private void CreateCallback(Object o){
 		if (o == null){
-			LogHelper.LogError("there is no ui with the path:"+uiConfig.resourcePath);
+			LogHelper.LogError("there is no ui with the path:" + uiConfig.resourcePath);
 			return;
 		}
-		Debug.LogError ("o : " +  o.name + "type : " + o.GetType() );
+//		Debug.LogError ("o : " +  o.name + "type : " + o.GetType() );
 		GameObject go = GameObject.Instantiate(o) as GameObject;
 		viewComponent = go.GetComponent<UIComponentUnity>();
 		if (viewComponent == null){

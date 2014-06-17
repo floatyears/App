@@ -1,1 +1,1 @@
-KSavePath:Assets/ResourceDownload/Output;Filename:UI_Atlas;Extension:unity3dy3d3dd
+HSavePath:Assets/ResourceDownload/Output;Filename:AllUI;Extension:unity3dy3dy3d3dd

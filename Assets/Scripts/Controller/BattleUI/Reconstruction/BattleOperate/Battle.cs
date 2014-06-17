@@ -408,7 +408,9 @@ public class Battle : UIBase {
 		GetPrefabsObject (name,o=>{
 			tempObject = o as GameObject;
 			tempObject.transform.parent = viewManager.CenterPanel.transform;
+
 			countDownUI = tempObject.GetComponent<CountDownUnity> ();
+			Debug.LogError(tempObject.name + " countDownUI : " + countDownUI);
 			countDownUI.Init ("CountDown");
 		});
 
