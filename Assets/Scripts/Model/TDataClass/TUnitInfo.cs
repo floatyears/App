@@ -242,14 +242,14 @@ public class TUnitInfo : ProtobufDataBase {
 		if (uat == UnitAssetType.Avatar) {
 			if (avatarTexture == null) {
 				path = string.Format ("Avatar/{0}", ID);
-				avatarTexture = ResourceManager.Instance.LoadLocalAsset (path) as Texture2D;
+				avatarTexture = ResourceManager.Instance.LoadLocalAsset (path,null) as Texture2D;
 			}
 			return avatarTexture;
 		} 
 		else  {
 			if(profileTexture == null) {
 				path = string.Format("Profile/{0}", ID) ;
-				profileTexture =  ResourceManager.Instance.LoadLocalAsset(path) as Texture2D;
+				profileTexture =  ResourceManager.Instance.LoadLocalAsset(path,null) as Texture2D;
 				
 			}
 			return profileTexture;

@@ -126,7 +126,7 @@ public class QuestItem : MonoBehaviour {
 		get{
 			if(itemPrefab == null) {
 				string sourcePath = "Prefabs/UI/Quest/QuestPrefab";
-				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject ;
+				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject ;
 			}
 			return itemPrefab;
 		}

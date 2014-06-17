@@ -56,29 +56,22 @@ public partial class TextCenter {
 
         //
 //		string[] data = File.ReadAllLines (Application.dataPath + "/Resources/Language/lang_en.txt");
-		string readData = (ResourceManager.Instance.LoadLocalAsset ("Language/lang_en") as TextAsset).text;
-		string[] data = readData.Split('\n');
-//		string[] data_splitOne = data.Split('#');
-//		for (int i = 0; i < data_splitOne.Length; i++) {
-//			if(data_splitOne[i].Length == 0) {
-//				continue;
-//			}
-//
-//			string[] data_splitTwo = data_splitOne[i].Split('=');
-//			for (int j = 0; j < data_splitTwo.Length; j++) {
-//
-//			}
-//		}
-		foreach (string s in data) {
-			//Debug.Log("config: " + s + "length: " + s.Length);
-			if(s.Length >0 && s[0] != '#'){
+		ResourceManager.Instance.LoadLocalAsset ("Language/lang_en", o => {
+						string readData = (o as TextAsset).text;
+						string[] data = readData.Split ('\n');
 
-				int i = s.IndexOf('=');
-				//Debug.Log("sub: " + s.Substring(0,i)+"   " +s.Substring(i));
-				textDict.Add(s.Substring(0,i),s.Substring(i+1));
-			}
+						foreach (string s in data) {
+								//Debug.Log("config: " + s + "length: " + s.Length);
+								if (s.Length > 0 && s [0] != '#') {
+					
+										int i = s.IndexOf ('=');
+										//Debug.Log("sub: " + s.Substring(0,i)+"   " +s.Substring(i));
+										textDict.Add (s.Substring (0, i), s.Substring (i + 1));
+								}
 				
-		}
+						}
+				});
+	}
 
 
 //        textDict.Add("OK", "OK");
@@ -237,5 +230,4 @@ public partial class TextCenter {
 //        textDict.Add("SERVER_500", "Now server is busy. Please wait and try again.");
 
 
-    }
 }

@@ -39,18 +39,21 @@ public class OperationNoticeView : UIComponentUnity {
 
 		//contents = new Dictionary<string, string> ();
 
-		GameObject prefab = ResourceManager.Instance.LoadLocalAsset (sourcePath) as GameObject;
+		ResourceManager.Instance.LoadLocalAsset (sourcePath,o =>{
+			GameObject prefab = o as GameObject;
+			if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
+				foreach (var nItem in DataCenter.Instance.NoticeInfo.NoticeList) {
+					GameObject item = NGUITools.AddChild(content,prefab);
+					
+					LogHelper.Log("------operation notice transform:" + item);
+					
+					item.transform.FindChild(titleLabel).GetComponent<UILabel>().text = nItem.title;
+					item.transform.FindChild(contentLabel).GetComponent<UILabel>().text = nItem.message;
+				}	
+			}
+		});
 
-		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
-			foreach (var nItem in DataCenter.Instance.NoticeInfo.NoticeList) {
-				GameObject item = NGUITools.AddChild(content,prefab);
-				
-				LogHelper.Log("------operation notice transform:" + item);
-				
-				item.transform.FindChild(titleLabel).GetComponent<UILabel>().text = nItem.title;
-				item.transform.FindChild(contentLabel).GetComponent<UILabel>().text = nItem.message;
-			}	
-		}
+	
 
 		
 

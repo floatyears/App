@@ -412,7 +412,7 @@ public class DataCenter {
         get {
             GameObject ret = getData(ModelEnum.ItemObject) as GameObject; 
             if (ret == null) {
-                ret = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/FriendScrollerItem") as GameObject;
+				ret = ResourceManager.Instance.LoadLocalAsset("Prefabs/Item/FriendScrollerItem",null) as GameObject;
                 setData(ModelEnum.ItemObject, ret);
             }
             return ret;
@@ -430,7 +430,7 @@ public class DataCenter {
 		if (!TempEffect.TryGetValue(name, out obj)) {
             string path = GetEffectPath(type,attackRange);
 			//never use the raw interface! Use ResourceManager instead
-			obj = ResourceManager.Instance.LoadLocalAsset(path);
+			obj = ResourceManager.Instance.LoadLocalAsset(path ,null);
            // obj = ResourceManager.Instance.LoadLocalAsset(path);
 			TempEffect.Add(name, obj);
         }
@@ -442,7 +442,7 @@ public class DataCenter {
 		if (!TempEffect.TryGetValue(name, out obj)) {
 			string path = EffectPath.Instance.GetEffectPath(name);
 			//never use the raw interface! Use ResourceManager instead
-			obj = ResourceManager.Instance.LoadLocalAsset(path);
+			obj = ResourceManager.Instance.LoadLocalAsset(path,null);
 		//	obj = ResourceManager.Instance.LoadLocalAsset(path);
 			TempEffect.Add(name, obj);
 		}
@@ -654,20 +654,24 @@ public class DataCenter {
 		return avatarAtalsDic[ index ];
 	}
 
-	private bool LoadAvatarAtlas(){
-		bool successful = false;
+	private void LoadAvatarAtlas(){
+//		bool successful = false;
 		for (uint i = 0; i < AVATAR_ATLAS_COUNT; i++){
 			string sourcePath = string.Format("Atlas/AvatarAtlas_{0}", i);
 			//never use the raw interface! Use ResourceManager instead
-			GameObject source = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
+			ResourceManager.Instance.LoadLocalAsset(sourcePath,o => {
+				GameObject source = o as GameObject;
+				UIAtlas atlas = source.GetComponent<UIAtlas>();
+				if(atlas == null){ 
+					Debug.LogError("LoadAvatarAtlas(), atlas is NULL");
+				}
+				avatarAtalsDic.Add(i, atlas);
+			});
 			//GameObject source = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
-			UIAtlas atlas = source.GetComponent<UIAtlas>();
-			if(atlas == null){ Debug.LogError("LoadAvatarAtlas(), atlas is NULL"); continue; }
-			avatarAtalsDic.Add(i, atlas);
 		}
-		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;
+//		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;
 //		Debug.Log("DataCenter.LoadAvatarAtlas(), successful is : " + successful);
-		return successful;
+//		return successful;
 	}
 
 

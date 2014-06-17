@@ -22,11 +22,16 @@ public class FightManager : MonoBehaviour
 
 	void Start()
 	{
-		cardCreaterPrefab = ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/CardCreaterZone")as GameObject;
-		cardCollectorPrefab = ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/CardCollectorZone")as GameObject;
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/CardCreaterZone", o =>{
+			cardCreaterPrefab = o as GameObject;
+		});
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/Fight/CardCollectorZone", o =>{
+			cardCollectorPrefab = o as GameObject;
+			CardCreaterZoneInit();
+			CardCollectorZoneInit();
+		});
 
-		CardCreaterZoneInit();
-		CardCollectorZoneInit();
+
 	}
 
 	void Update()

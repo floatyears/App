@@ -91,6 +91,7 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 	protected IUICallback origin;
 
 	public virtual void Init(UIInsConfig config,IUICallback origin = null) {
+
 		if(this.config == config)
 			return;
 
@@ -102,11 +103,14 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 			transform.localScale = Vector3.one;
 		}
 		InitHide ();
+
 	}
 
 	public virtual void ShowUI() {
+
 		if(config != null)
-		transform.localPosition = config.localPosition;
+			transform.localPosition = config.localPosition;
+
 	}
 
 	public virtual void HideUI() {

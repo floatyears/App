@@ -41,52 +41,67 @@ public class BattleQuest : UIBase {
 		InitData ();
 		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
 		string tempName = "Map";
-		battleMap = viewManager.GetBattleMap(tempName) as BattleMap;
-		battleMap.transform.parent = viewManager.TopPanel.transform;
-		battleMap.transform.localPosition = new Vector3 (0f, 0f, 0f);
-		battleMap.transform.localScale = Vector3.one;
-		battleMap.BQuest = this;
-		Init(battleMap,tempName);
+		viewManager.GetBattleMap(tempName, o =>{
+			battleMap = o as BattleMap;
+			battleMap.transform.parent = viewManager.TopPanel.transform;
+			battleMap.transform.localPosition = new Vector3 (0f, 0f, 0f);
+			battleMap.transform.localScale = Vector3.one;
+			battleMap.BQuest = this;
+			Init(battleMap,tempName);
+		});
+
 		tempName = "Role";
-		role = viewManager.GetBattleMap(tempName) as Role;
-		role.transform.parent = viewManager.TopPanel.transform;
-		role.transform.localPosition = Vector3.zero;
-		role.transform.localScale = Vector3.one;
-		role.BQuest = this;
-		Init(role,tempName);
-		background = viewManager.GetViewObject(backgroundName) as BattleBackground;
-		background.transform.parent = viewManager.BottomPanel.transform;
-		background.transform.localPosition = Vector3.zero;
-		background.Init (backgroundName);
-		background.SetBattleQuest (this);
-		questData.questId = questDungeonData.QuestId;
-		InitTopUI ();
-		battle = new Battle("Battle");
-		battle.CreatUI();
-		battle.HideUI ();
-		CreatEffect ();
-		bud = new BattleUseData (this);
+		viewManager.GetBattleMap(tempName, o =>{
+			role = o as Role;
+			role.transform.parent = viewManager.TopPanel.transform;
+			role.transform.localPosition = Vector3.zero;
+			role.transform.localScale = Vector3.one;
+			role.BQuest = this;
+			Init(role,tempName);
+		});
 
-		AddSelfObject (battleMap);
-		AddSelfObject (role);
-		AddSelfObject (background);
+		viewManager.GetViewObject(backgroundName , o=>{
+			background =  o as BattleBackground;
+			background.transform.parent = viewManager.BottomPanel.transform;
+			background.transform.localPosition = Vector3.zero;
+			background.Init (backgroundName);
+			background.SetBattleQuest (this);
+			questData.questId = questDungeonData.QuestId;
+			InitTopUI ();
+			battle = new Battle("Battle");
+			battle.CreatUI();
+			battle.HideUI ();
+			CreatEffect ();
+			bud = new BattleUseData (this);
+			
+			AddSelfObject (battleMap);
+			AddSelfObject (role);
+			AddSelfObject (background);
+			
+			roleStateException = new RoleStateException ();
+			roleStateException.AddListener ();
+		});
 
-		roleStateException = new RoleStateException ();
-		roleStateException.AddListener ();
 	}
 
 	void CreatEffect () {
 		if (attackEffect == null) {
-			GameObject go = ResourceManager.Instance.LoadLocalAsset("Effect/AttackEffect") as GameObject;
-			go = NGUITools.AddChild (ViewManager.Instance.ParentPanel, go);
-			go.transform.localPosition = battle.battleRootGameObject.transform.localPosition;
-			attackEffect = go.GetComponent<AttackEffect> ();	
+			 ResourceManager.Instance.LoadLocalAsset("Effect/AttackEffect", o => {
+				GameObject go = NGUITools.AddChild (ViewManager.Instance.ParentPanel, o as GameObject);
+				go.transform.localPosition = battle.battleRootGameObject.transform.localPosition;
+				attackEffect = go.GetComponent<AttackEffect> ();	
+			});
+
 		}
 	}
 	
 	void InitTopUI () {
-		GameObject go = ResourceManager.Instance.LoadLocalAsset ("Prefabs/Fight/TopUI") as GameObject;
-		go = GameObject.Instantiate (go) as GameObject;
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/Fight/TopUI",CallbackFunc);
+	
+	}
+
+	private void CallbackFunc(object o){
+		GameObject go = GameObject.Instantiate ((o as Object) as GameObject) as GameObject;
 		go.transform.parent = viewManager.TopPanel.transform;
 		go.transform.localScale = Vector3.one;
 		topUI = go.GetComponent<TopUI> ();
@@ -235,12 +250,15 @@ public class BattleQuest : UIBase {
 	}
 
 	void CreatBoosAppear () {
-		GameObject obj = ResourceManager.Instance.LoadLocalAsset("Prefabs/QuestFullScreenTips") as GameObject;
-		Vector3 pos = obj.transform.localPosition;
-		GameObject go = NGUITools.AddChild (viewManager.EffectPanel, obj);
-		go.transform.localPosition = pos;
-		questFullScreenTips = go.GetComponent<QuestFullScreenTips> ();
-		questFullScreenTips.Init("QuestFullScreenTips");
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/QuestFullScreenTips", o => {
+				GameObject obj = o as GameObject;
+				Vector3 pos = obj.transform.localPosition;
+				GameObject go = NGUITools.AddChild (viewManager.EffectPanel, obj);
+				go.transform.localPosition = pos;
+				questFullScreenTips = go.GetComponent<QuestFullScreenTips> ();
+				questFullScreenTips.Init ("QuestFullScreenTips");
+		});
+
 	}
 
 	void ShowScene () {
@@ -961,16 +979,18 @@ public class BattleQuest : UIBase {
 //		battle.SwitchInput (true);
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
-		GameObject obj = ResourceManager.Instance.LoadLocalAsset("Prefabs/Victory") as GameObject;
-		Vector3 tempScale = obj.transform.localScale;
-		obj = NGUITools.AddChild(viewManager.CenterPanel,obj);
-		obj.transform.localScale = tempScale;
-		VictoryEffect ve = obj.GetComponent<VictoryEffect>();
-		ve.Init("Victory");
-		ve.battleQuest = this;
-		ve.ShowData (clearQuest);
-		ve.PlayAnimation(questEnd);
-		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_victory);
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/Victory", o => {
+			GameObject obj = o as GameObject;
+			Vector3 tempScale = obj.transform.localScale;
+			obj = NGUITools.AddChild(viewManager.CenterPanel,obj);
+			obj.transform.localScale = tempScale;
+			VictoryEffect ve = obj.GetComponent<VictoryEffect>();
+			ve.Init("Victory");
+			ve.battleQuest = this;
+			ve.ShowData (clearQuest);
+			ve.PlayAnimation(questEnd);
+			AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_victory);
+		});
 	}
 
 	void BattleFail(object data) {

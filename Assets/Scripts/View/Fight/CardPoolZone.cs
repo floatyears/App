@@ -13,14 +13,24 @@ public class CardPoolZone : MonoBehaviour
 	private Vector3 cardOffset;
 	void Start()
 	{
-		Card1 = ResourceManager.Instance.LoadLocalAsset("Prefabs/Cards/Card1")as GameObject;
-		Card2 = ResourceManager.Instance.LoadLocalAsset("Prefabs/Cards/Card2")as GameObject;
-		Card3 = ResourceManager.Instance.LoadLocalAsset("Prefabs/Cards/Card3")as GameObject;
-		Card4 = ResourceManager.Instance.LoadLocalAsset("Prefabs/Cards/Card4")as GameObject;
-		cardOffset = new Vector3(0, 0, -5);
-		GiveID();
-		currentState=States.empty;
-		CheckEmpty();
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/Cards/Card1",o =>{
+			Card1 = o as GameObject;
+		});
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/Cards/Card2", o =>{
+			Card2 = o as GameObject;
+		});
+
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/Cards/Card3", o =>{
+			Card3 = o as GameObject;
+		});
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/Cards/Card4", o =>{
+			Card4 = o as GameObject;
+			cardOffset = new Vector3(0, 0, -5);
+			GiveID();
+			currentState=States.empty;
+			CheckEmpty();
+		});
+
 	}
 
 	void Update()

@@ -292,12 +292,15 @@ public class BattleEnemy : UIBaseUnity {
 	}
 
 	void SkillRecoverSP(object data) {
-		GameObject obj = ResourceManager.Instance.LoadLocalAsset("Effect/jiufeng") as GameObject;
-		if (obj != null) {
-			Transform trans = obj.transform;
-			prevEffect = NGUITools.AddChild(effectPanel, obj);
-			DGTools.CopyTransform(prevEffect.transform, trans);
-		}
+		ResourceManager.Instance.LoadLocalAsset ("Effect/jiufeng", o => {
+			GameObject obj = o as GameObject;
+			if (obj != null) {
+				Transform trans = obj.transform;
+				prevEffect = NGUITools.AddChild (effectPanel, obj);
+				DGTools.CopyTransform (prevEffect.transform, trans);
+			}
+		});
+
 	} 
 	
 	void ExcuteActiveSkillEnd(object data) {

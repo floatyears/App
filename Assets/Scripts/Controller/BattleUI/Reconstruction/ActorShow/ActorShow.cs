@@ -31,20 +31,24 @@ public class ActorShow : UIBaseUnity{
 		UIEventListener.Get (prevButton.gameObject).onClick = PrevTexture;
 		UIEventListener.Get (nextButton.gameObject).onClick = NextTexture;
 
-		string info = (ResourceManager.Instance.LoadLocalAsset ("Config/Config") as TextAsset).text;
+		ResourceManager.Instance.LoadLocalAsset ("Config/Config", CallbackFunc);
 
+	}
+
+	private void CallbackFunc(object o){
+		Object obj = o as Object;
+		string info = (obj as TextAsset).text;
 		string[] listInfo = info.Split ('#');
-
+		
 		for (int i = 1; i < listInfo.Length; i++) {
 			if(string.IsNullOrEmpty(listInfo[i]))
 				continue;
-
+			
 			string[] data = listInfo[i].Split('|');
 			int id = System.Int32.Parse(data[0].Trim());
 			textureConfig.Add(id,data[1].Trim());
-		}
-	}
-	
+		}}
+
 	public override void ShowUI (){
 		base.ShowUI ();
 		gameObject.SetActive (true);
@@ -70,16 +74,21 @@ public class ActorShow : UIBaseUnity{
 			showTexture.enabled = true;
 		}
 
-		Texture2D tex = GetTexture(id);
+		GetTexture (id);
+	}
+
+	void GetTexture(int id)
+	{
+		string path = "Actor/" + textureConfig [id];
+		ResourceManager.Instance.LoadLocalAsset (path,CallbackFunc1);
+	}
+
+	private void CallbackFunc1(object o1){
+		Object obj = o1  as Object;
+		Texture2D tex = obj as Texture2D;
 		showTexture.mainTexture = tex;
 		showTexture.width = tex.width;
 		showTexture.height =tex.height;
-	}
-
-	Texture2D GetTexture(int id)
-	{
-		string path = "Actor/" + textureConfig [id];
-		return ResourceManager.Instance.LoadLocalAsset (path) as Texture2D;
 	}
 
 	UITexture temp;

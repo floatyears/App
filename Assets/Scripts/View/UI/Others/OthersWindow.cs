@@ -43,47 +43,49 @@ public class OthersWindow : UIComponentUnity {
 	
 	void SetOption() {
 		string itemPath = "Prefabs/UI/Others/OtherOptions";
-		GameObject item = ResourceManager.Instance.LoadLocalAsset( itemPath ) as GameObject;
-		
+		ResourceManager.Instance.LoadLocalAsset( itemPath ,CallbackFunc);
+	}
+
+	void CallbackFunc(Object o){
+		GameObject item = o as GameObject;
 		othersScroller = new DragPanel ( "OthersScroller", scrollerItem );
 		othersScroller.CreatUI ();
-
+		
 		GameObject musicOption = othersScroller.AddScrollerItem( item );
 		musicOption.name = "MusicOption";
 		musicOption.GetComponentInChildren<UILabel>().text = "Music";
 		options.Add( musicOption, musicPanel );
-
+		
 		GameObject nickNameOption = othersScroller.AddScrollerItem( item );
 		nickNameOption.name = "NickNameOption";
 		nickNameOption.GetComponentInChildren<UILabel>().text = "NickName";
 		options.Add( nickNameOption, nickNamePanel );
-
+		
 		//raider
 		GameObject raiderOption = othersScroller.AddScrollerItem( item );
 		raiderOption.name = "RaiderOption";
 		raiderOption.GetComponentInChildren<UILabel>().text = "Raider";
 		options.Add( raiderOption, nickNamePanel );
-
+		
 		//raider
 		GameObject currencyOption = othersScroller.AddScrollerItem( item );
 		currencyOption.name = "CurrencyOption";
 		currencyOption.GetComponentInChildren<UILabel>().text = "Currency";
 		options.Add( currencyOption, nickNamePanel );
-
-        resetOption = othersScroller.AddScrollerItem( item );
-        resetOption.name = "ResetOption";
-        resetOption.GetComponentInChildren<UILabel>().text = "Reset Data";
-        options.Add( resetOption, nickNamePanel );
-
-
-
+		
+		resetOption = othersScroller.AddScrollerItem( item );
+		resetOption.name = "ResetOption";
+		resetOption.GetComponentInChildren<UILabel>().text = "Reset Data";
+		options.Add( resetOption, nickNamePanel );
+		
+		
+		
 		Transform parentTrans = FindChild("OptionItems").transform;
 		othersScroller.DragPanelView.SetScrollView(ConfigDragPanel.OthersDragPanelArgs, parentTrans);
 		
 		for(int i = 0; i < othersScroller.ScrollItem.Count; i++)
 			UIEventListener.Get( othersScroller.ScrollItem[ i ].gameObject ).onClick = ClickOption;
 	}
-
 
 	void ClickOption( GameObject go) {
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);

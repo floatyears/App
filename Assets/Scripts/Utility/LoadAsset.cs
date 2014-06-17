@@ -45,20 +45,22 @@ public class LoadAsset
 			return null;
 	}
 
-	public Object LoadAssetFromResources(string name,ResourceEuum rEnum)
+	public void LoadAssetFromResources(string name,ResourceEuum rEnum, ResourceCallback callback)
 	{
 //		Object obj = GetCache(name);
 
 //		if(obj == null)
 //		{
-			string reallyPath = DisposePathByType(rEnum) + name;
+		string reallyPath = DisposePathByType(rEnum) + name;
 
-			Object obj = ResourceManager.Instance.LoadLocalAsset (reallyPath);//Resources.Load(reallyPath);
+		ResourceManager.Instance.LoadLocalAsset (reallyPath,o=>{
+			callback(o);
+		});//Resources.Load(reallyPath);
 			
 //			objectDic.Add(name,obj);
 //		}
 
-		return obj;
+//		return obj;
 	}
 
 //	public Texture2D LoadMapItem()

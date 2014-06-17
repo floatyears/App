@@ -23,75 +23,75 @@ public class NoviceGuideUtil {
 
 		Vector3 dir;
 		int i = 0,len = posAndDir.Length;
-
-		foreach (GameObject parent in parents) {
-
-			GameObject obj = LoadAsset.Instance.LoadAssetFromResources("NoviceGuideArrow",ResourceEuum.Prefab) as GameObject;
-//			GameObject arrow = GameObject.Instantiate(obj,new Vector3(pos.x,pos.y,0),dir) as GameObject;
-			GameObject arrow = NGUITools.AddChild(parent, obj);
-			TweenPosition tPos = arrow.GetComponent<TweenPosition>();
-
-			Vector3 size =  Vector3.zero;
-			try{
-				size = parent.GetComponent<BoxCollider>().size;
-			}catch(MissingComponentException e){
-				LogHelper.LogWarning(e.ToString());
-				size = parent.transform.localPosition;
-			}
-
-			switch(i < len ? (int)posAndDir[i].z : 0)
-			{
-				//point to the top
-			case 3:
-				dir = new Vector3(0.0f,0.0f,180.0f);// = Quaternion.FromToRotation(new Vector3(1,0,0),Vector3.zero);
-				tPos.to.y = -size.y/2 -32 + posAndDir[i].y;
-				tPos.from.y = -size.y/2-62.0f + posAndDir[i].y;
-				tPos.to.x = posAndDir[i].x;
-				tPos.from.x = posAndDir[i].x;
-				break;
-				//point to the right
-			case 4:
-				dir = new Vector3(0f,0f,90f);
-				//					dir = Quaternion.FromToRotation(new Vector3(-1,0,0),Vector3.zero);
-				tPos.to.x = -size.x/2 - 32 + posAndDir[i].x;
-				tPos.from.x = -size.x/2-62.0f + posAndDir[i].x;
-				tPos.to.y = posAndDir[i].y;
-				tPos.from.y = posAndDir[i].y;
-				break;
-				//point to the bottom
-			case 1:
-				//					dir = Quaternion.FromToRotation(new Vector3(0,1,0),Vector3.zero);
-				dir = new Vector3(0f,0f,0f);
-				tPos.to.y = size.y/2 + 32+ posAndDir[i].y;
-				tPos.from.y = size.y/2+62.0f+ posAndDir[i].y;
-				tPos.to.x = posAndDir[i].x;
-				tPos.from.x = posAndDir[i].x;
-				break;
-			case 2:
-				//point to the left
-				//					dir = Quaternion.FromToRotation(new Vector3(0,-1,0),Vector3.zero);
-				dir = new Vector3(0f,0f,270f);
-				tPos.to.x = size.x/2 + 32+ posAndDir[i].x;
-				tPos.from.x = size.x/2+62.0f+ posAndDir[i].x;
-				tPos.to.y = posAndDir[i].y;
-				tPos.from.y = posAndDir[i].y;
-				break;
-			default:
-				dir = Vector3.zero;
-				break;
-			}
-
-			arrow.transform.Rotate(dir);
-			NGUITools.AdjustDepth(arrow,1000);
-//			if(obj.transform.parent != null)
-//			{
-				//LogHelper.Log("-------///-......parent is not null: " + obj.transform.parent);
-//			}
-			LogHelper.Log("=====add arrow dic key: " + parent.GetInstanceID() + parent.name);
-
-			arrows.Add(parent.GetInstanceID() + parent.name,arrow);
-			i++;
-		}
+		LoadAsset.Instance.LoadAssetFromResources ("NoviceGuideArrow", ResourceEuum.Prefab, o => {
+						GameObject obj = o as GameObject;
+						foreach (GameObject parent in parents) {
+								//			GameObject arrow = GameObject.Instantiate(obj,new Vector3(pos.x,pos.y,0),dir) as GameObject;
+								GameObject arrow = NGUITools.AddChild (parent, obj);
+								TweenPosition tPos = arrow.GetComponent<TweenPosition> ();
+				
+								Vector3 size = Vector3.zero;
+								try {
+										size = parent.GetComponent<BoxCollider> ().size;
+								} catch (MissingComponentException e) {
+										LogHelper.LogWarning (e.ToString ());
+										size = parent.transform.localPosition;
+								}
+				
+								switch (i < len ? (int)posAndDir [i].z : 0) {
+								//point to the top
+								case 3:
+										dir = new Vector3 (0.0f, 0.0f, 180.0f);// = Quaternion.FromToRotation(new Vector3(1,0,0),Vector3.zero);
+										tPos.to.y = -size.y / 2 - 32 + posAndDir [i].y;
+										tPos.from.y = -size.y / 2 - 62.0f + posAndDir [i].y;
+										tPos.to.x = posAndDir [i].x;
+										tPos.from.x = posAndDir [i].x;
+										break;
+								//point to the right
+								case 4:
+										dir = new Vector3 (0f, 0f, 90f);
+					//					dir = Quaternion.FromToRotation(new Vector3(-1,0,0),Vector3.zero);
+										tPos.to.x = -size.x / 2 - 32 + posAndDir [i].x;
+										tPos.from.x = -size.x / 2 - 62.0f + posAndDir [i].x;
+										tPos.to.y = posAndDir [i].y;
+										tPos.from.y = posAndDir [i].y;
+										break;
+								//point to the bottom
+								case 1:
+					//					dir = Quaternion.FromToRotation(new Vector3(0,1,0),Vector3.zero);
+										dir = new Vector3 (0f, 0f, 0f);
+										tPos.to.y = size.y / 2 + 32 + posAndDir [i].y;
+										tPos.from.y = size.y / 2 + 62.0f + posAndDir [i].y;
+										tPos.to.x = posAndDir [i].x;
+										tPos.from.x = posAndDir [i].x;
+										break;
+								case 2:
+					//point to the left
+					//					dir = Quaternion.FromToRotation(new Vector3(0,-1,0),Vector3.zero);
+										dir = new Vector3 (0f, 0f, 270f);
+										tPos.to.x = size.x / 2 + 32 + posAndDir [i].x;
+										tPos.from.x = size.x / 2 + 62.0f + posAndDir [i].x;
+										tPos.to.y = posAndDir [i].y;
+										tPos.from.y = posAndDir [i].y;
+										break;
+								default:
+										dir = Vector3.zero;
+										break;
+								}
+				
+								arrow.transform.Rotate (dir);
+								NGUITools.AdjustDepth (arrow, 1000);
+								//			if(obj.transform.parent != null)
+								//			{
+								//LogHelper.Log("-------///-......parent is not null: " + obj.transform.parent);
+								//			}
+								LogHelper.Log ("=====add arrow dic key: " + parent.GetInstanceID () + parent.name);
+				
+								arrows.Add (parent.GetInstanceID () + parent.name, arrow);
+								i++;
+						}
+				});
+		
 	}
 
 	public static void RemoveAllArrows(){
@@ -120,24 +120,36 @@ public class NoviceGuideUtil {
 	public static void showTipText(string text,Vector2 pos = default(Vector2)){
 		LogHelper.Log ("--------------///////tip text: " + text);
 		if (tipText == null) {
-			GameObject tip = LoadAsset.Instance.LoadAssetFromResources ("TipText", ResourceEuum.Prefab) as GameObject;
-			tipText = GameObject.Instantiate(tip) as GameObject;
-			Transform trans = tipText.transform;
-			trans.parent = ViewManager.Instance.CenterPanel.transform;
-			trans.localPosition = Vector3.zero;
-			//trans.position =Vector3.zero;
-			trans.gameObject.layer = ViewManager.Instance.CenterPanel.layer;
-			trans.localScale = Vector3.one;
+			LoadAsset.Instance.LoadAssetFromResources ("TipText", ResourceEuum.Prefab, o => {
+				GameObject tip = o as GameObject;
+				tipText = GameObject.Instantiate (tip) as GameObject;
+				Transform trans = tipText.transform;
+				trans.parent = ViewManager.Instance.CenterPanel.transform;
+				trans.localPosition = Vector3.zero;
+				//trans.position =Vector3.zero;
+				trans.gameObject.layer = ViewManager.Instance.CenterPanel.layer;
+				trans.localScale = Vector3.one;
+				
+				NGUITools.AdjustDepth (tipText, 100);
+				
+				tipText.SetActive (true);
+				
+				tipText.transform.localPosition = new Vector3 (pos.x, pos.y, 0);
+				LogHelper.Log ("tip text position: " + tipText.transform.position);
+				
+				tipText.GetComponent<TipText> ().SetText (text);
+			});
 
-			NGUITools.AdjustDepth(tipText,100);
+		} else {
+			tipText.SetActive (true);
+			
+			tipText.transform.localPosition = new Vector3 (pos.x, pos.y, 0);
+			LogHelper.Log ("tip text position: " + tipText.transform.position);
+			
+			tipText.GetComponent<TipText>().SetText(text);
 		}
 
-		tipText.SetActive (true);
 
-		tipText.transform.localPosition = new Vector3 (pos.x, pos.y, 0);
-		LogHelper.Log ("tip text position: " + tipText.transform.position);
-
-		tipText.GetComponent<TipText>().SetText(text);
 
 	}
 
