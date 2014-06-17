@@ -431,7 +431,7 @@ public class Battle : UIBase {
 			tempObject.transform.parent = viewManager.CenterPanel.transform;
 
 			countDownUI = tempObject.GetComponent<CountDownUnity> ();
-			Debug.LogError(tempObject.name + " countDownUI : " + countDownUI);
+//			Debug.LogError(tempObject.name + " countDownUI : " + countDownUI);
 			countDownUI.Init ("CountDown");
 
 			initEnd++;

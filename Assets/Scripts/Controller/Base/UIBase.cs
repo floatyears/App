@@ -78,6 +78,7 @@ public class UIBase : IUIInterface
 
 	void InitEnd() {
 		if (initCount==5) {
+			GameInput.OnUpdate -= InitEnd;
 			ShowUI();
 		}
 	}
