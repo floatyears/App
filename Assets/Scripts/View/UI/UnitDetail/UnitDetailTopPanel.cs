@@ -22,7 +22,8 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	public bool fobidClick = false;
 
 	UIButton favBtn;
-	
+	GameObject unitLock;
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		//GetUnitMaterial();
@@ -58,6 +59,7 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 //		}
 //		//ClearEffectCache();
 //		UIManager.Instance.ShowBaseScene();
+		DestoryUnitLock();
 	}
 	
 	public override void DestoryUI () {
@@ -186,8 +188,8 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	}
 
 	private void UpdateFavView(int isFav){
-		//ResourceManager.Instance.LoadLocalAsset("","");
-		UISprite background = favBtn.transform.FindChild("Background").GetComponent<UISprite>();
+
+		UISprite background = unitLock.transform.FindChild("Background").GetComponent<UISprite>();
 		//Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
 			background.spriteName = "Fav_Lock_Close";
@@ -208,11 +210,35 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	}
 
 	private void ShowFavState(object msg){
+		AddUnitLock();
 		UpdateFavView(curUserUnit.IsFavorite);
 	}
 
-	private void DestoryFavBtn(){
 
+	/// <summary>
+	/// Destories the unit lock.
+	/// </summary>
+	private void DestoryUnitLock(){
+		if(unitLock == null){
+			Debug.LogError("unitLock == null, destory it...");
+			return;
+		}
+		GameObject.Destroy(unitLock);
 	}
+
+	private void AddUnitLock(){
+		if(unitLock != null){
+			Debug.LogError("unitLock != null, add one...");
+			return;
+		}
+		string path = "ResourceDownload/Prefabs/UI/UnitDetail/FavLock";
+		unitLock = ResourceManager.Instance.LoadLocalAsset(path, CreateUnitLock) as GameObject;
+	}
+
+	private void CreateUnitLock(object obj){
+		NGUITools.AddChild(gameObject, unitLock);
+	}
+
+
 
 }
