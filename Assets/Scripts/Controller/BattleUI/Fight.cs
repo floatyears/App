@@ -72,32 +72,35 @@ public class Fight : UIBase
 
 	void CreateMulti()
 	{
-		GameObject go = LoadAsset.Instance.LoadAssetFromResources("Card",ResourceEuum.Prefab) as GameObject;
-
-		multiPoolParent = NGUITools.AddChild(parentObject);
-
-		multiPoolParent.transform.localPosition += new Vector3(0f,100f,0f);
-
-		multiPoolParent.name = "multiPoolParent";
-
-		cardMultiItem = new CardPoolMutilItem[Config.cardPoolSingle];
-		
-		for (int i = 0; i < Config.cardPoolSingle; i++)
-		{
-			tempObject = NGUITools.AddChild(multiPoolParent,go);
-
-			tempObject.layer = GameLayer.BattleCard;
-
-			NGUITools.AddWidgetCollider(tempObject);
-
-			CardPoolMutilItem cpmi = tempObject.AddComponent<CardPoolMutilItem>();
+		LoadAsset.Instance.LoadAssetFromResources("Card",ResourceEuum.Prefab,o=>{
+			GameObject go = o as GameObject;
+			multiPoolParent = NGUITools.AddChild(parentObject);
 			
-			cpmi.Init("CardMultiPool" + i);
+			multiPoolParent.transform.localPosition += new Vector3(0f,100f,0f);
 			
-			cpmi.SetInitPosition(i);
+			multiPoolParent.name = "multiPoolParent";
 			
-			cardMultiItem[i] = cpmi;
-		}
+			cardMultiItem = new CardPoolMutilItem[Config.cardPoolSingle];
+			
+			for (int i = 0; i < Config.cardPoolSingle; i++)
+			{
+				tempObject = NGUITools.AddChild(multiPoolParent,go);
+				
+				tempObject.layer = GameLayer.BattleCard;
+				
+				NGUITools.AddWidgetCollider(tempObject);
+				
+				CardPoolMutilItem cpmi = tempObject.AddComponent<CardPoolMutilItem>();
+				
+				cpmi.Init("CardMultiPool" + i);
+				
+				cpmi.SetInitPosition(i);
+				
+				cardMultiItem[i] = cpmi;
+			}
+		});
+
+
 	}
 
 	public override void HideUI ()

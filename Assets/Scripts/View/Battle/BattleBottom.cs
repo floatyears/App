@@ -26,11 +26,14 @@ public class BattleBottom : MonoBehaviour {
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
-		battleSkillObject = ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill") as GameObject;
-		battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, battleSkillObject);
-		battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
-		battleSkill.Init ("BattleSkill");
-		battleSkillObject.SetActive (false);
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill",o =>{
+			battleSkillObject = o as GameObject;
+			battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, battleSkillObject);
+			battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
+			battleSkill.Init ("BattleSkill");
+			battleSkillObject.SetActive (false);
+		});
+
 		if (upi == null) {
 			upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		}

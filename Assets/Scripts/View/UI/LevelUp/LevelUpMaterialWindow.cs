@@ -80,10 +80,13 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 		string name = "MaterialDragPanel";
 		int count = ConfigViewData.OwnedUnitInfoList.Count;
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
-		GameObject itemGo =  ResourceManager.Instance.LoadLocalAsset( itemSourcePath ) as GameObject;
-		materialDragPanel = CreateDragPanel( name, count, itemGo) ;
-		FillDragPanel( materialDragPanel );
-		materialDragPanel.DragPanelView.SetScrollView(ConfigDragPanel.LevelUpMaterialDragPanelArgs, transform);
+		ResourceManager.Instance.LoadLocalAsset( itemSourcePath ,o =>{
+			GameObject itemGo = o as GameObject;
+			materialDragPanel = CreateDragPanel( name, count, itemGo) ;
+			FillDragPanel( materialDragPanel );
+			materialDragPanel.DragPanelView.SetScrollView(ConfigDragPanel.LevelUpMaterialDragPanelArgs, transform);
+		});
+
 	}
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){

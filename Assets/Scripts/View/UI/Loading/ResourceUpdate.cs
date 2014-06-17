@@ -358,7 +358,6 @@ public class ResourceUpdate : MonoBehaviour {
 
 	IEnumerator Download(string url, CompleteDownloadCallback callback)
 	{
-
 		WWW www = new WWW (url);
 		globalWWW = www;
 		Debug.Log (globalWWW);

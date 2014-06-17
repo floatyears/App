@@ -90,7 +90,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 			//Debug.LogError("ConcreteComponent  component ShowUI : " + component + "  this : " + this + " viewComponent : " + viewComponent);
 			component.ShowUI();		
 		}
-//		Debug.LogError("ConcreteComponent  component ShowUI : " + component + "  this : " + this + " viewComponent : " + viewComponent);
+		Debug.LogError("ConcreteComponent  component ShowUI : " + component + "  this : " + this + " viewComponent : " + viewComponent);
 		if (viewComponent != null) {
 			viewComponent.ShowUI();
 		}
@@ -103,8 +103,8 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 //		Debug.LogError("viewComponent : " + viewComponent);
 
 		if (viewComponent != null) {
-						viewComponent.HideUI ();
-				}
+			viewComponent.HideUI ();
+		}
 	}
 
 	public virtual void DestoryUI() {
@@ -144,25 +144,27 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 
 	protected void CreatViewComponent() {
 		if (viewComponent == null) {
-			Object o = ResourceManager.Instance.LoadLocalAsset(uiConfig.resourcePath) as Object;
-			if (o == null){
-				LogHelper.LogError("there is no ui with the path:"+uiConfig.resourcePath);
-				return;
-			}
-				
-			
-			GameObject go = GameObject.Instantiate(o) as GameObject;
-			viewComponent = go.GetComponent<UIComponentUnity>();
-			if (viewComponent == null){
-				LogHelper.LogError("the component of the ui:{0} is null",uiConfig.resourcePath);
-				return;
-			}
-				
-			viewCallback = viewComponent;
-			viewComponent.Init(uiConfig, this);
+			ResourceManager.Instance.LoadLocalAsset(uiConfig.resourcePath,CreateCallback);
 		}
 	}
-	
+
+	private void CreateCallback(Object o){
+		if (o == null){
+			LogHelper.LogError("there is no ui with the path:"+uiConfig.resourcePath);
+			return;
+		}
+		
+		GameObject go = GameObject.Instantiate(o) as GameObject;
+		viewComponent = go.GetComponent<UIComponentUnity>();
+		if (viewComponent == null){
+			LogHelper.LogError("the component of the ui:{0} is null",uiConfig.resourcePath);
+			return;
+		}
+		
+		viewCallback = viewComponent;
+		viewComponent.Init(uiConfig, this);
+	}
+
 	protected IUIComponent component;
 	
 	/// <summary>

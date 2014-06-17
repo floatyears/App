@@ -130,12 +130,15 @@ public class TopUI : UIBaseUnity {
 	}
 
 	void CreatBattleMenu () {
-		GameObject go = ResourceManager.Instance.LoadLocalAsset ("Prefabs/BattleMenu") as GameObject;
-		go = NGUITools.AddChild (ViewManager.Instance.TopPanel, go);
-		go.transform.localPosition = new Vector3 (0f, -Screen.height / 2.0f, 0f);
-		go.layer = GameLayer.BottomInfo;
-		battleMenu = go.GetComponent<BattleMenu> ();
-		battleMenu.battleQuest = battleQuest;
-		battleMenu.Init ("BattleMenu");
+		 ResourceManager.Instance.LoadLocalAsset ("Prefabs/BattleMenu", o => {
+			GameObject go = o as GameObject;
+			go = NGUITools.AddChild (ViewManager.Instance.TopPanel, go);
+			go.transform.localPosition = new Vector3 (0f, -Screen.height / 2.0f, 0f);
+			go.layer = GameLayer.BottomInfo;
+			battleMenu = go.GetComponent<BattleMenu> ();
+			battleMenu.battleQuest = battleQuest;
+			battleMenu.Init ("BattleMenu");
+		});
+
 	}
 }

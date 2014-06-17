@@ -6,7 +6,7 @@ public class DragPanelDynamic {
 	public static GameObject DragPanelPrefab {
 		get {
 			if(dragPanelPrefab == null) {
-				dragPanelPrefab = ResourceManager.Instance.LoadLocalAsset(DragPanelView.DragPanelPath) as GameObject;
+				dragPanelPrefab = ResourceManager.Instance.LoadLocalAsset(DragPanelView.DragPanelPath,null) as GameObject;
 			}
 			return dragPanelPrefab;
 		}

@@ -51,10 +51,13 @@ public class ModelManager {
 
     //init config data
     void InitConfigData() {
-        TextAsset obj = ResourceManager.Instance.LoadLocalAsset(UIConfig.UIInsConfigPath) as TextAsset;
-        string info = obj.text;
-        UIIns ins = new UIIns(info);
-        SetData(ModelEnum.UIInsConfig, ins);
+		ResourceManager.Instance.LoadLocalAsset(UIConfig.UIInsConfigPath,o => {
+			TextAsset obj = o as TextAsset;
+			string info = obj.text;
+			UIIns ins = new UIIns(info);
+			SetData(ModelEnum.UIInsConfig, ins);
+		});
+        
 //		MapConfig mc = new MapConfig ();
 //		SetData (ModelEnum.MapConfig, mc);
     }

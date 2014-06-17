@@ -222,14 +222,14 @@ public class LoadingLogic : ConcreteComponent {
 
 //		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
-			StartFight();
-//			TurnToReName();
-		} else {
+//		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
+//			StartFight();
+////			TurnToReName();
+//		} else {
 			UIManager.Instance.ChangeScene(SceneEnum.Start);
 			
 			UIManager.Instance.ChangeScene(SceneEnum.Home);
-		}
+//		}
 	}
 
 	void SureRetry(object data) {
