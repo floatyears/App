@@ -158,7 +158,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 
 	private void CreateCallback(Object o){
 		if (o == null){
-			LogHelper.LogError("there is no ui with the path:"+uiConfig.resourcePath);
+			LogHelper.LogError("there is no ui with the path:" + uiConfig.resourcePath);
 			return;
 		}
 		Debug.LogError ("o : " +  o.name + "type : " + o.GetType() );

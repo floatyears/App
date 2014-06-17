@@ -147,9 +147,9 @@ public class ExportResource : EditorWindow {
 		SaveExportConfig ();
 
 		//select platform
-		if (pt.Equals(PLATFORM_OP.iOS))
+		if (op.Equals(PLATFORM_OP.iOS))
 			tgtPlatform = BuildTarget.iPhone;
-		else if (pt.Equals(PLATFORM_OP.Android))
+		else if (op.Equals(PLATFORM_OP.Android))
 			tgtPlatform = BuildTarget.Android;
 
 		//file extension...temporarily only unity3d..maybe there will be others later.

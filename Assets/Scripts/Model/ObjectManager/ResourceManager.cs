@@ -25,6 +25,10 @@ public class ResourceManager : MonoBehaviour{
 
 	public Object LoadLocalAsset( string path, ResourceCallback callback ) {
 		//the following resource will not be dynamiclly download.
+		if (string.IsNullOrEmpty (path)) {
+			return null;	
+		}
+
 		if (path.IndexOf ("Loading") >= 0 || path.IndexOf ("UIInsConfig") >= 0 || path.IndexOf ("ScreenMask") >= 0 || path.IndexOf ("CommonNoteWindow") >= 0) {
 			if (callback != null){
 				callback (Resources.Load (path));
@@ -262,7 +266,7 @@ public class AssetBundleObj{
 			if(item.Key == ResourceManager.RelyOnSource){
 				item.Value(null);
 			}else{
-				item.Value(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1)));
+				item.Value(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1),typeof(GameObject)));
 			}
 		}
 		callbackList.Clear ();
