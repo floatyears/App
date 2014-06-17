@@ -104,14 +104,9 @@ public class TEnemyInfo : ProtobufDataBase {
 			MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 			return;
 		}
-
 		if (initBlood <= 0) {
-
-				initBlood = 0;	
-				IsDead = true;
-
-//			Debug.LogError("initBlood : " + initBlood);
-//			Debug.LogError("novice stage: " + NoviceGuideStepEntityManager.CurrentNoviceGuideStage);
+			initBlood = 0;	
+			IsDead = true;
 		}
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
@@ -187,23 +182,18 @@ public class TEnemyInfo : ProtobufDataBase {
 		return initAttackRound;
 	}
 
-//	public int GetBlood () {
-//		return initBlood;
-//	}
-
 	public int DropUnit () {
 		return -1;
 	}
 
 	public int GetUnitType () {
-//		Debug.LogError ("EnemyInfo ().type : " + EnemyInfo ().type);
 		return (int)EnemyInfo ().type;
 	}
 
 	private bool isDead = false;
 	public bool IsDead {
 		get { return isDead; }
-		set { 
+		set {
 			isDead = value; 
 			if(isDead) {
 				RemoveListener();

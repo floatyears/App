@@ -16,9 +16,9 @@ public class BattleUseData {
 				if(blood == 0) 
 					return;
 				blood = 0;
+				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 				PlayerDead();
 			} else if(value > maxBlood) {
-
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				if(blood < maxBlood) {
 					MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);

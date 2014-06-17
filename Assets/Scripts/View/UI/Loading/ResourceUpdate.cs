@@ -14,15 +14,15 @@ public class ResourceUpdate : MonoBehaviour {
 	//private static string serverVersionURL = serverResURL + "version.txt";
 
 	public static string localResPath = 
-#if UNITY_IPHONE
+//#if UNITY_IPHONE
 	"file://" + Application.dataPath + "/ResourceDownload/Download";//"/Raw";
-#elif UNITY_ANDROID
-	"file://" + "jar:file://" + Application.dataPath + "!/assets/";
-#elif UNITY_STANDALONE_WIN || UNITY_EDITOR
-	"file://" + Application.dataPath + "/StreamingAssets/";
-#else
-	string.Empty;
-#endif
+//#elif UNITY_ANDROID
+//	"file://" + "jar:file://" + Application.dataPath + "!/assets/";
+//#elif UNITY_STANDALONE_WIN || UNITY_EDITOR
+//	"file://" + Application.dataPath + "/StreamingAssets/";
+//#else
+//	string.Empty;
+//#endif
 	private static string localVersionPath = localResPath + "/version.txt";
 
 //	private Dictionary<string, string[]> localVersionDic;
@@ -200,10 +200,11 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 	public void StartDownload(){
 		StartCoroutine (Download (serverVersionURL, delegate(WWW serverVersion) {
-			Debug.Log("download serverVersion:"+serverVersion.text);
+//			Debug.Log("download serverVersion:"+serverVersion.text);
 			LoadVersionConfig(serverVersion.text,serverVersionDic);
 			
 			//load the local version.txt. if not exists, jump through the init.
+//			Debug.LogError(" StartDownload : " + localVersionPath);
 			StartCoroutine(Download(localVersionPath,delegate(WWW localVersion) {
 				if(string.IsNullOrEmpty(localVersion.error))
 				{
@@ -365,7 +366,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 
 		if (!string.IsNullOrEmpty (www.error)) {
-			Debug.Log(www.error+":" + url);
+			Debug.Log(www.error+" : " + url);
 		}
 		//call the callback nomatter what errors.
 		if (callback != null) {

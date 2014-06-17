@@ -112,14 +112,21 @@ public class ViewManager {
 		bottomLeftPanel =  trans.Find ("BottomLeft").gameObject;
 //		trapLabel = mainUIRoot.transform.Find ("RootPanel/BottomLeft/Label").GetComponent<UILabel> ();
 
-		ResourceManager.Instance.LoadLocalAsset("Font/Dimbo Regular",o =>{
+		ResourceManager.Instance.LoadLocalAsset("Font/Dimbo Regular", o =>{
 			dynamicFont = o as Font;
 			manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
-		});
+		}
+		);
 
 //		Debug.LogError("manualHeight : " + manualHeight);
 //		DragPanelDynamic dpd 
 	}
+
+//	void Callback(object o) {
+//		Debug.LogError ("o : " + o);
+//		dynamicFont = o as Font;
+//		manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
+//	}
 	
 	public void ShowTipsLabel (string content) {
 		tipsLabelUI.ShowInfo (content);

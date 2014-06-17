@@ -76,6 +76,7 @@ public class BattleCardArea : UIBaseUnity {
 
 	void StateInfo(object data) {
 		string info = (string)data;
+//		Debug.LogError ("StateInfo : " + info);
 		if (string.IsNullOrEmpty (info) && !string.IsNullOrEmpty(stateLabel.spriteName)) {
 			HideStateLabel(string.Empty);
 			return;
@@ -88,7 +89,7 @@ public class BattleCardArea : UIBaseUnity {
 		if (stateLabel.spriteName == info) {
 			return;	
 		}
-
+//		Debug.LogError ("StateInfo 2: " + info);
 		if (info == DGTools.stateInfo [4]) {
 			prevInfo = stateLabel.spriteName;
 		}
@@ -99,6 +100,7 @@ public class BattleCardArea : UIBaseUnity {
 		} else {
 			HideStateLabel("ShowStateLabel");
 		}
+
 		DGTools.ShowSprite (stateLabel, info);
 	}
 

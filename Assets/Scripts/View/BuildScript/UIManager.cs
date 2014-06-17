@@ -157,15 +157,16 @@ public class UIManager {
 		else{
 			DecoratorBase db = CreatScene(sEnum);
 			current = db;
+
+			return;
 		}
 
 		if (current != null) {
-			current.ShowScene();		
+			current.ShowScene();
 		}
 	}
 	
-	DecoratorBase CreatScene(SceneEnum sEnum)
-	{
+	DecoratorBase CreatScene(SceneEnum sEnum) {
 //		Debug.LogError ("senum : " + sEnum);
 		DecoratorBase temp = null;
 		switch (sEnum)
@@ -301,7 +302,6 @@ public class UIManager {
 			temp = new GameCurrencyDecorator(sEnum);
 			break;
         }
-
 
 		if (temp != null) {
 			temp.SetDecorator (baseScene);
