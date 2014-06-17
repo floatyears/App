@@ -266,7 +266,7 @@ public class AssetBundleObj{
 			if(item.Key == ResourceManager.RelyOnSource){
 				item.Value(null);
 			}else{
-				item.Value(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1)));
+				item.Value(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1),typeof(GameObject)));
 			}
 		}
 		callbackList.Clear ();
