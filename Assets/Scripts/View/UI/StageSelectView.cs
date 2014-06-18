@@ -110,15 +110,13 @@ public class StageSelectView : UIComponentUnity{
 			Debug.LogError("received : " + received);
 			DestoryStages();
 			FillView();
-		}
-		else if(!currPickedCityInfo.Equals(received)){
+		} else if(!currPickedCityInfo.Equals(received)){
 			//when picked city changed
 			Debug.Log("recorded picked cityInfo is changed, update stage view...");
 			currPickedCityInfo = received;
 			DestoryStages();
 			FillView();
-		}
-		else{
+		} else{
 			//when picked city not changed
 			Debug.Log("recorded picked cityInfo is not changed, keep stage view...");
 		}
