@@ -37,13 +37,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			} 
 		} else {
 			if (friendWindow != null) {
-				friendWindow.HideUI ();
+				friendWindow.HideUI();
 			}
 		}
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		friendWindow.DestoryUI ();
 		sortRule = SortRule.None;
 		myUnitDragPanel.DestoryDragPanel ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
@@ -530,7 +531,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 //		}
 	}
 
-	Queue<TUserUnit> levelUpInfo = new Queue<TUserUnit>() ;
+	List<TUserUnit> levelUpInfo = new List<TUserUnit>() ;
 	void CheckLevelUp() {
 		levelUpInfo.Clear ();
 		TUserUnit baseItem = selectedItem [baseItemIndex].UserUnit;
@@ -538,18 +539,18 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			levelUpButton.isEnabled = false;
 			return;	
 		}
-		levelUpInfo.Enqueue (baseItem);
+		levelUpInfo.Add (baseItem);
 
 		TUserUnit friendInfo = selectedItem [friendItemIndex].UserUnit;
 		if (friendInfo == null) {
 			levelUpButton.isEnabled = false;
 			return;	
 		}
-		levelUpInfo.Enqueue (friendInfo);
+		levelUpInfo.Add (friendInfo);
 
 		for (int i = 1; i < 5; i++) {
 			if(selectedItem[i].UserUnit != null) {
-				levelUpInfo.Enqueue(selectedItem[i].UserUnit);
+				levelUpInfo.Add(selectedItem[i].UserUnit);
 			}
 		}
 

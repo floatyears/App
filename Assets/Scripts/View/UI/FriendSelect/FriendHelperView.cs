@@ -17,10 +17,11 @@ public class FriendHelperView : UIComponentUnity{
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
+		transform.localPosition -= transform.parent.localPosition;
 	}
 
 	public override void ShowUI() {
-		transform.localPosition -= transform.parent.localPosition;
+
 		base.ShowUI();
 		AddCmdListener();
 

@@ -16,20 +16,25 @@ public class levelUpOperateUI : ConcreteComponent {
 		}
 	}
 	
-
+	List<TUserUnit> levelUpInfo = null;
 	public override void CallbackView (object data) {
-		Queue<TUserUnit> levelUpInfo = data as Queue<TUserUnit>;
+		levelUpInfo = data as List<TUserUnit>;
 		if (levelUpInfo == null) {
 //			Debug.LogError("level up network data is error");
 			return;
 		}
 		
 		LevelUp netBase = new LevelUp ();
-		TUserUnit baseUserUnit = levelUpInfo.Dequeue();
-		TUserUnit friendUserUnit = levelUpInfo.Dequeue ();
-		while (levelUpInfo.Count > 0) {
-			netBase.PartUniqueId.Add(levelUpInfo.Dequeue().ID);
+		TUserUnit baseUserUnit = levelUpInfo[0];	
+		TUserUnit friendUserUnit = levelUpInfo[1];
+//		while (levelUpInfo.Count > 0) {
+//			netBase.PartUniqueId.Add(levelUpInfo.Dequeue().ID);
+//		}
+
+		for (int i = levelUpInfo.Count - 1; i > 1; i--) {
+			netBase.PartUniqueId.Add(levelUpInfo[i].ID);
 		}
+
 		netBase.BaseUniqueId = baseUserUnit.ID;
 		netBase.HelperUserId = friendUserUnit.ID;
 		netBase.HelperUserUnit = friendUserUnit;
@@ -45,7 +50,10 @@ public class levelUpOperateUI : ConcreteComponent {
 						ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow (rspLevelUp.header.code);
 						return;
 				}
-	
+
+
+				levelUpInfo.Clear();
+
 				//			update money
 				DataCenter.Instance.AccountInfo.Money = (int)rspLevelUp.money;
 	
