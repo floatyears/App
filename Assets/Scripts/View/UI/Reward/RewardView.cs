@@ -30,7 +30,8 @@ public class RewardView : UIComponentUnity {
 		base.HideUI();
 
 		Debug.Log ("bonusIDs: " + bonusIDs.Count);
-		AcceptBonus.SendRequest(null,bonusIDs);
+		if(bonusIDs.Count > 0)
+			AcceptBonus.SendRequest(null,bonusIDs);
 		bonusIDs.Clear ();
 	}
 	
