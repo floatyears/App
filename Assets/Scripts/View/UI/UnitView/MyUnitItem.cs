@@ -25,13 +25,13 @@ public class MyUnitItem : BaseUnitItem {
 	}
 
 	private bool isFavorite;
-	public bool IsFavorite{
+	public bool IsFavorite {
 		get{
 			return isFavorite;
 		}
 		set{
 			isFavorite = value;
-			UpdateFavoriteState();
+			UpdateFavoriteState ();
 		}
 	}
 

@@ -92,34 +92,33 @@ public class BaseUnitItem : MonoBehaviour {
 		SetCommonState();
 	}
 
-	protected virtual void RefreshState(){
+	protected virtual void RefreshState() {
 		if(userUnit == null){
 			SetEmptyState();
 			return;
 		}
 		SetCommonState();
 	}
-	private void ExecuteCrossFade(){
+	private void ExecuteCrossFade() {
 		if (! IsInvoking("UpdateCrossFadeState"))
 			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
 	}
 
 	void CheckCross() {
-		if(userUnit.AddNumber == 0){ 
+		if(userUnit.AddNumber == 0) { 
 			canCrossed = false;
 		}
-		else{
-			canCrossed = true;;
+		else {
+			canCrossed = true;
 		}
 	}
 
-	protected virtual void UpdatEnableState(){
+	protected virtual void UpdatEnableState() {
 		maskSpr.enabled = !IsEnable;
 		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
 		listener.LongPress = PressItem;
 
 		if (IsEnable) {
-
 			listener.onClick = ClickItem;
 		} else {
 			listener.onClick = null;

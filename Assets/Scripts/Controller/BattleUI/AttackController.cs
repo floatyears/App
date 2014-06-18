@@ -249,8 +249,6 @@ public class AttackController {
 			DisposeRecoverHP(ai);
 			break;
 		}
-
-
 	}
 
 	List<TEnemyInfo> deadEnemy = new List<TEnemyInfo>();
