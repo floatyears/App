@@ -34,8 +34,8 @@ public class ModelManager {
     public void Init() {
 //		Debug.LogWarning("model manager init");
         InitConfigData();
-        InitData();
-
+        
+		InitData();
         //new all server protocol handler
         InitNetworkHandler();
     }
@@ -56,6 +56,8 @@ public class ModelManager {
 			string info = obj.text;
 			UIIns ins = new UIIns(info);
 			SetData(ModelEnum.UIInsConfig, ins);
+
+
 		});
         
 //		MapConfig mc = new MapConfig ();

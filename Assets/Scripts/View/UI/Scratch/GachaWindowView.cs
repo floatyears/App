@@ -274,7 +274,9 @@ public class GachaWindowView : UIComponentUnity {
         }
         LogHelper.Log("ShowUnitById(), unitId {0}", currentUnitInfo.ID);
 
-        texture.mainTexture = currentUnitInfo.GetAsset(UnitAssetType.Avatar);
+		currentUnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+			texture.mainTexture = o as Texture2D;
+		});
         UILabel rightBottom = grid.transform.FindChild("Cell/Label_Right_Bottom").GetComponent<UILabel>();
         rightBottom.text = TextCenter.GetText("Lv", level);
 

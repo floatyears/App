@@ -437,8 +437,9 @@ public class EvolveItem {
 		} else {
 			borderSprite.enabled = true;
 			ShowUnitType();
-			Texture2D tex = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-			showTexture.mainTexture = tex;
+			userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+				showTexture.mainTexture = o as Texture2D;
+			});
 		}
 	}
 

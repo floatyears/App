@@ -113,7 +113,9 @@ public class ApplyMessageView : UIComponentUnity{
 	void ShowCenterContent(object args){
 		TFriendInfo tfi = args as TFriendInfo;
 
-		avatarTexture.mainTexture = tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+			avatarTexture.mainTexture = o as Texture2D;
+		});
 		if(tfi.NickName == string.Empty)
 			nameLabel.text = "NoName";
 		else

@@ -98,10 +98,12 @@ public class MainMenuView : UIComponentUnity{
 		if(leaderUnitInfo == null){
 			//first step in
 //			Debug.Log("UpdateLeaderAvatar(), Leader data is FRIST assigned.");
-			leaderAvatarTex.mainTexture = newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile);
+			newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile,o=>{
+				leaderAvatarTex.mainTexture = o as Texture2D;
+				SetUVByConfig();
+				leaderUnitInfo = newestLeaderUnit.UnitInfo;
+			} );
 
-			SetUVByConfig();
-			leaderUnitInfo = newestLeaderUnit.UnitInfo;
 			return;
 		}
 
@@ -109,10 +111,13 @@ public class MainMenuView : UIComponentUnity{
 //			Debug.LogError("else if  leaderUnitInfo.ID  : " + leaderUnitInfo.ID + " newestLeaderUnit.UnitInfo.ID : " +newestLeaderUnit.UnitInfo.ID);
 			//changed
 //			Debug.Log("UpdateLeaderAvatar(), Leader data CHANGED." + newestLeaderUnit.UnitInfo.ID + " leaderUnitInfo: " + leaderUnitInfo.ID);
-			leaderAvatarTex.mainTexture = newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile);
+			newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile, o =>{
+				leaderAvatarTex.mainTexture = o as Texture2D;
+				SetUVByConfig();
+				leaderUnitInfo = newestLeaderUnit.UnitInfo;
+			});
  
-			SetUVByConfig();
-			leaderUnitInfo = newestLeaderUnit.UnitInfo;
+
 		}
 		else{
 			//not changed
