@@ -55,7 +55,7 @@ public class levelUpOperateUI : ConcreteComponent {
 	
 				DataCenter.Instance.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
 	
-				DataCenter.Instance.UserUnitList.DelMyUnit (rspLevelUp.blendUniqueId);
+//				DataCenter.Instance.UserUnitList.DelMyUnit (rspLevelUp.blendUniqueId);
 //			
 				TUserUnit tuu = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
 
@@ -70,7 +70,7 @@ public class levelUpOperateUI : ConcreteComponent {
 
 				MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 				
-			MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
+				MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
 //							Debug.LogError("rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
 				MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
 		}

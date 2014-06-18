@@ -48,9 +48,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		myUnitDragPanel.DestoryDragPanel ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
-	bool clear = false;
+	bool clear = true;
 	public override void ResetUIState () {
-//		Debug.LogError ("levelup ResetUIState");
+		Debug.LogError ("levelup ResetUIState");
 		clear = true;
 		ClearData ();
 		CheckLevelUp ();
@@ -127,7 +127,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
-//		Debug.LogError ("clear : " + clear);
+//		Debug.LogError ("ShowData : " + clear);
 		if (!clear) {
 			return;	
 		}
@@ -211,8 +211,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		ClearData ();
 		uint blendID = (uint)data;
 		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
-		Debug.LogError ("tuu.ID : " + tuu.ID + " tuu.level : " + tuu.Level);
+		Debug.LogError ("ResetUIAfterLevelUp tuu.ID : " + tuu.ID + " tuu.level : " + tuu.Level);
 		selectedItem [baseItemIndex].UserUnit = tuu;
+		int index = myUnit.FindIndex (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
+		if (index > -1) {
+			myUnit[index] = tuu;
+		}
+		myUnitDragPanel.RefreshItem (tuu);
 		UpdateBaseInfoView();
 	}
 

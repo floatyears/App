@@ -104,7 +104,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		if (baseData != null) {
 			baseData.IsFocus = false;	
 		}
-		baseData = evolveDragItem.Find (a => a.UserUnit.UnitInfo.ID == tuu.UnitInfo.ID);
+		baseData = evolveDragItem.Find (a => a.UserUnit.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
 		baseData.IsFocus = true;
 		materialInfo.Clear ();
 		int count = tuu.UnitInfo.evolveInfo.materialUnitId.Count;
