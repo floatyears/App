@@ -6,6 +6,7 @@ public class FriendWindows : FriendHelperView {
 	public bool isShow = false;
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config, origin);
+//		transform.localPosition -= transform.parent.localPosition;
 	}
 
 	public override void ShowUI () {
@@ -21,11 +22,14 @@ public class FriendWindows : FriendHelperView {
 
 	public override void HideUI () {
 		isShow = false;	
-		base.HideUI ();
+		if (gameObject.activeSelf) {
+			gameObject.SetActive(false);
+		}
+//		base.HideUI ();
 	}
 
 	public override void DestoryUI () {
-		base.DestoryUI ();
+		Destroy (gameObject);
 	}
 	
 	protected override void ClickHelperItem (HelperUnitItem item) {

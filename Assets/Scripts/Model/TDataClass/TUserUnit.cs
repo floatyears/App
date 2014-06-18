@@ -565,9 +565,9 @@ public class UserUnitList {
             return;
         }
         Del(DataCenter.Instance.UserInfo.UserId, uniqueId);
-        foreach (var item in userUnitInfo) {
-            TUserUnit tUnit = item.Value as TUserUnit;
-        }
+//        foreach (var item in userUnitInfo) {
+//            TUserUnit tUnit = item.Value as TUserUnit;
+//        }
     }
 
     public  void Add(uint userId, uint uniqueId, TUserUnit uu) {
@@ -584,6 +584,7 @@ public class UserUnitList {
 
 	public void Add(TUserUnit tuu) {
 		string key = tuu.MakeUserUnitKey();
+//		Debug.LogError ("add userunit : " + key + " containts : " + userUnitInfo.ContainsKey (key));
 		if (!userUnitInfo.ContainsKey (key)) {
 			userUnitInfo.Add(key, tuu);		
 		}
@@ -604,7 +605,7 @@ public class UserUnitList {
     }
 
     public TUserUnit AddMyUnit(UserUnit unit) {
-		TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, unit); 
+		TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, unit);
 		Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, tuu);
 		return tuu;
     }
@@ -623,6 +624,7 @@ public class UserUnitList {
 
     public  void Del(uint userId, uint uniqueId) {
         string key = MakeUserUnitKey(userId, uniqueId);
+		Debug.LogError ("del my unit : " + userId + " unitqueid : " + uniqueId);
         if (userUnitInfo.ContainsKey(key))
             userUnitInfo.Remove(key);
     }
