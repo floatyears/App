@@ -51,29 +51,29 @@ public class ResourceManager : MonoBehaviour{
 		if (path.IndexOf ("Config") == 0 || path.IndexOf ("Prefabs") == 0 || path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0 || path.IndexOf ("Atlas") == 0) {
 #if UNITY_EDITOR
 
-			ResourceAssetBundle key = GetBundleKeyByPath(path);
-			
-			if(!assetBundles.ContainsKey(key)){
-				assetBundles[key] = new AssetBundleObj(key,path,callback,GetBundleTypeByKey(key));
-				StartCoroutine(DownloadResource(key));
-			}else{
-				if(assetBundles[key].isLoading){
-					Debug.Log("======path: " + path);
-					if(!assetBundles[key].callbackList.ContainsKey(path)){
-						assetBundles[key].callbackList.Add(path,callback);
-					}
-				}else{
-					if(callback != null){
-						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
-						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
-						return null;
-					}else{
-						return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
-					}
-				}
-				
-			}
-			return null;
+//			ResourceAssetBundle key = GetBundleKeyByPath(path);
+//			
+//			if(!assetBundles.ContainsKey(key)){
+//				assetBundles[key] = new AssetBundleObj(key,path,callback,GetBundleTypeByKey(key));
+//				StartCoroutine(DownloadResource(key));
+//			}else{
+//				if(assetBundles[key].isLoading){
+//					Debug.Log("======path: " + path);
+//					if(!assetBundles[key].callbackList.ContainsKey(path)){
+//						assetBundles[key].callbackList.Add(path,callback);
+//					}
+//				}else{
+//					if(callback != null){
+//						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
+//						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
+//						return null;
+//					}else{
+//						return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
+//					}
+//				}
+//				
+//			}
+//			return null;
 			
 			
 			string ext = null;
@@ -93,8 +93,6 @@ public class ResourceManager : MonoBehaviour{
 				}
 			}else if(path.IndexOf ("Avatar") == 0){
 				ext = ".png";
-
-
 			}else if(path.IndexOf ("Profile") == 0){
 				ext = ".png";
 
