@@ -98,8 +98,11 @@ public class VictoryEffect : UIBaseUnity {
 		for (int i = 0; i < clearQuest.gotUnit.Count; i++) {
 			GameObject go = NGUITools.AddChild(parent, dropItem);
 			go.SetActive(true);
-			go.transform.Find("Texture").GetComponent<UITexture>().mainTexture = clearQuest.gotUnit[i].UnitInfo.GetAsset(UnitAssetType.Avatar);
-			go.name = i.ToString();
+			clearQuest.gotUnit[i].UnitInfo.GetAsset(UnitAssetType.Avatar,o=>{
+				go.transform.Find("Texture").GetComponent<UITexture>().mainTexture = o as Texture2D;
+				go.name = i.ToString();
+			});
+
 
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(clearQuest.gotUnit[i].UnitInfo.ID);
 		}
@@ -271,6 +274,8 @@ public class VictoryDropItem {
 
 	public void Refresh(GameObject item, TUserUnit info) {
 		UITexture tex = item.transform.Find ("Texture").GetComponent<UITexture> ();
-		tex.mainTexture = info.UnitInfo.GetAsset (UnitAssetType.Avatar);
+		info.UnitInfo.GetAsset (UnitAssetType.Avatar, o=>{
+			tex.mainTexture = o as Texture2D;
+		});
 	}
 }

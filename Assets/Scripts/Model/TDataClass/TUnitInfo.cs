@@ -236,23 +236,32 @@ public class TUnitInfo : ProtobufDataBase {
 	private Texture2D avatarTexture;
 	private Texture2D profileTexture;
 
-	public Texture2D GetAsset(UnitAssetType uat) {
+	public void GetAsset(UnitAssetType uat,ResourceCallback callback) {
 		string path = string.Empty;
 
 		if (uat == UnitAssetType.Avatar) {
 			if (avatarTexture == null) {
 				path = string.Format ("Avatar/{0}", ID);
-				avatarTexture = ResourceManager.Instance.LoadLocalAsset (path,null) as Texture2D;
+				ResourceManager.Instance.LoadLocalAsset (path,o=>{
+					avatarTexture = o as Texture2D;
+					callback(o);
+				});
+			}else{
+				callback(avatarTexture);
 			}
-			return avatarTexture;
+
 		} 
 		else  {
 			if(profileTexture == null) {
 				path = string.Format("Profile/{0}", ID) ;
-				profileTexture =  ResourceManager.Instance.LoadLocalAsset(path,null) as Texture2D;
-				
+				ResourceManager.Instance.LoadLocalAsset(path,o=>{
+					profileTexture = o as Texture2D;
+					callback(o);
+				});
+			}else{
+				callback(profileTexture);
 			}
-			return profileTexture;
+
 		}
 	}
 

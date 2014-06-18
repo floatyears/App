@@ -84,7 +84,9 @@ public class UnitItemInfo : MonoBehaviour{
 	}
 
 	void RefreshInfo() {
-		mainTexture.mainTexture = userUnitItem.UnitInfo.GetAsset (UnitAssetType.Avatar);
+		userUnitItem.UnitInfo.GetAsset (UnitAssetType.Avatar, o=>{
+			mainTexture.mainTexture = o as Texture2D;
+		});
 		IsFavorate (userUnitItem.IsFavorite);
 		bool isParty = DataCenter.Instance.PartyInfo.UnitIsInParty (userUnitItem.ID);
 		IsPartyItem(isParty);
@@ -218,7 +220,9 @@ public class UnitItemViewInfo {
 
 		if(ViewItem == null) return;
 		avatar = ViewItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-		avatar.mainTexture = dataItem.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		dataItem.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+			avatar.mainTexture = o as Texture2D;
+		});
 	}
 
 

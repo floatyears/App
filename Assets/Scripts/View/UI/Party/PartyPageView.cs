@@ -293,9 +293,10 @@ public class PartyPageView : UIComponentUnity {
 
 		int position = (int)argsDic["position"] ;
 		TUserUnit tuu = argsDic["unit"] as TUserUnit;
-		Texture2D texture = tuu.UnitInfo.GetAsset( UnitAssetType.Avatar );
-	
-		ChangeTexure(position, texture);
+		tuu.UnitInfo.GetAsset (UnitAssetType.Avatar, o => {
+			Texture2D texture = o as Texture2D;
+			ChangeTexure (position, texture);
+		});
 	}
 
 	

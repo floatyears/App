@@ -223,10 +223,13 @@ public class BaseUnitItem : MonoBehaviour {
 	protected virtual void SetCommonState(){
 		IsEnable = true;
 		//Debug.LogError("gameobject: " + gameObject + " userUnit : " + userUnit.ID);
-		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+			avatarTex.mainTexture = o as Texture2D;
+			ShowUnitType();
+			CurrentSortRule = SortRule.ID;
+		});
 		//typeSpr.color = DGTools.TypeToColor(userUnit.UnitInfo.Type);
-		ShowUnitType();
-		CurrentSortRule = SortRule.ID;
+
 	}
 
 	private void ShowUnitType(){

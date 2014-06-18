@@ -109,9 +109,12 @@ public class MapItem : UIBaseUnity {
 						mapBackTexture = mapBack.AddComponent<UITexture>();
 						mapBackTexture.depth = 4;
 						Destroy(mapBackSprite);
-						mapBackTexture.mainTexture = tui.GetAsset (UnitAssetType.Avatar);
-						mapBackTexture.width = 104;
-						mapBackTexture.height = 104;
+						tui.GetAsset (UnitAssetType.Avatar,o=>{
+							mapBackTexture.mainTexture = o as Texture2D;
+							mapBackTexture.width = 104;
+							mapBackTexture.height = 104;
+						});
+
 					}
 				}
 				break;
