@@ -112,6 +112,7 @@ public class QuestSelectView : UIComponentUnity {
 
 	void EvolveSelectStage(object data) {
 		evolveStart = data as TEvolveStart;
+
 		GenerateQuest(evolveStart.StageInfo.QuestInfo, evolveStart.StageInfo);
 		
 		foreach (var item in questItem) {
@@ -130,17 +131,26 @@ public class QuestSelectView : UIComponentUnity {
 	void GenerateQuest(List<TQuestInfo> questInfo, TStageInfo targetStage) {
 		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab);
 		dragPanel.CreatUI();
-		dragPanel.AddItem(questInfo.Count);
+		dragPanel.AddItem(1);
+		TQuestInfo quest = questInfo.Find (a => a.ID == targetStage.QuestId);
 		CustomDragPanel();
+
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
 		questItem.Clear ();
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			QuestItemView qiv = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
-			qiv.Data = questInfo[ i ];
-			qiv.stageInfo = targetStage;
-			//			qiv.StageID = targetStage.ID;//StartFight Need
-			questItem.Add(qiv);
+		if (quest == default(TQuestInfo)) {
+			return;	
 		}
+		QuestItemView qiv = QuestItemView.Inject (dragPanel.ScrollItem [0]);
+		qiv.Data = quest;
+		qiv.stageInfo = targetStage;
+		questItem.Add(qiv);
+//		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+//			QuestItemView qiv = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
+//			qiv.Data = questInfo[ i ];
+//			qiv.stageInfo = targetStage;
+//			//			qiv.StageID = targetStage.ID;//StartFight Need
+//			questItem.Add(qiv);
+//		}
 	}
 
 	void EvolveCallback() {

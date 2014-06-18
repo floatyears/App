@@ -128,10 +128,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
-//		Debug.LogError ("ShowData : " + clear);
 		if (!clear) {
 			return;	
 		}
+
 		clear = false;
 
 		if (myUnitDragPanel == null) {
@@ -143,6 +143,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		if (_sortRule != SortRule.None) {
 			SortUnitTool.SortByTargetRule(_sortRule, myUnit);
 		}
+
 		myUnitDragPanel.RefreshItem (myUnit);
 
 		foreach (var item in myUnitDragPanel.scrollItem) {
@@ -151,7 +152,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			myUnitList.Add(pui);
 		}
 	}
-
 
 	void InitUI() {
 		dataCenter = DataCenter.Instance;
@@ -422,7 +422,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void ShieldParty(bool shield, MyUnitItem baseItem) {
-//		Debug.LogError ("ShieldParty : " + shield + " base item : " + baseItem);
 		for (int i = 0; i < myUnitList.Count; i++) {
 			LevelUpUnitItem pui = myUnitList [i];
 			if(pui.IsParty || pui.IsFavorite) {
