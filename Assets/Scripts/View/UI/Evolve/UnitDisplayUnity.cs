@@ -137,7 +137,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		state = (int)data;
 		if (state != 5) {
 			if (!gameObject.activeSelf) {
-					gameObject.SetActive (true);
+				gameObject.SetActive (true);
 			}	
 		} else {
 			if(gameObject.activeSelf){
@@ -168,10 +168,9 @@ public class UnitDisplayUnity : UIComponentUnity {
 			if(material[i] == null) {
 				materialInfo.Add(null);
 			}
-			else{
-				MyUnitItem uii = normalDragItem.Find(a=>a.UserUnit.UnitInfo.ID == material[i].ID) ;
+			else {
+				MyUnitItem uii = normalDragItem.Find(a=>a.UserUnit.UnitInfo.ID == material[i].ID);
 				materialInfo.Add(uii);
-
 			}
 		}
 		ShowMaterial();
@@ -185,7 +184,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 				edi.IsEnable = true;
 			} else{
 				edi.IsEnable = false;
-
 			}
 		}
 
@@ -323,23 +321,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 	}
 
-//	void RefreshView (UnitItemInfo uii) {
-//		uii.callback = ClickItem;
-//		bool b = uii.isPartyItem;
-//		if (b && !partyItem.Contains(uii)) {
-//			partyItem.Add(uii);		
-//		}
-//
-//		if (uii.userUnitItem.IsFavorite == 0 && !b && !normalItem.Contains(uii))  {
-//			normalItem.Add(uii);
-//		}
-//
-//		bbproto.EvolveInfo ei = uii.userUnitItem.UnitInfo.evolveInfo;
-//		if (ei != null && !evolveItem.Contains(uii)) {
-//			evolveItem.Add(uii);
-//		}
-//	}
-
 	bool CheckBaseNeedMaterial (TUserUnit tuu, int index) {
 		int tempIndex = index - 2;
 		List<uint> temp = baseData.UserUnit.UnitInfo.evolveInfo.materialUnitId;
@@ -350,7 +331,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 			} else {
 				return false;	
 			}
-		} 
+		}
 		else {
 			return false;	
 		}
