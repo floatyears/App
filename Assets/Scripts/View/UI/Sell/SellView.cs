@@ -11,8 +11,8 @@ public class SellView : UIComponentUnity{
 	private SortRule curSortRule;
 	private UIButton lastSureOkBtn;
 	private UIButton lastSureCancelBtn;
-	private UIImageButton sellImgBtn;
-	private UIImageButton clearImgBtn;
+	private UIButton sellBtn;
+	private UIButton clearBtn;
 	private UILabel coinLabel;
 	private UILabel readyCoinLabel;
 
@@ -211,12 +211,12 @@ public class SellView : UIComponentUnity{
 		submitRoot = transform.Find("EnsureWindow").gameObject;
 		coinLabel = transform.FindChild("MainWindow/SellCount/Label_Value").GetComponent<UILabel>();
 		readyCoinLabel = transform.FindChild("EnsureWindow/Label_GetCoinValue").GetComponent<UILabel>();
-		sellImgBtn = transform.FindChild("MainWindow/ImgBtn_Sell").GetComponent<UIImageButton>();
-		clearImgBtn = transform.FindChild("MainWindow/ImgBtn_Clear").GetComponent<UIImageButton>();
+		sellBtn = transform.FindChild("MainWindow/ImgBtn_Sell").GetComponent<UIButton>();
+		clearBtn = transform.FindChild("MainWindow/ImgBtn_Clear").GetComponent<UIButton>();
 		lastSureCancelBtn = FindChild<UIButton>("EnsureWindow/Button_Cancel");
 		lastSureOkBtn = FindChild<UIButton>("EnsureWindow/Button_Ok");
-		UIEventListener.Get(sellImgBtn.gameObject).onClick = ClickSellBtn;
-		UIEventListener.Get(clearImgBtn.gameObject).onClick = ClickClearBtn;
+		UIEventListener.Get(sellBtn.gameObject).onClick = ClickSellBtn;
+		UIEventListener.Get(clearBtn.gameObject).onClick = ClickClearBtn;
 		UIEventListener.Get(lastSureOkBtn.gameObject).onClick = ClickSellOk;
 		UIEventListener.Get(lastSureCancelBtn.gameObject).onClick = ClickSellCancel;
 		InitCells();
@@ -269,6 +269,7 @@ public class SellView : UIComponentUnity{
 	}
 
 	void CreateDragView(object args){
+		Debug.LogError("xxxxxxx");
 		if(dragPanel != null){
 			dragPanel.DestoryUI();
 		}
@@ -356,8 +357,8 @@ public class SellView : UIComponentUnity{
 	}
 
 	void ResetUIElement(){
-		clearImgBtn.isEnabled = false;
-		sellImgBtn.isEnabled = false;
+		clearBtn.isEnabled = false;
+		sellBtn.isEnabled = false;
 		totalSaleValue = 0;
 		coinLabel.text = "0";
 
@@ -384,8 +385,8 @@ public class SellView : UIComponentUnity{
 
 	private void ActivateButton(){
 		bool canActivate = CanActivateSellBtn();
-		sellImgBtn.isEnabled = canActivate;
-		clearImgBtn.isEnabled = canActivate;
+		sellBtn.isEnabled = canActivate;
+		clearBtn.isEnabled = canActivate;
 	}
 
 	/// <summary>
@@ -457,32 +458,32 @@ public class SellView : UIComponentUnity{
 	private void ShowUnitType(TUserUnit tuu, UISprite avatarBg, UISprite avatarBorderSpr){
 		switch (tuu.UnitInfo.Type){
 			case EUnitType.UFIRE :
-				avatarBg.spriteName = "avatar_bg_1";
-				avatarBorderSpr.spriteName = "avatar_border_1";
+				avatarBg.spriteName = "avatar_bg_fire";
+				avatarBorderSpr.spriteName = "avatar_border_fire";
 				break;
 			case EUnitType.UWATER :
-				avatarBg.spriteName = "avatar_bg_2";
-				avatarBorderSpr.spriteName = "avatar_border_2";
+				avatarBg.spriteName = "avatar_bg_water";
+				avatarBorderSpr.spriteName = "avatar_border_water";
 				
 				break;
 			case EUnitType.UWIND :
-				avatarBg.spriteName = "avatar_bg_3";
-				avatarBorderSpr.spriteName = "avatar_border_3";
+				avatarBg.spriteName = "avatar_bg_wind";
+				avatarBorderSpr.spriteName = "avatar_border_wind";
 				
 				break;
 			case EUnitType.ULIGHT :
-				avatarBg.spriteName = "avatar_bg_4";
-				avatarBorderSpr.spriteName = "avatar_border_4";
+				avatarBg.spriteName = "avatar_bg_light";
+				avatarBorderSpr.spriteName = "avatar_border_light";
 				
 				break;
 			case EUnitType.UDARK :
-				avatarBg.spriteName = "avatar_bg_5";
-				avatarBorderSpr.spriteName = "avatar_border_5";
+				avatarBg.spriteName = "avatar_bg_dark";
+				avatarBorderSpr.spriteName = "avatar_border_dark";
 				
 				break;
 			case EUnitType.UNONE :
-				avatarBg.spriteName = "avatar_bg_6";
-				avatarBorderSpr.spriteName = "avatar_border_6";
+				avatarBg.spriteName = "avatar_bg_none";
+				avatarBorderSpr.spriteName = "avatar_border_none";
 				
 				break;
 			default:

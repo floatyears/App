@@ -61,8 +61,8 @@ public class PlayerInfoBar : UIComponentUnity{
 		dividedLineLabel = transform.FindChild("InfoBar/Label_Text_Line").GetComponent<UILabel>();
 		dividedLineLabel.text = TextCenter.GetText("Divided_Line");
 		
-		expSpr = transform.FindChild("InfoBar/Foreground_Exp").GetComponent<UISprite>();
-		stamSpr = transform.FindChild("InfoBar/Foreground_Stamina").GetComponent<UISprite>();
+		expSpr = transform.FindChild("InfoBar/Slider_Exp_Fg").GetComponent<UISprite>();
+		stamSpr = transform.FindChild("InfoBar/Slider_Stamina_Fg").GetComponent<UISprite>();
 
 		leftPosition = new Vector3(-UIConfig.playerInfoBox_X, UIConfig.playerInfoBox_Y, 0);
 		rightPosition = new Vector3(UIConfig.playerInfoBox_X, UIConfig.playerInfoBox_Y, 0);

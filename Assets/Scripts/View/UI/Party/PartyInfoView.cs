@@ -19,13 +19,13 @@ public class PartyInfoView : UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-		InitUI();
+		InitPartyInfoPanel();
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCmdListener();
-		UpdateView(DataCenter.Instance.PartyInfo.CurrentParty);
+		UpdateInfoPanelView(DataCenter.Instance.PartyInfo.CurrentParty);
 		ShowUIAnimation();
 		//Debug.LogError("PartyInfoView.ShowUI()...");
 	}
@@ -35,7 +35,7 @@ public class PartyInfoView : UIComponentUnity {
 		RmvCmdListener();
 	}
 	
-	private void InitUI(){
+	private void InitPartyInfoPanel(){
 		UILabel label;
 		totalHpLabel = transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
 		curCostLabel = transform.FindChild("Label_Cost_Cur").GetComponent<UILabel>();
@@ -52,7 +52,7 @@ public class PartyInfoView : UIComponentUnity {
 		leaderSkillDscpLabel = transform.FindChild("Label_Leader_Skill_Dscp").GetComponent<UILabel>();
 	}
 	
-	private void UpdateView(object data){
+	private void UpdateInfoPanelView(object data){
 		TUnitParty unitParty = data as TUnitParty;
 		if(unitParty == null){
 			Debug.LogError("PartyInfoView.UpdateView(), TUnitParty is NULL!");
@@ -91,8 +91,6 @@ public class PartyInfoView : UIComponentUnity {
 		
 		unitParty.TypeAttack.TryGetValue (EUnitType.UDARK, out value);
 		darkAtkLabel.text =  value.ToString();
-
-
 	}
 	
 	private void ShowUIAnimation(){
@@ -108,11 +106,11 @@ public class PartyInfoView : UIComponentUnity {
 	}
 
 	private void AddCmdListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyPanelInfo, UpdateView);
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyPanelInfo, UpdateInfoPanelView);
 	}
 	
 	private void RmvCmdListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyPanelInfo, UpdateView);
+		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyPanelInfo, UpdateInfoPanelView);
 	}
 
 }

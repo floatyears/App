@@ -134,7 +134,7 @@ public class ConfigDragPanel{
 
 	private void ConfigPartyListDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), PartyListDragPanelArgs...");
-		PartyListDragPanelArgs.Add("scrollerLocalPos",				  Vector3.zero									);
+		PartyListDragPanelArgs.Add("scrollerLocalPos",				  100 * Vector3.up									);
 		PartyListDragPanelArgs.Add("position", 							 Vector3.zero								);
 		PartyListDragPanelArgs.Add("clipRange", 						 new Vector4(0, -100, 640, 315)				);
 		PartyListDragPanelArgs.Add("gridArrange", 					 UIGrid.Arrangement.Vertical			);

@@ -17,17 +17,22 @@ public class OperationNoticeView : UIComponentUnity {
 
 	private GameObject content;
 
+//	private GameObject okBtn;
+
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
 	}
 
 	public override void ShowUI() {
+
 		base.ShowUI();
+		Debug.Log ("show operation notice: " + config.localPosition.y);
 	}
 	
 	public override void HideUI() {
 		base.HideUI();
+		Debug.Log ("hide operation notice: " + config.localPosition.y);
 	}
 	
 	public override void DestoryUI () {
@@ -36,12 +41,15 @@ public class OperationNoticeView : UIComponentUnity {
 	
 	private void InitUI(){
 		content = this.FindChild ("Content/Table");
-
-		//contents = new Dictionary<string, string> ();
+//		okBtn = this.FindChild ("OkBtn");
+//		//contents = new Dictionary<string, string> ();
+//		UIokBtn
 
 		ResourceManager.Instance.LoadLocalAsset (sourcePath,o =>{
+
 			GameObject prefab = o as GameObject;
 			if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
+//				Debug.Log("operation notice");
 				foreach (var nItem in DataCenter.Instance.NoticeInfo.NoticeList) {
 					GameObject item = NGUITools.AddChild(content,prefab);
 					
@@ -52,9 +60,6 @@ public class OperationNoticeView : UIComponentUnity {
 				}	
 			}
 		});
-
-	
-
 		
 
 //		contents.Add ("notice1", "content1\ndsf \ndsafsd \nasdfs");
@@ -84,6 +89,14 @@ public class OperationNoticeView : UIComponentUnity {
 	}
 
 	public void ClickOK(){
-		UIManager.Instance.ChangeScene (SceneEnum.Home);
+		if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
+			&& DataCenter.Instance.LoginInfo.Bonus.Count > 0) {
+			Debug.LogError ("show Reward scene... ");
+			UIManager.Instance.ChangeScene (SceneEnum.Reward);	
+		} else {
+			UIManager.Instance.ChangeScene (SceneEnum.Home);
+		}
+
+//		HideUI ();
 	}
 }

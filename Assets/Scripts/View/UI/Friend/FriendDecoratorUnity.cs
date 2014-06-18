@@ -41,32 +41,32 @@ public class FriendDecoratorUnity : UIComponentUnity {
     private void InitUI() {
         GameObject go;
 		UILabel btnLabel;
-        go = FindChild("ImgBtn_FriendList");
+        go = FindChild("Btn_FriendList");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_FriendList");
         btns.Add(go, SceneEnum.FriendList);
 
-        go = FindChild("ImgBtn_Information");
+        go = FindChild("Btn_Information");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Information");
         btns.Add(go, SceneEnum.Information);
 
-        go = FindChild("ImgBtn_SearchFriend");
+        go = FindChild("Btn_SearchFriend");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Search");
         btns.Add(go, SceneEnum.SearchFriend);
 
-        go = FindChild("ImgBtn_Apply");
+        go = FindChild("Btn_Apply");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Apply");
         btns.Add(go, SceneEnum.Apply);
 
-        go = FindChild("ImgBtn_Reception");
+        go = FindChild("Btn_Reception");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Reception");
         btns.Add(go, SceneEnum.Reception);
 
-        go = FindChild("ImgBtn_YourID");
+        go = FindChild("Btn_YourID");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UserID");
         btns.Add(go, SceneEnum.YourID);

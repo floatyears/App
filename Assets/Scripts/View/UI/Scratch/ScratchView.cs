@@ -39,24 +39,24 @@ public class ScratchView : UIComponentUnity {
 	}
 
 	private void InitUI() {
-        btnFriendGacha = FindChild<UIButton>("bottom_panel/1");
-        btnRareGacha = FindChild<UIButton>("bottom_panel/2");
-        btnEventGacha = FindChild<UIButton>("bottom_panel/3");
+		btnFriendGacha = FindChild<UIButton>("Gacha_Entrance/1");
+		btnRareGacha = FindChild<UIButton>("Gacha_Entrance/2");
+		btnEventGacha = FindChild<UIButton>("Gacha_Entrance/3");
 
         UIEventListener.Get(btnFriendGacha.gameObject).onClick = OnClickFriendGacha;
         UIEventListener.Get(btnRareGacha.gameObject).onClick = OnClickRareGacha;
         UIEventListener.Get(btnEventGacha.gameObject).onClick = OnClickEventGacha;
 
-        friendGachaTimesParent = FindChild<UISprite>("bottom_panel/1/TimesParent");
-        rareGachaTimesParent = FindChild<UISprite>("bottom_panel/2/TimesParent");
-        eventGachaTimesParent = FindChild<UISprite>("bottom_panel/3/TimesParent");
+		friendGachaTimesParent = FindChild<UISprite>("Gacha_Entrance/1/TimesParent");
+		rareGachaTimesParent = FindChild<UISprite>("Gacha_Entrance/2/TimesParent");
+		eventGachaTimesParent = FindChild<UISprite>("Gacha_Entrance/3/TimesParent");
 
-        friendGachaTimes = FindChild<UILabel>("bottom_panel/1/TimesParent/Times");
-        rareGachaTimes = FindChild<UILabel>("bottom_panel/2/TimesParent/Times");
-        eventGachaTimes = FindChild<UILabel>("bottom_panel/3/TimesParent/Times");
+		friendGachaTimes = FindChild<UILabel>("Gacha_Entrance/1/TimesParent/Times");
+		rareGachaTimes = FindChild<UILabel>("Gacha_Entrance/2/TimesParent/Times");
+		eventGachaTimes = FindChild<UILabel>("Gacha_Entrance/3/TimesParent/Times");
 
-		infoPanelRoot = transform.FindChild("info_panel").gameObject;
-		windowRoot = transform.FindChild("bottom_panel").gameObject;
+		infoPanelRoot = transform.FindChild("Notice_Window").gameObject;
+		windowRoot = transform.FindChild("Gacha_Entrance").gameObject;
 	}
 
 	private void ShowUIAnimation(){

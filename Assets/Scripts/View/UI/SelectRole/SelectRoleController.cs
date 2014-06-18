@@ -44,7 +44,7 @@ public class SelectRoleController : ConcreteComponent {
 		supportSelectUnits.Add(DataCenter.Instance.GetUnitInfo(1));
 		supportSelectUnits.Add(DataCenter.Instance.GetUnitInfo(5));
 		supportSelectUnits.Add(DataCenter.Instance.GetUnitInfo(9));
-		Debug.Log("support select unit's count is : " + supportSelectUnits.Count);
+		Debug.LogError("support select unit's count is : " + supportSelectUnits.Count);
 	}
 
 	void ShowInitialView(){

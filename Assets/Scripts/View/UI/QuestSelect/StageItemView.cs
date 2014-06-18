@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class StageItemView : MonoBehaviour{
 	public List<string> stageOrderList1 = new List<string>(){
-		{"icon_stage_other"},
+		{"icon_stage_special"},
 		{"icon_stage_fire"},
 		{"icon_stage_water"},
 		{"icon_stage_wind"},
@@ -20,7 +20,7 @@ public class StageItemView : MonoBehaviour{
 		{"icon_stage_light"},
 		{"icon_stage_dark"},
 		{"icon_stage_none"},
-		{"icon_stage_other"}
+		{"icon_stage_special"}
 	};
 
 	public Font myFont;
