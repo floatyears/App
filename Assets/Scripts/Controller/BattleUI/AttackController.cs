@@ -142,7 +142,6 @@ public class AttackController {
 			attackInfoQueue.Enqueue (item);
 		}
 		endCount = attackInfoQueue.Count;
-//		Debug.LogError("StartAttack invoke attack");
 		InvokeAttack ();
 	}
 
@@ -165,8 +164,7 @@ public class AttackController {
 	bool CheckEnemy () {
 		if (enemyInfo == null || enemyInfo.Count == 0) {
 			return false;
-		}
-		else {
+		} else {
 			return true;
 		}
 	}
@@ -174,8 +172,7 @@ public class AttackController {
 	bool CheckAttackInfo () {
 		if (attackInfoQueue == null || attackInfoQueue.Count == 0) {
 			return false;	
-		}
-		else {
+		} else {
 			return true;		
 		}
 	}
@@ -183,8 +180,7 @@ public class AttackController {
 	float GetIntervTime () {
 		if (enemyInfo.Count == 1 && enemyInfo[0].initBlood<= 0) {
 			return 0.6f;
-		}
-		else {
+		} else {
 			return 0.9f;	
 		}
 	}

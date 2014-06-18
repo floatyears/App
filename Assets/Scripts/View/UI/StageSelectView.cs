@@ -273,12 +273,14 @@ public class StageSelectView : UIComponentUnity{
 		foreach (var item in storyStageList) {
 			if(item.Data.Equals(evolveStageInfo.StageInfo)) {
 				item.evolveCallback = ClickEvolve;
+				item.ShowIconByState(StageState.NEW);
 				continue;
 			}
 			else{
-				UIEventListener listener = item.GetComponent<UIEventListener>();
-				listener.onClick = null;
-				Destroy(listener);
+				item.ShowIconByState(StageState.LOCKED);
+//				UIEventListener listener = item.GetComponent<UIEventListener>();
+//				listener.onClick = null;
+//				Destroy(listener);
 			}
 		}	
 	}
