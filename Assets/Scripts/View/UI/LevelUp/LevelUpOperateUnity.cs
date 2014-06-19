@@ -52,7 +52,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 	bool clear = true;
 	public override void ResetUIState () {
-		Debug.LogError ("levelup ResetUIState");
+//		Debug.LogError ("levelup ResetUIState");
 		clear = true;
 		ClearData ();
 		CheckLevelUp ();
