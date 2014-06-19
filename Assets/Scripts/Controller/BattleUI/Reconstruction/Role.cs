@@ -212,7 +212,7 @@ public class Role : UIBaseUnity {
 
 	void MoveRoleSecond() {
 //		iTween.MoveTo (gameObject, iTween.Hash ("position", targetPoint, "islocal", true, "time", 0.35f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
-		iTween.MoveTo (gameObject, iTween.Hash ("path", secondPath, "movetopath", false, "islocal", true, "time", 0.4f, "easetype", iTween.EaseType.easeInQuad, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
+		iTween.MoveTo (gameObject, iTween.Hash ("path", secondPath, "movetopath", false, "islocal", true, "time", 0.3f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
 	}
 	
 	Coordinate tempCoor; 
