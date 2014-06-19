@@ -91,15 +91,15 @@ public class BattleUseData {
 	public void InitBattleUseData (TStoreBattleData sbd) {
 		els.Excute();
 		if (sbd == null) {
-			Blood = maxBlood = upi.GetInitBlood ();
-
+			blood = maxBlood = upi.GetInitBlood ();
 			maxEnergyPoint =DataCenter.maxEnergyPoint;
 		} else {
 			maxBlood = upi.GetInitBlood ();
 //			Debug.LogError("InitBattleUseData : " + sbd.hp);
-			Blood = sbd.hp;
+			blood = sbd.hp;
 			maxEnergyPoint = sbd.sp;
 		}
+		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 		GetBaseData (null);
 		
 		eas = new ExcuteActiveSkill(upi);
