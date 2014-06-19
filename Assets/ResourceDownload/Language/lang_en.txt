@@ -48,6 +48,9 @@ Btn_Friend_Expand=好友扩张
 Btn_Unit_Expand=卡牌扩张
 Btn_Stamina_Recover=体力回复
 
+Leader_Skill=队长技能 : 
+Name_No_LeaderSkill=无队长技能
+Description_No_LeaderSkill=------
 
 ##City Name
 City_Name_1=city_name_1
@@ -73,6 +76,7 @@ Unit_Detail_Tab_Status=状态
 Unit_Detail_Tab_Normal_Skill=普攻
 Unit_Detail_Tab_Prifile=描述
 Unit_Detail_Next=下一级
+
 ##Scene Name
 SCENE_NAME_APPLY=APPLY
 SCENE_NAME_CATALOG=CATALOG
