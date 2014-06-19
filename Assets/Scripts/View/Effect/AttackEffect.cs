@@ -57,7 +57,9 @@ public class AttackEffect : MonoBehaviour {
 		activeEffect.SetActive (true);
 		activeEffect.transform.localPosition = BattleCardArea.activeSkillStartPosition;
 		TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID);
-		avatarTexture.mainTexture = tuu.UnitInfo.GetAsset (UnitAssetType.Avatar);
+		tuu.UnitInfo.GetAsset (UnitAssetType.Avatar, o=>{
+			avatarTexture.mainTexture = o as Texture2D;
+		});
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (ai.UserUnitID, ai.SkillID, SkillType.ActiveSkill);
 		skillName = sbi == null ? "" : sbi.SkillName;
 		iTween.MoveTo (activeEffect, iTween.Hash ("position", BattleCardArea.startPosition, "time", activeSkillEffectTime - 0.5f, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd", "islocal", true,"easetype", iTween.EaseType.easeInOutQuad));  

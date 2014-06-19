@@ -155,6 +155,7 @@ public class SellController : ConcreteComponent {
 
 	private List<TUserUnit> curUseUnitList;
 	void GetUnitCellViewList(){
+		Debug.LogError("GetUnitCellViewList()...");
 		List<TUserUnit> userUnitList = new List<TUserUnit>();	
 		userUnitList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
 		if(curUseUnitList == null){
@@ -251,18 +252,21 @@ public class SellController : ConcreteComponent {
 	}
 
 	void ShowPickedUnit(int clickPos, int poolPos, TUserUnit tuu){
-		Texture2D tex2d = tuu.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		string level = tuu.Level.ToString();
-		Dictionary<string, object> viewInfo = new Dictionary<string, object>();
-		viewInfo.Add("poolPos", poolPos);
-		viewInfo.Add("clickPos", clickPos);
-		viewInfo.Add("texture", tex2d);
-		viewInfo.Add("label", level);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("AddViewItem", viewInfo);
-		ExcuteCallback(cbdArgs);
+		tuu.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+			Texture2D tex2d = o as Texture2D;
+			string level = tuu.Level.ToString();
+			Dictionary<string, object> viewInfo = new Dictionary<string, object>();
+			viewInfo.Add("poolPos", poolPos);
+			viewInfo.Add("clickPos", clickPos);
+			viewInfo.Add("texture", tex2d);
+			viewInfo.Add("label", level);
+			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("AddViewItem", viewInfo);
+			ExcuteCallback(cbdArgs);
+			
+			CallBackDispatcherArgs canSellInfo = new CallBackDispatcherArgs("ButtonActive", CanActivateSellBtn());
+			ExcuteCallback(canSellInfo);
+		});
 
-		CallBackDispatcherArgs canSellInfo = new CallBackDispatcherArgs("ButtonActive", CanActivateSellBtn());
-		ExcuteCallback(canSellInfo);
 	}
 
 	void CancelShowUnit(int clickPos,int poolPos){

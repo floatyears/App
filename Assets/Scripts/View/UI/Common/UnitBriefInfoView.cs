@@ -114,7 +114,9 @@ public class UnitBriefInfoView : UIComponentUnity {
 		lvLabel.text = tuu.Level.ToString();
 		nameLabel.text = tuu.UnitInfo.Name;
 		raceLabel.text = tuu.UnitInfo.UnitRace.ToString();
-		avatarTex.mainTexture = tuu.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		tuu.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+			avatarTex.mainTexture = o as Texture2D;
+		});
 	}
 
 	void RefreshLastLabel(object args){

@@ -2951,6 +2951,30 @@ namespace bbproto
       get { return _header; }
       set { _header = value; }
     }
+    private int _stonePay = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"stonePay", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int stonePay
+    {
+      get { return _stonePay; }
+      set { _stonePay = value; }
+    }
+    private int _stoneFree = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"stoneFree", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int stoneFree
+    {
+      get { return _stoneFree; }
+      set { _stoneFree = value; }
+    }
+    private int _stone = default(int);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"stone", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int stone
+    {
+      get { return _stone; }
+      set { _stone = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -4423,6 +4447,14 @@ namespace bbproto
       get { return _unit; }
       set { _unit = value; }
     }
+    private uint _regTime = default(uint);
+    [global::ProtoBuf.ProtoMember(15, IsRequired = false, Name=@"regTime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint regTime
+    {
+      get { return _regTime; }
+      set { _regTime = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -4943,6 +4975,14 @@ namespace bbproto
       get { return _bonus; }
     }
   
+    private int _maxBonusId = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"maxBonusId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int maxBonusId
+    {
+      get { return _maxBonusId; }
+      set { _maxBonusId = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -5346,6 +5386,14 @@ namespace bbproto
       get { return _eventList; }
     }
   
+    private int _testForUpgrade = default(int);
+    [global::ProtoBuf.ProtoMember(21, IsRequired = false, Name=@"testForUpgrade", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int testForUpgrade
+    {
+      get { return _testForUpgrade; }
+      set { _testForUpgrade = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -5933,7 +5981,10 @@ namespace bbproto
       ChangeEnvir = 2,
             
       [global::ProtoBuf.ProtoEnum(Name=@"Injured", Value=3)]
-      Injured = 3
+      Injured = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"All", Value=4)]
+      All = 4
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EQuestGridType")]

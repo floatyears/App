@@ -22,7 +22,8 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	public bool fobidClick = false;
 
 	UIButton favBtn;
-	
+	GameObject unitLock;
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		//GetUnitMaterial();
@@ -34,8 +35,8 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		base.ShowUI ();
 		UIManager.Instance.HideBaseScene();
 
-
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
+		MsgCenter.Instance.AddListener(CommandEnum.ShowFavState,  ShowFavState);
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUp, CallBackUnitData);
 		//TODO:
 		//StartCoroutine ("nextState");
@@ -51,12 +52,14 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	public override void HideUI () {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp, CallBackUnitData);
+		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
 		base.HideUI ();
 //		if (IsInvoking ("CreatEffect")) {
 //			CancelInvoke("CreatEffect");
 //		}
 //		//ClearEffectCache();
 //		UIManager.Instance.ShowBaseScene();
+		DestoryUnitLock();
 	}
 	
 	public override void DestoryUI () {
@@ -109,17 +112,12 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 //		SetEffectCamera ();
 //		StartCoroutine (CreatEffect ());
 	}
-	
-
 
 	private void ShowInfo(TUserUnit data){
-
 		curUserUnit = data;
-		ShowFavView (curUserUnit.IsFavorite);
+		//ShowFavView(curUserUnit.IsFavorite);
 		
 		TUnitInfo unitInfo = data.UnitInfo;
-		
-		
 		number.text = data.UnitID.ToString();
 		
 		//hp
@@ -186,11 +184,12 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		}
 		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;
 		//		Debug.LogError ("curUserUnit : " + curUserUnit.TUserUnitID);
-		ShowFavView(curUserUnit.IsFavorite);
+		UpdateFavView(curUserUnit.IsFavorite);
 	}
 
-	private void ShowFavView(int isFav){
-		UISprite background = favBtn.transform.FindChild("Background").GetComponent<UISprite>();
+	private void UpdateFavView(int isFav){
+
+		UISprite background = unitLock.transform.FindChild("Background").GetComponent<UISprite>();
 		//Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
 			background.spriteName = "Fav_Lock_Close";
@@ -209,5 +208,37 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	public void ShowPanel(){
 		gameObject.SetActive (true);
 	}
+
+	private void ShowFavState(object msg){
+		AddUnitLock();
+		UpdateFavView(curUserUnit.IsFavorite);
+	}
+
+
+	/// <summary>
+	/// Destories the unit lock.
+	/// </summary>
+	private void DestoryUnitLock(){
+		if(unitLock == null){
+			Debug.LogError("unitLock == null, destory it...");
+			return;
+		}
+		GameObject.Destroy(unitLock);
+	}
+
+	private void AddUnitLock(){
+		if(unitLock != null){
+			Debug.LogError("unitLock != null, add one...");
+			return;
+		}
+		string path = "ResourceDownload/Prefabs/UI/UnitDetail/FavLock";
+		unitLock = ResourceManager.Instance.LoadLocalAsset(path, CreateUnitLock) as GameObject;
+	}
+
+	private void CreateUnitLock(object obj){
+		NGUITools.AddChild(gameObject, unitLock);
+	}
+
+
 
 }

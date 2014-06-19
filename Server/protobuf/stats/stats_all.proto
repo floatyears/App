@@ -203,6 +203,7 @@ enum ETrapType {
 	StateException	= 1;
 	ChangeEnvir		= 2;
 	Injured			= 3;
+    All             = 4; // all trap
 }
 
 enum EQuestGridType {
@@ -601,6 +602,9 @@ message ReqShopBuy {
 
 message RspShopBuy {
     optional ProtoHeader	header				= 1;
+    optional int32	        stonePay			= 2;
+    optional int32	        stoneFree			= 3;
+    optional int32	        stone				= 4;
 }
 
 
@@ -866,7 +870,8 @@ message UserInfo {
 	optional int32		friendMax			= 11;
 	optional int32		unitMax				= 12;
 	optional int32		costMax				= 13;	
-	optional UserUnit	unit				= 14; //leader unit	
+	optional UserUnit	unit				= 14; //leader unit
+    optional uint32		regTime     		= 15; //user register time
 }
 
 message UserInfoDetail {
@@ -960,7 +965,7 @@ message BonusInfo {
 }
 
 message LoginInfo {
-	optional int32		loginTotal				= 1;
+	optional int32		loginTotal				= 1; // login times in total
 	optional int32		loginChain				= 2;
 	optional int32		friendPointGet			= 3;
 	optional int32		friendHelpCount			= 4;
@@ -968,6 +973,8 @@ message LoginInfo {
     optional uint32		lastPlayTime            = 6;
     repeated BonusInfo  bonus					= 7;
     optional int32		maxBonusId              = 8;
+    repeated int32      onceBonusId	    		= 9; //accepted bonus id for once bonus
+    optional int32		loginDayTotal			= 10; //login days in total
 }
 
 message PresentInfo {
@@ -1035,7 +1042,6 @@ message RspAuthUser {
     optional int32			userGuideStep		= 18;
 	optional NoticeInfo		notice				= 19;
     repeated StageInfo      eventList           = 20;
-    optional int32			testForUpgrade		= 21;
 }
 
 //-------------------------------------------------

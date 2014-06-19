@@ -269,7 +269,7 @@ public enum CommandEnum{
 	OnPickHelper,
 	ActivateSortBtn,
 	GetQuestInfo,
-
+	ShowFavState,
     WaitResponse,
     SetBlocker,
     LevelUpSucceed,

@@ -38,30 +38,30 @@ public class MainMenuView : UIComponentUnity{
 
 
 	private void InitButton() {
-		GameObject go = FindChild ("ImgBtn_Friends");
+		GameObject go = FindChild ("Btn_Friends");
 		buttonInfo.Add (go, SceneEnum.Friends);
 
-		go = FindChild ("ImgBtn_Home");
+		go = FindChild ("Btn_Home");
 		buttonInfo.Add (go, SceneEnum.Home);
 
-		go = FindChild ("ImgBtn_Scratch");
+		go = FindChild ("Btn_Scratch");
 		buttonInfo.Add (go, SceneEnum.Scratch);
 
-		go = FindChild ("ImgBtn_Shop");
+		go = FindChild ("Btn_Shop");
 		buttonInfo.Add (go, SceneEnum.Shop);
 
-		go = FindChild ("ImgBtn_Others");
+		go = FindChild ("Btn_Others");
 		buttonInfo.Add (go, SceneEnum.Others);
 
-		go = FindChild ("ImgBtn_Units");
+		go = FindChild ("Btn_Units");
 		buttonInfo.Add (go, SceneEnum.Units);
 
 		foreach (var item in buttonInfo.Keys) {
 			UIEventListener.Get(item).onClick = ClickMenuBtn;
 		}
 
-		leaderAvatarTex = transform.FindChild("ImgBtn_Units/Texture_Avatar_Leader").GetComponent<UITexture>();
-		leaderAvatarSpr = transform.FindChild("ImgBtn_Units/Sprite_Border").GetComponent<UISprite>();
+		leaderAvatarTex = transform.FindChild("Btn_Units/Texture_Avatar_Leader").GetComponent<UITexture>();
+		leaderAvatarSpr = transform.FindChild("Btn_Units/Sprite_Border").GetComponent<UISprite>();
 	}
 
 	private void ClickMenuBtn( GameObject btn ) {
@@ -98,10 +98,12 @@ public class MainMenuView : UIComponentUnity{
 		if(leaderUnitInfo == null){
 			//first step in
 //			Debug.Log("UpdateLeaderAvatar(), Leader data is FRIST assigned.");
-			leaderAvatarTex.mainTexture = newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile);
+			newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile,o=>{
+				leaderAvatarTex.mainTexture = o as Texture2D;
+				SetUVByConfig();
+				leaderUnitInfo = newestLeaderUnit.UnitInfo;
+			} );
 
-			SetUVByConfig();
-			leaderUnitInfo = newestLeaderUnit.UnitInfo;
 			return;
 		}
 
@@ -109,10 +111,13 @@ public class MainMenuView : UIComponentUnity{
 //			Debug.LogError("else if  leaderUnitInfo.ID  : " + leaderUnitInfo.ID + " newestLeaderUnit.UnitInfo.ID : " +newestLeaderUnit.UnitInfo.ID);
 			//changed
 //			Debug.Log("UpdateLeaderAvatar(), Leader data CHANGED." + newestLeaderUnit.UnitInfo.ID + " leaderUnitInfo: " + leaderUnitInfo.ID);
-			leaderAvatarTex.mainTexture = newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile);
+			newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile, o =>{
+				leaderAvatarTex.mainTexture = o as Texture2D;
+				SetUVByConfig();
+				leaderUnitInfo = newestLeaderUnit.UnitInfo;
+			});
  
-			SetUVByConfig();
-			leaderUnitInfo = newestLeaderUnit.UnitInfo;
+
 		}
 		else{
 			//not changed

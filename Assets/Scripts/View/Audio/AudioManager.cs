@@ -122,6 +122,7 @@ public class AudioManager {
 	AudioSource Play(AudioEnum audioEnum) {
 		int audioID = (int)audioEnum;
 		if ( ConfigAudio.audioList == null ) {
+			new ConfigAudio();
 			Debug.LogError("ERROR: ConfigAudio.audioList==null");
 		}
 		AudioConfigItem configItem = ConfigAudio.audioList.Find( item=>item.id == audioID );

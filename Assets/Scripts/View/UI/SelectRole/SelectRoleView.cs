@@ -58,6 +58,9 @@ public class SelectRoleView : UIComponentUnity {
 		UITexture texture;
 		UILabel label;
 
+		Debug.LogError("tabList.Count : " + tabList.Count);
+		Debug.LogError("unitInfoList.Count : " + unitInfoList.Count);
+
 		//Tab
 		for (int i = 0; i < tabList.Count; i++){
 			label = tabList[ i ].transform.FindChild("Label_Name").GetComponent<UILabel>();
@@ -69,10 +72,13 @@ public class SelectRoleView : UIComponentUnity {
 		//Content
 		for (int i = 0; i < contentList.Count; i++){
 			texture = contentList[ i ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
-			Texture2D source = unitInfoList[ i ].GetAsset(UnitAssetType.Profile);
-			texture.mainTexture = source;
-			texture.width = source.width;
-			texture.height = source.height;
+			unitInfoList[ i ].GetAsset(UnitAssetType.Profile, o => {
+				Texture2D source = o as Texture2D;
+				texture.mainTexture = source;
+				texture.width = source.width;
+				texture.height = source.height;
+			});
+
 
 			label = contentList[ i ].transform.FindChild("Label_No").GetComponent<UILabel>();
 			label.text = unitInfoList[ i ].ID.ToString();

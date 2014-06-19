@@ -70,14 +70,15 @@ public class GachaWindowView : UIComponentUnity {
         titleLabel = FindChild<UILabel>("TitleBackground/TitleLabel");
         chancesLabel = FindChild<UILabel>("TitleBackground/ChancesLabel");
 
-        float side = 170.0f;
+        float width = 140.0f;
+		float height = 150.0f;
         UISprite bg = FindChild<UISprite>("Board/Bg");
 		ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Scratch/GachaGrid", o => {
 			GameObject gachaGrid = o as GameObject;
 			for (int i = 0; i < DataCenter.maxGachaPerTime; i++) {
 				gachaGrid = NGUITools.AddChild (bg.gameObject, gachaGrid);
 				UIButton button = gachaGrid.GetComponent<UIButton> ();
-				button.gameObject.transform.localPosition = new Vector3 (-side + (i % 3) * side, side - (i / 3) * side, 0);
+				button.gameObject.transform.localPosition = new Vector3 (-width + (i % 3) * width, height - (i / 3) * height, 0);
 				gridDict.Add (button.gameObject, i);
 				UIEventListener.Get (button.gameObject).onClick = ClickButton;
 			}
@@ -234,7 +235,7 @@ public class GachaWindowView : UIComponentUnity {
 
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;
-        UISprite background = grid.transform.FindChild("Background").GetComponent<UISprite>();
+        UISprite background = grid.transform.FindChild("Cell/Background").GetComponent<UISprite>();
 //        background.spriteName = string.Empty;
         background.gameObject.SetActive(false);
 
@@ -255,7 +256,7 @@ public class GachaWindowView : UIComponentUnity {
         // 
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;
-        UISprite background = grid.transform.FindChild("Background").GetComponent<UISprite>();
+        UISprite background = grid.transform.FindChild("Cell/Background").GetComponent<UISprite>();
 //        background.spriteName = string.Empty;
 
 
@@ -274,7 +275,9 @@ public class GachaWindowView : UIComponentUnity {
         }
         LogHelper.Log("ShowUnitById(), unitId {0}", currentUnitInfo.ID);
 
-        texture.mainTexture = currentUnitInfo.GetAsset(UnitAssetType.Avatar);
+		currentUnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+			texture.mainTexture = o as Texture2D;
+		});
         UILabel rightBottom = grid.transform.FindChild("Cell/Label_Right_Bottom").GetComponent<UILabel>();
         rightBottom.text = TextCenter.GetText("Lv", level);
 

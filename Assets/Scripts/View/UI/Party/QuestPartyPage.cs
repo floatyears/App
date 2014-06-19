@@ -32,10 +32,12 @@ public class QuestPartyPage : PartyPageLogic{
 	}
 
 	void Refresh (TFriendInfo tfi) {
-		Texture2D tex = tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowItemLeft", tex);
-		MsgCenter.Instance.Invoke (CommandEnum.RefreshFriendHelper, null);
-		ExcuteCallback(cbdArgs);
+		tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowItemLeft", o as Texture2D);
+			MsgCenter.Instance.Invoke (CommandEnum.RefreshFriendHelper, null);
+			ExcuteCallback(cbdArgs);
+		});
+
 	}
 	
 	void EvolveSelectQuest(object data) {

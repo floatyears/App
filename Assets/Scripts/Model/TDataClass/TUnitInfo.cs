@@ -174,15 +174,25 @@ public class TUnitInfo : ProtobufDataBase {
 			}
 		}
 	}
-	
+
+	//GetCurveValue() Return Total value at level
 	public int GetCurveValue(int level, PowerInfo pi) {
 		// growCurve = 0.7, 1.0, 1.5
 		float result = pi.min + (pi.max-pi.min) * Mathf.Pow( (float)(level-1)/(MaxLevel-1) , (pi.growCurve) );
-		return Mathf.RoundToInt(result);
+
+		//Debug.LogError("Unit.GetCurveValue("+level+") min:"+pi.min+" max:"+pi.max+" maxLv:"+MaxLevel+" grow:"+pi.growCurve+" result:"+ Mathf.FloorToInt(result));
+		return Mathf.FloorToInt(result);
 	}
 
-	public int GetExp(int level) {
-		return GetCurveValue(level, instance.powerType.expType);
+	public int GetLevelExp(int level) {
+		int result = 0;
+		if (level == 1) {
+			result = GetCurveValue(level+1, instance.powerType.expType);
+		} else {
+			result = GetCurveValue(level+1, instance.powerType.expType) - GetCurveValue(level, instance.powerType.expType);
+		}
+
+		return result;
 	}
 
 	public bbproto.PowerType PowerType {
@@ -236,23 +246,32 @@ public class TUnitInfo : ProtobufDataBase {
 	private Texture2D avatarTexture;
 	private Texture2D profileTexture;
 
-	public Texture2D GetAsset(UnitAssetType uat) {
+	public void GetAsset(UnitAssetType uat,ResourceCallback callback) {
 		string path = string.Empty;
 
 		if (uat == UnitAssetType.Avatar) {
 			if (avatarTexture == null) {
 				path = string.Format ("Avatar/{0}", ID);
-				avatarTexture = ResourceManager.Instance.LoadLocalAsset (path,null) as Texture2D;
+				ResourceManager.Instance.LoadLocalAsset (path,o=>{
+					avatarTexture = o as Texture2D;
+					callback(o);
+				});
+			}else{
+				callback(avatarTexture);
 			}
-			return avatarTexture;
+
 		} 
 		else  {
 			if(profileTexture == null) {
 				path = string.Format("Profile/{0}", ID) ;
-				profileTexture =  ResourceManager.Instance.LoadLocalAsset(path,null) as Texture2D;
-				
+				ResourceManager.Instance.LoadLocalAsset(path,o=>{
+					profileTexture = o as Texture2D;
+					callback(o);
+				});
+			}else{
+				callback(profileTexture);
 			}
-			return profileTexture;
+
 		}
 	}
 
