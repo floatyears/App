@@ -145,7 +145,6 @@ public class BattleUseData {
         eas.RemoveListener();
         eps.RemoveListener();
         ac.RemoveListener();
-//		upi.RemoveListener ();
         els = null;
         eas = null;
         eps = null;
@@ -178,7 +177,6 @@ public class BattleUseData {
 			residualBlood = 1;	
         }
         Blood = System.Convert.ToInt32(residualBlood);
-//        RefreshBlood();
     }
 
     void RecoveHPByActiveSkill(object data) {
