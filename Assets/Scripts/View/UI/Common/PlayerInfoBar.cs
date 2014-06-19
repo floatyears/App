@@ -18,8 +18,8 @@ public class PlayerInfoBar : UIComponentUnity{
 	UILabel stamNowValueLabel;
 	
 	//floating panel when pressed
-	UILabel floatRankTextLabel;
-	UILabel floatRankValueLabel;
+	UILabel floatIDTextLabel;
+	UILabel floatIDValueLabel;
 	UILabel floatNextExpTextLabel;
 	UILabel floatTotalExoTextLabel;
 	UILabel floatNextExpValueLabel;
@@ -64,8 +64,8 @@ public class PlayerInfoBar : UIComponentUnity{
 		expSpr = transform.FindChild("InfoBar/Slider_Exp_Fg").GetComponent<UISprite>();
 		stamSpr = transform.FindChild("InfoBar/Slider_Stamina_Fg").GetComponent<UISprite>();
 
-		leftPosition = new Vector3(-UIConfig.playerInfoBox_X, UIConfig.playerInfoBox_Y, 0);
-		rightPosition = new Vector3(UIConfig.playerInfoBox_X, UIConfig.playerInfoBox_Y, 0);
+		leftPosition = new Vector3(-UIConfig.playerInfoBox_X, 0, 0);
+		rightPosition = new Vector3(UIConfig.playerInfoBox_X, 0, 0);
 
 		UIEventListener.Get(leftCollider.gameObject).onPress = ShowInfoBox;
 		UIEventListener.Get(rightCollider.gameObject).onPress = ShowInfoBox;
@@ -77,8 +77,8 @@ public class PlayerInfoBar : UIComponentUnity{
 	/// Inits the text label in floating info_panel.
 	/// </summary>
 	private void InitTextLabelFloating(){
-		floatRankTextLabel = transform.FindChild("InfoBox/Label_Text_Rank").GetComponent<UILabel>();
-		floatRankTextLabel.text = TextCenter.GetText("Float_Rank");
+		floatIDTextLabel = transform.FindChild("InfoBox/Label_Text_ID").GetComponent<UILabel>();
+		floatIDTextLabel.text = TextCenter.GetText("Float_User_ID");
 		
 		floatNextExpTextLabel = transform.FindChild("InfoBox/Label_Text_NextExp").GetComponent<UILabel>();
 		floatNextExpTextLabel.text = TextCenter.GetText("Float_NextExp");
@@ -91,7 +91,7 @@ public class PlayerInfoBar : UIComponentUnity{
 	/// Inits the value label in floating info_panel.
 	/// </summary>
 	private void InitValueLabelFloating(){
-		floatRankValueLabel = transform.FindChild("InfoBox/Label_Vaule_Rank").GetComponent<UILabel>();
+		floatIDValueLabel = transform.FindChild("InfoBox/Label_Vaule_ID").GetComponent<UILabel>();
 		floatNextExpValueLabel = transform.FindChild("InfoBox/Label_Vaule_NextExp").GetComponent<UILabel>();
 		floatTotalExpValueLabel = transform.FindChild("InfoBox/Label_Vaule_TotalExp").GetComponent<UILabel>();
 	}
@@ -130,7 +130,7 @@ public class PlayerInfoBar : UIComponentUnity{
 		}
 		//Rank
 		outRankValueLabel.text = DataCenter.Instance.UserInfo.Rank.ToString();
-		floatRankValueLabel.text = DataCenter.Instance.UserInfo.Rank.ToString();
+		floatIDValueLabel.text = DataCenter.Instance.UserInfo.UserId.ToString();
 		//Name
 		userNameValueLabel.text = DataCenter.Instance.UserInfo.NickName;
 		//Exp

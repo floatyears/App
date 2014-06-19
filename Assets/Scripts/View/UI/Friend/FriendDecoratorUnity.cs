@@ -46,11 +46,6 @@ public class FriendDecoratorUnity : UIComponentUnity {
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_FriendList");
         btns.Add(go, SceneEnum.FriendList);
 
-        go = FindChild("Btn_Information");
-		btnLabel = go.GetComponentInChildren<UILabel>();
-		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Information");
-        btns.Add(go, SceneEnum.Information);
-
         go = FindChild("Btn_SearchFriend");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Search");
@@ -65,11 +60,6 @@ public class FriendDecoratorUnity : UIComponentUnity {
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Reception");
         btns.Add(go, SceneEnum.Reception);
-
-        go = FindChild("Btn_YourID");
-		btnLabel = go.GetComponentInChildren<UILabel>();
-		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UserID");
-        btns.Add(go, SceneEnum.YourID);
 
         foreach (var btn in btns.Keys) {
             UIEventListener.Get(btn).onClick = ClickBtn;

@@ -14,6 +14,7 @@ public class PartyView : UIComponentUnity{
 	private UIButton nextPageBtn;
 	private GameObject topRoot;
 	private GameObject bottomRoot;
+
 	private MyUnitItem pickedFromParty;
 	private MyUnitItem focusedOnParty;
 	private MyUnitItem pickedFromUnitList;
@@ -38,9 +39,9 @@ public class PartyView : UIComponentUnity{
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-
 		InitPagePanel();
 		InitDragPanel();
+		InitPartyInfoPanel();
 	}
 
 	public override void ShowUI(){
@@ -49,12 +50,11 @@ public class PartyView : UIComponentUnity{
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
 		RefreshDragPanel();
+		UpdateInfoPanelView(DataCenter.Instance.PartyInfo.CurrentParty);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
 		RefreshItemCounter();
 		ShowUIAnimation();
-
-		UpdateInfoPanelView(DataCenter.Instance.PartyInfo.CurrentParty);
-
+	
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
@@ -527,10 +527,12 @@ public class PartyView : UIComponentUnity{
 
 	private void ShowUIAnimation(){
 		gameObject.transform.localPosition = new Vector3(0, -476, 0);
+
 		topRoot.transform.localPosition = 1000 * Vector3.up;
-		bottomRoot.transform.localPosition = new Vector3(-1000, -45, 0);
-		iTween.MoveTo(topRoot, iTween.Hash("y", 230, "time", 0.4f,"islocal", true));
-		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f));
+		bottomRoot.transform.localPosition = new Vector3(-1000, -145, 0);
+
+		iTween.MoveTo(topRoot, iTween.Hash("y", 150, "time", 0.4f,"islocal", true));
+		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f,"islocal", true));
 	}
 
 	private void RefreshItemCounter(){
@@ -556,20 +558,19 @@ public class PartyView : UIComponentUnity{
 	}
 
 	private void InitPartyInfoPanel(){
-		UILabel label;
-		totalHpLabel = transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
-		curCostLabel = transform.FindChild("Label_Cost_Cur").GetComponent<UILabel>();
-		maxCostLabel = transform.FindChild("Label_Cost_Max").GetComponent<UILabel>();
+		totalHpLabel = topRoot.transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
+		curCostLabel = topRoot.transform.FindChild("Label_Cost_Cur").GetComponent<UILabel>();
+		maxCostLabel = topRoot.transform.FindChild("Label_Cost_Max").GetComponent<UILabel>();
 		
-		fireAtkLabel = transform.FindChild("Label_Atk_Fire").GetComponent<UILabel>();
-		waterAtkLabel = transform.FindChild("Label_Atk_Water").GetComponent<UILabel>();
-		windAtkLabel = transform.FindChild("Label_Atk_Wind").GetComponent<UILabel>();
-		lightAtkLabel = transform.FindChild("Label_Atk_Light").GetComponent<UILabel>();
-		darkAtkLabel = transform.FindChild("Label_Atk_Dark").GetComponent<UILabel>();
-		noneAtkLabel = transform.FindChild("Label_Atk_None").GetComponent<UILabel>();
+		fireAtkLabel = topRoot.transform.FindChild("Label_Atk_Fire").GetComponent<UILabel>();
+		waterAtkLabel = topRoot.transform.FindChild("Label_Atk_Water").GetComponent<UILabel>();
+		windAtkLabel = topRoot.transform.FindChild("Label_Atk_Wind").GetComponent<UILabel>();
+		lightAtkLabel = topRoot.transform.FindChild("Label_Atk_Light").GetComponent<UILabel>();
+		darkAtkLabel = topRoot.transform.FindChild("Label_Atk_Dark").GetComponent<UILabel>();
+		noneAtkLabel = topRoot.transform.FindChild("Label_Atk_None").GetComponent<UILabel>();
 		
-		leaderSkillNameLabel = transform.FindChild("Label_Leader_Skill_Name").GetComponent<UILabel>();
-		leaderSkillDscpLabel = transform.FindChild("Label_Leader_Skill_Dscp").GetComponent<UILabel>();
+		leaderSkillNameLabel = topRoot.transform.FindChild("Label_Leader_Skill_Name").GetComponent<UILabel>();
+		leaderSkillDscpLabel = topRoot.transform.FindChild("Label_Leader_Skill_Dscp").GetComponent<UILabel>();
 	}
 
 	private void UpdateInfoPanelView(object data){

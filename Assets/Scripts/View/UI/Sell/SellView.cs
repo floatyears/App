@@ -22,12 +22,17 @@ public class SellView : UIComponentUnity{
 	private List<GameObject> readyItemList = new List<GameObject>();
 	
 	public override void Init(UIInsConfig config, IUICallback origin){
+		Debug.LogError("Sell.ShowUI()...1");
+
 		base.Init(config, origin);
 		InitUIElement();
+		Debug.LogError("Sell.ShowUI()...2");
+
 	}
 	
 	public override void ShowUI(){
 		base.ShowUI();
+		Debug.LogError("Sell.ShowUI()...");
 		AddCmdListener();
 		totalSaleValue = 0;
 		pickUnitViewList.Clear();
@@ -63,6 +68,7 @@ public class SellView : UIComponentUnity{
 	}
 
     public override void ResetUIState() {
+		Debug.LogError("ResetUIState()...");
 		ResetUIElement();
         SellController controller = origin as SellController;
         if (controller != null){
