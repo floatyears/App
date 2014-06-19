@@ -44,7 +44,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		friendWindow.DestoryUI ();
+		if(friendWindow != null)
+			friendWindow.DestoryUI ();
 		sortRule = SortRule.None;
 		myUnitDragPanel.DestoryDragPanel ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
@@ -313,6 +314,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 			CheckLevelUp ();
 		} else {
+			if (SetBaseItem (pui)) {
+				return;	
+			}
+
 			EnabledItem(prevSelectedItem.UserUnit);
 			prevSelectedItem.IsFocus = false;
 			prevSelectedItem.UserUnit = pui.UserUnit;
@@ -641,32 +646,4 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			return myUnitList [i];
 		}
 	}
-
-//	int LevelUpFriend() {
-//		
-//		} else {
-//			return System.Convert.ToInt32(ExpGot * user.MultipleDevorExp(selectedItem[baseItemIndex].UserUnit));	
-//		}
-//	}
-
-
-//	protected virtual void CaculateDevorExp (bool Add) {
-//		TUserUnit friendInfo = selectedItem [friendItemIndex].UserUnit;
-//		TUserUnit baseInfo = selectedItem [baseItemIndex];
-//		if (friendInfo == null || baseInfo == null) {
-//				devorExp = System.Convert.ToInt32(_devorExp / multiple);
-//				multiple = 1;
-//				return;	
-//			}
-//
-//		if (Add) {
-//			float value = DGTools.AllMultiple (baseUnitInfo.userUnitItem, friendUnitInfo);
-//			devorExp = System.Convert.ToInt32( _devorExp * value);
-//			multiple = value;	
-//		} 
-//		else {
-//			devorExp = System.Convert.ToInt32(_devorExp / multiple);
-//			multiple = 1;
-//		}
-//	}
 }
