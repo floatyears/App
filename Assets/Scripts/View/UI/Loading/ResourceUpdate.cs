@@ -361,7 +361,7 @@ public class ResourceUpdate : MonoBehaviour {
 	{
 		WWW www = new WWW (url);
 		globalWWW = www;
-		Debug.Log (globalWWW);
+		//Debug.Log (globalWWW);
 		yield return www;
 
 

@@ -234,32 +234,32 @@ public class BaseUnitItem : MonoBehaviour {
 	private void ShowUnitType(){
 		switch (userUnit.UnitInfo.Type){
 			case EUnitType.UFIRE :
-				avatarBg.spriteName = "avatar_bg_1";
-				avatarBorderSpr.spriteName = "avatar_border_1";
+				avatarBg.spriteName = "avatar_bg_fire";
+				avatarBorderSpr.spriteName = "avatar_border_fire";
 				break;
 			case EUnitType.UWATER :
-				avatarBg.spriteName = "avatar_bg_2";
-				avatarBorderSpr.spriteName = "avatar_border_2";
+				avatarBg.spriteName = "avatar_bg_water";
+				avatarBorderSpr.spriteName = "avatar_border_water";
 
 				break;
 			case EUnitType.UWIND :
-				avatarBg.spriteName = "avatar_bg_3";
-				avatarBorderSpr.spriteName = "avatar_border_3";
+				avatarBg.spriteName = "avatar_bg_wind";
+				avatarBorderSpr.spriteName = "avatar_border_wind";
 
 				break;
 			case EUnitType.ULIGHT :
-				avatarBg.spriteName = "avatar_bg_4";
-				avatarBorderSpr.spriteName = "avatar_border_4";
+				avatarBg.spriteName = "avatar_bg_light";
+				avatarBorderSpr.spriteName = "avatar_border_light";
 
 				break;
 			case EUnitType.UDARK :
-				avatarBg.spriteName = "avatar_bg_5";
-				avatarBorderSpr.spriteName = "avatar_border_5";
+				avatarBg.spriteName = "avatar_bg_dark";
+				avatarBorderSpr.spriteName = "avatar_border_dark";
 
 				break;
 			case EUnitType.UNONE :
-				avatarBg.spriteName = "avatar_bg_6";
-				avatarBorderSpr.spriteName = "avatar_border_6";
+				avatarBg.spriteName = "avatar_bg_none";
+				avatarBorderSpr.spriteName = "avatar_border_none";
 
 				break;
 			default:

@@ -101,7 +101,7 @@ public class ResourceManager : MonoBehaviour{
 //				(int)(num/20)
 			}
 
-//			Debug.Log ("assets load: " + "Assets/ResourceDownload/" + path + ext + "  "  + Resources.LoadAssetAtPath <Object>("Assets/ResourceDownload/" + path+ ext));
+			//Debug.Log ("assets load: " + "Assets/ResourceDownload/" + path + ext + "  "  + Resources.LoadAssetAtPath <Object>("Assets/ResourceDownload/" + path+ ext));
 			if(callback != null){
 				callback(Resources.LoadAssetAtPath<Object> ("Assets/ResourceDownload/" + path + ext));
 				return null;
@@ -135,7 +135,7 @@ public class ResourceManager : MonoBehaviour{
 
 #endif
 		} else {
-			Debug.Log ("resource load from resource: " + path);
+			//Debug.Log ("resource load from resource: " + path);
 			if(callback != null){
 				callback(Resources.Load (path));
 				return null;

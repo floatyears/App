@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class PartyView : UIComponentUnity{
 	public const int PARTY_MEMBER_COUNT = 4;
@@ -13,6 +14,7 @@ public class PartyView : UIComponentUnity{
 	private UIButton nextPageBtn;
 	private GameObject topRoot;
 	private GameObject bottomRoot;
+
 	private MyUnitItem pickedFromParty;
 	private MyUnitItem focusedOnParty;
 	private MyUnitItem pickedFromUnitList;
@@ -22,10 +24,24 @@ public class PartyView : UIComponentUnity{
 	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
 	private List<PartyUnitItem> partyUnitViewList = new List<PartyUnitItem>();
 
+
+	private UILabel totalHpLabel;
+	private UILabel curCostLabel;
+	private UILabel maxCostLabel;
+	private UILabel fireAtkLabel;
+	private UILabel waterAtkLabel;
+	private UILabel windAtkLabel;
+	private UILabel lightAtkLabel;
+	private UILabel darkAtkLabel;
+	private UILabel noneAtkLabel;
+	private UILabel leaderSkillNameLabel;
+	private UILabel leaderSkillDscpLabel;
+
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitPagePanel();
 		InitDragPanel();
+		InitPartyInfoPanel();
 	}
 
 	public override void ShowUI(){
@@ -34,10 +50,11 @@ public class PartyView : UIComponentUnity{
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		RefreshParty(curParty);
 		RefreshDragPanel();
+		UpdateInfoPanelView(DataCenter.Instance.PartyInfo.CurrentParty);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
 		RefreshItemCounter();
 		ShowUIAnimation();
-
+	
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
@@ -510,10 +527,12 @@ public class PartyView : UIComponentUnity{
 
 	private void ShowUIAnimation(){
 		gameObject.transform.localPosition = new Vector3(0, -476, 0);
+
 		topRoot.transform.localPosition = 1000 * Vector3.up;
-		bottomRoot.transform.localPosition = new Vector3(-1000, -45, 0);
-		iTween.MoveTo(topRoot, iTween.Hash("y", 230, "time", 0.4f,"islocal", true));
-		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f));
+		bottomRoot.transform.localPosition = new Vector3(-1000, -145, 0);
+
+		iTween.MoveTo(topRoot, iTween.Hash("y", 150, "time", 0.4f,"islocal", true));
+		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f,"islocal", true));
 	}
 
 	private void RefreshItemCounter(){
@@ -526,14 +545,73 @@ public class PartyView : UIComponentUnity{
 
 	private void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyPanelInfo, UpdateInfoPanelView);
 	}
 	
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
+		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyPanelInfo, UpdateInfoPanelView);
 	}
 
 	public GameObject GetUnitItem(int i){
 		return dragPanel.ScrollItem [i];
+	}
+
+	private void InitPartyInfoPanel(){
+		totalHpLabel = topRoot.transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
+		curCostLabel = topRoot.transform.FindChild("Label_Cost_Cur").GetComponent<UILabel>();
+		maxCostLabel = topRoot.transform.FindChild("Label_Cost_Max").GetComponent<UILabel>();
+		
+		fireAtkLabel = topRoot.transform.FindChild("Label_Atk_Fire").GetComponent<UILabel>();
+		waterAtkLabel = topRoot.transform.FindChild("Label_Atk_Water").GetComponent<UILabel>();
+		windAtkLabel = topRoot.transform.FindChild("Label_Atk_Wind").GetComponent<UILabel>();
+		lightAtkLabel = topRoot.transform.FindChild("Label_Atk_Light").GetComponent<UILabel>();
+		darkAtkLabel = topRoot.transform.FindChild("Label_Atk_Dark").GetComponent<UILabel>();
+		noneAtkLabel = topRoot.transform.FindChild("Label_Atk_None").GetComponent<UILabel>();
+		
+		leaderSkillNameLabel = topRoot.transform.FindChild("Label_Leader_Skill_Name").GetComponent<UILabel>();
+		leaderSkillDscpLabel = topRoot.transform.FindChild("Label_Leader_Skill_Dscp").GetComponent<UILabel>();
+	}
+
+	private void UpdateInfoPanelView(object data){
+		TUnitParty unitParty = data as TUnitParty;
+		if(unitParty == null){
+			Debug.LogError("PartyInfoView.UpdateView(), TUnitParty is NULL!");
+			return;
+		}
+		
+		SkillBase skillBase = unitParty.GetLeaderSkillInfo ();
+		if (skillBase == null) {
+			leaderSkillNameLabel.text = string.Empty;
+			leaderSkillDscpLabel.text = string.Empty;
+		}
+		else{
+			leaderSkillNameLabel.text = skillBase.name;
+			leaderSkillDscpLabel.text = skillBase.description;
+		}
+		
+		totalHpLabel.text = unitParty.TotalHp.ToString();	
+		curCostLabel.text = unitParty.TotalCost.ToString();
+		maxCostLabel.text = DataCenter.Instance.UserInfo.CostMax.ToString();
+		
+		int value = 0;
+		unitParty.TypeAttack.TryGetValue (EUnitType.UFIRE, out value);
+		fireAtkLabel.text = value.ToString();
+		
+		unitParty.TypeAttack.TryGetValue (EUnitType.UWATER, out value);	
+		waterAtkLabel.text =  value.ToString();
+		
+		unitParty.TypeAttack.TryGetValue (EUnitType.UWIND, out value);
+		windAtkLabel.text =  value.ToString();
+		
+		unitParty.TypeAttack.TryGetValue (EUnitType.UNONE, out value);
+		noneAtkLabel.text =  value.ToString();
+		
+		unitParty.TypeAttack.TryGetValue (EUnitType.ULIGHT, out value);
+		lightAtkLabel.text =  value.ToString();
+		
+		unitParty.TypeAttack.TryGetValue (EUnitType.UDARK, out value);
+		darkAtkLabel.text =  value.ToString();
 	}
 
 }

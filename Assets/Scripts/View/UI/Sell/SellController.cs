@@ -155,6 +155,7 @@ public class SellController : ConcreteComponent {
 
 	private List<TUserUnit> curUseUnitList;
 	void GetUnitCellViewList(){
+		Debug.LogError("GetUnitCellViewList()...");
 		List<TUserUnit> userUnitList = new List<TUserUnit>();	
 		userUnitList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
 		if(curUseUnitList == null){

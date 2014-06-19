@@ -76,8 +76,8 @@ public class ShopView : UIComponentUnity {
     }
 
 	private void ShowUIAnimation(){
-		infoPanelRoot.transform.localPosition = new Vector3(-1000, -325, 0);
-		windowRoot.transform.localPosition = new Vector3(1000, -630, 0);
+		infoPanelRoot.transform.localPosition = new Vector3(-1000, -310, 0);
+		windowRoot.transform.localPosition = new Vector3(1000, -620, 0);
 		iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 		iTween.MoveTo(windowRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}

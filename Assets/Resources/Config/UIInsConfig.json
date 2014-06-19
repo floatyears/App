@@ -69,7 +69,7 @@
         "resoucePath": "Prefabs/UI/Home/",
         "parent": 2,
         "positionx": 0,
-        "positiony": 57,
+        "positiony": 0,
         "positionz": 0
     },
     "LoadingWindow": {
@@ -157,7 +157,7 @@
         "resoucePath": "Prefabs/UI/Units/",
         "parent": 1,
         "positionx": 0,
-        "positiony": -250,
+        "positiony": -290,
         "positionz": 0
     },
     "CatalogWindow": {
@@ -366,7 +366,7 @@
         "resoucePath": "Prefabs/UI/Scratch/",
         "parent": 1,
         "positionx": 0,
-        "positiony": -245,
+        "positiony": -180,
         "positionz": 0
     },
        "ItemCounterBar": {

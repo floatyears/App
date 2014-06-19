@@ -336,11 +336,11 @@ public class UnitsDecorator : DecoratorBase{
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		UnitsController units = CreatComponent< UnitsController >(UIConfig.unitsWindowName);
-		UnitInfoLogic partyInfo = CreatComponent<UnitInfoLogic>(UIConfig.unitsInfoPanelName);
+		//UnitInfoLogic partyInfo = CreatComponent<UnitInfoLogic>(UIConfig.unitsInfoPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
-		partyInfo.SetComponent(sceneInfoBar);
-		units.SetComponent(partyInfo);
+		//partyInfo.SetComponent(sceneInfoBar);
+		units.SetComponent(sceneInfoBar);
 
 		lastDecorator = units;
 //		lastDecorator.CreatUI();
@@ -442,13 +442,13 @@ public class PartyDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
-		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
+		//PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.PartyWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		sortPanel.SetComponent(sceneInfoBar);
-		partyInfo.SetComponent(sortPanel);
-		counter.SetComponent(partyInfo);
+		//partyInfo.SetComponent(sortPanel);
+		counter.SetComponent(sortPanel);
 		partyPage.SetComponent(counter);
 	
 		lastDecorator = partyPage;

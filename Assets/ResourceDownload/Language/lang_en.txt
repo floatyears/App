@@ -40,9 +40,9 @@ Btn_SortRule_AddPoint=ADD POINT
 Btn_SortRule_Rank=RANK
 ##Label Text
 Divided_Line=/
-Float_Rank=RANK
-
-Float_TotalExp=TOTAP EXP
+Float_User_ID=用户ID:
+Float_NextExp=下一级所需经验:
+Float_TotalExp=总获得经验:
 
 ##City Name
 City_Name_1=city_name_1

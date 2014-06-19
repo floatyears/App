@@ -38,30 +38,30 @@ public class MainMenuView : UIComponentUnity{
 
 
 	private void InitButton() {
-		GameObject go = FindChild ("ImgBtn_Friends");
+		GameObject go = FindChild ("Btn_Friends");
 		buttonInfo.Add (go, SceneEnum.Friends);
 
-		go = FindChild ("ImgBtn_Home");
+		go = FindChild ("Btn_Home");
 		buttonInfo.Add (go, SceneEnum.Home);
 
-		go = FindChild ("ImgBtn_Scratch");
+		go = FindChild ("Btn_Scratch");
 		buttonInfo.Add (go, SceneEnum.Scratch);
 
-		go = FindChild ("ImgBtn_Shop");
+		go = FindChild ("Btn_Shop");
 		buttonInfo.Add (go, SceneEnum.Shop);
 
-		go = FindChild ("ImgBtn_Others");
+		go = FindChild ("Btn_Others");
 		buttonInfo.Add (go, SceneEnum.Others);
 
-		go = FindChild ("ImgBtn_Units");
+		go = FindChild ("Btn_Units");
 		buttonInfo.Add (go, SceneEnum.Units);
 
 		foreach (var item in buttonInfo.Keys) {
 			UIEventListener.Get(item).onClick = ClickMenuBtn;
 		}
 
-		leaderAvatarTex = transform.FindChild("ImgBtn_Units/Texture_Avatar_Leader").GetComponent<UITexture>();
-		leaderAvatarSpr = transform.FindChild("ImgBtn_Units/Sprite_Border").GetComponent<UISprite>();
+		leaderAvatarTex = transform.FindChild("Btn_Units/Texture_Avatar_Leader").GetComponent<UITexture>();
+		leaderAvatarSpr = transform.FindChild("Btn_Units/Sprite_Border").GetComponent<UISprite>();
 	}
 
 	private void ClickMenuBtn( GameObject btn ) {

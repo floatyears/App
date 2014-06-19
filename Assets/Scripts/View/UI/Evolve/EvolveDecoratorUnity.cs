@@ -458,32 +458,32 @@ public class EvolveItem {
 	private void ShowUnitType(){
 		switch (userUnit.UnitInfo.Type){
 		case EUnitType.UFIRE :
-			bgprite.spriteName = "avatar_bg_1";
-			borderSprite.spriteName = "avatar_border_1";
+			bgprite.spriteName = "avatar_bg_fire";
+			borderSprite.spriteName = "avatar_border_fire";
 			break;
 		case EUnitType.UWATER :
-			bgprite.spriteName = "avatar_bg_2";
-			borderSprite.spriteName = "avatar_border_2";
+			bgprite.spriteName = "avatar_bg_water";
+			borderSprite.spriteName = "avatar_border_water";
 			
 			break;
 		case EUnitType.UWIND :
-			bgprite.spriteName = "avatar_bg_3";
-			borderSprite.spriteName = "avatar_border_3";
+			bgprite.spriteName = "avatar_bg_wind";
+			borderSprite.spriteName = "avatar_border_wind";
 			
 			break;
 		case EUnitType.ULIGHT :
-			bgprite.spriteName = "avatar_bg_4";
-			borderSprite.spriteName = "avatar_border_4";
+			bgprite.spriteName = "avatar_bg_light";
+			borderSprite.spriteName = "avatar_border_light";
 			
 			break;
 		case EUnitType.UDARK :
-			bgprite.spriteName = "avatar_bg_5";
-			borderSprite.spriteName = "avatar_border_5";
+			bgprite.spriteName = "avatar_bg_dark";
+			borderSprite.spriteName = "avatar_border_dark";
 			
 			break;
 		case EUnitType.UNONE :
-			bgprite.spriteName = "avatar_bg_6";
-			borderSprite.spriteName = "avatar_border_6";
+			bgprite.spriteName = "avatar_bg_none";
+			borderSprite.spriteName = "avatar_border_none";
 			
 			break;
 		default:
