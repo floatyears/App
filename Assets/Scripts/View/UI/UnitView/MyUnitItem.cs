@@ -102,5 +102,10 @@ public class MyUnitItem : BaseUnitItem {
 //		Debug.LogError (userUnit.TUserUnitID + " userUnit.IsFavorite : " + userUnit.IsFavorite);
 		IsFavorite = (userUnit.IsFavorite == 1) ? true : false;
 	}
+
+	protected override void PressItem(GameObject item){
+		base.PressItem(item);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
+	}
 	
 }

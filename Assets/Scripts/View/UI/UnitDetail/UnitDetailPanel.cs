@@ -10,20 +10,16 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public UILabel statusTextLabel;
 	public UILabel normalSkillTextLabel;
 	public UILabel profileTextLabel;
-	
-//	UIButton favBtn;
+
 	UnitDetailTopPanel topPanel;
 
 	GameObject unitInfoTabs;
-//	UILabel noLabel;
+
 	UILabel hpLabel;
 	UILabel atkLabel;
 	UILabel raceLabel;
-//	UILabel costLabel;
-//	UILabel rareLabel;
+
 	UILabel levelLabel;
-//	UILabel typeLabel;
-//	UILabel nameLabel;
 	UILabel needExpLabel;
 	UISlider expSlider;
 
@@ -32,12 +28,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	
 	UILabel normalSkill2DscpLabel;
 	UILabel normalSkill2NameLabel;
-//
-//	UILabel leaderSkillNameLabel;
-//	UILabel leaderSkillDscpLabel;
-//
-//	UILabel activeSkillNameLabel;
-//	UILabel activeSkillDscpLabel;
 
 	UILabel profileLabel;
 
@@ -587,45 +577,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		Debug.Log ("exp slide progress: " + progress);
 		expSlider.value = progress;
 	}
-
-//	private void CollectCurUnit(GameObject go){
-//		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
-//		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
-//		UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, favAction);
-//	}
-
-//	private void OnRspChangeFavState(object data){
-//		//Debug.Log("OnRspChangeFavState(), start...");
-//		if(data == null) {Debug.LogError("OnRspChangeFavState(), data is NULL"); return;}
-//		bbproto.RspUnitFavorite rsp = data as bbproto.RspUnitFavorite;
-//		if (rsp.header.code != (int)ErrorCode.SUCCESS){
-//			LogHelper.LogError("OnRspChangeFavState code:{0}, error:{1}", rsp.header.code, rsp.header.error);
-//			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
-//
-//			return;
-//		}
-//		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;
-////		Debug.LogError ("curUserUnit : " + curUserUnit.TUserUnitID);
-//		ShowFavView(curUserUnit.IsFavorite);
-//	}
-
-
-//	private void ShowFavView(int isFav){
-//		UISprite background = favBtn.transform.FindChild("Background").GetComponent<UISprite>();
-//		//Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
-//		if(isFav == 1){
-//			background.spriteName = "Fav_Lock_Close";
-//			background.spriteName = "Fav_Lock_Close";
-//			background.spriteName = "Fav_Lock_Close";
-//			//Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
-//		}
-//		else{
-//			background.spriteName = "Fav_Lock_Open";
-//			background.spriteName = "Fav_Lock_Open";
-//			background.spriteName = "Fav_Lock_Open";
-//			//Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
-//		}
-//	}
 
 	private void InitTextLabel(){
 		hpTextLabel.text = TextCenter.GetText("Text_HP");

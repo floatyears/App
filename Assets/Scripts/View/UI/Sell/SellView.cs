@@ -118,14 +118,16 @@ public class SellView : UIComponentUnity{
 
 	void FillLastSureWindow(List<TUserUnit> dataInfoList){
 		for (int i = 0; i < dataInfoList.Count; i++){
-			Texture2D tex2d = dataInfoList[ i ].UnitInfo.GetAsset(UnitAssetType.Avatar);
-			string level = dataInfoList[ i ].Level.ToString();
-			FindTextureWithPosition( i, readyItemList).mainTexture = tex2d ;
-			FindLabelWithPosition(i, readyItemList).text = "LV" + level;
-
-			UISprite bgSpr = readyItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
-			UISprite borderSor = readyItemList[ i ].transform.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
-			ShowUnitType(dataInfoList[ i ], bgSpr, borderSor);
+			dataInfoList[ i ].UnitInfo.GetAsset(UnitAssetType.Avatar,o => {
+				Texture2D tex2d = o as Texture2D;
+				string level = dataInfoList[ i ].Level.ToString();
+				FindTextureWithPosition( i, readyItemList).mainTexture = tex2d ;
+				FindLabelWithPosition(i, readyItemList).text = "LV" + level;
+				
+				UISprite bgSpr = readyItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
+				UISprite borderSor = readyItemList[ i ].transform.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
+				ShowUnitType(dataInfoList[ i ], bgSpr, borderSor);
+			});
 		}
 	}
 
@@ -333,14 +335,20 @@ public class SellView : UIComponentUnity{
 			Dictionary<string,object> temp = new Dictionary<string, object>();
 			temp.Add("poolPos", poolPos);
 			temp.Add("clickPos", clickPos);
-			Texture2D tex = item.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
-			temp.Add("texture", tex);
-			string sprName = item.UserUnit.UnitInfo.GetUnitBackgroundName();
-			temp.Add("background", sprName);
-			sprName = item.UserUnit.UnitInfo.GetUnitBorderSprName();
-			temp.Add("border", sprName);
-			temp.Add("label", item.UserUnit.Level.ToString());
-			AddViewItem(temp);
+			item.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar,o=>{
+				Texture2D tex = o as Texture2D;
+				temp.Add("texture", tex);
+				string sprName = item.UserUnit.UnitInfo.GetUnitBackgroundName();
+				temp.Add("background", sprName);
+				sprName = item.UserUnit.UnitInfo.GetUnitBorderSprName();
+				temp.Add("border", sprName);
+				temp.Add("label", item.UserUnit.Level.ToString());
+				AddViewItem(temp);
+
+				ActivateButton();
+				return;
+			});
+			return;
 		}
 		else{
 			//already exist, treat current click as "cancel sell this unit"
