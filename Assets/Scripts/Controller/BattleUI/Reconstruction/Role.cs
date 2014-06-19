@@ -142,12 +142,12 @@ public class Role : UIBaseUnity {
 
 		isMove = true;
 		SetTarget(firstWay[0]);
-//		QuestCoorEnd ();
+
+		MoveRole ();
 	}
 
 	void QuestCoorEnd(Coordinate coor) {
 		bQuest.currentCoor = coor;
-//		bQuest.QuestCoorEnd ();
 	}
 
 	void SetTarget(Coordinate tc) {
@@ -160,23 +160,68 @@ public class Role : UIBaseUnity {
 		}
 	}
 	
-	void Update() {
-		if(!isMove)
-			return;
+//	void Update() {
+//		if(!isMove)
+//			return;
+//
+//		distance = transform.localPosition - targetPoint;
+//
+//		if(distance.magnitude > 1f)
+//			transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 10);
+//		else
+//			MoveEnd();
+//	}
 
-		distance = transform.localPosition - targetPoint;
+	Vector3[] secondPath = new Vector3[3];
+	//-15 -659 -100
+//	float y =  100f;
+//	float time = 0.5f;
+	Vector3 middlePoint = Vector3.zero;
+	void MoveRole() {
+		Vector3 localposition = transform.localPosition;
+		Vector3 leftMiddlePoint = Vector3.zero;
+		Vector3 rightMiddlePoint = Vector3.zero;
+		Vector3 rightFristMiddlePoint = Vector3.zero;
 
-		if(distance.magnitude > 1f)
-			transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 10);
-		else
-			MoveEnd();
+		if (localposition.x == targetPoint.x) {
+			middlePoint = new Vector3 (localposition.x, localposition.y + BattleMap.itemWidth * 1.5f, localposition.z);
+			leftMiddlePoint = new Vector3(middlePoint.x, middlePoint.y * 0.9f, middlePoint.z);
+			rightMiddlePoint = targetPoint;
+		} else {
+			float x = targetPoint.x - localposition.x;
+			middlePoint = new Vector3 (localposition.x + x * 0.1f , localposition.y + BattleMap.itemWidth * 1.5f, localposition.z);
+//			rightFristMiddlePoint = new Vector3(middlePoint.x + x * 0.1f, middlePoint.y + 10f, middlePoint.z);
+			rightMiddlePoint = new Vector3(localposition.x + x * 0.5f,localposition.y + BattleMap.itemWidth * 1.1f , localposition.z);
+		}
+
+		Vector3[] path = new Vector3[3];
+		path [0] = transform.localPosition;
+		path [2] = middlePoint;
+
+		secondPath [0] = middlePoint;
+//		secondPath [1] = rightFristMiddlePoint;
+		secondPath [1] = rightMiddlePoint;
+		secondPath [2] = targetPoint;
+//		Debug.LogError ("middlePoint : " + middlePoint + " rightMiddlePoint : " + rightMiddlePoint + " targetPoint : " + targetPoint); 
+
+//		iTween.MoveTo (gameObject, iTween.Hash ("path", path, "movetopath", false, "islocal", true, "time", 0.2f, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
+		iTween.MoveTo (gameObject, iTween.Hash ("position", middlePoint, "islocal", true, "time", 0.25f, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
+		//		GameTimer.GetInstance ().AddCountDown (0.2f, StopItween);
 	}
+	
+//	void StopItween() {
+//		iTween.Stop (gameObject);
+//		iTween.MoveTo (gameObject, iTween.Hash ("path", secondPath,"movetopath",false, "islocal", true, "time", 0.6f, "easetype", iTween.EaseType.easeInBack, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
+//	}
 
+	void MoveRoleSecond() {
+//		iTween.MoveTo (gameObject, iTween.Hash ("position", targetPoint, "islocal", true, "time", 0.35f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
+		iTween.MoveTo (gameObject, iTween.Hash ("path", secondPath, "movetopath", false, "islocal", true, "time", 0.4f, "easetype", iTween.EaseType.easeInQuad, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
+	}
+	
 	Coordinate tempCoor; 
 
 	void MoveEnd() {
-//		bQuest.battle.ShieldInput (true);
-
 		if(!isMove) {
 			firstWay.Clear();
 		}
@@ -185,8 +230,9 @@ public class Role : UIBaseUnity {
 			firstWay.RemoveAt(0);
 			bQuest.battleMap.ChangeStyle (tempCoor);
 			SyncRoleCoordinate(tempCoor);
-			if(firstWay.Count > 0)
-				Move();
+			if(firstWay.Count > 0) {
+				GameTimer.GetInstance().AddCountDown(0.1f, Move);
+			}
 			else
 				isMove = false;
 		}

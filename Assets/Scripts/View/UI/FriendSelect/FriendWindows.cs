@@ -6,7 +6,6 @@ public class FriendWindows : FriendHelperView {
 	public bool isShow = false;
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config, origin);
-//		transform.localPosition -= transform.parent.localPosition;
 	}
 
 	public override void ShowUI () {
@@ -15,8 +14,6 @@ public class FriendWindows : FriendHelperView {
 			gameObject.SetActive(true);
 		}
 		base.ShowUI ();
-//		transform.localPosition += new Vector3 (0f, -485f, 0f);
-//		generalDragPanel.DragPanelView.scrollView.transform.localPosition += new Vector3 (0f, -50f, 0f);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
