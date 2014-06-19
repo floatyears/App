@@ -347,16 +347,21 @@ public class TUserUnit : ProtobufDataBase {
 		}
 	}
 
-	public int GetCurveValue(PowerInfo pi) {
-		return UnitInfo.GetCurveValue( Level, pi);
+	public int GetLevelCurveValue(int lv, PowerInfo pi) {
+//		Debug.LogError("TUserUnit.GetLevelCurveValue..");
+		if( lv == 1) {
+			return UnitInfo.GetCurveValue( lv+1, pi);
+		}
+		return UnitInfo.GetCurveValue( lv+1, pi) - UnitInfo.GetCurveValue( lv, pi);
 	}
 
-	public int GetTotalCurveValue(int level, PowerInfo pi) {
-		int total = 0;
-		for (int i=1; i<=level; i++) {
-			total += UnitInfo.GetCurveValue( Level, pi);
-		}
-		return total;
+	public int GetTotalCurveValue(int lv, PowerInfo pi) {
+//		int total = 0;
+//		for (int i=1; i<=level; i++) {
+//			total += UnitInfo.GetCurveValue( Level, pi);
+//		}
+//		Debug.LogError("TUserUnit.GetTotalCurveValue.. Level:"+lv);
+		return UnitInfo.GetCurveValue( lv, pi);
 	}
 
     public int Exp {
@@ -367,7 +372,10 @@ public class TUserUnit : ProtobufDataBase {
 
     public int CurExp {
         get {
-			int curExp = UnitInfo.GetCurveValue( Level, UnitInfo.Object.powerType.expType ) - NextExp;
+			int curExp = GetLevelCurveValue( Level, UnitInfo.Object.powerType.expType );
+//			Debug.LogError(">>>> Level:"+(Level+1)+" => exp:"+curExp);
+			curExp -= NextExp;
+//			Debug.LogError(">>>> exp - nextExp => curExp:"+curExp);
             return curExp;
         }
     }
@@ -375,8 +383,9 @@ public class TUserUnit : ProtobufDataBase {
 
     public int NextExp {
         get {
-			int nextexp = GetTotalCurveValue( Level, UnitInfo.Object.powerType.expType) - instance.exp;
-            if (nextexp < 0 || Level == UnitInfo.MaxLevel)
+			int nextexp = GetTotalCurveValue( Level+1, UnitInfo.Object.powerType.expType) - instance.exp;
+//			Debug.LogError("TUserUnit.NextExp :: Level:"+Level+" nextexp:"+nextexp+" instance.exp:"+instance.exp);
+			if (nextexp < 0 || Level == UnitInfo.MaxLevel)
                 nextexp = 0;
             return nextexp;
         }

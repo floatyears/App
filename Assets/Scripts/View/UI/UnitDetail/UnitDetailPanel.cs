@@ -310,6 +310,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		levelLabel.text = data.Level.ToString();
 
+//		Debug.LogError("ShowInfo :: Lv.text:"+levelLabel.text);
+
 		//next level need
 		if ((data.Level > unitInfo.MaxLevel ) 
 		    || (data.Level == unitInfo.MaxLevel && data.NextExp <= 0) ) {
@@ -318,6 +320,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			expSlider.value = 1f;
 		} else {
 			needExpLabel.text = "Next: " + data.NextExp.ToString();
+//			Debug.LogError("ShowInfo ->  needExpLabel.text="+needExpLabel.text);
 			expSlider.value = data.CurExp*1.0f / (data.CurExp + data.NextExp);
 		}
 	}
@@ -394,7 +397,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		curUserUnit = userUnit;
 
-		if (userUnit != null) {
+		if ( oldBlendUnit != null ) {
+			Debug.LogError("CallbackView :: ShowInfo for oldBlendUnit...");
+			ShowInfo (oldBlendUnit);
+		}
+		else if (userUnit != null) {
+			Debug.LogError("CallbackView :: ShowInfo for currentUnit...");
 			ShowInfo (userUnit);
 		} else {
 			RspLevelUp rlu = data as RspLevelUp;
@@ -411,7 +419,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-		Debug.LogError (newBlendUnit.UnitInfo.ID);
+		Debug.LogError ("PlayLevelUp :: newBlend.UnitId:"+newBlendUnit.UnitInfo.ID);
 //		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
 //		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
 		unitInfoTabs.SetActive (false);
@@ -461,9 +469,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			levelDone = gotExp > 0;
 
 			curExp = oldBlendUnit.CurExp;
-			Debug.LogError ("CreatEffect :: gotExp : " + gotExp);
-			Debug.LogError ("CreatEffect :: level : " + newBlendUnit.Level);
-			Debug.LogError ("CreatEffect :: CurExp : " + curExp);
+//			Debug.Log ("CreatEffect :: gotExp : " + gotExp);
+//			Debug.Log ("CreatEffect :: newBlendUnit.level : " + newBlendUnit.Level);
+//			Debug.Log ("CreatEffect :: oldBlendUnit.CurExp : " + curExp + " oldBlendUnit.Lv:"+oldBlendUnit.Level +" unitId:"+oldBlendUnit.UnitID);
+
 			Calculate ();
 
 			RecoverEffectCamera();
@@ -513,12 +522,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelLabel.text = curLevel.ToString ();
 
 		//DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
-		currMaxExp = oldBlendUnit.UnitInfo.GetExp(curLevel); 
+		currMaxExp = oldBlendUnit.UnitInfo.GetLevelExp(curLevel); 
 
 		expRiseStep = (int)(currMaxExp * 0.01f);
 		if ( expRiseStep < 1 )
 			expRiseStep = 1;
-//		Debug.LogError ("Calculate : " + currMaxExp + "  expRiseStep : " + expRiseStep);
+//		Debug.LogError ("Calculate => currMaxExp:" + currMaxExp + "  expRiseStep : " + expRiseStep + " curlevel : " +curLevel + " MaxLevel : "+ oldBlendUnit.UnitInfo.MaxLevel);
 	}
 	
 	//---------Exp increase----------
@@ -532,6 +541,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			if(levelDone) {
 				MsgCenter.Instance.Invoke(CommandEnum.levelDone);
 				levelDone = false;
+				oldBlendUnit = null;
 			}
 			return;	
 		}	
@@ -547,7 +557,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			curExp += expRiseStep;
 		}
 
-	//	Debug.Log ("gotExp: " + gotExp + " expRiseStep: " + expRiseStep + " curExp: " + curExp + " currMaxExp: " + currMaxExp);
+//		Debug.LogError ("gotExp: " + gotExp + " expRiseStep: " + expRiseStep + " curExp: " + curExp + " currMaxExp: " + currMaxExp);
 
 		if(curExp >= currMaxExp) {
 //			LogHelper.LogError("-------gotExp:{0} curExp:{1} - currMaxExp:{2} = {3}",gotExp, curExp, currMaxExp, curExp - currMaxExp);
@@ -567,14 +577,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			Calculate();
 		}
 
-//		LogHelper.LogError(">>>>>>>>>currMaxExp:{0} curExp:{1} curLevel:{2} ",currMaxExp, curExp, curLevel);
+
 
 		int needExp = currMaxExp - curExp;
+
+//		LogHelper.LogError(">>>>>>>>>currMaxExp:{0} - curExp:{1} = needExp{2} , curLevel:{3} expRiseStep:{4} ",currMaxExp, curExp, needExp, curLevel, expRiseStep);
 
 		if ((curLevel > oldBlendUnit.UnitInfo.MaxLevel) 
 		    || (curLevel == oldBlendUnit.UnitInfo.MaxLevel && needExp <= 0) ) {
 			levelLabel.text = oldBlendUnit.UnitInfo.MaxLevel.ToString();
 			needExpLabel.text = "Max";
+			expSlider.value = 1.0f;
 			return;
 		} else {
 			needExpLabel.text = "Next: " + needExp.ToString();
@@ -582,7 +595,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		float progress = (float)curExp / (float)currMaxExp;
 		if (progress == 0) {
-			progress = 0.1f;		
+			progress = 0.1f;
 		}
 //		Debug.Log ("exp slide progress: " + progress);
 		expSlider.value = progress;

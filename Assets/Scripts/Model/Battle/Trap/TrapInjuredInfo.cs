@@ -13,6 +13,7 @@ public class TrapInjuredInfo {
 		}
 	}
 
+	//trap type
 	public const int mineInfo		= 1;
 	public const int trappingInfo	= 2;
 	public const int hungryInfo		= 3;
@@ -20,7 +21,11 @@ public class TrapInjuredInfo {
 	public const int environment	= 5;
 	public const int stateException	= 6;
 
+	public const int movePrev	= 7;
+	public const int moveRandom	= 8;
+	public const int moveStart	= 9;
 
+	
 	public const int MAX_TRAP_LV	= 10;
 
 	/// <summary>
@@ -28,8 +33,30 @@ public class TrapInjuredInfo {
 	/// </summary>
 	private Dictionary<int, List<TrapInjuredValue>> TrapInjured = new Dictionary<int, List<TrapInjuredValue>> ();
 	private TrapInjuredInfo () {
-	//-----------------------------mine------------------------------------
+		//-----------------------------move---------------------------------
 		List<TrapInjuredValue> temp = new List<TrapInjuredValue> ();
+		TrapInjuredValue tjvm = new TrapInjuredValue();
+		tjvm.trapIndex = 0;
+		tjvm.trapLevel = 1;
+		temp.Add( tjvm );
+		TrapInjured.Add (movePrev, temp);
+		
+		temp = new List<TrapInjuredValue> ();
+		tjvm = new TrapInjuredValue();
+		tjvm.trapIndex = 0;
+		tjvm.trapLevel = 3;
+		temp.Add( tjvm );
+		TrapInjured.Add (moveRandom, temp);
+		
+		temp = new List<TrapInjuredValue> ();
+		tjvm = new TrapInjuredValue();
+		tjvm.trapIndex = 0;
+		tjvm.trapLevel = 4;
+		temp.Add( tjvm );
+		TrapInjured.Add (moveStart, temp);
+
+	//-----------------------------mine------------------------------------
+		temp = new List<TrapInjuredValue> ();
 		for (int i = 1; i <= MAX_TRAP_LV; i++) {
 			TrapInjuredValue tjv = new TrapInjuredValue();
 			tjv.trapIndex = i;

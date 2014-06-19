@@ -102,36 +102,51 @@ public class HttpManager : INetSendPost {
             msgParams.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.CONNECT_ERROR);
             msgParams.contentText = errMsg.Msg;
-            msgParams.btnParams[0].text = TextCenter.GetText("retry");
-            msgParams.btnParams[0].callback = CallbackRetry;
-            msgParams.btnParams[0].args = post;
-            msgParams.btnParams[1].callback = CallbackCancelRequest;
+
+			msgParams.btnParam = new BtnParam();
+			msgParams.btnParam.callback = CallbackRetry;
+			msgParams.btnParam.args = post;
+			msgParams.btnParam.text = TextCenter.GetText("retry");
+
+//            msgParams.btnParams[0].text = TextCenter.GetText("retry");
+//            msgParams.btnParams[0].callback = CallbackRetry;
+//            msgParams.btnParams[0].args = post;
+//            msgParams.btnParams[1].callback = CallbackCancelRequest;
         }
         else if (text.StartsWith("500 Internal Server Error")){
 			Debug.LogError("OpenMsgWindowByError(), 500 Internal Server Error");
             msgParams = new MsgWindowParams();
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.SERVER_500);
             msgParams.contentText = errMsg.Msg;
-            msgParams.btnParam = new BtnParam();
-            msgParams.btnParam.callback = CallbackCancelRequest;
-        }
+            
+			msgParams.btnParam = new BtnParam();
+			msgParams.btnParam.callback = CallbackRetry;
+			msgParams.btnParam.args = post;
+			msgParams.btnParam.text = TextCenter.GetText("retry");
+		}
 		else if (text.EndsWith("Operation timed out")){
 			Debug.LogError("OpenMsgWindowByError():"+text);
 			msgParams = new MsgWindowParams();
 			ErrorMsg errMsg = new ErrorMsg(ErrorCode.TIMEOUT);
 			msgParams.contentText = errMsg.Msg;
+		
 			msgParams.btnParam = new BtnParam();
-			msgParams.btnParam.callback = CallbackCancelRequest;
+			msgParams.btnParam.callback = CallbackRetry;
+			msgParams.btnParam.args = post;
+			msgParams.btnParam.text = TextCenter.GetText("retry");
 		}
         else {
 			Debug.LogError("OpenMsgWindowByError(), unknown Error: "+text);
             msgParams = new MsgWindowParams();
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.NETWORK);
             msgParams.contentText = errMsg.Msg;
-            msgParams.btnParam = new BtnParam();
-            msgParams.btnParam.callback = CallbackCancelRequest;
 
+			msgParams.btnParam = new BtnParam();
+			msgParams.btnParam.callback = CallbackRetry;
+			msgParams.btnParam.args = post;
+			msgParams.btnParam.text = TextCenter.GetText("retry");
         }
+
         if (msgParams != null){
             MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, msgParams);
 			post.WwwInfo.Dispose();

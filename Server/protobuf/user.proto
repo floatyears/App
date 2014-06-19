@@ -112,7 +112,7 @@ message BonusInfo {
 }
 
 message LoginInfo {
-	optional int32		loginTotal				= 1;
+	optional int32		loginTotal				= 1; // login times in total
 	optional int32		loginChain				= 2;
 	optional int32		friendPointGet			= 3;
 	optional int32		friendHelpCount			= 4;
@@ -120,6 +120,8 @@ message LoginInfo {
     optional uint32		lastPlayTime            = 6;
     repeated BonusInfo  bonus					= 7;
     optional int32		maxBonusId              = 8;
+    repeated int32      onceBonusId	    		= 9; //accepted bonus id for once bonus
+    optional int32		loginDayTotal			= 10; //login days in total
 }
 
 message PresentInfo {
@@ -187,7 +189,6 @@ message RspAuthUser {
     optional int32			userGuideStep		= 18;
 	optional NoticeInfo		notice				= 19;
     repeated StageInfo      eventList           = 20;
-    optional int32			testForUpgrade		= 21;
 }
 
 //-------------------------------------------------
