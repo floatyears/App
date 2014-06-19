@@ -35,7 +35,7 @@ public class SelectRoleDecorator : DecoratorBase{
 }
 
 //--------------------------------Start---------------------------------------
-public class StartDecorator : DecoratorBase{
+public class StartDecorator : DecoratorBase {
 	private SceneInfoComponent sceneInfoBar;
 	public StartDecorator(SceneEnum sEnum) : base(sEnum){}
 	
@@ -63,8 +63,6 @@ public class StartDecorator : DecoratorBase{
 
 		TipsBarComponent tipsBar = CreatComponent<TipsBarComponent>(UIConfig.TipsBarName);
 		tipsBar.SetComponent(bottom);
-
-
 
 		lastDecorator = tipsBar;
 //		lastDecorator.CreatUIAsyn(lastDecorator);
@@ -142,12 +140,12 @@ public class HomeDecorator : DecoratorBase{
 //--------------------------------Friend---------------------------------------
 public class FriendDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public FriendDecorator(SceneEnum sEnum) : base(sEnum){}
+	public FriendDecorator(SceneEnum sEnum) : base(sEnum){ }
 	
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_FRIEND));
+		sceneInfoBar.SetCurSceneName( TextCenter.GetText( TextConst.SCENE_NAME_FRIEND ) );
 	}
 	
 	public override void HideScene(){
@@ -446,7 +444,6 @@ public class PartyDecorator : DecoratorBase{
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		//PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.PartyWindowName);
-
 
 		sceneInfoBar.SetComponent(decorator);
 		sortPanel.SetComponent(sceneInfoBar);

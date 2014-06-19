@@ -53,6 +53,18 @@ public class DragPanelDynamic {
 		}
 	}
 
+	public void RefreshItem(TUserUnit tuu) {
+		int index = scrollItemData.FindIndex (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
+		if (index > -1) {
+			scrollItemData[index] = tuu;
+		}
+
+		index = scrollItem.FindIndex (a => a.UserUnit.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
+		if (index > -1) {
+			scrollItem[index].UserUnit = tuu;
+		}
+	}
+
 	/// <summary>
 	/// Add reject item
 	/// </summary>

@@ -23,25 +23,28 @@ public class AttackEffectItem : MonoBehaviour {
 			return;
 		}
 		backGroundSprite.spriteName = tuu.UnitType.ToString ();
-		avatarTexture.mainTexture =  tuu.UnitInfo.GetAsset (UnitAssetType.Avatar);
-		Tween ();
-		if (atk == 0) {
-			ATKLabel.text = "";
-			return;
-		}
-
-		if ( skillID>=101 && skillID<=104 ) { //General RecoverHP Skill
-			SkillBaseInfo sbi = DataCenter.Instance.Skill[skillID]; //(userUnitID, skillID, SkillType.NormalSkill);
-			skillNameLabel.text = sbi.BaseInfo.name;
-			ATKLabel.text = "HELH " + atk;
-		} else {
-			SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitID, skillID, SkillType.NormalSkill);
-			if(sbi == null) {
+		tuu.UnitInfo.GetAsset (UnitAssetType.Avatar,o=>{
+			avatarTexture.mainTexture =  o as Texture2D;
+			Tween ();
+			if (atk == 0) {
+				ATKLabel.text = "";
 				return;
 			}
-			skillNameLabel.text = sbi.BaseInfo.name;
-			ATKLabel.text = "ATK " + atk;
-		}
+			
+			if ( skillID>=101 && skillID<=104 ) { //General RecoverHP Skill
+				SkillBaseInfo sbi = DataCenter.Instance.Skill[skillID]; //(userUnitID, skillID, SkillType.NormalSkill);
+				skillNameLabel.text = sbi.BaseInfo.name;
+				ATKLabel.text = "HELH " + atk;
+			} else {
+				SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitID, skillID, SkillType.NormalSkill);
+				if(sbi == null) {
+					return;
+				}
+				skillNameLabel.text = sbi.BaseInfo.name;
+				ATKLabel.text = "ATK " + atk;
+			}
+		});
+
 	}
 
 	public void ShowActiveSkill(Texture tex, string skillName, Callback cb) {

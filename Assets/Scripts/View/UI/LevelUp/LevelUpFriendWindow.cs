@@ -104,7 +104,9 @@ public class LevelUpFriendWindow : UIComponentUnity {
         //
         uint curUnitId = friendUnitInfoDic[item].UserUnit.UnitID;
 //		Debug.LogError("Base Show Avatar : curUnitId is : " + curUnitId);
-		avatarTex.mainTexture = DataCenter.Instance.GetUnitInfo (curUnitId).GetAsset (UnitAssetType.Avatar);//UnitInfo[curUnitId].GetAsset(UnitAssetType.Avatar);
+		DataCenter.Instance.GetUnitInfo (curUnitId).GetAsset (UnitAssetType.Avatar, o=>{
+			avatarTex.mainTexture = o as Texture2D;
+		});//UnitInfo[curUnitId].GetAsset(UnitAssetType.Avatar);
 
         int addAttack = tfriendInfo.UserUnit.AddAttack;
         int addHp = tfriendInfo.UserUnit.AddHP;

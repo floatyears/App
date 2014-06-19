@@ -105,8 +105,6 @@ public class UIManager {
 	}
 
 	public void EnterBattle () {
-//		current.HideScene();
-//		baseScene.HideBase ();
 		baseScene.CurrentScene = SceneEnum.Fight;
 		ClearAllUIObject ();
 		Resources.UnloadUnusedAssets ();
@@ -152,17 +150,18 @@ public class UIManager {
 		}
 
 		if (HasUIObject (sEnum)) {
+
 			current = GetUI(sEnum);	
+//			Debug.LogWarning("HasUIObject : " + sEnum + " current : " + current);
+			if (current != null) {
+				current.ShowScene();
+			}
 		}
 		else{
+//			Debug.LogWarning("not has ui object : " + sEnum);
 			DecoratorBase db = CreatScene(sEnum);
 			current = db;
-
 			return;
-		}
-
-		if (current != null) {
-			current.ShowScene();
 		}
 	}
 	

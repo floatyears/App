@@ -103,8 +103,11 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo);
-		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
-		ShowUnitScale();
+		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o =>{
+			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
+			ShowUnitScale();
+		});
+
 //		unitInfoTabs.SetActive (false);
 //		SetEffectCamera ();
 //		StartCoroutine (CreatEffect ());
@@ -129,12 +132,15 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 
 	void ShowBodyTexture( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
-		Texture2D target = unitInfo.GetAsset( UnitAssetType.Profile);
-		unitBodyTex.mainTexture = target;
-		if (target == null) {
-			return;	
-		}
-		unitBodyTex.width = target.width;
-		unitBodyTex.height = target.height;
+		unitInfo.GetAsset( UnitAssetType.Profile, o=>{
+			Texture2D target = o as Texture2D;
+			unitBodyTex.mainTexture = target;
+			if (target == null) {
+				return;	
+			}
+			unitBodyTex.width = target.width;
+			unitBodyTex.height = target.height;
+		});
+
 	}
 }

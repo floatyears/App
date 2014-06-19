@@ -48,6 +48,7 @@ public class BattleQuest : UIBase {
 			battleMap.transform.localScale = Vector3.one;
 			battleMap.BQuest = this;
 			Init(battleMap,tempName);
+			initCount++;
 		});
 
 		tempName = "Role";
@@ -58,30 +59,31 @@ public class BattleQuest : UIBase {
 			role.transform.localScale = Vector3.one;
 			role.BQuest = this;
 			Init(role,tempName);
+			initCount++;
 		});
 
 		viewManager.GetViewObject(backgroundName , o=>{
-			background =  o as BattleBackground;
+			background = o as BattleBackground;
 			background.transform.parent = viewManager.BottomPanel.transform;
 			background.transform.localPosition = Vector3.zero;
 			background.Init (backgroundName);
 			background.SetBattleQuest (this);
 			questData.questId = questDungeonData.QuestId;
 			InitTopUI ();
-			battle = new Battle("Battle");
-			battle.CreatUI();
-			battle.HideUI ();
-			CreatEffect ();
-			bud = new BattleUseData (this);
-			
 			AddSelfObject (battleMap);
 			AddSelfObject (role);
 			AddSelfObject (background);
 			
 			roleStateException = new RoleStateException ();
 			roleStateException.AddListener ();
+			initCount++;
 		});
 
+		battle = new Battle("Battle");
+		battle.CreatUI( BattleInitEnd );
+		battle.HideUI ();
+		CreatEffect ();
+		bud = new BattleUseData (this);
 	}
 
 	void CreatEffect () {
@@ -257,6 +259,8 @@ public class BattleQuest : UIBase {
 				go.transform.localPosition = pos;
 				questFullScreenTips = go.GetComponent<QuestFullScreenTips> ();
 				questFullScreenTips.Init ("QuestFullScreenTips");
+
+			initCount++;
 		});
 
 	}

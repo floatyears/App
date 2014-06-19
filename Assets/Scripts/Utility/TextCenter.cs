@@ -17,7 +17,7 @@ public partial class TextCenter {
         get {
             if (instance == null){
                 instance = new TextCenter();
-                instance.Init();
+//                instance.Init();
 //                instance.InitSecond();
 //                instance.InitThird();
             }
@@ -41,7 +41,7 @@ public partial class TextCenter {
 		LogHelper.Log("test get string {0}, result {1}", "error1", TextCenter.GetText("error1", "test error1"));
     }
 
-    private static TextCenter instance;
+	private static TextCenter instance = new TextCenter ();
 
     private Dictionary<string, string> textDict;
 	public string InnerGetText(string key) {
@@ -51,26 +51,30 @@ public partial class TextCenter {
 	}
 
 
-    private void Init(){
+    public void Init(ResourceCallback callback){
         textDict = new Dictionary<string, string>();
 
         //
 //		string[] data = File.ReadAllLines (Application.dataPath + "/Resources/Language/lang_en.txt");
 		ResourceManager.Instance.LoadLocalAsset ("Language/lang_en", o => {
-						string readData = (o as TextAsset).text;
-						string[] data = readData.Split ('\n');
+			string readData = (o as TextAsset).text;
+			string[] data = readData.Split ('\n');
 
-						foreach (string s in data) {
-								//Debug.Log("config: " + s + "length: " + s.Length);
-								if (s.Length > 0 && s [0] != '#') {
-					
-										int i = s.IndexOf ('=');
-										//Debug.Log("sub: " + s.Substring(0,i)+"   " +s.Substring(i));
-										textDict.Add (s.Substring (0, i), s.Substring (i + 1));
-								}
-				
-						}
-				});
+			foreach (string s in data) {
+					//Debug.Log("config: " + s + "length: " + s.Length);
+					if (s.Length > 0 && s [0] != '#') {
+		
+							int i = s.IndexOf ('=');
+							//Debug.Log("sub: " + s.Substring(0,i)+"   " +s.Substring(i));
+							textDict.Add (s.Substring (0, i), s.Substring (i + 1));
+					}
+	
+			}
+
+			if(callback != null){
+				callback(o);
+			}
+		});
 	}
 
 

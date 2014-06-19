@@ -46,33 +46,42 @@ public class UIBase : IUIInterface
 
 	protected Dictionary<string,IUIInterface> currentUIDic = new Dictionary<string, IUIInterface>();
 
-	public Dictionary<string,IUIInterface> CurrentUIDic
-	{
+	public Dictionary<string,IUIInterface> CurrentUIDic {
 		get{return currentUIDic;}
 	}
 
-	protected void AddSelfObject(IUIInterface ui)
-	{
+	protected void AddSelfObject(IUIInterface ui) {
 		currentUIDic.Add (ui.UIName, ui);
 	}
 
 	public GameObject insUIObject;
 
-	public UIBase(string uiName)
-	{
+	protected int initCount = 0;
+//	protected bool battleInitEnd = false;
+
+	protected void BattleInitEnd () {
+		initCount++;
+	}
+
+	public UIBase(string uiName) {
+		GameInput.OnUpdate += InitEnd;
+
+		initCount = 0;
 		this.uiName = uiName;
-
 		currentState = UIState.UIInit;
-
 		main = Main.Instance;
-
 		controllerManger = ControllerManager.Instance;
-
 		viewManager = ViewManager.Instance;
 	}
 
-	public virtual void CreatUI ()
-	{
+	void InitEnd() {
+		if (initCount==5) {
+			GameInput.OnUpdate -= InitEnd;
+			ShowUI();
+		}
+	}
+
+	public virtual void CreatUI () {
 		currentState = UIState.UICreat;
 
 		foreach (var item in currentUIDic.Values){
@@ -80,8 +89,7 @@ public class UIBase : IUIInterface
 		}
 	}
 
-	public virtual void ShowUI ()
-	{
+	public virtual void ShowUI () {
 		currentState = UIState.UIShow;
 
 		foreach (var item in currentUIDic.Values){
@@ -89,16 +97,14 @@ public class UIBase : IUIInterface
 		}
 	}
 
-	public virtual void HideUI ()
-	{
+	public virtual void HideUI () {
 		currentState = UIState.UIHide;
 		foreach (var item in currentUIDic.Values){
 			item.HideUI();
 		}
 	}
 
-	public virtual void DestoryUI ()
-	{
+	public virtual void DestoryUI () {
 		currentState = UIState.UIDestory;
 		foreach (var item in currentUIDic.Values){
 			item.DestoryUI();
@@ -106,8 +112,7 @@ public class UIBase : IUIInterface
 		currentUIDic.Clear ();
 	}
 
-	protected void ChangeScene(SceneEnum se)
-	{
+	protected void ChangeScene(SceneEnum se) {
 		controllerManger.ChangeScene(se);
 	}
 

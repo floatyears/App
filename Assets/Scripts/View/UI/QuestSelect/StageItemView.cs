@@ -91,12 +91,15 @@ public class StageItemView : MonoBehaviour{
 	}
 
 	private void SetIconView(){
-		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
+//		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 		StageState clearState = DataCenter.Instance.QuestClearInfo.GetStoryStageState(data.ID);
 		ShowIconByState(clearState);
 	}
 
 	void SetEvolveIcon() {
+//		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
+//		StageState clearState = StageState.CLEAR; //DataCenter.Instance.QuestClearInfo.GetStoryStageState(data.ID);
+//		ShowIconByState(clearState);
 		UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 	}
 
@@ -142,7 +145,7 @@ public class StageItemView : MonoBehaviour{
 	}
 
 
-	private void ShowIconByState(StageState state){
+	public void ShowIconByState(StageState state){
 		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 
 		if(state == StageState.LOCKED){

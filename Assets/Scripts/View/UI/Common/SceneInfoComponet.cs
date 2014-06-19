@@ -33,6 +33,7 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	private SceneEnum backScene = SceneEnum.None;
 
 	public void SetBackScene(SceneEnum scene) {
+//		Debug.LogWarning ("sceneinfo SetBackScene : " + scene);
 		if( viewComponent is IUISetBool) {
 			IUISetBool sb = viewComponent as IUISetBool;
 			if(scene == SceneEnum.None) {

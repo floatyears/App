@@ -92,34 +92,33 @@ public class BaseUnitItem : MonoBehaviour {
 		SetCommonState();
 	}
 
-	protected virtual void RefreshState(){
+	protected virtual void RefreshState() {
 		if(userUnit == null){
 			SetEmptyState();
 			return;
 		}
 		SetCommonState();
 	}
-	private void ExecuteCrossFade(){
+	private void ExecuteCrossFade() {
 		if (! IsInvoking("UpdateCrossFadeState"))
 			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
 	}
 
 	void CheckCross() {
-		if(userUnit.AddNumber == 0){ 
+		if(userUnit.AddNumber == 0) { 
 			canCrossed = false;
 		}
-		else{
-			canCrossed = true;;
+		else {
+			canCrossed = true;
 		}
 	}
 
-	protected virtual void UpdatEnableState(){
+	protected virtual void UpdatEnableState() {
 		maskSpr.enabled = !IsEnable;
 		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
 		listener.LongPress = PressItem;
 
 		if (IsEnable) {
-
 			listener.onClick = ClickItem;
 		} else {
 			listener.onClick = null;
@@ -223,10 +222,13 @@ public class BaseUnitItem : MonoBehaviour {
 	protected virtual void SetCommonState(){
 		IsEnable = true;
 		//Debug.LogError("gameobject: " + gameObject + " userUnit : " + userUnit.ID);
-		avatarTex.mainTexture = userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+			avatarTex.mainTexture = o as Texture2D;
+			ShowUnitType();
+			CurrentSortRule = SortRule.ID;
+		});
 		//typeSpr.color = DGTools.TypeToColor(userUnit.UnitInfo.Type);
-		ShowUnitType();
-		CurrentSortRule = SortRule.ID;
+
 	}
 
 	private void ShowUnitType(){

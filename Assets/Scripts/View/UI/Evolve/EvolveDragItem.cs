@@ -32,13 +32,13 @@ public class EvolveDragItem : MyUnitItem {
 		
 		if(userUnit != null){
 			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
-			IsEnable = !IsParty;
+//			IsEnable = !IsParty;
 		}
 	}
 	
 	protected override void UpdatePartyState(){
 		partyLabel.enabled = IsParty;
-		IsEnable = !IsParty;
+//		IsEnable = !IsParty;
 	}
 	
 	protected override void UpdateFocus(){
@@ -50,7 +50,7 @@ public class EvolveDragItem : MyUnitItem {
 		if(userUnit != null){
 			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
 			//IsEnable is FALSE as long as IsParty is TRUE
-			IsEnable = !IsParty;
+//			IsEnable = !IsParty;
 		}
 	}
 

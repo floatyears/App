@@ -104,7 +104,9 @@ public class ResultView : UIComponentUnity {
 		Debug.Log("ResultView.ShowTopView(), start...");
 		TFriendInfo viewData = msg as TFriendInfo;
 
-		avatarTex.mainTexture = viewData.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar);
+		viewData.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+			avatarTex.mainTexture = o as Texture2D;
+		});
 		avatarBgSpr.spriteName = viewData.UserUnit.UnitInfo.GetUnitBackgroundName();
 		avatarBorderSpr.spriteName = viewData.UserUnit.UnitInfo.GetUnitBorderSprName();
 

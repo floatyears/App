@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class Battle : UIBase {
@@ -49,8 +50,29 @@ public class Battle : UIBase {
 
 		battleData = ConfigBattleUseData.Instance;
 	}
-	
+
+	private Callback initEndCallback = null;
+
+	public void CreatUI(Callback initEndCallback) {
+		this.initEndCallback = initEndCallback;
+		GameInput.OnUpdate += InitUpdate;
+		CreatUI ();
+	}
+
+	void InitUpdate() {
+		if (initEnd == 5) {
+			GameInput.OnUpdate -= InitUpdate;
+			if(initEndCallback != null){
+				initEndCallback();
+			}
+		}
+	}
+
+	private int initEnd = 0;
+
 	public override void CreatUI () {
+		initEnd = 0;
+
 		CreatBack ();
 		CreatArea ();
 		CreatCard ();
@@ -276,7 +298,6 @@ public class Battle : UIBase {
 	}
 
 	void MoveAllToPosition() {
-//		iTween.MoveTo (selectTarget [startIndex].gameObject, battleCardArea.battleCardAreaItem [generateIndex].transform.position, 0.3f);
 		GameInput.OnUpdate += OnUpdate;
 		GenerateCardEnd ();
 	}
@@ -410,10 +431,11 @@ public class Battle : UIBase {
 			tempObject.transform.parent = viewManager.CenterPanel.transform;
 
 			countDownUI = tempObject.GetComponent<CountDownUnity> ();
-			Debug.LogError(tempObject.name + " countDownUI : " + countDownUI);
+//			Debug.LogError(tempObject.name + " countDownUI : " + countDownUI);
 			countDownUI.Init ("CountDown");
-		});
 
+			initEnd++;
+		});
 	}
 
 	void CreatBack () {
@@ -426,6 +448,8 @@ public class Battle : UIBase {
 			BoxCollider bc = tempObject.GetComponent<BoxCollider> ();
 			battleCardPool.XRange = bc.size.x;
 			cardHeight = battleCardPool.templateBackTexture.width;
+
+			initEnd++;
 		});
 
 	}
@@ -438,6 +462,8 @@ public class Battle : UIBase {
 			battleCard.CardPosition = battleCardPool.CardPosition;
 			battleCard.Init(Config.battleCardName);
 			battleCard.battleCardArea = battleCardArea;
+
+			initEnd++;
 		});
 
 	}
@@ -463,6 +489,8 @@ public class Battle : UIBase {
 			battleCardArea.BQuest = this;
 			battleCardArea.Init(areaName);
 			battleCardArea.CreatArea(battleCardPool.CardPosition,cardHeight);
+
+			initEnd++;
 		});
 
 	}
@@ -476,6 +504,8 @@ public class Battle : UIBase {
 			battleEnemy.battle = this;
 			battleEnemy.Init(enemyName);
 			battleEnemy.ShowUI ();
+
+			initEnd++;
 		});
 
 	}

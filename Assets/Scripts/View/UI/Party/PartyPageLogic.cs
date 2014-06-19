@@ -131,8 +131,10 @@ public class PartyPageLogic : ConcreteComponent{
                 textureList.Add(null);
             }
             else {
-                Texture2D t2d = tuuList[i].UnitInfo.GetAsset(UnitAssetType.Avatar);
-                textureList.Add(t2d);
+				tuuList[i].UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+					textureList.Add(o as Texture2D);
+				});
+                
             }
         }
 

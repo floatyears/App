@@ -139,9 +139,10 @@ public class LoadingLogic : ConcreteComponent {
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
 			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 
-//            TestUtility.Test();
+			//TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
+
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
 				MsgWindowParams mwp = new MsgWindowParams ();
@@ -168,7 +169,6 @@ public class LoadingLogic : ConcreteComponent {
     }
 
 	private void StartFight(){
-
 		StartQuest sq = new StartQuest ();
 		StartQuestParam sqp = new StartQuestParam ();
 		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
@@ -179,7 +179,6 @@ public class LoadingLogic : ConcreteComponent {
 		sqp.startNew = 1;
 		sqp.isUserGuide = 1;
 		sq.OnRequest (sqp, RspStartQuest);
-
 	}
 	
 	private void RspStartQuest(object data) {

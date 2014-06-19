@@ -37,20 +37,21 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			} 
 		} else {
 			if (friendWindow != null) {
-				friendWindow.HideUI ();
+				friendWindow.HideUI();
 			}
 		}
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		friendWindow.DestoryUI ();
 		sortRule = SortRule.None;
 		myUnitDragPanel.DestoryDragPanel ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
-	bool clear = false;
+	bool clear = true;
 	public override void ResetUIState () {
-//		Debug.LogError ("levelup ResetUIState");
+		Debug.LogError ("levelup ResetUIState");
 		clear = true;
 		ClearData ();
 		CheckLevelUp ();
@@ -127,10 +128,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
-//		Debug.LogError ("clear : " + clear);
 		if (!clear) {
 			return;	
 		}
+
 		clear = false;
 
 		if (myUnitDragPanel == null) {
@@ -142,6 +143,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		if (_sortRule != SortRule.None) {
 			SortUnitTool.SortByTargetRule(_sortRule, myUnit);
 		}
+
 		myUnitDragPanel.RefreshItem (myUnit);
 
 		foreach (var item in myUnitDragPanel.scrollItem) {
@@ -150,7 +152,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			myUnitList.Add(pui);
 		}
 	}
-
 
 	void InitUI() {
 		dataCenter = DataCenter.Instance;
@@ -211,8 +212,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		ClearData ();
 		uint blendID = (uint)data;
 		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
-		Debug.LogError ("tuu.ID : " + tuu.ID + " tuu.level : " + tuu.Level);
+		Debug.LogError ("ResetUIAfterLevelUp tuu.ID : " + tuu.ID + " tuu.level : " + tuu.Level);
 		selectedItem [baseItemIndex].UserUnit = tuu;
+		int index = myUnit.FindIndex (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
+		if (index > -1) {
+			myUnit[index] = tuu;
+		}
+		myUnitDragPanel.RefreshItem (tuu);
 		UpdateBaseInfoView();
 	}
 
@@ -416,7 +422,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void ShieldParty(bool shield, MyUnitItem baseItem) {
-//		Debug.LogError ("ShieldParty : " + shield + " base item : " + baseItem);
 		for (int i = 0; i < myUnitList.Count; i++) {
 			LevelUpUnitItem pui = myUnitList [i];
 			if(pui.IsParty || pui.IsFavorite) {
@@ -525,7 +530,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 //		}
 	}
 
-	Queue<TUserUnit> levelUpInfo = new Queue<TUserUnit>() ;
+	List<TUserUnit> levelUpInfo = new List<TUserUnit>() ;
 	void CheckLevelUp() {
 		levelUpInfo.Clear ();
 		TUserUnit baseItem = selectedItem [baseItemIndex].UserUnit;
@@ -533,18 +538,18 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			levelUpButton.isEnabled = false;
 			return;	
 		}
-		levelUpInfo.Enqueue (baseItem);
+		levelUpInfo.Add (baseItem);
 
 		TUserUnit friendInfo = selectedItem [friendItemIndex].UserUnit;
 		if (friendInfo == null) {
 			levelUpButton.isEnabled = false;
 			return;	
 		}
-		levelUpInfo.Enqueue (friendInfo);
+		levelUpInfo.Add (friendInfo);
 
 		for (int i = 1; i < 5; i++) {
 			if(selectedItem[i].UserUnit != null) {
-				levelUpInfo.Enqueue(selectedItem[i].UserUnit);
+				levelUpInfo.Add(selectedItem[i].UserUnit);
 			}
 		}
 

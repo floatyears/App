@@ -110,15 +110,13 @@ public class StageSelectView : UIComponentUnity{
 			Debug.LogError("received : " + received);
 			DestoryStages();
 			FillView();
-		}
-		else if(!currPickedCityInfo.Equals(received)){
+		} else if(!currPickedCityInfo.Equals(received)){
 			//when picked city changed
 			Debug.Log("recorded picked cityInfo is changed, update stage view...");
 			currPickedCityInfo = received;
 			DestoryStages();
 			FillView();
-		}
-		else{
+		} else{
 			//when picked city not changed
 			Debug.Log("recorded picked cityInfo is not changed, keep stage view...");
 		}
@@ -273,12 +271,14 @@ public class StageSelectView : UIComponentUnity{
 		foreach (var item in storyStageList) {
 			if(item.Data.Equals(evolveStageInfo.StageInfo)) {
 				item.evolveCallback = ClickEvolve;
+				item.ShowIconByState(StageState.NEW);
 				continue;
 			}
 			else{
-				UIEventListener listener = item.GetComponent<UIEventListener>();
-				listener.onClick = null;
-				Destroy(listener);
+				item.ShowIconByState(StageState.LOCKED);
+//				UIEventListener listener = item.GetComponent<UIEventListener>();
+//				listener.onClick = null;
+//				Destroy(listener);
 			}
 		}	
 	}
