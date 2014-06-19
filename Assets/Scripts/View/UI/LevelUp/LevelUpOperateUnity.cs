@@ -44,7 +44,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		friendWindow.DestoryUI ();
+		if(friendWindow != null)
+			friendWindow.DestoryUI ();
 		sortRule = SortRule.None;
 		myUnitDragPanel.DestoryDragPanel ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
@@ -313,6 +314,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 			CheckLevelUp ();
 		} else {
+			if (SetBaseItem (pui)) {
+				return;	
+			}
+
 			EnabledItem(prevSelectedItem.UserUnit);
 			prevSelectedItem.IsFocus = false;
 			prevSelectedItem.UserUnit = pui.UserUnit;
