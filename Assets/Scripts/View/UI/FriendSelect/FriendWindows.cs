@@ -9,12 +9,14 @@ public class FriendWindows : FriendHelperView {
 	}
 
 	public override void ShowUI () {
+		base.ShowUI ();
 		isShow = true;
 		if (!gameObject.activeSelf) {
 			gameObject.SetActive(true);
 		}
-		base.ShowUI ();
+
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+
 	}
 
 	public override void HideUI () {
@@ -37,6 +39,7 @@ public class FriendWindows : FriendHelperView {
 	}
 
 	public GameObject GetHelperUnitItem(int i){
+//		Debug.LogError ("generalDragPanel : " + generalDragPanel);
 		return generalDragPanel.ScrollItem[i];
 	}
 
