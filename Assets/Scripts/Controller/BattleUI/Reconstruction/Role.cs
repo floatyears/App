@@ -189,13 +189,15 @@ public class Role : UIBaseUnity {
 			rightMiddlePoint = targetPoint;
 		} else {
 			float x = targetPoint.x - localposition.x;
-			middlePoint = new Vector3 (localposition.x + x * 0.1f , localposition.y + BattleMap.itemWidth * 1.5f, localposition.z);
+			middlePoint = new Vector3 (localposition.x + x * 0.2f , localposition.y + BattleMap.itemWidth * 1.5f, localposition.z);
+			leftMiddlePoint = new Vector3 (localposition.x + x * 0.1f , localposition.y + BattleMap.itemWidth * 0.85f, localposition.z);
 //			rightFristMiddlePoint = new Vector3(middlePoint.x + x * 0.1f, middlePoint.y + 10f, middlePoint.z);
-			rightMiddlePoint = new Vector3(localposition.x + x * 0.5f,localposition.y + BattleMap.itemWidth * 1.1f , localposition.z);
+			rightMiddlePoint = new Vector3(localposition.x + x * 0.55f,localposition.y + BattleMap.itemWidth * 1.1f , localposition.z);
 		}
 
 		Vector3[] path = new Vector3[3];
 		path [0] = transform.localPosition;
+		path [1] = transform.localPosition;
 		path [2] = middlePoint;
 
 		secondPath [0] = middlePoint;
@@ -204,15 +206,9 @@ public class Role : UIBaseUnity {
 		secondPath [2] = targetPoint;
 //		Debug.LogError ("middlePoint : " + middlePoint + " rightMiddlePoint : " + rightMiddlePoint + " targetPoint : " + targetPoint); 
 
-//		iTween.MoveTo (gameObject, iTween.Hash ("path", path, "movetopath", false, "islocal", true, "time", 0.2f, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
-		iTween.MoveTo (gameObject, iTween.Hash ("position", middlePoint, "islocal", true, "time", 0.25f, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
-		//		GameTimer.GetInstance ().AddCountDown (0.2f, StopItween);
+		iTween.MoveTo (gameObject, iTween.Hash ("path", path, "movetopath", false, "islocal", true, "time", 0.2f, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
+//		iTween.MoveTo (gameObject, iTween.Hash ("position", middlePoint, "islocal", true, "time", 0.25f, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
 	}
-	
-//	void StopItween() {
-//		iTween.Stop (gameObject);
-//		iTween.MoveTo (gameObject, iTween.Hash ("path", secondPath,"movetopath",false, "islocal", true, "time", 0.6f, "easetype", iTween.EaseType.easeInBack, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
-//	}
 
 	void MoveRoleSecond() {
 //		iTween.MoveTo (gameObject, iTween.Hash ("position", targetPoint, "islocal", true, "time", 0.35f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
