@@ -27,7 +27,6 @@ public class ShopView : UIComponentUnity {
 	
 	public override void HideUI () {
 		base.HideUI ();
-
 	}
 	
 	public override void DestoryUI () {
