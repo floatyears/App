@@ -74,12 +74,10 @@ public class ClearQuest: ProtoManager {
         if (DataCenter.Instance.UserInfo != null)
             reqClearQuest.header.userId = DataCenter.Instance.UserInfo.UserId;
 
-
         reqClearQuest.questId = questParam.questId;
         reqClearQuest.getMoney = questParam.getMoney;
         reqClearQuest.getUnit.AddRange(questParam.getUnit);
         reqClearQuest.hitGrid.AddRange(questParam.hitGrid);
-
 
         ErrorMsg err = SerializeData(reqClearQuest); // save to Data for send out
 		
@@ -101,11 +99,9 @@ public class ClearQuest: ProtoManager {
 
             DataCenter.Instance.UserInfo.StaminaNow = rspClearQuest.staminaNow;
             DataCenter.Instance.UserInfo.StaminaRecover = rspClearQuest.staminaRecover;
-
         }
 
         LogHelper.Log("rspClearQuest code:{0}, error:{1}", rspClearQuest.header.code, rspClearQuest.header.error);
-
     }
 
     protected override void OnResponseEnd(object data) {
@@ -117,7 +113,7 @@ public class ClearQuest: ProtoManager {
                 base.OnResponseEnd(null);
                 return;
             }
-//            Debug.LogError("RspClearQuest : " + rspClearQuest.rank + "  rspClearQuest.exp : " + rspClearQuest.exp + " rspClearQuest.money : " + rspClearQuest.money);
+
             cq.rank = rspClearQuest.rank;
             cq.exp = rspClearQuest.exp;
             cq.money = rspClearQuest.money;
@@ -129,16 +125,11 @@ public class ClearQuest: ProtoManager {
             cq.gotExp = rspClearQuest.gotExp;
             cq.gotStone = rspClearQuest.gotStone;
             cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
-//			Debug.LogWarning("uu : got befoure : " + DataCenter.Instance.UserUnitList.Count);
             foreach (UserUnit uu in rspClearQuest.gotUnit) {
 				DataCenter.Instance.UserUnitList.AddMyUnit(uu);
-//				DataCenter.Instance.MyUnitList.AddMyUnit(uu);
-//				Debug.LogWarning("uu : got update " + DataCenter.Instance.UserUnitList.Count);
 				TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
                 cq.gotUnit.Add(tuu);
             }
-
-//			Debug.LogWarning("uu : got end " + DataCenter.Instance.UserUnitList.Count);
             base.OnResponseEnd(cq);
         }
         else {

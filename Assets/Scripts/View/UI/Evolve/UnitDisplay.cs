@@ -7,7 +7,9 @@ public class UnitDisplay : ConcreteComponent {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		ReadData ();
+//		Debug.LogError (UIManager.Instance.prevScene);
+		if(UIManager.Instance.prevScene != SceneEnum.UnitDetail)
+			ReadData ();
 	}
 
 	public override void HideUI () {

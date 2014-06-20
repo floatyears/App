@@ -119,9 +119,9 @@ public class DragPanelDynamic {
 		int realEndIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
 		Debug.LogError ("scrollItemData.Count == tuuList.Count : " + (scrollItemData.Count == tuuList.Count));
 		if (scrollItemData.Count == tuuList.Count) {	
-			Debug.LogError(realStartIndex + " realEndIndex : " + realEndIndex);
+			Debug.LogError(realStartIndex + " realEndIndex : " + realEndIndex + " scrollItem : " + scrollItem.Count + " tuuList : " + tuuList.Count);
 			for (int i = realStartIndex; i < realEndIndex; i++) {
-				scrollItem[i].UserUnit = tuuList[i];
+				scrollItem[i - realStartIndex].UserUnit = tuuList[i];
 			}	
 			scrollItemData = tuuList;
 			return null;
@@ -142,8 +142,8 @@ public class DragPanelDynamic {
 			dragPanelView.scrollView.ResetPosition();
 //			Debug.LogError("tuuList.Count : " + tuuList.Count + " scrollItem.Count : " + scrollItem.Count + " dragPanelView.scrollView : " + dragPanelView.clip.clipOffset);
 			if( tuuList.Count >= scrollItem.Count ) {
-				realStartIndex = 0;//int.Parse(scrollItem[0].gameObject.name) - 1;
-				realEndIndex = maxIndex;//int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
+				realStartIndex = 0;			//int.Parse(scrollItem[0].gameObject.name) - 1;
+				realEndIndex = maxIndex;	//int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
 //				Debug.LogError(realStartIndex + " realEndIndex : " + realEndIndex);
 				for (int i = realStartIndex; i < realEndIndex; i++) {
 					scrollItem[i].UserUnit = tuuList[i];
@@ -155,8 +155,8 @@ public class DragPanelDynamic {
 					scrollItem.RemoveAt(i);
 				}
 
-				realStartIndex = 0;//int.Parse(scrollItem[0].gameObject.name) - 1;
-				realEndIndex = tuuList.Count;//int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name);
+				realStartIndex = 0;				//int.Parse(scrollItem[0].gameObject.name) - 1;
+				realEndIndex = tuuList.Count;	//int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name);
 
 				for (int i = realStartIndex; i < realEndIndex; i++) {
 					scrollItem[i].UserUnit = tuuList[i];

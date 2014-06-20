@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Text;
 
 public class EffectManager {
 	private static EffectManager instance;
@@ -22,29 +23,81 @@ public class EffectManager {
 	public GameObject GetEffectObject(int skillID) {
 		GameObject go = null;
 		effectObject.TryGetValue (skillID, out go);
-//		Debug.LogError ("skillID : " + skillID + " go : " + go); 
 		return go;
 	}
 
-	void SetName() {
-		effectName.Add (4015, "CFX3_Hit_Fire_A_Air");				//fire single
-		effectName.Add (4026, "firerain"); 							//fire all
-		effectName.Add (4061, "firerain"); 							//fire all
-		effectName.Add (4018, "linhunqiu2"); 						//light single
-		effectName.Add (4004, "CFXM3_Hit_Ice_B_Air");				//water single
-		effectName.Add (4017, "zhua");								//wind singele
-		effectName.Add (4028, "zhua");								//wind single
-		effectName.Add (4062, "liandao");							//wind single
+	public GameObject GetSkillEffectObject(int skillID, string userUnitID) {
+		string skillStoreID = DataCenter.Instance.GetSkillID(userUnitID, skillID);
+		SkillBaseInfo sbi = DataCenter.Instance.AllSkill[skillStoreID];
+		TNormalSkill tns = sbi as TNormalSkill;
 
-//		effectName.Add (403, "fire1");
-//		effectName.Add (404, "fire2");
-//		effectName.Add (406, "ice1");
-//		effectName.Add (407, "ice2");
-//		effectName.Add (408, "jiufeng");
-//		effectName.Add (409, "water");
-//		effectName.Add (410, "wind1");
-//		effectName.Add (411, "wind2");
-//		config effect no skill.
+		if (tns != null) {
+			StringBuilder sb = new StringBuilder ();
+			sb.Append("ns-");
+
+			if(tns.AttackRange == 0) {
+				sb.Append("single-");
+			}
+			else {
+				sb.Append("all-");
+			}
+
+			if(tns.Object.attackValue <= 1.6f) {
+				sb.Append("1-");
+			}
+			else {
+				sb.Append("2-");
+			}
+
+
+		}
+		return null;
+	}
+
+	string GetSkillType(int type) {
+		switch (type) {
+			case 0:
+
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 7:
+				break;
+		}
+		return "";
+	}
+
+	void SetName() {
+//		effectName.Add (4015, "CFX3_Hit_Fire_A_Air");				//fire single
+//		effectName.Add (4026, "firerain"); 							//fire all
+//		effectName.Add (4061, "firerain"); 							//fire all
+//		effectName.Add (4018, "linhunqiu2"); 						//light single
+//		effectName.Add (4004, "CFXM3_Hit_Ice_B_Air");				//water single
+//		effectName.Add (4017, "zhua");								//wind singele
+//		effectName.Add (4028, "zhua");								//wind single
+//		effectName.Add (4062, "liandao");							//wind single
+
+		effectName.Add (4021, "effect/ns-all-1-fire");		
+		effectName.Add (4038, "effect/ns-all-2-fire");	
+
+		effectName.Add (4003, "effect/ns-single-2-fire");	
+		effectName.Add (4005, "effect/ns-single-2-water");	
+
+		effectName.Add (1024, "effect/as-all-1-fire");
+		effectName.Add (1067, "effect/as-single-1-fire02");
+		effectName.Add (1055, "effect/as-single-1-fire02");	
+		effectName.Add (1097, "effect/as-reduce-def03");	
+
 		effectName.Add (DragCardEffect, "card_effect");
 	}
 

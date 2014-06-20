@@ -52,7 +52,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 	bool clear = true;
 	public override void ResetUIState () {
-//		Debug.LogError ("levelup ResetUIState");
 		clear = true;
 		ClearData ();
 		CheckLevelUp ();
@@ -65,7 +64,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private static SortRule _sortRule = SortRule.None;
 	public static SortRule sortRule {
 		get { return _sortRule; }
-		set { 
+		set {
 			_sortRule = value;
 		}
 	}
