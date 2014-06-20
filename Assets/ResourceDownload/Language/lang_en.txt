@@ -1,37 +1,37 @@
 ##Button Label Text
-Btn_JumpScene_FriendList=FRIEND LIST
-Btn_JumpScene_Apply=APPLY
-Btn_JumpScene_Information=INFORMATION
-Btn_JumpScene_Reception=RECEPETION
-Btn_JumpScene_Search=SEARCH
-Btn_JumpScene_UserID=YOUR ID
+Btn_JumpScene_FriendList=好友列表
+Btn_JumpScene_Apply=好友申请
+Btn_JumpScene_Information=信息
+Btn_JumpScene_Reception=接收申请
+Btn_JumpScene_Search=玩家查询
+Btn_JumpScene_UserID=用户ID
 
-Btn_JumpScene_Party=PARTY
-Btn_JumpScene_Sell=SELL
-Btn_JumpScene_LevelUp=LEVEL UP
-Btn_JumpScene_UnitList=UNIT LIST
-Btn_JumpScene_Evolve=EVOLVE
-Btn_JumpScene_Catalog=CATALOG
+Btn_JumpScene_Party=编队
+Btn_JumpScene_Sell=卖卡
+Btn_JumpScene_LevelUp=升级
+Btn_JumpScene_UnitList=卡牌列表
+Btn_JumpScene_Evolve=进化
+Btn_JumpScene_Catalog=图鉴
 
-Btn_SceneBack=BACK
-Btn_SORT=SORT
-Btn_Premium=PREMIUM
-Btn_Sell_Picked=SELL
-Btn_Clear_PickedToSell=CLEAR
-Btn_Submit_Sell=SUBMIT
-Btn_Cancel_Sell=CANCEL
-Btn_RejectUnit=REJECT
-Btn_Submit_Evolve=EVOLVE
-Btn_Submit_LevelUp=LEVEL UP
+Btn_SceneBack=返回
+Btn_SORT=排序
+Btn_Premium=高级
+Sell=出售
+Clear=清除
+Btn_Submit_Sell=提交
+Btn_Cancel_Sell=取消
+Btn_RejectUnit=换下
+Btn_Submit_Evolve=进化
+Btn_Submit_LevelUp=升级
 
-Btn_FriendList_Update=UPDATE
-Btn_Reception_RefuseAll=REFUSE
-Btn_Submit_SearchFriend=SEARCH
-Btn_UserID_OK=BACK
+Btn_FriendList_Update=更新
+Btn_Reception_RefuseAll=拒绝所有
+Btn_Submit_SearchFriend=查询
+Btn_UserID_OK=确定
 
-Btn_SortRule_HP=HP
-Btn_SortRule_Atk=ATTACK
-Btn_SortRule_GetTime=GET TIME
+Btn_SortRule_HP=血量
+Btn_SortRule_Atk=攻击
+Btn_SortRule_GetTime=得到时间
 Btn_SortRule_Race=RACE
 Btn_SortRule_Attribute=ATTRIBUTE
 Btn_SortRule_ID=ID
@@ -43,6 +43,14 @@ Divided_Line=/
 Float_User_ID=用户ID:
 Float_NextExp=下一级所需经验:
 Float_TotalExp=总获得经验:
+
+Btn_Friend_Expand=好友扩张
+Btn_Unit_Expand=卡牌扩张
+Btn_Stamina_Recover=体力回复
+
+Leader_Skill=队长技能 : 
+Name_No_LeaderSkill=无队长技能
+Description_No_LeaderSkill=------
 
 ##City Name
 City_Name_1=city_name_1
@@ -68,6 +76,7 @@ Unit_Detail_Tab_Status=状态
 Unit_Detail_Tab_Normal_Skill=普攻
 Unit_Detail_Tab_Prifile=描述
 Unit_Detail_Next=下一级
+
 ##Scene Name
 SCENE_NAME_APPLY=APPLY
 SCENE_NAME_CATALOG=CATALOG

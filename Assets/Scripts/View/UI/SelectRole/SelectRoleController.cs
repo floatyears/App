@@ -9,11 +9,11 @@ public class SelectRoleController : ConcreteComponent {
 	List<TUnitInfo> supportSelectUnits = new List<TUnitInfo>();
 
 	public SelectRoleController(string name) : base(name){
-		InitSupportSelectData();    
+		InitSupportSelectData();  
 	}
 
 	public override void CreatUI(){
-		base.CreatUI();		  
+		base.CreatUI();
     }
 	public override void ShowUI(){
 		base.ShowUI();

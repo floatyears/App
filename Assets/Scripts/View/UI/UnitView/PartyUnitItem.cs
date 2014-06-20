@@ -96,4 +96,9 @@ public class LevelUpUnitItem : MyUnitItem {
 			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
 		}
 	}
+
+	protected override void PressItem(GameObject item){
+		base.PressItem(item);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
+	}
 }

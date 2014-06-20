@@ -86,6 +86,8 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		CreatUI ();
 	}
 
+
+
 	public virtual void CreatUI() {
 		if (component != null){
 			component.CreatUI();
@@ -171,7 +173,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		
 		viewCallback = viewComponent;
 		viewComponent.Init(uiConfig, this);
-
+//		CreatUI ();
 		if (uiComponent != null) {
 			uiComponent.ShowUI();
 		}

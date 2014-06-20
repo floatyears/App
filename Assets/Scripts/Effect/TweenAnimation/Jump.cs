@@ -16,16 +16,17 @@ public class Jump : MonoBehaviour {
 	}
 
 	public void GameStart (Vector3 point) {
-		bottomPosition = point;
-		iTween.MoveTo(gameObject,iTween.Hash("position",bottomPosition,"time",0.3f,"easetype",iTween.EaseType.easeInCubic,"islocal",true));
+//		bottomPosition = point;
+//		iTween.MoveTo(gameObject,iTween.Hash("position",bottomPosition,"time",0.3f,"easetype",iTween.EaseType.easeInCubic,"islocal",true));
+		iTween.ScaleFrom (gameObject, new Vector3 (3f, 3f, 3f), 0.5f);
 	}
 	
 	public void JumpAnim() {
-//		iTween.MoveTo(gameObject,iTween.Hash("position",topPosition,"time",0.4f,"easetype",iTween.EaseType.easeOutQuart,"oncomplete","JumpTop","oncompletetarget",gameObject,"islocal",true));
+//		iTween.ScaleTo (gameObject, iTween.Hash ("scale", new Vector3 (1.5f, 1.5f, 1.5f), "time", 0.3f, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "JumpEnd", "oncompletetarget", gameObject));
 	}
 
-	void JumpTop() {
-//		iTween.MoveTo(gameObject,iTween.Hash("position",bottomPosition,"time",0.4f,"easetype",iTween.EaseType.easeInCubic,"oncomplete","JumpDone","oncompletetarget",gameObject,"islocal",true));
+	void JumpEnd() {
+//		iTween.ScaleTo (gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.3f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "JumpDone", "oncompletetarget", gameObject));
 	}
 
 	void JumpDone() {

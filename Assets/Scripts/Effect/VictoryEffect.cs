@@ -99,7 +99,7 @@ public class VictoryEffect : UIBaseUnity {
 			GameObject go = NGUITools.AddChild(parent, dropItem);
 			go.SetActive(true);
 			clearQuest.gotUnit[i].UnitInfo.GetAsset(UnitAssetType.Avatar,o=>{
-				go.transform.Find("Texture").GetComponent<UITexture>().mainTexture = o as Texture2D;
+				go.transform.Find("Texture_Avatar").GetComponent<UITexture>().mainTexture = o as Texture2D;
 				go.name = i.ToString();
 			});
 
@@ -171,7 +171,7 @@ public class VictoryEffect : UIBaseUnity {
 		niuJiaoCurrent = niuJiao.transform.localPosition;
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);
 		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
-		dropItem = parent.transform.Find ("DragItem").gameObject;
+		dropItem = parent.transform.Find ("MyUnitPrefab").gameObject;
 		dropItem.transform.parent = parent.transform.parent;
 		dropItem.SetActive (false);
 	}

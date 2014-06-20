@@ -31,6 +31,8 @@ public class OperationNoticeView : UIComponentUnity {
 	}
 	
 	public override void HideUI() {
+		//show Login Bonus
+
 		base.HideUI();
 		Debug.Log ("hide operation notice: " + config.localPosition.y);
 	}

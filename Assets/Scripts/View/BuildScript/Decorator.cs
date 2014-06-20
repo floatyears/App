@@ -44,18 +44,15 @@ public class DecoratorBase {
 	}
 
 	public virtual void ShowScene () {
-//		Debug.LogError("ShowScene 1");
         ResetSceneState();
-//		Debug.LogError("ShowScene 2");
 		if(lastDecorator != null)
 			lastDecorator.ShowUI ();
-//		Debug.LogError("ShowScene 3");
 	}
 
     public virtual void ResetSceneState () {
         if(lastDecorator != null){
             ConcreteComponent controller = lastDecorator as ConcreteComponent;
-//			Debug.LogError(controller + " resetStateFlag : " + resetStateFlag);
+			//Debug.LogError(controller + " resetStateFlag : " + resetStateFlag);
             if (controller != null){
                 controller.ResetUIState(resetStateFlag);
             }
