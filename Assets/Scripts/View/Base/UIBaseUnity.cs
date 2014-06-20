@@ -117,8 +117,7 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 		InitHide();
 	}
 
-    public virtual void ResetUIState() {
-    }
+    public virtual void ResetUIState() {}
 
 	private void InitHide() {
 		transform.localPosition = ViewManager.HidePos;
