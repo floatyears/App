@@ -91,7 +91,7 @@ public class ResourceManager : MonoBehaviour{
 					ext = ".bytes";
 				}
 			}else if(path.IndexOf ("Avatar") == 0){
-				ext = ".png";
+				ext = ".prefab";
 			}else if(path.IndexOf ("Profile") == 0){
 				ext = ".png";
 

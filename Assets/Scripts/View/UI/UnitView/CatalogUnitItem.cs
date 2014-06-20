@@ -9,12 +9,13 @@ public enum CatalogState{
 }
 
 public class CatalogUnitItem : MyUnitItem {
-	private UISprite avatarSpr;
+	private UISprite avatarSprite;
 	private UISprite erotemeSpr;
 	private UISprite maskSprite;
 	private UISprite translucentMaskSpr;
 	private UILabel idLabel;
 	public UIWidget widget;
+	
 	/// <summary>
 	/// The earliest execute
 	/// </summary>
@@ -25,18 +26,14 @@ public class CatalogUnitItem : MyUnitItem {
 		return view;
 	}
 
-	/// <summary>
-	/// Awake() execute as soon as  the static function CatalogUnitItem.Inject() execute
-	/// </summary>
 	protected override void Awake(){
 		widget = GetComponent<UIWidget>();
-
 		mWidget = widget;
 
-		avatarSpr = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
+		avatarSprite = transform.FindChild("Avatar").GetComponent<UISprite>();
 		erotemeSpr = transform.FindChild("Sprite_Erotemer").GetComponent<UISprite>();
 		maskSprite = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
-		translucentMaskSpr = transform.FindChild("Sprite_Translucent").GetComponent<UISprite>();
+		//translucentMaskSpr = transform.FindChild("Sprite_Translucent").GetComponent<UISprite>();
 		idLabel = transform.FindChild("Label_ID").GetComponent<UILabel>();
 	}
 
@@ -92,38 +89,36 @@ public class CatalogUnitItem : MyUnitItem {
 		}
 		set{
 			state = value;
+			Debug.LogError("catalogUserUnit.UnitID : " + catalogUserUnit.UnitID);
 			switch (state) {
 				case CatalogState.Got : 
-					avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-					avatarSpr.spriteName = catalogUserUnit.UnitID.ToString();
+					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
+					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
 					erotemeSpr.enabled = false;
 					maskSprite.enabled = false;
-					translucentMaskSpr.enabled = false;
+					//translucentMaskSpr.enabled = false;
 					UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
 					break;
 				case CatalogState.Meet : 
-					avatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-					avatarSpr.spriteName = catalogUserUnit.UnitID.ToString();
+					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
+					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
 					erotemeSpr.enabled = true;
 					maskSprite.enabled = false;
-					translucentMaskSpr.enabled = true;
-//					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+					//translucentMaskSpr.enabled = true;
 					break;
 				case CatalogState.UnKnown : 
-					avatarSpr.atlas = null;
-					avatarSpr.spriteName = string.Empty;
+					avatarSprite.atlas = null;
+					avatarSprite.spriteName = string.Empty;
 					erotemeSpr.enabled = true;
 					maskSprite.enabled = true;
-					translucentMaskSpr.enabled = false;
-//					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+					//translucentMaskSpr.enabled = false;
 					break;
 				default:
-					avatarSpr.atlas = null;
-					avatarSpr.spriteName = string.Empty;
+					avatarSprite.atlas = null;
+					avatarSprite.spriteName = string.Empty;
 					erotemeSpr.enabled = true;
 					maskSprite.enabled = true;
-					translucentMaskSpr.enabled = false;
-//					UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+					//translucentMaskSpr.enabled = false;
 					break;
 			}
 			idLabel.text = "ID : " + catalogUserUnit.UnitID.ToString();

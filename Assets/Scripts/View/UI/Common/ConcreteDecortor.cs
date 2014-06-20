@@ -337,11 +337,11 @@ public class UnitsDecorator : DecoratorBase{
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		UnitsController units = CreatComponent< UnitsController >(UIConfig.unitsWindowName);
-		UnitInfoLogic partyInfo = CreatComponent<UnitInfoLogic>(UIConfig.unitsInfoPanelName);
+		//UnitInfoLogic partyInfo = CreatComponent<UnitInfoLogic>(UIConfig.unitsInfoPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
-		partyInfo.SetComponent(sceneInfoBar);
-		units.SetComponent(partyInfo);
+		//partyInfo.SetComponent(sceneInfoBar);
+		units.SetComponent(sceneInfoBar);
 
 		lastDecorator = units;
 //		lastDecorator.CreatUI();
