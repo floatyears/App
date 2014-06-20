@@ -119,7 +119,7 @@ public class NoviceGuideStepEntityManager {
 //				CreateStepEntityByID(NoviceGuideStepEntityID.EVOLVE,NoviceGuideStepJ_StateOne.Instance());
 //				break;
 //		}
-//		Debug.Log ("current stage: " + currentNoviceGuideStage);
+		Debug.Log ("current stage: " + currentNoviceGuideStage);
 		NoviceGuideStage ngs = (NoviceGuideStage) currentNoviceGuideStage;
 		if (ngs == NoviceGuideStage.NONE) {
 			return;		
@@ -136,9 +136,6 @@ public class NoviceGuideStepEntityManager {
 				}
 			}else if(startType == NoviceGuideStartType.FIGHT){
 				switch (ngs) {
-				case NoviceGuideStage.GOLD_BOX://goldBox
-					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepH_StateOne.Instance ());
-					break;
 					//Fist Enemy
 				case NoviceGuideStage.ANIMATION://Animation
 					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateOne.Instance ());
@@ -148,9 +145,6 @@ public class NoviceGuideStepEntityManager {
 					break;
 				case NoviceGuideStage.FIRST_ATTACK_TWO://AttackTwice
 					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateFour.Instance ());
-					break;
-				case NoviceGuideStage.GET_KEY://GetKey
-					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateSix.Instance ());
 					break;
 					//Boss Enemy
 				case NoviceGuideStage.BOSS_ATTACK_ONE://AttackOnce
@@ -284,7 +278,7 @@ public class NoviceGuideStepEntityManager {
 				stepEntityDic[id].GetStateMachine().CurrentState = state;
 				stepEntityDic[id].GetStateMachine().IsRunning = true;
 			} else{
-				LogHelper.Log("start state is the same:" + state + ", goto the next state");
+				Debug.Log("start state is the same:" + state + ", goto the next state");
 				NextState();
 				stepEntityDic[id].GetStateMachine().IsRunning = true;
 

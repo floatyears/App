@@ -45,10 +45,9 @@ public class ResourceManager : MonoBehaviour{
 			}else{
 				return Resources.Load (path);
 			}
-
 		}
 
-		if (path.IndexOf ("Config") == 0 || path.IndexOf ("Prefabs") == 0 || path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0 || path.IndexOf ("Atlas") == 0) {
+		if (path.IndexOf ("Config") == 0 || path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0 || path.IndexOf ("Atlas") == 0) {
 #if UNITY_EDITOR
 
 //			ResourceAssetBundle key = GetBundleKeyByPath(path);
@@ -101,7 +100,7 @@ public class ResourceManager : MonoBehaviour{
 //				(int)(num/20)
 			}
 
-			//Debug.Log ("assets load: " + "Assets/ResourceDownload/" + path + ext + "  "  + Resources.LoadAssetAtPath <Object>("Assets/ResourceDownload/" + path+ ext));
+//			Debug.Log ("assets load: " + "Assets/ResourceDownload/" + path + ext + "  "  + Resources.LoadAssetAtPath <Object>("Assets/ResourceDownload/" + path+ ext));
 			if(callback != null){
 				callback(Resources.LoadAssetAtPath<Object> ("Assets/ResourceDownload/" + path + ext));
 				return null;
@@ -135,7 +134,7 @@ public class ResourceManager : MonoBehaviour{
 
 #endif
 		} else {
-			//Debug.Log ("resource load from resource: " + path);
+			Debug.Log ("resource load from resource: " + path);
 			if(callback != null){
 				callback(Resources.Load (path));
 				return null;
@@ -161,7 +160,7 @@ public class ResourceManager : MonoBehaviour{
 //		string.Empty;
 //	#endif
 		assetBundles [key].isLoading = true;
-
+		Debug.Log ("download start url: " + url);
 
 		WWW www = new WWW (url);
 		if (!string.IsNullOrEmpty (www.error)) {

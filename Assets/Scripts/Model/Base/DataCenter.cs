@@ -645,7 +645,7 @@ public class DataCenter {
 
 	public UIAtlas GetAvatarAtlas(uint unitID){
 		if(avatarAtalsDic.Count == 0){
-//			Debug.LogError("DataCenter :: avatarAtalsDic is empty, loading...");
+			//Debug.LogError("DataCenter :: avatarAtalsDic is empty, loading...");
 			LoadAvatarAtlas();
 		}
 		uint index = unitID/AVATAR_ATLAS_CAPACITY;
@@ -657,7 +657,7 @@ public class DataCenter {
 	}
 
 	private void LoadAvatarAtlas(){
-//		bool successful = false;
+		//bool successful = false;
 		for (uint i = 0; i < AVATAR_ATLAS_COUNT; i++){
 			string sourcePath = string.Format("Atlas/Avatar_Atlas_{0}", i);
 			//never use the raw interface! Use ResourceManager instead
@@ -671,9 +671,11 @@ public class DataCenter {
 			});
 			//GameObject source = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
 		}
-//		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;
-//		Debug.Log("DataCenter.LoadAvatarAtlas(), successful is : " + successful);
-//		return successful;
+
+		/*
+		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;
+		Debug.Log("DataCenter.LoadAvatarAtlas(), successful is : " + successful);
+		*/
 	}
 
 

@@ -21,14 +21,13 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	public override void ShowUI() {
+
 		base.ShowUI();
 		AddCmdListener();
 
 		CreateGeneralListView();
 		ShowUIAnimation(generalDragPanel);
 		isShowPremium = false;
-
-		Debug.LogError ("FriendHelperView showui : " + generalDragPanel + " time : " + Time.realtimeSinceStartup + " showui ");
 	}
 
 	public override void HideUI() {
@@ -64,13 +63,13 @@ public class FriendHelperView : UIComponentUnity{
 		if(premiumFriendList == null){
 			Debug.LogError("CreatePremiumListView(), FIRST step in, create drag panel view...");
 			premiumFriendList = newest;
-			RefreshDragView(premiumDragPanel, FriendInfoType.Premium);
+			premiumDragPanel = RefreshDragView(FriendInfoType.Premium);
 		}
 		else{
 			Debug.Log("CreatePremiumListView(), NOT FIRST step into FriendHelper scene...");
 			if(!premiumFriendList.Equals(newest)){
 				premiumFriendList = newest;
-				RefreshDragView(premiumDragPanel, FriendInfoType.Premium);
+				premiumDragPanel = RefreshDragView(FriendInfoType.Premium);
 			}
 			else{
 				Debug.Log("CreatePremiumListView(), the friend info list is NOT CHANGED, do nothing...");
@@ -79,37 +78,44 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	private void CreateGeneralListView(){
-		Debug.Log("Create General ListView(), start..." + Time.realtimeSinceStartup);
+		Debug.Log("Create General ListView(), start...");
 
 		List<TFriendInfo> newest = DataCenter.Instance.SupportFriends;
 
 		if(generalFriendList == null){
-//			Debug.LogError("CreateGeneralListView(), FIRST step in, create drag panel view...");
+			Debug.LogError("CreateGeneralListView(), FIRST step in, create drag panel view...");
 			generalFriendList = newest;
-			Debug.LogError("CreateGeneralListView : " + generalDragPanel);
-			RefreshDragView(generalDragPanel, FriendInfoType.General);
+//			generalDragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
+//			generalDragPanel.CreatUI();
+//			generalDragPanel.AddItem(1);
+//			Debug.LogError("generalDragPanel 1 : " + generalDragPanel);
+			generalDragPanel = RefreshDragView(FriendInfoType.General);
+			Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
 		}
 		else{
 			Debug.Log("CreateGeneralListView(), NOT FIRST step into FriendHelper scene...");
 			if(!generalFriendList.Equals(newest)){
 				Debug.Log("CreateGeneralListView(), the friend info list is CHANGED, update helper list...");
 				//helperDragPanel.DestoryUI();
-				generalFriendList = newest;
-
-				RefreshDragView(generalDragPanel, FriendInfoType.General);
+//				generalFriendList = newest;
+//				generalDragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
+//				Debug.LogError("generalDragPanel 1 : " + generalDragPanel);
+				generalDragPanel = RefreshDragView(FriendInfoType.General);
+				Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
 			}
 			else{
 				Debug.Log("CreateGeneralListView(), the friend info list is NOT CHANGED, do nothing...");
 			}
 		}
-		Debug.LogError ("generalDragPanel : " + generalDragPanel);
 	}
 	enum FriendInfoType{
 		General,
 		Premium
 	}
 
-	void RefreshDragView(DragPanel dragPanel, FriendInfoType friendInfoType){
+	DragPanel RefreshDragView(FriendInfoType friendInfoType){
+		DragPanel dragPanel = null;
+
 		string dragPanelName;
 		List<TFriendInfo> dataList;
 
@@ -127,10 +133,10 @@ public class FriendHelperView : UIComponentUnity{
 			dragPanel.DestoryUI();
 		}
 		else{
-			Debug.Log("dragPanel == NULL, create->refresh..." + Time.realtimeSinceStartup);
+			Debug.Log("dragPanel == NULL, create->refresh...");
 		}
 
-		dragPanel = new DragPanel(dragPanelName, HelperUnitItem.ItemPrefab);
+		dragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
 		CustomDragPanel(dragPanel);
@@ -141,6 +147,8 @@ public class FriendHelperView : UIComponentUnity{
 			huv.Init(generalFriendList[ i ]);
 			huv.callback = ClickHelperItem;
 		}
+
+		return dragPanel;
 	}
 
 	private QuestItemView pickedQuestInfo;
@@ -200,7 +208,6 @@ public class FriendHelperView : UIComponentUnity{
 
 
 	private void ShowUIAnimation(DragPanel dragPannel){
-//		Debug.LogError ("ShowUIAnimation : " + dragPannel);
 		if(dragPannel == null) return;
 		GameObject targetPanel = dragPannel.DragPanelView.gameObject;
 		targetPanel.transform.localPosition = new Vector3(-1000, 0, 0);
