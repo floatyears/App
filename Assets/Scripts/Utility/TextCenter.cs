@@ -31,7 +31,13 @@ public partial class TextCenter {
 
 	public static string GetText(string key, params object[] args){
 		string result = Instance.InnerGetText( key );
-        result = string.Format(result, args);
+		if( result!=null && result.Length > 0 ) {
+			result = string.Format(result, args);
+		}
+		if(result == null) {
+			result = "";
+		}
+        
         return result;
     }
 
@@ -45,11 +51,14 @@ public partial class TextCenter {
 
     private Dictionary<string, string> textDict;
 	public string InnerGetText(string key) {
-		string result = "";
+		string result = ""; //default set to key
 		textDict.TryGetValue(key, out result);
+		if(result == null || result == "") {
+			result = key;
+		}
+
 		return result;
 	}
-
 
     public void Init(ResourceCallback callback){
         textDict = new Dictionary<string, string>();

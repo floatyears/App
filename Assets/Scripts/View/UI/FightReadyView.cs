@@ -290,11 +290,11 @@ public class FightReadyView : UIComponentUnity {
 	private void UpdateLeaderSkillView(SkillBase skill, UILabel name, UILabel dscp){
 		if(skill == null){
 			Debug.LogError("Leader skill is Null");
-			name.text = "Leader Skill: --";
-			dscp.text = "--";
+			name.text = TextCenter.GetText("LeaderSkillText") + "-";
+			dscp.text = "-";
 		}
 		else{
-			name.text = "Leader Skill: " + skill.name;
+			name.text = TextCenter.GetText("LeaderSkillText") + skill.name;
 			dscp.text = skill.description;
 		}
 	}
@@ -362,7 +362,7 @@ public class FightReadyView : UIComponentUnity {
 	private void SetPartyIndexText(int partyIndex){
 		string path = partyIndex + "/Label_Index";
 		UILabel indexLabel = pageLightRoot.transform.FindChild(path).GetComponent<UILabel>();
-		indexLabel.text = "PARTY" + (partyIndex + 1);
+		indexLabel.text = TextCenter.GetText("PARTY") + (partyIndex + 1);
 	}
 
 	private void ClickPageLight(GameObject lightObj){

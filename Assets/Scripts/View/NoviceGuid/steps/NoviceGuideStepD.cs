@@ -65,7 +65,7 @@ public class NoviceGuideStepD_StateOne:NoviceGuidState
 		mwp.btnParams[0] = sure;
 		
 		sure = new BtnParam ();
-		sure.text = "once again";
+		sure.text = TextCenter.GetText("guide18_once_again");
 		sure.callback = OnceAgain;
 		mwp.btnParams [1] = sure;
 		

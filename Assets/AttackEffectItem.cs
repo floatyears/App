@@ -34,7 +34,7 @@ public class AttackEffectItem : MonoBehaviour {
 			if ( skillID>=101 && skillID<=104 ) { //General RecoverHP Skill
 				SkillBaseInfo sbi = DataCenter.Instance.Skill[skillID]; //(userUnitID, skillID, SkillType.NormalSkill);
 				skillNameLabel.text = sbi.BaseInfo.name;
-				ATKLabel.text = "HELH " + atk;
+				ATKLabel.text = "HEAL " + atk;
 			} else {
 				SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitID, skillID, SkillType.NormalSkill);
 				if(sbi == null) {

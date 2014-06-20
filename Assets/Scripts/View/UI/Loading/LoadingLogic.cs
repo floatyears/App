@@ -155,12 +155,12 @@ public class LoadingLogic : ConcreteComponent {
 					
 					BtnParam sure = new BtnParam ();
 					sure.callback = SureRetry;
-					sure.text = "OK";
+				sure.text = TextCenter.GetText("Resume");
 					mwp.btnParams[0] = sure;
 					
 					sure = new BtnParam ();
 					sure.callback = Cancel;
-					sure.text = "Cancel";
+				sure.text = TextCenter.GetText("Discard");
 					mwp.btnParams[1] = sure;
 					
 					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);

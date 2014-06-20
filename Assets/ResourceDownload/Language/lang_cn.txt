@@ -1,57 +1,56 @@
 ##common text
 
 OK=OK
-Again=Once Again
-Cancel=Cancel
-Back=Back
-Open=Open
-Resume=Resume
-Discard=Discard
+Again=再看一次
+Cancel=取消
+Back=返回
+Open=打开
+Resume=继续
+Discard=放弃
 
-
-Retry=Retry
-error=Error
+Retry=重试
+error=错误
 
 ##Button Label Text
-Btn_JumpScene_FriendList=FRIEND LIST
-Btn_JumpScene_Apply=APPLY
-Btn_JumpScene_Information=INFORMATION
-Btn_JumpScene_Reception=RECEPETION
-Btn_JumpScene_Search=SEARCH
-Btn_JumpScene_UserID=YOUR ID
+Btn_JumpScene_FriendList=好友列表
+Btn_JumpScene_Apply=申请好友
+Btn_JumpScene_Information=通知信息
+Btn_JumpScene_Reception=好友请求
+Btn_JumpScene_Search=查找好友
+Btn_JumpScene_UserID=用户ID
 
-Btn_JumpScene_Party=PARTY
-Btn_JumpScene_Sell=SELL
-Btn_JumpScene_LevelUp=LEVEL UP
-Btn_JumpScene_UnitList=UNIT LIST
-Btn_JumpScene_Evolve=EVOLVE
-Btn_JumpScene_Catalog=CATALOG
+Btn_JumpScene_Party=编队
+Btn_JumpScene_Sell=卖出
+Btn_JumpScene_LevelUp=强化
+Btn_JumpScene_UnitList=卡牌
+Btn_JumpScene_Evolve=进化
+Btn_JumpScene_Catalog=图鉴
 
-Btn_SceneBack=BACK
-Btn_SORT=SORT
-Btn_Premium=PREMIUM
-Btn_Sell_Picked=SELL
-Btn_Clear_PickedToSell=CLEAR
-Btn_Submit_Sell=SUBMIT
-Btn_Cancel_Sell=CANCEL
-Btn_RejectUnit=REJECT
-Btn_Submit_Evolve=EVOLVE
-Btn_Submit_LevelUp=LEVEL UP
+Btn_SceneBack=返回
+Btn_SORT=排序
+Btn_Premium=高级
+Btn_Sell_Picked=卖出
+Btn_Clear_PickedToSell=清除
+Btn_Submit_Sell=提交
+Btn_Cancel_Sell=取消
+Btn_RejectUnit=取消
+Btn_Submit_Evolve=进化
+Btn_Submit_LevelUp=强化
 
-Btn_FriendList_Update=UPDATE
-Btn_Reception_RefuseAll=REFUSE
-Btn_Submit_SearchFriend=SEARCH
-Btn_UserID_OK=BACK
+Btn_FriendList_Update=更新
+Btn_Reception_RefuseAll=拒绝
+Btn_Submit_SearchFriend=查找
+Btn_UserID_OK=返回
 
-Btn_SortRule_HP=HP
-Btn_SortRule_Atk=ATTACK
-Btn_SortRule_GetTime=GET TIME
-Btn_SortRule_Race=RACE
-Btn_SortRule_Attribute=ATTRIBUTE
+Btn_SortRule_HP=血量
+Btn_SortRule_Atk=攻击
+Btn_SortRule_GetTime=获得时间
+Btn_SortRule_Race=种族
+Btn_SortRule_Attribute=属性
 Btn_SortRule_ID=ID
-Btn_SortRule_Fav=FAVORITE
-Btn_SortRule_AddPoint=ADD POINT
-Btn_SortRule_Rank=RANK
+Btn_SortRule_Fav=收藏
+Btn_SortRule_AddPoint=+号
+Btn_SortRule_Rank=等级
 
 ##Label Text
 Divided_Line=/
@@ -59,23 +58,23 @@ Float_User_ID=用户ID:
 Float_NextExp=下一级所需经验:
 Float_TotalExp=总获得经验:
 
-LeaderSkillText=Leader Skill: 
-PARTY=PARTY
+LeaderSkillText=队长技能: 
+PARTY=队伍
 
 ##City Name
-City_Name_1=city_name_1
-City_Name_2=city_name_2
-City_Name_3=city_name_3
-City_Name_4=city_name_4
-City_Name_5=city_name_5
-City_Name_6=city_name_6
+City_Name_1=雾隐山脉
+City_Name_2=尖叫荒野
+City_Name_3=千岛魔湖
+City_Name_4=鬼影森林
+City_Name_5=恶魔外城
+City_Name_6=即将开放
 
 Title_YourID=用户ID
 ##Game setting options
-Game_Setting_Option_Music=音乐
-Game_Setting_Option_NickName=昵称
-Game_Setting_Option_Currency=攻略
-Game_Setting_Option_Raider=RAIDER
+Game_Setting_Option_Music=音乐设置
+Game_Setting_Option_NickName=修改昵称
+Game_Setting_Option_Currency=购买测试
+Game_Setting_Option_Raider=游戏攻略
 
 Text_Leader_Skill=队长技能
 Text_HP=血量
@@ -88,89 +87,89 @@ Unit_Detail_Tab_Prifile=描述
 Unit_Detail_Next=下一级
 
 ##Scene Name
-SCENE_NAME_APPLY=APPLY
-SCENE_NAME_CATALOG=CATALOG
-SCENE_NAME_EVOLVE=EVOLVE
-SCENE_NAME_FIGHTREADY=FIGHT READY
-SCENE_NAME_FRIEND=FRIEND
-SCENE_NAME_FRIEND_LIST=FRIEND LIST
-SCENE_NAME_FRIEND_SELECT=FRIEND SELECT
-SCENE_NAME_HOME=HOME
-SCENE_NAME_INFORMATION=INFORMATION
-SCENE_NAME_LEVEL_UP=LEVEL UP
-SCENE_NAME_OTHERS=OTHERS
-SCENE_NAME_PARTY=PARTY
-SCENE_NAME_QUEST_SELECT=QUEST SELECT
-SCENE_NAME_RECEPTION=RECEPTION
-SCENE_NAME_ROLE_SELECT=ROLE SELECT
-SCENE_NAME_SCRATCH=SCRATCH
-SCENE_NAME_FRIEND_SEARCH=SEARCH FRIEND
-SCENE_NAME_SHOP=SHOP
-SCENE_NAME_STAGE_SELECT=STAGE SELECT
-SCENE_NAME_UNITS=UNITS
-SCENE_NAME_UNIT_SELL=UNIT SELL
-SCENE_NAME_YOUR_ID=YOUR ID
-SCENE_NAME_UNIT_RESULT=RESULT
-SCENE_NAME_UNIT_LIST=UNIT LIST
-SCENE_NAME_OPERATION_NOTICE=Operation Notice
-SCENE_NAME_REWARD=Reward
-SCENE_NAME_RAIDER=Raider
-SCENE_NAME_CURRENCY=Currency
+SCENE_NAME_APPLY=申请好友
+SCENE_NAME_CATALOG=图鉴
+SCENE_NAME_EVOLVE=进化
+SCENE_NAME_FIGHTREADY=战斗准备
+SCENE_NAME_FRIEND=好友
+SCENE_NAME_FRIEND_LIST=好友列表
+SCENE_NAME_FRIEND_SELECT=好友选择
+SCENE_NAME_HOME=主页
+SCENE_NAME_INFORMATION=通知信息
+SCENE_NAME_LEVEL_UP=强化
+SCENE_NAME_OTHERS=其它
+SCENE_NAME_PARTY=编队
+SCENE_NAME_QUEST_SELECT=战场选择
+SCENE_NAME_RECEPTION=好友请求
+SCENE_NAME_ROLE_SELECT=选择主角
+SCENE_NAME_SCRATCH=抽卡
+SCENE_NAME_FRIEND_SEARCH=查找好友
+SCENE_NAME_SHOP=商城
+SCENE_NAME_STAGE_SELECT=关卡选择
+SCENE_NAME_UNITS=卡牌
+SCENE_NAME_UNIT_SELL=卡牌卖出
+SCENE_NAME_YOUR_ID=账号信息
+#SCENE_NAME_UNIT_RESULT=结果
+SCENE_NAME_UNIT_LIST=卡牌列表
+SCENE_NAME_OPERATION_NOTICE=运营通知
+SCENE_NAME_REWARD=奖励
+SCENE_NAME_RAIDER=游戏攻略
+SCENE_NAME_CURRENCY=购买测试
 
-Stage_Locked=LOCKED
-Stamina=STAMINA
-Floor=FLOOR
+Stage_Locked=未解锁
+Stamina=体力
+Floor=层
 
 #Battle
-RedoQuest=Redo
-GoOnQuest=Go on
-RedoQuestTitle=Confirm
-RedoQuestContent=Use {0} stones to redo this floor of quest? \n\nYou have {1} stones now.
-ResumeQuestTitle=Resume Confirm
-ResumeQuestContent=Use {0} stones to resume the quest? \n(The SP and HP will be recovered.)
+RedoQuest=重打
+GoOnQuest=通关
+RedoQuestTitle=战斗重打确认
+RedoQuestContent=是否花费 {0} 个钻石来重打此层战斗？\n\n你当前拥有{1}颗钻石.
+ResumeQuestTitle=战斗续打确认
+ResumeQuestContent=是否花费 {0} 个钻石来接着继续战斗？ \n (你的血量和SP都会全部恢复.)
 
 #Loading
-BattleContinueTitle=Battle Confirm
-BattleContinueContent=Do you want to recover previous battle?
+BattleContinueTitle=战斗继续确认
+BattleContinueContent=你有还未结束的战斗，你要继续进行未完成的战斗吗？\n\n放弃战斗将损失所有战利品和已消耗的体力.
 
 #Friend search
-SearchError=Search Error
-SearchFriendNotExist=The Friend {0} is not exist.
-UserAlreadyFriend=The ID {0} you searched is already your friend!
+SearchError=查找错误
+SearchFriendNotExist=未找到好友: {0} 。
+UserAlreadyFriend=你要添加的用户 {0} 已经是你的好友了!\n请到好友列表中查看。
 
-InputError=Input Error
-InputEmpty=Could not Input empty ID!
+InputError=输入错误
+InputEmpty=请输入一个好友的ID
 
-RefuseAll=Refuse All
-ConfirmRefuseAll=Are you sure to refuse all applied friends?
+RefuseAll=全部拒绝
+ConfirmRefuseAll=你确定要拒绝全部好友请求吗?
 
-RefreshFriend=Friend Update
-ConfirmRefreshFriend=Are you sure to update friend list?
+RefreshFriend=刷新好友
+ConfirmRefreshFriend=确定立即更新好友列表吗？
 
 # shop
 
-FriendExpand=Friend Max Expansion
-FriendExpansionConfirm=Are you sure to use {0} stones to expand {1} friends?
-FriendExpansionInfo=Now friends {0}/{1}
-DoFriendExpand=Expand
+FriendExpand=好友扩容
+FriendExpansionConfirm=确定花费 {0} 颗钻石来扩充 {1} 个好友上限吗？
+FriendExpansionInfo=当前好友数量： {0}/{1}
+DoFriendExpand=扩容
 
-FriendExpansionFailed=Friend Max Expansion Failed
-FriendCountLimitReachedMax=Now your friend limit has reached max.
-FriendExpandStonesNotEnough=Now your stone not enough to expand friend limit.
+FriendExpansionFailed=好友扩容失败
+FriendCountLimitReachedMax=你的好友容量已达到等级上限，必须先提升账号等级才能扩充好友容量。
+FriendExpandStonesNotEnough=你的钻石数量不足，无法扩容好友。请先进行充值！
 
-FriendExpansionFinish=Expansion Success
-FriendExpansionResult=Friend Limited Max reached {0}!
+FriendExpansionFinish=好友扩容成功
+FriendExpansionResult=好友上限达到 {0}!
 
-StaminaRecover=Recover your stamina
-StaminaRecoverConfirm=Are you sure to use {0} stones to recover stamina?
-DoStaminaRecover=Recover
+StaminaRecover=恢复体力
+StaminaRecoverConfirm=确定花费{0}颗钻石来恢复体力吗？
+DoStaminaRecover=恢复
 
-StaminaRecoverFailed=Stamina Recovering Failed
-StaminaStillFull=Now your stamina still full, not need to recover it.
-StaminaRecoverStonesNotEnough=Now your stone not enough to recover stamina.
+StaminaRecoverFailed=体力恢复失败
+StaminaStillFull=你的体力已满，无需恢复。
+StaminaRecoverStonesNotEnough=你的钻石不足，无法恢复体力。请先充值！
 
-StaminaRecoverFinish=Stamina Recovered
-StaminaRecoverResult=Your stamina recovered to {0}.
+StaminaRecoverFinish=体力恢复成功
+StaminaRecoverResult=当前体力值达到：{0}.
 
 UnitExpand=Units count limit expand
 UnitExpansionConfirm=Are you sure to use {0} stones to expand unit limit?

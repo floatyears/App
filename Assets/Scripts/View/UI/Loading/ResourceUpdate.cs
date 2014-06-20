@@ -132,17 +132,17 @@ public class ResourceUpdate : MonoBehaviour {
 						MsgWindowParams mwp = new MsgWindowParams ();
 						mwp.btnParams = new BtnParam[2];
 						
-						mwp.titleText = "Dowload Error";
-						mwp.contentText = "Would you like to retry";
+						mwp.titleText = TextCenter.GetText("DownloadErrorTitle");
+						mwp.contentText = TextCenter.GetText("DownloadErrorContent");
 						
 						BtnParam sure = new BtnParam ();
 						sure.callback = DownloadAgain;
-						sure.text = "OK";
+						sure.text = TextCenter.GetText("Retry");
 						mwp.btnParams[0] = sure;
 						
 						sure = new BtnParam ();
 						sure.callback = ExitGame;
-						sure.text = "Cancel";
+						sure.text = TextCenter.GetText("Cancel");
 						mwp.btnParams[1] = sure;
 						MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 					}

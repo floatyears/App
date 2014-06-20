@@ -104,7 +104,7 @@ public class BattleAttackInfo : UIBaseUnity {
 			hitFirstSprite.spriteName = (prevAttack.ContinuAttackMultip / 10).ToString ();
 			hitSecondSprite.spriteName = (prevAttack.ContinuAttackMultip % 10).ToString ();
 			hitLabel.enabled = true;
-			rateLabel.text = "rate x " + prevAttack.AttackRate;
+			rateLabel.text = "Rate x " + prevAttack.AttackRate;
 		}
 		prevAttack = data as AttackInfo;
 	}

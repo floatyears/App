@@ -44,7 +44,7 @@ public class SearchFriendController : ConcreteComponent{
 //        LogHelper.Log("GetSearchIdAlreadyFriendMsgWindowParams(), searchFriendUid {0}", searchFriendUid);
         MsgWindowParams msgWindowParam = new MsgWindowParams();
         msgWindowParam.titleText = TextCenter.GetText("SearchError");
-        msgWindowParam.contentText = TextCenter.GetText("UserNotExist", searchFriendUid);
+		msgWindowParam.contentText = TextCenter.GetText("SearchFriendNotExist", searchFriendUid);
 //        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParam = new BtnParam();
         return msgWindowParam;
