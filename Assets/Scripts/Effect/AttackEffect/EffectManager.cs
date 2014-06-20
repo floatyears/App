@@ -36,8 +36,6 @@ public class EffectManager {
 //		effectName.Add (4028, "zhua");								//wind single
 //		effectName.Add (4062, "liandao");							//wind single
 
-
-
 		effectName.Add (4021, "effect/ns-all-1-fire");		
 		effectName.Add (4038, "effect/ns-all-2-fire");	
 
