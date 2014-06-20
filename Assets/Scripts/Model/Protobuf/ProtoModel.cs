@@ -3289,6 +3289,14 @@ namespace bbproto
       get { return _maxStar; }
       set { _maxStar = value; }
     }
+    private bbproto.Position _showPos = null;
+    [global::ProtoBuf.ProtoMember(21, IsRequired = false, Name=@"showPos", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.Position showPos
+    {
+      get { return _showPos; }
+      set { _showPos = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -4983,6 +4991,21 @@ namespace bbproto
       get { return _maxBonusId; }
       set { _maxBonusId = value; }
     }
+    private readonly global::System.Collections.Generic.List<int> _onceBonusId = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(9, Name=@"onceBonusId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> onceBonusId
+    {
+      get { return _onceBonusId; }
+    }
+  
+    private int _loginDayTotal = default(int);
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"loginDayTotal", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int loginDayTotal
+    {
+      get { return _loginDayTotal; }
+      set { _loginDayTotal = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -5386,14 +5409,6 @@ namespace bbproto
       get { return _eventList; }
     }
   
-    private int _testForUpgrade = default(int);
-    [global::ProtoBuf.ProtoMember(21, IsRequired = false, Name=@"testForUpgrade", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int testForUpgrade
-    {
-      get { return _testForUpgrade; }
-      set { _testForUpgrade = value; }
-    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
