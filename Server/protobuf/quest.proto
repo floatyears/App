@@ -23,6 +23,7 @@ enum ETrapType {
 	StateException	= 1;
 	ChangeEnvir		= 2;
 	Injured			= 3;
+    All             = 4; // all trap
 }
 
 enum EQuestGridType {

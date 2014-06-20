@@ -10,5 +10,8 @@ message ReqShopBuy {
 
 message RspShopBuy {
     optional ProtoHeader	header				= 1;
+    optional int32	        stonePay			= 2;
+    optional int32	        stoneFree			= 3;
+    optional int32	        stone				= 4;
 }
 

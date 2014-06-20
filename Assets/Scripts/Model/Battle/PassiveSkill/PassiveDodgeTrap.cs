@@ -16,7 +16,7 @@ public class PassiveDodgeTrap : SkillBaseInfo, IPassiveExcute {
 		}
 
 //		SkillDodgeTrap sdt = DeserializeData<SkillDodgeTrap> ();
-		if (instance.trapType == tb.GetTrapType() ) {
+		if (instance.trapType == tb.GetTrapType() || instance.trapType == ETrapType.All) {
 			if(tb.GetLevel == -1 || instance.trapLevel >= tb.GetLevel) {
 				excutePS.DisposeTrap(true);
 				return true;

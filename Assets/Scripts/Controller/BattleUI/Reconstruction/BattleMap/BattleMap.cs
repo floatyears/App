@@ -11,7 +11,7 @@ public class BattleMap : UIBaseUnity {
 	[HideInInspector]
 	public MapItem prevMapItem;
 	private static bool wMove = false;
-	private const float itemWidth = 114f;
+	public const float itemWidth = 114f;
 
 	[HideInInspector]
 	public BattleQuest bQuest;

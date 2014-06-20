@@ -27,15 +27,18 @@ public class LoadingView : UIComponentUnity {
         base.ShowUI ();
 #if UNITY_ANDROID
 		Debug.Log ("Umeng.Start('android')...");
-		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8","android");
+		string channelId = "android";
+		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8", channelId);
+//		Umeng.GA.Bonus.
 #elif UNITY_IPHONE
 		Debug.Log ("Umeng.Start('ios')...");
-		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094","ios");
+		string channelId = "ios";
+		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094", channelId);
 #endif
 
 #if !UNITY_EDITOR
 		Debug.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
-		Debug.Log("GetDeviceInfo: " + Umeng.GA.GetDeviceInfo());
+//		Debug.Log("GetDeviceInfo: " + Umeng.GA.GetDeviceInfo());
 #endif
 
 //		NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces ();
