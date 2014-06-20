@@ -176,7 +176,7 @@ public class ConfigDragPanel{
 	
 	private void ConfigOnSaleUnitDragPanel(){
 		//Debug.Log("ConfigDragPanel.Config(), OnSaleUnitDragPanelArgs...");
-		OnSaleUnitDragPanelArgs.Add("scrollerLocalPos",				-232 * Vector3.up						);
+		OnSaleUnitDragPanelArgs.Add("scrollerLocalPos",				-158 * Vector3.up						);
 		OnSaleUnitDragPanelArgs.Add("position", 						Vector3.zero								);
 		OnSaleUnitDragPanelArgs.Add("clipRange", 						new Vector4(0, -100, 640, 350)		);
 		OnSaleUnitDragPanelArgs.Add("gridArrange", 					UIGrid.Arrangement.Vertical		);

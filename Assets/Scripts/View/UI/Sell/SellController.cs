@@ -9,10 +9,15 @@ public class SellController : ConcreteComponent {
 	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
 
 	public SellController(string uiName):base(uiName) {}
-	public override void CreatUI () { base.CreatUI (); }
+	public override void CreatUI () { 
+		Debug.LogError("SellController.CreatUI()...1"); 
+		base.CreatUI (); 
+		Debug.LogError("SellController.CreatUI()...2");}
 	
 	public override void ShowUI () {
+		Debug.LogError("SellController.ShowUI()...1");
 		base.ShowUI ();
+		Debug.LogError("SellController.ShowUI()...2");
 	}
 	
 	public override void HideUI () {
@@ -107,17 +112,17 @@ public class SellController : ConcreteComponent {
 	}
 
 	void CallbackReqSell(object msg){
-//		Debug.LogError("CallbackReqSell().....");
+		//Debug.LogError("CallbackReqSell().....");
 		SellUnit.SendRequest(OnRspSellUnit, GetOnSaleUnitIDList());
 	}
 
 	void CallbackOnSaleLastEnsure(object msg){
-//		Debug.LogError("CallbackOnSaleLastEnsure()...");
+		//Debug.LogError("CallbackOnSaleLastEnsure()...");
 		GiveLastSaleEnsure();
 	}
 
 	void GiveRareWarning(){
-//		Debug.LogError("GiveRareWarning...");
+		//Debug.LogError("GiveRareWarning...");
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetWarningMsgWindowParams());
 	}
 

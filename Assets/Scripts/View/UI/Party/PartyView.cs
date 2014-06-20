@@ -582,11 +582,11 @@ public class PartyView : UIComponentUnity{
 		
 		SkillBase skillBase = unitParty.GetLeaderSkillInfo ();
 		if (skillBase == null) {
-			leaderSkillNameLabel.text = string.Empty;
-			leaderSkillDscpLabel.text = string.Empty;
+			leaderSkillNameLabel.text = TextCenter.GetText("Name_No_LeaderSkill");
+			leaderSkillDscpLabel.text = TextCenter.GetText("Description_No_LeaderSkill");
 		}
 		else{
-			leaderSkillNameLabel.text = skillBase.name;
+			leaderSkillNameLabel.text = TextCenter.GetText("Leader_Skill") + skillBase.name;
 			leaderSkillDscpLabel.text = skillBase.description;
 		}
 		

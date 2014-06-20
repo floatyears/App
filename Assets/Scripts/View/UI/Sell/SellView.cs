@@ -22,18 +22,17 @@ public class SellView : UIComponentUnity{
 	private List<GameObject> readyItemList = new List<GameObject>();
 	
 	public override void Init(UIInsConfig config, IUICallback origin){
-		Debug.LogError("Sell.ShowUI()...1");
 
 		base.Init(config, origin);
 		InitUIElement();
-		Debug.LogError("Sell.ShowUI()...2");
-
 	}
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		Debug.LogError("Sell.ShowUI()...");
 		AddCmdListener();
+
+		ResetUIState();
+
 		totalSaleValue = 0;
 		pickUnitViewList.Clear();
 		SortUnitByCurRule();
@@ -68,16 +67,19 @@ public class SellView : UIComponentUnity{
 	}
 
     public override void ResetUIState() {
-		Debug.LogError("ResetUIState()...");
+		//Debug.LogError("ResetUIState()...");
 		ResetUIElement();
         SellController controller = origin as SellController;
         if (controller != null){
+			Debug.LogError("ResetUIState()... controller.ResetUI();");
             controller.ResetUI();
         }
+		else{
+			Debug.LogError("controller == null");
+		}
     }
     Vector3 pos = Vector3.zero;
     void BackToMainWindow(object args){
-//		mainRoot.SetActive(true);
 		mainRoot.transform.localPosition = pos;
 		submitRoot.SetActive(false);
 		ResetReadyPool();
@@ -191,11 +193,11 @@ public class SellView : UIComponentUnity{
 		FindTextureWithPosition(poolPos, pickItemList).mainTexture = null;
 		FindLabelWithPosition(poolPos, pickItemList).text = string.Empty;
 
-		UISprite border = pickItemList[ poolPos ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
-		border.spriteName = "avatar_border_6";
+//		UISprite border = pickItemList[ poolPos ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
+//		border.spriteName = "avatar_border_6";
 		
-		UISprite bg = pickItemList[ poolPos ].transform.FindChild("Background").GetComponent<UISprite>();
-		bg.spriteName = "unit_empty_bg";
+//		UISprite bg = pickItemList[ poolPos ].transform.FindChild("Background").GetComponent<UISprite>();
+//		bg.spriteName = "unit_empty_bg";
 
 		CancelMarkDragItem(clickPos);
 	}
@@ -219,8 +221,15 @@ public class SellView : UIComponentUnity{
 		submitRoot = transform.Find("EnsureWindow").gameObject;
 		coinLabel = transform.FindChild("MainWindow/SellCount/Label_Value").GetComponent<UILabel>();
 		readyCoinLabel = transform.FindChild("EnsureWindow/Label_GetCoinValue").GetComponent<UILabel>();
-		sellBtn = transform.FindChild("MainWindow/ImgBtn_Sell").GetComponent<UIButton>();
-		clearBtn = transform.FindChild("MainWindow/ImgBtn_Clear").GetComponent<UIButton>();
+
+		sellBtn = transform.FindChild("MainWindow/Button_Sell").GetComponent<UIButton>();
+		UILabel sellLabel = sellBtn.GetComponentInChildren<UILabel>();
+		sellLabel.text = TextCenter.GetText("Sell");
+
+		clearBtn = transform.FindChild("MainWindow/Button_Clear").GetComponent<UIButton>();
+		UILabel clearLabel = clearBtn.GetComponentInChildren<UILabel>();
+		clearLabel.text = TextCenter.GetText("Clear");
+
 		lastSureCancelBtn = FindChild<UIButton>("EnsureWindow/Button_Cancel");
 		lastSureOkBtn = FindChild<UIButton>("EnsureWindow/Button_Ok");
 		UIEventListener.Get(sellBtn.gameObject).onClick = ClickSellBtn;
@@ -371,8 +380,10 @@ public class SellView : UIComponentUnity{
 	}
 
 	void ResetUIElement(){
+		Debug.LogError(clearBtn.name  + "     " + clearBtn.disabledSprite);
 		clearBtn.isEnabled = false;
 		sellBtn.isEnabled = false;
+
 		totalSaleValue = 0;
 		coinLabel.text = "0";
 

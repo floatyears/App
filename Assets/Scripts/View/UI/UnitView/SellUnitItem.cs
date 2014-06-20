@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class SellUnitItem : MyUnitItem {
-
 	public static SellUnitItem Inject(GameObject item){
 		SellUnitItem view = item.GetComponent<SellUnitItem>();
 		if (view == null) view = item.AddComponent<SellUnitItem>();
@@ -53,6 +52,11 @@ public class SellUnitItem : MyUnitItem {
 			//IsEnable is FALSE as long as one state(IsParty or IsFavorite or other...) is TRUE
 			IsEnable = !(IsParty || IsFavorite);
 		}
+	}
+
+	protected override void PressItem(GameObject item){
+		base.PressItem(item);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
 	}
 
 }
