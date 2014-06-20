@@ -7,14 +7,12 @@ public class UnitDisplay : ConcreteComponent {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-//		Debug.LogError (UIManager.Instance.prevScene);
 		if(UIManager.Instance.prevScene != SceneEnum.UnitDetail)
 			ReadData ();
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
-//		DestoryUI ();
 	}
 
 	public override void CreatUI () {
@@ -31,7 +29,6 @@ public class UnitDisplay : ConcreteComponent {
 		foreach (var item in dicData) {
 			DisposeCallback (item);
 		}
-
 	}
 	
 	//========================================interface =================================
