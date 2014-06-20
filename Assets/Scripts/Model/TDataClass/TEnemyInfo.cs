@@ -92,10 +92,8 @@ public class TEnemyInfo : ProtobufDataBase {
 	public void KillHP(int hurtValue) {
 		initBlood -= hurtValue;
 		bool one = ConfigBattleUseData.Instance.NotDeadEnemy;
-		bool two = NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.FIRST_ATTACK_TWO;
-		bool three = NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.BOSS_ATTACK_BOOST;
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE) {
-			if(one || (two && three)) {
+			if(one || !CheckNoviceDeadable()) {
 				if (initBlood <= 0) {
 					initBlood = 10;
 					IsDead = false;
@@ -109,6 +107,22 @@ public class TEnemyInfo : ProtobufDataBase {
 			IsDead = true;
 		}
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+	}
+
+	private bool CheckNoviceDeadable(){
+		int stage = (int)NoviceGuideStepEntityManager.CurrentNoviceGuideStage;
+		if (stage >= (int)NoviceGuideStage.ANIMATION && stage <= (int)NoviceGuideStage.FIRST_ATTACK_TWO) {
+			if (stage == (int)NoviceGuideStage.FIRST_ATTACK_TWO) {
+				return true;
+			}
+			return false;
+		} else if (stage >= (int)NoviceGuideStage.BOSS_ATTACK_ONE && stage <= (int)NoviceGuideStage.BOSS_ATTACK_BOOST) {
+			if (stage == (int)NoviceGuideStage.BOSS_ATTACK_BOOST) {
+				return true;
+			}
+			return false;
+		}
+		return true;
 	}
 
 	public void Reset() {

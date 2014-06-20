@@ -43,4 +43,9 @@ public class PageUnitItem : MyUnitItem {
 			UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 		}
 	}
+
+	protected override void PressItem(GameObject item){
+		base.PressItem(item);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
+	}
 }

@@ -3,15 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ShopView : UIComponentUnity {
-
 	private Dictionary<string,UIButton> buttonDic = new Dictionary<string, UIButton>();
-
     private UIButton btnFriendsExpansion;
-
     private UIButton btnStaminaRecover;
-
     private UIButton btnUnitExpansion;
-
 	private GameObject infoPanelRoot;
 	private GameObject windowRoot;
 
@@ -27,7 +22,6 @@ public class ShopView : UIComponentUnity {
 	
 	public override void HideUI () {
 		base.HideUI ();
-
 	}
 	
 	public override void DestoryUI () {
@@ -42,8 +36,16 @@ public class ShopView : UIComponentUnity {
 		}
 
         btnFriendsExpansion = FindChild<UIButton>("top/FriendsExpansion");
+		UILabel friendExpandLabel = btnFriendsExpansion.transform.GetComponentInChildren<UILabel>();
+		friendExpandLabel.text = TextCenter.GetText("Btn_Friend_Expand");
+
         btnStaminaRecover = FindChild<UIButton>("top/StaminaRecover");
+		UILabel recoverLabel = btnStaminaRecover.transform.GetComponentInChildren<UILabel>();
+		recoverLabel.text = TextCenter.GetText("Btn_Stamina_Recover");
+
         btnUnitExpansion = FindChild<UIButton>("top/UnitExpansion");
+		UILabel unitExpandLabel = btnUnitExpansion.transform.GetComponentInChildren<UILabel>();
+		unitExpandLabel.text = TextCenter.GetText("Btn_Unit_Expand");
 
         UIEventListener.Get(btnFriendsExpansion.gameObject).onClick = OnClickFriendExpansion;
         UIEventListener.Get(btnStaminaRecover.gameObject).onClick = OnClickStaminaRecover;

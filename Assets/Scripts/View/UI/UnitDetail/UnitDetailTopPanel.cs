@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using bbproto;
 
 public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
-
 	UISprite type;
 	UILabel cost;
 	UILabel number;
@@ -14,20 +13,12 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 
 	private int grayWidth = 28;
 	private int lightWidth = 30;
-//	UISprite star;
-//	UISprite type;
-
-//	private List<UISprite> stars;
 
 	public bool fobidClick = false;
-
-	UIButton favBtn;
 	GameObject unitLock;
 
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
-		//GetUnitMaterial();
-		//InitEffect();
 		InitUI();
 	}
 	
@@ -38,40 +29,21 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 		MsgCenter.Instance.AddListener(CommandEnum.ShowFavState,  ShowFavState);
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUp, CallBackUnitData);
-		//TODO:
-		//StartCoroutine ("nextState");
-//		NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
-	
-	//	IEnumerator nextState()
-	//	{
-	//		yield return new WaitForSeconds (1);
-	//		NoviceGuideStepEntityManager.Instance ().NextState ();
-	//	}
 	
 	public override void HideUI () {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp, CallBackUnitData);
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
 		base.HideUI ();
-//		if (IsInvoking ("CreatEffect")) {
-//			CancelInvoke("CreatEffect");
-//		}
-//		//ClearEffectCache();
-//		UIManager.Instance.ShowBaseScene();
 		DestoryUnitLock();
 	}
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
-	
-	
-	//----------Init functions of UI Elements----------
-	void InitUI() {
-		favBtn = transform.FindChild("Button_Lock").GetComponent<UIButton>();
-		UIEventListener.Get(favBtn.gameObject).onClick = CollectCurUnit;
 
+	void InitUI() {
 		cost = transform.FindChild("Cost").GetComponent<UILabel>();
 		number = transform.FindChild("No").GetComponent<UILabel>();
 		name = transform.FindChild("Name").GetComponent<UILabel>();
@@ -101,45 +73,23 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	RspLevelUp levelUpData;
 	void PlayLevelUp(RspLevelUp rlu) {
 		levelUpData = rlu;
-//		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		ShowInfo (newBlendUnit);
 		gameObject.SetActive (false);
-//		Debug.LogError (newBlendUnit.UnitInfo.ID);
-//		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
-//		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
-//		unitInfoTabs.SetActive (false);
-//		SetEffectCamera ();
-//		StartCoroutine (CreatEffect ());
 	}
 
 	private void ShowInfo(TUserUnit data){
 		curUserUnit = data;
-		//ShowFavView(curUserUnit.IsFavorite);
-		
 		TUnitInfo unitInfo = data.UnitInfo;
 		number.text = data.UnitID.ToString();
-		
-		//hp
-		//		.text = data.Hp.ToString();
-		
-		//atk
-		//		atkLabel.text = data.Attack.ToString();
-		
-		//name
+	
 		name.text = unitInfo.Name;
-		
-		//type
+	
 		type.spriteName = "type_" + unitInfo.UnitType;
-		
-		//cost
+
 		cost.text = unitInfo.Cost.ToString();
-		
-		//race  
-		//		raceLabel.text = unitInfo.UnitRace;
-		
-		//rare
-		Debug.Log ("rare : " + unitInfo.Rare + "max rare: " + unitInfo.MaxRare);	
+
+		//Debug.Log ("rare : " + unitInfo.Rare + "max rare: " + unitInfo.MaxRare);	
 		int len = 0;
 		if (unitInfo.MaxRare > unitInfo.Rare) {
 			grayStar.enabled = true;
@@ -150,27 +100,10 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 			len = unitInfo.Rare;
 		}
 		lightStar.width = unitInfo.Rare*lightWidth;
-		Debug.Log ("position:  " +len * 15  );
+		//Debug.Log ("position:  " +len * 15  );
 		grayStar.transform.localPosition = new Vector3(len * 15,-82,0);
-		//rareLabel.text = unitInfo.Rare.ToString();
-		
-		//		levelLabel.text = data.Level.ToString();
-		
-		//		//next level need
-		//		if ((data.Level > unitInfo.MaxLevel ) 
-		//		    || (data.Level == unitInfo.MaxLevel && data.NextExp <= 0) ) {
-		//			levelLabel.text = unitInfo.MaxLevel.ToString();
-		//			needExpLabel.text = "Max";
-		//		} else {
-		//			needExpLabel.text = data.NextExp.ToString();
-		//		}
 	}
 
-	private void CollectCurUnit(GameObject go){
-		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
-		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
-		UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, favAction);
-	}
 
 	private void OnRspChangeFavState(object data){
 		//Debug.Log("OnRspChangeFavState(), start...");
@@ -182,26 +115,21 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 			
 			return;
 		}
-		curUserUnit.IsFavorite = (curUserUnit.IsFavorite==1) ? 0 : 1;
-		//		Debug.LogError ("curUserUnit : " + curUserUnit.TUserUnitID);
+		curUserUnit.IsFavorite = (curUserUnit.IsFavorite == 1) ? 0 : 1;
 		UpdateFavView(curUserUnit.IsFavorite);
 	}
 
 	private void UpdateFavView(int isFav){
-
+		Debug.LogError("unitLock.name : " + unitLock.name);
 		UISprite background = unitLock.transform.FindChild("Background").GetComponent<UISprite>();
-		//Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
+		Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
-			background.spriteName = "Fav_Lock_Close";
-			background.spriteName = "Fav_Lock_Close";
-			background.spriteName = "Fav_Lock_Close";
-			//Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
+			background.spriteName = "lock_closed";
+			Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
 		}
 		else{
-			background.spriteName = "Fav_Lock_Open";
-			background.spriteName = "Fav_Lock_Open";
-			background.spriteName = "Fav_Lock_Open";
-			//Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
+			background.spriteName = "lock_open";
+			Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
 		}
 	}
 
@@ -220,9 +148,10 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 	/// </summary>
 	private void DestoryUnitLock(){
 		if(unitLock == null){
-			Debug.LogError("unitLock == null, destory it...");
+			Debug.LogError("unitLock == null, do noting...");
 			return;
 		}
+		Debug.LogError("unitLock != null, destory it...");
 		GameObject.Destroy(unitLock);
 	}
 
@@ -231,14 +160,22 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 			Debug.LogError("unitLock != null, add one...");
 			return;
 		}
-		string path = "ResourceDownload/Prefabs/UI/UnitDetail/FavLock";
-		unitLock = ResourceManager.Instance.LoadLocalAsset(path, CreateUnitLock) as GameObject;
+		string path = "Prefabs/UI/UnitDetail/FavLock";
+		ResourceManager.Instance.LoadLocalAsset(path, CreateUnitLock);
 	}
 
-	private void CreateUnitLock(object obj){
-		NGUITools.AddChild(gameObject, unitLock);
+	private void CreateUnitLock(Object obj){
+		GameObject prefab = obj as GameObject;
+		unitLock = GameObject.Instantiate(prefab) as GameObject;
+		unitLock.transform.parent = transform;
+		unitLock.transform.localScale = Vector3.one;
+		unitLock.transform.localPosition = new Vector3(300, -300, 0);
+		UIEventListener.Get(unitLock).onClick = ClickLock;
 	}
-
-
-
+	
+	private void ClickLock(GameObject go){
+		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
+		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
+		UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, favAction);
+	}
 }

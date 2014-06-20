@@ -92,10 +92,11 @@ public class LoadingDecorator : DecoratorBase{
 		MsgWindowLogic noteWindow = CreatComponent<MsgWindowLogic>(UIConfig.commonNoteWindowName);
 		noteWindow.SetComponent(background);
 
-//		guideWindow.SetComponent(noteWindow);
+		NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
+		guideWindow.SetComponent(noteWindow);
 		
 		MaskController maskController = CreatComponent<MaskController>(UIConfig.screenMaskName);
-		maskController.SetComponent(noteWindow);
+		maskController.SetComponent(guideWindow);
 		
 		lastDecorator = maskController;
 
@@ -336,11 +337,11 @@ public class UnitsDecorator : DecoratorBase{
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		UnitsController units = CreatComponent< UnitsController >(UIConfig.unitsWindowName);
-		//UnitInfoLogic partyInfo = CreatComponent<UnitInfoLogic>(UIConfig.unitsInfoPanelName);
+		UnitInfoLogic partyInfo = CreatComponent<UnitInfoLogic>(UIConfig.unitsInfoPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
-		//partyInfo.SetComponent(sceneInfoBar);
-		units.SetComponent(sceneInfoBar);
+		partyInfo.SetComponent(sceneInfoBar);
+		units.SetComponent(partyInfo);
 
 		lastDecorator = units;
 //		lastDecorator.CreatUI();
@@ -442,13 +443,13 @@ public class PartyDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.userUnitSortPanelName);
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
-		//PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
+		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
 		PartyPartyPage partyPage = CreatComponent<PartyPartyPage>(UIConfig.PartyWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		sortPanel.SetComponent(sceneInfoBar);
-		//partyInfo.SetComponent(sortPanel);
-		counter.SetComponent(sortPanel);
+		partyInfo.SetComponent(sortPanel);
+		counter.SetComponent(partyInfo);
 		partyPage.SetComponent(counter);
 	
 		lastDecorator = partyPage;
