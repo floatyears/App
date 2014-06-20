@@ -5,7 +5,7 @@ using bbproto;
 public class BaseUnitItem : MonoBehaviour {
 	protected bool canCrossed = true;
 	protected bool isCrossed;
-	protected UITexture avatarTex;
+	protected UISprite avatar;
 	protected UISprite avatarBorderSpr;
 	protected UISprite avatarBg;
 	protected UISprite maskSpr;
@@ -22,7 +22,7 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 	
 	private void FindUIElement() {
-		avatarTex = transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
+		avatar = transform.FindChild("Avatar").GetComponent<UISprite>();
 		crossFadeLabel = transform.FindChild("Label_Cross_Fade").GetComponent<UILabel>();
 		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
 		avatarBorderSpr = transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
@@ -213,7 +213,7 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void SetEmptyState(){
 		IsEnable = false;
-		avatarTex.mainTexture = null;
+		avatar.spriteName = string.Empty;
 		avatarBg.spriteName = string.Empty;
 		avatarBorderSpr.spriteName = "unit_empty_bg";
 		crossFadeLabel.text = string.Empty;
@@ -221,14 +221,12 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void SetCommonState(){
 		IsEnable = true;
-		//Debug.LogError("gameobject: " + gameObject + " userUnit : " + userUnit.ID);
-		userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
-			avatarTex.mainTexture = o as Texture2D;
-			ShowUnitType();
-			CurrentSortRule = SortRule.ID;
-		});
-		//typeSpr.color = DGTools.TypeToColor(userUnit.UnitInfo.Type);
+		Debug.LogError("gameobject: " + gameObject + " userUnit : " + userUnit.UnitID);
 
+		Debug.LogError(DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID) == null);
+
+		avatar.atlas = DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID);
+		avatar.spriteName = userUnit.UnitID.ToString();
 	}
 
 	private void ShowUnitType(){

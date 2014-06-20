@@ -624,8 +624,6 @@ public class DataCenter {
             return 0;
         if (GetEventGachaNeedStones() == 0)
             return 0;
-//        LogHelper.Log("GetAvailableEventGachaTimes(), InEventGacha, AccountInfo.Stone / GetEventGachaNeedStones()");
-//        return 0;
         return AccountInfo.Stone / GetEventGachaNeedStones();
     }
 
@@ -639,7 +637,7 @@ public class DataCenter {
         return ModelManager.Instance.GetData(modelType, errMsg);
     }
 	
-	public const uint AVATAR_ATLAS_COUNT = 3;
+	public const uint AVATAR_ATLAS_COUNT = 11;
 	public const uint AVATAR_ATLAS_CAPACITY = 20;
 	private Dictionary<uint, UIAtlas> avatarAtalsDic = new Dictionary<uint, UIAtlas>();
 
@@ -649,17 +647,18 @@ public class DataCenter {
 			LoadAvatarAtlas();
 		}
 		uint index = unitID/AVATAR_ATLAS_CAPACITY;
-		if(avatarAtalsDic[ index ] == null){
+		if(!avatarAtalsDic.ContainsKey( index )){
 			Debug.LogError("AvatarAtlas_" + index + " is NOT Found, Please Check it....");
 			return null;
 		}
+		Debug.LogError("xxxxxxx : " + index);
 		return avatarAtalsDic[ index ];
 	}
 
 	private void LoadAvatarAtlas(){
-		//bool successful = false;
+		bool successful = false;
 		for (uint i = 0; i < AVATAR_ATLAS_COUNT; i++){
-			string sourcePath = string.Format("Atlas/Avatar_Atlas_{0}", i);
+			string sourcePath = string.Format("Avatar/Atlas_Avatar_{0}", i);
 			//never use the raw interface! Use ResourceManager instead
 			ResourceManager.Instance.LoadLocalAsset(sourcePath,o => {
 				GameObject source = o as GameObject;
@@ -667,15 +666,16 @@ public class DataCenter {
 				if(atlas == null){ 
 					Debug.LogError("LoadAvatarAtlas(), atlas is NULL");
 				}
+
+				Debug.LogError(atlas.name);
 				avatarAtalsDic.Add(i, atlas);
 			});
 			//GameObject source = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
 		}
 
-		/*
 		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;
 		Debug.Log("DataCenter.LoadAvatarAtlas(), successful is : " + successful);
-		*/
+
 	}
 
 
