@@ -137,7 +137,7 @@ public class LoadingLogic : ConcreteComponent {
 				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
 			}
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
 
 			//TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
@@ -145,22 +145,27 @@ public class LoadingLogic : ConcreteComponent {
 
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
-				MsgWindowParams mwp = new MsgWindowParams ();
-				mwp.btnParams = new BtnParam[2];
-				mwp.titleText = TextCenter.GetText("BattleContinueTitle");
-				mwp.contentText = TextCenter.GetText("BattleContinueContent");
-				
-				BtnParam sure = new BtnParam ();
-				sure.callback = SureRetry;
-				sure.text = "OK";
-				mwp.btnParams[0] = sure;
-				
-				sure = new BtnParam ();
-				sure.callback = Cancel;
-				sure.text = "Cancel";
-				mwp.btnParams[1] = sure;
-				
-				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+				if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE){
+					SureRetry(null);
+				}else{
+					MsgWindowParams mwp = new MsgWindowParams ();
+					mwp.btnParams = new BtnParam[2];
+					mwp.titleText = TextCenter.GetText("BattleContinueTitle");
+					mwp.contentText = TextCenter.GetText("BattleContinueContent");
+					
+					BtnParam sure = new BtnParam ();
+					sure.callback = SureRetry;
+					sure.text = "OK";
+					mwp.btnParams[0] = sure;
+					
+					sure = new BtnParam ();
+					sure.callback = Cancel;
+					sure.text = "Cancel";
+					mwp.btnParams[1] = sure;
+					
+					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+				}
+
 			}
 			else{
 				EnterGame();
@@ -221,19 +226,21 @@ public class LoadingLogic : ConcreteComponent {
 
 //		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 
-//		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
-//			StartFight();
-////			TurnToReName();
-//		} else {
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
+			StartFight();
+//			TurnToReName();
+		} else {
 			UIManager.Instance.ChangeScene(SceneEnum.Start);
 			
 			UIManager.Instance.ChangeScene(SceneEnum.Home);
-//		}
 
-		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
-		    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
-			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+			if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
+			    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
+				UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+			}
 		}
+
+
 	}
 
 	void SureRetry(object data) {

@@ -31,6 +31,10 @@ public class ExportResource : EditorWindow {
 
 	static private string fileName = "*";
 
+	static private string dependencyFile = "";
+
+	static private List<string> dependencyFullFileList = new List<string>();
+
 	static private bool toggleMD5 = true;
 
 	static private bool collectDependency = true;
@@ -71,12 +75,16 @@ public class ExportResource : EditorWindow {
 	void OnGUI()
 	{
 
+		EditorGUILayout.BeginVertical();
+
+
 		//InitExportConfig ();
 		op = EditorGUILayout.EnumPopup ("Target Platform:", op);
 
 	//	pt = EditorGUILayout.EnumPopup ("Resource Type:", pt);
+		EditorGUILayout.BeginHorizontal ();
 
-		GUI.Label (new Rect (8, 30, 80, 30), "objects: ");
+		EditorGUILayout.LabelField ("objects: ",GUILayout.Width(50));
 
 
 		if (Selection.activeObject != null && Selection.activeObject.name != null) {
@@ -86,39 +94,71 @@ public class ExportResource : EditorWindow {
 			guiStyle.normal.textColor = Color.red;
 			objStr = "no object was selected!";
 		}
-		GUI.Label (new Rect (100, 30, 200, 30),objStr ,guiStyle);
+		EditorGUILayout.LabelField (objStr ,guiStyle);
 
-		toggleMD5 = GUI.Toggle (new Rect (8, 50, 100, 20), toggleMD5, "need MD5");
+		EditorGUILayout.EndHorizontal ();
 
-		GUI.Label (new Rect (10, 70, 70, 30), "Save Path:");
-		GUI.TextField (new Rect (70, 70, 120, 20), savePath);
+		EditorGUILayout.BeginHorizontal ();
 
-		if (GUI.Button(new Rect(190, 70, 55, 20),"change"))
+		toggleMD5 = GUILayout.Toggle (toggleMD5,"need MD5",GUILayout.ExpandWidth(false));
+
+		collectDependency = GUILayout.Toggle (collectDependency,"Collect Dependency");
+
+		EditorGUILayout.EndHorizontal ();
+
+
+		EditorGUILayout.BeginHorizontal ();
+
+		EditorGUILayout.LabelField ("Save Path:",GUILayout.Width(70));
+		EditorGUILayout.TextField (savePath);
+
+		if (GUILayout.Button("change"))
 		{
 			//Debug.Log("text field clicked");
 			SelectFolder();
 
 		}
 
-		GUI.Label (new Rect (10, 95, 70, 20), "Asset Name:");
+		EditorGUILayout.EndHorizontal ();
 
-		fileName = GUI.TextField (new Rect (90, 95, 80, 20), fileName);
+		EditorGUILayout.BeginHorizontal ();
 
-		GUI.Label (new Rect (170, 100, 10, 20), ".");
+		EditorGUILayout.LabelField ("Asset Name:",GUILayout.Width(70));
 
-		ft = EditorGUI.EnumPopup (new Rect (180, 98, 65, 30), ft);
 
-		collectDependency = GUI.Toggle (new Rect (100, 50, 110, 30),collectDependency,"Collect Dependency");
 
-		if (GUI.Button (new Rect (10, 120, 120, 30), "Export Resource")) 
+		EditorGUILayout.TextField ( fileName);
+
+		EditorGUILayout.LabelField (".",GUILayout.Width(10));
+
+		ft = EditorGUILayout.EnumPopup ("", ft,GUILayout.Width(60));
+
+		EditorGUILayout.EndHorizontal ();
+
+		EditorGUILayout.BeginHorizontal ();
+
+		EditorGUILayout.LabelField ( "dependency file:",GUILayout.Width(90));
+
+		EditorGUILayout.TextField (dependencyFile);
+
+		if (GUILayout.Button ("select")) {
+			SelectDependency();
+		}
+
+		EditorGUILayout.EndHorizontal ();
+		EditorGUILayout.BeginHorizontal ();
+
+		if (GUILayout.Button ("Export Resource")) 
 		{
 			ExportResrouce();
 		}
 
-		if (GUI.Button (new Rect (130, 120, 120, 30), "Export Resource List")) 
+		if (GUILayout.Button ("Export Resource List")) 
 		{
 			ExportResrouceList();
 		}
+		EditorGUILayout.EndHorizontal ();
+		GUILayout.EndVertical ();
 		//EditorGUIUtility.LookLikeControls ();
 	}
 
@@ -136,7 +176,7 @@ public class ExportResource : EditorWindow {
 		//get the versionConfig data from file.
 		InitVersionConfig ();
 
-		EditorWindow window = EditorWindow.GetWindowWithRect (typeof(ExportResource),new Rect(100,100,250,160),true,"Export Resource");
+		EditorWindow window = EditorWindow.GetWindowWithRect (typeof(ExportResource),new Rect(100,100,250,200),true,"Export Resource");
 		window.Show ();
 	}
 
@@ -261,6 +301,27 @@ public class ExportResource : EditorWindow {
 			Debug.Log(index + savePath);
 		}
 
+	}
+
+	void SelectDependency()
+	{
+		string fullPath = EditorUtility.OpenFilePanel ("select dependency file", "", "");
+		if (string.IsNullOrEmpty (fullPath)) {
+			Debug.Log("the select file is not valid.");
+			return;		
+		}
+		int index = fullPath.IndexOf (projPath);
+		if (index < 0) {
+			Debug.Log("the path is valid, please reselect it!");
+		} else {
+			dependencyFullFileList.Add(fullPath);
+			if(dependencyFile == null || dependencyFile.Length == 0)
+				dependencyFile = fullPath.Substring(fullPath.LastIndexOf('/')+1);
+			else
+				dependencyFile += " ," + fullPath.Substring(fullPath.LastIndexOf('/')+1);
+			Debug.Log(index + savePath);
+		}
+		
 	}
 
 	static void InitExportConfig()

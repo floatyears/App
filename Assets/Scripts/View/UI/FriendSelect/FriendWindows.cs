@@ -40,6 +40,7 @@ public class FriendWindows : FriendHelperView {
 	}
 
 	public GameObject GetHelperUnitItem(int i){
+		Debug.LogError ("generalDragPanel : " + generalDragPanel);
 		return generalDragPanel.ScrollItem[i];
 	}
 
