@@ -60,7 +60,10 @@ public class TNormalSkill : SkillBaseInfo {
 			skillID.Remove(this);
 		}
 	}
-
+	/// <summary>
+	/// 0=all, 1=fire, 2=water, 3=wind, 4=light, 5=dark, 6=none, 7=heart.
+	/// </summary>
+	/// <value>The type of the attack.</value>
 	public int AttackType {
 		get {
 			return (int)instance.attackUnitType;
@@ -78,7 +81,11 @@ public class TNormalSkill : SkillBaseInfo {
 			return Object.baseInfo.id;
 		}
 	}
-	
+
+	/// <summary>
+	/// 0 = single attack. 1 = allattack. 2 = recover hp.
+	/// </summary>
+	/// <value>The attack range.</value>
 	public int AttackRange {
 		get{
 			return (int)Object .attackType;

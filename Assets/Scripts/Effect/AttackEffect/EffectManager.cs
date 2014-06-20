@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Text;
 
 public class EffectManager {
 	private static EffectManager instance;
@@ -22,8 +23,58 @@ public class EffectManager {
 	public GameObject GetEffectObject(int skillID) {
 		GameObject go = null;
 		effectObject.TryGetValue (skillID, out go);
-//		Debug.LogError ("skillID : " + skillID + " go : " + go); 
 		return go;
+	}
+
+	public GameObject GetSkillEffectObject(int skillID, string userUnitID) {
+		string skillStoreID = DataCenter.Instance.GetSkillID(userUnitID, skillID);
+		SkillBaseInfo sbi = DataCenter.Instance.AllSkill[skillStoreID];
+		TNormalSkill tns = sbi as TNormalSkill;
+
+		if (tns != null) {
+			StringBuilder sb = new StringBuilder ();
+			sb.Append("ns-");
+
+			if(tns.AttackRange == 0) {
+				sb.Append("single-");
+			}
+			else {
+				sb.Append("all-");
+			}
+
+			if(tns.Object.attackValue <= 1.6f) {
+				sb.Append("1-");
+			}
+			else {
+				sb.Append("2-");
+			}
+
+
+		}
+		return null;
+	}
+
+	string GetSkillType(int type) {
+		switch (type) {
+			case 0:
+
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 7:
+				break;
+		}
+		return "";
 	}
 
 	void SetName() {

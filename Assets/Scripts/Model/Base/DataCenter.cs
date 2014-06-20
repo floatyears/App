@@ -288,7 +288,7 @@ public class DataCenter {
 	}
 
 	
-	 string GetSkillID (string userUnitID, int skillID) {
+	public string GetSkillID (string userUnitID, int skillID) {
 		return userUnitID + "_" + skillID;
 	}
 
