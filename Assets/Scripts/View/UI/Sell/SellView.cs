@@ -22,7 +22,6 @@ public class SellView : UIComponentUnity{
 	private List<GameObject> readyItemList = new List<GameObject>();
 	
 	public override void Init(UIInsConfig config, IUICallback origin){
-
 		base.Init(config, origin);
 		InitUIElement();
 	}
@@ -30,9 +29,7 @@ public class SellView : UIComponentUnity{
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCmdListener();
-
 		ResetUIState();
-
 		totalSaleValue = 0;
 		pickUnitViewList.Clear();
 		SortUnitByCurRule();
@@ -67,9 +64,10 @@ public class SellView : UIComponentUnity{
 	}
 
     public override void ResetUIState() {
-		//Debug.LogError("ResetUIState()...");
+//		Debug.LogError("ResetUIState()... 1");
 		ResetUIElement();
         SellController controller = origin as SellController;
+	
         if (controller != null){
 			Debug.LogError("ResetUIState()... controller.ResetUI();");
             controller.ResetUI();
@@ -77,6 +75,7 @@ public class SellView : UIComponentUnity{
 		else{
 			Debug.LogError("controller == null");
 		}
+
     }
     Vector3 pos = Vector3.zero;
     void BackToMainWindow(object args){
@@ -92,12 +91,12 @@ public class SellView : UIComponentUnity{
 			Transform trans = readyItemList[ i ].transform;
 			UISprite bg = trans.FindChild("Background").GetComponent<UISprite>();
 			UISprite border = trans.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
-			UITexture avatar = trans.FindChild("Texture").GetComponent<UITexture>();
+			UISprite avatar = trans.FindChild("Texture").GetComponent<UISprite>();
 			UILabel levelLabel = trans.FindChild("Label_Right_Bottom").GetComponent<UILabel>();
 			
 			bg.spriteName = "unit_empty_bg";
 			border.spriteName = "";
-			avatar.mainTexture = null;
+			avatar.spriteName = "";
 			levelLabel.text = string.Empty;	
 		}
 	}
@@ -120,16 +119,13 @@ public class SellView : UIComponentUnity{
 
 	void FillLastSureWindow(List<TUserUnit> dataInfoList){
 		for (int i = 0; i < dataInfoList.Count; i++){
-			dataInfoList[ i ].UnitInfo.GetAsset(UnitAssetType.Avatar,o => {
-				Texture2D tex2d = o as Texture2D;
-				string level = dataInfoList[ i ].Level.ToString();
-				FindTextureWithPosition( i, readyItemList).mainTexture = tex2d ;
-				FindLabelWithPosition(i, readyItemList).text = "LV" + level;
-				
-				UISprite bgSpr = readyItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
-				UISprite borderSor = readyItemList[ i ].transform.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
-				ShowUnitType(dataInfoList[ i ], bgSpr, borderSor);
-			});
+			DataCenter.Instance.GetAvatarAtlas( dataInfoList[ i ].UnitInfo.ID, FindTextureWithPosition( i, readyItemList) );
+
+			string level = dataInfoList[ i ].Level.ToString();
+			FindLabelWithPosition(i, readyItemList).text = "LV" + level;
+			UISprite bgSpr = readyItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
+			UISprite borderSor = readyItemList[ i ].transform.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
+			ShowUnitType(dataInfoList[ i ], bgSpr, borderSor);
 		}
 	}
 
@@ -190,7 +186,7 @@ public class SellView : UIComponentUnity{
 		Dictionary<string, int> info = args as Dictionary<string, int>;
 		int poolPos = (int)info["poolPos"];
 		int clickPos = (int)info["clickPos"];
-		FindTextureWithPosition(poolPos, pickItemList).mainTexture = null;
+		FindTextureWithPosition(poolPos, pickItemList).spriteName = "";
 		FindLabelWithPosition(poolPos, pickItemList).text = string.Empty;
 
 //		UISprite border = pickItemList[ poolPos ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
@@ -202,8 +198,10 @@ public class SellView : UIComponentUnity{
 		CancelMarkDragItem(clickPos);
 	}
 	
-	UITexture FindTextureWithPosition(int position, List<GameObject> target){
-		return target[ position ].transform.FindChild("Texture").GetComponent<UITexture>();
+	UISprite FindTextureWithPosition(int position, List<GameObject> target){
+		UISprite sprite = target[ position ].transform.FindChild("Texture").GetComponent<UISprite>();
+//		Debug.LogError (target [position] + " sprite : " + sprite + " target : " + target);
+		return sprite;
 	}
 
 	UILabel FindLabelWithPosition(int position, List<GameObject> target){
@@ -282,11 +280,12 @@ public class SellView : UIComponentUnity{
 			path = "EnsureWindow/Cells/" + i.ToString();
 			go = transform.FindChild(path).gameObject;
 			readyItemList.Add(go);
+			Debug.LogError("readyItemList : " + readyItemList.Count);
 		}
 	}
 
 	void CreateDragView(object args){
-		Debug.LogError("xxxxxxx");
+//		Debug.LogError("xxxxxxx");
 		if(dragPanel != null){
 			dragPanel.DestoryUI();
 		}
@@ -386,15 +385,16 @@ public class SellView : UIComponentUnity{
 
 		totalSaleValue = 0;
 		coinLabel.text = "0";
-
+//		Debug.LogError ("ResetUIElement maxItemCount 1");
 		for (int i = 0; i < maxItemCount; i++){
-			FindTextureWithPosition(i, pickItemList).mainTexture = null;
+			FindTextureWithPosition(i, pickItemList).spriteName = "";
 			FindLabelWithPosition(i, pickItemList).text = string.Empty;
-
-			FindTextureWithPosition(i, readyItemList).mainTexture = null;
+//			Debug.LogError ("ResetUIElement maxItemCount 1");
+			FindTextureWithPosition(i, readyItemList).spriteName = "";
 			FindLabelWithPosition(i, readyItemList).text = string.Empty;
+//			Debug.LogError ("ResetUIElement maxItemCount 2");
 		}
-
+//		Debug.LogError ("ResetUIElement maxItemCount 2");
 		for (int i = 0; i < pickItemList.Count; i++){
 			UISprite border = pickItemList[ i ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
 			border.spriteName = "avatar_border_6";
@@ -402,10 +402,13 @@ public class SellView : UIComponentUnity{
 			UISprite bg = pickItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
 			bg.spriteName = "unit_empty_bg";
 		}
-
+		Debug.LogError ("ResetUIElement pickItemList 2");
 		ResetReadyPool();
+		Debug.LogError ("ResetUIElement pickItemList 3");
 		mainRoot.SetActive(true);
+//		Debug.LogError ("ResetUIElement pickItemList 4");
 		submitRoot.SetActive(false);
+//		Debug.LogError ("ResetUIElement pickItemList 5");
 	}
 
 	private void ActivateButton(){

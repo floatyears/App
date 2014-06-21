@@ -10,14 +10,15 @@ public class SellController : ConcreteComponent {
 
 	public SellController(string uiName):base(uiName) {}
 	public override void CreatUI () { 
-		Debug.LogError("SellController.CreatUI()...1"); 
+//		Debug.LogError("SellController.CreatUI()...1"); 
 		base.CreatUI (); 
-		Debug.LogError("SellController.CreatUI()...2");}
+//		Debug.LogError("SellController.CreatUI()...2");
+	}
 	
 	public override void ShowUI () {
-		Debug.LogError("SellController.ShowUI()...1");
+//		Debug.LogError("SellController.ShowUI()...1");
 		base.ShowUI ();
-		Debug.LogError("SellController.ShowUI()...2");
+//		Debug.LogError("SellController.ShowUI()...2");
 	}
 	
 	public override void HideUI () {
@@ -160,7 +161,7 @@ public class SellController : ConcreteComponent {
 
 	private List<TUserUnit> curUseUnitList;
 	void GetUnitCellViewList(){
-		Debug.LogError("GetUnitCellViewList()...");
+//		Debug.LogError("GetUnitCellViewList()...");
 		List<TUserUnit> userUnitList = new List<TUserUnit>();	
 		userUnitList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
 		if(curUseUnitList == null){
