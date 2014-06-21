@@ -20,59 +20,83 @@ public class EffectManager {
 
 	private Dictionary<int,string> effectName = new Dictionary<int, string>();
 	private Dictionary<int, GameObject> effectObject = new Dictionary<int, GameObject>();
+
+	private Dictionary<string, GameObject> skillEffectObject = new Dictionary<string, GameObject> ();
+
 	public GameObject GetEffectObject(int skillID) {
 		GameObject go = null;
 		effectObject.TryGetValue (skillID, out go);
 		return go;
 	}
 
-	public GameObject GetSkillEffectObject(int skillID, string userUnitID) {
+	public void GetSkillEffectObject(int skillID, string userUnitID, ResourceCallback resouceCb) {
 		string skillStoreID = DataCenter.Instance.GetSkillID(userUnitID, skillID);
 		SkillBaseInfo sbi = DataCenter.Instance.AllSkill[skillStoreID];
+		string path = "Effect/effect/";
 		TNormalSkill tns = sbi as TNormalSkill;
-
 		if (tns != null) {
-			StringBuilder sb = new StringBuilder ();
-			sb.Append("ns-");
+			path += GetNormalSkillEffectName (tns);
+		} else {
+			//ActiveAttackTargetType, ActiveChangeCardColor, ActiveDeferAttackRound, ActiveDelayTime, ActiveReduceDefense, ActiveReduceHurt, TSkillSingleAttack, ActiveStrengthenAttack,
+			//TSkillAttackRecoverHP, GravityAttack, KnockdownAttack, TSkillRecoverSP, TSkillPoison, TSkillSuicideAttack, RecoverSP
+			TSkillSingleAttack tsa = sbi as ActiveAttackTargetType;
+			if(tsa != null) {
 
-			if(tns.AttackRange == 0) {
-				sb.Append("single-");
 			}
-			else {
-				sb.Append("all-");
-			}
-
-			if(tns.Object.attackValue <= 1.6f) {
-				sb.Append("1-");
-			}
-			else {
-				sb.Append("2-");
-			}
-
-
 		}
-		return null;
+
+		if (skillEffectObject.ContainsKey (path)) {
+			resouceCb(skillEffectObject[path]);
+		}
+
+		ResourceManager.Instance.LoadLocalAsset(path, o => { skillEffectObject.Add(path,o as GameObject); resouceCb(o);} );
+	}
+
+	string GetNormalSkillEffectName(TNormalSkill tns) {
+		StringBuilder sb = new StringBuilder ();
+		sb.Append("NS-");
+		sb.Append (GetAttackRanger (tns.AttackRange));
+		sb.Append (GetAttackDanger (tns.Object.attackValue));
+		sb.Append(GetSkillType(tns.AttackType));
+		return sb.ToString ();
+	}
+
+	string GetAttackRanger(int attackRange) {
+		if(attackRange == 0) {
+			return "single-";
+		}
+		else {
+			return "all-";
+		}
+	}
+
+	string GetAttackDanger(float attackValue) {
+		if(attackValue <= 1.6f) {
+			return "1-";
+		}
+		else {
+			return "2-";
+		}
 	}
 
 	string GetSkillType(int type) {
 		switch (type) {
 			case 0:
-
-				break;
+			return "all";
 			case 1:
-				break;
+			return "fire";
 			case 2:
-				break;
+			return "water";
 			case 3:
-				break;
+			return "wind";
 			case 4:
-				break;
+			return "light";
 			case 5:
-				break;
+			return "dark";
 			case 6:
-				break;
+			return "none";
 			case 7:
-				break;
+			return "heart";
 		}
 		return "";
 	}
@@ -103,11 +127,11 @@ public class EffectManager {
 
 	private Dictionary<string,Type> effectCommand = new Dictionary<string, Type> ();
 	private EffectManager() {
-		SetName ();
-		foreach (var item in effectName) {
-			ResourceManager.Instance.LoadLocalAsset("Effect/"+item.Value,o => effectObject.Add(item.Key,o as GameObject));
-
-		}
+//		SetName ();
+//		foreach (var item in effectName) {
+//			ResourceManager.Instance.LoadLocalAsset("Effect/"+item.Value,o => effectObject.Add(item.Key,o as GameObject));
+//
+//		}
 	}
 
 	public static GameObject InstantiateEffect(GameObject parent, GameObject obj) {
