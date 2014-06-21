@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class ResourceManager : MonoBehaviour{
 
@@ -32,6 +33,7 @@ public class ResourceManager : MonoBehaviour{
 	private Dictionary<string,object> objectDic = new Dictionary<string, object>();
 
 	public Object LoadLocalAsset( string path, ResourceCallback callback ) {
+		Debug.Log ("load res: " + path);
 		//the following resource will not be dynamiclly download.
 		if (string.IsNullOrEmpty (path)) {
 			return null;	
@@ -47,32 +49,8 @@ public class ResourceManager : MonoBehaviour{
 			}
 		}
 
-		if (path.IndexOf ("Config") == 0 || path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0 || path.IndexOf ("Atlas") == 0) {
+		if (path.IndexOf ("Config") == 0 || path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0) {
 #if UNITY_EDITOR
-
-//			ResourceAssetBundle key = GetBundleKeyByPath(path);
-//			
-//			if(!assetBundles.ContainsKey(key)){
-//				assetBundles[key] = new AssetBundleObj(key,path,callback,GetBundleTypeByKey(key));
-//				StartCoroutine(DownloadResource(key));
-//			}else{
-//				if(assetBundles[key].isLoading){
-//					Debug.Log("======path: " + path);
-//					if(!assetBundles[key].callbackList.ContainsKey(path)){
-//						assetBundles[key].callbackList.Add(path,callback);
-//					}
-//				}else{
-//					if(callback != null){
-//						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
-//						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
-//						return null;
-//					}else{
-//						return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
-//					}
-//				}
-//				
-//			}
-//			return null;
 			
 			
 			string ext = null;
@@ -123,14 +101,39 @@ public class ResourceManager : MonoBehaviour{
 //			}else if(path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0){
 //				ext = ".png";
 //			}
-			Debug.Log ("resource load no editor");
-			if(callback != null){
-				callback(Resources.Load (path));
-				return null;
+
+			ResourceAssetBundle key = GetBundleKeyByPath(path);
+			
+			if(!assetBundles.ContainsKey(key)){
+				assetBundles[key] = new AssetBundleObj(key,path,callback,GetBundleTypeByKey(key));
+				StartCoroutine(DownloadResource(key));
 			}else{
-				return Resources.Load (path);
+				if(assetBundles[key].isLoading){
+					Debug.Log("======path: " + path);
+					if(!assetBundles[key].callbackList.ContainsKey(path)){
+						assetBundles[key].callbackList.Add(path,callback);
+					}
+				}else{
+					if(callback != null){
+						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
+						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
+						return null;
+					}else{
+						return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
+					}
+				}
+				
 			}
 			return null;
+
+//			Debug.Log ("resource load no editor");
+//			if(callback != null){
+//				callback(Resources.Load (path));
+//				return null;
+//			}else{
+//				return Resources.Load (path);
+//			}
+//			return null;
 
 #endif
 		} else {
@@ -150,15 +153,18 @@ public class ResourceManager : MonoBehaviour{
 	IEnumerator DownloadResource(ResourceAssetBundle key){
 
 		string url = 
-//	#if UNITY_IPHONE
-		"file://" + Application.dataPath + "/ResourceDownload/" + GetBundleUrlByKey(key);
-//	#elif UNITY_ANDROID
-//		"file://" + "jar:file://" + Application.dataPath + "/ResourceDownload/" + GetBundleUrlByKey(key);
-//	#elif UNITY_STANDALONE_WIN || UNITY_EDITOR
-//		"file://" + Application.dataPath + "/ResourceDownload/" + GetBundleUrlByKey(key);
-//	#else
-//		string.Empty;
-//	#endif
+#if UNITY_EDITOR
+	"file://" + Application.dataPath + "/ResourceDownload/Output/" + GetBundleUrlByKey(key);
+#elif UNITY_IPHONE
+	"file://" + Application.persistentDataPath + "/Raw/"+ GetBundleUrlByKey(key);
+#elif UNITY_ANDROID
+	"file:///" + Application.persistentDataPath + "/assets/"+ GetBundleUrlByKey(key);
+#else
+
+	string.Empty;
+#endif
+//		File file = new File (Application.persistentDataPath + "!/assets/" + GetBundleUrlByKey (key));
+
 		assetBundles [key].isLoading = true;
 		Debug.Log ("download start url: " + url);
 
@@ -236,35 +242,35 @@ public class ResourceManager : MonoBehaviour{
 	private string GetBundleUrlByKey(ResourceAssetBundle key){
 		switch (key) {
 			case ResourceAssetBundle.UI:
-				return "Output/AllUI.unity3d";
+				return "AllUI.unity3d";
 			case ResourceAssetBundle.UI_ATLAS:
-				return "Output/UI_Atlas.unity3d";
+				return "UI_Atlas.unity3d";
 			case ResourceAssetBundle.LANGUAGE:
-				return "Output/Language_en.unity3d";
+				return "Language_en.unity3d";
 			case ResourceAssetBundle.PROTOBUF:
-				return "Output/Protobuf.unity3d";
+				return "Protobuf.unity3d";
 			case ResourceAssetBundle.PROFILE_0:
-				return "Output/Profile_0.unity3d";
+				return "Profile_0.unity3d";
 			case ResourceAssetBundle.PROFILE_1:
-				return "Output/Profile_1.unity3d";
+				return "Profile_1.unity3d";
 			case ResourceAssetBundle.PROFILE_2:
-				return "Output/Profile_2.unity3d";
+				return "Profile_2.unity3d";
 			case ResourceAssetBundle.PROFILE_3:
-				return "Output/Profile_3.unity3d";
+				return "Profile_3.unity3d";
 			case ResourceAssetBundle.PROFILE_4:
-				return "Output/Profile_4.unity3d";
+				return "Profile_4.unity3d";
 			case ResourceAssetBundle.PROFILE_5:
-				return "Output/Profile_5.unity3d";
+				return "Profile_5.unity3d";
 			case ResourceAssetBundle.PROFILE_6:
-				return "Output/Profile_6.unity3d";
+				return "Profile_6.unity3d";
 			case ResourceAssetBundle.PROFILE_7:
-				return "Output/Profile_7.unity3d";
+				return "Profile_7.unity3d";
 			case ResourceAssetBundle.PROFILE_8:
-				return "Output/Profile_8.unity3d";
+				return "Profile_8.unity3d";
 			case ResourceAssetBundle.PROFILE_9:
-				return "Output/Profile_9.unity3d";
+				return "Profile_9.unity3d";
 			case ResourceAssetBundle.PROFILE_10:
-				return "Output/Profile_10.unity3d";
+				return "Profile_10.unity3d";
 			case ResourceAssetBundle.AVATAR:
 				break;
 			default:

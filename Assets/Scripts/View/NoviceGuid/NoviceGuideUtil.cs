@@ -24,74 +24,73 @@ public class NoviceGuideUtil {
 		Vector3 dir;
 		int i = 0,len = posAndDir.Length;
 		LoadAsset.Instance.LoadAssetFromResources ("NoviceGuideArrow", ResourceEuum.Prefab, o => {
-						GameObject obj = o as GameObject;
-						foreach (GameObject parent in parents) {
-								//			GameObject arrow = GameObject.Instantiate(obj,new Vector3(pos.x,pos.y,0),dir) as GameObject;
-								GameObject arrow = NGUITools.AddChild (parent, obj);
-								TweenPosition tPos = arrow.GetComponent<TweenPosition> ();
-				
-								Vector3 size = Vector3.zero;
-								try {
-										size = parent.GetComponent<BoxCollider> ().size;
-								} catch (MissingComponentException e) {
-										LogHelper.LogWarning (e.ToString ());
-										size = parent.transform.localPosition;
-								}
-				
-								switch (i < len ? (int)posAndDir [i].z : 0) {
-								//point to the top
-								case 3:
-										dir = new Vector3 (0.0f, 0.0f, 180.0f);// = Quaternion.FromToRotation(new Vector3(1,0,0),Vector3.zero);
-										tPos.to.y = -size.y / 2 - 32 + posAndDir [i].y;
-										tPos.from.y = -size.y / 2 - 62.0f + posAndDir [i].y;
-										tPos.to.x = posAndDir [i].x;
-										tPos.from.x = posAndDir [i].x;
-										break;
-								//point to the right
-								case 4:
-										dir = new Vector3 (0f, 0f, 90f);
-					//					dir = Quaternion.FromToRotation(new Vector3(-1,0,0),Vector3.zero);
-										tPos.to.x = -size.x / 2 - 32 + posAndDir [i].x;
-										tPos.from.x = -size.x / 2 - 62.0f + posAndDir [i].x;
-										tPos.to.y = posAndDir [i].y;
-										tPos.from.y = posAndDir [i].y;
-										break;
-								//point to the bottom
-								case 1:
-					//					dir = Quaternion.FromToRotation(new Vector3(0,1,0),Vector3.zero);
-										dir = new Vector3 (0f, 0f, 0f);
-										tPos.to.y = size.y / 2 + 32 + posAndDir [i].y;
-										tPos.from.y = size.y / 2 + 62.0f + posAndDir [i].y;
-										tPos.to.x = posAndDir [i].x;
-										tPos.from.x = posAndDir [i].x;
-										break;
-								case 2:
-					//point to the left
-					//					dir = Quaternion.FromToRotation(new Vector3(0,-1,0),Vector3.zero);
-										dir = new Vector3 (0f, 0f, 270f);
-										tPos.to.x = size.x / 2 + 32 + posAndDir [i].x;
-										tPos.from.x = size.x / 2 + 62.0f + posAndDir [i].x;
-										tPos.to.y = posAndDir [i].y;
-										tPos.from.y = posAndDir [i].y;
-										break;
-								default:
-										dir = Vector3.zero;
-										break;
-								}
-				
-								arrow.transform.Rotate (dir);
-								NGUITools.AdjustDepth (arrow, 1000);
-								//			if(obj.transform.parent != null)
-								//			{
-								//LogHelper.Log("-------///-......parent is not null: " + obj.transform.parent);
-								//			}
-								LogHelper.Log ("=====add arrow dic key: " + parent.GetInstanceID () + parent.name);
-				
-								arrows.Add (parent.GetInstanceID () + parent.name, arrow);
-								i++;
-						}
-				});
-		
+			GameObject obj = o as GameObject;
+			foreach (GameObject parent in parents) {
+				//			GameObject arrow = GameObject.Instantiate(obj,new Vector3(pos.x,pos.y,0),dir) as GameObject;
+				GameObject arrow = NGUITools.AddChild (parent, obj);
+				TweenPosition tPos = arrow.GetComponent<TweenPosition> ();
+
+				Vector3 size = Vector3.zero;
+				try {
+					size = parent.GetComponent<BoxCollider> ().size;
+				} catch (MissingComponentException e) {
+					LogHelper.LogWarning (e.ToString ());
+					size = parent.transform.localPosition;
+				}
+
+				switch (i < len ? (int)posAndDir [i].z : 0) {
+				//point to the top
+				case 3:
+					dir = new Vector3 (0.0f, 0.0f, 180.0f);// = Quaternion.FromToRotation(new Vector3(1,0,0),Vector3.zero);
+					tPos.to.y = -size.y / 2 - 32 + posAndDir [i].y;
+					tPos.from.y = -size.y / 2 - 62.0f + posAndDir [i].y;
+					tPos.to.x = posAndDir [i].x;
+					tPos.from.x = posAndDir [i].x;
+					break;
+				//point to the right
+				case 4:
+					dir = new Vector3 (0f, 0f, 90f);
+//					dir = Quaternion.FromToRotation(new Vector3(-1,0,0),Vector3.zero);
+					tPos.to.x = -size.x / 2 - 32 + posAndDir [i].x;
+					tPos.from.x = -size.x / 2 - 62.0f + posAndDir [i].x;
+					tPos.to.y = posAndDir [i].y;
+					tPos.from.y = posAndDir [i].y;
+					break;
+				//point to the bottom
+				case 1:
+//					dir = Quaternion.FromToRotation(new Vector3(0,1,0),Vector3.zero);
+					dir = new Vector3 (0f, 0f, 0f);
+					tPos.to.y = size.y / 2 + 32 + posAndDir [i].y;
+					tPos.from.y = size.y / 2 + 62.0f + posAndDir [i].y;
+					tPos.to.x = posAndDir [i].x;
+					tPos.from.x = posAndDir [i].x;
+					break;
+				case 2:
+	//point to the left
+//					dir = Quaternion.FromToRotation(new Vector3(0,-1,0),Vector3.zero);
+					dir = new Vector3 (0f, 0f, 270f);
+					tPos.to.x = size.x / 2 + 32 + posAndDir [i].x;
+					tPos.from.x = size.x / 2 + 62.0f + posAndDir [i].x;
+					tPos.to.y = posAndDir [i].y;
+					tPos.from.y = posAndDir [i].y;
+					break;
+				default:
+					dir = Vector3.zero;
+					break;
+				}
+
+				arrow.transform.Rotate (dir);
+				NGUITools.AdjustDepth (arrow, 1000);
+				//			if(obj.transform.parent != null)
+				//			{
+				//LogHelper.Log("-------///-......parent is not null: " + obj.transform.parent);
+				//			}
+				LogHelper.Log ("=====add arrow dic key: " + parent.GetInstanceID () + parent.name);
+
+				arrows.Add (parent.GetInstanceID () + parent.name, arrow);
+				i++;
+			}
+		});
 	}
 
 	public static void RemoveAllArrows(){

@@ -33,7 +33,7 @@ public class ModelManager {
     /// </summary>
     public void Init() {
 //		Debug.LogWarning("model manager init");
-        InitConfigData();
+//        InitConfigData();
         
 		InitData();
         //new all server protocol handler
@@ -50,7 +50,7 @@ public class ModelManager {
     }
 
     //init config data
-    void InitConfigData() {
+    public void InitConfigData() {
 		ResourceManager.Instance.LoadLocalAsset(UIConfig.UIInsConfigPath,o => {
 			TextAsset obj = o as TextAsset;
 			string info = obj.text;

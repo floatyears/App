@@ -74,11 +74,6 @@ public class Main : MonoBehaviour {
 
         // init manager class
         ViewManager.Instance.Init(uiRoot);
-		TextCenter.Instance.Init (o=>{
-			ModelManager.Instance.Init();
-
-		});
-
        
 		//NoviceGuideStepEntityManager.Instance ();
     }
@@ -88,12 +83,10 @@ public class Main : MonoBehaviour {
     /// </summary>
     void OnEnable() {
 		SetResolution();
-		ResourceManager.Instance.Init (o => {
-			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
-			EffectManager em = EffectManager.Instance;
-			UIManager.Instance.ChangeScene(SceneEnum.Loading);
-			ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
-		});
+
+		ModelManager.Instance.InitConfigData ();
+
+		UIManager.Instance.ChangeScene(SceneEnum.Loading);
     }
 
 	public const float DefaultSize = 1.5f;

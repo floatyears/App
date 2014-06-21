@@ -39,7 +39,7 @@ public class ExportResource : EditorWindow {
 
 	static private bool collectDependency = true;
 
-	static private System.Enum op = PLATFORM_OP.iOS;
+	static private System.Enum op = PLATFORM_OP.Android;
 
 	static private System.Enum pt = PACK_TYPE.FOLDER;
 
@@ -110,7 +110,7 @@ public class ExportResource : EditorWindow {
 		EditorGUILayout.BeginHorizontal ();
 
 		EditorGUILayout.LabelField ("Save Path:",GUILayout.Width(70));
-		EditorGUILayout.TextField (savePath);
+		savePath = EditorGUILayout.TextField (savePath);
 
 		if (GUILayout.Button("change"))
 		{
@@ -127,7 +127,7 @@ public class ExportResource : EditorWindow {
 
 
 
-		EditorGUILayout.TextField ( fileName);
+		fileName = EditorGUILayout.TextField ( fileName);
 
 		EditorGUILayout.LabelField (".",GUILayout.Width(10));
 
@@ -139,7 +139,7 @@ public class ExportResource : EditorWindow {
 
 		EditorGUILayout.LabelField ( "dependency file:",GUILayout.Width(90));
 
-		EditorGUILayout.TextField (dependencyFile);
+		dependencyFile = EditorGUILayout.TextField (dependencyFile);
 
 		if (GUILayout.Button ("select")) {
 			SelectDependency();

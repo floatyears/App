@@ -14,16 +14,29 @@ public class ResourceUpdate : MonoBehaviour {
 	//private static string serverVersionURL = serverResURL + "version.txt";
 
 	public static string localResPath = 
-//#if UNITY_IPHONE
-	"file://" + Application.dataPath + "/ResourceDownload/Download";//"/Raw";
-//#elif UNITY_ANDROID
-//	"file://" + "jar:file://" + Application.dataPath + "!/assets/";
-//#elif UNITY_STANDALONE_WIN || UNITY_EDITOR
-//	"file://" + Application.dataPath + "/StreamingAssets/";
-//#else
-//	string.Empty;
-//#endif
-	private static string localVersionPath = localResPath + "/version.txt";
+#if UNITY_EDITOR
+	"file://"+ Application.dataPath + "/ResourceDownload/Download/";
+#elif UNITY_IPHONE
+	"file://" + Application.dataPath + "/Raw/";
+#elif UNITY_ANDROID
+	"file:///" + Application.persistentDataPath + "/assets/";
+#else
+	string.Empty;
+#endif
+
+	public static string localResFullPath = 
+
+#if UNITY_EDITOR
+	"Assets/ResourceDownload/Download/";
+#elif UNITY_IPHONE
+	"file://" + Application.dataPath + "/Raw/";
+#elif UNITY_ANDROID
+	Application.persistentDataPath + "/assets/";
+#else
+	string.Empty;
+#endif
+
+//	private static string localVersionPath = localResPath + "version.txt";
 
 //	private Dictionary<string, string[]> localVersionDic;
 
@@ -71,6 +84,11 @@ public class ResourceUpdate : MonoBehaviour {
 
 		//load the server version.txt
 		StartDownload ();
+
+		if (!Directory.Exists (localResFullPath)) {
+			Directory.CreateDirectory(localResFullPath);
+			Debug.Log("create path: " + localResFullPath);
+		}
 	}
 
 	void Update(){
@@ -204,8 +222,12 @@ public class ResourceUpdate : MonoBehaviour {
 			LoadVersionConfig(serverVersion.text,serverVersionDic);
 			
 			//load the local version.txt. if not exists, jump through the init.
-//			Debug.LogError(" StartDownload : " + localVersionPath);
-			StartCoroutine(Download(localVersionPath,delegate(WWW localVersion) {
+
+			StartCoroutine(Download(localResPath + "version.txt",delegate(WWW localVersion) {
+				Debug.Log("local version err: " + localVersion.error);
+
+//				Debug.Log("local version txt: " + File.ReadAllText(localResFullPath + "version.txt"));
+
 				if(string.IsNullOrEmpty(localVersion.error))
 				{
 					LoadVersionConfig(localVersion.text,localVersionDic);
@@ -252,8 +274,9 @@ public class ResourceUpdate : MonoBehaviour {
 		//File.WriteAllText (localVersionPath, verStr);
 
 		//only for test
-		Debug.Log ("local version path: " + localVersionPath);
-		File.WriteAllText ("Assets/ResourceDownload/Download/version.txt", verStr);
+		Debug.Log ("local version path: " + localResFullPath);
+//		File.WriteAllText (localResFullPath + "version.txt",verStr);
+		WriteStringToFile (verStr, localResFullPath + "version.txt");
 	}
 
 	void UpdateLocalRes(DownloadItemInfo downloadItem)
@@ -267,10 +290,11 @@ public class ResourceUpdate : MonoBehaviour {
 		//check the MD5, if not mamtch ,reload the file
 		if (serverVersionDic [downloadItem.name].md5 == hash) {
 			try{
-				//Debug.Log(localResPath + "/" + serverVersionDic [name] [0] + ".unity3d");
+				Debug.Log("local res path: " + localResFullPath);
 				//File.WriteAllBytes (localResPath + "/" + serverVersionDic [name] [0] + ".unity3d", resBytes);
 				//only for test
-				File.WriteAllBytes ("Assets/ResourceDownload/Download/" + downloadItem.name + ".unity3d", downloadItem.www.bytes);
+//				File.WriteAllBytes ( localResFullPath + downloadItem.name + ".unity3d",downloadItem.www.bytes);
+				WriteToFile(downloadItem.www.bytes,localResFullPath + downloadItem.name + ".unity3d");
 				UpdateLocalVersionConfig(downloadItem.name,true);
 
 				current += serverVersionDic [downloadItem.name].size;
@@ -292,6 +316,38 @@ public class ResourceUpdate : MonoBehaviour {
 				downloadItem.StartDownload();
 				downloadItem.retryCount--;
 			}
+		}
+	}
+
+	void DeleteAndWrite(string fileName){
+		if (File.Exists (fileName)) {
+			File.Delete(fileName);
+		}
+	}
+	
+	void WriteToFile(byte[] data, string path){
+		DeleteAndWrite (path);
+		try {
+			FileStream fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write);
+			fs.Write(data, 0, data.Length);
+			fs.Close();
+			fs.Dispose();
+			//			Debug.LogError("write to file success : " + fileName);
+		} catch (System.Exception ex) {
+			Debug.LogError("WriteToFile exception : " + ex.Message);
+		}
+	}
+
+	void WriteStringToFile(string content, string path){
+		DeleteAndWrite (path);
+		try {
+			using (StreamWriter outfile = new StreamWriter(path))
+			{
+				outfile.Write(content);
+			}
+			//			Debug.LogError("write to file success : " + fileName);
+		} catch (System.Exception ex) {
+			Debug.LogError("WriteToFile exception : " + ex.Message);
 		}
 	}
 
