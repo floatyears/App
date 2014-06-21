@@ -29,16 +29,6 @@ public class EffectManager {
 
 	private Dictionary<string, GameObject> skillEffectObject = new Dictionary<string, GameObject> ();
 
-//	public GameObject GetEffectObject(int skillID) {
-//		GameObject go = null;
-//		effectObject.TryGetValue (skillID, out go);
-//		return go;
-//	}
-
-//	public void GetPassiveSkill(ResourceCallback resouceCB) {
-//		GetEffectFromCache ("PS-fight-back", resouceCB);
-//	}
-
 	public void GetOtherEffect(EffectEnum effect, ResourceCallback resouceCB) {
 		string path = "";
 		switch (effect) {
@@ -52,9 +42,10 @@ public class EffectManager {
 
 		if (path == "") {
 			resouceCB (null);
-		} else {
-			GetEffectFromCache (path, resouceCB);
-		}
+			return;
+		} 
+			
+		GetEffectFromCache (path, resouceCB);
 	}
 
 	public void GetMapEffect(bbproto.EQuestGridType type, ResourceCallback resourceCB) {
@@ -79,7 +70,8 @@ public class EffectManager {
 		}
 
 		if (path == "") {
-			return;		
+			resourceCB(null);
+			return;
 		}
 
 		GetEffectFromCache (path, resourceCB);
