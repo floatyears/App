@@ -51,8 +51,11 @@ public class QuestItem : MonoBehaviour {
 			else{
 				//do some view show by QuestClear state
 				uint bossID = questInfo.BossID[ 0 ];
-				bossAvatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(bossID);
-				bossAvatarSpr.spriteName = bossID.ToString();
+				DataCenter.Instance.GetAvatarAtlas(bossID, returnValue => {
+//					bossAvatarSpr.atlas = returnValue as UIAtlas;
+//					bossAvatarSpr.spriteName = bossID.ToString();
+					BaseUnitItem.SetAvatarSprite(bossAvatarSpr, returnValue, bossID);
+				});
 
 				EUnitType unitType = DataCenter.Instance.GetUnitInfo(bossID).Type;
 				bossTypeSpr.color = DGTools.TypeToColor(unitType);

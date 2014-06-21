@@ -65,8 +65,13 @@ public class QuestItemView : MonoBehaviour {
 	public Callback evolveCallback;
 	
 	private void ShowQuestInfo(){
-		bossAvatarSpr.atlas = DataCenter.Instance.GetAvatarAtlas(data.BossID[ 0 ]);
-		bossAvatarSpr.spriteName = data.BossID[ 0 ].ToString();
+		DataCenter.Instance.GetAvatarAtlas(data.BossID[ 0 ], returnValue=> {
+			BaseUnitItem.SetAvatarSprite(bossAvatarSpr, returnValue, data.BossID[0]);
+//			bossAvatarSpr.atlas = returnValue as UIAtlas;
+//			bossAvatarSpr.spriteName = data.BossID[ 0 ].ToString();}
+		}
+		);
+
 
 		nameLabel.text = data.Name;
 		//staminaLabel.text = string.Format( "STAMINA {0}", data.Stamina);
