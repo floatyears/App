@@ -94,9 +94,7 @@ public class CatalogUnitItem : MyUnitItem {
 				case CatalogState.Got : 
 
 //				DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-				DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, returnValue => {
-					BaseUnitItem.SetAvatarSprite(avatarSprite, returnValue, catalogUserUnit.UnitID);
-				});
+				DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
 //					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 //					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
 					erotemeSpr.enabled = false;
@@ -107,9 +105,7 @@ public class CatalogUnitItem : MyUnitItem {
 				case CatalogState.Meet : 
 //					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 //					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
-					DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, returnValue => {
-						BaseUnitItem.SetAvatarSprite(avatarSprite, returnValue, catalogUserUnit.UnitID);
-					});
+					DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
 					erotemeSpr.enabled = true;
 					maskSprite.enabled = false;
 					//translucentMaskSpr.enabled = true;

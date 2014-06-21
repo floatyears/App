@@ -222,12 +222,10 @@ public class BaseUnitItem : MonoBehaviour {
 	protected virtual void SetCommonState(){
 		IsEnable = true;
 
-	 	DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID, returnValue => {
-			SetAvatarSprite(avatar, returnValue, userUnit.ID);
-		});
+		DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID, avatar);
 	}
 
-	public static void SetAvatarSprite(UISprite sprite, object asset, uint ID) {
+	public static void SetAvatarSprite(UISprite sprite, UIAtlas asset, uint ID) {
 		UIAtlas atlas = asset as UIAtlas;
 		if (atlas == null) {
 			return;	
