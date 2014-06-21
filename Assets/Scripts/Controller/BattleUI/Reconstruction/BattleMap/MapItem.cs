@@ -107,14 +107,16 @@ public class MapItem : UIBaseUnity {
 					uint unitID = gridItem.Enemy [0].UnitID;
 					TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 					if (tui != null) {
-						mapBackTexture = mapBack.AddComponent<UITexture>();
-						mapBackTexture.depth = 4;
-						Destroy(mapBackSprite);
-						tui.GetAsset (UnitAssetType.Avatar,o=>{
-							mapBackTexture.mainTexture = o as Texture2D;
-							mapBackTexture.width = 104;
-							mapBackTexture.height = 104;
-						});
+//						mapBackTexture = mapBack.AddComponent<UITexture>();
+//						mapBackTexture.depth = 4;
+//						Destroy(mapBackSprite);
+//						tui.GetAsset (UnitAssetType.Avatar,o=>{
+//							mapBackTexture.mainTexture = o as Texture2D;
+//							mapBackTexture.width = 104;
+//							mapBackTexture.height = 104;
+//						});
+
+						DataCenter.Instance.GetAvatarAtlas(tui.ID, mapBackSprite);
 
 					}
 				}

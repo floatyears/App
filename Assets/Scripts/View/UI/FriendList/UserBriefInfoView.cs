@@ -20,7 +20,7 @@ public class UserBriefInfoView : UIComponentUnity{
 	UILabel nameLabel;
 	UILabel raceLabel;
 	
-	UITexture avatarTex;
+	UISprite avatarTex;
 	
 	int originLayer = 1;
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -40,7 +40,7 @@ public class UserBriefInfoView : UIComponentUnity{
 	void InitUIElement(){
 		window = FindChild("Window");
 		
-		avatarTex = FindChild<UITexture>("Window/Avatar/Texture");
+		avatarTex = FindChild<UISprite>("Window/Avatar/Texture");
 
 		rankLabel = FindChild<UILabel>("Window/Label_Vaule/Rank");
 		lastLoginLabel = FindChild<UILabel>("Window/Label_Vaule/LastLogin");
@@ -158,9 +158,12 @@ public class UserBriefInfoView : UIComponentUnity{
 		lvLabel.text = tuu.Level.ToString();
 		nameLabel.text = tuu.UnitInfo.Name;
 		raceLabel.text = tuu.UnitInfo.UnitRace.ToString();
-		tuu.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
-			avatarTex.mainTexture = o as Texture2D;
-		});
+//		tuu.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+//			avatarTex.mainTexture = o as Texture2D;
+//		});
+
+		DataCenter.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, avatarTex);
+
 		slvLabel.text = tuu.UnitInfo.ActiveSkill.ToString();
 	}
 

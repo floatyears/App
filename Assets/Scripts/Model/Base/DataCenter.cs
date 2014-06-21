@@ -556,42 +556,38 @@ public class DataCenter {
 	public const uint AVATAR_ATLAS_CAPACITY = 20;
 	private Dictionary<uint, UIAtlas> avatarAtalsDic = new Dictionary<uint, UIAtlas>();
 
-	public UIAtlas GetAvatarAtlas(uint unitID){
-		if(avatarAtalsDic.Count == 0){
-			//Debug.LogError("DataCenter :: avatarAtalsDic is empty, loading...");
-			LoadAvatarAtlas();
-		}
-		uint index = unitID/AVATAR_ATLAS_CAPACITY;
-		if(!avatarAtalsDic.ContainsKey( index )){
-			Debug.LogError("AvatarAtlas_" + index + " is NOT Found, Please Check it....");
-			return null;
-		}
-		Debug.LogError("xxxxxxx : " + index);
-		return avatarAtalsDic[ index ];
-	}
-
-	private void LoadAvatarAtlas(){
-		bool successful = false;
-		for (uint i = 0; i < AVATAR_ATLAS_COUNT; i++){
-			string sourcePath = string.Format("Avatar/Atlas_Avatar_{0}", i);
-			//never use the raw interface! Use ResourceManager instead
-			ResourceManager.Instance.LoadLocalAsset(sourcePath,o => {
+	public void GetAvatarAtlas(uint unitID, UISprite sprite, ResourceCallback resouceCB = null){
+		uint index = unitID / AVATAR_ATLAS_CAPACITY;
+		UIAtlas atlas = null;
+		if (!avatarAtalsDic.TryGetValue (index, out atlas)) {
+			string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
+			ResourceManager.Instance.LoadLocalAsset (sourcePath, o => {
 				GameObject source = o as GameObject;
-				UIAtlas atlas = source.GetComponent<UIAtlas>();
-				if(atlas == null){ 
-					Debug.LogError("LoadAvatarAtlas(), atlas is NULL");
+				atlas = source.GetComponent<UIAtlas> ();
+				avatarAtalsDic.Add (index, atlas);
+				if (atlas == null) { 
+						Debug.LogError ("LoadAvatarAtlas(), atlas is NULL");
 				}
-
-				Debug.LogError(atlas.name);
-				avatarAtalsDic.Add(i, atlas);
+				Debug.LogError ("load avatar atlas success : " + atlas.name);
 			});
-			//GameObject source = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
 		}
-
-		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;
-		Debug.Log("DataCenter.LoadAvatarAtlas(), successful is : " + successful);
-
+		BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+		if(resouceCB != null)
+			resouceCB (atlas);
 	}
 
+	private Dictionary<uint, Texture2D> profileCache = new Dictionary<uint, Texture2D> ();
 
+	public void GetProfile(uint unitID, ResourceCallback resouceCB) {
+		Texture2D profile = null;
+		if (!profileCache.TryGetValue (unitID, out profile)) {
+			string path = string.Format("Profile/{0}", unitID);
+			ResourceManager.Instance.LoadLocalAsset(path,o=>{
+				profileCache.Add(unitID, profile);
+				profile = o as Texture2D;		
+			});
+		}
+
+		resouceCB (profile);
+	}
 }

@@ -92,16 +92,20 @@ public class CatalogUnitItem : MyUnitItem {
 			Debug.LogError("catalogUserUnit.UnitID : " + catalogUserUnit.UnitID);
 			switch (state) {
 				case CatalogState.Got : 
-					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
+
+//				DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
+				DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
+//					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
+//					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
 					erotemeSpr.enabled = false;
 					maskSprite.enabled = false;
 					//translucentMaskSpr.enabled = false;
 					UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
 					break;
 				case CatalogState.Meet : 
-					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
+//					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
+//					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
+					DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
 					erotemeSpr.enabled = true;
 					maskSprite.enabled = false;
 					//translucentMaskSpr.enabled = true;

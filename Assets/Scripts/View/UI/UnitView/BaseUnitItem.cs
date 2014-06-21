@@ -221,12 +221,17 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void SetCommonState(){
 		IsEnable = true;
-		Debug.LogError("gameobject: " + gameObject + " userUnit : " + userUnit.UnitID);
 
-		Debug.LogError(DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID) == null);
+		DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID, avatar);
+	}
 
-		avatar.atlas = DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID);
-		avatar.spriteName = userUnit.UnitID.ToString();
+	public static void SetAvatarSprite(UISprite sprite, UIAtlas asset, uint ID) {
+		UIAtlas atlas = asset as UIAtlas;
+		if (atlas == null) {
+			return;	
+		}
+		sprite.atlas = atlas;
+		sprite.spriteName = ID.ToString();
 	}
 
 	private void ShowUnitType(){
