@@ -569,6 +569,7 @@ public class DGTools {
 			return null;
 		}
 		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
+		File.WriteAllBytes ("Assets/ResourceDownload/Output/" + unitID,ta.bytes);
 		TUnitInfo tui = new TUnitInfo (ui);
 		return tui;
 	}

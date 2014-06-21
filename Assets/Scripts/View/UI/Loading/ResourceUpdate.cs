@@ -275,8 +275,8 @@ public class ResourceUpdate : MonoBehaviour {
 
 		//only for test
 		Debug.Log ("local version path: " + localResFullPath);
-//		File.WriteAllText (localResFullPath + "version.txt",verStr);
-		WriteStringToFile (verStr, localResFullPath + "version.txt");
+		File.WriteAllText (localResFullPath + "version.txt",verStr);
+//		WriteStringToFile (verStr, localResFullPath + "version.txt");
 	}
 
 	void UpdateLocalRes(DownloadItemInfo downloadItem)
@@ -293,8 +293,8 @@ public class ResourceUpdate : MonoBehaviour {
 				Debug.Log("local res path: " + localResFullPath);
 				//File.WriteAllBytes (localResPath + "/" + serverVersionDic [name] [0] + ".unity3d", resBytes);
 				//only for test
-//				File.WriteAllBytes ( localResFullPath + downloadItem.name + ".unity3d",downloadItem.www.bytes);
-				WriteToFile(downloadItem.www.bytes,localResFullPath + downloadItem.name + ".unity3d");
+				File.WriteAllBytes ( localResFullPath + downloadItem.name + ".unity3d",downloadItem.www.bytes);
+//				WriteToFile(downloadItem.www.bytes,localResFullPath + downloadItem.name + ".unity3d");
 				UpdateLocalVersionConfig(downloadItem.name,true);
 
 				current += serverVersionDic [downloadItem.name].size;

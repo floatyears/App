@@ -33,7 +33,7 @@ public class ResourceManager : MonoBehaviour{
 	private Dictionary<string,object> objectDic = new Dictionary<string, object>();
 
 	public Object LoadLocalAsset( string path, ResourceCallback callback ) {
-		Debug.Log ("load res: " + path);
+		//Debug.Log ("load res: " + path);
 		//the following resource will not be dynamiclly download.
 		if (string.IsNullOrEmpty (path)) {
 			return null;	
@@ -52,7 +52,31 @@ public class ResourceManager : MonoBehaviour{
 		if (path.IndexOf ("Config") == 0 || path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0) {
 #if UNITY_EDITOR
 			
+
+			ResourceAssetBundle key = GetBundleKeyByPath(path);
 			
+			if(!assetBundles.ContainsKey(key)){
+				assetBundles[key] = new AssetBundleObj(key,path,callback,GetBundleTypeByKey(key));
+				StartCoroutine(DownloadResource(key));
+			}else{
+				if(assetBundles[key].isLoading){
+					Debug.Log("======path: " + path);
+					if(!assetBundles[key].callbackList.ContainsKey(path)){
+						assetBundles[key].callbackList.Add(path,callback);
+					}
+				}else{
+					if(callback != null){
+						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
+						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
+						return null;
+					}else{
+						return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
+					}
+				}
+				
+			}
+			return null;
+
 			string ext = null;
 			if(path.IndexOf ("Prefabs") == 0){
 				ext = ".prefab";
@@ -202,10 +226,38 @@ public class ResourceManager : MonoBehaviour{
 //			}
 			return ResourceAssetBundle.PROTOBUF;
 		}else if(path.IndexOf ("Avatar") == 0){
-			
+			int num = 0;
+			int.TryParse(path.Substring(path.LastIndexOf('_')+1),out num);
+			switch(num){
+			case 0:
+				return ResourceAssetBundle.AVATAR_0;
+			case 1:
+				return ResourceAssetBundle.AVATAR_1;
+			case 2:
+				return ResourceAssetBundle.AVATAR_2;
+			case 3:
+				return ResourceAssetBundle.AVATAR_3;
+			case 4:
+				return ResourceAssetBundle.AVATAR_4;
+			case 5:
+				return ResourceAssetBundle.AVATAR_5;
+			case 6:
+				return ResourceAssetBundle.AVATAR_6;
+			case 7:
+				return ResourceAssetBundle.AVATAR_7;
+			case 8:
+				return ResourceAssetBundle.AVATAR_8;
+			case 9:
+				return ResourceAssetBundle.AVATAR_9;
+			case 10:
+				return ResourceAssetBundle.AVATAR_10;
+			default:
+				return ResourceAssetBundle.NONE;
+			}
 		}else if(path.IndexOf ("Profile") == 0){
 			int num = 0;
-			int.TryParse(path.Substring(path.LastIndexOf('/')),out num);
+			//Debug.Log("profile:-----------------" + path.Substring(path.LastIndexOf('/')));
+			int.TryParse(path.Substring(path.LastIndexOf('/') + 1),out num);
 			switch((int)(num/20)){
 				case 0:
 					return ResourceAssetBundle.PROFILE_0;
@@ -271,7 +323,30 @@ public class ResourceManager : MonoBehaviour{
 				return "Profile_9.unity3d";
 			case ResourceAssetBundle.PROFILE_10:
 				return "Profile_10.unity3d";
-			case ResourceAssetBundle.AVATAR:
+
+
+			case ResourceAssetBundle.AVATAR_0:
+			return "Atlas_Avatar_0.unity3d";
+			case ResourceAssetBundle.AVATAR_1:
+			return "Atlas_Avatar_1.unity3d";
+			case ResourceAssetBundle.AVATAR_2:
+			return "Atlas_Avatar_2.unity3d";
+			case ResourceAssetBundle.AVATAR_3:
+			return "Atlas_Avatar_3.unity3d";
+			case ResourceAssetBundle.AVATAR_4:
+			return "Atlas_Avatar_4.unity3d";
+			case ResourceAssetBundle.AVATAR_5:
+			return "Atlas_Avatar_5.unity3d";
+			case ResourceAssetBundle.AVATAR_6:
+			return "Atlas_Avatar_6.unity3d";
+			case ResourceAssetBundle.AVATAR_7:
+			return "Atlas_Avatar_7.unity3d";
+			case ResourceAssetBundle.AVATAR_8:
+			return "Atlas_Avatar_8.unity3d";
+			case ResourceAssetBundle.AVATAR_9:
+			return "Atlas_Avatar_9.unity3d";
+			case ResourceAssetBundle.AVATAR_10:
+			return "Atlas_Avatar_10.unity3d";
 				break;
 			default:
 				break;
@@ -288,6 +363,7 @@ public class ResourceManager : MonoBehaviour{
 			case ResourceAssetBundle.LANGUAGE:
 				return typeof(TextAsset);
 			case ResourceAssetBundle.PROTOBUF:
+				return typeof(TextAsset);
 			case ResourceAssetBundle.PROFILE_0:
 			case ResourceAssetBundle.PROFILE_1:
 			case ResourceAssetBundle.PROFILE_2:
@@ -299,9 +375,19 @@ public class ResourceManager : MonoBehaviour{
 			case ResourceAssetBundle.PROFILE_8:
 			case ResourceAssetBundle.PROFILE_9:
 			case ResourceAssetBundle.PROFILE_10:
-				return typeof(Object);
-			case ResourceAssetBundle.AVATAR:
-				break;
+				return typeof(Texture2D);
+			case ResourceAssetBundle.AVATAR_0:
+			case ResourceAssetBundle.AVATAR_1:
+			case ResourceAssetBundle.AVATAR_2:
+			case ResourceAssetBundle.AVATAR_3:
+			case ResourceAssetBundle.AVATAR_4:
+			case ResourceAssetBundle.AVATAR_5:
+			case ResourceAssetBundle.AVATAR_6:
+			case ResourceAssetBundle.AVATAR_7:
+			case ResourceAssetBundle.AVATAR_8:
+			case ResourceAssetBundle.AVATAR_9:
+			case ResourceAssetBundle.AVATAR_10:
+				return typeof(GameObject);
 			default:
 				break;
 		}
@@ -358,7 +444,6 @@ public enum ResourceAssetBundle{
 	NONE,
 	UI,
 	UI_ATLAS,
-	AVATAR,
 	LANGUAGE,
 	PROTOBUF,
 	PROFILE_0,
@@ -371,8 +456,19 @@ public enum ResourceAssetBundle{
 	PROFILE_7,
 	PROFILE_8,
 	PROFILE_9,
-	PROFILE_10
+	PROFILE_10,
 
+	AVATAR_0,
+	AVATAR_1,
+	AVATAR_2,
+	AVATAR_3,
+	AVATAR_4,
+	AVATAR_5,
+	AVATAR_6,
+	AVATAR_7,
+	AVATAR_8,
+	AVATAR_9,
+	AVATAR_10
 }
 
 public class AssetBundleObj{
@@ -412,7 +508,7 @@ public class AssetBundleObj{
 
 	public void ExeCallback(){
 		foreach (var item in callbackList) {
-			Debug.Log("asset bundle: " + item.Key.Substring(item.Key.LastIndexOf('/')+1));
+//			Debug.Log("asset bundle: " + item.Key.Substring(item.Key.LastIndexOf('/')+1));
 			if(item.Key == ResourceManager.RelyOnSource || item.Key == ResourceManager.ResourceInit){
 				item.Value(null);
 			}else{
@@ -421,6 +517,10 @@ public class AssetBundleObj{
 				}else{
 					item.Value(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1),type));
 				}
+
+//				if(item.Key.IndexOf("ProtoBuf/Unit") >= 0){
+//
+//				}
 
 			}
 		}
