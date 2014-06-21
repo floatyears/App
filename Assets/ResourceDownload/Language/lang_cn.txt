@@ -1,8 +1,9 @@
 ##common text
 
-OK=OK
-Again=再看一次
+OK=确定
 Cancel=取消
+CANCEL=取消
+Again=再看一次
 Back=返回
 Open=打开
 Resume=继续
@@ -55,8 +56,8 @@ Btn_SortRule_Rank=等级
 ##Label Text
 Divided_Line=/
 Float_User_ID=用户ID:
-Float_NextExp=下一级所需经验:
-Float_TotalExp=总获得经验:
+Float_NextExp=下次升级所需经验:
+Float_TotalExp=累计经验:
 
 LeaderSkillText=队长技能: 
 PARTY=队伍
@@ -82,8 +83,8 @@ Text_ATK=攻击力
 Text_COST=体耗
 Text_Level=等级
 Unit_Detail_Tab_Status=状态
-Unit_Detail_Tab_Normal_Skill=普攻
-Unit_Detail_Tab_Prifile=描述
+Unit_Detail_Tab_Normal_Skill=技能
+Unit_Detail_Tab_Prifile=来源
 Unit_Detail_Next=下一级
 
 ##Scene Name
@@ -147,6 +148,9 @@ RefreshFriend=刷新好友
 ConfirmRefreshFriend=确定立即更新好友列表吗？
 
 # shop
+Btn_Friend_Expand=好友扩容
+Btn_Unit_Expand=卡牌扩容
+Btn_Stamina_Recover=恢复体力
 
 FriendExpand=好友扩容
 FriendExpansionConfirm=确定花费 {0} 颗钻石来扩充 {1} 个好友上限吗？
@@ -166,187 +170,189 @@ DoStaminaRecover=恢复
 
 StaminaRecoverFailed=体力恢复失败
 StaminaStillFull=你的体力已满，无需恢复。
-StaminaRecoverStonesNotEnough=你的钻石不足，无法恢复体力。请先充值！
+StaminaRecoverStonesNotEnough=你的钻石余额不足，无法恢复体力。请先充值！
 
 StaminaRecoverFinish=体力恢复成功
 StaminaRecoverResult=当前体力值达到：{0}.
 
-UnitExpand=Units count limit expand
-UnitExpansionConfirm=Are you sure to use {0} stones to expand unit limit?
-UnitExpansionInfo=Now Units {0}/{1}
-DoUnitExpansion=Expand
+UnitExpand=卡牌容量扩充
+UnitExpansionConfirm=确定花费 {0} 颗钻石来扩充卡牌容量?
+UnitExpansionInfo=现有卡牌数量：{0}/{1}
+DoUnitExpansion=扩容
 
-UnitExpansionFailed=Unit Max Expansion Failed
-UnitCountLimitReachedMax=Now your unit limit has reached max.
-UnitExpandStonesNotEnough=Now your stone not enough to expand unit limit.
+UnitExpansionFailed=卡牌扩容失败
+UnitCountLimitReachedMax=你的卡牌容量已达到等级上限限制。请先提升你的账号等级！
+UnitExpandStonesNotEnough=你的钻石余额不足，无法扩充卡牌容量。请先充值！
 
-UnitExpansionFinish=Unit Max Expansion Completed
-UnitExpansionResult=Unit Limited Max Reached {0}!
+UnitExpansionFinish=卡牌扩容成功
+UnitExpansionResult=当前卡牌容量达到：{0}
 
 ##### gacha
-FriendGacha=Start Friend Point Scratch
-FriendGachaTitle=Friend Point Scratch
-FriendGachaDescription=Use friend Scratch to get units
-FriendGachaStatus=1 gacha: {0} points  {1} gachas: {2} points\nnow friend points {3}
+FriendGacha=友情点数抽卡
+FriendGachaTitle=友情点数抽卡
+FriendGachaDescription=消耗友情点数来抽卡
+FriendGachaStatus=1抽: {0} 点  {1} 抽: {2} 点\n你当前拥有点数： {3}
 
-ConfirmOneFriendGacha=Gacha 1 time
-ConfirmMaxFriendGacha=Gacha {0} times
+ConfirmOneFriendGacha=抽一次
+ConfirmMaxFriendGacha={0}连抽 
 
-FriendGachaFailed=[FF0000]Friend Gacha Failed[-]
-UnitCountReachedMax=Now your units owned overed unit limit:[FF0000]{0}/[-]{1}, can't do any gacha.
-GachaFriendPointNotEnough=1 friend gacha need {0} friend points\nYour friend points not enough.
+FriendGachaFailed=[FF0000]抽卡失败[-]
+UnitCountReachedMax=你的卡牌数量超过上限:[FF0000]{0}/[-]{1}, 请先扩充卡牌容量!
+GachaFriendPointNotEnough=你的友情点数不足！\n抽卡一次需要 {0} 友情点。
 
-RareGacha=Start Rare Scratch
-RareGachaTitle=Rare Scratch
-RareGachaDescription=Use stones to get units
-RareGachaStatus=1 gacha: {0} stones {1} gachas: {2} stones\n\nYou have {3} stones now.
+RareGacha=稀有抽卡
+RareGachaTitle=稀有抽卡
+RareGachaDescription=花费钻石来抽卡
+RareGachaStatus=1抽: {0} 钻石 {1} 抽: {2} 钻石\n\n你当前拥有 {3} 钻石.
 
-ConfirmOneRareGacha=Gacha Once
-ConfirmMaxRareGacha=Gacha {0} times
+ConfirmOneRareGacha=抽一次
+ConfirmMaxRareGacha={0}连抽 
 
-RareGachaFailed=[FF0000]Rare Gacha Failed[-]
-RareGachaStoneNotEnough=1 rare gacha need {0} stones\nYour stones not enough.
+RareGachaFailed=[FF0000]抽卡失败[-]
+RareGachaStoneNotEnough=你的钻石余额不足！抽卡一次需要 {0} 钻石.
 
-EventGacha=Start Event Scratch
-EventGachaTitle=Event Scratch
-EventGachaDescription=Use stones to get units
-EventGachaStatus=1 gacha: {0} stones {1} gachas: {2} stones\n\nYou have {3} stones now.
+EventGacha=限时活动抽卡
+EventGachaTitle=限时活动抽卡
+EventGachaDescription=限时活动抽卡
+EventGachaStatus=1抽: {0} 钻石 {1} 抽: {2} 钻石\n\n你当前拥有 {3} 钻石.
 
-ConfirmOneEventGacha=Gacha 1 time
-ConfirmMaxEventGacha=Gacha {0} times
+ConfirmOneEventGacha=抽一次
+ConfirmMaxEventGacha={0}连抽
 
-EventGachaFailed=[FF0000]Event Gacha Failed[-]
-EventGachaNotOpen=Our next event gacha will coming soon, please wait it!
-EventGachaStoneNotEnough=1 event gacha need {0} stones\nYour do not have enough stones.
+EventGachaFailed=[FF0000]抽卡失败[-]
+EventGachaNotOpen=限时活动抽卡会定期开放。请关注登录公告！
+EventGachaStoneNotEnough=你的钻石余额不足！抽卡一次需要 {0} 钻石.
 
-FriendScratch=Friend Scratch
-RareScratch=Rare Scratch
-EventScratch=Event Scratch
+FriendScratch=友情抽卡
+RareScratch=稀有抽卡
+EventScratch=活动抽卡
 
-GachaChances=chances {0}/{1}
+GachaChances=可抽卡： {0}/{1}
 Lv=Lv {0}
 
 
-LevelUpMoneyNotEnough=It's need money {0} for Level Up, your money is not enough.
-MoneyNotEnoughTitle=Money Not Enough
+LevelUpMoneyNotEnough=你的金币余额不足，此次强化需要 {0} 金币.
+MoneyNotEnoughTitle=金币不足
 
 ###
-StartQuestFail=Start quest request failed
+StartQuestFail=进入战斗失败
 
 #resource download
-DownloadErrorTitle=Download Error
-DownloadErrorContent=Download failed. Would you like to retry download?
+DownloadErrorTitle=下载失败
+DownloadErrorContent=下载过程出错， 是否尝试重新下载？
 
 
 ## net error
-success=success
+success=成功
 ERROR_BASE=ERROR_BASE
-FAILED=FAILED
-INVALID_PARAMS=INVALID_PARAMS
-MARSHAL_ERROR=MARSHAL_ERROR
-UNMARSHAL_ERROR=UNMARSHAL_ERROR
-IOREAD_ERROR=IOREAD_ERROR
-IOWRITE_ERROR=IOWRITE_ERROR
-CONNECT_DB_ERROR=CONNECT_DB_ERROR
-READ_DB_ERROR=READ_DB_ERROR
-SET_DB_ERROR=SET_DB_ERROR
-DATA_NOT_EXISTS=DATA_NOT_EXISTS
+FAILED=失败
+INVALID_PARAMS=参数错误
+MARSHAL_ERROR=编码失败
+UNMARSHAL_ERROR=解码失败
+IOREAD_ERROR=IO读取失败
+IOWRITE_ERROR=IO写入失败
+CONNECT_DB_ERROR=连接数据库失败
+READ_DB_ERROR=读取数据库失败
+SET_DB_ERROR=写入数据库失败
+DATA_NOT_EXISTS=数据不存在
 
 EU_USER_BASE=EU_USER_BASE
-EU_INVALID_USERID=EU_INVALID_USERID
-EU_GET_USERINFO_FAIL=EU_GET_USERINFO_FAIL
-EU_USER_NOT_EXISTS=EU_USER_NOT_EXISTS
-EU_GET_NEWUSERID_FAIL=EU_GET_NEWUSERID_FAIL
-EU_UPDATE_USERINFO_ERROR=EU_UPDATE_USERINFO_ERROR
+EU_INVALID_USERID=用户ID非法
+EU_GET_USERINFO_FAIL=读取用户信息失败
+EU_USER_NOT_EXISTS=用户不存在
+EU_GET_NEWUSERID_FAIL=分配用户ID失败
+EU_UPDATE_USERINFO_ERROR=更新用户信息失败
+
 EF_FRIEND_BASE=EF_FRIEND_BASE
-EF_FRIEND_NOT_EXISTS=EF_FRIEND_NOT_EXISTS
-EF_ADD_FRIEND_FAIL=EF_ADD_FRIEND_FAIL
-EF_DEL_FRIEND_FAIL=EF_DEL_FRIEND_FAIL
-EF_IS_ALREADY_FRIEND=EF_IS_ALREADY_FRIEND
-EF_INVALID_FRIEND_STATE=EF_INVALID_FRIEND_STATE
+EF_FRIEND_NOT_EXISTS=好友不存在
+EF_ADD_FRIEND_FAIL=添加好友失败
+EF_DEL_FRIEND_FAIL=删除好友失败
+EF_IS_ALREADY_FRIEND=要添加的用户已经是你的好友！
+EF_INVALID_FRIEND_STATE=好友状态错误
 
 EQ_QUEST_BASE=EQ_QUEST_BASE
-EQ_QUEST_ID_INVALID=EQ_QUEST_ID_INVALID
-EQ_GET_QUESTINFO_ERROR=EQ_GET_QUESTINFO_ERROR
-EQ_STAMINA_NOT_ENOUGH=EQ_STAMINA_NOT_ENOUGH
-EQ_GET_QUEST_CONFIG_ERROR=EQ_GET_QUEST_CONFIG_ERROR
-EQ_GET_QUEST_LOG_ERROR=EQ_GET_QUEST_LOG_ERROR
-EQ_UPDATE_QUEST_RECORD_ERROR=EQ_UPDATE_QUEST_RECORD_ERROR
-EQ_INVALID_DROP_UNIT=EQ_INVALID_DROP_UNIT
-EQ_QUEST_IS_PLAYING=EQ_QUEST_IS_PLAYING
+EQ_QUEST_ID_INVALID=关卡ID非法
+EQ_GET_QUESTINFO_ERROR=读取关卡信息失败
+EQ_STAMINA_NOT_ENOUGH=体力不足
+EQ_GET_QUEST_CONFIG_ERROR=读取战斗配置失败
+EQ_GET_QUEST_LOG_ERROR=读取战斗记录失败
+EQ_UPDATE_QUEST_RECORD_ERROR=更新战斗记录失败
+EQ_INVALID_DROP_UNIT=掉落卡牌ID非法
+EQ_QUEST_IS_PLAYING=你已在另一场战斗中
+
 E_UNIT_BASE=E_UNIT_BASE
-E_UNIT_ID_ERROR=E_UNIT_ID_ERROR
-E_LEVELUP_NO_ENOUGH_MONEY=E_LEVELUP_NO_ENOUGH_MONEY
-E_GET_UNIT_INFO_ERROR=E_GET_UNIT_INFO_ERROR
+E_UNIT_ID_ERROR=卡牌ID非法
+E_LEVELUP_NO_ENOUGH_MONEY=强化所需的金币不足
+E_GET_UNIT_INFO_ERROR=读取卡牌信息失败
 
 #network error
-NETWORK_ERROR=Network error.Please check your network connection and try again later.
-TIMEOUT_ERROR=Connect to server timeout.Please check your network connection and try again later.
-CONNECT_ERROR=Cannot connect to server. Please check your network connection and try again later.
-SERVER_500=The server is busy now.Please wait for a moment and try again later.
+NETWORK_ERROR=连接网络错误。 请检查你的网络连接是否正常，稍后再重试。
+TIMEOUT_ERROR=连接服务器超时。请检查你的网络连接是否正常，稍后再重试。
+CONNECT_ERROR=无法连接到服务器。 请检查你的网络连接是否正常，稍后再重试。
+SERVER_500=抱歉，当前服务器繁忙。 请稍后再重试。
 
-BigRareWarning=Rare Warning
-BigRareWarningText=Include the unit whose rare bigger than 3. Are you sure to sell?
+BigRareWarning=高星级提示
+BigRareWarningText=你将卖出的卡牌中含有3星以上的卡牌，你确定卖出吗？
 
-UnitOverflow=Unit Overflow
-UnitOverflowText=Your current unit capacity is [ff0000]{0}[-]/{1}.Would you like to do unit expansion?
+UnitOverflow=卡牌容量超限
+UnitOverflowText=你当前的卡牌数量已超限：[ff0000]{0}[-]/{1}. 是否扩充你的卡牌容量?
 
-FirendOverflow=Firend Overflow
-FriendOverflowText=Your current unit capacity is {0}/{1}.Would you like to do friend expansion?
+FirendOverflow=好友容量超限
+FriendOverflowText=你当前的好友数量已超限：{0}/{1}. 是否扩充你的好友容量?
 
-CostLimit=Current Cost Limit
-CostLimitText=Sorry to tell you,You can't replace this unit! 
+CostLimit=Cost超限
+CostLimitText=此卡的Cost过大，无法替换上阵。请先提升Cost上限！
 
-FriendCounterTitle=Friends :
-ApplyCounterTitle=Apply :
-ReceptionCounterTitle=Recept :
-UnitCounterTitle=Units :
-CatalogCounterTitle=Got :
+FriendCounterTitle=好友数量 :
+ApplyCounterTitle=申请好友 :
+ReceptionCounterTitle=好友请求 :
+UnitCounterTitle=卡牌数量 :
+CatalogCounterTitle=图鉴解锁 :
 
 
 CounterCurrent={0}
 CounterMax=/{0}
 
 StageStateNew=New
-StageStateClear=Clear
-StaminaLackNoteTitle=Friendly Reminder
-StaminaLackNoteContent=Current Stamina is not enough to battle!
+StageStateClear=已通关
+StaminaLackNoteTitle=体力不足
+StaminaLackNoteContent=当前体力不足，不能进入此场战斗！
 
-SelectRoleTitle=Select Role
-SelectRoleContent=Are you sure to select this role to adventure with you?
+SelectRoleTitle=选择主角
+SelectRoleContent=你确定选择此角色，开始进入游戏吗?
 
-DeleteNoteTitle=Delete Friend
-DeleteNoteContent=Are you sure to delete this friend?
+DeleteNoteTitle=删除好友
+DeleteNoteContent=你确定删除此好友吗?
 
-ZeroFriendPoint=Don't get friend point.
-GotFriendPoint=You have got {0} friend point.
-TotalFriendPoint=Total friend point: {0}.
+ZeroFriendPoint=未获得友情点。
+GotFriendPoint=你获得了 {0} 友情点.
+TotalFriendPoint=你拥有的友情点: {0}.
 
-ChainLogin=Chain Login {0}
-TotalLogin=Total Login {0}
-RankReach=Rank {0}
+ChainLogin=连续登录 {0}
+TotalLogin=累计登录 {0}
+RankReach=等级 {0}
 
 #new user guide
 
-guide1_title=Welcome!
-guide1_content=Are you going to get into the saint gate?
-guide2_title=choose your partner
+guide1_title=欢迎进入游戏!
+guide1_content=你确定立刻进入令人期待的探索之旅吗?
+guide2_title=选择伙伴
 guide2_content=选择和你一起冒险的伙伴。\n未选择的伙伴会在之后的旅程中相遇！
 guide3_title=determine your partner
 guide3_content=角色介绍。\n确定和xxx冒险么？
-guide4_title=start adventure
+guide4_title=开始探险
 guide4_content=我的名字叫xxx。\n那么就立马开始冒险吧！
-guide5_title=about scratch card
+guide5_title=关于抽卡
 guide5_content=接下来就是重中之重的抽卡！\n抽卡可是能得到各种各样的强卡哦！
-guide6_title=about rare card
-guide6_content=这次就来一次稀有抽卡吧。\n友情抽卡咱放后面再说。
+guide6_title=关于稀有抽卡
+guide6_content=这次就来一次稀有抽卡吧。\n友情抽卡咱等以后再说。
 guide7_title=a rare card need something
 guide7_content=a rare card need something!
-guide8_title=choose a card
-guide8_content=Please feel free to pick a card!
-guide9_title=get a card
-guide9_content=运气不错，卡牌很强！\n后别忘了编入队伍中哦。
-guide10_title=party method
+guide8_title=选择一张卡
+guide8_content=请随意挑选一张卡
+guide9_title=获得卡牌
+guide9_content=运气不错，此次获得卡牌很强！\n别忘了在编队中把它派上阵哦。
+guide10_title=编队指引
 guide10_content=choose a party
 guide11_title=party complete
 guide11_content=complete a party

@@ -65,7 +65,8 @@ public partial class TextCenter {
 
         //
 //		string[] data = File.ReadAllLines (Application.dataPath + "/Resources/Language/lang_en.txt");
-		ResourceManager.Instance.LoadLocalAsset ("Language/lang_en", o => {
+//		ResourceManager.Instance.LoadLocalAsset ("Language/lang_en", o => {
+		ResourceManager.Instance.LoadLocalAsset ("Language/lang_cn", o => {
 			string readData = (o as TextAsset).text;
 			string[] data = readData.Split ('\n');
 
