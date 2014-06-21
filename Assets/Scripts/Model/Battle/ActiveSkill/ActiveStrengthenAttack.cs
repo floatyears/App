@@ -18,7 +18,6 @@ public class ActiveStrengthenAttack : ActiveSkill {
 			return null;	
 		}
 		InitCooling ();
-//		SkillStrengthenAttack ssa = DeserializeData<SkillStrengthenAttack> ();
 		AttackInfo ai = AttackInfo.GetInstance ();//new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackType = (int)instance.targetType;

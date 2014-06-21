@@ -5,6 +5,15 @@ using bbproto;
 public class TSkillSuicideAttack : ActiveSkill {
 	private SkillSuicideAttack instance;
 	private int blood = 0;
+
+	public int AttackRange {
+		get { return (int)instance.attackType; }
+	}
+
+	public int AttackUnitType {
+		get { return (int)instance.unitType; }
+	}
+
 	public TSkillSuicideAttack (object instance) : base(instance) {
 		this.instance = instance as SkillSuicideAttack;
 		skillBase = this.instance.baseInfo;	
@@ -12,7 +21,6 @@ public class TSkillSuicideAttack : ActiveSkill {
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
-//		MsgCenter.Instance.AddListener (CommandEnum.UnitBlood, RecordBlood);
 		AddListener ();
 	}
 
@@ -28,26 +36,15 @@ public class TSkillSuicideAttack : ActiveSkill {
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitBlood, RecordBlood);
 	}
 
-//	public bool CoolingDone {
-//		get {
-//			return coolingDone;
-//		}
-//	}
-
 	void RecordBlood (object data) {
 		blood = (int)data;
 	}
-
-//	public void RefreashCooling () {
-//		DisposeCooling ();
-//	}
 
 	public override object Excute (string userUnitID, int atk = -1) {
 		if (blood <= 1) {
 			return null;		
 		}
 		InitCooling ();
-//		SkillSuicideAttack ssa = DeserializeData<SkillSuicideAttack> ();
 		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		if (instance.type == EValueType.FIXED) {

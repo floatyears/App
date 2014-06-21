@@ -35,7 +35,7 @@ public enum ModelEnum {
     MapConfig       = 2001,
 
     /// temp
-    TempEffect      = 10000, 
+
     HaveCard,
     InEventGacha,
     ItemObject,
@@ -98,18 +98,6 @@ public class DataCenter {
 	public const int friendGachaFriendPoint = 200;
 
 	public const int friendPos = 4;
-
-//	private static StartQuestParam startQuestInfo;
-//	public static StartQuestParam StartQuestInfo{
-//		set { startQuestInfo = value; }
-//		get { return startQuestInfo; }
-//	}
-
-//	private TFriendInfo battleFriend;
-//	public TFriendInfo BattleFriend {
-//		set { battleFriend = value; }
-//		get { return battleFriend; }
-//	}
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
@@ -213,19 +201,6 @@ public class DataCenter {
 	/// store befoure levelup's level
 	/// </summary>
 	public TUserUnit oldUserUnitInfo = null;
-
-    //TODO: reconstruct myUnitList
-//    public UserUnitList MyUnitList { 
-//        get { 
-//            UserUnitList ret = getData(ModelEnum.MyUnitList) as UserUnitList;
-//            if (ret == null) {
-//                ret = new UserUnitList();
-//                setData(ModelEnum.MyUnitList, ret);
-//            }
-//            return ret; 
-//        }
-//        set { setData(ModelEnum.MyUnitList, value); } 
-//    }
 
     public UserUnitList UserUnitList {
         get { 
@@ -393,18 +368,6 @@ public class DataCenter {
         set { setData(ModelEnum.FriendBaseInfo, value); } 
     }
 
-    public Dictionary<string, Object> TempEffect {
-        get { 
-			Dictionary<string, Object> ret = getData(ModelEnum.TempEffect) as Dictionary<string, Object>;
-            if (ret == null) {
-				ret = new Dictionary<string, Object>();
-                setData(ModelEnum.TempEffect, ret);
-            }
-            return ret; 
-        }
-        set { setData(ModelEnum.TempEffect, value); } 
-    } 
-
     public List<int> HaveCard {
         get {
             List<int> ret = getData(ModelEnum.HaveCard) as List<int>;
@@ -427,63 +390,6 @@ public class DataCenter {
             return ret;
         }
         set { setData(ModelEnum.ItemObject, value); } 
-    }
-
-//	public Dictionary<string, string> effectPath = new Dictionary<string, string> ();
-
-    public Object GetEffect(AttackInfo ai) {
-		int type = ai.AttackType;
-		int attackRange = ai.AttackRange;
-		string name = type + "" + attackRange;
-        Object obj = null;
-		if (!TempEffect.TryGetValue(name, out obj)) {
-            string path = GetEffectPath(type,attackRange);
-			//never use the raw interface! Use ResourceManager instead
-			obj = ResourceManager.Instance.LoadLocalAsset(path ,null);
-           // obj = ResourceManager.Instance.LoadLocalAsset(path);
-			TempEffect.Add(name, obj);
-        }
-        return obj;
-    }
-
-	public Object GetMapEffect(string name) {
-		Object obj = null;
-		if (!TempEffect.TryGetValue(name, out obj)) {
-			string path = EffectPath.Instance.GetEffectPath(name);
-			//never use the raw interface! Use ResourceManager instead
-
-			obj = ResourceManager.Instance.LoadLocalAsset(path, null);
-		//	obj = ResourceManager.Instance.LoadLocalAsset(path);
-			TempEffect.Add(name, obj);
-		}
-		return obj;
-	}
-    
-    public string GetEffectPath(int type,int attackRange) {
-        string path = string.Empty;
-        switch (type) {
-        case 1:
-			if(attackRange == 0) {
-				path = "Effect/BOOM";
-			}else  {
-				path = "Effect/firerain";
-			}
-            break;
-        case 2:
-            path = "Effect/daoguang";
-//			path = "Effect/Ice2";
-            break;
-        case 3:
-            path = "Effect/zhua";
-//			path = "Effect/jiufeng";
-            break;
-        case 8:
-            path = "Effect/card_effect";
-            break;
-        default:
-            break;
-        }
-        return path;
     }
 
     public void RefreshUserInfo(TRspClearQuest clearQuest) {

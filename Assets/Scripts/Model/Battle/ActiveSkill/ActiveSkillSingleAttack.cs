@@ -21,6 +21,18 @@ public class TSkillSingleAttack : ActiveSkill  {
 		get { return (int)instance.attackRange; }
 	}
 
+	/// <summary>
+	/// Gets the type of the value.
+	/// </summary>
+	/// <value>The type of the value.</value>
+	public EValueType ValueType {
+		get { return instance.type; }
+	}
+
+	public float AttackValue {
+		get { return instance.value; }
+	}
+
 	public TSkillSingleAttack(object instance) : base (instance) {
 		this.instance = instance as SkillSingleAttack;
 		skillBase = this.instance.baseInfo;	
