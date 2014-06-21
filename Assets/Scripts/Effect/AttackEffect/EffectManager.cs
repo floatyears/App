@@ -4,6 +4,12 @@ using System;
 using System.Text;
 
 public class EffectManager {
+	public enum EffectEnum {
+		DragCard,
+
+		PassiveAntiAttack,
+	}
+
 	private static EffectManager instance;
 	public static EffectManager Instance {
 		get{
@@ -23,33 +29,140 @@ public class EffectManager {
 
 	private Dictionary<string, GameObject> skillEffectObject = new Dictionary<string, GameObject> ();
 
-	public GameObject GetEffectObject(int skillID) {
-		GameObject go = null;
-		effectObject.TryGetValue (skillID, out go);
-		return go;
+//	public GameObject GetEffectObject(int skillID) {
+//		GameObject go = null;
+//		effectObject.TryGetValue (skillID, out go);
+//		return go;
+//	}
+
+//	public void GetPassiveSkill(ResourceCallback resouceCB) {
+//		GetEffectFromCache ("PS-fight-back", resouceCB);
+//	}
+
+	public void GetOtherEffect(EffectEnum effect, ResourceCallback resouceCB) {
+		string path = "";
+		switch (effect) {
+		case EffectEnum.DragCard:
+			path = "card_effect";
+			break;
+		case EffectEnum.PassiveAntiAttack:
+			path = "PS-fight-back";
+			break;
+		}
+
+		if (path == "") {
+			resouceCB (null);
+		} else {
+			GetEffectFromCache (path, resouceCB);
+		}
+	}
+
+	public void GetMapEffect(bbproto.EQuestGridType type, ResourceCallback resourceCB) {
+		string path = "";
+		switch (type) {
+		case bbproto.EQuestGridType.Q_ENEMY:
+			path = "Enconuterenemy";
+			break;
+		case bbproto.EQuestGridType.Q_EXCLAMATION:
+			break;
+		case bbproto.EQuestGridType.Q_KEY:
+			break;
+		case bbproto.EQuestGridType.Q_NONE:
+			break;
+		case bbproto.EQuestGridType.Q_QUESTION:
+			break;
+		case bbproto.EQuestGridType.Q_TRAP:
+			path = "Trap";
+			break;
+		case bbproto.EQuestGridType.Q_TREATURE:
+			break;
+		}
+
+		if (path == "") {
+			return;		
+		}
+
+		GetEffectFromCache (path, resourceCB);
 	}
 
 	public void GetSkillEffectObject(int skillID, string userUnitID, ResourceCallback resouceCb) {
 		string skillStoreID = DataCenter.Instance.GetSkillID(userUnitID, skillID);
 		SkillBaseInfo sbi = DataCenter.Instance.AllSkill[skillStoreID];
-		string path = "Effect/effect/";
+		string path = "";
 		TNormalSkill tns = sbi as TNormalSkill;
 		if (tns != null) {
-			path += GetNormalSkillEffectName (tns);
-		} else {
+			path = GetNormalSkillEffectName (tns);
+		} else if(sbi is ActiveSkill) {
 			//ActiveAttackTargetType, ActiveChangeCardColor, ActiveDeferAttackRound, ActiveDelayTime, ActiveReduceDefense, ActiveReduceHurt, TSkillSingleAttack, ActiveStrengthenAttack,
 			//TSkillAttackRecoverHP, GravityAttack, KnockdownAttack, TSkillRecoverSP, TSkillPoison, TSkillSuicideAttack, RecoverSP
-			TSkillSingleAttack tsa = sbi as ActiveAttackTargetType;
-			if(tsa != null) {
-
+			StringBuilder sb = new StringBuilder();
+			sb.Append("AS-");
+			Type type = sbi.GetType();
+			if(type == typeof(TSkillSingleAttack)) {
+				GetSingleAttackEffectName(sbi as TSkillSingleAttack, sb);
+			} else if(type == typeof(ActiveAttackTargetType)) {
+				GetAttackTargetType(sbi as ActiveAttackTargetType, sb);
+			} else if (type == typeof(ActiveChangeCardColor)) {
+				sb.Append("color");
+			} else if(type == typeof(ActiveDeferAttackRound)) {
+				sb.Append("low");
+			} else if(type == typeof(ActiveDelayTime)) {
+				sb.Append("delay");
+			} else if(type == typeof(ActiveReduceDefense)) {
+				sb.Append("reduce-defense-purple");
+			} else if(type == typeof(ActiveReduceHurt)) {
+				sb.Append("reduce-injure");
+			} else if(type == typeof(TSkillAttackRecoverHP)) {
+				sb.Append("single-blood-purple");
+			} else if(type == typeof(GravityAttack)) {
+				sb.Append("all-2-dark");
+			} else if(type == typeof(KnockdownAttack)) {
+				sb.Append("single-2-dark");
+			} else if(type == typeof(TSkillRecoverSP)) {
+				sb.Append("sp-recover");
+			} else if(type == typeof(TSkillPoison)) {
+				sb.Append("poison");
+			} else if(type == typeof(TSkillSuicideAttack)) {
+				TSkillSuicideAttack tsa = sbi as TSkillSuicideAttack;
+				sb.Append( GetAttackRanger(tsa.AttackRange) );
+				sb.Append( GetAttackDanger(2) ); //2 == second effect.
+				sb.Append( GetSkillType(tsa.AttackUnitType) );
 			}
+			path = sb.ToString();
 		}
 
+		GetEffectFromCache (path, resouceCb);
+	}
+
+	void GetEffectFromCache(string path, ResourceCallback resouceCallback) {
+		string reallyPath = "Effect/effect/" + path;
 		if (skillEffectObject.ContainsKey (path)) {
-			resouceCb(skillEffectObject[path]);
+			resouceCallback(skillEffectObject[reallyPath]);
 		}
+		
+		ResourceManager.Instance.LoadLocalAsset(reallyPath, o => { skillEffectObject.Add(path,o as GameObject); resouceCallback(o);} );
+	}
 
-		ResourceManager.Instance.LoadLocalAsset(path, o => { skillEffectObject.Add(path,o as GameObject); resouceCb(o);} );
+	void GetAttackTargetType(ActiveAttackTargetType aatt,StringBuilder sb) {
+		sb.Append(GetAttackRanger(aatt.AttackRange));
+		if(aatt.ValueType == bbproto.EValueType.FIXED) {
+			sb.Append("1-");
+		}
+		else{
+			sb.Append(GetAttackDanger(aatt.AttackValue));
+		}
+		sb.Append (GetSkillType (aatt.AttackType));
+	}
+
+	void GetSingleAttackEffectName(TSkillSingleAttack tssa,StringBuilder sb) {
+		sb.Append(GetAttackRanger(tssa.AttackRange));
+		if(tssa.ValueType == bbproto.EValueType.FIXED) {
+			sb.Append("1-");
+		}
+		else{
+			sb.Append(GetAttackDanger(tssa.AttackValue));
+		}
+		sb.Append (GetSkillType (tssa.AttackType));
 	}
 
 	string GetNormalSkillEffectName(TNormalSkill tns) {
@@ -130,7 +243,6 @@ public class EffectManager {
 //		SetName ();
 //		foreach (var item in effectName) {
 //			ResourceManager.Instance.LoadLocalAsset("Effect/"+item.Value,o => effectObject.Add(item.Key,o as GameObject));
-//
 //		}
 	}
 
