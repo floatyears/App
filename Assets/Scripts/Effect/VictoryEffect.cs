@@ -98,11 +98,10 @@ public class VictoryEffect : UIBaseUnity {
 		for (int i = 0; i < clearQuest.gotUnit.Count; i++) {
 			GameObject go = NGUITools.AddChild(parent, dropItem);
 			go.SetActive(true);
-			clearQuest.gotUnit[i].UnitInfo.GetAsset(UnitAssetType.Avatar,o=>{
-				go.transform.Find("Texture_Avatar").GetComponent<UITexture>().mainTexture = o as Texture2D;
-				go.name = i.ToString();
-			});
-
+			uint unitID = clearQuest.gotUnit[i].UnitInfo.ID;
+			go.name = i.ToString();
+			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
+			DataCenter.Instance.GetAvatarAtlas(unitID, sprite);
 
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(clearQuest.gotUnit[i].UnitInfo.ID);
 		}
@@ -259,23 +258,23 @@ public class VictoryEffect : UIBaseUnity {
 	}
 }
 
-public class VictoryDropItem {
-	private GameObject dropItem;
-	public GameObject DropItem {
-		get { return dropItem; }
-		set { dropItem = value; }
-	}
-
-	private TUserUnit dropItemInfo;
-	public TUserUnit DropItemInfo {
-		get { return dropItemInfo; }
-		set { dropItemInfo = value; }
-	}
-
-	public void Refresh(GameObject item, TUserUnit info) {
-		UITexture tex = item.transform.Find ("Texture").GetComponent<UITexture> ();
-		info.UnitInfo.GetAsset (UnitAssetType.Avatar, o=>{
-			tex.mainTexture = o as Texture2D;
-		});
-	}
-}
+//public class VictoryDropItem {
+//	private GameObject dropItem;
+//	public GameObject DropItem {
+//		get { return dropItem; }
+//		set { dropItem = value; }
+//	}
+//
+//	private TUserUnit dropItemInfo;
+//	public TUserUnit DropItemInfo {
+//		get { return dropItemInfo; }
+//		set { dropItemInfo = value; }
+//	}
+//
+////	public void Refresh(GameObject item, TUserUnit info) {
+////		UITexture tex = item.transform.Find ("Texture").GetComponent<UITexture> ();
+////		info.UnitInfo.GetAsset (UnitAssetType.Avatar, o=>{
+////			tex.mainTexture = o as Texture2D;
+////		});
+////	}
+//}

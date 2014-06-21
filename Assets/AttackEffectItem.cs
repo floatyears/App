@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AttackEffectItem : MonoBehaviour {
 	private UISprite backGroundSprite;
-	private UITexture avatarTexture;
+	private UISprite avatarTexture;
 	private UILabel skillNameLabel;
 	private UILabel ATKLabel;
 
@@ -23,28 +23,29 @@ public class AttackEffectItem : MonoBehaviour {
 			return;
 		}
 		backGroundSprite.spriteName = tuu.UnitType.ToString ();
-		tuu.UnitInfo.GetAsset (UnitAssetType.Avatar,o=>{
-			avatarTexture.mainTexture =  o as Texture2D;
+		DataCenter.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, avatarTexture, returnValue => {
+//			BaseUnitItem.SetAvatarSprite (avatarTexture, returnValue, tuu.UnitInfo.ID);
 			Tween ();
 			if (atk == 0) {
 				ATKLabel.text = "";
 				return;
 			}
-			
-			if ( skillID>=101 && skillID<=104 ) { //General RecoverHP Skill
-				SkillBaseInfo sbi = DataCenter.Instance.Skill[skillID]; //(userUnitID, skillID, SkillType.NormalSkill);
+
+			if (skillID >= 101 && skillID <= 104) { //General RecoverHP Skill
+				SkillBaseInfo sbi = DataCenter.Instance.Skill [skillID]; //(userUnitID, skillID, SkillType.NormalSkill);
 				skillNameLabel.text = sbi.BaseInfo.name;
 				ATKLabel.text = "HEAL " + atk;
 			} else {
-				SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitID, skillID, SkillType.NormalSkill);
-				if(sbi == null) {
-					return;
+				string id = DataCenter.Instance.GetSkillID (userUnitID, skillID);
+				SkillBaseInfo sbi = null;
+
+				if (!DataCenter.Instance.AllSkill.TryGetValue (id, out sbi)) {
+						return;
 				}
 				skillNameLabel.text = sbi.BaseInfo.name;
 				ATKLabel.text = "ATK " + atk;
 			}
 		});
-
 	}
 
 	public void ShowActiveSkill(Texture tex, string skillName, Callback cb) {
@@ -60,7 +61,7 @@ public class AttackEffectItem : MonoBehaviour {
 	void CheckComponentInit() {
 		if (backGroundSprite == null) {
 			backGroundSprite = GetComponent<UISprite>();
-			avatarTexture = transform.Find("Avatar").GetComponent<UITexture>();	
+			avatarTexture = transform.Find("Avatar").GetComponent<UISprite>();	
 			skillNameLabel = transform.Find("SkillNameLabel").GetComponent<UILabel>();
 			ATKLabel = transform.Find("ATKLabel").GetComponent<UILabel>();
 			transform.localPosition = BattleCardArea.startPosition;
