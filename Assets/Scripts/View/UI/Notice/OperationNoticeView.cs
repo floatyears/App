@@ -27,14 +27,14 @@ public class OperationNoticeView : UIComponentUnity {
 	public override void ShowUI() {
 
 		base.ShowUI();
-		Debug.Log ("show operation notice: " + config.localPosition.y);
+//		Debug.Log ("show operation notice: " + config.localPosition.y);
 	}
 	
 	public override void HideUI() {
 		//show Login Bonus
 
 		base.HideUI();
-		Debug.Log ("hide operation notice: " + config.localPosition.y);
+//		Debug.Log ("hide operation notice: " + config.localPosition.y);
 	}
 	
 	public override void DestoryUI () {

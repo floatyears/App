@@ -200,7 +200,7 @@ public enum CommandEnum{
 	CrossFade					= 4010,
 	UpdateNickName			= 4011,
 	NoteFriendUpdate			= 4012,
-	ShowUnitBriefInfo			= 4013,
+//	ShowUnitBriefInfo			= 4013,
 	UpdatePartyInfoPanel			= 4014,
 	ShowFocusUnitDetail			= 4015,
 	NoticeFuncParty				= 4016,
