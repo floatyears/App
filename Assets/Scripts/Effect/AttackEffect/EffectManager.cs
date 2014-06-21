@@ -35,7 +35,14 @@ public class EffectManager {
 		string path = "Effect/effect/";
 		TNormalSkill tns = sbi as TNormalSkill;
 		if (tns != null) {
-			path += GetNormalSkillEffectName(tns);
+			path += GetNormalSkillEffectName (tns);
+		} else {
+			//ActiveAttackTargetType, ActiveChangeCardColor, ActiveDeferAttackRound, ActiveDelayTime, ActiveReduceDefense, ActiveReduceHurt, TSkillSingleAttack, ActiveStrengthenAttack,
+			//TSkillAttackRecoverHP, GravityAttack, KnockdownAttack, TSkillRecoverSP, TSkillPoison, TSkillSuicideAttack, RecoverSP
+			TSkillSingleAttack tsa = sbi as ActiveAttackTargetType;
+			if(tsa != null) {
+
+			}
 		}
 
 		if (skillEffectObject.ContainsKey (path)) {
@@ -47,26 +54,29 @@ public class EffectManager {
 
 	string GetNormalSkillEffectName(TNormalSkill tns) {
 		StringBuilder sb = new StringBuilder ();
-
-		sb.Append("ns-");
-		
-		if(tns.AttackRange == 0) {
-			sb.Append("single-");
-		}
-		else {
-			sb.Append("all-");
-		}
-		
-		if(tns.Object.attackValue <= 1.6f) {
-			sb.Append("1-");
-		}
-		else {
-			sb.Append("2-");
-		}
-		
+		sb.Append("NS-");
+		sb.Append (GetAttackRanger (tns.AttackRange));
+		sb.Append (GetAttackDanger (tns.Object.attackValue));
 		sb.Append(GetSkillType(tns.AttackType));
-
 		return sb.ToString ();
+	}
+
+	string GetAttackRanger(int attackRange) {
+		if(attackRange == 0) {
+			return "single-";
+		}
+		else {
+			return "all-";
+		}
+	}
+
+	string GetAttackDanger(float attackValue) {
+		if(attackValue <= 1.6f) {
+			return "1-";
+		}
+		else {
+			return "2-";
+		}
 	}
 
 	string GetSkillType(int type) {

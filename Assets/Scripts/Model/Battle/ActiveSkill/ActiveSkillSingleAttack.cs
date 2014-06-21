@@ -2,52 +2,30 @@
 using System.Collections;
 using bbproto;
 
-//public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
-//	protected int initSkillCooling = 0;
-//	protected bool coolingDone = false;
-//	public ActiveSkill (object instance) : base (instance) { }
-//
-//	~ActiveSkill () {
-//
-//	}
-//
-//	public void RefreashCooling () {
-//		DisposeCooling ();
-//	}
-//
-//	public bool CoolingDone {
-//		get {
-//			return coolingDone;
-//		}
-//	}
-//
-//	protected void DisposeCooling () {
-//		coolingDone = DGTools.CheckCooling (skillBase);
-//	}
-//
-//	protected void InitCooling() {
-//		skillBase.skillCooling = initSkillCooling;
-//		if (skillBase.skillCooling > 0) {
-//			coolingDone = false;
-//		}
-//	}
-//	
-//	public virtual AttackInfo ExcuteByDisk (AttackInfo ai) {
-//		return null;
-//	}
-//
-//	public virtual object Excute (string userUnitID, int atk = -1) {
-//		return null;
-//	}
-//}
-
 public class TSkillSingleAttack : ActiveSkill  {
 	private SkillSingleAttack instance;
+
+	/// <summary>
+	/// 0=all,1=fire,2=water,3=wind,4=light,5=dark,6=none,7=heart.
+	/// </summary>
+	/// <value>The type of the attack.</value>
+	public int AttackType {
+		get { return (int)instance.unitType; }
+	}
+
+	/// <summary>
+	/// 0=single, 1=all, 2=recoverhp.
+	/// </summary>
+	/// <value>The attack range.</value>
+	public int AttackRange {
+		get { return (int)instance.attackRange; }
+	}
+
 	public TSkillSingleAttack(object instance) : base (instance) {
 		this.instance = instance as SkillSingleAttack;
 		skillBase = this.instance.baseInfo;	
 		initSkillCooling = skillBase.skillCooling;
-	
+		
 		if (initSkillCooling == 0) {
 			coolingDone = true;
 		}
