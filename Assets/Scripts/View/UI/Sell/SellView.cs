@@ -69,7 +69,7 @@ public class SellView : UIComponentUnity{
         SellController controller = origin as SellController;
 	
         if (controller != null){
-			Debug.LogError("ResetUIState()... controller.ResetUI();");
+//			Debug.LogError("ResetUIState()... controller.ResetUI();");
             controller.ResetUI();
         }
 		else{
@@ -167,8 +167,8 @@ public class SellView : UIComponentUnity{
 		int clickPos = (int)info["clickPos"];
 		GameObject targetItem = pickItemList[ poolPos ];
 
-		UITexture targetItemTex = targetItem.GetComponentInChildren<UITexture>();
-		targetItemTex.mainTexture = info["texture"] as Texture2D;
+//		UISprite targetItemTex = targetItem.transform.Find ("Texture").GetComponent<UISprite> ();
+//		targetItemTex.mainTexture = info["texture"] as Texture2D;
 
 		UISprite targetItemBg = targetItem.transform.FindChild("Background").GetComponent<UISprite>();
 		targetItemBg.spriteName = info["background"] as string;
@@ -280,7 +280,7 @@ public class SellView : UIComponentUnity{
 			path = "EnsureWindow/Cells/" + i.ToString();
 			go = transform.FindChild(path).gameObject;
 			readyItemList.Add(go);
-			Debug.LogError("readyItemList : " + readyItemList.Count);
+//			Debug.LogError("readyItemList : " + readyItemList.Count);
 		}
 	}
 
@@ -343,23 +343,22 @@ public class SellView : UIComponentUnity{
 			Dictionary<string,object> temp = new Dictionary<string, object>();
 			temp.Add("poolPos", poolPos);
 			temp.Add("clickPos", clickPos);
-			item.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar,o=>{
-				Texture2D tex = o as Texture2D;
-				temp.Add("texture", tex);
+
+			GameObject targetItem = pickItemList[ poolPos ];
+			UISprite sprite = targetItem.transform.Find("Texture").GetComponent<UISprite>();
+			DataCenter.Instance.GetAvatarAtlas(item.UserUnit.UnitInfo.ID, sprite, returnValue => {
 				string sprName = item.UserUnit.UnitInfo.GetUnitBackgroundName();
 				temp.Add("background", sprName);
 				sprName = item.UserUnit.UnitInfo.GetUnitBorderSprName();
 				temp.Add("border", sprName);
 				temp.Add("label", item.UserUnit.Level.ToString());
 				AddViewItem(temp);
-
+				
 				ActivateButton();
-				return;
 			});
 			return;
 		}
 		else{
-			//already exist, treat current click as "cancel sell this unit"
 			poolPos = index;
 			SellUnitItem suv = pickUnitViewList[ index ];
 			pickUnitViewList[ index ] = null;
@@ -379,7 +378,7 @@ public class SellView : UIComponentUnity{
 	}
 
 	void ResetUIElement(){
-		Debug.LogError(clearBtn.name  + "     " + clearBtn.disabledSprite);
+//		Debug.LogError(clearBtn.name  + "     " + clearBtn.disabledSprite);
 		clearBtn.isEnabled = false;
 		sellBtn.isEnabled = false;
 
@@ -402,9 +401,9 @@ public class SellView : UIComponentUnity{
 			UISprite bg = pickItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
 			bg.spriteName = "unit_empty_bg";
 		}
-		Debug.LogError ("ResetUIElement pickItemList 2");
+//		Debug.LogError ("ResetUIElement pickItemList 2");
 		ResetReadyPool();
-		Debug.LogError ("ResetUIElement pickItemList 3");
+//		Debug.LogError ("ResetUIElement pickItemList 3");
 		mainRoot.SetActive(true);
 //		Debug.LogError ("ResetUIElement pickItemList 4");
 		submitRoot.SetActive(false);
