@@ -128,7 +128,7 @@ public class EffectManager {
 
 	void GetEffectFromCache(string path, ResourceCallback resouceCallback) {
 		string reallyPath = "Effect/effect/" + path;
-		if (skillEffectObject.ContainsKey (path)) {
+		if (skillEffectObject.ContainsKey (reallyPath)) {
 			resouceCallback(skillEffectObject[reallyPath]);
 		}
 		
