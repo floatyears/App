@@ -42,6 +42,8 @@ public class UIManager {
 
 	private SceneEnum storePrevScene = SceneEnum.None;
 
+	public SceneEnum prevScene = SceneEnum.None;
+
 	private Dictionary<SceneEnum,DecoratorBase> sceneDecorator = new Dictionary<SceneEnum, DecoratorBase>();
 	
 	/// <summary>
@@ -161,8 +163,9 @@ public class UIManager {
 //			Debug.LogWarning("not has ui object : " + sEnum);
 			DecoratorBase db = CreatScene(sEnum);
 			current = db;
-			return;
 		}
+
+		prevScene = sEnum;
 	}
 	
 	DecoratorBase CreatScene(SceneEnum sEnum) {

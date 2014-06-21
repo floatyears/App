@@ -63,6 +63,12 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 
+	public Position ShowPos {
+		get {
+			return instance.showPos;
+		}
+	}
+
 	public int NormalSkill1 {
 		get{
 			return instance.skill1;

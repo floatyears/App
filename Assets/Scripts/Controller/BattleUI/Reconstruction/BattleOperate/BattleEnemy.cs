@@ -280,15 +280,15 @@ public class BattleEnemy : UIBaseUnity {
 	}
 	GameObject prevEffect;
 	public void PlayerEffect(EnemyItem ei,AttackInfo ai) {
-		GameObject obj = EffectManager.Instance.GetEffectObject (ai.SkillID); //DataCenter.Instance.GetEffect(ai) as GameObject;
-//		Debug.LogError ("obj : " + obj + " ai.skillid : " + ai.SkillID);
-		ei.InjuredShake();
-		if (obj != null) {
-			prevEffect = EffectManager.InstantiateEffect(effectPanel, obj);
+//		GameObject obj =
+		EffectManager.Instance.GetSkillEffectObject (ai.SkillID, ai.UserUnitID, returnValue => {
+			ei.InjuredShake();
+			GameObject prefab = returnValue as GameObject;
+			prevEffect = EffectManager.InstantiateEffect(effectPanel, prefab);
 			if(ai.AttackRange == 0) {
 				prevEffect.transform.localPosition = ei.transform.localPosition;
 			}
-		}
+		} ); 
 	}
 
 	public void PlayAllEffect() {

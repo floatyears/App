@@ -746,10 +746,12 @@ public class Battle : UIBase {
 					return;
 				}
 				
-				GameObject effect = EffectManager.Instance.GetEffectObject(EffectManager.DragCardEffect);
-				GameObject effectIns = EffectManager.InstantiateEffect(viewManager.EffectPanel, effect);
-				Transform card = ci.transform;
-				effectIns.transform.localPosition = card.localPosition + card.parent.parent.localPosition;
+				EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.DragCard, returnValue => {
+					GameObject prefab = returnValue as GameObject;
+					GameObject effectIns = EffectManager.InstantiateEffect(viewManager.EffectPanel, prefab);
+					Transform card = ci.transform;
+					effectIns.transform.localPosition = card.localPosition + card.parent.parent.localPosition;}
+				);
 			}
 		}
 	}

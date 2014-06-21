@@ -35,7 +35,7 @@ public enum ModelEnum {
     MapConfig       = 2001,
 
     /// temp
-    TempEffect      = 10000, 
+
     HaveCard,
     InEventGacha,
     ItemObject,
@@ -81,26 +81,23 @@ public class DataCenter {
     public const int maxNeedCard = 5;
     public const int maxFriendLimit = 200;
     public const int maxUnitLimit = 400;
-    public const int friendExpansionStone = 1;
-    public const int unitExpansionStone = 1;
-    public const int staminaRecoverStone = 1;
-    public const int friendGachaFriendPoint = 200;
-    public const int rareGachaStone = 5;
-    public const int eventGachaStone = 5;
+
+	public const int friendsExpandCount = 5; //每次扩充好友数量
+
+	//商城花费
+	public const int redoQuestStone = 6;
+	public const int resumeQuestStone = 6;
+
+	public const int friendExpansionStone = 6;
+    public const int unitExpansionStone = 6;
+    public const int staminaRecoverStone = 6;
+    
+    public const int rareGachaStone = 30;
+    public const int eventGachaStone = 30;
     public const int maxGachaPerTime = 9;
+	public const int friendGachaFriendPoint = 200;
+
 	public const int friendPos = 4;
-
-//	private static StartQuestParam startQuestInfo;
-//	public static StartQuestParam StartQuestInfo{
-//		set { startQuestInfo = value; }
-//		get { return startQuestInfo; }
-//	}
-
-//	private TFriendInfo battleFriend;
-//	public TFriendInfo BattleFriend {
-//		set { battleFriend = value; }
-//		get { return battleFriend; }
-//	}
 
     public TUserInfo UserInfo { 
         get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
@@ -205,19 +202,6 @@ public class DataCenter {
 	/// </summary>
 	public TUserUnit oldUserUnitInfo = null;
 
-    //TODO: reconstruct myUnitList
-//    public UserUnitList MyUnitList { 
-//        get { 
-//            UserUnitList ret = getData(ModelEnum.MyUnitList) as UserUnitList;
-//            if (ret == null) {
-//                ret = new UserUnitList();
-//                setData(ModelEnum.MyUnitList, ret);
-//            }
-//            return ret; 
-//        }
-//        set { setData(ModelEnum.MyUnitList, value); } 
-//    }
-
     public UserUnitList UserUnitList {
         get { 
             UserUnitList ret = getData(ModelEnum.UserUnitList) as UserUnitList;
@@ -288,7 +272,7 @@ public class DataCenter {
 	}
 
 	
-	 string GetSkillID (string userUnitID, int skillID) {
+	public string GetSkillID (string userUnitID, int skillID) {
 		return userUnitID + "_" + skillID;
 	}
 
@@ -384,18 +368,6 @@ public class DataCenter {
         set { setData(ModelEnum.FriendBaseInfo, value); } 
     }
 
-    public Dictionary<string, Object> TempEffect {
-        get { 
-			Dictionary<string, Object> ret = getData(ModelEnum.TempEffect) as Dictionary<string, Object>;
-            if (ret == null) {
-				ret = new Dictionary<string, Object>();
-                setData(ModelEnum.TempEffect, ret);
-            }
-            return ret; 
-        }
-        set { setData(ModelEnum.TempEffect, value); } 
-    } 
-
     public List<int> HaveCard {
         get {
             List<int> ret = getData(ModelEnum.HaveCard) as List<int>;
@@ -418,63 +390,6 @@ public class DataCenter {
             return ret;
         }
         set { setData(ModelEnum.ItemObject, value); } 
-    }
-
-//	public Dictionary<string, string> effectPath = new Dictionary<string, string> ();
-
-    public Object GetEffect(AttackInfo ai) {
-		int type = ai.AttackType;
-		int attackRange = ai.AttackRange;
-		string name = type + "" + attackRange;
-        Object obj = null;
-		if (!TempEffect.TryGetValue(name, out obj)) {
-            string path = GetEffectPath(type,attackRange);
-			//never use the raw interface! Use ResourceManager instead
-			obj = ResourceManager.Instance.LoadLocalAsset(path ,null);
-           // obj = ResourceManager.Instance.LoadLocalAsset(path);
-			TempEffect.Add(name, obj);
-        }
-        return obj;
-    }
-
-	public Object GetMapEffect(string name) {
-		Object obj = null;
-		if (!TempEffect.TryGetValue(name, out obj)) {
-			string path = EffectPath.Instance.GetEffectPath(name);
-			//never use the raw interface! Use ResourceManager instead
-
-			obj = ResourceManager.Instance.LoadLocalAsset(path, null);
-		//	obj = ResourceManager.Instance.LoadLocalAsset(path);
-			TempEffect.Add(name, obj);
-		}
-		return obj;
-	}
-    
-    public string GetEffectPath(int type,int attackRange) {
-        string path = string.Empty;
-        switch (type) {
-        case 1:
-			if(attackRange == 0) {
-				path = "Effect/BOOM";
-			}else  {
-				path = "Effect/firerain";
-			}
-            break;
-        case 2:
-            path = "Effect/daoguang";
-//			path = "Effect/Ice2";
-            break;
-        case 3:
-            path = "Effect/zhua";
-//			path = "Effect/jiufeng";
-            break;
-        case 8:
-            path = "Effect/card_effect";
-            break;
-        default:
-            break;
-        }
-        return path;
     }
 
     public void RefreshUserInfo(TRspClearQuest clearQuest) {
@@ -624,8 +539,6 @@ public class DataCenter {
             return 0;
         if (GetEventGachaNeedStones() == 0)
             return 0;
-//        LogHelper.Log("GetAvailableEventGachaTimes(), InEventGacha, AccountInfo.Stone / GetEventGachaNeedStones()");
-//        return 0;
         return AccountInfo.Stone / GetEventGachaNeedStones();
     }
 
@@ -639,7 +552,7 @@ public class DataCenter {
         return ModelManager.Instance.GetData(modelType, errMsg);
     }
 	
-	public const uint AVATAR_ATLAS_COUNT = 3;
+	public const uint AVATAR_ATLAS_COUNT = 11;
 	public const uint AVATAR_ATLAS_CAPACITY = 20;
 	private Dictionary<uint, UIAtlas> avatarAtalsDic = new Dictionary<uint, UIAtlas>();
 
@@ -649,17 +562,18 @@ public class DataCenter {
 			LoadAvatarAtlas();
 		}
 		uint index = unitID/AVATAR_ATLAS_CAPACITY;
-		if(avatarAtalsDic[ index ] == null){
+		if(!avatarAtalsDic.ContainsKey( index )){
 			Debug.LogError("AvatarAtlas_" + index + " is NOT Found, Please Check it....");
 			return null;
 		}
+		Debug.LogError("xxxxxxx : " + index);
 		return avatarAtalsDic[ index ];
 	}
 
 	private void LoadAvatarAtlas(){
-		//bool successful = false;
+		bool successful = false;
 		for (uint i = 0; i < AVATAR_ATLAS_COUNT; i++){
-			string sourcePath = string.Format("Atlas/Avatar_Atlas_{0}", i);
+			string sourcePath = string.Format("Avatar/Atlas_Avatar_{0}", i);
 			//never use the raw interface! Use ResourceManager instead
 			ResourceManager.Instance.LoadLocalAsset(sourcePath,o => {
 				GameObject source = o as GameObject;
@@ -667,15 +581,16 @@ public class DataCenter {
 				if(atlas == null){ 
 					Debug.LogError("LoadAvatarAtlas(), atlas is NULL");
 				}
+
+				Debug.LogError(atlas.name);
 				avatarAtalsDic.Add(i, atlas);
 			});
 			//GameObject source = ResourceManager.Instance.LoadLocalAsset(sourcePath) as GameObject;
 		}
 
-		/*
 		successful = (avatarAtalsDic.Count == AVATAR_ATLAS_COUNT) ? true : false;
 		Debug.Log("DataCenter.LoadAvatarAtlas(), successful is : " + successful);
-		*/
+
 	}
 
 

@@ -106,9 +106,9 @@ public class HttpManager : INetSendPost {
 			msgParams.btnParam = new BtnParam();
 			msgParams.btnParam.callback = CallbackRetry;
 			msgParams.btnParam.args = post;
-			msgParams.btnParam.text = TextCenter.GetText("retry");
+			msgParams.btnParam.text = TextCenter.GetText("Retry");
 
-//            msgParams.btnParams[0].text = TextCenter.GetText("retry");
+//            msgParams.btnParams[0].text = TextCenter.GetText("Retry");
 //            msgParams.btnParams[0].callback = CallbackRetry;
 //            msgParams.btnParams[0].args = post;
 //            msgParams.btnParams[1].callback = CallbackCancelRequest;
@@ -122,7 +122,7 @@ public class HttpManager : INetSendPost {
 			msgParams.btnParam = new BtnParam();
 			msgParams.btnParam.callback = CallbackRetry;
 			msgParams.btnParam.args = post;
-			msgParams.btnParam.text = TextCenter.GetText("retry");
+			msgParams.btnParam.text = TextCenter.GetText("Retry");
 		}
 		else if (text.EndsWith("Operation timed out")){
 			Debug.LogError("OpenMsgWindowByError():"+text);
@@ -133,7 +133,7 @@ public class HttpManager : INetSendPost {
 			msgParams.btnParam = new BtnParam();
 			msgParams.btnParam.callback = CallbackRetry;
 			msgParams.btnParam.args = post;
-			msgParams.btnParam.text = TextCenter.GetText("retry");
+			msgParams.btnParam.text = TextCenter.GetText("Retry");
 		}
         else {
 			Debug.LogError("OpenMsgWindowByError(), unknown Error: "+text);
@@ -144,7 +144,7 @@ public class HttpManager : INetSendPost {
 			msgParams.btnParam = new BtnParam();
 			msgParams.btnParam.callback = CallbackRetry;
 			msgParams.btnParam.args = post;
-			msgParams.btnParam.text = TextCenter.GetText("retry");
+			msgParams.btnParam.text = TextCenter.GetText("Retry");
         }
 
         if (msgParams != null){

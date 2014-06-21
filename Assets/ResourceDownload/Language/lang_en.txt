@@ -1,56 +1,66 @@
+##common text
+
+OK=OK
+Again=Once Again
+Cancel=Cancel
+Back=Back
+Open=Open
+Resume=Resume
+Discard=Discard
+
+
+Retry=Retry
+error=Error
+
 ##Button Label Text
-Btn_JumpScene_FriendList=好友列表
-Btn_JumpScene_Apply=好友申请
-Btn_JumpScene_Information=信息
-Btn_JumpScene_Reception=接收申请
-Btn_JumpScene_Search=玩家查询
-Btn_JumpScene_UserID=用户ID
+Btn_JumpScene_FriendList=FRIEND LIST
+Btn_JumpScene_Apply=APPLY
+Btn_JumpScene_Information=INFORMATION
+Btn_JumpScene_Reception=RECEPETION
+Btn_JumpScene_Search=SEARCH
+Btn_JumpScene_UserID=YOUR ID
 
-Btn_JumpScene_Party=编队
-Btn_JumpScene_Sell=卖卡
-Btn_JumpScene_LevelUp=升级
-Btn_JumpScene_UnitList=卡牌列表
-Btn_JumpScene_Evolve=进化
-Btn_JumpScene_Catalog=图鉴
+Btn_JumpScene_Party=PARTY
+Btn_JumpScene_Sell=SELL
+Btn_JumpScene_LevelUp=LEVEL UP
+Btn_JumpScene_UnitList=UNIT LIST
+Btn_JumpScene_Evolve=EVOLVE
+Btn_JumpScene_Catalog=CATALOG
 
-Btn_SceneBack=返回
-Btn_SORT=排序
-Btn_Premium=高级
-Sell=出售
-Clear=清除
-Btn_Submit_Sell=提交
-Btn_Cancel_Sell=取消
-Btn_RejectUnit=换下
-Btn_Submit_Evolve=进化
-Btn_Submit_LevelUp=升级
+Btn_SceneBack=BACK
+Btn_SORT=SORT
+Btn_Premium=PREMIUM
+Btn_Sell_Picked=SELL
+Btn_Clear_PickedToSell=CLEAR
+Btn_Submit_Sell=SUBMIT
+Btn_Cancel_Sell=CANCEL
+Btn_RejectUnit=REJECT
+Btn_Submit_Evolve=EVOLVE
+Btn_Submit_LevelUp=LEVEL UP
 
-Btn_FriendList_Update=更新
-Btn_Reception_RefuseAll=拒绝所有
-Btn_Submit_SearchFriend=查询
-Btn_UserID_OK=确定
+Btn_FriendList_Update=UPDATE
+Btn_Reception_RefuseAll=REFUSE
+Btn_Submit_SearchFriend=SEARCH
+Btn_UserID_OK=BACK
 
-Btn_SortRule_HP=血量
-Btn_SortRule_Atk=攻击
-Btn_SortRule_GetTime=得到时间
+Btn_SortRule_HP=HP
+Btn_SortRule_Atk=ATTACK
+Btn_SortRule_GetTime=GET TIME
 Btn_SortRule_Race=RACE
 Btn_SortRule_Attribute=ATTRIBUTE
 Btn_SortRule_ID=ID
 Btn_SortRule_Fav=FAVORITE
 Btn_SortRule_AddPoint=ADD POINT
 Btn_SortRule_Rank=RANK
+
 ##Label Text
 Divided_Line=/
 Float_User_ID=用户ID:
 Float_NextExp=下一级所需经验:
 Float_TotalExp=总获得经验:
 
-Btn_Friend_Expand=好友扩张
-Btn_Unit_Expand=卡牌扩张
-Btn_Stamina_Recover=体力回复
-
-Leader_Skill=队长技能 : 
-Name_No_LeaderSkill=无队长技能
-Description_No_LeaderSkill=------
+LeaderSkillText=Leader Skill: 
+PARTY=PARTY
 
 ##City Name
 City_Name_1=city_name_1
@@ -107,33 +117,32 @@ SCENE_NAME_REWARD=Reward
 SCENE_NAME_RAIDER=Raider
 SCENE_NAME_CURRENCY=Currency
 
-OK=OK
-Again=Once Again
-Cancel=Cancel
-Back=Back
-Open=Open
-
-retry=Retry
-error=error
-
 Stage_Locked=LOCKED
 Stamina=STAMINA
 Floor=FLOOR
+
+#Battle
+RedoQuest=Redo
+GoOnQuest=Go on
+RedoQuestTitle=Confirm
+RedoQuestContent=Use {0} stones to redo this floor of quest? \n\nYou have {1} stones now.
+ResumeQuestTitle=Resume Confirm
+ResumeQuestContent=Use {0} stones to resume the quest? \n(The SP and HP will be recovered.)
+
 #Loading
 BattleContinueTitle=Battle Confirm
 BattleContinueContent=Do you want to recover previous battle?
 
 #Friend search
 SearchError=Search Error
-UserNotExist=The Friend {0} you search not exist
+SearchFriendNotExist=The Friend {0} is not exist.
+UserAlreadyFriend=The ID {0} you searched is already your friend!
 
 InputError=Input Error
 InputEmpty=Could not Input empty ID!
 
-UserAlreadyFriend=The ID {0} you searched is already your friend!
-
-RefuseAll=The ID {0} you searched is already your friend!
-ConfirmRefuseAll=Are you sure to refuse all friend apply?
+RefuseAll=Refuse All
+ConfirmRefuseAll=Are you sure to refuse all applied friends?
 
 RefreshFriend=Friend Update
 ConfirmRefreshFriend=Are you sure to update friend list?
@@ -141,7 +150,7 @@ ConfirmRefreshFriend=Are you sure to update friend list?
 # shop
 
 FriendExpand=Friend Max Expansion
-ConfirmFriendExpansion=Are you sure to use 6 Chip to expand your friend limit?
+FriendExpansionConfirm=Are you sure to use {0} stones to expand {1} friends?
 FriendExpansionInfo=Now friends {0}/{1}
 DoFriendExpand=Expand
 
@@ -149,22 +158,22 @@ FriendExpansionFailed=Friend Max Expansion Failed
 FriendCountLimitReachedMax=Now your friend limit has reached max.
 FriendExpandStonesNotEnough=Now your stone not enough to expand friend limit.
 
-FriendExpansionFinish=Friend Max Expansion Completed
+FriendExpansionFinish=Expansion Success
 FriendExpansionResult=Friend Limited Max reached {0}!
 
 StaminaRecover=Recover your stamina
-ConfirmStaminaRecover=Are you sure to use 6 Chip to make your stamina full?
+StaminaRecoverConfirm=Are you sure to use {0} stones to recover stamina?
 DoStaminaRecover=Recover
 
 StaminaRecoverFailed=Stamina Recovering Failed
 StaminaStillFull=Now your stamina still full, not need to recover it.
 StaminaRecoverStonesNotEnough=Now your stone not enough to recover stamina.
 
-StaminaRecoverFinish=Stamina Recover Completed
-StaminaRecoverResult=All Stamina Recovered!
+StaminaRecoverFinish=Stamina Recovered
+StaminaRecoverResult=Your stamina recovered to {0}.
 
 UnitExpand=Units count limit expand
-ConfirmUnitExpansion=Are you sure to use 6 Chip to expand your unit limit?
+UnitExpansionConfirm=Are you sure to use {0} stones to expand unit limit?
 UnitExpansionInfo=Now Units {0}/{1}
 DoUnitExpansion=Expand
 
@@ -191,9 +200,9 @@ GachaFriendPointNotEnough=1 friend gacha need {0} friend points\nYour friend poi
 RareGacha=Start Rare Scratch
 RareGachaTitle=Rare Scratch
 RareGachaDescription=Use stones to get units
-RareGachaStatus=1 gacha: {0} stones {1} gachas: {2} stones\nnow stones {3}
+RareGachaStatus=1 gacha: {0} stones {1} gachas: {2} stones\n\nYou have {3} stones now.
 
-ConfirmOneRareGacha=Gacha 1 time
+ConfirmOneRareGacha=Gacha Once
 ConfirmMaxRareGacha=Gacha {0} times
 
 RareGachaFailed=[FF0000]Rare Gacha Failed[-]
@@ -202,14 +211,14 @@ RareGachaStoneNotEnough=1 rare gacha need {0} stones\nYour stones not enough.
 EventGacha=Start Event Scratch
 EventGachaTitle=Event Scratch
 EventGachaDescription=Use stones to get units
-EventGachaStatus=1 gacha: {0} stones {1} gachas: {2} stones\nnow stones {3}
+EventGachaStatus=1 gacha: {0} stones {1} gachas: {2} stones\n\nYou have {3} stones now.
 
 ConfirmOneEventGacha=Gacha 1 time
 ConfirmMaxEventGacha=Gacha {0} times
 
 EventGachaFailed=[FF0000]Event Gacha Failed[-]
 EventGachaNotOpen=Our next event gacha will coming soon, please wait it!
-EventGachaStoneNotEnough=1 event gacha need {0} stones\nYour stones not enough.
+EventGachaStoneNotEnough=1 event gacha need {0} stones\nYour do not have enough stones.
 
 FriendScratch=Friend Scratch
 RareScratch=Rare Scratch
@@ -219,11 +228,15 @@ GachaChances=chances {0}/{1}
 Lv=Lv {0}
 
 
-LevelUpMoneyNotEnough=Level up need money {0}, your money is not enough.
+LevelUpMoneyNotEnough=It's need money {0} for Level Up, your money is not enough.
 MoneyNotEnoughTitle=Money Not Enough
 
 ###
 StartQuestFail=Start quest request failed
+
+#resource download
+DownloadErrorTitle=Download Error
+DownloadErrorContent=Download failed. Would you like to retry download?
 
 
 ## net error
@@ -274,7 +287,7 @@ CONNECT_ERROR=Cannot connect to server. Please check your network connection and
 SERVER_500=The server is busy now.Please wait for a moment and try again later.
 
 BigRareWarning=Rare Warning
-BigRareWarningText=Include the unit whose rare bigger than 3.Are you sure to sell?
+BigRareWarningText=Include the unit whose rare bigger than 3. Are you sure to sell?
 
 UnitOverflow=Unit Overflow
 UnitOverflowText=Your current unit capacity is [ff0000]{0}[-]/{1}.Would you like to do unit expansion?
@@ -314,6 +327,8 @@ ChainLogin=Chain Login {0}
 TotalLogin=Total Login {0}
 RankReach=Rank {0}
 
+#new user guide
+
 guide1_title=Welcome!
 guide1_content=Are you going to get into the saint gate?
 guide2_title=choose your partner
@@ -346,11 +361,12 @@ guide14_content=you get some gold.
 guide15_title=movement and sp
 guide15_content=every move costs one sp.so don't let the sp goto 0.
 guide16_title=enemy floor
-guide16_content=five star means dangerous.be careful to move.Then we'll be in battle!
-guide17_title=xxx teacher teach you lesson
+guide16_content=Five star means dangerous. Be careful to move. Then we'll be in battle!
+guide17_title=xxx will teach you
 guide17_content=let me give you a lesson!
 guide18_title=xxx teacher do the work himself
 guide18_content=do you see my excellent work!
+guide18_once_again=See again
 
 ##attack once
 guide19_title=attack method

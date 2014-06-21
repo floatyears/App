@@ -289,20 +289,23 @@ public class BattleQuest : UIBase {
 		if(questDungeonData.currentFloor == questDungeonData.Floors.Count - 1){
 			QuestStop ();
 		} else {
-			MsgWindowParams mwp = new MsgWindowParams ();
-			mwp.btnParams = new BtnParam[2];
-			mwp.titleText = "Retry";
-			mwp.contentText = "Use two stone to retry this floor of quest ?";
-			
-			BtnParam sure = new BtnParam ();
-			sure.callback = SureRetry;
-			sure.text = "OK";
-			mwp.btnParams[0] = sure;
-			
-			sure = new BtnParam ();
-			sure.callback = EnterNextFloor;
-			sure.text = "Cancel";
-			mwp.btnParams[1] = sure;
+			EnterNextFloor(null);
+
+//			MsgWindowParams mwp = new MsgWindowParams ();
+//			mwp.btnParams = new BtnParam[2];
+//			mwp.titleText = TextCenter.GetText("RedoQuestTitle");
+//			mwp.contentText = TextCenter.GetText("RedoQuestContent",DataCenter.redoQuestStone, 
+//			                                     DataCenter.Instance.AccountInfo.Stone);
+//
+//			BtnParam sure = new BtnParam ();
+//			sure.callback = EnterNextFloor;
+//			sure.text = TextCenter.GetText("GoOnQuest");
+//			mwp.btnParams[0] = sure;
+//			
+//			sure = new BtnParam ();
+//			sure.callback = SureRetry;
+//			sure.text = TextCenter.GetText("RedoQuest");
+//			mwp.btnParams[1] = sure;
 		}
 	}
 
@@ -783,38 +786,41 @@ public class BattleQuest : UIBase {
 	}
 
 	public void CheckOut () {
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParams = new BtnParam[2];
-		mwp.titleText = "Retry";
-		mwp.contentText = "Use one stone to retry this floor of quest ?";
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = SureRetry;
-		sure.text = "OK";
-		mwp.btnParams[0] = sure;
-		
-		sure = new BtnParam ();
-		sure.callback = QuestClearShow;
-		sure.text = "Cancel";
-		mwp.btnParams[1] = sure;
+		QuestClearShow(null);
 
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+//		MsgWindowParams mwp = new MsgWindowParams ();
+//		mwp.btnParams = new BtnParam[2];
+//		mwp.titleText = TextCenter.GetText("RedoQuestTitle");
+//		mwp.contentText = TextCenter.GetText("RedoQuestContent",DataCenter.redoQuestStone, 
+//		                                     DataCenter.Instance.AccountInfo.Stone);
+//		
+//		BtnParam sure = new BtnParam ();
+//		sure.callback = QuestClearShow;
+//		sure.text = TextCenter.GetText("GoOnQuest");
+//		mwp.btnParams[0] = sure;
+//
+//		sure = new BtnParam ();
+//		sure.callback = SureRetry;
+//		sure.text = TextCenter.GetText("RedoQuest");
+//		mwp.btnParams[1] = sure;
+//
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
 	}
 
 	public void Retry () {
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
-		mwp.titleText = "Retry";
-		mwp.contentText = "Use one stone to retry this floor of quest ?";
-
+		mwp.titleText = TextCenter.GetText("RedoQuestTitle");
+		mwp.contentText = TextCenter.GetText("RedoQuestContent",DataCenter.redoQuestStone, 
+		                                     DataCenter.Instance.AccountInfo.Stone);
 		BtnParam sure = new BtnParam ();
 		sure.callback = SureInitiativeRetry;
-		sure.text = "OK";
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParams[0] = sure;
 
 		sure = new BtnParam ();
 		sure.callback = CancelInitiativeRetry;
-		sure.text = "Cancel";
+		sure.text = TextCenter.GetText("Cancel");
 		mwp.btnParams[1] = sure;
 
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
@@ -1003,17 +1009,17 @@ public class BattleQuest : UIBase {
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
-		mwp.titleText = "Retry";
-		mwp.contentText = "Use one stone to recover sp and recover hp ?";
+		mwp.titleText = TextCenter.GetText("ResumeQuestTitle");
+		mwp.contentText = TextCenter.GetText("ResumeQuestContent", DataCenter.resumeQuestStone);
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = BattleFailRecover;
-		sure.text = "OK";
+		sure.text = TextCenter.GetText("OK");
 		mwp.btnParams[0] = sure;
 		
 		sure = new BtnParam ();
 		sure.callback = BattleFailExit;
-		sure.text = "Cancel";
+		sure.text = TextCenter.GetText("Cancel");
 		mwp.btnParams[1] = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);

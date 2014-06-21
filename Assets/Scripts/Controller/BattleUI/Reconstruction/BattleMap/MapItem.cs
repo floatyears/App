@@ -72,6 +72,7 @@ public class MapItem : UIBaseUnity {
 			mapItemSprite.spriteName = string.Empty;
 			return;
 		}
+
 		string[] info = name.Split('|');
 		int x = System.Int32.Parse (info[0]);
 		int y = System.Int32.Parse (info [1]);
@@ -231,8 +232,11 @@ public class MapItem : UIBaseUnity {
 
 	public void RotateSingle(Callback cb) {
 		animEnd = cb;
-		StartCoroutine (MeetEffect ());
+		EffectManager.Instance.GetMapEffect (gridItem.Type, returnValue => {
+						StartCoroutine (MeetEffect (returnValue)); }
+		);
 	}
+
 	public const string rotateAllEnd = "AllRotateEnd";
 	public const string rotateSingleEnd = "RotateEnd";
 	public void RotateAll(Callback cb, bool allShow) {
@@ -245,12 +249,12 @@ public class MapItem : UIBaseUnity {
 		}
 	}
 	
-	IEnumerator MeetEffect () {
+	IEnumerator MeetEffect (Object obj) {
 		if (gridItem == null) {
 			GridAnim (rotateSingleEnd);	
 			yield break;
 		}
-		Object obj = DataCenter.Instance.GetMapEffect (gridItem.Type.ToString ());
+//		Object obj = DataCenter.Instance.GetMapEffect (gridItem.Type.ToString ());
 		if (obj == null) {
 			yield return 0;
 			GridAnim (rotateSingleEnd);	

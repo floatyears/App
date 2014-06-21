@@ -74,7 +74,7 @@ public class ShopComponent : ConcreteComponent {
 
         msgWindowParam.titleText = TextCenter.GetText("FriendExpand");
 
-        string context1 = TextCenter.GetText("ConfirmFriendExpansion");
+		string context1 = TextCenter.GetText("FriendExpansionConfirm", DataCenter.friendExpansionStone, DataCenter.friendsExpandCount);
         string context2 = TextCenter.GetText("FriendExpansionInfo", DataCenter.Instance.FriendCount,
                                                           DataCenter.Instance.UserInfo.FriendMax);
 
@@ -93,15 +93,15 @@ public class ShopComponent : ConcreteComponent {
         
         switch (buyType) {
         case BuyType.FriendExpansion:
-            title = "FriendExpansionFinish";
+			title = TextCenter.GetText("FriendExpansionFinish");
             content = TextCenter.GetText("FriendExpansionResult", DataCenter.Instance.UserInfo.FriendMax);
             break;
         case BuyType.StaminaRecover:
-            title = "StaminaRecoverFinish";
-            content = TextCenter.GetText("StaminaRecoverResult");
+			title = TextCenter.GetText("StaminaRecoverFinish");
+			content = TextCenter.GetText("StaminaRecoverResult", DataCenter.Instance.UserInfo.StaminaNow);
             break;
         case BuyType.UnitExpansion:
-            title = "UnitExpansionFinish";
+			title = TextCenter.GetText("UnitExpansionFinish");
             content = TextCenter.GetText("UnitExpansionResult", DataCenter.Instance.UserInfo.UnitMax);
             break;
         default:
@@ -215,7 +215,7 @@ public class ShopComponent : ConcreteComponent {
         
         msgWindowParam.titleText = TextCenter.GetText("StaminaRecover");
 
-        msgWindowParam.contentText = TextCenter.GetText("ConfirmStaminaRecover");
+		msgWindowParam.contentText = TextCenter.GetText("StaminaRecoverConfirm", DataCenter.staminaRecoverStone);
         msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParams[0].callback = CallbackStaminaRecover;
         msgWindowParam.btnParams[0].text = TextCenter.GetText("DoStaminaRecover");
@@ -276,14 +276,14 @@ public class ShopComponent : ConcreteComponent {
         
         msgWindowParam.titleText = TextCenter.GetText("UnitExpand");
         
-        string context1 = TextCenter.GetText("ConfirmUnitExpansion");
+		string context1 = TextCenter.GetText("UnitExpansionConfirm", DataCenter.unitExpansionStone);
         string context2 = TextCenter.GetText("UnitExpansionInfo", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
                                                             DataCenter.Instance.UserInfo.UnitMax);
         
         msgWindowParam.contentTexts = new string[2]{ context1, context2 };
         msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
         msgWindowParam.btnParams[0].callback = CallbackUnitpansion;
-        msgWindowParam.btnParams[0].text = TextCenter.GetText("DoUnitExpand");
+		msgWindowParam.btnParams[0].text = TextCenter.GetText("DoUnitExpansion");
         return msgWindowParam;
     }
 

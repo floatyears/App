@@ -9,9 +9,11 @@ public class SkillBaseInfo : ProtobufDataBase {
 			return skillBase;
 		}
 	}
+
 	public SkillBaseInfo(object instance) : base (instance) {
 		
 	}
+
 	public SkillBase GetSkillInfo () {
 		return skillBase;
 	}
