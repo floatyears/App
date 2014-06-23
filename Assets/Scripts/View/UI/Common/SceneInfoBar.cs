@@ -23,8 +23,7 @@ public class SceneInfoBar : UIBaseUnity
 		Init("SceneInoBar");
 	}
 
-	public override void Init (string name)
-	{
+	public override void Init (string name) {
 		base.Init (name);
 		uiTitleLab = FindChild<UILabel>("Lab_UI_Name");
 		backBtn = FindChild<UIImageButton>("ImgBtn_Arrow");

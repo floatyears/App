@@ -30,6 +30,7 @@ public class SelectRoleDecorator : DecoratorBase{
 		unitSelect.SetComponent(sceneInfoBar);
 		
 		lastDecorator = unitSelect;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -65,6 +66,7 @@ public class StartDecorator : DecoratorBase {
 		tipsBar.SetComponent(bottom);
 
 		lastDecorator = tipsBar;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUIAsyn(lastDecorator);
 	}
 }
@@ -99,7 +101,7 @@ public class LoadingDecorator : DecoratorBase{
 		maskController.SetComponent(guideWindow);
 		
 		lastDecorator = maskController;
-
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator = background;
 //		lastDecorator.CreatUIAsyn(lastDecorator);
         
@@ -134,6 +136,7 @@ public class HomeDecorator : DecoratorBase{
 		quest.SetComponent(sceneInfoBar);
 
 		lastDecorator = quest;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -165,6 +168,7 @@ public class FriendDecorator : DecoratorBase{
 		friend.SetComponent(sceneInfoBar);
 
 		lastDecorator = friend;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -200,6 +204,7 @@ public class ScratchDecorator : DecoratorBase{
 		scratch.SetComponent(sceneInfoBar);
 
         lastDecorator = scratch;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 
 	}
@@ -213,7 +218,7 @@ public class GachaWindowDecorator : DecoratorBase{
     public override void ShowScene(){
         base.ShowScene();
         sceneInfoBar.SetBackScene(SceneEnum.Scratch);
-
+	
 		//LogHelper.Log ("gacha window decorator:" + currentDecoratorScene);
 		if(currentDecoratorScene == SceneEnum.Scratch)
 			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
@@ -248,6 +253,7 @@ public class GachaWindowDecorator : DecoratorBase{
         }
         gachaWin.SetComponent(sceneInfoBar);
         lastDecorator = gachaWin;
+		lastDecorator.CreatUIAsyn (this);
 //        lastDecorator.CreatUI();
         
     }
@@ -280,6 +286,7 @@ public class ShopDecorator : DecoratorBase{
 		shop.SetComponent(sceneInfoBar);
 
 		lastDecorator = shop;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 
 	}
@@ -311,6 +318,7 @@ public class OthersDecorator : DecoratorBase{
 		others.SetComponent(sceneInfoBar);
 
 		lastDecorator = others;
+		lastDecorator.CreatUIAsyn (this);
 //		others.CreatUI();
 
 	}
@@ -344,6 +352,7 @@ public class UnitsDecorator : DecoratorBase{
 		units.SetComponent(sceneInfoBar);
 
 		lastDecorator = units;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -359,6 +368,7 @@ public class StageSelectDecorrator : DecoratorBase{
 
 	public override void ShowScene(){
 		base.ShowScene();
+//		Debug.LogError ("sceneInfoBar : " + sceneInfoBar);
 		sceneInfoBar.SetBackScene(SceneEnum.Home);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_STAGE_SELECT));
 	}
@@ -380,6 +390,7 @@ public class StageSelectDecorrator : DecoratorBase{
 		questSelect.SetComponent(sceneInfoBar);
 
 		lastDecorator = questSelect;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 
 	}
@@ -414,6 +425,7 @@ public class FriendSelectDecorator : DecoratorBase{
 		friendSelect.SetComponent(sceneInfoBar);
 
 		lastDecorator = friendSelect;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 		
 	}
@@ -453,6 +465,7 @@ public class PartyDecorator : DecoratorBase{
 		partyPage.SetComponent(counter);
 	
 		lastDecorator = partyPage;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -492,6 +505,7 @@ public class LevelUpDecorator : DecoratorBase {
 		luou.SetComponent (sc);
 
 		lastDecorator = luou;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -526,6 +540,7 @@ public class SellDecorator : DecoratorBase{
 		sell.SetComponent(sortPanel);
 
 		lastDecorator = sell;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -568,6 +583,7 @@ public class EvolveDecorator : DecoratorBase{
 		unitdisplay.SetComponent (evolve);
 
 		lastDecorator = unitdisplay;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 
 		EvolveDecoratorUnity edu = evolve.ViewComponent as EvolveDecoratorUnity;
@@ -608,7 +624,7 @@ public class CatalogDecorator : DecoratorBase{
 		catalog.SetComponent(counter);
 	
 		lastDecorator = catalog;
-	
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -644,6 +660,7 @@ public class UnitListDecorator : DecoratorBase{
 		unitList.SetComponent(sortPanel);
 
 		lastDecorator = unitList;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -681,7 +698,7 @@ public class FriendListDecorator : DecoratorBase{
 		friendList.SetComponent(sortPanel);
 
 		lastDecorator = friendList;
-
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -714,6 +731,7 @@ public class InformationDecorator : DecoratorBase{
 		infoWindow.SetComponent(sceneInfoBar);
 
 		lastDecorator = infoWindow;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 
 	}
@@ -749,6 +767,7 @@ public class FriendSearchDecorator : DecoratorBase{
 		requestApply.SetComponent(searchMainUI);
 
 		lastDecorator = requestApply;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -787,7 +806,7 @@ public class ApplyDecorator : DecoratorBase{
 		//sortPanel.SetComponent(deleteApply);
 
 		lastDecorator = deleteApply;
-
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -825,6 +844,7 @@ public class ReceptionDecorator : DecoratorBase{
 		sortPanel.SetComponent(acceptApply);
 
 		lastDecorator = sortPanel;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -856,6 +876,7 @@ public class UserIDDecorator : DecoratorBase{
 		userIDWindow.SetComponent(sceneInfoBar);
 
 		lastDecorator = userIDWindow;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -893,6 +914,7 @@ public class UnitDetailDecorator : DecoratorBase{
 		unitDetail.SetComponent(unitDetailCenter);
 
 		lastDecorator = unitDetail;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 
@@ -925,6 +947,7 @@ public class ResultDecorator : DecoratorBase{
 		resultWindow.SetComponent(sceneInfoBar);
 		
 		lastDecorator = resultWindow;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -956,6 +979,7 @@ public class FightReadyDecorator : DecoratorBase{
 		standByWindow.SetComponent(sceneInfoBar);
 
 		lastDecorator = standByWindow;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -988,6 +1012,7 @@ public class QuestSelectDecorator : DecoratorBase{
 		questSelect.SetComponent(sceneInfoBar);
 		
 		lastDecorator = questSelect;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -1019,6 +1044,7 @@ public class OperationNoticeDecorator : DecoratorBase{
 		operationNotice.SetComponent (decorator);//sceneInfoBar);
 		
 		lastDecorator = operationNotice;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -1051,6 +1077,7 @@ public class RewardDecorator : DecoratorBase{
 		reward.SetComponent (sceneInfoBar);
 		
 		lastDecorator = reward;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -1083,6 +1110,7 @@ public class GameRaiderDecorator : DecoratorBase{
 		raider.SetComponent (sceneInfoBar);
 		
 		lastDecorator = raider;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
@@ -1114,6 +1142,7 @@ public class GameCurrencyDecorator : DecoratorBase{
 		currency.SetComponent (sceneInfoBar);
 		
 		lastDecorator = currency;
+		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
 	}
 }
