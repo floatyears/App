@@ -3,6 +3,9 @@ using System.Collections;
 using bbproto;
 
 public class BaseUnitItem : MonoBehaviour {
+	protected const string emptyBorder = "unit_empty_bg";
+	protected const string normalBorder = "avatar_border_none";
+
 	protected bool canCrossed = true;
 	protected bool isCrossed;
 	protected UISprite avatar;
@@ -214,15 +217,36 @@ public class BaseUnitItem : MonoBehaviour {
 	protected virtual void SetEmptyState(){
 		IsEnable = false;
 		avatar.spriteName = string.Empty;
-		avatarBg.spriteName = string.Empty;
-		avatarBorderSpr.spriteName = "unit_empty_bg";
+		avatarBorderSpr.spriteName = emptyBorder;
 		crossFadeLabel.text = string.Empty;
 	}
 
 	protected virtual void SetCommonState(){
 		IsEnable = true;
-
+		avatarBorderSpr.spriteName = normalBorder;
+		avatar.spriteName = GetAvatarBgSpriteName ();
+		ExecuteCrossFade ();
 		DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID, avatar);
+	}
+
+	string GetAvatarBgSpriteName() {
+		switch (userUnit.UnitType) {
+		case 1:
+			return "avatar_bg_fire";
+		case 2:
+			return "avatar_bg_water";
+		case 3:
+			return "avatar_bg_wind";
+		case 4:
+			return "avatar_bg_light";
+		case 5:
+			return "avatar_bg_dark";
+		case 6:
+			return "avatar_bg_none";
+		default:
+			return "avatar_bg_none";
+			break;
+		}
 	}
 
 	public static void SetAvatarSprite(UISprite sprite, UIAtlas asset, uint ID) {

@@ -203,7 +203,7 @@ public class BattleEnemy : UIBaseUnity {
 //			Debug.LogError("count : " + count + "centerindex : " + centerIndex);
 			probability = GetProbability (Screen.width, enemys);
 			enemys [centerIndex].CompressTextureSize (probability);
-			Debug.LogError(screenWidth + " ----- " + enemys [centerIndex].texture.width * 0.5f);
+//			Debug.LogError(screenWidth + " ----- " + enemys [centerIndex].texture.width * 0.5f);
 			SetgmentationEnemys(enemys, centerIndex, screenWidth - enemys [centerIndex].texture.width * 0.5f);
 		} else {
 			SetgmentationEnemys(enemys, 0, screenWidth);

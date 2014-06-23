@@ -117,7 +117,7 @@ public class EffectManager {
 			} else if(type == typeof(TSkillSuicideAttack)) {
 				TSkillSuicideAttack tsa = sbi as TSkillSuicideAttack;
 				sb.Append( GetAttackRanger(tsa.AttackRange) );
-				sb.Append( GetAttackDanger(2) ); //2 == second effect.
+				sb.Append( GetAttackDanger(1, 2) ); //2 == second effect.
 				sb.Append( GetSkillType(tsa.AttackUnitType) );
 			}
 			path = sb.ToString();
@@ -142,7 +142,7 @@ public class EffectManager {
 			sb.Append("1-");
 		}
 		else{
-			sb.Append(GetAttackDanger(aatt.AttackValue));
+			sb.Append(GetAttackDanger(aatt.AttackRange ,aatt.AttackValue));
 		}
 		sb.Append (GetSkillType (aatt.AttackType));
 	}
@@ -153,7 +153,7 @@ public class EffectManager {
 			sb.Append("1-");
 		}
 		else{
-			sb.Append(GetAttackDanger(tssa.AttackValue));
+			sb.Append(GetAttackDanger(tssa.AttackRange, tssa.AttackValue));
 		}
 		sb.Append (GetSkillType (tssa.AttackType));
 	}
@@ -162,7 +162,7 @@ public class EffectManager {
 		StringBuilder sb = new StringBuilder ();
 		sb.Append("ns-");
 		sb.Append (GetAttackRanger (tns.AttackRange));
-		sb.Append (GetAttackDanger (tns.Object.attackValue));
+		sb.Append (GetAttackDanger (tns.AttackRange, tns.Object.attackValue));
 		sb.Append(GetSkillType(tns.AttackType));
 		return sb.ToString ();
 	}
@@ -175,14 +175,22 @@ public class EffectManager {
 			return "all-";
 		}
 	}
+	
+	string GetAttackDanger(int attackRange, float attackValue) {
+		if (attackRange == 0) {
+			if (attackValue <= 2.3f) {	
+					return "1-";
+			} else {
+					return "2-";
+			}
+		} else {
+			if (attackValue <= 1.8f) {
+				return "1-";
+			} else {
+				return "2-";
+			}
+		}
 
-	string GetAttackDanger(float attackValue) {
-		if(attackValue <= 1.6f) {
-			return "1-";
-		}
-		else {
-			return "2-";
-		}
 	}
 
 	string GetSkillType(int type) {
