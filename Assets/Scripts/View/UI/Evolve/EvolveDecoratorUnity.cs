@@ -222,11 +222,22 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		if (state == 1 && tuu.UnitInfo.evolveInfo != null) {
 			ClearMaterial();
 			baseItem.Refresh(tuu);
-//			showInfoLabel[preAtkLabel].text = tuu.Attack.ToString();
-//			showInfoLabel[preHPLabel].text = tuu.Hp.ToString();
+			ShowEvolveInfo(tuu);
 			MsgCenter.Instance.Invoke(CommandEnum.UnitDisplayBaseData, tuu);
 			CheckCanEvolve();
 		}
+	}
+
+	void ShowEvolveInfo (TUserUnit tuu) {
+		uint evolveUnitID = tuu.UnitInfo.evolveInfo.evolveUnitId;
+		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (evolveUnitID);
+
+		showInfoLabel [hp].text = tuu.Hp + " -> " + tuu.CalculateHP (tui);
+		showInfoLabel [atk].text = tuu.Attack + " -> " + tuu.CalculateATK (tui);
+		showInfoLabel [lv].text = tuu.UnitInfo.MaxLevel + " -> " + tui.MaxLevel;
+		showInfoLabel [type].text = tui.UnitType.ToString();
+		showInfoLabel [race].text = tui.Race.ToString();
+		showInfoLabel [coins].text = (tui.MaxLevel * 500).ToString ();
 	}
 
 	void ClearMaterial () {
@@ -366,7 +377,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 		temp = transform.Find(path + type + suffixPath).GetComponent<UILabel>();
 		showInfoLabel.Add (type, temp);
-//		Debug.LogError("initlabel 2 ");
+
 		temp = transform.Find(path + race + suffixPath).GetComponent<UILabel>();
 		showInfoLabel.Add (race, temp);
 
@@ -375,12 +386,18 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 		evolveButton = FindChild<UIButton> ("Evolve");
 		ShieldEvolveButton (false);
+
 		UIEventListener.Get (evolveButton.gameObject).onClick = Evolve;
 		Debug.LogError("initlabel 2 ");
 	}
-
-
+	
 	void Evolve(GameObject go) {
+		TUserUnit baseUserUnit = baseItem.userUnit;
+		if (baseUserUnit.Level < baseUserUnit.UnitInfo.MaxLevel) {
+			ViewManager.Instance.ShowTipsLabel(TextCenter.GetText("notmaxleveltips"));
+			return;
+		}
+
 		List<ProtobufDataBase> evolveInfoList = new List<ProtobufDataBase> ();
 		evolveInfoList.Add (baseItem.userUnit);
 		evolveInfoList.Add (friendInfo);
@@ -390,7 +407,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 				evolveInfoList.Add(tuu);
 			}
 		}
-
 		ExcuteCallback (evolveInfoList);
 	}
 
