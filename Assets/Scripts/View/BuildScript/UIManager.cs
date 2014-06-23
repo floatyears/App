@@ -149,13 +149,11 @@ public class UIManager {
 
 		if (HasUIObject (sEnum)) {
 			current = GetUI(sEnum);	
-//			Debug.LogWarning("HasUIObject : " + sEnum + " current : " + current);
 			if (current != null) {
 				current.ShowScene();
 			}
 		}
 		else{
-//			Debug.LogWarning("not has ui object : " + sEnum);
 			DecoratorBase db = CreatScene(sEnum);
 			current = db;
 		}
