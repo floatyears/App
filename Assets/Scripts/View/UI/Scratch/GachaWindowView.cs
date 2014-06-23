@@ -188,9 +188,9 @@ public class GachaWindowView : UIComponentUnity {
     private void ResetOneGrid(GameObject grid){
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = TextCenter.GetText("Open");
-        UISprite background = grid.transform.FindChild("Background").GetComponent<UISprite>();
+//        UISprite background = grid.transform.FindChild("Background").GetComponent<UISprite>();
 //        background.spriteName = "avatar_mask";
-        background.gameObject.SetActive(true);
+//        background.gameObject.SetActive(true);
         UITexture texture = grid.transform.FindChild("Cell/Texture").GetComponent<UITexture>();
         texture.mainTexture = null;
         UILabel rightBottom = grid.transform.FindChild("Cell/Label_Right_Bottom").GetComponent<UILabel>();

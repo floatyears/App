@@ -579,7 +579,7 @@ public class DGTools {
 	//============load questinfo====================================================
 	private const string CityPath = "City/";
 	public static TCityInfo LoadCityInfo (uint cityID) {
-		string url = path + CityPath + cityID;
+		string url = path + CityPath + "city_" + cityID;
 //		Debug.LogError ("LoadCityInfo : " + url);
 		TextAsset ta = LoadTextAsset (url);
 		CityInfo ci = ProtobufSerializer.ParseFormBytes<CityInfo> (ta.bytes);
