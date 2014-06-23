@@ -453,6 +453,8 @@ guide58_content=excelent,your charactor evovles.
 guide59_title=evolve time
 guide59_content=1.find the key;2.goto the door
 
+notmaxleveltips=基础卡牌等级未达到最高等级。
+
 ##Tips
 Tips_A_1=MQ是一个滑动方块来战斗的恶魔题材卡牌游戏。
 Tips_A_2=点击地图中闪烁的格子后即可移动。

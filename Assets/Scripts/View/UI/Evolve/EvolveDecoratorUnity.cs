@@ -377,7 +377,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 		temp = transform.Find(path + type + suffixPath).GetComponent<UILabel>();
 		showInfoLabel.Add (type, temp);
-//		Debug.LogError("initlabel 2 ");
+
 		temp = transform.Find(path + race + suffixPath).GetComponent<UILabel>();
 		showInfoLabel.Add (race, temp);
 
@@ -386,12 +386,18 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 		evolveButton = FindChild<UIButton> ("Evolve");
 		ShieldEvolveButton (false);
+
 		UIEventListener.Get (evolveButton.gameObject).onClick = Evolve;
 		Debug.LogError("initlabel 2 ");
 	}
-
-
+	
 	void Evolve(GameObject go) {
+		TUserUnit baseUserUnit = baseItem.userUnit;
+		if (baseUserUnit.Level < baseUserUnit.UnitInfo.MaxLevel) {
+			ViewManager.Instance.ShowTipsLabel(TextCenter.GetText("notmaxleveltips"));
+			return;
+		}
+
 		List<ProtobufDataBase> evolveInfoList = new List<ProtobufDataBase> ();
 		evolveInfoList.Add (baseItem.userUnit);
 		evolveInfoList.Add (friendInfo);
@@ -401,7 +407,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 				evolveInfoList.Add(tuu);
 			}
 		}
-
 		ExcuteCallback (evolveInfoList);
 	}
 
