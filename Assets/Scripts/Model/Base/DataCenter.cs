@@ -568,7 +568,7 @@ public class DataCenter {
 				if (atlas == null) { 
 						Debug.LogError ("LoadAvatarAtlas(), atlas is NULL");
 				}
-				Debug.LogError ("load avatar atlas success : " + atlas.name);
+//				Debug.LogError ("load avatar atlas success : " + atlas.name);
 			});
 		}
 		BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
