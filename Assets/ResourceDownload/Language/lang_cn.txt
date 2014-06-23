@@ -79,7 +79,7 @@ Game_Setting_Option_Raider=游戏攻略
 
 Text_Leader_Skill=队长技能
 Text_HP=血量
-Text_ATK=攻击力
+Text_ATK=攻击
 Text_COST=体耗
 Text_Level=等级
 Unit_Detail_Tab_Status=状态
