@@ -186,7 +186,6 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void ResetOneGrid(GameObject grid){
-//		Debug.LogError ("ResetOneGrid : " + grid);
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = TextCenter.GetText("Open");
         UISprite background = grid.transform.FindChild("Cell/Background").GetComponent<UISprite>();
