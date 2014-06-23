@@ -94,11 +94,10 @@ public class EvolveComponent : ConcreteComponent {
 
 	void SelectUnit (object data) {
 		if (data == null) {
-			return;	
+			return;
 		}
 		TransferData.Clear ();
 		TransferData.Add(EvolveDecoratorUnity.BaseData, data);
-
 		ExcuteCallback (TransferData);
 	}
 

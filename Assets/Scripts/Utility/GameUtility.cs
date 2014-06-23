@@ -564,7 +564,7 @@ public class DGTools {
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
 		string url = path +unitInfoPath + unitID;
 		TextAsset ta = LoadTextAsset (url);
-		Debug.Log ("unitID: "+ unitID +" proto len: " +   ta.bytes.Length);
+//		Debug.Log ("unitID: "+ unitID +" proto len: " +   ta.bytes.Length);
 		if (ta == null) {
 			Debug.LogError( "load unit info fail : " + " url : " + url + "unit id : " + unitID);	
 			return null;
