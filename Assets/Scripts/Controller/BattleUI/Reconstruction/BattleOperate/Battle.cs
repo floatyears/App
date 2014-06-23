@@ -521,7 +521,7 @@ public class Battle : UIBase {
 		battleData.StoreMapData (null);
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 
-		Debug.Log ("battle guide----------");
+//		Debug.Log ("battle guide----------");
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
 	}
 

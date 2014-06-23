@@ -250,7 +250,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		AttackInfo recoverHp = crh.RecoverHP(skillUtility, blood);
 		if (recoverHp != null) {
 			recoverHp.AttackValue *= boostValue;
-			Debug.LogError(UserUnit.Count + " UserUnit[0] : " + UserUnit[0]);
+//			Debug.LogError(UserUnit.Count + " UserUnit[0] : " + UserUnit[0]);
 			recoverHp.UserUnitID = UserUnit[0].MakeUserUnitKey();
 			recoverHp.UserPos = 0; // 0 == self leder position
 			tempAttack.Add(recoverHp);
@@ -271,7 +271,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 
 					areaItemAttackInfo.Add(ai);
 					tempAttackType.Add(ai);
-				}     
+				}
 			}
 			tempAttack.Clear();
 		}

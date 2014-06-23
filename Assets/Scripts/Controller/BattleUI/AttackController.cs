@@ -408,7 +408,7 @@ public class AttackController {
 					enterEnemyPhase = true;
 				}
 			}
-			Debug.LogError("enterEnemyPhase : " + enterEnemyPhase);
+//			Debug.LogError("enterEnemyPhase : " + enterEnemyPhase);
 			if(enterEnemyPhase) {
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [1]);
 				LoopEnemyAttack ();	

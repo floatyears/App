@@ -80,11 +80,12 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 	public const string BaseData = "SelectData";
 	public const string MaterialData = "MaterialData";
-	private const string preAtkLabel = "PrevAtkLabel";
-	private const string preHPLabel = "PrevHPLabel";
-	private const string evolveAtkLabel = "NextAtkLabel";
-	private const string evolveHPLabel = "NextHPLabel";
-	private const string needLabel = "NeedLabel";
+	private const string hp = "HP";
+	private const string type = "Type";
+	private const string atk = "ATK";
+	private const string race = "Race";
+	private const string lv = "Lv";
+	private const string coins = "Coins";
 	private string rootPath = "Window";
 	private Dictionary<string,UILabel> showInfoLabel = new Dictionary<string, UILabel>();
 	/// <summary>
@@ -221,8 +222,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		if (state == 1 && tuu.UnitInfo.evolveInfo != null) {
 			ClearMaterial();
 			baseItem.Refresh(tuu);
-			showInfoLabel[preAtkLabel].text = tuu.Attack.ToString();
-			showInfoLabel[preHPLabel].text = tuu.Hp.ToString();
+//			showInfoLabel[preAtkLabel].text = tuu.Attack.ToString();
+//			showInfoLabel[preHPLabel].text = tuu.Hp.ToString();
 			MsgCenter.Instance.Invoke(CommandEnum.UnitDisplayBaseData, tuu);
 			CheckCanEvolve();
 		}
@@ -351,26 +352,31 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void InitLabel () {
+		Debug.LogError("initlabel 1 ");
 		string path = rootPath + "/info_panel/";
+		string suffixPath = "/Info";
+		UILabel temp = transform.Find(path + hp + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (hp, temp);
 
-		UILabel temp = transform.Find(path + preAtkLabel).GetComponent<UILabel>();
-		showInfoLabel.Add (preAtkLabel, temp);
+		temp = transform.Find(path + atk + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (atk, temp);
 
-		temp = transform.Find(path + preHPLabel).GetComponent<UILabel>();
-		showInfoLabel.Add (preHPLabel, temp);
+		temp = transform.Find(path + lv + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (lv, temp);
 
-		temp = transform.Find(path + evolveAtkLabel).GetComponent<UILabel>();
-		showInfoLabel.Add (evolveAtkLabel, temp);
+		temp = transform.Find(path + type + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (type, temp);
+//		Debug.LogError("initlabel 2 ");
+		temp = transform.Find(path + race + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (race, temp);
 
-		temp = transform.Find(path + evolveHPLabel).GetComponent<UILabel>();
-		showInfoLabel.Add (evolveHPLabel, temp);
-
-		temp = transform.Find(path + needLabel).GetComponent<UILabel>();
-		showInfoLabel.Add (needLabel, temp);
+		temp = transform.Find(path + coins + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (coins, temp);
 
 		evolveButton = FindChild<UIButton> ("Evolve");
 		ShieldEvolveButton (false);
 		UIEventListener.Get (evolveButton.gameObject).onClick = Evolve;
+		Debug.LogError("initlabel 2 ");
 	}
 
 
@@ -397,7 +403,7 @@ public class EvolveItem {
 	public GameObject itemObject;
 	public BoxCollider boxCollider;
 	public TUserUnit userUnit;
-	public UITexture showTexture;
+	public UISprite showTexture;
 	public UILabel haveLabel;
 	public UISprite maskSprite;
 	public UISprite highLight;
@@ -410,7 +416,7 @@ public class EvolveItem {
 		index = index;
 		itemObject = target;
 		Transform trans = target.transform;
-		showTexture = trans.Find("Texture").GetComponent<UITexture>();
+		showTexture = trans.Find("Texture").GetComponent<UISprite>();
 		highLight = trans.Find("Light").GetComponent<UISprite>();
 		borderSprite = trans.Find("Sprite_Avatar_Border").GetComponent<UISprite>();
 		bgprite = trans.Find("Sprite_Avatar_Bg").GetComponent<UISprite>(); 
@@ -430,16 +436,17 @@ public class EvolveItem {
 		HaveUserUnit = isHave;
 		ShowShield (!isHave);
 		if (tuu == null) {
-			showTexture.mainTexture = null;
+			showTexture.spriteName = "";
 			borderSprite.enabled = false;
 
 			bgprite.spriteName = "unit_empty_bg";
 		} else {
 			borderSprite.enabled = true;
 			ShowUnitType();
-			userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
-				showTexture.mainTexture = o as Texture2D;
-			});
+//			userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+//				showTexture.mainTexture = o as Texture2D;
+//			});
+			DataCenter.Instance.GetAvatarAtlas(userUnit.UnitInfo.ID, showTexture);
 		}
 	}
 
