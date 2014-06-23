@@ -12,10 +12,13 @@ public class FriendDecoratorUnity : UIComponentUnity {
 	
     public override void ShowUI() {
         base.ShowUI();
+//		Debug.LogError ("ShowUI : time :  " + Time.realtimeSinceStartup);
         ShowUIAnimation();
     }
 	
     public override void HideUI() {
+//		Debug.LogError ("HideUI : time :  " + Time.realtimeSinceStartup);
+		iTween.Stop (gameObject);
         base.HideUI();
     }
 	
