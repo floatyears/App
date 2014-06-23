@@ -65,10 +65,22 @@ public class LoadingView : UIComponentUnity {
 		Debug.Log ("load complete, could login");
 		UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
 		tapLogin.enabled = true;
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE) {
-			NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
-			guideWindow.CreatUI();
-		}
+//		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE) {
+//			NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
+//			guideWindow.CreatUI();
+//		}
+
+		ResourceManager.Instance.Init (o => {
+			EffectManager em = EffectManager.Instance;
+			ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
+
+			TextCenter.Instance.Init (o1=>{
+
+				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
+				ModelManager.Instance.Init();
+				
+			});
+		});
 	}
 
 	protected T CreatComponent<T>(string name) where T : ConcreteComponent {

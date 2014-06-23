@@ -52,6 +52,7 @@ public partial class TextCenter {
     private Dictionary<string, string> textDict;
 	public string InnerGetText(string key) {
 		string result = ""; //default set to key
+		if(textDict != null)
 		textDict.TryGetValue(key, out result);
 		if(result == null || result == "") {
 			result = key;
