@@ -88,7 +88,7 @@ public class EffectManager {
 			//ActiveAttackTargetType, ActiveChangeCardColor, ActiveDeferAttackRound, ActiveDelayTime, ActiveReduceDefense, ActiveReduceHurt, TSkillSingleAttack, ActiveStrengthenAttack,
 			//TSkillAttackRecoverHP, GravityAttack, KnockdownAttack, TSkillRecoverSP, TSkillPoison, TSkillSuicideAttack, RecoverSP
 			StringBuilder sb = new StringBuilder();
-			sb.Append("AS-");
+			sb.Append("as-");
 			Type type = sbi.GetType();
 			if(type == typeof(TSkillSingleAttack)) {
 				GetSingleAttackEffectName(sbi as TSkillSingleAttack, sb);
@@ -130,9 +130,10 @@ public class EffectManager {
 		string reallyPath = "Effect/effect/" + path;
 		if (skillEffectObject.ContainsKey (reallyPath)) {
 			resouceCallback(skillEffectObject[reallyPath]);
+			return;
 		}
-		
-		ResourceManager.Instance.LoadLocalAsset(reallyPath, o => { skillEffectObject.Add(path,o as GameObject); resouceCallback(o);} );
+//		Debug.LogError ("reallyPath : " + reallyPath + " time : " + Time.realtimeSinceStartup);
+		ResourceManager.Instance.LoadLocalAsset(reallyPath, o => { skillEffectObject.Add(reallyPath,o as GameObject); resouceCallback(o);} );
 	}
 
 	void GetAttackTargetType(ActiveAttackTargetType aatt,StringBuilder sb) {
@@ -159,7 +160,7 @@ public class EffectManager {
 
 	string GetNormalSkillEffectName(TNormalSkill tns) {
 		StringBuilder sb = new StringBuilder ();
-		sb.Append("NS-");
+		sb.Append("ns-");
 		sb.Append (GetAttackRanger (tns.AttackRange));
 		sb.Append (GetAttackDanger (tns.Object.attackValue));
 		sb.Append(GetSkillType(tns.AttackType));

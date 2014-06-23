@@ -59,7 +59,7 @@ public interface IUIComponentUnity :  IUIBaseComponent {
 /// </summary>
 public interface IUIComponent :  IUIBaseComponent {
 	void CreatUI();
-	void CreatUIAsyn(IUIComponent componnet);
+	void CreatUIAsyn(DecoratorBase decoratorBase);
 }
 
 //public interface IUICallback {

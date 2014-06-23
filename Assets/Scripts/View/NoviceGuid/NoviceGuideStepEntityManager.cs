@@ -119,7 +119,7 @@ public class NoviceGuideStepEntityManager {
 //				CreateStepEntityByID(NoviceGuideStepEntityID.EVOLVE,NoviceGuideStepJ_StateOne.Instance());
 //				break;
 //		}
-		Debug.Log ("current stage: " + currentNoviceGuideStage);
+//		Debug.Log ("current stage: " + currentNoviceGuideStage);
 		NoviceGuideStage ngs = (NoviceGuideStage) currentNoviceGuideStage;
 		if (ngs == NoviceGuideStage.NONE) {
 			return;		

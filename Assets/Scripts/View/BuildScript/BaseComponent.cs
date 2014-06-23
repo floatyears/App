@@ -49,7 +49,7 @@ public class BaseComponent :RootComponent, IUIComponent
 
 	}
 
-	public void CreatUIAsyn (IUIComponent componnet) {
+	public void CreatUIAsyn (DecoratorBase decoratorBase) {
 		throw new System.NotImplementedException ();
 	}
 
@@ -79,10 +79,10 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		ViewManager.Instance.AddComponent(this);
 	}
 
-	private IUIComponent uiComponent = null;
+	private DecoratorBase decoratorBase = null;
 
-	public void CreatUIAsyn(IUIComponent uiComponent) {
-		this.uiComponent = uiComponent;
+	public void CreatUIAsyn(DecoratorBase decoratorBase) {
+		this.decoratorBase = decoratorBase;
 		CreatUI ();
 	}
 
@@ -173,9 +173,9 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		
 		viewCallback = viewComponent;
 		viewComponent.Init(uiConfig, this);
-//		CreatUI ();
-		if (uiComponent != null) {
-			uiComponent.ShowUI();
+
+		if (decoratorBase != null) {
+			decoratorBase.ShowScene();
 		}
 	}
 

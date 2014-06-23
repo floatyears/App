@@ -139,20 +139,15 @@ public class UIManager {
 		}
 		else {
 			nextScene = sEnum;
-
             InvokeSceneClear(sEnum);
-
 			if(current != null) {
 				current.HideScene();
 			}
-
 			baseScene.SetScene(sEnum);
-
 			storePrevScene = sEnum;
 		}
 
 		if (HasUIObject (sEnum)) {
-
 			current = GetUI(sEnum);	
 //			Debug.LogWarning("HasUIObject : " + sEnum + " current : " + current);
 			if (current != null) {
