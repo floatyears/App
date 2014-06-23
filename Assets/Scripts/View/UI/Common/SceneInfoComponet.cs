@@ -26,6 +26,7 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	}
 
 	public void CallbackView (object data) {
+//		Debug.LogError ("callbackview : " + backScene);
 		MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, backScene);
 		UIManager.Instance.ChangeScene(backScene);
 	}
@@ -33,7 +34,7 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	private SceneEnum backScene = SceneEnum.None;
 
 	public void SetBackScene(SceneEnum scene) {
-//		Debug.LogWarning ("sceneinfo SetBackScene : " + scene);
+//		Debug.LogWarning ("sceneinfo SetBackScene : " + scene + " viewComponent : " + viewComponent);
 		if( viewComponent is IUISetBool) {
 			IUISetBool sb = viewComponent as IUISetBool;
 			if(scene == SceneEnum.None) {

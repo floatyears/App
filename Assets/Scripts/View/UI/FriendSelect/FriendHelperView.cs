@@ -56,55 +56,55 @@ public class FriendHelperView : UIComponentUnity{
 	}
 	
 	private void CreatePremiumListView(){
-		Debug.Log("Create Premium ListView(), start...");
+//		Debug.Log("Create Premium ListView(), start...");
 
 		List<TFriendInfo> newest = GetPremiumData();
 
 		if(premiumFriendList == null){
-			Debug.LogError("CreatePremiumListView(), FIRST step in, create drag panel view...");
+//			Debug.LogError("CreatePremiumListView(), FIRST step in, create drag panel view...");
 			premiumFriendList = newest;
 			premiumDragPanel = RefreshDragView(FriendInfoType.Premium);
 		}
 		else{
-			Debug.Log("CreatePremiumListView(), NOT FIRST step into FriendHelper scene...");
+//			Debug.Log("CreatePremiumListView(), NOT FIRST step into FriendHelper scene...");
 			if(!premiumFriendList.Equals(newest)){
 				premiumFriendList = newest;
 				premiumDragPanel = RefreshDragView(FriendInfoType.Premium);
 			}
 			else{
-				Debug.Log("CreatePremiumListView(), the friend info list is NOT CHANGED, do nothing...");
+//				Debug.Log("CreatePremiumListView(), the friend info list is NOT CHANGED, do nothing...");
 			}
 		}
 	}
 
 	private void CreateGeneralListView(){
-		Debug.Log("Create General ListView(), start...");
+//		Debug.Log("Create General ListView(), start...");
 
 		List<TFriendInfo> newest = DataCenter.Instance.SupportFriends;
 
 		if(generalFriendList == null){
-			Debug.LogError("CreateGeneralListView(), FIRST step in, create drag panel view...");
+//			Debug.LogError("CreateGeneralListView(), FIRST step in, create drag panel view...");
 			generalFriendList = newest;
 //			generalDragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
 //			generalDragPanel.CreatUI();
 //			generalDragPanel.AddItem(1);
 //			Debug.LogError("generalDragPanel 1 : " + generalDragPanel);
 			generalDragPanel = RefreshDragView(FriendInfoType.General);
-			Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
+//			Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
 		}
 		else{
-			Debug.Log("CreateGeneralListView(), NOT FIRST step into FriendHelper scene...");
+//			Debug.Log("CreateGeneralListView(), NOT FIRST step into FriendHelper scene...");
 			if(!generalFriendList.Equals(newest)){
-				Debug.Log("CreateGeneralListView(), the friend info list is CHANGED, update helper list...");
+//				Debug.Log("CreateGeneralListView(), the friend info list is CHANGED, update helper list...");
 				//helperDragPanel.DestoryUI();
 //				generalFriendList = newest;
 //				generalDragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
 //				Debug.LogError("generalDragPanel 1 : " + generalDragPanel);
 				generalDragPanel = RefreshDragView(FriendInfoType.General);
-				Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
+//				Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
 			}
 			else{
-				Debug.Log("CreateGeneralListView(), the friend info list is NOT CHANGED, do nothing...");
+//				Debug.Log("CreateGeneralListView(), the friend info list is NOT CHANGED, do nothing...");
 			}
 		}
 	}
@@ -129,7 +129,7 @@ public class FriendHelperView : UIComponentUnity{
 		}
 
 		if(dragPanel != null){
-			Debug.Log("dragPanel named as " + dragPanel.DragPanelView.gameObject.name + " != NULL, destory->create->refresh...");
+//			Debug.Log("dragPanel named as " + dragPanel.DragPanelView.gameObject.name + " != NULL, destory->create->refresh...");
 			dragPanel.DestoryUI();
 		}
 		else{
@@ -160,7 +160,7 @@ public class FriendHelperView : UIComponentUnity{
 		Debug.Log("ClickHelperItem..." + item);
 		
 		if(pickedQuestInfo == null){
-			Debug.LogError("FriendHelerpView.ClickHelperItem(), pickedQuestInfo is NULL, return!!!");
+//			Debug.LogError("FriendHelerpView.ClickHelperItem(), pickedQuestInfo is NULL, return!!!");
 			return;
 		}
 
@@ -244,7 +244,7 @@ public class FriendHelperView : UIComponentUnity{
 
 	bool isShowPremium = false;
 	protected void ClickPremiumBtn(GameObject btn){
-		Debug.Log("Click Premium Btn...");
+//		Debug.Log("Click Premium Btn...");
 
 		TUserUnit leader = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
 
@@ -266,7 +266,7 @@ public class FriendHelperView : UIComponentUnity{
 
 		List<FriendInfo> rspFriendInfo = rsp.helpers;
 		if(rspFriendInfo == null){
-			Debug.LogError("rspFriendInfo ERROR, NULL!");
+//			Debug.LogError("rspFriendInfo ERROR, NULL!");
 			return;
 		}
 
@@ -279,7 +279,7 @@ public class FriendHelperView : UIComponentUnity{
 
 		premiumFriendList = rspPremiumList;
 
-		Debug.Log("OnRspGetPremium(), premiumFriendList count is : " + premiumFriendList.Count);
+//		Debug.Log("OnRspGetPremium(), premiumFriendList count is : " + premiumFriendList.Count);
 
 		if(isShowPremium){
 			premiumDragPanel.DestoryUI();

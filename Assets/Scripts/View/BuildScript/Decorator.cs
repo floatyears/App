@@ -28,9 +28,9 @@ public class DecoratorBase {
 		get { return _lastDecorator; }
 		set { 
 			_lastDecorator = value; 
-			if(value != null) { 
-				_lastDecorator.CreatUIAsyn(value);
-			}
+//			if(value != null) { 
+//				_lastDecorator.CreatUIAsyn(value);
+//			}
 		}
 	}
 
