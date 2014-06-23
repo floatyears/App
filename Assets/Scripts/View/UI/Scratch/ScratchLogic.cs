@@ -201,7 +201,7 @@ public class ScratchLogic : ConcreteComponent {
     MsgWindowParams GetFriendGachaMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
 
-        msgWindowParam.inputEnable = true;
+        msgWindowParam.inputEnable = false;
         msgWindowParam.titleText = TextCenter.GetText("FriendGacha");
         string content1 = TextCenter.GetText("FriendGachaDescription");
 

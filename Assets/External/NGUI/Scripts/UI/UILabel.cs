@@ -241,10 +241,12 @@ public class UILabel : UIWidget
 	{
 		get
 		{
+//			Debug.Log("ui label text: " + mText);
 			return mText;
 		}
 		set
 		{
+//			Debug.Log("ui label text: " + value);
 			if (mText == value) return;
 
 			if (string.IsNullOrEmpty(value))
@@ -1100,6 +1102,7 @@ public class UILabel : UIWidget
 				// Wrap the text
 //				if(mProcessedText != null && mProcessedText.Length > 0)
 //					mProcessedText = mProcessedText.Replace("\\n","\n");
+				mText = mText.Replace("\\n","\n");
 				bool fits = NGUIText.WrapText(mText, out mProcessedText, true);
 
 				if (mOverflow == Overflow.ShrinkContent && !fits)
