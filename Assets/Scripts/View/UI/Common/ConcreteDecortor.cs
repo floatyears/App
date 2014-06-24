@@ -104,7 +104,6 @@ public class LoadingDecorator : DecoratorBase{
 		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator = background;
 //		lastDecorator.CreatUIAsyn(lastDecorator);
-        
     }
 }
 
@@ -112,9 +111,9 @@ public class LoadingDecorator : DecoratorBase{
 //--------------------------------Home---------------------------------------
 public class HomeDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public HomeDecorator(SceneEnum sEnum) : base(sEnum){}
+	public HomeDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
-	public override void ShowScene(){
+	public override void ShowScene() {
 		sceneInfoBar.SetBackScene(SceneEnum.None);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_HOME));
 		base.ShowScene();
@@ -137,7 +136,6 @@ public class HomeDecorator : DecoratorBase{
 
 		lastDecorator = quest;
 		lastDecorator.CreatUIAsyn (this);
-//		lastDecorator.CreatUI();
 	}
 }
 
