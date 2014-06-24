@@ -62,6 +62,7 @@ public class DragPanelDynamic {
 		index = scrollItem.FindIndex (a => a.UserUnit.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
 		if (index > -1) {
 			scrollItem[index].UserUnit = tuu;
+			scrollItem[index].IsEnable = false;
 		}
 	}
 

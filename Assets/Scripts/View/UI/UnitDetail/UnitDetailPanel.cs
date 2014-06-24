@@ -388,11 +388,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		curUserUnit = userUnit;
 
 		if ( oldBlendUnit != null ) {
-			Debug.LogError("CallbackView :: ShowInfo for oldBlendUnit...");
+//			Debug.LogError("CallbackView :: ShowInfo for oldBlendUnit...");
 			ShowInfo (oldBlendUnit);
 		}
 		else if (userUnit != null) {
-			Debug.LogError("CallbackView :: ShowInfo for currentUnit...");
+//			Debug.LogError("CallbackView :: ShowInfo for currentUnit...");
 			ShowInfo (userUnit);
 		} else {
 			RspLevelUp rlu = data as RspLevelUp;

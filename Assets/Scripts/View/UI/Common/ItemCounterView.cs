@@ -9,18 +9,25 @@ public class ItemCounterView : UIComponentUnity{
 
 	public override void Init(UIInsConfig config,IUICallback origin) {
 		base.Init(config,origin);
+		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
 		InitUIElement();
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
+
 		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
+
+	}
+
+	public override void DestoryUI ()
+	{
 		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshItemCount, UpdateView);
+		base.DestoryUI ();
 	}
 	
 	void InitUIElement(){

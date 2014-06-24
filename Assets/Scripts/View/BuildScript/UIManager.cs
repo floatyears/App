@@ -147,12 +147,9 @@ public class UIManager {
 			storePrevScene = sEnum;
 		}
 
-//		Debug.LogError (HasUIObject (sEnum) + " senum : " + sEnum);
-
 		if (HasUIObject (sEnum)) {
 			current = GetUI(sEnum);	
 			if (current != null) {
-//				Debug.LogError("current : " + current);
 				current.ShowScene();
 			}
 		}

@@ -91,7 +91,7 @@ public class MainMenuView : UIComponentUnity{
 //		Debug.LogError ((newestLeaderUnit == null) + "  leaderUnitInfo == null : " + (leaderUnitInfo == null));
 		if(newestLeaderUnit == null){
 			leaderAvatarTex.mainTexture = null;
-			Debug.LogError("newestLeaderUnit is NULL, return...");
+//			Debug.LogError("newestLeaderUnit is NULL, return...");
 			return;
 		}
 
