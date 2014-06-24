@@ -392,7 +392,6 @@ public class StageSelectDecorrator : DecoratorBase{
 		lastDecorator = questSelect;
 		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
-
 	}
 }
 
@@ -421,7 +420,6 @@ public class FriendSelectDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 		
 		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
-
 		friendSelect.SetComponent(sceneInfoBar);
 
 		lastDecorator = friendSelect;
@@ -498,8 +496,11 @@ public class LevelUpDecorator : DecoratorBase {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+		counter.SetComponent (sceneInfoBar);
+
 		SortController sc = CreatComponent<SortController> (UIConfig.userUnitSortPanelName);
-		sc.SetComponent (sceneInfoBar);
+		sc.SetComponent (counter);
 
 		levelUpOperateUI luou = CreatComponent<levelUpOperateUI> (UIConfig.levelUpView);
 		luou.SetComponent (sc);
@@ -573,8 +574,11 @@ public class EvolveDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+		counter.SetComponent (sceneInfoBar);
+
 		SortController sc = CreatComponent<SortController> (UIConfig.userUnitSortPanelName);
-		sc.SetComponent (sceneInfoBar);
+		sc.SetComponent (counter);
 
 		EvolveComponent evolve = CreatComponent< EvolveComponent >(UIConfig.evolveWindowName);
 		evolve.SetComponent(sc);

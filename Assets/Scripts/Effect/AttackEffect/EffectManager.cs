@@ -24,9 +24,8 @@ public class EffectManager {
 
 	public const int DragCardEffect = -1000;
 
-	private Dictionary<int,string> effectName = new Dictionary<int, string>();
+	private Dictionary<int, string> effectName = new Dictionary<int, string>();
 	private Dictionary<int, GameObject> effectObject = new Dictionary<int, GameObject>();
-
 	private Dictionary<string, GameObject> skillEffectObject = new Dictionary<string, GameObject> ();
 
 	public void GetOtherEffect(EffectEnum effect, ResourceCallback resouceCB) {
@@ -43,7 +42,7 @@ public class EffectManager {
 		if (path == "") {
 			resouceCB (null);
 			return;
-		} 
+		}
 			
 		GetEffectFromCache (path, resouceCB);
 	}
@@ -83,6 +82,7 @@ public class EffectManager {
 		string path = "";
 		TNormalSkill tns = sbi as TNormalSkill;
 		if (tns != null) {
+//			Debug.LogError("tns : " + tns.)
 			path = GetNormalSkillEffectName (tns);
 		} else if(sbi is ActiveSkill) {
 			//ActiveAttackTargetType, ActiveChangeCardColor, ActiveDeferAttackRound, ActiveDelayTime, ActiveReduceDefense, ActiveReduceHurt, TSkillSingleAttack, ActiveStrengthenAttack,
@@ -122,7 +122,6 @@ public class EffectManager {
 			}
 			path = sb.ToString();
 		}
-
 		GetEffectFromCache (path, resouceCb);
 	}
 
@@ -132,8 +131,14 @@ public class EffectManager {
 			resouceCallback(skillEffectObject[reallyPath]);
 			return;
 		}
-//		Debug.LogError ("reallyPath : " + reallyPath + " time : " + Time.realtimeSinceStartup);
-		ResourceManager.Instance.LoadLocalAsset(reallyPath, o => { skillEffectObject.Add(reallyPath,o as GameObject); resouceCallback(o);} );
+
+		ResourceManager.Instance.LoadLocalAsset(reallyPath, o => { 
+			if(o != null) { 
+				skillEffectObject.Add(reallyPath,o as GameObject);
+			} 
+			resouceCallback(o);
+		} 
+		);
 	}
 
 	void GetAttackTargetType(ActiveAttackTargetType aatt,StringBuilder sb) {
@@ -164,6 +169,7 @@ public class EffectManager {
 		sb.Append (GetAttackRanger (tns.AttackRange));
 		sb.Append (GetAttackDanger (tns.AttackRange, tns.Object.attackValue));
 		sb.Append(GetSkillType(tns.AttackType));
+//		Debug.LogError ("tns.AttackRange : " + tns.AttackRange + " tns.Object.attackValue : " + tns.Object.attackValue + " tns.AttackType : " + tns.AttackType + " sb : "+ sb.ToString());
 		return sb.ToString ();
 	}
 
@@ -226,7 +232,7 @@ public class EffectManager {
 //		effectName.Add (4062, "liandao");							//wind single
 
 		effectName.Add (4021, "effect/ns-all-1-fire");		
-		effectName.Add (4038, "effect/ns-all-2-fire");	
+		effectName.Add (4038, "effect/ns-all-2-fire");
 
 		effectName.Add (4003, "effect/ns-single-2-fire");	
 		effectName.Add (4005, "effect/ns-single-2-water");	
@@ -234,7 +240,7 @@ public class EffectManager {
 		effectName.Add (1024, "effect/as-all-1-fire");
 		effectName.Add (1067, "effect/as-single-1-fire02");
 		effectName.Add (1055, "effect/as-single-1-fire02");	
-		effectName.Add (1097, "effect/as-reduce-def03");	
+		effectName.Add (1097, "effect/as-reduce-def03");
 
 		effectName.Add (DragCardEffect, "card_effect");
 	}
