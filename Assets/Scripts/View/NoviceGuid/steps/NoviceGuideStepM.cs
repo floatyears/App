@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//quest
+//city select
 public class NoviceGuideStepM_StateOne:NoviceGuidState{
 		
 	private static NoviceGuideStepM_StateOne instance;
@@ -61,6 +61,7 @@ public class NoviceGuideStepM_StateOne:NoviceGuidState{
 	
 }
 
+//stage select
 public class NoviceGuideStepM_StateTwo:NoviceGuidState{
 	
 	private static NoviceGuideStepM_StateTwo instance;
@@ -78,15 +79,54 @@ public class NoviceGuideStepM_StateTwo:NoviceGuidState{
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_one");
 		
-		GameObject first = GameObject.FindWithTag ("city_one");
+		GameObject first = GameObject.Find ("StageSelectWindow(Clone)").GetComponent<StageSelectView>().GetStageItem(1);
 		NoviceGuideUtil.ForceOneBtnClick (first);
-		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,1)});
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,1)});
 		UIEventListenerCustom.Get (first).onClick += OnClickItem;
+	}
+
+	private void OnClickItem(GameObject gm){
+		UIEventListenerCustom.Get (gm).onClick -= OnClickItem;
+//		NoviceGuideUtil.RemoveAllArrows ();
 		
 	}
 	
-	private void ClickOK(object data){
+	
+	public override void Execute(NoviceGuideStepEntity stepEntity)
+	{
+		
+		if (JumpToNextState) {
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepJ_StateThree.Instance());
+		}
+		else{
+			
+		}
+	}
+	
+}
 
+//quest select
+public class NoviceGuideStepM_StateThree:NoviceGuidState{
+	
+	private static NoviceGuideStepM_StateThree instance;
+	
+	public static NoviceGuideStepM_StateThree Instance()
+	{
+		if (instance == null)
+			instance = new NoviceGuideStepM_StateThree ();
+		return instance;
+	}
+	
+	private NoviceGuideStepM_StateThree ():base()	{}
+	
+	public override void Enter(NoviceGuideStepEntity stepEntity)
+	{
+		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_three");
+		
+		GameObject first = GameObject.Find ("QuestSelectWindow(Clone)").GetComponent<QuestSelectView>().GetDragItem(0);
+		NoviceGuideUtil.ForceOneBtnClick (first);
+		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,3)});
+		UIEventListenerCustom.Get (first).onClick += OnClickItem;
 	}
 	
 	private void OnClickItem(GameObject gm){
@@ -100,7 +140,50 @@ public class NoviceGuideStepM_StateTwo:NoviceGuidState{
 	{
 		
 		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepJ_StateTwo.Instance());
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepJ_StateFour.Instance());
+		}
+		else{
+			
+		}
+	}
+	
+}
+
+
+//fight ready
+public class NoviceGuideStepM_StateFour:NoviceGuidState{
+	
+	private static NoviceGuideStepM_StateFour instance;
+	
+	public static NoviceGuideStepM_StateFour Instance()
+	{
+		if (instance == null)
+			instance = new NoviceGuideStepM_StateFour ();
+		return instance;
+	}
+	
+	private NoviceGuideStepM_StateFour ():base()	{}
+	
+	public override void Enter(NoviceGuideStepEntity stepEntity)
+	{
+		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_four");
+		
+		GameObject first = GameObject.FindWithTag ("fight_btn");
+		NoviceGuideUtil.ForceOneBtnClick (first);
+		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,3)});
+		UIEventListenerCustom.Get (first).onClick += OnClickItem;
+	}
+	
+	private void OnClickItem(GameObject gm){
+		UIEventListenerCustom.Get (gm).onClick -= OnClickItem;
+		NoviceGuideUtil.RemoveAllArrows ();
+	}
+	
+	
+	public override void Execute(NoviceGuideStepEntity stepEntity)
+	{
+		if (JumpToNextState) {
+			stepEntity.GetStateMachine ().ChangeState (null);
 		}
 		else{
 			

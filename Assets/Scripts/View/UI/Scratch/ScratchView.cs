@@ -28,6 +28,8 @@ public class ScratchView : UIComponentUnity {
 		base.ShowUI ();
         UpdateGachaTimes();
 		ShowUIAnimation();
+
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.SCRATCH);
 	}
 	
 	public override void HideUI () {

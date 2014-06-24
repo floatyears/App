@@ -11,6 +11,8 @@ public class QuestSelectView : UIComponentUnity {
 		MsgCenter.Instance.AddListener(CommandEnum.GetQuestInfo, GetQuestInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveSelectStage, EvolveSelectStage);
 		ShowUIAnimation();
+
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 	}
 
 	public override void HideUI(){
@@ -52,6 +54,9 @@ public class QuestSelectView : UIComponentUnity {
 	}
 
 	private void UpdateQuestListView(){
+		if (dragPanel != null)
+			dragPanel.DestoryUI ();
+
 		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(accessQuestList.Count);
@@ -131,6 +136,8 @@ public class QuestSelectView : UIComponentUnity {
 	}
 
 	void GenerateQuest(List<TQuestInfo> questInfo, TStageInfo targetStage) {
+		if (dragPanel != null)
+			dragPanel.DestoryUI ();
 		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab);
 		dragPanel.CreatUI();
 		dragPanel.AddItem(1);
@@ -158,5 +165,13 @@ public class QuestSelectView : UIComponentUnity {
 	void EvolveCallback() {
 		UIManager.Instance.ChangeScene(SceneEnum.FightReady);//before
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectQuest, evolveStart);
+	}
+
+	public GameObject GetDragItem(int i){
+		if (dragPanel != null) {
+			return dragPanel.ScrollItem [i];
+		}
+
+		return null;
 	}
 }

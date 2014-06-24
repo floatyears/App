@@ -190,12 +190,18 @@ public class NoviceGuideStepEntityManager {
 						}
 				} else if (startType == NoviceGuideStartType.QUEST) {
 				
-					switch(ngs){
-					case NoviceGuideStage.EVOVLE_QUEST:
-						CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepM_StateOne.Instance());
-						break;
-					}
-				} else if (startType == NoviceGuideStartType.OTHERS) {
+						switch (ngs) {
+						case NoviceGuideStage.EVOVLE_QUEST:
+								CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepM_StateTwo.Instance ());
+								break;
+						case NoviceGuideStage.FRIEND_SELECT:
+							CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepM_StateOne.Instance ());
+							break;
+						}
+				} else if (startType == NoviceGuideStartType.SCRATCH && ngs == NoviceGuideStage.SCRATCH) {
+					CreateStepEntityByID (NoviceGuideStepEntityID.SCRATCH, NoviceGuideStepC_StateOne.Instance ());
+					
+			}else if (startType == NoviceGuideStartType.OTHERS) {
 					switch (ngs) {
 //		case NoviceGuideStage.Preface://preface
 //				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
@@ -203,9 +209,6 @@ public class NoviceGuideStepEntityManager {
 //		case NoviceGuideStage.SELECT_ROLE://selectRole
 //			CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE,NoviceGuideStepB_StateOne.Instance());
 //			break;
-				case NoviceGuideStage.SCRATCH://RareScratch
-						CreateStepEntityByID (NoviceGuideStepEntityID.SCRATCH, NoviceGuideStepC_StateOne.Instance ());
-						break;
 				case NoviceGuideStage.INPUT_NAME://InputName
 						break;
 				case NoviceGuideStage.QUEST_SELECT://QuestSelect
@@ -350,7 +353,8 @@ public enum NoviceGuideStartType{
 //	QUEST_SELECT,
 //	PARTY
 	OTHERS,
-	QUEST
+	QUEST,
+	SCRATCH
 }
 
 public enum NoviceGuideStage{
@@ -373,6 +377,7 @@ public enum NoviceGuideStage{
 	LEVEL_UP,
 	SCRATCH,
 	INPUT_NAME,
+	FRIEND_SELECT,
 	QUEST_SELECT,
 	EVOLVE,
 	EVOVLE_BATTLE,

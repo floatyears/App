@@ -137,7 +137,7 @@ public class LoadingLogic : ConcreteComponent {
 				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
 			}
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_LEVEL_UP;
 
 			//TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
@@ -219,18 +219,8 @@ public class LoadingLogic : ConcreteComponent {
 //		
 
 
-		//LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
-		if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
-		    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
-			UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
-		}
-		else { // no 
-			if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
-			    && DataCenter.Instance.LoginInfo.Bonus.Count > 0 ) {
-				Debug.LogError("show Reward scene... ");
-				UIManager.Instance.ChangeScene (SceneEnum.Reward);	
-			}
-		}
+
+
 
 		//		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 
@@ -242,9 +232,23 @@ public class LoadingLogic : ConcreteComponent {
 			
 			UIManager.Instance.ChangeScene(SceneEnum.Home);
 
-			if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
-			    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
-				UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+//			if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
+//			    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
+//				UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+//			}
+			//LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
+			if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.NONE) {
+				if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
+				    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
+					UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+				}
+				else { // no 
+					if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
+					    && DataCenter.Instance.LoginInfo.Bonus.Count > 0 ) {
+						Debug.LogError("show Reward scene... ");
+						UIManager.Instance.ChangeScene (SceneEnum.Reward);	
+					}
+				}	
 			}
 		}
 

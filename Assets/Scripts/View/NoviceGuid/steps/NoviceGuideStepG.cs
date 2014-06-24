@@ -91,11 +91,13 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 		GameObject party = GameObject.FindWithTag ("level_up");
 		
 		//LogHelper.Log (party.name);
-		NoviceGuideUtil.ForceOneBtnClick (party);
-		
+		NoviceGuideUtil.ForceOneBtnClick (party,true);
+		UIEventListener.Get (party).onClick += TapParty;
+
+
 		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
 		
-		UIEventListener.Get (party).onClick += TapParty;
+
 
 		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.LEVEL_UP;
 	}
