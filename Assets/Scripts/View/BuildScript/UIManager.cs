@@ -152,7 +152,7 @@ public class UIManager {
 		if (HasUIObject (sEnum)) {
 			current = GetUI(sEnum);	
 			if (current != null) {
-				Debug.LogError("current : " + current);
+//				Debug.LogError("current : " + current);
 				current.ShowScene();
 			}
 		}

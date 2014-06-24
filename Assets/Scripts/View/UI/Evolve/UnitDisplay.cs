@@ -6,9 +6,11 @@ public class UnitDisplay : ConcreteComponent {
 	}
 	
 	public override void ShowUI () {
+	
 		base.ShowUI ();
 		if(UIManager.Instance.prevScene != SceneEnum.UnitDetail)
 			ReadData ();
+	
 	}
 
 	public override void HideUI () {

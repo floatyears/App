@@ -29,7 +29,7 @@ public class RewardView : UIComponentUnity {
 	public override void HideUI() {
 		base.HideUI();
 
-		Debug.Log ("bonusIDs: " + bonusIDs.Count);
+//		Debug.Log ("bonusIDs: " + bonusIDs.Count);
 		if(bonusIDs.Count > 0)
 			AcceptBonus.SendRequest(null,bonusIDs);
 		bonusIDs.Clear ();

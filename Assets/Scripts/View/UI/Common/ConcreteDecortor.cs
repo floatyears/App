@@ -553,11 +553,11 @@ public class EvolveDecorator : DecoratorBase{
 	}
 	
 	public override void ShowScene(){
-//		Debug.LogError ("EvolveDecorator show scene : 1" + sceneInfoBar.backScene);
+		Debug.LogError ("EvolveDecorator show scene : 1" + sceneInfoBar.backScene);
 		base.ShowScene();
-//		Debug.LogError ("EvolveDecorator show scene : 2" + sceneInfoBar.backScene);
+		Debug.LogError ("EvolveDecorator show scene : 2" + sceneInfoBar.backScene);
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-//		Debug.LogError ("EvolveDecorator show scene : 3" + sceneInfoBar.backScene);
+		Debug.LogError ("EvolveDecorator show scene : 3" + sceneInfoBar.backScene);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_EVOLVE));
 	}
 	
