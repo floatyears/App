@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Evolve battle
 public class NoviceGuideStepL_StateOne:NoviceGuidState
 {
 	private static NoviceGuideStepL_StateOne instance;

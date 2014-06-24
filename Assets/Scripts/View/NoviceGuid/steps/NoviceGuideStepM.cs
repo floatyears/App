@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-	public class NoviceGuideStepM_StateOne:NoviceGuidState{
+//quest
+public class NoviceGuideStepM_StateOne:NoviceGuidState{
 		
 	private static NoviceGuideStepM_StateOne instance;
 		
@@ -16,13 +17,13 @@ using System.Collections;
 		
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepJ state_one");
+		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_one");
 		
 		GuideWindowParams mwp = new GuideWindowParams ();
 		//mwp.btnParams = new BtnParam[1];
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide51_title");
-		mwp.contentText = TextCenter.GetText("guide51_content");
+		mwp.titleText = TextCenter.GetText("guide61_title");
+		mwp.contentText = TextCenter.GetText("guide61_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK;
@@ -34,53 +35,62 @@ using System.Collections;
 	}
 	
 	private void ClickOK(object data){
-		GameObject first = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayUnity>().GetUnitItem(0);
+		GameObject first = GameObject.FindWithTag ("city_one");
 		NoviceGuideUtil.ForceOneBtnClick (first);
-		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,2)});
+		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,1)});
 		UIEventListenerCustom.Get (first).onClick += OnClickItem;
 	}
 	
 	private void OnClickItem(GameObject gm){
+				UIEventListenerCustom.Get (gm).onClick -= OnClickItem;
+				NoviceGuideUtil.RemoveAllArrows ();
+
+		}
+	
+	
+	public override void Execute(NoviceGuideStepEntity stepEntity)
+	{
+		
+		if (JumpToNextState) {
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepJ_StateTwo.Instance());
+		}
+		else{
+			
+		}
+	}
+	
+}
+
+public class NoviceGuideStepM_StateTwo:NoviceGuidState{
+	
+	private static NoviceGuideStepM_StateTwo instance;
+	
+	public static NoviceGuideStepM_StateTwo Instance()
+	{
+		if (instance == null)
+			instance = new NoviceGuideStepM_StateTwo ();
+		return instance;
+	}
+	
+	private NoviceGuideStepM_StateTwo ():base()	{}
+	
+	public override void Enter(NoviceGuideStepEntity stepEntity)
+	{
+		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_one");
+		
+		GameObject first = GameObject.FindWithTag ("city_one");
+		NoviceGuideUtil.ForceOneBtnClick (first);
+		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,1)});
+		UIEventListenerCustom.Get (first).onClick += OnClickItem;
+		
+	}
+	
+	private void ClickOK(object data){
+
+	}
+	
+	private void OnClickItem(GameObject gm){
 		UIEventListenerCustom.Get (gm).onClick -= OnClickItem;
-		NoviceGuideUtil.RemoveAllArrows ();
-		
-		GuideWindowParams mwp = new GuideWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide52_title");
-		mwp.contentText = TextCenter.GetText("guide52_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = OnClickItem1;
-		sure.text = TextCenter.GetText("OK");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
-	}
-	
-	//	private void ClickOK1(object data){
-	//		GameObject gm = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayUnity>().GetUnitItem(-1);
-	//		
-	//		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
-	//		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
-	//		NoviceGuideUtil.ForceOneBtnClick (gm);
-	//	}
-	
-	private void OnClickItem1(object data){
-		
-		//UIEventListenerCustom.Get (item).onClick -= OnClickItem1;
-		//NoviceGuideUtil.RemoveAllArrows ();
-		
-		GameObject gm = GameObject.FindWithTag ("evolve_friend_btn");
-		
-		UIEventListenerCustom.Get (gm).onClick += OnClickFriend;
-		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
-		NoviceGuideUtil.ForceOneBtnClick (gm);
-		
-	}
-	
-	private void OnClickFriend(GameObject gm){
-		UIEventListenerCustom.Get (gm).onClick -= OnClickFriend;
 		NoviceGuideUtil.RemoveAllArrows ();
 		
 	}
