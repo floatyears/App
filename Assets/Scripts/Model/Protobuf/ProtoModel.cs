@@ -1666,6 +1666,32 @@ namespace bbproto
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Period")]
+  public partial class Period : global::ProtoBuf.IExtensible
+  {
+    public Period() {}
+    
+    private uint _startTime = default(uint);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"startTime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint startTime
+    {
+      get { return _startTime; }
+      set { _startTime = value; }
+    }
+    private uint _endTime = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"endTime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint endTime
+    {
+      get { return _endTime; }
+      set { _endTime = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"StageInfo")]
   public partial class StageInfo : global::ProtoBuf.IExtensible
   {
@@ -1764,6 +1790,13 @@ namespace bbproto
     public global::System.Collections.Generic.List<bbproto.QuestInfo> quests
     {
       get { return _quests; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<bbproto.Period> _validTime = new global::System.Collections.Generic.List<bbproto.Period>();
+    [global::ProtoBuf.ProtoMember(13, Name=@"validTime", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.Period> validTime
+    {
+      get { return _validTime; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;

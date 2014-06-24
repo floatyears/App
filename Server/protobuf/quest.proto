@@ -210,6 +210,11 @@ message QuestInfo {
 	optional Position		pos			= 12; // quest position of the stage	
 }
 
+message Period {
+    optional uint32			startTime	= 1;
+    optional uint32			endTime		= 2;
+}
+
 message StageInfo {
 	optional int32			version		= 1;
 	optional uint32			cityId		= 2;
@@ -222,7 +227,8 @@ message StageInfo {
 	optional uint32			endTime		= 9;
 	optional QuestBoost		boost		= 10;
 	optional Position		pos			= 11; // stage position of the city	
-	repeated QuestInfo		quests		= 12; 
+	repeated QuestInfo		quests		= 12;
+    repeated Period         validTime   = 13; // for multi valid periods
 }
 
 message CityInfo {
