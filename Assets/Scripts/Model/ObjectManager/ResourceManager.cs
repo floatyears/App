@@ -161,7 +161,7 @@ public class ResourceManager : MonoBehaviour{
 
 #endif
 		} else {
-			Debug.Log ("resource load from resource: " + path);
+//			Debug.Log ("resource load from resource: " + path);
 			if(callback != null){
 				callback(Resources.Load (path));
 				return null;
