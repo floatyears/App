@@ -116,12 +116,10 @@ public class BattleBottom : MonoBehaviour {
 					}
 					item.renderer.material.color = Color.gray;
 				}
-
-				if(IsUseLeaderSkill && id == 0){
+				if(IsUseLeaderSkill && id == 0) {
 					LogHelper.Log("--------use leader skill command");
 					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill, null);
 				}
-
 				tuu = upi.UserUnit [id];
 				battleQuest.topUI.SheildInput(false);
 				battleSkillObject.SetActive(true);

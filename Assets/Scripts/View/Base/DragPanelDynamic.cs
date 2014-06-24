@@ -119,7 +119,7 @@ public class DragPanelDynamic {
 		int realEndIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
 //		Debug.LogError ("scrollItemData.Count == tuuList.Count : " + (scrollItemData.Count == tuuList.Count));
 		if (scrollItemData.Count == tuuList.Count) {	
-			Debug.LogError(realStartIndex + " realEndIndex : " + realEndIndex + " scrollItem : " + scrollItem.Count + " tuuList : " + tuuList.Count);
+//			Debug.LogError(realStartIndex + " realEndIndex : " + realEndIndex + " scrollItem : " + scrollItem.Count + " tuuList : " + tuuList.Count);
 			for (int i = realStartIndex; i < realEndIndex; i++) {
 				scrollItem[i - realStartIndex].UserUnit = tuuList[i];
 			}	

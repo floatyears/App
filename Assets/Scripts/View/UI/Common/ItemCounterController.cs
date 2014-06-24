@@ -3,9 +3,8 @@ using System.Collections;
 
 public class ItemCounterController : ConcreteComponent{
 	public ItemCounterController(string name) : base(name){}
-	public override void HideUI ()
-	{
+	public override void HideUI () {
 		base.HideUI ();
-		base.DestoryUI ();
+//		base.DestoryUI ();
 	}
 }
