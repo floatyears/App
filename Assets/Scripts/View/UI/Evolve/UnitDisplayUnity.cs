@@ -300,24 +300,36 @@ public class UnitDisplayUnity : UIComponentUnity {
 		switch (info.Key) {
 		case RefreshData:
 			List<TUserUnit> tuuList = info.Value as List<TUserUnit>;
+			allData.Clear();
 			if (tuuList != null) {
-				allData = tuuList;
+				allData.AddRange(tuuList);
 				List<MyUnitItem> myUnitItem = unitItemDragPanel.RefreshItem(allData);
-				evolveDragItem.Clear();
+//				Debug.LogError("UnitDisplayUnity DisposeCallback 3 : " + myUnitItem);
+				for (int i = evolveDragItem.Count - 1; i >= 0; i--) {
+					evolveDragItem.RemoveAt(i);
+//					Debug.LogError("i : " + i);
+				}
+//				Debug.LogError("i : ;;;");
+//				Debug.LogError("UnitDisplayUnity DisposeCallback 4 : " );
 				foreach (var item in myUnitItem) {
 					EvolveDragItem edi = item as EvolveDragItem;
+//					Debug.LogError("UnitDisplayUnity DisposeCallback 5 : " + edi);
 					evolveDragItem.Add(edi);
+//					Debug.LogError("UnitDisplayUnity DisposeCallback 6 : " + evolveDragItem);
 					edi.callback = ClickItem;
 					if(edi.UserUnit.UnitInfo.evolveInfo != null) {
 						edi.CanEvolve = true;
 					}
+//					Debug.LogError("UnitDisplayUnity DisposeCallback 7 : " );
 					if(!edi.IsParty && !edi.IsFavorite) {
 						normalDragItem.Add(edi);
 					}
+//					Debug.LogError("UnitDisplayUnity DisposeCallback 8 : " );
 				}
 			}
 
 			RefreshCounter ();
+//			Debug.LogError("UnitDisplayUnity DisposeCallback 6");
 			break;
 		default:
 			break;

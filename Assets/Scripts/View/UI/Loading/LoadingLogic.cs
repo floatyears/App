@@ -77,7 +77,7 @@ public class LoadingLogic : ConcreteComponent {
             }
             
             if (rspAuthUser.user != null) {
-				Debug.Log("authUser response userId:" + rspAuthUser.user.userId);
+//				Debug.Log("authUser response userId:" + rspAuthUser.user.userId);
 
 				DataCenter.Instance.UserInfo = new TUserInfo(rspAuthUser.user);
                 if (rspAuthUser.evolveType != null) {
