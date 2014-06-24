@@ -15,17 +15,14 @@ public class ItemCounterView : UIComponentUnity{
 
 	public override void ShowUI(){
 		base.ShowUI();
-
 		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-
 	}
 
-	public override void DestoryUI ()
-	{
+	public override void DestoryUI () {
 		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshItemCount, UpdateView);
 		base.DestoryUI ();
 	}
