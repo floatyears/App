@@ -117,14 +117,13 @@ public class DragPanelDynamic {
 
 		int realStartIndex = int.Parse(scrollItem[0].gameObject.name) - 1;
 		int realEndIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
-//		Debug.LogError ("scrollItemData.Count == tuuList.Count : " + (scrollItemData.Count == tuuList.Count));
+
 		if (scrollItemData.Count == tuuList.Count) {	
-//			Debug.LogError(realStartIndex + " realEndIndex : " + realEndIndex + " scrollItem : " + scrollItem.Count + " tuuList : " + tuuList.Count);
 			for (int i = realStartIndex; i < realEndIndex; i++) {
 				scrollItem[i - realStartIndex].UserUnit = tuuList[i];
 			}	
 			scrollItemData = tuuList;
-			return null;
+			return scrollItem;
 		}  
 
 		int count;
@@ -140,7 +139,6 @@ public class DragPanelDynamic {
 			}
 		} else {
 			dragPanelView.scrollView.ResetPosition();
-//			Debug.LogError("tuuList.Count : " + tuuList.Count + " scrollItem.Count : " + scrollItem.Count + " dragPanelView.scrollView : " + dragPanelView.clip.clipOffset);
 			if( tuuList.Count >= scrollItem.Count ) {
 				realStartIndex = 0;			//int.Parse(scrollItem[0].gameObject.name) - 1;
 				realEndIndex = maxIndex;	//int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
@@ -166,6 +164,7 @@ public class DragPanelDynamic {
 		scrollItemData = tuuList;
 		dragPanelView.grid.repositionNow = true;
 		dragPanelView.scrollView.Press (false);
+
 		return scrollItem;
 	}
 	
