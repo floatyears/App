@@ -128,6 +128,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
+		Debug.LogError ("show data : " + clear);
 		if (!clear) {
 			return;	
 		}
@@ -149,6 +150,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		foreach (var item in myUnitDragPanel.scrollItem) {
 			LevelUpUnitItem pui = item as LevelUpUnitItem;
 			pui.callback = MyUnitClickCallback;
+			pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(pui.UserUnit);
 			myUnitList.Add(pui);
 		}
 
@@ -222,14 +224,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		ClearData ();
 		uint blendID = (uint)data;
 		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
-		Debug.LogError ("ResetUIAfterLevelUp tuu.ID : " + tuu.ID + " tuu.level : " + tuu.Level);
 		selectedItem [baseItemIndex].UserUnit = tuu;
-		int index = myUnit.FindIndex (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
-		if (index > -1) {
-			myUnit[index] = tuu;
-		}
+		clear = true;
+		ShowData ();
+
 		myUnitDragPanel.RefreshItem (tuu);
-		UpdateBaseInfoView();
+		ShieldParty (false, null);
 	}
 
 	void SelectedFriendCallback(LevelUpItem piv) {
@@ -304,11 +304,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// </summary>
 	void MyUnitClickCallback(LevelUpUnitItem pui) {
 		if (prevSelectedItem == null) {
-			if (SetBaseItem (pui)) {
+			if (SetBaseItemPreSelectItemNull (pui)) {
 				return;	
 			}
 			
 			int index = SetMaterialItem (pui);
+
 			if (index > -1) {
 				RefreshMaterial();
 				return;	
@@ -404,10 +405,37 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
 	}
 
+	bool SetBaseItemPreSelectItemNull(MyUnitItem pui) {
+		if (selectedItem [baseItemIndex].UserUnit != null ) { //index 0 is base item object.
+			if(selectedItem [baseItemIndex].UserUnit.MakeUserUnitKey() == pui.UserUnit.MakeUserUnitKey()) {
+				ShieldParty (false, null);
+				return true;
+			} else{
+				return false;
+			}
+		}
+		
+		EnabledItem (selectedItem [baseItemIndex].UserUnit);
+		selectedItem [baseItemIndex].UserUnit = pui.UserUnit;
+		UpdateBaseInfoView ();
+		if (CheckIsParty (pui)) {
+			selectedItem [baseItemIndex].IsEnable = true;
+		}
+		pui.IsEnable = false;
+		ClearFocus ();
+
+		ShieldParty (false, null);
+		
+		CheckLevelUp ();
+		
+		return true;
+	}
+
 	bool SetBaseItem(MyUnitItem pui) {
 		if (selectedItem [baseItemIndex].UserUnit != null && !CheckBaseItem (prevSelectedItem)) { //index 0 is base item object.
 			return false;
 		}
+
 		EnabledItem (selectedItem [baseItemIndex].UserUnit);
 		selectedItem [baseItemIndex].UserUnit = pui.UserUnit;
 		UpdateBaseInfoView ();
@@ -468,7 +496,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			return false;
 		}
 
-		if (piv.Equals (selectedItem [baseItemIndex])) {
+		if (piv.UserUnit.MakeUserUnitKey() == selectedItem [baseItemIndex].UserUnit.MakeUserUnitKey() ) {
 			return true;
 		}
 
