@@ -453,6 +453,12 @@ guide58_content=excelent,your charactor evovles.
 guide59_title=evolve time
 guide59_content=1.find the key;2.goto the door
 
+##quest
+guide61_title=准备结束
+guide61_content=那么准备完毕了。\n嘛，再陪你一会，走到最初的大门那吧。
+guide62_title=指引结束
+guide62_content=点击quest start。\n我的指引就到这了，前进吧！Divine gate！
+
 notmaxleveltips=基础卡牌等级未达到最高等级。
 
 ##Tips
