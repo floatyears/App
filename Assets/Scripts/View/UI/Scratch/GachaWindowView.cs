@@ -56,13 +56,12 @@ public class GachaWindowView : UIComponentUnity {
         
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         
-        switch (cbdArgs.funcName)
-        {
-        case "SetTitleView": 
-            CallBackDispatcherHelper.DispatchCallBack(SetTitleLabel, cbdArgs);
-            break;
-        default:
-            break;
+        switch (cbdArgs.funcName) {
+	        case "SetTitleView": 
+	            CallBackDispatcherHelper.DispatchCallBack(SetTitleLabel, cbdArgs);
+	            break;
+	        default:
+	            break;
         }
     }
 

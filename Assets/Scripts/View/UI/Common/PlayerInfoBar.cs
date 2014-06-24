@@ -100,10 +100,10 @@ public class PlayerInfoBar : UIComponentUnity{
 	/// Inits the value label outside.
 	/// </summary>
 	private void InitValueLabelOutside(){
-		chipNumValueLabel = transform.FindChild("InfoBar/Label_Vaule_ChipNum").GetComponent<UILabel>();
+		chipNumValueLabel = transform.FindChild("InfoBar/Label_Vaule_Icon").GetComponent<UILabel>();
 		stamMaxValueLabel = transform.FindChild("InfoBar/Label_Vaule_CurStamina").GetComponent<UILabel>();
 		stamNowValueLabel = transform.FindChild("InfoBar/Label_Vaule_TotalStamina").GetComponent<UILabel>();
-		cionNumValueLabel = transform.FindChild("InfoBar/Label_Vaule_Icon").GetComponent<UILabel>();
+		cionNumValueLabel = transform.FindChild("InfoBar/Label_Vaule_ChipNum").GetComponent<UILabel>();
 		userNameValueLabel = transform.FindChild("InfoBar/Label_Vaule_PlayerName").GetComponent<UILabel>();
 		outRankValueLabel = transform.FindChild("InfoBar/Label_Vaule_Rank").GetComponent<UILabel>();
 	}

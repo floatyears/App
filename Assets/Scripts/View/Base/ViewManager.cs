@@ -110,24 +110,14 @@ public class ViewManager {
 		tipsLabelUI = centerPanel.transform.Find ("Panel/LabelPanel/Label").GetComponent<TipsLabelUI> ();
 
 		bottomLeftPanel =  trans.Find ("BottomLeft").gameObject;
-//		trapLabel = mainUIRoot.transform.Find ("RootPanel/BottomLeft/Label").GetComponent<UILabel> ();
 
 		ResourceManager.Instance.LoadLocalAsset("Font/Dimbo Regular", o =>{
 			dynamicFont = o as Font;
 			manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
 		}
 		);
-
-//		Debug.LogError("manualHeight : " + manualHeight);
-//		DragPanelDynamic dpd 
 	}
 
-//	void Callback(object o) {
-//		Debug.LogError ("o : " + o);
-//		dynamicFont = o as Font;
-//		manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
-//	}
-	
 	public void ShowTipsLabel (string content) {
 		tipsLabelUI.ShowInfo (content);
 	}

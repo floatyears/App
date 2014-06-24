@@ -153,6 +153,7 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void ClickItem(GameObject item){}
 	protected virtual void PressItem(GameObject item){
+//		Debug.LogError ("hp : " + userUnit.Hp + " atk : " + userUnit.UnitInfo.GetCurveValue(userUnit.Level,userUnit.UnitInfo.Object.powerType));
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, userUnit);
 	}

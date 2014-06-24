@@ -199,11 +199,8 @@ public class BattleEnemy : UIBaseUnity {
 		bool isOdd = DGTools.IsOddNumber (count);
 		int centerIndex = count >> 1;
 		if (isOdd) {
-//			int centerIndex = count >> 1;
-//			Debug.LogError("count : " + count + "centerindex : " + centerIndex);
 			probability = GetProbability (Screen.width, enemys);
 			enemys [centerIndex].CompressTextureSize (probability);
-//			Debug.LogError(screenWidth + " ----- " + enemys [centerIndex].texture.width * 0.5f);
 			SetgmentationEnemys(enemys, centerIndex, screenWidth - enemys [centerIndex].texture.width * 0.5f);
 		} else {
 			SetgmentationEnemys(enemys, 0, screenWidth);
@@ -216,7 +213,6 @@ public class BattleEnemy : UIBaseUnity {
 
 		if (centerIndex == 0) {
 			rightStartIndex = leftEndIndex = enemys.Count >> 1;
-
 		}
 
 		List<EnemyItem> leftEnemys = new List<EnemyItem> ();
@@ -278,20 +274,23 @@ public class BattleEnemy : UIBaseUnity {
 			tempIndex++;
 		}
 	}
+
 	GameObject prevEffect;
-	public void PlayerEffect(EnemyItem ei,AttackInfo ai) {
-//		GameObject obj =
+	public void PlayerEffect(EnemyItem ei, AttackInfo ai) {
 		EffectManager.Instance.GetSkillEffectObject (ai.SkillID, ai.UserUnitID, returnValue => {
 			ei.InjuredShake();
+			if(returnValue == null) {
+				return;
+			}
 			GameObject prefab = returnValue as GameObject;
 			prevEffect = EffectManager.InstantiateEffect(effectPanel, prefab);
 			if(ai.AttackRange == 0) {
 				prevEffect.transform.localPosition = ei.transform.localPosition;
 			}
-		} ); 
+		});
 	}
 
-	public void PlayAllEffect() {
+	public void PlayAllEffect () {
 
 	}
 
@@ -304,8 +303,7 @@ public class BattleEnemy : UIBaseUnity {
 				DGTools.CopyTransform (prevEffect.transform, trans);
 			}
 		});
-
-	} 
+	}
 	
 	void ExcuteActiveSkillEnd(object data) {
 		bool b = (bool)data;

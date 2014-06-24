@@ -363,7 +363,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void InitLabel () {
-		Debug.LogError("initlabel 1 ");
+//		Debug.LogError("initlabel 1 ");
 		string path = rootPath + "/info_panel/";
 		string suffixPath = "/Info";
 		UILabel temp = transform.Find(path + hp + suffixPath).GetComponent<UILabel>();
@@ -388,7 +388,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		ShieldEvolveButton (false);
 
 		UIEventListener.Get (evolveButton.gameObject).onClick = Evolve;
-		Debug.LogError("initlabel 2 ");
 	}
 	
 	void Evolve(GameObject go) {

@@ -183,10 +183,15 @@ public class TUnitInfo : ProtobufDataBase {
 
 	//GetCurveValue() Return Total value at level
 	public int GetCurveValue(int level, PowerInfo pi) {
+
+		if (MaxLevel <= 1) {
+			return pi.max;
+		}
+
 		// growCurve = 0.7, 1.0, 1.5
 		float result = pi.min + (pi.max-pi.min) * Mathf.Pow( (float)(level-1)/(MaxLevel-1) , (pi.growCurve) );
 
-		//Debug.LogError("Unit.GetCurveValue("+level+") min:"+pi.min+" max:"+pi.max+" maxLv:"+MaxLevel+" grow:"+pi.growCurve+" result:"+ Mathf.FloorToInt(result));
+//		Debug.LogError("id : " + ID +"Unit.GetCurveValue("+level+") min:"+pi.min+" max:"+pi.max+" maxLv:"+MaxLevel+" grow:"+pi.growCurve+" result:"+ Mathf.FloorToInt(result));
 		return Mathf.FloorToInt(result);
 	}
 

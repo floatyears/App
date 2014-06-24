@@ -104,7 +104,6 @@ public class LoadingDecorator : DecoratorBase{
 		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator = background;
 //		lastDecorator.CreatUIAsyn(lastDecorator);
-        
     }
 }
 
@@ -112,9 +111,9 @@ public class LoadingDecorator : DecoratorBase{
 //--------------------------------Home---------------------------------------
 public class HomeDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public HomeDecorator(SceneEnum sEnum) : base(sEnum){}
+	public HomeDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
-	public override void ShowScene(){
+	public override void ShowScene() {
 		sceneInfoBar.SetBackScene(SceneEnum.None);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_HOME));
 		base.ShowScene();
@@ -137,7 +136,6 @@ public class HomeDecorator : DecoratorBase{
 
 		lastDecorator = quest;
 		lastDecorator.CreatUIAsyn (this);
-//		lastDecorator.CreatUI();
 	}
 }
 
@@ -392,7 +390,6 @@ public class StageSelectDecorrator : DecoratorBase{
 		lastDecorator = questSelect;
 		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
-
 	}
 }
 
@@ -421,7 +418,6 @@ public class FriendSelectDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 		
 		FriendHelperController friendSelect = CreatComponent< FriendHelperController >(UIConfig.friendSelectWindowName);
-
 		friendSelect.SetComponent(sceneInfoBar);
 
 		lastDecorator = friendSelect;
@@ -498,8 +494,11 @@ public class LevelUpDecorator : DecoratorBase {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+		counter.SetComponent (sceneInfoBar);
+
 		SortController sc = CreatComponent<SortController> (UIConfig.userUnitSortPanelName);
-		sc.SetComponent (sceneInfoBar);
+		sc.SetComponent (counter);
 
 		levelUpOperateUI luou = CreatComponent<levelUpOperateUI> (UIConfig.levelUpView);
 		luou.SetComponent (sc);
@@ -573,8 +572,11 @@ public class EvolveDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+		counter.SetComponent (sceneInfoBar);
+
 		SortController sc = CreatComponent<SortController> (UIConfig.userUnitSortPanelName);
-		sc.SetComponent (sceneInfoBar);
+		sc.SetComponent (counter);
 
 		EvolveComponent evolve = CreatComponent< EvolveComponent >(UIConfig.evolveWindowName);
 		evolve.SetComponent(sc);
