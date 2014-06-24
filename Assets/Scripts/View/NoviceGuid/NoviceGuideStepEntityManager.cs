@@ -35,6 +35,8 @@ public class NoviceGuideStepEntityManager {
 	{
 		get{return currentNoviceGuideStage;Debug.Log("current novice guide stage(get): " + currentNoviceGuideStage);}
 		set{
+//			Umeng.GA.FinishLevel();
+			Umeng.GA.StartLevel("Novice" +(int)currentNoviceGuideStage);
 			currentNoviceGuideStage = value;
 			Debug.Log("current novice guide stage(set): " + currentNoviceGuideStage);
 			// the following three stage don't send to server
@@ -46,7 +48,9 @@ public class NoviceGuideStepEntityManager {
 	}
 	public static void InitGuideStage(int stage){
 		currentNoviceGuideStage = (NoviceGuideStage)stage;
-		Debug.Log("current novice guide stage(set): " + currentNoviceGuideStage);
+		if(currentNoviceGuideStage != NoviceGuideStage.NONE)
+			Umeng.GA.StartLevel("Novice" +(int)currentNoviceGuideStage);
+		Debug.Log("current novice guide stage(start): " + currentNoviceGuideStage);
 	}
 
 	public static bool isInNoviceGuide()

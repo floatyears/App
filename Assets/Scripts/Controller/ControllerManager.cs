@@ -87,6 +87,8 @@ public class ControllerManager
 	#endregion
 
 	public void ExitBattle () {
+		Umeng.GA.FinishLevel ("Quest" + ConfigBattleUseData.Instance.questDungeonData.QuestId);
+
 		currentEnum = SceneEnum.None;
 		currentScene.HideUI ();
 		currentScene.DestoryUI();
@@ -96,6 +98,8 @@ public class ControllerManager
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
 		MsgCenter.Instance.Invoke (CommandEnum.LeftBattle, null);
 		UIManager.Instance.InitUIManager ();
+
+
 	}
 
 	private SceneEnum currentEnum = SceneEnum.None;
@@ -130,6 +134,8 @@ public class ControllerManager
 		GameObject ui = GameObject.Find("UI");
 		ViewManager.Instance.BattleBottom = ui.transform.Find ("Anchor/Panel/Bottom").gameObject;
 		ViewManager.Instance.BattleCamera = ui.transform.Find ("Camera").GetComponent<UICamera> ();
+
+
 	}
 	
 	#region global ui
