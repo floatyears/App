@@ -22,6 +22,8 @@ public class QuestSelectView : UIComponentUnity {
 	private void ShowUIAnimation(){
 		gameObject.transform.localPosition = new Vector3(-1000, 0, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
+
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 	}
 	
 	private TStageInfo pickedStage;
