@@ -117,8 +117,7 @@ public class PlayerInfoBar : UIComponentUnity{
 		
 		if (go.name == "Left_Collider") {
 			infoBox.transform.localPosition = rightPosition;
-		} 
-		else if (go.name == "Right_Collider") {
+		} else if (go.name == "Right_Collider") {
 			infoBox.transform.localPosition = leftPosition;
 		}
 	}

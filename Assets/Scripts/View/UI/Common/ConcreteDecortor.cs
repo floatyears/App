@@ -185,15 +185,15 @@ public class ScratchDecorator : DecoratorBase{
 			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 	
-	public override void HideScene(){
+	public override void HideScene() {
 		base.HideScene();
 	}
 	
-	public override void DestoryScene(){
+	public override void DestoryScene() {
 		base.DestoryScene();
 	}
 	
-	public override void DecoratorScene(){
+	public override void DecoratorScene() {
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
