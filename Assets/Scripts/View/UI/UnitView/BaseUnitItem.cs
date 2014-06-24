@@ -4,7 +4,7 @@ using bbproto;
 
 public class BaseUnitItem : MonoBehaviour {
 	protected const string emptyBorder = "unit_empty_bg";
-	protected const string normalBorder = "avatar_border_none";
+//	protected const string normalBorder = "avatar_border_none";
 
 	protected bool canCrossed = true;
 	protected bool isCrossed;
@@ -153,6 +153,7 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void ClickItem(GameObject item){}
 	protected virtual void PressItem(GameObject item){
+//		Debug.LogError ("hp : " + userUnit.Hp + " atk : " + userUnit.UnitInfo.GetCurveValue(userUnit.Level,userUnit.UnitInfo.Object.powerType));
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, userUnit);
 	}
@@ -223,10 +224,30 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void SetCommonState(){
 		IsEnable = true;
-		avatarBorderSpr.spriteName = normalBorder;
+		avatarBorderSpr.spriteName = GetBorderSpriteName ();
 		avatar.spriteName = GetAvatarBgSpriteName ();
 		ExecuteCrossFade ();
 		DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID, avatar);
+	}
+
+	string GetBorderSpriteName () {
+		switch (userUnit.UnitType) {
+		case 1:
+			return "avatar_border_fire";
+		case 2:
+			return "avatar_border_water";
+		case 3:
+			return "avatar_border_wind";
+		case 4:
+			return "avatar_border_light";
+		case 5:
+			return "avatar_border_dark";
+		case 6:
+			return "avatar_border_none";
+		default:
+			return "avatar_border_none";
+			break;
+		}
 	}
 
 	string GetAvatarBgSpriteName() {
@@ -251,6 +272,9 @@ public class BaseUnitItem : MonoBehaviour {
 
 	public static void SetAvatarSprite(UISprite sprite, UIAtlas asset, uint ID) {
 		UIAtlas atlas = asset as UIAtlas;
+		if (ID == 216) {
+			Debug.LogError("atlas : " + asset);	
+		}
 		if (atlas == null) {
 			return;	
 		}

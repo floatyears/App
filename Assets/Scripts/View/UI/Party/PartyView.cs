@@ -23,8 +23,7 @@ public class PartyView : UIComponentUnity{
 	private Dictionary<int, PageUnitItem> partyItems = new Dictionary<int, PageUnitItem>();
 	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
 	private List<PartyUnitItem> partyUnitViewList = new List<PartyUnitItem>();
-
-
+	
 	private UILabel totalHpLabel;
 	private UILabel curCostLabel;
 	private UILabel maxCostLabel;

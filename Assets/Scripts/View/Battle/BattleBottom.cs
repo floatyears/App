@@ -26,7 +26,7 @@ public class BattleBottom : MonoBehaviour {
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
-		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill",o =>{
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill", o =>{
 			battleSkillObject = o as GameObject;
 			battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, battleSkillObject);
 			battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
@@ -89,7 +89,7 @@ public class BattleBottom : MonoBehaviour {
 				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
 			}
 			else{
-				receiveMask = GameLayer.LayerToInt(GameLayer.Bottom);
+				receiveMask = GameLayer.LayerToInt(GameLayer.Default);
 			}
 
 			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
@@ -101,11 +101,12 @@ public class BattleBottom : MonoBehaviour {
 
 	TUserUnit tuu;
 	void CheckCollider (string name) {
+		Debug.LogError ("name : " + name);
 		if (upi == null || battleQuest.role.isMove) {
 			Debug.LogError("upi is null");
 			return;	
 		}
-//		try{
+		try{
 			int id = System.Int32.Parse (name);
 			if (upi.UserUnit.ContainsKey (id)) {
 				foreach (var item in actorObject.Values) {
@@ -128,10 +129,10 @@ public class BattleBottom : MonoBehaviour {
 				BattleMap.waitMove = true;
 				battleQuest.battle.ShieldGameInput(false);
 			}
-//		}
-//		catch(System.Exception ex) {
-//			Debug.LogError("exception : " + ex.Message + " name : " + name);
-//		}
+		}
+		catch(System.Exception ex) {
+			Debug.LogError("exception : " + ex.Message + " name : " + name);
+		}
 	}
 
 	public void Boost() {

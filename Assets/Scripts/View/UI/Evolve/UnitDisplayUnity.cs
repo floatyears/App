@@ -112,7 +112,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		for (int i = 0; i < count; i++) {
 			uint id = tuu.UnitInfo.evolveInfo.materialUnitId[i];
 			MyUnitItem uii = normalDragItem.Find(a=>a.UserUnit.UnitInfo.ID == id);
-			Debug.LogError("material : " + id + " uii : " + uii + " normaldragitem : " + normalDragItem.Count + " baseData :" + baseData.UserUnit.UnitInfo.ID);
+//			Debug.LogError("material : " + id + " uii : " + uii + " normaldragitem : " + normalDragItem.Count + " baseData :" + baseData.UserUnit.UnitInfo.ID);
 			if(uii != default(MyUnitItem)) {
 				materialInfo.Add(uii);
 			} else{
@@ -316,10 +316,20 @@ public class UnitDisplayUnity : UIComponentUnity {
 					}
 				}
 			}
+
+			RefreshCounter ();
 			break;
 		default:
 			break;
 		}
+	}
+
+	private void RefreshCounter(){
+		Dictionary<string, object> countArgs = new Dictionary<string, object>();
+		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
+		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
+		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
 	bool CheckBaseNeedMaterial (TUserUnit tuu, int index) {

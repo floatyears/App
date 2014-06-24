@@ -393,13 +393,15 @@ public class TUserUnit : ProtobufDataBase {
 
     public int InitBlood {
         get {
-            UnitInfo ui = UnitInfo.Object;
+//            UnitInfo ui = UnitInfo.Object;
             int blood = this.Hp;
 
             float temp = blood * hpMultiple;
             return System.Convert.ToInt32(blood);
         }
     }
+
+
 
     public int Blood {
         get {
@@ -438,6 +440,14 @@ public class TUserUnit : ProtobufDataBase {
 			return instance.addHp * 10 + UnitInfo.GetCurveValue( Level, UnitInfo.Object.powerType.hpType );
         }
     }
+
+	public int CalculateATK(TUnitInfo tui) {
+		return instance.addHp * 5 + tui.GetCurveValue (Level, tui.Object.powerType.attackType );
+	}
+
+	public int CalculateHP(TUnitInfo tui) {
+		return instance.addHp * 10 + tui.GetCurveValue (Level, tui.Object.powerType.hpType);
+	}
 
     public uint UnitID {
         get {
