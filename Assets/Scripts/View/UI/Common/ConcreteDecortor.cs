@@ -477,6 +477,7 @@ public class LevelUpDecorator : DecoratorBase {
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
+//		Debug.LogError ("LevelUpDecorator show scene : " + sceneInfoBar.backScene);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_LEVEL_UP));	
 	}
 	
@@ -552,11 +553,12 @@ public class EvolveDecorator : DecoratorBase{
 	}
 	
 	public override void ShowScene(){
-//		Debug.LogError("EvolveDecorator show scene begin");
+//		Debug.LogError ("EvolveDecorator show scene : 1" + sceneInfoBar.backScene);
 		base.ShowScene();
+//		Debug.LogError ("EvolveDecorator show scene : 2" + sceneInfoBar.backScene);
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
+//		Debug.LogError ("EvolveDecorator show scene : 3" + sceneInfoBar.backScene);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_EVOLVE));
-//		Debug.LogError("EvolveDecorator show scene end");
 	}
 	
 	public override void HideScene(){

@@ -31,7 +31,7 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 		UIManager.Instance.ChangeScene(backScene);
 	}
 
-	private SceneEnum backScene = SceneEnum.None;
+	public SceneEnum backScene = SceneEnum.None;
 
 	public void SetBackScene(SceneEnum scene) {
 //		Debug.LogWarning ("sceneinfo SetBackScene : " + scene + " viewComponent : " + viewComponent);
