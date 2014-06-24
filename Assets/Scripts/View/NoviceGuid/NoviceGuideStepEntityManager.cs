@@ -192,7 +192,7 @@ public class NoviceGuideStepEntityManager {
 				
 					switch(ngs){
 					case NoviceGuideStage.EVOVLE_QUEST:
-						CreateStepEntityByID()
+						CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepM_StateOne.Instance());
 						break;
 					}
 				} else if (startType == NoviceGuideStartType.OTHERS) {
