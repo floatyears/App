@@ -35,6 +35,8 @@ public class NoviceGuideStepEntityManager {
 	{
 		get{return currentNoviceGuideStage;Debug.Log("current novice guide stage(get): " + currentNoviceGuideStage);}
 		set{
+//			Umeng.GA.FinishLevel();
+			Umeng.GA.StartLevel("Novice" +(int)currentNoviceGuideStage);
 			currentNoviceGuideStage = value;
 			Debug.Log("current novice guide stage(set): " + currentNoviceGuideStage);
 			// the following three stage don't send to server
@@ -46,7 +48,9 @@ public class NoviceGuideStepEntityManager {
 	}
 	public static void InitGuideStage(int stage){
 		currentNoviceGuideStage = (NoviceGuideStage)stage;
-		Debug.Log("current novice guide stage(set): " + currentNoviceGuideStage);
+		if(currentNoviceGuideStage != NoviceGuideStage.NONE)
+			Umeng.GA.StartLevel("Novice" +(int)currentNoviceGuideStage);
+		Debug.Log("current novice guide stage(start): " + currentNoviceGuideStage);
 	}
 
 	public static bool isInNoviceGuide()
@@ -125,64 +129,74 @@ public class NoviceGuideStepEntityManager {
 			return;		
 		}
 		if (startType == NoviceGuideStartType.BATTLE) {
-				switch (ngs) {
-					case NoviceGuideStage.GOLD_BOX://goldBox
-							CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepH_StateOne.Instance ());
-							break;
-					case NoviceGuideStage.GET_KEY://GetKey
-							CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateSix.Instance ());
-							break;
+						switch (ngs) {
+						case NoviceGuideStage.GOLD_BOX://goldBox
+								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepH_StateOne.Instance ());
+								break;
+						case NoviceGuideStage.GET_KEY://GetKey
+								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateSix.Instance ());
+								break;
+						case NoviceGuideStage.EVOVLE_BATTLE:
+								CreateStepEntityByID (NoviceGuideStepEntityID.EVOLVE, NoviceGuideStepL_StateOne.Instance ());
+								break;
 
-				}
-			}else if(startType == NoviceGuideStartType.FIGHT){
-				switch (ngs) {
-					//Fist Enemy
-				case NoviceGuideStage.ANIMATION://Animation
-					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateOne.Instance ());
-					break;
-				case NoviceGuideStage.FIRST_ATTACK_ONE://AttackOnce
-					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateTwo.Instance ());
-					break;
-				case NoviceGuideStage.FIRST_ATTACK_TWO://AttackTwice
-					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateFour.Instance ());
-					break;
-					//Boss Enemy
-				case NoviceGuideStage.BOSS_ATTACK_ONE://AttackOnce
-					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateOne.Instance ());
-					break;
-				case NoviceGuideStage.BOSS_ATTACK_HEAL://Heal
-					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateThree.Instance ());
-					break;
-				case NoviceGuideStage.BOSS_ATTACK_SKILL://Skill
-					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateFour.Instance ());
-					break;
-				case NoviceGuideStage.BOSS_ATTACK_BOOST://Booost
-					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateFive.Instance ());
-					break;
-				}
-		} else if (startType == NoviceGuideStartType.UNITS) {
-			switch (ngs) {
-				case NoviceGuideStage.UNIT_PARTY:
-					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateOne.Instance());
-					break;
-				case NoviceGuideStage.UNIT_LEVEL_UP:
-					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateTwo.Instance());
-					break;
-				case NoviceGuideStage.UNIT_EVOLVE:
-					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateThree.Instance());
-					break;
-				case NoviceGuideStage.PARTY://Party
-					CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepF_StateOne.Instance ());
-					break;
-				case NoviceGuideStage.LEVEL_UP://LevelUp
-					CreateStepEntityByID (NoviceGuideStepEntityID.LEVEL_UP, NoviceGuideStepI_StateOne.Instance ());
-					break;
-				case NoviceGuideStage.EVOLVE://Evolve
-					CreateStepEntityByID (NoviceGuideStepEntityID.EVOLVE, NoviceGuideStepJ_StateOne.Instance ());
-					break;
-			}
-		} else if (startType == NoviceGuideStartType.OTHERS) {
-			switch (ngs) {
+						}
+				} else if (startType == NoviceGuideStartType.FIGHT) {
+						switch (ngs) {
+						//Fist Enemy
+						case NoviceGuideStage.ANIMATION://Animation
+								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateOne.Instance ());
+								break;
+						case NoviceGuideStage.FIRST_ATTACK_ONE://AttackOnce
+								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateTwo.Instance ());
+								break;
+						case NoviceGuideStage.FIRST_ATTACK_TWO://AttackTwice
+								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateFour.Instance ());
+								break;
+						//Boss Enemy
+						case NoviceGuideStage.BOSS_ATTACK_ONE://AttackOnce
+								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateOne.Instance ());
+								break;
+						case NoviceGuideStage.BOSS_ATTACK_HEAL://Heal
+								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateThree.Instance ());
+								break;
+						case NoviceGuideStage.BOSS_ATTACK_SKILL://Skill
+								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateFour.Instance ());
+								break;
+						case NoviceGuideStage.BOSS_ATTACK_BOOST://Booost
+								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateFive.Instance ());
+								break;
+						}
+				} else if (startType == NoviceGuideStartType.UNITS) {
+						switch (ngs) {
+						case NoviceGuideStage.UNIT_PARTY:
+								CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateOne.Instance ());
+								break;
+						case NoviceGuideStage.UNIT_LEVEL_UP:
+								CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateTwo.Instance ());
+								break;
+						case NoviceGuideStage.UNIT_EVOLVE:
+								CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateThree.Instance ());
+								break;
+						case NoviceGuideStage.PARTY://Party
+								CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepF_StateOne.Instance ());
+								break;
+						case NoviceGuideStage.LEVEL_UP://LevelUp
+								CreateStepEntityByID (NoviceGuideStepEntityID.LEVEL_UP, NoviceGuideStepI_StateOne.Instance ());
+								break;
+						case NoviceGuideStage.EVOLVE://Evolve
+								CreateStepEntityByID (NoviceGuideStepEntityID.EVOLVE, NoviceGuideStepJ_StateOne.Instance ());
+								break;
+						}
+				} else if (startType == NoviceGuideStartType.QUEST) {
+				
+					switch(ngs){
+					case NoviceGuideStage.EVOVLE_QUEST:
+						CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepM_StateOne.Instance());
+						break;
+					}
+				} else if (startType == NoviceGuideStartType.OTHERS) {
+					switch (ngs) {
 //		case NoviceGuideStage.Preface://preface
 //				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
 //				break;
@@ -308,6 +322,7 @@ public class NoviceGuideStepEntityManager {
 	}
 }
 
+//the big steps...then one big step contains several small steps.
 public enum NoviceGuideStepEntityID{
 
 	Loading = 1,
@@ -334,7 +349,8 @@ public enum NoviceGuideStartType{
 //	INPUT_NAME,
 //	QUEST_SELECT,
 //	PARTY
-	OTHERS
+	OTHERS,
+	QUEST
 }
 
 public enum NoviceGuideStage{
@@ -360,4 +376,5 @@ public enum NoviceGuideStage{
 	QUEST_SELECT,
 	EVOLVE,
 	EVOVLE_BATTLE,
+	EVOVLE_QUEST
 }

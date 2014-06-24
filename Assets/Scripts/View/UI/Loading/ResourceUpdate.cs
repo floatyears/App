@@ -17,7 +17,7 @@ public class ResourceUpdate : MonoBehaviour {
 #if UNITY_EDITOR
 	"file://"+ Application.dataPath + "/ResourceDownload/Download/";
 #elif UNITY_IPHONE
-	"file://" + Application.dataPath + "/Raw/";
+	"file://" + Application.persistentDataPath + "/";
 #elif UNITY_ANDROID
 	"file:///" + Application.persistentDataPath + "/assets/";
 #else
@@ -29,7 +29,7 @@ public class ResourceUpdate : MonoBehaviour {
 #if UNITY_EDITOR
 	"Assets/ResourceDownload/Download/";
 #elif UNITY_IPHONE
-	"file://" + Application.dataPath + "/Raw/";
+	"file://" + Application.persistentDataPath + "/";
 #elif UNITY_ANDROID
 	Application.persistentDataPath + "/assets/";
 #else
