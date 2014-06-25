@@ -10,16 +10,23 @@ public class MainMenuView : UIComponentUnity{
 		base.Init (config, origin);
 		InitButton ();
 		UpdateLeaderAvatar(null);
+		AddListener();
 	}
 
 	public override void ShowUI () {
-		base.ShowUI ();
-        AddListener();
+		if (Mathf.Approximately (transform.localPosition.y, 10000f)) {
+			base.ShowUI();	
+		}
+
+		if (!gameObject.activeSelf) {
+			gameObject.SetActive (true);		
+		}
 	}
 
 	public override void HideUI () {
-		base.HideUI ();
-		RemoveListener ();
+		if (gameObject.activeSelf) {
+			gameObject.SetActive (false);		
+		}
 	}
 
 	public override void DestoryUI () {
