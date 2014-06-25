@@ -40,6 +40,7 @@ public class MaskView : UIComponentUnity {
 		background = FindChild<UISprite>("Sprite_Mask");
 		connecting = FindChild("Tips");
 		tips = FindChild<UILabel> ("Tips/Content");
+		FindChild<UILabel> ("Tips/Sprite_Connect/Label_Text").text = TextCenter.GetText ("Connecting");
 		background.enabled = false;
 		connecting.transform.parent.gameObject.SetActive(false);
 	}

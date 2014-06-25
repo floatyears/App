@@ -597,5 +597,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		statusTextLabel.text = TextCenter.GetText("Unit_Detail_Tab_Status");
 		normalSkillTextLabel.text = TextCenter.GetText("Unit_Detail_Tab_Normal_Skill");
 		profileTextLabel.text = TextCenter.GetText("Unit_Detail_Tab_Prifile");
+		raceTextLabel.text = TextCenter.GetText ("Text_RACE");
 	}
 }

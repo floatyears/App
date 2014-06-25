@@ -39,21 +39,27 @@ public class MainMenuView : UIComponentUnity{
 
 	private void InitButton() {
 		GameObject go = FindChild ("Btn_Friends");
+		FindChild ("Btn_Friends/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_FRIEND");
 		buttonInfo.Add (go, SceneEnum.Friends);
 
 		go = FindChild ("Btn_Home");
+		FindChild ("Btn_Home/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_HOME");
 		buttonInfo.Add (go, SceneEnum.Home);
 
 		go = FindChild ("Btn_Scratch");
+		FindChild ("Btn_Scratch/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_SCRATCH");
 		buttonInfo.Add (go, SceneEnum.Scratch);
 
 		go = FindChild ("Btn_Shop");
+		FindChild ("Btn_Shop/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_SHOP");
 		buttonInfo.Add (go, SceneEnum.Shop);
 
 		go = FindChild ("Btn_Others");
+		FindChild ("Btn_Others/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_OTHERS");
 		buttonInfo.Add (go, SceneEnum.Others);
 
 		go = FindChild ("Btn_Units");
+		FindChild ("Btn_Units/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_UNITS");
 		buttonInfo.Add (go, SceneEnum.Units);
 
 		foreach (var item in buttonInfo.Keys) {

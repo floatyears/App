@@ -211,6 +211,8 @@ public class SellView : UIComponentUnity{
 	void ShowUIAnimation(){
 		transform.localPosition = new Vector3(-1000, -285, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
+
+
 	}
 
 	void InitUIElement(){
@@ -237,6 +239,10 @@ public class SellView : UIComponentUnity{
 		InitCells();
 
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+
+		FindChild ("MainWindow/Button_Clear/Label").GetComponent<UILabel>().text = TextCenter.GetText ("Btn_Clear_PickedToSell");
+		FindChild ("MainWindow/Button_Sell/Label").GetComponent<UILabel>().text = TextCenter.GetText ("Btn_Submit_Sell");
+		FindChild ("MainWindow/SellCount/Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Sell_Price");
 	}
 
 	void ClickSellBtn(GameObject btn){

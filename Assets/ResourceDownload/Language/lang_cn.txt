@@ -52,6 +52,8 @@ Btn_SortRule_ID=ID
 Btn_SortRule_Fav=收藏
 Btn_SortRule_AddPoint=+号
 Btn_SortRule_Rank=等级
+Btn_Level_Up=强化
+Btn_Evolve=进化
 
 ##Label Text
 Divided_Line=/
@@ -61,6 +63,7 @@ Float_TotalExp=累计经验:
 
 LeaderSkillText=队长技能: 
 PARTY=队伍
+Text_Sell_Price=卖出单价
 
 ##City Name
 City_Name_1=雾隐山脉
@@ -82,6 +85,12 @@ Text_HP=血量
 Text_ATK=攻击
 Text_COST=体耗
 Text_Level=等级
+Text_RACE=种族
+Text_EXP=经验
+Text_Coins=金币
+Text_TYPE=属性
+Text_BASE=目标
+Text_Friend=好友
 Unit_Detail_Tab_Status=状态
 Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=来源
@@ -132,6 +141,8 @@ ResumeQuestContent=是否花费 {0} 个钻石来接着继续战斗？ \n (你的
 #Loading
 BattleContinueTitle=战斗继续确认
 BattleContinueContent=你有还未结束的战斗，你要继续进行未完成的战斗吗？\n\n放弃战斗将损失所有战利品和已消耗的体力.
+
+Connecting=通信中...
 
 #Friend search
 SearchError=查找错误
@@ -551,7 +562,7 @@ Tips_E_22=感叹号格子容易出进化材料和尖叫奶酪。
 Tips_E_23=感叹号格子里偶尔会乱入超稀有卡牌，掉率令人期待！届时系统会公告通知，请做好万全准备！
 Tips_E_24=单色队伍不仅能在敌人只有一种属性的关卡里游刃有余，而且容易形成很高的攻击加成。
 
-
+## raider
 Raider_0=<p align=center>游戏帮助<br></p><p align=center>基础<br></p><p><a href='Raider_1'>背景介绍</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_2'>战场介绍</a><br></p><p><a href='Raider_3'>战场格子</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_4'>战斗介绍</a><br></p><p><a href='Raider_5'>技能</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_6'>卡牌</a><br></p><p><a href='Raider_7'>强化</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_8'>抽卡</a><br></p>
 Raider_1=<p align=center><font size=34>背景介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left>MQ是一个以西方恶魔为题材的新生代卡牌游戏，诸如吸血鬼伯爵，狼人，科学怪人，木乃伊，地狱三头犬等著名恶魔都将出现在游戏里。玩家将率领以伯爵女儿和其男友为首的军团，招募人类、亡灵、魔兽、巨龙等各种伙伴，通过一场场滑动于指尖的战斗，拯救被黑手绑架的伯爵，恢复恶魔国度的秩序。</p>
 Raider_2=<p align=center><font size=34>战场介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>战场是由5x5的格子拼接而成，格子里面隐藏着金币、敌人甚至陷阱。玩家需要在这样的战场上收集金币，消灭敌人并最终击倒Boss方可战斗胜利.<br>；<br></p><p><font color=#ffff00ff>进入战场流程</font><br></p><p>1-点击世界地图上任一一个地区；<br>2-选择地区地图上任一一个图标；<br>3-选择好友；<br>4-点击开始按钮。<br><br></p><p><font color=#ffff00ff>什么是耐力</font><br></p><p>耐力是进入战场必不可少的行动力，若耐力过低则无法进入战场。<br><br></p><p><font color=#ffff00ff>如何回复耐力</font><br></p><p>1-等待时间自动回复，每10分钟回复1点。<br>2-花费6钻石瞬间让耐力Max。<br><br></p><p><font color=#ffff00ff>如何战场移动</font><br></p><p>点击战场上任一一个格子，棋子就会自动跳过去。请注意，当路线中的格子都是闪烁状态时，必须一个一个格子地走。<br><br></p><p><font color=#ffff00ff>什么是SP</font><br></p><p>SP是棋子移动必不可少的行动力，每移动一格都会消耗1点SP，总共20点。<br>请注意，当SP为0后，就将代扣HP，直至HP剩下1点。<br><br></p><p><font color=#ffff00ff>如何回复SP</font><br></p><p>1-战场里切换场景后，会回复少量SP。<br>2-利用某些卡牌的技能回复少量SP。</p><p align=right><a href='Raider_0'>返回</a></p>

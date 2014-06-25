@@ -391,7 +391,17 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		showInfoLabel.Add (coins, temp);
 
 		evolveButton = FindChild<UIButton> ("Evolve");
+		FindChild ("Evolve/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Evolve");
 		ShieldEvolveButton (false);
+
+		FindChild<UILabel> ("Window/info_panel/HP/label").text = TextCenter.GetText ("Text_HP");
+		FindChild<UILabel> ("Window/info_panel/ATK/label").text = TextCenter.GetText ("Text_ATK");
+		FindChild<UILabel> ("Window/info_panel/Lv/label").text = TextCenter.GetText ("Text_Level");
+		FindChild<UILabel> ("Window/info_panel/Type/label").text = TextCenter.GetText ("Text_TYPE");
+		FindChild<UILabel> ("Window/info_panel/Race/label").text = TextCenter.GetText ("Text_RACE");
+		FindChild<UILabel> ("Window/info_panel/Coins/label").text = TextCenter.GetText ("Text_Coins");
+		FindChild<UILabel> ("Window/title/1/Sprite_Base").text = TextCenter.GetText ("Text_BASE");
+
 
 		UIEventListener.Get (evolveButton.gameObject).onClick = Evolve;
 	}
