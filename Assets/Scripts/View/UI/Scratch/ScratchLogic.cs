@@ -34,9 +34,7 @@ public class ScratchLogic : ConcreteComponent {
 	public ScratchLogic(string uiName):base(uiName) {}
 
     public override void CreatUI () {
-//        LogHelper.Log("ScratchDecoratorUnity CreatUI Decddddddd1");
         base.CreatUI ();
-//        LogHelper.Log("ScratchDecoratorUnity CreatUI Decddddddd2");
     }
 
     public override void ShowUI () {
@@ -51,25 +49,21 @@ public class ScratchLogic : ConcreteComponent {
         base.DestoryUI ();
     }
 
-    public override void CallbackView(object data)
-    {
-        base.CallbackView(data);
-        
+    public override void CallbackView(object data) {
+		base.CallbackView (data);
         CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-        
-        switch (cbdArgs.funcName)
-        {
-        case "OpenFriendGachaWindow": 
-            CallBackDispatcherHelper.DispatchCallBack(OpenFriendGachaWindow, cbdArgs);
-            break;
-        case "OpenRareGachaWindow": 
-            CallBackDispatcherHelper.DispatchCallBack(OpenRareGachaWindow, cbdArgs);
-            break;
-        case "OpenEventGachaWindow": 
-            CallBackDispatcherHelper.DispatchCallBack(OpenEventGachaWindow, cbdArgs);
-            break;
-        default:
-            break;
+        switch (cbdArgs.funcName) {
+	        case "OpenFriendGachaWindow": 
+	            CallBackDispatcherHelper.DispatchCallBack(OpenFriendGachaWindow, cbdArgs);
+	            break;
+	        case "OpenRareGachaWindow": 
+	            CallBackDispatcherHelper.DispatchCallBack(OpenRareGachaWindow, cbdArgs);
+	            break;
+	        case "OpenEventGachaWindow": 
+	            CallBackDispatcherHelper.DispatchCallBack(OpenEventGachaWindow, cbdArgs);
+	            break;
+	        default:
+	            break;
         }
     }
 
@@ -201,7 +195,7 @@ public class ScratchLogic : ConcreteComponent {
     MsgWindowParams GetFriendGachaMsgWindowParams(){
         MsgWindowParams msgWindowParam = new MsgWindowParams();
 
-        msgWindowParam.inputEnable = false;
+        msgWindowParam.inputEnable = true;
         msgWindowParam.titleText = TextCenter.GetText("FriendGacha");
         string content1 = TextCenter.GetText("FriendGachaDescription");
 
@@ -307,7 +301,7 @@ public class ScratchLogic : ConcreteComponent {
         }
         SceneEnum nextScene = SceneEnum.FriendScratch;
         UIManager.Instance.ChangeScene(nextScene);
-        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaMsgWindowParams());
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaMsgWindowParams());
     }
 
     private void OpenRareGachaWindow(object args){
@@ -325,7 +319,7 @@ public class ScratchLogic : ConcreteComponent {
         }
         SceneEnum nextScene = SceneEnum.RareScratch;
         UIManager.Instance.ChangeScene(nextScene);
-        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRareGachaMsgWindowParams());
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRareGachaMsgWindowParams());
 
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
     }
@@ -352,6 +346,6 @@ public class ScratchLogic : ConcreteComponent {
         // TODO eventGacha
         SceneEnum nextScene = SceneEnum.EventScratch;
         UIManager.Instance.ChangeScene(nextScene);
-        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetEventGachaMsgWindowParams());
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetEventGachaMsgWindowParams());
     }
 }

@@ -16,6 +16,8 @@ public class GachaWindowView : UIComponentUnity {
     private Dictionary<GameObject, int> gridDict = new Dictionary<GameObject, int>();
     private Dictionary<GameObject, TUserUnit> gridUnitDict = new Dictionary<GameObject, TUserUnit>();
 
+//	private MsgWindowView msgView;
+	
     public override void Init ( UIInsConfig config, IUICallback origin ) {
         base.Init (config, origin);
         InitUI();
@@ -25,8 +27,8 @@ public class GachaWindowView : UIComponentUnity {
         base.ResetUIState();
         SetActive(false);
         Reset();
-        CloseChooseGachaWindow();
-        SetMenuBtnEnable(true);
+//        CloseChooseGachaWindow();
+//        SetMenuBtnEnable(false);
     }
     
     public override void ShowUI () {
@@ -37,6 +39,8 @@ public class GachaWindowView : UIComponentUnity {
     public override void HideUI () {
         base.HideUI ();
         RemoveListener();
+		CloseChooseGachaWindow ();
+		SetMenuBtnEnable(true);
     }
     
     public override void DestoryUI () {
@@ -45,10 +49,12 @@ public class GachaWindowView : UIComponentUnity {
 
     public void AddListener(){
         MsgCenter.Instance.AddListener(CommandEnum.EnterGachaWindow, Enter);
+//		MsgCenter.Instance.AddListener (CommandEnum.GachaWindowInfo, GachaWindow);
     }
 
     public void RemoveListener(){
         MsgCenter.Instance.RemoveListener(CommandEnum.EnterGachaWindow, Enter);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.GachaWindowInfo, GachaWindow);
     }
 
     public override void CallbackView(object data) {
@@ -65,6 +71,10 @@ public class GachaWindowView : UIComponentUnity {
         }
     }
 
+//	void GachaWindow(object data) {
+//
+//	}
+
     private void InitUI() {
         titleLabel = FindChild<UILabel>("TitleBackground/TitleLabel");
         chancesLabel = FindChild<UILabel>("TitleBackground/ChancesLabel");
@@ -75,11 +85,11 @@ public class GachaWindowView : UIComponentUnity {
 		ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Scratch/GachaGrid", o => {
 			GameObject gachaGrid = o as GameObject;
 			for (int i = 0; i < DataCenter.maxGachaPerTime; i++) {
-				gachaGrid = NGUITools.AddChild (bg.gameObject, gachaGrid);
-				UIButton button = gachaGrid.GetComponent<UIButton> ();
-				button.gameObject.transform.localPosition = new Vector3 (-width + (i % 3) * width, height - (i / 3) * height, 0);
-				gridDict.Add (button.gameObject, i);
-				UIEventListener.Get (button.gameObject).onClick = ClickButton;
+				GameObject go = NGUITools.AddChild (bg.gameObject, gachaGrid);
+//				UIButton button = go.GetComponent<UIButton> ();
+				go.transform.localPosition = new Vector3 (-width + (i % 3) * width, height - (i / 3) * height, 0);
+				gridDict.Add (go, i);
+				UIEventListener.Get (go).onClick = ClickButton;
 			}
 		});
     }
@@ -91,6 +101,7 @@ public class GachaWindowView : UIComponentUnity {
     }
     
     private void SetMenuBtnEnable(bool enable){
+//		Debug.LogError ("SetMenuBtnEnable : " + enable);
         MsgCenter.Instance.Invoke(CommandEnum.EnableMenuBtns, enable);
     }
 
@@ -104,7 +115,9 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void Enter(object args){
-        LogHelper.Log("Enter invoke SyncGachaInfos()");
+//        Debug.Log("Enter invoke SyncGachaInfos()");
+		CloseChooseGachaWindow ();
+		SetMenuBtnEnable(false);
         SetActive(true);
         MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);
         SetMenuBtnEnable(false);
@@ -151,6 +164,7 @@ public class GachaWindowView : UIComponentUnity {
 
     private void ClickButton(GameObject grid){
         // when showing, not response click
+//		Debug.LogError ("Clickbutton : " + grid);
         if (GetTryCount() >= gachaInfo.totalChances){
             return;
         }
@@ -167,8 +181,6 @@ public class GachaWindowView : UIComponentUnity {
             return;
         }
         StartShowGachaGridResult(grid, gachaInfo.unitList[GetTryCount()]);
-//        ShowUnitByUserUnitID(btn, gachaInfo.unitList[GetTryCount()]);
-
     }
 
     private void Reset(){

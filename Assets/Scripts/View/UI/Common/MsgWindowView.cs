@@ -277,7 +277,7 @@ public class MsgWindowView : UIComponentUnity{
         titleLabel.text = msgWindowParams.titleText;
     }
 
-    void ShowMsgWindow(object args){
+    public void ShowMsgWindow(object args){
         MsgWindowParams nextMsgWindowParams = args as MsgWindowParams;
         if (nextMsgWindowParams == null){
             return;

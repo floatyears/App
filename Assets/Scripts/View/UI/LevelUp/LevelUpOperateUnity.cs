@@ -128,7 +128,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
-		Debug.LogError ("show data : " + clear);
+//		Debug.LogError ("show data : " + clear);
 		if (!clear) {
 			return;	
 		}
