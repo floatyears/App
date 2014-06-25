@@ -227,7 +227,7 @@ public class BaseUnitItem : MonoBehaviour {
 	protected virtual void SetCommonState(){
 		IsEnable = true;
 		avatarBorderSpr.spriteName = GetBorderSpriteName ();
-		avatar.spriteName = GetAvatarBgSpriteName ();
+		avatarBg.spriteName = GetAvatarBgSpriteName ();
 		ExecuteCrossFade ();
 		DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID, avatar);
 	}
