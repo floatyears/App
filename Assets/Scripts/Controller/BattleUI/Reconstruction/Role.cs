@@ -177,27 +177,49 @@ public class Role : UIBaseUnity {
 //	float y =  100f;
 //	float time = 0.5f;
 	Vector3 middlePoint = Vector3.zero;
+
+	bool isVerticalMove = false;
+	float adjustTime = 0.0f;
+
 	void MoveRole() {
 		Vector3 localposition = transform.localPosition;
 		Vector3 leftMiddlePoint = Vector3.zero;
 		Vector3 rightMiddlePoint = Vector3.zero;
 		Vector3 rightFristMiddlePoint = Vector3.zero;
 
-		if (localposition.x == targetPoint.x) {
-			middlePoint = new Vector3 (localposition.x, localposition.y + BattleMap.itemWidth * 1.5f, localposition.z);
-			leftMiddlePoint = new Vector3(middlePoint.x, middlePoint.y * 0.9f, middlePoint.z);
+
+
+		if (Mathf.FloorToInt(localposition.x) == Mathf.FloorToInt(targetPoint.x) ) {
+			float offsetY = 1.2f;
+			if ( targetPoint.y < localposition.y ) {
+				offsetY = 0.6f;//(float)BattleMap.itemWidth * 0.4f;
+//				Debug.LogError("<<<<< targetPoint.y:"+ targetPoint.y+"  localposition.y:"+ localposition.y);
+			}
+//			Debug.LogError("-- BattleMap.itemWidth="+BattleMap.itemWidth+" targetPoint.y:"+ targetPoint.y+"  localposition.y:"+ localposition.y);
+
+
+			middlePoint = new Vector3 (localposition.x, localposition.y + BattleMap.itemWidth * 1.4f * offsetY, localposition.z);
+			leftMiddlePoint = localposition; //new Vector3(middlePoint.x, middlePoint.y * 0.9f, middlePoint.z);
 			rightMiddlePoint = targetPoint;
+
+			isVerticalMove = true;
+			adjustTime = 0.0f;
 		} else {
+//			Debug.LogError("x<>x targetPoint.x:"+ targetPoint.x+" !=  localposition.x:"+ localposition.x);
+
 			float x = targetPoint.x - localposition.x;
-			middlePoint = new Vector3 (localposition.x + x * 0.2f , localposition.y + BattleMap.itemWidth * 1.5f, localposition.z);
-			leftMiddlePoint = new Vector3 (localposition.x + x * 0.1f , localposition.y + BattleMap.itemWidth * 0.85f, localposition.z);
+			middlePoint = new Vector3 (localposition.x + x * 0.2f , localposition.y + BattleMap.itemWidth * 1.2f, localposition.z);
+			leftMiddlePoint = new Vector3 (localposition.x + x * 0.1f , localposition.y + BattleMap.itemWidth * 0.75f, localposition.z);
 //			rightFristMiddlePoint = new Vector3(middlePoint.x + x * 0.1f, middlePoint.y + 10f, middlePoint.z);
 			rightMiddlePoint = new Vector3(localposition.x + x * 0.55f,localposition.y + BattleMap.itemWidth * 1.1f , localposition.z);
+
+			isVerticalMove = false;
+			adjustTime = -0.03f;
 		}
 
 		Vector3[] path = new Vector3[3];
 		path [0] = transform.localPosition;
-		path [1] = transform.localPosition;
+		path [1] = leftMiddlePoint;
 		path [2] = middlePoint;
 
 		secondPath [0] = middlePoint;
@@ -206,15 +228,32 @@ public class Role : UIBaseUnity {
 		secondPath [2] = targetPoint;
 //		Debug.LogError ("middlePoint : " + middlePoint + " rightMiddlePoint : " + rightMiddlePoint + " targetPoint : " + targetPoint); 
 
-		iTween.MoveTo (gameObject, iTween.Hash ("path", path, "movetopath", false, "islocal", true, "time", 0.2f, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
+		iTween.MoveTo (gameObject, iTween.Hash ("path", path, "movetopath", false, "islocal", true, "time", 0.13f+adjustTime, "easetype", iTween.EaseType.easeOutSine, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
 //		iTween.MoveTo (gameObject, iTween.Hash ("position", middlePoint, "islocal", true, "time", 0.25f, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
 	}
 
 	void MoveRoleSecond() {
 //		iTween.MoveTo (gameObject, iTween.Hash ("position", targetPoint, "islocal", true, "time", 0.35f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
-		iTween.MoveTo (gameObject, iTween.Hash ("path", secondPath, "movetopath", false, "islocal", true, "time", 0.3f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
+		iTween.MoveTo (gameObject, iTween.Hash ("path", secondPath, "movetopath", false, "islocal", true, "time", 0.18+adjustTime, "easetype", iTween.EaseType.easeInSine, "oncomplete", "MoveRoleBounce", "oncompletetarget", gameObject));
 	}
-	
+
+	void MoveRoleBounce() {
+		float bounceOffset = 0.05f*BattleMap.itemWidth;
+		Vector3[] bouncePath = new Vector3[3];
+		float moveX = bounceOffset, moveY = bounceOffset;
+		if ( isVerticalMove ) {
+			moveX = 0;
+			moveY = 0;
+		} else {
+			moveY = 0;
+		}
+		bouncePath[0] = new Vector3(secondPath [2].x+moveX, secondPath [2].y, secondPath [2].y + moveY);
+		bouncePath[1] = new Vector3(secondPath [2].x+moveX, secondPath [2].y, secondPath [2].y + bounceOffset);
+		bouncePath[2] = new Vector3(secondPath [2].x, secondPath [2].y, secondPath [2].y);
+//		Debug.LogError(">>>>>>>>>>> bounce...");
+		iTween.MoveTo (gameObject, iTween.Hash ("path", bouncePath, "movetopath", false, "islocal", true, "time", 0.1f, "easetype", iTween.EaseType.easeOutBounce, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
+	}
+
 	Coordinate tempCoor; 
 
 	void MoveEnd() {
