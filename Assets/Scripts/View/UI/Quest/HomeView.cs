@@ -133,6 +133,7 @@ public class HomeView : UIComponentUnity{
 		List<TCityInfo> data = DataCenter.Instance.GetCityListInfo();
 		for (int i = 0; i < data.Count; i++){
 			GameObject cityItem = transform.FindChild("StoryDoor/" + i.ToString()).gameObject;
+			FindChild("StoryDoor/" + i.ToString() + "/Label").GetComponent<UILabel>().text = TextCenter.GetText("City_Name_" + (i+1));
 			if(cityItem == null){
 				Debug.LogError(string.Format("Resoures ERROR :: InitWorldMap(), Index[ {0} ] Not Found....!!!", i));
 				continue;

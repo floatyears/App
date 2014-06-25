@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ScratchView : UIComponentUnity {
@@ -42,8 +42,11 @@ public class ScratchView : UIComponentUnity {
 
 	private void InitUI() {
 		btnFriendGacha = FindChild<UIButton>("Gacha_Entrance/1");
+		FindChild ("Gacha_Entrance/1/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("FriendScratch");
 		btnRareGacha = FindChild<UIButton>("Gacha_Entrance/2");
+		FindChild ("Gacha_Entrance/2/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("RareScratch");
 		btnEventGacha = FindChild<UIButton>("Gacha_Entrance/3");
+		FindChild ("Gacha_Entrance/3/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("EventScratch");
 
         UIEventListener.Get(btnFriendGacha.gameObject).onClick = OnClickFriendGacha;
         UIEventListener.Get(btnRareGacha.gameObject).onClick = OnClickRareGacha;

@@ -187,10 +187,22 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			pui.callback = SelectedItemCallback;
 		}
 		string path = "Top/InfoPanel/Label_Value/";
+		string[] texts = new string[] {
+						TextCenter.GetText ("Text_HP"),
+						TextCenter.GetText ("Text_ATK"),
+						TextCenter.GetText ("Text_EXP"),
+						TextCenter.GetText ("Text_Level"),
+						TextCenter.GetText ("Text_Coins")
+				};
 		for (int i = 0; i < 5; i++) { //label name is 0 ~ 4
 			infoLabel[i] = FindChild<UILabel>(path + i);
+			FindChild<UILabel>("Top/InfoPanel/_Label" + i).text = texts[i];
 		}
 		levelUpButton = FindChild<UIButton>("Button_LevelUp");
+		FindChild ("Button_LevelUp/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Level_Up");
+		FindChild ("Top/1/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_BASE");
+		FindChild ("Top/6/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Friend");
+
 		UIEventListener.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
 		levelUpButton.isEnabled = false;
 		path = "Middle/LevelUpBasePanel/SortButton";
