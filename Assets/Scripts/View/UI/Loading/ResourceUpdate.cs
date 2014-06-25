@@ -12,7 +12,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 	public const string serverResURL =
 #if UNITY_EDITOR
-		serverHost+"/resource/android/";
+		serverHost+"/resource/ios/";
 #elif UNITY_ANDROID
 	serverHost+"/resource/android/";
 #elif UNITY_IOS
@@ -227,7 +227,7 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 	public void StartDownload(){
 		StartCoroutine (Download (serverVersionURL, delegate(WWW serverVersion) {
-//			Debug.Log("download serverVersion:"+serverVersion.text);
+			Debug.Log("download serverVersion from "+serverVersionURL+", version text:"+serverVersion.text);
 			LoadVersionConfig(serverVersion.text,serverVersionDic);
 			
 			//load the local version.txt. if not exists, jump through the init.
