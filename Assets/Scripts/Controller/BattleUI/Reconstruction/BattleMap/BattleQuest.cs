@@ -119,7 +119,7 @@ public class BattleQuest : UIBase {
 		if (questFullScreenTips == null) {
 			CreatBoosAppear();
 		}
-		questDungeonData = configBattleUseData.questDungeonData; //GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
+		questDungeonData = configBattleUseData.questDungeonData; 	//GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
 		_questData = configBattleUseData.storeBattleData.questData;
 	}
 
@@ -183,7 +183,7 @@ public class BattleQuest : UIBase {
 	void ReadyMove() {
 		battle.ShieldInput (true);
 
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
+		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
 	}
 
 	void AttackEnemy (object data) {
