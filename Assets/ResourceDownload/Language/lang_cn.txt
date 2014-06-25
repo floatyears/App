@@ -64,6 +64,7 @@ Float_TotalExp=累计经验:
 LeaderSkillText=队长技能: 
 PARTY=队伍
 Text_Sell_Price=卖出单价
+Text_Next=下一级
 
 ##City Name
 City_Name_1=雾隐山脉
@@ -81,6 +82,7 @@ Game_Setting_Option_Currency=购买测试
 Game_Setting_Option_Raider=游戏攻略
 
 Text_Leader_Skill=队长技能
+Text_Active_Skill=主动技能
 Text_HP=血量
 Text_ATK=攻击
 Text_COST=统御力
@@ -91,10 +93,12 @@ Text_Coins=金币
 Text_TYPE=属性
 Text_BASE=目标
 Text_Friend=好友
+Text_Reject=移除
 Unit_Detail_Tab_Status=状态
 Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
 Unit_Detail_Next=下一级
+Text_Party=使用中
 
 ##Scene Name
 SCENE_NAME_APPLY=申请好友
@@ -129,6 +133,17 @@ SCENE_NAME_CURRENCY=购买测试
 Stage_Locked=未解锁
 Stamina=体力
 Floor=层
+
+##Race
+RACE_Human=人类
+RACE_Legend=神
+RACE_Monster=魔怪
+RACE_Mythic=幻魔
+RACE_Beast=野兽
+RACE_Undead=亡灵
+RACE_Screamcheese=强化素材
+RACE_Dragon=龙
+RACE_Evolveparts=进化素材
 
 #Battle
 RedoQuest=重打

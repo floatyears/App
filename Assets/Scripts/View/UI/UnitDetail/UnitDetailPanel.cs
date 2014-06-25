@@ -157,6 +157,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		expSlider		= FindChild<UISlider>	(rootPath + "ExperenceBar"	);
 
 		statusToggle = FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
+
+		FindChild<UILabel> (rootPath + "Bg_Input/Leader_Skill").text = TextCenter.GetText ("Text_Leader_Skill");
+		FindChild<UILabel> (rootPath + "Bg_Input/Active_Skill").text = TextCenter.GetText ("Text_Active_Skill");
 	}
 
 	void InitTabSkill(){
@@ -188,6 +191,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			blockLsit2.Add( spr );
 		}
 
+		FindChild<UILabel> ("UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_1").text = TextCenter.GetText ("Text_Leader_Skill");
+		FindChild<UILabel> ("UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_2").text = TextCenter.GetText ("Text_Active_Skill");
 	}
 	
 	//Make panel focus on the same tab every time when this ui show
@@ -306,7 +311,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if ((data.Level > unitInfo.MaxLevel ) 
 		    || (data.Level == unitInfo.MaxLevel && data.NextExp <= 0) ) {
 			levelLabel.text = unitInfo.MaxLevel.ToString();
-			needExpLabel.text = "Max";
+			needExpLabel.text = TextCenter.GetText("Text_Max");
 			expSlider.value = 1f;
 		} else {
 			needExpLabel.text = "Next: " + data.NextExp.ToString();
@@ -580,7 +585,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			expSlider.value = 1.0f;
 			return;
 		} else {
-			needExpLabel.text = "Next: " + needExp.ToString();
+			needExpLabel.text = TextCenter.GetText("Text_Next") + needExp.ToString();
 		}
 
 		float progress = (float)curExp / (float)currMaxExp;

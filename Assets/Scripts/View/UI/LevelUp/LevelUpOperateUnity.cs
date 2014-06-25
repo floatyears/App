@@ -175,12 +175,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			pui.IsFavorite = false;
 			if(i == 1) {	//base item ui.
 				pui.callback = SelectedItemCallback;
-				pui.PartyLabel.text = "Base";
+				pui.PartyLabel.text = TextCenter.GetText("Text_BASE");
 				continue;
 			}
 			if(i == 6){		//friend item ui.
 				pui.callback = SelectedFriendCallback;
-				pui.PartyLabel.text = "Friend";
+				pui.PartyLabel.text = TextCenter.GetText("Text_Friend");
 				continue;
 			}
 
@@ -200,8 +200,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		}
 		levelUpButton = FindChild<UIButton>("Button_LevelUp");
 		FindChild ("Button_LevelUp/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Level_Up");
-		FindChild ("Top/1/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_BASE");
-		FindChild ("Top/6/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Friend");
+//		FindChild ("Top/1/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_BASE");
+//		FindChild ("Top/6/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Friend");
 
 		UIEventListener.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
 		levelUpButton.isEnabled = false;
@@ -228,6 +228,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o =>{
 			GameObject rejectItem = o as GameObject;
 			GameObject rejectItemIns = myUnitDragPanel.AddRejectItem (rejectItem);
+			rejectItemIns.transform.FindChild("Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Reject");
 			UIEventListener.Get(rejectItemIns).onClick = RejectCallback;
 		});
 	}
@@ -554,7 +555,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			LevelUpUnitItem pui = myUnitList [i];
 			if (pui.UserUnit.TUserUnitID == tuu.TUserUnitID) {
 				if(pui.IsParty) {
-					pui.PartyLabel.text = "Party";
+					pui.PartyLabel.text = TextCenter.GetText("Text_Party");
 				}
 				else{
 					pui.PartyLabel.text = "";
