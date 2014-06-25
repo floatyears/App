@@ -148,8 +148,8 @@ public class ErrorMsgCenter {
         msgStringDic.Add((int)ErrorCode.EU_UPDATE_USERINFO_ERROR, TextCenter.GetText("EU_UPDATE_USERINFO_ERROR"));
         msgStringDic.Add((int)ErrorCode.EF_FRIEND_BASE, TextCenter.GetText("EF_FRIEND_BASE"));
         msgStringDic.Add((int)ErrorCode.EF_FRIEND_NOT_EXISTS, TextCenter.GetText("EF_FRIEND_NOT_EXISTS"));
-        msgStringDic.Add((int)ErrorCode.EF_GET_FRIENDINFO_FAIL, TextCenter.GetText("EF_ADD_FRIEND_FAIL"));
-        msgStringDic.Add((int)ErrorCode.EF_DEL_FRIEND_FAIL, TextCenter.GetText("EF_DEL_FRIEND_FAIL"));
+		msgStringDic.Add((int)ErrorCode.EF_GET_FRIENDINFO_FAIL, TextCenter.GetText("EF_GET_FRIENDINFO_FAIL"));
+		msgStringDic.Add((int)ErrorCode.EF_DEL_FRIEND_FAIL, TextCenter.GetText("EF_DEL_FRIEND_FAIL"));
         msgStringDic.Add((int)ErrorCode.EF_IS_ALREADY_FRIEND, TextCenter.GetText("EF_IS_ALREADY_FRIEND"));
         msgStringDic.Add((int)ErrorCode.EF_INVALID_FRIEND_STATE, TextCenter.GetText("EF_INVALID_FRIEND_STATE"));
         
