@@ -20,12 +20,31 @@ public class HomeView : UIComponentUnity{
 		base.ShowUI();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, false);
 
+		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
+
 		GameTimer.GetInstance ().CheckRefreshServer ();
+
+	}
+
+
+	private void OnChangeSceneComplete(object data ){
+
+		if((SceneEnum)data == SceneEnum.Home){
+			if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_PARTY || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_LEVEL_UP || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
+				UIManager.Instance.ChangeScene (SceneEnum.Units);	
+			} else if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.SCRATCH) {
+				UIManager.Instance.ChangeScene(SceneEnum.Scratch);
+			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT){
+				NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.QUEST);
+			}
+		}
 	}
 
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
+
+		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
 	}
 	
 	public override void CallbackView(object data){
@@ -42,6 +61,8 @@ public class HomeView : UIComponentUnity{
 	
 	void InitUI(){
 		InitWorldMap();
+
+
 	}
 	
 	void CreateStoryView(object args){

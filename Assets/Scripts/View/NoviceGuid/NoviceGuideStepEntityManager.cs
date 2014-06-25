@@ -50,7 +50,7 @@ public class NoviceGuideStepEntityManager {
 		currentNoviceGuideStage = (NoviceGuideStage)stage;
 		if(currentNoviceGuideStage != NoviceGuideStage.NONE)
 			Umeng.GA.StartLevel("Novice" +(int)currentNoviceGuideStage);
-//		Debug.Log("current novice guide stage(start): " + currentNoviceGuideStage);
+		Debug.Log("current novice guide stage(start): " + currentNoviceGuideStage);
 	}
 
 	public static bool isInNoviceGuide()

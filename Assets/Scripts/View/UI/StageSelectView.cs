@@ -283,6 +283,8 @@ public class StageSelectView : UIComponentUnity{
 //				Destroy(listener);
 			}
 		}	
+
+
 	}
 
 	void ClickEvolve() {
@@ -290,9 +292,13 @@ public class StageSelectView : UIComponentUnity{
 	}
 
 
-	public GameObject GetStageItem(int i){
+	public GameObject GetStageNewItem(){
 		if(storyStageRoot != null)
-			return storyStageRoot.transform.GetChild(i).gameObject;
+		foreach(var i in storyStageRoot.transform.GetComponentsInChildren<StageItemView>()){
+			if(DataCenter.Instance.QuestClearInfo.GetStoryStageState(i.Data.ID) == StageState.NEW){
+				return i.gameObject;
+			}
+		}
 
 		return null;
 	}

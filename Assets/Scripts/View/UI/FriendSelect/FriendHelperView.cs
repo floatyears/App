@@ -28,6 +28,8 @@ public class FriendHelperView : UIComponentUnity{
 		CreateGeneralListView();
 		ShowUIAnimation(generalDragPanel);
 		isShowPremium = false;
+
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 	}
 
 	public override void HideUI() {
@@ -294,4 +296,10 @@ public class FriendHelperView : UIComponentUnity{
 		isShowPremium = !isShowPremium;
 	}
 
+
+	public GameObject GetFriendItem(int i){
+		if(generalDragPanel != null)
+			return generalDragPanel.ScrollItem[i];
+		return null;
+	}
 }

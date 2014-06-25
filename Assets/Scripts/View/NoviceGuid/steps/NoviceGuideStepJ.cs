@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//untis
+//untis evolve
 public class NoviceGuideStepJ_StateOne:NoviceGuidState{
 	
 	private static NoviceGuideStepJ_StateOne instance;
@@ -185,6 +185,8 @@ public class NoviceGuideStepJ_StateThree:NoviceGuidState{
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
 		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
 		NoviceGuideUtil.ForceOneBtnClick (gm);
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.EVOVLE_QUEST;
 	}
 	
 	
