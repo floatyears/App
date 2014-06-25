@@ -284,6 +284,7 @@ public enum CommandEnum{
 	OpenGuideMsgWindow,
 	CloseGuideMsgWindow,
 	TakeAward,
+	GachaWindowInfo,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

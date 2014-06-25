@@ -30,9 +30,10 @@ public class CatalogUnitItem : MyUnitItem {
 		widget = GetComponent<UIWidget>();
 		mWidget = widget;
 
-		avatarSprite = transform.FindChild("Avatar").GetComponent<UISprite>();
+		avatarSprite = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
 		erotemeSpr = transform.FindChild("Sprite_Erotemer").GetComponent<UISprite>();
 		maskSprite = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
+		maskSpr = maskSprite;
 		//translucentMaskSpr = transform.FindChild("Sprite_Translucent").GetComponent<UISprite>();
 		idLabel = transform.FindChild("Label_ID").GetComponent<UILabel>();
 	}
@@ -89,7 +90,7 @@ public class CatalogUnitItem : MyUnitItem {
 		}
 		set{
 			state = value;
-			Debug.LogError("catalogUserUnit.UnitID : " + catalogUserUnit.UnitID);
+//			Debug.LogError("catalogUserUnit.UnitID : " + catalogUserUnit.UnitID);
 			switch (state) {
 				case CatalogState.Got : 
 

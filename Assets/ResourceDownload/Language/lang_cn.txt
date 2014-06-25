@@ -5,7 +5,7 @@ Cancel=取消
 CANCEL=取消
 Again=再看一次
 Back=返回
-Open=打开
+Open=Open
 Resume=继续
 Discard=放弃
 
@@ -58,7 +58,7 @@ Btn_Evolve=进化
 ##Label Text
 Divided_Line=/
 Float_User_ID=用户ID:
-Float_NextExp=下次升级所需经验:
+Float_NextExp=升级所需经验:
 Float_TotalExp=累计经验:
 
 LeaderSkillText=队长技能: 
@@ -83,7 +83,7 @@ Game_Setting_Option_Raider=游戏攻略
 Text_Leader_Skill=队长技能
 Text_HP=血量
 Text_ATK=攻击
-Text_COST=体耗
+Text_COST=统御力
 Text_Level=等级
 Text_RACE=种族
 Text_EXP=经验
@@ -93,7 +93,7 @@ Text_BASE=目标
 Text_Friend=好友
 Unit_Detail_Tab_Status=状态
 Unit_Detail_Tab_Normal_Skill=技能
-Unit_Detail_Tab_Prifile=来源
+Unit_Detail_Tab_Prifile=信息
 Unit_Detail_Next=下一级
 
 ##Scene Name
@@ -311,8 +311,8 @@ UnitOverflowText=你当前的卡牌数量已超限：[ff0000]{0}[-]/{1}. 是否�
 FirendOverflow=好友容量超限
 FriendOverflowText=你当前的好友数量已超限：{0}/{1}. 是否扩充你的好友容量?
 
-CostLimit=Cost超限
-CostLimitText=此卡的Cost过大，无法替换上阵。请先提升Cost上限！
+CostLimit=统御力超限
+CostLimitText=此卡的统御力过大，无法替换上阵。请先提升统御力上限！
 
 FriendCounterTitle=好友数量 :
 ApplyCounterTitle=申请好友 :
@@ -493,12 +493,12 @@ Tips_B_3=感叹号格子兼顾最高的风险和最多的金币。
 Tips_B_4=敌人下方的数字代表回合数，为0后即发动攻击。
 Tips_B_5=卡牌有6个属性，火克风，风克水，水克火；光暗互克；无为独立。
 Tips_B_6=每队一个队长，3个队员，最多可以编排5队。
-Tips_B_7=编入队伍的卡牌Cost之和必须≤Cost上限，否则无法编入。
+Tips_B_7=编入队伍的卡牌统御力之和必须≤统御力上限，否则无法编入。
 Tips_B_8=卡牌可吞噬其他卡牌来获得Exp，从而升级变得更强。
 Tips_B_9=卡牌的强化离不开帮手的协助。
 Tips_B_10=强化帮手若能与基础卡牌同属性或同种族，则Exp可获得加成。
 
-Tips_C_1=Rank提升后，耐力不仅会max，且耐力、好友或Cost上限也会逐步提升。
+Tips_C_1=Rank提升后，耐力不仅会max，且耐力、好友或统御力上限也会逐步提升。
 Tips_C_2=耐力每10分钟自动回复1点，也可花费1钻石瞬间让耐力max。
 Tips_C_3=按住方块并左右滑动即可变换到任一方块位置。
 Tips_C_4=按住方块并左右滑动即可与相邻同色方块重叠。
@@ -568,7 +568,7 @@ Raider_1=<p align=center><font size=34>背景介绍</font></p><p align=right><a 
 Raider_2=<p align=center><font size=34>战场介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>战场是由5x5的格子拼接而成，格子里面隐藏着金币、敌人甚至陷阱。玩家需要在这样的战场上收集金币，消灭敌人并最终击倒Boss方可战斗胜利.<br>；<br></p><p><font color=#ffff00ff>进入战场流程</font><br></p><p>1-点击世界地图上任一一个地区；<br>2-选择地区地图上任一一个图标；<br>3-选择好友；<br>4-点击开始按钮。<br><br></p><p><font color=#ffff00ff>什么是耐力</font><br></p><p>耐力是进入战场必不可少的行动力，若耐力过低则无法进入战场。<br><br></p><p><font color=#ffff00ff>如何回复耐力</font><br></p><p>1-等待时间自动回复，每10分钟回复1点。<br>2-花费6钻石瞬间让耐力Max。<br><br></p><p><font color=#ffff00ff>如何战场移动</font><br></p><p>点击战场上任一一个格子，棋子就会自动跳过去。请注意，当路线中的格子都是闪烁状态时，必须一个一个格子地走。<br><br></p><p><font color=#ffff00ff>什么是SP</font><br></p><p>SP是棋子移动必不可少的行动力，每移动一格都会消耗1点SP，总共20点。<br>请注意，当SP为0后，就将代扣HP，直至HP剩下1点。<br><br></p><p><font color=#ffff00ff>如何回复SP</font><br></p><p>1-战场里切换场景后，会回复少量SP。<br>2-利用某些卡牌的技能回复少量SP。</p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_3=<p align=center><font size=34>战场格子</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>战场格子从图案上可分为3类：骷髅、感叹号、钥匙，它们各自隐藏着不同的内容。<br></p><p><font color=#ffff00ff>骷髅格子</font><br></p><p>骷髅格子隐藏着金币、敌人、陷阱，每次随机出现一种内容。<br><br></p><p><font color=#ffff00ff>骷髅颜色</font><br></p><p>骷髅颜色代表格子的危险等级，蓝色→黄色→红色，出现敌人的几率依次提升。<br><br></p><p><font color=#ffff00ff>骷髅数量</font><br></p><p>骷髅数量的多与少与出现的敌人或金币的数量成正比，可谓高风险高回报。<br><br></p><p><font color=#ffff00ff>感叹号格子</font><br></p><p>感叹号格子兼顾最高的风险和回报，而且还隐藏有一个重大内容（请查看“进阶-乱入Boss”）<br><br></p><p><font color=#ffff00ff>钥匙格子</font><br></p><p>钥匙格子里隐藏着钥匙，这是与战场深处的Boss战斗必不可少的通行证。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_4=<p align=center><font size=34>战斗介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>MQ的战斗是滑动方块来进行的，在有限的时间内，滑动更多的方块，给敌人以更高的伤害。这是一场活跃于指尖的战斗，乐趣十足，刺激满点。<br><br></p><p><font color=#ffff00ff>操作方法</font><br></p><p>1-按住方块，将其从下方的准备槽滑动进上方的战斗槽内即可。\n2-按住方块并左右滑动即可变换到任一方块位置。\n3-按住方块并左右滑动即可与相邻同色方块重叠。<br><br></p><p><font color=#ffff00ff>滑动时间</font><br></p><p>将方块滑动进战斗槽内的有限时间只有5s，必须眼疾手快。<br>但是，只要方块还没有进入战斗槽，则倒计时不会开始，所以这个时候可将同色方块整理在一起后再滑动能节省不少时间。<br><br></p><p><font color=#ffff00ff>方块种类</font><br></p><p>方块总共有7类，除开用于恢复HP的心方块外，其他6种为攻击用方块，分别对应卡牌的6种属性：火、水、风、光、暗、无。<br><br></p><p><font color=#ffff00ff>卡牌属性</font><br></p><p>卡牌共有6种属性：火、水、风、光、暗、无，它们之间存在着相克关系。\n火→风，风→水，水→火；光暗互克；无为独立。\n当己方的属性克制敌人时，则伤害加倍；反之则伤害减半。<br><br></p><p><font color=#ffff00ff>如何正确攻击</font><br></p><p>	重点来了！\n一般情况下，滑动≥2个与卡牌同色的方块到同一个战斗槽中即可发动攻击。<br>但是，究竟需要什么颜色的方块，多少数量的方块，这一点最终由卡牌的普通技能决定。（可在战斗中点击卡牌头像查看技能详情）<br><br></p><p><font color=#ffff00ff>如何回复HP</font><br></p><p>将≥2个心方块滑动进同一个战斗槽即可回复HP，方块越多，回复量越高。<br><br></p><p><font color=#ffff00ff>敌人何时攻击</font><br></p><p>敌人下方有个Next字样，Next后面的数字表示敌人的攻击冷却回合。即比如Next 2，那就表示该敌人2回合后将发动攻击。<br><br></p><p><font color=#ffff00ff>如何挑战Boss</font><br></p><p>战场最上方有一双闪动的红色魔眼，那就是Boss。要挑战它需要完成以下2步：<br>1-在战场中找到钥匙。<br>2-走到离Boss最近的格子处，点击Boss即可开战。<br></p><p align=right><a href='Raider_0'>返回</a></p>
-Raider_5=<p align=center><font size=34>卡牌</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>卡牌是游戏里最为重要的元素，不管是攻略主线关卡还是挑战活动关卡，强力的卡牌都是玩家不可缺少的伙伴。<br><br></p><p><font color=#ffff00ff>操作</font><br></p><p>1-在非战斗情况下，长按卡牌头像即可查看卡牌详情。<br>2-在卡牌详情界面，点击“锁”图标即可收藏该卡牌，防止误操作将卡牌卖出或强化。<br><br></p><p><font color=#ffff00ff>HP和ATK</font><br></p><p>HP：卡牌的基本能力之一，HP越高，战斗时的总HP越高。<br>ATK：卡牌的基本能力之二，ATK越高，给予敌人的伤害越高。<br><br></p><p><font color=#ffff00ff>Cost</font><br></p><p>Cost好比粮草，如果士兵所需的粮草之和＞队伍所能携带的粮草上限，则必须减少士兵数量。因此在MQ里，若要被编入队伍的卡牌Cost之和＞队伍Cost上限的话，则无法将它们都编入队伍，必须重新选择卡牌进行编排。<br><br></p><p><font color=#ffff00ff>属性</font><br></p><p>卡牌共有6种属性：火、水、风、光、暗、无，它们之间存在着相克关系。<br>火→风，风→水，水→火；光暗互克；无为独立。<br>当己方的属性克制敌人时，则伤害加倍；反之则伤害减半。<br><br></p><p><font color=#ffff00ff>种族</font><br></p><p>卡牌共8个种族，人类、龙、亡灵、兽、幻魔、魔怪、魔神和强化种族。<br>种族的划分不仅在战斗时能产生更多的策略性，也让卡牌的强化和进化更加有趣。<br><br></p><p><font color=#ffff00ff>星级</font><br></p><p>卡牌共有6个星级，星级越高的卡牌越难以入手，自然有着越强大的实力。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
+Raider_5=<p align=center><font size=34>卡牌</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>卡牌是游戏里最为重要的元素，不管是攻略主线关卡还是挑战活动关卡，强力的卡牌都是玩家不可缺少的伙伴。<br><br></p><p><font color=#ffff00ff>操作</font><br></p><p>1-在非战斗情况下，长按卡牌头像即可查看卡牌详情。<br>2-在卡牌详情界面，点击“锁”图标即可收藏该卡牌，防止误操作将卡牌卖出或强化。<br><br></p><p><font color=#ffff00ff>HP和ATK</font><br></p><p>HP：卡牌的基本能力之一，HP越高，战斗时的总HP越高。<br>ATK：卡牌的基本能力之二，ATK越高，给予敌人的伤害越高。<br><br></p><p><font color=#ffff00ff>统御力</font><br></p><p>统御力好比粮草，如果士兵所需的粮草之和＞队伍所能携带的粮草上限，则必须减少士兵数量。因此在MQ里，若要被编入队伍的卡牌统御力之和＞队伍统御力上限的话，则无法将它们都编入队伍，必须重新选择卡牌进行编排。<br><br></p><p><font color=#ffff00ff>属性</font><br></p><p>卡牌共有6种属性：火、水、风、光、暗、无，它们之间存在着相克关系。<br>火→风，风→水，水→火；光暗互克；无为独立。<br>当己方的属性克制敌人时，则伤害加倍；反之则伤害减半。<br><br></p><p><font color=#ffff00ff>种族</font><br></p><p>卡牌共8个种族，人类、龙、亡灵、兽、幻魔、魔怪、魔神和强化种族。<br>种族的划分不仅在战斗时能产生更多的策略性，也让卡牌的强化和进化更加有趣。<br><br></p><p><font color=#ffff00ff>星级</font><br></p><p>卡牌共有6个星级，星级越高的卡牌越难以入手，自然有着越强大的实力。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_6=<p align=center><font size=34>技能</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>卡牌的技能是除HP和ATK外，另外一个决定卡牌强弱的极其重要的元素。由于稍稍复杂一点，所以单独提出来讲。<br><br></p><p><font color=#ffff00ff>分类</font><br></p><p>技能分为4种：队长技能、主动技能、普通技能、被动技能。<br>某些没有被动技能的卡牌会追加第二个普通技能。<br><br></p><p><font color=#ffff00ff>队长技能</font><br></p><p>队长技能就如同buff一样，能够在整个战斗中持续有效。比如“我方火属性队员攻击提升2倍”，“减少来自敌方的火属性伤害50%”等等。另外还需要注意2点：<br>1-卡牌必须作为队长编入队伍中，其队长技能才能生效。<br>2-不是每张卡牌都有队长技能。<br><br></p><p><font color=#ffff00ff>主动技能</font><br></p><p>主动技能就如同暗黑、魔兽等游戏里的技能，当冷却时间为0后即可发动，只不过在MQ里，冷却时间换成了冷却回合。<br>比如“’给敌方全体造成基于ATK的10倍火属性伤害‘，冷却回合20”。那么随着战斗的进行，回合数变为0后即可点击卡牌头像进行发动。<br><br></p><p><font color=#ffff00ff>普通技能</font><br></p><p>普通技能可以看做格斗游戏里面需要攒怒气来发动的必杀技，只不过在MQ里，需要攒的不是怒气而是方块。<br>比如“’对敌方单体造成水属性小伤害‘，蓝色方块2个”。那么就需要在5s的战斗倒计时结束之前，将2个蓝色方块滑动到同一个战斗槽，之后卡牌就会自动攻击了。<br><br></p><p><font color=#ffff00ff>被动技能</font><br></p><p>被动技能也可以看做buff，它和队长技能的区别之一在于：不管卡牌处于队长还是队员位置，其被动技能都有效。<br>比如“一定几率将所受伤害的10%转为水属性反击给敌人”。那么当队伍受伤后，持有该被动技能的卡牌便有可能发动反击。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_7=<p align=center><font size=34>强化</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>MQ的卡牌不像传统游戏可以在战斗中打倒敌人获得经验值从而升级变得强大，在这里必须通过特殊的方式——强化，即吞噬其他卡牌来获得经验值从而升级变强。<br><br></p><p><font color=#ffff00ff>操作</font><br></p><p>1-点击units。<br>2-点击level up。3-点击卡牌选择基础和用于被吞噬的材料。<br>4-点击好友头像框选择好友。<br>5-点击下方的level up按钮。<br><br></p><p><font color=#ffff00ff>基础卡牌</font><br></p><p>基础卡牌即为被强化对象，强化后等级提升。最右上角的头像框即为基础卡牌的选择位置，点击此处进行基础卡牌的选择或更换。<br><br></p><p><font color=#ffff00ff>材料卡牌</font><br></p><p>材料卡牌即为被吞噬对象，强化后被消耗。上方中间4个头像框即为材料卡牌的选择位置，点击此处进行材料卡牌的选择或更换。<br><br></p><p><font color=#ffff00ff>帮手</font><br></p><p>卡牌的强化离不开帮手的协助，帮手不仅可以带来友情点数（好友带来的更多），更能让基础卡牌获得的经验值大幅度加成，具体加成如下：<br>1-若帮手与基础卡牌的种族或属性相同，则经验值x1.25；<br>2-若帮手与基础卡牌的种族和属性都相同，则经验值x1.5。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_8=<p align=center><font size=34>抽卡</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>抽卡是玩家获取战斗力最为重要的地方。虽然战斗中也可掉落部分强力卡牌，但只有善用抽卡的玩家才可君临天下！<br><br></p><p><font color=#ffff00ff>抽卡分类</font><br></p><p>抽卡分为3类，友情抽卡、稀有抽卡、限定抽卡。<br><br></p><p><font color=#ffff00ff>友情抽卡</font><br></p><p>友情抽卡即使用友情点数来进行的抽卡，虽然经常出低星卡，但是有几率抽到主角卡。<br><br></p><p><font color=#ffff00ff>稀有抽卡</font><br></p><p>稀有抽卡即使用钻石来进行的抽卡，虽然花费不菲，但是隐藏于其中的超强力卡牌绝对值得玩家付出。<br><br></p><p><font color=#ffff00ff>限定抽卡</font><br></p><p>限定抽卡类似稀有抽卡，也是花费钻石来获取超强力卡牌，只不过这些卡牌是限定于某时间段出现。若想获得这些珍贵的卡牌，请密切关注系统的公告通知。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>

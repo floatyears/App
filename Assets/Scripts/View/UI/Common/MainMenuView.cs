@@ -19,6 +19,7 @@ public class MainMenuView : UIComponentUnity{
 
 	public override void HideUI () {
 		base.HideUI ();
+		RemoveListener ();
 	}
 
 	public override void DestoryUI () {
@@ -27,11 +28,13 @@ public class MainMenuView : UIComponentUnity{
 	}
 
     private void AddListener(){
+//		Debug.LogError("main menu addlistener");
 		MsgCenter.Instance.AddListener(CommandEnum.ModifiedParty, UpdateLeaderAvatar);
         MsgCenter.Instance.AddListener(CommandEnum.EnableMenuBtns, SetMenuValid);
     }
 
     private void RemoveListener(){
+//		Debug.LogError("main menu removeListener");
 		MsgCenter.Instance.RemoveListener(CommandEnum.ModifiedParty, UpdateLeaderAvatar);
         MsgCenter.Instance.RemoveListener(CommandEnum.EnableMenuBtns, SetMenuValid);
     }
