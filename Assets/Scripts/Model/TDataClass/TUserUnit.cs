@@ -26,7 +26,7 @@ public class TUserUnit : ProtobufDataBase {
         MsgCenter.Instance.RemoveListener(CommandEnum.StrengthenTargetType, StrengthenTargetType);
     }
 
-    private int currentBlood = -1;
+//    private int currentBlood = -1;
     private float attackMultiple = 1;
     public float AttackMultiple {
         get {
@@ -133,9 +133,9 @@ public class TUserUnit : ProtobufDataBase {
         if (hurtValue <= 0) {
             hurtValue = 1;
         }
-        int hv = System.Convert.ToInt32(hurtValue);
-        currentBlood -= hv;
-        return hv;
+//        int hv = System.Convert.ToInt32(hurtValue);
+//        currentBlood -= hv;
+		return hurtValue;
     }
 
     void InitSkill() {
