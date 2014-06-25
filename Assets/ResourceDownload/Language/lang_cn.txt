@@ -329,8 +329,8 @@ StageStateClear=已通关
 StaminaLackNoteTitle=体力不足
 StaminaLackNoteContent=当前体力不足，不能进入此场战斗！
 
-SelectRoleTitle=选择主角
-SelectRoleContent=你确定选择此角色，开始进入游戏吗?
+SelectRoleTitle=确认主角
+SelectRoleContent=确定选择此角色开始游戏吗?
 
 DeleteNoteTitle=删除好友
 DeleteNoteContent=你确定删除此好友吗?
