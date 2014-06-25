@@ -7,7 +7,6 @@ public class BattleMap : UIBaseUnity {
 	private MapItem[,] map;
 	private MapItem temp;
 	private List<MapItem> prevAround = new List<MapItem>();
-//	private List<MapItem> useMapItem = new List<MapItem>();
 	[HideInInspector]
 	public MapItem prevMapItem;
 	private static bool wMove = false;

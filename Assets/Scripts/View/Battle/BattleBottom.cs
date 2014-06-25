@@ -101,9 +101,9 @@ public class BattleBottom : MonoBehaviour {
 
 	TUserUnit tuu;
 	void CheckCollider (string name) {
-		Debug.LogError ("name : " + name);
+//		Debug.LogError ("name : " + name);
 		if (upi == null || battleQuest.role.isMove) {
-			Debug.LogError("upi is null");
+//			Debug.LogError("upi is null");
 			return;	
 		}
 		try{
@@ -129,7 +129,7 @@ public class BattleBottom : MonoBehaviour {
 			}
 		}
 		catch(System.Exception ex) {
-			Debug.LogError("exception : " + ex.Message + " name : " + name);
+//			Debug.LogError("exception : " + ex.Message + " name : " + name);
 		}
 	}
 
