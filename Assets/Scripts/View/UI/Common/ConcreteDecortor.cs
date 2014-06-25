@@ -31,7 +31,6 @@ public class SelectRoleDecorator : DecoratorBase{
 		
 		lastDecorator = unitSelect;
 		lastDecorator.CreatUIAsyn (this);
-//		lastDecorator.CreatUI();
 	}
 }
 
@@ -41,6 +40,7 @@ public class StartDecorator : DecoratorBase {
 	public StartDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
+//		Debug.LogError("start decorator show scene");
 		base.ShowScene();
 	}
 	
@@ -67,7 +67,6 @@ public class StartDecorator : DecoratorBase {
 
 		lastDecorator = tipsBar;
 		lastDecorator.CreatUIAsyn (this);
-//		lastDecorator.CreatUIAsyn(lastDecorator);
 	}
 }
 

@@ -23,7 +23,7 @@ public class StartScene : BaseComponent {
 		set {currentScene = value;}
 	}
 
-	private SceneEnum prevScene;
+	private SceneEnum prevScene = SceneEnum.None;
 	public SceneEnum PrevScene {
 		get { return prevScene; }
 		set { prevScene = value; }
@@ -31,6 +31,11 @@ public class StartScene : BaseComponent {
 	}
 
 	public void SetScene(SceneEnum sEnum) {
+//		Debug.LogError ("senum : " + sEnum);
+		if (prevScene != SceneEnum.None && prevScene == currentScene) {
+			return;		
+		}
+
 		prevScene = currentScene;
 		currentScene = sEnum;
 
@@ -38,7 +43,7 @@ public class StartScene : BaseComponent {
 			dis = new StartDecorator (sEnum);
 			dis.SetDecorator (this);
 			dis.DecoratorScene ();
-			dis.ShowScene ();
+//			dis.ShowScene ();
 		}
 	}
 

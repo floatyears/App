@@ -2,9 +2,12 @@ using UnityEngine;
 using System.Collections;
 
 public class MainMenuController : ConcreteComponent, IUICallback {
-	public MainMenuController (string uiName) : base(uiName) {}
+	public MainMenuController (string uiName) : base(uiName) {
+
+	}
 
 	public override void ShowUI () {
+		Debug.LogError("main menu controller creat ui");
 		base.ShowUI ();
 	}
 
