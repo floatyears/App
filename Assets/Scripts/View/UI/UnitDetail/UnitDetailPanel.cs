@@ -409,7 +409,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-		Debug.LogError ("PlayLevelUp :: newBlend.UnitId:"+newBlendUnit.UnitInfo.ID);
+//		Debug.LogError ("PlayLevelUp :: newBlend.UnitId:"+newBlendUnit.UnitInfo.ID);
 //		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
 //		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
 //		unitInfoTabs.SetActive (false);

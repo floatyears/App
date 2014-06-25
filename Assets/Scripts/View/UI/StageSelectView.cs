@@ -42,6 +42,8 @@ public class StageSelectView : UIComponentUnity{
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickStoryCity, ShowStoryCityView);
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickEventCity, ShowEventCityView);
+
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 	}
 
 	private void ShowEventCityView(object data){
@@ -281,12 +283,25 @@ public class StageSelectView : UIComponentUnity{
 //				Destroy(listener);
 			}
 		}	
+
+
 	}
 
 	void ClickEvolve() {
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectStage, evolveStageInfo);
 	}
-	
+
+
+	public GameObject GetStageNewItem(){
+		if(storyStageRoot != null)
+		foreach(var i in storyStageRoot.transform.GetComponentsInChildren<StageItemView>()){
+			if(DataCenter.Instance.QuestClearInfo.GetStoryStageState(i.Data.ID) == StageState.NEW){
+				return i.gameObject;
+			}
+		}
+
+		return null;
+	}
 }
 
 

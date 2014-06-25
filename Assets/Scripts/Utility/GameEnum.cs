@@ -84,6 +84,7 @@ public enum CommandEnum{
     PartySaveState,
     BackSceneEnable,
 	levelDone,
+	ChangeSceneComplete,
 	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 				= 1002,
 	StartAttack					= 1003,

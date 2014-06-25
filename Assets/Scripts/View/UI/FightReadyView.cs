@@ -41,6 +41,8 @@ public class FightReadyView : UIComponentUnity {
 		base.ShowUI();
 		AddCmdLisenter();
 		ShowUIAnimation();
+
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 	}
 
 	public override void HideUI(){

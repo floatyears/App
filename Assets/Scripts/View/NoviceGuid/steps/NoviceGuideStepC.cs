@@ -16,7 +16,7 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepD state_one");
+		LogHelper.Log (stepEntity.GetType () + " get into stepC state_one");
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParam = new BtnParam();
@@ -61,6 +61,8 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 	{
 		UIEventListener.Get (btn).onClick -= TapRareCard;
 		NoviceGuideUtil.RemoveArrow (btn);
+
+		JumpToNextState = true;
 	}
 
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -88,7 +90,7 @@ public class NoviceGuideStepC_StateTwo:NoviceGuidState
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepD novistate_one");
+		LogHelper.Log (stepEntity.GetType () + " get into stepC novistate_one");
 		
 		MsgWindowView mwv = GameObject.Find ("CommonNoteWindow(Clone)").GetComponent<MsgWindowView> ();
 		
@@ -115,7 +117,7 @@ public class NoviceGuideStepC_StateTwo:NoviceGuidState
 	public override void Execute(NoviceGuideStepEntity stepEntity)
 	{
 		if(JumpToNextState)
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepC_StateFive.Instance());
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepC_StateThree.Instance());
 		else{
 			
 		}
@@ -123,24 +125,24 @@ public class NoviceGuideStepC_StateTwo:NoviceGuidState
 	
 }
 
-public class NoviceGuideStepC_StateFive:NoviceGuidState
+public class NoviceGuideStepC_StateThree:NoviceGuidState
 {
-	private static NoviceGuideStepC_StateFive instance;
+	private static NoviceGuideStepC_StateThree instance;
 	
-	public static NoviceGuideStepC_StateFive Instance()
+	public static NoviceGuideStepC_StateThree Instance()
 	{
 		if (instance == null)
-			instance = new NoviceGuideStepC_StateFive ();
+			instance = new NoviceGuideStepC_StateThree ();
 		return instance;
 	}
 	
-	private NoviceGuideStepC_StateFive ():base()	{}
+	private NoviceGuideStepC_StateThree ():base()	{}
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepC state_five");
+		LogHelper.Log (stepEntity.GetType () + " get into stepC state_three");
 		
-		MsgWindowParams mwp = new MsgWindowParams ();
+		GuideWindowParams mwp = new GuideWindowParams ();
 		//mwp.btnParams = new BtnParam[1];
 		mwp.btnParam = new BtnParam ();
 		mwp.titleText = TextCenter.GetText("guide8_title");

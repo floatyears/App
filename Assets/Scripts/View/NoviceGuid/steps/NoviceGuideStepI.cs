@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//untis
+//level up
 public class NoviceGuideStepI_StateOne:NoviceGuidState{
 	
 	private static NoviceGuideStepI_StateOne instance;
@@ -241,7 +241,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 	
 	private void OnLevelDone(object data){
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
 		UIManager.Instance.forbidChangeScene = false;
 
 		GuideWindowParams mwp = new GuideWindowParams ();
@@ -265,7 +265,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 //		UIEventListenerCustom.Get (gm).onClick += OnClickBack;
 //		NoviceGuideUtil.ForceOneBtnClick (gm);
 
-		UIManager.Instance.ChangeScene (SceneEnum.Units);
+		UIManager.Instance.ChangeScene (SceneEnum.Scratch);
 	}
 
 	private void OnClickBack(GameObject gm){
@@ -281,7 +281,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 		NoviceGuideUtil.RemoveAllArrows ();
 		JumpToNextState = true;
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage++;
+//		NoviceGuideStepEntityManager.CurrentNoviceGuideStage++;
 	}
 
 	public override void Execute(NoviceGuideStepEntity stepEntity)

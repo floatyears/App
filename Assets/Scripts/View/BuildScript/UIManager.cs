@@ -157,6 +157,8 @@ public class UIManager {
 		}
 
 		prevScene = sEnum;
+
+		MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete,sEnum);
 	}
 	
 	DecoratorBase CreatScene(SceneEnum sEnum) {
