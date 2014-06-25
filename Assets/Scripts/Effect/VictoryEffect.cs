@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class VictoryEffect : UIBaseUnity {
-	private UISprite levelProgress;
+	private UISlider levelProgress;
 	private UILabel coinLabel;
 	private UILabel empiricalLabel;
 
@@ -120,7 +120,7 @@ public class VictoryEffect : UIBaseUnity {
 			int showValue = (int)currentExp;
 			empiricalLabel.text = showValue.ToString();
 			float progress = currentExp / currentTotalExp;
-			levelProgress.fillAmount = progress;
+			levelProgress.value = progress;
 			if(currentExp >= currentTotalExp) {
 				currentExp -= currentTotalExp;
 				rank++;
@@ -157,7 +157,7 @@ public class VictoryEffect : UIBaseUnity {
 
 	void FindComponent () {
 		MsgCenter.Instance.Invoke (CommandEnum.StopInput, null);
-		levelProgress = FindChild<UISprite> ("LvProgress");
+		levelProgress = FindChild<UISlider> ("LvProgress");
 		coinLabel = FindChild<UILabel>("CoinValue");
 		empiricalLabel = FindChild<UILabel>("EmpiricalValue");
 		leftWing = FindChild<UISprite>("LeftWing");
@@ -208,7 +208,7 @@ public class VictoryEffect : UIBaseUnity {
 		}
 		float progree = (float)empire / (float)maxEmpire;
 		empiricalLabel.text = empire.ToString();
-		levelProgress.fillAmount = progree;
+		levelProgress.value = progree;
 		yield return 0;
 		if (empire < maxEmpire) {
 			StartCoroutine(UpdateLevelNumber(empire,maxEmpire));
