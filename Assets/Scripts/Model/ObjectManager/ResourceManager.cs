@@ -179,7 +179,7 @@ public class ResourceManager : MonoBehaviour{
 		string url = 
 #if UNITY_EDITOR
 	"file://" + Application.dataPath + "/ResourceDownload/Output/" + GetBundleUrlByKey(key);
-#elif UNITY_IPHONE
+#elif UNITY_IOS
 	"file://" + Application.persistentDataPath + "/"+ GetBundleUrlByKey(key);
 #elif UNITY_ANDROID
 	"file:///" + Application.persistentDataPath + "/assets/"+ GetBundleUrlByKey(key);
