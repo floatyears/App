@@ -993,8 +993,9 @@ public class BattleQuest : UIBase {
 		ResourceManager.Instance.LoadLocalAsset ("Prefabs/Victory", o => {
 			GameObject obj = o as GameObject;
 			Vector3 tempScale = obj.transform.localScale;
-			obj = NGUITools.AddChild(viewManager.CenterPanel,obj);
+			obj = NGUITools.AddChild(viewManager.EffectPanel, obj);
 			obj.transform.localScale = tempScale;
+			obj.transform.localPosition = new Vector3(0f, 475f, 0f);
 			VictoryEffect ve = obj.GetComponent<VictoryEffect>();
 			ve.Init("Victory");
 			ve.battleQuest = this;
