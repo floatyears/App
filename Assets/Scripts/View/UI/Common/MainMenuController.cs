@@ -7,7 +7,7 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 	}
 
 	public override void ShowUI () {
-		Debug.LogError("main menu controller creat ui");
+//		Debug.LogError("main menu controller creat ui");
 		base.ShowUI ();
 	}
 
