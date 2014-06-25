@@ -38,8 +38,7 @@ public class MainMenuView : UIComponentUnity{
 		MsgCenter.Instance.RemoveListener(CommandEnum.ModifiedParty, UpdateLeaderAvatar);
         MsgCenter.Instance.RemoveListener(CommandEnum.EnableMenuBtns, SetMenuValid);
     }
-
-
+	
 	private void InitButton() {
 		GameObject go = FindChild ("Btn_Friends");
 		FindChild ("Btn_Friends/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_FRIEND");
