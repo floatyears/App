@@ -385,7 +385,9 @@ public class PartyView : UIComponentUnity{
 
 	private void InitRejectBtn(){
 		dragPanel.AddItem(1, rejectItem);
+
 		GameObject rejectItemIns = dragPanel.ScrollItem[ 0 ];
+		rejectItemIns.transform.FindChild ("Label_Text").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Reject");
 		UIEventListener.Get(rejectItemIns).onClick = RejectPartyMember;
 	}
 

@@ -18,6 +18,8 @@ public class PartyUnitItem : MyUnitItem {
 
 	protected override void InitUI(){
 		base.InitUI();
+
+		gameObject.transform.FindChild ("Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Party");
 	}
 	
 	protected override void InitState(){
@@ -69,6 +71,8 @@ public class LevelUpUnitItem : MyUnitItem {
 	
 	protected override void InitUI(){
 		base.InitUI();
+
+		gameObject.transform.FindChild ("Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Party");
 	}
 	
 	protected override void InitState(){

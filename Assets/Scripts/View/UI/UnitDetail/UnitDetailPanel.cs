@@ -23,6 +23,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	UILabel needExpLabel;
 	UISlider expSlider;
 
+	UILabel leaderSkillNameLabel;
+	UILabel leaderSkillDscpLabel;
+	UILabel activeSkillNameLabel;
+	UILabel activeSkillDscpLabel;
+
 	UILabel normalSkill1DscpLabel;
 	UILabel normalSkill1NameLabel;
 	
@@ -157,16 +162,19 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		expSlider		= FindChild<UISlider>	(rootPath + "ExperenceBar"	);
 
 		statusToggle = FindChild<UIToggle>("UnitInfoTabs/Tab_Status");
+
+		FindChild<UILabel> (rootPath + "Bg_Input/Leader_Skill").text = TextCenter.GetText ("Text_Leader_Skill");
+		FindChild<UILabel> (rootPath + "Bg_Input/Active_Skill").text = TextCenter.GetText ("Text_Active_Skill");
 	}
 
 	void InitTabSkill(){
 		string rootPath;
 		// skill_1
-		rootPath 				=  "UnitInfoTabs/Content_Skill1/Label_Vaule/";
-//		leaderSkillNameLabel	= FindChild<UILabel>(rootPath + "Leader_Skill");
-//		leaderSkillDscpLabel	= FindChild<UILabel>(rootPath + "Leader_Skill_Dscp");
-//		activeSkillNameLabel	= FindChild<UILabel>(rootPath + "Active_Skill");
-//		activeSkillDscpLabel	= FindChild<UILabel>(rootPath + "Active_Skill_Dscp");
+		rootPath 				=  "UnitInfoTabs/Content_Status/";
+		leaderSkillNameLabel	= FindChild<UILabel>(rootPath + "Desc_LeaderSkill");
+		leaderSkillDscpLabel	= FindChild<UILabel>(rootPath + "Label_ActiveSkill");
+		activeSkillNameLabel	= FindChild<UILabel>(rootPath + "Desc_ActiveSkill");
+		activeSkillDscpLabel	= FindChild<UILabel>(rootPath + "Label_LeaderSkill");
 		// skill_2
 		rootPath 				= "UnitInfoTabs/Content_Skill2/Label_Vaule/";
 		normalSkill1NameLabel	= FindChild<UILabel>(rootPath + "Normal_Skill1");
@@ -188,6 +196,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			blockLsit2.Add( spr );
 		}
 
+		FindChild<UILabel> ("UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_1").text = TextCenter.GetText ("Text_Normal_Skill_1");
+		FindChild<UILabel> ("UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_2").text = TextCenter.GetText ("Text_Normal_Skill_2");
 	}
 	
 	//Make panel focus on the same tab every time when this ui show
@@ -306,10 +316,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if ((data.Level > unitInfo.MaxLevel ) 
 		    || (data.Level == unitInfo.MaxLevel && data.NextExp <= 0) ) {
 			levelLabel.text = unitInfo.MaxLevel.ToString();
-			needExpLabel.text = "Max";
+			needExpLabel.text = TextCenter.GetText("Text_Max");
 			expSlider.value = 1f;
 		} else {
-			needExpLabel.text = "Next: " + data.NextExp.ToString();
+			needExpLabel.text = TextCenter.GetText("Text_Next")+": " + data.NextExp.ToString();
 //			Debug.LogError("ShowInfo ->  needExpLabel.text="+needExpLabel.text);
 			expSlider.value = data.CurExp*1.0f / (data.CurExp + data.NextExp);
 		}
@@ -322,8 +332,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill); //Skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
 
-		normalSkill1NameLabel.text = skill.name;
-		normalSkill1DscpLabel.text = skill.description;
+		normalSkill1NameLabel.text = TextCenter.GetText ("SkillName_"+skill.id);//skill.name;
+		normalSkill1DscpLabel.text = TextCenter.GetText ("SkillDesc_"+skill.id);//skill.description;
 
 		TNormalSkill ns = sbi as TNormalSkill;
 		List<uint> sprNameList1 = ns.Object.activeBlocks;
@@ -342,8 +352,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill);//Skill[ skillId ];
 		SkillBase skill = sbi.GetSkillInfo();
                 
-        normalSkill2NameLabel.text = skill.name;
-		normalSkill2DscpLabel.text = skill.description;
+		normalSkill2NameLabel.text = TextCenter.GetText ("SkillName_"+skill.id); //skill.name;
+		normalSkill2DscpLabel.text = TextCenter.GetText ("SkillDesc_"+skill.id);//skill.description;
 
 		TNormalSkill ns = sbi as TNormalSkill;
 		List<uint> sprNameList2 = ns.Object.activeBlocks;
@@ -360,8 +370,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			return;	
 		}
 		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();
-//        leaderSkillNameLabel.text = skill.name;
-//		leaderSkillDscpLabel.text = skill.description;
+		leaderSkillNameLabel.text = TextCenter.GetText ("SkillName_"+skill.id);//skill.name;
+		leaderSkillDscpLabel.text = TextCenter.GetText ("SkillDesc_"+skill.id);//skill.description;
 	}
 
 	void ShowActiveSkillContent( TUserUnit data){
@@ -371,8 +381,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			return;	
 		} 
 		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();
-//		activeSkillNameLabel.text = skill.name;
-//		activeSkillDscpLabel.text = skill.description;
+		activeSkillNameLabel.text = TextCenter.GetText ("SkillName_" + skill.id);//skill.name;
+		activeSkillDscpLabel.text = TextCenter.GetText ("SkillDesc_" + skill.id);//skill.description;
     }
         
 	void ShowProfileContent( TUserUnit data ){
@@ -580,7 +590,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			expSlider.value = 1.0f;
 			return;
 		} else {
-			needExpLabel.text = "Next: " + needExp.ToString();
+			needExpLabel.text = TextCenter.GetText("Text_Next") + needExp.ToString();
 		}
 
 		float progress = (float)curExp / (float)currMaxExp;
