@@ -100,7 +100,6 @@ public class UIManager {
 	/// </summary>
 	public void RemoveUI() {
 		if(sceneDecorator.ContainsKey(storePrevScene)) {
-//			Debug.LogWarning("storePrevScene : " + storePrevScene);
 			sceneDecorator.Remove(storePrevScene);
 		}
 		storePrevScene = SceneEnum.None;
@@ -134,10 +133,10 @@ public class UIManager {
 		if (forbidChangeScene) {
 			return;		
 		}
+
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
-		}
-		else {
+		} else {
 			nextScene = sEnum;
             InvokeSceneClear(sEnum);
 			if(current != null) {
@@ -152,8 +151,7 @@ public class UIManager {
 			if (current != null) {
 				current.ShowScene();
 			}
-		}
-		else{
+		} else{
 			DecoratorBase db = CreatScene(sEnum);
 			current = db;
 		}

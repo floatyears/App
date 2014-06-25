@@ -35,6 +35,10 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp, CallBackUnitData);
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
+
+//		if (!gameObject.activeSelf) {
+//			gameObject.SetActive(true);
+//		}
 		base.HideUI ();
 		DestoryUnitLock();
 	}
@@ -75,7 +79,7 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		levelUpData = rlu;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		ShowInfo (newBlendUnit);
-		gameObject.SetActive (false);
+//		gameObject.SetActive (false);
 	}
 
 	private void ShowInfo(TUserUnit data){

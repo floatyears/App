@@ -412,7 +412,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		Debug.LogError ("PlayLevelUp :: newBlend.UnitId:"+newBlendUnit.UnitInfo.ID);
 //		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
 //		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
-		unitInfoTabs.SetActive (false);
+//		unitInfoTabs.SetActive (false);
 		SetEffectCamera ();
 		StartCoroutine (CreatEffect ());
 	}
@@ -449,7 +449,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			yield return new WaitForSeconds(2f);
 
 			ClearEffectCache ();
-			unitInfoTabs.SetActive (true);
+//			unitInfoTabs.SetActive (true);
 			topPanel.ShowPanel();
 
 			ShowLevelInfo (newBlendUnit);
