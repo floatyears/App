@@ -10,16 +10,23 @@ public class MainMenuView : UIComponentUnity{
 		base.Init (config, origin);
 		InitButton ();
 		UpdateLeaderAvatar(null);
+		AddListener();
 	}
 
 	public override void ShowUI () {
-		base.ShowUI ();
-        AddListener();
+		if (Mathf.Approximately (transform.localPosition.y, 10000f)) {
+			base.ShowUI();	
+		}
+
+		if (!gameObject.activeSelf) {
+			gameObject.SetActive (true);		
+		}
 	}
 
 	public override void HideUI () {
-		base.HideUI ();
-		RemoveListener ();
+		if (gameObject.activeSelf) {
+			gameObject.SetActive (false);		
+		}
 	}
 
 	public override void DestoryUI () {
@@ -38,8 +45,7 @@ public class MainMenuView : UIComponentUnity{
 		MsgCenter.Instance.RemoveListener(CommandEnum.ModifiedParty, UpdateLeaderAvatar);
         MsgCenter.Instance.RemoveListener(CommandEnum.EnableMenuBtns, SetMenuValid);
     }
-
-
+	
 	private void InitButton() {
 		GameObject go = FindChild ("Btn_Friends");
 		FindChild ("Btn_Friends/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_FRIEND");

@@ -88,18 +88,16 @@ public class BattleQuest : UIBase {
 
 	void CreatEffect () {
 		if (attackEffect == null) {
-			 ResourceManager.Instance.LoadLocalAsset("Effect/AttackEffect", o => {
+			ResourceManager.Instance.LoadLocalAsset("Effect/AttackEffect", o => {
 				GameObject go = NGUITools.AddChild (ViewManager.Instance.ParentPanel, o as GameObject);
 				go.transform.localPosition = battle.battleRootGameObject.transform.localPosition;
 				attackEffect = go.GetComponent<AttackEffect> ();	
 			});
-
 		}
 	}
 	
 	void InitTopUI () {
 		ResourceManager.Instance.LoadLocalAsset ("Prefabs/Fight/TopUI",CallbackFunc);
-	
 	}
 
 	private void CallbackFunc(object o){
@@ -121,7 +119,7 @@ public class BattleQuest : UIBase {
 		if (questFullScreenTips == null) {
 			CreatBoosAppear();
 		}
-		questDungeonData = configBattleUseData.questDungeonData; //GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
+		questDungeonData = configBattleUseData.questDungeonData; 	//GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
 		_questData = configBattleUseData.storeBattleData.questData;
 	}
 
@@ -185,7 +183,7 @@ public class BattleQuest : UIBase {
 	void ReadyMove() {
 		battle.ShieldInput (true);
 
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
+		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
 	}
 
 	void AttackEnemy (object data) {

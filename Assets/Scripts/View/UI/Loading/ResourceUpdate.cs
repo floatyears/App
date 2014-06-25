@@ -8,7 +8,16 @@ using System.IO;
 public class ResourceUpdate : MonoBehaviour {
 
 	//private static string serverResURL = "file://" + Application.dataPath +"/ServerTest/";
-	public const string serverResURL = "http://107.170.243.127:6001/resource/";
+	public const string serverHost = "http://107.170.243.127:6001";
+
+	public const string serverResURL =
+#if UNITY_EDITOR
+		serverHost+"/resource/ios/";
+#elif UNITY_ANDROID
+	serverHost+"/resource/android/";
+#elif UNITY_IOS
+	serverHost+"/resource/ios/";
+#endif
 
 	public const string serverVersionURL = serverResURL + "version.txt";
 	//private static string serverVersionURL = serverResURL + "version.txt";
@@ -16,7 +25,7 @@ public class ResourceUpdate : MonoBehaviour {
 	public static string localResPath = 
 #if UNITY_EDITOR
 	"file://"+ Application.dataPath + "/ResourceDownload/Download/";
-#elif UNITY_IPHONE
+#elif UNITY_IOS
 	"file://" + Application.persistentDataPath + "/";
 #elif UNITY_ANDROID
 	"file:///" + Application.persistentDataPath + "/assets/";
@@ -28,8 +37,8 @@ public class ResourceUpdate : MonoBehaviour {
 
 #if UNITY_EDITOR
 	"Assets/ResourceDownload/Download/";
-#elif UNITY_IPHONE
-	"file://" + Application.persistentDataPath + "/";
+#elif UNITY_IOS
+	Application.persistentDataPath + "/";
 #elif UNITY_ANDROID
 	Application.persistentDataPath + "/assets/";
 #else
@@ -218,7 +227,7 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 	public void StartDownload(){
 		StartCoroutine (Download (serverVersionURL, delegate(WWW serverVersion) {
-//			Debug.Log("download serverVersion:"+serverVersion.text);
+			Debug.Log("download serverVersion from "+serverVersionURL+", version text:"+serverVersion.text);
 			LoadVersionConfig(serverVersion.text,serverVersionDic);
 			
 			//load the local version.txt. if not exists, jump through the init.
@@ -290,7 +299,7 @@ public class ResourceUpdate : MonoBehaviour {
 		//check the MD5, if not mamtch ,reload the file
 		if (serverVersionDic [downloadItem.name].md5 == hash) {
 			try{
-				Debug.Log("local res path: " + localResFullPath);
+				Debug.Log("md5 is ok.  local res path: " + localResFullPath);
 				//File.WriteAllBytes (localResPath + "/" + serverVersionDic [name] [0] + ".unity3d", resBytes);
 				//only for test
 				File.WriteAllBytes ( localResFullPath + downloadItem.name + ".unity3d",downloadItem.www.bytes);
@@ -308,7 +317,7 @@ public class ResourceUpdate : MonoBehaviour {
 			}
 
 		} else {
-			Debug.Log("load res again");
+			Debug.Log("load res again: md5:"+serverVersionDic [downloadItem.name].md5+" != hash:"+hash);
 //			LoadRes(serverVersionDic[name][1],name);
 //			retryItemList.Add(downloadItem);
 			if(downloadItem.retryCount >0)

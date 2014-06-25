@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class VictoryEffect : UIBaseUnity {
-	private UISprite levelProgress;
+	private UISlider levelProgress;
 	private UILabel coinLabel;
 	private UILabel empiricalLabel;
 
@@ -120,13 +120,13 @@ public class VictoryEffect : UIBaseUnity {
 			int showValue = (int)currentExp;
 			empiricalLabel.text = showValue.ToString();
 			float progress = currentExp / currentTotalExp;
-			levelProgress.fillAmount = progress;
+			levelProgress.value = progress;
 			if(currentExp >= currentTotalExp) {
 				currentExp -= currentTotalExp;
 				rank++;
 				battleQuest.battle.ShieldInput(false);
 				
-				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.RankUp,RankUp);
+				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.RankUp, RankUp);
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 			}
 			yield return new WaitForSeconds(0.1f);
@@ -157,7 +157,7 @@ public class VictoryEffect : UIBaseUnity {
 
 	void FindComponent () {
 		MsgCenter.Instance.Invoke (CommandEnum.StopInput, null);
-		levelProgress = FindChild<UISprite> ("LvProgress");
+		levelProgress = FindChild<UISlider> ("LvProgress");
 		coinLabel = FindChild<UILabel>("CoinValue");
 		empiricalLabel = FindChild<UILabel>("EmpiricalValue");
 		leftWing = FindChild<UISprite>("LeftWing");
@@ -208,7 +208,7 @@ public class VictoryEffect : UIBaseUnity {
 		}
 		float progree = (float)empire / (float)maxEmpire;
 		empiricalLabel.text = empire.ToString();
-		levelProgress.fillAmount = progree;
+		levelProgress.value = progree;
 		yield return 0;
 		if (empire < maxEmpire) {
 			StartCoroutine(UpdateLevelNumber(empire,maxEmpire));
@@ -257,24 +257,3 @@ public class VictoryEffect : UIBaseUnity {
 		}
 	}
 }
-
-//public class VictoryDropItem {
-//	private GameObject dropItem;
-//	public GameObject DropItem {
-//		get { return dropItem; }
-//		set { dropItem = value; }
-//	}
-//
-//	private TUserUnit dropItemInfo;
-//	public TUserUnit DropItemInfo {
-//		get { return dropItemInfo; }
-//		set { dropItemInfo = value; }
-//	}
-//
-////	public void Refresh(GameObject item, TUserUnit info) {
-////		UITexture tex = item.transform.Find ("Texture").GetComponent<UITexture> ();
-////		info.UnitInfo.GetAsset (UnitAssetType.Avatar, o=>{
-////			tex.mainTexture = o as Texture2D;
-////		});
-////	}
-//}

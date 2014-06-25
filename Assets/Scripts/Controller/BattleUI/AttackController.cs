@@ -446,15 +446,20 @@ public class AttackController {
 		if (te.GetRound () <= 0) {
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
 			int attackType = te.GetUnitType ();
-			int attackValue = te.AttackValue;
-			float reduceValue;
+			float reduceValue = te.AttackValue;
+
+//			Debug.LogError("enemy attack : " + reduceValue + " attackType : " + attackType + " te.id : " + te.AttackValue);
+
 			if(leadSkillReuduce != null) {
-				reduceValue = leadSkillReuduce.ReduceHurtValue(attackValue,attackType);
+				reduceValue = leadSkillReuduce.ReduceHurtValue(reduceValue, attackType);
 			}
-			else{
-				reduceValue = attackValue;
-			}
+
+			Debug.LogError("leadSkillReuduce is null : " + (leadSkillReuduce == null) + " reduceValue : " + reduceValue);
+
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
+
+			Debug.LogError("hurtValue : " + hurtValue);
+
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
