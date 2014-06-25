@@ -87,6 +87,8 @@ public class ResourceUpdate : MonoBehaviour {
 		tipText = GameObject.Find ("TipText").GetComponent<UILabel>();
 		InvokeRepeating ("ShowTipText", 0, 5);
 
+		pro.enabled = false;
+		proText.enabled = false;
 
 		localVersionDic = new Dictionary<string, DownloadItemInfo> ();
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
@@ -132,9 +134,13 @@ public class ResourceUpdate : MonoBehaviour {
 		}
 //		Debug.Log (globalWWW);
 //		Debug.Log ("============progress1: " + current + " already: " + alreadyDone);
-		pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
-//		Debug.Log ("============progress2: " + pro.value);
-		proText.text = "current: " + (1-pro.value)*100 + "%(total " + (float)total / (float)(1024*1024) + "M)";
+		if (total > 0) {
+			pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
+			//		Debug.Log ("============progress2: " + pro.value);
+			
+			proText.text = "current: " + (1-pro.value)*100 + "%(total " + (float)total / (float)(1024*1024) + "M)";
+		}
+
 
 	}
 
@@ -419,7 +425,11 @@ public class ResourceUpdate : MonoBehaviour {
 			}
 		}
 		startDown = true;
+		if (total > 0) {
 
+			pro.enabled = true;
+			proText.enabled = true;
+		}
 	}
 
 	IEnumerator Download(string url, CompleteDownloadCallback callback)

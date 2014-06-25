@@ -123,25 +123,31 @@ public class TUnitInfo : ProtobufDataBase {
 				EUnitRace race = instance.race;
 				switch ( race ){
 				case EUnitRace.HUMAN : 
-					return "Human";
+					return TextCenter.GetText("RACE_Human");
 					break;
 				case EUnitRace.LEGEND : 
-					return "Legend";
+					return TextCenter.GetText("RACE_Legend");
 					break;
 				case EUnitRace.MONSTER : 
-					return "Monster";
+					return TextCenter.GetText("RACE_Monster");
 					break;
 				case EUnitRace.MYTHIC : 
-					return "Mythic";
+					return TextCenter.GetText("RACE_Mythic");
 					break;
 				case EUnitRace.BEAST : 
-					return "Beast";
+					return TextCenter.GetText("RACE_Beast");
 					break;
 				case EUnitRace.UNDEAD : 
-					return "Undead"  ;
+					return TextCenter.GetText("RACE_Undead");
 					break;
 				case EUnitRace.SCREAMCHEESE: 
-					return "强化合成专用";
+					return TextCenter.GetText("RACE_Screamcheese");
+					break;
+				case EUnitRace.DRAGON:
+					return TextCenter.GetText("RACE_Dragon");
+					break;
+				case EUnitRace.EVOLVEPARTS:
+					return TextCenter.GetText("RACE_Evolveparts");
 					break;
 				default:
 					return string.Empty;
