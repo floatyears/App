@@ -126,7 +126,7 @@ public class VictoryEffect : UIBaseUnity {
 				rank++;
 				battleQuest.battle.ShieldInput(false);
 				
-				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.RankUp,RankUp);
+				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.RankUp, RankUp);
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 			}
 			yield return new WaitForSeconds(0.1f);
@@ -257,24 +257,3 @@ public class VictoryEffect : UIBaseUnity {
 		}
 	}
 }
-
-//public class VictoryDropItem {
-//	private GameObject dropItem;
-//	public GameObject DropItem {
-//		get { return dropItem; }
-//		set { dropItem = value; }
-//	}
-//
-//	private TUserUnit dropItemInfo;
-//	public TUserUnit DropItemInfo {
-//		get { return dropItemInfo; }
-//		set { dropItemInfo = value; }
-//	}
-//
-////	public void Refresh(GameObject item, TUserUnit info) {
-////		UITexture tex = item.transform.Find ("Texture").GetComponent<UITexture> ();
-////		info.UnitInfo.GetAsset (UnitAssetType.Avatar, o=>{
-////			tex.mainTexture = o as Texture2D;
-////		});
-////	}
-//}

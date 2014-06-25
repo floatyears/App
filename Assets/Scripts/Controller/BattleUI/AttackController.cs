@@ -447,7 +447,7 @@ public class AttackController {
 			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
 			int attackType = te.GetUnitType ();
 			int attackValue = te.AttackValue;
-			float reduceValue;
+			float reduceValue = 0f;
 			if(leadSkillReuduce != null) {
 				reduceValue = leadSkillReuduce.ReduceHurtValue(attackValue,attackType);
 			}
