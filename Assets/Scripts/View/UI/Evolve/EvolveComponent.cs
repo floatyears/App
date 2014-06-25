@@ -10,19 +10,15 @@ public class EvolveComponent : ConcreteComponent {
 	}
 	
 	public override void ShowUI () {
-//		Debug.LogError("EvolveComponent showui 1");
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.SelectUnitBase, SelectUnit);
 		MsgCenter.Instance.AddListener (CommandEnum.ReturnPreScene, ReturnPreScene);
-//		Debug.LogError("EvolveComponent showui 2");
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ReturnPreScene, ReturnPreScene);
-
-//		DestoryUI ();
 	}
 	
 	public override void DestoryUI () {
