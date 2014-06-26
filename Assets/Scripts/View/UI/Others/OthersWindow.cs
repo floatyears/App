@@ -47,7 +47,11 @@ public class OthersWindow : UIComponentUnity {
 	}
 
 	void FindUIElement(){
-		FindChild<UILabel> ("OptionItems/Music/Label").text = TextCenter.GetText ("Btn_Music");
+		FindChild<UILabel> ("OptionItems/Music/Label").text = TextCenter.GetText ("Game_Setting_Option_Music");
+		FindChild<UILabel> ("OptionItems/Nickname/Label").text = TextCenter.GetText ("Game_Setting_Option_NickName");
+		FindChild<UILabel> ("OptionItems/Raider/Label").text = TextCenter.GetText ("Game_Setting_Option_Raider");
+		FindChild<UILabel> ("OptionItems/ResetData/Label").text = TextCenter.GetText ("Text_ResetData");
+
 		UIEventListenerCustom.Get (FindChild ("OptionItems/Music")).onClick = ClicItems;
 		UIEventListenerCustom.Get (FindChild ("OptionItems/Nickname")).onClick = ClicItems;
 		UIEventListenerCustom.Get (FindChild ("OptionItems/Raider")).onClick = ClicItems;

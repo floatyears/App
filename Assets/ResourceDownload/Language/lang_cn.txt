@@ -58,7 +58,7 @@ Btn_Evolve=进化
 ##Label Text
 Divided_Line=/
 Float_User_ID=用户ID:
-Float_NextExp=升级所需经验:
+Float_NextExp=升级还需经验:
 Float_TotalExp=累计经验:
 
 LeaderSkillText=队长技能: 
@@ -84,6 +84,9 @@ Game_Setting_Option_Music=音乐设置
 Game_Setting_Option_NickName=修改昵称
 Game_Setting_Option_Currency=购买测试
 Game_Setting_Option_Raider=游戏攻略
+Text_ResetData=重置数据
+Text_BGM=背景音乐
+Text_Sound=音量
 
 Text_Leader_Skill=队长技能
 Text_Active_Skill=主动技能
@@ -153,6 +156,14 @@ RACE_Undead=亡灵
 RACE_Screamcheese=强化素材
 RACE_Dragon=龙
 RACE_Evolveparts=进化素材
+
+##type
+Type_Fire=火
+Type_Light=光
+Type_Dark=暗
+Type_Water=水
+Type_None=无
+Type_Wind=风
 
 #Battle
 RedoQuest=重打
@@ -353,8 +364,17 @@ StageStateClear=已通关
 StaminaLackNoteTitle=体力不足
 StaminaLackNoteContent=当前体力不足，不能进入此场战斗！
 
+##select role
 SelectRoleTitle=确认主角
 SelectRoleContent=确定选择此角色开始游戏吗?
+SelectRole_ATK=攻击
+SelectRole_Fav=最爱
+SelectRole_Race=种族
+SelectRole_HP=血量
+SelectRole_LV=等级
+SelectRole_Type=属性
+SelectRole_Name=名称
+SelectRole_No=编号
 
 DeleteNoteTitle=删除好友
 DeleteNoteContent=你确定删除此好友吗?

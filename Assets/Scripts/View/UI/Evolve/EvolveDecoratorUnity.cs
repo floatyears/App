@@ -241,7 +241,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		showInfoLabel [hp].text = tuu.Hp + " -> " + tuu.CalculateHP (tui);
 		showInfoLabel [atk].text = tuu.Attack + " -> " + tuu.CalculateATK (tui);
 		showInfoLabel [lv].text = tuu.UnitInfo.MaxLevel + " -> " + tui.MaxLevel;
-		showInfoLabel [type].text = tui.UnitType.ToString();
+		showInfoLabel [type].text = tui.UnitTypeText.ToString();
 		showInfoLabel [race].text = tui.Race.ToString();
 		showInfoLabel [coins].text = (tui.MaxLevel * 500).ToString ();
 	}

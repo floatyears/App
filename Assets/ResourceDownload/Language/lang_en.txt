@@ -843,12 +843,6 @@ SkillDesc_4019=对单个敌人造成暗属性的中攻击
 SkillDesc_4020=对单个敌人造成无属性的中攻击
 
 ##normal skill2 description
-SkillDesc_4015=对单个敌人造成火属性的中攻击
-SkillDesc_4016=对单个敌人造成水属性的中攻击
-SkillDesc_4017=对单个敌人造成风属性的中攻击
-SkillDesc_4018=对单个敌人造成光属性的中攻击
-SkillDesc_4019=对单个敌人造成暗属性的中攻击
-SkillDesc_4020=对单个敌人造成无属性的中攻击
 SkillDesc_4021=对全体敌人造成火属性的小攻击
 SkillDesc_4022=对全体敌人造成水属性的小攻击
 SkillDesc_4023=对全体敌人造成光属性的小攻击

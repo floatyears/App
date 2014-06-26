@@ -187,6 +187,35 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 
+	public string UnitTypeText {
+		get{
+			EUnitType unitType =  instance.type;
+			switch ( unitType ){
+			case EUnitType.UFIRE : 
+				return TextCenter.GetText("Type_Fire");
+				break;
+			case EUnitType.ULIGHT : 
+				return TextCenter.GetText("Type_Light");
+				break;
+			case EUnitType.UDARK : 
+				return TextCenter.GetText("Type_Dark");
+				break;
+			case EUnitType.UWATER : 
+				return TextCenter.GetText("Type_Water") ;
+				break;
+			case EUnitType.UNONE : 
+				return TextCenter.GetText("Type_None");
+				break;
+			case EUnitType.UWIND : 
+				return TextCenter.GetText("Type_Wind");
+				break;
+			default:
+				return string.Empty;
+				break;
+			}
+		}
+	}
+
 	//GetCurveValue() Return Total value at level
 	public int GetCurveValue(int level, PowerInfo pi) {
 
