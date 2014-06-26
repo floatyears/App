@@ -54,6 +54,7 @@ Btn_SortRule_AddPoint=ADD POINT
 Btn_SortRule_Rank=RANK
 Btn_Level_Up=强化
 Btn_Evolve=进化
+Btn_Fight=开始战斗
 
 ##Label Text
 Divided_Line=/
@@ -70,6 +71,7 @@ Text_Support=援军
 Text_Point=点
 Text_Rank=等级
 
+
 ##City Name
 City_Name_1=city_name_1
 City_Name_2=city_name_2
@@ -84,6 +86,9 @@ Game_Setting_Option_Music=音乐
 Game_Setting_Option_NickName=昵称
 Game_Setting_Option_Currency=攻略
 Game_Setting_Option_Raider=RAIDER
+Text_ResetData=重置数据
+Text_BGM=背景音乐
+Text_Sound=音量
 
 Text_Leader_Skill=队长技能
 Text_Active_Skill=主动技能
@@ -154,6 +159,14 @@ RACE_Screamcheese=强化素材
 RACE_Dragon=龙
 RACE_Evolveparts=进化素材
 
+##type
+Type_Fire=火
+Type_Light=光
+Type_Dark=暗
+Type_Water=水
+Type_None=无
+Type_Wind=风
+
 #Battle
 RedoQuest=Redo
 GoOnQuest=Go on
@@ -181,6 +194,9 @@ ConfirmRefuseAll=Are you sure to refuse all applied friends?
 
 RefreshFriend=Friend Update
 ConfirmRefreshFriend=Are you sure to update friend list?
+
+FriendSearch_Title=查找好友
+FriendSearch_Content=请输入你像查找的用户ID
 
 # shop
 Btn_Friend_Expand=Friends Expand
@@ -353,8 +369,17 @@ StageStateClear=Clear
 StaminaLackNoteTitle=Friendly Reminder
 StaminaLackNoteContent=Current Stamina is not enough to battle!
 
+##select role
 SelectRoleTitle=Select Role
 SelectRoleContent=Are you sure to select this role to adventure with you?
+SelectRole_ATK=攻击
+SelectRole_Fav=最爱
+SelectRole_Race=种族
+SelectRole_HP=血量
+SelectRole_LV=等级
+SelectRole_Type=属性
+SelectRole_Name=名称
+SelectRole_No=编号
 
 DeleteNoteTitle=Delete Friend
 DeleteNoteContent=Are you sure to delete this friend?
@@ -893,7 +918,6 @@ SkillDesc_4067=回复15%的血量
 SkillDesc_4068=回复25%的血量
 SkillDesc_4069=回复25%的血量
 SkillDesc_4070=回复35%的血量
-
 
 ###new user guide
 
