@@ -1092,7 +1092,7 @@ public class GameRaiderDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.Home);
+		sceneInfoBar.SetBackScene(SceneEnum.Others);
 		//LogHelper.Log ("reward scene name: " + TextCenter.GetText(TextConst.SCENE_NAME_REWARD));
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_RAIDER));
 	}
@@ -1150,3 +1150,66 @@ public class GameCurrencyDecorator : DecoratorBase{
 	}
 }
 
+//--------------------------------Raider------------------------------------------
+public class MusicDecorator : DecoratorBase{
+	private SceneInfoComponent sceneInfoBar;
+	public MusicDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+		sceneInfoBar.SetBackScene(SceneEnum.Others);
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_MUSIC));
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		MusicComponent currency = CreatComponent<MusicComponent>(UIConfig.settingWindowName);
+		
+		sceneInfoBar.SetComponent(decorator);
+		currency.SetComponent (sceneInfoBar);
+		
+		lastDecorator = currency;
+		lastDecorator.CreatUIAsyn (this);
+		//		lastDecorator.CreatUI();
+	}
+}
+
+//--------------------------------Raider------------------------------------------
+public class NicknameDecorator : DecoratorBase{
+	private SceneInfoComponent sceneInfoBar;
+	public NicknameDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+		sceneInfoBar.SetBackScene(SceneEnum.Others);
+		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_Nickname));
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		NicknameComponent currency = CreatComponent<NicknameComponent>(UIConfig.nicknameWindowName);
+		
+		sceneInfoBar.SetComponent(decorator);
+		currency.SetComponent (sceneInfoBar);
+		
+		lastDecorator = currency;
+		lastDecorator.CreatUIAsyn (this);
+		//		lastDecorator.CreatUI();
+	}
+}

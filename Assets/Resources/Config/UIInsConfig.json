@@ -505,6 +505,22 @@
         "positionx": 0,
         "positiony":0,
         "positionz": 0
+    },
+    "MusicWindow": {
+        "uiName":"MusicWindow",
+        "resoucePath": "Prefabs/UI/Others/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony":0,
+        "positionz": 0
+    },
+    "NicknameWindow": {
+        "uiName":"NicknameWindow",
+        "resoucePath": "Prefabs/UI/Others/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony":0,
+        "positionz": 0
     }
     
 }

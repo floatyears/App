@@ -70,7 +70,11 @@ public enum SceneEnum
 
 	Raider,
 
-	Currency
+	Currency,
+
+	Music,
+
+	NickName
 }
 
 public enum CommandEnum{
