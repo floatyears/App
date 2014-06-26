@@ -26,7 +26,7 @@ public class ResourceManager : MonoBehaviour{
 
 	public void Init(DataListener callback){
 		int num = 1;
-		assetBundles[ResourceAssetBundle.PROTOBUF] = new AssetBundleObj(ResourceAssetBundle.PROTOBUF,ResourceManager.ResourceInit,o=>{num--; if(num <= 0)callback(null);},GetBundleTypeByKey(ResourceAssetBundle.PROTOBUF));
+		assetBundles[ResourceAssetBundle.PROTOBUF] = new AssetBundleObj(ResourceAssetBundle.PROTOBUF,ResourceManager.ResourceInit,new List<ResourceCallback>{o=>{num--; if(num <= 0)callback(null);}},GetBundleTypeByKey(ResourceAssetBundle.PROTOBUF));
 		StartCoroutine(DownloadResource(ResourceAssetBundle.PROTOBUF));
 	}
 
@@ -56,13 +56,17 @@ public class ResourceManager : MonoBehaviour{
 			ResourceAssetBundle key = GetBundleKeyByPath(path);
 			
 			if(!assetBundles.ContainsKey(key)){
-				assetBundles[key] = new AssetBundleObj(key,path,callback,GetBundleTypeByKey(key));
+							assetBundles[key] = new AssetBundleObj(key,path,new List<ResourceCallback>(){callback},GetBundleTypeByKey(key));
 				StartCoroutine(DownloadResource(key));
 			}else{
 				if(assetBundles[key].isLoading){
 					Debug.Log("======path: " + path);
 					if(!assetBundles[key].callbackList.ContainsKey(path)){
-						assetBundles[key].callbackList.Add(path,callback);
+						if(assetBundles[key].callbackList[path] != null){
+							assetBundles[key].callbackList[path].Add(callback);
+						}else {
+							assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
+						}
 					}
 				}else{
 					if(callback != null){
@@ -129,13 +133,18 @@ public class ResourceManager : MonoBehaviour{
 			ResourceAssetBundle key = GetBundleKeyByPath(path);
 			
 			if(!assetBundles.ContainsKey(key)){
-				assetBundles[key] = new AssetBundleObj(key,path,callback,GetBundleTypeByKey(key));
+				assetBundles[key] = new AssetBundleObj(key,path,new List<ResourceCallback>(){callback},GetBundleTypeByKey(key));
 				StartCoroutine(DownloadResource(key));
 			}else{
 				if(assetBundles[key].isLoading){
 					Debug.Log("======path: " + path);
 					if(!assetBundles[key].callbackList.ContainsKey(path)){
-						assetBundles[key].callbackList.Add(path,callback);
+						if(assetBundles[key].callbackList[path] != null){
+							assetBundles[key].callbackList[path].Add(callback);
+						}else {
+							assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
+						}
+
 					}
 				}else{
 					if(callback != null){
@@ -423,12 +432,12 @@ public class ResourceManager : MonoBehaviour{
 		foreach (var item in aObj.relies) {
 			if(!ResourceManager.assetBundles.ContainsKey(item)){
 				allComplete = false;
-				assetBundles[item] = new AssetBundleObj(item,RelyOnSource,o=>{
+				assetBundles[item] = new AssetBundleObj(item,RelyOnSource,new List<ResourceCallback>(){o=>{
 					if(checkRelies(aObj)){
 						Debug.Log("rely resource complete");
 						aObj.ExeCallback();
 					}
-				});
+					}});
 				Debug.Log(aObj.name + " rely on: " + item);
 				StartCoroutine(DownloadResource(item));
 			}else if(ResourceManager.assetBundles[item].isLoading){
@@ -480,7 +489,7 @@ public class AssetBundleObj{
 	public bool isLoading;
 
 	//all the callback attached to the resource(first param is path,seceond is callback).
-	public Dictionary<string, ResourceCallback> callbackList ;
+	public Dictionary<string, List<ResourceCallback>> callbackList ;
 
 	//the resource relies on the other assetbundle.
 	public List<ResourceAssetBundle> relies;
@@ -490,8 +499,8 @@ public class AssetBundleObj{
 
 	public System.Type type;
 
-	public AssetBundleObj(ResourceAssetBundle rName,string path = null,ResourceCallback callback = null,System.Type rType = null){
-		callbackList = new Dictionary<string,ResourceCallback >();
+	public AssetBundleObj(ResourceAssetBundle rName,string path = null,List<ResourceCallback> callback = null,System.Type rType = null){
+		callbackList = new Dictionary<string,List<ResourceCallback>>();
 		if (path != null) {
 			callbackList.Add (path,callback);
 			Debug.Log("======path: " + path);
@@ -510,19 +519,23 @@ public class AssetBundleObj{
 		foreach (var item in callbackList) {
 //			Debug.Log("asset bundle: " + item.Key.Substring(item.Key.LastIndexOf('/')+1));
 			if(item.Key == ResourceManager.RelyOnSource || item.Key == ResourceManager.ResourceInit){
-				item.Value(null);
+				foreach(var c in item.Value){
+					c(null);
+				}
 			}else{
-				if(item.Value == null){
+				if(item.Value == null || item.Value.Count == 0){
 					Debug.Log("no callback: " + item.Key);
 				}else{
-					item.Value(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1),type));
+					foreach(var c1 in item.Value){
+						c1(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1),type));
+					}
 				}
 
 //				if(item.Key.IndexOf("ProtoBuf/Unit") >= 0){
 //
 //				}
-
 			}
+			item.Value.Clear();
 		}
 		callbackList.Clear ();
 	}
