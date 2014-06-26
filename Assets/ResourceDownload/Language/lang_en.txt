@@ -97,7 +97,7 @@ Text_RACE=种族
 Text_EXP=经验
 Text_Coins=金币
 Text_TYPE=属性
-Text_BASE=目标
+Text_BASE=基础
 Text_Friend=好友
 Text_Reject=移除
 Unit_Detail_Tab_Status=状态
@@ -105,7 +105,7 @@ Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
 Unit_Detail_Next=下一级
 Text_Party=使用中
-Text_TapToLogin=点击登录
+Text_TapToLogin=点击屏幕进入游戏
 
 ##Scene Name
 SCENE_NAME_APPLY=APPLY
