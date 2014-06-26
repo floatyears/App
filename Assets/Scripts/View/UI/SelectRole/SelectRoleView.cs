@@ -36,6 +36,18 @@ public class SelectRoleView : UIComponentUnity {
 	}
 
 	void InitUI(){
+		FindChild<UILabel>("Button_Select/Label").text = TextCenter.GetText ("SelectRoleTitle");
+		FindChild<UILabel>("Label_Note").text = TextCenter.GetText ("SelectRoleContent");
+
+		FindChild<UILabel> ("Text/Label_No").text = TextCenter.GetText ("SelectRole_No");
+		FindChild<UILabel> ("Text/Label_ATK").text = TextCenter.GetText ("SelectRole_ATK");
+		FindChild<UILabel> ("Text/Label_Fav").text = TextCenter.GetText ("SelectRole_Fav");
+		FindChild<UILabel> ("Text/Label_HP").text = TextCenter.GetText ("SelectRole_HP");
+		FindChild<UILabel> ("Text/Label_LV").text = TextCenter.GetText ("SelectRole_LV");
+		FindChild<UILabel> ("Text/Label_Name").text = TextCenter.GetText ("SelectRole_Name");
+		FindChild<UILabel> ("Text/Label_Race").text = TextCenter.GetText ("SelectRole_Race");
+		FindChild<UILabel> ("Text/Label_Type").text = TextCenter.GetText ("SelectRole_Type");
+
 		int itemCount = 3;
 		GameObject item;
 		for (int i = 0; i < itemCount; i++){
@@ -102,7 +114,7 @@ public class SelectRoleView : UIComponentUnity {
 			label.text = unitInfoList[ i ].UnitRace;
 
 			label = contentList[ i ].transform.FindChild("Label_Type").GetComponent<UILabel>();
-			label.text = unitInfoList[ i ].UnitType;
+			label.text = unitInfoList[ i ].UnitTypeText;
 		}
 	}
 
