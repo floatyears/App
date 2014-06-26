@@ -29,6 +29,7 @@ public class GameRaiderView : UIComponentUnity {
 		base.ShowUI ();
 
 		Debug.Log (TextCenter.GetText("Raider_0"));
+		html.html = "";
 		html.html = TextCenter.GetText("Raider_0");
 	}
 	
