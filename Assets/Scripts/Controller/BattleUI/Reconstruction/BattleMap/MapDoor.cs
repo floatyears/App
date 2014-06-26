@@ -71,7 +71,7 @@ public class MapDoor : UIBaseUnity {
 		if (!TapToBattle.enabled) {
 			return;	
 		}
-
+		Debug.LogError ("apToBattle.spriteName  : " + TapToBattle.spriteName + " isClick : " + isClick);
 		if (TapToBattle.spriteName == QuestFullScreenTips.BossBattle && !isClick) {
 			battleMap.bQuest.ClickDoor();
 			TapToBattle.enabled = isClick;	
@@ -79,7 +79,7 @@ public class MapDoor : UIBaseUnity {
 			isClick = true;
 			return;
 		}
-//		Debug.LogError ("apToBattle.spriteName  : " + TapToBattle.spriteName + " checkOut : " + checkOut);
+
 		if (TapToBattle.spriteName == QuestFullScreenTips.CheckOut && checkOut) {
 			checkOut = false;
 			TapToBattle.enabled = checkOut;	
