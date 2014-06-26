@@ -300,8 +300,8 @@ public class FightReadyView : UIComponentUnity {
 			dscp.text = "-";
 		}
 		else{
-			name.text = TextCenter.GetText("LeaderSkillText") + skill.name;
-			dscp.text = skill.description;
+			name.text = TextCenter.GetText("LeaderSkillText") + TextCenter.GetText("SkillName_" + skill.id);//skill.name;
+			dscp.text = TextCenter.GetText("SkillDesc_" + skill.id);//skill.description;
 		}
 	}
 	

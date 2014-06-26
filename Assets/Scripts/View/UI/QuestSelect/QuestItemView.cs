@@ -71,7 +71,7 @@ public class QuestItemView : MonoBehaviour {
 		//staminaLabel.text = string.Format( "STAMINA {0}", data.Stamina);
 		staminaLabel.text = TextCenter.GetText("Stamina") + " " + data.Stamina;
 		//floorLabel.text = string.Format( "FLOOR {0}", data.Floor);
-		floorLabel.text = TextCenter.GetText("Floor") + " " + data.Floor;
+//		floorLabel.text = TextCenter.GetText("Floor") + " " + data.Floor;
 
 		expLabel.text = data.RewardExp.ToString();
 		coinLabel.text = data.RewardMoney.ToString();
@@ -99,6 +99,7 @@ public class QuestItemView : MonoBehaviour {
 		nameLabel = transform.FindChild("Label_Quest_Name").GetComponent<UILabel>();
 		staminaLabel = transform.FindChild("Label_Stamina").GetComponent<UILabel>();
 		floorLabel = transform.FindChild("Label_Floor").GetComponent<UILabel>();
+		floorLabel.enabled = false;
 		expLabel = transform.FindChild("Label_Exp").GetComponent<UILabel>();
 		coinLabel = transform.FindChild("Label_Coin").GetComponent<UILabel>();
 		clearFlagLabel = transform.FindChild("Label_Clear_Flag").GetComponent<UILabel>();
