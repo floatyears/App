@@ -76,6 +76,10 @@ public partial class TextCenter {
 				if (s.Length > 0 && s [0] != '#') {
 		
 					int i = s.IndexOf ('=');
+					if (i < 0) {
+						Debug.LogError("lang_text: INVALID Line: "+s);
+						continue;
+					}
 					string key = s.Substring (0, i);
 					string value = s.Substring (i + 1);
 							//Debug.Log("sub: " + s.Substring(0,i)+"   " +s.Substring(i));
