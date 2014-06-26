@@ -559,6 +559,7 @@ public class DataCenter {
 	public void GetAvatarAtlas(uint unitID, UISprite sprite, ResourceCallback resouceCB = null){
 		uint index = unitID / AVATAR_ATLAS_CAPACITY;
 		UIAtlas atlas = null;
+//		Debug.Log ("GetAvatarAtlas : " + index);
 		if (!avatarAtalsDic.TryGetValue (index, out atlas)) {
 			string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
 			ResourceManager.Instance.LoadLocalAsset (sourcePath, o => {
@@ -566,16 +567,20 @@ public class DataCenter {
 				atlas = source.GetComponent<UIAtlas> ();
 				avatarAtalsDic.Add (index, atlas);
 				if (atlas == null) { 
-						Debug.LogError ("LoadAvatarAtlas(), atlas is NULL");
+					Debug.LogError ("atlas is NULL");
 				}
-//				Debug.LogError ("load avatar atlas success : " + atlas.name);
+//				Debug.Log ("load avatar atlas success : " + atlas.name);
+				BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+				if (resouceCB != null)
+						resouceCB (atlas);
 			});
+		} else {
+			BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+			if(resouceCB != null)
+				resouceCB (atlas);
 		}
-		BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
-		if(resouceCB != null)
-			resouceCB (atlas);
 	}
-
+	
 	private Dictionary<uint, Texture2D> profileCache = new Dictionary<uint, Texture2D> ();
 
 	public void GetProfile(uint unitID, ResourceCallback resouceCB) {
