@@ -29,6 +29,8 @@ public class NicknameWindow : UIComponentUnity {
 	}
 
 	void FindUIElement(){
+		FindChild< UILabel > ("OKButton/Label").text = TextCenter.GetText ("OK");
+
 		okButton = FindChild< UIButton >("OKButton" );
 		nickNameInput = FindChild< UIInput >("NickNameInput" );
 	}
