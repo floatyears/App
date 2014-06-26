@@ -82,7 +82,6 @@ public partial class TextCenter {
 					if(!textDict.ContainsKey(key))
 						textDict.Add (key, value);
 				}
-	
 			}
 
 			if(callback != null){

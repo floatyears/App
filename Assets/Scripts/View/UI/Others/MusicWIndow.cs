@@ -35,6 +35,9 @@ public class MusicWIndow : UIComponentUnity {
 
 	void FindUIElement(){
 
+		FindChild< UILabel > ("BGM/Label").text = TextCenter.GetText ("Text_BGM");
+		FindChild< UILabel > ("Sound/Label").text = TextCenter.GetText ("Text_Sound");
+
 		bgmOnBtn = FindChild< UIButton >("BGM/On" );
 		bgmOffBtn = FindChild< UIButton >("BGM/Off" );
 
