@@ -41,7 +41,7 @@ public class VictoryEffect : UIBaseUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		gameObject.SetActive (true);
-		Debug.LogError ("CommandEnum.StopInput");
+//		Debug.LogError ("CommandEnum.StopInput");
 		MsgCenter.Instance.Invoke (CommandEnum.StopInput, null);
 	}
 
@@ -177,7 +177,7 @@ public class VictoryEffect : UIBaseUnity {
 	}
 
 	void Sure(GameObject go) {
-		Debug.LogError ("sure : " + sureButtonCallback);
+//		Debug.LogError ("sure : " + sureButtonCallback);
 		if (sureButtonCallback != null) {
 			sureButtonCallback();
 		}
@@ -213,7 +213,7 @@ public class VictoryEffect : UIBaseUnity {
 		levelProgress.value = progree;
 		yield return 0;
 		if (empire < maxEmpire) {
-			StartCoroutine(UpdateLevelNumber(empire,maxEmpire));
+			StartCoroutine(UpdateLevelNumber(empire, maxEmpire));
 		}
 	}
 
