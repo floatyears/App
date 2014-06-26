@@ -106,6 +106,7 @@ Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
 Unit_Detail_Next=下一级
 Text_Party=使用中
+Text_TapToLogin=点击登录
 
 ##Scene Name
 SCENE_NAME_APPLY=申请好友

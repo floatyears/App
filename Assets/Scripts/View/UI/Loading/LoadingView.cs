@@ -58,6 +58,7 @@ public class LoadingView : UIComponentUnity {
 
     private void InitUI (){
 		tapLogin = FindChild ("ClickLabel").GetComponent<UILabel>();
+
 		tapLogin.enabled = false;
     }
 
@@ -70,6 +71,7 @@ public class LoadingView : UIComponentUnity {
 //			guideWindow.CreatUI();
 //		}
 
+
 		ResourceManager.Instance.Init (o => {
 			EffectManager em = EffectManager.Instance;
 			ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
@@ -78,7 +80,8 @@ public class LoadingView : UIComponentUnity {
 
 				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
 				ModelManager.Instance.Init();
-				
+
+				tapLogin.text = TextCenter.GetText("Text_TapToLogin");
 			});
 		});
 	}
