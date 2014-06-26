@@ -18,7 +18,7 @@ public class Jump : MonoBehaviour {
 	public void GameStart (Vector3 point) {
 //		bottomPosition = point;
 //		iTween.MoveTo(gameObject,iTween.Hash("position",bottomPosition,"time",0.3f,"easetype",iTween.EaseType.easeInCubic,"islocal",true));
-		iTween.ScaleFrom (gameObject, new Vector3 (3f, 3f, 3f), 0.5f);
+//		iTween.ScaleFrom (gameObject, new Vector3 (3f, 3f, 3f), 0.5f);
 	}
 	
 	public void JumpAnim() {
