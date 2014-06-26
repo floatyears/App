@@ -71,13 +71,13 @@ public class HelperUnitItem : FriendUnitItem {
 	private void SetFriendType(){
 		switch (friendInfo.FriendState) {
 			case bbproto.EFriendState.FRIENDHELPER : 
-				friendTypeLabel.text = "SUPPORT";
+				friendTypeLabel.text = TextCenter.GetText("Text_Support");
 				friendTypeLabel.color = new Color(255.0f/255, 202.0f/255, 98.0f/255);
 				friendPointLabel.color = new Color(255.0f/255, 202.0f/255, 98.0f/255);
 				baseBoardSpr.spriteName = UIConfig.SPR_NAME_BASEBOARD_HELPER;
 				break;
 			case bbproto.EFriendState.ISFRIEND : 
-				friendTypeLabel.text = "FRIEND";
+				friendTypeLabel.text = TextCenter.GetText("Text_Friend");
 				friendTypeLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
 				friendPointLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
 				baseBoardSpr.spriteName = UIConfig.SPR_NAME_BASEBOARD_FRIEND;
@@ -91,7 +91,7 @@ public class HelperUnitItem : FriendUnitItem {
 
 	private void SetFriendPoint(){
 		if(friendInfo.FriendPoint != 0){
-			friendPointLabel.text = string.Format("{0}PT", friendInfo.FriendPoint.ToString());
+			friendPointLabel.text = string.Format("{0}" + TextCenter.GetText("Text_Point"), friendInfo.FriendPoint.ToString());
 		}
 		else{
 			friendPointLabel.text = string.Empty;
@@ -99,7 +99,7 @@ public class HelperUnitItem : FriendUnitItem {
 	}
 
 	private void SetFriendRank(){
-		rankLabel.text = "RANK : " + friendInfo.Rank;
+		rankLabel.text = TextCenter.GetText("Text_Rank")+": " + friendInfo.Rank;
 	}
 
 }

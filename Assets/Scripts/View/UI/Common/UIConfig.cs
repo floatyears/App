@@ -98,6 +98,8 @@ public class UIConfig{
 	public const string resultWindowName = "ResultWindow";
 	public const string gameRaiderWindowName = "GameRaiderView";
 	public const string gameCurrencyWindowName = "GameCurrencyView";
+	public const string settingWindowName = "MusicWindow";
+	public const string nicknameWindowName = "NicknameWindow";
 
 	public const string fightReadyWindowName = "FightReadyWindow";
 

@@ -122,7 +122,7 @@ public class PlayerInfoBar : UIComponentUnity{
 		}
 	}
 	
-	void UpdateData(){
+	public void UpdateData(){
 		if (DataCenter.Instance.UserInfo == null){
 			Debug.Log("PlayerInfoBar.UpdateData() , userInfo is null , return ");
 			return;
@@ -158,36 +158,10 @@ public class PlayerInfoBar : UIComponentUnity{
 	}
 	
 
-	void ReName(object data){
-		if (data != null && DataCenter.Instance.UserInfo != null)
-		{
-			bbproto.RspRenameNick rspRenameNick = data as bbproto.RspRenameNick;
-			Debug.Log("rename response newNickName : " + rspRenameNick.newNickName);
-
-			if (rspRenameNick.header.code != (int)ErrorCode.SUCCESS) {
-				Debug.LogError("Rsp code: "+rspRenameNick.header.code+", error:"+rspRenameNick.header.error);
-				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspRenameNick.header.code);	
-				return;
-			}
-
-			bool renameSuccess = (rspRenameNick.header.code == 0);
-			if (renameSuccess && rspRenameNick.newNickName != null)
-			{
-				DataCenter.Instance.UserInfo.NickName = rspRenameNick.newNickName;
-
-				userNameValueLabel.text = DataCenter.Instance.UserInfo.NickName;
-			} else
-			{
-				//TODO: show error msgbox.
-			}
-		}
-
-		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
-	}
 
 	void AddCommandListener(){
 		// leiliang---------------------------------------------------------------
-		MsgCenter.Instance.AddListener(CommandEnum.ReqRenameNick, ChangeName);
+//		MsgCenter.Instance.AddListener(CommandEnum.ReqRenameNick, ChangeName);
         LogHelper.Log("AddCommandListener() for listener ChangeName");
 
         MsgCenter.Instance.AddListener(CommandEnum.SyncChips, SyncChips);
@@ -200,7 +174,7 @@ public class PlayerInfoBar : UIComponentUnity{
 	void RemoveCommandListener(){
 
 		// leiliang---------------------------------------------------------------
-		MsgCenter.Instance.RemoveListener(CommandEnum.ReqRenameNick, ChangeName);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.ReqRenameNick, ChangeName);
         LogHelper.Log("RemoveListener() for listener ChangeName");
 
         MsgCenter.Instance.RemoveListener(CommandEnum.SyncChips, SyncChips);
@@ -220,18 +194,6 @@ public class PlayerInfoBar : UIComponentUnity{
 		return (float)cur / (float)max;
 	}
 
-	// leiliang--------------------------------------------------------------------
-	private INetBase changeName;
-	public void ChangeName(object  name)
-	{
-//        LogHelper.Log("ChangeName(), start");
-//		if (changeName == null)
-//		{
-		changeName = new RenameNick();
-		changeName.OnRequest(name, ReName);
-//			UIManager.Instance.ChangeScene(SceneEnum.Start);
-//		}
-	}
 
     void SyncChips(object args){
         chipNumValueLabel.text = DataCenter.Instance.AccountInfo.Stone.ToString();
