@@ -63,6 +63,8 @@ public class FightReadyView : UIComponentUnity {
 			UIEventListener.Get(curPageLight).onClick = ClickPageLight;
 		}
 
+		FindChild<UILabel>("Button_Fight/Label").text = TextCenter.GetText ("Btn_Fight");
+
 		prePageBtn = FindChild<UIButton>("Button_Left");
 		nextPageBtn = FindChild<UIButton>("Button_Right");
 		startFightBtn = transform.FindChild("Button_Fight").GetComponent<UIButton>();
