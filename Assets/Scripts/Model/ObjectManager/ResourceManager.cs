@@ -61,12 +61,12 @@ public class ResourceManager : MonoBehaviour{
 			}else{
 				if(assetBundles[key].isLoading){
 					Debug.Log("======path: " + path);
-					if(!assetBundles[key].callbackList.ContainsKey(path)){
-						if(assetBundles[key].callbackList[path] != null){
-							assetBundles[key].callbackList[path].Add(callback);
-						}else {
-							assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
-						}
+					if(assetBundles[key].callbackList.ContainsKey(path)){
+						Debug.Log("add callback1: " + path + " " + callback);
+						assetBundles[key].callbackList[path].Add(callback);
+					}else {
+						Debug.Log("add callback2: " + path + " " + callback);
+						assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
 					}
 				}else{
 					if(callback != null){
@@ -130,6 +130,7 @@ public class ResourceManager : MonoBehaviour{
 //				ext = ".png";
 //			}
 
+			
 			ResourceAssetBundle key = GetBundleKeyByPath(path);
 			
 			if(!assetBundles.ContainsKey(key)){
@@ -137,14 +138,13 @@ public class ResourceManager : MonoBehaviour{
 				StartCoroutine(DownloadResource(key));
 			}else{
 				if(assetBundles[key].isLoading){
-					Debug.Log("======path: " + path);
-					if(!assetBundles[key].callbackList.ContainsKey(path)){
-						if(assetBundles[key].callbackList[path] != null){
-							assetBundles[key].callbackList[path].Add(callback);
-						}else {
-							assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
-						}
-
+//					Debug.Log("======path: " + path);
+					if(assetBundles[key].callbackList.ContainsKey(path)){
+//						Debug.Log("add callback1: " + path + " " + callback);
+						assetBundles[key].callbackList[path].Add(callback);
+					}else {
+//						Debug.Log("add callback2: " + path + " " + callback);
+						assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
 					}
 				}else{
 					if(callback != null){
@@ -527,6 +527,7 @@ public class AssetBundleObj{
 					Debug.Log("no callback: " + item.Key);
 				}else{
 					foreach(var c1 in item.Value){
+//						Debug.Log("callback item: " + item.Key);
 						c1(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1),type));
 					}
 				}
