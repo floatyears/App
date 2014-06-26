@@ -229,6 +229,7 @@ public class BaseUnitItem : MonoBehaviour {
 		avatarBorderSpr.spriteName = GetBorderSpriteName ();
 		avatarBg.spriteName = GetAvatarBgSpriteName ();
 		ExecuteCrossFade ();
+//		Debug.LogError ("set common state : " + avatar + " userUnit.UnitID : " + userUnit.UnitID);
 		DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID, avatar);
 	}
 
@@ -273,15 +274,17 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	public static void SetAvatarSprite(UISprite sprite, UIAtlas asset, uint ID) {
-		UIAtlas atlas = asset as UIAtlas;
+//		UIAtlas atlas = asset as UIAtlas;
 		if (ID == 216) {
 			Debug.LogError("atlas : " + asset);	
 		}
-		if (atlas == null) {
+//		Debug.LogError ("SetAvatarSprite : UIAtlas :  " + asset);
+		if (asset == null) {
 			return;	
 		}
-		sprite.atlas = atlas;
+		sprite.atlas = asset;
 		sprite.spriteName = ID.ToString();
+	
 	}
 
 	private void ShowUnitType(){
