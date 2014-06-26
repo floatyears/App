@@ -49,7 +49,6 @@ public class AudioManager {
 	public void CloseSound(bool close) {
 		isCloseSound = close;
 	}
-	
 
 	public void PlayBackgroundAudio (AudioEnum audioEnum) {
 		if (!IsBackgroundAuido(audioEnum)) {

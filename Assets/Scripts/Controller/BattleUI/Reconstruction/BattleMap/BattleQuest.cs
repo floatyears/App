@@ -23,7 +23,7 @@ public class BattleQuest : UIBase {
 				TClearQuestParam cqp = new TClearQuestParam(qp);
 				_questData.Add(cqp);
 			}
-			return _questData[_questData.Count - 1];
+			return _questData[ _questData.Count - 1 ];
 		}
 	}
 	private TUserUnit evolveUser;
@@ -284,26 +284,10 @@ public class BattleQuest : UIBase {
 	bool battleEnemy = false;
 
 	public void ClickDoor () {
-		if(questDungeonData.currentFloor == questDungeonData.Floors.Count - 1){
+		if( questDungeonData.currentFloor == questDungeonData.Floors.Count - 1 ) {
 			QuestStop ();
 		} else {
 			EnterNextFloor(null);
-
-//			MsgWindowParams mwp = new MsgWindowParams ();
-//			mwp.btnParams = new BtnParam[2];
-//			mwp.titleText = TextCenter.GetText("RedoQuestTitle");
-//			mwp.contentText = TextCenter.GetText("RedoQuestContent",DataCenter.redoQuestStone, 
-//			                                     DataCenter.Instance.AccountInfo.Stone);
-//
-//			BtnParam sure = new BtnParam ();
-//			sure.callback = EnterNextFloor;
-//			sure.text = TextCenter.GetText("GoOnQuest");
-//			mwp.btnParams[0] = sure;
-//			
-//			sure = new BtnParam ();
-//			sure.callback = SureRetry;
-//			sure.text = TextCenter.GetText("RedoQuest");
-//			mwp.btnParams[1] = sure;
 		}
 	}
 
@@ -324,6 +308,7 @@ public class BattleQuest : UIBase {
 
 	void QuestStop () {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
+//		battleMap
 		battle.ShieldInput (false);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.BossAppears, MeetBoss);
 		role.Stop();
@@ -438,7 +423,7 @@ public class BattleQuest : UIBase {
 		if (sbd.isBattle == 1) { // 1 == battle enemy
 			currentMapData.Enemy = temp;
 			bud.InitEnemyInfo (currentMapData);
-			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
+//			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
 			if(sbd.attackRound == 0) { // 0 == first attack
 				GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
 			}
@@ -635,15 +620,13 @@ public class BattleQuest : UIBase {
 			TEnemyInfo tei = currentMapData.Enemy[i];
 			tei.EnemySymbol = (uint)i;
 			temp.Add(tei);
-//			Debug.LogError(" MapItemEnemy : id : " + tei.EnemyID + " blood : " + tei.initBlood);
-
 			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 		}
 		bud.InitEnemyInfo (currentMapData);
 		configBattleUseData.storeBattleData.isBattle = 1;	// 1 == battle enemy
 		battle.ShowEnemy (temp);
 		ExitFight (false);
-		AudioManager.Instance.PlayBackgroundAudio( AudioEnum.music_enemy_battle );
+//		AudioManager.Instance.PlayBackgroundAudio( AudioEnum.music_enemy_battle );
 		GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
 	}
 

@@ -198,8 +198,10 @@ public class AttackController {
 		enemyIndex = 0;
 
 		if (attackInfoQueue.Count == 0) {
+			Debug.LogError("attackinfoqueue.count == 0");
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
 			bud.Blood += blood;
+			Debug.LogError("attackinfoqueue.count == 0 blood : " + blood);
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, endCount);
 			endCount = 0;
 			if (!CheckBattleSuccess ()) {
@@ -307,7 +309,7 @@ public class AttackController {
 		msgCenter.Invoke (CommandEnum.GridEnd, null);
 		msgCenter.Invoke(CommandEnum.BattleEnd, battleFail);
 		bud.ClearData();
-		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
+//		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}
 
 	void TargetEnemy(object data) {

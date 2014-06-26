@@ -54,6 +54,7 @@ Btn_SortRule_AddPoint=ADD POINT
 Btn_SortRule_Rank=RANK
 Btn_Level_Up=强化
 Btn_Evolve=进化
+Btn_Fight=开始战斗
 
 ##Label Text
 Divided_Line=/
@@ -70,6 +71,7 @@ Text_Support=援军
 Text_Point=点
 Text_Rank=等级
 
+
 ##City Name
 City_Name_1=city_name_1
 City_Name_2=city_name_2
@@ -84,6 +86,9 @@ Game_Setting_Option_Music=音乐
 Game_Setting_Option_NickName=昵称
 Game_Setting_Option_Currency=攻略
 Game_Setting_Option_Raider=RAIDER
+Text_ResetData=重置数据
+Text_BGM=背景音乐
+Text_Sound=音量
 
 Text_Leader_Skill=队长技能
 Text_Active_Skill=主动技能
@@ -97,7 +102,7 @@ Text_RACE=种族
 Text_EXP=经验
 Text_Coins=金币
 Text_TYPE=属性
-Text_BASE=目标
+Text_BASE=基础
 Text_Friend=好友
 Text_Reject=移除
 Unit_Detail_Tab_Status=状态
@@ -105,7 +110,7 @@ Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
 Unit_Detail_Next=下一级
 Text_Party=使用中
-Text_TapToLogin=点击登录
+Text_TapToLogin=点击屏幕进入游戏
 
 ##Scene Name
 SCENE_NAME_APPLY=APPLY
@@ -154,6 +159,14 @@ RACE_Screamcheese=强化素材
 RACE_Dragon=龙
 RACE_Evolveparts=进化素材
 
+##type
+Type_Fire=火
+Type_Light=光
+Type_Dark=暗
+Type_Water=水
+Type_None=无
+Type_Wind=风
+
 #Battle
 RedoQuest=Redo
 GoOnQuest=Go on
@@ -181,6 +194,9 @@ ConfirmRefuseAll=Are you sure to refuse all applied friends?
 
 RefreshFriend=Friend Update
 ConfirmRefreshFriend=Are you sure to update friend list?
+
+FriendSearch_Title=查找好友
+FriendSearch_Content=请输入你像查找的用户ID
 
 # shop
 Btn_Friend_Expand=Friends Expand
@@ -353,8 +369,17 @@ StageStateClear=Clear
 StaminaLackNoteTitle=Friendly Reminder
 StaminaLackNoteContent=Current Stamina is not enough to battle!
 
+##select role
 SelectRoleTitle=Select Role
 SelectRoleContent=Are you sure to select this role to adventure with you?
+SelectRole_ATK=攻击
+SelectRole_Fav=最爱
+SelectRole_Race=种族
+SelectRole_HP=血量
+SelectRole_LV=等级
+SelectRole_Type=属性
+SelectRole_Name=名称
+SelectRole_No=编号
 
 DeleteNoteTitle=Delete Friend
 DeleteNoteContent=Are you sure to delete this friend?
@@ -843,12 +868,6 @@ SkillDesc_4019=对单个敌人造成暗属性的中攻击
 SkillDesc_4020=对单个敌人造成无属性的中攻击
 
 ##normal skill2 description
-SkillDesc_4015=对单个敌人造成火属性的中攻击
-SkillDesc_4016=对单个敌人造成水属性的中攻击
-SkillDesc_4017=对单个敌人造成风属性的中攻击
-SkillDesc_4018=对单个敌人造成光属性的中攻击
-SkillDesc_4019=对单个敌人造成暗属性的中攻击
-SkillDesc_4020=对单个敌人造成无属性的中攻击
 SkillDesc_4021=对全体敌人造成火属性的小攻击
 SkillDesc_4022=对全体敌人造成水属性的小攻击
 SkillDesc_4023=对全体敌人造成光属性的小攻击
@@ -899,7 +918,6 @@ SkillDesc_4067=回复15%的血量
 SkillDesc_4068=回复25%的血量
 SkillDesc_4069=回复25%的血量
 SkillDesc_4070=回复35%的血量
-
 
 ###new user guide
 
