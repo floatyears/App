@@ -20,7 +20,7 @@ public class BattleMap : UIBaseUnity {
 	[HideInInspector]
 	public static bool waitMove {
 		set{ wMove = value; }
-		get{return wMove;}
+		get{ return wMove; }
 	}
 	
 	public BattleQuest BQuest {
