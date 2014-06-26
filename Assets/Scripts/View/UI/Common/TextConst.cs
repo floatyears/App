@@ -31,4 +31,6 @@ public class TextConst{
 	public const string SCENE_NAME_REWARD = "SCENE_NAME_REWARD";
 	public const string SCENE_NAME_RAIDER = "SCENE_NAME_RAIDER";
 	public const string SCENE_NAME_CURRENCY = "SCENE_NAME_CURRENCY";
+	public const string SCENE_NAME_MUSIC = "SCENE_NAME_MUSIC";
+	public const string SCENE_NAME_Nickname = "SCENE_NAME_NICKNAME";
 }

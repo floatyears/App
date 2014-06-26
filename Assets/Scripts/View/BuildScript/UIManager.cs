@@ -296,6 +296,12 @@ public class UIManager {
 		case SceneEnum.Currency:
 			temp = new GameCurrencyDecorator(sEnum);
 			break;
+		case SceneEnum.Music:
+			temp = new MusicDecorator(sEnum);
+			break;
+		case SceneEnum.NickName:
+			temp = new NicknameDecorator(sEnum);
+			break;
         }
 
 		if (temp != null) {
