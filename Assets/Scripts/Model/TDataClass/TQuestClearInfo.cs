@@ -18,7 +18,9 @@ public class TStageClearItem : ProtobufDataBase {
 public enum StageState {
 	LOCKED = 0,
 	CLEAR = 1,
-	NEW = 2
+	NEW = 2,
+	EVENT_OPEN = 3,
+	EVENT_CLOSE = 4
 }
 
 public class TQuestClearInfo : ProtobufDataBase {

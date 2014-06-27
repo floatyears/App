@@ -2,7 +2,9 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class StageItemView : MonoBehaviour{
+public class EventItemView : MonoBehaviour{
+	UILabel time;
+
 	public List<string> stageOrderList1 = new List<string>(){
 		{"icon_stage_special"},
 		{"icon_stage_fire"},
@@ -34,17 +36,18 @@ public class StageItemView : MonoBehaviour{
 		}
 	}
 
-	public static StageItemView Inject(GameObject view){
-		StageItemView stageItemView = view.GetComponent<StageItemView>();
-		if(stageItemView == null) stageItemView = view.AddComponent<StageItemView>();
-		return stageItemView;
+	public static EventItemView Inject(GameObject view){
+		EventItemView eventItemView = view.GetComponent<EventItemView>();
+		if(eventItemView == null) eventItemView = view.AddComponent<EventItemView>();
+
+		return eventItemView;
 	}
 
 	private static GameObject prefab;
 	public static GameObject Prefab{
 		get{
 			if(prefab == null){
-				string sourcePath = "Prefabs/UI/Quest/StageItemPrefab";
+				string sourcePath = "Prefabs/UI/Quest/EventItemPrefab";
 				prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject;
 			}
 			return prefab;
@@ -58,6 +61,8 @@ public class StageItemView : MonoBehaviour{
 		}
 		set{
 			data = value;
+			if(time == null)
+				time = gameObject.transform.FindChild ("Time").GetComponent<UILabel>();
 			if(data == null){
 				Debug.LogError("StageItemView, Data is NULL!");
 				return;
@@ -93,11 +98,26 @@ public class StageItemView : MonoBehaviour{
 	private void SetIconView(){
 //		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 //		if (data.Type == bbproto.QuestType.E_QUEST_STORY) {
-			StageState clearState = DataCenter.Instance.QuestClearInfo.GetStoryStageState (data.ID);
-			ShowIconByState (clearState);
+//			StageState clearState = DataCenter.Instance.QuestClearInfo.GetStoryStageState (data.ID);
+//			ShowIconByState (clearState);
 //		} else if(data.Type == bbproto.QuestType.E_QUEST_EVENT){
 //
 //		}
+		uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
+		if (data.StartTime > currentTime) {
+			if(currentTime < data.endTime){
+				time.enabled = false;
+				ShowIconByState (StageState.EVENT_OPEN);
+			}
+			else{
+				Destroy(this.gameObject);
+			}
+
+		} else {
+			time.enabled = true;
+			time.text = TextCenter.GetText("Stage_Event_Close") + GameTimer.GetTimeBySeconds(data.StartTime - currentTime);
+			ShowIconByState (StageState.EVENT_CLOSE);
+		}
 
 	}
 
@@ -153,21 +173,16 @@ public class StageItemView : MonoBehaviour{
 	public void ShowIconByState(StageState state){
 		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 
-		if(state == StageState.LOCKED){
-			icon.spriteName = "icon_stage_lock";
-			UIEventListener.Get(this.gameObject).onClick = ShowTip;
-		}
-		else if(state == StageState.NEW){
+		if(state == StageState.EVENT_OPEN){
 			ShowIconAccessState(icon);
-
+			
 			string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";
 			GameObject prefab = Resources.Load(sourcePath) as GameObject;
 			NGUITools.AddChild(gameObject, prefab);
 			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
-		}
-		else if(state == StageState.CLEAR){
-			ShowIconAccessState(icon);
-			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
+		}else if(state == StageState.EVENT_CLOSE){
+			icon.spriteName = "icon_stage_lock";
+			UIEventListener.Get(this.gameObject).onClick = ShowTip;
 		}
 	}
 

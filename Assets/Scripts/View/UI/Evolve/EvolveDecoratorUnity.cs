@@ -241,9 +241,35 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		showInfoLabel [hp].text = tuu.Hp + " -> " + tuu.CalculateHP (tui);
 		showInfoLabel [atk].text = tuu.Attack + " -> " + tuu.CalculateATK (tui);
 		showInfoLabel [lv].text = tuu.UnitInfo.MaxLevel + " -> " + tui.MaxLevel;
-		showInfoLabel [type].text = tui.UnitTypeText.ToString();
-		showInfoLabel [race].text = tui.Race.ToString();
+		showInfoLabel [type].text = tui.UnitTypeText;
+		showInfoLabel [race].text = tui.UnitRace;//GetRaceText(tui.Race);
 		showInfoLabel [coins].text = (tui.MaxLevel * 500).ToString ();
+	}
+
+	private string GetRaceText(EUnitRace race){
+		switch (race) {
+		case EUnitRace.HUMAN:
+			return TextCenter.GetText("RACE_Human");
+		case EUnitRace.DRAGON:
+			return TextCenter.GetText("RACE_Dragon");
+		case EUnitRace.EVOLVEPARTS:
+			return TextCenter.GetText("RACE_Evolveparts");
+		case EUnitRace.BEAST:
+			return TextCenter.GetText("RACE_Beast");
+		case EUnitRace.LEGEND:
+			return TextCenter.GetText("RACE_Legend");
+		case EUnitRace.MONSTER:
+			return TextCenter.GetText("RACE_Monster");
+		case EUnitRace.MYTHIC:
+			return TextCenter.GetText("RACE_Mythic");
+		case EUnitRace.SCREAMCHEESE:
+			return TextCenter.GetText("RACE_Screamcheese");
+		case EUnitRace.UNDEAD:
+			return TextCenter.GetText("RACE_Undead");
+		default:
+				break;
+		}
+		return "";
 	}
 
 	void ClearMaterial () {

@@ -19,6 +19,7 @@ public class GameRaiderView : UIComponentUnity {
 		HtEngine.LinkPressedFactor = 0.5f;
 		// link function name.
 		HtEngine.DefaultFontSize = 24;
+		HtEngine.DefaultFontFace = "Dimbo Regular";
 		HtEngine.LinkFunctionName = "onLinkClicked";
 
 		html = FindChild("HTML/Content").GetComponent<NGUIHTML> ();
@@ -29,8 +30,16 @@ public class GameRaiderView : UIComponentUnity {
 		base.ShowUI ();
 
 		Debug.Log (TextCenter.GetText("Raider_0"));
-		html.html = "";
-		html.html = TextCenter.GetText("Raider_0");
+		html.html = "<p align=center>游戏帮助</p>";
+		StartCoroutine (ShowContent());
+//						
+//		);
+
+	}
+
+	private IEnumerator ShowContent(){
+		yield return 0;
+		html.html = TextCenter.GetText ("Raider_0");
 	}
 	
 	public override void HideUI(){

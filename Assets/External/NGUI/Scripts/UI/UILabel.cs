@@ -1092,6 +1092,7 @@ public class UILabel : UIWidget
 					mScale = (float)ps / mPrintedSize;
 #if DYNAMIC_FONT
 					NGUIText.fontScale = isDynamic ? mScale : ((float)mFontSize / mFont.defaultSize) * mScale;
+//					Debug.Log("fontsize: " + mFontSize + "  default fontsize: " + (mFont != null ? mFont.defaultSize + "" : "null") + "  mScale: " + mScale);
 #else
 					NGUIText.fontScale = ((float)mFontSize / mFont.defaultSize) * mScale;
 #endif

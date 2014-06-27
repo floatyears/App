@@ -33,7 +33,7 @@ namespace HTMLEngine.NGUI {
     public NGUIFont(string face, int size, bool bold, bool italic, int spacingX, int spacingY)
       : base(face, size, bold, italic, spacingX, spacingY)
     {
-      this.style.font = Resources.Load("fonts/" + face, typeof(Font)) as Font;
+		this.style.font = ResourceManager.Instance.LoadLocalAsset ("Font/" + face, null) as Font;//Resources.Load("fonts/" + face, typeof(Font)) as Font;
       this.style.fontSize = size;
       if (bold && italic)
         this.style.fontStyle = FontStyle.BoldAndItalic;

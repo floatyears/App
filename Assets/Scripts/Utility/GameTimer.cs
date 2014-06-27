@@ -125,6 +125,13 @@ public class GameTimer : MonoBehaviour {
 		DateTime currentTime = dt.AddSeconds (Seconds);
 		return currentTime;
 	}
+
+	public static string GetTimeBySeconds(uint seconds){
+		int hr = (int)(seconds / 3600);
+		int min = (int)(seconds % 3600 / 60);
+		int sec = (int)(seconds %60);
+		return hr + ":" + min + ":" + sec;
+	}
 }
 
 public class CountDownUtility {

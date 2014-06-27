@@ -144,6 +144,7 @@ SCENE_NAME_CURRENCY=购买测试
 SCENE_NAME_MUSIC=设置
 SCENE_NAME_NICKNAME=修改昵称
 
+Stage_Event_Close=活动开始时间：
 Stage_Locked=未解锁
 Stamina=体力
 Floor=层
