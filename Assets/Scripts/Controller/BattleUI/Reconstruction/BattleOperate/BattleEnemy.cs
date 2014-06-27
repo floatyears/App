@@ -43,6 +43,7 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.PlayAllEffect, PlayAllEffect);
 		count --;
 		battleAttackInfo.HideUI ();
 		gameObject.SetActive (false);
@@ -58,9 +59,20 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.PlayAllEffect, PlayAllEffect);
+	}
+
+	void PlayAllEffect(object data) {
+		AttackInfo ai = data as AttackInfo;
+		if (ai == null) {
+			return;	
+		}
+
+		PlayerEffect (null, ai);
 	}
 
 	void AttackEnemyEnd(object data) {
+//		Debug.LogError ("AttackEnemyEnd : " + data);
 		int count = (int)data;
 		DestoryEffect ();
 		prevAttackInfo = null;
@@ -278,7 +290,8 @@ public class BattleEnemy : UIBaseUnity {
 	GameObject prevEffect;
 	public void PlayerEffect(EnemyItem ei, AttackInfo ai) {
 		EffectManager.Instance.GetSkillEffectObject (ai.SkillID, ai.UserUnitID, returnValue => {
-			ei.InjuredShake();
+			if(ei != null)
+				ei.InjuredShake();
 			if(returnValue == null) {
 				return;
 			}

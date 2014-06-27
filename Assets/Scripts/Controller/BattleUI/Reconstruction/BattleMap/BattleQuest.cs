@@ -380,6 +380,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public void ContineBattle () {
+//		Debug.LogError ("ContineBattle : ");
 		Coordinate coor = configBattleUseData.storeBattleData.roleCoordinate;
 		InitContinueData ();
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
@@ -437,23 +438,35 @@ public class BattleQuest : UIBase {
 		}
 		battle.ShowEnemy(temp);
 		ExitFight (false);
+//		Debug.LogError ("continue RecoverBuff");
 		GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
 	}
 
+	public static bool recoverPosion = false;
+	public static bool reduceHurt = false;
+	public static bool reduceDefense = false;
+	public static bool strengthenAttack = false;
+
 	void RecoverBuff() {
-		ExcuteDiskActiveSkill(configBattleUseData.posionAttack);
-		ExcuteDiskActiveSkill(configBattleUseData.reduceHurtAttack);
-		ExcuteDiskActiveSkill(configBattleUseData.reduceDefenseAttack);
-		ExcuteDiskActiveSkill(configBattleUseData.strengthenAttack);
+		ExcuteDiskActiveSkill(configBattleUseData.posionAttack, ref recoverPosion);
+		ExcuteDiskActiveSkill(configBattleUseData.reduceHurtAttack, ref reduceHurt);
+		Debug.LogError ("reduceDefense 1:" + reduceDefense);
+		ExcuteDiskActiveSkill(configBattleUseData.reduceDefenseAttack, ref reduceDefense);
+		Debug.LogError ("reduceDefense 2:" + reduceDefense);
+		ExcuteDiskActiveSkill(configBattleUseData.strengthenAttack, ref strengthenAttack);
 	}
 
-	void ExcuteDiskActiveSkill (AttackInfo ai) {
+	void ExcuteDiskActiveSkill (AttackInfo ai, ref bool excute) {
 		if (ai != null) {
-			IActiveSkillExcute iase = bud.excuteActiveSkill.GetActiveSkill(ai.UserUnitID);
-			Debug.LogError(" ExcuteDiskActiveSkill : " + iase);
-			if(iase != null) {
-				iase.ExcuteByDisk(ai);
+			IActiveSkillExcute iase = bud.excuteActiveSkill.GetActiveSkill (ai.UserUnitID);
+			if (iase != null) {
+				excute = true;
+				iase.ExcuteByDisk (ai);
+			}else{
+				excute = false;
 			}
+		} else {
+			excute = false;
 		}
 	}
 

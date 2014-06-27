@@ -33,7 +33,8 @@ public class TSkillAttackRecoverHP : ActiveSkill {
 		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = (int)instance.attackType;
-
+		ai.UserUnitID = userUnitID;
+		ai.SkillID = skillBase.id;
 		if (instance.type == EValueType.MULTIPLE) {
 			ai.AttackValue = atk * instance.value;		
 		} else if(instance.type == EValueType.FIXED) {

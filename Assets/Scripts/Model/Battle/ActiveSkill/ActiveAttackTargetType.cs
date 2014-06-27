@@ -49,6 +49,7 @@ public class ActiveAttackTargetType : ActiveSkill {
 		AttackTargetType att = new AttackTargetType ();
 		AttackInfo ai = AttackInfo.GetInstance ();
 		ai.UserUnitID = userUnitID;
+		ai.SkillID = skillBase.id;
 		if (instance.type == EValueType.MULTIPLE) {
 			ai.AttackValue = atk * instance.value;	
 		}

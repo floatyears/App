@@ -91,18 +91,7 @@ public class DGTools {
 		return UnityEngine.Random.Range (0f, 1f);
 	}
 
-	public static bool CheckCooling(SkillBase sb) {
-		if (sb.skillCooling == 0) {
-			return true;
-		}
-		sb.skillCooling --;
-		if (sb.skillCooling == 0) {
-			return true;
-		} 
-		else {
-			return false;
-		}
-	}
+
 
 	public static bool EqualCoordinate (Coordinate coorA, Coordinate coorB) {
 		return coorA.x == coorB.x && coorA.y == coorB.y;

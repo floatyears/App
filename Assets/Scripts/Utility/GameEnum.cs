@@ -259,9 +259,9 @@ public enum CommandEnum{
 
 
 
-	ShowFriendPointUpdateResult					= 4064,
-	PickOnSaleUnit				= 4065,
-	SortByRule							= 4066,
+	ShowFriendPointUpdateResult		= 4064,
+	PickOnSaleUnit					= 4065,
+	SortByRule						= 4066,
 	OpenSortRuleWindow				= 4067,
 
 	OnPickStoryCity					= 4068,
@@ -289,6 +289,7 @@ public enum CommandEnum{
 	CloseGuideMsgWindow,
 	TakeAward,
 	GachaWindowInfo,
+	PlayAllEffect,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

@@ -30,6 +30,7 @@ public class KnockdownAttack : ActiveSkill {
 //		SkillSingleAttack ssa = DeserializeData<SkillSingleAttack>();
 		AttackInfo ai = AttackInfo.GetInstance ();//new AttackInfo ();
 		ai.UserUnitID = userUnitID;
+		ai.SkillID = skillBase.id;
 		float value = DGTools.RandomToFloat ();
 //		Debug.LogError ("random value : " + value);
 		if (value <= instance.value) {

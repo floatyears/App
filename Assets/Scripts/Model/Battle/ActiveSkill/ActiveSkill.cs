@@ -43,9 +43,22 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	}
 
 	protected void DisposeCooling () {
-		coolingDone = DGTools.CheckCooling (skillBase);
+		coolingDone = CheckCooling (skillBase);
 
 		Store ();
+	}
+
+	private bool CheckCooling(SkillBase sb) {
+		if (sb.skillCooling == 0) {
+			return true;
+		}
+		sb.skillCooling --;
+		if (sb.skillCooling == 0) {
+			return true;
+		} 
+		else {
+			return false;
+		}
 	}
 
 	protected void InitCooling() {

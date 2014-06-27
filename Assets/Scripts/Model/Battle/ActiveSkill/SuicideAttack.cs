@@ -47,6 +47,7 @@ public class TSkillSuicideAttack : ActiveSkill {
 		InitCooling ();
 		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
+		ai.SkillID = skillBase.id;
 		if (instance.type == EValueType.FIXED) {
 			ai.AttackValue = instance.value;
 		}

@@ -50,16 +50,15 @@ public class TSkillSingleAttack : ActiveSkill  {
 		InitCooling ();
 		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
+		ai.SkillID = skillBase.id;
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = (int)instance.attackRange;
 		if (instance.attackRange == EAttackType.RECOVER_HP) {
 			MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, instance.value);
-		} 
-		else {
+		} else {
 			if (instance.type == EValueType.FIXED) {
 				ai.AttackValue = instance.value;	
-			}
-			else if(instance.type == EValueType.MULTIPLE) {
+			} else if(instance.type == EValueType.MULTIPLE) {
 				ai.AttackValue = instance.value * atk;
 			}	
 		}

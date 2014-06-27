@@ -25,13 +25,13 @@ public class ExcuteActiveSkill {
 
 		MsgCenter.Instance.AddListener (CommandEnum.LaunchActiveSkill, Excute);
 		MsgCenter.Instance.AddListener (CommandEnum.ReduceActiveSkillRound, ReduceActiveSkillRound);	// this command use to reduce cooling one round.
-		MsgCenter.Instance.AddListener (CommandEnum.ShowHands, ShowHands);	// one normal skill can reduce cooling one round.
+//		MsgCenter.Instance.AddListener (CommandEnum.ShowHands, ShowHands);	// one normal skill can reduce cooling one round.
 	}
 
 	public void RemoveListener () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.LaunchActiveSkill, Excute);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ReduceActiveSkillRound, ReduceActiveSkillRound);
-		MsgCenter.Instance.AddListener (CommandEnum.ShowHands, ShowHands);
+//		MsgCenter.Instance.AddListener (CommandEnum.ShowHands, ShowHands);
 	}
 
 	public IActiveSkillExcute GetActiveSkill(string userUnitID) {
@@ -76,7 +76,7 @@ public class ExcuteActiveSkill {
 		iase = null;
 		userUnit = null;
 
-		GameTimer.GetInstance ().AddCountDown (3f, ActiveSkillEnd);
+		GameTimer.GetInstance ().AddCountDown (5f, ActiveSkillEnd);
 	}
 
 	void ActiveSkillEnd() {
@@ -91,12 +91,12 @@ public class ExcuteActiveSkill {
 		CoolingSkill ();
 	}
 
-	void ShowHands(object data) {
-		int count = (int)data;
-		for (int i = 0; i < count; i++) {
-			CoolingSkill ();
-		}
-	}
+//	void ShowHands(object data) {
+//		int count = (int)data;
+//		for (int i = 0; i < count; i++) {
+//			CoolingSkill ();
+//		}
+//	}
 
 	public void CoolingSkill () {
 		foreach (var item in activeSkill.Values) {

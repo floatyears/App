@@ -820,6 +820,8 @@ public class Battle : UIBase {
 			GameTimer.GetInstance ().AddCountDown (countDownTime, CountDownBattle);
 		} 
 		else {
+			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);
+			ResetClick();
 			ShieldInput (false);
 			showCountDown = false;
 			battleCardArea.ShowCountDown (false, (int)time);

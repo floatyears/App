@@ -69,6 +69,7 @@ public class ConfigBattleUseData {
 		get { return _reduceDefenseAttack; }
 		set { _reduceDefenseAttack = value;
 			AttackInfoProto aip = _reduceDefenseAttack == null ? null : _reduceDefenseAttack.Instance;
+//			Debug.LogError(aip.skillID);
 			WriteBuff<AttackInfoProto>(reduceDefenseName, aip); 
 		}
 	}
@@ -78,6 +79,7 @@ public class ConfigBattleUseData {
 		get { return _strengthenAttack; }
 		set { _strengthenAttack = value; 
 			AttackInfoProto aip = _strengthenAttack == null ? null : _strengthenAttack.Instance;
+			Debug.LogError(aip.skillID);
 			WriteBuff<AttackInfoProto>(strengthenAttackName, aip); 
 		}
 	}
@@ -237,21 +239,25 @@ public class ConfigBattleUseData {
 			attack = posionAttack.Instance;
 		}
 		WriteBuff<AttackInfoProto> (posionAttackName, attack);
+		attack = null;
 
 		if (reduceHurtAttack != null) {
 			attack = reduceHurtAttack.Instance;
 		}
 		WriteBuff<AttackInfoProto> (reduceHurtName, attack);
+		attack = null;
 
 		if (reduceDefenseAttack != null) {
 			attack = reduceDefenseAttack.Instance;
 		}
 		WriteBuff<AttackInfoProto> (reduceDefenseName, attack);
+		attack = null;
 
 		if (strengthenAttack != null) {
 			attack = strengthenAttack.Instance;
 		}
 		WriteBuff<AttackInfoProto> (strengthenAttackName, attack);
+		attack = null;
 	}
 
 	void ReadAllBuff() {
@@ -278,7 +284,7 @@ public class ConfigBattleUseData {
 			}
 			return;
 		}
-		Debug.LogError (" WriteBuff<T> : " + name);
+//		Debug.LogError (" WriteBuff<T> : " + name);
 		byte[] attack = ProtobufSerializer.SerializeToBytes<T> (buff);
 		WriteToFile (attack, name);
 	}
