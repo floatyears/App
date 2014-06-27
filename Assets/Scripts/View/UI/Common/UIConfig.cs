@@ -5,19 +5,19 @@ using System.Collections.Generic;
 
 public class UIConfig{
 
-	public const string SPR_NAME_BORDER_FIRE = "avatar_border_1";
-	public const string SPR_NAME_BORDER_WATER = "avatar_border_2";
-	public const string SPR_NAME_BORDER_WIND = "avatar_border_3";
-	public const string SPR_NAME_BORDER_LIGHT = "avatar_border_4";
-	public const string SPR_NAME_BORDER_DARK = "avatar_border_5";
-	public const string SPR_NAME_BORDER_NONE = "avatar_border_6";
+	public const string SPR_NAME_BORDER_FIRE = "avatar_border_fire";
+	public const string SPR_NAME_BORDER_WATER = "avatar_border_water";
+	public const string SPR_NAME_BORDER_WIND = "avatar_border_wind";
+	public const string SPR_NAME_BORDER_LIGHT = "avatar_border_light";
+	public const string SPR_NAME_BORDER_DARK = "avatar_border_dark";
+	public const string SPR_NAME_BORDER_NONE = "avatar_border_none";
 
-	public const string SPR_NAME_BG_FIRE = "avatar_bg_1";
-	public const string SPR_NAME_BG_WATER = "avatar_bg_2";
-	public const string SPR_NAME_BG_WIND = "avatar_bg_3";
-	public const string SPR_NAME_BG_LIGHT = "avatar_bg_4";
-	public const string SPR_NAME_BG_DARK = "avatar_bg_5";
-	public const string SPR_NAME_BG_NONE = "avatar_bg_6";
+	public const string SPR_NAME_BG_FIRE = "avatar_bg_fire";
+	public const string SPR_NAME_BG_WATER = "avatar_bg_water";
+	public const string SPR_NAME_BG_WIND = "avatar_bg_wind";
+	public const string SPR_NAME_BG_LIGHT = "avatar_bg_light";
+	public const string SPR_NAME_BG_DARK = "avatar_bg_dark";
+	public const string SPR_NAME_BG_NONE = "avatar_bg_none";
 
 	public const string SPR_NAME_BASEBOARD_HELPER = "helper_item";
 	public const string SPR_NAME_BASEBOARD_FRIEND = "friend_item";
