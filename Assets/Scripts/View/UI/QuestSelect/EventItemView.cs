@@ -106,15 +106,16 @@ public class EventItemView : MonoBehaviour{
 		uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
 		if (data.StartTime > currentTime) {
 			if(currentTime < data.endTime){
-				time.enabled = false;
+//				time.enabled = false;
 				ShowIconByState (StageState.EVENT_OPEN);
+				time.text = TextCenter.GetText("Stage_Event_Remain") + GameTimer.GetTimeBySeconds(data.endTime - currentTime);
 			}
 			else{
 				Destroy(this.gameObject);
 			}
 
 		} else {
-			time.enabled = true;
+//			time.enabled = true;
 			time.text = TextCenter.GetText("Stage_Event_Close") + GameTimer.GetTimeBySeconds(data.StartTime - currentTime);
 			ShowIconByState (StageState.EVENT_CLOSE);
 		}
@@ -176,9 +177,9 @@ public class EventItemView : MonoBehaviour{
 		if(state == StageState.EVENT_OPEN){
 			ShowIconAccessState(icon);
 			
-			string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";
-			GameObject prefab = Resources.Load(sourcePath) as GameObject;
-			NGUITools.AddChild(gameObject, prefab);
+//			string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";
+//			GameObject prefab = Resources.Load(sourcePath) as GameObject;
+//			NGUITools.AddChild(gameObject, prefab);
 			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 		}else if(state == StageState.EVENT_CLOSE){
 			icon.spriteName = "icon_stage_lock";

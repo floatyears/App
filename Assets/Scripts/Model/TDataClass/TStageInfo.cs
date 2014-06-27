@@ -29,6 +29,7 @@ public class TStageInfo : ProtobufDataBase {
 			TQuestInfo tqi = new TQuestInfo(instance.quests[i]);
 			questInfo.Add(tqi);
 		}
+		instance.validTime.Sort((Period x, Period y)=>{return x.startTime.CompareTo(y.startTime);});
 	}
 
 	public StageInfo stageInfo {
@@ -60,11 +61,47 @@ public class TStageInfo : ProtobufDataBase {
 	}
 
 	public uint StartTime {
-		get { return instance.startTime; }
+		get { 
+			uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
+			uint lastTime = 0;
+			foreach (var item in instance.validTime) {
+				if(currentTime >= item.startTime){
+					if(currentTime <= item.endTime){
+//						break;
+						return item.startTime;
+					}
+				}else if(currentTime > lastTime){
+					return item.startTime;
+//					break;
+				}
+
+				lastTime = item.endTime;
+			}
+
+			return 0;
+		}
 	}
 
 	public uint endTime {
-		get { return instance.endTime; }
+		get { 
+			uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
+			uint lastTime = 0;
+			foreach (var item in instance.validTime) {
+				if(currentTime >= item.startTime){
+					if(currentTime <= item.endTime){
+						//						break;
+						return item.endTime;
+					}
+				}else if(currentTime > lastTime){
+					return item.endTime;
+					//					break;
+				}
+				
+				lastTime = item.endTime;
+			}
+			
+			return 0;
+		}
 	}
 
 	public List<bbproto.Period> ValidTime {
