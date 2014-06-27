@@ -370,7 +370,7 @@ StaminaLackNoteTitle=体力不足
 StaminaLackNoteContent=当前体力不足，不能进入此场战斗！
 
 ##select role
-SelectRoleTitle=确认主角
+SelectRoleTitle=选定主角
 SelectRoleContent=确定选择此角色开始游戏吗?
 SelectRole_ATK=攻击
 SelectRole_Fav=最爱
